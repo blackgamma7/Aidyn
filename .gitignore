@@ -1,0 +1,11 @@
+/build
+/bin
+/tools
+.splat_cache
+*.ld
+*.z64
+*.Yay0
+/build/
+/asm/
+makefile
+Aidyn_decomp/
