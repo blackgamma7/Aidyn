@@ -1,6 +1,6 @@
 /build
-/bin
-/tools
+/bin/
+/tools/
 .splat_cache
 *.ld
 *.z64

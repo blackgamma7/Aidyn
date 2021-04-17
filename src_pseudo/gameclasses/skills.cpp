@@ -3,9 +3,7 @@ void bottom_modded_skill(char *skills,uint len){
   uint i=0;
   if (len != 0) {
     do {
-      if (*skills < 0) {
-        *skills = 0;
-      }
+      if (*skills < 0) {*skills = 0;}
       i++;
       skills++;
     } while (i < len);
@@ -27,9 +25,7 @@ void init_char_skills(CharSkills *arg0,ItemID id){
   bottom_modded_skill(arg0->Weapon_modded,0xb);
   arg0->Sheild_Base = EntRam->sheildStat;
   index = EntRam->sheildStat;
-  if (EntRam->sheildStat < 0) {
-    index = 0;
-  }
+  if (EntRam->sheildStat < 0) {index = 0;}
   arg0->Sheild_modded = index;
   return;
 }
@@ -44,12 +40,9 @@ void CopyCharSkills(CharSkills *A,CharSkills *B){
   memcpy(A->Skill_modded,B->Skill_modded,0xc);
   memcpy(A->Weapon_Base,B->Weapon_Base,0xb);
   memcpy(A->Weapon_modded,B->Weapon_modded,0xb);
-  return;
 }
 
-int get_skill_xp_multi(CharSkills *skills,SkillEnum arg1)
-
-{
+int get_skill_xp_multi(CharSkills *skills,SkillEnum arg1){
   int i = skills->Skill_base[arg1] + 1;
   //uses some  macro that ghidra "tries its best" interpreting.
   //just rewiting that from scratch. or ignoring it.
@@ -134,17 +127,14 @@ void Wonky_skill_check(Char* *skills,char *arg1,SkillEnum arg2,char arg3){
 
 void wonky_baseskill_check(CharSkills *skills,SkillEnum arg1,undefined1 arg2){
   Wonky_skill_check((char *)skills,(char *)skills->Skill_modded,arg1,arg2);
-  return;
 }
 
 void wonky_weapon_check(CharSkills *skills,WeaponClassEnum arg1,undefined1 arg2){
   Wonky_skill_check((char *)skills->Weapon_Base,(char *)skills->Weapon_modded,arg1,arg2);
-  return;
 }
 
 void wonky_sheild_check(CharSkills *param_1,undefined1 param_2){
   Wonky_skill_check((char *)&param_1->Sheild_Base,(char *)&param_1->Sheild_modded,'\0',param_2);
-  return;
 }
 
 
@@ -163,7 +153,6 @@ void some_moddedSkillCheck(CharSkills *arg0,SkillEnum arg1,s8 arg2){
 
 void Ofunc_80083cc8(CharSkills *param_1,undefined1 param_2){
   check_baseskill_minus1((char *)&param_1->Sheild_Base,(char *)&param_1->Sheild_modded,0,param_2);
-  return;
 }
 
 char CapModdedSkillMax(char skill,char cap){
@@ -202,13 +191,13 @@ char getModdedSheild(CharSkills *param_1){
 }
 
 bool isSkilOverLv10(CharSkills *param_1,SkillEnum param_2){
-  return '\t' < (char)param_1->Skill_base[param_2];
+  return 10 < (char)param_1->Skill_base[param_2];
 }
 
 bool isWepSkillOverLv10(CharSkills *param_1,WeaponClassEnum param_2){
-  return '\t' < (char)param_1->Weapon_base[param_2];
+  return 10 < (char)param_1->Weapon_base[param_2];
 }
 
 bool isSheildSkillOver10(CharSkills *param_1){
-  return '\t' < (char)param_1->Sheild_Base;
+  return 10 < (char)param_1->Sheild_Base;
 }

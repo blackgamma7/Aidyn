@@ -47,9 +47,7 @@ void set_boss_flag(void){
     setEventFlag(flg,true);
 next:
     i++;
-    if (3 < i) {
-      return;
-    }
+    if (3 < i) {return;}
   } while(true);
 }
 

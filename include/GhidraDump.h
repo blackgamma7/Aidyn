@@ -7267,8 +7267,8 @@ struct PartyStruct { /* holds party and inventory data */
 struct charExp { /* data containing EXP, School, Aspect and more. */
     byte rom0x2b; /* Ent_rom data 0x2b. dunno if used */
     enum MagicSchoolEnum school;
-    byte c;
-    byte unk4;
+    byte protection;
+    byte damage;
     uint total; /* for level up */
     uint spending; /* for training */
     enum CharSheetFlags flags; //holds other attributes like Aspect.

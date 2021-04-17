@@ -14,7 +14,6 @@ void init_CharStats(CharStats *stats,ItemID ID){
   memcpy(stats->statArray2,stats,7);
   memcpy(stats->Modded_Stats,stats,7);
   memcpy(stats->statArray3,stats,7);
-  return;
 }
 
 void Ofunc_NOOP_800845f4(void){}
@@ -27,7 +26,6 @@ void copyCharStats(CharStats *A,CharStats *B){
   memcpy(A->statArray2,B->statArray2,7);
   memcpy(A->statArray3,B->statArray3,7);
   memcpy(A->Modded_Stats,B->Modded_Stats,7);
-  return;
 }
 
 void addBaseStat(CharStats *stats,StatEnum arg1,char mod){
@@ -37,39 +35,31 @@ void addBaseStat(CharStats *stats,StatEnum arg1,char mod){
   stats->Base_Stats[arg1] += mod;
   stats->statArray3[arg1] += mod;
   addModdedStat(stats,arg1,adding);
-  return;
 }
 
 void addModdedStat(CharStats *stat,StatEnum arg1,char mod){
   stat->statArray2[arg1] += mod;
   stat->Modded_Stats[arg1] += mod;
   if (mod != 0) {Event_flag_stat(arg1);}
-  return;
 }
 
 void addModdedStat_flag(CharStats *stat,StatEnum arg1,char mod){
   stat->statArray3[arg1] += mod;
   stat->Modded_Stats[arg1] += mod;
   Event_flag_stat(arg1);
-  return;
 }
 
 void SubtractModdedStats(CharStats *stat,StatEnum arg1,char mod){
   stat->statArray3[arg1] -= mod;
   stat->Modded_Stats[arg1] -= mod;
   Event_flag_stat(arg1);
-  return;
 }
 
 void addtoModdedStats(CharStats *stat,StatEnum arg1,char mod){
-  stat->Modded_Stats[arg1] += mod;
-  return;
-}
+  stat->Modded_Stats[arg1] += mod;}
 
 void subtractFromModdedStats(CharStats *stat,StatEnum arg1,char mod){
-  stat->Modded_Stats[arg1] -= mod;
-  return;
-}
+  stat->Modded_Stats[arg1] -= mod;}
 
 int getBaseStat(CharStats *stats,StatEnum arg1){
   return capStatMax(arg1,(uint)stats->statArray3[arg1],base_stat_cap);

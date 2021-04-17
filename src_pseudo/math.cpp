@@ -3,11 +3,11 @@
 #define dtor 0.017453
 
 float vec2Length(Vec2 *X){
-	return _sqrtf(X*[0]^2 + X*[1]^2);
+	return _sqrtf(X*[0] * X*[0] + X*[1] * X*[2]);
 }
 
 float vec3Length(Vec3 *X){
-	return _sqrtf(X*[0]^2 + X*[1]^2 + X*[2]^2);
+	return _sqrtf(X*[0] * X*[0] + X*[1] * X*[2] + X*[2] * X*[2]);
 }
 
 void Vec2_Sub(Vec2 *A,Vec2 *B,Vec2 *C){
@@ -83,29 +83,29 @@ void some_vec3_math(vec3 *A,vec3 *B,vec3 *C){
 }
 
 float vec2_normalize(Vec2 *X){
-	float len = _sqrtf(X*[0]^2 + X*[1]^2);
+	float len = _sqrtf(X*[0] * X*[0] + X*[1] * X*[1]);
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
-	(*X)[0] = (*X)[0] /len;
-	(*X)[1] = (*X)[1] /len;
+	(*X)[0] /=len;
+	(*X)[1] /=len;
 	return len;
 }
 
 float vec3_normalize(Vec3 *X){
-	float len = _sqrtf(X*[0]^2 + X*[1]^2 + X*[2]^2);
+	float len = _sqrtf(X*[0] * X*[0] + X*[1] * X*[1] + X*[2] * X*[2]);
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
-	(*X)[0] = (*X)[0] /len;
-	(*X)[1] = (*X)[1] /len;
-	(*X)[2] = (*X)[2] /len;
+	(*X)[0] /=len;
+	(*X)[1] /=len;
+	(*X)[2] /=len;
 	return len;
 }
 
 float vec4_normalize(Vec4 *X){
-	float len = _sqrtf(X*[0]^2 + X*[1]^2 + X*[2]^2 + X*[2]^2);
+	float len = _sqrtf(X*[0] * X*[0] + X*[1] * X*[1] + X*[2] * X*[2] + X*[2] * X*[2]);
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
-	(*X)[0] = (*X)[0] /len;
-	(*X)[1] = (*X)[1] /len;
-	(*X)[2] = (*X)[2] /len;
-	(*X)[3] = (*X)[3] /len;
+	(*X)[0] = /=len;
+	(*X)[1] = /=len;
+	(*X)[2] = /=len;
+	(*X)[3] = /=len;
 	return len;
 }
 
@@ -838,9 +838,9 @@ void func_800ad028(float (*X) [4] [4]){
   float fVar11;
   float fVar12;
 
-  fVar9 = (float)(1.0d / (double)_sqrtf((*X)[0][0]^2 + (*X)[0][1]^2 + (*X)[0][2]^2));
-  fVar11 = (float)(1.0d / (double)_sqrtf((*X)[1][0]^2 + (*X)[1][1]^2 + (*X)[1][2]^2));
-  fVar12 = (float)(1.0d / (double)_sqrtf((*X)[2][0]^2 + (*X)[2][1]^2 + (*X)[2][2]^2));
+  fVar9 = (float)(1.0d / (double)_sqrtf((*X)[0][0]*(*X)[0][0] + (*X)[0][1]*(*X)[0][1] + (*X)[0][2]*(*X)[0][2]));
+  fVar11 = (float)(1.0d / (double)_sqrtf((*X)[1][0]*(*X)[1][0] + (*X)[1][1]*(*X)[1][1] + (*X)[1][2]*(*X)[1][2]));
+  fVar12 = (float)(1.0d / (double)_sqrtf((*X)[2][0](*X)[2][0] + (*X)[2][1*(*X)[2][1] + (*X)[2][2]*(*X)[2][2]));
   (*X)[0] *= fVar9;
   (*X)[1] *= fVar9;
   (*X)[2] *= fVar9;
@@ -1080,7 +1080,7 @@ u8 func_800ad8d8(float X){
 
 void func_800ad974(float (*X) [4] [4],float A){
   float fVar2 =6.0f;
-  float fVar3 = A^2;
+  float fVar3 = A*A;
   
   (*X)[0] = 0.0;
   (*X)[1] = 0.0;

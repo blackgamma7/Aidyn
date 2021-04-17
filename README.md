@@ -7,7 +7,7 @@ Aidyn Chronicles is one of a handful of RPG's on the system and a relatively obs
 ## What this contains:
 - Splat yaml's. One for NTSC v1.0 and one for the recently-uncovered debug version.
 - symbol tables for both.
-- src_pseudo/ : pseudocode of the source files interpreted by ghidra and cleaned up by hand
+- src_pseudo/ : pseudocode of the source files interpreted by ghidra and cleaned up by hand (apart from OS files - they're largely unchanged, AFAIK)
 - include/ : typical pseudocode header files, with one of a dump of Ghidra definitions (ghidradump.h)
 
 

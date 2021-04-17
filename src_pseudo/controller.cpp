@@ -11,9 +11,7 @@ void init_controller_thread(OSSched *sc,u8 ports,byte pri,byte id){
   ContManager.thread_stack = (void *)Malloc(0x448,FILENAME,0xc8);
   osCreateThread(&ContManager.Thread,(int)id,controller_loop,null,
                      ContManager.thread_stack + 0x448,pri);
-  osStartThread(&ContManager.Thread);
-  return;
-}
+  osStartThread(&ContManager.Thread);}
 
 void controller_loop(void){
   OSMesg *msg;
@@ -171,149 +169,77 @@ void read_controller_input(void){
           (contEntry->contAidyn).joy_y = fVar10;
         }
         if (fVar5 <= fVar12) {
-          buttons = buttons | ANA_RIGHT;
+          buttons |= ANA_RIGHT;
         }
         else {
           if (fVar12 <= fVar6) {
-            buttons = buttons | ANA_LEFT;
+            buttons |= ANA_LEFT;
           }
         }
         if (fVar5 <= fVar11) {
-          buttons = buttons | ANA_UP;
+          buttons |= ANA_UP;
         }
         else {
           if (fVar11 <= fVar6) {
-            buttons = buttons | ANA_DOWN;
+            buttons |= ANA_DOWN;
           }
         }
         BVar3 = button_mirror[port];
         (contEntry->contAidyn).input_2 = buttons;
         (contEntry->contAidyn).input = buttons & BVar3 ^ buttons;
-        if ((buttons & START_BUTTON) == 0) {
-          Start_hold[port] = 0;
-        }
-        else {
-          Start_hold[port] = Start_hold[port] + 1;
-        }
+        if ((buttons & START_BUTTON) == 0) {Start_hold[port] = 0;}
+        else {Start_hold[port]++;}
         contEntry->Start_Hold = Start_hold[port];
-        if ((buttons & A_BUTTON) == 0) {
-          button_A_hold[port] = 0;
-        }
-        else {
-          button_A_hold[port] = button_A_hold[port] + 1;
-        }
+        if ((buttons & A_BUTTON) == 0) {button_A_hold[port] = 0;}
+        else {button_A_hold[port]++;}
         contEntry->A_Hold = button_A_hold[port];
-        if ((buttons & B_BUTTON) == 0) {
-          button_b_hold[port] = 0;
-        }
-        else {
-          button_b_hold[port] = button_b_hold[port] + 1;
-        }
+        if ((buttons & B_BUTTON) == 0) {button_b_hold[port] = 0;}
+        else {button_b_hold[port]++;}
         contEntry->B_Hold = button_b_hold[port];
-        if ((buttons & C_UP) == 0) {
-          c_up_hold[port] = 0;
-        }
-        else {
-          c_up_hold[port] = c_up_hold[port] + 1;
-        }
+        if ((buttons & C_UP) == 0) {c_up_hold[port] = 0;}
+        else {c_up_hold[port]++;}
         contEntry->CUp_hold = c_up_hold[port];
-        if ((buttons & C_DOWN) == 0) {
-          C_down_hold[port] = 0;
-        }
-        else {
-          C_down_hold[port] = C_down_hold[port] + 1;
-        }
+        if ((buttons & C_DOWN) == 0) {C_down_hold[port] = 0;}
+        else {C_down_hold[port]++;}
         contEntry->CDown_hold = C_down_hold[port];
-        if ((buttons & C_LEFT) == 0) {
-          c_left_hold[port] = 0;
-        }
-        else {
-          c_left_hold[port] = c_left_hold[port] + 1;
-        }
+        if ((buttons & C_LEFT) == 0) {c_left_hold[port] = 0;}
+        else {c_left_hold[port]++;}
         contEntry->CLeft_hold = c_left_hold[port];
-        if ((buttons & C_RIGHT) == 0) {
-          c_right_hold[port] = 0;
-        }
-        else {
-          c_right_hold[port] = c_right_hold[port] + 1;
-        }
+        if ((buttons & C_RIGHT) == 0) {c_right_hold[port] = 0;}
+        else {c_right_hold[port]++;}
         contEntry->CRight_Hold = c_right_hold[port];
-        if ((buttons & D_UP) == 0) {
-          D_up_hold[port] = 0;
-        }
-        else {
-          D_up_hold[port] = D_up_hold[port] + 1;
-        }
+        if ((buttons & D_UP) == 0) {D_up_hold[port] = 0;}
+        else {D_up_hold[port]++;}
         contEntry->DUp_hold = D_up_hold[port];
-        if ((buttons & D_DOWN) == 0) {
-          D_down_hold[port] = 0;
-        }
-        else {
-          D_down_hold[port] = D_down_hold[port] + 1;
-        }
+        if ((buttons & D_DOWN) == 0) {D_down_hold[port] = 0;}
+        else {D_down_hold[port]++;}
         contEntry->DDown_hold = D_down_hold[port];
-        if ((buttons & D_LEFT) == 0) {
-          D_left_hold[port] = 0;
-        }
-        else {
-          D_left_hold[port] = D_left_hold[port] + 1;
-        }
+        if ((buttons & D_LEFT) == 0) {D_left_hold[port] = 0;}
+        else {D_left_hold[port]++;}
         contEntry->DLeft_Hold = D_left_hold[port];
-        if ((buttons & D_RIGHT) == 0) {
-          D_right_hold[port] = 0;
-        }
-        else {
-          D_right_hold[port] = D_right_hold[port] + 1;
-        }
+        if ((buttons & D_RIGHT) == 0) {D_right_hold[port] = 0;}
+        else {D_right_hold[port]++;}
         contEntry->DRight_hold = D_right_hold[port];
-        if ((buttons & ANA_UP) == 0) {
-          Up_hold[port] = 0;
-        }
-        else {
-          Up_hold[port] = Up_hold[port] + 1;
-        }
+        if ((buttons & ANA_UP) == 0) {Up_hold[port] = 0;}
+        else {Up_hold[port]++;}
         contEntry->Up_Hold = Up_hold[port];
-        if ((buttons & ANA_DOWN) == 0) {
-          down_hold[port] = 0;
-        }
-        else {
-          down_hold[port] = down_hold[port] + 1;
-        }
+        if ((buttons & ANA_DOWN) == 0) {down_hold[port] = 0;}
+        else {down_hold[port]++;}
         contEntry->Down_Hold = down_hold[port];
-        if ((buttons & ANA_LEFT) == 0) {
-          left_hold[port] = 0;
-        }
-        else {
-          left_hold[port] = left_hold[port] + 1;
-        }
+        if ((buttons & ANA_LEFT) == 0) {left_hold[port] = 0;}
+        else {left_hold[port]++;}
         contEntry->Left_hold = left_hold[port];
-        if ((buttons & ANA_RIGHT) == 0) {
-          right_hold[port] = 0;
-        }
-        else {
-          right_hold[port] = right_hold[port] + 1;
-        }
+        if ((buttons & ANA_RIGHT) == 0) {right_hold[port] = 0;}
+        else {right_hold[port]++;}
         contEntry->Right_Hold = right_hold[port];
-        if ((buttons & Z_BUTTON) == 0) {
-          Z_hold[port] = 0;
-        }
-        else {
-          Z_hold[port] = Z_hold[port] + 1;
-        }
+        if ((buttons & Z_BUTTON) == 0) {Z_hold[port] = 0;}
+        else {Z_hold[port]++;}
         contEntry->Z_Hold = Z_hold[port];
-        if ((buttons & L_BUTTON) == 0) {
-          L_hold[port] = 0;
-        }
-        else {
-          L_hold[port] = L_hold[port] + 1;
-        }
+        if ((buttons & L_BUTTON) == 0) {L_hold[port] = 0;}
+        else {L_hold[port]++;}
         contEntry->L_Hold = L_hold[port];
-        if ((buttons & R_BUTTON) == 0) {
-          R_hold[port] = 0;
-        }
-        else {
-          R_hold[port] = R_hold[port] + 1;
-        }
+        if ((buttons & R_BUTTON) == 0) {R_hold[port] = 0;}
+        else {R_hold[port]++;}
         contEntry->R_Hold = R_hold[port];
         buffer->ContGet++;
         button_mirror[port] = buttons;
@@ -424,28 +350,20 @@ PFS_ERR8 ofunc_get_contpak_freespace(u16 *arg0,uint port){
   
   osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
   PVar1 = osPfsFreeBlocks(&ContManager.BufferPointer[port].pfs,&bytesFree);
-  if (PVar1 == OK) {
-    *arg0 = bytesFree._2_2_;
-  }
-  else {
-    *arg0 = 0;
-  }
+  if (PVar1 == OK) {*arg0 = bytesFree._2_2_;}
+  else {*arg0 = 0;}
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return (PFS_ERR8)PVar1;
 }
 
 PFS_ERR8 get_contpak_freespace(undefined *param_1,uint port){
   PFS_ERR PVar1;
-  undefined4 uStack32;
+  undefined4 blocks;
   
   osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
-  PVar1 = osPfsFreeBlocks(&ContManager.BufferPointer[port].pfs,&uStack32);
-  if (PVar1 == OK) {
-    *param_1 = uStack32._2_1_;
-  }
-  else {
-    *param_1 = 0;
-  }
+  PVar1 = osPfsFreeBlocks(&ContManager.BufferPointer[port].pfs,&blocks);
+  if (PVar1 == OK) {*param_1 = blocks._2_1_;}
+  else {*param_1 = 0;}
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return (PFS_ERR8)PVar1;
 }
@@ -461,18 +379,14 @@ PFS_ERR8 create_new_save_file (u8 *fileno,char *GameName,char *ExtName,short com
   make_pfs_string(code,ExtName,4);
   PVar2 = osPfsAllocateFile
                     (&ContManager.BufferPointer[port].pfs,compCode,GameCode,name,code,(uint)EXTName,&filenum);
-  if (PVar2 == OK) {
-    *fileno = (u8)filenum;
-  }
-  else {
-    *fileno = 0;
-  }
+  if (PVar2 == OK) {*fileno = (u8)filenum;}
+  else {*fileno = 0;}
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return (PFS_ERR8)PVar2;
 }
 
 
-PFS_ERR8 ofunc_find_file(undefined *fileno,undefined4 filename,undefined4 filecode,u16 param_4, u32 param_5,byte port){
+PFS_ERR8 ofunc_find_file(u8 *fileno,undefined4 filename,undefined4 filecode,u16 param_4, u32 param_5,byte port){
   PFS_ERR PVar2;
   u8 name [16];
   u8 code [4];
@@ -482,18 +396,14 @@ PFS_ERR8 ofunc_find_file(undefined *fileno,undefined4 filename,undefined4 fileco
   make_pfs_string(name,filename,0x10);
   make_pfs_string(code,filecode,4);
   PVar2 = osPfsFindFile(&ContManager.BufferPointer[port].pfs,param_4,param_5,name,code,&file_no);
-  if (PVar2 == OK) {
-    *fileno = (undefined)file_no;
-  }
-  else {
-    *fileno = 0;
-  }
+  if (PVar2 == OK) {*fileno = (u8)file_no;}
+  else {*fileno = 0;}
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return (PFS_ERR8)PVar2;
 }
 
 
-PFS_ERR get_file_state(fileState_aidyn *FS,uint file_no,uint port){
+PFS_ERR8 get_file_state(fileState_aidyn *FS,uint file_no,uint port){
   PFS_ERR PVar1;
   OSPfsState state;
   
@@ -509,7 +419,7 @@ PFS_ERR get_file_state(fileState_aidyn *FS,uint file_no,uint port){
   }
   else memset(param_1,0,sizeof(fileState_aidyn));
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
-  return PVar1 & 0xff;
+  return (PFS_ERR8)PVar1;
 }
 
 PFS_ERR8 wite_file_to_contpak(u8 *buff,u8 filenum,u16 offset,u16 size,byte port){
@@ -556,12 +466,8 @@ uint Ofunc_find_ControllerPak(uint port){
   osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
   PVar1 = osPfsIsPlug(&ContManager.si_megQ,abStack24);
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
-  if (PVar1 == OK) {
-    uVar2 = (int)(uint)abStack24[0] >> (port & 0x1f) & 1;
-  }
-  else {
-    uVar2 = 0;
-  }
+  if (PVar1 == OK) {uVar2 = (int)(uint)abStack24[0] >> (port & 0x1f) & 1;}
+  else {uVar2 = 0;}
   return uVar2;
 }
 
