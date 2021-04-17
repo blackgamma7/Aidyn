@@ -1,4 +1,4 @@
-# Aidyn Chronicle Decompilation
+# Aidyn Chronicles Decompilation
  Decompilation of Aidyn Chronicles: the First Mage on the Nintendo 64.
 
 ## Why this game?
@@ -12,7 +12,7 @@ Aidyn Chronicles is one of a handful of RPG's on the system and a relatively obs
 
 
 ## why no usable code?
--I do not know which compiler the developers used, so cannot accurately replicate code based on it.
+- I do not know which compiler the developers used, so cannot accurately replicate code based on it.
 - Ghidra... "does its best" to interpret code. As such there are quirks with branching and incrementation and whatnot that may lead to further inaccuracies.
 
 ## Thanks
