@@ -1,0 +1,34 @@
+enum PRICE_MULTI{HALF, QUARTER_OFF, FULL, QUARTER_PLUS, HALF_PLUS, DOUBLE, TRIPLE, FIVE_X};
+
+struct price_mod {
+   u8 unk0;
+   u8 multi;
+   u8 unk2;
+};
+
+struct ShopItem { // Shop Item listing with 3 mystery bytes
+    struct ItemID_ROM item;
+    struct price_mod mod;
+};
+
+struct shop_ROM { // Shop Data in Rom
+    ItemID_ROM shopkeep; // Which entity runs the shop
+    struct ShopItem longItem[20]; // each entry has 3 mystery bytes
+    ItemID_ROM shortItem[3]; // these do not.
+};
+
+struct{
+	ItemID shopkeep;
+	itemID stock[23];
+	byte[3][20] multi; //2d array gets rotated awkwardly, for some reason. multi[1][x] is price multiplier.
+}shop_ram;
+
+struct{
+	byte total;
+	byte pad[3];
+	shop_ram* shops;
+}shop_pointer;
+
+void loadShopDB(shop_pointer *param_1,uint param_2,int *param_3);
+void build_shopDB(shop_pointer *param_1);
+void Shopdb_free(shop_pointer *param_1);

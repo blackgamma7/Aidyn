@@ -1,0 +1,7 @@
+__osEnqueueAndYeild = 0x800BFA94;
+__osEnqueueThread = 0x800BFB9C;
+__osPopThread = 0x800BFBE4;
+__osDispatchThread = 0x800BFBF4;
+__osRdbSend = 0x800BFD80;
+romMain = 0x80000400;
+__osCleanupThread = 0x800BFD70;
