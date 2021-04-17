@@ -5,10 +5,8 @@
 #endif
 
 uint BorgFlag;
-
-
-//borg_funcs_a
-//borg_funcs_b
+//borg_funcs_a: first step in initalization
+//borg_funcs_b: second step, sometimes appends the header
 int borg_padding[15]= {8,16,88,16,8,16,32,80,8,8,8,8,8,16,8};
 u8 animChache=3;
 uint borg_mem[15];
@@ -128,7 +126,7 @@ void * getBorgItem(int index){
         }
         else {
           borgfile = borg_index_x4[index];
-          *puVar1 = *puVar1 + 1;
+          *puVar1++;
         }
         *(int *)ret = index;
         *(undefined4 *)((int)ret + 4) = 0;
@@ -208,7 +206,6 @@ void dec_borg_count(int index){
     Free(borg_index_x4[index],FILENAME);
     borg_index_x4[index] = (void *)0x0;
   }
-  return;
 }
 
 //"Borg0" is an unused type. Unknown what it was supposed to do.
@@ -224,8 +221,6 @@ void Ofunc_borg0_free(int *param_1){
   borg_mem[0] -= (memOld - get_memUsed());
   borg_count[0]--;
   return;}
-
-
 void * Ofunc_getborg(int param_1){
   void *pvVar1;
   
@@ -244,7 +239,6 @@ void borg1_func_a(Borg_1_Header *arg0){
   if (arg0->field_0x10 != (ushort *)0x0) {
     arg0->field_0x10 = (ushort *)((int)arg0->field_0x10 + (int)arg0);
   }
-  return;
 }
 bool InitBorgTexture(Borg_1_Header *param_1,void *param_2){
   ushort uVar1;
@@ -296,16 +290,11 @@ void borg1_free(Borg_1_Header *param_1){
   if (((param_1->field_0x10[1] & 0x100) != 0) && (*param_1->field_0x10 < 2)) {
     Free(param_1->field_0xc,FILENAME);
   }
-  if (param_1->field_0x0 == -1) {
-    Free(param_1->field_0x10,FILENAME);
-  }
-  else {
-    dec_borg_count(param_1->field_0x0);
-  }
+  if (param_1->field_0x0 == -1) {Free(param_1->field_0x10,FILENAME);}
+  else {dec_borg_count(param_1->field_0x0);}
   Free(param_1,FILENAME);
-  iVar2 = get_memUsed();
-  borg_mem[1] = borg_mem[1] - (iVar1 - iVar2);
-  borg_count[1] = borg_count[1] - 1;
+  borg_mem[1]-= (iVar1 - get_memUsed());
+  borg_count[1]--;
   return;
 }
 /*"borg2": 
@@ -325,7 +314,7 @@ void borg2_func_a(borg_2_header *param_1){
   while (iVar3 != 0) {
     iVar3 = iVar3 + -1;
     *piVar1 = &param_1->field_0x0 + *piVar1;
-    piVar1 = piVar1 + 1;
+    piVar1++;
   }
   piVar1 = param_1->field_0x3c;
   piVar2 = (int *)((int)piVar1 + (int)param_1);
@@ -415,8 +404,7 @@ void borg_2_free(borg_2_header *param_1){
     dec_borg_count(*(int *)param_1);
   }
   Free(param_1,FILENAME);
-  iVar3 = get_memUsed();
-  borg_mem[2]-= (iVar1 - iVar3);
+  borg_mem[2]-= (iVar1 - get_memUsed());
   borg_count[2]--;
   return;
 }
@@ -517,14 +505,9 @@ bool InitBorgScene(Borg_5_header *param_1){
   void **ppvVar15;
   
   if (param_1->ani_texture_count != 0) {
-    puVar3 = (undefined *)Malloc(param_1->ani_texture_count << 3,FILENAME,0x5bf)
-    ;
+    puVar3 = (undefined *)Malloc(param_1->ani_texture_count << 3,FILENAME,0x5bf);
     param_1->field_0xc = puVar3;
-    if (puVar3 == (undefined *)0x0) {
-                    /* WARNING: Subroutine does not return */
-      manualCrash(s_n64borg.cpp,_InitBorgScene()_800e321c,
-                  s_Alloc_for_animated_texture_state_800e323c);
-    }
+    if (puVar3 == (undefined *)0x0) {manualCrash("n64borg.cpp,_InitBorgScene()","Alloc for animated texture states failed!");}
     memset(puVar3,0,param_1->ani_texture_count << 3);
   }
   size = 0;
@@ -590,7 +573,7 @@ bool InitBorgScene(Borg_5_header *param_1){
         if ((*puVar6 & 3) != 0) {
           bVar2 = true;
         }
-        iVar9 = iVar9 + -1;
+        iVar9--;
         puVar6 = puVar6 + 5;
       }
       if (bVar2) {
@@ -782,8 +765,8 @@ void borg5_free(Borg_5_header *param_1){
     }
     dec_borg_count(*(int *)param_1);
   }
-  borg_mem[5] = borg_mem[5] - (iVar2 - get_memUsed());
-  borg_count[5] = borg_count[5] - 1;
+  borg_mem[5]-= (iVar2 - get_memUsed());
+  borg_count[5]--;
   return;
 }
 //"borg6": animation/cinematic data?
@@ -1026,6 +1009,7 @@ bool borg7_func_b(Borg_7_header *param_1,void *param_2){
   param_1->field_0x1c = (undefined *)(&pbVar2->field_0x0 + param_1->field_0x58 * 2);
   return true;
 }
+
 void borg7_free(Borg_7_header *param_1){
   u8 uVar2;
   int iVar1;
@@ -1054,7 +1038,6 @@ void borg7_free(Borg_7_header *param_1){
   iVar1 = get_memUsed();
   borg_mem[7]-= (iVar4 - iVar1);
   borg_count[7]--;
-  return;
 }
 
 void set_AnimCache(byte x){animChache = x;}
