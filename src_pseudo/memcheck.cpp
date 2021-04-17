@@ -1,12 +1,8 @@
 MemCheck_struct memCheckStruct;
 u16 ExpPakFlag;
 
-void lookforExpansionPak(int ramstart,int arg1)
-
-{
-  u32 mem;
-  
-  mem = osGetMemSize();
+void lookforExpansionPak(int ramstart,int arg1){
+  u32 mem = osGetMemSize();
   if (mem < 0x400001) {
     memCheckStruct.MaxResolution0 = 0x25800;
     memCheckStruct.MaxResolution1 = 0x25800;
@@ -23,9 +19,8 @@ void lookforExpansionPak(int ramstart,int arg1)
   memCheckStruct.ramstartVal = ramstart;
   memCheckStruct.vi_buffer_pointers[1] =
        (void *)((int)memCheckStruct.vi_buffer_pointers[0] + memCheckStruct.MaxResolution1);
-  memCheckStruct.RamSize = (u32)mem;
+  memCheckStruct.RamSize = mem;
   memCheckStruct.ramVal0 = arg1;
   memCheckStruct.mem_free_allocated =
        (u32)((int)memCheckStruct.vi_buffer_pointers[0] - (int)memCheckStruct.unk0x8);
-  return;
 }
