@@ -1,5 +1,6 @@
+#ifdef DEBUGVER
+u32 memUsedMirror;
 u64 ofunc_dat;
-
 void set_memUsedMirror(void){memUsedMirror = get_memUsed();}
 
 int Ofunc_get_MemUsed_difference(void){
@@ -13,6 +14,7 @@ int Ofunc_get_MemUsed_difference_2(void){
   set_memUsedMirror();
   return memUsedMirror - iVar1;
 }
+#endif
 
 uint rand_range(uint A,uint B){
   if (A != B) A = rand_func(&gGlobals.rngSeed,A,B);
@@ -45,7 +47,6 @@ void get_battle_terrain(EncounterDat *param_1){
   uint uVar3;
   longlong lVar1;
   byte bVar4;
-  //"%s - %d","./src/globals.cpp" (for mass replace purposes)
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x1e7);
   uVar2 = getTerrain(TerrainPointer);
   switch(uVar2) {
@@ -331,7 +332,7 @@ uint add_to_enemy_encounters(EncounterDat *param_1,short *param_2){
   } while( true );
 }
 
-uint FUN_8000bed0(EncounterDat *param_1,undefined *param_2){
+uint func_8000bed0(EncounterDat *param_1,undefined *param_2){
   undefined *puVar1;
   undefined *puVar2;
   uint uVar3;
@@ -408,7 +409,7 @@ void Emergency_skeleton_func(undefined8 param_1)
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x2ea);
   memset(&encounter_dat,0,0x18);
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x2ed);
-  uVar1 = FUN_8000bed0(&encounter_dat,(undefined *)param_1);
+  uVar1 = func_8000bed0(&encounter_dat,(undefined *)param_1);
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x2f0);
   uVar2 = get_enemy_avg_lv(uVar1,param_1);
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x2f3);
@@ -453,7 +454,7 @@ void battle_setup_func(monsterparty_obj *param_1,Event_flag_offset param_2,ushor
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x30b);
   encounter_dat.voxelBitfeild = (pmVar1->header).Bitfeild;
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x30e);
-  combat_bytes[2] = 1;
+  gGlobals.combatBytes[2] = 1;
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x311);
   get_battle_terrain(&encounter_dat);
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x314);
@@ -462,9 +463,7 @@ void battle_setup_func(monsterparty_obj *param_1,Event_flag_offset param_2,ushor
   return;
 }
 
-void load_camp_ambush(void)
-
-{
+void load_camp_ambush(void){
   byte *pbVar1;
   int iVar3;
   ulonglong uVar2;
@@ -482,7 +481,7 @@ void load_camp_ambush(void)
   encounter_dat.field_0x28 = 0;
   encounter_dat.EncounterID = 0;
   encounter_dat.BossShadow = 0;
-  combat_bytes[2] = 1;
+  gGlobals.combatBytes[2] = 1;
   iVar3 = getTerrain(TerrainPointer);
   uVar2 = get_party_avg_lv(partyPointer);
   if (uVar2 < 0x15) {
@@ -532,17 +531,83 @@ uint append_SenseAura_text(char *str1,char *str2,uint param_3){
   }
   return uVar1;
 }
+#ifdef DEBUGVER
 void Ofunc_8000c6e8(void){
   OSTime OVar1;
   u64 uVar2;
   
   OVar1 = osGetTime();
   uVar2 = udivdi3((u32)((OVar1 << 6) >> 0x20),(u32)(OVar1 << 6),0,3);
-  ofunc_dat = uVar2;
-  return;
-}
+  ofunc_dat = uVar2;}
 //a lot more orphaned funcs using "ofunc_dat" between these 2
-
+//Ghidra struggled with them, but.. here it goes.
+undefined8 Ofunc_8000c730(void){
+  uint uVar1;
+  undefined8 in_v1;
+  ulonglong uVar2;
+  OSTime OVar3;
+  u64 uVar4;
+  
+  uVar1 = (uint)((ulonglong)in_v1 >> 0x20);
+  OVar3 = osGetTime();
+  uVar2 = (ulonglong)uVar1 << 0x20;
+  uVar4 = udivdi3((int)(OVar3 >> 0x20) << 6 | (uint)OVar3 >> 0x1a,(uint)OVar3 << 6,0,3);
+  return CONCAT44(((int)(uVar4 >> 0x20) - ofunc_dat._0_4_) -
+                  (uint)((uVar2 & 0xffffffff00000000 | uVar4 & 0xffffffff) <
+                        (ulonglong)(longlong)ofunc_dat._4_4_),
+                  (int)(uVar4 & 0xffffffff) - ofunc_dat._4_4_);}
+void Ofunc_8000c788(char *param_1){
+  uint uVar1;
+  undefined8 in_v1;
+  ulonglong uVar2;
+  OSTime OVar3;
+  u64 uVar4;
+  
+  uVar1 = (uint)((ulonglong)in_v1 >> 0x20);
+  OVar3 = osGetTime();
+  uVar2 = (ulonglong)uVar1 << 0x20;
+  uVar4 = udivdi3((int)(OVar3 >> 0x20) << 6 | (uint)OVar3 >> 0x1a,(uint)OVar3 << 6,0,3);
+  sprintf(gGlobals.Text,s_%s_:_%llu_800d828c,param_1,
+              (ulonglong)
+              ((uVar2 & 0xffffffff00000000 | uVar4 & 0xffffffff) <
+              (ulonglong)(longlong)ofunc_dat._4_4_));
+  debug::debug_queue(gGlobals.Text);
+  OVar3 = osGetTime();
+  uVar4 = udivdi3((int)(OVar3 >> 0x20) << 6 | (uint)OVar3 >> 0x1a,(uint)OVar3 << 6,0,3);
+  ofunc_dat._0_4_ = (int)(uVar4 >> 0x20);
+  ofunc_dat._4_4_ = (int)uVar4;}
+void Ofunc_8000c850(float param_1){
+  ulonglong uVar1;
+  uint in_v1_hi;
+  uint uVar2;
+  ulonglong uVar3;
+  float fVar4;
+  ulonglong uVar5;
+  OSTime OVar6;
+  u64 uVar7;
+  u64 uVar8;
+  
+  uVar3 = (ulonglong)(uint)(param_1 * 1000000.0f);
+  OVar6 = osGetTime();
+  uVar7 = udivdi3((int)(OVar6 >> 0x20) << 6 | (uint)OVar6 >> 0x1a,(uint)OVar6 << 6,0,3000);
+  uVar5 = (ulonglong)(uint)INT_MAX_f;
+  uVar1 = (ulonglong)in_v1_hi;
+  do {
+    fVar4 = (float)uVar3;
+    if (fVar4 < (float)uVar5) {
+      uVar2 = (uint)fVar4;
+    }
+    else {
+      uVar2 = (int)(fVar4 - (float)uVar5) | 0x80000000;
+    }
+    OVar6 = osGetTime();
+    uVar8 = udivdi3((int)(OVar6 >> 0x20) << 6 | (uint)OVar6 >> 0x1a,(uint)OVar6 << 6,0,3000);
+  } while (((uint)(uVar8 >> 0x20) ==
+            (uint)((uVar8 & 0xffffffff | (ulonglong)in_v1_hi << 0x20) <
+                  (uVar7 & 0xffffffff | uVar1 << 0x20))) &&
+          ((uint)((int)uVar8 - (int)(uVar7 & 0xffffffff)) < uVar2));}
+#endif
+//now, to more sensible programming.
 void minimap_struct_init_or_free(bool param_1,short param_2){
   if (param_2 == -1) {
     if (param_1 == false) {
@@ -552,7 +617,6 @@ void minimap_struct_init_or_free(bool param_1,short param_2){
       minimap_struct_init(&MinimapStruct);
     }
   }
-  return;
 }
 
 void minimap_struct_init_2(void){minimap_struct_init_or_free(true,-1);}

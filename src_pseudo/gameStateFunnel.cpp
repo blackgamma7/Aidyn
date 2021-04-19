@@ -122,7 +122,7 @@ bool load_gamestateFunnel(void){
   return true;
 }
 bool clear_gamestatefunnel(void){
-  Free(gameStates,s_./src/gamestatefunnel.cpp_800d9ef0);
+  Free(gameStates,s_./src/gamestatefunnel.cpp_800d9ef0,0x138);
   gameStates = null;
   return true;
 }

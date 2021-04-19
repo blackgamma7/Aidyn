@@ -72,10 +72,10 @@ void n64print_free(void){
   Debug_queue *pDVar1;
   
   if (debugQueuePointer != null) {
-    Free(debugQueuePointer->text,FILENAME);
+    Free(debugQueuePointer->text,FILENAME,0xa0);
     pDVar1 = debugQueuePointer;
-    debugQueuePointer = (Debug_queue *)0x0;
-    pDVar1->text = (char **)0x0;
+    debugQueuePointer = null;
+    pDVar1->text = null;
   }
   return;
 #endif
@@ -167,7 +167,7 @@ void debug_queue(char *param_1){
       pcVar7 = (char *)debug_queue_sub(&cStack400,10,(10 - iVar6) * 0x10000 >> 0x10);
       ppcVar3 = debugQueuePointer->text;
     }
-    os::sprintf((char *)debugQueuePointer->text,"%s%s",ppcVar3,pcVar7);
+    sprintf((char *)debugQueuePointer->text,"%s%s",ppcVar3,pcVar7);
   }
   #endif
   return;

@@ -46,7 +46,7 @@ bool decompressBorg(void *param_1,u32 compSize,void *borgfile,u32 param_4,u32 co
     pvVar1 = Malloc(compSize,FILENAME,0x17f);
     RomCopy(pvVar1,param_1,compSize,1,FILENAME,0x183);
     decompress_LZ01(pvVar1,compSize,borgfile,auStack40);
-    Free(pvVar1,FILENAME);
+    Free(pvVar1,FILENAME,0x18d);
   }
   else if (compression == 0) {
     RomCopy(borgfile,param_1,compSize,1,FILENAME,0x175);
@@ -55,7 +55,7 @@ bool decompressBorg(void *param_1,u32 compSize,void *borgfile,u32 param_4,u32 co
     pvVar1 = Malloc(compSize,FILENAME,0x197);
     RomCopy(pvVar1,param_1,compSize,1,FILENAME,0x19b);
     decompress_LZB(pvVar1,compSize,borgfile,auStack40);
-    Free(pvVar1,FILENAME);
+    Free(pvVar1,FILENAME,0x1a5);
   }
   return true;
 }
@@ -190,10 +190,9 @@ void * getBorgItem(int index){
     return ret;
   }
   //likely check order is reversed: this appears higher in ASM.
-  os::sprintf(errmsg,"item_index_is_out_of_range_(%i/%i)",index,borgTotal - 1);
+  sprintf(errmsg,"item_index_is_out_of_range_(%i/%i)",index,borgTotal - 1);
   manualCrash("n64Borg.cpp,_GetBorgItem()",errmsg);
 }
-
 
 void func_800a2de0(void){}
 u8 get_borg_index_count(int param_1){return borg_index_x1[param_1];}
@@ -203,7 +202,7 @@ void dec_borg_count(int index){
   
   puVar1 = borg_index_x1 + index;
   if ((0 < *puVar1) && (*puVar1--, borg_index_x1[index] == 0)) {
-    Free(borg_index_x4[index],FILENAME);
+    Free(borg_index_x4[index],FILENAME,0x2f9);
     borg_index_x4[index] = (void *)0x0;
   }
 }
@@ -215,9 +214,9 @@ void Ofunc_borg0_free(int *param_1){
   int memOld;
   
   memOld = get_memUsed();
-  if (*param_1 == -1) {Free((void *)param_1[2],FILENAME);}
+  if (*param_1 == -1) {Free((void *)param_1[2],FILENAME,0x342);}
   else {dec_borg_count(*param_1);}
-  Free(param_1,FILENAME);
+  Free(param_1,FILENAME,0x349);
   borg_mem[0] -= (memOld - get_memUsed());
   borg_count[0]--;
   return;}
@@ -284,18 +283,16 @@ bool InitBorgTexture(Borg_1_Header *param_1,void *param_2){
 }
 void borg1_free(Borg_1_Header *param_1){
   int iVar1;
-  int iVar2;
   
   iVar1 = get_memUsed();
   if (((param_1->field_0x10[1] & 0x100) != 0) && (*param_1->field_0x10 < 2)) {
-    Free(param_1->field_0xc,FILENAME);
-  }
-  if (param_1->field_0x0 == -1) {Free(param_1->field_0x10,FILENAME);}
+
+    Free(param_1->field_0xc,FILENAME,0x3e4);}
+  if (param_1->field_0x0 == -1) {Free(param_1->field_0x10,FILENAME,0x3f0);}
   else {dec_borg_count(param_1->field_0x0);}
-  Free(param_1,FILENAME);
+  Free(param_1,FILENAME,0x3f0);
   borg_mem[1]-= (iVar1 - get_memUsed());
   borg_count[1]--;
-  return;
 }
 /*"borg2": 
 "vertices and display lists; for whatever stupid reason they only used tri1 cmds"
@@ -428,12 +425,8 @@ void borg3_func_a(Borg_3 *param_1){
   return;}
 bool borg3_func_b(void){return false;}
 void borg3_free(Borg_3 *param_1){
-  int iVar1;
-  
-  iVar1 = get_memUsed();
-  if (param_1->index == -1) {
-    Free(param_1,FILENAME);
-  }
+  int iVar1 = get_memUsed();
+  if (param_1->index == -1) {Free(param_1,FILENAME,0x520);}
   else {
     dec_borg_count(param_1->index);
   }
@@ -755,14 +748,12 @@ void borg5_free(Borg_5_header *param_1){
     iVar6 = *(int *)param_1;
   }
   if (iVar6 == -1) {
-    Free(*(void **)&param_1->field_0x8,FILENAME);
-    Free(param_1,FILENAME);
+    Free(*(void **)&param_1->field_0x8,FILENAME,0x78b);
+    Free(param_1,FILENAME,0x78f);
   }
   else {
     uVar3 = get_borg_index_count(iVar6);
-    if (uVar3 == 1) {
-      Free(*(void **)&param_1->field_0x8,FILENAME);
-    }
+    if (uVar3 == 1) {Free(*(void **)&param_1->field_0x8,FILENAME,0x795);}
     dec_borg_count(*(int *)param_1);
   }
   borg_mem[5]-= (iVar2 - get_memUsed());
@@ -938,13 +929,13 @@ void borg_6_free(borg_6_header *param_1){
         iVar3 = iVar3 + 0x18;
       } while (iVar2 < *(int *)(param_1->field_0x20 + 4));
     }
-    Free(param_1->field_0x14,FILENAME);
+    Free(param_1->field_0x14,FILENAME,0x8e0);
   }
   if (param_1->index == -1) {
-    Free((void *)param_1->field_0x20,FILENAME);
+    Free((void *)param_1->field_0x20,FILENAME,0x8e5);
   }
   else {dec_borg_count(param_1->index);}
-  Free(param_1,FILENAME);
+  Free(param_1,FILENAME,0x8ec);
   borg_mem[6]-= (iVar1 - get_memUsed(););
   borg_count[6]--;
   return;
@@ -1027,14 +1018,12 @@ void borg7_free(Borg_7_header *param_1){
   } while (-1 < iVar4);
   iVar4 = get_memUsed();
   if (param_1->index == -1) {
-    Free(param_1->borg_pointer,FILENAME);
-    Free(param_1,FILENAME);
-  }
+    Free(param_1->borg_pointer,FILENAME,0x976);
+    Free(param_1,FILENAME,0x978);}
   else {
     if (get_borg_index_count(param_1->index) == 1)
-      {Free(param_1->borg_pointer,FILENAME);}
-    dec_borg_count(param_1->index);
-  }
+      {Free(param_1->borg_pointer,FILENAME,0x97e);}
+    dec_borg_count(param_1->index);}
   iVar1 = get_memUsed();
   borg_mem[7]-= (iVar4 - iVar1);
   borg_count[7]--;

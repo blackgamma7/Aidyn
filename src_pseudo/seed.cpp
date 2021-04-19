@@ -1,16 +1,17 @@
+#ifdef DEBUGVER
+#define FILENAME "./src/seed.cpp"
+#else
+#define FILENAME ""
+#endif
 
-void bootproc(void)
-{
+void bootproc(void){
   osInitialize();
   osUnmapTLBAll();
   osCreateThread(&init_thread,1,InitProc,null,&init_thread,1);
   osStartThread(&init_thread);
-  return;
-}
+  return;}
 
-void InitProc(void)
-
-{
+void InitProc(void){
   uint extraout_v1_hi;
   uint uVar1;
   ulonglong uVar2;
@@ -25,20 +26,11 @@ void InitProc(void)
   osCreatePiManager(PIMGR,&pimgr_qeue,PTR_800e8f30,8);
   osSched_stack = (undefined *)Malloc(0x2000,s_./src/seed.cpp_800d97c0,0xb1);
   if (osTvType == NTSC) {
-    osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,2,1);
-  }
-  else {
-    if ((int)osTvType < 2) {
-      if (osTvType == PAL) {
-        osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x10,1);
-      }
-    }
-    else {
-      if (osTvType == MPAL) {
-        osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x1e,1);
-      }
-    }
-  }
+    osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,2,1);}
+  if (osTvType == PAL) {
+    osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x10,1);}
+  if (osTvType == MPAL) {
+    osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x1e,1);}
   initGfx(&Sched);
   audio_thread_init(&Sched,0xac44,0xb,5);
   dcm_init();
@@ -52,6 +44,5 @@ void InitProc(void)
   setRNGSeed(&gGlobals,uVar2 & 0xffffffff00000000 | uVar3 & 0xffffffff);
   app_cpp_func(&Sched,8,2);
   osSetThreadPri(&init_thread,IDLE);
-  do {
-  } while( true );
+  do {} while(true);
 }

@@ -17,14 +17,15 @@ segments:
     type: code
     start: 0x00001000
     vram:  0x80000400
-    subsections:
+    subsegments:
       - [0x01000, "bin",init_]
       - [0x032f0, "asm"]
       - [0x3490, asm,"debug_"] # Ommited from retail
       - [0x41B0, asm,"armorCraft"]
       - [0x4770, asm,"potionCraft"]
       - [0x4DC0, asm,"HealerMenu"]
-      - [0x5DC0, asm,"gameStatemod"]
+      - [0x5DC0, asm,"gameStatemod"] # Ommited from retail
+      - [0x6960, asm]
       - [0x6F70, asm,"ZoneEngine1"]
       - [0x7250, asm,"crash"]
       - [0x8D20, asm,"memcheck"]

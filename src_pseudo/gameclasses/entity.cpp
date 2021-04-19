@@ -137,8 +137,8 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,uint param_3){
   init_char_skills(arg0,param_1->ID);
   pptVar3 = (temp_armor **)Malloc(8,s_../gameclasses/entity.cpp_800e02f0,0x10a);
   param_1->armor = pptVar3;
-  *pptVar3 = (temp_armor *)0x0;
-  pptVar3[1] = (temp_armor *)0x0;
+  *pptVar3 = null;
+  pptVar3[1] = null;
   if (pEVar11->Sheild != (ItemID)0xffff) {
     Equip_Armor(param_1,pEVar11->Sheild,0);
   }
@@ -186,25 +186,24 @@ void CharSheet_free(CharSheet *param_1){
   spellbook *psVar6;
   
   if (param_1->EXP != (charExp *)0x0) {
-    Free(param_1->EXP,s_../gameclasses/entity.cpp_800e02f0);
+    Free(param_1->EXP,s_../gameclasses/entity.cpp_800e02f0,0x142);
     param_1->EXP = (charExp *)0x0;
   }
-  if (param_1->armor == (temp_armor **)0x0) {
+  if (param_1->armor == null) {
     pTVar5 = param_1->weapons;
   }
   else {
-    if (*param_1->armor != (temp_armor *)0x0) {
+    if (*param_1->armor != null) {
       pssto_clear_weapon_effects();
-      Free(*param_1->armor,s_../gameclasses/entity.cpp_800e02f0);
-      *param_1->armor = (temp_armor *)0x0;
-    }
-    if (param_1->armor[1] != (temp_armor *)0x0) {
+      Free(*param_1->armor,s_../gameclasses/entity.cpp_800e02f0,0x14b);
+      *param_1->armor = null;}
+    if (param_1->armor[1] != null) {
       pssto_clear_weapon_effects();
-      Free(param_1->armor[1],s_../gameclasses/entity.cpp_800e02f0);
-      param_1->armor[1] = (temp_armor *)0x0;
+      Free(param_1->armor[1],s_../gameclasses/entity.cpp_800e02f0,0x152);
+      param_1->armor[1] = null;
     }
-    Free(param_1->armor,s_../gameclasses/entity.cpp_800e02f0);
-    param_1->armor = (temp_armor **)0x0;
+    Free(param_1->armor,s_../gameclasses/entity.cpp_800e02f0,0x156);
+    param_1->armor = null;
     pTVar5 = param_1->weapons;
   }
   if (pTVar5 == (Temp_weapon *)0x0) {
@@ -212,7 +211,7 @@ void CharSheet_free(CharSheet *param_1){
   }
   else {
     passto_clear_weapon_effects(pTVar5);
-    Free(param_1->weapons,s_../gameclasses/entity.cpp_800e02f0);
+    Free(param_1->weapons,s_../gameclasses/entity.cpp_800e02f0,0x15d);
     param_1->weapons = (Temp_weapon *)0x0;
     pCVar1 = param_1->pItemList;
   }
@@ -220,8 +219,8 @@ void CharSheet_free(CharSheet *param_1){
     psVar6 = param_1->spellbook;
   }
   else {
-    FUN_8007d7dc();
-    Free(param_1->pItemList,s_../gameclasses/entity.cpp_800e02f0);
+    func_8007d7dc();
+    Free(param_1->pItemList,s_../gameclasses/entity.cpp_800e02f0,0x15d);
     param_1->pItemList = (CharGear *)0x0;
     psVar6 = param_1->spellbook;
   }
@@ -230,7 +229,7 @@ void CharSheet_free(CharSheet *param_1){
   }
   else {
     spellbok_free(psVar6);
-    Free(param_1->spellbook,s_../gameclasses/entity.cpp_800e02f0);
+    Free(param_1->spellbook,s_../gameclasses/entity.cpp_800e02f0,0x164);
     param_1->spellbook = (spellbook *)0x0;
     peVar2 = param_1->effects;
   }
@@ -239,7 +238,7 @@ void CharSheet_free(CharSheet *param_1){
   }
   else {
     remove_effects(param_1);
-    Free(param_1->effects,s_../gameclasses/entity.cpp_800e02f0);
+    Free(param_1->effects,s_../gameclasses/entity.cpp_800e02f0,0x16b);
     param_1->effects = (effects *)0x0;
     pPVar3 = (Potion_effect *)param_1->potion_effects;
   }
@@ -248,7 +247,7 @@ void CharSheet_free(CharSheet *param_1){
   }
   else {
     clear_charsheet_potions(param_1);
-    Free(param_1->potion_effects,s_../gameclasses/entity.cpp_800e02f0);
+    Free(param_1->potion_effects,s_../gameclasses/entity.cpp_800e02f0,0x173);
     param_1->potion_effects = (Potion_effect **)0x0;
     pBVar4 = param_1->portait;
   }
@@ -257,11 +256,11 @@ void CharSheet_free(CharSheet *param_1){
     param_1->portait = (Borg_8_header *)0x0;
   }
   if (param_1->Stats != (CharStats *)0x0) {
-    Free(param_1->Stats,s_../gameclasses/entity.cpp_800e02f0);
+    Free(param_1->Stats,s_../gameclasses/entity.cpp_800e02f0,0x188);
     param_1->Stats = (CharStats *)0x0;
   }
   if (param_1->Skills != (CharSkills *)0x0) {
-    Free(param_1->Skills,s_../gameclasses/entity.cpp_800e02f0);
+    Free(param_1->Skills,s_../gameclasses/entity.cpp_800e02f0,0x18e);
     param_1->Skills = (CharSkills *)0x0;
   }
   return;
@@ -360,7 +359,7 @@ void func_checking_cheat_death(CharSheet *param_1,short param_2,CombatEntity *pa
       pCVar6 = param_1->Stats;
       goto LAB_80077df0;
     }
-    FUN_8006f2cc(param_3);
+    func_8006f2cc(param_3);
   }
   pCVar6 = param_1->Stats;
 LAB_80077df0:
@@ -390,7 +389,7 @@ LAB_80077df0:
       clear_charsheet_potions(param_1);
       bVar5 = isDead(param_1);
       if (bVar5 == false) {
-        FUN_8007b23c(param_1);
+        func_8007b23c(param_1);
       }
     }
   }
@@ -506,7 +505,7 @@ byte canEquipWeapon(CharSheet *param_1,ItemID param_2){
 int something_with_gear_INT(CharSheet *param_1,ItemID param_2){
   Gear_RAM *pGVar1;
   int iVar3 = 1;
-  if (FUN_8007d938(param_1->pItemList)) {
+  if (func_8007d938(param_1->pItemList)) {
     iVar3 = search_item_array(param_2);
     pGVar1 = item_pointer->Gear;
     if (getBaseStat(param_1->Stats,STR) < (int)(uint)pGVar1[iVar3].STR) {iVar3 = 3;}
@@ -538,13 +537,13 @@ byte EquipWeapon(CharSheet *param_1,undefined2 param_2,byte (*param_3) [2]){
     pTVar1 = (Temp_weapon *)Malloc(0x2c,s_../gameclasses/entity.cpp_800e02f0,0x377);
     param_1->weapons = pTVar1;
     createTempWeapon(pTVar1,param_2);
-    FUN_800784c8(param_1,param_1->weapons,param_3,0);
+    func_800784c8(param_1,param_1->weapons,param_3,0);
     bVar2 = 0;
   }
   return bVar2;
 }
 
-bool FUN_8007840c(CharSheet *param_1,undefined2 param_2,byte (*param_3) [2]){
+bool func_8007840c(CharSheet *param_1,undefined2 param_2,byte (*param_3) [2]){
   CharGear *pCVar1;
   Temp_gear *pTVar2;
   bool lVar3;
@@ -554,9 +553,9 @@ bool FUN_8007840c(CharSheet *param_1,undefined2 param_2,byte (*param_3) [2]){
   if (lVar3 == 0) {
     malloc_temp_gear(param_1->pItemList,param_2);
     pCVar1 = param_1->pItemList;
-    iVar4 = FUN_8007daa8(pCVar1,param_2);
+    iVar4 = func_8007daa8(pCVar1,param_2);
     pTVar2 = pCVar1->pItem[iVar4];
-    FUN_800784c8(param_1,pTVar2,param_3,1);
+    func_800784c8(param_1,pTVar2,param_3,1);
     param_1->EXP->protection+= pTVar2->Protection;
     lVar3 = 0;
     param_1->EXP->damage+= pTVar2->Damage;
@@ -564,7 +563,7 @@ bool FUN_8007840c(CharSheet *param_1,undefined2 param_2,byte (*param_3) [2]){
   return lVar3;
 }
 
-void FUN_800784c8(CharSheet *param_1,Temp_weapon *param_2,byte (*param_3) [2],int param_4){
+void func_800784c8(CharSheet *param_1,Temp_weapon *param_2,byte (*param_3) [2],int param_4){
   byte (*pabVar1) [2];
   longlong lVar2;
   undefined uVar3;
@@ -588,7 +587,7 @@ void FUN_800784c8(CharSheet *param_1,Temp_weapon *param_2,byte (*param_3) [2],in
       param_1->spellSwitch = 0;
       goto LAB_8007859c;
     }
-    uVar3 = FUN_8007b6bc(param_1,(*param_3)[0],(*param_3)[1]);
+    uVar3 = func_8007b6bc(param_1,(*param_3)[0],(*param_3)[1]);
     if ((*param_3)[0] != END) {
       addtoModdedStats(param_1->Stats,(*param_3)[0],uVar3);
       param_1->spellSwitch = 0;
@@ -599,7 +598,7 @@ void FUN_800784c8(CharSheet *param_1,Temp_weapon *param_2,byte (*param_3) [2],in
   param_1->spellSwitch = 0;
 LAB_8007859c:
   if (param_4 != 0) {
-    FUN_8007ad40(param_1,param_2);
+    func_8007ad40(param_1,param_2);
   }
   return;
 }
@@ -610,7 +609,7 @@ void equip_armor_sheild(CharSheet *param_1,undefined2 param_2,byte (*param_3) [2
   ptVar1 = (temp_armor *)Malloc(0x28,s_../gameclasses/entity.cpp_800e02f0,0x3df);
   param_1->armor[sheild] = ptVar1;
   make_temp_armor_3(ptVar1,param_2);
-  FUN_800784c8(param_1,(Temp_weapon *)param_1->armor[sheild],param_3,1);
+  func_800784c8(param_1,(Temp_weapon *)param_1->armor[sheild],param_3,1);
   addtoModdedStats(param_1->Stats,DEX,param_1->armor[sheild]->dex);
   some_moddedSkillCheck(param_1->Skills,Stealth,param_1->armor[sheild]->stealth);
 }
@@ -620,7 +619,7 @@ void remove_sheild(CharSheet *param_1){remove_armor(param_1,1);}
 
 void remove_armor(CharSheet *param_1,byte param_2){
   if ((Temp_weapon *)param_1->armor[param_2] != null) {
-    FUN_80078874(param_1,(Temp_weapon *)param_1->armor[param_2],true);
+    func_80078874(param_1,(Temp_weapon *)param_1->armor[param_2],true);
     subtractFromModdedStats(param_1->Stats,DEX,param_1->armor[param_2]->dex);
     some_moddedSkillCheck(param_1->Skills,Stealth,-param_1->armor[param_2]->stealth);
     pssto_clear_weapon_effects(param_1->armor[param_2]);
@@ -631,7 +630,7 @@ void remove_armor(CharSheet *param_1,byte param_2){
 
 void unequp_weapons(CharSheet *param_1){
   if (param_1->weapons != (Temp_weapon *)0x0) {
-    FUN_80078874(param_1,param_1->weapons,false);
+    func_80078874(param_1,param_1->weapons,false);
     passto_clear_weapon_effects(param_1->weapons);
     Free(param_1->weapons,s_../gameclasses/entity.cpp_800e02f0);
     param_1->weapons = (Temp_weapon *)0x0;
@@ -643,14 +642,14 @@ void unequip_acc(CharSheet *param_1,byte param_2){
   
   pTVar1 = param_1->pItemList->pItem[param_2];
   if (pTVar1 != null) {
-    FUN_80078874(param_1,(Temp_weapon *)pTVar1,true);
+    func_80078874(param_1,(Temp_weapon *)pTVar1,true);
     param_1->EXP->protection-= pTVar1->Protection;
     param_1->EXP->damage-= pTVar1->damage;
-    FUN_8007da24(param_1->pItemList,param_2);
+    func_8007da24(param_1->pItemList,param_2);
   }
 }
 
-void FUN_80078874(CharSheet *param_1,Temp_weapon *param_2,bool param_3){
+void func_80078874(CharSheet *param_1,Temp_weapon *param_2,bool param_3){
   Temp_enchant *pTVar1;
   longlong lVar2;
   undefined uVar3;
@@ -676,7 +675,7 @@ LAB_800788d0:
       param_1->spellSwitch = 0;
       goto LAB_8007893c;
     }
-    uVar3 = FUN_8007b760(param_1,(*skilmod)[0],(*skilmod)[1]);
+    uVar3 = func_8007b760(param_1,(*skilmod)[0],(*skilmod)[1]);
     if ((*skilmod)[0] != END) {
       subtractFromModdedStats(param_1->Stats,(*skilmod)[0],uVar3);
       param_1->spellSwitch = 0;
@@ -830,19 +829,13 @@ bool inc_charsheet_potion(CharSheet *param_1,bool param_2,byte param_3){
 }
 
 
-void clear_charsheet_potion(CharSheet *param_1,uint param_2)
-
-{
-  uint uVar1;
-  
-  uVar1 = param_2 & 0xff;
-  if (param_1->potion_effects[uVar1] != (Potion_effect *)0x0) {
-    remove_potion_effect(param_1,uVar1);
-    func_with_potion_unk2(param_1->potion_effects[uVar1]);
-    Free(param_1->potion_effects[uVar1],s_../gameclasses/entity.cpp_800e02f0);
-    param_1->potion_effects[uVar1] = (Potion_effect *)0x0;
+void clear_charsheet_potion(CharSheet *param_1,uint param_2){
+  if (param_1->potion_effects[param_2] != (Potion_effect *)0x0) {
+    remove_potion_effect(param_1,param_2);
+    func_with_potion_unk2(param_1->potion_effects[param_2]);
+    Free(param_1->potion_effects[param_2],s_../gameclasses/entity.cpp_800e02f0,0x50b);
+    param_1->potion_effects[param_2] = (Potion_effect *)0x0;
   }
-  return;
 }
 
 void clear_exhaustion(CharSheet *param_1){
@@ -888,7 +881,7 @@ bool can_use_potion(CharSheet *param_1,PotionEnum param_2,char *param_3){
       }
       peVar5 = (effects *)(peVar5->list + 1);
     } while (uVar6 < 0xf);
-    if (param_3 != (char *)0x0) {strcpy(param_3,s_That_potion_cannot_be_used_right_800e0368);}
+    if (param_3 != null) {strcpy(param_3,s_That_potion_cannot_be_used_right_800e0368);}
     bVar6 = getModdedStat(param_1->Stats,STAM) < getBaseStat(param_1->Stats,STAM);
     break;
   case ANTIDOTE:
@@ -901,7 +894,7 @@ bool can_use_potion(CharSheet *param_1,PotionEnum param_2,char *param_3){
       }
       peVar5 = (effects *)(peVar5->list + 1);
     } while (uVar6 < 0xf);
-    if (param_3 != (char *)0x0) {
+    if (param_3 != null) {
       c2 = s_That_potion_cannot_be_used_right_800e0368;
 LAB_80078fb4:
       strcpy(param_3,c2);}
@@ -914,7 +907,7 @@ LAB_80078fb4:
       uVar6++;
       if (bVar4 != false) break;
       if (0xe < uVar6) {
-        if (param_3 == (char *)0x0) goto LAB_80078fbc;
+        if (param_3 == null) goto LAB_80078fbc;
         c2 = s_That_potion_cannot_be_used_right_800e0368;
         goto LAB_80078fb4;
       }
@@ -928,11 +921,11 @@ LAB_80078fb4:
   case CHARISMA:
   case DEFENCE:
   case STEALTH:
-    if (param_3 != (char *)0x0) {strcpy(param_3,s_That_potion_cannot_be_used_right_800e0368);}
+    if (param_3 != null) {strcpy(param_3,s_That_potion_cannot_be_used_right_800e0368);}
     bVar6 = (bool)(has_potion_effect(param_1,param_2) ^ 1);
     break;
   default:
-    if (param_3 != (char *)0x0) {
+    if (param_3 != null) {
       c2 = s_That_potion_cannot_be_used_in_Tr_800e0390;
       goto LAB_80078fb4;}
 LAB_80078fbc:
@@ -1026,7 +1019,7 @@ byte ret1_800791c8(void){return 1;}
     pcVar2 = "Immune_to_%s";
     if (0.0 < param_1->percent) {pcVar2 = "Resistant_to_%s";}
     if (2.0f <= param_1->percent) {pcVar2 = "Vulnerable_to_%s";}
-    os::sprintf(param_3,pcVar2,element_labels[param_1->element]);
+    sprintf(param_3,pcVar2,element_labels[param_1->element]);
     uVar1 = append_SenseAura_text(param_2,param_3,param_4);
   }
   return uVar1;
@@ -1048,7 +1041,7 @@ void senseAura(CombatEntity *target,byte level)
   color col2;
   
   pCVar1 = target->CharSheet;
-  os::sprintf(acStack1064,"%s\n",pCVar1->name);
+  sprintf(acStack1064,"%s\n",pCVar1->name);
   uVar3 = strlen(acStack1064);
   if (level != 0) {
     strcpy(acStack232,"Follower");
@@ -1057,11 +1050,11 @@ void senseAura(CombatEntity *target,byte level)
     uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
   }
   if (2 < level) {
-    os::sprintf(acStack232,"%d_Total_Hitpoints",getHPMax(pCVar1));
+    sprintf(acStack232,"%d_Total_Hitpoints",getHPMax(pCVar1));
     uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
   }
   if (4 < level) {
-    os::sprintf(acStack232,"Level_%lu",getBaseStat(pCVar1->Stats,LV));
+    sprintf(acStack232,"Level_%lu",getBaseStat(pCVar1->Stats,LV));
     uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
   }
   if (6 < level) {
@@ -1074,7 +1067,7 @@ void senseAura(CombatEntity *target,byte level)
     } while (uVar7 < 2);
   }
   if (8 < level) {
-    os::sprintf(acStack232,"Total Armor Protection %d",get_protection_level(target,false));
+    sprintf(acStack232,"Total Armor Protection %d",get_protection_level(target,false));
     uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
   }
   col1 = OFFWHITE;

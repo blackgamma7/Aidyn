@@ -8,8 +8,8 @@ RomcopyManageStruct romcopyManage;
 
 void init_romcopy_thread(enum_OSPri pri,uint id){
   romcopyManage.stack = (void *)Malloc(0x248,FILENAME,0x79);
-  osCreateThread(&romcopyManage.Thread,id & 0xff,romcopy_loop,(void *)0x0,
-                     romcopyManage.stack + 0x248,pri & 0xff);
+  osCreateThread(&romcopyManage.Thread,id,romcopy_loop,(void *)0x0,
+                     romcopyManage.stack + 0x248,pri);
   osStartThread(&romcopyManage.Thread);
   return;
 }
@@ -29,8 +29,8 @@ void romcopy_loop(void){
     Entry = romcopyManage.dmaStructs[(byte)uStack36];
     osInvalDCache(Entry->VAddr,Entry->Bytes);
     osPiStartDma(&IOMsg,OS_MESG_PRI_NORMAL,OS_READ,Entry->devAddr,Entry->VAddr,Entry->Bytes,&TempQ);
-    osRecvMesg(&TempQ,(OSMesg *)0x0,1);
-    osSendMesg(&Entry->msgQ,(OSMesg)0x0,1);
+    osRecvMesg(&TempQ,null,1);
+    osSendMesg(&Entry->msgQ,null,1);
   } while( true );
 }
 
@@ -61,7 +61,7 @@ byte RomCopy(void *dest,void *source,uint len,uint type,char *cpp,u32 line){
   romcopy_struct *prVar4;
   char acStack160 [160];
   
-  osSendMesg(&romcopyManage.mesgQ0x1dc,(OSMesg)0x0,1);
+  osSendMesg(&romcopyManage.mesgQ0x1dc,null,1);
   if (((uint)dest & 7) == 0) {
     if (((uint)source & 1) == 0) {
       if ((len & 1) == 0) {
@@ -87,13 +87,13 @@ byte RomCopy(void *dest,void *source,uint len,uint type,char *cpp,u32 line){
           manualCrash();
         #endif
         }
-        osRecvMesg(&romcopyManage.mesgQ0x1dc,(OSMesg *)0x0,1);
+        osRecvMesg(&romcopyManage.mesgQ0x1dc,null,1);
         if (type == 1) {
-          osRecvMesg(&prVar4->msgQ,(OSMesg *)0x0,1);
-          osSendMesg(&romcopyManage.mesgQ0x1dc,(OSMesg)0x0,1);
+          osRecvMesg(&prVar4->msgQ,null,1);
+          osSendMesg(&romcopyManage.mesgQ0x1dc,null,1);
           romcopyManage.flag = romcopyManage.flag - 1;
           romcopyManage.dmaIndicies[romcopyManage.flag] = bVar1;
-          osRecvMesg(&romcopyManage.mesgQ0x1dc,(OSMesg *)0x0,1);
+          osRecvMesg(&romcopyManage.mesgQ0x1dc,null,1);
         }
         return bVar1;
       }
@@ -121,23 +121,21 @@ byte RomCopy(void *dest,void *source,uint len,uint type,char *cpp,u32 line){
 
 bool func_8009cb8c(u8 arg0,u8 arg1){
   int iVar1;
-  uint uVar2;
-  
-  =
+
   if (arg1 == 1) {
-    osRecvMesg(&romcopyManage.dmaStructs[arg0].msgQ,(OSMesg *)0x0,1);
-    osSendMesg(&romcopyManage.mesgQ0x1dc,(OSMesg)0x0,1);
+    osRecvMesg(&romcopyManage.dmaStructs[arg0].msgQ,null,1);
+    osSendMesg(&romcopyManage.mesgQ0x1dc,null,1);
   }
   else {
-    iVar1 = osRecvMesg(&romcopyManage.dmaStructs[arg0].msgQ,(OSMesg *)0x0,0);
+    iVar1 = osRecvMesg(&romcopyManage.dmaStructs[arg0].msgQ,null,0);
     if (iVar1 != 0) {
       return false;
     }
-    osSendMesg(&romcopyManage.mesgQ0x1dc,(OSMesg)0x0,1);
+    osSendMesg(&romcopyManage.mesgQ0x1dc,null,1);
   }
   romcopyManage.flag--;
   romcopyManage.dmaIndicies[romcopyManage.flag] = arg0;
-  osRecvMesg(&romcopyManage.mesgQ0x1dc,(OSMesg *)0x0,1);
+  osRecvMesg(&romcopyManage.mesgQ0x1dc,null,1);
   return true;
 }
 

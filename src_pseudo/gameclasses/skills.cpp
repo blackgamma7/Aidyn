@@ -1,4 +1,6 @@
 
+
+
 void bottom_modded_skill(char *skills,uint len){
   uint i=0;
   if (len != 0) {
@@ -27,7 +29,6 @@ void init_char_skills(CharSkills *arg0,ItemID id){
   index = EntRam->sheildStat;
   if (EntRam->sheildStat < 0) {index = 0;}
   arg0->Sheild_modded = index;
-  return;
 }
 
 //3 save/ load  funcs here.
@@ -46,6 +47,7 @@ int get_skill_xp_multi(CharSkills *skills,SkillEnum arg1){
   int i = skills->Skill_base[arg1] + 1;
   //uses some  macro that ghidra "tries its best" interpreting.
   //just rewiting that from scratch. or ignoring it.
+  int skill_xp_multis[12]={1500,500,1000,750,500,7500,750,500,1000,1000,1000,1500};
   if (0xb < arg1) {
     #ifdef DEBUGVER
     manualCrash("Skill overwrite","../gameclasses/skills.cpp");
@@ -58,6 +60,8 @@ int get_skill_xp_multi(CharSkills *skills,SkillEnum arg1){
 
 uint Weapon_XP_check(CharSkills *skills,WeaponClassEnum arg1){
   uint i = skills->Weapon_Base[arg1] + 1;
+  uint weapon_xp_multis[11]={0,0,0,400,600,400,0,0,600,400,0};
+  //0 value = enemy weapon classes
   if (0xb < arg1) {
     #ifdef DEBUGVER
     manualCrash("Weapon_XP_overflow","../gameclasses/skills.cpp");
@@ -140,15 +144,10 @@ void wonky_sheild_check(CharSkills *param_1,undefined1 param_2){
 
 void some_moddedSkillCheck(CharSkills *arg0,SkillEnum arg1,s8 arg2){
   byte bVar1;
-  byte *pbVar2;
-
-  pbVar2 = arg0->Skill_modded[arg1];
+  byte *pbVar2 = arg0->Skill_modded[arg1];
   bVar1 = *pbVar2;
   check_baseskill_minus1(arg0,(char *)arg0->Skill_modded,arg1,arg2);
-  if (bVar1 != *pbVar2) {
-    event_flag_skill_(arg1);
-  }
-  return;
+  if (bVar1 != *pbVar2) {event_flag_skill_(arg1);}
 }
 
 void Ofunc_80083cc8(CharSkills *param_1,undefined1 param_2){
@@ -169,35 +168,27 @@ byte capskillBaseMax(CharSkills *skills,SkillEnum arg1){
 byte capWeaponBaseMax(CharSkills *skills,WeaponClassEnum arg1){
   byte b = skills->Weapon_base[arg1];
   if (10 < (char)skills->Weapon_base[arg1]) b = 10;
-  return b;
-}
+  return b;}
 
 byte capSheildBaseMax(CharSkills *skills){
   byte b = skills->Sheild_Base;
   if (10 < (char)skills->Sheild_Base) b = 10;
-  return b;
-}
+  return b;}
 
 char getModdedSkill(CharSkills *param_1,SkillEnum param_2){
-  return CapModdedSkillMax(param_1->Skill_modded[param_2],15);
-}
+  return CapModdedSkillMax(param_1->Skill_modded[param_2],15);}
 
 char getModdedWeapon(CharSkills *param_1,WeaponClassEnum param_2){
-  return CapModdedSkillMax(param_1->Weapon_modded[param_2],15);
-}
+  return CapModdedSkillMax(param_1->Weapon_modded[param_2],15);}
 
 char getModdedSheild(CharSkills *param_1){
-  return CapModdedSkillMax(param_1->Sheild_modded,15);
-}
+  return CapModdedSkillMax(param_1->Sheild_modded,15);}
 
 bool isSkilOverLv10(CharSkills *param_1,SkillEnum param_2){
-  return 10 < (char)param_1->Skill_base[param_2];
-}
+  return 10 < (char)param_1->Skill_base[param_2];}
 
 bool isWepSkillOverLv10(CharSkills *param_1,WeaponClassEnum param_2){
-  return 10 < (char)param_1->Weapon_base[param_2];
-}
+  return 10 < (char)param_1->Weapon_base[param_2];}
 
 bool isSheildSkillOver10(CharSkills *param_1){
-  return 10 < (char)param_1->Sheild_Base;
-}
+  return 10 < (char)param_1->Sheild_Base;}

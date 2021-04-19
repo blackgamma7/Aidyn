@@ -5,7 +5,7 @@ void borg10_func_a(void *x){}
 
 void borg_10_free(int *arg0){
   int iVar1 = get_memUsed();
-  if (*arg0 == -1) {Free(arg0,"./src/n64BorgCollisionMaterial.cpp");}
+  if (*arg0 == -1) {Free(arg0,"./src/n64BorgCollisionMaterial.cpp",0x7b);}
   else {dec_borg_count(*arg0);}
   borg_mem[10]-= (iVar1 - get_memUsed(););
   borg_count[10]--;

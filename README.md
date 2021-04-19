@@ -14,6 +14,7 @@ Aidyn Chronicles is one of a handful of RPG's on the system and a relatively obs
 ## why no usable code?
 - I do not know which compiler the developers used, so cannot accurately replicate code based on it.
 - Ghidra... "does its best" to interpret code. As such there are quirks with branching and incrementation and whatnot that may lead to further inaccuracies.
+- The game uses c++, Ghdra (and mips_to_c) use C intrepetation. While it does give better insight into how the former language translates into the latter, it is also another degree of reinterpretaion.
 
 ## Thanks
 - halibabica for his work in hacking/modding Aidyn.

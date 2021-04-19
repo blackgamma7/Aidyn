@@ -36,7 +36,7 @@ bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
     BVar1 = QuestinmarkIcon;
     break;
   default:
-    os::sprintf(&err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",param_1,param_1 >> 8);
+    sprintf(&err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",param_1,param_1 >> 8);
     manualCrash("menuimages.cpp",&err);
   case 0x10:
     BVar1 = IconPotion;

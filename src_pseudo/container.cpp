@@ -1,4 +1,4 @@
-void FUN_80013620(container_obj *arg0,short arg1,Borg_9_data *param_3){
+void func_80013620(container_obj *arg0,short arg1,Borg_9_data *param_3){
   Scene_obj *prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(ref_obj *)arg0,Scene);
   if ((prVar1->dat).field_0x8 != null) {
     AllocFreeQueueItem(&queueStructA,&(prVar1->dat).field_0x8,
@@ -10,8 +10,7 @@ void FUN_80013620(container_obj *arg0,short arg1,Borg_9_data *param_3){
 
 void play_countainer_sound(container_obj *arg0,Borg_9_data * arg1){
   play_SFX(&SFXStruct,containerSounds[(arg0->dat).LootType],0,SFX_vol,0xb4,0);
-  FUN_80013620(arg0,1,arg1);
-}
+  func_80013620(arg0,1,arg1);}
 
 void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
   int iVar1;
@@ -24,16 +23,13 @@ void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
     iVar1 = iVar2 >> 0x10;
     iVar2 = iVar2 + 0x10000;
   } while (iVar1 < 3);
-  fStack96[0] = 0.35f;
-  fStack96[1] = 0.3f;
-  fStack96[2] = 0.25f;
-  fStack96[3] = 1.0f;
+  fStack96 = {0.35f,0.3f,0.25f,1.0f};
   chest_explode_particles
             (arg0,(arg0->header).coords[1],(vec4 *)fStack96,0x1a4,2,0x4b,0.04f,
              0.06f,-8.5714285E-4f,1);
   (arg0->dat).Gold = 0;
   (arg0->dat).LootCat = (ItemID)0x0;
-  FUN_80013620(arg0,2,arg1);
+  func_80013620(arg0,2,arg1);
   setEventFlag((arg0->dat).explode_flag,true);
   get_event_flag(0x15fa);
   play_SFX(&SFXStruct,chestExplodeSFX[rand_range_(&gGlobals,0,3)],0,SFX_vol,0xf0,0);
@@ -114,11 +110,11 @@ void get_loot_reagent(container_obj *arg0,container_Dat * arg1){
   if (uVar4 == 0) {uVar4 = 1;}
   ref_obj_bitmask_flag((arg0->header).flagB,(arg0->header).Bitfeild,Used);
   set_voxel_visibility((ref_obj *)arg0,false);
-  a = GetVoxelFromObjectLink(borg_9_dat_pointer,(ref_obj *)arg0,Scene);
+  a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene);
   if (a != null) {set_voxel_visibility(a,false);}
-  if (exploding_container_check(arg0,borg_9_dat_pointer) != 0) {
+  if (exploding_container_check(arg0,gGlobals.Sub.borg9DatPointer) != 0) {
     passto_WriteTo_VoxelChart
-              ((short)((int)((int)arg0 - (int)borg_9_dat_pointer->ref_objs) * 0x684bda13 >> 2),
+              ((short)((int)((int)arg0 - (int)gGlobals.Sub.borg9DatPointer->ref_objs) * 0x684bda13 >> 2),
                (undefined)map_dat_A,(undefined)MapShortA,(undefined)mapShortB,0x11,
                *(undefined *)((int)&(arg0->header).type + 1),10);
   }
@@ -133,9 +129,7 @@ void get_loot_reagent(container_obj *arg0,container_Dat * arg1){
   return;}
 
 
-void loot_func(container_obj *arg0)
-
-{
+void loot_func(container_obj *arg0){
   short sVar1;
   ItemID IVar2;
   short sVar3;
@@ -156,7 +150,7 @@ void loot_func(container_obj *arg0)
   
   pcVar11 = &arg0->dat;
   psVar5 = some_ref_obj_lookup_func
-                     ((short)((int)((int)arg0 - (int)borg_9_dat_pointer->ref_objs) * 0x684bda13
+                     ((short)((int)((int)arg0 - (int)gGlobals.Sub.borg9DatPointer->ref_objs) * 0x684bda13
                              >> 2),(char)map_dat_A,(byte)MapShortA,(byte)mapShortB,0x11,
                       *(undefined *)((int)&(arg0->header).type + 1));
   bVar9 = container_open_check((arg0->dat).open_flag);
@@ -190,13 +184,13 @@ void loot_func(container_obj *arg0)
       get_event_flag(0x15fa);
       set_refObj_flag((ref_obj *)arg0);
       if ((arg0->dat).LootType == 7) {
-        a = GetVoxelFromObjectLink(borg_9_dat_pointer,(ref_obj *)arg0,Scene);
+        a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene);
         set_voxel_visibility(a,false);
         IVar2 = (arg0->dat).LootCat;
       }
       else {
         uVar13 = 0x3c;
-        play_countainer_sound(arg0,borg_9_dat_pointer);
+        play_countainer_sound(arg0,gGlobals.Sub.borg9DatPointer);
         IVar2 = (arg0->dat).LootCat;
       }
       uVar12 = 0;
@@ -227,12 +221,12 @@ void loot_func(container_obj *arg0)
       (container_open_check((arg0->dat).open_flag) == false))
       {
         passto_WriteTo_VoxelChart
-                  ((short)((int)((int)arg0 - (int)borg_9_dat_pointer->ref_objs) * 0x684bda13 >> 2
+                  ((short)((int)((int)arg0 - (int)gGlobals.Sub.borg9DatPointer->ref_objs) * 0x684bda13 >> 2
                           ),(char)map_dat_A,(byte)MapShortA,(byte)mapShortB,0x11,
                    *(undefined *)((int)&(arg0->header).type + 1),10);
       }
       if (uVar10 == 0) {
-        os::sprintf(gGlobals.Text,commonstringsmirror->"you just picked up gold",
+        sprintf(gGlobals.Text,commonstringsmirror->"you just picked up gold",
                     (arg0->dat).Gold);
         textbox_func(gGlobals.Text);
         gGlobals.party->Gold+= (arg0->dat).Gold;
@@ -310,31 +304,43 @@ byte monsterpary_func(monsterparty_obj *arg0,undefined arg1,char param_3){
   return bVar1;
 }
 
-void trigger_vobject_func(trigger_obj *arg0){
+void trigger_vobject_func(trigger_obj *arg0)
+
+{
   Borg_7_header *pBVar1;
   borg9_phys *pbVar2;
-  Borg_9_data *borg_9_dat_pointer;
+  Borg_9_data *pBVar3 = gGlobals.Sub.borg9DatPointer;
   Scene_obj *prVar3;
   int iVar5;
   ushort uVar6;
   voxelHeader *iVar4;
+  EventFlag EVar7;
   uint uVar8;
   
-  borg_9_dat_pointer
+  
   switch(arg0->triggertype) {
   case 1:
     setEventFlag(arg0->flagA,true);
     get_event_flag(0x15fa);
     set_refObj_flag((ref_obj *)arg0);
+    EVar7 = (arg0->header).flagB;
     break;
   case 2:
-    prVar3 = (Scene_obj *)GetVoxelFromObjectLink(borg_9_dat_pointer,(ref_obj *)arg0,Scene);
-    if ((prVar3->dat).field_0x8 != null){FUN_800a0090((prVar3->dat).field_0x8,arg0->flagA);}
+    prVar3 = (Scene_obj *)GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene)
+    ;
+    pBVar1 = (prVar3->dat).field_0x8;
+    if (pBVar1 == (Borg_7_header *)0x0) {
+      EVar7 = (arg0->header).flagB;
+    }
+    else {
+      func_800a0090(pBVar1,arg0->flagA);
+      EVar7 = (arg0->header).flagB;
+    }
     break;
   case 4:
     uVar8 = 0;
-    if (borg_9_dat_pointer->borghpys_count != 0) {
-      pbVar2 = borg_9_dat_pointer->phys_pointer;
+    if ((gGlobals.Sub.borg9DatPointer)->borghpys_count != 0) {
+      pbVar2 = (gGlobals.Sub.borg9DatPointer)->phys_pointer;
       iVar5 = 0;
       do {
         iVar4 = (voxelHeader *)((int)pbVar2->voxelPointers + iVar5);
@@ -343,12 +349,14 @@ void trigger_vobject_func(trigger_obj *arg0){
           iVar4->flagA = uVar6;
           iVar4->flagA = uVar6 | arg0->field_0x30;
         }
-        uVar8++;
+        uVar8 = uVar8 + 1 & 0xffff;
         iVar5 = uVar8 << 5;
-      } while (uVar8 < borg_9_dat_pointer->borghpys_count);
+      } while (uVar8 < pBVar3->borghpys_count);
     }
   default:
-  ref_obj_bitmask_flag((arg0->header).flagB,(arg0->header).Bitfeild,Used);
+    EVar7 = (arg0->header).flagB;
+  }
+  ref_obj_bitmask_flag(EVar7,(arg0->header).Bitfeild,Used);
   return;
 }
 
@@ -442,10 +450,10 @@ char exploding_container_check(container_obj *arg0,Borg_9_data *arg1){
       bVar4 = container_open_check((arg0->dat).open_flag);
       if ((bVar4 == false) && (psVar3 == (short *)0x0)) {
         if (container_explode_check((arg0->dat).explode_flag) == 0) {return 1;}
-        FUN_80013620(arg0,2,arg1);
+        func_80013620(arg0,2,arg1);
       }
       else {
-        FUN_80013620(arg0,1,arg1);
+        func_80013620(arg0,1,arg1);
         (arg0->dat).field_0x14 = 0;
         (arg0->dat).unk0x14 = 0;
         (arg0->dat).Gold = 0;
@@ -455,13 +463,10 @@ char exploding_container_check(container_obj *arg0,Borg_9_data *arg1){
     }
     cVar5 = exploding_container_sub(arg0,arg1);
   }
-  else {
-    cVar5 = gamestate_cheat_check2(appear);
-  }
+  else {cVar5 = gamestate_cheat_check2(appear);}
   set_voxel_visibility(a,cVar5 != 0);
   set_voxel_visibility((ref_obj *)arg0,cVar5 != 0);
-  return cVar5;
-}
+  return cVar5;}
 
 bool TP_lock_secret_check(teleport_obj *arg0){
   ushort uVar1;
@@ -506,11 +511,11 @@ bool some_monster_check(monsterparty_obj *arg0){
   if(gamestate_cheat_check1(monsterCheck)){return gamestate_cheat_check2(monsterCheck);}
       EVar1 = (arg0->header).flagA;
       if (arg0->dat.borg_13 == 0) {
-        bVar2 = FUN_80015128(EVar1,(uint)(arg0->header).Bitfeild);
+        bVar2 = func_80015128(EVar1,(uint)(arg0->header).Bitfeild);
         bVar4 = get_event_flag((arg0->header).flagB);
         uVar3 = bVar2 != false && bVar4 == false;
       }
-      else {uVar3 = FUN_80015128(EVar1,(uint)(arg0->header).Bitfeild);}
+      else {uVar3 = func_80015128(EVar1,(uint)(arg0->header).Bitfeild);}
   return (bool)uVar3;
 }
 
@@ -589,24 +594,19 @@ undefined Ofunc_80014ba0(ref_obj *arg0,vec3 *arg1){
   }
   return uVar1;}
 
-bool some_gamestate_check_B(teleport_obj *arg0,playerData *arg1,bool istrue)
-{
+bool some_gamestate_check_B(teleport_obj *arg0,playerData *arg1,bool istrue){
   bool bVar1;
   bool uVar2;
   
   if ((istrue != false) &&
      (get_vec3_proximity((vec3 *)arg0,(vec3 *)(arg1->collision).position) >
-     (arg0->header).size)) {
-    return false;
-  }
+     (arg0->header).size)) {return false;}
   bVar1 = gamestate_cheat_check1(check);
   if (bVar1 == false) {
     bVar1 = trigger_event_flag_check((arg0->header).flagA,(arg0->header).Bitfeild,0x100);
     uVar2 = bVar1 != false;
   }
-  else {
-    uVar2 = gamestate_cheat_check2(check);
-  }
+  else {uVar2 = gamestate_cheat_check2(check);}
   return uVar2;}
 
 bool teleporter_obj_check(teleport_obj *arg0,playerData *arg1){return some_gamestate_check_B(arg00,arg1,true);}
@@ -713,8 +713,8 @@ widgetStruct * textbox_func(char *param_1){
   gGlobals.PlayerChar.text_window = some_textbox_func(param_1,0x96,&col1,&col2,1);
   (gGlobals.PlayerChar.text_window)->AbuttonFunc = textbox_func_AB;
   (gGlobals.PlayerChar.text_window)->BButtonFunc = textbox_func_AB;
-  (gGlobals.PlayerChar.text_window)->CDownFunc = (func *)0x0;
-  (gGlobals.PlayerChar.text_window)->CUpFunc = (func *)0x0;
+  (gGlobals.PlayerChar.text_window)->CDownFunc = null;
+  (gGlobals.PlayerChar.text_window)->CUpFunc = null;
   return gGlobals.PlayerChar.text_window;}
 
 bool container_open_check(EventFlag param_1){
@@ -757,7 +757,7 @@ bool teleport_secret_check(EventFlag param_1){
   else {uVar2 = gamestate_cheat_check2(teleportSecret);}
   return uVar2;}
 
-bool FUN_80015128(EventFlag param_1,uint param_2){
+bool func_80015128(EventFlag param_1,uint param_2){
   bool bVar1, bVar2;
   byte bVar3;
   
@@ -776,10 +776,8 @@ bool trigger_event_flag_check(EventFlag param_1,ref_obj_bitfeild param_2,ref_obj
   bVar1 = (param_3 & param_2) != 0;
   uVar2 = bVar1;
   if ((param_1 != 0) && (bVar1 = !bVar1, param_1 != 1)) {
-    bVar1 = 0 < get_event_flag(param_1) ^ uVar2);
-  }
-  return bVar1;
-}
+    bVar1 = 0 < get_event_flag(param_1) ^ uVar2);}
+  return bVar1;}
 
 undefined ref_obj_bitmask_flag(EventFlag param_1,ref_obj_bitfeild param_2,ref_obj_bitfeild param_3){
   setEventFlag(param_1,(param_3 & param_2) == 0);
@@ -791,8 +789,7 @@ bool Ofunc_8001520c(teleport_obj *param_1){
   if ((param_1->dat).secretDoorVal == 0) {bVar1 = false;}
   else {
     bVar1 = get_event_flag((param_1->dat).secrect_door_flag)==false;}
-  return bVar1;
-}
+  return bVar1;}
 
 bool secret_door_func(teleport_obj *param_1){
   widgetStruct *pwVar1;
@@ -805,5 +802,4 @@ bool secret_door_func(teleport_obj *param_1){
   pwVar1->prt0x40 = param_1;
   pwVar1->AbuttonFunc = secretdoor_widget_AB;
   pwVar1->BButtonFunc = secretdoor_widget_AB;
-  return bVar2;
-}
+  return bVar2;}

@@ -377,7 +377,7 @@ void func_800ab880(float (*A) [4] [4],float (*B) [4] [4]){
 }
 
 /*above interpreted from:
-void FUN_800ab880(float (*A) [4] [4],float (*B) [4] [4])
+void func_800ab880(float (*A) [4] [4],float (*B) [4] [4])
 
 {
   double dVar1;

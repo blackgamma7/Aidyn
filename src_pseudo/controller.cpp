@@ -3,7 +3,27 @@
 #else
 #define FILENAME ""
 #endif
-char pfs_charset[66]= 0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"$\'*+,-./:=?";
+u8 pfs_charset[66]= 0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"$\'*+,-./:=?";
+uint button_mirror[MAXCONTROLLERS];
+ushort D_up_hold[MAXCONTROLLERS];
+ushort D_down_hold[MAXCONTROLLERS];
+ushort D_left_hold[MAXCONTROLLERS];
+ushort D_right_hold[MAXCONTROLLERS];
+ushort Up_hold[MAXCONTROLLERS];
+ushort down_hold[MAXCONTROLLERS];
+ushort left_hold[MAXCONTROLLERS];
+ushort right_hold[MAXCONTROLLERS];
+ushort c_up_hold[MAXCONTROLLERS];
+ushort C_down_hold[MAXCONTROLLERS];
+ushort c_left_hold[MAXCONTROLLERS];
+ushort c_right_hold[MAXCONTROLLERS];
+ushort Start_hold[MAXCONTROLLERS];
+ushort button_a_hold[MAXCONTROLLERS];
+ushort button_b_hold[MAXCONTROLLERS];
+ushort Z_hold[MAXCONTROLLERS];
+ushort L_hold[MAXCONTROLLERS];
+ushort R_hold[MAXCONTROLLERS];
+ContManageStruct ContManager;
 
 void init_controller_thread(OSSched *sc,u8 ports,byte pri,byte id){
   ContManager.ossched = sc;
@@ -64,7 +84,7 @@ void init_controller_input_buffer(void){
       i++;
     } while (i < ContManager.ports);
   }
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   osContSetCh(ContManager.ports);
   osContInit(&ContManager.si_megQ,auStack40,contstat);
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
@@ -91,7 +111,7 @@ void read_controller_input(void){
   float fVar12;
   OSContPad contPad [4];
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   osContStartReadData(&ContManager.si_megQ);
   osRecvMesg(&ContManager.si_megQ,(OSMesg *)0x0,1);
   osContGetReadData(contPad);
@@ -144,46 +164,23 @@ void read_controller_input(void){
             }
           }
         }
-        else {
-          (contEntry->contAidyn).joy_x = 1.0f;
-        }
+        else {(contEntry->contAidyn).joy_x = 1.0f;}
         if (fVar11 <= fVar10) {
-          if (fVar11 < -1.0f) {
-            (contEntry->contAidyn).joy_y = -1.0f;
-          }
+          if (fVar11 < -1.0f) {(contEntry->contAidyn).joy_y = -1.0f;}
           else {
             if (fVar11 <= buffer->vert) {
-              if (fVar11 < -buffer->vert) {
-                (contEntry->contAidyn).joy_y = fVar11;
-              }
-              else {
-                (contEntry->contAidyn).joy_y = 0.0;
-              }
+              if (fVar11 < -buffer->vert) {(contEntry->contAidyn).joy_y = fVar11;}
+              else {(contEntry->contAidyn).joy_y = 0.0;}
             }
-            else {
-              (contEntry->contAidyn).joy_y = fVar11;
-            }
+            else {(contEntry->contAidyn).joy_y = fVar11;}
           }
         }
-        else {
-          (contEntry->contAidyn).joy_y = fVar10;
-        }
-        if (fVar5 <= fVar12) {
-          buttons |= ANA_RIGHT;
-        }
-        else {
-          if (fVar12 <= fVar6) {
-            buttons |= ANA_LEFT;
-          }
-        }
-        if (fVar5 <= fVar11) {
-          buttons |= ANA_UP;
-        }
-        else {
-          if (fVar11 <= fVar6) {
-            buttons |= ANA_DOWN;
-          }
-        }
+        else {(contEntry->contAidyn).joy_y = fVar10;}
+        if (fVar5 <= fVar12) {buttons |= ANA_RIGHT;}
+        else if (fVar12 <= fVar6) {buttons |= ANA_LEFT;}
+        if (fVar5 <= fVar11) {buttons |= ANA_UP;}
+        else if (fVar11 <= fVar6) { buttons |= ANA_DOWN; }
+
         BVar3 = button_mirror[port];
         (contEntry->contAidyn).input_2 = buttons;
         (contEntry->contAidyn).input = buttons & BVar3 ^ buttons;
@@ -269,7 +266,7 @@ bool controller_status_check(int port){
   CONT_ERROR CErr;
   CONT_TYPE CType;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   osContStartQuery(&ContManager.si_megQ);
   osRecvMesg(&ContManager.si_megQ,(OSMesg *)0x0,1);
   osContGetQuery(stats);
@@ -283,7 +280,7 @@ bool controller_status_check(int port){
 bool func_8009b8fc(int port){
   bool bVar1;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   bVar1 = ContManager.BufferPointer[port].ContRead;
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return bVar1;
@@ -292,7 +289,7 @@ bool func_8009b8fc(int port){
 PFS_ERR8 initControllerPak(int port){
   PFS_ERR PVar1;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsInitPak(&ContManager.si_megQ,&ContManager.BufferPointer[port].pfs,port);
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return (PFS_ERR8)PVar1;
@@ -301,7 +298,7 @@ PFS_ERR8 initControllerPak(int port){
 PFS_ERR8 testRumblePack(byte port){
   PFS_ERR8 PVar1;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osMotorInit(&ContManager.si_megQ,&ContManager.BufferPointer[port].pfs,port);
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return PVar1;
@@ -311,7 +308,7 @@ PFS_ERR8 testRumblePack(byte port){
 PFS_ERR8 testTransferPak(uint port){
   PFS_ERR PVar1;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osGbpakInit(&ContManager.si_megQ,&ContManager.BufferPointer[port].pfs,port);
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return (PFS_ERR8)PVar1;
@@ -337,7 +334,7 @@ PFS_ERR8 get_psf_err(byte port){
 PFS_ERR8 repair_controllerpak_id(uint port){
   PFS_ERR PVar1;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsRepairId(&ContManager.BufferPointer[port].pfs);
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return (PFS_ERR8)PVar1;
@@ -348,7 +345,7 @@ PFS_ERR8 ofunc_get_contpak_freespace(u16 *arg0,uint port){
   PFS_ERR PVar1;
   s32 bytesFree;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsFreeBlocks(&ContManager.BufferPointer[port].pfs,&bytesFree);
   if (PVar1 == OK) {*arg0 = bytesFree._2_2_;}
   else {*arg0 = 0;}
@@ -360,7 +357,7 @@ PFS_ERR8 get_contpak_freespace(undefined *param_1,uint port){
   PFS_ERR PVar1;
   undefined4 blocks;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsFreeBlocks(&ContManager.BufferPointer[port].pfs,&blocks);
   if (PVar1 == OK) {*param_1 = blocks._2_1_;}
   else {*param_1 = 0;}
@@ -374,7 +371,7 @@ PFS_ERR8 create_new_save_file (u8 *fileno,char *GameName,char *ExtName,short com
   u8 code [4];
   undefined4 filenum;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   make_pfs_string(name,GameName,0x10);
   make_pfs_string(code,ExtName,4);
   PVar2 = osPfsAllocateFile
@@ -392,7 +389,7 @@ PFS_ERR8 ofunc_find_file(u8 *fileno,undefined4 filename,undefined4 filecode,u16 
   u8 code [4];
   undefined4 file_no;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   make_pfs_string(name,filename,0x10);
   make_pfs_string(code,filecode,4);
   PVar2 = osPfsFindFile(&ContManager.BufferPointer[port].pfs,param_4,param_5,name,code,&file_no);
@@ -407,7 +404,7 @@ PFS_ERR8 get_file_state(fileState_aidyn *FS,uint file_no,uint port){
   PFS_ERR PVar1;
   OSPfsState state;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsFileState(&ContManager.BufferPointer[port & 0xff].pfs,file_no & 0xff,&state);
   if (PVar1 == OK) {
     translate_pfs_string(FS->game_name,state.game_name,0x10);
@@ -425,7 +422,7 @@ PFS_ERR8 get_file_state(fileState_aidyn *FS,uint file_no,uint port){
 PFS_ERR8 wite_file_to_contpak(u8 *buff,u8 filenum,u16 offset,u16 size,byte port){
   PFS_ERR PVar1;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsReadWriteFile(&ContManager.BufferPointer[port].pfs,filenum,PFS_WRITE,offset,size,buff);
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return (PFS_ERR8)PVar1;
@@ -435,7 +432,7 @@ PFS_ERR8 wite_file_to_contpak(u8 *buff,u8 filenum,u16 offset,u16 size,byte port)
 PFS_ERR8 read_ContPak_file(u8 *buff,short filenum,u16 offset,u16 size,byte port){
   PFS_ERR PVar1;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsReadWriteFile(&ContManager.BufferPointer[port].pfs,filenum,PFS_READ,offs,size,buff);
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   return (PFS_ERR8)PVar1;
@@ -447,7 +444,7 @@ PFS_ERR8 erase_game_file(uint fileno,uint port){
   PFS_ERR PVar2;
   OSPfsState state;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   pcVar1 = ContManager.BufferPointer[port];
   PVar2 = osPfsFileState(&pcVar1->pfs,fileno & 0xff,&state);
   if (PVar2 == OK) {
@@ -463,7 +460,7 @@ uint Ofunc_find_ControllerPak(uint port){
   byte abStack24 [24];
   
   abStack24[0] = 0;
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsIsPlug(&ContManager.si_megQ,abStack24);
   osRecvMesg(&ContManager.contMesgQ,(OSMesg *)0x0,1);
   if (PVar1 == OK) {uVar2 = (int)(uint)abStack24[0] >> (port & 0x1f) & 1;}
@@ -476,7 +473,7 @@ bool controller_query_2(byte port,CONT_STATUS *statOut){
   CONT_TYPE CType;
   CONT_ERROR Cerr;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   osContStartQuery(&ContManager.si_megQ);
   osRecvMesg(&ContManager.si_megQ,(OSMesg *)0x0,1);
   osContGetQuery(Cstats);
@@ -497,7 +494,7 @@ bool query_controller(uint port){
   CONT_TYPE CType;
   CONT_ERROR Cerr;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   osContStartQuery(&ContManager.si_megQ);
   osRecvMesg(&ContManager.si_megQ,(OSMesg *)0x0,1);
   osContGetQuery(Cstatus);
@@ -514,7 +511,7 @@ int Ofunc_set_cont_hori_vert(float H,float V,u8 arg0,u8 arg1,uint port){
   controllerBuffer *pcVar1;
   int iVar2;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   pcVar1 = ContManager.BufferPointer[port];
   pcVar1->hori = H;
   pcVar1->vert = V;
@@ -525,7 +522,7 @@ int Ofunc_set_cont_hori_vert(float H,float V,u8 arg0,u8 arg1,uint port){
 bool get_cont_aidyn(Button_hold *param_1,byte port){
   controllerBuffer *buffer;
   
-  osSendMesg(&ContManager.contMesgQ,(OSMesg)0x0,1);
+  osSendMesg(&ContManager.contMesgQ,null,1);
   buffer = ContManager.BufferPointer[port];
   if (buffer->ContGet) {
     param_1 =(&buffer->inputlog[buffer->latest];

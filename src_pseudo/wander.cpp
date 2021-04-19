@@ -7,9 +7,7 @@ float sneak_value(float point8){
     if (((cVar2 != -1) && (gGlobals.party->Party[cVar2] != null) {
       cVar2 = getModdedSkill(gGlobals.party->Party[cVar2]->Skills,Stealth);
       fVar3 = (float)(int)cVar2 / 10.0f;
-      if (1.0f < (float)(int)cVar2 / 10.0f) {
-        fVar3 = 1.0f;
-      }
+      if (1.0f < (float)(int)cVar2 / 10.0f) {fVar3 = 1.0f;}
       return 1.0f - fVar3 * point8;
     }
   }
@@ -44,7 +42,7 @@ wander_substruct * findWandererFromPlayerName(short arg0){
       iVar1 = uVar3 << 2;
     } while (uVar3 < gGlobals.wander.wanderersmax);
   }
-  os::sprintf(acStack72,"Wanderer Not Found\nPlayerName: %d\n",arg0));
+  sprintf(acStack72,"Wanderer Not Found\nPlayerName: %d\n",arg0));
   manualCrash(s_FindWandererFromPlayerName_800d8d4c,acStack72);
 }
 
@@ -93,8 +91,7 @@ void * WanderHead(wander_struct *arg0,short size){
 void wander_free(wander_struct *param_1){
   param_1->field_0x56 = 0;
   wander_struct_free_sub(param_1);
-  Free(param_1->wanderSubstructs,s_./src/wander.cpp_800d8d68);
-  return;
+  Free(param_1->wanderSubstructs,s_./src/wander.cpp_800d8d68,0xd4);
 }
 
 
@@ -178,16 +175,16 @@ void AllocWanderer(wander_struct *param_1,short param_2,playerData *param_3,byte
     bVar9 = GetIDIndex(refObj->entityID);
     ppVar10->playerDat->Ent_index = bVar9;
     if (refObj->borg_13 == 0) {ppVar10->playerDat->rangerWarrior = get_ranger_or_warrior(gGlobals.party,refObj->RangerWarriorMulti);}
-    FUN_80012b70(param_1,ppVar10,refObj->field_0x56);
+    func_80012b70(param_1,ppVar10,refObj->field_0x56);
     ppVar4 = ppVar10->playerDat;
     ppVar10->position[0] = (refObj->header).coords[0];
     ppVar10->position[1] = (refObj->header).coords[2];
     ppVar10->size = (refObj->header).size;
     (ppVar4->collision).position[0] = (refObj->header).coords[0];
     (ppVar10->playerDat->collision).position[2] = ppVar10->position[1];
-    FUN_800154e4(ppVar10->playerDat,(refObj->header).coords[1],1,0);
+    func_800154e4(ppVar10->playerDat,(refObj->header).coords[1],1,0);
     if (((ppVar10->homenode ^ 1) & 1) != 0) {manualCrash(s_AllocWanderer_800d8d7c,s_Home_Node_not_WANDER_MOVE_800d8dcc);}
-    FUN_80012d44(ppVar10);
+    func_80012d44(ppVar10);
     return;
   }
   manualCrash(s_AllocWanderer_800d8d7c,s_Too_Many_wanderers_already_alloc_800d8da4);
@@ -209,7 +206,7 @@ void free_wanderstruct_player(wander_struct *param_1,wander_substruct *param_2){
 }
 
 
-void FUN_80012a24(wander_struct *param_1,int param_2){
+void func_80012a24(wander_struct *param_1,int param_2){
   int iVar2;
   wander_substruct *iVar1;
   int iVar3;
@@ -259,7 +256,7 @@ playerData * Ofunc_80012b44(wander_struct *param_1,wander_substruct *param_2){
   return ppVar1;
 }
 
-void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3){
+void func_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3){
   Borg_9_data *pBVar3;
 
   Vec2 fStack80;
@@ -284,7 +281,7 @@ void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3
   return;
 }
 
-void FUN_80012c58(wander_struct *param_1,wander_substruct *param_2){
+void func_80012c58(wander_struct *param_1,wander_substruct *param_2){
   undefined2 uVar1;
   float fVar2;
   float fVar3;
@@ -295,19 +292,19 @@ void FUN_80012c58(wander_struct *param_1,wander_substruct *param_2){
     uVar1 = param_2->field_0x1e;
   }
 
-  FUN_80012b70(param_1,param_2,uVar1);
+  func_80012b70(param_1,param_2,uVar1);
   if ((param_2->homenode & 1) != 0) {
     fVar2 = rand_float_multi(&gGlobals,6.283186);
     fVar3 = rand_float_multi(&gGlobals,param_2->randVal);
-    fVar4 = os::__sinf(fVar2);
+    fVar4 = __sinf(fVar2);
     param_2->start_position[0]+= (fVar4 * fVar3);
-    fVar2 = os::__cosf(fVar2);
+    fVar2 = __cosf(fVar2);
     param_2->start_position[1]+= (fVar2 * fVar3);
   }
   return;
 }
 
-void FUN_80012d44(wander_substruct *param_1){
+void func_80012d44(wander_substruct *param_1){
   ushort uVar1;
   Voxel_u *pVVar2;
   Borg_9_data *pBVar3;
@@ -338,7 +335,7 @@ LAB_80012df4:
   return;
 }
 
-void FUN_80012e24(wander_substruct *param_1){param_1->field_0x38 |= 1;}
+void func_80012e24(wander_substruct *param_1){param_1->field_0x38 |= 1;}
 
 void monster_engagement_func(wander_struct *param_1,short param_2){
   byte bVar1;
@@ -396,7 +393,7 @@ void monster_engagement_func(wander_struct *param_1,short param_2){
         fVar17 = entRamB + entRamB;
         if (bVar1 != 0x11) {adjust_playerpos_value(bVar1,(vec3 *)playerPos);}
         wanderer->timer -= param_2;
-        FUN_800153fc(wanderer->playerDat,(vec3 *)afStack360);
+        func_800153fc(wanderer->playerDat,(vec3 *)afStack360);
         fVar10 = get_vec3_proximity((vec3 *)afStack360,from);
         afStack360[0] -=
                     (wanderer->playerDat->facing[0] * entRamB) * dVar18);
@@ -408,7 +405,7 @@ void monster_engagement_func(wander_struct *param_1,short param_2){
         A = (Vec2 *)wanderer->position;
         fVar12 = get_vec2_proximity(A,(Vec2 *)&fStack488);
         copyVec2(A,(Vec2 *)afStack424);
-        FUN_8001545c((uint)wanderer->playerDat->zoneDatByte,(Vec2 *)afStack424);
+        func_8001545c((uint)wanderer->playerDat->zoneDatByte,(Vec2 *)afStack424);
         setVec2((Vec2 *)&fStack488,(playerDat_->collision).position[0],
                 (playerDat_->collision).position[2]);
         fVar13 = get_vec2_proximity(A,(Vec2 *)&fStack488);
@@ -471,7 +468,7 @@ LAB_800131f8:
             sVar6 = wanderer->field_0x3e;
 LAB_800131e8:
             if (sVar6 != 0) {
-              FUN_80012d44(wanderer);
+              func_80012d44(wanderer);
               goto LAB_800131f8;
             }
             entRamB = wanderer->field_0x34;
@@ -553,12 +550,12 @@ LAB_80013310:
           if (wanderer->field_0x3e == 0) {
             if (((wanderer->playerDat->flags & 0x70U) == 0) && ((short)wanderer->timer < 1)) {
               if ((wanderer->homenode & 4) == 0) {
-                FUN_80012c58(param_1,wanderer);
-                FUN_80012d44(wanderer);
+                func_80012c58(param_1,wanderer);
+                func_80012d44(wanderer);
               }
               else {
                 wanderer->homenode = wanderer->homenode & 0xfffb;
-                FUN_80012d44(wanderer);
+                func_80012d44(wanderer);
               }
             }
             goto LAB_800135b4;
@@ -583,13 +580,13 @@ LAB_80013310:
             else {
               if (-entRamB < 3.0f) {
 LAB_80013488:
-                bVar7 = FUN_800adf78(pBVar5,(vec3 *)fStack232,(vec3 *)fStack168,0.5,(vec3 *)0x0,
-                                     (vec3 *)0x0,0);
+                bVar7 = func_800adf78(pBVar5,(vec3 *)fStack232,(vec3 *)fStack168,0.5,null,
+                                     null,0);
                 if (bVar7 == false) {
                   encounter_dat.collisionBool = true;
                   battle_setup_func(pmVar8,(pmVar8->header).flagB,wanderer->VoxelIndex);
                   wanderer->NoBorg13 = 0;
-                  FUN_80024c54(2);
+                  func_80024c54(2);
                 }
               }
             }
