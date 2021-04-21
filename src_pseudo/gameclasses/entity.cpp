@@ -1071,10 +1071,7 @@ void senseAura(CombatEntity *target,byte level)
     uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
   }
   col1 = OFFWHITE;
-  col2.R = 0x32;
-  col2.G = 0x32;
-  col2.B = 0x32;
-  col2.A = 0x96;
+  col2 = DARKGRAY_T;
   pwVar5 = some_textbox_func(acStack1064,(short)(uVar3 << 3) - (short)uVar3,&col1,&col2,1);
   gGlobals.Combat->Widget0x4fb8 = pwVar5;
   return;

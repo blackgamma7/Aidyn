@@ -12,75 +12,59 @@ float vec3Length(Vec3 *X){
 
 void Vec2_Sub(Vec2 *A,Vec2 *B,Vec2 *C){
 	(*A)[0] = (*B)[0] - (*C)[0];
-	(*A)[1] = (*B)[1] - (*C)[1];
-	return;
-}
+	(*A)[1] = (*B)[1] - (*C)[1];}
 
 void Vec3_Sub(Vec3 *A,Vec3 *B,Vec3 *C){
 	(*A)[0] = (*B)[0] - (*C)[0];
 	(*A)[1] = (*B)[1] - (*C)[1];
-	(*A)[2] = (*B)[2] - (*C)[2];
-	return;
-}
+	(*A)[2] = (*B)[2] - (*C)[2];}
 
 void Vec4_Sub(Vec4 *A,Vec4 *B,Vec4 *C){
 	(*A)[0] = (*B)[0] - (*C)[0];
 	(*A)[1] = (*B)[1] - (*C)[1];
 	(*A)[2] = (*B)[2] - (*C)[2];
 	(*A)[3] = (*B)[3] - (*C)[3];
-	return;
 }
 
 void Vec2_Sum(Vec2 *A,Vec2 *B,Vec2 *C){
 	(*A)[0] = (*B)[0] + (*C)[0];
-	(*A)[1] = (*B)[1] + (*C)[1];
-	return;
-}
+	(*A)[1] = (*B)[1] + (*C)[1];}
 
 void Vec3_Sum(Vec3 *A,Vec3 *B,Vec3 *C){
 	(*A)[0] = (*B)[0] + (*C)[0];
 	(*A)[1] = (*B)[1] + (*C)[1];
-	(*A)[2] = (*B)[2] + (*C)[2];
-	return;
-}
+	(*A)[2] = (*B)[2] + (*C)[2];}
 
 void Vec4_Sum(Vec4 *A,Vec4 *B,Vec4 *C){
 	(*A)[0] = (*B)[0] + (*C)[0];
 	(*A)[1] = (*B)[1] + (*C)[1];
 	(*A)[2] = (*B)[2] + (*C)[2];
-	(*A)[3] = (*B)[3] + (*C)[3];
-	return;
-}
+	(*A)[3] = (*B)[3] + (*C)[3];}
 
 float get_vec2_proximity(Vec2 *A,Vec2 *B){
 	Vec2 temp;
 
 	Vec2_Sub((Vec2 *)temp,A,B);
-	return vec2Length((Vec2 *)temp);
-}
+	return vec2Length((Vec2 *)temp);}
 
 float get_vec3_proximity(Vec3 *A,Vec3 *B){
 	Vec3 temp;
 
 	Vec3_Sub((Vec3 *)temp,A,B);
-	return vec3Length((Vec3 *)temp);
-}
+	return vec3Length((Vec3 *)temp);}
 
 float vec2_scalar_product(Vec2 *A,Vec2 *B){
-	return (*A)[0] * (*B)[0] + (*A)[1] * (*B)[1];
-}
+	return (*A)[0] * (*B)[0] + (*A)[1] * (*B)[1];}
 
 float vec3_scalar_product(Vec3 *A,Vec3 *B){
 	return (*A)[0] * (*B)[0] + (*A)[1] * (*B)[1] + (*A)[2] * (*B)[2];
-}
+
 
 //my math ID'ing gets rusty here.
 void some_vec3_math(vec3 *A,vec3 *B,vec3 *C){
 	(*A)[0] = (*B)[1] * (*C)[2] - (*B)[2] * (*C)[1];
 	(*A)[1] = (*B)[2] * (*C)[0] - (*B)[0] * (*C)[2];
-	(*A)[2] = (*B)[0] * (*C)[1] - (*B)[1] * (*C)[0];
-	return;
-}
+	(*A)[2] = (*B)[0] * (*C)[1] - (*B)[1] * (*C)[0];}
 
 float vec2_normalize(Vec2 *X){
 	float len = _sqrtf(X*[0] * X*[0] + X*[1] * X*[1]);
@@ -116,9 +100,7 @@ void some_vec3_math_sphere(vec3 *A,vec3 *B,vec3 *C,vec3 *D){
 	Vec3_sub((vec3 *)TempA,B,C);
 	Vec3_sub((vec3 *)TempB,B,D);
 	some_vec3_math(A,(vec3 *)TempA,(vec3 *)TempB);
-	vec3_normalize(A);
-	return;
-}
+	vec3_normalize(A);}
 
 bool some_trig_func_2(Vec2 *A,Vec2 *B,float C){
   bool ret;
@@ -184,9 +166,7 @@ void func_800ab23c(vec3 *A,vec3 *B,float C){
   fStack88[1] = fStack152[1];
   some_trig_func_2((Vec2 *)fStack280,(Vec2 *)fStack152,C);
   (*A)[0] = fStack280[0];
-  (*A)[2] = fStack280[1];
-  return;
-}
+  (*A)[2] = fStack280[1];}
 
 void some_trig_func(Vec2 *A,float B){
   float A1 = (*A)[1];
@@ -196,17 +176,13 @@ void some_trig_func(Vec2 *A,float B){
   
   fVar2 = __cosf(fVar2);
   (*A)[0] = fVar2 * A0 + fVar1 * A1;
-  (*A)[1] = fVar2 * A1 - fVar1 * A0;
-  return;
-}
+  (*A)[1] = fVar2 * A1 - fVar1 * A0;}
 
 void some_vec2Math(Vec2 *v2,float x,float y){
   float fVar1 = (*v2)[1];
   float fVar2 = (*v2)[0];
   (*v2)[0] = y * fVar2 + x * fVar1;
-  (*v2)[1] = y * fVar1 - x * fVar2;
-  return;
-}
+  (*v2)[1] = y * fVar1 - x * fVar2;}
 
 void func_800ab3cc(vec3 *X,float Y){
   Vec2 TempA;
@@ -218,79 +194,57 @@ void func_800ab3cc(vec3 *X,float Y){
   TempB[0] = TempA[0];
   TempB[1] = TempA[1];
   some_trig_func((Vec2 *)TempA,Y);
-  setVec3(X,TempA[0],(*X)[1],TempA[1]);
-  return;
-}
+  setVec3(X,TempA[0],(*X)[1],TempA[1]);}
 
 void copyVec2(Vec2 *from,Vec2 *to){
   (*to)[0] = (*from)[0];
-  (*to)[1] = (*from)[1];
-  return;
-}
+  (*to)[1] = (*from)[1];}
 
 void copyVec3(Vec3 *from,Vec3 *to){
   (*to)[0] = (*from)[0];
   (*to)[1] = (*from)[1];
-  (*to)[2] = (*from)[2];
-  return;
-}
+  (*to)[2] = (*from)[2];}
 
 void copyVec4(Vec4 *from,Vec4 *to){
   (*to)[0] = (*from)[0];
   (*to)[1] = (*from)[1];
   (*to)[2] = (*from)[2];
-  (*to)[3] = (*from)[3];
-  return;
-}
+  (*to)[3] = (*from)[3];}
 
 void negVec4(vec4 *x){
   (*x)[0] = -(*x)[0];
   (*x)[1] = -(*x)[1];
   (*x)[2] = -(*x)[2];
-  (*x)[3] = -(*x)[3];
-  return;
-}
+  (*x)[3] = -(*x)[3];}
 
 void multiVec2(Vec2 *v,float x){
   (*v)[0] *= x;
-  (*v)[1] *= x;
-  return;
-}
+  (*v)[1] *= x;}
 
 void multiVec3(Vec3 *v,float x){
   (*v)[0] *= x;
   (*v)[1] *= x;
-  (*v)[2] *= x;
-  return;
-}
+  (*v)[2] *= x;}
 void multiVec4(Vec4 *v,float x){
   (*v)[0] *= x;
   (*v)[1] *= x;
   (*v)[2] *= x;
-  (*v)[3] *= x;
-  return;
-}
+  (*v)[3] *= x;}
 
 void setVec2(vec2 *v,float A,float B){
   (*v)[0] = A;
-  (*v)[1] = B;
-  return;
-}
+  (*v)[1] = B;}
 
 void setVec3(vec3 *v,float A,float B,float C){
   (*v)[0] = A;
   (*v)[1] = B;
-  (*v)[2] = C;
-  return;
-}
+  (*v)[2] = C;}
 
 void setVec4(vec4 *v,float A,float B,float C,float D){
   (*v)[0] = A;
   (*v)[1] = B;
   (*v)[2] = C;
-  (*v)[3] = D;
-  return;
-}
+  (*v)[3] = D;}
 
 float three_vec2_proximities(Vec2 *X,Vec2 *Y,Vec2 *Z){
   Vec2 TempA;
@@ -302,16 +256,14 @@ float three_vec2_proximities(Vec2 *X,Vec2 *Y,Vec2 *Z){
   vec2_normalize((Vec2 *)TempB);
   return (2.0f -
          ((TempA[0] - TempB[0]) * (TempA[0] - TempB[0]) +
-         (TempA[1] - TempB[1]) * (TempA[1] - TempB[1]))) * 0.5f;
-}
+         (TempA[1] - TempB[1]) * (TempA[1] - TempB[1]))) * 0.5f;}
 
 float func_800ab628(Vec2 *A,Vec2 *B,Vec2 *C){
   float X = three_vec2_proximities(A,B,C);
   
   X = 1.0f - X * X;
   if (X <= 0.0) X = -X;
-  return _sqrtf(X);
-}
+  return _sqrtf(X);}
 
 float big_vec2_math_func(Vec2 *A,Vec2 *B,Vec2 *C){
   float fVar1;
@@ -377,9 +329,7 @@ void func_800ab880(float (*A) [4] [4],float (*B) [4] [4]){
 }
 
 /*above interpreted from:
-void func_800ab880(float (*A) [4] [4],float (*B) [4] [4])
-
-{
+void func_800ab880(float (*A) [4] [4],float (*B) [4] [4]){
   double dVar1;
   float fVar2;
   float fVar3;
@@ -849,9 +799,7 @@ void func_800ad028(float (*X) [4] [4]){
   (*X)[1][2] *= fVar11;
   (*X)[2][0] *= fVar12;
   (*X)[2][1] *= fVar12;
-  (*X)[2][2] *= fVar12;
-  return;
-}
+  (*X)[2][2] *= fVar12;}
 
 void func_800ad174(float (*X) [4] [4],vec3 *A,vec3 *B,vec3 *C){
   float fVar1;
@@ -882,7 +830,6 @@ void func_800ad174(float (*X) [4] [4],vec3 *A,vec3 *B,vec3 *C){
   fVar1 = (*A)[2];
   (*X)[3][3] = fVar2;
   (*X)[2][3] = -fVar1;
-  return;
 }
 
 void ofunc_sub_800ad30c(float *param_1,float *param_2,float *param_3){
@@ -946,7 +893,6 @@ void func_800ad420(vec3 *A,vec3 *B,vec3 *C,vec3 *D){
   (*D)[0] = (*A)[0] - fVar2;
   (*D)[1] = (*A)[1] - (*C)[1];
   (*D)[2] = (*A)[2] - (*C)[2];
-  return;
 }
 
 void func_800ad49c(vec3 *A,vec3 *B){

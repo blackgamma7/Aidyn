@@ -9,14 +9,12 @@
 #define clear_macro(x) (memset(&x,0,sizeof(x)))
 
 struct{
-	byte r;
-	byte g;
-	byte b;
-	byte a;
+	byte r,g,b,a;
 }Color;
 
 #define OFFWHITE {0xe1,0xe1,0xe1,0xff}
 #define DARKGRAY {0x32,0x32,0x32,0xff}
+#define DARKGRAY_T {0x32,0x32,0x32,0x96}
 #define YELLOW_T {0xc8,0xc8,0,0xe1}
 
 typedef float vec2[2];
@@ -25,10 +23,6 @@ typedef float vec4[4];
 typedef uint rspCom[2]; //placeholder type for Ucode instructions.
 
 
-extern s16 SkillCheckSteps[22];
-/*	{0h, 1Ah, 2Eh, 3Eh, 51h, 60h, 6Fh, 7Ah, 
-	85h, 90h, 9Bh, A6h, B1h, BCh, C7h D2h,
-	DDh, E8h, F3h, FFh 10Ah, 0h}*/
 extern s16 ExpPakFlag; //set when OsMemSize>4MB.
 
 enum WEAPONCLASS{

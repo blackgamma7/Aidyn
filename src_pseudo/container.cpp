@@ -9,7 +9,7 @@ void func_80013620(container_obj *arg0,short arg1,Borg_9_data *param_3){
 }
 
 void play_countainer_sound(container_obj *arg0,Borg_9_data * arg1){
-  play_SFX(&SFXStruct,containerSounds[(arg0->dat).LootType],0,SFX_vol,0xb4,0);
+  play_SFX(&gGlobals.SFXStruct,containerSounds[(arg0->dat).LootType],0,gGlobals.VolSFX,0xb4,0);
   func_80013620(arg0,1,arg1);}
 
 void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
@@ -32,7 +32,7 @@ void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
   func_80013620(arg0,2,arg1);
   setEventFlag((arg0->dat).explode_flag,true);
   get_event_flag(0x15fa);
-  play_SFX(&SFXStruct,chestExplodeSFX[rand_range_(&gGlobals,0,3)],0,SFX_vol,0xf0,0);
+  play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[rand_range_(&gGlobals,0,3)],0,gGlobals.VolSFX,0xf0,0);
   set_voxel_visibility((ref_obj *)arg0,false);
   return;
 }
@@ -230,7 +230,7 @@ void loot_func(container_obj *arg0){
                     (arg0->dat).Gold);
         textbox_func(gGlobals.Text);
         gGlobals.party->Gold+= (arg0->dat).Gold;
-        play_SFX(&SFXStruct,Coins_jingle,0,SFX_vol,300,uVar13);
+        play_SFX(&SFXStruct,Coins_jingle,0,gGlobals.VolSFX,300,uVar13);
       }
       else {
         ppfVar10 = passToMalloc(0x608);

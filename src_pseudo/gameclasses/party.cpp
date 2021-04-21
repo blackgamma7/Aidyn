@@ -765,10 +765,7 @@ bool use_scroll(PartyStruct *param_1,byte param_2,temp_gear *param_3,CharSheet *
   if (lVar6 < 0) {
     pcVar10 = &acStack808;
     acStack808 = OFFWHITE;
-    acStack744.R = 0x32;
-    acStack744.G = 0x32;
-    acStack744.B = 0x32;
-    acStack744.A = 0x96;
+    acStack744 = DARKGRAY_T;
     pcVar9 = (gGlobals.CommonStrings)->only wizards can learn spells;
     pcVar11 = &acStack744;
   }
@@ -782,10 +779,7 @@ bool use_scroll(PartyStruct *param_1,byte param_2,temp_gear *param_3,CharSheet *
       pcVar10 = &acStack680;
       pcVar11 = &acStack616;
       acStack680 = OFFWHITE
-      acStack616.R = 0x32;
-      acStack616.G = 0x32;
-      acStack616.B = 0x32;
-      acStack616.A = 0x96;
+      acStack616 = DARKGRAY_T;
     }
     else {
       bVar1 = SpellList[(char)bVar1];
@@ -797,10 +791,7 @@ bool use_scroll(PartyStruct *param_1,byte param_2,temp_gear *param_3,CharSheet *
         if (lVar6 < (longlong)(ulonglong)pSVar12->WizardREQ) {
           pcVar10 = &acStack416;
           acStack416 = OFFWHITE;
-          acStack352.R = 0x32;
-          acStack352.G = 0x32;
-          acStack352.B = 0x32;
-          acStack352.A = 0x96;
+          acStack352 = DARKGRAY_T;
           pcVar9 = (gGlobals.CommonStrings)->"need higher wizard to know that spell";
           pcVar11 = &acStack352;
         }
@@ -808,13 +799,10 @@ bool use_scroll(PartyStruct *param_1,byte param_2,temp_gear *param_3,CharSheet *
           MVar3 = param_4->EXP->school;
           if (((MVar3 == CHAOS) || (pSVar12->School == NONE)) || (MVar3 == pSVar12->School)) {
             learn_spell(param_4->spellbook,bVar1 | 0x300,1);
-            os::sprintf(gGlobals.text,(gGlobals.CommonStrings)->char learned spell,param_4->name,
+            sprintf(gGlobals.text,(gGlobals.CommonStrings)->char learned spell,param_4->name,
                         pSVar12->Name);
             acStack160 = OFFWHIE;
-            acStack96.R = 0x32;
-            acStack96.G = 0x32;
-            acStack96.B = 0x32;
-            acStack96.A = 0x96;
+            acStack96 = DARKGRAY_T;
             some_textbox_func(gGlobals.text,0x96,&acStack160,&acStack96,1);
             piVar6 = param_1->Inventory->Functions;
             (*(piVar6->get_some_bool).func)
@@ -824,25 +812,19 @@ bool use_scroll(PartyStruct *param_1,byte param_2,temp_gear *param_3,CharSheet *
           }
           pcVar10 = &acStack288;
           acStack288 = OFFWHITE;
-          acStack224.R = 0x32;
-          acStack224.G = 0x32;
-          acStack224.B = 0x32;
-          acStack224.A = 0x96;
+          acStack224 = DARKGRAY_T;
           pcVar9 = (gGlobals.CommonStrings)->wrong school for spell;
           pcVar11 = &acStack224;
         }
       }
       else {
-        os::sprintf(gGlobals.text,(gGlobals.CommonStrings)->they already know that spell,
+        sprintf(gGlobals.text,(gGlobals.CommonStrings)->they already know that spell,
                     param_4->name);
         pcVar9 = gGlobals.text;
         pcVar10 = &acStack544;
         pcVar11 = &acStack480;
         acStack544 = OFFWHITE;
-        acStack480.R = 0x32;
-        acStack480.G = 0x32;
-        acStack480.B = 0x32;
-        acStack480.A = 0x96;
+        acStack480 = DARKGRAY_T;
       }
     }
   }
@@ -1080,7 +1062,7 @@ int Check_diplomat_int(CharSheet **param_1){
     param_1++;
   } while (uVar4 < 4);
   uVar3 = uVar3 * 3 + uVar8 * 10 + 0x32;
-  uVar4 = Random::RollD(1,100);
+  uVar4 = RollD(1,100);
   if (uVar4 < uVar3) {
     iVar5 = some_skillcheck_calc((int)((uVar3 - uVar4) * 0x10000) >> 0x10);}
   else {iVar5 = 0;}
@@ -1111,7 +1093,7 @@ int Check_loremaster_INT(CharSheet **param_1){
     param_1++;
   } while (uVar4 < 4);
   uVar3 = uVar3 * 3 + uVar8 * 6;
-  uVar4 = Random::RollD(1,100);
+  uVar4 = RollD(1,100);
   if (uVar4 < uVar3) {
     iVar5 = some_skillcheck_calc((int)((uVar3 - uVar4) * 0x10000) >> 0x10);}
   else {iVar5 = 0;}
@@ -1132,7 +1114,7 @@ uint loremaster_INT_skillcheck(PartyStruct *param_1){
     cVar4 = getModdedSkill(pCVar1->Skills,Loremaster);
     iVar2 = getModdedStat(pCVar1->Stats,INT);
     uVar5 = (((int)cVar4) * 3 + iVar2 & 0x7fff) * 2;
-    uVar3 = Random::RollD(1,100);
+    uVar3 = RollD(1,100);
     if (uVar3 < uVar5) {
       uVar3 = some_skillcheck_calc((int)((uVar5 - uVar3) * 0x10000) >> 0x10);
       return uVar3;}
@@ -1157,7 +1139,7 @@ byte getMechanic_Int_Dex(PartyStruct *param_1,char param_2){//used in armor craf
     iVar2 = getModdedStat(pCVar1->Stats,INT);
     iVar3 = getModdedStat(pCVar1->Stats,DEX);
     uVar8 = (cVar5 * 5 + iVar2 + iVar3 & 0x7fffU) * 2;
-    uVar4 = Random::RollD(1,100);
+    uVar4 = RollD(1,100);
     if (uVar4 < uVar8) {
       uVar6 = some_skillcheck_calc((int)((uVar8 - uVar4) * 0x10000) >> 0x10);
       uVar4 = 5 - (int)cVar5;
@@ -1190,7 +1172,7 @@ undefined mechanic_int_dex_skillcheck(PartyStruct *param_1,byte param_2){
     iVar2 = getModdedStat(pCVar1->Stats,INT);
     iVar3 = getModdedStat(pCVar1->Stats,DEX);
     uVar8 = (cVar5 * 5 + iVar2 + iVar3 & 0x7fffU) * 2;
-    uVar4 = Random::RollD(1,100);
+    uVar4 = RollD(1,100);
     if (uVar4 < uVar8) {
       uVar6 = some_skillcheck_calc((int)((uVar8 - uVar4) * 0x10000) >> 0x10);
       uVar4 = 0xfU - (int)cVar5 & 0xffff;
@@ -1291,7 +1273,7 @@ undefined some_ranger_stam_func(PartyStruct *param_1){
       pCVar1 = param_1->Party[uVar4];
       iVar2 = getModdedStat(pCVar1->Stats,INT);
       uVar9 = iVar2 * 3 + uVar5 * 10 & 0xffff;
-      uVar4 = Random::RollD(1,100);
+      uVar4 = RollD(1,100);
       if (uVar4 < uVar9) {
         uVar7 = some_skillcheck_calc((int)((uVar9 - uVar4) * 0x10000) >> 0x10);
         uVar5 = 5 - uVar5;
@@ -1338,7 +1320,7 @@ undefined Ofunc_Ranger_int_check(PartyStruct *param_1){
     }
     iVar2 = getModdedStat(param_1->Party[uVar3]->Stats,INT);
     uVar7 = iVar2 * 3 + uVar7 * 10 & 0xffff;
-    uVar3 = Random::RollD(1,100);
+    uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
       uVar5 = some_skillcheck_calc((int)((uVar7 - uVar3) * 0x10000) >> 0x10);
       return uVar5;
@@ -1387,7 +1369,7 @@ undefined ofunc_ranger_stam_int(PartyStruct *param_1)
     if (param_1->Party[uVar3] == null) {return 0;}
     iVar1 = getModdedStat(param_1->Party[uVar3]->Stats,INT);
     uVar7 = iVar1 * 3 + uVar7 * 10 & 0xffff;
-    uVar3 = Random::RollD(1,100);
+    uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
       uVar5 = some_skillcheck_calc((int)((uVar7 - uVar3) * 0x10000) >> 0x10);
       return uVar5;
@@ -1412,7 +1394,7 @@ undefined get_int_ranger_stam(PartyStruct *param_1,byte param_2){
     cVar5 = getModdedSkill(pCVar1->Skills,Ranger);
     iVar3 = getModdedStat(pCVar1->Stats,STAM);
     uVar7 = iVar2 * 3 + cVar5 * 10 + iVar3 & 0xffff;
-    uVar4 = Random::RollD(1,100);
+    uVar4 = RollD(1,100);
     if (uVar4 < uVar7) {
       uVar6 = some_skillcheck_calc((int)((uVar7 - uVar4) * 0x10000) >> 0x10);
     }
@@ -1438,7 +1420,7 @@ int l=0;
       }
     i++
   }while(i<4);
-  i = Random::RollD(1,100);
+  i = RollD(1,100);
   if ((int)i < l) {
     ret = some_skillcheck_calc((int)((l - i) * 0x10000) >> 0x10);}
   else {ret = 0;}
@@ -1461,16 +1443,16 @@ undefined ofunc_mechanic_int_(PartyStruct *param_1,uint param_2)
   if (pCVar1 != null) {
     cVar4 = getModdedSkill(pCVar1->Skills,Mechanic);
     iVar2 = getModdedStat(pCVar1->Stats,INT);
-    uVar7 = iVar2 * 4 + cVar4 * 10 & 0xffff;
-    uVar3 = Random::RollD(1,100);
+    uVar7 = iVar2 * 4 + cVar4 * 10;
+    uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
       uVar5 = some_skillcheck_calc((int)((uVar7 - uVar3) * 0x10000) >> 0x10);
       uVar3 = 10 - (int)cVar4;
       if ((int)uVar3 < 1) {uVar3 = 1;}
       iVar2 = getModdedStat(pCVar1->Stats,STAM);
       uVar6 = 0;
-      if ((int)(uVar3 & 0xffff) <= iVar2) {
-        damage_func(pCVar1,(short)(uVar3 & 0xffff));
+      if ((int)(uVar3) <= iVar2) {
+        damage_func(pCVar1,(short)(uVar3));
         uVar6 = uVar5;
       }
     }
@@ -1493,16 +1475,16 @@ undefined check_mechanic_int_stam(PartyStruct *param_1,uint param_2){
   if (pCVar1 != null) {
     cVar4 = getModdedSkill(pCVar1->Skills,Mechanic);
     iVar2 = getModdedStat(pCVar1->Stats,INT);
-    uVar7 = iVar2 * 4 + cVar4 * 10 & 0xffff;
-    uVar3 = Random::RollD(1,100);
+    uVar7 = iVar2 * 4 + cVar4 * 10;
+    uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
       uVar5 = some_skillcheck_calc((int)((uVar7 - uVar3) * 0x10000) >> 0x10);
       uVar3 = 10 - (int)cVar4;
       if ((int)uVar3 < 1) {uVar3 = 1;}
       iVar2 = getModdedStat(pCVar1->Stats,STAM);
       uVar6 = 0;
-      if ((int)(uVar3 & 0xffff) <= iVar2) {
-        damage_func(pCVar1,(short)(uVar3 & 0xffff));
+      if ((int)(uVar3) <= iVar2) {
+        damage_func(pCVar1,(short)(uVar3));
         uVar6 = uVar5;
       }
     }

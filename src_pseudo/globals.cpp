@@ -6,35 +6,31 @@ void set_memUsedMirror(void){memUsedMirror = get_memUsed();}
 int Ofunc_get_MemUsed_difference(void){
   int iVar1 = memUsedMirror;
   set_memUsedMirror();
-  return iVar1 - memUsedMirror;
-}
+  return iVar1 - memUsedMirror;}
 
 int Ofunc_get_MemUsed_difference_2(void){
   int iVar1 = memUsedMirror;
   set_memUsedMirror();
-  return memUsedMirror - iVar1;
-}
+  return memUsedMirror - iVar1;}
 #endif
 
 uint rand_range(uint A,uint B){
   if (A != B) A = rand_func(&gGlobals.rngSeed,A,B);
-  return A;
-}
+  return A;}
 
 uint RollD(byte dice,byte sides){
   uint i = 0;
-  byte j = 0;
+  
   if (dice != 0) {
-    do {
-      i+= rand_range(1,sides);
-      j++;
-    } while (j < dice);
+    for(byte j = 0; j < dice; j++){i+= rand_range(1,sides);}
   }
   return i;
 }
 
 uint some_skillcheck_calc(short param_1){
-  uint uVar1 = 0x15;
+  short SkillCheckSteps[22]={0,26,46,62,81,96,111,122,
+     133,144,155,166,177,188,199,210,221,232,243,255,266,0}
+  uint uVar1 = 21;
   do {
     if (uVar1 == 0) break;
     uVar1--;

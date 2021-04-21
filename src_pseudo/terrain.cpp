@@ -117,14 +117,14 @@ void terrainStruct_rand_vec3(vec3 *coords,float arg1,float arg2){
   float fVar1;
   
   x = vec3_normalize(coords);
-  if (Random::rand_float(&gGlobals) <= arg1) {
-    (*coords)[0] += Random::rand_float_range(&gGlobals,-0.1f,0.1f);
-    (*coords)[1] += Random::rand_float_range(&gGlobals,-0.004,0.001);
-    (*coords)[2] += Random::rand_float_range(&gGlobals,-0.1f,0.1f);
+  if (rand_float(&gGlobals) <= arg1) {
+    (*coords)[0] += rand_float_range(&gGlobals,-0.1f,0.1f);
+    (*coords)[1] += rand_float_range(&gGlobals,-0.004,0.001);
+    (*coords)[2] += rand_float_range(&gGlobals,-0.1f,0.1f);
     vec3_normalize(coords);
   }
-  if (Random::rand_float(&Random::gGlobals) <= arg2) {
-    fVar1 = Random::rand_float_range(&gGlobals,-0.002314815,0.002314815);
+  if (rand_float(&gGlobals) <= arg2) {
+    fVar1 = rand_float_range(&gGlobals,-0.002314815,0.002314815);
     fVar1 = x + fVar1;
     if ((fVar1 <= 0.23148148f) && (x = fVar1, fVar1 < 0.0)) {
       x = 0.0;
