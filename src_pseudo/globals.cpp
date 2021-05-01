@@ -156,7 +156,7 @@ setBattlefeildTerrain:
   return;
 }
 // next few functions go CRAZY with the sprintf's for some reason.
-uint get_enemy_avg_lv(ushort param_1,int param_2){
+uint get_enemy_avg_lv(uint param_1,monsterparty_dat *param_2){
   uint uVar1;
   byte bVar3;
   int iVar2;
@@ -164,97 +164,89 @@ uint get_enemy_avg_lv(ushort param_1,int param_2){
   ItemID *pIVar5;
   int iVar6;
   uint uVar7;
-  ItemID *pIVar8;
-  float fVar9;
-  ulonglong uVar10;
-  float afStack120 [16];
+  uint uVar8;
+  monsterpartyEntry *pmVar9;
+  float fVar10;
+  ulonglong uVar11;
+  float afStack120 [4];
   uint uStack56;
   
   uVar4 = 0;
-  sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",600);
+  os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",600);
   uVar7 = 0;
-  uVar1 = get_party_avg_lv(partyPointer);
-  sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x259);
-  sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x25a);
-  sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x25b);
-  sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x25e);
-  if (param_1 == 0) {
-    param_1 = 0;
-  }
+  uVar1 = get_party_avg_lv(gGlobals.Party);
+  os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x259);
+  os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x25a);
+  os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x25b);
+  os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x25e);
+  if (param_1 == 0) {param_1 = 0;}
   else {
-    sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x261);
+    os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x261);
     if (param_1 != 0) {
       do {
-        sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x263);
-        bVar3 = GetIDIndex(encounter_dat.enemy_entities[uVar7]);
-        sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x264);
-        uVar7 = uVar7 + 1 & 0xffff;
-        uVar4 = uVar4 + EntityPointer->entities[(char)bVar3].Level & 0xffff;
+        os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x263);
+        bVar3 = GetIDIndex(gGlobals.EncounterDat.enemy_entities[uVar7]);
+        os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x264);
+        uVar7++;
+        uVar4+= EntityPointer->entities[(char)bVar3].Level;
       } while (uVar7 < param_1);
     }
-    sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x268);
+    os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x268);
     uVar4 = uVar4 / param_1;
     if (param_1 == 0) {
       trap(7);
     }
-    sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x26b);
+    os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x26b);
     if ((uVar4 != 0) &&
-       (sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x26e),
-       (uVar1 & 0xffff) < uVar4)) {
-      sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x272);
-      fVar9 = ((float)uVar1 * 3.0f) / (float)uVar4;
-      if (INT_MAX_f <= fVar9) {
-        fVar9 = fVar9 - INT_MAX_f;
-      }
-      sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x273);
+       (os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x26e),
+       uVar1 < uVar4)) {
+      os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x272);
+      fVar10 = ((float)uVar1 * 3.0f) / (float)uVar4;
+      if (INT_MAX_f <= fVar10) {fVar10 -= INT_MAX_f;}
+      os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x273);
       afStack120[0] = 0.3f;
       afStack120[1] = 0.2f;
       afStack120[2] = 0.1f;
       afStack120[3] = 0.0f;
-      sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x274);
-      uVar10 = (ulonglong)(uint)afStack120[(int)fVar9];
-      sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x277);
-      if ((float)uVar10 != 0.0) {
+      os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x274);
+      uVar11 = (ulonglong)(uint)afStack120[(int)fVar10];
+      os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x277);
+      if ((float)uVar11 != 0.0) {
         uVar4 = 0;
-        sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x27a);
+        os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x27a);
         do {
-          sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x27d);
-          pIVar8 = (ItemID *)(param_2 + uVar4 * 4);
-          sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x27e);
+          os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x27d);
+          pmVar9 = param_2->enemyEntries + uVar4;
+          os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x27e);
           uStack56 = uVar4 + 1;
-          if (*pIVar8 != (ItemID)0x0) {
+          if (pmVar9->enemyID != (ItemID)0x0) {
             uVar4 = 0;
             iVar6 = 0;
-            sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x281)
-            ;
-            sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x284)
-            ;
+            os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x281);
+            os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x284);
             iVar2 = 0;
             if (param_1 != 0) {
               do {
-                if (*(ItemID *)(&encounter_dat.enemy_entities[0].type + iVar2) == *pIVar8) {
-                  iVar6 = iVar6 + 1;
+                if (*(ItemID *)(&gGlobals.EncounterDat.enemy_entities[0].type + iVar2) ==
+                    pmVar9->enemyID) {
+                  iVar6++;
                 }
-                uVar4 = uVar4 + 1 & 0xffff;
+                uVar4++;
                 iVar2 = uVar4 << 1;
               } while (uVar4 < param_1);
             }
             uVar4 = 0;
-            sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x28a)
-            ;
-            iVar2 = (int)((float)iVar6 * (float)uVar10);
-            sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x28c)
-            ;
+            os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x28a);
+            iVar2 = (int)((float)iVar6 * (float)uVar11);
+            os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x28c);
             if (param_1 != 0) {
               do {
                 if (iVar2 == 0) break;
-                sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",
-                            0x28f);
-                pIVar5 = encounter_dat.enemy_entities + uVar4;
+                os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x28f);
+                pIVar5 = gGlobals.EncounterDat.enemy_entities + uVar4;
                 uVar1 = uVar4 + 1;
-                if (*pIVar5 == *pIVar8) {
-                  sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",
-                              0x293);
+                if (*pIVar5 == pmVar9->enemyID) {
+                  os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x293);
                   iVar2--;
                   while (uVar4 < param_1 - 1) {
                     uVar4++;
@@ -262,10 +254,13 @@ uint get_enemy_avg_lv(ushort param_1,int param_2){
                     pIVar5++;
                   }
                   param_1--;
-                  sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x297);
-                  sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x298);
-                  sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x29b);
-                  encounter_dat.enemy_entities[param_1] = (ItemID)0x0;
+                  os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",
+                              0x297);
+                  os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",
+                              0x298);
+                  os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",
+                              0x29b);
+                  gGlobals.EncounterDat.enemy_entities[param_1] = (ItemID)0x0;
                 }
                 uVar4 = uVar1 & 0xffff;
               } while (uVar4 < param_1);
@@ -273,12 +268,13 @@ uint get_enemy_avg_lv(ushort param_1,int param_2){
           }
           uVar4 = uStack56 & 0xffff;
         } while (uVar4 < 8);
-        sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x29f);
+        os::sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x29f);
       }
     }
   }
   return param_1;
 }
+
 
 uint add_to_enemy_encounters(EncounterDat *param_1,short *param_2){
   undefined *puVar1;

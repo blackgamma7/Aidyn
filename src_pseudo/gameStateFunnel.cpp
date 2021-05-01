@@ -1,6 +1,39 @@
-void Event_flag_stat(StatEnum param_1)
+typedef enum event_flag_typeA {LOG,VAL,CNT,BIT,INV} event_flag_typeA;
+typedef enum Event_flag_typeB {AND,IOR,EOR,NOT,MSK,EQU,GRT,LST,NEQ,INV} Event_flag_typeB;
 
-{
+struct Struct_State {
+    ushort shortA;
+    ushort shortB;
+    enum event_flag_typeA type;
+    enum Event_flag_typeB command;
+    bool Flag;
+    byte byte7;
+};
+
+struct GameStateFunnel { /* used for event flags and whatnot */
+    ushort a;
+    ushort b;
+    ushort flag_count;
+    undefined2 f;
+    struct Struct_State * States_pointer;
+    struct Struct_State * other_pointer;
+    int u[3];
+    int g;
+    struct Struct_State states[5000];
+    struct Struct_State otherStates[970];
+};
+
+typedef struct event_flag_array event_flag_array, *Pevent_flag_array;
+
+struct event_flag_array {
+    enum Event_flag_offset to;
+    enum Event_flag_offset from;
+    short val;
+    byte skill_stat;
+    byte pad;
+};
+
+void Event_flag_stat(StatEnum param_1){
   EventFlag EVar1;
   EventFlag EVar2;
   CharSheet *pCVar3;
@@ -152,9 +185,9 @@ void setEventFlag(EventFlag param_1,bool param_2){
 
 void SetFlagArray_on_Time(byte ToD,byte Day,byte week,byte month){
   set_flag_array(0x8fd,0x8ff,(short)ToD;
-  set_flag_array(0x909,0x90b,(short)Day & 0xffU);
-  set_flag_array(0x90c,0x90e,(short)week & 0xffU);
-  set_flag_array(0x906,0x908,(short)month & 0xff);
+  set_flag_array(0x909,0x90b,(short)Day);
+  set_flag_array(0x90c,0x90e,(short)week);
+  set_flag_array(0x906,0x908,(short)month);
   set_flag_array(0x8fb,0x8fc,(ushort)TerrainPointer->moonPhases);
   set_flag_array(0x900,0x905,((short)week * 7 + ((short)Day));
 }
@@ -179,20 +212,14 @@ void state_TypeA_LOG(Struct_State *param_1,uint param_2){
   uVar5 = (uint)param_1->byte7;
   switch(param_1->command) {
   case AND:
-    if (param_2 == 0) {
-      uVar5 = 1;
-    }
-    else {
-      uVar4 = 0xffff;
-    }
+    if (param_2 == 0) {uVar5 = 1;}
+    else {uVar4 = 0xffff;}
     break;
   case IOR:
     if (uVar4 == 0) break;
     goto LAB_8002483c;
   case EOR:
-    if (param_2 != 0) {
-      uVar4 = 1;
-    }
+    if (param_2 != 0) {uVar4 = 1;}
     break;
   case NOT:
     bVar1 = param_2 != 0;

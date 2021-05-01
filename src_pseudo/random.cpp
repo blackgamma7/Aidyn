@@ -1,9 +1,10 @@
+//most the RNG funcs in the game, save for 2 in globals.cpp
+
 #define UINT_MAX_D 4.294967296E9
 
 void setRNGSeed(uint *seed,u64 num){
   if (*seed == 0) *seed = 1;
-  *seed = (uint)num;
-  return;}
+  *seed = (uint)num;}
 
 uint ShiftSeed(int *seed){
   *seed = *seed * 0x19660d + 0x3c6ef35f;
@@ -75,7 +76,7 @@ int rand_range_(uint *seed,int a,int b){
 
 float rand_float(uint *seed){
   int uVar1 = *seed * 0x19660d + 0x3c6ef35f;
-  double (double)uVar1;
+  double dVar2 = (double)uVar1;
   
   *seed = uVar1;
   if (uVar1 < 0) {dVar2+= UINT_MAX_d;}

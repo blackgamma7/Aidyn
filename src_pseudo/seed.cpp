@@ -20,11 +20,11 @@ void InitProc(void){
   
   memset(&gGlobals,0,0x2278);
   crashthread_init(crash_handler,0,0x32,6);
-  lookforExpansionPak((int)romMain,0xff650);
-  Heap_init(memCheckStruct.unk0x8,memCheckStruct.mem_free_allocated);
-  PTR_800e8f30 = (OSMesg *)Malloc(0x20,s_./src/seed.cpp_800d97c0,0xad);
+  lookforExpansionPak((int)romMain,&clear_end - &romMain);
+  Heap_init(memCheckStruct.HeapStart,memCheckStruct.mem_free_allocated);
+  PTR_800e8f30 = (OSMesg *)Malloc(0x20,FILENAME,0xad);
   osCreatePiManager(PIMGR,&pimgr_qeue,PTR_800e8f30,8);
-  osSched_stack = (undefined *)Malloc(0x2000,s_./src/seed.cpp_800d97c0,0xb1);
+  osSched_stack = (undefined *)Malloc(0x2000,FILENAME,0xb1);
   if (osTvType == NTSC) {
     osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,2,1);}
   if (osTvType == PAL) {

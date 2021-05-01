@@ -1,3 +1,10 @@
+typedef struct IconDict IconDict, *PIconDict;
+
+struct IconDict { /* array Proceeded by dictionary length */
+    ushort key;
+    enum Borg8Enum value:16;
+};
+
 bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
   Borg8Enum BVar1;
   uint uVar2;

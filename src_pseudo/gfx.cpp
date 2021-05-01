@@ -1,3 +1,40 @@
+struct gfx_struct {
+    struct OSSched * sched;
+    pointer unk0x4;
+    pointer unk0x8;
+    pointer unk0xc;
+    pointer unk0x10;
+    pointer unk0x14;
+    void * FrameBuffers[2];
+    pointer DepthBuffer;
+    pointer unk0x24;
+    pointer unk0x28;
+    struct OSViMode osvimodeCustom; //seems to be a second osViMode in 1.1.
+    int unk0x7c;
+    struct OSScTask tasks[2];
+    ushort unk0x150;
+    ushort unk0x152;
+    ushort unk0x154;
+    u8 unk0x156;
+    u8 unk0x157;
+    ushort unk0x158;
+    byte unk0x15a[6];
+    ushort MoreResSettings[2][4]; /* H*2,V*2,511,0 */
+    uint ram_size;
+    uint FramebufferSize[2];
+    uint unk0x17c;
+    uint unk0x180;
+    uint someOtherTimer;
+    uint someTimers[2];
+    ushort hres[2];
+    ushort Vres[2];
+    byte colordepth[2];
+    byte vi_buffer_choice;
+    s8 unk0x19b;
+    byte unk0x19c;
+    byte unk0x19d[3];
+};
+
 char* res_mode_string[3]={"Normal Resolution","High Resolution","32 Bit Color"};
 ResolutionSettings res_colormode[3]={{320,240,0,16},{512,240,0,16},{320,240,0,32}};
 gfxManager gfx_struct;
@@ -25,7 +62,7 @@ void initGfx(OSSched *param_1){
   gfx_struct.unk0x10 = (undefined *)Malloc(0xc00,s_./src/gfx.cpp_800d7ca4,0xdf);
   gfx_struct.unk0x14 = (undefined *)Malloc(0x1000,s_./src/gfx.cpp_800d7ca4,0xe0);
   gfx_struct.unk0x24 = (undefined *)Malloc(0xbc0,s_./src/gfx.cpp_800d7ca4,0xe4);
-  gfx_struct.field_0x28 = (undefined *)Malloc(0x40,s_./src/gfx.cpp_800d7ca4,0xe5);
+  gfx_struct.unk0x28 = (undefined *)Malloc(0x40,s_./src/gfx.cpp_800d7ca4,0xe5);
   if (osTvType == NTSC) {r = osViModeTable + 2;}
   else if (osTvType == MPAL) {r = osViModeTable + 0x1e;}
   else {
@@ -38,13 +75,13 @@ void initGfx(OSSched *param_1){
   gfx_struct.osvimodeCustom.comRegs.width = 0x200;
   gfx_struct.osvimodeCustom.fldRegs[0].origin = 0x400;
   gfx_struct.osvimodeCustom.comRegs.xScale = 0x333;
-  gfx_struct.field_0x150 = 2;
-  gfx_struct.field_0x158 = 2;
+  gfx_struct.unk0x150 = 2;
+  gfx_struct.unk0x158 = 2;
   gfx_struct.ram_size = memCheckStruct.RamSize;
   gfx_struct.FramebufferSize[0] = memCheckStruct.MaxResolution1;
   gfx_struct.FramebufferSize[1] = memCheckStruct.MaxResolution0;
   iVar2 = 0;
-  gfx_struct.field_0x17c = uVar7;
+  gfx_struct.unk0x17c = uVar7;
   do {
     bVar6 = 0;
     do {
@@ -76,7 +113,7 @@ void initGfx(OSSched *param_1){
     uVar5 = uVar5 + 1 & 0xff;
     iVar2 = uVar5 << 3;
   } while (uVar5 < 0x5e);
-  memset(gfx_struct.field_0x28,0xff,0x40);
+  memset(gfx_struct.unk0x28,0xff,0x40);
   SetGfxMode(res_colormode[0].Hres,res_colormode[0].Vres,res_colormode[0].colorDepth);
   gGlobals.ResolutionSelect = 0;
   video_settings();}
@@ -142,7 +179,7 @@ void video_settings(void){
   puVar1 = (undefined4 *)gfx_struct.FrameBuffers[gfx_struct.vi_buffer_choice - 5];
   OVar3 = osGetTime();
   uVar4 = udivdi3((int)(OVar3 >> 0x20) << 6 | (uint)OVar3 >> 0x1a,(uint)OVar3 << 6,0,3000);
-  gfx_struct.field_0x180 = (uint)uVar4;
+  gfx_struct.unk0x180 = (uint)uVar4;
   OVar3 = osGetTime();
   uVar4 = udivdi3((int)(OVar3 >> 0x20) << 6 | (uint)OVar3 >> 0x1a,(uint)OVar3 << 6,0,3000);
   gfx_struct.someTimers[1] = (uint)uVar4;
@@ -445,7 +482,7 @@ rspCom * gsDrawScreenRects(rspCom *param_1){
   param_1[8][1] = 0;
   param_1[9][0] = 0xdf000000;
   param_1[9][1] = 0;
-  gfx_struct.field_0x19c = 0;
+  gfx_struct.unk0x19c = 0;
   osWritebackDCacheAll();
   return param_1[10];
 }
@@ -479,7 +516,7 @@ void func_swapping_framebuffer_(int dat_size,OSMesgQueue *param_2)
   iVar3 = (uint)gfx_struct.vi_buffer_choice * 0xc + (uint)gfx_struct.vi_buffer_choice;
   iVar4 = iVar3 * 8;
   pOVar5 =gfx_struct.tasks[iVar3].next;
-  *(OSScTask **)(gfx_struct.field_0x15a + (uint)gfx_struct.vi_buffer_choice * 8 + -6) = pOVar5;
+  *(OSScTask **)(gfx_struct.unk0x15a + (uint)gfx_struct.vi_buffer_choice * 8 + -6) = pOVar5;
   gfx_struct.tasks[iVar4].list.Type = 1;
   gfx_struct.tasks[iVar4].list.flags = 0;
   gfx_struct.tasks[iVar4].list.data_ptr=
@@ -799,7 +836,7 @@ Ofunc_80009d7c(rspCom *param_1,uint param_2,uint param_3,uint param_4,ushort par
   param_1[0xf][0] = 0xe3001001;
   param_1[0xf][1] = 0;
   param_1[0x10][0] = 0xfd680007;
-  param_1[0x10][1] = (u32)gfx_struct.field_0x28;
+  param_1[0x10][1] = (u32)gfx_struct.unk0x28;
   param_1[0x11][0] = 0xf5680800;
   param_1[0x11][1] = 0x7080200;
   param_1[0x12][0] = 0xe6000000;
@@ -1049,7 +1086,7 @@ rspCom * DisplaySystemMonitor(rspCom *param_1){
   gfx_struct.someTimers[0] = (int)uVar24 - gfx_struct.someTimers[0];
   OVar23 = osGetTime();
   uVar24 = udivdi3((int)(OVar23 >> 0x20) << 6 | (uint)OVar23 >> 0x1a,(uint)OVar23 << 6,0,3000);
-  gfx_struct.field_0x180 = (int)uVar24 - gfx_struct.field_0x180;
+  gfx_struct.unk0x180 = (int)uVar24 - gfx_struct.unk0x180;
   if ((osTvType == NTSC) || (osTvType == MPAL)) {ntscPalVar = 0x14585;}
   else {
     if (osTvType != PAL) {manualCrash("gfx.cpp, DisplaySystemMonitor()","Unknown osTvType");}
@@ -1058,10 +1095,10 @@ rspCom * DisplaySystemMonitor(rspCom *param_1){
   uVar13 = ntscPalVar;
   if (gfx_struct.someOtherTimer < ntscPalVar) {uVar13 = gfx_struct.someOtherTimer;}
   uVar14 = ntscPalVar;
-  if (gfx_struct.field_0x180 < ntscPalVar) {uVar14 = gfx_struct.field_0x180;}
+  if (gfx_struct.unk0x180 < ntscPalVar) {uVar14 = gfx_struct.unk0x180;}
   uVar12 = ntscPalVar;
   if (gfx_struct.someTimers[0] < ntscPalVar) {uVar12 = gfx_struct.someTimers[0];}
-  gfx_struct.field_0x180 = uVar14;
+  gfx_struct.unk0x180 = uVar14;
   gfx_struct.someOtherTimer = uVar13;
   gfx_struct.someTimers[0] = uVar12;
   pauVar11 = (rspCom *)GsSetOtherMode_SysMon(param_1);
@@ -1126,8 +1163,8 @@ rspCom * DisplaySystemMonitor(rspCom *param_1){
   if (iVar9 < 0) {
     dVar20 = dVar20 + UINT_MAX_d;
   }
-  dVar17 = (double)gfx_struct.field_0x17c;
-  if ((int)gfx_struct.field_0x17c < 0) {
+  dVar17 = (double)gfx_struct.unk0x17c;
+  if ((int)gfx_struct.unk0x17c < 0) {
     dVar17 = dVar17 + UINT_MAX_d;
   }
   fVar18 = (float)dVar20 / (float)dVar17 + 0.5f;
@@ -1164,8 +1201,8 @@ rspCom * DisplaySystemMonitor(rspCom *param_1){
   pauVar11 = (rspCom *)
              gsDisplaySystemMonitor_Fillrect(pauVar11,0x14,0x20,sVar21 + 0x14,0x22,0,0xff,0xff,0xff)
   ;
-  dVar20 = (double)(gfx_struct.field_0x180 * 0x118);
-  if ((int)(gfx_struct.field_0x180 * 0x118) < 0) {dVar20+= UINT_MAX_d;}
+  dVar20 = (double)(gfx_struct.unk0x180 * 0x118);
+  if ((int)(gfx_struct.unk0x180 * 0x118) < 0) {dVar20+= UINT_MAX_d;}
   fVar18 = (float)dVar20 / (float)dVar17 + 0.5f;
   if (fVar18 < INT_MAX_f) {sVar21 = (short)(int)fVar18;}
   else {sVar21 = (short)(int)(fVar18 - INT_MAX_f);}

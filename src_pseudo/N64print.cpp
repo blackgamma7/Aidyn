@@ -54,7 +54,7 @@ void debug_queue_func_(void){
 void n64print_init(Debug_queue *param_1){
   #ifdef DEBUGVER
   debugQueuePointer = param_1;
-  debugQueuePointer->text = (char **)Malloc(0x172,FILENAME,0x8d);
+  debugQueuePointer->text = (char **)Malloc(370,FILENAME,0x8d);
   debugQueuePointer->color[2] = 1.0f;
   debugQueuePointer->color[1] = 1.0f;
   debugQueuePointer->color[0] = 1.0f;
@@ -94,9 +94,7 @@ char * debug_queue_sub(char *param_1,char param_2,short param_3){
   }
   do {
     cVar1 = param_1[iVar3];
-    if (cVar1 == '\0') {
-      return param_1 + iVar3;
-    }
+    if (cVar1 == '\0') {return param_1 + iVar3;}
     if (cVar1 == param_2) {
       iVar2 = (iVar2 + -1) * 0x10000 >> 0x10;
       if (iVar2 < 1) {
@@ -112,9 +110,7 @@ char * debug_queue_sub(char *param_1,char param_2,short param_3){
 
 void Ofunc_Passto_debug_queue(char *param_1){
 #ifdef DEBUGVER
-  if (*param_1 != '\0') {
-    debug_queue(param_1);
-  }
+  if (*param_1 != '\0') {debug_queue(param_1);}
   #endif
   return;
 }
@@ -149,14 +145,14 @@ void debug_queue(char *param_1){
       param_1 = param_1 + 1;
       if (0x23 < lVar4) {
         *pcVar7 = '\n';
-        pcVar7 = pcVar7 + 1;
+        pcVar7++;
         iVar6 = (iVar6 + 1) * 0x10000 >> 0x10;
         lVar4 = 0;
       }
       sVar5 = (short)lVar4;
       *pcVar7 = *param_1;
       cVar1 = *param_1;
-      pcVar7 = pcVar7 + 1;
+      pcVar7++;
     }
     debugQueuePointer->ShortA = sVar5;
     if (iVar6 < 10) {

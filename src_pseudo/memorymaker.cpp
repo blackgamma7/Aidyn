@@ -3,7 +3,7 @@
 #else
 #define FILENAME ""
 #endif
-memMakerStruct* memmaker_pointer;
+memMakerStruct* memmaker_pointer;  //seems to be similar to the save data structure.
 //Memory management triggered with no Expansion Pak
 void memorymaker_init(void){
   if (ExpPakFlag == 0) {

@@ -1,3 +1,14 @@
+typedef struct potionRecipie potionRecipie, *PpotionRecipie;
+struct potionRecipie {
+    enum PotionEnum ID;
+    byte spice;
+    byte herb;
+    byte gemstone;
+    byte alchemist;
+    byte unk;
+    byte pad;
+};
+
 potionRecipie Potionrecipies[15]={
     {FIRE,1,0,2,1,2,0},
     {INFERNO,3,0,3,4,6,0},

@@ -128,6 +128,131 @@ struct{
 	float b;
 }dialougeEntity_Info;
 
+struct resist_float { /* resistance and element when loaded into temp item */
+    enum ElementEnum element;
+    byte pad[3];
+    float percent;
+};
+
+struct charExp { /* data containing EXP, School, Aspect and more. */
+    byte rom0x2b; /* Ent_rom data 0x2b. dunno if used */
+    enum MagicSchoolEnum school;
+    byte protection; /* protecttion, looks like */
+    byte damage; /* damage seems to be */
+    uint total; /* for level up */
+    uint spending; /* for training */
+    enum CharSheetFlags flags; /* set for alaron? */
+    byte f;
+    byte g;
+    byte h;
+};
+
+
+struct effects {
+    struct Temp_enchant * list[15];
+};
+
+struct spellbook { /* pointer and count of spells */
+    struct Temp_spell * spells;
+    byte spell_count;
+};
+
+struct CharSkills { /* Skill and weapon levels. Also sheild. */
+    byte Skill_base[12];
+    byte Weapon_Base[11];
+    byte Sheild_Base;
+    byte Skill_modded[12];
+    byte Weapon_modded[11];
+    byte Sheild_modded;
+};
+
+struct CharSheet { /* Skills, stats and misc of Characters */
+    struct ItemID ID;
+    char a;
+    char b;
+    char * name; /* pointer to entityDB entry */
+    char d;
+    byte lv;
+    byte pad[10];
+    struct charExp * EXP;
+    struct CharStats * Stats; /* base and modded stats of character */
+    struct CharSkills * Skills; /* skill and weapon levels */
+    struct temp_armor * * armor;
+    struct Temp_weapon * weapons;
+    struct CharGear * pItemList;
+    struct spellbook * spellbook; /* list and count of known spells */
+    undefined4 unk0x30;
+    struct effects * effects; /* spell effects on character */
+    struct Potion_effect * * potion_effects;
+    byte some_rand_val;
+    byte spellSwitch;
+    byte currSpell;
+    u8 unk0x3f;
+    u8 unk0x40;
+    u8 unk0x41;
+    u8 unk0x42;
+    u8 unk0x43;
+    struct Borg_8_header * portait;
+};
+
+struct CombatEntity {
+    vec4 unk0x0;
+    uint unk0x10;
+    undefined2 unk0x14;
+    u8 unk0x16;
+    u8 unk0x17;
+    undefined2 unk0x18;
+    undefined2 unk0x1a;
+    undefined2 unk0x1c;
+    ushort unk0x1e;
+    byte index;
+    byte move_length;
+    u8 unk0x22;
+    u8 unk0x23;
+    u8 unk0x24;
+    byte unk0x25;
+    u8 unk0x26;
+    enum PotionEnum item;
+    byte unk0x28;
+    byte damage;
+    u8 unk0x2a;
+    u8 unk0x2b;
+    enum Struct_char_flags flags;
+    u8 unk0x2e;
+    u8 unk0x2f;
+    struct resist_float resists[2];
+    struct CharSheet * CharSheet;
+    struct combat_ai * combat_ai_pointer;
+    float E[3];
+    u8 unk0x54;
+    u8 unk0x55;
+    u8 unk0x56;
+    u8 unk0x57;
+    u8 unk0x58;
+    u8 unk0x59;
+    u8 unk0x5a;
+    u8 unk0x5b;
+    u8 unk0x5c;
+    u8 unk0x5d;
+    u8 unk0x5e;
+    u8 unk0x5f;
+    u8 unk0x60;
+    u8 unk0x61;
+    u8 unk0x62;
+    u8 unk0x63;
+    float scale?[10];
+};
+
+typedef struct itemtype_func itemtype_func, *Pitemtype_func;
+
+struct itemtype_func {
+    enum DBTypeEnum type;
+    byte pad[3];
+    undefined4 unk;
+    ulong (* function)(void);
+};
+
+
 extern entity_info entity_info_array[222]; //organized alphabetically for some reason.
 extern dialougeEntity_Info dailougEnt_info_array[32]; //same with this.
 extern EntityPointer* EntPointer;
