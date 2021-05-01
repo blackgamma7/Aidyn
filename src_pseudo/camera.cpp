@@ -345,7 +345,7 @@ LAB_800b0be4:
       }
     }
     lVar2 = func_800adf78(arg0->borg_9,(vec3 *)fStack112,(vec3 *)arg0,0.25,null,
-                         null,1);
+                         NULL,1);
     if (((lVar2 != 0) && (arg0->unk0x80 == 1)) && (arg0->unk0x82 != 0)) {
       func_800b04ec(arg0);
     }

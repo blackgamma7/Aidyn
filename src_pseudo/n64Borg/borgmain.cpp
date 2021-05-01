@@ -344,8 +344,8 @@ bool borg2_func_b(borg_2_header *param_1,void *param_2){
   param_1->field_0xc = 0;
   param_1->field_0x58 = (int)param_2;
   if (size == 0) {
-    param_1->field_0x54 = null;
-    param_1->field_0x50 = null;
+    param_1->field_0x54 = NULL;
+    param_1->field_0x50 = NULL;
   }
   else {
     pvVar2 = Malloc(size,FILENAME,0x457);
@@ -439,7 +439,7 @@ void borg5_func_a(Borg_5_header *b5){
   undefined *puVar1;
   int iVar2;
   
-  if (b5->field_0x28 != null) {
+  if (b5->field_0x28 != NULL) {
     puVar1 = b5->field_0x28 + 0x10 + (int)b5;
     iVar2 = b5->field_0x10;
     b5->field_0x28 = puVar1;
@@ -449,19 +449,19 @@ void borg5_func_a(Borg_5_header *b5){
       puVar1 = puVar1 + 0x40;
     }
   }
-  if (b5->field_0x30 != null) {
+  if (b5->field_0x30 != NULL) {
     b5->field_0x30 = b5->field_0x30 + 0x10 + (int)b5;
   }
-  if (b5->field_0x38 != null) {
+  if (b5->field_0x38 != NULL) {
     b5->field_0x38 = b5->field_0x38 + 0x10 + (int)b5;
   }
-  if (b5->locatorDat != null) {
+  if (b5->locatorDat != NULL) {
     b5->locatorDat = b5->locatorDat + 0x10 + (int)b5;
   }
-  if (b5->field_0x40 != null) {
+  if (b5->field_0x40 != NULL) {
     b5->field_0x40 = b5->field_0x40 + 0x10 + (int)b5;
   }
-  if (b5->field_0x44 != null) {
+  if (b5->field_0x44 != NULL) {
     b5->field_0x44 = b5->field_0x44 + 0x10 + (int)b5;
   }
   iVar2 = b5->ani_texture_count;
@@ -825,7 +825,7 @@ bool borg6_func_b(borg_6_header *param_1,void *param_2){
   uint size;
   undefined4 uVar18;
   
-  fVar6 = ConstFloats::1.0f;
+  fVar6 = 1.0f;
   size = 0;
   iVar17 = 0;
   iVar1 = *(int *)((int)param_2 + 4);
@@ -984,7 +984,7 @@ bool borg7_func_b(Borg_7_header *param_1,void *param_2){
   bVar1 = param_1->borg6;
   pbVar2 = param_1->borg_pointer;
   param_1->field_0x38 = pbVar3;
-  param_1->aniDat = null;
+  param_1->aniDat = NULL;
   param_1->field_0xc = 0;
   param_1->field_0xe = 0;
   param_1->field_0x10 = 0;

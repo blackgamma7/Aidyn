@@ -66,7 +66,7 @@ void render_ref_objs(Borg_9_data *dat,byte arg2)
           if ((a->header).type == Scene) {
             psVar1 = some_ref_obj_lookup_func
                                (uVar4,(char)map_dat_A,(byte)MapShortA,(byte)mapShortB,arg2,0);
-            bVar3 = psVar1 == null && bVar3;
+            bVar3 = psVar1 == NULL && bVar3;
           }
           set_voxel_visibility(a,bVar3);
         }

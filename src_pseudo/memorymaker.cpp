@@ -14,7 +14,7 @@ void memorymaker_init(void){
 void ofunc_memmaker_free(void){
   if (ExpPakFlag == 0) {
     Free(memmaker_pointer,FILENAME,0x70);
-    memmaker_pointer = null;
+    memmaker_pointer = NULL;
   }
 }
 

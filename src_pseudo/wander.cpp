@@ -2,9 +2,9 @@ float sneak_value(float point8){
   char cVar2;
   float fVar3;
   
-  if (gGlobals.party != null {
+  if (gGlobals.party != NULL {
     cVar2 = GetMostSkilledMember(gGlobals.party,Stealth);
-    if (((cVar2 != -1) && (gGlobals.party->Party[cVar2] != null) {
+    if (((cVar2 != -1) && (gGlobals.party->Party[cVar2] != NULL) {
       cVar2 = getModdedSkill(gGlobals.party->Party[cVar2]->Skills,Stealth);
       fVar3 = (float)(int)cVar2 / 10.0f;
       if (1.0f < (float)(int)cVar2 / 10.0f) {fVar3 = 1.0f;}
@@ -29,7 +29,7 @@ wander_substruct * findWandererFromPlayerName(short arg0){
                ((gGlobals.wander.wanderSubstructs)->start_position + iVar1 * 4 + iVar4 * 5 + -1);
       uVar3++;
       if (pwVar2->field_0x20 != 0) {
-        if (pwVar2->playerDat == null) {
+        if (pwVar2->playerDat == NULL) {
           uVar3++;
         }
         else {
@@ -140,7 +140,7 @@ void AllocWanderer(wander_struct *param_1,short param_2,playerData *param_3,byte
   
   pBVar5 = GetCollisionZone(param_4);
   refObj = (monsterparty_obj *)(pBVar5->ref_objs[param_2]);
-  if (pBVar5 == null) {manualCrash(s_AllocWanderer_800d8d7c,s_Invalid_Collision_Zone_800d8d8c);}
+  if (pBVar5 == NULL) {manualCrash(s_AllocWanderer_800d8d7c,s_Invalid_Collision_Zone_800d8d8c);}
   if ((short)param_1->wanderers < param_1->wanderersmax) {
     uVar7 = param_1->wanderers;
     param_1->wanderers++;
@@ -581,7 +581,7 @@ LAB_80013310:
               if (-entRamB < 3.0f) {
 LAB_80013488:
                 bVar7 = func_800adf78(pBVar5,(vec3 *)fStack232,(vec3 *)fStack168,0.5,null,
-                                     null,0);
+                                     NULL,0);
                 if (bVar7 == false) {
                   encounter_dat.collisionBool = true;
                   battle_setup_func(pmVar8,(pmVar8->header).flagB,wanderer->VoxelIndex);

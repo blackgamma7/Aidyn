@@ -37,21 +37,21 @@ void load_commonstrings(void){
 void clear_commonstrings(void){
   if (gglobals.CommonStrings) {
     free_romstring(gglobals.CommonStrings);
-    commonstrings = null;
+    commonstrings = NULL;
 	#ifdef DEBUGVER
-    debug_switch_labels = null;
-    boolean_labels = null;
-    cheatStatus_labels = null;
+    debug_switch_labels = NULL;
+    boolean_labels = NULL;
+    cheatStatus_labels = NULL;
 	#endif
-    task_failure_labels = null;
-    equip_error_labels = null;
+    task_failure_labels = NULL;
+    equip_error_labels = NULL;
 	#ifdef DEBUGVER
-    debug_state_labels = null;
+    debug_state_labels = NULL;
 	#endif
-    commonstringsmirror = null;
+    commonstringsmirror = NULL;
 	#ifdef DEBUGVER
-    on_off_labels = null;
-    bool_labels = null;
+    on_off_labels = NULL;
+    bool_labels = NULL;
 	#endif
   }
   return;

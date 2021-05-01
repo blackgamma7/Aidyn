@@ -10,7 +10,7 @@ s64 decompress_LZ01(byte *compDat,int compSize,byte *OutDat,byte **OutSize){
   uint uVar6;
   byte *pbVar7;
   
-  *OutSize = null;
+  *OutSize = NULL;
   pbVar2 = compDat + compSize;
   pbVar7 = OutDat;
   if (*compDat < 18) {

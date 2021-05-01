@@ -103,13 +103,13 @@ void * Malloc(uint size,char *file,uint line){
       } while ((!bVar1) && (pHVar3 != (Heap_block_Debug *)0x0));
     }
     if (pHVar6 == (Heap_block_Debug *)0x0) {
-      os::sprintf(MemMonitor.text,"%s %i\ncouldn't find %i free space!\n%i avail in %i blocks\n%i used in %i blocks",
+      sprintf(MemMonitor.text,"%s %i\ncouldn't find %i free space!\n%i avail in %i blocks\n%i used in %i blocks",
       file,line,uVar5,MemMonitor.MemFree,MemMonitor.obj_free,MemMonitor.MemUsed,MemMonitor.obj_count_2);
       manualCrash("heap.cpp",MemMonitor.text);
     }
     malloc_update_mem_mon(pHVar6,uVar5);
     pcVar4 = remove_dir_slashes(file);
-    os::sprintf(MemMonitor.text,"%s %i",pcVar4,line);
+    sprintf(MemMonitor.text,"%s %i",pcVar4,line);
     strncpy(pHVar6->filename,MemMonitor.text,0x18);
     pHVar6->filename[0x17] = '\0';
     ret = pHVar6 + 1;
@@ -127,20 +127,20 @@ void Free(void *X,char *cpp,int line){
     if (((((uint)X & 7) != 0) || (X < MemMonitor.memRegionStart)) ||
        (pHVar2 = (Heap_block_Debug *)((int)X + -0x1c),
        (void *)((int)MemMonitor.memRegionStart + MemMonitor.memFreeMax) < X)) {
-      os::sprintf(MemMonitor.text,"%s %i tried to free an invalid pointer 0x%08x",cpp,line,X);
+      sprintf(MemMonitor.text,"%s %i tried to free an invalid pointer 0x%08x",cpp,line,X);
       manualCrash("heap.cpp",MemMonitor.text);
     }
     uVar1 = get_heap_size(pHVar2);
     uVar3 = uVar1 & ~1;
     if ((((uVar1 & 6) != 0) || (uVar3 < 0x10)) || (MemMonitor.memFreeMax < uVar3)) {
-      os::sprintf(MemMonitor.text,"%s %i tried to free a pointer with an invalid start tag! Owner: %24s",cpp,line,pHVar2.filename);
+      sprintf(MemMonitor.text,"%s %i tried to free a pointer with an invalid start tag! Owner: %24s",cpp,line,pHVar2.filename);
       manualCrash("heap.cpp",MemMonitor.text);}
     if ((FUN_80098848((char)pHVar2) & ~1) != uVar3) {
-      os::sprintf(MemMonitor.text,"%s %i tried to free a pointer with an invalid end tag! Owner: %24s",
+      sprintf(MemMonitor.text,"%s %i tried to free a pointer with an invalid end tag! Owner: %24s",
       cpp,line,pHVar2.filename);
       manualCrash("heap.cpp",MemMonitor.text);}
     if ((get_heap_size(pHVar2) & 1) == 0) {
-      os::sprintf(MemMonitor.text,"%s %i tried to free a pointer that has already been freed!",cpp,line);
+      sprintf(MemMonitor.text,"%s %i tried to free a pointer that has already been freed!",cpp,line);
       manualCrash("heap.cpp",MemMonitor.text);}
     free_update_mem_mon(pHVar2);
     MemMonitor.flag = 1;

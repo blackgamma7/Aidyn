@@ -20,7 +20,7 @@ void Gameover_func(void){
 loop:
       pCVar2 = partyPointer->Party[0];
       #ifdef DEBUGVER
-      if (pCVar2 == null) manualCrash("NO ALARON! EVIL!!!!","./src/gameover.cpp");
+      if (pCVar2 == NULL) manualCrash("NO ALARON! EVIL!!!!","./src/gameover.cpp");
       #endif
       sVar5 = getHPMax(pCVar2);
       sVar6 = getHPCurrent(pCVar2);

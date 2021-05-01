@@ -334,7 +334,7 @@ void appProc_init(void){
   FUN_80020830();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
-  Random::setRNGSeed((uint *)&gGlobals,0x3dbb6cd);
+  setRNGSeed((uint *)&gGlobals,0x3dbb6cd);
   uVar6 = 0;
   gGlobals.appstate = 5;
   gGlobals.ticker = 0;

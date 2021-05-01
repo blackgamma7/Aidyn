@@ -62,7 +62,7 @@ void n64print_init(Debug_queue *param_1){
   debugQueuePointer->ShortA = 0;
   debug_queue_func_();
   #else
-  debugQueuePointer = null;
+  debugQueuePointer = NULL;
   #endif
   return;
 }
@@ -71,11 +71,11 @@ void n64print_free(void){
 #ifdef DEBUGVER
   Debug_queue *pDVar1;
   
-  if (debugQueuePointer != null) {
+  if (debugQueuePointer != NULL) {
     Free(debugQueuePointer->text,FILENAME,0xa0);
     pDVar1 = debugQueuePointer;
-    debugQueuePointer = null;
-    pDVar1->text = null;
+    debugQueuePointer = NULL;
+    pDVar1->text = NULL;
   }
   return;
 #endif
@@ -104,7 +104,7 @@ char * debug_queue_sub(char *param_1,char param_2,short param_3){
     iVar3 = (int)(short)((short)iVar3 + 1);
   } while( true );
   #else
-  return null;
+  return NULL;
   #endif
 }
 
@@ -127,7 +127,7 @@ void debug_queue(char *param_1){
   char cStack400;
   char acStack399 [399];
   
-  if ((*param_1 != '\0') && (debugQueuePointer != null)) {
+  if ((*param_1 != '\0') && (debugQueuePointer != NULL)) {
     sVar5 = debugQueuePointer->ShortA;
     lVar4 = (longlong)sVar5;
     iVar6 = 0;
@@ -179,7 +179,7 @@ rspCom * func_with_debug_queue(rspCom *param_1,short param_2){
   float fVar7;
   
 
-  if (((debug_flag) && (show_debug_queue)) && (debugQueuePointer != null)) {
+  if (((debug_flag) && (show_debug_queue)) && (debugQueuePointer != NULL)) {
     fVar4 = (float)((double)debugQueuePointer->timer - (double)(int)param_2 * OneOver60_d);
     debugQueuePointer->timer = fVar4;
     if (0.0 < fVar4) {

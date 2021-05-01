@@ -5,7 +5,7 @@ void set_boss_flag(void){
   uint i=0;
   do {
     id = gGlobals.EncounterDat.enemy_entities[i];
-    if (id == null) goto next;
+    if (id == NULL) goto next;
     index = GetIDIndex(id);
     switch(index) {
     case 0xa8:

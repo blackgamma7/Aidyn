@@ -45,14 +45,14 @@ void Event_flag_stat(StatEnum param_1){
   uint uVar9;
   short lVar10;
   
-  if (gameStates != null) {
+  if (gameStates != NULL) {
     iVar5 = find_event_flag_array_index(param_1,eventflagArrayStats,0);
     if (iVar5 != 0) {
       lVar10 = 0;
       uVar6 = 3;
       do {
         pCVar3 = gGlobals.party->Party[uVar6];
-        if (((pCVar3 != null) && (isDead(pCVar3) == false)) &&
+        if (((pCVar3 != NULL) && (isDead(pCVar3) == false)) &&
            ( lVar10 < getModdedStat(pCVar3->Stats,param_1))) {
           lVar10 = (short)getModdedStat(pCVar3->Stats,param_1);
         }
@@ -84,14 +84,14 @@ void event_flag_skill_(SkillEnum param_1){
   uint uVar8;
   short uVar9;
   
-  if (gameStates != null) {
+  if (gameStates != NULL) {
     iVar4 = find_event_flag_array_index(param_1,eventflagArraySkills,0);
     if (iVar4 != 0) {
       uVar9 = 0;
       uVar5 = 3;
       do {
         pCVar3 = gGlobals.party->Party[uVar5];
-        if (((pCVar3 != null) && (isDead(pCVar3) == false)) &&
+        if (((pCVar3 != NULL) && (isDead(pCVar3) == false)) &&
            ( uVar9 < getModdedSkill(pCVar3->Skills,param_1))) {
           uVar9 = (short)getModdedSkill(pCVar3->Skills,param_1);;
         }
@@ -114,7 +114,7 @@ void set_flag_array(EventFlag param_1,EventFlag param_2,ushort param_3){
   byte bVar1;
   uint uVar2;
   uint uVar3;
-  if (((gameStates != null && (param_1 < gameStates->flag_count) && (param_2 < gameStates->flag_count) {
+  if (((gameStates != NULL && (param_1 < gameStates->flag_count) && (param_2 < gameStates->flag_count) {
     uVar2 = param_1;
     while (uVar2 < param_2+1) {
       bVar1 = (byte)praram_3;
@@ -156,7 +156,7 @@ bool load_gamestateFunnel(void){
 }
 bool clear_gamestatefunnel(void){
   Free(gameStates,s_./src/gamestatefunnel.cpp_800d9ef0,0x138);
-  gameStates = null;
+  gameStates = NULL;
   return true;
 }
 

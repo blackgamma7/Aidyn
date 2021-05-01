@@ -1,9 +1,9 @@
 void func_80013620(container_obj *arg0,short arg1,Borg_9_data *param_3){
   Scene_obj *prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(ref_obj *)arg0,Scene);
-  if ((prVar1->dat).field_0x8 != null) {
+  if ((prVar1->dat).field_0x8 != NULL) {
     AllocFreeQueueItem(&queueStructA,&(prVar1->dat).field_0x8,
                        (ushort)(((prVar1->dat).field_0x42 & 2) == 0),0);
-    (prVar1->dat).field_0x8 = null;
+    (prVar1->dat).field_0x8 = NULL;
   }
   (prVar1->dat).field_0x4 = (prVar1->dat).field_0x30[arg1 * 3 + -0xb];
 }
@@ -111,7 +111,7 @@ void get_loot_reagent(container_obj *arg0,container_Dat * arg1){
   ref_obj_bitmask_flag((arg0->header).flagB,(arg0->header).Bitfeild,Used);
   set_voxel_visibility((ref_obj *)arg0,false);
   a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene);
-  if (a != null) {set_voxel_visibility(a,false);}
+  if (a != NULL) {set_voxel_visibility(a,false);}
   if (exploding_container_check(arg0,gGlobals.Sub.borg9DatPointer) != 0) {
     passto_WriteTo_VoxelChart
               ((short)((int)((int)arg0 - (int)gGlobals.Sub.borg9DatPointer->ref_objs) * 0x684bda13 >> 2),
@@ -212,7 +212,7 @@ void loot_func(container_obj *arg0){
       set_voxel_visibility((ref_obj *)arg0,false);
       IVar2 = (arg0->dat).item;
       uVar10 = uVar12;
-      if (IVar2 != null) {
+      if (IVar2 != NULL) {
         uVar10 = uVar12 + 1 & 0xff;
         *(ItemID *)aIStack96[uVar12][0] = IVar2;
         aIStack96[uVar12][1] = 1;
@@ -422,7 +422,7 @@ bool exploding_container_sub(container_obj *arg0,Borg_9_data *arg1){
      (some_ref_obj_lookup_func
                          ((short)((int)((int)arg0 - (int)arg1->ref_objs) * 0x684bda13 >> 2),
                           (char)map_dat_A,(byte)MapShortA,(byte)mapShortB,0x11,
-                          *(undefined *)((int)&(arg0->header).type + 1)) != null))
+                          *(undefined *)((int)&(arg0->header).type + 1)) != NULL))
     {uVar3 = false;}
   else {uVar3 = trigger_event_flag_check((arg0->header).flagA,(arg0->header).Bitfeild,0x100);}
   return uVar3;
@@ -697,7 +697,7 @@ void set_container_obj_visible(container_obj *param_1,Borg_9_data *param_2){
 
 byte textbox_func_AB(undefined4 param_1,widgetStruct *param_2){
   set_widgets_byte0x70(param_2,5);
-  gGlobals.PlayerChar.text_window = null;
+  gGlobals.PlayerChar.text_window = NULL;
   return 0;}
 
 byte secretdoor_widget_AB(undefined4 param_1,widgetStruct *param_2){
@@ -713,8 +713,8 @@ widgetStruct * textbox_func(char *param_1){
   gGlobals.PlayerChar.text_window = some_textbox_func(param_1,0x96,&col1,&col2,1);
   (gGlobals.PlayerChar.text_window)->AbuttonFunc = textbox_func_AB;
   (gGlobals.PlayerChar.text_window)->BButtonFunc = textbox_func_AB;
-  (gGlobals.PlayerChar.text_window)->CDownFunc = null;
-  (gGlobals.PlayerChar.text_window)->CUpFunc = null;
+  (gGlobals.PlayerChar.text_window)->CDownFunc = NULL;
+  (gGlobals.PlayerChar.text_window)->CUpFunc = NULL;
   return gGlobals.PlayerChar.text_window;}
 
 bool container_open_check(EventFlag param_1){
