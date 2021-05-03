@@ -1,4 +1,4 @@
-//unencrypted string of stat description
+//decrypted strings of stat description
 string romstring_stats[]={
     "Intelligence affects chances of successfully casting spells, use of ranged weapons, and Loremaster and other knowledge-based skills.",
     "Willpower improves your defenses against enemy magic spells.",
