@@ -46,7 +46,7 @@ wander_substruct * findWandererFromPlayerName(short arg0){
   manualCrash(s_FindWandererFromPlayerName_800d8d4c,acStack72);
 }
 
-void Ofunc_800124b4(void *param_1,vec3 *param_2){
+void func_800124b4(void *param_1,vec3 *param_2){
   Vec2 temp;
   
   copyVec3((vec3 *)(*param_1 + 0x68),param_2);
@@ -247,7 +247,7 @@ void wander_struct_free_sub(wander_struct *param_1){
   return;
 }
 
-playerData * Ofunc_80012b44(wander_struct *param_1,wander_substruct *param_2){
+playerData * func_80012b44(wander_struct *param_1,wander_substruct *param_2){
   playerData *ppVar1;
   
   ppVar1 = param_2->playerDat;

@@ -583,7 +583,7 @@ bool container_obj_check(container_obj *arg0,playerData *arg1){
   }
   return ret;}
 
-undefined Ofunc_80014ba0(ref_obj *arg0,vec3 *arg1){
+undefined func_80014ba0(ref_obj *arg0,vec3 *arg1){
   undefined uVar1;
   float fVar2;
   
@@ -783,7 +783,7 @@ undefined ref_obj_bitmask_flag(EventFlag param_1,ref_obj_bitfeild param_2,ref_ob
   setEventFlag(param_1,(param_3 & param_2) == 0);
   return get_event_flag(0x15fa);}
 
-bool Ofunc_8001520c(teleport_obj *param_1){
+bool func_8001520c(teleport_obj *param_1){
   bool bVar1;
   
   if ((param_1->dat).secretDoorVal == 0) {bVar1 = false;}

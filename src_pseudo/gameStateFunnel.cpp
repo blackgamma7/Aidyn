@@ -33,7 +33,7 @@ struct event_flag_array {
     byte pad;
 };
 
-void Event_flag_stat(StatEnum param_1){
+void Event_flag_stat(CHAR_STAT param_1){
   EventFlag EVar1;
   EventFlag EVar2;
   CharSheet *pCVar3;
@@ -73,7 +73,7 @@ void Event_flag_stat(StatEnum param_1){
   return;
 }
 
-void event_flag_skill_(SkillEnum param_1){
+void event_flag_skill_(CHAR_SKILL param_1){
   EventFlag EVar1;
   EventFlag EVar2;
   CharSheet *pCVar3;

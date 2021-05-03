@@ -44,19 +44,19 @@ void Heap_init(void *X,u32 Y){
   MemMonitor.memRegionStart = X;
   MemMonitor.memFreeMax = Y;
   MemMonitor.memFree = Y;
-  FUN_80098824((undefined4 *)X,5);
+  func_80098824((undefined4 *)X,5);
   MemMonitor.obj_count_2++;
   MemMonitor.obj_count++;
   MemMonitor.memFree -= 4;
   MemMonitor.memUsed+= 4;
-  FUN_80098824((undefined4 *)((int)MemMonitor.memRegionStart + (MemMonitor.memFreeMax - 4)),5);
+  func_80098824((undefined4 *)((int)MemMonitor.memRegionStart + (MemMonitor.memFreeMax - 4)),5);
   iVar2 = (int)MemMonitor.memRegionStart + 4;
   MemMonitor.memFree-= 4;
   MemMonitor.obj_count++;
   MemMonitor.obj_count_2++;
   MemMonitor.memUsed+=4;
-  FUN_800986f0(iVar2,MemMonitor.memFree);
-  FUN_8009872c(iVar2);
+  func_800986f0(iVar2,MemMonitor.memFree);
+  func_8009872c(iVar2);
   MemMonitor.obj_count++;
   MemMonitor.obj_free++;
   MemMonitor.memFree_2 = 0;
@@ -98,7 +98,7 @@ void * Malloc(uint size,char *file,uint line){
             uVar7 = uVar2;
             pHVar6 = pHVar3;
           }
-          pHVar3 = (Heap_block_Debug *)FUN_8009887c((char)pHVar3);
+          pHVar3 = (Heap_block_Debug *)func_8009887c((char)pHVar3);
         }
       } while ((!bVar1) && (pHVar3 != (Heap_block_Debug *)0x0));
     }
@@ -135,7 +135,7 @@ void Free(void *X,char *cpp,int line){
     if ((((uVar1 & 6) != 0) || (uVar3 < 0x10)) || (MemMonitor.memFreeMax < uVar3)) {
       sprintf(MemMonitor.text,"%s %i tried to free a pointer with an invalid start tag! Owner: %24s",cpp,line,pHVar2.filename);
       manualCrash("heap.cpp",MemMonitor.text);}
-    if ((FUN_80098848((char)pHVar2) & ~1) != uVar3) {
+    if ((func_80098848((char)pHVar2) & ~1) != uVar3) {
       sprintf(MemMonitor.text,"%s %i tried to free a pointer with an invalid end tag! Owner: %24s",
       cpp,line,pHVar2.filename);
       manualCrash("heap.cpp",MemMonitor.text);}
@@ -148,7 +148,7 @@ void Free(void *X,char *cpp,int line){
   return;
 }
 
-uint Ofunc_80098200(void *param_1){return get_heap_size((Heap_block_Debug *)((int)param_1 + -4)) &-1;}
+uint func_80098200(void *param_1){return get_heap_size((Heap_block_Debug *)((int)param_1 + -4)) &-1;}
 u32 Ofunc_get_MemFreeMax(void){return MemMonitor.memFreeMax;}
 u32 get_memUsed(void){return MemMonitor.memUsed;}
 u32 get_memFree(void){return MemMonitor.memFree;}
@@ -169,7 +169,7 @@ uint get_memFree_2(void){
         if (uVar3 < (uVar1 & 0xfffffffe)) {
           uVar3 = uVar1 & 0xfffffffe;
         }
-        pHVar2 = (Heap_block_Debug *)FUN_8009887c((char)pHVar2);
+        pHVar2 = (Heap_block_Debug *)func_8009887c((char)pHVar2);
       } while (pHVar2 != (Heap_block_Debug *)0x0);
     }
     MemMonitor.flag = 0;
@@ -198,8 +198,8 @@ void print_mem_allocated(func *param_1,void *param_2){
     uVar5 = (longlong)(int)uVar2 & 0xfffffffffffffffe;
     uVar2 = get_heap_size(pHVar4);
     if ((uVar7 != 0) && (uVar7 != uVar6)) {
-      uVar1 = FUN_80098848((char)pHVar4);
-      uVar3 = FUN_80098848((char)pHVar4);
+      uVar1 = func_80098848((char)pHVar4);
+      uVar3 = func_80098848((char)pHVar4);
       if ((uVar2 & 1) == 0) {
         if (pfVar8 != (func *)0x0) {
           (*param_1)(param_2,"NA",uVar7,uVar5);
@@ -232,18 +232,18 @@ void malloc_update_mem_mon(Heap_block_Debug *param_1,int param_2){
   uVar1 = get_heap_size(param_1);
   iVar2 = (uVar1 & 0xfffffffe) - param_2;
   if (iVar2 == 0) {
-    FUN_800986f0(param_1,param_2 | 1);
-    FUN_800987a8(param_1);
+    func_800986f0(param_1,param_2 | 1);
+    func_800987a8(param_1);
     MemMonitor.obj_count_2++;
     MemMonitor.obj_free--;
   }
   else {
-    FUN_800986f0(param_1,param_2 | 1);
-    FUN_800987a8(param_1);
+    func_800986f0(param_1,param_2 | 1);
+    func_800987a8(param_1);
     MemMonitor.obj_count_2++;
     MemMonitor.obj_free--;
-    FUN_800986f0(param_1+param_2,iVar2);
-    FUN_8009872c(param_1+param_2);
+    func_800986f0(param_1+param_2,iVar2);
+    func_8009872c(param_1+param_2);
     MemMonitor.obj_count++;
     MemMonitor.obj_free++;
   }
@@ -274,20 +274,20 @@ void free_update_mem_mon(Heap_block_Debug *param_1)
   pHVar6 = (Heap_block_Debug *)((int)param_1 - (uVar3 & 0xfffffffe));
   uVar8 = uVar1;
   if ((uVar2 & 1) == 0) {
-    FUN_800987a8(pHVar6);
+    func_800987a8(pHVar6);
     uVar8 = uVar1 + (uVar3 & 0xfffffffe);
     MemMonitor.obj_count--;
     MemMonitor.obj_free--;
     param_1 = pHVar6;
   }
   if ((uVar4 & 1) == 0) {
-    FUN_800987a8(pHVar7);
+    func_800987a8(pHVar7);
     uVar8 = uVar8 + (uVar5 & 0xfffffffe);
     MemMonitor.obj_count--;
     MemMonitor.obj_free--;
   }
-  FUN_800986f0(param_1,uVar8);
-  FUN_8009872c(param_1);
+  func_800986f0(param_1,uVar8);
+  func_8009872c(param_1);
   MemMonitor.memUsed-= uVar1;
   MemMonitor.memFree+= uVar1;
   MemMonitor.obj_count_2--;
@@ -295,22 +295,22 @@ void free_update_mem_mon(Heap_block_Debug *param_1)
   return;
 }
 
-void FUN_800986f0(undefined8 param_1,undefined8 param_2){
-  FUN_80098824((undefined4 *)param_1,(int)param_2);
-  FUN_8009882c(param_1,param_2);
+void func_800986f0(undefined8 param_1,undefined8 param_2){
+  func_80098824((undefined4 *)param_1,(int)param_2);
+  func_8009882c(param_1,param_2);
   return;
 }
 
-void FUN_8009872c(void *param_1){
+void func_8009872c(void *param_1){
   void *pvVar1;
   void *pvVar2;
   
   pvVar1 = MemMonitor.memRegionNext;
-  FUN_80098864((char)param_1,0);
-  FUN_8009886c((char)param_1,pvVar1);
+  func_80098864((char)param_1,0);
+  func_8009886c((char)param_1,pvVar1);
   pvVar2 = param_1;
   if (pvVar1 != (void *)0x0) {
-    FUN_80098864((char)pvVar1,param_1);
+    func_80098864((char)pvVar1,param_1);
     pvVar2 = MemMonitor.mamRegionMaxCurr;
   }
   MemMonitor.mamRegionMaxCurr = pvVar2;
@@ -318,53 +318,53 @@ void FUN_8009872c(void *param_1){
   return;
 }
 
-void FUN_800987a8(undefined param_1){
+void func_800987a8(undefined param_1){
   void *pvVar1;
   longlong lVar2;
   void *pvVar3;
   
-  lVar2 = FUN_80098874(param_1);
-  pvVar3 = (void *)FUN_8009887c(param_1);
+  lVar2 = func_80098874(param_1);
+  pvVar3 = (void *)func_8009887c(param_1);
   pvVar1 = pvVar3;
   if (lVar2 != 0) {
-    FUN_8009886c((char)lVar2,pvVar3);
+    func_8009886c((char)lVar2,pvVar3);
     pvVar1 = MemMonitor.memRegionNext;
   }
   MemMonitor.memRegionNext = pvVar1;
   pvVar1 = (void *)lVar2;
   if (pvVar3 != (void *)0x0) {
-    FUN_80098864((char)pvVar3,(void *)lVar2);
+    func_80098864((char)pvVar3,(void *)lVar2);
     pvVar1 = MemMonitor.mamRegionMaxCurr;
   }
   MemMonitor.mamRegionMaxCurr = pvVar1;
   return;
 }
 
-void FUN_80098824(undefined4 *param_1,undefined4 param_2){*param_1 = param_2;}
+void func_80098824(undefined4 *param_1,undefined4 param_2){*param_1 = param_2;}
 
-void FUN_8009882c(int param_1,uint param_2){
+void func_8009882c(int param_1,uint param_2){
   *(uint *)((param_2 & 0xfffffffe) + param_1 + -4) = param_2;}
 
 uint get_heap_size(Heap_block_Debug *param_1){return param_1->size;}
 
-undefined4 FUN_80098848(char param_1){
+undefined4 func_80098848(char param_1){
   return *(undefined4 *)((int)(uint *)(int)param_1 + ((*(uint *)(int)param_1 & 0xfffffffe) - 4));}
 
-void FUN_80098864(void *param_1,undefined4 param_2){
+void func_80098864(void *param_1,undefined4 param_2){
   *(undefined4 *)((int)param_1 + 4) = param_2;
 }
 
 
-void FUN_8009886c(char param_1,undefined4 param_2){
+void func_8009886c(char param_1,undefined4 param_2){
   *(undefined4 *)(param_1 + 8) = param_2;
 }
-undefined4 FUN_80098874(char param_1){
+undefined4 func_80098874(char param_1){
   return *(undefined4 *)(param_1 + 4);
 }
 
-s32 FUN_8009887c(char param_1){return *(s32 *)(param_1 + 8);}
+s32 func_8009887c(char param_1){return *(s32 *)(param_1 + 8);}
 
-uint Ofunc_80098884(void){
+uint func_80098884(void){
   uint uVar1;
   Heap_block_Debug *pHVar2;
   uint uVar3;
@@ -377,7 +377,7 @@ uint Ofunc_80098884(void){
       if (uVar3 < (uVar1 & 0xfffffffe)) {
         uVar3 = uVar1 & 0xfffffffe;
       }
-      pHVar2 = (Heap_block_Debug *)FUN_8009887c((char)pHVar2);
+      pHVar2 = (Heap_block_Debug *)func_8009887c((char)pHVar2);
     } while (pHVar2 != (Heap_block_Debug *)0x0);
   }
   return uVar3;

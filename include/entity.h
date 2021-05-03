@@ -129,7 +129,7 @@ struct{
 }dialougeEntity_Info;
 
 struct resist_float { /* resistance and element when loaded into temp item */
-    enum ElementEnum element;
+    enum ELEMENT element;
     byte pad[3];
     float percent;
 };
@@ -212,7 +212,7 @@ struct CombatEntity {
     u8 unk0x24;
     byte unk0x25;
     u8 unk0x26;
-    enum PotionEnum item;
+    enum POTION item;
     byte unk0x28;
     byte damage;
     u8 unk0x2a;

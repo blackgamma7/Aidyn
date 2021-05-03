@@ -12,7 +12,7 @@ void init_charExp(charExp *param_1,ItemID param_2){
   
   bVar3 = GetIDIndex(param_2);
   pEVar5 = EntityPointer->entities + bVar3;
-  param_1->rom0x2b = pEVar5->rom0x2b;
+  param_1->rom0x2b = pEVar5->rom0x2b; //seems unused
   param_1->school = pEVar5->School;
   param_1->protection = pEVar5->BaseProtect;
   param_1->total = 0;
@@ -21,51 +21,24 @@ void init_charExp(charExp *param_1,ItemID param_2){
   CVar2 = pEVar5->unk0x18;
   param_1->flags = CVar2;
   if (pEVar5->aspect == SOLAR) {param_1->flags = CVar2 | IsSolar;}
-  if ((bVar3 == 0x99) && (get_event_flag(0x24e))) { //is alaron and hit a certain flag.
-      param_1->flags = param_1->flags | Protag;
-  }
+  //is alaron and hit a certain flag
+  if ((bVar3 == 0x99) && (get_event_flag(0x24e))) {param_1->flags |= Protag;}
 }
 
-AspectEnum GetCharAspect(charExp *param_1){
-  AspectEnum AVar1;
-  
-  AVar1 = SOLAR;
-  if ((param_1->flags & IsSolar) == 0) {
-    AVar1 = LUNAR;
-  }
-  return AVar1;
+ASPECT GetCharAspect(charExp *param_1){
+  ASPECT AVar1 = SOLAR;
+  if ((param_1->flags & IsSolar) == 0) {AVar1 = LUNAR;}
+  return AVar1;}
+
+void temp_item_check(Temp_equip *param_1,ItemID param_2){
+  u8 uVar1 = param_2 >> 8;
+  if ((uVar1 == 5) || (uVar1 == 6)) {make_temp_armor((temp_armor *)param_1,param_2);}
+  else if (uVar1 == 7) {make_temp_weapon((Temp_weapon *)param_1,param_2);}
+  else if (uVar1 == 0x10) {make_temp_potion((Temp_potion *)param_1,param_2);}
+  else {make_temp_gear((temp_gear *)param_1,param_2);}
 }
 
-void temp_item_check(Temp_equip *param_1,ItemID param_2)
-
-{
-  uint uVar1;
-  undefined2 uVar2;
-  
-  uVar1 = ((int)param_2 & 0xffffU) >> 8;
-  uVar2 = (undefined2)((int)param_2 & 0xffffU);
-  if ((uVar1 == 5) || (uVar1 == 6)) {
-    make_temp_armor((temp_armor *)param_1,uVar2);
-  }
-  else {
-    if (uVar1 == 7) {
-      make_temp_weapon((Temp_weapon *)param_1,uVar2);
-    }
-    else {
-      if (uVar1 == 0x10) {
-        make_temp_potion((Temp_potion *)param_1,uVar2);
-      }
-      else {
-        make_temp_gear((temp_gear *)param_1,uVar2);
-      }
-    }
-  }
-  return;
-}
-
-void clear_temp_Stat_spell(Temp_weapon *param_1)
-
-{
+void clear_temp_Stat_spell(Temp_weapon *param_1){
   if (param_1->Stat != (byte (*) [2])0x0) {
     Free(param_1->Stat,s_../gameclasses/generic.cpp_800e08c0,0x6e);
     param_1->Stat = (byte (*) [2])0x0;
@@ -74,13 +47,10 @@ void clear_temp_Stat_spell(Temp_weapon *param_1)
     Free(param_1->spell,s_../gameclasses/generic.cpp_800e08c0,0x74);
     param_1->spell = (Temp_spell *)0x0;
   }
-  return;
 }
 
 
-void make_temp_armor(temp_armor *param_1,ItemID param_2)
-
-{
+void make_temp_armor(temp_armor *param_1,ItemID param_2){
   armour_RAM *paVar1;
   byte bVar4;
   byte (*pabVar2) [2];
@@ -146,8 +116,8 @@ void make_temp_potion(Temp_potion *param_1,ItemID param_2){
   bVar3 = GetIDIndex(param_2);
   ppcVar2 = potion_names;
   param_1->id = param_2;
-  pcVar1 = ppcVar2[(char)bVar3];
-  param_1->price = potion_prices[(char)bVar3];
+  pcVar1 = ppcVar2[bVar3];
+  param_1->price = potion_prices[bVar3];
   param_1->name = pcVar1;
   return;
 }
@@ -179,9 +149,7 @@ void make_temp_gear(temp_gear *param_1,ItemID param_2){
   return;
 }
 
-ushort GetItemPrice(ItemID *param_1)
-
-{
+ushort GetItemPrice(ItemID *param_1){
   byte bVar3;
   int iVar1;
   ushort uVar2;
@@ -192,29 +160,21 @@ ushort GetItemPrice(ItemID *param_1)
     bVar3 = GetIDIndex(*param_1);
     uVar2 = armour_pointer->Armor[bVar3].price;
   }
+  else if (uVar4 == 7) {
+    bVar3 = GetIDIndex(*param_1);
+    uVar2 = weapon_pointer->weapons[bVar3].price;
+    }
+  else if (uVar4 == 0x10) {
+    bVar3 = GetIDIndex(*param_1);
+    uVar2 = potion_prices[bVar3];
+   }
   else {
-    if (uVar4 == 7) {
-      bVar3 = GetIDIndex(*param_1);
-      uVar2 = weapon_pointer->weapons[bVar3].price;
+    iVar1 = search_item_array(*param_1);
+    uVar2 = item_pointer->Gear[iVar1].price;
     }
-    else {
-      if (uVar4 == 0x10) {
-        bVar3 = GetIDIndex(*param_1);
-        uVar2 = potion_prices[bVar3];
-      }
-      else {
-        iVar1 = search_item_array(*param_1);
-        uVar2 = item_pointer->Gear[iVar1].price;
-      }
-    }
-  }
   return uVar2;
 }
 
 //think this is supposed to add spell charges.
-void FUN_8007c194(Temp_weapon *param_1,char param_2){
-  if ((param_2 != -1) && (param_1->spell != (Temp_spell *)0x0)) {
-    *(char *)&param_1->spell->name = param_2;
-  }
-  return;
-}
+void  SetMagicCharges(Temp_weapon *param_1,s8 param_2){
+  if ((param_2 != -1) && (param_1->spell != NULL)) {param_1->spell->Charges = param_2;}}

@@ -275,7 +275,7 @@ loop:
       sVar9 = sVar11 + -1;
       sVar3 = doubleGlobalTickerFlag;
       if (sVar1 == 2) {
-        FUN_800095f0(in_stack_ffffffc0);
+        func_800095f0(in_stack_ffffffc0);
         gGlobals.ticker = gGlobals.ticker + 1;
         sVar11 = sVar9;
         if (0.0 < lensflare_floats[0]) {
@@ -331,7 +331,7 @@ void appProc_init(void){
   uint uVar6;
   
   SetGfxMode(0x140,0xf0,0x10);
-  FUN_80020830();
+  func_80020830();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
   setRNGSeed((uint *)&gGlobals,0x3dbb6cd);

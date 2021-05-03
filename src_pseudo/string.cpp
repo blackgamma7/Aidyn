@@ -54,7 +54,7 @@ char * strncpy(char *c1,char *c2,int i){
 
 //some of these are unused and I can't discen from code what they do.
 
-char * Ofunc_80098a34(char *c1,char *c2){
+char * func_80098a34(char *c1,char *c2){
   char x;
   char *y;
   
@@ -84,7 +84,7 @@ char * Ofunc_80098a34(char *c1,char *c2){
   return c1;
 }
 
-char * Ofunc_80098a80(char *c1,char *c2,int i){
+char * func_80098a80(char *c1,char *c2,int i){
   char x;
   char *y;
   int j;
@@ -234,7 +234,7 @@ lab4:
   return k;
 }
 
-int Ofunc_80098c4c(byte *c1,byte *c2){
+int func_80098c4c(byte *c1,byte *c2){
   byte y;
   uint z;
   int i;
@@ -287,7 +287,7 @@ LAB_80098cf4:
   return i;
 }
 
-int Ofunc_80098d18(byte *c1,byte *c2,int i){
+int func_80098d18(byte *c1,byte *c2,int i){
   byte x;
   uint y;
   byte z;
@@ -390,7 +390,7 @@ void * memset(void *x,byte m,uint i){
   return x;
 }
 
-byte * Ofunc_80098e84(byte *c1,byte *c2,uint i){
+byte * func_80098e84(byte *c1,byte *c2,uint i){
   byte *c_1;
   byte *c_2;
   byte *c_3;
@@ -459,7 +459,7 @@ byte * Ofunc_80098e84(byte *c1,byte *c2,uint i){
   return c1;
 }
 
-int Ofunc_80099030(byte *c1,byte *c2,int i){
+int func_80099030(byte *c1,byte *c2,int i){
   int j=0;
   int k=0;
   byte x;

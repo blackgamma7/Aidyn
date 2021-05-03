@@ -369,7 +369,7 @@ debug::gsDisplaySystemMonitor_Fillrect
   return (undefined4 *)cmd[3];
 }
 
-rspCom * Ofunc_80008f48(rspCom *param_1){
+rspCom * func_80008f48(rspCom *param_1){
   (*param_1)[0] = 0xe7000000;
   (*param_1)[1] = 0;
   param_1[1][0] = 0xe3000a01;
@@ -554,7 +554,7 @@ void func_swapping_framebuffer_(int dat_size,OSMesgQueue *param_2)
   return;
 }
 
-void FUN_800095f0(void *param_1){ //no clue what the arg is.
+void func_800095f0(void *param_1){ //no clue what the arg is.
   uint uVar1;
   u64 uVar2;
   
@@ -567,11 +567,11 @@ void FUN_800095f0(void *param_1){ //no clue what the arg is.
 byte get_vi_buffer_choice(void){return gfx_struct.vi_buffer_choice;}
 
 
-void * Ofunc_80009658(void *param_1,void *param_2){
+void * func_80009658(void *param_1,void *param_2){
   if (gfx_struct.vi_buffer_choice == 0) {param_2 = param_1;}
   return param_2;}
 
-void * Ofunc_80009674(void *param_1,void *param_2){
+void * func_80009674(void *param_1,void *param_2){
   if (gfx_struct.vi_buffer_choice == 0) {param_1 = param_2;}
   return param_1;}
 
@@ -785,7 +785,7 @@ void passto_GetGfxLastFrame(undefined *param_1,ushort param_2,ushort param_3,byt
   getGfxLastFrame(param_1,param_2,param_3,param_4,0,0,gfx_struct.hres[1],gfx_struct.Vres[1]);}
 
 undefined4 *
-Ofunc_80009d7c(rspCom *param_1,uint param_2,uint param_3,uint param_4,ushort param_5,byte param_6,
+func_80009d7c(rspCom *param_1,uint param_2,uint param_3,uint param_4,ushort param_5,byte param_6,
               byte param_7,byte param_8,byte param_9){
   uint uVar1;
   uint uVar2;
@@ -1143,19 +1143,11 @@ rspCom * DisplaySystemMonitor(rspCom *param_1){
              gsDisplaySystemMonitor_Fillrect(pauVar11,uVar2,0x14,uVar2 + sVar21,0x16,R,G,0,0xff);
   uVar2 = uVar2 + (short)(int)fVar18;
   dVar20 = (double)(uVar8 * 0x118);
-  if ((int)(uVar8 * 0x118) < 0) {
-    dVar20 = dVar20 + UINT_MAX_d;
-  }
-  if ((int)uVar3 < 0) {
-    dVar22 = dVar22 + UINT_MAX_d;
-  }
+  if ((int)(uVar8 * 0x118) < 0) {dVar20 = dVar20 + UINT_MAX_d;}
+  if ((int)uVar3 < 0) {dVar22 = dVar22 + UINT_MAX_d;}
   fVar18 = (float)dVar20 / (float)dVar22 + 0.5f;
-  if (fVar18 < INT_MAX_f) {
-    sVar21 = (short)(int)fVar18;
-  }
-  else {
-    sVar21 = (short)(int)(fVar18 - INT_MAX_f);
-  }
+  if (fVar18 < INT_MAX_f) {sVar21 = (short)(int)fVar18;}
+  else {sVar21 = (short)(int)(fVar18 - INT_MAX_f);}
   pauVar11 = (rspCom *)
              gsDisplaySystemMonitor_Fillrect(pauVar11,uVar2,0x14,uVar2 + sVar21,0x16,0,0,0xff,0xff);
   iVar9 = (int)((int)param_1 - (int)pvVar1) * 0x118;

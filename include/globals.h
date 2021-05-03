@@ -7,8 +7,9 @@
 
 #define ABS_macro(x) (if((float)x>=INT_MAX_f){x-=INT_MAX_f})
 #define clear_macro(x) (memset(&x,0,sizeof(x)))
+#define LE(x) ((ushort)x[0] + (ushort)x[1] * 0x100) //for the byteswapping in ROM data
 
-struct{byte r,g,b,a;}Color;
+struct{byte r,g,b,a;}color;
 
 #define OFFWHITE {0xe1,0xe1,0xe1,0xff}
 #define DARKGRAY {0x32,0x32,0x32,0xff}
@@ -146,7 +147,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles v1.0 */
     byte someCase;
     undefined3 unk0x14c9;
     void * unkPausePointer;
-    struct pause_struct * bigassMenu;
+    struct pause_struct * bigassMenu; //hey, that's what the code calls it.
     byte unk0x14d4;
     byte unk0x14d5;
     undefined2 unk0x14d6;
@@ -194,8 +195,8 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles v1.0 */
     float screenFadeSpeed;
     undefined2 StoryShort;
     undefined2 align0x205e;
-    struct CommonStringArray * CommonStrings;
-    byte goblinAmbush;
+    char** CommonStrings;
+    byte goblinAmbush; //set with the goblin ambush at the start of the game.
     undefined3 align0x2055;
     float VolSFX;
     float VolBGM;

@@ -12,7 +12,7 @@ void ofunc_8002d8c0(int param_1,ushort param_2){
 }
 
 
-void Ofunc_8002d8dc(void){
+void func_8002d8dc(void){
   show_debug_queue = ofunc_value;
   return;
 }

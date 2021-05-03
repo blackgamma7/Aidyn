@@ -1,12 +1,12 @@
 struct Potion_effect{
-    PotionEnum ID;
+    POTION ID;
     byte unk1;
     byte pad[2];
     u32 timer;
     u32 unk2; //might have to do with spell visuals. unused?
 }
 char** potion_names;
-void make_charsheet_potion(Potion_effect *param_1,PotionEnum ID,byte param_3,uint Timer){
+void make_charsheet_potion(Potion_effect *param_1,POTION ID,byte param_3,uint Timer){
   param_1->ID = ID;
   param_1->unk1 = param_3;
   param_1->timer = Timer;
@@ -15,7 +15,7 @@ void make_charsheet_potion(Potion_effect *param_1,PotionEnum ID,byte param_3,uin
 
 void func_with_potion_unk2(Potion_effect *param_1){
   if ((param_1->unk2 != 0xffff) && (gGlobals.screenFadeModeSwitch == 2)) {
-    FUN_8009420c(param_1->unk2);}
+    func_8009420c(param_1->unk2);}
 }
 
 

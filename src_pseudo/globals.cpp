@@ -524,7 +524,7 @@ uint append_SenseAura_text(char *str1,char *str2,uint param_3){
   return uVar1;
 }
 #ifdef DEBUGVER
-void Ofunc_8000c6e8(void){
+void func_8000c6e8(void){
   OSTime OVar1;
   u64 uVar2;
   
@@ -533,7 +533,7 @@ void Ofunc_8000c6e8(void){
   ofunc_dat = uVar2;}
 //a lot more orphaned funcs using "ofunc_dat" between these 2
 //Ghidra struggled with them, but.. here it goes.
-undefined8 Ofunc_8000c730(void){
+undefined8 func_8000c730(void){
   uint uVar1;
   undefined8 in_v1;
   ulonglong uVar2;
@@ -548,7 +548,7 @@ undefined8 Ofunc_8000c730(void){
                   (uint)((uVar2 & 0xffffffff00000000 | uVar4 & 0xffffffff) <
                         (ulonglong)(longlong)ofunc_dat._4_4_),
                   (int)(uVar4 & 0xffffffff) - ofunc_dat._4_4_);}
-void Ofunc_8000c788(char *param_1){
+void func_8000c788(char *param_1){
   uint uVar1;
   undefined8 in_v1;
   ulonglong uVar2;
@@ -568,7 +568,7 @@ void Ofunc_8000c788(char *param_1){
   uVar4 = udivdi3((int)(OVar3 >> 0x20) << 6 | (uint)OVar3 >> 0x1a,(uint)OVar3 << 6,0,3);
   ofunc_dat._0_4_ = (int)(uVar4 >> 0x20);
   ofunc_dat._4_4_ = (int)uVar4;}
-void Ofunc_8000c850(float param_1){
+void func_8000c850(float param_1){
   ulonglong uVar1;
   uint in_v1_hi;
   uint uVar2;

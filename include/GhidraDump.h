@@ -2570,8 +2570,8 @@ typedef struct astruct_9 astruct_9, *Pastruct_9;
 
 
 struct astruct_9 {
-    enum PotionEnum unk0x0;
-    enum PotionEnum unk0x1;
+    enum POTION unk0x0;
+    enum POTION unk0x1;
     u8 unk0x2;
     u8 unk0x3;
     undefined4 unk0x4;
@@ -2659,13 +2659,13 @@ typedef enum CharSheetFlags {
     IsSolar=4
 } CharSheetFlags;
 
-typedef enum AspectEnum {
+typedef enum ASPECT {
     Solar_magic=3,
     Lunar=1,
     Solar=2,
     Lunar_magic=4,
     NONE=0
-} AspectEnum;
+} ASPECT;
 
 typedef struct Temp_spell Temp_spell, *PTemp_spell;
 
@@ -2781,7 +2781,7 @@ struct CharGear {
 };
 
 struct Potion_effect {
-    enum PotionEnum ID;
+    enum POTION ID;
     byte unk1;
     byte pad[2];
     uint timer;
@@ -2835,7 +2835,7 @@ struct Temp_spell { /* spell data loaded into character. */
     enum MagicCastedEnum cast;
     enum MagicTargetEnum target;
     byte wizard;
-    enum AspectEnum aspect;
+    enum ASPECT aspect;
     byte range;
     enum MigicCostEnum cost;
     ushort exp_modifyer;
@@ -2846,7 +2846,7 @@ struct Temp_spell { /* spell data loaded into character. */
 };
 
 struct resist_float { /* resistance and element when loaded into temp item */
-    enum ElementEnum element;
+    enum ELEMENT element;
     byte pad[3];
     float percent;
 };
@@ -2871,7 +2871,7 @@ struct Temp_weapon {
     u8 unk0x2;
     u8 unk0x3;
     char * name;
-    enum AspectEnum aspect;
+    enum ASPECT aspect;
     u8 unk0x9;
     ushort price;
     byte[2] * Stat;
@@ -2888,7 +2888,7 @@ struct Temp_weapon {
     byte damage;
     byte range;
     byte animation;
-    enum ElementEnum element;
+    enum ELEMENT element;
     u8 unk0x2a;
     u8 unk0x2b;
 };
@@ -2910,7 +2910,7 @@ struct CombatEntity {
     u8 unk0x24;
     byte unk0x25;
     u8 unk0x26;
-    enum PotionEnum item?;
+    enum POTION item?;
     byte unk0x28;
     byte damage;
     u8 unk0x2a;
@@ -2946,7 +2946,7 @@ struct temp_gear {
     u8 unk0x2;
     u8 unk0x3;
     char * name;
-    enum AspectEnum aspect;
+    enum ASPECT aspect;
     u8 unk0x9;
     ushort price;
     byte[2] * statmod;
@@ -3024,7 +3024,7 @@ struct temp_armor {
     u8 unk0x2;
     u8 unk0x3;
     char * name;
-    enum AspectEnum aspect;
+    enum ASPECT aspect;
     u8 unk0x9;
     ushort price;
     byte[2] * statMod;
@@ -4296,7 +4296,7 @@ struct DialougEnt_RAM {
 
 typedef struct Gear_RAM Gear_RAM, *PGear_RAM;
 
-typedef enum StatEnum {
+typedef enum CHAR_STAT {
     STR=4,
     DEX=2,
     END=3,
@@ -4305,9 +4305,9 @@ typedef enum StatEnum {
     STAM=5,
     NONE=255,
     INT=0
-} StatEnum;
+} CHAR_STAT;
 
-typedef enum SkillEnum {
+typedef enum CHAR_SKILL {
     Mechanic=4,
     Ranger=6,
     Warrior=10,
@@ -4321,7 +4321,7 @@ typedef enum SkillEnum {
     NONE=255,
     Wizard=11,
     Theif=8
-} SkillEnum;
+} CHAR_SKILL;
 
 struct Gear_RAM {
     struct ItemID ID;
@@ -4334,17 +4334,17 @@ struct Gear_RAM {
     byte STR;
     byte INT;
     ushort price;
-    enum AspectEnum aspect;
-    enum StatEnum stat;
+    enum ASPECT aspect;
+    enum CHAR_STAT stat;
     byte Stat modifyer;
-    enum SkillEnum skill;
+    enum CHAR_SKILL skill;
     byte skill modifier;
     byte spell;
     byte spell value;
     byte spell value 2;
     byte magic;
     byte magic ammount;
-    enum ElementEnum element resist;
+    enum ELEMENT element resist;
     u8 unk0x2b;
     float Resist percent;
 };
@@ -4391,7 +4391,7 @@ struct Spell_RAM {
     enum MagicTargetEnum Target;
     byte unk0x1f;
     byte WizardREQ;
-    enum AspectEnum Aspect;
+    enum ASPECT Aspect;
     byte Range;
     enum MigicCostEnum ingredient;
     byte EXP_Modifyer;
@@ -4431,17 +4431,17 @@ struct Armour_ROM { /* Armour data in Rom */
     byte stealth;
     byte price[2]; /* endian swapped */
     byte expBonus;
-    enum AspectEnum aspect;
-    enum StatEnum stat;
+    enum ASPECT aspect;
+    enum CHAR_STAT stat;
     char statNum;
-    enum SkillEnum skill;
+    enum CHAR_SKILL skill;
     char skillNum;
     struct ItemID_ROM spell;
     byte SpellLV;
     byte unk0x2a;
     struct ItemID_ROM magic;
     byte magicLV;
-    enum ElementEnum Element;
+    enum ELEMENT Element;
     enum ResistEnum ElementResist;
 };
 
@@ -4476,7 +4476,7 @@ struct Entity_ROM { /* Entity data stored in Rom */
     enum EntityCatEnum category; /* only checks for Chaos type */
     struct ItemID_ROM id;
     byte unk0x2b; /* passed to ram 0x19 */
-    enum AspectEnum Aspect;
+    enum ASPECT Aspect;
     byte unk0x2d[2]; /* sets 2 bits at ram0x18 */
     byte Alchemist; /* base skill lv's */
     byte Diplomat; /* FF=Cannot learn */
@@ -4521,9 +4521,9 @@ struct Entity_ROM { /* Entity data stored in Rom */
     byte protection;
     struct ItemID_ROM sheild;
     byte SheildSkill;
-    enum ElementEnum ElementResist1;
+    enum ELEMENT ElementResist1;
     enum ResistEnum ResistAmmount1; /* 100-(25*x) */
-    enum ElementEnum ElementResist2;
+    enum ELEMENT ElementResist2;
     enum ResistEnum ResistAmmount2; /* 100-(25*x) */
     byte unk0x7a[8];
     byte unk0x82[4];
@@ -4542,17 +4542,17 @@ struct Gear_Rom { /* Gear/item data stored in rom */
     byte required_STR;
     byte Required_INT;
     byte price[2]; /* Endian reversed */
-    enum AspectEnum Aspect;
-    enum StatEnum stat;
+    enum ASPECT Aspect;
+    enum CHAR_STAT stat;
     byte statMod;
-    enum SkillEnum Skill; /* Can also modify Stat */
+    enum CHAR_SKILL Skill; /* Can also modify Stat */
     byte SkillMod;
     struct ItemID_ROM Spell;
     byte spell value;
     byte Spell VAlue 2;
     struct ItemID_ROM Magic;
     byte Magic ammount;
-    enum ElementEnum Element Resist;
+    enum ELEMENT Element Resist;
     enum ResistEnum Resist percent; /* 100-(25*x) */
 };
 
@@ -4629,7 +4629,7 @@ struct Spell_ROM { /* Spell Data in ROM */
     enum MagicTargetEnum Target;
     byte unk0x1e; /* ram 0x1f */
     byte Wizard Required;
-    enum AspectEnum Aspect;
+    enum ASPECT Aspect;
     byte Range;
     enum MigicCostEnum Ingredient;
     byte EXP_Modifyer;
@@ -4649,18 +4649,18 @@ struct Weapon_ROM {
     byte Range;
     byte Animation;
     byte EXPMod;
-    enum ElementEnum Element;
-    enum AspectEnum aspect;
-    enum StatEnum Stat enhanced;
+    enum ELEMENT Element;
+    enum ASPECT aspect;
+    enum CHAR_STAT Stat enhanced;
     byte Stat Ammount;
-    enum SkillEnum Skill/stat enhanced;
+    enum CHAR_SKILL Skill/stat enhanced;
     byte skill/stat ammount;
     struct ItemID_ROM Spell;
     byte spell Ammount;
     byte unk0x2a;
     struct ItemID_ROM Magic;
     byte Magic Ammount;
-    enum ElementEnum Resist element;
+    enum ELEMENT Resist element;
     enum ResistEnum Resist percent;
 };
 
@@ -4672,7 +4672,7 @@ struct Entity_Ram { /* entity data in Ram */
     enum EntityCatEnum Category;
     byte unk0x18; /* 2 bits determined by rom0x2d */
     byte rom0x2b;
-    enum AspectEnum aspect;
+    enum ASPECT aspect;
     byte rom0x4c; /* something to do with dying? */
     byte Level;
     byte rom0x4d;
@@ -4692,7 +4692,7 @@ struct Entity_Ram { /* entity data in Ram */
     struct ItemID Sheild;
     short unk_0x60;
     s8 sheildStat;
-    enum ElementEnum Resist[2];
+    enum ELEMENT Resist[2];
     byte align[3];
     float resist ammount[2];
     ushort FFs[4]; /* supposed to load something, but ends up blank */
@@ -4716,18 +4716,18 @@ struct weapon_ram { /* Weapon Data loaded into ram */
     byte Range; /* *(5/3) */
     byte Animation; /* which use animation */
     byte EXPMod?; /* Lodin sword has set to 0x20 */
-    enum ElementEnum element;
-    enum AspectEnum aspect;
-    enum StatEnum stat; /* Stat enhanced */
+    enum ELEMENT element;
+    enum ASPECT aspect;
+    enum CHAR_STAT stat; /* Stat enhanced */
     byte stat ammount;
-    enum SkillEnum skill/stat enhanced; /* skill enhanced (or stat) */
+    enum CHAR_SKILL skill/stat enhanced; /* skill enhanced (or stat) */
     byte skill/stat ammount;
     enum SpellEnum spell 1;
     byte spell ammount;
     byte 0x2a in ram;
     enum SpellEnum spell 2;
     byte magic ammount;
-    enum ElementEnum elementResist;
+    enum ELEMENT elementResist;
     undefined2 align;
     float ResistPercent;
 };
@@ -5541,17 +5541,17 @@ struct armour_RAM {
     byte stealth;
     ushort price;
     byte expBonus;
-    enum AspectEnum aspect;
-    enum StatEnum stat;
+    enum ASPECT aspect;
+    enum CHAR_STAT stat;
     char statNum;
-    enum SkillEnum skill;
+    enum CHAR_SKILL skill;
     char skillNum;
     enum SpellEnum spell;
     byte spellLV;
     byte rom0x2a; /* 10 for stardrake */
     enum SpellEnum magic;
     byte magic LV;
-    enum ElementEnum element;
+    enum ELEMENT element;
     u16 align;
     float resist percent;
 };

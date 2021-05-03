@@ -104,7 +104,7 @@ bool get_spell_icons(ItemID param_1,Borg8Enum *param_2,Borg8Enum *param_3,Borg8E
   byte bVar2;
   Borg8Enum BVar1;
   bool bVar3;
-  AspectEnum cVar1;
+  ASPECT cVar1;
   
   bVar2 = GetIDIndex(param_1);
   cVar1 = spell_pointer->spells[bvar2].aspect;
@@ -123,7 +123,7 @@ LAB_8004cb5c:
   return bVar3;
 }
 
-bool get_skill_icon(SkillEnum param_1,Borg8Enum *param_2){
+bool get_skill_icon(CHAR_SKILL param_1,Borg8Enum *param_2){
   uint i = 0;
   if (SkillIconCount != 0) {
     do {
