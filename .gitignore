@@ -1,5 +1,6 @@
 /build
 /bin/
+/assets/
 /tools/
 .splat_cache
 *.ld
@@ -8,4 +9,5 @@
 /build/
 /asm/
 makefile
-Aidyn_decomp/
+undefined_syms_auto*
+undefined_funcs_auto*

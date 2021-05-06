@@ -3,8 +3,10 @@ basename: aidyn_debug
 options:
   find_file_boundaries: True
   compiler: "IDO"
-  modes:
-  - all
+  target_path: ./aidyn_chronicles.debug.z64
+  symbol_addrs_path: ./symbol_addrs.debug.txt
+  undefined_funcs_auto_path: ./undefined_funcs_auto.debug.txt
+  undefined_syms_auto_path: ./undefined_syms_auto.debug.txt
 segments:
   - name: header
     type: header
@@ -69,11 +71,12 @@ segments:
       - [0x31F20, asm,"lockpick"]
       - [0x32040, asm,"widget/BufferedMenu"]
       - [0x32D40, asm,"widget/group"]
-      - [0x33CE0, asm,"gamestate_cheats"]
-      - [0x34ff0, asm,"inputmenu"]
-      - [0x35A60, asm,"inputmenuController"]
-      - [0x36650, asm,"BigAssMenu"]
-      - [0x38250, asm,"DollMenu"]
+      - [0x33CE0, asm,"gamestate_cheats"] #ommitted in retail
+      - [0x34250, asm,"widget/credits"]
+      - [0x34ff0, asm,"widget/inputmenu"]
+      - [0x35A60, asm,"widget/inputmenuController"]
+      - [0x36650, asm,"widget/BigAssMenu"]
+      - [0x38250, asm,"widget/DollMenu"]
       - [0x38910, asm]
       - [0x38D40, asm,"EXPDisplay"]
       - [0x39B90, asm]
@@ -109,6 +112,8 @@ segments:
       - [0x507D0, asm]
       - [0x50A00, asm]
       - [0x516D0, asm,"maps/worldmap"]
+      - [0x51db0, asm,"maps/minimap"]
+      - [0x549a0, asm]
       - [0x563D0, asm]
       - [0x57680, asm]
       - [0x58670, asm]
@@ -239,7 +244,7 @@ segments:
       - [0xbfb90, bin,"os/exception"]
       - [0xC30D0, asm,"os/DestroyThread"]
       - [0xC31B0, asm,"os/GbpakInit"]
-      - [0xC33B0, asm,"os/VirtualToPhysicalCopy"]
+      - [0xC33B0, asm,"os/contramread"]
       - [0xC35A0, asm,"os/ContRamWrite"]
       - [0xC3AD0, asm,"os/ContCrc"]
       - [0xC3BC0, asm,os/SomeGetter]
@@ -294,9 +299,9 @@ segments:
       - [0xCA0F0, asm,"os/rmonGetActiveQueue"]
       - [0xCA100, asm,"os/rmonMain"]
       - [0xCA4A0, asm,os/rmonmem]
-      - [0xCAC10, asm,os/rmon2]
-      - [0xCAD60, asm,os/rmon3]
-      - [0xCB820, asm,os/rmon4]
+      - [0xCAC10, asm,os/rmonmisc]
+      - [0xCAD60, asm,os/rmonrcp]
+      - [0xCB820, asm,os/rmontask]
       - [0xCC190, asm,"os/guRotateRPY"]
       - [0xCC4B0, asm,"os/guScale"]
       - [0xCC590, asm,os/CreateScheduler]
@@ -348,8 +353,8 @@ segments:
       - [0xD28E0, asm,"os/ViBlack"]
       - [0xD2940, asm,"os/ViInit"]
       - [0xD2A50, asm,os/ViGetCurrentFramebuffer]
-      - [0xD2A90, asm,"os/alSavePull"]
-      - [0xD2AD0, asm,"os/ViGetNextFramebuffer"]
+      - [0xD2A90, asm,"os/ViGetNextFramebuffer"]
+      - [0xD2AD0, asm,"os/ViMgr"]
       - [0xD2E10, asm,"os/ViGetCurr"]
       - [0xD2E20, asm,os/VirtualToPhysical]
       - [0xD2E80, asm,os/ProbeTLB]
@@ -365,7 +370,7 @@ segments:
       - [0xD4A20, asm,os/ldiv]
       - [0xD4BE0, asm,os/lldivsub]
       - [0xD51D0, asm,os/Litob]
-      - [0xD5420, asmos/litob_sub]
+      - [0xD5420, asm,os/litob_sub]
       - [0xD5920, asm,"os/YieldThread"]
       - [0xD5970, asm,"gamestatelib"]
       - [0xD5F90, asm,"gamestatefilehandler"]
