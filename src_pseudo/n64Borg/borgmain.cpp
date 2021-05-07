@@ -80,7 +80,7 @@ short GetBorgItemInfo(BorgListing *itemInfo,int param_2){ //orphaned, low priori
   int aiStack88 [2];
   
   if (((uint)itemInfo & 7) != 0) {
-    manualCrash("n64Borg.cpp,_GetBorgItemInfo()","itemInfo_is_not_8_bytes_aligned!");
+    assert("n64Borg.cpp,_GetBorgItemInfo()","itemInfo_is_not_8_bytes_aligned!");
   }
   RomCopy(aiStack88,BorgListingPointer,8,1,FILENAME,0x1dc);
   if ((param_2 < 0) || (aiStack88[0] <= param_2)) {
@@ -191,7 +191,7 @@ void * getBorgItem(int index){
   }
   //likely check order is reversed: this appears higher in ASM.
   sprintf(errmsg,"item_index_is_out_of_range_(%i/%i)",index,borgTotal - 1);
-  manualCrash("n64Borg.cpp,_GetBorgItem()",errmsg);
+  assert("n64Borg.cpp,_GetBorgItem()",errmsg);
 }
 
 void func_800a2de0(void){}
@@ -259,7 +259,7 @@ bool InitBorgTexture(Borg_1_Header *param_1,void *param_2){
     iVar6 = 2;
     if (1 < *param_2) {
       if (*param_2 != 8) {
-        manualCrash("n64Borg.cpp,_InitBorgTexture()",
+        assert("n64Borg.cpp,_InitBorgTexture()",
         "Procedural flag on a texture type other than 32B_RGBA,16B_RGBA/IA!");
       }
       iVar6 = 4;
@@ -500,7 +500,7 @@ bool InitBorgScene(Borg_5_header *param_1){
   if (param_1->ani_texture_count != 0) {
     puVar3 = (undefined *)Malloc(param_1->ani_texture_count << 3,FILENAME,0x5bf);
     param_1->field_0xc = puVar3;
-    if (puVar3 == (undefined *)0x0) {manualCrash("n64borg.cpp,_InitBorgScene()","Alloc for animated texture states failed!");}
+    if (puVar3 == (undefined *)0x0) {assert("n64borg.cpp,_InitBorgScene()","Alloc for animated texture states failed!");}
     memset(puVar3,0,param_1->ani_texture_count << 3);
   }
   size = 0;

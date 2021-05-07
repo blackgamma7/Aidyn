@@ -56,25 +56,19 @@ void decrypt_ofunc_2(byte *arg0,byte *arg1,int arg2){
     do {
       iVar6 = iVar6 + -0x10000;
       iVar2 = iVar9;
-      if (iVar9 < 0) {
-        iVar2 = iVar9 + 0xf;
-      }
+      if (iVar9 < 0) {iVar2 = iVar9 + 0xf;}
       iVar8 = iVar9 + 1;
       bVar3 = *arg0;
       bVar1 = arg1[(iVar9 + (iVar2 >> 4) * -0x10) * 0x10000 >> 0x10];
       *arg0 = bVar3 + bVar1;
       iVar2 = iVar8;
-      if (iVar8 < 0) {
-        iVar2 = iVar9 + 0x10;
-      }
+      if (iVar8 < 0) {iVar2 = iVar9 + 0x10;}
       pbVar7 = arg1 + iVar8 + (iVar2 >> 4) * -0x10;
       iVar5 = iVar9 + 2;
       bVar3 = (bVar3 + bVar1) - *pbVar7;
       *arg0 = bVar3;
       iVar2 = iVar5;
-      if (iVar5 < 0) {
-        iVar2 = iVar9 + 0x11;
-      }
+      if (iVar5 < 0) {iVar2 = iVar9 + 0x11;}
       pbVar4 = arg1 + iVar5 + (iVar2 >> 4) * -0x10;
       bVar3 = bVar3 ^ *pbVar4;
       *arg0 = bVar3;

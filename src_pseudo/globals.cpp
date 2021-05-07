@@ -14,11 +14,11 @@ int Ofunc_get_MemUsed_difference_2(void){
   return memUsedMirror - iVar1;}
 #endif
 
-uint rand_range(uint A,uint B){
-  if (A != B) A = rand_func(&gGlobals.rngSeed,A,B);
+uint globals::rand_range(uint A,uint B){
+  if (A != B) A = Random::rand_func(&gGlobals.rngSeed,A,B);
   return A;}
 
-uint RollD(byte dice,byte sides){
+uint globals::RollD(byte dice,byte sides){
   uint i = 0;
   
   if (dice != 0) {
@@ -44,7 +44,7 @@ void get_battle_terrain(EncounterDat *param_1){
   longlong lVar1;
   byte bVar4;
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x1e7);
-  uVar2 = getTerrain(TerrainPointer);
+  uVar2 = World::getTerrain(TerrainPointer);
   switch(uVar2) {
   case 0:
     uVar3 = rand_range(6,7);
@@ -204,10 +204,7 @@ uint get_enemy_avg_lv(uint param_1,monsterparty_dat *param_2){
       fVar10 = ((float)uVar1 * 3.0f) / (float)uVar4;
       if (INT_MAX_f <= fVar10) {fVar10 -= INT_MAX_f;}
       sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x273);
-      afStack120[0] = 0.3f;
-      afStack120[1] = 0.2f;
-      afStack120[2] = 0.1f;
-      afStack120[3] = 0.0f;
+      afStack120 = {0.3f,0.2f,0.1f,0.0f};
       sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x274);
       uVar11 = (ulonglong)(uint)afStack120[(int)fVar10];
       sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x277);
@@ -474,24 +471,16 @@ void load_camp_ambush(void){
   encounter_dat.EncounterID = 0;
   encounter_dat.BossShadow = 0;
   gGlobals.combatBytes[2] = 1;
-  iVar3 = getTerrain(TerrainPointer);
+  iVar3 = World::getTerrain(TerrainPointer);
   uVar2 = get_party_avg_lv(partyPointer);
   if (uVar2 < 0x15) {
     if (uVar2 < 0x10) {
-      if (uVar2 < 0xb) {
-        uVar6 = uVar2 < 6 ^ 1;
-      }
-      else {
-        uVar6 = 2;
-      }
+      if (uVar2 < 0xb) {uVar6 = uVar2 < 6 ^ 1;}
+      else {uVar6 = 2;}
     }
-    else {
-      uVar6 = 3;
-    }
+    else {uVar6 = 3;}
   }
-  else {
-    uVar6 = 4;
-  }
+  else {uVar6 = 4;}
   RomCopy(&fromROM,globals_rom + uVar6 + (iVar3 * 5 & 0xfffU) * 2,8,1,s_./src/globals.cpp_800d81ec,
           0x348);
   memset(aIStack72,0,0x38);
@@ -602,12 +591,8 @@ void func_8000c850(float param_1){
 //now, to more sensible programming.
 void minimap_struct_init_or_free(bool param_1,short param_2){
   if (param_2 == -1) {
-    if (param_1 == false) {
-      passto_minimap_struct_free(&MinimapStruct);
-    }
-    else {
-      minimap_struct_init(&MinimapStruct);
-    }
+    if (param_1 == false) {passto_minimap_struct_free(&MinimapStruct);}
+    else {minimap_struct_init(&MinimapStruct);}
   }
 }
 

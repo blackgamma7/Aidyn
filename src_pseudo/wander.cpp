@@ -43,7 +43,7 @@ wander_substruct * findWandererFromPlayerName(short arg0){
     } while (uVar3 < gGlobals.wander.wanderersmax);
   }
   sprintf(acStack72,"Wanderer Not Found\nPlayerName: %d\n",arg0));
-  manualCrash(s_FindWandererFromPlayerName_800d8d4c,acStack72);
+  assert(s_FindWandererFromPlayerName_800d8d4c,acStack72);
 }
 
 void func_800124b4(void *param_1,vec3 *param_2){
@@ -140,7 +140,7 @@ void AllocWanderer(wander_struct *param_1,short param_2,playerData *param_3,byte
   
   pBVar5 = GetCollisionZone(param_4);
   refObj = (monsterparty_obj *)(pBVar5->ref_objs[param_2]);
-  if (pBVar5 == NULL) {manualCrash(s_AllocWanderer_800d8d7c,s_Invalid_Collision_Zone_800d8d8c);}
+  if (pBVar5 == NULL) {assert(s_AllocWanderer_800d8d7c,s_Invalid_Collision_Zone_800d8d8c);}
   if ((short)param_1->wanderers < param_1->wanderersmax) {
     uVar7 = param_1->wanderers;
     param_1->wanderers++;
@@ -183,11 +183,11 @@ void AllocWanderer(wander_struct *param_1,short param_2,playerData *param_3,byte
     (ppVar4->collision).position[0] = (refObj->header).coords[0];
     (ppVar10->playerDat->collision).position[2] = ppVar10->position[1];
     func_800154e4(ppVar10->playerDat,(refObj->header).coords[1],1,0);
-    if (((ppVar10->homenode ^ 1) & 1) != 0) {manualCrash(s_AllocWanderer_800d8d7c,s_Home_Node_not_WANDER_MOVE_800d8dcc);}
+    if (((ppVar10->homenode ^ 1) & 1) != 0) {assert(s_AllocWanderer_800d8d7c,s_Home_Node_not_WANDER_MOVE_800d8dcc);}
     func_80012d44(ppVar10);
     return;
   }
-  manualCrash(s_AllocWanderer_800d8d7c,s_Too_Many_wanderers_already_alloc_800d8da4);
+  assert(s_AllocWanderer_800d8d7c,s_Too_Many_wanderers_already_alloc_800d8da4);
 }
 
 
@@ -288,14 +288,14 @@ void func_80012c58(wander_struct *param_1,wander_substruct *param_2){
   float fVar4;
   
   uVar1 = param_2->field_0x1c;
-  if (rand_float_multi(gGlobals,1.0) < param_2->field_0x14) {
+  if (Random::rand_float_multi(gGlobals,1.0) < param_2->field_0x14) {
     uVar1 = param_2->field_0x1e;
   }
 
   func_80012b70(param_1,param_2,uVar1);
   if ((param_2->homenode & 1) != 0) {
-    fVar2 = rand_float_multi(&gGlobals,6.283186);
-    fVar3 = rand_float_multi(&gGlobals,param_2->randVal);
+    fVar2 = Random::rand_float_multi(&gGlobals,6.283186);
+    fVar3 = Random::rand_float_multi(&gGlobals,param_2->randVal);
     fVar4 = __sinf(fVar2);
     param_2->start_position[0]+= (fVar4 * fVar3);
     fVar2 = __cosf(fVar2);

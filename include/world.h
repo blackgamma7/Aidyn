@@ -57,9 +57,9 @@ extern u8 weather_terrain_array[28];
 extern float terrain_rand_array[28];
 extern u8 timeofday_hous[5]; //debug only {6,9,12,18,21}
 
-void TerrainStruct_init(TerrainStruct *);
-void SetTerrain(TerrainStruct *,byte);
-byte getTerrain(TerrainStruct *);
+void Terrain:init(TerrainStruct *);
+void World::SetTerrain(TerrainStruct *,byte);
+byte World::getTerrain(TerrainStruct *);
 void inc_timeofDay(TerrainStruct *);
 void inc_dayNightMagic(TerrainStruct *);
 void dec_dayNightMagic(TerrainStruct *);

@@ -160,7 +160,7 @@ bool clear_gamestatefunnel(void){
   return true;
 }
 
-bool get_event_flag(EventFlag param_1){
+bool getEventFlag(EventFlag param_1){
   bool ret;
 
   if (gamestate_cheat_check1(All) == false) {

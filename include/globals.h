@@ -193,7 +193,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles v1.0 */
     float screenfadeFloat;
     float acreenfadeFloat2;
     float screenFadeSpeed;
-    undefined2 StoryShort;
+    undefined2 screenFadeMode;
     undefined2 align0x205e;
     char** CommonStrings;
     byte goblinAmbush; //set with the goblin ambush at the start of the game.

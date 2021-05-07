@@ -2,11 +2,11 @@
 
 #define UINT_MAX_D 4.294967296E9
 
-void setRNGSeed(uint *seed,u64 num){
+void Random::setRNGSeed(uint *seed,u64 num){
   if (*seed == 0) *seed = 1;
   *seed = (uint)num;}
 
-uint ShiftSeed(int *seed){
+uint Random::ShiftSeed(int *seed){
   *seed = *seed * 0x19660d + 0x3c6ef35f;
   return (uint)seed;}
 
@@ -21,7 +21,7 @@ uint rand_0_to_B(int *seed,int B){
   }
   return ret;}
 
-uint rand_func(uint *seed,uint a,uint b){
+uint Random::rand_func(uint *seed,uint a,uint b){
   uint uVar1;
   uint uVar2;
   
@@ -35,9 +35,9 @@ uint rand_func(uint *seed,uint a,uint b){
   }
   return a;}
 
-void ofunc_shiftSeed(int *seed){*seed = *seed * 0x19660d + 0x3c6ef35f;}
+void Random::ofunc_shiftSeed(int *seed){*seed = *seed * 0x19660d + 0x3c6ef35f;}
 
-uint randAudio(uint *seed,int arg1){
+uint Random::randAudio(uint *seed,int arg1){
   uint uVar1;
   u64 uVar2;
   
@@ -62,7 +62,7 @@ uint randAudio(uint *seed,int arg1){
   }
   return uVar1;}
 
-int rand_range_(uint *seed,int a,int b){
+int Random::rand_range_(uint *seed,int a,int b){
   int iVar2;
 
   if (a != b) {
@@ -74,7 +74,7 @@ int rand_range_(uint *seed,int a,int b){
   }
   return a;}
 
-float rand_float(uint *seed){
+float Random::rand_float(uint *seed){
   int uVar1 = *seed * 0x19660d + 0x3c6ef35f;
   double dVar2 = (double)uVar1;
   
@@ -82,11 +82,11 @@ float rand_float(uint *seed){
   if (uVar1 < 0) {dVar2+= UINT_MAX_d;}
   return (float)dVar2 * 2.3283064E-10f;}
 
-float rand_float_multi(uint *seed,float f){
+float Random::rand_float_multi(uint *seed,float f){
   if (f != 0.0) {f *= rand_float(seed);}
   return f;}
 
-float rand_float_range(uint *seed,float a,float b){
+float Random::rand_float_range(uint *seed,float a,float b){
   float fVar2;
   
   if (a != b) {
@@ -99,14 +99,14 @@ float rand_float_range(uint *seed,float a,float b){
   }
   return a;}
 
-void rand_vec2(uint *seed,Vec2 *v2,float multi){
+void Random::rand_vec2(uint *seed,Vec2 *v2,float multi){
   (*v2)[0] = rand_float_range(seed,-1.0f,1.0f);;
   (*v2)[1] = rand_float_range(seed,-1.0f,1.0f);
   if ((*v2)[0] == 0.0) {(*v2)[0] = 1.0E-6f;}
   vec2_normalize(v2);
   multiVec2(v2,multi);}
 
-void rand_vec3(uint *seed,vec3 *v3,float multi){
+void Random::rand_vec3(uint *seed,vec3 *v3,float multi){
   (*v3)[0] = rand_float_range(seed,-1.0f,1.0f);
   (*v3)[1] = rand_float_range(seed,-1.0f,1.0f);
   (*v3)[2] = rand_float_range(seed,-1.0f,1.0f);
@@ -114,11 +114,11 @@ void rand_vec3(uint *seed,vec3 *v3,float multi){
   vec3_normalize(v3);
   multiVec3(v3,multi);}
 
-void Ofunc_rand_vec4(uint *seed,vec4 *v4,float multi){
-  (*v4)[0] = rand_float_range(seed,-1.0f,1.0f);
-  (*v4)[1] = rand_float_range(seed,-1.0f,1.0f);
-  (*v4)[2] = rand_float_range(seed,-1.0f,1.0f);
-  (*v4)[3] = rand_float_range(seed,-1.0f,1.0f);
+void Random::Ofunc_rand_vec4(uint *seed,vec4 *v4,float multi){
+  (*v4)[0] = Random::rand_float_range(seed,-1.0f,1.0f);
+  (*v4)[1] = Random::rand_float_range(seed,-1.0f,1.0f);
+  (*v4)[2] = Random::rand_float_range(seed,-1.0f,1.0f);
+  (*v4)[3] = Random::rand_float_range(seed,-1.0f,1.0f);
   if ((*v4)[0] == 0.0) {(*v4)[0] = 1.0E-6f;}
   vec4_normalize(v4);
   multiVec4(v4,multi);}

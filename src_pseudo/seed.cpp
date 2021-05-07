@@ -31,7 +31,7 @@ void InitProc(void){
     osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x10,1);}
   if (osTvType == MPAL) {
     osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x1e,1);}
-  initGfx(&Sched);
+  gfx::initGfx(&Sched);
   audio_thread_init(&Sched,0xac44,0xb,5);
   dcm_init();
   init_controller_thread(&Sched,1,10,4);
@@ -41,8 +41,8 @@ void InitProc(void){
   time = osGetTime();
   uVar2 = (ulonglong)uVar1 << 0x20;
   uVar3 = udivdi3((int)(time >> 0x20) << 6 | (uint)time >> 0x1a,(uint)time << 6,0,3000);
-  setRNGSeed(&gGlobals,uVar2 & 0xffffffff00000000 | uVar3 & 0xffffffff);
+  Random::setRNGSeed(&gGlobals,uVar2 & 0xffffffff00000000 | uVar3 & 0xffffffff);
   app_cpp_func(&Sched,8,2);
   osSetThreadPri(&init_thread,IDLE);
-  do {} while(true);
+  do {} while(1);
 }

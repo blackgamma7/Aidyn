@@ -22,7 +22,7 @@ void init_charExp(charExp *param_1,ItemID param_2){
   param_1->flags = CVar2;
   if (pEVar5->aspect == SOLAR) {param_1->flags = CVar2 | IsSolar;}
   //is alaron and hit a certain flag
-  if ((bVar3 == 0x99) && (get_event_flag(0x24e))) {param_1->flags |= Protag;}
+  if ((bVar3 == 0x99) && (getEventFlag(0x24e))) {param_1->flags |= Protag;}
 }
 
 ASPECT GetCharAspect(charExp *param_1){

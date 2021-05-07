@@ -31,7 +31,7 @@ bool func_8001b9bc(ref_obj *param_1){
     bVar4 = (byte)uVar5;
     if (EVar1 != 0) {
       if (EVar1 == 1) {bVar4 = uVar5 == 0;}
-      else {bVar4 = get_event_flag(EVar1) ^ bVar4;}
+      else {bVar4 = getEventFlag(EVar1) ^ bVar4;}
     }
     bVar3 = (run_voxelFuncs2(param_1) & bVar4);
   }

@@ -148,7 +148,7 @@ segments:
     - [0x8b960, "asm"]
     - [0x8ddf0, "asm"]
     - [0x8e930, "asm"]
-    - [0x8efc0, "asm",manualCrash]
+    - [0x8efc0, "asm",crash]
     - [0x8f170, "asm",heap]
     - [0x8fb30, "asm",string]
     - [0x90280, "asm",audio]

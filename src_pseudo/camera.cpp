@@ -468,7 +468,7 @@ void ProcessGameCamera(Camera_struct *cam,vec3 *param_2,undefined4 param_3,short
       if (uVar1 != 0) {
 crash:
         sprintf(acStack72,s_Unknown_Mode:_%d_800e38c4,(uint)cam->camera_mode);
-        manualCrash(s_ProcessGameCamera_800e38d8,acStack72);
+        assert(s_ProcessGameCamera_800e38d8,acStack72);
       }
       ProcessGameCamera_mode0(cam,param_2,param_3,param_4,param_5);
     }
@@ -569,6 +569,6 @@ void some_camera_func(vec3 *param_1,Vec2 *param_2,vec3 **var_c,short numFoci,flo
     __cosf(fVar11);
     return;
   }
-  manualCrash("../src/camera.cpp","numFoci < 2");
+  assert("../src/camera.cpp","numFoci < 2");
 }
 

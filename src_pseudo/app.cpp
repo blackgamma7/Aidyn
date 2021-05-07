@@ -254,11 +254,11 @@ loop:
           if (uVar12 << 3 < (uint)(iVar8 - (int)puVar6)) {
             sprintf(gGlobals.text,"GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",
                         (uint)(iVar8 - (int)puVar6) >> 3,uVar12,unaff_s1_lo);
-            manualCrash("app.cpp::AppProc",gGlobals.text);
+            assert("app.cpp::AppProc",gGlobals.text);
           }
           sVar3 = doubleGlobalTickerFlag + -1;
           if (doubleGlobalTickerFlag == 0) {
-            msg = (OSMesg)func_swapping_framebuffer_(iVar8,&appManager.MesgQ2);
+            msg = (OSMesg)gfx::func_swapping_framebuffer_(iVar8,&appManager.MesgQ2);
             osSendMesg(appManager.MesgQ,msg,1);
             sVar11 = sVar11 + 1;
             sVar3 = doubleGlobalTickerFlag;
@@ -276,7 +276,7 @@ loop:
       sVar3 = doubleGlobalTickerFlag;
       if (sVar1 == 2) {
         func_800095f0(in_stack_ffffffc0);
-        gGlobals.ticker = gGlobals.ticker + 1;
+        gGlobals.ticker++;
         sVar11 = sVar9;
         if (0.0 < lensflare_floats[0]) {
           sVar3 = doubleGlobalTickerFlag;
@@ -295,16 +295,12 @@ loop:
           uVar10 = get_hres();
           fVar14 = lensflare_floats[0] *
                    (float)((uint)(((longlong)(short)uVar10 & 0xffffffffU) / 0x140) & 0xffff);
-          uVar5 = get_vres();
+          uVar5 = gfx::get_vres();
           fVar13 = lensflare_floats[1] * (float)((uint)((uVar5 & 0xffffffff) / 0xf0) & 0xffff);
-          iVar8 = get_depthBuffer();
+          iVar8 = gfx::get_depthBuffer();
           uVar10 = get_hres();
-          if (INT_MAX_f <= fVar13) {
-            fVar13 = fVar13 - INT_MAX_f;
-          }
-          if (INT_MAX_f <= fVar14) {
-            fVar14 = fVar14 - INT_MAX_f;
-          }
+          if (INT_MAX_f <= fVar13) {fVar13 -= INT_MAX_f;}
+          if (INT_MAX_f <= fVar14) {fVar14 -= INT_MAX_f;}
           if (*(short *)(iVar8 + (((int)fVar13 & 0xffffU) * (int)(short)uVar10 +
                                  ((int)fVar14 & 0xffffU)) * 2) == -4) {
             gGlobals.appfunc_dat = 1;
@@ -334,7 +330,7 @@ void appProc_init(void){
   func_80020830();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
-  setRNGSeed((uint *)&gGlobals,0x3dbb6cd);
+  Random::setRNGSeed((uint *)&gGlobals,0x3dbb6cd);
   uVar6 = 0;
   gGlobals.appstate = 5;
   gGlobals.ticker = 0;
@@ -369,8 +365,8 @@ void appProc_init(void){
   load_commonstrings();
   paVar3 = (astruct_12 *)passToMalloc(0x28);
   gGlobals.field_0x15c0 = init_some_Struct(paVar3,gGlobals.widgetHandler);
-  HresMirror = get_hres();
-  VresMirror = get_vres();
+  HresMirror = gfx::get_hres();
+  VresMirror = gfx::get_vres();
   gGlobals.appstateBool = 1;
   gGlobals.VolSFX = 1.0f;
   gGlobals.VolBGM = 0.65f;
@@ -401,10 +397,10 @@ undefined4 appProc_caseSwitch(undefined4 param_1){
       gGlobals.appstate = check_for_PAL_or_controller();
       break;
     default:
-      manualCrash("app.cpp","gGlobals.appState is not valid");
+      assert("app.cpp","gGlobals.appState is not valid");
     }
   }
-  if (*appManager.stack != 0x12345678) {manualCrash("AppProc","Stack Overwrite!!");}
+  if (*appManager.stack != 0x12345678) {assert("AppProc","Stack Overwrite!!");}
   return param_1;
 }
 
@@ -433,9 +429,9 @@ int check_for_PAL_or_controller(rspCom **param_1)
       PAL_warning_flag = '\0';
     }
     pauVar3 = *param_1;
-    fVar5 = (float)get_hres() * 0.5f - (float)(PAL_Warning_image->dat).height * 0.5f;
-    fVar6 = (float)get_vres() * 0.5f - (float)(PAL_Warning_image->dat).width * 0.5f;
-    pauVar3 = (rspCom *)rsp_func(pauVar3,6,get_hres(),get_vres());
+    fVar5 = (float)gfx::get_hres() * 0.5f - (float)(PAL_Warning_image->dat).height * 0.5f;
+    fVar6 = (float)gfx::get_vres() * 0.5f - (float)(PAL_Warning_image->dat).width * 0.5f;
+    pauVar3 = (rspCom *)rsp_func(pauVar3,6,gfx::get_hres(),gfx::get_vres());
     pauVar3 = (rspCom *)
               pass_to_borg_image_draw
                         (pauVar3,PAL_Warning_image,fVar5,fVar6,1.0f,1.0f,

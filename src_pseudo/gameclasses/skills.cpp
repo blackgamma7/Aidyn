@@ -50,9 +50,9 @@ int get_skill_xp_multi(CharSkills *skills,CHAR_SKILL arg1){
   int skill_xp_multis[12]={1500,500,1000,750,500,7500,750,500,1000,1000,1000,1500};
   if (0xb < arg1) {
     #ifdef DEBUGVER
-    manualCrash("Skill overwrite","../gameclasses/skills.cpp");
+    assert("Skill overwrite","../gameclasses/skills.cpp");
     #else
-    manualCrash();
+    assert();
     #endif
   }
   return i * i * skill_xp_multis[arg1];
@@ -64,9 +64,9 @@ uint Weapon_XP_check(CharSkills *skills,WeaponClassEnum arg1){
   //0 value = enemy weapon classes
   if (0xb < arg1) {
     #ifdef DEBUGVER
-    manualCrash("Weapon_XP_overflow","../gameclasses/skills.cpp");
+    assert("Weapon_XP_overflow","../gameclasses/skills.cpp");
     #else
-    manualCrash();
+    assert();
     #endif
   }
   return i * i * weapon_xp_multis[arg1];
@@ -116,7 +116,7 @@ void Wonky_skill_check(Char* *skills,char *arg1,CHAR_SKILL arg2,char arg3){
     iVar3 = iVar3 + (uint)*pbVar4;
     *pbVar4 = (byte)iVar3;
     if (iVar3 * 0x1000000 < 0) {
-      manualCrash("Wonky Skill Happening","../gameclasses/skills.cpp");
+      assert("Wonky Skill Happening","../gameclasses/skills.cpp");
     }
     bVar2 = *pbVar4;
     if (10 < (char)*pbVar4) {

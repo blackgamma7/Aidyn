@@ -31,8 +31,8 @@ void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
   (arg0->dat).LootCat = (ItemID)0x0;
   func_80013620(arg0,2,arg1);
   setEventFlag((arg0->dat).explode_flag,true);
-  get_event_flag(0x15fa);
-  play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[rand_range_(&gGlobals,0,3)],0,gGlobals.VolSFX,0xf0,0);
+  getEventFlag(0x15fa);
+  play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[Random::rand_range_(&gGlobals,0,3)],0,gGlobals.VolSFX,0xf0,0);
   set_voxel_visibility((ref_obj *)arg0,false);
   return;
 }
@@ -70,7 +70,7 @@ void teleporter_func(teleport_obj *arg0){
   if (vobject_pause_check() != false) {
     if (((arg0->header).Bitfeild & tangible) == 0) {
       EVar1 = (arg0->dat).secrect_door_flag;
-      if ((EVar1 == 0) || (get_event_flag(EVar1) != false)) {
+      if ((EVar1 == 0) || (getEventFlag(EVar1) != false)) {
         if (teleport_trap(arg0) == false) {
           if (((arg0->dat).lock_lv != 0) &&
              (Teleport_lock_check((arg0->dat).lock_flag) == false)) {
@@ -79,8 +79,8 @@ void teleporter_func(teleport_obj *arg0){
               return;
             }
             setEventFlag((arg0->dat).lockpick_flag_2,true);
-            get_event_flag(0x15fa);
-            get_event_flag(0x15fa);
+            getEventFlag(0x15fa);
+            getEventFlag(0x15fa);
           }
           teleportTimestamp = gGlobals.ticker;
           NOOP_tp();
@@ -181,7 +181,7 @@ void loot_func(container_obj *arg0){
     if (sVar1 == 0) {
       uVar13 = 0;
       setEventFlag((arg0->dat).open_flag,true);
-      get_event_flag(0x15fa);
+      getEventFlag(0x15fa);
       set_refObj_flag((ref_obj *)arg0);
       if ((arg0->dat).LootType == 7) {
         a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene);
@@ -230,7 +230,7 @@ void loot_func(container_obj *arg0){
                     (arg0->dat).Gold);
         textbox_func(gGlobals.Text);
         gGlobals.party->Gold+= (arg0->dat).Gold;
-        play_SFX(&SFXStruct,Coins_jingle,0,gGlobals.VolSFX,300,uVar13);
+        play_SFX(&SFXStruct,BORG12_CoinJingle,0,gGlobals.VolSFX,300,uVar13);
       }
       else {
         ppfVar10 = passToMalloc(0x608);
@@ -298,7 +298,7 @@ byte monsterpary_func(monsterparty_obj *arg0,undefined arg1,char param_3){
                 ((gGlobals.wander.wanderSubstructs)->start_position +
                  (uint)arg0->field_0x4c * 0x14 + (uint)arg0->field_0x4c + -1);
       setEventFlag((arg0->header).flagB,true);
-      bVar1 = get_event_flag(0x15fa);
+      bVar1 = getEventFlag(0x15fa);
     }
   }
   return bVar1;
@@ -321,7 +321,7 @@ void trigger_vobject_func(trigger_obj *arg0)
   switch(arg0->triggertype) {
   case 1:
     setEventFlag(arg0->flagA,true);
-    get_event_flag(0x15fa);
+    getEventFlag(0x15fa);
     set_refObj_flag((ref_obj *)arg0);
     EVar7 = (arg0->header).flagB;
     break;
@@ -398,7 +398,7 @@ bool check_reference_object(ref_obj *arg0){
   bVar3 = (bool)(byte)uVar3;
   if (EVar1 != 0) {
     if (EVar1 == 1) {bVar3 = uVar3 == 0;}
-    else {bVar3 = (bool)(get_event_flag(EVar1) ^ bVar3);}
+    else {bVar3 = (bool)(getEventFlag(EVar1) ^ bVar3);}
     }
   return bVar3;
 }
@@ -512,7 +512,7 @@ bool some_monster_check(monsterparty_obj *arg0){
       EVar1 = (arg0->header).flagA;
       if (arg0->dat.borg_13 == 0) {
         bVar2 = func_80015128(EVar1,(uint)(arg0->header).Bitfeild);
-        bVar4 = get_event_flag((arg0->header).flagB);
+        bVar4 = getEventFlag((arg0->header).flagB);
         uVar3 = bVar2 != false && bVar4 == false;
       }
       else {uVar3 = func_80015128(EVar1,(uint)(arg0->header).Bitfeild);}
@@ -721,7 +721,7 @@ bool container_open_check(EventFlag param_1){
   bool bVar1, uVar2;
   
   bVar1 = gamestate_cheat_check1(containerOpen);
-  if (bVar1 == false) {uVar2 = get_event_flag(param_1);}
+  if (bVar1 == false) {uVar2 = getEventFlag(param_1);}
   else {uVar2 = gamestate_cheat_check2(containerOpen);}
   return uVar2;}
 
@@ -729,7 +729,7 @@ bool container_explode_check(EventFlag param_1){
   bool bVar1, uVar2;
   
   bVar1 = gamestate_cheat_check1(containerExplode);
-  if (bVar1 == false) {uVar2 = get_event_flag(param_1);}
+  if (bVar1 == false) {uVar2 = getEventFlag(param_1);}
   else {uVar2 = gamestate_cheat_check2(containerExplode);}
   return uVar2;}
 
@@ -737,7 +737,7 @@ bool teleport_lock_check(EventFlag param_1){
   bool bVar1, uVar2;
   
   bVar1 = gamestate_cheat_check1(teleportLock);
-  if (bVar1 == false) {uVar2 = get_event_flag(param_1);}
+  if (bVar1 == false) {uVar2 = getEventFlag(param_1);}
   else {uVar2 = gamestate_cheat_check2(teleportLock);}
   return uVar2;}
 
@@ -745,7 +745,7 @@ bool teleport_trap_check(EventFlag param_1){
   bool bVar1, uVar2;
   
   bVar1 = gamestate_cheat_check1(teleportTrap);
-  if (bVar1 == false) {uVar2 = get_event_flag(param_1);}
+  if (bVar1 == false) {uVar2 = getEventFlag(param_1);}
   else {uVar2 = gamestate_cheat_check2(teleportTrap);}
   return uVar2;}
 
@@ -753,7 +753,7 @@ bool teleport_secret_check(EventFlag param_1){
   bool bVar1, uVar2;
   
   bVar1 = gamestate_cheat_check1(teleportSecret);
-  if (bVar1 == false) {uVar2 = get_event_flag(param_1);}
+  if (bVar1 == false) {uVar2 = getEventFlag(param_1);}
   else {uVar2 = gamestate_cheat_check2(teleportSecret);}
   return uVar2;}
 
@@ -764,7 +764,7 @@ bool func_80015128(EventFlag param_1,uint param_2){
   bVar3 = (byte)(param_2 >> 8) & 1;
   bVar2 = bVar3;
   if ((param_1 != 0) && (bVar2 = bVar3 ^ 1, param_1 != 1)) {
-    bVar2 = get_event_flag(param_1); ^ bVar3;
+    bVar2 = getEventFlag(param_1); ^ bVar3;
   }
   return bVar2;}
 
@@ -776,19 +776,19 @@ bool trigger_event_flag_check(EventFlag param_1,ref_obj_bitfeild param_2,ref_obj
   bVar1 = (param_3 & param_2) != 0;
   uVar2 = bVar1;
   if ((param_1 != 0) && (bVar1 = !bVar1, param_1 != 1)) {
-    bVar1 = 0 < get_event_flag(param_1) ^ uVar2);}
+    bVar1 = 0 < getEventFlag(param_1) ^ uVar2);}
   return bVar1;}
 
 undefined ref_obj_bitmask_flag(EventFlag param_1,ref_obj_bitfeild param_2,ref_obj_bitfeild param_3){
   setEventFlag(param_1,(param_3 & param_2) == 0);
-  return get_event_flag(0x15fa);}
+  return getEventFlag(0x15fa);}
 
 bool func_8001520c(teleport_obj *param_1){
   bool bVar1;
   
   if ((param_1->dat).secretDoorVal == 0) {bVar1 = false;}
   else {
-    bVar1 = get_event_flag((param_1->dat).secrect_door_flag)==false;}
+    bVar1 = getEventFlag((param_1->dat).secrect_door_flag)==false;}
   return bVar1;}
 
 bool secret_door_func(teleport_obj *param_1){
@@ -798,7 +798,7 @@ bool secret_door_func(teleport_obj *param_1){
   pwVar1 = textbox_func(commonstringsmirror->discovered secret door);
   (param_1->dat).secretDoorVal = 0;
   setEventFlag((param_1->dat).secrect_door_flag,true);
-  bVar2 = get_event_flag(0x15fa);
+  bVar2 = getEventFlag(0x15fa);
   pwVar1->prt0x40 = param_1;
   pwVar1->AbuttonFunc = secretdoor_widget_AB;
   pwVar1->BButtonFunc = secretdoor_widget_AB;

@@ -105,7 +105,7 @@ void * Malloc(uint size,char *file,uint line){
     if (pHVar6 == (Heap_block_Debug *)0x0) {
       sprintf(MemMonitor.text,"%s %i\ncouldn't find %i free space!\n%i avail in %i blocks\n%i used in %i blocks",
       file,line,uVar5,MemMonitor.MemFree,MemMonitor.obj_free,MemMonitor.MemUsed,MemMonitor.obj_count_2);
-      manualCrash("heap.cpp",MemMonitor.text);
+      assert("heap.cpp",MemMonitor.text);
     }
     malloc_update_mem_mon(pHVar6,uVar5);
     pcVar4 = remove_dir_slashes(file);
@@ -128,20 +128,20 @@ void Free(void *X,char *cpp,int line){
        (pHVar2 = (Heap_block_Debug *)((int)X + -0x1c),
        (void *)((int)MemMonitor.memRegionStart + MemMonitor.memFreeMax) < X)) {
       sprintf(MemMonitor.text,"%s %i tried to free an invalid pointer 0x%08x",cpp,line,X);
-      manualCrash("heap.cpp",MemMonitor.text);
+      assert("heap.cpp",MemMonitor.text);
     }
     uVar1 = get_heap_size(pHVar2);
     uVar3 = uVar1 & ~1;
     if ((((uVar1 & 6) != 0) || (uVar3 < 0x10)) || (MemMonitor.memFreeMax < uVar3)) {
       sprintf(MemMonitor.text,"%s %i tried to free a pointer with an invalid start tag! Owner: %24s",cpp,line,pHVar2.filename);
-      manualCrash("heap.cpp",MemMonitor.text);}
+      assert("heap.cpp",MemMonitor.text);}
     if ((func_80098848((char)pHVar2) & ~1) != uVar3) {
       sprintf(MemMonitor.text,"%s %i tried to free a pointer with an invalid end tag! Owner: %24s",
       cpp,line,pHVar2.filename);
-      manualCrash("heap.cpp",MemMonitor.text);}
+      assert("heap.cpp",MemMonitor.text);}
     if ((get_heap_size(pHVar2) & 1) == 0) {
       sprintf(MemMonitor.text,"%s %i tried to free a pointer that has already been freed!",cpp,line);
-      manualCrash("heap.cpp",MemMonitor.text);}
+      assert("heap.cpp",MemMonitor.text);}
     free_update_mem_mon(pHVar2);
     MemMonitor.flag = 1;
   }
@@ -396,7 +396,7 @@ char * remove_dir_slashes(char *param_1){
   return pcVar2;
 }
 
-void ofunc_LISBN_called_free(void){manualCrash("heap.cpp","LIBSN called free?");}
+void ofunc_LISBN_called_free(void){assert("heap.cpp","LIBSN called free?");}
 
 void * passToMalloc(uint size){return Malloc(size,FILENAME,0x473);}
 
