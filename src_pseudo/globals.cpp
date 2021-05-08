@@ -414,7 +414,7 @@ void Emergency_skeleton_func(undefined8 param_1)
   return;
 }
 
-void battle_setup_func(monsterparty_obj *param_1,Event_flag_offset param_2,ushort param_3)
+void battle_setup_func(monsterparty_obj *param_1,EventFlag param_2,ushort param_3)
 
 {
   monsterparty_obj *pmVar1;

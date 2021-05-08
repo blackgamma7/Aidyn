@@ -17,6 +17,18 @@
 #define FLAG_JournalEnteredErromon 122
 #define FLAG_JournalMetBecan 375
 
+#define FLAG_KilledKitarak 154
+#define FLAG_KilledShamsuk 458
+#define FLAG_KilledLugash 533
+#define FLAG_KilledEhud 3204
+#define FLAG_KilledBehrooz 3733
+#define FLAG_KilledNasim 3734
+#define FLAG_KilledGolnar 3735
+#define FLAG_KilledMehrdad 3736
+#define FLAG_KilledShatrevar 3737
+#define FLAG_KilledKsathra 3738
+#define FLAG_KilledAssim 3739
+
 #define FLAG_JournalMetSholeh 523
 
 #define FLAG_ShadowMerge 566

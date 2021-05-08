@@ -34,7 +34,7 @@ typedef struct struct_3 struct_3, *Pstruct_3;
 
 typedef struct borg_13_command borg_13_command, *Pborg_13_command;
 
-typedef enum Event_flag_offset {
+typedef enum EventFlag {
     !Slashing=3673,
     First Chest=1902,
     !bingo=3694,
@@ -61,7 +61,7 @@ typedef enum Event_flag_offset {
     Roo NameCinematic=590,
     Kendall's Hat?=2255,
     !cheater=3693
-} Event_flag_offset;
+} EventFlag;
 
 typedef struct borgHeader borgHeader, *PborgHeader;
 
@@ -249,7 +249,7 @@ struct borg_13_data {
     ushort[4] * actors;
     char * text;
     ushort ID;
-    enum Event_flag_offset flag;
+    enum EventFlag flag;
     byte A;
     byte B;
     byte text_lines;
@@ -3969,8 +3969,8 @@ struct voxelHeader { /* Header for Refernce objects (Voxels) */
     enum Vobject type; /* object type */
     short Link ID[2]; /* usually 0xFFFFFFFF (none) */
     undefined2 flagA; /* event flags */
-    enum Event_flag_offset flagB;
-    enum Event_flag_offset flagC;
+    enum EventFlag flagB;
+    enum EventFlag flagC;
     u8 unk0x22;
     u8 unk0x23;
     void * ptr0x24;
@@ -4839,8 +4839,8 @@ typedef struct container_Dat container_Dat, *Pcontainer_Dat;
 struct container_Dat {
     undefined4 unk0x0;
     float chest_size;
-    enum Event_flag_offset open_flag;
-    enum Event_flag_offset explode_flag;
+    enum EventFlag open_flag;
+    enum EventFlag explode_flag;
     short trap_lv;
     ushort unk0x14;
     struct ItemID LootCat; /* chestdb id */
@@ -5235,10 +5235,10 @@ struct teleport_dat {
     ushort lock_lv;
     ushort refPoint_ID;
     undefined2 lock_flag;
-    enum Event_flag_offset lockpick_flag_2;
+    enum EventFlag lockpick_flag_2;
     undefined2 trap_flag;
-    enum Event_flag_offset flag_0x3e;
-    enum Event_flag_offset secrect_door_flag;
+    enum EventFlag flag_0x3e;
+    enum EventFlag secrect_door_flag;
     ushort secretDoorVal;
     char name[16];
     u8 unk0x54[24];
@@ -5258,7 +5258,7 @@ struct trigger_obj {
     short triggertype; /* 1,2,4 are unique. */
     u8 unk0x2a;
     u8 unk0x2b;
-    enum Event_flag_offset flagA;
+    enum EventFlag flagA;
     undefined2 unk0x2e;
     undefined2 unk0x30;
     u8 unk0x32;
@@ -5428,7 +5428,7 @@ struct widget_worldmap {
 };
 
 struct WorldMapPiece {
-    enum Event_flag_offset eventFlag;
+    enum EventFlag eventFlag;
     enum Borg8Enum mapBorg8:16;
     ushort x;
     ushort y;
@@ -5832,7 +5832,7 @@ struct CinematicStruct {
     struct AnimationData * AniDat;
     struct borg_6_header * Borg6;
     struct Borg_12_header * BGM;
-    enum Event_flag_offset * cinematic_dat_seq;
+    enum EventFlag * cinematic_dat_seq;
     float[2] * floatPairs;
     enum borg6Enum * borg6enums;
     enum Borg12Enum * borg12enums;
@@ -5879,7 +5879,7 @@ typedef struct Inventory_item Inventory_item, *PInventory_item;
 struct EncounterDat { /* enemy encounter data */
     struct ItemID enemy_entities[12]; /* entitty id's of enemies */
     struct ItemID globalLoot; /* chestdb of guarunteed loot */
-    enum Event_flag_offset EncounterID;
+    enum EventFlag EncounterID;
     byte unk0x1c;
     u8 unk0x1d;
     ushort VoxelIndex;
@@ -5890,7 +5890,7 @@ struct EncounterDat { /* enemy encounter data */
     byte battlefield;
     byte unk0x28;
     byte BossShadow; /* fighting a Boss or the Shadow */
-    enum Event_flag_offset VoxelFlagA;
+    enum EventFlag VoxelFlagA;
     u8 unk0x2c;
     u8 unk0x2d;
     u8 unk0x2e;
@@ -7773,7 +7773,7 @@ typedef struct minimap_dat_2 minimap_dat_2, *Pminimap_dat_2;
 
 struct minimap_dat_2 {
     ushort unk0x0;
-    enum Event_flag_offset flag;
+    enum EventFlag flag;
     enum Borg8Enum borg8;
 };
 

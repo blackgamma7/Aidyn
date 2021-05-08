@@ -26,8 +26,8 @@ struct GameStateFunnel { /* used for event flags and whatnot */
 typedef struct event_flag_array event_flag_array, *Pevent_flag_array;
 
 struct event_flag_array {
-    enum Event_flag_offset to;
-    enum Event_flag_offset from;
+    enum EventFlag to;
+    enum EventFlag from;
     short val;
     byte skill_stat;
     byte pad;

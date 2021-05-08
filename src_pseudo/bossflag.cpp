@@ -1,7 +1,7 @@
 void set_boss_flag(void){
   ItemID id;
   byte index;
-  Event_flag_offset flg;
+  EventFlag flg;
   uint i=0;
   do {
     id = gGlobals.EncounterDat.enemy_entities[i];
@@ -9,37 +9,37 @@ void set_boss_flag(void){
     index = GetIDIndex(id);
     switch(index) {
     case 0xa8: //Kitarak
-      flg = 0x9a;
+      flg = FLAG_KilledKitarak;
       break;
     case 0xad: //Ehud
-      flg = 0xc84;
+      flg = FLAG_KilledEhud;
       break;
     case 0xac: //Shadow
       flg = 0x1ca;
       break;
     case 0xaf: //Ksathra
-      flg = 0xe9a;
+      flg = FLAG_KilledKsathra;
       break;
     case 0xb0: //Shatrevar
-      flg = 0xe99;
+      flg = FLAG_KilledShatrevar;
       break;
     case 0xb1: //Mehrdad
-      flg = 0xe98;
+      flg = FLAG_KilledMehrdad;
       break;
     case 0xb2: // Golnar
-      flg = 0xe97;
+      flg = FLAG_KilledGolnar;
       break;
     case 0xb3: //Nasim
-      flg = 0xe96;
+      flg = FLAG_KilledNasim;
       break;
     case 0xb4: //Behrooz
-      flg = 0xe95;
+      flg = FLAG_KilledBehrooz;
       break;
     case 0xb5: //Assim
-      setEventFlag(0xe9b,true);
+      setEventFlag(FLAG_KilledAssim,true);
       goto next;
     case 0xba: //Lugash
-      flg = 0x215;
+      flg = FLAG_KilledLugash;
       break;
     default:
       goto next;

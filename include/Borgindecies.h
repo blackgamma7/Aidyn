@@ -77,7 +77,7 @@
 #define BORG12_CoinJingle 0x72d
 
 
-//Borg5: thanks to a makeshift model viewer
+//Borg5: Model data?
 #define BORG5_ErromonMapChunk   0xef9
 #define BORG5_CoronationScene1  0x1fe2
 #define BORG5_CoronationScene2  0x2080
@@ -85,7 +85,7 @@
 #define BORG5_N64Logo           0x25a8
 
 
-//Borg7
+//Borg7: actor data
 #define BORG7_ship              0xdc3
 #define BORG7_Alaron            0x25f9
 #define BORG7_Keelin            0x2b29
@@ -101,3 +101,14 @@
 #define BORG6_Flycam4           0x21e4
 #define BORG6_Flycam5           0x21e6
 #define BORG6_Flycam6           0x21e8
+
+
+//Borg13: Dialouge
+#define BORG13_GoblinAmbush     0x365
+#define BORG13_AlaronDies1      0x512
+#define BORG13_AlaronDies2      0x513
+#define BORG13_AlaronDies3      0x514
+
+#define BORG13_HelpMenu         0x54b
+
+#define BORG13_PassMarshmallows 0x185b
