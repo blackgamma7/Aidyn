@@ -1,3 +1,9 @@
+#ifdef DEBUGVER
+#define FILENAME "../gameclasses/entity.cpp"
+#else
+#define FILENAME ""
+#endif
+
 
 bool IsElemental(ItemID param_1){
   byte lVar1;
@@ -5,9 +11,9 @@ bool IsElemental(ItemID param_1){
   
   if (param_1 >> 8 == 2) {
     Ivar1 = GetIDIndex(param_1);
-    if ((((lVar1 == 0xc2) || (lVar1 == 0xc4)) || (lVar1 == 0xc5)) || (lVar1 == 199)) {
-      ret = true;}
-    else {ret = lVar1 == 0xbf;}
+    //Air, Earth, Fire Water Elementals
+    if ((((lVar1 == 0xc2) || (lVar1 == 0xc4)) || (lVar1 == 0xc5)) || (lVar1 == 199)) {ret = true;}
+    else {ret = lVar1 == 0xbf;} //firelord
   }
   else {ret = false;}
   return ret;}
@@ -26,37 +32,27 @@ ulong init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
   BVar3 = getEntityPortait(param_1->ID);
   pBVar4 = get_borg_8(BVar3);
   param_1->portait = pBVar4;
-  x = (Potion_effect **)Malloc(0x1c,s_../gameclasses/entity.cpp_800e02f0,0xc1);
+  x = (Potion_effect **)Malloc(0x1c,FILENAME,0xc1);
   param_1->potion_effects = x;
   memset(x,0,0x1c);
-  iVar5 = getBaseStat(param_1->Stats,Level);
+  iVar5 = getBaseStat(param_1->Stats,LV);
   uVar1 = EXP_TNL[iVar5];
   param_1->weapons = NULL;
   param_1->EXP->total = uVar1;
-  if (param_2->weapon[0] != (ItemID)0xffff) {
-    EquipWeapon(param_1,param_2->weapon[0],0);
-  }
-  if (param_2->weapon[1] == (ItemID)0xffff) {
-    IVar7 = param_2->weapon[2];
-  }
-  else {
-    if (param_1->weapons == NULL) {
-      EquipWeapon(param_1,param_2->weapon[1],0);
-      IVar7 = param_2->weapon[2];
-    }
+  if (param_2->weapon[0] != (ItemID)0xffff) {EquipWeapon(param_1,param_2->weapon[0],0);}
+  if (param_2->weapon[1] != (ItemID)0xffff) {
+    if (param_1->weapons == NULL) {EquipWeapon(param_1,param_2->weapon[1],0);}
     else {
       piVar2 = gGlobals.party->Inventory->Functions;
       (*(piVar2->add_to_inv).func)
                 ((int)gGlobals.party->Inventory->inv_slots + (short)(piVar2->add_to_inv).arg[0] + -4
                  ,(ulonglong)(ushort)param_2->weapon[1],1);
-      IVar7 = param_2->weapon[2];
     }
   }
+  IVar7 = param_2->weapon[2];
   uVar6 = 0xffffffff;
   if (IVar7 != (ItemID)0xffff) {
-    if (param_1->weapons == NULL) {
-      uVar6 = EquipWeapon(param_1,param_2->weapon[2],0);
-    }
+    if (param_1->weapons == NULL) {uVar6 = EquipWeapon(param_1,param_2->weapon[2],0);}
     else {
       piVar2 = gGlobals.party->Inventory->Functions;
       uVar6 = (*(piVar2->add_to_inv).func)
@@ -73,17 +69,14 @@ ulong init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
 void equip_weapons(CharSheet *param_1,Entity_Ram *param_2){
   Potion_effect **x;
   
-  x = (Potion_effect **)Malloc(0x1c,s_../gameclasses/entity.cpp_800e02f0,0xd8);
+  x = (Potion_effect **)Malloc(0x1c,FILENAME,0xd8);
   param_1->potion_effects = x;
   memset(x,0,0x1c);
   param_1->weapons = NULL;
-  if (param_2->weapon[2] != (ItemID)0xffff) {
-    EquipWeapon(param_1,param_2->weapon[2],0);
-  }
+  if (param_2->weapon[2] != (ItemID)0xffff) {EquipWeapon(param_1,param_2->weapon[2],0);}
   if ((param_2->weapon[0] != (ItemID)0xffff) && (param_1->weapons == NULL)) {
     EquipWeapon(param_1,param_2->weapon[0],0);
   }
-  return;
 }
 
 
@@ -126,29 +119,25 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,uint param_3){
   pEVar11 += bVar8;
   strlen(pEVar11->Name);
   param_1->name = pEVar11->Name;
-  stats = (CharStats *)Malloc(0x1c,s_../gameclasses/entity.cpp_800e02f0,0x101);
+  stats = (CharStats *)Malloc(0x1c,FILENAME,0x101);
   param_1->Stats = stats;
   init_CharStats(stats,param_1->ID);
-  pcVar2 = (charExp *)Malloc(0x10,s_../gameclasses/entity.cpp_800e02f0,0x104);
+  pcVar2 = (charExp *)Malloc(0x10,FILENAME,0x104);
   param_1->EXP = pcVar2;
   init_charExp(pcVar2,param_1->ID);
-  arg0 = (CharSkills *)Malloc(0x30,s_../gameclasses/entity.cpp_800e02f0,0x107);
+  arg0 = (CharSkills *)Malloc(0x30,FILENAME,0x107);
   param_1->Skills = arg0;
   init_char_skills(arg0,param_1->ID);
-  pptVar3 = (temp_armor **)Malloc(8,s_../gameclasses/entity.cpp_800e02f0,0x10a);
+  pptVar3 = (temp_armor **)Malloc(8,FILENAME,0x10a);
   param_1->armor = pptVar3;
   *pptVar3 = NULL;
   pptVar3[1] = NULL;
-  if (pEVar11->Sheild != (ItemID)0xffff) {
-    Equip_Armor(param_1,pEVar11->Sheild,0);
-  }
-  if (pEVar11->unk_0x60 != -1) {
-    EquipSheild(param_1,pEVar11->unk_0x60,0);
-  }
-  pCVar4 = (CharGear *)Malloc(8,s_../gameclasses/entity.cpp_800e02f0,0x111);
+  if (pEVar11->Sheild != (ItemID)0xffff) {Equip_Armor(param_1,pEVar11->Sheild,0);}
+  if (pEVar11->unk_0x60 != -1) {EquipSheild(param_1,pEVar11->unk_0x60,0);}
+  pCVar4 = (CharGear *)Malloc(8,FILENAME,0x111);
   param_1->pItemList = pCVar4;
   create_unknown_charsheet_struct(pCVar4,0xc);
-  psVar5 = (spellbook *)Malloc(8,s_../gameclasses/entity.cpp_800e02f0,0x114);
+  psVar5 = (spellbook *)Malloc(8,FILENAME,0x114);
   param_1->spellbook = psVar5;
   malloc_spell(psVar5,5);
   uVar10 = 0;
@@ -156,16 +145,16 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,uint param_3){
   do {
     psVar9 = (short *)(&pEVar11->spells[0].type + iVar6);
     if (*psVar9 != -1) {
-      pTVar7 = (Temp_spell *)Malloc(0x24,s_../gameclasses/entity.cpp_800e02f0,0x11a);
+      pTVar7 = (Temp_spell *)Malloc(0x24,FILENAME,0x11a);
       sVar1 = *psVar9;
       *(Temp_spell **)(&param_1->spellbook->spells->id + uVar10 * 2) = pTVar7;
       create_temp_spell(pTVar7,sVar1,pEVar11->Spell_levels[uVar10]);
-      param_1->spellbook->spell_count = param_1->spellbook->spell_count + 1;
+      param_1->spellbook->spell_count++;
     }
     uVar10++;
     iVar6 = uVar10 << 1;
   } while (uVar10 < 5);
-  x = (effects *)Malloc(0x3c,s_../gameclasses/entity.cpp_800e02f0,0x11f);
+  x = (effects *)Malloc(0x3c,FILENAME,0x11f);
   param_1->effects = x;
   memset(x,0,0x3c);
   apcStack112[0] = PTR_init_more_charSheet_data_800e030c;
@@ -185,85 +174,68 @@ void CharSheet_free(CharSheet *param_1){
   Temp_weapon *pTVar5;
   spellbook *psVar6;
   
-  if (param_1->EXP != (charExp *)0x0) {
-    Free(param_1->EXP,s_../gameclasses/entity.cpp_800e02f0,0x142);
-    param_1->EXP = (charExp *)0x0;
+  if (param_1->EXP != NULL) {
+    Free(param_1->EXP,FILENAME,0x142);
+    param_1->EXP = NULL;
   }
-  if (param_1->armor == NULL) {
-    pTVar5 = param_1->weapons;
-  }
+  if (param_1->armor == NULL) {pTVar5 = param_1->weapons;}
   else {
     if (*param_1->armor != NULL) {
       pssto_clear_weapon_effects();
-      Free(*param_1->armor,s_../gameclasses/entity.cpp_800e02f0,0x14b);
+      Free(*param_1->armor,FILENAME,0x14b);
       *param_1->armor = NULL;}
     if (param_1->armor[1] != NULL) {
       pssto_clear_weapon_effects();
-      Free(param_1->armor[1],s_../gameclasses/entity.cpp_800e02f0,0x152);
+      Free(param_1->armor[1],FILENAME,0x152);
       param_1->armor[1] = NULL;
     }
-    Free(param_1->armor,s_../gameclasses/entity.cpp_800e02f0,0x156);
+    Free(param_1->armor,FILENAME,0x156);
     param_1->armor = NULL;
     pTVar5 = param_1->weapons;
   }
-  if (pTVar5 == NULL) {
-    pCVar1 = param_1->pItemList;
-  }
+  if (pTVar5 == NULL) {pCVar1 = param_1->pItemList;}
   else {
     passto_clear_weapon_effects(pTVar5);
-    Free(param_1->weapons,s_../gameclasses/entity.cpp_800e02f0,0x15d);
+    Free(param_1->weapons,FILENAME,0x15d);
     param_1->weapons = NULL;
     pCVar1 = param_1->pItemList;
   }
-  if (pCVar1 == (CharGear *)0x0) {
-    psVar6 = param_1->spellbook;
-  }
-  else {
+  if (pCVar1 != NULL) {
     func_8007d7dc();
-    Free(param_1->pItemList,s_../gameclasses/entity.cpp_800e02f0,0x15d);
-    param_1->pItemList = (CharGear *)0x0;
-    psVar6 = param_1->spellbook;
+    Free(param_1->pItemList,FILENAME,0x15d);
+    param_1->pItemList = NULL;
   }
-  if (psVar6 == (spellbook *)0x0) {
-    peVar2 = param_1->effects;
-  }
-  else {
+  psVar6 = param_1->spellbook;
+  if (psVar6 != NULL) {
     spellbok_free(psVar6);
-    Free(param_1->spellbook,s_../gameclasses/entity.cpp_800e02f0,0x164);
-    param_1->spellbook = (spellbook *)0x0;
-    peVar2 = param_1->effects;
+    Free(param_1->spellbook,FILENAME,0x164);
+    param_1->spellbook = NULL;
   }
-  if (peVar2 == (effects *)0x0) {
-    pPVar3 = (Potion_effect *)param_1->potion_effects;
-  }
+  if (peVar2 == (effects *)0x0) {pPVar3 = (Potion_effect *)param_1->potion_effects;}
   else {
     remove_effects(param_1);
-    Free(param_1->effects,s_../gameclasses/entity.cpp_800e02f0,0x16b);
+    Free(param_1->effects,FILENAME,0x16b);
     param_1->effects = (effects *)0x0;
-    pPVar3 = (Potion_effect *)param_1->potion_effects;
+    
   }
-  if (pPVar3 == (Potion_effect *)0x0) {
-    pBVar4 = param_1->portait;
-  }
-  else {
+  pPVar3 = (Potion_effect *)param_1->potion_effects;
+  if (pPVar3 != (Potion_effect *)0x0) {
     clear_charsheet_potions(param_1);
-    Free(param_1->potion_effects,s_../gameclasses/entity.cpp_800e02f0,0x173);
-    param_1->potion_effects = (Potion_effect **)0x0;
-    pBVar4 = param_1->portait;
-  }
+    Free(param_1->potion_effects,FILENAME,0x173);
+    param_1->potion_effects = (Potion_effect **)0x0;}
+  pBVar4 = param_1->portait;
   if (pBVar4 != (Borg_8_header *)0x0) {
     AllocFreeQueueItem(&queueStructA,&param_1->portait,4,0);
     param_1->portait = (Borg_8_header *)0x0;
   }
   if (param_1->Stats != (CharStats *)0x0) {
-    Free(param_1->Stats,s_../gameclasses/entity.cpp_800e02f0,0x188);
+    Free(param_1->Stats,FILENAME,0x188);
     param_1->Stats = (CharStats *)0x0;
   }
   if (param_1->Skills != (CharSkills *)0x0) {
-    Free(param_1->Skills,s_../gameclasses/entity.cpp_800e02f0,0x18e);
+    Free(param_1->Skills,FILENAME,0x18e);
     param_1->Skills = (CharSkills *)0x0;
   }
-  return;
 }
 
 char getHPMax(CharSheet *param_1){
@@ -444,15 +416,9 @@ void addHP(CharSheet *param_1,short param_2){
       iVar1 = getModdedStat(param_1->Stats,LV);
       iVar2 = getBaseStat(param_1->Stats,LV);
       if (iVar1 < iVar2) {
-        iVar1 = getBaseStat(param_1->Stats,LV);
-        iVar2 = getModdedStat(param_1->Stats,LV);
-        uVar4 = iVar1 - iVar2;
-        if (uVar3 < uVar4) {
-          addModdedStat(param_1->Stats,LV,(char)uVar3);
-        }
-        else {
-          addModdedStat(param_1->Stats,LV,(char)uVar4);
-        }
+        uVar4 = getBaseStat(param_1->Stats,LV) - getModdedStat(param_1->Stats,LV);
+        if (uVar3 < uVar4) {addModdedStat(param_1->Stats,LV,(char)uVar3);}
+        else {addModdedStat(param_1->Stats,LV,(char)uVar4);}
       }
     }
   }
@@ -534,7 +500,7 @@ byte EquipWeapon(CharSheet *param_1,undefined2 param_2,byte (*param_3) [2]){
   
   bVar2 = canEquipWeapon(param_1,param_2);
   if (bVar2 == 0) {
-    pTVar1 = (Temp_weapon *)Malloc(0x2c,s_../gameclasses/entity.cpp_800e02f0,0x377);
+    pTVar1 = (Temp_weapon *)Malloc(0x2c,FILENAME,0x377);
     param_1->weapons = pTVar1;
     createTempWeapon(pTVar1,param_2);
     func_800784c8(param_1,param_1->weapons,param_3,0);
@@ -573,12 +539,10 @@ void func_800784c8(CharSheet *param_1,Temp_weapon *param_2,byte (*param_3) [2],i
      (lVar2 = capskillBaseMax(param_1->Skills,(*pabVar1)[0]), lVar2 != 0)) {
     some_moddedSkillCheck(param_1->Skills,(*pabVar1)[0],(*pabVar1)[1]);
   }
-  if (param_3 == (byte (*) [2])0x0) {
-    param_3 = param_2->Stat;
-  }
+  if (param_3 == (byte (*) [2])0x0) {param_3 = param_2->Stat;}
   else {
     if (param_2->Stat != (byte (*) [2])0x0) {
-      Free(param_2->Stat,s_../gameclasses/entity.cpp_800e02f0);
+      Free(param_2->Stat,FILENAME);
     }
     param_2->Stat = param_3;
   }
@@ -597,16 +561,14 @@ void func_800784c8(CharSheet *param_1,Temp_weapon *param_2,byte (*param_3) [2],i
   }
   param_1->spellSwitch = 0;
 LAB_8007859c:
-  if (param_4 != 0) {
-    func_8007ad40(param_1,param_2);
-  }
+  if (param_4 != 0) {func_8007ad40(param_1,param_2);}
   return;
 }
 
 void equip_armor_sheild(CharSheet *param_1,undefined2 param_2,byte (*param_3) [2],bool sheild){
   temp_armor *ptVar1;
   
-  ptVar1 = (temp_armor *)Malloc(0x28,s_../gameclasses/entity.cpp_800e02f0,0x3df);
+  ptVar1 = (temp_armor *)Malloc(0x28,FILENAME,0x3df);
   param_1->armor[sheild] = ptVar1;
   make_temp_armor_3(ptVar1,param_2);
   func_800784c8(param_1,(Temp_weapon *)param_1->armor[sheild],param_3,1);
@@ -623,7 +585,7 @@ void remove_armor(CharSheet *param_1,byte param_2){
     subtractFromModdedStats(param_1->Stats,DEX,param_1->armor[param_2]->dex);
     some_moddedSkillCheck(param_1->Skills,Stealth,-param_1->armor[param_2]->stealth);
     pssto_clear_weapon_effects(param_1->armor[param_2]);
-    Free(param_1->armor[param_2],s_../gameclasses/entity.cpp_800e02f0);
+    Free(param_1->armor[param_2],FILENAME);
     param_1->armor[param_2] = NULL;
   }
 }
@@ -632,7 +594,7 @@ void unequp_weapons(CharSheet *param_1){
   if (param_1->weapons != NULL) {
     func_80078874(param_1,param_1->weapons,false);
     passto_clear_weapon_effects(param_1->weapons);
-    Free(param_1->weapons,s_../gameclasses/entity.cpp_800e02f0);
+    Free(param_1->weapons,FILENAME);
     param_1->weapons = NULL;
   }
 }
@@ -743,7 +705,7 @@ void Buffing_potion_effect(CharSheet *param_1,POTION param_2,byte param_3,uint p
     pPVar1 = (Potion_effect *)param_1->potion_effects;
     uVar2++;
   }
-  pPVar1 = (Potion_effect *)Malloc(0xc,s_../gameclasses/entity.cpp_800e02f0,0x4a1);
+  pPVar1 = (Potion_effect *)Malloc(0xc,FILENAME,0x4a1);
   param_1->potion_effects[uVar2] = pPVar1;
   make_charsheet_potion(pPVar1,param_2,param_3,param_4);
   switch(param_2) {
@@ -833,7 +795,7 @@ void clear_charsheet_potion(CharSheet *param_1,uint param_2){
   if (param_1->potion_effects[param_2] != (Potion_effect *)0x0) {
     remove_potion_effect(param_1,param_2);
     func_with_potion_unk2(param_1->potion_effects[param_2]);
-    Free(param_1->potion_effects[param_2],s_../gameclasses/entity.cpp_800e02f0,0x50b);
+    Free(param_1->potion_effects[param_2],FILENAME,0x50b);
     param_1->potion_effects[param_2] = (Potion_effect *)0x0;
   }
 }
@@ -868,7 +830,7 @@ bool can_use_potion(CharSheet *param_1,POTION param_2,char *param_3){
   switch(param_2) {
   case HEALING:
   case CURING:
-    if (param_3 != NULL) {strcpy(param_3,s_That_potion_cannot_be_used_right_800e0368);}
+    if (param_3 != NULL) {strcpy(param_3,"That potion cannot be used right now.");}
     bVar6 = getHPCurrent(param_1) != getHPMax(param_1);
     break;
   case STAMINA:
@@ -881,21 +843,21 @@ bool can_use_potion(CharSheet *param_1,POTION param_2,char *param_3){
       }
       peVar5 = (effects *)(peVar5->list + 1);
     } while (uVar6 < 0xf);
-    if (param_3 != NULL) {strcpy(param_3,s_That_potion_cannot_be_used_right_800e0368);}
+    if (param_3 != NULL) {strcpy(param_3,"That potion cannot be used right now.");}
     bVar6 = getModdedStat(param_1->Stats,STAM) < getBaseStat(param_1->Stats,STAM);
     break;
   case ANTIDOTE:
     uVar6 = 0;
     peVar5 = param_1->effects;
     do {
-      uVar6 = uVar6 + 1;
+      uVar6++;
       if ((peVar5->list[0] != NULL) && (peVar5->list[0]->index == poison)) {
         return true;
       }
       peVar5 = (effects *)(peVar5->list + 1);
     } while (uVar6 < 0xf);
     if (param_3 != NULL) {
-      c2 = s_That_potion_cannot_be_used_right_800e0368;
+      c2 = "That potion cannot be used right now.";
 LAB_80078fb4:
       strcpy(param_3,c2);}
     goto LAB_80078fbc;
@@ -908,7 +870,7 @@ LAB_80078fb4:
       if (bVar4 != false) break;
       if (0xe < uVar6) {
         if (param_3 == NULL) goto LAB_80078fbc;
-        c2 = s_That_potion_cannot_be_used_right_800e0368;
+        c2 = "That potion cannot be used right now.";
         goto LAB_80078fb4;
       }
       peVar5 = param_1->effects;
@@ -921,7 +883,7 @@ LAB_80078fb4:
   case CHARISMA:
   case DEFENCE:
   case STEALTH:
-    if (param_3 != NULL) {strcpy(param_3,s_That_potion_cannot_be_used_right_800e0368);}
+    if (param_3 != NULL) {strcpy(param_3,"That potion cannot be used right now.");}
     bVar6 = (bool)(has_potion_effect(param_1,param_2) ^ 1);
     break;
   default:
@@ -1016,18 +978,16 @@ byte ret1_800791c8(void){return 1;}
   char *pcVar2;
   
   if (param_1->element != NONE) {
-    pcVar2 = "Immune_to_%s";
-    if (0.0 < param_1->percent) {pcVar2 = "Resistant_to_%s";}
-    if (2.0f <= param_1->percent) {pcVar2 = "Vulnerable_to_%s";}
+    pcVar2 = "Immune to %s";
+    if (0.0 < param_1->percent) {pcVar2 = "Resistant to %s";}
+    if (2.0f <= param_1->percent) {pcVar2 = "Vulnerable to %s";}
     sprintf(param_3,pcVar2,element_labels[param_1->element]);
     uVar1 = append_SenseAura_text(param_2,param_3,param_4);
   }
   return uVar1;
 }
 
-void senseAura(CombatEntity *target,byte level)
-
-{
+void senseAura(CombatEntity *target,byte level){
   CharSheet *pCVar1;
   uint uVar3;
   undefined8 uVar2;
@@ -1151,9 +1111,7 @@ short Effect_CaseSwitch_add(CharSheet *param_1,SpellEnum param_2,byte Lv,undefin
   case AirSheild:
   case spiritSheild:
   case starlightSheild:
-    if (uVar16 != 0) {
-      param_1->EXP->protection = param_1->EXP->protection + (char)(Lv << 1);
-    }
+    if (uVar16 != 0) {param_1->EXP->protection+= (char)(Lv << 1);}
     break;
   case ControlElem:
     uVar19 = uVar17;
@@ -1224,21 +1182,19 @@ LAB_800798b0:
     bVar10 = true;
     uVar19 = uVar17;
     if (((uVar16 != 0) && (uVar16 = 0, param_6 != NULL)) &&
-       (pcVar1 = param_6->combat_ai_pointer, pcVar1 != (combat_ai *)0x0)) {
+       (param_6->combat_ai_pointer != NULL)) {
       uVar16 = 1;
       bVar9 = pcVar1->field_0x6;
-      if (bVar9 < Lv) {
-        Lv = (uint)bVar9;
-      }
-      pcVar1->field_0x6 = bVar9 - (char)Lv;
-      param_6->combat_ai_pointer->field_0x9 = param_6->combat_ai_pointer->field_0x9 | 2;
+      if (bVar9 < Lv) {Lv = (uint)bVar9;}
+      pcVar1->field_0x6-= (char)Lv;
+      param_6->combat_ai_pointer->field_0x9|= 2;
       uVar19 = 1;
       bVar10 = bVar2;
     }
     break;
   case wraithTouch:
     if (uVar16 != 0) {
-      Wraith_touch(param_1,uVar5 & 0xff);
+      Wraith_touch(param_1,uVar5);
       return sVar8;
     }
     break;
@@ -1292,10 +1248,7 @@ control_magic:
   case wallOfBones:
   case frozenDoom:
   case webOfStarlight:
-                    /* fail with Shadow */
-    if (lVar3 == 0xac) {
-      return -1;
-    }
+    if (lVar3 == 0xac) {return -1;} //Fail with shadow
     uVar19 = uVar17;
     bVar10 = true;
     if ((uVar16 != 0) && (param_6 != NULL)) {
@@ -1308,7 +1261,7 @@ control_magic:
     uVar19 = uVar17;
     bVar10 = true;
     if ((param_6 != NULL) && (uVar19 = uVar18, bVar10 = bVar2, uVar16 != 0)) {
-      param_6->field_0x28 = param_6->field_0x28 + (char)Lv * '\x03';
+      param_6->field_0x28+= (char)Lv * 3;
     }
     break;
   case dispelElemental:
@@ -1359,24 +1312,20 @@ mod_stat:
     }
   }
   if (bVar10) {
-    if (uVar16 == 0) {
-      sVar8 = -1;
-    }
+    if (uVar16 == 0) {sVar8 = -1;}
     else {
-      pTVar7 = (Temp_enchant *)Malloc(0x18,s_../gameclasses/entity.cpp_800e02f0,0x809);
+      pTVar7 = (Temp_enchant *)Malloc(0x18,FILENAME,0x809);
       ppTVar12 = param_1->effects->list + uVar5;
       *ppTVar12 = pTVar7;
       CreateTempEnchant(*ppTVar12,param_2,(char)Lv,param_4,param_5,uVar19);
     }
   }
-  else {
-    sVar8 = -1;
-  }
+  else {sVar8 = -1;}
   return sVar8;
 }
 
 
-void Effect_CaseSwitch_Remove(CharSheet *param_1,uint param_2,CombatEntity *param_3){
+void Effect_CaseSwitch_Remove(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
   Temp_enchant *pTVar1;
   bool bVar2;
   CHAR_STAT SVar3;
@@ -1384,13 +1333,11 @@ void Effect_CaseSwitch_Remove(CharSheet *param_1,uint param_2,CombatEntity *para
   byte bVar5;
   combat_ai *iVar2;
   
-  pTVar1 = param_1->effects->list[param_2 & 0xff];
-  if (pTVar1 == NULL) {
-    return;
-  }
+  pTVar1 = param_1->effects->list[param_2];
+  if (pTVar1 == NULL) {return;}
   switch(pTVar1->index) {
   case AirSheild:
-    param_1->EXP->protection = param_1->EXP->protection + pTVar1->lv * -2;
+    param_1->EXP->protection-= pTVar1->lv * 2;
     break;
   case ControlElem:
   case charming:
@@ -1398,12 +1345,8 @@ void Effect_CaseSwitch_Remove(CharSheet *param_1,uint param_2,CombatEntity *para
   case controlZombies:
     if (param_3 != NULL) {
       bVar2 = CombatEnt_flag_5(param_3);
-      if (bVar2 == false) {
-        CombatEnt_NAND_flags(param_3,flag5);
-      }
-      else {
-        CombatEnt_OR_flags(param_3,flag5);
-      }
+      if (bVar2 == false) {CombatEnt_NAND_flags(param_3,flag5);}
+      else {CombatEnt_OR_flags(param_3,flag5);}
     }
     break;
   case debilitation:
@@ -1436,9 +1379,7 @@ void Effect_CaseSwitch_Remove(CharSheet *param_1,uint param_2,CombatEntity *para
   case auraOfDeath:
   case solarWraith:
     if ((param_3 != NULL) &&
-       (iVar2 = param_3->combat_ai_pointer, iVar2 != (combat_ai *)0x0)) {
-      iVar2->field_0x6 = iVar2->field_0x6 + pTVar1->lv;
-    }
+       (param_3->combat_ai_pointer != NULL)) {iVar2->field_0x6+= pTVar1->lv;}
     break;
   case wraithTouch:
     SVar3 = pTVar1->field_0x3;
@@ -1460,9 +1401,7 @@ void Effect_CaseSwitch_Remove(CharSheet *param_1,uint param_2,CombatEntity *para
   case wallOfBones:
   case frozenDoom:
   case webOfStarlight:
-    if (param_3 != NULL) {
-      CombatEnt_OR_flags(param_3,flag2);
-    }
+    if (param_3 != NULL) {CombatEnt_OR_flags(param_3,flag2);}
     break;
   case spiritSheild:
   case starlightSheild:
@@ -1517,11 +1456,9 @@ int func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,unde
         if (SVar1 == poison) {
           uVar6 = (uint)(pTVar2->lv >> 1);
           iVar4 = getModdedStat(param_1->Stats,END);
-          if (iVar4 < (int)uVar6) {
-            uVar6 = getModdedStat(param_1->Stats,END);
-          }
+          if (iVar4 < uVar6) {uVar6 = getModdedStat(param_1->Stats,END);}
           uVar5 = getHPCurrent(param_1);
-          if ((int)uVar5 < (int)uVar6) goto LAB_80079e7c;
+          if (uVar5 < uVar6) goto LAB_80079e7c;
           iVar10 = iVar10 + uVar6;
           uVar5 = 0;
           addModdedStat(param_1->Stats,END,-(char)uVar6);
@@ -1534,7 +1471,7 @@ int func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,unde
               if (SVar1 != AcidBolt) goto LAB_80079e48;
             }
 LAB_80079da4:
-            uVar5 = Random::globals::RollD(dice,6);
+            uVar5 = globals::RollD(dice,6);
           }
           else {
             if (SVar1 == photosynthesis) {
@@ -1545,7 +1482,7 @@ LAB_80079da4:
             else {
               if (SVar1 == webOfStarlight) {
                 iVar4 = getModdedStat(param_1->Stats,STR);
-                uVar5 = Random::globals::RollD(1,100);
+                uVar5 = globals::RollD(1,100);
                 if ((iVar4 * 2 <= (int)uVar5) ||
                    (lVar3 = some_skillcheck_calc((int)((iVar4 * 2 - uVar5) * 0x10000) >> 0x10),
                    lVar3 == 0)) {
@@ -1564,16 +1501,12 @@ LAB_80079e48:
           iVar10+= uVar5;
         }
       }
-      else {
-        clear_player_effect(param_1,uVar9 & 0xff,param_2);
-      }
+      else {clear_player_effect(param_1,uVar9,param_2);}
     }
 LAB_80079e7c:
     uVar9++;
     if (0xe < uVar9) {
-      if (iVar11 == 0) {
-        return iVar10;
-      }
+      if (iVar11 == 0) {return iVar10;}
       check_dead_from_DoT(param_1,0,iVar11,param_2);
       return iVar10;
     }
@@ -1628,9 +1561,7 @@ Temp_spell * passto_getSpell(CharSheet *param_1){
   return pTVar1;
 }
 
-undefined some_equip_spell_charges(CharSheet *param_1)
-
-{
+undefined some_equip_spell_charges(CharSheet *param_1){
   temp_armor *ptVar1;
   temp_armor **pptVar2;
   
@@ -1644,7 +1575,7 @@ undefined some_equip_spell_charges(CharSheet *param_1)
     ptVar1 = param_1->armor[1];
     goto LAB_8007a1d8;
   case 4:
-    return *(undefined *)&param_1->weapons->spell->name;
+    return param_1->weapons->spell->Charges;
   case 5:
     pptVar2 = (temp_armor **)(param_1->pItemList->pItem + param_1->currSpell);
     break;
@@ -1653,26 +1584,20 @@ undefined some_equip_spell_charges(CharSheet *param_1)
   }
   ptVar1 = *pptVar2;
 LAB_8007a1d8:
-  return *(undefined *)&ptVar1->spell->name;
+  return  ptVar1->spell->Charges;
 }
 
-void dec_item_spell_uses(CharSheet *param_1)
-
-{
+void dec_item_spell_uses(CharSheet *param_1){
   temp_gear *ptVar1;
-  Temp_spell *pTVar2;
   ushort uVar3;
   
   if (param_1->spellSwitch == 5) {
     ptVar1 = param_1->pItemList->pItem[param_1->currSpell];
     uVar3 = (ushort)ptVar1->id >> 8;
-    if ((uVar3 == 0x11) || (uVar3 == 0xd)) {
-      pTVar2 = ptVar1->pSpell;
-      *(char *)&pTVar2->name = *(char *)&pTVar2->name + -1;
-    }
+    if ((uVar3 == 0x11) || (uVar3 == 0xd)) {ptVar1->pSpell->Charges--;}
   }
-  return;
 }
+
 
 
 byte check_spell_wizard(CharSheet *param_1,Temp_spell *param_2){
@@ -1746,10 +1671,8 @@ int add_Equip_Stamina(temp_armor *param_1,short param_2,longlong param_3){
   int iVar3;
   
   iVar2 = (int)param_2;
-  if (iVar2 == 0) {
-    return 0;
-  }
-  if ((((param_1 != (temp_armor *)0x0) && (pabVar1 = param_1->statMod, pabVar1 != (byte (*) [2])0x0)
+  if (iVar2 == 0) {return 0;}
+  if ((((param_1 != NULL) && (pabVar1 = param_1->statMod, pabVar1 != (byte (*) [2])0x0)
        ) && ((*pabVar1)[0] == 5)) && ((*pabVar1)[1] != 0)) {
     iVar2 = (iVar2 - (char)(*pabVar1)[1]) * 0x10000;
     iVar3 = iVar2 >> 0x10;
@@ -1760,9 +1683,7 @@ int add_Equip_Stamina(temp_armor *param_1,short param_2,longlong param_3){
       iVar3 = 0;
     }
     else {
-      if (param_3 != 0) {
-        (*pabVar1)[1] = 0;
-      }
+      if (param_3 != 0) {(*pabVar1)[1] = 0;}
     }
     return iVar3;
   }
@@ -1798,7 +1719,6 @@ void camp_healing(CharSheet *param_1,float param_2,uint param_3){
       ptVar3 = (temp_gear *)param_1->pItemList->pItem;
     }
   }
-  return;
 }
 
 byte check_spell_aspect_tod(Temp_spell *param_1){
@@ -1822,7 +1742,7 @@ byte CheckTargetSpellAspect(CharSheet *param_1,Temp_spell *param_2){
   bVar2 = 0;
   AVar1 = param_2->aspect;
   if (AVar1 == LUNAR) {
-    if (((param_1->EXP->flags ^ Protag) & Protag) != 0) {bVar2 = 7;}
+    if (((param_1->EXP->flags ^ 4) & 4) != 0) {bVar2 = 7;}
   }
   if (AVar1 == SOLAR) {
     if ((param_1->EXP->flags & 2) == 0) {bVar2 = 8;}
@@ -1869,11 +1789,7 @@ bool func_8007a8cc(ItemID param_1,uint param_2){
   
   bVar2 = GetIDIndex(param_1);
   bVar1 = (weapon_pointer->Types + ((param_2 & 0xff) - 1))[0xc];
-  return (ulonglong)bVar1 <= (ulonglong)(longlong)(char)bVar2 &&
-         (ulonglong)(longlong)(char)bVar2 <=
-         ((longlong)
-          (int)((uint)bVar1 + (uint)(weapon_pointer->Types + ((param_2 & 0xff) - 1))[1] + -1) &
-         0xffU);
+  return bVar1 <= bVar2 && bVar2 <= bVar1 + (weapon_pointer->Types + ((param_2 & 0xff) - 1))[1] + -1) & 0xffU);
 }
 
 
@@ -1887,10 +1803,7 @@ void giveExp(CharSheet *param_1,int param_2){
 }
 
 //above, but no spending exp or LV up
-void exp_multi_1point5(CharSheet *param_1,int param_2){
-  param_1->EXP->total+= (int)((float)param_2 * 1.5f);
-  return;
-}
+void exp_multi_1point5(CharSheet *param_1,int param_2){param_1->EXP->total+= (int)((float)param_2 * 1.5f);}
 
 ushort potion_heal(CharSheet *param_1,ushort Hi,ushort Lo){
   int iVar2;
@@ -1937,7 +1850,6 @@ void clear_charsheet_potions(CharSheet *param_1){
       uVar1++;
     } while (uVar1 < 7);
   }
-  return;
 }
 
 uint get_level(CharSheet *param_1){
@@ -1965,9 +1877,7 @@ uint get_EXP_TNL(CharSheet *param_1){
   return uVar2;
 }
 
-void clear_equip_enchantments_(CharSheet *param_1)
-
-{
+void clear_equip_enchantments_(CharSheet *param_1){
   CharGear *pCVar1;
   effects *peVar2;
   Temp_weapon **ppTVar3;
@@ -1977,7 +1887,7 @@ void clear_equip_enchantments_(CharSheet *param_1)
   uVar4 = 0;
   paVar4 = param_1->potion_effects;
   while( true ) {
-    if ((paVar4[uVar4] != (Potion_effect *)0x0) && (paVar4[uVar4]->ID != STEALTH)) {
+    if ((paVar4[uVar4] != NULL) && (paVar4[uVar4]->ID != STEALTH)) {
       clear_charsheet_potion(param_1,uVar4 & 0xff);
     }
     uVar4++;
@@ -2026,15 +1936,15 @@ void teleportation_spell(CombatEntity *param_1){
   
   if (param_1 != NULL) {
     fVar3 = combatPointer->floatA;
-    if (fVar3 < ConstFloats::INT_MAX_f) {bVar4 = (byte)(int)fVar3;}
-    else {bVar4 = (byte)(int)(fVar3 - ConstFloats::INT_MAX_f);}
+    if (fVar3 < INT_MAX_f) {bVar4 = (byte)(int)fVar3;}
+    else {bVar4 = (byte)(int)(fVar3 - INT_MAX_f);}
     fVar3 = combatPointer->floatB;
-    if (fVar3 < ConstFloats::INT_MAX_f) {
+    if (fVar3 < INT_MAX_f) {
       bVar5 = (byte)(int)fVar3;
       bVar2 = *(byte *)&param_1->field_0x23;
     }
     else {
-      bVar5 = (byte)(int)(fVar3 - ConstFloats::INT_MAX_f);
+      bVar5 = (byte)(int)(fVar3 - INT_MAX_f);
       bVar2 = *(byte *)&param_1->field_0x23;
     }
     bVar1 = combat_substruct_lookup(&combatPointer->substruct,bVar4,bVar5,bVar2);
@@ -2077,15 +1987,13 @@ void Wraith_touch(CharSheet *param_1,uint param_2){
   SVar1 = wraithTouch_stats[globals::RollD(1,4)];
   uVar2 = globals::RollD(2,6);
   addModdedStats_flag(param_1->Stats,SVar1,-uVar2);
-  pTVar3 = (Temp_enchant *)Malloc(0x18,s_../gameclasses/entity.cpp_800e02f0,0xcec);
+  pTVar3 = (Temp_enchant *)Malloc(0x18,FILENAME,0xcec);
   ppTVar4 = param_1->effects->list + param_2;
   *ppTVar4 = pTVar3;
   CreateTempEnchant(*ppTVar4,wraithTouch,uVar2,0xffffffff,SVar1,1);
 }
 
-void darkness_light_spell(CharSheet *param_1,SpellEnum param_2)
-
-{
+void darkness_light_spell(CharSheet *param_1,SpellEnum param_2){
   CombatEntity *pCVar1;
   Temp_enchant *pTVar2;
   TimeOfDay TVar3;
@@ -2250,9 +2158,7 @@ bool ofunc_check_trouador(CharSheet *param_1){
   return bVar3;
 }
 
-Temp_weapon * Has_Item_equipped_character(CharSheet *param_1,ItemID param_2)
-
-{
+Temp_weapon * Has_Item_equipped_character(CharSheet *param_1,ItemID param_2){
   CharGear *pCVar1;
   temp_gear *ptVar2;
   Temp_weapon *pTVar3;
@@ -2261,9 +2167,7 @@ Temp_weapon * Has_Item_equipped_character(CharSheet *param_1,ItemID param_2)
   
   uVar4 = (int)param_2 & 0xffff;
   uVar5 = uVar4 >> 8;
-  if (uVar5 == 6) {
-    pTVar3 = (Temp_weapon *)param_1->armor[1];
-  }
+  if (uVar5 == 6) {pTVar3 = (Temp_weapon *)param_1->armor[1];}
   else {
     if (uVar5 < 7) {
       if (uVar5 != 5) {
@@ -2335,7 +2239,7 @@ void malloc_enchant(CharSheet *param_1,SpellEnum param_2,uint param_3,undefined1
   uVar6 = 0;
   while( true ) {
     if (peVar1->list[uVar6] == NULL) {
-      pTVar2 = (Temp_enchant *)Malloc(0x18,s_../gameclasses/entity.cpp_800e02f0,0xde3);
+      pTVar2 = (Temp_enchant *)Malloc(0x18,FILENAME,0xde3);
       ppTVar5 = param_1->effects->list + uVar6;
       *ppTVar5 = pTVar2;
       CreateTempEnchant(*ppTVar5,param_2,(char)uVar7,timer,param_4,0);
@@ -2359,7 +2263,7 @@ void malloc_enchant(CharSheet *param_1,SpellEnum param_2,uint param_3,undefined1
     }
     if (0xe < uVar6 + 1) break;
     peVar1 = param_1->effects;
-    uVar6 = uVar6 + 1;
+    uVar6++;
   }
   return;
 }
@@ -2434,20 +2338,15 @@ void remove_stat_buff(CharSheet *param_1,CHAR_STAT param_2,undefined1 param_3){
     uVar2 = func_8007b760(param_1,param_2,param_3);
     SubtractModdedStats(param_1->Stats,param_2,uVar2);
   }
-  return;
 }
 
 void clear_player_effect(CharSheet *param_1,uint param_2,CombatEntity *param_3){
-  uint uVar1;
-  
-  uVar1 = param_2 & 0xff;
-  if (param_1->effects->list[uVar1] != NULL) {
-    Effect_CaseSwitch_Remove(param_1,uVar1,param_3);
-    func_800840dc(param_1->effects->list[uVar1]);
-    Free(param_1->effects->list[uVar1],FILENAME,0xe7a);
-    param_1->effects->list[uVar1] = NULL;
+  if (param_1->effects->list[param_2] != NULL) {
+    Effect_CaseSwitch_Remove(param_1,param_2,param_3);
+    func_800840dc(param_1->effects->list[param_2]);
+    Free(param_1->effects->list[param_2],FILENAME,0xe7a);
+    param_1->effects->list[param_2] = NULL;
   }
-  return;
 }
 
 
@@ -2477,9 +2376,7 @@ byte get_some_armor_stat(CharSheet *param_1,ItemID param_2){
   return bVar2;
 }
 
-int some_armor_func(CharSheet *param_1,uint param_2)
-
-{
+int some_armor_func(CharSheet *param_1,ItemID param_2){
   byte bVar2;
   longlong lVar1;
   bool bVar3;
@@ -2489,19 +2386,16 @@ int some_armor_func(CharSheet *param_1,uint param_2)
   int iVar7;
   int iVar8;
   
-  param_2 = param_2 & 0xffff;
   iVar7 = 0;
   uVar6 = 0;
   pptVar4 = param_1->armor;
   do {
-    uVar6 = uVar6 + 1;
-    if (*pptVar4 != (temp_armor *)0x0) {
-      iVar7 = iVar7 + (uint)(*pptVar4)->Protect;
-    }
-    pptVar4 = pptVar4 + 1;
+    uVar6++;
+    if (*pptVar4 != NULL) {iVar7+= (uint)(*pptVar4)->Protect;}
+    pptVar4++;
   } while (uVar6 < 2);
   if (param_2 != 0) {
-    bVar2 = GetIDIndex(SUB42(param_2,0));
+    bVar2 = GetIDIndex(param_2));
     iVar8 = 0;
     if (param_2 >> 8 == 5) {
       if (ret0()) {return iVar7;}
@@ -2513,8 +2407,8 @@ int some_armor_func(CharSheet *param_1,uint param_2)
       iVar8 = 1;
       ptVar5 = (temp_armor *)param_1->armor;
     }
-    if (*(temp_armor **)((int)ptVar5 + iVar8 * 4) != (temp_armor *)0x0) {
-      iVar7 = iVar7 - (uint)(*(temp_armor **)((int)ptVar5 + iVar8 * 4))->Protect;
+    if (*(temp_armor **)((int)ptVar5 + iVar8 * 4) != NULL) {
+      iVar7-= (uint)(*(temp_armor **)((int)ptVar5 + iVar8 * 4))->Protect;
     }
     iVar7+= armour_pointer->Armor[bVar2].protection;
   }
