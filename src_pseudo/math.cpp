@@ -86,10 +86,10 @@ float vec3_normalize(Vec3 *X){
 float vec4_normalize(Vec4 *X){
 	float len = _sqrtf(X*[0] * X*[0] + X*[1] * X*[1] + X*[2] * X*[2] + X*[2] * X*[2]);
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
-	(*X)[0] = /=len;
-	(*X)[1] = /=len;
-	(*X)[2] = /=len;
-	(*X)[3] = /=len;
+	(*X)[0] /=len;
+	(*X)[1] /=len;
+	(*X)[2] /=len;
+	(*X)[3] /=len;
 	return len;
 }
 

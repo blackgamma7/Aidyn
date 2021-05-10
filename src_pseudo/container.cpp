@@ -1,3 +1,49 @@
+func* voxelFuncs0[]={
+  Voxel_func_NOOP,
+  loot_func,
+  Voxel_func_NOOP,
+  Voxel_func_NOOP,
+  Voxel_func_NOOP,
+  monsterpary_func,
+  Voxel_func_NOOP,
+  dialouge_vobject_func,
+  trigger_vobject_func,
+  savepoint_func,
+  Voxel_func_NOOP
+}
+func* voxelFuncs1[]={
+  ret0_80014E38,
+  container_obj_check,
+  ret0_80014E38,
+  ret0_80014E38,
+  ret0_80014E38,
+  monsterparty_obj_check,
+  ret0_80014E38,
+  teleporter_obj_check,
+  ret0_80014E38,
+  dialoug_obj_check,
+  trigger_obj_check,
+  savepoint_prox_check,
+  ret0_80014E38
+}
+
+func* voxelFuncs2[]={
+  scene_object_check,
+  exploding_container_check,
+  check_reference_object,
+  check_reference_object,
+  check_reference_object,
+  some_monster_check,
+  check_reference_object,
+  TP_lock_secret_check,
+  check_reference_object,
+  some_dialouge_trigger_check,
+  some_trigger_check,
+  savepoint_appear_check,
+  check_reference_object
+}
+uint teleportTimestamp;
+
 void func_80013620(container_obj *arg0,short arg1,Borg_9_data *param_3){
   Scene_obj *prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(ref_obj *)arg0,Scene);
   if ((prVar1->dat).field_0x8 != NULL) {
