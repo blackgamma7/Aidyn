@@ -2,6 +2,7 @@ struct StringCheat{
     char* code;
     func* cheat;}
 
+char** cheatStrings_pointer;
 u32 _bigw_flag;
 u32 _balloon_flag;
 u32 _flea_flag;
@@ -92,7 +93,7 @@ bool Cheats::_slashing(void){ //hockey stick in Gwen castle
   return true;}
 
 bool Cheats::_darkside(void){ //lightsaber in oriana's hut.
-  setEventFlag(_Darkside,true);
+  setEventFlag(FLAG_Darkside,true);
   return true;}
 
 
