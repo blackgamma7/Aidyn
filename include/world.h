@@ -2,24 +2,24 @@ enum TIME_OF_DAY{MORNING, MIDDAY, AFTERNOON, EVENING, NIGHT};
 enum PRECIPITATION{CLEAR, RAIN, SNOW};
 
 struct TerrainStruct {
-   u16 a; // set to 72 (0x48)
-    u8 partOfDay; // 21-6 night, 6-9 morning, 9-12 midday, 12-17 afternoon, 17-21 evening
+   u16 a; // set to 72 (0x48). used as multiple for deltaTime.
+   u8 partOfDay; // 21-6 night, 6-9 morning, 9-12 midday, 12-17 afternoon, 17-21 evening
    u8 moonPhases; // ranges from 0-3
-    s8 windByte;
-    s8 DayNightMagic; //effected if Darkness/Light are used.
-    u8 rainByte; // clear, rain, snow
-    s8 unused;
-    float weatherFloatA;
-    float weatherFloatB;
-    float weatherFloatC;
-    vec3 coords; // could be to the sun
-    uint InGameTime; // measured in seconds * 60
-   u8 terrain; // detemines terrain? used in camping funcs. 0-27
+   s8 windByte; //clear, fog
+   s8 DayNightMagic; //effected if Darkness/Light are used.
+   u8 rainByte; // clear, rain, snow
+   s8 unused;
+   float weatherFloatA;
+   float weatherFloatB;
+   float weatherFloatC;
+   vec3 coords; // Wind direction
+   uint InGameTime; // measured in seconds * 60
+   u8 terrain; // determines terrain? used in camping funcs. 0-27
    u8 pad[3];
-    float TimeOfDayFloat;
-    float float0x2c;
-    float float0x30;
-    int PlayTime;
+   float TimeOfDayFloat;
+   float float0x2c;
+   float float0x30;
+   int PlayTime;
 };
 
 struct Calendar { // TerrainStruct->IngameTime as x
@@ -32,11 +32,11 @@ struct Calendar { // TerrainStruct->IngameTime as x
 };
 
 struct WeatherTemp {
-    float floatA;
-    float floatB;
-    float floatC;
-    u8 precip;
-  u8 unk_0xd;
+  float floatA;
+  float floatB;
+  float floatC;
+  u8 precip;
+  u8 unk_0xd; //likely padding
   u8 unk_0xe;
   u8 unk_0xf;
 };
@@ -55,9 +55,9 @@ extern u8 weather_month_array[8]; // {2Bh, 30h, 21h, 19h, 24h, 28h, 0h, 0h}
 extern u8 weather_terrain_array[28];
 // {0h, 0h, 0h, 9Ch, 5h, 1Eh, 0h, Fh, 0h, 0h, 14h, 0h, 0h, 0h, 0h, 0h, 0h, 0h, 64h, 0h, 0h, 0h, 0h, 1Eh, Fh, 0h, 9Ch, 9Ch}
 extern float terrain_rand_array[28];
-extern u8 timeofday_hous[5]; //debug only {6,9,12,18,21}
+extern u8 timeofday_hours[5]; //debug only {6,9,12,18,21}
 
-void Terrain:init(TerrainStruct *);
+void World:init(TerrainStruct *);
 void World::SetTerrain(TerrainStruct *,byte);
 byte World::getTerrain(TerrainStruct *);
 void inc_timeofDay(TerrainStruct *);
@@ -90,4 +90,3 @@ float get_timeofDay_float(TerrainStruct *);
 void func_terrainStruct_floats(TerrainStruct *);
 void terrainstruct_spellvisuals_1(TerrainStruct *,float ,float ,short );
 void Terrainstruct_spellvisuals_2(TerrainStruct *,float );
-
