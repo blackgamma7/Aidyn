@@ -1,4 +1,13 @@
+#ifdef DEBUGVER
+#define FILENAME "./src/app.cpp"
+#else
+#define FILENAME ""
+#endif
+
 u16 doubleGlobalTickerFlag;
+#ifndef DEBUGVER
+u16 version_flag;
+#endif
 Borg_8_header* PAL_Warning_image;
 bool PAL_warning_flag=true;
 
@@ -13,7 +22,6 @@ OSScClient client;}
 struct App_manager appManager;
 
 //this first func is debug-vesion exculsive, and not easy to sus out.
-/* 
 rspCom * display_debug_stats(rspCom *param_1){
   playerData *ppVar1;
   ushort uVar4;
@@ -27,7 +35,7 @@ rspCom * display_debug_stats(rspCom *param_1){
   
   if ((debug_flag != 0) && (1.0f <= gGlobals.delay)) {
     if (gGlobals.DebugStatDisplay - 1 < 3) {param_1 = (rspCom *)DisplaySystemMonitor(param_1);}
-    sprintf(gGlobals.text,"%2d",(short)(int)(60.0f / (double)gGlobals.delay));
+    sprintf(gGlobals.text,"%2d",(short)(60.0f / gGlobals.delay));
     param_1 = (rspCom *)some_debug_print(param_1,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
     if (gGlobals.DebugStatDisplay != 0) {
       uVar4 = get_hres();
@@ -73,9 +81,9 @@ rspCom * display_debug_stats(rspCom *param_1){
   }
   return param_1;
 }
-*/
+
 //mips_to_c version. has inaccuracies(doesn't seem to call a float for the Sprintf's.)
-s32 display_debug_stats(s32 arg0) {
+/*s32 display_debug_stats(s32 arg0) {
     f32 temp_f0;
     f32 temp_f20;
     f32 temp_f22;
@@ -176,14 +184,14 @@ s32 display_debug_stats(s32 arg0) {
         }
     }
     return phi_s1_2;
-}
+}*/
 
 void app_cpp_func(OSSched *param_1,uint pri,uint id){
   int *piVar1;
   uint uVar2;
   
   appManager.sched = param_1;
-  piVar1 = (int *)Malloc(0x6048,s_./src/app.cpp_800d9898,0xe7);
+  piVar1 = (int *)Malloc(0x6048,FILENAME,0xe7);
   uVar2 = 0;
   appStack_mirror = piVar1;
   appManager.stack = piVar1;
@@ -214,10 +222,10 @@ void AppProc(void){
   u32 unaff_s1_lo;
   float fVar13;
   float fVar14;
-  short *in_stack_ffffffc0;
+  short *in_stack_ffffffc0; //neither Ghidra or mips_to_c can explain this.
   OSMesg *ppvVar15;
   
-  appManager.Mesg = (OSMesg *)Malloc(0x20,s_./src/app.cpp_800d9898,0x117);
+  appManager.Mesg = (OSMesg *)Malloc(0x20,FILENAME,0x117);
   osCreateMesgQueue(&appManager.MesgQ2,appManager.Mesg,8);
   appManager.MesgQ = osScGetCmdQ(appManager.ossched);
   appProc_init();
@@ -238,19 +246,21 @@ loop:
           puVar6 = gsStartGfxList();
           sprintf(gGlobals.text,s_HandleAppFrame()_800d98b8);
           uVar2 = gGlobals.ticker + 1;
-          if (doubleGlobalTickerFlag == 1) {
-            uVar2 = gGlobals.ticker + 2;
-          }
+          if (doubleGlobalTickerFlag == 1) {uVar2 = gGlobals.ticker + 2;}
           gGlobals.ticker = uVar2;
           pauVar7 = (rspCom *)appProc_caseSwitch(puVar6);
+#ifdef DEBUGVER
           pauVar7 = debug::display_debug_stats(pauVar7);
+#else
+          if ((version_flag != 0) && (gGlobals.playerChar.playerDat != (playerData *)0x0)) {
+            sprintf(gGlobals.text,"%c%02d-(%2.1f,%2.1f)\n",gGlobals.Sub.mapShortA + 0x40,gGlobals.Sub.mapShortB);
+            pauVar7 = some_debug_print(pauVar7,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);}
+#endif            
           NOOP_800a2448();
           pauVar7 = (rspCom *)ret_A0(pauVar7);
           iVar8 = gsDrawScreenRects(pauVar7);
           uVar12 = 0x3200;
-          if (ExpPakFlag != 0) {
-            uVar12 = 0x6400;
-          }
+          if (ExpPakFlag) {uVar12 = 0x6400;}
           if (uVar12 << 3 < (uint)(iVar8 - (int)puVar6)) {
             sprintf(gGlobals.text,"GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",
                         (uint)(iVar8 - (int)puVar6) >> 3,uVar12,unaff_s1_lo);
@@ -292,16 +302,12 @@ loop:
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
-          uVar10 = get_hres();
-          fVar14 = lensflare_floats[0] *
-                   (float)((uint)(((longlong)(short)uVar10 & 0xffffffffU) / 0x140) & 0xffff);
-          uVar5 = gfx::get_vres();
-          fVar13 = lensflare_floats[1] * (float)((uint)((uVar5 & 0xffffffff) / 0xf0) & 0xffff);
+          fVar14 = lensflare_floats[0] * gfx::get_hres() / 0x140) & 0xffff;
+          fVar13 = lensflare_floats[1] * gfx::get_vres() / 0xf0) & 0xffff);
           iVar8 = gfx::get_depthBuffer();
-          uVar10 = get_hres();
           if (INT_MAX_f <= fVar13) {fVar13 -= INT_MAX_f;}
           if (INT_MAX_f <= fVar14) {fVar14 -= INT_MAX_f;}
-          if (*(short *)(iVar8 + (((int)fVar13 & 0xffffU) * (int)(short)uVar10 +
+          if (*(short *)(iVar8 + (((int)fVar13 & 0xffffU) * (int)(short)gfx::get_hres() +
                                  ((int)fVar14 & 0xffffU)) * 2) == -4) {
             gGlobals.appfunc_dat = 1;
             sVar3 = doubleGlobalTickerFlag;
@@ -324,9 +330,9 @@ void appProc_init(void){
   astruct_12 *paVar3;
   fontface_struct *pfVar4;
   Borg8Enum BVar5;
-  uint uVar6;
+  int uVar6;
   
-  SetGfxMode(0x140,0xf0,0x10);
+  gfx::SetGfxMode(320,240,16);
   func_80020830();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
@@ -342,9 +348,9 @@ void appProc_init(void){
       uVar6++;
     } while (pfVar4->font_face != 0);
   }
-  gGlobals.font = (FontStruct *)Malloc(0x20,s_./src/app.cpp_800d9898,0x1b4);
+  gGlobals.font = (FontStruct *)Malloc(0x20,FILENAME,0x1b4);
   Init_font(gGlobals.font,uVar6 & 0xff);
-  if (0 < (int)uVar6) {
+  if (0 < uVar6) {
     pfVar4 = font_face;
     BVar5 = font_face[0].font_face;
     while( true ) {
@@ -358,7 +364,7 @@ void appProc_init(void){
     }
   }
   font_func(gGlobals.font,(fontface_struct *)font_face[0].font_face);
-  gGlobals.widgetHandler = (WidgetHandler *)Malloc(8,s_./src/app.cpp_800d9898,0x1bf);
+  gGlobals.widgetHandler = (WidgetHandler *)Malloc(8,FILENAME,0x1bf);
   clear_widget_handler(gGlobals.widgetHandler,gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;
   memorymaker_init();
@@ -370,7 +376,6 @@ void appProc_init(void){
   gGlobals.appstateBool = 1;
   gGlobals.VolSFX = 1.0f;
   gGlobals.VolBGM = 0.65f;
-  return;
 }
 
 undefined4 appProc_caseSwitch(undefined4 param_1){
@@ -408,13 +413,10 @@ void clear_audio_video(void){
   removeCloseSynth();
   osSpTaskYield();
   while(osAfterPreNMI()){}
-  initGfx_2();
-}
+  initGfx_2();}
 
 
-int check_for_PAL_or_controller(rspCom **param_1)
-
-{
+int check_for_PAL_or_controller(rspCom **param_1){
   ushort uVar4;
   int iVar2;
   ushort v;
@@ -424,17 +426,15 @@ int check_for_PAL_or_controller(rspCom **param_1)
   float fVar6;
   
   if (osTvType == PAL) {
-    if (PAL_warning_flag != '\0') {
+    if (PAL_warning_flag) {
       PAL_Warning_image = get_borg_8(0x37c3); //"wrong region" warning image
-      PAL_warning_flag = '\0';
+      PAL_warning_flag = 0;
     }
     pauVar3 = *param_1;
     fVar5 = (float)gfx::get_hres() * 0.5f - (float)(PAL_Warning_image->dat).height * 0.5f;
     fVar6 = (float)gfx::get_vres() * 0.5f - (float)(PAL_Warning_image->dat).width * 0.5f;
-    pauVar3 = (rspCom *)rsp_func(pauVar3,6,gfx::get_hres(),gfx::get_vres());
-    pauVar3 = (rspCom *)
-              pass_to_borg_image_draw
-                        (pauVar3,PAL_Warning_image,fVar5,fVar6,1.0f,1.0f,
+    pauVar3 = rsp_func(pauVar3,6,gfx::get_hres(),gfx::get_vres());
+    pauVar3 = pass_to_borg_image_draw(pauVar3,PAL_Warning_image,fVar5,fVar6,1.0f,1.0f,
                          0xff,0xff,0xff,0xff);
     iVar2 = 5;
     *param_1 = pauVar3;

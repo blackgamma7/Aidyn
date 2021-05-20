@@ -77,7 +77,7 @@ void Ofunc_800748c4(loot_Pointer *param_1,ushort param_2){
   return;
 }
 
-uint item_chances(container_Dat *chest,byte *chance,uint QLo,uint Qhi,byte slot,short item,uint isMulti){
+uint item_chances(container_Dat *chest,byte *chance,u8 QLo,u8 Qhi,byte slot,short item,uint isMulti){
 
   short (*pasVar2) [2]; //item, quantity
   uint uVar4;
@@ -88,7 +88,7 @@ uint item_chances(container_Dat *chest,byte *chance,uint QLo,uint Qhi,byte slot,
     pasVar2 = chest->lootCatDrop[slot]; 
     (*pasVar2)[1] = 1;
     (*pasVar2)[0] = item;
-    if (isMulti) {(*pasVar2)[1] = (short)globals::rand_range(QLo & 0xff,Qhi & 0xff);}
+    if (isMulti) {(*pasVar2)[1] = (short)globals::rand_range(QLo,Qhi);}
   }
   return uVar4;
 }
@@ -109,8 +109,8 @@ void get_chest_loot(loot_Pointer *param_1,container_Dat *param_2){
                        (uint)pcVar4->reagentHi,0,itemID_array[uVar1],1);
   pbVar2 = pcVar4->itemDropChances;
   while( true ) {
-    uVar1 = item_chances(param_2,(byte *)(uint)*pbVar2,(uint)pcVar4->itemLo[uVar4],
-                         (uint)pcVar4->itemHi[uVar4],(char)uVar1,pcVar4->itemDrops[uVar4],
+    uVar1 = item_chances(param_2,(byte *)(uint)*pbVar2,pcVar4->itemLo[uVar4],
+                         pcVar4->itemHi[uVar4],(char)uVar1,pcVar4->itemDrops[uVar4],
                          (uint)(uVar4 < 2));
     uVar4++;
     if (5 < uVar4) break;

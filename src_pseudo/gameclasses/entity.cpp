@@ -931,7 +931,7 @@ bool potion_effects(CharSheet *param_1,byte param_2,POTION param_3,char *param_4
       potion_heal(param_1,0x28,0x3c);
       break;
     case ANTIDOTE:
-      Effect_CaseSwitch_add(param_1,removePoison,0,0,0xff,0);
+      ApplySpellEffect(param_1,removePoison,0,0,0xff,0);
       break;
     case RESTORE:
       clear_debuff_spells(param_1);
@@ -1052,7 +1052,7 @@ int find_free_effect_slot(CharSheet *param_1){
 }
 
 
-short Effect_CaseSwitch_add(CharSheet *param_1,SpellEnum param_2,byte Lv,undefined4 param_4,byte param_5,
+short ApplySpellEffect(CharSheet *param_1,SpellEnum param_2,byte Lv,undefined4 param_4,byte param_5,
                 CombatEntity *param_6){
   combat_ai *pcVar1;
   bool bVar2;
@@ -1325,7 +1325,7 @@ mod_stat:
 }
 
 
-void Effect_CaseSwitch_Remove(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
+void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
   Temp_enchant *pTVar1;
   bool bVar2;
   CHAR_STAT SVar3;
@@ -1922,7 +1922,7 @@ void func_8007ad40(CharSheet *param_1,Temp_weapon *param_2){
   if (((param_2 != NULL) &&
       (pTVar1 = param_2->enchantment, pTVar1 != NULL)) &&
      (pTVar1->timer == 0xffffffff)) {
-    Effect_CaseSwitch_add(param_1,pTVar1->index,(uint)pTVar1->lv,pTVar1->timer,pTVar1->field_0x3,0);
+    ApplySpellEffect(param_1,pTVar1->index,(uint)pTVar1->lv,pTVar1->timer,pTVar1->field_0x3,0);
   }
   return;
 }
@@ -2342,7 +2342,7 @@ void remove_stat_buff(CharSheet *param_1,CHAR_STAT param_2,undefined1 param_3){
 
 void clear_player_effect(CharSheet *param_1,uint param_2,CombatEntity *param_3){
   if (param_1->effects->list[param_2] != NULL) {
-    Effect_CaseSwitch_Remove(param_1,param_2,param_3);
+    ReverseSpellEffect(param_1,param_2,param_3);
     func_800840dc(param_1->effects->list[param_2]);
     Free(param_1->effects->list[param_2],FILENAME,0xe7a);
     param_1->effects->list[param_2] = NULL;
