@@ -40,7 +40,7 @@ rspCom * display_debug_stats(rspCom *param_1){
     if (gGlobals.DebugStatDisplay != 0) {
       uVar4 = get_hres();
       v = get_vres();
-      param_1 = (rspCom *)rsp_func(param_1,6,uVar4,v);
+      param_1 = rsp_func(param_1,6,uVar4,v);
       ppVar1 = gGlobals.playerCharStruct.playerDat;
       if ((gGlobals.DebugStatDisplay & 1) != 0) {
         uVar2 = get_obj_free();

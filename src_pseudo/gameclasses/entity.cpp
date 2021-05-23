@@ -222,7 +222,7 @@ void CharSheet_free(CharSheet *param_1){
   if (pPVar3 != (Potion_effect *)0x0) {
     clear_charsheet_potions(param_1);
     Free(param_1->potion_effects,FILENAME,0x173);
-    param_1->potion_effects = (Potion_effect **)0x0;}
+    param_1->potion_effects = NULL;}
   pBVar4 = param_1->portait;
   if (pBVar4 != (Borg_8_header *)0x0) {
     AllocFreeQueueItem(&queueStructA,&param_1->portait,4,0);
@@ -1844,7 +1844,7 @@ void remove_effects(CharSheet *param_1){
 
 void clear_charsheet_potions(CharSheet *param_1){
   uint uVar1 = 0;
-  if (param_1->potion_effects != (Potion_effect **)0x0) {
+  if (param_1->potion_effects != NULL) {
     do {
       clear_charsheet_potion(param_1,uVar1);
       uVar1++;
@@ -2060,7 +2060,7 @@ bool dispel_magic(CharSheet *param_1,char param_2,SpellEnum param_3,byte param_4
     }
     peVar3 = (effects *)(peVar3->list + 1);
   } while (uVar6 < 0xf);
-  if ((iVar5 == 0) || (uVar6 = 0, ((int)(char)param_4 & 0xffU) * iVar5 < uVar4)) {
+  if ((iVar5 == 0) || (uVar6 = 0, ((int)param_4) * iVar5 < uVar4)) {
     bVar2 = false;
   }
   else {
@@ -2330,11 +2330,9 @@ void mod_stats(CharSheet *param_1,CHAR_STAT param_2,undefined1 param_3){
 
 
 void remove_stat_buff(CharSheet *param_1,CHAR_STAT param_2,undefined1 param_3){
-  bool bVar1;
   undefined uVar2;
   
-  bVar1 = isDead(param_1);
-  if (bVar1 == false) {
+  if (!isDead(param_1)) {
     uVar2 = func_8007b760(param_1,param_2,param_3);
     SubtractModdedStats(param_1->Stats,param_2,uVar2);
   }
