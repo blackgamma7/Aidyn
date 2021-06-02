@@ -219,7 +219,7 @@ void CharSheet_free(CharSheet *param_1){
     
   }
   pPVar3 = (Potion_effect *)param_1->potion_effects;
-  if (pPVar3 != (Potion_effect *)0x0) {
+  if (pPVar3 != NULL) {
     clear_charsheet_potions(param_1);
     Free(param_1->potion_effects,FILENAME,0x173);
     param_1->potion_effects = NULL;}
@@ -700,7 +700,7 @@ void Buffing_potion_effect(CharSheet *param_1,POTION param_2,byte param_3,uint p
   
   
   uVar2 = 0;
-  while (param_1->potion_effects[uVar2] != (Potion_effect *)0x0) {
+  while (param_1->potion_effects[uVar2] != NULL) {
     if (6 < uVar2 + 1) {return;}
     pPVar1 = (Potion_effect *)param_1->potion_effects;
     uVar2++;
@@ -776,7 +776,7 @@ bool inc_charsheet_potion(CharSheet *param_1,bool param_2,byte param_3){
     uVar3 = 0;
     paVar3 = param_1->potion_effects;
     while( true ) {
-      if (paVar3[uVar3] != (Potion_effect *)0x0) {
+      if (paVar3[uVar3] != NULL) {
         if (param_2 == false) {uVar2 = 0;}
         else {uVar2 = (uint)TerrainPointer->a;}
         if (check_charsheet_potion_timer(paVar3[uVar3],uVar2,param_3)) {
@@ -792,11 +792,11 @@ bool inc_charsheet_potion(CharSheet *param_1,bool param_2,byte param_3){
 
 
 void clear_charsheet_potion(CharSheet *param_1,uint param_2){
-  if (param_1->potion_effects[param_2] != (Potion_effect *)0x0) {
+  if (param_1->potion_effects[param_2] != NULL) {
     remove_potion_effect(param_1,param_2);
     func_with_potion_unk2(param_1->potion_effects[param_2]);
     Free(param_1->potion_effects[param_2],FILENAME,0x50b);
-    param_1->potion_effects[param_2] = (Potion_effect *)0x0;
+    param_1->potion_effects[param_2] = NULL;
   }
 }
 

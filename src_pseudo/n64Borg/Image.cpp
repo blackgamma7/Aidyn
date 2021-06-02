@@ -83,8 +83,6 @@ rspCom * rsp_func(rspCom *param_1,byte param_2,ushort h,ushort v){
 }
 
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
 rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,float param_4,
                          ushort param_5,ushort param_6,ushort param_7,ushort param_8,float param_9,
                          float param_10,byte red,byte green,byte blue,byte alpha)

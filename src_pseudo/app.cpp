@@ -55,7 +55,7 @@ rspCom * display_debug_stats(rspCom *param_1){
         if (temp_v0 < 0) {phi_f2_2 = temp_f2 + INT_MAX_f;}
         memfree2 = (f32) phi_f2_2;
         pauVar3 = gsFadeInOut(param_1,0x12,0xc4,0x114,0xde,0,0,0,0x80);
-        if (ppVar1 == (playerData *)0x0) {
+        if (ppVar1 == NULL {
           if (!(INT_MAX_f <= (temp_f20 * 9.765625E-4f))) {}
           temp_f0 = temp_f22 * 9.765625E-4f;
           if (!(INT_MAX_f <= temp_f0)) {phi_v1 = (s32) temp_f0;}
@@ -242,9 +242,9 @@ loop:
         lVar4 = resolution_mirror_check();
         sVar3 = doubleGlobalTickerFlag;
         if (lVar4 != 0) {
-          sprintf(gGlobals.text,s_StartGfxList()_800d98a8);
+          sprintf(gGlobals.text,"StartGfxList()");
           puVar6 = gsStartGfxList();
-          sprintf(gGlobals.text,s_HandleAppFrame()_800d98b8);
+          sprintf(gGlobals.text,"HandleAppFrame()");
           uVar2 = gGlobals.ticker + 1;
           if (doubleGlobalTickerFlag == 1) {uVar2 = gGlobals.ticker + 2;}
           gGlobals.ticker = uVar2;
@@ -252,7 +252,7 @@ loop:
 #ifdef DEBUGVER
           pauVar7 = debug::display_debug_stats(pauVar7);
 #else
-          if ((version_flag != 0) && (gGlobals.playerChar.playerDat != (playerData *)0x0)) {
+          if ((version_flag != 0) && (gGlobals.playerChar.playerDat != NULL)) {
             sprintf(gGlobals.text,"%c%02d-(%2.1f,%2.1f)\n",gGlobals.Sub.mapShortA + 0x40,gGlobals.Sub.mapShortB);
             pauVar7 = some_debug_print(pauVar7,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);}
 #endif            

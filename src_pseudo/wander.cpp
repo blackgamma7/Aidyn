@@ -194,9 +194,9 @@ void AllocWanderer(wander_struct *param_1,short param_2,playerData *param_3,byte
 void free_wanderstruct_player(wander_struct *param_1,wander_substruct *param_2){
   ushort uVar1;
   
-  if (param_2->playerDat != (playerData *)0x0) {
+  if (param_2->playerDat != NULL {
     FreePlayer(param_2->playerDat);
-    param_2->playerDat = (playerData *)0x0;
+    param_2->playerDat = NULL;
   }
   param_2->field_0x20 = 0;
   param_1->wanderers--;
@@ -251,7 +251,7 @@ playerData * func_80012b44(wander_struct *param_1,wander_substruct *param_2){
   playerData *ppVar1;
   
   ppVar1 = param_2->playerDat;
-  param_2->playerDat = (playerData *)0x0;
+  param_2->playerDat = NULL;
   free_wanderstruct_player(param_1,param_2);
   return ppVar1;
 }

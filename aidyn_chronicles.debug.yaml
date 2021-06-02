@@ -104,7 +104,7 @@ segments:
       - [0x486A0, asm]
       - [0x48a80, asm,"campmenucontroller"]
       - [0x4A540, asm,"optionsmenu"]
-      - [0x4D0D0, asm,"textbox"]
+      - [0x4D0D0, asm,"widget/textbox"]
       - [0x4D460, asm,"menuimages"]
       - [0x4D830, asm]
       - [0x4ED00, asm,"menus/supermenuclasses"]

@@ -201,12 +201,12 @@ void print_mem_allocated(func *param_1,void *param_2){
       uVar1 = func_80098848((char)pHVar4);
       uVar3 = func_80098848((char)pHVar4);
       if ((uVar2 & 1) == 0) {
-        if (pfVar8 != (func *)0x0) {
+        if (pfVar8 != NULL) {
           (*param_1)(param_2,"NA",uVar7,uVar5);
         }
       }
       else {
-        if (pfVar8 != (func *)0x0) {
+        if (pfVar8 != NULL) {
           (*param_1)(param_2,pHVar4->filename,uVar7,uVar5);
         }
       }

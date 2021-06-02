@@ -1600,8 +1600,8 @@ void healing_result_widget(char *arg0)
     PTR_800ed504 = some_textbox_func(arg0,0x96,&col1,&col2,1);
     PTR_800ed504->AbuttonFunc = healing_widget_AB_func;
     PTR_800ed504->BButtonFunc = healing_widget_AB_func;
-    PTR_800ed504->CDownFunc = (func *)0x0;
-    PTR_800ed504->CUpFunc = (func *)0x0;
+    PTR_800ed504->CDownFunc = NULL;
+    PTR_800ed504->CUpFunc = NULL;
   }
   return;
 }
