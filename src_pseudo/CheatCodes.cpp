@@ -135,13 +135,13 @@ bool Cheats::_Cheater(void){ // +750000 EXP to party
   }
   ppVar1 = ((gGlobals.BigAssMenu)->widget).substruct; //Pause menu update, crashes game if used on title screen
   pCVar2 = (gGlobals.Party)->Party[partypicker]; //update stats for char. selected on menu
-  pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->Level_widget);
+  pcVar4 = func_800bbaf0(ppVar1->dollmenu->charStats_widget->Level_widget);
   sprintf(pcVar4,"%u",get_level(pCVar2));
-  pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->CurrHP_Widget);
+  pcVar4 = func_800bbaf0(ppVar1->dollmenu->charStats_widget->CurrHP_Widget);
   sprintf(pcVar4,"%u",getHPCurrent(pCVar2));
-  pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->MaxHP_widget);
+  pcVar4 = func_800bbaf0(ppVar1->dollmenu->charStats_widget->MaxHP_widget);
   sprintf(pcVar4,"%u",getHPMax(pCVar2));
-  FUN_80038bdc(ppVar1->dollmenu->field_0x88,partypicker);
+  func_80038bdc(ppVar1->dollmenu->unk0x88,partypicker);
   return true;
 }
 
@@ -155,7 +155,7 @@ bool Cheats::_bingo(void){ //+100000 gold
   //Another menu update, crashing the title screen
   pwVar1 = (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->charStats_widget->gold_widget;
   (gGlobals.Party)->Gold+=100000;
-  pcVar2 = FUN_800bbaf0(pwVar1);
+  pcVar2 = func_800bbaf0(pwVar1);
   sprintf(pcVar2,"%ld",(gGlobals.Party)->Gold);
   return true;
 }

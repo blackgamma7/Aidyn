@@ -370,7 +370,7 @@ void appProc_init(void){
   memorymaker_init();
   load_commonstrings();
   paVar3 = (astruct_12 *)passToMalloc(0x28);
-  gGlobals.field_0x15c0 = init_some_Struct(paVar3,gGlobals.widgetHandler);
+  gGlobals.unk0x15c0 = init_some_Struct(paVar3,gGlobals.widgetHandler);
   HresMirror = gfx::get_hres();
   VresMirror = gfx::get_vres();
   gGlobals.appstateBool = 1;

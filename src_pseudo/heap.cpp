@@ -75,9 +75,7 @@ void * Malloc(uint size,char *file,uint line){
   void *ret;
   uint uVar7;
   
-  if (size == 0) {
-    ret = (void *)0x0;
-  }
+  if (size == 0) {ret = NULL;}
   else {
     uVar5 = size + 0x27 & 0xfffffff8;
     pHVar6 = (Heap_block_Debug *)0x0;
@@ -201,23 +199,15 @@ void print_mem_allocated(func *param_1,void *param_2){
       uVar1 = func_80098848((char)pHVar4);
       uVar3 = func_80098848((char)pHVar4);
       if ((uVar2 & 1) == 0) {
-        if (pfVar8 != NULL) {
-          (*param_1)(param_2,"NA",uVar7,uVar5);
-        }
+        if (pfVar8 != NULL) {(*param_1)(param_2,"NA",uVar7,uVar5);}
       }
       else {
-        if (pfVar8 != NULL) {
-          (*param_1)(param_2,pHVar4->filename,uVar7,uVar5);
-        }
+        if (pfVar8 != NULL) {(*param_1)(param_2,pHVar4->filename,uVar7,uVar5);}
       }
-      if ((uVar1 & 0xfffffffffffffffe) != uVar5) {
-        return;
-      }
-      if ((uVar3 & 1) != (uVar2 & 1)) {
-        return;
-      }
+      if ((uVar1 & 0xfffffffffffffffe) != uVar5) {return;}
+      if ((uVar3 & 1) != (uVar2 & 1)) {return;}
     }
-    uVar7 = uVar7 + 1;
+    uVar7++;
     pHVar4 = (Heap_block_Debug *)(pHVar4->filename + (int)uVar5 + -4);
     if (uVar6 < uVar7) {
       return;

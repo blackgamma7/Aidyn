@@ -131,10 +131,10 @@ void World::rand_vec3(vec3 *coords,float arg1,float arg2){
 void World::set_with_WeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   ter->rainByte = w->precip;
   ter->weatherFloatA = w->floatA;
-  weatherDat.field_0xc = w->floatB;
-  ter->weatherFloatB = weatherDat.field_0xc;
+  weatherDat.unk0xc = w->floatB;
+  ter->weatherFloatB = weatherDat.unk0xc;
   ter->weatherFloatC = w->floatC;
-  weatherDat.field_0x4 = ter->weatherFloatA;
+  weatherDat.unk0x4 = ter->weatherFloatA;
   set_weather_flags(ter->rainByte);
   return;
 }

@@ -1,4 +1,4 @@
-#define OneOver60_d 0.016666666666666666
+#define OneOver60_d 0.016666666666666666f
 #ifdef DEBUGVER
 #define FILENAME "./src/n64print.cpp"
 #else
@@ -7,25 +7,20 @@
 
 void ofunc_8002d8c0(int param_1,ushort param_2){
   ofunc_value = show_debug_queue;
-  show_debug_queue = param_2 & 1;
-  return;
-}
+  show_debug_queue = param_2 & 1;}
 
 
-void func_8002d8dc(void){
-  show_debug_queue = ofunc_value;
-  return;
-}
+void func_8002d8dc(void){show_debug_queue = ofunc_value;}
 
 void toggle_show_debug_queue(Debug_queue *param_1,controller_aidyn *param_2){
 #ifdef DEBUGVER
-  if ((param_2->input & L_BUTTON) != 0){
+  if ((param_2->input & L_BUTTON)){
     if (param_1->timer <= 0.0) {param_1->timer = 60.0f;}
     else {param_1->timer = 1.0f;}
   }
-  if (((param_2->input_2; & R_BUTTON) != 0) && ((param_2->input & START_BUTTON) != 0)) {
-    param_2->input = param_2->input & ~START_BUTTON;
-    show_debug_queue = show_debug_queue ^ 1;
+  if (((param_2->input_2; & R_BUTTON)) && ((param_2->input & START_BUTTON))) {
+    param_2->input &= ~START_BUTTON;
+    show_debug_queue ^= 1;
   }
   return;
 #endif
@@ -47,7 +42,6 @@ void debug_queue_func_(void){
     iVar3 = iVar3 + 0x10000;
   } while (iVar1 < 10);
   *(undefined *)ppcVar2 = 0;
-  return;
 #endif
 }
 
@@ -64,7 +58,6 @@ void n64print_init(Debug_queue *param_1){
   #else
   debugQueuePointer = NULL;
   #endif
-  return;
 }
 
 void n64print_free(void){
@@ -77,7 +70,6 @@ void n64print_free(void){
     debugQueuePointer = NULL;
     pDVar1->text = NULL;
   }
-  return;
 #endif
 }
 
@@ -89,17 +81,13 @@ char * debug_queue_sub(char *param_1,char param_2,short param_3){
   
   iVar2 = (int)param_3;
   iVar3 = 0;
-  if (iVar2 < 1) {
-    return param_1;
-  }
+  if (iVar2 < 1) {return param_1;}
   do {
     cVar1 = param_1[iVar3];
     if (cVar1 == '\0') {return param_1 + iVar3;}
     if (cVar1 == param_2) {
       iVar2 = (iVar2 + -1) * 0x10000 >> 0x10;
-      if (iVar2 < 1) {
-        return param_1 + iVar3 + 1;
-      }
+      if (iVar2 < 1) {return param_1 + iVar3 + 1;}
     }
     iVar3 = (int)(short)((short)iVar3 + 1);
   } while( true );
@@ -112,7 +100,6 @@ void Ofunc_Passto_debug_queue(char *param_1){
 #ifdef DEBUGVER
   if (*param_1 != '\0') {debug_queue(param_1);}
   #endif
-  return;
 }
 
 void debug_queue(char *param_1){
@@ -171,7 +158,7 @@ void debug_queue(char *param_1){
 
 rspCom * func_with_debug_queue(rspCom *param_1,short param_2){
 #ifdef DEBUGVER
-  undefined uVar2;
+  u8 uVar2;
   float fVar3;
   float fVar4;
   float fVar5;
@@ -191,17 +178,11 @@ rspCom * func_with_debug_queue(rspCom *param_1,short param_2){
       ABS_macro(fVar6);
       fVar3 = debugQueuePointer->timer * 255.0f;
       ABS_macro(fVar3);
-      uVar2 = (undefined)(int)fVar3;
-      if (1.0f < debugQueuePointer->timer) {
-        uVar2 = 0xff;
-      }
-      param_1 = (rspCom *)
-                some_debug_print(param_1,(char *)debugQueuePointer->text,0x12,0x32,(char)(int)fVar4,
-                                 (char)(int)fVar5,(char)(int)fVar6,uVar2);
+      uVar2 = (u8)(int)fVar3;
+      if (1.0f < debugQueuePointer->timer) {uVar2 = 0xff;}
+      param_1 = some_debug_print(param_1,(char *)debugQueuePointer->text,0x12,0x32,(char)fVar4,(char)fVar5,(char)fVar6,uVar2);
     }
-    else {
-      pDVar1->timer = 0.0;
-    }
+    else {pDVar1->timer = 0.0;}
   }
 #endif
   return param_1;

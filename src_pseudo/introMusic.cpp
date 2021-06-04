@@ -10,7 +10,7 @@ void load_intro_music(void){
   BVar1 = BORG12_Intro_NoExp; //aka credit music
   if (ExpPakFlag != 0) {BVar1 = BORG12_Intro_Exp;}
   gGlobals.introMusic = load_borg_12(BVar1);
-  DCM_func(abStack24,aiStack20,(uint *)((int)(gGlobals.introMusic)->field_0x8 + 8),0xa5,0x80,1,0xffffffff,0);
+  DCM_func(abStack24,aiStack20,(uint *)((int)(gGlobals.introMusic)->unk0x8 + 8),0xa5,0x80,1,0xffffffff,0);
   gGlobals.introMusicDatA = (uint)abStack24[0];
   gGlobals.introMusicDatB = aiStack20[0];
 }

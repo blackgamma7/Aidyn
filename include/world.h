@@ -36,9 +36,9 @@ struct WeatherTemp {
   float floatB;
   float floatC;
   u8 precip;
-  u8 unk_0xd; //likely padding
-  u8 unk_0xe;
-  u8 unk_0xf;
+  u8 unk0xd; //likely padding
+  u8 unk0xe;
+  u8 unk0xf;
 };
 
 extern char** humidty_labels;

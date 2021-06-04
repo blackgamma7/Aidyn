@@ -78,25 +78,25 @@ struct{ // entity data in Ram
   u8 Skills[12]; //same order as Entity_ROM
   u8 WeaponSkill[11]; //seen as arrays by game.
   u8 stats[6];
-  u8 unk_0x3f;
+  u8 unk0x3f;
   ItemID weapon[3];
   ItemID spells[5];
   u8 Spell_levels[5];
   u8 _unk2[5];
-  u8 unk_0x5a;
-  u8 unk_0x5b;
+  u8 unk0x5a;
+  u8 unk0x5b;
   ItemID Armor;
   ItemID Sheild;
   short _unk;
   s8 sheildStat;
   u8 Resist[2];
-  u8 unk_0x65[3]; // likely aligning
+  u8 unk0x65[3]; // likely aligning
   float resistAmmount[2];
   u16 FFs[4]; //some DB Item was supposed to be loaded, but is always blank and never called.
   u8 unk0x78[4];
   u16 EXP;
   u8 loot_Category;
-  u8 unk_0x7f;
+  u8 unk0x7f;
 }Entity_Ram;
 
 struct{

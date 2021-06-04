@@ -34,7 +34,7 @@ struct Borg_9_data{
     ushort shortB;
     byte unk[4];
     ushort borghpys_count;
-    ushort field_0x26;
+    ushort unk0x26;
     ushort ref_obj_count;
     ushort unkStructCount;
     short * counting_pointer;
@@ -89,12 +89,12 @@ struct voxelHeader { /* Header for Refernce objects (Voxels) */
     u16 flagA; /* event flags */
     u16 flagB;
     u16 flagC;
-    u8 field_0x22;
-    u8 field_0x23;
-    u8 field_0x24;
-    u8 field_0x25;
-    u8 field_0x26;
-    u8 field_0x27;
+    u8 unk0x22;
+    u8 unk0x23;
+    u8 unk0x24;
+    u8 unk0x25;
+    u8 unk0x26;
+    u8 unk0x27;
 };
 
 

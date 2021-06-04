@@ -22,8 +22,8 @@ void Party_free(PartyStruct *param_1){
   
   pIVar1 = param_1->Inventory;
   if (pIVar1 != (Inventory_struct *)0x0) {
-    (*(pIVar1->Functions->field_0x8).func)
-              ((int)pIVar1->inv_slots + (short)(pIVar1->Functions->field_0x8).arg[0] + -4,3);
+    (*(pIVar1->Functions->unk0x8).func)
+              ((int)pIVar1->inv_slots + (short)(pIVar1->Functions->unk0x8).arg[0] + -4,3);
     param_1->Inventory = (Inventory_struct *)0x0;
   }
   uVar3 = 0;
@@ -177,7 +177,7 @@ bool func_8007dfc8(PartyStruct *param_1,uint arg1){
   if ((*charSheeeet->armor != (temp_armor *)0x0) || (ret = false, entRam->Sheild == (ItemID)-1))
   {
     if (charSheeeet->armor[1] == (temp_armor *)0x0) {
-      if (entRam->unk_0x60 != -1) {
+      if (entRam->unk0x60 != -1) {
         return false;
       }
       pTVar1 = charSheeeet->weapons;
@@ -979,7 +979,7 @@ bool MoveWeaponsToInventory(PartyStruct *param_1,uint param_2){
           }
           pCVar3 = (&combatPointer->combatEnts)[param_2];
           if (pCVar3 == NULL) {return false;}
-          pCVar3->field_0x25 = 0;
+          pCVar3->unk0x25 = 0;
           get_weapon_sheild_borg5(pCVar3);
         }
         return false;
@@ -1669,7 +1669,7 @@ void herb_func(void){
   undefined *puVar1;
   
   puVar1 = (undefined *)
-           (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->field_0x88->field_0x94;
+           (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->unk0x88->unk0x94;
   func_8003d064(puVar1,itemID_array[31],1,0xff); //herb loaded
   func_8003d640(puVar1);
   (**(code **)(*(int *)(puVar1 + 0x78) + 0x2c))(puVar1 + *(short *)(*(int *)(puVar1 + 0x78) + 0x28));
@@ -1824,7 +1824,7 @@ byte potion_recipie_func_(PartyStruct *param_1,uint param_2,POTION param_3)
   CharSheet *iVar7;
   
   puVar2 = (undefined *)
-           (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->field_0x88->field_0x94;
+           (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->unk0x88->unk0x94;
   iVar6 = get_potion_recipie((POTION)((longlong)(char)param_3 & 0xffU));
   if (iVar6 != (potionRecipie *)0x0) {
     iVar7 = param_1->Party[param_2 & 0xff];
@@ -2576,7 +2576,7 @@ bool AmorCraft_attempt(PartyStruct *param_1,char param_2,short param_3,ItemID ma
   
   uVar6 = (longlong)material & 0xffff;
   puVar1 = (undefined *)
-           (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->field_0x88->field_0x94;
+           (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->unk0x88->unk0x94;
   uVar3 = getMechanic_Int_Dex(param_1,param_2);
   piVar2 = param_1->Inventory->Functions;
   uVar4 = (*(piVar2->get_inv_index).func)

@@ -25,12 +25,9 @@ void InitProc(void){
   PTR_800e8f30 = (OSMesg *)Malloc(0x20,FILENAME,0xad);
   osCreatePiManager(PIMGR,&pimgr_qeue,PTR_800e8f30,8);
   osSched_stack = (undefined *)Malloc(0x2000,FILENAME,0xb1);
-  if (osTvType == NTSC) {
-    osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,2,1);}
-  if (osTvType == PAL) {
-    osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x10,1);}
-  if (osTvType == MPAL) {
-    osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x1e,1);}
+  if (osTvType == NTSC) {osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,2,1);}
+  if (osTvType == PAL) {osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x10,1);}
+  if (osTvType == MPAL) {osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x1e,1);}
   gfx::initGfx(&Sched);
   audio_thread_init(&Sched,0xac44,0xb,5);
   dcm_init();

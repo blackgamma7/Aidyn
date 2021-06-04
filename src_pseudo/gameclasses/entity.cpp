@@ -133,7 +133,7 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,uint param_3){
   *pptVar3 = NULL;
   pptVar3[1] = NULL;
   if (pEVar11->Sheild != (ItemID)0xffff) {Equip_Armor(param_1,pEVar11->Sheild,0);}
-  if (pEVar11->unk_0x60 != -1) {EquipSheild(param_1,pEVar11->unk_0x60,0);}
+  if (pEVar11->unk0x60 != -1) {EquipSheild(param_1,pEVar11->unk0x60,0);}
   pCVar4 = (CharGear *)Malloc(8,FILENAME,0x111);
   param_1->pItemList = pCVar4;
   create_unknown_charsheet_struct(pCVar4,0xc);
@@ -326,8 +326,7 @@ void func_checking_cheat_death(CharSheet *param_1,short param_2,CombatEntity *pa
   uint uVar8;
   
   if (param_3 != NULL) {
-    lVar2 = CombatEnt_flag_2(param_3);
-    if (lVar2 == 0) {
+    if (!CombatEnt_flag_2(param_3)) {
       pCVar6 = param_1->Stats;
       goto LAB_80077df0;
     }
@@ -335,34 +334,27 @@ void func_checking_cheat_death(CharSheet *param_1,short param_2,CombatEntity *pa
   }
   pCVar6 = param_1->Stats;
 LAB_80077df0:
-  sVar3 = getModdedStat(pCVar6,LV);
-  if (sVar3 < param_2) {
+  if (getModdedStat(pCVar6,LV) < param_2) {
     sVar3 = getModdedStat(param_1->Stats,LV);
     cVar4 = getModdedStat(param_1->Stats,LV);
     addModdedStat(param_1->Stats,LV,-cVar4);
     damage_func(param_1,param_2 - sVar3);
-    bVar5 = isDead(param_1);
     uVar8 = 0;
-    if (bVar5 != false) {
+    if (isDead(param_1)) {
       peVar7 = param_1->effects;
       do {
         pTVar1 = peVar7->list[0];
         if ((pTVar1 != NULL) && (pTVar1->index == cheatDeath)) {
-          addHP(param_1,(short)((int)(char)pTVar1->field_0x3 << 1));
-          clear_player_effect(param_1,uVar8 & 0xff,param_3);
+          addHP(param_1,(short)((int)(char)pTVar1->unk0x3 << 1));
+          clear_player_effect(param_1,uVar8,param_3);
           return;
         }
         uVar8 = uVar8 + 1;
         peVar7 = (effects *)(peVar7->list + 1);
       } while (uVar8 < 0xf);
-      if (param_3 != NULL) {
-        clear_combatEnt_effects(param_3);
-      }
+      if (param_3 != NULL) {clear_combatEnt_effects(param_3);}
       clear_charsheet_potions(param_1);
-      bVar5 = isDead(param_1);
-      if (bVar5 == false) {
-        func_8007b23c(param_1);
-      }
+      if (!isDead(param_1)) {DoubleTap(param_1);}
     }
   }
   else {
@@ -1184,10 +1176,10 @@ LAB_800798b0:
     if (((uVar16 != 0) && (uVar16 = 0, param_6 != NULL)) &&
        (param_6->combat_ai_pointer != NULL)) {
       uVar16 = 1;
-      bVar9 = pcVar1->field_0x6;
+      bVar9 = pcVar1->unk0x6;
       if (bVar9 < Lv) {Lv = (uint)bVar9;}
-      pcVar1->field_0x6-= (char)Lv;
-      param_6->combat_ai_pointer->field_0x9|= 2;
+      pcVar1->unk0x6-= (char)Lv;
+      param_6->combat_ai_pointer->unk0x9|= 2;
       uVar19 = 1;
       bVar10 = bVar2;
     }
@@ -1261,7 +1253,7 @@ control_magic:
     uVar19 = uVar17;
     bVar10 = true;
     if ((param_6 != NULL) && (uVar19 = uVar18, bVar10 = bVar2, uVar16 != 0)) {
-      param_6->field_0x28+= (char)Lv * 3;
+      param_6->unk0x28+= (char)Lv * 3;
     }
     break;
   case dispelElemental:
@@ -1379,10 +1371,10 @@ void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
   case auraOfDeath:
   case solarWraith:
     if ((param_3 != NULL) &&
-       (param_3->combat_ai_pointer != NULL)) {iVar2->field_0x6+= pTVar1->lv;}
+       (param_3->combat_ai_pointer != NULL)) {iVar2->unk0x6+= pTVar1->lv;}
     break;
   case wraithTouch:
-    SVar3 = pTVar1->field_0x3;
+    SVar3 = pTVar1->unk0x3;
     cVar4 = -pTVar1->lv;
     goto LAB_80079c18;
   case darkness:
@@ -1476,8 +1468,8 @@ LAB_80079da4:
           else {
             if (SVar1 == photosynthesis) {
               if (TerrainPointer->partOfDay == NIGHT) goto LAB_80079e7c;
-              addHP(param_1,pTVar2->field_0x3 << 0x18 >> 0x18));
-              iVar11+= (char)pTVar2->field_0x3;
+              addHP(param_1,pTVar2->unk0x3 << 0x18 >> 0x18));
+              iVar11+= (char)pTVar2->unk0x3;
             }
             else {
               if (SVar1 == webOfStarlight) {
@@ -1922,7 +1914,7 @@ void func_8007ad40(CharSheet *param_1,Temp_weapon *param_2){
   if (((param_2 != NULL) &&
       (pTVar1 = param_2->enchantment, pTVar1 != NULL)) &&
      (pTVar1->timer == 0xffffffff)) {
-    ApplySpellEffect(param_1,pTVar1->index,(uint)pTVar1->lv,pTVar1->timer,pTVar1->field_0x3,0);
+    ApplySpellEffect(param_1,pTVar1->index,(uint)pTVar1->lv,pTVar1->timer,pTVar1->unk0x3,0);
   }
   return;
 }
@@ -1941,11 +1933,11 @@ void teleportation_spell(CombatEntity *param_1){
     fVar3 = combatPointer->floatB;
     if (fVar3 < INT_MAX_f) {
       bVar5 = (byte)(int)fVar3;
-      bVar2 = *(byte *)&param_1->field_0x23;
+      bVar2 = *(byte *)&param_1->unk0x23;
     }
     else {
       bVar5 = (byte)(int)(fVar3 - INT_MAX_f);
-      bVar2 = *(byte *)&param_1->field_0x23;
+      bVar2 = *(byte *)&param_1->unk0x23;
     }
     bVar1 = combat_substruct_lookup(&combatPointer->substruct,bVar4,bVar5,bVar2);
     if (bVar1 == false) {
@@ -1967,7 +1959,7 @@ void RemovePoison(CharSheet *param_1,CombatEntity *param_2,u8 param_3){
   while( true ) {
     pTVar1 = peVar2->list[uVar3];
     if (((pTVar1 != NULL) && (pTVar1->index == poison)) &&
-       (pTVar1->field_0x3 < param_3))) {
+       (pTVar1->unk0x3 < param_3))) {
       clear_player_effect(param_1,uVar3,param_2);
     }
     uVar3++;
@@ -2056,7 +2048,7 @@ bool dispel_magic(CharSheet *param_1,char param_2,SpellEnum param_3,byte param_4
     uVar6++;
     if ((pTVar1 != NULL) && (pTVar1->school == MVar7)) {
       iVar5++;
-      uVar4 += (int)(char)pTVar1->field_0x3;
+      uVar4 += (int)(char)pTVar1->unk0x3;
     }
     peVar3 = (effects *)(peVar3->list + 1);
   } while (uVar6 < 0xf);
@@ -2078,7 +2070,7 @@ bool dispel_magic(CharSheet *param_1,char param_2,SpellEnum param_3,byte param_4
   return bVar2;
 }
 
-void func_8007b23c(CharSheet *param_1){
+void DoubleTap(CharSheet *param_1){
   int iVar1;
   CharStats *pCVar2;
   

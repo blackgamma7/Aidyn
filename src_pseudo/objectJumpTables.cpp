@@ -46,12 +46,12 @@ uint teleportTimestamp;
 
 void func_80013620(container_obj *arg0,short arg1,Borg_9_data *param_3){
   Scene_obj *prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(ref_obj *)arg0,Scene);
-  if ((prVar1->dat).field_0x8 != NULL) {
-    AllocFreeQueueItem(&queueStructA,&(prVar1->dat).field_0x8,
-                       (ushort)(((prVar1->dat).field_0x42 & 2) == 0),0);
-    (prVar1->dat).field_0x8 = NULL;
+  if ((prVar1->dat).unk0x8 != NULL) {
+    AllocFreeQueueItem(&queueStructA,&(prVar1->dat).unk0x8,
+                       (ushort)(((prVar1->dat).unk0x42 & 2) == 0),0);
+    (prVar1->dat).unk0x8 = NULL;
   }
-  (prVar1->dat).field_0x4 = (prVar1->dat).field_0x30[arg1 * 3 + -0xb];
+  (prVar1->dat).unk0x4 = (prVar1->dat).unk0x30[arg1 * 3 + -0xb];
 }
 
 void play_countainer_sound(container_obj *arg0,Borg_9_data * arg1){
@@ -216,13 +216,13 @@ void loot_func(container_obj *arg0){
       }
       else {uVar8 = (arg0->dat).unk0x14;}
     }
-    if (uVar8 == 0) {sVar1 = (arg0->dat).field_0x14;}
+    if (uVar8 == 0) {sVar1 = (arg0->dat).unk0x14;}
     else {
       if ((arg0->dat).trap_lv != 0xff) {
         gauge_trap_danger(arg0);
         return;
       }
-      sVar1 = (arg0->dat).field_0x14;
+      sVar1 = (arg0->dat).unk0x14;
     }
     if (sVar1 == 0) {
       uVar13 = 0;
@@ -272,8 +272,7 @@ void loot_func(container_obj *arg0){
                    *(undefined *)((int)&(arg0->header).type + 1),10);
       }
       if (uVar10 == 0) {
-        sprintf(gGlobals.Text,commonstringsmirror->"you just picked up gold",
-                    (arg0->dat).Gold);
+        sprintf(gGlobals.Text,commonstringsmirror->"you just picked up gold",(arg0->dat).Gold);
         textbox_func(gGlobals.Text);
         gGlobals.party->Gold+= (arg0->dat).Gold;
         play_SFX(&SFXStruct,BORG12_CoinJingle,0,gGlobals.VolSFX,300,uVar13);
@@ -293,16 +292,12 @@ void loot_func(container_obj *arg0){
         }
         build_loot_menu(pIVar7,(uint)(arg0->dat).Gold,-1);
         PlayerCharStruct.camping_var = 0x13;
-        if ((arg0->dat).LootType == 7) {
-          PlayerCharStruct.camping_var = 7;
-        }
+        if ((arg0->dat).LootType == 7) {PlayerCharStruct.camping_var = 7;}
       }
     }
     else {lockpicking_check((ref_obj *)arg0);}
   }
-  else {
-set_voxel_visibility((ref_obj *)arg0,false);
-  }
+  else {set_voxel_visibility((ref_obj *)arg0,false);}
   return;
 }
 
@@ -319,7 +314,7 @@ byte monsterpary_func(monsterparty_obj *arg0,undefined arg1,char param_3){
   if (arg0->borg_13 == 0) {
     playerPos = (vec3 *)((PlayerCharStruct.playerDat)->collision).position;
     piVar4 = (gGlobals.wander.wanderSubstructs)->start_position +
-             (uint)arg0->field_0x4c * 0x14 + (uint)arg0->field_0x4c + -1;
+             (uint)arg0->unk0x4c * 0x14 + (uint)arg0->unk0x4c + -1;
     iVar1 = *piVar4;
     c = (vec3 *)(iVar1->collision).position;
     Vec3_sub((vec3 *)afStack104,c,playerPos);
@@ -331,7 +326,7 @@ byte monsterpary_func(monsterparty_obj *arg0,undefined arg1,char param_3){
     Vec3_sub((vec3 *)afStack104,(vec3 *)afStack104,playerPos);
     fVar2 = vec3_normalize((vec3 *)afStack104);
     encounter_dat.collisionBool = x <= fVar2;
-    encounter_dat.field_0x28 = 0;
+    encounter_dat.unk0x28 = 0;
     battle_setup_func(arg0,(arg0->header).flagB,*(undefined2 *)((int)piVar4 + 0x50));
     bVar1 = 2;
     PlayerCharStruct.camping_var = 2;
@@ -342,7 +337,7 @@ byte monsterpary_func(monsterparty_obj *arg0,undefined arg1,char param_3){
       dialoug_func(arg0->borg_13,0,map_dat_A,MapShortA,mapShortB,(short)param_3);
       monsterparty_wanderstruct
                 ((gGlobals.wander.wanderSubstructs)->start_position +
-                 (uint)arg0->field_0x4c * 0x14 + (uint)arg0->field_0x4c + -1);
+                 (uint)arg0->unk0x4c * 0x14 + (uint)arg0->unk0x4c + -1);
       setEventFlag((arg0->header).flagB,true);
       bVar1 = getEventFlag(0x15fa);
     }
@@ -350,9 +345,7 @@ byte monsterpary_func(monsterparty_obj *arg0,undefined arg1,char param_3){
   return bVar1;
 }
 
-void trigger_vobject_func(trigger_obj *arg0)
-
-{
+void trigger_vobject_func(trigger_obj *arg0){
   Borg_7_header *pBVar1;
   borg9_phys *pbVar2;
   Borg_9_data *pBVar3 = gGlobals.Sub.borg9DatPointer;
@@ -369,19 +362,11 @@ void trigger_vobject_func(trigger_obj *arg0)
     setEventFlag(arg0->flagA,true);
     getEventFlag(0x15fa);
     set_refObj_flag((ref_obj *)arg0);
-    EVar7 = (arg0->header).flagB;
     break;
   case 2:
-    prVar3 = (Scene_obj *)GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene)
-    ;
-    pBVar1 = (prVar3->dat).field_0x8;
-    if (pBVar1 == (Borg_7_header *)0x0) {
-      EVar7 = (arg0->header).flagB;
-    }
-    else {
-      func_800a0090(pBVar1,arg0->flagA);
-      EVar7 = (arg0->header).flagB;
-    }
+    prVar3 = (Scene_obj *)GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene);
+    pBVar1 = (prVar3->dat).unk0x8;
+    if (pBVar1!=NULL) {func_800a0090(pBVar1,arg0->flagA);}
     break;
   case 4:
     uVar8 = 0;
@@ -391,18 +376,16 @@ void trigger_vobject_func(trigger_obj *arg0)
       do {
         iVar4 = (voxelHeader *)((int)pbVar2->voxelPointers + iVar5);
         if (((iVar4->flagB & 0xf000) == 0x1000) && ((iVar4->flagB >> 5 & 0x7f) == arg0->flagA)) {
-          uVar6 = iVar4->flagA & arg0->field_0x2e;
+          uVar6 = iVar4->flagA & arg0->unk0x2e;
           iVar4->flagA = uVar6;
-          iVar4->flagA = uVar6 | arg0->field_0x30;
+          iVar4->flagA = uVar6 | arg0->unk0x30;
         }
-        uVar8 = uVar8 + 1 & 0xffff;
+        uVar8++;
         iVar5 = uVar8 << 5;
       } while (uVar8 < pBVar3->borghpys_count);
     }
-  default:
-    EVar7 = (arg0->header).flagB;
   }
-  ref_obj_bitmask_flag(EVar7,(arg0->header).Bitfeild,Used);
+  ref_obj_bitmask_flag((arg0->header).flagB;,(arg0->header).Bitfeild,Used);
   return;
 }
 
@@ -426,8 +409,8 @@ bool vobject_pause_check(void){
 
 void dialouge_vobject_func(Dialoug_obj *arg0,undefined arg1,char param_3){
   if (vobject_pause_check() != false) {
-    dialoug_func((uint)(arg0->dat).borg_13,(arg0->dat).field_0x8,(arg0->dat).field_0x2,
-                 (arg0->dat).field_0x4,(arg0->dat).field_0x6,(short)param_3);
+    dialoug_func((uint)(arg0->dat).borg_13,(arg0->dat).unk0x8,(arg0->dat).unk0x2,
+                 (arg0->dat).unk0x4,(arg0->dat).unk0x6,(short)param_3);
   }
 }
 
@@ -477,14 +460,11 @@ bool exploding_container_sub(container_obj *arg0,Borg_9_data *arg1){
 char exploding_container_check(container_obj *arg0,Borg_9_data *arg1){
   ushort uVar1;
   ref_obj *a;
-  bool bVar4;
   char cVar5;
   short *psVar3;
-  longlong lVar2;
   
   a = GetVoxelFromObjectLink(arg1,(ref_obj *)arg0,Scene);
-  bVar4 = gamestate_cheat_check1(appear);
-  if (bVar4 == false) {
+  if (!gamestate_cheat_check1(appear)) {
     uVar1 = (arg0->dat).LootType;
     if ((7 < uVar1) || (uVar1 < 4)) {
       set_voxel_visibility(a,true);
@@ -493,14 +473,13 @@ char exploding_container_check(container_obj *arg0,Borg_9_data *arg1){
                          ((short)((int)((int)arg0 - (int)arg1->ref_objs) * 0x684bda13 >> 2),
                           (char)map_dat_A,(byte)MapShortA,(byte)mapShortB,0x11,
                           *(undefined *)((int)&(arg0->header).type + 1));
-      bVar4 = container_open_check((arg0->dat).open_flag);
-      if ((bVar4 == false) && (psVar3 == (short *)0x0)) {
-        if (container_explode_check((arg0->dat).explode_flag) == 0) {return 1;}
+      if ((!container_open_check((arg0->dat).open_flag)) && (psVar3 == NULL)) {
+        if (!container_explode_check((arg0->dat).explode_flag)) {return 1;}
         func_80013620(arg0,2,arg1);
       }
       else {
         func_80013620(arg0,1,arg1);
-        (arg0->dat).field_0x14 = 0;
+        (arg0->dat).unk0x14 = 0;
         (arg0->dat).unk0x14 = 0;
         (arg0->dat).Gold = 0;
       }
@@ -550,7 +529,7 @@ bool TP_lock_secret_check(teleport_obj *arg0){
 bool some_monster_check(monsterparty_obj *arg0){
   EventFlag EVar1;
   bool bVar2;
-  undefined uVar3;
+  bool uVar3;
   bool bVar4;
   
   if(gamestate_cheat_check1(appear)){return gamestate_cheat_check2(appear);}
@@ -562,7 +541,7 @@ bool some_monster_check(monsterparty_obj *arg0){
         uVar3 = bVar2 != false && bVar4 == false;
       }
       else {uVar3 = func_80015128(EVar1,(uint)(arg0->header).Bitfeild);}
-  return (bool)uVar3;
+  return uVar3;
 }
 
 bool some_trigger_check(trigger_obj *arg0){
@@ -684,8 +663,7 @@ bool trigger_obj_check_prox(trigger_obj *arg0,playerData *arg1,bool param_3){
   return uVar2;
 }
 
-bool trigger_obj_check(trigger_obj *arg0,playerData *arg1){
-    return trigger_obj_check_prox(arg0,arg1,true);}
+bool trigger_obj_check(trigger_obj *arg0,playerData *arg1){return trigger_obj_check_prox(arg0,arg1,true);}
 
 bool dialouge_trigger_check(Dialoug_obj *arg0,vec3 *arg1,bool getProx){
   bool bVar1;
@@ -711,21 +689,16 @@ bool dialouge_trigger_check(Dialoug_obj *arg0,vec3 *arg1,bool getProx){
   return uVar2;
 }
 
-undefined dialoug_obj_func(Dialoug_obj *arg0,playerData *arg1){
-  return dialouge_trigger_check(arg0,(arg1->collision).position,true);
-}
+undefined dialoug_obj_func(Dialoug_obj *arg0,playerData *arg1){return dialouge_trigger_check(arg0,(arg1->collision).position,true);}
 
 void dialoug_obj_check(undefined4 arg0,playerData *arg1){dialoug_obj_func(arg0,arg1);}
 
-bool savepoint_prox_check(ref_obj *arg0,playerData *arg1){
-  return get_vec3_proximity((vec3 *)arg0,(vec3 *)(arg1->collision).position); <= (arg0->header).size;
-}
+bool savepoint_prox_check(ref_obj *arg0,playerData *arg1){return get_vec3_proximity((vec3 *)arg0,(vec3 *)(arg1->collision).position); <= (arg0->header).size;}
 
 byte ret0_80014E38(void){return 0;}
 
 void render_container(container_obj *param_1,Borg_9_data *param_2){
   if ((param_1->header).type == CONTAINER) {set_container_obj_visible(param_1,param_2);}
-  return;
 }
 
 void set_container_obj_visible(container_obj *param_1,Borg_9_data *param_2){

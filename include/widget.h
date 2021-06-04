@@ -28,7 +28,7 @@ struct Widget_Methods { //methods based on type of widget
     struct Method CDownFunc;
     struct Method CLeftFunc;
     struct Method CRightFunc;
-    struct Method field_0xc8;
+    struct Method unk0xc8;
 };
 
 
@@ -51,26 +51,26 @@ struct widgetStruct { // Parent for all widgets
     ulong (* CRightFunc)(void);
     void * ptr0x40; // changes for each widget type
     struct widgetStruct * func_array_Arg;
-    uint field_0x48;
+    uint unk0x48;
     struct widgetStruct * link0;
     struct widgetStruct * link1;
     struct widgetStruct * link2;
     struct color col;
-    byte field_0x5c;
-    byte field_0x5d;
-    ushort field_0x5e;
+    byte unk0x5c;
+    byte unk0x5d;
+    ushort unk0x5e;
     short x;
     short y;
-    ushort field_0x64;
+    ushort unk0x64;
     ushort HMax;
-    ushort field_0x68;
+    ushort unk0x68;
     ushort VMax;
     struct Borg_8_header * borg_8;
     byte byte0x70;
-    undefined field_0x71;
+    undefined unk0x71;
     ushort imgWidth;
     ushort imgHeight;
-    ushort field_0x76;
+    ushort unk0x76;
     struct Widget_Methods * methods;
 };
 

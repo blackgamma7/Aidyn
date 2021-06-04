@@ -229,14 +229,14 @@ void * Ofunc_getborg(int param_1){
 
 //"borg1" is one of 2 image formats. format needs more understanding
 void borg1_func_a(Borg_1_Header *arg0){
-  if (arg0->field_0x8 != 0) {
-    arg0->field_0x8 = (int)&arg0->field_0x0 + arg0->field_0x8;
+  if (arg0->unk0x8 != 0) {
+    arg0->unk0x8 = (int)&arg0->unk0x0 + arg0->unk0x8;
   }
-  if (arg0->field_0xc != (void *)0x0) {
-    arg0->field_0xc = (void *)((int)arg0->field_0xc + (int)arg0);
+  if (arg0->unk0xc != (void *)0x0) {
+    arg0->unk0xc = (void *)((int)arg0->unk0xc + (int)arg0);
   }
-  if (arg0->field_0x10 != (ushort *)0x0) {
-    arg0->field_0x10 = (ushort *)((int)arg0->field_0x10 + (int)arg0);
+  if (arg0->unk0x10 != (ushort *)0x0) {
+    arg0->unk0x10 = (ushort *)((int)arg0->unk0x10 + (int)arg0);
   }
 }
 bool InitBorgTexture(Borg_1_Header *param_1,void *param_2){
@@ -249,11 +249,11 @@ bool InitBorgTexture(Borg_1_Header *param_1,void *param_2){
   int iVar6;
   
   uVar1 = *(ushort *)((int)param_2 + 2);
-  param_1->field_0x10 = (ushort *)param_2;
+  param_1->unk0x10 = (ushort *)param_2;
   if ((uVar1 & 0x100) == 0) {
     pvVar5 = *(void **)((int)param_2 + 0xc);
-    param_1->field_0xc = pvVar5;
-    param_1->field_0x8 = (int)pvVar5;
+    param_1->unk0xc = pvVar5;
+    param_1->unk0x8 = (int)pvVar5;
   }
   else {
     iVar6 = 2;
@@ -264,20 +264,20 @@ bool InitBorgTexture(Borg_1_Header *param_1,void *param_2){
       }
       iVar6 = 4;
     }
-    puVar2 = param_1->field_0x10;
+    puVar2 = param_1->unk0x10;
     size = iVar6 * (uint)*(byte *)(puVar2 + 2) * (uint)*(byte *)((int)puVar2 + 5);
-    param_1->field_0x8 = *(int *)(puVar2 + 6);
+    param_1->unk0x8 = *(int *)(puVar2 + 6);
     pvVar5 = Malloc(size,FILENAME,0x3af);
-    param_1->field_0xc = pvVar5;
-    memcpy(pvVar5,*(void **)(param_1->field_0x10 + 6),size);
+    param_1->unk0xc = pvVar5;
+    memcpy(pvVar5,*(void **)(param_1->unk0x10 + 6),size);
     ppvVar3 = borg_index_x4;
-    iVar6 = param_1->field_0x0;
-    *(int *)(param_1->field_0x10 + 6) = param_1->field_0x8;
+    iVar6 = param_1->unk0x0;
+    *(int *)(param_1->unk0x10 + 6) = param_1->unk0x8;
     puVar4 = borg_index_x1;
     ppvVar3[iVar6] = (void *)0x0;
     puVar4[iVar6] = 0;
-    param_1->field_0x0 = -1;
-    param_1->field_0x4 = 0;
+    param_1->unk0x0 = -1;
+    param_1->unk0x4 = 0;
   }
   return false;
 }
@@ -285,11 +285,11 @@ void borg1_free(Borg_1_Header *param_1){
   int iVar1;
   
   iVar1 = get_memUsed();
-  if (((param_1->field_0x10[1] & 0x100) != 0) && (*param_1->field_0x10 < 2)) {
+  if (((param_1->unk0x10[1] & 0x100) != 0) && (*param_1->unk0x10 < 2)) {
 
-    Free(param_1->field_0xc,FILENAME,0x3e4);}
-  if (param_1->field_0x0 == -1) {Free(param_1->field_0x10,FILENAME,0x3f0);}
-  else {dec_borg_count(param_1->field_0x0);}
+    Free(param_1->unk0xc,FILENAME,0x3e4);}
+  if (param_1->unk0x0 == -1) {Free(param_1->unk0x10,FILENAME,0x3f0);}
+  else {dec_borg_count(param_1->unk0x0);}
   Free(param_1,FILENAME,0x3f0);
   borg_mem[1]-= (iVar1 - get_memUsed());
   borg_count[1]--;
@@ -302,29 +302,29 @@ void borg2_func_a(borg_2_header *param_1){
   int *piVar2;
   int iVar3;
   
-  iVar3 = param_1->field_0x4;
-  piVar1 = (int *)((int)param_1->field_0x2c + (int)param_1);
-  param_1->field_0x2c = piVar1;
-  param_1->field_0x30 = &param_1->field_0x0 + param_1->field_0x30;
-  param_1->field_0x34 = &param_1->field_0x0 + param_1->field_0x34;
-  param_1->field_0x40 = &param_1->field_0x0 + param_1->field_0x40;
+  iVar3 = param_1->unk0x4;
+  piVar1 = (int *)((int)param_1->unk0x2c + (int)param_1);
+  param_1->unk0x2c = piVar1;
+  param_1->unk0x30 = &param_1->unk0x0 + param_1->unk0x30;
+  param_1->unk0x34 = &param_1->unk0x0 + param_1->unk0x34;
+  param_1->unk0x40 = &param_1->unk0x0 + param_1->unk0x40;
   while (iVar3 != 0) {
     iVar3 = iVar3 + -1;
-    *piVar1 = &param_1->field_0x0 + *piVar1;
+    *piVar1 = &param_1->unk0x0 + *piVar1;
     piVar1++;
   }
-  piVar1 = param_1->field_0x3c;
+  piVar1 = param_1->unk0x3c;
   piVar2 = (int *)((int)piVar1 + (int)param_1);
   if (piVar1 != (int *)0x0) {
-    param_1->field_0x3c = piVar2;
-    piVar2[1] = &param_1->field_0x0 + piVar2[1];
+    param_1->unk0x3c = piVar2;
+    piVar2[1] = &param_1->unk0x0 + piVar2[1];
     iVar3 = *piVar1;
-    piVar2 = (int *)(&param_1->field_0x0 + piVar1[2]);
+    piVar2 = (int *)(&param_1->unk0x0 + piVar1[2]);
     piVar1[2] = (int)piVar2;
     while (iVar3 != 0) {
       iVar3 = iVar3 + -1;
       if (1 < *piVar2) {
-        piVar2[1] = &param_1->field_0x0 + piVar2[1];
+        piVar2[1] = &param_1->unk0x0 + piVar2[1];
       }
       piVar2 = piVar2 + 2;
     }
@@ -340,31 +340,31 @@ bool borg2_func_b(borg_2_header *param_1,void *param_2){
   int iVar4;
   
   size = *(uint *)((int)param_2 + 4);
-  param_1->field_0x8 = 0;
-  param_1->field_0xc = 0;
-  param_1->field_0x58 = (int)param_2;
+  param_1->unk0x8 = 0;
+  param_1->unk0xc = 0;
+  param_1->unk0x58 = (int)param_2;
   if (size == 0) {
-    param_1->field_0x54 = NULL;
-    param_1->field_0x50 = NULL;
+    param_1->unk0x54 = NULL;
+    param_1->unk0x50 = NULL;
   }
   else {
     pvVar2 = Malloc(size,FILENAME,0x457);
-    iVar1 = *(int *)(param_1->field_0x58 + 4);
+    iVar1 = *(int *)(param_1->unk0x58 + 4);
     iVar4 = 0;
-    param_1->field_0x54 = pvVar2;
+    param_1->unk0x54 = pvVar2;
     pvVar2 = Malloc(iVar1 << 2,FILENAME,0x458);
-    param_1->field_0x50 = pvVar2;
-    if (0 < *(int *)(param_1->field_0x58 + 4)) {
+    param_1->unk0x50 = pvVar2;
+    if (0 < *(int *)(param_1->unk0x58 + 4)) {
       do {
         pvVar3 = Malloc(0x100,FILENAME,0x45e);
-        pvVar2 = param_1->field_0x54;
-        *(void **)(iVar4 * 4 + (int)param_1->field_0x50) = pvVar3;
+        pvVar2 = param_1->unk0x54;
+        *(void **)(iVar4 * 4 + (int)param_1->unk0x50) = pvVar3;
         *(undefined *)((int)pvVar2 + iVar4) = 1;
         iVar4 = iVar4 + 1;
-      } while (iVar4 < *(int *)(param_1->field_0x58 + 4));
+      } while (iVar4 < *(int *)(param_1->unk0x58 + 4));
     }
   }
-  guMtxIdentF((float (*) [4] [4])&param_1->field_0x10);
+  guMtxIdentF((float (*) [4] [4])&param_1->unk0x10);
   return false;
 }
 
@@ -374,27 +374,27 @@ void borg_2_free(borg_2_header *param_1){
   int iVar3;
   
   iVar1 = get_memUsed();
-  if (param_1->field_0x50 != (void *)0x0) {
+  if (param_1->unk0x50 != (void *)0x0) {
     iVar3 = 0;
-    if (0 < *(int *)(param_1->field_0x58 + 4)) {
-      pvVar2 = param_1->field_0x50;
+    if (0 < *(int *)(param_1->unk0x58 + 4)) {
+      pvVar2 = param_1->unk0x50;
       while( true ) {
         pvVar2 = *(void **)(iVar3 * 4 + (int)pvVar2);
         if (pvVar2 != (void *)0x0) {
           Free(pvVar2,FILENAME);
         }
         iVar3 = iVar3 + 1;
-        if (*(int *)(param_1->field_0x58 + 4) <= iVar3) break;
-        pvVar2 = param_1->field_0x50;
+        if (*(int *)(param_1->unk0x58 + 4) <= iVar3) break;
+        pvVar2 = param_1->unk0x50;
       }
     }
-    Free(param_1->field_0x50,FILENAME);
+    Free(param_1->unk0x50,FILENAME);
   }
-  if (param_1->field_0x54 != (void *)0x0) {
-    Free(param_1->field_0x54,FILENAME);
+  if (param_1->unk0x54 != (void *)0x0) {
+    Free(param_1->unk0x54,FILENAME);
   }
   if (*(int *)param_1 == -1) {
-    Free((void *)param_1->field_0x58,FILENAME);
+    Free((void *)param_1->unk0x58,FILENAME);
   }
   else {
     get_borg_index_count(*(int *)param_1);
@@ -420,8 +420,8 @@ void Borg4_free(int *param_1){
 }
 //"borg3": only 5 in the game. 48 bytes big. mystery.
 void borg3_func_a(Borg_3 *param_1){
-  param_1->field_0x2c = 0;
-  param_1->field_0x28 = (int)&param_1->field_0x10 + param_1->field_0x28;
+  param_1->unk0x2c = 0;
+  param_1->unk0x28 = (int)&param_1->unk0x10 + param_1->unk0x28;
   return;}
 bool borg3_func_b(void){return false;}
 void borg3_free(Borg_3 *param_1){
@@ -439,43 +439,43 @@ void borg5_func_a(Borg_5_header *b5){
   undefined *puVar1;
   int iVar2;
   
-  if (b5->field_0x28 != NULL) {
-    puVar1 = b5->field_0x28 + 0x10 + (int)b5;
-    iVar2 = b5->field_0x10;
-    b5->field_0x28 = puVar1;
+  if (b5->unk0x28 != NULL) {
+    puVar1 = b5->unk0x28 + 0x10 + (int)b5;
+    iVar2 = b5->unk0x10;
+    b5->unk0x28 = puVar1;
     while (iVar2 != 0) {
       iVar2 = iVar2 + -1;
-      *(int *)(puVar1 + 4) = (int)b5->field_0x18 + *(int *)(puVar1 + 4) + -8;
+      *(int *)(puVar1 + 4) = (int)b5->unk0x18 + *(int *)(puVar1 + 4) + -8;
       puVar1 = puVar1 + 0x40;
     }
   }
-  if (b5->field_0x30 != NULL) {
-    b5->field_0x30 = b5->field_0x30 + 0x10 + (int)b5;
+  if (b5->unk0x30 != NULL) {
+    b5->unk0x30 = b5->unk0x30 + 0x10 + (int)b5;
   }
-  if (b5->field_0x38 != NULL) {
-    b5->field_0x38 = b5->field_0x38 + 0x10 + (int)b5;
+  if (b5->unk0x38 != NULL) {
+    b5->unk0x38 = b5->unk0x38 + 0x10 + (int)b5;
   }
   if (b5->locatorDat != NULL) {
     b5->locatorDat = b5->locatorDat + 0x10 + (int)b5;
   }
-  if (b5->field_0x40 != NULL) {
-    b5->field_0x40 = b5->field_0x40 + 0x10 + (int)b5;
+  if (b5->unk0x40 != NULL) {
+    b5->unk0x40 = b5->unk0x40 + 0x10 + (int)b5;
   }
-  if (b5->field_0x44 != NULL) {
-    b5->field_0x44 = b5->field_0x44 + 0x10 + (int)b5;
+  if (b5->unk0x44 != NULL) {
+    b5->unk0x44 = b5->unk0x44 + 0x10 + (int)b5;
   }
   iVar2 = b5->ani_texture_count;
   if (0 < iVar2) {
-    puVar1 = b5->field_0x44;
+    puVar1 = b5->unk0x44;
     do {
       iVar2 = iVar2 + -1;
-      *(int *)(puVar1 + 0x10) = (int)b5->field_0x18 + *(int *)(puVar1 + 0x10) + -8;
+      *(int *)(puVar1 + 0x10) = (int)b5->unk0x18 + *(int *)(puVar1 + 0x10) + -8;
       puVar1 = puVar1 + 0x18;
     } while (iVar2 != 0);
   }
-  b5->field_0x4 = 0;
-  b5->field_0x48 = b5->field_0x48 + 0x10 + (int)b5;
-  b5->field_0x4c = b5->field_0x4c + 0x10 + (int)b5;
+  b5->unk0x4 = 0;
+  b5->unk0x48 = b5->unk0x48 + 0x10 + (int)b5;
+  b5->unk0x4c = b5->unk0x4c + 0x10 + (int)b5;
   return;
 }
 //These need re-decompiled once the header format is understood.
@@ -499,14 +499,14 @@ bool InitBorgScene(Borg_5_header *param_1){
   
   if (param_1->ani_texture_count != 0) {
     puVar3 = (undefined *)Malloc(param_1->ani_texture_count << 3,FILENAME,0x5bf);
-    param_1->field_0xc = puVar3;
+    param_1->unk0xc = puVar3;
     if (puVar3 == (undefined *)0x0) {assert("n64borg.cpp,_InitBorgScene()","Alloc for animated texture states failed!");}
     memset(puVar3,0,param_1->ani_texture_count << 3);
   }
   size = 0;
   iVar12 = 0;
-  iVar9 = param_1->field_0x10;
-  puVar3 = param_1->field_0x28;
+  iVar9 = param_1->unk0x10;
+  puVar3 = param_1->unk0x28;
   if (0 < iVar9) {
     do {
       size = size + 0x188;
@@ -515,27 +515,27 @@ bool InitBorgScene(Borg_5_header *param_1){
       piVar10 = *(int **)(puVar3 + 4);
       while (uVar8 != 0) {
         uVar8 = uVar8 - 1;
-        *piVar10 = (int)(param_1->field_0x28 + *piVar10 * 0x40);
+        *piVar10 = (int)(param_1->unk0x28 + *piVar10 * 0x40);
         piVar10 = piVar10 + 1;
       }
       puVar3 = puVar3 + 0x40;
     } while (iVar12 < iVar9);
   }
-  if (param_1->field_0x34 == (undefined *)0xffffffff) {
-    param_1->field_0x34 = (undefined *)0x0;
+  if (param_1->unk0x34 == (undefined *)0xffffffff) {
+    param_1->unk0x34 = (undefined *)0x0;
   }
   else {
     size = size + 0x80;
     setBorgFlag();
-    puVar3 = (undefined *)getBorgItem((int)param_1->field_0x34);
-    param_1->field_0x34 = puVar3;
+    puVar3 = (undefined *)getBorgItem((int)param_1->unk0x34);
+    param_1->unk0x34 = puVar3;
   }
-  ppvVar15 = (void **)param_1->field_0x38;
+  ppvVar15 = (void **)param_1->unk0x38;
   if (ppvVar15 == (void **)0x0) {
     ppvVar15 = (void **)param_1->locatorDat;
   }
   else {
-    iVar9 = *(int *)&param_1->field_0x14;
+    iVar9 = *(int *)&param_1->unk0x14;
     while (iVar9 != 0) {
       size = size + 0x20;
       setBorgFlag();
@@ -547,7 +547,7 @@ bool InitBorgScene(Borg_5_header *param_1){
     ppvVar15 = (void **)param_1->locatorDat;
   }
   if (ppvVar15 != (void **)0x0) {
-    fVar13 = param_1->field_0x18[0];
+    fVar13 = param_1->unk0x18[0];
     while (fVar13 != 0.0) {
       clearBorgFlag();
       pvVar4 = getBorgItem((int)*ppvVar15);
@@ -581,9 +581,9 @@ bool InitBorgScene(Borg_5_header *param_1){
     }
   }
   clearBorgFlag();
-  ppvVar15 = (void **)param_1->field_0x40;
+  ppvVar15 = (void **)param_1->unk0x40;
   if (ppvVar15 != (void **)0x0) {
-    fVar13 = param_1->field_0x18[1];
+    fVar13 = param_1->unk0x18[1];
     while (fVar13 != 0.0) {
       fVar13 = (float)((int)fVar13 + -1);
       pvVar4 = getBorgItem((int)*ppvVar15);
@@ -592,9 +592,9 @@ bool InitBorgScene(Borg_5_header *param_1){
     }
   }
   puVar5 = (undefined4 *)Malloc(size,FILENAME,0x6bf);
-  puVar3 = param_1->field_0x28;
-  iVar9 = param_1->field_0x10;
-  *(undefined4 **)&param_1->field_0x8 = puVar5;
+  puVar3 = param_1->unk0x28;
+  iVar9 = param_1->unk0x10;
+  *(undefined4 **)&param_1->unk0x8 = puVar5;
   if (iVar9 != 0) {
     *(undefined4 **)(puVar3 + 0xc) = puVar5;
     while( true ) {
@@ -619,19 +619,19 @@ bool InitBorgScene(Borg_5_header *param_1){
       puVar3 = puVar3 + 0x40;
     }
   }
-  if (param_1->field_0x34 == (undefined *)0x0) {
-    piVar10 = (int *)param_1->field_0x38;
+  if (param_1->unk0x34 == (undefined *)0x0) {
+    piVar10 = (int *)param_1->unk0x38;
   }
   else {
-    *(undefined4 **)(param_1->field_0x34 + 0x2c) = puVar5;
+    *(undefined4 **)(param_1->unk0x34 + 0x2c) = puVar5;
     puVar5 = puVar5 + 0x20;
-    piVar10 = (int *)param_1->field_0x38;
+    piVar10 = (int *)param_1->unk0x38;
   }
   if (piVar10 == (int *)0x0) {
     piVar10 = (int *)param_1->locatorDat;
   }
   else {
-    iVar9 = *(int *)&param_1->field_0x14;
+    iVar9 = *(int *)&param_1->unk0x14;
     while (iVar9 != 0) {
       iVar9 = iVar9 + -1;
       iVar12 = *piVar10;
@@ -642,7 +642,7 @@ bool InitBorgScene(Borg_5_header *param_1){
     piVar10 = (int *)param_1->locatorDat;
   }
   if (piVar10 != (int *)0x0) {
-    fVar13 = param_1->field_0x18[0];
+    fVar13 = param_1->unk0x18[0];
     while (fVar13 != 0.0) {
       iVar9 = *(int *)(*piVar10 + 0x58);
       fVar13 = (float)((int)fVar13 + -1);
@@ -701,8 +701,8 @@ void borg5_free(Borg_5_header *param_1){
   if (param_1->borg3 != (Borg_3 *)0x0) {
     borg3_free(param_1->borg3);
   }
-  puVar8 = (undefined4 *)param_1->field_0x38;
-  if ((puVar8 != (undefined4 *)0x0) && (iVar6 = *(int *)&param_1->field_0x14, iVar6 != 0)) {
+  puVar8 = (undefined4 *)param_1->unk0x38;
+  if ((puVar8 != (undefined4 *)0x0) && (iVar6 = *(int *)&param_1->unk0x14, iVar6 != 0)) {
     uVar1 = *puVar8;
     while( true ) {
       iVar6 = iVar6 + -1;
@@ -714,10 +714,10 @@ void borg5_free(Borg_5_header *param_1){
   }
   pbVar9 = (borg_2_header *)param_1->locatorDat;
   if (pbVar9 == (borg_2_header *)0x0) {
-    pBVar10 = (Borg_1_Header *)param_1->field_0x40;
+    pBVar10 = (Borg_1_Header *)param_1->unk0x40;
   }
   else {
-    fVar7 = param_1->field_0x18[0];
+    fVar7 = param_1->unk0x18[0];
     if (fVar7 != 0.0) {
       pbVar4 = *(borg_2_header **)pbVar9;
       while( true ) {
@@ -728,13 +728,13 @@ void borg5_free(Borg_5_header *param_1){
         pbVar4 = *(borg_2_header **)pbVar9;
       }
     }
-    pBVar10 = (Borg_1_Header *)param_1->field_0x40;
+    pBVar10 = (Borg_1_Header *)param_1->unk0x40;
   }
   if (pBVar10 == (Borg_1_Header *)0x0) {
     iVar6 = *(int *)param_1;
   }
   else {
-    fVar7 = param_1->field_0x18[1];
+    fVar7 = param_1->unk0x18[1];
     if (fVar7 != 0.0) {
       pBVar5 = *(Borg_1_Header **)pBVar10;
       while( true ) {
@@ -748,12 +748,12 @@ void borg5_free(Borg_5_header *param_1){
     iVar6 = *(int *)param_1;
   }
   if (iVar6 == -1) {
-    Free(*(void **)&param_1->field_0x8,FILENAME,0x78b);
+    Free(*(void **)&param_1->unk0x8,FILENAME,0x78b);
     Free(param_1,FILENAME,0x78f);
   }
   else {
     uVar3 = get_borg_index_count(iVar6);
-    if (uVar3 == 1) {Free(*(void **)&param_1->field_0x8,FILENAME,0x795);}
+    if (uVar3 == 1) {Free(*(void **)&param_1->unk0x8,FILENAME,0x795);}
     dec_borg_count(*(int *)param_1);
   }
   borg_mem[5]-= (iVar2 - get_memUsed());
@@ -773,28 +773,28 @@ void borg6_func_a(borg_6_header *param_1){
   int iVar9;
   
   iVar9 = 0;
-  uVar3 = param_1->field_0x4;
-  iVar6 = (int)&param_1->field_0x0 + param_1->field_0x8;
-  param_1->field_0x8 = iVar6;
+  uVar3 = param_1->unk0x4;
+  iVar6 = (int)&param_1->unk0x0 + param_1->unk0x8;
+  param_1->unk0x8 = iVar6;
   if (0 < (int)uVar3) {
     do {
       iVar8 = 0;
       iVar9 = iVar9 + 1;
       iVar4 = *(int *)(iVar6 + 0x10);
-      psVar7 = (short *)((int)&param_1->field_0x0 + *(int *)(iVar6 + 0x14));
+      psVar7 = (short *)((int)&param_1->unk0x0 + *(int *)(iVar6 + 0x14));
       *(short **)(iVar6 + 0x14) = psVar7;
       if (0 < iVar4) {
         do {
           iVar8 = iVar8 + 1;
-          psVar5 = (short *)((int)&param_1->field_0x0 + *(int *)(psVar7 + 2));
+          psVar5 = (short *)((int)&param_1->unk0x0 + *(int *)(psVar7 + 2));
           *(short **)(psVar7 + 2) = psVar5;
           sVar1 = *psVar5;
-          *(int *)(psVar5 + 2) = (int)&param_1->field_0x0 + *(int *)(psVar5 + 2);
+          *(int *)(psVar5 + 2) = (int)&param_1->unk0x0 + *(int *)(psVar5 + 2);
           sVar2 = *psVar7;
           psVar7 = psVar7 + 8;
           while (sVar1 != sVar2) {
             sVar1 = psVar5[4];
-            *(int *)(psVar5 + 6) = (int)&param_1->field_0x0 + *(int *)(psVar5 + 6);
+            *(int *)(psVar5 + 6) = (int)&param_1->unk0x0 + *(int *)(psVar5 + 6);
             psVar5 = psVar5 + 4;
           }
         } while (iVar8 < iVar4);
@@ -829,13 +829,13 @@ bool borg6_func_b(borg_6_header *param_1,void *param_2){
   size = 0;
   iVar17 = 0;
   iVar1 = *(int *)((int)param_2 + 4);
-  param_1->field_0x20 = (uint)param_2;
-  param_1->field_0x18 = 0;
-  param_1->field_0x1c = fVar6;
+  param_1->unk0x20 = (uint)param_2;
+  param_1->unk0x18 = 0;
+  param_1->unk0x1c = fVar6;
   piVar7 = (int *)Malloc(iVar1 * 0x18,FILENAME,0x810);
-  param_1->field_0x14 = piVar7;
-  iVar1 = *(int *)(param_1->field_0x20 + 4);
-  iVar4 = *(int *)(param_1->field_0x20 + 8);
+  param_1->unk0x14 = piVar7;
+  iVar1 = *(int *)(param_1->unk0x20 + 4);
+  iVar4 = *(int *)(param_1->unk0x20 + 8);
   if (0 < iVar1) {
     do {
       iVar14 = *(int *)(iVar4 + 0x10);
@@ -866,9 +866,9 @@ bool borg6_func_b(borg_6_header *param_1,void *param_2){
   }
   puVar9 = (undefined4 *)Malloc(size,FILENAME,0x87d);
   iVar17 = 0;
-  iVar1 = *(int *)(param_1->field_0x20 + 4);
-  iVar4 = *(int *)(param_1->field_0x20 + 8);
-  pvVar5 = param_1->field_0x14;
+  iVar1 = *(int *)(param_1->unk0x20 + 4);
+  iVar4 = *(int *)(param_1->unk0x20 + 8);
+  pvVar5 = param_1->unk0x14;
   if (0 < iVar1) {
     do {
       iVar16 = 0;
@@ -908,8 +908,8 @@ bool borg6_func_b(borg_6_header *param_1,void *param_2){
       pvVar5 = (void *)((int)pvVar5 + 0x18);
     } while (iVar17 < iVar1);
   }
-  param_1->field_0xc = 0;
-  param_1->field_0x10 = 0;
+  param_1->unk0xc = 0;
+  param_1->unk0x10 = 0;
   return false;
 }
 void borg_6_free(borg_6_header *param_1){
@@ -918,21 +918,21 @@ void borg_6_free(borg_6_header *param_1){
   int iVar3;
   
   iVar1 = get_memUsed();
-  if (param_1->field_0x14 != (void *)0x0) {
-    Free(*(void **)(*(int *)((int)param_1->field_0x14 + 0xc) + 8),FILENAME);
+  if (param_1->unk0x14 != (void *)0x0) {
+    Free(*(void **)(*(int *)((int)param_1->unk0x14 + 0xc) + 8),FILENAME);
     iVar2 = 0;
-    if (0 < *(int *)(param_1->field_0x20 + 4)) {
+    if (0 < *(int *)(param_1->unk0x20 + 4)) {
       iVar3 = 0;
       do {
-        Free(*(void **)((int)param_1->field_0x14 + iVar3 + 0xc),FILENAME);
+        Free(*(void **)((int)param_1->unk0x14 + iVar3 + 0xc),FILENAME);
         iVar2 = iVar2 + 1;
         iVar3 = iVar3 + 0x18;
-      } while (iVar2 < *(int *)(param_1->field_0x20 + 4));
+      } while (iVar2 < *(int *)(param_1->unk0x20 + 4));
     }
-    Free(param_1->field_0x14,FILENAME,0x8e0);
+    Free(param_1->unk0x14,FILENAME,0x8e0);
   }
   if (param_1->index == -1) {
-    Free((void *)param_1->field_0x20,FILENAME,0x8e5);
+    Free((void *)param_1->unk0x20,FILENAME,0x8e5);
   }
   else {dec_borg_count(param_1->index);}
   Free(param_1,FILENAME,0x8ec);
@@ -947,11 +947,11 @@ void borg7_func_a(Borg_7_header *param_1){
   int iVar2;
   
   iVar2 = param_1->borg6_size;
-  iVar1 = &param_1->field_0x50;
+  iVar1 = &param_1->unk0x50;
   if (0 < iVar2) {
     do {
       iVar2--;
-      *(int *)(iVar1 + 0x14) = *(int *)(iVar1 + 0x14) + &param_1->field_0x50;
+      *(int *)(iVar1 + 0x14) = *(int *)(iVar1 + 0x14) + &param_1->unk0x50;
       iVar1 = iVar1 + 0xc;
     } while (iVar2 != 0);
   }
@@ -971,33 +971,33 @@ bool borg7_func_b(Borg_7_header *param_1,void *param_2){
   if (0 < iVar5) {
     pbVar4 = &param_1->borg6;
     do {
-      pbVar2->field_0x0 = (uint)pbVar4;
+      pbVar2->unk0x0 = (uint)pbVar4;
       pbVar4 = pbVar4 + 3;
-      pbVar2->field_0x4 = 0;
+      pbVar2->unk0x4 = 0;
       iVar5 = iVar5 + -1;
-      pbVar2 = (borg_6_header *)&pbVar2->field_0x8;
+      pbVar2 = (borg_6_header *)&pbVar2->unk0x8;
     } while (iVar5 != 0);
   }
-  memset(&param_1->field_0x38,0,0x18);
+  memset(&param_1->unk0x38,0,0x18);
   clearBorgFlag();
   pbVar3 = (borg_6_header *)getBorgItem(param_1->borg6);
   bVar1 = param_1->borg6;
   pbVar2 = param_1->borg_pointer;
-  param_1->field_0x38 = pbVar3;
+  param_1->unk0x38 = pbVar3;
   param_1->aniDat = NULL;
-  param_1->field_0xc = 0;
-  param_1->field_0xe = 0;
-  param_1->field_0x10 = 0;
-  pbVar2->field_0x4 = (uint)pbVar3;
-  param_1->field_0x20 = 0;
-  param_1->field_0x24 = 0;
-  param_1->field_0x28 = 0;
-  param_1->field_0x2c = 0;
-  param_1->field_0x30 = 0;
-  param_1->field_0x34 = 0;
-  param_1->field_0x12 = 1;
-  param_1->field_0x44 = bVar1;
-  param_1->field_0x1c = (undefined *)(&pbVar2->field_0x0 + param_1->field_0x58 * 2);
+  param_1->unk0xc = 0;
+  param_1->unk0xe = 0;
+  param_1->unk0x10 = 0;
+  pbVar2->unk0x4 = (uint)pbVar3;
+  param_1->unk0x20 = 0;
+  param_1->unk0x24 = 0;
+  param_1->unk0x28 = 0;
+  param_1->unk0x2c = 0;
+  param_1->unk0x30 = 0;
+  param_1->unk0x34 = 0;
+  param_1->unk0x12 = 1;
+  param_1->unk0x44 = bVar1;
+  param_1->unk0x1c = (undefined *)(&pbVar2->unk0x0 + param_1->unk0x58 * 2);
   return true;
 }
 
@@ -1007,7 +1007,7 @@ void borg7_free(Borg_7_header *param_1){
   borg_6_header **ppbVar3;
   int iVar4;
   
-  ppbVar3 = &param_1->field_0x38;
+  ppbVar3 = &param_1->unk0x38;
   iVar4 = 2;
   do {
     iVar4--;

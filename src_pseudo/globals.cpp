@@ -423,7 +423,7 @@ void battle_setup_func(monsterparty_obj *param_1,EventFlag param_2,ushort param_
   pmVar1 = param_1;
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x2ff);
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x302);
-  encounter_dat.field_0x1c = 1;
+  encounter_dat.unk0x1c = 1;
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x303);
   encounter_dat.mapDatA = map_dat_A;
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x304);
@@ -467,7 +467,7 @@ void load_camp_ambush(void){
   get_battle_terrain(&encounter_dat);
   encounter_dat.collisionBool = true;
   encounter_dat.globalLoot = 0;
-  encounter_dat.field_0x28 = 0;
+  encounter_dat.unk0x28 = 0;
   encounter_dat.EncounterID = 0;
   encounter_dat.BossShadow = 0;
   gGlobals.combatBytes[2] = 1;
@@ -486,14 +486,14 @@ void load_camp_ambush(void){
   memset(aIStack72,0,0x38);
   uVar6 = 0;
   peVar4 = &fromROM;
-  sStack32 = (ushort)fromROM.field_0x2 + (ushort)fromROM.field_0x6;
-  sStack30 = (ushort)fromROM.field_0x3 + (ushort)fromROM.field_0x7;
+  sStack32 = (ushort)fromROM.unk0x2 + (ushort)fromROM.unk0x6;
+  sStack30 = (ushort)fromROM.unk0x3 + (ushort)fromROM.unk0x7;
   pIVar5 = aIStack72;
   do {
     *pIVar5 = peVar4->id1;
     uVar6 = uVar6 + 1;
-    pIVar5[1].type = peVar4->field_0x2;
-    pbVar1 = &peVar4->field_0x3;
+    pIVar5[1].type = peVar4->unk0x2;
+    pbVar1 = &peVar4->unk0x3;
     peVar4 = (encounter_rom_dat *)&peVar4->id2;
     pIVar5[1].ID = *pbVar1;
     pIVar5 = pIVar5 + 2;

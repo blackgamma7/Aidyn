@@ -326,9 +326,9 @@ byte show_n64_logo(rspCom **param_1){
   animationData_math_func
             (splashscreenAniDat,n64LogoVec3[0],n64LogoVec3[1],n64LogoVec3[2],fVar5,fVar7,fVar6,0,
              1.0f,0);
-  FUN_800a0df4(splashscreenAniDat);
+  func_800a0df4(splashscreenAniDat);
   pauVar3 = (rspCom *)gsAnimationDataMtx(pauVar3,splashscreenAniDat);
-  pauVar3 = (rspCom *)FUN_800a0da4(pauVar3,splashscreenAniDat);
+  pauVar3 = (rspCom *)func_800a0da4(pauVar3,splashscreenAniDat);
   pauVar3 = rsp_func(pauVar3,6,gfx::get_hres(),gfx::get_vres());
   pauVar3 = (rspCom *)
             (*(widget_N64Logo->methods->unk_func_8).func)

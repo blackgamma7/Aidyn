@@ -543,6 +543,7 @@ uint gfx::get_hres(void){return gfx_struct.hres[1];}
 uint gfx::get_vres(void){return gfx_struct.Vres[1];}
 uint gfx::get_colorDepth(void){return gfx_struct.colordepth[1];}
 
+//copies the FB for BG and savegame screenshot
 void getGfxLastFrame(undefined *pDest,ushort H,ushort V,byte depth,ushort param_5,ushort param_6,
                     ushort Hres,ushort Vres){
   ushort uVar1;
