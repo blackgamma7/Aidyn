@@ -759,7 +759,7 @@ Lab_return:
   return;
 }
 
-bool inc_charsheet_potion(CharSheet *param_1,bool param_2,byte param_3){
+bool inc_charsheet_potion(CharSheet *param_1,bool Trekking,byte param_3){
   Potion_effect **paVar3;
   uint uVar2;
   uint uVar3;
@@ -769,11 +769,9 @@ bool inc_charsheet_potion(CharSheet *param_1,bool param_2,byte param_3){
     paVar3 = param_1->potion_effects;
     while( true ) {
       if (paVar3[uVar3] != NULL) {
-        if (param_2 == false) {uVar2 = 0;}
+        if (!Trekking) {uVar2 = 0;}
         else {uVar2 = (uint)TerrainPointer->a;}
-        if (check_charsheet_potion_timer(paVar3[uVar3],uVar2,param_3)) {
-          clear_charsheet_potion(param_1,uVar3);}
-      }
+        if (check_charsheet_potion_timer(paVar3[uVar3],uVar2,param_3)) {clear_charsheet_potion(param_1,uVar3);}}
       uVar3++;
       if (6 < uVar3) break;
       paVar3 = param_1->potion_effects;
@@ -1179,7 +1177,7 @@ LAB_800798b0:
       bVar9 = pcVar1->unk0x6;
       if (bVar9 < Lv) {Lv = (uint)bVar9;}
       pcVar1->unk0x6-= (char)Lv;
-      param_6->combat_ai_pointer->unk0x9|= 2;
+      param_6->combat_ai_pointer->flags|= 2;
       uVar19 = 1;
       bVar10 = bVar2;
     }
@@ -1612,7 +1610,7 @@ byte check_spell_wizard(CharSheet *param_1,Temp_spell *param_2){
   return 0;
 }
 
-uint spell_stamina_subtract(Temp_spell *param_1,byte param_2){
+int spell_stamina_subtract(Temp_spell *param_1,byte param_2){
   int uVar1 = param_1->stamina - param_2);
   if (uVar1 < 1) {uVar1 = 1;}
   return uVar1;
@@ -1755,7 +1753,7 @@ void check_dead_from_DoT(CharSheet *param_1,short param_2,short param_3,CombatEn
   
   if ((param_4 != NULL) &&
      (ppVar1 = gGlobals.playerDataArray[param_4->index], ppVar1 != NULL)) {
-    gamecombat_actor_func(ppVar1,param_2,param_3,isDead(param_1),param_1);
+    Print_damage_healing(ppVar1,param_2,param_3,isDead(param_1),param_1);
     if (isDead(param_1)) {
       func_seeking_sholeh(param_4);
       some_death_func_B(ppVar1,(uint)param_4->index,param_4);
@@ -2213,9 +2211,7 @@ bool Ofunc_boolStaminaForSpell(CharSheet *param_1,Temp_spell *param_2){
 }
 
 void malloc_enchant(CharSheet *param_1,SpellEnum param_2,uint param_3,undefined1 param_4,
-                   undefined4 timer,int param_6)
-
-{
+                   undefined4 timer,int param_6){
   effects *peVar1;
   Temp_enchant *pTVar2;
   int iVar3;
@@ -2248,9 +2244,7 @@ void malloc_enchant(CharSheet *param_1,SpellEnum param_2,uint param_3,undefined1
         }
         addModdedStat(stats,STAM,(char)iVar8);
       }
-      else {
-        mod_stats(param_1,STAM,(char)((uVar7 << 0x19) >> 0x18));
-      }
+      else {mod_stats(param_1,STAM,(char)((uVar7 << 0x19) >> 0x18));}
       return;
     }
     if (0xe < uVar6 + 1) break;
