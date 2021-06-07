@@ -1,6 +1,6 @@
 enum CharSheetFlags{
     IsSolar=1,
-    Protag=4,
+    TrueName=4,
 };
 
 void init_charExp(charExp *param_1,ItemID param_2){
@@ -21,8 +21,8 @@ void init_charExp(charExp *param_1,ItemID param_2){
   CVar2 = pEVar5->unk0x18;
   param_1->flags = CVar2;
   if (pEVar5->aspect == SOLAR) {param_1->flags = CVar2 | IsSolar;}
-  //is alaron and hit a certain flag
-  if ((bVar3 == 0x99) && (getEventFlag(0x24e))) {param_1->flags |= Protag;}
+  //is alaron "Named"
+  if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic3))) {param_1->flags |= TrueName;}
 }
 
 ASPECT GetCharAspect(charExp *param_1){
@@ -39,9 +39,9 @@ void temp_item_check(Temp_equip *param_1,ItemID param_2){
 }
 
 void clear_temp_Stat_spell(Temp_weapon *param_1){
-  if (param_1->Stat != (byte (*) [2])0x0) {
+  if (param_1->Stat != NULL) {
     Free(param_1->Stat,s_../gameclasses/generic.cpp_800e08c0,0x6e);
-    param_1->Stat = (byte (*) [2])0x0;
+    param_1->Stat = NULL;
   }
   if (param_1->spell != (Temp_spell *)0x0) {
     Free(param_1->spell,s_../gameclasses/generic.cpp_800e08c0,0x74);

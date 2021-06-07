@@ -7,7 +7,7 @@ struct{
   ItemID_ROM ID;
   byte unk0x2b;
   byte Aspect;
-  byte unk0x2d[2];
+  byte unk0x2d[2]; //{True Name, Unknown}
   s8 Alchemist;	// base skill lv's
   s8 Diplomat;		// FF=Cannot learn
   s8 Healer;		//proably stored as Array,

@@ -4309,7 +4309,7 @@ struct CombatEntity {
     u8 unk0x22;
     byte unk0x23;
     byte unk0x24;
-    byte rangeMulti;
+    byte AtkType;
     byte unk0x26;
     enum PotionEnum item;
     byte unk0x28;

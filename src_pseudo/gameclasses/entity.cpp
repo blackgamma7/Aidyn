@@ -527,18 +527,18 @@ void func_800784c8(CharSheet *param_1,Temp_weapon *param_2,byte (*param_3) [2],i
   undefined uVar3;
   
   pabVar1 = param_2->SkillMod;
-  if ((pabVar1 != (byte (*) [2])0x0) &&
+  if ((pabVar1 != NULL) &&
      (lVar2 = capskillBaseMax(param_1->Skills,(*pabVar1)[0]), lVar2 != 0)) {
     some_moddedSkillCheck(param_1->Skills,(*pabVar1)[0],(*pabVar1)[1]);
   }
-  if (param_3 == (byte (*) [2])0x0) {param_3 = param_2->Stat;}
+  if (param_3 == NULL) {param_3 = param_2->Stat;}
   else {
-    if (param_2->Stat != (byte (*) [2])0x0) {
+    if (param_2->Stat != NULL) {
       Free(param_2->Stat,FILENAME);
     }
     param_2->Stat = param_3;
   }
-  if (param_3 != (byte (*) [2])0x0) {
+  if (param_3 != NULL) {
     if ((*param_3)[0] == 5) {
       param_1->spellSwitch = 0;
       goto LAB_8007859c;
@@ -612,7 +612,7 @@ void func_80078874(CharSheet *param_1,Temp_weapon *param_2,bool param_3){
   byte (*skilmod) [2];
   
   skilmod = param_2->SkillMod;
-  if (skilmod == (byte (*) [2])0x0) {
+  if (skilmod == NULL) {
 LAB_800788d0:
     skilmod = param_2->Stat;
   }
@@ -624,7 +624,7 @@ LAB_800788d0:
     }
     skilmod = param_2->Stat;
   }
-  if (skilmod != (byte (*) [2])0x0) {
+  if (skilmod != NULL) {
     if ((*skilmod)[0] == STAM) {
       param_1->spellSwitch = 0;
       goto LAB_8007893c;
@@ -1042,8 +1042,7 @@ int find_free_effect_slot(CharSheet *param_1){
 }
 
 
-short ApplySpellEffect(CharSheet *param_1,SpellEnum param_2,byte Lv,undefined4 param_4,byte param_5,
-                CombatEntity *param_6){
+short ApplySpellEffect(CharSheet *param_1,SpellEnum param_2,byte Lv,undefined4 param_4,byte param_5,CombatEntity *param_6){
   combat_ai *pcVar1;
   bool bVar2;
   longlong lVar3;
@@ -1199,7 +1198,7 @@ control_magic:
     uVar19 = uVar18;
     bVar10 = bVar2;
     if (bVar9 != 0) {
-      CombatEnt_XOR_flags(param_6,flag5);
+      CombatEnt_XOR_flags(param_6,flag4);
       uVar19 = 1;
       bVar10 = true;
     }
@@ -1242,7 +1241,7 @@ control_magic:
     uVar19 = uVar17;
     bVar10 = true;
     if ((uVar16 != 0) && (param_6 != NULL)) {
-      CombatEnt_NAND_flags(param_6,flag2);
+      CombatEnt_NAND_flags(param_6,flag1);
       uVar19 = 1;
       bVar10 = true;
     }
@@ -1250,9 +1249,7 @@ control_magic:
   case mirror:
     uVar19 = uVar17;
     bVar10 = true;
-    if ((param_6 != NULL) && (uVar19 = uVar18, bVar10 = bVar2, uVar16 != 0)) {
-      param_6->unk0x28+= (char)Lv * 3;
-    }
+    if ((param_6 != NULL) && (uVar19 = uVar18, bVar10 = bVar2, uVar16 != 0)) {param_6->unk0x28+= (char)Lv * 3;}
     break;
   case dispelElemental:
   case dispelNaming:
@@ -1334,9 +1331,8 @@ void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
   case controlMarquis:
   case controlZombies:
     if (param_3 != NULL) {
-      bVar2 = CombatEnt_flag_5(param_3);
-      if (bVar2 == false) {CombatEnt_NAND_flags(param_3,flag5);}
-      else {CombatEnt_OR_flags(param_3,flag5);}
+      if (!CombatEnt_flag_5(param_3)) {CombatEnt_NAND_flags(param_3,flag4);}
+      else {CombatEnt_OR_flags(param_3,flag4);}
     }
     break;
   case debilitation:
@@ -1391,7 +1387,7 @@ void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
   case wallOfBones:
   case frozenDoom:
   case webOfStarlight:
-    if (param_3 != NULL) {CombatEnt_OR_flags(param_3,flag2);}
+    if (param_3 != NULL) {CombatEnt_OR_flags(param_3,flag1);}
     break;
   case spiritSheild:
   case starlightSheild:
@@ -1662,7 +1658,7 @@ int add_Equip_Stamina(temp_armor *param_1,short param_2,longlong param_3){
   
   iVar2 = (int)param_2;
   if (iVar2 == 0) {return 0;}
-  if ((((param_1 != NULL) && (pabVar1 = param_1->statMod, pabVar1 != (byte (*) [2])0x0)
+  if ((((param_1 != NULL) && (pabVar1 = param_1->statMod, pabVar1 != NULL)
        ) && ((*pabVar1)[0] == 5)) && ((*pabVar1)[1] != 0)) {
     iVar2 = (iVar2 - (char)(*pabVar1)[1]) * 0x10000;
     iVar3 = iVar2 >> 0x10;
@@ -1732,7 +1728,7 @@ byte CheckTargetSpellAspect(CharSheet *param_1,Temp_spell *param_2){
   bVar2 = 0;
   AVar1 = param_2->aspect;
   if (AVar1 == LUNAR) {
-    if (((param_1->EXP->flags ^ 4) & 4) != 0) {bVar2 = 7;}
+    if (((param_1->EXP->flags ^ TrueName) & TrueName) != 0) {bVar2 = 7;}
   }
   if (AVar1 == SOLAR) {
     if ((param_1->EXP->flags & 2) == 0) {bVar2 = 8;}
