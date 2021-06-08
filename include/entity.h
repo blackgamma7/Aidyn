@@ -55,49 +55,46 @@ struct{
   u8 ResistAmmount1; // 100-(25*x)
   u8 ElementResist2;
   u8 ResistAmmount2; // 100-(25*x)
-  u8 unk0x7a[8];
-  u8 unk0x82[4];
+  u8 unk0x7a[8]; //unused
+  u8 unk0x82[4]; //unused
   u8 EXP_X75; // x50, then 1.5 on EXP func
   u8 Loot Category;
 }Entity_ROM;
 
-struct{ // entity data in Ram
-  ItemID ID;
-  char Name[21];
-  byte Category;
-  u8 unk2; // 2 bits set on load_entityDB.
-  u8 unk1;
-  byte aspect;
-  u8 unk3; // something to do with dying?
-  u8 Level;
-  u8 unk4;
-  byte school;
-  u8 a_;
-  u8 b; // made to float. for monster encountering
-  u8 c; //unused? also made float
-  u8 Skills[12]; //same order as Entity_ROM
-  u8 WeaponSkill[11]; //seen as arrays by game.
-  u8 stats[6];
-  u8 unk0x3f;
-  ItemID weapon[3];
-  ItemID spells[5];
-  u8 Spell_levels[5];
-  u8 _unk2[5];
-  u8 unk0x5a;
-  u8 unk0x5b;
-  ItemID Armor;
-  ItemID Sheild;
-  short _unk;
-  s8 sheildStat;
-  u8 Resist[2];
-  u8 unk0x65[3]; // likely aligning
-  float resistAmmount[2];
-  u16 FFs[4]; //some DB Item was supposed to be loaded, but is always blank and never called.
-  u8 unk0x78[4];
-  u16 EXP;
-  u8 loot_Category;
-  u8 unk0x7f;
-}Entity_Ram;
+struct Entity_Ram { /* entity data in Ram */
+    struct ItemID ID;
+    char Name[21];
+    enum EntityCatEnum Category;
+    enum CharSheetFlags unk0x18; /* 2 bits determined by rom0x2d */
+    byte rom0x2b;
+    enum AspectEnum aspect;
+    byte rom0x4c; //morale
+    byte Level;
+    byte BaseDamage; /* rom0x4d */
+    enum MagicSchoolEnum School;
+    byte BaseProtect; /* sheild related? */
+    byte unk0x20; //deals with monster "vision." 10 or 0.
+    byte unk0x21;
+    byte Skills[12];
+    byte Weapon prof[11];
+    byte stats[7];
+    struct ItemID weapon[3];
+    struct ItemID spells[5];
+    byte Spell_levels[5];
+    byte unk0x55[5]; // rom0x68. Unused
+    byte unk0x5a[4]; // rom0x6d. Unused.
+    struct ItemID Armor;
+    struct ItemID Sheild;
+    s8 sheildStat;
+    enum ElementEnum Resist[2];
+    byte align[3];
+    float resistAmmount[2];
+    ushort FFs[4]; /* supposed to load something, but ends up blank */
+    byte unk0x78[4];
+    ushort EXP;
+    byte loot_Category;
+    u8 unk0x7f;
+};
 
 struct{
    u8 size;
@@ -142,9 +139,7 @@ struct charExp { /* data containing EXP, School, Aspect and more. */
     uint total; /* for level up */
     uint spending; /* for training */
     enum CharSheetFlags flags; /* set for alaron? */
-    byte f;
-    byte g;
-    byte h;
+    byte pad[3];
 };
 
 

@@ -171,7 +171,7 @@ bool func_8007dfc8(PartyStruct *param_1,uint arg1){
   if ((*charSheeeet->armor != NULL) || (ret = false, entRam->Sheild == (ItemID)-1))
   {
     if (charSheeeet->armor[1] == NULL) {
-      if (entRam->unk0x60 != -1) {return false;}
+      if (entRam->Sheild != -1) {return false;}
       pTVar1 = charSheeeet->weapons;
     }
     else {pTVar1 = charSheeeet->weapons;}

@@ -132,8 +132,8 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,uint param_3){
   param_1->armor = pptVar3;
   *pptVar3 = NULL;
   pptVar3[1] = NULL;
-  if (pEVar11->Sheild != (ItemID)0xffff) {Equip_Armor(param_1,pEVar11->Sheild,0);}
-  if (pEVar11->unk0x60 != -1) {EquipSheild(param_1,pEVar11->unk0x60,0);}
+  if (pEVar11->armor != (ItemID)0xffff) {Equip_Armor(param_1,pEVar11->armor,0);}
+  if (pEVar11->Sheild != -1) {EquipSheild(param_1,pEVar11->Sheild,0);}
   pCVar4 = (CharGear *)Malloc(8,FILENAME,0x111);
   param_1->pItemList = pCVar4;
   create_unknown_charsheet_struct(pCVar4,0xc);

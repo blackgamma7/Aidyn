@@ -4309,7 +4309,7 @@ struct CombatEntity {
     u8 unk0x22;
     byte unk0x23;
     byte unk0x24;
-    byte AtkType;
+    byte rangeMulti;
     byte unk0x26;
     enum PotionEnum item;
     byte unk0x28;
@@ -5366,9 +5366,9 @@ struct Entity_Ram { /* entity data in Ram */
     byte Spell_levels[5];
     byte unk0x55[5]; /* rom0x68 */
     ushort unk0x5a; /* rom0x6d */
+    ushort unk0x5c;
     struct ItemID Armor;
     struct ItemID Sheild;
-    short unk0x60;
     s8 sheildStat;
     enum ElementEnum Resist[2];
     byte align[3];
