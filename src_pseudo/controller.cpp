@@ -374,8 +374,7 @@ PFS_ERR8 create_new_save_file (u8 *fileno,char *GameName,char *ExtName,short com
   osSendMesg(&ContManager.contMesgQ,null,1);
   make_pfs_string(name,GameName,0x10);
   make_pfs_string(code,ExtName,4);
-  PVar2 = osPfsAllocateFile
-                    (&ContManager.BufferPointer[port].pfs,compCode,GameCode,name,code,(uint)EXTName,&filenum);
+  PVar2 = osPfsAllocateFile(&ContManager.BufferPointer[port].pfs,compCode,GameCode,name,code,(uint)EXTName,&filenum);
   if (PVar2 == OK) {*fileno = (u8)filenum;}
   else {*fileno = 0;}
   osRecvMesg(&ContManager.contMesgQ,NULL,1);
@@ -447,9 +446,7 @@ PFS_ERR8 erase_game_file(uint fileno,uint port){
   osSendMesg(&ContManager.contMesgQ,null,1);
   pcVar1 = ContManager.BufferPointer[port];
   PVar2 = osPfsFileState(&pcVar1->pfs,fileno & 0xff,&state);
-  if (PVar2 == OK) {
-    PVar2 = osPfsDeleteFile(&pcVar1->pfs,state.company_code,state.game_code,state.game_name);
-  }
+  if (PVar2 == OK) {PVar2 = osPfsDeleteFile(&pcVar1->pfs,state.company_code,state.game_code,state.game_name);}
   osRecvMesg(&ContManager.contMesgQ,NULL,1);
   return (PFS_ERR8)PVar2;
 }
@@ -480,10 +477,8 @@ bool controller_query_2(byte port,CONT_STATUS *statOut){
   Cerr = Cstats[port].errno;
   CType = Cstats[port].type;
   osRecvMesg(&ContManager.contMesgQ,NULL,1);
-  if (statOut != (CONT_STATUS *)0x0) {
-    *statOut = Cstats[port].status;
-  }
-  return statOut != (CONT_STATUS *)0x0 &&
+  if (statOut != NULL) {*statOut = Cstats[port].status;}
+  return statOut != NULL &&
          ((CType & CONT_TYPE_MASK) == CONT_TYPE_NORMAL &&
          ((Cerr & CONT_OVERRUN_ERROR) == 0 && (Cerr & CONT_NO_RESPONSE_ERROR) == 0));
 }

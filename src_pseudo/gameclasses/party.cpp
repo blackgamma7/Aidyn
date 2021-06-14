@@ -500,7 +500,7 @@ byte itemtype_armor(PartyStruct *param_1,byte param_2,temp_armor *param_3,CharSh
   if ((bool)bVar4 == false) {
     X = create_2ByteArray(param_3->statMod);
     bVar5 = 0xff;
-    if (param_3->spell != (SpellCharges *)0x0) {bVar5 = param_3->spell->Charges;}
+    if (param_3->spell != NULL) {bVar5 = param_3->spell->Charges;}
     piVar2 = param_1->Inventory->Functions;
     uVar3 = (*(piVar2->get_some_bool).func)
                       ((int)param_1->Inventory->inv_slots +
@@ -641,7 +641,7 @@ byte itemtype_gear(PartyStruct *param_1,byte param_2,temp_gear *param_3,CharShee
   if (bVar7 == 0) {
     X = create_2ByteArray(param_3->statmod);
     bVar7 = 0xff;
-    if (param_3->pSpell != (SpellCharges *)0x0) {bVar7 = param_3->pSpell->Charges;}
+    if (param_3->pSpell != NULL) {bVar7 = param_3->pSpell->Charges;}
     piVar4 = param_1->Inventory->Functions;
     uVar6 = (*(piVar4->get_some_bool).func)((int)param_1->Inventory->inv_slots +
                        (short)(piVar4->get_some_bool).arg[0] + -4,IVar2,1);

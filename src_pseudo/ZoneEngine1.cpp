@@ -19,12 +19,12 @@ void dialoug_ref_obj_func(void){
     iVar4 = 0;
     iVar5 = 0x10000;
     do {
-      prVar5 = (Dialoug_obj *)(&pBVar1->ref_objs->field_0x0 + iVar4);
+      prVar5 = (Dialoug_obj *)(&pBVar1->ref_objs->unk0x0 + iVar4);
       if ((((prVar5->header).type == Dialouge) &&
           (some_dialoug_short_lookup((prVar5->header).flagA))) &&
          (dialouge_trigger_check(prVar5,((gGlobals.playerCharStruct.playerDat)->collision).position,false))) {
-        dialoug_func((uint)(prVar5->dat).borg_13,(prVar5->dat).field_0x8,(prVar5->dat).field_0x2,
-                     (prVar5->dat).field_0x4,(prVar5->dat).field_0x6,0x7fff);
+        dialoug_func((uint)(prVar5->dat).borg_13,(prVar5->dat).unk0x8,(prVar5->dat).unk0x2,
+                     (prVar5->dat).unk0x4,(prVar5->dat).unk0x6,0x7fff);
         setEventFlag(0x1090,false);
         return;
       }
@@ -38,9 +38,9 @@ void dialoug_ref_obj_func(void){
   return;
 }
 
-void FUN_800064e8(widgetStruct *param_1,ushort param_2,ushort param_3,ushort param_4,ushort param_5){
-  param_1->field_0x64 = param_2;
-  param_1->field_0x68 = param_3;
+void func_800064e8(widgetStruct *param_1,ushort param_2,ushort param_3,ushort param_4,ushort param_5){
+  param_1->unk0x64 = param_2;
+  param_1->unk0x68 = param_3;
   param_1->HMax = param_4;
   param_1->VMax = param_5;
 }
@@ -101,7 +101,7 @@ void campfire_func(void){
     }
   }
 LAB_80006610:
-  dialoug_func((uint)puVar4->borg_13,puVar4->field_0x8,puVar4->field_0x2,puVar4->field_0x4,puVar4->field_0x6,0x7fff);
+  dialoug_func((uint)puVar4->borg_13,puVar4->unk0x8,puVar4->unk0x2,puVar4->unk0x4,puVar4->unk0x6,0x7fff);
   remove_borg_9(pBVar1);
   return;
 }

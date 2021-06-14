@@ -27,10 +27,10 @@ void memmaker_func_A(void){
     memMaker_sub(memmaker_pointer,auStack80);
     func_8001e034(auStack80,false);
     clear_DBs();
-    if (some_struct_pointer != (astruct_12 *)0x0) {
+    if (some_struct_pointer != NULL) {
       func_8004f160(some_struct_pointer,3);
     }
-    some_struct_pointer = (astruct_12 *)0x0;
+    some_struct_pointer = NULL;
     clear_commonstrings();
   }
 }

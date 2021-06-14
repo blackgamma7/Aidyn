@@ -4548,7 +4548,7 @@ struct combat_ai {
     u8 unk0x3;
     char unk0x4;
     char entIndex;
-    byte morale; /* morale? */
+    byte morale;
     char unk0x7;
     byte command;
     byte unk0x9;
@@ -5351,7 +5351,7 @@ struct Entity_Ram { /* entity data in Ram */
     enum CharSheetFlags unk0x18; /* 2 bits determined by rom0x2d */
     byte rom0x2b;
     enum AspectEnum aspect;
-    byte rom0x4c; /* something to do with dying? */
+    byte Morale; /* something to do with dying? */
     byte Level;
     byte BaseDamage; /* rom0x4d */
     enum MagicSchoolEnum School;

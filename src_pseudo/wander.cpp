@@ -81,7 +81,7 @@ void * WanderHead(wander_struct *arg0,short size){
       pvVar1 = (void *)(uint)(lVar2 < arg0->wanderersmax);
       psVar4 = psVar4 + 1;
       iVar5 = iVar5 + 0x10000;
-    } while (pvVar1 != (void *)0x0);
+    } while (pvVar1 != NULL);
   }
   arg0->wanderers = 0;
   return pvVar1;

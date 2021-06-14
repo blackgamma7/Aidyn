@@ -40,7 +40,7 @@ void Heap_init(void *X,u32 Y){
   MemMonitor.obj_count = 0;
   MemMonitor.obj_count_2 = 0;
   MemMonitor.obj_free = 0;
-  MemMonitor.memRegionNext = (void *)0x0;
+  MemMonitor.memRegionNext = NULL;
   MemMonitor.memRegionStart = X;
   MemMonitor.memFreeMax = Y;
   MemMonitor.memFree = Y;
@@ -78,11 +78,11 @@ void * Malloc(uint size,char *file,uint line){
   if (size == 0) {ret = NULL;}
   else {
     uVar5 = size + 0x27 & 0xfffffff8;
-    pHVar6 = (Heap_block_Debug *)0x0;
+    pHVar6 = NULL;
     uVar7 = 0xffffffff;
     bVar1 = false;
     pHVar3 = (Heap_block_Debug *)MemMonitor.memRegionNext;
-    if (MemMonitor.memRegionNext != (void *)0x0) {
+    if (MemMonitor.memRegionNext != NULL) {
       do {
         uVar2 = get_heap_size(pHVar3);
         uVar2 = uVar2 & 0xfffffffe;
@@ -98,9 +98,9 @@ void * Malloc(uint size,char *file,uint line){
           }
           pHVar3 = (Heap_block_Debug *)func_8009887c((char)pHVar3);
         }
-      } while ((!bVar1) && (pHVar3 != (Heap_block_Debug *)0x0));
+      } while ((!bVar1) && (pHVar3 != NULL));
     }
-    if (pHVar6 == (Heap_block_Debug *)0x0) {
+    if (pHVar6 == NULL) {
       sprintf(MemMonitor.text,"%s %i\ncouldn't find %i free space!\n%i avail in %i blocks\n%i used in %i blocks",
       file,line,uVar5,MemMonitor.MemFree,MemMonitor.obj_free,MemMonitor.MemUsed,MemMonitor.obj_count_2);
       assert("heap.cpp",MemMonitor.text);
@@ -121,7 +121,7 @@ void Free(void *X,char *cpp,int line){
   Heap_block_Debug *pHVar2;
   uint uVar3;
   
-  if (X != (void *)0x0) {
+  if (X != NULL) {
     if (((((uint)X & 7) != 0) || (X < MemMonitor.memRegionStart)) ||
        (pHVar2 = (Heap_block_Debug *)((int)X + -0x1c),
        (void *)((int)MemMonitor.memRegionStart + MemMonitor.memFreeMax) < X)) {
@@ -161,14 +161,14 @@ uint get_memFree_2(void){
   if (MemMonitor.flag != 0) {
     uVar3 = 0;
     pHVar2 = (Heap_block_Debug *)MemMonitor.memRegionNext;
-    if (MemMonitor.memRegionNext != (void *)0x0) {
+    if (MemMonitor.memRegionNext != NULL) {
       do {
         uVar1 = get_heap_size(pHVar2);
         if (uVar3 < (uVar1 & 0xfffffffe)) {
           uVar3 = uVar1 & 0xfffffffe;
         }
         pHVar2 = (Heap_block_Debug *)func_8009887c((char)pHVar2);
-      } while (pHVar2 != (Heap_block_Debug *)0x0);
+      } while (pHVar2 != NULL);
     }
     MemMonitor.flag = 0;
     MemMonitor.memFree_2 = uVar3;
@@ -299,7 +299,7 @@ void func_8009872c(void *param_1){
   func_80098864((char)param_1,0);
   func_8009886c((char)param_1,pvVar1);
   pvVar2 = param_1;
-  if (pvVar1 != (void *)0x0) {
+  if (pvVar1 != NULL) {
     func_80098864((char)pvVar1,param_1);
     pvVar2 = MemMonitor.mamRegionMaxCurr;
   }
@@ -322,7 +322,7 @@ void func_800987a8(undefined param_1){
   }
   MemMonitor.memRegionNext = pvVar1;
   pvVar1 = (void *)lVar2;
-  if (pvVar3 != (void *)0x0) {
+  if (pvVar3 != NULL) {
     func_80098864((char)pvVar3,(void *)lVar2);
     pvVar1 = MemMonitor.mamRegionMaxCurr;
   }
@@ -361,14 +361,14 @@ uint func_80098884(void){
   
   uVar3 = 0;
   pHVar2 = (Heap_block_Debug *)MemMonitor.memRegionNext;
-  if (MemMonitor.memRegionNext != (void *)0x0) {
+  if (MemMonitor.memRegionNext != NULL) {
     do {
       uVar1 = get_heap_size(pHVar2);
       if (uVar3 < (uVar1 & 0xfffffffe)) {
         uVar3 = uVar1 & 0xfffffffe;
       }
       pHVar2 = (Heap_block_Debug *)func_8009887c((char)pHVar2);
-    } while (pHVar2 != (Heap_block_Debug *)0x0);
+    } while (pHVar2 != NULL);
   }
   return uVar3;
 }

@@ -14,11 +14,10 @@ void bottom_modded_skill(char *skills,uint len){
 }
 
 void init_char_skills(CharSkills *arg0,ItemID id){
-  byte index;
+  byte X;
   Entity_Ram *EntRam;
   
-  index = GetIDIndex(id);
-  EntRam = EntityPointer->entities[index];
+  EntRam = EntityPointer->entities[GetIDIndex(id)];
   memcpy(arg0,EntRam->Skills,0xc);
   memcpy(arg0->Skill_modded,EntRam->Skills,0xc);
   memcpy(arg0->Weapon_Base,EntRam->Weapon prof,0xb);
@@ -26,9 +25,9 @@ void init_char_skills(CharSkills *arg0,ItemID id){
   bottom_modded_skill(arg0->Skill_modded,0xc);
   bottom_modded_skill(arg0->Weapon_modded,0xb);
   arg0->Sheild_Base = EntRam->sheildStat;
-  index = EntRam->sheildStat;
-  if (EntRam->sheildStat < 0) {index = 0;}
-  arg0->Sheild_modded = index;
+  X = EntRam->sheildStat;
+  if (EntRam->sheildStat < 0) {X = 0;}
+  arg0->Sheild_modded = X;
 }
 
 //3 save/ load  funcs here.
@@ -45,8 +44,6 @@ void CopyCharSkills(CharSkills *A,CharSkills *B){
 
 int get_skill_xp_multi(CharSkills *skills,CHAR_SKILL arg1){
   int i = skills->Skill_base[arg1] + 1;
-  //uses some  macro that ghidra "tries its best" interpreting.
-  //just rewiting that from scratch. or ignoring it.
   int skill_xp_multis[12]={1500,500,1000,750,500,7500,750,500,1000,1000,1000,1500};
   if (0xb < arg1) {
     #ifdef DEBUGVER
@@ -101,30 +98,21 @@ void Wonky_skill_check(Char* *skills,char *arg1,CHAR_SKILL arg2,char arg3){
   byte bVar1;
   byte bVar2;
   int iVar3;
-  byte *pbVar4;
+  s8 *pbVar4;
   
   iVar3 = (int)arg3;
   pbVar4 = skills[arg2];
   bVar1 = *pbVar4;
-  if (10 < (char)*pbVar4) {
-    bVar1 = 10;
-  }
+  if (10 < *pbVar4) {bVar1 = 10;}
   if ((char)bVar1 != -1) {
-    if (10 < (char)*pbVar4 + iVar3) {
-      iVar3 = (int)((10 - (uint)*pbVar4) * 0x1000000) >> 0x18;
-    }
-    iVar3 = iVar3 + (uint)*pbVar4;
+    if (10 < *pbVar4 + iVar3) {iVar3 = (int)((10 - (uint)*pbVar4) * 0x1000000) >> 0x18;}
+    iVar3+= (uint)*pbVar4;
     *pbVar4 = (byte)iVar3;
-    if (iVar3 * 0x1000000 < 0) {
-      assert("Wonky Skill Happening","../gameclasses/skills.cpp");
-    }
+    if (iVar3 * 0x1000000 < 0) 
+      {assert("Wonky Skill Happening","../gameclasses/skills.cpp");}
     bVar2 = *pbVar4;
-    if (10 < (char)*pbVar4) {
-      bVar2 = 10;
-    }
-    check_baseskill_minus1
-              (skills,arg1,arg2,
-               (char)((uint)(((int)(char)bVar2 - (int)(char)bVar1) * 0x1000000) >> 0x18));
+    if (10 < *pbVar4) {bVar2 = 10;}
+    check_baseskill_minus1(skills,arg1,arg2,(char)((uint)((bVar2 - bVar1) * 0x1000000) >> 0x18));
   }
   return;
 }

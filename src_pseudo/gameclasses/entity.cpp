@@ -1173,9 +1173,9 @@ LAB_800798b0:
     if (((uVar16 != 0) && (uVar16 = 0, param_6 != NULL)) &&
        (param_6->combat_ai_pointer != NULL)) {
       uVar16 = 1;
-      bVar9 = pcVar1->unk0x6;
+      bVar9 = pcVar1->morale;
       if (bVar9 < Lv) {Lv = (uint)bVar9;}
-      pcVar1->unk0x6-= (char)Lv;
+      pcVar1->morale-= (char)Lv;
       param_6->combat_ai_pointer->flags|= 2;
       uVar19 = 1;
       bVar10 = bVar2;
@@ -1416,7 +1416,6 @@ int func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,unde
   Temp_enchant *pTVar2;
   bool bVar7;
   int iVar4;
-  longlong lVar3;
   uint uVar5;
   uint uVar6;
   effects *peVar8;
@@ -1435,17 +1434,14 @@ int func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,unde
     if (pTVar2 != NULL) {
       uVar5 = 0;
       if (param_2 == NULL) {uVar5 = (uint)TerrainPointer->a;}
-      bVar7 = inc_effect_timer(pTVar2,uVar5,param_3);
-      if (bVar7 == false) {
+      if (inc_effect_timer(pTVar2,uVar5,param_3) == false) {
         SVar1 = pTVar2->index;
         uVar5 = 0;
         if (SVar1 == poison) {
           uVar6 = (uint)(pTVar2->lv >> 1);
-          iVar4 = getModdedStat(param_1->Stats,END);
-          if (iVar4 < uVar6) {uVar6 = getModdedStat(param_1->Stats,END);}
-          uVar5 = getHPCurrent(param_1);
-          if (uVar5 < uVar6) goto LAB_80079e7c;
-          iVar10 = iVar10 + uVar6;
+          if (getModdedStat(param_1->Stats,END) < uVar6) {uVar6 = getModdedStat(param_1->Stats,END);}
+          if (getHPCurrent(param_1) < uVar6) goto LAB_80079e7c;
+          iVar10+= uVar6;
           uVar5 = 0;
           addModdedStat(param_1->Stats,END,-(char)uVar6);
         }
@@ -1482,7 +1478,7 @@ LAB_80079da4:
           }
         }
 LAB_80079e48:
-        if ((uVar5 != 0) && (uVar6 = getHPCurrent(param_1), (int)uVar5 <= (int)uVar6)) {
+        if ((uVar5 != 0) && ( uVar5 <= getHPCurrent(param_1))) {
           func_checking_cheat_death(param_1,(short)uVar5,param_2);
           iVar10+= uVar5;
         }
@@ -1658,8 +1654,8 @@ int add_Equip_Stamina(temp_armor *param_1,short param_2,longlong param_3){
   
   iVar2 = (int)param_2;
   if (iVar2 == 0) {return 0;}
-  if ((((param_1 != NULL) && (pabVar1 = param_1->statMod, pabVar1 != NULL)
-       ) && ((*pabVar1)[0] == 5)) && ((*pabVar1)[1] != 0)) {
+  if ((((param_1 != NULL) && (pabVar1 = param_1->statMod, pabVar1 != NULL))
+    && ((*pabVar1)[0] == 5)) && ((*pabVar1)[1] != 0)) {
     iVar2 = (iVar2 - (char)(*pabVar1)[1]) * 0x10000;
     iVar3 = iVar2 >> 0x10;
     if (iVar3 < 0) {

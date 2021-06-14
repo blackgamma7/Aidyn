@@ -8,7 +8,7 @@ RomcopyManageStruct romcopyManage;
 
 void init_romcopy_thread(enum_OSPri pri,uint id){
   romcopyManage.stack = (void *)Malloc(0x248,FILENAME,0x79);
-  osCreateThread(&romcopyManage.Thread,id,romcopy_loop,(void *)0x0,
+  osCreateThread(&romcopyManage.Thread,id,romcopy_loop,NULL,
                      romcopyManage.stack + 0x248,pri);
   osStartThread(&romcopyManage.Thread);
   return;

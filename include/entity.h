@@ -68,7 +68,7 @@ struct Entity_Ram { /* entity data in Ram */
     enum CharSheetFlags unk0x18; /* 2 bits determined by rom0x2d */
     byte rom0x2b;
     enum AspectEnum aspect;
-    byte rom0x4c; //morale
+    byte Morale; //morale
     byte Level;
     byte BaseDamage; /* rom0x4d */
     enum MagicSchoolEnum School;
@@ -89,7 +89,7 @@ struct Entity_Ram { /* entity data in Ram */
     enum ElementEnum Resist[2];
     byte align[3];
     float resistAmmount[2];
-    ushort FFs[4]; /* supposed to load something, but ends up blank */
+    ushort FFs[4]; /* supposed to load something, but ends up blank. unused. */
     byte unk0x78[4];
     ushort EXP;
     byte loot_Category;

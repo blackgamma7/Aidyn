@@ -270,12 +270,12 @@ void set_teleport_pointer(teleport_obj *param_1){
     gGlobals.screenFadeSpeed = 0.06666667f;
   }
   gGlobals.Sub.refObjPointer = param_1;
-  gGlobals.Sub.field_0xf00 = (vec3 *)0x0;
+  gGlobals.Sub.unk0xf00 = (vec3 *)0x0;
 }
 
 void set_teleport_obj_A(u16 param_1,ushort param_2,ushort param_3,vec3 *param_4){
   gGlobals.Sub.refObjPointer = &bss_tele_obj;
-  gGlobals.Sub.field_0xf00 = (vec3 *)vec3_800f5210;
+  gGlobals.Sub.unk0xf00 = (vec3 *)vec3_800f5210;
   copyVec3(param_4,(vec3 *)vec3_800f5210);
   memset(&bss_tele_obj,0,0x6c);
   bss_tele_obj.header.type = Teleporter;
@@ -286,10 +286,10 @@ void set_teleport_obj_A(u16 param_1,ushort param_2,ushort param_3,vec3 *param_4)
 
 void set_teleport_obj_loadgame(u16 param_1,ushort param_2,ushort param_3,vec3 *param_4){
   gGlobals.Sub.refObjPointer = &loadgame_tp_obj;
-  gGlobals.Sub.field_0xf00 = (vec3 *)0x0;
+  gGlobals.Sub.unk0xf00 = (vec3 *)0x0;
   memset(&loadgame_tp_obj,0,0x6c);
   loadgame_tp_obj.header.type = Teleporter;
-  loadgame_tp_obj.dat.field_0x6 = 0x7ff8;
+  loadgame_tp_obj.dat.unk0x6 = 0x7ff8;
   loadgame_tp_obj.dat.MapDatA = param_1;
   loadgame_tp_obj.dat.MapShort1 = param_2;
   loadgame_tp_obj.dat.MapShort2 = param_3;
@@ -352,7 +352,7 @@ LAB_8000d5bc:
 
 void init_some_map_data(ZoneDat *param_1,short param_2,char param_3){
   memset(param_1,0,0x20);
-  param_1->field_0x1e = 7;
+  param_1->unk0x1e = 7;
   param_1->mapshortSum = (char)((int)param_2 << 4) + param_3;
   return;
 }
@@ -393,13 +393,13 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
   pBVar2 = param_1->mapPointer;
   if ((param_1->anidat0x4 != NULL) && (param_2 != 0)) {
     AllocFreeQueueItem(&gGlobals.QueueA,&param_1->anidat0x4,1,0);
-    param_1->field_0x1e |= 1;
+    param_1->unk0x1e |= 1;
   }
   if (param_1->aniDat0x14 == NULL) {}
   else {
     if (param_2 != 0) {
       AllocFreeQueueItem(&gGlobals.QueueA,&param_1->aniDat0x14,1,0);
-      param_1->field_0x1e |= 2;
+      param_1->unk0x1e |= 2;
     }
   }
   if (param_1->mapPointer != NULL) {
@@ -412,23 +412,23 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
       iVar4 = 0;
       do {
         pVVar8 = (Scene_obj *)((int)(pBVar2->dat).ref_objs + (iVar4 * 4 + uVar6 * -5) * 4);
-        if (((pVVar8->header).type == Scene) && (uVar7 = 0, (pVVar8->dat).field_0x40 != 0)) {
-          ppBVar8 = &(pVVar8->dat).field_0x8;
+        if (((pVVar8->header).type == Scene) && (uVar7 = 0, (pVVar8->dat).unk0x40 != 0)) {
+          ppBVar8 = &(pVVar8->dat).unk0x8;
           iVar4 = 0;
           do {
             iVar5 = iVar4 + uVar7;
             if (ppBVar8[iVar5] != (Borg_7_header *)0x0) {
-              if (((pVVar8->dat).field_0x42 & 2) == 0) {
-                AllocFreeQueueItem(&gGlobals.QueueA,(pVVar8->dat).field_0x34 + iVar5 + -0xb,1,0);
+              if (((pVVar8->dat).unk0x42 & 2) == 0) {
+                AllocFreeQueueItem(&gGlobals.QueueA,(pVVar8->dat).unk0x34 + iVar5 + -0xb,1,0);
               }
               else {
-                AllocFreeQueueItem(&gGlobals.QueueA,(pVVar8->dat).field_0x34 + iVar5 + -0xb,0,0);
+                AllocFreeQueueItem(&gGlobals.QueueA,(pVVar8->dat).unk0x34 + iVar5 + -0xb,0,0);
               }
               ppBVar8[iVar4 + uVar7] = (Borg_7_header *)0x0;
             }
             uVar7++;
             iVar4 = uVar7 << 1;
-          } while (uVar7 < (pVVar8->dat).field_0x40);
+          } while (uVar7 < (pVVar8->dat).unk0x40);
         }
         uVar6++;
         iVar4 = uVar6 << 3;
@@ -492,8 +492,8 @@ void move_zonedat(ZoneDat *param_1,ZoneDat *param_2){
           param_2->anidat0x4 = x->anidat0x4;
           param_2->mapPointer = x->mapPointer;
           param_2->aniDat0x14 = x->aniDat0x14;
-          param_2->field_0x1c = x->field_0x1c;
-          param_2->field_0x1e = 3;
+          param_2->unk0x1c = x->unk0x1c;
+          param_2->unk0x1e = 3;
           param_2->MapTally = x->MapTally;
           memset(x,0,0x20);
           return;
@@ -824,7 +824,7 @@ void loadGameBorgScenes(float param_1,float param_2,undefined2 param_3,undefined
     do {
       if (pZVar18->unk_0x0 != 0) {
         if (pZVar18->anidat0x4 == ) {
-          pZVar18->field_0x1c = 0xff;
+          pZVar18->unk0x1c = 0xff;
           if (pZVar18->mapshortSum == 0x11) {
             pAVar11 = BorgAnimLoadScene(pZVar18->unk_0x0);
             pZVar18->anidat0x4 = pAVar11;
@@ -863,7 +863,7 @@ LAB_8000e6bc:
             sVar14 = 2;
           }
           SetBackgroundType(gGlobals.sky.BackgroundType,sVar14,0.0);
-          gGlobals.Sub.weatherDat.field_0xc = TerrainPointer->weatherFloatB;
+          gGlobals.Sub.weatherDat.unk0xc = TerrainPointer->weatherFloatB;
         }
       }
       ppAVar24 = ppAVar24 + 8;
@@ -1014,18 +1014,18 @@ void some_zoneDat_func(void){
       pAVar3 = (*iVar3)[0].anidat0x4;
       if (pAVar3 == NULL) {pAVar3 = (*iVar3)[0].aniDat0x14;}
       else {
-        bVar1 = (*iVar3)[0].field_0x1e;
+        bVar1 = (*iVar3)[0].unk0x1e;
         if ((bVar1 & 1) != 0) {
-          (*iVar3)[0].field_0x1e = bVar1 & 0xfe;
+          (*iVar3)[0].unk0x1e = bVar1 & 0xfe;
           func_8000de18(pAVar3,(*iVar3)[0].mapshortSum);
         }
         pAVar3 = (*iVar3)[0].aniDat0x14;
       }
       if (pAVar3 == NULL) {pBVar5 = (*iVar3)[0].mapPointer;}
       else {
-        bVar1 = (*iVar3)[0].field_0x1e;
+        bVar1 = (*iVar3)[0].unk0x1e;
         if ((bVar1 & 2) != 0) {
-          (*iVar3)[0].field_0x1e = bVar1 & 0xfd;
+          (*iVar3)[0].unk0x1e = bVar1 & 0xfd;
           func_8000de18(pAVar3,(*iVar3)[0].mapshortSum);
         }
         pBVar5 = (*iVar3)[0].mapPointer;
@@ -1062,11 +1062,11 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
   vec3 fStack120;
   referncepoint_obj *prStack56=NULL;
   
-  uVar1 = (param_2->dat).field_0x6;
+  uVar1 = (param_2->dat).unk0x6;
   uVar2 = (param_2->dat).refPoint_ID;
   iVar6 = (int)gGlobals.sky.BackgroundType;
   memset_voxelChart_entries();
-  pfVar8 = (referncepoint_obj *)0x0;
+  pfVar8 = NULL;
   clear_camera_voxel_pointer();
   bVar4 = false;
   set_playerdata_zoneDatByte((param_2->dat).MapShort1,(param_2->dat).MapShort2);
@@ -1091,7 +1091,7 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
     else {
       pfVar8 = FindReferncePoint(&(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat,uVar1);
       sprintf(gGlobals.text,"FindReferencePoint\nPoint Not Found: %d\n",uVar1);
-      if (pfVar8 == (referncepoint_obj *)0x0) {assert("TeleportPlayer",gGlobals.text);}
+      if (pfVar8 == NULL) {assert("TeleportPlayer",gGlobals.text);}
       fStack312[0] = (pfVar8->header).coords[0];
       fStack312[1] = (pfVar8->header).coords[1];
       fStack312[2] = (pfVar8->header).coords[2];
@@ -1099,7 +1099,7 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
     if (uVar2 != 0) {prStack56 = FindReferncePoint(&(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat,uVar2);}
     if (param_1 != NULL) {Vec3_sub((vec3 *)fStack312,(vec3 *)fStack312,(vec3 *)(param_1->collision).position);}
     fStack312[1] = 0.0;
-    if (pfVar8 != (referncepoint_obj *)0x0) {
+    if (pfVar8 != NULL) {
       pfVar8->position[1] = 0.0;
       vec3_normalize((vec3 *)pfVar8->position);
       if (0.5d < (double)vec3Length((vec3 *)pfVar8->position)) 
@@ -1114,16 +1114,16 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
     add_player_position(fStack312);
     from = (vec3 *)(param_1->collision).position;
     copyVec3(from,(vec3 *)fStack312);
-    if (pfVar8 == (referncepoint_obj *)0x0) {fVar11 = (param_1->collision).position[1];}
+    if (pfVar8 == NULL) {fVar11 = (param_1->collision).position[1];}
     else {fVar11 = (pfVar8->header).coords[1];}
     if (!bVar4) {
       if (!func_800154e4(param_1,fVar11 - (param_1->collision).radius,1,0)) {func_800154e4(param_1,0,0,0);}
-      gGlobals.Sub.weatherDat.field_0x14 = 0;
+      gGlobals.Sub.weatherDat.unk0x14 = 0;
       func_800b2bc4(&gGlobals.Sub.particleEmmiter);
     }
     set_camera_0x70(&gGlobals.Sub.camera,from);
   }
-  if (prStack56 == (referncepoint_obj *)0x0) {
+  if (prStack56 == NULL) {
     if ((param_1 != NULL) && (param_3 == (vec3 *)0x0)) {
       if (gGlobals.sky.BackgroundType == 4) {
         fStack184[0] = (param_1->collision).position[0];
@@ -1149,15 +1149,15 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
     }
   }
   else {camera_set_position(&gGlobals.Sub.camera,(vec3 *)prStack56);}
-  gGlobals.Sub.camera.field_0x80 = 5;
-  if ((param_3 == (vec3 *)0x0) || (pfVar8 != (referncepoint_obj *)0x0)) {
+  gGlobals.Sub.camera.unk0x80 = 5;
+  if ((param_3 == (vec3 *)0x0) || (pfVar8 != NULL)) {
     iVar9 = 0;
     iVar10 = 0x10000;
     do {
       iVar3 = iVar9 / 3;
       iVar7 = iVar9 % 3;
       iVar9 = iVar10 >> 0x10;
-      (&gGlobals.Sub.ZoneDatMtx[iVar3 * 0x10000 >> 0x10][0].field_0x1c)[iVar7 * 0x10000 >> 0xb] =0xff;
+      (&gGlobals.Sub.ZoneDatMtx[iVar3 * 0x10000 >> 0x10][0].unk0x1c)[iVar7 * 0x10000 >> 0xb] =0xff;
       iVar10 = iVar10 + 0x10000;
     } while (iVar9 < 9);
   }
@@ -1255,7 +1255,7 @@ void set_anidat_colors(AnimationData *param_1,u8 param_2,char param_3,color para
   color auStack88;
   
   func_800a7ff4(param_1);
-  fVar1 = gGlobals.Sub.weatherDat.field_0xc;
+  fVar1 = gGlobals.Sub.weatherDat.unk0xc;
   if (DAT_800ee974 != 0) {fVar1 = 0.0;}
   func_800a81cc(param_1,0x3e4 - (short)(int)(fVar1 * 40.0f),1000);
   set_Anidat_colorByte(param_1,gGlobals.sky.colors[2].R,gGlobals.sky.colors[2].G,gGlobals.sky.colors[2].B,gGlobals.sky.colors[2].A);
@@ -1317,12 +1317,12 @@ void ref_obj_boulders(Borg_9_data *param_1)
       prVar6 = (Scene_obj *)((int)iVar2 + (iVar1 * 4 + uVar3 * -5) * 4);
       if ((prVar6->header).type == Scene) {
         uVar2 = 0;
-        uVar4 = (uint)(prVar6->dat).field_0x40;
-        (prVar6->dat).field_0x42 = (prVar6->dat).field_0x42 & 0xfffd;
+        uVar4 = (uint)(prVar6->dat).unk0x40;
+        (prVar6->dat).unk0x42 = (prVar6->dat).unk0x42 & 0xfffd;
         if (uVar4 != 0) {
           iVar1 = 0;
           do {
-            (prVar6->dat).field_0x34[iVar1 + uVar2 + -0xc] = 0x80e;
+            (prVar6->dat).unk0x34[iVar1 + uVar2 + -0xc] = 0x80e;
             uVar2++;
             iVar1 = uVar2 << 1;
           } while (uVar2 < uVar4);
@@ -1337,9 +1337,9 @@ void ref_obj_boulders(Borg_9_data *param_1)
 
 void clear_if_no_ExpPak(Scene_obj_dat *param_1,uint param_2){
   if (!ExpPakFlag) {
-    if ((param_1->field_0x34 + (param_2 & 0xffff) * 3 + -0xd)[2] != 0.0) {
-      if ((param_1->field_0x42 & 2) == 0) {AllocFreeQueueItem(&gGlobals.QueueA,param_1->field_0x34 + (param_2 & 0xffff) * 3 + -0xb,1,0);}
-      else {AllocFreeQueueItem(&gGlobals.QueueA,param_1->field_0x34 + (param_2 & 0xffff) * 3 + -0xd + 2,0,0);}
+    if ((param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xd)[2] != 0.0) {
+      if ((param_1->unk0x42 & 2) == 0) {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xb,1,0);}
+      else {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xd + 2,0,0);}
     }
   }
 }
@@ -1348,17 +1348,17 @@ void rendervoxel_no_expPak(Scene_obj_dat *param_1){
   int iVar1;
   uint uVar2;
   
-  if ((!ExpPakFlag) && (uVar2 = 0, param_1->field_0x40)) {
+  if ((!ExpPakFlag) && (uVar2 = 0, param_1->unk0x40)) {
     iVar1 = 0;
     do {
       iVar1+= uVar2;
-      if (param_1->field_0x34[iVar1 + -0xb] != 0.0) {
-        if ((param_1->field_0x42 & 2) == 0) {AllocFreeQueueItem(&gGlobals.QueueA,param_1->field_0x34 + iVar1 + -0xb,1,0);}
-        else {AllocFreeQueueItem(&gGlobals.QueueA,param_1->field_0x34 + iVar1 + -0xb,0,0);}
+      if (param_1->unk0x34[iVar1 + -0xb] != 0.0) {
+        if ((param_1->unk0x42 & 2) == 0) {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + iVar1 + -0xb,1,0);}
+        else {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + iVar1 + -0xb,0,0);}
       }
       uVar2++;
       iVar1 = uVar2 << 1;
-    } while (uVar2 < param_1->field_0x40);
+    } while (uVar2 < param_1->unk0x40);
   }
 }
 
@@ -1425,11 +1425,11 @@ rspCom * RenderVoxelScenes(rspCom *param_1,Borg_9_data *param_2,vec3 *v3,short p
   param3[2] = (*v3)[2] + (float)uVar24;
   local_70 = borg9_get_unkStruct(param_2,param_4,param_5);
   iVar15 = 0;
-  if (local_70->field_0x10 != 0) {
+  if (local_70->unk0x10 != 0) {
     Sobj_pos = (Vec2 *)&local_b8;
     iVar10 = 0;
     do {
-      uVar5 = *(ushort *)(iVar10 + (int)local_70->field_0x8);
+      uVar5 = *(ushort *)(iVar10 + (int)local_70->unk0x8);
       SObj = (Scene_obj *)((int)param_2->ref_objs + ((uint)uVar5 * 0x1c - (uint)uVar5) * 4);
       local_5c = iVar15 + 1;
       sprintf(gGlobals.text,"RenderVoxelScenes\nIndex: %d\ntype: %d\nScenes: (%d, %d, %d)\nAddress: %08x",
@@ -1446,7 +1446,7 @@ rspCom * RenderVoxelScenes(rspCom *param_1,Borg_9_data *param_2,vec3 *v3,short p
           goto LAB_800102d8;
         }
         local_6c = 0xff;
-        if ((((SObj->dat).field_0x42 & 4) == 0) ||
+        if ((((SObj->dat).unk0x42 & 4) == 0) ||
            ((double)fVar20 * 0.5d < (double)fVar19)) {
           setVec2(Sobj_pos,(SObj->header).coords[0],(SObj->header).coords[2]);
           local_b8 = local_b8 - (float)uVar23;
@@ -1471,7 +1471,7 @@ rspCom * RenderVoxelScenes(rspCom *param_1,Borg_9_data *param_2,vec3 *v3,short p
           local_5c = iVar15 + 1;
           goto LAB_800102d8;
         }
-        if ((((SObj->dat).field_0x42 ^ 1) & 1) != 0) {
+        if ((((SObj->dat).unk0x42 ^ 1) & 1) != 0) {
           local_f8[0] = (SObj->header).coords[0];
           local_f8[1] = (SObj->header).coords[2];
           bVar6 = get_scene_obj_proximity((Vec2 *)local_f8,(Vec2 *)camCoord,(Vec2 *)CamAim,&local_78,&local_74);
@@ -1483,14 +1483,14 @@ rspCom * RenderVoxelScenes(rspCom *param_1,Borg_9_data *param_2,vec3 *v3,short p
         }
         local_64 = 0;
         local_5c = iVar15 + 1;
-        uVar14 = (int)(((SObj->dat).field_0x40 - 1) * 0x10000) >> 0x10;
+        uVar14 = (int)(((SObj->dat).unk0x40 - 1) * 0x10000) >> 0x10;
         sVar9 = (short)local_5c;
         if (-1 < (int)uVar14) {
           do {
             fVar20 = 0.0;
             local_60 = uVar14 - 1;
-            fVar19 = pSVar11->field_0x34[uVar14 * 3 + -0xd];
-            if (uVar14 != 0) {fVar20 = pSVar11->field_0x34[uVar14 * 3 + -0x10];}
+            fVar19 = pSVar11->unk0x34[uVar14 * 3 + -0xd];
+            if (uVar14 != 0) {fVar20 = pSVar11->unk0x34[uVar14 * 3 + -0x10];}
             fVar22 = (float)uVar21;
             if ((fVar22 < fVar20 - 2.0f) || (fVar19 < fVar22)) {
               clear_if_no_ExpPak(pSVar11,uVar14 & 0xffff);
@@ -1512,7 +1512,7 @@ LAB_800102b4:
               }
               uVar7 = local_6c;
               if (uVar17 < local_6c) {uVar7 = uVar17;}
-              if ((uVar7 < 0xff) || (psVar16 = (struct *)0x0, ((SObj->dat).field_0x42 & 0x40) != 0))
+              if ((uVar7 < 0xff) || (psVar16 = (struct *)0x0, ((SObj->dat).unk0x42 & 0x40) != 0))
               {
                 uVar7 = (uint)voxel_counter;
                 psVar16 = struct_ARRAY_800f5290 + uVar7;
@@ -1520,20 +1520,20 @@ LAB_800102b4:
                 psVar16->anidat = NULL;
                 struct_ARRAY_800f5290[uVar7].flags = 0;
               }
-              ppBVar8 = &(SObj->dat).field_0x8;
+              ppBVar8 = &(SObj->dat).unk0x8;
               ppAVar12 = (AnimationData **)(ppBVar8 + uVar14 * 3);
               if (*ppAVar12 != NULL) {
 LAB_80010068:
-                if (((SObj->dat).field_0x42 & 2) == 0) {
+                if (((SObj->dat).unk0x42 & 2) == 0) {
 LAB_80010084:
                   pAVar4 = (AnimationData *)ppBVar8[uVar14 * 3];
                 }
                 else {
-                  pAVar4 = ((SObj->dat).field_0x8)->aniDat;
+                  pAVar4 = ((SObj->dat).unk0x8)->aniDat;
                 }
                 cVar13 = (color)0x0;
-                if (((SObj->dat).field_0x42 & 0x10) != 0) {
-                  cVar13 = *(color *)((SObj->dat).field_0x34 + 2);
+                if (((SObj->dat).unk0x42 & 0x10) != 0) {
+                  cVar13 = *(color *)((SObj->dat).unk0x34 + 2);
                 }
                 anidat_setMaxtrixA_3
                           (pAVar4,(SObj->header).coords[0] - (float)uVar23,(SObj->header).coords[1],
@@ -1541,24 +1541,24 @@ LAB_80010084:
                 if ((SObj->dat).borg5_index == 0x374a) {
                   if (uVar14 == 0) {
                     if (local_64 == 0) {
-                      pvVar2 = local_70->field_0x8;
+                      pvVar2 = local_70->unk0x8;
                       (SObj->header).Bitfeild = (SObj->header).Bitfeild & ~visible;
                       passto_WriteTo_VoxelChart
                                 (*(undefined2 *)(local_58 + (int)pvVar2),
                                  (undefined)gGlobals.Sub.mapDatA,(undefined)gGlobals.Sub.mapShort1,
                                  (undefined)gGlobals.Sub.mapShort2,0x11,0,0x10);
-                      uVar5 = (SObj->dat).field_0x42;
+                      uVar5 = (SObj->dat).unk0x42;
                     }
                     else {
-                      uVar5 = (SObj->dat).field_0x42;
+                      uVar5 = (SObj->dat).unk0x42;
                     }
                   }
                   else {
-                    uVar5 = (SObj->dat).field_0x42;
+                    uVar5 = (SObj->dat).unk0x42;
                   }
                 }
                 else {
-                  uVar5 = (SObj->dat).field_0x42;
+                  uVar5 = (SObj->dat).unk0x42;
                 }
                 local_64 = uVar14 & 0xffff;
                 if ((uVar5 & 2) == 0) {
@@ -1570,31 +1570,31 @@ LAB_80010084:
                 }
                 else {
                   if (gGlobals.delay < INT_MAX_f) {
-                    pBVar3 = (SObj->dat).field_0x8;
+                    pBVar3 = (SObj->dat).unk0x8;
                     fVar19 = gGlobals.delay;
                   }
                   else {
-                    pBVar3 = (SObj->dat).field_0x8;
+                    pBVar3 = (SObj->dat).unk0x8;
                     fVar19 = gGlobals.delay - INT_MAX_f;
                   }
                   func_800a0304(pBVar3,(int)fVar19 & 0xffff);
                   uVar14 = local_6c;
                   if (uVar17 < local_6c) {uVar14 = uVar17;}
-                  set_sun_light(pAVar4,(SObj->dat).field_0x42,SObj,(char)uVar14);
+                  set_sun_light(pAVar4,(SObj->dat).unk0x42,SObj,(char)uVar14);
                   passto_InitLight_2(&gGlobals.Sub.DynamicLights,pAVar4,SObj,(short)(int)gGlobals.delay);
                   passto_initLight(pAVar4,param_2,(ref_obj *)SObj,(short)(int)gGlobals.delay);
-                  if (psVar16 == (struct *)0x0) {param_1 = (rspCom *)func_800a0644(param_1,(locatorStruct *)(SObj->dat).field_0x8);
+                  if (psVar16 == (struct *)0x0) {param_1 = (rspCom *)func_800a0644(param_1,(locatorStruct *)(SObj->dat).unk0x8);
                   }
                   else {
-                    psVar16->anidat = (AnimationData *)(SObj->dat).field_0x8;
+                    psVar16->anidat = (AnimationData *)(SObj->dat).unk0x8;
                     psVar16->flags = psVar16->flags | 2;
                   }
                 }
                 goto LAB_800102b4;
               }
-              if (((SObj->dat).field_0x42 & 2) == 0) {
+              if (((SObj->dat).unk0x42 & 2) == 0) {
                 if (NoExpPak_memCheck(1)) {
-                  pAVar4 = BorgAnimLoadScene((uint)pSVar11->field_0x34[uVar14 * 3 + -0xc]);
+                  pAVar4 = BorgAnimLoadScene((uint)pSVar11->unk0x34[uVar14 * 3 + -0xc]);
                   *ppAVar12 = pAVar4;
                   goto LAB_8000ffcc;
                 }
@@ -1602,8 +1602,8 @@ LAB_80010084:
               }
               sVar9 = (short)local_60;
               if (NoExpPak_memCheck(0)) {
-                pBVar3 = func_loading_borg7((SObj->dat).field_0x4,&gGlobals.Sub.particleEmmiter);
-                (SObj->dat).field_0x8 = pBVar3;
+                pBVar3 = func_loading_borg7((SObj->dat).unk0x4,&gGlobals.Sub.particleEmmiter);
+                (SObj->dat).unk0x8 = pBVar3;
                 pAVar4 = pBVar3->aniDat;
                 func_800a0090(pBVar3,0);
                 if ((SObj->header).flagB != 0) {
@@ -1612,13 +1612,13 @@ LAB_80010084:
                     bVar6 = getEventFlag((SObj->header).flagB);
                     if ((bVar6 != false) || (((SObj->header).Bitfeild & Used) == 0))
                     goto LAB_8000ffcc;
-                    pBVar3 = (SObj->dat).field_0x8;
+                    pBVar3 = (SObj->dat).unk0x8;
                   }
                   else {
-                    pBVar3 = (SObj->dat).field_0x8;
+                    pBVar3 = (SObj->dat).unk0x8;
                   }
                   func_800a0090(pBVar3,1);
-                  func_800a0304((SObj->dat).field_0x8,2);
+                  func_800a0304((SObj->dat).unk0x8,2);
                 }
 LAB_8000ffcc:
                 guMtxIdentF((float (*) [4] [4])pAVar4->matrixA);
@@ -1628,13 +1628,13 @@ LAB_8000ffcc:
                 func_800a7ff4(pAVar4);
                 aniDat_flags_OR_0x100(pAVar4);
                 AniDat_rotate_MatrixA
-                          (pAVar4,(float)(SObj->dat).field_0x28 * RadInDeg_f,
-                           *(float *)&(SObj->dat).field_0x24 * RadInDeg_f,
-                           (SObj->dat).field_0x2c * RadInDeg_f);
+                          (pAVar4,(float)(SObj->dat).unk0x28 * RadInDeg_f,
+                           *(float *)&(SObj->dat).unk0x24 * RadInDeg_f,
+                           (SObj->dat).unk0x2c * RadInDeg_f);
                 matrix_normalize_scale
-                          (pAVar4,*(undefined4 *)&(SObj->dat).field_0x30,(SObj->dat).field_0x34[0],
-                           (SObj->dat).field_0x34[1]);
-                if (((SObj->dat).field_0x42 & 2) != 0) {
+                          (pAVar4,*(undefined4 *)&(SObj->dat).unk0x30,(SObj->dat).unk0x34[0],
+                           (SObj->dat).unk0x34[1]);
+                if (((SObj->dat).unk0x42 & 2) != 0) {
                   anidat_set_light_data(pAVar4);
                   SceneSetMaxDynamicDirLights(pAVar4,2);
                   goto LAB_80010068;
@@ -1653,7 +1653,7 @@ LAB_800102d8:
       }
       iVar15 = (int)sVar9;
       iVar10 = iVar15 << 1;
-    } while (iVar15 < (int)(uint)local_70->field_0x10);
+    } while (iVar15 < (int)(uint)local_70->unk0x10);
   }
   sprintf(gGlobals.text,"Finished RenderVoxelScenesInZone\n");
   return param_1;
@@ -1661,7 +1661,7 @@ LAB_800102d8:
 
 rspCom * func_80010354(rspCom *param_1,ZoneDat *param_2){
   if (param_2->anidat0x4 != NULL) {
-    set_anidat_colors(param_2->anidat0x4,param_2->field_0x1c,'\x01',(color)0x0);
+    set_anidat_colors(param_2->anidat0x4,param_2->unk0x1c,'\x01',(color)0x0);
     param_1 = func_800a0da4(param_1,param_2->anidat0x4);}
   return param_1;
 }
@@ -1669,7 +1669,7 @@ rspCom * func_80010354(rspCom *param_1,ZoneDat *param_2){
 
 rspCom * func_800103b0(rspCom *param_1,ZoneDat *param_2){
   if ((param_2->aniDat0x14 != NULL) && (param_2->anidat0x4 != NULL)){
-    set_anidat_colors(param_2->aniDat0x14,param_2->field_0x1c,'\x01',(color)0x0);
+    set_anidat_colors(param_2->aniDat0x14,param_2->unk0x1c,'\x01',(color)0x0);
     param_1 = func_800a0da4(param_1,param_2->aniDat0x14);
   }
   return param_1;
@@ -1870,7 +1870,7 @@ void RenderZones(rspCom **param_1,vec3 *param_2,short param_3)
               if (pZVar12->anidat0x4 == NULL) {
                 bVar8 = NoExpPak_memCheck(3);
                 if (bVar8 != false) {
-                  pZVar12->field_0x1e = pZVar12->field_0x1e | 1;
+                  pZVar12->unk0x1e = pZVar12->unk0x1e | 1;
                   AllocAllocQueueItem(&gGlobals.QueueB,&pZVar12->anidat0x4,0,pZVar12->unk_0x0,1,0);
                 }
                 uVar3 = pZVar12->borg5_ID;
@@ -1880,38 +1880,38 @@ void RenderZones(rspCom **param_1,vec3 *param_2,short param_3)
               }
             }
             if (uVar3 == 0) {
-              bVar9 = pZVar12->field_0x1c;
+              bVar9 = pZVar12->unk0x1c;
             }
             else {
               if (pZVar12->aniDat0x14 == NULL) {
                 bVar8 = NoExpPak_memCheck(4);
                 if (bVar8 != false) {
-                  pZVar12->field_0x1e = pZVar12->field_0x1e | 2;
+                  pZVar12->unk0x1e = pZVar12->unk0x1e | 2;
                   AllocAllocQueueItem(&gGlobals.QueueB,&pZVar12->aniDat0x14,0,pZVar12->unk_0x0,1,0);
                 }
                 goto LAB_80010bfc;
               }
-              bVar9 = pZVar12->field_0x1c;
+              bVar9 = pZVar12->unk0x1c;
             }
           }
           else {
-            bVar9 = pZVar12->field_0x1c;
+            bVar9 = pZVar12->unk0x1c;
           }
         }
         else {
-          bVar9 = pZVar12->field_0x1c;
+          bVar9 = pZVar12->unk0x1c;
         }
       }
       else {
 LAB_80010bfc:
-        bVar9 = pZVar12->field_0x1c;
+        bVar9 = pZVar12->unk0x1c;
       }
       if (bVar9 != 0xff) {
-        uVar5 = (ushort)pZVar12->field_0x1c + param_3 * 2;
+        uVar5 = (ushort)pZVar12->unk0x1c + param_3 * 2;
         if (0xff < uVar5) {
           uVar5 = 0xff;
         }
-        pZVar12->field_0x1c = (byte)uVar5;
+        pZVar12->unk0x1c = (byte)uVar5;
       }
       if (pZVar12->anidat0x4 != NULL) {
         pauStack76 = (rspCom *)func_80010354(pauStack76,pZVar12);
@@ -2104,9 +2104,9 @@ void mapFloatDat_copy(mapFloatDat *param_1){
   uint uVar2;
   
   uVar2 = 0;
-  gGlobals.Sub.field_0x120e = 0;
-  gGlobals.Sub.field_0x120c = 0;
-  gGlobals.Sub.field_0x1210 = 0;
+  gGlobals.Sub.unk0x120e = 0;
+  gGlobals.Sub.unk0x120c = 0;
+  gGlobals.Sub.unk0x1210 = 0;
   iVar1 = 0;
   do {
     memcpy(gGlobals.Sub.MapFloatDats[uVar2][iVar1],param_1,0x2c);
@@ -2148,7 +2148,7 @@ void InitZoneEngine(float param_1,float param_2,ushort param_3,short param_4)
   zoneengine_func_b();
   set_checktrigger_pointer(check_trigger);
   gGlobals.Sub.refObjPointer = NULL;
-  gGlobals.Sub.field_0xf00 = NULL;
+  gGlobals.Sub.unk0xf00 = NULL;
   memset_weatherStruct(&gGlobals.Sub.weatherDat);
   InitScriptCameras(&gGlobals.scriptcamera);
   if (gGlobals.Sub.gamemodeType == 1) {
@@ -2176,7 +2176,7 @@ void InitZoneEngine(float param_1,float param_2,ushort param_3,short param_4)
   else {
     Map_ = gGlobals.Sub.MapFloatDatEntry.mapDatA;
     pmVar8 = pmVar6;
-    if ((gGlobals.Sub.field_0x120e != 0) &&
+    if ((gGlobals.Sub.unk0x120e != 0) &&
        (pmVar6 = func_8000cae8((vec3 *)&gGlobals.Sub.MapFloatDatEntry,gGlobals.Sub.MapFloatDatEntry.MapShort1,gGlobals.Sub.MapFloatDatEntry.MapShort2,
          gGlobals.Sub.MapFloatDatEntry.mapDatA,0),
        Map_ = gGlobals.Sub.MapFloatDatEntry.mapDatA, pmVar6 != NULL)) {
@@ -2191,8 +2191,8 @@ void InitZoneEngine(float param_1,float param_2,ushort param_3,short param_4)
     gGlobals.Sub.mapDatA = Map_;
     borgmaps_func(Map_,gGlobals.Sub.mapDatB,gGlobals.Sub.mapDatC,false);
     clear_music_no_expPak();
-    gGlobals.Sub.field_0x2a4 = pmVar8->playerVec3[0];
-    gGlobals.Sub.field_0x2a8 = pmVar8->playerVec3[2];
+    gGlobals.Sub.unk0x2a4 = pmVar8->playerVec3[0];
+    gGlobals.Sub.unk0x2a8 = pmVar8->playerVec3[2];
   }
   InitPlayerHandler(&gGlobals.Sub.camera,sVar9,3);
   InitParticleHead(&gGlobals.Sub.particleEmmiter,gGlobals.Sub.borg9DatPointer,sVar10,0x11,aiStack232);
@@ -2307,7 +2307,7 @@ void update_BGM_(void){
         fVar1 = gGlobals.VolBGM * 255.0f;
         if (fVar1 < INT_MAX_f) {vol = (u8)fVar1;}
         else {vol = (u8)(fVar1 - INT_MAX_f);}
-        DCM_func(&gGlobals.Sub.BGMDatB,&gGlobals.Sub.BGMDatA,(void *)((int)(gGlobals.Sub.BGM)->field_0x8 + 8),vol,0x80,1,0xffffffff,0);
+        DCM_func(&gGlobals.Sub.BGMDatB,&gGlobals.Sub.BGMDatA,(void *)((int)(gGlobals.Sub.BGM)->unk0x8 + 8),vol,0x80,1,0xffffffff,0);
       }
     }
     gGlobals.Sub.BGMQueue = gGlobals.Sub.BGMIndex;
@@ -2443,13 +2443,13 @@ void handleZoneEngineFrame(rspCom *param_1,short delta,playerData *player_,float
   if (player_ != NULL) {ConfirmPlayerWithinZone(player_,gGlobals.Sub.borg9DatPointer);}
   if (gGlobals.screenFadeMode == 0) {update_BGM_();}
   if ((gGlobals.Sub.refObjPointer != NULL) && (gGlobals.screenFadeMode == 0)) {
-    if (gGlobals.Sub.field_0xf00 == (vec3 *)0x0) {
+    if (gGlobals.Sub.unk0xf00 == (vec3 *)0x0) {
       gGlobals.screenFadeMode = 2;
       gGlobals.screenFadeSpeed = 0.06666667f;
     }
-    TeleportPlayer(player_,gGlobals.Sub.refObjPointer,gGlobals.Sub.field_0xf00,param_4,param_5);
+    TeleportPlayer(player_,gGlobals.Sub.refObjPointer,gGlobals.Sub.unk0xf00,param_4,param_5);
     gGlobals.Sub.refObjPointer = NULL;
-    gGlobals.Sub.field_0xf00 = NULL;
+    gGlobals.Sub.unk0xf00 = NULL;
   }
   some_zoneDat_func();
   if ((DAT_800e8da0 != 0) &&
@@ -2464,12 +2464,12 @@ void handleZoneEngineFrame(rspCom *param_1,short delta,playerData *player_,float
   }
   if ((player_ != NULL) && (gGlobals.Sub.gamemodeType == 0)) {
     sprintf(gGlobals.text,"SaveZoneEngine");
-    uVar4 = (uint)gGlobals.Sub.field_0x1210;
-    gGlobals.Sub.field_0x1210 = (ushort)(uVar4 - iVar5);
+    uVar4 = (uint)gGlobals.Sub.unk0x1210;
+    gGlobals.Sub.unk0x1210 = (ushort)(uVar4 - iVar5);
     if ((int)((uVar4 - iVar5) * 0x10000) < 1) {
       bVar1 = true;
       position = (vec3 *)(player_->collision).position;
-      gGlobals.Sub.field_0x1210 = 0x78;
+      gGlobals.Sub.unk0x1210 = 0x78;
       pmVar3 = func_8000cae8(position,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,gGlobals.Sub.mapDatA,1);
       if ((pmVar3 != (mapFloatDat *)0x0) &&
          (fVar6 = get_vec3_proximity((vec3 *)pmVar3,position), fVar6 < 10.0f)) {
@@ -2478,11 +2478,11 @@ void handleZoneEngineFrame(rspCom *param_1,short delta,playerData *player_,float
       if (bVar1) {
         SaveEngineZone(player_,(mapFloatDat *)
                                ((int)&gGlobals +
-                               ((uint)gGlobals.Sub.field_0x120c * 0xc -
-                               (uint)gGlobals.Sub.field_0x120c) * 4 + 0x1058));
-        gGlobals.Sub.field_0x120c =
-             (short)(gGlobals.Sub.field_0x120c + 1) +
-             (short)((gGlobals.Sub.field_0x120c + 1) / 0xf) * -0xf;
+                               ((uint)gGlobals.Sub.unk0x120c * 0xc -
+                               (uint)gGlobals.Sub.unk0x120c) * 4 + 0x1058));
+        gGlobals.Sub.unk0x120c =
+             (short)(gGlobals.Sub.unk0x120c + 1) +
+             (short)((gGlobals.Sub.unk0x120c + 1) / 0xf) * -0xf;
       }
     }
   }

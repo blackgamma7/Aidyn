@@ -138,7 +138,7 @@ void * getBorgItem(int index){
                        listing.uncompressed,(int)listing.Compression);
         (*borg_funcs_a[listing.Type])(borgfile);
         puVar1 = borg_index_x1 + index;
-        borg_index_x4[index] = (void *)0x0;
+        borg_index_x4[index] = NULL;
         *puVar1 = 0;
         *(int *)ret = -1;
         *(int *)((int)ret + 4) = 0;
@@ -178,7 +178,7 @@ void * getBorgItem(int index){
         (*borg_funcs_a[listing.Type])(ret);
         (*borg_funcs_b[listing.Type])(ret,0);
         puVar1 = borg_index_x1 + index;
-        borg_index_x4[index] = (void *)0x0;
+        borg_index_x4[index] = NULL;
         *puVar1 = 0;
         *(int *)ret = -1;
         *(int *)((int)ret + 4) = 0;
@@ -203,7 +203,7 @@ void dec_borg_count(int index){
   puVar1 = borg_index_x1 + index;
   if ((0 < *puVar1) && (*puVar1--, borg_index_x1[index] == 0)) {
     Free(borg_index_x4[index],FILENAME,0x2f9);
-    borg_index_x4[index] = (void *)0x0;
+    borg_index_x4[index] = NULL;
   }
 }
 
@@ -232,7 +232,7 @@ void borg1_func_a(Borg_1_Header *arg0){
   if (arg0->unk0x8 != 0) {
     arg0->unk0x8 = (int)&arg0->unk0x0 + arg0->unk0x8;
   }
-  if (arg0->unk0xc != (void *)0x0) {
+  if (arg0->unk0xc != NULL) {
     arg0->unk0xc = (void *)((int)arg0->unk0xc + (int)arg0);
   }
   if (arg0->unk0x10 != (ushort *)0x0) {
@@ -274,7 +274,7 @@ bool InitBorgTexture(Borg_1_Header *param_1,void *param_2){
     iVar6 = param_1->unk0x0;
     *(int *)(param_1->unk0x10 + 6) = param_1->unk0x8;
     puVar4 = borg_index_x1;
-    ppvVar3[iVar6] = (void *)0x0;
+    ppvVar3[iVar6] = NULL;
     puVar4[iVar6] = 0;
     param_1->unk0x0 = -1;
     param_1->unk0x4 = 0;
@@ -374,13 +374,13 @@ void borg_2_free(borg_2_header *param_1){
   int iVar3;
   
   iVar1 = get_memUsed();
-  if (param_1->unk0x50 != (void *)0x0) {
+  if (param_1->unk0x50 != NULL) {
     iVar3 = 0;
     if (0 < *(int *)(param_1->unk0x58 + 4)) {
       pvVar2 = param_1->unk0x50;
       while( true ) {
         pvVar2 = *(void **)(iVar3 * 4 + (int)pvVar2);
-        if (pvVar2 != (void *)0x0) {
+        if (pvVar2 != NULL) {
           Free(pvVar2,FILENAME);
         }
         iVar3 = iVar3 + 1;
@@ -390,7 +390,7 @@ void borg_2_free(borg_2_header *param_1){
     }
     Free(param_1->unk0x50,FILENAME);
   }
-  if (param_1->unk0x54 != (void *)0x0) {
+  if (param_1->unk0x54 != NULL) {
     Free(param_1->unk0x54,FILENAME);
   }
   if (*(int *)param_1 == -1) {
@@ -918,7 +918,7 @@ void borg_6_free(borg_6_header *param_1){
   int iVar3;
   
   iVar1 = get_memUsed();
-  if (param_1->unk0x14 != (void *)0x0) {
+  if (param_1->unk0x14 != NULL) {
     Free(*(void **)(*(int *)((int)param_1->unk0x14 + 0xc) + 8),FILENAME);
     iVar2 = 0;
     if (0 < *(int *)(param_1->unk0x20 + 4)) {
