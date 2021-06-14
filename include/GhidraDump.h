@@ -2659,7 +2659,7 @@ struct playerData {
     u8 unk0x706;
     u8 unk0x707;
     short unk0x708;
-    byte visible_flag?;
+    byte visible_flag;
     bool alaron_flag;
     char unk0x70c;
     byte zoneDatByte;
@@ -4065,22 +4065,22 @@ typedef byte u8;
 
 
 typedef enum Struct_char_flags {
-    flag1=1,
-    flag10=512,
-    flag11=1024,
-    flag12=2048,
-    flag13=4096,
-    flag14=8192,
-    flag15=16384,
-    flag16=32768,
-    flag2=2,
-    flag3=4,
-    flag4=8,
-    flag5=16,
-    flag6=32,
-    flag7=64,
-    flag8=128,
-    flag9=256
+    flag0=1,
+    flag9=512,
+    flag10=1024,
+    flag11=2048,
+    flag12=4096,
+    flag13=8192,
+    flag14=16384,
+    flag15=32768,
+    flag1=2,
+    flag2=4,
+    flag3=8,
+    flag4=16,
+    flag5=32,
+    flag6=64,
+    flag7=128,
+    flag8=256
 } Struct_char_flags;
 
 typedef struct resist_float resist_float, *Presist_float;
@@ -4108,17 +4108,12 @@ typedef struct effects effects, *Peffects;
 typedef struct Potion_effect Potion_effect, *PPotion_effect;
 
 typedef enum MagicSchoolEnum {
-    Chaos=0,
-    Elemental=1,
-    NONE=4,
-    Naming=2,
-    Necromancy=3,
-    Star=5
+    Chaos,Elemental,Naming,Necromancy,NONE,Star
 } MagicSchoolEnum;
 
 typedef enum CharSheetFlags {
     IsSolar=4,
-    Protag=1
+    TrueName=1
 } CharSheetFlags;
 
 typedef enum AspectEnum {
@@ -4460,10 +4455,8 @@ struct charExp { /* data containing EXP, School, Aspect and more. */
     byte damage; /* damage seems to be */
     uint total; /* for level up */
     uint spending; /* for training */
-    enum CharSheetFlags flags; /* set for alaron and aspect */
-    byte f;
-    byte g;
-    byte h;
+    enum CharSheetFlags flags; /* set for True Name and aspect */
+    byte pad[3];
 };
 
 struct Temp_weapon {
@@ -6857,11 +6850,11 @@ struct Camera_struct {
     struct vec7 vec7; /* unused float array */
 };
 
-typedef struct cinematic_dat_pointers cinematic_dat_pointers, *Pcinematic_dat_pointers;
+typedef struct cinematic_dats cinematic_dats, *Pcinematic_dats;
 
-struct cinematic_dat_pointers {
+struct cinematic_dats {
     enum borg6Enum * borg6;
-    pointer unknown;
+    void* unknown;
     enum Borg12Enum * borg12;
     float[2] * floats;
 };
@@ -6885,13 +6878,6 @@ struct CinematicFade {
 
 typedef struct CinematicStruct CinematicStruct, *PCinematicStruct;
 
-typedef enum enum_cinematic_switch {
-    Load_world_map=1,
-    check_alaron_attr=3,
-    get_jipo=0,
-    get_jipo_=4,
-    set_brearb=2
-} enum_cinematic_switch;
 
 struct CinematicStruct {
     struct AnimationData * AniDat;
@@ -8154,7 +8140,7 @@ struct QueueStructB {
 };
 
 struct SkyStruct {
-    undefined2 BackgroundType; /* no more than 5 */
+    undefined2 Type; /* no more than 5 */
     u8 unk0x2;
     u8 unk0x3;
     struct Borg_8_header * borg8_0x4;
@@ -8331,7 +8317,7 @@ struct GlobalsAidynDebug { /* Globals structure of Aidyn Chronicles Debug */
     undefined3 unk0x15bd;
     struct astruct_12 * unk0x15c0;
     undefined4 unk0x15c4;
-    struct CinematicStruct cinematicStruct;
+    struct CinematicStruct cinematic;
     struct PartyStruct * Party;
     byte ResolutionSelect;
     undefined3 unk0x15fd;

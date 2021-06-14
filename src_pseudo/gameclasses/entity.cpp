@@ -1620,9 +1620,9 @@ int Equip_Stamina(CharSheet *param_1,short stam,longlong param_3){
   uint uVar4;
   int iVar5;
   
-  iVar1 = add_Equip_Stamina((temp_armor *)param_1->weapons,stam,param_3);
-  iVar1 = add_Equip_Stamina(*(temp_armor **)param_1->armor,(short)iVar1,param_3);
-  iVar1 = add_Equip_Stamina(param_1->armor[1],(short)iVar1,param_3);
+  iVar1 = add_Equip_Stamina(param_1,(temp_armor *)param_1->weapons,stam,param_3);
+  iVar1 = add_Equip_Stamina(param_1,*(temp_armor **)param_1->armor,(short)iVar1,param_3);
+  iVar1 = add_Equip_Stamina(param_1,param_1->armor[1],(short)iVar1,param_3);
   pCVar3 = param_1->pItemList;
   uVar4 = 0;
   if (pCVar3->num_used != '\0') {
@@ -1647,7 +1647,7 @@ int Equip_Stamina(CharSheet *param_1,short stam,longlong param_3){
   return iVar5;
 }
 
-int add_Equip_Stamina(temp_armor *param_1,short param_2,longlong param_3){
+int add_Equip_Stamina(charSheet* c,temp_armor *param_1,short param_2,longlong param_3){
   byte (*pabVar1) [2];
   int iVar2;
   int iVar3;
@@ -1703,7 +1703,7 @@ void camp_healing(CharSheet *param_1,float param_2,uint param_3){
   }
 }
 
-byte check_spell_aspect_tod(Temp_spell *param_1){
+byte check_spell_aspect_tod(CharSheet* c,Temp_spell *param_1){
   byte bVar1;
   ASPECT AVar2 = param_1->aspect;
   if (AVar2 == (LUNAR|LUNAR_MAGIC)) {

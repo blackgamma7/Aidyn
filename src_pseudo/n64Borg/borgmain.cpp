@@ -1011,7 +1011,7 @@ void borg7_free(Borg_7_header *param_1){
   iVar4 = 2;
   do {
     iVar4--;
-    if (*ppbVar3 != (borg_6_header *)0x0) {
+    if (*ppbVar3 != NULL) {
       borg_6_free(*ppbVar3);
     }
     ppbVar3++;

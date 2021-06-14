@@ -477,7 +477,7 @@ void func_80068924(CombatEntity *param_1){
     param_1->facing[1] = -fVar5;
     if ((((fStack144[0] != fVar4) || (fStack144[1] != param_1->coord[1])) || (fStack80[0] != -fVar3)) || (fStack80[1] != -fVar5)) {
       if (param_1->unk0x22 < 3) {param_1->unk0x22++;}
-      else {CombatEnt_OR_flags(param_1,flag4);}
+      else {CombatEnt_OR_flags(param_1,flag3);}
       func_80072454(combatPointer->substruct2,param_1);
       func_80072454(combatPointer->substruct2 + 1,param_1);
     }
@@ -981,7 +981,7 @@ bool ai_shouldnt_cast_magic(CombatEntity *param_1,CombatEntity *param_2,Temp_spe
     if (spell_stamina_subtract(param_3,check_spell_wizard(param_1->CharSheet,param_3)) <= getModdedStat(param_1->CharSheet->Stats,STAM)) {
       bVar4 = false;
       if (some_equip_spell_charges(param_1->CharSheet) != 0) {
-        if (CheckTargetSpellAspect(param_2->CharSheet,param_3) == 0) {bVar4 = check_spell_aspect_tod(param_3) == 0;}
+        if (CheckTargetSpellAspect(param_2->CharSheet,param_3) == 0) {bVar4 = check_spell_aspect_tod(param_1->CharSheet,param_3) == 0;}
         else {bVar4 = false;}
       }
     }
@@ -2070,7 +2070,7 @@ bool find_spell_error(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *pa
   else {
     bVar2 = CheckTargetSpellAspect(param_2->CharSheet,param_3);
     if (bVar2 == 0) {
-      bVar2 = check_spell_aspect_tod(param_3);
+      bVar2 = check_spell_aspect_tod(param_1->CharSheet,param_3);
       if (bVar2 == 0) {return true;}
     }
     print_spell_error(param_1,param_2,bVar2,param_4);
@@ -2282,7 +2282,7 @@ bool some_spell_ingredient_check(CombatEntity *param_1,Temp_spell *param_2,short
 }
 
 
-bool check_spell_wizard_combat(CombatEntity *param_1,Temp_spell *param_2,bool param_3){
+bool check_spell_wizard_combat(CombatEntity *param_1,CombatEntity *x,Temp_spell *param_2,bool param_3){
   uint LV;
   short sVar3;
   int iVar2;
@@ -2300,7 +2300,7 @@ bool check_spell_wizard_combat(CombatEntity *param_1,Temp_spell *param_2,bool pa
   return false;
 }
 
-bool func_using_spell_charges(CombatEntity *param_1,Temp_spell *param_2,bool param_3){
+bool func_using_spell_charges(CombatEntity *param_1,CombatEntity *x,Temp_spell *param_2,bool param_3){
   bool bVar2;
   byte bVar3;
   uint uVar1;
@@ -2309,7 +2309,7 @@ bool func_using_spell_charges(CombatEntity *param_1,Temp_spell *param_2,bool par
   if (CombatEnt_flag_0(param_1)) {return true;}
   if (param_3 == false) {
     if (bVar3 == 1) {
-      if (check_spell_wizard_combat(param_1,param_2,false) == false) {return false;}
+      if (check_spell_wizard_combat(param_1,x,param_2,false) == false) {return false;}
       goto LAB_8006d340;
     }
     if (some_equip_spell_charges(param_1->CharSheet) == 0) {
@@ -2323,9 +2323,9 @@ bool func_using_spell_charges(CombatEntity *param_1,Temp_spell *param_2,bool par
     }
     dec_item_spell_uses(param_1->CharSheet);
   }
-  param_1->CharSheet->some_rand_val = some_skillcheck_calc((short)RollD(1,100););;
+  param_1->CharSheet->some_rand_val = some_skillcheck_calc((short)RollD(1,100));
 LAB_8006d340:
-  CombatEnt_OR_flags(param_1,flag1);
+  CombatEnt_OR_flags(param_1,flag0);
   return true;
 }
 
@@ -2485,7 +2485,7 @@ short magic_damage_resist_calc(CombatEntity *param_1,CombatEntity *param_2,Temp_
   if (find_spell_error(param_1,param_2,param_3,param_4)) {
     if (param_4 == false) {uVar1 = check_spell_wizard(param_1->CharSheet,param_3);}
     else {uVar1 = (uint)param_3->level;}
-    bVar4 = func_using_spell_charges(param_1,param_3,param_4);
+    bVar4 = func_using_spell_charges(param_1,param_2,param_3,param_4);
     if (bVar4 == false) {sVar3 = -2;}
     else {
       abStack32[0] = param_1->CharSheet->some_rand_val;

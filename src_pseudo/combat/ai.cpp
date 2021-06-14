@@ -1096,7 +1096,7 @@ void func_80061dfc(combat_ai *param_1){
                   iVar9 = func_80070cc4(pcVar13,uVar11,(u8)uVar18,x,y);
                   if (iVar9 < 0) {iVar10 += 50;}
                   fVar20 = (1.0f - getHPPercent(pCVar4)) * 15.0f;
-                  if (INT_MAX_f <= fVar20) {fVar20 = fVar20 - ConstFloats::INT_MAX_f;}
+                  if (INT_MAX_f <= fVar20) {fVar20-= INT_MAX_f;}
                   uVar17 = (iVar10 + (int)fVar20) & 0xff;
                   if ((pTVar5 != NULL) && (pTVar5->range != 0)) {uVar17+=10;}
                   if (bVar1 != 0) {
@@ -1396,10 +1396,10 @@ void func_800628cc(combat_ai *param_1)
     uVar10 = get_combatEnt_y(param_1->combatEnt);
     fVar21 = combatPointer->floatA;
     uStack84 = 0;
-    if (ConstFloats::INT_MAX_f <= fVar21) {fVar21 = fVar21 - ConstFloats::INT_MAX_f;}
+    if (INT_MAX_f <= fVar21) {fVar21 = fVar21 - INT_MAX_f;}
     fVar22 = combatPointer->floatB;
     uStack72 = (int)fVar21 & 0xff;
-    if (ConstFloats::INT_MAX_f <= fVar22) {fVar22 = fVar22 - ConstFloats::INT_MAX_f;}
+    if (INT_MAX_f <= fVar22) {fVar22 = fVar22 - INT_MAX_f;}
     uStack68 = (int)fVar22 & 0xff;
     uVar19 = (int)(((int)(char)uVar10 - uVar14) * 0x1000000) >> 0x18;
     iVar7 = (int)(char)uVar10 + uVar14;
@@ -1478,20 +1478,20 @@ void func_80062c04(Vec2 *param_1,float param_2,Vec2 *param_3,Vec2 *param_4,Vec2 
     fVar2 = (float)vec2_scalar_product((Vec2 *)&fStack112,(Vec2 *)&fStack112);
     fVar3 = (float)vec2_scalar_product((Vec2 *)&fStack176,(Vec2 *)&fStack112);
     fVar4 = (float)vec2_scalar_product((Vec2 *)&fStack176,(Vec2 *)&fStack176);
-    fVar4 = fVar3 * fVar3 - fVar2 * (fVar4 - param_2 * param_2) * ConstFloats::4.0f;
+    fVar4 = fVar3 * fVar3 - fVar2 * (fVar4 - param_2 * param_2) * 4.0f;
     fVar6 = 0.0;
     if (fVar4 < 0.0) {return;}
     fVar4 = _sqrtf(fVar4);
-    fVar5 = ConstFloats::1.0f / (fVar2 + fVar2);
+    fVar5 = 1.0f / (fVar2 + fVar2);
     fVar2 = (fVar4 - fVar3) * fVar5;
     fVar5 = (-fVar4 - fVar3) * fVar5;
-    if ((fVar2 < fVar6) || (ConstFloats::1.0f < fVar2)) {
+    if ((fVar2 < fVar6) || (1.0f < fVar2)) {
       if (fVar5 < 0.0) {return;}
       fVar2 = fVar5;
-      if (ConstFloats::1.0f < fVar5) {return;}
+      if (1.0f < fVar5) {return;}
     }
     else {
-      if (((fVar6 <= fVar5) && (fVar5 <= ConstFloats::1.0f)) && (fVar5 <= fVar2)) {
+      if (((fVar6 <= fVar5) && (fVar5 <= 1.0f)) && (fVar5 <= fVar2)) {
         fVar2 = fVar5;
       }
     }
@@ -1684,7 +1684,7 @@ bool func_80063258(combat_ai *param_1)
     bVar7 = param_1->unk0x12;
     if (param_1->unk0x12 < param_1->unk0x13) {
       uVar12 = 0;
-      dVar11 = ConstFloats::0.5d;
+      dVar11 = 0.5d;
       do {
         iVar4 = (CombatStruct *)(&combatPointer->unk0x0 + ((int)((uint)bVar7 << 0x18) >> 0x17));
         bStack336[2] = iVar4->unk0x5320;
@@ -1830,7 +1830,7 @@ void combat_ai_shadow(combat_ai *param_1){
     if (uVar6 < param_1->unk0x13) {
       iVar5 = uVar6 * 2;
       uVar8 = 0;
-      dVar7 = ConstFloats::0.5d;
+      dVar7 = 0.5d;
       do {
         iVar3 = &combatPointer->unk0x0 + iVar5;
         setVec2((Vec2 *)afStack240,(float)(int)*(char *)(iVar3 + 0x5320),(float)(int)*(char *)(iVar3 + 0x5321));
@@ -2023,11 +2023,11 @@ bool func_800640f8(combat_ai *param_1,u8 param_2,u8 param_3,undefined *param_4,
   if (prVar1 == NULL) {bVar2 = false;}
   else {
     fVar4 = (prVar1->header).coords[0];
-    if (fVar4 < ConstFloats::INT_MAX_f) {*param_4 = (char)(int)fVar4;}
-    else {*param_4 = (char)(int)(fVar4 - ConstFloats::INT_MAX_f);}
+    if (fVar4 < INT_MAX_f) {*param_4 = (char)(int)fVar4;}
+    else {*param_4 = (char)(int)(fVar4 - INT_MAX_f);}
     fVar4 = (prVar1->header).coords[2];
-    if (fVar4 < ConstFloats::INT_MAX_f) {uVar3 = (undefined)(int)fVar4;}
-    else {uVar3 = (undefined)(int)(fVar4 - ConstFloats::INT_MAX_f);}
+    if (fVar4 < INT_MAX_f) {uVar3 = (undefined)(int)fVar4;}
+    else {uVar3 = (undefined)(int)(fVar4 - INT_MAX_f);}
     *param_5 = uVar3;
     bVar2 = true;
   }

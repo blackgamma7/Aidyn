@@ -122,7 +122,7 @@ segments:
       - [0x5BAA0, asm,menus/Journal]
       - [0x5C8E0, asm,widget/journalMethods]
       - [0x5CA30, asm,"audiokey"]
-      - [0x5D2B0, asm]
+      - [0x5D2B0, asm,Cinematics]
       - [0x5E020, asm,"cinematictext"]
       - [0x5E7C0, asm,"gameStart"]
       - [0x5F270, asm]

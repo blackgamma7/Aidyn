@@ -846,18 +846,18 @@ LAB_8000e6bc:
         }
       }
       loading_map_data(pZVar18);
-      sVar14 = gGlobals.sky.BackgroundType;
+      sVar14 = gGlobals.sky.Type;
       if (pZVar18->mapshortSum == 0x11) {
         gGlobals.Sub.borg9DatPointer = &pZVar18->mapPointer->dat;
         gGlobals.Sub.particleEmmiter.borg9dat = gGlobals.Sub.borg9DatPointer;
         GetMapTerrain(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
-        if ((gGlobals.sky.BackgroundType == 3) && (sVar14 == 3)) {
+        if ((gGlobals.sky.Type == 3) && (sVar14 == 3)) {
           if (gGlobals.Sub.weatherDat._0_4_ == 0) {SetBackgroundType(3,gGlobals.Sub.weatherDat.skyBgdat,600.0);}
           else {debug_queue("Different Precip types, Don't set sky\n");}
         }
         else {
           sVar14 = gGlobals.Sub.weatherDat.skyBgdat;
-          if ((gGlobals.sky.BackgroundType == 3) &&
+          if ((gGlobals.sky.Type == 3) &&
              (((short)gGlobals.Sub.weatherDat.rainShortA < 3 &&
               (0 < (short)gGlobals.Sub.weatherDat.rainShortA)))) {
             sVar14 = 2;
@@ -874,7 +874,7 @@ LAB_8000e6bc:
     iVar9 = (iVar9 + 1) * 0x10000 >> 0x10;
     if (2 < iVar9) {
       if (((gGlobals.Sub.gamemodeType == 0) && (gGlobals.minimap.active == 0)) &&
-         (gGlobals.sky.BackgroundType == 3)) {
+         (gGlobals.sky.Type == 3)) {
         set_map_event_flag(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
       }
       return;
@@ -986,7 +986,7 @@ void set_playerdata_zoneDatByte(undefined2 param_1,undefined2 param_2){
     iVar5 = 0x10000;
     do {
       iVar2 = gGlobals.Sub.PlayerHandler.playerDats)[iVar3];
-      if ((iVar2->removeFlag != 0) && (iVar2->visible_flag? == 0)) {
+      if ((iVar2->removeFlag != 0) && (iVar2->visible_flag == 0)) {
         iVar2->zoneDatByte = get_zoneDatByte(param_1,param_2,iVar2->zoneDatByte);
       }
       iVar3 = iVar5 >> 0x10;
@@ -1064,7 +1064,7 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
   
   uVar1 = (param_2->dat).unk0x6;
   uVar2 = (param_2->dat).refPoint_ID;
-  iVar6 = (int)gGlobals.sky.BackgroundType;
+  iVar6 = (int)gGlobals.sky.Type;
   memset_voxelChart_entries();
   pfVar8 = NULL;
   clear_camera_voxel_pointer();
@@ -1081,8 +1081,8 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
   if (param_3 == (vec3 *)0x0) {no_TP_vec3 = 1;}
   loadGameBorgScenes(param_4,param_5,(param_2->dat).MapShort1,(param_2->dat).MapShort2);
   if (param_3 == (vec3 *)0x0) {
-    if (gGlobals.sky.BackgroundType == 4) {set_camera_mode(&gGlobals.Sub.camera,1);}
-    if (gGlobals.sky.BackgroundType == 3) {set_camera_mode(&gGlobals.Sub.camera,0);}
+    if (gGlobals.sky.Type == 4) {set_camera_mode(&gGlobals.Sub.camera,1);}
+    if (gGlobals.sky.Type == 3) {set_camera_mode(&gGlobals.Sub.camera,0);}
     if (uVar1 == 0x7ff8) {
       fStack312[0] = (param_2->header).coords[0];
       fStack312[1] = (param_2->header).coords[1];
@@ -1125,7 +1125,7 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
   }
   if (prStack56 == NULL) {
     if ((param_1 != NULL) && (param_3 == (vec3 *)0x0)) {
-      if (gGlobals.sky.BackgroundType == 4) {
+      if (gGlobals.sky.Type == 4) {
         fStack184[0] = (param_1->collision).position[0];
         fStack184[2] = (param_1->collision).position[2];
         fStack184[1] = (param_1->collision).position[1] + gGlobals.Sub.camera.camHeight;
@@ -1161,8 +1161,8 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
       iVar10 = iVar10 + 0x10000;
     } while (iVar9 < 9);
   }
-  if (iVar6 != gGlobals.sky.BackgroundType) {
-    if (gGlobals.sky.BackgroundType == 4) {
+  if (iVar6 != gGlobals.sky.Type) {
+    if (gGlobals.sky.Type == 4) {
       xor_sundail_moon(0);
       xor_sundail_sun(0);
     }
@@ -2313,7 +2313,7 @@ void update_BGM_(void){
     gGlobals.Sub.BGMQueue = gGlobals.Sub.BGMIndex;
     gGlobals.Sub.BGMIndex = 0;
   }
-  if (gGlobals.Sub.BGM != (Borg_12_header *)0x0) {
+  if (gGlobals.Sub.BGM != NULL) {
     fVar1 = gGlobals.VolBGM * 255.0f;
     if (fVar1 < INT_MAX_f) {V = (byte)(int)fVar1;}
     else {V = (byte)(int)(fVar1 - INT_MAX_f);}
@@ -2498,7 +2498,7 @@ void handleZoneEngineFrame(rspCom *param_1,short delta,playerData *player_,float
              gGlobals.Sub.camera.coord[1],gGlobals.Sub.camera.coord[2],gGlobals.Sub.camera.aim[0],
              gGlobals.Sub.camera.aim[1],gGlobals.Sub.camera.aim[2]);
   if (gGlobals.Sub.gamemodeType != 2) {apauStack48[0] = RenderSky(apauStack48[0],delta);}
-  if (gGlobals.sky.BackgroundType == 3) {
+  if (gGlobals.sky.Type == 3) {
     sprintf(gGlobals.text,"RenderSkyObjects/RenderClouds");
     uVar2 = RenderClouds(apauStack48[0]);
     apauStack48[0] = (rspCom *)(u32)uVar2;
