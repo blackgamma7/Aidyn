@@ -2448,7 +2448,7 @@ int calc_spell_damage_(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *p
     if (!isDispelMagic(SVar3)) {
       if ((!check_for_control_petrify(param_1,param_3,param_2,SVar3)) ||
          (!check_for_petrify(param_1,param_3,param_2,SVar3))) {return 0;}
-      if ((param_2->damage == 0) || (func_80083ff4(param_2) != 0)) {
+      if ((param_2->damage == 0) || (func_80083ff4(param_2))) {
         param_3->damage = 0;
         param_3->Healing = 0;
         ApplySpellEffect(param_3->CharSheet,SVar3,Level,Level * 1800,param_5,param_3);
@@ -2506,14 +2506,11 @@ short magic_damage_resist_calc(CombatEntity *param_1,CombatEntity *param_2,Temp_
 
 short func_calcing_magic_resist(CombatEntity *param_1,short param_2,Temp_spell *param_3){
   combat_ai *pcVar1;
-  float fVar3;
-  float afStack32;
-  
-  fVar3 = 0.0;
-  afStack32 = 0.0;
+  float afStack32 = 0.0;
+
   if (magic_resist_element_checks(param_1,param_3,&afStack32)) {
     param_2 *= afStack32);
-    if ((afStack32 != fVar3) && (param_2 < 1)) {param_2 = 1;}
+    if ((afStack32 != 0.0) && (param_2 < 1)) {param_2 = 1;}
     if (((1.0f < afStack32) &&
         (pcVar1 = param_1->combat_ai_pointer, pcVar1 != NULL)) &&
        ((pcVar1->flags & 8) != 0)) {pcVar1->flags |= 0x12;}
@@ -2903,7 +2900,7 @@ int func_8006edd0(CombatEntity *param_1,CombatEntity *param_2,playerData *param_
   longlong lVar8;
   longlong lVar9;
   
-  pTVar2 = passto_getSpell(param_1->CharSheet);
+  pTVar2 = passto_getSpell(param_1->CharSheet,0x13cb,(void *)D_800f5440);
   if (pTVar2 == NULL) {return 0;}
   sVar4 = magic_damage_resist_calc(param_1,param_2,pTVar2,false);
   lVar9 = (longlong)sVar4;

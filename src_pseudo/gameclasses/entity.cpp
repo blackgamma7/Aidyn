@@ -1452,7 +1452,7 @@ int func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,unde
               dice = 1;
               if (SVar1 != AcidBolt) goto LAB_80079e48;
             }
-LAB_80079da4:
+RollDoT:
             uVar5 = globals::RollD(dice,6);
           }
           else {
@@ -1461,20 +1461,17 @@ LAB_80079da4:
               addHP(param_1,pTVar2->unk0x3 << 0x18 >> 0x18));
               iVar11+= (char)pTVar2->unk0x3;
             }
-            else {
-              if (SVar1 == webOfStarlight) {
-                iVar4 = getModdedStat(param_1->Stats,STR);
-                uVar5 = globals::RollD(1,100);
-                if ((iVar4 * 2 <= (int)uVar5) ||
-                   (lVar3 = some_skillcheck_calc((int)((iVar4 * 2 - uVar5) * 0x10000) >> 0x10),
-                   lVar3 == 0)) {
-                  dice = 2;
-                  goto LAB_80079da4;
+            else if (SVar1 == webOfStarlight) {
+              iVar4 = getModdedStat(param_1->Stats,STR);
+              uVar5 = globals::RollD(1,100);
+              if ((iVar4 * 2 <= (int)uVar5) ||
+                 (some_skillcheck_calc((int)((iVar4 * 2 - uVar5) * 0x10000) >> 0x10) == 0)) {
+                 dice = 2;
+                 goto RollDoT;
                 }
                 clear_player_effect(param_1,uVar9 & 0xff,param_2);
                 uVar5 = 0;
               }
-            }
           }
         }
 LAB_80079e48:
@@ -1536,8 +1533,8 @@ Temp_spell * getSpell(CharSheet *param_1){
 LAB_8007a148:
   return *(Temp_spell **)ptVar1->spell;
 }
-
-Temp_spell * passto_getSpell(CharSheet *param_1){
+//2 extra args, no clue what for
+Temp_spell * passto_getSpell(CharSheet *param_1,s16 unk1,void *unk2){
   Temp_spell *pTVar1 = NULL;
   if (param_1->spellSwitch < 6) {pTVar1 = getSpell(param_1);}
   return pTVar1;
