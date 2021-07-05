@@ -270,7 +270,7 @@ void set_teleport_pointer(teleport_obj *param_1){
     gGlobals.screenFadeSpeed = 0.06666667f;
   }
   gGlobals.Sub.refObjPointer = param_1;
-  gGlobals.Sub.unk0xf00 = (vec3 *)0x0;
+  gGlobals.Sub.unk0xf00 = NULL;
 }
 
 void set_teleport_obj_A(u16 param_1,ushort param_2,ushort param_3,vec3 *param_4){
@@ -286,7 +286,7 @@ void set_teleport_obj_A(u16 param_1,ushort param_2,ushort param_3,vec3 *param_4)
 
 void set_teleport_obj_loadgame(u16 param_1,ushort param_2,ushort param_3,vec3 *param_4){
   gGlobals.Sub.refObjPointer = &loadgame_tp_obj;
-  gGlobals.Sub.unk0xf00 = (vec3 *)0x0;
+  gGlobals.Sub.unk0xf00 = NULL;
   memset(&loadgame_tp_obj,0,0x6c);
   loadgame_tp_obj.header.type = Teleporter;
   loadgame_tp_obj.dat.unk0x6 = 0x7ff8;
@@ -1078,9 +1078,9 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
   gGlobals.Sub.mapDatC = 0xffff;
   borgmaps_func(gGlobals.Sub.mapDatA,-1,-1,false);
   clear_music_no_expPak();
-  if (param_3 == (vec3 *)0x0) {no_TP_vec3 = 1;}
+  if (param_3 == NULL) {no_TP_vec3 = 1;}
   loadGameBorgScenes(param_4,param_5,(param_2->dat).MapShort1,(param_2->dat).MapShort2);
-  if (param_3 == (vec3 *)0x0) {
+  if (param_3 == NULL) {
     if (gGlobals.sky.Type == 4) {set_camera_mode(&gGlobals.Sub.camera,1);}
     if (gGlobals.sky.Type == 3) {set_camera_mode(&gGlobals.Sub.camera,0);}
     if (uVar1 == 0x7ff8) {
@@ -1124,7 +1124,7 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
     set_camera_0x70(&gGlobals.Sub.camera,from);
   }
   if (prStack56 == NULL) {
-    if ((param_1 != NULL) && (param_3 == (vec3 *)0x0)) {
+    if ((param_1 != NULL) && (param_3 == NULL)) {
       if (gGlobals.sky.Type == 4) {
         fStack184[0] = (param_1->collision).position[0];
         fStack184[2] = (param_1->collision).position[2];
@@ -1150,7 +1150,7 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
   }
   else {camera_set_position(&gGlobals.Sub.camera,(vec3 *)prStack56);}
   gGlobals.Sub.camera.unk0x80 = 5;
-  if ((param_3 == (vec3 *)0x0) || (pfVar8 != NULL)) {
+  if ((param_3 == NULL) || (pfVar8 != NULL)) {
     iVar9 = 0;
     iVar10 = 0x10000;
     do {
@@ -2443,7 +2443,7 @@ void handleZoneEngineFrame(rspCom *param_1,short delta,playerData *player_,float
   if (player_ != NULL) {ConfirmPlayerWithinZone(player_,gGlobals.Sub.borg9DatPointer);}
   if (gGlobals.screenFadeMode == 0) {update_BGM_();}
   if ((gGlobals.Sub.refObjPointer != NULL) && (gGlobals.screenFadeMode == 0)) {
-    if (gGlobals.Sub.unk0xf00 == (vec3 *)0x0) {
+    if (gGlobals.Sub.unk0xf00 == NULL) {
       gGlobals.screenFadeMode = 2;
       gGlobals.screenFadeSpeed = 0.06666667f;
     }

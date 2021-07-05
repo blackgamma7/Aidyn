@@ -247,7 +247,7 @@ u16 load_world_map(void){
   
   pBVar1 = get_borg_9(StartingMap);
   uVar2 = (uint)(pBVar1->dat).ref_obj_count;
-  pdVar5 = (dialoug_dat *)0x0;
+  pdVar5 = NULL;
   if (uVar2 != 0) {
     puVar4 = (dialoug_dat *)&((pBVar1->dat).ref_objs)->unk0x28;
     iVar4 = 0x10000;
@@ -311,19 +311,19 @@ void reset_scene_timers(void){
   cinematic_scene_tally++;
 }
 
-rspCom * cinematic_fade(rspCom *param_1,uint param_2){
+rspCom * cinematic_fade(rspCom *param_1,short param_2){
   byte bVar1;
   short sVar2;
   rspCom *pauVar3;
   short sVar4;
   uint uVar5;
   uint uVar6;
-  uint uVar7;
+  short uVar7;
   float fVar8;
   
-  uVar7 = param_2 & 0xffff;
+  uVar7 = param_2;
   uVar6 = (uint)cinematic_scene_runtime;
-  cinematic_scene_runtime = (short)uVar7 + cinematic_scene_runtime;
+  cinematic_scene_runtime = uVar7 + cinematic_scene_runtime;
   if (cinematicFadePointer->index != cinematic_scene_tally) goto LAB_8005d1d4;
   uVar5 = (uint)cinematicFadePointer->runtime * 2;
   if ((cinematic_scene_runtime < uVar5) || (uVar5 < uVar6)) goto LAB_8005d1d4;
@@ -335,7 +335,7 @@ rspCom * cinematic_fade(rspCom *param_1,uint param_2){
     uVar6 = uVar5;
     sVar2 = sVar4;
   }
-  uVar7 = uVar7 + (uint)cinematic_scene_runtime + (uint)cinematicFadePointer->runtime * -2 & 0xffff;
+  uVar7 += (uint)cinematic_scene_runtime + (uint)cinematicFadePointer->runtime * -2;
   cinematic_fade_short = sVar2 + (short)(uVar6 & 0xffff);
   cinematic_fade_speed = (float)(1.0d / (double)(uVar6 & 0xffff));
   bVar1 = cinematicFadePointer->fadeType;
@@ -346,28 +346,20 @@ LAB_8005d1b0:
     cinematic_fade_color.B = 0;
     cinematic_fade_float = 0.0;
   }
-  else {
-    if (bVar1 < 2) {
-      if (bVar1 == 0) {
-        cinematic_fade_speed = -cinematic_fade_speed;
-        cinematic_fade_float = 1.0f;
-      }
+  else if (bVar1 == 0) {
+    cinematic_fade_speed = -cinematic_fade_speed;
+    cinematic_fade_float = 1.0f;
     }
-    else {
-      if (bVar1 == 2) {
-        cinematic_fade_color.R = 0xff;
-        cinematic_fade_color.G = 0xff;
-        cinematic_fade_color.B = 0xff;
-        cinematic_fade_float = 0.0;
-      }
-      else {
-        if (bVar1 == 3) {
-          cinematic_fade_color.R = 0xff;
-          goto LAB_8005d1b0;
-        }
-      }
-    }
+  else if (bVar1 == 2) {
+    cinematic_fade_color.R = 0xff;
+    cinematic_fade_color.G = 0xff;
+    cinematic_fade_color.B = 0xff;
+    cinematic_fade_float = 0.0;
   }
+  else if (bVar1 == 3) {
+    cinematic_fade_color.R = 0xff;
+    goto LAB_8005d1b0;
+        }
   cinematicFadePointer++;
 LAB_8005d1d4:
   if (cinematic_fade_short != 0) {

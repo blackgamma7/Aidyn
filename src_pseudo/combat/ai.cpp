@@ -101,10 +101,10 @@ LAB_800602cc:
   }
   if (param_2) {
     if ((combatPointer->leaderDead) || (!CombatEnt_flag_1(leader))) {lVar8 -=4;}
-    cVar5 = (char)lVar8 + '\x01';
+    cVar5 = (char)lVar8 + 1;
     if (2 < combatPointer->leaderMorale - 8) {
       if (combatPointer->leaderMorale < 0xb) goto LAB_8006034c;
-      cVar5 = (char)lVar8 + '\x02';
+      cVar5 = (char)lVar8 + 2;
     }
     lVar8 = (longlong)(int)cVar5;
   }
@@ -841,7 +841,7 @@ bool ai_spell_stam(combat_ai *param_1)
       pTVar7 = getSpell(pCVar3);
       bVar9 = check_spell_wizard(pCVar3,pTVar7);
       if (bVar4 == false) {
-        bVar4 = spell_stamina_subtract(pTVar7,bVar9); <= getModdedStat(pCVar3->Stats,STAM);
+        bVar4 = spell_stamina_subtract(pCVar3,pTVar7,bVar9); <= getModdedStat(pCVar3->Stats,STAM);
         SVar12 = *pSVar14;
       }
       else {SVar12 = *pSVar14;}

@@ -43,9 +43,9 @@ void clear_temp_Stat_spell(Temp_weapon *param_1){
     Free(param_1->Stat,s_../gameclasses/generic.cpp_800e08c0,0x6e);
     param_1->Stat = NULL;
   }
-  if (param_1->spell != (Temp_spell *)0x0) {
+  if (param_1->spell != NULL) {
     Free(param_1->spell,s_../gameclasses/generic.cpp_800e08c0,0x74);
-    param_1->spell = (Temp_spell *)0x0;
+    param_1->spell = NULL;
   }
 }
 
@@ -150,31 +150,24 @@ void make_temp_gear(temp_gear *param_1,ItemID param_2){
 }
 
 ushort GetItemPrice(ItemID *param_1){
-  byte bVar3;
-  int iVar1;
   ushort uVar2;
   uint uVar4;
   
   uVar4 = (uint)((ushort)*param_1 >> 8);
   if (uVar4 - 5 < 2) {
-    bVar3 = GetIDIndex(*param_1);
-    uVar2 = armour_pointer->Armor[bVar3].price;
+    uVar2 = armour_pointer->Armor[GetIDIndex(*param_1)].price;
   }
   else if (uVar4 == 7) {
-    bVar3 = GetIDIndex(*param_1);
-    uVar2 = weapon_pointer->weapons[bVar3].price;
+    uVar2 = weapon_pointer->weapons[GetIDIndex(*param_1)].price;
     }
   else if (uVar4 == 0x10) {
-    bVar3 = GetIDIndex(*param_1);
-    uVar2 = potion_prices[bVar3];
+    uVar2 = potion_prices[GetIDIndex(*param_1)];
    }
   else {
-    iVar1 = search_item_array(*param_1);
-    uVar2 = item_pointer->Gear[iVar1].price;
+    uVar2 = item_pointer->Gear[search_item_array(*param_1)].price;
     }
   return uVar2;
 }
 
-//think this is supposed to add spell charges.
 void  SetMagicCharges(Temp_weapon *param_1,s8 param_2){
   if ((param_2 != -1) && (param_1->spell != NULL)) {param_1->spell->Charges = param_2;}}

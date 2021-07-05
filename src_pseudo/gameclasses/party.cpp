@@ -655,7 +655,7 @@ byte itemtype_gear(PartyStruct *param_1,byte param_2,temp_gear *param_3,CharShee
       if (pCVar5->num_used != '\0') {
         ptVar9 = (temp_gear *)pCVar5->pItem;
         do {
-          if (*(temp_gear **)((int)ptVar9 + uVar10 * 4) == (temp_gear *)0x0) {
+          if (*(temp_gear **)((int)ptVar9 + uVar10 * 4) == NULL) {
             bVar1 = pCVar5->num_used;
           }
           else {
@@ -2589,7 +2589,7 @@ bool func_80082e40(PartyStruct *param_1,int param_2,ItemID param_3){
     if ((byte)pCVar4->num_used != 0) {
       ptVar5 = (temp_gear *)pCVar4->pItem;
       do {
-        if ((*(temp_gear **)ptVar5 != (temp_gear *)0x0) && ((*(temp_gear **)ptVar5)->id == param_3))
+        if ((*(temp_gear **)ptVar5 != NULL) && ((*(temp_gear **)ptVar5)->id == param_3))
         {
           unequip_acc(pCVar1,uVar6);
           return true;
@@ -2692,17 +2692,17 @@ bool func_800830a4(PartyStruct *param_1,byte param_2,temp_gear *param_3,CharShee
   if (uVar5 != 0) {
     pptVar6 = param_4->pItemList->pItem;
     do {
-      if ((*pptVar6 != (temp_gear *)0x0) && ((ushort)(*pptVar6)->id >> 8 == (ushort)IVar1 >> 8)) {
-        uVar7 = uVar7 + 1;
+      if ((*pptVar6 != NULL) && ((ushort)(*pptVar6)->id >> 8 == (ushort)IVar1 >> 8)) {
+        uVar7++;
       }
-      uVar8 = uVar8 + 1;
-      pptVar6 = pptVar6 + 1;
+      uVar8++;
+      pptVar6++;
     } while (uVar8 < uVar5);
   }
   if (uVar7 < param_5) {
     X = create_2ByteArray(param_3->statmod);
     uVar9 = 0xff;
-    if (param_3->pSpell != (Temp_spell *)0x0) {
+    if (param_3->pSpell != NULL) {
       uVar9 = *(undefined *)&param_3->pSpell->name;
     }
     piVar2 = param_1->Inventory->Functions;

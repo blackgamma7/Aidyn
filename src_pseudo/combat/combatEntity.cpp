@@ -978,7 +978,7 @@ bool ai_shouldnt_cast_magic(CombatEntity *param_1,CombatEntity *param_2,Temp_spe
      ((param_1->combat_ai_pointer->flags & 8) == 0)) {bVar4 = true;}
   else {
     bVar4 = false;
-    if (spell_stamina_subtract(param_3,check_spell_wizard(param_1->CharSheet,param_3)) <= getModdedStat(param_1->CharSheet->Stats,STAM)) {
+    if (spell_stamina_subtract(param_1->CharSheet,param_3,check_spell_wizard(param_1->CharSheet,param_3)) <= getModdedStat(param_1->CharSheet->Stats,STAM)) {
       bVar4 = false;
       if (some_equip_spell_charges(param_1->CharSheet) != 0) {
         if (CheckTargetSpellAspect(param_2->CharSheet,param_3) == 0) {bVar4 = check_spell_aspect_tod(param_1->CharSheet,param_3) == 0;}
@@ -1597,7 +1597,7 @@ bool magic_resist_element_checks(CombatEntity *param_1,Temp_spell *param_2,float
     ptVar6 = (temp_gear *)pCVar3->pItem;
     while( true ) {
       ptVar6 = *(temp_gear **)((int)ptVar6 + uVar7 * 4);
-      if (((ptVar6 != (temp_gear *)0x0) && (ptVar6->resist != (resist_float *)0x0)) &&
+      if (((ptVar6 != NULL) && (ptVar6->resist != (resist_float *)0x0)) &&
          (CanResistSpell(param_1,param_2,ptVar6->resist->element))) {
         bVar8 = true;
         uVar9 = = ptVar6->resist->percent);
@@ -2290,7 +2290,7 @@ bool check_spell_wizard_combat(CombatEntity *param_1,CombatEntity *x,Temp_spell 
   if (param_3 == false) {LV = check_spell_wizard(param_1->CharSheet,param_2);}
   else {LV = (uint)param_2->level;}
   if (combat_check_spell_ingredient(param_1,param_2)) {
-    if (Test_equip_Stamina(param_1->CharSheet,(short)spell_stamina_subtract(param_2,(byte)LV))) {
+    if (Test_equip_Stamina(param_1->CharSheet,(short)spell_stamina_subtract(param_1->CharSheet,param_2,(byte)LV))) {
       sVar3 = some_aspect_multi_check(param_1,LV);
       iVar2 = skillcheck_float(param_1,(short)RollD(1,100),sVar3,Wizard);
       return some_spell_ingredient_check(param_1,param_2,(short)iVar2,sVar3);
@@ -3217,15 +3217,13 @@ uint check_sheild_borg5_(CombatEntity *param_1){
 
 ushort get_weapon_borg5(CombatEntity *param_1){
   Temp_weapon *pTVar1;
-  byte bVar4;
   ushort uVar2;
   ushort uVar3;
   
   pTVar1 = param_1->CharSheet->weapons;
   if (pTVar1 == NULL) {uVar3 = 0xffff;}
   else {
-    bVar4 = GetIDIndex(pTVar1->id);
-    uVar2 = Weapon_borg5_lookup(bVar4);
+    uVar2 = Weapon_borg5_lookup(GetIDIndex(pTVar1->id));
     uVar3 = 0xffff;
     if (uVar2 != 0xffff) {uVar3 = uVar2;}
   }
@@ -3415,78 +3413,78 @@ switchD_80070018_caseD_3d:
   }
   fVar8 = 6.0f;
   switch(GetIDIndex(param_1->CharSheet->weapons->id)) {
-  case 0x35:
+  case 0x35: //Bow of Accuracy
     *param_2 = 9.9f;
     *param_3 = 0.0;
     break;
-  case 0x36:
+  case 0x36: //Bow of Shielding
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x37:
+  case 0x37: //Bow of Thunder
     *param_2 = 9.0f;
     *param_3 = 0.0;
     break;
-  case 0x38:
+  case 0x38: //Heartseeker
     *param_2 = 9.0f;
     *param_3 = 0.0;
     break;
-  case 0x39:
+  case 0x39: //Great Bow
     *param_2 = 9.0f;
     *param_3 = 0.0;
     break;
-  case 0x3a:
+  case 0x3a: //Hunter's bow
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x3b:
+  case 0x3b: //Long bow
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x3c:
+  case 0x3c: //Short Bow
     *param_2 = 5.0f;
     *param_3 = 0.0;
     break;
   default:
     goto switchD_80070018_caseD_3d;
-  case 0x46:
+  case 0x46: //venom spit
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x5e:
+  case 0x5e: //Dragon Fang
     *param_2 = 8.0f;
     goto LAB_800701bc;
-  case 0x5f:
+  case 0x5f: //Throwing Iron
     *param_2 = 8.0f;
     fVar8 = 20.0f;
     goto LAB_800701bc;
-  case 0x60:
+  case 0x60: //Throwing Knife
     *param_2 = 5.0f;
     fVar8 = 12.0f;
     goto LAB_800701bc;
-  case 0x61:
+  case 0x61: //Cyclops Hurlstar
     *param_2 = 5.0f;
     fVar8 = 12.0f;
     goto LAB_800701bc;
-  case 0x62:
+  case 0x62: //Dart of Distance
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 99:
+  case 99: //poison Dart
     *param_2 = 5.0f;
     *param_3 = 0.0;
     break;
-  case 100:
+  case 100: //spikes
     *param_2 = 5.0f;
     *param_3 = 0.0;
     break;
-  case 0x65:
+  case 0x65: //hatchet
     *param_2 = 5.0f;
     fVar8 = 6.0f;
 LAB_800701bc:
     *param_3 = fVar8;
     break;
-  case 0x66:
+  case 0x66: //Javelin
     *param_2 = 5.0f;
     *param_3 = 0.0;
     *param_4 = 90.0f;
