@@ -91,10 +91,7 @@ struct voxelHeader { /* Header for Refernce objects (Voxels) */
     u16 flagC;
     u8 unk0x22;
     u8 unk0x23;
-    u8 unk0x24;
-    u8 unk0x25;
-    u8 unk0x26;
-    u8 unk0x27;
+    void * ptr0x24;
 };
 
 
@@ -103,5 +100,106 @@ struct ref_obj { //base object of "ref_objs"
     byte data[68]; //different for each.
 };
 
+struct audio_obj_dat {
+    enum Borg12Enum borg12Index;
+    undefined4 unk0x4;
+    float volume;
+    ushort unk0xc;
+    u8 unk0xe;
+    u8 unk0xf;
+    u8 unk0x10;
+    u8 unk0x11;
+    u8 unk0x12;
+    u8 unk0x13;
+    ushort soundType; /* bitfield 0x10 =bgm */
+    ushort unk0x16;
+    float volume_;
+    undefined4 sfx_arg3;
+    u32 unk0x20;
+    u16 unk0x24;
+    byte dcmIndex;
+    u8 unk0x27[29];
+};
+struct teleport_dat {
+    enum EnumMapDatA MapDatA;
+    ushort MapShort1;
+    ushort MapShort2;
+    ushort unk0x6;
+    short trap_value;
+    ushort trapBool16;
+    ushort lock_lv;
+    ushort refPoint_ID;
+    undefined2 lock_flag;
+    enum EventFlag lockpick_flag_2;
+    undefined2 trap_flag;
+    enum EventFlag flag_0x3e;
+    enum EventFlag secrect_door_flag;
+    ushort secretDoorVal;
+    char name[16];
+    u8 unk0x54[24];
+};
 
+struct container_Dat {
+    undefined4 unk0x0;
+    float chest_size;
+    enum EventFlag open_flag;
+    enum EventFlag explode_flag;
+    short trap_lv;
+    ushort unk0x14;
+    struct ItemID LootCat; /* chestdb id */
+    ushort LootType;
+    undefined2 unk0x14;
+    ushort Gold; /* money */
+    struct ItemID item; /* static item */
+    ushort unk0x1a;
+    short lootCatDrop[6][2]; /* populated with chestdb items */
+    u8 unk0x34;
+    u8 unk0x35;
+    u8 unk0x36;
+    u8 unk0x37;
+    u8 unk0x38;
+    u8 unk0x39;
+    u8 unk0x3a;
+    u8 unk0x3b;
+    u8 unk0x3c;
+    u8 unk0x3d;
+    u8 unk0x3e;
+    u8 unk0x3f;
+    u8 unk0x40;
+    u8 unk0x41;
+    u8 unk0x42;
+    u8 unk0x43;
+};
 
+struct monsterparty_dat {
+    struct monsterpartyEntry enemyEntries[7];
+    u8 unk0x1c;
+    u8 unk0x1d;
+    u8 unk0x1e;
+    u8 unk0x1f;
+    struct ItemID entityID;
+    struct ItemID globalLoot;
+    ushort unk0x24;
+    u8 unk0x26;
+    u8 unk0x27;
+    ushort unk0x28;
+    ushort totalsize;
+    struct ItemID unk0x2c;
+    undefined2 wanderNode;
+    ushort flags;
+    u8 unk0x32;
+    u8 unk0x33;
+    enum borg13Enum borg_13;
+    u8 unk0x38;
+    u8 unk0x39;
+    u8 unk0x3a;
+    u8 unk0x3b;
+    u8 unk0x3c;
+    u8 unk0x3d;
+    u8 unk0x3e;
+    u8 unk0x3f;
+    u8 unk0x40;
+    u8 unk0x41;
+    u8 unk0x42;
+    u8 unk0x43;
+};

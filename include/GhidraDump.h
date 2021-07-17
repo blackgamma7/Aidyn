@@ -964,6 +964,7 @@ struct collisionStruct {
     vec3 vec3_0x20;
     vec3 vec3_0x2c;
     struct vec7 * env_props;
+    struct playerData * link;
 };
 
 struct referncepoint_obj {
@@ -1012,7 +1013,7 @@ struct referncepoint_obj {
 };
 
 struct light_obj_dat {
-    struct color color[3];
+    struct color cols[3];
     ushort lightType; /* 0-3 are valid types */
     u8 unk0xe;
     u8 unk0xf;
@@ -1514,7 +1515,6 @@ struct playerData {
     u8 unk0x62;
     u8 unk0x63;
     struct collisionStruct collision;
-    struct playerData * link;
     vec3 positionMirror;
     struct vec7 * vec7_pointer;
     struct collisionTypeA * unk0xb4;
@@ -3534,10 +3534,6 @@ struct someParticleStruct {
     u8 unk0x1ce;
     u8 unk0x1cf;
     struct collisionStruct collision;
-    u8 unk0x20c;
-    u8 unk0x20d;
-    u8 unk0x20e;
-    u8 unk0x20f;
 };
 
 struct borg9_phys {
@@ -5190,6 +5186,12 @@ struct Inventory_item {
 struct Inventory_struct {
     struct inv_funcs * Functions;
     struct Inventory_item inv_slots[252];
+    int quantity;
+};
+
+struct Inventory_loot_struct { //above but different methods, lower capacity
+    struct inv_funcs * Functions;
+    struct Inventory_item inv_slots[64];
     int quantity;
 };
 
@@ -7695,7 +7697,7 @@ struct wander_substruct {
     undefined2 unk0x3e;
     Vec2 position;
     float size;
-    struct playerData * target_playerDat;
+    int MapTally;
     undefined2 VoxelIndex;
     u8 unk0x52;
     u8 unk0x53;
@@ -8538,7 +8540,7 @@ typedef struct MemMon_struct MemMon_struct, *PMemMon_struct;
 struct MemMon_struct {
     void * memRegionStart;
     void * memRegionNext;
-    void * mamRegionMaxCurr;
+    void * memRegionMaxCurr;
     u32 memFreeMax;
     u32 memUsed;
     u32 memFree;
@@ -8796,7 +8798,7 @@ typedef struct StringCheat StringCheat, *PStringCheat;
 
 struct StringCheat { /* struct used for cheat functions */
     char * code;
-    ulong (* cheat)(void);
+    bool (* cheat)(void);
 };
 
 typedef struct struct struct, *Pstruct;

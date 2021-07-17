@@ -7,7 +7,7 @@
 struct MemMon_struct {
     void * memRegionStart;
     void * memRegionNext;
-    void * mamRegionMaxCurr;
+    void * memRegionMaxCurr;
     u32 memFreeMax;
     u32 memUsed;
     u32 memFree;
@@ -301,9 +301,9 @@ void func_8009872c(void *param_1){
   pvVar2 = param_1;
   if (pvVar1 != NULL) {
     func_80098864((char)pvVar1,param_1);
-    pvVar2 = MemMonitor.mamRegionMaxCurr;
+    pvVar2 = MemMonitor.memRegionMaxCurr;
   }
-  MemMonitor.mamRegionMaxCurr = pvVar2;
+  MemMonitor.memRegionMaxCurr = pvVar2;
   MemMonitor.memRegionNext = param_1;
   return;
 }
@@ -324,9 +324,9 @@ void func_800987a8(undefined param_1){
   pvVar1 = (void *)lVar2;
   if (pvVar3 != NULL) {
     func_80098864((char)pvVar3,(void *)lVar2);
-    pvVar1 = MemMonitor.mamRegionMaxCurr;
+    pvVar1 = MemMonitor.memRegionMaxCurr;
   }
-  MemMonitor.mamRegionMaxCurr = pvVar1;
+  MemMonitor.memRegionMaxCurr = pvVar1;
   return;
 }
 

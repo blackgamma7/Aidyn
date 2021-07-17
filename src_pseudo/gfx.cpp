@@ -304,8 +304,7 @@ rspCom * GsSetOtherMode_SysMon(rspCom *param_1){
   return param_1[3];
 }
 
-rspCom * debug::gsDisplaySystemMonitor_Fillrect(rspCom *cmd,ushort x1,ushort y1,ushort x2,ushort y2,
- u8 R,u8 G,u8 B,u8 A){
+rspCom * debug::gsDisplaySystemMonitor_Fillrect(rspCom *cmd,ushort x1,ushort y1,ushort x2,ushort y2,u8 R,u8 G,u8 B,u8 A){
   int uVar1;
   uint uVar2;
   int uVar3;

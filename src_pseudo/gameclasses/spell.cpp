@@ -36,7 +36,7 @@ ItemID get_spell_ingredient(Temp_spell *param_1){
   return itemID_array[30]; //default to spice
 }
 
-bool FUN_80083ff4(ItemID *param_1){
+bool func_80083ff4(ItemID *param_1){
   SpellEnum bVar2;
   bool bVar1;
   
@@ -107,9 +107,9 @@ void CreateTempEnchant(Temp_enchant *Ench,SpellEnum Index,byte LV,uint Timer,byt
   Ench->school = spell_pointer->spells[Index].School;
 }
 
-void FUN_800840dc(Temp_enchant *param_1){
+void func_800840dc(Temp_enchant *param_1){
   if ((param_1->unk0x14 != 0xffff) && (gGlobals.screenFadeModeSwitch == 2)) {
-    FUN_80095f6c(param_1->unk0x14);}
+    func_80095f6c(param_1->unk0x14);}
 }
 
 bool inc_effect_timer(Temp_enchant *param_1,u16 param_2,int param_3){

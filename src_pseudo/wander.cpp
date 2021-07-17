@@ -65,7 +65,7 @@ void * WanderHead(wander_struct *arg0,short size){
   
   arg0->unk0x56 = 1;
   arg0->wanderersmax = size;
-  x = (wander_substruct *)Malloc(size * 0x54,s_./src/wander.cpp_800d8d68,0xaa);
+  x = (wander_substruct *)Malloc(size * 0x54,FILENAME,0xaa);
   arg0->wanderSubstructs = x;
   pvVar1 = memset(x,0,(arg0->wanderersmax * 0x14 + (int)arg0->wanderersmax) * 4);
   lVar2 = 0;
@@ -91,12 +91,11 @@ void * WanderHead(wander_struct *arg0,short size){
 void wander_free(wander_struct *param_1){
   param_1->unk0x56 = 0;
   wander_struct_free_sub(param_1);
-  Free(param_1->wanderSubstructs,s_./src/wander.cpp_800d8d68,0xd4);
+  Free(param_1->wanderSubstructs,FILENAME,0xd4);
 }
 
 
-void look_for_monsterparties
-               (wander_struct *param_1,Borg_9_data *param_2,playerData *param_3,byte param_4){
+void look_for_monsterparties(wander_struct *param_1,Borg_9_data *param_2,int param_3,byte param_4){
   monsterparty_obj *obj;
   bool bVar1;
   uint uVar2;
@@ -110,8 +109,7 @@ void look_for_monsterparties
     do {
       obj = (monsterparty_obj *)(&param_2->ref_objs[count]);
       if ((((obj->header).type == MonsterParty) && (((obj->header).Bitfeild & visible) != 0)) &&
-         (bVar1 = some_monsterparty_checker
-                            ((short)(uVar2 & 0xffff),(byte)map_dat_A,(byte)MapShortA,(byte)mapShortB
+         (bVar1 = some_monsterparty_checker((short)(uVar2 & 0xffff),(byte)map_dat_A,(byte)MapShortA,(byte)mapShortB
                              ,param_4,5), bVar1 == false)) {
         AllocWanderer(param_1,uVar2 & 0xffff,param_3,param_4);
       }
@@ -123,7 +121,7 @@ void look_for_monsterparties
   return;
 }
 
-void AllocWanderer(wander_struct *param_1,short param_2,playerData *param_3,byte param_4){
+void AllocWanderer(wander_struct *param_1,short param_2,int param_3,byte param_4){
   short sVar1;
   ushort uVar2;
   ItemID IVar3;
@@ -154,10 +152,8 @@ void AllocWanderer(wander_struct *param_1,short param_2,playerData *param_3,byte
     ppVar10->unk0x20 = 1;
     ppVar10->VoxelIndex = param_2;
     ppVar10->NoBorg13 = 1;
-    if (refObj->borg_13 != 0) {
-      ppVar10->NoBorg13 = 0;
-    }
-    ppVar10->target_playerDat = param_3;
+    if (refObj->borg_13 != 0) {ppVar10->NoBorg13 = 0;}
+    ppVar10->MapTally = param_3;
     fVar10 = get_some_entity_dat(refObj->entityID);
     BVar6 = get_ent_borg7(refObj->entityID);
     ppVar7 = AllocPlayer(fVar10,ppVar10->start_position[0],0.0,ppVar10->start_position[1],BVar6);
@@ -183,11 +179,11 @@ void AllocWanderer(wander_struct *param_1,short param_2,playerData *param_3,byte
     (ppVar4->collision).position[0] = (refObj->header).coords[0];
     (ppVar10->playerDat->collision).position[2] = ppVar10->position[1];
     func_800154e4(ppVar10->playerDat,(refObj->header).coords[1],1,0);
-    if (((ppVar10->homenode ^ 1) & 1) != 0) {assert(s_AllocWanderer_800d8d7c,s_Home_Node_not_WANDER_MOVE_800d8dcc);}
+    if (((ppVar10->homenode ^ 1) & 1) != 0) {assert("AllocWanderer","Home Node not WANDER_MOVE\n");}
     func_80012d44(ppVar10);
     return;
   }
-  assert(s_AllocWanderer_800d8d7c,s_Too_Many_wanderers_already_alloc_800d8da4);
+  assert("AllocWanderer","Too Many wanderers already allocated");
 }
 
 
@@ -217,7 +213,7 @@ void func_80012a24(wander_struct *param_1,int param_2){
     iVar4 = 0x10000;
     do {
       iVar1 =param_1->wanderSubstructs[iVar3];
-      if ((iVar1->unk0x20 != 0) && (iVar1->target_playerDat == (playerData *)param_2)) {
+      if ((iVar1->unk0x20 != 0) && (iVar1->MapTally == param_2)) {
         free_wanderstruct_player(param_1,iVar1);
       }
       iVar2 = iVar4 >> 0x10;
@@ -373,8 +369,8 @@ void monster_engagement_func(wander_struct *param_1,short param_2){
   playerDat_ = PlayerCharStruct.playerDat;
   sneakval = sneak_value(0.8f);
   bVar3 = false;
-  if ((((story_short == 0) && (isPaused() == false)) &&
-      (PlayerCharStruct.camping_var == '\x03')) &&
+  if ((((story_short == 0) && (!isPaused())) &&
+      (PlayerCharStruct.camping_var == 3)) &&
      (widgethandler_get_widgetB(widget_handler_pointer)== 0 &&
       (lVar4 = 0, 0 < param_1->wanderersmax)))) {
 
@@ -395,10 +391,8 @@ void monster_engagement_func(wander_struct *param_1,short param_2){
         wanderer->timer -= param_2;
         func_800153fc(wanderer->playerDat,(vec3 *)afStack360);
         fVar10 = get_vec3_proximity((vec3 *)afStack360,from);
-        afStack360[0] -=
-                    (wanderer->playerDat->facing[0] * entRamB) * dVar18);
-        afStack360[2] -=
-                    (double)(wanderer->playerDat->facing[1] * entRamB) * dVar18);
+        afStack360[0] -=(wanderer->playerDat->facing[0] * entRamB) * dVar18);
+        afStack360[2] -=(double)(wanderer->playerDat->facing[1] * entRamB) * dVar18);
         fVar11 = get_vec3_proximity((vec3 *)afStack360,from);
         setVec2((Vec2 *)&fStack488,(wanderer->playerDat->collision).position[0],
                 (wanderer->playerDat->collision).position[2]);
@@ -406,14 +400,11 @@ void monster_engagement_func(wander_struct *param_1,short param_2){
         fVar12 = get_vec2_proximity(A,(Vec2 *)&fStack488);
         copyVec2(A,(Vec2 *)afStack424);
         func_8001545c((uint)wanderer->playerDat->zoneDatByte,(Vec2 *)afStack424);
-        setVec2((Vec2 *)&fStack488,(playerDat_->collision).position[0],
-                (playerDat_->collision).position[2]);
+        setVec2((Vec2 *)&fStack488,(playerDat_->collision).position[0],(playerDat_->collision).position[2]);
         fVar13 = get_vec2_proximity(A,(Vec2 *)&fStack488);
         if (fVar11 <= fVar17) {
           if (wanderer->unk0x3a == 0) {
-            entRamB = (float)((double)entRamB *
-                             (1.0d - (double)weatherDat.unk0xc * 0.75d)
-                             );
+            entRamB = (float)((double)entRamB * (1.0d - (double)weatherDat.unk0xc * 0.75d));
             dVar9 = (double)entRamB;
             dVar16 = dVar9 * 1.5d;
             dVar15 = dVar9 * 0.6d;
@@ -600,7 +591,7 @@ LAB_80013488:
             multiVec2((Vec2 *)&fStack488,-1.0);
             fStack488[0] += (wanderer->playerDat->collision).position[0];
             fStack488[1] += (wanderer->playerDat->collision).position[2];
-            enemy_proximity_check(wanderer->playerDat,fStack488[0],fStack488[0],1.0,0);
+            enemy_proximity_check(wanderer->playerDat,fStack488[0],fStack488[1],1.0,0);
           }
         }
       }
