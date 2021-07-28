@@ -2413,8 +2413,7 @@ byte banishing_func(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *para
   return getHPCurrent(param_2->CharSheet);
 }
 
-int dispel_magic_combat(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,
-                       SpellEnum param_4,byte param_5){
+int dispel_magic_combat(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,SpellEnum param_4,byte param_5){
   if (!dispel_magic(param_2->CharSheet,(char)param_2,param_4,param_5)) {
     sprintf(gGlobals.text,combatPointer->textArray->they cast spell,param_1->CharSheet->name,param_3->name);
     copy_string_to_combat_textbox(combatPointer,gGlobals.text,0);

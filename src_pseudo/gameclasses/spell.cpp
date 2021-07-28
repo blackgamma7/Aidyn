@@ -29,19 +29,16 @@ int get_spell_gold_price(Temp_spell *param_1){
   return 200;}
 
 ItemID get_spell_ingredient(Temp_spell *param_1){
-  MigicCostEnum MVar1 = param_1->cost;
-  if (MVar1 == Herb) {return itemID_array[31];}
-  else if (MVar1 == Spice) {return itemID_array[30];}
-  else if (MVar1 == Gemstone) {return itemID_array[32];}
+  if (param_1->cost == Herb) {return itemID_array[31];}
+  else if (param_1->cost == Spice) {return itemID_array[30];}
+  else if (param_1->cost == Gemstone) {return itemID_array[32];}
   return itemID_array[30]; //default to spice
 }
 
 bool func_80083ff4(ItemID *param_1){
-  SpellEnum bVar2;
   bool bVar1;
   
-  bVar2 = GetIDIndex(*param_1);
-  switch(bVar2) {
+  switch((SpellEnum)GetIDIndex(*param_1)) {
   case Immolation:
   case escape:
   case AirSheild:

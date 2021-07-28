@@ -29,9 +29,7 @@ ulong init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
   ulong uVar6;
   ItemID IVar7;
   
-  BVar3 = getEntityPortait(param_1->ID);
-  pBVar4 = get_borg_8(BVar3);
-  param_1->portait = pBVar4;
+  param_1->portait = get_borg_8(getEntityPortait(param_1->ID));
   x = (Potion_effect **)Malloc(0x1c,FILENAME,0xc1);
   param_1->potion_effects = x;
   memset(x,0,0x1c);
@@ -44,9 +42,7 @@ ulong init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
     if (param_1->weapons == NULL) {EquipWeapon(param_1,param_2->weapon[1],0);}
     else {
       piVar2 = gGlobals.party->Inventory->Functions;
-      (*(piVar2->add_to_inv).func)
-                ((int)gGlobals.party->Inventory->inv_slots + (short)(piVar2->add_to_inv).arg[0] + -4
-                 ,(ulonglong)(ushort)param_2->weapon[1],1);
+      (*(piVar2->add_to_inv).func)((int)gGlobals.party->Inventory->inv_slots + (short)(piVar2->add_to_inv).arg[0] + -4,(ulonglong)(ushort)param_2->weapon[1],1);
     }
   }
   IVar7 = param_2->weapon[2];
@@ -55,10 +51,7 @@ ulong init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
     if (param_1->weapons == NULL) {uVar6 = EquipWeapon(param_1,param_2->weapon[2],0);}
     else {
       piVar2 = gGlobals.party->Inventory->Functions;
-      uVar6 = (*(piVar2->add_to_inv).func)
-                        ((int)gGlobals.party->Inventory->inv_slots +
-                         (short)(piVar2->add_to_inv).arg[0] + -4,
-                         (ulonglong)(ushort)param_2->weapon[2],1);
+      uVar6 = (*(piVar2->add_to_inv).func)((int)gGlobals.party->Inventory->inv_slots +(short)(piVar2->add_to_inv).arg[0] + -4,(ulonglong)(ushort)param_2->weapon[2],1);
     }
   }
   return uVar6;
@@ -365,19 +358,13 @@ LAB_80077df0:
 
 
 void addHP(CharSheet *param_1,short param_2){
-  int iVar1;
-  int iVar2;
   uint uVar3;
   uint uVar4;
   
   uVar3 = (int)param_2 & 0xffff;
-  iVar1 = getModdedStat(param_1->Stats,END);
-  iVar2 = getBaseStat(param_1->Stats,END);
   uVar4 = uVar3;
-  if (iVar1 < iVar2) {
-    iVar1 = getBaseStat(param_1->Stats,END);
-    iVar2 = getModdedStat(param_1->Stats,END);
-    uVar4 = iVar1 - iVar2 & 0xff;
+  if (getModdedStat(param_1->Stats,END) < getBaseStat(param_1->Stats,END)) {
+    uVar4 = getBaseStat(param_1->Stats,END) - getModdedStat(param_1->Stats,END) & 0xff;
     if (uVar3 < uVar4) {
       uVar4 = 0;
       addModdedStat(param_1->Stats,END,(char)uVar3);
@@ -388,13 +375,9 @@ void addHP(CharSheet *param_1,short param_2){
     }
   }
   if (uVar4 != 0) {
-    iVar1 = getModdedStat(param_1->Stats,STAM);
-    iVar2 = getBaseStat(param_1->Stats,STAM);
     uVar3 = uVar4;
-    if (iVar1 < iVar2) {
-      iVar1 = getBaseStat(param_1->Stats,STAM);
-      iVar2 = getModdedStat(param_1->Stats,STAM);
-      uVar3 = iVar1 - iVar2;
+    if (getModdedStat(param_1->Stats,STAM) < getBaseStat(param_1->Stats,STAM)) {
+      uVar3 = getBaseStat(param_1->Stats,STAM) - getModdedStat(param_1->Stats,STAM);
       if (uVar4 < uVar3) {
         uVar3 = 0;
         addModdedStat(param_1->Stats,STAM,(char)uVar4);
@@ -405,9 +388,7 @@ void addHP(CharSheet *param_1,short param_2){
       }
     }
     if (uVar3 != 0) {
-      iVar1 = getModdedStat(param_1->Stats,LV);
-      iVar2 = getBaseStat(param_1->Stats,LV);
-      if (iVar1 < iVar2) {
+      if (getModdedStat(param_1->Stats,LV) < getBaseStat(param_1->Stats,LV)) {
         uVar4 = getBaseStat(param_1->Stats,LV) - getModdedStat(param_1->Stats,LV);
         if (uVar3 < uVar4) {addModdedStat(param_1->Stats,LV,(char)uVar3);}
         else {addModdedStat(param_1->Stats,LV,(char)uVar4);}
@@ -1968,7 +1949,7 @@ void Wraith_touch(CharSheet *param_1,CombatEntity* cEnt,u8 num,uint param_2){
   pTVar3 = (Temp_enchant *)Malloc(0x18,FILENAME,0xcec);
   ppTVar4 = param_1->effects->list + param_2;
   *ppTVar4 = pTVar3;
-  CreateTempEnchant(*ppTVar4,wraithTouch,uVar2,0xffffffff,SVar1,1);
+  CreateTempEnchant(*ppTVar4,wraithTouch,uVar2,-1,SVar1,1);
 }
 
 void darkness_light_spell(CharSheet *param_1,SpellEnum param_2){
