@@ -113,7 +113,7 @@ byte gameStart(rspCom **param_1){
       ((gGlobals.unk0x1500 == 1 && (0.0 < gGlobals.screenfadeFloat)))) ||
      ((gGlobals.unk0x1500 == 2 && (gGlobals.screenFadeMode != 0)))) {
     pauVar1 = other_flycam_func(in_f12,in_f14,pauVar1);
-    if (flycam_flag != 0) {fadeFloatMirror = 1.0f;}
+    if (flycam_flag) {fadeFloatMirror = 1.0f;}
     pauVar1 = rsp_func(pauVar1,6,gfx::get_hres(),gfx::get_vres());
     uVar2 = 0;
     while( true ) {
@@ -161,7 +161,6 @@ byte gameStart(rspCom **param_1){
 }
 
 void check_input_7(void){
-  longlong lVar1;
   bool bVar2;
   u16 uVar3;
   Button_hold *pBStack32;
@@ -169,8 +168,7 @@ void check_input_7(void){
   uVar3 = 0;
   while (get_cont_aidyn(&pBStack32,0)) {
     uVar3++;
-    lVar1 = run_widget_control_func(gGlobals.widgetHandler,pBStack32);
-    if (lVar1 != 0) {
+    if (run_widget_control_func(gGlobals.widgetHandler,pBStack32) != 0) {
       if (freeWidgetFunc == NULL) {
         switch(*(undefined *)((int)(gGlobals.titleScreen)->prt0x40 + 0x24)) {
         case 6:
@@ -195,7 +193,6 @@ void check_input_7(void){
     }
   }
   gGlobals.delay = (float)uVar3;
-  return;
 }
 
 void clear_flycam(void){
@@ -204,7 +201,6 @@ void clear_flycam(void){
   clear_borg6(flycam_borg6_ptr);
   AllocFreeQueueItem(&gGlobals.QueueA,&flycam_AniDat_ptr,1,0);
   AllocFreeQueueItem(&gGlobals.QueueA,&flycam_borg6_ptr,2,0);
-  return;
 }
 
 void start_intermediate_game(void){
@@ -231,5 +227,4 @@ void start_intermediate_game(void){
   gGlobals.playerCharStruct.collisionRadius = debugCharacters[0].f;
   dcm_remove_func((byte)gGlobals.introMusicDatA,gGlobals.introMusicDatB);
   AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.introMusic,8,0);
-  return;
 }

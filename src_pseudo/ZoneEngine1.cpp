@@ -15,7 +15,7 @@ void dialoug_ref_obj_func(void){
   
   setEventFlag(0x1090,true);
   pBVar1 = gGlobals.Sub.borg9DatPointer;
-  if ((gGlobals.Sub.borg9DatPointer)->ref_obj_count != 0) {
+  if ((gGlobals.Sub.borg9DatPointer)->voxelCount != 0) {
     iVar4 = 0;
     iVar5 = 0x10000;
     do {
@@ -31,7 +31,7 @@ void dialoug_ref_obj_func(void){
       iVar3 = iVar5 >> 0x10;
       iVar4+= 0x6c;
       iVar5 = iVar5 + 0x10000;
-    } while (iVar3 < (int)(uint)pBVar1->ref_obj_count);
+    } while (iVar3 < (int)(uint)pBVar1->voxelCount);
   }
   campfire_func();
   setEventFlag(0x1090,false);
@@ -83,18 +83,18 @@ void campfire_func(void){
   int iVar2;
   int iVar3;
   dialoug_dat *puVar4;
-  ref_obj *pVVar1;
+  mapVoxel *pVVar1;
   
   pBVar1 = get_borg_9(Borg9_campfire);
   puVar4 = (dialoug_dat *)0x0;
-  if ((pBVar1->dat).ref_obj_count != 0) {
-    pVVar1 = (ref_obj *)(pBVar1->dat).ref_objs;
+  if ((pBVar1->dat).voxelCount != 0) {
+    pVVar1 = (mapVoxel *)(pBVar1->dat).ref_objs;
     if ((pVVar1->header).type == Dialouge) {puVar4 = (dialoug_dat *)pVVar1->data;}
     else {
       iVar2 = 1;
       do {
         iVar3 = (int)(short)iVar2;
-        if ((int)(uint)(pBVar1->dat).ref_obj_count <= iVar3) goto LAB_80006610;
+        if ((int)(uint)(pBVar1->dat).voxelCount <= iVar3) goto LAB_80006610;
         iVar2 = iVar3 + 1;
       } while (pVVar1[iVar3].header.type != Dialouge);
       puVar4 = (dialoug_dat *)pVVar1[iVar3].data;

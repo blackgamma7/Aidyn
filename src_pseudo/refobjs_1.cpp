@@ -17,7 +17,7 @@ enum GameStateCheat{
 
 void set_ranger_float(void){RangerIngredientFloat = ranger_int_float(Gglobals.party);}
 
-bool func_8001b9bc(ref_obj *param_1){
+bool func_8001b9bc(mapVoxel *param_1){
   EventFlag EVar1;
   bool bVar2;
   bool bVar3;
@@ -38,7 +38,7 @@ bool func_8001b9bc(ref_obj *param_1){
   return bVar3;
 }
 
-void set_refObj_flag(ref_obj *param_1){
+void set_refObj_flag(mapVoxel *param_1){
   setEventFlag((param_1->header).flagB,(bool)(((param_1->header).Bitfeild >> 9) & 1 ^ 1));
 }
 
@@ -48,13 +48,13 @@ void render_ref_objs(Borg_9_data *dat,byte arg2)
   bool bVar3;
   ref_obj_bitfeild rVar2;
   short *psVar1;
-  ref_obj *a;
+  mapVoxel *a;
   short uVar4;
   
   set_ranger_float();
-  uVar4 = 0;
-  if (dat->ref_obj_count != 0) {
-    do {
+  
+  if (dat->voxelCount != 0) {
+    for(uVar4 = 0;uVar4 < dat->voxelCount;uVar4++) {
       a = dat->ref_objs[uVar4];
       bVar3 = gamestate_cheat_check1(appear);
       if (bVar3 == false) {
@@ -64,8 +64,7 @@ void render_ref_objs(Borg_9_data *dat,byte arg2)
           else {rVar2 = (a->header).Bitfeild & EXPPak;}
           bVar3 = rVar2 == 0 && bVar3 != false;
           if ((a->header).type == Scene) {
-            psVar1 = some_ref_obj_lookup_func
-                               (uVar4,(char)map_dat_A,(byte)MapShortA,(byte)mapShortB,arg2,0);
+            psVar1 = some_ref_obj_lookup_func(uVar4,(char)map_dat_A,(byte)MapShortA,(byte)mapShortB,arg2,0);
             bVar3 = psVar1 == NULL && bVar3;
           }
           set_voxel_visibility(a,bVar3);
@@ -81,25 +80,18 @@ void render_ref_objs(Borg_9_data *dat,byte arg2)
         else {rVar2 = (a->header).Bitfeild & EXPPak;}
         set_voxel_visibility(a,rVar2 == 0 && bVar3 != false);
       }
-      uVar4++;
-    } while (uVar4 < dat->ref_obj_count);
+    }
   }
-  uVar4 = 0;
-  if (dat->ref_obj_count != 0) {
-    do {
+  if (dat->voxelCount != 0) {
+    for(uVar4 = 0;uVar4 < dat->voxelCount;uVar4++){
       render_container((container_obj *)dat->ref_objs[uVar4],dat);
-      uVar4++;
-    } while (uVar4 < dat->ref_obj_count);
+    }
   }
   return;
 }
 
-void set_voxel_visibility(ref_obj *a,bool b){
-  if (b == false) {
-    (a->header).Bitfeild &= ~visible;
-    return;
-  }
-  (a->header).Bitfeild |= visible;
-  return;
+void set_voxel_visibility(mapVoxel *a,bool b){
+  if(b) (a->header).Bitfeild |= visible;
+  else  (a->header).Bitfeild &= ~visible;
 }
 

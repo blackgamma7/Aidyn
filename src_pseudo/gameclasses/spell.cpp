@@ -136,7 +136,6 @@ void malloc_equip_spell(SpellCharges *param_1,uint param_2,byte param_3,byte par
   param_1->Spell = pTVar1;
   create_temp_spell(pTVar1,(ItemID)(SpellList[param_2 & 0xff] | 0x300),param_4);
   param_1->Charges = param_3;
-  return;
 }
 
 void Ofunc_80084200(Temp_spell **param_1){ //probably wrong type
@@ -145,7 +144,6 @@ void Ofunc_80084200(Temp_spell **param_1){ //probably wrong type
     Free(*param_1,FILENAME,0x148);
     *param_1 = NULL;
   }
-  return;
 }
 
 void malloc_spell(spellbook *param_1,u8 param_2){
@@ -154,13 +152,12 @@ void malloc_spell(spellbook *param_1,u8 param_2){
   
   param_1->spell_count = 0;
   param_1->spells = NULL;
-  if (param_2 != 0) {
+  if (param_2) {
     size = param_2<< 2;
     x = (Temp_spell *)Malloc(size,FILENAME,0x15a);
     param_1->spells = x;
     memset(x,0,size);
   }
-  return;
 }
 
 void learn_spell(spellbook *param_1,ItemID param_2,byte param_3){
@@ -188,14 +185,13 @@ void learn_spell(spellbook *param_1,ItemID param_2,byte param_3){
   spellbok_free(param_1);
   malloc_spell(param_1,uVar3);
   param_1->spell_count = (byte)uVar3;
-  uVar3 = 0;
+  
   if (0 < (uVar1 - 1)) {
-    do {
+    for (uVar3 = 0;uVar3 < (param_1->spell_count - 1);uVar3++) {
       pTVar2 = (Temp_spell *)Malloc(0x24,FILENAME,0x199);
       param_1->spells->[uVar3] = pTVar2;
       create_temp_spell(pTVar2,*(ItemID *)aIStack544[uVar3],*(byte *)((int)aIStack544[uVar3] + 3));
-      uVar3++;
-    } while (uVar3 < (param_1->spell_count - 1));
+    }
   }
   pTVar2 = (Temp_spell *)Malloc(0x24,FILENAME,0x19d);
   param_1->spells[uVar3] = pTVar2;
@@ -206,33 +202,31 @@ bool knows_spell(spellbook *param_1,ItemID param_2,undefined *param_3){
   uint uVar2;
   Temp_spell *psVar1;
   
-  if (param_1->spells == NULL) {return false;}
-  uVar2 = 0;
+  if (param_1->spells == NULL) return false;
+  
   if (param_1->spell_count != 0) {
-    do {
+    for(uVar2 = 0;uVar2 < param_1->spell_count;uVar2++) {
       psVar1 = param_1->spells[uVar2];
       if ((psVar1 != NULL) && (psVar1->id == param_2)) {
         *param_3 = (char)uVar2;
         return true;
       }
-      uVar2++;
-    } while (uVar2 < param_1->spell_count);
+    }
   }
   return false;
 }
 
 void spellbok_free(spellbook *param_1){
   uint uVar3 = 0;
-  if (param_1->spells != NULL) {
+  if (param_1->spells) {
     if (param_1->spell_count != 0) {
       while( true ) {
-        if param_1->spells[uVar3] != NULL){
+        if param_1->spells[uVar3]){
           clear_temp_Stat_spell(param_1->spells[uVar3]); //could be skipped, no applciable pointers
           Free(param_1->spells[uVar3],FILENAME,0x1ed);
           param_1->spells[uVar3] = NULL;
         }
-        uVar3++;
-        if (param_1->spell_count <= uVar3) break;
+        if (param_1->spell_count <= ++uVar3) break;
       }
     }
     Free(param_1->spells,FILENAME,0x1f1);

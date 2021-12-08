@@ -727,7 +727,7 @@ typedef struct borg_9_struct borg_9_struct, *Pborg_9_struct;
 
 typedef struct voxelHeader voxelHeader, *PvoxelHeader;
 
-typedef struct ref_obj ref_obj, *Pref_obj;
+typedef struct mapVoxel mapVoxel, *Pref_obj;
 
 typedef struct Audio_obj Audio_obj, *PAudio_obj;
 
@@ -779,7 +779,7 @@ typedef struct monsterparty_dat monsterparty_dat, *Pmonsterparty_dat;
 
 typedef struct Scene_obj_dat Scene_obj_dat, *PScene_obj_dat;
 
-typedef struct light_obj_dat light_obj_dat, *Plight_obj_dat;
+typedef struct light_dat light_dat, *Plight_dat;
 
 typedef struct teleport_dat teleport_dat, *Pteleport_dat;
 
@@ -858,7 +858,7 @@ struct audio_obj_dat {
     u8 unk0x11;
     u8 unk0x12;
     u8 unk0x13;
-    ushort soundType; /* bitfield 0x10 =bgm */
+    ushort AudioFlags; /* bitfield 0x10 =bgm */
     ushort unk0x16;
     float volume_;
     undefined4 sfx_arg3;
@@ -1012,7 +1012,7 @@ struct referncepoint_obj {
     u8 unk0x6b;
 };
 
-struct light_obj_dat {
+struct light_dat {
     struct color cols[3];
     ushort lightType; /* 0-3 are valid types */
     u8 unk0xe;
@@ -1402,7 +1402,7 @@ struct Button_hold {
 struct camera_obj {
     struct voxelHeader header;
     short refpoint_ID;
-    ushort movementType;
+    ushort CameraFlags;
     uint timestamp;
     vec3 vec3_A;
     vec3 vec3_b;
@@ -2784,7 +2784,7 @@ struct borg_6_header {
 
 struct container_Dat {
     undefined4 unk0x0;
-    float chest_size;
+    float chestSize;
     enum EventFlag open_flag;
     enum EventFlag explode_flag;
     short trap_lv;
@@ -2912,7 +2912,7 @@ struct Scene_obj_dat {
     u8 unk0x33;
     vec3 unk0x34;
     ushort unk0x40;
-    ushort unk0x42;
+    ushort SceneFlags;
 };
 
 struct Scene_obj {
@@ -2979,18 +2979,18 @@ struct trigger_obj {
     struct Trigger_dat dat;
 };
 
-struct ref_obj {
+struct mapVoxel {
     struct voxelHeader header;
     byte data[68];
 };
 
 struct light_obj {
     struct voxelHeader header;
-    struct light_obj_dat data;
+    struct light_dat data;
 };
 
 union Voxel_u {
-    struct ref_obj BaseRef;
+    struct mapVoxel BaseRef;
     struct Audio_obj audio;
     struct monsterparty_obj monster;
     struct Scene_obj SCene;
@@ -3014,12 +3014,12 @@ struct Borg_9_data {
     byte unk[4];
     ushort borghpys_count;
     ushort unk0x26;
-    ushort ref_obj_count;
+    ushort voxelCount;
     ushort unkStructCount;
     short * counting_pointer;
     int someint;
     short * pointer2;
-    float * floats_pointer;
+    vec3* Verticies;
     struct borg9_phys * phys_pointer;
     int someInt_2;
     union Voxel_u * ref_objs;
@@ -3537,8 +3537,8 @@ struct someParticleStruct {
 };
 
 struct borg9_phys {
-    struct voxelHeader * voxelPointers[3];
-    vec3 vec3_0xc;
+    struct Vec3 * VertexEntries[3];
+    vec3 vec3_0xc; //
     u8 * ptr_0x18;
     ushort shortA;
     ushort shortB;
@@ -8082,7 +8082,7 @@ struct GlobalsSub { /* 0x800e6988 */
     struct ParticleHeadStruct particleEmmiter;
     byte unk0x692[262];
     struct dynamic_light_struct DynamicLights;
-    struct ref_obj * refObjPointer;
+    struct mapVoxel * refObjPointer;
     vec3 * unk0xf00;
     struct mapFloatDat MapFloatDatEntry;
     struct Borg_12_header * BGM;

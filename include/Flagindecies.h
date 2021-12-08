@@ -2,7 +2,7 @@
 #define FLAG_Cinematic1 3
 #define FLAG_Cinematic2 569
 #define FLAG_Cinematic3 590
-#define FLAG_Cinematic3 601 //never legit triggered as game ends here.
+#define FLAG_Cinematic4 601 //never legit triggered as game ends here.
 
 //journal flags
 #define FLAG_MeetShadow 9

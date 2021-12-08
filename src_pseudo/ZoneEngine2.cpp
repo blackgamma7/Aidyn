@@ -302,7 +302,7 @@ void check_trigger(collisionStruct *param_1,borg9_phys *param_2){
   playerData *ppVar2;
   ushort uVar4;
   playerData *ppVar5;
-  ref_obj *ptVar6;
+  mapVoxel *ptVar6;
   
   ppVar2 = (playerData *)param_1[1].radius;
   ppVar5 = NULL;
@@ -323,7 +323,7 @@ LAB_8000d5bc:
   if (((((uVar4 & 0xf000) == 0x2000) && ((param_1->flags & 0x400) == 0)) &&
       (gGlobals.playerCharStruct.camping_var == '\x03')) &&
      ((some_toggle == -1 &&
-      (ptVar6 = (ref_obj *)((gGlobals.Sub.borg9DatPointer)->ref_objs + (uVar4 >> 5 & 0x7f)),
+      (ptVar6 = (mapVoxel *)((gGlobals.Sub.borg9DatPointer)->ref_objs + (uVar4 >> 5 & 0x7f)),
       ((ptVar6->header).Bitfeild & visible) != 0)))) {
     VVar1 = (ptVar6->header).type;
     if (VVar1 == Camera) {
@@ -408,7 +408,7 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
       clear_sfx_on_map(&gGlobals.SFXStruct,param_1->MapTally);
     }
     uVar6 = 0;
-    if ((pBVar2->dat).ref_obj_count != 0) {
+    if ((pBVar2->dat).voxelCount != 0) {
       iVar4 = 0;
       do {
         pVVar8 = (Scene_obj *)((int)(pBVar2->dat).ref_objs + (iVar4 * 4 + uVar6 * -5) * 4);
@@ -418,7 +418,7 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
           do {
             iVar5 = iVar4 + uVar7;
             if (ppBVar8[iVar5] != (Borg_7_header *)0x0) {
-              if (((pVVar8->dat).unk0x42 & 2) == 0) {
+              if (((pVVar8->dat).SceneFlags & 2) == 0) {
                 AllocFreeQueueItem(&gGlobals.QueueA,(pVVar8->dat).unk0x34 + iVar5 + -0xb,1,0);
               }
               else {
@@ -432,7 +432,7 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
         }
         uVar6++;
         iVar4 = uVar6 << 3;
-      } while (uVar6 < (pBVar2->dat).ref_obj_count);
+      } while (uVar6 < (pBVar2->dat).voxelCount);
     }
     if (param_3 != 0) {
       return;
@@ -897,14 +897,14 @@ referncepoint_obj * FindReferncePoint(Borg_9_data *param_1,short param_2){
   uint uVar2;
   
   uVar2 = 0;
-  if (param_1->ref_obj_count != 0) {
+  if (param_1->voxelCount != 0) {
     iVar1 = 0;
     do {
       prVar2 = (referncepoint_obj *)((int)param_1->ref_objs + (iVar1 * 4 + uVar2 * -5) * 4);
       if (((prVar2->header).type == ReferencePoint) && (prVar2->refPoint_ID == param_2)) {return prVar2;}
       uVar2++;
       iVar1 = uVar2 << 3;
-    } while (uVar2 < param_1->ref_obj_count);
+    } while (uVar2 < param_1->voxelCount);
   }
   return NULL;
 }
@@ -915,14 +915,14 @@ referncepoint_obj * get_map_referencepoint(Borg_9_data *param_1,short param_2){
   uint uVar3;
   //Yup, duplicate func.
   uVar3 = 0;
-  if (param_1->ref_obj_count != 0) {
+  if (param_1->voxelCount != 0) {
     iVar1 = 0;
     do {
       prVar2 = (referncepoint_obj *)((int)param_1->ref_objs + (iVar1 * 4 + uVar3 * -5) * 4);
       if (((prVar2->header).type == ReferencePoint) && (prVar2->refPoint_ID == param_2)) {return prVar2;}
       uVar3++;
       iVar1 = uVar3 << 3;
-    } while (uVar3 < param_1->ref_obj_count);
+    } while (uVar3 < param_1->voxelCount);
   }
   return NULL;
 }
@@ -940,7 +940,7 @@ referncepoint_obj * FindReferncePointName(Borg_9_data *param_1,char *param_2,boo
   
   uVar1 = strlen(param_2);
   uVar6 = 0;
-  if (param_1->ref_obj_count != 0) {
+  if (param_1->voxelCount != 0) {
     iVar2 = 0;
     do {
       prVar7 = (referncepoint_obj *)((int)param_1->ref_objs + (iVar2 * 4 + uVar6 * -5) * 4);
@@ -961,7 +961,7 @@ referncepoint_obj * FindReferncePointName(Borg_9_data *param_1,char *param_2,boo
       }
       uVar6++;
       iVar2 = uVar6 << 3;
-    } while (uVar6 < param_1->ref_obj_count);
+    } while (uVar6 < param_1->voxelCount);
   }
   if (param_3 == false) {return NULL;}
   assert("FindReferencePointName","Point Not Found");
@@ -1310,7 +1310,7 @@ void ref_obj_boulders(Borg_9_data *param_1)
   Scene_obj *iVar2;
   
   uVar3 = 0;
-  if (param_1->ref_obj_count != 0) {
+  if (param_1->voxelCount != 0) {
     iVar2 = (Scene_obj *)param_1->ref_objs;
     iVar1 = 0;
     do {
@@ -1318,7 +1318,7 @@ void ref_obj_boulders(Borg_9_data *param_1)
       if ((prVar6->header).type == Scene) {
         uVar2 = 0;
         uVar4 = (uint)(prVar6->dat).unk0x40;
-        (prVar6->dat).unk0x42 = (prVar6->dat).unk0x42 & 0xfffd;
+        (prVar6->dat).SceneFlags&=~0x2;
         if (uVar4 != 0) {
           iVar1 = 0;
           do {
@@ -1330,7 +1330,7 @@ void ref_obj_boulders(Borg_9_data *param_1)
       }
       uVar3++;
       iVar1 = uVar3 << 3;
-    } while (uVar3 < param_1->ref_obj_count);
+    } while (uVar3 < param_1->voxelCount);
   }
   return;
 }
@@ -1338,7 +1338,7 @@ void ref_obj_boulders(Borg_9_data *param_1)
 void clear_if_no_ExpPak(Scene_obj_dat *param_1,uint param_2){
   if (!ExpPakFlag) {
     if ((param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xd)[2] != 0.0) {
-      if ((param_1->unk0x42 & 2) == 0) {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xb,1,0);}
+      if ((param_1->SceneFlags & 2) == 0) {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xb,1,0);}
       else {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xd + 2,0,0);}
     }
   }
@@ -1353,7 +1353,7 @@ void rendervoxel_no_expPak(Scene_obj_dat *param_1){
     do {
       iVar1+= uVar2;
       if (param_1->unk0x34[iVar1 + -0xb] != 0.0) {
-        if ((param_1->unk0x42 & 2) == 0) {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + iVar1 + -0xb,1,0);}
+        if ((param_1->SceneFlags & 2) == 0) {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + iVar1 + -0xb,1,0);}
         else {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + iVar1 + -0xb,0,0);}
       }
       uVar2++;
@@ -1446,7 +1446,7 @@ rspCom * RenderVoxelScenes(rspCom *param_1,Borg_9_data *param_2,vec3 *v3,short p
           goto LAB_800102d8;
         }
         local_6c = 0xff;
-        if ((((SObj->dat).unk0x42 & 4) == 0) ||
+        if ((((SObj->dat).SceneFlags & 4) == 0) ||
            ((double)fVar20 * 0.5d < (double)fVar19)) {
           setVec2(Sobj_pos,(SObj->header).coords[0],(SObj->header).coords[2]);
           local_b8 = local_b8 - (float)uVar23;
@@ -1471,7 +1471,7 @@ rspCom * RenderVoxelScenes(rspCom *param_1,Borg_9_data *param_2,vec3 *v3,short p
           local_5c = iVar15 + 1;
           goto LAB_800102d8;
         }
-        if ((((SObj->dat).unk0x42 ^ 1) & 1) != 0) {
+        if ((((SObj->dat).SceneFlags ^ 1) & 1) != 0) {
           local_f8[0] = (SObj->header).coords[0];
           local_f8[1] = (SObj->header).coords[2];
           bVar6 = get_scene_obj_proximity((Vec2 *)local_f8,(Vec2 *)camCoord,(Vec2 *)CamAim,&local_78,&local_74);
@@ -1512,7 +1512,7 @@ LAB_800102b4:
               }
               uVar7 = local_6c;
               if (uVar17 < local_6c) {uVar7 = uVar17;}
-              if ((uVar7 < 0xff) || (psVar16 = (struct *)0x0, ((SObj->dat).unk0x42 & 0x40) != 0))
+              if ((uVar7 < 0xff) || (psVar16 = (struct *)0x0, ((SObj->dat).SceneFlags & 0x40) != 0))
               {
                 uVar7 = (uint)voxel_counter;
                 psVar16 = struct_ARRAY_800f5290 + uVar7;
@@ -1524,7 +1524,7 @@ LAB_800102b4:
               ppAVar12 = (AnimationData **)(ppBVar8 + uVar14 * 3);
               if (*ppAVar12 != NULL) {
 LAB_80010068:
-                if (((SObj->dat).unk0x42 & 2) == 0) {
+                if (((SObj->dat).SceneFlags & 2) == 0) {
 LAB_80010084:
                   pAVar4 = (AnimationData *)ppBVar8[uVar14 * 3];
                 }
@@ -1532,7 +1532,7 @@ LAB_80010084:
                   pAVar4 = ((SObj->dat).unk0x8)->aniDat;
                 }
                 cVar13 = (color)0x0;
-                if (((SObj->dat).unk0x42 & 0x10) != 0) {
+                if (((SObj->dat).SceneFlags & 0x10) != 0) {
                   cVar13 = *(color *)((SObj->dat).unk0x34 + 2);
                 }
                 anidat_setMaxtrixA_3
@@ -1547,24 +1547,14 @@ LAB_80010084:
                                 (*(undefined2 *)(local_58 + (int)pvVar2),
                                  (undefined)gGlobals.Sub.mapDatA,(undefined)gGlobals.Sub.mapShort1,
                                  (undefined)gGlobals.Sub.mapShort2,0x11,0,0x10);
-                      uVar5 = (SObj->dat).unk0x42;
-                    }
-                    else {
-                      uVar5 = (SObj->dat).unk0x42;
                     }
                   }
-                  else {
-                    uVar5 = (SObj->dat).unk0x42;
-                  }
-                }
-                else {
-                  uVar5 = (SObj->dat).unk0x42;
                 }
                 local_64 = uVar14 & 0xffff;
-                if ((uVar5 & 2) == 0) {
+                if (((SObj->dat).SceneFlags; & 2) == 0) {
                   uVar14 = local_6c;
                   if (uVar17 < local_6c) {uVar14 = uVar17;}
-                  set_anidat_colors(pAVar4,(char)uVar14,'\x01',cVar13);
+                  set_anidat_colors(pAVar4,(char)uVar14,1,cVar13);
                   if (psVar16 == (struct *)0x0) {param_1 = (rspCom *)func_800a0da4(param_1,pAVar4);}
                   else {psVar16->anidat = pAVar4;}
                 }
@@ -1580,9 +1570,9 @@ LAB_80010084:
                   func_800a0304(pBVar3,(int)fVar19 & 0xffff);
                   uVar14 = local_6c;
                   if (uVar17 < local_6c) {uVar14 = uVar17;}
-                  set_sun_light(pAVar4,(SObj->dat).unk0x42,SObj,(char)uVar14);
+                  set_sun_light(pAVar4,(SObj->dat).SceneFlags,SObj,(char)uVar14);
                   passto_InitLight_2(&gGlobals.Sub.DynamicLights,pAVar4,SObj,(short)(int)gGlobals.delay);
-                  passto_initLight(pAVar4,param_2,(ref_obj *)SObj,(short)(int)gGlobals.delay);
+                  passto_initLight(pAVar4,param_2,(mapVoxel *)SObj,(short)(int)gGlobals.delay);
                   if (psVar16 == (struct *)0x0) {param_1 = (rspCom *)func_800a0644(param_1,(locatorStruct *)(SObj->dat).unk0x8);
                   }
                   else {
@@ -1592,7 +1582,7 @@ LAB_80010084:
                 }
                 goto LAB_800102b4;
               }
-              if (((SObj->dat).unk0x42 & 2) == 0) {
+              if (((SObj->dat).SceneFlags & 2) == 0) {
                 if (NoExpPak_memCheck(1)) {
                   pAVar4 = BorgAnimLoadScene((uint)pSVar11->unk0x34[uVar14 * 3 + -0xc]);
                   *ppAVar12 = pAVar4;
@@ -1634,7 +1624,7 @@ LAB_8000ffcc:
                 matrix_normalize_scale
                           (pAVar4,*(undefined4 *)&(SObj->dat).unk0x30,(SObj->dat).unk0x34[0],
                            (SObj->dat).unk0x34[1]);
-                if (((SObj->dat).unk0x42 & 2) != 0) {
+                if (((SObj->dat).SceneFlags & 2) != 0) {
                   anidat_set_light_data(pAVar4);
                   SceneSetMaxDynamicDirLights(pAVar4,2);
                   goto LAB_80010068;
@@ -1762,15 +1752,15 @@ bool func_80010598(short param_1,short param_2)
   pafVar2 = (Vec2 *)fStack104;
   iVar4 = 0x20000;
   do {
-    if (func_80010414((Vec2 *)fStack112,pafVar2,(Vec2 *)fStack176,(Vec2 *)fStack168,0)) {return false;}
-    if (func_80010414((Vec2 *)fStack112,pafVar2,(Vec2 *)fStack160,(Vec2 *)fStack152,0)) {return false;}
-    if (func_80010414((Vec2 *)fStack112,pafVar2,(Vec2 *)fStack176,(Vec2 *)fStack160,1)) {return false;}
-    if (func_80010414((Vec2 *)fStack112,pafVar2,(Vec2 *)fStack168,(Vec2 *)fStack152,1)) {return false;}
+    if (func_80010414((Vec2 *)fStack112,pafVar2,(Vec2 *)fStack176,(Vec2 *)fStack168,0)) return false;
+    if (func_80010414((Vec2 *)fStack112,pafVar2,(Vec2 *)fStack160,(Vec2 *)fStack152,0)) return false;
+    if (func_80010414((Vec2 *)fStack112,pafVar2,(Vec2 *)fStack176,(Vec2 *)fStack160,1)) return false;
+    if (func_80010414((Vec2 *)fStack112,pafVar2,(Vec2 *)fStack168,(Vec2 *)fStack152,1)) return false;
     if (1 < iVar3) {
-      if (func_80010414((Vec2 *)fStack104,pafVar2,(Vec2 *)fStack176,(Vec2 *)fStack168,0)) {return false;}
-      if (func_80010414((Vec2 *)fStack104,pafVar2,(Vec2 *)fStack160,(Vec2 *)fStack152,0)) {return false;}
-      if (func_80010414((Vec2 *)fStack104,pafVar2,(Vec2 *)fStack176,(Vec2 *)fStack160,1)) {return false;}
-      if (func_80010414((Vec2 *)fStack104,pafVar2,(Vec2 *)fStack168,(Vec2 *)fStack152,1)) {return false;}
+      if (func_80010414((Vec2 *)fStack104,pafVar2,(Vec2 *)fStack176,(Vec2 *)fStack168,0)) return false;
+      if (func_80010414((Vec2 *)fStack104,pafVar2,(Vec2 *)fStack160,(Vec2 *)fStack152,0)) return false;
+      if (func_80010414((Vec2 *)fStack104,pafVar2,(Vec2 *)fStack176,(Vec2 *)fStack160,1)) return false;
+      if (func_80010414((Vec2 *)fStack104,pafVar2,(Vec2 *)fStack168,(Vec2 *)fStack152,1)) return false;
     }
     iVar3 = iVar4 >> 0x10;
     pafVar2 = pafVar2[1];
@@ -2341,17 +2331,17 @@ void FreeZoneEngine(short playMusic){
 void clear_ref_obj_flags(Borg_9_data *param_1){
   int iVar1;
   uint uVar2;
-  ref_obj *pVVar1;
+  mapVoxel *pVVar1;
   
   uVar2 = 0;
-  if (param_1->ref_obj_count != 0) {
-    pVVar1 = (ref_obj *)param_1->ref_objs;
+  if (param_1->voxelCount != 0) {
+    pVVar1 = (mapVoxel *)param_1->ref_objs;
     iVar1 = 0;
     do {
       pVVar1[uVar2]->header.Bitfeild = 0;
       uVar2++;
       iVar1 = uVar2 << 3;
-    } while (uVar2 < param_1->ref_obj_count);
+    } while (uVar2 < param_1->voxelCount);
   }
   return;
 }
@@ -2365,7 +2355,7 @@ void voxel_index_position(short delta,playerData *param_2){
   uint uVar8;
   char (*pacVar9) [24];
   char ***pppcVar10;
-  ref_obj *prVar11;
+  mapVoxel *prVar11;
   float in_f12;
   char **uStack344;
   char **auStack344;
@@ -2382,16 +2372,16 @@ void voxel_index_position(short delta,playerData *param_2){
     prVar11 = voxel_index_pointer;
     if ((int)((uVar8 - (int)delta) * 0x10000) < 1) {
       clear_ref_obj_flags(pBVar7);
-      uVar8 = (voxel_index_number + 1) % (uint)pBVar7->ref_obj_count;
+      uVar8 = (voxel_index_number + 1) % (uint)pBVar7->voxelCount;
       enemyHostileFlag = 0;
       voxel_index_timer = 0xb4;
-      if (pBVar7->ref_obj_count == 0) {trap(7);}
+      if (pBVar7->voxelCount == 0) {trap(7);}
       voxel_index_number = (ushort)uVar8;
-      prVar11 = (ref_obj *)(pBVar7->ref_objs + uVar8);
+      prVar11 = (mapVoxel *)(pBVar7->ref_objs + uVar8);
       sprintf(gGlobals.text,"\n\n\nGOING to Voxel Index: %d\nType: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n"
       ,uVar8,&uStack344 + (uint)(prVar11->header).type * 6,(double)(prVar11->header).coords[2]);
       debug_queue(gGlobals.text);
-      if (voxel_index_pointer != (ref_obj *)0x0) {
+      if (voxel_index_pointer != (mapVoxel *)0x0) {
         sprintf(gGlobals.text,"\n\nAT V-Type: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n",
         (char *)(&uStack344 + (uint)(voxel_index_pointer->header).type * 6),in_f12);
         debug_queue(gGlobals.text);

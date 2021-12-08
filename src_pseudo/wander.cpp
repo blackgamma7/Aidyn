@@ -103,7 +103,7 @@ void look_for_monsterparties(wander_struct *param_1,Borg_9_data *param_2,int par
   int iVar3;
   
   if (((screenFadeMode_switch != 0xc) && (gamemode_type != 2)) &&
-     (uVar2 = 0, param_2->ref_obj_count != 0)) {
+     (uVar2 = 0, param_2->voxelCount != 0)) {
     count = 0;
     iVar3 = 0x10000;
     do {
@@ -116,7 +116,7 @@ void look_for_monsterparties(wander_struct *param_1,Borg_9_data *param_2,int par
       uVar2 = iVar3 >> 0x10;
       count++;
       iVar3 = iVar3 + 0x10000;
-    } while (uVar2 < param_2->ref_obj_count);
+    } while (uVar2 < param_2->voxelCount);
   }
   return;
 }
@@ -258,7 +258,7 @@ void func_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_
   Vec2 fStack80;
   
   pBVar3 = GetCollisionZone(param_2->playerDat->zoneDatByte);
-  pVVar3 = (ref_obj *)pBVar3->ref_objs[param_3]);
+  pVVar3 = (mapVoxel *)pBVar3->ref_objs[param_3]);
   param_2->start_position[0] = *(float *)pVVar3->data;
   param_2->start_position[1] = *(float *)(pVVar3->data + 4);
   param_2->wanderRadius = *(float *)(pVVar3->data + 8);

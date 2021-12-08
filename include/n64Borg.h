@@ -30,22 +30,31 @@ struct Borg_9_data{
     byte unk1[6]; /* seems unused */
     byte byte0x1a;
     byte byte0x1b;
-    ushort shortA;
-    ushort shortB;
-    byte unk[4];
-    ushort borghpys_count;
-    ushort unk0x26;
-    ushort ref_obj_count;
-    ushort unkStructCount;
+    u16 shortA;
+    u16 shortB;
+    u8 unk[2];
+    u16 Vertex_count;
+    u16 borghpys_count;
+    u16 unk0x26;
+    u16 voxelCount;
+    u16 unkStructCount;
     short * counting_pointer;
     int someint;
     short * pointer2;
-    float * floats_pointer;
+    vec3* Verticies;
     struct borg9_phys * phys_pointer;
     int someInt_2;
     Voxel_u* ref_objs; 
     struct borg_9_struct * unkStructs;
 };
+struct borg9_phys { //collision faces
+    Vec3 * VertexEntries[3];
+    vec3 vec3_0xc; //face normal?
+    void * ptr_0x18;
+    u16 unk0x1c; //flags?
+    u16 GroundType; //for footstep noises
+};
+
 enum Vobject{
     SCENE, //any static meshes
     CONTAINER, //chests and various loot.
@@ -67,8 +76,8 @@ enum Vobject{
 0004
 0008
 0010
-0020=EXPPak. render if there's an EXP Pak
-0040=NoEXPPak. opposite above.
+0020=NoEXPPak. render if there's not an EXP Pak
+0040=EXPPak. opposite above.
 0080 may also be an unused visibility flag
 0100
 0200="used". also used to set header "flagB"
@@ -81,12 +90,12 @@ enum Vobject{
 
 struct voxelHeader { /* Header for Refernce objects (Voxels) */
     vec3 coords; /* Where is it */
-    float size; /* how big is it */
+    float size; /* how big is it. */
     uint timestamp; /* when was it called */
     u16 Bitfeild; /* 16-bit Flags for rendering */
     enum Vobject type; /* object type. 16-bit*/
-    s16 Link ID[2]; /* usually 0xFFFFFFFF (none) */
-    u16 flagA; /* event flags */
+    s16 LinkID[2]; /* used by containers to link with scene object. holds index of relevant voxel. */
+    u16 flagA; // if non-zero, flagA detemines which needs to be set to activate
     u16 flagB;
     u16 flagC;
     u8 unk0x22;
@@ -94,112 +103,195 @@ struct voxelHeader { /* Header for Refernce objects (Voxels) */
     void * ptr0x24;
 };
 
-
-struct ref_obj { //base object of "ref_objs"
-    struct voxelHeader header; //common for all ref obj's
-    byte data[68]; //different for each.
-};
-
-struct audio_obj_dat {
-    enum Borg12Enum borg12Index;
-    undefined4 unk0x4;
-    float volume;
-    ushort unk0xc;
-    u8 unk0xe;
-    u8 unk0xf;
-    u8 unk0x10;
-    u8 unk0x11;
-    u8 unk0x12;
-    u8 unk0x13;
-    ushort soundType; /* bitfield 0x10 =bgm */
-    ushort unk0x16;
-    float volume_;
-    undefined4 sfx_arg3;
+struct Scene_obj_dat{
+    float unk0x0; //size mirror?
+    u32 borg_7_index;
+    AnimationData* anidat;
+    float unk0xc;
+    u32 borg5_index;
+    u8 unk0x14[8];
+    u32 borg5_index2; //used for open chests?
     u32 unk0x20;
-    u16 unk0x24;
-    byte dcmIndex;
-    u8 unk0x27[29];
+    vec3 rotation; //in radians. x usually has an odd angle, for some reason.
+    vec3 scaling;
+    color tinting; //used if SceneFlags&0x10
+    u16 unk0x40;
+    u16 Sceneflags;
 };
-struct teleport_dat {
-    enum EnumMapDatA MapDatA;
-    ushort MapShort1;
-    ushort MapShort2;
-    ushort unk0x6;
-    short trap_value;
-    ushort trapBool16;
-    ushort lock_lv;
-    ushort refPoint_ID;
-    undefined2 lock_flag;
-    enum EventFlag lockpick_flag_2;
-    undefined2 trap_flag;
-    enum EventFlag flag_0x3e;
-    enum EventFlag secrect_door_flag;
-    ushort secretDoorVal;
-    char name[16];
-    u8 unk0x54[24];
-};
+/* Sceneflags id'd
+0001
+0002
+0004
+0008
+0010=use tinting.
+0020=tint with sunlight
+doesn't seem to use all 16 bits.*/
 
 struct container_Dat {
-    undefined4 unk0x0;
-    float chest_size;
+    float unk0x0; //size mirror?
+    float chestSize; //proximity to activate.
     enum EventFlag open_flag;
     enum EventFlag explode_flag;
     short trap_lv;
-    ushort unk0x14;
+    u16 unk0x14;
     struct ItemID LootCat; /* chestdb id */
-    ushort LootType;
-    undefined2 unk0x14;
-    ushort Gold; /* money */
-    struct ItemID item; /* static item */
-    ushort unk0x1a;
-    short lootCatDrop[6][2]; /* populated with chestdb items */
-    u8 unk0x34;
-    u8 unk0x35;
-    u8 unk0x36;
-    u8 unk0x37;
-    u8 unk0x38;
-    u8 unk0x39;
-    u8 unk0x3a;
-    u8 unk0x3b;
-    u8 unk0x3c;
-    u8 unk0x3d;
-    u8 unk0x3e;
-    u8 unk0x3f;
-    u8 unk0x40;
-    u8 unk0x41;
-    u8 unk0x42;
-    u8 unk0x43;
+    u16 LootType;
+    u16 LockLV;
+    u16 Gold; /* money or reagents, depending on LootType */
+    struct ItemID item; // static item
+    u16 unk0x1a; //align?
+    short lootCatDrop[6][2]; /* populated with chestdb items and quantities*/
+    u8 align[16];
 };
 
+struct light_dat{
+    color cols[3]; //first seems to be used for blending.
+    u16 lightType; //4 valid types. {static(use only cols[1]),alternating blend,?,random blend}
+    u16 pad;
+    float f0; //blend factor, changes per type.
+    float f1; //blend speed,bigger is slower
+    float f2; //used in light type 3 for rng lerp.
+    u8 align[40];
+};
+
+struct audio_obj_dat {
+    u32 borg12Index;
+    u32 unk0x4;
+    float volume;
+    u16 unk0xc;
+    u8 unk0xe;
+    u8 unk0xf;
+    float unk0x10;
+    u16 AudioFlags;
+    //these are set in-game, it seems
+    u16 unk0x16;
+    float volume_;
+    u32 sfx_arg3;
+    u32 unk0x20;
+    u16 unk0x24;
+    byte dcmIndex;
+    u8 align[29];
+};
+/* AudioFlags id'd
+0001=loop
+0002
+0004
+0008=Don't diminish by distance
+0010=BGM
+doesn't seem to use all 16 bits.*/
+struct wandernode_dat{
+    vec2 startCoords;
+    float wanderRadius;
+	float randVal;
+	float NodeChangeChance;
+	u16 Timer; //frame ticks before changing nodes.
+    u16 nodeflags; //only first 3 used, it seems.
+    u16 NodeA; //indecies of sibling nodes on map chunk.
+	u16 NodeB;
+    u8 align[40];
+};
 struct monsterparty_dat {
-    struct monsterpartyEntry enemyEntries[7];
-    u8 unk0x1c;
-    u8 unk0x1d;
-    u8 unk0x1e;
-    u8 unk0x1f;
+    struct monsterpartyEntry enemyEntries[8];
     struct ItemID entityID;
     struct ItemID globalLoot;
-    ushort unk0x24;
+    u16 unk0x24;
     u8 unk0x26;
     u8 unk0x27;
-    ushort unk0x28;
-    ushort totalsize;
-    struct ItemID unk0x2c;
-    undefined2 wanderNode;
-    ushort flags;
+    u16 unk0x28;
+    u16 totalsize;
+    struct ItemID unk0x2c; //usually mirror of entityID.
+    u16 wanderNode; //index on map chunk.
+    u16 monsterpartyFlags;
     u8 unk0x32;
     u8 unk0x33;
-    enum borg13Enum borg_13;
-    u8 unk0x38;
-    u8 unk0x39;
-    u8 unk0x3a;
-    u8 unk0x3b;
-    u8 unk0x3c;
-    u8 unk0x3d;
-    u8 unk0x3e;
-    u8 unk0x3f;
-    u8 unk0x40;
-    u8 unk0x41;
-    u8 unk0x42;
-    u8 unk0x43;
+    u32 borg_13;
+    u8 align[12];
+};
+
+struct referencepoint_dat{
+    u16 refpointID;
+    u16 pad;
+    char name[16];
+    vec3 position; //used in tp for facing?
+    u8 align[36];
+};
+
+struct teleport_dat {
+    u16 MapDatA;
+    u16 MapShort1;
+    u16 MapShort2;
+    u16 refPoint_ID; //determines location of teleport.
+    short trap_value;
+    u16 trapBool16;
+    u16 lock_lv;
+    u16 refPoint_ID2;
+    u16 lock_flag;
+    u16 lockpick_flag_2;
+    u16 trap_flag;
+    enum EventFlag flag_0x3e;
+    u16 secrect_door_flag;
+    u16 secretDoorVal;
+    char name[16];
+    u8 align[24];
+};
+
+struct camera_dat {
+    short refpoint_ID; //used as inital aim for camera.
+    u16 CameraFlags;
+    uint timestamp;
+    vec3 vec3_A;
+    vec3 vec3_b;
+    vec3 vec3_C;
+    float unk0x54;
+    u8 align[20];
+};
+
+struct dialoug_dat {
+    u16 borg_13;
+    u16 MapDatA;
+    u16 MapShortA;
+    u16 MapShortB;
+    u16 RefPointID;
+    //below may be wrong, a lot of guessing here.
+    u16 unk0xa;
+    u16 unk0xc;
+    u8 unk0xe[6];
+    u16 unk0x14;
+    u16 unk0x16;
+    u8 align[44];
+};
+
+struct Trigger_dat {
+    s16 triggertype; // 1,2,4 are valid
+    u8 unk0x2;
+    u8 unk0x3;
+    u16 flagA;
+    u16 flagB;
+    u16 flagC;
+    u16 unk0xa;
+    s16 unk0xc;
+    u8 unk0xe[6];
+    u16 unk0x14;
+    u16 unk0x16;
+    u32 unk0x18;
+    char name[16];
+    u8 align[24];
+};
+//likely actual struct - used non-union structs in ghidra as they played nicer.
+struct mapVoxel { //base object of "ref_objs"
+    struct voxelHeader header; //common for all ref obj's
+    union{
+        Scene_obj_dat scene;
+        container_Dat container;
+        light_dat light;
+        audio_obj_dat audio;
+        wandernode_dat wander;
+        monsterparty_dat monster;
+        referencepoint_dat refpoint;
+        teleport_dat teleport;
+        camera_dat camera;
+        dialoug_dat dialoug;
+        Trigger_dat trigger;
+        u8 other[68];
+    }d;
 };

@@ -51,10 +51,10 @@ void color_magnitude(color *param_1,color *param_2,float amp){
   return;
 }
 
-float func_80054ba4(float param_1,float param_2){
-  if (param_1 < 0.0) {param_1 += param_2;}
-  if (param_2 < param_1) {param_1 -= param_2;}
-  return param_1;
+float func_80054ba4(float x,float y){
+  if (x < 0.0) {x += y;}
+  if (y < x) {x -= y;}
+  return x;
 }
 
 void color_XOR(color *colA,color *colB){
@@ -115,16 +115,16 @@ void tint_color_with_screenfade(color *param_1,float fade){
 void Ofunc_80054db0(light_obj *param_1,ref_obj_bitfeild param_2){(param_1->header).Bitfeild |= param_2;}
 void Ofunc_80054dc0(light_obj *param_1,ushort param_2){(param_1->header).Bitfeild = (param_1->header).Bitfeild & ~param_2;}
 
-void InitLight(AnimationData *ani,Borg_9_data *param_2,ref_obj *obj,light_obj *light,short lightCount,short delta){
+void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *light,short lightCount,short delta){
   ref_obj_bitfeild rVar1;
   ushort uVar2;
   void *pvVar3;
   bool bVar4;
   int delay;
   color *pcVar5;
-  light_obj_dat *plVar6;
+  light_dat *plVar6;
   color *pcVar7;
-  light_obj_dat *plVar8;
+  light_dat *plVar8;
   color *colA;
   color *colB;
   float fVar9;
@@ -136,12 +136,10 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,ref_obj *obj,light_obj *l
   float fVar15;
   float fVar16;
   float fVar17;
-  ulonglong uVar18;
-  ulonglong uVar19;
   float fVar20;
   vec3 fStack144;
   int iStack72;
-  light_obj_dat *plStack68;
+  light_dat *plStack68;
   
   iStack72 = 0;
   delay = (int)delta;
@@ -149,8 +147,6 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,ref_obj *obj,light_obj *l
     plVar8 = &light->data;
     pcVar7 = (light->data).cols + 1;
     colB = (light->data).cols + 2;
-    uVar18 = (ulonglong)(uint)1.0f;
-    uVar19 = (ulonglong)(uint)60.0f;
     plVar6 = plVar8;
     pcVar5 = pcVar7;
     colA = pcVar7;
@@ -183,22 +179,19 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,ref_obj *obj,light_obj *l
               if (uVar2 < 2) {
                 if (uVar2 != 0) {
 LAB_8005513c:
-                  os::sprintf(gGlobals.text,"Unknown Light Type: %d\n",(light->data).lightType);
+                  sprintf(gGlobals.text,"Unknown Light Type: %d\n",(light->data).lightType);
                   assert("InitLight",gGlobals.text);
                 }
                 (light->data).cols[0] = (light->data).cols[1];
               }
               else {
-                fVar20 = 60.0f;
                 if (uVar2 == 2) {
-                  fVar11 = (float)((double)(light->data).f0 +(360.0d / (double)((light->data).f1 * fVar20)) *(double)delay);
+                  fVar11 = (float)((double)(light->data).f0 +(360.0d / (double)((light->data).f1 * 60.0f)) *(double)delay);
                   (light->data).f0 = fVar11;
                   fVar9 = func_80054ba4(fVar11,fVar9);
                   fVar11 = fVar9 * DtoR_f;
                   (light->data).f0 = fVar9;
-                  fVar9 = os::__sinf(fVar11);
-                  color_magnitude(pcVar5,(color *)plVar6,(fVar9 + (float)uVar18) * 0.5f
-                                 );
+                  color_magnitude(pcVar5,(color *)plVar6,(__sinf(fVar11) + 1.0f) * 0.5f);
                 }
                 else {
                   if (uVar2 != 3) goto LAB_8005513c;
@@ -207,7 +200,7 @@ LAB_8005513c:
                   fVar16 = (light->data).f2;
                   fVar17 = fVar15 - fVar16;
                   fVar9 = (float)delay;
-                  fVar12 = (fVar11 / (fVar14 * fVar20)) * fVar9;
+                  fVar12 = (fVar11 / (fVar14 * 60.0f)) * fVar9;
                   if (fVar17 < 0.0) {
                     if (fVar12 <= -fVar17) goto LAB_800550e8;
 LAB_800550d0:
@@ -217,8 +210,8 @@ LAB_800550d0:
                   else {
                     if (fVar17 < fVar12) goto LAB_800550d0;
 LAB_800550e8:
-                    if (fVar16 < fVar15) {fVar15-= (fVar11 / (fVar14 * fVar20)) * fVar9;}
-                    else {fVar15+= (fVar11 / (fVar14 * fVar20)) * fVar9;}
+                    if (fVar16 < fVar15) {fVar15-= (fVar11 / (fVar14 * 60.0f)) * fVar9;}
+                    else {fVar15+= (fVar11 / (fVar14 * 60.0f)) * fVar9;}
                     (light->data).f0 = fVar15;
                   }
                   color_magnitude(pcVar7,(color *)plVar8,(light->data).f0);
@@ -238,14 +231,14 @@ LAB_800550e8:
                           (light->data).cols[0].G,(light->data).cols[0].B,light_count);
         }
       }
-      plVar8 = (light_obj_dat *)&plVar8[1].unk0x28;
+      plVar8 = (light_dat *)&plVar8[1].unk0x28;
       pcVar7 = pcVar7 + 0x1b;
-      plVar6 = (light_obj_dat *)&plVar6[1].unk0x28;
+      plVar6 = (light_dat *)&plVar6[1].unk0x28;
       pcVar5 = pcVar5 + 0x1b;
       colB = colB + 0x1b;
       colA = colA + 0x1b;
       light++;
-      plStack68 = (light_obj_dat *)&plStack68[1].unk0x28;
+      plStack68 = (light_dat *)&plStack68[1].unk0x28;
       iStack72 = (iStack72 + 1) * 0x10000 >> 0x10;
     } while (iStack72 < lightCount);
   }
@@ -274,7 +267,7 @@ void light_init_func(playerData *param_1,AnimationData *param_2,short param_3){
         uVar1 = *(ushort *)(iVar4 * 2 + (int)pbVar3->unk0x8);
         light = (light_obj *)((int)pBVar2->ref_objs + ((uint)uVar1 * 0x1c - (uint)uVar1) * 4);
         if ((light->header).type == Light) {
-          InitLight(param_2,pBVar2,(ref_obj *)obj,light,1,param_3);
+          InitLight(param_2,pBVar2,(mapVoxel *)obj,light,1,param_3);
         }
         iVar4 = iVar5 >> 0x10;
         iVar5 = iVar5 + 0x10000;
@@ -284,10 +277,10 @@ void light_init_func(playerData *param_1,AnimationData *param_2,short param_3){
   return;
 }
 
-void passto_initLight(AnimationData *param_1,Borg_9_data *param_2,ref_obj *param_3,short param_4)
-  {InitLight(param_1,param_2,param_3,(light_obj *)param_2->ref_objs,param_2->ref_obj_count,param_4);}
+void passto_initLight(AnimationData *param_1,Borg_9_data *param_2,mapVoxel *param_3,short param_4)
+  {InitLight(param_1,param_2,param_3,(light_obj *)param_2->ref_objs,param_2->voxelCount,param_4);}
 
-void passto_InitLight_2(dynamic_light_struct *param_1,AnimationData *param_2,ref_obj *param_3,short param_4)
+void passto_InitLight_2(dynamic_light_struct *param_1,AnimationData *param_2,mapVoxel *param_3,short param_4)
   {InitLight(param_2,gGlobals.Sub.borg9DatPointer,param_3,param_1->lights,16,param_4);}
 
 void init_dynamic_light(dynamic_light_struct *param_1){

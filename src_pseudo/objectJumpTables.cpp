@@ -49,9 +49,9 @@ typedef enum GameState_Cheat { /* Set in big Debug Menu */
 } GameState_Cheat;
 
 void func_80013620(container_obj *arg0,short arg1,Borg_9_data *param_3){
-  Scene_obj *prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(ref_obj *)arg0,Scene);
+  Scene_obj *prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(mapVoxel *)arg0,Scene);
   if ((prVar1->dat).unk0x8 != NULL) {
-    AllocFreeQueueItem(&queueStructA,&(prVar1->dat).unk0x8,(ushort)(((prVar1->dat).unk0x42 & 2) == 0),0);
+    AllocFreeQueueItem(&queueStructA,&(prVar1->dat).unk0x8,(ushort)(((prVar1->dat).SceneFlags & 2) == 0),0);
     (prVar1->dat).unk0x8 = NULL;
   }
   (prVar1->dat).unk0x4 = (prVar1->dat).unk0x30[arg1 * 3 + -0xb];
@@ -80,17 +80,17 @@ void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
   setEventFlag((arg0->dat).explode_flag,true);
   getEventFlag(0x15fa);
   play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[Random::rand_range_(&gGlobals,0,3)],0,gGlobals.VolSFX,0xf0,0);
-  set_voxel_visibility((ref_obj *)arg0,false);
+  set_voxel_visibility((mapVoxel *)arg0,false);
   return;
 }
 void NOOP_tp(void){}
 
 //activaction funcs
-void run_voxelFuncs0(ref_obj *arg0){(*voxelFuncs0[(arg0->header).type])(arg0);}
+void run_voxelFuncs0(mapVoxel *arg0){(*voxelFuncs0[(arg0->header).type])(arg0);}
 //visibility check, i think
-bool run_voxelFuncs2(ref_obj *arg0){return (*run_voxelFuncs2[(arg0->header).type])(arg0);}
+bool run_voxelFuncs2(mapVoxel *arg0){return (*run_voxelFuncs2[(arg0->header).type])(arg0);}
 //collision
-bool run_voxelFuncs1(ref_obj *arg0,playerData *arg1){return (*run_voxelFuncs1[(arg0->header).type])(arg0,arg1);}
+bool run_voxelFuncs1(mapVoxel *arg0,playerData *arg1){return (*run_voxelFuncs1[(arg0->header).type])(arg0,arg1);}
 
 void Voxel_func_NOOP(void){}
 
@@ -122,7 +122,7 @@ void teleporter_func(teleport_obj *arg0){
           if (((arg0->dat).lock_lv != 0) &&
              (Teleport_lock_check((arg0->dat).lock_flag) == false)) {
             if ((arg0->dat).lock_lv != 0) {
-              lockpicking_check((ref_obj *)arg0);
+              lockpicking_check((mapVoxel *)arg0);
               return;
             }
             setEventFlag((arg0->dat).lockpick_flag_2,true);
@@ -145,7 +145,7 @@ void teleporter_func(teleport_obj *arg0){
 
 
 void get_loot_reagent(container_obj *arg0,container_Dat * arg1){
-  ref_obj *a;
+  mapVoxel *a;
   longlong lVar1;
   Inventory_struct *pIVar2;
   float fVar3;
@@ -156,8 +156,8 @@ void get_loot_reagent(container_obj *arg0,container_Dat * arg1){
   uVar4 = (uint)fVar3;
   if (uVar4 == 0) {uVar4 = 1;}
   ref_obj_bitmask_flag((arg0->header).flagB,(arg0->header).Bitfeild,Used);
-  set_voxel_visibility((ref_obj *)arg0,false);
-  a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene);
+  set_voxel_visibility((mapVoxel *)arg0,false);
+  a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(mapVoxel *)arg0,Scene);
   if (a != NULL) {set_voxel_visibility(a,false);}
   if (exploding_container_check(arg0,gGlobals.Sub.borg9DatPointer) != 0) {
     passto_WriteTo_VoxelChart((short)((int)((int)arg0 - (int)gGlobals.Sub.borg9DatPointer->ref_objs) * 0x684bda13 >> 2),
@@ -183,7 +183,7 @@ bool loot_func(container_obj *arg0){
   bool bVar9;
   longlong lVar4;
   ushort uVar8;
-  ref_obj *a;
+  mapVoxel *a;
   int iVar6;
   void *ppfVar10;
   Inventory_struct *pIVar7;
@@ -208,7 +208,7 @@ bool loot_func(container_obj *arg0){
         return get_loot_reagent(arg0,pcVar11);
       }
       if (uVar8 == 7) {
-        set_voxel_visibility((ref_obj *)arg0,false);
+        set_voxel_visibility((mapVoxel *)arg0,false);
         ref_obj_bitmask_flag((arg0->header).flagB,(arg0->header).Bitfeild,Used);
         uVar8 = (arg0->dat).unk0x14;
       }
@@ -225,9 +225,9 @@ bool loot_func(container_obj *arg0){
       uVar13 = 0;
       setEventFlag((arg0->dat).open_flag,true);
       getEventFlag(0x15fa);
-      set_refObj_flag((ref_obj *)arg0);
+      set_refObj_flag((mapVoxel *)arg0);
       if ((arg0->dat).LootType == 7) {
-        a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene);
+        a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(mapVoxel *)arg0,Scene);
         set_voxel_visibility(a,false);
         IVar2 = (arg0->dat).LootCat;
       }
@@ -252,7 +252,7 @@ bool loot_func(container_obj *arg0){
           uVar10++;
         } while (uVar10 < 7);
       }
-      set_voxel_visibility((ref_obj *)arg0,false);
+      set_voxel_visibility((mapVoxel *)arg0,false);
       IVar2 = (arg0->dat).item;
       uVar10 = uVar12;
       if (IVar2 != NULL) {
@@ -289,9 +289,9 @@ bool loot_func(container_obj *arg0){
         if ((arg0->dat).LootType == 7) {PlayerCharStruct.camping_var = 7;}
       }
     }
-    else {lockpicking_check((ref_obj *)arg0);}
+    else {lockpicking_check((mapVoxel *)arg0);}
   }
-  else {set_voxel_visibility((ref_obj *)arg0,false);}
+  else {set_voxel_visibility((mapVoxel *)arg0,false);}
   return 1;
 }
 
@@ -310,8 +310,7 @@ byte monsterpary_func(monsterparty_obj *arg0,undefined arg1,char param_3){
     piVar4 = (gGlobals.wander.wanderSubstructs)->start_position +
              (uint)arg0->unk0x4c * 0x14 + (uint)arg0->unk0x4c + -1;
     iVar1 = *piVar4;
-    c = (vec3 *)(iVar1->collision).position;
-    Vec3_sub((vec3 *)afStack104,c,playerPos);
+    Vec3_sub((vec3 *)afStack104,(iVar1->collision).position,playerPos);
     x = vec3_normalize((vec3 *)afStack104);
     setVec3((vec3 *)afStack104,-iVar1->facing[0],0.0,-iVar1->facing[1]);
     vec3_normalize((vec3 *)afStack104);
@@ -354,12 +353,12 @@ void trigger_vobject_func(trigger_obj *arg0){
   case 1:
     setEventFlag(arg0->flagA,true);
     getEventFlag(0x15fa);
-    set_refObj_flag((ref_obj *)arg0);
+    set_refObj_flag((mapVoxel *)arg0);
     break;
   case 2:
-    prVar3 = (Scene_obj *)GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(ref_obj *)arg0,Scene);
+    prVar3 = (Scene_obj *)GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(mapVoxel *)arg0,Scene);
     pBVar1 = (prVar3->dat).unk0x8;
-    if (pBVar1!=NULL) {func_800a0090(pBVar1,arg0->flagA);}
+    if (pBVar1)func_800a0090(pBVar1,arg0->flagA);
     break;
   case 4:
     uVar8 = 0;
@@ -408,7 +407,7 @@ void dialouge_vobject_func(Dialoug_obj *arg0,undefined arg1,char param_3){
 }
 
 
-bool check_reference_object(ref_obj *arg0){
+bool check_reference_object(mapVoxel *arg0){
   EventFlag EVar1;
   bool bVar2;
   bool bVar3;
@@ -425,7 +424,7 @@ bool check_reference_object(ref_obj *arg0){
   return bVar3;
 }
 
-bool scene_object_check(ref_obj *arg0){
+bool scene_object_check(mapVoxel *arg0){
   bool bVar1;
   bool uVar2;
 
@@ -441,8 +440,7 @@ bool exploding_container_sub(container_obj *arg0,Borg_9_data *arg1){
   
   bVar2 = trigger_event_flag_check((arg0->header).flagC,(arg0->header).Bitfeild,0x80);
   if ((bVar2 == false) ||
-     (some_ref_obj_lookup_func
-                         ((short)((int)((int)arg0 - (int)arg1->ref_objs) * 0x684bda13 >> 2),
+     (some_ref_obj_lookup_func((short)((int)((int)arg0 - (int)arg1->ref_objs) * 0x684bda13 >> 2),
                           (char)map_dat_A,(byte)MapShortA,(byte)mapShortB,0x11,
                           *(undefined *)((int)&(arg0->header).type + 1)) != NULL))
     {uVar3 = false;}
@@ -452,16 +450,16 @@ bool exploding_container_sub(container_obj *arg0,Borg_9_data *arg1){
 
 char exploding_container_check(container_obj *arg0,Borg_9_data *arg1){
   ushort uVar1;
-  ref_obj *a;
+  mapVoxel *a;
   char cVar5;
   short *psVar3;
   
-  a = GetVoxelFromObjectLink(arg1,(ref_obj *)arg0,Scene);
+  a = GetVoxelFromObjectLink(arg1,(mapVoxel *)arg0,Scene);
   if (!gamestate_cheat_check1(appear)) {
     uVar1 = (arg0->dat).LootType;
     if ((7 < uVar1) || (uVar1 < 4)) {
       set_voxel_visibility(a,true);
-      set_voxel_visibility((ref_obj *)arg0,true);
+      set_voxel_visibility((mapVoxel *)arg0,true);
       psVar3 = some_ref_obj_lookup_func((short)((int)((int)arg0 - (int)arg1->ref_objs) * 0x684bda13 >> 2),
         (char)map_dat_A,(byte)MapShortA,(byte)mapShortB,0x11,*(undefined *)((int)&(arg0->header).type + 1));
       if ((!container_open_check((arg0->dat).open_flag)) && (psVar3 == NULL)) {
@@ -474,26 +472,24 @@ char exploding_container_check(container_obj *arg0,Borg_9_data *arg1){
         (arg0->dat).unk0x14 = 0;
         (arg0->dat).Gold = 0;
       }
-      set_voxel_visibility((ref_obj *)arg0,false);
+      set_voxel_visibility((mapVoxel *)arg0,false);
       return 0;
     }
     cVar5 = exploding_container_sub(arg0,arg1);
   }
   else {cVar5 = gamestate_cheat_check2(appear);}
   set_voxel_visibility(a,cVar5 != 0);
-  set_voxel_visibility((ref_obj *)arg0,cVar5 != 0);
+  set_voxel_visibility((mapVoxel *)arg0,cVar5 != 0);
   return cVar5;}
 
 bool TP_lock_secret_check(teleport_obj *arg0){
   ushort uVar1;
-  bool bVar2;
   bool uVar3;
   byte bVar4;
   
   if(gamestate_cheat_check1(appear)){return gamestate_cheat_check2(appear);}
-    bVar2 = trigger_event_flag_check((arg0->header).flagC,(arg0->header).Bitfeild,0x80);
     uVar3 = false;
-    if (bVar2 != false) {
+    if (trigger_event_flag_check((arg0->header).flagC,(arg0->header).Bitfeild,0x80)) {
       if ((arg0->dat).secretDoorVal == 0) {uVar1 = (arg0->dat).trapBool16;}
       else {
         if (teleport_secret_check((arg0->dat).secrect_door_flag) == false) {
@@ -519,16 +515,14 @@ bool TP_lock_secret_check(teleport_obj *arg0){
 
 bool some_monster_check(monsterparty_obj *arg0){
   EventFlag EVar1;
-  bool uVar3;
   
   if(gamestate_cheat_check1(appear)){return gamestate_cheat_check2(appear);}
   if(gamestate_cheat_check1(monsterCheck)){return gamestate_cheat_check2(monsterCheck);}
       EVar1 = (arg0->header).flagA;
       if (arg0->dat.borg_13 == 0) {
-        uVar3 = func_80015128(EVar1,(uint)(arg0->header).Bitfeild) != false && getEventFlag((arg0->header).flagB) == false;
+        return func_80015128(EVar1,(uint)(arg0->header).Bitfeild) != false && getEventFlag((arg0->header).flagB) == false;
       }
-      else {uVar3 = func_80015128(EVar1,(uint)(arg0->header).Bitfeild);}
-  return uVar3;
+      else {return func_80015128(EVar1,(uint)(arg0->header).Bitfeild);}
 }
 
 bool some_trigger_check(trigger_obj *arg0){
@@ -575,7 +569,7 @@ bool container_obj_check(container_obj *arg0,playerData *arg1){
   
   fVar3 = get_vec3_proximity((vec3 *)arg0,(arg1->collision).position);
   ret = false;
-  if (fVar3 <= (arg0->dat).chest_size + arg1->scale_floatB) {
+  if (fVar3 <= (arg0->dat).chestSize + arg1->scale_floatB) {
     bVar2 = gamestate_cheat_check1(check);
     if (bVar2 == false) {
       uVar1 = (arg0->dat).LootType;
@@ -595,7 +589,7 @@ bool container_obj_check(container_obj *arg0,playerData *arg1){
   }
   return ret;}
 
-undefined func_80014ba0(ref_obj *arg0,vec3 *arg1){
+undefined func_80014ba0(mapVoxel *arg0,vec3 *arg1){
   undefined uVar1;
   
   uVar1 = 0;
@@ -605,38 +599,21 @@ undefined func_80014ba0(ref_obj *arg0,vec3 *arg1){
   return uVar1;}
 
 bool some_gamestate_check_B(teleport_obj *arg0,playerData *arg1,bool istrue){
-  bool bVar1;
-  bool uVar2;
-  
   if ((istrue) &&(get_vec3_proximity((vec3 *)arg0,(vec3 *)(arg1->collision).position) >(arg0->header).size)) {return false;}
-  bVar1 = gamestate_cheat_check1(check);
-  if (bVar1 == false) {
-    bVar1 = trigger_event_flag_check((arg0->header).flagA,(arg0->header).Bitfeild,0x100);
-    uVar2 = bVar1 != false;
-  }
-  else {uVar2 = gamestate_cheat_check2(check);}
-  return uVar2;}
+  if (gamestate_cheat_check1(check)) return gamestate_cheat_check2(check);
+  return trigger_event_flag_check((arg0->header).flagA,(arg0->header).Bitfeild,0x100) != false;
 
 bool teleporter_obj_check(teleport_obj *arg0,playerData *arg1){return some_gamestate_check_B(arg00,arg1,true);}
 
 bool monsterparty_obj_check(void){
-  bool bVar1;
-  bool uVar2;
-  
-  bVar1 = gamestate_cheat_check1(check);
-  uVar2 = true;
-  if (bVar1) {uVar2 = gamestate_cheat_check2(check);}
-  return uVar2;}
+  if (gamestate_cheat_check1(check)) return gamestate_cheat_check2(check);
+  return true;
+  }
 
 bool trigger_obj_check_prox(trigger_obj *arg0,playerData *arg1,bool param_3){
-  bool bVar1;
-  bool uVar2;
-  float fVar2;
-  
   if ((param_3) && (get_vec3_proximity((vec3 *)arg0,(vec3 *)(arg1->collision).position) > (arg0->header).size) {return false;}
-  if (gamestate_cheat_check1(check) == false) {uVar2 = trigger_event_flag_check((arg0->header).flagA,(arg0->header).Bitfeild,0x100);}
-  else {uVar2 = gamestate_cheat_check2(check);}
-  return uVar2;
+  if (gamestate_cheat_check1(check) == false) return gamestate_cheat_check2(check);
+  return trigger_event_flag_check((arg0->header).flagA,(arg0->header).Bitfeild,0x100);
 }
 
 bool trigger_obj_check(trigger_obj *arg0,playerData *arg1){return trigger_obj_check_prox(arg0,arg1,true);}
@@ -665,11 +642,11 @@ bool dialouge_trigger_check(Dialoug_obj *arg0,vec3 *arg1,bool getProx){
   return uVar2;
 }
 
-undefined dialoug_obj_func(Dialoug_obj *arg0,playerData *arg1){return dialouge_trigger_check(arg0,(arg1->collision).position,true);}
+bool dialoug_obj_func(Dialoug_obj *arg0,playerData *arg1){return dialouge_trigger_check(arg0,(arg1->collision).position,true);}
 
 void dialoug_obj_check(undefined4 arg0,playerData *arg1){dialoug_obj_func(arg0,arg1);}
 
-bool savepoint_prox_check(ref_obj *arg0,playerData *arg1){return get_vec3_proximity((vec3 *)arg0,(vec3 *)(arg1->collision).position); <= (arg0->header).size;}
+bool savepoint_prox_check(mapVoxel *arg0,playerData *arg1){return get_vec3_proximity((vec3 *)arg0,(vec3 *)(arg1->collision).position); <= (arg0->header).size;}
 
 byte ret0_80014E38(void){return 0;}
 
@@ -679,10 +656,10 @@ void render_container(container_obj *param_1,Borg_9_data *param_2){
 
 void set_container_obj_visible(container_obj *param_1,Borg_9_data *param_2){
   ushort uVar1;
-  ref_obj *a;
+  mapVoxel *a;
   bool b;
   
-  a = GetVoxelFromObjectLink(param_2,(ref_obj *)param_1,Scene);
+  a = GetVoxelFromObjectLink(param_2,(mapVoxel *)param_1,Scene);
   uVar1 = (param_1->dat).LootType;
   b = true;
   if ((uVar1 < 8) && (3 < uVar1)) {
@@ -698,7 +675,7 @@ byte textbox_func_AB(undefined4 param_1,widgetStruct *param_2){
 byte secretdoor_widget_AB(undefined4 param_1,widgetStruct *param_2){
   teleporter_func((teleport_obj *)param_2->prt0x40);
   set_widgets_byte0x70(param_2,5);
-  gGlobals.PlayerChar.text_window = (widgetStruct *)0x0;
+  gGlobals.PlayerChar.text_window = NULL;
   return 0;
 }
 
@@ -713,39 +690,26 @@ widgetStruct * textbox_func(char *param_1){
   return gGlobals.PlayerChar.text_window;}
 
 bool container_open_check(EventFlag param_1){
-  bool uVar2;
-
-  if (gamestate_cheat_check1(containerOpen) == false) {uVar2 = getEventFlag(param_1);}
-  else {uVar2 = gamestate_cheat_check2(containerOpen);}
-  return uVar2;}
-
+  if (gamestate_cheat_check1(containerExplode)) return gamestate_cheat_check2(containerExplode);
+  return getEventFlag(param_1);
+}
 bool container_explode_check(EventFlag param_1){
-  bool uVar2;
-
-  if (gamestate_cheat_check1(containerExplode) == false) {uVar2 = getEventFlag(param_1);}
-  else {uVar2 = gamestate_cheat_check2(containerExplode);}
-  return uVar2;}
-
+  if (gamestate_cheat_check1(containerExplode)) return gamestate_cheat_check2(containerExplode);
+  return getEventFlag(param_1);
+}
 bool teleport_lock_check(EventFlag param_1){
-  bool uVar2;
-  
-  if (gamestate_cheat_check1(teleportLock) == false) {uVar2 = getEventFlag(param_1);}
-  else {uVar2 = gamestate_cheat_check2(teleportLock);}
-  return uVar2;}
-
+  if (gamestate_cheat_check1(teleportLock)) return gamestate_cheat_check2(teleportLock);
+  return getEventFlag(param_1);
+}
 bool teleport_trap_check(EventFlag param_1){
-  bool uVar2;
-  
-  if (gamestate_cheat_check1(teleportTrap) == false) {uVar2 = getEventFlag(param_1);}
-  else {uVar2 = gamestate_cheat_check2(teleportTrap);}
-  return uVar2;}
+  if (gamestate_cheat_check1(teleportTrap)) return gamestate_cheat_check2(teleportTrap);
+  return getEventFlag(param_1);
+}
 
 bool teleport_secret_check(EventFlag param_1){
-  bool uVar2;
-
-  if (gamestate_cheat_check1(teleportSecret) == false) {uVar2 = getEventFlag(param_1);}
-  else {uVar2 = gamestate_cheat_check2(teleportSecret);}
-  return uVar2;}
+  if (gamestate_cheat_check1(teleportSecret)) return gamestate_cheat_check2(teleportSecret);
+  return getEventFlag(param_1);
+}
 
 bool func_80015128(EventFlag param_1,uint param_2){
   bool bVar1, bVar2;
@@ -772,12 +736,8 @@ undefined ref_obj_bitmask_flag(EventFlag param_1,ref_obj_bitfeild param_2,ref_ob
   return getEventFlag(0x15fa);}
 
 bool func_8001520c(teleport_obj *param_1){
-  bool bVar1;
-  
-  if ((param_1->dat).secretDoorVal == 0) {bVar1 = false;}
-  else {
-    bVar1 = getEventFlag((param_1->dat).secrect_door_flag)==false;}
-  return bVar1;}
+  if ((param_1->dat).secretDoorVal == 0) return false;
+  return getEventFlag((param_1->dat).secrect_door_flag)==false;}
 
 bool secret_door_func(teleport_obj *param_1){
   widgetStruct *pwVar1;

@@ -16,7 +16,7 @@ void Gameover_func(void){
   pBVar4 = get_borg_9(0xd5f);
   iVar7 = 0;
   do {
-    if ((pBVar4->dat).ref_obj_count <= iVar7) {
+    if ((pBVar4->dat).voxelCount <= iVar7) {
 loop:
       pCVar2 = partyPointer->Party[0];
       #ifdef DEBUGVER
