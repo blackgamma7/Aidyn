@@ -15,28 +15,28 @@ struct App_manager{
 OSSched* sched;
 OSMesgQueue* MesgQ;
 OSMesg* Mesg;
-int* stack;
+s32* stack;
 OSThread thread;
 OSMesgQueue MesgQ2;
 OSScClient client;}
 struct App_manager appManager;
 
 //this first func is debug-vesion exculsive, and not easy to sus out.
-rspCom * display_debug_stats(rspCom *param_1){
+Gfx* display_debug_stats(Gfx*param_1){
   playerData *ppVar1;
-  ushort uVar4;
-  ushort v;
-  uint uVar2;
-  rspCom *pauVar3;
-  int extraout_a3_lo;
+  u16 uVar4;
+  u16 v;
+  u32 uVar2;
+  Gfx*pauVar3;
+  s32 extraout_a3_lo;
   float extraout_f12;
   float memfree1;
   float memfree2;
   
   if ((debug_flag != 0) && (1.0f <= gGlobals.delay)) {
-    if (gGlobals.DebugStatDisplay - 1 < 3) {param_1 = (rspCom *)DisplaySystemMonitor(param_1);}
-    sprintf(gGlobals.text,"%2d",(short)(60.0f / gGlobals.delay));
-    param_1 = (rspCom *)some_debug_print(param_1,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
+    if (gGlobals.DebugStatDisplay - 1 < 3) {param_1 = (Gfx*)DisplaySystemMonitor(param_1);}
+    sprintf(gGlobals.text,"%2d",(s16)(60.0f / gGlobals.delay));
+    param_1 = (Gfx*)some_debug_print(param_1,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
     if (gGlobals.DebugStatDisplay != 0) {
       uVar4 = get_hres();
       v = get_vres();
@@ -68,14 +68,14 @@ rspCom * display_debug_stats(rspCom *param_1){
         else {
           uVar4 = ppVar1->Ground_type;
           sprintf(gGlobals.text,"%2d - %s",uVar4,ground_labels[uVar4]);
-          pauVar3 = (rspCom *)some_debug_print(pauVar3,gGlobals.text,0x12,0xc4,0,200,200,0xff);
+          pauVar3 = (Gfx*)some_debug_print(pauVar3,gGlobals.text,0x12,0xc4,0,200,200,0xff);
           if (!(INT_MAX_f <= (memfree1 * 9.765625E-4f))) {}
           if (!(INT_MAX_f <= (memfree2 * 9.765625E-4f))) {}
           sprintf(gGlobals.text,"%d - %%%1.1f - (%d/%d)\n%c%02d - %d-(%3.2f,%3.2f,%3.2f) - %2.0f\n",
-          (ushort)(uVar2),);
+          (u16)(uVar2),);
           //sprintf(phi_s5, (void *)0x800D97E0, temp_s0_2, temp_s2->unk292 + 0x40, (?32) temp_s2->unk294, (?32) temp_s2->unk2AC, (f64) temp_s3->unk68, (f64) temp_s3->unk6C, (f64) temp_s3->unk70, (f64) (D_800D987C / temp_s0_3->unkC))
         }
-        param_1 = (rspCom *)some_debug_print(pauVar3,gGlobals.text,0x12,0xcc,200,0x20,200,0xff);
+        param_1 = (Gfx*)some_debug_print(pauVar3,gGlobals.text,0x12,0xcc,200,0x20,200,0xff);
       }
     }
   }
@@ -186,46 +186,41 @@ rspCom * display_debug_stats(rspCom *param_1){
     return phi_s1_2;
 }*/
 
-void app_cpp_func(OSSched *param_1,uint pri,uint id){
-  int *piVar1;
-  uint uVar2;
+void app_cpp_func(OSSched *param_1,u32 pri,u32 id){
+  s32 *piVar1;
+  u32 uVar2;
   
   appManager.sched = param_1;
-  piVar1 = (int *)Malloc(0x6048,FILENAME,0xe7);
-  uVar2 = 0;
+  piVar1 = (s32 *)heapAlloc(0x6048,FILENAME,0xe7);
   appStack_mirror = piVar1;
   appManager.stack = piVar1;
-  do {
-    *piVar1 = 0x12345678;
-    uVar2++;
-    piVar1++;
-  } while (uVar2 < 0x1811);
+  for(uVar2 = 0;uVar2 < 0x1811;uVar2++;) *piVar1++ = 0x12345678;
   osCreateThread(&appManager.Thread,id,AppProc,null,appManager.stack + 0x1812,pri);
   osStartThread(&appManager.Thread);
   return;
 }
 
 void AppProc(void){
-  short sVar1;
-  uint uVar2;
-  short sVar3;
+  s16 sVar1;
+  u32 uVar2;
+  s16 sVar3;
   longlong lVar4;
-  undefined4 *puVar6;
-  rspCom *pauVar7;
+  s32 *puVar6;
+  Gfx*pauVar7;
   OSMesg msg;
-  short sVar9;
-  ushort uVar10;
+  s16 sVar9;
+  u16 uVar10;
   ulonglong uVar5;
-  int iVar8;
-  short sVar11;
+  s32 iVar8;
+  s16 sVar11;
   u32 uVar12;
   u32 unaff_s1_lo;
   float fVar13;
   float fVar14;
-  short *in_stack_ffffffc0; //neither Ghidra or mips_to_c can explain this.
+  s16 *in_stack_ffffffc0; //neither Ghidra or mips_to_c can explain this.
   OSMesg *ppvVar15;
   
-  appManager.Mesg = (OSMesg *)Malloc(0x20,FILENAME,0x117);
+  appManager.Mesg = (OSMesg *)heapAlloc(0x20,FILENAME,0x117);
   osCreateMesgQueue(&appManager.MesgQ2,appManager.Mesg,8);
   appManager.MesgQ = osScGetCmdQ(appManager.ossched);
   appProc_init();
@@ -248,22 +243,22 @@ loop:
           uVar2 = gGlobals.ticker + 1;
           if (doubleGlobalTickerFlag == 1) {uVar2 = gGlobals.ticker + 2;}
           gGlobals.ticker = uVar2;
-          pauVar7 = (rspCom *)appProc_caseSwitch(puVar6);
+          pauVar7 = (Gfx*)appProc_caseSwitch(puVar6);
 #ifdef DEBUGVER
           pauVar7 = debug::display_debug_stats(pauVar7);
 #else
-          if ((version_flag != 0) && (gGlobals.playerChar.playerDat != NULL)) {
+          if ((version_flag != 0) && (gGlobals.playerChar.playerDat)) {
             sprintf(gGlobals.text,"%c%02d-(%2.1f,%2.1f)\n",gGlobals.Sub.mapShortA + 0x40,gGlobals.Sub.mapShortB);
             pauVar7 = some_debug_print(pauVar7,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);}
 #endif            
           NOOP_800a2448();
-          pauVar7 = (rspCom *)ret_A0(pauVar7);
+          pauVar7 = (Gfx*)ret_A0(pauVar7);
           iVar8 = gsDrawScreenRects(pauVar7);
           uVar12 = 0x3200;
           if (ExpPakFlag) {uVar12 = 0x6400;}
-          if (uVar12 << 3 < (uint)(iVar8 - (int)puVar6)) {
+          if (uVar12 << 3 < (u32)(iVar8 - (s32)puVar6)) {
             sprintf(gGlobals.text,"GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",
-                        (uint)(iVar8 - (int)puVar6) >> 3,uVar12,unaff_s1_lo);
+                        (u32)(iVar8 - (s32)puVar6) >> 3,uVar12,unaff_s1_lo);
             assert("app.cpp::AppProc",gGlobals.text);
           }
           sVar3 = doubleGlobalTickerFlag + -1;
@@ -307,8 +302,8 @@ loop:
           iVar8 = gfx::get_depthBuffer();
           if (INT_MAX_f <= fVar13) {fVar13 -= INT_MAX_f;}
           if (INT_MAX_f <= fVar14) {fVar14 -= INT_MAX_f;}
-          if (*(short *)(iVar8 + (((int)fVar13 & 0xffffU) * (int)(short)gfx::get_hres() +
-                                 ((int)fVar14 & 0xffffU)) * 2) == -4) {
+          if (*(s16 *)(iVar8 + (((s32)fVar13 & 0xffffU) * (s32)(s16)gfx::get_hres() +
+                                 ((s32)fVar14 & 0xffffU)) * 2) == -4) {
             gGlobals.appfunc_dat = 1;
             sVar3 = doubleGlobalTickerFlag;
             goto loop;
@@ -325,18 +320,17 @@ loop:
 }
 
 void appProc_init(void){
-  byte *pbVar1;
-  byte *pbVar2;
-  astruct_12 *paVar3;
+  u8 *pbVar1;
+  u8 *pbVar2;
   fontface_struct *pfVar4;
   Borg8Enum BVar5;
-  int uVar6;
+  s32 uVar6;
   
   gfx::SetGfxMode(320,240,16);
   func_80020830();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
-  Random::setRNGSeed((uint *)&gGlobals,0x3dbb6cd);
+  Random::setRNGSeed((u32 *)&gGlobals,0x3dbb6cd);
   uVar6 = 0;
   gGlobals.appstate = 5;
   gGlobals.ticker = 0;
@@ -348,7 +342,7 @@ void appProc_init(void){
       uVar6++;
     } while (pfVar4->font_face != 0);
   }
-  gGlobals.font = (FontStruct *)Malloc(0x20,FILENAME,0x1b4);
+  gGlobals.font = (FontStruct *)heapAlloc(0x20,FILENAME,0x1b4);
   Init_font(gGlobals.font,uVar6 & 0xff);
   if (0 < uVar6) {
     pfVar4 = font_face;
@@ -358,19 +352,18 @@ void appProc_init(void){
       pbVar2 = &pfVar4->b;
       pfVar4++;
       uVar6--;
-      load_font_face(gGlobals.font,BVar5,(uint)*pbVar1,(uint)*pbVar2);
+      load_font_face(gGlobals.font,BVar5,(u32)*pbVar1,(u32)*pbVar2);
       if (uVar6 == 0) break;
       BVar5 = pfVar4->font_face;
     }
   }
   font_func(gGlobals.font,(fontface_struct *)font_face[0].font_face);
-  gGlobals.widgetHandler = (WidgetHandler *)Malloc(8,FILENAME,0x1bf);
+  gGlobals.widgetHandler = (WidgetHandler *)heapAlloc(8,FILENAME,0x1bf);
   clear_widget_handler(gGlobals.widgetHandler,gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;
   memorymaker_init();
   load_commonstrings();
-  paVar3 = (astruct_12 *)passToMalloc(0x28);
-  gGlobals.unk0x15c0 = init_some_Struct(paVar3,gGlobals.widgetHandler);
+  gGlobals.unk0x15c0 = init_some_Struct(passToMalloc(0x28),gGlobals.widgetHandler);
   HresMirror = gfx::get_hres();
   VresMirror = gfx::get_vres();
   gGlobals.appstateBool = 1;
@@ -378,7 +371,7 @@ void appProc_init(void){
   gGlobals.VolBGM = 0.65f;
 }
 
-undefined4 appProc_caseSwitch(undefined4 param_1){
+s32 appProc_caseSwitch(s32 param_1){
   processQueueFree(&gGlobals.QueueA);
   Process_queue_B(&gGlobals.QueueB,0);
   if (gGlobals.appstateBool != 0) {
@@ -396,7 +389,7 @@ undefined4 appProc_caseSwitch(undefined4 param_1){
       gGlobals.appstate = func_checking_controller_and_pak(register0x000000ec);
       break;
     case 4:
-      gGlobals.appstate = appstate_4((rspCom **)register0x000000ec);
+      gGlobals.appstate = appstate_4((Gfx**)register0x000000ec);
       break;
     case 5:
       gGlobals.appstate = check_for_PAL_or_controller();
@@ -413,14 +406,15 @@ void clear_audio_video(void){
   removeCloseSynth();
   osSpTaskYield();
   while(osAfterPreNMI()){}
-  initGfx_2();}
+  initGfx_2();
+  }
 
 
-int check_for_PAL_or_controller(rspCom **param_1){
-  ushort uVar4;
-  int iVar2;
-  ushort v;
-  rspCom *pauVar3;
+s32 check_for_PAL_or_controller(Gfx**param_1){
+  u16 uVar4;
+  s32 iVar2;
+  u16 v;
+  Gfx*pauVar3;
   longlong lVar1;
   float fVar5;
   float fVar6;

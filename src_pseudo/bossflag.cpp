@@ -1,8 +1,8 @@
 void set_boss_flag(void){
   ItemID id;
-  byte index;
+  u8 index;
   EventFlag flg;
-  uint i=0;
+  u32 i=0;
   do {
     id = gGlobals.EncounterDat.enemy_entities[i];
     if (id == NULL) goto next;

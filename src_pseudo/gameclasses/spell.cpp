@@ -1,4 +1,4 @@
-void create_temp_spell(Temp_spell *S,ItemID ID,byte RANK){
+void create_temp_spell(Temp_spell *S,ItemID ID,u8 RANK){
   Spell_RAM *pSVar2;
   
   S->level = RANK;
@@ -14,17 +14,17 @@ void create_temp_spell(Temp_spell *S,ItemID ID,byte RANK){
   S->aspect = pSVar2->Aspect;
   S->range = pSVar2->Range;
   S->cost = pSVar2->ingredient;
-  S->exp_modifyer = ((ushort)pSVar2->EXP_Modifyer * 0x18 + (ushort)pSVar2->EXP_Modifyer) * 2;
+  S->exp_modifyer = ((u16)pSVar2->EXP_Modifyer * 0x18 + (u16)pSVar2->EXP_Modifyer) * 2;
   S->a = 0;
   S->b = 0;
   S->aspect_flag = pSVar2->unk0x1f;
 }
 
-int get_spell_exp_price(Temp_spell *S){
-  int i = S->level + 1;
-  return i * i * (uint)S->exp_modifyer;}
+s32 get_spell_exp_price(Temp_spell *S){
+  s32 i = S->level + 1;
+  return i * i * (u32)S->exp_modifyer;}
 
-int get_spell_gold_price(Temp_spell *param_1){
+s32 get_spell_gold_price(Temp_spell *param_1){
   if (param_1->level != 0) {return (param_1->level + 1) * 40;}
   return 200;}
 
@@ -94,7 +94,7 @@ u8 Ofunc_8008404c(ItemID *param_1){
 
 bool SpellLevelMaxed(Temp_spell *param_1){return 9 < param_1->level;}
 
-void CreateTempEnchant(Temp_enchant *Ench,SpellEnum Index,byte LV,uint Timer,byte UNK3,undefined4 UNK4){
+void CreateTempEnchant(Temp_enchant *Ench,SpellEnum Index,u8 LV,u32 Timer,u8 UNK3,s32 UNK4){
   Ench->lv = LV;
   Ench->index = Index;
   Ench->timer = Timer;
@@ -109,9 +109,9 @@ void func_800840dc(Temp_enchant *param_1){
     func_80095f6c(param_1->unk0x14);}
 }
 
-bool inc_effect_timer(Temp_enchant *param_1,u16 param_2,int param_3){
-  uint uVar1;
-  uint uVar2;
+bool inc_effect_timer(Temp_enchant *param_1,u16 param_2,s32 param_3){
+  u32 uVar1;
+  u32 uVar2;
   
   uVar1 = param_1->timer;
   if (uVar1 != 0xffffffff) {
@@ -129,10 +129,10 @@ bool inc_effect_timer(Temp_enchant *param_1,u16 param_2,int param_3){
   return false;
 }
 
-void malloc_equip_spell(SpellCharges *param_1,uint param_2,byte param_3,byte param_4){
+void malloc_equip_spell(SpellCharges *param_1,u32 param_2,u8 param_3,u8 param_4){
   Temp_spell *pTVar1;
   
-  pTVar1 = (Temp_spell *)Malloc(0x24,FILENAME,0x138);
+  pTVar1 = (Temp_spell *)heapAlloc(0x24,FILENAME,0x138);
   param_1->Spell = pTVar1;
   create_temp_spell(pTVar1,(ItemID)(SpellList[param_2 & 0xff] | 0x300),param_4);
   param_1->Charges = param_3;
@@ -141,34 +141,34 @@ void malloc_equip_spell(SpellCharges *param_1,uint param_2,byte param_3,byte par
 void Ofunc_80084200(Temp_spell **param_1){ //probably wrong type
   if ((Temp_weapon *)*param_1 != (Temp_weapon *)0x0) {
     clear_temp_Stat_spell((Temp_weapon *)*param_1);
-    Free(*param_1,FILENAME,0x148);
+    HeapFree(*param_1,FILENAME,0x148);
     *param_1 = NULL;
   }
 }
 
 void malloc_spell(spellbook *param_1,u8 param_2){
   Temp_spell *x;
-  uint size;
+  u32 size;
   
   param_1->spell_count = 0;
   param_1->spells = NULL;
   if (param_2) {
     size = param_2<< 2;
-    x = (Temp_spell *)Malloc(size,FILENAME,0x15a);
+    x = (Temp_spell *)heapAlloc(size,FILENAME,0x15a);
     param_1->spells = x;
     memset(x,0,size);
   }
 }
 
-void learn_spell(spellbook *param_1,ItemID param_2,byte param_3){
-  uint uVar1;
+void learn_spell(spellbook *param_1,ItemID param_2,u8 param_3){
+  u32 uVar1;
   Temp_spell *pTVar2;
-  uint uVar3;
-  uint uVar4;
+  u32 uVar3;
+  u32 uVar4;
   u16 aIStack544 [46] [2];
   Temp_spell *pIVar1;
   
-  uVar1 = (uint)param_1->spell_count;
+  uVar1 = (u32)param_1->spell_count;
   if ((uVar1 != 0) && (uVar1 != 0)) {
     pTVar2 = param_1->spells;
     uVar3 = 0;
@@ -184,22 +184,22 @@ void learn_spell(spellbook *param_1,ItemID param_2,byte param_3){
   uVar3 = uVar1 & 0xff;
   spellbok_free(param_1);
   malloc_spell(param_1,uVar3);
-  param_1->spell_count = (byte)uVar3;
+  param_1->spell_count = (u8)uVar3;
   
   if (0 < (uVar1 - 1)) {
     for (uVar3 = 0;uVar3 < (param_1->spell_count - 1);uVar3++) {
-      pTVar2 = (Temp_spell *)Malloc(0x24,FILENAME,0x199);
+      pTVar2 = (Temp_spell *)heapAlloc(0x24,FILENAME,0x199);
       param_1->spells->[uVar3] = pTVar2;
-      create_temp_spell(pTVar2,*(ItemID *)aIStack544[uVar3],*(byte *)((int)aIStack544[uVar3] + 3));
+      create_temp_spell(pTVar2,*(ItemID *)aIStack544[uVar3],*(u8 *)((s32)aIStack544[uVar3] + 3));
     }
   }
-  pTVar2 = (Temp_spell *)Malloc(0x24,FILENAME,0x19d);
+  pTVar2 = (Temp_spell *)heapAlloc(0x24,FILENAME,0x19d);
   param_1->spells[uVar3] = pTVar2;
   create_temp_spell(pTVar2,param_2,param_3);
 }
 
 bool knows_spell(spellbook *param_1,ItemID param_2,undefined *param_3){
-  uint uVar2;
+  u32 uVar2;
   Temp_spell *psVar1;
   
   if (param_1->spells == NULL) return false;
@@ -207,7 +207,7 @@ bool knows_spell(spellbook *param_1,ItemID param_2,undefined *param_3){
   if (param_1->spell_count != 0) {
     for(uVar2 = 0;uVar2 < param_1->spell_count;uVar2++) {
       psVar1 = param_1->spells[uVar2];
-      if ((psVar1 != NULL) && (psVar1->id == param_2)) {
+      if ((psVar1) && (psVar1->id == param_2)) {
         *param_3 = (char)uVar2;
         return true;
       }
@@ -217,19 +217,19 @@ bool knows_spell(spellbook *param_1,ItemID param_2,undefined *param_3){
 }
 
 void spellbok_free(spellbook *param_1){
-  uint uVar3 = 0;
+  u32 uVar3 = 0;
   if (param_1->spells) {
     if (param_1->spell_count != 0) {
       while( true ) {
         if param_1->spells[uVar3]){
           clear_temp_Stat_spell(param_1->spells[uVar3]); //could be skipped, no applciable pointers
-          Free(param_1->spells[uVar3],FILENAME,0x1ed);
+          HeapFree(param_1->spells[uVar3],FILENAME,0x1ed);
           param_1->spells[uVar3] = NULL;
         }
         if (param_1->spell_count <= ++uVar3) break;
       }
     }
-    Free(param_1->spells,FILENAME,0x1f1);
+    HeapFree(param_1->spells,FILENAME,0x1f1);
     param_1->spells = NULL;
   }
 }

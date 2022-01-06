@@ -1,14 +1,14 @@
 typedef struct IconDict IconDict, *PIconDict;
 
 struct IconDict { /* array Proceeded by dictionary length */
-    ushort key;
+    u16 key;
     enum Borg8Enum value:16;
 };
 
 bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
   Borg8Enum BVar1;
-  uint uVar2;
-  uint uVar3;
+  u32 uVar2;
+  u32 uVar3;
   IconDict *pIVar4;
   char err[];
   
@@ -32,7 +32,7 @@ bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
     if (ItemIconCount != 0) {
       do {
         if (ItemIcons[uVar2].key == param_1) {
-          *param_2 = (uint)ItemIcons[uVar2].value;
+          *param_2 = (u32)ItemIcons[uVar2].value;
           return true;
         }
         uVar2++;
@@ -53,11 +53,11 @@ bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
 }
 
 bool getAspectIcon(ASPECT param_1,Borg8Enum *param_2){
-  uint i = 0;
+  u32 i = 0;
   if (aspectIconCount != 0) {
     do {
-      if ((short)param_1 == aspectIcons[i].key) {
-        *param_2 = (uint)aspectIcons[i].value;
+      if ((s16)param_1 == aspectIcons[i].key) {
+        *param_2 = (u32)aspectIcons[i].value;
         return true;
       }
       i++;
@@ -67,11 +67,11 @@ bool getAspectIcon(ASPECT param_1,Borg8Enum *param_2){
 }
 
 bool getSchoolIcon(MagicSchoolEnum param_1,Borg8Enum *param_2){
-  uint i = 0;
+  u32 i = 0;
   if (SchoolIconCount != 0) {
     do {
-      if ((short)param_1 == SchoolIcons[i].key) {
-        *param_2 = (uint)SchoolIcons[i].value;
+      if ((s16)param_1 == SchoolIcons[i].key) {
+        *param_2 = (u32)SchoolIcons[i].value;
         return true;
       }
       i++;
@@ -81,8 +81,8 @@ bool getSchoolIcon(MagicSchoolEnum param_1,Borg8Enum *param_2){
 }
 
 bool get_spell_icon(ItemID param_1,Borg8Enum *param_2){
-  byte bVar1;
-  uint uVar3;
+  u8 bVar1;
+  u32 uVar3;
   
   bVar1=0;
   if (param_1 >> 8 == 3) {bVar1 = get_spell_icon_id(param_1));}
@@ -91,7 +91,7 @@ bool get_spell_icon(ItemID param_1,Borg8Enum *param_2){
     pIVar2 = iconDictSpellSymbol;
     do {
       if (bVar1 == iconDictSpellSymbol[uVar3].key) {
-        *param_2 = (uint)iconDictSpellSymbol[uVar3].value;
+        *param_2 = (u32)iconDictSpellSymbol[uVar3].value;
         return true;
       }
       uVar3++;
@@ -101,7 +101,7 @@ bool get_spell_icon(ItemID param_1,Borg8Enum *param_2){
 }
 
 bool get_spell_icons(ItemID param_1,Borg8Enum *param_2,Borg8Enum *param_3,Borg8Enum *param_4){
-  byte bVar2;
+  u8 bVar2;
   Borg8Enum BVar1;
   bool bVar3;
   ASPECT cVar1;
@@ -124,11 +124,11 @@ LAB_8004cb5c:
 }
 
 bool get_skill_icon(CHAR_SKILL param_1,Borg8Enum *param_2){
-  uint i = 0;
+  u32 i = 0;
   if (SkillIconCount != 0) {
     do {
-      if ((short)param_1 == SkillIcons[i].key) {
-        *param_2 = (uint)SkillIcons[i].value;
+      if ((s16)param_1 == SkillIcons[i].key) {
+        *param_2 = (u32)SkillIcons[i].value;
         return true;
       }
       i++;

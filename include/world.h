@@ -9,17 +9,17 @@ struct TerrainStruct {
    s8 DayNightMagic; //effected if Darkness/Light are used.
    u8 rainByte; // clear, rain, snow
    s8 unused;
-   float weatherFloatA;
-   float weatherFloatB;
-   float weatherFloatC;
-   vec3 coords; // Wind direction
-   uint InGameTime; // measured in seconds * 60
+   float PrecipScale;
+   float FogFloat;
+   float ThunderFloat;
+   vec3 windVelocity;
+   u32 InGameTime; // measured in seconds * 60
    u8 terrain; // determines terrain? used in camping funcs. 0-27
-   u8 pad[3];
-   float TimeOfDayFloat;
+   u8 pad[3]; //may have orginally used for a "temperature" field
+   float TimeOfDayFloat; //these 3 seem to effect combat visuals?
    float float0x2c;
    float float0x30;
-   int PlayTime;
+   s32 PlayTime;
 };
 
 struct Calendar { // TerrainStruct->IngameTime as x
@@ -32,13 +32,12 @@ struct Calendar { // TerrainStruct->IngameTime as x
 };
 
 struct WeatherTemp {
-  float floatA;
-  float floatB;
-  float floatC;
+  float PrecipScale;
+  float FogFloat;
+  float ThunderFloat;
   u8 precip;
-  u8 unk0xd; //likely padding
-  u8 unk0xe;
-  u8 unk0xf;
+  u8 unk0xd[3]; //likely padding
+
 };
 
 extern char** humidty_labels;
@@ -58,8 +57,8 @@ extern float terrain_rand_array[28];
 extern u8 timeofday_hours[5]; //debug only {6,9,12,18,21}
 
 void World:init(TerrainStruct *);
-void World::SetTerrain(TerrainStruct *,byte);
-byte World::getTerrain(TerrainStruct *);
+void World::SetTerrain(TerrainStruct *,u8);
+u8 World::getTerrain(TerrainStruct *);
 void inc_timeofDay(TerrainStruct *);
 void inc_dayNightMagic(TerrainStruct *);
 void dec_dayNightMagic(TerrainStruct *);
@@ -75,18 +74,18 @@ void set_weather(TerrainStruct *,Calendar *);
 void several_time_funcs(TerrainStruct *);
 void cap_ingame_time(TerrainStruct *);
 void add_10_ingame_seconds(TerrainStruct *);
-void add_to_ingame_time(TerrainStruct *,int );
+void add_to_ingame_time(TerrainStruct *,s32 );
 void lapse_8_hours(TerrainStruct *);
-void add_playTime(TerrainStruct *,int );
-uint get_inGame_time(TerrainStruct *);
-void set_inGame_time(TerrainStruct *,uint );
-uint get_ingame_month(TerrainStruct *);
-uint get_ingame_week(TerrainStruct *);
-uint get_ingame_day(TerrainStruct *);
-uint get_ingame_hour(TerrainStruct *);
-uint get_ingame_minute(TerrainStruct *);
-uint get_ingame_second(TerrainStruct *);
+void add_playTime(TerrainStruct *,s32 );
+u32 get_inGame_time(TerrainStruct *);
+void set_inGame_time(TerrainStruct *,u32 );
+u32 get_ingame_month(TerrainStruct *);
+u32 get_ingame_week(TerrainStruct *);
+u32 get_ingame_day(TerrainStruct *);
+u32 get_ingame_hour(TerrainStruct *);
+u32 get_ingame_minute(TerrainStruct *);
+u32 get_ingame_second(TerrainStruct *);
 float get_timeofDay_float(TerrainStruct *);
 void func_terrainStruct_floats(TerrainStruct *);
-void terrainstruct_spellvisuals_1(TerrainStruct *,float ,float ,short );
+void terrainstruct_spellvisuals_1(TerrainStruct *,float ,float ,s16 );
 void Terrainstruct_spellvisuals_2(TerrainStruct *,float );

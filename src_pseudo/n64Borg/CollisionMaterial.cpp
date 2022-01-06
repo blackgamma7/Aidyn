@@ -3,16 +3,16 @@
 bool borg10_func_b(void *x,void *y){return false;}
 void borg10_func_a(void *x){}
 
-void borg_10_free(int *arg0){
-  int iVar1 = get_memUsed();
-  if (*arg0 == -1) {Free(arg0,"./src/n64BorgCollisionMaterial.cpp",0x7b);}
-  else {dec_borg_count(*arg0);}
-  borg_mem[10]-= (iVar1 - get_memUsed(););
+void borg_10_free(s32 *arg0){
+  s32 iVar1 = get_memUsed();
+  if (*arg0 == -1) HeapFree(arg0,"./src/n64BorgCollisionMaterial.cpp",0x7b);
+  else dec_borg_count(*arg0);
+  borg_mem[10]-= (iVar1 - get_memUsed());
   borg_count[10]--;
-  return;}
+  }
 
-void * get_borg_10(int arg0){
+void * get_borg_10(s32 arg0){
   clearBorgFlag();
   return getBorgItem(arg0);}
 
-void passto_borg_10_free(int *arg0){borg_10_free(arg0);}
+void passto_borg_10_free(s32 *arg0){borg_10_free(arg0);}

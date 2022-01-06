@@ -4,32 +4,32 @@
 #define FILENAME ""
 #endif
 u8 pfs_charset[66]= 0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"$\'*+,-./:=?";
-uint button_mirror[MAXCONTROLLERS];
-ushort D_up_hold[MAXCONTROLLERS];
-ushort D_down_hold[MAXCONTROLLERS];
-ushort D_left_hold[MAXCONTROLLERS];
-ushort D_right_hold[MAXCONTROLLERS];
-ushort Up_hold[MAXCONTROLLERS];
-ushort down_hold[MAXCONTROLLERS];
-ushort left_hold[MAXCONTROLLERS];
-ushort right_hold[MAXCONTROLLERS];
-ushort c_up_hold[MAXCONTROLLERS];
-ushort C_down_hold[MAXCONTROLLERS];
-ushort c_left_hold[MAXCONTROLLERS];
-ushort c_right_hold[MAXCONTROLLERS];
-ushort Start_hold[MAXCONTROLLERS];
-ushort button_a_hold[MAXCONTROLLERS];
-ushort button_b_hold[MAXCONTROLLERS];
-ushort Z_hold[MAXCONTROLLERS];
-ushort L_hold[MAXCONTROLLERS];
-ushort R_hold[MAXCONTROLLERS];
+u32 button_mirror[MAXCONTROLLERS];
+u16 D_up_hold[MAXCONTROLLERS];
+u16 D_down_hold[MAXCONTROLLERS];
+u16 D_left_hold[MAXCONTROLLERS];
+u16 D_right_hold[MAXCONTROLLERS];
+u16 Up_hold[MAXCONTROLLERS];
+u16 down_hold[MAXCONTROLLERS];
+u16 left_hold[MAXCONTROLLERS];
+u16 right_hold[MAXCONTROLLERS];
+u16 c_up_hold[MAXCONTROLLERS];
+u16 C_down_hold[MAXCONTROLLERS];
+u16 c_left_hold[MAXCONTROLLERS];
+u16 c_right_hold[MAXCONTROLLERS];
+u16 Start_hold[MAXCONTROLLERS];
+u16 button_a_hold[MAXCONTROLLERS];
+u16 button_b_hold[MAXCONTROLLERS];
+u16 Z_hold[MAXCONTROLLERS];
+u16 L_hold[MAXCONTROLLERS];
+u16 R_hold[MAXCONTROLLERS];
 ContManageStruct ContManager;
 
-void init_controller_thread(OSSched *sc,u8 ports,byte pri,byte id){
+void init_controller_thread(OSSched *sc,u8 ports,u8 pri,u8 id){
   ContManager.ossched = sc;
   ContManager.ports = ports;
-  ContManager.thread_stack = (void *)Malloc(0x448,FILENAME,0xc8);
-  osCreateThread(&ContManager.Thread,(int)id,controller_loop,null,
+  ContManager.thread_stack = (void *)heapAlloc(0x448,FILENAME,0xc8);
+  osCreateThread(&ContManager.Thread,(s32)id,controller_loop,null,
                      ContManager.thread_stack + 0x448,pri);
   osStartThread(&ContManager.Thread);}
 
@@ -58,11 +58,11 @@ void init_controller_input_buffer(void){
   controllerBuffer *pcVar1;
   Button_hold *pBVar2;
   controllerBuffer *pcVar3;
-  uint i;
+  u32 i;
   OSContStatus contStat [4];
   u8 auStack40 [4];
   
-  ContManager.osmesgPointer = (OSMesg *)Malloc(0x20,FILENAME,0x102);
+  ContManager.osmesgPointer = (OSMesg *)heapAlloc(0x20,FILENAME,0x102);
   osCreateMesgQueue(&ContManager.controller_queue_2,ContManager.osmesgPointer,8);
   osCreateMesgQueue(&ContManager.si_megQ,&ContManager.mesg0,1);
   osSetEventMesg(SI,&ContManager.si_megQ,&_gp_1);
@@ -70,16 +70,16 @@ void init_controller_input_buffer(void){
   i = 0;
   ContManager.BufferPointer =
        (controllerBuffer *)
-       Malloc(ContManager.ports*sizeof(controllerBuffer),FILENAME,0x10b);
+       heapAlloc(ContManager.ports*sizeof(controllerBuffer),FILENAME,0x10b);
   if (ContManager.ports != 0) {
     do {
-      pBVar2 = (Button_hold *)Malloc(128*sizeof(Button_hold),FILENAME,0x111);
+      pBVar2 = (Button_hold *)heapAlloc(128*sizeof(Button_hold),FILENAME,0x111);
       ContManager.BufferPointer[i].latest = 0;
       ContManager.BufferPointer[i].inputlog = pBVar2;
       ContManager.BufferPointer[i].hori = 0.1f;
       ContManager.BufferPointer[i].vert = 0.1f;
       ContManager.BufferPointer[i].next = 0x7f;
-      ContManager.BufferPointer[i].ContGet = '\0';
+      ContManager.BufferPointer[i].ContGet = 0;
       ContManager.BufferPointer[i].ContRead = false;
       i++;
     } while (i < ContManager.ports);
@@ -100,8 +100,8 @@ void read_controller_input(void){
   float fVar4;
   float fVar5;
   float fVar6;
-  int iVar7;
-  byte bVar8;
+  s32 iVar7;
+  u8 bVar8;
   Button_hold *contEntry;
   BUTTON_aidyn buttons;
   controllerBuffer *buffer;
@@ -122,18 +122,18 @@ void read_controller_input(void){
   if (ContManager.ports != 0) {
     iVar7 = 0;
     do {
-      buffer = (controllerBuffer *)((int)ContManager.BufferPointer + (iVar7 - port) * 8); //needs cleanup
+      buffer = (controllerBuffer *)((s32)ContManager.BufferPointer + (iVar7 - port) * 8); //needs cleanup
       if (-1 < buffer->ContGet) {
         bVar8 = buffer->next + 1 & 0x7f;
         buffer->next = bVar8;
-        contEntry = (Button_hold *)(&(&buffer->inputlog->contAidyn)[(uint)bVar8 * 3].joy_x + bVar8); //this, too
+        contEntry = (Button_hold *)(&(&buffer->inputlog->contAidyn)[(u32)bVar8 * 3].joy_x + bVar8); //this, too
         if ((contPad[port].errno & CONT_NO_RESPONSE_ERROR) == 0) {
           buttons = (BUTTON_aidyn)contPad[port].button;
           sVar1 = contPad[port].stick_x;
           sVar2 = contPad[port].stick_y;
           buffer->ContRead = true;
-          fVar12 = (float)(int)sVar1 / fVar4;
-          fVar11 = (float)(int)sVar2 / fVar4;
+          fVar12 = (float)(s32)sVar1 / fVar4;
+          fVar11 = (float)(s32)sVar2 / fVar4;
         }
         else {
           fVar11 = 0.0;
@@ -249,7 +249,7 @@ void read_controller_input(void){
   return;
 }
 
-bool ofunc_getContQuerey(int port){
+bool ofunc_getContQuerey(s32 port){
   OSContStatus stats [4];
   
   osSendMesg(&ContManager.contMesgQ,null,1);
@@ -261,7 +261,7 @@ bool ofunc_getContQuerey(int port){
 }
 
 
-bool controller_status_check(int port){
+bool controller_status_check(s32 port){
   OSContStatus stats [4];
   CONT_ERROR CErr;
   CONT_TYPE CType;
@@ -277,7 +277,7 @@ bool controller_status_check(int port){
          ((CErr & CONT_OVERRUN_ERROR) == 0 && (CErr & CONT_NO_RESPONSE_ERROR) == 0);
 }
 
-bool func_8009b8fc(int port){
+bool func_8009b8fc(s32 port){
   bool bVar1;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
@@ -286,7 +286,7 @@ bool func_8009b8fc(int port){
   return bVar1;
 }
 
-PFS_ERR8 initControllerPak(int port){
+PFS_ERR8 initControllerPak(s32 port){
   PFS_ERR PVar1;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
@@ -295,7 +295,7 @@ PFS_ERR8 initControllerPak(int port){
   return (PFS_ERR8)PVar1;
 }
 
-PFS_ERR8 testRumblePack(byte port){
+PFS_ERR8 testRumblePack(u8 port){
   PFS_ERR8 PVar1;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
@@ -305,7 +305,7 @@ PFS_ERR8 testRumblePack(byte port){
 }
 
 
-PFS_ERR8 testTransferPak(uint port){
+PFS_ERR8 testTransferPak(u32 port){
   PFS_ERR PVar1;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
@@ -314,7 +314,7 @@ PFS_ERR8 testTransferPak(uint port){
   return (PFS_ERR8)PVar1;
 }
 
-PFS_ERR8 get_psf_err(byte port){
+PFS_ERR8 get_psf_err(u8 port){
   PFS_ERR8 PVar1;
     PVar1 = initControllerPak(port);
   if (PVar1 == ERR_DEVICE) {
@@ -331,7 +331,7 @@ PFS_ERR8 get_psf_err(byte port){
   return PVar1;
 }
 
-PFS_ERR8 repair_controllerpak_id(uint port){
+PFS_ERR8 repair_controllerpak_id(u32 port){
   PFS_ERR PVar1;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
@@ -341,7 +341,7 @@ PFS_ERR8 repair_controllerpak_id(uint port){
 }
 
 
-PFS_ERR8 ofunc_get_contpak_freespace(u16 *arg0,uint port){
+PFS_ERR8 ofunc_get_contpak_freespace(u16 *arg0,u32 port){
   PFS_ERR PVar1;
   s32 bytesFree;
   
@@ -353,9 +353,9 @@ PFS_ERR8 ofunc_get_contpak_freespace(u16 *arg0,uint port){
   return (PFS_ERR8)PVar1;
 }
 
-PFS_ERR8 get_contpak_freespace(undefined *param_1,uint port){
+PFS_ERR8 get_contpak_freespace(undefined *param_1,u32 port){
   PFS_ERR PVar1;
-  undefined4 blocks;
+  s32 blocks;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsFreeBlocks(&ContManager.BufferPointer[port].pfs,&blocks);
@@ -365,16 +365,16 @@ PFS_ERR8 get_contpak_freespace(undefined *param_1,uint port){
   return (PFS_ERR8)PVar1;
 }
 
-PFS_ERR8 create_new_save_file (u8 *fileno,char *GameName,char *ExtName,short compCode,u32 GameCode, ushort EXTName,byte port){
+PFS_ERR8 create_new_save_file (u8 *fileno,char *GameName,char *ExtName,s16 compCode,u32 GameCode, u16 EXTName,u8 port){
   PFS_ERR PVar2;
   u8 name [16];
   u8 code [4];
-  undefined4 filenum;
+  s32 filenum;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
   make_pfs_string(name,GameName,0x10);
   make_pfs_string(code,ExtName,4);
-  PVar2 = osPfsAllocateFile(&ContManager.BufferPointer[port].pfs,compCode,GameCode,name,code,(uint)EXTName,&filenum);
+  PVar2 = osPfsAllocateFile(&ContManager.BufferPointer[port].pfs,compCode,GameCode,name,code,(u32)EXTName,&filenum);
   if (PVar2 == OK) {*fileno = (u8)filenum;}
   else {*fileno = 0;}
   osRecvMesg(&ContManager.contMesgQ,NULL,1);
@@ -382,11 +382,11 @@ PFS_ERR8 create_new_save_file (u8 *fileno,char *GameName,char *ExtName,short com
 }
 
 
-PFS_ERR8 ofunc_find_file(u8 *fileno,undefined4 filename,undefined4 filecode,u16 param_4, u32 param_5,byte port){
+PFS_ERR8 ofunc_find_file(u8 *fileno,s32 filename,s32 filecode,u16 param_4, u32 param_5,u8 port){
   PFS_ERR PVar2;
   u8 name [16];
   u8 code [4];
-  undefined4 file_no;
+  s32 file_no;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
   make_pfs_string(name,filename,0x10);
@@ -399,7 +399,7 @@ PFS_ERR8 ofunc_find_file(u8 *fileno,undefined4 filename,undefined4 filecode,u16 
 }
 
 
-PFS_ERR8 get_file_state(fileState_aidyn *FS,uint file_no,uint port){
+PFS_ERR8 get_file_state(fileState_aidyn *FS,u32 file_no,u32 port){
   PFS_ERR PVar1;
   OSPfsState state;
   
@@ -408,7 +408,7 @@ PFS_ERR8 get_file_state(fileState_aidyn *FS,uint file_no,uint port){
   if (PVar1 == OK) {
     translate_pfs_string(FS->game_name,state.game_name,0x10);
     translate_pfs_string(FS->ext_name,state.ext_name,4);
-    FS->ext_name[1] = '\0';
+    FS->ext_name[1] = 0;
     FS->comp_code = state.company_code;
     FS->game_code = state.game_code;
     FS->filesize = state.file_size._2_2_;
@@ -418,7 +418,7 @@ PFS_ERR8 get_file_state(fileState_aidyn *FS,uint file_no,uint port){
   return (PFS_ERR8)PVar1;
 }
 
-PFS_ERR8 wite_file_to_contpak(u8 *buff,u8 filenum,u16 offset,u16 size,byte port){
+PFS_ERR8 wite_file_to_contpak(u8 *buff,u8 filenum,u16 offset,u16 size,u8 port){
   PFS_ERR PVar1;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
@@ -428,7 +428,7 @@ PFS_ERR8 wite_file_to_contpak(u8 *buff,u8 filenum,u16 offset,u16 size,byte port)
 }
 
 
-PFS_ERR8 read_ContPak_file(u8 *buff,short filenum,u16 offset,u16 size,byte port){
+PFS_ERR8 read_ContPak_file(u8 *buff,s16 filenum,u16 offset,u16 size,u8 port){
   PFS_ERR PVar1;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
@@ -438,7 +438,7 @@ PFS_ERR8 read_ContPak_file(u8 *buff,short filenum,u16 offset,u16 size,byte port)
 }
 
 
-PFS_ERR8 erase_game_file(uint fileno,uint port){
+PFS_ERR8 erase_game_file(u32 fileno,u32 port){
   controllerBuffer *pcVar1;
   PFS_ERR PVar2;
   OSPfsState state;
@@ -451,21 +451,21 @@ PFS_ERR8 erase_game_file(uint fileno,uint port){
   return (PFS_ERR8)PVar2;
 }
 
-uint Ofunc_find_ControllerPak(uint port){
+u32 Ofunc_find_ControllerPak(u32 port){
   PFS_ERR PVar1;
-  uint uVar2;
-  byte abStack24 [24];
+  u32 uVar2;
+  u8 abStack24 [24];
   
   abStack24[0] = 0;
   osSendMesg(&ContManager.contMesgQ,null,1);
   PVar1 = osPfsIsPlug(&ContManager.si_megQ,abStack24);
   osRecvMesg(&ContManager.contMesgQ,NULL,1);
-  if (PVar1 == OK) {uVar2 = (int)(uint)abStack24[0] >> (port & 0x1f) & 1;}
+  if (PVar1 == OK) {uVar2 = (s32)(u32)abStack24[0] >> (port & 0x1f) & 1;}
   else {uVar2 = 0;}
   return uVar2;
 }
 
-bool controller_query_2(byte port,CONT_STATUS *statOut){
+bool controller_query_2(u8 port,CONT_STATUS *statOut){
   OSContStatus Cstats [4];
   CONT_TYPE CType;
   CONT_ERROR Cerr;
@@ -477,14 +477,14 @@ bool controller_query_2(byte port,CONT_STATUS *statOut){
   Cerr = Cstats[port].errno;
   CType = Cstats[port].type;
   osRecvMesg(&ContManager.contMesgQ,NULL,1);
-  if (statOut != NULL) {*statOut = Cstats[port].status;}
+  if (statOut) {*statOut = Cstats[port].status;}
   return statOut != NULL &&
          ((CType & CONT_TYPE_MASK) == CONT_TYPE_NORMAL &&
          ((Cerr & CONT_OVERRUN_ERROR) == 0 && (Cerr & CONT_NO_RESPONSE_ERROR) == 0));
 }
 
-bool query_controller(uint port){
-  uint uVar1;
+bool query_controller(u32 port){
+  u32 uVar1;
   OSContStatus Cstatus [4];
   CONT_TYPE CType;
   CONT_ERROR Cerr;
@@ -502,9 +502,9 @@ bool query_controller(uint port){
          (uVar1 & 4) != 0;
 }
 
-int Ofunc_set_cont_hori_vert(float H,float V,u8 arg0,u8 arg1,uint port){
+s32 Ofunc_set_cont_hori_vert(float H,float V,u8 arg0,u8 arg1,u32 port){
   controllerBuffer *pcVar1;
-  int iVar2;
+  s32 iVar2;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
   pcVar1 = ContManager.BufferPointer[port];
@@ -514,7 +514,7 @@ int Ofunc_set_cont_hori_vert(float H,float V,u8 arg0,u8 arg1,uint port){
   return iVar2;
 }
 
-bool get_cont_aidyn(Button_hold *param_1,byte port){
+bool get_cont_aidyn(Button_hold *param_1,u8 port){
   controllerBuffer *buffer;
   
   osSendMesg(&ContManager.contMesgQ,null,1);
@@ -528,9 +528,9 @@ bool get_cont_aidyn(Button_hold *param_1,byte port){
   return (bool)pcVar2->ContGet;
 }
 
-void translate_pfs_string(char *ascii,byte *pfs,uint len){
-  byte *pbVar1;
-  uint uVar3;
+void translate_pfs_string(char *ascii,u8 *pfs,u32 len){
+  u8 *pbVar1;
+  u32 uVar3;
   char cVar4;
 
   uVar3 = 0;
@@ -546,19 +546,19 @@ void translate_pfs_string(char *ascii,byte *pfs,uint len){
       pbVar1 = pfs + uVar3;
     } while (uVar3 < len);
   }
-  ascii[len] = '\0';
+  ascii[len] = 0;
   return;
 }
 
-void make_pfs_string(u8 *pfs,char *ascii,uint len){
+void make_pfs_string(u8 *pfs,char *ascii,u32 len){
   char cVar1;
   bool bVar2;
   bool bVar3;
-  uint len_2;
+  u32 len_2;
   char *pcVar4;
-  uint uVar5;
-  uint i;
-  uint uVar6;
+  u32 uVar5;
+  u32 i;
+  u32 uVar6;
   
   len_2 = strlen(ascii);
   uVar5 = 0;
@@ -596,10 +596,10 @@ inc_count:
   return;
 }
 
-short cont_delay(byte port){
-  short sVar1;
+s16 cont_delay(u8 port){
+  s16 sVar1;
   bool bVar2;
-  short sVar3;
+  s16 sVar3;
   Button_hold temp;  
   sVar1 = 0;
   do {

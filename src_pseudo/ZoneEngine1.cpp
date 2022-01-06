@@ -8,10 +8,10 @@ void checking_camping_safety(void){
 void dialoug_ref_obj_func(void){
   Borg_9_data *pBVar1;
   bool bVar2;
-  int iVar3;
+  s32 iVar3;
   Dialoug_obj *prVar5;
-  int iVar4;
-  int iVar5;
+  s32 iVar4;
+  s32 iVar5;
   
   setEventFlag(0x1090,true);
   pBVar1 = gGlobals.Sub.borg9DatPointer;
@@ -23,7 +23,7 @@ void dialoug_ref_obj_func(void){
       if ((((prVar5->header).type == Dialouge) &&
           (some_dialoug_short_lookup((prVar5->header).flagA))) &&
          (dialouge_trigger_check(prVar5,((gGlobals.playerCharStruct.playerDat)->collision).position,false))) {
-        dialoug_func((uint)(prVar5->dat).borg_13,(prVar5->dat).unk0x8,(prVar5->dat).unk0x2,
+        dialoug_func((u32)(prVar5->dat).borg_13,(prVar5->dat).unk0x8,(prVar5->dat).unk0x2,
                      (prVar5->dat).unk0x4,(prVar5->dat).unk0x6,0x7fff);
         setEventFlag(0x1090,false);
         return;
@@ -31,14 +31,14 @@ void dialoug_ref_obj_func(void){
       iVar3 = iVar5 >> 0x10;
       iVar4+= 0x6c;
       iVar5 = iVar5 + 0x10000;
-    } while (iVar3 < (int)(uint)pBVar1->voxelCount);
+    } while (iVar3 < (s32)(u32)pBVar1->voxelCount);
   }
   campfire_func();
   setEventFlag(0x1090,false);
   return;
 }
 
-void func_800064e8(widgetStruct *param_1,ushort param_2,ushort param_3,ushort param_4,ushort param_5){
+void func_800064e8(widgetStruct *param_1,u16 param_2,u16 param_3,u16 param_4,u16 param_5){
   param_1->unk0x64 = param_2;
   param_1->unk0x68 = param_3;
   param_1->HMax = param_4;
@@ -62,10 +62,10 @@ bool isCampfireScene(borg13Enum param_1){
   return false;
 }
 
-bool some_dialoug_short_lookup(ushort param_1){
-  ushort uVar1;
-  ushort *puVar2;
-  ushort dialoug_voxel_flagAs[9]={0x13c0,0x141e,0x141f,0x1422,0x1423,0x142b,0x1447,0x1393,0xffff}
+bool some_dialoug_short_lookup(u16 param_1){
+  u16 uVar1;
+  u16 *puVar2;
+  u16 dialoug_voxel_flagAs[9]={0x13c0,0x141e,0x141f,0x1422,0x1423,0x142b,0x1447,0x1393,0xffff}
 
   if (dialoug_voxel_flagAs[0] != 0xffff) {
     puVar2 = dialoug_voxel_flagAs;
@@ -80,8 +80,8 @@ bool some_dialoug_short_lookup(ushort param_1){
 
 void campfire_func(void){
   Borg_9_header *pBVar1;
-  int iVar2;
-  int iVar3;
+  s32 iVar2;
+  s32 iVar3;
   dialoug_dat *puVar4;
   mapVoxel *pVVar1;
   
@@ -93,15 +93,15 @@ void campfire_func(void){
     else {
       iVar2 = 1;
       do {
-        iVar3 = (int)(short)iVar2;
-        if ((int)(uint)(pBVar1->dat).voxelCount <= iVar3) goto LAB_80006610;
+        iVar3 = (s32)(s16)iVar2;
+        if ((s32)(u32)(pBVar1->dat).voxelCount <= iVar3) goto LAB_80006610;
         iVar2 = iVar3 + 1;
       } while (pVVar1[iVar3].header.type != Dialouge);
       puVar4 = (dialoug_dat *)pVVar1[iVar3].data;
     }
   }
 LAB_80006610:
-  dialoug_func((uint)puVar4->borg_13,puVar4->unk0x8,puVar4->unk0x2,puVar4->unk0x4,puVar4->unk0x6,0x7fff);
+  dialoug_func((u32)puVar4->borg_13,puVar4->unk0x8,puVar4->unk0x2,puVar4->unk0x4,puVar4->unk0x6,0x7fff);
   remove_borg_9(pBVar1);
   return;
 }

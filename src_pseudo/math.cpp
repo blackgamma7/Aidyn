@@ -44,19 +44,19 @@ void Vec4_Sum(Vec4 *A,Vec4 *B,Vec4 *C){
 float get_vec2_proximity(Vec2 *A,Vec2 *B){
 	Vec2 temp;
 
-	Vec2_Sub((Vec2 *)temp,A,B);
-	return vec2Length((Vec2 *)temp);}
+	Vec2_Sub(temp,A,B);
+	return vec2Length(temp);}
 
 float get_vec3_proximity(Vec3 *A,Vec3 *B){
 	Vec3 temp;
 
-	Vec3_Sub((Vec3 *)temp,A,B);
-	return vec3Length((Vec3 *)temp);}
+	Vec3_Sub(temp,A,B);
+	return vec3Length(temp);}
 
-float vec2_scalar_product(Vec2 *A,Vec2 *B){
+float vec2_dot(Vec2 *A,Vec2 *B){
 	return (*A)[0] * (*B)[0] + (*A)[1] * (*B)[1];}
 
-float vec3_scalar_product(Vec3 *A,Vec3 *B){
+float vec3_dot(Vec3 *A,Vec3 *B){
 	return (*A)[0] * (*B)[0] + (*A)[1] * (*B)[1] + (*A)[2] * (*B)[2];
 
 
@@ -97,9 +97,9 @@ void some_vec3_math_sphere(vec3 *A,vec3 *B,vec3 *C,vec3 *D){
 	vec3 TempA;
 	vec3 TempB;
 
-	Vec3_sub((vec3 *)TempA,B,C);
-	Vec3_sub((vec3 *)TempB,B,D);
-	some_vec3_math(A,(vec3 *)TempA,(vec3 *)TempB);
+	Vec3_sub(TempA,B,C);
+	Vec3_sub(TempB,B,D);
+	some_vec3_math(A,TempA,TempB);
 	vec3_normalize(A);}
 
 bool some_trig_func_2(Vec2 *A,Vec2 *B,float C){
@@ -132,8 +132,8 @@ bool some_trig_func_2(Vec2 *A,Vec2 *B,float C){
     fStack192[1] = fVar3 * fVar4 - fVar2 * fVar5;
     fStack128[0] = fVar6 * fVar5 + fVar1 * fVar4;
     fStack128[1] = fVar6 * fVar4 - fVar1 * fVar5;
-    fVar3 = get_vec2_proximity((Vec2 *)fStack192,B);
-    fVar6 = get_vec2_proximity((Vec2 *)fStack128,B);
+    fVar3 = get_vec2_proximity(fStack192,B);
+    fVar6 = get_vec2_proximity(fStack128,B);
     fVar1 = fStack192[1];
     fVar2 = fStack192[0];
     if (fVar6 <= fVar3) {
@@ -164,7 +164,7 @@ void func_800ab23c(vec3 *A,vec3 *B,float C){
   fStack152[1] = (*B)[2];
   fStack88[0] = fStack152[0];
   fStack88[1] = fStack152[1];
-  some_trig_func_2((Vec2 *)fStack280,(Vec2 *)fStack152,C);
+  some_trig_func_2(fStack280,fStack152,C);
   (*A)[0] = fStack280[0];
   (*A)[2] = fStack280[1];}
 
@@ -193,7 +193,7 @@ void func_800ab3cc(vec3 *X,float Y){
   TempA[1] = (*X)[2];
   TempB[0] = TempA[0];
   TempB[1] = TempA[1];
-  some_trig_func((Vec2 *)TempA,Y);
+  some_trig_func(TempA,Y);
   setVec3(X,TempA[0],(*X)[1],TempA[1]);}
 
 void copyVec2(Vec2 *from,Vec2 *to){
@@ -250,10 +250,10 @@ float three_vec2_proximities(Vec2 *X,Vec2 *Y,Vec2 *Z){
   Vec2 TempA;
   Vec2 TempB;
   
-  Vec2_Sub((Vec2 *)TempA,Y,X);
-  vec2_normalize((Vec2 *)TempA);
-  Vec2_Sub((Vec2 *)TempB,Z,X);
-  vec2_normalize((Vec2 *)TempB);
+  Vec2_Sub(TempA,Y,X);
+  vec2_normalize(TempA);
+  Vec2_Sub(TempB,Z,X);
+  vec2_normalize(TempB);
   return (2.0f -
          ((TempA[0] - TempB[0]) * (TempA[0] - TempB[0]) +
          (TempA[1] - TempB[1]) * (TempA[1] - TempB[1]))) * 0.5f;}
@@ -275,24 +275,24 @@ float big_vec2_math_func(Vec2 *A,Vec2 *B,Vec2 *C){
   Vec2 afStack176;
   Vec2 afStack112;
   
-  Vec2_Sub((Vec2 *)afStack304,B,A);
-  vec2_normalize((Vec2 *)afStack304);
-  Vec2_Sub((Vec2 *)afStack240,C,A);
-  vec2_normalize((Vec2 *)afStack240);
-  fVar1 = get_vec2_proximity((Vec2 *)afStack304,(Vec2 *)afStack240);
+  Vec2_Sub(afStack304,B,A);
+  vec2_normalize(afStack304);
+  Vec2_Sub(afStack240,C,A);
+  vec2_normalize(afStack240);
+  fVar1 = get_vec2_proximity(afStack304,afStack240);
   fVar3 = (2.0f - fVar1 * fVar1) * 0.5f;
   fVar1 = 1.0f - fVar3 * fVar3;
   if (fVar1 <= 0.0) fVar1 = -fVar1;
   x = _sqrtf(fVar1);
-  multiVec2((Vec2 *)afStack304,100.0f);
-  multiVec2((Vec2 *)afStack240,100.0f);
-  copyVec2((Vec2 *)afStack304,(Vec2 *)afStack176);
-  copyVec2((Vec2 *)afStack304,(Vec2 *)afStack112);
-  some_vec2Math((Vec2 *)afStack176,x,fVar3);
+  multiVec2(afStack304,100.0f);
+  multiVec2(afStack240,100.0f);
+  copyVec2(afStack304,afStack176);
+  copyVec2(afStack304,afStack112);
+  some_vec2Math(afStack176,x,fVar3);
   fVar1 = -x;
-  some_vec2Math((Vec2 *)afStack112,fVar1,fVar3);
-  fVar3 = get_vec2_proximity((Vec2 *)afStack176,(Vec2 *)afStack240);
-  fVar2 = get_vec2_proximity((Vec2 *)afStack112,(Vec2 *)afStack240);
+  some_vec2Math(afStack112,fVar1,fVar3);
+  fVar3 = get_vec2_proximity(afStack176,afStack240);
+  fVar2 = get_vec2_proximity(afStack112,afStack240);
   if (fVar3 < fVar2) fVar1 = x;
   return fVar1;
 }
@@ -325,7 +325,6 @@ void func_800ab880(float (*A) [4] [4],float (*B) [4] [4]){
   (*B)[2][3] = 0.0;
   (*B)[3][3] = 1.0f;
   (*B)[3][2] = (-(*B)[0][2] * (*A)[3][0] - (*B)[1][2] * (*A)[3][1]) - (*B)[2][2] * (*A)[3][2];
-  return;
 }
 
 /*above interpreted from:
@@ -387,7 +386,7 @@ void func_800ab880(float (*A) [4] [4],float (*B) [4] [4]){
   return;
 }*/
 
-float ofunc_sub_800aba2c(float *Arg0,byte Arg1,byte Arg2){
+float ofunc_sub_800aba2c(float *Arg0,u8 Arg1,u8 Arg2){
   float fVar1;
   float fVar2;
   float fVar3;
@@ -401,7 +400,7 @@ LAB_800abacc:
 LAB_800abb14:
       return fVar3 + fVar2 * fVar1;
     }
-    if ((char)Arg2 < '\x02') {
+    if (Arg2 < 2) {
       if (Arg2 == 0) {
         fVar3 = -Arg0[1] * Arg0[8];
         fVar1 = Arg0[7];
@@ -419,14 +418,14 @@ LAB_800abb14:
     }
   }
   else {
-    if (((char)Arg1 < '\x02') && (Arg1 == 0)) {
+    if ((Arg1 < 2) && (Arg1 == 0)) {
       if (Arg2 == 1) {
         fVar3 = Arg0[5] * Arg0[6];
         fVar1 = Arg0[8];
         fVar2 = Arg0[3];
         goto LAB_800aba8c;
       }
-      if ((char)Arg2 < '\x02') {
+      if (Arg2 < 2) {
         if (Arg2 == 0) {
           fVar3 = Arg0[4] * Arg0[8];
           fVar1 = Arg0[7];
@@ -452,7 +451,7 @@ LAB_800abb14:
 LAB_800aba8c:
     return fVar3 - fVar2 * fVar1;
   }
-  if ((char)Arg2 < '\x02') {
+  if (Arg2 < 2) {
     if (Arg2 == 0) {
       fVar3 = Arg0[1] * Arg0[5];
       fVar1 = Arg0[4];
@@ -474,7 +473,7 @@ float ofunc_sub_800abbbc(float *Arg0){
          Arg0[2] * Arg0[3] * Arg0[7]) - Arg0[2] * Arg0[4] * Arg0[6];
 }
 
-void func_800abc38(undefined4 Arg0,float *Arg1){
+void func_800abc38(s32 Arg0,float *Arg1){
   float fVar1;
   float fVar2;
   
@@ -547,7 +546,6 @@ void ofunc_sub_800abd94(float (*Arg0) [4] [4],float (*Arg1) [4] [4],float (*Arg2
   (*Arg0)[2][3] = 0.0;
   (*Arg0)[3][3] = 1.0f;
   (*Arg0)[3][2] = (*Arg1)[2] * (*Arg2)[3][0] + (*Arg1)[1][2] * (*Arg2)[3][1] + (*Arg1)[2][2] * (*Arg2)[3][2] + (*Arg1)[3][2];
-  return;
 }
 
 void some_matrix_func_1(float (*A) [4] [4],float (*B) [4] [4],float (*C) [4] [4]){
@@ -567,7 +565,6 @@ void some_matrix_func_1(float (*A) [4] [4],float (*B) [4] [4],float (*C) [4] [4]
   (*A)[1][3] = (*B)[1][3] * (*C)[1][3];
   (*A)[3][3] = 1.0f;
   (*A)[2][3] = (*C)[2][3] * (*C)[2][3];
-  return;
 }
 
 void func_800ac2e8(float(*A)[4][4],float(*B)[4][4],float(*C)[4][4]){
@@ -580,7 +577,6 @@ void func_800ac2e8(float(*A)[4][4],float(*B)[4][4],float(*C)[4][4]){
   (*A)[2] = (*B)[2] * (*C)[0] + (*B)[1][2] * (*C)[1] + (*B)[2][2] * (*C)[2];
   (*A)[1][2] = (*B)[2] * (*C)[1][0] + (*B)[1][2] * (*C)[1][1] + (*B)[2][2] * (*C)[1][2];
   (*A)[2][2] = (*B)[2] * (*C)[2][0] + (*B)[1][2] * (*C)[2][1] + (*B)[2][2] * (*C)[2][2];
-  return;
 }
 
 void some_oher_matrix_math(float(*A)[4][4],float(*B)[4][4],float(*C)[4][4]){
@@ -612,7 +608,6 @@ void some_oher_matrix_math(float(*A)[4][4],float(*B)[4][4],float(*C)[4][4]){
                (*B)[3][3] * (*C)[2][3];
   (*A)[3][3] = (*B)[3] * (*C)[3][0] + (*B)[1][3] * (*C)[3][1] + (*B)[2][3] * (*C)[3][2] +
                (*B)[3][3] * (*C)[3][3];
-  return;
 }
 
 void func_800ac8a0(float(*A)[4][4],float(*B)[4][4],float(*C)[4][4]){
@@ -625,36 +620,33 @@ void func_800ac8a0(float(*A)[4][4],float(*B)[4][4],float(*C)[4][4]){
   (*A)[1][2] = (*B)[2] * (*C)[0] + (*B)[1][2] * (*C)[3] + (*B)[2][2] * (*C)[1][2];
   (*A)[1][3] = (*B)[2] * (*C)[1] + (*B)[1][2] * (*C)[1][0] + (*B)[2][2] * (*C)[1][3];
   (*A)[2][0] = (*B)[2] * (*C)[2] + (*B)[1][2] * (*C)[1][1] + (*B)[2][2] * (*C)[2][0];
-  return;
 }
 
 void func_800aca54(vec3 *A,float(*B)[4][4],vec3 *C){
   (*A)[0] = (*B)[0] * (*C)[0] + (*B)[1][0] * (*C)[1] + (*B)[2][0] * (*C)[2] + (*B)[3][0];
   (*A)[1] = (*B)[1] * (*C)[0] + (*B)[1][1] * (*C)[1] + (*B)[2][1] * (*C)[2] + (*B)[3][1];
   (*A)[2] = (*B)[2] * (*C)[0] + (*B)[1][2] * (*C)[1] + (*B)[2][2] * (*C)[2] + (*B)[3][2];
-  return;
 }
 
 void some_float_multi_math(vec3 *A,float (*B) [4] [4],vec3 *C){
   (*A)[0] = (*B)[0] * (*C)[0] + (*B)[1][0] * (*C)[1] + (*B)[2][0] * (*C)[2];
   (*A)[1] = (*B)[1] * (*C)[0] + (*B)[1][1] * (*C)[1] + (*B)[2][1] * (*C)[2];
   (*A)[2] = (*B)[2] * (*C)[0] + (*B)[1][2] * (*C)[1] + (*B)[2][2] * (*C)[2];
-  return;
 }
 
-void NOOP_800acb94(void){return;}
-void NOOP_800ACB9C(void){return;}
+void NOOP_800acb94(void){}
+void NOOP_800ACB9C(void){}
 
 
-void func_800acba4(float *param_1,uint *param_2){ //likely inacurate, but goes unused
-  uint uVar1;
-  uint uVar2;
+void func_800acba4(float *param_1,u32 *param_2){ //likely inacurate, but goes unused
+  u32 uVar1;
+  u32 uVar2;
   bool bVar3;
   float fVar4;
   float *pfVar5;
-  uint *puVar6;
-  int iVar7;
-  int iVar8;
+  u32 *puVar6;
+  s32 iVar7;
+  s32 iVar8;
   
   fVar4 = 1.5258789E-5f;
   puVar6 = param_2 + 8;
@@ -676,7 +668,6 @@ void func_800acba4(float *param_1,uint *param_2){ //likely inacurate, but goes u
     bVar3 = iVar8 < 4;
     iVar8 = iVar8 + 1;
   } while (bVar3);
-  return;
 }
 
 void ofunc_sub_800acc40(float (*param_1) [4] [4],vec3 *param_2,float param_3){
@@ -716,7 +707,6 @@ void ofunc_sub_800acc40(float (*param_1) [4] [4],vec3 *param_2,float param_3){
   (*param_1)[2][1] = fVar4 - fVar2;
   (*param_1)[2] = fVar11 - fVar3;
   (*param_1)[1][2] = fVar4 + fVar2;
-  return;
 }
 
 void func_800acd9c(float (*A)[4][4],vec3 *B){
@@ -726,8 +716,8 @@ void func_800acd9c(float (*A)[4][4],vec3 *B){
   v3Temp[0] = (*B)[0];
   v3Temp[1] = (*B)[1];
   v3Temp[2] = (*B)[2];
-  len = vec3_normalize((vec3 *)v3Temp);
-  ofunc_sub_800acc40(A,(vec3 *)v3Temp,len);
+  len = vec3_normalize(v3Temp);
+  ofunc_sub_800acc40(A,v3Temp,len);
   (*A)[3][0] = 0.0;
   (*A)[3][1] = 0.0;
   (*A)[3][2] = 0.0;
@@ -735,7 +725,6 @@ void func_800acd9c(float (*A)[4][4],vec3 *B){
   (*A)[1][3] = 0.0;
   (*A)[2][3] = 0.0;
   (*A)[3][3] = 1.0f;
-  return;
 }
 
 void ofunc_sub_800ace10(float (*A) [4] [4],float x,float y,float z){
@@ -755,10 +744,9 @@ void ofunc_sub_800ace10(float (*A) [4] [4],float x,float y,float z){
   (*A)[1][0] = -cosx * sinz + sinx * siny * cosz;
   (*A)[2] = -sinx * cosz + cosx * siny * sinz;
   (*A)[1][2] = sinx * sinz + cosx * siny * cosz;
-  return;
 }
 
-void func_800acf64(float (*A) [4] [4],int X,int Y,int Z){
+void func_800acf64(float (*A) [4] [4],s32 X,s32 Y,s32 Z){
   ofunc_sub_800ace10(A,(float)X,(float)Y,(float)Z);
   (*A)[3][0] = 0.0;
   (*A)[3][1] = 0.0;
@@ -767,7 +755,6 @@ void func_800acf64(float (*A) [4] [4],int X,int Y,int Z){
   (*A)[1][3] = 0.0;
   (*A)[2][3] = 0.0;
   (*A)[3][3] = 1.0f;
-  return;
 }
 
 void matrix_scale(float (*A) [4] [4],float x,float Y,float Z){
@@ -780,7 +767,6 @@ void matrix_scale(float (*A) [4] [4],float x,float Y,float Z){
   (*A)[2][0] *= Z;
   (*A)[2][1] *= Z;
   (*A)[2][2] *= Z;
-  return;
 }
 
 void func_800ad028(float (*X) [4] [4]){
@@ -810,8 +796,8 @@ void func_800ad174(float (*X) [4] [4],vec3 *A,vec3 *B,vec3 *C){
   V3temp[0] = (*B)[0] - (*C)[0];
   V3temp[1] = (*B)[1] - (*C)[1];
   V3temp[2] = (*B)[2] - (*C)[2];
-  fVar1 = vec3_scalar_product((vec3 *)V3temp,A);
-  fVar2 = vec3_scalar_product(C,A);
+  fVar1 = vec3_dot(V3temp,A);
+  fVar2 = vec3_dot(C,A);
   (*X)[0] = -(*C)[0] * (*A)[0] - fVar1;
   (*X)[1][0] = -(*C)[0] * (*A)[1];
   fVar3 = fVar1 + fVar2;
@@ -833,14 +819,14 @@ void func_800ad174(float (*X) [4] [4],vec3 *A,vec3 *B,vec3 *C){
 }
 
 void ofunc_sub_800ad30c(float *param_1,float *param_2,float *param_3){
-  int iVar1;
-  int iVar2;
+  s32 iVar1;
+  s32 iVar2;
   float *pfVar3;
   float *pfVar4;
   float *pfVar5;
   float *pfVar6;
-  int iVar7;
-  int iVar8;
+  s32 iVar7;
+  s32 iVar8;
   float fVar9;
   
   iVar8 = 3;
@@ -878,7 +864,6 @@ void func_800ad38c(vec3 *A,float (*B) [4] [4],vec3 *C){
   (*A)[0] = (*B)[0] * (*C)[0] + (*B)[1] * (*C)[1] + (*B)[2] * (*C)[2];
   (*A)[1] = (*B)[3] * (*C)[0] + (*B)[1][0] * (*C)[1] + (*B)[1][1] * (*C)[2];
   (*A)[2] = (*B)[1][2] * (*C)[0] + (*B)[1][3] * (*C)[1] + (*B)[2][0] * (*C)[2];
-  return;
 }
 
 void func_800ad420(vec3 *A,vec3 *B,vec3 *C,vec3 *D){
@@ -896,7 +881,7 @@ void func_800ad420(vec3 *A,vec3 *B,vec3 *C,vec3 *D){
 }
 
 void func_800ad49c(vec3 *A,vec3 *B){
-  float fVar1 = vec3_scalar_product(A,B);
+  float fVar1 = vec3_dot(A,B);
   fVar1 = -fVar1;
   (*B)[0] += (*A)[0] * fVar1;
   (*B)[1] += (*A)[1] * fVar1;
@@ -971,7 +956,6 @@ void func_800ad50c(float (*A) [4] [4],float *B,float *C,float *D,float *E){//Aga
             fStack248[2][0] * afStack184[2];
   (*A)[1][2] = fStack248[1][2] * afStack184[4] + fStack248[1][3] * afStack184[5] +
                fStack248[2][0] * afStack184[6];
-  return;
 }
 
 
@@ -982,9 +966,9 @@ void func_800ad81c(float (*A) [4] [4],vec3 *B){
   V3TempB[0] = (*A)[2][0];
   V3TempB[1] = (*A)[2][1];
   V3TempB[2] = (*A)[2][2];
-  some_vec3_math((vec3 *)V3TempA,B,(vec3 *)V3TempB);
-  vec3_normalize((vec3 *)V3TempA);
-  some_vec3_math((vec3 *)V3TempB,(vec3 *)V3TempA,B);
+  some_vec3_math(V3TempA,B,V3TempB);
+  vec3_normalize(V3TempA);
+  some_vec3_math(V3TempB,V3TempA,B);
   (*A)[0] = V3TempA[0];
   (*A)[1] = V3TempA[1];
   (*A)[2] = V3TempA[2];
@@ -994,13 +978,12 @@ void func_800ad81c(float (*A) [4] [4],vec3 *B){
   (*A)[2][1] = V3TempB[1];
   (*A)[2][2] = V3TempB[2];
   (*A)[1][2] = (*B)[2];
-  return;
 }
 
 
 u8 func_800ad8d8(float X){
-  uint uVar1;
-  uint uVar2;
+  u32 uVar1;
+  u32 uVar2;
   float fVar3;
   
   fVar3 = 1.0f;
@@ -1010,11 +993,11 @@ u8 func_800ad8d8(float X){
   if ((double)fVar3 < (double)((ulonglong)1.0d & 0xffffffff00000000)) {
     fVar3 = 0.0;
   }
-  uVar2 = ((uint)fVar3 >> 0x17 & 0xff) - 0x7f;
+  uVar2 = ((u32)fVar3 >> 0x17 & 0xff) - 0x7f;
   if (uVar2 != 0) {
-    uVar1 = ((uint)fVar3 & 0x7fffff | 0x800000) >> 0x10;
-    if (-9 < (int)uVar2) {
-      if ((int)uVar2 < 0) {
+    uVar1 = ((u32)fVar3 & 0x7fffff | 0x800000) >> 0x10;
+    if (-9 < (s32)uVar2) {
+      if ((s32)uVar2 < 0) {
         uVar1 = uVar1 >> (uVar2 & 0x1f);
       }
       return (u8)uVar1;
@@ -1045,7 +1028,6 @@ void func_800ad974(float (*X) [4] [4],float A){
   (*X)[1][0] = fVar3 * A;
   (*X)[2][0] = fVar2;
   (*X)[3][0] = fVar2;
-  return;
 }
 
 void func_800ad9dc(vec4 *X,float (*Y) [4] [4],vec4 *Z){
@@ -1053,5 +1035,4 @@ void func_800ad9dc(vec4 *X,float (*Y) [4] [4],vec4 *Z){
   (*X)[1] = (*Y)[1] * (*Z)[0] + (*Y)[1][1] * (*Z)[1] + (*Y)[2][1] * (*Z)[2] + (*Y)[3][1] * (*Z)[3];
   (*X)[2] = (*Y)[2] * (*Z)[0] + (*Y)[1][2] * (*Z)[1] + (*Y)[2][2] * (*Z)[2] + (*Y)[3][2] * (*Z)[3];
   (*X)[3] = (*Y)[3] * (*Z)[0] + (*Y)[1][3] * (*Z)[1] + (*Y)[2][3] * (*Z)[2] + (*Y)[3][3] * (*Z)[3];
-  return;
 }

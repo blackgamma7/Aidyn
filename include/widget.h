@@ -1,4 +1,4 @@
-struct Method { //  seem to have 4-byte padding, for some reason
+struct Method { //  seem to have 4-u8 padding, for some reason
     u16 space[2]; //1st entry used as arg, i think
     ulong (* func)(void);
 };
@@ -51,30 +51,30 @@ struct widgetStruct { // Parent for all widgets
     ulong (* CRightFunc)(void);
     void * ptr0x40; // changes for each widget type
     struct widgetStruct * func_array_Arg;
-    uint unk0x48;
+    u32 unk0x48;
     struct widgetStruct * link0;
     struct widgetStruct * link1;
     struct widgetStruct * link2;
     struct color col;
-    byte unk0x5c;
-    byte unk0x5d;
-    ushort unk0x5e;
-    short x;
-    short y;
-    ushort unk0x64;
-    ushort HMax;
-    ushort unk0x68;
-    ushort VMax;
+    u8 unk0x5c;
+    u8 unk0x5d;
+    u16 unk0x5e;
+    s16 x;
+    s16 y;
+    u16 unk0x64;
+    u16 HMax;
+    u16 unk0x68;
+    u16 VMax;
     struct Borg_8_header * borg_8;
-    byte byte0x70;
+    u8 byte0x70;
     undefined unk0x71;
-    ushort imgWidth;
-    ushort imgHeight;
-    ushort unk0x76;
+    u16 imgWidth;
+    u16 imgHeight;
+    u16 unk0x76;
     struct Widget_Methods * methods;
 };
 
 extern void widget_init(widgetStruct *);
-extern void free_widget(widgetStruct *,byte);
-extern void set_widget_coords(widgetStruct *,short,short);
-extern void set_widgetHeight(widgetStruct *,short);
+extern void free_widget(widgetStruct *,u8);
+extern void set_widget_coords(widgetStruct *,s16,s16);
+extern void set_widgetHeight(widgetStruct *,s16);

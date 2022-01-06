@@ -1,16 +1,16 @@
 //I would REALLY apprecaite help making sense of these bits.
-byte stringKey[16]=
+const u8 stringKey[16]=
 {0x5f,0x35,0x3a,0x2c,0x2a,0x2c,0x5f,0x36,0x2c,0x5f,0x33,0x30,0x2d,0x3b,0x5e,0x7f};
 
-byte decrypt_sub_a(char arg0,char arg1){return (arg1 >> 7) + arg0 ^ 0x80;}
-byte decrypt_sub_b(char arg0,char arg1){return arg1 - arg0 ^ 2;}
+u8 decrypt_sub_a(char arg0,char arg1){return (arg1 >> 7) + arg0 ^ 0x80;}
+u8 decrypt_sub_b(char arg0,char arg1){return arg1 - arg0 ^ 2;}
 
-void decrypt_func_a(byte *key,char arg1,char arg2){
-  byte bVar2;
-  byte bVar3;
-  int iVar1;
-  byte bVar4;
-  int iVar5;
+void decrypt_func_a(u8 *key,char arg1,char arg2){
+  u8 bVar2;
+  u8 bVar3;
+  s32 iVar1;
+  u8 bVar4;
+  s32 iVar5;
   
   bVar2 = decrypt_sub_a(arg1,arg2);
   bVar3 = decrypt_sub_b(arg1,arg2);
@@ -38,16 +38,16 @@ LAB_800d56b0:
   } while( true );
 }
 
-void decrypt_ofunc_2(byte *arg0,byte *arg1,int arg2){
-  byte bVar1;
-  int iVar2;
-  byte bVar3;
-  byte *pbVar4;
-  int iVar5;
-  int iVar6;
-  byte *pbVar7;
-  int iVar8;
-  int iVar9;
+void decrypt_ofunc_2(u8 *arg0,u8 *arg1,s32 arg2){
+  u8 bVar1;
+  s32 iVar2;
+  u8 bVar3;
+  u8 *pbVar4;
+  s32 iVar5;
+  s32 iVar6;
+  u8 *pbVar7;
+  s32 iVar8;
+  s32 iVar9;
   
   iVar9 = 0;
   iVar6 = arg2 * 0x10000 + -0x10000 >> 0x10;
@@ -74,7 +74,7 @@ void decrypt_ofunc_2(byte *arg0,byte *arg1,int arg2){
       *arg0 = bVar3;
       arg0++;
       *pbVar7 = *pbVar7 ^ bVar3;
-      bVar3 = (byte)iVar9;
+      bVar3 = (u8)iVar9;
       iVar9 = iVar8 * 0x10000 >> 0x10;
       *pbVar4 = *pbVar4 ^ bVar3;
     } while (iVar6 >> 0x10 != -1);
@@ -82,15 +82,15 @@ void decrypt_ofunc_2(byte *arg0,byte *arg1,int arg2){
   return;
 }
 
-void decrypt_func_b(byte *arg0,byte *arg1,int arg2){
-  byte bVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  byte *pbVar5;
-  byte bVar6;
-  int iVar7;
-  byte *pbVar8;
+void decrypt_func_b(u8 *arg0,u8 *arg1,s32 arg2){
+  u8 bVar1;
+  s32 iVar2;
+  s32 iVar3;
+  s32 iVar4;
+  u8 *pbVar5;
+  u8 bVar6;
+  s32 iVar7;
+  u8 *pbVar8;
   
   iVar4 = arg2 * 0x10000 + -0x10000 >> 0x10;
   iVar7 = 0;
@@ -122,7 +122,7 @@ void decrypt_func_b(byte *arg0,byte *arg1,int arg2){
       *arg0 = bVar6 - arg1[(iVar7 + (iVar2 >> 4) * -0x10) * 0x10000 >> 0x10];
       arg0++;
       *pbVar5 = bVar1 ^ *pbVar5;
-      bVar1 = (byte)iVar7;
+      bVar1 = (u8)iVar7;
       iVar7 = iVar3 * 0x10000 >> 0x10;
       *pbVar8 = *pbVar8 ^ bVar1;
     } while (iVar4 >> 0x10 != -1);
@@ -131,38 +131,22 @@ void decrypt_func_b(byte *arg0,byte *arg1,int arg2){
 }
 
 
-byte * Ofunc_decrypt(byte *arg0,undefined1 arg1,char arg2,short arg3){
-  byte *pbVar1;
-  uint uVar2;
-  byte uStack80 [16];
-  
+u8 * Ofunc_decrypt(u8 *arg0,u8 arg1,char arg2,s16 arg3){
+  u32 uVar2;
+  u8 uStack80 [16];
   uStack80= stringKey;
-
-  uVar2 = 0;
-  do {
-    pbVar1 = uStack80 + uVar2;
-    uVar2++;
-    *pbVar1 = *pbVar1 ^ 0x7f;
-  } while (uVar2 < 0x10);
+  for(uVar2 = 0;uVar2 < 0x10;uVar2++) uStack80[uVar2]^=0x7f;
   decrypt_func_a(uStack80,arg1,arg2);
-  decrypt_ofunc_2(arg0,uStack80,(int)arg3);
+  decrypt_ofunc_2(arg0,uStack80,(s32)arg3);
   return arg0;
 }
 
-char * decrypt_string(byte *arg0,undefined1 arg1,char arg2,short arg3){
-  byte *pbVar1;
-  uint uVar2;
-  byte uStack80 [16];
-  
+char * decrypt_string(u8 *arg0,u8 arg1,char arg2,s16 arg3){
+  u32 uVar2;
+  u8 uStack80 [16];
   uStack80= stringKey;
-
-  uVar2 = 0;
-  do {
-    pbVar1 = uStack80 + uVar2;
-    uVar2++;
-    *pbVar1 = *pbVar1 ^ 0x7f;
-  } while (uVar2 < 0x10);
+  for(uVar2 = 0;uVar2 < 0x10;uVar2++) uStack80[uVar2]^=0x7f;
   decrypt_func_a(uStack80,arg1,arg2);
-  decrypt_func_b(arg0,uStack80,(int)arg3);
+  decrypt_func_b(arg0,uStack80,(s32)arg3);
   return (char*)arg0;
 }

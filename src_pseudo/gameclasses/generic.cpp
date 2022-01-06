@@ -1,12 +1,13 @@
 enum CharSheetFlags{
     IsSolar=1,
+    Heavy=2,
     TrueName=4,
 };
 
 void init_charExp(charExp *param_1,ItemID param_2){
-  byte bVar1;
+  u8 bVar1;
   CharSheetFlags CVar2;
-  byte bVar3;
+  u8 bVar3;
   bool bVar4;
   Entity_Ram *pEVar5;
   
@@ -20,7 +21,7 @@ void init_charExp(charExp *param_1,ItemID param_2){
   param_1->damage = pEVar5->BaseDamage;
   CVar2 = pEVar5->unk0x18;
   param_1->flags = CVar2;
-  if (pEVar5->aspect == SOLAR) {param_1->flags = CVar2 | IsSolar;}
+  if (pEVar5->aspect == SOLAR) param_1->flags = CVar2 | IsSolar;
   //is alaron "Named"
   if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic3))) {param_1->flags |= TrueName;}
 }
@@ -39,21 +40,20 @@ void temp_item_check(Temp_equip *param_1,ItemID param_2){
 }
 
 void clear_temp_Stat_spell(Temp_weapon *param_1){
-  if (param_1->Stat != NULL) {
-    Free(param_1->Stat,s_../gameclasses/generic.cpp_800e08c0,0x6e);
+  if (param_1->Stat) {
+    HeapFree(param_1->Stat,FILENAME,0x6e);
     param_1->Stat = NULL;
   }
-  if (param_1->spell != NULL) {
-    Free(param_1->spell,s_../gameclasses/generic.cpp_800e08c0,0x74);
+  if (param_1->spell) {
+    HeapFree(param_1->spell,FILENAME,0x74);
     param_1->spell = NULL;
   }
 }
 
-
 void make_temp_armor(temp_armor *param_1,ItemID param_2){
   armour_RAM *paVar1;
-  byte bVar4;
-  byte (*pabVar2) [2];
+  u8 bVar4;
+  u8 (*pabVar2) [2];
   Temp_spell *pTVar3;
   armour_RAM *pcVar5;
   
@@ -65,12 +65,12 @@ void make_temp_armor(temp_armor *param_1,ItemID param_2){
   param_1->aspect = pcVar5->aspect;
   param_1->price = pcVar5->price;
   if (pcVar5->stat != NONE) {
-    pabVar2 = (byte (*) [2])Malloc(2,s_../gameclasses/generic.cpp_800e08c0,0x90);
+    pabVar2 = (u8 (*) [2])heapAlloc(2,FILENAME,0x90);
     param_1->statMod = pabVar2;
     make_2byte_array(pabVar2,pcVar5->stat,pcVar5->statNum);
   }
   if (pcVar5->spell != NONE) {
-    pTVar3 = (Temp_spell *)Malloc(8,s_../gameclasses/generic.cpp_800e08c0,0x96);
+    pTVar3 = (Temp_spell *)heapAlloc(8,FILENAME,0x96);
     param_1->spell = pTVar3;
     malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellLV,pcVar5->rom0x2a);
   }
@@ -79,8 +79,8 @@ void make_temp_armor(temp_armor *param_1,ItemID param_2){
 
 void make_temp_weapon(Temp_weapon *param_1,ItemID param_2){
   weapon_ram *pwVar1;
-  byte bVar4;
-  byte (*pabVar2) [2];
+  u8 bVar4;
+  u8 (*pabVar2) [2];
   Temp_spell *pTVar3;
   weapon_ram *pcVar5;
   
@@ -92,25 +92,25 @@ void make_temp_weapon(Temp_weapon *param_1,ItemID param_2){
   param_1->aspect = pcVar5->aspect;
   param_1->price = pcVar5->price;
   if (pcVar5->stat != NONE) {
-    pabVar2 = (byte (*) [2])Malloc(2,s_../gameclasses/generic.cpp_800e08c0,0xb2);
+    pabVar2 = (u8 (*) [2])heapAlloc(2,FILENAME,0xb2);
     param_1->Stat = pabVar2;
     make_2byte_array(pabVar2,pcVar5->stat,pcVar5->statMod);
   }
   if (pcVar5->spell != NONE) {
-    pTVar3 = (Temp_spell *)Malloc(8,s_../gameclasses/generic.cpp_800e08c0,0xb8);
+    pTVar3 = (Temp_spell *)heapAlloc(8,FILENAME,0xb8);
     param_1->spell = pTVar3;
     malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellAmmount,pcVar5->SpellLV);
   }
   return;
 }
 
-ushort potion_prices[17]=
+u16 potion_prices[17]=
 {250,1000,200,500,50,300,200,200,2500,500,500,500,0,300,300,500,500};
 
 void make_temp_potion(Temp_potion *param_1,ItemID param_2){
   char *pcVar1;
   char **ppcVar2;
-  byte bVar3;
+  u8 bVar3;
   
   memset(param_1,0,0x14);
   bVar3 = GetIDIndex(param_2);
@@ -119,12 +119,11 @@ void make_temp_potion(Temp_potion *param_1,ItemID param_2){
   pcVar1 = ppcVar2[bVar3];
   param_1->price = potion_prices[bVar3];
   param_1->name = pcVar1;
-  return;
 }
 
 void make_temp_gear(temp_gear *param_1,ItemID param_2){
-  int iVar1;
-  byte (*pabVar2) [2];
+  s32 iVar1;
+  u8 (*pabVar2) [2];
   Temp_spell *pTVar3;
   Gear_RAM *pGVar4;
   
@@ -137,23 +136,23 @@ void make_temp_gear(temp_gear *param_1,ItemID param_2){
   param_1->aspect = pGVar4->aspect;
   param_1->price = pGVar4->price;
   if (pGVar4->stat != NONE) {
-    pabVar2 = (byte (*) [2])Malloc(2,s_../gameclasses/generic.cpp_800e08c0,0xe8);
+    pabVar2 = (u8 (*) [2])heapAlloc(2,FILENAME,0xe8);
     param_1->statmod = pabVar2;
     make_2byte_array(pabVar2,pGVar4->stat,pGVar4->StatMod);
   }
   if (pGVar4->spell != 0xff) {
-    pTVar3 = (Temp_spell *)Malloc(8,s_../gameclasses/generic.cpp_800e08c0,0xee);
+    pTVar3 = (Temp_spell *)heapAlloc(8,FILENAME,0xee);
     param_1->pSpell = pTVar3;
     malloc_equip_spell(pTVar3,pGVar4->spell,pGVar4->spellVal1,pGVar4->spellVal2);
   }
   return;
 }
 
-ushort GetItemPrice(ItemID *param_1){
-  ushort uVar2;
-  uint uVar4;
+u16 GetItemPrice(ItemID *param_1){
+  u16 uVar2;
+  u32 uVar4;
   
-  uVar4 = (uint)((ushort)*param_1 >> 8);
+  uVar4 = (u32)((u16)*param_1 >> 8);
   if (uVar4 - 5 < 2) {
     uVar2 = armour_pointer->Armor[GetIDIndex(*param_1)].price;
   }
@@ -170,4 +169,4 @@ ushort GetItemPrice(ItemID *param_1){
 }
 
 void  SetMagicCharges(Temp_weapon *param_1,s8 param_2){
-  if ((param_2 != -1) && (param_1->spell != NULL)) {param_1->spell->Charges = param_2;}}
+  if ((param_2 != -1) && (param_1->spell)) param_1->spell->Charges = param_2;}

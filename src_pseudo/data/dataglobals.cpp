@@ -1,11 +1,10 @@
 struct ArrayHeader{
- byte Size;
- byte unk[3]; //total size? checksum? unused regardless.
- }
+ u8 Size;
+ u8 unk[3]; //leftover garbage data? sometimes mirrors the next few values.
 
-byte load_db_array_size(ArrayHeader *header,byte *size,int *offset){
-  int iVar1;
-  byte bVar2;
+u8 load_db_array_size(ArrayHeader *header,u8 *size,s32 *offset){
+  s32 iVar1;
+  u8 bVar2;
   ArrayHeader temp;
   
   iVar1 = *offset;

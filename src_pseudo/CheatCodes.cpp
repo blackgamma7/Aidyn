@@ -6,10 +6,10 @@ char** cheatStrings_pointer;
 u32 _bigw_flag;
 u32 _balloon_flag;
 u32 _flea_flag;
-byte Cheats::check_for_cheats(char *param_1){
-  int iVar6;
-  uint uVar7;
-  byte bVar8;
+u8 Cheats::check_for_cheats(char *param_1){
+  s32 iVar6;
+  u32 uVar7;
+  u8 bVar8;
   StringCheat pcStack168 [14];
   
   bVar8 = 0;
@@ -56,11 +56,11 @@ byte Cheats::check_for_cheats(char *param_1){
   memset(pcStack168 + 0xd,0,8);
   //There were 2 more cheat phrases (!gene, !gotmilk) that were unimplimented
   uVar7 = 0;
-  if (pcStack168 != NULL) {
+  if (pcStack168) {
     do {
       if (strcmp(pcStack168[uVar7].code),param_1) == 0) {
         bVar8 = 1;
-        if (gGlobals.BigAssMenu != NULL) {
+        if (gGlobals.BigAssMenu) {
           if ((pcStack168[uVar7].cheat))() == 0) {
             play_SFX(&gGlobals.SFXStruct,BORG12_CheatFail,0,1.0,0xb4,0);
             bVar8 = 1;}
@@ -71,7 +71,7 @@ byte Cheats::check_for_cheats(char *param_1){
         break;
       }
       uVar7++;
-    } while (pcStack168[uVar7] != NULL);
+    } while (pcStack168[uVar7]);
   }
   free_romstring(cheatStrings_pointer);
   return bVar8;
@@ -119,8 +119,8 @@ bool Cheats::_Cheater(void){ // +750000 EXP to party
   pause_Substruct *ppVar1;
   CharSheet *pCVar2;
   char *pcVar4;
-  uint uVar3;
-  uint uVar5;
+  u32 uVar3;
+  u32 uVar5;
   
   #ifndef DEBUGVER
   if(getEventFlag(FLAG_cheater)){return false;} //no double-dipping in retail
@@ -129,7 +129,7 @@ bool Cheats::_Cheater(void){ // +750000 EXP to party
   uVar5 = 0;
   if ((gGlobals.Party)->PartySize != 0) {
     do {
-      if ((gGlobals.Party)->Party[uVar5] != NULL) {giveExp((gGlobals.Party)->Party[uVar5],500000);}
+      if ((gGlobals.Party)->Party[uVar5]) {giveExp((gGlobals.Party)->Party[uVar5],500000);}
       uVar5++;
     } while (uVar5 < (gGlobals.Party)->PartySize);
   }

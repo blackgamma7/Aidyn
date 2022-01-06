@@ -23,51 +23,51 @@ enum BUTTON_aidyn{ //same as standard enum, but with 32 bits for analog joystick
 struct{
 	float joyX;
 	float joyY;
-	uint input;
-	uint input2; //tap vs hold?
+	u32 input;
+	u32 input2; //tap vs hold?
 }controllerAidyn;
 //and a version that holds the button hold times
 struct{
 	controllerAidyn cont;
-	ushort D_up;
-	ushort D_down;
-	ushort D_Left;
-	ushort D_right;
-	ushort A_up;
-	ushort A_down;
-	ushort A_left;
-	ushort A_right;
-	ushort C_up;
-	ushort C_down;
-	ushort C_left;
-	ushort C_right;
-	ushort Start;
-	ushort A;
-	ushort B;
-	ushort Z;
-	ushort L;
-	ushort R;
+	u16 D_up;
+	u16 D_down;
+	u16 D_Left;
+	u16 D_right;
+	u16 A_up;
+	u16 A_down;
+	u16 A_left;
+	u16 A_right;
+	u16 C_up;
+	u16 C_down;
+	u16 C_left;
+	u16 C_right;
+	u16 Start;
+	u16 A;
+	u16 B;
+	u16 Z;
+	u16 L;
+	u16 R;
 }  Button_hold; //hold times seem largely irrelevant, only cares about smaller struct.
 
 struct{
 	Button_hold[128]* inputlog; //cycles through 128 controller entries
 	OSpfs pfs; //For memory pak stuff
-	byte align[2];
+	u8 align[2];
 	float X; //looks to be thresholds for if joypad is a "button press"
 	float Y;
-	byte latest; //which entry from inputlog input getts use
-	byte next; //which inputlog is written
-	byte ContGet;
-	byte ContRead;
+	u8 latest; //which entry from inputlog input getts use
+	u8 next; //which inputlog is written
+	u8 ContGet;
+	u8 ContRead;
 }ControllerBuffer;
 
 struct{
-	ushort filesize;
+	u16 filesize;
 	u16 comp_code;
 	u32 game_name;
-	byte pad;
+	u8 pad;
 	char ext_name[4];
-	byte align[3];
+	u8 align[3];
 }fileState_aidyn;
 
 struct{
@@ -82,6 +82,6 @@ struct{
 	OSMesgQueue controller_queue_2;
 	OSMesgQueue si_MesgQ;
 	OSMesgQueue ContMesgQ;
-	uint Timer;
+	u32 Timer;
 	u8 ports;
 }ContManageStruct;

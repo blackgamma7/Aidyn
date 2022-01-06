@@ -21,14 +21,14 @@ bool func_8001b9bc(mapVoxel *param_1){
   EventFlag EVar1;
   bool bVar2;
   bool bVar3;
-  byte bVar4;
-  ushort uVar5;
+  u8 bVar4;
+  u16 uVar5;
   
   if(gamestate_cheat_check1(appear)){return gamestate_cheat_check2(appear);}
   else {
     EVar1 = (param_1->header).flagC;
     uVar5 = (param_1->header).Bitfeild >> 7 & 1;
-    bVar4 = (byte)uVar5;
+    bVar4 = (u8)uVar5;
     if (EVar1 != 0) {
       if (EVar1 == 1) {bVar4 = uVar5 == 0;}
       else {bVar4 = getEventFlag(EVar1) ^ bVar4;}
@@ -42,14 +42,14 @@ void set_refObj_flag(mapVoxel *param_1){
   setEventFlag((param_1->header).flagB,(bool)(((param_1->header).Bitfeild >> 9) & 1 ^ 1));
 }
 
-void render_ref_objs(Borg_9_data *dat,byte arg2)
+void render_ref_objs(Borg_9_data *dat,u8 arg2)
 
 {
   bool bVar3;
   ref_obj_bitfeild rVar2;
-  short *psVar1;
+  s16 *psVar1;
   mapVoxel *a;
-  short uVar4;
+  s16 uVar4;
   
   set_ranger_float();
   
@@ -64,7 +64,7 @@ void render_ref_objs(Borg_9_data *dat,byte arg2)
           else {rVar2 = (a->header).Bitfeild & EXPPak;}
           bVar3 = rVar2 == 0 && bVar3 != false;
           if ((a->header).type == Scene) {
-            psVar1 = some_ref_obj_lookup_func(uVar4,(char)map_dat_A,(byte)MapShortA,(byte)mapShortB,arg2,0);
+            psVar1 = some_ref_obj_lookup_func(uVar4,(char)map_dat_A,(u8)MapShortA,(u8)mapShortB,arg2,0);
             bVar3 = psVar1 == NULL && bVar3;
           }
           set_voxel_visibility(a,bVar3);
@@ -78,7 +78,7 @@ void render_ref_objs(Borg_9_data *dat,byte arg2)
         bVar3 = gamestate_cheat_check2(appear);
         if (ExpPakFlag == 0) {rVar2 = (a->header).Bitfeild & no_expPak;}
         else {rVar2 = (a->header).Bitfeild & EXPPak;}
-        set_voxel_visibility(a,rVar2 == 0 && bVar3 != false);
+        set_voxel_visibility(a,rVar2 == 0 && bVar3);
       }
     }
   }

@@ -7,7 +7,7 @@
 5-Model data. uses the aformentioned types.
 6-animation data.
 7-Actor models.
-8-Images. sed for UI, primarily, easily viewable in Texture64 when extracted.
+8-Images. used for UI, primarily. Easily viewable in Texture64 when extracted.
 9-Map data. contains collision and object data
 10-unused. refered internally in Debug as "CollisionMaterial"
 11-DCM instrument for SFX and BGM
@@ -20,16 +20,17 @@ struct Borg_8_dat {
     u16 height;
     u16 width;
     u16 PAL size;
-    uint flags;
+    u32 flags;
     u32 offset; //either 0x10(past the header) or 0x210(header + pallette)
 };
 
+//borg 9 data structs.
 struct Borg_9_data{
     vec3 floatsA; /* position? */
     Vec2 floatsB; /* size? */
-    byte unk1[6]; /* seems unused */
-    byte byte0x1a;
-    byte byte0x1b;
+    u8 unk1[6]; /* seems unused */
+    u8 byte0x1a;
+    u8 byte0x1b;
     u16 shortA;
     u16 shortB;
     u8 unk[2];
@@ -38,13 +39,13 @@ struct Borg_9_data{
     u16 unk0x26;
     u16 voxelCount;
     u16 unkStructCount;
-    short * counting_pointer;
-    int someint;
-    short * pointer2;
+    s16 * counting_pointer;
+    s32 someint;
+    s16 * pointer2;
     vec3* Verticies;
     struct borg9_phys * phys_pointer;
-    int someInt_2;
-    Voxel_u* ref_objs; 
+    s32 someInt_2;
+    mapVoxel* ref_objs; 
     struct borg_9_struct * unkStructs;
 };
 struct borg9_phys { //collision faces
@@ -91,7 +92,7 @@ enum Vobject{
 struct voxelHeader { /* Header for Refernce objects (Voxels) */
     vec3 coords; /* Where is it */
     float size; /* how big is it. */
-    uint timestamp; /* when was it called */
+    u32 timestamp; /* when was it called */
     u16 Bitfeild; /* 16-bit Flags for rendering */
     enum Vobject type; /* object type. 16-bit*/
     s16 LinkID[2]; /* used by containers to link with scene object. holds index of relevant voxel. */
@@ -130,9 +131,9 @@ doesn't seem to use all 16 bits.*/
 struct container_Dat {
     float unk0x0; //size mirror?
     float chestSize; //proximity to activate.
-    enum EventFlag open_flag;
-    enum EventFlag explode_flag;
-    short trap_lv;
+    u16 open_flag;
+    u16 explode_flag;
+    s16 trap_lv;
     u16 unk0x14;
     struct ItemID LootCat; /* chestdb id */
     u16 LootType;
@@ -140,13 +141,13 @@ struct container_Dat {
     u16 Gold; /* money or reagents, depending on LootType */
     struct ItemID item; // static item
     u16 unk0x1a; //align?
-    short lootCatDrop[6][2]; /* populated with chestdb items and quantities*/
+    s16 lootCatDrop[6][2]; /* populated with chestdb items and quantities*/
     u8 align[16];
 };
 
 struct light_dat{
     color cols[3]; //first seems to be used for blending.
-    u16 lightType; //4 valid types. {static(use only cols[1]),alternating blend,?,random blend}
+    u16 lightType; //4 valid types. {static(use only cols[1]),alternating blend,sinewave blend,random blend}
     u16 pad;
     float f0; //blend factor, changes per type.
     float f1; //blend speed,bigger is slower
@@ -169,7 +170,7 @@ struct audio_obj_dat {
     u32 sfx_arg3;
     u32 unk0x20;
     u16 unk0x24;
-    byte dcmIndex;
+    u8 dcmIndex;
     u8 align[29];
 };
 /* AudioFlags id'd
@@ -185,14 +186,14 @@ struct wandernode_dat{
 	float randVal;
 	float NodeChangeChance;
 	u16 Timer; //frame ticks before changing nodes.
-    u16 nodeflags; //only first 3 used, it seems.
+    u16 nodeflags; //only first 3 bits used, it seems.
     u16 NodeA; //indecies of sibling nodes on map chunk.
 	u16 NodeB;
     u8 align[40];
 };
 struct monsterparty_dat {
     struct monsterpartyEntry enemyEntries[8];
-    struct ItemID entityID;
+    struct ItemID entityID; //avatar of party,(or NPC, since those use this same struct.)
     struct ItemID globalLoot;
     u16 unk0x24;
     u8 unk0x26;
@@ -208,7 +209,7 @@ struct monsterparty_dat {
     u8 align[12];
 };
 
-struct referencepoint_dat{
+struct referencepoint_dat{//used as locators for tp's, camera's dialouge scripts, spawners, ect.
     u16 refpointID;
     u16 pad;
     char name[16];
@@ -221,14 +222,14 @@ struct teleport_dat {
     u16 MapShort1;
     u16 MapShort2;
     u16 refPoint_ID; //determines location of teleport.
-    short trap_value;
+    s16 trap_value;
     u16 trapBool16;
     u16 lock_lv;
     u16 refPoint_ID2;
     u16 lock_flag;
     u16 lockpick_flag_2;
     u16 trap_flag;
-    enum EventFlag flag_0x3e;
+    u16 flag_0x3e;
     u16 secrect_door_flag;
     u16 secretDoorVal;
     char name[16];
@@ -236,9 +237,9 @@ struct teleport_dat {
 };
 
 struct camera_dat {
-    short refpoint_ID; //used as inital aim for camera.
-    u16 CameraFlags;
-    uint timestamp;
+    s16 refpoint_ID; //used as inital aim for camera.
+    u16 CameraFlags; //bitfeild in need of later documentation.
+    u32 timestamp;
     vec3 vec3_A;
     vec3 vec3_b;
     vec3 vec3_C;
@@ -292,6 +293,6 @@ struct mapVoxel { //base object of "ref_objs"
         camera_dat camera;
         dialoug_dat dialoug;
         Trigger_dat trigger;
-        u8 other[68];
+        u8 other[68]; //"CODE" is usually blank, "SAVEPOINT" is never used (you can save anywhere.)
     }d;
 };

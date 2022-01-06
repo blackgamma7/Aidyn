@@ -20,15 +20,15 @@ struct shop_ROM { // Shop Data in Rom
 struct{
 	ItemID shopkeep;
 	itemID stock[23];
-	byte[3][20] multi; //2d array gets rotated awkwardly, for some reason. multi[1][x] is price multiplier.
+	u8[3][20] multi; //2d array gets rotated awkwardly, for some reason. multi[1][x] is price multiplier.
 }shop_ram;
 
 struct{
-	byte total;
-	byte pad[3];
+	u8 total;
+	u8 pad[3];
 	shop_ram* shops;
 }shop_pointer;
 
-void loadShopDB(shop_pointer *param_1,uint param_2,int *param_3);
+void loadShopDB(shop_pointer *param_1,u32 param_2,s32 *param_3);
 void build_shopDB(shop_pointer *param_1);
 void Shopdb_free(shop_pointer *param_1);

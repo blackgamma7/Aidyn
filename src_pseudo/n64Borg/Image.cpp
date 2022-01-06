@@ -1,6 +1,6 @@
 float h_scale=1.0f
 float V_scale=1.0f
-byte fade_texture[88]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
+u8 fade_texture[88]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
 0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
 0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
 0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0,0,0,0,0,0,0}
@@ -12,16 +12,16 @@ void borg8_func_a(Borg_8_header *param_1){
   
   iVar1 = (param_1->dat).format;
   if ((iVar1 == CI8) || (iVar1 == 7)) {
-    (param_1->dat).flags = (int)&(param_1->dat).format + (param_1->dat).flags;
+    (param_1->dat).flags = (s32)&(param_1->dat).format + (param_1->dat).flags;
   }
   else {(param_1->dat).flags = 0;}
-  (param_1->dat).offset = (int)&(param_1->dat).format + (param_1->dat).offset;
+  (param_1->dat).offset = (s32)&(param_1->dat).format + (param_1->dat).offset;
   return;
 }
 
 void borg8_free_ofunc(void *param_1){
-  int iVar1 = get_memUsed();
-  if (*param_1 == -1) {Free(param_1,FILENAME,0x8f);}
+  s32 iVar1 = get_memUsed();
+  if (*param_1 == -1) {HeapFree(param_1,FILENAME,0x8f);}
   else {dec_borg_count(*param_1);}
   borg_mem[8]-= (iVar1 - get_memUsed());
   borg_count[8]--;
@@ -33,7 +33,7 @@ Borg_8_header * get_borg_8(Borg8Enum param_1){
 
 
 //gets called before almost every draw command
-rspCom * rsp_func(rspCom *param_1,byte param_2,ushort h,ushort v){
+Gfx* rsp_func(Gfx*param_1,u8 param_2,u16 h,u16 v){
   u32 uVar1;
   u32 uVar2;
   
@@ -83,42 +83,42 @@ rspCom * rsp_func(rspCom *param_1,byte param_2,ushort h,ushort v){
 }
 
 
-rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,float param_4,
-                         ushort param_5,ushort param_6,ushort param_7,ushort param_8,float param_9,
-                         float param_10,byte red,byte green,byte blue,byte alpha)
+Gfx* N64BorgImageDraw(Gfx*param_1,Borg_8_header *param_2,float param_3,float param_4,
+                         u16 param_5,u16 param_6,u16 param_7,u16 param_8,float param_9,
+                         float param_10,u8 red,u8 green,u8 blue,u8 alpha)
 
 {
-  ushort uVar1;
+  u16 uVar1;
   image_format iVar2;
   u32 uVar3;
-  short sVar10;
-  uint uVar4;
-  int iVar5;
-  int iVar6;
-  uint uVar7;
-  uint uVar8;
-  int iVar9;
-  uint uVar12;
-  uint uVar13;
-  int iVar14;
-  uint uVar15;
-  uint uVar16;
-  uint uVar17;
-  uint uVar18;
-  uint uVar19;
-  uint uVar20;
-  uint uVar21;
-  uint uVar22;
-  uint uVar23;
-  rspCom *pauVar24;
-  rspCom *pauVar25;
-  uint uVar26;
-  uint uVar27;
-  short sVar28;
-  int iVar29;
+  s16 sVar10;
+  u32 uVar4;
+  s32 iVar5;
+  s32 iVar6;
+  u32 uVar7;
+  u32 uVar8;
+  s32 iVar9;
+  u32 uVar12;
+  u32 uVar13;
+  s32 iVar14;
+  u32 uVar15;
+  u32 uVar16;
+  u32 uVar17;
+  u32 uVar18;
+  u32 uVar19;
+  u32 uVar20;
+  u32 uVar21;
+  u32 uVar22;
+  u32 uVar23;
+  Gfx*pauVar24;
+  Gfx*pauVar25;
+  u32 uVar26;
+  u32 uVar27;
+  s16 sVar28;
+  s32 iVar29;
   float fVar30;
-  int iVar31;
-  int iVar32;
+  s32 iVar31;
+  s32 iVar32;
   float fVar33;
   float fVar36;
   double dVar34;
@@ -126,41 +126,41 @@ rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,f
   float fVar37;
   float fVar38;
   float fVar39;
-  uint uStack56;
-  short sVar11;
+  u32 uStack56;
+  s16 sVar11;
   
   fVar37 = V_scale;
   fVar30 = 4.0f;
   fVar38 = param_9 * h_scale;
   uVar3 = (param_2->dat).offset;
   fVar39 = param_10 * V_scale;
-  uVar26 = (uint)param_7 - (uint)param_5;
+  uVar26 = (u32)param_7 - (u32)param_5;
   fVar36 = param_3 * h_scale;
   uVar1 = (param_2->dat).height;
   (*param_1)[0] = 0xe7000000;
   (*param_1)[1] = 0;
   param_1[1][0] = 0xfa000000;
-  uVar16 = (uint)param_6;
-  param_1[1][1] = (uint)red << 0x18 | (uint)green << 0x10 | (uint)blue << 8 | (uint)alpha;
+  uVar16 = (u32)param_6;
+  param_1[1][1] = (u32)red << 0x18 | (u32)green << 0x10 | (u32)blue << 8 | (u32)alpha;
   fVar33 = 4.0f;
-  uVar17 = (uint)param_8 - (uint)param_6;
+  uVar17 = (u32)param_8 - (u32)param_6;
   fVar37 = param_4 * fVar37 * fVar30;
-  iVar29 = (int)((float)uVar26 * fVar38 * fVar30);
-  iVar31 = (int)(fVar36 * fVar30);
-  iVar32 = (int)(1024.0f / fVar38);
+  iVar29 = (s32)((float)uVar26 * fVar38 * fVar30);
+  iVar31 = (s32)(fVar36 * fVar30);
+  iVar32 = (s32)(1024.0f / fVar38);
   iVar2 = (param_2->dat).format;
-  uStack56 = (uint)(1024.0f / fVar39);
+  uStack56 = (u32)(1024.0f / fVar39);
   pauVar24 = param_1[2];
   if (8 < iVar2) {assert("N64BorgImage.cpp N64BorgImageDraw","Image type was  not recognized.");}
-  uVar15 = (uint)uVar1;
-  uVar21 = (uint)param_5;
-  uVar20 = (uint)param_5;
-  sVar10 = (short)iVar32;
-  sVar11 = (short)uStack56;
-  sVar28 = (short)iVar31;
+  uVar15 = (u32)uVar1;
+  uVar21 = (u32)param_5;
+  uVar20 = (u32)param_5;
+  sVar10 = (s16)iVar32;
+  sVar11 = (s16)uStack56;
+  sVar28 = (s16)iVar31;
   switch(iVar2) {
   case RBGA32:
-    if ((int)uVar26 < 2) {iVar5 = 2 - uVar26;}
+    if ((s32)uVar26 < 2) {iVar5 = 2 - uVar26;}
     else {
       iVar5 = 2 - (uVar26 & 1);
       if ((uVar26 & 1) == 0) {iVar5 = 0;}
@@ -180,7 +180,7 @@ rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,f
       uVar17 = uVar22;
     }
     dVar35 = (double)uVar22;
-    if ((int)uVar22 < 0) {dVar35+= UINT_MAX_d;
+    if ((s32)uVar22 < 0) {dVar35+= UINT_MAX_d;
     }
     pauVar25 = param_1[3];
     uVar23 = 0;
@@ -191,7 +191,7 @@ rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,f
     uVar4 = SEXT24(sVar28);
     if (uVar13 != 0) {
       uVar8 = (uVar21 - 1) + uVar26;
-      uVar12 = ((int)((uVar8 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
+      uVar12 = ((s32)((uVar8 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
       uVar19 = (uVar8 & 0x3ff) << 0xe;
       uVar27 = (uVar21 << 2 & 0xfff) << 0xc;
       uVar18 = (iVar31 + iVar29) * 0x10000 >> 0x10;
@@ -217,20 +217,20 @@ rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,f
         pauVar24[6][1] = uVar19 | uVar7;
         pauVar24[7][0] = 0xf2000000;
         pauVar24[7][1] = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
-        if ((int)uVar18 < 1) {uVar8 = 0xe4000000;}
+        if ((s32)uVar18 < 1) {uVar8 = 0xe4000000;}
         else {uVar8 = (uVar18 & 0xfff) << 0xc | 0xe4000000;}
-        uVar7 = SEXT24((short)(int)(fVar37 + fVar33));
-        if (0 < (int)uVar7) {uVar8 = uVar8 | uVar7 & 0xfff;}
+        uVar7 = SEXT24((s16)(s32)(fVar37 + fVar33));
+        if (0 < (s32)uVar7) {uVar8 = uVar8 | uVar7 & 0xfff;}
         pauVar24[8][0] = uVar8;
-        if ((int)uVar4 < 1) {uVar8 = 0;}
+        if ((s32)uVar4 < 1) {uVar8 = 0;}
         else {uVar8 = (uVar4 & 0xfff) << 0xc;}
-        if (0 < (short)(int)fVar37) {
-          uVar8 = uVar8 | (int)(short)(int)fVar37 & 0xfffU;
+        if (0 < (s16)(s32)fVar37) {
+          uVar8 = uVar8 | (s32)(s16)(s32)fVar37 & 0xfffU;
         }
         pauVar24[8][1] = uVar8;
         pauVar24[9][0] = 0xe1000000;
-        if ((int)uVar4 < 0) {
-          iVar5 = (int)(uVar4 * (int)sVar10) >> 7;
+        if ((s32)uVar4 < 0) {
+          iVar5 = (s32)(uVar4 * (s32)sVar10) >> 7;
           if (sVar10 < 0) {
             if (iVar5 < 0) {
               iVar5 = 0;
@@ -246,9 +246,9 @@ rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,f
         else {
           uVar8 = 0;
         }
-        if ((int)fVar37 < 0) {
-          iVar6 = (int)sVar11;
-          iVar5 = (int)(short)(int)fVar37;
+        if ((s32)fVar37 < 0) {
+          iVar6 = (s32)sVar11;
+          iVar5 = (s32)(s16)(s32)fVar37;
           if (iVar6 < 0) {
             iVar5*= iVar6 >> 7;
             if (iVar5 < 0) {iVar5 = 0;}
@@ -272,12 +272,12 @@ rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,f
       } while (uVar23 < uVar13);
     }
     fVar30 = 4.0f;
-    if ((int)uVar17 < 0) {dVar34+= UINT_MAX_d;}
+    if ((s32)uVar17 < 0) {dVar34+= UINT_MAX_d;}
     (*pauVar25)[0] = uVar15 - 1 & 0xfff | 0xfd180000;
     (*pauVar25)[1] = uVar3;
     pauVar25[1][1] = 0x7080200;
     uVar13 = (uVar21 - 1) + uVar26;
-    uVar15 = ((int)((uVar13 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
+    uVar15 = ((s32)((uVar13 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
     pauVar25[1][0] = uVar15;
     pauVar25[2][0] = 0xe6000000;
     pauVar25[2][1] = 0;
@@ -295,23 +295,23 @@ rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,f
     pauVar25[6][1] = uVar20 | uVar16;
     pauVar25[7][0] = 0xf2000000;
     pauVar25[7][1] = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = SEXT24((short)(iVar31 + iVar29));
+    uVar17 = SEXT24((s16)(iVar31 + iVar29));
     pauVar24 = pauVar25[9];
-    if ((int)uVar17 < 1) {uVar17 = 0xe4000000;}
+    if ((s32)uVar17 < 1) {uVar17 = 0xe4000000;}
     else {uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;}
-    uVar16 = SEXT24((short)(int)(fVar37 + (float)dVar34 * fVar39 * fVar30));
-    if (0 < (int)uVar16) {uVar17|= uVar16 & 0xfff;}
+    uVar16 = SEXT24((s16)(s32)(fVar37 + (float)dVar34 * fVar39 * fVar30));
+    if (0 < (s32)uVar16) {uVar17|= uVar16 & 0xfff;}
     pauVar25[8][0] = uVar17;
-    if ((int)uVar4 < 1) {uVar17 = 0;}
+    if ((s32)uVar4 < 1) {uVar17 = 0;}
     else {uVar17 = (uVar4 & 0xfff) << 0xc;}
-    if (0 < (short)(int)fVar37) {
-      uVar17 = uVar17 | (int)(short)(int)fVar37 & 0xfffU;
+    if (0 < (s16)(s32)fVar37) {
+      uVar17 = uVar17 | (s32)(s16)(s32)fVar37 & 0xfffU;
     }
     pauVar25[8][1] = uVar17;
     (*pauVar24)[0] = 0xe1000000;
     pauVar25 = pauVar25[10];
-    if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)sVar10) >> 7;
+    if ((s32)uVar4 < 0) {
+      iVar29 = (s32)(uVar4 * (s32)sVar10) >> 7;
       if (sVar10 < 0) {
         if (iVar29 < 0) {iVar29 = 0;}
       }
@@ -321,10 +321,10 @@ rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,f
       uVar17 = iVar29 * -0x10000;
     }
     else {uVar17 = 0;}
-    if (-1 < (int)fVar37) goto LAB_800a662c;
-    iVar29 = (int)fVar37 << 0x10;
+    if (-1 < (s32)fVar37) goto LAB_800a662c;
+    iVar29 = (s32)fVar37 << 0x10;
     if (sVar11 < 0) {
-      iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+      iVar29 = (iVar29 >> 0x10) * (s32)sVar11 >> 7;
       if (-1 < iVar29) {
         uVar16 = -iVar29;
         break;
@@ -333,7 +333,7 @@ rspCom * N64BorgImageDraw(rspCom *param_1,Borg_8_header *param_2,float param_3,f
     }
     else {
 LAB_800a6608:
-      iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+      iVar29 = (iVar29 >> 0x10) * (s32)sVar11 >> 7;
       if (0 < iVar29) {
         iVar29 = 0;
       }
@@ -343,7 +343,7 @@ LAB_800a6620:
     break;
   case RGBA16:
   case 3:
-    if ((int)uVar26 < 4) {
+    if ((s32)uVar26 < 4) {
       iVar5 = 4 - uVar26;
     }
     else {
@@ -366,7 +366,7 @@ LAB_800a6620:
       uVar13--;
       uVar17 = uVar22;
     }
-    if ((int)uVar22 < 0) {
+    if ((s32)uVar22 < 0) {
       fVar30 = (float)uVar22 + UINT_MAX_d);
     }
     else {fVar30 = (float)uVar22;}
@@ -383,7 +383,7 @@ LAB_800a6620:
     uVar4 = SEXT24(sVar28);
     if (uVar13 != 0) {
       uVar8 = (uVar21 - 1) + uVar26;
-      uVar18 = iVar5 << 0x15 | ((int)((uVar8 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
+      uVar18 = iVar5 << 0x15 | ((s32)((uVar8 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
       uVar27 = (uVar21 << 2 & 0xfff) << 0xc;
       uVar19 = (uVar8 & 0x3ff) << 0xe;
       uVar12 = (iVar31 + iVar29) * 0x10000 >> 0x10;
@@ -409,30 +409,30 @@ LAB_800a6620:
         pauVar24[6][1] = uVar19 | uVar7;
         pauVar24[7][0] = 0xf2000000;
         pauVar24[7][1] = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
-        if ((int)uVar12 < 1) {
+        if ((s32)uVar12 < 1) {
           uVar8 = 0xe4000000;
         }
         else {
           uVar8 = (uVar12 & 0xfff) << 0xc | 0xe4000000;
         }
-        uVar7 = SEXT24((short)(int)(fVar37 + fVar30));
-        if (0 < (int)uVar7) {
+        uVar7 = SEXT24((s16)(s32)(fVar37 + fVar30));
+        if (0 < (s32)uVar7) {
           uVar8 = uVar8 | uVar7 & 0xfff;
         }
         pauVar24[8][0] = uVar8;
-        if ((int)uVar4 < 1) {
+        if ((s32)uVar4 < 1) {
           uVar8 = 0;
         }
         else {
           uVar8 = (uVar4 & 0xfff) << 0xc;
         }
-        if (0 < (short)(int)fVar37) {
-          uVar8 = uVar8 | (int)(short)(int)fVar37 & 0xfffU;
+        if (0 < (s16)(s32)fVar37) {
+          uVar8 = uVar8 | (s32)(s16)(s32)fVar37 & 0xfffU;
         }
         pauVar24[8][1] = uVar8;
         pauVar24[9][0] = 0xe1000000;
-        if ((int)uVar4 < 0) {
-          iVar6 = (int)(uVar4 * (int)sVar10) >> 7;
+        if ((s32)uVar4 < 0) {
+          iVar6 = (s32)(uVar4 * (s32)sVar10) >> 7;
           if (sVar10 < 0) {
             if (iVar6 < 0) {
               iVar6 = 0;
@@ -444,9 +444,9 @@ LAB_800a6620:
           uVar8 = iVar6 * -0x10000;
         }
         else {uVar8 = 0;}
-        if ((int)fVar37 < 0) {
-          iVar9 = (int)sVar11;
-          iVar6 = (int)(short)(int)fVar37;
+        if ((s32)fVar37 < 0) {
+          iVar9 = (s32)sVar11;
+          iVar6 = (s32)(s16)(s32)fVar37;
           if (iVar9 < 0) {
             iVar6 = iVar6 * iVar9 >> 7;
             if (iVar6 < 0) {iVar6 = 0;}
@@ -468,7 +468,7 @@ LAB_800a6620:
       } while (uVar23 < uVar13);
     }
     fVar30 = 4.0f;
-    if ((int)uVar17 < 0) {
+    if ((s32)uVar17 < 0) {
       dVar35+= UINT_MAX_d;
     }
     (*pauVar25)[0] = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd100000;
@@ -477,7 +477,7 @@ LAB_800a6620:
     pauVar25[1][1] = 0x7080200;
     uVar16 = ((uVar16 - 1) + uVar17) * 4 & 0xfff;
     uVar15 = (uVar21 - 1) + uVar26;
-    uVar22 = iVar5 << 0x15 | ((int)((uVar15 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
+    uVar22 = iVar5 << 0x15 | ((s32)((uVar15 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
     pauVar25[1][0] = uVar22;
     pauVar25[2][0] = 0xe6000000;
     pauVar25[2][1] = 0;
@@ -493,31 +493,31 @@ LAB_800a6620:
     pauVar25[6][1] = uVar15 | uVar16;
     pauVar25[7][0] = 0xf2000000;
     pauVar25[7][1] = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = SEXT24((short)(iVar31 + iVar29));
+    uVar17 = SEXT24((s16)(iVar31 + iVar29));
     pauVar24 = pauVar25[9];
-    if ((int)uVar17 < 1) {uVar17 = 0xe4000000;}
+    if ((s32)uVar17 < 1) {uVar17 = 0xe4000000;}
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = SEXT24((short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30));
-    if (0 < (int)uVar16) {
+    uVar16 = SEXT24((s16)(s32)(fVar37 + (float)dVar35 * fVar39 * fVar30));
+    if (0 < (s32)uVar16) {
       uVar17 = uVar17 | uVar16 & 0xfff;
     }
     pauVar25[8][0] = uVar17;
-    if ((int)uVar4 < 1) {
+    if ((s32)uVar4 < 1) {
       uVar17 = 0;
     }
     else {
       uVar17 = (uVar4 & 0xfff) << 0xc;
     }
-    if (0 < (short)(int)fVar37) {
-      uVar17 = uVar17 | (int)(short)(int)fVar37 & 0xfffU;
+    if (0 < (s16)(s32)fVar37) {
+      uVar17 = uVar17 | (s32)(s16)(s32)fVar37 & 0xfffU;
     }
     pauVar25[8][1] = uVar17;
     (*pauVar24)[0] = 0xe1000000;
     pauVar25 = pauVar25[10];
-    if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)sVar10) >> 7;
+    if ((s32)uVar4 < 0) {
+      iVar29 = (s32)(uVar4 * (s32)sVar10) >> 7;
       if (sVar10 < 0) {
         if (iVar29 < 0) {
           iVar29 = 0;
@@ -533,10 +533,10 @@ LAB_800a6620:
     else {
       uVar17 = 0;
     }
-    if (-1 < (int)fVar37) goto LAB_800a662c;
-    iVar29 = (int)fVar37 << 0x10;
+    if (-1 < (s32)fVar37) goto LAB_800a662c;
+    iVar29 = (s32)fVar37 << 0x10;
     if (-1 < sVar11) goto LAB_800a6608;
-    iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+    iVar29 = (iVar29 >> 0x10) * (s32)sVar11 >> 7;
     if (iVar29 < 0) {
       iVar29 = 0;
       goto LAB_800a6620;
@@ -544,7 +544,7 @@ LAB_800a6620:
     uVar16 = -iVar29;
     break;
   default:
-    if ((int)uVar26 < 8) {
+    if ((s32)uVar26 < 8) {
       iVar5 = 8 - uVar26;
     }
     else {
@@ -573,7 +573,7 @@ LAB_800a6620:
       uVar13 = uVar13 - 1;
       uVar17 = uVar22;
     }
-    if ((int)uVar22 < 0) {
+    if ((s32)uVar22 < 0) {
       fVar30 = (float)((double)uVar22 + UINT_MAX_d);
     }
     else {
@@ -614,7 +614,7 @@ LAB_800a6620:
     uVar4 = SEXT24(sVar28);
     if (uVar13 != 0) {
       uVar8 = (uVar21 - 1) + uVar26;
-      uVar18 = iVar5 << 0x15 | ((int)((uVar8 - uVar20) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
+      uVar18 = iVar5 << 0x15 | ((s32)((uVar8 - uVar20) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
       uVar19 = (uVar8 & 0x3ff) << 0xe;
       uVar27 = (uVar21 << 2 & 0xfff) << 0xc;
       uVar12 = (iVar31 + iVar29) * 0x10000 >> 0x10;
@@ -640,30 +640,30 @@ LAB_800a6620:
         pauVar24[6][1] = uVar19 | uVar7;
         pauVar24[7][0] = 0xf2000000;
         pauVar24[7][1] = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
-        if ((int)uVar12 < 1) {
+        if ((s32)uVar12 < 1) {
           uVar8 = 0xe4000000;
         }
         else {
           uVar8 = (uVar12 & 0xfff) << 0xc | 0xe4000000;
         }
-        uVar7 = SEXT24((short)(int)(fVar37 + fVar30));
-        if (0 < (int)uVar7) {
+        uVar7 = SEXT24((s16)(s32)(fVar37 + fVar30));
+        if (0 < (s32)uVar7) {
           uVar8 = uVar8 | uVar7 & 0xfff;
         }
         pauVar24[8][0] = uVar8;
-        if ((int)uVar4 < 1) {
+        if ((s32)uVar4 < 1) {
           uVar8 = 0;
         }
         else {
           uVar8 = (uVar4 & 0xfff) << 0xc;
         }
-        if (0 < (short)(int)fVar37) {
-          uVar8 = uVar8 | (int)(short)(int)fVar37 & 0xfffU;
+        if (0 < (s16)(s32)fVar37) {
+          uVar8 = uVar8 | (s32)(s16)(s32)fVar37 & 0xfffU;
         }
         pauVar24[8][1] = uVar8;
         pauVar24[9][0] = 0xe1000000;
-        if ((int)uVar4 < 0) {
-          iVar6 = (int)(uVar4 * (int)sVar10) >> 7;
+        if ((s32)uVar4 < 0) {
+          iVar6 = (s32)(uVar4 * (s32)sVar10) >> 7;
           if (sVar10 < 0) {
             if (iVar6 < 0) {
               iVar6 = 0;
@@ -679,9 +679,9 @@ LAB_800a6620:
         else {
           uVar8 = 0;
         }
-        if ((int)fVar37 < 0) {
-          iVar9 = (int)sVar11;
-          iVar6 = (int)(short)(int)fVar37;
+        if ((s32)fVar37 < 0) {
+          iVar9 = (s32)sVar11;
+          iVar6 = (s32)(s16)(s32)fVar37;
           if (iVar9 < 0) {
             iVar6 = iVar6 * iVar9 >> 7;
             if (iVar6 < 0) {
@@ -707,7 +707,7 @@ LAB_800a6620:
       } while (uVar23 < uVar13);
     }
     fVar30 = 4.0f;
-    if ((int)uVar17 < 0) {
+    if ((s32)uVar17 < 0) {
       dVar35 = dVar35 + UINT_MAX_d;
     }
     (*pauVar25)[0] = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd080000;
@@ -716,7 +716,7 @@ LAB_800a6620:
     pauVar25[1][1] = 0x7080200;
     uVar16 = ((uVar16 - 1) + uVar17) * 4 & 0xfff;
     uVar15 = (uVar21 - 1) + uVar26;
-    uVar22 = iVar5 << 0x15 | ((int)((uVar15 - uVar20) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
+    uVar22 = iVar5 << 0x15 | ((s32)((uVar15 - uVar20) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
     pauVar25[1][0] = uVar22;
     pauVar25[2][0] = 0xe6000000;
     pauVar25[2][1] = 0;
@@ -732,33 +732,33 @@ LAB_800a6620:
     pauVar25[6][1] = uVar15 | uVar16;
     pauVar25[7][0] = 0xf2000000;
     pauVar25[7][1] = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = SEXT24((short)(iVar31 + iVar29));
+    uVar17 = SEXT24((s16)(iVar31 + iVar29));
     pauVar24 = pauVar25[9];
-    if ((int)uVar17 < 1) {
+    if ((s32)uVar17 < 1) {
       uVar17 = 0xe4000000;
     }
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = SEXT24((short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30));
-    if (0 < (int)uVar16) {
+    uVar16 = SEXT24((s16)(s32)(fVar37 + (float)dVar35 * fVar39 * fVar30));
+    if (0 < (s32)uVar16) {
       uVar17 = uVar17 | uVar16 & 0xfff;
     }
     pauVar25[8][0] = uVar17;
-    if ((int)uVar4 < 1) {
+    if ((s32)uVar4 < 1) {
       uVar17 = 0;
     }
     else {
       uVar17 = (uVar4 & 0xfff) << 0xc;
     }
-    if (0 < (short)(int)fVar37) {
-      uVar17 = uVar17 | (int)(short)(int)fVar37 & 0xfffU;
+    if (0 < (s16)(s32)fVar37) {
+      uVar17 = uVar17 | (s32)(s16)(s32)fVar37 & 0xfffU;
     }
     pauVar25[8][1] = uVar17;
     (*pauVar24)[0] = 0xe1000000;
     pauVar25 = pauVar25[10];
-    if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)sVar10) >> 7;
+    if ((s32)uVar4 < 0) {
+      iVar29 = (s32)(uVar4 * (s32)sVar10) >> 7;
       if (sVar10 < 0) {
         if (iVar29 < 0) {
           iVar29 = 0;
@@ -772,10 +772,10 @@ LAB_800a6620:
       uVar17 = iVar29 * -0x10000;
     }
     else {uVar17 = 0;}
-    if (-1 < (int)fVar37) goto LAB_800a662c;
-    iVar29 = (int)fVar37 << 0x10;
+    if (-1 < (s32)fVar37) goto LAB_800a662c;
+    iVar29 = (s32)fVar37 << 0x10;
     if (-1 < sVar11) goto LAB_800a6608;
-    iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+    iVar29 = (iVar29 >> 0x10) * (s32)sVar11 >> 7;
     if (iVar29 < 0) {
       iVar29 = 0;
       goto LAB_800a6620;
@@ -785,7 +785,7 @@ LAB_800a6620:
   case 7:
   case 8:
   case 9:
-    if ((int)uVar26 < 0x10) {
+    if ((s32)uVar26 < 0x10) {
       iVar5 = 0x10 - uVar26;
     }
     else {
@@ -809,7 +809,7 @@ LAB_800a6620:
       uVar13 = uVar13 - 1;
       uVar17 = uVar22;
     }
-    if ((int)uVar22 < 0) {fVar30 = (float)((double)uVar22 + UINT_MAX_d);}
+    if ((s32)uVar22 < 0) {fVar30 = (float)((double)uVar22 + UINT_MAX_d);}
     else {fVar30 = (float)uVar22;}
     fVar30 = fVar30 * fVar39 * 4.0f;
     if (iVar2 == 7) {
@@ -846,13 +846,13 @@ LAB_800a6620:
     if (uVar13 != 0) {
       uVar19 = iVar5 << 0x15;
       uVar18 = iVar6 + uVar26;
-      uVar12 = (((int)((uVar18 - uVar20) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
+      uVar12 = (((s32)((uVar18 - uVar20) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
       uVar27 = (iVar31 + iVar29) * 0x10000 >> 0x10;
       uVar8 = uVar16;
       pauVar24 = pauVar25;
       do {
         uVar16 = uVar8 + uVar22;
-        (*pauVar24)[0] = uVar19 | ((int)uVar15 >> 1) - 1U & 0xfff | 0xfd080000;
+        (*pauVar24)[0] = uVar19 | ((s32)uVar15 >> 1) - 1U & 0xfff | 0xfd080000;
         (*pauVar24)[1] = uVar3;
         uVar7 = uVar16 * 4 & 0xfff;
         pauVar24[1][1] = 0x7080200;
@@ -870,28 +870,28 @@ LAB_800a6620:
         pauVar24[6][1] = (uVar18 & 0x3ff) << 0xe | uVar7;
         pauVar24[7][0] = 0xf2000000;
         pauVar24[7][1] = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
-        if ((int)uVar27 < 1) {
+        if ((s32)uVar27 < 1) {
           uVar8 = 0xe4000000;
         }
         else {
           uVar8 = (uVar27 & 0xfff) << 0xc | 0xe4000000;
         }
-        uVar7 = SEXT24((short)(int)(fVar37 + fVar30));
-        if (0 < (int)uVar7) {
+        uVar7 = SEXT24((s16)(s32)(fVar37 + fVar30));
+        if (0 < (s32)uVar7) {
           uVar8 = uVar8 | uVar7 & 0xfff;
         }
         pauVar24[8][0] = uVar8;
-        if ((int)uVar4 < 1) {uVar8 = 0;}
+        if ((s32)uVar4 < 1) {uVar8 = 0;}
         else {
           uVar8 = (uVar4 & 0xfff) << 0xc;
         }
-        if (0 < (short)(int)fVar37) {
-          uVar8 = uVar8 | (int)(short)(int)fVar37 & 0xfffU;
+        if (0 < (s16)(s32)fVar37) {
+          uVar8 = uVar8 | (s32)(s16)(s32)fVar37 & 0xfffU;
         }
         pauVar24[8][1] = uVar8;
         pauVar24[9][0] = 0xe1000000;
-        if ((int)uVar4 < 0) {
-          iVar9 = (int)(uVar4 * (int)sVar10) >> 7;
+        if ((s32)uVar4 < 0) {
+          iVar9 = (s32)(uVar4 * (s32)sVar10) >> 7;
           if (sVar10 < 0) {
             if (iVar9 < 0) {iVar9 = 0;}
           }
@@ -901,9 +901,9 @@ LAB_800a6620:
           uVar8 = iVar9 * -0x10000;
         }
         else {uVar8 = 0;}
-        if ((int)fVar37 < 0) {
-          iVar14 = (int)sVar11;
-          iVar9 = (int)(short)(int)fVar37;
+        if ((s32)fVar37 < 0) {
+          iVar14 = (s32)sVar11;
+          iVar9 = (s32)(s16)(s32)fVar37;
           if (iVar14 < 0) {
             iVar9 = iVar9 * iVar14 >> 7;
             if (iVar9 < 0) {iVar9 = 0;}
@@ -927,15 +927,15 @@ LAB_800a6620:
       } while (uVar23 < uVar13);
     }
     fVar30 = 4.0f;
-    if ((int)uVar17 < 0) {
+    if ((s32)uVar17 < 0) {
       dVar35 = dVar35 + UINT_MAX_d;
     }
     uVar22 = iVar5 << 0x15;
-    (*pauVar25)[0] = uVar22 | ((int)uVar15 >> 1) - 1U & 0xfff | 0xfd080000;
+    (*pauVar25)[0] = uVar22 | ((s32)uVar15 >> 1) - 1U & 0xfff | 0xfd080000;
     (*pauVar25)[1] = uVar3;
     pauVar25[1][1] = 0x7080200;
     uVar13 = iVar6 + uVar26;
-    uVar15 = (((int)((uVar13 - uVar20) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
+    uVar15 = (((s32)((uVar13 - uVar20) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
     pauVar25[1][0] = uVar22 | uVar15 | 0xf5080000;
     pauVar25[2][0] = 0xe6000000;
     pauVar25[2][1] = 0;
@@ -951,33 +951,33 @@ LAB_800a6620:
     pauVar25[6][0] = (uVar21 << 2 & 0xfff) << 0xc | uVar20 | 0xf2000000;
     pauVar25[7][0] = 0xf2000000;
     pauVar25[7][1] = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = SEXT24((short)(iVar31 + iVar29));
+    uVar17 = SEXT24((s16)(iVar31 + iVar29));
     pauVar24 = pauVar25[9];
-    if ((int)uVar17 < 1) {
+    if ((s32)uVar17 < 1) {
       uVar17 = 0xe4000000;
     }
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = SEXT24((short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30));
-    if (0 < (int)uVar16) {
+    uVar16 = SEXT24((s16)(s32)(fVar37 + (float)dVar35 * fVar39 * fVar30));
+    if (0 < (s32)uVar16) {
       uVar17 = uVar17 | uVar16 & 0xfff;
     }
     pauVar25[8][0] = uVar17;
-    if ((int)uVar4 < 1) {
+    if ((s32)uVar4 < 1) {
       uVar17 = 0;
     }
     else {
       uVar17 = (uVar4 & 0xfff) << 0xc;
     }
-    if (0 < (short)(int)fVar37) {
-      uVar17 = uVar17 | (int)(short)(int)fVar37 & 0xfffU;
+    if (0 < (s16)(s32)fVar37) {
+      uVar17 = uVar17 | (s32)(s16)(s32)fVar37 & 0xfffU;
     }
     pauVar25[8][1] = uVar17;
     (*pauVar24)[0] = 0xe1000000;
     pauVar25 = pauVar25[10];
-    if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)sVar10) >> 7;
+    if ((s32)uVar4 < 0) {
+      iVar29 = (s32)(uVar4 * (s32)sVar10) >> 7;
       if (sVar10 < 0) {
         if (iVar29 < 0) {
           iVar29 = 0;
@@ -993,10 +993,10 @@ LAB_800a6620:
     else {
       uVar17 = 0;
     }
-    if (-1 < (int)fVar37) goto LAB_800a662c;
-    iVar29 = (int)fVar37 << 0x10;
+    if (-1 < (s32)fVar37) goto LAB_800a662c;
+    iVar29 = (s32)fVar37 << 0x10;
     if (-1 < sVar11) goto LAB_800a6608;
-    iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+    iVar29 = (iVar29 >> 0x10) * (s32)sVar11 >> 7;
     if (iVar29 < 0) {
       iVar29 = 0;
       goto LAB_800a6620;
@@ -1012,44 +1012,44 @@ LAB_800a662c:
   return pauVar25[1];
 }
 
-rspCom * pass_to_borg_image_draw(rspCom *param_1,Borg_8_header *borg8,float param_3,float param_4,float Hscale,
+Gfx* pass_to_borg_image_draw(Gfx*param_1,Borg_8_header *borg8,float param_3,float param_4,float Hscale,
                    float Vscale,u8 red,u8 green,u8 blue,u8 Alpha){
   return N64BorgImageDraw(param_1,borg8,param_3,param_4,0,0,(borg8->dat).height,
                              (borg8->dat).width,Hscale,Vscale,red,green,blue,Alpha);}
 
 void borg8_free(Borg_8_header *param_1){
-  int iVar1;
-  int iVar2;
+  s32 iVar1;
+  s32 iVar2;
   
   iVar1 = get_memUsed();
   iVar2 = (param_1->index).index;
-  if (iVar2 == -1) {Free(param_1,FILENAME,0x24f);}
+  if (iVar2 == -1) {HeapFree(param_1,FILENAME,0x24f);}
   else {dec_borg_count(iVar2);}
   iVar2 = get_memUsed();
   borg_mem[8]-= (iVar1 - iVar2);
   borg_count[8]--;
 }
 
-rspCom * gsFadeInOut(rspCom *param_1,uint param_2,uint param_3,uint H,ushort V,byte R,byte G,byte B,
-                    byte A){
+Gfx* gsFadeInOut(Gfx*param_1,u32 param_2,u32 param_3,u32 H,u16 V,u8 R,u8 G,u8 B,
+                    u8 A){
   float fVar1;
   float fVar2;
-  uint uVar3;
-  uint uVar4;
-  int iVar5;
-  uint uVar6;
-  int iVar7;
-  int iVar8;
-  uint uVar9;
-  int iVar10;
-  int iVar11;
+  u32 uVar3;
+  u32 uVar4;
+  s32 iVar5;
+  u32 uVar6;
+  s32 iVar7;
+  s32 iVar8;
+  u32 uVar9;
+  s32 iVar10;
+  s32 iVar11;
   
   fVar2 = V_scale;
   fVar1 = h_scale;
   (*param_1)[0] = 0xe7000000;
   (*param_1)[1] = 0;
   param_1[1][0] = 0xfa000000;
-  param_1[1][1] = (uint)R << 0x18 | (uint)G << 0x10 | (uint)B << 8 | (uint)A;
+  param_1[1][1] = (u32)R << 0x18 | (u32)G << 0x10 | (u32)B << 8 | (u32)A;
   param_1[2][0] = 0xe3001001;
   param_1[2][1] = 0;
   param_1[3][1] = (u32)fade_texture;
@@ -1065,38 +1065,38 @@ rspCom * gsFadeInOut(rspCom *param_1,uint param_2,uint param_3,uint H,ushort V,b
   param_1[8][0] = 0xf5680800;
   param_1[8][1] = 0x80200;
   param_1[9][0] = 0xf2000000;
-  iVar11 = (int)(short)(int)((float)(param_2 & 0xffff) * fVar1);
-  iVar7 = (int)(short)(int)((float)(param_3 & 0xffff) * fVar2);
+  iVar11 = (s32)(s16)(s32)((float)(param_2 & 0xffff) * fVar1);
+  iVar7 = (s32)(s16)(s32)((float)(param_3 & 0xffff) * fVar2);
   param_1[9][1] = 0x70070;
-  iVar5 = (int)(short)(int)((float)(H & 0xffff) * fVar1);
-  iVar8 = (int)(short)(int)((float)(uint)V * fVar2);
-  iVar10 = (int)(short)(int)((8.0f / (float)(iVar5 - iVar11)) * 1024.0f);
+  iVar5 = (s32)(s16)(s32)((float)(H & 0xffff) * fVar1);
+  iVar8 = (s32)(s16)(s32)((float)(u32)V * fVar2);
+  iVar10 = (s32)(s16)(s32)((8.0f / (float)(iVar5 - iVar11)) * 1024.0f);
   uVar3 = (iVar5 << 0x12) >> 0x10;
-  uVar9 = SEXT24((short)(int)((8.0f / (float)(iVar8 - iVar7)) * 1024.0f));
-  if ((int)uVar3 < 1) {
+  uVar9 = SEXT24((s16)(s32)((8.0f / (float)(iVar8 - iVar7)) * 1024.0f));
+  if ((s32)uVar3 < 1) {
     uVar3 = 0xe4000000;
   }
   else {
     uVar3 = (uVar3 & 0xfff) << 0xc | 0xe4000000;
   }
   uVar4 = (iVar8 << 0x12) >> 0x10;
-  if (0 < (int)uVar4) {
+  if (0 < (s32)uVar4) {
     uVar3 = uVar3 | uVar4 & 0xfff;
   }
   param_1[10][0] = uVar3;
   uVar3 = (iVar11 << 0x12) >> 0x10;
-  if ((int)uVar3 < 1) {uVar4 = 0;}
+  if ((s32)uVar3 < 1) {uVar4 = 0;}
   else {
     uVar4 = (uVar3 & 0xfff) << 0xc;
   }
   uVar6 = (iVar7 << 0x12) >> 0x10;
-  if (0 < (int)uVar6) {
+  if (0 < (s32)uVar6) {
     uVar4 = uVar4 | uVar6 & 0xfff;
   }
   param_1[10][1] = uVar4;
   param_1[0xb][0] = 0xe1000000;
-  if ((int)uVar3 < 0) {
-    iVar5 = (int)(uVar3 * iVar10) >> 7;
+  if ((s32)uVar3 < 0) {
+    iVar5 = (s32)(uVar3 * iVar10) >> 7;
     if (iVar10 < 0) {
       if (iVar5 < 0) {iVar5 = 0;}
     }
@@ -1107,12 +1107,12 @@ rspCom * gsFadeInOut(rspCom *param_1,uint param_2,uint param_3,uint H,ushort V,b
   }
   else {uVar3 = 0;}
   if (iVar7 << 2 < 0) {
-    if ((int)uVar9 < 0) {
-      iVar5 = (int)(uVar6 * uVar9) >> 7;
+    if ((s32)uVar9 < 0) {
+      iVar5 = (s32)(uVar6 * uVar9) >> 7;
       if (iVar5 < 0) {iVar5 = 0;}
     }
     else {
-      iVar5 = (int)(uVar6 * uVar9) >> 7;
+      iVar5 = (s32)(uVar6 * uVar9) >> 7;
       if (0 < iVar5) {iVar5 = 0;}
     }
     uVar3 = uVar3 | -iVar5 & 0xffffU;

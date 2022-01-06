@@ -27,12 +27,12 @@ struct Heap_block_Debug{
 extern struct MemMon_struct MemMonitor;
 
 void Heap_init(void *X,u32 Y){
-  uint uVar1;
-  int iVar2;
+  u32 uVar1;
+  s32 iVar2;
   
-  uVar1 = (uint)X & 7;
+  uVar1 = (u32)X & 7;
   if (uVar1 != 0) {
-    X = (void *)((int)X + (8 - uVar1));
+    X = (void *)((s32)X + (8 - uVar1));
     Y = (Y - 8) + uVar1;
   }
   if ((Y & 7) != 0) {Y = Y - (Y & 7);}
@@ -44,13 +44,13 @@ void Heap_init(void *X,u32 Y){
   MemMonitor.memRegionStart = X;
   MemMonitor.memFreeMax = Y;
   MemMonitor.memFree = Y;
-  func_80098824((undefined4 *)X,5);
+  func_80098824((s32 *)X,5);
   MemMonitor.obj_count_2++;
   MemMonitor.obj_count++;
   MemMonitor.memFree -= 4;
   MemMonitor.memUsed+= 4;
-  func_80098824((undefined4 *)((int)MemMonitor.memRegionStart + (MemMonitor.memFreeMax - 4)),5);
-  iVar2 = (int)MemMonitor.memRegionStart + 4;
+  func_80098824((s32 *)((s32)MemMonitor.memRegionStart + (MemMonitor.memFreeMax - 4)),5);
+  iVar2 = (s32)MemMonitor.memRegionStart + 4;
   MemMonitor.memFree-= 4;
   MemMonitor.obj_count++;
   MemMonitor.obj_count_2++;
@@ -65,15 +65,15 @@ void Heap_init(void *X,u32 Y){
 }
 
 
-void * Malloc(uint size,char *file,uint line){
+void * heapAlloc(u32 size,char *file,u32 line){
   bool bVar1;
-  uint uVar2;
+  u32 uVar2;
   Heap_block_Debug *pHVar3;
   char *pcVar4;
-  uint uVar5;
+  u32 uVar5;
   Heap_block_Debug *pHVar6;
   void *ret;
-  uint uVar7;
+  u32 uVar7;
   
   if (size == 0) {ret = NULL;}
   else {
@@ -82,7 +82,7 @@ void * Malloc(uint size,char *file,uint line){
     uVar7 = 0xffffffff;
     bVar1 = false;
     pHVar3 = (Heap_block_Debug *)MemMonitor.memRegionNext;
-    if (MemMonitor.memRegionNext != NULL) {
+    if (MemMonitor.memRegionNext) {
       do {
         uVar2 = get_heap_size(pHVar3);
         uVar2 = uVar2 & 0xfffffffe;
@@ -98,7 +98,7 @@ void * Malloc(uint size,char *file,uint line){
           }
           pHVar3 = (Heap_block_Debug *)func_8009887c((char)pHVar3);
         }
-      } while ((!bVar1) && (pHVar3 != NULL));
+      } while ((!bVar1) && (pHVar3));
     }
     if (pHVar6 == NULL) {
       sprintf(MemMonitor.text,"%s %i\ncouldn't find %i free space!\n%i avail in %i blocks\n%i used in %i blocks",
@@ -109,22 +109,22 @@ void * Malloc(uint size,char *file,uint line){
     pcVar4 = remove_dir_slashes(file);
     sprintf(MemMonitor.text,"%s %i",pcVar4,line);
     strncpy(pHVar6->filename,MemMonitor.text,0x18);
-    pHVar6->filename[0x17] = '\0';
+    pHVar6->filename[0x17] = 0;
     ret = pHVar6 + 1;
     MemMonitor.flag = 1;
   }
   return ret;
 }
 
-void Free(void *X,char *cpp,int line){
-  uint uVar1;
+void HeapFree(void *X,char *cpp,s32 line){
+  u32 uVar1;
   Heap_block_Debug *pHVar2;
-  uint uVar3;
+  u32 uVar3;
   
-  if (X != NULL) {
-    if (((((uint)X & 7) != 0) || (X < MemMonitor.memRegionStart)) ||
-       (pHVar2 = (Heap_block_Debug *)((int)X + -0x1c),
-       (void *)((int)MemMonitor.memRegionStart + MemMonitor.memFreeMax) < X)) {
+  if (X) {
+    if (((((u32)X & 7) != 0) || (X < MemMonitor.memRegionStart)) ||
+       (pHVar2 = (Heap_block_Debug *)((s32)X + -0x1c),
+       (void *)((s32)MemMonitor.memRegionStart + MemMonitor.memFreeMax) < X)) {
       sprintf(MemMonitor.text,"%s %i tried to free an invalid pointer 0x%08x",cpp,line,X);
       assert("heap.cpp",MemMonitor.text);
     }
@@ -146,29 +146,29 @@ void Free(void *X,char *cpp,int line){
   return;
 }
 
-uint func_80098200(void *param_1){return get_heap_size((Heap_block_Debug *)((int)param_1 + -4)) &-1;}
+u32 func_80098200(void *param_1){return get_heap_size((Heap_block_Debug *)((s32)param_1 + -4)) &-1;}
 u32 Ofunc_get_MemFreeMax(void){return MemMonitor.memFreeMax;}
 u32 get_memUsed(void){return MemMonitor.memUsed;}
 u32 get_memFree(void){return MemMonitor.memFree;}
 u32 Ofunc_get_objCount(void){return MemMonitor.obj_count;}
 u32 get_obj_free(void){return MemMonitor.obj_free;}
 
-uint get_memFree_2(void){
-  uint uVar1;
+u32 get_memFree_2(void){
+  u32 uVar1;
   Heap_block_Debug *pHVar2;
-  uint uVar3;
+  u32 uVar3;
   
   if (MemMonitor.flag != 0) {
     uVar3 = 0;
     pHVar2 = (Heap_block_Debug *)MemMonitor.memRegionNext;
-    if (MemMonitor.memRegionNext != NULL) {
+    if (MemMonitor.memRegionNext) {
       do {
         uVar1 = get_heap_size(pHVar2);
         if (uVar3 < (uVar1 & 0xfffffffe)) {
           uVar3 = uVar1 & 0xfffffffe;
         }
         pHVar2 = (Heap_block_Debug *)func_8009887c((char)pHVar2);
-      } while (pHVar2 != NULL);
+      } while (pHVar2);
     }
     MemMonitor.flag = 0;
     MemMonitor.memFree_2 = uVar3;
@@ -176,13 +176,13 @@ uint get_memFree_2(void){
   return MemMonitor.memFree_2;
 }
 void print_mem_allocated(func *param_1,void *param_2){
-  uint uVar2;
+  u32 uVar2;
   ulonglong uVar1;
-  uint uVar3;
+  u32 uVar3;
   Heap_block_Debug *pHVar4;
   ulonglong uVar5;
-  uint uVar6;
-  uint uVar7;
+  u32 uVar6;
+  u32 uVar7;
   func *pfVar8;
   
   pfVar8 = param_1;
@@ -193,31 +193,31 @@ void print_mem_allocated(func *param_1,void *param_2){
   pHVar4 = (Heap_block_Debug *)MemMonitor.memRegionStart;
   do {
     uVar2 = get_heap_size(pHVar4);
-    uVar5 = (longlong)(int)uVar2 & 0xfffffffffffffffe;
+    uVar5 = (longlong)(s32)uVar2 & 0xfffffffffffffffe;
     uVar2 = get_heap_size(pHVar4);
     if ((uVar7 != 0) && (uVar7 != uVar6)) {
       uVar1 = func_80098848((char)pHVar4);
       uVar3 = func_80098848((char)pHVar4);
       if ((uVar2 & 1) == 0) {
-        if (pfVar8 != NULL) {(*param_1)(param_2,"NA",uVar7,uVar5);}
+        if (pfVar8) {(*param_1)(param_2,"NA",uVar7,uVar5);}
       }
       else {
-        if (pfVar8 != NULL) {(*param_1)(param_2,pHVar4->filename,uVar7,uVar5);}
+        if (pfVar8) {(*param_1)(param_2,pHVar4->filename,uVar7,uVar5);}
       }
       if ((uVar1 & 0xfffffffffffffffe) != uVar5) {return;}
       if ((uVar3 & 1) != (uVar2 & 1)) {return;}
     }
     uVar7++;
-    pHVar4 = (Heap_block_Debug *)(pHVar4->filename + (int)uVar5 + -4);
+    pHVar4 = (Heap_block_Debug *)(pHVar4->filename + (s32)uVar5 + -4);
     if (uVar6 < uVar7) {
       return;
     }
   } while( true );
 }
 
-void malloc_update_mem_mon(Heap_block_Debug *param_1,int param_2){
-  uint uVar1;
-  int iVar2;
+void malloc_update_mem_mon(Heap_block_Debug *param_1,s32 param_2){
+  u32 uVar1;
+  s32 iVar2;
   
   uVar1 = get_heap_size(param_1);
   iVar2 = (uVar1 & 0xfffffffe) - param_2;
@@ -245,14 +245,14 @@ void malloc_update_mem_mon(Heap_block_Debug *param_1,int param_2){
 void free_update_mem_mon(Heap_block_Debug *param_1)
 
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
+  u32 uVar1;
+  u32 uVar2;
+  u32 uVar3;
+  u32 uVar4;
+  u32 uVar5;
   Heap_block_Debug *pHVar6;
   Heap_block_Debug *pHVar7;
-  uint uVar8;
+  u32 uVar8;
   
   uVar1 = get_heap_size(param_1);
   uVar1 = uVar1 & 0xfffffffe;
@@ -261,7 +261,7 @@ void free_update_mem_mon(Heap_block_Debug *param_1)
   pHVar7 = (Heap_block_Debug *)(param_1->filename + (uVar1 - 4));
   uVar4 = get_heap_size(pHVar7);
   uVar5 = get_heap_size(pHVar7);
-  pHVar6 = (Heap_block_Debug *)((int)param_1 - (uVar3 & 0xfffffffe));
+  pHVar6 = (Heap_block_Debug *)((s32)param_1 - (uVar3 & 0xfffffffe));
   uVar8 = uVar1;
   if ((uVar2 & 1) == 0) {
     func_800987a8(pHVar6);
@@ -286,7 +286,7 @@ void free_update_mem_mon(Heap_block_Debug *param_1)
 }
 
 void func_800986f0(undefined8 param_1,undefined8 param_2){
-  func_80098824((undefined4 *)param_1,(int)param_2);
+  func_80098824((s32 *)param_1,(s32)param_2);
   func_8009882c(param_1,param_2);
   return;
 }
@@ -299,7 +299,7 @@ void func_8009872c(void *param_1){
   func_80098864((char)param_1,0);
   func_8009886c((char)param_1,pvVar1);
   pvVar2 = param_1;
-  if (pvVar1 != NULL) {
+  if (pvVar1) {
     func_80098864((char)pvVar1,param_1);
     pvVar2 = MemMonitor.memRegionMaxCurr;
   }
@@ -322,7 +322,7 @@ void func_800987a8(undefined param_1){
   }
   MemMonitor.memRegionNext = pvVar1;
   pvVar1 = (void *)lVar2;
-  if (pvVar3 != NULL) {
+  if (pvVar3) {
     func_80098864((char)pvVar3,(void *)lVar2);
     pvVar1 = MemMonitor.memRegionMaxCurr;
   }
@@ -330,45 +330,45 @@ void func_800987a8(undefined param_1){
   return;
 }
 
-void func_80098824(undefined4 *param_1,undefined4 param_2){*param_1 = param_2;}
+void func_80098824(s32 *param_1,s32 param_2){*param_1 = param_2;}
 
-void func_8009882c(int param_1,uint param_2){
-  *(uint *)((param_2 & 0xfffffffe) + param_1 + -4) = param_2;}
+void func_8009882c(s32 param_1,u32 param_2){
+  *(u32 *)((param_2 & 0xfffffffe) + param_1 + -4) = param_2;}
 
-uint get_heap_size(Heap_block_Debug *param_1){return param_1->size;}
+u32 get_heap_size(Heap_block_Debug *param_1){return param_1->size;}
 
-undefined4 func_80098848(char param_1){
-  return *(undefined4 *)((int)(uint *)(int)param_1 + ((*(uint *)(int)param_1 & 0xfffffffe) - 4));}
+s32 func_80098848(char param_1){
+  return *(s32 *)((s32)(u32 *)(s32)param_1 + ((*(u32 *)(s32)param_1 & 0xfffffffe) - 4));}
 
-void func_80098864(void *param_1,undefined4 param_2){
-  *(undefined4 *)((int)param_1 + 4) = param_2;
+void func_80098864(void *param_1,s32 param_2){
+  *(s32 *)((s32)param_1 + 4) = param_2;
 }
 
 
-void func_8009886c(char param_1,undefined4 param_2){
-  *(undefined4 *)(param_1 + 8) = param_2;
+void func_8009886c(char param_1,s32 param_2){
+  *(s32 *)(param_1 + 8) = param_2;
 }
-undefined4 func_80098874(char param_1){
-  return *(undefined4 *)(param_1 + 4);
+s32 func_80098874(char param_1){
+  return *(s32 *)(param_1 + 4);
 }
 
 s32 func_8009887c(char param_1){return *(s32 *)(param_1 + 8);}
 
-uint func_80098884(void){
-  uint uVar1;
+u32 func_80098884(void){
+  u32 uVar1;
   Heap_block_Debug *pHVar2;
-  uint uVar3;
+  u32 uVar3;
   
   uVar3 = 0;
   pHVar2 = (Heap_block_Debug *)MemMonitor.memRegionNext;
-  if (MemMonitor.memRegionNext != NULL) {
+  if (MemMonitor.memRegionNext) {
     do {
       uVar1 = get_heap_size(pHVar2);
       if (uVar3 < (uVar1 & 0xfffffffe)) {
         uVar3 = uVar1 & 0xfffffffe;
       }
       pHVar2 = (Heap_block_Debug *)func_8009887c((char)pHVar2);
-    } while (pHVar2 != NULL);
+    } while (pHVar2);
   }
   return uVar3;
 }
@@ -376,7 +376,7 @@ uint func_80098884(void){
 char * remove_dir_slashes(char *param_1){
   char  cVar1 = *param_1;
   char pcVar2 = param_1;
-  while (cVar1 != '\0') {
+  while (cVar1 != 0) {
     if ((*param_1 == '\\') || (*param_1 == '/')) {
       pcVar2 = param_1 + 1;
     }
@@ -388,6 +388,6 @@ char * remove_dir_slashes(char *param_1){
 
 void ofunc_LISBN_called_free(void){assert("heap.cpp","LIBSN called free?");}
 
-void * passToMalloc(uint size){return Malloc(size,FILENAME,0x473);}
+void * passToMalloc(u32 size){return heapAlloc(size,FILENAME,0x473);}
 
-void passToFree(void *param_1){Free(param_1,FILENAME,0x47e);}
+void passToFree(void *param_1){HeapFree(param_1,FILENAME,0x47e);}

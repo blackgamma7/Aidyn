@@ -1,36 +1,36 @@
 void load_commonstrings(void){
   commonstrings = func_romStrings(common_string_array,0x2830);
   #ifdef DEBUGVER
-  debug_switch_labels = (char **)((int)commonstrings + 0xbc);
-  boolean_labels = (char **)((int)commonstrings + 0x74);
-  cheatStatus_labels = (char **)((int)commonstrings + 0x98);
+  debug_switch_labels = (char **)((s32)commonstrings + 0xbc);
+  boolean_labels = (char **)((s32)commonstrings + 0x74);
+  cheatStatus_labels = (char **)((s32)commonstrings + 0x98);
   #endif
   gglobals.CommonStrings = (char **)commonstrings;
-  ground_labels = (char **)((int)commonstrings + 0x568);
+  ground_labels = (char **)((s32)commonstrings + 0x568);
   #ifdef DEBUGVER
-  debug_state_labels = (char **)((int)commonstrings + 0x1ac);
-  bool_labels = (char **)((int)commonstrings + 0x74);
-  on_off_labels = (char **)((int)commonstrings + 0x1dc);
+  debug_state_labels = (char **)((s32)commonstrings + 0x1ac);
+  bool_labels = (char **)((s32)commonstrings + 0x74);
+  on_off_labels = (char **)((s32)commonstrings + 0x1dc);
   #endif
-  encounterType_labels = (char **)((int)commonstrings + 0x3a8);
-  walking_labels = (char **)((int)commonstrings + 0x3b4);
-  element_labels = (char **)((int)commonstrings + 0x3c4);
-  spell_error_labels = (char **)((int)commonstrings + 0x408);
-  equip_error_labels = (char **)((int)commonstrings + 0x17c);
-  task_failure_labels = (char **)((int)commonstrings + 0x160);
-  price_strings = (char **)((int)commonstrings + 0x600);
-  skill_strings = (char **)((int)commonstrings + 0x43c);
-  weapon_strings = (char **)((int)commonstrings + 0x46c);
-  aspect_labels = (char **)((int)commonstrings + 0x498);
-  magic_school_labels = (char **)((int)commonstrings + 0x4a4);
-  Stat_labels = (char **)((int)commonstrings + 0x4bc);
-  humidity_labels = (char **)((int)commonstrings + 0x4d8);
-  timeofDay_labels = (char **)((int)commonstrings + 0x4e4);
-  moon_phase_labels = (char **)((int)commonstrings + 0x4f8);
-  dark_strorm_labels = (char **)((int)commonstrings + 0x508);
-  weekday_labels = (char **)((int)commonstrings + 0x520);
-  terrain_labels = (char **)((int)commonstrings + 0x53c);
-  precip_labels = (char **)((int)commonstrings + 0x55c);
+  encounterType_labels = (char **)((s32)commonstrings + 0x3a8);
+  walking_labels = (char **)((s32)commonstrings + 0x3b4);
+  element_labels = (char **)((s32)commonstrings + 0x3c4);
+  spell_error_labels = (char **)((s32)commonstrings + 0x408);
+  equip_error_labels = (char **)((s32)commonstrings + 0x17c);
+  task_failure_labels = (char **)((s32)commonstrings + 0x160);
+  price_strings = (char **)((s32)commonstrings + 0x600);
+  skill_strings = (char **)((s32)commonstrings + 0x43c);
+  weapon_strings = (char **)((s32)commonstrings + 0x46c);
+  aspect_labels = (char **)((s32)commonstrings + 0x498);
+  magic_school_labels = (char **)((s32)commonstrings + 0x4a4);
+  Stat_labels = (char **)((s32)commonstrings + 0x4bc);
+  humidity_labels = (char **)((s32)commonstrings + 0x4d8);
+  timeofDay_labels = (char **)((s32)commonstrings + 0x4e4);
+  moon_phase_labels = (char **)((s32)commonstrings + 0x4f8);
+  dark_strorm_labels = (char **)((s32)commonstrings + 0x508);
+  weekday_labels = (char **)((s32)commonstrings + 0x520);
+  terrain_labels = (char **)((s32)commonstrings + 0x53c);
+  precip_labels = (char **)((s32)commonstrings + 0x55c);
   return;
 }
 

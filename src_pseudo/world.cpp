@@ -6,22 +6,22 @@ u8 weather_month_array[8] = {0x2B, 0x30, 0x21, 0x19, 0x24, 0x28, 0, 0};
 void World::init(TerrainStruct *ter){
   memset(ter,0,sizeof(TerrainStruct));
   ter->a = 0x48;
-  ter->windByte = '\0';
+  ter->windByte = 0;
   ter->partOfDay = Morning;
   ter->moonPhases = 0;
   ter->terrain = 0;
   ter->rainByte = clear;
-  ter->coords[0] = 1.0f;
-  ter->coords[1] = -0.1f;
-  ter->coords[2] = 1.0f;
-  vec3_normalize((vec3 *)ter->coords);
-  multiVec3((vec3 *)ter->coords,0.02314815);
+  ter->windVelocity[0] = 1.0f;
+  ter->windVelocity[1] = -0.1f;
+  ter->windVelocity[2] = 1.0f;
+  vec3_normalize(ter->windVelocity);
+  multiVec3(ter->windVelocity,0.02314815);
   return;
 }
 
-void World::SetTerrain(TerrainStruct *ter,byte param_2){
-  uint uVar1;
-  uint uVar2;
+void World::SetTerrain(TerrainStruct *ter,u8 param_2){
+  u32 uVar1;
+  u32 uVar2;
   
   if (param_2 < 0x1c) {
     if (ter->terrain != param_2) {
@@ -37,11 +37,11 @@ void World::SetTerrain(TerrainStruct *ter,byte param_2){
   assert("World::SetTerrain","Invalid Terrain type!");
 }
 
-byte World::getTerrain(TerrainStruct *ter){return ter->terrain;}
+u8 World::getTerrain(TerrainStruct *ter){return ter->terrain;}
 
 void inc_timeOfDay(TerrainStruct *param_1){
-  uint uVar1;
-  uint uVar2;
+  u32 uVar1;
+  u32 uVar2;
   
   uVar2 = param_1->partOfDay + 1;
   uVar1 = uVar2 / 5;
@@ -56,12 +56,12 @@ void World::dec_dayNightMagic(TerrainStruct *X){if (X->DayNightMagic != 0) {X->D
 
 void World::set_time_from_calendar(TerrainStruct *param_1,Calendar *param_2){
   param_1->InGameTime =
-       (uint)param_2->month * 0x114db000 + (uint)param_2->week * 0x229b600 +
-       (uint)param_2->day * 0x4f1a00 + ((uint)param_2->hour * 0xe0 + (uint)param_2->hour) * 0x3c0 +
-       ((uint)param_2->minute * 0xe0 + (uint)param_2->minute) * 0x10 + (uint)param_2->second * 0x3c;
+       (u32)param_2->month * 0x114db000 + (u32)param_2->week * 0x229b600 +
+       (u32)param_2->day * 0x4f1a00 + ((u32)param_2->hour * 0xe0 + (u32)param_2->hour) * 0x3c0 +
+       ((u32)param_2->minute * 0xe0 + (u32)param_2->minute) * 0x10 + (u32)param_2->second * 0x3c;
   several_time_funcs(param_1);
   SetFlagArray_on_Time(param_1->partOfDay,param_2->day,param_2->week,param_2->month);
-  return;
+
 }
 
 void World::get_ingame_calendar(TerrainStruct *param_1,Calendar *cal){
@@ -71,30 +71,28 @@ void World::get_ingame_calendar(TerrainStruct *param_1,Calendar *cal){
   cal->hour = get_ingame_hour(param_1);
   cal->minute = get_ingame_minute(param_1);
   cal->second = get_ingame_second(param_1);
-  return;
+
 }
 
 void World::func_with_TimeofDay(TerrainStruct *ter,char param_2){
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
+  u32 uVar1;
+  u32 uVar2;
+  s32 iVar3;
   Calendar tempCal;
   
-  iVar3 = (int)param_2;
+  iVar3 = (s32)param_2;
   if (iVar3 < 1) {
-    if (-1 < iVar3) {
-      return;
-    }
-    iVar3 = (uint)ter->partOfDay + iVar3;
+    if (-1 < iVar3) return;
+    iVar3 = (u32)ter->partOfDay + iVar3;
     if (iVar3 < 0) {
-      ter->partOfDay = ter->partOfDay + param_2 + '\x05';
+      ter->partOfDay += param_2 + 5;
     }
     else {
       ter->partOfDay = (TIME_OF_DAY)iVar3;
     }
   }
   else {
-    uVar2 = (uint)ter->partOfDay + iVar3 & 0xff;
+    uVar2 = (u32)ter->partOfDay + iVar3 & 0xff;
     uVar1 = uVar2 / 5;
     ter->partOfDay = (char)uVar2 - ((char)(uVar1 << 2) + (char)uVar1);
   }
@@ -103,10 +101,9 @@ void World::func_with_TimeofDay(TerrainStruct *ter,char param_2){
   tempCal.minute = 0;
   tempCal.second = 0;
   set_time_from_calendar(ter,&tempCal);
-  return;
 }
 
-void World::rand_vec3(vec3 *coords,float arg1,float arg2){
+void World::ChangeWind(vec3 *coords,float arg1,float arg2){
   float x;
   float fVar1;
   
@@ -125,33 +122,29 @@ void World::rand_vec3(vec3 *coords,float arg1,float arg2){
     }
   }
   multiVec3(coords,x);
-  return;
 }
 
 void World::set_with_WeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   ter->rainByte = w->precip;
-  ter->weatherFloatA = w->floatA;
-  weatherDat.unk0xc = w->floatB;
-  ter->weatherFloatB = weatherDat.unk0xc;
-  ter->weatherFloatC = w->floatC;
-  weatherDat.unk0x4 = ter->weatherFloatA;
+  ter->PrecipScale = w->PrecipScale;
+  ter->FogFloat= weatherDat.FogFloat = w->FogFloat;
+  ter->ThunderFloat = w->ThunderFloat;
+  weatherDat.unk0x4 = ter->PrecipScale;
   set_weather_flags(ter->rainByte);
-  return;
 }
 
 
 void World::get_WeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   w->precip = ter->rainByte;
-  w->floatA = ter->weatherFloatA;
-  w->floatB = ter->weatherFloatB;
-  w->floatC = ter->weatherFloatC;
-  return;
+  w->PrecipScale = ter->PrecipScale;
+  w->FogFloat = ter->FogFloat;
+  w->ThunderFloat = ter->ThunderFloat;
 }
 
 void World::set_moonPhase(TerrainStruct *ter,Calendar *cal){
-  uint X;
+  u32 X;
   
-  X = (int)(((uint)cal->day + (cal->week & 3) * 7) * 0x1000000) >> 0x18;
+  X = (s32)(((u32)cal->day + (cal->week & 3) * 7) * 0x1000000) >> 0x18;
   if ((X & 0xff) < 3) {
     ter->moonPhases = 3;
     return;}
@@ -173,7 +166,7 @@ moonval1:
 bool World::set_timeofDay(TerrainStruct *param_1,Calendar *param_2){
   TIME_OF_DAY TVar1;
   TIME_OF_DAY TodNew;
-  byte hr;
+  u8 hr;
   
   if (param_1->DayNightMagic != 0) {return false;}
   hr = param_2->hour;
@@ -195,44 +188,42 @@ End:
 }
 
 void World::set_weather(TerrainStruct *ter,Calendar *cal){
-  byte bVar1;
-  byte bVar2;
+  u8 bVar1;
+  u8 bVar2;
   PRECIPITATION PVar3;
   float fVar5;
   
   if (0x4b < globals::RollD(1,100)) {
-    ter->windByte = '\0';
+    ter->windByte = 0;
     ter->rainByte = CLEAR;
-    ter->weatherFloatA = 0.0;
-    ter->weatherFloatB = 0.0;
+    ter->PrecipScale = 0.0;
+    ter->FogFloat = 0.0;
     bVar1 = weather_terrain_array[ter->terrain];
     bVar2 = weather_month_array[cal->month];
-    if ((int)(((uint)bVar2 + (int)(char)bVar1) * 0x10000) >> 0x10 < globals::RollD(1,100)) {
-      PVar3 = ter->rainByte;}
+    if ((s32)(((u32)bVar2 + (s32)(char)bVar1) * 0x10000) >> 0x10 < globals::RollD(1,100)) {}
     else {  
       if (globals::RollD(1,100) < 0x46) {
         ter->rainByte = RAIN;
-        ter->windByte = '\x02';
+        ter->windByte = 2;
         if (ter->terrain == 5) {ter->rainByte = SNOW;}
         fVar5 = Random::rand_float_range
                           (&gGlobals,terrain_rand_array[ter->terrain] - 0.15f,
                            terrain_rand_array[ter->terrain] + 0.15f);
-        ter->weatherFloatA = fVar5;
-        if (fVar5 < 0.0) {ter->weatherFloatA = 0.0;}
+        ter->PrecipScale = fVar5;
+        if (fVar5 < 0.0) {ter->PrecipScale = 0.0;}
         fVar5 = 0.35;
       }
       else {
         fVar5 = 0.75;
-        ter->windByte = '\x01';
+        ter->windByte = 1;
         ter->rainByte = CLEAR;
-        ter->weatherFloatA = 0.0;
+        ter->PrecipScale = 0.0;
       }
       fVar5 = Random::rand_float_range(&gGlobals,0.1,fVar5);
-      ter->weatherFloatB = fVar5;
-      PVar3 = ter->rainByte;
+      ter->FogFloat = fVar5;
     }
-    ter->weatherFloatC = 0.0;
-    if (PVar3 == RAIN) {ter->weatherFloatC = Random::rand_float(&gGlobals) * ter->weatherFloatA;}
+    ter->ThunderFloat = 0.0;
+    if (ter->rainByte == RAIN) {ter->ThunderFloat = Random::rand_float(&gGlobals) * ter->PrecipScale;}
   }
   return;
 }
@@ -245,7 +236,7 @@ void World::several_time_funcs(TerrainStruct *ter){
   set_moonPhase(ter,&CalTemp);
   if (weather_flag != 0) {
     if (set_timeofDay(ter,&CalTemp)) {set_weather(ter,&CalTemp);}
-    terrainStruct_rand_vec3((vec3 *)ter->coords,0.05f,0.05f);
+    terrainStruct_rand_vec3(ter->coords,0.05f,0.05f);
     SetFlagArray_on_Time(ter->partOfDay,CalTemp.day,CalTemp.week,CalTemp.month);
     set_weather_flags(ter->rainByte);
     terrainStruct_floats(ter);
@@ -262,8 +253,8 @@ void World::add_10_ingame_seconds(TerrainStruct *ter){
   cap_ingame_time(ter);
   several_time_funcs(ter);}
 
-void World::inc_ingame_time(TerrainStruct *param_1,int delta){
-  param_1->InGameTime += delta * (uint)param_1->a;
+void World::inc_ingame_time(TerrainStruct *param_1,s32 delta){
+  param_1->InGameTime += delta * (u32)param_1->a;
   cap_ingame_time(param_1);
   several_time_funcs(param_1);}
 
@@ -272,23 +263,23 @@ void lapse_8_hours(TerrainStruct *ter){
   cap_ingame_time(ter);
   several_time_funcs(ter);}
 
-void World::add_playTime(TerrainStruct *param_1,int x){param_1->PlayTime += x;}
+void World::add_playTime(TerrainStruct *param_1,s32 x){param_1->PlayTime += x;}
 
-uint World::get_inGame_time(TerrainStruct *param_1){return param_1->InGameTime;}
+u32 World::get_inGame_time(TerrainStruct *param_1){return param_1->InGameTime;}
 
-void World::set_inGame_time(TerrainStruct *param_1,uint param_2){param_1->InGameTime = param_2;}
+void World::set_inGame_time(TerrainStruct *param_1,u32 param_2){param_1->InGameTime = param_2;}
 
-uint World::get_ingame_month(TerrainStruct *param_1){return param_1->InGameTime / 0x114db000;}
+u32 World::get_ingame_month(TerrainStruct *param_1){return param_1->InGameTime / 0x114db000;}
 
-uint World::get_ingame_week(TerrainStruct *param_1){return (param_1->InGameTime % 0x114db000) / 0x229b600;}
+u32 World::get_ingame_week(TerrainStruct *param_1){return (param_1->InGameTime % 0x114db000) / 0x229b600;}
 
-uint World::get_ingame_day(TerrainStruct *param_1){return (param_1->InGameTime % 0x229b600) / 0x4f1a00;}
+u32 World::get_ingame_day(TerrainStruct *param_1){return (param_1->InGameTime % 0x229b600) / 0x4f1a00;}
 
-uint World::get_ingame_hour(TerrainStruct *param_1){return (param_1->InGameTime % 0x4f1a00 >> 6) / 0xd2f;}
+u32 World::get_ingame_hour(TerrainStruct *param_1){return (param_1->InGameTime % 0x4f1a00 >> 6) / 0xd2f;}
 
-uint World::get_ingame_minute(TerrainStruct *param_1){return (param_1->InGameTime + ((param_1->InGameTime >> 6) / 0xd2f) * -0x34bc0) / 0xe10 & 0xff;}
+u32 World::get_ingame_minute(TerrainStruct *param_1){return (param_1->InGameTime + ((param_1->InGameTime >> 6) / 0xd2f) * -0x34bc0) / 0xe10 & 0xff;}
 
-uint World::get_ingame_second(TerrainStruct *param_1){return (param_1->InGameTime % 0xe10) / 0x3c;}
+u32 World::get_ingame_second(TerrainStruct *param_1){return (param_1->InGameTime % 0xe10) / 0x3c;}
 
 float World::get_timeofDay_float(TerrainStruct *param_1){
   float fVar1 = (float)(param_1->InGameTime % 0x4f1a00) / 5184000.0f + param_1->TimeOfDayFloat;
@@ -330,7 +321,7 @@ LAB_80085a64:
   return;
 }
 
-void World::spellvisuals_1(TerrainStruct *param_1,float param_2,float param_3,short param_4){
+void World::spellvisuals_1(TerrainStruct *param_1,float param_2,float param_3,s16 param_4){
   float fVar1;
   float fVar2;
   

@@ -7,27 +7,27 @@ char * strcpy(char *c1,char *c2){
   
   x = *c2;
   Y = c1;
-  while (x != '\0') {
+  while (x != 0) {
     c2++;
     *Y = x;
     x = *c2;
     Y++;
   }
-  *Y = '\0';
+  *Y = 0;
   return c1;
 }
 
-char * strncpy(char *c1,char *c2,int i){
+char * strncpy(char *c1,char *c2,s32 i){
   char cx;
   char *cy;
   char *cz;
-  int j;
-  int k;
+  s32 j;
+  s32 k;
   
   j = 0;
   cx = *c2;
   cy = c1;
-  if (cx != '\0') {
+  if (cx != 0) {
     cz = c2 + 1;
     if (i < 1) {
       return c1;
@@ -37,14 +37,14 @@ char * strncpy(char *c1,char *c2,int i){
       cy++;
       cx = *cz;
       j++;
-      if ((cx == '\0') || (i <= j)) break;
+      if ((cx == 0) || (i <= j)) break;
       cz++;
     }
   }
   k = i - j;
   if (j < i) {
     do {
-      *cy = '\0';
+      *cy = 0;
       k--;
       cy++;
     } while (k != 0);
@@ -58,19 +58,19 @@ char * func_80098a34(char *c1,char *c2){
   char x;
   char *y;
   
-  if (*c1 == '\0') {
+  if (*c1 == 0) {
     x = *c2;
     y = c1;
   }
   else {
     y = c1 + 1;
-    while (*y != '\0') {
+    while (*y != 0) {
       y++;
     }
     x = *c2;
   }
-  if (x == '\0') {
-    *y = '\0';
+  if (x == 0) {
+    *y = 0;
   }
   else {
     do {
@@ -78,31 +78,31 @@ char * func_80098a34(char *c1,char *c2){
       *y = x;
       x = *c2;
       y++;
-    } while (x != '\0');
-    *y = '\0';
+    } while (x != 0);
+    *y = 0;
   }
   return c1;
 }
 
-char * func_80098a80(char *c1,char *c2,int i){
+char * func_80098a80(char *c1,char *c2,s32 i){
   char x;
   char *y;
-  int j;
-  int k;
+  s32 j;
+  s32 k;
   
-  if (*c1 == '\0') {
+  if (*c1 == 0) {
     x = *c2;
     y = c1;
   }
   else {
     y = c1 + 1;
-    while (*y != '\0') {
+    while (*y != 0) {
       y++;
     }
     x = *c2;
   }
   j = 0;
-  if (x != '\0') {
+  if (x != 0) {
     c2++;
     if (i < 1) {
       return c1;
@@ -112,14 +112,14 @@ char * func_80098a80(char *c1,char *c2,int i){
       y++;
       x = *c2;
       j++;
-      if ((x == '\0') || (i <= j)) break;
+      if ((x == 0) || (i <= j)) break;
       c2++;
     }
   }
   k = i - j;
   if (j < i) {
     do {
-      *y = '\0';
+      *y = 0;
       k--;
       y++;
     } while (k != 0);
@@ -127,13 +127,13 @@ char * func_80098a80(char *c1,char *c2,int i){
   return c1;
 }
 
-int strcmp(char *A,char *B){
-  int y;
-  byte z;
-  byte x;
+s32 strcmp(char *A,char *B){
+  s32 y;
+  u8 z;
+  u8 x;
   
   y = 0;
-  if (*A == '\0') {
+  if (*A == 0) {
 loop:
     z = *B;
     if (z != 0) {
@@ -173,11 +173,11 @@ lab3:
   return y;
 }
 
-int strncmp(byte *c1,byte *c2,int i){
-  byte j;
-  int k;
-  byte x;
-  int y;
+s32 strncmp(u8 *c1,u8 *c2,s32 i){
+  u8 j;
+  s32 k;
+  u8 x;
+  s32 y;
   
   k = 0;
   y = 0;
@@ -203,7 +203,7 @@ lab2:
           j = *c1;
           c1++;
           y++;
-          k = (uint)j - (uint)x;
+          k = (u32)j - (u32)x;
           if (*c1 == 0) break;
           x = *c2;
           if (x == 0) goto lab2;
@@ -234,11 +234,11 @@ lab4:
   return k;
 }
 
-int func_80098c4c(byte *c1,byte *c2){
-  byte y;
-  uint z;
-  int i;
-  byte x;
+s32 func_80098c4c(u8 *c1,u8 *c2){
+  u8 y;
+  u32 z;
+  s32 i;
+  u8 x;
   
   x = *c1;
   i = 0;
@@ -263,7 +263,7 @@ LAB_80098cd4:
           z = *c2 + 0x20 & 0xff;
         }
         else {
-          z = (uint)*c2;
+          z = (u32)*c2;
         }
         c2 = c2 + 1;
         x = *c1;
@@ -287,12 +287,12 @@ LAB_80098cf4:
   return i;
 }
 
-int func_80098d18(byte *c1,byte *c2,int i){
-  byte x;
-  uint y;
-  byte z;
-  int a;
-  int b;
+s32 func_80098d18(u8 *c1,u8 *c2,s32 i){
+  u8 x;
+  u32 y;
+  u8 z;
+  s32 a;
+  s32 b;
   
   a = 0;
   z = *c1;
@@ -323,7 +323,7 @@ LAB_80098db0:
             y = *c2 + 0x20 & 0xff;
           }
           else {
-            y = (uint)*c2;
+            y = (u32)*c2;
           }
           c2 = c2 + 1;
           a = x - y;
@@ -357,14 +357,14 @@ LAB_80098ddc:
   return a;
 }
 
-void * memset(void *x,byte m,uint i){
-  byte *z;
-  int k;
-  int j;
+void * memset(void *x,u8 m,u32 i){
+  u8 *z;
+  s32 k;
+  s32 j;
   
   j = i - (i & 7);
   k = 0;
-  z = (byte *)x;
+  z = (u8 *)x;
   if (0 < j) {
     do {
       *z = m;
@@ -380,7 +380,7 @@ void * memset(void *x,byte m,uint i){
     } while (k < j);
   }
   j = i - k;
-  if (k < (int)i) {
+  if (k < (s32)i) {
     do {
       *z = m;
       j--;
@@ -390,19 +390,19 @@ void * memset(void *x,byte m,uint i){
   return x;
 }
 
-byte * func_80098e84(byte *c1,byte *c2,uint i){
-  byte *c_1;
-  byte *c_2;
-  byte *c_3;
-  int j;
-  int k;
-  byte x;
+u8 * func_80098e84(u8 *c1,u8 *c2,u32 i){
+  u8 *c_1;
+  u8 *c_2;
+  u8 *c_3;
+  s32 j;
+  s32 k;
+  u8 x;
   
-  if ((int)c2 < (int)c1) {
+  if ((s32)c2 < (s32)c1) {
     j = i - 1;
     c_1 = c1 + j;
     c_2 = c2 + j;
-    while ((int)(i - (i & 7)) <= j) {
+    while ((s32)(i - (i & 7)) <= j) {
       x = *c_2;
       c_2 = c_2 + -1;
       j = j + -1;
@@ -445,7 +445,7 @@ byte * func_80098e84(byte *c1,byte *c2,uint i){
       } while (j < k);
     }
     k = i - j;
-    if (j < (int)i) {
+    if (j < (s32)i) {
       do {
         x = *c2;
         c2 = c2 + 1;
@@ -459,11 +459,11 @@ byte * func_80098e84(byte *c1,byte *c2,uint i){
   return c1;
 }
 
-int func_80099030(byte *c1,byte *c2,int i){
-  int j=0;
-  int k=0;
-  byte x;
-  byte y;
+s32 func_80099030(u8 *c1,u8 *c2,s32 i){
+  s32 j=0;
+  s32 k=0;
+  u8 x;
+  u8 y;
   
   if (0 < i) {
     x = *c2;
@@ -472,7 +472,7 @@ int func_80099030(byte *c1,byte *c2,int i){
       y = *c1;
       c1++;
       k++;
-      j = (uint)y - (uint)x;
+      j = (u32)y - (u32)x;
       if ((i <= k) || (j != 0)) break;
       x = *c2;
     }
@@ -488,9 +488,9 @@ int func_80099030(byte *c1,byte *c2,int i){
   return j;
 }
 
-byte * uppercase(byte *x){
-  byte *j;
-  byte i;
+u8 * uppercase(u8 *x){
+  u8 *j;
+  u8 i;
   
   if (*x != 0) {
     i = *x;
@@ -505,9 +505,9 @@ byte * uppercase(byte *x){
   return x;
 }
 
-byte * lowercase(byte *x){
-  byte *j;
-  byte i;
+u8 * lowercase(u8 *x){
+  u8 *j;
+  u8 i;
   
   if (*x != 0) {
     i = *x;

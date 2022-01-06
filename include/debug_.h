@@ -3,17 +3,17 @@ struct{
 	widgetStruct* extra;
 }WidgetDebugBig;
 
-extern int zone_engine_dat;
+extern s32 zone_engine_dat;
 extern WidgetDebugBig* WidgetDebugBigPointer;
 extern ulong func(void) * Debug_menu_funcs[21]; //lotta blank entries
 
 extern void init_big_debug_menu(void);
-extern uint exec_big_debug_command(widgetStruct *);
+extern u32 exec_big_debug_command(widgetStruct *);
 extern WidgetDebugBig * build_debug_menu(WidgetDebugBig *);
-extern void WidgetDebugBig_free(WidgetDebugBig *,byte);
+extern void WidgetDebugBig_free(WidgetDebugBig *,u8);
 extern void widgetDebugBig_AFunc(WidgetDebugBig *);
 extern WidgetDebugBig * widgetDebugBig_BFunc(WidgetDebugBig *);
-extern void make_debug_menu_entry(WidgetDebugBig *,short);
+extern void make_debug_menu_entry(WidgetDebugBig *,s16);
 extern void big_debug_func_array(widgetStruct *,widgetStruct *);
 extern void debug_gamestatefunnel(void);
 extern void debug_clear_inventory(void);

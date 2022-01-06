@@ -1,7 +1,7 @@
 void flycam_func(void){
-  uint uVar1;
+  u32 uVar1;
   
-  if (((flycam_flag != '\0') &&(uVar1 = (flycam_counter + 1) % 6, flycam_counter = (ushort)uVar1, uVar1 == 4)) &&
+  if (((flycam_flag != 0) &&(uVar1 = (flycam_counter + 1) % 6, flycam_counter = (u16)uVar1, uVar1 == 4)) &&
      (ExpPakFlag == 0)) {flycam_counter++;}
   gGlobals.Sub.mapDatA = 0;
   gGlobals.Sub.mapDatC = 0;
@@ -17,7 +17,7 @@ void flycam_func(void){
   gGlobals.screenFadeMode = 2;
   gGlobals.screenFadeSpeed = 0.06666667f;
   flycam_borg6_ptr = get_borg_6(flycam_sequences[flycam_counter].borg6);
-  flycam_AniDat_ptr = BorgAnimLoadScene(*(uint *)flycam_borg6_ptr->unk0x20);
+  flycam_AniDat_ptr = BorgAnimLoadScene(*(u32 *)flycam_borg6_ptr->unk0x20);
   func_8009f87c(flycam_AniDat_ptr,flycam_borg6_ptr);
   AniDat_Flags_OR_0x10(flycam_AniDat_ptr);
 }
@@ -28,12 +28,12 @@ void set_title_screen(void){
   flycam_flag = 0;
   gGlobals.delay = 0.0;
   gGlobals.unk0x1500 = 0;
-  if (gGlobals.titleScreen == NULL) {gGlobals.titleScreen = title_sceen_widget((widgettitle *)passToMalloc(0x8c));}
+  if (gGlobals.titleScreen == NULL) gGlobals.titleScreen = title_sceen_widget(passToMalloc(0x8c));
   widgetHandler(gGlobals.widgetHandler,gGlobals.titleScreen);
   flycam_func();
 }
 
-rspCom * other_flycam_func(float param_1,float param_2,rspCom *param_3){
+Gfx* other_flycam_func(float param_1,float param_2,Gfx*param_3){
   vec3 afStack216;
   vec3 afStack152;
   vec3 afStack88;
@@ -49,8 +49,8 @@ rspCom * other_flycam_func(float param_1,float param_2,rspCom *param_3){
     set_animation_speed(flycam_AniDat_ptr,gGlobals.delay);
     func_800a0bf8(flycam_AniDat_ptr);
     if (((flycam_flag != 0) ||
-        ((double)(uint)flycam_AniDat_ptr->aniTime <
-         ((double)*(int *)(flycam_AniDat_ptr->borg6->unk0x20 + 0xc) - 100.0d) -
+        ((double)(u32)flycam_AniDat_ptr->aniTime <
+         ((double)*(s32 *)(flycam_AniDat_ptr->borg6->unk0x20 + 0xc) - 100.0d) -
          (double)gGlobals.delay)) || ((double)gGlobals.screenfadeFloat != 1.0d)) {
       if ((gGlobals.screenFadeMode == 0) && (gGlobals.screenfadeFloat == 0.0)) {
         clear_flycam();
@@ -62,12 +62,12 @@ rspCom * other_flycam_func(float param_1,float param_2,rspCom *param_3){
       gGlobals.screenFadeMode = 1;
       gGlobals.screenFadeSpeed = 0.01f;
     }
-    anidat_rotation_func(flycam_AniDat_ptr,(vec3 *)afStack216,(vec3 *)afStack152,(vec3 *)afStack88);
-    some_flycam_dat_func(&gGlobals.Sub.flycamDat,&gGlobals.Sub.camera,afStack216,(vec3 *)afStack152)
+    anidat_rotation_func(flycam_AniDat_ptr,afStack216,afStack152,afStack88);
+    some_flycam_dat_func(&gGlobals.Sub.flycamDat,&gGlobals.Sub.camera,afStack216,afStack152)
     ;
 
     if (!func_8000ccc0()) {
-      handleZoneEngineFrame((rspCom *)register0x000000ec,(short)(int)gGlobals.delay,(playerData *)0x0,param_1,param_2);
+      handleZoneEngineFrame((Gfx*)register0x000000ec,(s16)(s32)gGlobals.delay,(playerData *)0x0,param_1,param_2);
     }
     else {
       FreeZoneEngineMemory();
@@ -80,14 +80,14 @@ rspCom * other_flycam_func(float param_1,float param_2,rspCom *param_3){
 }
 
 
-byte gameStart(rspCom **param_1){
-  rspCom *pauVar1;
-  uint uVar2;
+u8 gameStart(Gfx**param_1){
+  Gfx*pauVar1;
+  u32 uVar2;
   vec3 *pos;
-  byte bVar3;
+  u8 bVar3;
   float fVar4;
-  uint uVar5;
-  byte V;
+  u32 uVar5;
+  u8 V;
   float in_f12;
   float in_f14;
   WeatherTemp aaStack168;
@@ -100,13 +100,13 @@ byte gameStart(rspCom **param_1){
     titleSceen_load_flag = false;
   }
   check_input_7();
-  pauVar1 = RenderSky(pauVar1,(short)(int)gGlobals.delay);
+  pauVar1 = RenderSky(pauVar1,(s16)(s32)gGlobals.delay);
   pauVar1 = some_rsp_func(pauVar1,0,0,0x140,0xf0);
   if (gGlobals.Sub.gamemodeType == 2) {
     aaStack168.precip = CLEAR;
-    aaStack168.floatA = 0.0;
-    aaStack168.floatB = 0.0;
-    aaStack168.floatC = 0.0;
+    aaStack168.PrecipScale = 0.0;
+    aaStack168.FogFloat = 0.0;
+    aaStack168.ThunderFloat = 0.0;
     set_with_WeatherTemp(TerrainPointer,&aaStack168);
   }
   if (((gGlobals.unk0x1500 == 0) ||
@@ -117,16 +117,16 @@ byte gameStart(rspCom **param_1){
     pauVar1 = rsp_func(pauVar1,6,gfx::get_hres(),gfx::get_vres());
     uVar2 = 0;
     while( true ) {
-      if (gGlobals.delay < INT_MAX_f) {uVar5 = (uint)gGlobals.delay;}
-      else {uVar5 = (int)(gGlobals.delay - INT_MAX_f) | 0x80000000;}
+      if (gGlobals.delay < INT_MAX_f) {uVar5 = (u32)gGlobals.delay;}
+      else {uVar5 = (s32)(gGlobals.delay - INT_MAX_f) | 0x80000000;}
       if (uVar5 <= uVar2) break;
       uVar2++;
       tick_widgets(gGlobals.widgetHandler,1);
     }
-    pauVar1 = (rspCom *)render_widgets(gGlobals.widgetHandler,pauVar1,0,0);
+    pauVar1 = (Gfx*)render_widgets(gGlobals.widgetHandler,pauVar1,0,0);
     pauVar1 = debug::func_with_debug_queue(pauVar1,1);
   }
-  pos = (vec3 *)fStack104;
+  pos = fStack104;
   if (gGlobals.unk0x1500 == 1) {
     if (gGlobals.screenfadeFloat == 0.0) {
       some_gamestart_flag = true;
@@ -142,12 +142,12 @@ byte gameStart(rspCom **param_1){
     }
   }
   fStack104={0.0,0.0,0.0};
-  if (gGlobals.playerCharStruct.playerDat != NULL) {pos = (vec3 *)((gGlobals.playerCharStruct.playerDat)->collision).position;}
-  if (gGlobals.introMusic != NULL) {
+  if (gGlobals.playerCharStruct.playerDat) {pos = ((gGlobals.playerCharStruct.playerDat)->collision).position;}
+  if (gGlobals.introMusic) {
     fVar4 = gGlobals.VolBGM * 255.0f;
-    if (fVar4 < INT_MAX_f) {V = (byte)fVar4;}
-    else {V = (byte)(fVar4 - INT_MAX_f);}
-    some_music_func((uint)(byte)gGlobals.introMusicDatA,gGlobals.introMusicDatB,V);
+    if (fVar4 < INT_MAX_f) {V = (u8)fVar4;}
+    else {V = (u8)(fVar4 - INT_MAX_f);}
+    some_music_func((u32)(u8)gGlobals.introMusicDatA,gGlobals.introMusicDatB,V);
   }
   sprintf(gGlobals.text,"ProcessAudioBubbles - Intro menu handler\n");
   ProcessAudioBubbles(&gGlobals.SFXStruct,pos,1);
@@ -170,7 +170,7 @@ void check_input_7(void){
     uVar3++;
     if (run_widget_control_func(gGlobals.widgetHandler,pBStack32) != 0) {
       if (freeWidgetFunc == NULL) {
-        switch(*(undefined *)((int)(gGlobals.titleScreen)->prt0x40 + 0x24)) {
+        switch(*(undefined *)((s32)(gGlobals.titleScreen)->prt0x40 + 0x24)) {
         case 6:
           gGlobals.screenFadeMode = 1;
           gGlobals.unk0x1500 = 1;
@@ -204,9 +204,9 @@ void clear_flycam(void){
 }
 
 void start_intermediate_game(void){
-  byte cVar1 = 9;
-  if (gGlobals.titleScreen != NULL) {
-    cVar1 = *(byte *)((int)(gGlobals.titleScreen)->prt0x40 + 0x24);
+  u8 cVar1 = 9;
+  if (gGlobals.titleScreen) {
+    cVar1 = *(u8 *)((s32)(gGlobals.titleScreen)->prt0x40 + 0x24);
     func_800b72cc(gGlobals.widgetHandler,gGlobals.titleScreen);
     AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.titleScreen,6,0);
     gGlobals.titleScreen = NULL;
@@ -225,6 +225,6 @@ void start_intermediate_game(void){
   }
   gGlobals.playerCharStruct.player_form = debugCharacters[0].borg7; 
   gGlobals.playerCharStruct.collisionRadius = debugCharacters[0].f;
-  dcm_remove_func((byte)gGlobals.introMusicDatA,gGlobals.introMusicDatB);
+  dcm_remove_func((u8)gGlobals.introMusicDatA,gGlobals.introMusicDatB);
   AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.introMusic,8,0);
 }

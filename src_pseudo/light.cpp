@@ -1,10 +1,10 @@
-void InitLight_(light_obj *light,vec3 *pos,float size,ushort type,float f1,color colB,color colC){
-  ushort uVar1;
+void InitLight_(light_obj *light,vec3 *pos,float size,u16 type,float f1,color colB,color colC){
+  u16 uVar1;
   
   memset(light,0,0x6c);
   (light->header).type = Light;
   (light->header).Bitfeild = visible;
-  copyVec3(pos,(vec3 *)light);
+  copyVec3(pos,light);
   (light->data).lightType = type;
   (light->header).size = size;
   (light->data).cols[1] = colB;
@@ -32,21 +32,21 @@ void color_magnitude(color *param_1,color *param_2,float amp){
   
   if (amp < 0.0) {amp = 0.0;}
   if (1.0f < amp) {amp = 1.0f;}
-  fVar2 = ((float)(uint)param_1[1].R - (float)(uint)param_1->R) * amp;
-  if (fVar2 < INT_MAX_f) {cVar3 = (char)(int)fVar2;}
-  else {cVar3 = (char)(int)(fVar2 - INT_MAX_f);}
+  fVar2 = ((float)(u32)param_1[1].R - (float)(u32)param_1->R) * amp;
+  if (fVar2 < INT_MAX_f) {cVar3 = (char)(s32)fVar2;}
+  else {cVar3 = (char)(s32)(fVar2 - INT_MAX_f);}
   param_2->R = param_1->R + cVar3;
-  fVar2 = ((float)(uint)param_1[1].G - (float)(uint)param_1->G) * amp;
-  if (fVar2 < INT_MAX_f) {cVar3 = (char)(int)fVar2;  }
-  else {cVar3 = (char)(int)(fVar2 - INT_MAX_f);}
+  fVar2 = ((float)(u32)param_1[1].G - (float)(u32)param_1->G) * amp;
+  if (fVar2 < INT_MAX_f) {cVar3 = (char)(s32)fVar2;  }
+  else {cVar3 = (char)(s32)(fVar2 - INT_MAX_f);}
   param_2->G = param_1->G + cVar3;
-  fVar2 = ((float)(uint)param_1[1].B - (float)(uint)param_1->B) * amp;
-  if (fVar2 < INT_MAX_f) {cVar3 = (char)(int)fVar2;}
-  else {cVar3 = (char)(int)(fVar2 - INT_MAX_f);}
+  fVar2 = ((float)(u32)param_1[1].B - (float)(u32)param_1->B) * amp;
+  if (fVar2 < INT_MAX_f) {cVar3 = (char)(s32)fVar2;}
+  else {cVar3 = (char)(s32)(fVar2 - INT_MAX_f);}
   param_2->B = param_1->B + cVar3;
-  fVar2 = ((float)(uint)param_1[1].A - (float)(uint)param_1->A) * amp;
-  if (fVar2 < INT_MAX_f) {cVar3 = (char)(int)fVar2;}
-  else {cVar3 = (char)(int)(fVar2 - INT_MAX_f);}
+  fVar2 = ((float)(u32)param_1[1].A - (float)(u32)param_1->A) * amp;
+  if (fVar2 < INT_MAX_f) {cVar3 = (char)(s32)fVar2;}
+  else {cVar3 = (char)(s32)(fVar2 - INT_MAX_f);}
   param_2->A = param_1->A + cVar3;
   return;
 }
@@ -58,7 +58,7 @@ float func_80054ba4(float x,float y){
 }
 
 void color_XOR(color *colA,color *colB){
-  byte temp;
+  u8 temp;
   
   temp = colA->R ^ colB->R;
   colA->R = temp;
@@ -84,43 +84,43 @@ void color_XOR(color *colA,color *colB){
 }
 
 void tint_color_with_screenfade(color *param_1,float fade){
-  byte bVar1;
+  u8 bVar1;
   float fVar3;
   float fVar4;
   float fVar5;
-  byte bVar6;
+  u8 bVar6;
   
 
-  fVar4 = (float)(uint)param_1->R * fade;
-  if (fVar4 < INT_MAX_f) {bVar6 = (byte)(int)fVar4;}
-  else {bVar6 = (byte)(int)(fVar4 - INT_MAX_f);}
-  fVar5 = (float)(uint)param_1->G * fade;
+  fVar4 = (float)(u32)param_1->R * fade;
+  if (fVar4 < INT_MAX_f) {bVar6 = (u8)(s32)fVar4;}
+  else {bVar6 = (u8)(s32)(fVar4 - INT_MAX_f);}
+  fVar5 = (float)(u32)param_1->G * fade;
   param_1->R = bVar6;
-  if (fVar5 < INT_MAX_f) {bVar6 = (byte)(int)fVar5;}
-  else {bVar6 = (byte)(int)(fVar5 - INT_MAX_f);}
-  fVar5 = (float)(uint)param_1->B * fade;
+  if (fVar5 < INT_MAX_f) {bVar6 = (u8)(s32)fVar5;}
+  else {bVar6 = (u8)(s32)(fVar5 - INT_MAX_f);}
+  fVar5 = (float)(u32)param_1->B * fade;
   param_1->G = bVar6;
-  if (fVar5 < INT_MAX_f) {bVar6 = (byte)(int)fVar5;}
-  else {bVar6 = (byte)(int)(fVar5 - INT_MAX_f);}
-  fVar4 = (float)(uint)param_1->A * fade;
+  if (fVar5 < INT_MAX_f) {bVar6 = (u8)(s32)fVar5;}
+  else {bVar6 = (u8)(s32)(fVar5 - INT_MAX_f);}
+  fVar4 = (float)(u32)param_1->A * fade;
   param_1->B = bVar6;
   if (INT_MAX_f <= fVar4) {
-    param_1->A = (byte)(int)(fVar4 - INT_MAX_f);
+    param_1->A = (u8)(s32)(fVar4 - INT_MAX_f);
     return;
   }
-  param_1->A = (byte)(int)fVar4;
+  param_1->A = (u8)(s32)fVar4;
   return;
 }
 
 void Ofunc_80054db0(light_obj *param_1,ref_obj_bitfeild param_2){(param_1->header).Bitfeild |= param_2;}
-void Ofunc_80054dc0(light_obj *param_1,ushort param_2){(param_1->header).Bitfeild = (param_1->header).Bitfeild & ~param_2;}
+void Ofunc_80054dc0(light_obj *param_1,u16 param_2){(param_1->header).Bitfeild = (param_1->header).Bitfeild & ~param_2;}
 
-void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *light,short lightCount,short delta){
+void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *light,s16 lightCount,s16 delta){
   ref_obj_bitfeild rVar1;
-  ushort uVar2;
+  u16 uVar2;
   void *pvVar3;
   bool bVar4;
-  int delay;
+  s32 delay;
   color *pcVar5;
   light_dat *plVar6;
   color *pcVar7;
@@ -138,11 +138,11 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *
   float fVar17;
   float fVar20;
   vec3 fStack144;
-  int iStack72;
+  s32 iStack72;
   light_dat *plStack68;
   
   iStack72 = 0;
-  delay = (int)delta;
+  delay = (s32)delta;
   if (0 < lightCount) {
     plVar8 = &light->data;
     pcVar7 = (light->data).cols + 1;
@@ -155,10 +155,10 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *
       if (((((light->header).type == Light) &&
            (rVar1 = (light->header).Bitfeild, (rVar1 & visible) != 0)) &&
           ((pvVar3 = (light->header).ptr0x24, pvVar3 == (void *)0x0 ||
-           (*(short *)((int)pvVar3 + 6) < 1)))) &&
+           (*(s16 *)((s32)pvVar3 + 6) < 1)))) &&
          (((rVar1 & 0x1000) == 0 ||
-          (func_800adf78(param_2,(vec3 *)light,(vec3 *)obj,0.25,(vec3 *)0x0,(vec3 *)0x0,1) == false)))) {
-        fVar9 = get_vec3_proximity((vec3 *)obj,(vec3 *)light);
+          (func_800adf78(param_2,light,obj,0.25,0x0,0x0,1) == false)))) {
+        fVar9 = get_vec3_proximity(obj,light);
         fVar10 = (light->header).size;
         if (fVar9 < fVar10) {
           fVar10 = (fVar10 - fVar9) / fVar10;
@@ -205,7 +205,7 @@ LAB_8005513c:
                     if (fVar12 <= -fVar17) goto LAB_800550e8;
 LAB_800550d0:
                     (light->data).f0 = fVar16;
-                    (light->data).f2 = Random::rand_float_range((uint *)&gGlobals,0.0,1.0);;
+                    (light->data).f2 = Random::rand_float_range((u32 *)&gGlobals,0.0,1.0);;
                   }
                   else {
                     if (fVar17 < fVar12) goto LAB_800550d0;
@@ -220,13 +220,13 @@ LAB_800550e8:
             }
             tint_color_with_screenfade((color *)&light->data,fVar10);
           }
-          if (((light->header).Bitfeild & 1) == 0) {Vec3_sub((vec3 *)fStack144,(vec3 *)light,(vec3 *)obj);}
-          else {Vec3_sub((vec3 *)fStack144,(vec3 *)&gGlobals.Sub.camera,(vec3 *)obj);}
-          vec3_normalize((vec3 *)fStack144);
+          if (((light->header).Bitfeild & 1) == 0) {Vec3_sub(fStack144,light,obj);}
+          else {Vec3_sub(fStack144,&gGlobals.Sub.camera,obj);}
+          vec3_normalize(fStack144);
           tint_color_with_screenfade((color *)&light->data,gGlobals.screenfadeFloat);
           fVar10 = fVar10 * 250.0f;
-          if (fVar10 < INT_MAX_f) {sVar13 = (s8)(int)fVar10;}
-          else {sVar13 = (s8)(int)(fVar10 - INT_MAX_f);}
+          if (fVar10 < INT_MAX_f) {sVar13 = (s8)(s32)fVar10;}
+          else {sVar13 = (s8)(s32)(fVar10 - INT_MAX_f);}
           some_light_func(ani,sVar13,fStack144[0],fStack144[1],fStack144[2],(light->data).cols[0].R,
                           (light->data).cols[0].G,(light->data).cols[0].B,light_count);
         }
@@ -245,66 +245,66 @@ LAB_800550e8:
   return;
 }
 
-void light_init_func(playerData *param_1,AnimationData *param_2,short param_3){
-  ushort uVar1;
+void light_init_func(playerData *param_1,AnimationData *param_2,s16 param_3){
+  u16 uVar1;
   Borg_9_data *pBVar2;
   borg_9_struct *pbVar3;
-  int iVar4;
+  s32 iVar4;
   light_obj *light;
   vec3 *obj;
-  int iVar5;
-  short sStack48;
-  short asStack46 [23];
+  s32 iVar5;
+  s16 sStack48;
+  s16 asStack46 [23];
   
   pBVar2 = GetCollisionZone(param_1->zoneDatByte);
   if (pBVar2 != (Borg_9_data *)0x0) {
-    obj = (vec3 *)(param_1->collision).position;
+    obj = (param_1->collision).position;
     getZonePositionShorts(pBVar2,obj,&sStack48,asStack46);
     pbVar3 = borg9_get_unkStruct(pBVar2,sStack48,asStack46[0]);
     if ((param_1->visible_flag != 0) && (iVar4 = 0, pbVar3->unk0x10 != 0)) {
       iVar5 = 0x10000;
       do {
-        uVar1 = *(ushort *)(iVar4 * 2 + (int)pbVar3->unk0x8);
-        light = (light_obj *)((int)pBVar2->ref_objs + ((uint)uVar1 * 0x1c - (uint)uVar1) * 4);
+        uVar1 = *(u16 *)(iVar4 * 2 + (s32)pbVar3->unk0x8);
+        light = (light_obj *)((s32)pBVar2->ref_objs + ((u32)uVar1 * 0x1c - (u32)uVar1) * 4);
         if ((light->header).type == Light) {
           InitLight(param_2,pBVar2,(mapVoxel *)obj,light,1,param_3);
         }
         iVar4 = iVar5 >> 0x10;
         iVar5 = iVar5 + 0x10000;
-      } while (iVar4 < (int)(uint)pbVar3->unk0x10);
+      } while (iVar4 < (s32)(u32)pbVar3->unk0x10);
     }
   }
   return;
 }
 
-void passto_initLight(AnimationData *param_1,Borg_9_data *param_2,mapVoxel *param_3,short param_4)
+void passto_initLight(AnimationData *param_1,Borg_9_data *param_2,mapVoxel *param_3,s16 param_4)
   {InitLight(param_1,param_2,param_3,(light_obj *)param_2->ref_objs,param_2->voxelCount,param_4);}
 
-void passto_InitLight_2(dynamic_light_struct *param_1,AnimationData *param_2,mapVoxel *param_3,short param_4)
+void passto_InitLight_2(dynamic_light_struct *param_1,AnimationData *param_2,mapVoxel *param_3,s16 param_4)
   {InitLight(param_2,gGlobals.Sub.borg9DatPointer,param_3,param_1->lights,16,param_4);}
 
 void init_dynamic_light(dynamic_light_struct *param_1){
-  short (*pasVar1) [4];
-  short (*pasVar2) [4];
-  short (*ppasVar3) [4];
-  int iVar3;
-  int iVar4;
-  short *psVar5;
+  s16 (*pasVar1) [4];
+  s16 (*pasVar2) [4];
+  s16 (*ppasVar3) [4];
+  s32 iVar3;
+  s32 iVar4;
+  s16 *psVar5;
   
   memset(param_1,0,0x764);
   iVar3 = 0;
-  ppasVar3 = (short (*) [4])&param_1->lights[0].header.ptr0x24;
+  ppasVar3 = (s16 (*) [4])&param_1->lights[0].header.ptr0x24;
   pasVar1 = param_1->shortsA;
   param_1->unk0x762 = 1;
   psVar5 = param_1->shortsB;
   iVar4 = 0x10000;
   pasVar2 = pasVar1;
   do {
-    *(short (**) [4])*ppasVar3 = pasVar2;
-    ppasVar3 = (short (*) [4])(ppasVar3[0xd] + 2);
+    *(s16 (**) [4])*ppasVar3 = pasVar2;
+    ppasVar3 = (s16 (*) [4])(ppasVar3[0xd] + 2);
     pasVar2 = pasVar2[1];
-    *psVar5 = (short)iVar3;
-    (*pasVar1)[0] = (short)iVar3;
+    *psVar5 = (s16)iVar3;
+    (*pasVar1)[0] = (s16)iVar3;
     pasVar1 = pasVar1[1];
     iVar3 = iVar4 >> 0x10;
     psVar5++;
@@ -314,15 +314,15 @@ void init_dynamic_light(dynamic_light_struct *param_1){
 }
 
 void dynamic_lights_free_all(dynamic_light_struct *param_1){
-  int iVar1;
+  s32 iVar1;
   void **ppvVar2;
-  int iVar3;
+  s32 iVar3;
   
   ppvVar2 = &param_1->lights[0].header.ptr0x24;
   param_1->unk0x762 = 0;
   iVar3 = 0x10000;
   do {
-    if (*(short *)((int)*ppvVar2 + 2) != 0) {FreeDynamicLight(param_1,**ppvVar2);}
+    if (*(s16 *)((s32)*ppvVar2 + 2) != 0) {FreeDynamicLight(param_1,**ppvVar2);}
     iVar1 = iVar3 >> 0x10;
     ppvVar2 = ppvVar2 + 0x1b;
     iVar3 = iVar3 + 0x10000;
@@ -331,19 +331,19 @@ void dynamic_lights_free_all(dynamic_light_struct *param_1){
 }
 
 //This only seems to be used with the exploding chest.
-light_obj * AllocDynamicLight(dynamic_light_struct *param_1,undefined2 param_2,vec3 *pos,float size,ushort type,
+light_obj * AllocDynamicLight(dynamic_light_struct *param_1,u16 param_2,vec3 *pos,float size,u16 type,
                  float f1,color colb,color colc){
-  short sVar1;
+  s16 sVar1;
   void *pvVar2;
   light_obj *pdVar3;
   
   sVar1 = param_1->dynamicLightCount;
   if (sVar1 < 0x10) {
-    pdVar3 = (light_obj *)((int)param_1 + (sVar1 * 0x1c - (int)sVar1) * 4);
+    pdVar3 = (light_obj *)((s32)param_1 + (sVar1 * 0x1c - (s32)sVar1) * 4);
     pvVar2 = (pdVar3->header).ptr0x24;
     param_1->dynamicLightCount++;
-    *(undefined2 *)((int)pvVar2 + 2) = 1;
-    *(undefined2 *)((int)pvVar2 + 4) = param_2;
+    *(u16 *)((s32)pvVar2 + 2) = 1;
+    *(u16 *)((s32)pvVar2 + 4) = param_2;
     InitLight_(pdVar3,pos,size,type,f1,colb,colc);
     (pdVar3->header).ptr0x24 = pvVar2;
     return pdVar3;
@@ -351,42 +351,42 @@ light_obj * AllocDynamicLight(dynamic_light_struct *param_1,undefined2 param_2,v
   assert(s_AllocDynamicLight_800de68c,s_Out_of_Dynamic_Lights_800de6a0);
 }
 
-void FreeDynamicLight(dynamic_light_struct *param_1,short param_2){
+void FreeDynamicLight(dynamic_light_struct *param_1,s16 param_2){
   void *pvVar1;
-  ushort uVar2;
+  u16 uVar2;
   
   pvVar1 = param_1->lights[param_2].header.ptr0x24;
   if (param_1->dynamicLightCount < 1) {assert("FreeDynamicLight","Trying to free too many lights!");}
-  *(undefined2 *)((int)pvVar1 + 4) = 0;
-  *(undefined2 *)((int)pvVar1 + 2) = 0;
+  *(u16 *)((s32)pvVar1 + 4) = 0;
+  *(u16 *)((s32)pvVar1 + 2) = 0;
   param_1->lights[param_2].header.Bitfeild = 0;
   uVar2 = param_1->dynamicLightCount - 1;
   param_1->dynamicLightCount = uVar2;
-  *(short *)((int)param_1->shortsB + ((int)((uint)uVar2 << 0x10) >> 0xf)) = param_2;
+  *(s16 *)((s32)param_1->shortsB + ((s32)((u32)uVar2 << 0x10) >> 0xf)) = param_2;
   return;
 }
 
-void func_800556f4(dynamic_light_struct *param_1,short param_2){
-  undefined2 *puVar1;
-  int iVar2;
+void func_800556f4(dynamic_light_struct *param_1,s16 param_2){
+  u16 *puVar1;
+  s32 iVar2;
   void **ppvVar3;
-  int iVar4;
+  s32 iVar4;
   
   ppvVar3 = &param_1->lights[0].header.ptr0x24;
   iVar4 = 0x10000;
   do {
-    puVar1 = (undefined2 *)*ppvVar3;
+    puVar1 = (u16 *)*ppvVar3;
     if (puVar1[1] != 0) {
-      if ((short)puVar1[3] < 1) {
-        if ((0 < (short)puVar1[2]) &&
-           (iVar2 = (uint)(ushort)puVar1[2] - (int)param_2, puVar1[2] = (short)iVar2,
+      if ((s16)puVar1[3] < 1) {
+        if ((0 < (s16)puVar1[2]) &&
+           (iVar2 = (u32)(u16)puVar1[2] - (s32)param_2, puVar1[2] = (s16)iVar2,
            iVar2 * 0x10000 < 1)) {
           FreeDynamicLight(param_1,*puVar1);
         }
       }
       else {
-        iVar2 = (uint)(ushort)puVar1[3] - (int)param_2;
-        puVar1[3] = (short)iVar2;
+        iVar2 = (u32)(u16)puVar1[3] - (s32)param_2;
+        puVar1[3] = (s16)iVar2;
         if (iVar2 * 0x10000 < 0) {puVar1[3] = 0;}
       }
     }

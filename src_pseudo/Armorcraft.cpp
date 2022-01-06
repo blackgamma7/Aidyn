@@ -1,9 +1,9 @@
 struct ArmorCraftRecipie {
-    ushort item; //Item Ram index
-    byte armor; //Armor ram index
-    byte stam; //Hp used
-    byte Mechanic; //Mechanic skill needed
-    byte pad; //alignment?
+    u16 item; //Item Ram index
+    u8 armor; //Armor ram index
+    u8 stam; //Hp used
+    u8 Mechanic; //Mechanic skill needed
+    u8 pad; //alignment?
 };
 
 ArmorCraftRecipie ArmorRecipies[5]={

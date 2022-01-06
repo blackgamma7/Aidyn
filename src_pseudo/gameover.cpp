@@ -1,18 +1,18 @@
-uint GameOverScenes[3]={0x512,0x513,0x514};
+u32 GameOverScenes[3]={0x512,0x513,0x514};
 
 void Gameover_func(void){
-  ushort uVar1;
+  u16 uVar1;
   CharSheet *pCVar2;
   borg13Enum bVar3;
   Borg_9_header *pBVar4;
-  short sVar5;
-  short sVar6;
+  s16 sVar5;
+  s16 sVar6;
   Dialoug_obj *prVar7;
-  int iVar7;
-  ushort *puVar8;
+  s32 iVar7;
+  u16 *puVar8;
   
   bVar3 = GameOverScenes[0];
-  puVar8 = (ushort *)0x0;
+  puVar8 = (u16 *)0x0;
   pBVar4 = get_borg_9(0xd5f);
   iVar7 = 0;
   do {
@@ -25,7 +25,7 @@ loop:
       sVar5 = getHPMax(pCVar2);
       sVar6 = getHPCurrent(pCVar2);
       addHP(pCVar2,sVar5 - sVar6);
-      if (puVar8 != (ushort *)0x0) {
+      if (puVar8 != (u16 *)0x0) {
         if (gglobals.screenFadeModeSwitch == 2) {
           gGlobals.combatbytes[0] = 0x15;
           uVar1 = *puVar8;
@@ -33,7 +33,7 @@ loop:
         else {
           uVar1 = *puVar8;
         }
-        dialoug_func((uint)uVar1,puVar8[4],puVar8[1],puVar8[2],puVar8[3],0x7fff);
+        dialoug_func((u32)uVar1,puVar8[4],puVar8[1],puVar8[2],puVar8[3],0x7fff);
         remove_borg_9(pBVar4);
         return;
       }
