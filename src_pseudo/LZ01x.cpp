@@ -181,7 +181,7 @@ s64 LZ01_func_2(u8 *param_1,s32 param_2,u8 *param_3,u8 **param_4){
   
   pbVar1 = *param_4;
   pbVar4 = param_1 + param_2;
-  *param_4 = (u8 *)0x0;
+  *param_4 = NULL;
   pbVar9 = param_3;
   if (*param_1 < 0x12) goto LAB_800aa318;
   uVar7 = *param_1 - 0x11;
@@ -307,7 +307,7 @@ LAB_800aa138:
     if (param_3 + (s32)pbVar1 + -(s32)pbVar9 < (u8 *)0x2) goto LAB_800aa368;
     *pbVar9 = *pbVar5;
     pbVar9[1] = pbVar5[1];
-    pbVar9 = pbVar9 + 2;
+    pbVar9+=2;
   }
   else {
     bVar2 = *param_1;
@@ -320,13 +320,13 @@ LAB_800aa294:
     *pbVar9 = *pbVar6;
     pbVar5 = pbVar6 + 2;
     pbVar9[1] = pbVar6[1];
-    pbVar9 = pbVar9 + 2;
+    pbVar9+=2;
     do {
       bVar2 = *pbVar5;
-      pbVar5 = pbVar5 + 1;
-      uVar8 = uVar8 - 1;
+      pbVar5++;
+      uVar8--;
       *pbVar9 = bVar2;
-      pbVar9 = pbVar9 + 1;
+      pbVar9++;
     } while (uVar8 != 0);
   }
   goto LAB_800aa2d8;

@@ -108,14 +108,14 @@ void World::ChangeWind(vec3 *coords,float arg1,float arg2){
   float fVar1;
   
   x = vec3_normalize(coords);
-  if (Random::rand_float(&gGlobals) <= arg1) {
-    (*coords)[0] += Random::rand_float_range(&gGlobals,-0.1f,0.1f);
-    (*coords)[1] += Random::rand_float_range(&gGlobals,-0.004,0.001);
-    (*coords)[2] += Random::rand_float_range(&gGlobals,-0.1f,0.1f);
+  if (Random::GetFloat(&gGlobals) <= arg1) {
+    (*coords)[0] += Random::GetFloatRange(&gGlobals,-0.1f,0.1f);
+    (*coords)[1] += Random::GetFloatRange(&gGlobals,-0.004,0.001);
+    (*coords)[2] += Random::GetFloatRange(&gGlobals,-0.1f,0.1f);
     vec3_normalize(coords);
   }
-  if (Random::rand_float(&gGlobals) <= arg2) {
-    fVar1 = Random::rand_float_range(&gGlobals,-0.002314815,0.002314815);
+  if (Random::GetFloat(&gGlobals) <= arg2) {
+    fVar1 = Random::GetFloatRange(&gGlobals,-0.002314815,0.002314815);
     fVar1 = x + fVar1;
     if ((fVar1 <= 0.23148148f) && (x = fVar1, fVar1 < 0.0)) {
       x = 0.0;
@@ -206,7 +206,7 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
         ter->rainByte = RAIN;
         ter->windByte = 2;
         if (ter->terrain == 5) {ter->rainByte = SNOW;}
-        fVar5 = Random::rand_float_range
+        fVar5 = Random::GetFloatRange
                           (&gGlobals,terrain_rand_array[ter->terrain] - 0.15f,
                            terrain_rand_array[ter->terrain] + 0.15f);
         ter->PrecipScale = fVar5;
@@ -219,11 +219,11 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
         ter->rainByte = CLEAR;
         ter->PrecipScale = 0.0;
       }
-      fVar5 = Random::rand_float_range(&gGlobals,0.1,fVar5);
+      fVar5 = Random::GetFloatRange(&gGlobals,0.1,fVar5);
       ter->FogFloat = fVar5;
     }
     ter->ThunderFloat = 0.0;
-    if (ter->rainByte == RAIN) {ter->ThunderFloat = Random::rand_float(&gGlobals) * ter->PrecipScale;}
+    if (ter->rainByte == RAIN) {ter->ThunderFloat = Random::GetFloat(&gGlobals) * ter->PrecipScale;}
   }
   return;
 }

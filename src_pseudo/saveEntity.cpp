@@ -170,13 +170,13 @@ void FUN_8001c250(CharSheet *param_1,CharSheet *param_2,u8 param_3){
     pCVar2->pItem[param_3] = NULL;
     pCVar2->num_used--;
   }
-  if (ptVar3 != (temp_gear *)0x0) {
-    pTVar5 = (temp_gear *)heapAlloc(0x24,FILENAME,400);
+  if (ptVar3) {
+    pTVar5 = heapAlloc(0x24,FILENAME,400);
     IVar1 = ptVar3->id;
     pCVar2->pItem[param_3] = pTVar5;
     make_temp_item((Temp_equip *)pTVar5,IVar1);
-    if (pTVar5->statmod != (u8 (*) [2])0x0) {(*pTVar5->statmod)[1] = (*ptVar3->statmod)[1];}
-    if (pTVar5->pSpell != (SpellCharges *)0x0){pTVar5->pSpell->Charges = ptVar3->pSpell->Charges;}
+    if (pTVar5->statmod) (*pTVar5->statmod)[1] = (*ptVar3->statmod)[1];
+    if (pTVar5->pSpell) pTVar5->pSpell->Charges = ptVar3->pSpell->Charges;
     pCVar2->num_used++;
   }
   return;
@@ -191,12 +191,12 @@ void copy_spellbook(CharSheet *param_1,CharSheet *param_2){
   Temp_spell *pIVar2;
   
   psVar1 = param_1->spellbook;
-  if (psVar1 != (spellbook *)0x0) {
+  if (psVar1) {
     psVar2 = param_2->spellbook;
-    if (psVar2 != (spellbook *)0x0) {
+    if (psVar2) {
       spellbok_free(psVar2);
       HeapFree(psVar2,FILENAME,0x1b3);
-      param_2->spellbook = (spellbook *)0x0;
+      param_2->spellbook = NULL;
     }
     psVar2 = (spellbook *)heapAlloc(8,FILENAME,0x1b8);
     param_2->spellbook = psVar2;
@@ -206,7 +206,7 @@ void copy_spellbook(CharSheet *param_1,CharSheet *param_2){
       pTVar3 = psVar1->spells;
       while( true ) {
         pIVar2 = *(Temp_spell **)(&pTVar3->id + uVar4 * 2);
-        if (pIVar2 != (Temp_spell *)0x0) {
+        if (pIVar2) {
           pTVar3 = (Temp_spell *)heapAlloc(0x24,FILENAME,0x1c4);
           ID = pIVar2->id;
           *(Temp_spell **)(&psVar2->spells->id + uVar4 * 2) = pTVar3;

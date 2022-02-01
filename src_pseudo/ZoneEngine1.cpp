@@ -15,7 +15,7 @@ void dialoug_ref_obj_func(void){
   
   setEventFlag(0x1090,true);
   pBVar1 = gGlobals.Sub.borg9DatPointer;
-  if ((gGlobals.Sub.borg9DatPointer)->voxelCount != 0) {
+  if ((gGlobals.Sub.borg9DatPointer)->voxelCount) {
     iVar4 = 0;
     iVar5 = 0x10000;
     do {
@@ -86,7 +86,7 @@ void campfire_func(void){
   mapVoxel *pVVar1;
   
   pBVar1 = get_borg_9(Borg9_campfire);
-  puVar4 = (dialoug_dat *)0x0;
+  puVar4 = NULL;
   if ((pBVar1->dat).voxelCount != 0) {
     pVVar1 = (mapVoxel *)(pBVar1->dat).ref_objs;
     if ((pVVar1->header).type == Dialouge) {puVar4 = (dialoug_dat *)pVVar1->data;}

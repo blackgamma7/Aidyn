@@ -12,7 +12,7 @@ void Gameover_func(void){
   u16 *puVar8;
   
   bVar3 = GameOverScenes[0];
-  puVar8 = (u16 *)0x0;
+  puVar8 = gLensflare;
   pBVar4 = get_borg_9(0xd5f);
   iVar7 = 0;
   do {
@@ -25,7 +25,7 @@ loop:
       sVar5 = getHPMax(pCVar2);
       sVar6 = getHPCurrent(pCVar2);
       addHP(pCVar2,sVar5 - sVar6);
-      if (puVar8 != (u16 *)0x0) {
+      if (puVar8) {
         if (gglobals.screenFadeModeSwitch == 2) {
           gGlobals.combatbytes[0] = 0x15;
           uVar1 = *puVar8;

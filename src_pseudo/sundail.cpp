@@ -49,7 +49,7 @@ Gfx* draw_sundail(Gfx*param_1){
   float fVar9;
   float fVar10;
   float fVar11;
-  Calendar aCStack144;
+  Calendar Cal;
   
   pauVar2 = rsp_func(param_1,6,gfx::get_hres(),gfx::get_vres());
   fVar4 = gGlobals.screenfadeFloat * 255.0f;
@@ -76,8 +76,8 @@ Gfx* draw_sundail(Gfx*param_1){
     fVar5 = gGlobals.screenfadeFloat * 160.0f;
     blue = (u8)(s32)fVar4;
     if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
-    World::get_ingame_calendar(TerrainPointer,&aCStack144);
-    uVar3 = (aCStack144.week & 3) >> 1;
+    World::get_ingame_calendar(TerrainPointer,&Cal);
+    uVar3 = (Cal.week & 3) >> 1;
     bVar1 = TerrainPointer->moonPhases;
     borg8 = NULL;
     if (bVar1 == 1) {
@@ -181,36 +181,26 @@ void xor_sundail_sun(u8 x){gSundail->sun = x ^ 1;}
 void xor_sundail_moon(u8 x){gSundail->moon = x ^ 1;}
 
 void sundail_free(void){
-  Borg_8_header **ppBVar1;
   
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail,4,0);
-  ppBVar1 = &gSundail->Cross;
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->Ring,4,0);
   gSundail->Ring = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,ppBVar1,4,0);
-  ppBVar1 = &gSundail->MoonPhase0;
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->Cross,4,0);
   gSundail->Cross = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,ppBVar1,4,0);
-  ppBVar1 = &gSundail->MoonPhase1;
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase0,4,0);
   gSundail->MoonPhase0 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,ppBVar1,4,0);
-  ppBVar1 = &gSundail->MoonPhase2;
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase1,4,0);
   gSundail->MoonPhase1 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,ppBVar1,4,0);
-  ppBVar1 = &gSundail->MoonPhase3;
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase2,4,0);
   gSundail->MoonPhase2 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,ppBVar1,4,0);
-  ppBVar1 = &gSundail->MoonPhase4;
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase3,4,0);
   gSundail->MoonPhase3 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,ppBVar1,4,0);
-  ppBVar1 = &gSundail->MoonPhase5;
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase4,4,0);
   gSundail->MoonPhase4 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,ppBVar1,4,0);
-  ppBVar1 = &gSundail->SunBig;
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase5,4,0);
   gSundail->MoonPhase5 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,ppBVar1,4,0);
-  ppBVar1 = &gSundail->SunSmall;
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->SunBig,4,0);
   gSundail->SunBig = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,ppBVar1,4,0);
+  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->SunSmall,4,0);
   gSundail->SunSmall = NULL;
   AllocFreeQueueItem(&gGlobals.QueueA,&gSundail,7,0);
   gSundail = NULL;

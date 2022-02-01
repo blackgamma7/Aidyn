@@ -84,7 +84,7 @@ u16 some_cinematic_func(Gfx**param_1){
     cinematic_skip_flag = 0;
     uVar4 = cinematic_case_switch();
   }
-  pauVar2 = debug::func_with_debug_queue(pauVar2,(s16)iVar1);
+  pauVar2 = N64Print::Draw(pauVar2,(s16)iVar1);
   *param_1 = pauVar2;
   return uVar4;
 }
@@ -119,9 +119,9 @@ s16 cinematic_muteMusic_getName(void){
   if ((gGlobals.Party) && ((gGlobals.Party)->Party[0])) {
     strcpy(acStack272,(gGlobals.Party)->Party[0]->name);
   }
-  memmaker_func_A();
+  MemoryMaker::Unload();
   cinematictext_init(acStack272);
-  return cont_delay(0);
+  return Controller::GetDelay(0);
 }
 
 
@@ -131,7 +131,7 @@ u16 cinematic_case_switch(void){
   u32 uVar3;
   
   Cinematictext_free();
-  memmaker_func_B();
+  MemoryMaker::Reload();
   uVar3 = 0;
   if (*gGlobals.cinematic.borg6enums != 0) {
     uVar1 = 1;
@@ -173,7 +173,7 @@ s16 cinematic_controls(void){
   sVar3 = 0;
   fStack24 = NULL;
   while( true ) {
-    bVar2 = get_cont_aidyn((Button_hold *)&fStack24,0);
+    bVar2 = Controller::GetInput((Button_hold *)&fStack24,0);
     if (bVar2 == false) break;
     if (((fStack24->contAidyn).input & (START_BUTTON|B_BUTTON)) != 0) {
       gGlobals.cinematic.Bstart = 0;

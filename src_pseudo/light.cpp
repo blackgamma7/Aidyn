@@ -19,10 +19,7 @@ LAB_800549a8:
       (light->data).cols[0] = (light->data).cols[1];
       return;
     }
-
-  else {
-    if ((uVar1 == 2) || (uVar1 == 3)) goto LAB_800549a8;
-  }
+  else if ((uVar1 == 2) || (uVar1 == 3)) goto LAB_800549a8;
   assert("InitLight","Unknown Light Type");
 }
 
@@ -30,8 +27,8 @@ void color_magnitude(color *param_1,color *param_2,float amp){
   float fVar2;
   char cVar3;
   
-  if (amp < 0.0) {amp = 0.0;}
-  if (1.0f < amp) {amp = 1.0f;}
+  if (amp < 0.0) amp = 0.0;
+  if (1.0f < amp) amp = 1.0f;
   fVar2 = ((float)(u32)param_1[1].R - (float)(u32)param_1->R) * amp;
   if (fVar2 < INT_MAX_f) {cVar3 = (char)(s32)fVar2;}
   else {cVar3 = (char)(s32)(fVar2 - INT_MAX_f);}
@@ -48,7 +45,6 @@ void color_magnitude(color *param_1,color *param_2,float amp){
   if (fVar2 < INT_MAX_f) {cVar3 = (char)(s32)fVar2;}
   else {cVar3 = (char)(s32)(fVar2 - INT_MAX_f);}
   param_2->A = param_1->A + cVar3;
-  return;
 }
 
 float func_80054ba4(float x,float y){
@@ -80,7 +76,6 @@ void color_XOR(color *colA,color *colB){
   temp = colB->A ^ temp;
   colB->A = temp;
   colA->A = colA->A ^ temp;
-  return;
 }
 
 void tint_color_with_screenfade(color *param_1,float fade){
@@ -154,7 +149,7 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *
     do {
       if (((((light->header).type == Light) &&
            (rVar1 = (light->header).Bitfeild, (rVar1 & visible) != 0)) &&
-          ((pvVar3 = (light->header).ptr0x24, pvVar3 == (void *)0x0 ||
+          ((pvVar3 = (light->header).ptr0x24, pvVar3 == NULL ||
            (*(s16 *)((s32)pvVar3 + 6) < 1)))) &&
          (((rVar1 & 0x1000) == 0 ||
           (func_800adf78(param_2,light,obj,0.25,0x0,0x0,1) == false)))) {
@@ -205,7 +200,7 @@ LAB_8005513c:
                     if (fVar12 <= -fVar17) goto LAB_800550e8;
 LAB_800550d0:
                     (light->data).f0 = fVar16;
-                    (light->data).f2 = Random::rand_float_range((u32 *)&gGlobals,0.0,1.0);;
+                    (light->data).f2 = Random::GetFloatRange((u32 *)&gGlobals,0.0,1.0);
                   }
                   else {
                     if (fVar17 < fVar12) goto LAB_800550d0;
@@ -287,7 +282,7 @@ void init_dynamic_light(dynamic_light_struct *param_1){
   s16 (*pasVar1) [4];
   s16 (*pasVar2) [4];
   s16 (*ppasVar3) [4];
-  s32 iVar3;
+  s16 iVar3;
   s32 iVar4;
   s16 *psVar5;
   
@@ -299,18 +294,15 @@ void init_dynamic_light(dynamic_light_struct *param_1){
   psVar5 = param_1->shortsB;
   iVar4 = 0x10000;
   pasVar2 = pasVar1;
-  do {
+  for(iVar3=0;iVar3 < 0x10;iVar3++) {
     *(s16 (**) [4])*ppasVar3 = pasVar2;
     ppasVar3 = (s16 (*) [4])(ppasVar3[0xd] + 2);
     pasVar2 = pasVar2[1];
     *psVar5 = (s16)iVar3;
     (*pasVar1)[0] = (s16)iVar3;
     pasVar1 = pasVar1[1];
-    iVar3 = iVar4 >> 0x10;
     psVar5++;
-    iVar4 = iVar4 + 0x10000;
-  } while (iVar3 < 0x10);
-  return;
+  }
 }
 
 void dynamic_lights_free_all(dynamic_light_struct *param_1){
@@ -394,6 +386,5 @@ void func_800556f4(dynamic_light_struct *param_1,s16 param_2){
     ppvVar3 = ppvVar3 + 0x1b;
     iVar4 = iVar4 + 0x10000;
   } while (iVar2 < 0x10);
-  return;
 }
 

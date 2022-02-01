@@ -46,13 +46,11 @@ struct Camera_struct {
 void camera_set_position(Camera_struct *CAM,vec3 *arg1){
   copyVec3(arg1,CAM->coord);
   copyVec3(arg1,CAM->coord_mirror);
-  return;
 }
 
 void camera_set_aim(Camera_struct *CAM,vec3 *arg1){
   copyVec3(arg1,CAM->aim);
   copyVec3(arg1,CAM->aim_mirror);
-  return;
 }
 
 void camera_init(Camera_struct *CAM,Borg_9_data *map,vec3 *pos,u16 mode){
@@ -157,7 +155,6 @@ void ProcessGameCamera_mode1(Camera_struct *arg0,vec3 *arg1,float *arg2,s16 arg3
                float arg5,s32 arg6,s32 arg7,float arg8,float arg9,
                float arg10,float arg11,float arg12,float arg13,s16 arg14,
                s16 arg15){
-  bool lVar1;
   s32 iVar2;
   vec3 *c;
   vec3 *aim1;
@@ -177,9 +174,7 @@ void ProcessGameCamera_mode1(Camera_struct *arg0,vec3 *arg1,float *arg2,s16 arg3
   arg0->aim_mirror[1]+= arg0->camHeight;
   adust_camera_aim(arg0->aim,arg0->aim_mirror,arg10,arg3,arg12);
   if (arg0->holdCamera == 0) {
-    if (arg15 != 0) {
-      arg0->coord_mirror[1] = arg0->aim_mirror[1] + arg8;
-    }
+    if (arg15 != 0) {arg0->coord_mirror[1] = arg0->aim_mirror[1] + arg8;}
     aim1 = arg0->coord_mirror;
     adust_camera_aim(arg0,aim1,arg11,arg3,arg13);
     setVec2(fStack656,arg0->aim_mirror[0],arg0->aim_mirror[2]);
@@ -187,27 +182,19 @@ void ProcessGameCamera_mode1(Camera_struct *arg0,vec3 *arg1,float *arg2,s16 arg3
     Vec2_Sub(fStack528,afStack592,fStack656);
     fVar3 = vec2_normalize(fStack528);
     if (arg15 != 0) {
-      if (fVar3 < arg4) {
-        setVec3(aim1,fStack656[0] + arg4 * fStack528[0],arg0->coord_mirror[1],
-                fStack656[1] + arg4 * fStack528[1]);
+      if (fVar3 < arg4) {setVec3(aim1,fStack656[0] + arg4 * fStack528[0],arg0->coord_mirror[1],fStack656[1] + arg4 * fStack528[1]);
       }
-      if (arg5 < fVar3) {
-        setVec3(aim1,fStack656[0] + arg5 * fStack528[0],arg0->coord_mirror[1],
-                fStack656[1] + arg5 * fStack528[1]);
+      if (arg5 < fVar3) {setVec3(aim1,fStack656[0] + arg5 * fStack528[0],arg0->coord_mirror[1],fStack656[1] + arg5 * fStack528[1]);
       }
     }
     c = arg0->aim;
     Vec3_sub(fStack272,arg0,c);
     fStack272[1] = 0.0;
-    fVar3 = vec3_normalize(fStack272);
-    if (fVar3 < arg4) {
-      fVar3 = arg0->aim[2];
+    if (vec3_normalize(fStack272) < arg4) {
       arg0->coord[0] = arg0->aim[0] + fStack272[0] * arg4;
-      arg0->coord[2] = fVar3 + fStack272[2] * arg4;
+      arg0->coord[2] = arg0->aim[2] + fStack272[2] * arg4;
     }
-    lVar1 = func_800adf78(arg0->borg_9,fStack336,arg0,0.25f,
-                         fStack464,afStack400,1);
-    if (lVar1 != 0) {
+    if (func_800adf78(arg0->borg_9,fStack336,arg0,0.25f,fStack464,afStack400,1)) {
       multiVec3(afStack400,0.25f);
       vec3_sum(fStack464,fStack464,afStack400);
       arg0->coord = fStack464;
@@ -226,21 +213,18 @@ void ProcessGameCamera_mode1(Camera_struct *arg0,vec3 *arg1,float *arg2,s16 arg3
     }
     if ((((arg15 != 0) && (arg0->unk0x84 == 0)) &&
         (get_vec3_proximity(arg0,aim1) < 1.0f)) &&
-       (func_800adf78(arg0->borg_9,c,aim1,0.25f,null,null,1))) {
+       (func_800adf78(arg0->borg_9,c,aim1,0.25f,NULL,NULL,1))) {
       arg0->unk0x84 = 300;
       setVec2(fStack528,*arg2,arg2[2]);
       vec2_normalize(fStack528);
       setVec3(afStack208,fStack656[0] + arg9 * fStack528[0],arg0->coord_mirror[1],
               fStack656[1] + arg9 * fStack528[1]);
-      lVar1 = func_800adf78(arg0->borg_9,c,afStack208,fVar3,afStack144,null
-                           ,1);
-      if (lVar1 == 0) {copyVec3(afStack208,aim1);}
-      else {copyVec3(afStack144,aim1);}
+      if (func_800adf78(arg0->borg_9,c,afStack208,fVar3,afStack144,NULL,1)) copyVec3(afStack144,aim1);
+      else copyVec3(afStack208,aim1);
     }
     camera_orient(arg0);
   }
-  else {func_800b0fac(arg0,arg2,arg3,arg9,arg6,arg7);}
-  return;
+  else func_800b0fac(arg0,arg2,arg3,arg9,arg6,arg7);
 }
 
 void ProcessGameCamera_mode0(Camera_struct *arg0,vec3 *arg1,vec3 *arg2,s16 arg3,s16 arg4){
@@ -330,17 +314,12 @@ LAB_800b0be4:
     }
     adust_camera_aim(arg0,aim0,16.0,arg3,fVar6);
     if (((s16)arg0->unk0x80 < 2) && (arg4 != 0)) {
-      lVar2 = func_800adf78(arg0->borg_9,arg0,aim0_00,0.25,null,null,0);
-      if (lVar2 == 0) {
-        arg0->unk0x82 = 1;
-      }
-      else {
+      if (func_800adf78(arg0->borg_9,arg0,aim0_00,0.25,NULL,NULL,0)) {
         arg0->unk0x82 = 0;
       }
+      else arg0->unk0x82 = 1;
     }
-    lVar2 = func_800adf78(arg0->borg_9,fStack112,arg0,0.25,null,
-                         NULL,1);
-    if (((lVar2 != 0) && (arg0->unk0x80 == 1)) && (arg0->unk0x82 != 0)) {
+    if (((func_800adf78(arg0->borg_9,fStack112,arg0,0.25,NULL,NULL,1)) && (arg0->unk0x80 == 1)) && (arg0->unk0x82 != 0)) {
       func_800b04ec(arg0);
     }
     camera_orient(arg0);
@@ -354,7 +333,6 @@ LAB_800b0be4:
     adust_camera_aim(arg0->aim,arg0->aim_mirror,16.0,arg3,0.25f);
     func_800b0fac(arg0,arg2,arg3,arg0->unk0x5c,0,5.0f);
   }
-  return;
 }
 
 
@@ -384,12 +362,10 @@ void func_800b0fac(Camera_struct *CAM,s32 param_2,s16 param_3,float param_4,floa
   Vec3_sub(fStack504,CAM,CAM->aim);
   fStack504[1] = 0.0;
   fVar4 = vec3_normalize(fStack504);
-  uVar2 = 0;
   if (0 < param_3) {
-    do {
-      uVar2++;
+    for(uVar2=0;uVar<param_3;uVar2++) {
       fVar4 = (float)((double)fVar4 - (double)(fVar4 - param_4) * 0.03125d);
-    } while ((s32)uVar2 < (s32)param_3);
+    }
   }
   Vec3_sub(fStack504,CAM->coord_mirror,CAM->aim);
   setVec2(fStack184,fStack504[0],fStack504[2]);
@@ -403,8 +379,7 @@ void func_800b0fac(Camera_struct *CAM,s32 param_2,s16 param_3,float param_4,floa
     vec3_sum(afStack312,afStack312,afStack248);
     Vec3_sub(fStack504,afStack312,CAM->aim);
     setVec2(afStack120,fStack504[0],fStack504[2]);
-    fVar5 = vec2Length(afStack120);
-    fVar4 = (float)((double)fVar4 - (double)(fVar4 - fVar5) * 0.125d);
+    fVar4 = (float)((double)fVar4 - (double)(fVar4 - vec2Length(afStack120)) * 0.125d);
     vec2_normalize(fStack184);
     multiVec2(fStack184,fVar4);
     setVec3(CAM,fStack184[0] + CAM->aim[0],CAM->coord_mirror[1],fStack184[1] + CAM->aim[2]);
@@ -429,7 +404,6 @@ void func_800b0fac(Camera_struct *CAM,s32 param_2,s16 param_3,float param_4,floa
     CAM->float0x48 = (fVar5 - CAM->coord_mirror[1]) * 10.0f;
   }
   camera_orient(CAM);
-  return;
 }
 
 void NOOP_800b134c(Camera_struct *c){}
@@ -439,7 +413,6 @@ void set_camera_mode(Camera_struct *cam,u16 mode){
     cam->camera_mode_prev = cam->camera_mode;
     cam->camera_mode = mode;
   }
-  return;
 }
 
 
@@ -451,8 +424,7 @@ void ProcessGameCamera(Camera_struct *cam,vec3 *param_2,s32 param_3,s16 param_4,
   char acStack72 [72];
   
   uVar1 = cam->camera_mode;
-  if (uVar1 == 1) {
-    ProcessGameCamera_mode1(cam,param_2,param_3,param_4,2.0f,4.0f,0.5f,
+  if (uVar1 == 1) {ProcessGameCamera_mode1(cam,param_2,param_3,param_4,2.0f,4.0f,0.5f,
                2.5f,1.5f,3.0f,16.0f,
                32.0f,0.25f,0.1f,1,1);
   }

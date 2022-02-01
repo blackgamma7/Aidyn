@@ -1,4 +1,4 @@
-void make_compass(void){
+void Compass::Init(void){
   gCompass = (Compass_struct *)heapAlloc(0x18,FILENAME,0x65);
   gCompass->ring = get_borg_8(BORG8_compassRing);
   gCompass->N = get_borg_8(BORG8_CompassNorth);
@@ -7,7 +7,7 @@ void make_compass(void){
   gCompass->W = get_borg_8(BORG8_CompassWest);
 }
 
-Gfx* draw_compass(Gfx*param_1,Vec2 *X_Z){
+Gfx* Compass::Draw(Gfx*param_1,Vec2 *X_Z){
   u8 red;
   u8 green;
   u8 blue;
@@ -73,7 +73,7 @@ Gfx* draw_compass(Gfx*param_1,Vec2 *X_Z){
   return pauVar1;
 }
 
-void compass_free(void){
+void Compass::Free(void){
   AllocFreeQueueItem(&gGlobals.QueueA,gCompass->ring,4,0);
   AllocFreeQueueItem(&gGlobals.QueueA,&gCompass->N,4,0);
   AllocFreeQueueItem(&gGlobals.QueueA,&gCompass->S,4,0);

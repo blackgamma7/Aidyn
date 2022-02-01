@@ -6152,7 +6152,7 @@ struct DCMManager {
 typedef struct Debug_queue Debug_queue, *PDebug_queue;
 
 struct Debug_queue {
-    char * * text;
+    char * text;
     vec3 color;
     float timer;
     s16 s16A;
@@ -6162,7 +6162,7 @@ typedef struct DebugCharChanger DebugCharChanger, *PDebugCharChanger;
 
 struct DebugCharChanger {
     enum Borg7Enum borg7;
-    float float;
+    float f;
     char * label;
 };
 

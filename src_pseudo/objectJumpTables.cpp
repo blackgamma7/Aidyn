@@ -79,7 +79,7 @@ void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
   func_80013620(arg0,2,arg1);
   setEventFlag((arg0->dat).explode_flag,true);
   getEventFlag(0x15fa);
-  play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[Random::rand_range_(&gGlobals,0,3)],0,gGlobals.VolSFX,0xf0,0);
+  play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[Random::range_(&gGlobals,0,3)],0,gGlobals.VolSFX,0xf0,0);
   set_voxel_visibility((mapVoxel *)arg0,false);
   return;
 }
@@ -199,7 +199,7 @@ bool loot_func(container_obj *arg0){
                              >> 2),(char)map_dat_A,(u8)MapShortA,(u8)mapShortB,0x11,
                       *(undefined *)((s32)&(arg0->header).type + 1));
   bVar9 = container_open_check((arg0->dat).open_flag);
-  if (((bVar9 == false) && (psVar5 == (s16 *)0x0)) &&
+  if (((bVar9 == false) && (psVar5 == NULL) &&
      (lVar4 = container_explode_check((arg0->dat).explode_flag), lVar4 == 0)) {
     uVar8 = (arg0->dat).LootType;
     if (uVar8 < 4) {uVar8 = (arg0->dat).unk0x14;}

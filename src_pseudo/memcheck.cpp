@@ -13,7 +13,7 @@ struct MemCheck_struct {
 MemCheck_struct gMemCheckStruct;
 u16 ExpPakFlag;
 
-void lookforExpansionPak(s32 ramstart,s32 arg1){
+void MemoryCheck(s32 ramstart,s32 arg1){
   u32 mem = osGetMemSize();
   if (mem < 0x400001) {
     gMemCheckStruct.MaxResolution0 = 0x25800;

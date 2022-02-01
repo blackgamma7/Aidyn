@@ -9,7 +9,7 @@ bool func_8000c9e0(void){
   uVar3 = get_obj_free();
   uVar1 = get_MemFree();
   dVar5 = (double)uVar1;
-  if ((s32)uVar1 < 0) {dVar5 += UINT_MAX_d;}
+  if ((s32)uVar1 < 0) dVar5 += UINT_MAX_d;
   fVar6 = (float)dVar5;
   uVar2 = get_memFree_2();
   dVar5 = (double)uVar2;
@@ -344,7 +344,7 @@ LAB_8000d5bc:
         }
       }
       sprintf(gGlobals.text,"Invalid Trigger Type: %d\n",VVar1);
-      debug_queue(gGlobals.text);
+      N64Print::Print(gGlobals.text);
     }
   }
   return;
@@ -655,7 +655,7 @@ void FreeZoneEngineMemory(void){
   ZoneDat (*paZVar4) [3];
   s32 iVar5;
   
-  debug_queue("FreeZoneEngineMemory\n");
+  N64Print::Print("FreeZoneEngineMemory\n");
   DAT_800e8dc4 = 0x78;
   no_TP_vec3 = 1;
   if (FreeZoneEngineTimestamp == handeZoneEngineTimestamp)
@@ -692,182 +692,196 @@ void loading_map_data(ZoneDat *param_1){
   }
 }
 
-void loadGameBorgScenes(float param_1,float param_2,u16 param_3,u16 param_4){
+void loadGameBorgScenes(u16 ShortA,u16 ShortB){
 //Side note: making "ZoneDatMtx" a 3x3 matrix causes this error in Ghidra:
 // Low-level Error: PTRSUB with non-zero offset into array type
 //but only this func. It's fine elsewhere.
-
+{
   undefined uVar1;
-  s32 uVar2;
-  s32 uVar3;
-  s32 uVar4;
-  s32 uVar5;
-  s32 uVar6;
-  s32 uVar7;
-  s32 uVar8;
-  s32 iVar9;
-  u32 uVar10;
-  AnimationData *pAVar11;
-  bool bVar12;
-  s32 iVar13;
-  s16 sVar14;
-  s32 *puVar15;
-  s32 *puVar16;
-  s32 iVar17;
-  ZoneDat *pZVar18;
-  u32 uVar19;
-  u32 uVar20;
-  u32 uVar21;
-  s32 iVar22;
-  AnimationData **ppAVar23;
+  undefined4 uVar2;
+  undefined4 uVar3;
+  undefined4 uVar4;
+  undefined4 uVar5;
+  undefined4 uVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  playerData *ppVar9;
+  int iVar10;
+  uint uVar11;
+  AnimationData *pAVar12;
+  bool bVar13;
+  int iVar14;
+  short sVar15;
+  undefined4 *puVar16;
+  undefined4 *puVar17;
+  int iVar18;
+  ZoneDat *pZVar19;
+  uint uVar20;
+  uint uVar21;
+  uint uVar22;
+  int iVar23;
   AnimationData **ppAVar24;
+  AnimationData **ppAVar25;
+  double dVar26;
+
   ZoneDat aZStack432 [3] [3];
-  u16 uStack112 [16]={0,0,1,0,2,0,0,1,2,1,0,2,1,2,2,2};
-  u32 uStack48;
+  ushort uStack112 [16];
+  uint uStack48;
   
-  sVar14 = no_TP_vec3;
+  sVar15 = no_TP_vec3;
+  uStack112={0,0,1,0,2,0,0,1,2,1,0,2,1,2,2,2};
   no_TP_vec3 = 0;
-  uStack48 = (u32)(sVar14 == 0);
+  uStack48 = (uint)(sVar15 == 0);
   Process_queue_B(&gGlobals.QueueB,1);
-  iVar17 = 0;
-  iVar9 = 0x10000;
+  iVar18 = 0;
+  iVar10 = 0x10000;
   do {
-    puVar16 = (s32 *)((s32)&gGlobals.Sub.ZoneDatMtx[0].unk_0x0 + iVar17);
-    puVar15 = (s32 *)((s32)&aZStack432[0].unk_0x0 + iVar17);
-    iVar13 = 0x10000;
+    puVar17 = (undefined4 *)((int)&gGlobals.Sub.ZoneDatMtx[0].borg5_ID + iVar18);
+    puVar16 = (undefined4 *)((int)&aZStack432[0].borg5_ID + iVar18);
+    iVar14 = 0x10000;
     do {
-      uVar2 = *puVar16;
-      uVar3 = puVar16[1];
-      uVar4 = puVar16[2];
-      uVar5 = puVar16[3];
-      uVar6 = puVar16[4];
-      uVar7 = puVar16[5];
-      uVar1 = *(undefined *)(puVar16 + 7);
-      uVar8 = puVar16[6];
+      uVar2 = *puVar17;
+      uVar3 = puVar17[1];
+      uVar4 = puVar17[2];
+      uVar5 = puVar17[3];
+      uVar6 = puVar17[4];
+      uVar7 = puVar17[5];
+      uVar1 = *(undefined *)(puVar17 + 7);
+      uVar8 = puVar17[6];
+      puVar17 = puVar17 + 8;
+      iVar23 = iVar14 >> 0x10;
+      *puVar16 = uVar2;
+      puVar16[1] = uVar3;
+      puVar16[2] = uVar4;
+      puVar16[3] = uVar5;
+      puVar16[4] = uVar6;
+      puVar16[5] = uVar7;
+      *(undefined *)(puVar16 + 7) = uVar1;
+      puVar16[6] = uVar8;
       puVar16 = puVar16 + 8;
-      iVar22 = iVar13 >> 0x10;
-      *puVar15 = uVar2;
-      puVar15[1] = uVar3;
-      puVar15[2] = uVar4;
-      puVar15[3] = uVar5;
-      puVar15[4] = uVar6;
-      puVar15[5] = uVar7;
-      *(undefined *)(puVar15 + 7) = uVar1;
-      puVar15[6] = uVar8;
-      puVar15 = puVar15 + 8;
-      iVar13 = iVar13 + 0x10000;
-    } while (iVar22 < 3);
-    iVar13 = iVar9 >> 0x10;
-    iVar17 = iVar17 + 0x60;
-    iVar9 = iVar9 + 0x10000;
-  } while (iVar13 < 3);
-  MakeGameZoneNames(param_3,param_4);
-  iVar17 = 0;
-  iVar9 = 0x10000;
+      iVar14 = iVar14 + 0x10000;
+    } while (iVar23 < 3);
+    iVar14 = iVar10 >> 0x10;
+    iVar18 = iVar18 + 0x60;
+    iVar10 = iVar10 + 0x10000;
+  } while (iVar14 < 3);
+  MakeGameZoneNames(ShortA,ShortB);
+  iVar18 = 0;
+  iVar10 = 0x10000;
   do {
-    pZVar18 = (ZoneDat *)((s32)&gGlobals.Sub.ZoneDatMtx[0].unk_0x0 + iVar17);
-    iVar13 = 0x10000;
+    pZVar19 = (ZoneDat *)((int)&gGlobals.Sub.ZoneDatMtx[0].borg5_ID + iVar18);
+    iVar14 = 0x10000;
     do {
-      move_zonedat((ZoneDat *)aZStack432,pZVar18);
-      iVar22 = iVar13 >> 0x10;
-      pZVar18 = pZVar18 + 1;
-      iVar13 = iVar13 + 0x10000;
-    } while (iVar22 < 3);
-    iVar13 = iVar9 >> 0x10;
-    iVar17 = iVar17 + 0x60;
-    iVar9 = iVar9 + 0x10000;
-  } while (iVar13 < 3);
-  iVar17 = 0;
-  iVar9 = 0;
+      move_zonedat((ZoneDat *)aZStack432,pZVar19);
+      iVar23 = iVar14 >> 0x10;
+      pZVar19 = pZVar19 + 1;
+      iVar14 = iVar14 + 0x10000;
+    } while (iVar23 < 3);
+    iVar14 = iVar10 >> 0x10;
+    iVar18 = iVar18 + 0x60;
+    iVar10 = iVar10 + 0x10000;
+  } while (iVar14 < 3);
+  iVar18 = 0;
+  iVar10 = 0;
   do {
-    pZVar18 = aZStack432 + iVar9 + iVar17;
-    iVar9 = 0x10000;
+    pZVar19 = aZStack432 + iVar10 + iVar18;
+    iVar10 = 0x10000;
     do {
-      Zonedat_clear(pZVar18,1,0);
-      iVar13 = iVar9 >> 0x10;
-      pZVar18 = (ZoneDat *)(&pZVar18->unk_0x0 + 8);
-      iVar9 = iVar9 + 0x10000;
-    } while (iVar13 < 3);
-    iVar17 = (iVar17 + 1) * 0x10000 >> 0x10;
-    iVar9 = iVar17 << 1;
-  } while (iVar17 < 3);
+      Zonedat_clear(pZVar19,1,0);
+      iVar14 = iVar10 >> 0x10;
+      pZVar19 = pZVar19 + 1;
+      iVar10 = iVar10 + 0x10000;
+    } while (iVar14 < 3);
+    iVar18 = (iVar18 + 1) * 0x10000 >> 0x10;
+    iVar10 = iVar18 << 1;
+  } while (iVar18 < 3);
   loading_map_data(gGlobals.Sub.ZoneDatMtx[1][1]);
-  if ((gGlobals.Sub.ZoneDatMtx[1][1].unk_0x0 == 0) ||
-     (uVar20 = 1, gGlobals.Sub.ZoneDatMtx[1][1].borg9_id == 0)) {
-    sprintf("Center scene not in Borg.\nPlayer Pos: (%3.4f, %3.4f)\nNew Grid: %d-%c%02d",param_1,param_2);
+  if ((gGlobals.Sub.ZoneDatMtx[1][1].borg5_ID == 0) ||
+     (uVar21 = 1, gGlobals.Sub.ZoneDatMtx[1][1].borg9_id == 0)) {
+    ppVar9 = gGlobals.playerCharStruct.playerDat;
+    if (gGlobals.screenFadeModeSwitch == 2) {
+      ppVar9 = gGlobals.playerDataArray[combatPointer->current_Ent->index];
+    }
+    sprintf(gGlobals.text,"Center scene not in Borg.\nPlayer Pos: (%3.4f, %3.4f)\nNew Grid: %d-%c%02d",
+      (ppVar9->collision).position[0](ppVar9->collision).position[2],gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1 - 1 + 0x41,gGlobals.Sub.mapShort2);
     assert("LoadGameBorgScenes",gGlobals.text);
   }
-  uVar19 = 0;
-  uVar21 = (u32)((gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat).byte0x1a;
-  uVar10 = uVar21 & 1;
+  uVar20 = 0;
+  uVar22 = (uint)((gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat).byte0x1a;
+  uVar11 = uVar22 & 1;
   do {
-    if (uVar10 != 0) {
+    if (uVar11 != 0) {
       Zonedat_clear((ZoneDat *)
-                    ((u32)uStack112[uVar19 * 2] * 0x60 + -0x7ff19678 +
-                    (u32)uStack112[uVar19 * 2 + 1] * 0x20),1,0);
+                    ((uint)uStack112[uVar20 * 2] * 0x60 + -0x7ff19678 +
+                    (uint)uStack112[uVar20 * 2 + 1] * 0x20),1,0);
     }
-    uVar20 = (uVar20 & 0x7f) << 1;
-    uVar19++;
-    uVar10 = uVar21 & uVar20;
-  } while (uVar19 < 8);
-  iVar9 = 0;
+    uVar21 = (uVar21 & 0x7f) << 1;
+    uVar20 = uVar20 + 1 & 0xffff;
+    uVar11 = uVar22 & uVar21;
+  } while (uVar20 < 8);
+  iVar10 = 0;
   do {
-    iVar17 = 0;
-    ppAVar24 = &gGlobals.Sub.ZoneDatMtx[iVar9 * 3].aniDat0x14;
-    ppAVar23 = &gGlobals.Sub.ZoneDatMtx[iVar9 * 3].anidat0x4;
-    pZVar18 = gGlobals.Sub.ZoneDatMtx + iVar9 * 3;
+    iVar18 = 0;
+    ppAVar25 = &gGlobals.Sub.ZoneDatMtx[iVar10 * 3].aniDat0x14;
+    ppAVar24 = &gGlobals.Sub.ZoneDatMtx[iVar10 * 3].anidat0x4;
+    pZVar19 = gGlobals.Sub.ZoneDatMtx + iVar10 * 3;
     do {
-      if (pZVar18->unk_0x0 != 0) {
-        if (pZVar18->anidat0x4 == ) {
-          pZVar18->unk0x1c = 0xff;
-          if (pZVar18->mapshortSum == 0x11) {
-            pAVar11 = BorgAnimLoadScene(pZVar18->unk_0x0);
-            pZVar18->anidat0x4 = pAVar11;
+      if (pZVar19->borg5_ID){
+        if (pZVar19->anidat0x4 == NULL) {
+          pZVar19->field_0x1c = 0xff;
+          if (pZVar19->mapshortSum == 0x11) {
+            pZVar19->anidat0x4 = BorgAnimLoadScene(pZVar19->borg5_ID);
           }
           else {
-            if (oneZone_load) {goto LAB_8000e6bc;}
-            if (NoExpPak_memCheck(3)) {AllocAllocQueueItem(&gGlobals.QueueB,ppAVar23,0,pZVar18->unk_0x0,1,(char)uStack48);}
+            if (oneZone_load) goto LAB_8000e6bc;
+            if (NoExpPak_memCheck(3)) {
+              AllocAllocQueueItem(&gGlobals.QueueB,ppAVar24,0,pZVar19->borg5_ID,1,(char)uStack48);
+            }
           }
         }
       }
 LAB_8000e6bc:
-      if ((pZVar18->borg5_ID != 0) && (pZVar18->aniDat0x14 == NULL)) {
-        if (pZVar18->mapshortSum == 0x11) {
-          pAVar11 = BorgAnimLoadScene(uVar20);
-          pZVar18->aniDat0x14 = pAVar11;
+      if ((pZVar19->unk0x10 != 0) && (pZVar19->aniDat0x14 == (AnimationData *)0x0)) {
+        if (pZVar19->mapshortSum == 0x11) {
+          pZVar19->aniDat0x14 = BorgAnimLoadScene(pZVar19->unk0x10);
         }
         else {
-          if ((!oneZone_load) && (NoExpPak_memCheck(4))) {AllocAllocQueueItem(&gGlobals.QueueB,ppAVar24,0,pZVar18->borg5_ID,1,(char)uStack48);}
+          if ((oneZone_load == 0) && (NoExpPak_memCheck(4))) {
+            AllocAllocQueueItem(&gGlobals.QueueB,ppAVar25,0,pZVar19->unk0x10,1,(char)uStack48);
+          }
         }
       }
-      loading_map_data(pZVar18);
-      sVar14 = gGlobals.sky.Type;
-      if (pZVar18->mapshortSum == 0x11) {
-        gGlobals.Sub.borg9DatPointer = &pZVar18->mapPointer->dat;
+      loading_map_data(pZVar19);
+      sVar15 = gGlobals.sky.Type;
+      if (pZVar19->mapshortSum == 0x11) {
+        gGlobals.Sub.borg9DatPointer = &pZVar19->mapPointer->dat;
         gGlobals.Sub.particleEmmiter.borg9dat = gGlobals.Sub.borg9DatPointer;
         GetMapTerrain(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
-        if ((gGlobals.sky.Type == 3) && (sVar14 == 3)) {
-          if (gGlobals.Sub.weatherDat._0_4_ == 0) {SetBackgroundType(3,gGlobals.Sub.weatherDat.skyBgdat,600.0);}
-          else {debug_queue("Different Precip types, Don't set sky\n");}
+        if ((gGlobals.sky.Type == 3) && (sVar15 == 3)) {
+          if (gGlobals.Sub.weatherDat._0_4_ == 0) {
+            SetBackgroundType(3,gGlobals.Sub.weatherDat.skyBgdat,600.0);
+          }
+          else {
+            N64Print::Print("Different Precip types, Don't set sky\n");
+          }
         }
         else {
-          sVar14 = gGlobals.Sub.weatherDat.skyBgdat;
-          if ((gGlobals.sky.Type == 3) &&
-             (((s16)gGlobals.Sub.weatherDat.rainShortA < 3 &&
-              (0 < (s16)gGlobals.Sub.weatherDat.rainShortA)))) {
-            sVar14 = 2;
+          sVar15 = gGlobals.Sub.weatherDat.skyBgdat;
+          if (((gGlobals.sky.Type == 3) && ((short)gGlobals.Sub.weatherDat.rainShortA < 3)) &&
+             (0 < (short)gGlobals.Sub.weatherDat.rainShortA)) {
+            sVar15 = 2;
           }
-          SetBackgroundType(gGlobals.sky.BackgroundType,sVar14,0.0);
+          SetBackgroundType(gGlobals.sky.Type,sVar15,0.0);
           gGlobals.Sub.weatherDat.FogFloat = TerrainPointer->FogFloat;
         }
       }
+      ppAVar25 = ppAVar25 + 8;
       ppAVar24 = ppAVar24 + 8;
-      ppAVar23 = ppAVar23 + 8;
-      iVar17 = (iVar17 + 1) * 0x10000 >> 0x10;
-      pZVar18 = pZVar18 + 1;
-    } while (iVar17 < 3);
-    iVar9 = (iVar9 + 1) * 0x10000 >> 0x10;
-    if (2 < iVar9) {
+      iVar18 = (iVar18 + 1) * 0x10000 >> 0x10;
+      pZVar19 = pZVar19 + 1;
+    } while (iVar18 < 3);
+    iVar10 = (iVar10 + 1) * 0x10000 >> 0x10;
+    if (2 < iVar10) {
       if (((gGlobals.Sub.gamemodeType == 0) && (gGlobals.minimap.active == 0)) &&
          (gGlobals.sky.Type == 3)) {
         set_map_event_flag(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
@@ -1073,8 +1087,8 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
   gGlobals.Sub.mapDatC = 0xffff;
   borgmaps_func(gGlobals.Sub.mapDatA,-1,-1,false);
   clear_music_no_expPak();
-  if (param_3 == NULL) {no_TP_vec3 = 1;}
-  loadGameBorgScenes(param_4,param_5,(param_2->dat).MapShort1,(param_2->dat).MapShort2);
+  if (param_3 == NULL) no_TP_vec3 = 1;
+  loadGameBorgScenes((param_2->dat).MapShort1,(param_2->dat).MapShort2);
   if (param_3 == NULL) {
     if (gGlobals.sky.Type == 4) {set_camera_mode(&gGlobals.Sub.camera,1);}
     if (gGlobals.sky.Type == 3) {set_camera_mode(&gGlobals.Sub.camera,0);}
@@ -1194,7 +1208,7 @@ void ConfirmPlayerWithinZone(playerData *param_1){
       (param_1->collision).position[1] = 50.0f;
       setVec3((param_1->collision).velocity,0.0,0.0,0.0);
       if (!func_800154e4(param_1,0.0,0.0,0.0);) {(param_1->collision).velocity[1] = -0.054f;}
-      debug_queue("Where's the player??\n");
+      N64Print::Print("Where's the player??\n");
       return;
     }
   }
@@ -2228,7 +2242,7 @@ LAB_800116a4:
 
 void SaveEngineZone(playerData *param_1,mapFloatDat *param_2){
 
-  if (engineZone_flag == 0) {debug_queue("SaveZoneEngine Aborted");}
+  if (engineZone_flag == 0) {N64Print::Print("SaveZoneEngine Aborted");}
   else {
     param_2->mapDatA = gGlobals.Sub.mapDatA;
     param_2->mapDatB = gGlobals.Sub.mapDatB;
@@ -2367,11 +2381,11 @@ void voxel_index_position(s16 delta,playerData *param_2){
       prVar11 = (mapVoxel *)(pBVar7->ref_objs + uVar8);
       sprintf(gGlobals.text,"\n\n\nGOING to Voxel Index: %d\nType: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n"
       ,uVar8,&uStack344 + (u32)(prVar11->header).type * 6,(double)(prVar11->header).coords[2]);
-      debug_queue(gGlobals.text);
+      N64Print::Print(gGlobals.text);
       if (voxel_index_pointer != (mapVoxel *)0x0) {
         sprintf(gGlobals.text,"\n\nAT V-Type: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n",
         (char *)(&uStack344 + (u32)(voxel_index_pointer->header).type * 6),in_f12);
-        debug_queue(gGlobals.text);
+        N64Print::Print(gGlobals.text);
         if ((voxel_index_pointer->header).type == Scene) {(voxel_index_pointer->header).Bitfeild = visible;}
         (param_2->collision).position[0] = (voxel_index_pointer->header).coords[0];
         (param_2->collision).position[1] = (voxel_index_pointer->header).coords[1];

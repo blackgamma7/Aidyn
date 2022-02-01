@@ -1,4 +1,4 @@
-void load_commonstrings(void){
+void CommonStrings::Init(void){
   commonstrings = func_romStrings(common_string_array,0x2830);
   #ifdef DEBUGVER
   debug_switch_labels = (char **)((s32)commonstrings + 0xbc);
@@ -34,7 +34,7 @@ void load_commonstrings(void){
   return;
 }
 
-void clear_commonstrings(void){
+void CommonStrings::Free(void){
   if (gglobals.CommonStrings) {
     free_romstring(gglobals.CommonStrings);
     commonstrings = NULL;

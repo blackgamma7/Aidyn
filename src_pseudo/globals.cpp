@@ -15,7 +15,7 @@ s32 Ofunc_get_MemUsed_difference_2(void){
 #endif
 
 u32 globals::rand_range(u32 A,u32 B){
-  if (A != B) A = Random::rand_func(&gGlobals.rngSeed,A,B);
+  if (A != B) A = Random::func(&gGlobals.rngSeed,A,B);
   return A;
   }
 
@@ -482,7 +482,7 @@ void load_camp_ambush(void){
     else {uVar6 = 3;}
   }
   else {uVar6 = 4;}
-  RomCopy(&fromROM,globals_rom + uVar6 + (iVar3 * 5 & 0xfffU) * 2,8,1,s_./src/globals.cpp_800d81ec,
+  RomCopy::RomCopy(&fromROM,globals_rom + uVar6 + (iVar3 * 5 & 0xfffU) * 2,8,1,s_./src/globals.cpp_800d81ec,
           0x348);
   memset(aIStack72,0,0x38);
   uVar6 = 0;
@@ -500,7 +500,6 @@ void load_camp_ambush(void){
     pIVar5 = pIVar5 + 2;
   } while (uVar6 < 2);
   Emergency_skeleton_func(aIStack72);
-  return;
 }
 
 u32 append_SenseAura_text(char *str1,char *str2,u32 param_3){
@@ -548,7 +547,7 @@ void func_8000c788(char *param_1){
               (ulonglong)
               ((uVar2 & 0xffffffff00000000 | uVar4 & 0xffffffff) <
               (ulonglong)(longlong)ofunc_dat._4_4_));
-  debug::debug_queue(gGlobals.Text);
+  N64Print::Print(gGlobals.Text);
   OVar3 = osGetTime();
   uVar4 = udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,0,3);
   ofunc_dat._0_4_ = (s32)(uVar4 >> 0x20);

@@ -23,7 +23,7 @@ bool appstate_0(s32 *param_1){
     load_intro_music();
     intro_music_flag = false;
   }
-  if (gGlobals.splashscreenFlag == 1) gGlobals.splashscreenFlag = (s32)show_splash_screens(param_1);
+  if (gGlobals.splashscreenFlag == 1) gGlobals.splashscreenFlag = (s32)TitleSplash::Show(param_1);
   if (gGlobals.splashscreenFlag == 0;) NOOP_flag = true;
   if (NOOP_flag) {
     noop_intromusic();

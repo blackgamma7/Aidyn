@@ -24,7 +24,7 @@ void flycam_func(void){
 
 void set_title_screen(void){
 
-  cont_delay(0);
+  Controller::GetDelay(0);
   flycam_flag = 0;
   gGlobals.delay = 0.0;
   gGlobals.unk0x1500 = 0;
@@ -67,12 +67,12 @@ Gfx* other_flycam_func(float param_1,float param_2,Gfx*param_3){
     ;
 
     if (!func_8000ccc0()) {
-      handleZoneEngineFrame((Gfx*)register0x000000ec,(s16)(s32)gGlobals.delay,(playerData *)0x0,param_1,param_2);
+      handleZoneEngineFrame((Gfx*)register0x000000ec,(s16)(s32)gGlobals.delay,gLensflare,param_1,param_2);
     }
     else {
       FreeZoneEngineMemory();
       no_TP_vec3 = 1;
-      loadGameBorgScenes(param_1,param_2,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
+      loadGameBorgScenes(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
     }
     if ((gGlobals.screenFadeMode == 0) && (gGlobals.screenfadeFloat == 1.0f)) {flycam_flag = 0;}
   }
@@ -90,7 +90,7 @@ u8 gameStart(Gfx**param_1){
   u8 V;
   float in_f12;
   float in_f14;
-  WeatherTemp aaStack168;
+  WeatherTemp w;
   vec3 fStack104;
   
   bVar3 = gGlobals.screenFadeModeSwitch;
@@ -100,20 +100,20 @@ u8 gameStart(Gfx**param_1){
     titleSceen_load_flag = false;
   }
   check_input_7();
-  pauVar1 = RenderSky(pauVar1,(s16)(s32)gGlobals.delay);
-  pauVar1 = some_rsp_func(pauVar1,0,0,0x140,0xf0);
+  pauVar1 = RenderSky(pauVar1,gGlobals.delay);
+  pauVar1 = some_rsp_func(pauVar1,0,0,320,240);
   if (gGlobals.Sub.gamemodeType == 2) {
-    aaStack168.precip = CLEAR;
-    aaStack168.PrecipScale = 0.0;
-    aaStack168.FogFloat = 0.0;
-    aaStack168.ThunderFloat = 0.0;
-    set_with_WeatherTemp(TerrainPointer,&aaStack168);
+    w.precip = CLEAR;
+    w.PrecipScale = 0.0;
+    w.FogFloat = 0.0;
+    w.ThunderFloat = 0.0;
+    set_with_WeatherTemp(TerrainPointer,&w);
   }
   if (((gGlobals.unk0x1500 == 0) ||
       ((gGlobals.unk0x1500 == 1 && (0.0 < gGlobals.screenfadeFloat)))) ||
      ((gGlobals.unk0x1500 == 2 && (gGlobals.screenFadeMode != 0)))) {
     pauVar1 = other_flycam_func(in_f12,in_f14,pauVar1);
-    if (flycam_flag) {fadeFloatMirror = 1.0f;}
+    if (flycam_flag) fadeFloatMirror = 1.0f;
     pauVar1 = rsp_func(pauVar1,6,gfx::get_hres(),gfx::get_vres());
     uVar2 = 0;
     while( true ) {
@@ -124,7 +124,7 @@ u8 gameStart(Gfx**param_1){
       tick_widgets(gGlobals.widgetHandler,1);
     }
     pauVar1 = (Gfx*)render_widgets(gGlobals.widgetHandler,pauVar1,0,0);
-    pauVar1 = debug::func_with_debug_queue(pauVar1,1);
+    pauVar1 = N64Print::Draw(pauVar1,1);
   }
   pos = fStack104;
   if (gGlobals.unk0x1500 == 1) {
@@ -142,11 +142,11 @@ u8 gameStart(Gfx**param_1){
     }
   }
   fStack104={0.0,0.0,0.0};
-  if (gGlobals.playerCharStruct.playerDat) {pos = ((gGlobals.playerCharStruct.playerDat)->collision).position;}
+  if (gGlobals.playerCharStruct.playerDat) pos = ((gGlobals.playerCharStruct.playerDat)->collision).position;
   if (gGlobals.introMusic) {
     fVar4 = gGlobals.VolBGM * 255.0f;
     if (fVar4 < INT_MAX_f) {V = (u8)fVar4;}
-    else {V = (u8)(fVar4 - INT_MAX_f);}
+    else V = (u8)(fVar4 - INT_MAX_f);
     some_music_func((u32)(u8)gGlobals.introMusicDatA,gGlobals.introMusicDatB,V);
   }
   sprintf(gGlobals.text,"ProcessAudioBubbles - Intro menu handler\n");
@@ -166,7 +166,7 @@ void check_input_7(void){
   Button_hold *pBStack32;
   
   uVar3 = 0;
-  while (get_cont_aidyn(&pBStack32,0)) {
+  while (Controller::GetInput(&pBStack32,0)) {
     uVar3++;
     if (run_widget_control_func(gGlobals.widgetHandler,pBStack32) != 0) {
       if (freeWidgetFunc == NULL) {
@@ -213,15 +213,15 @@ void start_intermediate_game(void){
   }
   clear_flycam();
   if (cVar1 == 7) { //Intermediate game
-    gGlobals.Sub.mapDatA = debug::debugMapLabels[5].a;
-    gGlobals.Sub.mapDatB = debug::debugMapLabels[5].b;
-    gGlobals.Sub.mapDatC = debug::debugMapLabels[5].c;
+    gGlobals.Sub.mapDatA = debugMapLabels[5].a;
+    gGlobals.Sub.mapDatB = debugMapLabels[5].b;
+    gGlobals.Sub.mapDatC = debugMapLabels[5].c;
   }
   else { //Start game
     gGlobals.Sub.MapFloatDatEntry.mapDatB = 0xffff;
-    gGlobals.Sub.mapDatA = debug::debugMapLabels[0].a;
-    gGlobals.Sub.mapDatB = debug::debugMapLabels[0].b;
-    gGlobals.Sub.mapDatC = debug::debugMapLabels[0].c;
+    gGlobals.Sub.mapDatA = debugMapLabels[0].a;
+    gGlobals.Sub.mapDatB = debugMapLabels[0].b;
+    gGlobals.Sub.mapDatC = debugMapLabels[0].c;
   }
   gGlobals.playerCharStruct.player_form = debugCharacters[0].borg7; 
   gGlobals.playerCharStruct.collisionRadius = debugCharacters[0].f;

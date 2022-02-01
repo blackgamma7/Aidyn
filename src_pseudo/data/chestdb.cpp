@@ -19,7 +19,7 @@ void load_chestDB(loot_Pointer *param_1,u32 param_2,s32 *param_3){
   
   iVar1 = *param_3;
   w = param_1->lootCat + param_2;
-  RomCopy(&ROMtemp,chestdb + iVar1,sizeof(loot_ROM),1,FILENAME,0x47);
+  RomCopy::RomCopy(&ROMtemp,chestdb + iVar1,sizeof(loot_ROM),1,FILENAME,0x47);
   memcpy(w,&ROMtemp,0x14);
   w->Is0 = 0;
   w->ID = (ItemID)((u16)ROMtemp.ID.ID + (u16)ROMtemp.ID.Type * 0x100);
@@ -33,12 +33,11 @@ void load_chestDB(loot_Pointer *param_1,u32 param_2,s32 *param_3){
   w->reagentLlo = ROMtemp.reagentRange[0];
   w->reagentHi = ROMtemp.reagentRange[1];
   uVar2 = 0x22;
-  do {
+  for(uVar6=0;uVar6 < 6;uVar6++) {
     uVar3 = uVar2+1;
     uVar4 = uVar3+1;
     uVar5 = uVar4+1;
-    w->itemDrops[uVar6] =
-         (ItemID)((u16)(u8)ROMtemp.Name[uVar2] + (u16)(u8)ROMtemp.Name[uVar3] * 0x100);
+    w->itemDrops[uVar6] =(ItemID)((u16)(u8)ROMtemp.Name[uVar2] + (u16)(u8)ROMtemp.Name[uVar3] * 0x100);
     w->itemDropChances[uVar6] = ROMtemp.Name[uVar4];
     uVar2 = uVar5;
     if (uVar6 < 2) {
@@ -47,8 +46,7 @@ void load_chestDB(loot_Pointer *param_1,u32 param_2,s32 *param_3){
       w->itemLo[uVar6] = ROMtemp.Name[uVar5];
       w->itemHi[uVar6] = ROMtemp.Name[uVar3];
     }
-    uVar6 = uVar6+1;
-  } while (uVar6 < 6);
+  }
   *param_3 = iVar1 + sizeof(loot_ROM);
 }
 
@@ -58,7 +56,7 @@ void Ofunc_800748c4(loot_Pointer *param_1,u16 param_2){
   s32 aiStack16 [4];
   
   uVar2 = 0;
-  if (param_1->total != 0) {
+  if (param_1->total) {
     pbVar1 = lootList;
     do {
       if (*pbVar1 == param_2) {

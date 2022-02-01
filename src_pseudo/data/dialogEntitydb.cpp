@@ -16,7 +16,7 @@ void load_dialougEnt(DialoigEntPointer *param_1,u8 param_2,s32 *param_3){
   
   iVar1 = *param_3;
   pDVar2 = param_1->ents + param_2;
-  RomCopy(&temp,dialouge_entity + iVar1,sizeof(DialougeEntity_ROM),1,FILENAME,0x3f);
+  RomCopy::RomCopy(&temp,dialouge_entity + iVar1,sizeof(DialougeEntity_ROM),1,FILENAME,0x3f);
   memcpy(pDVar2->name,&temp,0x16);
   pDVar2->a = 0;
   *param_3 = iVar1 + sizeof(DialougeEntity_ROM);

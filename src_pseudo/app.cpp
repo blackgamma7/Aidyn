@@ -33,16 +33,16 @@ Gfx* display_debug_stats(Gfx*param_1){
   float memfree1;
   float memfree2;
   
-  if ((debug_flag != 0) && (1.0f <= gGlobals.delay)) {
+  if ((debug_flag) && (1.0f <= gGlobals.delay)) {
     if (gGlobals.DebugStatDisplay - 1 < 3) {param_1 = (Gfx*)DisplaySystemMonitor(param_1);}
     sprintf(gGlobals.text,"%2d",(s16)(60.0f / gGlobals.delay));
-    param_1 = (Gfx*)some_debug_print(param_1,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
-    if (gGlobals.DebugStatDisplay != 0) {
+    param_1 = (Gfx*)gfx::DrawText(param_1,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
+    if (gGlobals.DebugStatDisplay) {
       uVar4 = get_hres();
       v = get_vres();
       param_1 = rsp_func(param_1,6,uVar4,v);
       ppVar1 = gGlobals.playerCharStruct.playerDat;
-      if ((gGlobals.DebugStatDisplay & 1) != 0) {
+      if (gGlobals.DebugStatDisplay & 1) {
         uVar2 = get_obj_free();
         temp_v0 = get_MemFree();
         temp_f2 = (f64) temp_v0;
@@ -68,14 +68,14 @@ Gfx* display_debug_stats(Gfx*param_1){
         else {
           uVar4 = ppVar1->Ground_type;
           sprintf(gGlobals.text,"%2d - %s",uVar4,ground_labels[uVar4]);
-          pauVar3 = (Gfx*)some_debug_print(pauVar3,gGlobals.text,0x12,0xc4,0,200,200,0xff);
+          pauVar3 = (Gfx*)gfx::DrawText(pauVar3,gGlobals.text,0x12,0xc4,0,200,200,0xff);
           if (!(INT_MAX_f <= (memfree1 * 9.765625E-4f))) {}
           if (!(INT_MAX_f <= (memfree2 * 9.765625E-4f))) {}
           sprintf(gGlobals.text,"%d - %%%1.1f - (%d/%d)\n%c%02d - %d-(%3.2f,%3.2f,%3.2f) - %2.0f\n",
           (u16)(uVar2),);
           //sprintf(phi_s5, (void *)0x800D97E0, temp_s0_2, temp_s2->unk292 + 0x40, (?32) temp_s2->unk294, (?32) temp_s2->unk2AC, (f64) temp_s3->unk68, (f64) temp_s3->unk6C, (f64) temp_s3->unk70, (f64) (D_800D987C / temp_s0_3->unkC))
         }
-        param_1 = (Gfx*)some_debug_print(pauVar3,gGlobals.text,0x12,0xcc,200,0x20,200,0xff);
+        param_1 = (Gfx*)gfx::DrawText(pauVar3,gGlobals.text,0x12,0xcc,200,0x20,200,0xff);
       }
     }
   }
@@ -123,7 +123,7 @@ Gfx* display_debug_stats(Gfx*param_1){
                 phi_s1 = DisplaySystemMonitor(arg0);
             }
             sprintf(phi_s5, &D_800D97D0, (s16) (s32) (D_800D9850 / (f64) gGlobals.unkC));
-            temp_s1 = some_debug_print(phi_s1, phi_s5, 0x120, 0xD7, 0x80, 0x80, 0x80, 0xFF);
+            temp_s1 = gfx::DrawText(phi_s1, phi_s5, 0x120, 0xD7, 0x80, 0x80, 0x80, 0xFF);
             phi_s1_2 = temp_s1;
             if (gGlobals.unk2034 != 0) {
                 temp_s0 = get_hres();
@@ -151,7 +151,7 @@ Gfx* display_debug_stats(Gfx*param_1){
                     if (temp_s3 != 0) {
                         temp_a2 = temp_s3->unk100;
                         sprintf(phi_s5, (void *)0x800D97D4, temp_a2, *((temp_a2 * 4) + ground_labels));
-                        temp_s1_4 = some_debug_print(temp_s1_3, phi_s5, 0x12, 0xC4, 0, 0xC8, 0xC8, 0xFF);
+                        temp_s1_4 = gfx::DrawText(temp_s1_3, phi_s5, 0x12, 0xC4, 0, 0xC8, 0xC8, 0xFF);
                         if (!(D_800D9870 <= (temp_f20 * D_800D986C))) {
 
                         }
@@ -178,7 +178,7 @@ Gfx* display_debug_stats(Gfx*param_1){
                         phi_a0 = temp_s1_3;
                         phi_s0 = temp_s0_4;
                     }
-                    phi_s1_2 = some_debug_print(phi_a0, phi_s0 + 0x2078, 0x12, 0xCC, 0xC8, 0x20, 0xC8, 0xFF);
+                    phi_s1_2 = gfx::DrawText(phi_a0, phi_s0 + 0x2078, 0x12, 0xCC, 0xC8, 0x20, 0xC8, 0xFF);
                 }
             }
         }
@@ -220,7 +220,7 @@ void AppProc(void){
   s16 *in_stack_ffffffc0; //neither Ghidra or mips_to_c can explain this.
   OSMesg *ppvVar15;
   
-  appManager.Mesg = (OSMesg *)heapAlloc(0x20,FILENAME,0x117);
+  appManager.Mesg = heapAlloc(0x20,FILENAME,0x117);
   osCreateMesgQueue(&appManager.MesgQ2,appManager.Mesg,8);
   appManager.MesgQ = osScGetCmdQ(appManager.ossched);
   appProc_init();
@@ -245,11 +245,11 @@ loop:
           gGlobals.ticker = uVar2;
           pauVar7 = (Gfx*)appProc_caseSwitch(puVar6);
 #ifdef DEBUGVER
-          pauVar7 = debug::display_debug_stats(pauVar7);
+          pauVar7 = display_debug_stats(pauVar7);
 #else
-          if ((version_flag != 0) && (gGlobals.playerChar.playerDat)) {
+          if ((version_flag) && (gGlobals.playerChar.playerDat)) {
             sprintf(gGlobals.text,"%c%02d-(%2.1f,%2.1f)\n",gGlobals.Sub.mapShortA + 0x40,gGlobals.Sub.mapShortB);
-            pauVar7 = some_debug_print(pauVar7,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);}
+            pauVar7 = gfx::DrawText(pauVar7,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);}
 #endif            
           NOOP_800a2448();
           pauVar7 = (Gfx*)ret_A0(pauVar7);
@@ -330,7 +330,7 @@ void appProc_init(void){
   func_80020830();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
-  Random::setRNGSeed((u32 *)&gGlobals,0x3dbb6cd);
+  Random::SetSeed((u32 *)&gGlobals,0x3dbb6cd);
   uVar6 = 0;
   gGlobals.appstate = 5;
   gGlobals.ticker = 0;
@@ -358,11 +358,11 @@ void appProc_init(void){
     }
   }
   font_func(gGlobals.font,(fontface_struct *)font_face[0].font_face);
-  gGlobals.widgetHandler = (WidgetHandler *)heapAlloc(8,FILENAME,0x1bf);
+  gGlobals.widgetHandler = heapAlloc(8,FILENAME,0x1bf);
   clear_widget_handler(gGlobals.widgetHandler,gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;
-  memorymaker_init();
-  load_commonstrings();
+  MemoryMaker::Init();
+  CommonStrings::Init();
   gGlobals.unk0x15c0 = init_some_Struct(passToMalloc(0x28),gGlobals.widgetHandler);
   HresMirror = gfx::get_hres();
   VresMirror = gfx::get_vres();
@@ -398,7 +398,7 @@ s32 appProc_caseSwitch(s32 param_1){
       assert("app.cpp","gGlobals.appState is not valid");
     }
   }
-  if (*appManager.stack != 0x12345678) {assert("AppProc","Stack Overwrite!!");}
+  if (*appManager.stack != 0x12345678) assert("AppProc","Stack Overwrite!!");
   return param_1;
 }
 

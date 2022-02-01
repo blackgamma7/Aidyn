@@ -26,7 +26,7 @@ void set_borg_mem_things(void *listing,void *files){
   
   BorgListingPointer = listing;
   borgFilesPointer = files;
-  RomCopy(fileCount,listing,8,1,FILENAME,0xfc);
+  RomCopy::RomCopy(fileCount,listing,8,1,FILENAME,0xfc);
   borgTotal = fileCount[0];
   borg_index_x4 = (void **)heapAlloc(fileCount[0] << 2,FILENAME,0x10a);
   memset(borg_index_x4,0,fileCount[0] << 2);
@@ -34,7 +34,6 @@ void set_borg_mem_things(void *listing,void *files){
   memset(borg_index_x1,0,fileCount[0]);
   memset(borg_mem,0,sizeof(borg_mem));
   memset(borg_count,0,sizeof(borg_count));
-  return;
 }
 
 bool decompressBorg(void *param_1,u32 compSize,void *borgfile,u32 param_4,u32 compression){
@@ -44,16 +43,16 @@ bool decompressBorg(void *param_1,u32 compSize,void *borgfile,u32 param_4,u32 co
   auStack40[0] = param_4;
   if (compression == 1) {
     pvVar1 = heapAlloc(compSize,FILENAME,0x17f);
-    RomCopy(pvVar1,param_1,compSize,1,FILENAME,0x183);
+    RomCopy::RomCopy(pvVar1,param_1,compSize,1,FILENAME,0x183);
     decompress_LZ01(pvVar1,compSize,borgfile,auStack40);
     HeapFree(pvVar1,FILENAME,0x18d);
   }
   else if (compression == 0) {
-    RomCopy(borgfile,param_1,compSize,1,FILENAME,0x175);
+    RomCopy::RomCopy(borgfile,param_1,compSize,1,FILENAME,0x175);
   }
   else if (compression == 2) {
     pvVar1 = heapAlloc(compSize,FILENAME,0x197);
-    RomCopy(pvVar1,param_1,compSize,1,FILENAME,0x19b);
+    RomCopy::RomCopy(pvVar1,param_1,compSize,1,FILENAME,0x19b);
     decompress_LZB(pvVar1,compSize,borgfile,auStack40);
     HeapFree(pvVar1,FILENAME,0x1a5);
   }
@@ -64,13 +63,12 @@ s16 get_borg_listing_type(s32 param_1){
   BorgListing listing;
   s32 temp [2];
   
-  RomCopy(temp,BorgListingPointer,8,1,FILENAME,0x1be);
+  RomCopy::RomCopy(temp,BorgListingPointer,8,1,FILENAME,0x1be);
   if ((param_1 < 0) || (temp[0] <= param_1)) {
     listing.Type = -1;
   }
   else {
-    RomCopy(&listing,(void *)((s32)BorgListingPointer + param_1 * 0x10 + 8),0x10,1,
-            FILENAME,0x1c6);
+    RomCopy::RomCopy(&listing,(void *)((s32)BorgListingPointer + param_1 * 0x10 + 8),0x10,1,FILENAME,0x1c6);
   }
   return listing.Type;
 }
@@ -82,12 +80,12 @@ s16 GetBorgItemInfo(BorgListing *itemInfo,s32 param_2){ //orphaned, low priority
   if (((u32)itemInfo & 7) != 0) {
     assert("n64Borg.cpp,_GetBorgItemInfo()","itemInfo_is_not_8_bytes_aligned!");
   }
-  RomCopy(aiStack88,BorgListingPointer,8,1,FILENAME,0x1dc);
+  RomCopy::RomCopy(aiStack88,BorgListingPointer,8,1,FILENAME,0x1dc);
   if ((param_2 < 0) || (aiStack88[0] <= param_2)) {
     sVar1 = -1;
   }
   else {
-    RomCopy(itemInfo,(void *)((s32)BorgListingPointer + param_2 * 0x10 + 8),0x10,1,
+    RomCopy::RomCopy(itemInfo,(void *)((s32)BorgListingPointer + param_2 * 0x10 + 8),0x10,1,
             FILENAME,0x1e8);
     sVar1 = itemInfo->Type;
   }
@@ -109,8 +107,7 @@ void * getBorgItem(s32 index){
   
   memOld = get_memUsed();
   if ((index < (s32)borgTotal) && (-1 < index)) {
-    RomCopy(&listing,(void *)((s32)BorgListingPointer + index * 0x10 + 8),0x10,1,
-            FILENAME,0x21d);
+    RomCopy::RomCopy(&listing,(void *)((s32)BorgListingPointer + index * 0x10 + 8),0x10,1,FILENAME,0x21d);
     if ((((listing.Type < 3) || (listing.Type == 6)) || (listing.Type == 11)) || (((listing.Type == 12 || (listing.Type == 13)) || (listing.Type == 14)))) {
       if (borgFlag == 0) {
         ret = heapAlloc(borg_padding[listing.Type] + 4,FILENAME,0x231);
@@ -315,7 +312,7 @@ void borg2_func_a(borg_2_header *param_1){
   }
   piVar1 = param_1->unk0x3c;
   piVar2 = (s32 *)((s32)piVar1 + (s32)param_1);
-  if (piVar1 != (s32 *)0x0) {
+  if (piVar1) {
     param_1->unk0x3c = piVar2;
     piVar2[1] = &param_1->unk0x0 + piVar2[1];
     iVar3 = *piVar1;
