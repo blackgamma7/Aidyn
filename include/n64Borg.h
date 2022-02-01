@@ -57,19 +57,19 @@ struct borg9_phys { //collision faces
 };
 
 enum Vobject{
-    SCENE, //any static meshes
-    CONTAINER, //chests and various loot.
-    LIGHT,
-    AUDIO, //also generated in "playSFX" func
-    WANDERNODE,
-    MONSTERPARTY, //enemy encounter data
-    REFERNCEPOINT, //often used for setting up battlefeild.
-    TELEPORTER, //doors, tunnels, ladders, ect.
-    CAMERA,
-    DIALOUGE, //triggers "borg 13"
-    TRIGGER,
-    SAVEPOINT, //unused? game saves virtually where/whenever.
-    CODE, //in game, but dunno what it does special.
+    VOBJECT_SCENE, //any static meshes
+    VOBJECT_CONTAINER, //chests and various loot.
+    VOBJECT_LIGHT,
+    VOBJECT_AUDIO, //also generated in "playSFX" func
+    VOBJECT_WANDERNODE,
+    VOBJECT_MONSTERPARTY, //enemy encounter data
+    VOBJECT_REFERNCEPOINT, //often used for setting up battlefeild.
+    VOBJECT_TELEPORTER, //doors, tunnels, ladders, ect.
+    VOBJECT_CAMERA,
+    VOBJECT_DIALOUGE, //triggers "borg 13"
+    VOBJECT_TRIGGER,
+    VOBJECT_SAVEPOINT, //unused? game saves virtually where/whenever.
+    VOBJECT_CODE, //in game, but dunno what it does special.
 }
 /* bitfeild flags id'd
 0001

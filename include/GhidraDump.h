@@ -5208,8 +5208,6 @@ struct Audio_manager {
 struct Voice_Aidyn {
     struct ALVoice voice;
     struct ALWaveTable wavetable;
-    u8 unk0x2e;
-    u8 unk0x2f;
     s32 unk0x30;
     u32 unk0x34;
     u8 unk0x38;
@@ -5223,7 +5221,7 @@ struct Voice_Aidyn {
     u8 unk0x47;
     u8 vol;
     u8 pan;
-    u8 unk0x4a;
+    u8 flag;
     u8 unk0x4b;
 };
 
