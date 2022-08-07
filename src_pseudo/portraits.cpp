@@ -41,8 +41,8 @@ Gfx* draw_party_portaits(Gfx*param_1,bool param_2,color *col){
   float Hscale;
   color TempCol;
   
-  if (!param_2) {if (screen_bottom < 0xf0) {screen_bottom+=4;}}
-  else if ((param_2) && (0xb9 < screen_bottom)) {screen_bottom-=4;}}
+  if (!param_2) {if (screen_bottom < 0xf0) screen_bottom+=4;}
+  else if ((param_2) && (0xb9 < screen_bottom)) screen_bottom-=4;
   pauVar2 = rsp_func(param_1,6,gfx::get_hres(),gfx::get_vres());
   PortraitColorBlend(col,&TempCol,gGlobals.screenfadeFloat);
   Hscale = 0.8f;

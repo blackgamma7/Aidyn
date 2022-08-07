@@ -1816,10 +1816,10 @@ void RenderZones(Gfx**param_1,vec3 *param_2,s16 param_3)
   uStack144[7] = DAT_800d8774;
   func_800a8004(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4);
   if (gGlobals.screenFadeModeSwitch == 0xc) {
-    setA_with_2floats(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4,0.1,125.0);
+    SetNearFarPlanes(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4,0.1,125.0);
   }
   else {
-    setA_with_2floats(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4,1.0,180.0);
+    SetNearFarPlanes(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4,1.0,180.0);
   }
   func_800a0df4(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4);
   pauStack76 = gsAnimationDataMtx(pauStack76,gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4);

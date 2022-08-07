@@ -1413,7 +1413,7 @@ s32 func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,s32 
               if (SVar1 != AcidBolt) goto LAB_80079e48;
             }
 RollDoT:
-            uVar5 = globals::RollD(dice,6);
+            uVar5 = RollD(dice,6);
           }
           else {
             if (SVar1 == photosynthesis) {
@@ -1423,7 +1423,7 @@ RollDoT:
             }
             else if (SVar1 == webOfStarlight) {
               iVar4 = CharStats::getModdedStat(param_1->Stats,STR);
-              uVar5 = globals::RollD(1,100);
+              uVar5 = RollD(1,100);
               if ((iVar4 * 2 <= (s32)uVar5) ||
                  (some_skillcheck_calc((s32)((iVar4 * 2 - uVar5) * 0x10000) >> 0x10) == 0)) {
                  dice = 2;
@@ -1916,8 +1916,8 @@ void Wraith_touch(CharSheet *param_1,CombatEntity* cEnt,u8 num,u32 param_2){
   Temp_enchant **ppTVar4;
   CHAR_STAT wraithTouch_stats [4]={s32,WIL,DEX,STR};
   
-  SVar1 = wraithTouch_stats[globals::RollD(1,4)];
-  uVar2 = globals::RollD(2,6);
+  SVar1 = wraithTouch_stats[RollD(1,4)];
+  uVar2 = RollD(2,6);
   addModdedStats_flag(param_1->Stats,SVar1,-uVar2);
   pTVar3 = (Temp_enchant *)heapAlloc(0x18,FILENAME,0xcec);
   ppTVar4 = param_1->effects->list + param_2;

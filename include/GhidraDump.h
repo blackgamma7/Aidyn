@@ -276,7 +276,7 @@ struct WidgetMethods {
     struct Method handleSubstruct;
     struct Method link;
     struct Method unlink;
-    struct Method unk_func_8;
+    struct Method Render;
     struct Method SetColor;
     struct Method Controlfunc;
     struct Method UpFunc;
@@ -5439,7 +5439,7 @@ struct CinematicStruct {
     struct borg_6_header * Borg6;
     struct Borg_12_header * BGM;
     enum EventFlag * cinematic_dat_seq;
-    float[2] * floatPairs;
+    float[2] * clippingPlanes;
     enum borg6Enum * borg6enums;
     enum Borg12Enum * borg12enums;
     u16 tally;
@@ -6709,7 +6709,7 @@ struct SkyStruct {
     u16 unk0x18;
     u8 unk0x1a;
     u8 unk0x1b;
-    pointer ptr_0x1c;
+    color* gradient;
     struct color colors[5];
     float unk0x34;
     float unk0x38;

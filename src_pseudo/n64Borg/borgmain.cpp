@@ -415,7 +415,7 @@ void Borg4_free(s32 *param_1){
   borg_count[4]--;
   return;
 }
-//"borg3": only 5 in the game. 48 bytes big. mystery.
+//"borg3": only 5 in the game. Seem to be camera perpective configs.
 void borg3_func_a(Borg_3 *param_1){
   param_1->unk0x2c = 0;
   param_1->unk0x28 = (s32)&param_1->unk0x10 + param_1->unk0x28;

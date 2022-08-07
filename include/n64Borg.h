@@ -296,3 +296,16 @@ struct mapVoxel { //base object of "ref_objs"
         u8 other[68]; //"CODE" is usually blank, "SAVEPOINT" is never used (you can save anywhere.)
     }d;
 };
+struct Borg_3{
+    u32 index;
+    u8 unk0x4[4]; //align?
+    //actual file data
+    u16[4] perspnorm;
+    f32 unk0x10;
+    f32 fovy;
+    f32 nearplane,farplane;
+    f32 unk0x20;
+    f32 aspect;
+    s32 unk0x28; //pointer? seems unused.
+    Mtx* mtx_;
+};

@@ -3,7 +3,7 @@ struct CinematicStruct {
     struct borg_6_header * Borg6;
     struct Borg_12_header * BGM;
     enum EventFlag * cinematic_dat_seq;
-    float[2] * floatPairs;
+    float[2] * clippingPlanes;
     enum borg6Enum * borg6enums;
     enum Borg12Enum * borg12enums;
     u16 tally;
@@ -27,7 +27,7 @@ void load_cinematic(CinematicEnum param_1,enum_cinematic_switch param_2,s32 para
   gGlobals.cinematic.borg6enums = cinematic_dat_pointers[param_1].borg6;
   gGlobals.cinematic.cinematic_dat_seq = (EventFlag *)cinematic_dat_pointers[uVar1].unknown;
   gGlobals.cinematic.borg12enums = cinematic_dat_pointers[param_1].borg12;
-  gGlobals.cinematic.floatPairs = cinematic_dat_pointers[param_1].floats;
+  gGlobals.cinematic.clippingPlanes = cinematic_dat_pointers[param_1].floats;
   gGlobals.cinematic.scene_switch = 1;
   gGlobals.cinematic.switch = param_2;
   gGlobals.cinematic.some_cinematic_dat = param_3;
@@ -230,9 +230,9 @@ void func_loading_cinematics(void){
     func_8009f87c(gGlobals.cinematic.AniDat,gGlobals.cinematic.Borg6);
     AniDat_Flags_OR_0x10(gGlobals.cinematic.AniDat);
     Anidat_Flags_NAND_0x81(gGlobals.cinematic.AniDat);
-    setA_with_2floats(gGlobals.cinematic.AniDat,
-                      gGlobals.cinematic.floatPairs[gGlobals.cinematic.tally][0],
-                      gGlobals.cinematic.floatPairs[gGlobals.cinematic.tally][1]);
+    SetNearFarPlanes(gGlobals.cinematic.AniDat,
+                      gGlobals.cinematic.clippingPlanes[gGlobals.cinematic.tally][0],
+                      gGlobals.cinematic.clippingPlanes[gGlobals.cinematic.tally][1]);
     gGlobals.cinematic.tally++;
   }
 }
@@ -389,8 +389,6 @@ widgetStruct * Ofunc_8005d330(char *param_1,s16 param_2,u16 param_3,u16 param_4,
   pwVar1 = widgettext_func_2(passToMalloc(0x7c),param_1,param_2);
   set_widget_coords(pwVar1,param_3,param_4);
   some_widget_setter(pwVar1,param_4,param_3,param_5,param_6);
-  (*(pwVar1->methods->SetColor).func)
-            ((s32)&pwVar1->ptr0 + (s32)(s16)(pwVar1->methods->SetColor).arg[0],param_7,param_8,
-             param_9,param_10);
+  pwVar1->SetColor(param_7,param_8,param_9,param_10);
   return pwVar1;
 }

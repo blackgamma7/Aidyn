@@ -73,7 +73,7 @@ void TitleSplash::Init(void){
   
   splashscreenAniDat = BorgAnimLoadScene(0x25a8); //n64 logo
   fVar4 = 1.0f;
-  setA_with_2floats(splashscreenAniDat,1.0f,256.0);
+  SetNearFarPlanes(splashscreenAniDat,1.0f,256.0);
   AniDat_flags_OR_8(splashscreenAniDat);
   AniDat_Flags_OR_0x10(splashscreenAniDat);
   AniDat_Flags_NAND_5(splashscreenAniDat);
@@ -82,13 +82,8 @@ void TitleSplash::Init(void){
   gGlobals.splashscreenTimer = 0;
   fadeFloatMirror = fVar4;
   widget_N64Logo = borg8_widget(passToMalloc(0x7c),get_borg_8(BORG8_LicencedByNintendo));
-  (*(widget_N64Logo->methods->SetColor).func)
-            ((s32)&widget_N64Logo->ptr0 + (s32)(s16)(widget_N64Logo->methods->SetColor).arg[0],0,0
-             ,0);
-  uVar3 = (*(widget_N64Logo->methods->getHeight).func)
-                    ((s32)&widget_N64Logo->ptr0 +
-                     (s32)(s16)(widget_N64Logo->methods->getHeight).arg[0]);
-  set_widget_coords(widget_N64Logo,0xa0 - (s16)(uVar3 >> 1),0xbe);
+  widget_N64Logo->SetColor(0,0,0,0);
+  set_widget_coords(widget_N64Logo,0xa0 -(widget_N64Logo->getHeight()/2),0xbe);
 }
 
 void TitleSplash::N64Free(void){
@@ -299,12 +294,10 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
   pauVar3 = some_rsp_func(pauVar3,0,0,0x140,0xf0);
   animationData_LookAt(splashscreenAniDat,n64LogoVec3[0],n64LogoVec3[1],n64LogoVec3[2],fVar5,fVar7,fVar6,0,1.0f,0);
   func_800a0df4(splashscreenAniDat);
-  pauVar3 = (Gfx*)gsAnimationDataMtx(pauVar3,splashscreenAniDat);
-  pauVar3 = (Gfx*)func_800a0da4(pauVar3,splashscreenAniDat);
+  pauVar3 = gsAnimationDataMtx(pauVar3,splashscreenAniDat);
+  pauVar3 = func_800a0da4(pauVar3,splashscreenAniDat);
   pauVar3 = rsp_func(pauVar3,6,gfx::get_hres(),gfx::get_vres());
-  pauVar3 = (Gfx*)(*(widget_N64Logo->methods->unk_func_8).func)
-                      ((s32)&widget_N64Logo->ptr0 +
-                       (s32)(s16)(widget_N64Logo->methods->unk_func_8).arg[0],pauVar3,0,0);
+  pauVar3 = widget_N64Logo->Render(pauVar3,0,0);
   *param_1 = pauVar3;
   return auStack64;
 }

@@ -19,7 +19,7 @@ u32 globals::rand_range(u32 A,u32 B){
   return A;
   }
 
-u32 globals::RollD(u8 dice,u8 sides){
+u32 RollD(u8 dice,u8 sides){
   u32 i = 0;
   
   if (dice) {
@@ -40,49 +40,40 @@ u32 some_skillcheck_calc(s16 param_1){
 }
 
 void get_battle_terrain(EncounterDat *param_1){
-  s32 uVar2;
-  u32 uVar3;
-  longlong lVar1;
   u8 bVar4;
+
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x1e7);
-  uVar2 = World::getTerrain(TerrainPointer);
-  switch(uVar2) {
+  switch(World::getTerrain(TerrainPointer)) {
   case 0:
-    uVar3 = rand_range(6,7);
-    param_1->battlefield = (u8)uVar3;
+    param_1->battlefield = rand_range(6,7);
     break;
   case 1:
   case 0x18:
-    uVar3 = rand_range(2,3);
-    param_1->battlefield = (u8)uVar3;
+    param_1->battlefield = rand_range(2,3);
     break;
   case 2:
-    uVar3 = rand_range(0,1);
-    param_1->battlefield = (u8)uVar3;
+    param_1->battlefield = rand_range(0,1);
     break;
   case 3:
   case 0x1b:
-    uVar3 = rand_range(0xe,0xf);
-    param_1->battlefield = (u8)uVar3;
+    uVar3 = ;
+    param_1->battlefield = rand_range(0xe,0xf);
     break;
   case 4:
     bVar4 = 0x13;
     goto setBattlefeildTerrain;
   case 5:
   case 0x11:
-    uVar3 = rand_range(4,5);
-    param_1->battlefield = (u8)uVar3;
+    param_1->battlefield = rand_range(4,5);
     break;
   case 6:
     bVar4 = 0x12;
     goto setBattlefeildTerrain;
   case 7:
-    uVar3 = rand_range(6,7);
-    param_1->battlefield = (u8)uVar3;
+    param_1->battlefield = rand_range(6,7);
     break;
   case 8:
-    uVar3 = rand_range(0xc,0xd);
-    param_1->battlefield = (u8)uVar3;
+    param_1->battlefield = rand_range(0xc,0xd);
     break;
   case 9:
     bVar4 = 0x11;
@@ -117,44 +108,21 @@ setBattlefeildTerrain:
   case 0x13:
   case 0x17:
   case 0x1a:
-    uVar3 = rand_range(8,0xb);
-    param_1->battlefield = (u8)uVar3;
+    param_1->battlefield = rand_range(8,0xb);
     break;
   case 0x14:
-    lVar1 = RollD(1,2);
-    if (lVar1 == 1) {
-      uVar3 = rand_range(6,7);
-      param_1->battlefield = (u8)uVar3;
-    }
-    else {
-      uVar3 = rand_range(8,0xb);
-      param_1->battlefield = (u8)uVar3;
-    }
+    if (RollD(1,2) == 1) param_1->battlefield = rand_range(6,7);
+    else param_1->battlefield = rand_range(8,0xb);
     break;
   case 0x15:
-    lVar1 = RollD(1,2);
-    if (lVar1 == 1) {
-      uVar3 = rand_range(2,3);
-      param_1->battlefield = (u8)uVar3;
-    }
-    else {
-      uVar3 = rand_range(8,0xb);
-      param_1->battlefield = (u8)uVar3;
-    }
+    if (RollD(1,2) == 1) param_1->battlefield = rand_range(2,3);
+    else param_1->battlefield = rand_range(8,0xb);
     break;
   case 0x16:
-    lVar1 = RollD(1,2);
-    if (lVar1 == 1) {
-      uVar3 = rand_range(0,1);
-      param_1->battlefield = (u8)uVar3;
-    }
-    else {
-      uVar3 = rand_range(8,0xb);
-      param_1->battlefield = (u8)uVar3;
-    }
+    if (RollD(1,2) == 1) param_1->battlefield = rand_range(0,1);
+    else param_1->battlefield = rand_range(8,0xb);
   }
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x253);
-  return;
 }
 // next few functions go CRAZY with the sprintf's for some reason.
 u32 get_enemy_avg_lv(u32 param_1,monsterparty_dat *param_2){
@@ -450,7 +418,6 @@ void battle_setup_func(monsterparty_obj *param_1,EventFlag param_2,u16 param_3)
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x314);
   Emergency_skeleton_func(&param_1->enemyID);
   sprintf(gGlobals.Text,"%s - %d","./src/globals.cpp",0x315);
-  return;
 }
 
 void load_camp_ambush(void){
@@ -502,7 +469,7 @@ void load_camp_ambush(void){
   Emergency_skeleton_func(aIStack72);
 }
 
-u32 append_SenseAura_text(char *str1,char *str2,u32 param_3){
+u32 append_SenseAura_text(char *str1,char *str2,u8 param_3){
   u32 uVar1 = strlen(str1);
   u32 uVar2 = strlen(str2);
   sprintf(str1 + uVar1,"%s\n",str2);
@@ -527,7 +494,7 @@ undefined8 func_8000c730(void){
   uVar1 = (u32)((ulonglong)in_v1 >> 0x20);
   OVar3 = osGetTime();
   uVar2 = (ulonglong)uVar1 << 0x20;
-  uVar4 = udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,0,3);
+  uVar4 = udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,3);
   return CONCAT44(((s32)(uVar4 >> 0x20) - ofunc_dat._0_4_) -
                   (u32)((uVar2 & 0xffffffff00000000 | uVar4 & 0xffffffff) <
                         (ulonglong)(longlong)ofunc_dat._4_4_),
@@ -542,16 +509,11 @@ void func_8000c788(char *param_1){
   uVar1 = (u32)((ulonglong)in_v1 >> 0x20);
   OVar3 = osGetTime();
   uVar2 = (ulonglong)uVar1 << 0x20;
-  uVar4 = udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,0,3);
-  sprintf(gGlobals.Text,s_%s_:_%llu_800d828c,param_1,
-              (ulonglong)
-              ((uVar2 & 0xffffffff00000000 | uVar4 & 0xffffffff) <
-              (ulonglong)(longlong)ofunc_dat._4_4_));
+  uVar4 = udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,3);
+  sprintf(gGlobals.Text,s_%s_:_%llu_800d828c,ofunc_dat);
   N64Print::Print(gGlobals.Text);
   OVar3 = osGetTime();
-  uVar4 = udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,0,3);
-  ofunc_dat._0_4_ = (s32)(uVar4 >> 0x20);
-  ofunc_dat._4_4_ = (s32)uVar4;}
+  ofunc_dat=udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,3);
 void func_8000c850(float param_1){
   ulonglong uVar1;
   u32 in_v1_hi;
@@ -586,8 +548,8 @@ void func_8000c850(float param_1){
 //now, to more sensible programming.
 void minimap_struct_init_or_free(bool param_1,s16 param_2){
   if (param_2 == -1) {
-    if (param_1 == false) {passto_minimap_struct_free(&MinimapStruct);}
-    else {minimap_struct_init(&MinimapStruct);}
+    if (param_1 == false) passto_minimap_struct_free(&MinimapStruct);
+    else minimap_struct_init(&MinimapStruct);
   }
 }
 

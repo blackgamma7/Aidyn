@@ -77,7 +77,7 @@ u32 item_chances(container_Dat *chest,u8 *chance,u8 QLo,u8 Qhi,u8 slot,s16 item,
   u32 uVar4;
   
   uVar4 = slot;
-  if ((chance != 0) && (globals::RollD(1,100) <= chance)){
+  if ((chance != 0) && (RollD(1,100) <= chance)){
     uVar4 = slot+1;
     pasVar2 = chest->lootCatDrop[slot]; 
     (*pasVar2)[1] = 1;

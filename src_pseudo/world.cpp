@@ -193,16 +193,16 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
   PRECIPITATION PVar3;
   float fVar5;
   
-  if (0x4b < globals::RollD(1,100)) {
+  if (0x4b < RollD(1,100)) {
     ter->windByte = 0;
     ter->rainByte = CLEAR;
     ter->PrecipScale = 0.0;
     ter->FogFloat = 0.0;
     bVar1 = weather_terrain_array[ter->terrain];
     bVar2 = weather_month_array[cal->month];
-    if ((s32)(((u32)bVar2 + (s32)(char)bVar1) * 0x10000) >> 0x10 < globals::RollD(1,100)) {}
+    if ((s32)(((u32)bVar2 + (s32)(char)bVar1) * 0x10000) >> 0x10 < RollD(1,100)) {}
     else {  
-      if (globals::RollD(1,100) < 0x46) {
+      if (RollD(1,100) < 0x46) {
         ter->rainByte = RAIN;
         ter->windByte = 2;
         if (ter->terrain == 5) {ter->rainByte = SNOW;}

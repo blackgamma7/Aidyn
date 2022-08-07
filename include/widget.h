@@ -11,7 +11,7 @@ struct Widget_Methods { //methods based on type of widget
     struct Method handleSubstruct;
     struct Method link;
     struct Method unlink;
-    struct Method unk_func_8;
+    struct Method Render;
     struct Method SetColor;
     struct Method Controlfunc;
     struct Method UpFunc;
