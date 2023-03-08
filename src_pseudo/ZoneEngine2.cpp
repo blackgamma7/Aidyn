@@ -48,7 +48,7 @@ mapFloatDat * func_8000cae8(vec3 *position,s16 mapshortA,s16 mapShortB,s16 param
   vec3 pvec3;
   vec3 fStack104;
   
-  pmVar6 = (mapFloatDat *)0x0;
+  pmVar6 = NULL;
   uVar8 = 0;
   if (param_5 != 0) {uVar8 = (ulonglong)(u32)100000.0f;}
   uVar5 = 0;
@@ -800,7 +800,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
      (uVar21 = 1, gGlobals.Sub.ZoneDatMtx[1][1].borg9_id == 0)) {
     ppVar9 = gGlobals.playerCharStruct.playerDat;
     if (gGlobals.screenFadeModeSwitch == 2) {
-      ppVar9 = gGlobals.playerDataArray[combatPointer->current_Ent->index];
+      ppVar9 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
     }
     sprintf(gGlobals.text,"Center scene not in Borg.\nPlayer Pos: (%3.4f, %3.4f)\nNew Grid: %d-%c%02d",
       (ppVar9->collision).position[0](ppVar9->collision).position[2],gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1 - 1 + 0x41,gGlobals.Sub.mapShort2);
@@ -1252,10 +1252,10 @@ AnimationData * load_borg_5_func(u32 param_1){
   return pAVar1;
 }
 
-void set_anidat_colors(AnimationData *param_1,u8 param_2,char param_3,color param_4){
+void set_anidat_colors(AnimationData *param_1,u8 param_2,char param_3,color32 param_4){
   float fVar1;
-  color bStack216;
-  color auStack88;
+  color32 bStack216;
+  color32 auStack88;
   
   func_800a7ff4(param_1);
   fVar1 = gGlobals.Sub.weatherDat.FogFloat;
@@ -1377,7 +1377,7 @@ Gfx* RenderVoxelScenes(Gfx*param_1,Borg_9_data *param_2,vec3 *v3,s16 param_4,s16
   s32 iVar10;
   Scene_obj_dat *pSVar11;
   AnimationData **ppAVar12;
-  color cVar13;
+  color32 cVar13;
   Scene_obj *SObj;
   u32 uVar14;
   s32 iVar15;
@@ -1534,7 +1534,7 @@ LAB_80010084:
                 }
                 cVar13 = (color)0x0;
                 if (((SObj->dat).SceneFlags & 0x10) != 0) {
-                  cVar13 = *(color *)((SObj->dat).unk0x34 + 2);
+                  cVar13 = *(color32 *)((SObj->dat).unk0x34 + 2);
                 }
                 anidat_setMaxtrixA_3
                           (pAVar4,(SObj->header).coords[0] - (float)uVar23,(SObj->header).coords[1],

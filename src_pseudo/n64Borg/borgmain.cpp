@@ -624,7 +624,7 @@ bool InitBorgScene(Borg_5_header *param_1){
     puVar5 = puVar5 + 0x20;
     piVar10 = (s32 *)param_1->unk0x38;
   }
-  if (piVar10 == (s32 *)0x0) {
+  if (piVar10 == NULL) {
     piVar10 = (s32 *)param_1->locatorDat;
   }
   else {
@@ -638,7 +638,7 @@ bool InitBorgScene(Borg_5_header *param_1){
     }
     piVar10 = (s32 *)param_1->locatorDat;
   }
-  if (piVar10 != (s32 *)0x0) {
+  if (piVar10 != NULL) {
     fVar13 = param_1->unk0x18[0];
     while (fVar13 != 0.0) {
       iVar9 = *(s32 *)(*piVar10 + 0x58);
@@ -685,7 +685,6 @@ bool InitBorgScene(Borg_5_header *param_1){
 void borg5_free(Borg_5_header *param_1){
   s32 uVar1;
   s32 iVar2;
-  u8 uVar3;
   borg_2_header *pbVar4;
   Borg_1_Header *pBVar5;
   s32 iVar6;
@@ -695,11 +694,11 @@ void borg5_free(Borg_5_header *param_1){
   Borg_1_Header *pBVar10;
   
   iVar2 = get_memUsed();
-  if (param_1->borg3 != (Borg_3 *)0x0) {
+  if (param_1->borg3) {
     borg3_free(param_1->borg3);
   }
   puVar8 = (s32 *)param_1->unk0x38;
-  if ((puVar8 != (s32 *)0x0) && (iVar6 = *(s32 *)&param_1->unk0x14, iVar6 != 0)) {
+  if ((puVar8) && (iVar6 = *(s32 *)&param_1->unk0x14, iVar6 != 0)) {
     uVar1 = *puVar8;
     while( true ) {
       iVar6 = iVar6 + -1;
@@ -710,7 +709,7 @@ void borg5_free(Borg_5_header *param_1){
     }
   }
   pbVar9 = (borg_2_header *)param_1->locatorDat;
-  if (pbVar9 == (borg_2_header *)0x0) {
+  if (pbVar9 == NULL) {
     pBVar10 = (Borg_1_Header *)param_1->unk0x40;
   }
   else {
@@ -727,7 +726,7 @@ void borg5_free(Borg_5_header *param_1){
     }
     pBVar10 = (Borg_1_Header *)param_1->unk0x40;
   }
-  if (pBVar10 == (Borg_1_Header *)0x0) {
+  if (pBVar10 == NULL) {
     iVar6 = *(s32 *)param_1;
   }
   else {
@@ -749,8 +748,7 @@ void borg5_free(Borg_5_header *param_1){
     HeapFree(param_1,FILENAME,0x78f);
   }
   else {
-    uVar3 = get_borg_index_count(iVar6);
-    if (uVar3 == 1) {HeapFree(*(void **)&param_1->unk0x8,FILENAME,0x795);}
+    if (get_borg_index_count(iVar6) == 1) {HeapFree(*(void **)&param_1->unk0x8,FILENAME,0x795);}
     dec_borg_count(*(s32 *)param_1);
   }
   borg_mem[5]-= (iVar2 - get_memUsed());

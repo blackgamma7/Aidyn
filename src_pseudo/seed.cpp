@@ -7,7 +7,7 @@
 void bootproc(void){
   osInitialize();
   osUnmapTLBAll();
-  osCreateThread(&init_thread,1,InitProc,null,&init_thread,1);
+  osCreateThread(&init_thread,1,InitProc,NULL,&init_thread,1);
   osStartThread(&init_thread);
 }
 
@@ -35,7 +35,7 @@ void InitProc(void){
   set_borg_mem_things(&borg_listings,borg_files);
   time = osGetTime();
   Random::SetSeed(&gGlobals,udivdi3(CONCAT44((time >> 0x20) << 6 | time >> 0x1a,time << 6),3000));
-  app_cpp_func(&Sched,8,2);
+  appInit(&Sched,8,2);
   osSetThreadPri(&init_thread,IDLE);
   do {} while(1);
 }

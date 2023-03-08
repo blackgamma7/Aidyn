@@ -20,8 +20,8 @@ void init_char_skills(CharSkills *arg0,ItemID id){
   EntRam = EntityPointer->entities[GetIDIndex(id)];
   memcpy(arg0,EntRam->Skills,0xc);
   memcpy(arg0->Skill_modded,EntRam->Skills,0xc);
-  memcpy(arg0->Weapon_Base,EntRam->Weapon prof,0xb);
-  memcpy(arg0->Weapon_modded,EntRam->Weapon prof,0xb);
+  memcpy(arg0->Weapon_Base,EntRam->weaponProf,0xb);
+  memcpy(arg0->Weapon_modded,EntRam->weaponProf,0xb);
   bottom_modded_skill(arg0->Skill_modded,0xc);
   bottom_modded_skill(arg0->Weapon_modded,0xb);
   arg0->Sheild_Base = EntRam->sheildStat;
@@ -42,7 +42,7 @@ void CopyCharSkills(CharSkills *A,CharSkills *B){
   memcpy(A->Weapon_modded,B->Weapon_modded,0xb);
 }
 
-s32 get_skill_xp_multi(CharSkills *skills,CHAR_SKILL arg1){
+s32 get_skill_xp_multi(CharSkills *skills,u8 arg1){
   s32 i = skills->Skill_base[arg1] + 1;
   s32 skill_xp_multis[12]={1500,500,1000,750,500,7500,750,500,1000,1000,1000,1500};
   if (0xb < arg1) {
@@ -55,7 +55,7 @@ s32 get_skill_xp_multi(CharSkills *skills,CHAR_SKILL arg1){
   return i * i * skill_xp_multis[arg1];
 }
 
-u32 Weapon_XP_check(CharSkills *skills,WeaponClassEnum arg1){
+u32 Weapon_XP_check(CharSkills *skills,u8 arg1){
   u32 i = skills->Weapon_Base[arg1] + 1;
   u32 weapon_xp_multis[11]={0,0,0,400,600,400,0,0,600,400,0};
   //0 value = enemy weapon classes
@@ -75,26 +75,26 @@ s32 sheild_xp_check(CharSkills *arg0){
 }
 
 s32 get_200_or_1plusx_28(u8 arg0){
-  if (arg0 != 0) return (arg0 + 1) * 0x28;
+  if (arg0 != 0) return (arg0 + 1) * 40;
   return 200;
 }
 
 
-u32 get_skill_gold_train_price(CharSkills *skills,CHAR_SKILL arg1){
+u32 get_skill_gold_train_price(CharSkills *skills,u8 arg1){
   return get_200_or_1plusx_28(skills->Skill_base[arg1]);
 }
 
-u32 get_selected_weaponskill_price(CharSkills *skills,WeaponClassEnum arg1){
+u32 get_selected_weaponskill_price(CharSkills *skills,u8 arg1){
   return get_200_or_1plusx_28(skills->Weapon_base[arg1]);
 }
 
 
-void check_baseskill_minus1(char* skills,char *modded,CHAR_SKILL arg2,char mod){
+void check_baseskill_minus1(char* skills,char *modded,u8 arg2,char mod){
   if (-1 < skills[arg2]) modded[arg2]+= mod;
   return;
 }
 
-void Wonky_skill_check(Char* *skills,char *arg1,CHAR_SKILL arg2,char arg3){
+void Wonky_skill_check(Char* *skills,char *arg1,u8 arg2,char arg3){
   u8 bVar1;
   u8 bVar2;
   s32 iVar3;
@@ -117,11 +117,11 @@ void Wonky_skill_check(Char* *skills,char *arg1,CHAR_SKILL arg2,char arg3){
   return;
 }
 
-void wonky_baseskill_check(CharSkills *skills,CHAR_SKILL arg1,u8 arg2){
+void wonky_baseskill_check(CharSkills *skills,u8 arg1,u8 arg2){
   Wonky_skill_check((char *)skills,(char *)skills->Skill_modded,arg1,arg2);
 }
 
-void wonky_weapon_check(CharSkills *skills,WeaponClassEnum arg1,u8 arg2){
+void wonky_weapon_check(CharSkills *skills,u8 arg1,u8 arg2){
   Wonky_skill_check((char *)skills->Weapon_Base,(char *)skills->Weapon_modded,arg1,arg2);
 }
 
@@ -130,7 +130,7 @@ void wonky_sheild_check(CharSkills *param_1,u8 param_2){
 }
 
 
-void some_moddedSkillCheck(CharSkills *arg0,CHAR_SKILL arg1,s8 arg2){
+void some_moddedSkillCheck(CharSkills *arg0,u8 arg1,s8 arg2){
   u8 bVar1;
   u8 *pbVar2 = arg0->Skill_modded[arg1];
   bVar1 = *pbVar2;
@@ -147,13 +147,13 @@ char CapModdedSkillMax(char skill,char cap){
   return cap;
 }
 
-u8 capskillBaseMax(CharSkills *skills,CHAR_SKILL arg1){
+u8 capskillBaseMax(CharSkills *skills,u8 arg1){
   u8 b = skills->Skill_base[arg1];
   if (10 < (char)skills->Skill_base[arg1]) b = 10;
   return b;
 }
 
-u8 capWeaponBaseMax(CharSkills *skills,WeaponClassEnum arg1){
+u8 capWeaponBaseMax(CharSkills *skills,u8 arg1){
   u8 b = skills->Weapon_base[arg1];
   if (10 < (char)skills->Weapon_base[arg1]) b = 10;
   return b;}
@@ -163,19 +163,19 @@ u8 capSheildBaseMax(CharSkills *skills){
   if (10 < (char)skills->Sheild_Base) b = 10;
   return b;}
 
-char getModdedSkill(CharSkills *param_1,CHAR_SKILL param_2){
+char getModdedSkill(CharSkills *param_1,u8 param_2){
   return CapModdedSkillMax(param_1->Skill_modded[param_2],15);}
 
-char getModdedWeapon(CharSkills *param_1,WeaponClassEnum param_2){
+char getModdedWeapon(CharSkills *param_1,u8 param_2){
   return CapModdedSkillMax(param_1->Weapon_modded[param_2],15);}
 
 char getModdedSheild(CharSkills *param_1){
   return CapModdedSkillMax(param_1->Sheild_modded,15);}
 
-bool isSkilOverLv10(CharSkills *param_1,CHAR_SKILL param_2){
+bool isSkilOverLv10(CharSkills *param_1,u8 param_2){
   return 10 < (char)param_1->Skill_base[param_2];}
 
-bool isWepSkillOverLv10(CharSkills *param_1,WeaponClassEnum param_2){
+bool isWepSkillOverLv10(CharSkills *param_1,u8 param_2){
   return 10 < (char)param_1->Weapon_base[param_2];}
 
 bool isSheildSkillOver10(CharSkills *param_1){

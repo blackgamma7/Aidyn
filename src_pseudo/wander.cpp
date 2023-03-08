@@ -108,7 +108,7 @@ void look_for_monsterparties(wander_struct *param_1,Borg_9_data *param_2,s32 par
     iVar3 = 0x10000;
     do {
       obj = (monsterparty_obj *)(&param_2->ref_objs[count]);
-      if ((((obj->header).type == MonsterParty) && (((obj->header).Bitfeild & visible) != 0)) &&
+      if ((((obj->header).type == VOBJECT_MONSTERPARTY) && (((obj->header).Bitfeild & visible) != 0)) &&
          (bVar1 = some_monsterparty_checker((s16)(uVar2 & 0xffff),(u8)map_dat_A,(u8)MapShortA,(u8)mapShortB
                              ,param_4,5), bVar1 == false)) {
         AllocWanderer(param_1,uVar2 & 0xffff,param_3,param_4);
@@ -571,7 +571,7 @@ LAB_80013310:
             else {
               if (-entRamB < 3.0f) {
 LAB_80013488:
-                bVar7 = func_800adf78(pBVar5,fStack232,fStack168,0.5,null,
+                bVar7 = func_800adf78(pBVar5,fStack232,fStack168,0.5,NULL,
                                      NULL,0);
                 if (bVar7 == false) {
                   encounter_dat.collisionBool = true;

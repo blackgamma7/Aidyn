@@ -31,9 +31,9 @@ ulong init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
   
   param_1->portrait = get_borg_8(getEntityPortait(param_1->ID));
   x = (Potion_effect **)heapAlloc(0x1c,FILENAME,0xc1);
-  param_1->potion_effects = x;
+  param_1->potionEffects = x;
   memset(x,0,0x1c);
-  iVar5 = CharStats::getBaseStat(param_1->Stats,LV);
+  iVar5 = CharStats::getBaseStat(param_1->Stats,STAT_LV);
   uVar1 = EXP_TNL[iVar5];
   param_1->weapons = NULL;
   param_1->EXP->total = uVar1;
@@ -41,8 +41,8 @@ ulong init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
   if (param_2->weapon[1] != (ItemID)0xffff) {
     if (param_1->weapons == NULL) {EquipWeapon(param_1,param_2->weapon[1],0);}
     else {
-      piVar2 = gGlobals.party->Inventory->Functions;
-      (*(piVar2->add_to_inv).func)((s32)gGlobals.party->Inventory->inv_slots + (s16)(piVar2->add_to_inv).arg[0] + -4,(ulonglong)(u16)param_2->weapon[1],1);
+      piVar2 = gGlobals.party->inv->Functions;
+      (*(piVar2->add_to_inv).func)((s32)gGlobals.party->inv->inv_slots + (s16)(piVar2->add_to_inv).arg[0] + -4,(ulonglong)(u16)param_2->weapon[1],1);
     }
   }
   IVar7 = param_2->weapon[2];
@@ -50,8 +50,8 @@ ulong init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
   if (IVar7 != (ItemID)0xffff) {
     if (param_1->weapons == NULL) {uVar6 = EquipWeapon(param_1,param_2->weapon[2],0);}
     else {
-      piVar2 = gGlobals.party->Inventory->Functions;
-      uVar6 = (*(piVar2->add_to_inv).func)((s32)gGlobals.party->Inventory->inv_slots +(s16)(piVar2->add_to_inv).arg[0] + -4,(ulonglong)(u16)param_2->weapon[2],1);
+      piVar2 = gGlobals.party->inv->Functions;
+      uVar6 = (*(piVar2->add_to_inv).func)((s32)gGlobals.party->inv->inv_slots +(s16)(piVar2->add_to_inv).arg[0] + -4,(ulonglong)(u16)param_2->weapon[2],1);
     }
   }
   return uVar6;
@@ -63,7 +63,7 @@ void equip_weapons(CharSheet *param_1,Entity_Ram *param_2){
   Potion_effect **x;
   
   x = (Potion_effect **)heapAlloc(0x1c,FILENAME,0xd8);
-  param_1->potion_effects = x;
+  param_1->potionEffects = x;
   memset(x,0,0x1c);
   param_1->weapons = NULL;
   if (param_2->weapon[2] != (ItemID)0xffff) {EquipWeapon(param_1,param_2->weapon[2],0);}
@@ -99,7 +99,7 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,u32 param_3){
   spellbook *psVar5;
   s32 iVar6;
   Temp_spell *pTVar7;
-  effects *x;
+  SpellEffect*x;
   s16 *psVar9;
   u32 uVar10;
   Entity_Ram *pEVar11;
@@ -114,7 +114,7 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,u32 param_3){
   param_1->name = pEVar11->Name;
   stats = (CharStats *)heapAlloc(0x1c,FILENAME,0x101);
   param_1->Stats = stats;
-  init_CharStats(stats,param_1->ID);
+  CharStats:Init(stats,param_1->ID);
   pcVar2 = (charExp *)heapAlloc(0x10,FILENAME,0x104);
   param_1->EXP = pcVar2;
   init_charExp(pcVar2,param_1->ID);
@@ -125,11 +125,11 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,u32 param_3){
   param_1->armor = pptVar3;
   *pptVar3 = NULL;
   pptVar3[1] = NULL;
-  if (pEVar11->armor != (ItemID)0xffff) {Equip_Armor(param_1,pEVar11->armor,0);}
-  if (pEVar11->Sheild != -1) {EquipSheild(param_1,pEVar11->Sheild,0);}
+  if (pEVar11->armor != -1) Equip_Armor(param_1,pEVar11->armor,0);
+  if (pEVar11->Sheild != -1) EquipSheild(param_1,pEVar11->Sheild,0);
   pCVar4 = (CharGear *)heapAlloc(8,FILENAME,0x111);
   param_1->pItemList = pCVar4;
-  create_unknown_charsheet_struct(pCVar4,0xc);
+  CharGear_Init(pCVar4,0xc);
   psVar5 = (spellbook *)heapAlloc(8,FILENAME,0x114);
   param_1->spellbook = psVar5;
   malloc_spell(psVar5,5);
@@ -147,8 +147,8 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,u32 param_3){
     uVar10++;
     iVar6 = uVar10 << 1;
   } while (uVar10 < 5);
-  x = (effects *)heapAlloc(0x3c,FILENAME,0x11f);
-  param_1->effects = x;
+  x = (SpellEffect*)heapAlloc(0x3c,FILENAME,0x11f);
+  param_1->spellEffects = x;
   memset(x,0,0x3c);
   apcStack112[0] = PTR_init_more_charSheet_data_800e030c;
   apcStack112[1] = PTR_equip_weapons_800e0310;
@@ -160,23 +160,16 @@ void create_CharSheet(CharSheet *param_1,ItemID param_2,u32 param_3){
 }
 
 void CharSheet_free(CharSheet *param_1){
-  CharGear *pCVar1;
-  effects *peVar2;
-  Potion_effect *pPVar3;
-  Borg_8_header *pBVar4;
-  Temp_weapon *pTVar5;
-  spellbook *psVar6;
   
   if (param_1->EXP) {
     HeapFree(param_1->EXP,FILENAME,0x142);
     param_1->EXP = NULL;
   }
-  if (param_1->armor == NULL) {pTVar5 = param_1->weapons;}
-  else {
-    if (*param_1->armor) {
-      pssto_clear_weapon_effects(param_1->armor);
-      HeapFree(*param_1->armor,FILENAME,0x14b);
-      *param_1->armor = NULL;}
+  if (param_1->armor){
+    if (param_1->armor[0]) {
+      pssto_clear_weapon_effects(param_1->armor[0]);
+      HeapFree(param_1->armor[0],FILENAME,0x14b);
+      param_1->armor[0] = NULL;}
     if (param_1->armor[1]) {
       pssto_clear_weapon_effects(param_1->armor[1]);
       HeapFree(param_1->armor[1],FILENAME,0x152);
@@ -184,50 +177,44 @@ void CharSheet_free(CharSheet *param_1){
     }
     HeapFree(param_1->armor,FILENAME,0x156);
     param_1->armor = NULL;
-    pTVar5 = param_1->weapons;
+
   }
-  if (pTVar5 == NULL) {pCVar1 = param_1->pItemList;}
-  else {
+  if (param_1->weapons){
     passto_clear_weapon_effects(pTVar5);
     HeapFree(param_1->weapons,FILENAME,0x15d);
     param_1->weapons = NULL;
-    pCVar1 = param_1->pItemList;
   }
-  if (pCVar1) {
-    func_8007d7dc(pCVar1);
+  if (param_1->pItemList) {
+    func_8007d7dc(param_1->pItemList);
     HeapFree(param_1->pItemList,FILENAME,0x15d);
     param_1->pItemList = NULL;
   }
-  psVar6 = param_1->spellbook;
-  if (psVar6) {
-    spellbok_free(psVar6);
+  if (param_1->spellbook) {
+    spellbok_free(param_1->spellbook);
     HeapFree(param_1->spellbook,FILENAME,0x164);
     param_1->spellbook = NULL;
   }
-  if (peVar2 == (effects *)0x0) {pPVar3 = (Potion_effect *)param_1->potion_effects;}
-  else {
+  if (peVar2){
     remove_effects(param_1);
-    HeapFree(param_1->effects,FILENAME,0x16b);
-    param_1->effects = (effects *)0x0;
+    HeapFree(param_1->spellEffects,FILENAME,0x16b);
+    param_1spellEffects = NULL;
     
   }
-  pPVar3 = (Potion_effect *)param_1->potion_effects;
-  if (pPVar3) {
+  if (param_1->potionEffects) {
     clear_charsheet_potions(param_1);
-    HeapFree(param_1->potion_effects,FILENAME,0x173);
-    param_1->potion_effects = NULL;}
-  pBVar4 = param_1->portrait;
-  if (pBVar4 != (Borg_8_header *)0x0) {
+    HeapFree(param_1->potionEffects,FILENAME,0x173);
+    param_1->potionEffects = NULL;}
+  if (param_1->portrait) {
     AllocFreeQueueItem(&queueStructA,&param_1->portrait,4,0);
     param_1->portrait = (Borg_8_header *)0x0;
   }
-  if (param_1->Stats != (CharStats *)0x0) {
+  if (param_1->Stats) {
     HeapFree(param_1->Stats,FILENAME,0x188);
-    param_1->Stats = (CharStats *)0x0;
+    param_1->Stats = NULL;
   }
-  if (param_1->Skills != (CharSkills *)0x0) {
+  if (param_1->Skills) {
     HeapFree(param_1->Skills,FILENAME,0x18e);
-    param_1->Skills = (CharSkills *)0x0;
+    param_1->Skills = NULL;
   }
 }
 
@@ -236,14 +223,14 @@ char getHPMax(CharSheet *param_1){
   
   if (param_1->Stats == NULL) {ret = 0;}
   else {
-    ret = CharStats::getBaseStat(param_1->Stats,END) + CharStats::getBaseStat(param_1->Stats,STAM)  + CharStats::getBaseStat(param_1->Stats,LV);}
+    ret = CharStats::getBaseStat(param_1->Stats,STAT_END) + CharStats::getBaseStat(param_1->Stats,STAT_STAM)  + CharStats::getBaseStat(param_1->Stats,STAT_LV);}
   return ret;}
 
 u32 getHPCurrent(CharSheet *param_1){
   u32 max;
   u32 ret = 0;
   if (param_1->Stats) {
-    ret = CharStats::getModdedStat(param_1->Stats,END) + CharStats::getModdedStat(param_1->Stats,STAM) + CharStats::getModdedStat(param_1->Stats,LV);
+    ret = CharStats::getModdedStat(param_1->Stats,STAT_END) + CharStats::getModdedStat(param_1->Stats,STAT_STAM) + CharStats::getModdedStat(param_1->Stats,STAT_LV);
     max = getHPMax(param_1);
     if (max < ret) {ret = max;}
   }
@@ -263,41 +250,34 @@ bool isDead(CharSheet *param_1){
 void damage_func(CharSheet *param_1,s16 dmg){
   s32 iVar1;
   char cVar2;
-  CharStats *stat;
-  CHAR_STAT arg1;
-  
-  iVar1 = CharStats::getModdedStat(param_1->Stats,STAM);
-  stat = param_1->Stats;
-  if (iVar1 < dmg) {
-    iVar1 = CharStats::getModdedStat(stat,STAM);
-    dmg = (dmg - iVar1) * 0x10000 >> 0x10;
-    cVar2 = CharStats::getModdedStat(param_1->Stats,STAM);
-    addModdedStat(param_1->Stats,STAM,-cVar2);
+  u8 arg1;
+  if (CharStats::getModdedStat(param_1->Stats,STAT_STAM) < dmg) {
+    dmg -=CharStats::getModdedStat(stat,STAT_STAM);
+    cVar2 = CharStats::getModdedStat(param_1->Stats,STAT_STAM);
+    CharStats::addModdedStat(param_1->Stats,STAT_STAM,-cVar2);
     if (dmg < 1) {
       return;
     }
-    iVar1 = CharStats::getModdedStat(param_1->Stats,END);
-    stat = param_1->Stats;
-    if (iVar1 < dmg) {
-      cVar2 = CharStats::getModdedStat(stat,END);
-      addModdedStat(param_1->Stats,END,-cVar2);
+    iVar1 = ;
+    if (CharStats::getModdedStat(param_1->Stats,STAT_END) < dmg) {
+      CharStats::addModdedStat(param_1->Stats,STAT_END,-CharStats::getModdedStat(param_1->Stats,STAT_END));
       return;
     }
-    arg1 = END;
+    arg1 = STAT_END;
   }
-  else {arg1 = STAM;}
-  addModdedStat(stat,arg1,-(char)dmg);}
+  else arg1 = STAT_STAM;
+  CharStats::addModdedStat(param_1->Stats,arg1,-dmg);}
 
 bool hasCheatDeath(CharSheet *param_1){
-  effects *peVar1;
+  SpellEffect*peVar1;
   u32 uVar2;
   
   uVar2 = 0;
-  peVar1 = param_1->effects;
+  peVar1 = param_1spellEffects;
   while( true ) {
     uVar2++;
     if ((peVar1->list[0]) && (peVar1->list[0]->index == cheatDeath)) break;
-    peVar1 = (effects *)(peVar1->list + 1);
+    peVar1 = (SpellEffect*)(peVar1->list + 1);
     if (0xe < uVar2) {
       return false;
     }
@@ -310,18 +290,18 @@ void func_checking_cheat_death(CharSheet *param_1,s16 param_2,CombatEntity *para
   s32 lVar2;
   bool bVar5;
   CharStats *pCVar6;
-  effects *peVar7;
+  SpellEffect*peVar7;
   u32 uVar8;
   
   if (param_3) {
     if (CombatEnt_flag_2(param_3)) func_8006f2cc(param_3);
   }
-  if (CharStats::getModdedStat(param_1->Stats,LV) < param_2) {
-    addModdedStat(param_1->Stats,LV,-CharStats::getModdedStat(param_1->Stats,LV));
-    damage_func(param_1,param_2 - CharStats::getModdedStat(param_1->Stats,LV));
+  if (CharStats::getModdedStat(param_1->Stats,STAT_LV) < param_2) {
+    CharStats::addModdedStat(param_1->Stats,STAT_LV,-CharStats::getModdedStat(param_1->Stats,STAT_LV));
+    damage_func(param_1,param_2 - CharStats::getModdedStat(param_1->Stats,STAT_LV));
     uVar8 = 0;
     if (isDead(param_1)) {
-      peVar7 = param_1->effects;
+      peVar7 = param_1spellEffects;
       do {
         pTVar1 = peVar7->list[0];
         if ((pTVar1) && (pTVar1->index == cheatDeath)) {
@@ -330,7 +310,7 @@ void func_checking_cheat_death(CharSheet *param_1,s16 param_2,CombatEntity *para
           return;
         }
         uVar8 = uVar8 + 1;
-        peVar7 = (effects *)(peVar7->list + 1);
+        peVar7 = (SpellEffect*)(peVar7->list + 1);
       } while (uVar8 < 0xf);
       if (param_3) {clear_combatEnt_effects(param_3);}
       clear_charsheet_potions(param_1);
@@ -338,7 +318,7 @@ void func_checking_cheat_death(CharSheet *param_1,s16 param_2,CombatEntity *para
     }
   }
   else {
-    addModdedStat(param_1->Stats,LV,-(char)param_2);
+    CharStats::addModdedStat(param_1->Stats,STAT_LV,-(char)param_2);
   }
   return;
 }
@@ -350,35 +330,35 @@ void addHP(CharSheet *param_1,s16 param_2){
   
   uVar3 = (s32)param_2 & 0xffff;
   uVar4 = uVar3;
-  if (CharStats::getModdedStat(param_1->Stats,END) < CharStats::getBaseStat(param_1->Stats,END)) {
-    uVar4 = CharStats::getBaseStat(param_1->Stats,END) - CharStats::getModdedStat(param_1->Stats,END) & 0xff;
+  if (CharStats::getModdedStat(param_1->Stats,STAT_END) < CharStats::getBaseStat(param_1->Stats,STAT_END)) {
+    uVar4 = CharStats::getBaseStat(param_1->Stats,STAT_END) - CharStats::getModdedStat(param_1->Stats,STAT_END) & 0xff;
     if (uVar3 < uVar4) {
       uVar4 = 0;
-      addModdedStat(param_1->Stats,END,(char)uVar3);
+      CharStats::addModdedStat(param_1->Stats,STAT_END,(char)uVar3);
     }
     else {
-      addModdedStat(param_1->Stats,END,(char)uVar4);
+      CharStats::addModdedStat(param_1->Stats,STAT_END,(char)uVar4);
       uVar4 = uVar3 - uVar4;
     }
   }
   if (uVar4 != 0) {
     uVar3 = uVar4;
-    if (CharStats::getModdedStat(param_1->Stats,STAM) < CharStats::getBaseStat(param_1->Stats,STAM)) {
-      uVar3 = CharStats::getBaseStat(param_1->Stats,STAM) - CharStats::getModdedStat(param_1->Stats,STAM);
+    if (CharStats::getModdedStat(param_1->Stats,STAT_STAM) < CharStats::getBaseStat(param_1->Stats,STAT_STAM)) {
+      uVar3 = CharStats::getBaseStat(param_1->Stats,STAT_STAM) - CharStats::getModdedStat(param_1->Stats,STAT_STAM);
       if (uVar4 < uVar3) {
         uVar3 = 0;
-        addModdedStat(param_1->Stats,STAM,(char)uVar4);
+        CharStats::addModdedStat(param_1->Stats,STAT_STAM,(char)uVar4);
       }
       else {
-        addModdedStat(param_1->Stats,STAM,(char)uVar3);
+        CharStats::addModdedStat(param_1->Stats,STAT_STAM,(char)uVar3);
         uVar3 = uVar4 - uVar3;
       }
     }
     if (uVar3 != 0) {
-      if (CharStats::getModdedStat(param_1->Stats,LV) < CharStats::getBaseStat(param_1->Stats,LV)) {
-        uVar4 = CharStats::getBaseStat(param_1->Stats,LV) - CharStats::getModdedStat(param_1->Stats,LV);
-        if (uVar3 < uVar4) {addModdedStat(param_1->Stats,LV,(char)uVar3);}
-        else {addModdedStat(param_1->Stats,LV,(char)uVar4);}
+      if (CharStats::getModdedStat(param_1->Stats,STAT_LV) < CharStats::getBaseStat(param_1->Stats,STAT_LV)) {
+        uVar4 = CharStats::getBaseStat(param_1->Stats,STAT_LV) - CharStats::getModdedStat(param_1->Stats,STAT_LV);
+        if (uVar3 < uVar4) {CharStats::addModdedStat(param_1->Stats,STAT_LV,(char)uVar3);}
+        else {CharStats::addModdedStat(param_1->Stats,STAT_LV,(char)uVar4);}
       }
     }
   }
@@ -389,11 +369,11 @@ void calc_stamina_change(CharSheet *param_1,bool param_2){
   s32 iVar2;
   
   if (param_2 == false) {
-    iVar2 = CharStats::getBaseStat(param_1->Stats,STAM); - CharStats::getModdedStat(param_1->Stats,STAM);
+    iVar2 = CharStats::getBaseStat(param_1->Stats,STAT_STAM); - CharStats::getModdedStat(param_1->Stats,STAT_STAM);
   }
-  else {iVar2 = (s32)((float)CharStats::getBaseStat(param_1->Stats,STAM) * 0.8f) - CharStats::getModdedStat(param_1->Stats,STAM);}
+  else {iVar2 = (s32)((float)CharStats::getBaseStat(param_1->Stats,STAT_STAM) * 0.8f) - CharStats::getModdedStat(param_1->Stats,STAT_STAM);}
   if (0 < iVar2 * 0x1000000 >> 0x18) {
-    addModdedStat(param_1->Stats,STAM,(char)((u32)(iVar2 * 0x1000000) >> 0x18));
+    CharStats::addModdedStat(param_1->Stats,STAT_STAM,(char)((u32)(iVar2 * 0x1000000) >> 0x18));
   }
   return;
 }
@@ -410,7 +390,7 @@ u8 canEquipWeapon(CharSheet *param_1,ItemID param_2){
   
 
   pcVar4 = weapon_pointer->weapons[GetIDIndex(param_2)];
-  iVar1 = CharStats::getBaseStat(param_1->Stats,STR);
+  iVar1 = CharStats::getBaseStat(param_1->Stats,STAT_STR);
   bVar2 = 3;
   if (pcVar4->ReqSTR <= iVar1) {
     cVar3 = getModdedWeapon(param_1->Skills,pcVar4->Class);
@@ -434,9 +414,9 @@ s32 something_with_gear_INT(CharSheet *param_1,ItemID param_2){
   if (func_8007d938(param_1->pItemList)) {
     iVar3 = search_item_array(param_2);
     pGVar1 = item_pointer->Gear;
-    if (CharStats::getBaseStat(param_1->Stats,STR) < (s32)(u32)pGVar1[iVar3].STR) {iVar3 = 3;}
+    if (CharStats::getBaseStat(param_1->Stats,STAT_STR) < (s32)(u32)pGVar1[iVar3].STAT_STR) {iVar3 = 3;}
     else {
-      iVar3 = (u32)(CharStats::getBaseStat(param_1->Stats,s32) < (s32)(u32)pGVar1[iVar3].s32) << 1;
+      iVar3 = (u32)(CharStats::getBaseStat(param_1->Stats,STAT_INT) < (s32)(u32)pGVar1[iVar3].s32) << 1;
     }
   }
   return iVar3;
@@ -512,12 +492,12 @@ void func_800784c8(CharSheet *param_1,Temp_weapon *param_2,u8 (*param_3) [2],s32
       goto LAB_8007859c;
     }
     uVar3 = func_8007b6bc(param_1,(*param_3)[0],(*param_3)[1]);
-    if ((*param_3)[0] != END) {
+    if ((*param_3)[0] != STAT_END) {
       addtoModdedStats(param_1->Stats,(*param_3)[0],uVar3);
       param_1->spellSwitch = 0;
       goto LAB_8007859c;
     }
-    addModdedStats_flag(param_1->Stats,END,uVar3);
+    addModdedStats_flag(param_1->Stats,STAT_END,uVar3);
   }
   param_1->spellSwitch = 0;
 LAB_8007859c:
@@ -532,7 +512,7 @@ void equip_armor_sheild(CharSheet *param_1,u16 param_2,u8 (*param_3) [2],bool sh
   param_1->armor[sheild] = ptVar1;
   make_temp_armor_3(ptVar1,param_2);
   func_800784c8(param_1,(Temp_weapon *)param_1->armor[sheild],param_3,1);
-  addtoModdedStats(param_1->Stats,DEX,param_1->armor[sheild]->dex);
+  addtoModdedStats(param_1->Stats,STAT_DEX,param_1->armor[sheild]->dex);
   some_moddedSkillCheck(param_1->Skills,Stealth,param_1->armor[sheild]->stealth);
 }
 
@@ -542,7 +522,7 @@ void remove_sheild(CharSheet *param_1){remove_armor(param_1,1);}
 void remove_armor(CharSheet *param_1,u8 param_2){
   if ((Temp_weapon *)param_1->armor[param_2]) {
     func_80078874(param_1,(Temp_weapon *)param_1->armor[param_2],true);
-    subtractFromModdedStats(param_1->Stats,DEX,param_1->armor[param_2]->dex);
+    subtractFromModdedStats(param_1->Stats,STAT_DEX,param_1->armor[param_2]->dex);
     some_moddedSkillCheck(param_1->Skills,Stealth,-param_1->armor[param_2]->stealth);
     pssto_clear_weapon_effects(param_1->armor[param_2]);
     HeapFree(param_1->armor[param_2],FILENAME);
@@ -576,7 +556,7 @@ void func_80078874(CharSheet *param_1,Temp_weapon *param_2,bool param_3){
   longlong lVar2;
   undefined uVar3;
   u32 uVar4;
-  effects *peVar5;
+  SpellEffect*peVar5;
   u8 (*skilmod) [2];
   
   skilmod = param_2->SkillMod;
@@ -593,23 +573,23 @@ LAB_800788d0:
     skilmod = param_2->Stat;
   }
   if (skilmod) {
-    if ((*skilmod)[0] == STAM) {
+    if ((*skilmod)[0] == STAT_STAM) {
       param_1->spellSwitch = 0;
       goto LAB_8007893c;
     }
     uVar3 = func_8007b760(param_1,(*skilmod)[0],(*skilmod)[1]);
-    if ((*skilmod)[0] != END) {
+    if ((*skilmod)[0] != STAT_END) {
       subtractFromModdedStats(param_1->Stats,(*skilmod)[0],uVar3);
       param_1->spellSwitch = 0;
       goto LAB_8007893c;
     }
-    SubtractModdedStats(param_1->Stats,END,uVar3);
+    SubtractModdedStats(param_1->Stats,STAT_END,uVar3);
   }
   param_1->spellSwitch = 0;
 LAB_8007893c:
   if ((param_3) && (param_2->enchantment)) {
     uVar4 = 0;
-    peVar5 = param_1->effects;
+    peVar5 = param_1spellEffects;
     do {
       pTVar1 = peVar5->list[0];
       if (((pTVar1) && (pTVar1->index == param_2->enchantment->index)) &&
@@ -618,7 +598,7 @@ LAB_8007893c:
         return;
       }
       uVar4 = uVar4 + 1;
-      peVar5 = (effects *)(peVar5->list + 1);
+      peVar5 = (SpellEffect*)(peVar5->list + 1);
     } while (uVar4 < 0xf);
   }
   return;
@@ -643,7 +623,7 @@ bool has_potion_effect(CharSheet *param_1,POTION param_2){
   u32 uVar2=0;
   Potion_effect *pPVar1;
   
-  while ((pPVar1 = param_1->potion_effects[uVar2]), pPVar1 == NULL || (pPVar1->ID != param_2))) {
+  while ((pPVar1 = param_1->potionEffects[uVar2]), pPVar1 == NULL || (pPVar1->ID != param_2))) {
     uVar2++;
     if (6 < uVar2) {return false;}
   }
@@ -654,37 +634,37 @@ void Buffing_potion_effect(CharSheet *param_1,POTION param_2,u8 param_3,u32 para
   Potion_effect *pPVar1;
   u32 uVar2;
   CharSkills *arg0;
-  CHAR_STAT uVar3;
+  u8 uVar3;
   CHAR_SKILL arg1;
   
   
   uVar2 = 0;
-  while (param_1->potion_effects[uVar2]) {
+  while (param_1->potionEffects[uVar2]) {
     if (6 < uVar2 + 1) {return;}
-    pPVar1 = (Potion_effect *)param_1->potion_effects;
+    pPVar1 = (Potion_effect *)param_1->potionEffects;
     uVar2++;
   }
   pPVar1 = (Potion_effect *)heapAlloc(0xc,FILENAME,0x4a1);
-  param_1->potion_effects[uVar2] = pPVar1;
+  param_1->potionEffects[uVar2] = pPVar1;
   make_charsheet_potion(pPVar1,param_2,param_3,param_4);
   switch(param_2) {
-  case STRENGTH:
-    uVar3 = STR;
+  case POTION_STRENGTH:
+    uVar3 = STAT_STR;
     goto LAB_80078b24;
-  case DEXTERITY:
-    uVar3 = DEX;
+  case POTION_DEXTERITY:
+    uVar3 = STAT_DEX;
 LAB_80078b24:
     mod_stats(param_1,uVar3,10);
     return;
   default:
     goto LAB_80078b74;
-  case CLARITY:
-    arg1 = Loremaster;
+  case POTION_CLARITY:
+    arg1 = SKILL_LOREMASTER;
     break;
-  case CHARISMA:
+  case POTION_CHARISMA:
     arg1 = Diplomat;
     break;
-  case STEALTH:
+  case POTION_STEALTH:
     arg1 = Stealth;
   }
   some_moddedSkillCheck(param_1->Skills,arg1,3);
@@ -694,30 +674,30 @@ LAB_80078b74:
 
 void remove_potion_effect(CharSheet *param_1,u8 param_2){
   CharSkills *arg0;
-  CHAR_STAT SVar1;
+  u8 SVar1;
   CHAR_SKILL arg1;
   
-  if (param_1->potion_effects[param_2] == NULL) {return;}
-  switch(param_1->potion_effects[param_2]->ID) {
-  case STRENGTH:
-    SVar1 = STR;
+  if (param_1->potionEffects[param_2] == NULL) {return;}
+  switch(param_1->potionEffects[param_2]->ID) {
+  case POTION_STRENGTH:
+    SVar1 = STAT_STR;
     break;
-  case DEXTERITY:
-    SVar1 = DEX;
+  case POTION_DEXTERITY:
+    SVar1 = STAT_DEX;
     break;
   default:
     goto Lab_return;
-  case CLARITY:
+  case POTION_CLARITY:
     arg0 = param_1->Skills;
-    arg1 = Loremaster;
+    arg1 = SKILL_LOREMASTER;
     goto remove_skill_buff;
-  case CHARISMA:
+  case POTION_CHARISMA:
     arg0 = param_1->Skills;
     arg1 = Diplomat;
 remove_skill_buff:
     some_moddedSkillCheck(arg0,arg1,-3);
     return;
-  case STEALTH:
+  case POTION_STEALTH:
     some_moddedSkillCheck(param_1->Skills,Stealth,-3);
     goto Lab_return;
   }
@@ -733,7 +713,7 @@ bool inc_charsheet_potion(CharSheet *param_1,bool Trekking,u8 param_3){
     
   if (!isDead(param_1)) {
     uVar3 = 0;
-    paVar3 = param_1->potion_effects;
+    paVar3 = param_1->potionEffects;
     while( true ) {
       if (paVar3[uVar3]) {
         if (!Trekking) {uVar2 = 0;}
@@ -741,7 +721,7 @@ bool inc_charsheet_potion(CharSheet *param_1,bool Trekking,u8 param_3){
         if (check_charsheet_potion_timer(paVar3[uVar3],uVar2,param_3)) {clear_charsheet_potion(param_1,uVar3);}}
       uVar3++;
       if (6 < uVar3) break;
-      paVar3 = param_1->potion_effects;
+      paVar3 = param_1->potionEffects;
     }
   }
   return false;
@@ -749,23 +729,23 @@ bool inc_charsheet_potion(CharSheet *param_1,bool Trekking,u8 param_3){
 
 
 void clear_charsheet_potion(CharSheet *param_1,u32 param_2){
-  if (param_1->potion_effects[param_2]) {
+  if (param_1->potionEffects[param_2]) {
     remove_potion_effect(param_1,param_2);
-    func_with_potion_unk2(param_1->potion_effects[param_2]);
-    HeapFree(param_1->potion_effects[param_2],FILENAME,0x50b);
-    param_1->potion_effects[param_2] = NULL;
+    func_with_potion_unk2(param_1->potionEffects[param_2]);
+    HeapFree(param_1->potionEffects[param_2],FILENAME,0x50b);
+    param_1->potionEffects[param_2] = NULL;
   }
 }
 
 void clear_exhaustion(CharSheet *param_1){
-  effects *peVar1;
+  SpellEffect*peVar1;
   u32 uVar2;
   
   uVar2 = 0;
-  peVar1 = param_1->effects;
+  peVar1 = param_1spellEffects;
   while( true ) {
     if ((peVar1->list[uVar2]) && (peVar1->list[uVar2]->index == exhaustion))
-    {clear_player_effect(param_1,uVar2,null);}
+    {clear_player_effect(param_1,uVar2,NULL);}
     uVar2++;
     if (0xe < uVar2) break;
   }
@@ -779,47 +759,47 @@ bool can_use_potion(CharSheet *param_1,POTION param_2,char *param_3){
   s32 iVar3;
   bool bVar4;
   bool bVar6;
-  effects *peVar5;
+  SpellEffect*peVar5;
   char *c2;
   u32 uVar6;
   
   switch(param_2) {
-  case HEALING:
-  case CURING:
+  case POTION_HEALING:
+  case POTION_CURING:
     if (param_3) {strcpy(param_3,"That potion cannot be used right now.");}
     bVar6 = getHPCurrent(param_1) != getHPMax(param_1);
     break;
-  case STAMINA:
+  case POTION_STAMINA:
     uVar6 = 0;
-    peVar5 = param_1->effects;
+    peVar5 = param_1spellEffects;
     do {
       uVar6++;
       if ((peVar5->list[0]) && (peVar5->list[0]->index == exhaustion)) {
         return true;
       }
-      peVar5 = (effects *)(peVar5->list + 1);
+      peVar5 = (SpellEffect*)(peVar5->list + 1);
     } while (uVar6 < 0xf);
     if (param_3) {strcpy(param_3,"That potion cannot be used right now.");}
-    bVar6 = CharStats::getModdedStat(param_1->Stats,STAM) < CharStats::getBaseStat(param_1->Stats,STAM);
+    bVar6 = CharStats::getModdedStat(param_1->Stats,STAT_STAM) < CharStats::getBaseStat(param_1->Stats,STAT_STAM);
     break;
-  case ANTIDOTE:
+  case POTION_ANTIDOTE:
     uVar6 = 0;
-    peVar5 = param_1->effects;
+    peVar5 = param_1spellEffects;
     do {
       uVar6++;
       if ((peVar5->list[0]) && (peVar5->list[0]->index == poison)) {
         return true;
       }
-      peVar5 = (effects *)(peVar5->list + 1);
+      peVar5 = (SpellEffect*)(peVar5->list + 1);
     } while (uVar6 < 0xf);
     if (param_3) {
       c2 = "That potion cannot be used right now.";
 LAB_80078fb4:
       strcpy(param_3,c2);}
     goto LAB_80078fbc;
-  case RESTORE:
+  case POTION_RESTORE:
     uVar6 = 0;
-    peVar5 = param_1->effects;
+    peVar5 = param_1spellEffects;
     while( true ) {
       bVar4 = IsDebuffSpell(param_1,(SpellEnum)peVar5->list[uVar6]);
       uVar6++;
@@ -829,16 +809,16 @@ LAB_80078fb4:
         c2 = "That potion cannot be used right now.";
         goto LAB_80078fb4;
       }
-      peVar5 = param_1->effects;
+      peVar5 = param_1spellEffects;
     }
     bVar6 = true;
     break;
-  case STRENGTH:
-  case DEXTERITY:
-  case CLARITY:
-  case CHARISMA:
-  case DEFENCE:
-  case STEALTH:
+  case POTION_STRENGTH:
+  case POTION_DEXTERITY:
+  case POTION_CLARITY:
+  case POTION_CHARISMA:
+  case POTION_DEFENCE:
+  case POTION_STEALTH:
     if (param_3) {strcpy(param_3,"That potion cannot be used right now.");}
     bVar6 = (bool)(has_potion_effect(param_1,param_2) ^ 1);
     break;
@@ -852,17 +832,17 @@ LAB_80078fbc:
 
 bool clear_debuff_spells(CharSheet *param_1){
   bool bVar1;
-  effects *peVar2;
+  SpellEffect*peVar2;
   u32 uVar3;
   bool bVar4;
   
   bVar4 = false;
   uVar3 = 0;
-  peVar2 = param_1->effects;
+  peVar2 = param_1spellEffects;
   while( true ) {
     bVar1 = IsDebuffSpell(param_1,(SpellEnum)peVar2->list[uVar3]);
     if (bVar1) {
-      clear_player_effect(param_1,uVar3,null);
+      clear_player_effect(param_1,uVar3,NULL);
       bVar4 = true;
     }
     uVar3++;
@@ -870,40 +850,40 @@ bool clear_debuff_spells(CharSheet *param_1){
   return bVar4;
 }
 
-bool potion_effects(CharSheet *param_1,u8 param_2,POTION param_3,char *param_4){
+bool potionEffects(CharSheet *param_1,u8 param_2,POTION param_3,char *param_4){
   inv_funcs *piVar1;
   bool bVar2;
   
   if (!can_use_potion(param_1,param_3,param_4)) {bVar2 = false;}
   else {
     switch(param_3) {
-    case HEALING:
+    case POTION_HEALING:
       potion_heal(param_1,0xf,0x19);
       break;
-    case STAMINA:
+    case POTION_STAMINA:
       clear_exhaustion(param_1);
       break;
-    case CURING:
+    case POTION_CURING:
       potion_heal(param_1,0x28,0x3c);
       break;
-    case ANTIDOTE:
+    case POTION_ANTIDOTE:
       ApplySpellEffect(param_1,removePoison,0,0,0xff,0);
       break;
-    case RESTORE:
+    case POTION_RESTORE:
       clear_debuff_spells(param_1);
       break;
-    case STRENGTH:
-    case DEXTERITY:
-    case J:
-    case CLARITY:
-    case CHARISMA:
-    case DEFENCE:
-    case STEALTH:
-      Buffing_potion_effect(param_1,param_3,0,0x9e340);
+    case POTION_STRENGTH:
+    case POTION_DEXTERITY:
+    case POTION_JUMPING:
+    case POTION_CLARITY:
+    case POTION_CHARISMA:
+    case POTION_DEFENCE:
+    case POTION_STEALTH:
+      Buffing_potion_effect(param_1,param_3,0,648000);
     }
-    piVar1 = gGlobals.party->Inventory->Functions;
+    piVar1 = gGlobals.party->inv->Functions;
     (*(piVar1->search).func)
-              ((s32)gGlobals.party->Inventory->inv_slots + (s16)(piVar1->search).arg[0] + -4,
+              ((s32)gGlobals.party->inv->inv_slots + (s16)(piVar1->search).arg[0] + -4,
                param_2,-1);
     bVar2 = true;
   }
@@ -911,15 +891,15 @@ bool potion_effects(CharSheet *param_1,u8 param_2,POTION param_3,char *param_4){
 }
 
 bool IsNotAffected(CharSheet *param_1,SpellEnum param_2){
-  effects *peVar1;
+  SpellEffect*peVar1;
   u32 uVar2;
   
   uVar2 = 0;
-  peVar1 = param_1->effects;
+  peVar1 = param_1spellEffects;
   while( true ) {
     uVar2++;
     if ((peVar1->list[0]) && (peVar1->list[0]->index == param_2)) break;
-    peVar1 = (effects *)(peVar1->list + 1);
+    peVar1 = (SpellEffect*)(peVar1->list + 1);
     if (0xe < uVar2) {
       return false;
     }
@@ -952,15 +932,15 @@ void senseAura(CombatEntity *target,u8 level){
   u32 uVar7;
   char acStack1064 [832];
   char acStack232 [64];
-  color col1;
-  color col2;
+  color32 col1;
+  color32 col2;
   
-  pCVar1 = target->CharSheet;
+  pCVar1 = target->charSheetP;
   sprintf(acStack1064,"%s\n",pCVar1->name);
   uVar3 = strlen(acStack1064);
   if (level != 0) {
     strcpy(acStack232,"Follower");
-    if ((target->index == combatPointer->leaderIndex) && (combatPointer->leaderDead == 0)) {
+    if ((target->index == gCombatP->leaderIndex) && (gCombatP->leaderDead == 0)) {
       strcpy(acStack232,"Leader");}
     uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
   }
@@ -969,7 +949,7 @@ void senseAura(CombatEntity *target,u8 level){
     uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
   }
   if (4 < level) {
-    sprintf(acStack232,"Level_%lu",CharStats::getBaseStat(pCVar1->Stats,LV));
+    sprintf(acStack232,"Level_%lu",CharStats::getBaseStat(pCVar1->Stats,STAT_LV));
     uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
   }
   if (6 < level) {
@@ -984,19 +964,19 @@ void senseAura(CombatEntity *target,u8 level){
   }
   col1 = OFFWHITE;
   col2 = DARKGRAY_T;
-  combatPointer->Widget0x4fb8 = some_textbox_func(acStack1064,(s16)(uVar3 << 3) - (s16)uVar3,&col1,&col2,1);
+  gCombatP->Widget0x4fb8 = some_textbox_func(acStack1064,(s16)(uVar3 << 3) - (s16)uVar3,&col1,&col2,1);
 }
 
 s32 find_free_effect_slot(CharSheet *param_1){
-  effects *peVar1;
+  SpellEffect*peVar1;
   s32 iVar2;
   
   iVar2 = 0;
-  peVar1 = param_1->effects;
+  peVar1 = param_1spellEffects;
   do {
     if (peVar1->list[0] == NULL) {return iVar2;}
     iVar2++;
-    peVar1 = (effects *)(peVar1->list + 1);
+    peVar1 = (SpellEffect*)(peVar1->list + 1);
   } while (iVar2 < 0xf);
   return -1;
 }
@@ -1015,7 +995,7 @@ s16 ApplySpellEffect(CharSheet *param_1,SpellEnum param_2,u8 Lv,s32 param_4,u8 p
   Temp_enchant *pTVar7;
   Temp_enchant **ppTVar12;
   CharStats *stat;
-  CHAR_STAT SVar13;
+  u8 SVar13;
   undefined uVar14;
   s32 iVar15;
   u32 Lv;
@@ -1071,11 +1051,11 @@ s16 ApplySpellEffect(CharSheet *param_1,SpellEnum param_2,u8 Lv,s32 param_4,u8 p
   case debilitation:
     if (uVar16 == 0) break;
     uVar18 = 1;
-    SVar13 = STR;
+    SVar13 = STAT_STR;
     goto lower_stat;
   case strength:
     if (uVar16 == 0) break;
-    SVar13 = STR;
+    SVar13 = STAT_STR;
     uVar14 = (undefined)((Lv << 0x19) >> 0x18);
     goto mod_stat;
   case teleportation:
@@ -1110,7 +1090,7 @@ LAB_800798b0:
     goto control_magic;
   case endurance:
     if (uVar16 == 0) break;
-    SVar13 = END;
+    SVar13 = STAT_END;
     uVar14 = (undefined)((Lv << 0x19) >> 0x18);
     goto mod_stat;
   case senseAura:
@@ -1124,19 +1104,19 @@ LAB_800798b0:
   case weakness:
     if (uVar16 == 0) break;
     uVar18 = 1;
-    SVar13 = END;
+    SVar13 = STAT_END;
     goto lower_stat;
   case auraOfDeath:
   case solarWraith:
     bVar10 = true;
     uVar19 = uVar17;
     if (((uVar16 != 0) && (uVar16 = 0, param_6)) &&
-       (param_6->combat_ai_pointer)) {
+       (param_6->aiP)) {
       uVar16 = 1;
       bVar9 = pcVar1->morale;
       if (bVar9 < Lv) {Lv = (u32)bVar9;}
       pcVar1->morale-= (char)Lv;
-      param_6->combat_ai_pointer->flags|= 2;
+      param_6->aiP->flags|= 2;
       uVar19 = 1;
       bVar10 = bVar2;
     }
@@ -1174,22 +1154,22 @@ control_magic:
   case exhaustion:
     if (uVar16 == 0) break;
     uVar18 = 1;
-    SVar13 = STAM;
+    SVar13 = STAT_STAM;
     goto lower_stat;
   case stamina:
     if (uVar16 == 0) break;
-    SVar13 = STAM;
+    SVar13 = STAT_STAM;
     goto lower_stat;
   case tapStamina:
     iVar15 = Lv << 1;
     if (uVar16 != 0) {
-      iVar6 = CharStats::getModdedStat(param_1->Stats,STAM);
+      iVar6 = CharStats::getModdedStat(param_1->Stats,STAT_STAM);
       stat = param_1->Stats;
       if (iVar6 < iVar15) {
-        iVar15 = CharStats::getModdedStat(stat,STAM);
+        iVar15 = CharStats::getModdedStat(stat,STAT_STAM);
         stat = param_1->Stats;
       }
-      addModdedStat(stat,STAM,-(char)iVar15);
+      CharStats::addModdedStat(stat,STAT_STAM,-(char)iVar15);
       uVar19 = 1;
       bVar10 = true;
     }
@@ -1237,13 +1217,13 @@ control_magic:
     break;
   case dexterity:
     if (uVar16 == 0) break;
-    SVar13 = DEX;
+    SVar13 = STAT_DEX;
     uVar14 = (undefined)((Lv << 0x19) >> 0x18);
     goto mod_stat;
   case clumsiness:
     if (uVar16 == 0) break;
     uVar18 = 1;
-    SVar13 = DEX;
+    SVar13 = STAT_DEX;
 lower_stat:
     uVar14 = (undefined)(Lv * -0x2000000 >> 0x18);
 mod_stat:
@@ -1262,7 +1242,7 @@ mod_stat:
     if (uVar16 == 0) {sVar8 = -1;}
     else {
       pTVar7 = (Temp_enchant *)heapAlloc(0x18,FILENAME,0x809);
-      ppTVar12 = param_1->effects->list + uVar5;
+      ppTVar12 = param_1spellEffects->list + uVar5;
       *ppTVar12 = pTVar7;
       CreateTempEnchant(*ppTVar12,param_2,(char)Lv,param_4,param_5,uVar19);
     }
@@ -1275,12 +1255,12 @@ mod_stat:
 void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
   Temp_enchant *pTVar1;
   bool bVar2;
-  CHAR_STAT SVar3;
+  u8 SVar3;
   char cVar4;
   u8 bVar5;
   combat_ai *iVar2;
   
-  pTVar1 = param_1->effects->list[param_2];
+  pTVar1 = param_1spellEffects->list[param_2];
   if (pTVar1 == NULL) {return;}
   switch(pTVar1->index) {
   case AirSheild:
@@ -1297,10 +1277,10 @@ void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
     break;
   case debilitation:
     bVar5 = pTVar1->lv;
-    SVar3 = STR;
+    SVar3 = STAT_STR;
     goto LAB_80079c10;
   case strength:
-    SVar3 = STR;
+    SVar3 = STAT_STR;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case wind:
@@ -1315,17 +1295,17 @@ void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
     SVar3 = s32;
     goto LAB_80079c10;
   case endurance:
-    SVar3 = END;
+    SVar3 = STAT_END;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case weakness:
     bVar5 = pTVar1->lv;
-    SVar3 = END;
+    SVar3 = STAT_END;
     goto LAB_80079c10;
   case auraOfDeath:
   case solarWraith:
     if ((param_3) &&
-       (param_3->combat_ai_pointer)) {iVar2->morale+= pTVar1->lv;}
+       (param_3->aiP)) {iVar2->morale+= pTVar1->lv;}
     break;
   case wraithTouch:
     SVar3 = pTVar1->unk0x3;
@@ -1334,14 +1314,14 @@ void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
   case darkness:
   case light:
     dec_dayNightMagic(TerrainPointer);
-    TerrainPointer->partOfDay = *(TimeOfDay *)combatPointer;
+    TerrainPointer->partOfDay = *(TimeOfDay *)gCombatP;
     break;
   case exhaustion:
     bVar5 = pTVar1->lv;
-    SVar3 = STAM;
+    SVar3 = STAT_STAM;
     goto LAB_80079c10;
   case stamina:
-    SVar3 = STAM;
+    SVar3 = STAT_STAM;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case wallOfBones:
@@ -1354,12 +1334,12 @@ void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
     param_1->EXP->protection-= pTVar1->lv;
     break;
   case dexterity:
-    SVar3 = DEX;
+    SVar3 = STAT_DEX;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case clumsiness:
     bVar5 = pTVar1->lv;
-    SVar3 = DEX;
+    SVar3 = STAT_DEX;
 LAB_80079c10:
     cVar4 = bVar5 * -2;
 LAB_80079c18:
@@ -1378,7 +1358,7 @@ s32 func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,s32 
   s32 iVar4;
   u32 uVar5;
   u32 uVar6;
-  effects *peVar8;
+  SpellEffect*peVar8;
   u8 dice;
   u32 uVar9;
   s32 iVar10;
@@ -1388,7 +1368,7 @@ s32 func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,s32 
   iVar10 = 0;
   iVar11 = 0;
   uVar9 = 0;
-  peVar8 = param_1->effects;
+  peVar8 = param_1spellEffects;
   do {
     pTVar2 = peVar8->list[uVar9];
     if (pTVar2) {
@@ -1399,11 +1379,11 @@ s32 func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,s32 
         uVar5 = 0;
         if (SVar1 == poison) {
           uVar6 = (u32)(pTVar2->lv >> 1);
-          if (CharStats::getModdedStat(param_1->Stats,END) < uVar6) {uVar6 = CharStats::getModdedStat(param_1->Stats,END);}
+          if (CharStats::getModdedStat(param_1->Stats,STAT_END) < uVar6) {uVar6 = CharStats::getModdedStat(param_1->Stats,STAT_END);}
           if (getHPCurrent(param_1) < uVar6) goto LAB_80079e7c;
           iVar10+= uVar6;
           uVar5 = 0;
-          addModdedStat(param_1->Stats,END,-(char)uVar6);
+          CharStats::addModdedStat(param_1->Stats,STAT_END,-(char)uVar6);
         }
         else {
           if (SVar1 < mirror) {
@@ -1422,7 +1402,7 @@ RollDoT:
               iVar11+= (char)pTVar2->unk0x3;
             }
             else if (SVar1 == webOfStarlight) {
-              iVar4 = CharStats::getModdedStat(param_1->Stats,STR);
+              iVar4 = CharStats::getModdedStat(param_1->Stats,STAT_STR);
               uVar5 = RollD(1,100);
               if ((iVar4 * 2 <= (s32)uVar5) ||
                  (some_skillcheck_calc((s32)((iVar4 * 2 - uVar5) * 0x10000) >> 0x10) == 0)) {
@@ -1449,7 +1429,7 @@ LAB_80079e7c:
       check_dead_from_DoT(param_1,0,iVar11,param_2);
       return iVar10;
     }
-    peVar8 = param_1->effects;
+    peVar8 = param_1spellEffects;
   } while( true );
 }
 
@@ -1550,19 +1530,18 @@ void dec_item_spell_uses(CharSheet *param_1){
 
 
 u8 check_spell_wizard(CharSheet *param_1,Temp_spell *param_2){
-  char cVar1;
   u8 bVar2;
   
   if (param_2) {
     bVar2 = param_1->spellSwitch;
     if (bVar2 == 1) {
       bVar2 = param_2->level;
-      cVar1 = getModdedSkill(param_1->Skills,Wizard);
-      if (cVar1 <= bVar2) {return getModdedSkill(param_1->Skills,Wizard);}
+      if (getModdedSkill(param_1->Skills,SKILL_WIZARD) <= bVar2)
+         return getModdedSkill(param_1->Skills,SKILL_WIZARD);
       return param_2->level;
     }
     if (bVar2 != 0) {
-      if (5 < bVar2) {return 0;}
+      if (5 < bVar2) return 0;
       return param_2->level;
     }
   }
@@ -1600,14 +1579,14 @@ s32 Equip_Stamina(CharSheet *param_1,s16 stam,longlong param_3){
   }
   if (iVar1 < 1) {iVar5 = 0;}
   else {
-    iVar2 = CharStats::getModdedStat(param_1->Stats,STAM);
+    iVar2 = CharStats::getModdedStat(param_1->Stats,STAT_STAM);
     iVar5 = (iVar1 - (s16)iVar2) * 0x10000 >> 0x10;
     if (iVar5 < 0) {
-      if (param_3 != 0) {addModdedStat(param_1->Stats,STAM,-(char)iVar1);}
+      if (param_3 != 0) {CharStats::addModdedStat(param_1->Stats,STAT_STAM,-(char)iVar1);}
       iVar5 = 0;
     }
     else {
-      if (param_3 != 0) {addModdedStat(param_1->Stats,STAM,-(char)iVar2);}
+      if (param_3 != 0) {CharStats::addModdedStat(param_1->Stats,STAT_STAM,-(char)iVar2);}
     }
   }
   return iVar5;
@@ -1747,10 +1726,10 @@ void giveExp(CharSheet *param_1,s32 param_2){
   pcVar1 = param_1->EXP;
   pcVar1->spending += (s32)fVar4;
   pcVar1->total += (s32)fVar4;
-  addBaseStat(param_1->Stats,LV,get_level(param_1) - CharStats::getBaseStat(param_1->Stats,LV));
+  CharStats:::AddBase(param_1->Stats,STAT_LV,get_level(param_1) - CharStats::getBaseStat(param_1->Stats,STAT_LV));
 }
 
-//above, but no spending exp or LV up
+//above, but no spending exp or STAT_LV up
 void exp_multi_1point5(CharSheet *param_1,s32 param_2){param_1->EXP->total+= (s32)((float)param_2 * 1.5f);}
 
 u16 potion_heal(CharSheet *param_1,u16 Hi,u16 Lo){
@@ -1769,20 +1748,20 @@ u16 potion_heal(CharSheet *param_1,u16 Hi,u16 Lo){
 }
 
 void remove_effects(CharSheet *param_1){
-  effects *peVar1;
+  SpellEffect*peVar1;
   u32 uVar2;
   
-  if (param_1->effects != (effects *)0x0) {
-    peVar1 = param_1->effects;
+  if (param_1spellEffects != (SpellEffect*)0x0) {
+    peVar1 = param_1spellEffects;
     uVar2 = 0;
     while( true ) {
       if (peVar1->list[uVar2]) {
         func_800840dc(peVar1->list[uVar2]);
-        HeapFree(param_1->effects->list[uVar2],FILENAME,0xc25);
-        param_1->effects->list[uVar2] = NULL;
+        HeapFree(param_1spellEffects->list[uVar2],FILENAME,0xc25);
+        param_1spellEffects->list[uVar2] = NULL;
       }
       if (0xe < uVar2 + 1) break;
-      peVar1 = param_1->effects;
+      peVar1 = param_1spellEffects;
       uVar2++;
     }
   }
@@ -1791,7 +1770,7 @@ void remove_effects(CharSheet *param_1){
 
 void clear_charsheet_potions(CharSheet *param_1){
   u32 i;
-  if (param_1->potion_effects) {
+  if (param_1->potionEffects) {
     for(i=0;i<7;i++) {
       clear_charsheet_potion(param_1,i);
     }
@@ -1821,28 +1800,28 @@ u32 get_EXP_TNL(CharSheet *param_1){
 
 void clear_equip_enchantments_(CharSheet *param_1){
   CharGear *pCVar1;
-  effects *peVar2;
+  SpellEffect*peVar2;
   Temp_weapon **ppTVar3;
   Potion_effect **paVar4;
   u32 uVar4;
   
   uVar4 = 0;
-  paVar4 = param_1->potion_effects;
+  paVar4 = param_1->potionEffects;
   while( true ) {
-    if ((paVar4[uVar4]) && (paVar4[uVar4]->ID != STEALTH)) {
+    if ((paVar4[uVar4]) && (paVar4[uVar4]->ID != POTION_STEALTH)) {
       clear_charsheet_potion(param_1,uVar4 & 0xff);
     }
     uVar4++;
     if (6 < uVar4) break;
-    paVar4 = param_1->potion_effects;
+    paVar4 = param_1->potionEffects;
   }
   uVar4 = 0;
-  peVar2 = param_1->effects;
+  peVar2 = param_1spellEffects;
   while( true ) {
     if (peVar2->list[uVar4]) {clear_player_effect(param_1,uVar4,NULL);}
     uVar4++;
     if (0xe < uVar4) break;
-    peVar2 = param_1->effects;
+    peVar2 = param_1spellEffects;
   }
   func_8007ad40(param_1,*(Temp_weapon **)param_1->armor);
   uVar4 = 0;
@@ -1875,14 +1854,14 @@ void teleportation_spell(CharSheet* ch,CombatEntity *param_1){
   u8 bVar5;
   
   if (param_1) {
-    fVar3 = combatPointer->floatA;
+    fVar3 = gCombatP->floatA;
     if (fVar3 < INT_MAX_f) {bVar4 = (u8)(s32)fVar3;}
     else {bVar4 = (u8)(s32)(fVar3 - INT_MAX_f);}
-    fVar3 = combatPointer->FogFloat;
+    fVar3 = gCombatP->FogFloat;
     if (fVar3 < INT_MAX_f) {bVar5 = (u8)(s32)fVar3;}
     else {bVar5 = (u8)(s32)(fVar3 - INT_MAX_f);}
-    if (!combat_substruct_lookup(&combatPointer->substruct,bVar4,bVar5,param_1->unk0x23)) {
-      set_combatEnt_x_y(param_1,combatPointer->floatA,combatPointer->FogFloat);
+    if (!combat_substruct_lookup(&gCombatP->substruct,bVar4,bVar5,param_1->unk0x23)) {
+      set_combatEnt_x_y(param_1,gCombatP->floatA,gCombatP->FogFloat);
       func_800737b4(param_1);
       teleport_spell_sub(param_1);
     }
@@ -1892,11 +1871,11 @@ void teleportation_spell(CharSheet* ch,CombatEntity *param_1){
 
 void RemovePoison(CharSheet *param_1,CombatEntity *param_2,u8 param_3){
   Temp_enchant *pTVar1;
-  effects *peVar2;
+  SpellEffect*peVar2;
   u32 uVar3;
   
   uVar3 = 0;
-  peVar2 = param_1->effects;
+  peVar2 = param_1spellEffects;
   while( true ) {
     pTVar1 = peVar2->list[uVar3];
     if (((pTVar1) && (pTVar1->index == poison)) &&
@@ -1910,17 +1889,17 @@ void RemovePoison(CharSheet *param_1,CombatEntity *param_2,u8 param_3){
 }
 
 void Wraith_touch(CharSheet *param_1,CombatEntity* cEnt,u8 num,u32 param_2){
-  CHAR_STAT SVar1;
+  u8 SVar1;
   char uVar2;
   Temp_enchant *pTVar3;
   Temp_enchant **ppTVar4;
-  CHAR_STAT wraithTouch_stats [4]={s32,WIL,DEX,STR};
+  u8 wraithTouch_stats [4]={s32,STAT_WIL,STAT_DEX,STAT_STR};
   
   SVar1 = wraithTouch_stats[RollD(1,4)];
   uVar2 = RollD(2,6);
   addModdedStats_flag(param_1->Stats,SVar1,-uVar2);
   pTVar3 = (Temp_enchant *)heapAlloc(0x18,FILENAME,0xcec);
-  ppTVar4 = param_1->effects->list + param_2;
+  ppTVar4 = param_1spellEffects->list + param_2;
   *ppTVar4 = pTVar3;
   CreateTempEnchant(*ppTVar4,wraithTouch,uVar2,-1,SVar1,1);
 }
@@ -1938,25 +1917,25 @@ void darkness_light_spell(CharSheet *param_1,SpellEnum param_2){
   SVar7 = darkness;
   if (param_2 == darkness) {SVar7 = light;}
   uVar6 = 0;
-  if (combatPointer->EntCount != 0) {
+  if (gCombatP->EntCount != 0) {
     do {
-      pCVar1 = &combatPointer->combatEnts[uVar6];
+      pCVar1 = &gCombatP->combatEnts[uVar6];
       uVar6++;
       if (pCVar1) {
         uVar5 = 0;
         while (uVar5 < 0xf) {
-          pTVar2 = pCVar1->CharSheet->effects->list[uVar5];
+          pTVar2 = pCVar1->charSheetP->spellEffects->list[uVar5];
           if (pTVar2 == NULL) {uVar5++;}
           else {
             if (pTVar2->index == SVar7) {
-              clear_player_effect(pCVar1->CharSheet,uVar5,pCVar1);
+              clear_player_effect(pCVar1->charSheetP,uVar5,pCVar1);
               break;
             }
             uVar5++;
           }
         }
       }
-    } while (uVar6 < combatPointer->EntCount);
+    } while (uVar6 < gCombatP->EntCount);
   }
   inc_dayNightMagic(TerrainPointer);
   if (param_2 == darkness) {TVar3 = NIGHT;}
@@ -1965,24 +1944,24 @@ void darkness_light_spell(CharSheet *param_1,SpellEnum param_2){
   return;
 }
 
-bool dispel_magic(CharSheet *param_1,char param_2,SpellEnum param_3,u8 param_4){
+bool dispel_magic(CharSheet *param_1,char param_2,u8 param_3,u8 param_4){
   Temp_enchant *pTVar1;
   bool bVar2;
-  effects *peVar3;
+  SpellEffect*peVar3;
   u32 uVar4;
   s32 iVar5;
   u32 uVar6;
   MagicSchoolEnum MVar7;
   
   MVar7 = Chaos;
-  if (param_3 == dispelNaming) {MVar7 = Naming;}
-  else if (param_3 == dispelElemental) {MVar7 = Elemental;}
-  else if (param_3 == dispelNecro) {MVar7 = Necromancy;}
-  else if (param_3 == dispelStar) {MVar7 = Star;}
+  if (param_3 == dispelNaming) MVar7 = SCHOOL_NAMING;
+  else if (param_3 == dispelElemental) MVar7 = SCHOOL_ELEMENTAL;
+  else if (param_3 == dispelNecro) MVar7 = SCHOOL_NECROMANCY;
+  else if (param_3 == dispelStar) MVar7 = SCHOOL_STAR;
   iVar5 = 0;
   uVar4 = 0;
   uVar6 = 0;
-  peVar3 = param_1->effects;
+  peVar3 = param_1->spellEffects;
   do {
     pTVar1 = peVar3->list[0];
     uVar6++;
@@ -1990,20 +1969,20 @@ bool dispel_magic(CharSheet *param_1,char param_2,SpellEnum param_3,u8 param_4){
       iVar5++;
       uVar4 += (s32)(char)pTVar1->unk0x3;
     }
-    peVar3 = (effects *)(peVar3->list + 1);
+    peVar3 = (SpellEffect*)(peVar3->list + 1);
   } while (uVar6 < 0xf);
   if ((iVar5 == 0) || (uVar6 = 0, ((s32)param_4) * iVar5 < uVar4)) {
     bVar2 = false;
   }
   else {
-    peVar3 = param_1->effects;
+    peVar3 = param_1spellEffects;
     while( true ) {
       if ((peVar3->list[uVar6]) && (peVar3->list[uVar6]->school == MVar7)) {
         clear_player_effect(param_1,uVar6 & 0xff,(CombatEntity *)(s32)param_2);
       }
       uVar6++;
       if (0xe < uVar6) break;
-      peVar3 = param_1->effects;
+      peVar3 = param_1spellEffects;
     }
     bVar2 = true;
   }
@@ -2011,9 +1990,12 @@ bool dispel_magic(CharSheet *param_1,char param_2,SpellEnum param_3,u8 param_4){
 }
 
 void DoubleTap(CharSheet *param_1){
-  if (CharStats::getModdedStat(param_1->Stats,END) != 0) {addModdedStat(param_1->Stats,END,-CharStats::getModdedStat(pCVar2,END));}
-  if (CharStats::getModdedStat(param_1->Stats,STAM) != 0) {addModdedStat(param_1->Stats,STAM,-CharStats::getModdedStat(pCVar2,STAM));}
-  if (CharStats::getModdedStat(param_1->Stats,LV) != 0) {addModdedStat(param_1->Stats,LV,-CharStats::getModdedStat(pCVar2,LV));}
+  if (CharStats::getModdedStat(param_1->Stats,STAT_END) != 0)
+    CharStats::addModdedStat(param_1->Stats,STAT_END,-CharStats::getModdedStat(pCVar2,STAT_END));
+  if (CharStats::getModdedStat(param_1->Stats,STAT_STAM) != 0)
+    CharStats::addModdedStat(param_1->Stats,STAT_STAM,-CharStats::getModdedStat(pCVar2,STAT_STAM));
+  if (CharStats::getModdedStat(param_1->Stats,STAT_LV) != 0)
+    CharStats::addModdedStat(param_1->Stats,STAT_LV,-CharStats::getModdedStat(pCVar2,STAT_LV));
 }
 
 bool check_healer_stam(CharSheet *param_1){
@@ -2022,10 +2004,10 @@ bool check_healer_stam(CharSheet *param_1){
   bool bVar3;
   s32 iVar4;
   
-  cVar2 = getModdedSkill(param_1->Skills,Healer);
+  cVar2 = getModdedSkill(param_1->Skills,SKILL_HEALER);
   if (cVar2 == 0) {bVar3 = false;}
   else {
-    iVar1 = CharStats::getModdedStat(param_1->Stats,STAM);
+    iVar1 = CharStats::getModdedStat(param_1->Stats,STAT_STAM);
     iVar4 = 11 - cVar2;
     if (iVar4 < 1) {iVar4 = 1;}
     bVar3 = iVar4 <= iVar1;
@@ -2039,12 +2021,12 @@ bool check_healer_herb_stam(CharSheet *param_1){
   s32 iVar1;
   s32 iVar4;
   
-  cVar2 = getModdedSkill(param_1->Skills,Healer);
+  cVar2 = getModdedSkill(param_1->Skills,SKILL_HEALER);
   bVar3 = false;
   if (cVar2 != 0) {
-    if (!has_item_func((gGlobals.Party)->Inventory,itemID_array[31])) {bVar3 = false;}
+    if (!has_item_func((gGlobals.Party)->inv,itemID_array[31])) {bVar3 = false;}
     else {
-      iVar1 = CharStats::getModdedStat(param_1->Stats,STAM);
+      iVar1 = CharStats::getModdedStat(param_1->Stats,STAT_STAM);
       iVar4 = 5 - cVar2;
       if (iVar4 < 1) {iVar4 = 1;}
       bVar3 = iVar4 <= iVar1;
@@ -2062,7 +2044,7 @@ bool ofunc_check_trouador(CharSheet *param_1){
   cVar2 = getModdedSkill(param_1->Skills,Troubadour);
   if (cVar2 == 0) {bVar3 = false;}
   else {
-    iVar1 = CharStats::getModdedStat(param_1->Stats,STAM);
+    iVar1 = CharStats::getModdedStat(param_1->Stats,STAT_STAM);
     iVar4 = 3 - cVar2;
     if (iVar4 < 1) {iVar4 = 1;}
     bVar3 = iVar4 <= iVar1;
@@ -2117,7 +2099,7 @@ LAB_8007b4b0:
 }
 
 bool Ofunc_boolStaminaForSpell(CharSheet *param_1,Temp_spell *param_2){
-  if (param_2) return spell_stamina_subtract(param_1,param_2,check_spell_wizard(param_1,param_2)) <= CharStats::getModdedStat(param_1->Stats,STAM);
+  if (param_2) return spell_stamina_subtract(param_1,param_2,check_spell_wizard(param_1,param_2)) <= CharStats::getModdedStat(param_1->Stats,STAT_STAM);
   return false;
 }
 
@@ -2130,19 +2112,19 @@ void malloc_enchant(CharSheet *param_1,SpellEnum param_2,u8 param_3,u8 param_4,u
 
   uVar6 = 0;
   while( true ) {
-    if (param_1->effects->list[uVar6] == NULL) {
+    if (param_1spellEffects->list[uVar6] == NULL) {
       pTVar2 = (Temp_enchant *)heapAlloc(0x18,FILENAME,0xde3);
-      ppTVar5 = param_1->effects->list + uVar6;
+      ppTVar5 = param_1spellEffects->list + uVar6;
       *ppTVar5 = pTVar2;
       CreateTempEnchant(*ppTVar5,param_2,(char)param_3,timer,param_4,0);
       if (param_6 == 0) {
         iVar8 = param_3 * 2;
-        if (CharStats::getBaseStat(param_1->Stats,STAM) < iVar8 + CharStats::getModdedStat(param_1->Stats,STAM)) {
-          iVar8 = CharStats::getBaseStat(param_1->Stats,STAM) - CharStats::getModdedStat(param_1->Stats,STAM);
+        if (CharStats::getBaseStat(param_1->Stats,STAT_STAM) < iVar8 + CharStats::getModdedStat(param_1->Stats,STAT_STAM)) {
+          iVar8 = CharStats::getBaseStat(param_1->Stats,STAT_STAM) - CharStats::getModdedStat(param_1->Stats,STAT_STAM);
         }
-        addModdedStat(param_1->Stats,STAM,(char)iVar8);
+        CharStats::addModdedStat(param_1->Stats,STAT_STAM,(char)iVar8);
       }
-      else {mod_stats(param_1,STAM,(char)((param_3 << 0x19) >> 0x18));}
+      else {mod_stats(param_1,STAT_STAM,(char)((param_3 << 0x19) >> 0x18));}
       return;
     }
     if (0xe < uVar6 + 1) break;
@@ -2151,20 +2133,20 @@ void malloc_enchant(CharSheet *param_1,SpellEnum param_2,u8 param_3,u8 param_4,u
   return;
 }
 
-s32 func_8007b6bc(CharSheet *param_1,CHAR_STAT param_2,char param_3){
+s32 func_8007b6bc(CharSheet *param_1,u8 param_2,char param_3){
   s32 iVar1;
-  CHAR_STAT SVar3;
+  u8 SVar3;
   s32 iVar4;
   
   iVar4 = (s32)param_3;
-  if (param_2 == LV) {
-    iVar1 = CharStats::getModdedStat(param_1->Stats,END);
+  if (param_2 == STAT_LV) {
+    iVar1 = CharStats::getModdedStat(param_1->Stats,STAT_END);
     if (iVar1 != 0) {return iVar4;}
-    SVar3 = LV;
+    SVar3 = STAT_LV;
   }
   else {
-    if (param_2 != END) {return iVar4;}
-    SVar3 = END;
+    if (param_2 != STAT_END) {return iVar4;}
+    SVar3 = STAT_END;
   }
   iVar1 = CharStats::getModdedStat(param_1->Stats,SVar3);
   if ((s32)(char)iVar1 <= -iVar4) {
@@ -2173,20 +2155,20 @@ s32 func_8007b6bc(CharSheet *param_1,CHAR_STAT param_2,char param_3){
   return iVar4;
 }
 
-s32 func_8007b760(CharSheet *param_1,CHAR_STAT param_2,char param_3){
+s32 func_8007b760(CharSheet *param_1,u8 param_2,char param_3){
   s32 iVar1;
-  CHAR_STAT SVar3;
+  u8 SVar3;
   s32 iVar4;
   
   iVar4 = (s32)param_3;
-  if (param_2 == LV) {
-    iVar1 = CharStats::getModdedStat(param_1->Stats,END);
+  if (param_2 == STAT_LV) {
+    iVar1 = CharStats::getModdedStat(param_1->Stats,STAT_END);
     if (iVar1 != 0) {return iVar4;}
-    SVar3 = LV;
+    SVar3 = STAT_LV;
   }
   else {
-    if (param_2 != END) {return iVar4;}
-    SVar3 = END;
+    if (param_2 != STAT_END) {return iVar4;}
+    SVar3 = STAT_END;
   }
   iVar1 = CharStats::getModdedStat(param_1->Stats,SVar3);
   if ((char)iVar1 <= iVar4) {
@@ -2196,25 +2178,25 @@ s32 func_8007b760(CharSheet *param_1,CHAR_STAT param_2,char param_3){
 }
 
 
-void mod_stats(CharSheet *param_1,CHAR_STAT param_2,u8 param_3){
+void mod_stats(CharSheet *param_1,u8 param_2,u8 param_3){
   if (!isDead(param_1)) {
     addModdedStats_flag(param_1->Stats,param_2,func_8007b6bc(param_1,param_2,param_3));
   }
 }
 
 
-void remove_stat_buff(CharSheet *param_1,CHAR_STAT param_2,u8 param_3){
+void remove_stat_buff(CharSheet *param_1,u8 param_2,u8 param_3){
   if (!isDead(param_1)) {
     SubtractModdedStats(param_1->Stats,param_2,func_8007b760(param_1,param_2,param_3));
   }
 }
 
 void clear_player_effect(CharSheet *param_1,u32 param_2,CombatEntity *param_3){
-  if (param_1->effects->list[param_2]) {
+  if (param_1spellEffects->list[param_2]) {
     ReverseSpellEffect(param_1,param_2,param_3);
-    func_800840dc(param_1->effects->list[param_2]);
-    HeapFree(param_1->effects->list[param_2],FILENAME,0xe7a);
-    param_1->effects->list[param_2] = NULL;
+    func_800840dc(param_1spellEffects->list[param_2]);
+    HeapFree(param_1spellEffects->list[param_2],FILENAME,0xe7a);
+    param_1spellEffects->list[param_2] = NULL;
   }
 }
 

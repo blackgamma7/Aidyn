@@ -227,7 +227,7 @@ char * copyCharSheet(CharSheet *param_1,CharSheet *param_2){
 
   param_2->EXP->total = param_1->EXP->total;
   param_2->EXP->spending = param_1->EXP->spending;
-  copyCharStats(param_2->Stats,param_1->Stats);
+  CharStats:::Copy(param_2->Stats,param_1->Stats);
   CopyCharSkills(param_2->Skills,param_1->Skills);
   for(i=0;i<2;i++) saveEntity_func_2(param_1,param_2,i);
   saveEntity_func(param_1,param_2);

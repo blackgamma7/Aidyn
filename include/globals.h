@@ -1,49 +1,5 @@
-#define dtor 0.017453f
-#define INT_MAX_f 2.14748365E9f
-#define INT_MAX_d 2.14748365E9d
-#define UINT_MAX_d 4.294967296E9d
+#include "commonTypes.h"
 
-
-
-#define ABS_macro(x) (if((float)x>=INT_MAX_f){x-=INT_MAX_f})
-#define CLEAR(x) (memset(&x,0,sizeof(x)))
-#define LE(x) ((u16)x[0] + (u16)x[1] * 0x100) //for the byteswapping in ROM data
-
-struct{u8 r,g,b,a;}color;
-
-#define OFFWHITE {0xe1,0xe1,0xe1,0xff}
-#define DARKGRAY {0x32,0x32,0x32,0xff}
-#define DARKGRAY_T {0x32,0x32,0x32,0x96}
-#define YELLOW_T {0xc8,0xc8,0,0xe1}
-
-typedef float vec2[2];
-typedef float vec3[3];
-typedef float vec4[4];
-typedef u32 rspCom[2]; //placeholder type for Ucode instructions.
-
-enum WEAPONCLASS{
-	BITE, BREATH, CLAW, HAFTED, MISSLE, POLE, SPIT, STING, SWORD, THROWN, TUSK
-};
-
-enum ELEMENT{
-	NONE, EARTH, SOLAR, PHYSICAL, NECROMANCY, FIRE, LUNAR, NAMING, WATER, MAGIC, AIR, STAR, ELEMENTAL, CHAOS, CUTTING, SMASHING, HOLY
-};
-
-enum ASPECT{NONE, LUNAR, SOLAR, SOLAR_MAGIC, LUNAR_MAGIC};
-
-enum CHAR_STAT{INT, WIL, DEX, END, STR, STAM, LV, NONE=255};
-
-enum CHAR_SKILL{
-	ALCHEMIST, DIPLOMAT, HEALER, LOREMASTER, MECHANIC, MERCHANT, RANGER, STEALTH, THEIF, TROUBADOR, WARRIOR, WIZARD, NONE=255
-};
-
-enum DB_TYPE{
-	EMPTY, MISC, ENTITY, SPELL, ARMOR, UNK4, SHIELD, WEAPON, CHEST, HELMET, CLOAK, GLOVE, RING, WAND, BELT, BOOTS, POTION, SCROLL, KEYITEM, AMULET, DIALOUGEENTITY
-};
-
-enum POTION{
-	FIRE, INFERNO, SLEEP, ACID, HEALING, STAMINA, CURING, ANTIDOTE, RESTORE, STRENGTH, DEXTERITY, A, J, CLARITY, CHARISMA, DEFENCE, STEALTH
-}; // A and J are ommited. couple funcs change "A" potions into healing potions automatically.
 
 struct SaveFile{ //relevant bits are shoved together for MemPak save files(And a temp one created by Memmaker)
     u8* data;
@@ -154,7 +110,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles v1.0 */
     u8 unk0x14d5;
     u16 unk0x14d6;
     struct Borg_8_header * screenshot;
-    struct color screenshotTint;
+    struct color32 screenshotTint;
     s16 scrollLocation[2];
     struct spellbook * ShopSpells;
     u32 shopUnused; /* probably was stats */

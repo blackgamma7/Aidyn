@@ -38,9 +38,7 @@ Gfx* display_debug_stats(Gfx*param_1){
     sprintf(gGlobals.text,"%2d",(s16)(60.0f / gGlobals.delay));
     param_1 = (Gfx*)gfx::DrawText(param_1,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
     if (gGlobals.DebugStatDisplay) {
-      uVar4 = get_hres();
-      v = get_vres();
-      param_1 = rsp_func(param_1,6,uVar4,v);
+      RSPFUNC(param_1,6);
       ppVar1 = gGlobals.playerCharStruct.playerDat;
       if (gGlobals.DebugStatDisplay & 1) {
         uVar2 = get_obj_free();
@@ -186,138 +184,126 @@ Gfx* display_debug_stats(Gfx*param_1){
     return phi_s1_2;
 }*/
 
-void app_cpp_func(OSSched *param_1,u32 pri,u32 id){
-  s32 *piVar1;
-  u32 uVar2;
+void appInit(OSSched *sched,u8 pri,u8 id){
+  s32 *stack;
+  u32 i;
   
-  appManager.sched = param_1;
-  piVar1 = (s32 *)heapAlloc(0x6048,FILENAME,0xe7);
-  appStack_mirror = piVar1;
-  appManager.stack = piVar1;
-  for(uVar2 = 0;uVar2 < 0x1811;uVar2++;) *piVar1++ = 0x12345678;
-  osCreateThread(&appManager.Thread,id,AppProc,null,appManager.stack + 0x1812,pri);
+  appManager.sched = sched;
+  stack = (s32 *)heapAlloc(0x6048,FILENAME,0xe7);
+  appStack_mirror = stack;
+  appManager.stack = stack;
+  for(i = 0;i < 0x1811;i++;) *stack++ = 0x12345678;
+  osCreateThread(&appManager.Thread,id,AppProc,NULL,appManager.stack + 0x1812,pri);
   osStartThread(&appManager.Thread);
   return;
 }
 
-void AppProc(void){
-  s16 sVar1;
-  u32 uVar2;
-  s16 sVar3;
-  longlong lVar4;
-  s32 *puVar6;
-  Gfx*pauVar7;
-  OSMesg msg;
-  s16 sVar9;
-  u16 uVar10;
-  ulonglong uVar5;
-  s32 iVar8;
-  s16 sVar11;
-  u32 uVar12;
-  u32 unaff_s1_lo;
-  float fVar13;
-  float fVar14;
-  s16 *in_stack_ffffffc0; //neither Ghidra or mips_to_c can explain this.
-  OSMesg *ppvVar15;
+
+void AppProc(void *x)
+
+{
+  short sVar1;
+  longlong lVar2;
+  Gfx *gfx0;
+  Gfx *gfx1;
+  int dat_size;
+  short sVar7;
+  ushort uVar8;
+  short sVar9;
+  uint uVar10;
+  u32 gListSizeMax;
+  short *psStack_40;
+  short **ppsStack_3c;
   
-  appManager.Mesg = heapAlloc(0x20,FILENAME,0x117);
+  appManager.Mesg = (OSMesg *)heapAlloc(0x20,s_./src/app.cpp_800d9898,0x117);
   osCreateMesgQueue(&appManager.MesgQ2,appManager.Mesg,8);
-  appManager.MesgQ = osScGetCmdQ(appManager.ossched);
+  appManager.MesgQ = osScGetCmdQ(appManager.sched);
   appProc_init();
-  osScAddClient(appManager.ossched,&appManager.client,&appManager.MesgQ2);
-  ppvVar15 = (OSMesg *)&stack0xffffffc0;
-  sVar3 = doubleGlobalTickerFlag;
-  sVar11 = 0;
+  osScAddClient(appManager.sched,&appManager.client,&appManager.MesgQ2);
+  ppsStack_3c = &psStack_40;
+  uVar8 = doubleGlobalTickerFlag;
+  sVar9 = 0;
 loop:
   do {
-    doubleGlobalTickerFlag = sVar3;
-    osRecvMesg(&appManager.MesgQ2,ppvVar15,1);
-    if (*in_stack_ffffffc0 == 1) {
-      if ((doubleGlobalTickerFlag == 0) || (sVar11 == 0)) {
-        lVar4 = resolution_mirror_check();
-        sVar3 = doubleGlobalTickerFlag;
-        if (lVar4 != 0) {
+    doubleGlobalTickerFlag = uVar8;
+    osRecvMesg(&appManager.MesgQ2,ppsStack_3c,1);
+    if (*psStack_40 == 1) {
+      if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
+        if (resolution_mirror_check()) {
           sprintf(gGlobals.text,"StartGfxList()");
-          puVar6 = gsStartGfxList();
+          gfx0 = gfx::gsStartGfxList();
           sprintf(gGlobals.text,"HandleAppFrame()");
-          uVar2 = gGlobals.ticker + 1;
-          if (doubleGlobalTickerFlag == 1) {uVar2 = gGlobals.ticker + 2;}
-          gGlobals.ticker = uVar2;
-          pauVar7 = (Gfx*)appProc_caseSwitch(puVar6);
-#ifdef DEBUGVER
-          pauVar7 = display_debug_stats(pauVar7);
-#else
-          if ((version_flag) && (gGlobals.playerChar.playerDat)) {
-            sprintf(gGlobals.text,"%c%02d-(%2.1f,%2.1f)\n",gGlobals.Sub.mapShortA + 0x40,gGlobals.Sub.mapShortB);
-            pauVar7 = gfx::DrawText(pauVar7,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);}
-#endif            
+          uVar10 = gGlobals.ticker + 1;
+          if (doubleGlobalTickerFlag == 1) {
+            uVar10 = gGlobals.ticker + 2;
+          }
+          gGlobals.ticker = uVar10;
+          gfx1 = appProc_caseSwitch(gfx0);
+          gfx1 = display_debug_stats(gfx1);
           NOOP_800a2448();
-          pauVar7 = (Gfx*)ret_A0(pauVar7);
-          iVar8 = gsDrawScreenRects(pauVar7);
-          uVar12 = 0x3200;
-          if (ExpPakFlag) {uVar12 = 0x6400;}
-          if (uVar12 << 3 < (u32)(iVar8 - (s32)puVar6)) {
-            sprintf(gGlobals.text,"GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",
-                        (u32)(iVar8 - (s32)puVar6) >> 3,uVar12,unaff_s1_lo);
+          gfx1 = ret_A0(gfx1);
+          gfx1 = gsDrawScreenRects(gfx1);
+          gListSizeMax = 0x3200;
+          if (ExpPakFlag) gListSizeMax = 0x6400;
+          uVar10 = (uint)((int)gfx1 - (int)gfx0) /sizeof(Gfx);
+          if (gListSizeMax*sizeof(Gfx) < (uint)(gfx1 - (int)gfx0)) {
+            sprintf(gGlobals.text,"GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",uVar10,gListSizeMax,
+                        uVar10 - gListSizeMax);
             assert("app.cpp::AppProc",gGlobals.text);
           }
-          sVar3 = doubleGlobalTickerFlag + -1;
+          uVar8 = doubleGlobalTickerFlag - 1;
           if (doubleGlobalTickerFlag == 0) {
-            msg = (OSMesg)gfx::func_swapping_framebuffer_(iVar8,&appManager.MesgQ2);
-            osSendMesg(appManager.MesgQ,msg,1);
-            sVar11 = sVar11 + 1;
-            sVar3 = doubleGlobalTickerFlag;
+            osSendMesg(appManager.MesgQ,func_swapping_framebuffer_(dat_size,&appManager.MesgQ2),1);
+            sVar9++;
+            uVar8 = doubleGlobalTickerFlag;
           }
         }
         goto loop;
       }
-      sVar1 = *in_stack_ffffffc0;
+      sVar1 = *psStack_40;
     }
     else {
-      sVar1 = *in_stack_ffffffc0;
+      sVar1 = *psStack_40;
     }
     if (sVar1 != 4) {
-      sVar9 = sVar11 + -1;
-      sVar3 = doubleGlobalTickerFlag;
+      sVar7 = sVar9 + -1;
+      uVar8 = doubleGlobalTickerFlag;
       if (sVar1 == 2) {
-        func_800095f0(in_stack_ffffffc0);
+        FUN_800095f0(psStack_40);
         gGlobals.ticker++;
-        sVar11 = sVar9;
-        if (0.0 < lensflare_floats[0]) {
-          sVar3 = doubleGlobalTickerFlag;
-          if (320.0f <= lensflare_floats[0]) {
+        sVar9 = sVar7;
+        if (0.0 < lensflare_floats.x) {
+          uVar8 = doubleGlobalTickerFlag;
+          if (320.0f <= lensflare_floats.x) {
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
-          if (lensflare_floats[1] <= 0.0) {
+          if (lensflare_floats.y <= 0.0) {
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
-          if (240.0f <= lensflare_floats[1]) {
+          if (240.0f <= lensflare_floats.y) {
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
-          fVar14 = lensflare_floats[0] * gfx::get_hres() / 0x140) & 0xffff;
-          fVar13 = lensflare_floats[1] * gfx::get_vres() / 0xf0) & 0xffff);
-          iVar8 = gfx::get_depthBuffer();
-          if (INT_MAX_f <= fVar13) {fVar13 -= INT_MAX_f;}
-          if (INT_MAX_f <= fVar14) {fVar14 -= INT_MAX_f;}
-          if (*(s16 *)(iVar8 + (((s32)fVar13 & 0xffffU) * (s32)(s16)gfx::get_hres() +
-                                 ((s32)fVar14 & 0xffffU)) * 2) == -4) {
+          psVar6 = get_depthBuffer();
+          if (psVar6[((u16)lensflare_floats.y * (gfx::get_vres() / 0xf0)) * gfx::get_hres() + lensflare_floats.x * (gfx::get_hres() / 0x140)] == -4) {
             gGlobals.appfunc_dat = 1;
-            sVar3 = doubleGlobalTickerFlag;
+            uVar8 = doubleGlobalTickerFlag;
             goto loop;
           }
         }
         gGlobals.appfunc_dat = 0;
-        sVar3 = doubleGlobalTickerFlag;
+        uVar8 = doubleGlobalTickerFlag;
       }
       goto loop;
     }
     clear_audio_video();
-    sVar3 = doubleGlobalTickerFlag;
-  } while( true );
+    uVar8 = doubleGlobalTickerFlag;
+  } while(1);
 }
+
+
 
 void appProc_init(void){
   u8 *pbVar1;
@@ -427,7 +413,7 @@ s32 check_for_PAL_or_controller(Gfx**param_1){
     pauVar3 = *param_1;
     fVar5 = (float)gfx::get_hres() * 0.5f - (float)(PAL_Warning_image->dat).height * 0.5f;
     fVar6 = (float)gfx::get_vres() * 0.5f - (float)(PAL_Warning_image->dat).width * 0.5f;
-    pauVar3 = rsp_func(pauVar3,6,gfx::get_hres(),gfx::get_vres());
+    RSPFUNC(pauVar3,6);
     pauVar3 = pass_to_borg_image_draw(pauVar3,PAL_Warning_image,fVar5,fVar6,1.0f,1.0f,
                          0xff,0xff,0xff,0xff);
     iVar2 = 5;

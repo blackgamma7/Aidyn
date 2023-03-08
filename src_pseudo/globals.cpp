@@ -185,7 +185,7 @@ u32 get_enemy_avg_lv(u32 param_1,monsterparty_dat *param_2){
           pmVar9 = param_2->enemyEntries + uVar4;
           sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x27e);
           uStack56 = uVar4 + 1;
-          if (pmVar9->enemyID != (ItemID)0x0) {
+          if (pmVar9->enemyID != 0) {
             uVar4 = 0;
             iVar6 = 0;
             sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x281);

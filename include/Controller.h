@@ -1,3 +1,4 @@
+#include "commonTypes.h"
 enum BUTTON_aidyn{ //same as standard enum, but with 32 bits for analog joystick
 	C_RIGHT=1,
 	C_LEFT=2,
@@ -19,15 +20,18 @@ enum BUTTON_aidyn{ //same as standard enum, but with 32 bits for analog joystick
 	ANA_UP=0X80000,
 };
 
+#ifndef MAXCONTROLLERS
+#define MAXCONTROLLERS 4
+#endif
 
-struct{
+typedef struct{
 	float joyX;
 	float joyY;
 	u32 input;
 	u32 input2; //tap vs hold?
 }controllerAidyn;
 //and a version that holds the button hold times
-struct{
+typedef struct{
 	controllerAidyn cont;
 	u16 D_up;
 	u16 D_down;
@@ -49,7 +53,7 @@ struct{
 	u16 R;
 }  Button_hold; //hold times seem largely irrelevant, only cares about smaller struct.
 
-struct{
+typedef struct{
 	Button_hold[128]* inputlog; //cycles through 128 controller entries
 	OSpfs pfs; //For memory pak stuff
 	u8 align[2];
@@ -61,7 +65,7 @@ struct{
 	u8 ContRead;
 }ControllerBuffer;
 
-struct{
+typedef struct{
 	u16 filesize;
 	u16 comp_code;
 	u32 game_name;
@@ -70,7 +74,7 @@ struct{
 	u8 align[3];
 }fileState_aidyn;
 
-struct{
+typedef struct{
 	void* thread_stack;
 	OSMesg* osmesgPointer;
 	OSSched* ossched;

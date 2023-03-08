@@ -1,4 +1,13 @@
-enum ENTITY_CATEGORY{GENERIC, HUMANOID, NAMED, PARTY, CHAOS, NATURAL};
+#include "commonTypes.h"
+
+enum ENTITY_CATEGORY{
+    ENTITY_GENERIC,
+    ENTITY_HUMANOID,
+    ENTITY_NAMED,
+    ENTITY_PARTY,
+    ENTITY_CHAOS,
+    ENTITY_NATURAL
+    };
 
 struct{
   char name[20];
@@ -58,11 +67,11 @@ struct{
   u8 unk0x7a[8]; //unused
   u8 unk0x82[4]; //unused
   u8 EXP_X75; // x50, then 1.5 on EXP func
-  u8 Loot Category;
+  u8 LootCategory;
 }Entity_ROM;
 
 struct Entity_Ram { /* entity data in Ram */
-    struct ItemID ID;
+    ItemID ID;
     char Name[21];
     enum EntityCatEnum Category;
     enum CharSheetFlags unk0x18; /* 2 bits determined by rom0x2d */
@@ -76,17 +85,17 @@ struct Entity_Ram { /* entity data in Ram */
     u8 unk0x20; //deals with monster "vision." 10 or 0.
     u8 unk0x21;
     u8 Skills[12];
-    u8 Weapon prof[11];
+    u8 weaponProf[11];
     u8 stats[7];
-    struct ItemID weapon[3];
-    struct ItemID spells[5];
+    ItemID weapon[3];
+    ItemID spells[5];
     u8 Spell_levels[5];
     u8 unk0x55[5]; // rom0x68. Unused
     u8 unk0x5a[4]; // rom0x6d. Unused.
-    struct ItemID Armor;
-    struct ItemID Sheild;
+    ItemID Armor;
+    ItemID Sheild;
     s8 sheildStat;
-    enum ElementEnum Resist[2];
+    u8 Resist[2];
     u8 align[3];
     float resistAmmount[2];
     u16 FFs[4]; /* supposed to load something, but ends up blank. unused. */
@@ -126,7 +135,7 @@ struct{
 }dialougeEntity_Info;
 
 struct resist_float { /* resistance and element when loaded into temp item */
-    enum ELEMENT element;
+    u8 element;
     u8 pad[3];
     float percent;
 };
@@ -162,13 +171,10 @@ struct CharSkills { /* Skill and weapon levels. Also sheild. */
 };
 
 struct CharSheet { /* Skills, stats and misc of Characters */
-    struct ItemID ID;
-    char a;
-    char b;
+    ItemID ID;
+    //2 align bytes
     char * name; /* pointer to entityDB entry */
-    char d;
-    u8 lv;
-    u8 pad[10];
+    u8 unk0x8[12];
     struct charExp * EXP;
     struct CharStats * Stats; /* base and modded stats of character */
     struct CharSkills * Skills; /* skill and weapon levels */
@@ -177,8 +183,8 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     struct CharGear * pItemList;
     struct spellbook * spellbook; /* list and count of known spells */
     s32 unk0x30;
-    struct effects * effects; /* spell effects on character */
-    struct Potion_effect * * potion_effects;
+    struct SpellEffect* effects; /* spell effects on character */
+    struct Potion_effect* * potionEffects;
     u8 some_rand_val;
     u8 spellSwitch;
     u8 currSpell;
@@ -187,8 +193,8 @@ struct CharSheet { /* Skills, stats and misc of Characters */
 };
 
 struct CombatEntity {
-    vec4 unk0x0;
-    u32 unk0x10;
+    vec2 coord,coord2;
+    u32 targetIndex;
     u16 unk0x14;
     u8 unk0x16;
     u8 unk0x17;
@@ -203,44 +209,30 @@ struct CombatEntity {
     u8 unk0x24;
     u8 unk0x25;
     u8 unk0x26;
-    enum POTION item;
+    u8 item;
     u8 unk0x28;
     u8 damage;
     u8 unk0x2a;
     u8 unk0x2b;
-    enum Struct_char_flags flags;
+    u16 flags;
     u8 unk0x2e;
     u8 unk0x2f;
     struct resist_float resists[2];
-    struct CharSheet * CharSheet;
-    struct combat_ai * combat_ai_pointer;
-    float E[3];
-    u8 unk0x54;
-    u8 unk0x55;
-    u8 unk0x56;
-    u8 unk0x57;
-    u8 unk0x58;
-    u8 unk0x59;
-    u8 unk0x5a;
-    u8 unk0x5b;
-    u8 unk0x5c;
-    u8 unk0x5d;
-    u8 unk0x5e;
-    u8 unk0x5f;
-    u8 unk0x60;
-    u8 unk0x61;
-    u8 unk0x62;
-    u8 unk0x63;
-    float scale?[10];
+    struct CharSheet * charSheetP;
+    struct combat_ai * aiP;
+    u8 unk0x48[60];
+    u32 notBoss;
+    u8 wepLocator;
+    u8 shieldLocator;
+    u8 throwingflag;
 };
 
-typedef struct itemtype_func itemtype_func, *Pitemtype_func;
 
 struct itemtype_func {
     enum DBTypeEnum type;
     u8 pad[3];
     s32 unk;
-    ulong (* function)(void);
+    s32 (* function)(void);
 };
 
 

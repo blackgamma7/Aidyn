@@ -1,3 +1,5 @@
+#include "commonTypes.h"
+
 #ifdef DEBUGVER
 #define FILENAME "./src/audio.cpp"
 #else
@@ -33,12 +35,7 @@ struct Audio_manager {
     OSSched * OSSched;
     Acmd * ACMDList;
     struct Voice_Aidyn * voicesAidyn;
-    void * * buffer_pointers;
-    s32 unk0x88;
-    u8 unk0x8c;
-    u8 unk0x8d;
-    u8 unk0x8e;
-    u8 unk0x8f;
+    s16 * buffer_pointers[3];
     void * heap0x90;
     s32 heap0x90Mirror;
     pointer unk0x98;
@@ -245,7 +242,7 @@ void audioProc(void){
       pAVar1 = (Acmd *)CreateAudioList();
     }
     if ((pAVar1) && (gAudioManager.ACMDList < pAVar1)) {
-      set_osscTaskAudio((int)pAVar1);
+      SetAudioTask((int)pAVar1);
       osSendMesg(gAudioManager.MesgQ_3,&gAudioManager.Task,1);
       osRecvMesg(&gAudioManager.mesgQ_2,apsStack32,1);
     }
@@ -274,7 +271,7 @@ void AudioProcInit(void){
   AStack168.heap = &gAudioManager.ALHEAP;
   alInit(&gAudioManager.ALSYNTH,&AStack168);
   gAudioManager.ALPLAYER.next = NULL;
-  gAudioManager.ALPLAYER.handler = alVoice_func;
+  gAudioManager.ALPLAYER.handler = soundVoiceHandler;
   gAudioManager.ALPLAYER.clientData = NULL;
   alSynAddPlayer(&gAudioManager.ALSYNTH,&gAudioManager.ALPLAYER);
   aAStack104[0].priority = 10;
@@ -300,7 +297,7 @@ void AudioProcInit(void){
   gAudioManager.unk0x326 = gAudioManager.unk0x324;
   gAudioManager.unk0x328 = gAudioManager.unk0x324 + 0x50;
   for(uVar4 = 0;uVar4 < 3;uVar4++) {
-    (&gAudioManager.buffer_pointers)[uVar4] = alHeapDBAlloc(NULL,0,&gAudioManager.ALHEAP,1,(uint)gAudioManager.unk0x328 << 2);
+    gAudioManager.buffer_pointers[uVar4] = alHeapDBAlloc(NULL,0,&gAudioManager.ALHEAP,1,(uint)gAudioManager.unk0x328 << 2);
   }
   gAudioManager.audio_tally = 0;
   gAudioManager.buffer_choice = -1;
@@ -339,7 +336,7 @@ short * dmaProc(short *param_1,s32 param_2,longlong param_3){
   return param_1;
 }
 //redo this when "Voice_aidyn" struct is better understood.
-u32 alVoice_func(void){
+u32 soundVoiceHandler(void){
   ushort uVar1;
   PVoice *pPVar2;
   uint *puVar3;
@@ -462,7 +459,7 @@ Acmd * CreateAudioList(void){
   Acmd *pAVar3;
   
   if (gAudioManager.buffer_choice != -1) {
-    osAiSetNextBuffer((&gAudioManager.buffer_pointers)[gAudioManager.buffer_choice],gAudioManager.audioLength << 2);
+    osAiSetNextBuffer(gAudioManager.buffer_pointers[gAudioManager.buffer_choice],gAudioManager.audioLength << 2);
   }
   gAudioManager.heap0x90Mirror = gAudioManager.heap0x90;
   uVar2 = ((uint)gAudioManager.unk0x324 - (osAiGetLength() >> 2 & 0xffff)) + 0x50;
@@ -471,7 +468,7 @@ Acmd * CreateAudioList(void){
     gAudioManager.audioLength = gAudioManager.unk0x326;
   }
   gAudioManager.AudiolistCount = 0;
-  pAVar3 = alAudioFrame(gAudioManager.ACMDList,&gAudioManager.AudiolistCount,(s16 *)(&gAudioManager.buffer_pointers)[gAudioManager.audio_tally],(uint)gAudioManager.audioLength);
+  pAVar3 = alAudioFrame(gAudioManager.ACMDList,&gAudioManager.AudiolistCount,gAudioManager.buffer_pointers[gAudioManager.audio_tally],(uint)gAudioManager.audioLength);
   bVar1 = gAudioManager.audio_tally;
   if (0x7ff < gAudioManager.AudiolistCount) assert("audio.cpp, CreateAudioList()","Audio list overrun!");
   uVar2 = (gAudioManager.audio_tally + 1) / 3;
@@ -480,7 +477,7 @@ Acmd * CreateAudioList(void){
   return pAVar3;
 }
 
-void set_osscTaskAudio(int param_1){
+void SetAudioTask(int param_1){
   gAudioManager.Task.next = NULL;
   gAudioManager.Task.flags = NEEDS_RSP;
   gAudioManager.Task.list.Type = 2;

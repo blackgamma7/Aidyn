@@ -1,12 +1,13 @@
 struct Potion_effect{
-    POTION ID;
+    u8 ID;
     u8 unk1;
     u8 pad[2];
     u32 timer;
     u32 unk2; //might have to do with spell visuals. unused?
-}
+};
 char** potion_names;
-void make_charsheet_potion(Potion_effect *param_1,POTION ID,u8 param_3,u32 Timer){
+
+void make_charsheet_potion(Potion_effect *param_1,u8 ID,u8 param_3,u32 Timer){
   param_1->ID = ID;
   param_1->unk1 = param_3;
   param_1->timer = Timer;
@@ -27,7 +28,7 @@ bool check_charsheet_potion_timer(Potion_effect *param_1,u32 param_2,s32 param_3
   if (uVar1 == 0) return true;
   uVar2 = param_2 * param_3;
   if ((param_2 == 0) {
-    if (uVar1 < 601) param_1->timer = 0;
+    if (uVar1 =< 600) param_1->timer = 0;
     else param_1->timer-= 600;
   }
   else {

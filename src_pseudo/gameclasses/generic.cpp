@@ -6,7 +6,6 @@ enum CharSheetFlags{
 
 void init_charExp(charExp *param_1,ItemID param_2){
   u8 bVar1;
-  CharSheetFlags CVar2;
   u8 bVar3;
   bool bVar4;
   Entity_Ram *pEVar5;
@@ -19,11 +18,10 @@ void init_charExp(charExp *param_1,ItemID param_2){
   param_1->total = 0;
   param_1->spending = 0;
   param_1->damage = pEVar5->BaseDamage;
-  CVar2 = pEVar5->unk0x18;
-  param_1->flags = CVar2;
-  if (pEVar5->aspect == SOLAR) param_1->flags = CVar2 | IsSolar;
+  param_1->flags = pEVar5->unk0x18;
+  if (pEVar5->aspect == SOLAR) param_1->flags |= IsSolar;
   //is alaron "Named"
-  if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic3))) {param_1->flags |= TrueName;}
+  if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic3))) param_1->flags |= TrueName;
 }
 
 ASPECT GetCharAspect(charExp *param_1){
@@ -135,7 +133,7 @@ void make_temp_gear(temp_gear *param_1,ItemID param_2){
   param_1->name = pGVar4->name;
   param_1->aspect = pGVar4->aspect;
   param_1->price = pGVar4->price;
-  if (pGVar4->stat != NONE) {
+  if (pGVar4->stat) {
     pabVar2 = (u8 (*) [2])heapAlloc(2,FILENAME,0xe8);
     param_1->statmod = pabVar2;
     make_2byte_array(pabVar2,pGVar4->stat,pGVar4->StatMod);

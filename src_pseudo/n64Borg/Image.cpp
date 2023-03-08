@@ -65,8 +65,8 @@ Gfx* rsp_func(Gfx*param_1,u8 param_2,u16 h,u16 v){
   param_1[0xb][1] = 0;
   param_1[0xc][0] = 0xd7000000;
   param_1[0xc][1] = 0;
-  if ((param_2 & 2) == 0) {uVar1 = 0xf0a4000;}
-  else {uVar1 = 0x504240;}
+  if ((param_2 & 2) == 0) uVar1 = 0xf0a4000;
+  else uVar1 = 0x504240;
   param_1[0xd][0] = 0xe200001c;
   param_1[0xd][1] = uVar1;
   if ((param_2 & 4) == 0) {

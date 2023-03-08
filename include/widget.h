@@ -55,7 +55,7 @@ struct widgetStruct { // Parent for all widgets
     struct widgetStruct * link0;
     struct widgetStruct * link1;
     struct widgetStruct * link2;
-    struct color col;
+    struct color32 col;
     u8 unk0x5c;
     u8 unk0x5d;
     u16 unk0x5e;

@@ -3,7 +3,10 @@
 #else
 #define FILENAME ""
 #endif
-u8 pfs_charset[66]= 0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"$\'*+,-./:=?";
+
+#include "Controller.h"
+
+u8 pfs_charset[66]= {0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,0x8a,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!\"$\'*+,-./:=?"};
 u32 button_mirror[MAXCONTROLLERS];
 u16 D_up_hold[MAXCONTROLLERS];
 u16 D_down_hold[MAXCONTROLLERS];
@@ -28,8 +31,8 @@ ContManageStruct gContManager;
 void Controller::Init(OSSched *sc,u8 ports,u8 pri,u8 id){
   gContManager.ossched = sc;
   gContManager.ports = ports;
-  gContManager.thread_stack = (void *)heapAlloc(0x448,FILENAME,0xc8);
-  osCreateThread(&gContManager.Thread,(s32)id,Controller::proc,null,
+  gContManager.thread_stack = heapAlloc(0x448,FILENAME,0xc8);
+  osCreateThread(&gContManager.Thread,(s32)id,Controller::proc,NLL,
                      gContManager.thread_stack + 0x448,pri);
   osStartThread(&gContManager.Thread);}
 
@@ -62,10 +65,10 @@ void Controller::InitBuffer(void){
   OSContStatus contStat [4];
   u8 auStack40 [4];
   
-  gContManager.osmesgPointer = (OSMesg *)heapAlloc(0x20,FILENAME,0x102);
+  gContManager.osmesgPointer = (OSMesg *)heapAlloc(0x20,FILENAME,258);
   osCreateMesgQueue(&gContManager.controller_queue_2,gContManager.osmesgPointer,8);
   osCreateMesgQueue(&gContManager.si_megQ,&gContManager.mesg0,1);
-  osSetEventMesg(SI,&gContManager.si_megQ,&_gp_1);
+  osSetEventMesg(OS_EVENT_SI,&gContManager.si_megQ,(OSMesg)1);
   osCreateMesgQueue(&gContManager.contMesgQ,&gContManager.mesg1,1);
   gContManager.BufferPointer =heapAlloc(gContManager.ports*sizeof(controllerBuffer),FILENAME,0x10b);
   if (gContManager.ports) {
@@ -80,7 +83,7 @@ void Controller::InitBuffer(void){
       gContManager.BufferPointer[i].ContRead = false;
     }
   }
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   osContSetCh(gContManager.ports);
   osContInit(&gContManager.si_megQ,auStack40,contstat);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
@@ -106,7 +109,7 @@ void Controller::ReadInput(void){
   float fVar12;
   OSContPad contPad [4];
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   osContStartReadData(&gContManager.si_megQ);
   osRecvMesg(&gContManager.si_megQ,NULL,1);
   osContGetReadData(contPad);
@@ -123,11 +126,9 @@ void Controller::ReadInput(void){
         contEntry = (Button_hold *)(&(&buffer->inputlog->contAidyn)[(u32)bVar8 * 3].joy_x + bVar8); //this, too
         if ((contPad[port].errno & CONT_NO_RESPONSE_ERROR) == 0) {
           buttons = (BUTTON_aidyn)contPad[port].button;
-          sVar1 = contPad[port].stick_x;
-          sVar2 = contPad[port].stick_y;
           buffer->ContRead = true;
-          fVar12 = (float)(s32)sVar1 / fVar4;
-          fVar11 = (float)(s32)sVar2 / fVar4;
+          fVar12 = (float)(s32)contPad[port].stick_x / fVar4;
+          fVar11 = (float)(s32)contPad[port].stick_y / fVar4;
         }
         else {
           fVar11 = 0.0;
@@ -245,11 +246,11 @@ void Controller::ReadInput(void){
 bool Controller::GetQuerey(s32 port){
   OSContStatus stats [4];
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   osContStartQuery(&gContManager.si_megQ);
-  osRecvMesg(&gContManager.si_megQ,null,1);
+  osRecvMesg(&gContManager.si_megQ,NULL,1);
   osContGetQuery(stats);
-  osRecvMesg(&gContManager.contMesgQ,null,1);
+  osRecvMesg(&gContManager.contMesgQ,NULL,1);
   return (stats[port].errno & CONT_NO_RESPONSE_ERROR) == 0;
 }
 
@@ -259,7 +260,7 @@ bool Controller::CheckStatus(s32 port){
   CONT_ERROR CErr;
   CONT_TYPE CType;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   osContStartQuery(&gContManager.si_megQ);
   osRecvMesg(&gContManager.si_megQ,NULL,1);
   osContGetQuery(stats);
@@ -273,46 +274,46 @@ bool Controller::CheckStatus(s32 port){
 bool func_8009b8fc(s32 port){
   bool bVar1;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   bVar1 = gContManager.BufferPointer[port].ContRead;
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
   return bVar1;
 }
 
-PFS_ERR8 Controller::InitPak(s32 port){
-  PFS_ERR PVar1;
+u8 Controller::InitPak(s32 port){
+  s32 PVar1;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osPfsInitPak(&gContManager.si_megQ,&gContManager.BufferPointer[port].pfs,port);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar1;
+  return (u8)PVar1;
 }
 
-PFS_ERR8 Controller::InitRumble(u8 port){
-  PFS_ERR8 PVar1;
+u8 Controller::InitRumble(u8 port){
+  u8 PVar1;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osMotorInit(&gContManager.si_megQ,&gContManager.BufferPointer[port].pfs,port);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
   return PVar1;
 }
 
 
-PFS_ERR8 Controller::InitGBPak(u32 port){
-  PFS_ERR PVar1;
+u8 Controller::InitGBPak(u32 port){
+  s32 PVar1;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osGbpakInit(&gContManager.si_megQ,&gContManager.BufferPointer[port].pfs,port);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar1;
+  return (u8)PVar1;
 }
 
-PFS_ERR8 Controller::GetPSFERR(u8 port){
-  PFS_ERR8 PVar1;
+u8 Controller::GetPSFERR(u8 port){
+  u8 PVar1;
     PVar1 = Controller::InitPak(port);
   if (PVar1 == ERR_DEVICE) {
     PVar1 = Controller::InitRumble(port);
-    if ((PVar1 == OK) || (PVar1 = Controller::InitGBPak(port), PVar1 == OK)) {
+    if ((PVar1 == 0) || (PVar1 = Controller::InitGBPak(port), PVar1 == 0)) {
       Controller::InitPak(port);
       PVar1 = ERR_DEVICE;
     }
@@ -324,81 +325,81 @@ PFS_ERR8 Controller::GetPSFERR(u8 port){
   return PVar1;
 }
 
-PFS_ERR8 Controller::RepairPak(u32 port){
-  PFS_ERR PVar1;
+u8 Controller::RepairPak(u32 port){
+  s32 PVar1;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osPfsRepairId(&gContManager.BufferPointer[port].pfs);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar1;
+  return (u8)PVar1;
 }
 
 
-PFS_ERR8 Controller::GetPakFreeBlocks16(u16 *b,u32 port){
-  PFS_ERR PVar1;
+u8 Controller::GetPakFreeBlocks16(u16 *b,u32 port){
+  s32 PVar1;
   s32 bytesFree;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osPfsFreeBlocks(&gContManager.BufferPointer[port].pfs,&bytesFree);
-  if (PVar1 == OK) *b = bytesFree._2_2_;
+  if (PVar1 == 0) *b = bytesFree._2_2_;
   else *b = 0;
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar1;
+  return (u8)PVar1;
 }
 
-PFS_ERR8 Controller::GetPakFreeBlocks8(u8 *b,u32 port){
-  PFS_ERR PVar1;
+u8 Controller::GetPakFreeBlocks8(u8 *b,u32 port){
+  s32 PVar1;
   s32 blocks;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osPfsFreeBlocks(&gContManager.BufferPointer[port].pfs,&blocks);
-  if (PVar1 == OK) *b = blocks._2_1_;
+  if (PVar1 == 0) *b = blocks._2_1_;
   else *b = 0;
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar1;
+  return (u8)PVar1;
 }
 
-PFS_ERR8 Controller::NewPakSave(u8 *fileno,char *GameName,char *ExtName,s16 compCode,u32 GameCode, u16 EXTName,u8 port){
-  PFS_ERR PVar2;
+u8 Controller::NewPakSave(u8 *fileno,char *GameName,char *ExtName,s16 compCode,u32 GameCode, u16 EXTName,u8 port){
+  s32 PVar2;
   u8 name [16];
   u8 code [4];
   s32 filenum;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
-  Controller::EncodeString(name,GameName,0x10);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
+  Controller::EncodeString(name,GameName,16);
   Controller::EncodeString(code,ExtName,4);
   PVar2 = osPfsAllocateFile(&gContManager.BufferPointer[port].pfs,compCode,GameCode,name,code,(u32)EXTName,&filenum);
-  if (PVar2 == OK) *fileno = (u8)filenum;
+  if (PVar2 == 0) *fileno = (u8)filenum;
   else *fileno = 0;
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar2;
+  return (u8)PVar2;
 }
 
 
-PFS_ERR8 Controller::GetPakSave(u8 *fileno,s32 filename,s32 filecode,u16 param_4, u32 param_5,u8 port){
-  PFS_ERR PVar2;
+u8 Controller::GetPakSave(u8 *fileno,s32 filename,s32 filecode,u16 param_4, u32 param_5,u8 port){
+  s32 PVar2;
   u8 name [16];
   u8 code [4];
   s32 file_no;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   Controller::EncodeString(name,filename,0x10);
   Controller::EncodeString(code,filecode,4);
   PVar2 = osPfsFindFile(&gContManager.BufferPointer[port].pfs,param_4,param_5,name,code,&file_no);
-  if (PVar2 == OK) *fileno = (u8)file_no;
+  if (PVar2 == 0) *fileno = (u8)file_no;
   else *fileno = 0;
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar2;
+  return (u8)PVar2;
 }
 
 
-PFS_ERR8 Controller::GetPakSaveState(fileState_aidyn *FS,u32 file_no,u32 port){
-  PFS_ERR PVar1;
+u8 Controller::GetPakSaveState(fileState_aidyn *FS,u32 file_no,u32 port){
+  s32 PVar1;
   OSPfsState state;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osPfsFileState(&gContManager.BufferPointer[port & 0xff].pfs,file_no & 0xff,&state);
-  if (PVar1 == OK) {
+  if (PVar1 == 0) {
     Controller::DecodeString(FS->game_name,state.game_name,0x10);
     Controller::DecodeString(FS->ext_name,state.ext_name,4);
     FS->ext_name[1] = 0;
@@ -408,52 +409,52 @@ PFS_ERR8 Controller::GetPakSaveState(fileState_aidyn *FS,u32 file_no,u32 port){
   }
   else memset(param_1,0,sizeof(fileState_aidyn));
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar1;
+  return (u8)PVar1;
 }
 
-PFS_ERR8 Controller::WritePakSave(u8 *buff,u8 filenum,u16 offset,u16 size,u8 port){
-  PFS_ERR PVar1;
+u8 Controller::WritePakSave(u8 *buff,u8 filenum,u16 offset,u16 size,u8 port){
+  s32 PVar1;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osPfsReadWriteFile(&gContManager.BufferPointer[port].pfs,filenum,PFS_WRITE,offset,size,buff);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar1;
+  return (u8)PVar1;
 }
 
 
-PFS_ERR8 Controller::ReadPakSave(u8 *buff,s16 filenum,u16 offset,u16 size,u8 port){
-  PFS_ERR PVar1;
+u8 Controller::ReadPakSave(u8 *buff,s16 filenum,u16 offset,u16 size,u8 port){
+  s32 PVar1;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osPfsReadWriteFile(&gContManager.BufferPointer[port].pfs,filenum,PFS_READ,offs,size,buff);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar1;
+  return (u8)PVar1;
 }
 
 
-PFS_ERR8 Controller::ErasePakSave(u32 fileno,u32 port){
+u8 Controller::ErasePakSave(u32 fileno,u32 port){
   controllerBuffer *pcVar1;
-  PFS_ERR PVar2;
+  s32 PVar2;
   OSPfsState state;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   pcVar1 = gContManager.BufferPointer[port];
   PVar2 = osPfsFileState(&pcVar1->pfs,fileno & 0xff,&state);
-  if (PVar2 == OK) PVar2 = osPfsDeleteFile(&pcVar1->pfs,state.company_code,state.game_code,state.game_name);
+  if (PVar2 == 0) PVar2 = osPfsDeleteFile(&pcVar1->pfs,state.company_code,state.game_code,state.game_name);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  return (PFS_ERR8)PVar2;
+  return (u8)PVar2;
 }
 
 u32 Controller::GetPakPort(u32 port){
-  PFS_ERR PVar1;
+  s32 PVar1;
   u32 uVar2;
   u8 abStack24 [24];
   
   abStack24[0] = 0;
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osPfsIsPlug(&gContManager.si_megQ,abStack24);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  if (PVar1 == OK) uVar2 = (s32)(u32)abStack24[0] >> (port & 0x1f) & 1;
+  if (PVar1 == 0) uVar2 = (s32)(u32)abStack24[0] >> (port & 0x1f) & 1;
   else uVar2 = 0}
   return uVar2;
 }
@@ -463,7 +464,7 @@ bool Controller::GetStatus(u8 port,CONT_STATUS *statOut){
   CONT_TYPE CType;
   CONT_ERROR Cerr;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   osContStartQuery(&gContManager.si_megQ);
   osRecvMesg(&gContManager.si_megQ,NULL,1);
   osContGetQuery(Cstats);
@@ -481,7 +482,7 @@ bool Controller::GetStatus2(u32 port){
   CONT_TYPE CType;
   CONT_ERROR Cerr;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   osContStartQuery(&gContManager.si_megQ);
   osRecvMesg(&gContManager.si_megQ,NULL,1);
   osContGetQuery(Cstatus);
@@ -503,7 +504,7 @@ s32 Controller::SetJoystick(float H,float V,u8 arg0,u8 arg1,u32 port){
 bool Controller::GetInput(Button_hold *param_1,u8 port){
   controllerBuffer *buffer;
   
-  osSendMesg(&gContManager.contMesgQ,null,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,1);
   buffer = gContManager.BufferPointer[port];
   if (buffer->ContGet) {
     param_1 =(&buffer->inputlog[buffer->latest];
@@ -515,8 +516,6 @@ bool Controller::GetInput(Button_hold *param_1,u8 port){
 }
 
 void Controller::DecodeString(char *ascii,u8 *pfs,u32 len){
-  u8 *pbVar1;
-  u32 uVar3;
   char c;
 
   if (len) {

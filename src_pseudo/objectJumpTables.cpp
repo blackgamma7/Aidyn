@@ -237,7 +237,7 @@ bool loot_func(container_obj *arg0){
         IVar2 = (arg0->dat).LootCat;
       }
       uVar12 = 0;
-      if (IVar2 != (ItemID)0x0) {
+      if (IVar2) {
         uVar10 = 0;
         get_chest_loot(loot_pointer,pcVar11);
         iVar6 = 0;
@@ -577,8 +577,8 @@ bool container_obj_check(container_obj *arg0,playerData *arg1){
         bVar2 = container_open_check((arg0->dat).open_flag);
         ret = false;
         if ((bVar2 == false) &&
-           ((((arg0->dat).Gold != 0 || ((arg0->dat).LootCat != (ItemID)0x0)) ||
-            (ret = false, (arg0->dat).item != (ItemID)0x0)))) {
+           ((((arg0->dat).Gold != 0 || ((arg0->dat).LootCat)) ||
+            (ret = false, (arg0->dat).item))) {
           ret = true;
         }
       }
@@ -651,7 +651,7 @@ bool savepoint_prox_check(mapVoxel *arg0,playerData *arg1){return get_vec3_proxi
 u8 ret0_80014E38(void){return 0;}
 
 void render_container(container_obj *param_1,Borg_9_data *param_2){
-  if ((param_1->header).type == CONTAINER) {set_container_obj_visible(param_1,param_2);}
+  if ((param_1->header).type == VOBJECT_CONTAINER) set_container_obj_visible(param_1,param_2);
 }
 
 void set_container_obj_visible(container_obj *param_1,Borg_9_data *param_2){
@@ -680,8 +680,8 @@ u8 secretdoor_widget_AB(s32 param_1,widgetStruct *param_2){
 }
 
 widgetStruct * textbox_func(char *param_1){
-  color col1=OFFWHITE;
-  color col2=DARKGRAY;
+  color32 col1=OFFWHITE;
+  color32 col2=DARKGRAY;
   gGlobals.PlayerChar.text_window = some_textbox_func(param_1,0x96,&col1,&col2,1);
   (gGlobals.PlayerChar.text_window)->AbuttonFunc = textbox_func_AB;
   (gGlobals.PlayerChar.text_window)->BButtonFunc = textbox_func_AB;

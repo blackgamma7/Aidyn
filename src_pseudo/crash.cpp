@@ -1,4 +1,4 @@
-struct CrashManager{
+typedef struct {
     u8[2120] Stack;
     OSThread Thread;
     OSmesg Mesgs;
@@ -7,12 +7,12 @@ struct CrashManager{
     char[128] position;
     char[128] Cause;
     bool IsManualCrash;
-    func* Func;
-}
+    void (*Func)(void*);
+}CrashManager;
 
 struct CrashManager gCrashManager;
 
-void crashthread_init(func *arg0,s32 arg1,u32 Pri,u32 ID){
+void crashthread_init(void *arg0,s32 arg1,u32 Pri,u32 ID){
   memset(&gCrashManager,0,sizeof(CrashManager));
   gCrashManager.crash_func_arg = arg1;
   gCrashManager.Func = arg0;
@@ -31,7 +31,7 @@ void crashProc(void){
 
 void crashMesgQueue(void){
   osCreateMesgQueue(&gCrashManager.MesgQ,&gCrashManager.Mesgs,1);
-  osSetEventMesg(FAULT,&gCrashManager.MesgQ,&_gp_1);
+  osSetEventMesg(OS_EVENT_FAULT,&gCrashManager.MesgQ,(OSmesg)1);
   gCrashManager.IsManualCrash = false;
 }
 #ifdef DEBUGVER

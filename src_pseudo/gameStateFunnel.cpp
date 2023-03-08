@@ -33,7 +33,7 @@ struct event_flag_array {
     u8 pad;
 };
 
-void Event_flag_stat(CHAR_STAT param_1){
+void Event_flag_stat(u8 param_1){
   EventFlag EVar1;
   EventFlag EVar2;
   CharSheet *pCVar3;

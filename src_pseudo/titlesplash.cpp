@@ -33,7 +33,7 @@ void TitleSplash::Timer(u16 *param_1,u8 *alpha,u8 *param_3,u32 ShowTime,u8 *para
   if (param_3) uVar3 = (u32)*param_3;
   if (uVar2 == 1) {
     gGlobals.splashscreenTimer++;
-    if (ShowTime <= gGlobals.splashscreenTimer) {uVar2 = 2;}
+    if (ShowTime <= gGlobals.splashscreenTimer) uVar2 = 2;
   }
   else {
     if (uVar2 < 2) {
@@ -222,7 +222,7 @@ u8 TitleSplash::Copyright(Gfx**param_1){
     if ((cont->input_2 & (R_BUTTON|L_BUTTON)) == (R_BUTTON|L_BUTTON)) show_verion_flag = 1;
     TitleSplash::Timer(&u16_800e98ee,&copyright_text_color,NULL,showTime,abStack56,1);
   }
-  apauStack48[0] = rsp_func(apauStack48[0],6,gfx::get_hres(),gfx::get_vres());
+  RSPFUNC(apauStack48[0],6);
   apauStack48[0] = gsFadeInOut(apauStack48[0],0,0,gfx::get_hres(),gfx::get_vres(),0,0,0,0);
   font_func(gGlobals.font,(fontface_struct *)0x1d);
   bVar2 = copyright_text_color;
@@ -277,18 +277,17 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
   auStack64 = gGlobals.splashscreenSwitch;
   (widget_N64Logo->col)={N64_logo_alpha,N64_logo_alpha,N64_logo_alpha,N64_logo_alpha};
   set_anidat_color(splashscreenAniDat,(u32)N64_logo_alpha,(u32)N64_logo_alpha,(u32)N64_logo_alpha,0xff);
-  if (360.0f < N64LogoRot) {N64LogoRot-= 360.0f;}
+  if (360.0f < N64LogoRot) N64LogoRot-= 360.0f;
   fVar7 = N64LogoRot * dtor;
-  fVar6 = 40.0f;
-  n64LogoVec3[0] = __sinf(fVar7) * fVar6;
+  n64LogoVec3[0] = __sinf(fVar7) * 40.0f;
   n64LogoVec3[1] = 15.0f;
-  n64LogoVec3[2] = __cosf(fVar7) * fVar6;
+  n64LogoVec3[2] = __cosf(fVar7) * 40.0f;
   fVar5 = -n64LogoVec3[0];
   fVar7 = -n64LogoVec3[1];
   fVar6 = -n64LogoVec3[2];
   while (Controller::GetInput(&BStack60,0)) {
     TitleSplash::Timer(&N64_logo_short,&N64_logo_alpha,NULL,ShowTime,&auStack64,2);
-    N64LogoRot = += 2.0d);
+    N64LogoRot = += 2.0d;
     TitleSplash::Noop();
   }
   pauVar3 = some_rsp_func(pauVar3,0,0,0x140,0xf0);
@@ -296,8 +295,8 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
   func_800a0df4(splashscreenAniDat);
   pauVar3 = gsAnimationDataMtx(pauVar3,splashscreenAniDat);
   pauVar3 = func_800a0da4(pauVar3,splashscreenAniDat);
-  pauVar3 = rsp_func(pauVar3,6,gfx::get_hres(),gfx::get_vres());
-  pauVar3 = widget_N64Logo->Render(pauVar3,0,0);
+  RSPFUNC(pauVar3,6);
+  pauVar3 = widget_N64Logo->Render(pauVar3,0,0,320,240);
   *param_1 = pauVar3;
   return auStack64;
 }

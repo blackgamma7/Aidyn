@@ -13,11 +13,11 @@ bool ofunc_check_portaits_bottom(bool param_1){
 
 #define WHITE_GLOW {255,255,255,128}
 void pass_to_draw_portaits(Gfx*param_1,bool param_2){
-  color uStack72 [4] ={WHITE_GLOW,WHITE_GLOW,WHITE_GLOW,WHITE_GLOW}; //yes, by hacking, you could color-code the auras.
+  color32 uStack72 [4] ={WHITE_GLOW,WHITE_GLOW,WHITE_GLOW,WHITE_GLOW}; //yes, by hacking, you could color-code the auras.
   draw_party_portaits(param_1,param_2,uStack72);
 }
 
-void PortraitColorBlend(color *colA,color *colB,float fade){
+void PortraitColorBlend(color32 *colA,color32 *colB,float fade){
   float fVar1;
   
   fVar1 = (float)(u32)colA->R * fade;
@@ -34,12 +34,12 @@ void PortraitColorBlend(color *colA,color *colB,float fade){
   else colB->A = (u8)fVar1;
 }
 
-Gfx* draw_party_portaits(Gfx*param_1,bool param_2,color *col){
+Gfx* draw_party_portaits(Gfx*param_1,bool param_2,color32 *col){
   CharSheet *pCVar1;
 
   Gfx*pauVar2;
   float Hscale;
-  color TempCol;
+  color32 TempCol;
   
   if (!param_2) {if (screen_bottom < 0xf0) screen_bottom+=4;}
   else if ((param_2) && (0xb9 < screen_bottom)) screen_bottom-=4;

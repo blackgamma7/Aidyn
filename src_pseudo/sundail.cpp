@@ -76,7 +76,7 @@ Gfx* draw_sundail(Gfx*param_1){
     fVar5 = gGlobals.screenfadeFloat * 160.0f;
     blue = (u8)(s32)fVar4;
     if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
-    World::get_ingame_calendar(TerrainPointer,&Cal);
+    World::GetCalendarDate(TerrainPointer,&Cal);
     uVar3 = (Cal.week & 3) >> 1;
     bVar1 = TerrainPointer->moonPhases;
     borg8 = NULL;

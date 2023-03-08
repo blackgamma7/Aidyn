@@ -291,7 +291,7 @@ struct CinematicFade {
 };
 CinematicFade* cinematicFadePointers[4]; //transition data for each scene
 CinematicFade* cinematicFadePointer; //above, for current cinematic
-color cinematic_fade_color;
+color32 cinematic_fade_color;
 u16 cinematic_fade_s16;
 float cinematic_fade_float,cinematic_fade_speed;
 u16 cinematic_scene_runtime,cinematic_scene_tally;

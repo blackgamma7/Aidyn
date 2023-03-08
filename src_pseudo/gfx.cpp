@@ -132,12 +132,12 @@ void gfx::initGfx_2(void){
 
 void gfx::SetGfxMode(u16 Hres,u16 Vres,u8 color){
   if (gGfxManager.ram_size < 0x400001) { //huh, doesn't check the EXpPakFlag.
-    if (((Hres != 0x140) || (Vres != 0xf0)) || (color != 0x10)) {
+    if (((Hres != 0x140) || (Vres != 0xf0)) || (color32 != 0x10)) {
       assert("gfx.cpp, SetGfxMode()","Non expansion pak resolution not supported!");}
   }
   else {
-    if ((((Hres != 0x140) || (Vres != 0xf0)) || ((color != 0x10 && (color != 0x20)))) &&
-       (((Hres != 0x200 || (Vres != 0xf0)) || (color != 0x10)))) {
+    if ((((Hres != 0x140) || (Vres != 0xf0)) || ((color32 != 0x10 && (color32 != 0x20)))) &&
+       (((Hres != 0x200 || (Vres != 0xf0)) || (color32 != 0x10)))) {
       assert("gfx.cpp, SetGfxMode()","Expansion pak resolution not supported!");}
   }
   gGfxManager.hres[0] = Hres;
@@ -491,7 +491,7 @@ void gfx::func_swapping_framebuffer_(s32 dat_size,OSMesgQueue *param_2)
   gGfxManager.tasks[iVar3].list.dram_stack_size = 0x400;
   gGfxManager.tasks[iVar3].list.dram_stack = puVar2;
   puVar2 = gGfxManager.unk0x14;
-  pOVar5->next = (OSScTask *)0x0;
+  pOVar5->next = NULL;
   gGfxManager.tasks[iVar3].state = 0;
   gGfxManager.tasks[iVar3].msgQ = param_2;
   gGfxManager.tasks[iVar3].list.output_buff = puVar2;

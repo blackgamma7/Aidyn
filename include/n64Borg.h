@@ -1,6 +1,6 @@
 /*"Borg" files are the art/level/cutscene assets of the game, in 15 different categories:
 0-Unused, therefore, unknown.
-1-Textures
+1-Textures. use some compression method.
 2-Geometry data. conatins verts and ucode (primariliy G_TRI1)
 3-only 5 in the game. 48 bytes big. mystery.
 4-3 floats, 8 more bytes. no clue what they're for
@@ -61,9 +61,9 @@ enum Vobject{
     VOBJECT_CONTAINER, //chests and various loot.
     VOBJECT_LIGHT,
     VOBJECT_AUDIO, //also generated in "playSFX" func
-    VOBJECT_WANDERNODE,
-    VOBJECT_MONSTERPARTY, //enemy encounter data
-    VOBJECT_REFERNCEPOINT, //often used for setting up battlefeild.
+    VOBJECT_WANDERNODE, // points in paths for "monterparty" entities
+    VOBJECT_MONSTERPARTY, //enemy encounter data and NPC's
+    VOBJECT_REFERNCEPOINT, //locator for various purposes
     VOBJECT_TELEPORTER, //doors, tunnels, ladders, ect.
     VOBJECT_CAMERA,
     VOBJECT_DIALOUGE, //triggers "borg 13"
@@ -87,7 +87,7 @@ enum Vobject{
 1000
 2000=tangible. Turned off when pass through.
 4000
-8000=visible.*/
+8000=visible/active.*/
 
 struct voxelHeader { /* Header for Refernce objects (Voxels) */
     vec3 coords; /* Where is it */
@@ -115,7 +115,7 @@ struct Scene_obj_dat{
     u32 unk0x20;
     vec3 rotation; //in radians. x usually has an odd angle, for some reason.
     vec3 scaling;
-    color tinting; //used if SceneFlags&0x10
+    color32 tinting; //used if SceneFlags&0x10
     u16 unk0x40;
     u16 Sceneflags;
 };
@@ -146,7 +146,7 @@ struct container_Dat {
 };
 
 struct light_dat{
-    color cols[3]; //first seems to be used for blending.
+    color32 cols[3]; //first seems to be used for blending.
     u16 lightType; //4 valid types. {static(use only cols[1]),alternating blend,sinewave blend,random blend}
     u16 pad;
     float f0; //blend factor, changes per type.
@@ -193,7 +193,7 @@ struct wandernode_dat{
 };
 struct monsterparty_dat {
     struct monsterpartyEntry enemyEntries[8];
-    struct ItemID entityID; //avatar of party,(or NPC, since those use this same struct.)
+    struct ItemID entityID; //avatar of party or NPC
     struct ItemID globalLoot;
     u16 unk0x24;
     u8 unk0x26;
@@ -232,7 +232,7 @@ struct teleport_dat {
     u16 flag_0x3e;
     u16 secrect_door_flag;
     u16 secretDoorVal;
-    char name[16];
+    char name[16]; //internal
     u8 align[24];
 };
 

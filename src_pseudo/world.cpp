@@ -39,7 +39,7 @@ void World::SetTerrain(TerrainStruct *ter,u8 param_2){
 
 u8 World::getTerrain(TerrainStruct *ter){return ter->terrain;}
 
-void inc_timeOfDay(TerrainStruct *param_1){
+void World::IncTimeOfDay(TerrainStruct *param_1){
   u32 uVar1;
   u32 uVar2;
   
@@ -54,7 +54,7 @@ void World::inc_dayNightMagic(TerrainStruct *X){X->DayNightMagic++;}
 
 void World::dec_dayNightMagic(TerrainStruct *X){if (X->DayNightMagic != 0) {X->DayNightMagic--;}}
 
-void World::set_time_from_calendar(TerrainStruct *param_1,Calendar *param_2){
+void World::World::SetTimeFromCalendar(TerrainStruct *param_1,Calendar *param_2){
   param_1->InGameTime =
        (u32)param_2->month * 0x114db000 + (u32)param_2->week * 0x229b600 +
        (u32)param_2->day * 0x4f1a00 + ((u32)param_2->hour * 0xe0 + (u32)param_2->hour) * 0x3c0 +
@@ -64,13 +64,13 @@ void World::set_time_from_calendar(TerrainStruct *param_1,Calendar *param_2){
 
 }
 
-void World::get_ingame_calendar(TerrainStruct *param_1,Calendar *cal){
-  cal->month = get_ingame_month(param_1);
-  cal->week = get_ingame_week(param_1);
-  cal->day = get_ingame_day(param_1);
-  cal->hour = get_ingame_hour(param_1);
-  cal->minute = get_ingame_minute(param_1);
-  cal->second = get_ingame_second(param_1);
+void World::GetCalendarDate(TerrainStruct *param_1,Calendar *cal){
+  cal->month = World::GetMonth(param_1);
+  cal->week = World::GetWeek(param_1);
+  cal->day = World::GetDay(param_1);
+  cal->hour = World::GetHour(param_1);
+  cal->minute = World::GetMinute(param_1);
+  cal->second = World::GetSecond(param_1);
 
 }
 
@@ -96,11 +96,11 @@ void World::func_with_TimeofDay(TerrainStruct *ter,char param_2){
     uVar1 = uVar2 / 5;
     ter->partOfDay = (char)uVar2 - ((char)(uVar1 << 2) + (char)uVar1);
   }
-  get_ingame_calendar(ter,&tempCal);
+  GetCalendarDate(ter,&tempCal);
   tempCal.hour = TIME_OF_DAY_hours[ter->partOfDay];
   tempCal.minute = 0;
   tempCal.second = 0;
-  set_time_from_calendar(ter,&tempCal);
+  World::SetTimeFromCalendar(ter,&tempCal);
 }
 
 void World::ChangeWind(vec3 *coords,float arg1,float arg2){
@@ -232,11 +232,11 @@ void World::several_time_funcs(TerrainStruct *ter){
   bool bVar1;
   Calendar CalTemp;
   
-  get_ingame_calendar(ter,&CalTemp);
+  GetCalendarDate(ter,&CalTemp);
   set_moonPhase(ter,&CalTemp);
   if (weather_flag != 0) {
     if (set_timeofDay(ter,&CalTemp)) {set_weather(ter,&CalTemp);}
-    terrainStruct_rand_vec3(ter->coords,0.05f,0.05f);
+    World::ChangeWind(ter->coords,0.05f,0.05f);
     SetFlagArray_on_Time(ter->partOfDay,CalTemp.day,CalTemp.week,CalTemp.month);
     set_weather_flags(ter->rainByte);
     terrainStruct_floats(ter);
@@ -248,7 +248,7 @@ void World::cap_ingame_time(TerrainStruct *ter){
   if (0x67d21fff < ter->InGameTime) {ter->InGameTime += 0x982de000;}
 }
 
-void World::add_10_ingame_seconds(TerrainStruct *ter){
+void World::Lapse10Seconds(TerrainStruct *ter){
   ter->InGameTime += 600;
   cap_ingame_time(ter);
   several_time_funcs(ter);}
@@ -258,28 +258,28 @@ void World::inc_ingame_time(TerrainStruct *param_1,s32 delta){
   cap_ingame_time(param_1);
   several_time_funcs(param_1);}
 
-void lapse_8_hours(TerrainStruct *ter){
+void World::Lapse8Hours(TerrainStruct *ter){
   ter->InGameTime += 0x1a5e00;
   cap_ingame_time(ter);
   several_time_funcs(ter);}
 
 void World::add_playTime(TerrainStruct *param_1,s32 x){param_1->PlayTime += x;}
 
-u32 World::get_inGame_time(TerrainStruct *param_1){return param_1->InGameTime;}
+u32 World::World::GetTime(TerrainStruct *param_1){return param_1->InGameTime;}
 
-void World::set_inGame_time(TerrainStruct *param_1,u32 param_2){param_1->InGameTime = param_2;}
+void World::World::SetTime(TerrainStruct *param_1,u32 param_2){param_1->InGameTime = param_2;}
 
-u32 World::get_ingame_month(TerrainStruct *param_1){return param_1->InGameTime / 0x114db000;}
+u32 World::World::GetMonth(TerrainStruct *param_1){return param_1->InGameTime / 0x114db000;}
 
-u32 World::get_ingame_week(TerrainStruct *param_1){return (param_1->InGameTime % 0x114db000) / 0x229b600;}
+u32 World::World::GetWeek(TerrainStruct *param_1){return (param_1->InGameTime % 0x114db000) / 0x229b600;}
 
-u32 World::get_ingame_day(TerrainStruct *param_1){return (param_1->InGameTime % 0x229b600) / 0x4f1a00;}
+u32 World::World::GetDay(TerrainStruct *param_1){return (param_1->InGameTime % 0x229b600) / 0x4f1a00;}
 
-u32 World::get_ingame_hour(TerrainStruct *param_1){return (param_1->InGameTime % 0x4f1a00 >> 6) / 0xd2f;}
+u32 World::World::GetHour(TerrainStruct *param_1){return (param_1->InGameTime % 0x4f1a00 >> 6) / 0xd2f;}
 
-u32 World::get_ingame_minute(TerrainStruct *param_1){return (param_1->InGameTime + ((param_1->InGameTime >> 6) / 0xd2f) * -0x34bc0) / 0xe10 & 0xff;}
+u32 World::World::GetMinute(TerrainStruct *param_1){return (param_1->InGameTime + ((param_1->InGameTime >> 6) / 0xd2f) * -0x34bc0) / 3600 & 0xff;}
 
-u32 World::get_ingame_second(TerrainStruct *param_1){return (param_1->InGameTime % 0xe10) / 0x3c;}
+u32 World::World::GetSecond(TerrainStruct *param_1){return (param_1->InGameTime % 3600) / 0x3c;}
 
 float World::get_timeofDay_float(TerrainStruct *param_1){
   float fVar1 = (float)(param_1->InGameTime % 0x4f1a00) / 5184000.0f + param_1->TimeOfDayFloat;
