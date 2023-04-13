@@ -1488,7 +1488,7 @@ bool CanResistSpell(CombatEntity *e,Temp_spell *spel_,ElementEnum Elem){
     bVar1 = (bool)(spel_->aspect_flag >> 1 & 1);
     break;
   case ELEMENT_NECROMANCY:
-    bVar1 = spel_->school == Necromancy;
+    bVar1 = spel_->school == SCHOOL_NECROMANCY;
     break;
   case ELEMENT_FIRE:
     if (spellID != DragonFlames) {
@@ -1501,7 +1501,7 @@ CheckOtherSpell:
     bVar1 = (bool)(spel_->aspect_flag & 1);
     break;
   case ELEMENT_NAMING:
-    bVar1 = spel_->school == Naming;
+    bVar1 = spel_->school == SCHOOL_NAMING;
     break;
   case ELEMENT_WATER:
     if (spellID != lightning) {
@@ -1518,13 +1518,13 @@ ReturnTrue:
     bVar1 = spellID == wind;
     break;
   case ELEMENT_STAR:
-    bVar1 = spel_->school == Star;
+    bVar1 = spel_->school == SCHOOL_STAR;
     break;
   case ELEMENT_ELEMENTAL:
-    bVar1 = spel_->school == Elemental;
+    bVar1 = spel_->school == SCHOOL_ELEMENTAL;
     break;
   case ELEMENT_CHAOS:
-    bVar1 = spel_->school == Chaos;
+    bVar1 = spel_->school == SCHOOL_CHAOS;
   }
   return bVar1;
 }
@@ -1629,7 +1629,7 @@ void func_seeking_sholeh(CombatEntity *ent){ //probably a death func
   i = 0;
   pCVar2 = ent->charSheetP;
   while( true ) {
-    pTVar3 = pCVar2spellEffects->list[i];
+    pTVar3 = pCVar2->spellEffects->list[i];
     if (pTVar3) {
       if (isPetrify(ent,pTVar3->index)) clear_player_effect(ent->charSheetP,i,ent);
     }

@@ -1,3 +1,5 @@
+#include "commonTypes.h"
+
 #ifdef DEBUGVER
 u32 memUsedMirror;
 u64 ofunc_dat;
@@ -14,7 +16,7 @@ s32 Ofunc_get_MemUsed_difference_2(void){
   return memUsedMirror - iVar1;}
 #endif
 
-u32 globals::rand_range(u32 A,u32 B){
+u32 rand_range(u32 A,u32 B){
   if (A != B) A = Random::func(&gGlobals.rngSeed,A,B);
   return A;
   }
@@ -30,13 +32,13 @@ u32 RollD(u8 dice,u8 sides){
 
 u32 some_skillcheck_calc(s16 param_1){
   s16 SkillCheckSteps[22]={0,26,46,62,81,96,111,122,
-     133,144,155,166,177,188,199,210,221,232,243,255,266,0}
-  u32 uVar1 = 21;
+     133,144,155,166,177,188,199,210,221,232,243,255,266,0};
+  u32 i = 21;
   do {
-    if (uVar1 == 0) break;
-    uVar1--;
-  } while (param_1 < SkillCheckSteps[uVar1]);
-  return uVar1++;
+    if (i == 0) break;
+    i--;
+  } while (param_1 < SkillCheckSteps[i]);
+  return i++;
 }
 
 void get_battle_terrain(EncounterDat *param_1){
@@ -157,14 +159,11 @@ u32 get_enemy_avg_lv(u32 param_1,monsterparty_dat *param_2){
         bVar3 = GetIDIndex(gGlobals.EncounterDat.enemy_entities[uVar7]);
         sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x264);
         uVar7++;
-        uVar4+= EntityPointer->entities[(char)bVar3].Level;
+        uVar4+= EntityPointer->entities[bVar3].Level;
       } while (uVar7 < param_1);
     }
     sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x268);
-    uVar4 = uVar4 / param_1;
-    if (param_1 == 0) {
-      trap(7);
-    }
+    uVar4 /= param_1;
     sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x26b);
     if ((uVar4 != 0) &&
        (sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x26e),
@@ -220,12 +219,9 @@ u32 get_enemy_avg_lv(u32 param_1,monsterparty_dat *param_2){
                     pIVar5++;
                   }
                   param_1--;
-                  sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",
-                              0x297);
-                  sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",
-                              0x298);
-                  sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",
-                              0x29b);
+                  sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x297);
+                  sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x298);
+                  sprintf(gGlobals.text,"%s - %d","./src/globals.cpp",0x29b);
                   gGlobals.EncounterDat.enemy_entities[param_1] = (ItemID)0x0;
                 }
                 uVar4 = uVar1 & 0xffff;

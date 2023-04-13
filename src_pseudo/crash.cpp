@@ -1,3 +1,5 @@
+#include "commonTypes.h"
+
 typedef struct {
     u8[2120] Stack;
     OSThread Thread;

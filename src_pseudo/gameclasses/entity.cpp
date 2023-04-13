@@ -197,7 +197,7 @@ void CharSheet_free(CharSheet *param_1){
   if (peVar2){
     remove_effects(param_1);
     HeapFree(param_1->spellEffects,FILENAME,0x16b);
-    param_1spellEffects = NULL;
+    param_1->spellEffects = NULL;
     
   }
   if (param_1->potionEffects) {
@@ -273,7 +273,7 @@ bool hasCheatDeath(CharSheet *param_1){
   u32 uVar2;
   
   uVar2 = 0;
-  peVar1 = param_1spellEffects;
+  peVar1 = param_1->spellEffects;
   while( true ) {
     uVar2++;
     if ((peVar1->list[0]) && (peVar1->list[0]->index == cheatDeath)) break;
@@ -301,7 +301,7 @@ void func_checking_cheat_death(CharSheet *param_1,s16 param_2,CombatEntity *para
     damage_func(param_1,param_2 - CharStats::getModdedStat(param_1->Stats,STAT_LV));
     uVar8 = 0;
     if (isDead(param_1)) {
-      peVar7 = param_1spellEffects;
+      peVar7 = param_1->spellEffects;
       do {
         pTVar1 = peVar7->list[0];
         if ((pTVar1) && (pTVar1->index == cheatDeath)) {
@@ -589,7 +589,7 @@ LAB_800788d0:
 LAB_8007893c:
   if ((param_3) && (param_2->enchantment)) {
     uVar4 = 0;
-    peVar5 = param_1spellEffects;
+    peVar5 = param_1->spellEffects;
     do {
       pTVar1 = peVar5->list[0];
       if (((pTVar1) && (pTVar1->index == param_2->enchantment->index)) &&
@@ -742,7 +742,7 @@ void clear_exhaustion(CharSheet *param_1){
   u32 uVar2;
   
   uVar2 = 0;
-  peVar1 = param_1spellEffects;
+  peVar1 = param_1->spellEffects;
   while( true ) {
     if ((peVar1->list[uVar2]) && (peVar1->list[uVar2]->index == exhaustion))
     {clear_player_effect(param_1,uVar2,NULL);}
@@ -771,7 +771,7 @@ bool can_use_potion(CharSheet *param_1,POTION param_2,char *param_3){
     break;
   case POTION_STAMINA:
     uVar6 = 0;
-    peVar5 = param_1spellEffects;
+    peVar5 = param_1->spellEffects;
     do {
       uVar6++;
       if ((peVar5->list[0]) && (peVar5->list[0]->index == exhaustion)) {
@@ -784,7 +784,7 @@ bool can_use_potion(CharSheet *param_1,POTION param_2,char *param_3){
     break;
   case POTION_ANTIDOTE:
     uVar6 = 0;
-    peVar5 = param_1spellEffects;
+    peVar5 = param_1->spellEffects;
     do {
       uVar6++;
       if ((peVar5->list[0]) && (peVar5->list[0]->index == poison)) {
@@ -799,7 +799,7 @@ LAB_80078fb4:
     goto LAB_80078fbc;
   case POTION_RESTORE:
     uVar6 = 0;
-    peVar5 = param_1spellEffects;
+    peVar5 = param_1->spellEffects;
     while( true ) {
       bVar4 = IsDebuffSpell(param_1,(SpellEnum)peVar5->list[uVar6]);
       uVar6++;
@@ -809,7 +809,7 @@ LAB_80078fb4:
         c2 = "That potion cannot be used right now.";
         goto LAB_80078fb4;
       }
-      peVar5 = param_1spellEffects;
+      peVar5 = param_1->spellEffects;
     }
     bVar6 = true;
     break;
@@ -838,7 +838,7 @@ bool clear_debuff_spells(CharSheet *param_1){
   
   bVar4 = false;
   uVar3 = 0;
-  peVar2 = param_1spellEffects;
+  peVar2 = param_1->spellEffects;
   while( true ) {
     bVar1 = IsDebuffSpell(param_1,(SpellEnum)peVar2->list[uVar3]);
     if (bVar1) {
@@ -895,7 +895,7 @@ bool IsNotAffected(CharSheet *param_1,SpellEnum param_2){
   u32 uVar2;
   
   uVar2 = 0;
-  peVar1 = param_1spellEffects;
+  peVar1 = param_1->spellEffects;
   while( true ) {
     uVar2++;
     if ((peVar1->list[0]) && (peVar1->list[0]->index == param_2)) break;
@@ -972,7 +972,7 @@ s32 find_free_effect_slot(CharSheet *param_1){
   s32 iVar2;
   
   iVar2 = 0;
-  peVar1 = param_1spellEffects;
+  peVar1 = param_1->spellEffects;
   do {
     if (peVar1->list[0] == NULL) {return iVar2;}
     iVar2++;
@@ -1242,7 +1242,7 @@ mod_stat:
     if (uVar16 == 0) {sVar8 = -1;}
     else {
       pTVar7 = (Temp_enchant *)heapAlloc(0x18,FILENAME,0x809);
-      ppTVar12 = param_1spellEffects->list + uVar5;
+      ppTVar12 = param_1->spellEffects->list + uVar5;
       *ppTVar12 = pTVar7;
       CreateTempEnchant(*ppTVar12,param_2,(char)Lv,param_4,param_5,uVar19);
     }
@@ -1260,7 +1260,7 @@ void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
   u8 bVar5;
   combat_ai *iVar2;
   
-  pTVar1 = param_1spellEffects->list[param_2];
+  pTVar1 = param_1->spellEffects->list[param_2];
   if (pTVar1 == NULL) {return;}
   switch(pTVar1->index) {
   case AirSheild:
@@ -1364,17 +1364,17 @@ s32 func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,s32 
   s32 iVar10;
   s32 iVar11;
   
-  if (isDead(param_1) {return 0;}
+  if (isDead(param_1) return 0;
   iVar10 = 0;
   iVar11 = 0;
   uVar9 = 0;
-  peVar8 = param_1spellEffects;
+  peVar8 = param_1->spellEffects;
   do {
     pTVar2 = peVar8->list[uVar9];
     if (pTVar2) {
       uVar5 = 0;
       if (param_2 == NULL) {uVar5 = (u32)TerrainPointer->a;}
-      if (inc_effect_timer(pTVar2,uVar5,param_3) == false) {
+      if (!inc_effect_timer(pTVar2,uVar5,param_3)) {
         SVar1 = pTVar2->index;
         uVar5 = 0;
         if (SVar1 == poison) {
@@ -1420,7 +1420,7 @@ LAB_80079e48:
           iVar10+= uVar5;
         }
       }
-      else {clear_player_effect(param_1,uVar9,param_2);}
+      else clear_player_effect(param_1,uVar9,param_2);
     }
 LAB_80079e7c:
     uVar9++;
@@ -1429,7 +1429,7 @@ LAB_80079e7c:
       check_dead_from_DoT(param_1,0,iVar11,param_2);
       return iVar10;
     }
-    peVar8 = param_1spellEffects;
+    peVar8 = param_1->spellEffects;
   } while( true );
 }
 
@@ -1485,9 +1485,9 @@ RetSpell:
 }
 //2 extra args, no clue what for
 Temp_spell * passto_getSpell(CharSheet *param_1,s16 unk1,void *unk2){
-  Temp_spell *pTVar1 = NULL;
-  if (param_1->spellSwitch < 6) {pTVar1 = getSpell(param_1);}
-  return pTVar1;
+  Temp_spell* ret = NULL;
+  if (param_1->spellSwitch < 6) ret = getSpell(param_1);
+  return ret;
 }
 
 undefined some_equip_spell_charges(CharSheet *param_1){
@@ -1751,17 +1751,17 @@ void remove_effects(CharSheet *param_1){
   SpellEffect*peVar1;
   u32 uVar2;
   
-  if (param_1spellEffects != (SpellEffect*)0x0) {
-    peVar1 = param_1spellEffects;
+  if (param_1->spellEffects != (SpellEffect*)0x0) {
+    peVar1 = param_1->spellEffects;
     uVar2 = 0;
     while( true ) {
       if (peVar1->list[uVar2]) {
         func_800840dc(peVar1->list[uVar2]);
-        HeapFree(param_1spellEffects->list[uVar2],FILENAME,0xc25);
-        param_1spellEffects->list[uVar2] = NULL;
+        HeapFree(param_1->spellEffects->list[uVar2],FILENAME,0xc25);
+        param_1->spellEffects->list[uVar2] = NULL;
       }
       if (0xe < uVar2 + 1) break;
-      peVar1 = param_1spellEffects;
+      peVar1 = param_1->spellEffects;
       uVar2++;
     }
   }
@@ -1816,12 +1816,12 @@ void clear_equip_enchantments_(CharSheet *param_1){
     paVar4 = param_1->potionEffects;
   }
   uVar4 = 0;
-  peVar2 = param_1spellEffects;
+  peVar2 = param_1->spellEffects;
   while( true ) {
     if (peVar2->list[uVar4]) {clear_player_effect(param_1,uVar4,NULL);}
     uVar4++;
     if (0xe < uVar4) break;
-    peVar2 = param_1spellEffects;
+    peVar2 = param_1->spellEffects;
   }
   func_8007ad40(param_1,*(Temp_weapon **)param_1->armor);
   uVar4 = 0;
@@ -1875,7 +1875,7 @@ void RemovePoison(CharSheet *param_1,CombatEntity *param_2,u8 param_3){
   u32 uVar3;
   
   uVar3 = 0;
-  peVar2 = param_1spellEffects;
+  peVar2 = param_1->spellEffects;
   while( true ) {
     pTVar1 = peVar2->list[uVar3];
     if (((pTVar1) && (pTVar1->index == poison)) &&
@@ -1899,7 +1899,7 @@ void Wraith_touch(CharSheet *param_1,CombatEntity* cEnt,u8 num,u32 param_2){
   uVar2 = RollD(2,6);
   addModdedStats_flag(param_1->Stats,SVar1,-uVar2);
   pTVar3 = (Temp_enchant *)heapAlloc(0x18,FILENAME,0xcec);
-  ppTVar4 = param_1spellEffects->list + param_2;
+  ppTVar4 = param_1->spellEffects->list + param_2;
   *ppTVar4 = pTVar3;
   CreateTempEnchant(*ppTVar4,wraithTouch,uVar2,-1,SVar1,1);
 }
@@ -1975,14 +1975,14 @@ bool dispel_magic(CharSheet *param_1,char param_2,u8 param_3,u8 param_4){
     bVar2 = false;
   }
   else {
-    peVar3 = param_1spellEffects;
+    peVar3 = param_1->spellEffects;
     while( true ) {
       if ((peVar3->list[uVar6]) && (peVar3->list[uVar6]->school == MVar7)) {
         clear_player_effect(param_1,uVar6 & 0xff,(CombatEntity *)(s32)param_2);
       }
       uVar6++;
       if (0xe < uVar6) break;
-      peVar3 = param_1spellEffects;
+      peVar3 = param_1->spellEffects;
     }
     bVar2 = true;
   }
@@ -2112,9 +2112,9 @@ void malloc_enchant(CharSheet *param_1,SpellEnum param_2,u8 param_3,u8 param_4,u
 
   uVar6 = 0;
   while( true ) {
-    if (param_1spellEffects->list[uVar6] == NULL) {
+    if (param_1->spellEffects->list[uVar6] == NULL) {
       pTVar2 = (Temp_enchant *)heapAlloc(0x18,FILENAME,0xde3);
-      ppTVar5 = param_1spellEffects->list + uVar6;
+      ppTVar5 = param_1->spellEffects->list + uVar6;
       *ppTVar5 = pTVar2;
       CreateTempEnchant(*ppTVar5,param_2,(char)param_3,timer,param_4,0);
       if (param_6 == 0) {
@@ -2192,11 +2192,11 @@ void remove_stat_buff(CharSheet *param_1,u8 param_2,u8 param_3){
 }
 
 void clear_player_effect(CharSheet *param_1,u32 param_2,CombatEntity *param_3){
-  if (param_1spellEffects->list[param_2]) {
+  if (param_1->spellEffects->list[param_2]) {
     ReverseSpellEffect(param_1,param_2,param_3);
-    func_800840dc(param_1spellEffects->list[param_2]);
-    HeapFree(param_1spellEffects->list[param_2],FILENAME,0xe7a);
-    param_1spellEffects->list[param_2] = NULL;
+    func_800840dc(param_1->spellEffects->list[param_2]);
+    HeapFree(param_1->spellEffects->list[param_2],FILENAME,0xe7a);
+    param_1->spellEffects->list[param_2] = NULL;
   }
 }
 
