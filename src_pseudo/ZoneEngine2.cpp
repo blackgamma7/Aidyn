@@ -1742,10 +1742,10 @@ bool func_80010598(s16 param_1,s16 param_2)
   fStack152[0] = fStack168[0];
   fStack152[1] = fStack160[1];
   copyVec2(fStack104,afStack96);
-  some_trig_func(afStack96,-42.5f);
+  RotVec2(afStack96,-42.5f);
   vec2_sum(afStack96,fStack112,afStack96);
   copyVec2(fStack104,afStack88);
-  some_trig_func(afStack88,42.5f);
+  RotVec2(afStack88,42.5f);
   vec2_sum(afStack88,fStack112,afStack88);
   vec2_sum(fStack104,fStack104,fStack112);
   vec2_sum(afStack96,afStack96,fStack112);

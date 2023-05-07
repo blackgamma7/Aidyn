@@ -370,7 +370,7 @@ void func_800b0fac(Camera_struct *CAM,s32 param_2,s16 param_3,float param_4,floa
   Vec3_sub(fStack504,CAM->coord_mirror,CAM->aim);
   setVec2(fStack184,fStack504[0],fStack504[2]);
   vec2_normalize(fStack184);
-  some_trig_func(fStack184,(float)CAM->unk0x58);
+  RotVec2(fStack184,(float)CAM->unk0x58);
   multiVec2(fStack184,fVar4);
   setVec3(CAM,fStack184[0] + CAM->aim[0],CAM->coord_mirror[1],fStack184[1] + CAM->aim[2]);
 

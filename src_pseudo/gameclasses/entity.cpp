@@ -1523,7 +1523,7 @@ void dec_item_spell_uses(CharSheet *param_1){
   if (param_1->spellSwitch == 5) {
     ptVar1 = param_1->pItemList->pItem[param_1->currSpell];
     uVar3 = (u16)ptVar1->id >> 8;
-    if ((uVar3 == 0x11) || (uVar3 == 0xd)) {ptVar1->pSpell->Charges--;}
+    if ((uVar3 == 0x11) || (uVar3 == 0xd)) ptVar1->pSpell->Charges--;
   }
 }
 
@@ -1535,8 +1535,7 @@ u8 check_spell_wizard(CharSheet *param_1,Temp_spell *param_2){
   if (param_2) {
     bVar2 = param_1->spellSwitch;
     if (bVar2 == 1) {
-      bVar2 = param_2->level;
-      if (getModdedSkill(param_1->Skills,SKILL_WIZARD) <= bVar2)
+      if (getModdedSkill(param_1->Skills,SKILL_WIZARD) <= param_2->level)
          return getModdedSkill(param_1->Skills,SKILL_WIZARD);
       return param_2->level;
     }
@@ -1550,16 +1549,16 @@ u8 check_spell_wizard(CharSheet *param_1,Temp_spell *param_2){
 
 s32 spell_stamina_subtract(Charsheet* ch,Temp_spell *param_1,u8 param_2){
   s32 uVar1 = param_1->stamina - param_2);
-  if (uVar1 < 1) {uVar1 = 1;}
+  if (uVar1 < 1) uVar1 = 1;
   return uVar1;
 }
 
 bool Test_equip_Stamina(CharSheet *param_1,s16 param_2){
   s32 iVar1 = Equip_Stamina(param_1,param_2,0);
-  if (iVar1 == 0) {Equip_Stamina(param_1,param_2,1);}
+  if (iVar1 == 0) Equip_Stamina(param_1,param_2,1);
   return iVar1 == 0;}
 
-s32 Equip_Stamina(CharSheet *param_1,s16 stam,longlong param_3){
+s32 Equip_Stamina(CharSheet *param_1,s16 stam,u8 param_3){
   s32 iVar1;
   s32 iVar2;
   CharGear *pCVar3;
@@ -1577,7 +1576,7 @@ s32 Equip_Stamina(CharSheet *param_1,s16 stam,longlong param_3){
 
     }
   }
-  if (iVar1 < 1) {iVar5 = 0;}
+  if (iVar1 < 1) iVar5 = 0;
   else {
     iVar2 = CharStats::getModdedStat(param_1->Stats,STAT_STAM);
     iVar5 = (iVar1 - (s16)iVar2) * 0x10000 >> 0x10;
@@ -1592,25 +1591,25 @@ s32 Equip_Stamina(CharSheet *param_1,s16 stam,longlong param_3){
   return iVar5;
 }
 
-s32 add_Equip_Stamina(charSheet* c,temp_armor *param_1,s16 param_2,longlong param_3){
+s32 add_Equip_Stamina(charSheet* c,temp_armor *param_1,s16 param_2,u8 param_3){
   u8 (*pabVar1) [2];
   s32 iVar2;
   s32 iVar3;
   
   iVar2 = (s32)param_2;
-  if (iVar2 == 0) {return 0;}
+  if (iVar2 == 0) return 0;
   if ((((param_1) && (pabVar1 = param_1->statMod, pabVar1))
     && ((*pabVar1)[0] == 5)) && ((*pabVar1)[1] != 0)) {
     iVar2 = (iVar2 - (char)(*pabVar1)[1]) * 0x10000;
     iVar3 = iVar2 >> 0x10;
     if (iVar3 < 0) {
-      if (param_3 != 0) {
+      if (param_3) {
         (*pabVar1)[1] = -(char)((u32)iVar2 >> 0x10);
       }
       iVar3 = 0;
     }
     else {
-      if (param_3 != 0) {(*pabVar1)[1] = 0;}
+      if (param_3) {(*pabVar1)[1] = 0;}
     }
     return iVar3;
   }
@@ -1652,13 +1651,13 @@ u8 check_spell_aspect_tod(CharSheet* c,Temp_spell *sp){
   u8 bVar1;
   ASPECT AVar2 = sp->aspect;
   if (AVar2 == (LUNAR|LUNAR_MAGIC)) {
-    if (TerrainPointer->partOfDay == NIGHT) {return 3;}
+    if (TerrainPointer->partOfDay == NIGHT) return 3;
   }
   if (AVar2 == (SOLAR|LUNAR_MAGIC)) {
     bVar1 = 4;
-    if (TerrainPointer->partOfDay == NIGHT) {bVar1 = 0;}
+    if (TerrainPointer->partOfDay == NIGHT) bVar1 = 0;
   }
-  else {bVar1 = 0;}
+  else bVar1 = 0;
   return bVar1;
 }
 
@@ -1791,10 +1790,10 @@ u32 get_level(CharSheet *param_1){
   return 40;
 }
 
-u32 get_EXP_TNL(CharSheet *param_1){
-  u32 uVar2 = get_level(param_1) + 1;
-  if (uVar2 == 41) {uVar2 = 0xffffffff;}
-  else {uVar2 = EXP_TNL[uVar2];}
+s32 get_EXP_TNL(CharSheet *param_1){
+  s32 uVar2 = get_level(param_1) + 1;
+  if (uVar2 == 41) uVar2 = -1;
+  else uVar2 = EXP_TNL[uVar2];
   return uVar2;
 }
 
@@ -1842,7 +1841,7 @@ void func_8007ad40(CharSheet *param_1,Temp_weapon *param_2){
   
   if (((param_2) &&
       (pTVar1 = param_2->enchantment, pTVar1)) &&
-     (pTVar1->timer == 0xffffffff)) {
+     (pTVar1->timer == -1)) {
     ApplySpellEffect(param_1,pTVar1->index,(u32)pTVar1->lv,pTVar1->timer,pTVar1->unk0x3,NULL);
   }
   return;

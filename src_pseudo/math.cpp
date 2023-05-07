@@ -168,7 +168,7 @@ void func_800ab23c(vec3 *A,vec3 *B,float C){
   (*A)[0] = fStack280[0];
   (*A)[2] = fStack280[1];}
 
-void some_trig_func(Vec2 *A,float B){
+void RotVec2(Vec2 *A,float B){
   float A1 = (*A)[1];
   float A0 = (*A)[0];
   float fVar2 = B * dtor;
@@ -193,7 +193,7 @@ void func_800ab3cc(vec3 *X,float Y){
   TempA[1] = (*X)[2];
   TempB[0] = TempA[0];
   TempB[1] = TempA[1];
-  some_trig_func(TempA,Y);
+  RotVec2(TempA,Y);
   setVec3(X,TempA[0],(*X)[1],TempA[1]);}
 
 void copyVec2(Vec2 *from,Vec2 *to){
