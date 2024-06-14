@@ -1791,10 +1791,9 @@ u32 get_level(CharSheet *param_1){
 }
 
 s32 get_EXP_TNL(CharSheet *param_1){
-  s32 uVar2 = get_level(param_1) + 1;
-  if (uVar2 == 41) uVar2 = -1;
-  else uVar2 = EXP_TNL[uVar2];
-  return uVar2;
+  u16 lv = get_level(param_1) + 1;
+  if (lv == 41)return -1;
+  return EXP_TNL[lv];
 }
 
 void clear_equip_enchantments_(CharSheet *param_1){

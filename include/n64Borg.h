@@ -85,7 +85,7 @@ enum Vobject{
 0400
 0800
 1000
-2000=tangible. Turned off when pass through.
+2000
 4000
 8000=visible/active.*/
 
