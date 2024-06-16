@@ -8,6 +8,5 @@
 *.Yay0
 /build/
 /asm/
-makefile
 undefined_syms_auto*
 undefined_funcs_auto*

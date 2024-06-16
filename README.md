@@ -12,11 +12,13 @@ Aidyn Chronicles is one of a handful of RPG's on the system and a relatively obs
 
 
 ## why no usable code?
-- I do not know which compiler the developers used, so cannot accurately replicate code based on it.
+- While the compiler used has been identified, it has not yet been configured for cross-platform use, with the current compiler only being a close aproximation
 - Ghidra... "does its best" to interpret code. As such there are quirks with branching and incrementation and whatnot that may lead to further inaccuracies.
 - The game uses c++, Ghidra (and mips_to_c) use C intrepetation. While it does give better insight into how the former language translates into the latter, it is also another degree of reinterpretaion.
+  - There has also yet to be another successful decomp of an N64 title written in C++, and I have not yet the required knowledge to set up
 
 ## Thanks
 - halibabica for his work in hacking/modding Aidyn.
 - @TiberGuy for further hacking tools and knowledge with [AidynEditor](https://github.com/TiberGuy/AidynEditor)
 - Zoinkity for in-depth analysis of the game's art assets and compression methods.
+- Wiseguy for setup and analysis on a possible compiler match,and setup for data used in a later recomp project.
