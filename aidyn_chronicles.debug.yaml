@@ -11,7 +11,7 @@ options:
   symbol_addrs_path: ./symbol_addrs.debug.txt
   reloc_addrs_path: ./reloc_addrs.debug.txt
   create_undefined_syms_auto: yes
-  create_undefined_funcs_auto: no
+  create_undefined_funcs_auto: yes
   asm_data_macro: dlabel
   do_c_func_detection: yes
   base_path: .
@@ -29,7 +29,7 @@ options:
   target_path: ./baserom.debug.z64
   symbol_addrs_path: ./symbol_addrs.debug.txt
   undefined_funcs_auto_path: ./undefined_funcs_auto.debug.txt
-  undefined_syms_auto_path: ./undefined_syms_auto.debug.txt
+  undefined_syms_auto_path: ./undefined_syms_auto.txt
 segments:
   - name: header
     type: header
@@ -128,7 +128,7 @@ segments:
       - [0x46DE0, asm,"cheatCodes"]
       - [0x47620, asm]
       - [0x47890, asm]
-      - [0x47920, asm]
+      #- [0x47920, asm]
       - [0x486A0, asm]
       - [0x48a80, asm,"campmenucontroller"]
       - [0x4A540, asm,"optionsmenu"]
@@ -264,13 +264,13 @@ segments:
       - [0xBEF10, asm,"ultra/gu/align"]
       - [0xBF2b0, asm,"ultra/libc/bzero"]
       - [0xBF350, asm,"ultra/io/contquery"]
-      - [0xBF370, asm,"ultra/cont/contreaddata"]
+      - [0xBF3F0, asm,"ultra/cont/contreaddata"]
       - [0xBF5D0, asm,"ultra/cont/controller"]
       - [0xBF8E0, asm,"ultra/cont/contsetch"]
       - [0xBF940, asm,"ultra/gu/cosf"]
       - [0xBFA90, asm,"ultra/os/createmesgqueue"]
       - [0xBFAC0, asm,"ultra/thread/createthread"]
-      - [0xbfb90, hasm,"ultra/os/exceptasm"]
+      - [0xbfb90, asm,"ultra/os/exceptasm"]
       - [0xC30D0, asm,"ultra/thread/destroythread"]
       - [0xC31B0, asm,"ultra/gbpak/gbpakinit"]
       - [0xC33B0, asm,"ultra/pfs/contramread"]
@@ -531,7 +531,6 @@ segments:
       - [0x00f5da0,"bin",Borg]
       - [0x1f98790,"bin",Borg_List]
       - [0x1fd1730,"bin",EntityDB]
-      - [0x1fd8cb8,"bin",Blank_1]
       - [0x1fd8cc0,"bin",WeaponDB]
       - [0x1fda0a0,"bin",ArmorDB]
       - [0x1fdad70,"bin",SpellDB]

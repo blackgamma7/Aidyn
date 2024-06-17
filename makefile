@@ -75,7 +75,7 @@ KMC_CFLAGS := -c -G0  -mgp32 -mfp32 -mips3
 WARNFLAGS := -Wall -Werror -Wno-uninitialized
 OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -mabi=32 -mgp32 -mfp32 -mips3 -mno-abicalls -G0 -fno-pic -gdwarf -c
-LDFLAGS := -march=vr4300 -mabi=32 -mgp32 -mfp32 -mips3 -mno-abicalls -G0 -fno-pic -gdwarf -nostartfiles -Wl,-T,$(LD_SCRIPT) -Wl,-T,undefined_syms.txt -Wl,--build-id=none
+LDFLAGS := -march=vr4300 -mabi=32 -mgp32 -mfp32 -mips3 -mno-abicalls -G0 -fno-pic -gdwarf -nostartfiles -Wl,-T,$(LD_SCRIPT) -Wl,-T,undefined_syms_auto.txt -Wl,--build-id=none
 BINOFLAGS := -I binary -O elf32-tradbigmips
 Z64OFLAGS := -O binary --pad-to=$(ROM_SIZE) --gap-fill=0x00
 
