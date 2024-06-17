@@ -1,11 +1,12 @@
 BUILD_DIR = build
 VERSION   := debug
+TARGET := NAYE
 
 
 ASM_DIRS  = asm asm/widget asm/combat asm/N64Borg asm/other asm/data asm/gameclasses asm/maps asm/menus
 BIN_DIRS  = bin bin/db bin/String bin/RAM bin/ultra bin/borg
 SRC_DIRS  = src
-LIBULTRA_DIRS := audio gu io n_audio os sched ai gbpak ai motor host debug 
+LIBULTRA_DIRS := audio gu io n_audio os sched ai gbpak motor host debug rsp thread time cache libc
 BASEROM := baserom.$(VERSION).z64
 BUILD_ROOT := build
 ROM_SIZE := 0x2000000
@@ -15,35 +16,30 @@ BUILD_DIR := $(BUILD_ROOT)/$(VERSION)
 SRC_DIR := src
 ASM_DIR := asm
 BIN_DIR := bin
-LIBULTRA_DIRS := audio gu io n_audio os sched
 GAME_SRC_DIRS   := $(shell find $(SRC_DIR)/ -type d)
 LIBULTRA_SRC_DIRS := $(addprefix ultra/src/,$(LIBULTRA_DIRS))
 SRC_DIRS := $(GAME_SRC_DIRS) $(LIBULTRA_SRC_DIRS)
 ASM_DIRS := $(call RFILTER_OUT,nonmatching,$(shell find $(ASM_DIR)/ -type d))
 SRC_BUILD_DIRS := $(addprefix $(BUILD_DIR)/,$(SRC_DIRS)) # Don't search libultra dirs, but generate them for manual specifying of libultra asm files
-ASM_BUILD_DIRS := $(addprefix $(BUILD_DIR)/,$(ASM_DIRS) $(LIBULTRA_DIRS))
+ASM_BUILD_DIRS := $(addprefix $(BUILD_DIR)/,$(ASM_DIRS))
 BIN_BUILD_DIR := $(BUILD_DIR)/$(BIN_DIR)
 KMCGCCDIR := tools/kmc/gcc
 
 # Files
-FILTERED_OUT_SRCS := src/lib/codeseg1/player_commands.c src/lib/codeseg1/player_api.c src/lib/codeseg1/player_fifo.c
 C_SRCS := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
-C_SRCS := $(filter-out $(FILTERED_OUT_SRCS),$(C_SRCS))
 C_ASMS := $(addprefix $(BUILD_DIR)/, $(C_SRCS:.c=.s))
 C_OBJS := $(C_ASMS:.s=.o)
-LIBULTRA_ASMS := gu/libm_vals.s
-AS_SRCS := $(wildcard $(ASM_DIR)/*.s) $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s)) $(addprefix ultra/src/,$(LIBULTRA_ASMS))
+AS_SRCS := $(wildcard $(ASM_DIR)/*.s) $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s)) $(addprefix ultra/,$(LIBULTRA_ASMS))
 AS_OBJS := $(addprefix $(BUILD_DIR)/, $(AS_SRCS:.s=.o))
 BINS := $(wildcard $(BIN_DIR)/*.bin)
 BIN_OBJS := $(addprefix $(BUILD_DIR)/, $(BINS:.bin=.o))
 OBJS := $(C_OBJS) $(AS_OBJS) $(BIN_OBJS)
-LD_SCRIPT := NSUE.ld
-Z64 := $(BUILD_DIR)/$(TARGET).z64
+LD_SCRIPT := AidynDebug.ld
+Z64 := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 ELF := $(Z64:.z64=.elf)
 
 LIBULTRA_SRCS := $(foreach dir,$(LIBULTRA_SRC_DIRS),$(wildcard $(dir)/*.c))
-SN_SRCS := $(foreach dir,$(shell find $(SRC_DIR)/aidyn/ -type d) $(shell find $(SRC_DIR)/lib/ -type d),$(wildcard $(dir)/*.c))
-SN_SRCS := $(filter-out $(FILTERED_OUT_SRCS),$(SN_SRCS))
+SN_SRCS := $(foreach dir,$(shell find $(ASM_DIR)/aidyn/ -type d) $(shell find $(ASM_DIR)/lib/ -type d),$(wildcard $(dir)/*.c))
 SN_OBJS := $(addprefix $(BUILD_DIR)/, $(SN_SRCS:.c=.o))
 
 # Tools
@@ -79,7 +75,7 @@ KMC_CFLAGS := -c -G0  -mgp32 -mfp32 -mips3
 WARNFLAGS := -Wall -Werror -Wno-uninitialized
 OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -mabi=32 -mgp32 -mfp32 -mips3 -mno-abicalls -G0 -fno-pic -gdwarf -c
-LDFLAGS := -march=vr4300 -mabi=32 -mgp32 -mfp32 -mips3 -mno-abicalls -G0 -fno-pic -gdwarf -nostartfiles -Wl,-T,$(LD_SCRIPT) -Wl,-T,tools/undefined_syms.txt -Wl,--build-id=none
+LDFLAGS := -march=vr4300 -mabi=32 -mgp32 -mfp32 -mips3 -mno-abicalls -G0 -fno-pic -gdwarf -nostartfiles -Wl,-T,$(LD_SCRIPT) -Wl,-T,undefined_syms.txt -Wl,--build-id=none
 BINOFLAGS := -I binary -O elf32-tradbigmips
 Z64OFLAGS := -O binary --pad-to=$(ROM_SIZE) --gap-fill=0x00
 
@@ -95,7 +91,7 @@ $(SRC_DIR) : | $(BUILD_DIR)
 
 $(BUILD_DIR) : | $(BUILD_ROOT)
 
-$(BUILD_ROOT) $(BUILD_DIR) $(SRC_DIR) $(SRC_BUILD_DIRS) $(ASM_BUILD_DIRS) $(BIN_BUILD_DIR) :
+$(BUILD_ROOT) $(BUILD_DIR) $(SRC_DIR) $(ASM_BUILD_DIRS) $(BIN_BUILD_DIR) :
 	$(MKDIR) $@
 
 $(BUILD_DIR)/ultra/%.o : ultra/%.c | $(SRC_BUILD_DIRS) $(KMC_CC) $(KMC_AS)
