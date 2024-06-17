@@ -40,12 +40,12 @@ segments:
     vram: 0xA4000040
     subsegments:
     - [0x0040, bin, boot]
-  - name: code
+  - name: gameCode
     type: code
     start: 0x00001000
-    vram:  0x80000400
+    vram: 0x80000400
     subsegments:
-      - [0x1000, "bin",init_]
+      - [0x1000, hasm,init_]
       - [0x1070, bin,rspBoot]
       - [0x1140, bin,aspText]
       - [0x1F60, bin,F3dEX2Text]
@@ -136,7 +136,7 @@ segments:
       - [0x4D460, asm,"menuimages"]
       - [0x4D830, asm]
       - [0x4ED00, asm,"menus/supermenuclasses"]
-      - [0x4EEC0, asm,dialoug]
+      - [0x4EEC0, asm,"dialougfuncs"]
       - [0x507D0, asm]
       - [0x50A00, asm]
       - [0x516D0, asm,"maps/worldmap"]
@@ -199,7 +199,7 @@ segments:
       - [0x8B4D0, asm,"controllerPakSliders"]
       - [0x8D680, asm,"romstring"]
       - [0x8D840, asm,"commonStrings"]
-      - [0x8DA40, asm,"voxel"]
+      - [0x8DA40, asm,"voxelFuncs"]
       - [0x8F5C0, asm]
       - [0x8FE00, asm,"getHPPercent"]
       - [0x8FF00, asm,"combat/CombatMain"]
@@ -230,8 +230,7 @@ segments:
       - [0xA7e40, asm,"n64borg/Dialoug"]
       - [0xA7ff0, asm,"n64borg/GameStates"]
       - [0xA8110, asm,"n64borg/Scene"]
-      - [0xA9BF0, asm,"orphaned"]
-      - [0xAa8ec, asm,"LZ01x"]
+      - [0xA9BF0, asm,"LZ01x"]
       - [0xAAF90, asm,"LZB"]
       - [0xAB810, asm,"math"]
       - [0xAe6e0, asm,"collision1"]
@@ -343,7 +342,7 @@ segments:
       - [0xCD3c0, asm,ultra/GetSR]
       - [0xCD3D0, asm,ultra/SetThreadPri]
       - [0xCD4A0, asm,"ultra/SetTimer"]
-      - [0xCD540, asm,"ultra/SiAccess"]
+      - [0xCD540, asm,"ultra/si/siacs"]
       - [0xCD630, asm,"ultra/gu/sinf"]
       - [0xCD7D0, asm,ultra/SiRawStartDma]
       - [0xCD880, asm,ultra/SiRawReadIo]
