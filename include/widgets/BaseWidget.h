@@ -48,7 +48,7 @@ public:
     u8 Unlink(BaseWidget* other);
     Gfx* Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1);
     void SetColor(u8 r, u8 g, u8 b, u8 a);
-    void* Controlfunc(controller_aidyn* input);
+    void* Control(controller_aidyn* input);
     void* UpFunc(BaseWidget* Sel);
     void* DownFunc(BaseWidget* Sel);
     void* LeftFunc(BaseWidget* Sel);

@@ -8,16 +8,23 @@ typedef unsigned int    uint;
 typedef unsigned long    ulong;
 typedef unsigned long long    ulonglong;
 typedef unsigned char    undefined1;
-typedef unsigned int    undefined3;
 typedef unsigned long long    undefined8;
 typedef unsigned short    ushort;
 typedef unsigned short    word;
-typedef struct astruct astruct, *Pastruct;
+typedef ushort u_int16_t;
 
+typedef unsigned char u8;
+typedef char s8;
+typedef unsigned short u16;
+typedef short s16;
+typedef int s32;
+typedef unsigned int u32;
+typedef long long s64;
+typedef unsigned long long u64;
+
+typedef struct astruct astruct, *Pastruct;
 typedef struct Borg11Data Borg11Data, *PBorg11Data;
 
-typedef byte u8;
-typedef uint u32;
 
 struct astruct {
     struct Borg11Data *instrumentDat;
@@ -251,8 +258,6 @@ typedef struct attachmentNode attachmentNode, *PattachmentNode;
 
 typedef struct ItemID ItemID, *PItemID;
 
-typedef int s32;
-
 typedef struct struct_1 struct_1, *Pstruct_1;
 
 typedef struct struct_45 struct_45, *Pstruct_45;
@@ -271,11 +276,6 @@ typedef struct ParticleHeadStruct ParticleHeadStruct, *PParticleHeadStruct;
 
 typedef struct controller_aidyn controller_aidyn, *Pcontroller_aidyn;
 
-typedef ushort u_int16_t;
-
-typedef u_int16_t u16;
-
-typedef short s16;
 
 typedef struct Borg1header Borg1header, *PBorg1header;
 
@@ -285,7 +285,7 @@ typedef union Mtx Mtx, *PMtx;
 
 typedef struct Borg1Data Borg1Data, *PBorg1Data;
 
-typedef sbyte s8;
+
 
 typedef struct Borg12Header Borg12Header, *PBorg12Header;
 
@@ -367,8 +367,6 @@ typedef struct Borg12Data Borg12Data, *PBorg12Data;
 
 typedef struct Borg5data Borg5data, *PBorg5data;
 
-typedef ulonglong u64;
-
 typedef struct Borg5_particle Borg5_particle, *PBorg5_particle;
 
 typedef struct borg9_phys borg9_phys, *Pborg9_phys;
@@ -376,8 +374,6 @@ typedef struct borg9_phys borg9_phys, *Pborg9_phys;
 typedef struct voxelObject voxelObject, *PvoxelObject;
 
 typedef struct borg_9_struct borg_9_struct, *Pborg_9_struct;
-
-typedef char int8_t;
 
 typedef struct Borg11header Borg11header, *PBorg11header;
 
@@ -427,27 +423,27 @@ typedef enum Vobject {
 
 typedef enum EventFlag {
     FLAG_Cinematic1=3,
-    MeetAlaron=5,
+    FLAG_MeetAlaron=5,
     FLAG_MeetShadow=9,
-    KendallsHat_=10,
-    BuySpiceOffGnomes=45,
+    FLAG_KendallsHat_=10,
+    FLAG_BuySpiceOffGnomes=45,
     FLAG_ShadowMerge=566,
     FLAG_Cinematic2=569,
     FLAG_Cinematic3=590,
     FLAG_Cinematic4=601,
-    EnterGweneria=788,
+    FLAG_EnterGweneria=788,
     FLAG_GoblinAmbush=978,
-    KendallsHat=2255,
-    Rain0=2319,
-    Rain1=2320,
-    GotFirstItems=3612,
-    NewJournalEntry=3617,
-    _Slashing=3673,
-    _SlashingGet=3674,
-    _Darkside=3675,
-    _DarksideGet=3676,
-    _cheater=3693,
-    _bingo=3694
+    FLAG_KendallsHat=2255,
+    FLAG_Rain0=2319,
+    FLAG_Rain1=2320,
+    FLAG_GotFirstItems=3612,
+    FLAG_NewJournalEntry=3617,
+    FLAG__Slashing=3673,
+    FLAG__SlashingGet=3674,
+    FLAG__Darkside=3675,
+    FLAG__DarksideGet=3676,
+    FLAG__cheater=3693,
+    FLAG__bingo=3694
 } EventFlag;
 
 typedef struct light_obj_dat light_obj_dat, *Plight_obj_dat;
@@ -483,15 +479,15 @@ typedef enum borg13Enum {
 } borg13Enum;
 
 typedef enum EnumMapDatA {
-    Overworld=0,
-    GwenCastle=4,
-    Interior=6,
-    cave=7,
-    Barrows=9,
-    Talewok=11,
-    EhudUnder=12,
-    Ugairt=13,
-    Battle=16
+    MAPA_Overworld=0,
+    MAPA_GwenCastle=4,
+    MAPA_Interior=6,
+    MAPA_cave=7,
+    MAPA_Barrows=9,
+    MAPA_Talewok=11,
+    MAPA_EhudUnder=12,
+    MAPA_Ugairt=13,
+    MAPA_Battle=16
 } EnumMapDatA;
 
 typedef struct Tri Tri, *PTri;
@@ -503,7 +499,7 @@ struct light_obj_dat {
     float f0;
     float f1;
     float f2;
-    byte align[40];
+    u8 align[40];
 };
 
 struct vec4f {
@@ -519,9 +515,9 @@ struct AniLightData {
     undefined field2_0x2;
     undefined field3_0x3;
     struct Color32 col;
-    byte x;
-    byte y;
-    byte z;
+    u8 x;
+    u8 y;
+    u8 z;
     undefined field8_0xb;
     undefined field9_0xc;
     undefined field10_0xd;
@@ -557,8 +553,8 @@ struct AnimationData {
     int locators[8];
     uint flags;
     u16 aniTime;
-    byte aniSpeed;
-    byte perspNormIndex;
+    u8 aniSpeed;
+    u8 perspNormIndex;
     struct vec4f colorFloats;
     int colorValA;
     int colorValB;
@@ -570,7 +566,7 @@ struct AnimationData {
     struct ParticleHeadStruct *particleHead;
     struct AnimationData *link2a4;
     struct AnimationData *link2a8;
-    byte unk2ac;
+    u8 unk2ac;
     char borg5_char[4];
     undefined field27_0x2b1;
     undefined field28_0x2b2;
@@ -655,7 +651,7 @@ struct container_Dat {
     struct ItemID item; /* static item */
     ushort unk1A; /* align? */
     short lootCatDrop[6][2]; /* populated with chestdb items */
-    byte field13_0x34[16];
+    u8 field13_0x34[16];
 };
 
 struct teleport_dat {
@@ -694,8 +690,8 @@ struct Scene_obj_dat {
 
 struct monsterpartyEntry {
     struct ItemID enemyID;
-    byte min;
-    byte max;
+    u8 min;
+    u8 max;
 };
 
 struct monsterparty_dat {
@@ -713,7 +709,7 @@ struct monsterparty_dat {
     undefined field11_0x32;
     undefined field12_0x33;
     enum borg13Enum borg_13;
-    byte align[12];
+    u8 align[12];
 };
 
 struct Wandernode_dat {
@@ -723,7 +719,7 @@ struct Wandernode_dat {
     float field3_0x10;
     u16 field4_0x14[2];
     u16 NodeSiblings[2];
-    byte field6_0x1c[40];
+    u8 field6_0x1c[40];
 };
 
 union voxeldat {
@@ -793,7 +789,7 @@ struct borg2header {
 struct DCMSub2 {
     struct Borg12Header *borg12;
     u32 index;
-    byte id;
+    u8 id;
     undefined field3_0x9;
     undefined field4_0xa;
     undefined field5_0xb;
@@ -907,12 +903,12 @@ struct Borg5_particle {
 struct Borg9data {
     struct vec3f floatsA; /* position? */
     struct vec2f floatsB; /* size? */
-    byte unk1[6]; /* seems unused */
-    byte byte0x1a;
-    byte byte0x1b;
+    u8 unk1[6]; /* seems unused */
+    u8 byte0x1a;
+    u8 byte0x1b;
     ushort shortA;
     ushort shortB;
-    byte unk[4];
+    u8 unk[4];
     ushort borghpys_count;
     ushort field9_0x26;
     ushort ref_obj_count;
@@ -931,13 +927,13 @@ struct Vtx_tn {
     short ob[3];
     ushort flag;
     short tc[2];
-    int8_t n[3];
-    byte a;
+    s8 n[3];
+    u8 a;
 };
 
 struct Borg3Data {
     u32 index;
-    byte unk4[4];
+    u8 unk4[4];
     u16 perspnorm[2];
     int *unkc;
     float unk10;
@@ -1029,8 +1025,8 @@ struct collisionSphere {
 struct Borg1Data {
     enum BORG1type type;
     u16 flag;
-    byte height;
-    byte width;
+    u8 height;
+    u8 width;
     u8 IlaceLvs;
     u8 align;
     u16 *dList;
@@ -1041,7 +1037,7 @@ struct Borg1Data {
 struct astruct_6 {
     struct playerData *playerdat_;
     ushort short0x4;
-    byte byte0x5;
+    u8 byte0x5;
     undefined field3_0x7;
 };
 
@@ -1078,11 +1074,11 @@ struct ParticleEmmiter {
     u64 unk1c;
     struct vec3f pos;
     struct vec3f vel;
-    byte field18_0x3c[4];
+    u8 field18_0x3c[4];
     u32 field19_0x40;
     struct vec4f colvec4;
     struct vec4f field21_0x54;
-    byte unk0x64[340]; /* unused? */
+    u8 unk0x64[340]; /* unused? */
     ulong (*unk1b8)(void); /* (Head,Emmiter) */
     ulong (*funcA)(void); /* (head) */
     ulong (*funcB)(void); /* (head,emmiter,particle) */
@@ -1243,13 +1239,13 @@ struct playerData {
     float combatMoveSpeed;
     u32 unk284; /* unused? */
     struct PlaneObj shadow;
-    byte unused518[496];
+    u8 unused518[496];
     short field58_0x708;
-    byte visible_flag;
+    u8 visible_flag;
     u8 alaron_flag;
     char unk70c;
-    byte zoneDatByte;
-    byte unk70ee;
+    u8 zoneDatByte;
+    u8 unk70ee;
     undefined field64_0x70f;
     struct DCMSub2 dcmDat[2];
     short dcmDatIndex;
@@ -1336,7 +1332,7 @@ struct struct_1 {
 struct borg5substruct {
     u16 flag;
     u8 mtxOp;
-    byte tier?;
+    u8 tier?;
     struct borg5substruct **links;
     u32 unk0x8;
     union Mtx *mtxs;
@@ -1456,7 +1452,7 @@ struct astruct_8 {
     int field5_0x14;
     int tally;
     undefined field7_0x1c;
-    byte field8_0x1d;
+    u8 field8_0x1d;
 };
 
 typedef struct AttackVisualStruct3 AttackVisualStruct3, *PAttackVisualStruct3;
@@ -1472,8 +1468,8 @@ struct AttackVisualStruct3 {
 typedef struct CombatTurn CombatTurn, *PCombatTurn;
 
 struct CombatTurn {
-    byte unk0;
-    byte unk1;
+    u8 unk0;
+    u8 unk1;
     undefined field2_0x2;
     undefined field3_0x3;
     uint unk4;
@@ -1486,11 +1482,11 @@ struct DCM_sub {
     u32 id;
     u32 unk4;
     u16 pitch;
-    byte index;
-    byte field4_0xb;
+    u8 index;
+    u8 field4_0xb;
     s8 vol;
-    byte pan;
-    byte unke;
+    u8 pan;
+    u8 unke;
     undefined field8_0xf;
 };
 
@@ -1543,7 +1539,7 @@ struct WidgetHandler {
 };
 
 struct struct_3 {
-    byte field0_0x0;
+    u8 field0_0x0;
     undefined field1_0x1;
     undefined field2_0x2;
     undefined field3_0x3;
@@ -1701,12 +1697,12 @@ struct dialougmode_substruct {
     ushort RefpointID;
     ushort unk10e;
     char unk110;
-    byte unk111;
-    byte unk112;
-    byte unk113;
-    byte battlefeild;
-    byte unk115;
-    byte unk116;
+    u8 unk111;
+    u8 unk112;
+    u8 unk113;
+    u8 battlefeild;
+    u8 unk115;
+    u8 unk116;
     undefined field153_0x117;
 };
 
@@ -1716,13 +1712,13 @@ struct borg13data {
     char *text;
     ushort ID;
     u16 flag;
-    byte A;
-    byte B;
-    byte CmdCount;
-    byte ActorCount;
-    byte start_func;
-    byte C;
-    byte pad[2];
+    u8 A;
+    u8 B;
+    u8 CmdCount;
+    u8 ActorCount;
+    u8 start_func;
+    u8 C;
+    u8 pad[2];
 };
 
 struct borg13command {
@@ -1762,8 +1758,8 @@ struct borg13command {
     undefined field33_0x23;
     ushort a;
     ushort b;
-    byte index;
-    byte c;
+    u8 index;
+    u8 c;
     undefined field38_0x2a;
     undefined field39_0x2b;
     undefined field40_0x2c;
@@ -1771,7 +1767,7 @@ struct borg13command {
     undefined field42_0x2e;
     undefined field43_0x2f;
     undefined field44_0x30;
-    byte bitmask;
+    u8 bitmask;
     undefined field46_0x32;
     undefined field47_0x33;
     undefined field48_0x34;
@@ -1781,7 +1777,7 @@ struct borg13command {
 };
 
 struct DialougeStruct {
-    byte field0_0x0;
+    u8 field0_0x0;
     undefined field1_0x1;
     undefined field2_0x2;
     undefined field3_0x3;
@@ -1796,7 +1792,7 @@ struct DialougeStruct {
     undefined field12_0x1b;
     u32 field13_0x1c;
     u32 field14_0x20;
-    byte type;
+    u8 type;
     undefined field16_0x25;
     undefined field17_0x26;
     undefined field18_0x27;
@@ -1806,17 +1802,11 @@ typedef struct DollBarterConfirm DollBarterConfirm, *PDollBarterConfirm;
 
 struct DollBarterConfirm {
     struct BaseWidget base;
-    undefined field1_0x7c;
-    undefined field2_0x7d;
-    undefined field3_0x7e;
-    undefined field4_0x7f;
+    void* field1_0x7c;
     struct BaseWidget *field5_0x80;
     struct BaseWidget *field6_0x84;
     int field7_0x88;
-    byte field8_0x8c;
-    undefined field9_0x8d;
-    undefined field10_0x8e;
-    undefined field11_0x8f;
+    u8 field8_0x8c;
 };
 
 typedef struct Heap_block_Debug Heap_block_Debug, *PHeap_block_Debug;
@@ -1832,11 +1822,8 @@ struct InputWidgetSubStruct {
     struct BaseWidget *arrayMenu;
     char *output;
     char *entry;
-    struct BaseWidget *cursor?;
-    byte entryIndex;
-    undefined field5_0x11;
-    undefined field6_0x12;
-    undefined field7_0x13;
+    struct BaseWidget *cursor;
+    u8 entryIndex;
 };
 
 typedef struct IntroMenuSub IntroMenuSub, *PIntroMenuSub;
@@ -2162,17 +2149,17 @@ struct WidgetContPakData {
     struct BaseWidget *field3_0x280;
     ulong (*funcA)(void);
     ulong (*funcB)(void);
-    byte OtherState;
+    u8 OtherState;
     PFS_ERR8 pfsErr; /* shortened to 1 byte */
-    byte saveSlot;
-    byte AidynSaveSlots;
+    u8 saveSlot;
+    u8 AidynSaveSlots;
     undefined field10_0x290;
     undefined field11_0x291;
     u16 unk292;
     u16 unk294;
     undefined field14_0x296;
     undefined field15_0x297;
-    enum Borg8Enum borg8;
+    u32 borg8;
     struct BaseWidget *field17_0x29c;
     struct BaseWidget *unk2a0;
     undefined field19_0x2a4;
@@ -2208,7 +2195,7 @@ struct IntroMenuSub {
     struct BaseWidget *PressStart;
     struct BaseWidget *field13_0x1c;
     struct BaseWidget *field14_0x20;
-    byte menuState;
+    u8 menuState;
     undefined field16_0x25;
     undefined field17_0x26;
     undefined field18_0x27;
@@ -2391,71 +2378,8 @@ struct SkySubstruct {
 
 typedef struct spellVisualsEntry spellVisualsEntry, *PspellVisualsEntry;
 
-typedef enum SpellEnum32 {
-    Immolation=0,
-    escape=1,
-    removePoison=2,
-    AirSheild=3,
-    ControlElem=4,
-    debilitation=5,
-    DragonFlames=6,
-    EarthSmite=7,
-    fireball=8,
-    lightning=9,
-    strength=10,
-    wind=11,
-    teleportation=12,
-    brilliance=13,
-    stupidity=14,
-    banishing=15,
-    charming=16,
-    controlMarquis=17,
-    detectingTraps=18,
-    endurance=19,
-    opening=20,
-    senseAura=21,
-    weakness=22,
-    cheatDeath=23,
-    AcidBolt=24,
-    auraOfDeath=25,
-    wraithTouch=26,
-    controlZombies=27,
-    crushingDeath=28,
-    darkness=29,
-    haste=30,
-    exhaustion=31,
-    stamina=32,
-    tapStamina=33,
-    wallOfBones=34,
-    spiritSheild=35,
-    poison=36,
-    mirror=37,
-    vsElemental=38,
-    vsNaming=39,
-    vsNecromancy=40,
-    vsStar=41,
-    dispelElemental=42,
-    dispelNaming=43,
-    dispelNecro=44,
-    dispelStar=45,
-    photosynthesis=46,
-    solarWraith=47,
-    starlightSheild=48,
-    detectMoonPhase=49,
-    detectSunPhase=50,
-    dexterity=51,
-    clumsiness=52,
-    frozenDoom=53,
-    light=54,
-    stealth=55,
-    stellarGravity=56,
-    webOfStarlight=57,
-    whitefire=58,
-    NONE=255
-} SpellEnum32;
-
 struct spellVisualsEntry {
-    enum SpellEnum32 SpellID;
+    u32 SpellID;
     uint flags;
     u16 field2_0x8;
     u16 field3_0xa;
@@ -2484,9 +2408,9 @@ typedef struct UnkAudioStruct UnkAudioStruct, *PUnkAudioStruct;
 
 struct UnkAudioStruct {
     ushort field0_0x0;
-    byte field1_0x2;
-    byte randVal;
-    byte field3_0x4[4];
+    u8 field1_0x2;
+    u8 randVal;
+    u8 field3_0x4[4];
 };
 
 typedef struct WidgetArrayMenu_substruct WidgetArrayMenu_substruct, *PWidgetArrayMenu_substruct;
@@ -2536,7 +2460,7 @@ struct WidgetOptionsSubstruct {
     u32 field3_0xc;
     struct BaseWidget *unk10;
     struct BaseWidget *unk14;
-    byte field6_0x18;
+    u8 field6_0x18;
 };
 
 typedef struct WidgetScrollList_Substruct WidgetScrollList_Substruct, *PWidgetScrollList_Substruct;
@@ -2555,25 +2479,25 @@ struct WidgetScrollList_Substruct {
     struct BaseWidget **items;
     u8 itemMax;
     undefined field12_0x11;
-    byte itemCount;
+    u8 itemCount;
     undefined field14_0x13;
 };
 
 typedef struct WidgetSubstruct8 WidgetSubstruct8, *PWidgetSubstruct8;
 
 struct WidgetSubstruct8 { /* If widget->GetNumber returns 8 */
-    byte field0_0x0;
-    byte field1_0x1;
-    byte r[2];
-    byte g[2];
-    byte b[2];
-    byte a[2];
-    byte field6_0xa;
-    byte field7_0xb;
-    byte field8_0xc;
-    byte field9_0xd;
-    byte field10_0xe;
-    byte field11_0xf;
+    u8 field0_0x0;
+    u8 field1_0x1;
+    u8 r[2];
+    u8 g[2];
+    u8 b[2];
+    u8 a[2];
+    u8 field6_0xa;
+    u8 field7_0xb;
+    u8 field8_0xc;
+    u8 field9_0xd;
+    u8 field10_0xe;
+    u8 field11_0xf;
 };
 
 typedef struct WidgetSubstruct_ClipText WidgetSubstruct_ClipText, *PWidgetSubstruct_ClipText;
@@ -2590,11 +2514,11 @@ struct WidgetSubstruct_ClipText {
 typedef struct WidgetSubstruct_ScrollMenu WidgetSubstruct_ScrollMenu, *PWidgetSubstruct_ScrollMenu;
 
 struct WidgetSubstruct_ScrollMenu {
-    byte field0_0x0;
-    byte field1_0x1;
-    byte field2_0x2;
+    u8 field0_0x0;
+    u8 field1_0x1;
+    u8 field2_0x2;
     undefined field3_0x3;
-    byte field4_0x4;
+    u8 field4_0x4;
     undefined field5_0x5;
     undefined field6_0x6;
     undefined field7_0x7;
@@ -2748,6 +2672,8 @@ typedef struct resist_float resist_float, *Presist_float;
 
 typedef struct CharSheet CharSheet, *PCharSheet;
 
+typedef CharSheet[9]* saveEntity;
+
 typedef struct CombatAIInfo CombatAIInfo, *PCombatAIInfo;
 
 typedef enum ElementEnum {
@@ -2789,65 +2715,65 @@ typedef struct effects effects, *Peffects;
 typedef struct PotionEffect PotionEffect, *PPotionEffect;
 
 typedef enum SpellEnum {
-    SPELLIND_Immolation=0,
-    SPELLIND_escape=1,
-    SPELLIND_removePoison=2,
-    SPELLIND_AirSheild=3,
-    SPELLIND_ControlElem=4,
-    SPELLIND_debilitation=5,
-    SPELLIND_DragonFlames=6,
-    SPELLIND_EarthSmite=7,
-    SPELLIND_fireball=8,
-    SPELLIND_lightning=9,
-    SPELLIND_strength=10,
-    SPELLIND_wind=11,
-    SPELLIND_teleportation=12,
-    SPELLIND_brilliance=13,
-    SPELLIND_stupidity=14,
-    SPELLIND_banishing=15,
-    SPELLIND_charming=16,
-    SPELLIND_controlMarquis=17,
-    SPELLIND_detectingTraps=18,
-    SPELLIND_endurance=19,
-    SPELLIND_opening=20,
-    SPELLIND_senseAura=21,
-    SPELLIND_weakness=22,
-    SPELLIND_cheatDeath=23,
-    SPELLIND_AcidBolt=24,
-    SPELLIND_auraOfDeath=25,
-    SPELLIND_wraithTouch=26,
-    SPELLIND_controlZombies=27,
-    SPELLIND_crushingDeath=28,
-    SPELLIND_darkness=29,
-    SPELLIND_haste=30,
-    SPELLIND_exhaustion=31,
-    SPELLIND_stamina=32,
-    SPELLIND_tapStamina=33,
-    SPELLIND_wallOfBones=34,
-    SPELLIND_spiritSheild=35,
-    SPELLIND_poison=36,
-    SPELLIND_mirror=37,
-    SPELLIND_vsElemental=38,
-    SPELLIND_vsNaming=39,
-    SPELLIND_vsNecromancy=40,
-    SPELLIND_vsStar=41,
-    SPELLIND_dispelElemental=42,
-    SPELLIND_dispelNaming=43,
-    SPELLIND_dispelNecro=44,
-    SPELLIND_dispelStar=45,
-    SPELLIND_photosynthesis=46,
-    SPELLIND_solarWraith=47,
-    SPELLIND_starlightSheild=48,
-    SPELLIND_detectMoonPhase=49,
-    SPELLIND_detectSunPhase=50,
-    SPELLIND_dexterity=51,
-    SPELLIND_clumsiness=52,
-    SPELLIND_frozenDoom=53,
-    SPELLIND_light=54,
-    SPELLIND_stealth=55,
-    SPELLIND_stellarGravity=56,
-    SPELLIND_webOfStarlight=57,
-    SPELLIND_whitefire=58,
+    SPELLIND_Immolation,
+    SPELLIND_escape,
+    SPELLIND_removePoison,
+    SPELLIND_AirSheild,
+    SPELLIND_ControlElem,
+    SPELLIND_debilitation,
+    SPELLIND_DragonFlames,
+    SPELLIND_EarthSmite,
+    SPELLIND_fireball,
+    SPELLIND_lightning,
+    SPELLIND_strength,
+    SPELLIND_wind,
+    SPELLIND_teleportation,
+    SPELLIND_brilliance,
+    SPELLIND_stupidity,
+    SPELLIND_banishing,
+    SPELLIND_charming,
+    SPELLIND_controlMarquis,
+    SPELLIND_detectingTraps,
+    SPELLIND_endurance,
+    SPELLIND_opening,
+    SPELLIND_senseAura,
+    SPELLIND_weakness,
+    SPELLIND_cheatDeath,
+    SPELLIND_AcidBolt,
+    SPELLIND_auraOfDeath,
+    SPELLIND_wraithTouch,
+    SPELLIND_controlZombies,
+    SPELLIND_crushingDeath,
+    SPELLIND_darkness,
+    SPELLIND_haste,
+    SPELLIND_exhaustion,
+    SPELLIND_stamina,
+    SPELLIND_tapStamina,
+    SPELLIND_wallOfBones,
+    SPELLIND_spiritSheild,
+    SPELLIND_poison,
+    SPELLIND_mirror,
+    SPELLIND_vsElemental,
+    SPELLIND_vsNaming,
+    SPELLIND_vsNecromancy,
+    SPELLIND_vsStar,
+    SPELLIND_dispelElemental,
+    SPELLIND_dispelNaming,
+    SPELLIND_dispelNecro,
+    SPELLIND_dispelStar,
+    SPELLIND_photosynthesis,
+    SPELLIND_solarWraith,
+    SPELLIND_starlightSheild,
+    SPELLIND_detectMoonPhase,
+    SPELLIND_detectSunPhase,
+    SPELLIND_dexterity,
+    SPELLIND_clumsiness,
+    SPELLIND_frozenDoom,
+    SPELLIND_light,
+    SPELLIND_stealth,
+    SPELLIND_stellarGravity,
+    SPELLIND_webOfStarlight,
+    SPELLIND_whitefire,
     SPELLIND_NONE=255
 } SpellEnum;
 
@@ -2932,7 +2858,7 @@ struct ItemInstance {
     u16 field1_0x2;
     char *name;
     enum AspectEnum aspect;
-    byte field4_0x9;
+    u8 field4_0x9;
     u16 price;
     struct StatMod *statMod;
     struct SpellCharges *spellCharge;
@@ -2940,18 +2866,18 @@ struct ItemInstance {
 
 struct SpellInstance { /* spell data loaded into character. */
     struct ItemInstance base;
-    byte level;
+    u8 level;
     enum MagicSchoolEnum school;
-    byte damage;
-    byte stamina;
+    u8 damage;
+    u8 stamina;
     enum MagicCastedEnum cast;
     enum MagicTargetEnum target;
-    byte wizard;
+    u8 wizard;
     enum MagicSpecial special;
-    byte range;
+    u8 range;
     enum MigicCostEnum cost;
     ushort exp_modifyer;
-    byte aspect_flag; /* ram0x1f */
+    u8 aspect_flag; /* ram0x1f */
     undefined field13_0x21;
     undefined field14_0x22;
     undefined field15_0x23;
@@ -2959,28 +2885,28 @@ struct SpellInstance { /* spell data loaded into character. */
 
 struct Spellbook { /* pointer and count of spells */
     struct SpellInstance *spells;
-    byte count;
+    u8 count;
 };
 
 struct PotionEffect {
     enum PotionEnum ID;
-    byte power;
+    u8 power;
     u16 align;
     uint timer;
     u32 SpellVisualIndex;
 };
 
 struct combat_aiscore {
-    byte spell_pri;
-    byte x;
-    byte y;
-    byte unk0x3;
+    u8 spell_pri;
+    u8 x;
+    u8 y;
+    u8 unk0x3;
     struct CombatEntity *combatEnt;
 };
 
 struct resist_float { /* resistance and element when loaded into temp item */
     enum ElementEnum element;
-    byte pad[3];
+    u8 pad[3];
     float percent;
 };
 
@@ -2999,7 +2925,7 @@ struct CharStats { /* Stat Arrays of Party Members */
 struct CharGear {
     struct GearInstance **pItem;
     u8 usedItems;
-    byte maxItems;
+    u8 maxItems;
     undefined field3_0x6;
     undefined field4_0x7;
 };
@@ -3030,17 +2956,17 @@ struct CombatEntity {
     undefined field5_0x16;
     undefined field6_0x17;
     struct vec2f facing;
-    byte index;
-    byte moveRange;
+    u8 index;
+    u8 moveRange;
     u8 unk22;
-    byte unk23;
-    byte AtkTypeOther;
-    byte AtkType;
-    byte itemIndex;
+    u8 unk23;
+    u8 AtkTypeOther;
+    u8 AtkType;
+    u8 itemIndex;
     enum PotionEnum item;
-    byte unk0x28;
-    byte damage;
-    byte Healing;
+    u8 unk0x28;
+    u8 damage;
+    u8 Healing;
     undefined field19_0x2b;
     enum CombatEntFlags flags;
     undefined field21_0x2e;
@@ -3048,32 +2974,32 @@ struct CombatEntity {
     struct resist_float resists[2];
     struct CharSheet *charSheetP;
     struct CombatAIInfo *aiP;
-    byte unk48[60];
+    u8 unk48[60];
     u32 notboss;
-    byte wepLocator;
-    byte unk89;
-    byte throwingFlag;
-    byte lol;
+    u8 wepLocator;
+    u8 unk89;
+    u8 throwingFlag;
+    u8 lol;
 };
 
 struct SpellCharges {
     struct SpellInstance *Spell;
-    byte Charges;
+    u8 Charges;
 };
 
 struct ArmorInstance {
     struct ItemInstance base;
-    byte unk14;
-    byte unk15;
+    u8 unk14;
+    u8 unk15;
     undefined field3_0x16;
-    byte rom0x1d;
-    byte (*skillmod)[2];
+    u8 rom0x1d;
+    u8 (*skillmod)[2];
     struct Temp_enchant *enchantment;
     struct resist_float *resist;
-    byte DEF;
-    byte Protect;
-    byte dex;
-    byte stealth;
+    u8 DEF;
+    u8 Protect;
+    u8 dex;
+    u8 stealth;
     undefined field12_0x28;
     undefined field13_0x29;
     undefined field14_0x2a;
@@ -3082,11 +3008,11 @@ struct ArmorInstance {
 
 struct GearInstance {
     struct ItemInstance base;
-    byte damage;
-    byte Protection;
-    byte STR;
-    byte INT;
-    byte (*skillMod)[2];
+    u8 damage;
+    u8 Protection;
+    u8 STR;
+    u8 INT;
+    u8 (*skillMod)[2];
     void *enchantment;
     struct resist_float *resist;
 };
@@ -3095,13 +3021,13 @@ struct CombatAIInfo {
     struct WeaponInstance *weapon;
     char unk1;
     char entIndex;
-    byte morale; /* morale? */
+    u8 morale; /* morale? */
     char unk7;
-    byte command;
-    byte flags;
+    u8 command;
+    u8 flags;
     enum SpellEnum spells[8];
-    byte unk12;
-    byte unk13; /* length of array at gCombatP-> 0x5320 */
+    u8 unk12;
+    u8 unk13; /* length of array at gCombatP-> 0x5320 */
     struct CombatEntity *combatEnt;
     int unk18;
 };
@@ -3110,7 +3036,7 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     struct ItemID ID;
     char align[2];
     char *name; /* pointer to entityDB entry */
-    byte unk0x8[12];
+    u8 unk0x8[12];
     struct charExp *EXP;
     struct CharStats *Stats; /* base and modded stats of character */
     struct CharSkills *Skills; /* skill and weapon levels */
@@ -3122,18 +3048,18 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     struct effects (*effects)[15]; /* spell effects on character */
     struct PotionEffect (*potionEffects)[7];
     s8 some_rand_val;
-    byte spellSwitch;
-    byte currSpell;
+    u8 spellSwitch;
+    u8 currSpell;
     undefined field17_0x3f;
     u32 unk0x40;
     struct Borg8header *portrait;
 };
 
 struct charExp { /* data containing EXP, School, Aspect and more. */
-    byte rom0x2b; /* Ent_rom data 0x2b. dunno if used */
+    u8 rom0x2b; /* Ent_rom data 0x2b. dunno if used */
     enum MagicSchoolEnum school;
-    byte protection;
-    byte damage; /* Not used in combat calc */
+    u8 protection;
+    u8 damage; /* Not used in combat calc */
     uint total; /* for level up */
     uint spending; /* for training */
     enum CharSheetFlags flags; /* set for alaron and aspect */
@@ -3146,16 +3072,16 @@ struct WeaponInstance {
     struct ItemInstance base;
     char unk14;
     char unk15;
-    byte unk16;
-    byte reqStr;
-    byte (*SkillMod)[2];
+    u8 unk16;
+    u8 reqStr;
+    u8 (*SkillMod)[2];
     struct Temp_enchant *enchantment;
     struct resist_float *resist;
     enum WeaponClassEnum weaponType;
-    byte hit;
-    byte damage;
-    byte range;
-    byte animation;
+    u8 hit;
+    u8 damage;
+    u8 range;
+    u8 animation;
     enum ElementEnum element;
     undefined field14_0x2a;
     undefined field15_0x2b;
@@ -3163,9 +3089,9 @@ struct WeaponInstance {
 
 struct Temp_enchant {
     enum SpellEnum index;
-    byte lv;
+    u8 lv;
     enum MagicSchoolEnum school;
-    byte varA;
+    u8 varA;
     u32 varB;
     uint timer;
     u32 unkc; /* unused */
@@ -3176,13 +3102,13 @@ struct Temp_enchant {
 typedef struct combat_substruct combat_substruct, *Pcombat_substruct;
 
 struct combat_substruct {
-    byte array1[100][100];
-    byte array2[100][100];
+    u8 array1[100][100];
+    u8 array2[100][100];
     ushort short1;
-    byte byteA;
-    byte byteB;
-    byte byteC;
-    byte byteD;
+    u8 byteA;
+    u8 byteB;
+    u8 byteC;
+    u8 byteD;
     char byteE;
     undefined field8_0x4e27;
 };
@@ -3192,13 +3118,13 @@ typedef struct combat_substruct_2 combat_substruct_2, *Pcombat_substruct_2;
 struct combat_substruct_2 {
     int arrayA[18];
     int arrayB[18];
-    byte arrayC[18];
+    u8 arrayC[18];
     char field3_0xa2;
-    byte field4_0xa3;
-    byte arrayBCount;
-    byte field6_0xa5;
+    u8 field4_0xa3;
+    u8 arrayBCount;
+    u8 field6_0xa5;
     char entindex;
-    byte field8_0xa7;
+    u8 field8_0xa7;
 };
 
 typedef struct CombatAi_command CombatAi_command, *PCombatAi_command;
@@ -3212,9 +3138,9 @@ typedef struct CombatAttackVisuals_struct CombatAttackVisuals_struct, *PCombatAt
 
 struct CombatAttackVisuals_struct {
     struct AttackVisualStruct3 *p;
-    byte *bytearray;
-    undefined1 iFreeVisual;
-    byte pad[3];
+    u8 *bytearray;
+    u8 iFreeVisual;
+
 };
 
 typedef struct CombatMarker CombatMarker, *PCombatMarker;
@@ -3224,8 +3150,7 @@ struct CombatMarker {
     struct vec3f coords;
     float alpha;
     int time;
-    byte active;
-    undefined3 field5_0x19;
+    u8 active;
 };
 
 typedef struct CombatPortrait CombatPortrait, *PCombatPortrait;
@@ -3241,10 +3166,10 @@ struct CombatPortrait {
     struct WidgetBorg8Combat *basePortait; /* same as diaalouge's */
     struct WidgetBorg8Combat *Overlay; /* crossbones */
     struct ItemID Owner;
-    byte cEntIndex;
-    byte unkb;
+    u8 cEntIndex;
+    u8 unkb;
     u32 unkc;
-    byte blipIndex;
+    u8 blipIndex;
     undefined field7_0x11;
     undefined field8_0x12;
     undefined field9_0x13;
@@ -3270,8 +3195,8 @@ struct CombatStatIndicatorHandler {
     struct Borg1Data *borg1Digits[10];
     struct PlaneObj *Indicators;
     u8 *array;
-    byte index;
-    byte pad[3];
+    u8 index;
+    u8 pad[3];
 };
 /*
 typedef struct combatStrings combatStrings, *PcombatStrings;
@@ -3386,39 +3311,36 @@ struct EncounterDat { /* enemy encounter data */
     struct ItemID enemy_entities[12]; /* entitty id's of enemies */
     struct ItemID globalLoot; /* chestdb of guarunteed loot */
     u16 EncounterID;
-    byte field3_0x1c;
+    u8 field3_0x1c;
     undefined field4_0x1d;
     ushort VoxelIndex;
     u16 mapDatA;
     u16 MapSAhortA;
     u16 MapShortB;
-    byte collisionByte;
-    byte battlefield;
-    byte unk28;
-    byte BossShadow; /* fighting a Boss or the Shadow */
+    u8 collisionByte;
+    u8 battlefield;
+    u8 unk28;
+    u8 BossShadow; /* fighting a Boss or the Shadow */
     u16 VoxelFlagA;
     enum VoxelFllags VoxelBitfield;
-    undefined field15_0x2e;
-    undefined field16_0x2f;
 };
 
 struct CombatStruct { /* combat structure. needs more study */
-    byte partOfDay;
-    byte EntCount;
-    byte EntsAlive;
-    byte playerCount;
-    byte playersAlive;
-    byte enemyCount;
-    byte EnemiesAlive;
-    byte enemy_index;
+    u8 partOfDay;
+    u8 EntCount;
+    u8 EntsAlive;
+    u8 playerCount;
+    u8 playersAlive;
+    u8 enemyCount;
+    u8 EnemiesAlive;
+    u8 enemy_index;
     u32 firstKill;
     int leaderDead;
-    byte leaderIndex;
-    byte leaderMorale;
-    byte flask_byte;
-    byte TroubadorLV;
-    byte some_index;
-    undefined3 align15;
+    u8 leaderIndex;
+    u8 leaderMorale;
+    u8 flask_byte;
+    u8 TroubadorLV;
+    u8 some_index;
     struct vec2f SpellMarkerPos;
     uint gold_pool;
     uint EXP_pool;
@@ -3436,73 +3358,12 @@ struct CombatStruct { /* combat structure. needs more study */
     u32 TurnCount;
     u32 AniTimer;
     struct CombatEntity *combatEnts;
-    pointer unk52d4;
+    void* unk52d4;
     struct CharSheet *CharSheets;
-    undefined8 unk52dc; /* unused */
-    undefined8 unk52e4; /* unused */
-    undefined8 unk52ec; /* unused */
-    undefined8 unk52f4; /* unused */
-    undefined8 unk52fc; /* unused */
-    undefined8 unk5304; /* unused */
-    undefined8 unk530c; /* unused */
-    u32 unk5314; /* unused */
+    u8 unk52dc[60]; /* unused */
     struct vec2f entity_XY;
-    u8 unk5320; /* u8[2] */
-    undefined field45_0x5321;
-    undefined field46_0x5322;
-    undefined field47_0x5323;
-    undefined field48_0x5324;
-    undefined field49_0x5325;
-    undefined field50_0x5326;
-    undefined field51_0x5327;
-    undefined field52_0x5328;
-    undefined field53_0x5329;
-    undefined field54_0x532a;
-    undefined field55_0x532b;
-    undefined field56_0x532c;
-    undefined field57_0x532d;
-    undefined field58_0x532e;
-    undefined field59_0x532f;
-    undefined field60_0x5330;
-    undefined field61_0x5331;
-    undefined field62_0x5332;
-    undefined field63_0x5333;
-    undefined field64_0x5334;
-    undefined field65_0x5335;
-    undefined field66_0x5336;
-    undefined field67_0x5337;
-    undefined8 unk5338; /* unused? */
-    undefined8 field69_0x5340;
-    undefined8 field70_0x5348;
-    undefined8 field71_0x5350;
-    undefined8 field72_0x5358;
-    undefined8 field73_0x5360;
-    undefined8 field74_0x5368;
-    undefined8 field75_0x5370;
-    undefined8 field76_0x5378;
-    undefined8 field77_0x5380;
-    undefined8 field78_0x5388;
-    undefined8 field79_0x5390;
-    undefined8 field80_0x5398;
-    undefined8 field81_0x53a0;
-    undefined8 field82_0x53a8;
-    undefined8 field83_0x53b0;
-    undefined8 field84_0x53b8;
-    undefined8 field85_0x53c0;
-    undefined8 field86_0x53c8;
-    undefined8 field87_0x53d0;
-    undefined8 field88_0x53d8;
-    undefined8 field89_0x53e0;
-    undefined8 field90_0x53e8;
-    undefined8 field91_0x53f0;
-    undefined8 field92_0x53f8;
-    undefined8 field93_0x5400;
-    undefined8 field94_0x5408;
-    undefined8 field95_0x5410;
-    undefined8 field96_0x5418;
-    undefined8 field97_0x5420;
-    undefined8 field98_0x5428;
-    undefined8 field99_0x5430;
+    u8 unk5320[12][2];
+    u8 unk5338[256]; /* unused? */
     u32 field100_0x5438;
     s32 reinforcmentsWillFlee;
     u32 hasFleeRefpoints;
@@ -3528,7 +3389,7 @@ struct WidgetTrainShop {
     struct BaseWidget *TitleWidget;
     struct BaseWidget *scrollMenu;
     u32 field3_0x84;
-    byte partyPicker;
+    u8 partyPicker;
     undefined field5_0x89;
     undefined field6_0x8a;
     undefined field7_0x8b;
@@ -3539,9 +3400,9 @@ struct WidgetChild4 {
     struct BaseWidget base;
     struct WidgetTrainShop *stattrainwidget[4];
     u32 field2_0x8c;
-    byte field3_0x90;
-    byte partyPicker;
-    byte field5_0x92;
+    u8 field3_0x90;
+    u8 partyPicker;
+    u8 field5_0x92;
     undefined field6_0x93;
     struct WidgetTrainShop *field7_0x94;
     struct WidgetTrainShop *field8_0x98;
@@ -3600,25 +3461,25 @@ typedef enum SkillEnum {
 struct armour_RAM {
     struct ItemID ID;
     char name[23];
-    byte is0;
-    byte slot;
-    byte defence;
-    byte protection;
-    byte dex;
-    byte rom0x1d;
-    byte stealth;
+    u8 is0;
+    u8 slot;
+    u8 defence;
+    u8 protection;
+    u8 dex;
+    u8 rom0x1d;
+    u8 stealth;
     ushort price;
-    byte expBonus;
+    u8 expBonus;
     enum AspectEnum aspect;
     enum StatEnum stat;
     char statNum;
     enum SkillEnum skill;
     char skillNum;
     enum SpellEnum spell;
-    byte spellLV;
-    byte SpellCharge; /* 10 for stardrake */
+    u8 spellLV;
+    u8 SpellCharge; /* 10 for stardrake */
     enum SpellEnum magic;
-    byte magic LV;
+    u8 magic LV;
     enum ElementEnum element;
     u16 align;
     float resist percent;
@@ -3629,8 +3490,8 @@ typedef struct DialougEnt_RAM DialougEnt_RAM, *PDialougEnt_RAM;
 struct DialougEnt_RAM {
     struct ItemID ID;
     char name[22];
-    byte a; /* unused, set to 0 */
-    byte b;
+    u8 a; /* unused, set to 0 */
+    u8 b;
 };
 
 typedef struct Entity_Ram Entity_Ram, *PEntity_Ram;
@@ -3649,33 +3510,33 @@ struct Entity_Ram { /* entity data in Ram */
     char Name[21];
     enum EntityCatEnum Category;
     enum CharSheetFlags unk0x18; /* 2 bits determined by rom0x2d */
-    byte rom0x2b;
+    u8 rom0x2b;
     enum AspectEnum aspect;
-    byte morale; /* something to do with dying? */
-    byte Level;
-    byte BaseDamage; /* rom0x4e */
+    u8 morale; /* something to do with dying? */
+    u8 Level;
+    u8 BaseDamage; /* rom0x4e */
     enum MagicSchoolEnum School;
-    byte BaseProtect; /* sheild related? */
-    byte unk0x20; /* made to float */
-    byte unk0x21;
-    byte Skills[12];
-    byte WeaponSkills[11];
-    byte stats[7];
+    u8 BaseProtect; /* sheild related? */
+    u8 unk0x20; /* made to float */
+    u8 unk0x21;
+    u8 Skills[12];
+    u8 WeaponSkills[11];
+    u8 stats[7];
     struct ItemID weapon[3];
     struct ItemID spells[5];
-    byte Spell_levels[5];
-    byte unk_0x55[5]; /* rom0x68 */
-    byte unk_0x5a[4]; /* rom0x6d */
+    u8 Spell_levels[5];
+    u8 unk_0x55[5]; /* rom0x68 */
+    u8 unk_0x5a[4]; /* rom0x6d */
     struct ItemID Armor;
     struct ItemID Sheild;
     s8 sheildStat;
     enum ElementEnum Resist[2];
-    byte align[3];
+    u8 align[3];
     float resistAmmount[2];
     ushort FFs[4]; /* supposed to load something, but ends up blank */
-    byte unk0x78[4];
+    u8 unk0x78[4];
     ushort EXP;
-    byte loot_Category;
+    u8 loot_Category;
     undefined field31_0x7f;
 };
 
@@ -3684,24 +3545,24 @@ typedef struct Gear_RAM Gear_RAM, *PGear_RAM;
 struct Gear_RAM {
     struct ItemID ID;
     char name[20];
-    byte is 0;
-    byte field3_0x17;
+    u8 is 0;
+    u8 field3_0x17;
     ushort exp_multi;
-    byte damage;
-    byte Protection;
-    byte STR;
-    byte INT;
+    u8 damage;
+    u8 Protection;
+    u8 STR;
+    u8 INT;
     ushort price;
     enum AspectEnum aspect;
     enum StatEnum stat;
-    byte StatMod;
+    u8 StatMod;
     enum SkillEnum skill;
-    byte SkillMod;
-    byte spell;
-    byte spellVal1;
-    byte spellVal2;
-    byte magic;
-    byte magicAmmount;
+    u8 SkillMod;
+    u8 spell;
+    u8 spellVal1;
+    u8 spellVal2;
+    u8 magic;
+    u8 magicAmmount;
     enum ElementEnum elementResist;
     undefined field21_0x2b;
     float ResistPercent;
@@ -3716,16 +3577,16 @@ struct Loot_RAM { /* Chestdb loaded into RAM */
     struct ItemID ID;
     ushort GoldLo;
     ushort GoldHi;
-    byte armorDrop;
-    byte sheildDrop;
-    byte weaponDrop[3];
-    byte reagentchance;
-    byte reagentLlo;
-    byte reagentHi;
+    u8 armorDrop;
+    u8 sheildDrop;
+    u8 weaponDrop[3];
+    u8 reagentchance;
+    u8 reagentLlo;
+    u8 reagentHi;
     struct ItemID itemDrops[6];
-    byte itemDropChances[6];
-    byte itemLo[2];
-    byte itemHi[2];
+    u8 itemDropChances[6];
+    u8 itemLo[2];
+    u8 itemHi[2];
 };
 
 typedef struct shop_ram shop_ram, *Pshop_ram;
@@ -3733,7 +3594,7 @@ typedef struct shop_ram shop_ram, *Pshop_ram;
 struct shop_ram {
     struct ItemID shopkeep; /* entity running shop */
     ushort stock[23]; /* items */
-    byte multi[3][20];
+    u8 multi[3][20];
 };
 
 typedef struct Spell_RAM Spell_RAM, *PSpell_RAM;
@@ -3742,16 +3603,16 @@ struct Spell_RAM {
     struct ItemID Id;
     char Name[24];
     enum MagicSchoolEnum School;
-    byte Damage;
-    byte stamina;
+    u8 Damage;
+    u8 stamina;
     enum MagicCastedEnum CastedMagic;
     enum MagicTargetEnum Target;
-    byte unk0x1f;
-    byte WizardREQ;
+    u8 unk0x1f;
+    u8 WizardREQ;
     enum AspectEnum Aspect;
-    byte Range;
+    u8 Range;
     enum MigicCostEnum ingredient;
-    byte EXP_Modifyer;
+    u8 EXP_Modifyer;
     undefined field13_0x25;
 };
 
@@ -3759,48 +3620,27 @@ typedef struct weapon_ram weapon_ram, *Pweapon_ram;
 
 struct weapon_ram { /* Weapon Data loaded into ram */
     struct ItemID ID;
-    byte name;
-    undefined field2_0x3;
-    undefined field3_0x4;
-    undefined field4_0x5;
-    undefined field5_0x6;
-    undefined field6_0x7;
-    undefined field7_0x8;
-    undefined field8_0x9;
-    undefined field9_0xa;
-    undefined field10_0xb;
-    undefined field11_0xc;
-    undefined field12_0xd;
-    undefined field13_0xe;
-    undefined field14_0xf;
-    undefined field15_0x10;
-    undefined field16_0x11;
-    undefined field17_0x12;
-    undefined field18_0x13;
-    undefined field19_0x14;
-    undefined field20_0x15;
-    undefined field21_0x16;
-    undefined field22_0x17;
+    char name[22];
     enum WeaponClassEnum Class; /* Type of weapon (sword, breath, spit, etc.) */
-    byte ReqSTR;
-    byte Hit;
-    byte damage;
+    u8 ReqSTR;
+    u8 Hit;
+    u8 damage;
     ushort price; /* proper endian */
-    byte SpellLV;
-    byte Range; /* *(5/3) */
-    byte Animation; /* which use animation */
-    byte EXPMod; /* Lodin sword has set to 0x20 */
+    u8 SpellLV;
+    u8 Range; /* *(5/3) */
+    u8 Animation; /* which use animation */
+    u8 EXPMod; /* Lodin sword has set to 0x20 */
     enum ElementEnum element;
     enum AspectEnum aspect;
     enum StatEnum stat; /* Stat enhanced */
-    byte statMod;
+    u8 statMod;
     enum SkillEnum Skill; /* skill enhanced (or stat) */
-    byte SkillMod;
+    u8 SkillMod;
     enum SpellEnum spell;
-    byte spellAmmount;
-    byte ram0x2a;
+    u8 spellAmmount;
+    u8 ram0x2a;
     enum SpellEnum spell2;
-    byte Spell2Ammount;
+    u8 Spell2Ammount;
     enum ElementEnum elementResist;
     u16 align;
     float ResistPercent;
@@ -3810,54 +3650,42 @@ typedef struct Armour_ROM Armour_ROM, *PArmour_ROM;
 
 typedef struct ItemID_ROM ItemID_ROM, *PItemID_ROM;
 
-typedef enum ResistEnum { /* converted to float (1-(.25*x)) */
-    100=0,
-    75=1,
-    50=2,
-    25=3,
-    0=4,
-    -25=5,
-    -50=6,
-    -75=7,
-    -100=8,
-    -6275=255
-} ResistEnum;
 
 struct ItemID_ROM {
-    byte ID;
+    u8 ID;
     enum DBTypeEnum Type;
 };
 
 struct Armour_ROM { /* Armour data in Rom */
     char name[23];
     struct ItemID_ROM id;
-    byte slot;
-    byte Defence;
-    byte protection;
-    byte dex;
-    byte unk0x1d;
-    byte stealth;
-    byte price[2]; /* endian swapped */
-    byte expBonus;
+    u8 slot;
+    u8 Defence;
+    u8 protection;
+    u8 dex;
+    u8 unk0x1d;
+    u8 stealth;
+    u8 price[2]; /* endian swapped */
+    u8 expBonus;
     enum AspectEnum aspect;
     enum StatEnum stat;
     char statNum;
     enum SkillEnum skill;
     char skillNum;
     struct ItemID_ROM spell;
-    byte SpellLV;
-    byte unk0x2a;
+    u8 SpellLV;
+    u8 unk0x2a;
     struct ItemID_ROM magic;
-    byte magicLV;
+    u8 magicLV;
     enum ElementEnum Element;
-    enum ResistEnum ElementResist;
+    u8 ElementResist;
 };
 
 typedef struct ArrayHeader ArrayHeader, *PArrayHeader;
 
 struct ArrayHeader { /* ROM Db array Header */
-    byte Size; /* number of items in array */
-    byte unk[3];
+    u8 Size; /* number of items in array */
+    u8 unk[3]; //junk bytes
 };
 
 typedef struct DialougeEntity_ROM DialougeEntity_ROM, *PDialougeEntity_ROM;
@@ -3874,61 +3702,61 @@ struct Entity_ROM { /* Entity data stored in Rom */
     char internalName[20];
     enum EntityCatEnum category; /* only checks for Chaos type */
     struct ItemID_ROM id;
-    byte unk0x2b; /* passed to ram 0x19 */
+    u8 unk0x2b; /* passed to ram 0x19 */
     enum AspectEnum Aspect;
-    byte trueName;
-    byte Heavy;
-    byte Alchemist; /* base skill lv's */
-    byte Diplomat; /* FF=Cannot learn */
-    byte Healer;
-    byte Loremaster;
-    byte Mechanic;
-    byte Merchant;
-    byte Ranger;
-    byte Stealth;
-    byte Theif;
-    byte Troubador;
-    byte Warrior;
-    byte Wizard;
-    byte Bite;
-    byte Breath;
-    byte Claw;
-    byte Hafted;
-    byte Missle;
-    byte Pole;
-    byte Spit;
-    byte Sting;
-    byte Sword;
-    byte Throw;
-    byte Tusk;
-    byte Intelligence; /* base Stat lv's */
-    byte Willpower;
-    byte Dexterity;
-    byte Endurance;
-    byte Strength;
-    byte Stamina;
-    byte morale;
-    byte Level;
-    byte unk0x4e;
+    u8 trueName;
+    u8 Heavy;
+    u8 Alchemist; /* base skill lv's */
+    u8 Diplomat; /* FF=Cannot learn */
+    u8 Healer;
+    u8 Loremaster;
+    u8 Mechanic;
+    u8 Merchant;
+    u8 Ranger;
+    u8 Stealth;
+    u8 Theif;
+    u8 Troubador;
+    u8 Warrior;
+    u8 Wizard;
+    u8 Bite;
+    u8 Breath;
+    u8 Claw;
+    u8 Hafted;
+    u8 Missle;
+    u8 Pole;
+    u8 Spit;
+    u8 Sting;
+    u8 Sword;
+    u8 Throw;
+    u8 Tusk;
+    u8 Intelligence; /* base Stat lv's */
+    u8 Willpower;
+    u8 Dexterity;
+    u8 Endurance;
+    u8 Strength;
+    u8 Stamina;
+    u8 morale;
+    u8 Level;
+    u8 unk0x4e;
     struct ItemID_ROM Weapons[3]; /* Endian swapped */
-    byte unk0x55;
-    byte unk0x56;
+    u8 unk0x55;
+    u8 unk0x56;
     struct ItemID_ROM spells[5]; /* endian Swapped */
-    enum MagicSchoolEnum Magic School; /* Chaos=All Schools */
-    byte spell_levels[5];
-    byte unk0x67[9];
+    enum MagicSchoolEnum MagicSchool; /* Chaos=All Schools */
+    u8 spell_levels[5];
+    u8 unk0x67[9];
     struct ItemID_ROM Armor;
-    byte protection;
+    u8 protection;
     struct ItemID_ROM sheild;
-    byte SheildSkill;
+    u8 SheildSkill;
     enum ElementEnum ElementResist1;
-    enum ResistEnum ResistAmmount1; /* 100-(25*x) */
+    u8 ResistAmmount1; /* 100-(25*x) */
     enum ElementEnum ElementResist2;
-    enum ResistEnum ResistAmmount2; /* 100-(25*x) */
-    byte unk0x7a[8];
-    byte unk0x82[4];
-    byte EXP_X75; /* x50, then 1.5 on EXP func */
-    byte Loot Category;
+    u8 ResistAmmount2; /* 100-(25*x) */
+    u8 unk0x7a[8];
+    u8 unk0x82[4];
+    u8 EXP_X75; /* x50, then 1.5 on EXP func */
+    u8 LootCategory;
 };
 
 typedef struct Gear_Rom Gear_Rom, *PGear_Rom;
@@ -3936,24 +3764,24 @@ typedef struct Gear_Rom Gear_Rom, *PGear_Rom;
 struct Gear_Rom { /* Gear/item data stored in rom */
     char name[20];
     struct ItemID_ROM ID;
-    byte ExpMulti[2];
-    byte damage;
-    byte Protection;
-    byte required_STR;
-    byte Required_INT;
-    byte price[2]; /* Endian reversed */
+    u8 ExpMulti[2];
+    u8 damage;
+    u8 Protection;
+    u8 required_STR;
+    u8 Required_INT;
+    u8 price[2]; /* Endian reversed */
     enum AspectEnum Aspect;
     enum StatEnum stat;
     s8 statMod;
     enum SkillEnum Skill; /* Can also modify Stat */
     s8 SkillMod;
     struct ItemID_ROM Spell;
-    byte spellvalue;
-    byte SpellValue2;
+    u8 spellvalue;
+    u8 SpellValue2;
     struct ItemID_ROM Magic;
-    byte Magic ammount;
-    enum ElementEnum Element Resist;
-    enum ResistEnum Resist percent; /* 100-(25*x) */
+    u8 MagicAmmount;
+    enum ElementEnum ElementResist;
+    u8 ResistPercent; /* 100-(25*x) */
 };
 
 typedef struct loot_ROM loot_ROM, *Ploot_ROM;
@@ -3961,26 +3789,26 @@ typedef struct loot_ROM loot_ROM, *Ploot_ROM;
 struct loot_ROM { /* Loot Pools stored in ROM */
     char Name[20];
     struct ItemID_ROM ID;
-    byte goldLo[2]; /* Endians swapped */
-    byte goldHi[2]; /* Endians swapped */
-    byte armorDrop[2]; /* % armor/Sheild drop */
-    byte WeaponDrop[3]; /* % weapon drop */
-    byte reagentPercent;
-    byte reagentRange[2];
+    u8 goldLo[2]; /* Endians swapped */
+    u8 goldHi[2]; /* Endians swapped */
+    u8 armorDrop[2]; /* % armor/Sheild drop */
+    u8 WeaponDrop[3]; /* % weapon drop */
+    u8 reagentPercent;
+    u8 reagentRange[2];
     struct ItemID_ROM item0;
-    byte item0chance;
-    byte item0quantity[2]; /* lo/hi range */
+    u8 item0chance;
+    u8 item0quantity[2]; /* lo/hi range */
     struct ItemID_ROM item1;
-    byte item1chance;
-    byte item1quantity[2];
+    u8 item1chance;
+    u8 item1quantity[2];
     struct ItemID_ROM item3;
-    byte item3chance;
+    u8 item3chance;
     struct ItemID_ROM item4;
-    byte item4chance;
+    u8 item4chance;
     struct ItemID_ROM item5;
-    byte item5chance;
+    u8 item5chance;
     struct ItemID_ROM item6;
-    byte item6chance;
+    u8 item6chance;
 };
 
 typedef struct shop_ROM shop_ROM, *Pshop_ROM;
@@ -3990,20 +3818,20 @@ typedef struct ShopItem ShopItem, *PShopItem;
 typedef struct price_mod price_mod, *Pprice_mod;
 
 typedef enum Price_multi {
-    x.5=0,
-    x.75=1,
-    x1=2,
-    x1.25=3,
-    x1.5=4,
-    x2=5,
-    x3=6,
-    x5=7
+    PRICE_HALF,
+    PRICE_25OFF,
+    PRICE_FULL,
+    PRICE_25UP,
+    PRICE_HALFUP,
+    PRICE_DOUBLE,
+    PRICE_TRIPLE,
+    PRICE_5X
 } Price_multi;
 
 struct price_mod {
-    byte unk;
+    u8 unk;
     enum Price_multi multi;
-    byte unk_;
+    u8 unk_;
 };
 
 struct ShopItem { /* Shop Item listing with 3 mystery bytes */
@@ -4023,16 +3851,16 @@ struct Spell_ROM { /* Spell Data in ROM */
     char Name[23];
     struct ItemID_ROM ID;
     enum MagicSchoolEnum School;
-    byte Damage;
-    byte Stamina Cost;
-    enum MagicCastedEnum Target Ammount;
+    u8 Damage;
+    u8 StaminaCost;
+    enum MagicCastedEnum TargetAmmount;
     enum MagicTargetEnum Target;
-    byte unk0x1e; /* ram 0x1f */
-    byte Wizard Required;
+    u8 unk0x1e; /* ram 0x1f */
+    u8 WizardRequired;
     enum AspectEnum Aspect;
-    byte Range;
+    u8 Range;
     enum MigicCostEnum Ingredient;
-    byte EXP_Modifyer;
+    u8 EXP_Modifyer;
 };
 
 typedef struct Weapon_ROM Weapon_ROM, *PWeapon_ROM;
@@ -4040,28 +3868,28 @@ typedef struct Weapon_ROM Weapon_ROM, *PWeapon_ROM;
 struct Weapon_ROM {
     char Name[21];
     struct ItemID_ROM ID;
-    enum WeaponClassEnum Weapon Type;
-    byte Required_Strength;
-    byte Hit;
-    byte damage;
-    byte Price[2]; /* endian swapped */
-    byte SpellLV;
-    byte Range;
-    byte Animation;
-    byte EXPMod;
+    enum WeaponClassEnum WeaponType;
+    u8 Required_Strength;
+    u8 Hit;
+    u8 damage;
+    u8 Price[2]; /* endian swapped */
+    u8 SpellLV;
+    u8 Range;
+    u8 Animation;
+    u8 EXPMod;
     enum ElementEnum Element;
     enum AspectEnum aspect;
-    enum StatEnum Stat enhanced;
-    byte Stat Ammount;
-    enum SkillEnum Skill/stat enhanced;
-    byte skill/stat ammount;
+    enum StatEnum StatEnhanced;
+    u8 StatAmmount;
+    enum SkillEnum enhanced;
+    u8 ammount;
     struct ItemID_ROM Spell;
-    byte spell Ammount;
-    byte unk0x2a;
+    u8 spellAmmount;
+    u8 unk0x2a;
     struct ItemID_ROM Magic;
-    byte Magic Ammount;
-    enum ElementEnum Resist element;
-    enum ResistEnum Resist percent;
+    u8 MagicAmmount;
+    enum ElementEnum ResistElement;
+    u8 ResistPercent;
 };
 
 typedef union EquipInstance EquipInstance, *PEquipInstance;
@@ -4084,10 +3912,8 @@ typedef struct dialougeEntity_Info dialougeEntity_Info, *PdialougeEntity_Info;
 
 struct dialougeEntity_Info { /* extended data of Dialouge entities in RAM */
     short index;
-    undefined field1_0x2;
-    undefined field2_0x3;
-    enum Borg7Enum model;
-    enum Borg8Enum portrait;
+    u32 model;
+    u32 portrait;
     float a;
     float b;
 };
@@ -4096,10 +3922,8 @@ typedef struct entity_info entity_info, *Pentity_info;
 
 struct entity_info { /* extended data of entities in RAM */
     u16 Index; /* Index in RAM */
-    undefined field1_0x2;
-    undefined field2_0x3;
-    enum Borg7Enum Model; /* model Character uses */
-    enum Borg8Enum Portait; /* Portait Character uses */
+    u32 Model; /* model Character uses */
+    u32 Portait; /* Portait Character uses */
     float a;
     float b;
     float c;
@@ -4481,10 +4305,10 @@ struct ALSynth {
     s32 curSamples;
     void *Dma;
     struct ALHeap *heap;
-    pointer paramlist;
-    pointer mainBus;
-    pointer auxBus;
-    pointer outputfilter;
+    void* paramlist;
+    void* mainBus;
+    void* auxBus;
+    void* outputfilter;
     s32 numPVoices;
     s32 maxAuxVoixes;
     s32 outputRate;
@@ -4718,7 +4542,7 @@ typedef enum CIC_versions {
 struct N64_BootStrap {
     enum OsTv NTSC_PAL; /* 0=PAL,1=NTSC,2=MPAL */
     uint Cart_DD; /* 0=cart,1=DD */
-    pointer RomBase; /* b0000000 for cart a6000000 for dd */
+    void* RomBase; /* b0000000 for cart a6000000 for dd */
     uint ResetType; /* 0=cold,1=NMI,2=boot disk */
     enum CIC_versions CICID; /* 6101 and 6102 =0 */
     uint Version;
@@ -4726,51 +4550,31 @@ struct N64_BootStrap {
     uint NMIBuffer[16]; /* Keep after Reset */
 };
 
-typedef struct N64_Header N64_Header, *PN64_Header;
-
-struct N64_Header {
-    dword Magic;
-    dword Clock;
-    pointer Load Address;
-    dword Release;
-    dword CRC1;
-    dword CRC2;
-    dword Unknown 5;
-    dword Unknown 6;
-    char Game Title[20];
-    dword Zeroed;
-    word Zeroed;
-    byte Zeroed;
-    enum N64 Media Media;
-    char Game Code[2];
-    enum N64 Region Region;
-    byte Mask ROM Version;
-};
 
 typedef enum OS_EVENT {
-    OS_EVENT_SW1=0,
-    OS_EVENT_SW2=1,
-    OS_EVENT_CART=2,
-    OS_EVENT_COUNTER=3,
-    OS_EVENT_SP=4,
-    OS_EVENT_SI=5,
-    OS_EVENT_AI=6,
-    OS_EVENT_VI=7,
-    OS_EVENT_PI=8,
-    OS_EVENT_DP=9,
-    OS_EVENT_CPU_BREAK=10,
-    OS_EVENT_SP_BREAK=11,
-    OS_EVENT_FAULT=12,
-    OS_EVENT_THREADSTATUS=13,
-    OS_EVENT_PRENMI=14,
-    RDB_READ_DONE=15,
-    RDB_LOG_DONE=16,
-    RDB_DATA_DONE=17,
-    RDB_REQ_RANDOM=18,
-    RDB_FREE_RANDOM=19,
-    RDB_DBG_DONE=20,
-    RDB_FLUSH_PROF=21,
-    RDB_ACK_PROF=22
+    OS_EVENT_SW1,
+    OS_EVENT_SW2,
+    OS_EVENT_CART,
+    OS_EVENT_COUNTER,
+    OS_EVENT_SP,
+    OS_EVENT_SI,
+    OS_EVENT_AI,
+    OS_EVENT_VI,
+    OS_EVENT_PI,
+    OS_EVENT_DP,
+    OS_EVENT_CPU_BREAK,
+    OS_EVENT_SP_BREAK,
+    OS_EVENT_FAULT,
+    OS_EVENT_THREADSTATUS,
+    OS_EVENT_PRENMI,
+    RDB_READ_DONE,
+    RDB_LOG_DONE,
+    RDB_DATA_DONE,
+    RDB_REQ_RANDOM,
+    RDB_FREE_RANDOM,
+    RDB_DBG_DONE,
+    RDB_FLUSH_PROF,
+    RDB_ACK_PROF
 } OS_EVENT;
 
 typedef enum OS_VI_Clock {
@@ -4797,7 +4601,7 @@ struct OSContPad { /* Inputs For n64 Controller */
     s8 stick_x;
     s8 stick_y;
     enum CONT_ERROR errno;
-    byte pad;
+    u8 pad;
 };
 
 typedef struct OSContStatus OSContStatus, *POSContStatus;
@@ -5043,9 +4847,6 @@ struct printf_struct {
     char length;
 };
 
-typedef longlong s64;
-
-/* WARNING! conflicting data type names: /n64/os/waveInfo - /waveInfo */
 
 typedef void *__gnuc_va_list;
 
@@ -5074,7 +4875,7 @@ struct audio_obj_dat {
     u32 pan;
     u32 dcmId;
     u16 unk24;
-    byte dcmIndex;
+    u8 dcmIndex;
     undefined field12_0x27;
     undefined8 field13_0x28;
     undefined8 field14_0x30;
@@ -5099,7 +4900,7 @@ struct Camera_obj_dat {
     struct vec3f vec3_b;
     struct vec3f vec3_C;
     float unk0x54;
-    byte unk0x58[20];
+    u8 unk0x58[20];
 };
 
 struct camera_obj {
@@ -5156,7 +4957,7 @@ struct referncepoint_obj {
     undefined field3_0x2b;
     char name[16];
     struct vec3f position;
-    byte align[36];
+    u8 align[36];
 };
 
 typedef struct Scene_obj Scene_obj, *PScene_obj;
@@ -5219,14 +5020,14 @@ typedef struct struct_4 struct_4, *Pstruct_4;
 
 struct WidgetBarter {
     struct BaseWidget base; /* 0x5e=Merchant */
-    byte partyPicker;
+    u8 partyPicker;
     undefined field2_0x7d;
     undefined field3_0x7e;
     undefined field4_0x7f;
     struct WidgetTrainShop *field5_0x80;
     struct WidgetTrainShop *field6_0x84;
     struct WidgetTrainShop *description;
-    byte invType;
+    u8 invType;
     undefined field9_0x8d;
     undefined field10_0x8e;
     undefined field11_0x8f;
@@ -5238,20 +5039,7 @@ struct WidgetBarter {
     undefined field17_0x9b;
 };
 
-struct WidgetMenuWorldMap {
-    struct BaseWidget base;
-    struct Color32 col;
-    struct Color32 col2;
-    byte field3_0x84;
-    byte field4_0x85;
-    byte pieceAlpha;
-    undefined field6_0x87;
-    struct BaseWidget *Marker;
-    struct struct_4 *mappiceptr;
-    u16 mappieceCount;
-    undefined field10_0x92;
-    undefined field11_0x93;
-};
+
 
 struct WidgetSpellShop {
     struct BaseWidget base;
@@ -5356,23 +5144,16 @@ struct WidgetHealthGold {
     undefined field9_0xa3;
 };
 
-struct struct_4 {
-    struct BaseWidget *widgetBorg8;
-    u16 x;
-    u16 y;
-};
-
 struct WidgetCalendar {
     struct BaseWidget base;
     struct WidgetMenuWorldMap *map;
     struct Color32 col0;
     struct Color32 col1;
-    byte waveTint;
-    byte waveAmmount; /* inverts if waveTint is 0 or 20 */
-    byte dayofMonth;
-    byte weekofMonth;
-    byte monthVal;
-    undefined3 unk8d;
+    u8 waveTint;
+    u8 waveAmmount; /* inverts if waveTint is 0 or 20 */
+    u8 dayofMonth;
+    u8 weekofMonth;
+    u8 monthVal;
     struct BaseWidget *DayMarker;
     struct BaseWidget *monthTitle;
 };
@@ -5399,43 +5180,15 @@ typedef struct IntroMenu IntroMenu, *PIntroMenu;
 
 struct IntroMenu {
     struct BaseWidget base;
-    byte alphaDelta;
-    byte blinkTimer;
-    byte alpha0;
-    byte alpha1;
+    u8 alphaDelta;
+    u8 blinkTimer;
+    u8 alpha0;
+    u8 alpha1;
     struct BaseWidget *field5_0x80;
     struct BaseWidget *field6_0x84;
-    byte pressStartVisible;
-    undefined field8_0x89;
-    undefined field9_0x8a;
-    undefined field10_0x8b;
+    u8 pressStartVisible;
 };
 
-typedef struct WidgetChild0 WidgetChild0, *PWidgetChild0;
-
-
-
-struct WidgetChild0 {
-    struct BaseWidget base;
-    struct BaseWidget *scroillMenu;
-};
-
-typedef struct SMIItem SMIItem, *PSMIItem;
-
-struct SMIItem {
-    struct BaseWidget base;
-    union EquipInstance *item;
-    byte quantty;
-    byte userIndex;
-    undefined field4_0x82;
-    undefined field5_0x83;
-    struct BaseWidget *userPortait;
-    struct BaseWidget *ItemIcon;
-    struct BaseWidget *QuantityTtx;
-    struct BaseWidget *ItemName;
-    u16 unk94;
-    u16 unk96;
-};
 
 typedef struct widget_Method_Ext widget_Method_Ext, *Pwidget_Method_Ext;
 
@@ -5480,7 +5233,7 @@ struct WidgetChild3 {
     undefined field4_0x85;
     undefined field5_0x86;
     undefined field6_0x87;
-    byte partyPicker;
+    u8 partyPicker;
     undefined field8_0x89;
     undefined field9_0x8a;
     undefined field10_0x8b;
@@ -5499,38 +5252,6 @@ struct WidgetChild3 {
     undefined field23_0x9b;
 };
 
-
-
-typedef struct WidgetCombatTextbox WidgetCombatTextbox, *PWidgetCombatTextbox;
-
-typedef struct WigetCinematicText WigetCinematicText, *PWigetCinematicText;
-
-struct WigetCinematicText {
-    struct BaseWidget base;
-    struct BaseWidget *field1_0x7c;
-    struct BaseWidget *field2_0x80;
-    int field3_0x84;
-    ushort dimensions[4];
-    short field5_0x90;
-    short field6_0x92;
-    u32 field7_0x94;
-};
-
-struct WidgetCombatTextbox {
-    struct WigetCinematicText base;
-    struct BaseWidget *speakerPortrait;
-    struct BaseWidget *portraitBG;
-    enum Borg8Enum speakerId;
-    int field4_0xa4;
-};
-
-typedef struct WidgetCrafting WidgetCrafting, *PWidgetCrafting;
-
-struct WidgetCrafting {
-    struct BaseWidget base;
-    u32 partyIndex;
-    struct BaseWidget *scrollMenu;
-};
 
 typedef struct WidgetGameStateCheats WidgetGameStateCheats, *PWidgetGameStateCheats;
 
@@ -5575,8 +5296,6 @@ struct WidgetMethodsContPakData { /* extra methods of WidgetContPakData class */
 };
 
 
-/* WARNING! conflicting data type names: /__OSContReadFormat - /n64/os/__OSContReadFormat */
-
 typedef struct __OSDir __OSDir, *P__OSDir;
 
 struct __OSDir {
@@ -5589,9 +5308,6 @@ struct __OSDir {
     u8 ext_name[4];
     u8 game_name[16];
 };
-
-
-/* WARNING! conflicting data type names: /ALLink - /n64/os/ALLink */
 
 typedef struct ALLoadFilter ALLoadFilter, *PALLoadFilter;
 
@@ -5636,19 +5352,19 @@ typedef struct ArmorCraftRecipie ArmorCraftRecipie, *PArmorCraftRecipie;
 
 struct ArmorCraftRecipie {
     ushort item; /* gear in ram */
-    byte armor; /* armor in ram */
-    byte stam; /* hp used */
-    byte Mechanic; /* mechanic needed */
-    byte pad; /* i dunno */
+    u8 armor; /* armor in ram */
+    u8 stam; /* hp used */
+    u8 Mechanic; /* mechanic needed */
+    u8 pad; /* i dunno */
 };
 
 typedef struct ArmorPointer ArmorPointer, *PArmorPointer;
 
 struct ArmorPointer {
-    byte armors;
-    byte sheilds;
-    byte total;
-    byte pad;
+    u8 armors;
+    u8 sheilds;
+    u8 total;
+    u8 pad;
     struct armour_RAM *Armor;
 };
 
@@ -5681,7 +5397,7 @@ struct Audio_manager {
     struct OSScClient Client;
     struct OSScTask Task;
     u16 taskMsg;
-    byte unk0x2c2[30];
+    u8 unk0x2c2[30];
     OSMesg OSmesg0x2e0;
     struct OSMesgQueue mesgQ;
     struct OSMesgQueue mesgQ_2;
@@ -5693,7 +5409,7 @@ struct Audio_manager {
     u16 unk0x324;
     u16 audioLengthMin;
     u16 bufferSize;
-    byte VoicesUsed;
+    u8 VoicesUsed;
     undefined1 audio_tally;
     s8 buffer_choice;
     undefined1 AudioListBool;
@@ -5710,12 +5426,12 @@ struct Voice_Aidyn {
     u32 waveTableLength;
     u32 loopEnd;
     ushort pitch;
-    byte loopCount;
-    byte isActive;
-    byte vol;
-    byte pan;
+    u8 loopCount;
+    u8 isActive;
+    u8 vol;
+    u8 pan;
     enum VoiceFlag flag;
-    byte unk0x4b;
+    u8 unk0x4b;
 };
 
 typedef struct audio_substruct_2 audio_substruct_2, *Paudio_substruct_2;
@@ -5736,7 +5452,7 @@ struct SoundStructA {
     struct vec3f worldPos;
     int mapTally;
     s16 index;
-    byte zoneDatByte;
+    u8 zoneDatByte;
     u8 unk13;
     u16 timer;
     ushort flag;
@@ -5748,10 +5464,10 @@ struct SoundStructA {
 typedef struct audiokey_struct audiokey_struct, *Paudiokey_struct;
 
 struct audiokey_struct {
-    byte (*a)[4];
-    pointer b;
-    pointer c;
-    byte d[1277][4];
+    u8 (*a)[4];
+    void* b;
+    void* c;
+    u8 d[1277][4];
 };
 
 typedef struct borg7StructB borg7StructB, *Pborg7StructB;
@@ -5907,12 +5623,12 @@ struct BREAKINFO {
 typedef struct Calendar Calendar, *PCalendar;
 
 struct Calendar { /* Timestruct->Ingame_time as x */
-    byte month; /* x / 0x114db000 */
-    byte week; /* (x % 0x114db000)/0x229b600 day: */
-    byte day; /* (x % 0x229b600) / 0x4f1a00 */
-    byte hour; /* (x % 0x4f1a00 >> 6) / 0xd2f */
-    byte minute; /* (x + ((x >> 6) / 0xd2f) * -0x34bc0) / 0xe10 */
-    byte second; /* (x % 3600) / 60 */
+    u8 month; /* x / 0x114db000 */
+    u8 week; /* (x % 0x114db000)/0x229b600 day: */
+    u8 day; /* (x % 0x229b600) / 0x4f1a00 */
+    u8 hour; /* (x % 0x4f1a00 >> 6) / 0xd2f */
+    u8 minute; /* (x + ((x >> 6) / 0xd2f) * -0x34bc0) / 0xe10 */
+    u8 second; /* (x % 3600) / 60 */
 };
 
 typedef struct Camera_struct Camera_struct, *PCamera_struct;
@@ -5945,7 +5661,7 @@ struct Camera_struct {
     u16 unk84;
     u16 unk86; /* unused (align? */
     struct Borg9data *borg_9; /* current map data */
-    struct collisionSphere collide; /* only pos updated, otherwise unused */
+    struct collisionSphere collide; /* only pos updated in 1 func, otherwise unused */
     struct EnvProp envProp; /* only a guess - unused */
     struct collisionTypeA colTypeA; /* unused */
     struct SpeedProperty colTypeB; /* unused */
@@ -5970,8 +5686,8 @@ typedef enum CinematicEnum {
 typedef struct CinematicFade CinematicFade, *PCinematicFade;
 
 struct CinematicFade {
-    byte index;
-    byte fadeType; /* none,black,white,red */
+    u8 index;
+    u8 fadeType; /* none,black,white,red */
     ushort runtime; /* div 2 */
     ushort fadeTime; /* div 2 */
     short exitTime;
@@ -5998,11 +5714,10 @@ struct CinematicStruct {
     u16 tally;
     u16 scene_switch;
     u16 Bstart;
-    enum enum_cinematic_switch switch;
+    enum enum_cinematic_switch switch_;
     u32 some_cinematic_tally;
     u32 some_cinematic_dat;
     undefined1 field13_0x2c;
-    byte pad[3];
 };
 
 typedef struct cinematictext_struct cinematictext_struct, *Pcinematictext_struct;
@@ -6010,7 +5725,7 @@ typedef struct cinematictext_struct cinematictext_struct, *Pcinematictext_struct
 struct cinematictext_struct {
     int showCaptionTimer;
     struct WigetCinematicText *widget;
-    pointer field2_0x8;
+    void* field2_0x8;
     ushort (*shortsPointer)[3];
     ushort field4_0x10;
     ushort caption_scene_max;
@@ -6025,7 +5740,7 @@ struct cinematictext_struct {
 typedef struct CityMarkers CityMarkers, *PCityMarkers;
 
 struct CityMarkers {
-    enum Borg8Enum borg:16;
+    u16 borg;
     ushort x;
     ushort y;
 };
@@ -6033,14 +5748,14 @@ struct CityMarkers {
 typedef struct cloudStruct cloudStruct, *PcloudStruct;
 
 struct cloudStruct {
-    byte index;
-    undefined3 align;
+    u8 index;
     struct vec3f v3;
     u32 unused;
     struct Color32 col;
     float f3;
 };
-
+// Strings loaded in by stringDB
+/*
 typedef struct CommonStringArray CommonStringArray, *PCommonStringArray;
 
 struct CommonStringArray {
@@ -6600,12 +6315,12 @@ struct CommonStringArray {
     char *Create New Save;
     char *the x can only be weilded by Y;
 };
-
+*/
 typedef struct Compass_struct Compass_struct, *PCompass_struct;
 
 struct Compass_struct {
     struct Borg8header *ring;
-    byte pad[4];
+    u8 pad[4];
     struct Borg8header *N;
     struct Borg8header *S;
     struct Borg8header *E;
@@ -6619,11 +6334,11 @@ typedef struct controllerBuffer controllerBuffer, *PcontrollerBuffer;
 struct controllerBuffer { /* buffer of controller inputs */
     struct ControllerFull *inputlog;
     struct OSPfs pfs;
-    byte align[2];
+    u8 align[2];
     float hori;
     float vert;
-    byte latest;
-    byte next;
+    u8 latest;
+    u8 next;
     u8 ContGet;
     u8 ContRead;
 };
@@ -6650,9 +6365,9 @@ struct ContPakWidget {
     struct BaseWidget base;
     u32 field1_0x7c;
     struct BaseWidget *wiget_link;
-    byte field3_0x84;
+    u8 field3_0x84;
     PFS_ERR8 pfserr;
-    byte field5_0x86;
+    u8 field5_0x86;
     char field6_0x87;
     u32 field7_0x88;
     struct WidgetHandler handler;
@@ -6673,7 +6388,7 @@ struct crash_DatString {
 typedef struct CrashManager CrashManager, *PCrashManager;
 
 struct CrashManager {
-    byte Stack[2120];
+    u8 Stack[2120];
     struct OSThread Thread;
     OSMesg Mesgs;
     struct OSMesgQueue MesgQ;
@@ -6681,9 +6396,6 @@ struct CrashManager {
     char position[128];
     char Cause[128];
     u8 IsManualCrash;
-    undefined field8_0xb19;
-    undefined field9_0xb1a;
-    undefined field10_0xb1b;
     ulong (*Func)(void);
 };
 
@@ -6697,12 +6409,12 @@ struct DCM_struct {
     u32 byteIndex;
     u32 id;
     u8 active;
-    byte unk19;
-    byte unk20;
-    byte vol;
-    byte pan;
-    byte unk1d;
-    byte unk1e;
+    u8 unk19;
+    u8 unk20;
+    u8 vol;
+    u8 pan;
+    u8 unk1d;
+    u8 unk1e;
     undefined field13_0x1f;
 };
 
@@ -6711,16 +6423,16 @@ typedef struct DCMManager DCMManager, *PDCMManager;
 struct DCMManager {
     struct ALPlayer ALplayer;
     struct DCM_struct *DCMStructPointer;
-    byte *pointer_B;
+    u8 *pointer_B;
     u32 Tally;
-    byte index;
+    u8 index;
 };
 
 typedef struct DebugCharChanger DebugCharChanger, *PDebugCharChanger;
 
 struct DebugCharChanger {
     enum Borg7Enum borg7;
-    float float;
+    float f;
     char *label;
 };
 
@@ -6730,15 +6442,13 @@ struct DebugMapLabel {
     enum EnumMapDatA a;
     ushort b;
     ushort c;
-    short pad;
     char *label;
 };
 
 typedef struct DialoigEntPointer DialoigEntPointer, *PDialoigEntPointer;
 
 struct DialoigEntPointer {
-    byte total;
-    byte pad[3];
+    u8 total;
     struct DialougEnt_RAM *ents;
 };
 
@@ -6776,10 +6486,10 @@ struct dialougemode_struct {
     undefined field26_0xa7;
     undefined field27_0xa8;
     undefined field28_0xa9;
-    byte func_index;
-    byte field30_0xab;
-    byte field31_0xac;
-    byte field32_0xad;
+    u8 func_index;
+    u8 field30_0xab;
+    u8 field31_0xac;
+    u8 field32_0xad;
     undefined field33_0xae;
     undefined field34_0xaf;
     int camp_flag;
@@ -6834,10 +6544,9 @@ struct encounter_rom_dat {
 typedef struct EntityPointer EntityPointer, *PEntityPointer;
 
 struct EntityPointer {
-    byte total;
-    byte catSizes[7];
-    byte unk[7];
-    byte pad;
+    u8 total;
+    u8 catSizes[7];
+    u8 unk[7];
     struct Entity_Ram *entities;
 };
 
@@ -6851,8 +6560,8 @@ struct event_flag_array {
     u16 to;
     u16 from;
     short val;
-    byte skill_stat;
-    byte pad;
+    u8 skill_stat;
+    u8 pad;
 };
 
 typedef enum event_flag_typeA {
@@ -6883,9 +6592,8 @@ struct fileState_aidyn {
     u16 comp_code;
     u32 game_code;
     char game_name[16];
-    byte field4_0x18;
+    u8 field4_0x18;
     char ext_name[4];
-    byte align[3];
 };
 
 typedef struct flag_cinematic flag_cinematic, *Pflag_cinematic;
@@ -6893,7 +6601,7 @@ typedef struct flag_cinematic flag_cinematic, *Pflag_cinematic;
 struct flag_cinematic {
     u16 flag;
     enum CinematicEnum cinematic;
-    byte pad;
+    u8 pad;
 };
 
 typedef struct Flycam_entry Flycam_entry, *PFlycam_entry;
@@ -6930,9 +6638,9 @@ struct flycamStruct {
 typedef struct FontFace FontFace, *PFontFace;
 
 struct FontFace {
-    enum Borg8Enum borg8;
-    byte rows;
-    byte cols;
+    u32 borg8;
+    u8 rows;
+    u8 cols;
     undefined field3_0x6;
     undefined field4_0x7;
 };
@@ -6941,9 +6649,9 @@ typedef struct FontStruct FontStruct, *PFontStruct;
 
 struct FontStruct {
     void *borg8_index;
-    struct Borg8header *pointer A;
+    struct Borg8header *pointerA;
     char field2_0x8;
-    byte field3_0x9;
+    u8 field3_0x9;
     char field4_0xa;
     undefined field5_0xb;
     u16 field6_0xc;
@@ -6980,7 +6688,7 @@ struct Struct_State {
     enum event_flag_typeA type;
     enum Event_flag_typeB command;
     u8 Flag;
-    byte byte7;
+    u8 byte7;
 };
 
 struct GameStateFunnel { /* used for event flags and whatnot */
@@ -6999,9 +6707,9 @@ struct GameStateFunnel { /* used for event flags and whatnot */
 typedef struct Gear_Pointer Gear_Pointer, *PGear_Pointer;
 
 struct Gear_Pointer {
-    byte total;
-    byte totalPerGear[11];
-    byte unk1[12];
+    u8 total;
+    u8 totalPerGear[11];
+    u8 unk1[12];
     struct Gear_RAM *Gear;
 };
 
@@ -7019,13 +6727,13 @@ struct GtaskMsg {
 struct gfxManager {
     struct OSSched *sched;
     union Gfx *GfxLists[2];
-    pointer outputBuff;
-    pointer ouputbuffSize;
-    pointer yieldData;
+    void* outputBuff;
+    void* ouputbuffSize;
+    void* yieldData;
     void *FrameBuffers[2];
     s16 *DepthBuffer;
     u8 (*textfont)[32]; /* for debug text */
-    byte (*unk0x2c)[64]; /* white block? */
+    u8 (*unk0x2c)[64]; /* white block? */
     struct OSViMode osvimodeCustom;
     int unk0x7c; /* unused? */
     struct OSScTask tasks[2];
@@ -7040,11 +6748,10 @@ struct gfxManager {
     u32 unkTime1;
     ushort hres[2];
     ushort Vres[2];
-    byte colordepth[2];
-    byte bufferChoice;
+    u8 colordepth[2];
+    u8 bufferChoice;
     s8 taskTicks;
-    byte unk0x19c; /* set to 0 after drawing letterbox */
-    byte field27_0x19d[3];
+    u8 unk0x19c; /* set to 0 after drawing letterbox */
 };
 
 typedef struct GlobalsAidynDebug GlobalsAidynDebug, *PGlobalsAidynDebug;
@@ -7118,7 +6825,7 @@ struct MinimapSec_dat {
     u16 mapshort2;
     u16 flagIndex;
     u16 checked;
-    enum Borg8Enum borg8:16;
+    u16 borg8;
     s16 x;
     s16 y;
 };
@@ -7157,8 +6864,7 @@ struct MiniMap {
     uint active;
     uint ShowMinimap;
     u8 B_buttonToggle;
-    byte ShowAll;
-    byte field4_0xa[2];
+    u8 ShowAll;
     struct vec3f savedPlayerPos;
     struct BaseWidget *widget18;
     struct BaseWidget *widget1c;
@@ -7211,10 +6917,10 @@ struct ZoneDat {
     uint unk0x10;
     struct AnimationData *aniDat0x14;
     uint MapTally;
-    byte alpha;
-    byte index; /* BCD of mtxIndex */
-    byte flag;
-    byte unk1f;
+    u8 alpha;
+    u8 index; /* BCD of mtxIndex */
+    u8 flag;
+    u8 unk1f;
 };
 
 struct Weather {
@@ -7229,8 +6935,7 @@ struct Weather {
     struct ParticleEmmiter *rainParticles;
     struct Borg12Header *Sfx;
     u32 sfxID;
-    byte sfxIndex;
-    u8 align[3];
+    u8 sfxIndex;
 };
 
 struct GlobalsSub { /* 0x800e6988 */
@@ -7261,14 +6966,14 @@ struct GlobalsSub { /* 0x800e6988 */
     struct Weather weather;
     struct PlayerHandler PlayerHandler;
     struct ParticleHeadStruct particleEmmiter;
-    byte unk718[128];
+    u8 unk718[128];
     struct DynamicLightHead DynamicLights;
     struct voxelObject *refObjPointer;
     struct vec3f *tpVec3;
     struct mapFloatDat MapFloatDatEntry;
     struct Borg12Header *BGM;
     u32 BGMID;
-    byte BGMIndex;
+    u8 BGMIndex;
     undefined field35_0xf39;
     u16 Borg12Next;
     u16 Borg12Next2;
@@ -7287,7 +6992,7 @@ struct GlobalsSub { /* 0x800e6988 */
 };
 
 struct QueueStructAItem {
-    pointer BorgPointer;
+    void* BorgPointer;
     short BorgSwitch;
     short field2_0x6;
 };
@@ -7311,7 +7016,7 @@ struct QueueStructBItem {
     int field1_0x4;
     int BorgIndex;
     ushort BorgSwitch;
-    byte field4_0xe;
+    u8 field4_0xe;
     undefined field5_0xf;
 };
 
@@ -7334,14 +7039,8 @@ struct SFX_Struct {
 
 struct SkyStruct {
     u16 Type; /* no more than 5 */
-    undefined field1_0x2;
-    undefined field2_0x3;
     struct SkySubstruct obj4;
-    undefined field4_0xe;
-    undefined field5_0xf;
     struct SkySubstruct obj10;
-    undefined field7_0x1a;
-    undefined field8_0x1b;
     struct Color32 *gradient;
     struct Color32 colors[5];
     float gray;
@@ -7361,32 +7060,29 @@ struct GlobalsAidynDebug { /* Globals structure of Aidyn Chronicles Debug */
     struct Borg12Header *introMusic;
     u32 introMusicDatA;
     u32 introMusicDatB;
-    byte splashscreenSwitch;
-    byte align21[3];
+    u8 splashscreenSwitch;
     struct Borg8header *thqBorg8;
     struct Borg8header *h20Borg8;
-    byte align2c[8];
+    u8 align2c[8];
     uint splashscreenTimer;
-    byte splashScreenUnkA; /* written, never read */
-    undefined field15_0x39;
+    u8 splashScreenUnkA; /* written, never read */
     u16 splashScreenUnkB; /* written, never read */
     u16 splashScreenUnkC; /* written, never read */
     u16 splashScreenUnkD; /* written, never read */
-    byte screenFadeModeSwitch;
-    byte align41[15];
+    u8 screenFadeModeSwitch;
+    u8 align41[15];
     struct wander_struct wander;
     struct player_char_struct playerCharStruct;
     struct GlobalsSub Sub;
     struct SFX_Struct SFXStruct;
-    byte combatBytes[4];
+    u8 combatBytes[4];
     struct EncounterDat EncounterDat;
     struct playerData *playerDataArray[12];
     u64 unk142c; /* unused */
     struct vec3f combatCursorPos;
     s8 ShadowIndex;
     s8 AlaronIndex;
-    byte GoblinHitTally;
-    undefined field33_0x1443;
+    u8 GoblinHitTally;
     uint expGained;
     uint combatByteMirror;
     struct SkyStruct sky;
@@ -7395,12 +7091,11 @@ struct GlobalsAidynDebug { /* Globals structure of Aidyn Chronicles Debug */
     struct vec3f MoonPos;
     u64 unk14b8;
     struct Borg8header *portraitBorder;
-    byte SomeCase;
-    undefined3 field43_0x14c5;
+    u8 SomeCase;
     struct WidgetBarter *barterMenu;
     struct PauseWidget *BigAssMenu; /* Hey, that's what the devs called it */
-    byte umk14d0;
-    byte field47_0x14d1;
+    u8 umk14d0;
+    u8 field47_0x14d1;
     u16 BackgroundTypeCopy;
     struct Borg8header *screenshot;
     struct Color32 screenshotTint;
@@ -7412,22 +7107,18 @@ struct GlobalsAidynDebug { /* Globals structure of Aidyn Chronicles Debug */
     struct ItemID Shopkeep;
     u16 unk14f2;
     uint moneypile;
-    byte creditsByte;
-    undefined3 field60_0x14f9;
+    u8 creditsByte;
     u32 unk14fc;
-    byte gameStartOption;
-    undefined3 field63_0x1501;
+    u8 gameStartOption;
     struct IntroMenu *titleScreen;
     u32 unk1508; /* unused? */
     struct MiniMap minimap;
-    byte unk15bc; /* start of struct? */
-    undefined3 field68_0x15bd;
+    u8 unk15bc; /* start of struct? */
     struct DialougeStruct *dialougStruct;
     u32 unk15c4;
     struct CinematicStruct cinematic;
     struct Party *Party;
-    byte ResolutionSelect;
-    undefined3 field74_0x15fd;
+    u8 ResolutionSelect;
     struct FontStruct *font;
     struct WidgetHandler *widgetHandler;
     struct ScriptCamera_struct scriptcamera;
@@ -7435,26 +7126,23 @@ struct GlobalsAidynDebug { /* Globals structure of Aidyn Chronicles Debug */
     u16 field79_0x1e26;
     struct QueueStructB QueueB;
     u16 field81_0x202a;
-    byte appstateBool;
-    undefined3 field83_0x202d;
+    u8 appstateBool;
     u32 appfunc_dat;
-    byte DebugStatDisplay;
-    undefined3 field86_0x2035;
+    u8 DebugStatDisplay;
     uint maptally;
     float brightness;
     float brightness2;
     float screenFadeSpeed;
     u16 screenFadeMode;
     u16 field92_0x204a;
-    struct CommonStringArray *CommonStrings;
-    byte goblinAmbush;
-    undefined3 field95_0x2051;
+    char** CommonStrings;  // Dummied struct shows id'd strings
+    u8 goblinAmbush;
     float VolSFX;
     float VolBGM;
     float cloudsFloat;
     struct N64Print DebugQueue;
     u16 field100_0x2076;
-    char text[512];
+    char text[512]; //text buffer used for sprintf's.
 };
 
 struct ScriptCam {
@@ -7480,8 +7168,7 @@ struct Party { /* holds party and inventory data */
     uint timeSneaking;
     uint timeWalking;
     uint TimeRunning;
-    byte PartySize; /* how big is the party? */
-    byte pad[3];
+    u8 PartySize; /* how big is the party? */
 };
 
 struct PartyInventory {
@@ -7494,64 +7181,20 @@ typedef struct IconDict IconDict, *PIconDict;
 
 struct IconDict { /* array Proceeded by dictionary length */
     ushort key;
-    enum Borg8Enum value:16;
-};
-
-typedef struct Internal_Header Internal_Header, *PInternal_Header;
-
-struct Internal_Header {
-    dword Magic;
-    dword Clock Rate;
-    dword Load Address;
-    dword Release Offset;
-    dword CRC1;
-    dword CRC2;
-    dword Unknown 5;
-    dword Unknown 6;
-    char Game Title[20];
-    dword Zeroed;
-    word Zeroed;
-    byte Zeroed;
-    byte Media Type;
-    char Game Code[2];
-    byte Region;
-    byte Mask ROM Version;
-};
-
-typedef struct inventory_slot inventory_slot, *Pinventory_slot;
-
-struct inventory_slot {
-    union EquipInstance *itemPointer;
-    undefined field1_0x4;
-    undefined field2_0x5;
-    undefined field3_0x6;
-    undefined field4_0x7;
-    undefined field5_0x8;
-    undefined field6_0x9;
-    undefined field7_0xa;
-    undefined field8_0xb;
-    undefined field9_0xc;
-    undefined field10_0xd;
-    undefined field11_0xe;
-    undefined field12_0xf;
-    void *field13_0x10;
-    int quant;
+    u16 value;
 };
 
 typedef struct Item_Icon Item_Icon, *PItem_Icon;
 
 struct Item_Icon {
     struct ItemID id;
-    enum Borg8Enum icon:16;
+    u16 icon;
 };
 
 typedef struct itemtype_func itemtype_func, *Pitemtype_func;
 
 struct itemtype_func {
-    byte type;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
+    u8 type;
     u32 unk;
     ulong (*function)(void);
 };
@@ -7561,14 +7204,13 @@ typedef struct KKBufferEvent KKBufferEvent, *PKKBufferEvent;
 struct KKBufferEvent {
     struct KKHeader header;
     s32 object;
-    byte buffer[240];
+    u8 buffer[240];
 };
 
 typedef struct lensflare_data lensflare_data, *Plensflare_data;
 
 struct lensflare_data {
-    byte dat0;
-    byte align[3];
+    u8 dat0;
     float f0;
     float f1;
     struct Color32 col;
@@ -7629,8 +7271,7 @@ struct locatorStruct {
 typedef struct loot_Pointer loot_Pointer, *Ploot_Pointer;
 
 struct loot_Pointer {
-    byte total;
-    byte pad[3];
+    u8 total;
     struct Loot_RAM *lootCat;
 };
 
@@ -7681,46 +7322,15 @@ struct MemMon_struct {
     u32 obj_free;
     uint memFree_2;
     char text[256];
-    byte flag;
-    byte pad[7];
+    u8 flag;
+    u8 pad[7];
 };
 
 typedef struct MemoryMakerStruct MemoryMakerStruct, *PMemoryMakerStruct;
 
 struct MemoryMakerStruct { /* same as SaveDatStruct, but no Screenshot */
     struct SavePartyHeader header;
-    undefined field1_0x20;
-    undefined field2_0x21;
-    undefined field3_0x22;
-    undefined field4_0x23;
-    undefined field5_0x24;
-    undefined field6_0x25;
-    undefined field7_0x26;
-    undefined field8_0x27;
-    undefined field9_0x28;
-    undefined field10_0x29;
-    undefined field11_0x2a;
-    undefined field12_0x2b;
-    undefined field13_0x2c;
-    undefined field14_0x2d;
-    undefined field15_0x2e;
-    undefined field16_0x2f;
-    undefined field17_0x30;
-    undefined field18_0x31;
-    undefined field19_0x32;
-    undefined field20_0x33;
-    undefined field21_0x34;
-    undefined field22_0x35;
-    undefined field23_0x36;
-    undefined field24_0x37;
-    undefined field25_0x38;
-    undefined field26_0x39;
-    undefined field27_0x3a;
-    undefined field28_0x3b;
-    undefined field29_0x3c;
-    undefined field30_0x3d;
-    undefined field31_0x3e;
-    undefined field32_0x3f;
+    u8 field1_0x20[32];
     struct mapFloatDat mapData;
     undefined field34_0x6c;
     undefined field35_0x6d;
@@ -7742,10 +7352,10 @@ struct MemoryMakerStruct { /* same as SaveDatStruct, but no Screenshot */
     undefined field51_0x7d;
     undefined field52_0x7e;
     undefined field53_0x7f;
-    byte flags[640];
-    byte minimapDat[64];
-    byte gameState[1984];
-    byte voxelChart[256];
+    u8 flags[640];
+    u8 minimapDat[64];
+    u8 gameState[1984];
+    u8 voxelChart[256];
 };
 
 typedef struct minimap_dat_2 minimap_dat_2, *Pminimap_dat_2;
@@ -7753,38 +7363,25 @@ typedef struct minimap_dat_2 minimap_dat_2, *Pminimap_dat_2;
 struct minimap_dat_2 {
     ushort unk0x0;
     u16 flag;
-    enum Borg8Enum borg8;
+    u32 borg8;
 };
 
 typedef enum OS_IO_DIRECTION { /* read/write directions for DMA's */
-    OS_READ=0,
-    OS_WRITE=1,
-    OS_OTHERS=2
+    OS_READ,
+    OS_WRITE,
+    OS_OTHERS
 } OS_IO_DIRECTION;
 
-typedef struct OsPifRamCont OsPifRamCont, *POsPifRamCont;
-
-struct OsPifRamCont {
-    struct __OSContReadFormat field0_0x0[4];
-    s32 field1_0x20[7];
-    u32 pifstatus;
-};
-
-
-/* WARNING! conflicting data type names: /OSTask_t - /n64/os/OSTask_t */
-
-typedef pointer pointerTypedef;
 
 typedef struct potionRecipie potionRecipie, *PpotionRecipie;
 
 struct potionRecipie {
     enum PotionEnum ID;
-    byte spice;
-    byte herb;
-    byte gemstone;
-    byte alchemist;
-    byte unk;
-    byte pad;
+    u8 spice;
+    u8 herb;
+    u8 gemstone;
+    u8 alchemist;
+    u8 unk;
 };
 
 typedef enum PRECIPITATION {
@@ -7798,14 +7395,14 @@ typedef struct ResolutionSettings ResolutionSettings, *PResolutionSettings;
 struct ResolutionSettings {
     ushort Hres;
     ushort Vres;
-    byte pad;
-    byte colorDepth;
+    u8 pad;
+    u8 colorDepth;
 };
 
 typedef struct RomcopyManageStruct RomcopyManageStruct, *PRomcopyManageStruct;
 
 struct RomcopyManageStruct {
-    pointer stack;
+    void* stack;
     OSMesg *mesgPointer;
     struct romcopy_struct *dmaStructs;
     u8 *dmaIndicies;
@@ -7818,6 +7415,7 @@ struct RomcopyManageStruct {
 
 typedef struct RomstringController RomstringController, *PRomstringController;
 //Placeholder struct for romstrings. to replace with char** and enums.
+/*
 struct RomstringController {
     char *continue w/o saving;
     char *cont pak full;
@@ -7841,6 +7439,7 @@ struct RomstringController {
     char *unsupported device;
     char *insert cont pak;
 };
+*/
 
 typedef struct SaveFile SaveFile, *PSaveFile;
 
@@ -7852,43 +7451,23 @@ struct SaveFile {
 typedef struct shop_pointer shop_pointer, *Pshop_pointer;
 
 struct shop_pointer {
-    byte total; /* number of shops */
+    u8 total; /* number of shops */
     struct shop_ram *shops; /* shops' listing */
 };
 
 typedef byte ShortLE[2];
 
-typedef struct skill_icon skill_icon, *Pskill_icon;
-
-struct skill_icon { /* disctionary of scool and icon */
-    byte field0_0x0;
-    enum SkillEnum skill;
-    enum Borg8Enum icon:16;
-};
-
 typedef struct SkyobjectStruct SkyobjectStruct, *PSkyobjectStruct;
 
 struct SkyobjectStruct {
-    byte byte0;
-    undefined3 align;
+    u8 byte0;
     float f0;
     float f1;
     float f2;
     struct Color32 col;
 };
 
-typedef struct SMStatItem SMStatItem, *PSMStatItem;
 
-struct SMStatItem {
-    struct BaseWidget base;
-    struct CharStats *stats;
-    struct BaseWidget *field2_0x80;
-    struct BaseWidget *baseLevel;
-    struct BaseWidget *modDiff;
-    struct BaseWidget *statName;
-    u16 field6_0x90;
-    u16 field7_0x92;
-};
 
 typedef enum SP_STATUS_WRITE {
     SP_CLR_HALT=1,
@@ -7921,10 +7500,10 @@ typedef enum SP_STATUS_WRITE {
 typedef struct spells_pointer spells_pointer, *Pspells_pointer;
 
 struct spells_pointer {
-    byte Total;
-    byte Schools[6];
-    byte schools2[6];
-    byte field3_0xd[3];
+    u8 Total;
+    u8 Schools[6];
+    u8 schools2[6];
+    u8 field3_0xd[3];
     struct Spell_RAM *spells;
 };
 
@@ -7939,7 +7518,7 @@ struct SpellVisuals1 {
     u32 field5_0x24;
     uint flags;
     u16 field7_0x2c;
-    byte field8_0x2e;
+    u8 field8_0x2e;
     undefined field9_0x2f;
 };
 
@@ -7962,7 +7541,6 @@ struct SpellVisuals_struct {
     u16 prt2count;
     u16 field14_0x2e;
     undefined1 field15_0x30;
-    byte pad[3];
 };
 
 typedef struct StringCheat StringCheat, *PStringCheat;
@@ -7971,8 +7549,6 @@ struct StringCheat { /* struct used for cheat functions */
     char *code;
     u32 (*cheat)(void);
 };
-
-typedef struct struct struct, *Pstruct;
 
 struct struct_A {
     struct AnimationData *anidat;
@@ -7990,7 +7566,6 @@ struct struct_5 {
     struct AniDatSubstruct *substruct;
 };
 
-typedef CharSheet[9]* saveEntity;
 
 typedef struct struct_unk struct_unk, *Pstruct_unk;
 
@@ -8003,7 +7578,7 @@ struct struct_unk {
     u16 vertsNeedSet;
     undefined8 unk_0x16;
     u16 unk_0x1e;
-    byte textKerning[108];
+    u8 textKerning[108];
 };
 
 typedef struct sundail_struct sundail_struct, *Psundail_struct;
@@ -8019,62 +7594,59 @@ struct sundail_struct {
     struct Borg8header *MoonPhase5;
     struct Borg8header *SunBig;
     struct Borg8header *SunSmall;
-    byte moon;
-    byte sun;
-    byte align[2];
+    u8 moon;
+    u8 sun;
 };
 
 typedef struct TerrainStruct TerrainStruct, *PTerrainStruct;
 
 typedef enum TimeOfDay {
-    MORNING=0,
-    MIDDAY=1,
-    AFTERNOON=2,
-    EVENING=3,
-    NIGHT=4
+    TIME_MORNING,
+    TIME_MIDDAY,
+    TIME_AFTERNOON,
+    TIME_EVENING,
+    TIME_NIGHT
 } TimeOfDay;
 
 struct TerrainStruct {
     ushort daySpeed; /* set to 72 (0x48) */
-    enum TimeOfDay partOfDay; /* 21-6 night, 6-9 morning, 9-12 midday, 12-17 afternoon, 17-21 evening */
-    byte moonPhases; /* ranges from 0-3 */
+    u8 partOfDay; /* 21-6 night, 6-9 morning, 9-12 midday, 12-17 afternoon, 17-21 evening */
+    u8 moonPhases; /* ranges from 0-3 */
     u8 windByte;
     char DayNightMagic;
-    enum PRECIPITATION rainByte; /* clear, rain, snow */
-    char unused;
+    u8 rainByte; /* clear, rain, snow */
     float PrecipScale;
     float FogFloat;
     float ThunderFloat;
     struct vec3f windVelocity;
     uint InGameTime; /* measured in seconds * 60 */
-    byte terrain; /* detemines terrain? */
+    u8 terrain; /* detemines terrain? */
     float TimeOfDayFloat;
     float float0x2c;
     float float0x30;
     int PlayTime;
 };
 
-typedef unsigned short    wchar16;
 typedef struct VoxelChartEntry VoxelChartEntry, *PVoxelChartEntry;
 
 struct VoxelChartEntry {
     short arg0;
     u8 bool0x2;
-    byte arg7;
-    byte MapDatA;
-    byte MapShortA;
-    byte MapShortB;
-    byte type; /* VOBJECT */
+    u8 arg7;
+    u8 MapDatA;
+    u8 MapShortA;
+    u8 MapShortB;
+    u8 type; /* VOBJECT */
     u32 unk0x8;
 };
 
 typedef struct weapon_pointer weapon_pointer, *Pweapon_pointer;
 
 struct weapon_pointer {
-    byte Total;
-    byte Types[11];
-    byte Types2[11];
-    byte pad;
+    u8 Total;
+    u8 Types[11];
+    u8 Types2[11];
+    u8 pad;
     struct weapon_ram *weapons;
 };
 
@@ -8085,9 +7657,6 @@ struct WeatherTemp {
     float fogFloat;
     float thunderFloat;
     enum PRECIPITATION precip;
-    undefined field4_0xd;
-    undefined field5_0xe;
-    undefined field6_0xf;
 };
 
 typedef struct WidgetArmorCraft WidgetArmorCraft, *PWidgetArmorCraft;
@@ -8247,15 +7816,15 @@ typedef struct widgetCredits widgetCredits, *PwidgetCredits;
 
 struct widgetCredits {
     struct BaseWidget base;
-    byte creditState;
+    u8 creditState;
     undefined field2_0x7d;
     undefined field3_0x7e;
     undefined field4_0x7f;
     struct BaseWidget *field5_0x80;
     struct BaseWidget *clipText;
-    byte field7_0x88;
-    byte field8_0x89;
-    byte field9_0x8a;
+    u8 field7_0x88;
+    u8 field8_0x89;
+    u8 field9_0x8a;
     undefined field10_0x8b;
     struct Borg12Header *bgm;
     u8 *indecies0;
@@ -8302,8 +7871,8 @@ typedef struct WorldMapPiece WorldMapPiece, *PWorldMapPiece;
 
 struct WorldMapPiece {
     u16 eventFlag;
-    enum Borg8Enum mapBorg8:16;
-    ushort x;
-    ushort y;
+    u16 mapBorg8;
+    u16 x;
+    u16 y;
 };
 
