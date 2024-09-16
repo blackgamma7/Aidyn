@@ -6,14 +6,15 @@
 
 
 #include "commonTypes.h"
+#include "GhidraDump.h"
 
 typedef struct Compass{
-  Borg_8_header* ring;
+  Borg8header* ring;
   u32 pad; //an unused pointer?
-  Borg_8_header* N;
-  Borg_8_header* E;
-  Borg_8_header* S;
-  Borg_8_header* W;
+  Borg8header* N;
+  Borg8header* E;
+  Borg8header* S;
+  Borg8header* W;
 };
 
 Compass* gCompass;
@@ -27,7 +28,7 @@ void Compass::Init(void){
   gCompass->W = get_borg_8(BORG8_CompassWest);
 }
 
-Gfx* Compass::Draw(Gfx*param_1,Vec2 *XZ){
+Gfx* Compass::Draw(Gfx*param_1,vec2f *XZ){
   u8 red;
   u8 green;
   u8 blue;
@@ -40,7 +41,7 @@ Gfx* Compass::Draw(Gfx*param_1,Vec2 *XZ){
   float fVar5;
   float fVar6;
   float fVar7;
-  Vec2 fStack128;
+  vec2f fStack128;
   
   RSPFUNC(param_1,6);
   pauVar1 = pass_to_borg_image_draw(param_1,gCompass->ring,241.0,169.0,1.0f,1.0f
@@ -48,11 +49,11 @@ Gfx* Compass::Draw(Gfx*param_1,Vec2 *XZ){
                        gGlobals.screenfadeFloat * 255.0f,
                        gGlobals.screenfadeFloat * 255.0f,
                        gGlobals.screenfadeFloat * 80.0f);
-  fStack128[1] = 0.0;
-  fStack128[0] = 1.0f;
+  fStack128.y = 0.0;
+  fStack128.x = 1.0f;
   fVar3 = vec2_dot(XZ,fStack128);
-  fStack128[0] = 0.0;
-  fStack128[1] = 1.0f;
+  fStack128.x = 0.0;
+  fStack128.y = 1.0f;
   fVar4 = vec2_dot(XZ,fStack128);
   fVar7 = fVar3 * 25.0f;
   fVar3 = fVar3 * 95.0f;

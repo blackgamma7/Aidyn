@@ -1,4 +1,5 @@
 #include "GhidraDump.h"
+#include "Controller.h"
 
 // Base Class for almost all UI Elements
 class BaseWidget{

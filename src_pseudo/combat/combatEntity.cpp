@@ -1,87 +1,5 @@
 #include "commonTypes.h"
-
-struct CombatEntity {
-    Vec2 coord;
-    Vec2 coord2;
-    u32 TargetIndex;
-    s8 unk0x14;
-    u8 unk0x15;
-    u8 unk0x16;
-    u8 unk0x17;
-    Vec2 facing;
-    u8 index;
-    u8 move_length;
-    u8 unk0x22;
-    u8 unk0x23;
-    u8 unk0x24;
-    u8 AtkType;
-    u8 unk0x26;
-    u8 item;
-    u8 unk0x28;
-    u8 damage;
-    u8 Healing;
-    u8 unk0x2b;
-    enum Struct_char_flags flags;
-    u8 unk0x2e;
-    u8 unk0x2f;
-    struct resist_float resists[2];
-    struct CharSheet * CharSheet;
-    struct combat_ai * combat_ai_pointer;
-    float E[3];
-    u8 unk0x54;
-    u8 unk0x55;
-    u8 unk0x56;
-    u8 unk0x57;
-    u8 unk0x58;
-    u8 unk0x59;
-    u8 unk0x5a;
-    u8 unk0x5b;
-    u8 unk0x5c;
-    u8 unk0x5d;
-    u8 unk0x5e;
-    u8 unk0x5f;
-    u8 unk0x60;
-    u8 unk0x61;
-    u8 unk0x62;
-    u8 unk0x63;
-    u8 unk0x64;
-    u8 unk0x65;
-    u8 unk0x66;
-    u8 unk0x67;
-    u8 unk0x68;
-    u8 unk0x69;
-    u8 unk0x6a;
-    u8 unk0x6b;
-    u8 unk0x6c;
-    u8 unk0x6d;
-    u8 unk0x6e;
-    u8 unk0x6f;
-    u8 unk0x70;
-    u8 unk0x71;
-    u8 unk0x72;
-    u8 unk0x73;
-    u8 unk0x74;
-    u8 unk0x75;
-    u8 unk0x76;
-    u8 unk0x77;
-    u8 unk0x78;
-    u8 unk0x79;
-    u8 unk0x7a;
-    u8 unk0x7b;
-    u8 unk0x7c;
-    u8 unk0x7d;
-    u8 unk0x7e;
-    u8 unk0x7f;
-    u8 unk0x80;
-    u8 unk0x81;
-    u8 unk0x82;
-    u8 unk0x83;
-    s32 notboss;
-    u8 unk0x88;
-    u8 unk0x89;
-    u8 throwingFlag;
-    u8 unk0x8b;
-};
+#include "combat/CombatEntity.h"
 
 
 void Ofunc_NOOP_80067c70(void){}
@@ -103,7 +21,7 @@ void combatentity_init(CombatEntity *param_1,CharSheet *charsheet,s32 param_3,u3
   float *pfVar13;
   float fVar14;
   
-  memset(param_1,0,0x8c);
+  CLEAR(param_1);
   param_1->charSheetP = charsheet;
   bVar7 = GetIDIndex(charsheet->ID);
   param_1->coord2[0] = (float)startx;
@@ -453,8 +371,8 @@ void func_80068924(CombatEntity *param_1){
   float fVar3;
   float fVar4;
   float fVar5;
-  Vec2 fStack144;
-  Vec2 fStack80;
+  vec2f fStack144;
+  vec2f fStack80;
   
   ppVar1 = gGlobals.playerDataArray[param_1->index];
   if (ppVar1) {
@@ -512,8 +430,8 @@ bool check_combatents_facings(CombatEntity *param_1,float param_2,float param_3)
   bool bVar1;
   float fVar2;
   float fVar3;
-  Vec2 afStack160;
-  Vec2 afStack96;
+  vec2f afStack160;
+  vec2f afStack96;
   
   setVec2(afStack160,param_1->coord[0],param_1->coord[1]);
   setVec2(afStack96,param_2,param_3);
@@ -784,8 +702,8 @@ LAB_80069414:
 }
 
 float get_combatEnt_proximity(CombatEntity *param_1,CombatEntity *param_2){
-  Vec2 afStack144;
-  Vec2 afStack80;
+  vec2f afStack144;
+  vec2f afStack80;
   
   setVec2(afStack144,param_1->coord[0],param_1->coord[1]);
   setVec2(afStack80,param_2->coord[0],param_2->coord[1]);
@@ -846,8 +764,8 @@ bool func_checking_shadow(CombatEntity *param_1,CombatEntity *param_2,s32 param_
   u32 uVar5;
   float fVar8;
   u8 bStack176 [2];
-  vec3 fStack168;
-  vec3 afStack104;
+  vec3f fStack168;
+  vec3f afStack104;
   
   if (param_2->charSheetP->ID != (ItemID)(entityList[172] + 0x200)) { //not shadow
     if (!CombatEnt_flag_check(param_1)) {
@@ -987,9 +905,9 @@ bool func_80069d00(CombatEntity *param_1,CombatEntity *param_2,float param_3,flo
   playerData *ppVar1;
   bool bVar2;
   float fVar3;
-  Vec2 afStack224;
-  Vec2 fStack160;
-  Vec2 fStack96;
+  vec2f afStack224;
+  vec2f fStack160;
+  vec2f fStack96;
   
   ppVar1 = gGlobals.playerDataArray[param_2->index];
   if (ppVar1 == NULL) {bVar2 = false;}
@@ -1023,9 +941,9 @@ bool ai_should_cast_magic(CombatEntity *param_1,CombatEntity *param_2){
   double dVar14;
   float fVar15;
   u8 bStack256[2];
-  vec3 fStack248;
-  vec3 afStack184;
-  vec3 fStack120;
+  vec3f fStack248;
+  vec3f afStack184;
+  vec3f fStack120;
   
   if (param_2->index == gGlobals.ShadowIndex) {return false;} //no magic with Shadow present
   if (param_1->index == gGlobals.ShadowIndex) {return false;}
@@ -2736,8 +2654,8 @@ u8 Combat_potion_func(CombatEntity *param_1,CombatEntity *param_2){
   Borg_9_data *pBVar7;
   float fVar8;
   u8 bStack176 [2];
-  vec3 afStack168;
-  vec3 afStack104;
+  vec3f afStack168;
+  vec3f afStack104;
   
   if (!combat_potion_effects(param_1,param_2)) {
     pCVar1 = param_1->charSheetP->Skills;
@@ -3007,7 +2925,7 @@ void rand_wonky_troub_check(CombatEntity *param_1,u8 param_2){
 
 void func_8006f448(CombatEntity *param_1){
   playerData *ppVar1;
-  vec3 afStack80;
+  vec3f afStack80;
   
   ppVar1 = gGlobals.playerDataArray[param_1->index];
   if (ppVar1) {

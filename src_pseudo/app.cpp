@@ -8,7 +8,7 @@ u16 doubleGlobalTickerFlag;
 #ifndef DEBUGVER
 u16 version_flag;
 #endif
-Borg_8_header* PAL_Warning_image;
+Borg8header* PAL_Warning_image;
 bool PAL_warning_flag=true;
 
 struct App_manager{

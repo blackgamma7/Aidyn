@@ -1,59 +1,16 @@
-typedef struct Camera_struct Camera_struct, *PCamera_struct;
 
-struct Camera_struct {
-    vec3 coord;
-    vec3 aim;
-    vec3 coord_mirror;
-    vec3 aim_mirror;
-    Vec2 XZ_orient;
-    vec3 rotation;
-    u16 camera_mode_prev;
-    u16 camera_mode;
-    float float0x48;
-    float unk0x4c;
-    float unk0x50;
-    float unk0x54;
-    u32 unk0x58;
-    float unk0x5c;
-    float unk0x60;
-    float unk0x64;
-    u8 unk0x68;
-    u8 unk0x69;
-    u16 holdCamera;
-    float camHeight;
-    vec3 unk0x70;
-    u16 unk0x7c;
-    u16 unk0x7e;
-    u16 unk0x80;
-    u16 unk0x82;
-    u16 unk0x84;
-    u8 unk0x86;
-    u8 unk0x87;
-    u8 unk0x88;
-    u8 unk0x89;
-    u8 unk0x8a;
-    u8 unk0x8b;
-    u8 unk0x8c;
-    u8 unk0x8d;
-    u8 unk0x8e;
-    u8 unk0x8f;
-    vec3 unk0x90;
-    u8 pad[60]; /* unused data */
-    struct collisionTypeA substruct; /* unused struct */
-    struct vec7 vec7; /* unused float array */
-};
 
-void camera_set_position(Camera_struct *CAM,vec3 *arg1){
+void camera_set_position(Camera_struct *CAM,vec3f *arg1){
   copyVec3(arg1,CAM->coord);
   copyVec3(arg1,CAM->coord_mirror);
 }
 
-void camera_set_aim(Camera_struct *CAM,vec3 *arg1){
+void camera_set_aim(Camera_struct *CAM,vec3f *arg1){
   copyVec3(arg1,CAM->aim);
   copyVec3(arg1,CAM->aim_mirror);
 }
 
-void camera_init(Camera_struct *CAM,Borg_9_data *map,vec3 *pos,u16 mode){
+void camera_init(Camera_struct *CAM,Borg_9_data *map,vec3f *pos,u16 mode){
   memset(CAM,0,sizeof(Camera_struct);
   CAM->unk0x7c = 1;
   CAM->unk0x7e = 3;
@@ -91,17 +48,17 @@ void camera_orient(Camera_struct *arg0){
   vec2_normalize(arg0->XZ_orient);
 }
  
-void camera_lerp(vec3 *arg,vec3 *mirror,float f){
+void camera_lerp(vec3f *arg,vec3f *mirror,float f){
   (*arg)[0] -= ((*arg)[0] - (*mirror)[0]) / f;
   (*arg)[1] -= ((*arg)[1] - (*mirror)[1]) / f;
   (*arg)[2] -= ((*arg)[2] - (*mirror)[2]) / f;
 }
 
-void adust_camera_aim(vec3 *aim0,vec3 *aim1,float arg2,s16 arg3,float arg4){
+void adust_camera_aim(vec3f *aim0,vec3f *aim1,float arg2,s16 arg3,float arg4){
   s32 iVar1;
   s32 iVar2;
   float x;
-  vec3 v3temp;
+  vec3f v3temp;
   
   if (0 < arg3) {
     iVar2 = 0x10000;
@@ -118,7 +75,7 @@ void adust_camera_aim(vec3 *aim0,vec3 *aim1,float arg2,s16 arg3,float arg4){
   }
 }
 
-void set_camera_0x70(Camera_struct *arg0,vec3 *arg1){
+void set_camera_0x70(Camera_struct *arg0,vec3f *arg1){
   arg0->unk0x70[0] = (*arg1)[0];
   arg0->unk0x70[1] = (*arg1)[1] + arg0->camHeight;
   arg0->unk0x7c = 0;
@@ -133,7 +90,7 @@ void func_800b04ec(Camera_struct *arg0){
   }
 }
 
-void func_800b050c(Camera_struct *arg0,vec3 *arg1){
+void func_800b050c(Camera_struct *arg0,vec3f *arg1){
   if (arg0->float0x48 < arg0->unk0x50) {arg0->float0x48 = arg0->unk0x50;}
   if (arg0->unk0x54 < arg0->float0x48) {arg0->float0x48 = arg0->unk0x54;}
   (*arg1)[0] = arg0->aim[0] - arg0->XZ_orient[0] * arg0->unk0x5c;
@@ -141,7 +98,7 @@ void func_800b050c(Camera_struct *arg0,vec3 *arg1){
   (*arg1)[2] = arg0->aim[2] - arg0->XZ_orient[1] * arg0->unk0x5c;
 }
 
-void func_800b05d0(Camera_struct *CAM,vec3 *Arg1,vec3 *Arg2){
+void func_800b05d0(Camera_struct *CAM,vec3f *Arg1,vec3f *Arg2){
   float fVar1 = __sinf((float)CAM->unk0x58 * dtor);
   float fVar2 = __cosf((float)CAM->unk0x58 * dtor);
   float fVar3 = fVar2 * (*Arg2)[0] + fVar1 * (*Arg2)[2];
@@ -151,23 +108,23 @@ void func_800b05d0(Camera_struct *CAM,vec3 *Arg1,vec3 *Arg2){
   (*Arg1)[1] = CAM->aim[1] + __sinf((180.0f - CAM->float0x48) * dtor) * CAM->unk0x5c;
   (*Arg1)[2] = CAM->aim[2] + (*Arg1)[2] * CAM->unk0x5c;}
 
-void ProcessGameCamera_mode1(Camera_struct *arg0,vec3 *arg1,float *arg2,s16 arg3,float arg4,
+void ProcessGameCamera_mode1(Camera_struct *arg0,vec3f *arg1,float *arg2,s16 arg3,float arg4,
                float arg5,s32 arg6,s32 arg7,float arg8,float arg9,
                float arg10,float arg11,float arg12,float arg13,s16 arg14,
                s16 arg15){
   s32 iVar2;
-  vec3 *c;
-  vec3 *aim1;
+  vec3f *c;
+  vec3f *aim1;
   float fVar3;
-  Vec2 fStack656;
-  Vec2 afStack592;
-  Vec2 fStack528;
-  vec3 fStack464;
-  vec3 afStack400;
-  vec3 fStack336;
-  vec3 fStack272;
-  vec3 afStack208;
-  vec3 afStack144;
+  vec2f fStack656;
+  vec2f afStack592;
+  vec2f fStack528;
+  vec3f fStack464;
+  vec3f afStack400;
+  vec3f fStack336;
+  vec3f fStack272;
+  vec3f afStack208;
+  vec3f afStack144;
   
   fStack336 = arg0->coord;
   copyVec3(arg1,arg0->aim_mirror);
@@ -227,20 +184,20 @@ void ProcessGameCamera_mode1(Camera_struct *arg0,vec3 *arg1,float *arg2,s16 arg3
   else func_800b0fac(arg0,arg2,arg3,arg9,arg6,arg7);
 }
 
-void ProcessGameCamera_mode0(Camera_struct *arg0,vec3 *arg1,vec3 *arg2,s16 arg3,s16 arg4){
+void ProcessGameCamera_mode0(Camera_struct *arg0,vec3f *arg1,vec3f *arg2,s16 arg3,s16 arg4){
   s16 sVar1;
   s32 iVar3;
   u16 uVar4;
   longlong lVar2;
-  vec3 *aim0;
-  vec3 *aim0_00;
+  vec3f *aim0;
+  vec3f *aim0_00;
   float fVar5;
   float fVar6;
   float fVar7;
   float fVar8;
-  vec3 afStack240;
-  vec3 fStack176;
-  vec3 fStack112;
+  vec3f afStack240;
+  vec3f fStack176;
+  vec3f fStack112;
   
   fStack112 = arg0->coord;
   fVar8 = 0.0;
@@ -343,13 +300,13 @@ void func_800b0fac(Camera_struct *CAM,s32 param_2,s16 param_3,float param_4,floa
   float fVar4;
   float fVar5;
   float fVar6;
-  vec3 fStack504;
-  Vec2 fStack440;
-  Vec2 afStack376;
-  vec3 afStack312;
-  vec3 afStack248;
-  Vec2 fStack184;
-  Vec2 afStack120;
+  vec3f fStack504;
+  vec2f fStack440;
+  vec2f afStack376;
+  vec3f afStack312;
+  vec3f afStack248;
+  vec2f fStack184;
+  vec2f afStack120;
   
   if (CAM->holdCamera == 1) {
     CAM->holdCamera = 2;
@@ -418,7 +375,7 @@ void set_camera_mode(Camera_struct *cam,u16 mode){
 
 void revert_camera_mode(Camera_struct *c){c->camera_mode = c->camera_mode_prev;}
 
-void ProcessGameCamera(Camera_struct *cam,vec3 *param_2,s32 param_3,s16 param_4,
+void ProcessGameCamera(Camera_struct *cam,vec3f *param_2,s32 param_3,s16 param_4,
                       u16 param_5){
   u16 uVar1;
   char acStack72 [72];
@@ -450,17 +407,17 @@ crash:
   return;
 }
 
-void some_camera_func(vec3 *param_1,Vec2 *param_2,vec3 **var_c,s16 numFoci,float param_5){
+void some_camera_func(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,float param_5){
   s32 iVar1;
   s32 iVar2;
-  vec3 **ppafVar3;
+  vec3f **ppafVar3;
   s32 iVar4;
   s32 iVar6;
   float fVar7;
   ulonglong uVar8;
   ulonglong uVar9;
   ulonglong uVar10;
-  vec3 afStack136;
+  vec3f afStack136;
   float fVar11;
   
   

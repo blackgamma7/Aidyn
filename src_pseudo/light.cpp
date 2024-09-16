@@ -1,4 +1,4 @@
-void InitLight_(light_obj *light,vec3 *pos,float size,u16 type,float f1,color32 colB,color32 colC){
+void InitLight_(light_obj *light,vec3f *pos,float size,u16 type,float f1,color32 colB,color32 colC){
   u16 uVar1;
   
   memset(light,0,0x6c);
@@ -132,7 +132,7 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *
   float fVar16;
   float fVar17;
   float fVar20;
-  vec3 fStack144;
+  vec3f fStack144;
   s32 iStack72;
   light_dat *plStack68;
   
@@ -246,7 +246,7 @@ void light_init_func(playerData *param_1,AnimationData *param_2,s16 param_3){
   borg_9_struct *pbVar3;
   s32 iVar4;
   light_obj *light;
-  vec3 *obj;
+  vec3f *obj;
   s32 iVar5;
   s16 sStack48;
   s16 asStack46 [23];
@@ -323,7 +323,7 @@ void dynamic_lights_free_all(dynamic_light_struct *param_1){
 }
 
 //This only seems to be used with the exploding chest.
-light_obj * AllocDynamicLight(dynamic_light_struct *param_1,u16 param_2,vec3 *pos,float size,u16 type,
+light_obj * AllocDynamicLight(dynamic_light_struct *param_1,u16 param_2,vec3f *pos,float size,u16 type,
                  float f1,color32 colb,color32 colc){
   s16 sVar1;
   void *pvVar2;

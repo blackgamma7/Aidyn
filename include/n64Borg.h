@@ -26,8 +26,8 @@ struct Borg_8_dat {
 
 //borg 9 data structs.
 struct Borg_9_data{
-    vec3 floatsA; /* position? */
-    Vec2 floatsB; /* size? */
+    vec3f floatsA; /* position? */
+    vec2f floatsB; /* size? */
     u8 unk1[6]; /* seems unused */
     u8 byte0x1a;
     u8 byte0x1b;
@@ -42,15 +42,15 @@ struct Borg_9_data{
     s16 * counting_pointer;
     s32 someint;
     s16 * pointer2;
-    vec3* Verticies;
+    vec3f* Verticies;
     struct borg9_phys * phys_pointer;
     s32 someInt_2;
     mapVoxel* ref_objs; 
     struct borg_9_struct * unkStructs;
 };
 struct borg9_phys { //collision faces
-    Vec3 * VertexEntries[3];
-    vec3 vec3_0xc; //face normal?
+    vec3f * VertexEntries[3];
+    vec3f vec3_0xc; //face normal?
     void * ptr_0x18;
     u16 unk0x1c; //flags?
     u16 GroundType; //for footstep noises
@@ -90,7 +90,7 @@ enum Vobject{
 8000=visible/active.*/
 
 struct voxelHeader { /* Header for Refernce objects (Voxels) */
-    vec3 coords; /* Where is it */
+    vec3f coords; /* Where is it */
     float size; /* how big is it. */
     u32 timestamp; /* when was it called */
     u16 Bitfeild; /* 16-bit Flags for rendering */
@@ -113,8 +113,8 @@ struct Scene_obj_dat{
     u8 unk0x14[8];
     u32 borg5_index2; //used for open chests?
     u32 unk0x20;
-    vec3 rotation; //in radians. x usually has an odd angle, for some reason.
-    vec3 scaling;
+    vec3f rotation; //in radians. x usually has an odd angle, for some reason.
+    vec3f scaling;
     color32 tinting; //used if SceneFlags&0x10
     u16 unk0x40;
     u16 Sceneflags;
@@ -181,7 +181,7 @@ struct audio_obj_dat {
 0010=BGM
 doesn't seem to use all 16 bits.*/
 struct wandernode_dat{
-    vec2 startCoords;
+    vec2f startCoords;
     float wanderRadius;
 	float randVal;
 	float NodeChangeChance;
@@ -213,7 +213,7 @@ struct referencepoint_dat{//used as locators for tp's, camera's dialouge scripts
     u16 refpointID;
     u16 pad;
     char name[16];
-    vec3 position; //used in tp for facing?
+    vec3f position; //used in tp for facing?
     u8 align[36];
 };
 
@@ -240,9 +240,9 @@ struct camera_dat {
     s16 refpoint_ID; //used as inital aim for camera.
     u16 CameraFlags; //bitfeild in need of later documentation.
     u32 timestamp;
-    vec3 vec3_A;
-    vec3 vec3_b;
-    vec3 vec3_C;
+    vec3f vec3_A;
+    vec3f vec3_b;
+    vec3f vec3_C;
     float unk0x54;
     u8 align[20];
 };

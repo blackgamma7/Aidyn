@@ -103,7 +103,7 @@ void World::func_with_TimeofDay(TerrainStruct *ter,char param_2){
   World::SetTimeFromCalendar(ter,&tempCal);
 }
 
-void World::ChangeWind(vec3 *coords,float arg1,float arg2){
+void World::ChangeWind(vec3f *coords,float arg1,float arg2){
   float x;
   float fVar1;
   

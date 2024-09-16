@@ -64,7 +64,7 @@ void play_countainer_sound(container_obj *arg0,Borg_9_data * arg1){
 void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
   s32 iVar1;
   s32 iVar2;
-  vec4 fStack96;
+  vec4f fStack96;
   iVar2 = 0x10000;
   alloc_explosion_light(arg0,1.0,600,0);
   do {
@@ -297,12 +297,12 @@ bool loot_func(container_obj *arg0){
 
 u8 monsterpary_func(monsterparty_obj *arg0,undefined arg1,char param_3){
   u8 bVar1;
-  vec3 *playerPos;
-  vec3 *c;
+  vec3f *playerPos;
+  vec3f *c;
   void *piVar4;
   float x;
   float fVar2;
-  vec3 afStack104;
+  vec3f afStack104;
   playerData *iVar1;
   
   if (arg0->borg_13 == 0) {
@@ -589,7 +589,7 @@ bool container_obj_check(container_obj *arg0,playerData *arg1){
   }
   return ret;}
 
-undefined func_80014ba0(mapVoxel *arg0,vec3 *arg1){
+undefined func_80014ba0(mapVoxel *arg0,vec3f *arg1){
   undefined uVar1;
   
   uVar1 = 0;
@@ -618,7 +618,7 @@ bool trigger_obj_check_prox(trigger_obj *arg0,playerData *arg1,bool param_3){
 
 bool trigger_obj_check(trigger_obj *arg0,playerData *arg1){return trigger_obj_check_prox(arg0,arg1,true);}
 
-bool dialouge_trigger_check(Dialoug_obj *arg0,vec3 *arg1,bool getProx){
+bool dialouge_trigger_check(Dialoug_obj *arg0,vec3f *arg1,bool getProx){
   bool bVar1;
   bool uVar2;
   GameState_Cheat GVar2;

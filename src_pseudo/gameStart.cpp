@@ -34,9 +34,9 @@ void set_title_screen(void){
 }
 
 Gfx* other_flycam_func(float param_1,float param_2,Gfx*param_3){
-  vec3 afStack216;
-  vec3 afStack152;
-  vec3 afStack88;
+  vec3f afStack216;
+  vec3f afStack152;
+  vec3f afStack88;
   
   if (flycam_AniDat_ptr == NULL) {
     if ((gGlobals.QueueA.items == 0) && (gGlobals.screenfadeFloat == 0.0)) {
@@ -83,7 +83,7 @@ Gfx* other_flycam_func(float param_1,float param_2,Gfx*param_3){
 u8 gameStart(Gfx**param_1){
   Gfx*pauVar1;
   u32 uVar2;
-  vec3 *pos;
+  vec3f *pos;
   u8 bVar3;
   float fVar4;
   u32 uVar5;
@@ -91,7 +91,7 @@ u8 gameStart(Gfx**param_1){
   float in_f12;
   float in_f14;
   WeatherTemp w;
-  vec3 fStack104;
+  vec3f fStack104;
   
   bVar3 = gGlobals.screenFadeModeSwitch;
   pauVar1 = *param_1;

@@ -1,4 +1,6 @@
-#include "commonTypes.h"
+#include "GhidraDump.h"
+#include "CharStats.h"
+#include "CharSkills.h"
 
 enum ENTITY_CATEGORY{
     ENTITY_GENERIC,
@@ -9,66 +11,68 @@ enum ENTITY_CATEGORY{
     ENTITY_NATURAL
     };
 
-struct{
-  char name[20];
-  char nameInternal[20];	//unused in game, sometimes differs
-  u8 category;
-  ItemID_ROM ID;
-  u8 unk0x2b;
-  u8 Aspect;
-  u8 unk0x2d[2]; //{True Name, Unknown}
-  s8 Alchemist;	// base skill lv's
-  s8 Diplomat;		// FF=Cannot learn
-  s8 Healer;		//proably stored as Array,
-  s8 Loremaster;	//but listed individually here for modding sake.
-  s8 Mechanic;
-  s8 Merchant;
-  s8 Ranger;
-  s8 Stealth;
-  s8 Theif;
-  s8 Troubador;
-  s8 Warrior;
-  s8 Wizard;
-  s8 Bite;
-  s8 Breath;
-  s8 Claw;
-  s8 Hafted;
-  s8 Missle;
-  s8 Pole;
-  s8 Spit;
-  s8 Sting;
-  s8 Sword;
-  s8 Throw;
-  s8 Tusk;
-  u8 Intelligence; // base Stat lv's
-  u8 Willpower;
-  u8 Dexterity;
-  u8 Endurance;
-  u8 Strength;
-  u8 Stamina;
-  u8 unk0x4c;
-  u8 Level;
-  u8 unk4;
-  ItemID_ROM Weapons[3]; // Endian swapped
-  u8 unk0x55;
-  u8 unk0x56;
-  ItemID_ROM spells[5]; // Endian Swapped
-  u8 school; // Chaos=All Schools
-  u8 spell_levels[5];
-  u8 unk6[9];
-  ItemID_ROM Armor;
-  u8 protection;
-  ItemID_ROM sheild;
-  u8 SheildSkill;
-  u8 ElementResist1;
-  u8 ResistAmmount1; // 100-(25*x)
-  u8 ElementResist2;
-  u8 ResistAmmount2; // 100-(25*x)
-  u8 unk0x7a[8]; //unused
-  u8 unk0x82[4]; //unused
-  u8 EXP_X75; // x50, then 1.5 on EXP func
-  u8 LootCategory;
-}Entity_ROM;
+
+struct Entity_ROM { /* Entity data stored in Rom */
+    char name[20];
+    char internalName[20];
+    enum EntityCatEnum category; /* only checks for Chaos type */
+    struct ItemID_ROM id;
+    u8 unk0x2b; /* passed to ram 0x19 */
+    enum AspectEnum Aspect;
+    u8 trueName;
+    u8 Heavy;
+    u8 Alchemist; /* base skill lv's */
+    u8 Diplomat; /* FF=Cannot learn */
+    u8 Healer;
+    u8 Loremaster;
+    u8 Mechanic;
+    u8 Merchant;
+    u8 Ranger;
+    u8 Stealth;
+    u8 Theif;
+    u8 Troubador;
+    u8 Warrior;
+    u8 Wizard;
+    u8 Bite;
+    u8 Breath;
+    u8 Claw;
+    u8 Hafted;
+    u8 Missle;
+    u8 Pole;
+    u8 Spit;
+    u8 Sting;
+    u8 Sword;
+    u8 Throw;
+    u8 Tusk;
+    u8 Intelligence; /* base Stat lv's */
+    u8 Willpower;
+    u8 Dexterity;
+    u8 Endurance;
+    u8 Strength;
+    u8 Stamina;
+    u8 morale;
+    u8 Level;
+    u8 unk0x4e;
+    struct ItemID_ROM Weapons[3]; /* Endian swapped */
+    u8 unk0x55;
+    u8 unk0x56;
+    struct ItemID_ROM spells[5]; /* endian Swapped */
+    enum MagicSchoolEnum MagicSchool; /* Chaos=All Schools */
+    u8 spell_levels[5];
+    u8 unk0x67[9];
+    struct ItemID_ROM Armor;
+    u8 protection;
+    struct ItemID_ROM sheild;
+    u8 SheildSkill;
+    enum ElementEnum ElementResist1;
+    u8 ResistAmmount1; /* 100-(25*x) */
+    enum ElementEnum ElementResist2;
+    u8 ResistAmmount2; /* 100-(25*x) */
+    u8 unk0x7a[8];
+    u8 unk0x82[4];
+    u8 EXP_X75; /* x50, then 1.5 on EXP func */
+    u8 LootCategory;
+};
 
 struct Entity_Ram { /* entity data in Ram */
     ItemID ID;
@@ -116,7 +120,6 @@ struct{
 
 struct{
 	u16 index;
-	u8 align[2];
 	u32 Model; //index of "borg7 file.
 	u32 portrait; //index of "borg8" file.
 	float a;
@@ -125,30 +128,33 @@ struct{
 	float scale; 
 }entity_info;
 
-struct{
-	u16 index;
-	u8 align[2];
-	u32 Model;
-	u32 portrait;
-	float a;
-	float scale;
-}dialougeEntity_Info;
+struct dialougeEntity_Info { /* extended data of Dialouge entities in RAM */
+    u16 index;
+    u32 model;
+    u32 portrait;
+    float a;
+    float b;
+};
 
 struct resist_float { /* resistance and element when loaded into temp item */
     u8 element;
-    u8 pad[3];
     float percent;
 };
 
+typedef enum CharSheetFlags {
+    CHAR_TrueName=1,
+    CHAR_IsHeavy=2,
+    CHAR_IsSolar=4
+} CharSheetFlags;
+
 struct charExp { /* data containing EXP, School, Aspect and more. */
     u8 rom0x2b; /* Ent_rom data 0x2b. dunno if used */
-    enum MagicSchoolEnum school;
-    u8 protection; /* protecttion, looks like */
-    u8 damage; /* damage seems to be */
-    u32 total; /* for level up */
-    u32 spending; /* for training */
-    enum CharSheetFlags flags; /* aspect, heavy, true name */
-    u8 pad[3];
+    u8 school;
+    u8 protection;
+    u8 damage; /* Not used in combat calc */
+    uint total; /* for level up */
+    uint spending; /* for training */
+    u8 flags; // true name, heavy, aspect
 };
 
 
@@ -160,71 +166,31 @@ struct spellbook { /* pointer and count of spells */
     struct Temp_spell * spells;
     u8 spell_count;
 };
-
-struct CharSkills { /* Skill and weapon levels. Also sheild. */
-    u8 Skill_base[12];
-    u8 Weapon_Base[11];
-    u8 Sheild_Base;
-    u8 Skill_modded[12];
-    u8 Weapon_modded[11];
-    u8 Sheild_modded;
+struct CharGear {
+    GearInstance **pItem;
+    u8 usedItems;
+    u8 maxItems;
 };
 
 struct CharSheet { /* Skills, stats and misc of Characters */
-    ItemID ID;
-    //2 align bytes
-    char * name; /* pointer to entityDB entry */
-    u8 unk0x8[12];
-    struct charExp * EXP;
-    struct CharStats * Stats; /* base and modded stats of character */
-    struct CharSkills * Skills; /* skill and weapon levels */
-    struct temp_armor * * armor;
-    struct Temp_weapon * weapons;
-    struct CharGear * pItemList;
-    struct spellbook * spellbook; /* list and count of known spells */
-    s32 unk0x30;
-    struct SpellEffect* effects; /* spell effects on character */
-    struct Potion_effect* * potionEffects;
-    u8 some_rand_val;
+    struct ItemID ID;
+    char *name; /* pointer to entityDB entry */
+    u8 unk0x8[12]; //unused
+    charExp *EXP;
+    CharStats *Stats; /* base and modded stats of character */
+    CharSkills *Skills; /* skill and weapon levels */
+    ArmorInstance **armor;
+    WeaponInstance *weapons;
+    CharGear *pItemList;
+    Spellbook *spellbook; /* list and count of known spells */
+    u32 unk0x30; //unused
+    effects (*effects)[15]; /* spell effects on character */
+    PotionEffect (*potionEffects)[7];
+    s8 some_rand_val;
     u8 spellSwitch;
     u8 currSpell;
-    u8 unk0x3f[5];
-    struct Borg_8_header * portrait;
-};
-
-struct CombatEntity {
-    vec2 coord,coord2;
-    u32 targetIndex;
-    u16 unk0x14;
-    u8 unk0x16;
-    u8 unk0x17;
-    u16 unk0x18;
-    u16 unk0x1a;
-    u16 unk0x1c;
-    u16 unk0x1e;
-    u8 index;
-    u8 move_length;
-    u8 unk0x22;
-    u8 unk0x23;
-    u8 unk0x24;
-    u8 unk0x25;
-    u8 unk0x26;
-    u8 item;
-    u8 unk0x28;
-    u8 damage;
-    u8 unk0x2a;
-    u8 unk0x2b;
-    u16 flags;
-    u8 unk0x2e;
-    u8 unk0x2f;
-    struct resist_float resists[2];
-    struct CharSheet * charSheetP;
-    struct combat_ai * aiP;
-    u8 unk0x48[60];
-    u32 notBoss;
-    u8 wepLocator;
-    u8 shieldLocator;
-    u8 throwingflag;
+    u32 unk0x40;
+    struct Borg8header *portrait;
 };
 
 

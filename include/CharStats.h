@@ -1,32 +1,26 @@
-#include "ultratypes.h"
-#define STATCOUNT 7
+#include "GhidraDump.h"
 
-struct{
-	u8 Base[STATCOUNT];
-	u8 array2[STATCOUNT];
-	u8 array3[STATCOUNT];
-	u8 modded[STATCOUNT];
-}CharStats;
+typedef enum StatEnum {
+    STAT_INT,
+    STAT_WIL,
+    STAT_DEX,
+    STAT_END,
+    STAT_STR,
+    STAT_STAM,
+    STAT_LV,
+	STAT_TOTAL,
+    STAT_NONE=255
+} StatEnum;
+
+#define STATCOUNT STAT_TOTAL
+struct CharStats { /* Stat Arrays of Party Members */
+    u8 Base[STATCOUNT]; /* init'd or pirchased stat points */
+    s8 health[STATCOUNT];
+    u8 magicMod[STATCOUNT]; /* added/subbed by magic */
+    u8 Modded[STATCOUNT]; /* modded by equipment, spells, ect. */
+};
 
 extern char** stat_labels;
 extern s32 base_stat_cap[STATCOUNT]; //{30,30,30,40,30,90,40}
 extern s32 modded_stat_cap[STATCOUNT]; //{40,40,40,50,40,120,40}
 extern s32 stat_multiplier[STATCOUNT]; //{12,12,24,12,12,4,500} by (stat+1)^2*stat_multiplier
-
-
-extern void CharStats:Init(CharStats *,ItemID);
-extern void Ofunc_NOOP_800845f4(void);
-extern void CharStats:::Copy(CharStats*,CharStats*);
-extern void CharStats:::AddBase(CharStats*,u8,u8);
-extern void CharStats::addModdedStat(CharStats*,u8,u8);
-extern void addModdedStats_flag(CharStats*,u8,u8);
-extern void SubtractModdedStats(CharStats*,u8,u8);
-extern void addtoModdedStats(CharStats*,u8,u8);
-extern void subtractFromModdedStats(CharStats*,u8,u8);
-extern s32 getBaseStat(CharStats *,u8);
-extern s32 CharStats::getModdedStat(CharStats *,u8);
-extern s32 get_stat_trainPrice(CharStats *,u8);
-extern bool isStatCapped(CharStats *,u8);
-extern s32 get_base_stat_(CharStats *,u8);
-extern s32 capStatMax(u8,s32,s32 *);
-extern bool someStatCheck(CharStats *,u8);

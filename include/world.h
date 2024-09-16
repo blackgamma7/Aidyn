@@ -14,7 +14,7 @@ struct TerrainStruct {
    float PrecipScale;
    float FogFloat;
    float ThunderFloat;
-   vec3 windVelocity;
+   vec3f windVelocity;
    u32 InGameTime; // measured in seconds * 60
    u8 terrain; // determines terrain? used in camping funcs. 0-27
    u8 pad[3]; //may have orginally used for a "temperature" field
@@ -66,7 +66,7 @@ void dec_dayNightMagic(TerrainStruct *);
 void World::SetTimeFromCalendar(TerrainStruct *,Calendar *);
 void GetCalendarDate(TerrainStruct *,Calendar *);
 void func_with_timeofDay(TerrainStruct *,char );
-void World::ChangeWind(vec3 *,float ,float );
+void World::ChangeWind(vec3f *,float ,float );
 void set_with_WeatherTemp(TerrainStruct *,WeatherTemp *);
 void get_WeatherTemp(TerrainStruct *,WeatherTemp *);
 void set_moonPhase(TerrainStruct *,Calendar *);

@@ -1453,15 +1453,15 @@ void func_800628cc(combat_ai *param_1)
   return;
 }
 
-void func_80062c04(Vec2 *param_1,float param_2,Vec2 *param_3,Vec2 *param_4,Vec2 *param_5){
-  Vec2 *pafVar1;
+void func_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec2f *param_5){
+  vec2f *pafVar1;
   float fVar2;
   float fVar3;
   float fVar4;
   float fVar5;
   float fVar6;
-  Vec2 *fStack176;
-  Vec2 *fStack112;
+  vec2f *fStack176;
+  vec2f *fStack112;
   
   if (((*param_1)[0] == (*param_3)[0]) && ((*param_1)[1] == (*param_3)[1])) {
     Vec2_Sub(param_5,param_4,param_3);
@@ -1662,10 +1662,10 @@ bool func_80063258(combat_ai *param_1)
   double dVar11;
   undefined8 uVar12;
   u8 bStack336 [4];
-  Vec2 afStack328;
-  Vec2 afStack264;
-  Vec2 afStack200;
-  Vec2 fStack136;
+  vec2f afStack328;
+  vec2f afStack264;
+  vec2f afStack200;
+  vec2f fStack136;
   
   ppVar1 = gGlobals.playerDataArray[param_1->combatEnt->index];
   bVar2 = false;
@@ -1810,10 +1810,10 @@ void combat_ai_shadow(combat_ai *param_1){
   float y;
   double dVar7;
   undefined8 uVar8;
-  Vec2 afStack304;
-  Vec2 afStack240;
-  Vec2 afStack176;
-  Vec2 fStack112;
+  vec2f afStack304;
+  vec2f afStack240;
+  vec2f afStack176;
+  vec2f fStack112;
   
   if ((param_1->combatEnt->move_length != 1) && (gGlobals.ShadowIndex != -1)) {
     pCVar1 = (&gCombatP->combatEnts)[(u8)gGlobals.ShadowIndex];
@@ -1926,9 +1926,9 @@ bool func_80063c94(combat_ai *param_1){
 void func_80063db0(combat_ai *param_1,float param_2,float param_3,float param_4,float param_5,
                  float param_6,playerData *param_7){
   combat_substruct *pcVar3;
-  Vec2 fStack240;
-  Vec2 afStack176;
-  Vec2 afStack112;
+  vec2f fStack240;
+  vec2f afStack176;
+  vec2f afStack112;
   
   setVec2(afStack176,param_2,param_3);
   setVec2(afStack112,param_4,param_5);
@@ -1982,10 +1982,10 @@ referncepoint_obj * find_fleeing_refpoint(combat_ai *param_1,float *param_2)
   referncepoint_obj *prVar4;
   float fVar5;
   float y;
-  Vec2 afStack304;
-  Vec2 afStack240;
+  vec2f afStack304;
+  vec2f afStack240;
   char acStack176 [16];
-  Vec2 afStack112;
+  vec2f afStack112;
   
   prVar4 = NULL;
   uVar3 = 0;
@@ -2154,7 +2154,7 @@ void func_800645b4(combat_ai *param_1){
   float fVar7;
   float y;
   u8 uStack104 [2];
-  Vec2 afStack96;
+  vec2f afStack96;
   float afStack32 [8];
   
   func_80070234(param_1->combatEnt);

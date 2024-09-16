@@ -1,4 +1,5 @@
-#include "commonTypes.h"
+#include "GhidraDump.h"
+
 enum BUTTON_aidyn{ //same as standard enum, but with 32 bits for analog joystick
 	C_RIGHT=1,
 	C_LEFT=2,
@@ -24,52 +25,51 @@ enum BUTTON_aidyn{ //same as standard enum, but with 32 bits for analog joystick
 #define MAXCONTROLLERS 4
 #endif
 
-typedef struct{
-	float joyX;
-	float joyY;
-	u32 input;
-	u32 input2; //tap vs hold?
-}controllerAidyn;
-//and a version that holds the button hold times
-typedef struct{
-	controllerAidyn cont;
-	u16 D_up;
-	u16 D_down;
-	u16 D_Left;
-	u16 D_right;
-	u16 A_up;
-	u16 A_down;
-	u16 A_left;
-	u16 A_right;
-	u16 C_up;
-	u16 C_down;
-	u16 C_left;
-	u16 C_right;
-	u16 Start;
-	u16 A;
-	u16 B;
-	u16 Z;
-	u16 L;
-	u16 R;
-}  Button_hold; //hold times seem largely irrelevant, only cares about smaller struct.
+struct controller_aidyn { /* Controller input used by game */
+    float joy_x;
+    float joy_y;
+    u32 input;
+    u32 input_2;
+};
 
-typedef struct{
-	Button_hold[128]* inputlog; //cycles through 128 controller entries
-	OSpfs pfs; //For memory pak stuff
-	u8 align[2];
-	float X; //looks to be thresholds for if joypad is a "button press"
-	float Y;
-	u8 latest; //which entry from inputlog input getts use
-	u8 next; //which inputlog is written
-	u8 ContGet;
-	u8 ContRead;
-}ControllerBuffer;
+struct ControllerFull { /* Add held button times */
+    struct controller_aidyn contAidyn;
+    u16 holdTime_DUp;
+    u16 holdTime_DDown;
+    u16 holdTime_DLeft;
+    u16 holdTime_Dright;
+    u16 holdTime_AUp;
+    u16 holdTime_ADown;
+    u16 holdTime_ALeft;
+    u16 holdTime_ARight;
+    u16 holdTime_CUp;
+    u16 holdTime_CDown;
+    u16 holdTime_CLeft;
+    u16 holdTime_CRight;
+    u16 holdTime_Start;
+    u16 holdTime_AButton;
+    u16 holdTime_BButton;
+    u16 holdTime_ZButton;
+    u16 holdTime_LButton;
+    u16 holdTime_RButton;
+};
+
+struct controllerBuffer { /* buffer of controller inputs */
+    ControllerFull *inputlog;
+    OSPfs pfs;
+    float hori;
+    float vert;
+    u8 latest;
+    u8 next;
+    u8 ContGet;
+    u8 ContRead;
+};
 
 typedef struct{
 	u16 filesize;
 	u16 comp_code;
-	u32 game_name;
-	u8 pad;
+	u32 game_code;
+	char game_name[17];
 	char ext_name[4];
 	u8 align[3];
 }fileState_aidyn;
@@ -78,7 +78,7 @@ typedef struct{
 	void* thread_stack;
 	OSMesg* osmesgPointer;
 	OSSched* ossched;
-	ControllerBuffer* BufferPointer;
+	controllerBuffer* BufferPointer;
 	OSThread Thread;
 	OSScClient client;
 	OSMesg mesg0;

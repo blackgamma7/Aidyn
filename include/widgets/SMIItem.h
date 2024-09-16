@@ -3,7 +3,6 @@
 
 //Widget for Inventory item entry
 class SMIItem : public BaseWidget{
-
     EquipInstance *item;
     u8 quantity;
     u8 userIndex;

@@ -1,4 +1,6 @@
-#include "commonTypes.h"
+#include "GhidraDump.h"
+#include "Camera.h"
+#include "MiniMap.h"
 
 
 struct SaveFile{ //relevant bits are shoved together for MemPak save files(And a temp one created by Memmaker)
@@ -7,161 +9,138 @@ struct SaveFile{ //relevant bits are shoved together for MemPak save files(And a
 };
 
 
-struct GlobalsSub {
+struct GlobalsSub { /* 0x800e6988 */
     struct ZoneDat ZoneDatMtx[3][3];
-    struct Borg_9_data * borg9DatPointer;
-    void *[3] * zoneEnginePtr0;
-    float[10] * zoneEnginePtr1;
-    float[7] * zoneEnginePtr2;
+    struct Borg9data *borg9DatPointer;
+    struct EnvProp *EnvProps;
+    struct collisionTypeA *zoneEnginePtr1;
+    struct SpeedProperty *zoneEnginePtr2;
     u16 zoneEngineInit;
-    u16 align0x132;
-    struct Camera_struct camera;
-    pointer ptrArray0x250[16];
-    u16 camInitFlag_;
-    u16 mapShortA;
-    u16 mapShortB;
-    u16 mapShortAMirror;
-    u16 mapShortBMirror;
-    u8 unk0x29a;
-    u8 unk0x29b;
-    Vec2 mapCellSize;
-    float SpawnX;
-    float SpawnY;
+    Camera_struct camera;
+    vec3f *camPtrArray[16];
+    u16 camPtrArraySize;
+    ushort mapShort1;
+    ushort mapShort2;
+    ushort mapShort1Copy;
+    ushort mapShort2Copy;
+    vec2f mapCellSize;
+    vec2f playerPos2d;
     u16 mapDatA;
     u16 mapDatB;
     u16 mapDatC;
-    u16 align0x2b2;
-    struct weatherStruct weather;
-    struct PlayerHandler PlayerHandler;
-    struct ParticleHeadStruct particleEmmiter;
-    u8 unk0x692[262];  //nothing seems to use this area. wonder what it was for.
-    struct dynamic_light_struct DynamicLights;
-    struct teleport_obj * TP;
-    vec3 * TPCoords;
-    struct mapFloatDat mapFloatDatEntry;
-    struct Borg_12_header * bgm;
-    s32 bgmDat;
-    u8 bgmByte;
-    u8 unk0xf39;
-    u16 bgmTrack;
-    u16 bgmQueue;
+    Weather weather;
+    PlayerHandler PlayerHandler;
+    ParticleHeadStruct particleEmmiter;
+    u8 unk718[128];
+    DynamicLightHead DynamicLights;
+    voxelObject *refObjPointer;
+    vec3f *tpVec3;
+    mapFloatDat MapFloatDatEntry;
+    Borg12Header *BGM;
+    u32 BGMID;
+    u8 BGMIndex;
+    u16 Borg12Next;
+    u16 Borg12Next2;
     u16 gamemodeType;
-    struct flycamStruct flycam;
-    struct mapFloatDat mapFloatDatArray[3][5];
-    u16 unk0x120c;
-    u16 unk0x120e;
-    u16 unk0x1210;
-    u8 unk0x1212;
-    u8 unk0x1213;
-    u8 unk0x1214;
-    u8 unk0x1215;
-    u8 unk0x1216;
-    u8 unk0x1217;
+    flycamStruct flycamDat;
+    mapFloatDat MapFloatDats[3][5];
+    u16 unkCounter;
+    u16 unk120e;
+    u16 unkTimer;
+    u8 unk1212[6];
 };
 
-struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles v1.0 */
-    u32 rngSeed;
-    s32 appState;
-    u32 ticker;
-    float delay;
-    s32 splashscreenFlag;
-    struct Borg_12_header * introMusic;
-    s32 introMusicDatA;
-    s32 introMusicDatB;
-    u8 splashscreenSwitch; //may be another substruct? (listed as gGlobals.titleSplashVars in alpha)
-    u8 align0x21[3];
-    struct Borg_8_header * thqBorg8;
-    struct Borg_8_header * h20Borg8;
-    u64 unk0x2c;
-    u32 splashscreenTimer;
-    u8 splashscreenUnkA;
-    u8 unk0x39;
-    u16 splashScreenUnkB;
-    u16 splashScreenUnkC;
-    u16 splashScreenUnkD;
+struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
+    uint rngSeed; /* used for most rand funcs */
+    int appstate;
+    uint ticker;
+    float delta;
+    u32 splashscreenFlag;
+    struct Borg12Header *introMusic;
+    u32 introMusicDatA;
+    u32 introMusicDatB;
+    u8 splashscreenSwitch;
+    struct Borg8header *thqBorg8;
+    struct Borg8header *h20Borg8;
+    u8 align2c[8];
+    uint splashscreenTimer;
+    u8 splashScreenUnkA; /* written, never read */
+    u16 splashScreenUnkB; /* written, never read */
+    u16 splashScreenUnkC; /* written, never read */
+    u16 splashScreenUnkD; /* written, never read */
     u8 screenFadeModeSwitch;
-    u8 unk0x41[15];
+    u8 align41[15];
     struct wander_struct wander;
-    struct player_char_struct playerChar;
+    struct player_char_struct playerCharStruct;
     struct GlobalsSub Sub;
-    struct SFX_Struct SFXStruct; /* 4 bytes bigger in retail */
+    struct SFX_Struct SFXStruct;
     u8 combatBytes[4];
     struct EncounterDat EncounterDat;
-    struct playerData * playerDataArray[12];
-    u64 unk0x1430;
-    vec3 unk0x1438;
-    char ShadowIndex;
-    char AlaronIndex;
+    struct playerData *playerDataArray[12];
+    u64 unk142c; /* unused */
+    struct vec3f combatCursorPos;
+    s8 ShadowIndex;
+    s8 AlaronIndex;
     u8 GoblinHitTally;
-    u8 unk0x1447;
-    u32 exp_val;
-    u32 combatbyteMirror;
+    uint expGained;
+    uint combatByteMirror;
     struct SkyStruct sky;
-    vec3 unk0x149c;
-    u64 unk0x14a8;
-    vec3 unk0x14b0;
-    u64 unk0x14bc;
-    struct Borg_8_header * portraitBorder;
-    u8 someCase;
-    u8 unk0x14c9[3];
-    void * unkPausePointer;
-    struct pause_struct * bigassMenu; //hey, that's what the code calls it.
-    u8 unk0x14d4;
-    u8 unk0x14d5;
-    u16 unk0x14d6;
-    struct Borg_8_header * screenshot;
-    struct color32 screenshotTint;
-    s16 scrollLocation[2];
-    struct spellbook * ShopSpells;
+    struct vec3f SunPos;
+    u64 unk14a4;
+    struct vec3f MoonPos;
+    u64 unk14b8;
+    struct Borg8header *portraitBorder;
+    u8 SomeCase;
+    struct WidgetBarter *barterMenu;
+    struct PauseWidget *BigAssMenu; /* Hey, that's what the devs called it */
+    u8 umk14d0;
+    u8 field47_0x14d1;
+    u16 BackgroundTypeCopy;
+    struct Borg8header *screenshot;
+    struct Color32 screenshotTint;
+    short scrollLocation[2];
+    struct Spellbook *ShopSpells;
     u32 shopUnused; /* probably was stats */
-    struct CharSkills * shopSkills;
-    struct Inventory_struct * shopInv;
+    struct CharSkills *shopSkills;
+    struct GenericInventory *shopInv;
     struct ItemID Shopkeep;
-    u16 align0x14f6;
-    u32 moneypile;
-    u8 unk0x14fc;
-    u8 align0x14fd[3];
-    u32 unk0x1500;
-    u8 unk0x1504;
-    u8 align0x1505[3];
-    struct widgetStruct * titleScreen;
-    s32 unk0x150c;
-    struct Minimap_struct minimap;
-    u8 unk0x15c0;
-    u8 align0x15c1[3];
-    struct astruct_12 * unk0x15c4;
-    s32 unk0x15c8;
+    u16 unk14f2;
+    uint moneypile;
+    u8 creditsByte;
+    u32 unk14fc;
+    u8 gameStartOption;
+    struct IntroMenu *titleScreen;
+    u32 unk1508; /* unused? */
+    MiniMap minimap;
+    u8 unk15bc; /* start of struct? */
+    DialougeStruct *dialougStruct;
+    u32 unk15c4;
     struct CinematicStruct cinematic;
-    struct PartyStruct * Party;
+    struct Party *Party;
     u8 ResolutionSelect;
-    u8 align0x1601[3];
-    struct FontStruct * font;
-    struct WidgetHandler * widgetHandler;
+    struct FontStruct *font;
+    struct WidgetHandler *widgetHandler;
     struct ScriptCamera_struct scriptcamera;
     struct QueueStructA QueueA;
-    u16 align0x162a;
+    u16 field79_0x1e26;
     struct QueueStructB QueueB;
-    u16 unk0x202e;
+    u16 field81_0x202a;
     u8 appstateBool;
-    u8 align0x2031[3];
-    u32 unk0x2034;
+    u32 appfunc_dat;
     u8 DebugStatDisplay;
-    u8 align0x2039[3];
-    u32 maptally;
-    float screenfadeFloat;
-    float acreenfadeFloat2;
+    uint maptally;
+    float brightness;
+    float brightness2;
     float screenFadeSpeed;
     u16 screenFadeMode;
-    u16 align0x205e;
-    char** CommonStrings;
-    u8 goblinAmbush; //set with the goblin ambush at the start of the game.
-    u8 align0x2055[3];
+    u16 field92_0x204a;
+    char** CommonStrings;  // Dummied struct shows id'd strings
+    u8 goblinAmbush;
     float VolSFX;
     float VolBGM;
     float cloudsFloat;
-    struct Debug_queue DebugQueue; /* unused in retail */
-    u16 align0x207a;
-    char text[512]; //most sprintf's go here
+    N64Print DebugQueue;
+    char text[512]; //text buffer used for sprintf's.
 };
 
 extern u16 ExpPakFlag; //set when OsMemSize>4MB.

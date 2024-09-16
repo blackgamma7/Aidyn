@@ -18,31 +18,22 @@ typedef unsigned long long int u64;
 typedef float  f32;
 typedef double f64;
 
-typedef float vec2[2];
-typedef float vec3[3];
-typedef float vec4[4];
+
 
 #define ABS_macro(x) (if((float)x>=INT_MAX_f){x-=INT_MAX_f}) // may just be compiled casting.
-#define CLEAR(x) memset(x,0,sizeof(&x))
-#define ALLOC(x,line) x=heapAlloc(sizeof(&x),FILENAME,line)
+#define CLEAR(x) memset(x,0,sizeof(*x))
+#define ALLOC(x,line) x=heapAlloc(sizeof(*x),FILENAME,line)
 #define FREE(x,line) HeapFree(x,FILENAME,line); x=NULL
+#define FREEPTR(x,line) if(x) {FREE(x,line);}
 #define LE(x) ((u16)x[0] + (u16)x[1] * 0x100) //for the byteswapping in ROM data
 #define SQ(x) x*x
-#define RSPFUNC(g,flag) g=rsp_func(g,flag,gfx::get_hres(),gfx::get_vres())
 
-struct{u8 r,g,b,a;}color32;
 
 #define OFFWHITE {0xe1,0xe1,0xe1,0xff}
 #define DARKGRAY {0x32,0x32,0x32,0xff}
 #define DARKGRAY_T {0x32,0x32,0x32,0x96}
 #define YELLOW_T {0xc8,0xc8,0,0xe1}
 
-
-enum WEAPONCLASS{
-	WEAPONCLASS_BITE, WEAPONCLASS_BREATH, WEAPONCLASS_CLAW, WEAPONCLASS_HAFTED, WEAPONCLASS_MISSLE,
-    WEAPONCLASS_POLE, WEAPONCLASS_SPIT, WEAPONCLASS_STING, WEAPONCLASS_SWORD,
-    WEAPONCLASS_THROWN, WEAPONCLASS_TUSK
-};
 
 enum ELEMENT{
 	ELEMENT_NONE, ELEMENT_EARTH, ELEMENT_SOLAR, ELEMENT_PHYSICAL, ELEMENT_NECROMANCY,
@@ -53,9 +44,6 @@ enum ELEMENT{
 enum SCHOOL{
     SCHOOL_CHAOS,SCHOOL_ELEMENTAL,SCHOOL_NAMING,SCHOOL_NECROMANCY,SCHOOL_NONE,SCHOOL_STAR
 };
-enum ASPECT{NONE, LUNAR, SOLAR, SOLAR_MAGIC, LUNAR_MAGIC};
-
-enum CHAR_STAT{STAT_INT, STAT_WIL, STAT_DEX, STAT_END, STAT_STR, STAT_STAM, STAT_LV, STAT_NONE=255};
 
 enum CHAR_SKILL{
 	SKILL_ALCHEMIST, SKILL_DIPLOMAT, SKILL_HEALER, SKILL_LOREMASTER,

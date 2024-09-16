@@ -88,7 +88,7 @@ float Random::GetFloatRange(u32 *seed,float a,float b){
   }
   return a;}
 
-void Random::GetVec2(u32 *seed,Vec2 *v2,float multi){
+void Random::GetVec2(u32 *seed,vec2f *v2,float multi){
   (*v2)[0] = GetFloatRange(seed,-1.0f,1.0f);
   (*v2)[1] = GetFloatRange(seed,-1.0f,1.0f);
   if ((*v2)[0] == 0.0) (*v2)[0] = 1.0E-6f;
@@ -96,7 +96,7 @@ void Random::GetVec2(u32 *seed,Vec2 *v2,float multi){
   multiVec2(v2,multi);
 }
 
-void Random::GetVec3(u32 *seed,vec3 *v3,float multi){
+void Random::GetVec3(u32 *seed,vec3f *v3,float multi){
   (*v3)[0] = GetFloatRange(seed,-1.0f,1.0f);
   (*v3)[1] = GetFloatRange(seed,-1.0f,1.0f);
   (*v3)[2] = GetFloatRange(seed,-1.0f,1.0f);
@@ -104,7 +104,7 @@ void Random::GetVec3(u32 *seed,vec3 *v3,float multi){
   vec3_normalize(v3);
   multiVec3(v3,multi);
 }
-void Random::GetVec4(u32 *seed,vec4 *v4,float multi){
+void Random::GetVec4(u32 *seed,vec4f *v4,float multi){
   (*v4)[0] = GetFloatRange(seed,-1.0f,1.0f);
   (*v4)[1] = GetFloatRange(seed,-1.0f,1.0f);
   (*v4)[2] = GetFloatRange(seed,-1.0f,1.0f);

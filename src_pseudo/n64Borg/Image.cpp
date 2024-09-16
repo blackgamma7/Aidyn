@@ -7,7 +7,7 @@ u8 fade_texture[88]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff
 
 bool borg8_func_b(void *param_1,void *param_2){return false;}
 
-void borg8_func_a(Borg_8_header *param_1){
+void borg8_func_a(Borg8header *param_1){
   image_format iVar1;
   
   iVar1 = (param_1->dat).format;
@@ -27,9 +27,9 @@ void borg8_free_ofunc(void *param_1){
   borg_count[8]--;
 }
 
-Borg_8_header * get_borg_8(Borg8Enum param_1){
+Borg8header * get_borg_8(Borg8Enum param_1){
   setBorgFlag();
-  return (Borg_8_header *)getBorgItem(param_1);}
+  return (Borg8header *)getBorgItem(param_1);}
 
 
 //gets called before almost every draw command
@@ -83,7 +83,7 @@ Gfx* rsp_func(Gfx*param_1,u8 param_2,u16 h,u16 v){
 }
 
 
-Gfx* N64BorgImageDraw(Gfx*param_1,Borg_8_header *param_2,float param_3,float param_4,
+Gfx* N64BorgImageDraw(Gfx*param_1,Borg8header *param_2,float param_3,float param_4,
                          u16 param_5,u16 param_6,u16 param_7,u16 param_8,float param_9,
                          float param_10,u8 red,u8 green,u8 blue,u8 alpha)
 
@@ -1012,12 +1012,12 @@ LAB_800a662c:
   return pauVar25[1];
 }
 
-Gfx* pass_to_borg_image_draw(Gfx*param_1,Borg_8_header *borg8,float param_3,float param_4,float Hscale,
+Gfx* pass_to_borg_image_draw(Gfx*param_1,Borg8header *borg8,float param_3,float param_4,float Hscale,
                    float Vscale,u8 red,u8 green,u8 blue,u8 Alpha){
   return N64BorgImageDraw(param_1,borg8,param_3,param_4,0,0,(borg8->dat).height,
                              (borg8->dat).width,Hscale,Vscale,red,green,blue,Alpha);}
 
-void borg8_free(Borg_8_header *param_1){
+void borg8_free(Borg8header *param_1){
   s32 iVar1;
   s32 iVar2;
   

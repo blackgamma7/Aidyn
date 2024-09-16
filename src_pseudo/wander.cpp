@@ -46,8 +46,8 @@ wander_substruct * findWandererFromPlayerName(s16 arg0){
   assert(s_FindWandererFromPlayerName_800d8d4c,acStack72);
 }
 
-void func_800124b4(void *param_1,vec3 *param_2){
-  Vec2 temp;
+void func_800124b4(void *param_1,vec3f *param_2){
+  vec2f temp;
   
   copyVec3((*param_1 + 0x68),param_2);
   get_mapcellsize((u32)*(u8 *)(*param_1 + 0x70d),temp);
@@ -255,7 +255,7 @@ playerData * func_80012b44(wander_struct *param_1,wander_substruct *param_2){
 void func_80012b70(wander_struct *param_1,wander_substruct *param_2,s16 param_3){
   Borg_9_data *pBVar3;
 
-  Vec2 fStack80;
+  vec2f fStack80;
   
   pBVar3 = GetCollisionZone(param_2->playerDat->zoneDatByte);
   pVVar3 = (mapVoxel *)pBVar3->ref_objs[param_3]);
@@ -305,7 +305,7 @@ void func_80012d44(wander_substruct *param_1){
   Voxel_u *pVVar2;
   Borg_9_data *pBVar3;
   float fVar4;
-  Vec2 fStack80;
+  vec2f fStack80;
   
   pBVar3 = GetCollisionZone(param_1->playerDat->zoneDatByte);
   uVar1 = param_1->VoxelIndex;
@@ -341,9 +341,9 @@ void monster_engagement_func(wander_struct *param_1,s16 param_2){
   longlong lVar4;
   Borg_9_data *pBVar5;
   s16 sVar6;
-  Vec2 *A;
+  vec2f *A;
   wander_substruct *wanderer;
-  vec3 *from;
+  vec3f *from;
   monsterparty_obj *pmVar8;
   float sneakval;
   float entRamB;
@@ -357,12 +357,12 @@ void monster_engagement_func(wander_struct *param_1,s16 param_2){
   double dVar16;
   float fVar17;
   double dVar18;
-  vec2 fStack488;
-  vec2 afStack424;
-  vec3 afStack360;
-  vec3 playerPos;
-  vec3 fStack232;
-  vec3 fStack168;
+  vec2f fStack488;
+  vec2f afStack424;
+  vec3f afStack360;
+  vec3f playerPos;
+  vec3f fStack232;
+  vec3f fStack168;
 
   playerData *playerDat_;
   

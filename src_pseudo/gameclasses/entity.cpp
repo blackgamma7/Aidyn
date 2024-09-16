@@ -23,7 +23,7 @@ ulong init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
   u32 uVar1;
   inv_funcs *piVar2;
   Borg8Enum BVar3;
-  Borg_8_header *pBVar4;
+  Borg8header *pBVar4;
   Potion_effect **x;
   s32 iVar5;
   ulong uVar6;
@@ -206,7 +206,7 @@ void CharSheet_free(CharSheet *param_1){
     param_1->potionEffects = NULL;}
   if (param_1->portrait) {
     AllocFreeQueueItem(&queueStructA,&param_1->portrait,4,0);
-    param_1->portrait = (Borg_8_header *)0x0;
+    param_1->portrait = (Borg8header *)0x0;
   }
   if (param_1->Stats) {
     HeapFree(param_1->Stats,FILENAME,0x188);

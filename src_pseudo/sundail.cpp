@@ -1,14 +1,14 @@
 struct sundail_struct {
-    struct Borg_8_header * Ring;
-    struct Borg_8_header * Cross;
-    struct Borg_8_header * MoonPhase0;
-    struct Borg_8_header * MoonPhase1;
-    struct Borg_8_header * MoonPhase2;
-    struct Borg_8_header * MoonPhase3;
-    struct Borg_8_header * MoonPhase4;
-    struct Borg_8_header * MoonPhase5;
-    struct Borg_8_header * SunBig;
-    struct Borg_8_header * SunSmall;
+    struct Borg8header * Ring;
+    struct Borg8header * Cross;
+    struct Borg8header * MoonPhase0;
+    struct Borg8header * MoonPhase1;
+    struct Borg8header * MoonPhase2;
+    struct Borg8header * MoonPhase3;
+    struct Borg8header * MoonPhase4;
+    struct Borg8header * MoonPhase5;
+    struct Borg8header * SunBig;
+    struct Borg8header * SunSmall;
     u8 moon;
     u8 sun;
     u8 align[2];
@@ -37,7 +37,7 @@ Gfx* draw_sundail(Gfx*param_1){
   u8 bVar1;
   Gfx*pauVar2;
   u32 uVar3;
-  Borg_8_header *borg8;
+  Borg8header *borg8;
   u8 blue;
   u8 green;
   u8 red;

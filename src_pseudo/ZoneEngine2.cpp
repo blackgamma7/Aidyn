@@ -35,7 +35,7 @@ bool func_8000c9e0(void){
   return bVar4;
 }
 
-mapFloatDat * func_8000cae8(vec3 *position,s16 mapshortA,s16 mapShortB,s16 param_4,s16 param_5){
+mapFloatDat * func_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_4,s16 param_5){
   s16 sVar1;
   bool bVar2;
   s32 iVar3;
@@ -44,9 +44,9 @@ mapFloatDat * func_8000cae8(vec3 *position,s16 mapshortA,s16 mapShortB,s16 param
   mapFloatDat *pmVar6;
   float fVar7;
   ulonglong uVar8;
-  vec3 afStack232;
-  vec3 pvec3;
-  vec3 fStack104;
+  vec3f afStack232;
+  vec3f pvec3;
+  vec3f fStack104;
   
   pmVar6 = NULL;
   uVar8 = 0;
@@ -273,7 +273,7 @@ void set_teleport_pointer(teleport_obj *param_1){
   gGlobals.Sub.unk0xf00 = NULL;
 }
 
-void set_teleport_obj_A(u16 param_1,u16 param_2,u16 param_3,vec3 *param_4){
+void set_teleport_obj_A(u16 param_1,u16 param_2,u16 param_3,vec3f *param_4){
   gGlobals.Sub.refObjPointer = &bss_tele_obj;
   gGlobals.Sub.unk0xf00 = vec3_800f5210;
   copyVec3(param_4,vec3_800f5210);
@@ -284,7 +284,7 @@ void set_teleport_obj_A(u16 param_1,u16 param_2,u16 param_3,vec3 *param_4){
   bss_tele_obj.dat.MapShort2 = param_3;
 }
 
-void set_teleport_obj_loadgame(u16 param_1,u16 param_2,u16 param_3,vec3 *param_4){
+void set_teleport_obj_loadgame(u16 param_1,u16 param_2,u16 param_3,vec3f *param_4){
   gGlobals.Sub.refObjPointer = &loadgame_tp_obj;
   gGlobals.Sub.unk0xf00 = NULL;
   memset(&loadgame_tp_obj,0,0x6c);
@@ -891,7 +891,7 @@ LAB_8000e6bc:
   } while( true );
 }
 
-void add_player_position(vec3 *param_1,playerData *param_2){
+void add_player_position(vec3f *param_1,playerData *param_2){
   (param_2->collision).position[0] += (*param_1)[0];
   (param_2->collision).position[1] += (*param_1)[1];
   (param_2->collision).position[2] += (*param_1)[2];
@@ -1052,7 +1052,7 @@ void some_zoneDat_func(void){
 }
 
 
-void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,float param_4,float param_5){
+void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3f *param_3,float param_4,float param_5){
   u16 uVar1;
   u16 uVar2;
   s32 iVar3;
@@ -1063,12 +1063,12 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3 *param_3,floa
   u16 uVar8;
   s32 iVar9;
   s32 iVar10;
-  vec3 *from;
+  vec3f *from;
   float fVar11;
-  vec3 fStack312;
-  vec3 fStack248;
-  vec3 fStack184;
-  vec3 fStack120;
+  vec3f fStack312;
+  vec3f fStack248;
+  vec3f fStack184;
+  vec3f fStack120;
   referncepoint_obj *prStack56=NULL;
   
   uVar1 = (param_2->dat).unk0x6;
@@ -1199,7 +1199,7 @@ void ConfirmPlayerWithinZone(playerData *param_1){
   float fVar7;
   float fVar8;
 
-  vec3 fStack80;
+  vec3f fStack80;
   
   pfVar2 = (param_1->collision).position;
   if (param_1->alaron_flag == false) {
@@ -1281,11 +1281,11 @@ void set_anidat_colors(AnimationData *param_1,u8 param_2,char param_3,color32 pa
   return;
 }
 
-bool get_scene_obj_proximity(Vec2 *obj,Vec2 *cam,Vec2 *aim,float *outx,float *outy){
+bool get_scene_obj_proximity(vec2f *obj,vec2f *cam,vec2f *aim,float *outx,float *outy){
   float x;
   float fVar1;
-  Vec2 afStack168;
-  Vec2 afStack104;
+  vec2f afStack168;
+  vec2f afStack104;
   
   *outy = 0.0;
   *outx = 0.0;
@@ -1364,7 +1364,7 @@ void rendervoxel_no_expPak(Scene_obj_dat *param_1){
 }
 
 
-Gfx* RenderVoxelScenes(Gfx*param_1,Borg_9_data *param_2,vec3 *v3,s16 param_4,s16 param_5,float param_6,float param_7){
+Gfx* RenderVoxelScenes(Gfx*param_1,Borg_9_data *param_2,vec3f *v3,s16 param_4,s16 param_5,float param_6,float param_7){
   EventFlag EVar1;
   void *pvVar2;
   bool bVar6;
@@ -1392,20 +1392,20 @@ Gfx* RenderVoxelScenes(Gfx*param_1,Borg_9_data *param_2,vec3 *v3,s16 param_4,s16
   ulonglong prox1;
   ulonglong uVar23;
   ulonglong uVar24;
-  vec3 param3;
+  vec3f param3;
   s32 iStack428;
   s32 iStack420;
   s32 iStack412;
-  Vec2 camCoord;
-  Vec2 CamAim;
-  Vec2 local_f8;
+  vec2f camCoord;
+  vec2f CamAim;
+  vec2f local_f8;
   float local_b8;
   float local_b4;
   float local_78;
   float local_74;
   borg_9_struct *local_70;
   u32 local_6c;
-  Vec2 *Sobj_pos;
+  vec2f *Sobj_pos;
   u32 local_64;
   s32 local_60;
   s32 local_5c;
@@ -1666,15 +1666,15 @@ Gfx* func_800103b0(Gfx*param_1,ZoneDat *param_2){
   return param_1;
 }
 
-bool func_80010414(Vec2 *param_1,Vec2 *param_2,Vec2 *param_3,Vec2 *param_4,s16 param_5){
+bool func_80010414(vec2f *param_1,vec2f *param_2,vec2f *param_3,vec2f *param_4,s16 param_5){
   bool uVar1;
   u32 uVar2;
   float fVar3;
   float fVar4;
-  Vec2 fStack280;
-  Vec2 fStack216;
+  vec2f fStack280;
+  vec2f fStack216;
   float afStack152 [2];
-  Vec2 fStack88;
+  vec2f fStack88;
   
   if (param_5 == 0) {
     copyVec2(param_1,fStack280);
@@ -1712,19 +1712,19 @@ bool func_80010598(s16 param_1,s16 param_2)
 
 {
   bool bVar1;
-  Vec2 *pafVar2;
+  vec2f *pafVar2;
   s32 iVar3;
   s32 iVar4;
   float fVar5;
   float fVar6;
-  Vec2 fStack176;
-  Vec2 fStack168;
-  Vec2 fStack160;
-  Vec2 fStack152;
-  Vec2 fStack112;
-  Vec2 fStack104;
-  Vec2 afStack96;
-  Vec2 afStack88;
+  vec2f fStack176;
+  vec2f fStack168;
+  vec2f fStack160;
+  vec2f fStack152;
+  vec2f fStack112;
+  vec2f fStack104;
+  vec2f afStack96;
+  vec2f afStack88;
   
   fVar6 = (float)(param_1 + -1) * gGlobals.Sub.mapCellSize[0];
   fVar5 = (float)(param_2 + -1) * gGlobals.Sub.mapCellSize[1];
@@ -1771,7 +1771,7 @@ bool func_80010598(s16 param_1,s16 param_2)
 }
 
 
-void RenderZones(Gfx**param_1,vec3 *param_2,s16 param_3)
+void RenderZones(Gfx**param_1,vec3f *param_2,s16 param_3)
 
 {
   s32 iVar2;
@@ -1798,7 +1798,7 @@ void RenderZones(Gfx**param_1,vec3 *param_2,s16 param_3)
   u32 uStack72;
   u32 uStack68;
   u32 uStack64;
-  vec3 *uStack60;
+  vec3f *uStack60;
   ParticleHeadStruct *pPStack56;
   u16 (*pauStack52) [2];
   u16 *puStack48;
@@ -2122,7 +2122,7 @@ void InitZoneEngine(float param_1,float param_2,u16 param_3,s16 param_4)
   s16 sVar10;
   u16 dat;
   s32 aiStack232 [32];
-  vec3 afStack104;
+  vec3f afStack104;
   
   piVar7 = aiStack232;
   piVar5 = {3,0,1,-1,2,-1,4,5,6,7,8,9,10,11,-1};
@@ -2414,7 +2414,7 @@ void handleZoneEngineFrame(Gfx*param_1,s16 delta,playerData *player_,float param
   undefined8 uVar2;
   u16 viBuff;
   u32 uVar4;
-  vec3 *position;
+  vec3f *position;
   s32 iVar5;
   float fVar6;
   Gfx*apauStack48 [12];
