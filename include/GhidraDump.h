@@ -577,10 +577,15 @@ struct voxelHeader { /* Header for Refernce objects (Voxels) */
     void *ptr0x24;
 };
 
-struct ItemID { /* Big Endian version */
-    u8 type;
-    u8 ID;
-};
+typedef struct{
+    union {
+        u16 s; //often loaded as short
+        struct{
+            u8 type; // from DB_TYPE
+            u8 id;
+        };
+    };
+}ItemID;
 
 struct container_Dat {
     u32 unk0x0;
@@ -2927,7 +2932,7 @@ typedef struct Inventory_item Inventory_item, *PInventory_item;
 
 struct Inventory_item {
     struct ItemInstance base;
-    u32 Quantity;
+    s32 Quantity;
 };
 
 struct EncounterDat { /* enemy encounter data */
@@ -4837,7 +4842,7 @@ struct Calendar { /* Timestruct->Ingame_time as x */
     u8 week; /* (x % 0x114db000)/0x229b600 day: */
     u8 day; /* (x % 0x229b600) / 0x4f1a00 */
     u8 hour; /* (x % 0x4f1a00 >> 6) / 0xd2f */
-    u8 minute; /* (x + ((x >> 6) / 0xd2f) * -0x34bc0) / 0xe10 */
+    u8 minute; /* (x + ((x >> 6) / 0xd2f) * -0x34bc0) / 3600 */
     u8 second; /* (x % 3600) / 60 */
 };
 
