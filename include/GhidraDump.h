@@ -209,7 +209,7 @@ typedef struct DCMSub2 DCMSub2, *PDCMSub2;
 
 typedef struct attachmentNode attachmentNode, *PattachmentNode;
 
-typedef struct ItemID ItemID, *PItemID;
+typedef ItemID ItemID, *PItemID;
 
 typedef struct struct_1 struct_1, *Pstruct_1;
 
@@ -452,13 +452,6 @@ struct light_obj_dat {
     u8 align[40];
 };
 
-struct vec4f {
-    float x;
-    float y;
-    float z;
-    float w;
-};
-
 struct AniLightData {
     undefined field0_0x0;
     undefined field1_0x1;
@@ -594,11 +587,11 @@ struct container_Dat {
     u16 explodeFlag;
     short trap_lv;
     ushort unk0x14;
-    struct ItemID LootCat; /* chestdb id */
+    ItemID LootCat; /* chestdb id */
     ushort LootType;
     u8 LockLV[2];
     ushort Gold; /* money */
-    struct ItemID item; /* static item */
+    ItemID item; /* static item */
     ushort unk1A; /* align? */
     short lootCatDrop[6][2]; /* populated with chestdb items */
     u8 field13_0x34[16];
@@ -639,21 +632,21 @@ struct Scene_obj_dat {
 };
 
 struct monsterpartyEntry {
-    struct ItemID enemyID;
+    ItemID enemyID;
     u8 min;
     u8 max;
 };
 
 struct monsterparty_dat {
     struct monsterpartyEntry enemyEntries[8];
-    struct ItemID entityID;
-    struct ItemID globalLoot;
+    ItemID entityID;
+    ItemID globalLoot;
     ushort field3_0x24;
     undefined field4_0x26;
     undefined field5_0x27;
     ushort field6_0x28;
     ushort totalsize;
-    struct ItemID field8_0x2c;
+    ItemID field8_0x2c;
     u16 wanderNode;
     ushort flags;
     undefined field11_0x32;
@@ -1344,7 +1337,7 @@ struct struct_3 {
     undefined field1_0x1;
     undefined field2_0x2;
     undefined field3_0x3;
-    struct ItemID ent_ID;
+    ItemID ent_ID;
     undefined field5_0x6;
     undefined field6_0x7;
     char *txt;
@@ -1494,7 +1487,7 @@ struct dialougmode_substruct {
     undefined field140_0xef;
     ushort encounterEnemies[12];
     u16 unk108;
-    struct ItemID Entid;
+    ItemID Entid;
     ushort RefpointID;
     ushort unk10e;
     char unk110;
@@ -1866,7 +1859,7 @@ struct mapFloatDat {
 
 struct SavePartyHeader {
     int time;
-    struct ItemID party[4];
+    ItemID party[4];
     char name[20];
 };
 
@@ -2614,7 +2607,7 @@ typedef enum MigicCostEnum {
 } MigicCostEnum;
 
 struct ItemInstance {
-    struct ItemID id;
+    ItemID id;
     u16 field1_0x2;
     char *name;
     enum AspectEnum aspect;
@@ -2930,14 +2923,10 @@ typedef struct Inventory_item Inventory_item, *PInventory_item;
 
 
 
-struct Inventory_item {
-    struct ItemInstance base;
-    s32 Quantity;
-};
 
 struct EncounterDat { /* enemy encounter data */
-    struct ItemID enemy_entities[12]; /* entitty id's of enemies */
-    struct ItemID globalLoot; /* chestdb of guarunteed loot */
+    ItemID enemy_entities[12]; /* entitty id's of enemies */
+    ItemID globalLoot; /* chestdb of guarunteed loot */
     u16 EncounterID;
     u8 field3_0x1c;
     undefined field4_0x1d;
@@ -3003,7 +2992,7 @@ struct WidgetStatTrain {
 typedef struct armour_RAM armour_RAM, *Parmour_RAM;
 
 struct armour_RAM {
-    struct ItemID ID;
+    ItemID ID;
     char name[23];
     u8 is0;
     u8 slot;
@@ -3032,7 +3021,7 @@ struct armour_RAM {
 typedef struct DialougEnt_RAM DialougEnt_RAM, *PDialougEnt_RAM;
 
 struct DialougEnt_RAM {
-    struct ItemID ID;
+    ItemID ID;
     char name[22];
     u8 a; /* unused, set to 0 */
     u8 b;
@@ -3050,7 +3039,7 @@ typedef enum EntityCatEnum { /* Entity Categories */
 } EntityCatEnum;
 
 struct Entity_Ram { /* entity data in Ram */
-    struct ItemID ID;
+    ItemID ID;
     char Name[21];
     enum EntityCatEnum Category;
     enum CharSheetFlags unk0x18; /* 2 bits determined by rom0x2d */
@@ -3066,13 +3055,13 @@ struct Entity_Ram { /* entity data in Ram */
     u8 Skills[12];
     u8 WeaponSkills[11];
     u8 stats[7];
-    struct ItemID weapon[3];
-    struct ItemID spells[5];
+    ItemID weapon[3];
+    ItemID spells[5];
     u8 Spell_levels[5];
     u8 unk_0x55[5]; /* rom0x68 */
     u8 unk_0x5a[4]; /* rom0x6d */
-    struct ItemID Armor;
-    struct ItemID Sheild;
+    ItemID Armor;
+    ItemID Sheild;
     s8 sheildStat;
     enum ElementEnum Resist[2];
     u8 align[3];
@@ -3087,7 +3076,7 @@ struct Entity_Ram { /* entity data in Ram */
 typedef struct Gear_RAM Gear_RAM, *PGear_RAM;
 
 struct Gear_RAM {
-    struct ItemID ID;
+    ItemID ID;
     char name[20];
     u8 is 0;
     u8 field3_0x17;
@@ -3118,7 +3107,7 @@ struct Loot_RAM { /* Chestdb loaded into RAM */
     char Name[20];
     char Is0;
     char field2_0x15;
-    struct ItemID ID;
+    ItemID ID;
     ushort GoldLo;
     ushort GoldHi;
     u8 armorDrop;
@@ -3127,7 +3116,7 @@ struct Loot_RAM { /* Chestdb loaded into RAM */
     u8 reagentchance;
     u8 reagentLlo;
     u8 reagentHi;
-    struct ItemID itemDrops[6];
+    ItemID itemDrops[6];
     u8 itemDropChances[6];
     u8 itemLo[2];
     u8 itemHi[2];
@@ -3136,7 +3125,7 @@ struct Loot_RAM { /* Chestdb loaded into RAM */
 typedef struct shop_ram shop_ram, *Pshop_ram;
 
 struct shop_ram {
-    struct ItemID shopkeep; /* entity running shop */
+    ItemID shopkeep; /* entity running shop */
     ushort stock[23]; /* items */
     u8 multi[3][20];
 };
@@ -3144,7 +3133,7 @@ struct shop_ram {
 typedef struct Spell_RAM Spell_RAM, *PSpell_RAM;
 
 struct Spell_RAM {
-    struct ItemID Id;
+    ItemID Id;
     char Name[24];
     enum MagicSchoolEnum School;
     u8 Damage;
@@ -3163,7 +3152,7 @@ struct Spell_RAM {
 typedef struct weapon_ram weapon_ram, *Pweapon_ram;
 
 struct weapon_ram { /* Weapon Data loaded into ram */
-    struct ItemID ID;
+    ItemID ID;
     char name[22];
     enum WeaponClassEnum Class; /* Type of weapon (sword, breath, spit, etc.) */
     u8 ReqSTR;
@@ -3192,17 +3181,17 @@ struct weapon_ram { /* Weapon Data loaded into ram */
 
 typedef struct Armour_ROM Armour_ROM, *PArmour_ROM;
 
-typedef struct ItemID_ROM ItemID_ROM, *PItemID_ROM;
+typedef ItemID_ROM ItemID_ROM, *PItemID_ROM;
 
 
-struct ItemID_ROM {
+ItemID_ROM {
     u8 ID;
     enum DBTypeEnum Type;
 };
 
 struct Armour_ROM { /* Armour data in Rom */
     char name[23];
-    struct ItemID_ROM id;
+    ItemID_ROM id;
     u8 slot;
     u8 Defence;
     u8 protection;
@@ -3216,10 +3205,10 @@ struct Armour_ROM { /* Armour data in Rom */
     char statNum;
     enum SkillEnum skill;
     char skillNum;
-    struct ItemID_ROM spell;
+    ItemID_ROM spell;
     u8 SpellLV;
     u8 unk0x2a;
-    struct ItemID_ROM magic;
+    ItemID_ROM magic;
     u8 magicLV;
     enum ElementEnum Element;
     u8 ElementResist;
@@ -3236,7 +3225,7 @@ typedef struct DialougeEntity_ROM DialougeEntity_ROM, *PDialougeEntity_ROM;
 
 struct DialougeEntity_ROM { /* Dialouge entity in ROM */
     char name[22];
-    struct ItemID_ROM ID;
+    ItemID_ROM ID;
 };
 
 
@@ -3244,7 +3233,7 @@ typedef struct Gear_Rom Gear_Rom, *PGear_Rom;
 
 struct Gear_Rom { /* Gear/item data stored in rom */
     char name[20];
-    struct ItemID_ROM ID;
+    ItemID_ROM ID;
     u8 ExpMulti[2];
     u8 damage;
     u8 Protection;
@@ -3256,10 +3245,10 @@ struct Gear_Rom { /* Gear/item data stored in rom */
     s8 statMod;
     enum SkillEnum Skill; /* Can also modify Stat */
     s8 SkillMod;
-    struct ItemID_ROM Spell;
+    ItemID_ROM Spell;
     u8 spellvalue;
     u8 SpellValue2;
-    struct ItemID_ROM Magic;
+    ItemID_ROM Magic;
     u8 MagicAmmount;
     enum ElementEnum ElementResist;
     u8 ResistPercent; /* 100-(25*x) */
@@ -3269,26 +3258,26 @@ typedef struct loot_ROM loot_ROM, *Ploot_ROM;
 
 struct loot_ROM { /* Loot Pools stored in ROM */
     char Name[20];
-    struct ItemID_ROM ID;
+    ItemID_ROM ID;
     u8 goldLo[2]; /* Endians swapped */
     u8 goldHi[2]; /* Endians swapped */
     u8 armorDrop[2]; /* % armor/Sheild drop */
     u8 WeaponDrop[3]; /* % weapon drop */
     u8 reagentPercent;
     u8 reagentRange[2];
-    struct ItemID_ROM item0;
+    ItemID_ROM item0;
     u8 item0chance;
     u8 item0quantity[2]; /* lo/hi range */
-    struct ItemID_ROM item1;
+    ItemID_ROM item1;
     u8 item1chance;
     u8 item1quantity[2];
-    struct ItemID_ROM item3;
+    ItemID_ROM item3;
     u8 item3chance;
-    struct ItemID_ROM item4;
+    ItemID_ROM item4;
     u8 item4chance;
-    struct ItemID_ROM item5;
+    ItemID_ROM item5;
     u8 item5chance;
-    struct ItemID_ROM item6;
+    ItemID_ROM item6;
     u8 item6chance;
 };
 
@@ -3316,21 +3305,21 @@ struct price_mod {
 };
 
 struct ShopItem { /* Shop Item listing with 3 mystery bytes */
-    struct ItemID_ROM item;
+    ItemID_ROM item;
     struct price_mod mod;
 };
 
 struct shop_ROM { /* Shop Data in Rom */
-    struct ItemID_ROM EntityID; /* Which entity runs the shop */
+    ItemID_ROM EntityID; /* Which entity runs the shop */
     struct ShopItem longItem[20]; /* each entry has 3 mystery bytes */
-    struct ItemID_ROM shortItem[3]; /* these do not. */
+    ItemID_ROM shortItem[3]; /* these do not. */
 };
 
 typedef struct Spell_ROM Spell_ROM, *PSpell_ROM;
 
 struct Spell_ROM { /* Spell Data in ROM */
     char Name[23];
-    struct ItemID_ROM ID;
+    ItemID_ROM ID;
     enum MagicSchoolEnum School;
     u8 Damage;
     u8 StaminaCost;
@@ -3348,7 +3337,7 @@ typedef struct Weapon_ROM Weapon_ROM, *PWeapon_ROM;
 
 struct Weapon_ROM {
     char Name[21];
-    struct ItemID_ROM ID;
+    ItemID_ROM ID;
     enum WeaponClassEnum WeaponType;
     u8 Required_Strength;
     u8 Hit;
@@ -3364,10 +3353,10 @@ struct Weapon_ROM {
     u8 StatAmmount;
     enum SkillEnum enhanced;
     u8 ammount;
-    struct ItemID_ROM Spell;
+    ItemID_ROM Spell;
     u8 spellAmmount;
     u8 unk0x2a;
-    struct ItemID_ROM Magic;
+    ItemID_ROM Magic;
     u8 MagicAmmount;
     enum ElementEnum ResistElement;
     u8 ResistPercent;
@@ -4454,7 +4443,7 @@ struct DollEquipmentMenu {
     undefined field4_0x8e;
     undefined field5_0x8f;
     struct BaseWidget *icons[15];
-    struct ItemID icon_item_ids[15];
+    ItemID icon_item_ids[15];
     undefined field8_0xea;
     undefined field9_0xeb;
 };
@@ -5941,7 +5930,7 @@ struct player_char_struct {
     struct BaseWidget *text_window;
     u8 unkState;
     undefined field17_0x35;
-    struct ItemID current_shopkeep;
+    ItemID current_shopkeep;
 };
 
 
@@ -6074,7 +6063,7 @@ struct IconDict { /* array Proceeded by dictionary length */
 typedef struct Item_Icon Item_Icon, *PItem_Icon;
 
 struct Item_Icon {
-    struct ItemID id;
+    ItemID id;
     u16 icon;
 };
 
