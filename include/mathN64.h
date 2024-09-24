@@ -1,4 +1,6 @@
 #include "GhidraDump.h"
+#include "typedefs.h"
+
 
 struct vec2f{
     float x,y;

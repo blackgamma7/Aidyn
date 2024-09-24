@@ -158,20 +158,20 @@ struct charExp { /* data containing EXP, School, Aspect and more. */
 };
 
 
-struct effects {
-    struct Temp_enchant * list[15];
-};
-
-struct spellbook { /* pointer and count of spells */
-    struct Temp_spell * spells;
+struct Spellbook { /* pointer and count of spells */
+    SpellInstance * spells;
     u8 spell_count;
 };
+
+#define GEARTOTAL 12
 struct CharGear {
     GearInstance **pItem;
     u8 usedItems;
     u8 maxItems;
 };
 
+#define MAGIC_FXMAX 15
+#define POTION_FXMAX 7
 struct CharSheet { /* Skills, stats and misc of Characters */
     struct ItemID ID;
     char *name; /* pointer to entityDB entry */
@@ -184,13 +184,13 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     CharGear *pItemList;
     Spellbook *spellbook; /* list and count of known spells */
     u32 unk0x30; //unused
-    effects (*effects)[15]; /* spell effects on character */
-    PotionEffect (*potionEffects)[7];
-    s8 some_rand_val;
+    Temp_enchant** effects;
+    PotionEffect** potionEffects; //potion effects on character
+    s8 spellVal;
     u8 spellSwitch;
     u8 currSpell;
     u32 unk0x40;
-    struct Borg8header *portrait;
+    Borg8header *portrait;
 };
 
 

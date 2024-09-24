@@ -1,5 +1,5 @@
-#include "math.h"
-#include "commonTypes.h"
+#include "mathN64.h"
+#include "stringN64.h"
 
 float vec2Length(vec2f *X){
 	return  _sqrtf(SQ(X->x)+SQ(X->y));
@@ -788,9 +788,7 @@ void Ofunc_800ad420(vec3f *A,vec3f *B,vec3f *C,vec3f *D){
 }
 
 void Ofunc_800ad49c(vec3f *A,vec3f *B){
-  float fVar1;
-  
-  fVar1 = vec3_dot(A,B);
+  float fVar1 = vec3_dot(A,B);
   fVar1 = -fVar1;
   B->x = B->x + A->x * fVar1;
   B->y = B->y + A->y * fVar1;

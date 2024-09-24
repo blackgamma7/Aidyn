@@ -1,5 +1,5 @@
 #include "GhidraDump.h"
-#include "math.h"
+#include "mathN64.h"
 #include "widgets/WidgetBorg8.h"
 
 

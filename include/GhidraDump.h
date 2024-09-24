@@ -1,24 +1,4 @@
-typedef unsigned char   undefined;
-typedef unsigned char    byte;
-typedef unsigned int    dword;
-typedef long long    longlong;
-typedef char    sbyte;
-typedef unsigned char    uchar;
-typedef unsigned int    uint;
-typedef unsigned long    ulong;
-typedef unsigned long long    ulonglong;
-typedef unsigned char    undefined1;
-typedef unsigned long long    undefined8;
-typedef unsigned short    ushort;
-
-typedef unsigned char u8;
-typedef char s8;
-typedef unsigned short u16;
-typedef short s16;
-typedef int s32;
-typedef unsigned int u32;
-typedef long long s64;
-typedef unsigned long long u64;
+#include "typedefs.h"
 
 typedef struct astruct astruct, *Pastruct;
 typedef struct Borg11Data Borg11Data, *PBorg11Data;
@@ -1603,13 +1583,6 @@ struct DollBarterConfirm {
     u8 field8_0x8c;
 };
 
-typedef struct Heap_block_Debug Heap_block_Debug, *PHeap_block_Debug;
-
-struct Heap_block_Debug {
-    uint size;
-    char filename[24];
-};
-
 typedef struct InputWidgetSubStruct InputWidgetSubStruct, *PInputWidgetSubStruct;
 
 struct InputWidgetSubStruct {
@@ -2620,25 +2593,17 @@ struct ItemInstance {
 struct SpellInstance { /* spell data loaded into character. */
     struct ItemInstance base;
     u8 level;
-    enum MagicSchoolEnum school;
+    u8 school;
     u8 damage;
     u8 stamina;
-    enum MagicCastedEnum cast;
-    enum MagicTargetEnum target;
+    u8 cast;
+    u8 target;
     u8 wizard;
-    enum MagicSpecial special;
+    u8 special;
     u8 range;
-    enum MigicCostEnum cost;
-    ushort exp_modifyer;
+    u8 cost;
+    u16 exp_modifyer;
     u8 aspect_flag; /* ram0x1f */
-    undefined field13_0x21;
-    undefined field14_0x22;
-    undefined field15_0x23;
-};
-
-struct Spellbook { /* pointer and count of spells */
-    struct SpellInstance *spells;
-    u8 count;
 };
 
 struct PotionEffect {
@@ -6043,15 +6008,7 @@ struct PauseWidget {
     struct WidgetHandler *Handler;
 };
 
-struct Party { /* holds party and inventory data */
-    struct CharSheet *Party[4]; /* pointer to party members */
-    struct PartyInventory *Inventory;
-    uint Gold; /* moneyz */
-    uint timeSneaking;
-    uint timeWalking;
-    uint TimeRunning;
-    u8 PartySize; /* how big is the party? */
-};
+
 
 typedef struct IconDict IconDict, *PIconDict;
 
@@ -6309,12 +6266,7 @@ struct RomstringController {
 };
 */
 
-typedef struct SaveFile SaveFile, *PSaveFile;
 
-struct SaveFile {
-    u8 *dat;
-    u32 pos;
-};
 
 typedef struct shop_pointer shop_pointer, *Pshop_pointer;
 

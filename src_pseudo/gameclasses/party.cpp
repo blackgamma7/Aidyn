@@ -3,26 +3,27 @@
 #else
 #define FILENAME ""
 #endif
+#include "party.h"
 
 
-void init_party(PartyStruct *party){
+void init_party(Party *party){
   memset(party,0,0x28);
-  party->inv = init_inventory(passToMalloc(0x17a8));}
+  party->Inventory = new PartyInventory();
+  }
 
 
-void Party_free(PartyStruct *param_1){
-  Inventory_struct *pIVar1;
+void Party_free(Party *param_1){
   CharSheet **ppCVar3;
   u32 uVar3;
   
-  pIVar1 = param_1->inv;
-  if (param_1->inv) {
-    param_1->inv.~Inventory(3);
+  pIVar1 = param_1->Inventory;
+  if (param_1->Inventory) {
+    param_1->Inventory->~PartyInventory();
   }
   uVar3 = 0;
 
   while( true ) {
-    ppCVar3 = param_1->Party[uVar3];
+    ppCVar3 = param_1->Members[uVar3];
     if (*ppCVar3) {
       CharSheet_free(*ppCVar3);
       HeapFree(*ppCVar3,FILENAME,0xe8);
@@ -33,7 +34,7 @@ void Party_free(PartyStruct *param_1){
   return;
 }
 
-void check_party_event_flag(PartyStruct *param_1,ItemID param_2,bool param_3,bool param_4){
+void check_party_event_flag(Party *param_1,ItemID param_2,bool param_3,bool param_4){
   u16 uVar1;
   u16 auVar2 [2];
   u16 auVar3 [2];
@@ -111,50 +112,50 @@ void check_party_event_flag(PartyStruct *param_1,ItemID param_2,bool param_3,boo
   return;
 }
 
-void register_party_deaths(PartyStruct *param_1){
+void register_party_deaths(Party *param_1){
   CharSheet *pCVar1;
   s32 i;
   i = 0;
   while( true ) {
-    pCVar1 = param_1->Party[i];
+    pCVar1 = param_1->Members[i];
     if (pCVar1) check_party_event_flag(param_1,pCVar1->ID,false,isDead(pCVar1));
     i++;
     if (3 < i) break;
   }
 }
 
-bool add_to_party(PartyStruct *param_1,ItemID param_2){
+bool add_to_party(Party *param_1,ItemID param_2){
   u32 uVar1;
   CharSheet *pCVar2;
   u32 uVar4;
   
-  if (param_1->PartySize == 4) return false;
+  if (param_1->MembersSize == 4) return false;
   uVar4 = 0;
-  if (param_1->Party[0]) {
+  if (param_1->Members[0]) {
     uVar1 = 1;
     do {
       uVar4 = uVar1;
        if (3 < uVar4) break;
        uVar1 = uVar4 + 1;
-    } while (param_1->Party[uVar4]);
+    } while (param_1->Members[uVar4]);
    }
   pCVar2 = (CharSheet *)heapAlloc(0x48,FILENAME,0x157);
-  param_1->Party[uVar4] = pCVar2;
+  param_1->Members[uVar4] = pCVar2;
   create_CharSheet(pCVar2,param_2,0);
-  param_1->PartySize++;
+  param_1->MembersSize++;
   check_party_event_flag(param_1,param_2,true,true);
-  caseSwitch_copy_char(param_1->Party[uVar4]);
+  caseSwitch_copy_char(param_1->Members[uVar4]);
   return true;
 }
 
-bool func_8007dfc8(PartyStruct *param_1,u32 arg1){
+bool func_8007dfc8(Party *param_1,u32 arg1){
   u8 bVar2;
   Temp_weapon *pTVar1;
   bool ret;
   Entity_Ram *entRam;
   CharSheet *charSheeeet;
   
-  charSheeeet = param_1->Party[arg1];
+  charSheeeet = param_1->Members[arg1];
   bVar2 = GetIDIndex(charSheeeet->ID);
   entRam = EntityPointer->entities + (char)bVar2;
   if ((*charSheeeet->armor) || (ret = false, entRam->Sheild == (ItemID)-1))
@@ -177,22 +178,22 @@ bool func_8007dfc8(PartyStruct *param_1,u32 arg1){
   return ret;
 }
 
-CharSheet * get_charsheet(PartyStruct *param_1,ItemID param_2){
+CharSheet * get_charsheet(Party *param_1,ItemID param_2){
   u8 abStack16;
   return get_party_charsheet(param_1,param_2,abStack16);}
 
-CharSheet * get_party_charsheet(PartyStruct *param_1,ItemID param_2,u8 *param_3){
+CharSheet * get_party_charsheet(Party *param_1,ItemID param_2,u8 *param_3){
   u8 bVar2;
   CharSheet *pCVar1;
   
   bVar2 = find_ent_in_Party(param_1,param_2);
   *param_3 = bVar2;
   if (bVar2 == -1) pCVar1 = NULL;
-  else pCVar1 = param_1->Party[*param_3];
+  else pCVar1 = param_1->Members[*param_3];
   return pCVar1;
 }
 
-void func_8007e108(PartyStruct *param_1){
+void func_8007e108(Party *param_1){
   s32 iVar1;
   CharSheet *piVar2;
   u32 uVar2;
@@ -201,7 +202,7 @@ void func_8007e108(PartyStruct *param_1){
   iVar1 = 0;
   uVar2 = 0;
   do {
-    piVar2 = (CharSheet *)((s32)param_1->Party + iVar1);
+    piVar2 = (CharSheet *)((s32)param_1->Members + iVar1);
     uVar3 = uVar2 + 1;
     if (*(s32 *)piVar2 == 0) {
       iVar1 = uVar2 << 2;
@@ -213,7 +214,7 @@ void func_8007e108(PartyStruct *param_1){
         } while (uVar2 < 3);
         iVar1 = uVar2 * 4;
       }
-      *(s32 *)((s32)param_1->Party + iVar1) = 0;
+      *(s32 *)((s32)param_1->Members + iVar1) = 0;
     }
     iVar1 = uVar3 * 4;
     uVar2 = uVar3;
@@ -221,43 +222,43 @@ void func_8007e108(PartyStruct *param_1){
   return;
 }
 
-s8 find_ent_in_Party(PartyStruct *party,ItemID id){
+s8 find_ent_in_Party(Party *party,ItemID id){
   s32 i=0;
   CharSheet *psVar1;
-  while ((psVar1 = party->Party[i], psVar1 == NULL ||(psVar1->ID != id))) {
+  while ((psVar1 = party->Members[i], psVar1 == NULL ||(psVar1->ID != id))) {
     i++;
     if (3 < i) return -1;
   }
   return (s8)i;
 }
 
-void remove_alive_char_from_party(PartyStruct *param_1, ItemID param_2){
+void remove_alive_char_from_party(Party *param_1, ItemID param_2){
   s8 sVar1 = find_ent_in_Party(param_1,param_2);
   if (sVar1 != -1) remove_alive_member(param_1,sVar1);
 }
 
 
-void remove_alive_member(PartyStruct *param_1,s8 param_2){
+void remove_alive_member(Party *param_1,s8 param_2){
   strip_party_member(param_1,param_2,1);
   move_party_to_saveEnt(param_1);
-  if (param_1->Party[param_2]) {
-    check_party_event_flag(param_1,param_1->Party[param_2]->ID,true,false);
+  if (param_1->Members[param_2]) {
+    check_party_event_flag(param_1,param_1->Members[param_2]->ID,true,false);
     remove_party_member(param_1,param_2,0);
     scooch_member_over(param_1);
   }
 }
 
-void Ofunc_removeEntireParty(PartyStruct *param_1){
+void Ofunc_removeEntireParty(Party *param_1){
   u8 i;
   for(i = 0;i < 4;i++) remove_party_member(param_1,i,0);
 }
 
-bool IsCharacterInParty(PartyStruct *param_1,ItemID param_2){
+bool IsCharacterInParty(Party *param_1,ItemID param_2){
   s32 i=0;
   u32 uVar2;
   CharSheet *psVar1;
 
-  while ((psVar1 = param_1->Party[i], psVar1 == NULL ||
+  while ((psVar1 = param_1->Members[i], psVar1 == NULL ||
          (psVar1->ID != param_2))) {
     i++;
     if (3 < i) return false;
@@ -265,28 +266,28 @@ bool IsCharacterInParty(PartyStruct *param_1,ItemID param_2){
   return true;
 }
 
-void BringOutYourDead(PartyStruct *param_1){
+void BringOutYourDead(Party *param_1){
   CharSheet *pCVar1;
-  PartyStruct *pPVar3;
+  Party *pPVar3;
   u32 uVar4;
   
   register_party_deaths(param_1);
   uVar4 = 0;
   pPVar3 = param_1;
   do {
-    pCVar1 = pPVar3->Party[0];
+    pCVar1 = pPVar3->Members[0];
     if ((pCVar1) && (isDead(pCVar1))) {
       saveent_deadMember(pCVar1->ID);
       remove_party_member(param_1,(u8)uVar4,1);
     }
     uVar4++;
-    pPVar3 = (PartyStruct *)(pPVar3->Party + 1);
+    pPVar3 = (Party *)(pPVar3->Members + 1);
   } while (uVar4 < 4);
   scooch_member_over(param_1);
   return;
 }
 
-void scooch_member_over(PartyStruct *param_1){
+void scooch_member_over(Party *param_1){
   s32 iVar1;
   CharSheet *ppCVar2;
   CharSheet **ppCVar3;
@@ -296,10 +297,10 @@ void scooch_member_over(PartyStruct *param_1){
   iVar1 = 0;
   uVar2 = 0;
   do {
-    ppCVar2 = (CharSheet *)((s32)param_1->Party + iVar1);
+    ppCVar2 = (CharSheet *)((s32)param_1->Members + iVar1);
     uVar3 = uVar2 + 1;
     if ((*(s32 *)ppCVar2 == 0) && (uVar3 < 4)) {
-      ppCVar3 = param_1->Party + uVar2 + 1;
+      ppCVar3 = param_1->Members + uVar2 + 1;
       uVar2 = uVar3;
       do {
         uVar2 = uVar2 + 1;
@@ -317,11 +318,11 @@ void scooch_member_over(PartyStruct *param_1){
   return;
 }
 
-void strip_party_member(PartyStruct *param_1,u8 param_2,u8 param_3){
+void strip_party_member(Party *param_1,u8 param_2,u8 param_3){
   u32 uVar1;
   u32 uVar2;
 
-    if (param_1->Party[param_2]) {
+    if (param_1->Members[param_2]) {
     uVar1 = 0;
     do {
       func_8007f9b8(param_1,param_2,(u8)uVar1);
@@ -336,16 +337,16 @@ void strip_party_member(PartyStruct *param_1,u8 param_2,u8 param_3){
   return;
 }
 
-void remove_party_member(PartyStruct *param_1,u8 param_2,u8 param_3){
+void remove_party_member(Party *param_1,u8 param_2,u8 param_3){
   CharSheet *pCVar1;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   if (pCVar1) {
     strip_party_member(param_1,param_2,param_3);
     CharSheet_free(pCVar1);
     HeapFree(pCVar1,FILENAME);
-    param_1->Party[param_2] = NULL;
-    param_1->PartySize--;
+    param_1->Members[param_2] = NULL;
+    param_1->MembersSize--;
   }
 }
 
@@ -360,34 +361,34 @@ bool characterInParty(CharSheet **param_1,CharSheet *param_2){
   } while (i < 4);
   return true;}
 
-u32 get_party_avg_lv(PartyStruct *param_1){
+u32 get_party_avg_lv(Party *param_1){
   u32 uVar3;
   u32 uVar4;
   CharSheet *iVar1;
   
   uVar4 = 0;
-  if (param_1->PartySize == 0) {uVar4 = 0;}
+  if (param_1->MembersSize == 0) {uVar4 = 0;}
   else {
     
     for(uVar3 = 0;uVar3 < 4;uVar3++) {
-      iVar1 = param_1->Party[uVar3];
+      iVar1 = param_1->Members[uVar3];
       if (iVar1) {uVar4+= CharStats::getModdedStat(iVar1->Stats,STAT_LV);}
     }
-    uVar4/= param_1->PartySize;
+    uVar4/= param_1->MembersSize;
   }
   return uVar4;
 }
 
-s32 clear_inventory_8007e600(PartyStruct *param_1){
+s32 clear_inventory_8007e600(Party *param_1){
   inv_funcs *piVar1;
   s32 uVar2;
   
-  piVar1 = param_1->inv->Functions;
+  piVar1 = param_1->Inventory->Functions;
   (*(piVar1->clear_item).func)
-            ((s32)param_1->inv->inv_slots + (s16)(piVar1->clear_item).arg[0] + -4);
-  piVar1 = param_1->inv->Functions;
+            ((s32)param_1->Inventory->inv_slots + (s16)(piVar1->clear_item).arg[0] + -4);
+  piVar1 = param_1->Inventory->Functions;
   uVar2 = (*(piVar1->clear_inventory).func)
-                    ((s32)param_1->inv->inv_slots +
+                    ((s32)param_1->Inventory->inv_slots +
                      (s16)(piVar1->clear_inventory).arg[0] + -4);
   return uVar2;
 }
@@ -401,7 +402,7 @@ u8 (*) [2] create_2ByteArray(u8 (*param_1) [2]){
     (*pabVar1)[1] = (*param_1)[1];}
   return pabVar1;}
 
-u8 func_8007e798(PartyStruct *param_1,u8 param_2){
+u8 func_8007e798(Party *param_1,u8 param_2){
   u32 uVar1;
   u8 *pbVar2;
   u8 temparray [9]={1,1,2,6,3,5,0,0,0xff};
@@ -419,16 +420,16 @@ u8 func_8007e798(PartyStruct *param_1,u8 param_2){
 }
 
 
-bool func_checking_niesen_2(PartyStruct *param_1,CharSheet *param_2,u8 param_3,ItemID param_4){
+bool func_checking_niesen_2(Party *param_1,CharSheet *param_2,u8 param_3,ItemID param_4){
   inv_funcs *piVar1;
   ulong uVar2;
   u8 bVar4;
   
 
-  if (has_item_func(param_1->inv,param_4)) {
-    piVar1 = param_1->inv->Functions;
+  if (has_item_func(param_1->Inventory,param_4)) {
+    piVar1 = param_1->Inventory->Functions;
     uVar2 = (*(piVar1->get_inv_index).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar1->get_inv_index).arg[0] + -4,param_4);
     bVar4 = GetIDIndex(param_4);
     if ((&gCombatP->combatEnts)[param_3] == NULL) {return true;}
@@ -441,7 +442,7 @@ bool func_checking_niesen_2(PartyStruct *param_1,CharSheet *param_2,u8 param_3,I
   return true;
 }
 
-u8 get_equip_error(PartyStruct *param_1,u8 param_2,char param_3){
+u8 get_equip_error(Party *param_1,u8 param_2,char param_3){
   CharSheet *pCVar1;
   inv_funcs *piVar2;
   temp_gear *puVar4;
@@ -449,10 +450,10 @@ u8 get_equip_error(PartyStruct *param_1,u8 param_2,char param_3){
   s32 iVar4;
   u32 uVar6;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   if ((pCVar1) &&
-     (piVar2 = param_1->inv->Functions,
-     puVar4 = (temp_gear *)(*(piVar2->get_inv_slot).func)((s32)param_1->inv->inv_slots +
+     (piVar2 = param_1->Inventory->Functions,
+     puVar4 = (temp_gear *)(*(piVar2->get_inv_slot).func)((s32)param_1->Inventory->inv_slots +
                          (s16)(piVar2->get_inv_slot).arg[0] + -4,param_3),
      puVar4)) {
     if ((puVar4->aspect != NONE) &&(GetCharAspect(pCVar1->EXP) !=puVar4->aspect)) {
@@ -472,7 +473,7 @@ u8 get_equip_error(PartyStruct *param_1,u8 param_2,char param_3){
   return 1;
 }
 
-u8 itemtype_armor(PartyStruct *param_1,u8 param_2,temp_armor *param_3,CharSheet *param_4,ItemID *param_5){
+u8 itemtype_armor(Party *param_1,u8 param_2,temp_armor *param_3,CharSheet *param_4,ItemID *param_5){
   ItemID IVar1;
   inv_funcs *piVar2;
   u8 bVar4;
@@ -486,9 +487,9 @@ u8 itemtype_armor(PartyStruct *param_1,u8 param_2,temp_armor *param_3,CharSheet 
     X = create_2ByteArray(param_3->statMod);
     bVar5 = 0xff;
     if (param_3->spell) {bVar5 = param_3->spell->Charges;}
-    piVar2 = param_1->inv->Functions;
+    piVar2 = param_1->Inventory->Functions;
     uVar3 = (*(piVar2->get_some_bool).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar2->get_some_bool).arg[0] + -4,(ulonglong)(u16)IVar1,1);
     if (uVar3 == 0) {
       if (X) {HeapFree(X,FILENAME,0x377);}
@@ -512,7 +513,7 @@ u8 itemtype_armor(PartyStruct *param_1,u8 param_2,temp_armor *param_3,CharSheet 
   return bVar4;
 }
 
-u8 itemtype_sheild(PartyStruct *param_1,char param_2,temp_armor *param_3,CharSheet *param_4,ItemID *param_5){
+u8 itemtype_sheild(Party *param_1,char param_2,temp_armor *param_3,CharSheet *param_4,ItemID *param_5){
   ItemID IVar1;
   inv_funcs *piVar2;
   u8 bVar4;
@@ -526,9 +527,9 @@ u8 itemtype_sheild(PartyStruct *param_1,char param_2,temp_armor *param_3,CharShe
     X = create_2ByteArray(param_3->statMod);
     bVar5 = 0xff;
     if (param_3->spell) {bVar5 = param_3->spell->Charges;}
-    piVar2 = param_1->inv->Functions;
+    piVar2 = param_1->Inventory->Functions;
     uVar3 = (*(piVar2->get_some_bool).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar2->get_some_bool).arg[0] + -4,(ulonglong)(u16)IVar1,1);
     if (uVar3 == 0) {
       if (X) {HeapFree(X,FILENAME,0x3b2);}
@@ -551,7 +552,7 @@ u8 itemtype_sheild(PartyStruct *param_1,char param_2,temp_armor *param_3,CharShe
 }
 
 
-u8 itemtype_weapon(PartyStruct *param_1,u32 param_2,Temp_weapon *param_3,CharSheet *param_4,ItemID *param_5){
+u8 itemtype_weapon(Party *param_1,u32 param_2,Temp_weapon *param_3,CharSheet *param_4,ItemID *param_5){
   ItemID IVar1;
   inv_funcs *piVar2;
   u8 bVar4;
@@ -565,9 +566,9 @@ u8 itemtype_weapon(PartyStruct *param_1,u32 param_2,Temp_weapon *param_3,CharShe
     X = create_2ByteArray(param_3->Stat);
     bVar4 = 0xff;
     if (param_3->spell) {bVar4 = param_3->spell->Charges;}
-    piVar2 = param_1->inv->Functions;
+    piVar2 = param_1->Inventory->Functions;
     uVar3 = (*(piVar2->get_some_bool).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar2->get_some_bool).arg[0] + -4,IVar1,1);
     if (uVar3 == 0) {
       if (X) {HeapFree(X,FILENAME,0x3ed);}
@@ -593,7 +594,7 @@ u8 itemtype_weapon(PartyStruct *param_1,u32 param_2,Temp_weapon *param_3,CharShe
   return bVar5;
 }
 
-u8 itemtype_scroll(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
+u8 itemtype_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
   u8 uVar2;
   
   if (gametrek_flag0 == 0) {
@@ -603,11 +604,11 @@ u8 itemtype_scroll(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet 
   else uVar2 = use_scroll(param_1,param_2,param_3,param_4);
   return uVar2;}
 
-bool itemtype_ring(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
+bool itemtype_ring(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
   return func_800830a4(param_1,param_2,param_3,param_4,2);}
 
 
-u8 itemtype_gear(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4,ItemID *param_5){
+u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4,ItemID *param_5){
   u8 bVar1;
   ItemID IVar2;
   ItemID IVar3;
@@ -626,8 +627,8 @@ u8 itemtype_gear(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet *p
     X = create_2ByteArray(param_3->statmod);
     bVar7 = 0xff;
     if (param_3->pSpell) {bVar7 = param_3->pSpell->Charges;}
-    piVar4 = param_1->inv->Functions;
-    uVar6 = (*(piVar4->get_some_bool).func)((s32)param_1->inv->inv_slots +
+    piVar4 = param_1->Inventory->Functions;
+    uVar6 = (*(piVar4->get_some_bool).func)((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar4->get_some_bool).arg[0] + -4,IVar2,1);
     if (uVar6 == 0) {
       if (X) {HeapFree(X,FILENAME,0x457);}
@@ -670,7 +671,7 @@ u8 itemtype_gear(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet *p
 }
 
 
-void func_8007f10c(PartyStruct *param_1,CharSheet *param_2,u16 param_3,u8 (*param_4) [2],u8 param_5){
+void func_8007f10c(Party *param_1,CharSheet *param_2,u16 param_3,u8 (*param_4) [2],u8 param_5){
   CharGear *pCVar1;
   
   func_8007840c(param_2,param_3,param_4);
@@ -678,7 +679,7 @@ void func_8007f10c(PartyStruct *param_1,CharSheet *param_2,u16 param_3,u8 (*para
   SetMagicCharges((Temp_weapon *)param_2->pItemList->pItem[func_8007daa8(pCVar1,param_3)],param_5);
 }
 
-bool use_scroll(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
+bool use_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
   u8 bVar1;
   u8 bVar2;
   MagicSchoolEnum MVar3;
@@ -731,7 +732,7 @@ bool use_scroll(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet *pa
       bVar8 = knows_spell(param_4->spellbook,(ItemID)(bVar1 | 0x300),auStack552);
       if (bVar8 == false) {
         bVar2 = pGVar5[iVar7].spell;
-        pSVar12 = spell_pointer->spells[bVar2];
+        pSVar12 = gLoadedSpells->spells[bVar2];
         if (lVar6 < (longlong)(ulonglong)pSVar12->WizardREQ) {
           pcVar10 = &acStack416;
           acStack416 = OFFWHITE;
@@ -748,9 +749,9 @@ bool use_scroll(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet *pa
             acStack160 = OFFWHIE;
             acStack96 = DARKGRAY_T;
             some_textbox_func(gGlobals.text,0x96,&acStack160,&acStack96,1);
-            piVar6 = param_1->inv->Functions;
+            piVar6 = param_1->Inventory->Functions;
             (*(piVar6->get_some_bool).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar6->get_some_bool).arg[0] + -4,(ulonglong)(u16)IVar4,1);
             return false;
           }
@@ -782,7 +783,7 @@ void func_8007f508(Temp_weapon *param_1,u8 (*param_2) [2],s8 param_3){
   if (param_3 != -1) param_1->spell->Charges = param_3;
 }
 
-bool remove_armor_from_character(PartyStruct *param_1,u8 param_2){
+bool remove_armor_from_character(Party *param_1,u8 param_2){
   CharSheet *pCVar1;
   temp_armor *ptVar2;
   inv_funcs *piVar3;
@@ -793,29 +794,29 @@ bool remove_armor_from_character(PartyStruct *param_1,u8 param_2){
   undefined uVar6;
   
   if (gGlobals.combatBytes[0] == 0xe) {return true;}
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   if (pCVar1 == NULL) {return true;}
   ptVar2 = *pCVar1->armor;
   if (ptVar2 == NULL) {return false;}
   X = create_2ByteArray(ptVar2->statMod);
   uVar6 = 0xff;
   if (ptVar2->spell) {uVar6 = ptVar2->spell->Charges;}
-  piVar3 = param_1->inv->Functions;
+  piVar3 = param_1->Inventory->Functions;
   uVar4 = (*(piVar3->add_to_inv).func)
-                    ((s32)param_1->inv->inv_slots + (s16)(piVar3->add_to_inv).arg[0] + -4,
+                    ((s32)param_1->Inventory->inv_slots + (s16)(piVar3->add_to_inv).arg[0] + -4,
                      (ulonglong)(u16)ptVar2->id,1);
   if (uVar4 == 0) {
     if (X == NULL) return true;
     line = 0x572;}
   else {
-    piVar3 = param_1->inv->Functions;
+    piVar3 = param_1->Inventory->Functions;
     uVar4 = (*(piVar3->get_inv_index).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar3->get_inv_index).arg[0] + -4,(ulonglong)(u16)ptVar2->id);
-    piVar3 = param_1->inv->Functions;
+    piVar3 = param_1->Inventory->Functions;
     pTVar5 = (Temp_weapon *)
              (*(piVar3->get_inv_slot).func)
-                       ((s32)param_1->inv->inv_slots +
+                       ((s32)param_1->Inventory->inv_slots +
                         (s16)(piVar3->get_inv_slot).arg[0] + -4,uVar4);
     if (pTVar5) {
       func_8007f508(pTVar5,X,uVar6);
@@ -829,7 +830,7 @@ bool remove_armor_from_character(PartyStruct *param_1,u8 param_2){
   return true;
 }
 
-bool removeArmorIntoInventory(PartyStruct *param_1,u32 param_2){
+bool removeArmorIntoInventory(Party *param_1,u32 param_2){
   CharSheet *pCVar1;
   temp_armor *ptVar2;
   inv_funcs *piVar3;
@@ -839,7 +840,7 @@ bool removeArmorIntoInventory(PartyStruct *param_1,u32 param_2){
   s32 line;
   undefined uVar6;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   if (pCVar1 == NULL) {return true;}
   if (gGlobals.combatBytes[0] == 0xe) {return true;}
   ptVar2 = pCVar1->armor[1];
@@ -847,23 +848,23 @@ bool removeArmorIntoInventory(PartyStruct *param_1,u32 param_2){
   X = create_2ByteArray(ptVar2->statMod);
   uVar6 = 0xff;
   if (ptVar2->spell) {uVar6 = ptVar2->spell->Charges;}
-  piVar3 = param_1->inv->Functions;
+  piVar3 = param_1->Inventory->Functions;
   uVar4 = (*(piVar3->add_to_inv).func)
-                    ((s32)param_1->inv->inv_slots + (s16)(piVar3->add_to_inv).arg[0] + -4,
+                    ((s32)param_1->Inventory->inv_slots + (s16)(piVar3->add_to_inv).arg[0] + -4,
                      (ulonglong)(u16)ptVar2->id,1);
   if (uVar4 == 0) {
     if (X == NULL) {return true;}
     line = 0x5a4;
   }
   else {
-    piVar3 = param_1->inv->Functions;
+    piVar3 = param_1->Inventory->Functions;
     uVar4 = (*(piVar3->get_inv_index).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar3->get_inv_index).arg[0] + -4,(ulonglong)(u16)ptVar2->id);
-    piVar3 = param_1->inv->Functions;
+    piVar3 = param_1->Inventory->Functions;
     pTVar5 = (Temp_weapon *)
              (*(piVar3->get_inv_slot).func)
-                       ((s32)param_1->inv->inv_slots +
+                       ((s32)param_1->Inventory->inv_slots +
                         (s16)(piVar3->get_inv_slot).arg[0] + -4,uVar4);
     if (pTVar5) {
       func_8007f508(pTVar5,X,uVar6);
@@ -877,7 +878,7 @@ bool removeArmorIntoInventory(PartyStruct *param_1,u32 param_2){
   return true;
 }
 
-bool MoveWeaponsToInventory(PartyStruct *param_1,u32 param_2){
+bool MoveWeaponsToInventory(Party *param_1,u32 param_2){
   CharSheet *pCVar1;
   inv_funcs *piVar2;
   CombatEntity *pCVar3;
@@ -886,7 +887,7 @@ bool MoveWeaponsToInventory(PartyStruct *param_1,u32 param_2){
   Temp_weapon *pTVar5;
   undefined uVar6;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   if (pCVar1) {
     pTVar5 = pCVar1->weapons;
     if (pTVar5 == NULL) {return false;}
@@ -894,9 +895,9 @@ bool MoveWeaponsToInventory(PartyStruct *param_1,u32 param_2){
     X = create_2ByteArray(pTVar5->Stat);
     uVar6 = 0xff;
     if (pTVar5->spell) {uVar6 = pTVar5->spell->Charges;}
-    piVar2 = param_1->inv->Functions;
+    piVar2 = param_1->Inventory->Functions;
     uVar4 = (*(piVar2->add_to_inv).func)
-                      ((s32)param_1->inv->inv_slots + (s16)(piVar2->add_to_inv).arg[0] + -4,
+                      ((s32)param_1->Inventory->inv_slots + (s16)(piVar2->add_to_inv).arg[0] + -4,
                        (ulonglong)(u16)pTVar5->id,1);
     if (uVar4 == 0) {
       if (X) {
@@ -905,14 +906,14 @@ bool MoveWeaponsToInventory(PartyStruct *param_1,u32 param_2){
       }
     }
     else {
-      piVar2 = param_1->inv->Functions;
+      piVar2 = param_1->Inventory->Functions;
       uVar4 = (*(piVar2->get_inv_index).func)
-                        ((s32)param_1->inv->inv_slots +
+                        ((s32)param_1->Inventory->inv_slots +
                          (s16)(piVar2->get_inv_index).arg[0] + -4,(ulonglong)(u16)pTVar5->id);
-      piVar2 = param_1->inv->Functions;
+      piVar2 = param_1->Inventory->Functions;
       pTVar5 = (Temp_weapon *)
                (*(piVar2->get_inv_slot).func)
-                         ((s32)param_1->inv->inv_slots +
+                         ((s32)param_1->Inventory->inv_slots +
                           (s16)(piVar2->get_inv_slot).arg[0] + -4,uVar4);
       if (pTVar5) {
         func_8007f508(pTVar5,X,uVar6);
@@ -937,7 +938,7 @@ bool MoveWeaponsToInventory(PartyStruct *param_1,u32 param_2){
 }
 
 
-bool func_8007f9b8(PartyStruct *param_1,u8 param_2,u8 param_3){
+bool func_8007f9b8(Party *param_1,u8 param_2,u8 param_3){
   CharSheet *pCVar1;
   inv_funcs *piVar2;
   u8 (*X) [2];
@@ -946,7 +947,7 @@ bool func_8007f9b8(PartyStruct *param_1,u8 param_2,u8 param_3){
   undefined uVar6;
   temp_gear *puVar2;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   if (pCVar1 == NULL) return true;
   if (0xb < param_3) return true;
   if (pCVar1->pItemList) {
@@ -955,19 +956,19 @@ bool func_8007f9b8(PartyStruct *param_1,u8 param_2,u8 param_3){
     X = create_2ByteArray(puVar2->statmod);
     uVar6 = 0xff;
     if (puVar2->pSpell) uVar6 = puVar2->pSpell->Charges;
-    piVar2 = param_1->inv->Functions;
+    piVar2 = param_1->Inventory->Functions;
     uVar3 = (*(piVar2->add_to_inv).func)
-                      ((s32)param_1->inv->inv_slots + (s16)(piVar2->add_to_inv).arg[0] + -4,
+                      ((s32)param_1->Inventory->inv_slots + (s16)(piVar2->add_to_inv).arg[0] + -4,
                        (ulonglong)(u16)puVar2->id,1);
     if (uVar3 != 0) {
-      piVar2 = param_1->inv->Functions;
+      piVar2 = param_1->Inventory->Functions;
       uVar3 = (*(piVar2->get_inv_index).func)
-                        ((s32)param_1->inv->inv_slots +
+                        ((s32)param_1->Inventory->inv_slots +
                          (s16)(piVar2->get_inv_index).arg[0] + -4,(ulonglong)(u16)puVar2->id);
-      piVar2 = param_1->inv->Functions;
+      piVar2 = param_1->Inventory->Functions;
       pTVar4 = (Temp_weapon *)
                (*(piVar2->get_inv_slot).func)
-                         ((s32)param_1->inv->inv_slots +
+                         ((s32)param_1->Inventory->inv_slots +
                           (s16)(piVar2->get_inv_slot).arg[0] + -4,uVar3);
       func_8007f508(pTVar4,X,uVar6);
       unequip_acc(pCVar1,uVar5);
@@ -978,7 +979,7 @@ bool func_8007f9b8(PartyStruct *param_1,u8 param_2,u8 param_3){
   return true;
 }
 
-int Check_diplomat_int(PartyStruct *param_1)
+int Check_diplomat_int(Party *param_1)
 
 {
   CharSheet *pCVar1;
@@ -995,7 +996,7 @@ int Check_diplomat_int(PartyStruct *param_1)
   uVar9 = 0;
   uVar4 = 0;
   for(uVar4=0;uVar4<4;uVar4++){
-    pCVar1 = param_1->Party[uVar4];
+    pCVar1 = param_1->Members[uVar4];
     if ((pCVar1 != NULL) && (bVar6 = isDead(pCVar1), !bVar6)) {
       uVar2 = getModdedStat(pCVar1->Stats,STAT_INT);
       if (uVar3 < uVar2) uVar3 = uVar2;
@@ -1043,7 +1044,7 @@ s32 Check_loremaster_INT(CharSheet **param_1){
   return iVar5;
 }
 
-u32 loremaster_INT_skillcheck(PartyStruct *param_1){
+u32 loremaster_INT_skillcheck(Party *param_1){
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -1052,7 +1053,7 @@ u32 loremaster_INT_skillcheck(PartyStruct *param_1){
   
   cVar4 = GetMostSkilledMember(param_1,SKILL_LOREMASTER);
   if ((longlong)cVar4 != 0xff) {
-    pCVar1 = param_1->Party[cVar4];
+    pCVar1 = param_1->Members[cVar4];
     if (pCVar1 == NULL) {return 0;}
     cVar4 = getModdedSkill(pCVar1->Skills,SKILL_LOREMASTER);
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
@@ -1065,7 +1066,7 @@ u32 loremaster_INT_skillcheck(PartyStruct *param_1){
   return 0;
 }
 
-u8 getMechanic_Int_Dex(PartyStruct *param_1,char param_2){//used in armor craft
+u8 getMechanic_Int_Dex(Party *param_1,char param_2){//used in armor craft
   CharSheet *pCVar1;
   char cVar5;
   s32 iVar2;
@@ -1075,7 +1076,7 @@ u8 getMechanic_Int_Dex(PartyStruct *param_1,char param_2){//used in armor craft
   u8 uVar7;
   u32 uVar8;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   uVar7 = 0;
   if (pCVar1) {
     cVar5 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
@@ -1098,7 +1099,7 @@ u8 getMechanic_Int_Dex(PartyStruct *param_1,char param_2){//used in armor craft
   return uVar7;
 }
 
-undefined mechanic_int_dex_skillcheck(PartyStruct *param_1,u8 param_2){
+undefined mechanic_int_dex_skillcheck(Party *param_1,u8 param_2){
   CharSheet *pCVar1;
   char cVar5;
   s32 iVar2;
@@ -1108,7 +1109,7 @@ undefined mechanic_int_dex_skillcheck(PartyStruct *param_1,u8 param_2){
   undefined uVar7;
   u32 uVar8;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   uVar7 = 0;
   if (pCVar1) {
     cVar5 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
@@ -1131,7 +1132,7 @@ undefined mechanic_int_dex_skillcheck(PartyStruct *param_1,u8 param_2){
   return uVar7;
 }
 
-float merchant_skill_check(PartyStruct *param_1,u8 MInt,u8 Mstam){
+float merchant_skill_check(Party *param_1,u8 MInt,u8 Mstam){
   CharSheet *pCVar1;
   s32 iVar3;
   bool bVar5;
@@ -1150,7 +1151,7 @@ float merchant_skill_check(PartyStruct *param_1,u8 MInt,u8 Mstam){
   uVar7 = 0;
   iVar3 = 0;
   do {
-    pCVar1 = param_1->Party[uVar7];
+    pCVar1 = param_1->Members[uVar7];
     if ((pCVar1) && (!isDead(pCVar1))) {
       cVar6 = getModdedSkill(pCVar1->Skills,Merchant);
       lVar2 = (longlong)cVar6;
@@ -1165,7 +1166,7 @@ float merchant_skill_check(PartyStruct *param_1,u8 MInt,u8 Mstam){
   } while (uVar7 < 4);
   fVar13 = 0.05f;
   if (uVar11 != 4) {
-    pCVar1 = param_1->Party[uVar11];
+    pCVar1 = param_1->Members[uVar11];
     iVar3 = 0xf - (s32)lVar8;
     iVar4 = CharStats::getModdedStat(pCVar1->Stats,STAT_STAM);
     fVar13 = 0.05f;
@@ -1178,7 +1179,7 @@ float merchant_skill_check(PartyStruct *param_1,u8 MInt,u8 Mstam){
   return (float)MStam * fVar13;
 }
 
-undefined some_ranger_stam_func(PartyStruct *param_1){
+undefined some_ranger_stam_func(Party *param_1){
   CharSheet *pCVar1;
   s32 iVar2;
   char cVar6;
@@ -1195,7 +1196,7 @@ undefined some_ranger_stam_func(PartyStruct *param_1){
   uVar9 = 0;
   iVar2 = 0;
   do {
-    pCVar1 = param_1->Party[uVar9];
+    pCVar1 = param_1->Members[uVar9];
     if (pCVar1) {
       cVar6 = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
       uVar8 = (s32)cVar6;
@@ -1213,7 +1214,7 @@ undefined some_ranger_stam_func(PartyStruct *param_1){
   uVar7 = 2;
   if (uVar5 != 0) {
     if (uVar4 != 4) {
-      pCVar1 = param_1->Party[uVar4];
+      pCVar1 = param_1->Members[uVar4];
       iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
       uVar9 = iVar2 * 3 + uVar5 * 10 & 0xffff;
       uVar4 = RollD(1,100);
@@ -1233,7 +1234,7 @@ undefined some_ranger_stam_func(PartyStruct *param_1){
 }
 
 
-undefined Ofunc_Ranger_int_check(PartyStruct *param_1){
+undefined Ofunc_Ranger_int_check(Party *param_1){
   s32 iVar2;
   char cVar4;
   u32 uVar3;
@@ -1246,7 +1247,7 @@ undefined Ofunc_Ranger_int_check(PartyStruct *param_1){
   uVar7 = 0;
   uVar6 = 0;
   do {
-    iVar1 = param_1->Party[uVar6];;
+    iVar1 = param_1->Members[uVar6];;
     if (iVar1) {
       cVar4 = getModdedSkill(iVar1->Skills,SKILL_RANGER);
       if (uVar7 < ((s32)cVar4)) {
@@ -1258,10 +1259,10 @@ undefined Ofunc_Ranger_int_check(PartyStruct *param_1){
   } while (uVar6 < 4);
   if (uVar7 == 0) {return 0;}
   if (uVar3 != 4) {
-    if (param_1->Party[uVar3] == NULL) {
+    if (param_1->Members[uVar3] == NULL) {
       return 0;
     }
-    iVar2 = CharStats::getModdedStat(param_1->Party[uVar3]->Stats,STAT_INT);
+    iVar2 = CharStats::getModdedStat(param_1->Members[uVar3]->Stats,STAT_INT);
     uVar7 = iVar2 * 3 + uVar7 * 10 & 0xffff;
     uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
@@ -1272,7 +1273,7 @@ undefined Ofunc_Ranger_int_check(PartyStruct *param_1){
   return 0;
 }
 
-undefined ofunc_ranger_stam_int(PartyStruct *param_1)
+undefined ofunc_ranger_stam_int(Party *param_1)
 
 {
   s32 iVar1;
@@ -1290,7 +1291,7 @@ undefined ofunc_ranger_stam_int(PartyStruct *param_1)
   uVar9 = 0;
   iVar1 = 0;
   do {
-    pCVar1 = param_1->Party[uVar9];
+    pCVar1 = param_1->Members[uVar9];
     if (iVar1 != 0) {
       cVar4 = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
       uVar6 = (s32)cVar4 & 0xff;
@@ -1309,8 +1310,8 @@ undefined ofunc_ranger_stam_int(PartyStruct *param_1)
   } while (uVar9 < 4);
   if (uVar7 == 0) {return 0;}
   if (uVar3 != 4) {
-    if (param_1->Party[uVar3] == NULL) {return 0;}
-    iVar1 = CharStats::getModdedStat(param_1->Party[uVar3]->Stats,STAT_INT);
+    if (param_1->Members[uVar3] == NULL) {return 0;}
+    iVar1 = CharStats::getModdedStat(param_1->Members[uVar3]->Stats,STAT_INT);
     uVar7 = iVar1 * 3 + uVar7 * 10 & 0xffff;
     uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
@@ -1321,7 +1322,7 @@ undefined ofunc_ranger_stam_int(PartyStruct *param_1)
   return 0;
 }
 
-undefined get_int_ranger_stam(PartyStruct *param_1,u8 param_2){
+undefined get_int_ranger_stam(Party *param_1,u8 param_2){
   CharSheet *pCVar1;
   s32 iVar2;
   char cVar5;
@@ -1330,7 +1331,7 @@ undefined get_int_ranger_stam(PartyStruct *param_1,u8 param_2){
   undefined uVar6;
   u32 uVar7;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   uVar6 = 0;
   if (pCVar1) {
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
@@ -1346,7 +1347,7 @@ undefined get_int_ranger_stam(PartyStruct *param_1,u8 param_2){
   return uVar6;
 }
 
-u8 ofunc_int_mechanic(PartyStruct *param_1){
+u8 ofunc_int_mechanic(Party *param_1){
 CharSheet *pCVar1;
 u8 ret;
 s32 i=0;
@@ -1354,7 +1355,7 @@ s32 j=0
 s32 k=0;
 s32 l=0;
   do{
-    pCVar1 = param_1->Party[i];
+    pCVar1 = param_1->Members[i];
     if (pCVar1) {
       j = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
       k = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
@@ -1370,7 +1371,7 @@ s32 l=0;
   return ret;
 }
 
-undefined ofunc_mechanic_int_(PartyStruct *param_1,u32 param_2){
+undefined ofunc_mechanic_int_(Party *param_1,u32 param_2){
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -1379,7 +1380,7 @@ undefined ofunc_mechanic_int_(PartyStruct *param_1,u32 param_2){
   undefined uVar6;
   u32 uVar7;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   uVar6 = 0;
   if (pCVar1) {
     cVar4 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
@@ -1402,7 +1403,7 @@ undefined ofunc_mechanic_int_(PartyStruct *param_1,u32 param_2){
   return uVar6;
 }
 
-undefined check_mechanic_int_stam(PartyStruct *param_1,u32 param_2){
+undefined check_mechanic_int_stam(Party *param_1,u32 param_2){
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -1411,7 +1412,7 @@ undefined check_mechanic_int_stam(PartyStruct *param_1,u32 param_2){
   undefined uVar6;
   u32 uVar7;
   //yes, the same func as above, but acually used.
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   uVar6 = 0;
   if (pCVar1) {
     cVar4 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
@@ -1434,7 +1435,7 @@ undefined check_mechanic_int_stam(PartyStruct *param_1,u32 param_2){
   return uVar6;
 }
 
-u8 check_int_theif(PartyStruct *param_1){ //used for "secrect door" checks
+u8 check_int_theif(Party *param_1){ //used for "secrect door" checks
 CharSheet *pCVar1;
 u8 ret;
 s32 i=0;
@@ -1442,7 +1443,7 @@ s32 j=0
 s32 k=0;
 s32 l=0;
   do{
-    pCVar1 = param_1->Party[i];
+    pCVar1 = param_1->Members[i];
     if (pCVar1) {
       j = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
       k = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
@@ -1458,32 +1459,32 @@ s32 l=0;
   return ret;
 }
 
-u8 skillcheck_troubador(PartyStruct *arg0){
+u8 skillcheck_troubador(Party *arg0){
   char cVar3;
   s32 iVar1;
   u32 uVar2 = 0;
   u8 uVar4;
-  PartyStruct *pPVar5;
+  Party *pPVar5;
   u32 uVar6 = 0;
   u32 uVar7 = 4;
   
   pPVar5 = arg0;
   do {
-    if (pPVar5->Party[0]) {
-      cVar3 = getModdedSkill(pPVar5->Party[0]->Skills,Troubadour);
+    if (pPVar5->Members[0]) {
+      cVar3 = getModdedSkill(pPVar5->Members[0]->Skills,Troubadour);
       if (uVar2 <= ((s32)cVar3)) {
         uVar7 = uVar6;
         uVar2 = (s32)cVar3;
       }
     }
     uVar6++;
-    pPVar5 = (PartyStruct *)(pPVar5->Party + 1);
+    pPVar5 = (Party *)(pPVar5->Members + 1);
   } while (uVar6 < 4);
   uVar4 = 0;
   if ((uVar7 != 4) && (uVar4 = 0, uVar2 != 0)) {
-    if (arg0->Party[uVar7] == NULL) {uVar4 = 0;}
+    if (arg0->Members[uVar7] == NULL) {uVar4 = 0;}
     else {
-      iVar1 = CharStats::getModdedStat(arg0->Party[uVar7]->Stats,STAT_DEX);
+      iVar1 = CharStats::getModdedStat(arg0->Members[uVar7]->Stats,STAT_DEX);
       uVar6 = uVar2 + iVar1 * 3;
       uVar2 = RollD(1,100);
       if (uVar2 < uVar6) {
@@ -1495,7 +1496,7 @@ u8 skillcheck_troubador(PartyStruct *arg0){
   return uVar4;
 }
 
-u8 check_warrior_int_stam(PartyStruct *param_1,u32 param_2){
+u8 check_warrior_int_stam(Party *param_1,u32 param_2){
   CharSheet *pCVar1;
   s32 iVar2;
   char cVar5;
@@ -1504,7 +1505,7 @@ u8 check_warrior_int_stam(PartyStruct *param_1,u32 param_2){
   u8 uVar6;
   u32 uVar7;
   
-  pCVar1 = param_1->Party[param_2 & 0xff];
+  pCVar1 = param_1->Members[param_2 & 0xff];
   uVar6 = 0;
   if (pCVar1) {
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
@@ -1550,7 +1551,7 @@ void healing_result_widget(char *arg0)
   return;
 }
 
-char * healing_func(PartyStruct *arg0,u8 A,u8 B){
+char * healing_func(Party *arg0,u8 A,u8 B){
   CharSheet *pCVar1;
   CharSheet *pCVar2;
   char *pcVar3;
@@ -1563,8 +1564,8 @@ char * healing_func(PartyStruct *arg0,u8 A,u8 B){
   char *pcVar10;
   s32 unaff_s3_lo;
   
-  pCVar1 = arg0->Party[A];
-  pCVar2 = arg0->Party[B];
+  pCVar1 = arg0->Members[A];
+  pCVar2 = arg0->Members[B];
   if ((pCVar1 == NULL) || (pCVar2 == NULL)) {
     pcVar7 = (gGlobals.CommonStrings)->"someone in party is invalid";}
   else {
@@ -1599,7 +1600,7 @@ char * healing_func(PartyStruct *arg0,u8 A,u8 B){
   return pcVar7;
 }
 
-void pass_to_healing_func_2(PartyStruct *param_1,u8 param_2,u8 param_3){
+void pass_to_healing_func_2(Party *param_1,u8 param_2,u8 param_3){
   healing_result_widget(healing_func(param_1,param_2,param_3));
 }
 
@@ -1614,7 +1615,7 @@ void herb_func(void){
   func_8002ff30(*(s32 *)(puVar1 + 0x80));
 }
 
-char * party_healing_func(PartyStruct *param_1,u32 param_2,u32 param_3){
+char * party_healing_func(Party *param_1,u32 param_2,u32 param_3){
   CharSheet *pCVar1;
   CharSheet *pCVar2;
   char *pcVar3;
@@ -1628,9 +1629,9 @@ char * party_healing_func(PartyStruct *param_1,u32 param_2,u32 param_3){
   CharStats *pCVar11;
   char *pcVar12;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   if ((pCVar1 == NULL) ||
-     (pCVar2 = param_1->Party[param_3], pCVar2 == NULL)) {
+     (pCVar2 = param_1->Members[param_3], pCVar2 == NULL)) {
     return (gGlobals.CommonStrings)->"someone in party is invalid";}
   iVar5 = 5 - getModdedSkill(pCVar1->Skills,SKILL_HEALER);
   if (iVar5 < 1) {iVar5 = 1;}
@@ -1641,9 +1642,9 @@ char * party_healing_func(PartyStruct *param_1,u32 param_2,u32 param_3){
     pcVar12 = (gGlobals.CommonStrings)->"X already at max health";
   }
   else {
-    piVar4 = param_1->inv->Functions;
+    piVar4 = param_1->Inventory->Functions;
     uVar8 = (*(piVar4->get_some_bool).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar4->get_some_bool).arg[0] + -4,(ulonglong)itemID_array[31],1);
     if (uVar8 != 0) {
       if (gCombatP == NULL) {herb_func();}
@@ -1676,10 +1677,10 @@ LAB_80081018:
   return gGlobals.text;
 }
 
-void pass_to_party_healing_func(PartyStruct *param_1,u8 param_2,u8 param_3){
+void pass_to_party_healing_func(Party *param_1,u8 param_2,u8 param_3){
   healing_result_widget(party_healing_func(param_1,param_2,param_3));}
 
-char * some_healing_func(PartyStruct *param_1,u8 param_2,u8 param_3,u8 param_4){
+char * some_healing_func(Party *param_1,u8 param_2,u8 param_3,u8 param_4){
   CharSheet *pCVar1;
   CharSheet *pCVar2;
   inv_funcs *piVar3;
@@ -1691,18 +1692,18 @@ char * some_healing_func(PartyStruct *param_1,u8 param_2,u8 param_3,u8 param_4){
   u8 arg1;
   s32 iVar10;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   if ((pCVar1 == NULL) ||
-     (pCVar2 = param_1->Party[param_3], pCVar2 == NULL)) {return (gGlobals.CommonStrings)->"someone in party is invalid";}  
+     (pCVar2 = param_1->Members[param_3], pCVar2 == NULL)) {return (gGlobals.CommonStrings)->"someone in party is invalid";}  
   if (someStatCheck(pCVar2->Stats,param_4) == 0)
    {sprintf(gGlobals.text,(gGlobals.CommonStrings)->"already max hp",pCVar2->name,Stat_labels[param_4]);}
   else {
     cVar9 = getModdedSkill(pCVar1->Skills,SKILL_HEALER);
     iVar5 = 0xf - cVar9;
     if (iVar5 < 0) {iVar5 = 0;}
-    piVar3 = param_1->inv->Functions;
+    piVar3 = param_1->Inventory->Functions;
     uVar6 = (*(piVar3->get_some_bool).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar3->get_some_bool).arg[0] + -4,itemID_array[31],1);
     if (uVar6 != 0) {
       herb_func();
@@ -1734,7 +1735,7 @@ LAB_800812c8:
 }
 
 
-u8 potion_recipie_func_(PartyStruct *param_1,u32 param_2,POTION param_3){
+u8 potion_recipie_func_(Party *param_1,u32 param_2,POTION param_3){
   u8 bVar1;
   undefined *puVar2;
   inv_funcs *piVar3;
@@ -1752,32 +1753,32 @@ u8 potion_recipie_func_(PartyStruct *param_1,u32 param_2,POTION param_3){
            (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->unk0x88->unk0x94;
   iVar6 = get_potion_recipie(param_3));
   if (iVar6) {
-    iVar7 = param_1->Party[param_2];
+    iVar7 = param_1->Members[param_2];
     func_8003d064(puVar2,itemID_array[30],iVar6->spice,0xff);
     func_8003d064(puVar2,itemID_array[31],iVar6->herb,0xff);
     func_8003d064(puVar2,itemID_array[32],iVar6->gemstone,0xff);
     if (iVar6->spice){
-      piVar3 = param_1->inv->Functions;
+      piVar3 = param_1->Inventory->Functions;
       uVar5 = (*(piVar3->get_some_bool).func)
-                        ((s32)param_1->inv->inv_slots +
+                        ((s32)param_1->Inventory->inv_slots +
                          (s16)(piVar3->get_some_bool).arg[0] + -4,
                          itemID_array[30],iVar6->spice);
       uVar10 = 0;
       if (uVar5 == 0) goto LAB_80081538;
     }
     if (iVar6->herb) {
-      piVar3 = param_1->inv->Functions;
+      piVar3 = param_1->Inventory->Functions;
       uVar5 = (*(piVar3->get_some_bool).func)
-                        ((s32)param_1->inv->inv_slots +
+                        ((s32)param_1->Inventory->inv_slots +
                          (s16)(piVar3->get_some_bool).arg[0] + -4,
                          itemID_array[31],iVar6->herb);
       uVar10 = 0;
       if (uVar5 == 0) goto LAB_80081538;
     }
     if (iVar6->gemstone) {
-      piVar3 = param_1->inv->Functions;
+      piVar3 = param_1->Inventory->Functions;
       uVar5 = (*(piVar3->get_some_bool).func)
-                        ((s32)param_1->inv->inv_slots +
+                        ((s32)param_1->Inventory->inv_slots +
                          (s16)(piVar3->get_some_bool).arg[0] + -4,
                          itemID_array[32],iVar6->gemstone);
       uVar10 = 0;
@@ -1794,9 +1795,9 @@ u8 potion_recipie_func_(PartyStruct *param_1,u32 param_2,POTION param_3){
       uVar10 = 0;
       if (iVar6->pad <= uVar4) {
         uVar4 = param_3 | 0x1000;
-        piVar3 = param_1->inv->Functions;
+        piVar3 = param_1->Inventory->Functions;
         uVar10 = (*(piVar3->add_to_inv).func)
-                           ((s32)param_1->inv->inv_slots +
+                           ((s32)param_1->Inventory->inv_slots +
                             (s16)(piVar3->add_to_inv).arg[0] + -4,uVar4,1);
         if (uVar10 != 0) {
           SMI_AddItem((s32)puVar2,uVar4,1,0xff,FILENAME);
@@ -1814,7 +1815,7 @@ LAB_80081538:
   return (u8)uVar10;
 }
 
-bool lockpicking_func(PartyStruct *p,u8 lock,char *text)
+bool lockpicking_func(Party *p,u8 lock,char *text)
 
 {
   CharSheet *pCVar1;
@@ -1832,7 +1833,7 @@ bool lockpicking_func(PartyStruct *p,u8 lock,char *text)
     bVar7 = false;
   }
   else {
-    pCVar1 = p->Party[cVar6];
+    pCVar1 = p->Members[cVar6];
     if (lock < 10) {
       cVar6 = getModdedSkill(pCVar1->Skills,SKILL_THIEF);
       iVar4 = 10;
@@ -1887,7 +1888,7 @@ bool lockpicking_func(PartyStruct *p,u8 lock,char *text)
 }
 
 
-u8 ofunc_mechanic_skill(PartyStruct* param_1,u8 param_2)
+u8 ofunc_mechanic_skill(Party* param_1,u8 param_2)
 
 {
   CharSheet *pCVar1;
@@ -1899,7 +1900,7 @@ u8 ofunc_mechanic_skill(PartyStruct* param_1,u8 param_2)
   u8 uVar7;
   u32 uVar8;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   cVar5 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
   iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_STR);
   iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_DEX);
@@ -1921,7 +1922,7 @@ u8 ofunc_mechanic_skill(PartyStruct* param_1,u8 param_2)
 }
 
 
-float ranger_int_float(PartyStruct *param_1){ //used for calulating the reagent multiplier
+float ranger_int_float(Party *param_1){ //used for calulating the reagent multiplier
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -1929,7 +1930,7 @@ float ranger_int_float(PartyStruct *param_1){ //used for calulating the reagent 
   float fVar6;
   
   cVar4 = GetMostSkilledMember(param_1,SKILL_RANGER);
-  if ((cVar4 == -1) || (pCVar1 = param_1->Party[cVar4], pCVar1 == NULL)) {
+  if ((cVar4 == -1) || (pCVar1 = param_1->Members[cVar4], pCVar1 == NULL)) {
     fVar5 = 0.0;}
   else {
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
@@ -1942,11 +1943,11 @@ float ranger_int_float(PartyStruct *param_1){ //used for calulating the reagent 
   return fVar5;
 }
 
-float Ofunc_Ranger_float(PartyStruct *param_1){return (float)ofunc_ranger_stam_int(param_1) / 20.0f;}
-bool theif_over_B(PartyStruct *A,u8 B){return B <= check_int_theif(A);}
+float Ofunc_Ranger_float(Party *param_1){return (float)ofunc_ranger_stam_int(param_1) / 20.0f;}
+bool theif_over_B(Party *A,u8 B){return B <= check_int_theif(A);}
 
 
-char * appraise_price(PartyStruct *param_1,ItemID param_2,u32 param_3){
+char * appraise_price(Party *param_1,ItemID param_2,u32 param_3){
   CharSheet *pCVar1;
   char cVar3;
   s32 iVar2;
@@ -1959,7 +1960,7 @@ char * appraise_price(PartyStruct *param_1,ItemID param_2,u32 param_3){
   uVar6 = 0;
   uVar5 = 0;
   do {
-    pCVar1 = param_1->Party[0];
+    pCVar1 = param_1->Members[0];
     if (pCVar1) {
       iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
       cVar3 = getModdedSkill(pCVar1->Skills,Merchant);
@@ -1967,7 +1968,7 @@ char * appraise_price(PartyStruct *param_1,ItemID param_2,u32 param_3){
       if (uVar6 <= uVar4) {uVar6 = uVar4;}
     }
     uVar5++;
-    param_1 = (PartyStruct *)(param_1->Party + 1);
+    param_1 = (Party *)(param_1->Members + 1);
   } while (uVar5 < 4);
   fVar8 = ((float)(uVar6 * uVar6) * -0.0186603f + (float)uVar6 * 2.366025f + 50.0f) / 100.0f;
   if (fVar8 < 0.0) {fVar8 = 0.0;}
@@ -1981,7 +1982,7 @@ char * appraise_price(PartyStruct *param_1,ItemID param_2,u32 param_3){
   return price_strings[uVar6];
 }
 
-u32 mechanic_check(PartyStruct *param_1,CHAR_SKILL param_2,u8 param_3){
+s8 mechanic_check(Party *param_1,u8 param_2,u8 param_3){
   s32 iVar1;
   char cVar3;
   u32 uVar2;
@@ -1995,27 +1996,26 @@ u32 mechanic_check(PartyStruct *param_1,CHAR_SKILL param_2,u8 param_3){
   uVar7 = 0;
   uVar6 = 0;
   iVar1 = 0;
-  do {
-    piVar5 = param_1->Party[uVar6];
-    if (piVar5 != 0) {
+  for(i=0;i<4;i++){
+    piVar5 = param_1->Members[i];
+    if (piVar5) {
       cVar3 = getModdedSkill(piVar5->Skills,param_2);
       uVar4 = (s32)cVar3;
       uVar2 = param_3 - uVar4;
-      if ((s32)uVar2 < 1) {uVar2 = 1;}
+      if ((s32)uVar2 < 1) uVar2 = 1;
       if ((uVar7 < uVar4) &&
-         (iVar1 = CharStats::getModdedStat(piVar5->Stats,STAT_STAM), (s32)(uVar2 & 0xff) <= iVar1)) {
-        uVar8 = uVar6;
+         ((s32)(uVar2 & 0xff) <= CharStats::getModdedStat(piVar5->Stats,STAT_STAM))) {
+        uVar8 = i;
         uVar7 = uVar4;
       }
     }
-    uVar6++;
-  } while (uVar6 < 4);
-  uVar6 = 0xff;
-  if (uVar7 != 0) {uVar6 = uVar8;}
-  return uVar6;
+  }
+  i = -1;
+  if(uVar7 != 0) i = uVar8;
+  return i;
 }
 
-s8 GetMostSkilledMember(PartyStruct *param_1,CHAR_SKILL param_2){
+s8 GetMostSkilledMember(Party *param_1,u8 param_2){
 //kinda frustrating how inconsitently this is used.
   s32 iVar2;
   u8 bVar3;
@@ -2029,7 +2029,7 @@ s8 GetMostSkilledMember(PartyStruct *param_1,CHAR_SKILL param_2){
   uVar4 = 0;
   iVar2 = 0;
   do {
-    iVar1 = param_1->Party[uVar4]);
+    iVar1 = param_1->Members[uVar4]);
     if ((iVar1) &&
        (bVar3 = getModdedSkill(iVar1->Skills,param_2), bVar5 <= bVar3)) {
       uVar6 = uVar4;
@@ -2044,7 +2044,7 @@ float camp_float_array[30]= //ambush risk. 0=can't camp there.
 0.0,0.0,0.0,0.0,0.0,0.0,10.0,0.0,0.0,30.0,30.0,30.0,
 0.0,15.0,0.0,0.0,20.0,0.0,0.0};
 
-bool get_ranger_camping_bool(PartyStruct *param_1){
+bool get_ranger_camping_bool(Party *param_1){
   bool bVar3;
   char cVar4;
   s32 iVar1;
@@ -2059,8 +2059,8 @@ bool get_ranger_camping_bool(PartyStruct *param_1){
     uVar6 = 0;
     if ((cVar4 != -1) {
       uVar6 = 0;
-      if (param_1->Party[cVar4]) {
-        cVar4 = getModdedSkill(param_1->Party[cVar4]->Skills,SKILL_RANGER);
+      if (param_1->Members[cVar4]) {
+        cVar4 = getModdedSkill(param_1->Members[cVar4]->Skills,SKILL_RANGER);
         uVar6 = 0;
         if (0 < cVar4) {uVar6 = cVar4;}
       }
@@ -2129,14 +2129,14 @@ void multi_equip_StamMod(Temp_weapon *param_1,float param_2){
   }
 }
 
-void some_camp_func(PartyStruct *param_1,bool halfHeal){
+void some_camp_func(Party *param_1,bool halfHeal){
   CharSheet *pCVar1;
   inv_funcs *piVar2;
   Inventory_struct *pIVar3;
   bool bVar6;
   ulong uVar4;
   Temp_weapon *pTVar5;
-  PartyStruct *pPVar7;
+  Party *pPVar7;
   u32 uVar8;
   u32 uVar9;
   float uVar10;
@@ -2152,16 +2152,16 @@ void some_camp_func(PartyStruct *param_1,bool halfHeal){
   uVar10 = local_60[halfHeal];
   pPVar7 = param_1;
   do {
-    pCVar1 = pPVar7->Party[0];
+    pCVar1 = pPVar7->Members[0];
     if ((pCVar1) && (!isDead(pCVar1))) {camp_healing(pCVar1,uVar10,uVar9);}
     uVar8++;
-    pPVar7 = (PartyStruct *)(pPVar7->Party + 1);
+    pPVar7 = (Party *)(pPVar7->Members + 1);
   } while (uVar8 < 4);
-  piVar2 = param_1->inv->Functions;
+  piVar2 = param_1->Inventory->Functions;
   uVar4 = (*(piVar2->get_inv_max).func)
-                    ((s32)param_1->inv->inv_slots + (s16)(piVar2->get_inv_max).arg[0] + -4);
+                    ((s32)param_1->Inventory->inv_slots + (s16)(piVar2->get_inv_max).arg[0] + -4);
   if (uVar4 != 0) {
-    pIVar3 = param_1->inv;
+    pIVar3 = param_1->Inventory;
     uVar8 = 0;
     while( true ) {
       pTVar5 = (Temp_weapon *)
@@ -2170,7 +2170,7 @@ void some_camp_func(PartyStruct *param_1,bool halfHeal){
                           (s16)(pIVar3->Functions->get_inv_slot).arg[0] + -4,uVar8);
       multi_equip_StamMod(pTVar5,uVar10);
       if (uVar4 <= uVar8 + 1) break;
-      pIVar3 = param_1->inv;
+      pIVar3 = param_1->Inventory;
       uVar8++;
     }
   }
@@ -2179,16 +2179,16 @@ void some_camp_func(PartyStruct *param_1,bool halfHeal){
   return;
 }
 
-bool check_for_camp_ambush(PartyStruct *param_1){
+bool check_for_camp_ambush(Party *param_1){
   bool bVar1 = get_ranger_camping_bool(param_1);
   if (bVar1) {passto_load_camp_ambush(param_1);}
   else {some_camp_func(param_1,true);}
   return bVar1 == true;}
 
 //dummied, probably for some incrementation based on ingame time.
-void noop_800821bc(PartyStruct* p,u32 A,u32 time){}
+void noop_800821bc(Party* p,u32 A,u32 time){}
 
-void tick_party_movement_vals(PartyStruct *param_1,s32 param_2){
+void tick_party_movement_vals(Party *param_1,s32 param_2){
   //3 values in the party struct. seem useless.
   
   s16 sVar1 = (gGlobals.playerCharStruct.playerDat)->ani_type;
@@ -2211,7 +2211,7 @@ void tick_party_movement_vals(PartyStruct *param_1,s32 param_2){
   return;
 }
 
-u32 check_party_skill(PartyStruct *param_1,CHAR_SKILL param_2){
+u32 check_party_skill(Party *param_1,u8 param_2){
   u32 uVar1;
   u32 uVar2;
   //used for dialouge functions.
@@ -2260,48 +2260,48 @@ u32 check_party_skill(PartyStruct *param_1,CHAR_SKILL param_2){
   return uVar2;
 }
 
-u32 get_best_stat(PartyStruct *param_1,u8 param_2){
+u32 get_best_stat(Party *param_1,u8 param_2){
   u32 uVar1;
   CharSheet *piVar4;
   u32 uVar3;
   
   uVar3 = 1;
-  uVar1 = CharStats::getModdedStat(param_1->Party[0]->Stats,param_2);
+  uVar1 = CharStats::getModdedStat(param_1->Members[0]->Stats,param_2);
   do {
-    piVar4 = param_1->Party[uVar3]);
+    piVar4 = param_1->Members[uVar3]);
     if ((piVar4) && (uVar1 < CharStats::getModdedStat(piVar4->Stats,param_2))
     {uVar1 = CharStats::getModdedStat(piVar4->Stats,param_2);}
     uVar3++;
   } while (uVar3 < 4);
   return uVar1;}
 
-u32 get_worst_stat(PartyStruct *param_1,u8 param_2){
+u32 get_worst_stat(Party *param_1,u8 param_2){
   u32 uVar1;
   CharSheet *piVar4;
   u32 uVar3;
   
   uVar3 = 1;
-  uVar1 = CharStats::getModdedStat(param_1->Party[0]->Stats,param_2);
+  uVar1 = CharStats::getModdedStat(param_1->Members[0]->Stats,param_2);
   do {
-    piVar4 = param_1->Party[uVar3]);
+    piVar4 = param_1->Members[uVar3]);
     if ((piVar4) && (uVar1 > CharStats::getModdedStat(piVar4->Stats,param_2))
     {uVar1 = CharStats::getModdedStat(piVar4->Stats,param_2);}
     uVar3++;
   } while (uVar3 < 4);
   return uVar1;}
 
-u32 get_this_char_stat(PartyStruct *param_1,ItemID param_2,u8 param_3){
+u32 get_this_char_stat(Party *param_1,ItemID param_2,u8 param_3){
   u32 i = 0;
   CharSheet *psVar1;
   
-  while ((psVar1 = param_1->Party[i], psVar1 == NULL ||(psVar1->ID != param_2))) {
+  while ((psVar1 = param_1->Members[i], psVar1 == NULL ||(psVar1->ID != param_2))) {
     i++;
     if (3 < i) {return 0;}
   }
   return CharStats::getModdedStat(psVar1->Stats,param_3);
 }
 
-u32 check_Alchemist_int(PartyStruct *param_1){
+u32 check_Alchemist_int(Party *param_1){
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -2309,14 +2309,14 @@ u32 check_Alchemist_int(PartyStruct *param_1){
   cVar4 = GetMostSkilledMember(param_1,SKILL_ALCHEMIST);
   if (cVar4 == -1) return 0;
   else {
-    pCVar1 = param_1->Party[cVar4];
+    pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     cVar4 = getModdedSkill(pCVar1->Skills,SKILL_ALCHEMIST);
     return some_skillcheck_calc((s32)((RollD(1,100) - (iVar2 * 3 + cVar4 * 6)) * 0x10000) >> 0x10);
   }
 }
 
-u32 check_healer_int(PartyStruct *param_1){
+u32 check_healer_int(Party *param_1){
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -2324,14 +2324,14 @@ u32 check_healer_int(PartyStruct *param_1){
   cVar4 = GetMostSkilledMember(param_1,SKILL_HEALER);
   if (cVar4 == -1)  return 0;
   else {
-    pCVar1 = param_1->Party[cVar4];
+    pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     cVar4 = getModdedSkill(pCVar1->Skills,SKILL_HEALER);
     return some_skillcheck_calc((RollD(1,100) - (iVar2 * 3 + cVar4 * 10));
   }
 }
 
-u32 heck_mechanic_dex_int(PartyStruct *param_1){
+u32 heck_mechanic_dex_int(Party *param_1){
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -2340,7 +2340,7 @@ u32 heck_mechanic_dex_int(PartyStruct *param_1){
   cVar4 = GetMostSkilledMember(param_1,SKILL_MECHANIC);
   if (cVar4 == -1) return 0;
   else {
-    pCVar1 = param_1->Party[cVar4];
+    pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_DEX);
     cVar4 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
@@ -2348,7 +2348,7 @@ u32 heck_mechanic_dex_int(PartyStruct *param_1){
   }
 }
 
-u32 check_Merchant_INT(PartyStruct *param_1){
+u32 check_Merchant_INT(Party *param_1){
   s32 iVar1;
   char cVar4;
   u32 uVar2;
@@ -2360,7 +2360,7 @@ u32 check_Merchant_INT(PartyStruct *param_1){
   uVar5 = 0;
   iVar1 = 0;
   do {
-    pCVar1 = param_1->Party[uVar5]);
+    pCVar1 = param_1->Members[uVar5]);
     if ((pCVar1) && uVar3 < CharStats::getModdedStat(pCVar1->Stats,STAT_INT))) {
       uVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     }
@@ -2369,13 +2369,13 @@ u32 check_Merchant_INT(PartyStruct *param_1){
   cVar4 = GetMostSkilledMember(param_1,Merchant);
   uVar5 = 0;
   if (cVar4 != -1) {
-    uVar5 = (s32)getModdedSkill(param_1->Party[cVar4]->Skills,Merchant);
+    uVar5 = (s32)getModdedSkill(param_1->Members[cVar4]->Skills,Merchant);
   }
   uVar3 = some_skillcheck_calc((s32)((RollD(1,100) - (uVar3 * 3 + uVar5 * 10)) * 0x10000) >> 0x10);
   return uVar3;
 }
 
-u32 check_ranger(PartyStruct *param_1){
+u32 check_ranger(Party *param_1){
   char cVar3;
   u32 uVar1;
   u32 uVar2;
@@ -2383,7 +2383,7 @@ u32 check_ranger(PartyStruct *param_1){
   cVar3 = GetMostSkilledMember(param_1,SKILL_RANGER);
   uVar2 = 0;
   if (cVar3 != -1) {
-    uVar2 = (s32)getModdedSkill(param_1->Party[cVar3]->Skills,SKILL_RANGER);
+    uVar2 = (s32)getModdedSkill(param_1->Members[cVar3]->Skills,SKILL_RANGER);
   }
   uVar2 = some_skillcheck_calc((s32)((RollD(1,100) - (uVar2 * 10 + 0x50)) * 0x10000) >> 0x10);
   return uVar2;}
@@ -2391,7 +2391,7 @@ u32 check_ranger(PartyStruct *param_1){
 //dialouge stealth checks =0
 u32 ret0_80082968(void){return 0;}
 
-u32 check_theif_Int(PartyStruct *param_1){
+u32 check_theif_Int(Party *param_1){
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -2400,14 +2400,14 @@ u32 check_theif_Int(PartyStruct *param_1){
   cVar4 = GetMostSkilledMember(param_1,SKILL_THIEF);
   if (cVar4 == -1) return 0;
   else {
-    pCVar1 = param_1->Party[cVar4];
+    pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     cVar4 = getModdedSkill(pCVar1->Skills,SKILL_THIEF);
     return some_skillcheck_calc(RollD(1,100) - (iVar2 * 4 + cVar4 * 10));
   }
 }
 
-u32 check_warrior_int_stam_(PartyStruct *param_1){
+u32 check_warrior_int_stam_(Party *param_1){
   CharSheet *pCVar1;
   char cVar5;
   s32 iVar2;
@@ -2417,7 +2417,7 @@ u32 check_warrior_int_stam_(PartyStruct *param_1){
   cVar5 = GetMostSkilledMember(param_1,SKILL_WARRIOR);
   if (cVar5 == -1) return 0;
   else {
-    pCVar1 = param_1->Party[cVar5];
+    pCVar1 = param_1->Members[cVar5];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     cVar5 = getModdedSkill(pCVar1->Skills,SKILL_WARRIOR);
     iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_STAM);
@@ -2426,7 +2426,7 @@ u32 check_warrior_int_stam_(PartyStruct *param_1){
   return uVar4;
 }
 
-u32 check_Wizard_int(PartyStruct *param_1){
+u32 check_Wizard_int(Party *param_1){
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -2435,7 +2435,7 @@ u32 check_Wizard_int(PartyStruct *param_1){
   cVar4 = GetMostSkilledMember(param_1,SKILL_WIZARD);
   if (cVar4 == -1) return 0;
   else {
-    pCVar1 = param_1->Party[cVar4];
+    pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     cVar4 = getModdedSkill(pCVar1->Skills,SKILL_WIZARD);
     uVar3 = some_skillcheck_calc((s32)((RollD(1,100) + (cVar4 * 5 + iVar2 & 0x7fffU) * -2) * 0x10000) >> 0x10);
@@ -2443,7 +2443,7 @@ u32 check_Wizard_int(PartyStruct *param_1){
   return uVar3;
 }
 
-u8 get_ranger_or_warrior(PartyStruct *param_1,u32 param_2){
+u8 get_ranger_or_warrior(Party *param_1,u32 param_2){
   char cVar2;
   u8 uVar3;
   u8 uVar1;
@@ -2460,7 +2460,7 @@ u8 get_ranger_or_warrior(PartyStruct *param_1,u32 param_2){
       uVar5 = check_warrior_int_stam(param_1,cVar2);
       goto LAB_80082bf0;
     }
-    if (param_1->Party[0] == NULL) goto LAB_80082bf0;
+    if (param_1->Members[0] == NULL) goto LAB_80082bf0;
     lVar4 = 0;
   }
   uVar5 = get_int_ranger_stam(param_1,lVar4);
@@ -2481,7 +2481,7 @@ LAB_80082bf0:
   return uVar1;
 }
 
-bool AmorCraft_attempt(PartyStruct *param_1,char param_2,s16 param_3,ItemID material,u8 stam){
+bool AmorCraft_attempt(Party *param_1,char param_2,s16 param_3,ItemID material,u8 stam){
   undefined *puVar1;
   inv_funcs *piVar2;
   ulonglong uVar3;
@@ -2493,24 +2493,24 @@ bool AmorCraft_attempt(PartyStruct *param_1,char param_2,s16 param_3,ItemID mate
   puVar1 = (undefined *)
            (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->unk0x88->unk0x94;
   uVar3 = getMechanic_Int_Dex(param_1,param_2);
-  piVar2 = param_1->inv->Functions;
+  piVar2 = param_1->Inventory->Functions;
   uVar4 = (*(piVar2->get_inv_index).func)
-                    ((s32)param_1->inv->inv_slots + (s16)(piVar2->get_inv_index).arg[0] + -4
+                    ((s32)param_1->Inventory->inv_slots + (s16)(piVar2->get_inv_index).arg[0] + -4
                      ,material);
   if (uVar4 == 0xffffffff) {
     bVar5 = false;
   }
   else {
-    piVar2 = param_1->inv->Functions;
+    piVar2 = param_1->Inventory->Functions;
     (*(piVar2->get_some_bool).func)
-              ((s32)param_1->inv->inv_slots + (s16)(piVar2->get_some_bool).arg[0] + -4,uVar6
+              ((s32)param_1->Inventory->inv_slots + (s16)(piVar2->get_some_bool).arg[0] + -4,uVar6
                ,1);
     func_8003d064(puVar1,material,1,0xff);
     bVar5 = stam <= uVar3;
     if (bVar5) {
-      piVar2 = param_1->inv->Functions;
+      piVar2 = param_1->Inventory->Functions;
       (*(piVar2->add_to_inv).func)
-                ((s32)param_1->inv->inv_slots + (s16)(piVar2->add_to_inv).arg[0] + -4,
+                ((s32)param_1->Inventory->inv_slots + (s16)(piVar2->add_to_inv).arg[0] + -4,
                  param_3,1);
       SMI_AddItem((s32)puVar1,param_3,1,0xff,FILENAME);
     }
@@ -2522,12 +2522,12 @@ bool AmorCraft_attempt(PartyStruct *param_1,char param_2,s16 param_3,ItemID mate
   return bVar5;
 }
 
-bool func_80082E40(PartyStruct *param_1,s32 param_2,ItemID param_3){
+bool func_80082E40(Party *param_1,s32 param_2,ItemID param_3){
   CharSheet *pCVar1;
   temp_gear **pptVar5;
   u8 i;
   
-  pCVar1 = param_1->Party[param_2];
+  pCVar1 = param_1->Members[param_2];
   if (pCVar1) {
     if (pCVar1->weapons){
       if (pCVar1->weapons->id == param_3) {
@@ -2559,12 +2559,12 @@ bool func_80082E40(PartyStruct *param_1,s32 param_2,ItemID param_3){
   }
   return false;
 
-bool dialoug_look_for_item(PartyStruct *param_1,ItemID param_2){
+bool dialoug_look_for_item(Party *param_1,ItemID param_2){
   inv_funcs *piVar1;
   bool bVar2;
   u32 uVar4;
   
-  bVar2 = has_item_func(param_1->inv,param_2);
+  bVar2 = has_item_func(param_1->Inventory,param_2);
   if (bVar2 == false) {
     uVar4 = 0;
     do {
@@ -2574,9 +2574,9 @@ bool dialoug_look_for_item(PartyStruct *param_1,ItemID param_2){
     bVar2 = false;
   }
   else {
-    piVar1 = param_1->inv->Functions;
+    piVar1 = param_1->Inventory->Functions;
     (*(piVar1->get_some_bool).func)
-              ((s32)param_1->inv->inv_slots + (s16)(piVar1->get_some_bool).arg[0] + -4,
+              ((s32)param_1->Inventory->inv_slots + (s16)(piVar1->get_some_bool).arg[0] + -4,
                param_2,1);
 LAB_80082f80:
     bVar2 = true;
@@ -2589,24 +2589,24 @@ bool func_80082fcc(s16 *param_1,s16 param_2){
   return false;
 }
 
-bool hasItem_eqquipped(PartyStruct *param_1,s32 param_2,ItemID param_3){
+bool hasItem_eqquipped(Party *param_1,s32 param_2,ItemID param_3){
   Temp_weapon *pTVar1;
   bool bVar2;
   
-  if (param_1->Party[param_2] == NULL) {bVar2 = false;}
+  if (param_1->Members[param_2] == NULL) {bVar2 = false;}
   else {
-    pTVar1 = Has_Item_equipped_character(param_1->Party[param_2],param_3);
+    pTVar1 = Has_Item_equipped_character(param_1->Members[param_2],param_3);
     bVar2 = pTVar1 != NULL;
   }
   return bVar2;
 }
 
-bool hasItem(PartyStruct *param_1,ItemID param_2){
+bool hasItem(Party *param_1,ItemID param_2){
   bool bVar2;
   bool lVar1;
   u32 uVar3;
   
-  bVar2 = has_item_func(param_1->inv,param_2);
+  bVar2 = has_item_func(param_1->Inventory,param_2);
   uVar3 = 0;
   if (bVar2 == false) {
     do {
@@ -2623,7 +2623,7 @@ LAB_8008305c:
   return bVar2;
 }
 
-bool func_800830a4(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4,
+bool func_800830a4(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4,
                  u8 param_5){
   ItemID IVar1;
   inv_funcs *piVar2;
@@ -2659,9 +2659,9 @@ bool func_800830a4(PartyStruct *param_1,u8 param_2,temp_gear *param_3,CharSheet 
     X = create_2ByteArray(param_3->statmod);
     uVar9 = 0xff;
     if (param_3->pSpell) uVar9 = *(undefined *)&param_3->pSpell->name;
-    piVar2 = param_1->inv->Functions;
+    piVar2 = param_1->Inventory->Functions;
     uVar3 = (*(piVar2->get_some_bool).func)
-                      ((s32)param_1->inv->inv_slots +
+                      ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar2->get_some_bool).arg[0] + -4,(ulonglong)(u16)IVar1,1);
     if (uVar3 != 0) {
       func_8007f10c(param_1,param_4,IVar1,X,uVar9);

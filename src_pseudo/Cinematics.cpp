@@ -116,8 +116,8 @@ s16 cinematic_muteMusic_getName(void){
     gGlobals.Sub.BGMIndex = uVar1;
   }
   memset(acStack272,0,0x100);
-  if ((gGlobals.Party) && ((gGlobals.Party)->Party[0])) {
-    strcpy(acStack272,(gGlobals.Party)->Party[0]->name);
+  if ((gGlobals.Party) && ((gGlobals.Party)->Members[0])) {
+    strcpy(acStack272,(gGlobals.Party)->Members[0]->name);
   }
   MemoryMaker::Unload();
   cinematictext_init(acStack272);

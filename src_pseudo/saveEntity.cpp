@@ -21,7 +21,7 @@ void saveentity_free(void){
   gSaveEntity = NULL;
 }
 
-void move_party_to_saveEnt(PartyStruct *param_1){
+void move_party_to_saveEnt(Party *param_1){
   CharSheet *pCVar1;
   CharSheet *pCVar2;
   s32 uVar3;
@@ -31,7 +31,7 @@ void move_party_to_saveEnt(PartyStruct *param_1){
   saveEnt_noop();
   uVar5 = 0;
   while( true ) {
-    pCVar1 = param_1->Party[iVar4];
+    pCVar1 = param_1->Members[iVar4];
     if (pCVar1 == NULL) {
       pCVar1 = gSaveEntity[iVar4];
       if (pCVar1) {

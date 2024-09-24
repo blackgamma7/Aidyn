@@ -72,7 +72,7 @@ void gfx::initGfx(OSSched *param_1){
   if (osTvType == NTSC) {r = osViModeTable + 2;}
   else if (osTvType == MPAL) {r = osViModeTable + 0x1e;}
   else {
-      if (osTvType != PAL) {assert("gfx.cpp, InitGfx()","TV Type not supported");}
+      if (osTvType != PAL) {Crash::ManualCrash("gfx.cpp, InitGfx()","TV Type not supported");}
       r = osViModeTable + 0x10;
   }
   memcpy(&gGfxManager.osvimodeCustom,r,0x50);
@@ -133,12 +133,12 @@ void gfx::initGfx_2(void){
 void gfx::SetGfxMode(u16 Hres,u16 Vres,u8 color){
   if (gGfxManager.ram_size < 0x400001) { //huh, doesn't check the EXpPakFlag.
     if (((Hres != 0x140) || (Vres != 0xf0)) || (color32 != 0x10)) {
-      assert("gfx.cpp, SetGfxMode()","Non expansion pak resolution not supported!");}
+      Crash::ManualCrash("gfx.cpp, SetGfxMode()","Non expansion pak resolution not supported!");}
   }
   else {
     if ((((Hres != 0x140) || (Vres != 0xf0)) || ((color32 != 0x10 && (color32 != 0x20)))) &&
        (((Hres != 0x200 || (Vres != 0xf0)) || (color32 != 0x10)))) {
-      assert("gfx.cpp, SetGfxMode()","Expansion pak resolution not supported!");}
+      Crash::ManualCrash("gfx.cpp, SetGfxMode()","Expansion pak resolution not supported!");}
   }
   gGfxManager.hres[0] = Hres;
   gGfxManager.Vres[0] = Vres;
@@ -579,7 +579,7 @@ void getGfxLastFrame(undefined *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param
   V_ = (longlong)(s16)V;
   if ((pDest == NULL) ||
      ((((depth != 32 && (depth != 16)) && (depth != 8)) && (depth != 4)))) {
-    assert("gfx.cpp, GetGfxLastFrame()","pDest_ == NULL || depth_ != 32 || depth_ != 16 || depth_ != 8 || depth_ != 4");}
+    Crash::ManualCrash("gfx.cpp, GetGfxLastFrame()","pDest_ == NULL || depth_ != 32 || depth_ != 16 || depth_ != 8 || depth_ != 4");}
   pvVar2 = gGfxManager.FrameBuffers[gGfxManager.vi_buffer_choice];
   if ((depth == 8) || (depth == 4)) {
     bVar6 = 2;
@@ -993,7 +993,7 @@ Gfx* gfx::DisplaySystemMonitor(Gfx*param_1){
   gGfxManager.unk0x180 = (s32)udivdi3((s32)(OVar23 >> 0x20) << 6 | (u32)OVar23 >> 0x1a,(u32)OVar23 << 6,3000) - gGfxManager.unk0x180;
   if ((osTvType == NTSC) || (osTvType == MPAL)) {ntscPalVar = 0x14585;}
   else {
-    if (osTvType != PAL) {assert("gfx.cpp, DisplaySystemMonitor()","Unknown osTvType");}
+    if (osTvType != PAL) {Crash::ManualCrash("gfx.cpp, DisplaySystemMonitor()","Unknown osTvType");}
     ntscPalVar = 100000;
   }
   uVar13 = ntscPalVar;

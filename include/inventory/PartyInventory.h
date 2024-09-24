@@ -33,6 +33,6 @@ class PartyInventory : virtual public IInventory{
         void SaveNoop(SaveFile* sav); //save the key items? made redundant by event flag check.
         void Save239(SaveFile* sav);
         void AddNewItem(int slot,ItemID item,s32 quant);
-        int search_for_item_in_array(ItemID *array,byte size,ItemID query);
+        int SearchArray(ItemID *array,byte size,ItemID query);
         void ChangeAspectPotions();
 };

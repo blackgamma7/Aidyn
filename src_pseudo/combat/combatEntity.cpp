@@ -1115,7 +1115,7 @@ void end_combat_turn_(CombatEntity *param_1){
   clear_camera_playerdata_focus();
   pTVar1 = param_1->aiP;
   if ((pTVar1) && ((pTVar1->flags & 8) != 0)) {func_80064b18(pTVar1);}
-  param_1->charSheetP->some_rand_val = 0xff;
+  param_1->charSheetP->spellVal = 0xff;
   CombatEnt_NAND_flags(param_1,flag0);
   pCVar1 = param_1->charSheetP;
   if (pCVar1->spellSwitch == 5) {
@@ -1946,7 +1946,7 @@ bool find_spell_error(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *pa
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
     }
-    param_1->charSheetP->some_rand_val = 0xfe;
+    param_1->charSheetP->spellVal = 0xfe;
   }
   else {
     bVar2 = CheckTargetSpellAspect(param_2->charSheetP,param_3);
@@ -1962,7 +1962,7 @@ bool find_spell_error(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *pa
 void combat_spell_fail(CombatEntity *param_1,char *param_2){
   copy_string_to_combat_textbox(gCombatP,param_2,0);
   print_combat_textbox(gCombatP,param_2,0);
-  param_1->charSheetP->some_rand_val = 0xfe;
+  param_1->charSheetP->spellVal = 0xfe;
   param_1->charSheetP->spellSwitch = 0;
   clear_combat_substruc2(gCombatP->substruct2 + 1);
 }
@@ -2147,7 +2147,7 @@ bool some_spell_ingredient_check(CombatEntity *param_1,Temp_spell *param_2,s16 p
   fVar3 = INT_MAX_f;
   fVar10 = (float)uVar5 * 0.1f;
   bVar8 = INT_MAX_f <= fVar10;
-  pCVar1->some_rand_val = bVar7;
+  pCVar1->spellVal = bVar7;
   if (bVar8) {fVar10 -= fVar3;}
   if (RollD(1,100) <= ((s32)fVar10 & 0xffU)) {
     uVar5 = param_2->level + 1;
@@ -2192,14 +2192,14 @@ bool func_using_spell_charges(CombatEntity *param_1,CombatEntity *x,Temp_spell *
       sprintf(gGlobals.text,gCombatP->textArray->they failed spell,param_1->charSheetP->name);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
-      param_1->charSheetP->some_rand_val = 0xfe;
+      param_1->charSheetP->spellVal = 0xfe;
       param_1->charSheetP->spellSwitch = 0;
       clear_combat_substruc2(gCombatP->substruct2 + 1);
       return false;
     }
     dec_item_spell_uses(param_1->charSheetP);
   }
-  param_1->charSheetP->some_rand_val = some_skillcheck_calc((s16)RollD(1,100));
+  param_1->charSheetP->spellVal = some_skillcheck_calc((s16)RollD(1,100));
 LAB_8006d340:
   CombatEnt_OR_flags(param_1,flag0);
   return true;
@@ -2260,17 +2260,17 @@ LAB_8006d5ac:
   if ((s16)uVar6 <= iVar3) {
     lVar2 = some_skillcheck_calc((iVar3 - (s16)uVar6) * 0x10000 >> 0x10);
     pCVar10 = param_1->charSheetP;
-    if (lVar2 < pCVar10->some_rand_val) {
+    if (lVar2 < pCVar10->spellVal) {
       if (param_3->unk0x28 != 0) {
-        iVar3 = ((s32)(char)pCVar10->some_rand_val - lVar2) * 0x10000;
+        iVar3 = ((s32)(char)pCVar10->spellVal - lVar2) * 0x10000;
         if (iVar3 >> 0x10 < param_3->unk0x28) {param_3->unk0x28-= (char)((u32)iVar3 >> 0x10);}
         else {param_3->unk0x28 = 0;}
-        lVar2 = param_1->charSheetP->some_rand_val;
+        lVar2 = param_1->charSheetP->spellVal;
         pCVar10 = param_1->charSheetP;
       }
-      bVar1 = pCVar10->some_rand_val;
+      bVar1 = pCVar10->spellVal;
     }
-    else {bVar1 = pCVar10->some_rand_val;}
+    else {bVar1 = pCVar10->spellVal;}
     bVar9 = true;
     if (lVar2 < (char)bVar1) {*param_4 -= (char)lVar2;}
     else {
@@ -2363,7 +2363,7 @@ s16 magic_damage_resist_calc(CombatEntity *param_1,CombatEntity *param_2,Temp_sp
     bVar4 = func_using_spell_charges(param_1,param_2,param_3,param_4);
     if (bVar4 == false) {sVar3 = -2;}
     else {
-      abStack32[0] = param_1->charSheetP->some_rand_val;
+      abStack32[0] = param_1->charSheetP->spellVal;
       bVar4 = func_checking_vs_magic(param_1,param_3,param_2,(char *)abStack32);
       if (bVar4 == false) {sVar3 = -1;}
       else {

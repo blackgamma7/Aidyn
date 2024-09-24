@@ -127,14 +127,14 @@ bool Cheats::_Cheater(void){ // +750000 EXP to party
   #endif
   setEventFlag(FLAG_cheater,true);
   uVar5 = 0;
-  if ((gGlobals.Party)->PartySize != 0) {
+  if ((gGlobals.Party)->MembersSize != 0) {
     do {
-      if ((gGlobals.Party)->Party[uVar5]) {giveExp((gGlobals.Party)->Party[uVar5],500000);}
+      if ((gGlobals.Party)->Members[uVar5]) {giveExp((gGlobals.Party)->Members[uVar5],500000);}
       uVar5++;
-    } while (uVar5 < (gGlobals.Party)->PartySize);
+    } while (uVar5 < (gGlobals.Party)->MembersSize);
   }
   ppVar1 = ((gGlobals.BigAssMenu)->widget).substruct; //Pause menu update, crashes game if used on title screen
-  pCVar2 = (gGlobals.Party)->Party[partypicker]; //update stats for char. selected on menu
+  pCVar2 = (gGlobals.Party)->Members[partypicker]; //update stats for char. selected on menu
   pcVar4 = func_800bbaf0(ppVar1->dollmenu->charStats_widget->Level_widget);
   sprintf(pcVar4,"%u",get_level(pCVar2));
   pcVar4 = func_800bbaf0(ppVar1->dollmenu->charStats_widget->CurrHP_Widget);

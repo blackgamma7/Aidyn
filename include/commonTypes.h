@@ -21,10 +21,6 @@ typedef double f64;
 
 
 #define ABS_macro(x) (if((float)x>=INT_MAX_f){x-=INT_MAX_f}) // may just be compiled casting.
-#define CLEAR(x) memset(x,0,sizeof(*x))
-#define ALLOC(x,line) x=heapAlloc(sizeof(*x),FILENAME,line)
-#define FREE(x,line) HeapFree(x,FILENAME,line); x=NULL
-#define FREEPTR(x,line) if(x) {FREE(x,line);}
 #define LE(x) ((u16)x[0] + (u16)x[1] * 0x100) //for the byteswapping in ROM data
 #define SQ(x) x*x
 

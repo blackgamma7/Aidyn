@@ -51,7 +51,7 @@ void Event_flag_stat(u8 param_1){
       lVar10 = 0;
       uVar6 = 3;
       do {
-        pCVar3 = gGlobals.party->Party[uVar6];
+        pCVar3 = gGlobals.party->Members[uVar6];
         if (((pCVar3) && (isDead(pCVar3) == false)) &&
            ( lVar10 < CharStats::getModdedStat(pCVar3->Stats,param_1))) {
           lVar10 = (s16)CharStats::getModdedStat(pCVar3->Stats,param_1);
@@ -90,7 +90,7 @@ void event_flag_skill_(CHAR_SKILL param_1){
       uVar9 = 0;
       uVar5 = 3;
       do {
-        pCVar3 = gGlobals.party->Party[uVar5];
+        pCVar3 = gGlobals.party->Members[uVar5];
         if (((pCVar3) && (isDead(pCVar3) == false)) &&
            ( uVar9 < getModdedSkill(pCVar3->Skills,param_1))) {
           uVar9 = (s16)getModdedSkill(pCVar3->Skills,param_1);;

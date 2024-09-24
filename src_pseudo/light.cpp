@@ -20,7 +20,7 @@ LAB_800549a8:
       return;
     }
   else if ((uVar1 == 2) || (uVar1 == 3)) goto LAB_800549a8;
-  assert("InitLight","Unknown Light Type");
+  Crash::ManualCrash("InitLight","Unknown Light Type");
 }
 
 void color_magnitude(color32 *param_1,color32 *param_2,float amp){
@@ -175,7 +175,7 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *
                 if (uVar2 != 0) {
 LAB_8005513c:
                   sprintf(gGlobals.text,"Unknown Light Type: %d\n",(light->data).lightType);
-                  assert("InitLight",gGlobals.text);
+                  Crash::ManualCrash("InitLight",gGlobals.text);
                 }
                 (light->data).cols[0] = (light->data).cols[1];
               }
@@ -340,7 +340,7 @@ light_obj * AllocDynamicLight(dynamic_light_struct *param_1,u16 param_2,vec3f *p
     (pdVar3->header).ptr0x24 = pvVar2;
     return pdVar3;
   }
-  assert(s_AllocDynamicLight_800de68c,s_Out_of_Dynamic_Lights_800de6a0);
+  Crash::ManualCrash(s_AllocDynamicLight_800de68c,s_Out_of_Dynamic_Lights_800de6a0);
 }
 
 void FreeDynamicLight(dynamic_light_struct *param_1,s16 param_2){
@@ -348,7 +348,7 @@ void FreeDynamicLight(dynamic_light_struct *param_1,s16 param_2){
   u16 uVar2;
   
   pvVar1 = param_1->lights[param_2].header.ptr0x24;
-  if (param_1->dynamicLightCount < 1) {assert("FreeDynamicLight","Trying to free too many lights!");}
+  if (param_1->dynamicLightCount < 1) {Crash::ManualCrash("FreeDynamicLight","Trying to free too many lights!");}
   *(u16 *)((s32)pvVar1 + 4) = 0;
   *(u16 *)((s32)pvVar1 + 2) = 0;
   param_1->lights[param_2].header.Bitfeild = 0;

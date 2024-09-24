@@ -40,7 +40,7 @@ bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
     break;
   default:
     sprintf(&err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",param_1,param_1 >> 8,param_1&0xFF);
-    assert("menuimages.cpp",&err);
+    Crash::ManualCrash("menuimages.cpp",&err);
   case 0x10:
     BVar1 = IconPotion;
   }
@@ -97,10 +97,10 @@ bool GetSpellIcons(ItemID param_1,Borg8Enum *param_2,Borg8Enum *param_3,Borg8Enu
   ASPECT cVar1;
   
   bVar2 = GetIDIndex(param_1);
-  cVar1 = spell_pointer->spells[bVar2].aspect;
+  cVar1 = gLoadedSpells->spells[bVar2].aspect;
   if (cVar1 == SOLAR_MAGIC) *param_2 = SolarAspectIcon;
   else if (cVar1 == LUNAR_MAGIC) *param_2 = LunarAspectIcon;
-  if (getSchoolIcon(spell_pointer->spells[bVar2].School,param_3) == false) return false;
+  if (getSchoolIcon(gLoadedSpells->spells[bVar2].School,param_3) == false) return false;
   else return GetSpellIcon(param_1,param_4) != false;
 }
 

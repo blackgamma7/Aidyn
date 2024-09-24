@@ -34,7 +34,7 @@ void World::SetTerrain(TerrainStruct *ter,u8 param_2){
     set_terrain_flags(ter->terrain);
     return;
   }
-  assert("World::SetTerrain","Invalid Terrain type!");
+  Crash::ManualCrash("World::SetTerrain","Invalid Terrain type!");
 }
 
 u8 World::getTerrain(TerrainStruct *ter){return ter->terrain;}

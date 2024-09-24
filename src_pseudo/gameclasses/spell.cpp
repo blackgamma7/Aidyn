@@ -5,7 +5,7 @@ void create_temp_spell(Temp_spell *S,ItemID ID,u8 RANK){
   
   S->level = RANK;
   S->id = ID;
-  pSVar2 = spell_pointer->spells[GetIDIndex(ID)];
+  pSVar2 = gLoadedSpells->spells[GetIDIndex(ID)];
   S->name = pSVar2->Name;
   S->school = pSVar2->School;
   S->damage = pSVar2->Damage;
@@ -102,7 +102,7 @@ void CreateTempEnchant(Temp_enchant *Ench,SpellEnum Index,u8 LV,u32 Timer,u8 UNK
   Ench->unk0x3 = UNK3;
   Ench->unk0x4 = UNK4;
   Ench->unk0x14 = -1;
-  Ench->school = spell_pointer->spells[Index].School;
+  Ench->school = gLoadedSpells->spells[Index].School;
 }
 
 void func_800840dc(Temp_enchant *param_1){

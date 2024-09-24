@@ -28,7 +28,7 @@ void PartyInventory::Load(SaveFile *sav){
       SaveParty::LoadItem(sav,NULL);
     }
     else {
-      SaveParty::LoadItem(sav,inv_slots[i].base);
+      SaveParty::LoadItem(sav,&inv_slots[i].base);
       quantity++;
     }
   }
@@ -47,10 +47,10 @@ void PartyInventory::Save(SaveFile *sav){
   for(i=0;i<0x80;i++){
     SaveParty::SaveBits(sav,pTVar2->Quantity,8);
     if (pTVar2->Quantity == 0) {
-      SaveParty::SaveEquip(sav,NULL);
+      SaveParty::SaveItem(sav,NULL);
     }
     else {
-      SaveParty::SaveEquip(sav,pTVar2->base);
+      SaveParty::SaveItem(sav,&pTVar2->base);
     }
     pTVar2++;
   }
@@ -144,7 +144,7 @@ s32 PartyInventory::GetItemQuantity(s32 slot){
   return 0;
 }
 
-#define SLOTSEARCH(arr) int slot = search_for_item_in_array(arr,sizeof(arr)/sizeof(arr[0]),id)
+#define SLOTSEARCH(arr) int slot =SearchArray(arr,sizeof(arr)/sizeof(arr[0]),id)
 
 ItemID D_800F1890[]=
   { 0x0111, 0x0112, 0x0113, 0x010e, 0x0121, 0x0122, 0x0123, 0x0124,
@@ -244,8 +244,8 @@ void PartyInventory::SaveNoop(SaveFile* sav){}
 void PartyInventory::Save239(SaveFile *sav){
     int i;
     for(i=0;i<12;i++){
-        if(inv_slots[i+239].Quantity)SaveParty::SaveEquip(sav,&inv_slots[i+239].base);
-        else SaveParty::SaveEquip(sav,NULL);
+        if(inv_slots[i+239].Quantity)SaveParty::SaveItem(sav,&inv_slots[i+239].base);
+        else SaveParty::SaveItem(sav,NULL);
     }
 }
 void PartyInventory::AddNewItem(int slot,ItemID id,s32 quant){
@@ -254,8 +254,8 @@ void PartyInventory::AddNewItem(int slot,ItemID id,s32 quant){
   item->Quantity = quant;
   quantity++;
 }
-
-int PartyInventory::search_for_item_in_array(ItemID *array,u8 size,ItemID query){
+//search for the index of (query) in (array), which is (size) long
+int PartyInventory::SearchArray(ItemID *array,u8 size,ItemID query){
   int i;
   for(i=0;i<size;i++){
       if (array[i].s == query.s) return i;

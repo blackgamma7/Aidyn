@@ -37,7 +37,7 @@ void crashMesgQueue(void){
   gCrashManager.IsManualCrash = false;
 }
 #ifdef DEBUGVER
-void assert(char *pos,char *cause){
+void Crash::ManualCrash(char *pos,char *cause){
   gCrashManager.IsManualCrash = true;
   strncpy(gCrashManager.position,pos,0x80);
   gCrashManager.position[127] = 0;
@@ -46,7 +46,7 @@ void assert(char *pos,char *cause){
   osSendMesg(&gCrashManager.MesgQ,(OSMesg)1,0);
 }
 #else
-void assert(void){
+void Crash::ManualCrash(void){
   gCrashManager.IsManualCrash = true;
   strncpy(gCrashManager.position,"RELEASE VERSION",0x80);
   gCrashManager.position[127] = 0;

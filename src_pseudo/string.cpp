@@ -1,5 +1,8 @@
 //standard string functions, posted for posterity.
+#include "stringN64.h"
 
+//use existing string libraries if available instead.
+#ifndef WINDOWS 
 
 char * strcpy(char *c1,char *c2){
   char *Y;
@@ -54,7 +57,7 @@ char * strncpy(char *c1,char *c2,s32 i){
 
 //some of these are unused and I can't discen from code what they do.
 
-char * func_80098a34(char *c1,char *c2){
+char * Ofunc_80098a34(char *c1,char *c2){
   char x;
   char *y;
   
@@ -84,7 +87,7 @@ char * func_80098a34(char *c1,char *c2){
   return c1;
 }
 
-char * func_80098a80(char *c1,char *c2,s32 i){
+char * Ofunc_80098a80(char *c1,char *c2,s32 i){
   char x;
   char *y;
   s32 j;
@@ -234,7 +237,7 @@ lab4:
   return k;
 }
 
-s32 func_80098c4c(u8 *c1,u8 *c2){
+s32 Ofunc_80098c4c(u8 *c1,u8 *c2){
   u8 y;
   u32 z;
   s32 i;
@@ -287,7 +290,7 @@ LAB_80098cf4:
   return i;
 }
 
-s32 func_80098d18(u8 *c1,u8 *c2,s32 i){
+s32 Ofunc_80098d18(u8 *c1,u8 *c2,size_t i){
   u8 x;
   u32 y;
   u8 z;
@@ -389,8 +392,8 @@ void * memset(void *x,u8 m,u32 i){
   }
   return x;
 }
-
-u8 * func_80098e84(u8 *c1,u8 *c2,u32 i){
+#endif
+u8 * Ofunc_80098e84(u8 *c1,u8 *c2,u32 i){
   u8 *c_1;
   u8 *c_2;
   u8 *c_3;
@@ -459,7 +462,7 @@ u8 * func_80098e84(u8 *c1,u8 *c2,u32 i){
   return c1;
 }
 
-s32 func_80099030(u8 *c1,u8 *c2,s32 i){
+s32 Ofunc_80099030(u8 *c1,u8 *c2,size_t i){
   s32 j=0;
   s32 k=0;
   u8 x;

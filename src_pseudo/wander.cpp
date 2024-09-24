@@ -4,8 +4,8 @@ float sneak_value(float point8){
   
   if (gGlobals.party != NULL {
     cVar2 = GetMostSkilledMember(gGlobals.party,Stealth);
-    if (((cVar2 != -1) && (gGlobals.party->Party[cVar2]) {
-      cVar2 = getModdedSkill(gGlobals.party->Party[cVar2]->Skills,Stealth);
+    if (((cVar2 != -1) && (gGlobals.party->Members[cVar2]) {
+      cVar2 = getModdedSkill(gGlobals.party->Members[cVar2]->Skills,Stealth);
       fVar3 = (float)(s32)cVar2 / 10.0f;
       if (1.0f < (float)(s32)cVar2 / 10.0f) {fVar3 = 1.0f;}
       return 1.0f - fVar3 * point8;
@@ -43,7 +43,7 @@ wander_substruct * findWandererFromPlayerName(s16 arg0){
     } while (uVar3 < gGlobals.wander.wanderersmax);
   }
   sprintf(acStack72,"Wanderer Not Found\nPlayerName: %d\n",arg0));
-  assert(s_FindWandererFromPlayerName_800d8d4c,acStack72);
+  Crash::ManualCrash(s_FindWandererFromPlayerName_800d8d4c,acStack72);
 }
 
 void func_800124b4(void *param_1,vec3f *param_2){
@@ -138,7 +138,7 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
   
   pBVar5 = GetCollisionZone(param_4);
   refObj = (monsterparty_obj *)(pBVar5->ref_objs[param_2]);
-  if (pBVar5 == NULL) {assert(s_AllocWanderer_800d8d7c,s_Invalid_Collision_Zone_800d8d8c);}
+  if (pBVar5 == NULL) {Crash::ManualCrash(s_AllocWanderer_800d8d7c,s_Invalid_Collision_Zone_800d8d8c);}
   if ((s16)param_1->wanderers < param_1->wanderersmax) {
     uVar7 = param_1->wanderers;
     param_1->wanderers++;
@@ -179,11 +179,11 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
     (ppVar4->collision).position[0] = (refObj->header).coords[0];
     (ppVar10->playerDat->collision).position[2] = ppVar10->position[1];
     func_800154e4(ppVar10->playerDat,(refObj->header).coords[1],1,0);
-    if (((ppVar10->homenode ^ 1) & 1) != 0) {assert("AllocWanderer","Home Node not WANDER_MOVE\n");}
+    if (((ppVar10->homenode ^ 1) & 1) != 0) {Crash::ManualCrash("AllocWanderer","Home Node not WANDER_MOVE\n");}
     func_80012d44(ppVar10);
     return;
   }
-  assert("AllocWanderer","Too Many wanderers already allocated");
+  Crash::ManualCrash("AllocWanderer","Too Many wanderers already allocated");
 }
 
 
