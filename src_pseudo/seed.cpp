@@ -12,8 +12,7 @@ void bootproc(void){
 }
 
 void InitProc(void){
-  u32 uVar1;
-  ulonglong uVar2;
+
   OSTime time;
   u64 uVar3;
   

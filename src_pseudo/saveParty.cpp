@@ -243,31 +243,31 @@ void SaveParty::SaveCharSheet(SaveFile *sav,CharSheet *chara){
 
 CharSheet * SaveParty::LoadCharSheet(SaveFile *sav){
   u16 uVar1;
-  CharSheet *pvVar1;
+  CharSheet *chara;
   byte i;
   
   uVar1 = LoadBits(sav,8);
   if (!uVar1) {
     Advance(sav,712);
-    pvVar1 = NULL;
+    chara = NULL;
   }
   else {
-    ALLOC(pvVar1,952);
-    Entity::Init(pvVar1,(ItemID)(uVar1 + 0x200),3);
-    Entity::UnequipAll(pvVar1);
+    ALLOC(chara,952);
+    Entity::Init(chara,(ItemID)(uVar1 + 0x200),3);
+    Entity::UnequipAll(chara);
     bVar2 = 0;
-    LoadCharEXP(sav,pvVar1->EXP);
-    LoadCharStats(sav,pvVar1->Stats);
-    CharSkills::LoadAll(pvVar1->Skills,sav);
-    LoadArmor(sav,pvVar1);
-    LoadShield(sav,pvVar1);
-    LoadWeapon(sav,pvVar1);
-    for(i=0;i<12;i++) LoadGear(sav,pvVar1);
-    Spellbook::Clear(pvVar1->spellbook);
-    Spellbook::Reset(pvVar1->spellbook,0);
-    LoadSpellsFromSchool(sav,pvVar1->spellbook,pvVar1->EXP->school);
+    LoadCharEXP(sav,chara->EXP);
+    LoadCharStats(sav,chara->Stats);
+    CharSkills::LoadAll(chara->Skills,sav);
+    LoadArmor(sav,chara);
+    LoadShield(sav,chara);
+    LoadWeapon(sav,chara);
+    for(i=0;i<12;i++) LoadGear(sav,chara);
+    Spellbook::Clear(chara->spellbook);
+    Spellbook::Reset(chara->spellbook,0);
+    LoadSpellsFromSchool(sav,chara->spellbook,chara->EXP->school);
   }
-  return pvVar1;
+  return chara;
 }
 
 void SaveParty::SaveCharSheetEffects(SaveFile *sav,CharSheet *chara){
@@ -275,10 +275,10 @@ void SaveParty::SaveCharSheetEffects(SaveFile *sav,CharSheet *chara){
   SKIPCHECK(chara,0x500){
     SaveCharSheet(sav,chara);
     SKIPCHECK(chara->effects,420){
-      for(i=0;i<15;i++) SaveSpellEffect(sav,chara->effects[i]);
+      for(i=0;i<MAGIC_FXMAX;i++) SaveSpellEffect(sav,chara->effects[i]);
     }
-    SKIPCHECK(chara->potionEffects,0x8c);{
-      for(i=0;i<7;i++) SavePotionEffect(sav,chara->potionEffects[i]);
+    SKIPCHECK(chara->potionEffects,140);{
+      for(i=0;i<POTION_FXMAX;i++) SavePotionEffect(sav,chara->potionEffects[i]);
     }
   }
 }
@@ -293,10 +293,10 @@ CharSheet * SaveParty::LoadCharSheetEffects(SaveFile *sav){
     chara = NULL;
   }
   else {
-    for(i=0;i<15;i++) chara->effects[i] = LoadSpellEffect(sav);
-    ALLOCS(chara->potionEffects,0x1c,1855);
+    for(i=0;i<MAGIC_FXMAX;i++) chara->effects[i] = LoadSpellEffect(sav);
+    ALLOCS(chara->potionEffects,sizeof(PotionEffect*) * POTION_FXMAX,1855);
     memset(chara->potionEffects,0,0x1c);
-    for(i=0;i<7;i++) LoadPotionEffect(sav,chara);
+    for(i=0;i<POTION_FXMAX;i++) LoadPotionEffect(sav,chara);
     chara->portrait = get_borg_8(getEntityPortrait(EntityPointer,chara->ID));
   }
   return chara;
