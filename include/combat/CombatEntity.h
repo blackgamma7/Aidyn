@@ -1,5 +1,6 @@
 #include "GhidraDump.h"
 #include "entity.h"
+#include "mathN64.h"
 
 //used by combatants
 struct CombatEntity {
@@ -31,14 +32,14 @@ struct CombatEntity {
 };
 
 
-#define   COMBATENT_CASTING 1<<0  /* casting Magic */
-#define   COMBATENT_CANMOVE 1<<1  /* petrify? */
-#define   COMBATENT_BARD    1<<2  /* troubador */
-#define   COMBATENT_FLAG3   1<<3  //something wi AI
-#define   COMBATENT_ALLY    1<<4  /* friend If Set */
-#define   COMBATENT_ENEMY   1<<5  /* npc if set */
-#define   COMBATENT_FLED    1<<6  /* escaped */
-#define   COMBATENT_FLAG7   1<<7  /* something w/ movement */
-#define   COMBATENT_MEDIC   1<<8  /* lay on hands */
-#define   COMBATENT_HERBS   1<<9  /* heal with herbs */
-#define   COMBATENT_BENCH   1<<10 /* benched */
+#define COMBATENT_CASTING 1<<0  /* casting Magic */
+#define COMBATENT_CANMOVE 1<<1  /* petrify? */
+#define COMBATENT_BARD    1<<2  /* troubador */
+#define COMBATENT_FLAG3   1<<3  //something wi AI
+#define COMBATENT_ALLY    1<<4  /* friend If Set */
+#define COMBATENT_ENEMY   1<<5  /* npc if set */
+#define COMBATENT_FLED    1<<6  /* escaped */
+#define COMBATENT_FLAG7   1<<7  /* something w/ movement */
+#define COMBATENT_MEDIC   1<<8  /* lay on hands */
+#define COMBATENT_HERBS   1<<9  /* heal with herbs */
+#define COMBATENT_BENCH   1<<10 /* benched */

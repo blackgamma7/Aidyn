@@ -4,34 +4,27 @@
 #define FILENAME ""
 #endif
 #include "party.h"
-
+#include "stringN64.h"
+#include "heapN64.h"
 
 void init_party(Party *party){
-  memset(party,0,0x28);
+  CLEAR(party);
   party->Inventory = new PartyInventory();
   }
 
 
 void Party_free(Party *param_1){
-  CharSheet **ppCVar3;
-  u32 uVar3;
-  
-  pIVar1 = param_1->Inventory;
-  if (param_1->Inventory) {
-    param_1->Inventory->~PartyInventory();
-  }
-  uVar3 = 0;
 
-  while( true ) {
-    ppCVar3 = param_1->Members[uVar3];
-    if (*ppCVar3) {
-      CharSheet_free(*ppCVar3);
-      HeapFree(*ppCVar3,FILENAME,0xe8);
-      *ppCVar3 = NULL;}
-    uVar3++;
-    if (3 < uVar3) break;
+  u32 i;
+
+  if (param_1->Inventory) param_1->Inventory->~PartyInventory();
+
+  for(i=0;i<3;i++) {
+    if (param_1->Members[i]) {
+      CharSheet_free(param_1->Members[i]);
+      FREE(param_1->Members[i],0xe8);
+      }
   }
-  return;
 }
 
 void check_party_event_flag(Party *param_1,ItemID param_2,bool param_3,bool param_4){
@@ -148,7 +141,7 @@ bool add_to_party(Party *param_1,ItemID param_2){
   return true;
 }
 
-bool func_8007dfc8(Party *param_1,u32 arg1){
+bool FUN_8007dfc8(Party *param_1,u32 arg1){
   u8 bVar2;
   Temp_weapon *pTVar1;
   bool ret;
@@ -193,7 +186,7 @@ CharSheet * get_party_charsheet(Party *param_1,ItemID param_2,u8 *param_3){
   return pCVar1;
 }
 
-void func_8007e108(Party *param_1){
+void FUN_8007e108(Party *param_1){
   s32 iVar1;
   CharSheet *piVar2;
   u32 uVar2;
@@ -325,7 +318,7 @@ void strip_party_member(Party *param_1,u8 param_2,u8 param_3){
     if (param_1->Members[param_2]) {
     uVar1 = 0;
     do {
-      func_8007f9b8(param_1,param_2,(u8)uVar1);
+      FUN_8007f9b8(param_1,param_2,(u8)uVar1);
       uVar1++;
     } while (uVar1 < 0xc);
     if (param_3 != 0) {
@@ -402,7 +395,7 @@ u8 (*) [2] create_2ByteArray(u8 (*param_1) [2]){
     (*pabVar1)[1] = (*param_1)[1];}
   return pabVar1;}
 
-u8 func_8007e798(Party *param_1,u8 param_2){
+u8 FUN_8007e798(Party *param_1,u8 param_2){
   u32 uVar1;
   u8 *pbVar2;
   u8 temparray [9]={1,1,2,6,3,5,0,0,0xff};
@@ -434,7 +427,7 @@ bool func_checking_niesen_2(Party *param_1,CharSheet *param_2,u8 param_3,ItemID 
     bVar4 = GetIDIndex(param_4);
     if ((&gCombatP->combatEnts)[param_3] == NULL) {return true;}
     if (param_2->ID != (ItemID)(entityList[162] + 0x200)) {
-      func_8006f8d8((&gCombatP->combatEnts)[param_3],param_4,(char)uVar2);
+      FUN_8006f8d8((&gCombatP->combatEnts)[param_3],param_4,(char)uVar2);
       if (bVar4 < 4) {gGlobals.combatBytes[1] = 0x13;}
       return false;
     }
@@ -506,7 +499,7 @@ u8 itemtype_armor(Party *param_1,u8 param_2,temp_armor *param_3,CharSheet *param
         bVar4 = 0;
       }
       else {
-        func_8007e6a4(param_1,IVar1,X,bVar5);
+        FUN_8007e6a4(param_1,IVar1,X,bVar5);
       }
     }
   }
@@ -544,7 +537,7 @@ u8 itemtype_sheild(Party *param_1,char param_2,temp_armor *param_3,CharSheet *pa
         bVar4 = 0;
       }
       else {
-        func_8007e6a4(param_1,IVar1,X,bVar5);
+        FUN_8007e6a4(param_1,IVar1,X,bVar5);
       }
     }
   }
@@ -581,16 +574,16 @@ u8 itemtype_weapon(Party *param_1,u32 param_2,Temp_weapon *param_3,CharSheet *pa
         SetMagicCharges(param_4->weapons,bVar4);
         bVar5 = 0;
         if (gGlobals.combatBytes[0] == 0xe) {
-          func_8006a274((&gCombatP->combatEnts)[param_2]);
+          FUN_8006a274((&gCombatP->combatEnts)[param_2]);
           bVar5 = 0;
         }
       }
       else {
-        func_8007e6a4(param_1,IVar1,X,bVar4);
+        FUN_8007e6a4(param_1,IVar1,X,bVar4);
       }
     }
   }
-  else bVar5 = func_8007e798(param_1,bVar4);
+  else bVar5 = FUN_8007e798(param_1,bVar4);
   return bVar5;
 }
 
@@ -599,13 +592,13 @@ u8 itemtype_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param
   
   if (gametrek_flag0 == 0) {
     if (item_pointer->Gear[search_item_array(param_3->id)].spell == 0xff) uVar2 = 1;
-    else uVar2 = func_800830a4(param_1,param_2,param_3,param_4,3);
+    else uVar2 = FUN_800830a4(param_1,param_2,param_3,param_4,3);
   }
   else uVar2 = use_scroll(param_1,param_2,param_3,param_4);
   return uVar2;}
 
 bool itemtype_ring(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
-  return func_800830a4(param_1,param_2,param_3,param_4,2);}
+  return FUN_800830a4(param_1,param_2,param_3,param_4,2);}
 
 
 u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4,ItemID *param_5){
@@ -622,7 +615,7 @@ u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4
   u32 uVar10;
   
   IVar2 = param_3->id;
-  bVar7 = func_8007e798(param_1,something_with_gear_INT(param_4,IVar2));
+  bVar7 = FUN_8007e798(param_1,something_with_gear_INT(param_4,IVar2));
   if (bVar7 == 0) {
     X = create_2ByteArray(param_3->statmod);
     bVar7 = 0xff;
@@ -649,9 +642,9 @@ u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4
               if (param_5 != (ItemID *)0x0) {
                 *param_5 = IVar3;
               }
-              bVar8 = func_8007f9b8(param_1,(s32)(char)param_2 & 0xff,(u8)uVar10);
+              bVar8 = FUN_8007f9b8(param_1,(s32)(char)param_2 & 0xff,(u8)uVar10);
               if (bVar8) {
-                func_8007e6a4(param_1,IVar2,X,bVar7);
+                FUN_8007e6a4(param_1,IVar2,X,bVar7);
                 return bVar8;
               }
               break;
@@ -663,7 +656,7 @@ u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4
           ptVar9 = (temp_gear *)pCVar5->pItem;
         } while( true );
       }
-      func_8007f10c(param_1,param_4,IVar2,X,bVar7);
+      FUN_8007f10c(param_1,param_4,IVar2,X,bVar7);
       bVar7 = 0;
     }
   }
@@ -671,10 +664,10 @@ u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4
 }
 
 
-void func_8007f10c(Party *param_1,CharSheet *param_2,u16 param_3,u8 (*param_4) [2],u8 param_5){
+void FUN_8007f10c(Party *param_1,CharSheet *param_2,u16 param_3,u8 (*param_4) [2],u8 param_5){
   CharGear *pCVar1;
   
-  func_8007840c(param_2,param_3,param_4);
+  FUN_8007840c(param_2,param_3,param_4);
   pCVar1 = param_2->pItemList;
   SetMagicCharges((Temp_weapon *)param_2->pItemList->pItem[func_8007daa8(pCVar1,param_3)],param_5);
 }
@@ -744,7 +737,7 @@ bool use_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4)
           MVar3 = param_4->EXP->school;
           if (((MVar3 == CHAOS) || (pSVar12->School == NONE)) || (MVar3 == pSVar12->School)) {
             learn_spell(param_4->spellbook,bVar1 | 0x300,1);
-            sprintf(gGlobals.text,(gGlobals.CommonStrings)->char learned spell,param_4->name,
+            Gsprintf((gGlobals.CommonStrings)->char learned spell,param_4->name,
                         pSVar12->Name);
             acStack160 = OFFWHIE;
             acStack96 = DARKGRAY_T;
@@ -763,7 +756,7 @@ bool use_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4)
         }
       }
       else {
-        sprintf(gGlobals.text,(gGlobals.CommonStrings)->they already know that spell,
+        Gsprintf((gGlobals.CommonStrings)->they already know that spell,
                     param_4->name);
         pcVar9 = gGlobals.text;
         pcVar10 = &acStack544;
@@ -777,7 +770,7 @@ bool use_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4)
   return true;
 }
 
-void func_8007f508(Temp_weapon *param_1,u8 (*param_2) [2],s8 param_3){
+void FUN_8007f508(Temp_weapon *param_1,u8 (*param_2) [2],s8 param_3){
   if (param_1->Stat) HeapFree(param_1->Stat,FILENAME,1362);
   param_1->Stat = param_2;
   if (param_3 != -1) param_1->spell->Charges = param_3;
@@ -819,7 +812,7 @@ bool remove_armor_from_character(Party *param_1,u8 param_2){
                        ((s32)param_1->Inventory->inv_slots +
                         (s16)(piVar3->get_inv_slot).arg[0] + -4,uVar4);
     if (pTVar5) {
-      func_8007f508(pTVar5,X,uVar6);
+      FUN_8007f508(pTVar5,X,uVar6);
       remove_chestArmor(pCVar1);
       return false;
     }
@@ -867,7 +860,7 @@ bool removeArmorIntoInventory(Party *param_1,u32 param_2){
                        ((s32)param_1->Inventory->inv_slots +
                         (s16)(piVar3->get_inv_slot).arg[0] + -4,uVar4);
     if (pTVar5) {
-      func_8007f508(pTVar5,X,uVar6);
+      FUN_8007f508(pTVar5,X,uVar6);
       remove_sheild(pCVar1);
       return false;
     }
@@ -916,7 +909,7 @@ bool MoveWeaponsToInventory(Party *param_1,u32 param_2){
                          ((s32)param_1->Inventory->inv_slots +
                           (s16)(piVar2->get_inv_slot).arg[0] + -4,uVar4);
       if (pTVar5) {
-        func_8007f508(pTVar5,X,uVar6);
+        FUN_8007f508(pTVar5,X,uVar6);
         unequp_weapons(pCVar1);
         if (gGlobals.combatBytes[0] != 0xe) {return false;}
         if (gCombatP) {
@@ -938,7 +931,7 @@ bool MoveWeaponsToInventory(Party *param_1,u32 param_2){
 }
 
 
-bool func_8007f9b8(Party *param_1,u8 param_2,u8 param_3){
+bool FUN_8007f9b8(Party *param_1,u8 param_2,u8 param_3){
   CharSheet *pCVar1;
   inv_funcs *piVar2;
   u8 (*X) [2];
@@ -970,7 +963,7 @@ bool func_8007f9b8(Party *param_1,u8 param_2,u8 param_3){
                (*(piVar2->get_inv_slot).func)
                          ((s32)param_1->Inventory->inv_slots +
                           (s16)(piVar2->get_inv_slot).arg[0] + -4,uVar3);
-      func_8007f508(pTVar4,X,uVar6);
+      FUN_8007f508(pTVar4,X,uVar6);
       unequip_acc(pCVar1,uVar5);
       return false;
     }
@@ -1523,7 +1516,7 @@ u8 check_warrior_int_stam(Party *param_1,u32 param_2){
 
 u8 healing_widget_AB_func(s32 param_1,widgetStruct *param_2){
   PTR_800ed504 = NULL;
-  func_800b72cc(gGlobals.widgetHandler,param_2);
+  FUN_800b72cc(gGlobals.widgetHandler,param_2);
   if (param_2) {
     (*(param_2->methods->freeWidget).func)
               ((s32)&param_2->ptr0 + (s32)(s16)(param_2->methods->freeWidget).arg[0],3);
@@ -1587,7 +1580,7 @@ char * healing_func(Party *arg0,u8 A,u8 B){
         addHP(pCVar2,cVar8 << 1 + 5);
         uVar5 = getHPCurrent(pCVar2);
         if (0 < (s32)((uVar5 - uVar4) * 0x10000) >> 0x10) {
-          sprintf(gGlobals.text,(gGlobals.CommonStrings)->"X heals Y by Z",pCVar1->name,pCVar2->name,uVar5 - uVar4);
+          Gsprintf((gGlobals.CommonStrings)->"X heals Y by Z",pCVar1->name,pCVar2->name,uVar5 - uVar4);
           return gGlobals.text;
         }
       }
@@ -1595,7 +1588,7 @@ char * healing_func(Party *arg0,u8 A,u8 B){
       pcVar10 = (gGlobals.CommonStrings)->"X failed the task";
     }
     pcVar7 = gGlobals.text;
-    sprintf(gGlobals.text,pcVar10,pcVar3);
+    Gsprintf(pcVar10,pcVar3);
   }
   return pcVar7;
 }
@@ -1609,10 +1602,10 @@ void herb_func(void){
   
   puVar1 = (undefined *)
            (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->unk0x88->unk0x94;
-  func_8003d064(puVar1,itemID_array[31],1,0xff); //herb loaded
-  func_8003d640(puVar1);
+  FUN_8003d064(puVar1,itemID_array[31],1,0xff); //herb loaded
+  FUN_8003d640(puVar1);
   (**(code **)(*(s32 *)(puVar1 + 0x78) + 0x2c))(puVar1 + *(s16 *)(*(s32 *)(puVar1 + 0x78) + 0x28));
-  func_8002ff30(*(s32 *)(puVar1 + 0x80));
+  FUN_8002ff30(*(s32 *)(puVar1 + 0x80));
 }
 
 char * party_healing_func(Party *param_1,u32 param_2,u32 param_3){
@@ -1657,13 +1650,13 @@ char * party_healing_func(Party *param_1,u32 param_2,u32 param_3){
         iVar5 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
         iVar5 = (iVar5 * 4 + ((cVar10 * 2 + (s32)cVar10) * 4 - (s32)cVar10)) * 0x10000 >> 0x10;
         uVar7 = RollD(1,100);
-        sprintf(gGlobals.text,(gGlobals.CommonStrings)->X failed the task,pCVar1->name);
+        Gsprintf((gGlobals.CommonStrings)->X failed the task,pCVar1->name);
         if ((s32)uVar7 < iVar5) {
           iVar5 = some_skillcheck_calc((s32)((iVar5 - uVar7) * 0x10000) >> 0x10);
           addHP(pCVar2,iVar5 << 0x12 >> 0x10));
           uVar7 = getHPCurrent(pCVar2);
           if ((s32)((uVar7 - uVar6) * 0x10000) >> 0x10 != 0) {
-            sprintf(gGlobals.text,(gGlobals.CommonStrings)->"X heals Y by Z",pCVar1->name,pCVar2->name,uVar7 - uVar6);
+            Gsprintf((gGlobals.CommonStrings)->"X heals Y by Z",pCVar1->name,pCVar2->name,uVar7 - uVar6);
           }
         }
         goto LAB_80081018;
@@ -1672,7 +1665,7 @@ char * party_healing_func(Party *param_1,u32 param_2,u32 param_3){
     pcVar3 = pCVar1->name;
     pcVar12 = (gGlobals.CommonStrings)->X failed the task;
   }
-  sprintf(gGlobals.text,pcVar12,pcVar3);
+  Gsprintf(pcVar12,pcVar3);
 LAB_80081018:
   return gGlobals.text;
 }
@@ -1696,7 +1689,7 @@ char * some_healing_func(Party *param_1,u8 param_2,u8 param_3,u8 param_4){
   if ((pCVar1 == NULL) ||
      (pCVar2 = param_1->Members[param_3], pCVar2 == NULL)) {return (gGlobals.CommonStrings)->"someone in party is invalid";}  
   if (someStatCheck(pCVar2->Stats,param_4) == 0)
-   {sprintf(gGlobals.text,(gGlobals.CommonStrings)->"already max hp",pCVar2->name,Stat_labels[param_4]);}
+   {Gsprintf((gGlobals.CommonStrings)->"already max hp",pCVar2->name,Stat_labels[param_4]);}
   else {
     cVar9 = getModdedSkill(pCVar1->Skills,SKILL_HEALER);
     iVar5 = 0xf - cVar9;
@@ -1711,7 +1704,7 @@ char * some_healing_func(Party *param_1,u8 param_2,u8 param_3,u8 param_4){
         damage_func(pCVar1,(s16)iVar5);
         iVar5 = (CharStats::getModdedStat(pCVar1->Stats,STAT_INT) * 2 + cVar9 * 4 + (s32)cVar9) * 0x10000 >> 0x10;
         uVar8 = RollD(1,100);
-        sprintf(gGlobals.text,(gGlobals.CommonStrings)->X failed the task,pCVar1->name);
+        Gsprintf((gGlobals.CommonStrings)->X failed the task,pCVar1->name);
         if ((s32)uVar8 < iVar5) {
           iVar5 = some_skillcheck_calc((s32)((iVar5 - uVar8) * 0x10000) >> 0x10);
           iVar10 = (iVar5 << 0x11) >> 0x10;
@@ -1721,14 +1714,14 @@ char * some_healing_func(Party *param_1,u8 param_2,u8 param_3,u8 param_4){
           }
           CharStats::addModdedStat(pCVar2->Stats,arg1,(char)iVar10);
           if (0 < CharStats::getModdedStat(pCVar2->Stats,arg1) - iVar5) {
-            sprintf(gGlobals.text,(gGlobals.CommonStrings)->"hp restored by x",pCVar2->name,
+            Gsprintf((gGlobals.CommonStrings)->"hp restored by x",pCVar2->name,
                         Stat_labels[param_4]);
           }
         }
         goto LAB_800812c8;
       }
     }
-    sprintf(gGlobals.text,(gGlobals.CommonStrings)->X failed the task,pCVar1->name);
+    Gsprintf((gGlobals.CommonStrings)->X failed the task,pCVar1->name);
   }
 LAB_800812c8:
   return gGlobals.text;
@@ -1754,9 +1747,9 @@ u8 potion_recipie_func_(Party *param_1,u32 param_2,POTION param_3){
   iVar6 = get_potion_recipie(param_3));
   if (iVar6) {
     iVar7 = param_1->Members[param_2];
-    func_8003d064(puVar2,itemID_array[30],iVar6->spice,0xff);
-    func_8003d064(puVar2,itemID_array[31],iVar6->herb,0xff);
-    func_8003d064(puVar2,itemID_array[32],iVar6->gemstone,0xff);
+    FUN_8003d064(puVar2,itemID_array[30],iVar6->spice,0xff);
+    FUN_8003d064(puVar2,itemID_array[31],iVar6->herb,0xff);
+    FUN_8003d064(puVar2,itemID_array[32],iVar6->gemstone,0xff);
     if (iVar6->spice){
       piVar3 = param_1->Inventory->Functions;
       uVar5 = (*(piVar3->get_some_bool).func)
@@ -1801,10 +1794,10 @@ u8 potion_recipie_func_(Party *param_1,u32 param_2,POTION param_3){
                             (s16)(piVar3->add_to_inv).arg[0] + -4,uVar4,1);
         if (uVar10 != 0) {
           SMI_AddItem((s32)puVar2,uVar4,1,0xff,FILENAME);
-          func_8003d640(puVar2);
+          FUN_8003d640(puVar2);
           (**(code **)(*(s32 *)(puVar2 + 0x78) + 0x2c))
                     (puVar2 + *(s16 *)(*(s32 *)(puVar2 + 0x78) + 0x28));
-          func_8002ff30(*(s32 *)(puVar2 + 0x80));
+          FUN_8002ff30(*(s32 *)(puVar2 + 0x80));
         }
       }
       goto LAB_80081538;
@@ -2505,7 +2498,7 @@ bool AmorCraft_attempt(Party *param_1,char param_2,s16 param_3,ItemID material,u
     (*(piVar2->get_some_bool).func)
               ((s32)param_1->Inventory->inv_slots + (s16)(piVar2->get_some_bool).arg[0] + -4,uVar6
                ,1);
-    func_8003d064(puVar1,material,1,0xff);
+    FUN_8003d064(puVar1,material,1,0xff);
     bVar5 = stam <= uVar3;
     if (bVar5) {
       piVar2 = param_1->Inventory->Functions;
@@ -2514,15 +2507,15 @@ bool AmorCraft_attempt(Party *param_1,char param_2,s16 param_3,ItemID material,u
                  param_3,1);
       SMI_AddItem((s32)puVar1,param_3,1,0xff,FILENAME);
     }
-    func_8003d640(puVar1);
+    FUN_8003d640(puVar1);
     (**(code **)(*(s32 *)(puVar1 + 0x78) + 0x2c))
               (puVar1 + *(s16 *)(*(s32 *)(puVar1 + 0x78) + 0x28));
-    func_8002ff30(*(s32 *)(puVar1 + 0x80));
+    FUN_8002ff30(*(s32 *)(puVar1 + 0x80));
   }
   return bVar5;
 }
 
-bool func_80082E40(Party *param_1,s32 param_2,ItemID param_3){
+bool FUN_80082E40(Party *param_1,s32 param_2,ItemID param_3){
   CharSheet *pCVar1;
   temp_gear **pptVar5;
   u8 i;
@@ -2568,7 +2561,7 @@ bool dialoug_look_for_item(Party *param_1,ItemID param_2){
   if (bVar2 == false) {
     uVar4 = 0;
     do {
-      bVar2 = func_80082e40(param_1,uVar4++,param_2);
+      bVar2 = FUN_80082e40(param_1,uVar4++,param_2);
       if (bVar2) goto LAB_80082f80;
     } while (uVar4 < 4);
     bVar2 = false;
@@ -2584,7 +2577,7 @@ LAB_80082f80:
   return bVar2;
 }
 
-bool func_80082fcc(s16 *param_1,s16 param_2){
+bool FUN_80082fcc(s16 *param_1,s16 param_2){
   if (param_1) return *param_1 == param_2;
   return false;
 }
@@ -2623,7 +2616,7 @@ LAB_8008305c:
   return bVar2;
 }
 
-bool func_800830a4(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4,
+bool FUN_800830a4(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4,
                  u8 param_5){
   ItemID IVar1;
   inv_funcs *piVar2;
@@ -2638,7 +2631,7 @@ bool func_800830a4(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param
   
   IVar1 = param_3->id;
   bVar4 = ;
-  bVar4 = func_8007e798(param_1,something_with_gear_INT(param_4,IVar1));
+  bVar4 = FUN_8007e798(param_1,something_with_gear_INT(param_4,IVar1));
   if (bVar4 != 0) {
     return (bool)bVar4;
   }
@@ -2664,7 +2657,7 @@ bool func_800830a4(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param
                       ((s32)param_1->Inventory->inv_slots +
                        (s16)(piVar2->get_some_bool).arg[0] + -4,(ulonglong)(u16)IVar1,1);
     if (uVar3 != 0) {
-      func_8007f10c(param_1,param_4,IVar1,X,uVar9);
+      FUN_8007f10c(param_1,param_4,IVar1,X,uVar9);
       return false;
     }
     if (X) {

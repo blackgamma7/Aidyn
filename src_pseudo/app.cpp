@@ -35,7 +35,7 @@ Gfx* display_debug_stats(Gfx*param_1){
   
   if ((debug_flag) && (1.0f <= gGlobals.delay)) {
     if (gGlobals.DebugStatDisplay - 1 < 3) {param_1 = (Gfx*)DisplaySystemMonitor(param_1);}
-    sprintf(gGlobals.text,"%2d",(s16)(60.0f / gGlobals.delay));
+    Gsprintf("%2d",(s16)(60.0f / gGlobals.delay));
     param_1 = (Gfx*)gfx::DrawText(param_1,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
     if (gGlobals.DebugStatDisplay) {
       RSPFUNC(param_1,6);
@@ -58,18 +58,18 @@ Gfx* display_debug_stats(Gfx*param_1){
           temp_f0 = temp_f22 * 9.765625E-4f;
           if (!(INT_MAX_f <= temp_f0)) {phi_v1 = (s32) temp_f0;}
           else {phi_v1 = (s32) (temp_f0 - INT_MAX_f) | 0x80000000;}
-          sprintf(gGlobals.text,"%d - %%%1.1f - (%d/%d)\n%c%02d - %2.0ffps\n",
+          Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %2.0ffps\n",
           uVar2,phi_v1,(char)gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,
                       (double)(60.0f / gGlobals.delay));
           //sprintf(phi_s5, (void *)0x800D9820, temp_s0_2, phi_v1, temp_s2->unk292 + 0x40, (?32) temp_s2->unk294, (f64) (D_800D9894 / temp_s0_4->unkC));
         }
         else {
           uVar4 = ppVar1->Ground_type;
-          sprintf(gGlobals.text,"%2d - %s",uVar4,ground_labels[uVar4]);
+          Gsprintf("%2d - %s",uVar4,ground_labels[uVar4]);
           pauVar3 = (Gfx*)gfx::DrawText(pauVar3,gGlobals.text,0x12,0xc4,0,200,200,0xff);
           if (!(INT_MAX_f <= (memfree1 * 9.765625E-4f))) {}
           if (!(INT_MAX_f <= (memfree2 * 9.765625E-4f))) {}
-          sprintf(gGlobals.text,"%d - %%%1.1f - (%d/%d)\n%c%02d - %d-(%3.2f,%3.2f,%3.2f) - %2.0f\n",
+          Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %d-(%3.2f,%3.2f,%3.2f) - %2.0f\n",
           (u16)(uVar2),);
           //sprintf(phi_s5, (void *)0x800D97E0, temp_s0_2, temp_s2->unk292 + 0x40, (?32) temp_s2->unk294, (?32) temp_s2->unk2AC, (f64) temp_s3->unk68, (f64) temp_s3->unk6C, (f64) temp_s3->unk70, (f64) (D_800D987C / temp_s0_3->unkC))
         }
@@ -230,9 +230,9 @@ loop:
     if (*psStack_40 == 1) {
       if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
         if (resolution_mirror_check()) {
-          sprintf(gGlobals.text,"StartGfxList()");
+          Gsprintf("StartGfxList()");
           gfx0 = gfx::gsStartGfxList();
-          sprintf(gGlobals.text,"HandleAppFrame()");
+          Gsprintf("HandleAppFrame()");
           uVar10 = gGlobals.ticker + 1;
           if (doubleGlobalTickerFlag == 1) {
             uVar10 = gGlobals.ticker + 2;
@@ -247,7 +247,7 @@ loop:
           if (ExpPakFlag) gListSizeMax = 0x6400;
           uVar10 = (uint)((int)gfx1 - (int)gfx0) /sizeof(Gfx);
           if (gListSizeMax*sizeof(Gfx) < (uint)(gfx1 - (int)gfx0)) {
-            sprintf(gGlobals.text,"GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",uVar10,gListSizeMax,
+            Gsprintf("GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",uVar10,gListSizeMax,
                         uVar10 - gListSizeMax);
             Crash::ManualCrash("app.cpp::AppProc",gGlobals.text);
           }
@@ -313,7 +313,7 @@ void appProc_init(void){
   s32 uVar6;
   
   gfx::SetGfxMode(320,240,16);
-  func_80020830();
+  FUN_80020830();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
   Random::SetSeed((u32 *)&gGlobals,0x3dbb6cd);

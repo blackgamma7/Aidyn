@@ -17,7 +17,7 @@ enum GameStateCheat{
 
 void set_ranger_float(void){RangerIngredientFloat = ranger_int_float(Gglobals.party);}
 
-bool func_8001b9bc(mapVoxel *param_1){
+bool FUN_8001b9bc(mapVoxel *param_1){
   EventFlag EVar1;
   bool bVar2;
   bool bVar3;

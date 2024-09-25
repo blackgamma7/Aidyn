@@ -20,7 +20,7 @@ struct MemMon_struct {
 struct HeapBlock{
     u32 size;
     #ifdef DEBUGVER
-    char filname[24]; //ommited in retail version
+    char filename[24]; //ommited in retail version
     #endif
 };
 
@@ -28,7 +28,7 @@ extern struct MemMon_struct gMemMonitor;
 
 void HeapInit(void *start,u32 size);
 void * heapAlloc(uint size,char *file,uint line);
-void heapFree(void *X,char *cpp,int line);
+void HeapFree(void *X,char *cpp,int line);
 uint Ofunc_80098200(void *param_1);
 u32 Ofunc_get_MemFreeMax(void);
 u32 get_memUsed(void);

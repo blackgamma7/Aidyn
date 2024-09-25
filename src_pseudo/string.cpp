@@ -10,7 +10,7 @@ char * strcpy(char *c1,char *c2){
   
   x = *c2;
   Y = c1;
-  while (x != 0) {
+  while (x) {
     c2++;
     *Y = x;
     x = *c2;
@@ -495,13 +495,13 @@ u8 * uppercase(u8 *x){
   u8 *j;
   u8 i;
   
-  if (*x != 0) {
+  if (*x) {
     i = *x;
     j = x;
     while( true ) {
-      if (i - 0x61 < 0x1a) {*j = i - 0x20;}
+      if (i - 'a' < 26) *j = i - ' ';
       j++;
-      if (*j == 0) break;
+      if (!*j) break;
       i = *j;
     }
   }
@@ -512,13 +512,13 @@ u8 * lowercase(u8 *x){
   u8 *j;
   u8 i;
   
-  if (*x != 0) {
+  if (*x) {
     i = *x;
     j = x;
     while( true ) {
-      if (i - 0x61 < 0x1a) {*j = i + 0x20;}
+      if (i - 'A' < 26) *j = i + ' ';
       j++;
-      if (*j == 0) break;
+      if (!*j) break;
       i = *j;
     }
   }

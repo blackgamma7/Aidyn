@@ -82,7 +82,7 @@ void set_camera_0x70(Camera_struct *arg0,vec3f *arg1){
   arg0->unk0x70[2] = (*arg1)[2];
 }
 
-void func_800b04ec(Camera_struct *arg0){
+void FUN_800b04ec(Camera_struct *arg0){
   arg0->unk0x80 = 0;
   if (arg0->unk0x82 != 0) {
     arg0->unk0x58 = 0;
@@ -90,7 +90,7 @@ void func_800b04ec(Camera_struct *arg0){
   }
 }
 
-void func_800b050c(Camera_struct *arg0,vec3f *arg1){
+void FUN_800b050c(Camera_struct *arg0,vec3f *arg1){
   if (arg0->float0x48 < arg0->unk0x50) {arg0->float0x48 = arg0->unk0x50;}
   if (arg0->unk0x54 < arg0->float0x48) {arg0->float0x48 = arg0->unk0x54;}
   (*arg1)[0] = arg0->aim[0] - arg0->XZ_orient[0] * arg0->unk0x5c;
@@ -98,7 +98,7 @@ void func_800b050c(Camera_struct *arg0,vec3f *arg1){
   (*arg1)[2] = arg0->aim[2] - arg0->XZ_orient[1] * arg0->unk0x5c;
 }
 
-void func_800b05d0(Camera_struct *CAM,vec3f *Arg1,vec3f *Arg2){
+void FUN_800b05d0(Camera_struct *CAM,vec3f *Arg1,vec3f *Arg2){
   float fVar1 = __sinf((float)CAM->unk0x58 * dtor);
   float fVar2 = __cosf((float)CAM->unk0x58 * dtor);
   float fVar3 = fVar2 * (*Arg2)[0] + fVar1 * (*Arg2)[2];
@@ -151,7 +151,7 @@ void ProcessGameCamera_mode1(Camera_struct *arg0,vec3f *arg1,float *arg2,s16 arg
       arg0->coord[0] = arg0->aim[0] + fStack272[0] * arg4;
       arg0->coord[2] = arg0->aim[2] + fStack272[2] * arg4;
     }
-    if (func_800adf78(arg0->borg_9,fStack336,arg0,0.25f,fStack464,afStack400,1)) {
+    if (FUN_800adf78(arg0->borg_9,fStack336,arg0,0.25f,fStack464,afStack400,1)) {
       multiVec3(afStack400,0.25f);
       vec3_sum(fStack464,fStack464,afStack400);
       arg0->coord = fStack464;
@@ -159,7 +159,7 @@ void ProcessGameCamera_mode1(Camera_struct *arg0,vec3f *arg1,float *arg2,s16 arg
     if (arg14 != 0) {
       Vec3_sub(arg0,arg0,c);
       Vec3_sub(aim1,aim1,c);
-      func_800ab23c(arg0,aim1,(float)(s32)arg3 * dtor);
+      FUN_800ab23c(arg0,aim1,(float)(s32)arg3 * dtor);
       vec3_sum(arg0,arg0,c);
       vec3_sum(aim1,aim1,c);
     }
@@ -170,18 +170,18 @@ void ProcessGameCamera_mode1(Camera_struct *arg0,vec3f *arg1,float *arg2,s16 arg
     }
     if ((((arg15 != 0) && (arg0->unk0x84 == 0)) &&
         (get_vec3_proximity(arg0,aim1) < 1.0f)) &&
-       (func_800adf78(arg0->borg_9,c,aim1,0.25f,NULL,NULL,1))) {
+       (FUN_800adf78(arg0->borg_9,c,aim1,0.25f,NULL,NULL,1))) {
       arg0->unk0x84 = 300;
       setVec2(fStack528,*arg2,arg2[2]);
       vec2_normalize(fStack528);
       setVec3(afStack208,fStack656[0] + arg9 * fStack528[0],arg0->coord_mirror[1],
               fStack656[1] + arg9 * fStack528[1]);
-      if (func_800adf78(arg0->borg_9,c,afStack208,fVar3,afStack144,NULL,1)) copyVec3(afStack144,aim1);
+      if (FUN_800adf78(arg0->borg_9,c,afStack208,fVar3,afStack144,NULL,1)) copyVec3(afStack144,aim1);
       else copyVec3(afStack208,aim1);
     }
     camera_orient(arg0);
   }
-  else func_800b0fac(arg0,arg2,arg3,arg9,arg6,arg7);
+  else FUN_800b0fac(arg0,arg2,arg3,arg9,arg6,arg7);
 }
 
 void ProcessGameCamera_mode0(Camera_struct *arg0,vec3f *arg1,vec3f *arg2,s16 arg3,s16 arg4){
@@ -225,13 +225,13 @@ LAB_800b0be4:
       arg0->unk0x7c = 1;
     }
     if (0.25d < (double)fVar5) {
-      func_800b04ec(arg0);
+      FUN_800b04ec(arg0);
       arg0->unk0x7c = 0;
     }
     camera_orient(arg0);
     aim0 = arg0->coord_mirror;
-    func_800b050c(arg0,aim0);
-    func_800b05d0(arg0,afStack240,arg2);
+    FUN_800b050c(arg0,aim0);
+    FUN_800b05d0(arg0,afStack240,arg2);
     if (arg0->unk0x7c == 0) {
       fVar5 = (((float)(s32)(s16)arg0->unk0x7e - fVar5) /
               (float)(s32)(s16)arg0->unk0x7e) * 128.0f + 16.0f;
@@ -249,7 +249,7 @@ LAB_800b0be4:
         (double)fVar6 < 0.5d)) &&
        (uVar4 = arg0->unk0x80 - 1, arg0->unk0x80 = uVar4, (s32)((u32)uVar4 << 0x10) < 1
        )) {
-      func_800b04ec(arg0);
+      FUN_800b04ec(arg0);
     }
     fVar6 = 5.0f;
     adust_camera_aim(aim0,afStack240,fVar5,arg3,5.0f);
@@ -265,19 +265,19 @@ LAB_800b0be4:
     if (0.0 < fVar8) {
       Vec3_sub(arg0,arg0,aim0_00);
       Vec3_sub(aim0,aim0,aim0_00);
-      func_800ab23c(arg0,aim0,fVar8 * (float)(s32)arg3);
+      FUN_800ab23c(arg0,aim0,fVar8 * (float)(s32)arg3);
       vec3_sum(arg0,arg0,aim0_00);
       vec3_sum(aim0,aim0,aim0_00);
     }
     adust_camera_aim(arg0,aim0,16.0,arg3,fVar6);
     if (((s16)arg0->unk0x80 < 2) && (arg4 != 0)) {
-      if (func_800adf78(arg0->borg_9,arg0,aim0_00,0.25,NULL,NULL,0)) {
+      if (FUN_800adf78(arg0->borg_9,arg0,aim0_00,0.25,NULL,NULL,0)) {
         arg0->unk0x82 = 0;
       }
       else arg0->unk0x82 = 1;
     }
-    if (((func_800adf78(arg0->borg_9,fStack112,arg0,0.25,NULL,NULL,1)) && (arg0->unk0x80 == 1)) && (arg0->unk0x82 != 0)) {
-      func_800b04ec(arg0);
+    if (((FUN_800adf78(arg0->borg_9,fStack112,arg0,0.25,NULL,NULL,1)) && (arg0->unk0x80 == 1)) && (arg0->unk0x82 != 0)) {
+      FUN_800b04ec(arg0);
     }
     camera_orient(arg0);
   }
@@ -288,12 +288,12 @@ LAB_800b0be4:
     copyVec3(arg1,arg0->aim_mirror);
     arg0->aim_mirror[1] += arg0->camHeight;
     adust_camera_aim(arg0->aim,arg0->aim_mirror,16.0,arg3,0.25f);
-    func_800b0fac(arg0,arg2,arg3,arg0->unk0x5c,0,5.0f);
+    FUN_800b0fac(arg0,arg2,arg3,arg0->unk0x5c,0,5.0f);
   }
 }
 
 
-void func_800b0fac(Camera_struct *CAM,s32 param_2,s16 param_3,float param_4,float param_5,
+void FUN_800b0fac(Camera_struct *CAM,s32 param_2,s16 param_3,float param_4,float param_5,
                  float param_6){
   bool bVar1;
   u32 uVar2;
@@ -331,7 +331,7 @@ void func_800b0fac(Camera_struct *CAM,s32 param_2,s16 param_3,float param_4,floa
   multiVec2(fStack184,fVar4);
   setVec3(CAM,fStack184[0] + CAM->aim[0],CAM->coord_mirror[1],fStack184[1] + CAM->aim[2]);
 
-  if (func_800adf78(CAM->borg_9,CAM->aim,CAM,0.25,afStack312,afStack248,1)){
+  if (FUN_800adf78(CAM->borg_9,CAM->aim,CAM,0.25,afStack312,afStack248,1)){
     multiVec3(afStack248,-0.25);
     vec3_sum(afStack312,afStack312,afStack248);
     Vec3_sub(fStack504,afStack312,CAM->aim);

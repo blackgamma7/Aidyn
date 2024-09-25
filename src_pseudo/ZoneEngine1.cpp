@@ -38,7 +38,7 @@ void dialoug_ref_obj_func(void){
   return;
 }
 
-void func_800064e8(widgetStruct *param_1,u16 param_2,u16 param_3,u16 param_4,u16 param_5){
+void FUN_800064e8(widgetStruct *param_1,u16 param_2,u16 param_3,u16 param_4,u16 param_5){
   param_1->unk0x64 = param_2;
   param_1->unk0x68 = param_3;
   param_1->HMax = param_4;

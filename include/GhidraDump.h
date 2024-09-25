@@ -510,11 +510,6 @@ union Mtx {
     Mtx_t m;
 };
 
-struct vec2f {
-    float x;
-    float y;
-};
-
 struct Particle {
     u16 id;
     u16 lifespan;

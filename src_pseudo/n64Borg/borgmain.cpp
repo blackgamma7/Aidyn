@@ -191,7 +191,7 @@ void * getBorgItem(s32 index){
   Crash::ManualCrash("n64Borg.cpp,_GetBorgItem()",errmsg);
 }
 
-void func_800a2de0(void){}
+void FUN_800a2de0(void){}
 u8 get_borg_index_count(s32 param_1){return borg_index_x1[param_1];}
 
 void dec_borg_count(s32 index){

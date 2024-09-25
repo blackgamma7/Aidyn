@@ -135,13 +135,13 @@ bool Cheats::_Cheater(void){ // +750000 EXP to party
   }
   ppVar1 = ((gGlobals.BigAssMenu)->widget).substruct; //Pause menu update, crashes game if used on title screen
   pCVar2 = (gGlobals.Party)->Members[partypicker]; //update stats for char. selected on menu
-  pcVar4 = func_800bbaf0(ppVar1->dollmenu->charStats_widget->Level_widget);
+  pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->Level_widget);
   sprintf(pcVar4,"%u",get_level(pCVar2));
-  pcVar4 = func_800bbaf0(ppVar1->dollmenu->charStats_widget->CurrHP_Widget);
+  pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->CurrHP_Widget);
   sprintf(pcVar4,"%u",getHPCurrent(pCVar2));
-  pcVar4 = func_800bbaf0(ppVar1->dollmenu->charStats_widget->MaxHP_widget);
+  pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->MaxHP_widget);
   sprintf(pcVar4,"%u",getHPMax(pCVar2));
-  func_80038bdc(ppVar1->dollmenu->unk0x88,partypicker);
+  FUN_80038bdc(ppVar1->dollmenu->unk0x88,partypicker);
   return true;
 }
 
@@ -155,7 +155,7 @@ bool Cheats::_bingo(void){ //+100000 gold
   //Another menu update, crashing the title screen
   pwVar1 = (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->charStats_widget->gold_widget;
   (gGlobals.Party)->Gold+=100000;
-  pcVar2 = func_800bbaf0(pwVar1);
+  pcVar2 = FUN_800bbaf0(pwVar1);
   sprintf(pcVar2,"%ld",(gGlobals.Party)->Gold);
   return true;
 }
@@ -174,7 +174,7 @@ bool Cheats::_version(void){
   #define VERSIONNAME "02.01d-PRERELEASE"
   #define COMPILEDATE "Feb  1 2001" //there's a few minutes difference
   #define COMPILETIME "23:55:49" //between debug splashscreen's and this one's
-  sprintf(gGlobals.text,"Aidyn Chronicles\nVersion: "+VERSIONNAME+"\nCompile: %s-%s\nCode: %lu",COMPILEDATE,COMPILETIME);
+  Gsprintf("Aidyn Chronicles\nVersion: "+VERSIONNAME+"\nCompile: %s-%s\nCode: %lu",COMPILEDATE,COMPILETIME);
   another_textbox_func(gGlobals.text,200,0x32,0xff,0xff,0xff,0xff,0x96,1);
   #ifndef DEBUGVER
   version_flag=1; //activates coord print in retail during AppProc()

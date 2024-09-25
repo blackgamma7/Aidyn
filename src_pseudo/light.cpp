@@ -47,7 +47,7 @@ void color_magnitude(color32 *param_1,color32 *param_2,float amp){
   param_2->A = param_1->A + cVar3;
 }
 
-float func_80054ba4(float x,float y){
+float FUN_80054ba4(float x,float y){
   if (x < 0.0) {x += y;}
   if (y < x) {x -= y;}
   return x;
@@ -152,7 +152,7 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *
           ((pvVar3 = (light->header).ptr0x24, pvVar3 == NULL ||
            (*(s16 *)((s32)pvVar3 + 6) < 1)))) &&
          (((rVar1 & 0x1000) == 0 ||
-          (func_800adf78(param_2,light,obj,0.25,0x0,0x0,1) == false)))) {
+          (FUN_800adf78(param_2,light,obj,0.25,0x0,0x0,1) == false)))) {
         fVar9 = get_vec3_proximity(obj,light);
         fVar10 = (light->header).size;
         if (fVar9 < fVar10) {
@@ -166,7 +166,7 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *
               fVar9 = (light->data).f0 +(fVar11 / ((light->data).f1 * 30.0f)) * (float)delay;
               (light->data).f0 = fVar9;
               if (fVar11 < fVar9) {color_XOR(colA,colB);}
-              fVar9 = func_80054ba4((light->data).f0,1.0f);
+              fVar9 = FUN_80054ba4((light->data).f0,1.0f);
               (light->data).f0 = fVar9;
               color_magnitude((light->data).cols + 1,(color32 *)plStack68,fVar9);
             }
@@ -174,7 +174,7 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *
               if (uVar2 < 2) {
                 if (uVar2 != 0) {
 LAB_8005513c:
-                  sprintf(gGlobals.text,"Unknown Light Type: %d\n",(light->data).lightType);
+                  Gsprintf("Unknown Light Type: %d\n",(light->data).lightType);
                   Crash::ManualCrash("InitLight",gGlobals.text);
                 }
                 (light->data).cols[0] = (light->data).cols[1];
@@ -183,7 +183,7 @@ LAB_8005513c:
                 if (uVar2 == 2) {
                   fVar11 = (float)((double)(light->data).f0 +(360.0d / (double)((light->data).f1 * 60.0f)) *(double)delay);
                   (light->data).f0 = fVar11;
-                  fVar9 = func_80054ba4(fVar11,fVar9);
+                  fVar9 = FUN_80054ba4(fVar11,fVar9);
                   fVar11 = fVar9 * DtoR_f;
                   (light->data).f0 = fVar9;
                   color_magnitude(pcVar5,(color32 *)plVar6,(__sinf(fVar11) + 1.0f) * 0.5f);
@@ -358,7 +358,7 @@ void FreeDynamicLight(dynamic_light_struct *param_1,s16 param_2){
   return;
 }
 
-void func_800556f4(dynamic_light_struct *param_1,s16 param_2){
+void FUN_800556f4(dynamic_light_struct *param_1,s16 param_2){
   u16 *puVar1;
   s32 iVar2;
   void **ppvVar3;

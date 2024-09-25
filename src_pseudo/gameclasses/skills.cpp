@@ -138,7 +138,7 @@ void some_moddedSkillCheck(CharSkills *arg0,u8 arg1,s8 arg2){
   if (bVar1 != *pbVar2) {event_flag_skill_(arg1);}
 }
 
-void func_80083cc8(CharSkills *param_1,u8 param_2){
+void FUN_80083cc8(CharSkills *param_1,u8 param_2){
   check_baseskill_minus1((char *)&param_1->Sheild_Base,(char *)&param_1->Sheild_modded,0,param_2);
 }
 

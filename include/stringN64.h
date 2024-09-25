@@ -2,9 +2,10 @@
 //for future porting - use available string libraries where applicable. 
 #include <string.h>
 #else
+
 #include "typedefs.h"
 #define NULL (void*)0x0
-typedef size_t u32;
+typedef u32 size_t;
 char* strcpy(char* c1,char* c2);
 char* strncpy(char *c1,char *c2,size_t l);
 char* Ofunc_80098a34(char *c1,char *c2);
@@ -24,3 +25,6 @@ inline u8 * lowercase(char *x){return lowercase((u8*)x);}
 #define CLEAR(x) memset(x,0,sizeof(*x))
 
 extern void sprintf(char* buff, char* fmt,...);
+
+//many sprintfs use "gGlobals.text" as the buffer.
+#define Gsprintf(fmt,...)  sprintf(gGlobals.text,fmt,__VA_ARGS__)

@@ -4,7 +4,6 @@
 #define FILENAME ""
 #endif
 
-
 #include "savefiles.h"
 #include "heapN64.h"
 
@@ -87,7 +86,7 @@ void SaveParty::LoadItem(SaveFile *sav,ItemInstance *item){
       ItemInstance::InitItem((EquipInstance *)item,uVar1);
       uVar1 = LoadBits(sav,5);
       if (item->spellCharge) item->spellCharge->Charges = uVar1;
-      if (item->statMod) heapFree(item->statMod,FILENAME,308);
+      if (item->statMod) HeapFree(item->statMod,FILENAME,308);
       item->statMod = LoadStatMod(sav);
     }
   }

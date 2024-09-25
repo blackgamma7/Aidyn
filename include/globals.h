@@ -1,6 +1,8 @@
 #include "GhidraDump.h"
 #include "Camera.h"
 #include "MiniMap.h"
+#include "party.h"
+#include "stringN64.h"
 
 
 struct SaveFile{ //relevant bits are shoved together for MemPak save files(And a temp one created by Memmaker)

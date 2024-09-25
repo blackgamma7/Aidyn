@@ -34,7 +34,7 @@ bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
         } 
       }
     }
-    sprintf(gGlobals.Text,"Using default image for %d\n",param_1);
+    Gsprintf("Using default image for %d\n",param_1);
     N64Print::Print(gGlobals.Text);
     BVar1 = QuestinmarkIcon;
     break;

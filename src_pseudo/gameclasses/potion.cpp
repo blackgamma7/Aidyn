@@ -16,7 +16,7 @@ void make_charsheet_potion(Potion_effect *param_1,u8 ID,u8 param_3,u32 Timer){
 
 void func_with_potion_unk2(Potion_effect *param_1){
   if ((param_1->unk2 != 0xffff) && (gGlobals.screenFadeModeSwitch == 2)) {
-    func_8009420c(param_1->unk2);}
+    FUN_8009420c(param_1->unk2);}
 }
 
 

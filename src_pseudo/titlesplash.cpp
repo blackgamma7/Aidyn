@@ -13,7 +13,7 @@ void TitleSplash::ShowVerion(Gfx**param_1,char param_2){
   
   if ((show_verion_flag) && (param_2)) {
     pauVar1 = *param_1;
-    sprintf(gGlobals.text,"Aidyn Chronicles\nVersion: 02.01d-PRERELEASE\nCompile: %s-%s\nCode: %lu",
+    Gsprintf("Aidyn Chronicles\nVersion: 02.01d-PRERELEASE\nCompile: %s-%s\nCode: %lu",
      COMPILEDATE,COMPILETIME,(&clear_end - &romMain) + 0x400);
     pauVar1 = gfx::DrawText(pauVar1,gGlobals.text,0x1e,0x1e,200,200,200,param_2);
     *param_1 = pauVar1;
@@ -238,13 +238,13 @@ u8 TitleSplash::Copyright(Gfx**param_1){
     }
   }
   else {
-    sprintf(gGlobals.text,"Code Segment Too Big!\n");
+    Gsprintf("Code Segment Too Big!\n");
     TitleSplash::Println((Gfx*)apauStack48,&sStack54,gGlobals.text);
-    sprintf(gGlobals.text,"Max: 0x%08x - %d\n",0x100000,0x100000);
+    Gsprintf("Max: 0x%08x - %d\n",0x100000,0x100000);
     TitleSplash::Println((Gfx*)apauStack48,&sStack54,gGlobals.text);
-    sprintf(gGlobals.text,"Current: 0x%08x - %d\n",0xffa50,0xffa50);
+    Gsprintf("Current: 0x%08x - %d\n",0xffa50,0xffa50);
     TitleSplash::Println((Gfx*)apauStack48,&sStack54,gGlobals.text);
-    sprintf(gGlobals.text,"Over: 0x%08x - %d\n",0xfffffffffffffa50,0xfffffffffffffa50);
+    Gsprintf("Over: 0x%08x - %d\n",0xfffffffffffffa50,0xfffffffffffffa50);
     TitleSplash::Println((Gfx*)apauStack48,&sStack54,gGlobals.text);
     if (u16_800e98ee == 1) {gGlobals.splashscreenTimer = 0;}
   }
@@ -292,9 +292,9 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
   }
   pauVar3 = some_rsp_func(pauVar3,0,0,0x140,0xf0);
   animationData_LookAt(splashscreenAniDat,n64LogoVec3[0],n64LogoVec3[1],n64LogoVec3[2],fVar5,fVar7,fVar6,0,1.0f,0);
-  func_800a0df4(splashscreenAniDat);
+  FUN_800a0df4(splashscreenAniDat);
   pauVar3 = gsAnimationDataMtx(pauVar3,splashscreenAniDat);
-  pauVar3 = func_800a0da4(pauVar3,splashscreenAniDat);
+  pauVar3 = FUN_800a0da4(pauVar3,splashscreenAniDat);
   RSPFUNC(pauVar3,6);
   pauVar3 = widget_N64Logo->Render(pauVar3,0,0,320,240);
   *param_1 = pauVar3;

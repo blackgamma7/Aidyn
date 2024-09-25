@@ -17,7 +17,7 @@ void load_intro_music(void){
 
 bool appstate_0(s32 *param_1){
   while (widgethandler_get_widgetB(gGlobals.widgetHandler) != 0) {
-    func_800b6fdc(gGlobals.widgetHandler,1);
+    FUN_800b6fdc(gGlobals.widgetHandler,1);
   }
   if (intro_music_flag) {
     load_intro_music();

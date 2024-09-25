@@ -256,7 +256,7 @@ float three_vec2_proximities(vec2f *X,vec2f *Y,vec2f *Z){
          ((TempA.x - TempB.x) * (TempA.x - TempB.x) +
          (TempA.y - TempB.y) * (TempA.y - TempB.y))) * 0.5f;}
 
-float func_800ab628(vec2f *A,vec2f *B,vec2f *C){
+float FUN_800ab628(vec2f *A,vec2f *B,vec2f *C){
   float X = three_vec2_proximities(A,B,C);
   
   X = 1.0f - X * X;
@@ -658,7 +658,7 @@ void ofunc_sub_800ace10(MtxF* A,float x,float y,float z){
   (*A)[1][2] = sinx * sinz + cosx * siny * cosz;
 }
 
-void func_800acf64(float (*A) [4] [4],s32 X,s32 Y,s32 Z){
+void FUN_800acf64(float (*A) [4] [4],s32 X,s32 Y,s32 Z){
   ofunc_sub_800ace10(A,(float)X,(float)Y,(float)Z);
   (*A)[3][0] = 0.0;
   (*A)[3][1] = 0.0;
@@ -865,7 +865,7 @@ void Ofunc_800ad81c(MtxF *A,vec3f *B){
   }
 
 
-u8 func_800ad8d8(float X){
+u8 FUN_800ad8d8(float X){
   u32 uVar1;
   u32 uVar2;
   float fVar3;

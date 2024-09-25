@@ -18,7 +18,7 @@ void flycam_func(void){
   gGlobals.screenFadeSpeed = 0.06666667f;
   flycam_borg6_ptr = get_borg_6(flycam_sequences[flycam_counter].borg6);
   flycam_AniDat_ptr = BorgAnimLoadScene(*(u32 *)flycam_borg6_ptr->unk0x20);
-  func_8009f87c(flycam_AniDat_ptr,flycam_borg6_ptr);
+  FUN_8009f87c(flycam_AniDat_ptr,flycam_borg6_ptr);
   AniDat_Flags_OR_0x10(flycam_AniDat_ptr);
 }
 
@@ -47,7 +47,7 @@ Gfx* other_flycam_func(float param_1,float param_2,Gfx*param_3){
   }
   else {
     set_animation_speed(flycam_AniDat_ptr,gGlobals.delay);
-    func_800a0bf8(flycam_AniDat_ptr);
+    FUN_800a0bf8(flycam_AniDat_ptr);
     if (((flycam_flag != 0) ||
         ((double)(u32)flycam_AniDat_ptr->aniTime <
          ((double)*(s32 *)(flycam_AniDat_ptr->borg6->unk0x20 + 0xc) - 100.0d) -
@@ -149,7 +149,7 @@ u8 gameStart(Gfx**param_1){
     else V = (u8)(fVar4 - INT_MAX_f);
     some_music_func((u32)(u8)gGlobals.introMusicDatA,gGlobals.introMusicDatB,V);
   }
-  sprintf(gGlobals.text,"ProcessAudioBubbles - Intro menu handler\n");
+  Gsprintf("ProcessAudioBubbles - Intro menu handler\n");
   ProcessAudioBubbles(&gGlobals.SFXStruct,pos,1);
   if (some_gamestart_flag) {
     start_intermediate_game();
@@ -184,7 +184,7 @@ void check_input_7(void){
           gGlobals.screenFadeSpeed = 0.05f;
           break;
         case 0xb:
-          func_8004b248(gGlobals.titleScreen);
+          FUN_8004b248(gGlobals.titleScreen);
         }
       }
       else {
@@ -207,7 +207,7 @@ void start_intermediate_game(void){
   u8 cVar1 = 9;
   if (gGlobals.titleScreen) {
     cVar1 = *(u8 *)((s32)(gGlobals.titleScreen)->prt0x40 + 0x24);
-    func_800b72cc(gGlobals.widgetHandler,gGlobals.titleScreen);
+    FUN_800b72cc(gGlobals.widgetHandler,gGlobals.titleScreen);
     AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.titleScreen,6,0);
     gGlobals.titleScreen = NULL;
   }

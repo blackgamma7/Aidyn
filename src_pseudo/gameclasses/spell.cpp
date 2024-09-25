@@ -38,7 +38,7 @@ ItemID get_spell_ingredient(Temp_spell *param_1){
   return itemID_array[30]; //default to spice
 }
 
-bool func_80083ff4(Temp_spell *param_1){
+bool FUN_80083ff4(Temp_spell *param_1){
   
   switch(GetIDIndex(param_1->id)) {
   case Immolation:
@@ -105,9 +105,9 @@ void CreateTempEnchant(Temp_enchant *Ench,SpellEnum Index,u8 LV,u32 Timer,u8 UNK
   Ench->school = gLoadedSpells->spells[Index].School;
 }
 
-void func_800840dc(Temp_enchant *param_1){
+void FUN_800840dc(Temp_enchant *param_1){
   if ((param_1->unk0x14 != -1) && (gGlobals.screenFadeModeSwitch == 2)) {
-    func_80095f6c(param_1->unk0x14);}
+    FUN_80095f6c(param_1->unk0x14);}
 }
 
 bool inc_effect_timer(Temp_enchant *param_1,u16 param_2,s32 param_3){

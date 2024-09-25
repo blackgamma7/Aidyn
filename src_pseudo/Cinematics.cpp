@@ -195,9 +195,9 @@ Gfx* cinematic_increment(Gfx*param_1,s16 param_2){
   pauVar1 = RenderSky(param_1,param_2);
   pauVar1 = some_rsp_func(pauVar1,0,0,320,240);
   set_animation_speed(gGlobals.cinematic.AniDat,(char)param_2);
-  func_800a0df4(gGlobals.cinematic.AniDat);
+  FUN_800a0df4(gGlobals.cinematic.AniDat);
   pauVar1 = gsAnimationDataMtx(pauVar1,gGlobals.cinematic.AniDat);
-  pauVar1 = func_800a0da4(pauVar1,gGlobals.cinematic.AniDat);
+  pauVar1 = FUN_800a0da4(pauVar1,gGlobals.cinematic.AniDat);
   inc_cinematic_runtime(param_2);
   cinematic_import_player_name();
   dec_caption_timer(register0x000000ec,param_2);
@@ -227,7 +227,7 @@ void func_loading_cinematics(void){
     }
     gGlobals.cinematic.Borg6 = get_borg_6(gGlobals.cinematic.borg6enums[gGlobals.cinematic.tally]);
     gGlobals.cinematic.AniDat = BorgAnimLoadScene(*(u32 *)(gGlobals.cinematic.Borg6)->unk0x20);
-    func_8009f87c(gGlobals.cinematic.AniDat,gGlobals.cinematic.Borg6);
+    FUN_8009f87c(gGlobals.cinematic.AniDat,gGlobals.cinematic.Borg6);
     AniDat_Flags_OR_0x10(gGlobals.cinematic.AniDat);
     Anidat_Flags_NAND_0x81(gGlobals.cinematic.AniDat);
     SetNearFarPlanes(gGlobals.cinematic.AniDat,

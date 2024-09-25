@@ -271,7 +271,7 @@ bool Controller::CheckStatus(s32 port){
          ((CErr & CONT_OVERRUN_ERROR) == 0 && (CErr & CONT_NO_RESPONSE_ERROR) == 0);
 }
 
-bool func_8009b8fc(s32 port){
+bool FUN_8009b8fc(s32 port){
   bool bVar1;
   
   osSendMesg(&gContManager.contMesgQ,NULL,1);

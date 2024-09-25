@@ -48,7 +48,7 @@ typedef enum GameState_Cheat { /* Set in big Debug Menu */
     monsterCheck,dialougeTrigger,trigger,referenceObject
 } GameState_Cheat;
 
-void func_80013620(container_obj *arg0,s16 arg1,Borg_9_data *param_3){
+void FUN_80013620(container_obj *arg0,s16 arg1,Borg_9_data *param_3){
   Scene_obj *prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(mapVoxel *)arg0,Scene);
   if ((prVar1->dat).unk0x8) {
     AllocFreeQueueItem(&queueStructA,&(prVar1->dat).unk0x8,(u16)(((prVar1->dat).SceneFlags & 2) == 0),0);
@@ -59,7 +59,7 @@ void func_80013620(container_obj *arg0,s16 arg1,Borg_9_data *param_3){
 
 void play_countainer_sound(container_obj *arg0,Borg_9_data * arg1){
   play_SFX(&gGlobals.SFXStruct,containerSounds[(arg0->dat).LootType],0,gGlobals.VolSFX,0xb4,0);
-  func_80013620(arg0,1,arg1);}
+  FUN_80013620(arg0,1,arg1);}
 
 void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
   s32 iVar1;
@@ -76,7 +76,7 @@ void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
   chest_explode_particles(arg0,(arg0->header).coords[1],fStack96,0x1a4,2,0x4b,0.04f,0.06f,-8.5714285E-4f,1);
   (arg0->dat).Gold = 0;
   (arg0->dat).LootCat = (ItemID)0x0;
-  func_80013620(arg0,2,arg1);
+  FUN_80013620(arg0,2,arg1);
   setEventFlag((arg0->dat).explode_flag,true);
   getEventFlag(0x15fa);
   play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[Random::range_(&gGlobals,0,3)],0,gGlobals.VolSFX,0xf0,0);
@@ -267,7 +267,7 @@ bool loot_func(container_obj *arg0){
           (char)map_dat_A,(u8)MapShortA,(u8)mapShortB,0x11,*(undefined *)((s32)&(arg0->header).type + 1),10);
       }
       if (uVar10 == 0) {
-        sprintf(gGlobals.Text,commonstringsmirror->"you just picked up gold",(arg0->dat).Gold);
+        Gsprintf(commonstringsmirror->"you just picked up gold",(arg0->dat).Gold);
         textbox_func(gGlobals.Text);
         gGlobals.party->Gold+= (arg0->dat).Gold;
         play_SFX(&SFXStruct,BORG12_CoinJingle,0,gGlobals.VolSFX,300,uVar13);
@@ -464,10 +464,10 @@ char exploding_container_check(container_obj *arg0,Borg_9_data *arg1){
         (char)map_dat_A,(u8)MapShortA,(u8)mapShortB,0x11,*(undefined *)((s32)&(arg0->header).type + 1));
       if ((!container_open_check((arg0->dat).open_flag)) && (psVar3 == NULL)) {
         if (!container_explode_check((arg0->dat).explode_flag)) {return 1;}
-        func_80013620(arg0,2,arg1);
+        FUN_80013620(arg0,2,arg1);
       }
       else {
-        func_80013620(arg0,1,arg1);
+        FUN_80013620(arg0,1,arg1);
         (arg0->dat).unk0x14 = 0;
         (arg0->dat).unk0x14 = 0;
         (arg0->dat).Gold = 0;
@@ -520,9 +520,9 @@ bool some_monster_check(monsterparty_obj *arg0){
   if(gamestate_cheat_check1(monsterCheck)){return gamestate_cheat_check2(monsterCheck);}
       EVar1 = (arg0->header).flagA;
       if (arg0->dat.borg_13 == 0) {
-        return func_80015128(EVar1,(u32)(arg0->header).Bitfeild) != false && getEventFlag((arg0->header).flagB) == false;
+        return FUN_80015128(EVar1,(u32)(arg0->header).Bitfeild) != false && getEventFlag((arg0->header).flagB) == false;
       }
-      else {return func_80015128(EVar1,(u32)(arg0->header).Bitfeild);}
+      else {return FUN_80015128(EVar1,(u32)(arg0->header).Bitfeild);}
 }
 
 bool some_trigger_check(trigger_obj *arg0){
@@ -589,7 +589,7 @@ bool container_obj_check(container_obj *arg0,playerData *arg1){
   }
   return ret;}
 
-undefined func_80014ba0(mapVoxel *arg0,vec3f *arg1){
+undefined FUN_80014ba0(mapVoxel *arg0,vec3f *arg1){
   undefined uVar1;
   
   uVar1 = 0;
@@ -711,7 +711,7 @@ bool teleport_secret_check(EventFlag param_1){
   return getEventFlag(param_1);
 }
 
-bool func_80015128(EventFlag param_1,u32 param_2){
+bool FUN_80015128(EventFlag param_1,u32 param_2){
   bool bVar1, bVar2;
   u8 bVar3;
   
@@ -735,7 +735,7 @@ undefined ref_obj_bitmask_flag(EventFlag param_1,ref_obj_bitfeild param_2,ref_ob
   setEventFlag(param_1,(param_3 & param_2) == 0);
   return getEventFlag(0x15fa);}
 
-bool func_8001520c(teleport_obj *param_1){
+bool FUN_8001520c(teleport_obj *param_1){
   if ((param_1->dat).secretDoorVal == 0) return false;
   return getEventFlag((param_1->dat).secrect_door_flag)==false;}
 

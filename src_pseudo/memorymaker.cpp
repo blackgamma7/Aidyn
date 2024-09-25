@@ -25,9 +25,9 @@ void MemoryMaker::Unload(void){
     move_party_to_saveEnt(gGlobals.party);
     memset(memmaker_pointer,0,0xc00);
     memMaker_sub(memmaker_pointer,auStack80);
-    func_8001e034(auStack80,false);
+    FUN_8001e034(auStack80,false);
     clear_DBs();
-    if (some_struct_pointer) func_8004f160(some_struct_pointer,3);
+    if (some_struct_pointer) FUN_8004f160(some_struct_pointer,3);
     some_struct_pointer = NULL;
     CommonStrings::Free();
   }
