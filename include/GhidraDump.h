@@ -351,7 +351,7 @@ typedef enum Vobject {
     VOXEL_Code /* In game, but not really used */
 } Vobject;
 
-typedef enum EventFlag {
+typedef enum EventFlags {
     FLAG_Cinematic1=3,
     FLAG_MeetAlaron=5,
     FLAG_MeetShadow=9,
@@ -374,7 +374,7 @@ typedef enum EventFlag {
     FLAG__DarksideGet=3676,
     FLAG__cheater=3693,
     FLAG__bingo=3694
-} EventFlag;
+} EventFlags;
 
 typedef struct light_obj_dat light_obj_dat, *Plight_obj_dat;
 
@@ -2273,35 +2273,6 @@ struct WidgetSubstruct_ClipText {
     u16 field5_0x12;
 };
 
-typedef struct WidgetSubstruct_ScrollMenu WidgetSubstruct_ScrollMenu, *PWidgetSubstruct_ScrollMenu;
-
-struct WidgetSubstruct_ScrollMenu {
-    u8 field0_0x0;
-    u8 field1_0x1;
-    u8 field2_0x2;
-    undefined field3_0x3;
-    u8 field4_0x4;
-    undefined field5_0x5;
-    undefined field6_0x6;
-    undefined field7_0x7;
-    undefined field8_0x8;
-    undefined field9_0x9;
-    undefined field10_0xa;
-    undefined field11_0xb;
-    struct Color32 col;
-    undefined field13_0x10;
-    undefined field14_0x11;
-    u16 field15_0x12;
-    undefined field16_0x14;
-    undefined field17_0x15;
-    u16 field18_0x16;
-    void *items;
-    short field20_0x1c;
-    u16 field21_0x1e;
-    u16 field22_0x20;
-    undefined field23_0x22;
-    undefined field24_0x23;
-};
 
 typedef struct WidgetSubstruct_Shadowtext WidgetSubstruct_Shadowtext, *PWidgetSubstruct_Shadowtext;
 
@@ -5474,19 +5445,7 @@ struct crash_DatString {
     char *String;
 };
 
-typedef struct CrashManager CrashManager, *PCrashManager;
 
-struct CrashManager {
-    u8 Stack[2120];
-    struct OSThread Thread;
-    OSMesg Mesgs;
-    struct OSMesgQueue MesgQ;
-    u32 crash_func_arg;
-    char position[128];
-    char Cause[128];
-    u8 IsManualCrash;
-    ulong (*Func)(void);
-};
 
 typedef struct DCM_struct DCM_struct, *PDCM_struct;
 
@@ -5653,26 +5612,7 @@ struct event_flag_array {
     u8 pad;
 };
 
-typedef enum event_flag_typeA {
-    FLAG_LOG=0,
-    FLAG_VAL=1,
-    FLAG_CNT=2,
-    FLAG_BIT=3,
-    FLAG_INV=4
-} event_flag_typeA;
 
-typedef enum Event_flag_typeB {
-    FLAG_AND=0,
-    FLAG_IOR=1,
-    FLAG_EOR=2,
-    FLAG_NOT=3,
-    FLAG_MSK=4,
-    FLAG_EQU=5,
-    FLAG_GRT=6,
-    FLAG_LST=7,
-    FLAG_NEQ=8,
-    FLAG_INV=9
-} Event_flag_typeB;
 
 typedef struct fileState_aidyn fileState_aidyn, *PfileState_aidyn;
 
@@ -5771,27 +5711,7 @@ typedef struct GameStateFunnel GameStateFunnel, *PGameStateFunnel;
 
 typedef struct Struct_State Struct_State, *PStruct_State;
 
-struct Struct_State {
-    ushort shortA;
-    ushort shortB;
-    enum event_flag_typeA type;
-    enum Event_flag_typeB command;
-    u8 Flag;
-    u8 byte7;
-};
 
-struct GameStateFunnel { /* used for event flags and whatnot */
-    ushort a;
-    ushort b;
-    ushort flag_count;
-    u16 f;
-    struct Struct_State *States_pointer;
-    struct Struct_State *other_pointer;
-    undefined field6_0x10[12];
-    int g;
-    struct Struct_State states[5000];
-    struct Struct_State otherStates[970];
-};
 
 typedef struct Gear_Pointer Gear_Pointer, *PGear_Pointer;
 

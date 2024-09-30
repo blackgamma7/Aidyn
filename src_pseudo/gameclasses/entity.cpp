@@ -1442,37 +1442,37 @@ Temp_spell * getSpell(CharSheet *param_1){
   switch(param_1->spellSwitch) {
   case 1:
     #ifdef DEBUGVER
-    if (param_1->spellbook == NULL) {Crash::ManualCrash("No spell list (Entity::GetSpell())",*FILENAME);}
-    if (param_1->spellbook->spells == NULL) {Crash::ManualCrash("No pSpellList->pSpell[] (Entity::GetSpell())",*FILENAME);}
+    if (param_1->spellbook == NULL) {CRASH("No spell list (Entity::GetSpell())",*FILENAME);}
+    if (param_1->spellbook->spells == NULL) {CRASH("No pSpellList->pSpell[] (Entity::GetSpell())",*FILENAME);}
     #endif
     return param_1->spellbook->spells[param_1->currSpell];
   case 2:
     #ifdef DEBUGVER
-    if (param_1->armor == NULL) {Crash::ManualCrash("No armor (Entity::GetSpell())",*FILENAME);}
-    if (*param_1->armor[0] == NULL) {Crash::ManualCrash("No pArmor[0] (Entity::GetSpell())",*FILENAME);}
-    if ((*param_1->armor[0])->spell == NULL) {Crash::ManualCrash("No pArmor[0]->pSpell (Entity::GetSpell())",*FILENAME);}
+    if (param_1->armor == NULL) {CRASH("No armor (Entity::GetSpell())",*FILENAME);}
+    if (*param_1->armor[0] == NULL) {CRASH("No pArmor[0] (Entity::GetSpell())",*FILENAME);}
+    if ((*param_1->armor[0])->spell == NULL) {CRASH("No pArmor[0]->pSpell (Entity::GetSpell())",*FILENAME);}
     #endif
     pptVar2 = param_1->armor[0];
     break;
   case 3:
     #ifdef DEBUGVER
-    if (param_1->armor == NULL) {Crash::ManualCrash("No armor (Entity::GetSpell())",*FILENAME);}
-    if (param_1->armor[1] == NULL) {Crash::ManualCrash("No pArmor[1] (Entity::GetSpell())",*FILENAME);}
-    if (param_1->armor[1]->spell == NULL) {Crash::ManualCrash("No pArmor[1]->pSpell (Entity::GetSpell())",*FILENAME);}
+    if (param_1->armor == NULL) {CRASH("No armor (Entity::GetSpell())",*FILENAME);}
+    if (param_1->armor[1] == NULL) {CRASH("No pArmor[1] (Entity::GetSpell())",*FILENAME);}
+    if (param_1->armor[1]->spell == NULL) {CRASH("No pArmor[1]->pSpell (Entity::GetSpell())",*FILENAME);}
     #endif
     ptVar1 = param_1->armor[1];
     goto RetSpell;
   case 4:
     #ifdef DEBUGVER
-    if (param_1->weapons == NULL) {Crash::ManualCrash("No weapon (Entity::GetSpell())",*FILENAME);}
-    if (param_1->weapons->spell == NULL) {Crash::ManualCrash("No pWeapon->pSpell (Entity::GetSpell())",*FILENAME);}
+    if (param_1->weapons == NULL) {CRASH("No weapon (Entity::GetSpell())",*FILENAME);}
+    if (param_1->weapons->spell == NULL) {CRASH("No pWeapon->pSpell (Entity::GetSpell())",*FILENAME);}
     #endif
     return param_1->weapons->spell;
   case 5:
     #ifdef DEBUGVER
-    if (param_1->pItemList == NULL) {Crash::ManualCrash("No pItemList (Entity::GetSpell())",*FILENAME);}
-    if (param_1->pItemList->pItem == NULL) {Crash::ManualCrash("No pItemList->pItem[] (Entity::GetSpell())",*FILENAME);}
-    if (param_1->pItemList->pItem[param_1->currSpell]->pSpell == NULL) {Crash::ManualCrash("No pItemList->pItem[currSpell]->pSpell (Entity::GetSpell())",*FILENAME);}
+    if (param_1->pItemList == NULL) {CRASH("No pItemList (Entity::GetSpell())",*FILENAME);}
+    if (param_1->pItemList->pItem == NULL) {CRASH("No pItemList->pItem[] (Entity::GetSpell())",*FILENAME);}
+    if (param_1->pItemList->pItem[param_1->currSpell]->pSpell == NULL) {CRASH("No pItemList->pItem[currSpell]->pSpell (Entity::GetSpell())",*FILENAME);}
     #endif
     pptVar2 = (temp_armor **)(param_1->pItemList->pItem + param_1->currSpell);
     break;

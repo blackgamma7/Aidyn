@@ -249,7 +249,7 @@ loop:
           if (gListSizeMax*sizeof(Gfx) < (uint)(gfx1 - (int)gfx0)) {
             Gsprintf("GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",uVar10,gListSizeMax,
                         uVar10 - gListSizeMax);
-            Crash::ManualCrash("app.cpp::AppProc",gGlobals.text);
+            CRASH("app.cpp::AppProc",gGlobals.text);
           }
           uVar8 = doubleGlobalTickerFlag - 1;
           if (doubleGlobalTickerFlag == 0) {
@@ -381,10 +381,10 @@ s32 appProc_caseSwitch(s32 param_1){
       gGlobals.appstate = check_for_PAL_or_controller();
       break;
     default:
-      Crash::ManualCrash("app.cpp","gGlobals.appState is not valid");
+      CRASH("app.cpp","gGlobals.appState is not valid");
     }
   }
-  if (*appManager.stack != 0x12345678) Crash::ManualCrash("AppProc","Stack Overwrite!!");
+  if (*appManager.stack != 0x12345678) CRASH("AppProc","Stack Overwrite!!");
   return param_1;
 }
 

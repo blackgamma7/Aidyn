@@ -47,9 +47,9 @@ s32 get_skill_xp_multi(CharSkills *skills,u8 arg1){
   s32 skill_xp_multis[12]={1500,500,1000,750,500,7500,750,500,1000,1000,1000,1500};
   if (0xb < arg1) {
     #ifdef DEBUGVER
-    Crash::ManualCrash("Skill overwrite","../gameclasses/skills.cpp");
+    CRASH("Skill overwrite","../gameclasses/skills.cpp");
     #else
-    Crash::ManualCrash();
+    CRASH();
     #endif
   }
   return i * i * skill_xp_multis[arg1];
@@ -61,9 +61,9 @@ u32 Weapon_XP_check(CharSkills *skills,u8 arg1){
   //0 value = enemy weapon classes
   if (0xb < arg1) {
     #ifdef DEBUGVER
-    Crash::ManualCrash("Weapon_XP_overflow","../gameclasses/skills.cpp");
+    CRASH("Weapon_XP_overflow","../gameclasses/skills.cpp");
     #else
-    Crash::ManualCrash();
+    CRASH();
     #endif
   }
   return i * i * weapon_xp_multis[arg1];
@@ -109,7 +109,7 @@ void Wonky_skill_check(Char* *skills,char *arg1,u8 arg2,char arg3){
     iVar3+= (u32)*pbVar4;
     *pbVar4 = (u8)iVar3;
     if (iVar3 * 0x1000000 < 0) 
-      {Crash::ManualCrash("Wonky Skill Happening","../gameclasses/skills.cpp");}
+      {CRASH("Wonky Skill Happening","../gameclasses/skills.cpp");}
     bVar2 = *pbVar4;
     if (10 < *pbVar4) {bVar2 = 10;}
     check_baseskill_minus1(skills,arg1,arg2,(char)((u32)((bVar2 - bVar1) * 0x1000000) >> 0x18));

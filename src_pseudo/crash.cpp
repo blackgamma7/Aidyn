@@ -1,57 +1,45 @@
-#include "commonTypes.h"
+#include "crash.h"
+#include "stringN64.h"
 
-typedef struct {
-    u8[2120] Stack;
-    OSThread Thread;
-    OSmesg Mesgs;
-    OSMesgQueue MesgQ;
-    s32 crash_func_arg;
-    char[128] position;
-    char[128] Cause;
-    bool IsManualCrash;
-    void (*Func)(void*);
-}CrashManager;
 
 struct CrashManager gCrashManager;
-
-void crashthread_init(void *arg0,s32 arg1,u32 Pri,u32 ID){
-  memset(&gCrashManager,0,sizeof(CrashManager));
+namespace Crash{
+void InitProc(void *arg0,void* arg1,u8 Pri,u16 ID){
+  CLEAR(&gCrashManager);
   gCrashManager.crash_func_arg = arg1;
   gCrashManager.Func = arg0;
-  osCreateThread(&gCrashManager.Thread,ID,crashProc,NULL,&gCrashManager.Thread,Pri;
+  osCreateThread(&gCrashManager.Thread,ID,CrashProc,NULL,&gCrashManager.Thread,Pri;
   osStartThread(&gCrashManager.Thread);}
 
-void crashProc(void){
+void CrashProc(void* x){
   OSMesg temp;
 
-  crashMesgQueue();
-  do {
+  InitEventMesg();
+  while(1) {
     osRecvMesg(&gCrashManager.MesgQ,&temp,1);
     (*gCrashManager.Func)(&gCrashManager.crash_func_arg);
-  } while( true );
+  }
 }
 
-void crashMesgQueue(void){
+void InitEventMesg(void){
   osCreateMesgQueue(&gCrashManager.MesgQ,&gCrashManager.Mesgs,1);
-  osSetEventMesg(OS_EVENT_FAULT,&gCrashManager.MesgQ,(OSmesg)1);
+  osSetEventMesg(OS_EVENT_FAULT,&gCrashManager.MesgQ,(OSMesg)1);
   gCrashManager.IsManualCrash = false;
 }
+
 #ifdef DEBUGVER
-void Crash::ManualCrash(char *pos,char *cause){
+void ManualCrash(char *pos,char *cause){
   gCrashManager.IsManualCrash = true;
-  strncpy(gCrashManager.position,pos,0x80);
-  gCrashManager.position[127] = 0;
-  strncpy(gCrashManager.Cause,cause,0x80);
-  gCrashManager.Cause[127] = 0;
+  STRCPYSafe(gCrashManager.position,pos);
+  STRCPYSafe(gCrashManager.Cause,cause);
   osSendMesg(&gCrashManager.MesgQ,(OSMesg)1,0);
 }
 #else
-void Crash::ManualCrash(void){
+void ManualCrash(void){
   gCrashManager.IsManualCrash = true;
-  strncpy(gCrashManager.position,"RELEASE VERSION",0x80);
-  gCrashManager.position[127] = 0;
-  strncpy(gCrashManager.Cause,"NO CRASH INFO",0x80);
-  gCrashManager.Cause[127] = 0;
+  STRCPYSafe(gCrashManager.position,"RELEASE VERSION");
+  STRCPYSafe(gCrashManager.Cause,"NO CRASH INFO");
   osSendMesg(&gCrashManager.MesgQ,(OSMesg)0x1,0);
 }
 #endif
+}

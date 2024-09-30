@@ -62,9 +62,9 @@ u8 RomCopy::RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line)
         if (1 < type) {
         #ifdef DEBUGVER
           sprintf(acStack160,"type from %s line %lu unrecognized!",cpp,line);
-          Crash::ManualCrash("u32 RomCopy( u32 pDest,u32 pSrc,u32 len,u32 type)",acStack160);
+          CRASH("u32 RomCopy( u32 pDest,u32 pSrc,u32 len,u32 type)",acStack160);
         #else
-          Crash::ManualCrash();
+          CRASH();
         #endif
         }
         bVar1 = romcopyManage.dmaIndicies[romcopyManage.flag];
@@ -75,9 +75,9 @@ u8 RomCopy::RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line)
         prVar4->Bytes = len;
         if (osSendMesg(&romcopyManage.mesgQ0x1c0,(OSMesg)(u32)bVar1,0)) {
         #ifdef DEBUGVER
-          Crash::ManualCrash("u32 RomCopy( u32 pDest_,u32 pSrc_, u32 len_, u32 type_)","Request Queue is full!");
+          CRASH("u32 RomCopy( u32 pDest_,u32 pSrc_, u32 len_, u32 type_)","Request Queue is full!");
           #else
-          Crash::ManualCrash();
+          CRASH();
         #endif
         }
         osRecvMesg(&romcopyManage.mesgQ0x1dc,NULL,1);
@@ -107,7 +107,7 @@ u8 RomCopy::RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line)
   }
   #ifdef DEBUGVER
   sprintf(acStack160,pcVar3,cpp,line);
-  Crash::ManualCrash("u32 RomCopy( u32 pDest,u32 pSrc,u32 len,u32 type)",acStack160);
+  CRASH("u32 RomCopy( u32 pDest,u32 pSrc,u32 len,u32 type)",acStack160);
   #endif
 }
 

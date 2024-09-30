@@ -291,7 +291,7 @@ void AudioProcInit(void){
   if (osTvType == NTSC) uVar3 = gAudioManager.frequency / 0x3c;
   else if (osTvType == MPAL) uVar3 = gAudioManager.frequency / 0x3c;
   else if (osTvType == PAL)uVar3 = gAudioManager.frequency / 0x32;
-  else Crash::ManualCrash("audio.cpp, AudioProcInit()","Unknown osTvType");
+  else CRASH("audio.cpp, AudioProcInit()","Unknown osTvType");
   gAudioManager.unk0x324 = uVar3 + 1;
   if (gAudioManager.unk0x324 & 0xf) gAudioManager.unk0x324 = (gAudioManager.unk0x324 & 0xfff0) + 0x10;
   gAudioManager.unk0x326 = gAudioManager.unk0x324;
@@ -317,7 +317,7 @@ short * dmaProc(short *param_1,s32 param_2,longlong param_3){
   if (param_3 == 2) {
     if (0x4fff < (int)((int)gAudioManager.heap0x90Mirror +
                       (param_2 * 2 - (int)gAudioManager.heap0x90))) {
-      Crash::ManualCrash("audio.cpp, dmaProc()","Scale buffer overrun!");
+      CRASH("audio.cpp, dmaProc()","Scale buffer overrun!");
     }
     iVar3 = param_2 + -1;
     psVar2 = gAudioManager.heap0x90Mirror;
@@ -470,7 +470,7 @@ Acmd * CreateAudioList(void){
   gAudioManager.AudiolistCount = 0;
   pAVar3 = alAudioFrame(gAudioManager.ACMDList,&gAudioManager.AudiolistCount,gAudioManager.buffer_pointers[gAudioManager.audio_tally],(uint)gAudioManager.audioLength);
   bVar1 = gAudioManager.audio_tally;
-  if (0x7ff < gAudioManager.AudiolistCount) Crash::ManualCrash("audio.cpp, CreateAudioList()","Audio list overrun!");
+  if (0x7ff < gAudioManager.AudiolistCount) CRASH("audio.cpp, CreateAudioList()","Audio list overrun!");
   uVar2 = (gAudioManager.audio_tally + 1) / 3;
   gAudioManager.audio_tally = (gAudioManager.audio_tally + 1) - ((char)(uVar2 << 1) + (char)uVar2);
   gAudioManager.buffer_choice = bVar1;

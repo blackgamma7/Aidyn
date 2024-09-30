@@ -43,10 +43,7 @@ func* voxelFuncs2[]={
   check_reference_object
 }
 u32 teleportTimestamp;
-typedef enum GameState_Cheat { /* Set in big Debug Menu */
-    All,appear,check,teleportLock,teletrap,teleportSecret,containerOpen,containerExplode,
-    monsterCheck,dialougeTrigger,trigger,referenceObject
-} GameState_Cheat;
+
 
 void FUN_80013620(container_obj *arg0,s16 arg1,Borg_9_data *param_3){
   Scene_obj *prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(mapVoxel *)arg0,Scene);
@@ -690,24 +687,24 @@ widgetStruct * textbox_func(char *param_1){
   return gGlobals.PlayerChar.text_window;}
 
 bool container_open_check(EventFlag param_1){
-  if (gamestate_cheat_check1(containerExplode)) return gamestate_cheat_check2(containerExplode);
+  if (gamestate_cheat_check1(STATECHEAT_containerExplode)) return gamestate_cheat_check2(STATECHEAT_containerExplode);
   return getEventFlag(param_1);
 }
 bool container_explode_check(EventFlag param_1){
-  if (gamestate_cheat_check1(containerExplode)) return gamestate_cheat_check2(containerExplode);
+  if (gamestate_cheat_check1(STATECHEAT_containerExplode)) return gamestate_cheat_check2(STATECHEAT_containerExplode);
   return getEventFlag(param_1);
 }
 bool teleport_lock_check(EventFlag param_1){
-  if (gamestate_cheat_check1(teleportLock)) return gamestate_cheat_check2(teleportLock);
+  if (gamestate_cheat_check1(STATECHEAT_teleportLock)) return gamestate_cheat_check2(STATECHEAT_teleportLock);
   return getEventFlag(param_1);
 }
 bool teleport_trap_check(EventFlag param_1){
-  if (gamestate_cheat_check1(teleportTrap)) return gamestate_cheat_check2(teleportTrap);
+  if (gamestate_cheat_check1(STATECHEAT_teleportTrap)) return gamestate_cheat_check2(STATECHEAT_teleportTrap);
   return getEventFlag(param_1);
 }
 
 bool teleport_secret_check(EventFlag param_1){
-  if (gamestate_cheat_check1(teleportSecret)) return gamestate_cheat_check2(teleportSecret);
+  if (gamestate_cheat_check1(STATECHEAT_teleportSecret)) return gamestate_cheat_check2(STATECHEAT_teleportSecret);
   return getEventFlag(param_1);
 }
 

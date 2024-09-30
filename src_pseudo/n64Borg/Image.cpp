@@ -151,7 +151,7 @@ Gfx* N64BorgImageDraw(Gfx*param_1,Borg8header *param_2,float param_3,float param
   iVar2 = (param_2->dat).format;
   uStack56 = (u32)(1024.0f / fVar39);
   pauVar24 = param_1[2];
-  if (8 < iVar2) {Crash::ManualCrash("N64BorgImage.cpp N64BorgImageDraw","Image type was  not recognized.");}
+  if (8 < iVar2) {CRASH("N64BorgImage.cpp N64BorgImageDraw","Image type was  not recognized.");}
   uVar15 = (u32)uVar1;
   uVar21 = (u32)param_5;
   uVar20 = (u32)param_5;

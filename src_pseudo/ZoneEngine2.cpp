@@ -211,7 +211,7 @@ void attachPhysicsProperties(Borg_9_data *param_1){
       uVar1 = *(u16 *)((s32)&puVar4->ptr_0x18 + 2);
       if (0x19 < uVar1) {
         Gsprintf("Invalid Physics Property: %d\n",uVar1);
-        Crash::ManualCrash("AttachPhysicsProperties",gGlobals.text);
+        CRASH("AttachPhysicsProperties",gGlobals.text);
       }
       uVar2 = puVar4->short0x1e;
       uVar3 = uVar2 & 0xf000;
@@ -228,7 +228,7 @@ LAB_8000d2c4:
             uVar1 = puVar4->short0x1e;
 LAB_8000d25c:
             Gsprintf("Unknown attach: %04x\n",uVar1);
-            Crash::ManualCrash("AttachPhysicsProperties",gGlobals.text);
+            CRASH("AttachPhysicsProperties",gGlobals.text);
           }
 LAB_8000d2bc:
           uVar3 = puVar4->short0x1c;
@@ -260,7 +260,7 @@ Borg_9_data * GetCollisionZone(u8 x){
   
   ppBVar1 = &gGlobals.Sub.ZoneDatMtx[x >> 4][x & 3].mapPointer;
   if (*ppBVar1) {return &(*ppBVar1)->dat;}
-  Crash::ManualCrash("GetCollisionZone","No Zone at Grid");
+  CRASH("GetCollisionZone","No Zone at Grid");
 }
 
 void set_teleport_pointer(teleport_obj *param_1){
@@ -520,7 +520,7 @@ void checkToggleZoneScene(ZoneDat *param_1){
     }
     return;
   }
-  Crash::ManualCrash("CheckToggleZoneScene","Scene already loaded!!\n");
+  CRASH("CheckToggleZoneScene","Scene already loaded!!\n");
 }
 
 void MakeGameZoneNames(u16 param_1,u16 param_2){
@@ -567,7 +567,7 @@ void MakeGameZoneNames(u16 param_1,u16 param_2){
     return;
   }
   Gsprintf("Zone out of Range\nZone: (%d, %d)\nRange: (%d, %d)",uVar5,uVar10,22,30);
-  Crash::ManualCrash("MakeGameZoneNames",gGlobals.text);
+  CRASH("MakeGameZoneNames",gGlobals.text);
 }
 
 void FUN_8000de18(AnimationData *param_1,char param_2){
@@ -659,7 +659,7 @@ void FreeZoneEngineMemory(void){
   DAT_800e8dc4 = 0x78;
   no_TP_vec3 = 1;
   if (FreeZoneEngineTimestamp == handeZoneEngineTimestamp)
-   {Crash::ManualCrash("FreeZoneEngineMemory","HandleZoneEngineFrame AND\nFreeZoneEngineMemory called on\nthe same frame!");}
+   {CRASH("FreeZoneEngineMemory","HandleZoneEngineFrame AND\nFreeZoneEngineMemory called on\nthe same frame!");}
   iVar3 = 0;
   FreeZoneEngineTimestamp = gGlobals.ticker;
   do {
@@ -804,7 +804,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
     }
     Gsprintf("Center scene not in Borg.\nPlayer Pos: (%3.4f, %3.4f)\nNew Grid: %d-%c%02d",
       (ppVar9->collision).position[0](ppVar9->collision).position[2],gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1 - 1 + 0x41,gGlobals.Sub.mapShort2);
-    Crash::ManualCrash("LoadGameBorgScenes",gGlobals.text);
+    CRASH("LoadGameBorgScenes",gGlobals.text);
   }
   uVar20 = 0;
   uVar22 = (uint)((gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat).byte0x1a;
@@ -973,7 +973,7 @@ referncepoint_obj * FindReferncePointName(Borg_9_data *param_1,char *param_2,boo
     } while (uVar6 < param_1->voxelCount);
   }
   if (param_3 == false) {return NULL;}
-  Crash::ManualCrash("FindReferencePointName","Point Not Found");
+  CRASH("FindReferencePointName","Point Not Found");
 }
 
 u32 get_zoneDatByte(s16 param_1,s16 param_2,u32 param_3){
@@ -1100,7 +1100,7 @@ void TeleportPlayer(playerData *param_1,teleport_obj *param_2,vec3f *param_3,flo
     else {
       pfVar8 = FindReferncePoint(&(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat,uVar1);
       Gsprintf("FindReferencePoint\nPoint Not Found: %d\n",uVar1);
-      if (pfVar8 == NULL) Crash::ManualCrash("TeleportPlayer",gGlobals.text);
+      if (pfVar8 == NULL) CRASH("TeleportPlayer",gGlobals.text);
       fStack312[0] = (pfVar8->header).coords[0];
       fStack312[1] = (pfVar8->header).coords[1];
       fStack312[2] = (pfVar8->header).coords[2];
@@ -2133,7 +2133,7 @@ void InitZoneEngine(float param_1,float param_2,u16 param_3,s16 param_4)
   DAT_800e9c14 = 0;
   engineZone_flag = 1;
   initZoneTimestamp = gGlobals.ticker;
-  if (gGlobals.Sub.zoneEngineInit) {Crash::ManualCrash("InitZoneEngine","Zone Engine already Initialized");}
+  if (gGlobals.Sub.zoneEngineInit) {CRASH("InitZoneEngine","Zone Engine already Initialized");}
   gGlobals.Sub.zoneEngineInit = 1;
   gGlobals.Sub.gamemodeType = param_3;
   zoneengine_func_b();
@@ -2219,7 +2219,7 @@ void InitZoneEngine(float param_1,float param_2,u16 param_3,s16 param_4)
     if ((s16)param_3 < 2) {
       if (param_3 != 0) {
 LAB_800116a4:
-        Crash::ManualCrash("ZoneEngineInit","Unknown Engine Mode");}
+        CRASH("ZoneEngineInit","Unknown Engine Mode");}
       gGlobals.Sub.PlayerHandler.float_0x68 = 30.0f;
       gGlobals.Sub.PlayerHandler.float_0x64 = 20.0f;
     }
@@ -2315,7 +2315,7 @@ void update_BGM_(void){
 
 void FreeZoneEngine(s16 playMusic){
   Process_queue_B(&gGlobals.QueueB,1);
-  if (gGlobals.Sub.zoneEngineInit == 0) {Crash::ManualCrash("FreeZoneEngine","Zone Engine Not Initialized");}
+  if (gGlobals.Sub.zoneEngineInit == 0) {CRASH("FreeZoneEngine","Zone Engine Not Initialized");}
   gGlobals.Sub.zoneEngineInit = 0;
   if (playMusic == 0) {clear_music_values();}
   FreeParticleEmmiter(&gGlobals.Sub.particleEmmiter);
@@ -2428,7 +2428,7 @@ void handleZoneEngineFrame(Gfx*param_1,s16 delta,playerData *player_,float param
     ProcessVoxelObjects(player_);
   }
   if (FreeZoneEngineTimestamp == handeZoneEngineTimestamp) 
-    {Crash::ManualCrash("HandleZoneEngineFrame","HandleZoneEngineFrame AND\nFreeZoneEngineMemory called on\nthe same frame!");}
+    {CRASH("HandleZoneEngineFrame","HandleZoneEngineFrame AND\nFreeZoneEngineMemory called on\nthe same frame!");}
   handeZoneEngineTimestamp = gGlobals.ticker;
   Gsprintf("ConfirmPlayerWithinZone");
   if (player_) {ConfirmPlayerWithinZone(player_,gGlobals.Sub.borg9DatPointer);}
@@ -2482,7 +2482,7 @@ void handleZoneEngineFrame(Gfx*param_1,s16 delta,playerData *player_,float param
   }
   
   if ((double)get_vec3_proximity(&gGlobals.Sub.camera,gGlobals.Sub.camera.aim) < 0.05d) {
-    Crash::ManualCrash("SceneSetCameraLookAt","Focus, and Camera at same Spot!");
+    CRASH("SceneSetCameraLookAt","Focus, and Camera at same Spot!");
   }
   Gsprintf("SceneSetCameraLookAt\n");
   SceneSetCameraLookAt(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4,gGlobals.Sub.camera.coord[0],

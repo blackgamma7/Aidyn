@@ -40,7 +40,7 @@ bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
     break;
   default:
     sprintf(&err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",param_1,param_1 >> 8,param_1&0xFF);
-    Crash::ManualCrash("menuimages.cpp",&err);
+    CRASH("menuimages.cpp",&err);
   case 0x10:
     BVar1 = IconPotion;
   }

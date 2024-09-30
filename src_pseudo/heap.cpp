@@ -7,7 +7,7 @@
 #include "heapN64.h"
 
 #define Msprintf(fmt,...) sprintf(gMemMonitor.text,fmt,__VA_ARGS__)
-#define HeapCrash(fmt,...) Msprintf(fmt,__VA_ARGS__); Crash::ManualCrash("heap.cpp",gMemMonitor.text)
+#define HeapCrash(fmt,...) Msprintf(fmt,__VA_ARGS__); CRASH("heap.cpp",gMemMonitor.text)
 
 void HeapInit(void *X,u32 Y){
   u32 uVar1;
@@ -87,8 +87,7 @@ void * heapAlloc(u32 size,char *file,u32 line){
     }
     malloc_update_mem_mon(pHVar6,uVar5);
     Msprintf("%s %i",remove_dir_slashes(file),line);
-    strncpy(pHVar6->filename,gMemMonitor.text,sizeof(pHVar6->filename));
-    pHVar6->filename[sizeof(pHVar6->filename)-1] = 0; //null char at end.
+    STRCPYSafe(pHVar6->filename,gMemMonitor.text);
     ret = pHVar6 + 1;
     gMemMonitor.flag = 1;
   }
@@ -347,6 +346,6 @@ char * remove_dir_slashes(char *str){
 
 
 
-void ofunc_LISBN_called_free(void){Crash::ManualCrash("heap.cpp","LIBSN called free?");}
+void ofunc_LISBN_called_free(void){CRASH("heap.cpp","LIBSN called free?");}
 void * operator new(size_t size){return heapAlloc(size,FILENAME,1139);}
 void operator delete(void* x){HeapFree(x,FILENAME,1150);}

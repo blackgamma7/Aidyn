@@ -20,7 +20,7 @@ void Gameover_func(void){
 loop:
       pCVar2 = partyPointer->Members[0];
       #ifdef DEBUGVER
-      if (pCVar2 == NULL) Crash::ManualCrash("NO ALARON! EVIL!!!!","./src/gameover.cpp");
+      if (pCVar2 == NULL) CRASH("NO ALARON! EVIL!!!!","./src/gameover.cpp");
       #endif
       sVar5 = getHPMax(pCVar2);
       sVar6 = getHPCurrent(pCVar2);
@@ -38,7 +38,7 @@ loop:
         return;
       }
       #ifdef DEBUGVER
-      Crash::ManualCrash("./src/gameover.cpp","No matching death dailogue!");
+      CRASH("./src/gameover.cpp","No matching death dailogue!");
       #endif
     }
     prVar7 = (Dialoug_obj *)((pBVar4->dat).ref_objs[iVar7]);

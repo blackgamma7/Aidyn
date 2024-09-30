@@ -17,14 +17,17 @@ s32 Ofunc_80098d18(byte *c1,byte *c2,size_t i);
 void * memset(void *x,u8 m,size_t i);
 #endif
 u8 * Ofunc_80098e84(u8 *c1,u8 *c2,size_t i);
-s32 Ofunc_80099030(byte *c1,byte *c2,size_t i);
+s32 Ofunc_80099030(u8 *c1,u8 *c2,size_t i);
 u8 * uppercase(u8 *x);
-inline u8 * uppercase(char *x){return uppercase((u8*)x);}
+inline char * uppercase(char *x){return (char*) uppercase((u8*)x);}
 u8 * lowercase(u8 *x);
-inline u8 * lowercase(char *x){return lowercase((u8*)x);}
+inline char * lowercase(char *x){return (char*) lowercase((u8*)x);}
 #define CLEAR(x) memset(x,0,sizeof(*x))
 
 extern void sprintf(char* buff, char* fmt,...);
 
 //many sprintfs use "gGlobals.text" as the buffer.
 #define Gsprintf(fmt,...)  sprintf(gGlobals.text,fmt,__VA_ARGS__)
+//copy the string and a a null terminator to end of destination.
+#define STRCPYSafe(dst,src) strncpy(dst,src,sizeof(dst)); \
+                            dst[sizeof(dst)-1]='\0';

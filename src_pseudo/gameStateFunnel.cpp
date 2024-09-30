@@ -1,112 +1,77 @@
-typedef enum event_flag_typeA {LOG,VAL,CNT,BIT,INV} event_flag_typeA;
-typedef enum Event_flag_typeB {AND,IOR,EOR,NOT,MSK,EQU,GRT,LST,NEQ,INV} Event_flag_typeB;
+#ifdef DEBUGVER
+#define FILENAME "./src/gamestatefunnel.cpp"
+#else
+#define FILENAME ""
+#endif
 
-struct Struct_State {
-    u16 shortA;
-    u16 shortB;
-    enum event_flag_typeA type;
-    enum Event_flag_typeB command;
-    bool Flag;
-    u8 byte7;
-};
-
-struct GameStateFunnel { /* used for event flags and whatnot */
-    u16 a;
-    u16 b;
-    u16 flag_count;
-    u16 f;
-    struct Struct_State * States_pointer;
-    struct Struct_State * other_pointer;
-    s32 u[3];
-    s32 g;
-    struct Struct_State states[5000];
-    struct Struct_State otherStates[970];
-};
-
-typedef struct event_flag_array event_flag_array, *Pevent_flag_array;
+#include "eventFlag.h"
+#include "heapN64.h"
 
 struct event_flag_array {
-    enum EventFlag to;
-    enum EventFlag from;
+    u16 to;
+    u16 from;
     s16 val;
     u8 skill_stat;
-    u8 pad;
 };
 
 void Event_flag_stat(u8 param_1){
   EventFlag EVar1;
   EventFlag EVar2;
   CharSheet *pCVar3;
-  s32 iVar5;
-  u32 uVar6;
-  bool bVar7;
-  s16 lVar4;
-  char cVar8;
-  u32 uVar9;
-  s16 lVar10;
+  int iVar4;
+  u8 uVar5;
+  uint uVar8;
+  s16 lVar9;
   
   if (gameStates) {
-    iVar5 = find_event_flag_array_index(param_1,eventflagArrayStats,0);
-    if (iVar5 != 0) {
-      lVar10 = 0;
-      uVar6 = 3;
-      do {
-        pCVar3 = gGlobals.party->Members[uVar6];
-        if (((pCVar3) && (isDead(pCVar3) == false)) &&
-           ( lVar10 < CharStats::getModdedStat(pCVar3->Stats,param_1))) {
-          lVar10 = (s16)CharStats::getModdedStat(pCVar3->Stats,param_1);
+    iVar4 = find_event_flag_array_index(param_1,eventflagArrayStats,0);
+    if (iVar4 != 0) {
+      lVar9 = 0;
+      for(u8 i =3;i!=0;i--) {
+        pCVar3 = (gGlobals.Party)->Members[i];
+        if (((pCVar3) && (!Entity::isDead(pCVar3))) &&
+           (lVar9 < CharStats::getModded(pCVar3->Stats,param_1))) {
+          lVar9 = CharStats::getModded(pCVar3->Stats,param_1);
         }
-        uVar9 = uVar6 & 0xff;
-        uVar6 = uVar9 - 1;
-      } while (uVar9 != 0);
-      if (lVar10 != eventflagArrayStats[iVar5].val) {
-        if (lVar10 < 0) {
-          lVar10 = 0;
-        }
-        EVar1 = eventflagArrayStats[iVar5].to;
-        EVar2 = eventflagArrayStats[iVar5].from;
-        eventflagArrayStats[iVar5].val = lVar10;
-        set_flag_array(EVar1,EVar2,lVar10);
+      }
+      if (lVar9 != eventflagArrayStats[iVar4].val) {
+        if (lVar9 < 0) lVar9 = 0;
+        EVar1 = eventflagArrayStats[iVar4].to;
+        EVar2 = eventflagArrayStats[iVar4].from;
+        eventflagArrayStats[iVar4].val = lVar9;
+        set_flag_array(EVar1,EVar2,lVar9);
       }
     }
   }
-  return;
 }
 
-void event_flag_skill_(CHAR_SKILL param_1){
+void event_flag_skill_(u8 param_1){
   EventFlag EVar1;
   EventFlag EVar2;
   CharSheet *pCVar3;
-  s32 iVar4;
-  u32 uVar5;
-  bool bVar6;
-  char cVar7;
-  u32 uVar8;
-  s16 uVar9;
+  int iVar4;
+  byte bVar8;
+  u16 uVar10;
   
   if (gameStates) {
     iVar4 = find_event_flag_array_index(param_1,eventflagArraySkills,0);
     if (iVar4 != 0) {
-      uVar9 = 0;
-      uVar5 = 3;
-      do {
-        pCVar3 = gGlobals.party->Members[uVar5];
-        if (((pCVar3) && (isDead(pCVar3) == false)) &&
-           ( uVar9 < getModdedSkill(pCVar3->Skills,param_1))) {
-          uVar9 = (s16)getModdedSkill(pCVar3->Skills,param_1);;
+      uVar10 = 0;
+      for(u8 i =3;i!=0;i--)  {
+        pCVar3 = (gGlobals.Party)->Members[i];
+        if (((pCVar3) && (!Entity::isDead(pCVar3))) &&
+           (uVar10 < CharSkills::getModdedSkill(pCVar3->Skills,param_1))) {
+          uVar10 = CharSkills::getModdedSkill(pCVar3->Skills,param_1);
         }
-        uVar8 = uVar5 & 0xff;
-        uVar5 = uVar8 - 1;
-      } while (uVar8 != 0);
-      if (uVar9 != eventflagArraySkills[iVar4].val) {
+      }
+      if (uVar10 != eventflagArraySkills[iVar4].val) {
         EVar1 = eventflagArraySkills[iVar4].to;
         EVar2 = eventflagArraySkills[iVar4].from;
-        eventflagArraySkills[iVar4].val = (u16)uVar9;
-        set_flag_array(EVar1,EVar2,(u16)uVar9);
+        eventflagArraySkills[iVar4].val = uVar10;
+        set_flag_array(EVar1,EVar2,uVar10);
       }
     }
   }
-  return;
 }
 
 
@@ -114,12 +79,12 @@ void set_flag_array(EventFlag param_1,EventFlag param_2,u16 param_3){
   u8 bVar1;
   u32 uVar2;
   u32 uVar3;
-  if (((gameStates != NULL && (param_1 < gameStates->flag_count) && (param_2 < gameStates->flag_count) {
+  if ((gameStates) && (param_1 < gameStates->flag_count) && (param_2 < gameStates->flag_count)) {
     uVar2 = param_1;
     while (uVar2 < param_2+1) {
       bVar1 = (u8)praram_3;
       uVar3 = uVar3 >> 1;
-      gameStates->States_pointer[uVar2].Flag = (bool)(bVar1 & 1);
+      gameStates->States_pointer[uVar2].Flag = (u8)(bVar1 & 1);
       uVar2++;
     }
     gameStates->f = 1;
@@ -146,35 +111,34 @@ s32 find_event_flag_array_index(char param_1,event_flag_array *param_2,u8 param_
   return (s32)uVar2;
 }
 
-bool load_gamestateFunnel(void){
-  gameStates = (GameStateFunnel *)heapAlloc(sizeof(GameStateFunnel),FILENAME,0x123);
+u8 load_gamestateFunnel(void){
+  ALLOC(gameStates,291);
   RomCopy::RomCopy(gameStates,&gamestatefunnel_rom,sizeof(GameStateFunnel),1,FILENAME,0x125);
   setGSF_pointers(gameStates);
   return true;}
 
-bool clear_gamestatefunnel(void){
-  HeapFree(gameStates,FILENAME,0x138);
-  gameStates = NULL;
+u8 clear_gamestatefunnel(void){
+  FREE(gameStates,312);
   return true;}
 
-bool getEventFlag(EventFlag param_1){
-  bool ret;
+#ifdef DEBUGVER
+extern u8 Get_eventFlagCheck(u16 flag);
+#endif
 
-  if (gamestate_cheat_check1(All) == false) {
-    ret = Get_eventFlagCheck(param_1);}
-  else {ret = gamestate_cheat_check2(All);}
-  return ret;}
+u8 getEventFlag(u16 flag){
+#ifdef DEBUGVER
+  if (gamestate_cheat_check1(STATECHEAT_All)) return gamestate_cheat_check2(STATECHEAT_All);
+  return Get_eventFlagCheck(flag);
+  }
 
-bool Get_eventFlagCheck(EventFlag param_1){
-  bool ret;
-  
-  if (param_1 == 0) {ret = false;}
-  if (param_1 == 1) {ret = true;}
-  else {ret = get_eventFlag_(gameStates,param_1) != 0;}
-  return ret;
+u8 Get_eventFlagCheck(u16 flag){
+#endif
+  if (flag == false) return false;
+  if (flag == true) return true;
+  return (get_eventFlag_(gameStates,flag));
 }
 
-void setEventFlag(EventFlag param_1,bool param_2){
+void setEventFlag(EventFlag param_1,u8 param_2){
   if ((1 < param_1) && (param_1 < gameStates->flag_count)) {
     set_journalentry_flag(gameStates,param_1,param_2);}}
 
@@ -187,58 +151,65 @@ void SetFlagArray_on_Time(u8 ToD,u8 Day,u8 week,u8 month){
   set_flag_array(0x900,0x905,((s16)week * 7 + ((s16)Day));
 }
 
-void set_weather_flags(u8 param_1){set_flag_array(0x90f,0x910,(s16)param_1);}
-void set_terrain_flags(u8 q){set_flag_array(0x911,0x914,(s16)q);}
+void set_weather_flags(u8 x){set_flag_array(0x90f,0x910,x);}
+void set_terrain_flags(u8 x){set_flag_array(0x911,0x914,x);}
 
 void Passto_State_typeA_branch(EventFlag param_1){
   StateTypeA_branch(param_1,gameStates->States_pointer[param_1].Flag == false);
 }
 
-void state_TypeA_LOG(Struct_State *param_1,u32 param_2){
-  bool bVar1;
-  u32 uVar2;
-  u32 uVar3;
-  u32 uVar4;
-  u32 uVar5;
-  u32 uVar6;
+void state_TypeA_LOG(Struct_State *param_1,u16 param_2){
+  u8 bVar1;
+  uint uVar2;
+  uint uVar3;
+  uint uVar4;
+  ushort uVar5;
+  ushort uVar6;
   
-  uVar4 = param_2 & 0xffff;
-  uVar6 = 0;
-  uVar5 = (u32)param_1->byte7;
+  uVar3 = (uint)param_2;
+  uVar5 = 0;
+  uVar4 = (uint)param_1->byte7;
+  uVar6 = uVar5;
   switch(param_1->command) {
-  case AND:
-    if (param_2 == 0) {uVar5 = 1;}
-    else {uVar4 = 0xffff;}
+  case FLAG_AND:
+    if (uVar3 == 0) uVar4 = 1;
+    else uVar3 = 0xffff;
     break;
-  case IOR:
-    if (uVar4 == 0) break;
+  case FLAG_IOR:
+    uVar6 = 0;
+    if (uVar3 == 0) break;
     goto LAB_8002483c;
-  case EOR:
-    if (param_2 != 0) {uVar4 = 1;}
+  case FLAG_EOR:
+    uVar6 = 0;
+    if (uVar3 != 0) {
+      uVar3 = 1;
+      uVar6 = uVar5;
+    }
     break;
-  case NOT:
-    bVar1 = param_2 != 0;
-    uVar4 = 0;
-    if (bVar1) break;
+  case FLAG_NOT:
+    uVar3 = 0;
+    if (uVar3 != 0) break;
 LAB_8002483c:
+    uVar3 = 1;
     uVar4 = 1;
-    uVar5 = 1;
+    uVar6 = uVar5;
     break;
-  case MSK:
-    uVar6 = (u32)(param_2 == 0);
-    uVar4 = (u32)param_1->shortA;
+  case FLAG_MSK:
+    bVar1 = uVar3 == 0;
+    uVar3 = (uint)param_1->shortA;
+    uVar6 = (ushort)bVar1;
   }
-  uVar3 = 0;
-  if (uVar5 != 0) {
-    do {
-      uVar2 = uVar4 ^ uVar6;
-      uVar4 = uVar4 >> 1;
-      StateTypeA_branch((&gameStates->other_pointer->shortA)[param_1->shortB + uVar3],uVar2);
-      uVar3++;
-    } while (uVar3 < uVar5);
+  if (uVar4) {
+    for (uVar2=0;uVar2<uVar4;uVar2++) {
+      uVar5 = (ushort)uVar3;
+      uVar3 >>= 1;
+      StateTypeA_branch((&gameStates->other_pointer->shortA)[param_1->shortB + uVar2],uVar5 ^ uVar6)
+      ;
+    }
   }
-  return;
 }
+
+
 
 void state_typeA_VAL(Struct_State *param_1,u16 param_2){
   Event_flag_typeB EVar1;
@@ -368,19 +339,16 @@ LAB_80024aac:
 }
 
 void StateTypeA_branch(EventFlag param_1,u32 param_2){
-  event_flag_typeA eVar1;
   Struct_State *pSVar2;
-  if (param_1 < gameStates->flag_count) {setEventFlag(param_1,param_2);}
+  if (param_1 < gameStates->flag_count) setEventFlag(param_1,param_2);
   else {
     pSVar2 = get_struct_state(gameStates,param_1);
     if (param_2 != pSVar2->Flag) {
-      eVar1 = pSVar2->type;
-      if (eVar1 == VAL) {state_typeA_VAL(pSVar2,(u16)param_2);}
-      else if (eVar1 == LOG) {state_TypeA_LOG(pSVar2,param_2);}
-      else if (eVar1 == CNT) {State_TypeA_CNT(pSVar2,param_2);}
+      if (pSVar2->type == FLAG_VAL) state_typeA_VAL(pSVar2,(u16)param_2);
+      else if (pSVar2->type == FLAG_LOG) state_TypeA_LOG(pSVar2,param_2);
+      else if (pSVar2->type == FLAG_CNT) State_TypeA_CNT(pSVar2,param_2);
       gameStates->f = 1;
     }
   }
-  return;
 }
 
