@@ -258,7 +258,7 @@ void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,s16 param_3){
   vec2f fStack80;
   
   pBVar3 = GetCollisionZone(param_2->playerDat->zoneDatByte);
-  pVVar3 = (mapVoxel *)pBVar3->ref_objs[param_3]);
+  pVVar3 = (voxelObject *)pBVar3->ref_objs[param_3]);
   param_2->start_position[0] = *(float *)pVVar3->data;
   param_2->start_position[1] = *(float *)(pVVar3->data + 4);
   param_2->wanderRadius = *(float *)(pVVar3->data + 8);

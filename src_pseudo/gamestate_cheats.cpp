@@ -1,5 +1,5 @@
 #include "gamestateCheats.h"
-
+#include "stringN64.h"
 
 
 WidgetGameStateCheats * gamestste_cheats(void){
@@ -28,16 +28,67 @@ WidgetGameStateCheats::WidgetGameStateCheats():WidgetMenu(){
   ScrollB = widgetscrollmenu_init_2(this,0xc,0x10e,0x14,0x10e,0x14,0x140,200,0xff,0xff,0xff,0xff,0);
   for(u8 i=0;i<12;i++) {
     char* txt;
-    WidgetScrollMenu::Append(ScrollA,new widgetText(debug_state_labels[i],400));
+    ScrollA->Append(new widgetText(debug_state_labels[i],400));
     txt = on_off_labels[0];
     if ((bitfeild_array[i] & gamestate_cheats1) != 0) txt = on_off_labels[1];
-    WidgetScrollMenu::Append(ScrollC,new widgetText(txt,400));
+    ScrollC->Append(new widgetText(txt,400));
     txt = bool_labels[0];
     if ((bitfeild_array[i] & gamestate_cheats2) != 0) txt = bool_labels[1];
-    WidgetScrollMenu::Append(ScrollB,new widgetText(txt,400));
+    ScrollB->Append(new widgetText(txt,400));
   }
 }
 
 WidgetGameStateCheats::~WidgetGameStateCheats(){
   WidgetHandler::FreeWidget(gGlobals.widgetHandler,this);
+}
+
+BaseWidget* WidgetGameStateCheats::AFunc(){
+  byte bVar1;
+  char *pcVar2;
+  char **ppcVar3;
+  WidgetScrollMenuSubstruct *pvVar1;
+  
+  pvVar1 = (WidgetScrollMenuSubstruct *)this->ScrollC->substruct;
+  bVar1 = *(byte *)((int)&pvVar1->field17_0x1e + 1);
+  gamestate_cheats1 ^= bitfeild_array[bVar1];
+  pcVar2 = Utilities::GetWidgetText(pvVar1->items[bVar1]);
+  ppcVar3 = on_off_labels;
+  if ((bitfeild_array[bVar1] & gamestate_cheats1) != 0) {
+    ppcVar3 = on_off_labels + 1;
+  }
+  sprintf(pcVar2,*ppcVar3);
+  return NULL;
+}
+
+BaseWidget* WidgetGameStateCheats::ZFunc(){
+  byte bVar1;
+  char *pcVar2;
+  char **ppcVar3;
+  WidgetScrollMenuSubstruct *pvVar1;
+  
+  pvVar1 = (WidgetScrollMenuSubstruct *)this->ScrollB->substruct;
+  bVar1 = *(byte *)((int)&pvVar1->field17_0x1e + 1);
+  gamestate_cheats2 ^= bitfeild_array[bVar1];
+  pcVar2 = Utilities::GetWidgetText(pvVar1->items[bVar1]);
+  ppcVar3 = bool_labels;
+  if ((bitfeild_array[bVar1] & gamestate_cheats2) != 0) {
+    ppcVar3 = bool_labels + 1;
+  }
+  sprintf(pcVar2,*ppcVar3);
+  return NULL;
+}
+BaseWidget* WidgetGameStateCheats::BFunc(){return this;}
+
+BaseWidget* WidgetGameStateCheats::UpFunc(){  
+  ScrollA->UpFunc();
+  ScrollC->UpFunc();
+  ScrollB->UpFunc();
+  return NULL;
+}
+
+BaseWidget* WidgetGameStateCheats::DownFunc(){  
+  ScrollA->DownFunc();
+  ScrollC->DownFunc();
+  ScrollB->DownFunc();
+  return NULL;
 }

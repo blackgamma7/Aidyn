@@ -57,19 +57,19 @@ Gfx* draw_party_portaits(Gfx*param_1,bool param_2,color32 *col){
   TempCol.R = 0xff;
   TempCol.A = 0x80;
   PortraitColorBlend(&TempCol,&TempCol,gGlobals.screenfadeFloat);
-  pCVar1 = (gGlobals.Party)->Members[0];
+  pCVar1 = (gGlobals.party)->Members[0];
   if ((pCVar1) && (pCVar1->portrait)) {
     pauVar2 = pass_to_borg_image_draw(pauVar2,pCVar1->portrait,90.0,(float)(screen_bottom + 6),0.75f,0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
-  pCVar1 = (gGlobals.Party)->Members[1];
+  pCVar1 = (gGlobals.party)->Members[1];
   if ((pCVar1) && (pCVar1->portrait)) {
     pauVar2 = pass_to_borg_image_draw(pauVar2,pCVar1->portrait,128.0,(float)(screen_bottom + 6),0.75f,0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
-  pCVar1 = (gGlobals.Party)->Members[2];
+  pCVar1 = (gGlobals.party)->Members[2];
   if ((pCVar1) && (pCVar1->portrait)) {
     pauVar2 = pass_to_borg_image_draw(pauVar2,pCVar1->portrait,166.0,(float)(screen_bottom + 6),0.75f,0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
-  pCVar1 = (gGlobals.Party)->Members[3];
+  pCVar1 = (gGlobals.party)->Members[3];
   if ((pCVar1) && (pCVar1->portrait)) {
     pauVar2 = pass_to_borg_image_draw(pauVar2,pCVar1->portrait,204.0,(float)(screen_bottom + 6),0.75f,0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }

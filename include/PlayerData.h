@@ -1,6 +1,6 @@
 #include "GhidraDump.h"
 #include "collide.h"
-
+#include "Controller.h"
 
 typedef enum PLAYERDATA_Flags {
     ACTOR_ISPLAYER=1,

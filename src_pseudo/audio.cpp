@@ -288,9 +288,9 @@ void AudioProcInit(void){
   }
   gAudioManager.Voices_AidynCount = 0;
   gAudioManager.unk0x31c = 0;
-  if (osTvType == NTSC) uVar3 = gAudioManager.frequency / 0x3c;
-  else if (osTvType == MPAL) uVar3 = gAudioManager.frequency / 0x3c;
-  else if (osTvType == PAL)uVar3 = gAudioManager.frequency / 0x32;
+  if (osTvType == OS_TV_NTSC) uVar3 = gAudioManager.frequency / 60;
+  else if (osTvType == OS_TV_MPAL) uVar3 = gAudioManager.frequency / 60;
+  else if (osTvType == OS_TV_PAL)uVar3 = gAudioManager.frequency / 50;
   else CRASH("audio.cpp, AudioProcInit()","Unknown osTvType");
   gAudioManager.unk0x324 = uVar3 + 1;
   if (gAudioManager.unk0x324 & 0xf) gAudioManager.unk0x324 = (gAudioManager.unk0x324 & 0xfff0) + 0x10;

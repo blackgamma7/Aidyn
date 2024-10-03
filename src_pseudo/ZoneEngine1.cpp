@@ -1,6 +1,6 @@
 void checking_camping_safety(void){
   gGlobals.playerCharStruct.camping_var = 3;
-  if (!check_for_camp_ambush(gGlobals.Party)) {dialoug_ref_obj_func();}
+  if (!check_for_camp_ambush(gGlobals.party)) {dialoug_ref_obj_func();}
   else {gGlobals.playerCharStruct.camping_var = 2;}
 }
 
@@ -83,12 +83,12 @@ void campfire_func(void){
   s32 iVar2;
   s32 iVar3;
   dialoug_dat *puVar4;
-  mapVoxel *pVVar1;
+  voxelObject *pVVar1;
   
   pBVar1 = get_borg_9(Borg9_campfire);
   puVar4 = NULL;
   if ((pBVar1->dat).voxelCount != 0) {
-    pVVar1 = (mapVoxel *)(pBVar1->dat).ref_objs;
+    pVVar1 = (voxelObject *)(pBVar1->dat).ref_objs;
     if ((pVVar1->header).type == Dialouge) {puVar4 = (dialoug_dat *)pVVar1->data;}
     else {
       iVar2 = 1;

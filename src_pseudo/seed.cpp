@@ -3,6 +3,8 @@
 #else
 #define FILENAME ""
 #endif
+#include "globals.h"
+
 
 void bootproc(void){
   osInitialize();
@@ -14,9 +16,7 @@ void bootproc(void){
 void InitProc(void){
 
   OSTime time;
-  u64 uVar3;
-  
-  memset(&gGlobals,0,0x2278);
+  CLEAR(&gGlobals);
   crashthread_init(crash_handler,0,0x32,6);
   MemoryCheck((s32)romMain,&clear_end - &romMain);
   HeapInit(gMemCheckStruct.HeapStart,gMemCheckStruct.mem_free_allocated);
@@ -27,14 +27,14 @@ void InitProc(void){
   if (osTvType == PAL) osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x10,1);
   if (osTvType == MPAL) osCreateScheduler(&Sched,osSched_stack + 0x2000,0xc,0x1e,1);
   gfx::initGfx(&Sched);
-  audio_thread_init(&Sched,0xac44,0xb,5);
+  audio_thread_init(&Sched,44100,11,5);
   DCM::Init();
   Controller::Init(&Sched,1,10,4);
   RomCopy::Init(9,3);
   set_borg_mem_things(&borg_listings,borg_files);
   time = osGetTime();
-  Random::SetSeed(&gGlobals,udivdi3(CONCAT44((time >> 0x20) << 6 | time >> 0x1a,time << 6),3000));
+  RAND.SetSeed(udivdi3(CONCAT44((time >> 0x20) << 6 | time >> 0x1a,time << 6),3000));
   appInit(&Sched,8,2);
   osSetThreadPri(&init_thread,IDLE);
-  do {} while(1);
+  while(1){}
 }

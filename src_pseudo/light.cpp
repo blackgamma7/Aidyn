@@ -110,7 +110,7 @@ void tint_color_with_screenfade(color32 *param_1,float fade){
 void Ofunc_80054db0(light_obj *param_1,ref_obj_bitfeild param_2){(param_1->header).Bitfeild |= param_2;}
 void Ofunc_80054dc0(light_obj *param_1,u16 param_2){(param_1->header).Bitfeild = (param_1->header).Bitfeild & ~param_2;}
 
-void InitLight(AnimationData *ani,Borg_9_data *param_2,mapVoxel *obj,light_obj *light,s16 lightCount,s16 delta){
+void InitLight(AnimationData *ani,Borg_9_data *param_2,voxelObject *obj,light_obj *light,s16 lightCount,s16 delta){
   ref_obj_bitfeild rVar1;
   u16 uVar2;
   void *pvVar3;
@@ -262,7 +262,7 @@ void light_init_func(playerData *param_1,AnimationData *param_2,s16 param_3){
         uVar1 = *(u16 *)(iVar4 * 2 + (s32)pbVar3->unk0x8);
         light = (light_obj *)((s32)pBVar2->ref_objs + ((u32)uVar1 * 0x1c - (u32)uVar1) * 4);
         if ((light->header).type == Light) {
-          InitLight(param_2,pBVar2,(mapVoxel *)obj,light,1,param_3);
+          InitLight(param_2,pBVar2,(voxelObject *)obj,light,1,param_3);
         }
         iVar4 = iVar5 >> 0x10;
         iVar5 = iVar5 + 0x10000;
@@ -272,10 +272,10 @@ void light_init_func(playerData *param_1,AnimationData *param_2,s16 param_3){
   return;
 }
 
-void passto_initLight(AnimationData *param_1,Borg_9_data *param_2,mapVoxel *param_3,s16 param_4)
+void passto_initLight(AnimationData *param_1,Borg_9_data *param_2,voxelObject *param_3,s16 param_4)
   {InitLight(param_1,param_2,param_3,(light_obj *)param_2->ref_objs,param_2->voxelCount,param_4);}
 
-void passto_InitLight_2(dynamic_light_struct *param_1,AnimationData *param_2,mapVoxel *param_3,s16 param_4)
+void passto_InitLight_2(dynamic_light_struct *param_1,AnimationData *param_2,voxelObject *param_3,s16 param_4)
   {InitLight(param_2,gGlobals.Sub.borg9DatPointer,param_3,param_1->lights,16,param_4);}
 
 void init_dynamic_light(dynamic_light_struct *param_1){

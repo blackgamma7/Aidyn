@@ -25,9 +25,11 @@ inline char * lowercase(char *x){return (char*) lowercase((u8*)x);}
 #define CLEAR(x) memset(x,0,sizeof(*x))
 
 extern void sprintf(char* buff, char* fmt,...);
+extern u32 strlen(char*);
+extern void * memcpy(void *dst,void *src,size_t len);
 
-//many sprintfs use "gGlobals.text" as the buffer.
-#define Gsprintf(fmt,...)  sprintf(gGlobals.text,fmt,__VA_ARGS__)
-//copy the string and a a null terminator to end of destination.
+//copy the string and a null terminator to end of destination.
 #define STRCPYSafe(dst,src) strncpy(dst,src,sizeof(dst)); \
-                            dst[sizeof(dst)-1]='\0';
+                            dst[sizeof(dst)-1]='\0'
+//copying macro
+#define COPY(dst,src) memcpy(dst,src,sizeof(*dst))

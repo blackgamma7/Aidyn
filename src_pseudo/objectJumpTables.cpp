@@ -1,4 +1,7 @@
-func* voxelFuncs0[]={
+#include "gamestateCheats.h"
+#include "globals.h"
+
+void* voxelFuncs0[]={
   Voxel_func_NOOP,
   loot_func,
   Voxel_func_NOOP,
@@ -11,7 +14,7 @@ func* voxelFuncs0[]={
   savepoint_func,
   Voxel_func_NOOP
 }
-func* voxelFuncs1[]={
+void* voxelFuncs1[]={
   ret0_80014E38,
   container_obj_check,
   ret0_80014E38,
@@ -27,7 +30,7 @@ func* voxelFuncs1[]={
   ret0_80014E38
 }
 
-func* voxelFuncs2[]={
+void* voxelFuncs2[]={
   scene_object_check,
   exploding_container_check,
   check_reference_object,
@@ -45,49 +48,66 @@ func* voxelFuncs2[]={
 u32 teleportTimestamp;
 
 
-void FUN_80013620(container_obj *arg0,s16 arg1,Borg_9_data *param_3){
-  Scene_obj *prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(mapVoxel *)arg0,Scene);
-  if ((prVar1->dat).unk0x8) {
-    AllocFreeQueueItem(&queueStructA,&(prVar1->dat).unk0x8,(u16)(((prVar1->dat).SceneFlags & 2) == 0),0);
-    (prVar1->dat).unk0x8 = NULL;
+
+void replace_container_voxel(container_obj *param_1,u16 param_2,Borg9data *param_3){
+  Scene_obj *prVar1;
+  
+  prVar1 = (Scene_obj *)GetVoxelFromObjectLink(param_3,(voxelObject *)param_1,VOXEL_Scene);
+  if ((prVar1->dat).borgArray[0].borgheader != NULL) {
+    AllocFreeQueueItem(&gGlobals.QueueA,&(prVar1->dat).borgArray[0].borgheader,
+                       (ushort)(((prVar1->dat).sceneflags & 2) == 0),0);
+    (prVar1->dat).borgArray[0].borgheader = NULL;
   }
-  (prVar1->dat).unk0x4 = (prVar1->dat).unk0x30[arg1 * 3 + -0xb];
+  (prVar1->dat).borgArray[0].borgIndex = (prVar1->dat).borgArray[param_2].borgIndex;
 }
 
-void play_countainer_sound(container_obj *arg0,Borg_9_data * arg1){
-  play_SFX(&gGlobals.SFXStruct,containerSounds[(arg0->dat).LootType],0,gGlobals.VolSFX,0xb4,0);
-  FUN_80013620(arg0,1,arg1);}
 
-void open_explosive_chest(container_obj *arg0,Borg_9_data *arg1){
-  s32 iVar1;
-  s32 iVar2;
+void play_countainer_sound(container_obj *param_1,Borg9data *param_2){
+  u32 containerSounds [8]={0x729,0x72A,0x72B,0x72C,0x729,0x729,0x729,0x729};
+  play_SFX(&gGlobals.SFXStruct,containerSounds[(param_1->dat).LootType],0,gGlobals.VolSFX,0xb4,0);
+  replace_container_voxel(param_1,1,param_2);
+}
+
+
+void open_explosive_chest(container_obj *param_1,Borg9data *param_2){
+  int iVar1;
+  int iVar2;
+  Borg12Enum aBStack_a0 [16];
   vec4f fStack96;
-  iVar2 = 0x10000;
-  alloc_explosion_light(arg0,1.0,600,0);
-  do {
-    alloc_explosion_light(arg0,0.35,0x3c,1);
-    iVar1 = iVar2 >> 0x10;
-    iVar2 = iVar2 + 0x10000;
-  } while (iVar1 < 3);
-  fStack96 = {0.35f,0.3f,0.25f,1.0f};
-  chest_explode_particles(arg0,(arg0->header).coords[1],fStack96,0x1a4,2,0x4b,0.04f,0.06f,-8.5714285E-4f,1);
-  (arg0->dat).Gold = 0;
-  (arg0->dat).LootCat = (ItemID)0x0;
-  FUN_80013620(arg0,2,arg1);
-  setEventFlag((arg0->dat).explode_flag,true);
+  
+  aBStack_a0[0] = chestExplodeSFX[0];
+  aBStack_a0[1] = chestExplodeSFX[1];
+  aBStack_a0[2] = chestExplodeSFX[2];
+  aBStack_a0[3] = chestExplodeSFX[3];
+  alloc_explosion_light(param_1->header.pos,1.0,600,false);
+  for(s16 i=0;i<3;i++) {
+    alloc_explosion_light(param_1->header.pos,0.35,0x3c,true);
+  }
+  fStack96.x = 0.35f;
+  fStack96.y = 0.3f;
+  fStack96.z = 0.25f;
+  fStack96.w = 1.0f;
+  chest_explode_particles
+            (param_1,(param_1->header).pos.y,&fStack96,0x1a4,2,0x4b,0.04f,
+             0.06f,-8.5714285E-4f,1);
+  (param_1->dat).Gold = 0;
+  (param_1->dat).LootCat.type = Empty;
+  (param_1->dat).LootCat.ID = 0;
+  replace_container_voxel(param_1,2,param_2);
+  setEventFlag((param_1->dat).explodeFlag,true);
   getEventFlag(0x15fa);
-  play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[Random::range_(&gGlobals,0,3)],0,gGlobals.VolSFX,0xf0,0);
-  set_voxel_visibility((mapVoxel *)arg0,false);
-  return;
+  play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[RAND.Range(0,3)],0,gGlobals.VolSFX,0xf0,0);
+  set_voxel_visibility((voxelObject *)param_1,false);
 }
+
 void NOOP_tp(void){}
 
 //activaction funcs
-void run_voxelFuncs0(mapVoxel *arg0){(*voxelFuncs0[(arg0->header).type])(arg0);}
+void run_voxelFuncs0(voxelObject *arg0){(*voxelFuncs0[(arg0->header).type])(arg0);}
 //visibility check, i think
-bool run_voxelFuncs2(mapVoxel *arg0){return (*run_voxelFuncs2[(arg0->header).type])(arg0);}
+bool run_voxelFuncs2(voxelObject *arg0){return (*run_voxelFuncs2[(arg0->header).type])(arg0);}
 //collision
-bool run_voxelFuncs1(mapVoxel *arg0,playerData *arg1){return (*run_voxelFuncs1[(arg0->header).type])(arg0,arg1);}
+bool run_voxelFuncs1(voxelObject *arg0,playerData *arg1){return (*run_voxelFuncs1[(arg0->header).type])(arg0,arg1);}
 
 void Voxel_func_NOOP(void){}
 
@@ -119,7 +139,7 @@ void teleporter_func(teleport_obj *arg0){
           if (((arg0->dat).lock_lv != 0) &&
              (Teleport_lock_check((arg0->dat).lock_flag) == false)) {
             if ((arg0->dat).lock_lv != 0) {
-              lockpicking_check((mapVoxel *)arg0);
+              lockpicking_check((voxelObject *)arg0);
               return;
             }
             setEventFlag((arg0->dat).lockpick_flag_2,true);
@@ -142,7 +162,7 @@ void teleporter_func(teleport_obj *arg0){
 
 
 void get_loot_reagent(container_obj *arg0,container_Dat * arg1){
-  mapVoxel *a;
+  voxelObject *a;
   longlong lVar1;
   Inventory_struct *pIVar2;
   float fVar3;
@@ -153,8 +173,8 @@ void get_loot_reagent(container_obj *arg0,container_Dat * arg1){
   uVar4 = (u32)fVar3;
   if (uVar4 == 0) {uVar4 = 1;}
   ref_obj_bitmask_flag((arg0->header).flagB,(arg0->header).Bitfeild,Used);
-  set_voxel_visibility((mapVoxel *)arg0,false);
-  a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(mapVoxel *)arg0,Scene);
+  set_voxel_visibility((voxelObject *)arg0,false);
+  a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(voxelObject *)arg0,Scene);
   if (a) {set_voxel_visibility(a,false);}
   if (exploding_container_check(arg0,gGlobals.Sub.borg9DatPointer) != 0) {
     passto_WriteTo_VoxelChart((s16)((s32)((s32)arg0 - (s32)gGlobals.Sub.borg9DatPointer->ref_objs) * 0x684bda13 >> 2),
@@ -180,7 +200,7 @@ bool loot_func(container_obj *arg0){
   bool bVar9;
   longlong lVar4;
   u16 uVar8;
-  mapVoxel *a;
+  voxelObject *a;
   s32 iVar6;
   void *ppfVar10;
   Inventory_struct *pIVar7;
@@ -205,7 +225,7 @@ bool loot_func(container_obj *arg0){
         return get_loot_reagent(arg0,pcVar11);
       }
       if (uVar8 == 7) {
-        set_voxel_visibility((mapVoxel *)arg0,false);
+        set_voxel_visibility((voxelObject *)arg0,false);
         ref_obj_bitmask_flag((arg0->header).flagB,(arg0->header).Bitfeild,Used);
         uVar8 = (arg0->dat).unk0x14;
       }
@@ -222,9 +242,9 @@ bool loot_func(container_obj *arg0){
       uVar13 = 0;
       setEventFlag((arg0->dat).open_flag,true);
       getEventFlag(0x15fa);
-      set_refObj_flag((mapVoxel *)arg0);
+      set_refObj_flag((voxelObject *)arg0);
       if ((arg0->dat).LootType == 7) {
-        a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(mapVoxel *)arg0,Scene);
+        a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(voxelObject *)arg0,Scene);
         set_voxel_visibility(a,false);
         IVar2 = (arg0->dat).LootCat;
       }
@@ -249,7 +269,7 @@ bool loot_func(container_obj *arg0){
           uVar10++;
         } while (uVar10 < 7);
       }
-      set_voxel_visibility((mapVoxel *)arg0,false);
+      set_voxel_visibility((voxelObject *)arg0,false);
       IVar2 = (arg0->dat).item;
       uVar10 = uVar12;
       if (IVar2) {
@@ -286,9 +306,9 @@ bool loot_func(container_obj *arg0){
         if ((arg0->dat).LootType == 7) {PlayerCharStruct.camping_var = 7;}
       }
     }
-    else {lockpicking_check((mapVoxel *)arg0);}
+    else {lockpicking_check((voxelObject *)arg0);}
   }
-  else {set_voxel_visibility((mapVoxel *)arg0,false);}
+  else {set_voxel_visibility((voxelObject *)arg0,false);}
   return 1;
 }
 
@@ -350,10 +370,10 @@ void trigger_vobject_func(trigger_obj *arg0){
   case 1:
     setEventFlag(arg0->flagA,true);
     getEventFlag(0x15fa);
-    set_refObj_flag((mapVoxel *)arg0);
+    set_refObj_flag((voxelObject *)arg0);
     break;
   case 2:
-    prVar3 = (Scene_obj *)GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(mapVoxel *)arg0,Scene);
+    prVar3 = (Scene_obj *)GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,(voxelObject *)arg0,Scene);
     pBVar1 = (prVar3->dat).unk0x8;
     if (pBVar1)func_800a0090(pBVar1,arg0->flagA);
     break;
@@ -404,13 +424,13 @@ void dialouge_vobject_func(Dialoug_obj *arg0,undefined arg1,char param_3){
 }
 
 
-bool check_reference_object(mapVoxel *arg0){
+bool check_reference_object(voxelObject *arg0){
   EventFlag EVar1;
   bool bVar2;
   bool bVar3;
   u16 uVar3;
   
-  if(gamestate_cheat_check1(appear)){return gamestate_cheat_check2(appear);}
+  cheatCheck(appear);
   EVar1 = (arg0->header).flagC;
   uVar3 = (arg0->header).Bitfeild >> 7 & 1;
   bVar3 = (bool)(u8)uVar3;
@@ -421,7 +441,7 @@ bool check_reference_object(mapVoxel *arg0){
   return bVar3;
 }
 
-bool scene_object_check(mapVoxel *arg0){
+bool scene_object_check(voxelObject *arg0){
   bool bVar1;
   bool uVar2;
 
@@ -447,16 +467,16 @@ bool exploding_container_sub(container_obj *arg0,Borg_9_data *arg1){
 
 char exploding_container_check(container_obj *arg0,Borg_9_data *arg1){
   u16 uVar1;
-  mapVoxel *a;
+  voxelObject *a;
   char cVar5;
   s16 *psVar3;
   
-  a = GetVoxelFromObjectLink(arg1,(mapVoxel *)arg0,Scene);
+  a = GetVoxelFromObjectLink(arg1,(voxelObject *)arg0,Scene);
   if (!gamestate_cheat_check1(appear)) {
     uVar1 = (arg0->dat).LootType;
     if ((7 < uVar1) || (uVar1 < 4)) {
       set_voxel_visibility(a,true);
-      set_voxel_visibility((mapVoxel *)arg0,true);
+      set_voxel_visibility((voxelObject *)arg0,true);
       psVar3 = some_ref_obj_lookup_func((s16)((s32)((s32)arg0 - (s32)arg1->ref_objs) * 0x684bda13 >> 2),
         (char)map_dat_A,(u8)MapShortA,(u8)mapShortB,0x11,*(undefined *)((s32)&(arg0->header).type + 1));
       if ((!container_open_check((arg0->dat).open_flag)) && (psVar3 == NULL)) {
@@ -469,14 +489,14 @@ char exploding_container_check(container_obj *arg0,Borg_9_data *arg1){
         (arg0->dat).unk0x14 = 0;
         (arg0->dat).Gold = 0;
       }
-      set_voxel_visibility((mapVoxel *)arg0,false);
+      set_voxel_visibility((voxelObject *)arg0,false);
       return 0;
     }
     cVar5 = exploding_container_sub(arg0,arg1);
   }
   else {cVar5 = gamestate_cheat_check2(appear);}
   set_voxel_visibility(a,cVar5 != 0);
-  set_voxel_visibility((mapVoxel *)arg0,cVar5 != 0);
+  set_voxel_visibility((voxelObject *)arg0,cVar5 != 0);
   return cVar5;}
 
 bool TP_lock_secret_check(teleport_obj *arg0){
@@ -586,7 +606,7 @@ bool container_obj_check(container_obj *arg0,playerData *arg1){
   }
   return ret;}
 
-undefined FUN_80014ba0(mapVoxel *arg0,vec3f *arg1){
+undefined FUN_80014ba0(voxelObject *arg0,vec3f *arg1){
   undefined uVar1;
   
   uVar1 = 0;
@@ -643,7 +663,7 @@ bool dialoug_obj_func(Dialoug_obj *arg0,playerData *arg1){return dialouge_trigge
 
 void dialoug_obj_check(s32 arg0,playerData *arg1){dialoug_obj_func(arg0,arg1);}
 
-bool savepoint_prox_check(mapVoxel *arg0,playerData *arg1){return get_vec3_proximity(arg0,(arg1->collision).position); <= (arg0->header).size;}
+bool savepoint_prox_check(voxelObject *arg0,playerData *arg1){return get_vec3_proximity(arg0,(arg1->collision).position); <= (arg0->header).size;}
 
 u8 ret0_80014E38(void){return 0;}
 
@@ -653,10 +673,10 @@ void render_container(container_obj *param_1,Borg_9_data *param_2){
 
 void set_container_obj_visible(container_obj *param_1,Borg_9_data *param_2){
   u16 uVar1;
-  mapVoxel *a;
+  voxelObject *a;
   bool b;
   
-  a = GetVoxelFromObjectLink(param_2,(mapVoxel *)param_1,Scene);
+  a = GetVoxelFromObjectLink(param_2,(voxelObject *)param_1,Scene);
   uVar1 = (param_1->dat).LootType;
   b = true;
   if ((uVar1 < 8) && (3 < uVar1)) {

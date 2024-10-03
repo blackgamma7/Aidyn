@@ -3873,9 +3873,9 @@ struct KKHeader {
 typedef struct N64_BootStrap N64_BootStrap, *PN64_BootStrap;
 
 typedef enum OsTv {
-    PAL=0,
-    NTSC=1,
-    MPAL=2
+    OS_TV_PAL,
+    OS_TV_NTSC,
+    OS_TV_MPAL
 } OsTv;
 
 
@@ -3907,20 +3907,20 @@ typedef enum OS_EVENT {
 } OS_EVENT;
 
 typedef enum OS_VI_Clock {
-    MPAL=48628316,
-    NTSC=48681812,
-    PAL=49656530
+    VI_PAL_CLOCK=48628316,
+    VI_NTSC_CLOCK=48681812,
+    VI_MPAL_CLOCK=49656530
 } OS_VI_Clock;
 
 typedef enum OS_VI_SPECIAL {
-    GAMMA_ON=1,
-    GAMMA_OFF=2,
-    DITHER_OFF=4,
-    DITHER_ON=8,
-    DIVOT_ON=16,
-    DIVOT_OFF=32,
-    DITHER_FILTER_ON=64,
-    DITHER_FILTER_OFF=128
+    OS_VI_GAMMA_ON=1,
+    OS_VI_GAMMA_OFF=2,
+    OS_VI_DITHER_OFF=4,
+    OS_VI_DITHER_ON=8,
+    OS_VI_DIVOT_ON=16,
+    OS_VI_DIVOT_OFF=32,
+    OS_VI_DITHER_FILTER_ON=64,
+    OS_VI_DITHER_FILTER_OFF=128
 } OS_VI_SPECIAL;
 
 typedef struct OSContPad OSContPad, *POSContPad;
@@ -4038,16 +4038,16 @@ typedef struct OSScMsg OSScMsg, *POSScMsg;
 typedef struct OSScTask OSScTask, *POSScTask;
 
 typedef enum OS_SC_FLAG {
-    NEEDS_RDP=1,
-    NEEDS_RSP=2,
-    RCP_MASK=3,
-    DRAM_LIST=4,
-    TYPE_MASK=7,
-    PARALLEL_TASK=16,
+    OS_SC_NEEDS_RDP=1,
+    OS_SC_NEEDS_RSP=2,
+    OS_SC_RCP_MASK=3,
+    OS_SC_DRAM_DLIST=4,
+    OS_SC_TYPE_MASK=7,
+    OS_SC_PARALLEL_TASK=16,
     YEILD=16,
-    LAST_TASK=32,
+    OS_SC_LAST_TASK=32,
     YEILDED=32,
-    SWAPBUFFER=64
+    OS_SC_SWAPBUFFER=64
 } OS_SC_FLAG;
 
 typedef struct OSTask_t OSTask_t, *POSTask_t;
@@ -4084,7 +4084,7 @@ struct OSTask_t {
 struct OSScTask {
     struct OSScTask *next;
     u32 state;
-    enum OS_SC_FLAG flags;
+    u32 flags;
     void *framebuffer;
     struct OSTask list;
     struct OSMesgQueue *msgQ;
@@ -5692,20 +5692,6 @@ struct FontStruct {
     struct Color32 col;
 };
 
-typedef enum GameState_Cheat { /* Set in big Debug Menu */
-    STATECHEAT_All=0,
-    STATECHEAT_appear=1,
-    STATECHEAT_check=2,
-    STATECHEAT_teleportLock=3,
-    STATECHEAT_teletrap=4,
-    STATECHEAT_teleportSecret=5,
-    STATECHEAT_containerOpen=6,
-    STATECHEAT_containerExplode=7,
-    STATECHEAT_monsterCheck=8,
-    STATECHEAT_dialougeTrigger=9,
-    STATECHEAT_trigger=10,
-    STATECHEAT_referenceObject=11
-} GameState_Cheat;
 
 typedef struct GameStateFunnel GameStateFunnel, *PGameStateFunnel;
 
@@ -5775,13 +5761,6 @@ struct PlayerHandler {
     u32 field13_0x70;
     struct audiokey_struct *audiokey;
 };
-
-struct N64Print {
-    char *text;
-    struct vec4f color;
-    short ShortA;
-};
-
 
 struct wander_struct {
     struct wander_substruct *wanderSubstructs;
@@ -6042,19 +6021,7 @@ struct MapEventFlag {
     uint flag;
 };
 
-typedef struct MemCheck_struct MemCheck_struct, *PMemCheck_struct;
 
-struct MemCheck_struct {
-    u32 ramstartVal;
-    void *GfxStart;
-    void *heapStart;
-    void *vi_buffer_pointers[2];
-    u32 RamSize;
-    u32 ramVal0;
-    u32 MaxResolution0;
-    u32 mem_free_allocated;
-    u32 MaxResolution1;
-};
 
 typedef struct MemMon_struct MemMon_struct, *PMemMon_struct;
 
@@ -6301,21 +6268,6 @@ struct struct_5 {
     struct AniDatSubstruct *substruct;
 };
 
-
-typedef struct struct_unk struct_unk, *Pstruct_unk;
-
-struct struct_unk {
-    ulong (*check_trigger_func)(void);
-    u32 field1_0x4;
-    u32 field2_0x8;
-    u32 field3_0xc;
-    uint particleRngSeed;
-    u16 vertsNeedSet;
-    undefined8 unk_0x16;
-    u16 unk_0x1e;
-    u8 textKerning[108];
-};
-
 typedef struct sundail_struct sundail_struct, *Psundail_struct;
 
 struct sundail_struct {
@@ -6333,34 +6285,7 @@ struct sundail_struct {
     u8 sun;
 };
 
-typedef struct TerrainStruct TerrainStruct, *PTerrainStruct;
 
-typedef enum TimeOfDay {
-    TIME_MORNING,
-    TIME_MIDDAY,
-    TIME_AFTERNOON,
-    TIME_EVENING,
-    TIME_NIGHT
-} TimeOfDay;
-
-struct TerrainStruct {
-    ushort daySpeed; /* set to 72 (0x48) */
-    u8 partOfDay; /* 21-6 night, 6-9 morning, 9-12 midday, 12-17 afternoon, 17-21 evening */
-    u8 moonPhases; /* ranges from 0-3 */
-    u8 windByte;
-    char DayNightMagic;
-    u8 rainByte; /* clear, rain, snow */
-    float PrecipScale;
-    float FogFloat;
-    float ThunderFloat;
-    struct vec3f windVelocity;
-    uint InGameTime; /* measured in seconds * 60 */
-    u8 terrain; /* detemines terrain? */
-    float TimeOfDayFloat;
-    float float0x2c;
-    float float0x30;
-    int PlayTime;
-};
 
 typedef struct VoxelChartEntry VoxelChartEntry, *PVoxelChartEntry;
 

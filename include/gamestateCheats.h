@@ -1,11 +1,16 @@
 #include "widgets\WidgetMenu.h"
 #include "widgets\WidgetText.h"
+#include "widgets\WidgetScrollMenu.h"
 
 class WidgetGameStateCheats : public WidgetMenu {
-    BaseWidget* ScrollA;
-    BaseWidget* ScrollB;
-    BaseWidget* ScrollC;
-
+    WidgetScrollMenu* ScrollA;
+    WidgetScrollMenu* ScrollB;
+    WidgetScrollMenu* ScrollC;
+    virtual BaseWidget* AFunc();
+    virtual BaseWidget* BFunc();
+    virtual BaseWidget* ZFunc();
+    virtual BaseWidget* UpFunc();
+    virtual BaseWidget* DownFunc();
 };
 
 u32 gamestate_cheats1=0;
@@ -23,3 +28,24 @@ u32 bitfeild_array[]={
 u8 gamestate_cheat_check1(u8 param_1);
 u8 gamestate_cheat_check2(GameState_Cheat param_1);
 void FUN_8003316c(WidgetGameStateCheats *param_1);
+
+typedef enum GameState_Cheat { /* Set in big Debug Menu */
+    STATECHEAT_All=0,
+    STATECHEAT_appear=1,
+    STATECHEAT_check=2,
+    STATECHEAT_teleportLock=3,
+    STATECHEAT_teletrap=4,
+    STATECHEAT_teleportSecret=5,
+    STATECHEAT_containerOpen=6,
+    STATECHEAT_containerExplode=7,
+    STATECHEAT_monsterCheck=8,
+    STATECHEAT_dialougeTrigger=9,
+    STATECHEAT_trigger=10,
+    STATECHEAT_referenceObject=11
+} GameState_Cheat;
+
+#ifdef DEBUGVER
+#define checkCheat(cheat) if(gamestate_cheat_check1(STATECHEAT_##cheat)) return gamestate_cheat_check2(STATECHEAT_##cheat)
+#else
+#define checkCheat(cheat) ;
+#endif

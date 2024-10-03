@@ -1,5 +1,5 @@
 #include "GhidraDump.h"
-
+#include "mathN64.h"
 
 
 struct SpeedProperty {

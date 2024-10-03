@@ -100,7 +100,7 @@ void TitleSplash::Load(void){
   gGlobals.thqBorg8 = get_borg_8(BORG8_LogoTHQ);
   gGlobals.h20Borg8 = get_borg_8(BORG8_LogoH20);
   BVar1 = BORG8_EXPPakNo;
-  if (ExpPakFlag) BVar1 = BORG8_EXPPakYes;
+  if (gExpPakFlag) BVar1 = BORG8_EXPPakYes;
   exp_pack_borg8 = get_borg_8(BVar1);
   TitleSplash::Init();
   gGlobals.splashscreenTimer = 0;

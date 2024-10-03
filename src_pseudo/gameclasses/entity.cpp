@@ -918,7 +918,7 @@ u8 ret1_800791c8(void){return 1;}
     if (0.0 < param_1->percent) {pcVar2 = "Resistant to %s";}
     if (2.0f <= param_1->percent) {pcVar2 = "Vulnerable to %s";}
     sprintf(param_3,pcVar2,element_labels[param_1->element]);
-    uVar1 = append_SenseAura_text(param_2,param_3,param_4);
+    uVar1 = AppendText(param_2,param_3,param_4);
   }
   return uVar1;
 }
@@ -942,15 +942,15 @@ void senseAura(CombatEntity *target,u8 level){
     strcpy(acStack232,"Follower");
     if ((target->index == gCombatP->leaderIndex) && (gCombatP->leaderDead == 0)) {
       strcpy(acStack232,"Leader");}
-    uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
+    uVar3 = AppendText(acStack1064,acStack232,uVar3);
   }
   if (2 < level) {
     sprintf(acStack232,"%d_Total_Hitpoints",getHPMax(pCVar1));
-    uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
+    uVar3 = AppendText(acStack1064,acStack232,uVar3);
   }
   if (4 < level) {
     sprintf(acStack232,"Level_%lu",CharStats::getBaseStat(pCVar1->Stats,STAT_LV));
-    uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
+    uVar3 = AppendText(acStack1064,acStack232,uVar3);
   }
   if (6 < level) {
     prVar6 = target->resists;
@@ -960,7 +960,7 @@ void senseAura(CombatEntity *target,u8 level){
   }
   if (8 < level) {
     sprintf(acStack232,"Total Armor Protection %d",get_protection_level(target,false));
-    uVar3 = append_SenseAura_text(acStack1064,acStack232,uVar3);
+    uVar3 = AppendText(acStack1064,acStack232,uVar3);
   }
   col1 = OFFWHITE;
   col2 = DARKGRAY_T;
@@ -2022,7 +2022,7 @@ bool check_healer_herb_stam(CharSheet *param_1){
   cVar2 = getModdedSkill(param_1->Skills,SKILL_HEALER);
   bVar3 = false;
   if (cVar2 != 0) {
-    if (!has_item_func((gGlobals.Party)->inv,itemID_array[31])) {bVar3 = false;}
+    if (!has_item_func((gGlobals.party)->inv,itemID_array[31])) {bVar3 = false;}
     else {
       iVar1 = CharStats::getModdedStat(param_1->Stats,STAT_STAM);
       iVar4 = 5 - cVar2;

@@ -1132,7 +1132,7 @@ void end_combat_turn_(CombatEntity *param_1){
   if ((!isDead(param_1->charSheetP)) && (!CombatEnt_flag_6(param_1))) {gGlobals.playerDataArray[param_1->index]->ani_type = 0;}
   func_looking_for_flask(param_1);
   if (((param_1->AtkType == 3) && (param_1->item < POTION_HEALING)) &&
-     (param_1->charSheetP->weapons)) {MoveWeaponsToInventory(gGlobals.Party,(u32)param_1->index);}
+     (param_1->charSheetP->weapons)) {MoveWeaponsToInventory(gGlobals.party,(u32)param_1->index);}
   FUN_80070304(param_1);
   FUN_80073e3c(&gCombatP->combatTurn);
 }
@@ -1560,7 +1560,7 @@ void func_seeking_sholeh(CombatEntity *ent){ //probably a death func
   if ((ItemID)(entityList[164] + 0x200) == ent->charSheetP->ID) {setEventFlag(0x26e,true);}
   if (!CombatEnt_flag_5(ent)) {
     gCombatP->playersAlive--;
-    register_party_deaths(gGlobals.Party);
+    register_party_deaths(gGlobals.party);
     if (CombatEnt_flag_2(ent)) {func_8006f2cc(ent);}
   }
   else {
@@ -2080,9 +2080,9 @@ bool combat_check_spell_ingredient(CombatEntity *param_1,Temp_spell *param_2){
   if (((bVar4 == false) && (bVar5 = true, param_1->aiP == NULL)) &&
      (bVar5 = true, param_2->cost)) {
     IVar3 = get_spell_ingredient(param_2);
-    piVar1 = (gGlobals.Party)->inv->Functions;
+    piVar1 = (gGlobals.party)->inv->Functions;
     uVar2 = (*(piVar1->get_some_bool).func)
-                      ((s32)(gGlobals.Party)->inv->inv_slots +
+                      ((s32)(gGlobals.party)->inv->inv_slots +
                        (s16)(piVar1->get_some_bool).arg[0] + -4,IVar3,1);
     if (uVar2 == 0) {
       combat_spell_fail(param_1,gCombatP->textArray->not enough spell ingredients);
@@ -2134,9 +2134,9 @@ bool some_spell_ingredient_check(CombatEntity *param_1,Temp_spell *param_2,s16 p
   }
   else {
     if ((!CombatEnt_flag_5(param_1)) && (param_2->cost)) {
-      piVar2 = (gGlobals.Party)->inv->Functions;
+      piVar2 = (gGlobals.party)->inv->Functions;
       (*(piVar2->add_to_inv).func)
-                ((s32)(gGlobals.Party)->inv->inv_slots +
+                ((s32)(gGlobals.party)->inv->inv_slots +
                  (s16)(piVar2->add_to_inv).arg[0] + -4,get_spell_ingredient(param_2),1);
     }
     combat_print_failed_spell(param_1);
@@ -2397,9 +2397,9 @@ void Combat_Check_inv_for_potion(CombatEntity *param_1){
   inv_funcs *piVar1;
   
   if (param_1->aiP == NULL) {
-    piVar1 = (gGlobals.Party)->inv->Functions;
+    piVar1 = (gGlobals.party)->inv->Functions;
     (*(piVar1->get_some_bool).func)
-              ((s32)(gGlobals.Party)->inv->inv_slots +
+              ((s32)(gGlobals.party)->inv->inv_slots +
                (s16)(piVar1->get_some_bool).arg[0] + -4,param_1->item | 0x1000,1);
     func_looking_for_flask(param_1);
   }
@@ -2698,11 +2698,11 @@ u8 user_target_in_party(CombatEntity *param_1,CombatEntity *param_2,playerData *
   u32 uVar2;
   
   uVar1 = getHPCurrent(param_2->charSheetP);
-  sVar3 = find_ent_in_Party(gGlobals.Party,param_1->charSheetP->ID);
-  bVar4 = find_ent_in_Party(gGlobals.Party,param_2->charSheetP->ID);
+  sVar3 = find_ent_in_Party(gGlobals.party,param_1->charSheetP->ID);
+  bVar4 = find_ent_in_Party(gGlobals.party,param_2->charSheetP->ID);
   if ((sVar3 != 0xff) && ((bVar4 != 0xff)) {
-    if ((param_1->flags & flag8) == 0) {pass_to_party_healing_func(gGlobals.Party,(u32)uVar5,(s32)(char)bVar4 & 0xff);}
-    else {pass_to_healing_func_2(gGlobals.Party,sVar3,bVar4);}
+    if ((param_1->flags & flag8) == 0) {pass_to_party_healing_func(gGlobals.party,(u32)uVar5,(s32)(char)bVar4 & 0xff);}
+    else {pass_to_healing_func_2(gGlobals.party,sVar3,bVar4);}
     if ((s32)uVar1 < (s32)getHPCurrent(param_2->charSheetP)) {
       uVar2 = getHPCurrent(param_2->charSheetP);
       Gsprintf(gCombatP->textArray->they heal,param_1->charSheetP->name,
@@ -3049,7 +3049,7 @@ void func_looking_for_flask(CombatEntity *param_1){
   if (!CombatEnt_flag_check(param_1)) {
     if (param_1->AtkType == 3) {
       if (param_1->item < POTION_HEALING) {
-        if (has_item_func((gGlobals.Party)->inv,(ItemID)(param_1->item | 0x1000))) {
+        if (has_item_func((gGlobals.party)->inv,(ItemID)(param_1->item | 0x1000))) {
           param_1->AtkType = 0;
           get_weapon_sheild_borg5(param_1);
         }

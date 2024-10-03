@@ -45,7 +45,7 @@ struct Borg_9_data{
     vec3f* Verticies;
     struct borg9_phys * phys_pointer;
     s32 someInt_2;
-    mapVoxel* ref_objs; 
+    voxelObject* ref_objs; 
     struct borg_9_struct * unkStructs;
 };
 struct borg9_phys { //collision faces
@@ -279,7 +279,7 @@ struct Trigger_dat {
     u8 align[24];
 };
 //likely actual struct - used non-union structs in ghidra as they played nicer.
-struct mapVoxel { //base object of "ref_objs"
+struct voxelObject { //base object of "ref_objs"
     struct voxelHeader header; //common for all ref obj's
     union{
         Scene_obj_dat scene;

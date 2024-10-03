@@ -16,7 +16,7 @@ bool FUN_8000c9e0(void){
   if ((s32)uVar2 < 0) dVar5+= UINT_MAX_d;
   if (DAT_800e8dbe != 0) DAT_800e8dbe--;
   bVar4 = false;
-  if ((ExpPakFlag == 0) && (bVar4 = false, DAT_800e8dbe == 0)) {
+  if ((gExpPakFlag == 0) && (bVar4 = false, DAT_800e8dbe == 0)) {
     if (uVar3 < 0x29) {bVar4 = false;}
     else {
       if (163840.0f < fVar6) {
@@ -100,7 +100,7 @@ bool FUN_8000ccc0(void){
   else {fVar4 = (float)uVar2;}
   if (DAT_800e8dc4 == 0) {
     if (DAT_800e8dc6) {DAT_800e8dc6--;}
-    if (ExpPakFlag) return false;
+    if (gExpPakFlag) return false;
     if (DAT_800e8dc6) return false;
     if ((((gGlobals.Sub.mapDatA == 0) && (0x28 < uVar3)) &&
         ((double)(fVar4 / fVar6) < 0.5d)) || (no_ExpPak_memcheck_flag != 0)) {
@@ -119,7 +119,7 @@ bool NoExpPak_memCheck(u16 x){
   bool bVar3;
   u32 theshA [5] = {0x18000,0x10000,0xc000,0x28000,0x18000};
   u32 threshB [5]= {0x10000,0xC000,0x6000,0x18000,0x10000};
-  if (ExpPakFlag == 0) {
+  if (gExpPakFlag == 0) {
     bVar3 = true;
     if (get_MemFree() <= theshA[x]) {
       if (threshB[x] < get_memFree_2()) {bVar3 = true;}
@@ -244,7 +244,7 @@ LAB_8000d2bc:
           uVar1 = puVar4->short0x1e;
           goto LAB_8000d25c;
         }
-        if (ExpPakFlag) goto LAB_8000d2bc;
+        if (gExpPakFlag) goto LAB_8000d2bc;
         puVar4->short0x1c = 1;
         puVar4->short0x1e = 0;
       }
@@ -302,7 +302,7 @@ void check_trigger(collisionStruct *param_1,borg9_phys *param_2){
   playerData *ppVar2;
   u16 uVar4;
   playerData *ppVar5;
-  mapVoxel *ptVar6;
+  voxelObject *ptVar6;
   
   ppVar2 = (playerData *)param_1[1].radius;
   ppVar5 = NULL;
@@ -323,7 +323,7 @@ LAB_8000d5bc:
   if (((((uVar4 & 0xf000) == 0x2000) && ((param_1->flags & 0x400) == 0)) &&
       (gGlobals.playerCharStruct.camping_var == '\x03')) &&
      ((some_toggle == -1 &&
-      (ptVar6 = (mapVoxel *)((gGlobals.Sub.borg9DatPointer)->ref_objs + (uVar4 >> 5 & 0x7f)),
+      (ptVar6 = (voxelObject *)((gGlobals.Sub.borg9DatPointer)->ref_objs + (uVar4 >> 5 & 0x7f)),
       ((ptVar6->header).Bitfeild & visible) != 0)))) {
     VVar1 = (ptVar6->header).type;
     if (VVar1 == Camera) {
@@ -1337,7 +1337,7 @@ void ref_obj_boulders(Borg_9_data *param_1){
 }
 
 void clear_if_no_ExpPak(Scene_obj_dat *param_1,u32 param_2){
-  if (!ExpPakFlag) {
+  if (!gExpPakFlag) {
     if ((param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xd)[2] != 0.0) {
       if ((param_1->SceneFlags & 2) == 0) {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xb,1,0);}
       else {AllocFreeQueueItem(&gGlobals.QueueA,param_1->unk0x34 + (param_2 & 0xffff) * 3 + -0xd + 2,0,0);}
@@ -1349,7 +1349,7 @@ void rendervoxel_no_expPak(Scene_obj_dat *param_1){
   s32 iVar1;
   u32 uVar2;
   
-  if ((!ExpPakFlag) && (uVar2 = 0, param_1->unk0x40)) {
+  if ((!gExpPakFlag) && (uVar2 = 0, param_1->unk0x40)) {
     iVar1 = 0;
     do {
       iVar1+= uVar2;
@@ -1560,20 +1560,20 @@ LAB_80010084:
                   else {psVar16->anidat = pAVar4;}
                 }
                 else {
-                  if (gGlobals.delay < INT_MAX_f) {
+                  if (gGlobals.delta < INT_MAX_f) {
                     pBVar3 = (SObj->dat).unk0x8;
-                    fVar19 = gGlobals.delay;
+                    fVar19 = gGlobals.delta;
                   }
                   else {
                     pBVar3 = (SObj->dat).unk0x8;
-                    fVar19 = gGlobals.delay - INT_MAX_f;
+                    fVar19 = gGlobals.delta - INT_MAX_f;
                   }
                   FUN_800a0304(pBVar3,(s32)fVar19 & 0xffff);
                   uVar14 = local_6c;
                   if (uVar17 < local_6c) {uVar14 = uVar17;}
                   set_sun_light(pAVar4,(SObj->dat).SceneFlags,SObj,(char)uVar14);
-                  passto_InitLight_2(&gGlobals.Sub.DynamicLights,pAVar4,SObj,(s16)(s32)gGlobals.delay);
-                  passto_initLight(pAVar4,param_2,(mapVoxel *)SObj,(s16)(s32)gGlobals.delay);
+                  passto_InitLight_2(&gGlobals.Sub.DynamicLights,pAVar4,SObj,(s16)(s32)gGlobals.delta);
+                  passto_initLight(pAVar4,param_2,(voxelObject *)SObj,(s16)(s32)gGlobals.delta);
                   if (psVar16 == (struct *)0x0) {param_1 = (Gfx*)func_800a0644(param_1,(locatorStruct *)(SObj->dat).unk0x8);
                   }
                   else {
@@ -1851,7 +1851,7 @@ void RenderZones(Gfx**param_1,vec3f *param_2,s16 param_3)
     bVar8 = FUN_80010598(*psVar13,*psVar14);
     if ((bVar8 == false) || ((uStack68 & uVar3) != 0)) {
       pZVar12 = (ZoneDat *)(*psVar13 * 0x60 + -0x7ff19678 + *psVar14 * 0x20);
-      if (ExpPakFlag == 0) {
+      if (gExpPakFlag == 0) {
         if (gGlobals.QueueB.items == 0) {
           if (oneZone_load == 0) {
             if (pZVar12->unk_0x0 == 0) {
@@ -1969,7 +1969,7 @@ LAB_80010bfc:
       }
     }
     else {
-      if ((ExpPakFlag == 0) && (uVar4 = get_MemFree(), uVar4 < 0x18000)) {
+      if ((gExpPakFlag == 0) && (uVar4 = get_MemFree(), uVar4 < 0x18000)) {
         iVar1 = (ZoneDat *)(*psVar13 * 0x60 + -0x7ff19678 + *psVar14 * 0x20);
         if (iVar1->anidat0x4) {
           AllocFreeQueueItem(&gGlobals.QueueA,&iVar1->anidat0x4,1,0);
@@ -2144,17 +2144,17 @@ void InitZoneEngine(float param_1,float param_2,u16 param_3,s16 param_4)
   InitScriptCameras(&gGlobals.scriptcamera);
   if (gGlobals.Sub.gamemodeType == 1) {
     sVar9 = 0xe;
-    if (ExpPakFlag == 0) {sVar10 = 0x60;}
+    if (gExpPakFlag == 0) {sVar10 = 0x60;}
   }
   else {
     if (gGlobals.Sub.gamemodeType < 2) {
-      if ((gGlobals.Sub.gamemodeType == 0) && (sVar9 = 0x28, ExpPakFlag == 0)) {sVar10 = 0x40;}
+      if ((gGlobals.Sub.gamemodeType == 0) && (sVar9 = 0x28, gExpPakFlag == 0)) {sVar10 = 0x40;}
     }
     else {
       if (gGlobals.Sub.gamemodeType == 2) {
         sVar9 = 0;
         dat = 3;
-        if (ExpPakFlag == 0) {sVar10 = 0x10;}
+        if (gExpPakFlag == 0) {sVar10 = 0x10;}
       }
     }
   }
@@ -2281,7 +2281,7 @@ void clear_music_values(s16 ClearAll){
 }
 
 void clear_music_no_expPak(void){
-  if (((ExpPakFlag == 0) && (gGlobals.Sub.BGMIndex != 0)) &&
+  if (((gExpPakFlag == 0) && (gGlobals.Sub.BGMIndex != 0)) &&
      (gGlobals.Sub.BGMIndex != gGlobals.Sub.BGMQueue)) {clear_music_values(0);}}
 
 void update_BGM_(void){
@@ -2332,11 +2332,11 @@ void FreeZoneEngine(s16 playMusic){
 void clear_ref_obj_flags(Borg_9_data *param_1){
   s32 iVar1;
   u32 uVar2;
-  mapVoxel *pVVar1;
+  voxelObject *pVVar1;
   
   uVar2 = 0;
   if (param_1->voxelCount != 0) {
-    pVVar1 = (mapVoxel *)param_1->ref_objs;
+    pVVar1 = (voxelObject *)param_1->ref_objs;
     iVar1 = 0;
     do {
       pVVar1[uVar2]->header.Bitfeild = 0;
@@ -2356,7 +2356,7 @@ void voxel_index_position(s16 delta,playerData *param_2){
   u32 uVar8;
   char (*pacVar9) [24];
   char ***pppcVar10;
-  mapVoxel *prVar11;
+  voxelObject *prVar11;
   float in_f12;
   char **uStack344;
   char **auStack344;
@@ -2378,11 +2378,11 @@ void voxel_index_position(s16 delta,playerData *param_2){
       voxel_index_timer = 0xb4;
       if (pBVar7->voxelCount == 0) {trap(7);}
       voxel_index_number = (u16)uVar8;
-      prVar11 = (mapVoxel *)(pBVar7->ref_objs + uVar8);
+      prVar11 = (voxelObject *)(pBVar7->ref_objs + uVar8);
       Gsprintf("\n\n\nGOING to Voxel Index: %d\nType: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n"
       ,uVar8,&uStack344 + (u32)(prVar11->header).type * 6,(double)(prVar11->header).coords[2]);
       N64Print::Print(gGlobals.text);
-      if (voxel_index_pointer != (mapVoxel *)0x0) {
+      if (voxel_index_pointer != (voxelObject *)0x0) {
         Gsprintf("\n\nAT V-Type: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n",
         (char *)(&uStack344 + (u32)(voxel_index_pointer->header).type * 6),in_f12);
         N64Print::Print(gGlobals.text);

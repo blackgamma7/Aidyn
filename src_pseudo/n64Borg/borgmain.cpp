@@ -187,7 +187,7 @@ void * getBorgItem(s32 index){
     return ret;
   }
   //likely check order is reversed: this appears higher in ASM.
-  sprintf(errmsg,"item_index_is_out_of_range_(%i/%i)",index,borgTotal - 1);
+  sprintf(errmsg,"item_index_is_out_of_Range(%i/%i)",index,borgTotal - 1);
   CRASH("n64Borg.cpp,_GetBorgItem()",errmsg);
 }
 

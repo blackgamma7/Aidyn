@@ -52,7 +52,7 @@ void copyVec4(vec4f *from,vec4f *to);
 void negVec4(vec4f *x);
 void multiVec2(vec2f *v,float x);
 void multiVec3(vec3f *v,float x);
-void multiVec4(vec2f *v,float x);
+void multiVec4(vec4f *v,float x);
 void setVec2(vec2f *v,float x,float y);
 void setVec3(vec3f *v,float x,float y,float z);
 void setVec4(vec4f *v,float x,float y,float z, float w);
@@ -90,3 +90,5 @@ void Ofunc_800ad81c(MtxF *A,vec3f *B);
 byte Ofunc_800ad8d8(float X);
 void FUN_800ad974(MtxF *X,float A);
 void FUN_800ad9dc(vec4f *X,MtxF *Y,vec4f *Z);
+
+extern u32 udivdi3(u64 a, u64 b);

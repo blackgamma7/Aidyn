@@ -3,20 +3,18 @@
 #include "MiniMap.h"
 #include "party.h"
 #include "stringN64.h"
+#include "randClass.h"
+#include "N64Print.h"
+#include "PlayerData.h"
 
-
-struct SaveFile{ //relevant bits are shoved together for MemPak save files(And a temp one created by Memmaker)
-    u8* data;
-    u32 size;
-};
-
+#include "crash.h"
 
 struct GlobalsSub { /* 0x800e6988 */
-    struct ZoneDat ZoneDatMtx[3][3];
-    struct Borg9data *borg9DatPointer;
-    struct EnvProp *EnvProps;
-    struct collisionTypeA *zoneEnginePtr1;
-    struct SpeedProperty *zoneEnginePtr2;
+    ZoneDat ZoneDatMtx[3][3];
+    Borg9data *borg9DatPointer;
+    EnvProp *EnvProps;
+    collisionTypeA *zoneEnginePtr1;
+    SpeedProperty *zoneEnginePtr2;
     u16 zoneEngineInit;
     Camera_struct camera;
     vec3f *camPtrArray[16];
@@ -53,17 +51,17 @@ struct GlobalsSub { /* 0x800e6988 */
 };
 
 struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
-    uint rngSeed; /* used for most rand funcs */
+    Random rngSeed; /* used for most rand funcs */
     int appstate;
-    uint ticker;
+    u32 ticker;
     float delta;
     u32 splashscreenFlag;
-    struct Borg12Header *introMusic;
+    Borg12Header *introMusic;
     u32 introMusicDatA;
     u32 introMusicDatB;
     u8 splashscreenSwitch;
-    struct Borg8header *thqBorg8;
-    struct Borg8header *h20Borg8;
+    Borg8header *thqBorg8;
+    Borg8header *h20Borg8;
     u8 align2c[8];
     uint splashscreenTimer;
     u8 splashScreenUnkA; /* written, never read */
@@ -72,40 +70,40 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u16 splashScreenUnkD; /* written, never read */
     u8 screenFadeModeSwitch;
     u8 align41[15];
-    struct wander_struct wander;
-    struct player_char_struct playerCharStruct;
-    struct GlobalsSub Sub;
-    struct SFX_Struct SFXStruct;
+    wander_struct wander;
+    player_char_struct playerCharStruct;
+    GlobalsSub Sub;
+    SFX_Struct SFXStruct;
     u8 combatBytes[4];
-    struct EncounterDat EncounterDat;
-    struct playerData *playerDataArray[12];
+    EncounterDat EncounterDat;
+    playerData *playerDataArray[12];
     u64 unk142c; /* unused */
-    struct vec3f combatCursorPos;
+    vec3f combatCursorPos;
     s8 ShadowIndex;
     s8 AlaronIndex;
     u8 GoblinHitTally;
     uint expGained;
     uint combatByteMirror;
-    struct SkyStruct sky;
-    struct vec3f SunPos;
+    SkyStruct sky;
+    vec3f SunPos;
     u64 unk14a4;
-    struct vec3f MoonPos;
+    vec3f MoonPos;
     u64 unk14b8;
-    struct Borg8header *portraitBorder;
+    Borg8header *portraitBorder;
     u8 SomeCase;
-    struct WidgetBarter *barterMenu;
-    struct PauseWidget *BigAssMenu; /* Hey, that's what the devs called it */
+    WidgetBarter *barterMenu;
+    PauseWidget *BigAssMenu; /* Hey, that's what the devs called it */
     u8 umk14d0;
     u8 field47_0x14d1;
     u16 BackgroundTypeCopy;
-    struct Borg8header *screenshot;
-    struct Color32 screenshotTint;
+    Borg8header *screenshot;
+    Color32 screenshotTint;
     short scrollLocation[2];
-    struct Spellbook *ShopSpells;
+    Spellbook *ShopSpells;
     u32 shopUnused; /* probably was stats */
-    struct CharSkills *shopSkills;
-    struct GenericInventory *shopInv;
-    struct ItemID Shopkeep;
+    CharSkills *shopSkills;
+    GenericInventory *shopInv;
+    ItemID Shopkeep;
     u16 unk14f2;
     uint moneypile;
     u8 creditsByte;
@@ -117,15 +115,15 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u8 unk15bc; /* start of struct? */
     DialougeStruct *dialougStruct;
     u32 unk15c4;
-    struct CinematicStruct cinematic;
-    struct Party *Party;
+    CinematicStruct cinematic;
+    Party *party;
     u8 ResolutionSelect;
-    struct FontStruct *font;
-    struct WidgetHandler *widgetHandler;
-    struct ScriptCamera_struct scriptcamera;
-    struct QueueStructA QueueA;
+    FontStruct *font;
+    WidgetHandler *widgetHandler;
+    ScriptCamera_struct scriptcamera;
+    QueueStructA QueueA;
     u16 field79_0x1e26;
-    struct QueueStructB QueueB;
+    QueueStructB QueueB;
     u16 field81_0x202a;
     u8 appstateBool;
     u32 appfunc_dat;
@@ -136,14 +134,30 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     float screenFadeSpeed;
     u16 screenFadeMode;
     u16 field92_0x204a;
-    char** CommonStrings;  // Dummied struct shows id'd strings
+    char** CommonStrings;
     u8 goblinAmbush;
     float VolSFX;
     float VolBGM;
     float cloudsFloat;
-    N64Print DebugQueue;
+    N64PrintStruct DebugQueue;
     char text[512]; //text buffer used for sprintf's.
 };
 
-extern u16 ExpPakFlag; //set when OsMemSize>4MB.
+extern u16 gExpPakFlag; //set when OsMemSize>4MB.
 extern GlobalsAidyn gGlobals;
+
+//shorthand for RNG funcs.
+#define RAND gGlobals.rngSeed
+//many sprintfs use "gGlobals.text" as the buffer.
+#define Gsprintf(fmt,...)  sprintf(gGlobals.text,fmt,__VA_ARGS__)
+
+
+void set_memUsedMirror(void);
+s32 Ofunc_get_MemUsed_difference(void);
+s32 Ofunc_get_MemUsed_difference_2(void);
+u32 rand_range(u32 A,u32 B);
+u16 RollD(u8 dice,u8 sides);
+
+void battle_setup_func(monsterparty_obj *param_1,u16 flag,ushort param_3);
+void load_camp_ambush(void);
+u32 AppendText(char *str1,char *str2,u8 len);

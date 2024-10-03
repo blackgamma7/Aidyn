@@ -15,9 +15,9 @@ enum GameStateCheat{
     referenceObject
 };
 
-void set_ranger_float(void){RangerIngredientFloat = ranger_int_float(Gglobals.party);}
+void set_ranger_float(void){RangerIngredientFloat = ranger_int_float(gGlobals.party);}
 
-bool FUN_8001b9bc(mapVoxel *param_1){
+bool FUN_8001b9bc(voxelObject *param_1){
   EventFlag EVar1;
   bool bVar2;
   bool bVar3;
@@ -38,7 +38,7 @@ bool FUN_8001b9bc(mapVoxel *param_1){
   return bVar3;
 }
 
-void set_refObj_flag(mapVoxel *param_1){
+void set_refObj_flag(voxelObject *param_1){
   setEventFlag((param_1->header).flagB,(bool)(((param_1->header).Bitfeild >> 9) & 1 ^ 1));
 }
 
@@ -48,7 +48,7 @@ void render_ref_objs(Borg_9_data *dat,u8 arg2)
   bool bVar3;
   ref_obj_bitfeild rVar2;
   s16 *psVar1;
-  mapVoxel *a;
+  voxelObject *a;
   s16 uVar4;
   
   set_ranger_float();
@@ -60,7 +60,7 @@ void render_ref_objs(Borg_9_data *dat,u8 arg2)
       if (bVar3 == false) {
         if (only_TP_active == 0) {
           bVar3 = run_voxelFuncs2(a);
-          if (ExpPakFlag == 0) {rVar2 = (a->header).Bitfeild & no_expPak;}
+          if (gExpPakFlag == 0) {rVar2 = (a->header).Bitfeild & no_expPak;}
           else {rVar2 = (a->header).Bitfeild & EXPPak;}
           bVar3 = rVar2 == 0 && bVar3 != false;
           if ((a->header).type == Scene) {
@@ -76,7 +76,7 @@ void render_ref_objs(Borg_9_data *dat,u8 arg2)
       }
       else {
         bVar3 = gamestate_cheat_check2(appear);
-        if (ExpPakFlag == 0) {rVar2 = (a->header).Bitfeild & no_expPak;}
+        if (gExpPakFlag == 0) {rVar2 = (a->header).Bitfeild & no_expPak;}
         else {rVar2 = (a->header).Bitfeild & EXPPak;}
         set_voxel_visibility(a,rVar2 == 0 && bVar3);
       }
@@ -90,7 +90,7 @@ void render_ref_objs(Borg_9_data *dat,u8 arg2)
   return;
 }
 
-void set_voxel_visibility(mapVoxel *a,bool b){
+void set_voxel_visibility(voxelObject *a,bool b){
   if(b) (a->header).Bitfeild |= visible;
   else  (a->header).Bitfeild &= ~visible;
 }

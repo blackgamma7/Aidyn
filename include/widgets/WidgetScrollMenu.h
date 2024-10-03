@@ -4,8 +4,8 @@
 class WidgetScrollMenu : public WidgetMenu{
 public:
 WidgetScrollMenu(u32 length);
-void Append(BaseWidget* entry);
-void Remove(BaseWidget* entry);
+u8 Append(BaseWidget* entry);
+u8 Remove(BaseWidget* entry);
 };
 
 struct WidgetScrollMenuSubstruct {

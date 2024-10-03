@@ -4,6 +4,9 @@
 #define FILENAME ""
 #endif
 
+#include "globals.h"
+#include "GhidraDump.h"
+
 u16 doubleGlobalTickerFlag;
 #ifndef DEBUGVER
 u16 version_flag;
@@ -18,66 +21,82 @@ OSMesg* Mesg;
 s32* stack;
 OSThread thread;
 OSMesgQueue MesgQ2;
-OSScClient client;}
-struct App_manager appManager;
+OSScClient client;};
+App_manager appManager;
 
 //this first func is debug-vesion exculsive, and not easy to sus out.
-Gfx* display_debug_stats(Gfx*param_1){
+
+Gfx * display_debug_stats(Gfx *gfx){
   playerData *ppVar1;
-  u16 uVar4;
-  u16 v;
-  u32 uVar2;
-  Gfx*pauVar3;
-  s32 extraout_a3_lo;
-  float extraout_f12;
-  float memfree1;
-  float memfree2;
-  
-  if ((debug_flag) && (1.0f <= gGlobals.delay)) {
-    if (gGlobals.DebugStatDisplay - 1 < 3) {param_1 = (Gfx*)DisplaySystemMonitor(param_1);}
-    Gsprintf("%2d",(s16)(60.0f / gGlobals.delay));
-    param_1 = (Gfx*)gfx::DrawText(param_1,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
+  ushort h;
+  ushort v;
+  uint uVar2;
+  u32 uVar3;
+  uint uVar4;
+  Gfx *gfx_00;
+  u32 uVar5;
+  u32 unaff_s0_lo;
+  u32 unaff_s1_lo;
+  u32 uVar9;
+  double dVar6;
+  double dVar7;
+  double dVar8;
+  u32 uVar10;
+  double dVar11;
+  float fVar12;
+  u32 uVar13;
+  float fVar14;
+  float fVar15;
+  if ((gDebugFlag) && (1.0f <= gGlobals.delta)) {
+    if (gGlobals.DebugStatDisplay - 1 < 3) gfx = debug::DisplaySystemMonitor(gfx);
+    Gsprintf("%2d",(s16)(60.0 / gGlobals.delta));
+    gfx = Graphics::DrawText(gfx,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
     if (gGlobals.DebugStatDisplay) {
-      RSPFUNC(param_1,6);
+      RSPFUNC6(gfx);
       ppVar1 = gGlobals.playerCharStruct.playerDat;
-      if (gGlobals.DebugStatDisplay & 1) {
+      if ((gGlobals.DebugStatDisplay & 1)) {
         uVar2 = get_obj_free();
-        temp_v0 = get_MemFree();
-        temp_f2 = (f64) temp_v0;
-        phi_f2 = temp_f2;
-        if (temp_v0 < 0) {phi_f2 = temp_f2 + INT_MAX_f;}
-        memfee1 = (f32) phi_f2;
-        temp_v0 = get_memFree_2();
-        temp_f2 = (f64) temp_v0;
-        phi_f2_2 = temp_f2;
-        if (temp_v0 < 0) {phi_f2_2 = temp_f2 + INT_MAX_f;}
-        memfree2 = (f32) phi_f2_2;
-        pauVar3 = gsFadeInOut(param_1,0x12,0xc4,0x114,0xde,0,0,0,0x80);
-        if (ppVar1 == NULL {
-          if (!(INT_MAX_f <= (temp_f20 * 9.765625E-4f))) {}
-          temp_f0 = temp_f22 * 9.765625E-4f;
-          if (!(INT_MAX_f <= temp_f0)) {phi_v1 = (s32) temp_f0;}
-          else {phi_v1 = (s32) (temp_f0 - INT_MAX_f) | 0x80000000;}
-          Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %2.0ffps\n",
-          uVar2,phi_v1,(char)gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,
-                      (double)(60.0f / gGlobals.delay));
-          //sprintf(phi_s5, (void *)0x800D9820, temp_s0_2, phi_v1, temp_s2->unk292 + 0x40, (?32) temp_s2->unk294, (f64) (D_800D9894 / temp_s0_4->unkC));
+        uVar3 = get_MemFree();
+        dVar11 = (double)uVar3;
+        if ((int)uVar3 < 0) {
+          dVar11 = dVar11 + UINT_MAX_d;
+        }
+        fVar14 = (float)dVar11;
+        uVar4 = get_memFree_2();
+        dVar11 = (double)uVar4;
+        if ((int)uVar4 < 0) {
+          dVar11 = dVar11 + UINT_MAX_d;
+        }
+        uVar9 = 0x114;
+        fVar15 = (float)dVar11;
+        gfx_00 = gsFadeInOut(gfx,0x12,0xc4,0x114,0xde,0,0,0,0x80);
+        if (ppVar1 == NULL) {
+          fVar12 = fVar14 * (float)(1.0f/1024);
+          dVar11 = (double)((fVar15 / fVar14) * 100.0f);
+          fVar15 = fVar15 * (float)(1.0f/1024);
+          Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %2.0ffps\n",(u16)uVar2,
+                      uVar9,dVar11,(int)fVar12,(int)fVar15,
+                      gGlobals.Sub.mapShort1 + ('A'-1),gGlobals.Sub.mapShort2,
+                      (60.0f / gGlobals.delta));
         }
         else {
-          uVar4 = ppVar1->Ground_type;
-          Gsprintf("%2d - %s",uVar4,ground_labels[uVar4]);
-          pauVar3 = (Gfx*)gfx::DrawText(pauVar3,gGlobals.text,0x12,0xc4,0,200,200,0xff);
-          if (!(INT_MAX_f <= (memfree1 * 9.765625E-4f))) {}
-          if (!(INT_MAX_f <= (memfree2 * 9.765625E-4f))) {}
+          Gsprintf("%2d - %s",ppVar1->Ground_type,ground_labels[ppVar1->Ground_type]);
+          uVar5 = 0xc4;
+          gfx_00 = Graphics::DrawText(gfx_00,gGlobals.text,0x12,0xc4,0,200,200,0xff);
+          fVar12 = fVar14 * (float)(1.0f/1024);
+          dVar11 = (double)((fVar15 / fVar14) * 100.0f);
+          fVar15 = fVar15 * (float)(1.0f/1024);
           Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %d-(%3.2f,%3.2f,%3.2f) - %2.0f\n",
-          (u16)(uVar2),);
-          //sprintf(phi_s5, (void *)0x800D97E0, temp_s0_2, temp_s2->unk292 + 0x40, (?32) temp_s2->unk294, (?32) temp_s2->unk2AC, (f64) temp_s3->unk68, (f64) temp_s3->unk6C, (f64) temp_s3->unk70, (f64) (D_800D987C / temp_s0_3->unkC))
+                   (u16)uVar2,uVar5,dVar11,(int)fVar12,(int)fVar15,
+                   gGlobals.Sub.mapShort1 + ('A'-1),gGlobals.Sub.mapShort2,gGlobals.Sub.mapDatA,
+                   ppVar1->collision.pos.x,ppVar1->collision.pos.y,ppVar1->collision.pos.z,
+                  (60.0f / gGlobals.delta));
         }
-        param_1 = (Gfx*)gfx::DrawText(pauVar3,gGlobals.text,0x12,0xcc,200,0x20,200,0xff);
+        gfx = Graphics::DrawText(gfx_00,gGlobals.text,0x12,0xcc,200,0x20,200,0xff);
       }
     }
   }
-  return param_1;
+  return gfx;
 }
 
 //mips_to_c version. has inaccuracies(doesn't seem to call a float for the Sprintf's.)
@@ -192,16 +211,13 @@ void appInit(OSSched *sched,u8 pri,u8 id){
   stack = (s32 *)heapAlloc(0x6048,FILENAME,0xe7);
   appStack_mirror = stack;
   appManager.stack = stack;
-  for(i = 0;i < 0x1811;i++;) *stack++ = 0x12345678;
-  osCreateThread(&appManager.Thread,id,AppProc,NULL,appManager.stack + 0x1812,pri);
-  osStartThread(&appManager.Thread);
-  return;
+  for(i = 0;i < 0x1811;i++) *stack++ = 0x12345678;
+  osCreateThread(&appManager.thread,id,AppProc,NULL,appManager.stack + 0x1812,pri);
+  osStartThread(&appManager.thread);
 }
 
 
-void AppProc(void *x)
-
-{
+void AppProc(void *x){
   short sVar1;
   longlong lVar2;
   Gfx *gfx0;
@@ -224,7 +240,7 @@ void AppProc(void *x)
   uVar8 = doubleGlobalTickerFlag;
   sVar9 = 0;
 loop:
-  do {
+  while(1) {
     doubleGlobalTickerFlag = uVar8;
     osRecvMesg(&appManager.MesgQ2,ppsStack_3c,1);
     if (*psStack_40 == 1) {
@@ -244,7 +260,7 @@ loop:
           gfx1 = ret_A0(gfx1);
           gfx1 = gsDrawScreenRects(gfx1);
           gListSizeMax = 0x3200;
-          if (ExpPakFlag) gListSizeMax = 0x6400;
+          if (gExpPakFlag) gListSizeMax = 0x6400;
           uVar10 = (uint)((int)gfx1 - (int)gfx0) /sizeof(Gfx);
           if (gListSizeMax*sizeof(Gfx) < (uint)(gfx1 - (int)gfx0)) {
             Gsprintf("GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",uVar10,gListSizeMax,
@@ -287,7 +303,7 @@ loop:
             goto loop;
           }
           psVar6 = get_depthBuffer();
-          if (psVar6[((u16)lensflare_floats.y * (gfx::get_vres() / 0xf0)) * gfx::get_hres() + lensflare_floats.x * (gfx::get_hres() / 0x140)] == -4) {
+          if (psVar6[((u16)lensflare_floats.y * (gfx::get_vres() / 240)) * gfx::get_hres() + lensflare_floats.x * (gfx::get_hres() / 0x140)] == -4) {
             gGlobals.appfunc_dat = 1;
             uVar8 = doubleGlobalTickerFlag;
             goto loop;
@@ -300,7 +316,7 @@ loop:
     }
     clear_audio_video();
     uVar8 = doubleGlobalTickerFlag;
-  } while(1);
+  } 
 }
 
 
@@ -316,11 +332,11 @@ void appProc_init(void){
   FUN_80020830();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
-  Random::SetSeed((u32 *)&gGlobals,0x3dbb6cd);
+  RAND.SetSeed(0x3dbb6cd);
   uVar6 = 0;
   gGlobals.appstate = 5;
   gGlobals.ticker = 0;
-  gGlobals.delay = 0.0;
+  gGlobals.delta = 0.0;
   if (font_face[0].font_face != 0) {
     pfVar4 = font_face;
     do {
@@ -357,72 +373,70 @@ void appProc_init(void){
   gGlobals.VolBGM = 0.65f;
 }
 
-s32 appProc_caseSwitch(s32 param_1){
+Gfx* appProc_caseSwitch(Gfx** gg){
+  Gfx* g=*gg;
   processQueueFree(&gGlobals.QueueA);
   Process_queue_B(&gGlobals.QueueB,0);
   if (gGlobals.appstateBool != 0) {
     switch(gGlobals.appstate) {
     case 0:
-      gGlobals.appstate = appstate_0(register0x000000ec);
-      break;
+      gGlobals.appstate = appstate_0(&g); break;
     case 1:
-      gGlobals.appstate = game_ScreenFadeMode(register0x000000ec);
-      break;
+      gGlobals.appstate = appstate_1(&g); break;
     case 2:
-      gGlobals.appstate = ScreenFadeMode_17(register0x000000ec);
-      break;
+      gGlobals.appstate = appstate_2(&g); break;
     case 3:
-      gGlobals.appstate = func_checking_controller_and_pak(register0x000000ec);
-      break;
+      gGlobals.appstate = appState_ContPakCheck(&g); break;
     case 4:
-      gGlobals.appstate = appstate_4((Gfx**)register0x000000ec);
-      break;
+      gGlobals.appstate = appstate_4(&g); break;
     case 5:
-      gGlobals.appstate = check_for_PAL_or_controller();
-      break;
+      gGlobals.appstate = appState_RegionControllerCheck(&g); break;
     default:
       CRASH("app.cpp","gGlobals.appState is not valid");
     }
   }
   if (*appManager.stack != 0x12345678) CRASH("AppProc","Stack Overwrite!!");
-  return param_1;
+  return g;
 }
 
 void clear_audio_video(void){
   removeCloseSynth();
   osSpTaskYield();
   while(osAfterPreNMI()){}
-  initGfx_2();
+  Graphics::initGfx_2();
   }
 
-
-s32 check_for_PAL_or_controller(Gfx**param_1){
-  u16 uVar4;
-  s32 iVar2;
-  u16 v;
-  Gfx*pauVar3;
-  longlong lVar1;
-  float fVar5;
-  float fVar6;
+int appState_RegionControllerCheck(Gfx **param_1){
+  float fVar1;
+  ushort uVar3;
+  ushort uVar4;
+  ushort h;
+  ushort v;
+  Gfx *pGVar2;
+  bool bVar5;
+  int iVar6;
+  float fVar7;
+  float fVar8;
   
-  if (osTvType == PAL) {
+  if (osTvType == OS_TV_PAL) {
     if (PAL_warning_flag) {
-      PAL_Warning_image = get_borg_8(0x37c3); //"wrong region" warning image
+      PAL_Warning_image = get_borg_8(Borg8_PAL_Warning);
       PAL_warning_flag = 0;
     }
-    pauVar3 = *param_1;
-    fVar5 = (float)gfx::get_hres() * 0.5f - (float)(PAL_Warning_image->dat).height * 0.5f;
-    fVar6 = (float)gfx::get_vres() * 0.5f - (float)(PAL_Warning_image->dat).width * 0.5f;
-    RSPFUNC(pauVar3,6);
-    pauVar3 = pass_to_borg_image_draw(pauVar3,PAL_Warning_image,fVar5,fVar6,1.0f,1.0f,
-                         0xff,0xff,0xff,0xff);
-    iVar2 = 5;
-    *param_1 = pauVar3;
+    pGVar2 = *param_1;
+    RSPFUNC6(pGVar2);
+    pGVar2 = Borg8_DrawSimple(pGVar2,PAL_Warning_image, //center image in screen.
+             (Graphics::get_hres() * 0.5f) - ((PAL_Warning_image->dat).height * 0.5f),
+             (Graphics::get_vres() * 0.5f) - ((PAL_Warning_image->dat).width * 0.5f),
+            1.0f,1.0f,0xff,0xff,0xff,0xff);
+    iVar6 = 5;
+    *param_1 = pGVar2;
   }
   else {
-    lVar1 = check_for_controller();
-    iVar2 = 3;
-    if (lVar1 == 0) {iVar2 = 4;}
+    bVar5 = check_for_controller();
+    iVar6 = 3;
+    if (!bVar5) iVar6 = 4;
   }
-  return iVar2;
+  return iVar6;
 }
+

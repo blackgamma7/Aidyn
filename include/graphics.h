@@ -1,4 +1,5 @@
 #include "GhidraDump.h"
+#include "typedefs.h"
 
 struct GtaskMsg {
     u16 unkShort;
@@ -27,7 +28,7 @@ struct gfxManager {
     u32 taskTime;
     u32 unkTime0;
     u32 unkTime1;
-    ushort hres[2];
+    ushort Hres[2];
     ushort Vres[2];
     u8 colordepth[2];
     u8 bufferChoice;

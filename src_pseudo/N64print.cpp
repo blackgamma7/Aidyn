@@ -5,6 +5,9 @@
 #define FILENAME ""
 #endif
 
+#include "N64Print.h"
+#include "heapN64.h"
+
 void N64Print::UnkA(s32 param_1,u16 param_2){
   ofunc_value = show_debug_queue;
   show_debug_queue = param_2 & 1;}
@@ -12,11 +15,11 @@ void N64Print::UnkA(s32 param_1,u16 param_2){
 
 void N64Print::UnkB(void){show_debug_queue = ofunc_value;}
 
-void N64Print::Toggle(Debug_queue *param_1,controller_aidyn *param_2){
+void N64Print::Toggle(N64PrintStruct *param_1,controller_aidyn *param_2){
 #ifdef DEBUGVER
   if ((param_2->input & L_BUTTON)){
-    if (param_1->timer <= 0.0) {param_1->timer = 60.0f;}
-    else {param_1->timer = 1.0f;}
+    if (param_1->color.w <= 0.0) {param_1->color.w = 60.0f;}
+    else {param_1->color.w = 1.0f;}
   }
   if (((param_2->input_2; & R_BUTTON)) && ((param_2->input & START_BUTTON))) {
     param_2->input &= ~START_BUTTON;
@@ -32,37 +35,37 @@ void N64Print::Clear(void){
   s16 iVar1;
   char *ppcVar2;
   
-  ppcVar2 = debugQueuePointer->text;
+  ppcVar2 = gN64PrintP->text;
   for(iVar1=0;iVar1 < 10;iVar1++) {
-    ppcVar2++ = '/n';
+    *ppcVar2++ = '\n';
   }
   ppcVar2 = 0;
 #endif
 }
 
-void N64Print::Init(Debug_queue *param_1){
+void N64Print::Init(N64PrintStruct *param_1){
   #ifdef DEBUGVER
-  debugQueuePointer = param_1;
-  debugQueuePointer->text = heapAlloc(370,FILENAME,0x8d);
-  debugQueuePointer->color[2] = 1.0f;
-  debugQueuePointer->color[1] = 1.0f;
-  debugQueuePointer->color[0] = 1.0f;
-  debugQueuePointer->timer = 0.0;
-  debugQueuePointer->ShortA = 0;
-  N64Print::Clear();
+  gN64PrintP = param_1;
+  ALLOCS(gN64PrintP->text,370,0x8d);
+  gN64PrintP->color.z = 1.0f;
+  gN64PrintP->color.y = 1.0f;
+  gN64PrintP->color.x = 1.0f;
+  gN64PrintP->color.w = 0.0;
+  gN64PrintP->ShortA = 0;
+  Clear();
   #else
-  debugQueuePointer = NULL;
+  gN64PrintP = NULL;
   #endif
 }
 
 void N64Print::Free(void){
 #ifdef DEBUGVER
-  Debug_queue *pDVar1;
+  N64PrintStruct *pDVar1;
   
-  if (debugQueuePointer) {
-    HeapFree(debugQueuePointer->text,FILENAME,0xa0);
-    pDVar1 = debugQueuePointer;
-    debugQueuePointer = NULL;
+  if (gN64PrintP) {
+    HeapFree(gN64PrintP->text,FILENAME,0xa0);
+    pDVar1 = gN64PrintP;
+    gN64PrintP = NULL;
     pDVar1->text = NULL;
   }
 #endif
@@ -93,14 +96,14 @@ char * N64Print::CleanText(char *param_1,char param_2,s16 param_3){
 
 void N64Print::PrintCheck(char *x){
 #ifdef DEBUGVER
-  if (*x) N64Print::Print(x);
+  if (*x) Print(x);
   #endif
 }
 
 void N64Print::Print(char *param_1){
   #ifdef DEBUGVER
   char cVar1;
-  Debug_queue *pDVar2;
+  N64PrintStruct *pDVar2;
   char *ppcVar3;
   s16 lVar4;
   s16 sVar5;
@@ -109,11 +112,11 @@ void N64Print::Print(char *param_1){
   char cStack400;
   char acStack399 [399];
   
-  if ((*param_1) && (debugQueuePointer)) {
-    lVar4 = debugQueuePointer->ShortA;
+  if ((*param_1) && (gN64PrintP)) {
+    lVar4 = gN64PrintP->ShortA;
     iVar6 = 0;
-    debugQueuePointer->timer = 15.0f;
-    pDVar2 = debugQueuePointer;
+    gN64PrintP->color.w = 15.0f;
+    pDVar2 = gN64PrintP;
     cStack400 = *param_1;
     pcVar7 = acStack399;
     cVar1 = cStack400;
@@ -135,49 +138,41 @@ void N64Print::Print(char *param_1){
       cVar1 = *param_1;
       pcVar7++;
     }
-    debugQueuePointer->ShortA = sVar5;
+    gN64PrintP->ShortA = sVar5;
     if (iVar6 < 10) {
       pcVar7 = &cStack400;
-      ppcVar3 = N64Print::CleanText(pDVar2->text,10,iVar6);
+      ppcVar3 = CleanText(pDVar2->text,10,iVar6);
     }
     else {
-      pcVar7 = N64Print::CleanText(&cStack400,10,10 - iVar6);
-      ppcVar3 = debugQueuePointer->text;
+      pcVar7 = CleanText(&cStack400,10,10 - iVar6);
+      ppcVar3 = gN64PrintP->text;
     }
-    sprintf(debugQueuePointer->text,"%s%s",ppcVar3,pcVar7);
+    sprintf(gN64PrintP->text,"%s%s",ppcVar3,pcVar7);
   }
   #endif
-  return;
 }
 
-Gfx* N64Print::Draw(Gfx*param_1,s16 param_2){
+Gfx* N64Print::Draw(Gfx*gfx,s16 delta){
 #ifdef DEBUGVER
   u8 uVar2;
   float fVar3;
   float fVar4;
   float fVar5;
   float fVar6;
-  float fVar7;
   
-
-  if (((debug_flag) && (show_debug_queue)) && (debugQueuePointer)) {
-    fVar4 = (float)((double)debugQueuePointer->timer - (double)(s32)param_2 * OneOver60_d);
-    debugQueuePointer->timer = fVar4;
-    if (0.0 < fVar4) {
-      fVar4 = debugQueuePointer->color[0] * 255.0f;
-      ABS_macro(fVar4);
-      fVar5 = debugQueuePointer->color[1] * 255.0f;
-      ABS_macro(fVar5);
-      fVar6 = debugQueuePointer->color[2] * 255.0f;
-      ABS_macro(fVar6);
-      fVar3 = debugQueuePointer->timer * 255.0f;
-      ABS_macro(fVar3);
+  if (((debug_flag) && (show_debug_queue)) && (gN64PrintP)) {
+    gN64PrintP->color.w -= (delta * OneOver60_d);
+    if (0.0 < gN64PrintP->color.w) {
+      fVar4 = gN64PrintP->color.x * 255.0f;
+      fVar5 = gN64PrintP->color.y * 255.0f;
+      fVar6 = gN64PrintP->color.z * 255.0f;
+      fVar3 = gN64PrintP->color.w * 255.0f;
       uVar2 = (u8)(s32)fVar3;
-      if (1.0f < debugQueuePointer->timer) {uVar2 = 0xff;}
-      param_1 = gfx::DrawText(param_1,debugQueuePointer->text,0x12,0x32,(char)fVar4,(char)fVar5,(char)fVar6,uVar2);
+      if (1.0f < gN64PrintP->color.w) uVar2 = 0xff;
+      gfx = gfx::DrawText(gfx,gN64PrintP->text,0x12,0x32,(char)fVar4,(char)fVar5,(char)fVar6,uVar2);
     }
-    else pDVar1->timer = 0.0;
+    else gN64PrintP->color.w = 0.0;
   }
 #endif
-  return param_1;
+  return gfx;
 }

@@ -2,7 +2,7 @@ void flycam_func(void){
   u32 uVar1;
   
   if (((flycam_flag != 0) &&(uVar1 = (flycam_counter + 1) % 6, flycam_counter = (u16)uVar1, uVar1 == 4)) &&
-     (ExpPakFlag == 0)) {flycam_counter++;}
+     (gExpPakFlag == 0)) {flycam_counter++;}
   gGlobals.Sub.mapDatA = 0;
   gGlobals.Sub.mapDatC = 0;
   gGlobals.Sub.mapShort1 = flycam_sequences[flycam_counter].Deimos;
@@ -26,7 +26,7 @@ void set_title_screen(void){
 
   Controller::GetDelay(0);
   flycam_flag = 0;
-  gGlobals.delay = 0.0;
+  gGlobals.delta = 0.0;
   gGlobals.unk0x1500 = 0;
   if (gGlobals.titleScreen == NULL) gGlobals.titleScreen = title_sceen_widget(passToMalloc(0x8c));
   widgetHandler(gGlobals.widgetHandler,gGlobals.titleScreen);
@@ -46,12 +46,12 @@ Gfx* other_flycam_func(float param_1,float param_2,Gfx*param_3){
     }
   }
   else {
-    set_animation_speed(flycam_AniDat_ptr,gGlobals.delay);
+    set_animation_speed(flycam_AniDat_ptr,gGlobals.delta);
     FUN_800a0bf8(flycam_AniDat_ptr);
     if (((flycam_flag != 0) ||
         ((double)(u32)flycam_AniDat_ptr->aniTime <
          ((double)*(s32 *)(flycam_AniDat_ptr->borg6->unk0x20 + 0xc) - 100.0d) -
-         (double)gGlobals.delay)) || ((double)gGlobals.screenfadeFloat != 1.0d)) {
+         (double)gGlobals.delta)) || ((double)gGlobals.screenfadeFloat != 1.0d)) {
       if ((gGlobals.screenFadeMode == 0) && (gGlobals.screenfadeFloat == 0.0)) {
         clear_flycam();
         return param_3;
@@ -67,7 +67,7 @@ Gfx* other_flycam_func(float param_1,float param_2,Gfx*param_3){
     ;
 
     if (!func_8000ccc0()) {
-      handleZoneEngineFrame((Gfx*)register0x000000ec,(s16)(s32)gGlobals.delay,gLensflare,param_1,param_2);
+      handleZoneEngineFrame((Gfx*)register0x000000ec,(s16)(s32)gGlobals.delta,gLensflare,param_1,param_2);
     }
     else {
       FreeZoneEngineMemory();
@@ -100,7 +100,7 @@ u8 gameStart(Gfx**param_1){
     titleSceen_load_flag = false;
   }
   check_input_7();
-  pauVar1 = RenderSky(pauVar1,gGlobals.delay);
+  pauVar1 = RenderSky(pauVar1,gGlobals.delta);
   pauVar1 = some_rsp_func(pauVar1,0,0,320,240);
   if (gGlobals.Sub.gamemodeType == 2) {
     w.precip = CLEAR;
@@ -117,8 +117,8 @@ u8 gameStart(Gfx**param_1){
     pauVar1 = rsp_func(pauVar1,6,gfx::get_hres(),gfx::get_vres());
     uVar2 = 0;
     while( true ) {
-      if (gGlobals.delay < INT_MAX_f) {uVar5 = (u32)gGlobals.delay;}
-      else {uVar5 = (s32)(gGlobals.delay - INT_MAX_f) | 0x80000000;}
+      if (gGlobals.delta < INT_MAX_f) {uVar5 = (u32)gGlobals.delta;}
+      else {uVar5 = (s32)(gGlobals.delta - INT_MAX_f) | 0x80000000;}
       if (uVar5 <= uVar2) break;
       uVar2++;
       tick_widgets(gGlobals.widgetHandler,1);
@@ -192,7 +192,7 @@ void check_input_7(void){
       }
     }
   }
-  gGlobals.delay = (float)uVar3;
+  gGlobals.delta = (float)uVar3;
 }
 
 void clear_flycam(void){

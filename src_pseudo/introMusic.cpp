@@ -8,7 +8,7 @@ void load_intro_music(void){
   
   gGlobals.splashscreenFlag = 1; //setting this to 0 skips splashscreens
   BVar1 = BORG12_Intro_NoExp; //aka credit music
-  if (ExpPakFlag) BVar1 = BORG12_Intro_Exp;
+  if (gExpPakFlag) BVar1 = BORG12_Intro_Exp;
   gGlobals.introMusic = load_borg_12(BVar1);
   DCM_func(abStack24,aiStack20,(u32 *)((s32)(gGlobals.introMusic)->unk0x8 + 8),0xa5,0x80,1,0xffffffff,0);
   gGlobals.introMusicDatA = (u32)abStack24[0];

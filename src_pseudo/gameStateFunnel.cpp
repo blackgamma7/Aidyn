@@ -6,6 +6,7 @@
 
 #include "eventFlag.h"
 #include "heapN64.h"
+#include "gamestateCheats.h"
 
 struct event_flag_array {
     u16 to;
@@ -28,7 +29,7 @@ void Event_flag_stat(u8 param_1){
     if (iVar4 != 0) {
       lVar9 = 0;
       for(u8 i =3;i!=0;i--) {
-        pCVar3 = (gGlobals.Party)->Members[i];
+        pCVar3 = (gGlobals.party)->Members[i];
         if (((pCVar3) && (!Entity::isDead(pCVar3))) &&
            (lVar9 < CharStats::getModded(pCVar3->Stats,param_1))) {
           lVar9 = CharStats::getModded(pCVar3->Stats,param_1);
@@ -58,7 +59,7 @@ void event_flag_skill_(u8 param_1){
     if (iVar4 != 0) {
       uVar10 = 0;
       for(u8 i =3;i!=0;i--)  {
-        pCVar3 = (gGlobals.Party)->Members[i];
+        pCVar3 = (gGlobals.party)->Members[i];
         if (((pCVar3) && (!Entity::isDead(pCVar3))) &&
            (uVar10 < CharSkills::getModdedSkill(pCVar3->Skills,param_1))) {
           uVar10 = CharSkills::getModdedSkill(pCVar3->Skills,param_1);
@@ -127,7 +128,7 @@ extern u8 Get_eventFlagCheck(u16 flag);
 
 u8 getEventFlag(u16 flag){
 #ifdef DEBUGVER
-  if (gamestate_cheat_check1(STATECHEAT_All)) return gamestate_cheat_check2(STATECHEAT_All);
+  checkCheat(All);
   return Get_eventFlagCheck(flag);
   }
 

@@ -1,5 +1,5 @@
 
-//only ran if there is no Expansion pak (aka ExpPakFlag is 0)
+//only ran if there is no Expansion pak (aka gExpPakFlag is 0)
 extern void MemoryMaker::Init(void);
 extern void MemoryMaker::Free(void);
 extern void MemoryMaker::Unload(void);

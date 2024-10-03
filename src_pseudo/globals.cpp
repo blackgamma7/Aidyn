@@ -1,5 +1,7 @@
 #include "commonTypes.h"
 #include "globals.h"
+#include "world.h"
+#include "stringN64.h"
 
 #ifdef DEBUGVER
 u32 memUsedMirror;
@@ -18,12 +20,13 @@ s32 Ofunc_get_MemUsed_difference_2(void){
 #endif
 
 u32 rand_range(u32 A,u32 B){
-  if (A != B) A = Random::func(&gGlobals.rngSeed,A,B);
+  if (A != B) A = RAND.func(A,B);
   return A;
   }
 
-u32 RollD(u8 dice,u8 sides){
-  u32 i = 0;
+//several random functions use "dice notation" for their calculations.
+u16 RollD(u8 dice,u8 sides){
+  u16 i = 0;
   
   if (dice) {
     for(u8 j = 0; j < dice; j++)i+= rand_range(1,sides);
@@ -31,9 +34,9 @@ u32 RollD(u8 dice,u8 sides){
   return i;
 }
 
-u32 some_skillcheck_calc(s16 param_1){
-  s16 SkillCheckSteps[22]={0,26,46,62,81,96,111,122,
+s16 SkillCheckSteps[22]={0,26,46,62,81,96,111,122,
      133,144,155,166,177,188,199,210,221,232,243,255,266,0};
+u32 some_skillcheck_calc(s16 param_1){
   u32 i = 21;
   do {
     if (i == 0) break;
@@ -41,11 +44,15 @@ u32 some_skillcheck_calc(s16 param_1){
   } while (param_1 < SkillCheckSteps[i]);
   return i++;
 }
+char* sGlobalsFmt="%s - %d";
+char* sGlobalsFilename="./src/globals.cpp";
+//used several times throughout this part. not sure why.
+#define printLine(line) Gsprintf(sGlobalsFmt,sGlobalsFilename,line)
 
 void get_battle_terrain(EncounterDat *param_1){
   u8 bVar4;
 
-  Gsprintf("%s - %d","./src/globals.cpp",0x1e7);
+  printLine(0x1e7);
   switch(World::getTerrain(TerrainPointer)) {
   case 0:
     param_1->battlefield = rand_range(6,7);
@@ -125,113 +132,117 @@ setBattlefeildTerrain:
     if (RollD(1,2) == 1) param_1->battlefield = rand_range(0,1);
     else param_1->battlefield = rand_range(8,0xb);
   }
-  Gsprintf("%s - %d","./src/globals.cpp",0x253);
+  printLine(0x253);
 }
-// next few functions go CRAZY with the sprintf's for some reason.
-u32 get_enemy_avg_lv(u32 param_1,monsterparty_dat *param_2){
-  u32 uVar1;
-  u8 bVar3;
-  s32 iVar2;
-  u32 uVar4;
+
+
+uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2)
+
+{
+  uint uVar1;
+  byte bVar3;
+  int iVar2;
+  u16 uVar4;
   ItemID *pIVar5;
-  s32 iVar6;
-  u32 uVar7;
-  u32 uVar8;
+  int iVar6;
+  u16 uVar7;
   monsterpartyEntry *pmVar9;
   float fVar10;
-  ulonglong uVar11;
-  float afStack120 [4];
-  u32 uStack56;
+  float afStack_78 [16];
+  uint uStack_38;
   
   uVar4 = 0;
-  Gsprintf("%s - %d","./src/globals.cpp",600);
+  printLine(600);
   uVar7 = 0;
-  uVar1 = get_party_avg_lv(gGlobals.Party);
-  Gsprintf("%s - %d","./src/globals.cpp",0x259);
-  Gsprintf("%s - %d","./src/globals.cpp",0x25a);
-  Gsprintf("%s - %d","./src/globals.cpp",0x25b);
-  Gsprintf("%s - %d","./src/globals.cpp",0x25e);
-  if (param_1 == 0) {param_1 = 0;}
+  uVar1 = get_party_avg_lv(gGlobals.party);
+  printLine(0x259);
+  printLine(0x25a);
+  printLine(0x25b);
+  printLine(0x25e);
+  if (param_1 == 0) param_1 = 0;
   else {
-    Gsprintf("%s - %d","./src/globals.cpp",0x261);
+    printLine(0x261);
     if (param_1 != 0) {
-      do {
-        Gsprintf("%s - %d","./src/globals.cpp",0x263);
+      for(uVar7=0;uVar7<param_1;uVar7++) {
+        printLine(0x263);
         bVar3 = GetIDIndex(gGlobals.EncounterDat.enemy_entities[uVar7]);
-        Gsprintf("%s - %d","./src/globals.cpp",0x264);
-        uVar7++;
-        uVar4+= EntityPointer->entities[bVar3].Level;
+        printLine(0x264);
+        uVar4 += EntityPointer->entities[(char)bVar3].Level;
       } while (uVar7 < param_1);
     }
-    Gsprintf("%s - %d","./src/globals.cpp",0x268);
+    printLine(0x268);
     uVar4 /= param_1;
-    Gsprintf("%s - %d","./src/globals.cpp",0x26b);
+    printLine(0x26b);
     if ((uVar4 != 0) &&
-       (Gsprintf("%s - %d","./src/globals.cpp",0x26e),
-       uVar1 < uVar4)) {
-      Gsprintf("%s - %d","./src/globals.cpp",0x272);
+       (printLine(0x26e),
+       (uVar1 & 0xffff) < uVar4)) {
+      printLine(0x272);
       fVar10 = ((float)uVar1 * 3.0f) / (float)uVar4;
-      if (INT_MAX_f <= fVar10) {fVar10 -= INT_MAX_f;}
-      Gsprintf("%s - %d","./src/globals.cpp",0x273);
-      afStack120 = {0.3f,0.2f,0.1f,0.0f};
-      Gsprintf("%s - %d","./src/globals.cpp",0x274);
-      uVar11 = (ulonglong)(u32)afStack120[(s32)fVar10];
-      Gsprintf("%s - %d","./src/globals.cpp",0x277);
-      if ((float)uVar11 != 0.0) {
+      printLine(0x273);
+      float afStack_78[]={0.3f,0.2f,0.1f,0.0f};
+      printLine(0x274);
+      fVar10 = afStack_78[(int)fVar10];
+      printLine(0x277);
+      if (fVar10 != 0.0) {
         uVar4 = 0;
-        Gsprintf("%s - %d","./src/globals.cpp",0x27a);
+        printLine(0x27a);
         do {
-          Gsprintf("%s - %d","./src/globals.cpp",0x27d);
+          printLine(0x27d);
           pmVar9 = param_2->enemyEntries + uVar4;
-          Gsprintf("%s - %d","./src/globals.cpp",0x27e);
-          uStack56 = uVar4 + 1;
-          if (pmVar9->enemyID != 0) {
+          printLine(0x27e);
+          uStack_38 = uVar4 + 1;
+          if (pmVar9->enemyID.s) {
             uVar4 = 0;
             iVar6 = 0;
-            Gsprintf("%s - %d","./src/globals.cpp",0x281);
-            Gsprintf("%s - %d","./src/globals.cpp",0x284);
+            printLine(0x281)
+            ;
+            printLine(0x284)
+            ;
             iVar2 = 0;
             if (param_1 != 0) {
               do {
                 if (*(ItemID *)(&gGlobals.EncounterDat.enemy_entities[0].type + iVar2) ==
                     pmVar9->enemyID) {
-                  iVar6++;
+                  iVar6 += 1;
                 }
-                uVar4++;
+                uVar4 = uVar4 + 1 & 0xffff;
                 iVar2 = uVar4 << 1;
               } while (uVar4 < param_1);
             }
             uVar4 = 0;
-            Gsprintf("%s - %d","./src/globals.cpp",0x28a);
-            iVar2 = (s32)((float)iVar6 * (float)uVar11);
-            Gsprintf("%s - %d","./src/globals.cpp",0x28c);
+            printLine(0x28a)
+            ;
+            iVar2 = (int)((float)iVar6 * fVar10);
+            printLine(0x28c)
+            ;
             if (param_1 != 0) {
               do {
                 if (iVar2 == 0) break;
-                Gsprintf("%s - %d","./src/globals.cpp",0x28f);
+                printLine(0x28f);
                 pIVar5 = gGlobals.EncounterDat.enemy_entities + uVar4;
                 uVar1 = uVar4 + 1;
                 if (*pIVar5 == pmVar9->enemyID) {
-                  Gsprintf("%s - %d","./src/globals.cpp",0x293);
-                  iVar2--;
-                  while (uVar4 < param_1 - 1) {
-                    uVar4++;
+                  printLine(0x293);
+                  iVar2 += -1;
+                  for (; uVar4 < param_1 - 1; uVar4 += 1) {
                     *pIVar5 = pIVar5[1];
-                    pIVar5++;
+                    pIVar5 = pIVar5 + 1;
                   }
-                  param_1--;
-                  Gsprintf("%s - %d","./src/globals.cpp",0x297);
-                  Gsprintf("%s - %d","./src/globals.cpp",0x298);
-                  Gsprintf("%s - %d","./src/globals.cpp",0x29b);
-                  gGlobals.EncounterDat.enemy_entities[param_1] = (ItemID)0x0;
+                  param_1 = param_1 - 1 & 0xffff;
+                  printLine(0x297);
+                  printLine(0x298);
+                  printLine(0x29b);
+                  pIVar5 = gGlobals.EncounterDat.enemy_entities + param_1;
+                  pIVar5->type = Empty;
+                  pIVar5->ID = 0;
                 }
                 uVar4 = uVar1 & 0xffff;
               } while (uVar4 < param_1);
             }
           }
-          uVar4 = uStack56 & 0xffff;
+          uVar4 = uStack_38 & 0xffff;
         } while (uVar4 < 8);
-        Gsprintf("%s - %d","./src/globals.cpp",0x29f);
+        printLine(0x29f);
       }
     }
   }
@@ -239,308 +250,275 @@ u32 get_enemy_avg_lv(u32 param_1,monsterparty_dat *param_2){
 }
 
 
-u32 add_to_enemy_encounters(EncounterDat *param_1,s16 *param_2){
-  undefined *puVar1;
-  undefined *puVar2;
-  u32 uVar3;
-  u32 uVar4;
-  u32 uVar5;
-  s16 *psVar6;
-  u32 uStack48;
+uint add_to_enemy_encounters(EncounterDat *param_1,monsterparty_dat *param_2){
+  u8 *puVar1;
+  u8 *puVar2;
+  uint uVar3;
+  monsterparty_dat *pmVar4;
+  uint uVar5;
+  uint uVar6;
+  uint uStack_30;
   
-  uVar5 = 0;
-  uStack48 = 0;
-  Gsprintf("%s - %d","./src/globals.cpp",0x2a4);
-  Gsprintf("%s - %d","./src/globals.cpp",0x2a6);
-  psVar6 = param_2;
+  uVar6 = 0;
+  uStack_30 = 0;
+  printLine(676);
+  printLine(678);
+  pmVar4 = param_2;
   do {
-    Gsprintf("%s - %d","./src/globals.cpp",0x2a9);
-    Gsprintf("%s - %d","./src/globals.cpp",0x2aa);
-    if (*param_2 != 0) {
-      Gsprintf("%s - %d","./src/globals.cpp",0x2ad);
+    printLine(681);
+    printLine(682);
+    if (pmVar4->enemyEntries[0].enemyID.s) {
+      printLine(685);
       uVar3 = 0;
-      uVar4 = uVar5;
-      if (*(char *)(param_2 + 1) != 0) {
+      uVar5 = uVar6;
+      if (pmVar4->enemyEntries[0].min != 0) {
         do {
-          Gsprintf("%s - %d","./src/globals.cpp",0x2b0);
-          uVar5 = uVar4 + 1;
-          *(s16 *)&param_1->enemy_entities[uVar4].type = *param_2;
-          Gsprintf("%s - %d","./src/globals.cpp"0x2b3);
-          if ((u16)psVar6[0x15] <= uVar5) {
-            return uVar5;
-          }
-          Gsprintf("%s - %d","./src/globals.cpp",0x2b6);
-          uVar3 = uVar3 + 1;
-          if (0xb < uVar5) {
-            return uVar5;
-          }
-          uVar4 = uVar5;
-        } while (uVar3 < *(u8 *)(param_2 + 1));
+          printLine(688);
+          uVar6 = uVar5 + 1 & 0xffff;
+          param_1->enemy_entities[uVar5] = pmVar4->enemyEntries[0].enemyID;
+          printLine(691);
+          if (param_2->totalsize <= uVar6) return uVar6;
+          printLine(694);
+          uVar3++;
+          if (0xb < uVar6) return uVar6;
+          uVar5 = uVar6;
+        } while (uVar3 < pmVar4->enemyEntries[0].min);
       }
     }
-    param_2 = param_2 + 2;
-    uStack48 = uStack48 + 1;
-    if (7 < uStack48) {
-      Gsprintf("%s - %d","./src/globals.cpp",699);
-      return uVar5;
+    pmVar4 = (monsterparty_dat *)(pmVar4->enemyEntries + 1);
+    uStack_30++;
+    if (7 < uStack_30) {
+      printLine(699);
+      return uVar6;
     }
   } while( true );
 }
 
-u32 FUN_8000bed0(EncounterDat *param_1,undefined *param_2){
+
+uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
   undefined *puVar1;
   undefined *puVar2;
-  u32 uVar3;
-  u32 uVar4;
-  u32 uVar5;
-  s16 *psVar6;
-  u32 uVar7;
-  u32 uStack48;
+  uint uVar3;
+  uint uVar4;
+  uint uVar5;
+  monsterpartyEntry *pIVar6;
+  uint uVar6;
+  u16 i;
   
-  Gsprintf("%s - %d","./src/globals.cpp",0x2c0);
+  printLine(0x2c0);
   uVar3 = add_to_enemy_encounters(param_1,param_2);
-  Gsprintf("%s - %d","./src/globals.cpp",0x2c3);
-  if (uVar3 < *(u16 *)(param_2 + 0x2a)) {
-    uStack48 = 0;
-    Gsprintf("%s - %d","./src/globals.cpp",0x2c6);
-    Gsprintf("%s - %d","./src/globals.cpp",0x2c7);
-    do {
-      Gsprintf("%s - %d","./src/globals.cpp",0x2ca);
-      psVar6 = (s16 *)(param_2 + uStack48 * 4);
-      Gsprintf("%s - %d","./src/globals.cpp",0x2cb);
+  printLine(0x2c3);
+  if (uVar3 < param_2->totalsize) {
+    printLine(0x2c6);
+    printLine(0x2c7);
+    for(i=0;i<8;i++){
+      printLine(0x2ca);
+      pIVar6 = param_2->enemyEntries + i;
+      printLine(0x2cb);
       uVar4 = uVar3;
-      if ((*psVar6 != 0) &&
-         (Gsprintf("%s - %d","./src/globals.cpp",0x2ce),
-         *(u8 *)(psVar6 + 1) < *(u8 *)((s32)psVar6 + 3))) {
-        uVar7 = 0;
-        Gsprintf("%s - %d","./src/globals.cpp",0x2d1);
-        uVar5 = rand_range(0,(u32)*(u8 *)((s32)psVar6 + 3) - (u32)*(u8 *)(psVar6 + 1))
-        ;
-        Gsprintf("%s - %d","./src/globals.cpp",0x2d4);
+      if ((pIVar6->enemyID != (ItemID)0x0) &&
+         (printLine(0x2ce),
+         pIVar6->min < pIVar6->max)) {
+        uVar6 = 0;
+        printLine(0x2d1);
+        uVar5 = rand_range(0,(uint)pIVar6->max - (uint)pIVar6->min);
+        printLine(0x2d4);
         if ((uVar5 & 0xff) != 0) {
           do {
-            Gsprintf("%s - %d","./src/globals.cpp",0x2d6)
-            ;
+            printLine(0x2d6);
             uVar4 = uVar3 + 1 & 0xffff;
-            *(s16 *)&param_1->enemy_entities[uVar3].type = *psVar6;
-            Gsprintf("%s - %d","./src/globals.cpp",0x2d9);
-            if (*(u16 *)(param_2 + 0x2a) <= uVar4) {
-              return uVar4;
-            }
-            Gsprintf("%s - %d","./src/globals.cpp",0x2da)
+            param_1->enemy_entities[uVar3] = pIVar6->enemyID;
+            printLine(0x2d9);
+            if (param_2->totalsize <= uVar4) return uVar4;
+            printLine(0x2da)
             ;
-            if (0xb < uVar4) {
-              return uVar4;
-            }
-            uVar7++;
+            if (0xb < uVar4) return uVar4;
+            uVar6 = uVar6 + 1 & 0xffff;
             uVar3 = uVar4;
-          } while (uVar7 < (uVar5 & 0xff));
+          } while (uVar6 < (uVar5 & 0xff));
         }
       }
-      uStack48++;
       uVar3 = uVar4;
-    } while (uStack48 < 8);
-    Gsprintf("%s - %d","./src/globals.cpp",0x2df);
-    if (uVar4 < *(u16 *)(param_2 + 0x28)) {
-      uVar4 = 0;
     }
-    else {
-      Gsprintf("%s - %d","./src/globals.cpp",0x2e2);
-    }
+    printLine(0x2df);
+    if (uVar4 < param_2->field6_0x28) uVar4 = 0;
+    else printLine(0x2e2);
   }
-  else {
-    uVar4 = (u32)*(u16 *)(param_2 + 0x2a);
-  }
+  else uVar4 = (uint)param_2->totalsize;
   return uVar4;
 }
 
-void Emergency_skeleton_func(undefined8 param_1)
-
-{
-  undefined8 uVar1;
-  s32 uVar2;
+void Emergency_skeleton_func(monsterparty_dat *param_1){
+  u16 uVar2;
+  s32 uVar1;
   
-  Gsprintf("%s - %d","./src/globals.cpp",0x2e7);
-  Gsprintf("%s - %d","./src/globals.cpp",0x2ea);
-  memset(&encounter_dat,0,0x18);
-  Gsprintf("%s - %d","./src/globals.cpp",0x2ed);
-  uVar1 = FUN_8000bed0(&encounter_dat,(undefined *)param_1);
-  Gsprintf("%s - %d","./src/globals.cpp",0x2f0);
-  uVar2 = get_enemy_avg_lv(uVar1,param_1);
-  Gsprintf("%s - %d","./src/globals.cpp",0x2f3);
-  if (uVar2 == 0) {
-    uVar2 = 1;
-                    /* skeleton */
-    encounter_dat.enemy_entities[0] = entityList[187] + 0x200;
+  printLine(0x2e7);
+  printLine(0x2ea);
+  CLEAR(&gGlobals.EncounterDat.enemy_entities);
+  printLine(0x2ed);
+  uVar2 = FUN_8000bed0(&gGlobals.EncounterDat,param_1);
+  printLine(0x2f0);
+  uVar1 = get_enemy_avg_lv(uVar2,param_1);
+  printLine(0x2f3);
+  if (uVar1 == 0) {
+    uVar1 = 1;                                    // skeleton
+    gGlobals.EncounterDat.enemy_entities[0].s = (entityList[187] + 0x200);
   }
-  Gsprintf("%s - %d","./src/globals.cpp",0x2f7);
-  if (uVar2 < 0xc) {
-    memset(encounter_dat.enemy_entities + uVar2,0,(0xc - uVar2) * 2);
-  }
-  return;
+  printLine(0x2f7);
+  if (uVar1 < 0xc)
+    memset(gGlobals.EncounterDat.enemy_entities + uVar1,0,(0xc - uVar1) * 2);
 }
 
-void battle_setup_func(monsterparty_obj *param_1,EventFlag param_2,u16 param_3)
 
-{
-  monsterparty_obj *pmVar1;
-  
-  Gsprintf("%s - %d","./src/globals.cpp",0x2fe);
-  pmVar1 = param_1;
-  Gsprintf("%s - %d","./src/globals.cpp",0x2ff);
-  Gsprintf("%s - %d","./src/globals.cpp",0x302);
-  encounter_dat.unk0x1c = 1;
-  Gsprintf("%s - %d","./src/globals.cpp",0x303);
-  encounter_dat.mapDatA = map_dat_A;
-  Gsprintf("%s - %d","./src/globals.cpp",0x304);
-  encounter_dat.MapSAhortA = MapShortA;
-  Gsprintf("%s - %d","./src/globals.cpp",0x305);
-  encounter_dat.MapShortB = mapShortB;
-  Gsprintf("%s - %d","./src/globals.cpp",0x306);
-  encounter_dat.globalLoot = param_1->globalLoot;
-  Gsprintf("%s - %d","./src/globals.cpp",0x307);
-  encounter_dat.EncounterID = param_2;
-  Gsprintf("%s - %d","./src/globals.cpp",0x308);
-  encounter_dat.BossShadow = 1;
-  Gsprintf("%s - %d","./src/globals.cpp",0x309);
-  encounter_dat.VoxelIndex = param_3;
-  Gsprintf("%s - %d","./src/globals.cpp",0x30a);
-  encounter_dat.VoxelFlagA = (pmVar1->header).flagA;
-  Gsprintf("%s - %d","./src/globals.cpp",0x30b);
-  encounter_dat.voxelBitfeild = (pmVar1->header).Bitfeild;
-  Gsprintf("%s - %d","./src/globals.cpp",0x30e);
+void battle_setup_func(monsterparty_obj *param_1,u16 flag,ushort param_3){
+  printLine(0x2fe);
+  printLine(0x2ff);
+  printLine(0x302);
+  gGlobals.EncounterDat.field3_0x1c = 1;
+  printLine(0x303);
+  gGlobals.EncounterDat.mapDatA = gGlobals.Sub.mapDatA;
+  printLine(0x304);
+  gGlobals.EncounterDat.MapSAhortA = gGlobals.Sub.mapShort1;
+  printLine(0x305);
+  gGlobals.EncounterDat.MapShortB = gGlobals.Sub.mapShort2;
+  printLine(0x306);
+  gGlobals.EncounterDat.globalLoot = (param_1->dat).globalLoot;
+  printLine(0x307);
+  gGlobals.EncounterDat.EncounterID = flag;
+  printLine(0x308);
+  gGlobals.EncounterDat.BossShadow = 1;
+  printLine(0x309);
+  gGlobals.EncounterDat.VoxelIndex = param_3;
+  printLine(0x30a);
+  gGlobals.EncounterDat.VoxelFlagA = (param_1->header).flagA;
+  printLine(0x30b);
+  gGlobals.EncounterDat.VoxelBitfield = (param_1->header).Bitfeild;
+  printLine(0x30e);
   gGlobals.combatBytes[2] = 1;
-  Gsprintf("%s - %d","./src/globals.cpp",0x311);
-  get_battle_terrain(&encounter_dat);
-  Gsprintf("%s - %d","./src/globals.cpp",0x314);
-  Emergency_skeleton_func(&param_1->enemyID);
-  Gsprintf("%s - %d","./src/globals.cpp",0x315);
+  printLine(0x311);
+  get_battle_terrain(&gGlobals.EncounterDat);
+  printLine(0x314);
+  Emergency_skeleton_func(&param_1->dat);
+  printLine(0x315);
 }
+
 
 void load_camp_ambush(void){
-  u8 *pbVar1;
-  s32 iVar3;
-  ulonglong uVar2;
-  encounter_rom_dat *peVar4;
-  ItemID *pIVar5;
-  u32 uVar6;
+  byte *pbVar1;
+  int ter;
+  ulonglong lv;
+  uint lvTeir;
+  monsterpartyEntry *pmVar2;
+  monsterparty_dat *pmVar3;
   encounter_rom_dat fromROM;
-  ItemID aIStack72 [20];
-  s16 sStack32;
-  s16 sStack30;
+  monsterparty_dat auStack72;
   
-  get_battle_terrain(&encounter_dat);
-  encounter_dat.collisionBool = true;
-  encounter_dat.globalLoot = 0;
-  encounter_dat.unk0x28 = 0;
-  encounter_dat.EncounterID = 0;
-  encounter_dat.BossShadow = 0;
+  get_battle_terrain(&gGlobals.EncounterDat);
+  gGlobals.EncounterDat.collisionByte = 2;
+  gGlobals.EncounterDat.globalLoot.type = Empty;
+  gGlobals.EncounterDat.globalLoot.ID = 0;
+  gGlobals.EncounterDat.unk28 = 0;
+  gGlobals.EncounterDat.EncounterID = 0;
+  gGlobals.EncounterDat.BossShadow = 0;
   gGlobals.combatBytes[2] = 1;
-  iVar3 = World::getTerrain(TerrainPointer);
-  uVar2 = get_party_avg_lv(partyPointer);
-  if (uVar2 < 0x15) {
-    if (uVar2 < 0x10) {
-      if (uVar2 < 0xb) {uVar6 = uVar2 < 6 ^ 1;}
-      else {uVar6 = 2;}
+  ter = World::getTerrain(TerrainPointer);
+  lv = get_party_avg_lv(gGlobals.party);
+  if (lv < 0x15) {
+    if (lv < 0x10) {
+      if (lv < 0xb) lvTeir = lv < 6 ^ 1;
+      else lvTeir = 2;
     }
-    else {uVar6 = 3;}
+    else lvTeir = 3;
   }
-  else {uVar6 = 4;}
-  RomCopy::RomCopy(&fromROM,globals_rom + uVar6 + (iVar3 * 5 & 0xfffU) * 2,8,1,s_./src/globals.cpp_800d81ec,
-          0x348);
-  memset(aIStack72,0,0x38);
-  uVar6 = 0;
-  peVar4 = &fromROM;
-  sStack32 = (u16)fromROM.unk0x2 + (u16)fromROM.unk0x6;
-  sStack30 = (u16)fromROM.unk0x3 + (u16)fromROM.unk0x7;
-  pIVar5 = aIStack72;
+  else lvTeir = 4;
+  RomCopy::RomCopy(&fromROM,globals_rom[0] + lvTeir + (ter * 5 & 0xfffU) * 2,8,1,sGlobalsFilename,0x348);
+  memset(&auStack72,0,0x38);
+  lvTeir = 0;
+  pmVar2 = fromROM.entries;
+  auStack72.field6_0x28 = (ushort)fromROM.entries[0].min + (ushort)fromROM.entries[1].min;
+  auStack72.totalsize = (ushort)fromROM.entries[0].max + (ushort)fromROM.entries[1].max;
+  pmVar3 = &auStack72;
   do {
-    *pIVar5 = peVar4->id1;
-    uVar6 = uVar6 + 1;
-    pIVar5[1].type = peVar4->unk0x2;
-    pbVar1 = &peVar4->unk0x3;
-    peVar4 = (encounter_rom_dat *)&peVar4->id2;
-    pIVar5[1].ID = *pbVar1;
-    pIVar5 = pIVar5 + 2;
-  } while (uVar6 < 2);
-  Emergency_skeleton_func(aIStack72);
+    pmVar3->enemyEntries[0].enemyID = ((monsterpartyEntry *)&pmVar2->enemyID)->enemyID;
+    lvTeir += 1;
+    pmVar3->enemyEntries[0].min = pmVar2->min;
+    pbVar1 = &pmVar2->max;
+    pmVar2 = pmVar2 + 1;
+    pmVar3->enemyEntries[0].max = *pbVar1;
+    pmVar3 = (monsterparty_dat *)(pmVar3->enemyEntries + 1);
+  } while (lvTeir < 2);
+  Emergency_skeleton_func(&auStack72);
 }
 
-u32 append_SenseAura_text(char *str1,char *str2,u8 param_3){
+u32 AppendText(char *str1,char *str2,u8 len){
   u32 uVar1 = strlen(str1);
   u32 uVar2 = strlen(str2);
   sprintf(str1 + uVar1,"%s\n",str2);
   uVar1 = uVar2;
-  if (uVar2 <= param_3) {
-    uVar1 = param_3;
-  }
+  if (uVar2 <= len) uVar1 = len;
   return uVar1;
 }
+
 #ifdef DEBUGVER
 void FUN_8000c6e8(void){
   ofunc_dat = udivdi3(osGetTime()<<6,3);}
 //a lot more orphaned funcs using "ofunc_dat" between these 2
 //Ghidra struggled with them, but.. here it goes.
-undefined8 FUN_8000c730(void){
-  u32 uVar1;
-  undefined8 in_v1;
-  ulonglong uVar2;
-  OSTime OVar3;
-  u64 uVar4;
+u64 Ofunc_8000c730(void){
+  OSTime OVar1;
+  u64 uVar2;
   
-  uVar1 = (u32)((ulonglong)in_v1 >> 0x20);
-  OVar3 = osGetTime();
-  uVar2 = (ulonglong)uVar1 << 0x20;
-  uVar4 = udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,3);
-  return CONCAT44(((s32)(uVar4 >> 0x20) - ofunc_dat._0_4_) -
-                  (u32)((uVar2 & 0xffffffff00000000 | uVar4 & 0xffffffff) <
-                        (ulonglong)(longlong)ofunc_dat._4_4_),
-                  (s32)(uVar4 & 0xffffffff) - ofunc_dat._4_4_);}
-void FUN_8000c788(char *param_1){
-  u32 uVar1;
-  undefined8 in_v1;
-  ulonglong uVar2;
-  OSTime OVar3;
-  u64 uVar4;
+  OVar1 = osGetTime();
+  uVar2 = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
+  return CONCAT44(((int)(uVar2 >> 0x20) - ofunc_dat._0_4_) -
+                  (uint)((uVar2 & 0xffffffff) < (ulonglong)(longlong)ofunc_dat._4_4_),
+                  (int)uVar2 - ofunc_dat._4_4_);
+}
+
+void Ofunc_8000c788(char *param_1){
+  OSTime OVar1;
+  u64 uVar2;
   
-  uVar1 = (u32)((ulonglong)in_v1 >> 0x20);
-  OVar3 = osGetTime();
-  uVar2 = (ulonglong)uVar1 << 0x20;
-  uVar4 = udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,3);
-  Gsprintf(s_%s_:_%llu_800d828c,ofunc_dat);
-  N64Print::Print(gGlobals.Text);
-  OVar3 = osGetTime();
-  ofunc_dat=udivdi3((s32)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6,3);
-void FUN_8000c850(float param_1){
+  OVar1 = osGetTime();
+  uVar2 = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
+  sprintf(gGlobals.text,s_%s_:_%llu_800d828c,param_1,
+              (ulonglong)((uVar2 & 0xffffffff) < (ulonglong)(longlong)ofunc_dat._4_4_));
+  N64Print::Print(gGlobals.text);
+  OVar1 = osGetTime();
+  ofunc_dat udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
+}
+
+void Ofunc_8000c850(float param_1)
+
+{
   ulonglong uVar1;
-  u32 in_v1_hi;
-  u32 uVar2;
-  ulonglong uVar3;
-  float fVar4;
-  ulonglong uVar5;
-  OSTime OVar6;
-  u64 uVar7;
-  u64 uVar8;
+  float fVar2;
+  undefined4 in_v1_hi;
+  uint uVar3;
+  OSTime OVar4;
+  u64 uVar5;
+  u64 uVar6;
   
-  uVar3 = (ulonglong)(u32)(param_1 * 1000000.0f);
-  OVar6 = osGetTime();
-  uVar7 = udivdi3((s32)(OVar6 >> 0x20) << 6 | (u32)OVar6 >> 0x1a,(u32)OVar6 << 6,0,3000);
-  uVar5 = (ulonglong)(u32)INT_MAX_f;
-  uVar1 = (ulonglong)in_v1_hi;
+  param_1 = param_1 * 1000000.0f;
+  OVar4 = osGetTime();
+  uVar5 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (uint)OVar4 >> 0x1a,(uint)OVar4 << 6),3000);
+  fVar2 = INT_MAX_f;
+  uVar1 = CONCAT44(in_v1_hi,(int)uVar5);
   do {
-    fVar4 = (float)uVar3;
-    if (fVar4 < (float)uVar5) {
-      uVar2 = (u32)fVar4;
+    if (param_1 < fVar2) {
+      uVar3 = (uint)param_1;
     }
     else {
-      uVar2 = (s32)(fVar4 - (float)uVar5) | 0x80000000;
+      uVar3 = (int)(param_1 - fVar2) | 0x80000000;
     }
-    OVar6 = osGetTime();
-    uVar8 = udivdi3((s32)(OVar6 >> 0x20) << 6 | (u32)OVar6 >> 0x1a,(u32)OVar6 << 6,0,3000);
-  } while (((u32)(uVar8 >> 0x20) ==
-            (u32)((uVar8 & 0xffffffff | (ulonglong)in_v1_hi << 0x20) <
-                  (uVar7 & 0xffffffff | uVar1 << 0x20))) &&
-          ((u32)((s32)uVar8 - (s32)(uVar7 & 0xffffffff)) < uVar2));}
+    OVar4 = osGetTime();
+    uVar6 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (uint)OVar4 >> 0x1a,(uint)OVar4 << 6),3000)
+    ;
+  } while ((false) ||
+          (((uint)(uVar6 >> 0x20) == (uint)(CONCAT44(in_v1_hi,(int)uVar6) < uVar1) &&
+           ((uint)((int)uVar6 - (int)uVar5) < uVar3))));
+}
+
 #endif
 //now, to more sensible programming.
 void minimap_struct_init_or_free(bool param_1,s16 param_2){

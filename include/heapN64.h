@@ -39,7 +39,7 @@ u32 get_memFree_2(void);
 void print_mem_allocated(void *func_,void *param_2);
 void malloc_update_mem_mon(HeapBlock *h,int param_2);
 
-#define ALLOCS(x,s,line) x=heapAlloc(s,FILENAME,line)
+#define ALLOCS(x,s,line) x=static_cast<decltype(x)>(heapAlloc(s,FILENAME,line))
 #define ALLOC(x,line) ALLOCS(x,sizeof(*x),line)
 #define FREE(x,line) HeapFree(x,FILENAME,line); x=NULL
 #define FREEPTR(x,line) if(x) {FREE(x,line);}

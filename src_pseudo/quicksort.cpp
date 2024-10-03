@@ -1,12 +1,12 @@
-u32 gQuicksortSeed;
-void* gQuicksortTempP;
+
 #ifdef DEBUGVER
 #define FILENAME "../src/quicksort.cpp"
 #else
 #define FILENAME ""
 #endif
+#include "quicksort.h"
 
-int Quicksort::Move(void *ToSort,int low,int hi,int EntrySize,func *SortFunc){
+int Quicksort::Move(void *ToSort,int low,int hi,int EntrySize,Sorter SortFunc){
   void **ppvVar2;
   void *pvVar3;
   int iVar4;
@@ -41,27 +41,18 @@ int Quicksort::Move(void *ToSort,int low,int hi,int EntrySize,func *SortFunc){
       iVar4--;
     } while ((*SortFunc)(pvVar3,ppvVar2) == 1);
     if (iVar4 <= iVar5) return iVar4;
-    memcpy(QuicksortTempP,r,EntrySize);
-    memcpy(r,r_00,EntrySize);
-    memcpy(r_00,QuicksortTempP,EntrySize);
+    SWAP(r,r_00);
   }
 }
 
-
-int Quicksort::Pick(void *param_1,int Lo,int Hi,int EntrySize,func *param_5){
-  void *A;
-  void *B;
-  
-  A = (void *)((int)param_1 + Random::range_(&gQuicksortSeed,Lo,Hi) * EntrySize);
-  B = (void *)((int)param_1 + Lo * EntrySize);
-  memcpy(QuicksortTempP,r,EntrySize);
-  memcpy(A,B,EntrySize);
-  memcpy(B,QuicksortTempP,EntrySize);
+int Quicksort::Pick(void *param_1,int Lo,int Hi,int EntrySize,Sorter param_5){
+  void * A = (void *)((int)param_1 + gQuicksortSeed.Range(Lo,Hi) * EntrySize);
+  void * B = (void *)((int)param_1 + Lo * EntrySize);
+  SWAP(A,B);
   return Move(param_1,Lo,Hi,EntrySize,param_5);
 }
 
-
-void Quicksort::Run(void **ToSort,int low,int hi,int EntrySize,func *Sortfunc){
+void Quicksort::Run(void **ToSort,int low,int hi,int EntrySize,Sorter Sortfunc){
   s32 uVar1;
   int hi_00;
   void *r;
@@ -72,16 +63,8 @@ void Quicksort::Run(void **ToSort,int low,int hi,int EntrySize,func *Sortfunc){
     r_00 = (void **)((int)ToSort + low * EntrySize);
     r = (void *)((int)r_00 + EntrySize);
     r_01 = (void *)((int)r + EntrySize);
-    if ((*Sortfunc)(r_00,r) == 1) {
-      memcpy(QuicksortTempP,r_00,EntrySize);
-      memcpy(r_00,r,EntrySize);
-      memcpy(r,QuicksortTempP,EntrySize);
-    }
-    if ((*Sortfunc)(r,r_01) == 1) {
-      memcpy(QuicksortTempP,r,EntrySize);
-      memcpy(r,r_01,EntrySize);
-      memcpy(r_01,QuicksortTempP,EntrySize);
-    }
+    if ((*Sortfunc)(r_00,r) == 1) {SWAP(r_00,r);}
+    if ((*Sortfunc)(r,r_01) == 1) {SWAP(r,r_01);}
     uVar1 = (*Sortfunc)(r_00,r);
   }
   else {
@@ -96,16 +79,11 @@ void Quicksort::Run(void **ToSort,int low,int hi,int EntrySize,func *Sortfunc){
     r = (void *)((int)r_00 + EntrySize);
     uVar1 = (*Sortfunc)(r_00,r);
   }
-  if (uVar1 == 1) {
-    memcpy(QuicksortTempP,r_00,EntrySize);
-    memcpy(r_00,r,EntrySize);
-    memcpy(r,QuicksortTempP,EntrySize);
-  }
-  return;
+  if (uVar1 == 1) {SWAP(r_00,r);}
 }
 
-void Quicksort::Sort(void *ToSort,uint ArraySize,uint EntrySize,func *SortFunc){
-  QuicksortTempP = HeapAlloc(EntrySize,FILENAME,0x106);
+void Quicksort::Sort(void** ToSort,uint ArraySize,uint EntrySize,Sorter SortFunc){
+  ALLOCS(gQuicksortTempP,EntrySize,262);
   if (ArraySize) Run(ToSort,0,ArraySize - 1,EntrySize,SortFunc);
-  HeapFree(QuicksortTempP,FILENAME,0x10b);
+  HeapFree(gQuicksortTempP,FILENAME,267);
 }

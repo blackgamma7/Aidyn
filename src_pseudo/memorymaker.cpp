@@ -6,13 +6,13 @@
 memMakerStruct* memmaker_pointer;  //seems to be similar to the save data structure.
 //Memory management triggered with no Expansion Pak
 void MemoryMaker::Init(void){
-  if (ExpPakFlag == 0) {
+  if (gExpPakFlag == 0) {
     memmaker_pointer = (memMakerStruct *)heapAlloc(0xc00,FILENAME,0x5a);
   }
 }
 
 void MemoryMaker::Free(void){
-  if (ExpPakFlag == 0) {
+  if (gExpPakFlag == 0) {
     HeapFree(memmaker_pointer,FILENAME,0x70);
     memmaker_pointer = NULL;
   }
@@ -21,7 +21,7 @@ void MemoryMaker::Free(void){
 void MemoryMaker::Unload(void){
   u8 auStack80 [80];
   
-  if (ExpPakFlag == 0) {
+  if (gExpPakFlag == 0) {
     move_party_to_saveEnt(gGlobals.party);
     memset(memmaker_pointer,0,0xc00);
     memMaker_sub(memmaker_pointer,auStack80);
@@ -36,7 +36,7 @@ void MemoryMaker::Unload(void){
 void MemoryMaker::Reload(void){
   u8 auStack72 [72];
   
-  if (ExpPakFlag == 0) {
+  if (gExpPakFlag == 0) {
     CommonStrings::Init();
     some_struct_pointer = init_some_Struct(passToMalloc(0x28),widget::widget_handler_pointer);
     init_DBs();

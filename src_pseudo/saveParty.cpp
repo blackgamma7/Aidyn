@@ -172,7 +172,7 @@ void SaveParty::LoadInGameTime(SaveFile *sav){
 
 
 void SaveParty::SaveGold(SaveFile *sav){
-  SaveBits(sav,(gGlobals.Party)->Gold,32);
+  SaveBits(sav,(gGlobals.party)->Gold,32);
 }
 
 
