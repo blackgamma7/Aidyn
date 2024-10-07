@@ -1,3 +1,5 @@
+#include "itemID.h"
+
 enum PRICE_MULTI{HALF, QUARTER_OFF, FULL, QUARTER_PLUS, HALF_PLUS, DOUBLE, TRIPLE, FIVE_X};
 
 struct price_mod {
@@ -7,7 +9,7 @@ struct price_mod {
 };
 
 struct ShopItem { // Shop Item listing with 3 mystery bytes
-    struct ItemID_ROM item;
+    ItemID_ROM item;
     struct price_mod mod;
 };
 

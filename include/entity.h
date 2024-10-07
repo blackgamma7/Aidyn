@@ -1,6 +1,8 @@
 #include "GhidraDump.h"
 #include "CharStats.h"
 #include "CharSkills.h"
+#include "spells.h"
+#include "itemId.h"
 
 enum ENTITY_CATEGORY{
     ENTITY_GENERIC,
@@ -16,7 +18,7 @@ struct Entity_ROM { /* Entity data stored in Rom */
     char name[20];
     char internalName[20];
     enum EntityCatEnum category; /* only checks for Chaos type */
-    struct ItemID_ROM id;
+    ItemID_ROM id;
     u8 unk0x2b; /* passed to ram 0x19 */
     enum AspectEnum Aspect;
     u8 trueName;
@@ -53,16 +55,16 @@ struct Entity_ROM { /* Entity data stored in Rom */
     u8 morale;
     u8 Level;
     u8 unk0x4e;
-    struct ItemID_ROM Weapons[3]; /* Endian swapped */
+    ItemID_ROM Weapons[3]; /* Endian swapped */
     u8 unk0x55;
     u8 unk0x56;
-    struct ItemID_ROM spells[5]; /* endian Swapped */
+    ItemID_ROM spells[5]; /* endian Swapped */
     enum MagicSchoolEnum MagicSchool; /* Chaos=All Schools */
     u8 spell_levels[5];
     u8 unk0x67[9];
-    struct ItemID_ROM Armor;
+    ItemID_ROM Armor;
     u8 protection;
-    struct ItemID_ROM sheild;
+    ItemID_ROM sheild;
     u8 SheildSkill;
     enum ElementEnum ElementResist1;
     u8 ResistAmmount1; /* 100-(25*x) */
@@ -113,9 +115,8 @@ struct{
    u8 size;
    u8 catSizes[7];
    u8 unk[7];
-   u8 pad;
    Entity_Ram * entities;
-}EntityPointer;
+}gEntityDB;
 
 
 struct{
@@ -160,7 +161,7 @@ struct charExp { /* data containing EXP, School, Aspect and more. */
 
 struct Spellbook { /* pointer and count of spells */
     SpellInstance * spells;
-    u8 spell_count;
+    u8 count;
 };
 
 #define GEARTOTAL 12
@@ -173,7 +174,7 @@ struct CharGear {
 #define MAGIC_FXMAX 15
 #define POTION_FXMAX 7
 struct CharSheet { /* Skills, stats and misc of Characters */
-    struct ItemID ID;
+    ItemID ID;
     char *name; /* pointer to entityDB entry */
     u8 unk0x8[12]; //unused
     charExp *EXP;
@@ -195,16 +196,21 @@ struct CharSheet { /* Skills, stats and misc of Characters */
 
 
 struct itemtype_func {
-    enum DBTypeEnum type;
-    u8 pad[3];
+    u8 type;
     s32 unk;
-    s32 (* function)(void);
+    s32 (* function)(Party*,u8,ItemInstance,CharSheet);
 };
 
+struct EntityPointer {
+    u8 total;
+    u8 catSizes[7];
+    u8 unk[7];
+    struct Entity_Ram *entities;
+};
 
 extern entity_info entity_info_array[222]; //organized alphabetically for some reason.
 extern dialougeEntity_Info dailougEnt_info_array[32]; //same with this.
-extern EntityPointer* EntPointer;
+extern EntityPointer* gEntityDB;
 extern u8 entityList[221];
 
 extern void Ofunc_entityDB(u8 *);
@@ -215,13 +221,13 @@ extern void entitydb_free(EntityPointer *);
 extern u32 getEntityPortait(EntityPointer *,ItemID);
 extern u32 get_ent_borg7(EntityPointer *,ItemID);
 extern char * ofunc_getEntityName(EntityPointer *,ItemID);
-extern float get_entity_ram_b(EntityPointer *,ItemID);
-extern float Ofunc_get_entity_ram_c(EntityPointer *,ItemID);
-extern float get_entity_2float_sum(EntityPointer *,ItemID);
-extern float sub_ent_2float_sum(EntityPointer *,ItemID);
-extern u8 some_entity_check(EntityPointer *,ItemID);
-extern float get_ent_float_a(EntityPointer *,ItemID);
-extern float ret_point4float(EntityPointer *,ItemID);
-extern bool IsNotBoss(EntityPointer *,ItemID);
-extern float get_some_entity_dat(EntityPointer *,ItemID);
-extern float get_entity_scale(EntityPointer *,ItemID);
+extern float get_entity_ram_b(EntityPointer*,ItemID);
+extern float Ofunc_get_entity_ram_c(EntityPointer*,ItemID);
+extern float get_entity_2float_sum(EntityPointer*,ItemID);
+extern float sub_ent_2float_sum(EntityPointer*,ItemID);
+extern u8 some_entity_check(EntityPointer*,ItemID);
+extern float get_ent_float_a(EntityPointer*,ItemID);
+extern float ret_point4float(EntityPointer*,ItemID);
+extern bool IsNotBoss(EntityPointer*,ItemID);
+extern float get_some_entity_dat(EntityPointer*,ItemID);
+extern float get_entity_scale(EntityPointer*,ItemID);

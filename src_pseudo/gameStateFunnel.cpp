@@ -7,6 +7,7 @@
 #include "eventFlag.h"
 #include "heapN64.h"
 #include "gamestateCheats.h"
+#include "romcopy.h"
 
 struct event_flag_array {
     u16 to;

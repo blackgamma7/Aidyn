@@ -17,7 +17,7 @@ void init_char_skills(CharSkills *arg0,ItemID id){
   u8 X;
   Entity_Ram *EntRam;
   
-  EntRam = EntityPointer->entities[GetIDIndex(id)];
+  EntRam = gEntityDB->entities[GetIDIndex(id)];
   memcpy(arg0,EntRam->Skills,0xc);
   memcpy(arg0->Skill_modded,EntRam->Skills,0xc);
   memcpy(arg0->Weapon_Base,EntRam->weaponProf,0xb);

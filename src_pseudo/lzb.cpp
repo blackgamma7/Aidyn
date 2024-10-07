@@ -1,10 +1,11 @@
+#include "decompress.h"
 //compession format of most art assets
 
-s64 decompress_LZB(u8 *compDat,u32 CompSize,u8 *OutDat,s32 *outSize){
+s32 decompress_LZB(u8 *compDat,u32 CompSize,u8 *OutDat,u32 *outSize){
   u8 *pbVar1;
   u32 uVar2;
   u32 uVar3;
-  s64 uVar4;
+  s32 uVar4;
   u32 uVar5 = 0;
   u32 uVar6 = 0;
   s32 iVar7 = 1;
@@ -129,9 +130,9 @@ LAB_800aa598:
 }
 
 //two unused funcs below (16/32 bit versions?)
-s64 LZB_func_2(u8 *param_1,u32 param_2,u8 *param_3,s32 *param_4){
+s32 LZB_func_2(u8 *param_1,u32 param_2,u8 *param_3,s32 *param_4){
   u8 bVar1;
-  s64 uVar2;
+  s32 uVar2;
   u8 *pbVar2;
   u8 *pbVar3;
   u32 uVar4;
@@ -262,13 +263,13 @@ LAB_800aa674:
   } while( true );
 }
 
-s64 LZB_func_3(u8 *param_1,u32 param_2,u8 *param_3,s32 *param_4){
+s32 LZB_func_3(u8 *param_1,u32 param_2,u8 *param_3,s32 *param_4){
   u8 *pbVar1;
   u8 *pbVar2;
   u8 *pbVar3;
   bool bVar4;
   u8 bVar5;
-  s64 uVar6;
+  s32 uVar6;
   u32 uVar7;
   u8 *pbVar8;
   u32 uVar9;

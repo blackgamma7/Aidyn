@@ -1,52 +1,65 @@
-#include "commonTypes.h"
-#include "combat/CombatEntity.h"
+#ifdef DEBUGVER
+#define FILENAME "../combatengine/combatEntity.cpp"
+#else
+#define FILENAME ""
+#endif
 
+
+#include "combat/CombatEntity.h"
+#include "globals.h"
 
 void Ofunc_NOOP_80067c70(void){}
 void Ofunc_NOOP_(void){}
 
-void combatentity_init(CombatEntity *param_1,CharSheet *charsheet,s32 param_3,u32 startx,
-                      u8 starty,s8 param_6,u8 param_7,s32 isAI,u8 index){
-  spellbook *psVar2;
-  Entity_Ram *pEVar3;
-  u8 bVar7;
-  bool bVar8;
-  ElementEnum *pEVar4;
-  CombatAIInfo* pcVar5;
-  s32 iVar6;
-  float *pfVar9;
-  u32 uVar10;
-  u32 uVar11;
-  resist_float *prVar12;
-  float *pfVar13;
-  float fVar14;
+
+void CombatEntity::Init(CombatEntity *param_1,CharSheet *charsheet,int param_3,u8 startx,
+                       u8 starty,s8 param_6,byte param_7,int isAI,byte index){
+  ItemID IVar1;
+  Spellbook *pSVar2;
+  SpellInstance *pSVar3;
+  Entity_Ram *pEVar4;
+  byte bVar8;
+  bool bVar9;
+  u8 X;
+  u8 Y;
+  ElementEnum *pEVar5;
+  CombatAIInfo *pCVar6;
+  int iVar7;
+  float *pfVar10;
+  uint uVar11;
+  uint uVar12;
+  resist_float *prVar13;
+  float *pfVar14;
+  float fVar15;
   
   CLEAR(param_1);
   param_1->charSheetP = charsheet;
-  bVar7 = GetIDIndex(charsheet->ID);
-  param_1->coord2[0] = (float)startx;
-  param_1->coord[0] = (float)startx;
-  param_1->coord2[1] = (float)starty;
-  param_1->coord[1] = (float)starty;
-  param_1->unk0x14 = param_6;
-  param_1->unk0x23 = param_7;
-  set_combatEnt_vec2(param_1,param_6);
-  param_1->notboss = (s32)isNotBoss(EntityPointer,charsheet->ID);
-  FUN_800713fc(&gCombatP->substruct,get_combatEnt_x(param_1),get_combatEnt_y(param_1),(u32)param_1->unk0x23);
-  psVar2 = charsheet->spellbook;
-  if (((psVar2) && (psVar2->spells)) &&
-     (psVar2->spell_count != 0)) {
-    if (*(s32 *)psVar2->spells == 0) {
-      psVar2 = charsheet->spellbook;
-      uVar11 = 0;
-      while (uVar10 = uVar11 + 1, uVar10 < psVar2->spell_count) {
-        if ((&psVar2->spells->name)[uVar11]) {
+  bVar8 = GetIDIndex(charsheet->ID);
+  (param_1->coord2).x = startx;
+  (param_1->coord).x = startx;
+  (param_1->coord2).y = starty;
+  (param_1->coord).y = starty;
+  param_1->unk14 = param_6;
+  param_1->unk23 = param_7;
+  SetCardinalFacing(param_1,param_6);
+  param_1->notboss = (int)isNotBoss(gEntityDB,charsheet->ID);
+  FUN_800713fc(&gCombatP->substruct,GetCoordXU8(param_1),GetCoordYU8(param_1),param_1->unk23);
+  pSVar2 = charsheet->spellbook;
+  if (((pSVar2) && (pSVar3 = pSVar2->spells, pSVar3 != NULL)) && (pSVar2->count != 0)) {
+    iVar7._0_1_ = (pSVar3->base).id.type;
+    iVar7._1_1_ = (pSVar3->base).id.ID;
+    iVar7._2_2_ = (pSVar3->base).field1_0x2;
+    if (iVar7 == 0) {
+      pSVar2 = charsheet->spellbook;
+      uVar12 = 0;
+      while (uVar11 = uVar12 + 1, uVar11 < pSVar2->count) {
+        if ((&(pSVar2->spells->base).name)[uVar12] != NULL) {
           param_1->charSheetP->spellSwitch = 1;
-          param_1->charSheetP->currSpell = (u8)uVar10;
+          param_1->charSheetP->currSpell = (byte)uVar11;
           break;
         }
-        uVar11 = uVar10;
-        psVar2 = charsheet->spellbook;
+        uVar12 = uVar11;
+        pSVar2 = charsheet->spellbook;
       }
     }
     else {
@@ -54,98 +67,98 @@ void combatentity_init(CombatEntity *param_1,CharSheet *charsheet,s32 param_3,u3
       param_1->charSheetP->currSpell = 0;
     }
   }
-  pfVar13 = &param_1->resists[0].percent;
-  uVar11 = 0;
-  prVar12 = param_1->resists;
-  pEVar3 = EntityPointer->entities;
-  pfVar9 = pEVar3[bVar7].resistAmmount;
-  do { //copy charsheet element resitances
-    pEVar4 = pEVar3[bVar7].Resist + uVar11;
-    uVar11++;
-    prVar12->element = *pEVar4;
-    fVar14 = *pfVar9;
-    pfVar9++;
-    prVar12++;
-    *pfVar13 = fVar14;
-    pfVar13+=2;
-  } while (uVar11 < 2);
-  param_1->flags = flag1;
-  if (isAI) param_1->flags = flag1|flag4|flag5;
+  pfVar14 = &param_1->resists[0].percent;
+  uVar12 = 0;
+  prVar13 = param_1->resists;
+  pEVar4 = gEntityDB->entities;
+  pfVar10 = pEVar4[(char)bVar8].resistAmmount;
+  do {
+    pEVar5 = pEVar4[(char)bVar8].Resist + uVar12;
+    uVar12 += 1;
+    prVar13->element = *pEVar5;
+    fVar15 = *pfVar10;
+    pfVar10 = pfVar10 + 1;
+    prVar13 = prVar13 + 1;
+    *pfVar14 = fVar15;
+    pfVar14 = pfVar14 + 2;
+  } while (uVar12 < 2);
+  param_1->flags = COMBATENT_CANMOVE;
+  if (isAI) {
+    param_1->flags = COMBATENT_CANMOVE|COMBATENT_ALLY|COMBATENT_ENEMY;
+  }
   param_1->index = index;
   if (isAI) {
-    pcVar5 = (CombatAIInfo* )heapAlloc(0x1c,FILENAME,0xcc);
-    param_1->aiP = pcVar5;
-    combat_aiinfo_func(pcVar5,param_1->charSheetP->ID,param_1);
+    ALLOC(param_1->aiP,0xcc);
+    CombatAIInfo::Init(param_1->aiP,param_1->charSheetP->ID,param_1);
   }
-  param_1->unk0x89 = 2;
+  param_1->shieldLocator = 2;
   param_1->TargetIndex = -1;
+                    // check for Shadow and horn
   if (((ItemID)(entityList[172] + 0x200) == param_1->charSheetP->ID) &&(HasHornOfKynon())) {
-    iVar6 = CharStats::getBaseStat(param_1->charSheetP->Stats,STAT_DEX); //reduce Shadow STAT_DEX if having Horn
-    if (0 < 30 - iVar6) {CharStats:::AddBase(param_1->charSheetP->Stats,STAT_DEX,30 - iVar6);}
+    iVar7 = CharStats::getBase(param_1->charSheetP->Stats,STAT_DEX);
+    if (0 < 30 - iVar7) {
+      CharStats::addBase(param_1->charSheetP->Stats,STAT_DEX,0x1e - iVar7);
+    }
   }
-  return;
 }
 
-
-void combatEntity_free(CombatEntity *param_1){
+void CombatEntity::FreeAi(CombatEntity *param_1){
   if (param_1->aiP) {
-    combataiInfo_free(param_1->aiP);
-    HeapFree(param_1->aiP,FILENAME,0xf0);
-    param_1->aiP = NULL;
+    CombatAIInfo::Free(param_1->aiP);
+    FREE(param_1->aiP,0xf0);
   }
 }
 
-void get_combatEnt_x_y(CombatEntity *param_1,s8 *x,s8 *y){
-  *x = get_combatEnt_x(param_1);
-  *y = get_combatEnt_y(param_1);}
+void CombatEntity::GetCoordU8(CombatEntity *param_1,u8 *x,u8 *y){
+  *x = GetCoordXU8(param_1);
+  *y = GetCoordYU8(param_1);
+}
 
-void ofunc_getcombatent_z_f3(CombatEntity *param_1,s8 *z,s8 *f3){
-  *z = get_combatEnt_z(param_1);
-  *f3 = get_combatEnt_f3(param_1);}
+
+void CombatEntity::GetCoord(CombatEntity *param_1,float *x,float *y){
+  *x = (param_1->coord).x;
+  *y = (param_1->coord).y;
+}
+
+
 
 void Ofunc_get_combatEnt_x_y_f(CombatEntity *param_1,float *x,float *y){
   *x = param_1->coord[0];
   *y = param_1->coord[1];}
 
-void Ofunc_get_combatEnt_z_f3_f(CombatEntity *param_1,float *param_2,float *param_3){
-  *param_2 = param_1->coord2[0];
-  *param_3 = param_1->coord2[1];
+
+void CombatEntity::GetCoord2(CombatEntity *param_1,float *x,float *y){
+  *x = (param_1->coord2).x;
+  *y = (param_1->coord2).y;
 }
 
-u8 get_combatEnt_x(CombatEntity *param_1){
-  double dVar1 = (double)param_1->coord[0];
-  if (param_1->coord[0] <= 0.0) return -(0.5d - dVar1);
-  return (dVar1 + 0.5d);
+u8 CombatEntity::GetCoordXU8(CombatEntity *param_1){
+  return (u8)(param_1->coord).x;
 }
 
-
-u8 get_combatEnt_y(CombatEntity *param_1){
-  double dVar1 = (double)param_1->coord[1];
-  if (param_1->coord[1] <= 0.0) return -(0.5d - dVar1);
-  return dVar1 + 0.5d;
+u8 CombatEntity::GetCoordYU8(CombatEntity *param_1){
+  return (u8)(param_1->coord).y;
 }
 
-u8 get_combatEnt_z(CombatEntity *param_1){
-  double dVar1 = (double)param_1->coord2[0];
-  if (param_1->coord2[0] <= 0.0) return -(0.5d - dVar1);
-  return dVar1 + 0.5d;
+u8 CombatEntity::GetCoord2XU8(CombatEntity *param_1){
+  return (u8)(param_1->coord).x;
 }
 
-u8 get_combatEnt_f3(CombatEntity *param_1){
-  double dVar1 = (double)param_1->coord2[1];
-  if (param_1->coord2[1] <= 0.0) return -(0.5d - dVar1);
-  return dVar1 + 0.5d;
+u8 CombatEntity::GetCoord2YU8(CombatEntity *param_1){
+  return (u8)(param_1->coord).y;
 }
 
+float CombatEntity::GetCoordX(CombatEntity *param_1){return param_1->coord.x;}
+float CombatEntity::GetCoordY(CombatEntity *param_1){return param_1->coord.y;}
+float CombatEntity::GetCoord2X(CombatEntity *param_1){return param_1->coord2.x;}
+float CombatEntity::GetCoord2Y(CombatEntity *param_1){return param_1->coord2.y;}
 
-float get_combatEnt_x_f(CombatEntity *param_1){return param_1->coord[0];}
-float get_combatEnt_y_f(CombatEntity *param_1){return param_1->coord[1];}
-float get_combatEnt_z_f(CombatEntity *param_1){return param_1->coord2[0];}
-float get_combatEnt_f3_f(CombatEntity *param_1){return param_1->coord2[1];}
 
-void set_combatEnt_x_y(CombatEntity *param_1,float x,float y){
-  param_1->coord[0] = x;
-  param_1->coord[1] = y;}
+void CombatEntity::SetCoords(CombatEntity *param_1,float x,float y){
+  (param_1->coord).x = x;
+  (param_1->coord).y = y;
+}
+
 
 void set_combatEnt_z_f3(CombatEntity *param_1,float x,float y){
   param_1->coord2[0] = x;
@@ -290,7 +303,7 @@ u8 check_combatent_dex(CombatEntity *param_1){
   
   iVar1 = gCombatP->unk0x34;
   NOOP_80068350();
-  cVar3 = CharStats::getBaseStat(param_1->charSheetP->Stats,STAT_DEX);
+  cVar3 = CharStats::getBase(param_1->charSheetP->Stats,STAT_DEX);
   bVar4 = 0;
   if ((0 < cVar3) && (bVar4 = 1, 18 < cVar3)) {
     if (cVar3 < 25) {
@@ -790,8 +803,8 @@ bool func_checking_shadow(CombatEntity *param_1,CombatEntity *param_2,s32 param_
     if ((ppVar1) && (ppVar2)) {
       copyVec3((ppVar1->collision).position,fStack168);
       copyVec3((ppVar2->collision).position,afStack104);
-      fStack168[1] += -ppVar1->scale_floatB + get_entity_2float_sum(EntityPointer,param_1->charSheetP->ID)
-      fStack168[1] += -ppVar2->scale_floatB + get_entity_2float_sum(EntityPointer,param_2->charSheetP->ID);
+      fStack168[1] += -ppVar1->scale_floatB + get_entity_2float_sum(gEntityDB,param_1->charSheetP->ID)
+      fStack168[1] += -ppVar2->scale_floatB + get_entity_2float_sum(gEntityDB,param_2->charSheetP->ID);
       return FUN_800716b4(&gCombatP->substruct,fStack168,afStack104,(u32)param_1->index,param_2->index);
       
     }
@@ -827,20 +840,20 @@ bool canControl(CombatEntity *param_1,Temp_spell *param_2){
   switch(bVar3) {
   case ControlElem:
   case banishing:
-    if (IsElemental(IVar1)) {return true;}
+    if (IsElemental(IVar1)) return true;
     return false;
   default:
     goto switchD_80069a74_caseD_5;
   case charming:
   //no chaos or undead
-    if (EntityPointer->entities[GetIDIndex(IVar1)].Category != Chaos_Enemy) {return true;}
+    if (gEntityDB->entities[GetIDIndex(IVar1)].Category != Chaos_Enemy) return true;
     return false;
   case controlMarquis:
     bVar4 = entityList[170]; //marquis
     break;
   case controlZombies:
     bVar4 = entityList[182]; //plague or nomal zombie
-    if (IVar1 == (ItemID)(entityList[190] + 0x200)) {return true;}
+    if (IVar1 == (ItemID)(entityList[190] + 0x200)) return true;
   }
   bVar2 = false;
   if (IVar1 == (ItemID)(bVar4 + 0x200)) {
@@ -862,8 +875,8 @@ RetFalse:
     bVar1 = false;
   }
   else {
-    if (CombatEnt_flag_6(param_2)) {return false;}
-    if (isDead(param_2->charSheetP)) {return false;}
+    if (CombatEnt_flag_6(param_2)) return false;
+    if (isDead(param_2->charSheetP)) return false;
     MVar4 = param_3->target;
     if (MVar4 == Party_in_Area) {
       if (CombatEnt_flag_4(param_2) != CombatEnt_flag_4(param_1)) {return false;}
@@ -872,9 +885,9 @@ RetFalse:
       if (CombatEnt_flag_4(param_2) == CombatEnt_flag_4(param_1)) goto RetFalse;
     }
     bVar1 = false;
-    if (!IsNotAffected(param_2->charSheetP,GetIDIndex(param_3->id))) {
+    if (!Entity::HasSpellEffect(param_2->charSheetP,GetIDIndex(param_3->id))) {
       if (CheckTargetSpellAspect(param_2->charSheetP,param_3) == 0) {bVar1 = canControl(param_2,param_3) != false;}
-      else {bVar1 = false;}
+      else bVar1 = false;
     }
   }
   return bVar1;
@@ -887,7 +900,7 @@ bool ai_shouldnt_cast_magic(CombatEntity *param_1,CombatEntity *param_2,Temp_spe
   bool bVar4;
   
   if ((param_1->aiP == NULL) ||
-     ((param_1->aiP->flags & 8) == 0)) {bVar4 = true;}
+     ((param_1->aiP->flags & 8) == 0)) bVar4 = true;
   else {
     bVar4 = false;
     if (spell_stamina_subtract(param_1->charSheetP,param_3,check_spell_wizard(param_1->charSheetP,param_3)) <= CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_STAM)) {
@@ -991,7 +1004,7 @@ bool ai_should_cast_magic(CombatEntity *param_1,CombatEntity *param_2){
         if (!bVar10) {setVec3(fStack120,fVar15,10.0,fVar12);}
         else {fStack120[1] += 2.0f;}
         copyVec3((ppVar2->collision).position,fStack248);
-        fStack248[1] += -ppVar2->scale_floatB + get_entity_2float_sum(EntityPointer,param_2->charSheetP->ID);
+        fStack248[1] += -ppVar2->scale_floatB + get_entity_2float_sum(gEntityDB,param_2->charSheetP->ID);
         return FUN_800716b4(&gCombatP->substruct,fStack120,fStack248,(u32)param_2->index,param_2->index);
       }
     }
@@ -1123,7 +1136,7 @@ void end_combat_turn_(CombatEntity *param_1){
     if ((puVar2->pSpell->Charges == 0) &&
        ((uVar2 = (u16)puVar2->id >> 8, uVar2 == 0x11 || (uVar2 == 0xd)))) { //scroll or wand
       //dispose of drained acc.
-      unequip_acc(pCVar1,(u32)pCVar1->currSpell);
+      Entity::UnequipGear(pCVar1,(u32)pCVar1->currSpell);
       param_1->charSheetP->spellSwitch = 0;
     }
   }
@@ -1549,7 +1562,7 @@ void func_seeking_sholeh(CombatEntity *ent){ //probably a death func
   while( true ) {
     pTVar3 = pCVar2->spellEffects->list[i];
     if (pTVar3) {
-      if (isPetrify(ent,pTVar3->index)) clear_player_effect(ent->charSheetP,i,ent);
+      if (isPetrify(ent,pTVar3->index)) Entity::ClearSpellEffect(ent->charSheetP,i,ent);
     }
     i++;
     if (0xe < i) break;
@@ -1636,7 +1649,7 @@ s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,cha
   DefStats = param_2->charSheetP->Stats;
   iVar6 = CharStats::getModdedStat(stats,STAT_STR);
   iVar7 = CharStats::getModdedStat(stats,STAT_END);
-  iVar8 = CharStats::getBaseStat(stats,STAT_LV);
+  iVar8 = CharStats::getBase(stats,STAT_LV);
   cVar11 = getModdedWeapon(pCVar3,pTVar4->weaponType);
   cVar12 = getModdedSkill(pCVar3,SKILL_WARRIOR);
   petrified = check_for_petrify_effect(param_2);
@@ -1644,7 +1657,7 @@ s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,cha
   if (!petrified) DefDex = CharStats::getModdedStat(DefStats,STAT_DEX);
   sVar10 = 0;
   if (!petrified) sVar10 = get_sheild_warrior_skill(param_2);
-  iVar9 = CharStats::getBaseStat(DefStats,STAT_LV);
+  iVar9 = CharStats::getBase(DefStats,STAT_LV);
   iVar6 = theif_backstab_mod(param_1,  //(STR,STAT_END,LV)+(WHit+WSkill*6+Warrior*2)-(DefDex*2+DefLV+(Warrior+SheildDef*Sheildskill))
     (s16)((((iVar6 + iVar7 + iVar8)) +(u32)pTVar4->hit + cVar11 * 6 + cVar12 * 2)) - (DefDex * 2 + (s16)iVar9 + sVar10),
     backstab,1,0x14);
@@ -1773,7 +1786,7 @@ s16 some_STR_Theif_check(CombatEntity *attacker,s16 param_2,s32 param_3,CombatEn
   pCVar3 = attacker->charSheetP;
   DMG = RollD(pCVar3->weapons->damage + get_STR_Steps(attacker) * diceMulti,6);
   iVar6 = some_skillcheck_calc(((s32)param_2 - (s32)(s16)param_3) * 0x10000 >> 0x10);
-  iVar6 = (DMG + ((iVar6 + CharStats::getBaseStat(pCVar3->Stats,STAT_LV)) - get_protection_level(target,backStab)) * 0x10000 >> 0x10) +
+  iVar6 = (DMG + ((iVar6 + CharStats::getBase(pCVar3->Stats,STAT_LV)) - get_protection_level(target,backStab)) * 0x10000 >> 0x10) +
           getModdedSkill(pCVar3->Skills,SKILL_THIEF) * 2 * backStab) * 0x10000 >> 0x10;
   if (iVar6 < 1) iVar6 = 1;
   sVar9 = calc_element_resist_multi(attacker,target,(s16)iVar6,pCVar3->weapons->element);
@@ -1864,13 +1877,13 @@ s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,c
   if (INT_MAX_f <= prox) {prox-= INT_MAX_f;}
   iVar7 = CharStats::getModdedStat(atkStats,STAT_INT);
   iVar8 = CharStats::getModdedStat(atkStats,STAT_DEX);
-  iVar9 = CharStats::getBaseStat(atkStats,STAT_LV);
+  iVar9 = CharStats::getBase(atkStats,STAT_LV);
   cVar11 = getModdedWeapon(pCVar5,pTVar4->weaponType;);
   cVar12 = getModdedSkill(pCVar5,SKILL_WARRIOR);
   //(s32+STAT_DEX+LV)+(WepHit+WepSkill*6+Warrior*2)
   uVar15 = (s32)((((iVar7 + iVar8 + iVar9) * 0x10000 >> 0x10) + (u32)pTVar4->hit + cVar11 * 6 + cVar12 * 2) * 0x10000) >> 0x10;
   if (6 < (s32)prox) {uVar15 = (s32)(uVar15 - ((s32)prox - 5) * 0x10000) >> 0x10;}
-  iVar7 = (uVar15 - CharStats::getBaseStat(DefStats,STAT_LV)) * 0x10000;
+  iVar7 = (uVar15 - CharStats::getBase(DefStats,STAT_LV)) * 0x10000;
   uVar16 = (u16)((u32)iVar7 >> 0x10);
   if (!check_for_petrify_effect(param_2)) {
     uVar16 = (u16)((u32)(((((iVar7 >> 0x10) + CharStats::getModdedStat(DefStats,STAT_DEX) * -2) * 0x10000 >> 0x10) - get_sheild_warrior_skill(param_2)) * 0x10000) >> 0x10);
@@ -2062,29 +2075,21 @@ bool check_for_control_petrify(CombatEntity *param_1,CombatEntity *param_2,Temp_
   else return FUN_8006cbb4(param_1,param_2,param_3);
 }
 
-bool check_for_petrify(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,char param_4){
+bool CombatEntity::CheckForPetrify(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,char param_4){
    
   if (!isPetrify(param_1,param_4)) return true;
   else return FUN_8006cbb4(param_1,param_2,param_3);
 }
 
-bool combat_check_spell_ingredient(CombatEntity *param_1,Temp_spell *param_2){
-  inv_funcs *piVar1;
+bool CombatEntity::CheckSpellIngredient(CombatEntity *param_1,Temp_spell *param_2){
   bool bVar4;
   bool bVar5;
-  ItemID IVar3;
   ulong uVar2;
   
-  bVar4 = CombatEnt_flag_5(param_1);
   bVar5 = true;
-  if (((bVar4 == false) && (bVar5 = true, param_1->aiP == NULL)) &&
+  if (((!Flag5(param_1)) && (bVar5 = true, param_1->aiP == NULL)) &&
      (bVar5 = true, param_2->cost)) {
-    IVar3 = get_spell_ingredient(param_2);
-    piVar1 = (gGlobals.party)->inv->Functions;
-    uVar2 = (*(piVar1->get_some_bool).func)
-                      ((s32)(gGlobals.party)->inv->inv_slots +
-                       (s16)(piVar1->get_some_bool).arg[0] + -4,IVar3,1);
-    if (uVar2 == 0) {
+    if (!gGlobals.party->Inventory->TakeItem(get_spell_ingredient(param_2),1)) {
       combat_spell_fail(param_1,gCombatP->textArray->not enough spell ingredients);
       bVar5 = false;
     }
@@ -2101,7 +2106,7 @@ u16 some_aspect_multi_check(CombatEntity *param_1,u32 param_2){
   float moonfloats [4]={0.5f,0.75f,1.25f,1.5f};
   float dayfloats [5]={0.75f,1.25f,1.25f,0.75f,0.75f};
   intStat = CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_INT);
-  lvl = CharStats::getBaseStat(param_1->charSheetP->Stats,STAT_LV);
+  lvl = CharStats::getBase(param_1->charSheetP->Stats,STAT_LV);
   if (GetCharAspect(param_1->charSheetP->EXP) == LUNAR) aspectMod = moonfloats[TerrainPointer->moonPhases];
   else aspectMod = dayfloats[TerrainPointer->partOfDay];
   uVar3 = Combat_troubador_mod(param_1,(intStat * 4 + param_2 * 6 + lvl) * aspectMod);
@@ -2247,7 +2252,7 @@ bool func_checking_vs_magic(CombatEntity *param_1,Temp_spell *param_2,CombatEnti
   }
   if (!some_magic_check(param_1,param_2,param_3)) return true;
   stats = param_3->charSheetP->Stats;
-  iVar3 = (CharStats::getModdedStat(stats,STAT_WIL) * 3 + CharStats::getModdedStat(stats,STAT_END) + CharStats::getBaseStat(stats,STAT_LV)) * 0x10000 >> 0x10;
+  iVar3 = (CharStats::getModdedStat(stats,STAT_WIL) * 3 + CharStats::getModdedStat(stats,STAT_END) + CharStats::getBase(stats,STAT_LV)) * 0x10000 >> 0x10;
   uVar6 = check_vs_magic(param_3,param_2);
   if ((uVar6) != 0) {iVar3 = (s32)(((uVar6) + iVar3) * 0x10000) >> 0x10;}
   if ((param_2->aspect_flag & 2) == 0) {if ((param_2->aspect_flag & 1) == 0) goto LAB_8006d5ac;}
@@ -2290,7 +2295,7 @@ u8 banishing_func(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_
 }
 
 s32 dispel_magic_combat(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,SpellEnum param_4,u8 param_5){
-  if (!dispel_magic(param_2->charSheetP,(char)param_2,param_4,param_5)) {
+  if (!Entity::DispelMagic(param_2->charSheetP,(char)param_2,param_4,param_5)) {
     Gsprintf(gCombatP->textArray->they cast spell,param_1->charSheetP->name,param_3->name);
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
     Gsprintf(gCombatP->textArray->they fail,param_3->name);
@@ -2515,11 +2520,11 @@ s16 Warrior_thrown_check(CombatEntity *param_1,CombatEntity *param_2,u8 param_3)
   pCVar2 = param_1->charSheetP->Skills;
   iVar5 = CharStats::getModdedStat(stats,STAT_INT);
   iVar6 = CharStats::getModdedStat(stats,STAT_DEX);
-  iVar7 = CharStats::getBaseStat(stats,STAT_LV);
+  iVar7 = CharStats::getBase(stats,STAT_LV);
   cVar12 = getModdedWeapon(pCVar2,Thrown);
   cVar13 = getModdedSkill(pCVar2,SKILL_WARRIOR);
   iVar8 = CharStats::getModdedStat(DefStats,STAT_DEX);
-  iVar9 = CharStats::getBaseStat(DefStats,STAT_LV);
+  iVar9 = CharStats::getBase(DefStats,STAT_LV);
   uVar10 = get_sheild_warrior_skill(param_2);
   //(s32+STAT_DEX+LV)+(Thrown*6+Warrior*2+40)-((DefSheildWarrior/2)+DefDEX+DefLV)
   iVar5 = (((((iVar5 + iVar6 + iVar7) * 0x10000 >> 0x10) + cVar12 * 6 + cVar13 * 2 + 0x28) * 0x10000
@@ -2544,7 +2549,7 @@ void combat_print_swing_miss_2(CombatEntity *param_1,CombatEntity *param_2,u32 p
   
   ppVar1 = gGlobals.playerDataArray[param_2->index];
   copyVec3((ppVar1->collision).position,gGlobals.unk0x1434);
-  fVar2 = get_entity_2float_sum(EntityPointer,param_2->charSheetP->ID);
+  fVar2 = get_entity_2float_sum(gEntityDB,param_2->charSheetP->ID);
   gGlobals.unk0x1434[1] += (fVar2 * 0.5f - (ppVar1->collision).radius);
   combat_weapon_skill_check(param_1,(param_3 & 0xff) >> 1,Thrown);
   gGlobals.playerDataArray[param_1->index]->ani_type = 0xf;
@@ -2614,7 +2619,7 @@ void FUN_8006e4c0(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
               }
               if (iVar5 < 1) {pCVar1->damage = (u8)iVar5;}
               else {
-                damage_func(pCVar1->charSheetP,(s16)iVar5);
+                Entity::DecreaseHP(pCVar1->charSheetP,(s16)iVar5);
                 FUN_8006dcd8((u32)pCVar1->index,param_1->item,pCVar1->charSheetP);
                 pCVar1->damage = (u8)iVar5;
               }
@@ -2625,7 +2630,7 @@ void FUN_8006e4c0(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
                 iVar5 = (s32)((getHPCurrent(pCVar1->charSheetP) - 1) * 0x10000) >> 0x10;
               }
               if (0 < iVar5) {
-                func_checking_cheat_death(pCVar1->charSheetP,(s16)iVar5,pCVar1);
+                Entity::DamageToLevel(pCVar1->charSheetP,(s16)iVar5,pCVar1);
                 FUN_8006dcd8((u32)pCVar1->index,param_1->item,pCVar1->charSheetP);
               }
               pCVar1->damage = (u8)iVar5;
@@ -2855,7 +2860,7 @@ s16 tick_goblin_ambush(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
 
 void checkForCheatDeath(CombatEntity *param_1,s16 param_2){
   if (getHPCurrent(param_1->charSheetP) <= param_2) {
-    if (!hasCheatDeath(param_1->charSheetP)) {
+    if (!Entity::hasCheatDeath(param_1->charSheetP)) {
       Gsprintf(gCombatP->textArray->they died,param_1->charSheetP->name);
       print_combat_textbox(gCombatP,gGlobals.text,0);
       func_seeking_sholeh(param_1);
@@ -2973,7 +2978,7 @@ void combat_troubadour(CombatEntity *param_1){
         CombatEnt_NAND_flags(param_1,flag8);
         CombatEnt_NAND_flags(param_1,flag9);
         gCombatP->Troubador = bVar6;
-        damage_func(param_1->charSheetP,3);
+        Entity::DecreaseHP(param_1->charSheetP,3);
         Gsprintf(gCombatP->textArray->they perform,param_1->charSheetP->name);
         copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
         print_combat_textbox(gCombatP,gGlobals.text,0);
@@ -3194,7 +3199,7 @@ void get_weapon_sheild_borg5(CombatEntity *param_1){
   return;
 }
 
-bool cannotSheild(ItemID param_1){return EntityPointer->entities[GetIDIndex(param_1)].sheildStat == -1;}
+bool cannotSheild(ItemID param_1){return gEntityDB->entities[GetIDIndex(param_1)].sheildStat == -1;}
 
 /* ehud gorgon chaos.Lt. harpy marquis minotuar mino.lord neilsin */
 bool CannotShowWeapon(ItemID param_1){
@@ -3366,7 +3371,7 @@ void clear_combatEnt_effects(CombatEntity *param_1){
     uVar1 = 0;
     do {
       uVar2++;
-      clear_player_effect(param_1->charSheetP,uVar1,param_1);
+      Entity::ClearSpellEffect(param_1->charSheetP,uVar1,param_1);
       uVar1 = uVar2 & 0xff;
     } while (uVar2 < 0xf);
   }

@@ -11,7 +11,7 @@ void init_charExp(charExp *param_1,ItemID param_2){
   Entity_Ram *pEVar5;
   
   bVar3 = GetIDIndex(param_2);
-  pEVar5 = EntityPointer->entities + bVar3;
+  pEVar5 = gEntityDB->entities + bVar3;
   param_1->rom0x2b = pEVar5->rom0x2b; //seems unused
   param_1->school = pEVar5->School;
   param_1->protection = pEVar5->BaseProtect;

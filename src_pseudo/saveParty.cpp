@@ -296,7 +296,7 @@ CharSheet * SaveParty::LoadCharSheetEffects(SaveFile *sav){
     ALLOCS(chara->potionEffects,sizeof(PotionEffect*) * POTION_FXMAX,1855);
     memset(chara->potionEffects,0,0x1c);
     for(i=0;i<POTION_FXMAX;i++) LoadPotionEffect(sav,chara);
-    chara->portrait = get_borg_8(getEntityPortrait(EntityPointer,chara->ID));
+    chara->portrait = get_borg_8(getEntityPortrait(gEntityDB,chara->ID));
   }
   return chara;
 }
@@ -319,7 +319,7 @@ void SaveParty::LoadWeapon(SaveFile *sav,CharSheet *chara){
   u16 uVar2;
   uint uVar3;
   
-  if (chara->weapons) unequp_weapons(chara);
+  if (chara->weapons) Entity::UnequipWeapons(chara);
   uVar2 = LoadBits(sav,0xd);
   SKIPCHECK(uVar2,15) {
     uVar3 = LoadBits(sav,5);

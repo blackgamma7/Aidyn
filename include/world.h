@@ -4,7 +4,7 @@ enum TIME_OF_DAY{MORNING, MIDDAY, AFTERNOON, EVENING, NIGHT};
 enum PRECIPITATION{CLEAR, RAIN, SNOW};
 
 struct TerrainStruct {
-    u16 daySpeed; /* set to 72 (0x48) */
+    u16 daySpeed; /* set to 72 (1.2 seconds per tick) */
     u8 partOfDay; /* 21-6 night, 6-9 morning, 9-12 midday, 12-17 afternoon, 17-21 evening */
     u8 moonPhases; /* ranges from 0-3 */
     u8 windByte;
@@ -88,8 +88,8 @@ u8 GetMinute(TerrainStruct *);
 u8 GetSecond(TerrainStruct *);
 float get_timeofDay_float(TerrainStruct *);
 void terrainStruct_floats(TerrainStruct *);
-void terrainstruct_spellvisuals_1(TerrainStruct *,float ,float ,s16 );
-void Terrainstruct_spellvisuals_2(TerrainStruct *,float );
+void spellvisuals_1(TerrainStruct *,float ,float ,s16 );
+void spellvisuals_2(TerrainStruct *,float );
 };
 
 //60 ticks per second

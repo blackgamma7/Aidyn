@@ -2361,9 +2361,9 @@ void voxel_index_position(s16 delta,playerData *param_2){
   char **uStack344;
   char **auStack344;
   char **appcStack336 [84];
-  char (*labels) [24]; ={"VOBJECT_CONTAINER","VOBJECT_LIGHT","VOBJECT_AUDIO","VOBJECT_WANDERNODE",
+  char labels[13][24] ={"VOBJECT_CONTAINER","VOBJECT_LIGHT","VOBJECT_AUDIO","VOBJECT_WANDERNODE",
    "VOBJECT_MONSTERPARTY","VOBJECT_REFERENCEPOINT","VOBJECT_TELEPORTER","VOBJECT_CAMERA","VOBJECT_DIALOGUE",
-   "VOBJECT_TRIGGER","VOBJECT_SAVEPOINT","VOBJECT_CODE"}
+   "VOBJECT_TRIGGER","VOBJECT_SAVEPOINT","VOBJECT_CODE"};
   
   prVar11 = voxel_index_pointer;
   if (voxel_index != 0) {

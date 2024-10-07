@@ -113,7 +113,7 @@ void saveEntity_func_2(CharSheet *param_1,CharSheet *param_2,u8 param_3){
   ptVar4 = param_2->armor[param_3];
   ptVar2 = param_1->armor[param_3];
   if (ptVar4) {
-    pssto_clear_weapon_effects(ptVar4);
+    ArmorInstance_ClearEffect(ptVar4);
     HeapFree(ptVar4,FILENAME,0x13c);
     param_2->armor[param_3] = NULL;
   }
@@ -200,9 +200,9 @@ void copy_spellbook(CharSheet *param_1,CharSheet *param_2){
     }
     psVar2 = (spellbook *)heapAlloc(8,FILENAME,0x1b8);
     param_2->spellbook = psVar2;
-    malloc_spell(psVar2,(u32)psVar1->spell_count);
+    malloc_spell(psVar2,(u32)psVar1->count);
     uVar4 = 0;
-    if (psVar1->spell_count != 0) {
+    if (psVar1->count != 0) {
       pTVar3 = psVar1->spells;
       while( true ) {
         pIVar2 = *(Temp_spell **)(&pTVar3->id + uVar4 * 2);
@@ -213,11 +213,11 @@ void copy_spellbook(CharSheet *param_1,CharSheet *param_2){
           create_temp_spell(pTVar3,ID,pIVar2->level);
         }
         uVar4++;
-        if (psVar1->spell_count <= uVar4) break;
+        if (psVar1->count <= uVar4) break;
         pTVar3 = psVar1->spells;
       }
     }
-    psVar2->spell_count = psVar1->spell_count;
+    psVar2->count = psVar1->count;
   }
   return;
 }

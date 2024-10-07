@@ -270,7 +270,7 @@ u16 set_CreditsByte(void){
   return 19;}
 
 u16 Alaron_truename(void){
-  CharSheet *pCVar1 = get_charsheet(gGlobals.party,EntityPointer->entities[0x99].ID);
+  CharSheet *pCVar1 = get_charsheet(gGlobals.party,gEntityDB->entities[0x99].ID);
   if (pCVar1) {pCVar1->EXP->flags |= TrueName;}
   return 1;
 }

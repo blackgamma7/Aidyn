@@ -8,6 +8,7 @@
 #include "PlayerData.h"
 
 #include "crash.h"
+#include "heapN64.h"
 
 struct GlobalsSub { /* 0x800e6988 */
     ZoneDat ZoneDatMtx[3][3];
@@ -150,7 +151,8 @@ extern GlobalsAidyn gGlobals;
 #define RAND gGlobals.rngSeed
 //many sprintfs use "gGlobals.text" as the buffer.
 #define Gsprintf(fmt,...)  sprintf(gGlobals.text,fmt,__VA_ARGS__)
-
+//many strings are called from the CommonStrings field, likely for localization purposes.
+#define Cstring(name) gGlobals.CommonStrings[COMMONSTRING_##name]
 
 void set_memUsedMirror(void);
 s32 Ofunc_get_MemUsed_difference(void);

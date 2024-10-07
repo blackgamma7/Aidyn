@@ -15,12 +15,12 @@ u8 Combat::WillTheyFlee(ItemID param_1){
   
   if (gCombatP->hasFleeRefpoints == 0) return false;
   bVar3 = GetIDIndex(param_1);
-  bVar1 = EntityPointer->entities[(char)bVar3].morale;
+  bVar1 = gEntityDB->entities[(char)bVar3].morale;
   lVar7 = bVar1;
   if (0xb < lVar7) return false;
   AVar6 = ASPECT_SOLAR;
   if (gCombatP->EnemiesAlive <= gCombatP->enemyCount >> 1) return false;
-  if (EntityPointer->entities[bVar3].aspect != ASPECT_SOLAR) {
+  if (gEntityDB->entities[bVar3].aspect != ASPECT_SOLAR) {
     AVar6 = ASPECT_LUNAR;
   }
   if (NotAspectBonus(AVar6)) lVar7 = bVar1-1;

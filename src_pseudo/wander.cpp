@@ -383,7 +383,7 @@ void monster_engagement_func(wander_struct *param_1,s16 param_2){
                  ((s32)pBVar5->ref_objs +
                  ((u32)(u16)wanderer->VoxelIndex * 0x1c - (u32)(u16)wanderer->VoxelIndex) *
                  4);
-        entRamB = get_entity_ram_b(EntityPointer,pmVar8->entityID);
+        entRamB = get_entity_ram_b(gEntityDB,pmVar8->entityID);
         copyVec3((playerDat_->collision).position,playerPos);
         bVar1 = wanderer->playerDat->zoneDatByte;
         fVar17 = entRamB + entRamB;

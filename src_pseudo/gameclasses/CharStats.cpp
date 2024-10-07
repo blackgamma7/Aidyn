@@ -8,7 +8,7 @@ void CharStats:Init(CharStats *stats,ItemID ID){
   Entity_Ram *Entram;
   
   index = GetIDIndex(ID);
-  Entram = EntityPointer->entities;
+  Entram = gEntityDB->entities;
   memcpy(stats,Entram[index].stats,6);
   stats->Base_Stats[6] = Entram[index].Level;
   memcpy(stats->array2,stats,7);
@@ -49,7 +49,7 @@ void addModdedStat_flag(CharStats *stat,u8 type,char mod){
   Event_flag_stat(type);
 }
 
-void SubtractModdedStats(CharStats *stat,u8 type,char mod){
+void CharStats::SubModdedMagic(CharStats *stat,u8 type,char mod){
   stat->array3[type] -= mod;
   stat->modded[type] -= mod;
   Event_flag_stat(type);
@@ -61,7 +61,7 @@ void addtoModdedStats(CharStats *stat,u8 type,char mod){
 void subtractFromModdedStats(CharStats *stat,u8 type,char mod){
   stat->modded[type] -= mod;}
 
-s32 CharStats::getBaseStat(CharStats *stats,u8 type){
+s32 CharStats::getBase(CharStats *stats,u8 type){
   return capStatMax(param_1,type,(u32)stats->array3[type],base_stat_cap);
 }
 

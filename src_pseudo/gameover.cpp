@@ -26,7 +26,7 @@ loop:
       sVar6 = getHPCurrent(pCVar2);
       addHP(pCVar2,sVar5 - sVar6);
       if (puVar8) {
-        if (gglobals.screenFadeModeSwitch == 2) {
+        if (gGlobals.screenFadeModeSwitch == 2) {
           gGlobals.combatbytes[0] = 0x15;
           uVar1 = *puVar8;
         }

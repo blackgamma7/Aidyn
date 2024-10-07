@@ -31,7 +31,7 @@ void InitProc(void){
   DCM::Init();
   Controller::Init(&Sched,1,10,4);
   RomCopy::Init(9,3);
-  set_borg_mem_things(&borg_listings,borg_files);
+  SetBorgListing(&borg_listings,borg_files);
   time = osGetTime();
   RAND.SetSeed(udivdi3(CONCAT44((time >> 0x20) << 6 | time >> 0x1a,time << 6),3000));
   appInit(&Sched,8,2);

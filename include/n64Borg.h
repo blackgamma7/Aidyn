@@ -1,3 +1,5 @@
+#include "mathN64.h"
+
 /*"Borg" files are the art/level/cutscene assets of the game, in 15 different categories:
 0-Unused, therefore, unknown.
 1-Textures. use some compression method.
@@ -15,13 +17,30 @@
 13-Dialogue/cutscenes.
 14-unused. refered internally in Debug as "GameState"*/
 
-struct Borg_8_dat {
-    u16 format;  //enum of {?,RGBA32,GRBA16,?,CI8,IA8} thus far.
+typedef enum Borg8Format {
+    BORG8_RBGA32=1,
+    BORG8_RGBA16=2,
+    BORG8_CI8=4,
+    BORG8_IA8=5
+} Borg8Format;
+
+struct borgHeader {
+    int index;
+    u32 unk;
+};
+
+struct Borg8dat {
+    u16 format;
     u16 height;
     u16 width;
-    u16 PAL size;
-    u32 flags;
-    u32 offset; //either 0x10(past the header) or 0x210(header + pallette)
+    u16 PALSize;
+    uint flags;
+    u32 offset;
+};
+
+struct Borg8header {
+    struct borgHeader index;
+    struct Borg8dat dat;
 };
 
 //borg 9 data structs.
@@ -70,7 +89,7 @@ enum Vobject{
     VOBJECT_TRIGGER,
     VOBJECT_SAVEPOINT, //unused? game saves virtually where/whenever.
     VOBJECT_CODE, //in game, but dunno what it does special.
-}
+};
 /* bitfeild flags id'd
 0001
 0002
@@ -94,7 +113,7 @@ struct voxelHeader { /* Header for Refernce objects (Voxels) */
     float size; /* how big is it. */
     u32 timestamp; /* when was it called */
     u16 Bitfeild; /* 16-bit Flags for rendering */
-    enum Vobject type; /* object type. 16-bit*/
+    u16 type; /* object type. 16-bit*/
     s16 LinkID[2]; /* used by containers to link with scene object. holds index of relevant voxel. */
     u16 flagA; // if non-zero, flagA detemines which needs to be set to activate
     u16 flagB;
@@ -104,21 +123,93 @@ struct voxelHeader { /* Header for Refernce objects (Voxels) */
     void * ptr0x24;
 };
 
-struct Scene_obj_dat{
-    float unk0x0; //size mirror?
-    u32 borg_7_index;
-    AnimationData* anidat;
-    float unk0xc;
-    u32 borg5_index;
-    u8 unk0x14[8];
-    u32 borg5_index2; //used for open chests?
-    u32 unk0x20;
-    vec3f rotation; //in radians. x usually has an odd angle, for some reason.
-    vec3f scaling;
-    color32 tinting; //used if SceneFlags&0x10
-    u16 unk0x40;
-    u16 Sceneflags;
+
+
+struct container_Dat {
+    u32 unk0x0;
+    float chestSize; /* seems identical to header.size */
+    u16 openFlag;
+    u16 explodeFlag;
+    short trap_lv;
+    u16 unk0x14;
+    ItemID LootCat; /* chestdb id */
+    u16 LootType;
+    u8 LockLV[2];
+    u16 Gold; /* money */
+    ItemID item; /* static item */
+    u16 unk1A; /* align? */
+    short lootCatDrop[6][2]; /* populated with chestdb items */
+    u8 field13_0x34[16];
 };
+
+struct teleport_dat {
+    u16 MapDatA;
+    u16 MapShort1;
+    u16 MapShort2;
+    u16 refPoint_Pos;
+    short trap_value;
+    u16 trapBool16;
+    u16 lock_lv;
+    u16 refPoint_Cam;
+    u16 lock_flag;
+    u16 lockpick_flag_2;
+    u16 TrapFlag;
+    u16 trapDisarmFlag;
+    u16 secrect_door_flag;
+    u16 secretDoorVal; /* skill check */
+    char name[16];
+    undefined unk0x54[24]; /* align bytes */
+};
+
+struct SceneVoxelModel {
+    float renderProx;
+    u32 borgIndex;
+    struct Borg7header *borgheader;
+};
+
+struct Scene_obj_dat {
+    struct SceneVoxelModel borgArray[3];
+    struct vec3f rotation;
+    struct vec3f scale;
+    Color32 tint;
+    u16 BorgCount;
+    u16 sceneflags;
+};
+
+struct monsterpartyEntry {
+    ItemID enemyID;
+    u8 min;
+    u8 max;
+};
+
+struct monsterparty_dat {
+    struct monsterpartyEntry enemyEntries[8];
+    ItemID entityID;
+    ItemID globalLoot;
+    u16 field3_0x24;
+    undefined field4_0x26;
+    undefined field5_0x27;
+    u16 field6_0x28;
+    u16 totalsize;
+    ItemID field8_0x2c;
+    u16 wanderNode;
+    u16 flags;
+    undefined field11_0x32;
+    undefined field12_0x33;
+    enum borg13Enum borg_13;
+    u8 align[12];
+};
+
+struct Wandernode_dat {
+    struct vec2f startCoords;
+    float wanderradius;
+    float PosRandom;
+    float field3_0x10;
+    u16 field4_0x14[2];
+    u16 NodeSiblings[2];
+    u8 field6_0x1c[40];
+};
+
 /* Sceneflags id'd
 0001
 0002
@@ -128,25 +219,9 @@ struct Scene_obj_dat{
 0020=tint with sunlight
 doesn't seem to use all 16 bits.*/
 
-struct container_Dat {
-    float unk0x0; //size mirror?
-    float chestSize; //proximity to activate.
-    u16 open_flag;
-    u16 explode_flag;
-    s16 trap_lv;
-    u16 unk0x14;
-    struct ItemID LootCat; /* chestdb id */
-    u16 LootType;
-    u16 LockLV;
-    u16 Gold; /* money or reagents, depending on LootType */
-    struct ItemID item; // static item
-    u16 unk0x1a; //align?
-    s16 lootCatDrop[6][2]; /* populated with chestdb items and quantities*/
-    u8 align[16];
-};
 
 struct light_dat{
-    color32 cols[3]; //first seems to be used for blending.
+    Color32 cols[3]; //first seems to be used for blending.
     u16 lightType; //4 valid types. {static(use only cols[1]),alternating blend,sinewave blend,random blend}
     u16 pad;
     float f0; //blend factor, changes per type.
@@ -193,14 +268,14 @@ struct wandernode_dat{
 };
 struct monsterparty_dat {
     struct monsterpartyEntry enemyEntries[8];
-    struct ItemID entityID; //avatar of party or NPC
-    struct ItemID globalLoot;
+    ItemID entityID; //avatar of party or NPC
+    ItemID globalLoot;
     u16 unk0x24;
     u8 unk0x26;
     u8 unk0x27;
     u16 unk0x28;
     u16 totalsize;
-    struct ItemID unk0x2c; //usually mirror of entityID.
+    ItemID unk0x2c; //usually mirror of entityID.
     u16 wanderNode; //index on map chunk.
     u16 monsterpartyFlags;
     u8 unk0x32;
@@ -217,24 +292,7 @@ struct referencepoint_dat{//used as locators for tp's, camera's dialouge scripts
     u8 align[36];
 };
 
-struct teleport_dat {
-    u16 MapDatA;
-    u16 MapShort1;
-    u16 MapShort2;
-    u16 refPoint_ID; //determines location of teleport.
-    s16 trap_value;
-    u16 trapBool16;
-    u16 lock_lv;
-    u16 refPoint_ID2;
-    u16 lock_flag;
-    u16 lockpick_flag_2;
-    u16 trap_flag;
-    u16 flag_0x3e;
-    u16 secrect_door_flag;
-    u16 secretDoorVal;
-    char name[16]; //internal
-    u8 align[24];
-};
+
 
 struct camera_dat {
     s16 refpoint_ID; //used as inital aim for camera.
@@ -248,18 +306,13 @@ struct camera_dat {
 };
 
 struct dialoug_dat {
-    u16 borg_13;
-    u16 MapDatA;
-    u16 MapShortA;
-    u16 MapShortB;
-    u16 RefPointID;
-    //below may be wrong, a lot of guessing here.
-    u16 unk0xa;
-    u16 unk0xc;
-    u8 unk0xe[6];
-    u16 unk0x14;
-    u16 unk0x16;
-    u8 align[44];
+    ushort borg_13;
+    ushort MapDatA;
+    ushort MapShortA;
+    ushort MapShortB;
+    ushort RefPointID;
+    ushort unk0xA;
+    char name[56];
 };
 
 struct Trigger_dat {
@@ -279,8 +332,8 @@ struct Trigger_dat {
     u8 align[24];
 };
 //likely actual struct - used non-union structs in ghidra as they played nicer.
-struct voxelObject { //base object of "ref_objs"
-    struct voxelHeader header; //common for all ref obj's
+struct voxelObject {
+    struct voxelHeader header;
     union{
         Scene_obj_dat scene;
         container_Dat container;
@@ -294,18 +347,86 @@ struct voxelObject { //base object of "ref_objs"
         dialoug_dat dialoug;
         Trigger_dat trigger;
         u8 other[68]; //"CODE" is usually blank, "SAVEPOINT" is never used (you can save anywhere.)
-    }d;
+    };
 };
-struct Borg_3{
+
+struct Borg5data {
+    s32 substructCount;
+    s32 borg4Count;
+    s32 borg2Count;
+    u32 borg1Count;
+    s32 aniTextureCount;
+    u32 unk0x14;
+    struct borg5substruct *someSubstruct;
+    u32 unk0x1c;
+    u32 unk0x20;
+    struct Borg3Data *borg3;
+    u32 *borg4Indecies;
+    struct borg2header **borg2Indecies;
+    struct Borg1header **borg1Indecies;
+    void *unk0x34;
+    u16 *borg1lookup;
+    struct Borg5_particle **ParticleDat;
+    u32 ParticleCount;
+};
+
+struct borg_9_struct {
+    short *shorts;
+    uint unk4;
+    void *unk8;
+    u16 field3_0xc;
+    undefined field4_0xe;
+    undefined field5_0xf;
+    ushort voxelSceneCount;
+    undefined field7_0x12;
+    undefined field8_0x13;
+};
+
+struct Borg11Data {
+    u32 flag;
+    u32 len;
+    u32 unk8;
+    u8 *wav;
+};
+
+struct Borg11header {
     u32 index;
-    u8 unk0x4[4]; //align?
-    //actual file data
-    u16[4] perspnorm;
-    f32 unk0x10;
-    f32 fovy;
-    f32 nearplane,farplane;
-    f32 unk0x20;
-    f32 aspect;
-    s32 unk0x28; //pointer? seems unused.
-    Mtx* mtx_;
+    u32 field1_0x4;
+    Borg11Data *dat;
+    void *pointer;
+};
+
+struct borg2header {
+    s32 field0_0x0;
+    s32 field1_0x4;
+    struct LookAt *lookat[2];
+    MtxF someMtx;
+    union Gfx **dlist;
+    void **field5_0x54;
+    struct borg2data *dat;
+};
+
+
+struct Borg12Header {
+    u32 field0_0x0;
+    u32 field1_0x4;
+    struct Borg12Data *dat;
+};
+
+
+struct struct_45 {
+    struct borg6header *anis[3];
+    u32 indecies[3];
+};
+
+struct Borg1Data {
+    enum BORG1type type;
+    u16 flag;
+    u8 height;
+    u8 width;
+    u8 IlaceLvs;
+    u8 align;
+    u16 *dList;
+    u8 *bitmap;
+    ushort *pallette;
 };

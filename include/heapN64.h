@@ -41,5 +41,8 @@ void malloc_update_mem_mon(HeapBlock *h,int param_2);
 
 #define ALLOCS(x,s,line) x=static_cast<decltype(x)>(heapAlloc(s,FILENAME,line))
 #define ALLOC(x,line) ALLOCS(x,sizeof(*x),line)
+//lvalue alloc
+#define ALLOCL(x,line) void* p=heapAlloc(sizeof(*x),FILENAME,line);\
+                       x=(decltype(x))(p);
 #define FREE(x,line) HeapFree(x,FILENAME,line); x=NULL
 #define FREEPTR(x,line) if(x) {FREE(x,line);}

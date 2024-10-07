@@ -50,27 +50,7 @@ enum CHAR_SKILL{
 enum DB_TYPE{
 	EMPTY, MISC, ENTITY, SPELL, ARMOR, UNK4, SHIELD, WEAPON, CHEST, HELMET, CLOAK, GLOVE, RING, WAND, BELT, BOOTS, POTION, SCROLL, KEYITEM, AMULET, DIALOUGEENTITY
 };
-typedef struct{
-    union {
-        u16 s; //often loaded as short
-        struct{
-            u8 type; // from DB_TYPE
-            u8 id;
-        };
-    };
-}ItemID;
 
-typedef struct{
-    union {
-        u16 s; //often loaded as short
-        struct{
-            u8 id;
-            u8 type; // from DB_TYPE
-        };
-    };
-}ItemID_ROM; //LE version
-
-#define ITEMIDTYPE(x) x.s>>8
 
 enum POTION{
 	POTION_FIRE,

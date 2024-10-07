@@ -1,6 +1,8 @@
+#include "globals.h"
+
 char** copyrightText;
 u16 copyright_error;
-AnimationData* splashscreenAniDat //the N64 logo, I suspect.
+AnimationData* splashscreenAniDat; //the N64 logo, I suspect.
 
 
 #ifdef DEBUGVER
@@ -81,7 +83,7 @@ void TitleSplash::Init(void){
   gGlobals.splashScreenUnkC = 0;
   gGlobals.splashscreenTimer = 0;
   fadeFloatMirror = fVar4;
-  widget_N64Logo = borg8_widget(passToMalloc(0x7c),get_borg_8(BORG8_LicencedByNintendo));
+  widget_N64Logo = new WidgetBorg8(get_borg_8(BORG8_LicencedByNintendo));
   widget_N64Logo->SetColor(0,0,0,0);
   set_widget_coords(widget_N64Logo,0xa0 -(widget_N64Logo->getHeight()/2),0xbe);
 }
@@ -94,7 +96,7 @@ void TitleSplash::N64Free(void){
 }
 
 void TitleSplash::Load(void){
-  Borg8Enum BVar1;
+  u32 BVar1;
   
   gGlobals.splashscreenSwitch = 5;
   gGlobals.thqBorg8 = get_borg_8(BORG8_LogoTHQ);
@@ -176,24 +178,25 @@ void TitleSplash::Borg8(Gfx*param_1,u8 alpha,Borg8header *borg){
   }
 }
 
-u8 TitleSplash::ExpansionPak(u32 *param_1){
+u8 TitleSplash::ExpansionPak(Gfx** param_1){
   bool bVar1;
-  u8 abStack40 [8];
-  u32 auStack32 [8];
+  u8 abStack40;
+  controller_aidyn* temp,
+  Gfx* auStack32;
   #ifdef DEBUGVER
   #define ShowTime 2
   #else
   #define ShowTime 30
   #endif
 
-  auStack32[0] = *param_1;
-  abStack40[0] = gGlobals.splashscreenSwitch;
-  while (Controller::GetInput((Button_hold *)(abStack40 + 4),0)) {
+  auStack32 = *param_1;
+  abStack40 = gGlobals.splashscreenSwitch;
+  while (Controller::GetInput(&temp,0)) {
     TitleSplash::Timer(&splashscreen_exppakdatA,&splashscreen_exppakdatB,NULL,ShowTime,abStack40,4);
   }
-  TitleSplash::Borg8((Gfx*)auStack32,splashscreen_exppakdatB,exp_pack_borg8);
-  *param_1 = auStack32[0];
-  return abStack40[0];
+  TitleSplash::Borg8(auStack32,splashscreen_exppakdatB,exp_pack_borg8);
+  *param_1 = auStack32;
+  return abStack40;
 }
 
 void TitleSplash::Println(Gfx*param_1,s16 *HSpace,char *TXT){
@@ -201,30 +204,40 @@ void TitleSplash::Println(Gfx*param_1,s16 *HSpace,char *TXT){
   *HSpace+= (gGlobals.font)->Font_Height;
 }
 u8 TitleSplash::Copyright(Gfx**param_1){
-  FontStruct *pFVar1;
-  u8 bVar2;
-  u32 uVar3;
-  u8 abStack56 [2];
-  s16 sStack54;
-  controller_aidyn *cont;
-  Gfx*apauStack48 [12];
-  
+
   #ifdef DEBUGVER
   #define ShowTime 2
   #else
   #define ShowTime 120
   #endif
 
-  apauStack48[0] = *param_1;
-  abStack56[0] = gGlobals.splashscreenSwitch;
-  sStack54 = (s16)(gfx::get_vres() >> 1) + -7 + (gGlobals.font)->Font_Height * -6;
-  while (Controller::GetInput((Button_hold *)&cont,0)) {
-    if ((cont->input_2 & (R_BUTTON|L_BUTTON)) == (R_BUTTON|L_BUTTON)) show_verion_flag = 1;
-    TitleSplash::Timer(&u16_800e98ee,&copyright_text_color,NULL,showTime,abStack56,1);
+  FontStruct *pFVar1;
+  byte bVar2;
+  ushort uVar3;
+  bool bVar5;
+  ushort uVar4;
+  uint uVar6;
+  byte abStack_38 [2];
+  short sStack_36;
+  controller_aidyn *cont;
+  Gfx *aGStack_30;
+  
+  aGStack_30 = *param_1;
+  abStack_38[0] = gGlobals.splashscreenSwitch;
+  uVar3 = Graphics::get_vres();
+  sStack_36 = (short)((uint)(int)(short)uVar3 >> 1) + -7 + (gGlobals.font)->Font_Height * -6;
+  while (Controller::GetInput(&cont,0)) {
+    if ((cont->input_2 & (R_BUTTON|L_BUTTON)) == (R_BUTTON|L_BUTTON)) {
+      show_verion_flag = 1;
+    }
+    Timer(&USHORT_800e98ee,&copyright_text_color,NULL,ShowTime,abStack_38,1);
   }
-  RSPFUNC(apauStack48[0],6);
-  apauStack48[0] = gsFadeInOut(apauStack48[0],0,0,gfx::get_hres(),gfx::get_vres(),0,0,0,0);
-  font_func(gGlobals.font,(fontface_struct *)0x1d);
+
+  RSPFUNC6(aGStack_30uVar3,uVar4);
+  uVar3 = ;
+  uVar4 = Graphics::get_vres();
+  aGStack_30 = gsFadeInOut(aGStack_30,0,0,Graphics::get_hres(),uVar4,0,0,0,0);
+  font_func(gGlobals.font,BORG8_MainFont);
   bVar2 = copyright_text_color;
   pFVar1 = gGlobals.font;
   ((gGlobals.font)->col).R = copyright_text_color;
@@ -232,25 +245,30 @@ u8 TitleSplash::Copyright(Gfx**param_1){
   (pFVar1->col).B = bVar2;
   (pFVar1->col).A = bVar2;
   if (copyright_error == 0) {
-    for(uVar3 = 0;uVar3 < 12;uVar3++) {
-      TitleSplash::Println((Gfx*)apauStack48,&sStack54,copyrightText[uVar3]);
-      if (((uVar3 == 1) || (uVar3 == 3)) || (uVar3 == 7)) sStack54+=5; //space out select lines more
-    }
+    uVar6 = 0;
+    do {
+      Println((Gfx *)&aGStack_30,&sStack_36,copyrightText[uVar6]);
+      if (((uVar6 == 1) || (uVar6 == 3)) || (uVar6 == 7)) {
+        sStack_36 += 5;
+      }
+      uVar6 = uVar6 + 1 & 0xffff;
+    } while (uVar6 < 0xc);
   }
   else {
     Gsprintf("Code Segment Too Big!\n");
-    TitleSplash::Println((Gfx*)apauStack48,&sStack54,gGlobals.text);
-    Gsprintf("Max: 0x%08x - %d\n",0x100000,0x100000);
-    TitleSplash::Println((Gfx*)apauStack48,&sStack54,gGlobals.text);
-    Gsprintf("Current: 0x%08x - %d\n",0xffa50,0xffa50);
-    TitleSplash::Println((Gfx*)apauStack48,&sStack54,gGlobals.text);
-    Gsprintf("Over: 0x%08x - %d\n",0xfffffffffffffa50,0xfffffffffffffa50);
-    TitleSplash::Println((Gfx*)apauStack48,&sStack54,gGlobals.text);
-    if (u16_800e98ee == 1) {gGlobals.splashscreenTimer = 0;}
+    Println((Gfx *)&aGStack_30,&sStack_36,gGlobals.text);
+    Gsprintf(s_Max:_0x%08x_-_%d_800d9a40,0x100000,0x100000);
+    Println((Gfx *)&aGStack_30,&sStack_36,gGlobals.text);
+    Gsprintf(s_Current:_0x%08x_-_%d_800d9a54,0xffa50,0xffa50);
+    Println((Gfx *)&aGStack_30,&sStack_36,gGlobals.text);
+    Gsprintf(s_Over:_0x%08x_-_%d_800d9a6c,-0x5b0,-0x5b0);
+    Println((Gfx *)&aGStack_30,&sStack_36,gGlobals.text);
+    if (USHORT_800e98ee == 1) {
+      gGlobals.splashscreenTimer = 0;
+    }
   }
-  *param_1 = apauStack48[0];
-  return abStack56[0];
-}
+  *param_1 = aGStack_30;
+  return abStack_38[0];
 
 u8 TitleSplash::N64Logo(Gfx**param_1){
   widgetStruct *pwVar1;

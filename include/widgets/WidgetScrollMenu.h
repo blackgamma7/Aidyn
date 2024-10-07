@@ -21,7 +21,7 @@ struct WidgetScrollMenuSubstruct {
     undefined field9_0x9;
     undefined field10_0xa;
     undefined field11_0xb;
-    struct Color32 col;
+    Color32 col;
     undefined field13_0x10;
     undefined field14_0x11;
     u16 field15_0x12;

@@ -3,8 +3,11 @@
 #else
 #define FILENAME ""
 #endif
+#include "globals.h"
+#include "romcopy.h"
+#include "decompress.h"
 
-u32 BorgFlag;
+u32 borgFlag;
 //borg_funcs_a: first step in initalization
 //borg_funcs_b: second step, sometimes appends the header
 s32 borg_padding[15]= {8,16,88,16,8,16,32,80,8,8,8,8,8,16,8};
@@ -15,25 +18,25 @@ void** borg_index_x4;
 u8* borg_index_x1;
 void* BorgListingPointer;
 void* BorgFilesPointer;
-u32 BorgTotal;
+u32 borgTotal;
 
 void setBorgFlag(void){borgFlag = 1;}
 void clearBorgFlag(void){borgFlag = 0;}
 u32 Ofunc_getBorgTotal(void){return borgTotal;}
 
-void set_borg_mem_things(void *listing,void *files){
-  u32 fileCount [2];
+void SetBorgListing(void *listing,void *files){
+  u32 fileCount ;
   
   BorgListingPointer = listing;
   borgFilesPointer = files;
-  RomCopy::RomCopy(fileCount,listing,8,1,FILENAME,0xfc);
-  borgTotal = fileCount[0];
-  borg_index_x4 = (void **)heapAlloc(fileCount[0] << 2,FILENAME,0x10a);
-  memset(borg_index_x4,0,fileCount[0] << 2);
-  borg_index_x1 = (u8 *)heapAlloc(fileCount[0],FILENAME,0x10d);
-  memset(borg_index_x1,0,fileCount[0]);
-  memset(borg_mem,0,sizeof(borg_mem));
-  memset(borg_count,0,sizeof(borg_count));
+  RomCopy::RomCopy(&fileCount,listing,8,1,FILENAME,0xfc);
+  borgTotal = fileCount;
+  ALLOCS(borg_index_x4,fileCount *sizeof(void*),0x10a);
+  memset(borg_index_x4,0,fileCount * sizeof(void*));
+  ALLOCS(borg_index_x1,fileCount,269);
+  memset(borg_index_x1,0,fileCount);
+  CLEAR(borg_mem);
+  CLEAR(borg_count);
 }
 
 bool decompressBorg(void *param_1,u32 compSize,void *borgfile,u32 param_4,u32 compression){
@@ -1019,8 +1022,7 @@ void borg7_free(Borg_7_header *param_1){
     if (get_borg_index_count(param_1->index) == 1)
       {HeapFree(param_1->borg_pointer,FILENAME,0x97e);}
     dec_borg_count(param_1->index);}
-  iVar1 = get_memUsed();
-  borg_mem[7]-= (iVar4 - iVar1);
+  borg_mem[7]-= (iVar4 - get_memUsed());
   borg_count[7]--;
 }
 

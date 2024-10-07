@@ -14,12 +14,7 @@ struct astruct {
     u8 unkb;
 };
 
-struct Borg11Data {
-    u32 flag;
-    u32 len;
-    u32 unk8;
-    u8 *wav;
-};
+
 
 typedef struct astruct_1 astruct_1, *Pastruct_1;
 
@@ -35,8 +30,6 @@ struct astruct_1 {
 
 typedef struct astruct_2 astruct_2, *Pastruct_2;
 
-typedef struct Color32 Color32, *PColor32;
-
 typedef struct Borg8header Borg8header, *PBorg8header;
 
 typedef struct WidgetMethods WidgetMethods, *PWidgetMethods;
@@ -46,36 +39,6 @@ typedef struct borgHeader borgHeader, *PborgHeader;
 typedef struct Borg8dat Borg8dat, *PBorg8dat;
 
 typedef struct Method Method, *PMethod;
-
-typedef enum Borg8Format {
-    BORG8_RBGA32=1,
-    BORG8_RGBA16=2,
-    BORG8_CI8=4,
-    BORG8_IA8=5
-} Borg8Format;
-
-struct borgHeader {
-    int index;
-    u32 unk;
-};
-
-struct Borg8dat {
-    u16 format;
-    short height;
-    short width;
-    short PALSize;
-    uint flags;
-    int offset;
-};
-
-struct Borg8header {
-    struct borgHeader index;
-    struct Borg8dat dat;
-};
-
-struct Color32 { /* 32--bit RGBA color */
-    u8 R,G,B,A;
-};
 
 
 struct astruct_2 {
@@ -423,7 +386,7 @@ typedef enum EnumMapDatA {
 typedef struct Tri Tri, *PTri;
 
 struct light_obj_dat {
-    struct Color32 cols[3];
+    Color32 cols[3];
     ushort lightType; /* 0-3 are valid types */
     u16 field2_0xe;
     float f0;
@@ -437,7 +400,7 @@ struct AniLightData {
     undefined field1_0x1;
     undefined field2_0x2;
     undefined field3_0x3;
-    struct Color32 col;
+    Color32 col;
     u8 x;
     u8 y;
     u8 z;
@@ -476,9 +439,9 @@ struct AnimationData {
     struct vec4f colorFloats;
     int colorValA;
     int colorValB;
-    struct Color32 fogColor;
+    Color32 fogColor;
     struct AniLightData LightDatArray[7];
-    struct Color32 lightColors[4];
+    Color32 lightColors[4];
     uint maxDynamicLights; /* no more than 7 */
     uint currDynamicLights;
     struct ParticleHeadStruct *particleHead;
@@ -555,154 +518,10 @@ typedef struct{
     };
 }ItemID;
 
-struct container_Dat {
-    u32 unk0x0;
-    float chestSize; /* seems identical to header.size */
-    u16 openFlag;
-    u16 explodeFlag;
-    short trap_lv;
-    ushort unk0x14;
-    ItemID LootCat; /* chestdb id */
-    ushort LootType;
-    u8 LockLV[2];
-    ushort Gold; /* money */
-    ItemID item; /* static item */
-    ushort unk1A; /* align? */
-    short lootCatDrop[6][2]; /* populated with chestdb items */
-    u8 field13_0x34[16];
-};
 
-struct teleport_dat {
-    enum EnumMapDatA MapDatA;
-    ushort MapShort1;
-    ushort MapShort2;
-    ushort refPoint_Pos;
-    short trap_value;
-    ushort trapBool16;
-    ushort lock_lv;
-    ushort refPoint_Cam;
-    u16 lock_flag;
-    u16 lockpick_flag_2;
-    u16 TrapFlag;
-    u16 trapDisarmFlag;
-    u16 secrect_door_flag;
-    ushort secretDoorVal; /* skill check */
-    char name[16];
-    undefined unk0x54[24]; /* align bytes */
-};
 
-struct SceneVoxelModel {
-    float renderProx;
-    u32 borgIndex;
-    struct Borg7header *borgheader;
-};
 
-struct Scene_obj_dat {
-    struct SceneVoxelModel borgArray[3];
-    struct vec3f rotation;
-    struct vec3f scale;
-    struct Color32 tint;
-    ushort BorgCount;
-    ushort sceneflags;
-};
 
-struct monsterpartyEntry {
-    ItemID enemyID;
-    u8 min;
-    u8 max;
-};
-
-struct monsterparty_dat {
-    struct monsterpartyEntry enemyEntries[8];
-    ItemID entityID;
-    ItemID globalLoot;
-    ushort field3_0x24;
-    undefined field4_0x26;
-    undefined field5_0x27;
-    ushort field6_0x28;
-    ushort totalsize;
-    ItemID field8_0x2c;
-    u16 wanderNode;
-    ushort flags;
-    undefined field11_0x32;
-    undefined field12_0x33;
-    enum borg13Enum borg_13;
-    u8 align[12];
-};
-
-struct Wandernode_dat {
-    struct vec2f startCoords;
-    float wanderradius;
-    float PosRandom;
-    float field3_0x10;
-    u16 field4_0x14[2];
-    u16 NodeSiblings[2];
-    u8 field6_0x1c[40];
-};
-
-union voxeldat {
-    struct light_obj_dat light;
-    struct Scene_obj_dat scene;
-    struct monsterparty_dat mon;
-    struct Wandernode_dat wander;
-    struct teleport_dat teleport;
-    struct container_Dat container;
-    u8 force_size[68];
-};
-
-struct voxelObject {
-    struct voxelHeader header;
-    union voxeldat data;
-};
-
-struct Borg5data {
-    s32 substructCount;
-    s32 borg4Count;
-    s32 borg2Count;
-    u32 borg1Count;
-    s32 aniTextureCount;
-    u32 unk0x14;
-    struct borg5substruct *someSubstruct;
-    u32 unk0x1c;
-    u32 unk0x20;
-    struct Borg3Data *borg3;
-    u32 *borg4Indecies;
-    struct borg2header **borg2Indecies;
-    struct Borg1header **borg1Indecies;
-    void *unk0x34;
-    u16 *borg1lookup;
-    struct Borg5_particle **ParticleDat;
-    u32 ParticleCount;
-};
-
-struct borg_9_struct {
-    short *shorts;
-    uint unk4;
-    void *unk8;
-    u16 field3_0xc;
-    undefined field4_0xe;
-    undefined field5_0xf;
-    ushort voxelSceneCount;
-    undefined field7_0x12;
-    undefined field8_0x13;
-};
-
-struct Borg11header {
-    u32 index;
-    u32 field1_0x4;
-    struct Borg11Data *dat;
-    undefined *pointer;
-};
-
-struct borg2header {
-    s32 field0_0x0;
-    s32 field1_0x4;
-    struct LookAt *lookat[2];
-    float someMtx[4][4];
-    union Gfx **dlist;
-    void **field5_0x54;
-    struct borg2data *dat;
-};
 
 struct DCMSub2 {
     struct Borg12Header *borg12;
@@ -877,47 +696,6 @@ struct Gwords {
 
 
 
-struct Borg12Header {
-    u32 field0_0x0;
-    u32 field1_0x4;
-    struct Borg12Data *dat;
-};
-
-
-struct struct_45 {
-    struct borg6header *field0_0x0;
-    undefined field1_0x4;
-    undefined field2_0x5;
-    undefined field3_0x6;
-    undefined field4_0x7;
-    undefined field5_0x8;
-    undefined field6_0x9;
-    undefined field7_0xa;
-    undefined field8_0xb;
-    u32 field9_0xc;
-    undefined field10_0x10;
-    undefined field11_0x11;
-    undefined field12_0x12;
-    undefined field13_0x13;
-    undefined field14_0x14;
-    undefined field15_0x15;
-    undefined field16_0x16;
-    undefined field17_0x17;
-};
-
-
-
-struct Borg1Data {
-    enum BORG1type type;
-    u16 flag;
-    u8 height;
-    u8 width;
-    u8 IlaceLvs;
-    u8 align;
-    u16 *dList;
-    u8 *bitmap;
-    ushort *pallette;
-};
 
 struct astruct_6 {
     struct playerData *playerdat_;
@@ -937,7 +715,7 @@ struct Vtx_t {
     short ob[3];
     ushort flag;
     short tc[2];
-    struct Color32 cn;
+    Color32 cn;
 };
 
 struct ParticleEmmiter {
@@ -1017,7 +795,7 @@ struct PlaneObj { /* used for damage numbers and shadows */
     union Mtx transMtx[2];
     union Mtx alignMtx[2];
     union Mtx ScaleMtx[2];
-    struct Color32 vertCols[4];
+    Color32 vertCols[4];
     struct vec3f pos;
     struct vec3f rot;
     struct vec2f scale; /* unused in mtx */
@@ -1048,7 +826,7 @@ struct borg2data {
     float scale;
     struct vec3f pos;
     struct vec3f rot; /* radians */
-    struct Color32 unk0x24;
+    Color32 unk0x24;
     u32 unk0x28; /* ^1&1? */
     union Gfx **dsplists;
     struct Vtx_t *vertlist;
@@ -1925,9 +1703,9 @@ struct WidgetContPakData {
     struct BaseWidget *field17_0x29c;
     struct BaseWidget *unk2a0;
     undefined field19_0x2a4;
-    struct Color32 col0;
-    struct Color32 col1;
-    struct Color32 col2;
+    Color32 col0;
+    Color32 col1;
+    Color32 col2;
     undefined field23_0x2b1;
     undefined field24_0x2b2;
     undefined field25_0x2b3;
@@ -2194,11 +1972,11 @@ typedef struct WidgetFastScrollMenuSubstruct WidgetFastScrollMenuSubstruct, *PWi
 struct WidgetFastScrollMenuSubstruct {
     undefined field0_0x0;
     undefined field1_0x1;
-    struct Color32 colA;
-    struct Color32 colB;
+    Color32 colA;
+    Color32 colB;
     undefined field4_0xa;
     undefined field5_0xb;
-    struct Color32 colC;
+    Color32 colC;
     undefined field7_0x10;
     undefined field8_0x11;
     u16 field9_0x12;
@@ -2556,21 +2334,7 @@ struct ItemInstance {
     struct SpellCharges *spellCharge;
 };
 
-struct SpellInstance { /* spell data loaded into character. */
-    struct ItemInstance base;
-    u8 level;
-    u8 school;
-    u8 damage;
-    u8 stamina;
-    u8 cast;
-    u8 target;
-    u8 wizard;
-    u8 special;
-    u8 range;
-    u8 cost;
-    u16 exp_modifyer;
-    u8 aspect_flag; /* ram0x1f */
-};
+
 
 struct PotionEffect {
     enum PotionEnum ID;
@@ -2626,10 +2390,6 @@ struct ArmorInstance {
     u8 Protect;
     u8 dex;
     u8 stealth;
-    undefined field12_0x28;
-    undefined field13_0x29;
-    undefined field14_0x2a;
-    undefined field15_0x2b;
 };
 
 struct GearInstance {
@@ -2667,7 +2427,7 @@ struct WeaponInstance {
     char unk15;
     u8 unk16;
     u8 reqStr;
-    u8 (*SkillMod)[2];
+    StatMod *SkillMod;
     struct Temp_enchant *enchantment;
     struct resist_float *resist;
     enum WeaponClassEnum weaponType;
@@ -4232,53 +3992,6 @@ struct Camera_obj_dat {
     u8 unk0x58[20];
 };
 
-struct camera_obj {
-    struct voxelHeader header;
-    struct Camera_obj_dat cam;
-};
-
-typedef struct container_obj container_obj, *Pcontainer_obj;
-
-struct container_obj {
-    struct voxelHeader header;
-    struct container_Dat dat;
-};
-
-typedef struct dialoug_dat dialoug_dat, *Pdialoug_dat;
-
-struct dialoug_dat {
-    ushort borg_13;
-    ushort MapDatA;
-    ushort MapShortA;
-    ushort MapShortB;
-    ushort RefPointID;
-    ushort unk0xA;
-    char name[56];
-};
-
-typedef struct Dialoug_obj Dialoug_obj, *PDialoug_obj;
-
-struct Dialoug_obj {
-    struct voxelHeader header;
-    struct dialoug_dat dat;
-};
-
-typedef struct light_obj light_obj, *Plight_obj;
-
-struct light_obj {
-    struct voxelHeader header;
-    struct light_obj_dat data;
-};
-
-typedef struct monsterparty_obj monsterparty_obj, *Pmonsterparty_obj;
-
-struct monsterparty_obj {
-    struct voxelHeader header;
-    struct monsterparty_dat dat;
-};
-
-typedef struct referncepoint_obj referncepoint_obj, *Preferncepoint_obj;
-
 struct referncepoint_obj {
     struct voxelHeader header;
     short refPoint_ID;
@@ -4287,46 +4000,6 @@ struct referncepoint_obj {
     char name[16];
     struct vec3f position;
     u8 align[36];
-};
-
-typedef struct Scene_obj Scene_obj, *PScene_obj;
-
-struct Scene_obj {
-    struct voxelHeader header;
-    struct Scene_obj_dat dat;
-};
-
-typedef struct teleport_obj teleport_obj, *Pteleport_obj;
-
-struct teleport_obj {
-    struct voxelHeader header;
-    struct teleport_dat teleport;
-};
-
-typedef struct Trigger_dat Trigger_dat, *PTrigger_dat;
-
-struct Trigger_dat {
-    short triggertype; /* 1,2,4 are unique. */
-    undefined field1_0x2;
-    undefined field2_0x3;
-    u16 flagA;
-    u16 flagB;
-    u16 flagC;
-    undefined align[58];
-};
-
-typedef struct trigger_obj trigger_obj, *Ptrigger_obj;
-
-struct trigger_obj {
-    struct voxelHeader header;
-    struct Trigger_dat dat;
-};
-
-typedef struct wandernode_obj wandernode_obj, *Pwandernode_obj;
-
-struct wandernode_obj {
-    struct voxelHeader header;
-    struct Wandernode_dat dat;
 };
 
 typedef struct BaseWidgetPause BaseWidgetPause, *PBaseWidgetPause;
@@ -4423,8 +4096,8 @@ struct WidgetHealthGold {
 struct WidgetCalendar {
     struct BaseWidget base;
     struct WidgetMenuWorldMap *map;
-    struct Color32 col0;
-    struct Color32 col1;
+    Color32 col0;
+    Color32 col1;
     u8 waveTint;
     u8 waveAmmount; /* inverts if waveTint is 0 or 20 */
     u8 dayofMonth;
@@ -4448,7 +4121,7 @@ struct ControllerPakSliders {
     u32 isEntrySet;
     struct BaseWidget *PartyPortraits[4];
     u16 unkBounds[4];
-    struct Color32 unkCol;
+    Color32 unkCol;
     struct BaseWidget *arrows;
 };
 
@@ -4854,7 +4527,7 @@ struct cloudStruct {
     u8 index;
     struct vec3f v3;
     u32 unused;
-    struct Color32 col;
+    Color32 col;
     float f3;
 };
 // Strings loaded in by stringDB
@@ -5589,15 +5262,6 @@ struct encounter_rom_dat {
     struct monsterpartyEntry entries[2];
 };
 
-typedef struct EntityPointer EntityPointer, *PEntityPointer;
-
-struct EntityPointer {
-    u8 total;
-    u8 catSizes[7];
-    u8 unk[7];
-    struct Entity_Ram *entities;
-};
-
 typedef enum enum_someCase {
     CombatLevelUp=5
 } enum_someCase;
@@ -5689,7 +5353,7 @@ struct FontStruct {
     u16 field9_0x12;
     float kerningMulti;
     u16 *pointerb;
-    struct Color32 col;
+    Color32 col;
 };
 
 
@@ -5874,8 +5538,8 @@ struct SkyStruct {
     u16 Type; /* no more than 5 */
     struct SkySubstruct obj4;
     struct SkySubstruct obj10;
-    struct Color32 *gradient;
-    struct Color32 colors[5];
+    Color32 *gradient;
+    Color32 colors[5];
     float gray;
     float grayDelta;
     float lensFlareVal;
@@ -5940,7 +5604,7 @@ struct lensflare_data {
     u8 dat0;
     float f0;
     float f1;
-    struct Color32 col;
+    Color32 col;
 };
 
 typedef struct locatorStruct locatorStruct, *PlocatorStruct;
@@ -6022,25 +5686,6 @@ struct MapEventFlag {
 };
 
 
-
-typedef struct MemMon_struct MemMon_struct, *PMemMon_struct;
-
-struct MemMon_struct {
-    void *memRegionStart;
-    void *memRegionNext;
-    void *mamRegionMaxCurr;
-    u32 memFreeMax;
-    u32 memUsed;
-    u32 memFree;
-    u32 obj_count;
-    u32 obj_count_2;
-    u32 obj_free;
-    uint memFree_2;
-    char text[256];
-    u8 flag;
-    u8 pad[7];
-};
-
 typedef struct MemoryMakerStruct MemoryMakerStruct, *PMemoryMakerStruct;
 
 struct MemoryMakerStruct { /* same as SaveDatStruct, but no Screenshot */
@@ -6083,7 +5728,7 @@ typedef enum OS_IO_DIRECTION { /* read/write directions for DMA's */
 typedef struct potionRecipie potionRecipie, *PpotionRecipie;
 
 struct potionRecipie {
-    enum PotionEnum ID;
+    u8 ID;
     u8 spice;
     u8 herb;
     u8 gemstone;
@@ -6092,9 +5737,9 @@ struct potionRecipie {
 };
 
 typedef enum PRECIPITATION {
-    PRECIP_CLEAR=0,
-    PRECIP_RAIN=1,
-    PRECIP_SNOW=2
+    PRECIP_CLEAR,
+    PRECIP_RAIN,
+    PRECIP_SNOW
 } PRECIPITATION;
 
 typedef struct ResolutionSettings ResolutionSettings, *PResolutionSettings;
@@ -6106,19 +5751,6 @@ struct ResolutionSettings {
     u8 colorDepth;
 };
 
-typedef struct RomcopyManageStruct RomcopyManageStruct, *PRomcopyManageStruct;
-
-struct RomcopyManageStruct {
-    void* stack;
-    OSMesg *mesgPointer;
-    struct romcopy_struct *dmaStructs;
-    u8 *dmaIndicies;
-    struct OSThread Thread;
-    struct OSMesgQueue mesgQ0x1c0;
-    OSMesg mesg0x1d8;
-    struct OSMesgQueue mesgQ0x1dc;
-    u8 flag;
-};
 
 typedef struct RomstringController RomstringController, *PRomstringController;
 //Placeholder struct for romstrings. to replace with char** and enums.
@@ -6166,10 +5798,8 @@ struct SkyobjectStruct {
     float f0;
     float f1;
     float f2;
-    struct Color32 col;
+    Color32 col;
 };
-
-
 
 typedef enum SP_STATUS_WRITE {
     SP_CLR_HALT=1,
@@ -6310,14 +5940,6 @@ struct weapon_pointer {
     struct weapon_ram *weapons;
 };
 
-typedef struct WeatherTemp WeatherTemp, *PWeatherTemp;
-
-struct WeatherTemp {
-    float precipScale;
-    float fogFloat;
-    float thunderFloat;
-    enum PRECIPITATION precip;
-};
 
 typedef struct WidgetArmorCraft WidgetArmorCraft, *PWidgetArmorCraft;
 

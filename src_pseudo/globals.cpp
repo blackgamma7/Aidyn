@@ -167,7 +167,7 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2)
         printLine(0x263);
         bVar3 = GetIDIndex(gGlobals.EncounterDat.enemy_entities[uVar7]);
         printLine(0x264);
-        uVar4 += EntityPointer->entities[(char)bVar3].Level;
+        uVar4 += gEntityDB->entities[(char)bVar3].Level;
       } while (uVar7 < param_1);
     }
     printLine(0x268);

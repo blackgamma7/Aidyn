@@ -4,16 +4,19 @@
 #define FILENAME ""
 #endif
 
+#include "romcopy.h"
+#include "heapN64.h"
+
 RomcopyManageStruct romcopyManage;
 
 void RomCopy::Init(OSPri pri,u32 id){
   romcopyManage.stack = (void *)heapAlloc(0x248,FILENAME,0x79);
-  osCreateThread(&romcopyManage.Thread,id,RomCopy::proc,NULL,romcopyManage.stack + 0x248,pri);
+  osCreateThread(&romcopyManage.Thread,id,RomCopy::proc,NULL,&romcopyManage.stack + 584,pri);
   osStartThread(&romcopyManage.Thread);
 }
 
 
-void RomCopy::proc(void){
+void RomCopy::proc(void* p){
   romcopy_struct *Entry;
   OSMesgQueue TempQ;
   OSIoMesg IOMsg;
@@ -22,14 +25,14 @@ void RomCopy::proc(void){
   
   RomCopy::InitQueue();
   osCreateMesgQueue(&TempQ,&TempMsg,1);
-  do {
+  while(1) {
     osRecvMesg(&romcopyManage.mesgQ0x1c0,(OSMesg *)&uStack36,1);
     Entry = romcopyManage.dmaStructs[(u8)uStack36];
     osInvalDCache(Entry->VAddr,Entry->Bytes);
     osPiStartDma(&IOMsg,OS_MESG_PRI_NORMAL,OS_READ,Entry->devAddr,Entry->VAddr,Entry->Bytes,&TempQ);
     osRecvMesg(&TempQ,NULL,1);
     osSendMesg(&Entry->msgQ,NULL,1);
-  } while(1);
+  }
 }
 
 void RomCopy::InitQueue(void){
@@ -112,7 +115,7 @@ u8 RomCopy::RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line)
 }
 
 
-bool RomCopy::Cancel((u8 arg0,u8 arg1){
+bool RomCopy::Cancel(u8 arg0,u8 arg1){
 
   if (arg1 == 1) {
     osRecvMesg(&romcopyManage.dmaStructs[arg0].msgQ,NULL,1);

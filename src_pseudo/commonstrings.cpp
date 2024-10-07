@@ -1,42 +1,43 @@
+#include "globals.h"
+
 void CommonStrings::Init(void){
-  commonstrings = func_romStrings(common_string_array,0x2830);
+  gGlobals.CommonStrings  = func_romStrings(common_string_array,0x2830);
+  commonstrings = gGlobals.CommonStrings;
+  encountertype_labels = gGlobals.CommonStrings + 0xea;
+  walking_labels = gGlobals.CommonStrings + 0xed;
+  element_labels = gGlobals.CommonStrings + 0xf1;
+  spell_error_labels = gGlobals.CommonStrings + 0x102;
+  skill_strings = gGlobals.CommonStrings + 0x10f;
+  weapon_strings = gGlobals.CommonStrings + 0x11b;
+  aspect_labels = gGlobals.CommonStrings + 0x126;
+  magic_school_labels = gGlobals.CommonStrings + 0x129;
+  stat_labels = gGlobals.CommonStrings + 0x12f;
+  humidity_labels = gGlobals.CommonStrings + 0x136;
+  timeofday_labels = gGlobals.CommonStrings + 0x139;
+  moon_phase_labels = gGlobals.CommonStrings + 0x13e;
+  dark_strorm_labels = gGlobals.CommonStrings + 0x142;
+  weekday_labels = gGlobals.CommonStrings + 0x148;
+  terrain_labels = gGlobals.CommonStrings + 0x14f;
+  precip_labels = gGlobals.CommonStrings + 0x157;
+  ground_labels = gGlobals.CommonStrings + 0x15a;
+  price_strings = gGlobals.CommonStrings + 0x180;
   #ifdef DEBUGVER
-  debug_switch_labels = (char **)((s32)commonstrings + 0xbc);
-  boolean_labels = (char **)((s32)commonstrings + 0x74);
-  cheatStatus_labels = (char **)((s32)commonstrings + 0x98);
+  debug_switch_labels = gGlobals.CommonStrings + 0x2f;
+  boolean_labels = gGlobals.CommonStrings + 0x1d;
+  cheatStatus_labels = gGlobals.CommonStrings + 0x26;
   #endif
-  gglobals.CommonStrings = (char **)commonstrings;
-  ground_labels = (char **)((s32)commonstrings + 0x568);
+  task_failue_labels = gGlobals.CommonStrings + 0x58;
+  equip_error_labels = gGlobals.CommonStrings + 0x5f;
   #ifdef DEBUGVER
-  debug_state_labels = (char **)((s32)commonstrings + 0x1ac);
-  bool_labels = (char **)((s32)commonstrings + 0x74);
-  on_off_labels = (char **)((s32)commonstrings + 0x1dc);
+  on_off_labels = gGlobals.CommonStrings + 0x77;
+  debug_state_labels = gGlobals.CommonStrings + 0x6b;
+  bool_labels = gGlobals.CommonStrings + 0x1d;
   #endif
-  encounterType_labels = (char **)((s32)commonstrings + 0x3a8);
-  walking_labels = (char **)((s32)commonstrings + 0x3b4);
-  element_labels = (char **)((s32)commonstrings + 0x3c4);
-  spell_error_labels = (char **)((s32)commonstrings + 0x408);
-  equip_error_labels = (char **)((s32)commonstrings + 0x17c);
-  task_failure_labels = (char **)((s32)commonstrings + 0x160);
-  price_strings = (char **)((s32)commonstrings + 0x600);
-  skill_strings = (char **)((s32)commonstrings + 0x43c);
-  weapon_strings = (char **)((s32)commonstrings + 0x46c);
-  aspect_labels = (char **)((s32)commonstrings + 0x498);
-  magic_school_labels = (char **)((s32)commonstrings + 0x4a4);
-  Stat_labels = (char **)((s32)commonstrings + 0x4bc);
-  humidity_labels = (char **)((s32)commonstrings + 0x4d8);
-  timeofDay_labels = (char **)((s32)commonstrings + 0x4e4);
-  moon_phase_labels = (char **)((s32)commonstrings + 0x4f8);
-  dark_strorm_labels = (char **)((s32)commonstrings + 0x508);
-  weekday_labels = (char **)((s32)commonstrings + 0x520);
-  terrain_labels = (char **)((s32)commonstrings + 0x53c);
-  precip_labels = (char **)((s32)commonstrings + 0x55c);
-  return;
 }
 
 void CommonStrings::Free(void){
-  if (gglobals.CommonStrings) {
-    free_romstring(gglobals.CommonStrings);
+  if (gGlobals.CommonStrings) {
+    free_romstring(gGlobals.CommonStrings);
     commonstrings = NULL;
 	#ifdef DEBUGVER
     debug_switch_labels = NULL;
@@ -48,11 +49,10 @@ void CommonStrings::Free(void){
 	#ifdef DEBUGVER
     debug_state_labels = NULL;
 	#endif
-    commonstringsmirror = NULL;
+    gGlobals.CommonStrings = NULL;
 	#ifdef DEBUGVER
     on_off_labels = NULL;
     bool_labels = NULL;
 	#endif
   }
-  return;
 }

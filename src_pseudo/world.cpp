@@ -33,9 +33,8 @@ void World::SetTerrain(TerrainStruct *ter,u8 param_2){
     ter->terrain = param_2;
     several_time_funcs(ter);
     set_terrain_flags(ter->terrain);
-    return;
   }
-  CRASH("World::SetTerrain","Invalid Terrain type!");
+  else CRASH("World::SetTerrain","Invalid Terrain type!");
 }
 
 u8 World::getTerrain(TerrainStruct *ter){return ter->terrain;}
@@ -252,7 +251,7 @@ void World::several_time_funcs(TerrainStruct *ter){
 }
 
 void World::cap_ingame_time(TerrainStruct *ter){
-  if (YEAR <= ter->InGameTime) ter->InGameTime += -YEAR;
+  if (YEAR <= ter->InGameTime) ter->InGameTime -= YEAR;
 }
 
 void World::Lapse10Seconds(TerrainStruct *ter){
