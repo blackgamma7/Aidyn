@@ -30,9 +30,6 @@ struct astruct_1 {
 
 typedef struct astruct_2 astruct_2, *Pastruct_2;
 
-typedef struct Borg8header Borg8header, *PBorg8header;
-
-typedef struct WidgetMethods WidgetMethods, *PWidgetMethods;
 
 typedef struct borgHeader borgHeader, *PborgHeader;
 
@@ -3583,23 +3580,6 @@ struct ALVoiceState {
     u8 tremelo;
     u8 flags;
 };
-
-typedef enum BUTTON_ENUM {
-    C_RIGHT=1,
-    C_LEFT=2,
-    C_DOWN=4,
-    C_UP=8,
-    R=16,
-    L=32,
-    D_RIGHT=256,
-    D_LEFT=512,
-    D_DOWN=1024,
-    D_UP=2048,
-    START=4096,
-    Z=8192,
-    B=16384,
-    A=32768
-} BUTTON_ENUM;
 
 typedef enum CONT_ERROR {
     CONT_COLLISION_ERROR=1,

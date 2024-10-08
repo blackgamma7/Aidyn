@@ -15,7 +15,7 @@ struct RomcopyManageStruct{
     void* stack;
     OSMesg* mesgPointer;
     romcopy_struct* dmaStructs;
-    u8* dmaIndecies;
+    u8* dmaIndicies;
     OSThread Thread;
     OSMesgQueue mesgQ0x1c0;
     OSMesg mesg0x1d8;

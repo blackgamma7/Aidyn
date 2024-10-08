@@ -1,23 +1,23 @@
 #include "typedefs.h"
 typedef enum event_flag_typeA {
-    FLAG_LOG=0,
-    FLAG_VAL=1,
-    FLAG_CNT=2,
-    FLAG_BIT=3,
-    FLAG_INV=4
+    FLAG_LOG,
+    FLAG_VAL,
+    FLAG_CNT,
+    FLAG_BIT,
+    FLAG_INV
 } event_flag_typeA;
 
 typedef enum Event_flag_typeB {
-    FLAG_AND=0,
-    FLAG_IOR=1,
-    FLAG_EOR=2,
-    FLAG_NOT=3,
-    FLAG_MSK=4,
-    FLAG_EQU=5,
-    FLAG_GRT=6,
-    FLAG_LST=7,
-    FLAG_NEQ=8,
-    FLAG_INV=9
+    FLAG_AND,
+    FLAG_IOR,
+    FLAG_EOR,
+    FLAG_NOT,
+    FLAG_MSK,
+    FLAG_EQU,
+    FLAG_GRT,
+    FLAG_LST,
+    FLAG_NEQ,
+    FLAG_INV
 } Event_flag_typeB;
 
 struct Struct_State {
@@ -34,12 +34,12 @@ struct GameStateFunnel { /* used for event flags and whatnot */
     u16 b;
     u16 flag_count;
     u16 f;
-    struct Struct_State *States_pointer;
-    struct Struct_State *other_pointer;
-    undefined field6_0x10[12];
+    Struct_State *States_pointer; //mostly BIT types - could be optimized as u8*?
+    Struct_State *other_pointer;
+    u8 field6_0x10[12];
     int g;
-    struct Struct_State states[5000]; //mostly BIT types - could be optimized as u8[]?
-    struct Struct_State otherStates[970];
+    Struct_State states[5000]; //mostly BIT types - could be optimized as u8[]?
+    Struct_State otherStates[970];
 };
 GameStateFunnel* gameStates;
 

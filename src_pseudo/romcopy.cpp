@@ -8,34 +8,34 @@
 #include "heapN64.h"
 
 RomcopyManageStruct romcopyManage;
-
-void RomCopy::Init(OSPri pri,u32 id){
+namespace RomCopy{
+void Init(OSPri pri,u32 id){
   romcopyManage.stack = (void *)heapAlloc(0x248,FILENAME,0x79);
   osCreateThread(&romcopyManage.Thread,id,RomCopy::proc,NULL,&romcopyManage.stack + 584,pri);
   osStartThread(&romcopyManage.Thread);
 }
 
 
-void RomCopy::proc(void* p){
+void proc(void* p){
   romcopy_struct *Entry;
   OSMesgQueue TempQ;
   OSIoMesg IOMsg;
   OSMesg TempMsg;
   u32 uStack36;
   
-  RomCopy::InitQueue();
+  InitQueue();
   osCreateMesgQueue(&TempQ,&TempMsg,1);
   while(1) {
     osRecvMesg(&romcopyManage.mesgQ0x1c0,(OSMesg *)&uStack36,1);
     Entry = romcopyManage.dmaStructs[(u8)uStack36];
     osInvalDCache(Entry->VAddr,Entry->Bytes);
-    osPiStartDma(&IOMsg,OS_MESG_PRI_NORMAL,OS_READ,Entry->devAddr,Entry->VAddr,Entry->Bytes,&TempQ);
+    osPiStartDma(&IOMsg,OS_MESG_PRI_NORMAL,OS_READ,Entry->devAddr,Entry->VAddr,Entry->bytes,&TempQ);
     osRecvMesg(&TempQ,NULL,1);
     osSendMesg(&Entry->msgQ,NULL,1);
   }
 }
 
-void RomCopy::InitQueue(void){
+void InitQueue(void){
   romcopy_struct *entry;
   u8 i;
   
@@ -52,7 +52,7 @@ void RomCopy::InitQueue(void){
   romcopyManage.flag = 0;
 }
 
-u8 RomCopy::RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line){
+u8 RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line){
   u8 bVar1;
   char *pcVar3;
   romcopy_struct *prVar4;
@@ -115,7 +115,7 @@ u8 RomCopy::RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line)
 }
 
 
-bool RomCopy::Cancel(u8 arg0,u8 arg1){
+bool Cancel(u8 arg0,u8 arg1){
 
   if (arg1 == 1) {
     osRecvMesg(&romcopyManage.dmaStructs[arg0].msgQ,NULL,1);
@@ -130,4 +130,4 @@ bool RomCopy::Cancel(u8 arg0,u8 arg1){
   osRecvMesg(&romcopyManage.mesgQ0x1dc,NULL,1);
   return true;
 }
-
+}

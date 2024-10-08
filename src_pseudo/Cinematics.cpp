@@ -382,9 +382,9 @@ LAB_8005d1d4:
 }
 
 //may be part of Cinematictext, but unused, so dunno.
-widgetStruct * Ofunc_8005d330(char *param_1,s16 param_2,u16 param_3,u16 param_4,u16 param_5,
+BaseWidget * Ofunc_8005d330(char *param_1,s16 param_2,u16 param_3,u16 param_4,u16 param_5,
               u16 param_6,u8 param_7,u8 param_8,u8 param_9,u8 param_10){
-  widgetStruct *pwVar1;
+  BaseWidget *pwVar1;
   
   pwVar1 = widgettext_func_2(passToMalloc(0x7c),param_1,param_2);
   set_widget_coords(pwVar1,param_3,param_4);

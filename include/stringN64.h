@@ -4,7 +4,6 @@
 #else
 
 #include "typedefs.h"
-#define NULL (void*)0x0
 typedef u32 size_t;
 char* strcpy(char* c1,char* c2);
 char* strncpy(char *c1,char *c2,size_t l);

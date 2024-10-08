@@ -146,7 +146,7 @@ bool Cheats::_Cheater(void){ // +750000 EXP to party
 }
 
 bool Cheats::_bingo(void){ //+100000 gold
-  widgetStruct *pwVar1;
+  BaseWidget *pwVar1;
   char *pcVar2;
   #ifndef DEBUGVER
   if(getEventFlag(FLAG_bingo)){return false;} //no double-dipping in retail

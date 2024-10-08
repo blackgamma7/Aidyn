@@ -271,7 +271,7 @@ u8 TitleSplash::Copyright(Gfx**param_1){
   return abStack_38[0];
 
 u8 TitleSplash::N64Logo(Gfx**param_1){
-  widgetStruct *pwVar1;
+  BaseWidget *pwVar1;
   u8 bVar2;
   bool bVar4;
   Gfx*pauVar3;

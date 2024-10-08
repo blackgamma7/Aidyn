@@ -16,7 +16,7 @@ void Party::Free(Party *param_1){
   for(u32 i=0;i<3;i++) {
     if (param_1->Members[i]) {
       CharSheet_free(param_1->Members[i]);
-      FREE(param_1->Members[i],0xe8);
+      FREE(param_1->Members[i],232);
       }
   }
 }
@@ -1527,7 +1527,7 @@ u8 check_warrior_int_stam(Party *param_1,u32 param_2){
   return uVar6;
 }
 
-u8 healing_widget_AB_func(s32 param_1,widgetStruct *param_2){
+u8 healing_widget_AB_func(s32 param_1,BaseWidget *param_2){
   PTR_800ed504 = NULL;
   FUN_800b72cc(gGlobals.widgetHandler,param_2);
   if (param_2) {
