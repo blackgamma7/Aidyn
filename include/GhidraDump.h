@@ -2037,16 +2037,6 @@ struct WidgetSubstruct8 { /* If widget->GetNumber returns 8 */
     u8 field11_0xf;
 };
 
-typedef struct WidgetSubstruct_ClipText WidgetSubstruct_ClipText, *PWidgetSubstruct_ClipText;
-
-struct WidgetSubstruct_ClipText {
-    char *str;
-    u32 field1_0x4;
-    float scaleX;
-    float scaleY;
-    u16 field4_0x10;
-    u16 field5_0x12;
-};
 
 
 typedef struct WidgetSubstruct_Shadowtext WidgetSubstruct_Shadowtext, *PWidgetSubstruct_Shadowtext;

@@ -82,3 +82,5 @@ public:
     u32 RunFunc1Children();
     void SetState(u8 state);
 };
+
+#define RENDERCHILDREN() return RenderChildren(g, x0, y0, x1, y1) 
