@@ -9,7 +9,7 @@
 #include "heapN64.h"
 #include "crash.h"
 
-WidgetClipText::WidgetClipText(char *str,u16 len){
+WidgetClipText::WidgetClipText(char *str,u16 len):BaseWidget(){
 
   WidgetSubstruct_ClipText *sub = new WidgetSubstruct_ClipText;
   sub->unk12 = 0x140;
@@ -83,9 +83,9 @@ u16 WidgetClipText::GetWidth(){
   WidgetSubstruct_ClipText *ppbVar1 = (WidgetSubstruct_ClipText *)substruct;
   uVar1 = get_text_kerning(font_pointer,ppbVar1->str,ppbVar1->scaleX);
   uVar2 = 0;
-  if ((short)ppbVar1->unk12 < (short)ppbVar1->unk10) this->width = 0;
+  if (ppbVar1->unk12 < ppbVar1->unk10) this->width = 0;
   else {
-    uVar3 = (int)(short)ppbVar1->unk12 - (int)(short)ppbVar1->unk10;
+    uVar3 = ppbVar1->unk12 - ppbVar1->unk10;
     if (uVar3 < uVar1) uVar1 = uVar3;
     uVar2 = (u16)uVar1;
     this->width = uVar2;
@@ -94,12 +94,10 @@ u16 WidgetClipText::GetWidth(){
 }
 
 u16 WidgetClipText::GetHeight(){
-  int iVar1;
   WidgetSubstruct_ClipText *ppbVar1 = (WidgetSubstruct_ClipText *)this->substruct;
-  iVar1 = Font_GetHeight(font_pointer,ppbVar1->str,(int)(short)ppbVar1->unk10,
-                         (int)(short)ppbVar1->unk12,ppbVar1->scaleX,ppbVar1->scaleY);
-  this->height = (u16)iVar1;
-  return (u16)iVar1;
+  u16 h = Font_GetHeight(font_pointer,ppbVar1->str,ppbVar1->unk10,ppbVar1->unk12,ppbVar1->scaleX,ppbVar1->scaleY);
+  this->height = h;
+  return h;
 }
 
 u8 WidgetClipText::Tick(){return TickChildren();}
