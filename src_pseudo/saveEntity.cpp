@@ -21,7 +21,7 @@ void saveentity_free(void){
   gSaveEntity = NULL;
 }
 
-void move_party_to_saveEnt(Party *param_1){
+void SaveEntity::BenchParty(Party *param_1){
   CharSheet *pCVar1;
   CharSheet *pCVar2;
   s32 uVar3;

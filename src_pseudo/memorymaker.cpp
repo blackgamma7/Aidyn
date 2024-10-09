@@ -3,46 +3,44 @@
 #else
 #define FILENAME ""
 #endif
-memMakerStruct* memmaker_pointer;  //seems to be similar to the save data structure.
+
+#include "QuestData.h"
+
+MemoryMakerStruct* gMemoryMaker=NULL;
 //Memory management triggered with no Expansion Pak
 void MemoryMaker::Init(void){
-  if (gExpPakFlag == 0) {
-    memmaker_pointer = (memMakerStruct *)heapAlloc(0xc00,FILENAME,0x5a);
-  }
+  if (!gExpPakFlag) ALLOC(gMemoryMaker,90);
 }
 
 void MemoryMaker::Free(void){
-  if (gExpPakFlag == 0) {
-    HeapFree(memmaker_pointer,FILENAME,0x70);
-    memmaker_pointer = NULL;
-  }
+  if (!gExpPakFlag) {FREE(gMemoryMaker,112);}
 }
 
 void MemoryMaker::Unload(void){
-  u8 auStack80 [80];
+  SaveDatPointers auStack80;
   
-  if (gExpPakFlag == 0) {
-    move_party_to_saveEnt(gGlobals.party);
-    memset(memmaker_pointer,0,0xc00);
-    memMaker_sub(memmaker_pointer,auStack80);
-    FUN_8001e034(auStack80,false);
+  if (!gExpPakFlag) {
+    SaveEntity::BenchParty(gGlobals.party);
+    CLEAR(gMemoryMaker);
+    QuestData::SetPointers(gMemoryMaker,&auStack80);
+    QuestData::SaveToFile(&auStack80,false);
     clear_DBs();
-    if (some_struct_pointer) FUN_8004f160(some_struct_pointer,3);
-    some_struct_pointer = NULL;
+    if (gGlobals.dialougStruct) FUN_8004f160(gGlobals.dialougStruct,3);
+    gGlobals.dialougStruct = NULL;
     CommonStrings::Free();
   }
 }
 
 void MemoryMaker::Reload(void){
-  u8 auStack72 [72];
+  SaveDatPointers auStack72;
   
-  if (gExpPakFlag == 0) {
+  if (!gExpPakFlag) {
     CommonStrings::Init();
-    some_struct_pointer = init_some_Struct(passToMalloc(0x28),widget::widget_handler_pointer);
+    gGlobals.dialougStruct = init_some_Struct(new(0x28),gGlobals.widgetHandler);
     init_DBs();
-    memMaker_sub(memmaker_pointer,auStack72);
-    some_loadgame_func(auStack72,0);
-    memset(memmaker_pointer,0,0xc00);
+    QuestData::SetPointers(gMemoryMaker,&auStack72);
+    QuestData::LoadFile(&auStack72,false);
+    CLEAR(gMemoryMaker);
   }
 }
 

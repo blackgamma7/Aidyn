@@ -9,18 +9,18 @@ float vec3Length(vec3f *X){
 	return _sqrtf(SQ(X->x)+SQ(X->y)+SQ(X->z));
 }
 
-void Vec2_Sub(vec2f *res,vec2f *A,vec2f *B){
+void Vec2_sub(vec2f *res,vec2f *A,vec2f *B){
   res->x = A->x - B->x;
   res->y = A->y - B->y;
   }
 
-void Vec3_Sub(vec3f *res,vec3f *A,vec3f *B){
+void Vec3_sub(vec3f *res,vec3f *A,vec3f *B){
   res->x = A->x - B->x;
   res->y = A->y - B->y;
   res->z = A->z - B->z;
   }
 
-void Vec4_Sub(vec4f *res,vec4f *a,vec4f *b){
+void Vec4_sub(vec4f *res,vec4f *a,vec4f *b){
   res->x = a->x - b->x;
   res->y = a->y - b->y;
   res->z = a->z - b->z;
@@ -45,16 +45,16 @@ void vec4_sum(vec4f *res,vec4f *a,vec4f *b){
   res->w = a->w + b->w;
   }
 
-float get_vec2_proximity(vec2f *A,vec2f *B){
+float vec2_proximity(vec2f *A,vec2f *B){
 	vec2f temp;
 
-	Vec2_Sub(&temp,A,B);
+	Vec2_sub(&temp,A,B);
 	return vec2Length(&temp);}
 
-float get_vec3_proximity(vec3f *A,vec3f *B){
+float vec3_proximity(vec3f *A,vec3f *B){
 	vec3f temp;
 
-	Vec3_Sub(&temp,A,B);
+	Vec3_sub(&temp,A,B);
 	return vec3Length(&temp);}
 
 float vec2_dot(vec2f *A,vec2f *B){
@@ -117,7 +117,7 @@ int some_trig_func_2(vec2f *A,vec2f *B,float C){
   vec2f fStack192;
   vec2f fStack128;
   float fVar2 = __sinf(C);
-  if (get_vec2_proximity(A,B) <= fVar2) {
+  if (vec2_proximity(A,B) <= fVar2) {
     copyVec2(B,A);
     multiVec2(A,x);
     multiVec2(B,y);
@@ -131,8 +131,8 @@ int some_trig_func_2(vec2f *A,vec2f *B,float C){
     fStack192.y = fVar3 * A->y - fVar2 * A->x;
     fStack128.x = fVar6 * A->x + fVar1 * A->y;
     fStack128.y = fVar6 * A->y - fVar1 * A->x;
-    fVar3 = get_vec2_proximity(&fStack192,B);
-    fVar6 = get_vec2_proximity(&fStack128,B);
+    fVar3 = vec2_proximity(&fStack192,B);
+    fVar6 = vec2_proximity(&fStack128,B);
     fVar1 = fStack192.y;
     fVar2 = fStack192.x;
     if (fVar6 <= fVar3) {
@@ -620,14 +620,8 @@ void ofunc_sub_800acc40(MtxF *res,vec3f *v,float a){
   (*res)[1][2] = fVar4 + fVar2;}
 
 void Ofunc_800acd9c(MtxF *A,vec3f *B){
-  float len;
-  vec3f v3Temp;
-  
-  v3Temp.x = B->x;
-  v3Temp.y = B->y;
-  v3Temp.z = B->z;
-  len = vec3_normalize(&v3Temp);
-  ofunc_sub_800acc40(A,&v3Temp,len);
+  vec3f v3Temp= {B->x,B->y,B->z};
+  ofunc_sub_800acc40(A,&v3Temp,vec3_normalize(&v3Temp));
   (*A)[3][0] = 0.0;
   (*A)[3][1] = 0.0;
   (*A)[3][2] = 0.0;
@@ -820,7 +814,7 @@ void Ofunc_800ad50c(MtxF *A,float *B,float *C,float *D,float *E){
   fStack312[2][0] = E[2];
   fStack376[1][3] = B[2] * fStack312[1][1];
   fStack376[2][0] = B[2] * fStack312[2][0];
-  ofunc_sub_800ad30c(fStack248,fStack312,fStack376);
+  ofunc_sub_800ad30c((float*)fStack248,(float*)fStack312,(float*)fStack376);
   afStack_b8=*A;
   (*A)[1][0] = fStack248[0][0] * afStack_b8[1][0] + fStack248[0][1] * afStack_b8[1][1] +
                fStack248[0][2] * afStack_b8[1][2];

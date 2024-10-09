@@ -4,9 +4,6 @@
 #define FILENAME ""
 #endif
 
-
-#include "savefiles.h"
-#include "globals.h"
 #include "QuestData.h"
 #include "CRC.h"
 
@@ -15,88 +12,78 @@ void Save(u8 *data){
   u8 i;
   float fVar5;
   float fVar6;
-  SaveFile sav [1];
+  SaveFile sav;
   WeatherTemp fStack96;
   
-  SaveParty::Init(sav,data);
+  SaveParty::Init(&sav,data);
   SaveEntity::BenchParty(gGlobals.party);
-  SaveParty::SaveInGameTime(sav);
-  SaveParty::SaveGold(sav);
-  SaveParty::SaveTimer(sav,gGlobals.party->TimeRunning);
-  SaveParty::SaveTimer(sav,gGlobals.party->timeWalking);
-  SaveParty::SaveTimer(sav,gGlobals.party->timeSneaking);
-  SaveParty::SaveCharSheetEffects(sav,SaveEntity::GetMember(0));
-  SaveParty::SaveAlaron(sav,SaveEntity::GetMember(0));
-  for(i=1;i<4;i++) {SaveParty::SaveCharSheetEffects(sav,SaveEntity::GetMember(i));}
-  for(;i<9;i++) {SaveParty::SaveCharSheet(sav,SaveEntity::GetMember(i));}
-  gGlobals.party->Inventory->Save(sav);
+  SaveParty::SaveInGameTime(&sav);
+  SaveParty::SaveGold(&sav);
+  SaveParty::SaveTimer(&sav,gGlobals.party->TimeRunning);
+  SaveParty::SaveTimer(&sav,gGlobals.party->timeWalking);
+  SaveParty::SaveTimer(&sav,gGlobals.party->timeSneaking);
+  SaveParty::SaveCharSheetEffects(&sav,SaveEntity::GetMember(0));
+  SaveParty::SaveAlaron(&sav,SaveEntity::GetMember(0));
+  for(i=1;i<4;i++) {SaveParty::SaveCharSheetEffects(&sav,SaveEntity::GetMember(i));}
+  for(;i<9;i++) {SaveParty::SaveCharSheet(&sav,SaveEntity::GetMember(i));}
+  gGlobals.party->Inventory->Save(&sav);
   memcpy(&fStack96,&gWeatherTemp,0x10);
   fStack96.precipScale*=1000.0f;
   fStack96.fogFloat*=1000.0f;;
   fStack96.thunderFloat*=1000.0f;;
-  SaveParty::SaveBits(sav,(s32)fStack96.precipScale,0x20);
-  SaveParty::SaveBits(sav,(s32)fStack96.fogFloat,0x20);
-  SaveParty::SaveBits(sav,(s32)fStack96.thunderFloat,0x20);
-  SaveParty::SaveBits(sav,(uint)fStack96.precip,8);
+  SaveParty::SaveBits(&sav,(s32)fStack96.precipScale,0x20);
+  SaveParty::SaveBits(&sav,(s32)fStack96.fogFloat,0x20);
+  SaveParty::SaveBits(&sav,(s32)fStack96.thunderFloat,0x20);
+  SaveParty::SaveBits(&sav,(uint)fStack96.precip,8);
   fVar5 = gGlobals.VolSFX * 1000.0f;
   fVar6 = gGlobals.VolBGM * 1000.0f;
-  SaveParty::SaveBits(sav,(s32)fVar5,0x20);
-  SaveParty::SaveBits(sav,(s32)fVar6,0x20);
-  SaveParty::SaveBits(sav,(uint)gGlobals.ResolutionSelect,1);
+  SaveParty::SaveBits(&sav,(s32)fVar5,0x20);
+  SaveParty::SaveBits(&sav,(s32)fVar6,0x20);
+  SaveParty::SaveBits(&sav,(uint)gGlobals.ResolutionSelect,1);
 }
 
-void Load(u8 *param_1){
+void Load(u8 *data){
   PartyInventory *pPVar1;
   float fVar2;
-  uint uVar3;
+  u8 i;
   CharSheet *pCVar4;
-  uint uVar5;
+  u8 uVar5;
   double dVar6;
   float fVar7;
-  SaveFile aSStack_a8 [8];
+  SaveFile sav;
   WeatherTemp aWStack_68;
   
-  SaveParty::Init(aSStack_a8,param_1);
-  SaveParty::LoadInGameTime(aSStack_a8);
+  SaveParty::Init(&sav,data);
+  SaveParty::LoadInGameTime(&sav);
   uVar5 = 1;
   Party::Free(gGlobals.party);
   Party::Init(gGlobals.party);
-  gGlobals.party->Gold = SaveParty::LoadGold(aSStack_a8);
-  gGlobals.party->TimeRunning = SaveParty::LoadTimer(aSStack_a8);
-  gGlobals.party->timeWalking = SaveParty::LoadTimer(aSStack_a8);
-  gGlobals.party->timeSneaking = SaveParty::LoadTimer(aSStack_a8);
-  gGlobals.party->Members[0] = SaveParty::LoadCharSheetEffects(aSStack_a8);
-  SaveParty::LoadAlaron(aSStack_a8,gGlobals.party->Members[0]);
+  gGlobals.party->Gold = SaveParty::LoadGold(&sav);
+  gGlobals.party->TimeRunning = SaveParty::LoadTimer(&sav);
+  gGlobals.party->timeWalking = SaveParty::LoadTimer(&sav);
+  gGlobals.party->timeSneaking = SaveParty::LoadTimer(&sav);
+  gGlobals.party->Members[0] = SaveParty::LoadCharSheetEffects(&sav);
+  SaveParty::LoadAlaron(&sav,gGlobals.party->Members[0]);
   gGlobals.party->PartySize++;
-  do {
-    pCVar4 = SaveParty::LoadCharSheetEffects(aSStack_a8);
-    gGlobals.party->Members[uVar5] = pCVar4;
-    if (pCVar4 != NULL) {
-      gGlobals.party->PartySize++;
-    }
-    uVar5 = uVar5 + 1 & 0xff;
-  } while (uVar5 < 4);
-  if (uVar5 < 9) {
-    do {
-      SaveEntity::LoadMember(SaveParty::LoadCharSheet(aSStack_a8),(u16)uVar5);
-      uVar5 = uVar5 + 1 & 0xff;
-    } while (uVar5 < 9);
+  for(i=1;i<4;i++) {
+    gGlobals.party->Members[i] = SaveParty::LoadCharSheetEffects(&sav);
+    if (gGlobals.party->Members[i]) gGlobals.party->PartySize++;
   }
-  gGlobals.party->Inventory->Load(aSStack_a8);
-  aWStack_68.precipScale = (float)SaveParty::LoadBits(aSStack_a8,0x20);
-  aWStack_68.fogFloat = (float)SaveParty::LoadBits(aSStack_a8,0x20);
-  aWStack_68.thunderFloat = (float)SaveParty::LoadBits(aSStack_a8,0x20);
-  uVar3 = SaveParty::LoadBits(aSStack_a8,8);
+  for(;i<9;i++){SaveEntity::LoadMember(SaveParty::LoadCharSheet(&sav),(u16)i);}
+  gGlobals.party->Inventory->Load(&sav);
+  aWStack_68.precipScale = (float)SaveParty::LoadBits(&sav,0x20);
+  aWStack_68.fogFloat = (float)SaveParty::LoadBits(&sav,0x20);
+  aWStack_68.thunderFloat = (float)SaveParty::LoadBits(&sav,0x20);
   aWStack_68.precipScale*=0.001f;
   aWStack_68.fogFloat*=0.001f;
   aWStack_68.thunderFloat*=0.001f;
-  aWStack_68.precip = SaveParty::LoadBits(aSStack_a8,8);
+  aWStack_68.precip = SaveParty::LoadBits(&sav,8);
   World::SetWithWeatherTemp(TerrainPointer,&aWStack_68);
   COPY(&gWeatherTemp,&aWStack_68);
   LoadedGameSaveFlag = 1;
-  gGlobals.VolSFX = (float)SaveParty::LoadBits(aSStack_a8,0x20) * 0.001f;
-  gGlobals.VolBGM = (float)SaveParty::LoadBits(aSStack_a8,0x20) * 0.001f;
-  selectResMode((byte)SaveParty::LoadBits(aSStack_a8,1));
+  gGlobals.VolSFX = (float)SaveParty::LoadBits(&sav,0x20) * 0.001f;
+  gGlobals.VolBGM = (float)SaveParty::LoadBits(&sav,0x20) * 0.001f;
+  selectResMode((byte)SaveParty::LoadBits(&sav,1));
 }
 
 void SaveVoxelChart(byte *param_1){
@@ -154,7 +141,7 @@ void LoadVoxelChart(byte *param_1){
   } while (uVar3 < 0xe4);
 }
 
-u8 VerifyChecksum(uint *param_1){return CRC::VerifyChecksum(param_1,sizeof(*param_1));}
+u8 VerifyChecksum(SaveDatStruct *p){return CRC::VerifyChecksum(p,sizeof(*p));}
 
 void CopySnapshot(void *param_1){
   if (gQuestdataSnapshot) memcpy(param_1,gQuestdataSnapshot,SNAPSHOT_SIZE);
@@ -189,7 +176,7 @@ void CopyEngineZone(mapFloatDat *param_1,u8 copy){
   }
 }
 
-void SaveFile(SaveDatPointers *param_1,u8 param_2){
+void SaveToFile(SaveDatPointers *param_1,u8 param_2){
   SavePartyPlaytime(param_1->savePartyHead);
   CopyEngineZone(param_1->mapdata,param_2);
   SaveGameState(gameStates,param_1->EventFlags);
@@ -203,7 +190,7 @@ u8 InitSaveFile(SaveDatStruct *param_1){
   
   SetPointers(param_1,&apuStack_48);
   CLEAR(param_1);
-  SaveFile(&apuStack_48,true);
+  SaveToFile(&apuStack_48,true);
   CopySnapshot(apuStack_48.screenshot);
   CRC::SetChecksum(param_1,sizeof(*param_1));
 }

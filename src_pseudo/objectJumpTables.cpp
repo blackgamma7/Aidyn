@@ -552,7 +552,7 @@ bool container_obj_check(voxelObject* arg0,playerData *arg1){
   bool ret;
   float fVar3;
   
-  fVar3 = get_vec3_proximity(arg0,(arg1->collision).position);
+  fVar3 = vec3_proximity(arg0,(arg1->collision).position);
   ret = false;
   if (fVar3 <= (arg0->dat).chestSize + arg1->scale_floatB) {
     bVar2 = gamestate_cheat_check1(check);
@@ -578,13 +578,13 @@ undefined FUN_80014ba0(voxelObject *arg0,vec3f *arg1){
   undefined uVar1;
   
   uVar1 = 0;
-  if (get_vec3_proximity(arg0,arg1) <= (arg0->header).size) {
+  if (vec3_proximity(arg0,arg1) <= (arg0->header).size) {
     uVar1 = trigger_event_flag_check((arg0->header).flagA,(arg0->header).Bitfeild,0x100);
   }
   return uVar1;}
 
 bool some_gamestate_check_B(voxelObject* arg0,playerData *arg1,bool istrue){
-  if ((istrue) &&(get_vec3_proximity(arg0,(arg1->collision).position) >(arg0->header).size)) {return false;}
+  if ((istrue) &&(vec3_proximity(arg0,(arg1->collision).position) >(arg0->header).size)) {return false;}
   if (gamestate_cheat_check1(check)) return gamestate_cheat_check2(check);
   return trigger_event_flag_check((arg0->header).flagA,(arg0->header).Bitfeild,0x100) != false;
 
@@ -596,7 +596,7 @@ bool monsterparty_obj_check(void){
   }
 
 bool trigger_obj_check_prox(trigger_obj *arg0,playerData *arg1,bool param_3){
-  if ((param_3) && (get_vec3_proximity(arg0,(arg1->collision).position) > (arg0->header).size) {return false;}
+  if ((param_3) && (vec3_proximity(arg0,(arg1->collision).position) > (arg0->header).size) {return false;}
   if (gamestate_cheat_check1(check) == false) return gamestate_cheat_check2(check);
   return trigger_event_flag_check((arg0->header).flagA,(arg0->header).Bitfeild,0x100);
 }
@@ -610,7 +610,7 @@ bool dialouge_trigger_check(Dialoug_obj *arg0,vec3f *arg1,bool getProx){
   float fVar3 = 0.0;
   
 
-  if (getProx) {fVar3 = get_vec3_proximity(arg0,arg1);}
+  if (getProx) {fVar3 = vec3_proximity(arg0,arg1);}
   uVar2 = false;
   if (fVar3 <= (arg0->header).size) {
     bVar1 = gamestate_cheat_check1(check);
@@ -631,7 +631,7 @@ bool dialoug_obj_func(Dialoug_obj *arg0,playerData *arg1){return dialouge_trigge
 
 void dialoug_obj_check(s32 arg0,playerData *arg1){dialoug_obj_func(arg0,arg1);}
 
-bool savepoint_prox_check(voxelObject *arg0,playerData *arg1){return get_vec3_proximity(arg0,(arg1->collision).position); <= (arg0->header).size;}
+bool savepoint_prox_check(voxelObject *arg0,playerData *arg1){return vec3_proximity(arg0,(arg1->collision).position); <= (arg0->header).size;}
 
 u8 VoxelObj_Ret0(voxelObject *arg0,playerData *arg1){return 0;}
 

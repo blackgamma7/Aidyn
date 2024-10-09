@@ -153,7 +153,7 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,voxelObject *obj,light_ob
            (*(s16 *)((s32)pvVar3 + 6) < 1)))) &&
          (((rVar1 & 0x1000) == 0 ||
           (FUN_800adf78(param_2,light,obj,0.25,0x0,0x0,1) == false)))) {
-        fVar9 = get_vec3_proximity(obj,light);
+        fVar9 = vec3_proximity(obj,light);
         fVar10 = (light->header).size;
         if (fVar9 < fVar10) {
           fVar10 = (fVar10 - fVar9) / fVar10;
@@ -184,7 +184,7 @@ LAB_8005513c:
                   fVar11 = (float)((double)(light->data).f0 +(360.0d / (double)((light->data).f1 * 60.0f)) *(double)delay);
                   (light->data).f0 = fVar11;
                   fVar9 = FUN_80054ba4(fVar11,fVar9);
-                  fVar11 = fVar9 * DtoR_f;
+                  fVar11 = fVar9 * dtor;
                   (light->data).f0 = fVar9;
                   color_magnitude(pcVar5,(color32 *)plVar6,(__sinf(fVar11) + 1.0f) * 0.5f);
                 }

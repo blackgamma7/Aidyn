@@ -448,7 +448,7 @@ bool check_combatents_facings(CombatEntity *param_1,float param_2,float param_3)
   
   setVec2(afStack160,param_1->coord[0],param_1->coord[1]);
   setVec2(afStack96,param_2,param_3);
-  fVar2 = get_vec2_proximity(afStack160,afStack96);
+  fVar2 = vec2_proximity(afStack160,afStack96);
   bVar1 = true;
   if (fVar2 != 0.0) {
     fVar3 = param_1->facing[0] * fVar2 + param_1->coord[0];
@@ -720,7 +720,7 @@ float get_combatEnt_proximity(CombatEntity *param_1,CombatEntity *param_2){
   
   setVec2(afStack144,param_1->coord[0],param_1->coord[1]);
   setVec2(afStack80,param_2->coord[0],param_2->coord[1]);
-  return get_vec2_proximity(afStack144,afStack80);}
+  return vec2_proximity(afStack144,afStack80);}
 
 float FUN_80069554(CombatEntity *param_1,CombatEntity *param_2){
   FUN_80070234(param_2);
@@ -932,7 +932,7 @@ bool FUN_80069d00(CombatEntity *param_1,CombatEntity *param_2,float param_3,floa
     fStack160[1] = (ppVar1->collision).position[2];
     fStack96[0] = fStack160[0];
     fStack96[1] = fStack160[1];
-    fVar3 = get_vec2_proximity(afStack224,fStack160);
+    fVar3 = vec2_proximity(afStack224,fStack160);
     bVar2 = true;
     if (param_3 + ppVar1->scale_floatB < fVar3) {bVar2 = false;}
   }

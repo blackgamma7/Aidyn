@@ -314,7 +314,7 @@ void FUN_80012d44(wander_substruct *param_1){
   if ((param_1->homenode & 1) != 0) {
     fStack80[0] = (param_1->playerDat->collision).position[0];
     fStack80[1] = (param_1->playerDat->collision).position[2];
-    if (get_vec2_proximity(fStack80,param_1->start_position) <= param_1->wanderRadius) {
+    if (vec2_proximity(fStack80,param_1->start_position) <= param_1->wanderRadius) {
       uVar1 = param_1->homenode;
       goto LAB_80012df4;
     }
@@ -390,18 +390,18 @@ void monster_engagement_func(wander_struct *param_1,s16 param_2){
         if (bVar1 != 0x11) {adjust_playerpos_value(bVar1,playerPos);}
         wanderer->timer -= param_2;
         FUN_800153fc(wanderer->playerDat,afStack360);
-        fVar10 = get_vec3_proximity(afStack360,from);
+        fVar10 = vec3_proximity(afStack360,from);
         afStack360[0] -=(wanderer->playerDat->facing[0] * entRamB) * dVar18);
         afStack360[2] -=(double)(wanderer->playerDat->facing[1] * entRamB) * dVar18);
-        fVar11 = get_vec3_proximity(afStack360,from);
+        fVar11 = vec3_proximity(afStack360,from);
         setVec2(&fStack488,(wanderer->playerDat->collision).position[0],
                 (wanderer->playerDat->collision).position[2]);
         A = wanderer->position;
-        fVar12 = get_vec2_proximity(A,&fStack488);
+        fVar12 = vec2_proximity(A,&fStack488);
         copyVec2(A,afStack424);
         FUN_8001545c((u32)wanderer->playerDat->zoneDatByte,afStack424);
         setVec2(&fStack488,(playerDat_->collision).position[0],(playerDat_->collision).position[2]);
-        fVar13 = get_vec2_proximity(A,&fStack488);
+        fVar13 = vec2_proximity(A,&fStack488);
         if (fVar11 <= fVar17) {
           if (wanderer->unk0x3a == 0) {
             entRamB = (float)((double)entRamB * (1.0d - (double)weatherDat.FogFloat * 0.75d));

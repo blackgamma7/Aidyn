@@ -69,7 +69,7 @@ mapFloatDat * FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param
       fStack104[0] = pvec3[0];
       fStack104[1] = pvec3[1];
       fStack104[2] = pvec3[2];
-      fVar7 = get_vec3_proximity(afStack232,pvec3);
+      fVar7 = vec3_proximity(afStack232,pvec3);
       bVar2 = (float)uVar8 < fVar7;
       if (param_5 == 0) {bVar2 = fVar7 < (float)uVar8;}
       if (!bVar2) {
@@ -1296,8 +1296,8 @@ bool get_scene_obj_proximity(vec2f *obj,vec2f *cam,vec2f *aim,float *outx,float 
   if (x <= fVar1) {
     multiVec2(afStack104,x);
     vec2_sum(afStack168,cam,afStack104);
-    *outx = get_vec2_proximity(afStack168,obj);
-    *outy = get_vec2_proximity(afStack168,aim);
+    *outx = vec2_proximity(afStack168,obj);
+    *outy = vec2_proximity(afStack168,aim);
   }
   return x <= fVar1;
 }
@@ -1439,7 +1439,7 @@ Gfx* RenderVoxelScenes(Gfx*param_1,Borg_9_data *param_2,vec3f *v3,s16 param_4,s1
       if ((((SObj->header).type == Scene) && (((SObj->header).Bitfeild & visible) != 0)) &&
          (pSVar11 = &SObj->dat, (SObj->header).timestamp < gGlobals.ticker)) {
         (SObj->header).timestamp = gGlobals.ticker;
-        fVar19 = get_vec3_proximity(param3,SObj);
+        fVar19 = vec3_proximity(param3,SObj);
         fVar20 = (SObj->header).size;
         uVar21 = (ulonglong)(u32)fVar19;
         if (fVar20 <= fVar19) {
@@ -2463,7 +2463,7 @@ void handleZoneEngineFrame(Gfx*param_1,s16 delta,playerData *player_,float param
       gGlobals.Sub.unk0x1210 = 0x78;
       pmVar3 = FUN_8000cae8(position,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,gGlobals.Sub.mapDatA,1);
       if ((pmVar3 != (mapFloatDat *)0x0) &&
-         (fVar6 = get_vec3_proximity(pmVar3,position), fVar6 < 10.0f)) {
+         (fVar6 = vec3_proximity(pmVar3,position), fVar6 < 10.0f)) {
         bVar1 = false;
       }
       if (bVar1) {
@@ -2481,7 +2481,7 @@ void handleZoneEngineFrame(Gfx*param_1,s16 delta,playerData *player_,float param
     ProcessScriptCamera(&gGlobals.scriptcamera,(float)iVar5);
   }
   
-  if ((double)get_vec3_proximity(&gGlobals.Sub.camera,gGlobals.Sub.camera.aim) < 0.05d) {
+  if ((double)vec3_proximity(&gGlobals.Sub.camera,gGlobals.Sub.camera.aim) < 0.05d) {
     CRASH("SceneSetCameraLookAt","Focus, and Camera at same Spot!");
   }
   Gsprintf("SceneSetCameraLookAt\n");

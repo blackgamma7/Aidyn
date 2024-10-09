@@ -5656,37 +5656,6 @@ struct MapEventFlag {
 };
 
 
-typedef struct MemoryMakerStruct MemoryMakerStruct, *PMemoryMakerStruct;
-
-struct MemoryMakerStruct { /* same as SaveDatStruct, but no Screenshot */
-    struct SavePartyHeader header;
-    u8 field1_0x20[32];
-    struct mapFloatDat mapData;
-    undefined field34_0x6c;
-    undefined field35_0x6d;
-    undefined field36_0x6e;
-    undefined field37_0x6f;
-    undefined field38_0x70;
-    undefined field39_0x71;
-    undefined field40_0x72;
-    undefined field41_0x73;
-    undefined field42_0x74;
-    undefined field43_0x75;
-    undefined field44_0x76;
-    undefined field45_0x77;
-    undefined field46_0x78;
-    undefined field47_0x79;
-    undefined field48_0x7a;
-    undefined field49_0x7b;
-    undefined field50_0x7c;
-    undefined field51_0x7d;
-    undefined field52_0x7e;
-    undefined field53_0x7f;
-    u8 flags[640];
-    u8 minimapDat[64];
-    u8 gameState[1984];
-    u8 voxelChart[256];
-};
 
 typedef enum OS_IO_DIRECTION { /* read/write directions for DMA's */
     OS_READ,

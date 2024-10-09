@@ -24,7 +24,7 @@ void Init(void){
     u8 i;
   
   if (!gCRCTableP) {
-    ALLOCS(gCRCTableP,CRC_TABLESIZE*sizeof(u32),79);
+    ALLOCS(gCRCTableP,(CRC_TABLESIZE*sizeof(u32)),79);
     for(i=0;i<(CRC_TABLESIZE-1);i++){
       gCRCTableP[i] = addEntry(i);
     }

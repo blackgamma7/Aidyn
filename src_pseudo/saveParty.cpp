@@ -60,7 +60,7 @@ StatMod * SaveParty::LoadStatMod(SaveFile *sav){
   u16 uVar1 = LoadBits(sav,10);
   if (!uVar1) pSVar2 = NULL;
   else {
-    ALLOC(psVar2,0xe1);
+    ALLOC(pSVar2,0xe1);
     SetStatMod(pSVar2,(uVar1 >> 7),((uVar1 & 0x7f) - 50));
   }
   return pSVar2;
