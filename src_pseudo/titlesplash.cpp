@@ -17,7 +17,7 @@ void TitleSplash::ShowVerion(Gfx**param_1,char param_2){
     pauVar1 = *param_1;
     Gsprintf("Aidyn Chronicles\nVersion: 02.01d-PRERELEASE\nCompile: %s-%s\nCode: %lu",
      COMPILEDATE,COMPILETIME,(&clear_end - &romMain) + 0x400);
-    pauVar1 = gfx::DrawText(pauVar1,gGlobals.text,0x1e,0x1e,200,200,200,param_2);
+    pauVar1 = Graphics::DrawText(pauVar1,gGlobals.text,0x1e,0x1e,200,200,200,param_2);
     *param_1 = pauVar1;
   }
 }
@@ -172,7 +172,7 @@ void TitleSplash::Borg8(Gfx*param_1,u8 alpha,Borg8header *borg){
     h = (float)(320 - (borg->dat).height) * 0.5f;
     v = (float)(240 - (borg->dat).width) * 0.5f;
     pauVar1 = (Gfx*)(*param_1)[0];
-    pauVar1 = rsp_func(pauVar1,6,gfx::get_hres(),gfx::get_vres());
+    pauVar1 = rsp_func(pauVar1,6,Graphics::get_hres(),Graphics::get_vres());
     pauVar1 = pass_to_borg_image_draw(pauVar1,borg,h,v,1.0f,1.0f,0xff,0xff,0xff,alpha);
     (*param_1)[0] = (u32)pauVar1;
   }

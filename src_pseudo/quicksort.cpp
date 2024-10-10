@@ -1,9 +1,6 @@
 
-#ifdef DEBUGVER
 #define FILENAME "../src/quicksort.cpp"
-#else
-#define FILENAME ""
-#endif
+
 #include "quicksort.h"
 
 int Quicksort::Move(void *ToSort,int low,int hi,int EntrySize,Sorter SortFunc){

@@ -1,8 +1,5 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/n64borg.cpp"
-#else
-#define FILENAME ""
-#endif
+
 #include "globals.h"
 #include "romcopy.h"
 #include "decompress.h"

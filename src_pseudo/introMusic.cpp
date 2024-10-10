@@ -1,36 +1,44 @@
+#include "globals.h"
+
 bool intro_music_flag=true;
 bool NOOP_flag=false;
 
 void load_intro_music(void){
-  Borg12Enum BVar1;
-  u8 abStack24 [4];
-  s32 aiStack20 [5];
+  u32 BVar1;
+  byte abStack_18;
+  int aiStack_14;
   
-  gGlobals.splashscreenFlag = 1; //setting this to 0 skips splashscreens
-  BVar1 = BORG12_Intro_NoExp; //aka credit music
+  gGlobals.splashscreenFlag = 1;
+  BVar1 = BORG12_Intro_NoExp;
   if (gExpPakFlag) BVar1 = BORG12_Intro_Exp;
   gGlobals.introMusic = load_borg_12(BVar1);
-  DCM_func(abStack24,aiStack20,(u32 *)((s32)(gGlobals.introMusic)->unk0x8 + 8),0xa5,0x80,1,0xffffffff,0);
-  gGlobals.introMusicDatA = (u32)abStack24[0];
-  gGlobals.introMusicDatB = aiStack20[0];
+  DCM::Add(&abStack_18,&aiStack_14,&(gGlobals.introMusic)->dat->sub,0xa5,0x80,1,-1,0);
+  gGlobals.introMusicDatA = abStack_18;
+  gGlobals.introMusicDatB = aiStack_14;
 }
 
-bool appstate_0(s32 *param_1){
-  while (widgethandler_get_widgetB(gGlobals.widgetHandler) != 0) {
-    FUN_800b6fdc(gGlobals.widgetHandler,1);
-  }
+
+s32 appState_0(Gfx **param_1){
+  BaseWidget *pBVar1;
+  bool bVar2;
+  
+  while (WidgetHandler::GetWidgetB(gGlobals.widgetHandler)) WidgetHandler::Tick(gGlobals.widgetHandler,1);
   if (intro_music_flag) {
     load_intro_music();
     intro_music_flag = false;
   }
-  if (gGlobals.splashscreenFlag == 1) gGlobals.splashscreenFlag = (s32)TitleSplash::Show(param_1);
-  if (gGlobals.splashscreenFlag == 0;) NOOP_flag = true;
+  if (gGlobals.splashscreenFlag == 1) {
+    bVar2 = TitleSplash::Show(param_1);
+    gGlobals.splashscreenFlag = (int)bVar2;
+  }
+  bVar2 = gGlobals.splashscreenFlag == 0;
+  if (bVar2) NOOP_flag = true;
   if (NOOP_flag) {
     noop_intromusic();
     intro_music_flag = true;
     NOOP_flag = false;
   }
-  return bVar2;
+  return (s32)bVar2;
 }
 
 void noop_intromusic(void){}

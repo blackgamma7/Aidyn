@@ -1,9 +1,6 @@
 //Unused borg type. added from completion sake.
-#ifdef DEBUGVER
 #define FILENAME "./src/n64BorgGameStates.cpp"
-#else
-#define FILENAME ""
-#endif
+
 
 bool borg14_func_b(void *x,s32 y){
   *(s32 *)((s32)x + 8) = y;

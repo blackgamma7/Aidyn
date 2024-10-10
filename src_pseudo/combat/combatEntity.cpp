@@ -1,8 +1,4 @@
-#ifdef DEBUGVER
 #define FILENAME "../combatengine/combatEntity.cpp"
-#else
-#define FILENAME ""
-#endif
 
 
 #include "combat/CombatEntity.h"

@@ -1,4 +1,4 @@
-void InitLight_(light_obj *light,vec3f *pos,float size,u16 type,float f1,color32 colB,color32 colC){
+void InitLight_(light_obj *light,vec3f *pos,float size,u16 type,float f1,Color32 colB,Color32 colC){
   u16 uVar1;
   
   memset(light,0,0x6c);
@@ -23,7 +23,7 @@ LAB_800549a8:
   CRASH("InitLight","Unknown Light Type");
 }
 
-void color_magnitude(color32 *param_1,color32 *param_2,float amp){
+void color_magnitude(Color32 *param_1,Color32 *param_2,float amp){
   float fVar2;
   char cVar3;
   
@@ -53,7 +53,7 @@ float FUN_80054ba4(float x,float y){
   return x;
 }
 
-void color_XOR(color32 *colA,color32 *colB){
+void color_XOR(Color32 *colA,Color32 *colB){
   u8 temp;
   
   temp = colA->R ^ colB->R;
@@ -78,7 +78,7 @@ void color_XOR(color32 *colA,color32 *colB){
   colA->A = colA->A ^ temp;
 }
 
-void tint_color_with_screenfade(color32 *param_1,float fade){
+void tint_color_with_screenfade(Color32 *param_1,float fade){
   u8 bVar1;
   float fVar3;
   float fVar4;
@@ -116,12 +116,12 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,voxelObject *obj,light_ob
   void *pvVar3;
   bool bVar4;
   s32 delay;
-  color32 *pcVar5;
+  Color32 *pcVar5;
   light_dat *plVar6;
-  color32 *pcVar7;
+  Color32 *pcVar7;
   light_dat *plVar8;
-  color32 *colA;
-  color32 *colB;
+  Color32 *colA;
+  Color32 *colB;
   float fVar9;
   float fVar10;
   float fVar11;
@@ -168,7 +168,7 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,voxelObject *obj,light_ob
               if (fVar11 < fVar9) {color_XOR(colA,colB);}
               fVar9 = FUN_80054ba4((light->data).f0,1.0f);
               (light->data).f0 = fVar9;
-              color_magnitude((light->data).cols + 1,(color32 *)plStack68,fVar9);
+              color_magnitude((light->data).cols + 1,(Color32 *)plStack68,fVar9);
             }
             else {
               if (uVar2 < 2) {
@@ -186,7 +186,7 @@ LAB_8005513c:
                   fVar9 = FUN_80054ba4(fVar11,fVar9);
                   fVar11 = fVar9 * dtor;
                   (light->data).f0 = fVar9;
-                  color_magnitude(pcVar5,(color32 *)plVar6,(__sinf(fVar11) + 1.0f) * 0.5f);
+                  color_magnitude(pcVar5,(Color32 *)plVar6,(__sinf(fVar11) + 1.0f) * 0.5f);
                 }
                 else {
                   if (uVar2 != 3) goto LAB_8005513c;
@@ -209,16 +209,16 @@ LAB_800550e8:
                     else {fVar15+= (fVar11 / (fVar14 * 60.0f)) * fVar9;}
                     (light->data).f0 = fVar15;
                   }
-                  color_magnitude(pcVar7,(color32 *)plVar8,(light->data).f0);
+                  color_magnitude(pcVar7,(Color32 *)plVar8,(light->data).f0);
                 }
               }
             }
-            tint_color_with_screenfade((color32 *)&light->data,fVar10);
+            tint_color_with_screenfade((Color32 *)&light->data,fVar10);
           }
           if (((light->header).Bitfeild & 1) == 0) {Vec3_sub(fStack144,light,obj);}
           else {Vec3_sub(fStack144,&gGlobals.Sub.camera,obj);}
           vec3_normalize(fStack144);
-          tint_color_with_screenfade((color32 *)&light->data,gGlobals.screenfadeFloat);
+          tint_color_with_screenfade((Color32 *)&light->data,gGlobals.screenfadeFloat);
           fVar10 = fVar10 * 250.0f;
           if (fVar10 < INT_MAX_f) {sVar13 = (s8)(s32)fVar10;}
           else {sVar13 = (s8)(s32)(fVar10 - INT_MAX_f);}
@@ -324,7 +324,7 @@ void dynamic_lights_free_all(dynamic_light_struct *param_1){
 
 //This only seems to be used with the exploding chest.
 light_obj * AllocDynamicLight(dynamic_light_struct *param_1,u16 param_2,vec3f *pos,float size,u16 type,
-                 float f1,color32 colb,color32 colc){
+                 float f1,Color32 colb,Color32 colc){
   s16 sVar1;
   void *pvVar2;
   light_obj *pdVar3;

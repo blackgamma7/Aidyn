@@ -20,5 +20,9 @@ typedef unsigned int u32;
 typedef long long s64;
 typedef unsigned long long u64;
 
-struct Color32{u8 R,G,B,A;};
+typedef union Color32 {
+    struct {u8 R, G, B, A;};
+    u32 W;
+} Color32;
+
 #define NULL (void*)0x0

@@ -1,8 +1,5 @@
-#ifdef DEBUGVER
 #define FILENAME "../gameclasses/entity.cpp"
-#else
-#define FILENAME ""
-#endif
+
 
 #include "globals.h"
 #include "combat/CombatEntity.h"
@@ -820,8 +817,8 @@ void senseAura(CombatEntity *target,u8 level){
   u32 uVar7;
   char acStack1064 [832];
   char acStack232 [64];
-  color32 col1;
-  color32 col2;
+  Color32 col1;
+  Color32 col2;
   
   pCVar1 = target->charSheetP;
   sprintf(acStack1064,"%s\n",pCVar1->name);

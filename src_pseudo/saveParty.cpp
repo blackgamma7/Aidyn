@@ -1,8 +1,4 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/saveParty.cpp"
-#else
-#define FILENAME ""
-#endif
 
 #include "savefiles.h"
 #include "heapN64.h"

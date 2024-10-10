@@ -291,7 +291,7 @@ struct CinematicFade {
 };
 CinematicFade* cinematicFadePointers[4]; //transition data for each scene
 CinematicFade* cinematicFadePointer; //above, for current cinematic
-color32 cinematic_fade_color;
+Color32 cinematic_fade_color;
 u16 cinematic_fade_s16;
 float cinematic_fade_float,cinematic_fade_speed;
 u16 cinematic_scene_runtime,cinematic_scene_tally;
@@ -373,7 +373,7 @@ LAB_8005d1d4:
     if (fVar8 < INT_MAX_f) {cinematic_fade_color.A = (u8)(s32)fVar8;}
     else {cinematic_fade_color.A = (u8)(s32)(fVar8 - INT_MAX_f);}
     if (cinematic_fade_color.A != 0) {
-      pauVar3 = rsp_func(param_1,6,gfx::get_hres(),gfx::get_vres());
+      pauVar3 = rsp_func(param_1,6,Graphics::get_hres(),Graphics::get_vres());
       param_1 = gsFadeInOut(pauVar3,0,0,0x140,0xf0,cinematic_fade_color.R,cinematic_fade_color.G,
                             cinematic_fade_color.B,cinematic_fade_color.A);
     }

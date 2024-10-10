@@ -1,8 +1,4 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/controller.cpp"
-#else
-#define FILENAME ""
-#endif
 
 #include "Controller.h"
 
@@ -40,21 +36,17 @@ void Controller::proc(void){
   OSMesg *msg;
   
   Controller::InitBuffer();
-  do {
+  while(1) {
     do {
       osRecvMesg(&gContManager.controller_queue_2,msg,1);
     } while (*msg != 1);
     Controller::ReadInput();
     if (osTvType == PAL) {
       gContManager.Timer = (gContManager.Timer + 1) % 5;
-      if (gContManager.Timer == 0) {
-        Controller::ReadInput();
-      }
+      if (gContManager.Timer == 0) Controller::ReadInput();
     }
-    else {
-      gContManager.Timer = (gContManager.Timer + 1) % 6;
-    }
-  } while( true );
+    else gContManager.Timer = (gContManager.Timer + 1) % 6;
+  }
 }
 
 void Controller::InitBuffer(void){

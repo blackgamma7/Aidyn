@@ -16,7 +16,11 @@ namespace N64Print{
     void Free(void);
     char* CleanText(char *param_1,char param_2,s16 param_3);
     void PrintCheck(char *x);
+    #ifdef DEBUGVER
     void Print(char *param_1);
+    #else
+    void Print();
+    #endif
     Gfx* Draw(Gfx*gfx,s16 param_2);
 };
 

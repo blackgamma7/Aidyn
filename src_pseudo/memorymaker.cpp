@@ -1,8 +1,5 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/memorymaker.cpp"
-#else
-#define FILENAME ""
-#endif
+
 
 #include "QuestData.h"
 

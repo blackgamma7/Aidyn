@@ -1,10 +1,6 @@
 #include "commonTypes.h"
 
-#ifdef DEBUGVER
 #define FILENAME "./src/audio.cpp"
-#else
-#define FILENAME ""
-#endif
 
 struct Voice_Aidyn {
     struct ALVoice voice;
@@ -401,7 +397,7 @@ u32 soundVoiceHandler(void){
       fVar13 = (float)(uint)uVar1 / (float)gAudioManager.ALSYNTH.outputRate;
       fVar12 = 0.0;
       fVar14 = fVar12;
-      if (((fVar13 <= 0.0) || (fVar14 = ConstFloats::2.0f, fVar6 < fVar13)) ||
+      if (((fVar13 <= 0.0) || (fVar14 = 2.0f, fVar6 < fVar13)) ||
          (fVar14 = fVar13, 0.0 < fVar13)) {
         bVar8 = v->vol;
         fVar12 = fVar14;

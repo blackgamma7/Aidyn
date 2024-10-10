@@ -51,7 +51,7 @@ Gfx* draw_sundail(Gfx*param_1){
   float fVar11;
   Calendar Cal;
   
-  pauVar2 = rsp_func(param_1,6,gfx::get_hres(),gfx::get_vres());
+  pauVar2 = rsp_func(param_1,6,Graphics::get_hres(),Graphics::get_vres());
   fVar4 = gGlobals.screenfadeFloat * 255.0f;
   if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
   fVar5 = gGlobals.screenfadeFloat * 255.0f;

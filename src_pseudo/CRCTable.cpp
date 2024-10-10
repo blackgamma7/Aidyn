@@ -1,8 +1,4 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/CRCTable.cpp"
-#else
-#define FILENAME ""
-#endif
 
 #include "CRC.h"
 #include "heapN64.h"

@@ -1,8 +1,4 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/widgetcliptext.cpp"
-#else
-#define FILENAME ""
-#endif
 
 #include "widgets\WidgetClipText.h"
 #include "stringN64.h"

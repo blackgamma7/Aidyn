@@ -114,7 +114,7 @@ u8 gameStart(Gfx**param_1){
      ((gGlobals.unk0x1500 == 2 && (gGlobals.screenFadeMode != 0)))) {
     pauVar1 = other_flycam_func(in_f12,in_f14,pauVar1);
     if (flycam_flag) fadeFloatMirror = 1.0f;
-    pauVar1 = rsp_func(pauVar1,6,gfx::get_hres(),gfx::get_vres());
+    pauVar1 = rsp_func(pauVar1,6,Graphics::get_hres(),Graphics::get_vres());
     uVar2 = 0;
     while( true ) {
       if (gGlobals.delta < INT_MAX_f) {uVar5 = (u32)gGlobals.delta;}

@@ -1,8 +1,5 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/gamestatefunnel.cpp"
-#else
-#define FILENAME ""
-#endif
+
 
 #include "eventFlag.h"
 #include "heapN64.h"

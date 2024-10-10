@@ -1,9 +1,6 @@
 #define OneOver60_d 0.016666666666666666f
-#ifdef DEBUGVER
 #define FILENAME "./src/n64print.cpp"
-#else
-#define FILENAME ""
-#endif
+
 
 #include "N64Print.h"
 #include "heapN64.h"
@@ -99,9 +96,9 @@ void N64Print::PrintCheck(char *x){
   if (*x) Print(x);
   #endif
 }
-
+#ifdef DEBUGVER
 void N64Print::Print(char *param_1){
-  #ifdef DEBUGVER
+  
   char cVar1;
   N64PrintStruct *pDVar2;
   char *ppcVar3;
@@ -149,8 +146,10 @@ void N64Print::Print(char *param_1){
     }
     sprintf(gN64PrintP->text,"%s%s",ppcVar3,pcVar7);
   }
-  #endif
 }
+#else
+void N64Print::Print(){}
+#endif
 
 Gfx* N64Print::Draw(Gfx*gfx,s16 delta){
 #ifdef DEBUGVER
@@ -160,7 +159,7 @@ Gfx* N64Print::Draw(Gfx*gfx,s16 delta){
   float fVar5;
   float fVar6;
   
-  if (((debug_flag) && (show_debug_queue)) && (gN64PrintP)) {
+  if (((gDebugFlag) && (show_debug_queue)) && (gN64PrintP)) {
     gN64PrintP->color.w -= (delta * OneOver60_d);
     if (0.0 < gN64PrintP->color.w) {
       fVar4 = gN64PrintP->color.x * 255.0f;
@@ -169,7 +168,7 @@ Gfx* N64Print::Draw(Gfx*gfx,s16 delta){
       fVar3 = gN64PrintP->color.w * 255.0f;
       uVar2 = (u8)(s32)fVar3;
       if (1.0f < gN64PrintP->color.w) uVar2 = 0xff;
-      gfx = gfx::DrawText(gfx,gN64PrintP->text,0x12,0x32,(char)fVar4,(char)fVar5,(char)fVar6,uVar2);
+      gfx = Graphics::DrawText(gfx,gN64PrintP->text,0x12,0x32,(char)fVar4,(char)fVar5,(char)fVar6,uVar2);
     }
     else gN64PrintP->color.w = 0.0;
   }

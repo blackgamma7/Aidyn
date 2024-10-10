@@ -39,10 +39,18 @@ u32 get_memFree_2(void);
 void print_mem_allocated(void *func_,void *param_2);
 void malloc_update_mem_mon(HeapBlock *h,int param_2);
 
-#define ALLOCS(x,s,line) x=static_cast<decltype(x)>(heapAlloc(s,FILENAME,line))
+//discern from debug keeping filename and line of script, and retail ommiting both
+#ifdef DEBUGVER
+#define HALLOC(x,line) heapAlloc(x,FILENAME,line)
+#define HFREE(x,line) HeapFree(x,FILENAME,line)
+#else
+#define HALLOC(x,line) heapAlloc(x,"",0)
+#define HFREE(x,line) HeapFree(x,"",0)
+#endif
+#define ALLOCS(x,s,line) x=static_cast<decltype(x)>(HALLOC(s,line))
 #define ALLOC(x,line) ALLOCS(x,sizeof(*x),line)
 //lvalue alloc
-#define ALLOCL(x,line) void* p=heapAlloc(sizeof(*x),FILENAME,line);\
+#define ALLOCL(x,line) void* p=HALLOC(sizeof(*x),line);\
                        x=(decltype(x))(p);
-#define FREE(x,line) HeapFree(x,FILENAME,line); x=NULL
+#define FREE(x,line) HFREE(x,line); x=NULL
 #define FREEPTR(x,line) if(x) {FREE(x,line);}

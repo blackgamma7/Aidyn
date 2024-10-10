@@ -645,7 +645,7 @@ struct Borg9data {
     u8 unk[4];
     ushort borghpys_count;
     ushort field9_0x26;
-    ushort ref_obj_count;
+    ushort voxelObjCount;
     ushort unkStructCount;
     short *counting_pointer;
     void *someint;
@@ -3209,7 +3209,7 @@ struct OSViMode {
 
 typedef struct _Pft _Pft, *P_Pft;
 
-typedef ulong size_t;
+//typedef ulong size_t;
 
 struct _Pft {
     longlong v;
@@ -3962,15 +3962,6 @@ struct Camera_obj_dat {
     u8 unk0x58[20];
 };
 
-struct referncepoint_obj {
-    struct voxelHeader header;
-    short refPoint_ID;
-    undefined field2_0x2a;
-    undefined field3_0x2b;
-    char name[16];
-    struct vec3f position;
-    u8 align[36];
-};
 
 typedef struct BaseWidgetPause BaseWidgetPause, *PBaseWidgetPause;
 
@@ -5122,7 +5113,7 @@ struct DCMManager {
 typedef struct DebugCharChanger DebugCharChanger, *PDebugCharChanger;
 
 struct DebugCharChanger {
-    enum Borg7Enum borg7;
+    u32 borg7;
     float f;
     char *label;
 };

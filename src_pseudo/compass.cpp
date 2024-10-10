@@ -1,9 +1,4 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/compass.cpp"
-#else
-#define FILENAME ""
-#endif
-
 
 #include "commonTypes.h"
 #include "GhidraDump.h"

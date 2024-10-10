@@ -94,14 +94,13 @@ void open_explosive_chest(voxelObject* param_1,Borg9data *param_2){
   particleCol.w = 1.0f;
   chest_explode_particles(param_1,(param_1->header).pos.y,&particleCol,420,2,75,0.04f,
              0.06f,-0.00085714285,1);
-  (param_1->dat).Gold = 0;
-  (param_1->dat).LootCat.type = Empty;
-  (param_1->dat).LootCat.ID = 0;
+  (param_1->container).Gold = 0;
+  (param_1->container).LootCat.s =0;
   replace_container_voxel(param_1,2,param_2);
-  setEventFlag((param_1->dat).explodeFlag,true);
+  setEventFlag((param_1->container).explodeFlag,true);
   getEventFlag(0x15fa);
   play_SFX(&gGlobals.SFXStruct,chestExplodeSFX[RAND.Range(0,3)],0,gGlobals.VolSFX,240,0);
-  set_voxel_visibility((voxelObject *)param_1,false);
+  set_voxel_visibility(param_1,false);
 }
 
 void NOOP_tp(void){}
@@ -273,7 +272,7 @@ void loot_func(voxelObject *param_1){
                    (byte)gGlobals.Sub.mapShort2,0x11,*(byte *)((int)&(param_1->header).type + 1),10);
       }
       if (!uVar8) {
-        os::sprintf(gGlobals.text,gGlobals.CommonStrings[0x1e2],(param_1->container).Gold);
+        sprintf(gGlobals.text,gGlobals.CommonStrings[0x1e2],(param_1->container).Gold);
         textbox_func(gGlobals.text);
         (gGlobals.Party)->Gold+=(param_1->container).Gold;
         play_SFX(&gGlobals.SFXStruct,Coins_jingle,0,gGlobals.VolSFX,300,time);
@@ -665,8 +664,8 @@ u8 secretdoor_widget_AB(s32 param_1,BaseWidget *param_2){
 }
 
 BaseWidget * textbox_func(char *param_1){
-  color32 col1=OFFWHITE;
-  color32 col2=DARKGRAY;
+  Color32 col1=OFFWHITE;
+  Color32 col2=DARKGRAY;
   gGlobals.PlayerChar.text_window = some_textbox_func(param_1,0x96,&col1,&col2,1);
   (gGlobals.PlayerChar.text_window)->AbuttonFunc = textbox_func_AB;
   (gGlobals.PlayerChar.text_window)->BButtonFunc = textbox_func_AB;

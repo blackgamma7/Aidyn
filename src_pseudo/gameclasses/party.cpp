@@ -1,8 +1,5 @@
-#ifdef DEBUGVER
 #define FILENAME "../gameclasses/party.cpp"
-#else
-#define FILENAME ""
-#endif
+
 #include "party.h"
 #include "stringN64.h"
 #include "heapN64.h"
@@ -695,22 +692,22 @@ bool use_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4)
   s32 iVar7;
   bool bVar8;
   char *pcVar9;
-  color32 *pcVar10;
-  color32 *pcVar11;
+  Color32 *pcVar10;
+  Color32 *pcVar11;
   Spell_RAM *pSVar12;
-  color32 acStack808;
-  color32 acStack744;
-  color32 acStack680;
-  color32 acStack616;
+  Color32 acStack808;
+  Color32 acStack744;
+  Color32 acStack680;
+  Color32 acStack616;
   undefined auStack552 [8];
-  color32 acStack544;
-  color32 acStack480;
-  color32 acStack416;
-  color32 acStack352;
-  color32 acStack288;
-  color32 acStack224;
-  color32 acStack160;
-  color32 acStack96;
+  Color32 acStack544;
+  Color32 acStack480;
+  Color32 acStack416;
+  Color32 acStack352;
+  Color32 acStack288;
+  Color32 acStack224;
+  Color32 acStack160;
+  Color32 acStack96;
   
   lVar6 = capskillBaseMax(param_4->Skills,SKILL_WIZARD);
   if (lVar6 < 0) {
@@ -1539,8 +1536,8 @@ u8 healing_widget_AB_func(s32 param_1,BaseWidget *param_2){
 
 void healing_result_widget(char *arg0)
 {
-  color32 col1;
-  color32 col2;
+  Color32 col1;
+  Color32 col2;
   
   if (gGlobals.screenFadeModeSwitch == 2) {
     if (gCombatP) {copy_string_to_combat_textbox(gCombatP,arg0,0);}
@@ -1865,7 +1862,7 @@ bool lockpicking_func(Party *p,byte lock,char *text)
         }
         else {
           if (5 < iVar4) {
-            os::sprintf(text,(gGlobals.CommonStrings)->lock beyon ability to pick,
+            sprintf(text,(gGlobals.CommonStrings)->lock beyon ability to pick,
                         (gGlobals.CommonStrings)->far,pCVar1->name);
             return false;
           }
@@ -1873,25 +1870,25 @@ bool lockpicking_func(Party *p,byte lock,char *text)
           pcVar9 = (gGlobals.CommonStrings)->lock beyon ability to pick;
           pcVar3 = (gGlobals.CommonStrings)->definietly;
         }
-        os::sprintf(text,pcVar9,pcVar3,pcVar2);
+        sprintf(text,pcVar9,pcVar3,pcVar2);
         bVar7 = false;
       }
       else {
         iVar4 = 10 - iVar4;
         if (iVar4 < 1) iVar4 = 1;
         if (CharStats::getModded(pCVar1->Stats,STAT_STAM) < iVar4) {
-          os::sprintf(text,(gGlobals.CommonStrings)->too weak to pick,pCVar1->name);
+          sprintf(text,(gGlobals.CommonStrings)->too weak to pick,pCVar1->name);
           bVar7 = false;
         }
         else {
           CharStats::addModdedHealth(pCVar1->Stats,STAT_STAM,-(char)iVar4);
-          os::sprintf(text,(gGlobals.CommonStrings)->sucessfully picks lock,pCVar1->name);
+          sprintf(text,(gGlobals.CommonStrings)->sucessfully picks lock,pCVar1->name);
           bVar7 = true;
         }
       }
     }
     else {
-      os::sprintf(text,(gGlobals.CommonStrings)->lock beyon ability to pick,
+      sprintf(text,(gGlobals.CommonStrings)->lock beyon ability to pick,
                   (gGlobals.CommonStrings)->far,pCVar1->name);
       bVar7 = false;
     }

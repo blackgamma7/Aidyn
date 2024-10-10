@@ -1,8 +1,5 @@
-#ifdef DEBUGVER
+
 #define FILENAME "./src/app.cpp"
-#else
-#define FILENAME ""
-#endif
 
 #include "globals.h"
 #include "GhidraDump.h"
@@ -130,7 +127,7 @@ Gfx * display_debug_stats(Gfx *gfx){
     s32 phi_s1_2;
 
     phi_s1_2 = arg0;
-    if (debug_flag != 0) {
+    if (gDebugFlag != 0) {
         phi_s1_2 = arg0;
         if (!(gGlobals.unkC < D_800D984C)) {
             phi_s5 = &gGlobals + 0x2078;
@@ -140,7 +137,7 @@ Gfx * display_debug_stats(Gfx *gfx){
                 phi_s1 = DisplaySystemMonitor(arg0);
             }
             sprintf(phi_s5, &D_800D97D0, (s16) (s32) (D_800D9850 / (f64) gGlobals.unkC));
-            temp_s1 = gfx::DrawText(phi_s1, phi_s5, 0x120, 0xD7, 0x80, 0x80, 0x80, 0xFF);
+            temp_s1 = Graphics::DrawText(phi_s1, phi_s5, 0x120, 0xD7, 0x80, 0x80, 0x80, 0xFF);
             phi_s1_2 = temp_s1;
             if (gGlobals.unk2034 != 0) {
                 temp_s0 = get_hres();
@@ -168,7 +165,7 @@ Gfx * display_debug_stats(Gfx *gfx){
                     if (temp_s3 != 0) {
                         temp_a2 = temp_s3->unk100;
                         sprintf(phi_s5, (void *)0x800D97D4, temp_a2, *((temp_a2 * 4) + ground_labels));
-                        temp_s1_4 = gfx::DrawText(temp_s1_3, phi_s5, 0x12, 0xC4, 0, 0xC8, 0xC8, 0xFF);
+                        temp_s1_4 = Graphics::DrawText(temp_s1_3, phi_s5, 0x12, 0xC4, 0, 0xC8, 0xC8, 0xFF);
                         if (!(D_800D9870 <= (temp_f20 * D_800D986C))) {
 
                         }
@@ -195,7 +192,7 @@ Gfx * display_debug_stats(Gfx *gfx){
                         phi_a0 = temp_s1_3;
                         phi_s0 = temp_s0_4;
                     }
-                    phi_s1_2 = gfx::DrawText(phi_a0, phi_s0 + 0x2078, 0x12, 0xCC, 0xC8, 0x20, 0xC8, 0xFF);
+                    phi_s1_2 = Graphics::DrawText(phi_a0, phi_s0 + 0x2078, 0x12, 0xCC, 0xC8, 0x20, 0xC8, 0xFF);
                 }
             }
         }
@@ -247,7 +244,7 @@ loop:
       if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
         if (resolution_mirror_check()) {
           Gsprintf("StartGfxList()");
-          gfx0 = gfx::gsStartGfxList();
+          gfx0 = Graphics::gsStartGfxList();
           Gsprintf("HandleAppFrame()");
           uVar10 = gGlobals.ticker + 1;
           if (doubleGlobalTickerFlag == 1) {
@@ -303,7 +300,7 @@ loop:
             goto loop;
           }
           psVar6 = get_depthBuffer();
-          if (psVar6[((u16)lensflare_floats.y * (gfx::get_vres() / 240)) * gfx::get_hres() + lensflare_floats.x * (gfx::get_hres() / 0x140)] == -4) {
+          if (psVar6[((u16)lensflare_floats.y * (Graphics::get_vres() / 240)) * Graphics::get_hres() + lensflare_floats.x * (Graphics::get_hres() / 0x140)] == -4) {
             gGlobals.appfunc_dat = 1;
             uVar8 = doubleGlobalTickerFlag;
             goto loop;
@@ -328,7 +325,7 @@ void appProc_init(void){
   Borg8Enum BVar5;
   s32 uVar6;
   
-  gfx::SetGfxMode(320,240,16);
+  Graphics::SetGfxMode(320,240,16);
   FUN_80020830();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
@@ -366,8 +363,8 @@ void appProc_init(void){
   MemoryMaker::Init();
   CommonStrings::Init();
   gGlobals.unk0x15c0 = init_some_Struct(passToMalloc(0x28),gGlobals.widgetHandler);
-  HresMirror = gfx::get_hres();
-  VresMirror = gfx::get_vres();
+  HresMirror = Graphics::get_hres();
+  VresMirror = Graphics::get_vres();
   gGlobals.appstateBool = 1;
   gGlobals.VolSFX = 1.0f;
   gGlobals.VolBGM = 0.65f;

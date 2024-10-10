@@ -1,8 +1,4 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/romcopy.cpp"
-#else
-#define FILENAME ""
-#endif
 
 #include "romcopy.h"
 #include "heapN64.h"
@@ -39,11 +35,11 @@ void InitQueue(void){
   romcopy_struct *entry;
   u8 i;
   
-  romcopyManage.mesgPointer = (OSMesg *)heapAlloc(0x20,FILENAME,0xb0);
+  romcopyManage.mesgPointer = (OSMesg *)HALLOC(0x20,0xb0);
   osCreateMesgQueue(&romcopyManage.mesgQ0x1c0,romcopyManage.mesgPointer,8);
   osCreateMesgQueue(&romcopyManage.mesgQ0x1dc,&romcopyManage.mesg0x1d8,1);
-  romcopyManage.dmaStructs = heapAlloc(8*sizeof(romcopy_struct),FILENAME,0xb6);
-  romcopyManage.dmaIndicies = heapAlloc(8,FILENAME,0xb8);
+  romcopyManage.dmaStructs = HALLOC(8*sizeof(romcopy_struct),0xb6);
+  romcopyManage.dmaIndicies = HALLOC(8,0xb8);
   for(i=0;i<8;i++) {
     entry =romcopyManage.dmaStructs[i]);
     osCreateMesgQueue(&entry->msgQ,&entry->msg,1);
@@ -65,10 +61,8 @@ u8 RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line){
         if (1 < type) {
         #ifdef DEBUGVER
           sprintf(acStack160,"type from %s line %lu unrecognized!",cpp,line);
+          #endif
           CRASH("u32 RomCopy( u32 pDest,u32 pSrc,u32 len,u32 type)",acStack160);
-        #else
-          CRASH();
-        #endif
         }
         bVar1 = romcopyManage.dmaIndicies[romcopyManage.flag];
         romcopyManage.flag++;
@@ -77,11 +71,7 @@ u8 RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line){
         prVar4->devAddr = (u32)source;
         prVar4->Bytes = len;
         if (osSendMesg(&romcopyManage.mesgQ0x1c0,(OSMesg)(u32)bVar1,0)) {
-        #ifdef DEBUGVER
           CRASH("u32 RomCopy( u32 pDest_,u32 pSrc_, u32 len_, u32 type_)","Request Queue is full!");
-          #else
-          CRASH();
-        #endif
         }
         osRecvMesg(&romcopyManage.mesgQ0x1dc,NULL,1);
         if (type == 1) {

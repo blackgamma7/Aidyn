@@ -1,8 +1,4 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/questdata.cpp"
-#else
-#define FILENAME ""
-#endif
 
 #include "QuestData.h"
 #include "CRC.h"

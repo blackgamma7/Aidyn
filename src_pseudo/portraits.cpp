@@ -13,11 +13,11 @@ bool ofunc_check_portaits_bottom(bool param_1){
 
 #define WHITE_GLOW {255,255,255,128}
 void pass_to_draw_portaits(Gfx*param_1,bool param_2){
-  color32 uStack72 [4] ={WHITE_GLOW,WHITE_GLOW,WHITE_GLOW,WHITE_GLOW}; //yes, by hacking, you could color-code the auras.
+  Color32 uStack72 [4] ={WHITE_GLOW,WHITE_GLOW,WHITE_GLOW,WHITE_GLOW}; //yes, by hacking, you could color-code the auras.
   draw_party_portaits(param_1,param_2,uStack72);
 }
 
-void PortraitColorBlend(color32 *colA,color32 *colB,float fade){
+void PortraitColorBlend(Color32 *colA,Color32 *colB,float fade){
   float fVar1;
   
   fVar1 = (float)(u32)colA->R * fade;
@@ -34,16 +34,16 @@ void PortraitColorBlend(color32 *colA,color32 *colB,float fade){
   else colB->A = (u8)fVar1;
 }
 
-Gfx* draw_party_portaits(Gfx*param_1,bool param_2,color32 *col){
+Gfx* draw_party_portaits(Gfx*param_1,bool param_2,Color32 *col){
   CharSheet *pCVar1;
 
   Gfx*pauVar2;
   float Hscale;
-  color32 TempCol;
+  Color32 TempCol;
   
   if (!param_2) {if (screen_bottom < 0xf0) screen_bottom+=4;}
   else if ((param_2) && (0xb9 < screen_bottom)) screen_bottom-=4;
-  pauVar2 = rsp_func(param_1,6,gfx::get_hres(),gfx::get_vres());
+  pauVar2 = rsp_func(param_1,6,Graphics::get_hres(),Graphics::get_vres());
   PortraitColorBlend(col,&TempCol,gGlobals.screenfadeFloat);
   Hscale = 0.8f;
   pauVar2 = pass_to_borg_image_draw(pauVar2,gGlobals.portraitBorder,84.0,(float)(u32)screen_bottom,0.8f,0.8f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);

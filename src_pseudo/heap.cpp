@@ -1,13 +1,15 @@
-#ifdef DEBUGVER
 #define FILENAME "./src/heap.cpp"
-#else
-#define FILENAME ""
-#endif
+
 
 #include "heapN64.h"
+#include "crash.h"
 
 #define Msprintf(fmt,...) sprintf(gMemMonitor.text,fmt,__VA_ARGS__)
-#define HeapCrash(fmt,...) Msprintf(fmt,__VA_ARGS__); CRASH("heap.cpp",gMemMonitor.text)
+#ifdef DEBUGVER
+#define HeapCrash(l,fmt,...) Msprintf(fmt,__VA_ARGS__); CRASH("heap.cpp",gMemMonitor.text)
+#else
+#define HeapCrash(l,fmt,...) Msprintf("%d",l); CRASH("heap.cpp",gMemMonitor.text)
+#endif
 
 void HeapInit(void *X,u32 Y){
   u32 uVar1;
@@ -83,11 +85,14 @@ void * heapAlloc(u32 size,char *file,u32 line){
       } while ((!bVar1) && (pHVar3));
     }
     if (pHVar6 == NULL) {
-      HeapCrash("%s %i\ncouldn't find %i free space!\n%i avail in %i blocks\n%i used in %i blocks",file,line,uVar5,gMemMonitor.memFree,gMemMonitor.obj_free,gMemMonitor.memUsed,gMemMonitor.obj_count_2);
+      HeapCrash(386,"%s %i\ncouldn't find %i free space!\n%i avail in %i blocks\n%i used in %i blocks",
+        file,line,uVar5,gMemMonitor.memFree,gMemMonitor.obj_free,gMemMonitor.memUsed,gMemMonitor.obj_count_2);
     }
     malloc_update_mem_mon(pHVar6,uVar5);
+    #ifdef DEBUGVER
     Msprintf("%s %i",remove_dir_slashes(file),line);
     STRCPYSafe(pHVar6->filename,gMemMonitor.text);
+    #endif
     ret = pHVar6 + 1;
     gMemMonitor.flag = 1;
   }
@@ -103,15 +108,15 @@ void HeapFree(void *X,char *cpp,s32 line){
     if (((((u32)X & 7) != 0) || (X < gMemMonitor.memRegionStart)) ||
        (pHVar2 = (HeapBlock *)((s32)X + -(sizeof(HeapBlock))),
        (void *)((s32)gMemMonitor.memRegionStart + gMemMonitor.memFreeMax) < X)) {
-      HeapCrash("%s %i tried to free an invalid pointer 0x%08x",cpp,line,X);
+      HeapCrash(441,"%s %i tried to free an invalid pointer 0x%08x",cpp,line,X);
     }
     uVar1 = get_heap_size(pHVar2);
     uVar3 = uVar1 & ~1;
     if ((((uVar1 & 6) != 0) || (uVar3 < 0x10)) || (gMemMonitor.memFreeMax < uVar3)) 
-      {HeapCrash("%s %i tried to free a pointer with an invalid start tag! Owner: %24s",cpp,line,pHVar2->filename);}
+      {HeapCrash(468,"%s %i tried to free a pointer with an invalid start tag! Owner: %24s",cpp,line,pHVar2->filename);}
     if ((FUN_80098848((char)pHVar2) & ~1) != uVar3) 
-      {HeapCrash("%s %i tried to free a pointer with an invalid end tag! Owner: %24s",cpp,line,pHVar2->filename);}
-    if ((get_heap_size(pHVar2) & 1) == 0) {HeapCrash("%s %i tried to free a pointer that has already been freed!",cpp,line);}
+      {HeapCrash(485,"%s %i tried to free a pointer with an invalid end tag! Owner: %24s",cpp,line,pHVar2->filename);}
+    if ((get_heap_size(pHVar2) & 1) == 0) {HeapCrash(502,"%s %i tried to free a pointer that has already been freed!",cpp,line);}
     free_update_mem_mon(pHVar2);
     gMemMonitor.flag = 1;
   }
@@ -146,7 +151,7 @@ u32 get_memFree_2(void){
   }
   return gMemMonitor.memFree_2;
 }
-
+#ifdef DEBUGVER
 char D_800f5490[16];
 char D_800f54a0[16];
 void print_mem_allocated(void *param_1,void *param_2){
@@ -157,7 +162,7 @@ void print_mem_allocated(void *param_1,void *param_2){
   ulonglong uVar5;
   u32 uVar6;
   u32 uVar7;
-  func *pfVar8;
+  void *pfVar8;
   
   pfVar8 = param_1;
   strcpy(D_800f5490,"FREE");
@@ -183,6 +188,9 @@ void print_mem_allocated(void *param_1,void *param_2){
     pHVar4 = (HeapBlock *)(pHVar4->filename + (s32)uVar5 + -4);
   }
 }
+#else
+void print_mem_allocated(void *param_1,void *param_2){}
+#endif
 
 void malloc_update_mem_mon(HeapBlock *param_1,s32 param_2){
   u32 uVar1;
