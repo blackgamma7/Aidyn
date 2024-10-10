@@ -281,7 +281,7 @@ segments:
       - [0xC3BD0, asm,ultra/system/getmemsize]
       - [0xC3c70, asm,ultra/time/gettime]
       - [0xC3D00, asm,"ultra/reg/getcount"]
-      - [0xC3D10, asm,"ultra/audio/heapalloc"]
+      - [0xC3D10, asm,"ultra/audio/HeapAlloc"]
       - [0xC3D60, asm,"ultra/audio/heapinit"]
       - [0xC3DA0, asm,"ultra/os/initialize"]
       - [0xC41A0, asm,"ultra/reg/getcause"]

@@ -160,7 +160,7 @@ struct charExp { /* data containing EXP, School, Aspect and more. */
 
 
 struct Spellbook { /* pointer and count of spells */
-    SpellInstance * spells;
+    SpellInstance ** spells;
     u8 count;
 };
 

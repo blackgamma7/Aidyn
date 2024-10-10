@@ -400,7 +400,7 @@ u8 (*) [2] create_2ByteArray(u8 (*param_1) [2]){
   
   if (param_1 == NULL) {pabVar1 = NULL;}
   else {
-    pabVar1 = (u8 (*) [2])heapAlloc(2,FILENAME,0x2b9);
+    pabVar1 = (u8 (*) [2])HeapAlloc(2,FILENAME,0x2b9);
     (*pabVar1)[0] = (*param_1)[0];
     (*pabVar1)[1] = (*param_1)[1];}
   return pabVar1;}

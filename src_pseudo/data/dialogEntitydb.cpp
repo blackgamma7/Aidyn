@@ -5,7 +5,7 @@ void Ofunc_80074ca0(DialoigEntPointer *param_1){
   auStack16[0] = 0;
   load_db_array_size(&dialouge_entity,param_1,auStack16);
   pDVar1 = (DialougEnt_RAM *)
-           heapAlloc(((u32)param_1->total * 0xc + (u32)param_1->total) * 2,FILENAME,0x2e);
+           HeapAlloc(((u32)param_1->total * 0xc + (u32)param_1->total) * 2,FILENAME,0x2e);
   param_1->ents = pDVar1;
 }
 
@@ -30,7 +30,7 @@ void build_dailougentitydb(DialoigEntPointer *param_1){
   
   auStack24[0] = 0;
   load_db_array_size(&dialouge_entity,param_1,auStack24);
-  pDVar1 = (DialougEnt_RAM *)heapAlloc(((u32)param_1->total * 0xc + (u32)param_1->total) * 2,FILENAME,0x8f);
+  pDVar1 = (DialougEnt_RAM *)HeapAlloc(((u32)param_1->total * 0xc + (u32)param_1->total) * 2,FILENAME,0x8f);
   param_1->ents = pDVar1;
   bVar2 = 0;
   if (param_1->total != 0) {

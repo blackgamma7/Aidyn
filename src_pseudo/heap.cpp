@@ -49,7 +49,7 @@ void HeapInit(void *X,u32 Y){
 }
 
 
-void * heapAlloc(u32 size,char *file,u32 line){
+void * HeapAlloc(u32 size,char *file,u32 line){
   bool bVar1;
   u32 uVar2;
   HeapBlock *pHVar3;
@@ -355,5 +355,5 @@ char * remove_dir_slashes(char *str){
 
 
 void ofunc_LISBN_called_free(void){CRASH("heap.cpp","LIBSN called free?");}
-void * operator new(size_t size){return heapAlloc(size,FILENAME,1139);}
+void * operator new(size_t size){return HeapAlloc(size,FILENAME,1139);}
 void operator delete(void* x){HeapFree(x,FILENAME,1150);}

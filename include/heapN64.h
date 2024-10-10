@@ -27,7 +27,7 @@ struct HeapBlock{
 extern struct MemMon_struct gMemMonitor;
 
 void HeapInit(void *start,u32 size);
-void * heapAlloc(uint size,char *file,uint line);
+void * HeapAlloc(uint size,char *file,uint line);
 void HeapFree(void *X,char *cpp,int line);
 uint Ofunc_80098200(void *param_1);
 u32 Ofunc_get_MemFreeMax(void);
@@ -41,16 +41,16 @@ void malloc_update_mem_mon(HeapBlock *h,int param_2);
 
 //discern from debug keeping filename and line of script, and retail ommiting both
 #ifdef DEBUGVER
-#define HALLOC(x,line) heapAlloc(x,FILENAME,line)
+#define HALLOC(x,line) HeapAlloc(x,FILENAME,line)
 #define HFREE(x,line) HeapFree(x,FILENAME,line)
 #else
-#define HALLOC(x,line) heapAlloc(x,"",0)
+#define HALLOC(x,line) HeapAlloc(x,"",0)
 #define HFREE(x,line) HeapFree(x,"",0)
 #endif
 #define ALLOCS(x,s,line) x=static_cast<decltype(x)>(HALLOC(s,line))
 #define ALLOC(x,line) ALLOCS(x,sizeof(*x),line)
 //lvalue alloc
 #define ALLOCL(x,line) void* p=HALLOC(sizeof(*x),line);\
-                       x=(decltype(x))(p);
-#define FREE(x,line) HFREE(x,line); x=NULL
+                       x=(decltype(x))(p)
+#define FREE(x,line) HFREE(x,line); x=decltype(x)(NULL)
 #define FREEPTR(x,line) if(x) {FREE(x,line);}

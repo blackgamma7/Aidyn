@@ -65,7 +65,7 @@ void * WanderHead(wander_struct *arg0,s16 size){
   
   arg0->unk0x56 = 1;
   arg0->wanderersmax = size;
-  x = (wander_substruct *)heapAlloc(size * 0x54,FILENAME,0xaa);
+  x = (wander_substruct *)HeapAlloc(size * 0x54,FILENAME,0xaa);
   arg0->wanderSubstructs = x;
   pvVar1 = memset(x,0,(arg0->wanderersmax * 0x14 + (s32)arg0->wanderersmax) * 4);
   lVar2 = 0;

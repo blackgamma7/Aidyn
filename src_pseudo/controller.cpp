@@ -27,7 +27,7 @@ ContManageStruct gContManager;
 void Controller::Init(OSSched *sc,u8 ports,u8 pri,u8 id){
   gContManager.ossched = sc;
   gContManager.ports = ports;
-  gContManager.thread_stack = heapAlloc(0x448,FILENAME,0xc8);
+  gContManager.thread_stack = HeapAlloc(0x448,FILENAME,0xc8);
   osCreateThread(&gContManager.Thread,(s32)id,Controller::proc,NLL,
                      gContManager.thread_stack + 0x448,pri);
   osStartThread(&gContManager.Thread);}
@@ -57,15 +57,15 @@ void Controller::InitBuffer(void){
   OSContStatus contStat [4];
   u8 auStack40 [4];
   
-  gContManager.osmesgPointer = (OSMesg *)heapAlloc(0x20,FILENAME,258);
+  gContManager.osmesgPointer = (OSMesg *)HeapAlloc(0x20,FILENAME,258);
   osCreateMesgQueue(&gContManager.controller_queue_2,gContManager.osmesgPointer,8);
   osCreateMesgQueue(&gContManager.si_megQ,&gContManager.mesg0,1);
   osSetEventMesg(OS_EVENT_SI,&gContManager.si_megQ,(OSMesg)1);
   osCreateMesgQueue(&gContManager.contMesgQ,&gContManager.mesg1,1);
-  gContManager.BufferPointer =heapAlloc(gContManager.ports*sizeof(controllerBuffer),FILENAME,0x10b);
+  gContManager.BufferPointer =HeapAlloc(gContManager.ports*sizeof(controllerBuffer),FILENAME,0x10b);
   if (gContManager.ports) {
     for(i=0;i < gContManager.ports;i++) {
-      pBVar2 = (Button_hold *)heapAlloc(128*sizeof(Button_hold),FILENAME,0x111);
+      pBVar2 = (Button_hold *)HeapAlloc(128*sizeof(Button_hold),FILENAME,0x111);
       gContManager.BufferPointer[i].latest = 0;
       gContManager.BufferPointer[i].inputlog = pBVar2;
       gContManager.BufferPointer[i].hori = 0.1f;

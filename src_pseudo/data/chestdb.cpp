@@ -4,7 +4,7 @@ void chestdb_ofunc(loot_Pointer *param_1){
   
   auStack16[0] = 0;
   load_db_array_size(&chestdb,param_1,auStack16);
-  param_1->lootCat = (Loot_RAM *)heapAlloc(((u32)param_1->total * 0x1c + (u32)param_1->total) * 2,FILENAME,0x36);
+  param_1->lootCat = (Loot_RAM *)HeapAlloc(((u32)param_1->total * 0x1c + (u32)param_1->total) * 2,FILENAME,0x36);
 }
 
 void load_chestDB(loot_Pointer *param_1,u32 param_2,s32 *param_3){
@@ -118,7 +118,7 @@ void build_chestdb(loot_Pointer *param_1){
   
   auStack24[0] = 0;
   load_db_array_size(&chestdb,param_1,auStack24);
-  param_1->lootCat = (Loot_RAM *)heapAlloc(((u32)param_1->total * 0x1c + (u32)param_1->total) * 2,FILENAME,0x165);
+  param_1->lootCat = (Loot_RAM *)HeapAlloc(((u32)param_1->total * 0x1c + (u32)param_1->total) * 2,FILENAME,0x165);
   uVar2 = 0;
   if (param_1->total != 0) {
     do {load_chestDB(param_1,uVar2++,auStack24);} while (uVar2 < param_1->total);

@@ -67,7 +67,7 @@ struct Audio_manager gAudioManager;
 void audio_thread_init(OSSched *sch,undefined2 param_2,u8 pri,u8 id){
   gAudioManager.OSSched = sch;
   gAudioManager.frequency = param_2;
-  gAudioManager.ThreadStack = heapAlloc(0x448,FILENAME,0xb1);
+  gAudioManager.ThreadStack = HeapAlloc(0x448,FILENAME,0xb1);
   osCreateThread(&gAudioManager.Thread,id,audioProc,NULL,(void *)((int)gAudioManager.ThreadStack + 0x448),pri);
   osStartThread(&gAudioManager.Thread);
 }
@@ -222,7 +222,7 @@ void audioProc(void){
   Acmd *pAVar1;
   short *apsStack32 [8];
   
-  gAudioManager.OsMsgPtr0x74 = (OSMesg *)heapAlloc(0x10,FILENAME,0x1c1);
+  gAudioManager.OsMsgPtr0x74 = (OSMesg *)HeapAlloc(0x10,FILENAME,0x1c1);
   osCreateMesgQueue(&gAudioManager.mesgQ,gAudioManager.OsMsgPtr0x74,4);
   osCreateMesgQueue(&gAudioManager.mesgQ_2,&gAudioManager.OSmesg0x2e0,1);
   gAudioManager.MesgQ_3 = osScGetCmdQ(gAudioManager.OSSched);
@@ -254,7 +254,7 @@ void AudioProcInit(void){
   ALSynConfig AStack168;
   ALVoiceConfig aAStack104 [20];
   
-  base = (u8 *)heapAlloc(0x12000,FILENAME,0x1f6);
+  base = (u8 *)HeapAlloc(0x12000,FILENAME,0x1f6);
   _bzero(base,0x12000);
   alHeapInit(&gAudioManager.ALHEAP,base,0x12000);
   
@@ -273,8 +273,8 @@ void AudioProcInit(void){
   aAStack104[0].priority = 10;
   aAStack104[0].fxBus = 0;
   aAStack104[0].unityPitch = 0;
-  gAudioManager.voicesAidyn = heapAlloc(sizeof(Voice_Aidyn)*32,FILENAME,0x20f);
-  gAudioManager.indecies = heapAlloc(32,FILENAME,0x210);
+  gAudioManager.voicesAidyn = HeapAlloc(sizeof(Voice_Aidyn)*32,FILENAME,0x20f);
+  gAudioManager.indecies = HeapAlloc(32,FILENAME,0x210);
   for(uVar4 = 0;uVar4 < 0x20;uVar4++) {
     alSynAllocVoice(&gAudioManager.ALSYNTH,&gAudioManager.voicesAidyn[uVar4].voice,aAStack104);
     gAudioManager.voicesAidyn[uVar4].wavetable.waveInfo = alHeapDBAlloc(NULL,0,&gAudioManager.ALHEAP,1,0xc);

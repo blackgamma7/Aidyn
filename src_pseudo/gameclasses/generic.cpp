@@ -63,12 +63,12 @@ void make_temp_armor(temp_armor *param_1,ItemID param_2){
   param_1->aspect = pcVar5->aspect;
   param_1->price = pcVar5->price;
   if (pcVar5->stat != NONE) {
-    pabVar2 = (u8 (*) [2])heapAlloc(2,FILENAME,0x90);
+    pabVar2 = (u8 (*) [2])HeapAlloc(2,FILENAME,0x90);
     param_1->statMod = pabVar2;
     make_2byte_array(pabVar2,pcVar5->stat,pcVar5->statNum);
   }
   if (pcVar5->spell != NONE) {
-    pTVar3 = (Temp_spell *)heapAlloc(8,FILENAME,0x96);
+    pTVar3 = (Temp_spell *)HeapAlloc(8,FILENAME,0x96);
     param_1->spell = pTVar3;
     malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellLV,pcVar5->rom0x2a);
   }
@@ -90,12 +90,12 @@ void make_temp_weapon(Temp_weapon *param_1,ItemID param_2){
   param_1->aspect = pcVar5->aspect;
   param_1->price = pcVar5->price;
   if (pcVar5->stat != NONE) {
-    pabVar2 = (u8 (*) [2])heapAlloc(2,FILENAME,0xb2);
+    pabVar2 = (u8 (*) [2])HeapAlloc(2,FILENAME,0xb2);
     param_1->Stat = pabVar2;
     make_2byte_array(pabVar2,pcVar5->stat,pcVar5->statMod);
   }
   if (pcVar5->spell != NONE) {
-    pTVar3 = (Temp_spell *)heapAlloc(8,FILENAME,0xb8);
+    pTVar3 = (Temp_spell *)HeapAlloc(8,FILENAME,0xb8);
     param_1->spell = pTVar3;
     malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellAmmount,pcVar5->SpellLV);
   }
@@ -134,12 +134,12 @@ void make_temp_gear(temp_gear *param_1,ItemID param_2){
   param_1->aspect = pGVar4->aspect;
   param_1->price = pGVar4->price;
   if (pGVar4->stat) {
-    pabVar2 = (u8 (*) [2])heapAlloc(2,FILENAME,0xe8);
+    pabVar2 = (u8 (*) [2])HeapAlloc(2,FILENAME,0xe8);
     param_1->statmod = pabVar2;
     make_2byte_array(pabVar2,pGVar4->stat,pGVar4->StatMod);
   }
   if (pGVar4->spell != 0xff) {
-    pTVar3 = (Temp_spell *)heapAlloc(8,FILENAME,0xee);
+    pTVar3 = (Temp_spell *)HeapAlloc(8,FILENAME,0xee);
     param_1->pSpell = pTVar3;
     malloc_equip_spell(pTVar3,pGVar4->spell,pGVar4->spellVal1,pGVar4->spellVal2);
   }

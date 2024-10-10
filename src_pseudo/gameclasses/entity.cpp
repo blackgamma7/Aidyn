@@ -26,7 +26,7 @@ void init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
   ItemID IVar7;
   
   param_1->portrait = get_borg_8(getEntityPortait(param_1->ID));
-  x = (PotionEffect **)heapAlloc(0x1c,FILENAME,0xc1);
+  x = (PotionEffect **)HeapAlloc(0x1c,FILENAME,0xc1);
   param_1->potionEffects=x;
   memset(x,0,sizeof(PotionEffect*)*7);
   param_1->weapons = NULL;
@@ -45,7 +45,7 @@ void init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
 void equip_weapons(CharSheet *param_1,Entity_Ram *param_2){
   PotionEffect **x;
   
-  x = (PotionEffect **)heapAlloc(0x1c,FILENAME,0xd8);
+  x = (PotionEffect **)HeapAlloc(0x1c,FILENAME,0xd8);
   param_1->potionEffects = x;
   memset(x,0,0x1c);
   param_1->weapons = NULL;
@@ -94,16 +94,16 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   pEVar10 = pEVar10 + (char)bVar7;
   strlen(pEVar10->Name);
   param_1->name = pEVar10->Name;
-  stats = (CharStats *)heapAlloc(0x1c,FILENAME,0x101);
+  stats = (CharStats *)HeapAlloc(0x1c,FILENAME,0x101);
   param_1->Stats = stats;
   CharStats::Init(stats,param_1->ID);
-  pcVar1 = (charExp *)heapAlloc(0x10,FILENAME,0x104);
+  pcVar1 = (charExp *)HeapAlloc(0x10,FILENAME,0x104);
   param_1->EXP = pcVar1;
   CharExp::Init(pcVar1,param_1->ID);
-  arg0 = (CharSkills *)heapAlloc(0x30,FILENAME,0x107);
+  arg0 = (CharSkills *)HeapAlloc(0x30,FILENAME,0x107);
   param_1->Skills = arg0;
   CharSkills::Init(arg0,param_1->ID);
-  ppAVar2 = (ArmorInstance **)heapAlloc(8,FILENAME,0x10a);
+  ppAVar2 = (ArmorInstance **)HeapAlloc(8,FILENAME,0x10a);
   param_1->armor = ppAVar2;
   *ppAVar2 = NULL;
   ppAVar2[1] = NULL;
@@ -113,10 +113,10 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   if (pEVar10->Sheild != (ItemID)0xffff) {
     EquipSheild(param_1,pEVar10->Sheild,NULL);
   }
-  pCVar3 = (CharGear *)heapAlloc(8,FILENAME,0x111);
+  pCVar3 = (CharGear *)HeapAlloc(8,FILENAME,0x111);
   param_1->pItemList = pCVar3;
   CharGear_Init(pCVar3,0xc);
-  pSVar4 = (Spellbook *)heapAlloc(8,FILENAME,0x114);
+  pSVar4 = (Spellbook *)HeapAlloc(8,FILENAME,0x114);
   param_1->spellbook = pSVar4;
   Spellbook::Reset(pSVar4,5);
   uVar9 = 0;
@@ -124,7 +124,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   do {
     pIVar8 = (ItemID *)(&pEVar10->spells[0].type + iVar5);
     if (*pIVar8 != (ItemID)0xffff) {
-      pSVar6 = (SpellInstance *)heapAlloc(0x24,FILENAME,0x11a);
+      pSVar6 = (SpellInstance *)HeapAlloc(0x24,FILENAME,0x11a);
       ID = *pIVar8;
       *(SpellInstance **)(&(param_1->spellbook->spells->base).id + uVar9 * 2) = pSVar6;
       TempSpell::Init(pSVar6,ID,pEVar10->Spell_levels[uVar9]);
@@ -133,7 +133,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
     uVar9 = uVar9 + 1 & 0xff;
     iVar5 = uVar9 << 1;
   } while (uVar9 < 5);
-  x = (Temp_enchant **)heapAlloc(0x3c,FILENAME,0x11f);
+  x = (Temp_enchant **)HeapAlloc(0x3c,FILENAME,0x11f);
   param_1->effects = x;
   memset(x,0,0x3c);
   apcStack112[0] = PTR_ARRAY_800e030c[0];
@@ -1146,7 +1146,7 @@ LAB_80079984:
       sVar9 = -1;
     }
     else {
-      pTVar8 = (Temp_enchant *)heapAlloc(0x18,s_../gameclasses/entity.cpp_800e02f0,0x809);
+      pTVar8 = (Temp_enchant *)HeapAlloc(0x18,s_../gameclasses/entity.cpp_800e02f0,0x809);
       ppTVar2 = target->effects;
       ppTVar2[uVar6] = pTVar8;
       TempEnchant::Init(ppTVar2[uVar6],id,(byte)Level,param_4,pow,UNK4);
@@ -2010,7 +2010,7 @@ void malloc_enchant(CharSheet *param_1,SpellEnum param_2,u8 param_3,u8 param_4,u
   uVar6 = 0;
   while( true ) {
     if (param_1->spellEffects->list[uVar6] == NULL) {
-      pTVar2 = (Temp_enchant *)heapAlloc(0x18,FILENAME,0xde3);
+      pTVar2 = (Temp_enchant *)HeapAlloc(0x18,FILENAME,0xde3);
       ppTVar5 = param_1->spellEffects->list + uVar6;
       *ppTVar5 = pTVar2;
       CreateTempEnchant(*ppTVar5,param_2,(char)param_3,timer,param_4,0);

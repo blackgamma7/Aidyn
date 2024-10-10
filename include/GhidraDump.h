@@ -2185,7 +2185,6 @@ typedef struct CharGear CharGear, *PCharGear;
 
 typedef struct Spellbook Spellbook, *PSpellbook;
 
-typedef struct effects effects, *Peffects;
 
 typedef struct PotionEffect PotionEffect, *PPotionEffect;
 
@@ -2269,8 +2268,6 @@ typedef struct Temp_enchant Temp_enchant, *PTemp_enchant;
 
 typedef struct GearInstance GearInstance, *PGearInstance;
 
-typedef struct SpellInstance SpellInstance, *PSpellInstance;
-
 typedef enum AspectEnum {
     ASPECT_NONE=0,
     ASPECT_LUNAR=1,
@@ -2344,20 +2341,27 @@ struct resist_float { /* resistance and element when loaded into temp item */
     float percent;
 };
 
-struct effects {
-    struct Temp_enchant *list[15];
-};
-
-
-
-
 
 struct StatMod {
     s8 stat;
     s8 mod;
 };
 
-
+struct SpellInstance{
+    ItemInstance base;
+    u8 level;
+    u8 school;
+    u8 damage;
+    u8 stamina;
+    u8 cast;
+    u8 target;
+    u8 wizard;
+    u8 special;
+    u8 range;
+    u8 cost;
+    u16 exp_modifyer;
+    u8 aspect_flag;
+};
 
 struct SpellCharges {
     struct SpellInstance *Spell;

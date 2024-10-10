@@ -14,7 +14,7 @@ WidgetClipText::WidgetClipText(char *str,u16 len):BaseWidget(){
   sub->scaleY = 1;
   if ((len == 400) && (len = 20, str != NULL)) {len = strlen(str)+1;}
   if (len < 2) len = 2;
-  sub->str = (char *)heapAlloc(len,FILENAME,50);
+  sub->str = (char *)HeapAlloc(len,FILENAME,50);
   if (!str) sprintf(sub->str," ");
   else sprintf(sub->str,str);
   substruct = sub;
@@ -106,7 +106,7 @@ u8 WidgetClipText::SetText(char *str,u8 b){
     HeapFree(ppcVar1->str,FILENAME,195);
     len = strlen(str);
     ppcVar1->maxLen = (len + 1);
-    ppcVar1->str = (char *)heapAlloc(len + 1,FILENAME,198);
+    ppcVar1->str = (char *)HeapAlloc(len + 1,FILENAME,198);
     strcpy(ppcVar1->str,str);
   }
   else sprintf(ppcVar1->str,str);

@@ -18,7 +18,7 @@ struct sundail_struct {
 struct sundail_struct * gSundail;
 
 void sundail_init(void){
-  gSundail = (sundail_struct *)heapAlloc(0x2c,s_./src/sundial.cpp_800da490,0x6c);
+  gSundail = (sundail_struct *)HeapAlloc(0x2c,s_./src/sundial.cpp_800da490,0x6c);
   gSundail->Ring = get_borg_8(BORG8_compassRing);
   gSundail->Cross = get_borg_8(0x1ba);
   gSundail->MoonPhase0 = get_borg_8(0x1b8);

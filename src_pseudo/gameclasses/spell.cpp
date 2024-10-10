@@ -136,7 +136,7 @@ bool inc_effect_timer(Temp_enchant *param_1,u16 param_2,s32 param_3){
 void malloc_equip_spell(SpellCharges *param_1,u8 param_2,u8 param_3,u8 param_4){
   SpellInstance *pTVar1;
   
-  pTVar1 = (SpellInstance *)heapAlloc(0x24,FILENAME,0x138);
+  pTVar1 = (SpellInstance *)HeapAlloc(0x24,FILENAME,0x138);
   param_1->Spell = pTVar1;
   create_temp_spell(pTVar1,(ItemID)(SpellList[param_2] | 0x300),param_4);
   param_1->Charges = param_3;
@@ -158,7 +158,7 @@ void malloc_spell(spellbook *param_1,u8 max){
   param_1->spells = NULL;
   if (max) {
     size = max<< 2;
-    x = (SpellInstance *)heapAlloc(size,FILENAME,0x15a);
+    x = (SpellInstance *)HeapAlloc(size,FILENAME,0x15a);
     param_1->spells = x;
     memset(x,0,size);
   }
@@ -187,12 +187,12 @@ void learn_spell(spellbook *param_1,ItemID param_2,u8 param_3){
   
   if (0 < (param_1->count - 1)) {
     for (uVar3 = 0;uVar3 < (param_1->count - 1);uVar3++) {
-      pTVar2 = (SpellInstance *)heapAlloc(0x24,FILENAME,0x199);
+      pTVar2 = (SpellInstance *)HeapAlloc(0x24,FILENAME,0x199);
       param_1->spells->[uVar3] = pTVar2;
       create_temp_spell(pTVar2,*(ItemID *)aIStack544[uVar3],*(u8 *)((s32)aIStack544[uVar3] + 3));
     }
   }
-  pTVar2 = (SpellInstance *)heapAlloc(0x24,FILENAME,0x19d);
+  pTVar2 = (SpellInstance *)HeapAlloc(0x24,FILENAME,0x19d);
   param_1->spells[uVar3] = pTVar2;
   create_temp_spell(pTVar2,param_2,param_3);
 }

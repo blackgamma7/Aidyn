@@ -205,7 +205,7 @@ void appInit(OSSched *sched,u8 pri,u8 id){
   u32 i;
   
   appManager.sched = sched;
-  stack = (s32 *)heapAlloc(0x6048,FILENAME,0xe7);
+  stack = (s32 *)HeapAlloc(0x6048,FILENAME,0xe7);
   appStack_mirror = stack;
   appManager.stack = stack;
   for(i = 0;i < 0x1811;i++) *stack++ = 0x12345678;
@@ -228,7 +228,7 @@ void AppProc(void *x){
   short *psStack_40;
   short **ppsStack_3c;
   
-  appManager.Mesg = (OSMesg *)heapAlloc(0x20,s_./src/app.cpp_800d9898,0x117);
+  appManager.Mesg = (OSMesg *)HeapAlloc(0x20,s_./src/app.cpp_800d9898,0x117);
   osCreateMesgQueue(&appManager.MesgQ2,appManager.Mesg,8);
   appManager.MesgQ = osScGetCmdQ(appManager.sched);
   appProc_init();
@@ -341,7 +341,7 @@ void appProc_init(void){
       uVar6++;
     } while (pfVar4->font_face != 0);
   }
-  gGlobals.font = (FontStruct *)heapAlloc(0x20,FILENAME,0x1b4);
+  gGlobals.font = (FontStruct *)HeapAlloc(0x20,FILENAME,0x1b4);
   Init_font(gGlobals.font,uVar6 & 0xff);
   if (0 < uVar6) {
     pfVar4 = font_face;
@@ -357,7 +357,7 @@ void appProc_init(void){
     }
   }
   font_func(gGlobals.font,(fontface_struct *)font_face[0].font_face);
-  gGlobals.widgetHandler = heapAlloc(8,FILENAME,0x1bf);
+  gGlobals.widgetHandler = HeapAlloc(8,FILENAME,0x1bf);
   clear_widget_handler(gGlobals.widgetHandler,gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;
   MemoryMaker::Init();
