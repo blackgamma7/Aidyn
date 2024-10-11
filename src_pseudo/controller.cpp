@@ -28,11 +28,11 @@ void Controller::Init(OSSched *sc,u8 ports,u8 pri,u8 id){
   gContManager.ossched = sc;
   gContManager.ports = ports;
   gContManager.thread_stack = HeapAlloc(0x448,FILENAME,0xc8);
-  osCreateThread(&gContManager.Thread,(s32)id,Controller::proc,NLL,
+  osCreateThread(&gContManager.Thread,(s32)id,proc,NLL,
                      gContManager.thread_stack + 0x448,pri);
   osStartThread(&gContManager.Thread);}
 
-void Controller::proc(void){
+void Controller::proc(void* p){
   OSMesg *msg;
   
   Controller::InitBuffer();
@@ -86,14 +86,14 @@ void Controller::InitBuffer(void){
 void Controller::ReadInput(void){
   s8 sVar1;
   s8 sVar2;
-  BUTTON_aidyn BVar3;
+  u32 BVar3;
   float fVar4;
   float fVar5;
   float fVar6;
   s32 iVar7;
   u8 bVar8;
   Button_hold *contEntry;
-  BUTTON_aidyn buttons;
+  u32 buttons;
   controllerBuffer *buffer;
   u8 port;
   float fVar10;
@@ -447,7 +447,7 @@ u32 Controller::GetPakPort(u32 port){
   PVar1 = osPfsIsPlug(&gContManager.si_megQ,abStack24);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
   if (PVar1 == 0) uVar2 = (s32)(u32)abStack24[0] >> (port & 0x1f) & 1;
-  else uVar2 = 0}
+  else uVar2 = 0;
   return uVar2;
 }
 

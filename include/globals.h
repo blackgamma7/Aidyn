@@ -1,14 +1,16 @@
-#include "GhidraDump.h"
+//#include "GhidraDump.h"
 #include "Camera.h"
 #include "MiniMap.h"
 #include "party.h"
 #include "stringN64.h"
 #include "randClass.h"
 #include "N64Print.h"
+#include "inventory\GenericInventory.h"
 #include "PlayerData.h"
 
 #include "crash.h"
 #include "heapN64.h"
+#include "romcopy.h"
 
 struct GlobalsSub { /* 0x800e6988 */
     ZoneDat ZoneDatMtx[3][3];
@@ -160,6 +162,6 @@ s32 Ofunc_get_MemUsed_difference_2(void);
 u32 rand_range(u32 A,u32 B);
 u16 RollD(u8 dice,u8 sides);
 
-void battle_setup_func(monsterparty_obj *param_1,u16 flag,ushort param_3);
+void battle_setup_func(voxelObject *param_1,u16 flag,ushort param_3);
 void load_camp_ambush(void);
 u32 AppendText(char *str1,char *str2,u8 len);

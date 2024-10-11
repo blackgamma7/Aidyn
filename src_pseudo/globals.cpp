@@ -194,10 +194,8 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2)
           if (pmVar9->enemyID.s) {
             uVar4 = 0;
             iVar6 = 0;
-            printLine(0x281)
-            ;
-            printLine(0x284)
-            ;
+            printLine(0x281);
+            printLine(0x284);
             iVar2 = 0;
             if (param_1 != 0) {
               do {
@@ -233,8 +231,7 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2)
                   printLine(0x298);
                   printLine(0x29b);
                   pIVar5 = gGlobals.EncounterDat.enemy_entities + param_1;
-                  pIVar5->type = Empty;
-                  pIVar5->ID = 0;
+                  pIVar5->s = 0;
                 }
                 uVar4 = uVar1 & 0xffff;
               } while (uVar4 < param_1);
@@ -370,7 +367,7 @@ void Emergency_skeleton_func(monsterparty_dat *param_1){
 }
 
 
-void battle_setup_func(monsterparty_obj *param_1,u16 flag,ushort param_3){
+void battle_setup_func(voxelObject *param_1,u16 flag,ushort param_3){
   printLine(0x2fe);
   printLine(0x2ff);
   printLine(0x302);
@@ -382,7 +379,7 @@ void battle_setup_func(monsterparty_obj *param_1,u16 flag,ushort param_3){
   printLine(0x305);
   gGlobals.EncounterDat.MapShortB = gGlobals.Sub.mapShort2;
   printLine(0x306);
-  gGlobals.EncounterDat.globalLoot = (param_1->dat).globalLoot;
+  gGlobals.EncounterDat.globalLoot = (param_1->monster).globalLoot;
   printLine(0x307);
   gGlobals.EncounterDat.EncounterID = flag;
   printLine(0x308);
@@ -398,7 +395,7 @@ void battle_setup_func(monsterparty_obj *param_1,u16 flag,ushort param_3){
   printLine(0x311);
   get_battle_terrain(&gGlobals.EncounterDat);
   printLine(0x314);
-  Emergency_skeleton_func(&param_1->dat);
+  Emergency_skeleton_func(&param_1->monster);
   printLine(0x315);
 }
 

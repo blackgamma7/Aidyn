@@ -22,12 +22,9 @@ void SaveEntity::Free(void){
 void SaveEntity::BenchParty(Party *param_1){
   CharSheet *pCVar1;
   CharSheet *pCVar2;
-  s32 uVar3;
-  u8 iVar4;
-
-  
+    
   IDK_NOOP();
-  while( true ) {
+  for(u8 iVar4=0;iVar4<4;iVar4++) {
     pCVar1 = param_1->Members[iVar4];
     if (pCVar1 == NULL) {
       pCVar1 = gSaveEntity[iVar4];
@@ -48,8 +45,6 @@ void SaveEntity::BenchParty(Party *param_1){
       SaveEntity::Copy(pCVar1,gSaveEntity[iVar4]);
       SaveEntity::BenchInSlot(pCVar1);
     }
-    iVar4++;
-    if (3 < iVar4) break;
   }
 }
 
@@ -90,7 +85,7 @@ void SaveEntity::CopyMember(CharSheet *param_1){
   if ((slot) && (gSaveEntity[slot])) Copy(gSaveEntity[slot],param_1);
 }
 
-CharSheet * saveEnt_create_charSheet(ItemID param_1){
+CharSheet * SaveEntity::InitEntity(ItemID param_1){
   CharSheet *pCVar1;
   ALLOC(pCVar1,294);
   Entity::Init(pCVar1,param_1,3);
@@ -105,7 +100,7 @@ void SaveEntity::TransferArmor(CharSheet *param_1,CharSheet *param_2,u8 param_3)
   pAVar2 = param_1->armor[param_3];
   if (param_2->armor[param_3]) {
     ArmorInstance_ClearEffect(param_2->armor[param_3]);
-    FREE(param_2->armor[param_3],316);
+    FREE(pAVar2,316);
   }
   if (pAVar2) {
     ALLOC(pAVar5,324);

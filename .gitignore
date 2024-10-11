@@ -5,7 +5,6 @@
 .splat_cache
 *.ld
 *.z64
-*.Yay0
 /build/
 /asm/
 undefined_syms_auto*

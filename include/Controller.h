@@ -1,4 +1,4 @@
-#include "GhidraDump.h"
+#include "typedefs.h"
 
 enum BUTTON_aidyn{ //same as standard enum, but with 32 bits for analog joystick
 	C_RIGHT=1,
@@ -11,19 +11,15 @@ enum BUTTON_aidyn{ //same as standard enum, but with 32 bits for analog joystick
 	D_LEFT=0X200,
 	D_DOWN=0X400,
 	D_UP=0X800,
-	START_BUTTON=0X1000,
+	//START_BUTTON=0X1000,
 	Z_BUTTON=0X2000,
-	B_BUTTON=0X4000,
-	A_BUTTON=0X8000,
+	//B_BUTTON=0X4000,
+	//A_BUTTON=0X8000,
 	ANA_LEFT=0X10000,
 	ANA_RIGHT=0X20000,
 	ANA_DOWN=0X40000,
 	ANA_UP=0X80000,
 };
-
-#ifndef MAXCONTROLLERS
-#define MAXCONTROLLERS 4
-#endif
 
 struct controller_aidyn { /* Controller input used by game */
     float joy_x;

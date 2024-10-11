@@ -333,7 +333,7 @@ struct Trigger_dat {
 };
 //likely actual struct - used non-union structs in ghidra as they played nicer.
 struct voxelObject {
-    struct voxelHeader header;
+    voxelHeader header;
     union{
         Scene_obj_dat scene;
         container_Dat container;
@@ -346,7 +346,7 @@ struct voxelObject {
         camera_dat camera;
         dialoug_dat dialoug;
         Trigger_dat trigger;
-        u8 other[68]; //"CODE" is usually blank, "SAVEPOINT" is never used (you can save anywhere.)
+        u8 dat[68]; //"CODE" is usually blank, "SAVEPOINT" is never used (you can save anywhere.)
     };
 };
 
@@ -380,6 +380,28 @@ struct borg_9_struct {
     ushort voxelSceneCount;
     undefined field7_0x12;
     undefined field8_0x13;
+};
+struct Borg9data {
+    vec3f floatsA; /* position? */
+    vec2f floatsB; /* size? */
+    u8 unk1[6]; /* seems unused */
+    u8 byte0x1a;
+    u8 byte0x1b;
+    ushort shortA;
+    ushort shortB;
+    u8 unk[4];
+    ushort borghpys_count;
+    ushort field9_0x26;
+    ushort voxelObjCount;
+    ushort unkStructCount;
+    short *counting_pointer;
+    void *someint;
+    short *pointer2;
+    float *floats_pointer;
+    struct borg9_phys *phys_pointer;
+    int someInt_2;
+    voxelObject *voxelObjs;
+    borg_9_struct *unkStructs;
 };
 
 struct Borg11Data {

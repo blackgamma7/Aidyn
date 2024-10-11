@@ -34,9 +34,9 @@ void Graphics::initGfx(OSSched *sched){
   gGfxManager.yieldData = HALLOC(0x1000,0xe0);
   gGfxManager.textfont = (u8 (*) [32])HALLOC(0xbc0,0xe4);
   gGfxManager.unk0x2c = (byte (*) [64])HALLOC(0x40,0xe5);
-  if (osTvType == OS_TV_NTSC) src = osViModeTable + VI_NTSC_LAN1;
-  else if (osTvType == OS_TV_MPAL) src = osViModeTable + VI_MPAL_LAN1;
-  else if (osTvType == OS_TV_PAL) src = osViModeTable + VI_PAL_LAN1;
+  if (osTvType == OS_TV_NTSC) src = osViModeTable + OS_VI_NTSC_LAN1;
+  else if (osTvType == OS_TV_MPAL) src = osViModeTable + OS_VI_MPAL_LAN1;
+  else if (osTvType == OS_TV_PAL) src = osViModeTable + OS_VI_PAL_LAN1;
   else CRASH("gfx.cpp, InitGfx()","TV Type not supported");
   COPY(&gGfxManager.osvimodeCustom,src);
   iVar5 = 0;
@@ -227,17 +227,17 @@ Gfx * Ofunc_rspcode(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5,
   gfx[1].words.w1 = 0x300000;
   gfx[2].words.w0 = 0xe200001c;
   gfx[2].words.w1 = 0;
-  gDPSetColor(gfx[3],G_SETFILLCOLOR,param_6);
+  gDPSetColor(&gfx[3],G_SETFILLCOLOR,param_6.W);
   uVar6 = param_4 * (gGfxManager.Hres[1] / 320.0f) - 1;
   uVar7 = param_2 * (gGfxManager.Hres[1] / 320.0f);
   uVar8 = param_3 * (gGfxManager.Vres[1] / 240.0f);
   uVar5 = param_5 * (gGfxManager.Vres[1] / 240.0f)- 1;
-  gDPScisFillRectangle(gfx[4],uVar6,uVar5,uVar7,uVar8);
+  gDPScisFillRectangle(&gfx[4],uVar6,uVar5,uVar7,uVar8);
   return gfx + 5;
 }
 
 Gfx * GsSetOtherMode_SysMon(Gfx *gfx){
-  gDPPipeSync(gfx[0]);
+  gDPPipeSync(&gfx[0]);
   gfx[1].words.w0 = 0xe3000a01;
   gfx[1].words.w1 = 0x300000;
   gfx[2].words.w0 = 0xe200001c;
@@ -255,8 +255,7 @@ Gfx * debug::gsDisplaySystemMonitor_Fillrect(Gfx *gfx,u16 x0,u16 x1,u16 y0,u16 y
   
   V = gGfxManager.Vres[1];
   H = gGfxManager.hres[1];
-  (gfx->words).w0 = 0xe7000000;
-  (gfx->words).w1 = 0;
+  gDPPipeSync(gfx++);
   uVar5 = x0 * (H / 320.0f);
   uVar4 = x1 * (V / 240.0f);
   if (gGfxManager.colordepth[1] == 16) gDPSetFillColor(gfx[1],GPACK_RGBA5551(r,g,b,a));
@@ -270,7 +269,7 @@ Gfx * debug::gsDisplaySystemMonitor_Fillrect(Gfx *gfx,u16 x0,u16 x1,u16 y0,u16 y
 
 
 Gfx* Graphics::func_80008f48(Gfx*gfx){
-  gDPPipeSync(gfx[0]);
+  gDPPipeSync(gfx++);
   gfx[1].words.w0 = 0xe3000a01;
   gfx[1].words.w1 = 0;
   gfx[2].words.w0 = 0xe200001c;
@@ -292,8 +291,7 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
   
   uVar3 = gGfxManager.Vres[1];
   uVar2 = gGfxManager.hres[1];
-  (g->words).w0 = 0xe7000000;
-  (g->words).w1 = 0;
+  gDPPipeSync(g++);
   g[1].words.w0 = 0xe3000a01;
   *(undefined4 *)((int)g + 0xc) = 0x300000;
   g[2].words.w0 = 0xe200001c;
@@ -327,10 +325,12 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
   *(uint *)((int)g + 0x2c) = uVar7;
   g[6].words.w0 = 0xe7000000;
   *(undefined4 *)((int)g + 0x34) = 0;
-  if (gGfxManager.colordepth[1] == 0x10)
-    gDPSetColorImage(g[7],G_IM_FMT_RGBA,G_IM_SIZ_16b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);
-  else
-    gDPSetColorImage(g[7],G_IM_FMT_RGBA,G_IM_SIZ_32b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);
+  if (gGfxManager.colordepth[1] == 0x10){
+    gDPSetColorImage(&g[7],G_IM_FMT_RGBA,G_IM_SIZ_16b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);
+  }
+  else{
+    gDPSetColorImage(&g[7],G_IM_FMT_RGBA,G_IM_SIZ_32b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);
+  }
   return g + 8;
 }
 
@@ -340,8 +340,7 @@ Gfx * Graphics::EndList(Gfx *gfx){
   ushort uVar1;
   uint uVar2;
   
-  (gfx->words).w0 = 0xe7000000;
-  (gfx->words).w1 = 0;
+  gDPPipeSync(gfx++);
   gfx[1].words.w0 = 0xe3000a01;
   *(undefined4 *)((int)gfx + 0xc) = 0x300000;
   gfx[2].words.w0 = 0xe200001c;
@@ -376,8 +375,8 @@ Gfx * Graphics::EndList(Gfx *gfx){
        (gGfxManager.hres[1] - 1 & 0x3ff) << 0xe |
        (gGfxManager.Vres[1] - 1 & 0x3ff) << 2 | 0xf6000000;
   *(uint *)((int)gfx + 0x3c) = (gGfxManager.Vres[1] - 0xc & 0x3ff) << 2;
-  gDPFullSync(gfx[8]);
-  gSPEndDisplayList(gfx[9]);
+  gDPFullSync(&gfx[8]);
+  gSPEndDisplayList(&gfx[9]);
   gGfxManager.unk0x19c = 0;
   osWritebackDCacheAll();
   return gfx + 10;
@@ -413,31 +412,31 @@ GtaskMsg * Graphics::CreateTask(Gfx *glist,OSMesgQueue *param_2)
   iVar4 = iVar3 * 8;
   pOVar5 =gGfxManager.tasks[iVar3].next;
   *(OSScTask **)(gGfxManager.unk0x15a + (u32)gGfxManager.bufferChoice * 8 + -6) = pOVar5;
-  gGfxManager.tasks[iVar4].list.Type = 1;
-  gGfxManager.tasks[iVar4].list.flags = 0;
-  gGfxManager.tasks[iVar4].list.data_ptr=gGfxManager.GfxLists[gGfxManager.bufferChoice];
+  gGfxManager.tasks[iVar4].list.t.type = 1;
+  gGfxManager.tasks[iVar4].list.t.flags = 0;
+  gGfxManager.tasks[iVar4].list.t.data_ptr=gGfxManager.GfxLists[gGfxManager.bufferChoice];
   pvVar1 = gGfxManager.GfxLists[gGfxManager.bufferChoice];
-  gGfxManager.tasks[iVar4].list.ucode_boot = rspbootTextStart;
-  gGfxManager.tasks[iVar4].list.ucode_boot_size = 0xd0;
-  gGfxManager.tasks[iVar4].list.ucode = gspF3DEX2_fifoTextStart;
-  gGfxManager.tasks[iVar4].list.ucode_size = 0x1000;
-  gGfxManager.tasks[iVar4].list.ucode_data = gspF3DEX2_fifoDataStart;
-  gGfxManager.tasks[iVar4].list.ucode_data_size = 0x800;
-  gGfxManager.tasks[iVar4].list.data_size = glist - (s32)gGfxManager.GfxLists[gGfxManager.bufferChoice];
+  gGfxManager.tasks[iVar4].list.t.ucode_boot = rspbootTextStart;
+  gGfxManager.tasks[iVar4].list.t.ucode_boot_size = 0xd0;
+  gGfxManager.tasks[iVar4].list.t.ucode = gspF3DEX2_fifoTextStart;
+  gGfxManager.tasks[iVar4].list.t.ucode_size = 0x1000;
+  gGfxManager.tasks[iVar4].list.t.ucode_data = gspF3DEX2_fifoDataStart;
+  gGfxManager.tasks[iVar4].list.t.ucode_data_size = 0x800;
+  gGfxManager.tasks[iVar4].list.t.data_size = glist - (s32)gGfxManager.GfxLists[gGfxManager.bufferChoice];
   puVar2 = gGfxManager.outputBuff;
-  gGfxManager.tasks[iVar3].list.dram_stack_size = 0x400;
-  gGfxManager.tasks[iVar3].list.dram_stack = puVar2;
+  gGfxManager.tasks[iVar3].list.t.dram_stack_size = 0x400;
+  gGfxManager.tasks[iVar3].list.t.dram_stack = puVar2;
   puVar2 = gGfxManager.yieldData;
   pOVar5->next = NULL;
   gGfxManager.tasks[iVar3].state = 0;
   gGfxManager.tasks[iVar3].msgQ = param_2;
-  gGfxManager.tasks[iVar3].list.output_buff = puVar2;
+  gGfxManager.tasks[iVar3].list.t.output_buff = puVar2;
   puVar2 = gGfxManager.yieldData;
   gGfxManager.tasks[iVar3].flags = OS_SC_NEEDS_RDP|OS_SC_NEEDS_RSP|OS_SC_LAST_TASK|OS_SC_SWAPBUFFER;
-  gGfxManager.tasks[iVar3].list.output_buff_size = puVar2 + 0x1000;
+  gGfxManager.tasks[iVar3].list.t.output_buff_size = puVar2 + 0x1000;
   puVar2 = gGfxManager.ouputbuffSize;
   gGfxManager.tasks[iVar3].list + iVar4 + 0x3c) = 0xc00;
-  gGfxManager.tasks[iVar3].list.yeild_data_ptr = puVar2;
+  gGfxManager.tasks[iVar3].list.t.yield_data_ptr = puVar2;
   gGfxManager.tasks[iVar3].msg = &gGfxManager.taskMsgs[gGfxManager.bufferChoice];
   gGfxManager.tasks[iVar3].framebuffer =gGfxManager.FrameBuffers[gGfxManager.bufferChoice];
   gGfxManager.tasks[iVar3].startTime = 0;
@@ -668,8 +667,7 @@ Gfx * Ofunc_80009d7c(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5
   fVar10 = 320.0f;
   uVar1 = (uint)gGfxManager.hres[1];
   uVar9 = (uint)gGfxManager.Vres[1];
-  (gfx->words).w0 = 0xe7000000;
-  (gfx->words).w1 = 0;
+  gDPPipeSync(gfx++);
   gfx[1].words.w0 = 0xe3000a01;
   *(undefined4 *)((int)gfx + 0xc) = 0;
   gfx[2].words.w0 = 0xe3000800;
@@ -784,10 +782,6 @@ Gfx * Ofunc_80009d7c(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5
   return gfx + 0x1a;
 }
 
-
-
-
-
 Gfx * Graphics::DrawText(Gfx *gfx,char *txt,uint X,uint Y,u8 red,u8 green,u8 blue,u8 alpha){
   char cVar1;
   Gfx *pGVar2;
@@ -806,8 +800,7 @@ Gfx * Graphics::DrawText(Gfx *gfx,char *txt,uint X,uint Y,u8 red,u8 green,u8 blu
   
   fVar12 = INT_MAX_f;
   fVar13 = 320.0f;
-  (gfx->words).w0 = 0xe7000000;
-  (gfx->words).w1 = 0;
+  gDPPipeSync(gfx++);
   gfx[1].words.w0 = 0xe3000a01;
   *(undefined4 *)((int)gfx + 0xc) = 0;
   gfx[2].words.w0 = 0xe3000800;
@@ -933,14 +926,7 @@ Gfx * Graphics::DrawText(Gfx *gfx,char *txt,uint X,uint Y,u8 red,u8 green,u8 blu
   return pGVar2;
 }
 
-
-
-
-
-
-Gfx * debug::DisplaySystemMonitor(Gfx *gfx)
-
-{
+Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
   ushort x2;
   u32 uVar1;
   u32 uVar2;
