@@ -19,5 +19,3 @@ typedef union Color32 {
     struct {u8 R, G, B, A;};
     u32 W;
 } Color32;
-
-#define NULL (void*)0x0

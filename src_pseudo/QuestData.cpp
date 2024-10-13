@@ -1,6 +1,7 @@
 #define FILENAME "./src/questdata.cpp"
 
 #include "QuestData.h"
+#include "SaveEntity.h"
 #include "CRC.h"
 
 namespace QuestData{

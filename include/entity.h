@@ -119,7 +119,7 @@ struct{
 }gEntityDB;
 
 
-struct{
+struct entity_info{
 	u16 index;
 	u32 Model; //index of "borg7 file.
 	u32 portrait; //index of "borg8" file.
@@ -127,7 +127,7 @@ struct{
 	float b;
 	float c;
 	float scale; 
-}entity_info;
+};
 
 struct dialougeEntity_Info { /* extended data of Dialouge entities in RAM */
     u16 index;
@@ -145,7 +145,7 @@ struct resist_float { /* resistance and element when loaded into temp item */
 typedef enum CharSheetFlags {
     CHAR_TrueName=1,
     CHAR_IsHeavy=2,
-    CHAR_IsSolar=4
+    CHAR_IsSolar=4 //false for lunar aspect.
 } CharSheetFlags;
 
 struct charExp { /* data containing EXP, School, Aspect and more. */
@@ -169,6 +169,14 @@ struct CharGear {
     GearInstance **pItem;
     u8 usedItems;
     u8 maxItems;
+};
+
+struct PotionEffect {
+    enum PotionEnum ID;
+    u8 power;
+    u16 align;
+    uint timer;
+    u32 SpellVisualIndex;
 };
 
 #define MAGIC_FXMAX 15
@@ -214,7 +222,7 @@ extern EntityPointer* gEntityDB;
 extern u8 entityList[221];
 
 extern void Ofunc_entityDB(u8 *);
-extern ItemID swap_endian(ShortLE*);
+//TODO: reformat as class methods(?)
 extern void load_entityDB(EntityPointer*,u8,s32 *);
 extern void build_entitydb(EntityPointer *);
 extern void entitydb_free(EntityPointer *);

@@ -27,4 +27,3 @@ u8 ItemIsMap(ItemID param_1);
 int getIDIndex_sub(char *param_1,u8 total,char param_3);
 u16 GetIDIndex(ItemID x);
 u16 search_item_array(ItemID param_1);
-ItemID Ofunc_80075f9c(byte param_1);

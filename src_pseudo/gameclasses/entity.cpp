@@ -28,7 +28,7 @@ void init_more_charSheet_data(CharSheet *param_1,Entity_Ram *param_2){
   param_1->portrait = get_borg_8(getEntityPortait(param_1->ID));
   x = (PotionEffect **)HeapAlloc(0x1c,FILENAME,0xc1);
   param_1->potionEffects=x;
-  memset(x,0,sizeof(PotionEffect*)*7);
+  memset(x,0,sizeof(PotionEffect*)*POTION_FXMAX);
   param_1->weapons = NULL;
   param_1->EXP->total = EXP_TNL[CharStats::getBase(param_1->Stats,STAT_LV)];
   if (param_2->weapon[0] != (ItemID)0xffff) {EquipWeapon(param_1,param_2->weapon[0],0);}
@@ -47,7 +47,7 @@ void equip_weapons(CharSheet *param_1,Entity_Ram *param_2){
   
   x = (PotionEffect **)HeapAlloc(0x1c,FILENAME,0xd8);
   param_1->potionEffects = x;
-  memset(x,0,0x1c);
+  memset(x,0,(PotionEffect*)*POTION_FXMAX);
   param_1->weapons = NULL;
   if (param_2->weapon[2] != (ItemID)0xffff) {EquipWeapon(param_1,param_2->weapon[2],0);}
   if ((param_2->weapon[0] != (ItemID)0xffff) && (param_1->weapons == NULL)) {
@@ -1851,10 +1851,10 @@ bool Entity::DispelMagic(CharSheet *param_1,char param_2,u8 param_3,u8 param_4){
   MagicSchoolEnum MVar7;
   
   MVar7 = Chaos;
-  if (param_3 == dispelNaming) MVar7 = SCHOOL_NAMING;
-  else if (param_3 == dispelElemental) MVar7 = SCHOOL_ELEMENTAL;
-  else if (param_3 == dispelNecro) MVar7 = SCHOOL_NECROMANCY;
-  else if (param_3 == dispelStar) MVar7 = SCHOOL_STAR;
+  if (param_3 == dispelNaming) MVar7 = SCHOOL_Naming;
+  else if (param_3 == dispelElemental) MVar7 = SCHOOL_Elemental;
+  else if (param_3 == dispelNecro) MVar7 = SCHOOL_Necromancy;
+  else if (param_3 == dispelStar) MVar7 = SCHOOL_Star;
   iVar5 = 0;
   uVar4 = 0;
   uVar6 = 0;
@@ -1921,7 +1921,7 @@ bool check_healer_herb_stam(CharSheet *param_1){
   cVar2 = getModdedSkill(param_1->Skills,SKILL_HEALER);
   bVar3 = false;
   if (cVar2 != 0) {
-    if (!has_item_func((gGlobals.party)->inv,itemID_array[31])) {bVar3 = false;}
+    if (!IInventory::HasItem((gGlobals.party)->inv,itemID_array[31])) {bVar3 = false;}
     else {
       iVar1 = CharStats::getModded(param_1->Stats,STAT_STAM);
       iVar4 = 5 - cVar2;

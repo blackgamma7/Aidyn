@@ -28,13 +28,13 @@ WidgetGameStateCheats::WidgetGameStateCheats():WidgetMenu(){
   ScrollB = widgetscrollmenu_init_2(this,0xc,0x10e,0x14,0x10e,0x14,0x140,200,0xff,0xff,0xff,0xff,0);
   for(u8 i=0;i<12;i++) {
     char* txt;
-    ScrollA->Append(new widgetText(debug_state_labels[i],400));
+    ScrollA->Append(new WidgetText(debug_state_labels[i],400));
     txt = on_off_labels[0];
     if ((bitfeild_array[i] & gamestate_cheats1) != 0) txt = on_off_labels[1];
-    ScrollC->Append(new widgetText(txt,400));
+    ScrollC->Append(new WidgetText(txt,400));
     txt = bool_labels[0];
     if ((bitfeild_array[i] & gamestate_cheats2) != 0) txt = bool_labels[1];
-    ScrollB->Append(new widgetText(txt,400));
+    ScrollB->Append(new WidgetText(txt,400));
   }
 }
 

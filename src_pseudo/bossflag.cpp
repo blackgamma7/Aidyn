@@ -1,53 +1,47 @@
+#include "globals.h"
+
 void set_boss_flag(void){
   ItemID id;
-  u8 index;
-  EventFlag flg;
-  u32 i=0;
-  do {
+  for(u32 i=0;i<4;i++) {
     id = gGlobals.EncounterDat.enemy_entities[i];
-    if (id == NULL) goto next;
-    index = GetIDIndex(id);
-    switch(index) {
+    if (!id.s) continue;
+    switch(GetIDIndex(id)) {
     case 0xa8: //Kitarak
-      flg = FLAG_KilledKitarak;
+      setEventFlag(FLAG_KilledKitarak,true);
       break;
     case 0xad: //Ehud
-      flg = FLAG_KilledEhud;
+      setEventFlag(FLAG_KilledEhud,true);
       break;
     case 0xac: //Shadow
-      flg = 0x1ca;
+      setEventFlag(0x1ca,true);
       break;
     case 0xaf: //Ksathra
-      flg = FLAG_KilledKsathra;
+      setEventFlag(FLAG_KilledKsathra,true);
       break;
     case 0xb0: //Shatrevar
-      flg = FLAG_KilledShatrevar;
+      setEventFlag(FLAG_KilledShatrevar,true);
       break;
     case 0xb1: //Mehrdad
-      flg = FLAG_KilledMehrdad;
+      setEventFlag(FLAG_KilledMehrdad,true);
       break;
     case 0xb2: // Golnar
-      flg = FLAG_KilledGolnar;
+      setEventFlag(FLAG_KilledGolnar,true);
       break;
     case 0xb3: //Nasim
-      flg = FLAG_KilledNasim;
+      setEventFlag(FLAG_KilledNasim,true);
       break;
     case 0xb4: //Behrooz
-      flg = FLAG_KilledBehrooz;
+      setEventFlag(FLAG_KilledBehrooz,true);
       break;
     case 0xb5: //Assim
       setEventFlag(FLAG_KilledAssim,true);
-      goto next;
+      break;
     case 0xba: //Lugash
-      flg = FLAG_KilledLugash;
+      setEventFlag(FLAG_KilledLugash,true);
       break;
     default:
-      goto next;
+    break;
     }
-    setEventFlag(flg,true);
-next:
-    i++;
-    if (3 < i) {return;}
-  } while(true);
+  }
 }
 

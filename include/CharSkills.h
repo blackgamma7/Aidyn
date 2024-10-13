@@ -16,20 +16,10 @@ typedef enum WeaponClassEnum {
 } WeaponClassEnum;
 
 typedef enum SkillEnum {
-    SKILL_Alchemist,
-    SKILL_Diplomat,
-    SKILL_Healer,
-    SKILL_Loremaster,
-    SKILL_Mechanic,
-    SKILL_Merchant,
-    SKILL_Ranger,
-    SKILL_Stealth,
-    SKILL_Theif,
-    SKILL_Troubadour,
-    SKILL_Warrior,
-    SKILL_Wizard,
-    SKILL_Total,
-    SKILL_NONE=255
+ 	SKILL_ALCHEMIST, SKILL_DIPLOMAT, SKILL_HEALER, SKILL_LOREMASTER,
+    SKILL_MECHANIC, SKILL_MERCHANT, SKILL_RANGER, SKILL_STEALTH,
+    SKILL_THEIF, SKILL_TROUBADOR, SKILL_WARRIOR, SKILL_WIZARD, 
+    SKILL_Total,SKILL_NONE=255
 } SkillEnum;
 
 #define SKILLCOUNT SKILL_Total

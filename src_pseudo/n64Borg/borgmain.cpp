@@ -148,7 +148,7 @@ void * getBorgItem(s32 index){
         if (*puVar1 == 0) {
           uVar2 = borg_padding[MemNew] + listing.uncompressed;
           ret = HeapAlloc(uVar2,FILENAME,0x28d);
-          _bzero(ret,uVar2);
+          bzero(ret,uVar2);
           decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
                          (void *)((s32)ret + borg_padding[listing.Type]),listing.uncompressed,
                          (s32)listing.Compression);
@@ -168,7 +168,7 @@ void * getBorgItem(s32 index){
       else {
         uVar2 = borg_padding[MemNew] + listing.uncompressed;
         ret = HeapAlloc(uVar2,FILENAME,0x273);
-        _bzero(ret,uVar2);
+        bzero(ret,uVar2);
         decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
                        (void *)((s32)ret + borg_padding[listing.Type]),listing.uncompressed,
                        (s32)listing.Compression);

@@ -1,7 +1,18 @@
 #include "widgets/BaseWidget.h"
+#include "stringN64.h"
 
-class widgetText : public BaseWidget{
+class WidgetText : public BaseWidget{
     public:
-    widgetText(char* str, u16 len);
-
+    WidgetText(char* str, u16 len);
+    Gfx * Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
+    u16 GetWidth();
+    u16 GetHeight();
+    u8 Tick();
+    u8 Modify(char *newStr,u8 b);
+};
+struct widgetTextSubstruct{
+    char* str;
+    u16 len;
+    float scalex;
+    float scaley;
 };

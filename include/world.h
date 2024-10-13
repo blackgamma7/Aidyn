@@ -1,6 +1,6 @@
 #include "mathN64.h"
 
-enum TIME_OF_DAY{MORNING, MIDDAY, AFTERNOON, EVENING, NIGHT};
+enum TIME_OF_DAY{TIME_MORNING, TIME_MIDDAY, TIME_AFTERNOON, TIME_EVENING, TIME_NIGHT};
 enum PRECIPITATION{CLEAR, RAIN, SNOW};
 
 struct TerrainStruct {
@@ -65,12 +65,12 @@ void inc_dayNightMagic(TerrainStruct *);
 void dec_dayNightMagic(TerrainStruct *);
 void SetTimeFromCalendar(TerrainStruct *,Calendar *);
 void GetCalendarDate(TerrainStruct *,Calendar *);
-void func_with_timeofDay(TerrainStruct *,char );
+void ShiftTimeOfDay(TerrainStruct *,s8 );
 void ChangeWind(TerrainStruct *,vec3f *,float ,float );
 void set_with_WeatherTemp(TerrainStruct *,WeatherTemp *);
 void get_WeatherTemp(TerrainStruct *,WeatherTemp *);
 void set_moonPhase(TerrainStruct *,Calendar *);
-bool set_timeofDay(TerrainStruct *,Calendar *);
+u8 set_timeofDay(TerrainStruct *,Calendar *);
 void set_weather(TerrainStruct *,Calendar *);
 void several_time_funcs(TerrainStruct *);
 void cap_ingame_time(TerrainStruct *);

@@ -1,4 +1,4 @@
-#include "GhidraDump.h"
+#include "typedefs.h"
 #include "Controller.h"
 #include "n64Borg.h"
 

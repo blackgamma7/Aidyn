@@ -6,26 +6,18 @@ void Init(SaveFile *sav,u8 *dat){
     sav->pos=0;
 }
 void SaveBits(SaveFile *sav,u32 dat,uint bits){
-
-  uint i;
-  
-  i = 0;
   if (bits) {
-    do {
+    for(u32 i=0;i<bits;i++) {
       WriteData(sav->dat,sav->pos++,RShift(dat,i++));
-    } while (i < bits);
+    }
   }
 }
 u32 LoadBits(SaveFile *sav,u32 bits){
-  uint i;
-  u32 buff;
-  
-  i = 0;
-  buff = 0;
+  u32 buff = 0;
   if (bits) {
-    do {
+    for(u32 i=0;i<bits;i++) {
       GetData(&buff,i++,GetBit(sav->dat,sav->pos++));
-    } while (i < bits);
+    }
   }
   return buff;
 }

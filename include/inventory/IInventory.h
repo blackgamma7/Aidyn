@@ -17,6 +17,8 @@ class IInventory{
     virtual Inventory_item * GetItemEntry(s32 index){};
     virtual s32 IncItemQuantity(s32 index, s32 ammount){};
     virtual s32 GetItemQuantity(s32 index){};
+    u32 HasItem(ItemID x);
+    u32 HasNoKeyItem();
 };
 
 struct Inventory_item {

@@ -1,3 +1,5 @@
+#include "typedefs.h"
+
 struct ArmorCraftRecipie {
     u16 item; //Item Ram index
     u8 armor; //Armor ram index

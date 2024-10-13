@@ -53,4 +53,6 @@ void malloc_update_mem_mon(HeapBlock *h,int param_2);
 #define ALLOCL(x,line) void* p=HALLOC(sizeof(*x),line);\
                        x=(decltype(x))(p)
 #define FREE(x,line) HFREE(x,line); x=decltype(x)(NULL)
+//lvalue free
+#define FREEL(x,line) void* p = x;HFREE(p,line); p=(NULL)
 #define FREEPTR(x,line) if(x) {FREE(x,line);}

@@ -73,7 +73,6 @@ void event_flag_skill_(u8 param_1){
   }
 }
 
-
 void set_flag_array(EventFlag param_1,EventFlag param_2,u16 param_3){
   u8 bVar1;
   u32 uVar2;
@@ -112,7 +111,7 @@ s32 find_event_flag_array_index(char param_1,event_flag_array *param_2,u8 param_
 
 u8 load_gamestateFunnel(void){
   ALLOC(gameStates,291);
-  RomCopy::RomCopy(gameStates,&gamestatefunnel_rom,sizeof(GameStateFunnel),1,FILENAME,0x125);
+  RomCopy::RomCopy(gameStates,&gamestatefunnel_rom,sizeof(GameStateFunnel),1,FILENAME,293);
   setGSF_pointers(gameStates);
   return true;}
 

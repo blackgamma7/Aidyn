@@ -1415,7 +1415,7 @@ bool CanResistSpell(CombatEntity *e,Temp_spell *spel_,ElementEnum Elem){
     bVar1 = (bool)(spel_->aspect_flag >> 1 & 1);
     break;
   case ELEMENT_NECROMANCY:
-    bVar1 = spel_->school == SCHOOL_NECROMANCY;
+    bVar1 = spel_->school == SCHOOL_Necromancy;
     break;
   case ELEMENT_FIRE:
     if (spellID != DragonFlames) {
@@ -1445,13 +1445,13 @@ ReturnTrue:
     bVar1 = spellID == wind;
     break;
   case ELEMENT_STAR:
-    bVar1 = spel_->school == SCHOOL_STAR;
+    bVar1 = spel_->school == SCHOOL_Star;
     break;
   case ELEMENT_ELEMENTAL:
-    bVar1 = spel_->school == SCHOOL_ELEMENTAL;
+    bVar1 = spel_->school == SCHOOL_Elemental;
     break;
   case ELEMENT_CHAOS:
-    bVar1 = spel_->school == SCHOOL_CHAOS;
+    bVar1 = spel_->school == SCHOOL_Chaos;
   }
   return bVar1;
 }
@@ -3050,7 +3050,7 @@ void func_looking_for_flask(CombatEntity *param_1){
   if (!CombatEnt_flag_check(param_1)) {
     if (param_1->AtkType == 3) {
       if (param_1->item < POTION_HEALING) {
-        if (has_item_func((gGlobals.party)->inv,(ItemID)(param_1->item | 0x1000))) {
+        if (gGlobals.party->inv->HasItem((ItemID)(param_1->item | 0x1000))) {
           param_1->AtkType = 0;
           get_weapon_sheild_borg5(param_1);
         }

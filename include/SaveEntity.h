@@ -8,7 +8,7 @@ namespace SaveEntity{
     void Init();
     void Free();
     void BenchParty(Party *);
-    CharSheet * GetMember(u16 x);
+    CharSheet* GetMember(u16 x);
     void EraseEntry(u16 x);
     void LoadMember(CharSheet *,u16);
     void EraseEntityOfID(ItemID);

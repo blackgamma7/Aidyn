@@ -23,8 +23,8 @@ void proc(void* p){
   osCreateMesgQueue(&TempQ,&TempMsg,1);
   while(1) {
     osRecvMesg(&romcopyManage.mesgQ0x1c0,(OSMesg *)&uStack36,1);
-    Entry = romcopyManage.dmaStructs[(u8)uStack36];
-    osInvalDCache(Entry->VAddr,Entry->Bytes);
+    Entry = &romcopyManage.dmaStructs[(u8)uStack36];
+    osInvalDCache(Entry->VAddr,Entry->bytes);
     osPiStartDma(&IOMsg,OS_MESG_PRI_NORMAL,OS_READ,Entry->devAddr,Entry->VAddr,Entry->bytes,&TempQ);
     osRecvMesg(&TempQ,NULL,1);
     osSendMesg(&Entry->msgQ,NULL,1);
@@ -38,10 +38,10 @@ void InitQueue(void){
   romcopyManage.mesgPointer = (OSMesg *)HALLOC(0x20,0xb0);
   osCreateMesgQueue(&romcopyManage.mesgQ0x1c0,romcopyManage.mesgPointer,8);
   osCreateMesgQueue(&romcopyManage.mesgQ0x1dc,&romcopyManage.mesg0x1d8,1);
-  romcopyManage.dmaStructs = HALLOC(8*sizeof(romcopy_struct),0xb6);
-  romcopyManage.dmaIndicies = HALLOC(8,0xb8);
+  ALLOCS(romcopyManage.dmaStructs,8*sizeof(romcopy_struct),0xb6);
+  ALLOCS(romcopyManage.dmaIndicies,8,0xb8);
   for(i=0;i<8;i++) {
-    entry =romcopyManage.dmaStructs[i]);
+    entry =&romcopyManage.dmaStructs[i];
     osCreateMesgQueue(&entry->msgQ,&entry->msg,1);
     romcopyManage.dmaIndicies[i] = i;
   }
@@ -66,10 +66,10 @@ u8 RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line){
         }
         bVar1 = romcopyManage.dmaIndicies[romcopyManage.flag];
         romcopyManage.flag++;
-        prVar4 = romcopyManage.dmaStructs[bVar1];
+        prVar4 = &romcopyManage.dmaStructs[bVar1];
         prVar4->VAddr = dest;
         prVar4->devAddr = (u32)source;
-        prVar4->Bytes = len;
+        prVar4->bytes = len;
         if (osSendMesg(&romcopyManage.mesgQ0x1c0,(OSMesg)(u32)bVar1,0)) {
           CRASH("u32 RomCopy( u32 pDest_,u32 pSrc_, u32 len_, u32 type_)","Request Queue is full!");
         }

@@ -1,4 +1,3 @@
-#include "GhidraDump.h"
 #include "typedefs.h"
 
 struct GtaskMsg {
@@ -36,6 +35,7 @@ struct gfxManager {
     u8 unk0x19c; /* set to 0 after drawing letterbox */
 };
 
+//may need to move this to header for Borg8 properties.
 #define RSPFUNC(g,flag) g=Graphics::SomeDListInit(g,flag,Graphics::get_hres(),Graphics::get_vres())
 #define RSPFUNC6(g) RSPFUNC(g,6)
 #define RSPFUNC5(g) RSPFUNC(g,5)

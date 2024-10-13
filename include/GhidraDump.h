@@ -1822,50 +1822,35 @@ struct borg_short {
 typedef struct combat_aiscore combat_aiscore, *Pcombat_aiscore;
 
 
-typedef enum PotionEnum {
-    POTION_FIRE=0,
-    POTION_INFERNO=1,
-    POTION_SLEEP=2,
-    POTION_ACID=3,
-    POTION_HEALING=4,
-    POTION_STAMINA=5,
-    POTION_CURING=6,
-    POTION_ANTIDOTE=7,
-    POTION_RESTORE=8,
-    POTION_STRENGTH=9,
-    POTION_DEXTERITY=10,
-    POTION_ASPECT=11,
-    POTION_JUMP=12,
-    POTION_CLARITY=13,
-    POTION_CHARISMA=14,
-    POTION_DEFENCE=15,
-    POTION_STEALTH=16
-} PotionEnum;
+typedef enum PotionEnum{
+	POTION_FIRE,
+    POTION_INFERNO,
+    POTION_SLEEP,
+    POTION_ACID,
+    POTION_HEALING,
+    POTION_STAMINA,
+    POTION_CURING,
+    POTION_ANTIDOTE,
+    POTION_RESTORE,
+    POTION_STRENGTH,
+    POTION_DEXTERITY,
+    POTION_ASPECT, //listed as "A"
+    POTION_JUMPING, //listed as "J"
+    POTION_CLARITY,
+    POTION_CHARISMA,
+    POTION_DEFENCE,
+    POTION_STEALTH
+}PotionEnum; // POTION_ASPECT and POTION_JUMPING are ommited. couple funcs change "A" potions into healing potions automatically.
 
 typedef struct resist_float resist_float, *Presist_float;
-
-typedef CharSheet[9]* saveEntity;
 
 typedef struct CombatAIInfo CombatAIInfo, *PCombatAIInfo;
 
 typedef enum ElementEnum {
-    ELEMENT_NONE=0,
-    ELEMENT_Earth=1,
-    ELEMENT_Solar=2,
-    ELEMENT_Physical=3,
-    ELEMENT_Necromany=4,
-    ELEMENT_Fire=5,
-    ELEMENT_Lunar=6,
-    ELEMENT_Naming=7,
-    ELEMENT_Water=8,
-    ELEMENT_Magic=9,
-    ELEMENT_Air=10,
-    ELEMENT_Star=11,
-    ELEMENT_Elemental=12,
-    ELEMENT_Chaos=13,
-    ELEMENT_Cutting=14,
-    ELEMENT_Smashing=15,
-    ELEMENT_Holy=16
+	ELEMENT_NONE, ELEMENT_EARTH, ELEMENT_SOLAR, ELEMENT_PHYSICAL, ELEMENT_NECROMANCY,
+    ELEMENT_FIRE, ELEMENT_LUNAR, ELEMENT_NAMING, ELEMENT_WATER, ELEMENT_MAGIC,
+    ELEMENT_AIR, ELEMENT_STAR, ELEMENT_ELEMENTAL, ELEMENT_CHAOS, ELEMENT_CUTTING, 
+    ELEMENT_SMASHING, ELEMENT_HOLY
 } ElementEnum;
 
 typedef struct ArmorInstance ArmorInstance, *PArmorInstance;
@@ -1875,9 +1860,6 @@ typedef struct WeaponInstance WeaponInstance, *PWeaponInstance;
 typedef struct CharGear CharGear, *PCharGear;
 
 typedef struct Spellbook Spellbook, *PSpellbook;
-
-
-typedef struct PotionEffect PotionEffect, *PPotionEffect;
 
 typedef enum SpellEnum {
     SPELLIND_Immolation,
@@ -2011,13 +1993,6 @@ struct ItemInstance {
 
 
 
-struct PotionEffect {
-    enum PotionEnum ID;
-    u8 power;
-    u16 align;
-    uint timer;
-    u32 SpellVisualIndex;
-};
 
 struct combat_aiscore {
     u8 spell_pri;
@@ -2739,23 +2714,6 @@ union EquipInstance {
     SpellInstance S;
 };
 
-typedef struct dialougeEntity_Info dialougeEntity_Info, *PdialougeEntity_Info;
-
-
-
-typedef struct entity_info entity_info, *Pentity_info;
-
-struct entity_info { /* extended data of entities in RAM */
-    u16 Index; /* Index in RAM */
-    u32 Model; /* model Character uses */
-    u32 Portait; /* Portait Character uses */
-    float a;
-    float b;
-    float c;
-    float scale;
-};
-
-
 typedef struct printf_struct printf_struct, *Pprintf_struct;
 
 struct printf_struct {
@@ -3102,72 +3060,6 @@ struct ArmorPointer {
     u8 total;
     u8 pad;
     armour_RAM *Armor;
-};
-
-typedef struct Audio_manager Audio_manager, *PAudio_manager;
-
-typedef struct Voice_Aidyn Voice_Aidyn, *PVoice_Aidyn;
-
-typedef enum VoiceFlag {
-    VOICE_STOP=2,
-    VOICE_SETPITCH=8,
-    VOICE_SETVOL=16,
-    VOICE_SETPAN=32
-} VoiceFlag;
-
-struct Audio_manager {
-    ALPlayer ALPLAYER;
-    ALHeap ALHEAP;
-    ALSynth ALSYNTH;
-    void *ThreadStack;
-    OSMesg *OsMsgPtr0x74;
-    OSSched *sched;
-    Acmd *ACMDList;
-    Voice_Aidyn *voicesAidyn;
-    s16 *buffer_pointers[3];
-    void *scaleBufferA;
-    u32 scaleBufferB;
-    u8 *indecies;
-    u32 unk9c;
-    OSThread Thread;
-    OSScClient Client;
-    OSScTask Task;
-    u16 taskMsg;
-    u8 unk0x2c2[30];
-    OSMesg OSmesg0x2e0;
-    OSMesgQueue mesgQ;
-    OSMesgQueue mesgQ_2;
-    OSMesgQueue *MesgQ_3;
-    s32 AudiolistCount;
-    u32 VoicesUsedTotal;
-    u16 frequency;
-    u16 audioLength;
-    u16 unk0x324;
-    u16 audioLengthMin;
-    u16 bufferSize;
-    u8 VoicesUsed;
-    undefined1 audio_tally;
-    s8 buffer_choice;
-    undefined1 AudioListBool;
-    undefined field33_0x32e;
-    undefined field34_0x32f;
-};
-
-struct Voice_Aidyn {
-    ALVoice voice;
-    ALWaveTable wavetable;
-    Borg11Data *instrumentData;
-    uint id;
-    u32 unk0x38;
-    u32 waveTableLength;
-    u32 loopEnd;
-    ushort pitch;
-    u8 loopCount;
-    u8 isActive;
-    u8 vol;
-    u8 pan;
-    enum VoiceFlag flag;
-    u8 unk0x4b;
 };
 
 typedef struct audio_substruct_2 audio_substruct_2, *Paudio_substruct_2;

@@ -7,17 +7,17 @@ typedef enum PLAYERDATA_Flags {
     ACTOR_2=2,
     ACTOR_4=4,
     ACTOR_WALKONLY=8,
-    ACTOR_CANMOVE=16,
-    ACTOR_CANROTATE=32,
-    ACTOR_40=64,
-    ACTOR_80=128,
-    ACTOR_100=256,
-    ACTOR_200=512,
-    ACTOR_400=1024,
-    ACTOR_800=2048,
-    ACTOR_1000=4096,
-    ACTOR_2000=8192,
-    ACTOR_4000=16384
+    ACTOR_CANMOVE=0x10,
+    ACTOR_CANROTATE=0x20,
+    ACTOR_40=0x40,
+    ACTOR_80=0x80,
+    ACTOR_100=0x100,
+    ACTOR_200=0x200,
+    ACTOR_400=0x400,
+    ACTOR_800=0x800,
+    ACTOR_1000=0x1000,
+    ACTOR_2000=0x2000,
+    ACTOR_4000=0x4000
 } PLAYERDATA_Flags;
 
 //Main actor struct for entites moving n world
@@ -48,11 +48,11 @@ struct playerData {
     float field23_0x58;
     float unk5c;
     u16 field25_0x60;
-    struct collisionSphere collision;
-    struct vec3f positionMirror;
-    struct EnvProp envprop;
-    struct collisionTypeA colTypeA;
-    struct SpeedProperty colTypeB;
+    collisionSphere collision;
+    vec3f positionMirror;
+    EnvProp envprop;
+    collisionTypeA colTypeA;
+    SpeedProperty colTypeB;
     ushort Ground_type;
     ushort Ground_Type_New;
     short field35_0x104;

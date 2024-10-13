@@ -429,7 +429,7 @@ bool func_checking_niesen_2(Party *param_1,CharSheet *param_2,u8 param_3,ItemID 
   u8 bVar4;
   
 
-  if (has_item_func(param_1->Inventory,param_4)) {
+  if (param_1->Inventory->HasItem(param_4)) {
     piVar1 = param_1->Inventory->Functions;
     uVar2 = (*(piVar1->get_inv_index).func)
                       ((s32)param_1->Inventory->inv_slots +
@@ -2575,7 +2575,7 @@ bool dialoug_look_for_item(Party *param_1,ItemID param_2){
   bool bVar2;
   u32 uVar4;
   
-  bVar2 = has_item_func(param_1->Inventory,param_2);
+  bVar2 = param_1->Inventory->HasItem(param_2);
   if (bVar2 == false) {
     uVar4 = 0;
     do {
@@ -2617,7 +2617,7 @@ bool hasItem(Party *param_1,ItemID param_2){
   bool lVar1;
   u32 uVar3;
   
-  bVar2 = has_item_func(param_1->Inventory,param_2);
+  bVar2 = param_1->Inventory->HasItem(param_2);
   uVar3 = 0;
   if (bVar2 == false) {
     do {

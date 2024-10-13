@@ -9,7 +9,7 @@ void World::init(TerrainStruct *ter){
   CLEAR(ter);
   ter->daySpeed = 72;
   ter->windByte = 0;
-  ter->partOfDay = Morning;
+  ter->partOfDay = TIME_MORNING;
   ter->moonPhases = 0;
   ter->terrain = 0;
   ter->rainByte = clear;
@@ -57,22 +57,22 @@ void World::SetTimeFromCalendar(TerrainStruct *param_1,Calendar *param_2){
   param_1->InGameTime =
        (u32)param_2->month * 0x114db000 + (u32)param_2->week * 0x229b600 +
        (u32)param_2->day * 0x4f1a00 + ((u32)param_2->hour * 0xe0 + (u32)param_2->hour) * 0x3c0 +
-       ((u32)param_2->minute * 0xe0 + (u32)param_2->minute) * 0x10 + (u32)param_2->second * 0x3c;
+       ((u32)param_2->minute * 0xe0 + (u32)param_2->minute) * 0x10 + (u32)param_2->second * SECONDS(1);
   several_time_funcs(param_1);
   SetFlagArray_on_Time(param_1->partOfDay,param_2->day,param_2->week,param_2->month);
 
 }
 
 void World::GetCalendarDate(TerrainStruct *param_1,Calendar *cal){
-  cal->month = World::GetMonth(param_1);
-  cal->week = World::GetWeek(param_1);
-  cal->day = World::GetDay(param_1);
-  cal->hour = World::GetHour(param_1);
-  cal->minute = World::GetMinute(param_1);
-  cal->second = World::GetSecond(param_1);
+  cal->month = GetMonth(param_1);
+  cal->week = GetWeek(param_1);
+  cal->day = GetDay(param_1);
+  cal->hour = GetHour(param_1);
+  cal->minute = GetMinute(param_1);
+  cal->second = GetSecond(param_1);
 }
 
-void World::func_with_TimeofDay(TerrainStruct *ter,char param_2){
+void World::ShiftTimeOfDay(TerrainStruct *ter,s8 param_2){
   u32 uVar1;
   u32 uVar2;
   s32 iVar3;
@@ -86,7 +86,7 @@ void World::func_with_TimeofDay(TerrainStruct *ter,char param_2){
       ter->partOfDay += param_2 + 5;
     }
     else {
-      ter->partOfDay = (TIME_OF_DAY)iVar3;
+      ter->partOfDay = iVar3;
     }
   }
   else {
@@ -95,26 +95,25 @@ void World::func_with_TimeofDay(TerrainStruct *ter,char param_2){
     ter->partOfDay = (char)uVar2 - ((char)(uVar1 << 2) + (char)uVar1);
   }
   GetCalendarDate(ter,&tempCal);
-  tempCal.hour = TIME_OF_DAY_hours[ter->partOfDay];
+  tempCal.hour = timeofday_hours[ter->partOfDay];
   tempCal.minute = 0;
   tempCal.second = 0;
   World::SetTimeFromCalendar(ter,&tempCal);
 }
 
-void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float arg1,float arg2){
+void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float magChange){
   float x;
   float fVar1;
   
   x = vec3_normalize(coords);
-  if (RAND.GetFloat() <= arg1) {
+  if (RAND.GetFloat() <= dirCharge) {
     coords->x += RAND.GetFloatRange(-0.1f,0.1f);
     coords->y += RAND.GetFloatRange(-0.004,0.001);
     coords->z += RAND.GetFloatRange(-0.1f,0.1f);
     vec3_normalize(coords);
   }
-  if (RAND.GetFloat() <= arg2) {
-    fVar1 = RAND.GetFloatRange(-0.002314815,0.002314815);
-    fVar1 = x + fVar1;
+  if (RAND.GetFloat() <= magChange) {
+    fVar1 = x + RAND.GetFloatRange(-0.002314815,0.002314815);
     if ((fVar1 <= 0.23148148f) && (x = fVar1, fVar1 < 0.0)) {
       x = 0.0;
     }
@@ -130,7 +129,6 @@ void World::set_with_WeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   weatherDat.unk0x4 = ter->PrecipScale;
   set_weather_flags(ter->rainByte);
 }
-
 
 void World::get_WeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   w->precip = ter->rainByte;
@@ -161,10 +159,9 @@ moonval1:
   return;
 }
 
-
-bool World::SetToDByCalendar(TerrainStruct *param_1,Calendar *param_2){
-  TimeOfDay TVar1;
-  TimeOfDay TodNew;
+u8 World::set_timeofDay(TerrainStruct *param_1,Calendar *param_2){
+  u8 TVar1;
+  u8 TodNew;
   byte hr;
   
   if (param_1->DayNightMagic != '\0') {
@@ -289,8 +286,8 @@ u8 World::GetSecond(TerrainStruct *param_1){return (param_1->InGameTime % SECOND
 
 float World::get_timeofDay_float(TerrainStruct *param_1){
   float fVar1 = (float)(param_1->InGameTime % DAYS(1)) / (float)(DAYS(1)) + param_1->TimeOfDayFloat;
-  while (fVar1 < 0.0) {fVar1 = (float)((double)fVar1 + 1.0d);}
-  while (1.0f <= fVar1) {fVar1 = (float)((double)fVar1 - 1.0d);}
+  while (fVar1 < 0.0) {fVar1 = (float)((double)fVar1 + 1.0);}
+  while (1.0f <= fVar1) {fVar1 = (float)((double)fVar1 - 1.0);}
   return fVar1;
 }
 

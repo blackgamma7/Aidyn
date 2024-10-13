@@ -13,7 +13,7 @@ void SaveEntity::Free(void){
   for(u8 i=0;i<SAVEENTSIZE;i++) {
     if (gSaveEntity[i]) {
       Entity::Free(gSaveEntity[i]);
-      FREE(gSaveEntity[i],111);
+      FREEL(gSaveEntity[i],111);
     }
   }
   FREE(gSaveEntity,116);
@@ -48,7 +48,7 @@ void SaveEntity::BenchParty(Party *param_1){
   }
 }
 
-CharSheet * SaveEntity::GetMember(u16 x){
+CharSheet* SaveEntity::GetMember(u16 x){
   IDK_NOOP();
   return gSaveEntity[x];
 }
