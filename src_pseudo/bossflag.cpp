@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "eventFlag.h"
 
 void set_boss_flag(void){
   ItemID id;

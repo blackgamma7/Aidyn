@@ -1,6 +1,7 @@
-typedef struct potionRecipie potionRecipie, *PpotionRecipie;
+#include "Entity.h"
+
 struct potionRecipie {
-    enum POTION ID;
+    u8 ID;
     u8 spice;
     u8 herb;
     u8 gemstone;

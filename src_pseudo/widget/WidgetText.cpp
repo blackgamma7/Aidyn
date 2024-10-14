@@ -5,9 +5,7 @@
 
 WidgetText::WidgetText(char *str,u16 len):BaseWidget(){
   widgetTextSubstruct *ppcVar2;
-  uint size;
-  
-  size = (uint)len;
+  uint size = (uint)len;
   ppcVar2 = new widgetTextSubstruct;
   ppcVar2->scalex = 1.0f;
   ppcVar2->scaley = 1.0f;
@@ -41,11 +39,11 @@ Gfx * WidgetText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   s32 lVar6;
   s32 lVar7;
   s32 lVar8;
-  Gfx *apGStackX_4 [3];
+  Gfx *apGStackX_4;
   widgetTextSubstruct *ppcVar1;
   
   pFVar1 = font_pointer;
-  apGStackX_4[0] = g;
+  apGStackX_4 = g;
   if (font_pointer == NULL) RENDERCHILDREN();
   else {
     lVar6 = this->boundX0;
@@ -67,7 +65,7 @@ Gfx * WidgetText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
               lVar6,lVar5,lVar8,lVar7,ppcVar1->scalex,ppcVar1->scaley);
     }
     BaseWidget::SetHeight(uVar4);
-    return RenderChildren(apGStackX_4[0],x0,y0,x1,y1);
+    return RenderChildren(apGStackX_4,x0,y0,x1,y1);
   }
 }
 
@@ -99,10 +97,7 @@ u8 WidgetText::Tick(){return TickChildren();}
 
 u8 WidgetText::Modify(char *newStr,u8 b){
   u16 length;
-  char *c1;
-  widgetTextSubstruct *ppcVar1;
-  
-  ppcVar1 = substruct;
+  widgetTextSubstruct *ppcVar1 = (widgetTextSubstruct *)substruct;
   length = strlen(newStr);
   if (ppcVar1->len < (int)(length + 1)) {
     if (b) {

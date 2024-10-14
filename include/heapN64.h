@@ -38,6 +38,8 @@ u32 Ofunc_get_obj_count_2(void);
 u32 get_memFree_2(void);
 void print_mem_allocated(void *func_,void *param_2);
 void malloc_update_mem_mon(HeapBlock *h,int param_2);
+void* operator new(size_t size);
+void operator delete(void* x);
 
 //discern from debug keeping filename and line of script, and retail ommiting both
 #ifdef DEBUGVER

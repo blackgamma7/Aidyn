@@ -26,7 +26,7 @@ BaseWidget::BaseWidget(){
   DownButtonFunc = NULL;
   LeftButtonFunc = NULL;
   RightButtonFunc = NULL;
-  AbuttonFunc = NULL;
+  AButtonFunc = NULL;
   BButtonFunc = NULL;
   StartButtonFunc = NULL;
   LButtonFunc = NULL;

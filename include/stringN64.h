@@ -4,7 +4,7 @@
 #else
 
 #include "typedefs.h"
-typedef u32 size_t;
+
 char* strcpy(char* c1,char* c2);
 char* strncpy(char *c1,char *c2,size_t l);
 char* Ofunc_80098a34(char *c1,char *c2);

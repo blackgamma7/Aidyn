@@ -178,11 +178,11 @@ void SaveEntity::TransferSpells(CharSheet *param_1,CharSheet *param_2){
   SpellInstance *pIVar2;
   
   pSVar1 = param_1->spellbook;
-  if (pSVar1 != NULL) {
+  if (pSVar1) {
     pSVar2 = param_2->spellbook;
-    if (pSVar2 != NULL) {
+    if (pSVar2) {
       Spellbook::Clear(pSVar2);
-      FREE(pSVar2,0x1b3);
+      FREE(pSVar2,435);
     }
     ALLOC(pSVar2,440);
     param_2->spellbook = pSVar2;

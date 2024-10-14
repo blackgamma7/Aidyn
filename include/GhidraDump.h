@@ -30,14 +30,6 @@ struct astruct_1 {
 
 typedef struct astruct_2 astruct_2, *Pastruct_2;
 
-
-typedef struct borgHeader borgHeader, *PborgHeader;
-
-typedef struct Borg8dat Borg8dat, *PBorg8dat;
-
-typedef struct Method Method, *PMethod;
-
-
 struct astruct_2 {
     BaseWidget *Widgetborg8A;
     BaseWidget *field1_0x4;
@@ -157,17 +149,9 @@ typedef struct Borg7data Borg7data, *PBorg7data;
 
 typedef struct AnidatStruct AnidatStruct, *PAnidatStruct;
 
-typedef struct vec4f vec4f, *Pvec4f;
-
 typedef struct AniLightData AniLightData, *PAniLightData;
 
 typedef struct ParticleHeadStruct ParticleHeadStruct, *PParticleHeadStruct;
-
-typedef struct Borg1header Borg1header, *PBorg1header;
-
-typedef struct Borg1Data Borg1Data, *PBorg1Data;
-
-
 
 typedef struct Borg12Header Borg12Header, *PBorg12Header;
 
@@ -227,76 +211,6 @@ typedef struct Particle Particle, *PParticle;
 
 typedef struct ParticleEmmiter ParticleEmmiter, *PParticleEmmiter;
 
-typedef struct Borg9data Borg9data, *PBorg9data;
-
-typedef struct Vtx_t Vtx_t, *PVtx_t;
-
-typedef struct Vtx_tn Vtx_tn, *PVtx_tn;
-
-typedef long Mtx_t[4][4];
-
-typedef enum BORG1type {
-    B1_RGBA16=0,
-    B1_IA16=1,
-    B1_CI8=2,
-    B1_IA8=3,
-    B1_CI4=5,
-    B1_I4=7,
-    B1_RGBA32=8
-} BORG1type;
-
-typedef struct Borg12Data Borg12Data, *PBorg12Data;
-
-typedef struct Borg5data Borg5data, *PBorg5data;
-
-typedef struct Borg5_particle Borg5_particle, *PBorg5_particle;
-
-typedef struct borg9_phys borg9_phys, *Pborg9_phys;
-
-
-typedef struct borg_9_struct borg_9_struct, *Pborg_9_struct;
-
-typedef struct Borg11header Borg11header, *PBorg11header;
-
-typedef struct Borg12Sub Borg12Sub, *PBorg12Sub;
-
-typedef struct borg5substruct borg5substruct, *Pborg5substruct;
-
-typedef struct Borg3Data Borg3Data, *PBorg3Data;
-
-typedef struct borg2header borg2header, *Pborg2header;
-
-typedef struct voxelHeader voxelHeader, *PvoxelHeader;
-
-typedef union voxeldat voxeldat, *Pvoxeldat;
-
-typedef struct borg2data borg2data, *Pborg2data;
-
-typedef enum VoxelFllags {
-    VOXEL_JumperPak=32,
-    VOXEL_EXPPak=64,
-    VOXEL_FlagC=128,
-    VOXEL_Used=512,
-    VOXEL_FlagB=4096,
-    VOXEL_tangible=8192,
-    VOXEL_Active=32768
-} VoxelFllags;
-
-typedef enum Vobject {
-    VOXEL_Scene,
-    VOXEL_Container,
-    VOXEL_Light,
-    VOXEL_Audio,
-    VOXEL_WanderNode,
-    VOXEL_MonsterParty,
-    VOXEL_ReferencePoint,
-    VOXEL_Teleporter,
-    VOXEL_Camera,
-    VOXEL_Dialouge,
-    VOXEL_Trigger,
-    VOXEL_SavePoint, /* unused */
-    VOXEL_Code /* In game, but not really used */
-} Vobject;
 
 typedef enum EventFlags {
     FLAG_Cinematic1=3,
@@ -598,20 +512,6 @@ struct Borg5_particle {
     undefined field101_0xbf;
 };
 
-struct Borg3Data {
-    u32 index;
-    u8 unk4[4];
-    u16 perspnorm[2];
-    int *unkc;
-    float unk10;
-    float fovy;
-    float nearplane;
-    float farplane;
-    float unk20;
-    float aspect;
-    s16 *unk28;
-    Mtx *mtx_;
-};
 
 struct astruct_6 {
     playerData *playerdat_;
@@ -667,11 +567,6 @@ struct Borg12Sub {
     u8 *channelDat;
 };
 
-struct Borg12Data {
-    Borg11header **instument_offset;
-    u32 unk4;
-    Borg12Sub sub;
-};
 
 struct attachmentNode {
     uint borg5;
@@ -683,13 +578,7 @@ struct attachmentNode {
 
 
 
-struct Borg1header {
-    int id;
-    int field1_0x4;
-    u8 *bitmapA;
-    u8 *bitmapB;
-    Borg1Data *dat;
-};
+
 
 union Vtx {
     Vtx_t v;

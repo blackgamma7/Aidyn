@@ -9,6 +9,7 @@ class WidgetText : public BaseWidget{
     u16 GetHeight();
     u8 Tick();
     u8 Modify(char *newStr,u8 b);
+    u32 GetNumber();
 };
 struct widgetTextSubstruct{
     char* str;

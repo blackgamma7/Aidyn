@@ -355,5 +355,5 @@ char * remove_dir_slashes(char *str){
 
 
 void ofunc_LISBN_called_free(void){CRASH("heap.cpp","LIBSN called free?");}
-void * operator new(size_t size){return HeapAlloc(size,FILENAME,1139);}
+void* operator new(size_t size){return HeapAlloc((u32)size,FILENAME,1139);}
 void operator delete(void* x){HeapFree(x,FILENAME,1150);}

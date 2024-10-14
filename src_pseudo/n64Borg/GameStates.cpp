@@ -13,9 +13,9 @@ void borg14_func_a(void *arg0){
 
 void ofunc_borg14_free(s32 *arg0){
   s32 iVar1 = get_memUsed();
-  if (*arg0 == -1) {HFREE((void *)arg0[2],0x92);}
-  else {dec_borg_count(*arg0);}
-  HFREE(arg0,FILENAME,0x99);
+  if (*arg0 == -1) HFREE((void *)arg0[2],146);
+  else dec_borg_count(*arg0);
+  HFREE(arg0,153);
   borg_mem[14] -= (iVar1 - get_memUsed());
   borg_count[14]--;
   }

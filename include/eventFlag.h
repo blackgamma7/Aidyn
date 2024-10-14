@@ -1,4 +1,6 @@
 #include "typedefs.h"
+#include "Flagindecies.h"
+
 typedef enum event_flag_typeA {
     FLAG_LOG,
     FLAG_VAL,
@@ -46,3 +48,6 @@ GameStateFunnel* gameStates;
 typedef u16 EventFlag;
 
 void Event_flag_stat(u8 param_1);
+
+void setEventFlag(u16,u8);
+u8 getEventFlag(u16);

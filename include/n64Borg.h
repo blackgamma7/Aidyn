@@ -1,10 +1,10 @@
 #include "mathN64.h"
 
 /*"Borg" files are the art/level/cutscene assets of the game, in 15 different categories:
-0-Unused, therefore, unknown.
+0-Unused, therefore, unknown. init/free code still ingame.
 1-Textures. use some compression method.
 2-Geometry data. conatins verts and ucode (primariliy G_TRI1)
-3-only 5 in the game. 48 bytes big. mystery.
+3-Scene perspective data (fov,clipping planes, ect.)
 4-3 floats, 8 more bytes. no clue what they're for
 5-Model data. uses the aformentioned types.
 6-animation data.
@@ -67,6 +67,8 @@ struct Borg_9_data{
     voxelObject* ref_objs; 
     struct borg_9_struct * unkStructs;
 };
+
+
 struct borg9_phys { //collision faces
     vec3f * VertexEntries[3];
     vec3f vec3_0xc; //face normal?
@@ -75,38 +77,31 @@ struct borg9_phys { //collision faces
     u16 GroundType; //for footstep noises
 };
 
-enum Vobject{
-    VOBJECT_SCENE, //any static meshes
-    VOBJECT_CONTAINER, //chests and various loot.
-    VOBJECT_LIGHT,
-    VOBJECT_AUDIO, //also generated in "playSFX" func
-    VOBJECT_WANDERNODE, // points in paths for "monterparty" entities
-    VOBJECT_MONSTERPARTY, //enemy encounter data and NPC's
-    VOBJECT_REFERNCEPOINT, //locator for various purposes
-    VOBJECT_TELEPORTER, //doors, tunnels, ladders, ect.
-    VOBJECT_CAMERA,
-    VOBJECT_DIALOUGE, //triggers "borg 13"
-    VOBJECT_TRIGGER,
-    VOBJECT_SAVEPOINT, //unused? game saves virtually where/whenever.
-    VOBJECT_CODE, //in game, but dunno what it does special.
-};
-/* bitfeild flags id'd
-0001
-0002
-0004
-0008
-0010
-0020=NoEXPPak. render if there's not an EXP Pak
-0040=EXPPak. opposite above.
-0080 may also be an unused visibility flag
-0100
-0200="used". also used to set header "flagB"
-0400
-0800
-1000
-2000
-4000
-8000=visible/active.*/
+typedef enum VoxelFllags {
+    VOXEL_JumperPak=0x20, //activate if no Expansion Pak
+    VOXEL_EXPPak=0x40, //activate if Expansion Pak
+    VOXEL_FlagC=0x80,
+    VOXEL_Used=0x200,
+    VOXEL_FlagB=0x1000,
+    VOXEL_tangible=0x2000,
+    VOXEL_Active=0x8000
+} VoxelFllags;
+
+typedef enum Vobject {
+    VOXEL_Scene, //Meshes/decal
+    VOXEL_Container, //loot (chests, sacks, ingredient resources)
+    VOXEL_Light, //dir.Light source
+    VOXEL_Audio, //SFX/BGM source
+    VOXEL_WanderNode, //NPC's use for pathfinding.
+    VOXEL_MonsterParty, //NPC's and enemy encounters
+    VOXEL_ReferencePoint, //used as locators for other objects
+    VOXEL_Teleporter, // moves player when interacted (door, ladder, teleports)
+    VOXEL_Camera, //dynamic camera changer,
+    VOXEL_Dialouge, //cutscene/dialouge/literature trigger.
+    VOXEL_Trigger, //can be several kinds of trigger
+    VOXEL_SavePoint, // unused, but mentioned in text (can save anywhere.)
+    VOXEL_Code // one in the corner of each map chunk. (unused?)
+} Vobject;
 
 struct voxelHeader { /* Header for Refernce objects (Voxels) */
     vec3f coords; /* Where is it */
@@ -122,8 +117,6 @@ struct voxelHeader { /* Header for Refernce objects (Voxels) */
     u8 unk0x23;
     void * ptr0x24;
 };
-
-
 
 struct container_Dat {
     u32 unk0x0;
@@ -183,7 +176,7 @@ struct monsterpartyEntry {
 };
 
 struct monsterparty_dat {
-    struct monsterpartyEntry enemyEntries[8];
+    monsterpartyEntry enemyEntries[8];
     ItemID entityID;
     ItemID globalLoot;
     u16 field3_0x24;
@@ -196,7 +189,7 @@ struct monsterparty_dat {
     u16 flags;
     undefined field11_0x32;
     undefined field12_0x33;
-    enum borg13Enum borg_13;
+    u32 borg_13;
     u8 align[12];
 };
 
@@ -331,7 +324,7 @@ struct Trigger_dat {
     char name[16];
     u8 align[24];
 };
-//likely actual struct - used non-union structs in ghidra as they played nicer.
+
 struct voxelObject {
     voxelHeader header;
     union{
@@ -350,6 +343,46 @@ struct voxelObject {
     };
 };
 
+typedef enum BORG1type {
+    B1_RGBA16,
+    B1_IA16,
+    B1_CI8,
+    B1_IA8,
+    B1_UNK4,
+    B1_CI4,
+    B1_UNK6,
+    B1_I4,
+    B1_RGBA32
+} BORG1type;
+
+
+struct Borg1header {
+    int id;
+    int field1_0x4;
+    union{
+        u8* bitmapA8;
+        u16* bitmapA16;
+        Color32*  bitmapA32;
+        };
+    u8 *bitmapB;
+    Borg1Data *dat;
+};
+
+struct Borg3Data {
+    u32 index;
+    u8 unk4[4];
+    u16 perspnorm[2];
+    int *unkc;
+    float unk10;
+    float fovy;
+    float nearplane;
+    float farplane;
+    float unk20;
+    float aspect;
+    s16 *unk28;
+    Mtx *mtx_;
+};
+
 struct Borg5data {
     s32 substructCount;
     s32 borg4Count;
@@ -357,14 +390,14 @@ struct Borg5data {
     u32 borg1Count;
     s32 aniTextureCount;
     u32 unk0x14;
-    struct borg5substruct *someSubstruct;
-    u32 unk0x1c;
-    u32 unk0x20;
-    struct Borg3Data *borg3;
+    borg5substruct *someSubstruct;
+    u32 unused1c; //at least, unused according to Ghidra.
+    void* unused20; //pointer to unused data?
+    Borg3Data *borg3;
     u32 *borg4Indecies;
-    struct borg2header **borg2Indecies;
-    struct Borg1header **borg1Indecies;
-    void *unk0x34;
+    borg2header **borg2Indecies;
+    Borg1header **borg1Indecies;
+    void * aniTextures; //not used, but pointers still set (0x18 byte struct.) 
     u16 *borg1lookup;
     struct Borg5_particle **ParticleDat;
     u32 ParticleCount;
@@ -428,11 +461,16 @@ struct borg2header {
     struct borg2data *dat;
 };
 
+struct Borg12Data {
+    Borg11header **instument_offset;
+    u32 unk4;
+    Borg12Sub sub;
+};
 
 struct Borg12Header {
     u32 field0_0x0;
     u32 field1_0x4;
-    struct Borg12Data *dat;
+    Borg12Data *dat;
 };
 
 
@@ -442,13 +480,33 @@ struct struct_45 {
 };
 
 struct Borg1Data {
-    enum BORG1type type;
+    u16 type;
     u16 flag;
     u8 height;
     u8 width;
     u8 IlaceLvs;
-    u8 align;
-    u16 *dList;
+    u8 unk7;
+    Gfx *dList;
     u8 *bitmap;
-    ushort *pallette;
+    u16 * pallette;
 };
+struct borg2data {
+    int unk0x0;
+    int dsplistcount;
+    float scale;
+    vec3f pos;
+    vec3f rot; /* radians */
+    Color32 unk0x24;
+    u32 unk0x28; /* ^1&1? */
+    Gfx **dsplists;
+    Vtx_t *vertlist;
+    Vtx_t *vertlist2;
+    u32 vertcount;
+    int *unk0x3c;
+    float (*unk0x40)[5]; /* posx,posy,posz,?,? unused */
+    u32 unk0x44;
+    u32 unk0x48;
+    u32 unk0x4c;
+};
+//macro used to adjust offsets in header
+#define SetPointer(x,f) x->f= decltype(x->f)((u32)&x+(u32)x->f)
