@@ -79,9 +79,44 @@ typedef struct{
 	OSScClient client;
 	OSMesg mesg0;
 	OSMesg mesg1;
-	OSMesgQueue controller_queue_2;
-	OSMesgQueue si_MesgQ;
-	OSMesgQueue ContMesgQ;
+	OSMesgQueue mesgClient;
+	OSMesgQueue SIMesgQ;
+	OSMesgQueue contMesgQ;
 	u32 Timer;
 	u8 ports;
 }ContManageStruct;
+namespace Controller{
+  void Init(OSSched *sc,u8 ports,u8 pri,u8 id);
+  void proc(void* p);
+  void InitBuffer();
+  void ReadInput();
+  bool GetQuerey(u8 port);
+  bool CheckStatus(u8 port);
+  bool GetContRead(u8 port);
+  u8 InitPak(u8 port);
+  u8 InitRumble(u8 port);
+  u8 InitGBPak(u8 port);
+  u8 GetPSFERR(u8 port);
+  u8 RepairPak(u8 port);
+  u8 GetPakFreeBlocks16(u16 *b,u8 port);
+  u8 GetPakFreeBlocks8(u8 *b,u8 port);
+  u8 NewPakSave(u8 *fileno,char *filename,char *filecode,u16 compCode,u32 GameCode, u16 EXTName,u8 port);
+  u8 GetPakSave(u8 *fileno,char* filename,char* filecode,u16 compCode, u32 GameCode,u8 port);
+  u8 GetPakSaveState(fileState_aidyn *FS,u8 file_no,u8 port);
+  u8 WritePakSave(u8 *buff,u8 filenum,u16 offset,u16 size,u8 port);
+  u8 ReadPakSave(u8 *buff,s16 filenum,u16 offset,u16 size,u8 port);
+  u8 ErasePakSave(u8 fileno,u8 port);
+  u32 GetPakPort(u8 port);
+  bool GetStatus(u8 port,u8 *statOut);
+  bool GetStatus2(u8 port);
+  s32 SetJoystick(float H,float V,u8 port);
+  bool GetInput(controller_aidyn** input,u8 port);
+  void DecodeString(char *ascii,u8 *pfs,u8 len);
+  void EncodeString(u8 *pfs,char *ascii,u8 len);
+  u16 GetDelay(u8 port);
+};
+
+#define ContThreadStack 0x448
+
+//not in libreultra.
+extern s32 osGbpakInit(OSMesgQueue *siMessegeQ,OSPfs *pfs,int channel);

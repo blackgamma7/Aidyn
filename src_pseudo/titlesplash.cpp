@@ -308,7 +308,7 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
     N64LogoRot = += 2.0d;
     TitleSplash::Noop();
   }
-  pauVar3 = some_rsp_func(pauVar3,0,0,0x140,0xf0);
+  pauVar3 = Graphics::StartDisplay(pauVar3,0,0,0x140,0xf0);
   animationData_LookAt(splashscreenAniDat,n64LogoVec3[0],n64LogoVec3[1],n64LogoVec3[2],fVar5,fVar7,fVar6,0,1.0f,0);
   FUN_800a0df4(splashscreenAniDat);
   pauVar3 = gsAnimationDataMtx(pauVar3,splashscreenAniDat);

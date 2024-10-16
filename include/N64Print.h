@@ -22,7 +22,7 @@ namespace N64Print{
     #else
     void Print();
     #endif
-    Gfx* Draw(Gfx*gfx,s16 param_2);
+    Gfx* Draw(Gfx*gfx,s16 delta);
 };
 
 N64PrintStruct* gN64PrintP;

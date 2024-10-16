@@ -1,3 +1,5 @@
+#include "GhidraDump.h"
+
 ArrayHeader head0={37,{0xcd,0xcd,0xcd}};
 DialougeEntity_ROM ents[37]=
 {{"Pochanargat",{6,20}},

@@ -1,13 +1,18 @@
+#include "romcopy.h"
+#include "globals.h"
+
+#define FILENAME "../data/chestdb.cpp"
+
 void chestdb_ofunc(loot_Pointer *param_1){
   Loot_RAM *pLVar1;
   s32 auStack16 [4];
   
   auStack16[0] = 0;
   load_db_array_size(&chestdb,param_1,auStack16);
-  param_1->lootCat = (Loot_RAM *)HeapAlloc(((u32)param_1->total * 0x1c + (u32)param_1->total) * 2,FILENAME,0x36);
+  ALLOCS(param_1->lootCat,param_1->total * 0x1c + (u32)param_1->total) * 2,0x36);
 }
 
-void load_chestDB(loot_Pointer *param_1,u32 param_2,s32 *param_3){
+void load_chestDB(loot_Pointer *param_1,u8 param_2,s32 *param_3){
   s32 iVar1;
   u32 uVar2;
   u32 uVar3;
@@ -19,7 +24,7 @@ void load_chestDB(loot_Pointer *param_1,u32 param_2,s32 *param_3){
   
   iVar1 = *param_3;
   w = param_1->lootCat + param_2;
-  RomCopy::RomCopy(&ROMtemp,chestdb + iVar1,sizeof(loot_ROM),1,FILENAME,0x47);
+  ROMCOPYS(&ROMtemp,chestdb + iVar1,sizeof(loot_ROM),0x47);
   memcpy(w,&ROMtemp,0x14);
   w->Is0 = 0;
   w->ID = (ItemID)((u16)ROMtemp.ID.ID + (u16)ROMtemp.ID.Type * 0x100);

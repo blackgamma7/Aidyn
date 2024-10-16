@@ -1,9 +1,6 @@
 #include "mathN64.h"
 #include "widgets\BaseWidget.h"
 
-typedef struct astruct astruct, *Pastruct;
-typedef struct Borg11Data Borg11Data, *PBorg11Data;
-
 struct astruct {
     Borg11Data *instrumentDat;
     u32 unk4;
@@ -14,10 +11,6 @@ struct astruct {
     u8 unkb;
 };
 
-
-
-typedef struct astruct_1 astruct_1, *Pastruct_1;
-
 struct astruct_1 {
     undefined field0_0x0;
     undefined field1_0x1;
@@ -27,8 +20,6 @@ struct astruct_1 {
     ushort field5_0x6;
     u8 *field6_0x8;
 };
-
-typedef struct astruct_2 astruct_2, *Pastruct_2;
 
 struct astruct_2 {
     BaseWidget *Widgetborg8A;
@@ -52,14 +43,6 @@ struct astruct_2 {
     BaseWidget *field18_0x24;
     BaseWidget *scrollMenu;
 };
-
-typedef struct astruct_6 astruct_6, *Pastruct_6;
-
-typedef struct playerData playerData, *PplayerData;
-
-typedef struct Borg7header Borg7header, *PBorg7header;
-
-typedef struct AnimationData AnimationData, *PAnimationData;
 
 typedef enum Borg7Enum { /* entity model data? */
     Blank=0,
@@ -179,8 +162,6 @@ typedef enum DBTypeEnum { /* Each Data category has an Id'ing byte */
     dialougeEntity=20
 } DBTypeEnum;
 
-typedef struct borg6header borg6header, *Pborg6header;
-
 typedef enum borg6Enum {
     Flycam_1=8668,
     Fycam_2=8670,
@@ -237,28 +218,6 @@ typedef enum EventFlags {
     FLAG__bingo=3694
 } EventFlags;
 
-typedef struct light_obj_dat light_obj_dat, *Plight_obj_dat;
-
-typedef struct Scene_obj_dat Scene_obj_dat, *PScene_obj_dat;
-
-typedef struct monsterparty_dat monsterparty_dat, *Pmonsterparty_dat;
-
-typedef struct Wandernode_dat Wandernode_dat, *PWandernode_dat;
-
-typedef struct teleport_dat teleport_dat, *Pteleport_dat;
-
-typedef struct container_Dat container_Dat, *Pcontainer_Dat;
-
-typedef struct Light_t Light_t, *PLight_t;
-
-typedef struct Gwords Gwords, *PGwords;
-
-typedef struct Gtri Gtri, *PGtri;
-
-typedef struct SceneVoxelModel SceneVoxelModel, *PSceneVoxelModel;
-
-typedef struct monsterpartyEntry monsterpartyEntry, *PmonsterpartyEntry;
-
 typedef enum borg13Enum {
     BROG13_GoblinAmbush=869,
     BROG13_KingDeath=1278,
@@ -280,8 +239,6 @@ typedef enum EnumMapDatA {
     MAPA_Ugairt=13,
     MAPA_Battle=16
 } EnumMapDatA;
-
-typedef struct Tri Tri, *PTri;
 
 struct light_obj_dat {
     Color32 cols[3];
@@ -615,24 +572,7 @@ struct PlaneObj { /* used for damage numbers and shadows */
 
 
 
-struct borg2data {
-    int unk0x0;
-    int dsplistcount;
-    float scale;
-    vec3f pos;
-    vec3f rot; /* radians */
-    Color32 unk0x24;
-    u32 unk0x28; /* ^1&1? */
-    Gfx **dsplists;
-    Vtx_t *vertlist;
-    Vtx_t *vertlist2;
-    u32 vertcount;
-    int *unk0x3c;
-    float (*unk0x40)[5]; /* posx,posy,posz,?,? unused */
-    u32 unk0x44;
-    u32 unk0x48;
-    u32 unk0x4c;
-};
+
 
 struct ParticleHeadStruct {
     Particle *particles;
@@ -705,7 +645,7 @@ struct Borg7data {
     undefined field5_0x11;
     undefined field6_0x12;
     undefined field7_0x13;
-    undefined *field8_0x14;
+    undefined *unk14;
 };
 
 struct Borg7header {
@@ -729,18 +669,6 @@ struct Borg7header {
     vec3f unk2c;
     struct_45 unk38;
     Borg7data dat;
-};
-
-struct borg6header {
-    uint field0_0x0;
-    uint field1_0x4;
-    int field2_0x8;
-    borg6header *link;
-    u32 flag;
-    AnimationData *anidat;
-    void *field6_0x18;
-    float field7_0x1c;
-    void *field8_0x20;
 };
 
 struct borg9_phys {
@@ -2439,14 +2367,10 @@ struct Armour_ROM { /* Armour data in Rom */
     u8 ElementResist;
 };
 
-typedef struct ArrayHeader ArrayHeader, *PArrayHeader;
-
 struct ArrayHeader { /* ROM Db array Header */
     u8 Size; /* number of items in array */
     u8 unk[3]; //junk bytes
 };
-
-typedef struct DialougeEntity_ROM DialougeEntity_ROM, *PDialougeEntity_ROM;
 
 struct DialougeEntity_ROM { /* Dialouge entity in ROM */
     char name[22];
@@ -3896,10 +3820,10 @@ struct Flycam_entry { /* data entry for titlescreen flycam */
 typedef struct flycamStruct flycamStruct, *PflycamStruct;
 
 struct flycamStruct {
-    vec3f vec3_0;
-    vec3f vec3_1;
-    vec3f Position;
-    vec3f Aim;
+    vec3f posTarget;
+    vec3f aimTarget;
+    vec3f pos;
+    vec3f aim;
     short shortA;
     short shortB;
     short shortC;

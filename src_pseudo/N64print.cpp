@@ -43,7 +43,7 @@ void N64Print::Clear(void){
 void N64Print::Init(N64PrintStruct *param_1){
   #ifdef DEBUGVER
   gN64PrintP = param_1;
-  ALLOCS(gN64PrintP->text,370,0x8d);
+  ALLOCS(gN64PrintP->text,370,141);
   gN64PrintP->color.z = 1.0f;
   gN64PrintP->color.y = 1.0f;
   gN64PrintP->color.x = 1.0f;
@@ -57,11 +57,9 @@ void N64Print::Init(N64PrintStruct *param_1){
 
 void N64Print::Free(void){
 #ifdef DEBUGVER
-  N64PrintStruct *pDVar1;
-  
   if (gN64PrintP) {
-    HeapFree(gN64PrintP->text,FILENAME,0xa0);
-    pDVar1 = gN64PrintP;
+    HFREE(gN64PrintP->text,160);
+    N64PrintStruct *pDVar1 = gN64PrintP;
     gN64PrintP = NULL;
     pDVar1->text = NULL;
   }

@@ -7,6 +7,8 @@
 #include "N64Print.h"
 #include "inventory\GenericInventory.h"
 #include "PlayerData.h"
+#include "n64Borg.h"
+#include "world.h"
 
 #include "crash.h"
 #include "heapN64.h"

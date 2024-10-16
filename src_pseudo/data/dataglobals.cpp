@@ -1,6 +1,4 @@
-struct ArrayHeader{
- u8 Size;
- u8 unk[3]; //leftover garbage data? sometimes mirrors the next few values.
+#include "romcopy.h"
 
 u8 load_db_array_size(ArrayHeader *header,u8 *size,s32 *offset){
   s32 iVar1;

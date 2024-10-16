@@ -193,7 +193,7 @@ Gfx* cinematic_increment(Gfx*param_1,s16 param_2){
   Gfx*pauVar1;
 
   pauVar1 = RenderSky(param_1,param_2);
-  pauVar1 = some_rsp_func(pauVar1,0,0,320,240);
+  pauVar1 = Graphics::StartDisplay(pauVar1,0,0,320,240);
   set_animation_speed(gGlobals.cinematic.AniDat,(char)param_2);
   FUN_800a0df4(gGlobals.cinematic.AniDat);
   pauVar1 = gsAnimationDataMtx(pauVar1,gGlobals.cinematic.AniDat);

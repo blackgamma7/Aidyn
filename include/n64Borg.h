@@ -360,6 +360,7 @@ struct Borg1header {
     int id;
     int field1_0x4;
     union{
+        void* bitmapA;
         u8* bitmapA8;
         u16* bitmapA16;
         Color32*  bitmapA32;
@@ -393,13 +394,16 @@ struct Borg5data {
     borg5substruct *someSubstruct;
     u32 unused1c; //at least, unused according to Ghidra.
     void* unused20; //pointer to unused data?
-    Borg3Data *borg3;
+    union{
+        s32 borg3i;
+        Borg3Data *borg3P;
+        };
     u32 *borg4Indecies;
     borg2header **borg2Indecies;
     Borg1header **borg1Indecies;
     void * aniTextures; //not used, but pointers still set (0x18 byte struct.) 
     u16 *borg1lookup;
-    struct Borg5_particle **ParticleDat;
+    Borg5_particle **ParticleDat;
     u32 ParticleCount;
 };
 
@@ -452,12 +456,12 @@ struct Borg11header {
 };
 
 struct borg2header {
-    s32 field0_0x0;
+    s32 index;
     s32 field1_0x4;
     struct LookAt *lookat[2];
     MtxF someMtx;
-    union Gfx **dlist;
-    void **field5_0x54;
+    Gfx **dlist;
+    u8* unk54;
     struct borg2data *dat;
 };
 
@@ -473,6 +477,17 @@ struct Borg12Header {
     Borg12Data *dat;
 };
 
+struct borg6header {
+    uint field0_0x0;
+    uint field1_0x4;
+    int field2_0x8;
+    borg6header *link;
+    u32 flag;
+    AnimationData *anidat;
+    void *field6_0x18;
+    float field7_0x1c;
+    void *field8_0x20;
+};
 
 struct struct_45 {
     struct borg6header *anis[3];
@@ -510,3 +525,5 @@ struct borg2data {
 };
 //macro used to adjust offsets in header
 #define SetPointer(x,f) x->f= decltype(x->f)((u32)&x+(u32)x->f)
+//same as SetPointer(), but makes sure there is an offset
+#define CheckSetPointer(x,f) if(x->f) SetPointer(x,f)

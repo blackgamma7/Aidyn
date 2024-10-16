@@ -1526,7 +1526,7 @@ u8 check_warrior_int_stam(Party *param_1,u32 param_2){
 
 u8 healing_widget_AB_func(s32 param_1,BaseWidget *param_2){
   PTR_800ed504 = NULL;
-  FUN_800b72cc(gGlobals.widgetHandler,param_2);
+  WidgetHandler::FreeWidget(gGlobals.widgetHandler,param_2);
   if (param_2) {
     (*(param_2->methods->freeWidget).func)
               ((s32)&param_2->ptr0 + (s32)(s16)(param_2->methods->freeWidget).arg[0],3);
