@@ -9,7 +9,7 @@ void chestdb_ofunc(loot_Pointer *param_1){
   
   auStack16[0] = 0;
   load_db_array_size(&chestdb,param_1,auStack16);
-  ALLOCS(param_1->lootCat,param_1->total * 0x1c + (u32)param_1->total) * 2,0x36);
+  ALLOCS(param_1->lootCat,param_1->total *sizeof(Loot_RAM),0x36);
 }
 
 void load_chestDB(loot_Pointer *param_1,u8 param_2,s32 *param_3){

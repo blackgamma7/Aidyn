@@ -26,9 +26,9 @@ void SetBorgListing(void *listing,void *files){
   
   BorgListingPointer = listing;
   borgFilesPointer = files;
-  RomCopy::RomCopy(&fileCount,listing,8,1,FILENAME,0xfc);
+  ROMCOPYS(&fileCount,listing,8,252);
   borgTotal = fileCount;
-  ALLOCS(borg_index_x4,fileCount *sizeof(void*),0x10a);
+  ALLOCS(borg_index_x4,fileCount *sizeof(void*),266);
   memset(borg_index_x4,0,fileCount * sizeof(void*));
   ALLOCS(borg_index_x1,fileCount,269);
   memset(borg_index_x1,0,fileCount);
@@ -104,7 +104,7 @@ void * getBorgItem(s32 index){
   BorgListing listing;
   
   memOld = get_memUsed();
-  if ((index >= (s32)borgTotal) && (0 > index)){
+  if ((index >= (s32)borgTotal) || (0 > index)){
     #ifdef DEBUGVER
     char errmsg [96];
     sprintf(errmsg,"item_index_is_out_of_Range(%i/%i)",index,borgTotal - 1);
@@ -556,8 +556,8 @@ bool InitBorgScene(Borg5header *param_1){
       pMVar9 = (Mtx *)((int)pMVar9 + 0x188);
       *(undefined4 *)((int)pbVar23->mtxs + 0x16c) = 0;
       iVar19 += -1;
-      os::guMtxIdent(pbVar23->mtxs);
-      os::guMtxIdent(pbVar23->mtxs + 1);
+      guMtxIdent(pbVar23->mtxs);
+      guMtxIdent(pbVar23->mtxs + 1);
       if (iVar19 == 0) break;
       pbVar23[1].mtxs = pMVar9;
       pbVar23 = pbVar23 + 1;
