@@ -556,7 +556,7 @@ void Controller::EncodeString(u8 *pfs,char *ascii,u8 len){
       if (bVar2) {
         uVar6 = 0;
         cVar1 = ascii[i];
-        pcVar4 = pfs_charset;
+        pcVar4 = (char*)pfs_charset;
         do {
           if (*pcVar4 == cVar1) {
             pfs[i] = (u8)uVar6;
@@ -564,7 +564,7 @@ void Controller::EncodeString(u8 *pfs,char *ascii,u8 len){
           }
           else uVar6++;
           if (bVar3) goto LAB_8009c6c0;
-          pcVar4 = pfs_charset + uVar6;
+          pcVar4 = (char*)pfs_charset + uVar6;
         } while (uVar6 < 0x42);
         pfs[i] = 0xf;
 LAB_8009c6c0:

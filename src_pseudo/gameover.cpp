@@ -1,51 +1,50 @@
-u32 GameOverScenes[3]={0x512,0x513,0x514};
+#include "gameover.h"
+
+
 
 void Gameover_func(void){
-  u16 uVar1;
-  CharSheet *pCVar2;
-  borg13Enum bVar3;
-  Borg_9_header *pBVar4;
-  s16 sVar5;
-  s16 sVar6;
-  Dialoug_obj *prVar7;
-  s32 iVar7;
-  u16 *puVar8;
-  
-  bVar3 = GameOverScenes[0];
-  puVar8 = gLensflare;
-  pBVar4 = get_borg_9(0xd5f);
-  iVar7 = 0;
+  voxelObject *pvVar2;
+  CharSheet *pCVar3;
+  u32 bVar4;
+  Borg9header *pBVar5;
+  s16 iVar8;
+  dialoug_dat *pvVar9;
+  //borg13 indecies of Alarorn death scenes
+  u32 GameOverScenes[]={0x512,0x513,0x514};
+  //...but only one is used.
+  bVar4 = GameOverScenes[0];
+  pvVar9 = NULL;
+  //load up dream sequence map
+  pBVar5 = get_borg_9(0xd5f);
+  //TODO: cleanup mangled for-loop 
+  iVar8 = 0;
   do {
-    if ((pBVar4->dat).voxelCount <= iVar7) {
-loop:
-      pCVar2 = partyPointer->Members[0];
+    if ((pBVar5->dat).voxelObjCount <= iVar8) {
+LAB_8002411c:
+      pCVar3 = (gGlobals.party)->Members[0];
       #ifdef DEBUGVER
-      if (pCVar2 == NULL) CRASH("NO ALARON! EVIL!!!!","./src/gameover.cpp");
+      if (!pCVar3) CRASH("NO ALARON! EVIL!!!!","./src/gameover.cpp");
       #endif
-      sVar5 = getHPMax(pCVar2);
-      sVar6 = getHPCurrent(pCVar2);
-      addHP(pCVar2,sVar5 - sVar6);
-      if (puVar8) {
+      Entity::addHP(pCVar3,Entity::getHPMax(pCVar3) - Entity::getHPCurrent(pCVar3));
+      if (pvVar9) {
         if (gGlobals.screenFadeModeSwitch == 2) {
-          gGlobals.combatbytes[0] = 0x15;
-          uVar1 = *puVar8;
+          gGlobals.combatBytes[0] = 0x15;
         }
-        else {
-          uVar1 = *puVar8;
-        }
-        dialoug_func((u32)uVar1,puVar8[4],puVar8[1],puVar8[2],puVar8[3],0x7fff);
-        remove_borg_9(pBVar4);
+        dialoug_func(pvVar9->borg_13,pvVar9->RefPointID,pvVar9->MapDatA,pvVar9->MapShortA,
+                     pvVar9->MapShortB,0x7fff);
+        remove_borg_9(pBVar5);
         return;
       }
       #ifdef DEBUGVER
       CRASH("./src/gameover.cpp","No matching death dailogue!");
       #endif
     }
-    prVar7 = (Dialoug_obj *)((pBVar4->dat).ref_objs[iVar7]);
-    if (((prVar7->header).type == Dialouge) && (prVar7->borg_13 == bVar3)) {
-      puVar8 = &prVar7->borg_13;
-      goto loop;
+    pvVar2 = (pBVar5->dat).voxelObjs;
+    if ((pvVar2[iVar8].header.type == VOXEL_Dialouge) &&
+       (pvVar2[iVar8].dialoug.borg_13 == bVar4)) {
+      pvVar9 = &pvVar2[iVar8].dialoug;
+      goto LAB_8002411c;
     }
-    iVar7++;
+    iVar8++;
   } while( true );
 }
