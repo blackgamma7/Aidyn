@@ -163,7 +163,7 @@ u8 capSheildBaseMax(CharSkills *skills){
   if (10 < (char)skills->Sheild_Base) b = 10;
   return b;}
 
-char getModdedSkill(CharSkills *param_1,u8 param_2){
+char CharSkills::getModdedSkill(CharSkills *param_1,u8 param_2){
   return CapModdedSkillMax(param_1->Skill_modded[param_2],15);}
 
 char getModdedWeapon(CharSkills *param_1,u8 param_2){

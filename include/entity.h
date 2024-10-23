@@ -111,14 +111,6 @@ struct Entity_Ram { /* entity data in Ram */
     u8 unk0x7f;
 };
 
-struct{
-   u8 size;
-   u8 catSizes[7];
-   u8 unk[7];
-   Entity_Ram * entities;
-}gEntityDB;
-
-
 struct entity_info{
 	u16 index;
 	u32 Model; //index of "borg7 file.
@@ -209,7 +201,7 @@ struct itemtype_func {
     s32 (* function)(Party*,u8,ItemInstance,CharSheet);
 };
 
-struct EntityPointer {
+struct EntityDB {
     u8 total;
     u8 catSizes[7];
     u8 unk[7];
@@ -218,24 +210,24 @@ struct EntityPointer {
 
 extern entity_info entity_info_array[222]; //organized alphabetically for some reason.
 extern dialougeEntity_Info dailougEnt_info_array[32]; //same with this.
-extern EntityPointer* gEntityDB;
+extern EntityDB* gEntityDB;
 extern u8 entityList[221];
 
 extern void Ofunc_entityDB(u8 *);
 //TODO: reformat as class methods(?)
-extern void load_entityDB(EntityPointer*,u8,s32 *);
-extern void build_entitydb(EntityPointer *);
-extern void entitydb_free(EntityPointer *);
-extern u32 getEntityPortait(EntityPointer *,ItemID);
-extern u32 get_ent_borg7(EntityPointer *,ItemID);
-extern char * ofunc_getEntityName(EntityPointer *,ItemID);
-extern float get_entity_ram_b(EntityPointer*,ItemID);
-extern float Ofunc_get_entity_ram_c(EntityPointer*,ItemID);
-extern float get_entity_2float_sum(EntityPointer*,ItemID);
-extern float sub_ent_2float_sum(EntityPointer*,ItemID);
-extern u8 some_entity_check(EntityPointer*,ItemID);
-extern float get_ent_float_a(EntityPointer*,ItemID);
-extern float ret_point4float(EntityPointer*,ItemID);
-extern bool IsNotBoss(EntityPointer*,ItemID);
-extern float get_some_entity_dat(EntityPointer*,ItemID);
-extern float get_entity_scale(EntityPointer*,ItemID);
+extern void load_entityDB(EntityDB*,u8,s32 *);
+extern void build_entitydb(EntityDB *);
+extern void entitydb_free(EntityDB *);
+extern u32 getEntityPortait(EntityDB *,ItemID);
+extern u32 get_ent_borg7(EntityDB *,ItemID);
+extern char * ofunc_getEntityName(EntityDB *,ItemID);
+extern float get_entity_ram_b(EntityDB*,ItemID);
+extern float Ofunc_get_entity_ram_c(EntityDB*,ItemID);
+extern float get_entity_2float_sum(EntityDB*,ItemID);
+extern float sub_ent_2float_sum(EntityDB*,ItemID);
+extern u8 some_entity_check(EntityDB*,ItemID);
+extern float get_ent_float_a(EntityDB*,ItemID);
+extern float ret_point4float(EntityDB*,ItemID);
+extern bool IsNotBoss(EntityDB*,ItemID);
+extern float get_some_entity_dat(EntityDB*,ItemID);
+extern float get_entity_scale(EntityDB*,ItemID);

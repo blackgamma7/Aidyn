@@ -685,7 +685,7 @@ uint other_func_checking_fireball(CombatAIInfo *param_1){
         pCVar5->spellSwitch = BYTE_ARRAY_800ef6e8[uStack_60];
         pSVar10 = Entity::GetSpell(pCVar5);
         bVar14 = Entity::CheckSpellWizard(pCVar5,pSVar10);
-        if (uStack_74 == 0) uStack_74 = CharStats::getModded(pCVar5->Stats,STAT_STAM) < spell_stamina_subtract(pSVar10,bVar14) ^ 1;
+        if (uStack_74 == 0) uStack_74 = CharStats::getModded(pCVar5->Stats,STAT_STAM) < Entity::SpellStaminaSubtract(pSVar10,bVar14) ^ 1;
         uVar19 = (uint)bVar1;
         iVar11 = (int)(char)Y - uVar19;
         iVar12 = (int)(char)Y + uVar19;
@@ -767,7 +767,7 @@ u8 ai_spell_stam(CombatAIInfo *param_1){
       bVar9 = Entity::CheckSpellWizard(pCVar3,pSVar7);
       if (bVar4 == false) {
         iVar8 = CharStats::getModded(pCVar3->Stats,STAT_STAM);
-        sVar10 = spell_stamina_subtract(pSVar7,bVar9);
+        sVar10 = Entity::SpellStaminaSubtract(pSVar7,bVar9);
         bVar4 = (longlong)sVar10 <= (longlong)iVar8;
         SVar12 = *pSVar14;
       }
@@ -1292,7 +1292,7 @@ void FUN_800628cc(CombatAIInfo* param_1)
   pcVar13 = &gCombatP->substruct;
   pTVar6 = getSpell(pCVar1);
   if ((pTVar6) && (GetIDIndex(pTVar6->id) == fireball)) {
-    uVar14 = (u32)pTVar6->range * check_spell_wizard(pCVar1,pTVar6);
+    uVar14 = (u32)pTVar6->range * Entity::CheckSpellWizard(pCVar1,pTVar6);
     bVar9 = get_combatEnt_x(param_1->combatEnt);
     uVar10 = get_combatEnt_y(param_1->combatEnt);
     fVar21 = gCombatP->floatA;

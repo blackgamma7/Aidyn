@@ -423,8 +423,8 @@ int appState_RegionControllerCheck(Gfx **param_1){
     pGVar2 = *param_1;
     RSPFUNC6(pGVar2);
     pGVar2 = Borg8_DrawSimple(pGVar2,PAL_Warning_image, //center image in screen.
-             (Graphics::get_hres() * 0.5f) - ((PAL_Warning_image->dat).height * 0.5f),
-             (Graphics::get_vres() * 0.5f) - ((PAL_Warning_image->dat).width * 0.5f),
+             (Graphics::get_hres() * 0.5f) - ((PAL_Warning_image->dat).Width * 0.5f),
+             (Graphics::get_vres() * 0.5f) - ((PAL_Warning_image->dat).Height * 0.5f),
             1.0f,1.0f,0xff,0xff,0xff,0xff);
     iVar6 = 5;
     *param_1 = pGVar2;

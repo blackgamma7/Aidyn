@@ -66,7 +66,6 @@ void get_battle_terrain(EncounterDat *param_1){
     break;
   case 3:
   case 0x1b:
-    uVar3 = ;
     param_1->battlefield = rand_range(0xe,0xf);
     break;
   case 4:
@@ -448,8 +447,8 @@ void load_camp_ambush(void){
 }
 
 u32 AppendText(char *str1,char *str2,u8 len){
-  u32 uVar1 = strlen(str1);
-  u32 uVar2 = strlen(str2);
+  u8 uVar1 = strlen(str1);
+  u8 uVar2 = strlen(str2);
   sprintf(str1 + uVar1,"%s\n",str2);
   uVar1 = uVar2;
   if (uVar2 <= len) uVar1 = len;

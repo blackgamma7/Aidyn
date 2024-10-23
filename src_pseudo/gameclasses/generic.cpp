@@ -34,7 +34,7 @@ void temp_item_check(Temp_equip *param_1,ItemID param_2){
   if ((uVar1 == 5) || (uVar1 == 6)) {make_temp_armor((temp_armor *)param_1,param_2);}
   else if (uVar1 == 7) {make_temp_weapon((Temp_weapon *)param_1,param_2);}
   else if (uVar1 == 0x10) {make_temp_potion((Temp_potion *)param_1,param_2);}
-  else {make_temp_gear((temp_gear *)param_1,param_2);}
+  else {make_GearInstance((GearInstance *)param_1,param_2);}
 }
 
 void clear_temp_Stat_spell(Temp_weapon *param_1){
@@ -119,7 +119,7 @@ void make_temp_potion(Temp_potion *param_1,ItemID param_2){
   param_1->name = pcVar1;
 }
 
-void make_temp_gear(temp_gear *param_1,ItemID param_2){
+void make_GearInstance(GearInstance *param_1,ItemID param_2){
   s32 iVar1;
   u8 (*pabVar2) [2];
   Temp_spell *pTVar3;

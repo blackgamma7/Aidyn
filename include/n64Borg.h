@@ -31,8 +31,8 @@ struct borgHeader {
 
 struct Borg8dat {
     u16 format;
-    u16 height;
-    u16 width;
+    u16 Width;
+    u16 Height;
     u16 PALSize;
     uint flags;
     u32 offset;

@@ -169,8 +169,8 @@ void TitleSplash::Borg8(Gfx*param_1,u8 alpha,Borg8header *borg){
   float h;
   
   if (alpha){
-    h = (float)(320 - (borg->dat).height) * 0.5f;
-    v = (float)(240 - (borg->dat).width) * 0.5f;
+    h = (float)(320 - (borg->dat).Width) * 0.5f;
+    v = (float)(240 - (borg->dat).Height) * 0.5f;
     pauVar1 = (Gfx*)(*param_1)[0];
     pauVar1 = rsp_func(pauVar1,6,Graphics::get_hres(),Graphics::get_vres());
     pauVar1 = pass_to_borg_image_draw(pauVar1,borg,h,v,1.0f,1.0f,0xff,0xff,0xff,alpha);

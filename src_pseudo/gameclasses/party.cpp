@@ -448,7 +448,7 @@ bool func_checking_niesen_2(Party *param_1,CharSheet *param_2,u8 param_3,ItemID 
 u8 get_equip_error(Party *param_1,u8 param_2,char param_3){
   CharSheet *pCVar1;
   inv_funcs *piVar2;
-  temp_gear *puVar4;
+  GearInstance *puVar4;
   ulong uVar3;
   s32 iVar4;
   u32 uVar6;
@@ -456,7 +456,7 @@ u8 get_equip_error(Party *param_1,u8 param_2,char param_3){
   pCVar1 = param_1->Members[param_2];
   if ((pCVar1) &&
      (piVar2 = param_1->Inventory->GetItemaEntry,
-     puVar4 = (temp_gear *)(*(piVar2->get_inv_slot).func)((s32)param_1->Inventory->inv_slots +
+     puVar4 = (GearInstance *)(*(piVar2->get_inv_slot).func)((s32)param_1->Inventory->inv_slots +
                          (s16)(piVar2->get_inv_slot).arg[0] + -4,param_3),
      puVar4)) {
     if ((puVar4->aspect != NONE) &&(GetCharAspect(pCVar1->EXP) !=puVar4->aspect)) {
@@ -597,7 +597,7 @@ u8 itemtype_weapon(Party *param_1,u32 param_2,Temp_weapon *param_3,CharSheet *pa
   return bVar5;
 }
 
-u8 itemtype_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
+u8 itemtype_scroll(Party *param_1,u8 param_2,GearInstance *param_3,CharSheet *param_4){
   u8 uVar2;
   
   if (gametrek_flag0 == 0) {
@@ -607,11 +607,11 @@ u8 itemtype_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param
   else uVar2 = use_scroll(param_1,param_2,param_3,param_4);
   return uVar2;}
 
-bool itemtype_ring(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
+bool itemtype_ring(Party *param_1,u8 param_2,GearInstance *param_3,CharSheet *param_4){
   return FUN_800830a4(param_1,param_2,param_3,param_4,2);}
 
 
-u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4,ItemID *param_5){
+u8 itemtype_gear(Party *param_1,u8 param_2,GearInstance *param_3,CharSheet *param_4,ItemID *param_5){
   u8 bVar1;
   ItemID IVar2;
   ItemID IVar3;
@@ -621,7 +621,7 @@ u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4
   u8 (*X) [2];
   ulong uVar6;
   bool bVar8;
-  temp_gear *ptVar9;
+  GearInstance *ptVar9;
   u32 uVar10;
   
   IVar2 = param_3->id;
@@ -641,13 +641,13 @@ u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4
       pCVar5 = param_4->pItemList;
       uVar10 = 0;
       if (pCVar5->num_used != 0) {
-        ptVar9 = (temp_gear *)pCVar5->pItem;
+        ptVar9 = (GearInstance *)pCVar5->pItem;
         do {
-          if (*(temp_gear **)((s32)ptVar9 + uVar10 * 4) == NULL) {
+          if (*(GearInstance **)((s32)ptVar9 + uVar10 * 4) == NULL) {
             bVar1 = pCVar5->num_used;
           }
           else {
-            IVar3 = (*(temp_gear **)((s32)ptVar9 + uVar10 * 4))->id;
+            IVar3 = (*(GearInstance **)((s32)ptVar9 + uVar10 * 4))->id;
             if ((u16)IVar3 >> 8 == (u16)IVar2 >> 8) {
               if (param_5 != (ItemID *)0x0) {
                 *param_5 = IVar3;
@@ -663,7 +663,7 @@ u8 itemtype_gear(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4
           }
           uVar10 = uVar10 + 1;
           if (bVar1 <= uVar10) break;
-          ptVar9 = (temp_gear *)pCVar5->pItem;
+          ptVar9 = (GearInstance *)pCVar5->pItem;
         } while( true );
       }
       FUN_8007f10c(param_1,param_4,IVar2,X,bVar7);
@@ -682,7 +682,7 @@ void FUN_8007f10c(Party *param_1,CharSheet *param_2,u16 param_3,u8 (*param_4) [2
   SetMagicCharges((Temp_weapon *)param_2->pItemList->pItem[func_8007daa8(pCVar1,param_3)],param_5);
 }
 
-bool use_scroll(Party *param_1,u8 param_2,temp_gear *param_3,CharSheet *param_4){
+bool use_scroll(Party *param_1,u8 param_2,GearInstance *param_3,CharSheet *param_4){
   u8 bVar1;
   u8 bVar2;
   MagicSchoolEnum MVar3;
@@ -948,7 +948,7 @@ bool FUN_8007f9b8(Party *param_1,u8 param_2,u8 param_3){
   ulong uVar3;
   Temp_weapon *pTVar4;
   undefined uVar6;
-  temp_gear *puVar2;
+  GearInstance *puVar2;
   
   pCVar1 = param_1->Members[param_2];
   if (pCVar1 == NULL) return true;
@@ -1003,7 +1003,7 @@ int Check_diplomat_int(Party *param_1)
     if ((pCVar1 != NULL) && (bVar6 = isDead(pCVar1), !bVar6)) {
       uVar2 = getModdedStat(pCVar1->Stats,STAT_INT);
       if (uVar3 < uVar2) uVar3 = uVar2;
-      uVar9 += getModdedSkill(pCVar1->Skills,SKILL_Diplomat);
+      uVar9 += CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Diplomat);
     }
   }
   uVar3 = uVar3 * 3 + uVar9 * 10 + 50;
@@ -1034,7 +1034,7 @@ s32 Check_loremaster_INT(CharSheet **param_1){
     if ((pCVar1) && (!isDead(pCVar1))) {
       uVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
       if (uVar3 < (uVar2)) {uVar3 = uVar2;}
-      uVar8+= (s32)getModdedSkill(pCVar1->Skills,SKILL_LOREMASTER);
+      uVar8+= (s32)CharSkills::getModdedSkill(pCVar1->Skills,SKILL_LOREMASTER);
     }
     uVar4++;
     param_1++;
@@ -1058,7 +1058,7 @@ u32 loremaster_INT_skillcheck(Party *param_1){
   if ((longlong)cVar4 != 0xff) {
     pCVar1 = param_1->Members[cVar4];
     if (pCVar1 == NULL) {return 0;}
-    cVar4 = getModdedSkill(pCVar1->Skills,SKILL_LOREMASTER);
+    cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_LOREMASTER);
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     uVar5 = (((s32)cVar4) * 3 + iVar2 & 0x7fff) * 2;
     uVar3 = RollD(1,100);
@@ -1082,7 +1082,7 @@ u8 getMechanic_Int_Dex(Party *param_1,char param_2){//used in armor craft
   pCVar1 = param_1->Members[param_2];
   uVar7 = 0;
   if (pCVar1) {
-    cVar5 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
+    cVar5 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_DEX);
     uVar8 = (cVar5 * 5 + iVar2 + iVar3 & 0x7fffU) * 2;
@@ -1115,7 +1115,7 @@ undefined mechanic_int_dex_skillcheck(Party *param_1,u8 param_2){
   pCVar1 = param_1->Members[param_2];
   uVar7 = 0;
   if (pCVar1) {
-    cVar5 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
+    cVar5 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_DEX);
     uVar8 = (cVar5 * 5 + iVar2 + iVar3 & 0x7fffU) * 2;
@@ -1156,7 +1156,7 @@ float merchant_skill_check(Party *param_1,u8 MInt,u8 Mstam){
   do {
     pCVar1 = param_1->Members[uVar7];
     if ((pCVar1) && (!isDead(pCVar1))) {
-      cVar6 = getModdedSkill(pCVar1->Skills,Merchant);
+      cVar6 = CharSkills::getModdedSkill(pCVar1->Skills,Merchant);
       lVar2 = (longlong)cVar6;
       lVar9 = lVar8;
       uVar10 = uVar11;
@@ -1201,7 +1201,7 @@ undefined some_ranger_stam_func(Party *param_1){
   do {
     pCVar1 = param_1->Members[uVar9];
     if (pCVar1) {
-      cVar6 = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
+      cVar6 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_RANGER);
       uVar8 = (s32)cVar6;
       uVar3 = 5 - uVar8;
       if ((s32)uVar3 < 1) {uVar3 = 1;}
@@ -1252,7 +1252,7 @@ undefined Ofunc_Ranger_int_check(Party *param_1){
   do {
     iVar1 = param_1->Members[uVar6];;
     if (iVar1) {
-      cVar4 = getModdedSkill(iVar1->Skills,SKILL_RANGER);
+      cVar4 = CharSkills::getModdedSkill(iVar1->Skills,SKILL_RANGER);
       if (uVar7 < ((s32)cVar4)) {
         uVar3 = uVar6;
         uVar7 = (s32)cVar4;
@@ -1296,7 +1296,7 @@ undefined ofunc_ranger_stam_int(Party *param_1)
   do {
     pCVar1 = param_1->Members[uVar9];
     if (iVar1 != 0) {
-      cVar4 = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
+      cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_RANGER);
       uVar6 = (s32)cVar4 & 0xff;
       uVar2 = 5 - uVar6;
       if ((s32)uVar2 < 1) {
@@ -1338,7 +1338,7 @@ undefined get_int_ranger_stam(Party *param_1,u8 param_2){
   uVar6 = 0;
   if (pCVar1) {
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-    cVar5 = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
+    cVar5 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_RANGER);
     iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_STAM);
     uVar7 = iVar2 * 3 + cVar5 * 10 + iVar3 & 0xffff;
     uVar4 = RollD(1,100);
@@ -1361,7 +1361,7 @@ s32 l=0;
     pCVar1 = param_1->Members[i];
     if (pCVar1) {
       j = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-      k = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
+      k = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_RANGER);
       j = (j * 2 + k * 5) * 0x10000 >> 0x10;
       if (l < j) {l = j;}
       }
@@ -1386,7 +1386,7 @@ undefined ofunc_mechanic_int_(Party *param_1,u32 param_2){
   pCVar1 = param_1->Members[param_2];
   uVar6 = 0;
   if (pCVar1) {
-    cVar4 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
+    cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     uVar7 = iVar2 * 4 + cVar4 * 10;
     uVar3 = RollD(1,100);
@@ -1418,7 +1418,7 @@ undefined check_mechanic_int_stam(Party *param_1,u32 param_2){
   pCVar1 = param_1->Members[param_2];
   uVar6 = 0;
   if (pCVar1) {
-    cVar4 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
+    cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     uVar7 = iVar2 * 4 + cVar4 * 10;
     uVar3 = RollD(1,100);
@@ -1449,7 +1449,7 @@ s32 l=0;
     pCVar1 = param_1->Members[i];
     if (pCVar1) {
       j = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-      k = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
+      k = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_RANGER);
       j = (j * 3 + k * 10) * 0x10000 >> 0x10;
       if (l < j) {l = j;}
       }
@@ -1474,7 +1474,7 @@ u8 skillcheck_troubador(Party *arg0){
   pPVar5 = arg0;
   do {
     if (pPVar5->Members[0]) {
-      cVar3 = getModdedSkill(pPVar5->Members[0]->Skills,Troubadour);
+      cVar3 = CharSkills::getModdedSkill(pPVar5->Members[0]->Skills,Troubadour);
       if (uVar2 <= ((s32)cVar3)) {
         uVar7 = uVar6;
         uVar2 = (s32)cVar3;
@@ -1512,7 +1512,7 @@ u8 check_warrior_int_stam(Party *param_1,u32 param_2){
   uVar6 = 0;
   if (pCVar1) {
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-    cVar5 = getModdedSkill(pCVar1->Skills,SKILL_WARRIOR);
+    cVar5 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_WARRIOR);
     iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_STAM);
     uVar7 = iVar2 + cVar5 * 7 + iVar3;
     uVar4 = RollD(1,100);
@@ -1584,7 +1584,7 @@ char * healing_func(Party *arg0,u8 A,u8 B){
           return (gGlobals.CommonStrings)->"shadow prescence prevents healing";
         }
       }
-      cVar8 = getModdedSkill(pCVar1->Skills,SKILL_HEALER);
+      cVar8 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_HEALER);
       if (2 < CharStats::getModdedStat(pCVar1->Stats,STAT_STAM)) {
         Entity::DecreaseHP(pCVar1,3);
         addHP(pCVar2,cVar8 << 1 + 5);
@@ -1636,7 +1636,7 @@ char * party_healing_func(Party *param_1,u32 param_2,u32 param_3){
   if ((pCVar1 == NULL) ||
      (pCVar2 = param_1->Members[param_3], pCVar2 == NULL)) {
     return (gGlobals.CommonStrings)->"someone in party is invalid";}
-  iVar5 = 5 - getModdedSkill(pCVar1->Skills,SKILL_HEALER);
+  iVar5 = 5 - CharSkills::getModdedSkill(pCVar1->Skills,SKILL_HEALER);
   if (iVar5 < 1) {iVar5 = 1;}
   uVar6 = getHPCurrent(pCVar2);
   uVar7 = getHPMax(pCVar2);
@@ -1701,7 +1701,7 @@ char * some_healing_func(Party *param_1,u8 param_2,u8 param_3,u8 param_4){
   if (someStatCheck(pCVar2->Stats,param_4) == 0)
    {Gsprintf((gGlobals.CommonStrings)->"already max hp",pCVar2->name,Stat_labels[param_4]);}
   else {
-    cVar9 = getModdedSkill(pCVar1->Skills,SKILL_HEALER);
+    cVar9 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_HEALER);
     iVar5 = 0xf - cVar9;
     if (iVar5 < 0) {iVar5 = 0;}
     piVar3 = param_1->Inventory->Functions;
@@ -1791,7 +1791,7 @@ byte potion_recipie_func_(Party *param_1,uint param_2,PotionEnum param_3)
       uVar9 = 0;
       if (uVar5 == 0) goto LAB_80081538;
     }
-    sVar11 = CharSkills::getModdedSkill(iVar7->Skills,SKILL_Alchemist);
+    sVar11 = CharSkills::CharSkills::getModdedSkill(iVar7->Skills,SKILL_Alchemist);
     uVar9 = 0;
     if ((longlong)sVar11 < (longlong)(ulonglong)iVar6->alchemist) goto LAB_80081538;
     iVar8 = CharStats::getModded(iVar7->Stats,STAT_INT);
@@ -1847,10 +1847,10 @@ bool lockpicking_func(Party *p,byte lock,char *text)
   else {
     pCVar1 = p->Members[sVar6];
     if ((uint)lok < 10) {
-      sVar8 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Theif);
+      sVar8 = CharSkills::CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Theif);
       iVar4 = 10;
       if (sVar8 < 10) {
-        sVar8 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Theif);
+        sVar8 = CharSkills::CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Theif);
         iVar4 = (int)sVar8;
       }
       if (iVar4 + -1 < lok) {
@@ -1912,7 +1912,7 @@ u8 ofunc_mechanic_skill(Party* param_1,u8 param_2)
   u32 uVar8;
   
   pCVar1 = param_1->Members[param_2];
-  cVar5 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
+  cVar5 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
   iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_STR);
   iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_DEX);
   uVar8 = (iVar2 + iVar3) * 2 + 10 + cVar5 * 6;
@@ -1945,7 +1945,7 @@ float ranger_int_float(Party *param_1){ //used for calulating the reagent multip
     fVar5 = 0.0;}
   else {
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-    cVar4 = getModdedSkill(pCVar1->Skills,SKILL_RANGER);
+    cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_RANGER);
     fVar6 = (float)(iVar2 + cVar4 * 7);
     fVar6 *= ((float)RollD(1,100) / 100.0f);
     fVar5 = 1.0f;
@@ -1974,7 +1974,7 @@ char * appraise_price(Party *param_1,ItemID param_2,u32 param_3){
     pCVar1 = param_1->Members[0];
     if (pCVar1) {
       iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-      cVar3 = getModdedSkill(pCVar1->Skills,Merchant);
+      cVar3 = CharSkills::getModdedSkill(pCVar1->Skills,Merchant);
       uVar4 = iVar2 + cVar3 * 6;
       if (uVar6 <= uVar4) {uVar6 = uVar4;}
     }
@@ -2010,7 +2010,7 @@ s8 mechanic_check(Party *param_1,u8 param_2,u8 param_3){
   for(i=0;i<4;i++){
     piVar5 = param_1->Members[i];
     if (piVar5) {
-      cVar3 = getModdedSkill(piVar5->Skills,param_2);
+      cVar3 = CharSkills::getModdedSkill(piVar5->Skills,param_2);
       uVar4 = (s32)cVar3;
       uVar2 = param_3 - uVar4;
       if ((s32)uVar2 < 1) uVar2 = 1;
@@ -2042,7 +2042,7 @@ s8 GetMostSkilledMember(Party *param_1,u8 param_2){
   do {
     iVar1 = param_1->Members[uVar4]);
     if ((iVar1) &&
-       (bVar3 = getModdedSkill(iVar1->Skills,param_2), bVar5 <= bVar3)) {
+       (bVar3 = CharSkills::getModdedSkill(iVar1->Skills,param_2), bVar5 <= bVar3)) {
       uVar6 = uVar4;
       bVar5 = bVar3;
     }
@@ -2071,7 +2071,7 @@ bool get_ranger_camping_bool(Party *param_1){
     if ((cVar4 != -1) {
       uVar6 = 0;
       if (param_1->Members[cVar4]) {
-        cVar4 = getModdedSkill(param_1->Members[cVar4]->Skills,SKILL_RANGER);
+        cVar4 = CharSkills::getModdedSkill(param_1->Members[cVar4]->Skills,SKILL_RANGER);
         uVar6 = 0;
         if (0 < cVar4) {uVar6 = cVar4;}
       }
@@ -2164,7 +2164,7 @@ void some_camp_func(Party *param_1,bool halfHeal){
   pPVar7 = param_1;
   do {
     pCVar1 = pPVar7->Members[0];
-    if ((pCVar1) && (!isDead(pCVar1))) {camp_healing(pCVar1,uVar10,uVar9);}
+    if ((pCVar1) && (!isDead(pCVar1))) {Entity::CampHeal(pCVar1,uVar10,uVar9);}
     uVar8++;
     pPVar7 = (Party *)(pPVar7->Members + 1);
   } while (uVar8 < 4);
@@ -2322,7 +2322,7 @@ u32 check_Alchemist_int(Party *param_1){
   else {
     pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-    cVar4 = getModdedSkill(pCVar1->Skills,SKILL_ALCHEMIST);
+    cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_ALCHEMIST);
     return some_skillcheck_calc((s32)((RollD(1,100) - (iVar2 * 3 + cVar4 * 6)) * 0x10000) >> 0x10);
   }
 }
@@ -2337,7 +2337,7 @@ u32 check_healer_int(Party *param_1){
   else {
     pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-    cVar4 = getModdedSkill(pCVar1->Skills,SKILL_HEALER);
+    cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_HEALER);
     return some_skillcheck_calc((RollD(1,100) - (iVar2 * 3 + cVar4 * 10));
   }
 }
@@ -2354,7 +2354,7 @@ u32 heck_mechanic_dex_int(Party *param_1){
     pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
     iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_DEX);
-    cVar4 = getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
+    cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_MECHANIC);
     return some_skillcheck_calc(((RollD(1,100) - (cVar4 * 5 + iVar2 + iVar3 & 0x7fffU) * -2));
   }
 }
@@ -2380,7 +2380,7 @@ u32 check_Merchant_INT(Party *param_1){
   cVar4 = GetMostSkilledMember(param_1,Merchant);
   uVar5 = 0;
   if (cVar4 != -1) {
-    uVar5 = (s32)getModdedSkill(param_1->Members[cVar4]->Skills,Merchant);
+    uVar5 = (s32)CharSkills::getModdedSkill(param_1->Members[cVar4]->Skills,Merchant);
   }
   uVar3 = some_skillcheck_calc((s32)((RollD(1,100) - (uVar3 * 3 + uVar5 * 10)) * 0x10000) >> 0x10);
   return uVar3;
@@ -2394,7 +2394,7 @@ u32 check_ranger(Party *param_1){
   cVar3 = GetMostSkilledMember(param_1,SKILL_RANGER);
   uVar2 = 0;
   if (cVar3 != -1) {
-    uVar2 = (s32)getModdedSkill(param_1->Members[cVar3]->Skills,SKILL_RANGER);
+    uVar2 = (s32)CharSkills::getModdedSkill(param_1->Members[cVar3]->Skills,SKILL_RANGER);
   }
   uVar2 = some_skillcheck_calc((s32)((RollD(1,100) - (uVar2 * 10 + 0x50)) * 0x10000) >> 0x10);
   return uVar2;}
@@ -2413,7 +2413,7 @@ u32 check_theif_Int(Party *param_1){
   else {
     pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-    cVar4 = getModdedSkill(pCVar1->Skills,SKILL_THIEF);
+    cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_THIEF);
     return some_skillcheck_calc(RollD(1,100) - (iVar2 * 4 + cVar4 * 10));
   }
 }
@@ -2430,7 +2430,7 @@ u32 check_warrior_int_stam_(Party *param_1){
   else {
     pCVar1 = param_1->Members[cVar5];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-    cVar5 = getModdedSkill(pCVar1->Skills,SKILL_WARRIOR);
+    cVar5 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_WARRIOR);
     iVar3 = CharStats::getModdedStat(pCVar1->Stats,STAT_STAM);
     uVar4 = some_skillcheck_calc((s32)((RollD(1,100) - (iVar2 + cVar5 * 7 + iVar3)) * 0x10000) >> 0x10);
   }
@@ -2448,7 +2448,7 @@ u32 check_Wizard_int(Party *param_1){
   else {
     pCVar1 = param_1->Members[cVar4];
     iVar2 = CharStats::getModdedStat(pCVar1->Stats,STAT_INT);
-    cVar4 = getModdedSkill(pCVar1->Skills,SKILL_WIZARD);
+    cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_WIZARD);
     uVar3 = some_skillcheck_calc((s32)((RollD(1,100) + (cVar4 * 5 + iVar2 & 0x7fffU) * -2) * 0x10000) >> 0x10);
   }
   return uVar3;
@@ -2535,7 +2535,7 @@ bool AmorCraft_attempt(Party *param_1,char param_2,s16 param_3,ItemID material,u
 
 bool FUN_80082E40(Party *param_1,s32 param_2,ItemID param_3){
   CharSheet *pCVar1;
-  temp_gear **pptVar5;
+  GearInstance **pptVar5;
   u8 i;
   
   pCVar1 = param_1->Members[param_2];

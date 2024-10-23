@@ -63,17 +63,16 @@ s32 Random::Range(s32 a,s32 b){
   }
   return a;}
 
-float Random::GetFloat(){
+float Random::GetFloat0To1(){
   s32 uVar1 = seed * 0x19660d + 0x3c6ef35f; //inline seed shift
   double dVar2 = (double)uVar1;
   
   seed = uVar1;
-  if (uVar1 < 0) dVar2+= UINT_MAX_D;
-  return (float)dVar2 * *(float*)0x2F800000; //2^-32
+  return (float)dVar2 * (float)(1.0/0xFFFFFFFF); //2^-32
 }
 
-float Random::GetFloat_multi(float f){
-  if (f != 0.0) f *= GetFloat();
+float Random::GetFloat0ToX(float f){
+  if (f != 0.0) f *= GetFloat0To1();
   return f;}
 
 float Random::GetFloatRange(float a,float b){
@@ -85,14 +84,14 @@ float Random::GetFloatRange(float a,float b){
       fVar2 = a;
       a = b;
     }
-    a = GetFloat() * (a - fVar2) + fVar2;
+    a = GetFloat0To1() * (a - fVar2) + fVar2;
   }
   return a;}
 
 void Random::GetVec2(vec2f *v,float multi){
   v->x = GetFloatRange(-1.0f,1.0f);
   v->y = GetFloatRange(-1.0f,1.0f);
-  if (v->x == 0.0) v->x = 1.0E-6f;
+  if (v->x == 0.0) v->x = NORMALIZE_MIN;
   vec2_normalize(v);
   multiVec2(v,multi);
 }
@@ -101,7 +100,7 @@ void Random::GetVec3(vec3f *v,float multi){
   v->x = GetFloatRange(-1.0f,1.0f);
   v->y = GetFloatRange(-1.0f,1.0f);
   v->z = GetFloatRange(-1.0f,1.0f);
-  if (v->x == 0.0) v->x = 1.0E-6f;
+  if (v->x == 0.0) v->x = NORMALIZE_MIN;
   vec3_normalize(v);
   multiVec3(v,multi);
 }
@@ -110,7 +109,7 @@ void Random::GetVec4(vec4f *v,float multi){
   v->y = GetFloatRange(-1.0f,1.0f);
   v->z = GetFloatRange(-1.0f,1.0f);
   v->w = GetFloatRange(-1.0f,1.0f);
-  if (v->x == 0.0) v->x = 1.0E-6f;
+  if (v->x == 0.0) v->x = NORMALIZE_MIN;
   vec4_normalize(v);
   multiVec4(v,multi);
 }

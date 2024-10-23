@@ -60,8 +60,8 @@ void BaseWidget::SetBorg8(Borg8header *b8,u8 fit){
   if (borg8) borg8_free(borg8);
   borg8 = b8;
   if ((fit) && (b8)) {
-    width = (b8->dat).height;
-    height = (b8->dat).width;
+    width = (b8->dat).Width;
+    height = (b8->dat).Height;
   }
 }
 

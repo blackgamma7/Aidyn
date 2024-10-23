@@ -106,13 +106,13 @@ void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float ma
   float fVar1;
   
   x = vec3_normalize(coords);
-  if (RAND.GetFloat() <= dirCharge) {
+  if (RAND.GetFloat0To1() <= dirCharge) {
     coords->x += RAND.GetFloatRange(-0.1f,0.1f);
     coords->y += RAND.GetFloatRange(-0.004,0.001);
     coords->z += RAND.GetFloatRange(-0.1f,0.1f);
     vec3_normalize(coords);
   }
-  if (RAND.GetFloat() <= magChange) {
+  if (RAND.GetFloat0To1() <= magChange) {
     fVar1 = x + RAND.GetFloatRange(-0.002314815,0.002314815);
     if ((fVar1 <= 0.23148148f) && (x = fVar1, fVar1 < 0.0)) {
       x = 0.0;
@@ -228,7 +228,7 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
       ter->FogFloat = RAND.GetFloatRange(0.1,fVar5);
     }
     ter->ThunderFloat = 0.0;
-    if (ter->rainByte == RAIN) {ter->ThunderFloat = RAND.GetFloat() * ter->PrecipScale;}
+    if (ter->rainByte == RAIN) {ter->ThunderFloat = RAND.GetFloat0To1() * ter->PrecipScale;}
   }
   return;
 }

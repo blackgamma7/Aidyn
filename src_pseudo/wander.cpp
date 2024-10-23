@@ -5,7 +5,7 @@ float sneak_value(float point8){
   if (gGlobals.party != NULL {
     cVar2 = GetMostSkilledMember(gGlobals.party,Stealth);
     if (((cVar2 != -1) && (gGlobals.party->Members[cVar2]) {
-      cVar2 = getModdedSkill(gGlobals.party->Members[cVar2]->Skills,Stealth);
+      cVar2 = CharSkills::getModdedSkill(gGlobals.party->Members[cVar2]->Skills,Stealth);
       fVar3 = (float)(s32)cVar2 / 10.0f;
       if (1.0f < (float)(s32)cVar2 / 10.0f) {fVar3 = 1.0f;}
       return 1.0f - fVar3 * point8;
@@ -284,14 +284,14 @@ void FUN_80012c58(wander_struct *param_1,wander_substruct *param_2){
   float fVar4;
   
   uVar1 = param_2->unk0x1c;
-  if (Random::GetFloat_multi(gGlobals,1.0) < param_2->unk0x14) {
+  if (Random::GetFloat0ToX(gGlobals,1.0) < param_2->unk0x14) {
     uVar1 = param_2->unk0x1e;
   }
 
   FUN_80012b70(param_1,param_2,uVar1);
   if ((param_2->homenode & 1) != 0) {
-    fVar2 = Random::GetFloat_multi(&gGlobals,6.283186);
-    fVar3 = Random::GetFloat_multi(&gGlobals,param_2->randVal);
+    fVar2 = Random::GetFloat0ToX(&gGlobals,6.283186);
+    fVar3 = Random::GetFloat0ToX(&gGlobals,param_2->randVal);
     fVar4 = __sinf(fVar2);
     param_2->start_position[0]+= (fVar4 * fVar3);
     fVar2 = __cosf(fVar2);

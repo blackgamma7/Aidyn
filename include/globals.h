@@ -9,6 +9,7 @@
 #include "PlayerData.h"
 #include "n64Borg.h"
 #include "world.h"
+#include "sky.h"
 
 #include "crash.h"
 #include "heapN64.h"

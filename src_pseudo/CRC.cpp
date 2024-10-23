@@ -27,13 +27,13 @@ u32 CalculateCheckSum32(void *dat,u32 size){
 }
 
 u8 VerifyChecksum(void *dat,uint size){
-  int *piVar1 = (int *)((int)dat + ((size & 0xfffffffc) - 4));
+  int *piVar1 = (int *)((int)dat + ((size & ~3) - 4));
   *piVar1 -=8;
   return (!CalculateCheckSum32(dat,size));
 }
 
 void SetChecksum(void *dat,uint size){
-  int *piVar2 = (int *)((int)dat + ((size & 0xfffffffc) - 4));
+  int *piVar2 = (int *)((int)dat + ((size & ~3) - 4));
   *piVar2 = 0;
   *piVar2 = CalculateCheckSum32(dat,size) + 8;
 }

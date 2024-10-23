@@ -1413,14 +1413,6 @@ struct WidgetMenuChild {
 
 typedef struct romcopy_struct romcopy_struct, *Promcopy_struct;
 
-typedef struct SkySubstruct SkySubstruct, *PSkySubstruct;
-
-struct SkySubstruct {
-    Borg8header *Borg8;
-    u32 height;
-    u16 type;
-};
-
 typedef struct spellVisualsEntry spellVisualsEntry, *PspellVisualsEntry;
 
 struct spellVisualsEntry {
@@ -4034,19 +4026,7 @@ struct SFX_Struct {
     u16 field8_0xce;
 };
 
-struct SkyStruct {
-    u16 Type; /* no more than 5 */
-    SkySubstruct obj4;
-    SkySubstruct obj10;
-    Color32 *gradient;
-    Color32 colors[5];
-    float gray;
-    float grayDelta;
-    float lensFlareVal;
-    float unk40;
-    float unk44;
-    float unk48;
-};
+
 
 
 
