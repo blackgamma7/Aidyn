@@ -61,7 +61,7 @@ void PartyInventory::Save(SaveFile *sav){
 
 s32 PartyInventory::AddItem(ItemID id,s32 quantity){
   s32 index;
-  bool bVar3;
+  u8 bVar3;
   uint slot;
   //Turn "A" potions into Healing potions.
   if (id.s == 0x100b) id.s = 0x1004;

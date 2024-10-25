@@ -62,10 +62,10 @@ u8 Cheats::check_for_cheats(char *param_1){
         bVar8 = 1;
         if (gGlobals.BigAssMenu) {
           if ((pcStack168[uVar7].cheat))() == 0) {
-            play_SFX(&gGlobals.SFXStruct,BORG12_CheatFail,0,1.0,0xb4,0);
+            PLAYSFX(BORG12_CheatFail,0,1.0,0xb4,0);
             bVar8 = 1;}
           else {
-            play_SFX(&gGlobals.SFXStruct,BORG12_CheatCorrect,0,1.0,0xb4,0);
+            PLAYSFX(BORG12_CheatCorrect,0,1.0,0xb4,0);
             bVar8 = 1;}
         }
         break;
@@ -76,29 +76,29 @@ u8 Cheats::check_for_cheats(char *param_1){
   free_romstring(cheatStrings_pointer);
   return bVar8;
 }
-bool Cheats::_balloon(void){ //inflates your head
+u8 Cheats::_balloon(void){ //inflates your head
   _balloon_flag = (u32)(_balloon_flag != 1);
   return true;}
 
-bool Cheats::_Bigw(void){ //inflates your weapons
+u8 Cheats::_Bigw(void){ //inflates your weapons
   _bigw_flag = (u32)(_bigw_flag != 1);
   return true;}
 
-bool Cheats::_Flea(void){ //makes you small and jump with A.
+u8 Cheats::_Flea(void){ //makes you small and jump with A.
   _flea_flag = (u32)(_flea_flag != 1);
   return true;}
 
-bool Cheats::_slashing(void){ //hockey stick in Gwen castle
+u8 Cheats::_slashing(void){ //hockey stick in Gwen castle
   setEventFlag(FLAG_Slashing,true);
   return true;}
 
-bool Cheats::_darkside(void){ //lightsaber in oriana's hut.
+u8 Cheats::_darkside(void){ //lightsaber in oriana's hut.
   setEventFlag(FLAG_Darkside,true);
   return true;}
 
 
-bool Cheats::fatboy_crawdaddy_tweety(Borg7Enum param_1){ //the 3 transform cheats go here.
-  bool bVar1;
+u8 Cheats::fatboy_crawdaddy_tweety(Borg7Enum param_1){ //the 3 transform cheats go here.
+  u8 bVar1;
   
   if (gGlobals.playerCharStruct.playerDat == NULL) {bVar1 = false;} //fails if used on title screen.
   else {
@@ -111,11 +111,11 @@ bool Cheats::fatboy_crawdaddy_tweety(Borg7Enum param_1){ //the 3 transform cheat
   return bVar1;
 }
 
-bool Cheats::_crawdaddy(void){return fatboy_crawdaddy_tweety(BORG7_ChaosTrooper);}
-bool Cheats::_fatboy(void){return fatboy_crawdaddy_tweety(BORG7_Ogre);}
-bool Cheats::_tweety(void){return fatboy_crawdaddy_tweety(BORG7_Gryphon);}
+u8 Cheats::_crawdaddy(void){return fatboy_crawdaddy_tweety(BORG7_ChaosTrooper);}
+u8 Cheats::_fatboy(void){return fatboy_crawdaddy_tweety(BORG7_Ogre);}
+u8 Cheats::_tweety(void){return fatboy_crawdaddy_tweety(BORG7_Gryphon);}
 
-bool Cheats::_Cheater(void){ // +750000 EXP to party
+u8 Cheats::_Cheater(void){ // +750000 EXP to party
   pause_Substruct *ppVar1;
   CharSheet *pCVar2;
   char *pcVar4;
@@ -145,7 +145,7 @@ bool Cheats::_Cheater(void){ // +750000 EXP to party
   return true;
 }
 
-bool Cheats::_bingo(void){ //+100000 gold
+u8 Cheats::_bingo(void){ //+100000 gold
   BaseWidget *pwVar1;
   char *pcVar2;
   #ifndef DEBUGVER
@@ -160,17 +160,17 @@ bool Cheats::_bingo(void){ //+100000 gold
   return true;
 }
 
-bool Cheats::imadoofus(void){
+u8 Cheats::imadoofus(void){
   //asks you to enter "keepbusy"
   another_textbox_func(cheatStrings_pointer[11],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
   return true;}
 
-bool Cheats::keepbusy(void){
+u8 Cheats::keepbusy(void){
   //asks you to enter "imadoofus"
   another_textbox_func(cheatStrings_pointer[12],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
   return true;}
 
-bool Cheats::_version(void){
+u8 Cheats::_version(void){
   #define VERSIONNAME "02.01d-PRERELEASE"
   #define COMPILEDATE "Feb  1 2001" //there's a few minutes difference
   #define COMPILETIME "23:55:49" //between debug splashscreen's and this one's

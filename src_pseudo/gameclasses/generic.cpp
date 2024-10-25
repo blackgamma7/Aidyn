@@ -7,7 +7,7 @@ enum CharSheetFlags{
 void init_charExp(charExp *param_1,ItemID param_2){
   u8 bVar1;
   u8 bVar3;
-  bool bVar4;
+  u8 bVar4;
   Entity_Ram *pEVar5;
   
   bVar3 = GetIDIndex(param_2);

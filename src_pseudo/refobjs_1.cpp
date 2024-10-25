@@ -17,10 +17,10 @@ enum GameStateCheat{
 
 void set_ranger_float(void){RangerIngredientFloat = ranger_int_float(gGlobals.party);}
 
-bool FUN_8001b9bc(voxelObject *param_1){
+u8 FUN_8001b9bc(voxelObject *param_1){
   EventFlag EVar1;
-  bool bVar2;
-  bool bVar3;
+  u8 bVar2;
+  u8 bVar3;
   u8 bVar4;
   u16 uVar5;
   
@@ -45,7 +45,7 @@ void set_refObj_flag(voxelObject *param_1){
 void render_ref_objs(Borg_9_data *dat,u8 arg2)
 
 {
-  bool bVar3;
+  u8 bVar3;
   ref_obj_bitfeild rVar2;
   s16 *psVar1;
   voxelObject *a;
@@ -90,7 +90,7 @@ void render_ref_objs(Borg_9_data *dat,u8 arg2)
   return;
 }
 
-void set_voxel_visibility(voxelObject *a,bool b){
+void set_voxel_visibility(voxelObject *a,u8 b){
   if(b) (a->header).Bitfeild |= visible;
   else  (a->header).Bitfeild &= ~visible;
 }

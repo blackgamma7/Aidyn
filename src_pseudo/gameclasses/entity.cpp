@@ -4,7 +4,7 @@
 #include "globals.h"
 #include "combat/CombatEntity.h"
 
-bool Entity::IsElemental(ItemID param_1){
+u8 Entity::IsElemental(ItemID param_1){
   if (param_1.s >> 8 == 2) {
     u8 index = GetIDIndex(param_1);
     //Air, Earth, Fire Water Elementals
@@ -173,7 +173,7 @@ float Entity::getHPPercent(CharSheet *param_1){
     ret = (float)getHPCurrent(param_1) / (float)getHPMax(param_1);}
   return ret;}
 
-bool  Entity::isDead(CharSheet *param_1){
+u8  Entity::isDead(CharSheet *param_1){
   if (!param_1->Stats) return false;
   return (!getHPCurrent(param_1));
 }
@@ -196,7 +196,7 @@ void Entity::DecreaseHP(CharSheet *param_1,s16 dmg){
   else arg1 = STAT_STAM;
   CharStats::addModdedStat(param_1->Stats,arg1,-dmg);}
 
-bool Entity::hasCheatDeath(CharSheet *param_1){
+u8 Entity::hasCheatDeath(CharSheet *param_1){
 
   for(u32 i=0;i>MAGIC_FXMAX;i++) {
     if ((param_1->effects[i]) && (param_1->effects[i]->index == SPELLIND_cheatDeath)) break;
@@ -269,7 +269,7 @@ void Entity::addHP(CharSheet *param_1,u16 param_2){
   }
 }
 
-void Entity::addStamina(CharSheet *param_1,bool pointEight){
+void Entity::addStamina(CharSheet *param_1,u8 pointEight){
   int mod;
   if (pointEight)
     mod = CharStats::getBase(param_1->Stats,STAT_STAM) * 0.8f - CharStats::getModded(param_1->Stats,STAT_STAM);
@@ -283,7 +283,7 @@ void Entity::addStamina(CharSheet *param_1,bool pointEight){
 
 u8 Entity::ret0(CharSheet *param_1){return 0;}
 
-bool Entity::NoSheildSkill(CharSheet *param_1){return CharSkills::getModdedSheild(param_1->Skills) == 0;}
+u8 Entity::NoSheildSkill(CharSheet *param_1){return CharSkills::getModdedSheild(param_1->Skills) == 0;}
 
 u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   u8 bVar2;
@@ -328,8 +328,8 @@ s32 Entity::GearMinStatCheck(CharSheet *param_1,ItemID param_2){
 void Entity::EquipArmor(CharSheet *param_1,u16 param_2,StatMod* param_3){
   EquipArmorOrShield(param_1,param_2,param_3,false);}
 
-bool Entity::EquipSheild(CharSheet *param_1,u16 param_2,StatMod* param_3){
-  bool uVar1 = NoSheildSkill(param_1);
+u8 Entity::EquipSheild(CharSheet *param_1,u16 param_2,StatMod* param_3){
+  u8 uVar1 = NoSheildSkill(param_1);
   if (!uVar1) {
     EquipArmorOrShield(param_1,param_2,param_3,true);
     uVar1 = false;}
@@ -434,7 +434,7 @@ void Entity::UnequipGear(CharSheet *param_1,u8 slot){
 }
 
 
-void FUN_80078874(CharSheet *param_1,WeaponInstance *param_2,bool param_3){
+void FUN_80078874(CharSheet *param_1,WeaponInstance *param_2,u8 param_3){
   s8 mod;
   StatMod *skilmod;
   
@@ -480,7 +480,7 @@ void Entity::UnequipAllove_all_equip(CharSheet *param_1){
   }
 }
 
-bool Entity::HasPotionEffect(CharSheet *param_1,u8 id){
+u8 Entity::HasPotionEffect(CharSheet *param_1,u8 id){
   for(u32 i=0;i<POTION_FXMAX;i++){
     if((param_1->potionEffects[i])&&(param_1->potionEffects[i]->ID==id))
     return true;
@@ -561,7 +561,7 @@ Lab_return:
   return;
 }
 
-bool inc_charsheet_potion(CharSheet *param_1,bool Trekking,u8 param_3){
+u8 inc_charsheet_potion(CharSheet *param_1,u8 Trekking,u8 param_3){
   PotionEffect **paVar3;
   u32 uVar2;
   u32 uVar3;
@@ -655,7 +655,7 @@ u8 Entity::CanUsePotion(CharSheet *param_1,PotionEnum param_2,char *param_3){
 
 
 
-bool Entity::UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4){
+u8 Entity::UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4){
   if (!CanUsePotion(param_1,param_3,param_4)) return false;
     switch(param_3) {
     case POTION_HEALING:
@@ -686,7 +686,7 @@ bool Entity::UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4){
     return true;
   }
 
-bool Entity::HasSpellEffect(CharSheet *param_1,u8 id){
+u8 Entity::HasSpellEffect(CharSheet *param_1,u8 id){
     for(u32 i=0;i<MAGIC_FXMAX;i++){
     if((param_1->effects[i])&&(param_1->effects[i]->index==id))
     return true;
@@ -776,12 +776,12 @@ short Entity::ApplySpellEffect(CharSheet *target,SpellEnum id,undefined4 Level,u
 {
   CombatAIInfo *pCVar1;
   Temp_enchant **ppTVar2;
-  bool bVar3;
+  u8 bVar3;
   longlong lVar4;
   uint uVar6;
-  bool bVar11;
+  u8 bVar11;
   int iVar7;
-  bool bVar12;
+  u8 bVar12;
   longlong lVar5;
   short sVar9;
   Temp_enchant *pTVar8;
@@ -1064,7 +1064,7 @@ LAB_80079984:
 
 void ReverseSpellEffect(CharSheet *param_1,u8 param_2,CombatEntity *param_3){
   Temp_enchant *pTVar1;
-  bool bVar2;
+  u8 bVar2;
   u8 SVar3;
   char cVar4;
   u8 bVar5;
@@ -1164,7 +1164,7 @@ LAB_80079c18:
 s32 func_incrementing_enchantments(CharSheet *param_1,CombatEntity *param_2,s32 param_3){
   SpellEnum SVar1;
   Temp_enchant *pTVar2;
-  bool bVar7;
+  u8 bVar7;
   s32 iVar4;
   u32 uVar5;
   u32 uVar6;
@@ -1360,7 +1360,7 @@ u8 Entity::TestEquipStamina(CharSheet *param_1,s16 param_2){
   if (iVar1 == 0) Equip_Stamina(param_1,param_2,1);
   return iVar1 == 0;}
 
-int Equip_Stamina(CharSheet *param_1,short stam,bool param_3)
+int Equip_Stamina(CharSheet *param_1,short stam,u8 param_3)
 
 {
   s16 sVar3;
@@ -1405,7 +1405,7 @@ int Equip_Stamina(CharSheet *param_1,short stam,bool param_3)
 
 
 
-s16 Entity::AddEquipStamina(CharSheet *param_1,ItemInstance *param_2,short param_3,bool param_4){
+s16 Entity::AddEquipStamina(CharSheet *param_1,ItemInstance *param_2,short param_3,u8 param_4){
   StatMod *pSVar1;
   s16 iVar2;
   if (param_3 == 0) return 0;
@@ -1482,7 +1482,7 @@ byte Entity::CheckSpellSpecial(CharSheet *param_1,SpellInstance *param_2){
 
 void Entity::CheckDeathFromDoT(CharSheet *param_1,s16 param_2,s16 param_3,CombatEntity *param_4){
   playerData *ppVar1;
-  bool bVar2;
+  u8 bVar2;
   
   if ((param_4) &&
      (ppVar1 = gGlobals.playerDataArray[param_4->index], ppVar1)) {
@@ -1500,7 +1500,7 @@ void Entity::IncEffects(CharSheet *Ent,CombatEntity *CEnt,uint Delta){
 }
 
 ///IDK what this was... Unused.
-bool Ofunc_8007a8cc(ItemID param_1,u8 param_2){
+u8 Ofunc_8007a8cc(ItemID param_1,u8 param_2){
   byte bVar1 = GetIDIndex(param_1);
   return weapon_pointer->Types2[param_2] <= bVar1 &&
          bVar1 <= weapon_pointer->Types2[param_2] + (uint)weapon_pointer->Types[param_2] + -1;
@@ -1721,9 +1721,9 @@ void darkness_light_spell(CharSheet *param_1,SpellEnum param_2){
   return;
 }
 
-bool Entity::DispelMagic(CharSheet *param_1,char param_2,u8 param_3,u8 param_4){
+u8 Entity::DispelMagic(CharSheet *param_1,char param_2,u8 param_3,u8 param_4){
   Temp_enchant *pTVar1;
-  bool bVar2;
+  u8 bVar2;
   SpellEffect*peVar3;
   u32 uVar4;
   s32 iVar5;
@@ -1775,10 +1775,10 @@ void Entity::DoubleTap(CharSheet *param_1){
     CharStats::addModdedStat(param_1->Stats,STAT_LV,-CharStats::getModded(pCVar2,STAT_LV));
 }
 
-bool check_healer_stam(CharSheet *param_1){
+u8 check_healer_stam(CharSheet *param_1){
   char cVar2;
   s32 iVar1;
-  bool bVar3;
+  u8 bVar3;
   s32 iVar4;
   
   cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_HEALER);
@@ -1792,9 +1792,9 @@ bool check_healer_stam(CharSheet *param_1){
   return bVar3;
 }
 
-bool check_healer_herb_stam(CharSheet *param_1){
+u8 check_healer_herb_stam(CharSheet *param_1){
   u8 cVar2;
-  bool bVar3;
+  u8 bVar3;
   s32 iVar1;
   s32 iVar4;
   
@@ -1812,10 +1812,10 @@ bool check_healer_herb_stam(CharSheet *param_1){
   return bVar3;
 }
 
-bool ofunc_check_trouador(CharSheet *param_1){
+u8 ofunc_check_trouador(CharSheet *param_1){
   char cVar2;
   s32 iVar1;
-  bool bVar3;
+  u8 bVar3;
   s32 iVar4;
   
   cVar2 = CharSkills::getModdedSkill(param_1->Skills,Troubadour);
@@ -1875,7 +1875,7 @@ LAB_8007b4b0:
   return NULL;
 }
 
-bool Ofunc_boolStaminaForSpell(CharSheet *param_1,SpellInstance *param_2){
+u8 Ofunc_boolStaminaForSpell(CharSheet *param_1,SpellInstance *param_2){
   if (param_2) return Entity::SpellStaminaSubtract(param_1,param_2,Entity::CheckSpellWizard(param_1,param_2)) <= CharStats::getModded(param_1->Stats,STAT_STAM);
   return false;
 }
@@ -1977,7 +1977,7 @@ void Entity::ClearSpellEffect(CharSheet *param_1,u8 index,CombatEntity *param_3)
   }
 }
 
-bool Entity::IsDebuffSpell(CharSheet* c,SpellEnum spell){
+u8 Entity::IsDebuffSpell(CharSheet* c,SpellEnum spell){
   char cVar1;
   SpellEnum *pSVar2;
   u8 debuffSpells[] =
@@ -2005,7 +2005,7 @@ u8 Entity::GetShieldDefence(CharSheet *param_1,ItemID param_2){
 
 s32 some_armor_func(CharSheet *param_1,ItemID param_2){
   u8 bVar2;
-  bool bVar3;
+  u8 bVar3;
   temp_armor **pptVar4;
   temp_armor *ptVar5;
   u32 uVar6;

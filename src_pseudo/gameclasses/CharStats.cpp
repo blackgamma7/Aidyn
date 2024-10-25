@@ -73,7 +73,7 @@ s32 get_stat_trainPrice(CharStats *param_1,u8 type){
   return next * next * stat_multiplier[type];
 }
 
-bool isStatCapped(CharStats *param_1,u8 param_2){return base_stat_cap[param_2] <= param_1->Base_Stats[param_2];}
+u8 isStatCapped(CharStats *param_1,u8 param_2){return base_stat_cap[param_2] <= param_1->Base_Stats[param_2];}
 
 s32 get_base_stat_(CharStats *param_1,u8 type){
   return capStatMax(param_1,type,(u32)param_1->Base_Stats[type],base_stat_cap);}
@@ -93,6 +93,6 @@ s32 capStatMax(CharStats* x, u8 type,s32 stat,s32 *caps){
   return i;
 }
 
-bool someStatCheck(CharStats *param_1,u8 param_2){
+u8 someStatCheck(CharStats *param_1,u8 param_2){
   return param_1->array2[param_2] < param_1->Base_Stats[param_2];
 }

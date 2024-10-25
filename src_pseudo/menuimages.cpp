@@ -5,7 +5,7 @@ struct IconDict { /* array Proceeded by dictionary length */
     enum Borg8Enum value:16;
 };
 
-bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
+u8 GetItemImage(ItemID param_1,Borg8Enum *param_2){
   Borg8Enum BVar1;
   u16 uVar2;
   char err[144];
@@ -48,7 +48,7 @@ bool GetItemImage(ItemID param_1,Borg8Enum *param_2){
   return true;
 }
 
-bool getAspectIcon(ASPECT param_1,Borg8Enum *param_2){
+u8 getAspectIcon(ASPECT param_1,Borg8Enum *param_2){
   u16 i = 0;
   if (aspectIconCount) {
     for(i=0;i<aspectIconCount;i++) {
@@ -61,7 +61,7 @@ bool getAspectIcon(ASPECT param_1,Borg8Enum *param_2){
   return false;
 }
 
-bool getSchoolIcon(MagicSchoolEnum param_1,Borg8Enum *param_2){
+u8 getSchoolIcon(MagicSchoolEnum param_1,Borg8Enum *param_2){
   u16 i;
   if (SchoolIconCount) {
     for(i = 0;i < SchoolIconCount;i++) {
@@ -74,7 +74,7 @@ bool getSchoolIcon(MagicSchoolEnum param_1,Borg8Enum *param_2){
   return false;
 }
 
-bool GetSpellIcon(ItemID param_1,Borg8Enum *param_2){
+u8 GetSpellIcon(ItemID param_1,Borg8Enum *param_2){
   u8 bVar1;
   u32 i;
   
@@ -91,7 +91,7 @@ bool GetSpellIcon(ItemID param_1,Borg8Enum *param_2){
   return false;
 }
 
-bool GetSpellIcons(ItemID param_1,Borg8Enum *param_2,Borg8Enum *param_3,Borg8Enum *param_4){
+u8 GetSpellIcons(ItemID param_1,Borg8Enum *param_2,Borg8Enum *param_3,Borg8Enum *param_4){
   u8 bVar2;
   Borg8Enum BVar1;
   ASPECT cVar1;
@@ -104,7 +104,7 @@ bool GetSpellIcons(ItemID param_1,Borg8Enum *param_2,Borg8Enum *param_3,Borg8Enu
   else return GetSpellIcon(param_1,param_4) != false;
 }
 
-bool GetSkillIcons(CHAR_SKILL param_1,Borg8Enum *param_2){
+u8 GetSkillIcons(CHAR_SKILL param_1,Borg8Enum *param_2){
   if (SkillIconCount) {
     for(i=0;i < SkillIconCount;i++) {
       if ((s16)param_1 == SkillIcons[i].key) {

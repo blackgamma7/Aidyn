@@ -300,7 +300,7 @@ LAB_800b0be4:
 
 void FUN_800b0fac(Camera_struct *CAM,s32 param_2,s16 param_3,float param_4,float param_5,
                  float param_6){
-  bool bVar1;
+  u8 bVar1;
   u32 uVar2;
   float fVar4;
   float fVar5;

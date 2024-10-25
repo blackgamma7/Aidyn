@@ -1,11 +1,11 @@
-float h_scale=1.0f
-float V_scale=1.0f
+float sImageHscale=1.0f
+float sImageVscale=1.0f
 u8 fade_texture[88]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
 0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
 0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,
 0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0,0,0,0,0,0,0}
 
-bool borg8_func_b(void *param_1,void *param_2){return false;}
+u8 borg8_func_b(void *param_1,void *param_2){return false;}
 
 void borg8_func_a(Borg8header *param_1){
   image_format iVar1;
@@ -37,8 +37,8 @@ Gfx* rsp_func(Gfx*param_1,u8 param_2,u16 h,u16 v){
   u32 uVar1;
   u32 uVar2;
   
-  h_scale = (float)h / 320.0f;
-  V_scale = (float)v / 240.0f;
+  sImageHscale = (float)h / 320.0f;
+  sImageVscale = (float)v / 240.0f;
   (*param_1)[0] = 0xe7000000;
   (*param_1)[1] = 0;
   param_1[1][0] = 0xe3000a01;
@@ -129,13 +129,13 @@ Gfx* N64BorgImageDraw(Gfx*param_1,Borg8header *param_2,float param_3,float param
   u32 uStack56;
   s16 sVar11;
   
-  fVar37 = V_scale;
+  fVar37 = sImageVscale;
   fVar30 = 4.0f;
-  fVar38 = param_9 * h_scale;
+  fVar38 = param_9 * sImageHscale;
   uVar3 = (param_2->dat).offset;
-  fVar39 = param_10 * V_scale;
+  fVar39 = param_10 * sImageVscale;
   uVar26 = (u32)param_7 - (u32)param_5;
-  fVar36 = param_3 * h_scale;
+  fVar36 = param_3 * sImageHscale;
   uVar1 = (param_2->dat).height;
   (*param_1)[0] = 0xe7000000;
   (*param_1)[1] = 0;
@@ -1044,8 +1044,8 @@ Gfx* gsFadeInOut(Gfx*param_1,u32 param_2,u32 param_3,u32 H,u16 V,u8 R,u8 G,u8 B,
   s32 iVar10;
   s32 iVar11;
   
-  fVar2 = V_scale;
-  fVar1 = h_scale;
+  fVar2 = sImageVscale;
+  fVar1 = sImageHscale;
   (*param_1)[0] = 0xe7000000;
   (*param_1)[1] = 0;
   param_1[1][0] = 0xfa000000;

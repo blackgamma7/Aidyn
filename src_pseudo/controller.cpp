@@ -243,7 +243,7 @@ void Controller::ReadInput(void){
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
 }
 
-bool Controller::GetQuerey(u8 port){
+u8 Controller::GetQuerey(u8 port){
   OSContStatus stats [4];
   
   osSendMesg(&gContManager.contMesgQ,NULL,1);
@@ -255,7 +255,7 @@ bool Controller::GetQuerey(u8 port){
 }
 
 
-bool Controller::CheckStatus(u8 port){
+u8 Controller::CheckStatus(u8 port){
   OSContStatus stats [4];
   u8 CErr;
   u16 CType;
@@ -271,8 +271,8 @@ bool Controller::CheckStatus(u8 port){
          ((CErr & CONT_OVERRUN_ERROR) == 0 && (CErr & CONT_NO_RESPONSE_ERROR) == 0);
 }
 //checks if the input has been read. unused.
-bool Controller::GetContRead(u8 port){
-  bool bVar1;
+u8 Controller::GetContRead(u8 port){
+  u8 bVar1;
   
   osSendMesg(&gContManager.contMesgQ,NULL,1);
   bVar1 = gContManager.BufferPointer[port].ContRead;
@@ -464,7 +464,7 @@ u32 Controller::GetPakPort(u8 port){
   return uVar2;
 }
 
-bool Controller::GetStatus(u8 port,u8 *statOut){
+u8 Controller::GetStatus(u8 port,u8 *statOut){
   OSContStatus Cstats [4];
   u16 CType;
   u8 Cerr;
@@ -481,7 +481,7 @@ bool Controller::GetStatus(u8 port,u8 *statOut){
          ((Cerr & CONT_OVERRUN_ERROR) == 0 && (Cerr & CONT_NO_RESPONSE_ERROR) == 0));
 }
 
-bool Controller::GetStatus2(u8 port){
+u8 Controller::GetStatus2(u8 port){
   u32 uVar1;
   OSContStatus Cstatus [4];
   u16 CType;
@@ -509,7 +509,7 @@ s32 Controller::SetJoystick(float H,float V,u8 port){
 
 //get input of controller in given port.
 //also used in for/while loops for measuring delta w/ dummy arg.
-bool Controller::GetInput(controller_aidyn** input,u8 port){
+u8 Controller::GetInput(controller_aidyn** input,u8 port){
   controllerBuffer *buffer;
   
   osSendMesg(&gContManager.contMesgQ,NULL,1);
@@ -538,8 +538,8 @@ void Controller::DecodeString(char *ascii,u8 *pfs,u8 len){
 //encrypt ASCII string to charset used in PFS.
 void Controller::EncodeString(u8 *pfs,char *ascii,u8 len){
   char cVar1;
-  bool bVar2;
-  bool bVar3;
+  u8 bVar2;
+  u8 bVar3;
   u8 len_2;
   char *pcVar4;
   u8 uVar5;

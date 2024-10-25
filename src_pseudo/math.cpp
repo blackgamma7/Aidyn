@@ -553,7 +553,7 @@ void NOOP_800ACB9C(void){}
 void Ofunc_800acba4(MtxF *param_1,Mtx_t *param_2){
   uint uVar1;
   uint uVar2;
-  bool bVar3;
+  u8 bVar3;
   float fVar4;
   float *pfVar5;
   long (*palVar6) [4];

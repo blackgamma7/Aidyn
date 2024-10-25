@@ -114,7 +114,7 @@ void InitLight(AnimationData *ani,Borg_9_data *param_2,voxelObject *obj,light_ob
   ref_obj_bitfeild rVar1;
   u16 uVar2;
   void *pvVar3;
-  bool bVar4;
+  u8 bVar4;
   s32 delay;
   Color32 *pcVar5;
   light_dat *plVar6;

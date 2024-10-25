@@ -172,11 +172,11 @@ char getModdedWeapon(CharSkills *param_1,u8 param_2){
 char getModdedSheild(CharSkills *param_1){
   return CapModdedSkillMax(param_1->Sheild_modded,15);}
 
-bool isSkilOverLv10(CharSkills *param_1,u8 param_2){
+u8 isSkilOverLv10(CharSkills *param_1,u8 param_2){
   return 10 < (char)param_1->Skill_base[param_2];}
 
-bool isWepSkillOverLv10(CharSkills *param_1,u8 param_2){
+u8 isWepSkillOverLv10(CharSkills *param_1,u8 param_2){
   return 10 < (char)param_1->Weapon_base[param_2];}
 
-bool isSheildSkillOver10(CharSkills *param_1){
+u8 isSheildSkillOver10(CharSkills *param_1){
   return 10 < (char)param_1->Sheild_Base;}

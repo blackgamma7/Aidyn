@@ -2,7 +2,7 @@
 #define FILENAME "./src/n64BorgGameStates.cpp"
 #include "heapN64.h"
 
-bool borg14_func_b(void *x,s32 y){
+u8 borg14_func_b(void *x,s32 y){
   *(s32 *)((s32)x + 8) = y;
   return false;}
 

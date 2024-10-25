@@ -7,7 +7,7 @@ void checking_camping_safety(void){
 
 void dialoug_ref_obj_func(void){
   Borg_9_data *pBVar1;
-  bool bVar2;
+  u8 bVar2;
   s32 iVar3;
   Dialoug_obj *prVar5;
   s32 iVar4;
@@ -45,7 +45,7 @@ void FUN_800064e8(BaseWidget *param_1,u16 param_2,u16 param_3,u16 param_4,u16 pa
   param_1->VMax = param_5;
 }
 
-bool isCampfireScene(borg13Enum param_1){
+u8 isCampfireScene(borg13Enum param_1){
   borg13Enum bVar1;
   borg13Enum *pbVar2;
   s32 campfireScenes[10]={0x3cc,0x49c,0x49d,0x4a0,0x4a1,0x4aa,0x4eb,0x3d2,
@@ -62,7 +62,7 @@ bool isCampfireScene(borg13Enum param_1){
   return false;
 }
 
-bool some_dialoug_short_lookup(u16 param_1){
+u8 some_dialoug_short_lookup(u16 param_1){
   u16 uVar1;
   u16 *puVar2;
   u16 dialoug_voxel_flagAs[9]={0x13c0,0x141e,0x141f,0x1422,0x1423,0x142b,0x1447,0x1393,0xffff}

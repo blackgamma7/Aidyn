@@ -12,7 +12,7 @@ void ProcessGameStates(GameStateFunnel *param_1){
   u8 eVar1;
   u8 EVar2;
   short sVar3;
-  bool bVar4;
+  u8 bVar4;
   Struct_State *puVar6;
   u16 uVar5;
   u32 lVar6;

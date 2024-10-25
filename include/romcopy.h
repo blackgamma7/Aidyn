@@ -27,7 +27,7 @@ namespace RomCopy{
   void proc(void*);
   void InitQueue(void);
   u8 RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line);
-  bool Cancel(u8 arg0,u8 arg1);
+  u8 Cancel(u8 arg0,u8 arg1);
 };
 
 #define ROMCOPYS(dst,src,size,line) RomCopy::RomCopy(dst,src,size,1,FILENAME,line)

@@ -9,7 +9,7 @@ s16 sub_square_add_sqrt(u8 A,u8 B,u8 C,u8 D){
   return _sqrtf(sub_square_add_(A,B,C,D));
 }
 
-u32 warrior_dividing(u8 x,u8 divis,bool roundup,u8 min,u8 max){
+u32 warrior_dividing(u8 x,u8 divis,u8 roundup,u8 min,u8 max){
   u32 ret = x / divis;
   if (roundup) { if ((x) % divis) ret++;}
   if ((min != 0) && (ret < min)) ret = min;

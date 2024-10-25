@@ -36,7 +36,7 @@ void SetBorgListing(void *listing,void *files){
   CLEAR(borg_count);
 }
 
-bool decompressBorg(void *param_1,u32 compSize,u8 *borgfile,u32 param_4,u32 compression){
+u8 decompressBorg(void *param_1,u32 compSize,u8 *borgfile,u32 param_4,u32 compression){
   u8 *pvVar1;
   u32 auStack40 [10];
   
@@ -205,7 +205,7 @@ void dec_borg_count(s32 index){
 
 //"Borg0" is an unused type. Unknown what it was supposed to do.
 void borg0_func_a(s32 *a){ *a += (s32)a;}
-bool borg0_func_b(s32 *a,s32 b){ a[2] = b; return false;}
+u8 borg0_func_b(s32 *a,s32 b){ a[2] = b; return false;}
 void Ofunc_borg0_free(s32 *param_1){
   s32 memOld = get_memUsed();
   if (*param_1 == -1) HeapFree((void *)param_1[2],FILENAME,834);
@@ -353,7 +353,7 @@ void borg_2_free(borg2header *param_1){
 
 //"borg4": 3 floats, 8 more bytes. no clue what they're for
 void borg4_func_a(void* x){}
-bool borg4_func_b(void* x,void* y){return false;}
+u8 borg4_func_b(void* x,void* y){return false;}
 void Borg4_free(s32 *param_1){
   s32 iVar1 = get_memUsed();
   if (*param_1 == -1) HFREE(param_1,1240);
@@ -424,11 +424,11 @@ void borg5_func_a(Borg5header *b5){
   (b5->dat).ParticleDat = (Borg5_particle **)((int)&pBVar5->field11_0x10 + (int)(b5->dat).ParticleDat);
 }
 //These need re-decompiled once the header format is understood.
-bool InitBorgScene(Borg5header *param_1){
+u8 InitBorgScene(Borg5header *param_1){
   Color32 *pCVar1;
   borg2data *pbVar2;
   int *piVar3;
-  bool bVar4;
+  u8 bVar4;
   void *pvVar5;
   Borg3Data *pBVar6;
   borg2header *pbVar7;
@@ -738,7 +738,7 @@ void borg6_func_a(borg6header *param_1){
 
 
 
-bool borg6_func_b(borg6header *param_1,void *param_2){
+u8 borg6_func_b(borg6header *param_1,void *param_2){
   int iVar1;
   void *pvVar2;
   int iVar3;
@@ -890,7 +890,7 @@ void borg7_func_a(Borg7header *param_1){
 }
 
 
-bool borg7_func_b(Borg7header *param_1,Borg7data *param_2){
+u8 borg7_func_b(Borg7header *param_1,Borg7data *param_2){
   u32 bVar1;
   void **ppvVar2;
   borg6Enum **ppbVar3;

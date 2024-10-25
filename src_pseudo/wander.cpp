@@ -97,7 +97,7 @@ void wander_free(wander_struct *param_1){
 
 void look_for_monsterparties(wander_struct *param_1,Borg_9_data *param_2,s32 param_3,u8 param_4){
   monsterparty_obj *obj;
-  bool bVar1;
+  u8 bVar1;
   u32 uVar2;
   s32 count;
   s32 iVar3;
@@ -336,8 +336,8 @@ void FUN_80012e24(wander_substruct *param_1){param_1->unk0x38 |= 1;}
 void monster_engagement_func(wander_struct *param_1,s16 param_2){
   u8 bVar1;
   playerData *ppVar2;
-  bool bVar3;
-  bool bVar7;
+  u8 bVar3;
+  u8 bVar7;
   longlong lVar4;
   Borg_9_data *pBVar5;
   s16 sVar6;

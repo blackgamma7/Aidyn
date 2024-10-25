@@ -10,6 +10,7 @@
 #include "n64Borg.h"
 #include "world.h"
 #include "sky.h"
+#include "SFX.h"
 
 #include "crash.h"
 #include "heapN64.h"
@@ -158,6 +159,9 @@ extern GlobalsAidyn gGlobals;
 #define Gsprintf(fmt,...)  sprintf(gGlobals.text,fmt,__VA_ARGS__)
 //many strings are called from the CommonStrings field, likely for localization purposes.
 #define Cstring(name) gGlobals.CommonStrings[COMMONSTRING_##name]
+
+#define PLAYSFX(b12,pan,vol,timer,time) PlayAudioSound(&gGlobals.SFXStruct,b12,pan,vol,timer,time)
+
 
 void set_memUsedMirror(void);
 s32 Ofunc_get_MemUsed_difference(void);

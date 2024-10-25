@@ -105,7 +105,7 @@ u8 RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line){
 }
 
 
-bool Cancel(u8 arg0,u8 arg1){
+u8 Cancel(u8 arg0,u8 arg1){
 
   if (arg1 == 1) {
     osRecvMesg(&romcopyManage.dmaStructs[arg0].msgQ,NULL,1);

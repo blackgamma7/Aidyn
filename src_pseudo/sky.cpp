@@ -340,18 +340,18 @@ Gfx * Sky::RenderGradient(Gfx *g,Color32 *cols,u16 h){
 
 
 
-Gfx * Sky::RenderSky(Gfx *gfx,short delta){
+Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   short sVar1;
   ushort uVar4;
   ushort v;
   Gfx *gfx;
   uint uVar2;
   int iVar3;
-  Borg12Enum borg12;
+  u32 borg12;
   float fVar5;
   float fVar6;
   float fVar7;
-  undefined2 uVar8;
+  u16 uVar8;
   byte R;
   byte G;
   byte B;
@@ -359,7 +359,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,short delta){
   vec3f fStack128;
   
   fVar7 = 0.0;
-  sky_flag_b = (short)(sky_flag_b + 1) + (short)((sky_flag_b + 1) / 0x14) * -0x14;
+  sky_flag_b = (sky_flag_b + 1) + ((sky_flag_b + 1) / 20) * -20;
   if (3 < gGlobals.sky.Type - 1) {
       Gsprintf("type: %d out of Range: (1 - %d)",gGlobals.sky.Type,5);
       CRASH("RenderSky",gGlobals.text);
@@ -435,19 +435,19 @@ LAB_800222c4:
         uVar8 = 0x168;
       }
       else if (uVar2 == 0) {
-        borg12 = Underwater_noise;
+        borg12 = 1820;
         uVar8 = 0xf0;
       }
       else {
-        borg12 = rolling thunder;
+        borg12 = 1822;
         if (uVar2 != 2) {
-          borg12 = thunderstorm;
+          borg12 = 1823;
           if (uVar2 != 3) goto LAB_800224b0;
           goto LAB_800222c4;
         }
         uVar8 = 0x1a4;
       }
-      play_SFX(&gGlobals.SFXStruct,borg12,0,gGlobals.VolSFX,uVar8,0);
+      PLAYSFX(borg12,0,gGlobals.VolSFX,uVar8,0);
       goto LAB_800224b0;
     }
     Vec3_sub(&fStack128,&gGlobals.Sub.camera.pos,&gGlobals.Sub.camera.aim);
@@ -456,9 +456,8 @@ LAB_800222c4:
               gGlobals.sky.colors,gGlobals.sky.colors + 1,gGlobals.sky.colors + 2,
               gGlobals.sky.colors + 3,gGlobals.sky.colors + 4,
               -gGlobals.sky.lensFlareVal * 0.5));
-    uVar4 = Graphics::get_vres();
     iVar3 = GenerateGradient(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,
-                             __sinf(fStack128.y) * Graphics::get_vres(),fVar6,gGlobals.sky.gray,
+                             (float)(__sinf(fStack128.y) * Graphics::get_vres()),fVar6,gGlobals.sky.gray,
                              gGlobals.sky.gradient,gGlobals.sky.lensFlareVal);
     gfx = RenderGradient(gfx,gGlobals.sky.gradient,(u16)iVar3);
     if (iVar3 == 0) goto LAB_80022478;
@@ -471,7 +470,7 @@ LAB_800222c4:
   else {
     if (gGlobals.sky.Type != 4) goto LAB_80022094;
     fVar7 = World::get_timeofDay_float(TerrainPointer);
-    SetColors(gGlobals.sky.obj4.bitmap,gGlobals.sky.obj10.bitmap,fVar7,gGlobals.sky.gray,
+    SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar7,gGlobals.sky.gray,
               gGlobals.sky.colors,gGlobals.sky.colors + 1,gGlobals.sky.colors + 2,
               gGlobals.sky.colors + 3,gGlobals.sky.colors + 4,
               -gGlobals.sky.lensFlareVal * 0.5));

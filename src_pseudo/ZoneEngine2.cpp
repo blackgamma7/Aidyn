@@ -7,9 +7,9 @@
 #define DEBUGSprintf(fmt,...) ;
 #endif
 
-bool FUN_8000c9e0(void){
+u8 FUN_8000c9e0(void){
   ushort uVar3;
-  bool ret;
+  u8 ret;
   double dVar4;
   double dVar5;
   
@@ -37,7 +37,7 @@ bool FUN_8000c9e0(void){
 
 mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_4,s16 param_5){
   u16 uVar1;
-  bool bVar2;
+  u8 bVar2;
   int iVar3;
   int iVar4;
   mapFloatDat *pmVar5;
@@ -91,7 +91,7 @@ mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_
   return pmVar7;
 }
 
-bool FUN_8000ccc0(void){
+u8 FUN_8000ccc0(void){
   u16 uVar3;
   u32 uVar1;
   u32 uVar2;
@@ -119,8 +119,8 @@ bool FUN_8000ccc0(void){
   return false;
 }
 
-bool NoExpPak_memCheck(u16 x){
-  bool bVar3;
+u8 NoExpPak_memCheck(u16 x){
+  u8 bVar3;
   u32 theshA [5] = {0x18000,0x10000,0xc000,0x28000,0x18000};
   u32 threshB [5]= {0x10000,0xC000,0x6000,0x18000,0x10000};
   if (!gExpPakFlag) {
@@ -141,7 +141,7 @@ u8 EnvPropBools[25][2]={{0,0},{1,0},{1,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0
    {0,0},{0,0},{0,0},{0,0},{0,1},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 
 void ZoneEngine::InitEnvProps(void){
-  bool (*pabVar1) [2];
+  u8 (*pabVar1) [2];
   float fVar3;
   float fVar4;
   float fVar6;
@@ -297,7 +297,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
   Vobject VVar1;
   playerData *ppVar2;
   ushort uVar3;
-  bool bVar4;
+  u8 bVar4;
   playerData *ppVar5;
   voxelObject *ptVar6;
   
@@ -677,7 +677,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   int iVar10;
   uint uVar11;
   AnimationData *pAVar12;
-  bool bVar13;
+  u8 bVar13;
   int iVar14;
   short sVar15;
   undefined4 *puVar16;
@@ -888,7 +888,7 @@ voxelObject * get_map_referencepoint(Borg9data *param_1,short param_2){
   return NULL;
 }
 
-voxelObject * FindReferncePointName(Borg9data *param_1,char *name,bool param_3){
+voxelObject * FindReferncePointName(Borg9data *param_1,char *name,u8 param_3){
   u16 uVar1;
   int iVar2;
   u16 uVar3;
@@ -1004,7 +1004,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   int iVar3;
   int iVar4;
   voxelObject *pfVar8;
-  bool bVar5;
+  u8 bVar5;
   int iVar6;
   u16 ShortA;
   int iVar7;
@@ -1315,7 +1315,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9data *borg9,vec3f *v3,short param_4,short 
 {
   EventFlag EVar1;
   void *pvVar2;
-  bool bVar6;
+  u8 bVar6;
   Borg7header *pBVar3;
   AnimationData *pAVar4;
   ushort uVar5;
@@ -1607,8 +1607,8 @@ Gfx* FUN_800103b0(Gfx*param_1,ZoneDat *param_2){
   return param_1;
 }
 
-bool FUN_80010414(vec2f *param_1,vec2f *param_2,vec2f *param_3,vec2f *param_4,s16 param_5){
-  bool uVar1;
+u8 FUN_80010414(vec2f *param_1,vec2f *param_2,vec2f *param_3,vec2f *param_4,s16 param_5){
+  u8 uVar1;
   u32 uVar2;
   float fVar3;
   float fVar4;
@@ -1649,10 +1649,10 @@ bool FUN_80010414(vec2f *param_1,vec2f *param_2,vec2f *param_3,vec2f *param_4,s1
 }
 
 
-bool FUN_80010598(s16 param_1,s16 param_2)
+u8 FUN_80010598(s16 param_1,s16 param_2)
 
 {
-  bool bVar1;
+  u8 bVar1;
   vec2f *pafVar2;
   s32 iVar3;
   s32 iVar4;
@@ -1716,7 +1716,7 @@ void RenderZones(Gfx**param_1,vec3f *param_2,s16 param_3)
 
 {
   s32 iVar2;
-  bool bVar8;
+  u8 bVar8;
   u32 uVar3;
   u8 bVar9;
   u16 uVar5;
@@ -1970,7 +1970,7 @@ void renderTransZones_(Gfx**param_1){
   s32 uVar2;
   s32 uVar3;
   s32 uVar4;
-  bool bVar6;
+  u8 bVar6;
   Gfx*pauVar5;
   s32 iVar7;
   s32 *puVar8;
@@ -2309,7 +2309,7 @@ void debug::VoxelIndexPosition(short delta,playerData *param_2){
 
 
 void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
-  bool bVar1;
+  u8 bVar1;
   mapFloatDat *A;
   byte bVar2;
   uint uVar3;

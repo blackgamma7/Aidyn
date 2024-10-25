@@ -50,7 +50,7 @@ void HeapInit(void *X,u32 Y){
 
 
 void * HeapAlloc(u32 size,char *file,u32 line){
-  bool bVar1;
+  u8 bVar1;
   u32 uVar2;
   HeapBlock *pHVar3;
   char *pcVar4;

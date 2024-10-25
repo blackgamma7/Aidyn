@@ -123,9 +123,9 @@ void TitleSplash::Free(void){
   TitleSplash::N64Free();
 }
 
-bool TitleSplash::Show(s32 *param_1){
+u8 TitleSplash::Show(s32 *param_1){
   Gfx*pauVar1;
-  bool bVar2;
+  u8 bVar2;
   
   if (splashscreen_load_flag) {
     TitleSplash::Load();
@@ -179,7 +179,7 @@ void TitleSplash::Borg8(Gfx*param_1,u8 alpha,Borg8header *borg){
 }
 
 u8 TitleSplash::ExpansionPak(Gfx** param_1){
-  bool bVar1;
+  u8 bVar1;
   u8 abStack40;
   controller_aidyn* temp,
   Gfx* auStack32;
@@ -214,7 +214,7 @@ u8 TitleSplash::Copyright(Gfx**param_1){
   FontStruct *pFVar1;
   byte bVar2;
   ushort uVar3;
-  bool bVar5;
+  u8 bVar5;
   ushort uVar4;
   uint uVar6;
   byte abStack_38 [2];
@@ -273,7 +273,7 @@ u8 TitleSplash::Copyright(Gfx**param_1){
 u8 TitleSplash::N64Logo(Gfx**param_1){
   BaseWidget *pwVar1;
   u8 bVar2;
-  bool bVar4;
+  u8 bVar4;
   Gfx*pauVar3;
   u16 h;
   u16 v;
@@ -320,7 +320,7 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
 }
 
 u8 TitleSplash::THQLogo(BUTTON_aidyn *param_1){
-  bool bVar1;
+  u8 bVar1;
   controller_aidyn auStack36;
   
   #ifdef DEBUGVER

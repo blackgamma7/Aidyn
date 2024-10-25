@@ -382,8 +382,8 @@ Gfx * Graphics::EndList(Gfx *gfx){
   return gfx + 10;
 }
 
-bool Graphics::ResolutionCheck(void){
-  bool bVar1;
+u8 Graphics::ResolutionCheck(void){
+  u8 bVar1;
   
   if (((gGfxManager.Hres[0] == gGfxManager.Hres[1]) && (gGfxManager.Vres[0] == gGfxManager.Vres[1]))
      && (gGfxManager.colordepth[0] == gGfxManager.colordepth[1])) {

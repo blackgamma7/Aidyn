@@ -19,4 +19,4 @@ typedef unsigned short    ushort;
 typedef union Color32 {
     struct {u8 R, G, B, A;};
     u32 W;
-} Color32;
+};

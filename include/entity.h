@@ -228,6 +228,6 @@ extern float sub_ent_2float_sum(EntityDB*,ItemID);
 extern u8 some_entity_check(EntityDB*,ItemID);
 extern float get_ent_float_a(EntityDB*,ItemID);
 extern float ret_point4float(EntityDB*,ItemID);
-extern bool IsNotBoss(EntityDB*,ItemID);
+extern u8 IsNotBoss(EntityDB*,ItemID);
 extern float get_some_entity_dat(EntityDB*,ItemID);
 extern float get_entity_scale(EntityDB*,ItemID);

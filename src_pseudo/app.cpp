@@ -9,7 +9,7 @@ u16 doubleGlobalTickerFlag;
 u16 version_flag;
 #endif
 Borg8header* PAL_Warning_image;
-bool PAL_warning_flag=true;
+u8 PAL_warning_flag=true;
 
 struct App_manager{
 OSSched* sched;
@@ -410,7 +410,7 @@ int appState_RegionControllerCheck(Gfx **param_1){
   ushort h;
   ushort v;
   Gfx *pGVar2;
-  bool bVar5;
+  u8 bVar5;
   int iVar6;
   float fVar7;
   float fVar8;

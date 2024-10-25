@@ -2,8 +2,8 @@ u16 screen_bottom=240;
 
 void init_portait_highlighter(void){gGlobals.portraitBorder = get_borg_8(0xdf);}
 
-bool ofunc_check_portaits_bottom(bool param_1){
-  bool bVar1;
+u8 ofunc_check_portaits_bottom(u8 param_1){
+  u8 bVar1;
   
   bVar1 = true;
   if (param_1 == false) {if (screen_bottom < 0xf0) {bVar1 = false;}}
@@ -12,7 +12,7 @@ bool ofunc_check_portaits_bottom(bool param_1){
 }
 
 #define WHITE_GLOW {255,255,255,128}
-void pass_to_draw_portaits(Gfx*param_1,bool param_2){
+void pass_to_draw_portaits(Gfx*param_1,u8 param_2){
   Color32 uStack72 [4] ={WHITE_GLOW,WHITE_GLOW,WHITE_GLOW,WHITE_GLOW}; //yes, by hacking, you could color-code the auras.
   draw_party_portaits(param_1,param_2,uStack72);
 }
@@ -34,7 +34,7 @@ void PortraitColorBlend(Color32 *colA,Color32 *colB,float fade){
   else colB->A = (u8)fVar1;
 }
 
-Gfx* draw_party_portaits(Gfx*param_1,bool param_2,Color32 *col){
+Gfx* draw_party_portaits(Gfx*param_1,u8 param_2,Color32 *col){
   CharSheet *pCVar1;
 
   Gfx*pauVar2;

@@ -83,7 +83,7 @@ void addDCMPlayer(ALPlayer *x){alSynAddPlayer(&gAudioManager.ALSYNTH,x);}
 
 u32 DCM::AddVoice(undefined *oIndex,u32 *oID,Borg11Data *istDat,u32 param_4,
                  u32 len,u32 loopEnd,byte loops,ushort pitch,byte vol,byte pan,byte param_11){
-  bool bVar1;
+  u8 bVar1;
   Voice_Aidyn *pVVar2;
   Voice_Aidyn *pVVar3;
   int iVar4;

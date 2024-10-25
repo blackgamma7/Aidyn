@@ -267,7 +267,7 @@ s32 LZB_func_3(u8 *param_1,u32 param_2,u8 *param_3,s32 *param_4){
   u8 *pbVar1;
   u8 *pbVar2;
   u8 *pbVar3;
-  bool bVar4;
+  u8 bVar4;
   u8 bVar5;
   s32 uVar6;
   u32 uVar7;

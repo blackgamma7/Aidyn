@@ -20,7 +20,7 @@ void func_with_potion_unk2(Potion_effect *param_1){
 }
 
 
-bool check_charsheet_potion_timer(Potion_effect *param_1,u32 param_2,s32 param_3){
+u8 check_charsheet_potion_timer(Potion_effect *param_1,u32 param_2,s32 param_3){
   u32 uVar1;
   u32 uVar2;
   

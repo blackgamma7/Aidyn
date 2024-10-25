@@ -166,7 +166,7 @@ u16 cinematic_case_switch(void){
 
 s16 cinematic_controls(void){
   BUTTON_aidyn BVar1;
-  bool bVar2;
+  u8 bVar2;
   s16 sVar3;
   Button_hold *fStack24;
   

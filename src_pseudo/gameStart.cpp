@@ -47,7 +47,7 @@ void set_title_screen(void){
 }
 
 Gfx * Flycam::Render(Gfx *gfx){
-  bool bVar1;
+  u8 bVar1;
   Gfx *apGStackX_0 [4];
   vec3f afStack216;
   vec3f afStack152;
@@ -169,7 +169,7 @@ u8 gameStart(Gfx**GG){
 
 void check_input_7(void){
   BaseWidget *pBVar1;
-  bool bVar2;
+  u8 bVar2;
   u16 uVar3;
   ControllerFull *apCStack_20;
   

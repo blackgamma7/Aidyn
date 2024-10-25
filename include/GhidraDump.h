@@ -2867,43 +2867,6 @@ struct ArmorPointer {
     armour_RAM *Armor;
 };
 
-typedef struct audio_substruct_2 audio_substruct_2, *Paudio_substruct_2;
-
-typedef struct SoundStructA SoundStructA, *PSoundStructA;
-
-struct audio_substruct_2 {
-    ushort index;
-    short timer;
-    u16 field2_0x4;
-    undefined field3_0x6;
-    undefined field4_0x7;
-    Audio_obj voxel;
-    SoundStructA *soundStruct;
-};
-
-struct SoundStructA {
-    vec3f worldPos;
-    int mapTally;
-    s16 index;
-    u8 zoneDatByte;
-    u8 unk13;
-    u16 timer;
-    ushort flag;
-    Borg12Header *borg12;
-    Audio_obj *voxel;
-    audio_obj_dat *voxelDat;
-};
-
-typedef struct audiokey_struct audiokey_struct, *Paudiokey_struct;
-
-struct audiokey_struct {
-    u8 (*a)[4];
-    void* b;
-    void* c;
-    u8 d[1277][4];
-};
-
-
 typedef struct BorgListing BorgListing, *PBorgListing;
 
 struct BorgListing {
@@ -4014,17 +3977,7 @@ struct QueueStructB {
     ushort items;
 };
 
-struct SFX_Struct {
-    SoundStructA *pointerA; /* 80 entries */
-    ushort shortArrayA[80];
-    u16 pointerAIndex;
-    undefined field3_0xa6;
-    undefined field4_0xa7;
-    audio_substruct_2 *pointerB; /* 16 entries */
-    ushort shortArrayB[16];
-    ushort pointerBIndex;
-    u16 field8_0xce;
-};
+
 
 
 

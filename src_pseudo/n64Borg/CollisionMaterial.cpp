@@ -1,6 +1,6 @@
 //unused borg type. Here for completion sake.
 
-bool borg10_func_b(void *x,void *y){return false;}
+u8 borg10_func_b(void *x,void *y){return false;}
 void borg10_func_a(void *x){}
 
 void borg_10_free(s32 *arg0){

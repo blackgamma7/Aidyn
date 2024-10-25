@@ -93,4 +93,4 @@ extern u32 udivdi3(u64 a, u64 b);
 
 s16 sub_square_add_(u8 A,u8 B,u8 C,u8 D);
 s16 sub_square_add_sqrt(u8 A,u8 B,u8 C,u8 D);
-u32 warrior_dividing(u8 x,u8 divis,bool roundup,u8 min,u8 max);
+u32 warrior_dividing(u8 x,u8 divis,u8 roundup,u8 min,u8 max);

@@ -15,7 +15,7 @@ void CombatEntity::Init(CombatEntity *param_1,CharSheet *charsheet,int param_3,u
   SpellInstance *pSVar3;
   Entity_Ram *pEVar4;
   byte bVar8;
-  bool bVar9;
+  u8 bVar9;
   u8 X;
   u8 Y;
   ElementEnum *pEVar5;
@@ -162,7 +162,7 @@ void set_combatEnt_z_f3(CombatEntity *param_1,float x,float y){
 
 
 /* Used for Casting Magic */
-bool CombatEnt_flag_0(CombatEntity *param_1){return (bool)((u8)param_1->flags & 1);}
+u8 CombatEnt_flag_0(CombatEntity *param_1){return (bool)((u8)param_1->flags & 1);}
 //the rest, mostly no clue
 u16 CombatEnt_flag_1(CombatEntity *param_1){return param_1->flags >> 1 & 1;}
 //troubador related (raised if performer?)
@@ -174,7 +174,7 @@ u16 CombatEnt_flag_5(CombatEntity *param_1){return param_1->flags >> 5 & 1;}
 u16 CombatEnt_flag_6(CombatEntity *param_1){return param_1->flags >> 6 & 1;}
 u16 CombatEnt_flag_7(CombatEntity *param_1){return param_1->flags >> 7 & 1;}
 
-bool CombatEnt_flag_check(CombatEntity *param_1){return (param_1->flags & (flag8|flag9)) !=0;}
+u8 CombatEnt_flag_check(CombatEntity *param_1){return (param_1->flags & (flag8|flag9)) !=0;}
 void CombatEnt_OR_flags(CombatEntity *x,Struct_char_flags f){x->flags |= f;}
 void CombatEnt_NAND_flags(CombatEntity *x,Struct_char_flags f){x->flags = x->flags& ~f;}
 void CombatEnt_XOR_flags(CombatEntity *x,Struct_char_flags f){x->flags ^= f;}
@@ -194,7 +194,7 @@ s32 Ofunc_combatEnt_movement(CombatEntity *x){
 void NOOP_80068350(void){}
 
 
-bool FUN_80068358(CombatEntity *param_1){
+u8 FUN_80068358(CombatEntity *param_1){
   CombatEntity *pCVar1;
   u32 uVar5;
   
@@ -362,7 +362,7 @@ char get_sheild_warrior_skill(CombatEntity *param_1){
   return CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_WARRIOR) + bVar4 * getModdedSheild(param_1->charSheetP->Skills);
 }
 
-u32 get_protection_level(CombatEntity *param_1,bool backStab){
+u32 get_protection_level(CombatEntity *param_1,u8 backStab){
   u32 uVar1;
   temp_armor *pcVar1 = param_1->charSheetP->armor[1];
   uVar1 = get_combatEnt_protection(param_1);
@@ -415,7 +415,7 @@ void set_combatEnt_vec2(CombatEntity *param_1,s8 param_2){
   vec2_normalize(param_1->facing);
 }
 
-bool FUN_80068b0c(CombatEntity *param_1,u8 param_2,u8 param_3){
+u8 FUN_80068b0c(CombatEntity *param_1,u8 param_2,u8 param_3){
   float fVar1;
   float fVar2;
   float fVar3;
@@ -435,8 +435,8 @@ bool FUN_80068b0c(CombatEntity *param_1,u8 param_2,u8 param_3){
   return true;
 }
 
-bool check_combatents_facings(CombatEntity *param_1,float param_2,float param_3){
-  bool bVar1;
+u8 check_combatents_facings(CombatEntity *param_1,float param_2,float param_3){
+  u8 bVar1;
   float fVar2;
   float fVar3;
   vec2f afStack160;
@@ -459,8 +459,8 @@ bool check_combatents_facings(CombatEntity *param_1,float param_2,float param_3)
   return bVar1;
 }
 
-bool check_for_backstab(CombatEntity *param_1,CombatEntity *param_2){
-  bool bVar1;
+u8 check_for_backstab(CombatEntity *param_1,CombatEntity *param_2){
+  u8 bVar1;
   s32 iVar2;
   double dVar3;
   float fVar4;
@@ -641,10 +641,10 @@ LAB_8006927c:
   return uVar3;
 }
 
-bool FUN_800692bc(CombatEntity *param_1,CombatEntity *param_2){
+u8 FUN_800692bc(CombatEntity *param_1,CombatEntity *param_2){
   playerData *ppVar1;
   playerData *ppVar2;
-  bool bVar3;
+  u8 bVar3;
   float fVar4;
   float fVar5;
   float fVar6;
@@ -667,10 +667,10 @@ bool FUN_800692bc(CombatEntity *param_1,CombatEntity *param_2){
   return bVar3;
 }
 
-bool FUN_80069384(CombatEntity *param_1,CombatEntity *param_2,s8 param_3,s8 param_4,s32 param_5){
+u8 FUN_80069384(CombatEntity *param_1,CombatEntity *param_2,s8 param_3,s8 param_4,s32 param_5){
   u8 bVar1;
   CharSheet *pCVar2;
-  bool bVar4;
+  u8 bVar4;
   float fVar5;
   u32 uVar6;
   
@@ -724,10 +724,10 @@ float FUN_80069554(CombatEntity *param_1,CombatEntity *param_2){
   return get_combatEnt_proximity(param_1,param_2);}
 
 
-bool combat_can_use_potion(CombatEntity *param_1,PotionEnum param_2){return can_use_potion(param_1->charSheetP,param_2,NULL);}
+u8 combat_can_use_potion(CombatEntity *param_1,PotionEnum param_2){return can_use_potion(param_1->charSheetP,param_2,NULL);}
 
-bool Combat_can_use_flask(CombatEntity *param_1,CombatEntity *param_2){
-  bool ret;
+u8 Combat_can_use_flask(CombatEntity *param_1,CombatEntity *param_2){
+  u8 ret;
 
   if (param_1->AtkType == 3) {
     if (param_1->item < POTION_HEALING) {ret = CombatEnt_flag_4(param_1) != CombatEnt_flag_4(param_2);}
@@ -740,9 +740,9 @@ bool Combat_can_use_flask(CombatEntity *param_1,CombatEntity *param_2){
   return ret;
 }
 
-bool FUN_8006963c(CombatEntity *param_1,CombatEntity *param_2){
-  bool bVar1;
-  bool bVar2;
+u8 FUN_8006963c(CombatEntity *param_1,CombatEntity *param_2){
+  u8 bVar1;
+  u8 bVar2;
 
   if (CombatEnt_flag_6(param_2)) {return false;}
   if (!isDead(param_2->charSheetP)) {return false;}
@@ -766,7 +766,7 @@ LAB_800696f0:
 
 
 
-bool func_checking_shadow(CombatEntity *param_1,CombatEntity *param_2,s32 param_3){
+u8 func_checking_shadow(CombatEntity *param_1,CombatEntity *param_2,s32 param_3){
   playerData *ppVar1;
   playerData *ppVar2;
   u32 uVar4;
@@ -825,10 +825,10 @@ u32 get_spell_target_number(CombatEntity *param_1){
   return uVar2;
 }
 
-bool canControl(CombatEntity *param_1,Temp_spell *param_2){
+u8 canControl(CombatEntity *param_1,Temp_spell *param_2){
   ItemID IVar1;
   SpellEnum bVar3;
-  bool bVar2;
+  u8 bVar2;
   u8 bVar4;
   
   bVar3 = GetIDIndex(param_2->id);
@@ -860,8 +860,8 @@ switchD_80069a74_caseD_5:
 }
 
 
-bool can_effect_target(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3){
-  bool bVar1;
+u8 can_effect_target(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3){
+  u8 bVar1;
 
   u8 bVar3;
   MagicTargetEnum MVar4;
@@ -889,11 +889,11 @@ RetFalse:
   return bVar1;
 }
 
-bool ai_shouldnt_cast_magic(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3){
+u8 ai_shouldnt_cast_magic(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3){
   s32 iVar1;
   u8 bVar3;
   u32 uVar2;
-  bool bVar4;
+  u8 bVar4;
   
   if ((param_1->aiP == NULL) ||
      ((param_1->aiP->flags & 8) == 0)) bVar4 = true;
@@ -910,9 +910,9 @@ bool ai_shouldnt_cast_magic(CombatEntity *param_1,CombatEntity *param_2,Temp_spe
   return bVar4;
 }
 
-bool FUN_80069d00(CombatEntity *param_1,CombatEntity *param_2,float param_3,float param_4){
+u8 FUN_80069d00(CombatEntity *param_1,CombatEntity *param_2,float param_3,float param_4){
   playerData *ppVar1;
-  bool bVar2;
+  u8 bVar2;
   float fVar3;
   vec2f afStack224;
   vec2f fStack160;
@@ -935,7 +935,7 @@ bool FUN_80069d00(CombatEntity *param_1,CombatEntity *param_2,float param_3,floa
   return bVar2;
 }
 
-bool ai_should_cast_magic(CombatEntity *param_1,CombatEntity *param_2){
+u8 ai_should_cast_magic(CombatEntity *param_1,CombatEntity *param_2){
   playerData *ppVar2;
   Temp_spell *pTVar5;
   u8 bVar8;
@@ -943,7 +943,7 @@ bool ai_should_cast_magic(CombatEntity *param_1,CombatEntity *param_2){
   char cVar9;
   u32 uVar7;
   u8 uVar4;
-  bool bVar10;
+  u8 bVar10;
   Borg_9_data *pBVar11;
   float fVar12;
   s32 iVar13;
@@ -1008,9 +1008,9 @@ bool ai_should_cast_magic(CombatEntity *param_1,CombatEntity *param_2){
   return false;
 }
 
-bool spell_taget_party_area(CombatEntity *param_1){
+u8 spell_taget_party_area(CombatEntity *param_1){
   Temp_spell *pTVar1;
-  bool bVar2;
+  u8 bVar2;
   
   pTVar1 = getSpell(param_1->charSheetP);
   bVar2 = false;
@@ -1020,7 +1020,7 @@ bool spell_taget_party_area(CombatEntity *param_1){
 
 u32 FUN_8006a1dc(CombatEntity *param_1){
   Temp_weapon *pTVar1;
-  bool bVar3;
+  u8 bVar3;
   u32 uVar2;
   u32 auStack72 [5];
   
@@ -1055,7 +1055,7 @@ void FUN_8006a274(CombatEntity *param_1){
 void Ofunc_8006a2f0(CombatEntity *param_1,u8 param_2){
   u8 bVar1;
   u32 uVar2;
-  bool bVar3;
+  u8 bVar3;
   
   bVar1 = param_1->AtkType;
   if (bVar1 != param_2) {
@@ -1117,7 +1117,7 @@ void Ofunc_8006a450(CombatEntity *param_1,s8 param_2){
 void end_combat_turn_(CombatEntity *param_1){
   CharSheet *pCVar1;
   u16 uVar2;
-  bool bVar3;
+  u8 bVar3;
   GearInstance *puVar2;
   CombatAIInfo* pTVar1;
   
@@ -1164,19 +1164,19 @@ void combat_escape_func(CombatEntity *param_1){
   }
 }
 
-bool NotAspectBonus(AspectEnum param_1){
+u8 NotAspectBonus(AspectEnum param_1){
   if (param_1 == LUNAR) {return TerrainPointer->partOfDay != NIGHT;}
   if (param_1 != SOLAR) {return false;}
   return TerrainPointer->partOfDay == NIGHT;
 }
 
 
-bool getNotAspectBonus(CombatEntity *param_1){return NotAspectBonus(GetCharAspect(param_1->charSheetP->EXP));}
+u8 getNotAspectBonus(CombatEntity *param_1){return NotAspectBonus(GetCharAspect(param_1->charSheetP->EXP));}
 
 
-bool IsAspectBonus(CombatEntity *param_1){
+u8 IsAspectBonus(CombatEntity *param_1){
   AspectEnum AVar1;
-  bool bVar2;
+  u8 bVar2;
   
   AVar1 = GetCharAspect(param_1->charSheetP->EXP);
   bVar2 = false;
@@ -1296,7 +1296,7 @@ LAB_8006ab6c:
   return uVar5;
 }
 
-bool isMagicElement(CombatEntity* e, ElementEnum x){
+u8 isMagicElement(CombatEntity* e, ElementEnum x){
   switch(x) {
   case ELEMENT_NONE:
   case ELEMENT_PHYSICAL:
@@ -1322,8 +1322,8 @@ bool isMagicElement(CombatEntity* e, ElementEnum x){
   }
 }
 
-bool phys_magic_element_bool(CombatEntity* param_1,ElementEnum param_2,ElementEnum param_3){
-  bool ret;
+u8 phys_magic_element_bool(CombatEntity* param_1,ElementEnum param_2,ElementEnum param_3){
+  u8 ret;
   
   if (param_3 == NONE) return false;
   else {
@@ -1341,14 +1341,14 @@ bool phys_magic_element_bool(CombatEntity* param_1,ElementEnum param_2,ElementEn
   return ret;
 }
 
-bool gear_element_resist(CombatEntity *param_1,ElementEnum param_2,float *param_3){
+u8 gear_element_resist(CombatEntity *param_1,ElementEnum param_2,float *param_3){
   temp_armor *ptVar1;
   Temp_weapon *pTVar2;
   CharGear *pCVar3;
   CharSheet *pCVar4;
   GearInstance *ptVar6;
   u32 uVar7;
-  bool bVar8;
+  u8 bVar8;
   float uVar9;
   float fVar10;
   
@@ -1398,9 +1398,9 @@ bool gear_element_resist(CombatEntity *param_1,ElementEnum param_2,float *param_
   return bVar8;
 }
 
-bool CanResistSpell(CombatEntity *e,Temp_spell *spel_,ElementEnum Elem){
+u8 CanResistSpell(CombatEntity *e,Temp_spell *spel_,ElementEnum Elem){
   SpellEnum spellID;
-  bool bVar1;
+  u8 bVar1;
   SpellEnum SVar2;
   
   spellID = GetIDIndex(spel_->id);
@@ -1457,7 +1457,7 @@ ReturnTrue:
 }
 
 
-bool magic_resist_element_checks(CombatEntity *ent,Temp_spell *spell,float *resistMulti)
+u8 magic_resist_element_checks(CombatEntity *ent,Temp_spell *spell,float *resistMulti)
 
 {
   temp_armor *ptVar1;
@@ -1467,7 +1467,7 @@ bool magic_resist_element_checks(CombatEntity *ent,Temp_spell *spell,float *resi
   CharSheet *pCVar5;
   GearInstance **pptVar7;
   u8 i;
-  bool ret;
+  u8 ret;
   float multi;
   
   ret = false;
@@ -1608,7 +1608,7 @@ LAB_8006b3d8:
   return;
 }
 
-bool check_for_petrify_effect(CombatEntity *ent){
+u8 check_for_petrify_effect(CombatEntity *ent){
   CharSheet *pCVar1;
   Temp_enchant *pTVar2;
   u32 uVar4;
@@ -1622,7 +1622,7 @@ bool check_for_petrify_effect(CombatEntity *ent){
   return true;
 }
 
-s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,char y,bool backstab){
+s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,char y,u8 backstab){
   CharSheet *pCVar2;
   CharStats *stats;
   CharSkills *pCVar3;
@@ -1633,7 +1633,7 @@ s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,cha
   s32 iVar8;
   char cVar11;
   char cVar12;
-  bool petrified;
+  u8 petrified;
   s32 iVar9;
   s16 sVar10;
   u16 DefDex;
@@ -1729,7 +1729,7 @@ u16 calc_attack_or_crit(CombatEntity *attacker,CombatEntity *target){
   CharSkills *pCVar2;
   char TargetX;
   char TargetY;
-  bool backstab;
+  u8 backstab;
   s16 sVar5;
   u16 uVar3;
   s32 iVar4;
@@ -1805,7 +1805,7 @@ s32 Combat_troubador_mod(CombatEntity *param_1,s16 param_2){
 }
 
 s32 some_aspect_multi(CombatEntity *param_1,s16 param_2){
-  bool bVar1;
+  u8 bVar1;
   s32 iVar2;
   float fVar3;
   
@@ -1841,12 +1841,12 @@ s32 Ofunc_8006bfc0(CombatEntity *param_1,s16 param_2,u8 param_3,u8 param_4){
   return iVar4;
 }
 
-s32 theif_backstab_mod(CombatEntity *param_1,s16 param_2,bool backstab,s32 param_4,s16 param_5){
+s32 theif_backstab_mod(CombatEntity *param_1,s16 param_2,u8 backstab,s32 param_4,s16 param_5){
   return ((((s32)param_2 + (s32)param_5 * (s32)backstab) * 0x10000 >> 0x10) +
          (s32)CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_THIEF) * param_4 * 10) * 0x10000 >> 0x10;
 }
 
-s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,char param_4,bool backstab){
+s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,char param_4,u8 backstab){
   CharSheet *pCVar3;
   CharStats *Atkstats;
   CharStats *DefStats;
@@ -1857,7 +1857,7 @@ s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,c
   s32 iVar9;
   char cVar11;
   char cVar12;
-  bool bVar13;
+  u8 bVar13;
   undefined uVar14;
   s16 sVar10;
   u32 uVar15;
@@ -1930,7 +1930,7 @@ u32 some_combat_weapon_func(CombatEntity *attacker,CombatEntity *target){
   return uVar3;
 }
 
-bool isDispelMagic(char param_1){
+u8 isDispelMagic(char param_1){
   u32 uVar1=0;
   u8 *pbVar2;
   u8 uStack64 [5]={42,43,44,45,0xff}; //dispel magic indecies
@@ -1946,7 +1946,7 @@ bool isDispelMagic(char param_1){
   return true;
 }
 
-bool find_spell_error(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,bool param_4){
+u8 find_spell_error(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,u8 param_4){
   u8 bVar2;
   
   if (param_3->target == outside_Combat) {
@@ -1996,7 +1996,7 @@ void print_spell_cast_resist(CombatEntity *param_1,CombatEntity *param_2,Temp_sp
   print_combat_textbox(gCombatP,gGlobals.text,0);
 }
 
-void print_spell_error(CombatEntity *param_1,s32 param_2,s32 param_3,bool param_4){
+void print_spell_error(CombatEntity *param_1,s32 param_2,s32 param_3,u8 param_4){
   if (param_4 == false) {
     Gsprintf(gCombatP->textArray->(string),spell_error_labels[param_3]);
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
@@ -2004,7 +2004,7 @@ void print_spell_error(CombatEntity *param_1,s32 param_2,s32 param_3,bool param_
   }
 }
 
-bool IsControlMagic(SpellEnum param_1){
+u8 IsControlMagic(SpellEnum param_1){
   u8 *pbVar1;
   u8 uStack64 [5]={4,16,17,27,255};
   
@@ -2019,7 +2019,7 @@ bool IsControlMagic(SpellEnum param_1){
 }
 
 
-bool isPetrify(CombatEntity *param_1,SpellEnum enum_spell){
+u8 isPetrify(CombatEntity *param_1,SpellEnum enum_spell){
 
   SpellEnum *pSVar1;
   u32 uVar2;
@@ -2037,9 +2037,9 @@ bool isPetrify(CombatEntity *param_1,SpellEnum enum_spell){
   return false;
 }
 
-bool FUN_8006cbb4(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3){
+u8 FUN_8006cbb4(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3){
   CombatEntity *pCVar1;
-  bool bVar2;
+  u8 bVar2;
   u32 uVar3;
   u32 uVar4;
   
@@ -2066,20 +2066,20 @@ bool FUN_8006cbb4(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_
   return bVar2;
 }
 
-bool check_for_control_petrify(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,SpellEnum param_4){
+u8 check_for_control_petrify(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,SpellEnum param_4){
   if (((!IsControlMagic(param_4)) && (!isPetrify(param_1,param_4))) ||(CombatEnt_flag_4(param_1))) return true;
   else return FUN_8006cbb4(param_1,param_2,param_3);
 }
 
-bool CombatEntity::CheckForPetrify(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,char param_4){
+u8 CombatEntity::CheckForPetrify(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,char param_4){
    
   if (!isPetrify(param_1,param_4)) return true;
   else return FUN_8006cbb4(param_1,param_2,param_3);
 }
 
-bool CombatEntity::CheckSpellIngredient(CombatEntity *param_1,Temp_spell *param_2){
-  bool bVar4;
-  bool bVar5;
+u8 CombatEntity::CheckSpellIngredient(CombatEntity *param_1,Temp_spell *param_2){
+  u8 bVar4;
+  u8 bVar5;
   ulong uVar2;
   
   bVar5 = true;
@@ -2110,16 +2110,16 @@ u16 some_aspect_multi_check(CombatEntity *param_1,u32 param_2){
   return uVar3;
 }
 
-bool some_spell_ingredient_check(CombatEntity *param_1,Temp_spell *param_2,s16 param_3,s16 param_4){
+u8 some_spell_ingredient_check(CombatEntity *param_1,Temp_spell *param_2,s16 param_3,s16 param_4){
   CharSheet *pCVar1;
   inv_funcs *piVar2;
   float fVar3;
   s32 iVar4;
   u8 bVar7;
-  bool bVar8;
+  u8 bVar8;
   ItemID IVar6;
   u32 uVar5;
-  bool bVar9;
+  u8 bVar9;
   float fVar10;
   
   bVar9 = false;
@@ -2159,7 +2159,7 @@ bool some_spell_ingredient_check(CombatEntity *param_1,Temp_spell *param_2,s16 p
 }
 
 
-bool Entity::CheckSpellWizard_combat(CombatEntity *param_1,CombatEntity *x,Temp_spell *param_2,bool param_3){
+u8 Entity::CheckSpellWizard_combat(CombatEntity *param_1,CombatEntity *x,Temp_spell *param_2,u8 param_3){
   u32 LV;
   s16 sVar3;
   s32 iVar2;
@@ -2177,8 +2177,8 @@ bool Entity::CheckSpellWizard_combat(CombatEntity *param_1,CombatEntity *x,Temp_
   return false;
 }
 
-bool func_using_spell_charges(CombatEntity *param_1,CombatEntity *x,Temp_spell *param_2,bool param_3){
-  bool bVar2;
+u8 func_using_spell_charges(CombatEntity *param_1,CombatEntity *x,Temp_spell *param_2,u8 param_3){
+  u8 bVar2;
   u8 bVar3;
   u32 uVar1;
   
@@ -2206,10 +2206,10 @@ LAB_8006d340:
   return true;
 }
 
-bool some_magic_check(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *param_3){
+u8 some_magic_check(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *param_3){
   SpellEnum bVar3;
-  bool bVar1;
-  bool bVar2;
+  u8 bVar1;
+  u8 bVar2;
   
   bVar3 = GetIDIndex(param_2->id);
   if ((bVar3 != wallOfBones) ||
@@ -2231,13 +2231,13 @@ bool some_magic_check(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *pa
   return bVar2;
 }
 
-bool func_checking_vs_magic(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *param_3,char *param_4){
+u8 func_checking_vs_magic(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *param_3,char *param_4){
   u8 bVar1;
   CharStats *stats;
   s32 lVar2;
   s32 iVar3;
   u16 uVar6;
-  bool bVar9;
+  u8 bVar9;
   CharSheet *pCVar10;
   float fVar11;
   
@@ -2349,8 +2349,8 @@ s32 calc_spell_damage_(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *p
   return (u32)(iVar2 >> 0x10);
 }
 
-s16 magic_damage_resist_calc(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,bool param_4){
-  bool bVar4;
+s16 magic_damage_resist_calc(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3,u8 param_4){
+  u8 bVar4;
   u32 uVar1;
   s32 iVar2;
   s16 sVar3;
@@ -2448,7 +2448,7 @@ void combat_potion_heal(CombatEntity *param_1,CombatEntity *param_2,u16 HI,u16 L
   return;
 }
 
-bool combat_potion_effects(CombatEntity *param_1,CombatEntity *param_2){
+u8 combat_potion_effects(CombatEntity *param_1,CombatEntity *param_2){
   PotionEnum PVar1;
 
   PVar1 = param_1->item;
@@ -2571,7 +2571,7 @@ void FUN_8006e4c0(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
   CombatEntity *pCVar1;
   playerData *ppVar2;
   u32 uVar3;
-  bool bVar9;
+  u8 bVar9;
   u16 uVar7;
   s16 sVar8;
   s32 iVar4;
@@ -2647,7 +2647,7 @@ void FUN_8006e4c0(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
 }
 u8 Combat_potion_func(CombatEntity *param_1,CombatEntity *param_2){
   CharSkills *pCVar1;
-  bool bVar5;
+  u8 bVar5;
   s16 sVar4;
   u32 uVar2;
   s32 iVar3;
@@ -2725,7 +2725,7 @@ u8 user_target_in_party(CombatEntity *param_1,CombatEntity *param_2,playerData *
 
 u8 Combat_selectAttack(CombatEntity *param_1,CombatEntity *param_2,playerData *param_3){
   u8 bVar1;
-  bool SetAni;
+  u8 SetAni;
   u8 bVar5;
   s16 sVar3;
   
@@ -2870,7 +2870,7 @@ void checkForCheatDeath(CombatEntity *param_1,s16 param_2){
 }
 
 
-bool some_attack_calc(CombatEntity *user,CombatEntity *target,u8 param_3){
+u8 some_attack_calc(CombatEntity *user,CombatEntity *target,u8 param_3){
   u8 bVar1;
   playerData *ppVar2;
   playerData *ppVar3;
@@ -2910,7 +2910,7 @@ void FUN_8006f2cc(CombatEntity *param_1){
 }
 
 void check_petrify_int_dex_wil_str(CombatEntity *param_1){
-  bool bVar2;
+  u8 bVar2;
   
   bVar2 = check_for_petrify_effect(param_1);
   if ((((CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_INT) == 0) || (CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_WIL) == 0)) ||
@@ -3030,7 +3030,7 @@ void FUN_8006f8bc(CombatEntity *param_1){func_8006f7f8(param_1,flag9);}
 void FUN_8006f8d8(CombatEntity *param_1,ItemID param_2,u8 param_3){
   u8 bVar1;
   PotionEnum PVar2;
-  bool bVar3;
+  u8 bVar3;
   
   param_1->unk0x26 = param_3;
   param_1->item = GetIDIndex(param_2);
@@ -3101,7 +3101,7 @@ u16 get_weapon_borg5(CombatEntity *param_1){
 }
 
 
-bool bow_eqquiped(CombatEntity *param_1){
+u8 bow_eqquiped(CombatEntity *param_1){
   Temp_weapon *pTVar2;
   u8 bVar3;
   u8 *pbVar4;
@@ -3195,10 +3195,10 @@ void get_weapon_sheild_borg5(CombatEntity *param_1){
   return;
 }
 
-bool cannotSheild(ItemID param_1){return gEntityDB->entities[GetIDIndex(param_1)].sheildStat == -1;}
+u8 cannotSheild(ItemID param_1){return gEntityDB->entities[GetIDIndex(param_1)].sheildStat == -1;}
 
 /* ehud gorgon chaos.Lt. harpy marquis minotuar mino.lord neilsin */
-bool CannotShowWeapon(ItemID param_1){
+u8 CannotShowWeapon(ItemID param_1){
   u8 bVar2;
   u8 *pbVar1;
   u32 uVar3;
@@ -3222,7 +3222,7 @@ bool CannotShowWeapon(ItemID param_1){
 
 AnimationData * get_weapon_anidat(CombatEntity *param_1){
   Temp_weapon *pTVar1;
-  bool bVar5;
+  u8 bVar5;
   u8 bVar6;
   u16 uVar4;
   u32 uVar2;
@@ -3385,7 +3385,7 @@ void FUN_80070234(CombatEntity *param_1){
 void FUN_80070304(CombatEntity *param_1){
   u32 uVar1;
   CombatEntity *pCVar2;
-  bool bVar3;
+  u8 bVar3;
   
   uVar1 = param_1->TargetIndex;
   if (-1 < (s32)uVar1) {
@@ -3408,7 +3408,7 @@ void combat_print_HP_gained(CombatEntity *param_1,s16 param_2){
   return;
 }
 
-void set_atk_range_multi(CombatEntity *param_1,bool param_2){
+void set_atk_range_multi(CombatEntity *param_1,u8 param_2){
   Temp_weapon *pTVar1;
   u8 bVar3;
   

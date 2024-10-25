@@ -1,7 +1,7 @@
 #include "globals.h"
 
-bool intro_music_flag=true;
-bool NOOP_flag=false;
+u8 intro_music_flag=true;
+u8 NOOP_flag=false;
 
 void load_intro_music(void){
   u32 BVar1;
@@ -20,7 +20,7 @@ void load_intro_music(void){
 
 s32 appState_0(Gfx **param_1){
   BaseWidget *pBVar1;
-  bool bVar2;
+  u8 bVar2;
   
   while (WidgetHandler::GetWidgetB(gGlobals.widgetHandler)) WidgetHandler::Tick(gGlobals.widgetHandler,1);
   if (intro_music_flag) {

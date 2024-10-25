@@ -153,7 +153,7 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2)
   uVar4 = 0;
   printLine(600);
   uVar7 = 0;
-  uVar1 = get_party_avg_lv(gGlobals.party);
+  uVar1 = Party::GetAvgLevel(gGlobals.party);
   printLine(0x259);
   printLine(0x25a);
   printLine(0x25b);
@@ -418,7 +418,7 @@ void load_camp_ambush(void){
   gGlobals.EncounterDat.BossShadow = 0;
   gGlobals.combatBytes[2] = 1;
   ter = World::getTerrain(TerrainPointer);
-  lv = get_party_avg_lv(gGlobals.party);
+  lv = Party::GetAvgLevel(gGlobals.party);
   if (lv < 0x15) {
     if (lv < 0x10) {
       if (lv < 0xb) lvTeir = lv < 6 ^ 1;
@@ -517,7 +517,7 @@ void Ofunc_8000c850(float param_1)
 
 #endif
 //now, to more sensible programming.
-void minimap_struct_init_or_free(bool param_1,s16 param_2){
+void minimap_struct_init_or_free(u8 param_1,s16 param_2){
   if (param_2 == -1) {
     if (param_1 == false) passto_minimap_struct_free(&MinimapStruct);
     else minimap_struct_init(&MinimapStruct);

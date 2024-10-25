@@ -90,9 +90,9 @@ namespace Controller{
   void proc(void* p);
   void InitBuffer();
   void ReadInput();
-  bool GetQuerey(u8 port);
-  bool CheckStatus(u8 port);
-  bool GetContRead(u8 port);
+  u8 GetQuerey(u8 port);
+  u8 CheckStatus(u8 port);
+  u8 GetContRead(u8 port);
   u8 InitPak(u8 port);
   u8 InitRumble(u8 port);
   u8 InitGBPak(u8 port);
@@ -107,10 +107,10 @@ namespace Controller{
   u8 ReadPakSave(u8 *buff,s16 filenum,u16 offset,u16 size,u8 port);
   u8 ErasePakSave(u8 fileno,u8 port);
   u32 GetPakPort(u8 port);
-  bool GetStatus(u8 port,u8 *statOut);
-  bool GetStatus2(u8 port);
+  u8 GetStatus(u8 port,u8 *statOut);
+  u8 GetStatus2(u8 port);
   s32 SetJoystick(float H,float V,u8 port);
-  bool GetInput(controller_aidyn** input,u8 port);
+  u8 GetInput(controller_aidyn** input,u8 port);
   void DecodeString(char *ascii,u8 *pfs,u8 len);
   void EncodeString(u8 *pfs,char *ascii,u8 len);
   u16 GetDelay(u8 port);

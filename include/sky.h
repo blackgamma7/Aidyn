@@ -2,7 +2,7 @@
 
 struct SkySubstruct {
     Borg8header *Borg8;
-    u32 Bitmap;
+    Color32* Bitmap;
     u16 type;
 };
 
@@ -20,6 +20,9 @@ struct SkyStruct {
     float unk48;
 };
 
+u32 sky_flag_A;
+s16 sky_flag_b;
+
 namespace Sky{
   void ResetSubstruct(SkySubstruct*);
   void FreeSubstruct(SkySubstruct *);
@@ -27,7 +30,7 @@ namespace Sky{
   void AllocGradient(void);
   void Free();
   void Reset();
-  int GenerateGradient(Color32*,Color32*,float,float,float,Color32*,float);
+  int GenerateGradient(Color32 *,Color32 *,float,float,float,Color32 *,float);
   void GenerateSky(Color32 *col,Color32 *transSky,float param_3,float gray,short param_5,vec3f *outVec);
   void SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32 *param_5,
                    Color32 *param_6,Color32 *param_7,Color32 *param_8,Color32 *param_9,

@@ -39,7 +39,7 @@ ItemID get_spell_ingredient(SpellInstance *param_1){
 }
 
 
-bool TempSpell::IsBattleSpell(SpellInstance *param_1){
+u8 TempSpell::IsBattleSpell(SpellInstance *param_1){
 
   if (true) {
     switch(GetIDIndex((param_1->base).id)) {
@@ -96,7 +96,7 @@ u8 Ofunc_8008404c(SpellInstance *param_1){
   return 1;
 }
 
-bool SpellLevelMaxed(SpellInstance *param_1){return 9 < param_1->level;}
+u8 SpellLevelMaxed(SpellInstance *param_1){return 9 < param_1->level;}
 
 void CreateTempEnchant(Temp_enchant *Ench,SpellEnum Index,u8 LV,u32 Timer,u8 UNK3,s32 UNK4){
   Ench->lv = LV;
@@ -113,7 +113,7 @@ void FUN_800840dc(Temp_enchant *param_1){
     FUN_80095f6c(param_1->unk0x14);}
 }
 
-bool inc_effect_timer(Temp_enchant *param_1,u16 param_2,s32 param_3){
+u8 inc_effect_timer(Temp_enchant *param_1,u16 param_2,s32 param_3){
   u32 uVar1;
   u32 uVar2;
   
@@ -197,7 +197,7 @@ void learn_spell(spellbook *param_1,ItemID param_2,u8 param_3){
   create_temp_spell(pTVar2,param_2,param_3);
 }
 
-bool knows_spell(spellbook *param_1,ItemID param_2,u8 *param_3){
+u8 knows_spell(spellbook *param_1,ItemID param_2,u8 *param_3){
   u32 uVar2;
   SpellInstance *psVar1;
   
