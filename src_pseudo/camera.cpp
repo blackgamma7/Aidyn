@@ -46,7 +46,7 @@ void camera_init(Camera_struct *param_1,Borg_9_data *map,vec3f *pos,u16 mode){
   param_1->unk48 = 15.0f;
   param_1->unk54 = 45.0f;
   init_collisionTypeA(&param_1->colTypeA);
-  set_CollisionTypeB(&param_1->colTypeB);
+  setSpeedProperty(&param_1->colTypeB);
 }
 
 void camera_orient(Camera_struct *param_1){

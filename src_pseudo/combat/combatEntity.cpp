@@ -342,10 +342,10 @@ u32 get_combatEnt_protection(CombatEntity *param_1){
   iVar2 = *(temp_armor **)pCVar1->armor;
   uVar6 = 0;
   if (iVar2) {uVar6 = (u32)iVar2->Protect;}
-  uVar4 = warrior_dividing(CharSkills::getModdedSkill(pCVar1->Skills,SKILL_WARRIOR),5,false,0,0);
+  uVar4 = warrior_dividing(CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Warrior),5,false,0,0);
   if ((s32)(((param_1->charSheetP->EXP->protection + uVar6) - uVar7) + uVar4 + iVar8) < 1) {uVar6 = 0;}
   else {
-    uVar4 = warrior_dividing(CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_WARRIOR),5,false,0,0);
+    uVar4 = warrior_dividing(CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_Warrior),5,false,0,0);
     uVar6 = uVar4 + ((uVar6 + param_1->charSheetP->EXP->protection) - uVar7) + iVar8 & 0xff;
   }
   return uVar6; //(Warrior/5)+(ArmorProtect+EntProtect-Acid)+(DefPotion*15)
@@ -359,7 +359,7 @@ char get_sheild_warrior_skill(CombatEntity *param_1){
   ptVar1 = param_1->charSheetP->armor[1];
   bVar4 = 0;
   if (ptVar1) {bVar4 = ptVar1->DEF;}
-  return CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_WARRIOR) + bVar4 * getModdedSheild(param_1->charSheetP->Skills);
+  return CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_Warrior) + bVar4 * getModdedSheild(param_1->charSheetP->Skills);
 }
 
 u32 get_protection_level(CombatEntity *param_1,u8 backStab){
@@ -1647,7 +1647,7 @@ s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,cha
   iVar7 = CharStats::getModdedStat(stats,STAT_END);
   iVar8 = CharStats::getBase(stats,STAT_LV);
   cVar11 = getModdedWeapon(pCVar3,pTVar4->weaponType);
-  cVar12 = CharSkills::getModdedSkill(pCVar3,SKILL_WARRIOR);
+  cVar12 = CharSkills::getModdedSkill(pCVar3,SKILL_Warrior);
   petrified = check_for_petrify_effect(param_2);
   DefDex = 0;
   if (!petrified) DefDex = CharStats::getModdedStat(DefStats,STAT_DEX);
@@ -1744,7 +1744,7 @@ u16 calc_attack_or_crit(CombatEntity *attacker,CombatEntity *target){
     pCVar2 = attacker->charSheetP->Skills;
     backstab = check_for_backstab(attacker,target);
     sVar5 = multiple_skill_checks(attacker,target,TargetX,TargetY,backstab);
-    iVar4 = skillcheck_float(attacker,(s16)RollD(1,100),sVar5,SKILL_WARRIOR);
+    iVar4 = skillcheck_float(attacker,(s16)RollD(1,100),sVar5,SKILL_Warrior);
     Wskill = getModdedWeapon(pCVar2,pTVar1->weaponType);
     if (Wskill < 6) uVar9 = SQ((8 - Wskill));
     else uVar9 = 5;
@@ -1783,7 +1783,7 @@ s16 some_STR_Theif_check(CombatEntity *attacker,s16 param_2,s32 param_3,CombatEn
   DMG = RollD(pCVar3->weapons->damage + get_STR_Steps(attacker) * diceMulti,6);
   iVar6 = some_skillcheck_calc(((s32)param_2 - (s32)(s16)param_3) * 0x10000 >> 0x10);
   iVar6 = (DMG + ((iVar6 + CharStats::getBase(pCVar3->Stats,STAT_LV)) - get_protection_level(target,backStab)) * 0x10000 >> 0x10) +
-          CharSkills::getModdedSkill(pCVar3->Skills,SKILL_THIEF) * 2 * backStab) * 0x10000 >> 0x10;
+          CharSkills::getModdedSkill(pCVar3->Skills,SKILL_Theif) * 2 * backStab) * 0x10000 >> 0x10;
   if (iVar6 < 1) iVar6 = 1;
   sVar9 = calc_element_resist_multi(attacker,target,(s16)iVar6,pCVar3->weapons->element);
   if ((s32)sVar9 << 0x10 < 0) sVar9 = 0;
@@ -1843,7 +1843,7 @@ s32 Ofunc_8006bfc0(CombatEntity *param_1,s16 param_2,u8 param_3,u8 param_4){
 
 s32 theif_backstab_mod(CombatEntity *param_1,s16 param_2,u8 backstab,s32 param_4,s16 param_5){
   return ((((s32)param_2 + (s32)param_5 * (s32)backstab) * 0x10000 >> 0x10) +
-         (s32)CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_THIEF) * param_4 * 10) * 0x10000 >> 0x10;
+         (s32)CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_Theif) * param_4 * 10) * 0x10000 >> 0x10;
 }
 
 s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,char param_4,u8 backstab){
@@ -1875,7 +1875,7 @@ s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,c
   iVar8 = CharStats::getModdedStat(atkStats,STAT_DEX);
   iVar9 = CharStats::getBase(atkStats,STAT_LV);
   cVar11 = getModdedWeapon(pCVar5,pTVar4->weaponType;);
-  cVar12 = CharSkills::getModdedSkill(pCVar5,SKILL_WARRIOR);
+  cVar12 = CharSkills::getModdedSkill(pCVar5,SKILL_Warrior);
   //(s32+STAT_DEX+LV)+(WepHit+WepSkill*6+Warrior*2)
   uVar15 = (s32)((((iVar7 + iVar8 + iVar9) * 0x10000 >> 0x10) + (u32)pTVar4->hit + cVar11 * 6 + cVar12 * 2) * 0x10000) >> 0x10;
   if (6 < (s32)prox) {uVar15 = (s32)(uVar15 - ((s32)prox - 5) * 0x10000) >> 0x10;}
@@ -1907,7 +1907,7 @@ u32 some_combat_weapon_func(CombatEntity *attacker,CombatEntity *target){
   
   sVar5 = Calc_atk_accuracy(attacker,target,get_combatEnt_x(target),get_combatEnt_y(target),check_for_backstab(attacker,target));
   uVar3 = RollD(1,100);
-  iVar4 = skillcheck_float(attacker,(s16)uVar3,sVar5,SKILL_WARRIOR);
+  iVar4 = skillcheck_float(attacker,(s16)uVar3,sVar5,SKILL_Warrior);
   bVar9 = getModdedWeapon(attacker->charSheetP->Skills,attacker->charSheetP->weapons->weaponType);
   if (bVar9 < 6) uVar10 = SQ(8 - bVar9);
   else uVar10 = 5;
@@ -2169,7 +2169,7 @@ u8 Entity::CheckSpellWizard_combat(CombatEntity *param_1,CombatEntity *x,Temp_sp
   if (combat_check_spell_ingredient(param_1,param_2)) {
     if (Entity::TestEquipStamina(param_1->charSheetP,(s16)Entity::SpellStaminaSubtract(param_1->charSheetP,param_2,(u8)STAT_LV))) {
       sVar3 = some_aspect_multi_check(param_1,LV);
-      iVar2 = skillcheck_float(param_1,(s16)RollD(1,100),sVar3,SKILL_WIZARD);
+      iVar2 = skillcheck_float(param_1,(s16)RollD(1,100),sVar3,SKILL_Wizard);
       return some_spell_ingredient_check(param_1,param_2,(s16)iVar2,sVar3);
     }
     combat_spell_fail(param_1,gCombatP->textArray->not enough Stam for Spell);
@@ -2518,7 +2518,7 @@ s16 Warrior_thrown_check(CombatEntity *param_1,CombatEntity *param_2,u8 param_3)
   iVar6 = CharStats::getModdedStat(stats,STAT_DEX);
   iVar7 = CharStats::getBase(stats,STAT_LV);
   cVar12 = getModdedWeapon(pCVar2,Thrown);
-  cVar13 = CharSkills::getModdedSkill(pCVar2,SKILL_WARRIOR);
+  cVar13 = CharSkills::getModdedSkill(pCVar2,SKILL_Warrior);
   iVar8 = CharStats::getModdedStat(DefStats,STAT_DEX);
   iVar9 = CharStats::getBase(DefStats,STAT_LV);
   uVar10 = get_sheild_warrior_skill(param_2);
@@ -2664,7 +2664,7 @@ u8 Combat_potion_func(CombatEntity *param_1,CombatEntity *param_2){
     fVar8 = get_combatEnt_proximity(param_1,param_2);
     if (INT_MAX_f <= fVar8) {fVar8-= INT_MAX_f;}
     sVar4 = Warrior_thrown_check(param_1,param_2,(char)(s32)fVar8);
-    iVar3 = skillcheck_float(param_1,(s16)RollD(1,100);,sVar4,SKILL_WARRIOR);
+    iVar3 = skillcheck_float(param_1,(s16)RollD(1,100);,sVar4,SKILL_Warrior);
     bVar6 = getModdedWeapon(pCVar1,Thrown);
     if (bVar6 < 6) {uVar2 = (u32)(u8)(('\b' - bVar6) * ('\b' - bVar6));}
     else {uVar2 = 5;}

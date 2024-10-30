@@ -16,9 +16,9 @@ typedef enum WeaponClassEnum {
 } WeaponClassEnum;
 
 typedef enum SkillEnum {
- 	SKILL_ALCHEMIST, SKILL_DIPLOMAT, SKILL_HEALER, SKILL_LOREMASTER,
-    SKILL_MECHANIC, SKILL_MERCHANT, SKILL_RANGER, SKILL_STEALTH,
-    SKILL_THEIF, SKILL_TROUBADOR, SKILL_WARRIOR, SKILL_WIZARD, 
+ 	SKILL_Alchemist, SKILL_Diplomat, SKILL_Healer, SKILL_Loremaster,
+    SKILL_Mechanic, SKILL_MERCHANT, SKILL_Ranger, SKILL_Stealth,
+    SKILL_THEIF, SKILL_TROUBADOR, SKILL_Warrior, SKILL_Wizard, 
     SKILL_Total,SKILL_NONE=255
 } SkillEnum;
 
@@ -27,7 +27,7 @@ typedef enum SkillEnum {
 
 struct CharSkills { /* Skill and weapon levels. Also sheild. */
     s8 SkillBase[SKILLCOUNT];
-    s8 WeapomBase[WEAPONCOUNT];
+    s8 WeaponBase[WEAPONCOUNT];
     s8 ShieldBase;
     s8 SkillModded[SKILLCOUNT];
     s8 WeaponModded[WEAPONCOUNT];

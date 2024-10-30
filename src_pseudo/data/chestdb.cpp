@@ -87,7 +87,7 @@ u32 item_chances(container_Dat *chest,u8 *chance,u8 QLo,u8 Qhi,u8 slot,s16 item,
     pasVar2 = chest->lootCatDrop[slot]; 
     (*pasVar2)[1] = 1;
     (*pasVar2)[0] = item;
-    if (isMulti) {(*pasVar2)[1] = (s16)globals::rand_range(QLo,Qhi);}
+    if (isMulti) {(*pasVar2)[1] = (s16)rand_range(QLo,Qhi);}
   }
   return uVar4;
 }
@@ -102,8 +102,8 @@ void get_chest_loot(loot_Pointer *param_1,container_Dat *param_2){
   uVar4 = 0;
   bVar3 = GetIDIndex(param_2->LootCat);
   pcVar4 = param_1->lootCat[bVar3];
-  param_2->Gold = (u16)(globals::rand_range(pcVar4->Gold lo,pcVar4->Gold Hi) << 1);
-  uVar1 = globals::rand_range(0x1e,0x20); //spice, herb or gem
+  param_2->Gold = (u16)(rand_range(pcVar4->Gold lo,pcVar4->Gold Hi) << 1);
+  uVar1 = rand_range(0x1e,0x20); //spice, herb or gem
   uVar1 = item_chances(param_2,(u8 *)(u32)pcVar4->reagentchance,(u32)pcVar4->reagentLlo,
                        (u32)pcVar4->reagentHi,0,itemID_array[uVar1],1);
   pbVar2 = pcVar4->itemDropChances;

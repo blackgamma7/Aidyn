@@ -112,9 +112,10 @@ void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float ma
     coords->z += RAND.GetFloatRange(-0.1f,0.1f);
     vec3_normalize(coords);
   }
+  #define windRange (float)(1.0/432) //0.002314815
   if (RAND.GetFloat0To1() <= magChange) {
-    fVar1 = x + RAND.GetFloatRange(-0.002314815,0.002314815);
-    if ((fVar1 <= 0.23148148f) && (x = fVar1, fVar1 < 0.0)) {
+    fVar1 = x + RAND.GetFloatRange(-windRange,windRange);
+    if ((fVar1 < windRange) && (x = fVar1, fVar1 < 0.0)) {
       x = 0.0;
     }
   }

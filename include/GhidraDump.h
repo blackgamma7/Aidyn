@@ -330,20 +330,7 @@ struct Particle {
     Mtx alignMtx;
 };
 
-struct voxelHeader { /* Header for Refernce objects (Voxels) */
-    vec3f pos; /* Where is it */
-    f32 size; /* how big is it */
-    u32 timestamp; /* when was it called */
-    u16 Bitfeild; /* Flags for rendering */
-    u16 type; /* object type */
-    short LinkID[2]; /* usually 0xFFFFFFFF (none) */
-    u16 flagA; /* event flags */
-    u16 flagB;
-    u16 flagC;
-    undefined field9_0x22;
-    undefined field10_0x23;
-    void *ptr0x24;
-};
+
 
 typedef struct{
     {
@@ -2885,8 +2872,6 @@ struct BREAKINFO {
 };
 
 
-typedef struct Calendar Calendar, *PCalendar;
-
 struct Calendar { /* Timestruct->Ingame_time as x */
     u8 month; /* x / 0x114db000 */
     u8 week; /* (x % 0x114db000)/0x229b600 day: */
@@ -3685,7 +3670,7 @@ struct wander_substruct {
     u16 noderelA;
     u16 noderelB;
     s16 isActive;
-    short field10_0x22;
+    short index;
     float senseValA;
     float senseValB;
     float unk2c;

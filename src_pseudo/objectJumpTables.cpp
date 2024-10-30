@@ -306,7 +306,7 @@ u8 monsterpary_func(voxelObject *param_1){
   
   if (!(param_1->monster).borg_13) {
     playerPos = &((gGlobals.playerCharStruct.playerDat)->collision).pos;
-    ppVar2 = gGlobals.wander.wanderSubstructs[(param_1->monster).unk0x24].playerDat;
+    ppVar2 = gGlobals.wander.wanderSubstructs[(param_1->monster).wandererIndex].playerDat;
     Vec3_sub(&temp,&(ppVar2->collision).pos,playerPos);
     x = vec3_normalize(&temp);
     setVec3(&temp,-(ppVar2->facing).x,0.0,-(ppVar2->facing).y);
@@ -316,13 +316,13 @@ u8 monsterpary_func(voxelObject *param_1){
     Vec3_sub(&temp,&temp,playerPos);
     gGlobals.EncounterDat.collisionByte = x <= vec3_normalize(&temp);
     gGlobals.EncounterDat.unk28 = 0;
-    battle_setup_func(param_1,(param_1->header).flagB,gGlobals.wander.wanderSubstructs[(param_1->monster).unk0x24].VoxelIndex);
+    battle_setup_func(param_1,(param_1->header).flagB,gGlobals.wander.wanderSubstructs[(param_1->monster).wandererIndex].VoxelIndex);
     gGlobals.playerCharStruct.unkState = 2;
   }
   else if (((param_1->monster).flags & 4) == 0) {
     dialoug_func((param_1->monster).borg_13,0,gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,
                  in_a2_lo);
-    monsterparty_wanderstruct(&gGlobals.wander.wanderSubstructs[(param_1->monster).unk0x24]);
+    monsterparty_wanderstruct(&gGlobals.wander.wanderSubstructs[(param_1->monster).wandererIndex]);
     setEventFlag((param_1->header).flagB,true);
     getEventFlag(0x15fa);
   }

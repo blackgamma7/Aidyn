@@ -16,9 +16,9 @@ struct collisionTypeA {
     float unk10; /* set to 0, unused */
     u16 flag; /* set when callback added */
     u32 unk18;
-    ulong (*callbackA)(void); /* never seem to be set outside orphaned code */
-    ulong (*callbackB)(void); /* never seem to be set outside orphaned code */
-    ulong (*callbackC)(void); /* never seem to be set outside orphaned code */
+    void (*callbackA)(collisionSphere*,borg9_phys*); /* never seem to be set outside orphaned code */
+    void (*callbackB)(collisionSphere*,borg9_phys*); /* never seem to be set outside orphaned code */
+    void (*callbackC)(collisionSphere*,borg9_phys*); /* never seem to be set outside orphaned code */
 };
 
 struct EnvProp {
@@ -39,3 +39,11 @@ struct collisionSphere {
     EnvProp *envProps;
     void *link; /* a guess of PlayerData* . */
 };
+
+void FUN_800adae0(Borg9data*,vec3f*,vec3f*,float ,s16*,s16 *,s16 *,s16 *);
+void FUN_800adc44(Borg9data*,collisionSphere*,s16*,s16*,s16*,s16*);
+void getZonePositionShorts(Borg9data *,vec3f *,s16 *,s16 *);
+bool FUN_800ade28(Borg9data*,vec3f*,s16*,s16*);
+bool CheckCollision(Borg9data *,vec3f *,vec3f *,float ,vec3f *,vec3f *,s16);
+bool processPlayers_sub(Borg9data *,vec3f *,vec3f *,float ,vec3f *,vec3f *);
+void ProcessCollisionSphere(Borg9data *,collisionSphere *,s16);

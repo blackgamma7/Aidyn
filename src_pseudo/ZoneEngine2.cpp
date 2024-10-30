@@ -1090,8 +1090,8 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
       fVar10 = (pfVar8->header).pos.y;
     }
     if (!bVar5) {
-      if (!PlayerData::CheckCollision(player,fVar10 - (player->collision).radius,1,0);) {
-        PlayerData::CheckCollision(player,0.0,0,0);
+      if (!Actor::CheckCollision(player,fVar10 - (player->collision).radius,1,0);) {
+        Actor::CheckCollision(player,0.0,0,0);
       }
       gGlobals.Sub.weather.rainParticles = NULL;
       FUN_800b2bc4(&gGlobals.Sub.particleEmmiter);
@@ -1168,7 +1168,7 @@ void ConfirmPlayerWithinZone(playerData *param_1,Borg9data *param_2){
     if (((param_1->collision).pos.y < -50.0f) || ((param_1->collision).vel.y < -0.3)) {
       (param_1->collision).pos.y = 50.0f;
       setVec3(&(param_1->collision).vel,0.0,0.0,0.0);
-      if (!PlayerData::CheckCollision(param_1,0.0,0,0)) (param_1->collision).vel.y = -0.054f;
+      if (!Actor::CheckCollision(param_1,0.0,0,0)) (param_1->collision).vel.y = -0.054f;
       N64Print::Print("Where's the player??\n");
       return;
     }

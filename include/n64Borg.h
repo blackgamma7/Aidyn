@@ -104,18 +104,16 @@ typedef enum Vobject {
 } Vobject;
 
 struct voxelHeader { /* Header for Refernce objects (Voxels) */
-    vec3f coords; /* Where is it */
-    float size; /* how big is it. */
+    vec3f pos; /* Where is it */
+    f32 size; /* how big is it */
     u32 timestamp; /* when was it called */
-    u16 Bitfeild; /* 16-bit Flags for rendering */
-    u16 type; /* object type. 16-bit*/
-    s16 LinkID[2]; /* used by containers to link with scene object. holds index of relevant voxel. */
-    u16 flagA; // if non-zero, flagA detemines which needs to be set to activate
+    u16 Bitfeild; /* Flags for rendering */
+    u16 type; /* object type */
+    short LinkID[2]; /* usually 0xFFFFFFFF (none) */
+    u16 flagA; /* event flags */
     u16 flagB;
     u16 flagC;
-    u8 unk0x22;
-    u8 unk0x23;
-    void * ptr0x24;
+    void *ptr0x24;
 };
 
 struct container_Dat {
@@ -255,15 +253,14 @@ struct wandernode_dat{
 	float NodeChangeChance;
 	u16 Timer; //frame ticks before changing nodes.
     u16 nodeflags; //only first 3 bits used, it seems.
-    u16 NodeA; //indecies of sibling nodes on map chunk.
-	u16 NodeB;
+    u16 NodeSiblings[2]; //indecies of sibling nodes on map chunk.
     u8 align[40];
 };
 struct monsterparty_dat {
     struct monsterpartyEntry enemyEntries[8];
     ItemID entityID; //avatar of party or NPC
     ItemID globalLoot;
-    u16 unk0x24;
+    u16 wandererIndex;
     u8 unk0x26;
     u8 unk0x27;
     u16 unk0x28;

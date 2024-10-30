@@ -530,9 +530,9 @@ LAB_80078b24:
 void remove_potion_effect(CharSheet *param_1,u8 param_2){
   CharSkills *arg0;
   u8 SVar1;
-  CHAR_SKILL arg1;
+  u8 arg1;
   
-  if (param_1->potionEffects[param_2] == NULL) {return;}
+  if (!param_1->potionEffects[param_2]) return;
   switch(param_1->potionEffects[param_2]->ID) {
   case POTION_STRENGTH:
     SVar1 = STAT_STR;
@@ -544,16 +544,16 @@ void remove_potion_effect(CharSheet *param_1,u8 param_2){
     goto Lab_return;
   case POTION_CLARITY:
     arg0 = param_1->Skills;
-    arg1 = SKILL_LOREMASTER;
+    arg1 = SKILL_Loremaster;
     goto remove_skill_buff;
   case POTION_CHARISMA:
     arg0 = param_1->Skills;
-    arg1 = Diplomat;
+    arg1 = SKILL_Diplomat;
 remove_skill_buff:
-    some_moddedSkillCheck(arg0,arg1,-3);
+    CharSkills::ModdedSkillAdd(arg0,arg1,-3);
     return;
   case POTION_STEALTH:
-    some_moddedSkillCheck(param_1->Skills,Stealth,-3);
+    CharSkills::ModdedSkillAdd(param_1->Skills,SKILL_Stealth,-3);
     goto Lab_return;
   }
   remove_stat_buff(param_1,SVar1,10);
@@ -1156,7 +1156,7 @@ LAB_80079c18:
     remove_stat_buff(param_1,SVar3,cVar4);
     break;
   case stealth:
-    some_moddedSkillCheck(param_1->Skills,Stealth,pTVar1->lv * -6);
+    CharSkills::ModdedSkillAdd(param_1->Skills,Stealth,pTVar1->lv * -6);
   }
   return;
 }
@@ -1337,8 +1337,8 @@ u8 Entity::CheckSpellWizard(CharSheet *param_1,SpellInstance *param_2){
   if (param_2) {
     bVar2 = param_1->spellSwitch;
     if (bVar2 == 1) {
-      if (CharSkills::getModdedSkill(param_1->Skills,SKILL_WIZARD) <= param_2->level)
-         return CharSkills::getModdedSkill(param_1->Skills,SKILL_WIZARD);
+      if (CharSkills::getModdedSkill(param_1->Skills,SKILL_Wizard) <= param_2->level)
+         return CharSkills::getModdedSkill(param_1->Skills,SKILL_Wizard);
       return param_2->level;
     }
     if (bVar2 != 0) {
@@ -1435,13 +1435,13 @@ void Entity::CampHeal(CharSheet *param_1,float healing,uint time){
   if (uVar1 < uVar4) uVar4 = uVar1;
   addHP(param_1,uVar4);
   IncEffects(param_1,NULL,time);
-  multi_equip_StamMod(&param_1->weapons->base,healing);
-  multi_equip_StamMod(&(*param_1->armor)->base,healing);
-  multi_equip_StamMod(&param_1->armor[1]->base,healing);
+  ItemCampStamina(&param_1->weapons->base,healing);
+  ItemCampStamina(&(*param_1->armor)->base,healing);
+  ItemCampStamina(&param_1->armor[1]->base,healing);
   uVar1 = 0;
   if (param_1->pItemList->usedItems != 0) {
     for(uVar1;uVar1<param_1->pItemList->usedItems;uVar1++) {
-      multi_equip_StamMod(&param_1->pItemList->pItem[uVar1]->base,healing);
+      ItemCampStamina(&param_1->pItemList->pItem[uVar1]->base,healing);
     }
   }
 }
@@ -1524,7 +1524,7 @@ u16 Entity::HealByPotion(CharSheet *param_1,u16 Hi,u16 Lo){
   float fVar4;
   
   if ((gGlobals.screenFadeModeSwitch != 2) || (uVar3 = 0, gGlobals.ShadowIndex == -1)) {
-    fVar4 = (float)globals::rand_range(Hi,Lo) / 100.0f;
+    fVar4 = (float)rand_range(Hi,Lo) / 100.0f;
     fVar4 *= (float)getHPMax(param_1)
     if (fVar4 < INT_MAX_f) {uVar3 = (u16)fVar4;}
     else {uVar3 = (u16)(fVar4 - INT_MAX_f);}
@@ -1781,7 +1781,7 @@ u8 check_healer_stam(CharSheet *param_1){
   u8 bVar3;
   s32 iVar4;
   
-  cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_HEALER);
+  cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_Healer);
   if (cVar2 == 0) {bVar3 = false;}
   else {
     iVar1 = CharStats::getModded(param_1->Stats,STAT_STAM);
@@ -1798,7 +1798,7 @@ u8 check_healer_herb_stam(CharSheet *param_1){
   s32 iVar1;
   s32 iVar4;
   
-  cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_HEALER);
+  cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_Healer);
   bVar3 = false;
   if (cVar2 != 0) {
     if (!IInventory::HasItem((gGlobals.party)->inv,itemID_array[31])) {bVar3 = false;}
