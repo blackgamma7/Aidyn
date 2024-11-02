@@ -1,6 +1,4 @@
-#define OneOver60_d 0.016666666666666666f
 #define FILENAME "./src/n64print.cpp"
-
 
 #include "N64Print.h"
 #include "heapN64.h"
@@ -18,11 +16,10 @@ void N64Print::Toggle(N64PrintStruct *param_1,controller_aidyn *param_2){
     if (param_1->color.w <= 0.0) {param_1->color.w = 60.0f;}
     else {param_1->color.w = 1.0f;}
   }
-  if (((param_2->input_2; & R_BUTTON)) && ((param_2->input & START_BUTTON))) {
+  if (((param_2->input_2 & R_BUTTON)) && ((param_2->input & START_BUTTON))) {
     param_2->input &= ~START_BUTTON;
     show_debug_queue ^= 1;
   }
-  return;
 #endif
 }
 
@@ -158,7 +155,7 @@ Gfx* N64Print::Draw(Gfx*gfx,s16 delta){
   float fVar6;
   
   if (((gDebugFlag) && (show_debug_queue)) && (gN64PrintP)) {
-    gN64PrintP->color.w -= (delta * OneOver60_d);
+    gN64PrintP->color.w -= (delta * (1.0/60));
     if (0.0 < gN64PrintP->color.w) {
       fVar4 = gN64PrintP->color.x * 255.0f;
       fVar5 = gN64PrintP->color.y * 255.0f;

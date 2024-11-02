@@ -330,18 +330,6 @@ struct Particle {
     Mtx alignMtx;
 };
 
-
-
-typedef struct{
-    {
-        u16 s; //often loaded as short
-        struct{
-            u8 type; // from DB_TYPE
-            u8 id;
-        };
-    };
-}ItemID;
-
 struct DCMSub2 {
     Borg12Header *borg12;
     u32 index;
@@ -521,15 +509,6 @@ struct attachmentNode {
 };
 
 
-
-
-
-union Vtx {
-    Vtx_t v;
-    Vtx_tn n;
-    longlong force_Structure_alignment[2];
-};
-
 struct PlaneObj { /* used for damage numbers and shadows */
     Borg1header *borg1p;
     u32 unk4; /* unused */
@@ -556,10 +535,6 @@ struct PlaneObj { /* used for damage numbers and shadows */
     u8 statVisible;
     u32 unk28c; /* unused */
 };
-
-
-
-
 
 struct ParticleHeadStruct {
     Particle *particles;
@@ -1597,15 +1572,6 @@ struct borg13header {
     undefined field10_0x16;
     undefined field11_0x17;
 };
-
-typedef enum Borg1Formats {
-    RGBA16=0,
-    IA16=1,
-    CI8=2,
-    IA8=3,
-    CI4=5,
-    RGBA32=8
-} Borg1Formats;
 
 typedef struct borg_short borg_short, *Pborg_short;
 

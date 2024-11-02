@@ -568,7 +568,7 @@ u8 itemtype_scroll(Party *param_1,u8 param_2,GearInstance *param_3,CharSheet *pa
     if (item_pointer->Gear[search_item_array(param_3->id)].spell == 0xff) uVar2 = 1;
     else uVar2 = FUN_800830a4(param_1,param_2,param_3,param_4,3);
   }
-  else uVar2 = use_scroll(param_1,param_2,param_3,param_4);
+  else uVar2 = Party::UseScroll(param_1,param_2,param_3,param_4);
   return uVar2;}
 
 u8 itemtype_ring(Party *param_1,u8 param_2,GearInstance *param_3,CharSheet *param_4){
@@ -641,29 +641,32 @@ u8 itemtype_gear(Party *param_1,u8 param_2,GearInstance *param_3,CharSheet *para
 void FUN_8007f10c(Party *param_1,CharSheet *param_2,u16 param_3,u8 (*param_4) [2],u8 param_5){
   CharGear *pCVar1;
   
-  FUN_8007840c(param_2,param_3,param_4);
+  Entity::EquipGear(param_2,param_3,param_4);
   pCVar1 = param_2->pItemList;
-  SetMagicCharges((Temp_weapon *)param_2->pItemList->pItem[func_8007daa8(pCVar1,param_3)],param_5);
+  SetMagicCharges(param_2->pItemList->pItem[CharGear::GetSlotByID(pCVar1,param_3)],param_5);
 }
 
-u8 use_scroll(Party *param_1,u8 param_2,GearInstance *param_3,CharSheet *param_4){
-  u8 bVar1;
-  u8 bVar2;
-  MagicSchoolEnum MVar3;
-  ItemID IVar4;
-  Gear_RAM *pGVar5;
-  longlong lVar6;
-  s32 iVar7;
-  u8 bVar8;
-  char *pcVar9;
-  Color32 *pcVar10;
-  Color32 *pcVar11;
-  Spell_RAM *pSVar12;
+
+bool Party::UseScroll(Party *param_1,byte param_2,GearInstance *param_3,CharSheet *param_4){
+  byte bVar1;
+  byte bVar2;
+  u8 MVar3;
+  u8 MVar4;
+  ItemID IVar5;
+  Gear_RAM *pGVar6;
+  Spell_RAM *pSVar7;
+  byte bVar11;
+  u16 uVar10;
+  bool bVar12;
+  int iVar9;
+  char *pcVar13;
+  Color32 *pCVar14;
+  Color32 *pCVar15;
   Color32 acStack808;
   Color32 acStack744;
   Color32 acStack680;
   Color32 acStack616;
-  undefined auStack552 [8];
+  undefined auStack_228 [8];
   Color32 acStack544;
   Color32 acStack480;
   Color32 acStack416;
@@ -673,129 +676,159 @@ u8 use_scroll(Party *param_1,u8 param_2,GearInstance *param_3,CharSheet *param_4
   Color32 acStack160;
   Color32 acStack96;
   
-  lVar6 = capskillBaseMax(param_4->Skills,SKILL_Wizard);
-  if (lVar6 < 0) {
-    pcVar10 = &acStack808;
-    acStack808 = OFFWHITE;
-    acStack744 = DARKGRAY_T;
-    pcVar9 = (gGlobals.CommonStrings)->only wizards can learn spells;
-    pcVar11 = &acStack744;
+  bVar11 = CharSkills::CapBaseSkill(param_4->Skills,SKILL_Wizard);
+  if ((longlong)(char)bVar11 < 0) {
+    pCVar14 = &acStack808;
+    acStack808.R = 0xe1;
+    acStack808.G = 0xe1;
+    acStack808.B = 0xe1;
+    acStack808.A = 0xff;
+    acStack744.R = 0x32;
+    acStack744.G = 0x32;
+    acStack744.B = 0x32;
+    acStack744.A = 0x96;
+    pcVar13 = gGlobals.CommonStrings[0x1b9];
+    pCVar15 = &acStack744;
   }
   else {
-    IVar4 = *param_3;
-    iVar7 = search_item_array(IVar4);
-    pGVar5 = item_pointer->Gear;
-    bVar1 = pGVar5[iVar7].spell;
+    IVar5 = (param_3->base).id;
+    uVar10 = search_item_array(IVar5);
+    pGVar6 = item_pointer->Gear;
+    bVar1 = pGVar6[uVar10].spell;
     if (bVar1 == 0xff) {
-      pcVar9 = "The enchantment on this scroll can only be used to re-light the Port Saiid Lighthouse.";
-      pcVar10 = &acStack680;
-      pcVar11 = &acStack616;
-      acStack680 = OFFWHITE
-      acStack616 = DARKGRAY_T;
+      pcVar13 = "The enchantment on this scroll can only be used to re-light the Port Saiid Lighthouse.";
+      pCVar14 = &acStack680;
+      pCVar15 = &acStack616;
+      acStack680.R = 0xe1;
+      acStack680.G = 0xe1;
+      acStack680.B = 0xe1;
+      acStack680.A = 0xff;
+      acStack616.R = 0x32;
+      acStack616.G = 0x32;
+      acStack616.B = 0x32;
+      acStack616.A = 0x96;
     }
     else {
       bVar1 = SpellList[(char)bVar1];
-      auStack552[0] = 0;
-      bVar8 = knows_spell(param_4->spellbook,(ItemID)(bVar1 | 0x300),auStack552);
-      if (bVar8 == false) {
-        bVar2 = pGVar5[iVar7].spell;
-        pSVar12 = gLoadedSpells->spells[bVar2];
-        if (lVar6 < (longlong)(ulonglong)pSVar12->WizardREQ) {
-          pcVar10 = &acStack416;
-          acStack416 = OFFWHITE;
-          acStack352 = DARKGRAY_T;
-          pcVar9 = (gGlobals.CommonStrings)->"need higher wizard to know that spell";
-          pcVar11 = &acStack352;
+      auStack_228[0] = 0;
+      if (Spellbook::HaveSpell(param_4->spellbook,(ItemID)(bVar1 | 0x300),auStack_228)) {
+        sprintf(gGlobals.text,gGlobals.CommonStrings[0x1ba],param_4->name);
+        pcVar13 = gGlobals.text;
+        pCVar14 = &acStack544;
+        pCVar15 = &acStack480;
+        acStack544.R = 0xe1;
+        acStack544.G = 0xe1;
+        acStack544.B = 0xe1;
+        acStack544.A = 0xff;
+        acStack480.R = 0x32;
+        acStack480.G = 0x32;
+        acStack480.B = 0x32;
+        acStack480.A = 0x96;
+      }
+      else {
+        bVar2 = pGVar6[(short)uVar10].spell;
+        pSVar7 = gLoadedSpells->spells[bVar2];
+        if (bVar11 < pSVar7->WizardREQ){
+          pCVar14 = &acStack416;
+          acStack416.R = 0xe1;
+          acStack416.G = 0xe1;
+          acStack416.B = 0xe1;
+          acStack352.R = 0x32;
+          acStack352.G = 0x32;
+          acStack352.B = 0x32;
+          acStack416.A = 0xff;
+          acStack352.A = 0x96;
+          pcVar13 = gGlobals.CommonStrings[0x1bb];
+          pCVar15 = &acStack352;
         }
         else {
           MVar3 = param_4->EXP->school;
-          if (((MVar3 == CHAOS) || (pSVar12->School == NONE)) || (MVar3 == pSVar12->School)) {
-            learn_spell(param_4->spellbook,bVar1 | 0x300,1);
-            Gsprintf((gGlobals.CommonStrings)->char learned spell,param_4->name,
-                        pSVar12->Name);
-            acStack160 = OFFWHIE;
-            acStack96 = DARKGRAY_T;
+          if (((MVar3 == SCHOOL_Chaos) ||
+              (MVar4 = pSVar7->School, MVar4 == SCHOOL_NONE))
+             || (MVar3 == MVar4)) {
+            Spellbook::NewSpell(param_4->spellbook,bVar1 | 0x300,1);
+            sprintf(gGlobals.text,gGlobals.CommonStrings[0x1bd],param_4->name,
+                        (int)pSVar7 + iVar9 * 2 + 2);
+            acStack160.R = 0xe1;
+            acStack160.G = 0xe1;
+            acStack160.B = 0xe1;
+            acStack160.A = 0xff;
+            acStack96.R = 0x32;
+            acStack96.G = 0x32;
+            acStack96.B = 0x32;
+            acStack96.A = 0x96;
             some_textbox_func(gGlobals.text,0x96,&acStack160,&acStack96,1);
-            piVar6 = param_1->Inventory->Functions;
-            (*(piVar6->get_some_bool).func)
-                      ((s32)param_1->Inventory->inv_slots +
-                       (s16)(piVar6->get_some_bool).arg[0] + -4,(ulonglong)(u16)IVar4,1);
+            param_1->Inventory->TakeItem(IVar5,1);
             return false;
           }
-          pcVar10 = &acStack288;
-          acStack288 = OFFWHITE;
-          acStack224 = DARKGRAY_T;
-          pcVar9 = (gGlobals.CommonStrings)->wrong school for spell;
-          pcVar11 = &acStack224;
+          pCVar14 = &acStack288;
+          acStack288.R = 0xe1;
+          acStack288.G = 0xe1;
+          acStack288.B = 0xe1;
+          acStack224.R = 0x32;
+          acStack224.G = 0x32;
+          acStack224.B = 0x32;
+          acStack288.A = 0xff;
+          acStack224.A = 0x96;
+          pcVar13 = gGlobals.CommonStrings[0x1bc];
+          pCVar15 = &acStack224;
         }
-      }
-      else {
-        Gsprintf((gGlobals.CommonStrings)->they already know that spell,
-                    param_4->name);
-        pcVar9 = gGlobals.text;
-        pcVar10 = &acStack544;
-        pcVar11 = &acStack480;
-        acStack544 = OFFWHITE;
-        acStack480 = DARKGRAY_T;
       }
     }
   }
-  some_textbox_func(pcVar9,0x96,pcVar10,pcVar11,1);
+  some_textbox_func(pcVar13,0x96,pCVar14,pCVar15,1);
   return true;
 }
 
-void FUN_8007f508(Temp_weapon *param_1,u8 (*param_2) [2],s8 param_3){
-  if (param_1->Stat) HeapFree(param_1->Stat,FILENAME,1362);
-  param_1->Stat = param_2;
-  if (param_3 != -1) param_1->spell->Charges = param_3;
+
+
+void FUN_8007f508(ItemInstance *param_1,StatMod *param_2,byte param_3){
+  if (param_1->statMod) HFREE(param_1->statMod,1362);
+  param_1->statMod = param_2;
+  if (param_3 != -1) param_1->spellCharge->Charges = param_3;
 }
 
-u8 remove_armor_from_character(Party *param_1,u8 param_2){
+
+bool Party::RemoveArmorFrom(Party *param_1,u8 index){
   CharSheet *pCVar1;
-  temp_armor *ptVar2;
-  inv_funcs *piVar3;
-  u8 (*X) [2];
-  ulong uVar4;
-  Temp_weapon *pTVar5;
-  s32 line;
-  undefined uVar6;
+  ArmorInstance *pAVar2;
+  SpellCharges *pSVar3;
+  StatMod *X;
+  ulong uVar5;
+  ItemInstance *pIVar6;
+  int line;
+  byte bVar7;
   
-  if (gGlobals.combatBytes[0] == 0xe) {return true;}
-  pCVar1 = param_1->Members[param_2];
-  if (pCVar1 == NULL) {return true;}
-  ptVar2 = *pCVar1->armor;
-  if (ptVar2 == NULL) {return false;}
-  X = CreateStatMod(ptVar2->statMod);
-  uVar6 = 0xff;
-  if (ptVar2->spell) {uVar6 = ptVar2->spell->Charges;}
-  piVar3 = param_1->Inventory->Functions;
-  uVar4 = (*(piVar3->add_to_inv).func)
-                    ((s32)param_1->Inventory->inv_slots + (s16)(piVar3->add_to_inv).arg[0] + -4,
-                     (ulonglong)(u16)ptVar2->id,1);
-  if (uVar4 == 0) {
+  if (gGlobals.combatBytes[0] == 0xe) return true;
+  pCVar1 = param_1->Members[index];
+  if (!pCVar1) return true;
+  pAVar2 = pCVar1->armor[0];
+  if (!pAVar2) return false;
+  X = CreateStatMod((pAVar2->base).statMod);
+  pSVar3 = (pAVar2->base).spellCharge;
+  bVar7 = 0xff;
+  if (pSVar3) bVar7 = pSVar3->Charges;
+  uVar5 = param_1->Inventory->AddItem((pAVar2->base).id,1);
+  if (uVar5 == 0) {
     if (X == NULL) return true;
-    line = 0x572;}
+    line = 0x572;
+  }
   else {
-    piVar3 = param_1->Inventory->Functions;
-    uVar4 = (*(piVar3->get_inv_index).func)
-                      ((s32)param_1->Inventory->inv_slots +
-                       (s16)(piVar3->get_inv_index).arg[0] + -4,(ulonglong)(u16)ptVar2->id);
-    piVar3 = param_1->Inventory->Functions;
-    pTVar5 = (Temp_weapon *)
-             (*(piVar3->get_inv_slot).func)
-                       ((s32)param_1->Inventory->inv_slots +
-                        (s16)(piVar3->get_inv_slot).arg[0] + -4,uVar4);
-    if (pTVar5) {
-      FUN_8007f508(pTVar5,X,uVar6);
-      remove_chestArmor(pCVar1);
+    uVar5= param_1->Inventory->GetItemIndex((pAVar2->base).id);
+    pIVar6 = &param_1->Inventory->GetItemEntry(uVar5)->base;
+    if (pIVar6) {
+      FUN_8007f508(pIVar6,X,bVar7);
+      Entity::RemoveArmor(pCVar1);
       return false;
     }
     if (X == NULL) return true;
     line = 0x57d;
   }
-  HeapFree(X,FILENAME,line);
+  HFREE(X,line);
   return true;
 }
+
+
 
 u8 removeArmorIntoInventory(Party *param_1,u32 param_2){
   CharSheet *pCVar1;

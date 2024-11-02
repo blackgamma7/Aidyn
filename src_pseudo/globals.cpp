@@ -135,10 +135,8 @@ setBattlefeildTerrain:
 }
 
 
-uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2)
-
-{
-  uint uVar1;
+uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
+  u16 uVar1;
   byte bVar3;
   int iVar2;
   u16 uVar4;
@@ -167,14 +165,13 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2)
         bVar3 = GetIDIndex(gGlobals.EncounterDat.enemy_entities[uVar7]);
         printLine(0x264);
         uVar4 += gEntityDB->entities[(char)bVar3].Level;
-      } while (uVar7 < param_1);
+      }
     }
     printLine(0x268);
     uVar4 /= param_1;
     printLine(0x26b);
     if ((uVar4 != 0) &&
-       (printLine(0x26e),
-       (uVar1 & 0xffff) < uVar4)) {
+       (printLine(0x26e),uVar1 < uVar4)) {
       printLine(0x272);
       fVar10 = ((float)uVar1 * 3.0f) / (float)uVar4;
       printLine(0x273);
@@ -207,11 +204,9 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2)
               } while (uVar4 < param_1);
             }
             uVar4 = 0;
-            printLine(0x28a)
-            ;
+            printLine(0x28a);
             iVar2 = (int)((float)iVar6 * fVar10);
-            printLine(0x28c)
-            ;
+            printLine(0x28c);
             if (param_1 != 0) {
               do {
                 if (iVar2 == 0) break;
@@ -295,10 +290,10 @@ uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
   undefined *puVar1;
   undefined *puVar2;
   uint uVar3;
-  uint uVar4;
-  uint uVar5;
+  u16 uVar4;
+  u8 uVar5;
   monsterpartyEntry *pIVar6;
-  uint uVar6;
+  u16 uVar6;
   u16 i;
   
   printLine(0x2c0);
@@ -312,32 +307,31 @@ uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
       pIVar6 = param_2->enemyEntries + i;
       printLine(0x2cb);
       uVar4 = uVar3;
-      if ((pIVar6->enemyID != (ItemID)0x0) &&
+      if ((pIVar6->enemyID.s) &&
          (printLine(0x2ce),
          pIVar6->min < pIVar6->max)) {
         uVar6 = 0;
         printLine(0x2d1);
-        uVar5 = rand_range(0,(uint)pIVar6->max - (uint)pIVar6->min);
+        uVar5 = rand_range(0,pIVar6->max - pIVar6->min);
         printLine(0x2d4);
-        if ((uVar5 & 0xff) != 0) {
+        if (uVar5) {
           do {
             printLine(0x2d6);
-            uVar4 = uVar3 + 1 & 0xffff;
+            uVar4=uVar3 + 1;
             param_1->enemy_entities[uVar3] = pIVar6->enemyID;
             printLine(0x2d9);
             if (param_2->totalsize <= uVar4) return uVar4;
-            printLine(0x2da)
-            ;
+            printLine(0x2da);
             if (0xb < uVar4) return uVar4;
-            uVar6 = uVar6 + 1 & 0xffff;
+            uVar6++;
             uVar3 = uVar4;
-          } while (uVar6 < (uVar5 & 0xff));
+          } while (uVar6 < uVar5);
         }
       }
       uVar3 = uVar4;
     }
     printLine(0x2df);
-    if (uVar4 < param_2->field6_0x28) uVar4 = 0;
+    if (uVar4 < param_2->unk0x28) uVar4 = 0;
     else printLine(0x2e2);
   }
   else uVar4 = (uint)param_2->totalsize;
@@ -411,8 +405,7 @@ void load_camp_ambush(void){
   
   get_battle_terrain(&gGlobals.EncounterDat);
   gGlobals.EncounterDat.collisionByte = 2;
-  gGlobals.EncounterDat.globalLoot.type = Empty;
-  gGlobals.EncounterDat.globalLoot.ID = 0;
+  gGlobals.EncounterDat.globalLoot.s = 0;
   gGlobals.EncounterDat.unk28 = 0;
   gGlobals.EncounterDat.EncounterID = 0;
   gGlobals.EncounterDat.BossShadow = 0;
@@ -477,11 +470,10 @@ void Ofunc_8000c788(char *param_1){
   
   OVar1 = osGetTime();
   uVar2 = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
-  sprintf(gGlobals.text,s_%s_:_%llu_800d828c,param_1,
-              (ulonglong)((uVar2 & 0xffffffff) < (ulonglong)(longlong)ofunc_dat._4_4_));
+  Gsprintf("%s : %llu\n",param_1,uVar2-ofunc_dat);
   N64Print::Print(gGlobals.text);
   OVar1 = osGetTime();
-  ofunc_dat udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
+  ofunc_dat = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
 }
 
 void Ofunc_8000c850(float param_1)

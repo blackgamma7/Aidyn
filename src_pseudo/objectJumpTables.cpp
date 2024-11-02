@@ -578,7 +578,7 @@ u8 container_obj_check(voxelObject* arg0,playerData *arg1){
   }
   return ret;}
 
-undefined FUN_80014ba0(voxelObject *arg0,vec3f *arg1){
+undefined Ofunc_80014ba0(voxelObject *arg0,vec3f *arg1){
   undefined uVar1;
   
   uVar1 = 0;

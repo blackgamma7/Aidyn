@@ -63,7 +63,7 @@ Gfx* draw_sundail(Gfx*param_1){
   fVar5 = gGlobals.screenfadeFloat * 80.0f;
   blue = (u8)(s32)fVar4;
   if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
-  pauVar2 = pass_to_borg_image_draw(pauVar2,gSundail->Ring,19.0,169.0,1.0f,1.0f,red,green,blue,(u8)(s32)fVar5);
+  pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->Ring,19.0,169.0,1.0f,1.0f,red,green,blue,(u8)(s32)fVar5);
   if (gSundail->sun == 0) {
     fVar4 = gGlobals.screenfadeFloat * 160.0f;
     if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
@@ -96,7 +96,7 @@ Gfx* draw_sundail(Gfx*param_1){
         else if (bVar1 == 3) {borg8 = gSundail->MoonPhase5;}
       }
     }
-    pauVar2 = pass_to_borg_image_draw(pauVar2,borg8,39.0,189.0,1.0f,1.0f,red,green,blue,(u8)(s32)fVar5);
+    pauVar2 = Borg8_DrawSimple(pauVar2,borg8,39.0,189.0,1.0f,1.0f,red,green,blue,(u8)(s32)fVar5);
   }
   fVar4 = World::get_timeofDay_float(TerrainPointer);
   fVar10 = (float)((s32)(fVar4 * 720.0f) % 0x2d0);
@@ -163,16 +163,16 @@ Gfx* draw_sundail(Gfx*param_1){
 LAB_8002ba60:
   fVar11 = gGlobals.screenfadeFloat * 80.0f;
   if (INT_MAX_f <= fVar11) {fVar11 = fVar11 - INT_MAX_f;}
-  pauVar2 = pass_to_borg_image_draw(pauVar2,gSundail->Cross,24.0,174.0,1.0f,1.0f,red,green,blue,(u8)fVar11);
+  pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->Cross,24.0,174.0,1.0f,1.0f,red,green,blue,(u8)fVar11);
   if (gSundail->moon == 0) {
     fVar4 = fVar4 * gGlobals.screenfadeFloat;
     fVar11 = (fVar5 * 25.0f + 49.0f) - 10.0f;
     fVar5 = (199.0f - fVar10 * 25.0f) - 10.0f;
     if (INT_MAX_f <= fVar4) {fVar4 -= INT_MAX_f;}
-    if ((u8)fVar4 != 0) {pauVar2 = pass_to_borg_image_draw(pauVar2,gSundail->SunBig,fVar11,fVar5,1.0f,1.0f,red,green,blue,(u8)fVar4);}
+    if ((u8)fVar4 != 0) {pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->SunBig,fVar11,fVar5,1.0f,1.0f,red,green,blue,(u8)fVar4);}
     fVar9 = fVar9 * gGlobals.screenfadeFloat;
     if (INT_MAX_f <= fVar9) {fVar9 -= INT_MAX_f;}
-    if ((u8)fVar9 != 0) {pauVar2 = pass_to_borg_image_draw(pauVar2,gSundail->SunSmall,fVar11,fVar5,1.0f,1.0f,red,green,blue,(u8)fVar9);}
+    if ((u8)fVar9 != 0) {pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->SunSmall,fVar11,fVar5,1.0f,1.0f,red,green,blue,(u8)fVar9);}
   }
   return pauVar2;
 }

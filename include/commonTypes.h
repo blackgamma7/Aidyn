@@ -10,12 +10,6 @@
 #define LE(x) ((u16)x[0] + (u16)x[1] * 0x100) //for the byteswapping in ROM data
 #define SQ(x) x*x
 
-
-#define OFFWHITE {0xe1,0xe1,0xe1,0xff}
-#define DARKGRAY {0x32,0x32,0x32,0xff}
-#define DARKGRAY_T {0x32,0x32,0x32,0x96}
-#define YELLOW_T {0xc8,0xc8,0,0xe1}
-
 enum SCHOOL{
     SCHOOL_CHAOS,SCHOOL_ELEMENTAL,SCHOOL_NAMING,SCHOOL_NECROMANCY,SCHOOL_NONE,SCHOOL_STAR
 };

@@ -39,7 +39,7 @@ Gfx* Compass::Draw(Gfx*param_1,vec2f *XZ){
   vec2f fStack128;
   
   RSPFUNC(param_1,6);
-  pauVar1 = pass_to_borg_image_draw(param_1,gCompass->ring,241.0,169.0,1.0f,1.0f
+  pauVar1 = Borg8_DrawSimple(param_1,gCompass->ring,241.0,169.0,1.0f,1.0f
                        ,gGlobals.screenfadeFloat * 255.0f,
                        gGlobals.screenfadeFloat * 255.0f,
                        gGlobals.screenfadeFloat * 255.0f,
@@ -59,19 +59,19 @@ Gfx* Compass::Draw(Gfx*param_1,vec2f *XZ){
   blue = gGlobals.screenfadeFloat * 220.0f;
   fVar6 = (160.0f - fVar4) * gGlobals.screenfadeFloat;
   if (INT_MAX_f <= fVar6) fVar6-= INT_MAX_f;
-  pauVar1 = pass_to_borg_image_draw(pauVar1,gCompass->N,(271.0f - fVar7) - 8.0f,
+  pauVar1 = Borg8_DrawSimple(pauVar1,gCompass->N,(271.0f - fVar7) - 8.0f,
                        (fVar5 + 199.0f) - 8.0f,1.0f,1.0f,red,green,blue,(u8)(s32)fVar6);
   fVar2 = (fVar4 + 160.0f) * gGlobals.screenfadeFloat;
   if (INT_MAX_f <= fVar2) fVar2-= INT_MAX_f;
-  pauVar1 = pass_to_borg_image_draw(pauVar1,gCompass->S,(fVar7 + 271.0f) - 8.0f,
+  pauVar1 = Borg8_DrawSimple(pauVar1,gCompass->S,(fVar7 + 271.0f) - 8.0f,
                        (199.0f - fVar5) - 8.0f,1.0f,1.0f,red,green,blue,(u8)(s32)fVar2);
   fVar2 = (160.0f - fVar3) * gGlobals.screenfadeFloat;
   if (INT_MAX_f <= fVar2) fVar2-= INT_MAX_f;
-  pauVar1 = pass_to_borg_image_draw(pauVar1,gCompass->E,(fVar5 + 271.0f) - 8.0f,
+  pauVar1 = Borg8_DrawSimple(pauVar1,gCompass->E,(fVar5 + 271.0f) - 8.0f,
                        (fVar7 + 199.0f) - 8.0f,1.0f,1.0f,red,green,blue,(u8)(s32)fVar2);
   fVar2 = (fVar3 + 160.0f) * gGlobals.screenfadeFloat;
   if (INT_MAX_f <= fVar2) fVar2-= INT_MAX_f;
-  pauVar1 = pass_to_borg_image_draw(pauVar1,gCompass->W,(271.0f - fVar5) - 8.0f,
+  pauVar1 = Borg8_DrawSimple(pauVar1,gCompass->W,(271.0f - fVar5) - 8.0f,
                        (199.0f - fVar7) - 8.0f,1.0f,1.0f,red,green,blue,(u8)(s32)fVar2);
   return pauVar1;
 }

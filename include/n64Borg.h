@@ -21,7 +21,8 @@ typedef enum Borg8Format {
     BORG8_RBGA32=1,
     BORG8_RGBA16=2,
     BORG8_CI8=4,
-    BORG8_IA8=5
+    BORG8_IA8=5,
+    BORG8_CI4=7
 } Borg8Format;
 
 struct borgHeader {
@@ -34,8 +35,8 @@ struct Borg8dat {
     u16 Width;
     u16 Height;
     u16 PALSize;
-    uint flags;
-    u32 offset;
+    u16* palette; //for CI8/4
+    void* offset;
 };
 
 struct Borg8header {
