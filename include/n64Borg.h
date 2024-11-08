@@ -44,32 +44,6 @@ struct Borg8header {
     struct Borg8dat dat;
 };
 
-//borg 9 data structs.
-struct Borg_9_data{
-    vec3f floatsA; /* position? */
-    vec2f floatsB; /* size? */
-    u8 unk1[6]; /* seems unused */
-    u8 byte0x1a;
-    u8 byte0x1b;
-    u16 shortA;
-    u16 shortB;
-    u8 unk[2];
-    u16 Vertex_count;
-    u16 borghpys_count;
-    u16 unk0x26;
-    u16 voxelCount;
-    u16 unkStructCount;
-    s16 * counting_pointer;
-    s32 someint;
-    s16 * pointer2;
-    vec3f* Verticies;
-    struct borg9_phys * phys_pointer;
-    s32 someInt_2;
-    voxelObject* ref_objs; 
-    struct borg_9_struct * unkStructs;
-};
-
-
 struct borg9_phys { //collision faces
     vec3f * VertexEntries[3];
     vec3f vec3_0xc; //face normal?
@@ -406,15 +380,13 @@ struct Borg5data {
 };
 
 struct borg_9_struct {
-    short *shorts;
-    uint unk4;
-    void *unk8;
-    u16 field3_0xc;
-    undefined field4_0xe;
-    undefined field5_0xf;
-    ushort voxelSceneCount;
-    undefined field7_0x12;
-    undefined field8_0x13;
+    u16 *collideIndecies;
+    void* unk4; //offset calculated, unused(?)
+    u16 *lightIndecies;
+    u16 collideCount;
+    u16 field4_0xe; //unused?
+    u16 lightCount;
+    u16 field7_0x12; //align?
 };
 struct Borg9data {
     vec3f floatsA; /* position? */
@@ -525,3 +497,10 @@ struct borg2data {
 #define SetPointer(x,f) x->f= decltype(x->f)((u32)&x+(u32)x->f)
 //same as SetPointer(), but makes sure there is an offset
 #define CheckSetPointer(x,f) if(x->f) SetPointer(x,f)
+
+//clamp a value to 0-1
+#define CLAMP01(x) if(x<0.0) x=0;if(x>1.0) x=1
+//clamp a vec3's values to 0-1
+#define CLAMP01V3(v) CLAMP01(v.x); CLAMP01(v.y); CLAMP01(v.z)
+//turn a Vec3f into 32-bit RGB values.
+#define V3ToRGB(c,v) c->R=v.x*255; c->G=v.y*255; c->B=v.z*255

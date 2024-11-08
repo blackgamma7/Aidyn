@@ -44,19 +44,19 @@ Gfx* draw_party_portaits(Gfx*param_1,u8 param_2,Color32 *col){
   if (!param_2) {if (screen_bottom < 0xf0) screen_bottom+=4;}
   else if ((param_2) && (0xb9 < screen_bottom)) screen_bottom-=4;
   pauVar2 = rsp_func(param_1,6,Graphics::get_hres(),Graphics::get_vres());
-  PortraitColorBlend(col,&TempCol,gGlobals.screenfadeFloat);
+  PortraitColorBlend(col,&TempCol,gGlobals.brightness);
   Hscale = 0.8f;
   pauVar2 = Borg8_DrawSimple(pauVar2,gGlobals.portraitBorder,84.0,(float)(u32)screen_bottom,0.8f,0.8f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
-  PortraitColorBlend(col + 1,&TempCol,gGlobals.screenfadeFloat);
+  PortraitColorBlend(col + 1,&TempCol,gGlobals.brightness);
   pauVar2 = Borg8_DrawSimple(pauVar2,gGlobals.portraitBorder,122.0,(float)(u32)screen_bottom,Hscale,Hscale,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
-  PortraitColorBlend(col + 2,&TempCol,gGlobals.screenfadeFloat);
+  PortraitColorBlend(col + 2,&TempCol,gGlobals.brightness);
   pauVar2 = Borg8_DrawSimple(pauVar2,gGlobals.portraitBorder,160.0,(float)(u32)screen_bottom,Hscale,Hscale,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
-  PortraitColorBlend(col + 3,&TempCol,gGlobals.screenfadeFloat);
+  PortraitColorBlend(col + 3,&TempCol,gGlobals.brightness);
   pauVar2 = Borg8_DrawSimple(pauVar2,gGlobals.portraitBorder,198.0,(float)(u32)screen_bottom,Hscale,Hscale,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   TempCol.G = 0xff;
   TempCol.R = 0xff;
   TempCol.A = 0x80;
-  PortraitColorBlend(&TempCol,&TempCol,gGlobals.screenfadeFloat);
+  PortraitColorBlend(&TempCol,&TempCol,gGlobals.brightness);
   pCVar1 = (gGlobals.party)->Members[0];
   if ((pCVar1) && (pCVar1->portrait)) {
     pauVar2 = Borg8_DrawSimple(pauVar2,pCVar1->portrait,90.0,(float)(screen_bottom + 6),0.75f,0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);

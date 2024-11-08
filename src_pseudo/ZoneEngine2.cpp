@@ -1364,11 +1364,11 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9data *borg9,vec3f *v3,short param_4,short 
   local_70 = borg9_get_unkStruct(borg9,param_4,param_5);
   iVar13 = 0;
   local_res0 = gfx;
-  if (local_70->voxelSceneCount != 0) {
+  if (local_70->lightCount != 0) {
     Sobj_pos = local_b8;
     iVar9 = 0;
     do {
-      uVar5 = *(ushort *)(iVar9 + (int)local_70->unk8);
+      uVar5 = *(ushort *)(iVar9 + (int)local_70->lightIndecies);
       SObj = (Scene_obj *)((int)borg9->voxelObjs + ((uint)uVar5 * 0x1c - (uint)uVar5) * 4);
       local_5c = iVar13 + 1;
       Gsprintf("RenderVoxelScenes\nIndex: %d\ntype: %d\nScenes: (%d, %d, %d)\nAddress: %08x",
@@ -1483,9 +1483,8 @@ LAB_80010084:
                 if ((SObj->scene).borgArray[1].borgIndex == 0x374a) {
                   if (uVar12 == 0) {
                     if (local_64 == 0) {
-                      pvVar2 = local_70->unk8;
                       (SObj->header).Bitfeild = (SObj->header).Bitfeild & ~VOXEL_Active;
-                      passto_WriteTo_VoxelChart(*(undefined2 *)(local_58 + (int)pvVar2),
+                      passto_WriteTo_VoxelChart(local_70->lightIndecies[local_58],
                                  (undefined)gGlobals.Sub.mapDatA,(undefined)gGlobals.Sub.mapShort1,
                                  (undefined)gGlobals.Sub.mapShort2,0x11,0,0x10);
                       uVar5 = (SObj->scene).sceneflags;
@@ -1505,7 +1504,7 @@ LAB_80010084:
                 if ((uVar5 & 2) == 0) {
                   uVar12 = local_6c;
                   if (uVar15 < local_6c) uVar12 = uVar15;
-                  set_anidat_colors(pAVar4,(char)uVar12,'\x01',col);
+                  set_anidat_colors(pAVar4,(char)uVar12,1,col);
                   if (psVar14 == NULL) local_res0 = BorgAnimDrawScene(local_res0,pAVar4);
                   else psVar14->anidat = pAVar4;
                 }
@@ -1559,12 +1558,11 @@ LAB_8000ffcc:
                 Animation::SetFlag4(pAVar4);
                 Animation::SetFlag40(pAVar4);
                 Animation::SetFogFlag(pAVar4);
-                Animation::MatrixARotate(pAVar4,(SObj->scene).rotation.y * RadInDeg_f,
-                           (SObj->scene).rotation.x * RadInDeg_f,
-                           (SObj->scene).rotation.z * RadInDeg_f);
-                Animation::MatrixANormalizeScale(pAVar4,(SObj->scene).scale.x,(SObj->scene).scale.y,(SObj->scene).scale.z)
-                ;
-                if (((SObj->scene).sceneflags & 2) != 0) {
+                Animation::MatrixARotate(pAVar4,(SObj->scene).rotation.y * 57.29578,
+                           (SObj->scene).rotation.x * 57.29578,
+                           (SObj->scene).rotation.z * 57.29578);
+                Animation::MatrixANormalizeScale(pAVar4,(SObj->scene).scale.x,(SObj->scene).scale.y,(SObj->scene).scale.z);
+                if (((SObj->scene).sceneflags & 2)) {
                   Animation::SetLightData(pAVar4);
                   Animation::SceneSetMaxDynamicDirLights(pAVar4,2);
                   goto LAB_80010068;
@@ -1583,7 +1581,7 @@ LAB_800102d8:
       }
       iVar13 = (int)sVar8;
       iVar9 = iVar13 << 1;
-    } while (iVar13 < (int)(uint)local_70->voxelSceneCount);
+    } while (iVar13 < (int)(uint)local_70->lightCount);
   }
   Gsprintf("Finished RenderVoxelScenesInZone\n");
   return local_res0;
@@ -1591,71 +1589,74 @@ LAB_800102d8:
 
 
 
-Gfx* FUN_80010354(Gfx*param_1,ZoneDat *param_2){
+Gfx* FUN_80010354(Gfx*g,ZoneDat *param_2){
   if (param_2->anidat0x4) {
-    set_anidat_colors(param_2->anidat0x4,param_2->unk0x1c,'\x01',(color)0x0);
-    param_1 = FUN_800a0da4(param_1,param_2->anidat0x4);}
-  return param_1;
+    set_anidat_colors(param_2->anidat0x4,param_2->alpha,1,(Color32)(0));
+    g = BorgAnimDrawScene(g,param_2->anidat0x4);}
+  return g;
 }
 
 
-Gfx* FUN_800103b0(Gfx*param_1,ZoneDat *param_2){
+Gfx* FUN_800103b0(Gfx*g,ZoneDat *param_2){
   if ((param_2->aniDat0x14) && (param_2->anidat0x4)){
-    set_anidat_colors(param_2->aniDat0x14,param_2->unk0x1c,'\x01',(color)0x0);
-    param_1 = FUN_800a0da4(param_1,param_2->aniDat0x14);
+    set_anidat_colors(param_2->aniDat0x14,param_2->alpha,1,(Color32)(0));
+    g = BorgAnimDrawScene(g,param_2->aniDat0x14);
   }
-  return param_1;
+  return g;
 }
 
-u8 FUN_80010414(vec2f *param_1,vec2f *param_2,vec2f *param_3,vec2f *param_4,s16 param_5){
-  u8 uVar1;
-  u32 uVar2;
+u8  FUN_80010414(vec2f *param_1,vec2f *param_2,vec2f *param_3,vec2f *param_4,s16 reverse){
+  bool bVar1;
+  s16 uVar2;
   float fVar3;
   float fVar4;
   vec2f fStack280;
   vec2f fStack216;
-  float afStack152 [2];
+  vec2f afStack152;
   vec2f fStack88;
   
-  if (param_5 == 0) {
-    copyVec2(param_1,fStack280);
-    copyVec2(param_2,fStack216);
-    copyVec2(param_3,afStack152);
-    copyVec2(param_4,fStack88);
+  if (reverse) {
+    fStack280.x = param_1->y;
+    fStack280.y = param_1->x;
+    fStack216.x = param_2->y;
+    fStack216.y = param_2->x;
+    afStack152.x = param_3->y;
+    fStack88.x = param_4->y;
+    fStack88.y = param_4->x;
   }
   else {
-    fStack280[0] = (*param_1)[1];
-    fStack280[1] = (*param_1)[0];
-    fStack216[0] = (*param_2)[1];
-    fStack216[1] = (*param_2)[0];
-    afStack152[0] = (*param_3)[1];
-    fStack88[0] = (*param_4)[1];
-    fStack88[1] = (*param_4)[0];
+    copyVec2(param_1,&fStack280);
+    copyVec2(param_2,&fStack216);
+    copyVec2(param_3,&afStack152);
+    copyVec2(param_4,&fStack88);
   }
-  fVar4 = fStack280[1] - fStack88[1];
-  fVar3 = fStack216[1] - fStack88[1];
-  uVar2 = (u32)(fVar4 < 0.0);
-  if (fVar3 < 0.0) {uVar2 = (s32)(((fVar4 < 0.0) + 1) * 0x10000) >> 0x10;}
-  uVar1 = 0;
+  fVar4 = fStack280.y - fStack88.y;
+  fVar3 = fStack216.y - fStack88.y;
+  uVar2 = (fVar4 < 0.0);
+  if (fVar3 < 0.0) {
+    uVar2 = ((fVar4 < 0.0) + 1);
+  }
+  bVar1 = false;
   if (uVar2 == 1) {
-    if (fVar4 < 0.0) {fVar4 = -fVar4;}
-    if (fVar3 < 0.0) {fVar3 = fVar4 - fVar3;}
-    else {fVar3 = fVar4 + fVar3;}
-    fVar3 = fStack280[0] - (fStack280[0] - fStack216[0]) * (fVar4 / fVar3);
-    uVar1 = 0;
-    if ((afStack152[0] <= fVar3) && (fVar3 <= fStack88[0])) {uVar1 = 1;}
+    if (fVar4 < 0.0) fVar4 = -fVar4;
+    if (fVar3 < 0.0) {
+      fVar3 = fVar4 - fVar3;
+    }
+    else {
+      fVar3 = fVar4 + fVar3;
+    }
+    fVar3 = fStack280.x - (fStack280.x - fStack216.x) * (fVar4 / fVar3);
+    bVar1 = false;
+    if ((afStack152.x <= fVar3) && (fVar3 <= fStack88.x)) {
+      bVar1 = true;
+    }
   }
-  return uVar1;
+  return bVar1;
 }
 
+u8 FUN_80010598(short param_1,short param_2){
 
-u8 FUN_80010598(s16 param_1,s16 param_2)
-
-{
-  u8 bVar1;
-  vec2f *pafVar2;
-  s32 iVar3;
-  s32 iVar4;
+  vec2f *pvVar2;
   float fVar5;
   float fVar6;
   vec2f fStack176;
@@ -1663,58 +1664,48 @@ u8 FUN_80010598(s16 param_1,s16 param_2)
   vec2f fStack160;
   vec2f fStack152;
   vec2f fStack112;
-  vec2f fStack104;
-  vec2f afStack96;
-  vec2f afStack88;
-  
-  fVar6 = (float)(param_1 + -1) * gGlobals.Sub.mapCellSize[0];
-  fVar5 = (float)(param_2 + -1) * gGlobals.Sub.mapCellSize[1];
-  fStack104[0] = gGlobals.Sub.camera.XZ_orient[0] * 200.0f;
-  fStack104[1] = gGlobals.Sub.camera.XZ_orient[1] * 200.0f;
-  iVar3 = 1;
-  fStack176[0] = fVar6 - 20.0f;
-  fStack112[0] = gGlobals.Sub.camera.coord[0];
-  fStack176[1] = fVar5 - 20.0f;
-  fStack112[1] = gGlobals.Sub.camera.coord[2];
-  fStack168[0] = fVar6 + gGlobals.Sub.mapCellSize[0] + 20.0f;
-  fStack160[1] = fVar5 + gGlobals.Sub.mapCellSize[1] + 20.0f;
-  fStack168[1] = fStack176[1];
-  fStack160[0] = fStack176[0];
-  fStack152[0] = fStack168[0];
-  fStack152[1] = fStack160[1];
-  copyVec2(fStack104,afStack96);
-  RotVec2(afStack96,-42.5f);
-  vec2_sum(afStack96,fStack112,afStack96);
-  copyVec2(fStack104,afStack88);
-  RotVec2(afStack88,42.5f);
-  vec2_sum(afStack88,fStack112,afStack88);
-  vec2_sum(fStack104,fStack104,fStack112);
-  vec2_sum(afStack96,afStack96,fStack112);
-  vec2_sum(afStack88,afStack88);
-  pafVar2 = fStack104;
-  iVar4 = 0x20000;
-  do {
-    if (FUN_80010414(fStack112,pafVar2,fStack176,fStack168,0)) return false;
-    if (FUN_80010414(fStack112,pafVar2,fStack160,fStack152,0)) return false;
-    if (FUN_80010414(fStack112,pafVar2,fStack176,fStack160,1)) return false;
-    if (FUN_80010414(fStack112,pafVar2,fStack168,fStack152,1)) return false;
-    if (1 < iVar3) {
-      if (FUN_80010414(fStack104,pafVar2,fStack176,fStack168,0)) return false;
-      if (FUN_80010414(fStack104,pafVar2,fStack160,fStack152,0)) return false;
-      if (FUN_80010414(fStack104,pafVar2,fStack176,fStack160,1)) return false;
-      if (FUN_80010414(fStack104,pafVar2,fStack168,fStack152,1)) return false;
+  vec2f fStack104[3];
+  fVar6 = (float)(param_1 + -1) * gGlobals.Sub.mapCellSize.x;
+  fVar5 = (float)(param_2 + -1) * gGlobals.Sub.mapCellSize.y;
+  fStack104[0].x = gGlobals.Sub.camera.rotationXZ.x * 200.0f;
+  fStack104[0].y = gGlobals.Sub.camera.rotationXZ.y * 200.0f;
+  fStack176.x = fVar6 - 20.0f;
+  fStack112.x = gGlobals.Sub.camera.pos.x;
+  fStack176.y = fVar5 - 20.0f;
+  fStack112.y = gGlobals.Sub.camera.pos.z;
+  fStack168.x = fVar6 + gGlobals.Sub.mapCellSize.x + 20.0f;
+  fStack160.y = fVar5 + gGlobals.Sub.mapCellSize.y + 20.0f;
+  fStack168.y = fStack176.y;
+  fStack160.x = fStack176.x;
+  fStack152.x = fStack168.x;
+  fStack152.y = fStack160.y;
+  copyVec2(fStack104,&fStack104[1]);
+  RotVec2(&fStack104[1],-42.5f);
+  vec2_sum(&fStack104[1],&fStack112,&fStack104[1]);
+  copyVec2(fStack104,&fStack104[2]);
+  RotVec2(&fStack104[2],42.5f);
+  vec2_sum(&fStack104[2],&fStack112,&fStack104[2]);
+  vec2_sum(fStack104,fStack104,&fStack112);
+  vec2_sum(&fStack104[1],&fStack104[1],&fStack112);
+  vec2_sum(&fStack104[2],&fStack104[2],&fStack112);
+  pvVar2 = fStack104;
+  for(s16 i=1;i<=3;i++) {
+    if (FUN_80010414(&fStack112,pvVar2,&fStack176,&fStack168,false))return false;
+    if (FUN_80010414(&fStack112,pvVar2,&fStack160,&fStack152,false))return false;
+    if (FUN_80010414(&fStack112,pvVar2,&fStack176,&fStack160,true))return false;
+    if (FUN_80010414(&fStack112,pvVar2,&fStack168,&fStack152,true))return false;
+    if (1 < i) {
+      if (FUN_80010414(fStack104,pvVar2,&fStack176,&fStack168,false))return false;
+      if (FUN_80010414(fStack104,pvVar2,&fStack160,&fStack152,false))return false;
+      if (FUN_80010414(fStack104,pvVar2,&fStack176,&fStack160,true))return false;
+      if (FUN_80010414(fStack104,pvVar2,&fStack168,&fStack152,true))return false;
     }
-    iVar3 = iVar4 >> 0x10;
-    pafVar2 = pafVar2[1];
-    iVar4 = iVar4 + 0x10000;
-    if (3 < iVar3) {return true;}
-  } while( true );
+    pvVar2++;
+  }
+  return true;
 }
 
-
-void RenderZones(Gfx**param_1,vec3f *param_2,s16 param_3)
-
-{
+void RenderZones(Gfx**param_1,vec3f *param_2,s16 param_3){
   s32 iVar2;
   u8 bVar8;
   u32 uVar3;
@@ -1812,7 +1803,7 @@ void RenderZones(Gfx**param_1,vec3f *param_2,s16 param_3)
               }
             }
             if (uVar3 == 0) {
-              bVar9 = pZVar12->unk0x1c;
+              bVar9 = pZVar12->alpha;
             }
             else {
               if (pZVar12->aniDat0x14 == NULL) {
@@ -1823,27 +1814,27 @@ void RenderZones(Gfx**param_1,vec3f *param_2,s16 param_3)
                 }
                 goto LAB_80010bfc;
               }
-              bVar9 = pZVar12->unk0x1c;
+              bVar9 = pZVar12->alpha;
             }
           }
           else {
-            bVar9 = pZVar12->unk0x1c;
+            bVar9 = pZVar12->alpha;
           }
         }
         else {
-          bVar9 = pZVar12->unk0x1c;
+          bVar9 = pZVar12->alpha;
         }
       }
       else {
 LAB_80010bfc:
-        bVar9 = pZVar12->unk0x1c;
+        bVar9 = pZVar12->alpha;
       }
       if (bVar9 != 0xff) {
-        uVar5 = (u16)pZVar12->unk0x1c + param_3 * 2;
+        uVar5 = (u16)pZVar12->alpha + param_3 * 2;
         if (0xff < uVar5) {
           uVar5 = 0xff;
         }
-        pZVar12->unk0x1c = (u8)uVar5;
+        pZVar12->alpha = (u8)uVar5;
       }
       if (pZVar12->anidat0x4) {
         pauStack76 = (Gfx*)func_80010354(pauStack76,pZVar12);

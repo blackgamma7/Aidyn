@@ -55,7 +55,7 @@ Gfx * Graphics::SomeDListInit(Gfx *gfx,byte flag,ushort h,ushort v){
   //gDPSetRenderMode()
   if ((flag & 2) == 0) word1 =0xf0a4000;
   else word1 = (G_RM_XLU_SURF2|0x400000);
-  gDPSetRenderMode(gfx++,G_SETOTHERMODE_L,G_MDSFT_RENDERMODE,29,word1);
+  gSPSetOtherMode(gfx++,G_SETOTHERMODE_L,G_MDSFT_RENDERMODE,29,word1);
   //Set combine (solid or alpha. Most times alpha)
   if ((flag & 4) == 0) {
     //gDPSetCombineLERP();

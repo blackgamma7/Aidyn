@@ -124,7 +124,7 @@ u8 gameStart(Gfx**GG){
     World::SetWithWeatherTemp(TerrainPointer,&w);
   }
   if (((gGlobals.gameStartOption == 0) ||
-      ((gGlobals.gameStartOption == 1 && (0.0 < gGlobals.screenfadeFloat)))) ||
+      ((gGlobals.gameStartOption == 1 && (0.0 < gGlobals.brightness)))) ||
      ((gGlobals.gameStartOption == 2 && (gGlobals.screenFadeMode != 0)))) {
     gfx = Flycam::Render(gfx);
     if (flycam_flag) fadeFloatMirror = 1.0f;
@@ -138,7 +138,7 @@ u8 gameStart(Gfx**GG){
   }
   pos = &fStack104;
   if (gGlobals.gameStartOption == 1) {
-    if (gGlobals.screenfadeFloat == 0.0) {
+    if (gGlobals.brightness == 0.0) {
       some_gamestart_flag = true;
       bVar3 = 0xe;
       load_cinematic(Cinematic_opening,Load_world_map,1);

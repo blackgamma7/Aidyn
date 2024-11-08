@@ -312,7 +312,7 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
   animationData_LookAt(splashscreenAniDat,n64LogoVec3[0],n64LogoVec3[1],n64LogoVec3[2],fVar5,fVar7,fVar6,0,1.0f,0);
   FUN_800a0df4(splashscreenAniDat);
   pauVar3 = gsAnimationDataMtx(pauVar3,splashscreenAniDat);
-  pauVar3 = FUN_800a0da4(pauVar3,splashscreenAniDat);
+  pauVar3 = BorgAnimDrawScene(pauVar3,splashscreenAniDat);
   RSPFUNC(pauVar3,6);
   pauVar3 = widget_N64Logo->Render(pauVar3,0,0,320,240);
   *param_1 = pauVar3;

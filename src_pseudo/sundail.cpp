@@ -52,28 +52,28 @@ Gfx* draw_sundail(Gfx*param_1){
   Calendar Cal;
   
   pauVar2 = rsp_func(param_1,6,Graphics::get_hres(),Graphics::get_vres());
-  fVar4 = gGlobals.screenfadeFloat * 255.0f;
+  fVar4 = gGlobals.brightness * 255.0f;
   if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-  fVar5 = gGlobals.screenfadeFloat * 255.0f;
+  fVar5 = gGlobals.brightness * 255.0f;
   red = (u8)(s32)fVar4;
   if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
-  fVar4 = gGlobals.screenfadeFloat * 255.0f;
+  fVar4 = gGlobals.brightness * 255.0f;
   green = (u8)(s32)fVar5;
   if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-  fVar5 = gGlobals.screenfadeFloat * 80.0f;
+  fVar5 = gGlobals.brightness * 80.0f;
   blue = (u8)(s32)fVar4;
   if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
   pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->Ring,19.0,169.0,1.0f,1.0f,red,green,blue,(u8)(s32)fVar5);
   if (gSundail->sun == 0) {
-    fVar4 = gGlobals.screenfadeFloat * 160.0f;
+    fVar4 = gGlobals.brightness * 160.0f;
     if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-    fVar5 = gGlobals.screenfadeFloat * 160.0f;
+    fVar5 = gGlobals.brightness * 160.0f;
     red = (u8)(s32)fVar4;
     if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
-    fVar4 = gGlobals.screenfadeFloat * 220.0f;
+    fVar4 = gGlobals.brightness * 220.0f;
     green = (u8)(s32)fVar5;
     if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-    fVar5 = gGlobals.screenfadeFloat * 160.0f;
+    fVar5 = gGlobals.brightness * 160.0f;
     blue = (u8)(s32)fVar4;
     if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
     World::GetCalendarDate(TerrainPointer,&Cal);
@@ -107,12 +107,12 @@ Gfx* draw_sundail(Gfx*param_1){
   fVar10 = __cosf(fVar10);
   if ((fVar11 <= 7.0f) || (21.0f <= fVar11)) {
     if ((23.0f < fVar11) || (fVar11 < 5.0f)) {
-      fVar4 = gGlobals.screenfadeFloat * 120.0f;
+      fVar4 = gGlobals.brightness * 120.0f;
       if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-      fVar11 = gGlobals.screenfadeFloat * 100.0f;
+      fVar11 = gGlobals.brightness * 100.0f;
       red = (u8)(s32)fVar4;
       if (INT_MAX_f <= fVar11) {fVar11-= INT_MAX_f;}
-      fVar4 = gGlobals.screenfadeFloat * 190.0f;
+      fVar4 = gGlobals.brightness * 190.0f;
       green = (u8)(s32)fVar11;
       if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
       blue = (u8)(s32)fVar4;
@@ -148,12 +148,12 @@ Gfx* draw_sundail(Gfx*param_1){
     }
   }
   else {
-    fVar4 = gGlobals.screenfadeFloat * 255.0f;
+    fVar4 = gGlobals.brightness * 255.0f;
     if (INT_MAX_f <= fVar4) {fVar4 = fVar4 - INT_MAX_f;}
-    fVar11 = gGlobals.screenfadeFloat * 190.0f;
+    fVar11 = gGlobals.brightness * 190.0f;
     red = (u8)(s32)fVar4;
     if (INT_MAX_f <= fVar11) {fVar11 = fVar11 - INT_MAX_f;}
-    fVar4 = gGlobals.screenfadeFloat * 150.0f;
+    fVar4 = gGlobals.brightness * 150.0f;
     green = (u8)(s32)fVar11;
     if (INT_MAX_f <= fVar4) {fVar4 = fVar4 - INT_MAX_f;}
     blue = (u8)(s32)fVar4;
@@ -161,16 +161,16 @@ Gfx* draw_sundail(Gfx*param_1){
     fVar9 = 0.0;
   }
 LAB_8002ba60:
-  fVar11 = gGlobals.screenfadeFloat * 80.0f;
+  fVar11 = gGlobals.brightness * 80.0f;
   if (INT_MAX_f <= fVar11) {fVar11 = fVar11 - INT_MAX_f;}
   pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->Cross,24.0,174.0,1.0f,1.0f,red,green,blue,(u8)fVar11);
   if (gSundail->moon == 0) {
-    fVar4 = fVar4 * gGlobals.screenfadeFloat;
+    fVar4 = fVar4 * gGlobals.brightness;
     fVar11 = (fVar5 * 25.0f + 49.0f) - 10.0f;
     fVar5 = (199.0f - fVar10 * 25.0f) - 10.0f;
     if (INT_MAX_f <= fVar4) {fVar4 -= INT_MAX_f;}
     if ((u8)fVar4 != 0) {pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->SunBig,fVar11,fVar5,1.0f,1.0f,red,green,blue,(u8)fVar4);}
-    fVar9 = fVar9 * gGlobals.screenfadeFloat;
+    fVar9 = fVar9 * gGlobals.brightness;
     if (INT_MAX_f <= fVar9) {fVar9 -= INT_MAX_f;}
     if ((u8)fVar9 != 0) {pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->SunSmall,fVar11,fVar5,1.0f,1.0f,red,green,blue,(u8)fVar9);}
   }

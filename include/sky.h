@@ -44,10 +44,3 @@ namespace Sky{
   void ResetColors();
 };
 
-//clamp a value to 0-1
-#define CLAMP01(x) if(x<0.0) x=0;\
-                   if(x>1.0) x=1
-//clamp a vec3's values to 0-1
-#define CLAMP01V3(v) CLAMP01(v.x); CLAMP01(v.y); CLAMP01(v.z)
-//turn a Vec3f into 32-bit RGB values.
-#define V3ToRGB(c,v) c->R=v.x*255; c->G=v.y*255; c->B=v.z*255

@@ -197,7 +197,7 @@ Gfx* cinematic_increment(Gfx*param_1,s16 param_2){
   set_animation_speed(gGlobals.cinematic.AniDat,(char)param_2);
   FUN_800a0df4(gGlobals.cinematic.AniDat);
   pauVar1 = gsAnimationDataMtx(pauVar1,gGlobals.cinematic.AniDat);
-  pauVar1 = FUN_800a0da4(pauVar1,gGlobals.cinematic.AniDat);
+  pauVar1 = BorgAnimDrawScene(pauVar1,gGlobals.cinematic.AniDat);
   inc_cinematic_runtime(param_2);
   cinematic_import_player_name();
   dec_caption_timer(register0x000000ec,param_2);
