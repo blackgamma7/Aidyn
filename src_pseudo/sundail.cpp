@@ -1,24 +1,9 @@
-struct sundail_struct {
-    struct Borg8header * Ring;
-    struct Borg8header * Cross;
-    struct Borg8header * MoonPhase0;
-    struct Borg8header * MoonPhase1;
-    struct Borg8header * MoonPhase2;
-    struct Borg8header * MoonPhase3;
-    struct Borg8header * MoonPhase4;
-    struct Borg8header * MoonPhase5;
-    struct Borg8header * SunBig;
-    struct Borg8header * SunSmall;
-    u8 moon;
-    u8 sun;
-    u8 align[2];
-};
+#define FILENAME "./src/sundial.cpp"
+#include "globals.h"
+#include "sundail.h"
 
-
-struct sundail_struct * gSundail;
-
-void sundail_init(void){
-  gSundail = (sundail_struct *)HeapAlloc(0x2c,s_./src/sundial.cpp_800da490,0x6c);
+void Sundial::Init(void){
+  ALLOC(gSundail,108);
   gSundail->Ring = get_borg_8(BORG8_compassRing);
   gSundail->Cross = get_borg_8(0x1ba);
   gSundail->MoonPhase0 = get_borg_8(0x1b8);
@@ -33,10 +18,12 @@ void sundail_init(void){
   gSundail->sun = 0;
 }
 
-Gfx* draw_sundail(Gfx*param_1){
-  u8 bVar1;
-  Gfx*pauVar2;
-  u32 uVar3;
+Gfx * Sundial::Draw(Gfx *param_1){
+  byte bVar1;
+  ushort h;
+  ushort v;
+  Gfx *pGVar2;
+  uint uVar3;
   Borg8header *borg8;
   u8 blue;
   u8 green;
@@ -49,139 +36,118 @@ Gfx* draw_sundail(Gfx*param_1){
   float fVar9;
   float fVar10;
   float fVar11;
-  Calendar Cal;
+  Calendar aCStack144;
   
-  pauVar2 = rsp_func(param_1,6,Graphics::get_hres(),Graphics::get_vres());
-  fVar4 = gGlobals.brightness * 255.0f;
-  if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-  fVar5 = gGlobals.brightness * 255.0f;
-  red = (u8)(s32)fVar4;
-  if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
-  fVar4 = gGlobals.brightness * 255.0f;
-  green = (u8)(s32)fVar5;
-  if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-  fVar5 = gGlobals.brightness * 80.0f;
-  blue = (u8)(s32)fVar4;
-  if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
-  pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->Ring,19.0,169.0,1.0f,1.0f,red,green,blue,(u8)(s32)fVar5);
+  pGVar2 = RSPFUNC6(param_1);
+  red = gGlobals.brightness * 255.0f;
+  green = gGlobals.brightness * 255.0f;
+  blue = gGlobals.brightness * 255.0f;
+  fVar4 = gGlobals.brightness * 80.0f;
+  pGVar2 = Borg8_DrawSimple(pGVar2,gSundail->Ring,19.0,169.0,1.0f,1.0f,red
+                            ,green,blue,gGlobals.brightness * 80.0f);
   if (gSundail->sun == 0) {
-    fVar4 = gGlobals.brightness * 160.0f;
-    if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-    fVar5 = gGlobals.brightness * 160.0f;
-    red = (u8)(s32)fVar4;
-    if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
-    fVar4 = gGlobals.brightness * 220.0f;
-    green = (u8)(s32)fVar5;
-    if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-    fVar5 = gGlobals.brightness * 160.0f;
-    blue = (u8)(s32)fVar4;
-    if (INT_MAX_f <= fVar5) {fVar5-= INT_MAX_f;}
-    World::GetCalendarDate(TerrainPointer,&Cal);
-    uVar3 = (Cal.week & 3) >> 1;
+    red = gGlobals.brightness * 160.0f;
+    green = gGlobals.brightness * 160.0f;
+    blue = gGlobals.brightness * 220.0f;
+    World::GetCalendar(TerrainPointer,&aCStack144);
+    uVar3 = (aCStack144.week & 3) >> 1;
     bVar1 = TerrainPointer->moonPhases;
     borg8 = NULL;
     if (bVar1 == 1) {
-      if (uVar3 == 0) {borg8 = gSundail->MoonPhase1;}
-      else {borg8 = gSundail->MoonPhase2;}
-    }
-    else {
-      if (bVar1 < 2) {
-        if (bVar1 == 0) {borg8 = gSundail->MoonPhase0;}
+      if (uVar3 == 0) {
+        borg8 = gSundail->MoonPhase1;
       }
       else {
-        if (bVar1 == 2) {
-          if (uVar3 == 0) {borg8 = gSundail->MoonPhase3;}
-          else {borg8 = gSundail->MoonPhase4;}
-        }
-        else if (bVar1 == 3) {borg8 = gSundail->MoonPhase5;}
+        borg8 = gSundail->MoonPhase2;
       }
     }
-    pauVar2 = Borg8_DrawSimple(pauVar2,borg8,39.0,189.0,1.0f,1.0f,red,green,blue,(u8)(s32)fVar5);
+    else if (bVar1 < 2) {
+      if (bVar1 == 0) {
+        borg8 = gSundail->MoonPhase0;
+      }
+    }
+    else if (bVar1 == 2) {
+      if (uVar3 == 0) {
+        borg8 = gSundail->MoonPhase3;
+      }
+      else {
+        borg8 = gSundail->MoonPhase4;
+      }
+    }
+    else if (bVar1 == 3) {
+      borg8 = gSundail->MoonPhase5;
+    }
+    pGVar2 = Borg8_DrawSimple(pGVar2,borg8,39.0,189.0,1.0f,1.0f,red,green,
+                              blue,gGlobals.brightness * 160.0f);
   }
   fVar4 = World::get_timeofDay_float(TerrainPointer);
-  fVar10 = (float)((s32)(fVar4 * 720.0f) % 0x2d0);
+  fVar10 = (float)((int)(fVar4 * 720.0f) % 720);
   fVar11 = fVar10 / 30.0f;
-  fVar10 = fVar10 * 0.017453292f;
+  fVar10 = fVar10 * dtor;
   fVar4 = 0.0;
   fVar5 = __sinf(fVar10);
-  fVar10 = __cosf(fVar10);
+  fVar6 = __cosf(fVar10);
+  fVar10 = 0.0;
   if ((fVar11 <= 7.0f) || (21.0f <= fVar11)) {
     if ((23.0f < fVar11) || (fVar11 < 5.0f)) {
-      fVar4 = gGlobals.brightness * 120.0f;
-      if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-      fVar11 = gGlobals.brightness * 100.0f;
-      red = (u8)(s32)fVar4;
-      if (INT_MAX_f <= fVar11) {fVar11-= INT_MAX_f;}
-      fVar4 = gGlobals.brightness * 190.0f;
-      green = (u8)(s32)fVar11;
-      if (INT_MAX_f <= fVar4) {fVar4-= INT_MAX_f;}
-      blue = (u8)(s32)fVar4;
-      fVar4 = 0.0;
-      fVar9 = 160.0f;
+      red = gGlobals.brightness * 120.0f;
+      green = gGlobals.brightness * 100.0f;
+      blue = gGlobals.brightness * 190.0f;
+      fVar4 = 160.0f;
+      fVar10 = 0.0;
     }
     else {
       if ((fVar11 < 5.0f) || (7.0f < fVar11)) {
-        fVar9 = fVar4;
         if ((fVar11 < 21.0f) || (23.0f < fVar11)) goto LAB_8002ba60;
-        fVar6 = 255.0f - (fVar11 - 21.0f) * 67.5f;
-        if (INT_MAX_f <= fVar6) {fVar6-= INT_MAX_f;}
-        fVar7 = 190.0f - (fVar11 - 21.0f) * 45.0f;
-        if (INT_MAX_f <= fVar7) {fVar7-= INT_MAX_f;}
-        fVar8 = (fVar11 - 21.0f) * 20.0f + 150.0f;
-        if (INT_MAX_f <= fVar8) {fVar8-= INT_MAX_f;}
-        fVar9 = (fVar11 - 21.0f) * 80.0f;
-        fVar4 = 160.0f - fVar9;
+        fVar7 = 255.0f - (fVar11 - 21.0f) * 67.5f;
+        fVar8 = 190.0f - (fVar11 - 21.0f) * 45.0f;
+        fVar9 = (fVar11 - 21.0f) * 20.0f + 150.0f;
+        fVar4 = (fVar11 - 21.0f) * 80.0f;
+        fVar10 = 160.0f - fVar4;
       }
       else {
-        fVar6 = (fVar11 - 5.0f) * 67.5f + 120.0f;
-        if (INT_MAX_f <= fVar6) {fVar6-= INT_MAX_f;}
-        fVar7 = (fVar11 - 5.0f) * 45.0f + 100.0f;
-        if (INT_MAX_f <= fVar7) {fVar7-= INT_MAX_f;}
-        fVar8 = 190.0f - (fVar11 - 5.0f) * 20.0f;
-        if (INT_MAX_f <= fVar8) {fVar8-= INT_MAX_f;}
-        fVar4 = (fVar11 - 5.0f) * 80.0f;
-        fVar9 = 160.0f - fVar4;
+        fVar7 = (fVar11 - 5.0f) * 67.5f + 120.0f;
+        fVar8 = (fVar11 - 5.0f) * 45.0f + 100.0f;
+        fVar9 = 190.0f - (fVar11 - 5.0f) * 20.0f;
+        fVar10 = (fVar11 - 5.0f) * 80.0f;
+        fVar4 = 160.0f - fVar10;
       }
-      blue = (u8)(s32)fVar8;
-      green = (u8)(s32)fVar7;
-      red = (u8)(s32)fVar6;
+      blue = (u8)(int)fVar9;
+      green = (u8)(int)fVar8;
+      red = (u8)(int)fVar7;
     }
   }
   else {
-    fVar4 = gGlobals.brightness * 255.0f;
-    if (INT_MAX_f <= fVar4) {fVar4 = fVar4 - INT_MAX_f;}
-    fVar11 = gGlobals.brightness * 190.0f;
-    red = (u8)(s32)fVar4;
-    if (INT_MAX_f <= fVar11) {fVar11 = fVar11 - INT_MAX_f;}
-    fVar4 = gGlobals.brightness * 150.0f;
-    green = (u8)(s32)fVar11;
-    if (INT_MAX_f <= fVar4) {fVar4 = fVar4 - INT_MAX_f;}
-    blue = (u8)(s32)fVar4;
-    fVar4 = 160.0f;
-    fVar9 = 0.0;
+    red = gGlobals.brightness * 255.0f;
+    green = gGlobals.brightness * 190.0f;
+    blue = gGlobals.brightness * 150.0f;
+    fVar4 = 0.0;
+    fVar10 = 160.0f;
   }
 LAB_8002ba60:
-  fVar11 = gGlobals.brightness * 80.0f;
-  if (INT_MAX_f <= fVar11) {fVar11 = fVar11 - INT_MAX_f;}
-  pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->Cross,24.0,174.0,1.0f,1.0f,red,green,blue,(u8)fVar11);
+  pGVar2 = Borg8_DrawSimple(pGVar2,gSundail->Cross,24.0,174.0,1.0f,1.0f,
+                            red,green,blue,(u8)(int)gGlobals.brightness * 80.0f);
   if (gSundail->moon == 0) {
-    fVar4 = fVar4 * gGlobals.brightness;
+    fVar10 = fVar10 * gGlobals.brightness;
     fVar11 = (fVar5 * 25.0f + 49.0f) - 10.0f;
-    fVar5 = (199.0f - fVar10 * 25.0f) - 10.0f;
-    if (INT_MAX_f <= fVar4) {fVar4 -= INT_MAX_f;}
-    if ((u8)fVar4 != 0) {pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->SunBig,fVar11,fVar5,1.0f,1.0f,red,green,blue,(u8)fVar4);}
-    fVar9 = fVar9 * gGlobals.brightness;
-    if (INT_MAX_f <= fVar9) {fVar9 -= INT_MAX_f;}
-    if ((u8)fVar9 != 0) {pauVar2 = Borg8_DrawSimple(pauVar2,gSundail->SunSmall,fVar11,fVar5,1.0f,1.0f,red,green,blue,(u8)fVar9);}
+    fVar5 = (199.0f - fVar6 * 25.0f) - 10.0f;
+    if (((u8)fVar10)) {
+      pGVar2 = Borg8_DrawSimple(pGVar2,gSundail->SunBig,fVar11,fVar5,1.0f,
+                                1.0f,red,green,blue,(u8)fVar10);
+    }
+    fVar4 = fVar4 * gGlobals.brightness;
+    if (((u8)fVar4)) {
+      pGVar2 = Borg8_DrawSimple(pGVar2,gSundail->SunSmall,fVar11,fVar5,1.0f,
+                                1.0f,red,green,blue,(u8)fVar4);
+    }
   }
-  return pauVar2;
+  return pGVar2;
 }
 
-void xor_sundail_sun(u8 x){gSundail->sun = x ^ 1;}
-void xor_sundail_moon(u8 x){gSundail->moon = x ^ 1;}
+void Sundial::ToggleSun(u8 x){gSundail->sun = x ^ 1;}
+void Sundial::ToggleMoon(u8 x){gSundail->moon = x ^ 1;}
 
-void sundail_free(void){
-  
+void Sundial::Free(void){
   AllocFreeQueueItem(&gGlobals.QueueA,gSundail->Ring,4,0);
   gSundail->Ring = NULL;
   AllocFreeQueueItem(&gGlobals.QueueA,gSundail->Cross,4,0);
