@@ -2830,26 +2830,7 @@ struct BorgListing {
     int Offset; /* index in in ROM DB */
 };
 
-typedef struct BREAKINFO BREAKINFO, *PBREAKINFO;
-
-struct BREAKINFO {
-    u32 *breakAddress;
-    u32 oldInstruction;
-};
-
-
-struct Calendar { /* Timestruct->Ingame_time as x */
-    u8 month; /* x / 0x114db000 */
-    u8 week; /* (x % 0x114db000)/0x229b600 day: */
-    u8 day; /* (x % 0x229b600) / 0x4f1a00 */
-    u8 hour; /* (x % 0x4f1a00 >> 6) / 0xd2f */
-    u8 minute; /* (x + ((x >> 6) / 0xd2f) * -0x34bc0) / 3600 */
-    u8 second; /* (x % 3600) / 60 */
-};
-
 typedef struct Camera_struct Camera_struct, *PCamera_struct;
-
-
 
 typedef struct cinematic_dat_pointers cinematic_dat_pointers, *Pcinematic_dat_pointers;
 

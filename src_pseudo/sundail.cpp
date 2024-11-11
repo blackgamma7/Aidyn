@@ -49,7 +49,7 @@ Gfx * Sundial::Draw(Gfx *param_1){
     red = gGlobals.brightness * 160.0f;
     green = gGlobals.brightness * 160.0f;
     blue = gGlobals.brightness * 220.0f;
-    World::GetCalendar(TerrainPointer,&aCStack144);
+    World::GetCalendarDate(TerrainPointer,&aCStack144);
     uVar3 = (aCStack144.week & 3) >> 1;
     bVar1 = TerrainPointer->moonPhases;
     borg8 = NULL;
@@ -112,9 +112,9 @@ Gfx * Sundial::Draw(Gfx *param_1){
         fVar10 = (fVar11 - 5.0f) * 80.0f;
         fVar4 = 160.0f - fVar10;
       }
-      blue = (u8)(int)fVar9;
-      green = (u8)(int)fVar8;
-      red = (u8)(int)fVar7;
+      blue = fVar9;
+      green = fVar8;
+      red = fVar7;
     }
   }
   else {
