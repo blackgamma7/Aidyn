@@ -11,6 +11,7 @@
 #include "world.h"
 #include "sky.h"
 #include "SFX.h"
+#include "portraits.h"
 
 #include "crash.h"
 #include "heapN64.h"

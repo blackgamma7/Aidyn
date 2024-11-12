@@ -1,8 +1,8 @@
-u16 screen_bottom=240;
+#include "globals.h"
 
-void init_portait_highlighter(void){gGlobals.portraitBorder = get_borg_8(0xdf);}
+void Portraits::InitBorder(void){gGlobals.portraitBorder = get_borg_8(0xdf);}
 
-u8 ofunc_check_portaits_bottom(u8 param_1){
+u8 Portraits::CheckPos(u8 param_1){
   u8 bVar1;
   
   bVar1 = true;
@@ -12,71 +12,72 @@ u8 ofunc_check_portaits_bottom(u8 param_1){
 }
 
 #define WHITE_GLOW {255,255,255,128}
-void pass_to_draw_portaits(Gfx*param_1,u8 param_2){
+Gfx* Portraits::Draw(Gfx*param_1,u8 param_2){
   Color32 uStack72 [4] ={WHITE_GLOW,WHITE_GLOW,WHITE_GLOW,WHITE_GLOW}; //yes, by hacking, you could color-code the auras.
-  draw_party_portaits(param_1,param_2,uStack72);
+  return DrawParty(param_1,param_2,uStack72);
 }
 
-void PortraitColorBlend(Color32 *colA,Color32 *colB,float fade){
-  float fVar1;
-  
-  fVar1 = (float)(u32)colA->R * fade;
-  if (fVar1 < INT_MAX_f) colB->R = (u8)fVar1;
-  else colB->R = (u8)(fVar1 - INT_MAX_f);
-  fVar1 = (float)(u32)colA->G * fade;
-  if (fVar1 < INT_MAX_f) {colB->G = (u8)fVar1;}
-  else colB->G = (u8)(fVar1 - INT_MAX_f);
-  fVar1 = (float)(u32)colA->B * fade;
-  if (fVar1 < INT_MAX_f) colB->B = (u8)fVar1;
-  else colB->B = (u8)(fVar1 - INT_MAX_f);
-  fVar1 = (float)(u32)colA->A * fade;
-  if (INT_MAX_f <= fVar1) colB->A = (u8)(fVar1 - INT_MAX_f);
-  else colB->A = (u8)fVar1;
+void Portraits::BlendColors(Color32 *colA,Color32 *colB,float fade){
+  colB->R= colA->R * fade;
+  colB->G= colA->G * fade;
+  colB->B= colA->B * fade;
+  colB->A= colA->A * fade;
 }
 
-Gfx* draw_party_portaits(Gfx*param_1,u8 param_2,Color32 *col){
+Gfx * Portraits::DrawParty(Gfx *g,u8 raise,Color32 *col){
   CharSheet *pCVar1;
-
-  Gfx*pauVar2;
   float Hscale;
+  ushort h;
+  ushort v;
+  Gfx *gfx;
   Color32 TempCol;
   
-  if (!param_2) {if (screen_bottom < 0xf0) screen_bottom+=4;}
-  else if ((param_2) && (0xb9 < screen_bottom)) screen_bottom-=4;
-  pauVar2 = rsp_func(param_1,6,Graphics::get_hres(),Graphics::get_vres());
-  PortraitColorBlend(col,&TempCol,gGlobals.brightness);
+  if (raise) {
+    if ((raise) && (0xb9 < screen_bottom)) screen_bottom-= 4;
+  }
+  else if (screen_bottom < 0xf0) screen_bottom += 4;
+  gfx = RSPFUNC6(g);
+  BlendColors(col,&TempCol,gGlobals.brightness);
   Hscale = 0.8f;
-  pauVar2 = Borg8_DrawSimple(pauVar2,gGlobals.portraitBorder,84.0,(float)(u32)screen_bottom,0.8f,0.8f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
-  PortraitColorBlend(col + 1,&TempCol,gGlobals.brightness);
-  pauVar2 = Borg8_DrawSimple(pauVar2,gGlobals.portraitBorder,122.0,(float)(u32)screen_bottom,Hscale,Hscale,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
-  PortraitColorBlend(col + 2,&TempCol,gGlobals.brightness);
-  pauVar2 = Borg8_DrawSimple(pauVar2,gGlobals.portraitBorder,160.0,(float)(u32)screen_bottom,Hscale,Hscale,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
-  PortraitColorBlend(col + 3,&TempCol,gGlobals.brightness);
-  pauVar2 = Borg8_DrawSimple(pauVar2,gGlobals.portraitBorder,198.0,(float)(u32)screen_bottom,Hscale,Hscale,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
+  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,84.0,(float)(uint)screen_bottom,
+                         0.8f,0.8f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
+  BlendColors(col + 1,&TempCol,gGlobals.brightness);
+  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,122.0,(float)(uint)screen_bottom,Hscale,Hscale,
+                         TempCol.R,TempCol.G,TempCol.B,TempCol.A);
+  BlendColors(col + 2,&TempCol,gGlobals.brightness);
+  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,160.0,(float)(uint)screen_bottom,Hscale,Hscale,
+                         TempCol.R,TempCol.G,TempCol.B,TempCol.A);
+  BlendColors(col + 3,&TempCol,gGlobals.brightness);
+  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,198.0,(float)(uint)screen_bottom,Hscale,Hscale,
+                         TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   TempCol.G = 0xff;
   TempCol.R = 0xff;
   TempCol.A = 0x80;
-  PortraitColorBlend(&TempCol,&TempCol,gGlobals.brightness);
+  BlendColors(&TempCol,&TempCol,gGlobals.brightness);
   pCVar1 = (gGlobals.party)->Members[0];
   if ((pCVar1) && (pCVar1->portrait)) {
-    pauVar2 = Borg8_DrawSimple(pauVar2,pCVar1->portrait,90.0,(float)(screen_bottom + 6),0.75f,0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
+    gfx = Borg8_DrawSimple(gfx,pCVar1->portrait,90.0,(float)(screen_bottom + 6),0.75f,
+                           0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
   pCVar1 = (gGlobals.party)->Members[1];
   if ((pCVar1) && (pCVar1->portrait)) {
-    pauVar2 = Borg8_DrawSimple(pauVar2,pCVar1->portrait,128.0,(float)(screen_bottom + 6),0.75f,0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
+    gfx = Borg8_DrawSimple(gfx,pCVar1->portrait,128.0,(float)(screen_bottom + 6),0.75f,
+                           0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
   pCVar1 = (gGlobals.party)->Members[2];
   if ((pCVar1) && (pCVar1->portrait)) {
-    pauVar2 = Borg8_DrawSimple(pauVar2,pCVar1->portrait,166.0,(float)(screen_bottom + 6),0.75f,0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
+    gfx = Borg8_DrawSimple(gfx,pCVar1->portrait,166.0,(float)(screen_bottom + 6),0.75f,
+                           0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
   pCVar1 = (gGlobals.party)->Members[3];
   if ((pCVar1) && (pCVar1->portrait)) {
-    pauVar2 = Borg8_DrawSimple(pauVar2,pCVar1->portrait,204.0,(float)(screen_bottom + 6),0.75f,0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
+    gfx = Borg8_DrawSimple(gfx,pCVar1->portrait,204.0,(float)(screen_bottom + 6),0.75f,
+                           0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
-  return pauVar2;
+  return gfx;
 }
 
-void portait_border_free(void){
+void Portraits::FreeBorder(void){
   AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.portraitBorder,4,0);
   gGlobals.portraitBorder = NULL;
 }
