@@ -310,8 +310,13 @@ namespace Entity{
     u8 HealHandsCheck(CharSheet *param_1);
     u8 HealHerbsCheck(CharSheet *param_1);
     u8 TroubadorCheck(CharSheet *param_1);
-    void AllocEnchant(CharSheet *param_1,SpellEnum param_2,u8 param_3,u8 param_4,u32 timer,s32 param_6);
-
+    void AllocEnchant(CharSheet *param_1,u8 param_2,u8 param_3,u8 param_4,u32 timer,s32 param_6);
+    void EffectModStats(CharSheet *param_1,u8 param_2,u8 param_3);
+    void RemoveStatBuff(CharSheet *param_1,u8 param_2,u8 param_3);
+    void ClearSpellEffect(CharSheet *param_1,u8 index,CombatEntity *param_3);
+    u8 IsDebuffSpell(CharSheet* c,SpellEnum spell);
+    u8 GetShieldDefence(CharSheet *param_1,ItemID param_2);
+    int GetArmorProtect(CharSheet *param_1,ItemID param_2);
 };
 char** Spell_error_labels=NULL;
 extern u32 EXP_TNL[];
