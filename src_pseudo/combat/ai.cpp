@@ -47,11 +47,11 @@ byte CombatEntity::JudgeAIMorale(CombatEntity *param_1,u8 param_2){
   u8 bVar3;
   int iVar2;
   char cVar4;
-  CombatAIInfo *iVar4;
+  CombatAI_s *iVar4;
   byte bVar5;
   u8 uVar6;
   s32 lVar7;
-  CombatAIInfo *pTVar4;
+  CombatAI_s *pTVar4;
   CombatEntity *leader;
   
   pTVar4 = param_1->aiP;
@@ -112,7 +112,7 @@ u8 CombatEntity::AiIsTiredOrLonely(CombatEntity *param_1){
 
 
 
-void CombatAIInfo::DebateFleeing(CombatEntity *param_1,u8 param_2){
+void CombatAI_s::DebateFleeing(CombatEntity *param_1,u8 param_2){
   if (((param_2) && (param_1->aiP->morale < 0xc)) && (CombatEntity::AiIsTiredOrLonely(param_1))) {
     if (!gCombatP->leaderDead) CombatEntity::JudgeAIMorale((&gCombatP->combatEnts)[gCombatP->leaderIndex],false);
     if (CombatEntity::JudgeAIMorale(param_1,true) < RollD(2,6)) LookToFlee(param_1->aiP);
@@ -121,7 +121,7 @@ void CombatAIInfo::DebateFleeing(CombatEntity *param_1,u8 param_2){
 }
 
 
-u8 CombatAIInfo::IsNotDeadNorAlly(CombatAIInfo *param_1,CombatEntity *param_2){
+u8 CombatAI_s::IsNotDeadNorAlly(CombatAI_s *param_1,CombatEntity *param_2){
   u8 ret;
   
   if (!param_2) return false;
@@ -135,7 +135,7 @@ u8 CombatAIInfo::IsNotDeadNorAlly(CombatAIInfo *param_1,CombatEntity *param_2){
   return ret;
 }
 
-u8 CombatAIInfo::CanMoveToTarget(CombatAIInfo *param_1){  
+u8 CombatAI_s::CanMoveToTarget(CombatAI_s *param_1){  
   if (combat_AiScore_tally) {
     for(u32 i=0;i<combat_AiScore_tally;i++) {
       CombatEntity *pCVar1 = combat_AiScores_pointer[i].combatEnt;
@@ -147,7 +147,7 @@ u8 CombatAIInfo::CanMoveToTarget(CombatAIInfo *param_1){
 }
 
 
-byte CombatAIInfo::GetSpellPriority(CombatAIInfo *param_1,u8 param_2)
+byte CombatAI_s::GetSpellPriority(CombatAI_s *param_1,u8 param_2)
 
 {
   CombatEntity *pCVar1;
@@ -359,19 +359,19 @@ switchD_80060678_caseD_1:
   return val;
 }
 
-void FUN_800609bc(CombatAIInfo *param_1){
+void FUN_800609bc(CombatAI_s *param_1){
   CombatAIScore::Reset(gCombatP->EntCount);
   if (gCombatP->EntCount != 0) {
     for(u8 i=0;i<gCombatP->EntCount;i++) {
       CombatEntity *cEnt = (&gCombatP->combatEnts)[i];
-      if (CombatAIInfo::IsNotDeadNorAlly(param_1,cEnt))
+      if (CombatAI_s::IsNotDeadNorAlly(param_1,cEnt))
         CombatAIScore::SetEntry(CombatEntity::GetCoordXU8(cEnt),CombatEntity::GetCoordYU8(cEnt),0,0,cEnt);
     }
   }
 }
 
 
-void FUN_80060a88(CombatAIInfo *param_1){
+void FUN_80060a88(CombatAI_s *param_1){
   byte bVar1;
   u8 uVar2;
   CombatEntity *pCVar3;
@@ -464,7 +464,7 @@ LAB_80060cb0:
 
 
 
-void FUN_80060db0(CombatAIInfo *param_1)
+void FUN_80060db0(CombatAI_s *param_1)
 
 {
   u8 uVar1;
@@ -541,7 +541,7 @@ void FUN_80060db0(CombatAIInfo *param_1)
                     break;
                   }
                 }
-                feild0 = CombatAIInfo::CanMoveToTarget(param_1);
+                feild0 = CombatAI_s::CanMoveToTarget(param_1);
                 if (bVar4) {
                   if ((feild0) || (pcVar18->spell_pri == 0)) {
                     if (sub_square_add_sqrt(feildx,feildy,bVar10,bVar11) > sub_square_add_sqrt(bVar2,bVar3,bVar10,bVar11)) goto LAB_800610b8;
@@ -573,7 +573,7 @@ LAB_800610b8:
 }
 
 
-int fireball_func(CombatAIInfo *param_1){
+int fireball_func(CombatAI_s *param_1){
   CombatEntity *pCVar1;
   combat_substruct_2 *pcVar2;
   u8 bVar5;
@@ -592,7 +592,7 @@ int fireball_func(CombatAIInfo *param_1){
   if (gCombatP->EntCount != 0) {
     do {
       pCVar1 = (&gCombatP->combatEnts)[uVar8];
-      if (CombatAIInfo::IsNotDeadNorAlly(param_1,pCVar1)) {
+      if (CombatAI_s::IsNotDeadNorAlly(param_1,pCVar1)) {
         fVar13 += CombatEntity::GetCoordX(pCVar1);
         fVar11 += CombatEntity::GetCoordY(pCVar1);
         fVar12++;
@@ -623,13 +623,13 @@ int fireball_func(CombatAIInfo *param_1){
 }
 
 
-s32 some_prioirty_getter(CombatAIInfo *param_1){
+s32 some_prioirty_getter(CombatAI_s *param_1){
   FUN_80072454(gCombatP->substruct2 + 1,param_1->combatEnt);
   return gCombatP->substruct2[1].arrayBCount - 1;
 }
 
 
-uint other_func_checking_fireball(CombatAIInfo *param_1){
+uint other_func_checking_fireball(CombatAI_s *param_1){
   byte bVar1;
   u8 uVar2;
   byte bVar3;
@@ -704,7 +704,7 @@ uint other_func_checking_fireball(CombatAIInfo *param_1){
                   if (param_1->spells[uStack_60] == SPELLIND_fireball) cVar19 = fireball_func(param_1);
                   else cVar19 = some_prioirty_getter(param_1);
                   if ((pCVar7->substruct2[1].arrayBCount != 0) &&
-                     (spellPri = CombatAIInfo::GetSpellPriority(param_1,param_1->spells[uStack_60]),
+                     (spellPri = CombatAI_s::GetSpellPriority(param_1,param_1->spells[uStack_60]),
                      spellPri != 0)) {
                     CombatAIScore::SetEntry(feildx,bVar14,(byte)uVar9,spellPri + cVar19 * 10 + pSVar10->level,
                                (&gCombatP->combatEnts)[(byte)pCVar7->substruct2[1].entindex]);
@@ -728,7 +728,7 @@ uint other_func_checking_fireball(CombatAIInfo *param_1){
   return uStack_74;
 }
 
-u8 ai_spell_stam(CombatAIInfo *param_1){
+u8 ai_spell_stam(CombatAI_s *param_1){
   byte bVar1;
   byte bVar2;
   CharSheet *pCVar3;
@@ -775,7 +775,7 @@ u8 ai_spell_stam(CombatAIInfo *param_1){
       if (SVar12 == SPELLIND_fireball) cVar11 = fireball_func(param_1);
       else cVar11 = some_prioirty_getter(param_1);
       if (pCVar6->substruct2[1].arrayBCount != 0) {
-        bVar9 = CombatAIInfo::GetSpellPriority(param_1,pSVar15[uVar13]);
+        bVar9 = CombatAI_s::GetSpellPriority(param_1,pSVar15[uVar13]);
         if (bVar9 != 0) {
           CombatAIScore::SetEntry
                     (feildx,feildy,(char)uVar13 + 1,bVar9 + cVar11 * 10 + pSVar7->level,
@@ -793,7 +793,7 @@ u8 ai_spell_stam(CombatAIInfo *param_1){
 }
 
 
-void FUN_8006193c(CombatAIInfo *param_1){
+void FUN_8006193c(CombatAI_s *param_1){
   u8 uVar1;
   CombatEntity *pCVar2;
   byte bVar3;
@@ -887,7 +887,7 @@ LAB_80061b18:
 }
 
 
-void FUN_80061d10(CombatAIInfo* param_1,s32 param_2){
+void FUN_80061d10(CombatAI_s* param_1,s32 param_2){
   s32 iVar1;
   s16 sVar2;
   u8 bVar3;
@@ -917,7 +917,7 @@ void FUN_80061d10(CombatAIInfo* param_1,s32 param_2){
   return;
 }
 
-void FUN_80061dfc(CombatAIInfo* param_1){
+void FUN_80061dfc(CombatAI_s* param_1){
   u8 bVar1;
   u8 bVar2;
   CombatEntity *pCVar3;
@@ -1030,7 +1030,7 @@ void FUN_80061dfc(CombatAIInfo* param_1){
   return;
 }
 
-u8 FUN_80062230(CombatAIInfo* param_1){
+u8 FUN_80062230(CombatAI_s* param_1){
   u8 bVar1;
   
   other_func_checking_fireball(param_1);
@@ -1044,19 +1044,19 @@ u8 FUN_80062230(CombatAIInfo* param_1){
   return bVar1;
 }
 
-void FUN_8006228c(CombatAIInfo* param_1){
+void FUN_8006228c(CombatAI_s* param_1){
   FUN_800609bc(param_1);
   FUN_80061d10(param_1,1);
   combat_AiScores_quicksort(true);
 }
 
-void FUN_800622c4(CombatAIInfo* param_1){
+void FUN_800622c4(CombatAI_s* param_1){
   FUN_800609bc(param_1);
   FUN_80061dfc(param_1);
   combat_AiScores_quicksort(false);
 }
 
-void FUN_800622f8(CombatAIInfo* param_1){
+void FUN_800622f8(CombatAI_s* param_1){
   u8 bVar1;
   u8 bVar2;
   
@@ -1079,7 +1079,7 @@ void FUN_800622f8(CombatAIInfo* param_1){
   combat_AiScores_quicksort(true);
 }
 
-void FUN_800623bc(CombatAIInfo* param_1){
+void FUN_800623bc(CombatAI_s* param_1){
   u8 bVar1;
   u8 bVar2;
   
@@ -1116,7 +1116,7 @@ void FUN_800623bc(CombatAIInfo* param_1){
   return;
 }
 
-void FUN_800624bc(CombatAIInfo* param_1){
+void FUN_800624bc(CombatAI_s* param_1){
   FUN_800609bc(param_1);
   FUN_80061dfc(param_1);
   combat_AiScores_quicksort(false);
@@ -1129,7 +1129,7 @@ void FUN_800624f0(combat_ai* param_1){
   }
 }
 
-void FUN_8006252c(CombatAIInfo* param_1){
+void FUN_8006252c(CombatAI_s* param_1){
   if (!func_80062230(param_1)) {
     combat_aiscores_free();
     FUN_80060a88(param_1);
@@ -1149,14 +1149,14 @@ void FUN_8006252c(CombatAIInfo* param_1){
 
 
 
-void FUN_800625a4(CombatAIInfo* param_1){
+void FUN_800625a4(CombatAI_s* param_1){
   if (!func_80062230(param_1)) {
     combat_aiscores_free();
     FUN_800623bc(param_1);
   }
 }
 
-void FUN_800625e0(CombatAIInfo* param_1){
+void FUN_800625e0(CombatAI_s* param_1){
   if (!func_80062230(param_1)) {
     combat_aiscores_free();
     FUN_800624bc(param_1);
@@ -1164,7 +1164,7 @@ void FUN_800625e0(CombatAIInfo* param_1){
 }
 
 
-void FUN_8006261c(CombatAIInfo* param_1){
+void FUN_8006261c(CombatAI_s* param_1){
 
   if (!func_80062230(param_1)) {
     combat_aiscores_free();
@@ -1181,7 +1181,7 @@ void FUN_8006261c(CombatAIInfo* param_1){
 }
 
 
-void FUN_8006268c(CombatAIInfo* param_1){
+void FUN_8006268c(CombatAI_s* param_1){
   u8 bVar1;
   u8 bVar2;
   
@@ -1223,7 +1223,7 @@ void FUN_8006268c(CombatAIInfo* param_1){
   return;
 }
 
-void combatAI_run_cmd(CombatAIInfo* param_1,u8 *param_2,u8 *param_3){
+void combatAI_run_cmd(CombatAI_s* param_1,u8 *param_2,u8 *param_3){
   CharSheet *pCVar1;
   CombatEntity *pCVar2;
   combat_aiscore *pcVar3;
@@ -1255,7 +1255,7 @@ void combatAI_run_cmd(CombatAIInfo* param_1,u8 *param_2,u8 *param_3){
 }
 
 
-void FUN_800628cc(CombatAIInfo* param_1)
+void FUN_800628cc(CombatAI_s* param_1)
 
 {
   CharSheet *pCVar1;
@@ -1536,7 +1536,7 @@ u8 FUN_80062e14(u32 param_1,u32 param_2,u8 *param_3,u8 *param_4,undefined param_
   return bVar6;
 }
 
-void FUN_800631c8(CombatAIInfo* param_1){
+void FUN_800631c8(CombatAI_s* param_1){
   s8 sVar3 = FUN_800720f8(&gCombatP->substruct,get_combatEnt_x(param_1->combatEnt),get_combatEnt_y(param_1->combatEnt),
           (&gCombatP->unk0x5320)[(char)param_1->unk0x12 * 2]);
   set_combatEnt_vec2(param_1->combatEnt,sVar3);
@@ -1547,7 +1547,7 @@ void ofunc_NOOP(void){}
 
 
 
-u8 FUN_80063258(CombatAIInfo* param_1)
+u8 FUN_80063258(CombatAI_s* param_1)
 
 {
   playerData *ppVar1;
@@ -1648,7 +1648,7 @@ u8 FUN_80063258(CombatAIInfo* param_1)
   return false;
 }
 
-void Ai_swap_weapons(CombatAIInfo* param_1){
+void Ai_swap_weapons(CombatAI_s* param_1){
   CombatEntity *pCVar1;
   CharSheet *pCVar2;
   Temp_weapon *pTVar3;
@@ -1668,7 +1668,7 @@ void Ai_swap_weapons(CombatAIInfo* param_1){
   }
 }
 
-u8 ai_should_swap_weapons(CombatAIInfo* param_1)
+u8 ai_should_swap_weapons(CombatAI_s* param_1)
 
 {
   CharSheet *pCVar1;
@@ -1703,7 +1703,7 @@ u8 ai_should_swap_weapons(CombatAIInfo* param_1)
   return bVar5;
 }
 
-void combat_ai_shadow(CombatAIInfo* param_1){
+void combat_ai_shadow(CombatAI_s* param_1){
   CombatEntity *pCVar1;
   longlong lVar2;
   s32 iVar3;
@@ -1761,7 +1761,7 @@ void combat_ai_shadow(CombatAIInfo* param_1){
   return;
 }
 
-u8 FUN_80063af4(CombatAIInfo* param_1,u8 param_2,u8 param_3){
+u8 FUN_80063af4(CombatAI_s* param_1,u8 param_2,u8 param_3){
   u8 bVar1;
 
   param_1->unk0x13 = FUN_80071ec4(&gCombatP->substruct,get_combatEnt_x(param_1->combatEnt),get_combatEnt_y(param_1->combatEnt),
@@ -1775,7 +1775,7 @@ u8 FUN_80063af4(CombatAIInfo* param_1,u8 param_2,u8 param_3){
 }
 
 
-u8 FUN_80063bbc(CombatAIInfo *param_1){
+u8 FUN_80063bbc(CombatAI_s *param_1){
   playerData *ppVar1;
   referncepoint_obj *prVar2;
   u8 bVar3;
@@ -1801,7 +1801,7 @@ u8 FUN_80063bbc(CombatAIInfo *param_1){
 
 
 
-u8 FUN_80063c94(CombatAIInfo *param_1){
+u8 FUN_80063c94(CombatAI_s *param_1){
   CombatEntity *pCVar1;
   playerData *ppVar2;
   playerData *ppVar3;
@@ -1832,7 +1832,7 @@ u8 FUN_80063c94(CombatAIInfo *param_1){
 
 
 
-void FUN_80063db0(CombatAIInfo *ai,float x0,float y0,float x1,float y1,float param_6,playerData *param_7){
+void FUN_80063db0(CombatAI_s *ai,float x0,float y0,float x1,float y1,float param_6,playerData *param_7){
   vec2f fStack240;
   vec2f afStack176;
   vec2f afStack112;
@@ -1853,7 +1853,7 @@ void FUN_80063db0(CombatAIInfo *ai,float x0,float y0,float x1,float y1,float par
 
 
 
-u8 FUN_80063f1c(CombatAIInfo *param_1,undefined1 param_2,undefined param_3){
+u8 FUN_80063f1c(CombatAI_s *param_1,undefined1 param_2,undefined param_3){
   u8 bVar1;
   u8 bVar2;
   
@@ -1882,7 +1882,7 @@ u8 FUN_80063f1c(CombatAIInfo *param_1,undefined1 param_2,undefined param_3){
 
 
 
-referncepoint_obj * CombatAI::FindFleeingRefpoint(CombatAIInfo *param_1,float *dist){
+referncepoint_obj * CombatAI::FindFleeingRefpoint(CombatAI_s *param_1,float *dist){
   referncepoint_obj *ret;
   referncepoint_obj *prVar4;
   float prox;
@@ -1912,7 +1912,7 @@ referncepoint_obj * CombatAI::FindFleeingRefpoint(CombatAIInfo *param_1,float *d
 
 
 
-u8 CombatAI::GetFleePointCoords(CombatAIInfo *param_1,u8 x,u8 y,s8 *outX,s8 *outY,float *param_6){
+u8 CombatAI::GetFleePointCoords(CombatAI_s *param_1,u8 x,u8 y,s8 *outX,s8 *outY,float *param_6){
   referncepoint_obj *prVar1;
   
   prVar1 = CombatAI::FindFleeingRefpoint(param_1,param_6);
@@ -1925,7 +1925,7 @@ u8 CombatAI::GetFleePointCoords(CombatAIInfo *param_1,u8 x,u8 y,s8 *outX,s8 *out
 }
 
 
-u8 FUN_800641b8(CombatAIInfo *param_1,s8* param_2,s8* param_3){
+u8 FUN_800641b8(CombatAI_s *param_1,s8* param_2,s8* param_3){
   u8 uVar4;
   float afStack_20 [8];
 
@@ -1945,7 +1945,7 @@ u8 FUN_800641b8(CombatAIInfo *param_1,s8* param_2,s8* param_3){
   }
   return uVar4;
 
-u8 FUN_800642c4(CombatAIInfo *param_1,u8 *param_2,u8 *param_3){
+u8 FUN_800642c4(CombatAI_s *param_1,u8 *param_2,u8 *param_3){
   u8 uVar1;
   u8 uVar2;
   u8 bVar3;
@@ -1961,7 +1961,7 @@ u8 FUN_800642c4(CombatAIInfo *param_1,u8 *param_2,u8 *param_3){
   return bVar3;
 }
 
-u8 FUN_80064358(CombatAIInfo* param_1){
+u8 FUN_80064358(CombatAI_s* param_1){
   u8 bVar1;
   
   FUN_800628cc(param_1);
@@ -1971,7 +1971,7 @@ u8 FUN_80064358(CombatAIInfo* param_1){
 }
 
 
-u8 FUN_80064398(CombatAIInfo *param_1){
+u8 FUN_80064398(CombatAI_s *param_1){
   CombatEntity *target;
   u8 bVar1;
   u8 bVar2;
@@ -2006,7 +2006,7 @@ void CombatAIInfo::FaceTarget(CombatAIInfo *param_1){
 
 
 
-void FUN_80064494(CombatAIInfo *param_1){
+void FUN_80064494(CombatAI_s *param_1){
   byte bVar1;
   u8 bVar2;
   float x;
@@ -2068,7 +2068,7 @@ void FUN_800645b4(CombatAIInfo *param_1){
   }
 }
 
-void FUN_80064714(CombatAIInfo* param_1){
+void FUN_80064714(CombatAI_s* param_1){
   if (((param_1->unk0x7 == param_1->unk0x4) ||
       (!CombatAIInfo::ShouldSwapWeapons(param_1))) &&(!FUN_80064358(param_1))) {
     if (FUN_80064398(param_1)) CombatAIInfo::FaceTarget(param_1);
@@ -2156,7 +2156,7 @@ u8 CombatAIInfo::IsSomeonePoisoned(void){
 
 
 
-u8 FUN_80064948(CombatAIInfo *param_1){
+u8 FUN_80064948(CombatAI_s *param_1){
   if (param_1->entIndex != -1) {
     if (gCombatP->substruct2->arrayA[param_1->entIndex]) {
       clear_substruct2_arrayB(gCombatP->substruct2);
@@ -2172,7 +2172,7 @@ u8 FUN_80064948(CombatAIInfo *param_1){
   return true;
 }
 
-u8 FUN_800649f8(CombatAIInfo *param_1){
+u8 FUN_800649f8(CombatAI_s *param_1){
   s8 cVar1 = param_1->entIndex;
   if (((cVar1 == -1) || (!gCombatP->substruct2[1].arrayA[cVar1])) ||
      (!gCombatP->substruct2[1].arrayB[cVar1])) {
@@ -2184,7 +2184,7 @@ u8 FUN_800649f8(CombatAIInfo *param_1){
   return true;
 }
 
-u8 FUN_80064a78(CombatAIInfo *param_1){
+u8 FUN_80064a78(CombatAI_s *param_1){
   u8 bVar1;
   u8 uVar2;
   
@@ -2203,21 +2203,21 @@ u8 FUN_80064a78(CombatAIInfo *param_1){
   return uVar2;
 }
 
-void CombatAIInfo::ClearEntIndex(CombatAIInfo *param_1){
+void CombatAIInfo::ClearEntIndex(CombatAI_s *param_1){
   param_1->entIndex = -1;
   param_1->unk12 = 0xff;
   param_1->unk13 = 0;
 }
 
 
-u8 CombatAIInfo::IsAlly(CombatAIInfo *param_1){  
+u8 CombatAIInfo::IsAlly(CombatAI_s *param_1){  
   if (CombatEntity::Flag4(param_1->combatEnt)) return param_1->flags & 1;
   return 0;
 }
 
 
 
-void CombatAIInfo::LookToFlee(CombatAIInfo *param_1){
+void CombatAIInfo::LookToFlee(CombatAI_s *param_1){
   if ((!CombatEntity::Flag7(param_1->combatEnt)) && (gCombatP->hasFleeRefpoints)) {
     param_1->unk0x18 = 4;
     param_1->flags |= 1;

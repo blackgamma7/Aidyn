@@ -48,3 +48,5 @@ struct CombatStruct { /* combat structure. needs more study */
     u8 potionPos[4];
     u32 renderTicker;
 };
+
+extern CombatStruct* gCombatP;

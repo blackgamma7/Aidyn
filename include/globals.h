@@ -12,6 +12,7 @@
 #include "sky.h"
 #include "SFX.h"
 #include "portraits.h"
+#include "sundail.h"
 
 #include "crash.h"
 #include "heapN64.h"

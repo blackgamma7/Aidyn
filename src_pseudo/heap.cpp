@@ -80,7 +80,7 @@ void * HeapAlloc(u32 size,char *file,u32 line){
             uVar7 = uVar2;
             pHVar6 = pHVar3;
           }
-          pHVar3 = (HeapBlock *)func_8009887c((char)pHVar3);
+          pHVar3 = (HeapBlock *)FUN_8009887c((char)pHVar3);
         }
       } while ((!bVar1) && (pHVar3));
     }
@@ -143,7 +143,7 @@ u32 get_memFree_2(void){
         if (uVar3 < (uVar1 & ~1)) {
           uVar3 = uVar1 & ~1;
         }
-        pHVar2 = (HeapBlock *)func_8009887c((char)pHVar2);
+        pHVar2 = (HeapBlock *)FUN_8009887c(pHVar2);
       } while (pHVar2);
     }
     gMemMonitor.flag = 0;
@@ -192,7 +192,7 @@ void print_mem_allocated(void *param_1,void *param_2){
 void print_mem_allocated(void *param_1,void *param_2){}
 #endif
 
-void malloc_update_mem_mon(HeapBlock *param_1,s32 param_2){
+void malloc_update_mem_mon(HeapBlock *param_1,u32 param_2){
   u32 uVar1;
   s32 iVar2;
   
@@ -279,13 +279,13 @@ void FUN_8009872c(void *param_1){
   gMemMonitor.memRegionNext = param_1;
 }
 
-void FUN_800987a8(undefined param_1){
+void FUN_800987a8(HeapBlock* param_1){
   void *pvVar1;
   longlong lVar2;
   void *pvVar3;
   
   lVar2 = FUN_80098874(param_1);
-  pvVar3 = (void *)func_8009887c(param_1);
+  pvVar3 = (void *)FUN_8009887c(param_1);
   pvVar1 = pvVar3;
   if (lVar2) {
     FUN_8009886c((char)lVar2,pvVar3);
@@ -322,7 +322,7 @@ s32 FUN_80098874(char param_1){
   return *(s32 *)(param_1 + 4);
 }
 
-s32 FUN_8009887c(char param_1){return *(s32 *)(param_1 + 8);}
+s32 FUN_8009887c(HeapBlock* param_1){return *(s32 *)(param_1 + 8);}
 
 u32 FUN_80098884(void){
   u32 uVar1;
@@ -335,7 +335,7 @@ u32 FUN_80098884(void){
     do {
       uVar1 = get_heap_size(pHVar2);
       if (uVar3 < (uVar1 & ~1)) uVar3 = uVar1 & ~1;
-      pHVar2 = (HeapBlock *)func_8009887c((char)pHVar2);
+      pHVar2 = (HeapBlock *)FUN_8009887c(pHVar2);
     } while (pHVar2);
   }
   return uVar3;
@@ -355,5 +355,5 @@ char * remove_dir_slashes(char *str){
 
 
 void ofunc_LISBN_called_free(void){CRASH("heap.cpp","LIBSN called free?");}
-void* operator new(size_t size){return HeapAlloc((u32)size,FILENAME,1139);}
-void operator delete(void* x){HeapFree(x,FILENAME,1150);}
+void* operator new(size_t size){return HALLOC((u32)size,1139);}
+void operator delete(void* x){HFREE(x,1150);}

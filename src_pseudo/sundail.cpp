@@ -1,6 +1,5 @@
 #define FILENAME "./src/sundial.cpp"
 #include "globals.h"
-#include "sundail.h"
 
 void Sundial::Init(void){
   ALLOC(gSundail,108);

@@ -18,11 +18,10 @@ struct sundail_struct {
 
 struct sundail_struct * gSundail;
 
-namespace Sundail{
+namespace Sundial{
     void Init();
     Gfx* Draw(Gfx*);
     void ToggleSun(u8);
     void ToggleMoon(u8);
     void Free();
-
 };

@@ -17,7 +17,7 @@ struct CrashManager {
 
 
 namespace Crash{
-    void InitProc(void* arg0,void* arg1,u8 ri,u16 ID);
+    void InitProc(void* arg0,void* arg1,u8 pri,u16 ID);
     void CrashProc(void* x);
     void InitEventMesg(void);
     #ifdef DEBUGVER
@@ -27,8 +27,8 @@ namespace Crash{
     #endif
 }
 
-#ifdef DEBUGVER
 //differentiate between debug and retail crash versions.
+#ifdef DEBUGVER
 #define CRASH(pos, cause) Crash::ManualCrash(pos, cause);
 #else
 #define CRASH(pos, cause) Crash::ManualCrash();

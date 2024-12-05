@@ -23,7 +23,7 @@ struct CombatEntity {
     u16 flags;
     resist_float resists[2];
     CharSheet *charSheetP;
-    CombatAIInfo *aiP;
+    CombatAI_s *aiP;
     u8 unk48[60]; //unused?
     u32 notboss;
     u8 wepLocator;

@@ -1,8 +1,12 @@
 #include "globals.h"
 
-char** copyrightText;
-u16 copyright_error;
-AnimationData* splashscreenAniDat; //the N64 logo, I suspect.
+char** copyrightText=NULL;
+#ifdef DEBUGVER
+u16 copyright_error=0;
+#endif
+AnimationData* SplashLogoModel=NULL;
+WidgetBorg8* SplashLicence=NULL;
+
 
 
 #ifdef DEBUGVER
@@ -70,29 +74,25 @@ void TitleSplash::Timer(u16 *param_1,u8 *alpha,u8 *param_3,u32 ShowTime,u8 *para
 }
 
 void TitleSplash::Init(void){
-  ulong uVar3;
-  float fVar4;
-  
-  splashscreenAniDat = BorgAnimLoadScene(0x25a8); //n64 logo
-  fVar4 = 1.0f;
-  SetNearFarPlanes(splashscreenAniDat,1.0f,256.0);
-  AniDat_flags_OR_8(splashscreenAniDat);
-  AniDat_Flags_OR_0x10(splashscreenAniDat);
-  AniDat_Flags_NAND_5(splashscreenAniDat);
-  set_anidat_color(splashscreenAniDat,0,0,0,0xff);
+  SplashLogoModel = BorgAnimLoadScene(BORG5_N64Logo);
+  Animation::SetNearFarPlanes(SplashLogoModel,1.0f,256.0);
+  Animation::SetFlag8(SplashLogoModel);
+  Animation::SetFlag10(SplashLogoModel);
+  Animation::UnsetFlag4(SplashLogoModel);
+  Animation::SetModelTint(SplashLogoModel,0,0,0,0xff);
   gGlobals.splashScreenUnkC = 0;
   gGlobals.splashscreenTimer = 0;
-  fadeFloatMirror = fVar4;
-  widget_N64Logo = new WidgetBorg8(get_borg_8(BORG8_LicencedByNintendo));
-  widget_N64Logo->SetColor(0,0,0,0);
-  set_widget_coords(widget_N64Logo,0xa0 -(widget_N64Logo->getHeight()/2),0xbe);
+  fadeFloatMirror = 1.0f;
+  SplashLicence = new WidgetBorg8(get_borg_8(BORG8_LicencedByNintendo));
+  SplashLicence->SetColor(0,0,0,0);
+  SplashLicence->SetCoords(160 -(SplashLicence->GetWidth()/2),190);
 }
 
 void TitleSplash::N64Free(void){
-  AllocFreeQueueItem(&gGlobals.QueueA,&splashscreenAniDat,1,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&widget_N64Logo,6,0);
-  splashscreenAniDat = NULL;
-  widget_N64Logo = NULL;
+  AllocFreeQueueItem(&gGlobals.QueueA,&SplashLogoModel,1,0);
+  AllocFreeQueueItem(&gGlobals.QueueA,&SplashLicence,6,0);
+  SplashLogoModel = NULL;
+  SplashLicence = NULL;
 }
 
 void TitleSplash::Load(void){
@@ -103,7 +103,7 @@ void TitleSplash::Load(void){
   gGlobals.h20Borg8 = get_borg_8(BORG8_LogoH20);
   BVar1 = BORG8_EXPPakNo;
   if (gExpPakFlag) BVar1 = BORG8_EXPPakYes;
-  exp_pack_borg8 = get_borg_8(BVar1);
+  SplashExpPak = get_borg_8(BVar1);
   TitleSplash::Init();
   gGlobals.splashscreenTimer = 0;
   gGlobals.splashScreenUnkA = 0;
@@ -117,7 +117,7 @@ void TitleSplash::Load(void){
 void TitleSplash::Free(void){
   AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.h20Borg8,4,0);
   AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.thqBorg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&exp_pack_borg8,4,0);
+  AllocFreeQueueItem(&gGlobals.QueueA,&SplashExpPak,4,0);
   font_func(gGlobals.font,(fontface_struct *)0x1c);
   free_romstring(copyrightText);
   TitleSplash::N64Free();
@@ -140,22 +140,22 @@ u8 TitleSplash::Show(s32 *param_1){
     bVar2 = false;
     break;
   case 1:
-    gGlobals.splashscreenSwitch = TitleSplash::N64Logo(param_1);
+    gGlobals.splashscreenSwitch = N64Logo(param_1);
     break;
   case 2:
-    gGlobals.splashscreenSwitch = TitleSplash::THQLogo(param_1);
+    gGlobals.splashscreenSwitch = THQLogo(param_1);
     break;
   case 3:
-    gGlobals.splashscreenSwitch = TitleSplash::H2OLogo(param_1);
+    gGlobals.splashscreenSwitch = H2OLogo(param_1);
     break;
   case 4:
-    gGlobals.splashscreenSwitch = TitleSplash::Copyright(param_1);
+    gGlobals.splashscreenSwitch = Copyright(param_1);
     break;
   case 5:
-    gGlobals.splashscreenSwitch = TitleSplash::ExpansionPak(param_1);
+    gGlobals.splashscreenSwitch = ExpansionPak(param_1);
   }
   if (splashscreen_clear_flag) {
-    TitleSplash::Free();
+    Free();
     splashscreen_load_flag=1;
     splashscreen_clear_flag=0;
   }
@@ -194,7 +194,7 @@ u8 TitleSplash::ExpansionPak(Gfx** param_1){
   while (Controller::GetInput(&temp,0)) {
     TitleSplash::Timer(&splashscreen_exppakdatA,&splashscreen_exppakdatB,NULL,ShowTime,abStack40,4);
   }
-  TitleSplash::Borg8(auStack32,splashscreen_exppakdatB,exp_pack_borg8);
+  TitleSplash::Borg8(auStack32,splashscreen_exppakdatB,SplashExpPak);
   *param_1 = auStack32;
   return abStack40;
 }
@@ -203,72 +203,57 @@ void TitleSplash::Println(Gfx*param_1,s16 *HSpace,char *TXT){
   print_func_80044dc(gGlobals.font,param_1,(u8 *)TXT,(0x140 - passto_get_text_kerning(gGlobals.font,TXT)) / 2,(s32)*HSpace);
   *HSpace+= (gGlobals.font)->Font_Height;
 }
-u8 TitleSplash::Copyright(Gfx**param_1){
-
-  #ifdef DEBUGVER
-  #define ShowTime 2
-  #else
-  #define ShowTime 120
-  #endif
-
+u8 TitleSplash::Copyright(Gfx **param_1){
   FontStruct *pFVar1;
   byte bVar2;
   ushort uVar3;
-  u8 bVar5;
   ushort uVar4;
   uint uVar6;
-  byte abStack_38 [2];
+  byte abStack_38;
   short sStack_36;
   controller_aidyn *cont;
   Gfx *aGStack_30;
   
   aGStack_30 = *param_1;
-  abStack_38[0] = gGlobals.splashscreenSwitch;
-  uVar3 = Graphics::get_vres();
-  sStack_36 = (short)((uint)(int)(short)uVar3 >> 1) + -7 + (gGlobals.font)->Font_Height * -6;
+  abStack_38 = gGlobals.splashscreenSwitch;
+  sStack_36 = (Graphics::get_vres()/2) + -7 + (gGlobals.font)->Font_Height * -6;
   while (Controller::GetInput(&cont,0)) {
     if ((cont->input_2 & (R_BUTTON|L_BUTTON)) == (R_BUTTON|L_BUTTON)) {
       show_verion_flag = 1;
     }
-    Timer(&USHORT_800e98ee,&copyright_text_color,NULL,ShowTime,abStack_38,1);
+    Timer(&SplashTimerState,&copyright_text_color,NULL,2,&abStack_38,1);
   }
-
-  RSPFUNC6(aGStack_30uVar3,uVar4);
-  uVar3 = ;
-  uVar4 = Graphics::get_vres();
-  aGStack_30 = gsFadeInOut(aGStack_30,0,0,Graphics::get_hres(),uVar4,0,0,0,0);
+  RSPFUNC6(aGStack_30);
+  aGStack_30 = gsFadeInOut(aGStack_30,0,0,Graphics::get_hres(),Graphics::get_vres(),0,0,0,0);
   font_func(gGlobals.font,BORG8_MainFont);
-  bVar2 = copyright_text_color;
-  pFVar1 = gGlobals.font;
   ((gGlobals.font)->col).R = copyright_text_color;
-  (pFVar1->col).G = bVar2;
-  (pFVar1->col).B = bVar2;
-  (pFVar1->col).A = bVar2;
+  ((gGlobals.font)->col).G = copyright_text_color;
+  ((gGlobals.font)->col).B = copyright_text_color;
+  ((gGlobals.font)->col).A = copyright_text_color;
   if (copyright_error == 0) {
-    uVar6 = 0;
-    do {
-      Println((Gfx *)&aGStack_30,&sStack_36,copyrightText[uVar6]);
+    for(uVar6 = 0;uVar6 < 0xc;uVar6++) {
+      Println(&aGStack_30,&sStack_36,copyrightText[uVar6]);
       if (((uVar6 == 1) || (uVar6 == 3)) || (uVar6 == 7)) {
         sStack_36 += 5;
       }
-      uVar6 = uVar6 + 1 & 0xffff;
-    } while (uVar6 < 0xc);
+    }
   }
   else {
     Gsprintf("Code Segment Too Big!\n");
-    Println((Gfx *)&aGStack_30,&sStack_36,gGlobals.text);
-    Gsprintf(s_Max:_0x%08x_-_%d_800d9a40,0x100000,0x100000);
-    Println((Gfx *)&aGStack_30,&sStack_36,gGlobals.text);
-    Gsprintf(s_Current:_0x%08x_-_%d_800d9a54,0xffa50,0xffa50);
-    Println((Gfx *)&aGStack_30,&sStack_36,gGlobals.text);
-    Gsprintf(s_Over:_0x%08x_-_%d_800d9a6c,-0x5b0,-0x5b0);
-    Println((Gfx *)&aGStack_30,&sStack_36,gGlobals.text);
-    if (USHORT_800e98ee == 1) {
+    Println(&aGStack_30,&sStack_36,gGlobals.text);
+    Gsprintf("Max: 0x%08x - %d\n",0x100000,0x100000);
+    Println(&aGStack_30,&sStack_36,gGlobals.text);
+    Gsprintf("Current: 0x%08x - %d\n",0xffa50,0xffa50);
+    Println(&aGStack_30,&sStack_36,gGlobals.text);
+    Gsprintf("Over: 0x%08x - %d\n",-0x5b0,-0x5b0);
+    Println(&aGStack_30,&sStack_36,gGlobals.text);
+    if (SplashTimerState == 1) {
       gGlobals.splashscreenTimer = 0;
     }
   }
   *param_1 = aGStack_30;
-  return abStack_38[0];
+  return abStack_38;
+}
 
 u8 TitleSplash::N64Logo(Gfx**param_1){
   BaseWidget *pwVar1;
@@ -290,11 +275,11 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
   #endif
 
   bVar2 = N64_logo_alpha;
-  pwVar1 = widget_N64Logo;
+  pwVar1 = SplashLicence;
   pauVar3 = *param_1;
   auStack64 = gGlobals.splashscreenSwitch;
-  (widget_N64Logo->col)={N64_logo_alpha,N64_logo_alpha,N64_logo_alpha,N64_logo_alpha};
-  set_anidat_color(splashscreenAniDat,(u32)N64_logo_alpha,(u32)N64_logo_alpha,(u32)N64_logo_alpha,0xff);
+  (SplashLicence->col)={N64_logo_alpha,N64_logo_alpha,N64_logo_alpha,N64_logo_alpha};
+  set_anidat_color(SplashLogoModel,(u32)N64_logo_alpha,(u32)N64_logo_alpha,(u32)N64_logo_alpha,0xff);
   if (360.0f < N64LogoRot) N64LogoRot-= 360.0f;
   fVar7 = N64LogoRot * dtor;
   n64LogoVec3[0] = __sinf(fVar7) * 40.0f;
@@ -309,12 +294,12 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
     TitleSplash::Noop();
   }
   pauVar3 = Graphics::StartDisplay(pauVar3,0,0,0x140,0xf0);
-  animationData_LookAt(splashscreenAniDat,n64LogoVec3[0],n64LogoVec3[1],n64LogoVec3[2],fVar5,fVar7,fVar6,0,1.0f,0);
-  FUN_800a0df4(splashscreenAniDat);
-  pauVar3 = gsAnimationDataMtx(pauVar3,splashscreenAniDat);
-  pauVar3 = BorgAnimDrawScene(pauVar3,splashscreenAniDat);
+  animationData_LookAt(SplashLogoModel,n64LogoVec3[0],n64LogoVec3[1],n64LogoVec3[2],fVar5,fVar7,fVar6,0,1.0f,0);
+  FUN_800a0df4(SplashLogoModel);
+  pauVar3 = gsAnimationDataMtx(pauVar3,SplashLogoModel);
+  pauVar3 = BorgAnimDrawScene(pauVar3,SplashLogoModel);
   RSPFUNC(pauVar3,6);
-  pauVar3 = widget_N64Logo->Render(pauVar3,0,0,320,240);
+  pauVar3 = SplashLicence->Render(pauVar3,0,0,320,240);
   *param_1 = pauVar3;
   return auStack64;
 }

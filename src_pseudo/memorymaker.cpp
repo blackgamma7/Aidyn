@@ -34,7 +34,7 @@ void MemoryMaker::Reload(void){
   
   if (!gExpPakFlag) {
     CommonStrings::Init();
-    gGlobals.dialougStruct = init_some_Struct(new(0x28),gGlobals.widgetHandler);
+    gGlobals.dialougStruct = Init_DialogStruct(new(0x28),gGlobals.widgetHandler);
     init_DBs();
     QuestData::SetPointers(gMemoryMaker,&auStack72);
     QuestData::LoadFile(&auStack72,false);

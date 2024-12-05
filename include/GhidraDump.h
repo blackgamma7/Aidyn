@@ -641,9 +641,9 @@ struct borg9_phys {
     ushort GroundType;
 };
 
-typedef struct astruct_7 astruct_7, *Pastruct_7;
+typedef struct unkGuiClassA unkGuiClassA, *PunkGuiClassA;
 
-struct astruct_7 {
+struct unkGuiClassA {
     u32 unk0;
     float unk4;
     Method *vTable;
@@ -1357,7 +1357,7 @@ struct IntroMenuSub {
 
 struct unkGuiSubstruct {
     u32 field0_0x0;
-    astruct_7 **ptr;
+    unkGuiClassA **ptr;
     u32 present;
     int size;
 };
@@ -1606,7 +1606,7 @@ typedef enum PotionEnum{
 
 typedef struct resist_float resist_float, *Presist_float;
 
-typedef struct CombatAIInfo CombatAIInfo, *PCombatAIInfo;
+typedef struct CombatAI_s CombatAI_s, *PCombatAIInfo;
 
 typedef enum ElementEnum {
 	ELEMENT_NONE, ELEMENT_EARTH, ELEMENT_SOLAR, ELEMENT_PHYSICAL, ELEMENT_NECROMANCY,
@@ -1821,7 +1821,7 @@ struct GearInstance {
     resist_float *resist;
 };
 
-struct CombatAIInfo {
+struct CombatAI_s {
     WeaponInstance *weapon;
     char unk1;
     char entIndex;
@@ -2249,33 +2249,7 @@ struct Spell_RAM {
 
 typedef struct weapon_ram weapon_ram, *Pweapon_ram;
 
-struct weapon_ram { /* Weapon Data loaded into ram */
-    ItemID ID;
-    char name[22];
-    enum WeaponClassEnum Class; /* Type of weapon (sword, breath, spit, etc.) */
-    u8 ReqSTR;
-    u8 Hit;
-    u8 damage;
-    ushort price; /* proper endian */
-    u8 SpellLV;
-    u8 Range; /* *(5/3) */
-    u8 Animation; /* which use animation */
-    u8 EXPMod; /* Lodin sword has set to 0x20 */
-    enum ElementEnum element;
-    enum AspectEnum aspect;
-    enum StatEnum stat; /* Stat enhanced */
-    u8 statMod;
-    enum SkillEnum Skill; /* skill enhanced (or stat) */
-    u8 SkillMod;
-    enum SpellEnum spell;
-    u8 spellAmmount;
-    u8 ram0x2a;
-    enum SpellEnum spell2;
-    u8 Spell2Ammount;
-    enum ElementEnum elementResist;
-    u16 align;
-    float ResistPercent;
-};
+
 
 typedef struct Armour_ROM Armour_ROM, *PArmour_ROM;
 
@@ -2427,34 +2401,6 @@ struct Spell_ROM { /* Spell Data in ROM */
     u8 EXP_Modifyer;
 };
 
-typedef struct Weapon_ROM Weapon_ROM, *PWeapon_ROM;
-
-struct Weapon_ROM {
-    char Name[21];
-    ItemID_ROM ID;
-    enum WeaponClassEnum WeaponType;
-    u8 Required_Strength;
-    u8 Hit;
-    u8 damage;
-    u8 Price[2]; /* endian swapped */
-    u8 SpellLV;
-    u8 Range;
-    u8 Animation;
-    u8 EXPMod;
-    enum ElementEnum Element;
-    enum AspectEnum aspect;
-    enum StatEnum StatEnhanced;
-    u8 StatAmmount;
-    enum SkillEnum enhanced;
-    u8 ammount;
-    ItemID_ROM Spell;
-    u8 spellAmmount;
-    u8 unk0x2a;
-    ItemID_ROM Magic;
-    u8 MagicAmmount;
-    enum ElementEnum ResistElement;
-    u8 ResistPercent;
-};
 
 typedef union EquipInstance EquipInstance, *PEquipInstance;
 
@@ -4236,16 +4182,6 @@ struct VoxelChartEntry {
     u8 MapShortB;
     u8 type; /* VOBJECT */
     u32 unk0x8;
-};
-
-typedef struct weapon_pointer weapon_pointer, *Pweapon_pointer;
-
-struct weapon_pointer {
-    u8 Total;
-    u8 Types[11];
-    u8 Types2[11];
-    u8 pad;
-    weapon_ram *weapons;
 };
 
 

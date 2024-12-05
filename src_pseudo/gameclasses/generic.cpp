@@ -85,7 +85,7 @@ void make_temp_weapon(Temp_weapon *param_1,ItemID param_2){
   memset(param_1,0,0x14);
   bVar4 = GetIDIndex(param_2);
   param_1->id = param_2;
-  pcVar5 = weapon_pointer->weapons[bVar4];
+  pcVar5 = gWeaponsDB->weapons[bVar4];
   param_1->name = pcVar5->name;
   param_1->aspect = pcVar5->aspect;
   param_1->price = pcVar5->price;
@@ -155,7 +155,7 @@ u16 GetItemPrice(ItemID *param_1){
     uVar2 = armour_pointer->Armor[GetIDIndex(*param_1)].price;
   }
   else if (uVar4 == 7) {
-    uVar2 = weapon_pointer->weapons[GetIDIndex(*param_1)].price;
+    uVar2 = gWeaponsDB->weapons[GetIDIndex(*param_1)].price;
     }
   else if (uVar4 == 0x10) {
     uVar2 = potion_prices[GetIDIndex(*param_1)];

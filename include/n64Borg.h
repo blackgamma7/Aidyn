@@ -1,4 +1,5 @@
 #include "mathN64.h"
+#include "Borgindecies.h"
 
 /*"Borg" files are the art/level/cutscene assets of the game, in 15 different categories:
 0-Unused, therefore, unknown. init/free code still ingame.
@@ -410,11 +411,18 @@ struct Borg9data {
     voxelObject *voxelObjs;
     borg_9_struct *unkStructs;
 };
+struct Borg9header {
+    enum borg9Enum ID;
+    u32 field1_0x4;
+    Borg9data dat;
+};
 
+
+//PCM mono 44.1KHz sound samples
 struct Borg11Data {
-    u32 flag;
+    u32 flag; //0x10=unk(always set?), 0x4=8-bit, 0x8=16-bit BE
     u32 len;
-    u32 unk8;
+    u32 samples;
     u8 *wav;
 };
 
@@ -422,7 +430,7 @@ struct Borg11header {
     u32 index;
     u32 field1_0x4;
     Borg11Data *dat;
-    void *pointer;
+    void* p;
 };
 
 struct borg2header {
@@ -436,7 +444,10 @@ struct borg2header {
 };
 
 struct Borg12Data {
-    Borg11header **instument_offset;
+    union{
+    u32* instrumensI;
+    Borg11header **intrumentsP;
+    };
     u32 unk4;
     Borg12Sub sub;
 };

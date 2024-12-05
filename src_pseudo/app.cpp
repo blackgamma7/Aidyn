@@ -326,7 +326,7 @@ void appProc_init(void){
   s32 uVar6;
   
   Graphics::SetGfxMode(320,240,16);
-  FUN_80020830();
+  Sky::Reset();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
   RAND.SetSeed(0x3dbb6cd);
@@ -341,8 +341,8 @@ void appProc_init(void){
       uVar6++;
     } while (pfVar4->font_face != 0);
   }
-  gGlobals.font = (FontStruct *)HeapAlloc(0x20,FILENAME,0x1b4);
-  Init_font(gGlobals.font,uVar6 & 0xff);
+  ALLOC(gGlobals.font,436);
+  Init_font(gGlobals.font,uVar6);
   if (0 < uVar6) {
     pfVar4 = font_face;
     BVar5 = font_face[0].font_face;
@@ -351,18 +351,18 @@ void appProc_init(void){
       pbVar2 = &pfVar4->b;
       pfVar4++;
       uVar6--;
-      load_font_face(gGlobals.font,BVar5,(u32)*pbVar1,(u32)*pbVar2);
+      load_font_face(gGlobals.font,BVar5,*pbVar1,*pbVar2);
       if (uVar6 == 0) break;
       BVar5 = pfVar4->font_face;
     }
   }
   font_func(gGlobals.font,(fontface_struct *)font_face[0].font_face);
-  gGlobals.widgetHandler = HeapAlloc(8,FILENAME,0x1bf);
+  ALLOC(gGlobals.widgetHandler,447);
   clear_widget_handler(gGlobals.widgetHandler,gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;
   MemoryMaker::Init();
   CommonStrings::Init();
-  gGlobals.unk0x15c0 = init_some_Struct(passToMalloc(0x28),gGlobals.widgetHandler);
+  gGlobals.dialougStruct = Init_DialogStruct(new(0x28),gGlobals.widgetHandler);
   HresMirror = Graphics::get_hres();
   VresMirror = Graphics::get_vres();
   gGlobals.appstateBool = 1;
@@ -392,18 +392,18 @@ Gfx* appProc_caseSwitch(Gfx** gg){
       CRASH("app.cpp","gGlobals.appState is not valid");
     }
   }
-  if (*appManager.stack != 0x12345678) CRASH("AppProc","Stack Overwrite!!");
+  if (appManager.stack[0] != 0x12345678) CRASH("AppProc","Stack Overwrite!!");
   return g;
 }
 
 void clear_audio_video(void){
-  removeCloseSynth();
+  DCM::ClosePlayer();
   osSpTaskYield();
   while(osAfterPreNMI()){}
   Graphics::initGfx_2();
   }
 
-int appState_RegionControllerCheck(Gfx **param_1){
+int appState_RegionControllerCheck(Gfx **gg){
   float fVar1;
   ushort uVar3;
   ushort uVar4;
@@ -420,14 +420,14 @@ int appState_RegionControllerCheck(Gfx **param_1){
       PAL_Warning_image = get_borg_8(Borg8_PAL_Warning);
       PAL_warning_flag = 0;
     }
-    pGVar2 = *param_1;
+    pGVar2 = *gg;
     RSPFUNC6(pGVar2);
     pGVar2 = Borg8_DrawSimple(pGVar2,PAL_Warning_image, //center image in screen.
              (Graphics::get_hres() * 0.5f) - ((PAL_Warning_image->dat).Width * 0.5f),
              (Graphics::get_vres() * 0.5f) - ((PAL_Warning_image->dat).Height * 0.5f),
             1.0f,1.0f,0xff,0xff,0xff,0xff);
     iVar6 = 5;
-    *param_1 = pGVar2;
+    *gg = pGVar2;
   }
   else {
     bVar5 = check_for_controller();

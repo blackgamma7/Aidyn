@@ -19,7 +19,7 @@ void CombatEntity::Init(CombatEntity *param_1,CharSheet *charsheet,int param_3,u
   u8 X;
   u8 Y;
   ElementEnum *pEVar5;
-  CombatAIInfo *pCVar6;
+  CombatAI_s *pCVar6;
   int iVar7;
   float *pfVar10;
   uint uVar11;
@@ -744,8 +744,8 @@ u8 FUN_8006963c(CombatEntity *param_1,CombatEntity *param_2){
   u8 bVar1;
   u8 bVar2;
 
-  if (CombatEnt_flag_6(param_2)) {return false;}
-  if (!isDead(param_2->charSheetP)) {return false;}
+  if (CombatEnt_flag_6(param_2)) return false;
+  if (!isDead(param_2->charSheetP)) return false;
   if ((param_1->AtkType == 3) || (CombatEnt_flag_check(param_1))) {
 LAB_800696b4:
     if (Combat_can_use_flask(param_1,param_2)) {return false;}
@@ -1119,7 +1119,7 @@ void end_combat_turn_(CombatEntity *param_1){
   u16 uVar2;
   u8 bVar3;
   GearInstance *puVar2;
-  CombatAIInfo* pTVar1;
+  CombatAI_s* pTVar1;
   
   clear_camera_playerdata_focus();
   pTVar1 = param_1->aiP;
@@ -1549,7 +1549,7 @@ void CombatEntity::Death(CombatEntity *ent){ //probably a death func
   CharSheet *pCVar2;
   Temp_enchant *pTVar3;
   CombatEntity *pCVar4;
-  CombatAIInfo* pcVar5;
+  CombatAI_s* pcVar5;
   u32 uVar9;
   u32 i;
   
@@ -1686,7 +1686,7 @@ void combat_weapon_skill_check(CombatEntity *param_1,u8 param_2,u8 param_3){
 
 
 s16 calc_element_resist_multi(CombatEntity *param_1,CombatEntity *param_2,s16 param_3,ElementEnum param_4){
-  CombatAIInfo* pcVar1;
+  CombatAI_s* pcVar1;
   float afStack32;
   
   afStack32 = 0.0;
@@ -2307,7 +2307,7 @@ s32 FUN_8006d7d8(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3
   
   combat_textbox_spell(param_1,param_2,param_3);
   if (CombatEnt_flag_4(param_2) == CombatEnt_flag_4(param_1)) {
-    malloc_enchant(param_2->charSheetP,param_4,(u32)param_6,param_5,((u32)param_6 * 0xe0 + (u32)param_6) * 8,1);
+    Entity::AllocEnchant(param_2->charSheetP,param_4,(u32)param_6,param_5,((u32)param_6 * 0xe0 + (u32)param_6) * 8,1);
     uVar1 = -1;
   }
   else {uVar1 = param_3->damage;}
@@ -2329,7 +2329,7 @@ s32 calc_spell_damage_(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *p
         param_3->Healing = 0;
         ApplySpellEffect(param_3->charSheetP,SVar3,Level,Level * 1800,param_5,param_3);
         if (SVar3 == tapStamina) {
-          malloc_enchant(param_1->charSheetP,tapStamina,Level,0,Level * 1800,0);
+          Entity::AllocEnchant(param_1->charSheetP,tapStamina,Level,0,Level * 1800,0);
         }
         combat_textbox_spell(param_1,param_3,param_2);
         return -1;
@@ -2381,7 +2381,7 @@ s16 magic_damage_resist_calc(CombatEntity *param_1,CombatEntity *param_2,Temp_sp
 }
 
 s16 func_calcing_magic_resist(CombatEntity *param_1,s16 param_2,Temp_spell *param_3){
-  CombatAIInfo* pcVar1;
+  CombatAI_s* pcVar1;
   float afStack32 = 0.0;
 
   if (magic_resist_element_checks(param_1,param_3,&afStack32)) {
@@ -2776,7 +2776,7 @@ s32 FUN_8006edd0(CombatEntity *param_1,CombatEntity *param_2,playerData *param_3
   longlong lVar8;
   longlong lVar9;
   
-  pTVar2 = Entity::GetSpell_Safe(param_1->charSheetP,0x13cb,(void *)D_800f5440);
+  pTVar2 = Entity::getSpellSafe(param_1->charSheetP,0x13cb,(void *)D_800f5440);
   if (pTVar2 == NULL) {return 0;}
   sVar4 = magic_damage_resist_calc(param_1,param_2,pTVar2,false);
   lVar9 = (longlong)sVar4;

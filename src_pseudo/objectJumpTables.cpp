@@ -8,7 +8,7 @@ typedef void (VoxelUse)(voxelObject*,u8,u8);
 typedef u8 (VoxelProx)(voxelObject*,playerData*);
 typedef u8 (VoxelFunc2)(voxelObject*);
 
-void* gVoxelUseFuncs[]={
+VoxelUse gVoxelUseFuncs[]={
   Voxel_func_NOOP,
   loot_func,
   Voxel_func_NOOP,
@@ -21,7 +21,7 @@ void* gVoxelUseFuncs[]={
   savepoint_func,
   Voxel_func_NOOP
 };
-void* gVoxelProxFuncs[]={
+VoxelProx gVoxelProxFuncs[]={
   VoxelObj_Ret0,
   container_obj_check,
   VoxelObj_Ret0,
@@ -36,7 +36,7 @@ void* gVoxelProxFuncs[]={
   savepoint_prox_check,
   VoxelObj_Ret0
 };
-void* gVoxelFuncs2[]={
+VoxelFunc2 gVoxelFuncs2[]={
   scene_object_check,
   exploding_container_check,
   check_reference_object,

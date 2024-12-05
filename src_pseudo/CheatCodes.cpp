@@ -129,14 +129,14 @@ u8 Cheats::_Cheater(void){ // +750000 EXP to party
   uVar5 = 0;
   if ((gGlobals.party)->MembersSize != 0) {
     do {
-      if ((gGlobals.party)->Members[uVar5]) {giveExp((gGlobals.party)->Members[uVar5],500000);}
+      if ((gGlobals.party)->Members[uVar5]) {Entity::AddExp((gGlobals.party)->Members[uVar5],500000);}
       uVar5++;
     } while (uVar5 < (gGlobals.party)->MembersSize);
   }
   ppVar1 = ((gGlobals.BigAssMenu)->widget).substruct; //Pause menu update, crashes game if used on title screen
   pCVar2 = (gGlobals.party)->Members[partypicker]; //update stats for char. selected on menu
   pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->Level_widget);
-  sprintf(pcVar4,"%u",get_level(pCVar2));
+  sprintf(pcVar4,"%u",Entity::GetLevel(pCVar2));
   pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->CurrHP_Widget);
   sprintf(pcVar4,"%u",getHPCurrent(pCVar2));
   pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->MaxHP_widget);

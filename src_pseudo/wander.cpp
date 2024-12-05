@@ -6,7 +6,7 @@ float sneak_value(float point8){
   float fVar3;
   
   if (gGlobals.party) {
-    cVar2 = GetMostSkilledMember(gGlobals.party,SKILL_Stealth);
+    cVar2 = Party::GetMostSkilledMember(gGlobals.party,SKILL_Stealth);
     if (((cVar2 != -1) && (gGlobals.party->Members[cVar2]) {
       cVar2 = CharSkills::getModdedSkill(gGlobals.party->Members[cVar2]->Skills,Stealth);
       fVar3 = (float)(s32)cVar2 / 10.0f;
@@ -261,7 +261,6 @@ void monster_engagement_func(wander_struct *param_1,short delta){
   wander_substruct *wanderer;
   vec3f *from;
   voxelObject *pmVar8;
-  longlong lVar9;
   float sneakval;
   float entRamB;
   float fVar11;
@@ -279,32 +278,27 @@ void monster_engagement_func(wander_struct *param_1,short delta){
   vec3f playerPos;
   vec3f fStack232;
   vec3f fStack168;
-  int iStack_5c;
-  playerData *playerDat_;
-  
-  playerDat_ = gGlobals.playerCharStruct.playerDat;
+  playerData *playerDat_ = gGlobals.playerCharStruct.playerDat;
   sneakval = sneak_value(0.8f);
   bVar3 = false;
   if ((((gGlobals.screenFadeMode == 0) && (!isPaused())) &&
       (gGlobals.playerCharStruct.unkState == 3)) &&
      ((!WidgetHandler::GetWidgetB(gGlobals.widgetHandler) && (0 < param_1->wanderersmax)))) {
-    iStack_5c = 0;
-    for(lVar9 = 0;lVar9<param_1->wanderersmax;lVar9++) {
-      wanderer = (wander_substruct *)((int)&param_1->wanderSubstructs->playerDat + iStack_5c);
+    for(s16 i = 0;i<param_1->wanderersmax;i++) {
+      wanderer = &param_1->wanderSubstructs[i];
       if (wanderer->isActive) {
         borgDat = GetCollisionZone(wanderer->playerDat->zoneDatByte);
         pmVar8 = &borgDat->voxelObjs[wanderer->VoxelIndex];
         entRamB = get_entity_ram_b(gEntityDB,(pmVar8->monster).entityID);
-        from = &(playerDat_->collision).pos;
-        copyVec3(from,&playerPos);
+        copyVec3(&(playerDat_->collision).pos,&playerPos);
         bVar1 = wanderer->playerDat->zoneDatByte;
         if (bVar1 != 0x11) Actor::SubPosOnLoadedMap(bVar1,&playerPos);
         wanderer->timer-= delta;
         Actor::GetPosOnLoadedMap(wanderer->playerDat,&afStack360);
-        fVar11 = vec3_proximity(&afStack360,from);
+        fVar11 = vec3_proximity(&afStack360,&(playerDat_->collision).pos);
         afStack360.x -=((wanderer->playerDat->facing).x * entRamB) * 0.3);
         afStack360.z -=((wanderer->playerDat->facing).y * entRamB) * 0.3);
-        fVar12 = vec3_proximity(&afStack360,from);
+        fVar12 = vec3_proximity(&afStack360,&(playerDat_->collision).pos);
         setVec2(&fStack488,(wanderer->playerDat->collision).pos.x,
                 (wanderer->playerDat->collision).pos.z);
         A = &wanderer->position;
@@ -330,7 +324,6 @@ void monster_engagement_func(wander_struct *param_1,short delta){
         }
         if (fVar12 < wanderer->unk34) {
           if ((wanderer->size <= fVar13) && (wanderer->size <= fVar14)) {
-            sVar6 = wanderer->field19_0x3e;
             goto LAB_80013180;
           }
 LAB_80013188:
@@ -339,21 +332,15 @@ LAB_80013188:
               entRamB = wanderer->size;
               goto LAB_800131a8;
             }
-            sVar6 = wanderer->NoBorg13;
-          }
-          else {
-            sVar6 = wanderer->NoBorg13;
           }
         }
         else {
-          sVar6 = wanderer->field19_0x3e;
 LAB_80013180:
-          if (sVar6 == 0) goto LAB_80013188;
+          if (wanderer->field19_0x3e == 0) goto LAB_80013188;
           entRamB = wanderer->size;
 LAB_800131a8:
           if (entRamB <= fVar13) {
             if (fVar14 < entRamB) {
-              sVar6 = wanderer->field19_0x3e;
               goto LAB_800131e8;
             }
             Actor::ResetMoveQueue(wanderer->playerDat);
@@ -363,9 +350,8 @@ LAB_800131f8:
             entRamB = wanderer->unk34;
           }
           else {
-            sVar6 = wanderer->field19_0x3e;
 LAB_800131e8:
-            if (sVar6 != 0) {
+            if (wanderer->field19_0x3e != 0) {
               FUN_80012d44(wanderer);
               goto LAB_800131f8;
             }
@@ -386,17 +372,15 @@ LAB_80013318:
             ppVar2 = wanderer->playerDat;
             entRamB = (ppVar2->collision).pos.x;
             ppVar2->ani_type = 0;
-            Actor::SetFacing
-                      (ppVar2,entRamB - playerPos.x,(ppVar2->collision).pos.z - playerPos.z);
+            Actor::SetFacing(ppVar2,entRamB - playerPos.x,(ppVar2->collision).pos.z - playerPos.z);
           }
         }
         else {
           if (fVar13 <= wanderer->size) {
-            if (((wanderer->flags ^ 1) & 1) != 0) {
+            if (((wanderer->flags ^ 1) & 1)) {
               sVar6 = playerDat_->ani_type;
               if (sVar6 == 3) {
                 if (wanderer->unk30 < fVar12) {
-                  sVar6 = wanderer->NoBorg13;
                   goto LAB_80013310;
                 }
                 bVar1 = 3;
@@ -413,7 +397,6 @@ LAB_80013308:
                   entRamB = wanderer->senseValA;
 LAB_800132a0:
                   if (entRamB < fVar12) {
-                    sVar6 = wanderer->NoBorg13;
                     goto LAB_80013310;
                   }
                   bVar3 = true;
@@ -426,25 +409,17 @@ LAB_800132a0:
                   goto LAB_800132a0;
                 }
                 if (wanderer->senseValB < fVar12) {
-                  sVar6 = wanderer->NoBorg13;
                   goto LAB_80013310;
                 }
                 bVar3 = true;
                 gGlobals.EncounterDat.unk28 = 1;
               }
             }
-            sVar6 = wanderer->NoBorg13;
-          }
-          else {
-            sVar6 = wanderer->NoBorg13;
           }
 LAB_80013310:
-          if (sVar6 == 0) goto LAB_80013318;
+          if (wanderer->NoBorg13 == 0) goto LAB_80013318;
         }
-        if (bVar3) {
-          sVar6 = wanderer->NoBorg13;
-        }
-        else {
+        if (!bVar3){
           if (wanderer->field19_0x3e == 0) {
             if (((wanderer->playerDat->flags & (ACTOR_CANMOVE|ACTOR_CANROTATE|ACTOR_40)) == 0) &&
                ((short)wanderer->timer < 1)) {
@@ -459,10 +434,9 @@ LAB_80013310:
             }
             goto LAB_800135b4;
           }
-          sVar6 = wanderer->NoBorg13;
         }
         wanderer->field19_0x3e = 1;
-        if (sVar6 == 1) {
+        if (wanderer->NoBorg13 == 1) {
           Actor::SetAiDest(wanderer->playerDat,playerPos.x,playerPos.z,2.0,0);
           if (((fVar11 < 7.0f) && (enemyHostileFlag)) &&
              ((pmVar8->monster).borg_13 == 0)) {
@@ -488,7 +462,7 @@ LAB_80013488:
             }
           }
         }
-        else if (sVar6 == 2) {
+        else if (wanderer->NoBorg13 == 2) {
           fStack488.x = playerPos.x - (wanderer->playerDat->collision).pos.x;
           fStack488.y = playerPos.z - (wanderer->playerDat->collision).pos.z;
           vec2_normalize(&fStack488);
@@ -499,7 +473,6 @@ LAB_80013488:
         }
       }
 LAB_800135b4:
-      iStack_5c += 0x54;
     }
   }
 }

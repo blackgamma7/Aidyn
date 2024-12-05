@@ -15,20 +15,50 @@
 #define BORG8_ErrorRegion 0x37c3
 
 
+//borg11: Sound samples
+
+#define BORG11_PrecussionHitA 0x5A0
+#define BORG11_PrecussionRhythmA 0x5A1
+#define BORG11_PrecussionHitB 0x5A2
+#define BORG11_DramaticStingA 0x5A3
+#define BORG11_StringA 0x5A4
+#define BORG11_TambouineA 0x5A6
+#define BORG11_StringB 0x5A7
+#define BORG11_HornA 0x5A8
+#define BORG11_TriumphantChordA 0x5A9
+#define BORG11_HornB 0x5AA
+#define BORG11_PrecussionHitC 0x5AC
+#define BORG11_PrecussionHitD 0x5AD
+#define BORG11_PrecussionHitE 0x5AE
+#define BORG11_PrecussionHitF 0x5AF
+#define BORG11_PrecussionHitF 0x5B0
+#define BORG11_DramaticStingB 0x5B1
+
+#define BORG11_CymbalCrash 0x5B6
+
+#define BORG11_DramaticStingC 0x5BB
+#define BORG11_PrecussionRhythmB 0x61F
+#define BORG11_ChoirA 0x625
+#define BORG11_TriumphantChordB 0x631
+#define BORG11_EchoSound 0x726
+
 //borg12: Music/SFX
 //battle tracks if using ExpPak
+
 #define BORG12_Battle_Exp1 0x5a5
 #define BORG12_Battle_Exp2 0x5aB
 #define BORG12_Battle_Exp3 0x5b4
 #define BORG12_Battle_Exp4 0x5b9
 #define BORG12_Battle_Exp5 0x5C3
 //Otherwise
+
 #define BORG12_Battle_NoExp1 0x38de
 #define BORG12_Battle_NoExp2 0x38df
 #define BORG12_Battle_NoExp3 0x3b8
 #define BORG12_Battle_NoExp4 0x3bd
 
 //Cinematic music
+
 #define BORG12_Cinmatic1_Part1 0x601
 #define BORG12_Cinmatic1_Part2 0x608
 #define BORG12_Cinmatic1_Part3 0x60b
@@ -111,4 +141,4 @@
 
 #define BORG13_HelpMenu         0x54b
 
-#define BORG13_PassMarshmallows 0x185b
+#define BORG13_CampSafe 0x185b

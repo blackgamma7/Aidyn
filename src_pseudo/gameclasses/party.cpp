@@ -2105,7 +2105,7 @@ u8 get_equip_stamMod(ItemID param_1){
     break;
   case 7:
     bVar3 = GetIDIndex(IVar4);
-    pwVar1 = weapon_pointer->weapons;
+    pwVar1 = gWeaponsDB->weapons;
   }
   if (pwVar1[bVar3].stat == STAT_STAM) {bVar3 = pwVar1[bVar3].statMod;}
   else {bVar3 = 0;}
