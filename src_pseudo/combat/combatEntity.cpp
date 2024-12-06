@@ -93,7 +93,7 @@ void CombatEntity::Init(CombatEntity *param_1,CharSheet *charsheet,int param_3,u
   if (((ItemID)(entityList[172] + 0x200) == param_1->charSheetP->ID) &&(HasHornOfKynon())) {
     iVar7 = CharStats::getBase(param_1->charSheetP->Stats,STAT_DEX);
     if (0 < 30 - iVar7) {
-      CharStats::addBase(param_1->charSheetP->Stats,STAT_DEX,0x1e - iVar7);
+      CharStats::addBase(param_1->charSheetP->Stats,STAT_DEX,30 - iVar7);
     }
   }
 }
@@ -116,32 +116,29 @@ void CombatEntity::GetCoord(CombatEntity *param_1,float *x,float *y){
   *y = (param_1->coord).y;
 }
 
-
-
-void Ofunc_get_combatEnt_x_y_f(CombatEntity *param_1,float *x,float *y){
-  *x = param_1->coord[0];
-  *y = param_1->coord[1];}
-
-
 void CombatEntity::GetCoord2(CombatEntity *param_1,float *x,float *y){
   *x = (param_1->coord2).x;
   *y = (param_1->coord2).y;
 }
 
 u8 CombatEntity::GetCoordXU8(CombatEntity *param_1){
-  return (u8)(param_1->coord).x;
+  if(param_1->coord.x<=0.0) return -(.5-param_1->coord.x);
+  return (.5+param_1->coord.x);
 }
 
 u8 CombatEntity::GetCoordYU8(CombatEntity *param_1){
-  return (u8)(param_1->coord).y;
+  if(param_1->coord.y<=0.0) return -(.5-param_1->coord.y);
+  return (.5+param_1->coord.y);
 }
 
 u8 CombatEntity::GetCoord2XU8(CombatEntity *param_1){
-  return (u8)(param_1->coord).x;
+    if(param_1->coord2.x<=0.0) return -(.5-param_1->coord2.x);
+  return (.5+param_1->coord2.x);
 }
 
 u8 CombatEntity::GetCoord2YU8(CombatEntity *param_1){
-  return (u8)(param_1->coord).y;
+    if(param_1->coord2.y<=0.0) return -(.5-param_1->coord2.y);
+  return (.5+param_1->coord2.y);
 }
 
 float CombatEntity::GetCoordX(CombatEntity *param_1){return param_1->coord.x;}

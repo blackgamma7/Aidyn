@@ -662,13 +662,6 @@ typedef enum borg9Enum {
     Borg9_campfire=6236
 } borg9Enum;
 
-typedef struct Borg9header Borg9header, *PBorg9header;
-
-struct Borg9header {
-    enum borg9Enum ID;
-    u32 field1_0x4;
-    Borg9data dat;
-};
 
 struct astruct_8 {
     u32 field0_0x0;
@@ -1910,20 +1903,6 @@ struct CombatAttackVisuals_struct {
     u8 iFreeVisual;
 
 };
-
-typedef struct CombatMarker CombatMarker, *PCombatMarker;
-
-struct CombatMarker {
-    AnimationData *borg;
-    vec3f coords;
-    float alpha;
-    int time;
-    u8 active;
-};
-
-
-
-
 
 typedef struct CombatRadarBlip CombatRadarBlip, *PCombatRadarBlip;
 
