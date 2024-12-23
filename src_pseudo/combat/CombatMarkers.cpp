@@ -23,10 +23,10 @@ u8 CombatMarkers::SetMarker(Borg9data *mapDat,vec3f *pos,float radius,ushort ite
 
   if (CheckCollision(mapDat,&sMarkerTempV3A,&sMarkerTempV3B,radius,&sMarkerTempV3C,&sMarkerTempV3D,(s16)1)) {
     pos->x = sMarkerTempV3C.x + sMarkerTempV3D.x * radius;
-    pos->y = (float)((double)sMarkerTempV3C.y + 0.01 +
-                    (double)(sMarkerTempV3D.y * radius));
-    uVar2 = true;
+    pos->y = (sMarkerTempV3C.y + 0.01 +(sMarkerTempV3D.y * radius));
     pos->z = sMarkerTempV3C.z + sMarkerTempV3D.z * radius;
+    uVar2 = true;
+    
   }
   else if (iter < 4) {
     fVar4 = RAND.GetFloat0ToX(6.283186);

@@ -118,8 +118,6 @@ typedef struct ControllerFull ControllerFull, *PControllerFull;
 
 typedef struct MoveQueueEntry MoveQueueEntry, *PMoveQueueEntry;
 
-typedef struct PlaneObj PlaneObj, *PPlaneObj;
-
 typedef struct DCMSub2 DCMSub2, *PDCMSub2;
 
 typedef struct attachmentNode attachmentNode, *PattachmentNode;
@@ -509,32 +507,7 @@ struct attachmentNode {
 };
 
 
-struct PlaneObj { /* used for damage numbers and shadows */
-    Borg1header *borg1p;
-    u32 unk4; /* unused */
-    Vtx verts[2][4];
-    Mtx transMtx[2];
-    Mtx alignMtx[2];
-    Mtx ScaleMtx[2];
-    Color32 vertCols[4];
-    vec3f pos;
-    vec3f rot;
-    vec2f scale; /* unused in mtx */
-    u16 UScale;
-    u16 unk23a;
-    u32 unk23c; /* unused? */
-    Borg1header Statborg1Head;
-    Borg1Data datStatBorg1Data;
-    u32 field15_0x268;
-    vec3f statStartPos;
-    vec2f unk278;
-    float unk280;
-    u32 statTime;
-    s8 statAlphaDelta;
-    u8 statAlpha;
-    u8 statVisible;
-    u32 unk28c; /* unused */
-};
+
 
 struct ParticleHeadStruct {
     Particle *particles;
@@ -1917,15 +1890,7 @@ struct CombatRadarBlip {
     int unk14;
 };
 
-typedef struct CombatStatIndicatorHandler CombatStatIndicatorHandler, *PCombatStatIndicatorHandler;
 
-struct CombatStatIndicatorHandler {
-    Borg1Data *borg1Digits[10];
-    PlaneObj *Indicators;
-    u8 *array;
-    u8 index;
-    u8 pad[3];
-};
 /*
 
 struct combatStrings {

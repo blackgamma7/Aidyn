@@ -8,3 +8,5 @@ struct struct_unk {
     u8 unk_0x16[10];
     u8 textKerning[108];
 };
+
+struct_unk struct_unk_;

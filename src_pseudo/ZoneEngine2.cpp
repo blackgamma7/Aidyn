@@ -948,63 +948,60 @@ void set_playerdata_zoneDatByte(u16 param_1,u16 param_2){
 }
 
 void some_zoneDat_func(void){
-  u8 bVar1;
-  s32 iVar2;
-  AnimationData *pAVar3;
-  s32 iVar4;
-  Borg_9_header *pBVar5;
+  int iVar1;
+  AnimationData *pAVar2;
+  int iVar4;
+  Borg9header *pBVar5;
   ZoneDat (*iVar3) [3];
-  s32 iVar6;
+  int iVar6;
   
   iVar4 = 0;
   iVar6 = 1;
   do {
-    iVar3 = gGlobals.Sub.ZoneDatMtx[iVar4];
+    iVar3 = gGlobals.Sub.ZoneDatMtx + iVar4;
     iVar4 = 0x10000;
     do {
-      pAVar3 = (*iVar3)[0].anidat0x4;
-      if (pAVar3 == NULL) {pAVar3 = (*iVar3)[0].aniDat0x14;}
-      else {
-        bVar1 = (*iVar3)[0].unk0x1e;
-        if ((bVar1 & 1) != 0) {
-          (*iVar3)[0].unk0x1e = bVar1 & 0xfe;
-          FUN_8000de18(pAVar3,(*iVar3)[0].index);
-        }
-        pAVar3 = (*iVar3)[0].aniDat0x14;
+      if ((*iVar3)[0].anidat0x4 == NULL) {
+        pAVar2 = (*iVar3)[0].aniDat0x14;
       }
-      if (pAVar3 == NULL) {pBVar5 = (*iVar3)[0].mapPointer;}
       else {
-        bVar1 = (*iVar3)[0].unk0x1e;
-        if ((bVar1 & 2) != 0) {
-          (*iVar3)[0].unk0x1e = bVar1 & 0xfd;
-          FUN_8000de18(pAVar3,(*iVar3)[0].index);
+        if (((*iVar3)[0].flag & 1) != 0) {
+          (*iVar3)[0].flag = (*iVar3)[0].flag & 0xfe;
+          zoneDat_moveAniDat((*iVar3)[0].anidat0x4,(*iVar3)[0].index);
+        }
+        pAVar2 = (*iVar3)[0].aniDat0x14;
+      }
+      if (pAVar2 == NULL) {
+        pBVar5 = (*iVar3)[0].mapPointer;
+      }
+      else {
+        if (((*iVar3)[0].flag & 2) != 0) {
+          (*iVar3)[0].flag = (*iVar3)[0].flag & 0xfd;
+          zoneDat_moveAniDat(pAVar2,(*iVar3)[0].index);
         }
         pBVar5 = (*iVar3)[0].mapPointer;
       }
-      if ((pBVar5) && (DAT_800e8dbc))
-       {audio_ref_objs(&gGlobals.SFXStruct,&pBVar5->dat,(*iVar3)[0].MapTally,(*iVar3)[0].index);}
-      iVar2 = iVar4 >> 0x10;
-      iVar3 = (ZoneDat (*) [3])(*iVar3 + 1);
+      if ((pBVar5) && (DAT_800e8dbc)) {
+        audio_ref_objs(&gGlobals.SFXStruct,&pBVar5->dat,(*iVar3)[0].MapTally,(*iVar3)[0].index);
+      }
+      iVar1 = iVar4 >> 0x10;
+      iVar3 = (ZoneDat (*) [3])((int)iVar3 + 0x20);
       iVar4 = iVar4 + 0x10000;
-    } while (iVar2 < 3);
-    iVar4 = (s32)(s16)iVar6;
-    iVar6++;
+    } while (iVar1 < 3);
+    iVar4 = (int)(short)iVar6;
+    iVar6 = iVar4 + 1;
   } while (iVar4 < 3);
   DAT_800e8dbc = 0;
+  return;
 }
-
-
 
 void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   ushort uVar1;
   ushort uVar2;
-  int iVar3;
-  int iVar4;
   voxelObject *pfVar8;
   u8 bVar5;
   int iVar6;
   u16 ShortA;
-  int iVar7;
   int iVar8;
   vec3f *pvVar9;
   float fVar10;
@@ -1031,14 +1028,8 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   gGlobals.Sub.mapDatC = 0xffff;
   BorgMaps::LoadMap(gGlobals.Sub.mapDatA,-1,-1,false);
   clear_music_no_expPak();
-  if (param_3 == NULL) {
-    no_TP_vec3 = 1;
-    ShortA = (tp->teleport).MapShort1;
-  }
-  else {
-    ShortA = (tp->teleport).MapShort1;
-  }
-  loadGameBorgScenes(ShortA,(tp->teleport).MapShort2);
+  if (param_3 == NULL) no_TP_vec3 = 1;
+  loadGameBorgScenes((tp->teleport).MapShort1,(tp->teleport).MapShort2);
   if (param_3 == NULL) {
     if (gGlobals.sky.Type == 4) {
       set_camera_mode(&gGlobals.Sub.camera,1);
@@ -1066,8 +1057,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
       pvVar9 = &(pfVar8->refpoint).position;
       (pfVar8->refpoint).position.y = 0.0;
       vec3_normalize(pvVar9);
-      fVar10 = vec3Length(pvVar9);
-      if (0.5d < (double)fVar10) {
+      if (0.5 < vec3Length(pvVar9)) {
         setVec2(&player->facing,-(pfVar8->refpoint).position.x,-(pfVar8->refpoint).position.z);
       }
     }
@@ -1124,15 +1114,11 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   else camera_set_position(&gGlobals.Sub.camera,&prStack_38->header.pos);
   gGlobals.Sub.camera.unk80 = 5;
   if ((param_3 == NULL) || (pfVar8 != NULL)) {
-    iVar7 = 0;
-    iVar8 = 0x10000;
-    do {
-      iVar3 = iVar7 / 3;
-      iVar6 = iVar7 % 3;
-      iVar7 = iVar8 >> 0x10;
-      (&gGlobals.Sub.ZoneDatMtx[iVar3 * 0x10000 >> 0x10][0].alpha)[iVar6 * 0x10000 >> 0xb] = 0xff;
-      iVar8 = iVar8 + 0x10000;
-    } while (iVar7 < 9);
+    for(s16 iVar7 = 0;iVar7 < 9;iVar7++) {
+      s16 iVar3 = iVar7 / 3;
+      s16 iVar6 = iVar7 % 3;
+      gGlobals.Sub.ZoneDatMtx[iVar3][iVar6].alpha = 0xff;
+    }
   }
   if (iVar4 != gGlobals.sky.Type) {
     if (gGlobals.sky.Type == 4) {
@@ -1144,14 +1130,13 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
       Sundial::ToggleSun(1);
     }
   }
-  if (gGlobals.minimap.active != 0) {
+  if (gGlobals.minimap.active) {
     gGlobals.minimap.savedPlayerPos.x = ((gGlobals.playerCharStruct.playerDat)->collision).pos.x;
     gGlobals.minimap.savedPlayerPos.y = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y;
     gGlobals.minimap.savedPlayerPos.z = ((gGlobals.playerCharStruct.playerDat)->collision).pos.z;
     MiniMap::UpdateSection(&gGlobals.minimap,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
   }
 }
-
 
 void ConfirmPlayerWithinZone(playerData *param_1,Borg9data *param_2){
 
