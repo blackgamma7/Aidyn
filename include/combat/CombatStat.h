@@ -2,7 +2,7 @@
 #include "PlayerData.h"
 
 struct CombatStatIndicatorHandler {
-    Borg1Data *borg1Digits[10];
+    Borg1header *borg1Digits[10];
     PlaneObj *Indicators;
     u8 *array;
     u8 index;
