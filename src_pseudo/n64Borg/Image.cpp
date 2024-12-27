@@ -55,7 +55,7 @@ Gfx * Graphics::SomeDListInit(Gfx *gfx,byte flag,ushort h,ushort v){
   //gDPSetRenderMode()
   if ((flag & 2) == 0) word1 =0xf0a4000;
   else word1 = (G_RM_XLU_SURF2|0x400000);
-  gSPSetOtherMode(gfx++,G_SETOTHERMODE_L,G_MDSFT_RENDERMODE,29,word1);
+  gDPSetRenderMode(gfx++,word1,0);
   //Set combine (solid or alpha. Most times alpha)
   if ((flag & 4) == 0) {
     //gDPSetCombineLERP();
@@ -73,7 +73,7 @@ Gfx * Graphics::SomeDListInit(Gfx *gfx,byte flag,ushort h,ushort v){
   return gfx;
 }
 
-
+//{gDPLoadTextureBlock();gSPScisTextureRectangle();} seems very common. Combine into own macro?
 
 Gfx * N64BorgImageDraw(Gfx *g,Borg8header *borg8,float param_3,float param_4,ushort param_5,
                       ushort param_6,u16 h,u16 v,float param_9,float param_10,u8 red,u8 green,
@@ -127,8 +127,8 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8header *borg8,float param_3,float param_4,ush
   uVar26 = (uint)h - (uint)param_5;
   fVar36 = param_3 * sImageHScale;
   uVar1 = (borg8->dat).Width;
-  gDPPipeSync(g);
-  gDPSetPrimColor(&g[1],0,0,red,green,blue,alpha);
+  gDPPipeSync(g++);
+  gDPSetPrimColor(g++,0,0,red,green,blue,alpha);
   fVar33 = 4.0f;
   uVar17 = (uint)v - (uint)param_6;
   fVar37 = param_4 * fVar37 * fVar30;
@@ -171,9 +171,8 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8header *borg8,float param_3,float param_4,ush
     pGVar25 = g + 3;
     uVar23 = 0;
     dVar34 = (double)uVar17;
-    (pGVar24->words).w0 = 0xe3001001;
+    gDPSetTextureLUT(g++,0);
     fVar33 = (float)dVar35 * fVar39 * fVar33;
-    *(undefined4 *)((int)g + 0x14) = 0;
     uVar4 = (uint)sVar28;
     if (uVar13 != 0) {
       uVar8 = (uVar21 - 1) + uVar26;
@@ -184,87 +183,10 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8header *borg8,float param_3,float param_4,ush
       uVar8 = uVar16;
       pGVar24 = pGVar25;
       do {
-        uVar16 = uVar8 + uVar22;
-        (pGVar24->words).w0 = uVar15 - 1 & 0xfff | 0xfd180000;
-        (pGVar24->words).w1 = (uint)pvVar3;
-        uVar7 = uVar16 * 4 & 0xfff;
-        *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
-        pGVar24[1].words.w0 = uVar12;
-        uVar8 = (uVar8 & 0x3ff) << 2;
-        pGVar24[2].words.w0 = 0xe6000000;
-        *(undefined4 *)((int)pGVar24 + 0x14) = 0;
-        pGVar24[3].words.w0 = uVar27 | uVar8 | 0xf4000000;
-        *(uint *)((int)pGVar24 + 0x1c) = uVar19 | uVar7 | 0x7000000;
-        pGVar24[4].words.w0 = 0xe7000000;
-        *(undefined4 *)((int)pGVar24 + 0x24) = 0;
-        *(undefined4 *)((int)pGVar24 + 0x2c) = 0x80200;
-        pGVar24[5].words.w0 = uVar12;
-        pGVar24[6].words.w0 = uVar27 | uVar8 | 0xf2000000;
-        *(uint *)((int)pGVar24 + 0x34) = uVar19 | uVar7;
-        pGVar24[7].words.w0 = 0xf2000000;
-        *(uint *)((int)pGVar24 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
-        if ((int)uVar18 < 1) {
-          uVar8 = 0xe4000000;
-        }
-        else {
-          uVar8 = (uVar18 & 0xfff) << 0xc | 0xe4000000;
-        }
-        uVar7 = (uint)(short)(int)(fVar37 + fVar33);
-        if (0 < (int)uVar7) {
-          uVar8 |= uVar7 & 0xfff;
-        }
-        pGVar24[8].words.w0 = uVar8;
-        if ((int)uVar4 < 1) {
-          uVar8 = 0;
-        }
-        else {
-          uVar8 = (uVar4 & 0xfff) << 0xc;
-        }
-        if (0 < (short)(int)fVar37) {
-          uVar8 |= (int)(short)(int)fVar37 & 0xfffU;
-        }
-        *(uint *)((int)pGVar24 + 0x44) = uVar8;
-        pGVar24[9].words.w0 = 0xe1000000;
-        if ((int)uVar4 < 0) {
-          iVar5 = (int)(uVar4 * (int)sVar10) >> 7;
-          if (sVar10 < 0) {
-            if (iVar5 < 0) {
-              iVar5 = 0;
-            }
-          }
-          else if (0 < iVar5) {
-            iVar5 = 0;
-          }
-          uVar8 = iVar5 * -0x10000;
-        }
-        else {
-          uVar8 = 0;
-        }
-        if ((int)fVar37 < 0) {
-          iVar6 = (int)sVar11;
-          iVar5 = (int)(short)(int)fVar37;
-          if (iVar6 < 0) {
-            iVar5 = iVar5 * iVar6 >> 7;
-            if (iVar5 < 0) {
-              iVar5 = 0;
-            }
-          }
-          else {
-            iVar5 = iVar5 * iVar6 >> 7;
-            if (0 < iVar5) {
-              iVar5 = 0;
-            }
-          }
-          uVar8 |= -iVar5 & 0xffffU;
-        }
-        pGVar25 = pGVar24 + 0xb;
-        uVar23 += 1;
-        *(uint *)((int)pGVar24 + 0x4c) = uVar8;
-        pGVar24[10].words.w0 = 0xf1000000;
-        *(uint *)((int)pGVar24 + 0x54) = iVar32 << 0x10 | uStack_38 & 0xffff;
-        fVar37 = fVar37 + fVar33;
-        uVar8 = uVar16;
-        pGVar24 = pGVar25;
+        gDPLoadTextureBlock(pGVar24++,pvVar3,0,G_IM_SIZ_32b,uVar26,uVar22,0/*?*/,
+          2,2,0,0,0,0);
+        gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar18,(fVar37 + fVar33),
+        0,0/*?*/,0/*?*/,iVar32,uStack_38)
       } while (uVar23 < uVar13);
     }
     fVar30 = 4.0f;
@@ -739,8 +661,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     fVar30 = fVar30 * fVar39 * 4.0f;
     if (iVar2 == BORG8_CI4) {
       iVar5 = 2;
-      (pGVar24->words).w0 = 0xe3001001;
-      *(undefined4 *)((int)g + 0x14) = 0x8000;
+      gDPSetTextureLUT(pGVar24,G_TT_RGBA16);
       pGVar25 = g + 10;
       g[3].words.w0 = 0xfd100000;
       *(void **)((int)g + 0x1c) = (borg8->dat).palette;
