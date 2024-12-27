@@ -661,22 +661,9 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     fVar30 = fVar30 * fVar39 * 4.0f;
     if (iVar2 == BORG8_CI4) {
       iVar5 = 2;
-      gDPSetTextureLUT(pGVar24,G_TT_RGBA16);
-      pGVar25 = g + 10;
-      g[3].words.w0 = 0xfd100000;
-      *(void **)((int)g + 0x1c) = (borg8->dat).palette;
-      g[4].words.w0 = 0xe8000000;
-      *(undefined4 *)((int)g + 0x24) = 0;
-      *(undefined4 *)((int)g + 0x2c) = 0x7000000;
-      g[5].words.w0 = 0xf5000100;
-      g[6].words.w0 = 0xe6000000;
-      *(undefined4 *)((int)g + 0x34) = 0;
-      g[7].words.w0 = 0xf0000000;
-      *(undefined4 *)((int)g + 0x3c) = 0x703c000;
-      g[8].words.w0 = 0xe7000000;
-      *(undefined4 *)((int)g + 0x44) = 0;
-      g[9].words.w0 = 0xe6000000;
-      *(undefined4 *)((int)g + 0x4c) = 0;
+      gDPSetTextureLUT(g++,G_TT_RGBA16);
+      gDPLoadTLUT(g++,0x1c10,0x100,(borg8->dat).palette);
+      gDPLoadSync(g++);
     }
     else {
       iVar5 = 4;
