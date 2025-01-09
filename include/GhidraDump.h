@@ -106,13 +106,7 @@ typedef enum Borg7Enum { /* entity model data? */
     zombie=13449
 } Borg7Enum;
 
-typedef struct collisionSphere collisionSphere, *PcollisionSphere;
 
-typedef struct EnvProp EnvProp, *PEnvProp;
-
-typedef struct collisionTypeA collisionTypeA, *PcollisionTypeA;
-
-typedef struct SpeedProperty SpeedProperty, *PSpeedProperty;
 
 typedef struct ControllerFull ControllerFull, *PControllerFull;
 
@@ -4073,13 +4067,6 @@ struct SpellVisuals_struct {
     undefined1 field15_0x30;
 };
 
-typedef struct StringCheat StringCheat, *PStringCheat;
-
-struct StringCheat { /* struct used for cheat functions */
-    char *code;
-    u32 (*cheat)(void);
-};
-
 struct struct_A {
     AnimationData *anidat;
     u16 flags;
@@ -4095,24 +4082,6 @@ struct struct_5 {
     AnimationData *link;
     AniDatSubstruct *substruct;
 };
-
-typedef struct sundail_struct sundail_struct, *Psundail_struct;
-
-struct sundail_struct {
-    Borg8header *Ring;
-    Borg8header *Cross;
-    Borg8header *MoonPhase0;
-    Borg8header *MoonPhase1;
-    Borg8header *MoonPhase2;
-    Borg8header *MoonPhase3;
-    Borg8header *MoonPhase4;
-    Borg8header *MoonPhase5;
-    Borg8header *SunBig;
-    Borg8header *SunSmall;
-    u8 moon;
-    u8 sun;
-};
-
 
 
 typedef struct VoxelChartEntry VoxelChartEntry, *PVoxelChartEntry;

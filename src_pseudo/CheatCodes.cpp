@@ -1,6 +1,7 @@
+#include "globals.h"
 struct StringCheat{
     char* code;
-    func* cheat;}
+    u32 (*cheat)(void);};
 
 char** cheatStrings_pointer;
 u32 _bigw_flag;
@@ -118,7 +119,6 @@ u8 Cheats::_tweety(void){return fatboy_crawdaddy_tweety(BORG7_Gryphon);}
 u8 Cheats::_Cheater(void){ // +750000 EXP to party
   pause_Substruct *ppVar1;
   CharSheet *pCVar2;
-  char *pcVar4;
   u32 uVar3;
   u32 uVar5;
   
@@ -126,21 +126,16 @@ u8 Cheats::_Cheater(void){ // +750000 EXP to party
   if(getEventFlag(FLAG_cheater)){return false;} //no double-dipping in retail
   #endif
   setEventFlag(FLAG_cheater,true);
-  uVar5 = 0;
-  if ((gGlobals.party)->MembersSize != 0) {
-    do {
+  if ((gGlobals.party)->PartySize) {
+    for(uVar5=0;uVar5 < (gGlobals.party)->PartySize;uVar5++) {
       if ((gGlobals.party)->Members[uVar5]) {Entity::AddExp((gGlobals.party)->Members[uVar5],500000);}
-      uVar5++;
-    } while (uVar5 < (gGlobals.party)->MembersSize);
+    }
   }
-  ppVar1 = ((gGlobals.BigAssMenu)->widget).substruct; //Pause menu update, crashes game if used on title screen
+  ppVar1 = (gGlobals.BigAssMenu)->base.substruct; //Pause menu update, crashes game if used on title screen
   pCVar2 = (gGlobals.party)->Members[partypicker]; //update stats for char. selected on menu
-  pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->Level_widget);
-  sprintf(pcVar4,"%u",Entity::GetLevel(pCVar2));
-  pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->CurrHP_Widget);
-  sprintf(pcVar4,"%u",getHPCurrent(pCVar2));
-  pcVar4 = FUN_800bbaf0(ppVar1->dollmenu->charStats_widget->MaxHP_widget);
-  sprintf(pcVar4,"%u",getHPMax(pCVar2));
+  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->Level_widget),"%u",Entity::GetLevel(pCVar2));
+  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->CurrHP_Widget),"%u",getHPCurrent(pCVar2));
+  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->MaxHP_widget),"%u",getHPMax(pCVar2));
   FUN_80038bdc(ppVar1->dollmenu->unk0x88,partypicker);
   return true;
 }
@@ -155,8 +150,7 @@ u8 Cheats::_bingo(void){ //+100000 gold
   //Another menu update, crashing the title screen
   pwVar1 = (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->charStats_widget->gold_widget;
   (gGlobals.party)->Gold+=100000;
-  pcVar2 = FUN_800bbaf0(pwVar1);
-  sprintf(pcVar2,"%ld",(gGlobals.party)->Gold);
+  sprintf(Utilities::GetWidgetText(pwVar1),"%ld",(gGlobals.party)->Gold);
   return true;
 }
 
