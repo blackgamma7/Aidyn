@@ -194,13 +194,6 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     Borg8header *portrait;
 };
 
-
-struct itemtype_func {
-    u8 type;
-    s32 unk;
-    s32 (* function)(Party*,u8,ItemInstance,CharSheet);
-};
-
 struct EntityDB {
     u8 total;
     u8 catSizes[7];

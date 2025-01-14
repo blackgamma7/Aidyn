@@ -57,9 +57,7 @@ void Orphaned(playerData *target,u32 param_2){
 }
 
 
-Gfx * CombatAttackVisuals::Render(Gfx *g,uint delta)
-
-{
+Gfx * CombatAttackVisuals::Render(Gfx *g,uint delta){
   AnimationData *pAVar2;
   struct_1 *psVar3;
   int iVar4;

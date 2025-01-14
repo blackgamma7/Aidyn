@@ -13,24 +13,24 @@ void Save(u8 *data){
   WeatherTemp fStack96;
   
   SaveParty::Init(&sav,data);
-  SaveEntity::BenchParty(gGlobals.party);
+  SaveEntity::BenchParty(PARTY);
   SaveParty::SaveInGameTime(&sav);
   SaveParty::SaveGold(&sav);
-  SaveParty::SaveTimer(&sav,gGlobals.party->TimeRunning);
-  SaveParty::SaveTimer(&sav,gGlobals.party->timeWalking);
-  SaveParty::SaveTimer(&sav,gGlobals.party->timeSneaking);
+  SaveParty::SaveTimer(&sav,PARTY->TimeRunning);
+  SaveParty::SaveTimer(&sav,PARTY->timeWalking);
+  SaveParty::SaveTimer(&sav,PARTY->timeSneaking);
   SaveParty::SaveCharSheetEffects(&sav,SaveEntity::GetMember(0));
   SaveParty::SaveAlaron(&sav,SaveEntity::GetMember(0));
   for(i=1;i<4;i++) {SaveParty::SaveCharSheetEffects(&sav,SaveEntity::GetMember(i));}
   for(;i<9;i++) {SaveParty::SaveCharSheet(&sav,SaveEntity::GetMember(i));}
-  gGlobals.party->Inventory->Save(&sav);
+  PARTY->Inventory->Save(&sav);
   memcpy(&fStack96,&gWeatherTemp,0x10);
-  fStack96.precipScale*=1000.0f;
-  fStack96.fogFloat*=1000.0f;;
-  fStack96.thunderFloat*=1000.0f;;
-  SaveParty::SaveBits(&sav,(s32)fStack96.precipScale,0x20);
-  SaveParty::SaveBits(&sav,(s32)fStack96.fogFloat,0x20);
-  SaveParty::SaveBits(&sav,(s32)fStack96.thunderFloat,0x20);
+  fStack96.PrecipScale*=1000.0f;
+  fStack96.FogFloat*=1000.0f;;
+  fStack96.ThunderFloat*=1000.0f;;
+  SaveParty::SaveBits(&sav,(s32)fStack96.PrecipScale,0x20);
+  SaveParty::SaveBits(&sav,(s32)fStack96.FogFloat,0x20);
+  SaveParty::SaveBits(&sav,(s32)fStack96.ThunderFloat,0x20);
   SaveParty::SaveBits(&sav,(uint)fStack96.precip,8);
   fVar5 = gGlobals.VolSFX * 1000.0f;
   fVar6 = gGlobals.VolBGM * 1000.0f;
@@ -53,21 +53,21 @@ void Load(u8 *data){
   SaveParty::Init(&sav,data);
   SaveParty::LoadInGameTime(&sav);
   uVar5 = 1;
-  Party::Free(gGlobals.party);
-  Party::Init(gGlobals.party);
-  gGlobals.party->Gold = SaveParty::LoadGold(&sav);
-  gGlobals.party->TimeRunning = SaveParty::LoadTimer(&sav);
-  gGlobals.party->timeWalking = SaveParty::LoadTimer(&sav);
-  gGlobals.party->timeSneaking = SaveParty::LoadTimer(&sav);
-  gGlobals.party->Members[0] = SaveParty::LoadCharSheetEffects(&sav);
-  SaveParty::LoadAlaron(&sav,gGlobals.party->Members[0]);
-  gGlobals.party->PartySize++;
+  PARTY->Free();
+  PARTY->Init();
+  PARTY->Gold = SaveParty::LoadGold(&sav);
+  PARTY->TimeRunning = SaveParty::LoadTimer(&sav);
+  PARTY->timeWalking = SaveParty::LoadTimer(&sav);
+  PARTY->timeSneaking = SaveParty::LoadTimer(&sav);
+  PARTY->Members[0] = SaveParty::LoadCharSheetEffects(&sav);
+  SaveParty::LoadAlaron(&sav,PARTY->Members[0]);
+  PARTY->PartySize++;
   for(i=1;i<4;i++) {
-    gGlobals.party->Members[i] = SaveParty::LoadCharSheetEffects(&sav);
-    if (gGlobals.party->Members[i]) gGlobals.party->PartySize++;
+    PARTY->Members[i] = SaveParty::LoadCharSheetEffects(&sav);
+    if (PARTY->Members[i]) PARTY->PartySize++;
   }
   for(;i<9;i++){SaveEntity::LoadMember(SaveParty::LoadCharSheet(&sav),(u16)i);}
-  gGlobals.party->Inventory->Load(&sav);
+  PARTY->Inventory->Load(&sav);
   aWStack_68.precipScale = (float)SaveParty::LoadBits(&sav,0x20);
   aWStack_68.fogFloat = (float)SaveParty::LoadBits(&sav,0x20);
   aWStack_68.thunderFloat = (float)SaveParty::LoadBits(&sav,0x20);
@@ -150,20 +150,18 @@ void SaveItemID(ItemID *param_1,ItemID *param_2){
 //saves Alaron's name, current playtime and party for savefile ID'ing
 void SavePartyPlaytime(SavePartyHeader *param_1){
   char *c2;
-  Party *pPVar1;
   CharSheet *pCVar2;
   int iVar3;
   uint uVar4;
   
-  pPVar1 = gGlobals.party;
   uVar4 = 0;
-  pCVar2 = Party::GetMemberById(gGlobals.party,gEntityDB->entities[0x99].ID);
+  pCVar2 = PARTY->GetMemberById(gEntityDB->entities[0x99].ID);
   c2 = pCVar2->name;
   param_1->time = TerrainPointer->PlayTime;
   strcpy(param_1->name,c2);
   
    for(iVar3 = 0;iVar3<4;iVar3++){
-    SaveItemID(param_1->party[iVar3],pPVar1->Members[iVar3]->ID);
+    SaveItemID(param_1->party[iVar3],PARTY->Members[iVar3]->ID);
   }
 }
 void CopyEngineZone(mapFloatDat *param_1,u8 copy){

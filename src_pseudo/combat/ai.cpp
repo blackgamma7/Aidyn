@@ -1,3 +1,4 @@
+#include "CombatStruct.h"
 #include "CombatEntity.h"
 #include "stringN64.h"
 
@@ -10,7 +11,7 @@ u8 Combat::WillTheyFlee(ItemID param_1){
   char cVar5;
   int score;
   uint uVar2;
-  AspectEnum AVar6;
+  u8 AVar6;
   s32 lVar7;
   
   if (gCombatP->hasFleeRefpoints == 0) return false;

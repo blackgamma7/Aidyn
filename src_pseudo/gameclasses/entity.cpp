@@ -32,11 +32,11 @@ void Entity::EquipFunc0(CharSheet *ent,Entity_Ram *param_2){
   if (param_2->weapon[0].s != 0xffff) {EquipWeapon(ent,param_2->weapon[0],0);}
   if (param_2->weapon[1].s != 0xffff) {
     if (ent->weapons == NULL) EquipWeapon(ent,param_2->weapon[1],0);
-    else gGlobals.party->Inventory->AddItem(param_2->weapon[1],1);
+    else PARTY->Inventory->AddItem(param_2->weapon[1],1);
   }
   if (param_2->weapon[2].s != 0xffff) {
     if (ent->weapons == NULL) EquipWeapon(ent,param_2->weapon[2],0);
-    else gGlobals.party->Inventory->AddItem(param_2->weapon[2],1);
+    else PARTY->Inventory->AddItem(param_2->weapon[2],1);
   }
 }
 
@@ -81,7 +81,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   ALLOC(param_1->EXP,260);
   CharExp::Init(param_1->EXP,param_1->ID);
   ALLOC(param_1->Skills,263);
-  CharSkills::Init(param_1->Skills,param_1->ID);
+  param_1->Skills->Init(param_1->ID);
   ALLOCS(param_1->armor,2*sizeof(ArmorInstance*),266);
   param_1->armor[0] = NULL;
   param_1->armor[1] = NULL;
@@ -281,7 +281,7 @@ void Entity::addStamina(CharSheet *param_1,u8 pointEight){
 
 u8 Entity::ret0(CharSheet *param_1){return 0;}
 
-u8 Entity::NoSheildSkill(CharSheet *param_1){return CharSkills::getModdedSheild(param_1->Skills) == 0;}
+u8 Entity::NoSheildSkill(CharSheet *param_1){return param_1->Skills->getModdedSheild() == 0;}
 
 u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   u8 bVar2;
@@ -370,8 +370,8 @@ void Entity::ApplyEquipment(CharSheet *param_1,WeaponInstance *param_2,StatMod *
   s8 mod;
   
   pSVar1 = param_2->SkillMod;
-  if ((pSVar1) && (CharSkills::CapBaseSkill(param_1->Skills,pSVar1->stat))) {
-    CharSkills::ModdedSkillAdd(param_1->Skills,pSVar1->stat,pSVar1->mod);
+  if ((pSVar1) && (param_1->Skills->capSkillBaseMax(pSVar1->stat))) {
+    param_1->Skills->ModdedSkillAdd(pSVar1->stat,pSVar1->mod);
   }
   if (param_3) {
     if ((param_2->base).statMod) HeapFree((param_2->base).statMod,FILENAME,950);
@@ -436,7 +436,7 @@ void FUN_80078874(CharSheet *param_1,WeaponInstance *param_2,u8 param_3){
   
   skilmod = param_2->SkillMod;
   if (skilmod){
-    if (CharSkills::CapBaseSkill(param_1->Skills,skilmod->stat)) {
+    if (CharSkills::capSkillBaseMax(param_1->Skills,skilmod->stat)) {
       CharSkills::ModdedSkillAdd(param_1->Skills,skilmod->stat,-skilmod->mod);
     }
   }
@@ -669,7 +669,7 @@ u8 Entity::UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4){
     case POTION_STEALTH:
       ApplyPotionEffect(param_1,param_3,0,HOURS(3));
     }
-    gGlobals.party->Inventory->IncItemQuantity(param_2,-1);
+    PARTY->Inventory->IncItemQuantity(param_2,-1);
     return true;
   }
 
@@ -1720,7 +1720,7 @@ u8 Entity::HealHerbsCheck(CharSheet *param_1){
   cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_Healer);
   bVar3 = false;
   if (cVar2) {
-    if (!(gGlobals.party)->Inventory->HasItem(itemID_array[31])) bVar3 = false;
+    if (!(PARTY)->Inventory->HasItem(itemID_array[31])) bVar3 = false;
     else {
       iVar1 = CharStats::getModded(param_1->Stats,STAT_STAM);
       iVar4 = 5 - cVar2;
@@ -1737,7 +1737,7 @@ u8 Entity::TroubadorCheck(CharSheet *param_1){
   u8 bVar3;
   s32 iVar4;
   
-  cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_TROUBADOR);
+  cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_Troubador);
   if (cVar2 == 0) {bVar3 = false;}
   else {
     iVar1 = CharStats::getModded(param_1->Stats,STAT_STAM);

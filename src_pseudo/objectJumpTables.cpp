@@ -130,10 +130,10 @@ u8 teleport_trap(voxelObject* arg0){
   return bVar1;
 }
 
-void teleporter_func(voxelObject* arg0){  
+void teleporter_func(voxelObject* param_1){  
   if (vobject_pause_check()) {
     if (((param_1->header).Bitfeild & VOXEL_tangible) == 0) {
-      EVar1 = (param_1->teleport).secrect_door_flag;
+      u16 EVar1 = (param_1->teleport).secrect_door_flag;
       if (((param_1->teleport).secrect_door_flag == 0) || (getEventFlag((param_1->teleport).secrect_door_flag))) {
         if (!teleport_trap(param_1)) {
           if (((param_1->teleport).lock_lv) &&
@@ -272,19 +272,17 @@ void loot_func(voxelObject *param_1){
                    (byte)gGlobals.Sub.mapShort2,0x11,*(byte *)((int)&(param_1->header).type + 1),10);
       }
       if (!uVar8) {
-        sprintf(gGlobals.text,gGlobals.CommonStrings[0x1e2],(param_1->container).Gold);
+        Gsprintf(gGlobals.CommonStrings[0x1e2],(param_1->container).Gold);
         textbox_func(gGlobals.text);
-        (gGlobals.Party)->Gold+=(param_1->container).Gold;
+        (PARTY)->Gold+=(param_1->container).Gold;
         PLAYSFX(Coins_jingle,0,gGlobals.VolSFX,300,time);
       }
       else {
         loot = new GenericInventory();
-        uVar10 = 0;
-        if (uVar8 != 0) {
-          do {
-            loot->AddItem(aIStack96[uVar10][0],aIStack96[uVar10][0]);
-            uVar10++;
-          } while (uVar10 < uVar8);
+        if (uVar8) {
+          for(uVar10 = 0;uVar10 < uVar8;uVar10++) {
+            loot->AddItem((ItemID)[uVar10][0],aIStack96[uVar10][0]);
+          }
         }
         build_loot_menu(loot,(param_1->container).Gold,-1);
         gGlobals.playerCharStruct.unkState = 0x13;
@@ -482,7 +480,7 @@ u8 TP_lock_secret_check(voxelObject* arg0){
       if ((arg0->teleport).secretDoorVal == 0) {uVar1 = (arg0->teleport).trapBool16;}
       else {
         if (teleport_secret_check((arg0->teleport).secrect_door_flag) == false) {
-          if (check_int_theif(gGlobals.party) < (arg0->teleport).secretDoorVal) {return false;}
+          if (check_int_theif(PARTY) < (arg0->teleport).secretDoorVal) {return false;}
           (arg0->teleport).secretDoorVal = 0;
         }
         else {(arg0->teleport).secretDoorVal = 0;}
@@ -732,11 +730,11 @@ u8 secret_door_func(voxelObject* param_1){
   BaseWidget *pwVar1;
   u8 bVar2;
   
-  pwVar1 = textbox_func(gGlobals.CommonStrings->discovered secret door);
-  (param_1->dat).secretDoorVal = 0;
-  setEventFlag((param_1->dat).secrect_door_flag,true);
+  pwVar1 = textbox_func(Cstring(DoorSecret));
+  (param_1->teleport).secretDoorVal = 0;
+  setEventFlag((param_1->teleport).secrect_door_flag,true);
   bVar2 = getEventFlag(0x15fa);
-  pwVar1->prt0x40 = param_1;
+  pwVar1->substruct = param_1;
   pwVar1->AbuttonFunc = secretdoor_widget_AB;
   pwVar1->BButtonFunc = secretdoor_widget_AB;
   return bVar2;}

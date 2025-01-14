@@ -243,7 +243,7 @@ struct monsterparty_dat {
     u16 totalsize;
     ItemID unk0x2c; //usually mirror of entityID.
     u16 wanderNode; //index on map chunk.
-    u16 monsterpartyFlags;
+    u16 flags;
     u8 unk0x32;
     u8 unk0x33;
     u32 borg_13;
@@ -509,8 +509,9 @@ struct borg2data {
 //same as SetPointer(), but makes sure there is an offset
 #define CheckSetPointer(x,f) if(x->f) SetPointer(x,f)
 
+
 //clamp a value to 0-1
-#define CLAMP01(x) if(x<0.0) x=0;if(x>1.0) x=1
+#define CLAMP01(x) CLAMP(x,0.0,1.0)
 //clamp a vec3's values to 0-1
 #define CLAMP01V3(v) CLAMP01(v.x); CLAMP01(v.y); CLAMP01(v.z)
 //turn a Vec3f into 32-bit RGB values.

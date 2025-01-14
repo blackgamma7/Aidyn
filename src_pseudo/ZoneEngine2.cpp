@@ -445,12 +445,12 @@ void ofunc_zoneengine_free(void){
       pZVar2 = pZVar2 + 1;
       iVar3 = iVar3 + 0x10000;
     } while (iVar1 < 3);
-    HeapFree(gGlobals.Sub.ZoneDatMtx + iVar4,FILENAME,1034);
+    HFREE(gGlobals.Sub.ZoneDatMtx + iVar4,1034);
     iVar4 = (int)(short)iVar5;
     iVar5 = iVar4 + 1;
   } while (iVar4 < 3);
   //old bug?
-  HeapFree(&gGlobals.Sub,FILENAME,1036);
+  HFREE(&gGlobals.Sub,1036);
 }
 
 void move_zonedat(ZoneDat *param_1,ZoneDat *param_2){

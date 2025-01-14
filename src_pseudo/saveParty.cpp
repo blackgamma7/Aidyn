@@ -82,7 +82,7 @@ void SaveParty::LoadItem(SaveFile *sav,ItemInstance *item){
       ItemInstance::InitItem((EquipInstance *)item,uVar1);
       uVar1 = LoadBits(sav,5);
       if (item->spellCharge) item->spellCharge->Charges = uVar1;
-      if (item->statMod) HeapFree(item->statMod,FILENAME,308);
+      if (item->statMod) HFREE(item->statMod,308);
       item->statMod = LoadStatMod(sav);
     }
   }
@@ -168,7 +168,7 @@ void SaveParty::LoadInGameTime(SaveFile *sav){
 
 
 void SaveParty::SaveGold(SaveFile *sav){
-  SaveBits(sav,(gGlobals.party)->Gold,32);
+  SaveBits(sav,(PARTY)->Gold,32);
 }
 
 
@@ -227,7 +227,7 @@ void SaveParty::SaveCharSheet(SaveFile *sav,CharSheet *chara){
     SaveBits(sav,(chara->ID).ID,8);
     SaveCharEXP(sav,chara->EXP);
     SaveCharStats(sav,chara);
-    CharSkills::Save(chara->Skills,sav);
+    chara->Skills->Save(sav);
     for(i=0;i<1;i++) SaveItem(sav,&chara->armor[i]->base);
     SaveItem(sav,&chara->weapons->base);
     for(i=0;i<12;i++) SaveItem(sav,&chara->pItemList->pItem[i]->base);
@@ -253,7 +253,7 @@ CharSheet * SaveParty::LoadCharSheet(SaveFile *sav){
     bVar2 = 0;
     LoadCharEXP(sav,chara->EXP);
     LoadCharStats(sav,chara->Stats);
-    CharSkills::LoadAll(chara->Skills,sav);
+    chara->Skills->LoadAll(sav);
     LoadArmor(sav,chara);
     LoadShield(sav,chara);
     LoadWeapon(sav,chara);

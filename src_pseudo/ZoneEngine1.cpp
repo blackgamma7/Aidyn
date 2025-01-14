@@ -1,6 +1,6 @@
 void checking_camping_safety(void){
   gGlobals.playerCharStruct.camping_var = 3;
-  if (!Party::CampAmbushCheck(gGlobals.party)) {dialoug_ref_obj_func();}
+  if (!Party::CampAmbushCheck(PARTY)) {dialoug_ref_obj_func();}
   else {gGlobals.playerCharStruct.camping_var = 2;}
 }
 

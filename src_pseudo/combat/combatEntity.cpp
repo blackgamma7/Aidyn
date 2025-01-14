@@ -221,7 +221,7 @@ void set_combat_movement(CombatEntity *param_1){
   NOOP_80068350();
   param_1->move_length = 0;
   while (param_1->move_length < 14) {
-    if (CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_DEX) <= (s32)(u32)DEX_steps[param_1->move_length]) break;
+    if (CharStats::getModded(param_1->charSheetP->Stats,STAT_DEX) <= (s32)(u32)DEX_steps[param_1->move_length]) break;
     param_1->move_length++;
   }
   uVar7 = 0;
@@ -321,7 +321,7 @@ u32 get_combatEnt_protection(CombatEntity *param_1){
   u32 uVar7;
   s32 iVar8;
   Potion_effect *pcVar2;
-  temp_armor *iVar2;
+  ArmorInstance *iVar2;
   
   uVar7 = 0;
   iVar8 = 0;
@@ -336,13 +336,13 @@ u32 get_combatEnt_protection(CombatEntity *param_1){
     }
     uVar6++;
   } while (uVar6 < 7);
-  iVar2 = *(temp_armor **)pCVar1->armor;
+  iVar2 = *(ArmorInstance **)pCVar1->armor;
   uVar6 = 0;
   if (iVar2) {uVar6 = (u32)iVar2->Protect;}
-  uVar4 = warrior_dividing(CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Warrior),5,false,0,0);
+  uVar4 = warrior_dividing(pCVar1->Skills->getModdedSkill(SKILL_Warrior),5,false,0,0);
   if ((s32)(((param_1->charSheetP->EXP->protection + uVar6) - uVar7) + uVar4 + iVar8) < 1) {uVar6 = 0;}
   else {
-    uVar4 = warrior_dividing(CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_Warrior),5,false,0,0);
+    uVar4 = warrior_dividing(param_1->charSheetP->Skills->getModdedSkill(SKILL_Warrior),5,false,0,0);
     uVar6 = uVar4 + ((uVar6 + param_1->charSheetP->EXP->protection) - uVar7) + iVar8 & 0xff;
   }
   return uVar6; //(Warrior/5)+(ArmorProtect+EntProtect-Acid)+(DefPotion*15)
@@ -350,18 +350,18 @@ u32 get_combatEnt_protection(CombatEntity *param_1){
 
 
 char get_sheild_warrior_skill(CombatEntity *param_1){
-  temp_armor *ptVar1;
+  ArmorInstance *ptVar1;
   u8 bVar4;
   
   ptVar1 = param_1->charSheetP->armor[1];
   bVar4 = 0;
   if (ptVar1) {bVar4 = ptVar1->DEF;}
-  return CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_Warrior) + bVar4 * getModdedSheild(param_1->charSheetP->Skills);
+  return param_1->charSheetP->Skills->getModdedSkill(SKILL_Warrior) + bVar4 * getModdedSheild(param_1->charSheetP->Skills);
 }
 
 u32 get_protection_level(CombatEntity *param_1,u8 backStab){
   u32 uVar1;
-  temp_armor *pcVar1 = param_1->charSheetP->armor[1];
+  ArmorInstance *pcVar1 = param_1->charSheetP->armor[1];
   uVar1 = get_combatEnt_protection(param_1);
   if ((pcVar1) && (!backStab)) {uVar1 += pcVar1->Protect;}
   return uVar1;
@@ -896,7 +896,7 @@ u8 ai_shouldnt_cast_magic(CombatEntity *param_1,CombatEntity *param_2,Temp_spell
      ((param_1->aiP->flags & 8) == 0)) bVar4 = true;
   else {
     bVar4 = false;
-    if (Entity::SpellStaminaSubtract(param_1->charSheetP,param_3,Entity::CheckSpellWizard(param_1->charSheetP,param_3)) <= CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_STAM)) {
+    if (Entity::SpellStaminaSubtract(param_1->charSheetP,param_3,Entity::CheckSpellWizard(param_1->charSheetP,param_3)) <= CharStats::getModded(param_1->charSheetP->Stats,STAT_STAM)) {
       bVar4 = false;
       if (Entity::GetSpellCharges(param_1->charSheetP) != 0) {
         if (Entity::CheckSpellSpecial(param_2->charSheetP,param_3) == 0) {bVar4 = check_spell_aspect_tod(param_1->charSheetP,param_3) == 0;}
@@ -1138,7 +1138,7 @@ void end_combat_turn_(CombatEntity *param_1){
   if ((!isDead(param_1->charSheetP)) && (!CombatEnt_flag_6(param_1))) {gGlobals.playerDataArray[param_1->index]->ani_type = 0;}
   func_looking_for_flask(param_1);
   if (((param_1->AtkType == 3) && (param_1->item < POTION_HEALING)) &&
-     (param_1->charSheetP->weapons)) {MoveWeaponsToInventory(gGlobals.party,(u32)param_1->index);}
+     (param_1->charSheetP->weapons)) {MoveWeaponsToInventory(PARTY,(u32)param_1->index);}
   FUN_80070304(param_1);
   FUN_80073e3c(&gCombatP->combatTurn);
 }
@@ -1339,7 +1339,7 @@ u8 phys_magic_element_bool(CombatEntity* param_1,ElementEnum param_2,ElementEnum
 }
 
 u8 gear_element_resist(CombatEntity *param_1,ElementEnum param_2,float *param_3){
-  temp_armor *ptVar1;
+  ArmorInstance *ptVar1;
   Temp_weapon *pTVar2;
   CharGear *pCVar3;
   CharSheet *pCVar4;
@@ -1457,7 +1457,7 @@ ReturnTrue:
 u8 magic_resist_element_checks(CombatEntity *ent,Temp_spell *spell,float *resistMulti)
 
 {
-  temp_armor *ptVar1;
+  ArmorInstance *ptVar1;
   Temp_weapon *pTVar2;
   CharGear *pCVar3;
   GearInstance *ptVar4;
@@ -1535,7 +1535,7 @@ u32 get_STR_Steps(CombatEntity *param_1){
   u8 STR_Steps[8]={4,9,17,24,28,32,36,39};
   while( true ) {
     if (7 < uVar2) return uVar2;
-    if (CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_STR) <= STR_Steps[uVar2]) break;
+    if (CharStats::getModded(param_1->charSheetP->Stats,STAT_STR) <= STR_Steps[uVar2]) break;
     uVar2++;
   }
   return uVar2;
@@ -1566,7 +1566,7 @@ void CombatEntity::Death(CombatEntity *ent){ //probably a death func
   if ((ItemID)(entityList[164] + 0x200) == ent->charSheetP->ID) {setEventFlag(0x26e,true);}
   if (!CombatEnt_flag_5(ent)) {
     gCombatP->playersAlive--;
-    register_party_deaths(gGlobals.party);
+    register_party_deaths(PARTY);
     if (CombatEnt_flag_2(ent)) {func_8006f2cc(ent);}
   }
   else {
@@ -1640,24 +1640,24 @@ s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,cha
   pCVar3 = pCVar2->Skills;
   pTVar4 = pCVar2->weapons;
   DefStats = param_2->charSheetP->Stats;
-  iVar6 = CharStats::getModdedStat(stats,STAT_STR);
-  iVar7 = CharStats::getModdedStat(stats,STAT_END);
+  iVar6 = CharStats::getModded(stats,STAT_STR);
+  iVar7 = CharStats::getModded(stats,STAT_END);
   iVar8 = CharStats::getBase(stats,STAT_LV);
-  cVar11 = getModdedWeapon(pCVar3,pTVar4->weaponType);
-  cVar12 = CharSkills::getModdedSkill(pCVar3,SKILL_Warrior);
+  cVar11 = pCVar3->getModdedWeapon(pTVar4->weaponType);
+  cVar12 = pCVar3->getModdedSkill(SKILL_Warrior);
   petrified = check_for_petrify_effect(param_2);
   DefDex = 0;
-  if (!petrified) DefDex = CharStats::getModdedStat(DefStats,STAT_DEX);
+  if (!petrified) DefDex = CharStats::getModded(DefStats,STAT_DEX);
   sVar10 = 0;
   if (!petrified) sVar10 = get_sheild_warrior_skill(param_2);
   iVar9 = CharStats::getBase(DefStats,STAT_LV);
   iVar6 = theif_backstab_mod(param_1,  //(STR,STAT_END,LV)+(WHit+WSkill*6+Warrior*2)-(DefDex*2+DefLV+(Warrior+SheildDef*Sheildskill))
     (s16)((((iVar6 + iVar7 + iVar8)) +(u32)pTVar4->hit + cVar11 * 6 + cVar12 * 2)) - (DefDex * 2 + (s16)iVar9 + sVar10),
     backstab,1,0x14);
-  if (CharStats::getModdedStat(DefStats,STAT_STAM) == 0) {iVar6 *= 1.15f;} //increase if target tired
+  if (CharStats::getModded(DefStats,STAT_STAM) == 0) {iVar6 *= 1.15f;} //increase if target tired
   iVar7 = FUN_80070cc4(&gCombatP->substruct,x,y,get_combatEnt_x(param_1),get_combatEnt_y(param_1););
   iVar7 *= 0.05f * (float)iVar6 + (float)iVar6);
-  if (CharStats::getModdedStat(stats,STAT_STAM) == 0) iVar7 = *= 0.8f); //decrease if user tired
+  if (CharStats::getModded(stats,STAT_STAM) == 0) iVar7 = *= 0.8f); //decrease if user tired
   if (TerrainPointer->partOfDay == NIGHT) {iVar7 = *= 0.9f);} //decrease if night
   sVar10 = Combat_troubador_mod(param_1,some_aspect_multi(param_1,iVar7));
   if (sVar10 < 5) {sVar10 = 5;}
@@ -1669,7 +1669,7 @@ s32 skillcheck_float(CombatEntity *param_1,s16 rand,s16 param_3,SkillEnum param_
   float fVar2;
   
   rand1 = (s32)rand;
-  fVar2 = (float)CharSkills::getModdedSkill(param_1->charSheetP->Skills,param_4);
+  fVar2 = (float)param_1->charSheetP->Skills->getModdedSkill(param_4);
   if (param_3 * 0.2f <= fVar2) {fVar2 = param_3 * 0.2f;}
   if ((float)rand1 <= fVar2) {rand1 = (s32)((rand1 - RollD(1,100)) * 0x10000) >> 0x10;}
   return rand1;
@@ -1780,7 +1780,7 @@ s16 some_STR_Theif_check(CombatEntity *attacker,s16 param_2,s32 param_3,CombatEn
   DMG = RollD(pCVar3->weapons->damage + get_STR_Steps(attacker) * diceMulti,6);
   iVar6 = some_skillcheck_calc(((s32)param_2 - (s32)(s16)param_3) * 0x10000 >> 0x10);
   iVar6 = (DMG + ((iVar6 + CharStats::getBase(pCVar3->Stats,STAT_LV)) - get_protection_level(target,backStab)) * 0x10000 >> 0x10) +
-          CharSkills::getModdedSkill(pCVar3->Skills,SKILL_Theif) * 2 * backStab) * 0x10000 >> 0x10;
+          pCVar3->Skills->getModdedSkill(pCVar3->Skills,SKILL_Theif) * 2 * backStab) * 0x10000 >> 0x10;
   if (iVar6 < 1) iVar6 = 1;
   sVar9 = calc_element_resist_multi(attacker,target,(s16)iVar6,pCVar3->weapons->element);
   if ((s32)sVar9 << 0x10 < 0) sVar9 = 0;
@@ -1867,26 +1867,25 @@ s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,c
   pTVar4 = pCVar3->weapons;
   pCVar5 = pCVar3->Skills;
   prox = get_combatEnt_proximity(param_1,param_2);
-  if (INT_MAX_f <= prox) {prox-= INT_MAX_f;}
-  iVar7 = CharStats::getModdedStat(atkStats,STAT_INT);
-  iVar8 = CharStats::getModdedStat(atkStats,STAT_DEX);
+  iVar7 = CharStats::getModded(atkStats,STAT_INT);
+  iVar8 = CharStats::getModded(atkStats,STAT_DEX);
   iVar9 = CharStats::getBase(atkStats,STAT_LV);
-  cVar11 = getModdedWeapon(pCVar5,pTVar4->weaponType;);
-  cVar12 = CharSkills::getModdedSkill(pCVar5,SKILL_Warrior);
-  //(s32+STAT_DEX+LV)+(WepHit+WepSkill*6+Warrior*2)
+  cVar11 = pCVar5->getModdedWeapon(pTVar4->weaponType);
+  cVar12 = pCVar5->getModdedSkill(SKILL_Warrior);
+  //(INT+STAT_DEX+LV)+(WepHit+WepSkill*6+Warrior*2)
   uVar15 = (s32)((((iVar7 + iVar8 + iVar9) * 0x10000 >> 0x10) + (u32)pTVar4->hit + cVar11 * 6 + cVar12 * 2) * 0x10000) >> 0x10;
   if (6 < (s32)prox) {uVar15 = (s32)(uVar15 - ((s32)prox - 5) * 0x10000) >> 0x10;}
   iVar7 = (uVar15 - CharStats::getBase(DefStats,STAT_LV)) * 0x10000;
   uVar16 = (u16)((u32)iVar7 >> 0x10);
   if (!check_for_petrify_effect(param_2)) {
-    uVar16 = (u16)((u32)(((((iVar7 >> 0x10) + CharStats::getModdedStat(DefStats,STAT_DEX) * -2) * 0x10000 >> 0x10) - get_sheild_warrior_skill(param_2)) * 0x10000) >> 0x10);
+    uVar16 = (u16)((u32)(((((iVar7 >> 0x10) + CharStats::getModded(DefStats,STAT_DEX) * -2) * 0x10000 >> 0x10) - get_sheild_warrior_skill(param_2)) * 0x10000) >> 0x10);
   }
   iVar7 = theif_backstab_mod(param_1,uVar16,backstab,0,0x14);
   if (param_2->unk0x22 == 0) iVar7 *= 1.2f;
-  if (CharStats::getModdedStat(DefStats,STAT_STAM) == 0) iVar7 *= 1.15f;
+  if (CharStats::getModded(DefStats,STAT_STAM) == 0) iVar7 *= 1.15f;
   iVar8 = FUN_80070cc4(&gCombatP->substruct,param_3,param_4,get_combatEnt_x(param_1),get_combatEnt_y(param_1));
   iVar8 *= (iVar8 * 0.05f + 1.0f);
-  if (CharStats::getModdedStat(atkStats,STAT_STAM) == 0) iVar8 *= 0.9f);
+  if (CharStats::getModded(atkStats,STAT_STAM) == 0) iVar8 *= 0.9f);
   iVar7 = iVar8 *(1.0f - TerrainPointer->PrecipScale * 0.3f));
   if (TerrainPointer->partOfDay == NIGHT) iVar7 *= 0.7f;
   if (param_2->unk0x22 != 0) iVar7 *= 0.8f;
@@ -2082,7 +2081,7 @@ u8 CombatEntity::CheckSpellIngredient(CombatEntity *param_1,Temp_spell *param_2)
   bVar5 = true;
   if (((!Flag5(param_1)) && (bVar5 = true, param_1->aiP == NULL)) &&
      (bVar5 = true, param_2->cost)) {
-    if (!gGlobals.party->Inventory->TakeItem(get_spell_ingredient(param_2),1)) {
+    if (!PARTY->Inventory->TakeItem(get_spell_ingredient(param_2),1)) {
       combat_spell_fail(param_1,gCombatP->textArray->not enough spell ingredients);
       bVar5 = false;
     }
@@ -2098,7 +2097,7 @@ u16 some_aspect_multi_check(CombatEntity *param_1,u32 param_2){
   float aspectMod;
   float moonfloats [4]={0.5f,0.75f,1.25f,1.5f};
   float dayfloats [5]={0.75f,1.25f,1.25f,0.75f,0.75f};
-  intStat = CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_INT);
+  intStat = CharStats::getModded(param_1->charSheetP->Stats,STAT_INT);
   lvl = CharStats::getBase(param_1->charSheetP->Stats,STAT_LV);
   if (GetCharAspect(param_1->charSheetP->EXP) == LUNAR) aspectMod = moonfloats[TerrainPointer->moonPhases];
   else aspectMod = dayfloats[TerrainPointer->partOfDay];
@@ -2132,9 +2131,9 @@ u8 some_spell_ingredient_check(CombatEntity *param_1,Temp_spell *param_2,s16 par
   }
   else {
     if ((!CombatEnt_flag_5(param_1)) && (param_2->cost)) {
-      piVar2 = (gGlobals.party)->inv->Functions;
+      piVar2 = (PARTY)->inv->Functions;
       (*(piVar2->add_to_inv).func)
-                ((s32)(gGlobals.party)->inv->inv_slots +
+                ((s32)(PARTY)->inv->inv_slots +
                  (s16)(piVar2->add_to_inv).arg[0] + -4,get_spell_ingredient(param_2),1);
     }
     combat_print_failed_spell(param_1);
@@ -2245,7 +2244,7 @@ u8 func_checking_vs_magic(CombatEntity *param_1,Temp_spell *param_2,CombatEntity
   }
   if (!some_magic_check(param_1,param_2,param_3)) return true;
   stats = param_3->charSheetP->Stats;
-  iVar3 = (CharStats::getModdedStat(stats,STAT_WIL) * 3 + CharStats::getModdedStat(stats,STAT_END) + CharStats::getBase(stats,STAT_LV)) * 0x10000 >> 0x10;
+  iVar3 = (CharStats::getModded(stats,STAT_WIL) * 3 + CharStats::getModded(stats,STAT_END) + CharStats::getBase(stats,STAT_LV)) * 0x10000 >> 0x10;
   uVar6 = check_vs_magic(param_3,param_2);
   if ((uVar6) != 0) {iVar3 = (s32)(((uVar6) + iVar3) * 0x10000) >> 0x10;}
   if ((param_2->aspect_flag & 2) == 0) {if ((param_2->aspect_flag & 1) == 0) goto LAB_8006d5ac;}
@@ -2395,9 +2394,9 @@ void Combat_Check_inv_for_potion(CombatEntity *param_1){
   inv_funcs *piVar1;
   
   if (param_1->aiP == NULL) {
-    piVar1 = (gGlobals.party)->inv->Functions;
+    piVar1 = (PARTY)->inv->Functions;
     (*(piVar1->get_some_bool).func)
-              ((s32)(gGlobals.party)->inv->inv_slots +
+              ((s32)(PARTY)->inv->inv_slots +
                (s16)(piVar1->get_some_bool).arg[0] + -4,param_1->item | 0x1000,1);
     func_looking_for_flask(param_1);
   }
@@ -2511,12 +2510,12 @@ s16 Warrior_thrown_check(CombatEntity *param_1,CombatEntity *param_2,u8 param_3)
   stats = param_1->charSheetP->Stats;
   DefStats = param_2->charSheetP->Stats;
   pCVar2 = param_1->charSheetP->Skills;
-  iVar5 = CharStats::getModdedStat(stats,STAT_INT);
-  iVar6 = CharStats::getModdedStat(stats,STAT_DEX);
+  iVar5 = CharStats::getModded(stats,STAT_INT);
+  iVar6 = CharStats::getModded(stats,STAT_DEX);
   iVar7 = CharStats::getBase(stats,STAT_LV);
   cVar12 = getModdedWeapon(pCVar2,Thrown);
   cVar13 = CharSkills::getModdedSkill(pCVar2,SKILL_Warrior);
-  iVar8 = CharStats::getModdedStat(DefStats,STAT_DEX);
+  iVar8 = CharStats::getModded(DefStats,STAT_DEX);
   iVar9 = CharStats::getBase(DefStats,STAT_LV);
   uVar10 = get_sheild_warrior_skill(param_2);
   //(s32+STAT_DEX+LV)+(Thrown*6+Warrior*2+40)-((DefSheildWarrior/2)+DefDEX+DefLV)
@@ -2525,7 +2524,7 @@ s16 Warrior_thrown_check(CombatEntity *param_1,CombatEntity *param_2,u8 param_3)
   uVar14 = (u16)((u32)iVar5 >> 0x10);
   if (6 < param_3) uVar14 = (u16)(((iVar5 >> 0x10 & 0xffffU) - (param_3 - 5)) * 0x10000 >> 0x10);
   iVar5 = theif_backstab_mod(param_1,uVar14,check_for_backstab(param_1,param_2),0,0x14);
-  if (CharStats::getModdedStat(DefStats,STAT_STAM) == 0) iVar5 = (iVar5 + 10) * 0x10000 >> 0x10; //+10 if tired target
+  if (CharStats::getModded(DefStats,STAT_STAM) == 0) iVar5 = (iVar5 + 10) * 0x10000 >> 0x10; //+10 if tired target
   if (param_2->unk0x22 != 0) iVar5 = (iVar5 + -20) * 0x10000 >> 0x10; //-20 for some var
   sVar11 = (s16)iVar5;
   if (CombatEnt_flag_3(param_1)) sVar11 = (s16)((iVar5 + -25) * 0x10000) >> 0x10; //-25 for flag3
@@ -2606,8 +2605,8 @@ void FUN_8006e4c0(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
             if (pCVar1 == param_2) {combat_print_damage(pCVar1,(s16)iVar5);}
             if (param_1->item == POTION_SLEEP) {
               if ((pCVar1 != param_2) &&
-                 (CharStats::getModdedStat(pCVar1->charSheetP->Stats,STAT_STAM) <= iVar5)) {
-                iVar5 = CharStats::getModdedStat(pCVar1->charSheetP->Stats,STAT_STAM);
+                 (CharStats::getModded(pCVar1->charSheetP->Stats,STAT_STAM) <= iVar5)) {
+                iVar5 = CharStats::getModded(pCVar1->charSheetP->Stats,STAT_STAM);
                 iVar5 = (iVar5 + -1) * 0x10000 >> 0x10;
               }
               if (iVar5 < 1) {pCVar1->damage = (u8)iVar5;}
@@ -2696,11 +2695,11 @@ u8 user_target_in_party(CombatEntity *param_1,CombatEntity *param_2,playerData *
   u32 uVar2;
   
   uVar1 = getHPCurrent(param_2->charSheetP);
-  sVar3 = find_ent_in_Party(gGlobals.party,param_1->charSheetP->ID);
-  bVar4 = find_ent_in_Party(gGlobals.party,param_2->charSheetP->ID);
+  sVar3 = Party::GetMemberIndex(PARTY,param_1->charSheetP->ID);
+  bVar4 = Party::GetMemberIndex(PARTY,param_2->charSheetP->ID);
   if ((sVar3 != 0xff) && ((bVar4 != 0xff)) {
-    if ((param_1->flags & flag8) == 0) {pass_to_party_healing_func(gGlobals.party,(u32)uVar5,(s32)(char)bVar4 & 0xff);}
-    else {pass_to_healing_func_2(gGlobals.party,sVar3,bVar4);}
+    if ((param_1->flags & flag8) == 0) {pass_to_party_healing_func(PARTY,(u32)uVar5,(s32)(char)bVar4 & 0xff);}
+    else {pass_to_healing_func_2(PARTY,sVar3,bVar4);}
     if ((s32)uVar1 < (s32)getHPCurrent(param_2->charSheetP)) {
       uVar2 = getHPCurrent(param_2->charSheetP);
       Gsprintf(gCombatP->textArray->they heal,param_1->charSheetP->name,
@@ -2842,7 +2841,7 @@ s16 tick_goblin_ambush(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
     gGlobals.GoblinHitTally--;
     sVar3 = 1;
     if (gGlobals.GoblinHitTally == 0) {
-      CharStats::addModdedStat(pCVar1->Stats,STAT_STR,-(char)CharStats::getModdedStat(pCVar1->Stats,STAT_STR));
+      CharStats::addModdedStat(pCVar1->Stats,STAT_STR,-(char)CharStats::getModded(pCVar1->Stats,STAT_STR));
       check_petrify_int_dex_wil_str(param_2);
       sVar3 = 1;
     }
@@ -2910,9 +2909,9 @@ void check_petrify_int_dex_wil_str(CombatEntity *param_1){
   u8 bVar2;
   
   bVar2 = check_for_petrify_effect(param_1);
-  if ((((CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_INT) == 0) || (CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_WIL) == 0)) ||
-      (CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_DEX) == 0)) ||
-     ((CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_STR) == 0 || (bVar2)))) {
+  if ((((CharStats::getModded(param_1->charSheetP->Stats,STAT_INT) == 0) || (CharStats::getModded(param_1->charSheetP->Stats,STAT_WIL) == 0)) ||
+      (CharStats::getModded(param_1->charSheetP->Stats,STAT_DEX) == 0)) ||
+     ((CharStats::getModded(param_1->charSheetP->Stats,STAT_STR) == 0 || (bVar2)))) {
     CombatEnt_NAND_flags(param_1,flag1);
   }
   else {CombatEnt_OR_flags(param_1,flag1);}
@@ -2943,14 +2942,14 @@ void combat_troubadour(CombatEntity *param_1){
   u32 uVar9;
   
   if (gCombatP->Troubador == 0) {
-    if (CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_STAM) == 0) {
+    if (CharStats::getModded(param_1->charSheetP->Stats,STAT_STAM) == 0) {
       Gsprintf(gCombatP->textArray->too tired to perform,param_1->charSheetP->name);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
       gGlobals.combatBytes[0] = 1;
     }
     else {
-      iVar3 = (CharSkills::getModdedSkill(param_1->charSheetP->Skills,Troubadour) * 5 + CharStats::getModdedStat(param_1->charSheetP->Stats,STAT_INT)) * 0x20000 >> 0x10;
+      iVar3 = (CharSkills::getModdedSkill(param_1->charSheetP->Skills,Troubadour) * 5 + CharStats::getModded(param_1->charSheetP->Stats,STAT_INT)) * 0x20000 >> 0x10;
       uVar8 = RollD(1,100);
       bVar6 = CharSkills::getModdedSkill(param_1->charSheetP->Skills,Troubadour);
       if (bVar6 < 6) {uVar9 = (u32)(u8)(('\b' - bVar6) * ('\b' - bVar6));}
@@ -3047,7 +3046,7 @@ void func_looking_for_flask(CombatEntity *param_1){
   if (!CombatEnt_flag_check(param_1)) {
     if (param_1->AtkType == 3) {
       if (param_1->item < POTION_HEALING) {
-        if (gGlobals.party->inv->HasItem((ItemID)(param_1->item | 0x1000))) {
+        if (PARTY->inv->HasItem((ItemID)(param_1->item | 0x1000))) {
           param_1->AtkType = 0;
           get_weapon_sheild_borg5(param_1);
         }
@@ -3065,7 +3064,7 @@ void func_looking_for_flask(CombatEntity *param_1){
 }
 
 u32 check_sheild_borg5_(CombatEntity *param_1){
-  temp_armor *ptVar1;
+  ArmorInstance *ptVar1;
   u32 uVar3;
   u32 uVar4;
   

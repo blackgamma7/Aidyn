@@ -21,7 +21,7 @@ void Gameover_func(void){
   do {
     if ((pBVar5->dat).voxelObjCount <= iVar8) {
 LAB_8002411c:
-      pCVar3 = (gGlobals.party)->Members[0];
+      pCVar3 = (PARTY)->Members[0];
       #ifdef DEBUGVER
       if (!pCVar3) CRASH("NO ALARON! EVIL!!!!","./src/gameover.cpp");
       #endif

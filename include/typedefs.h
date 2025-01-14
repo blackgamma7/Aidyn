@@ -24,3 +24,7 @@ typedef union Color32 {
 #define DARKGRAY 0x32,0x32,0x32,0xff
 #define DARKGRAY_T 0x32,0x32,0x32,0x96
 #define YELLOW_T 0xc8,0xc8,0,0xe1
+
+#define FLOOR(x,lo) if(x<lo) x=lo
+#define CIEL(x,hi) if(x>hi) x=hi
+#define CLAMP(x,lo,hi) FLOOR(x,lo); CIEL(x,hi)

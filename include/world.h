@@ -1,7 +1,11 @@
 #include "mathN64.h"
 
 enum TIME_OF_DAY{TIME_MORNING, TIME_MIDDAY, TIME_AFTERNOON, TIME_EVENING, TIME_NIGHT};
-enum PRECIPITATION{CLEAR, RAIN, SNOW};
+enum PRECIPITATION {
+    PRECIP_CLEAR,
+    PRECIP_RAIN,
+    PRECIP_SNOW
+};
 
 struct TerrainStruct {
     u16 daySpeed; /* set to 72 (1.2 seconds per tick) */
@@ -24,7 +28,7 @@ struct TerrainStruct {
 
 struct Calendar { // TerrainStruct->IngameTime as x
    u8 month; // x / 0x114db000
-   u8 week; // (x % 0x114db000)/0x229b600 day:
+   u8 week; // (x % 0x114db000)/0x229b600
    u8 day; // (x % 0x229b600) / 0x4f1a00
    u8 hour; // (x % 0x4f1a00 >> 6) / 0xd2f
    u8 minute; // (x + ((x >> 6) / 0xd2f) * -0x34bc0) / 3600
@@ -72,7 +76,7 @@ void get_WeatherTemp(TerrainStruct *,WeatherTemp *);
 void set_moonPhase(TerrainStruct *,Calendar *);
 u8 set_timeofDay(TerrainStruct *,Calendar *);
 void set_weather(TerrainStruct *,Calendar *);
-void several_time_funcs(TerrainStruct *);
+void SeveralTimeFuncs(TerrainStruct *);
 void cap_ingame_time(TerrainStruct *);
 void Lapse10Seconds(TerrainStruct *);
 void inc_ingame_time(TerrainStruct *,s32 );
@@ -93,9 +97,9 @@ void spellvisuals_2(TerrainStruct *,float );
 };
 
 //60 ticks per second
-#define SECONDS(x) (x*60)
-#define MINUTES(x) (SECONDS(60)*x)
-#define HOURS(x) (MINUTES(60)*x)
-#define DAYS(x) (HOURS(24)*x)
+#define SECONDS(x) (x*60) // in-game seconds
+#define MINUTES(x) (SECONDS(60)*x) // in-game minutes
+#define HOURS(x) (MINUTES(60)*x) // in-game hours
+#define DAYS(x) (HOURS(24)*x) // in-game days
 //based on cap_ingame_time()
 #define YEAR DAYS(336)

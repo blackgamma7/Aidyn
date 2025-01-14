@@ -13,10 +13,12 @@
 #include "SFX.h"
 #include "portraits.h"
 #include "sundail.h"
+#include "commonstrings.h"
 
 #include "crash.h"
 #include "heapN64.h"
 #include "romcopy.h"
+#include "eventFlag.h"
 
 struct GlobalsSub { /* 0x800e6988 */
     ZoneDat ZoneDatMtx[3][3];
@@ -28,10 +30,10 @@ struct GlobalsSub { /* 0x800e6988 */
     Camera_struct camera;
     vec3f *camPtrArray[16];
     u16 camPtrArraySize;
-    ushort mapShort1;
-    ushort mapShort2;
-    ushort mapShort1Copy;
-    ushort mapShort2Copy;
+    u16 mapShort1;
+    u16 mapShort2;
+    u16 mapShort1Copy;
+    u16 mapShort2Copy;
     vec2f mapCellSize;
     vec2f playerPos2d;
     u16 mapDatA;
@@ -170,7 +172,7 @@ s32 Ofunc_get_MemUsed_difference(void);
 s32 Ofunc_get_MemUsed_difference_2(void);
 u32 rand_range(u32 A,u32 B);
 u16 RollD(u8 dice,u8 sides);
-
-void battle_setup_func(voxelObject *param_1,u16 flag,ushort param_3);
+u32 some_skillcheck_calc(s16);
+void battle_setup_func(voxelObject *param_1,u16 flag,u16 param_3);
 void load_camp_ambush(void);
 u32 AppendText(char *str1,char *str2,u8 len);

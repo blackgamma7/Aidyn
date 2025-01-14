@@ -31,7 +31,7 @@ ASPECT GetCharAspect(charExp *param_1){
 
 void temp_item_check(Temp_equip *param_1,ItemID param_2){
   u8 uVar1 = param_2 >> 8;
-  if ((uVar1 == 5) || (uVar1 == 6)) {make_temp_armor((temp_armor *)param_1,param_2);}
+  if ((uVar1 == 5) || (uVar1 == 6)) {make_temp_armor((ArmorInstance *)param_1,param_2);}
   else if (uVar1 == 7) {make_temp_weapon((Temp_weapon *)param_1,param_2);}
   else if (uVar1 == 0x10) {make_temp_potion((Temp_potion *)param_1,param_2);}
   else {make_GearInstance((GearInstance *)param_1,param_2);}
@@ -48,7 +48,7 @@ void clear_temp_Stat_spell(Temp_weapon *param_1){
   }
 }
 
-void make_temp_armor(temp_armor *param_1,ItemID param_2){
+void make_temp_armor(ArmorInstance *param_1,ItemID param_2){
   armour_RAM *paVar1;
   u8 bVar4;
   u8 (*pabVar2) [2];

@@ -116,8 +116,8 @@ s16 cinematic_muteMusic_getName(void){
     gGlobals.Sub.BGMIndex = uVar1;
   }
   memset(acStack272,0,0x100);
-  if ((gGlobals.party) && ((gGlobals.party)->Members[0])) {
-    strcpy(acStack272,(gGlobals.party)->Members[0]->name);
+  if ((PARTY) && ((PARTY)->Members[0])) {
+    strcpy(acStack272,(PARTY)->Members[0]->name);
   }
   MemoryMaker::Unload();
   cinematictext_init(acStack272);
@@ -270,7 +270,7 @@ u16 set_CreditsByte(void){
   return 19;}
 
 u16 Alaron_truename(void){
-  CharSheet *pCVar1 = get_charsheet(gGlobals.party,gEntityDB->entities[0x99].ID);
+  CharSheet *pCVar1 = get_charsheet(PARTY,gEntityDB->entities[0x99].ID);
   if (pCVar1) {pCVar1->EXP->flags |= TrueName;}
   return 1;
 }

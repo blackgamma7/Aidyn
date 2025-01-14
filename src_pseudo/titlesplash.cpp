@@ -201,7 +201,7 @@ u8 TitleSplash::ExpansionPak(Gfx** param_1){
 
 void TitleSplash::Println(Gfx*param_1,s16 *HSpace,char *TXT){
   print_func_80044dc(gGlobals.font,param_1,(u8 *)TXT,(0x140 - passto_get_text_kerning(gGlobals.font,TXT)) / 2,(s32)*HSpace);
-  *HSpace+= (gGlobals.font)->Font_Height;
+  *HSpace+= (gGlobals.font)->charH;
 }
 u8 TitleSplash::Copyright(Gfx **param_1){
   FontStruct *pFVar1;
@@ -216,7 +216,7 @@ u8 TitleSplash::Copyright(Gfx **param_1){
   
   aGStack_30 = *param_1;
   abStack_38 = gGlobals.splashscreenSwitch;
-  sStack_36 = (Graphics::get_vres()/2) + -7 + (gGlobals.font)->Font_Height * -6;
+  sStack_36 = (Graphics::get_vres()/2) + -7 + (gGlobals.font)->charH * -6;
   while (Controller::GetInput(&cont,0)) {
     if ((cont->input_2 & (R_BUTTON|L_BUTTON)) == (R_BUTTON|L_BUTTON)) {
       show_verion_flag = 1;

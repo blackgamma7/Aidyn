@@ -82,5 +82,5 @@ void Quicksort::Run(void **ToSort,int low,int hi,int EntrySize,Sorter Sortfunc){
 void Quicksort::Sort(void** ToSort,uint ArraySize,uint EntrySize,Sorter SortFunc){
   ALLOCS(gQuicksortTempP,EntrySize,262);
   if (ArraySize) Run(ToSort,0,ArraySize - 1,EntrySize,SortFunc);
-  HeapFree(gQuicksortTempP,FILENAME,267);
+  HFREE(gQuicksortTempP,267);
 }

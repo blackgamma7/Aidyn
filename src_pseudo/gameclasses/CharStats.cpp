@@ -65,7 +65,7 @@ s32 CharStats::getBase(CharStats *stats,u8 type){
   return capStatMax(param_1,type,(u32)stats->array3[type],base_stat_cap);
 }
 
-s32 CharStats::getModdedStat(CharStats *param_1,u8 type){
+s32 CharStats::getModded(CharStats *param_1,u8 type){
   return capStatMax(param_1,type,param_1->modded[param_2],modded_stat_cap);}
 
 s32 get_stat_trainPrice(CharStats *param_1,u8 type){

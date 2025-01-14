@@ -1,6 +1,5 @@
-#include "typedefs.h"
 #include "Controller.h"
-#include "n64Borg.h"
+#include "font.h"
 
 // Base Class for almost all UI Elements
 
@@ -31,17 +30,17 @@ public:
     BaseWidget *link4;
     Color32 col;
     byte var5C;
-    ushort var5E; //changes for each widget type.
+    u16 var5E; //changes for each widget type.
     s16 x;
     s16 y;
-    ushort boundX0;
-    ushort boundX1;
-    ushort boundY0;
-    ushort boundY1;
+    u16 boundX0;
+    u16 boundX1;
+    u16 boundY0;
+    u16 boundY1;
     Borg8header *borg8;
     byte state;
-    ushort height;
-    ushort width;
+    u16 height;
+    u16 width;
     BaseWidget();
     virtual ~BaseWidget();
     virtual u16 GetWidth();
@@ -84,3 +83,10 @@ public:
 };
 
 #define RENDERCHILDREN() return RenderChildren(g, x0, y0, x1, y1) 
+FontStruct* font_pointer=NULL;
+u16 HresMirror=0;
+u16 VresMirror=0;
+float fadeFloatMirror=1.0;
+u32 widget_control_dat=0;
+u8 widget_control_timer=30;
+u32 widget_control_buttons;

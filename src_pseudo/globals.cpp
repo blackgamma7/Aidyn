@@ -151,7 +151,7 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
   uVar4 = 0;
   printLine(600);
   uVar7 = 0;
-  uVar1 = Party::GetAvgLevel(gGlobals.party);
+  uVar1 = Party::GetAvgLevel(PARTY);
   printLine(0x259);
   printLine(0x25a);
   printLine(0x25b);
@@ -411,7 +411,7 @@ void load_camp_ambush(void){
   gGlobals.EncounterDat.BossShadow = 0;
   gGlobals.combatBytes[2] = 1;
   ter = World::getTerrain(TerrainPointer);
-  lv = Party::GetAvgLevel(gGlobals.party);
+  lv = Party::GetAvgLevel(PARTY);
   if (lv < 0x15) {
     if (lv < 0x10) {
       if (lv < 0xb) lvTeir = lv < 6 ^ 1;

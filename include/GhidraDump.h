@@ -16,8 +16,8 @@ struct astruct_1 {
     undefined field1_0x1;
     undefined field2_0x2;
     undefined field3_0x3;
-    ushort field4_0x4;
-    ushort field5_0x6;
+    u16 field4_0x4;
+    u16 field5_0x6;
     u8 *field6_0x8;
 };
 
@@ -234,7 +234,7 @@ typedef enum EnumMapDatA {
 
 struct light_obj_dat {
     Color32 cols[3];
-    ushort lightType; /* 0-3 are valid types */
+    u16 lightType; /* 0-3 are valid types */
     u16 field2_0xe;
     float f0;
     float f1;
@@ -308,7 +308,7 @@ struct Particle {
     u16 unk4;
     u16 unk6;
     u16 unk8;
-    ushort flags;
+    u16 flags;
     vec3f pos;
     vec3f vel;
     vec2f scale;
@@ -342,13 +342,13 @@ struct Borg5_particle {
     short field7_0x8;
     short field8_0xa;
     u16 field9_0xc;
-    ushort field10_0xe;
+    u16 field10_0xe;
     float field11_0x10;
     short field12_0x14;
     undefined field13_0x16;
     undefined field14_0x17;
     short field15_0x18;
-    ushort field16_0x1a;
+    u16 field16_0x1a;
     vec3f pos;
     undefined field18_0x28;
     undefined field19_0x29;
@@ -439,7 +439,7 @@ struct Borg5_particle {
 
 struct astruct_6 {
     playerData *playerdat_;
-    ushort short0x4;
+    u16 short0x4;
     u8 byte0x5;
     undefined field3_0x7;
 };
@@ -495,7 +495,7 @@ struct Borg12Sub {
 struct attachmentNode {
     uint borg5;
     AnimationData *anidat;
-    ushort index?;
+    u16 index?;
     undefined field3_0xa;
     undefined field4_0xb;
 };
@@ -515,8 +515,8 @@ struct ParticleHeadStruct {
     float gray;
     Borg9data *borg9dat;
     u16 particleStructCount;
-    ushort count1;
-    ushort count2;
+    u16 count1;
+    u16 count2;
     u16 field13_0x342;
     u32 unk344;
     Mtx alignMtx[2];
@@ -604,8 +604,8 @@ struct borg9_phys {
     vec3f *vertexpointers[3];
     vec3f normal;
     EnvProp *envProperty;
-    ushort flags; /* 0x100 - need normalize */
-    ushort GroundType;
+    u16 flags; /* 0x100 - need normalize */
+    u16 GroundType;
 };
 
 typedef struct unkGuiClassA unkGuiClassA, *PunkGuiClassA;
@@ -878,11 +878,11 @@ struct dialougmode_substruct {
     undefined field138_0xed;
     undefined field139_0xee;
     undefined field140_0xef;
-    ushort encounterEnemies[12];
+    u16 encounterEnemies[12];
     u16 unk108;
     ItemID Entid;
-    ushort RefpointID;
-    ushort unk10e;
+    u16 RefpointID;
+    u16 unk10e;
     char unk110;
     u8 unk111;
     u8 unk112;
@@ -895,9 +895,9 @@ struct dialougmode_substruct {
 
 struct borg13data {
     borg13command *commands_pointer;
-    ushort (*actors)[4];
+    u16 (*actors)[4];
     char *text;
-    ushort ID;
+    u16 ID;
     u16 flag;
     u8 A;
     u8 B;
@@ -907,53 +907,21 @@ struct borg13data {
     u8 C;
     u8 pad[2];
 };
-
+struct Borg13Op{
+    u16 val;
+    u8 com;
+    u8 unk2; //align?
+    u32 unk4; //unused?
+};
 struct borg13command {
-    ushort val;
-    enum borg13_commands com;
-    undefined field2_0x3;
-    undefined field3_0x4;
-    undefined field4_0x5;
-    undefined field5_0x6;
-    undefined field6_0x7;
-    undefined field7_0x8;
-    undefined field8_0x9;
-    undefined field9_0xa;
-    undefined field10_0xb;
-    undefined field11_0xc;
-    undefined field12_0xd;
-    undefined field13_0xe;
-    undefined field14_0xf;
-    undefined field15_0x10;
-    undefined field16_0x11;
-    undefined field17_0x12;
-    undefined field18_0x13;
-    undefined field19_0x14;
-    undefined field20_0x15;
-    undefined field21_0x16;
-    undefined field22_0x17;
-    undefined field23_0x18;
-    undefined field24_0x19;
-    undefined field25_0x1a;
-    undefined field26_0x1b;
-    undefined field27_0x1c;
-    undefined field28_0x1d;
-    undefined field29_0x1e;
-    undefined field30_0x1f;
-    short text_marker;
+    Borg13Op ops[4];
+    s16 text_marker;
     undefined field32_0x22;
     undefined field33_0x23;
-    ushort a;
-    ushort b;
+    u16 a;
+    u16 b;
     u8 index;
-    u8 c;
-    undefined field38_0x2a;
-    undefined field39_0x2b;
-    undefined field40_0x2c;
-    undefined field41_0x2d;
-    undefined field42_0x2e;
-    undefined field43_0x2f;
-    undefined field44_0x30;
+    u8 c[8];
     u8 bitmask;
     undefined field46_0x32;
     undefined field47_0x33;
@@ -1366,7 +1334,7 @@ struct SpellVisualsEntry2 {
 typedef struct UnkAudioStruct UnkAudioStruct, *PUnkAudioStruct;
 
 struct UnkAudioStruct {
-    ushort field0_0x0;
+    u16 field0_0x0;
     u8 field1_0x2;
     u8 randVal;
     u8 field3_0x4[4];
@@ -1404,7 +1372,7 @@ struct WidgetFastScrollMenuSubstruct {
     undefined field12_0x16;
     undefined field13_0x17;
     BaseWidget **items;
-    ushort maxItems;
+    u16 maxItems;
     u16 itemHighlighhted;
     u16 ItemTotal;
     undefined field18_0x22;
@@ -1832,7 +1800,7 @@ typedef struct combat_substruct combat_substruct, *Pcombat_substruct;
 struct combat_substruct {
     u8 array1[100][100];
     u8 array2[100][100];
-    ushort short1;
+    u16 short1;
     u8 byteA;
     u8 byteB;
     u8 byteC;
@@ -1966,7 +1934,7 @@ struct EncounterDat { /* enemy encounter data */
     u16 EncounterID;
     u8 field3_0x1c;
     undefined field4_0x1d;
-    ushort VoxelIndex;
+    u16 VoxelIndex;
     u16 mapDatA;
     u16 MapSAhortA;
     u16 MapShortB;
@@ -2037,7 +2005,7 @@ struct armour_RAM {
     u8 dex;
     u8 rom0x1d;
     u8 stealth;
-    ushort price;
+    u16 price;
     u8 expBonus;
     enum AspectEnum aspect;
     enum StatEnum stat;
@@ -2102,9 +2070,9 @@ struct Entity_Ram { /* entity data in Ram */
     enum ElementEnum Resist[2];
     u8 align[3];
     float resistAmmount[2];
-    ushort FFs[4]; /* supposed to load something, but ends up blank */
+    u16 FFs[4]; /* supposed to load something, but ends up blank */
     u8 unk0x78[4];
-    ushort EXP;
+    u16 EXP;
     u8 loot_Category;
     undefined field31_0x7f;
 };
@@ -2116,12 +2084,12 @@ struct Gear_RAM {
     char name[20];
     u8 is 0;
     u8 field3_0x17;
-    ushort exp_multi;
+    u16 exp_multi;
     u8 damage;
     u8 Protection;
     u8 STR;
     u8 INT;
-    ushort price;
+    u16 price;
     enum AspectEnum aspect;
     enum StatEnum stat;
     u8 StatMod;
@@ -2144,8 +2112,8 @@ struct Loot_RAM { /* Chestdb loaded into RAM */
     char Is0;
     char field2_0x15;
     ItemID ID;
-    ushort GoldLo;
-    ushort GoldHi;
+    u16 GoldLo;
+    u16 GoldHi;
     u8 armorDrop;
     u8 sheildDrop;
     u8 weaponDrop[3];
@@ -2162,7 +2130,7 @@ typedef struct shop_ram shop_ram, *Pshop_ram;
 
 struct shop_ram {
     ItemID shopkeep; /* entity running shop */
-    ushort stock[23]; /* items */
+    u16 stock[23]; /* items */
     u8 multi[3][20];
 };
 
@@ -2396,8 +2364,8 @@ struct audio_obj_dat {
     float volume;
     float randA;
     float randB;
-    ushort soundFlag; /* bitfield {2=randLoop,0x10=bgm} */
-    ushort unk16; /* align */
+    u16 soundFlag; /* bitfield {2=randLoop,0x10=bgm} */
+    u16 unk16; /* align */
     float volumeFade;
     u32 pan;
     u32 dcmId;
@@ -2421,7 +2389,7 @@ typedef struct Camera_obj_dat Camera_obj_dat, *PCamera_obj_dat;
 
 struct Camera_obj_dat {
     short refpoint_ID;
-    ushort CameraFlags;
+    u16 CameraFlags;
     uint timestamp;
     vec3f vec3_A;
     vec3f vec3_b;
@@ -2687,7 +2655,7 @@ struct App_manager {
 typedef struct ArmorCraftRecipie ArmorCraftRecipie, *PArmorCraftRecipie;
 
 struct ArmorCraftRecipie {
-    ushort item; /* gear in ram */
+    u16 item; /* gear in ram */
     u8 armor; /* armor in ram */
     u8 stam; /* hp used */
     u8 Mechanic; /* mechanic needed */
@@ -2737,8 +2705,8 @@ typedef struct CinematicFade CinematicFade, *PCinematicFade;
 struct CinematicFade {
     u8 index;
     u8 fadeType; /* none,black,white,red */
-    ushort runtime; /* div 2 */
-    ushort fadeTime; /* div 2 */
+    u16 runtime; /* div 2 */
+    u16 fadeTime; /* div 2 */
     short exitTime;
 };
 
@@ -2775,23 +2743,23 @@ struct cinematictext_struct {
     int showCaptionTimer;
     WigetCinematicText *widget;
     void* field2_0x8;
-    ushort (*shortsPointer)[3];
-    ushort field4_0x10;
-    ushort caption_scene_max;
-    ushort caption_index;
-    ushort runtime;
-    ushort captionTime;
+    u16 (*shortsPointer)[3];
+    u16 field4_0x10;
+    u16 caption_scene_max;
+    u16 caption_index;
+    u16 runtime;
+    u16 captionTime;
     char nextCaption[256];
     char AlaronName[256]; /* yeah, for just the player name */
-    ushort pad;
+    u16 pad;
 };
 
 typedef struct CityMarkers CityMarkers, *PCityMarkers;
 
 struct CityMarkers {
     u16 borg;
-    ushort x;
-    ushort y;
+    u16 x;
+    u16 y;
 };
 
 typedef struct cloudStruct cloudStruct, *PcloudStruct;
@@ -2803,568 +2771,7 @@ struct cloudStruct {
     Color32 col;
     float f3;
 };
-// Strings loaded in by stringDB
-/*
-typedef struct CommonStringArray CommonStringArray, *PCommonStringArray;
 
-struct CommonStringArray {
-    char *Chest;
-    char *Bag;
-    char *Box;
-    char *Barrel;
-    char *Herbs;
-    char *Spices;
-    char *Gem Stones;
-    char *Treasure Pile;
-    char *Failed to pick lock;
-    char *Failed To disarm trap;
-    char *Failed To Fix;
-    char *Failed to estimate size of party;
-    char *Failed to change monster reaction;
-    char *Party Member Too Weak;
-    char *Task not Completed;
-    char *field15_0x3c;
-    char *field16_0x40;
-    char *field17_0x44;
-    char *field18_0x48;
-    char *field19_0x4c;
-    char *field20_0x50;
-    char *field21_0x54;
-    char *field22_0x58;
-    char *field23_0x5c;
-    char *field24_0x60;
-    char *field25_0x64;
-    char *field26_0x68;
-    char *field27_0x6c;
-    char *field28_0x70;
-    char *false;
-    char *true;
-    char *yes_;
-    char *no;
-    char *field33_0x84;
-    char *field34_0x88;
-    char *Please Connect controller?;
-    char *field36_0x90;
-    char *field37_0x94;
-    char *field38_0x98;
-    char *field39_0x9c;
-    char *field40_0xa0;
-    char *field41_0xa4;
-    char *field42_0xa8;
-    char *field43_0xac;
-    char *field44_0xb0;
-    char *field45_0xb4;
-    char *field46_0xb8;
-    char *SCENE;
-    char *CONTAINER;
-    char *LIGHT;
-    char *AUDIO;
-    char *WANDERNODE;
-    char *PARTY;
-    char *REFPOINT;
-    char *TELEPORTER;
-    char *CAMERA;
-    char *DIALOUGE;
-    char *TRIGGER;
-    char *SAVEPOINT;
-    char *CODE;
-    char *NUMOBJECTS;
-    char *field61_0xf4;
-    char *field62_0xf8;
-    char *field63_0xfc;
-    char *field64_0x100;
-    char *field65_0x104;
-    char *field66_0x108;
-    char *field67_0x10c;
-    char *field68_0x110;
-    char *field69_0x114;
-    char *field70_0x118;
-    char *field71_0x11c;
-    char *field72_0x120;
-    char *field73_0x124;
-    char *field74_0x128;
-    char *field75_0x12c;
-    char *field76_0x130;
-    char *field77_0x134;
-    char *field78_0x138;
-    char *field79_0x13c;
-    char *field80_0x140;
-    char *field81_0x144;
-    char *field82_0x148;
-    char *field83_0x14c;
-    char *field84_0x150;
-    char *field85_0x154;
-    char *field86_0x158;
-    char *field87_0x15c;
-    char *Party member too weak;
-    char *No luck, task not completed;
-    char *Task completed sucessfully;
-    char *Don't have proper components;
-    char *party member already healed;
-    char *Stats already at max;
-    char *Need more practice in that skill;
-    char *ok;
-    char *Item Cannot Be Equipped;
-    char *field97_0x184;
-    char *field98_0x188;
-    char *field99_0x18c;
-    char *field100_0x190;
-    char *field101_0x194;
-    char *field102_0x198;
-    char *field103_0x19c;
-    char *field104_0x1a0;
-    char *field105_0x1a4;
-    char *field106_0x1a8;
-    char *field107_0x1ac;
-    char *field108_0x1b0;
-    char *field109_0x1b4;
-    char *field110_0x1b8;
-    char *field111_0x1bc;
-    char *field112_0x1c0;
-    char *field113_0x1c4;
-    char *field114_0x1c8;
-    char *field115_0x1cc;
-    char *field116_0x1d0;
-    char *field117_0x1d4;
-    char *field118_0x1d8;
-    char *field119_0x1dc;
-    char *field120_0x1e0;
-    char *field121_0x1e4;
-    char *field122_0x1e8;
-    char *field123_0x1ec;
-    char *field124_0x1f0;
-    char *field125_0x1f4;
-    char *field126_0x1f8;
-    char *field127_0x1fc;
-    char *field128_0x200;
-    char *field129_0x204;
-    char *field130_0x208;
-    char *field131_0x20c;
-    char *field132_0x210;
-    char *field133_0x214;
-    char *Cut to Camera;
-    char *Sine to Camera;
-    char *angle to;
-    char *pan to;
-    char *On;
-    char *Cut to POV;
-    char *field140_0x230;
-    char *field141_0x234;
-    char *field142_0x238;
-    char *On POV;
-    char *Face;
-    char *Track on;
-    char *Fade;
-    char *Blooming Season;
-    char *Late Blooming Season;
-    char *Earth Season;
-    char *Late Earth Season;
-    char *Summer Season;
-    char *Late Summer Season;
-    char *Golden Season;
-    char *Late Golden Season;
-    char *Fall Season;
-    char *Late Fall Season;
-    char *Winter Season;
-    char *Late Winter Season;
-    char *New Game;
-    char *Load Game;
-    char *Options;
-    char *Theater;
-    char *Audio;
-    char *Sound;
-    char *Music;
-    char *Graphics;
-    char *Normal Resolution;
-    char *high Resolution;
-    char *32 bit color;
-    char *GAME;
-    char *RENAME CHARACTER;
-    char *No Cinematics yet;
-    char *Help;
-    char *New cont pak found;
-    char *retry with old cont pak;
-    char *continue__;
-    char *field177_0x2c4;
-    char *field178_0x2c8;
-    char *field179_0x2cc;
-    char *field180_0x2d0;
-    char *field181_0x2d4;
-    char *Retry;
-    char *field183_0x2dc;
-    char *controller pak is full;
-    char *manage controller pak;
-    char *continue without saving__;
-    char *field187_0x2ec;
-    char *field188_0x2f0;
-    char *game saved is corrupt;
-    char *field190_0x2f8;
-    char *field191_0x2fc;
-    char *field192_0x300;
-    char *field193_0x304;
-    char *field194_0x308;
-    char *field195_0x30c;
-    char *field196_0x310;
-    char *field197_0x314;
-    char *field198_0x318;
-    char *field199_0x31c;
-    char *field200_0x320;
-    char *field201_0x324;
-    char *field202_0x328;
-    char *field203_0x32c;
-    char *continue without saving_;
-    char *delete game note?;
-    char *yes;
-    char *All Game States;
-    char *field208_0x340;
-    char *field209_0x344;
-    char *field210_0x348;
-    char *field211_0x34c;
-    char *field212_0x350;
-    char *field213_0x354;
-    char *field214_0x358;
-    char *field215_0x35c;
-    char *field216_0x360;
-    char *field217_0x364;
-    char *field218_0x368;
-    char *field219_0x36c;
-    char *field220_0x370;
-    char *field221_0x374;
-    char *field222_0x378;
-    char *field223_0x37c;
-    char *field224_0x380;
-    char *field225_0x384;
-    char *field226_0x388;
-    char *field227_0x38c;
-    char *field228_0x390;
-    char *field229_0x394;
-    char *field230_0x398;
-    char *field231_0x39c;
-    char *field232_0x3a0;
-    char *field233_0x3a4;
-    char *Random;
-    char *Sneak;
-    char *Ambush;
-    char *Stop;
-    char *Sneak_;
-    char *Walk;
-    char *Run;
-    char *None;
-    char *Earth;
-    char *Solar;
-    char *Physical;
-    char *Necromancy;
-    char *Fire;
-    char *Lunar;
-    char *Naming;
-    char *Water;
-    char *Magic;
-    char *Air;
-    char *Star;
-    char *Ok;
-    char *You cannot Cast that spell now;
-    char *Spell can only be cast in the day;
-    char *Spell can only be cast in the night;
-    char *field257_0x404;
-    char *field258_0x408;
-    char *field259_0x40c;
-    char *field260_0x410;
-    char *field261_0x414;
-    char *field262_0x418;
-    char *field263_0x41c;
-    char *field264_0x420;
-    char *field265_0x424;
-    char *field266_0x428;
-    char *field267_0x42c;
-    char *field268_0x430;
-    char *field269_0x434;
-    char *field270_0x438;
-    char *field271_0x43c;
-    char *field272_0x440;
-    char *field273_0x444;
-    char *field274_0x448;
-    char *field275_0x44c;
-    char *field276_0x450;
-    char *field277_0x454;
-    char *field278_0x458;
-    char *field279_0x45c;
-    char *field280_0x460;
-    char *field281_0x464;
-    char *field282_0x468;
-    char *Bite;
-    char *field284_0x470;
-    char *field285_0x474;
-    char *field286_0x478;
-    char *field287_0x47c;
-    char *field288_0x480;
-    char *field289_0x484;
-    char *field290_0x488;
-    char *field291_0x48c;
-    char *field292_0x490;
-    char *field293_0x494;
-    char *field294_0x498;
-    char *field295_0x49c;
-    char *field296_0x4a0;
-    char *field297_0x4a4;
-    char *field298_0x4a8;
-    char *field299_0x4ac;
-    char *field300_0x4b0;
-    char *field301_0x4b4;
-    char *field302_0x4b8;
-    char *field303_0x4bc;
-    char *field304_0x4c0;
-    char *field305_0x4c4;
-    char *field306_0x4c8;
-    char *field307_0x4cc;
-    char *field308_0x4d0;
-    char *field309_0x4d4;
-    char *Clear;
-    char *Fog;
-    char *Rain;
-    char *Dawn;
-    char *Morning;
-    char *Afternoon;
-    char *Night;
-    char *Dark;
-    char *Half;
-    char *Full;
-    char *Dark_;
-    char *Strom;
-    char *Earth_;
-    char *Fire_;
-    char *Light_;
-    char *Water_;
-    char *Clear_;
-    char *field327_0x51c;
-    char *Moonday;
-    char *Tuesday;
-    char *Weirday;
-    char *Thorsday;
-    char *Fryday;
-    char *Saturnday;
-    char *Sunday;
-    char *Rough;
-    char *Forest;
-    char *Desert;
-    char *Marsh;
-    char *Mountains;
-    char *Barrow;
-    char *Sea;
-    char *field342_0x558;
-    char *None_;
-    char *Rain_;
-    char *Snow;
-    char *Default_;
-    char *Collision on Player and Camera;
-    char *field348_0x570;
-    char *field349_0x574;
-    char *field350_0x578;
-    char *field351_0x57c;
-    char *field352_0x580;
-    char *field353_0x584;
-    char *field354_0x588;
-    char *field355_0x58c;
-    char *field356_0x590;
-    char *field357_0x594;
-    char *field358_0x598;
-    char *field359_0x59c;
-    char *field360_0x5a0;
-    char *field361_0x5a4;
-    char *field362_0x5a8;
-    char *field363_0x5ac;
-    char *field364_0x5b0;
-    char *field365_0x5b4;
-    char *field366_0x5b8;
-    char *field367_0x5bc;
-    char *field368_0x5c0;
-    char *field369_0x5c4;
-    char *field370_0x5c8;
-    char *field371_0x5cc;
-    char *field372_0x5d0;
-    char *field373_0x5d4;
-    char *field374_0x5d8;
-    char *InvalidId;
-    char *Bad Data;
-    char *Save Game;
-    char *Flee;
-    char *discovered secret door;
-    char *field380_0x5f0;
-    char *field381_0x5f4;
-    char *field382_0x5f8;
-    char *field383_0x5fc;
-    char *This is Highway Robbery!;
-    char *Ouch! That's pretty expensive;
-    char *That's a bit more than the usual price;
-    char *The price is about what you expect;
-    char *This is less than you expect topay;
-    char *This is a really good price;
-    char *What an Amazing Bargain!;
-    char *Name_;
-    char *Not Enough Pages on Controller Pak;
-    char *There are still not enough pages to save;
-    char *Controller Pak is still Full;
-    char *field395_0x62c;
-    char *continue_;
-    char *field397_0x634;
-    char *field398_0x638;
-    char *field399_0x63c;
-    char *field400_0x640;
-    char *error reading controller pak;
-    char *continue without saving;
-    char *field403_0x64c;
-    char *insert new controller pak;
-    char *field405_0x654;
-    char *field406_0x658;
-    char *field407_0x65c;
-    char *field408_0x660;
-    char *empty;
-    char *field410_0x668;
-    char *field411_0x66c;
-    char *controller pak is corrupt;
-    char *controller pak is damaged;
-    char *are you sure you wish to overWrite?;
-    char *overwrite;
-    char *field416_0x680;
-    char *Error Reading Controllerpak;
-    char *field418_0x688;
-    char *field419_0x68c;
-    char *field420_0x690;
-    char *field421_0x694;
-    char *field422_0x698;
-    char *field423_0x69c;
-    char *field424_0x6a0;
-    char *field425_0x6a4;
-    char *field426_0x6a8;
-    char *field427_0x6ac;
-    char *field428_0x6b0;
-    char *Trap disarmed;
-    char *slightly;
-    char *field431_0x6bc;
-    char *field432_0x6c0;
-    char *there's a dangerous trap;
-    char *field434_0x6c8;
-    char *trap exploded;
-    char *someone in party is invalid;
-    char *shadow's prescence prevents healing;
-    char *X failed the task;
-    char *X already at max health;
-    char *X heals Y by Z;
-    char *only wizards can learn spells;
-    char *they already know that spell;
-    char *need higher wizard to know that spell;
-    char *wrong school for spell;
-    char *char learned spell;
-    char *hp restored by x;
-    char *party couldn't pick lock;
-    char *far;
-    char *a little;
-    char *definietly;
-    char *lock beyon ability to pick;
-    char *too weak to pick;
-    char *sucessfully picks lock;
-    char *field454_0x718;
-    char *field455_0x71c;
-    char *made potion;
-    char *not enough potion components;
-    char *field458_0x728;
-    char *made flask;
-    char *not enough flask components;
-    char *you do not have the components to make armor;
-    char *field462_0x738;
-    char *you failed to make armor;
-    char *armor sucessfully created;
-    char *healer tasks;
-    char *lay on hands;
-    char *heal with herbs;
-    char *restore;
-    char *health curr / max;
-    char *already max hp;
-    char *field471_0x75c;
-    char *field472_0x760;
-    char *field473_0x764;
-    char *field474_0x768;
-    char *field475_0x76c;
-    char *field476_0x770;
-    char *field477_0x774;
-    char *field478_0x778;
-    char *field479_0x77c;
-    char *field480_0x780;
-    char *Hours:;
-    char *you just picked up gold;
-    char *field483_0x78c;
-    char *field484_0x790;
-    char *leave items behind?;
-    char *no, changed my mind;
-    char *yes, leave it;
-    char *to use the potion...;
-    char *cannot be equipped until their turn;
-    char *cannot be removed until their turn;
-    char *Party gained EXP;
-    char *field492_0x7b0;
-    char *EXP cost Max;
-    char *EXP Cost;
-    char *EXP remaining;
-    char *No Journal entries;
-    char *learned first spell;
-    char *only wizards can learn magic;
-    char *field499_0x7cc;
-    char *field500_0x7d0;
-    char *field501_0x7d4;
-    char *field502_0x7d8;
-    char *field503_0x7dc;
-    char *field504_0x7e0;
-    char *field505_0x7e4;
-    char *Xp remaining;
-    char *Total XP;
-    char *Next Level;
-    char *MAX;
-    char *You caonnt train stat further;
-    char *you need X XP to train this status;
-    char *Train this for X XP?;
-    char *You cannot learn this skill;
-    char *cannot teach skill further;
-    char *cannot train skill further;
-    char *field516_0x810;
-    char *field517_0x814;
-    char *train for Xp and Gold;
-    char *train for Xp;
-    char *gold cost X;
-    char *you got a potion!;
-    char *Nothing there;
-    char *you cannot afford that;
-    char *you cannot hold any more;
-    char *party inventory's full;
-    char *I don't want that;
-    char *you cannot drop that;
-    char *you must unequip to sell;
-    char *you must unequip to drop;
-    char *Found X gold;
-    char *value: X;
-    char *you feel like you need something here;
-    char *min. Wiz rank;
-    char *field534_0x858;
-    char *field535_0x85c;
-    char *Aspect;
-    char *min.Str;
-    char *BaseHit;
-    char *Damage;
-    char *spell battery;
-    char *Magic_;
-    char *Spell_;
-    char *Resists;
-    char *protection;
-    char *field545_0x884;
-    char *field546_0x888;
-    char *field547_0x88c;
-    char *field548_0x890;
-    char *field549_0x894;
-    char *Min. Int;
-    char *charges;
-    char *Cannot train spell further;
-    char *Create New Save;
-    char *the x can only be weilded by Y;
-};
-*/
 typedef struct ContPakWidget ContPakWidget, *PContPakWidget;
 
 struct ContPakWidget {
@@ -3434,8 +2841,8 @@ typedef struct DebugMapLabel DebugMapLabel, *PDebugMapLabel;
 
 struct DebugMapLabel {
     enum EnumMapDatA a;
-    ushort b;
-    ushort c;
+    u16 b;
+    u16 c;
     char *label;
 };
 
@@ -3496,7 +2903,7 @@ struct wander_substruct {
     float wanderRadius;
     float randVal;
     float nodeswapChance;
-    ushort timer;
+    u16 timer;
     u16 homenode;
     u16 noderelA;
     u16 noderelB;
@@ -3554,7 +2961,7 @@ struct event_flag_array {
 typedef struct fileState_aidyn fileState_aidyn, *PfileState_aidyn;
 
 struct fileState_aidyn {
-    ushort filesize;
+    u16 filesize;
     u16 comp_code;
     u32 game_code;
     char game_name[16];
@@ -3576,16 +2983,16 @@ struct Flycam_entry { /* data entry for titlescreen flycam */
     u32  borg6;
     undefined field1_0x4;
     undefined field2_0x5;
-    ushort a;
+    u16 a;
     undefined field4_0x8;
     undefined field5_0x9;
-    ushort b;
+    u16 b;
     undefined field7_0xc;
     undefined field8_0xd;
-    ushort Deimos;
+    u16 Deimos;
     undefined field10_0x10;
     undefined field11_0x11;
-    ushort Phobos;
+    u16 Phobos;
 };
 
 typedef struct flycamStruct flycamStruct, *PflycamStruct;
@@ -3611,23 +3018,6 @@ struct FontFace {
     undefined field4_0x7;
 };
 
-typedef struct FontStruct FontStruct, *PFontStruct;
-
-struct FontStruct {
-    void *borg8_index;
-    Borg8header *pointerA;
-    char field2_0x8;
-    u8 field3_0x9;
-    char field4_0xa;
-    undefined field5_0xb;
-    u16 field6_0xc;
-    short Font_Height;
-    u16 field8_0x10;
-    u16 field9_0x12;
-    float kerningMulti;
-    u16 *pointerb;
-    Color32 col;
-};
 
 
 typedef struct GameStateFunnel GameStateFunnel, *PGameStateFunnel;
@@ -3689,7 +3079,7 @@ struct PlayerHandler {
     playerData *playerDats;
     s16 unk10[40];
     short playerCount;
-    ushort counter;
+    u16 counter;
     float float_0x64;
     float float_0x68;
     Borg1header *shadowTexture;
@@ -3700,7 +3090,7 @@ struct PlayerHandler {
 struct wander_struct {
     wander_substruct *wanderSubstructs;
     short wandererIndicies[39];
-    ushort wanderers;
+    u16 wanderers;
     short wanderersmax;
     u16 initalized;
 };
@@ -3744,8 +3134,8 @@ struct ZoneDat {
 };
 
 struct Weather {
-    ushort rainShortA;
-    ushort rainShortB;
+    u16 rainShortA;
+    u16 rainShortB;
     float timer;
     u32 unk8;
     float fogTime;
@@ -3767,13 +3157,13 @@ struct QueueStructAItem {
 
 struct QueueStructA {
     QueueStructAItem array[256];
-    ushort items;
+    u16 items;
 };
 
 struct ScriptCamera_struct {
     ScriptCam *cameras; /* 0x7c size */
     short cameraIndecies[8];
-    ushort cameraCount; /* up to 8 */
+    u16 cameraCount; /* up to 8 */
     short dataActive;
     short counter0;
     short counter1;
@@ -3783,14 +3173,14 @@ struct QueueStructBItem {
     void *pBorg;
     int field1_0x4;
     int BorgIndex;
-    ushort BorgSwitch;
+    u16 BorgSwitch;
     u8 field4_0xe;
     undefined field5_0xf;
 };
 
 struct QueueStructB {
     QueueStructBItem array[32];
-    ushort items;
+    u16 items;
 };
 
 
@@ -3802,7 +3192,7 @@ struct QueueStructB {
 struct ScriptCam {
     short field0_0x0;
     short field1_0x2;
-    ushort field2_0x4;
+    u16 field2_0x4;
     short flag;
     vec3f *aim;
     float field5_0xc;
@@ -3820,7 +3210,7 @@ struct PauseWidget {
 typedef struct IconDict IconDict, *PIconDict;
 
 struct IconDict { /* array Proceeded by dictionary length */
-    ushort key;
+    u16 key;
     u16 value;
 };
 
@@ -3831,13 +3221,6 @@ struct Item_Icon {
     u16 icon;
 };
 
-typedef struct itemtype_func itemtype_func, *Pitemtype_func;
-
-struct itemtype_func {
-    u8 type;
-    u32 unk;
-    ulong (*function)(void);
-};
 
 typedef struct KKBufferEvent KKBufferEvent, *PKKBufferEvent;
 
@@ -3928,10 +3311,10 @@ struct loot_Pointer {
 typedef struct mapDataList mapDataList, *PmapDataList;
 
 struct mapDataList {
-    ushort mapShortA;
-    ushort MapShortB;
+    u16 mapShortA;
+    u16 MapShortB;
     u16 borg5;
-    ushort borg6;
+    u16 borg6;
     u16 borg9;
     u16 terrian;
 };
@@ -3955,17 +3338,11 @@ struct potionRecipie {
     u8 unk;
 };
 
-typedef enum PRECIPITATION {
-    PRECIP_CLEAR,
-    PRECIP_RAIN,
-    PRECIP_SNOW
-} PRECIPITATION;
-
 typedef struct ResolutionSettings ResolutionSettings, *PResolutionSettings;
 
 struct ResolutionSettings {
-    ushort Hres;
-    ushort Vres;
+    u16 Hres;
+    u16 Vres;
     u8 pad;
     u8 colorDepth;
 };
@@ -4058,7 +3435,7 @@ struct SpellVisuals_struct {
     float field6_0x18;
     int field7_0x1c;
     uint lifeTime;
-    ushort field9_0x24;
+    u16 field9_0x24;
     u16 field10_0x26;
     u16 ptr0Count;
     u16 ptr1count;
@@ -4155,82 +3532,19 @@ struct WidgetBufferedMenu {
 
 typedef struct WidgetCameraDebug WidgetCameraDebug, *PWidgetCameraDebug;
 
+struct WidgetCameraDebugSub{
+    u16 stringIndex;
+    u8 unk2;
+    u8 unk3;
+    u8 unk4;
+    u8 unk5;
+};
+
 struct WidgetCameraDebug {
     BaseWidget base;
-    BaseWidget *field1_0x7c;
-    u16 refPointBase;
-    u16 field3_0x82;
-    undefined field4_0x84;
-    undefined field5_0x85;
-    undefined field6_0x86;
-    undefined field7_0x87;
-    u16 field8_0x88;
-    undefined field9_0x8a;
-    undefined field10_0x8b;
-    undefined field11_0x8c;
-    undefined field12_0x8d;
-    u16 field13_0x8e;
-    undefined field14_0x90;
-    undefined field15_0x91;
-    undefined field16_0x92;
-    undefined field17_0x93;
-    u16 field18_0x94;
-    undefined field19_0x96;
-    undefined field20_0x97;
-    undefined field21_0x98;
-    undefined field22_0x99;
-    u16 field23_0x9a;
-    undefined field24_0x9c;
-    undefined field25_0x9d;
-    undefined field26_0x9e;
-    undefined field27_0x9f;
-    u16 field28_0xa0;
-    undefined field29_0xa2;
-    undefined field30_0xa3;
-    undefined field31_0xa4;
-    undefined field32_0xa5;
-    u16 field33_0xa6;
-    undefined field34_0xa8;
-    undefined field35_0xa9;
-    undefined field36_0xaa;
-    undefined field37_0xab;
-    u16 field38_0xac;
-    undefined field39_0xae;
-    undefined field40_0xaf;
-    undefined field41_0xb0;
-    undefined field42_0xb1;
-    u16 field43_0xb2;
-    undefined field44_0xb4;
-    undefined field45_0xb5;
-    undefined field46_0xb6;
-    undefined field47_0xb7;
-    u16 field48_0xb8;
-    undefined field49_0xba;
-    undefined field50_0xbb;
-    undefined field51_0xbc;
-    undefined field52_0xbd;
-    u16 field53_0xbe;
-    undefined field54_0xc0;
-    undefined field55_0xc1;
-    undefined field56_0xc2;
-    undefined field57_0xc3;
-    u16 field58_0xc4;
-    undefined field59_0xc6;
-    undefined field60_0xc7;
-    undefined field61_0xc8;
-    undefined field62_0xc9;
-    undefined field63_0xca;
-    undefined field64_0xcb;
-    undefined field65_0xcc;
-    undefined field66_0xcd;
-    undefined field67_0xce;
-    undefined field68_0xcf;
-    undefined field69_0xd0;
-    undefined field70_0xd1;
-    undefined field71_0xd2;
-    undefined field72_0xd3;
-    undefined field73_0xd4;
-    undefined field74_0xd5;
+    BaseWidget *scrollMenu;
+    u16 currRefpoint;
+    WidgetCameraDebugSub Arr[14];
     undefined field75_0xd6;
     undefined field76_0xd7;
 };

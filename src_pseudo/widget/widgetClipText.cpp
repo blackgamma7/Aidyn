@@ -14,7 +14,7 @@ WidgetClipText::WidgetClipText(char *str,u16 len):BaseWidget(){
   sub->scaleY = 1;
   if ((len == 400) && (len = 20, str != NULL)) {len = strlen(str)+1;}
   if (len < 2) len = 2;
-  sub->str = (char *)HeapAlloc(len,FILENAME,50);
+  ALLOCS(sub->str,len,50);
   if (!str) sprintf(sub->str," ");
   else sprintf(sub->str,str);
   substruct = sub;
@@ -28,14 +28,13 @@ WidgetClipText::WidgetClipText(char *str,u16 len):BaseWidget(){
 WidgetClipText::~WidgetClipText(){
   WidgetSubstruct_ClipText *ppvVar1 = (WidgetSubstruct_ClipText *)substruct;
   if (ppvVar1) {
-    if (ppvVar1->str) HeapFree(ppvVar1->str,FILENAME,83);
+    if (ppvVar1->str) HFREE(ppvVar1->str,83);
     delete(ppvVar1);
     this->substruct = NULL;
   }
 }
 
 Gfx * WidgetClipText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  FontStruct *pFVar1;
   int iVar2;
   s32 lVar4;
   s32 lVar5;
@@ -103,10 +102,10 @@ u8 WidgetClipText::SetText(char *str,u8 b){
   u16 len = strlen(str);
   if (ppcVar1->maxLen < (len + 1)) {
     if (!b) CRASH("WidgetClipText::SetText()","Unable to set text.  String is too long.");
-    HeapFree(ppcVar1->str,FILENAME,195);
+    HFREE(ppcVar1->str,195);
     len = strlen(str);
     ppcVar1->maxLen = (len + 1);
-    ppcVar1->str = (char *)HeapAlloc(len + 1,FILENAME,198);
+    ALLOCS(ppcVar1->str,len + 1,198);
     strcpy(ppcVar1->str,str);
   }
   else sprintf(ppcVar1->str,str);

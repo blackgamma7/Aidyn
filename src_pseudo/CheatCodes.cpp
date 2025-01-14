@@ -126,13 +126,13 @@ u8 Cheats::_Cheater(void){ // +750000 EXP to party
   if(getEventFlag(FLAG_cheater)){return false;} //no double-dipping in retail
   #endif
   setEventFlag(FLAG_cheater,true);
-  if ((gGlobals.party)->PartySize) {
-    for(uVar5=0;uVar5 < (gGlobals.party)->PartySize;uVar5++) {
-      if ((gGlobals.party)->Members[uVar5]) {Entity::AddExp((gGlobals.party)->Members[uVar5],500000);}
+  if ((PARTY)->PartySize) {
+    for(uVar5=0;uVar5 < (PARTY)->PartySize;uVar5++) {
+      if ((PARTY)->Members[uVar5]) {Entity::AddExp((PARTY)->Members[uVar5],500000);}
     }
   }
   ppVar1 = (gGlobals.BigAssMenu)->base.substruct; //Pause menu update, crashes game if used on title screen
-  pCVar2 = (gGlobals.party)->Members[partypicker]; //update stats for char. selected on menu
+  pCVar2 = (PARTY)->Members[partypicker]; //update stats for char. selected on menu
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->Level_widget),"%u",Entity::GetLevel(pCVar2));
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->CurrHP_Widget),"%u",getHPCurrent(pCVar2));
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->MaxHP_widget),"%u",getHPMax(pCVar2));
@@ -149,8 +149,8 @@ u8 Cheats::_bingo(void){ //+100000 gold
   setEventFlag(FLAG_bingo,true);
   //Another menu update, crashing the title screen
   pwVar1 = (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->charStats_widget->gold_widget;
-  (gGlobals.party)->Gold+=100000;
-  sprintf(Utilities::GetWidgetText(pwVar1),"%ld",(gGlobals.party)->Gold);
+  (PARTY)->Gold+=100000;
+  sprintf(Utilities::GetWidgetText(pwVar1),"%ld",(PARTY)->Gold);
   return true;
 }
 

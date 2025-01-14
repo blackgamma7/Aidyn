@@ -1,6 +1,6 @@
 #define FILENAME "./src/gamestatefunnel.cpp"
 
-
+#include "globals.h"
 #include "eventFlag.h"
 #include "heapN64.h"
 #include "gamestateCheats.h"
@@ -27,7 +27,7 @@ void Event_flag_stat(u8 param_1){
     if (iVar4 != 0) {
       lVar9 = 0;
       for(u8 i =3;i!=0;i--) {
-        pCVar3 = (gGlobals.party)->Members[i];
+        pCVar3 = (PARTY)->Members[i];
         if (((pCVar3) && (!Entity::isDead(pCVar3))) &&
            (lVar9 < CharStats::getModded(pCVar3->Stats,param_1))) {
           lVar9 = CharStats::getModded(pCVar3->Stats,param_1);
@@ -57,10 +57,10 @@ void event_flag_skill_(u8 param_1){
     if (iVar4 != 0) {
       uVar10 = 0;
       for(u8 i =3;i!=0;i--)  {
-        pCVar3 = (gGlobals.party)->Members[i];
+        pCVar3 = PARTY->Members[i];
         if (((pCVar3) && (!Entity::isDead(pCVar3))) &&
-           (uVar10 < CharSkills::getModdedSkill(pCVar3->Skills,param_1))) {
-          uVar10 = CharSkills::getModdedSkill(pCVar3->Skills,param_1);
+           (uVar10 < pCVar3->Skills->getModdedSkill(param_1))) {
+          uVar10 = pCVar3->Skills->getModdedSkill(param_1);
         }
       }
       if (uVar10 != eventflagArraySkills[iVar4].val) {
@@ -141,12 +141,12 @@ void setEventFlag(EventFlag param_1,u8 param_2){
     set_journalentry_flag(gameStates,param_1,param_2);}}
 
 void SetFlagArray_on_Time(u8 ToD,u8 Day,u8 week,u8 month){
-  set_flag_array(0x8fd,0x8ff,(s16)ToD;
+  set_flag_array(0x8fd,0x8ff,(s16)ToD);
   set_flag_array(0x909,0x90b,(s16)Day);
   set_flag_array(0x90c,0x90e,(s16)week);
   set_flag_array(0x906,0x908,(s16)month);
   set_flag_array(0x8fb,0x8fc,(u16)TerrainPointer->moonPhases);
-  set_flag_array(0x900,0x905,((s16)week * 7 + ((s16)Day));
+  set_flag_array(0x900,0x905,((s16)week * 7 + ((s16)Day)));
 }
 
 void set_weather_flags(u8 x){set_flag_array(0x90f,0x910,x);}

@@ -54,22 +54,22 @@ Gfx * Portraits::DrawParty(Gfx *g,u8 raise,Color32 *col){
   TempCol.R = 0xff;
   TempCol.A = 0x80;
   BlendColors(&TempCol,&TempCol,gGlobals.brightness);
-  pCVar1 = (gGlobals.party)->Members[0];
+  pCVar1 = (PARTY)->Members[0];
   if ((pCVar1) && (pCVar1->portrait)) {
     gfx = Borg8_DrawSimple(gfx,pCVar1->portrait,90.0,(float)(screen_bottom + 6),0.75f,
                            0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
-  pCVar1 = (gGlobals.party)->Members[1];
+  pCVar1 = (PARTY)->Members[1];
   if ((pCVar1) && (pCVar1->portrait)) {
     gfx = Borg8_DrawSimple(gfx,pCVar1->portrait,128.0,(float)(screen_bottom + 6),0.75f,
                            0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
-  pCVar1 = (gGlobals.party)->Members[2];
+  pCVar1 = (PARTY)->Members[2];
   if ((pCVar1) && (pCVar1->portrait)) {
     gfx = Borg8_DrawSimple(gfx,pCVar1->portrait,166.0,(float)(screen_bottom + 6),0.75f,
                            0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   }
-  pCVar1 = (gGlobals.party)->Members[3];
+  pCVar1 = (PARTY)->Members[3];
   if ((pCVar1) && (pCVar1->portrait)) {
     gfx = Borg8_DrawSimple(gfx,pCVar1->portrait,204.0,(float)(screen_bottom + 6),0.75f,
                            0.75f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);

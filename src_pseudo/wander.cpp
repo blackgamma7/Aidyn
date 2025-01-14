@@ -5,10 +5,10 @@ float sneak_value(float point8){
   char cVar2;
   float fVar3;
   
-  if (gGlobals.party) {
-    cVar2 = Party::GetMostSkilledMember(gGlobals.party,SKILL_Stealth);
-    if (((cVar2 != -1) && (gGlobals.party->Members[cVar2]) {
-      cVar2 = CharSkills::getModdedSkill(gGlobals.party->Members[cVar2]->Skills,Stealth);
+  if (PARTY) {
+    cVar2 = PARTY->GetMostSkilledMember(SKILL_Stealth);
+    if (((cVar2 != -1) && (PARTY->Members[cVar2]) {
+      cVar2 = PARTY->Members[cVar2]->Skills->getModdedSkill(SKILL_Stealth);
       fVar3 = (float)(s32)cVar2 / 10.0f;
       if (1.0f < (float)(s32)cVar2 / 10.0f) {fVar3 = 1.0f;}
       return 1.0f - fVar3 * point8;
@@ -128,7 +128,7 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
     bVar8 = GetIDIndex((refObj->monster).entityID);
     ppVar10->playerDat->Ent_index = (short)(char)bVar8;
     if ((refObj->monster).borg_13 == 0) 
-      ppVar10->playerDat->rangerWarrior = Party::SetWandererVal(gGlobals.party,*(u8 *)((int)&(refObj->monster).totalsize + 1));;
+      ppVar10->playerDat->rangerWarrior = Party::SetWandererVal(PARTY,*(u8 *)((int)&(refObj->monster).totalsize + 1));;
     FUN_80012b70(param_1,ppVar10,(refObj->monster).wanderNode);
     fVar9 = (refObj->header).pos.x;
     ppVar3 = ppVar10->playerDat;

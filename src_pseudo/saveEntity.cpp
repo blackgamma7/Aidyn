@@ -207,7 +207,7 @@ char * SaveEntity::Copy(CharSheet *param_1,CharSheet *param_2){
   param_2->EXP->total = param_1->EXP->total;
   param_2->EXP->spending = param_1->EXP->spending;
   CharStats:::Copy(param_2->Stats,param_1->Stats);
-  CharSkills::Copy(param_2->Skills,param_1->Skills);
+  param_2->Skills->Copy(param_1->Skills);
   for(i=0;i<2;i++) TransferArmor(param_1,param_2,i);
   TransferWeapons(param_1,param_2);
   for(i=0;i<12;i++) TransferGear(param_1,param_2,i);

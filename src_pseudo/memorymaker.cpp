@@ -18,7 +18,7 @@ void MemoryMaker::Unload(void){
   SaveDatPointers auStack80;
   
   if (!gExpPakFlag) {
-    SaveEntity::BenchParty(gGlobals.party);
+    SaveEntity::BenchParty(PARTY);
     CLEAR(gMemoryMaker);
     QuestData::SetPointers(gMemoryMaker,&auStack80);
     QuestData::SaveToFile(&auStack80,false);

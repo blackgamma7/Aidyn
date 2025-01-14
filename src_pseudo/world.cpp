@@ -12,7 +12,7 @@ void World::init(TerrainStruct *ter){
   ter->partOfDay = TIME_MORNING;
   ter->moonPhases = 0;
   ter->terrain = 0;
-  ter->rainByte = clear;
+  ter->rainByte = PRECIP_CLEAR;
   ter->windVelocity.x = 1.0f;
   ter->windVelocity.y = -0.1f;
   ter->windVelocity.z = 1.0f;
@@ -31,7 +31,7 @@ void World::SetTerrain(TerrainStruct *ter,u8 param_2){
       ter->partOfDay = (char)uVar2 - ((char)(uVar1 << 2) + (char)uVar1);
     }
     ter->terrain = param_2;
-    several_time_funcs(ter);
+    SeveralTimeFuncs(ter);
     set_terrain_flags(ter->terrain);
   }
   else CRASH("World::SetTerrain","Invalid Terrain type!");
@@ -46,7 +46,7 @@ void World::IncTimeOfDay(TerrainStruct *param_1){
   uVar2 = param_1->partOfDay + 1;
   uVar1 = uVar2 / 5;
   param_1->partOfDay = (char)uVar2 - ((char)(uVar1 << 2) + (char)uVar1);
-  several_time_funcs(param_1);
+  SeveralTimeFuncs(param_1);
 }
 
 void World::inc_dayNightMagic(TerrainStruct *X){X->DayNightMagic++;}
@@ -58,7 +58,7 @@ void World::SetTimeFromCalendar(TerrainStruct *param_1,Calendar *param_2){
        (u32)param_2->month * 0x114db000 + (u32)param_2->week * 0x229b600 +
        (u32)param_2->day * 0x4f1a00 + ((u32)param_2->hour * 0xe0 + (u32)param_2->hour) * 0x3c0 +
        ((u32)param_2->minute * 0xe0 + (u32)param_2->minute) * 0x10 + (u32)param_2->second * SECONDS(1);
-  several_time_funcs(param_1);
+  SeveralTimeFuncs(param_1);
   SetFlagArray_on_Time(param_1->partOfDay,param_2->day,param_2->week,param_2->month);
 
 }
@@ -203,7 +203,7 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
   
   if (75 < RollD(1,100)) {
     ter->windByte = 0;
-    ter->rainByte = CLEAR;
+    ter->rainByte = PRECIP_CLEAR;
     ter->PrecipScale = 0.0;
     ter->FogFloat = 0.0;
     bVar1 = weather_terrain_array[ter->terrain];
@@ -211,9 +211,9 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
     if ((s32)(((u32)bVar2 + (s32)(char)bVar1) * 0x10000) >> 0x10 < RollD(1,100)) {}
     else {  
       if (RollD(1,100) < 70) {
-        ter->rainByte = RAIN;
+        ter->rainByte = PRECIP_RAIN;
         ter->windByte = 2;
-        if (ter->terrain == 5) {ter->rainByte = SNOW;}
+        if (ter->terrain == 5) {ter->rainByte = PRECIP_SNOW;}
         fVar5 = RAND.GetFloatRange(terrain_rand_array[ter->terrain] - 0.15f,
                            terrain_rand_array[ter->terrain] + 0.15f);
         ter->PrecipScale = fVar5;
@@ -223,18 +223,18 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
       else {
         fVar5 = 0.75;
         ter->windByte = 1;
-        ter->rainByte = CLEAR;
+        ter->rainByte = PRECIP_CLEAR;
         ter->PrecipScale = 0.0;
       }
       ter->FogFloat = RAND.GetFloatRange(0.1,fVar5);
     }
     ter->ThunderFloat = 0.0;
-    if (ter->rainByte == RAIN) {ter->ThunderFloat = RAND.GetFloat0To1() * ter->PrecipScale;}
+    if (ter->rainByte == PRECIP_RAIN) {ter->ThunderFloat = RAND.GetFloat0To1() * ter->PrecipScale;}
   }
   return;
 }
 
-void World::several_time_funcs(TerrainStruct *ter){
+void World::SeveralTimeFuncs(TerrainStruct *ter){
   Calendar CalTemp;
 
   GetCalendarDate(ter,&CalTemp);
@@ -255,17 +255,17 @@ void World::cap_ingame_time(TerrainStruct *ter){
 void World::Lapse10Seconds(TerrainStruct *ter){
   ter->InGameTime += SECONDS(10);
   cap_ingame_time(ter);
-  several_time_funcs(ter);}
+  SeveralTimeFuncs(ter);}
 
 void World::inc_ingame_time(TerrainStruct *param_1,s32 delta){
   param_1->InGameTime += (delta * param_1->daySpeed);
   cap_ingame_time(param_1);
-  several_time_funcs(param_1);}
+  SeveralTimeFuncs(param_1);}
 
 void World::Lapse8Hours(TerrainStruct *ter){
   ter->InGameTime += HOURS(8);
   cap_ingame_time(ter);
-  several_time_funcs(ter);}
+  SeveralTimeFuncs(ter);}
 
 void World::add_playTime(TerrainStruct *param_1,s32 x){param_1->PlayTime += x;}
 

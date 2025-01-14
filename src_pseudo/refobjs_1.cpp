@@ -15,7 +15,7 @@ enum GameStateCheat{
     referenceObject
 };
 
-void set_ranger_float(void){RangerIngredientFloat = ranger_int_float(gGlobals.party);}
+void set_ranger_float(void){RangerIngredientFloat = ranger_int_float(PARTY);}
 
 u8 FUN_8001b9bc(voxelObject *param_1){
   EventFlag EVar1;
