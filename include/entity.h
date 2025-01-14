@@ -178,7 +178,7 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     char *name; /* pointer to entityDB entry */
     u8 unk0x8[12]; //unused
     charExp *EXP;
-    CharStats *Stats; /* base and modded stats of character */
+    CharStats_s *Stats; /* base and modded stats of character */
     CharSkills *Skills; /* skill and weapon levels */
     ArmorInstance **armor;
     WeaponInstance *weapons;

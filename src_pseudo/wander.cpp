@@ -128,7 +128,7 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
     bVar8 = GetIDIndex((refObj->monster).entityID);
     ppVar10->playerDat->Ent_index = (short)(char)bVar8;
     if ((refObj->monster).borg_13 == 0) 
-      ppVar10->playerDat->rangerWarrior = Party::SetWandererVal(PARTY,*(u8 *)((int)&(refObj->monster).totalsize + 1));;
+      ppVar10->playerDat->rangerWarrior = PARTY->SetWandererVal(*(u8 *)((int)&(refObj->monster).totalsize + 1));;
     FUN_80012b70(param_1,ppVar10,(refObj->monster).wanderNode);
     fVar9 = (refObj->header).pos.x;
     ppVar3 = ppVar10->playerDat;

@@ -106,7 +106,7 @@ void SaveParty::SaveCharStats(SaveFile *sav,CharSheet *chara){
   SKIPCHECK(chara->Stats,80) CharStats::Save(chara->Stats,sav);
 }
 
-void SaveParty::LoadCharStats(SaveFile *sav,CharStats *stats){
+void SaveParty::LoadCharStats(SaveFile *sav,CharStats_s* stats){
   SKIPCHECK(stats,80) CharStats::Load(stats,sav);
 }
 

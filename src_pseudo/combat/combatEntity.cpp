@@ -1621,10 +1621,10 @@ u8 check_for_petrify_effect(CombatEntity *ent){
 
 s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,char y,u8 backstab){
   CharSheet *pCVar2;
-  CharStats *stats;
+  CharStats_s* stats;
   CharSkills *pCVar3;
   Temp_weapon *pTVar4;
-  CharStats *DefStats;
+  CharStats_s* DefStats;
   s32 iVar6;
   s32 iVar7;
   s32 iVar8;
@@ -1845,8 +1845,8 @@ s32 theif_backstab_mod(CombatEntity *param_1,s16 param_2,u8 backstab,s32 param_4
 
 s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,char param_4,u8 backstab){
   CharSheet *pCVar3;
-  CharStats *Atkstats;
-  CharStats *DefStats;
+  CharStats_s* Atkstats;
+  CharStats_s* DefStats;
   Temp_weapon *pTVar4;
   CharSkills *pCVar5;
   s32 iVar7;
@@ -2229,7 +2229,7 @@ u8 some_magic_check(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *para
 
 u8 func_checking_vs_magic(CombatEntity *param_1,Temp_spell *param_2,CombatEntity *param_3,char *param_4){
   u8 bVar1;
-  CharStats *stats;
+  CharStats_s* stats;
   s32 lVar2;
   s32 iVar3;
   u16 uVar6;
@@ -2493,8 +2493,8 @@ u8 combat_potion_effects(CombatEntity *param_1,CombatEntity *param_2){
 
 s16 Warrior_thrown_check(CombatEntity *param_1,CombatEntity *param_2,u8 param_3){
   u8 uVar1;
-  CharStats *stats;
-  CharStats *DefStats;
+  CharStats_s* stats;
+  CharStats_s* DefStats;
   CharSkills *pCVar2;
   s32 iVar5;
   s32 iVar6;
@@ -2695,8 +2695,8 @@ u8 user_target_in_party(CombatEntity *param_1,CombatEntity *param_2,playerData *
   u32 uVar2;
   
   uVar1 = getHPCurrent(param_2->charSheetP);
-  sVar3 = Party::GetMemberIndex(PARTY,param_1->charSheetP->ID);
-  bVar4 = Party::GetMemberIndex(PARTY,param_2->charSheetP->ID);
+  sVar3 = PARTY->GetMemberIndex(param_1->charSheetP->ID);
+  bVar4 = PARTY->GetMemberIndex(param_2->charSheetP->ID);
   if ((sVar3 != 0xff) && ((bVar4 != 0xff)) {
     if ((param_1->flags & flag8) == 0) {pass_to_party_healing_func(PARTY,(u32)uVar5,(s32)(char)bVar4 & 0xff);}
     else {pass_to_healing_func_2(PARTY,sVar3,bVar4);}
@@ -2841,7 +2841,7 @@ s16 tick_goblin_ambush(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
     gGlobals.GoblinHitTally--;
     sVar3 = 1;
     if (gGlobals.GoblinHitTally == 0) {
-      CharStats::addModdedStat(pCVar1->Stats,STAT_STR,-(char)CharStats::getModded(pCVar1->Stats,STAT_STR));
+      CharStats::addModdedHealth(pCVar1->Stats,STAT_STR,-(char)CharStats::getModded(pCVar1->Stats,STAT_STR));
       check_petrify_int_dex_wil_str(param_2);
       sVar3 = 1;
     }

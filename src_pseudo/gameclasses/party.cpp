@@ -123,7 +123,7 @@ CharSheet* Party::GetMemberById(ItemID id){
   return GetMemberById2(id,&temp);}
 
 CharSheet* Party::GetMemberById2(ItemID id,u8 *oIndex){
-  *oIndex = Party::GetMemberIndex(id);
+  *oIndex = GetMemberIndex(id);
   if (*oIndex == -1) return NULL;
   else return this->Members[*oIndex];
 }
@@ -169,7 +169,7 @@ s8 Party::GetMemberIndex(ItemID id){
 }
 
 void Party::removeAliveMemberByID(ItemID id){
-  s8 slot = Party::GetMemberIndex(id);
+  s8 slot = GetMemberIndex(id);
   if (slot != -1) RemoveAliveMember(slot);
 }
 
@@ -1478,7 +1478,7 @@ char * party_healing_func(u32 param_2,u32 param_3){
   u32 uVar7;
   ulong uVar8;
   s32 iVar9;
-  CharStats *pCVar11;
+  CharStats_s* pCVar11;
   char *pcVar12;
   
   pCVar1 = this->Members[param_2];
@@ -1571,7 +1571,7 @@ char * some_healing_func(u8 param_2,u8 param_3,u8 param_4){
           if (CharStats::getBase(pCVar2->Stats,arg1) < iVar5 + iVar10) {
             iVar10 = (CharStats::getBase(pCVar2->Stats,arg1) - iVar5) * 0x10000 >> 0x10;
           }
-          CharStats::addModdedStat(pCVar2->Stats,arg1,(char)iVar10);
+          CharStats::addModdedHealth(pCVar2->Stats,arg1,(char)iVar10);
           if (0 < CharStats::getModded(pCVar2->Stats,arg1) - iVar5) {
             Gsprintf((gGlobals.CommonStrings)->"hp restored by x",pCVar2->name,
                         Stat_labels[param_4]);

@@ -1,7 +1,7 @@
 #include "widgets/WidgetClipText.h"
 
 class SMStatItem : public BaseWidget{
-    CharStats *stats;
+    CharStats_s* stats;
     BaseWidget *field2_0x80; //unknown, doesn't seem to be set.
     WidgetClipText *baseLevel;
     WidgetClipText *modDiff;

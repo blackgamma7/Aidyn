@@ -183,16 +183,16 @@ void Entity::DecreaseHP(CharSheet *param_1,s16 dmg){
   if (CharStats::getModded(param_1->Stats,STAT_STAM) < dmg) {
     dmg -=CharStats::getModded(stat,STAT_STAM);
     cVar2 = CharStats::getModded(param_1->Stats,STAT_STAM);
-    CharStats::addModdedStat(param_1->Stats,STAT_STAM,-cVar2);
+    CharStats::addModdedHealth(param_1->Stats,STAT_STAM,-cVar2);
     if (dmg < 1) return;
     if (CharStats::getModded(param_1->Stats,STAT_END) < dmg) {
-      CharStats::addModdedStat(param_1->Stats,STAT_END,-CharStats::getModded(param_1->Stats,STAT_END));
+      CharStats::addModdedHealth(param_1->Stats,STAT_END,-CharStats::getModded(param_1->Stats,STAT_END));
       return;
     }
     arg1 = STAT_END;
   }
   else arg1 = STAT_STAM;
-  CharStats::addModdedStat(param_1->Stats,arg1,-dmg);}
+  CharStats::addModdedHealth(param_1->Stats,arg1,-dmg);}
 
 u8 Entity::hasCheatDeath(CharSheet *param_1){
 
@@ -237,10 +237,10 @@ void Entity::addHP(CharSheet *param_1,u16 param_2){
     uVar4 = CharStats::getBase(param_1->Stats,STAT_END) - CharStats::getModded(param_1->Stats,STAT_END);
     if (uVar3 < uVar4) {
       uVar4 = 0;
-      CharStats::addModdedStat(param_1->Stats,STAT_END,(char)uVar3);
+      CharStats::addModdedHealth(param_1->Stats,STAT_END,(char)uVar3);
     }
     else {
-      CharStats::addModdedStat(param_1->Stats,STAT_END,(char)uVar4);
+      CharStats::addModdedHealth(param_1->Stats,STAT_END,(char)uVar4);
       uVar4 = uVar3 - uVar4;
     }
   }
@@ -250,18 +250,18 @@ void Entity::addHP(CharSheet *param_1,u16 param_2){
       uVar3 = CharStats::getBase(param_1->Stats,STAT_STAM) - CharStats::getModded(param_1->Stats,STAT_STAM);
       if (uVar4 < uVar3) {
         uVar3 = 0;
-        CharStats::addModdedStat(param_1->Stats,STAT_STAM,(char)uVar4);
+        CharStats::addModdedHealth(param_1->Stats,STAT_STAM,(char)uVar4);
       }
       else {
-        CharStats::addModdedStat(param_1->Stats,STAT_STAM,(char)uVar3);
+        CharStats::addModdedHealth(param_1->Stats,STAT_STAM,(char)uVar3);
         uVar3 = uVar4 - uVar3;
       }
     }
     if (uVar3) {
       if (CharStats::getModded(param_1->Stats,STAT_LV) < CharStats::getBase(param_1->Stats,STAT_LV)) {
         uVar4 = CharStats::getBase(param_1->Stats,STAT_LV) - CharStats::getModded(param_1->Stats,STAT_LV);
-        if (uVar3 < uVar4) {CharStats::addModdedStat(param_1->Stats,STAT_LV,(char)uVar3);}
-        else {CharStats::addModdedStat(param_1->Stats,STAT_LV,(char)uVar4);}
+        if (uVar3 < uVar4) {CharStats::addModdedHealth(param_1->Stats,STAT_LV,(char)uVar3);}
+        else {CharStats::addModdedHealth(param_1->Stats,STAT_LV,(char)uVar4);}
       }
     }
   }
@@ -764,7 +764,7 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,uint timer,byte
   longlong lVar5;
   short sVar9;
   Temp_enchant *pTVar8;
-  CharStats *stats;
+  CharStats_s* stats;
   u8 SVar13;
   undefined uVar14;
   int iVar15;
@@ -1689,11 +1689,11 @@ u8 Entity::DispelMagic(CharSheet *param_1,CombatEntity* param_2,u8 param_3,u8 pa
 
 void Entity::DoubleTap(CharSheet *param_1){
   if (CharStats::getModded(param_1->Stats,STAT_END))
-    CharStats::addModdedStat(param_1->Stats,STAT_END,-CharStats::getModded(pCVar2,STAT_END));
+    CharStats::addModdedHealth(param_1->Stats,STAT_END,-CharStats::getModded(pCVar2,STAT_END));
   if (CharStats::getModded(param_1->Stats,STAT_STAM))
-    CharStats::addModdedStat(param_1->Stats,STAT_STAM,-CharStats::getModded(pCVar2,STAT_STAM));
+    CharStats::addModdedHealth(param_1->Stats,STAT_STAM,-CharStats::getModded(pCVar2,STAT_STAM));
   if (CharStats::getModded(param_1->Stats,STAT_LV))
-    CharStats::addModdedStat(param_1->Stats,STAT_LV,-CharStats::getModded(pCVar2,STAT_LV));
+    CharStats::addModdedHealth(param_1->Stats,STAT_LV,-CharStats::getModded(pCVar2,STAT_LV));
 }
 
 u8 Entity::HealHandsCheck(CharSheet *param_1){

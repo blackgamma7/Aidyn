@@ -2,8 +2,6 @@
 #include "entity.h"
 #include "stringN64.h"
 
-typedef struct SaveFile SaveFile, *PSaveFile;
-
 struct SaveFile {
     u8* dat;
     u32 pos;
@@ -32,7 +30,7 @@ namespace SaveParty{
     void SaveCharEXP(SaveFile* sav, charExp* exp);
     void LoadCharEXP(SaveFile* sav, charExp* exp);
     void SaveCharStats(SaveFile *sav,CharSheet *chara);
-    void LoadCharStats(SaveFile *sav,CharStats *chara);
+    void LoadCharStats(SaveFile *sav,CharStats_s* chara);
     void SaveSpell(SaveFile *sav,Spellbook *spellbook,u8 school);
     void LoadSpell(SaveFile *sav,Spellbook *spellbook,u8 school);
     void SaveSpellsFromSchool(SaveFile *sav,Spellbook *spellbook,u8 school);
