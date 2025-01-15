@@ -87,7 +87,7 @@ void campfire_func(void){
   dialoug_dat *puVar4;
   voxelObject *pVVar1;
   
-  pBVar1 = get_borg_9(Borg9_campfire);
+  pBVar1 = loadBorg9(Borg9_campfire);
   puVar4 = NULL;
   if ((pBVar1->dat).voxelCount != 0) {
     pVVar1 = (voxelObject *)(pBVar1->dat).ref_objs;

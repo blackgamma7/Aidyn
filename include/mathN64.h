@@ -1,15 +1,20 @@
 #include "typedefs.h"
-
-struct vec2f{
-    float x,y;
+//used in 2d math
+typedef union vec2f{
+    struct{float x,y;}
+    float f[2];
+};
+//used un 3d math
+typedef union vec3f{
+    struct{float x,y,z;};
+    float f[3];
 };
 
-struct vec3f{
-    float x,y,z;
-};
-
-struct vec4f{
-    float x,y,z,w;
+//mosty used for color
+typedef union vec4f{
+    struct{float x,y,z,w;};
+    struct{float r,g,b,a;};
+    float f[4];
 };
 
 typedef float MtxF[4][4];

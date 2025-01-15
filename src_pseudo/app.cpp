@@ -417,7 +417,7 @@ int appState_RegionControllerCheck(Gfx **gg){
   
   if (osTvType == OS_TV_PAL) {
     if (PAL_warning_flag) {
-      PAL_Warning_image = get_borg_8(Borg8_PAL_Warning);
+      PAL_Warning_image = loadBorg8(Borg8_PAL_Warning);
       PAL_warning_flag = 0;
     }
     pGVar2 = *gg;

@@ -20,7 +20,7 @@ typedef struct{
     };
 }ItemID_ROM; //LE version
 
-#define ITEMIDTYPE(x) x.s>>8
+#define ITEMIDTYPE(x) x.s >> 8
 
 
 u8 ItemIsMap(ItemID param_1);

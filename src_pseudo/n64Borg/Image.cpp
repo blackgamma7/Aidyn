@@ -1,5 +1,6 @@
 #include "n64Borg.h"
-#include "heapN64.h"
+#include "crash.h"
+
 #define FILENAME "./src/n64BorgImage.cpp"
 
 float sImageHScale=1.0f;
@@ -27,13 +28,14 @@ void borg8_free_ofunc(s32 *param_1){
   borg_count[8]--;
 }
 
-Borg8header * get_borg_8(u32 param_1){
+//load "Borg8" image
+Borg8header* loadBorg8(u32 index){
   setBorgFlag();
-  return (Borg8header *)getBorgItem(param_1);}
+  return (Borg8header *)getBorgItem(index);}
 
 
 //gets called before almost every draw command
-Gfx * Graphics::SomeDListInit(Gfx *gfx,byte flag,ushort h,ushort v){
+Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
   u32 word1;
   u32 word0;
   

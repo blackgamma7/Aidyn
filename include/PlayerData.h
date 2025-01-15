@@ -1,4 +1,6 @@
 #include "GhidraDump.h"
+#include "itemID.h"
+#include "n64Borg.h"
 #include "PlaneObj.h"
 #include "collide.h"
 #include "Controller.h"
@@ -21,7 +23,7 @@ typedef enum PLAYERDATA_Flags {
     ACTOR_4000=0x4000
 } PLAYERDATA_Flags;
 
-//Main actor struct for entites moving n world
+//Main actor struct for entites moving in world
 struct playerData {
     u16 ID;
     short removeFlag;
@@ -104,3 +106,65 @@ struct playerData {
     vec3f skyTint; /* tint from environmental light */
     char field81_0x77c;
 };
+
+namespace Actor{
+    u8 IsFlyingModel(playerData*);
+    void GetPosOnLoadedMap(playerData*,vec3f*);
+    void AddPosOnLoadedMap(u8,vec2f *);
+    void SubPosOnLoadedMap(u8,vec3f *);
+    u8 CheckCollision(playerData *,float ,s16 ,u16);
+    void Init(playerData *,u16 );
+    Gfx* CalculateShadow(playerData *,Gfx *,float ,u8);
+    playerData * AllocPlayer(float,float,float,float,u32);
+    void FreePlayer(playerData *);
+    void remove_flagged_playerdata(void);
+    void ChangeAppearance(playerData *,u32);
+    void FreePlayerActor(playerData *);
+    void SetFlag(playerData *,u16);
+    void UnSetFlag(playerData *,u16);
+    void DeathFlag(playerData *);
+    void EmptyHands(playerData *);
+    void Move(playerData *,controller_aidyn *);
+    void MemsetController(ControllerFull *);
+    void ClearInput(playerData *);
+    void setMoveBasedOnCamera(vec2f *,vec2f *);
+    void SetControllerWalk(ControllerFull *,vec2f *);
+    void SetControllerRun(ControllerFull *,vec2f *);
+    void ClearInputMoveFlags(playerData *);
+    void SetAiDest(playerData *,float,float,float,u16);
+    void ResetMoveQueue(playerData *);
+    void SetFacing(playerData *,float,float);
+    void MoveTo(playerData *);
+    void MoveNearShadow(playerData *,vec3f *,float);
+    void UnsetFlag4(playerData *);
+};
+
+//TODO: Rename some of the following to use Actor namespace
+
+void get_mapcellsize(u8 ,vec2f *);
+void InitPlayerHandler(Camera_struct *,s16,s32);
+void FreePlayerHandler(void);
+u8 FUN_80015d70(PlayerHandler *,playerData *,float,u8);
+void playerdata_remove_dcm(playerData *,u16);
+DCMSub2 * AllocPlayerAudio(playerData *,UnkAudioStruct *,ushort,u16);
+u8 FUN_8001620c(playerData *);
+void ProcessPlayers(PlayerHandler *,s16);
+void FUN_80017330(playerData *,float,float,float,float);
+void FUN_80017388(playerData *,float);
+void some_player_render_sub(playerData *,AnimationData *,vec3f*,u8,u16);
+void set_sun_light(AnimationData *,u32,voxelObject*,u8);
+Gfx * renderPlayers(PlayerHandler *,Gfx *,short,short,short);
+void edit_playerdat_combat_pos(playerData *,vec3f *);
+void FUN_800187f4(attachmentNode *);
+void AttachItemToPlayer(playerData *,u16,u32);
+void FreeAttachmentFromPlayer(playerData *,u16);
+void ChangeAttachmentNode(playerData*,u16,u16,char*,u16);
+void FUN_80018b84(void);
+void FUN_80018bf0(playerData *);
+void FUN_80018c38(void);
+void camera_control_update_(float,float,vec2f*,vec2f*);
+void setCombatCameraMode(ushort);
+void SetPlayerMoveToQueue(playerData *,float,float,float,s16);
+void FUN_80019770(playerData *);
+void FUN_80019b08(playerData *);
+void debug_sub_3(void);

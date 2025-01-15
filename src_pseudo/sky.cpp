@@ -22,7 +22,7 @@ void Sky::loadDay(SkySubstruct *param_1,u16 param_2){
   if (param_2 != param_1->type) {
     FreeSubstruct(param_1);
     param_1->type = param_2;
-    pBVar6 = get_borg_8(sky_borg8s[param_2]);
+    pBVar6 = loadBorg8(sky_borg8s[param_2]);
     param_1->Borg8 = pBVar6;
     param_1->Bitmap = (pBVar6->dat).offset;
     if (((pBVar6->dat).Height != 37) || ((pBVar6->dat).Width != 12))

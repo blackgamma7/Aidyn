@@ -15,7 +15,7 @@ void Gameover_func(void){
   bVar4 = GameOverScenes[0];
   pvVar9 = NULL;
   //load up dream sequence map
-  pBVar5 = get_borg_9(0xd5f);
+  pBVar5 = loadBorg9(0xd5f);
   //TODO: cleanup mangled for-loop 
   iVar8 = 0;
   do {

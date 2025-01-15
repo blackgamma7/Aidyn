@@ -555,7 +555,7 @@ byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_
           }
           else {
             IVar3 = (ppGVar11[uVar12]->base).id;
-            if ((ushort)IVar3.s >> 8 == (ushort)IVar2.s >> 8) {
+            if (ITEMIDTYPE(IVar3) == ITEMIDTYPE(IVar2)) {
               if (param_5) *param_5 = IVar3;
               bVar10 = Party::RemoveGearFrom(p,param_2,(byte)uVar12);
               if (bVar10) {
@@ -2350,13 +2350,13 @@ LAB_80082f80:
 }
 
 //unknown, unused.
-u8 FUN_80082fcc(u16 *this,u16 param_2){
-  if () return *this == param_2;
+u8 FUN_80082fcc(u16 *x,u16 param_2){
+  if (x) return *x == param_2;
   return false;
 }
 
 u8 Party::HasItemEquipped(s32 param_2,ItemID param_3){
-  Temp_weapon *pTVar1;
+  WeaponInstance *pTVar1;
   u8 bVar2;
   
   if (this->Members[param_2] == NULL) {bVar2 = false;}

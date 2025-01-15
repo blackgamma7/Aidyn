@@ -83,7 +83,7 @@ void TitleSplash::Init(void){
   gGlobals.splashScreenUnkC = 0;
   gGlobals.splashscreenTimer = 0;
   fadeFloatMirror = 1.0f;
-  SplashLicence = new WidgetBorg8(get_borg_8(BORG8_LicencedByNintendo));
+  SplashLicence = new WidgetBorg8(loadBorg8(BORG8_LicencedByNintendo));
   SplashLicence->SetColor(0,0,0,0);
   SplashLicence->SetCoords(160 -(SplashLicence->GetWidth()/2),190);
 }
@@ -99,11 +99,11 @@ void TitleSplash::Load(void){
   u32 BVar1;
   
   gGlobals.splashscreenSwitch = 5;
-  gGlobals.thqBorg8 = get_borg_8(BORG8_LogoTHQ);
-  gGlobals.h20Borg8 = get_borg_8(BORG8_LogoH20);
+  gGlobals.thqBorg8 = loadBorg8(BORG8_LogoTHQ);
+  gGlobals.h20Borg8 = loadBorg8(BORG8_LogoH20);
   BVar1 = BORG8_EXPPakNo;
   if (gExpPakFlag) BVar1 = BORG8_EXPPakYes;
-  SplashExpPak = get_borg_8(BVar1);
+  SplashExpPak = loadBorg8(BVar1);
   TitleSplash::Init();
   gGlobals.splashscreenTimer = 0;
   gGlobals.splashScreenUnkA = 0;

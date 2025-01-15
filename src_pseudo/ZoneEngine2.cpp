@@ -655,7 +655,7 @@ void FreeZoneEngineMemory(void){
 void loading_map_data(ZoneDat *param_1){
     if ((param_1->mapPointer == NULL) && (param_1->borg9_id)) {
     param_1->MapTally = gGlobals.maptally++;
-    param_1->mapPointer = get_borg_9(param_1->borg9_id);
+    param_1->mapPointer = loadBorg9(param_1->borg9_id);
     attachPhysicsProperties(&param_1->mapPointer->dat);
     render_ref_objs(&param_1->mapPointer->dat,param_1->index);
     look_for_monsterparties(&gGlobals.wander,&param_1->mapPointer->dat,param_1->MapTally,param_1->index);

@@ -3,17 +3,17 @@
 
 void Sundial::Init(void){
   ALLOC(gSundail,108);
-  gSundail->Ring = get_borg_8(BORG8_compassRing);
-  gSundail->Cross = get_borg_8(0x1ba);
-  gSundail->MoonPhase0 = get_borg_8(0x1b8);
-  gSundail->MoonPhase1 = get_borg_8(0x1b3);
-  gSundail->MoonPhase2 = get_borg_8(0x1b4);
-  gSundail->MoonPhase3 = get_borg_8(0x1b6);
-  gSundail->MoonPhase4 = get_borg_8(0x1b7);
-  gSundail->MoonPhase5 = get_borg_8(0x1b5);
-  gSundail->SunBig = get_borg_8(0x1bb);
+  gSundail->Ring = loadBorg8(BORG8_compassRing);
+  gSundail->Cross = loadBorg8(0x1ba);
+  gSundail->MoonPhase0 = loadBorg8(0x1b8);
+  gSundail->MoonPhase1 = loadBorg8(0x1b3);
+  gSundail->MoonPhase2 = loadBorg8(0x1b4);
+  gSundail->MoonPhase3 = loadBorg8(0x1b6);
+  gSundail->MoonPhase4 = loadBorg8(0x1b7);
+  gSundail->MoonPhase5 = loadBorg8(0x1b5);
+  gSundail->SunBig = loadBorg8(0x1bb);
   gSundail->moon = 0;
-  gSundail->SunSmall = get_borg_8(0x1b9);
+  gSundail->SunSmall = loadBorg8(0x1b9);
   gSundail->sun = 0;
 }
 

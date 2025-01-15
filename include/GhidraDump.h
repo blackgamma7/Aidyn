@@ -43,8 +43,8 @@ struct astruct_2 {
     BaseWidget *field18_0x24;
     BaseWidget *scrollMenu;
 };
-
-typedef enum Borg7Enum { /* entity model data? */
+/*
+typedef enum Borg7Enum { // entity model data? 
     Blank=0,
     grated sinking gate=3289,
     rocky magic pylon=3436,
@@ -106,7 +106,7 @@ typedef enum Borg7Enum { /* entity model data? */
     zombie=13449
 } Borg7Enum;
 
-
+*/
 
 typedef struct ControllerFull ControllerFull, *PControllerFull;
 
@@ -184,7 +184,7 @@ typedef struct Particle Particle, *PParticle;
 
 typedef struct ParticleEmmiter ParticleEmmiter, *PParticleEmmiter;
 
-
+/*
 typedef enum EventFlags {
     FLAG_Cinematic1=3,
     FLAG_MeetAlaron=5,
@@ -219,7 +219,7 @@ typedef enum borg13Enum {
     BORG13_HelpMenu=1355,
     BORG13_PassTheMarshmallows=6235
 } borg13Enum;
-
+*/
 typedef enum EnumMapDatA {
     MAPA_Overworld=0,
     MAPA_GwenCastle=4,
@@ -231,16 +231,6 @@ typedef enum EnumMapDatA {
     MAPA_Ugairt=13,
     MAPA_Battle=16
 } EnumMapDatA;
-
-struct light_obj_dat {
-    Color32 cols[3];
-    u16 lightType; /* 0-3 are valid types */
-    u16 field2_0xe;
-    float f0;
-    float f1;
-    float f2;
-    u8 align[40];
-};
 
 struct AniLightData {
     undefined field0_0x0;
@@ -522,13 +512,7 @@ struct ParticleHeadStruct {
     Mtx alignMtx[2];
 };
 
-struct Borg5header {
-    u32 field0_0x0;
-    u32 field1_0x4;
-    void *unk8;
-    void *aniTextures;
-    Borg5data dat;
-};
+
 
 struct struct_1 {
     astruct_1 *field0_0x0;
@@ -565,48 +549,6 @@ struct AniDatSubstruct {
     undefined field5_0xf;
 };
 
-struct Borg7data {
-    u32 field0_0x0;
-    int borg6_size;
-    int field2_0x8;
-    u32  borg6;
-    undefined field4_0x10;
-    undefined field5_0x11;
-    undefined field6_0x12;
-    undefined field7_0x13;
-    undefined *unk14;
-};
-
-struct Borg7header {
-    s32 index;
-    undefined field1_0x4;
-    undefined field2_0x5;
-    undefined field3_0x6;
-    undefined field4_0x7;
-    AnimationData *aniDat;
-    u16 currentAni;
-    u16 field7_0xe;
-    u16 field8_0x10;
-    u16 field9_0x12;
-    undefined field10_0x14;
-    undefined field11_0x15;
-    undefined field12_0x16;
-    undefined field13_0x17;
-    void **unk18;
-    struct_1 *unk1c;
-    vec3f unk20;
-    vec3f unk2c;
-    struct_45 unk38;
-    Borg7data dat;
-};
-
-struct borg9_phys {
-    vec3f *vertexpointers[3];
-    vec3f normal;
-    EnvProp *envProperty;
-    u16 flags; /* 0x100 - need normalize */
-    u16 GroundType;
-};
 
 typedef struct unkGuiClassA unkGuiClassA, *PunkGuiClassA;
 
@@ -621,14 +563,14 @@ struct unkGuiClassA {
 };
 
 typedef struct astruct_8 astruct_8, *Pastruct_8;
-
+/*
 typedef enum borg9Enum {
     Dryad Forest=4034,
     StartingMap=4059,
     oriana's hut=5266,
     Borg9_campfire=6236
 } borg9Enum;
-
+*/
 
 struct astruct_8 {
     u32 field0_0x0;
@@ -688,7 +630,7 @@ typedef struct borg13data borg13data, *Pborg13data;
 typedef struct struct_3 struct_3, *Pstruct_3;
 
 typedef struct borg13command borg13command, *Pborg13command;
-
+/*
 typedef enum borg13_commands {
     Fade_in=1,
     loadMonster=16,
@@ -719,7 +661,7 @@ typedef enum borg13_commands {
     CampFullHeal=54,
     give exp=56
 } borg13_commands;
-
+*/
 struct WidgetHandler {
     BaseWidget *widgetA;
     BaseWidget *widgetB;
@@ -979,14 +921,14 @@ typedef u8 PFS_ERR8;
 
 typedef enum Borg8Enum { /* Sprites/Textures */
     BORG8_CompassWest=23,
-    BORG8_CompassNorth=24,
+    //BORG8_CompassNorth=24,
     BORG8_CompassSouth=25,
     BORG8_CompassEast=26,
     BORG8_compassRing=27,
-    BORG8_MainFont=29,
+    //BORG8_MainFont=29,
     BORG8_MapIconStart=30,
-    long down arrow=213,
-    BORG8_Spacer=215,
+    //long down arrow=213,
+    //BORG8_Spacer=215,
     BORG8_PauseBGOptions=216,
     BORG8_PauseBGStats=217,
     BORG8_PauseBGMap=218,
@@ -994,22 +936,22 @@ typedef enum Borg8Enum { /* Sprites/Textures */
     BORG8_CampTitle=221,
     BORG8_LogoH2O=222,
     BORG8_PortraitHighlight=223,
-    Parchment background=226,
-    Parchment Background_2=227,
-    Parchment shadow=228,
-    Parchment Window 2=229,
+    //Parchment background=226,
+   // Parchment Background_2=227,
+    //Parchment shadow=228,
+    //Parchment Window 2=229,
     BORG8_TitleJournal=230,
     BORG8_TitleInventory=233,
     BORG8_TitleSkills=236,
     BORG8_TitleSpells=237,
     BORG8_TitleTrain=239,
     BORG8_TitleMenui=242,
-    square highlight=243,
-    66 px highligh 2=244,
-    66 px highlight=245,
-    map marker=246,
+    //square highlight=243,
+    //66 px highligh 2=244,
+    //66 px highlight=245,
+    //map marker=246,
     BORG8_CONTROLLER_PAK=247,
-    blank space?=248,
+    //blank space?=248,
     BORG8_TitleEnterName=249,
     BORG8_TitleLicence=250,
     BORG8_WarningNoController=251,
@@ -1022,7 +964,7 @@ typedef enum Borg8Enum { /* Sprites/Textures */
     BORG8_TitlePressStart=258,
     Borg8_TitleCard=259,
     Borg8_TitleCardShadow=260,
-    42 px box=261,
+    //42 px box=261,
     BORG8_PortraitAbrecan=262,
     BORG8_PortraitAlaron=264,
     BORG8_PortraitBat=272,
@@ -1062,7 +1004,7 @@ typedef enum Borg8Enum { /* Sprites/Textures */
     BORG8_MoonGibb=407,
     BORG8_MoonFull=408,
     pillar=409,
-    Sun texture?=418,
+    //Sun texture?=418,
     BORG8_IconAsLunar=419,
     BORG8_IconAsSolar=420,
     BORG8_IconSpell0=421,
@@ -1084,14 +1026,14 @@ typedef enum Borg8Enum { /* Sprites/Textures */
     BORG8_GradientB=450,
     BORG8_GradientC=451,
     BORG8_Pixel=452,
-    2 black pixels=453,
-    28 px soft edge square=454,
-    14px square=455,
-    Gwen map overlay=457,
-    galaxy swirl?=464,
-    Fire effect?=3424,
-    Some Face?=3514,
-    musical notes=6842,
+    //2 black pixels=453,
+    //28 px soft edge square=454,
+    //14px square=455,
+    //Gwen map overlay=457,
+    //galaxy swirl?=464,
+    //Fire effect?=3424,
+    //Some Face?=3514,
+    //musical notes=6842,
     BORG8_IconItemAmoranth=13756,
     BORG8_IconItemAmulet1=13757,
     BORG8_IconItemAmulet2=13758,
@@ -1102,18 +1044,18 @@ typedef enum Borg8Enum { /* Sprites/Textures */
     BORG8_IconItemCheastArmor3=13763,
     BORG8_IconItemCheastArmor4=13764,
     Axe=13765,
-    Flag/sythe=13766,
+    //Flag/sythe=13766,
     Circlet=13767,
     Cuccoon=13768,
-    Boot icon=13769,
-    Bow and arrow icon=13770,
-    Cloack Icon=13771,
-    green cloack icon=13772,
-    purple cloack icon=13773,
+    //Boot icon=13769,
+    //Bow and arrow icon=13770,
+    //Cloack Icon=13771,
+    //green cloack icon=13772,
+    //purple cloack icon=13773,
     BORG8_IconItemClub=13774,
     BORG8_IconItemSword=13775,
     BORG8_IconItemStaff=13776,
-    2 pad icon=13777,
+    //2 pad icon=13777,
     BORG8_IconItemGem=13778,
     BORG8_IconItemGem2=13779,
     BORG8_IconItemGem3=13780,
@@ -1146,27 +1088,27 @@ typedef enum Borg8Enum { /* Sprites/Textures */
     BORG8_IconSlotShield=13823,
     BORG8_IconSlotStaff=13824,
     BORG8_IconSlotSword=13825,
-    Spotlight?=13826,
+    //Spotlight?=13826,
     BORG8_BGBook2=13827,
     BORG8_BGPlaque=13828,
     BORG8_BGParchment=13829,
     BORG8_BGBookLeaf=13830,
     BORG8_BGBluPlaque=13831,
     BORG8_BGParchment2=13832,
-    2 horizontal arrows=14166,
+    //2 horizontal arrows=14166,
     BORG8_ExpPakYes=14168,
     BORG8_ExpPakNo=14169,
     Ritual=14171,
-    crecent moon=14239,
-    half moon=14240,
+    //crecent moon=14239,
+    //half moon=14240,
     PortSaidMarker=14270,
-    Terminor Marker=14272,
-    Ugarit Marker=14273,
+    //Terminor Marker=14272,
+    //Ugarit Marker=14273,
     Borg8_PAL_Warning=14275,
     BORG8_PortraitMinotuar=14406,
     cyclops_Hurlstar=14422,
     BORG8_PortraitHorse=14423,
-    up arrow=14544
+    //up arrow=14544
 } Borg8Enum;
 
 typedef struct SaveDatStruct SaveDatStruct, *PSaveDatStruct;
@@ -1449,8 +1391,8 @@ struct WidgetSubstruct_Shadowtext {
     undefined field14_0x1b;
     u32 field15_0x1c;
 };
-
-typedef enum Borg12Enum { /* Music/SFX */
+/*
+typedef enum Borg12Enum { // Music/SFX 
     Tacet=0,
     BORG12_Intro_NoExp=1497,
     BORG12_chimeScale=1511,
@@ -1483,7 +1425,7 @@ typedef enum Borg12Enum { /* Music/SFX */
     Menu_Scroll=1870,
     Heavy Whack=1871
 } Borg12Enum;
-
+*/
 typedef struct borg13header borg13header, *Pborg13header;
 
 struct borg13header {
@@ -1542,8 +1484,6 @@ typedef enum ElementEnum {
     ELEMENT_AIR, ELEMENT_STAR, ELEMENT_ELEMENTAL, ELEMENT_CHAOS, ELEMENT_CUTTING, 
     ELEMENT_SMASHING, ELEMENT_HOLY
 } ElementEnum;
-
-typedef struct ArmorInstance ArmorInstance, *PArmorInstance;
 
 typedef struct WeaponInstance WeaponInstance, *PWeaponInstance;
 
@@ -2155,18 +2095,6 @@ struct Spell_RAM {
 
 typedef struct weapon_ram weapon_ram, *Pweapon_ram;
 
-
-
-typedef struct Armour_ROM Armour_ROM, *PArmour_ROM;
-
-typedef ItemID_ROM ItemID_ROM, *PItemID_ROM;
-
-
-ItemID_ROM {
-    u8 ID;
-    enum DBTypeEnum Type;
-};
-
 struct Armour_ROM { /* Armour data in Rom */
     char name[23];
     ItemID_ROM id;
@@ -2670,16 +2598,6 @@ struct ArmorPointer {
     u8 total;
     u8 pad;
     armour_RAM *Armor;
-};
-
-typedef struct BorgListing BorgListing, *PBorgListing;
-
-struct BorgListing {
-    short Type; /* Borg type */
-    short Compression; /* none,LZ01x,LZB */
-    int compressed; /* size in ROM */
-    int uncompressed; /* size in RAM */
-    int Offset; /* index in in ROM DB */
 };
 
 typedef struct Camera_struct Camera_struct, *PCamera_struct;

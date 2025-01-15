@@ -292,7 +292,7 @@ CharSheet * SaveParty::LoadCharSheetEffects(SaveFile *sav){
     ALLOCS(chara->potionEffects,sizeof(PotionEffect*) * POTION_FXMAX,1855);
     memset(chara->potionEffects,0,0x1c);
     for(i=0;i<POTION_FXMAX;i++) LoadPotionEffect(sav,chara);
-    chara->portrait = get_borg_8(getEntityPortrait(gEntityDB,chara->ID));
+    chara->portrait = loadBorg8(getEntityPortrait(gEntityDB,chara->ID));
   }
   return chara;
 }

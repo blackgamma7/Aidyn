@@ -3,7 +3,7 @@
 #define FILENAME "../gameclasses/spell.cpp"
 
 extern ItemID itemID_array[];
-void create_temp_spell(SpellInstance *S,ItemID ID,u8 RANK){
+void TempSpell::Init(SpellInstance *S,ItemID ID,u8 RANK){
   Spell_RAM *pSVar2;
   
   S->level = RANK;

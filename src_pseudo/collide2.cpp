@@ -34,8 +34,8 @@ LAB_800ae7c0:
     if (fVar8 < fVar9) {
       pfVar7 = local_80 + 1;
       for(iVar6 = 2;-1 < iVar6;iVar6--) {
-        pvVar1 = param_2->vertexpointers[0];
-        param_2 = (borg9_phys *)(param_2->vertexpointers + 1);
+        pvVar1 = param_2->verts[0];
+        param_2 = (borg9_phys *)(param_2->verts + 1);
         *pfVar5 = pvVar1->z;
         pfVar5 = pfVar5 + 2;
         *pfVar7 = pvVar1->y;
@@ -46,8 +46,8 @@ LAB_800ae7c0:
     else {
       pfVar5 = local_80 + 1;
       for(iVar6 = 2;-1 < iVar6;iVar6--) {
-        pvVar1 = param_2->vertexpointers[0];
-        param_2 = (borg9_phys *)(param_2->vertexpointers + 1);
+        pvVar1 = param_2->verts[0];
+        param_2 = (borg9_phys *)(param_2->verts + 1);
         *pfVar7 = pvVar1->x;
         pfVar7 = pfVar7 + 2;
         *pfVar5 = pvVar1->y;
@@ -72,8 +72,8 @@ LAB_800ae888:
     if (fVar9 < fVar8) {
       pfVar5 = local_80 + 1;
       for(iVar6 = 2;-1 < iVar6;iVar6--) {
-        pvVar1 = param_2->vertexpointers[0];
-        param_2 = (borg9_phys *)(param_2->vertexpointers + 1);
+        pvVar1 = param_2->verts[0];
+        param_2 = (borg9_phys *)(param_2->verts + 1);
         *pfVar3 = pvVar1->x;
         pfVar3 = pfVar3 + 2;
         *pfVar5 = pvVar1->z;
@@ -85,8 +85,8 @@ LAB_800ae888:
     }
     pfVar5 = local_80 + 1;
     for(iVar6 = 2;-1 < iVar6;iVar6--) {
-      pvVar1 = param_2->vertexpointers[0];
-      param_2 = (borg9_phys *)(param_2->vertexpointers + 1);
+      pvVar1 = param_2->verts[0];
+      param_2 = (borg9_phys *)(param_2->verts + 1);
       *pfVar4 = pvVar1->x;
       pfVar4 = pfVar4 + 2;
       *pfVar5 = pvVar1->y;
@@ -126,8 +126,8 @@ bool FUN_800aea44(vec3f *pos,vec3f *vel,float spd,borg9_phys *param_4,float *par
   fStack248.x = (pos->x - (param_4->normal).x * spd) + vel->x;
   fStack248.y = (pos->y - (param_4->normal).y * spd) + vel->y;
   fStack248.z = (pos->z - (param_4->normal).z * spd) + vel->z;
-  Vec3_sub(&fStack184,pos,param_4->vertexpointers[0]);
-  Vec3_sub(avStack_78,&fStack248,param_4->vertexpointers[0]);
+  Vec3_sub(&fStack184,pos,param_4->verts[0]);
+  Vec3_sub(avStack_78,&fStack248,param_4->verts[0]);
   fVar1 = vec3_dot(&fStack184,&param_4->normal);
   fVar2 = vec3_dot(avStack_78,&param_4->normal);
   *param_5 = fVar2;
@@ -164,8 +164,8 @@ bool FUN_800aec1c(vec3f *param_1,vec3f *param_2,float param_3,borg9_phys *param_
   local_e8.x = local_128.x + param_2->x;
   local_e8.y = local_128.y + param_2->y;
   local_e8.z = local_128.z + param_2->z;
-  Vec3_sub(avStack_a8,&local_128,param_4->vertexpointers[0]);
-  Vec3_sub(avStack_68,&local_e8,param_4->vertexpointers[0]);
+  Vec3_sub(avStack_a8,&local_128,param_4->verts[0]);
+  Vec3_sub(avStack_68,&local_e8,param_4->verts[0]);
   fVar2 = vec3_dot(avStack_a8,&param_4->normal);
   fVar3 = vec3_dot(avStack_68,&param_4->normal);
   *param_5 = fVar3;
@@ -209,12 +209,8 @@ bool FUN_800aede8(collisionSphere *param_1,float param_2,vec3f *param_3,vec3f *p
   fVar3 = vec3_dot(&afStack264,&afStack264);
   fVar4 = vec3_dot(&fStack200,&fStack200);
   fVar4 = fVar4 * fVar3 - fVar2 * fVar2;
-  if (fVar4 < 0.0) {
-    bVar1 = -fVar4 < 1.0E-6f;
-  }
-  else {
-    bVar1 = fVar4 < 1.0E-6f;
-  }
+  if (fVar4 < 0.0) bVar1 = -fVar4 < NORMALIZE_MIN;
+  else bVar1 = fVar4 < NORMALIZE_MIN;
   if (bVar1) return false;
   fVar5 = vec3_dot(&afStack328,&afStack264);
   fVar6 = vec3_dot(&afStack328,&fStack200);

@@ -357,9 +357,9 @@ void trigger_vobject_func(voxelObject *arg0){
       do {
         uVar6 = pbVar2[uVar8].GroundType;
         if (((uVar6 & 0xf000) == 0x1000) && ((uVar6 >> 5 & 0x7f) == (arg0->trigger).flagA)) {
-          uVar6 = *(ushort *)((int)pbVar2->vertexpointers + iVar5 + 0x1c) & (arg0->trigger).flagB;
+          uVar6 = *(ushort *)((int)pbVar2->verts + iVar5 + 0x1c) & (arg0->trigger).flagB;
           pbVar2[uVar8].flag &=(arg0->trigger).flagB;
-          *(EventFlag *)((int)pbVar2->vertexpointers + iVar5 + 0x1c) = uVar6 | (arg0->trigger).flagC
+          *(EventFlag *)((int)pbVar2->verts + iVar5 + 0x1c) = uVar6 | (arg0->trigger).flagC
           ;
         }
         uVar8 = uVar8 + 1 & 0xffff;

@@ -923,7 +923,7 @@ void FUN_80061dfc(CombatAI_s* param_1){
   u8 bVar2;
   CombatEntity *pCVar3;
   CharSheet *pCVar4;
-  Temp_weapon *pTVar5;
+  WeaponInstance *pTVar5;
   char X;
   u8 Y;
   u32 uVar7;
@@ -1652,7 +1652,7 @@ u8 FUN_80063258(CombatAI_s* param_1)
 void Ai_swap_weapons(CombatAI_s* param_1){
   CombatEntity *pCVar1;
   CharSheet *pCVar2;
-  Temp_weapon *pTVar3;
+  WeaponInstance *pTVar3;
   
   if (param_1->weapon) {
     pCVar1 = param_1->combatEnt;
@@ -1673,7 +1673,7 @@ u8 ai_should_swap_weapons(CombatAI_s* param_1)
 
 {
   CharSheet *pCVar1;
-  Temp_weapon *pTVar2;
+  WeaponInstance *pTVar2;
   u8 bVar3;
   char cVar4;
   u8 bVar5;

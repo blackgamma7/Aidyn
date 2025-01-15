@@ -1,6 +1,7 @@
-#include "GhidraDump.h"
+#include "itemID.h"
+#include "savefiles.h"
 
-typedef enum WeaponClassEnum {
+enum WeaponClassEnum {
     WEAPON_Bite,
     WEAPON_Breath,
     WEAPON_Claw,
@@ -13,14 +14,14 @@ typedef enum WeaponClassEnum {
     WEAPON_Thrown,
     WEAPON_Tusk,
     WEAPON_Total
-} WeaponClassEnum;
+} ;
 
-typedef enum SkillEnum {
+enum SkillEnum {
  	SKILL_Alchemist, SKILL_Diplomat, SKILL_Healer, SKILL_Loremaster,
     SKILL_Mechanic, SKILL_Merchant, SKILL_Ranger, SKILL_Stealth,
     SKILL_Theif, SKILL_Troubador, SKILL_Warrior, SKILL_Wizard, 
     SKILL_Total,SKILL_NONE=255
-} SkillEnum;
+};
 
 #define SKILLCOUNT SKILL_Total
 #define WEAPONCOUNT WEAPON_Total

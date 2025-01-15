@@ -163,8 +163,8 @@ short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_stru
         bVar3 = false;
         bVar7 = (pbVar11->flags & 1);
         if ((pbVar11->flags & 0x100)) {
-          NormalizeTri(&pbVar11->normal,pbVar11->vertexpointers[0],pbVar11->vertexpointers[1],
-                       pbVar11->vertexpointers[2]);
+          NormalizeTri(&pbVar11->normal,pbVar11->verts[0],pbVar11->verts[1],
+                       pbVar11->verts[2]);
         }
         fVar15 = collider->radius;
         fVar14 = collider->envProps->colA->unk8 + pbVar11->envProperty->colA->unk8;
@@ -241,7 +241,7 @@ LAB_800afb44:
                 fStack96.y = (float)(pbVar11->flags & 8);
               }
               if (fStack96.y) {
-                if (FUN_800aede8(collider,fVar15,pbVar11->vertexpointers[iVar8],pbVar11->vertexpointers[(iVar8 + 1) % 3],&fStack96,&fStack224)) {
+                if (FUN_800aede8(collider,fVar15,pbVar11->verts[iVar8],pbVar11->verts[(iVar8 + 1) % 3],&fStack96,&fStack224)) {
                   collision_velocity_func(vel,&fStack224);
                   vec3A_plusBMulC(A,&fStack224,fStack96.x - collider->radius);
                   bVar7 = FUN_800af578(collider,pbVar11->envProperty,&fStack224);
@@ -291,7 +291,7 @@ LAB_800afd30:
                   fStack96.z = (float)(pbVar11->flags & 0x80);
                 }
                 if (fStack96.z) {
-                  if (FUN_800af050(collider,fVar15,pbVar10->vertexpointers[0],0,&fStack96,&fStack224,&fStack160)) {
+                  if (FUN_800af050(collider,fVar15,pbVar10->verts[0],0,&fStack96,&fStack224,&fStack160)) {
                     collision_velocity_func(vel,&fStack224);
                     vec3A_plusBMulC(A,&fStack224,fStack96.x - fVar15);
                     bVar7 = FUN_800af578(collider,pbVar11->envProperty,&fStack224);
@@ -317,7 +317,7 @@ LAB_800afd30:
                   }
                 }
                 iVar9 = iVar8 >> 0x10;
-                pbVar10 = (borg9_phys *)(pbVar10->vertexpointers + 1);
+                pbVar10 = (borg9_phys *)(pbVar10->verts + 1);
                 iVar8 = iVar8 + 0x10000;
               } while (iVar9 < 3);
             }

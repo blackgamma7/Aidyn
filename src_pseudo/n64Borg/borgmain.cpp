@@ -7,15 +7,7 @@
 u32 borgFlag;
 //borg_funcs_a: first step in initalization
 //borg_funcs_b: second step, sometimes appends the header
-s32 gBorgHeaderSizes[15]= {8,16,88,16,8,16,32,80,8,8,8,8,8,16,8};
-u8 animChache=3;
-u32 borg_mem[15];
-u32 borg_count[15];
-void** borg_index_x4;
-u8* borg_index_x1;
-void* BorgListingPointer;
-void* borgFilesPointer;
-u32 borgTotal;
+
 
 void setBorgFlag(void){borgFlag = 1;}
 void clearBorgFlag(void){borgFlag = 0;}
@@ -208,9 +200,9 @@ void borg0_func_a(s32 *a){ *a += (s32)a;}
 u8 borg0_func_b(s32 *a,s32 b){ a[2] = b; return false;}
 void Ofunc_borg0_free(s32 *param_1){
   s32 memOld = get_memUsed();
-  if (*param_1 == -1) HeapFree((void *)param_1[2],FILENAME,834);
+  if (*param_1 == -1) HFREE((void *)param_1[2],834);
   else dec_borg_count(*param_1);
-  HeapFree(param_1,FILENAME,841);
+  HFREE(param_1,841);
   borg_mem[0] -= (memOld - get_memUsed());
   borg_count[0]--;
 }
@@ -308,7 +300,7 @@ void borg2_func_a(borg2data *param_1){
   }
 }
 
-u8 borg2_func_b(borg2header *param_1,borg2data *param_2){
+u8 borg2_func_b(Borg2header *param_1,borg2data *param_2){
   param_1->lookat[0] = NULL;
   param_1->lookat[1] = NULL;
   param_1->dat = param_2;
@@ -330,7 +322,7 @@ u8 borg2_func_b(borg2header *param_1,borg2data *param_2){
   return false;
 }
 
-void borg_2_free(borg2header *param_1){
+void borg_2_free(Borg2header *param_1){
   int iVar1 = get_memUsed();
   if (param_1->dlist) {
     if (0 < param_1->dat->dsplistcount) {
@@ -377,7 +369,7 @@ void borg3_free(Borg3Data *param_1){
 //"borg5": probably model data. DEFINITELY needs more info
 void borg5_func_a(Borg5header *b5){
   u32 *puVar1;
-  borg2header **ppbVar2;
+  Borg2header **ppbVar2;
   Borg1header **ppBVar3;
   u16 *puVar4;
   borg5substruct *pbVar6;
@@ -401,7 +393,7 @@ void borg5_func_a(Borg5header *b5){
   }
   ppbVar2 = (b5->dat).borg2Indecies;
   if (ppbVar2 != NULL) {
-    (b5->dat).borg2Indecies = (borg2header **)((int)(ppbVar2 + 4) + (int)b5);
+    (b5->dat).borg2Indecies = (Borg2header **)((int)(ppbVar2 + 4) + (int)b5);
   }
   ppBVar3 = (b5->dat).borg1Indecies;
   if (ppBVar3 != NULL) {
@@ -424,21 +416,21 @@ void borg5_func_a(Borg5header *b5){
   (b5->dat).ParticleDat = (Borg5_particle **)((int)&pBVar5->field11_0x10 + (int)(b5->dat).ParticleDat);
 }
 //These need re-decompiled once the header format is understood.
-u8 InitBorgScene(Borg5header *param_1){
+u8 InitBorgScene(Borg5header *param_1,void* x){
   Color32 *pCVar1;
   borg2data *pbVar2;
   int *piVar3;
   u8 bVar4;
   void *pvVar5;
   Borg3Data *pBVar6;
-  borg2header *pbVar7;
+  Borg2header *pbVar7;
   Borg1header *pBVar8;
   Mtx *pMVar9;
   LookAt *pLVar10;
   astruct_3 *paVar11;
   u32 *puVar12;
   uint size;
-  borg2header **ppbVar13;
+  Borg2header **ppbVar13;
   Vtx_t *puVar13;
   uint uVar14;
   u32 uVar15;
@@ -446,7 +438,7 @@ u8 InitBorgScene(Borg5header *param_1){
   Vtx_t *pVVar17;
   int iVar18;
   int iVar19;
-  borg2header **ppbVar20;
+  Borg2header **ppbVar20;
   void **ppvVar21;
   Borg1header **ppBVar22;
   borg5substruct *pbVar23;
@@ -500,7 +492,7 @@ u8 InitBorgScene(Borg5header *param_1){
     iVar19 = (param_1->dat).borg2Count;
     while (iVar19 != 0) {
       clearBorgFlag();
-      pbVar7 = (borg2header *)getBorgItem((int)*ppbVar13);
+      pbVar7 = (Borg2header *)getBorgItem((int)*ppbVar13);
       pbVar2 = pbVar7->dat;
       piVar3 = pbVar2->unk0x3c;
       *ppbVar13 = pbVar7;
@@ -631,12 +623,12 @@ u8 InitBorgScene(Borg5header *param_1){
 void borg5_free(Borg5header *param_1){
   int iVar2;
   u8 uVar3;
-  borg2header *pbVar4;
+  Borg2header *pbVar4;
   Borg1header *pBVar5;
   int iVar6;
   u32 uVar7;
   u32 *puVar8;
-  borg2header **ppbVar9;
+  Borg2header **ppbVar9;
   Borg1header **ppBVar10;
   
   iVar2 = get_memUsed();
@@ -691,7 +683,7 @@ void borg5_free(Borg5header *param_1){
   borg_mem[5]-= (iVar2 - get_memUsed());
   borg_count[5]--;
 }
-//"borg6": animation/cinematic data?
+//"borg6": animation/cinematic data
 void borg6_func_a(borg6header *param_1){
   short sVar1;
   short sVar2;

@@ -560,7 +560,7 @@ u8 get_weapon_animation(CombatEntity *param_1,u8 param_2){
 
 
 u32 FUN_80069114(CombatEntity *param_1){
-  Temp_weapon *pTVar1;
+  WeaponInstance *pTVar1;
   u32 uVar2;
   
   if (param_1->AtkType == 3) {uVar2 = 400;}
@@ -857,7 +857,7 @@ switchD_80069a74_caseD_5:
 }
 
 
-u8 can_effect_target(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3){
+u8 CombatEntity::SpellEffectsTarget(CombatEntity *param_1,CombatEntity *param_2,Temp_spell *param_3){
   u8 bVar1;
 
   u8 bVar3;
@@ -954,7 +954,7 @@ u8 ai_should_cast_magic(CombatEntity *param_1,CombatEntity *param_2){
   if (param_2->index == gGlobals.ShadowIndex) {return false;} //no magic with Shadow present
   if (param_1->index == gGlobals.ShadowIndex) {return false;}
   pTVar5 = getSpell(param_1->charSheetP);
-  if (can_effect_target(param_1,param_2,pTVar5)) {
+  if (CombatEntity::SpellEffectsTarget(param_1,param_2,pTVar5)) {
     bVar8 = GetIDIndex(pTVar5->id);
     if (ai_shouldnt_cast_magic(param_1,param_2,pTVar5)) {
         //cast if TP or self-target
@@ -1016,7 +1016,7 @@ u8 spell_taget_party_area(CombatEntity *param_1){
 }
 
 u32 FUN_8006a1dc(CombatEntity *param_1){
-  Temp_weapon *pTVar1;
+  WeaponInstance *pTVar1;
   u8 bVar3;
   u32 uVar2;
   u32 auStack72 [5];
@@ -1155,7 +1155,7 @@ void combat_escape_func(CombatEntity *param_1){
     clear_charsheet_potions(param_1->charSheetP);
     FUN_80096048(gGlobals.playerDataArray[param_1->index]);
     FUN_80094228(gGlobals.playerDataArray[param_1->index]);
-    playerData_death_flags(gGlobals.playerDataArray[param_1->index]);
+    Actor::DeathFlag(gGlobals.playerDataArray[param_1->index]);
     gGlobals.playerDataArray[param_1->index] = NULL;
     flee_draw_crossbones(param_1->charSheetP->ID,param_1->index);
   }
@@ -1340,7 +1340,7 @@ u8 phys_magic_element_bool(CombatEntity* param_1,ElementEnum param_2,ElementEnum
 
 u8 gear_element_resist(CombatEntity *param_1,ElementEnum param_2,float *param_3){
   ArmorInstance *ptVar1;
-  Temp_weapon *pTVar2;
+  WeaponInstance *pTVar2;
   CharGear *pCVar3;
   CharSheet *pCVar4;
   GearInstance *ptVar6;
@@ -1458,7 +1458,7 @@ u8 magic_resist_element_checks(CombatEntity *ent,Temp_spell *spell,float *resist
 
 {
   ArmorInstance *ptVar1;
-  Temp_weapon *pTVar2;
+  WeaponInstance *pTVar2;
   CharGear *pCVar3;
   GearInstance *ptVar4;
   CharSheet *pCVar5;
@@ -1541,89 +1541,60 @@ u32 get_STR_Steps(CombatEntity *param_1){
   return uVar2;
 }
 
-void CombatEntity::Death(CombatEntity *ent){ //probably a death func
-  u8 *pbVar1;
+
+void CombatEntity::Death(CombatEntity *param_1){
+  byte *pbVar1;
   CharSheet *pCVar2;
-  Temp_enchant *pTVar3;
-  CombatEntity *pCVar4;
-  CombatAI_s* pcVar5;
-  u32 uVar9;
+  CombatEntity *pCVar3;
+  bool bVar7;
+  uint uVar8;
   u32 i;
   
-  i = 0;
-  pCVar2 = ent->charSheetP;
-  while( true ) {
-    pTVar3 = pCVar2->spellEffects->list[i];
-    if (pTVar3) {
-      if (isPetrify(ent,pTVar3->index)) Entity::ClearSpellEffect(ent->charSheetP,i,ent);
+  pCVar2 = param_1->charSheetP;
+  for(i=0;i<MAGIC_FXMAX;i++) {
+    if (pCVar2->effects[i]) {
+      if (isPetrify(param_1,pCVar2->effects[i]->index))
+        Entity::ClearSpellEffect(param_1->charSheetP,(u8)i,param_1);
     }
-    i++;
-    if (0xe < i) break;
   }
-  FUN_800714d0(&gCombatP->substruct,get_combatEnt_x(ent),get_combatEnt_y(ent),ent->unk0x23);
+  FUN_800714d0(&gCombatP->substruct,GetCoordXU8(param_1),GetCoordYU8(param_1),param_1->unk23);
   gCombatP->EntsAlive--;
-  //flag Sholeh's death
-  if ((ItemID)(entityList[164] + 0x200) == ent->charSheetP->ID) {setEventFlag(0x26e,true);}
-  if (!CombatEnt_flag_5(ent)) {
-    gCombatP->playersAlive--;
-    register_party_deaths(PARTY);
-    if (CombatEnt_flag_2(ent)) {func_8006f2cc(ent);}
-  }
-  else {
+                    // Sholeh
+  if ((ItemID)(entityList[0xa4] + 0x200) == param_1->charSheetP->ID) setEventFlag(0x26e,true);
+  if (Flag5(param_1)) {
     gCombatP->EnemiesAlive--;
-    if (gCombatP->unk0x8 == 0) {
-      i = 0;
-      pbVar1 = &gCombatP->EntCount;
-      gCombatP->unk0x8 = 1;
-      if (*pbVar1 != 0) {
-        do {
-          pCVar4 = (&gCombatP->combatEnts)[i];
-          if (pCVar4 == NULL) {
-LAB_8006b3d4:
-            uVar9 = (u32)gCombatP->EntCount;
-          }
-          else {
-            if (pCVar4 == ent) {
-              if (CombatEnt_flag_4(pCVar4)) {
-                pcVar5 = pCVar4->aiP;
-                if (pcVar5 == NULL) {
-                  uVar9 = (u32)gCombatP->EntCount;
-                  goto LAB_8006b3d8;
-                }
-                pcVar5->flags |= 2;
-              }
-              goto LAB_8006b3d4;
+    if (gCombatP->firstKill == 0) {
+      gCombatP->firstKill = 1;
+      if (gCombatP->EntCount) {
+        for(i=0;i < gCombatP->EntCount;i++) {
+          pCVar3 = (&gCombatP->combatEnts)[i];
+            if ((pcVar3) && (pCVar3 == param_1)) {
+              if (Flag4(pCVar3)&&(pCVar3->aiP)) pCVar3->aiP->flags|= 2;
             }
-            uVar9 = (u32)gCombatP->EntCount;
-          }
-LAB_8006b3d8:
-          i++;
-        } while (i < uVar9);
+        }
       }
     }
   }
-  return;
+  else {
+    gCombatP->playersAlive--;
+    PARTY->CheckDeaths();
+    if (Flag2(param_1)) TroubadourEnd(param_1);
+  }
 }
 
-u8 check_for_petrify_effect(CombatEntity *ent){
-  CharSheet *pCVar1;
-  Temp_enchant *pTVar2;
-  u32 uVar4;
-  
-  uVar4 = 0;
-  pCVar1 = ent->charSheetP;
-  while ((pTVar2 = pCVar1->spellEffects->list[uVar4], pTVar2 == NULL ||(!isPetrify(pTVar2->index)))) {
-    uVar4++;
-    if (0xe < uVar4) return false;
+u8 CombatEntity::HasPetrifyEffect(CombatEntity *param_1){  
+  for(u8 i=0;i<MAGIC_FXMAX;i++){
+    if((param_1->charSheetP->pCVar1->effects[i])&&isPetrify(param_1,param_1->charSheetP->effects[i]->index))
+      return true;
   }
-  return true;
+  return false;
 }
 
 s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,char y,u8 backstab){
   CharSheet *pCVar2;
   CharStats_s* stats;
   CharSkills *pCVar3;
-  Temp_weapon *pTVar4;
+  WeaponInstance *pTVar4;
   CharStats_s* DefStats;
   s32 iVar6;
   s32 iVar7;
@@ -1651,7 +1622,7 @@ s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,cha
   sVar10 = 0;
   if (!petrified) sVar10 = get_sheild_warrior_skill(param_2);
   iVar9 = CharStats::getBase(DefStats,STAT_LV);
-  iVar6 = theif_backstab_mod(param_1,  //(STR,STAT_END,LV)+(WHit+WSkill*6+Warrior*2)-(DefDex*2+DefLV+(Warrior+SheildDef*Sheildskill))
+  iVar6 = CombatEntity::TheifBackstabMod(param_1,  //(STR,STAT_END,LV)+(WHit+WSkill*6+Warrior*2)-(DefDex*2+DefLV+(Warrior+SheildDef*Sheildskill))
     (s16)((((iVar6 + iVar7 + iVar8)) +(u32)pTVar4->hit + cVar11 * 6 + cVar12 * 2)) - (DefDex * 2 + (s16)iVar9 + sVar10),
     backstab,1,0x14);
   if (CharStats::getModded(DefStats,STAT_STAM) == 0) {iVar6 *= 1.15f;} //increase if target tired
@@ -1659,142 +1630,146 @@ s16 multiple_skill_checks(CombatEntity *param_1,CombatEntity *param_2,char x,cha
   iVar7 *= 0.05f * (float)iVar6 + (float)iVar6);
   if (CharStats::getModded(stats,STAT_STAM) == 0) iVar7 = *= 0.8f); //decrease if user tired
   if (TerrainPointer->partOfDay == NIGHT) {iVar7 = *= 0.9f);} //decrease if night
-  sVar10 = Combat_troubador_mod(param_1,some_aspect_multi(param_1,iVar7));
+  sVar10 = CombatEntity::TroubadorMod(param_1,some_aspect_multi(param_1,iVar7));
   if (sVar10 < 5) {sVar10 = 5;}
   return sVar10;
 }
 
-s32 skillcheck_float(CombatEntity *param_1,s16 rand,s16 param_3,SkillEnum param_4){
-  s32 rand1;
-  float fVar2;
+s16 skillcheck_float(CombatEntity *param_1,short rand,short param_3,u8 param_4){
+  s8 sVar2;
+  u16 uVar1;
+  float fVar3;
   
-  rand1 = (s32)rand;
-  fVar2 = (float)param_1->charSheetP->Skills->getModdedSkill(param_4);
-  if (param_3 * 0.2f <= fVar2) {fVar2 = param_3 * 0.2f;}
-  if ((float)rand1 <= fVar2) {rand1 = (s32)((rand1 - RollD(1,100)) * 0x10000) >> 0x10;}
-  return rand1;
+  sVar2 = param_1->charSheetP->Skills->getModdedSkill(param_4);
+  fVar3 = (float)(int)sVar2;
+  if ((float)(int)param_3 * 0.2f <= fVar3) {
+    fVar3 = (float)(int)param_3 * 0.2f;
+  }
+  if ((float)(int)rand <= fVar3) {
+    rand = (short)((rand - ((u8)RollD(1,100))));
+  }
+  return rand;
 }
 
 
-void combat_weapon_skill_check(CombatEntity *param_1,u8 param_2,u8 param_3){
-  float fVar2 = (float)param_2 * 0.1f;
-  if (RollD(1,100) <= (u8)fVar2) wonky_weapon_check(param_1->charSheetP->Skills,param_3,1);
+void CombatEntity::WeaponSkillUpChance(CombatEntity *param_1,u8 chance,u8 weapon){
+  if (RollD(1,100) <= (u8)(chance * 0.1f)) param_1->charSheetP->Skills->AddToBaseWeapon(weapon,1);
 }
 
 
-s16 calc_element_resist_multi(CombatEntity *param_1,CombatEntity *param_2,s16 param_3,ElementEnum param_4){
+s16 CombatEntity::CalcAttackResist(CombatEntity *param_1,CombatEntity *param_2,s16 param_3,ElementEnum param_4){
   CombatAI_s* pcVar1;
   float afStack32;
   
   afStack32 = 0.0;
   if (gear_element_resist(param_2,param_4,&afStack32)) {
     param_3 *= afStack32);
-    if ((afStack32 != 0.0) && (param_3 < 1)) {param_3 = 1;}
+    if ((afStack32 != 0.0) && (param_3 < 1)) param_3 = 1;
     if (((1.0f < afStack32) &&
         (pcVar1 = param_2->aiP, pcVar1)) &&
-       ((pcVar1->flags & 8) != 0)) {pcVar1->flags |= 0x12;}
+       ((pcVar1->flags & 8) != 0)) pcVar1->flags |= 0x12;
   }
   return param_3;
 }
 
-s16 use_weapon_enchantment(CombatEntity *param_1,CombatEntity *param_2){
-  Temp_weapon *pTVar1;
+s16 CombatEntity::UseWeaponEnchantment(CombatEntity *param_1,CombatEntity *param_2){
+  WeaponInstance *pTVar1;
   Temp_enchant *pTVar2;
   s16 ret;
-  Temp_spell TStack80;
+  SpellInstance TStack80;
   
   pTVar1 = param_1->charSheetP->weapons;
   if (pTVar1) {
     pTVar2 = pTVar1->enchantment;
     if (pTVar2) {
       ret = 0;
-      create_temp_spell(&TStack80,SpellList[pTVar2->index] | 0x300,pTVar2->lv);
-      if (can_effect_target(param_1,param_2,&TStack80)) {
+      TempSpell::Init(&TStack80,SpellList[pTVar2->index] | 0x300,pTVar2->lv);
+      if (CombatEntity::SpellEffectsTarget(param_1,param_2,&TStack80)) {
         ret = magic_damage_resist_calc(param_1,param_2,&TStack80,true);
         if (ret == -3) ret = 0;
         if (ret == -1) ret = 0;
         if (ret == -2) ret = 0;
       }
-      clear_temp_Stat_spell((Temp_weapon *)&TStack80);
+      ItemInstance::RemoveStatSpell(&TStack80.base);
       return ret;
     }
   }
   return 0;
 }
-u16 calc_attack_or_crit(CombatEntity *attacker,CombatEntity *target){
-  Temp_weapon *pTVar1;
+
+short CombatEntity::CalculateWeaponAttack(CombatEntity *attacker,CombatEntity *target){
+  WeaponInstance *pWVar1;
   CharSkills *pCVar2;
-  char TargetX;
-  char TargetY;
-  u8 backstab;
-  s16 sVar5;
-  u16 uVar3;
-  s32 iVar4;
-  u8 Wskill;
-  u32 uVar9;
+  u8 x;
+  u8 y;
+  bool backstab;
+  short sVar3;
+  u16 rand;
+  s16 sVar4;
+  byte bVar5;
+  u8 uVar6;
   
-  pTVar1 = attacker->charSheetP->weapons;
-  if (pTVar1 == NULL) return 0;
+  pWVar1 = attacker->charSheetP->weapons;
+  if (!pWVar1) sVar3 = 0;
   else {
-    TargetX = get_combatEnt_x(target);
-    TargetY = get_combatEnt_y(target);
+    x = GetCoordXU8(target);
+    y = GetCoordYU8(target);
     pCVar2 = attacker->charSheetP->Skills;
-    backstab = check_for_backstab(attacker,target);
-    sVar5 = multiple_skill_checks(attacker,target,TargetX,TargetY,backstab);
-    iVar4 = skillcheck_float(attacker,(s16)RollD(1,100),sVar5,SKILL_Warrior);
-    Wskill = getModdedWeapon(pCVar2,pTVar1->weaponType);
-    if (Wskill < 6) uVar9 = SQ((8 - Wskill));
-    else uVar9 = 5;
-    if (iVar4 < sVar5) {
-      sVar5 = some_STR_Theif_check(attacker,sVar5,iVar4,target,1,(s32)backstab);
-      combat_weapon_skill_check(attacker,uVar9,pTVar1->weaponType);
-      if (uVar3 == iVar4) Gsprintf(gCombatP->textArray->they attack,attacker->charSheetP->name,target->charSheetP->name);
-      else Gsprintf(gCombatP->textArray->crit attack,attacker->charSheetP->name,target->charSheetP->name);
+    backstab = CheckBackstab(attacker,target);
+    sVar3 = multiple_skill_checks(attacker,target,x,y,backstab);
+    rand = RollD(1,100);
+    sVar4 = skillcheck_float(attacker,rand,sVar3,SKILL_Warrior);
+    bVar5 = pCVar2->getModdedWeapon(pCVar2,pWVar1->weaponType);
+    if (bVar5 < 6) uVar6 = SQ((8 - (uint)bVar5))
+    else uVar6 = 5;
+    if (sVar4 < sVar3) {
+      sVar3 = some_STR_Theif_check(attacker,sVar3,(int)sVar4,target,1,(int)backstab);
+      WeaponSkillUpChance(attacker,uVar6,pWVar1->weaponType);
+      if (rand == sVar4)
+        Gsprintf(gCombatP->textArray->they attack,attacker->charSheetP->name,
+                    target->charSheetP->name);
+      else
+        Gsprintf(gCombatP->textArray->crit attack,attacker->charSheetP->name,
+                    target->charSheetP->name);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
-      if (sVar5 == 0) {
-        combat_print_dodge(attacker,target);
-        uVar3 = 0;
-      }
-      else {
-        combat_print_damage(target,sVar5);
-        uVar3 = sVar5;
-      }
+      if (sVar3 == 0) PrintEvade(attacker,target);
+      else PrintDamage(target,sVar3);
     }
     else {
-      combat_weapon_skill_check(attacker,uVar9 >> 1,pTVar1->weaponType);
-      combat_print_dodge(attacker,target);
-      uVar3 = 0;
+      WeaponSkillUpChance(attacker,(u8)(uVar6 >> 1),pWVar1->weaponType);
+      PrintEvade(attacker,target);
+      sVar3 = 0;
     }
   }
-  return uVar3;
+  return sVar3;
 }
 
 s16 some_STR_Theif_check(CombatEntity *attacker,s16 param_2,s32 param_3,CombatEntity *target,char diceMulti,s32 backStab){
   CharSheet *pCVar3;
   u32 DMG;
-  s32 iVar6;
+  s16 iVar6;
   s16 sVar9;
   
   pCVar3 = attacker->charSheetP;
   DMG = RollD(pCVar3->weapons->damage + get_STR_Steps(attacker) * diceMulti,6);
-  iVar6 = some_skillcheck_calc(((s32)param_2 - (s32)(s16)param_3) * 0x10000 >> 0x10);
+  iVar6 = some_skillcheck_calc(((s32)param_2 - (s32)(s16)param_3));
   iVar6 = (DMG + ((iVar6 + CharStats::getBase(pCVar3->Stats,STAT_LV)) - get_protection_level(target,backStab)) * 0x10000 >> 0x10) +
-          pCVar3->Skills->getModdedSkill(pCVar3->Skills,SKILL_Theif) * 2 * backStab) * 0x10000 >> 0x10;
+          pCVar3->Skills->getModdedSkill(SKILL_Theif) * 2 * backStab);
   if (iVar6 < 1) iVar6 = 1;
-  sVar9 = calc_element_resist_multi(attacker,target,(s16)iVar6,pCVar3->weapons->element);
-  if ((s32)sVar9 << 0x10 < 0) sVar9 = 0;
-  return use_weapon_enchantment(attacker,target) + sVar9;
+  sVar9 = CombatEntity::CalcAttackResist(attacker,target,(s16)iVar6,pCVar3->weapons->element);
+  if (sVar9 < 0) sVar9 = 0;
+  return CombatEntity::UseWeaponEnchantment(attacker,target) + sVar9;
 }
 
-s32 Combat_troubador_mod(CombatEntity *param_1,s16 param_2){
+s32 CombatEntity::TroubadorMod(CombatEntity *param_1,s16 param_2){
   s32 iVar2;
   float fVar3;
   
   iVar2 = (s32)param_2;
-  if (gCombatP->Troubador) {
-    fVar3 = (float)gCombatP->Troubador * 0.01f;
-    if (!CombatEnt_flag_4(param_1)) fVar3 += 1.05f;
+  if (gCombatP->TroubadorLV) {
+    fVar3 = (float)gCombatP->TroubadorLV * 0.01f;
+    if (!Flag4(param_1)) fVar3 += 1.05f;
     else {fVar3 = 0.95f - fVar3;}
     iVar2*= fVar3;
   }
@@ -1813,41 +1788,45 @@ s32 some_aspect_multi(CombatEntity *param_1,s16 param_2){
   return iVar2;
 }
 
-s32 some_night_check(CombatEntity *e, s16 param_1,s16 param_2,s16 param_3,s16 nightPenalty,u16 param_5){
-  s32 iVar1;
+s16 some_night_check(CombatEntity *param_1,short param_2,short param_3,short param_4,
+                    s16 nightPenalty,u16 param_6){
+  short sVar1;
   
-  iVar1 = (s32)param_1;
-  if (TerrainPointer->partOfDay == NIGHT) {iVar1 = (iVar1 - nightPenalty) * 0x10000 >> 0x10;}
-  if ((TerrainPointer->windByte != 2) &&
-     (param_2 = param_3, TerrainPointer->windByte != 1)) {return iVar1;}
-  iVar1 -= param_2);
-  if (6 < param_5) {iVar1 = (iVar1 - ((s32)((param_5 - 5) * 0x10000) >> 0x10)) * 0x10000 >> 0x10;}
-  return iVar1;
-}
-
-s32 Ofunc_8006bfc0(CombatEntity *param_1,s16 param_2,u8 param_3,u8 param_4){
-  s32 iVar2;
-  s32 iVar4;
-  s16 asStack96 [48];
-  
-  iVar4 = (s32)param_2;
-  iVar2 = FUN_80070cc4(&gCombatP->substruct,get_combatEnt_x(param_1),get_combatEnt_y(param_1),param_3,param_4);
-  if (iVar2 != 0) {
-    iVar4 = (iVar4 + *(s16 *)((s32)asStack96 + (iVar2 >> 0x1f & 2U))) * 0x10000 >> 0x10;
+  if (TerrainPointer->partOfDay == TIME_NIGHT) {
+    param_2 -= nightPenalty;
   }
-  return iVar4;
+  if ((TerrainPointer->windByte != 2) && (param_3 = param_4, TerrainPointer->windByte != 1)) {
+    return param_2;
+  }
+  sVar1 = param_2 - param_3;
+  if (6 < param_6) {
+    sVar1 = (short)((uint)(((int)sVar1 - ((int)((param_6 - 5))))));
+  }
+  return sVar1;
 }
 
-s32 theif_backstab_mod(CombatEntity *param_1,s16 param_2,u8 backstab,s32 param_4,s16 param_5){
-  return ((((s32)param_2 + (s32)param_5 * (s32)backstab) * 0x10000 >> 0x10) +
-         (s32)CharSkills::getModdedSkill(param_1->charSheetP->Skills,SKILL_Theif) * param_4 * 10) * 0x10000 >> 0x10;
+s16 CombatEntity::Unk8006bfc0(CombatEntity *param_1,s16 param_2,u8 param_3,u8 param_4,s16 param_5,s16 param_6){
+  int iVar1;
+  s16 asStack_60 [2];
+  iVar1 = FUN_80070cc4(&gCombatP->substruct,GetCoordXU8(param_1),GetCoordYU8(param_1),param_3,param_4);
+  if (iVar1) {
+    asStack_60[0] = param_6;
+    asStack_60[1] = param_5;
+    param_2 += asStack_60[(iVar1 >> 0x1f & 2U)];
+  }
+  return param_2;
+}
+
+
+s16 CombatEntity::TheifBackstabMod(CombatEntity *param_1,s16 param_2,u8 backstab,s16 param_4,s16 param_5){
+  return ((s16)((param_2 + param_5 * backstab)) + (s16)param_1->charSheetP->Skills->getModdedSkill(SKILL_Theif) * param_4 * 10);
 }
 
 s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,char param_4,u8 backstab){
   CharSheet *pCVar3;
   CharStats_s* Atkstats;
   CharStats_s* DefStats;
-  Temp_weapon *pTVar4;
+  WeaponInstance *pTVar4;
   CharSkills *pCVar5;
   s32 iVar7;
   s32 iVar8;
@@ -1880,7 +1859,7 @@ s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,c
   if (!check_for_petrify_effect(param_2)) {
     uVar16 = (u16)((u32)(((((iVar7 >> 0x10) + CharStats::getModded(DefStats,STAT_DEX) * -2) * 0x10000 >> 0x10) - get_sheild_warrior_skill(param_2)) * 0x10000) >> 0x10);
   }
-  iVar7 = theif_backstab_mod(param_1,uVar16,backstab,0,0x14);
+  iVar7 = TheifBackstabMod(param_1,uVar16,backstab,0,0x14);
   if (param_2->unk0x22 == 0) iVar7 *= 1.2f;
   if (CharStats::getModded(DefStats,STAT_STAM) == 0) iVar7 *= 1.15f;
   iVar8 = FUN_80070cc4(&gCombatP->substruct,param_3,param_4,get_combatEnt_x(param_1),get_combatEnt_y(param_1));
@@ -1889,7 +1868,7 @@ s16 Calc_atk_accuracy(CombatEntity *param_1,CombatEntity *param_2,char param_3,c
   iVar7 = iVar8 *(1.0f - TerrainPointer->PrecipScale * 0.3f));
   if (TerrainPointer->partOfDay == NIGHT) iVar7 *= 0.7f;
   if (param_2->unk0x22 != 0) iVar7 *= 0.8f;
-  sVar10 = Combat_troubador_mod(param_1,some_aspect_multi(param_1,iVar7));
+  sVar10 = TroubadorMod(param_1,some_aspect_multi(param_1,iVar7));
   if (sVar10 < 5) sVar10 = 5;
   return sVar10;
 }
@@ -1914,12 +1893,12 @@ u32 some_combat_weapon_func(CombatEntity *attacker,CombatEntity *target){
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
     print_combat_textbox(gCombatP,gGlobals.text,0);
     if ((s32)sVar5 == 0) combat_print_swing_and_miss(attacker,target);
-    else combat_print_damage(target,sVar5);
-    combat_weapon_skill_check(attacker,uVar10,WVar1);
+    else CombatEntity::PrintDamage(target,sVar5);
+    CombatEntity::WeaponSkillUpChance(attacker,uVar10,WVar1);
     uVar3 = (s32)sVar5 & 0xffff;
   }
   else {
-    combat_weapon_skill_check(attacker,uVar10 >> 1,WVar1);
+    CombatEntity::WeaponSkillUpChance(attacker,uVar10 >> 1,WVar1);
     combat_print_swing_and_miss(attacker,target);
     uVar3 = 0;
   }
@@ -2015,7 +1994,7 @@ u8 IsControlMagic(SpellEnum param_1){
 }
 
 
-u8 isPetrify(CombatEntity *param_1,SpellEnum enum_spell){
+u8 CombatEntity::isPetrify(CombatEntity *param_1,SpellEnum enum_spell){
 
   SpellEnum *pSVar1;
   u32 uVar2;
@@ -2101,7 +2080,7 @@ u16 some_aspect_multi_check(CombatEntity *param_1,u32 param_2){
   lvl = CharStats::getBase(param_1->charSheetP->Stats,STAT_LV);
   if (GetCharAspect(param_1->charSheetP->EXP) == LUNAR) aspectMod = moonfloats[TerrainPointer->moonPhases];
   else aspectMod = dayfloats[TerrainPointer->partOfDay];
-  uVar3 = Combat_troubador_mod(param_1,(intStat * 4 + param_2 * 6 + lvl) * aspectMod);
+  uVar3 = CombatEntity::TroubadorMod(param_1,(intStat * 4 + param_2 * 6 + lvl) * aspectMod);
   if (uVar3 < 5) uVar3 = 5;
   return uVar3;
 }
@@ -2523,13 +2502,13 @@ s16 Warrior_thrown_check(CombatEntity *param_1,CombatEntity *param_2,u8 param_3)
            >> 0x10) - ((uVar10 >> 1 & 0xff) + iVar8 + iVar9)) * 0x10000;
   uVar14 = (u16)((u32)iVar5 >> 0x10);
   if (6 < param_3) uVar14 = (u16)(((iVar5 >> 0x10 & 0xffffU) - (param_3 - 5)) * 0x10000 >> 0x10);
-  iVar5 = theif_backstab_mod(param_1,uVar14,check_for_backstab(param_1,param_2),0,0x14);
+  iVar5 = CombatEntity::TheifBackstabMod(param_1,uVar14,check_for_backstab(param_1,param_2),0,0x14);
   if (CharStats::getModded(DefStats,STAT_STAM) == 0) iVar5 = (iVar5 + 10) * 0x10000 >> 0x10; //+10 if tired target
   if (param_2->unk0x22 != 0) iVar5 = (iVar5 + -20) * 0x10000 >> 0x10; //-20 for some var
   sVar11 = (s16)iVar5;
   if (CombatEnt_flag_3(param_1)) sVar11 = (s16)((iVar5 + -25) * 0x10000) >> 0x10; //-25 for flag3
   iVar5 = some_night_check(param_1,sVar11,0x14,10,0x1e,(u16)param_3);
-  sVar11 = Combat_troubador_mod(param_1,some_aspect_multi(param_1,iVar5));
+  sVar11 = CombatEntity::TroubadorMod(param_1,some_aspect_multi(param_1,iVar5));
   if (sVar11 < 5) sVar11 = 5; //floored at 5
   return sVar11;
 }
@@ -2543,7 +2522,7 @@ void combat_print_swing_miss_2(CombatEntity *param_1,CombatEntity *param_2,u32 p
   copyVec3((ppVar1->collision).position,gGlobals.unk0x1434);
   fVar2 = get_entity_2float_sum(gEntityDB,param_2->charSheetP->ID);
   gGlobals.unk0x1434[1] += (fVar2 * 0.5f - (ppVar1->collision).radius);
-  combat_weapon_skill_check(param_1,(param_3 & 0xff) >> 1,Thrown);
+  CombatEntity::WeaponSkillUpChance(param_1,(param_3 & 0xff) >> 1,Thrown);
   gGlobals.playerDataArray[param_1->index]->ani_type = 0xf;
   Combat_Check_inv_for_potion(param_1);
   Gsprintf(gCombatP->textArray->they attack,param_1->charSheetP->name,
@@ -2602,7 +2581,7 @@ void FUN_8006e4c0(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
           if (uVar10 <= param_3) {
             iVar5 = param_3 / uVar10;
             if (uVar10 == 0) {trap(7);}
-            if (pCVar1 == param_2) {combat_print_damage(pCVar1,(s16)iVar5);}
+            if (pCVar1 == param_2) {CombatEntity::PrintDamage(pCVar1,(s16)iVar5);}
             if (param_1->item == POTION_SLEEP) {
               if ((pCVar1 != param_2) &&
                  (CharStats::getModded(pCVar1->charSheetP->Stats,STAT_STAM) <= iVar5)) {
@@ -2681,7 +2660,7 @@ u8 Combat_potion_func(CombatEntity *param_1,CombatEntity *param_2){
     gCombatP->unk0x5444[0] = bStack176[0];
     gCombatP->unk0x5444[1] = bStack176[1];
     param_1->damage = bVar6;
-    combat_weapon_skill_check(param_1,uVar2,Thrown);
+    CombatEntity::WeaponSkillUpChance(param_1,uVar2,Thrown);
     gGlobals.playerDataArray[param_1->index]->ani_type = 0xf;
   }
   Combat_Check_inv_for_potion(param_1);
@@ -2730,7 +2709,7 @@ u8 Combat_selectAttack(CombatEntity *param_1,CombatEntity *param_2,playerData *p
   bVar1 = param_1->AtkType;
   if (bVar1 != 2) {
     if (bVar1 < 3) {
-      if (bVar1 == 1) {bVar5 = calc_attack_or_crit(param_1,param_2);}
+      if (bVar1 == 1) {bVar5 = CombatEntity::CalculateWeaponAttack(param_1,param_2);}
       else {SetAni = false;}
       goto SetAnimation;
     }
@@ -2745,7 +2724,7 @@ u8 Combat_selectAttack(CombatEntity *param_1,CombatEntity *param_2,playerData *p
     }
     param_1->AtkType = 1;
     if (func_checking_shadow(param_1,param_2,0)) {
-      bVar5 = calc_attack_or_crit(param_1,param_2);
+      bVar5 = CombatEntity::CalculateWeaponAttack(param_1,param_2);
       param_1->AtkType = 4;
       goto SetAnimation;
     }
@@ -2837,7 +2816,7 @@ s16 tick_goblin_ambush(CombatEntity *param_1,CombatEntity *param_2,s16 param_3){
   if (((param_3 != 0) && //is Alaron Target during Goblin Ambush
       (pCVar1 = param_2->charSheetP, sVar3 = param_3, pCVar1->ID == (ItemID)(entityList[153] | 0x200)))
       && (gCombatP->encounter_dat->EncounterID == FLAG_GoblinAmbush)) {
-    combat_print_damage(param_2,1);
+    CombatEntity::PrintDamage(param_2,1);
     gGlobals.GoblinHitTally--;
     sVar3 = 1;
     if (gGlobals.GoblinHitTally == 0) {
@@ -2927,7 +2906,7 @@ void FUN_8006f448(CombatEntity *param_1){
   ppVar1 = gGlobals.playerDataArray[param_1->index];
   if (ppVar1) {
     setVec3(afStack80,param_1->coord[0],(ppVar1->collision).position[1],param_1->coord[1]);
-    combat_set_playerdata_floats(ppVar1,afStack80,(float)param_1->move_length);
+    Actor::MoveNearShadow(ppVar1,afStack80,(float)param_1->move_length);
   }
 }
 
@@ -3082,7 +3061,7 @@ u32 check_sheild_borg5_(CombatEntity *param_1){
 }
 
 u16 get_weapon_borg5(CombatEntity *param_1){
-  Temp_weapon *pTVar1;
+  WeaponInstance *pTVar1;
   u16 uVar2;
   u16 uVar3;
   
@@ -3098,7 +3077,7 @@ u16 get_weapon_borg5(CombatEntity *param_1){
 
 
 u8 bow_eqquiped(CombatEntity *param_1){
-  Temp_weapon *pTVar2;
+  WeaponInstance *pTVar2;
   u8 bVar3;
   u8 *pbVar4;
   u8 missle_ids[9]={53,55,56,54,58,56,57,60,255}
@@ -3217,7 +3196,7 @@ u8 CannotShowWeapon(ItemID param_1){
 }
 
 AnimationData * get_weapon_anidat(CombatEntity *param_1){
-  Temp_weapon *pTVar1;
+  WeaponInstance *pTVar1;
   u8 bVar5;
   u8 bVar6;
   u16 uVar4;
@@ -3391,7 +3370,7 @@ void FUN_80070304(CombatEntity *param_1){
   }
 }
 
-void combat_print_damage(CombatEntity *param_1,s16 param_2){
+void CombatEntity::PrintDamage(CombatEntity *param_1,s16 param_2){
   if (param_2 < 2) {Gsprintf(gCombatP->textArray->they lose1HP,param_1->charSheetP->name);}
   else {Gsprintf(gCombatP->textArray->they lose  hp,param_1->charSheetP->name,param_2);}
   print_combat_textbox(gCombatP,gGlobals.text,0);
@@ -3405,7 +3384,7 @@ void combat_print_HP_gained(CombatEntity *param_1,s16 param_2){
 }
 
 void set_atk_range_multi(CombatEntity *param_1,u8 param_2){
-  Temp_weapon *pTVar1;
+  WeaponInstance *pTVar1;
   u8 bVar3;
   
   param_1->AtkType = 0;
@@ -3422,7 +3401,7 @@ void set_atk_range_multi(CombatEntity *param_1,u8 param_2){
   get_weapon_sheild_borg5(param_1);
 }
 
-void combat_print_dodge(CombatEntity *param_1,CombatEntity *param_2){
+void CombatEntity::PrintEvade(CombatEntity *param_1,CombatEntity *param_2){
   Gsprintf(gCombatP->textArray->they attack,param_1->charSheetP->name,
               param_2->charSheetP->name);
   copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);

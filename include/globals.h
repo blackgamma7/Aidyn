@@ -1,4 +1,4 @@
-//#include "GhidraDump.h"
+#include "GhidraDump.h"
 #include "Camera.h"
 #include "MiniMap.h"
 #include "party.h"

@@ -33,7 +33,7 @@ void get_extra_font_color(u8 x,u8 *r,u8 *g,u8 *b);
 bool Init_font(FontStruct *param_1,u8 param_2);
 void Ofunc_fontEngine(FontStruct *param_1);
 u8 load_font_face(FontStruct *param_1,u32 b8,u8 rows,u8 cols);
-void font_func(FontStruct *param_1,Borg8Enum param_2);
+void font_func(FontStruct *param_1,u32 param_2);
 void print_func_80044dc(FontStruct *param_1,Gfx **gg,char *txt,s32 x,s32 y);
 int FUN_800b4508(FontStruct *font,Gfx **gg,char *txt,int x,int y,float scalex,float scaley);
 int Ofunc_800b4740(FontStruct *param_1,Gfx **gg,char *param_3,int param_4,undefined4 param_5,

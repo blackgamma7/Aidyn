@@ -36,6 +36,6 @@ struct gfxManager {
 };
 
 //may need to move this to header for Borg8 properties.
-#define RSPFUNC(g,flag) g=Graphics::SomeDListInit(g,flag,Graphics::get_hres(),Graphics::get_vres())
+#define RSPFUNC(g,flag) g=borg8DlistInit(g,flag,Graphics::get_hres(),Graphics::get_vres())
 #define RSPFUNC6(g) RSPFUNC(g,6)
 #define RSPFUNC5(g) RSPFUNC(g,5)

@@ -245,7 +245,7 @@ u16 load_world_map(void){
   s32 iVar4;
   dialoug_dat *pdVar5;
   
-  pBVar1 = get_borg_9(StartingMap);
+  pBVar1 = loadBorg9(StartingMap);
   uVar2 = (u32)(pBVar1->dat).voxelCount;
   pdVar5 = NULL;
   if (uVar2 != 0) {

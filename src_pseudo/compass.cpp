@@ -16,11 +16,11 @@ Compass_s* gCompass;
 
 void Compass::Init(void){
   ALLOC(gCompass,101);
-  gCompass->ring = get_borg_8(BORG8_compassRing);
-  gCompass->N = get_borg_8(BORG8_CompassNorth);
-  gCompass->S = get_borg_8(BORG8_CompassSouth);
-  gCompass->E = get_borg_8(BORG8_CompassEast);
-  gCompass->W = get_borg_8(BORG8_CompassWest);
+  gCompass->ring = loadBorg8(BORG8_compassRing);
+  gCompass->N = loadBorg8(BORG8_CompassNorth);
+  gCompass->S = loadBorg8(BORG8_CompassSouth);
+  gCompass->E = loadBorg8(BORG8_CompassEast);
+  gCompass->W = loadBorg8(BORG8_CompassWest);
 }
 
 Gfx* Compass::Draw(Gfx*param_1,vec2f *XZ){

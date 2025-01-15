@@ -1,6 +1,6 @@
 #include "globals.h"
 
-void Portraits::InitBorder(void){gGlobals.portraitBorder = get_borg_8(0xdf);}
+void Portraits::InitBorder(void){gGlobals.portraitBorder = loadBorg8(0xdf);}
 
 u8 Portraits::CheckPos(u8 param_1){
   u8 bVar1;

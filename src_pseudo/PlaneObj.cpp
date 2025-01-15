@@ -68,7 +68,7 @@ Gfx * PlaneObj_Render(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale)
   Vx = scale->x * 25.0f;
   Vy = scale->y * 25.0f;
   guTranslate(&plane->transMtx[fb],pos->x * 16.0f,pos->y * 16.0f,pos->z * 16.0f);
-  guAlign(&plane->alignMtx[fb],0.0,rot->x + 1.0E-6f,rot->y,rot->z);
+  guAlign(&plane->alignMtx[fb],0.0,rot->x + NORMALIZE_MIN,rot->y,rot->z);
   guScale(&plane->ScaleMtx[fb],0.04f,0.04f,0.04f);
   if (!plane->borg1p) {
     U = 0;

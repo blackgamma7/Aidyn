@@ -23,7 +23,7 @@ void Entity::EquipFunc0(CharSheet *ent,Entity_Ram *param_2){
   ulong uVar6;
   ItemID IVar7;
   
-  ent->portrait = get_borg_8(getEntityPortrait(gEntityDB,ent->ID));
+  ent->portrait = loadBorg8(getEntityPortrait(gEntityDB,ent->ID));
   x = (PotionEffect **)HALLOC(sizeof(PotionEffect*)*POTION_FXMAX,0xc1);
   ent->potionEffects=x;
   memset(x,0,sizeof(PotionEffect*)*POTION_FXMAX);
@@ -395,7 +395,7 @@ void Entity::EquipArmorOrShield(CharSheet *param_1,ItemID id,StatMod *param_3,u8
   make_temp_armor_3(param_1->armor[sheild],id);
   ApplyEquipment(param_1,(WeaponInstance *)param_1->armor[sheild],param_3,true);
   CharStats::AddModded(param_1->Stats,STAT_DEX,param_1->armor[sheild]->dex);
-  CharSkills::ModdedSkillAdd(param_1->Skills,SKILL_Stealth,param_1->armor[sheild]->stealth);
+  param_1->Skills->ModdedSkillAdd(param_1->Skills,SKILL_Stealth,param_1->armor[sheild]->stealth);
 }
 
 void Entity::RemoveArmor(CharSheet *param_1){RemoveArmorOrShield(param_1,0);}
@@ -405,7 +405,7 @@ void Entity::RemoveArmorOrShield(CharSheet *param_1,int param_2){
   if ((param_1->armor[param_2])){
     FUN_80078874(param_1,(WeaponInstance *)param_1->armor[param_2],true);
     CharStats::SubModded(param_1->Stats,STAT_DEX,param_1->armor[param_2]->dex);
-    CharSkills::ModdedSkillAdd(param_1->Skills,SKILL_Stealth,-param_1->armor[param_2]->stealth);
+    param_1->Skills->ModdedSkillAdd(SKILL_Stealth,-param_1->armor[param_2]->stealth);
     ArmorInstance_ClearEffect((EquipInstance *)param_1->armor[param_2]);
     FREE(param_1->armor[param_2],1053);
   }
