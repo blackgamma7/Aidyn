@@ -17,7 +17,7 @@ void World::init(TerrainStruct *ter){
   ter->windVelocity.y = -0.1f;
   ter->windVelocity.z = 1.0f;
   vec3_normalize(&ter->windVelocity);
-  multiVec3(&ter->windVelocity,0.02314815);
+  multiVec3(&ter->windVelocity,(15.0/648)); //0.02314815
 }
 
 void World::SetTerrain(TerrainStruct *ter,u8 param_2){
@@ -125,9 +125,10 @@ void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float ma
 void World::set_with_WeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   ter->rainByte = w->precip;
   ter->PrecipScale = w->PrecipScale;
-  ter->FogFloat= weatherDat.FogFloat = w->FogFloat;
+  gGlobals.Sub.weather.fogTime = w->FogFloat;
+  ter->FogFloat = gGlobals.Sub.weather.fogTime;
   ter->ThunderFloat = w->ThunderFloat;
-  weatherDat.unk0x4 = ter->PrecipScale;
+  gGlobals.Sub.weather.timer = ter->PrecipScale;
   set_weather_flags(ter->rainByte);
 }
 
@@ -165,9 +166,7 @@ u8 World::set_timeofDay(TerrainStruct *param_1,Calendar *param_2){
   u8 TodNew;
   byte hr;
   
-  if (param_1->DayNightMagic != '\0') {
-    return false;
-  }
+  if (param_1->DayNightMagic) return false;
   hr = param_2->hour;
   TodNew = param_1->partOfDay;
   if (hr < 6) {
@@ -208,16 +207,15 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
     ter->FogFloat = 0.0;
     bVar1 = weather_terrain_array[ter->terrain];
     bVar2 = weather_month_array[cal->month];
-    if ((s32)(((u32)bVar2 + (s32)(char)bVar1) * 0x10000) >> 0x10 < RollD(1,100)) {}
-    else {  
+    if ((bVar2 + bVar1) >= RollD(1,100)) {  
       if (RollD(1,100) < 70) {
         ter->rainByte = PRECIP_RAIN;
         ter->windByte = 2;
-        if (ter->terrain == 5) {ter->rainByte = PRECIP_SNOW;}
+        if (ter->terrain == 5) ter->rainByte = PRECIP_SNOW;
         fVar5 = RAND.GetFloatRange(terrain_rand_array[ter->terrain] - 0.15f,
                            terrain_rand_array[ter->terrain] + 0.15f);
         ter->PrecipScale = fVar5;
-        if (fVar5 < 0.0) {ter->PrecipScale = 0.0;}
+        if (fVar5 < 0.0) ter->PrecipScale = 0.0;
         fVar5 = 0.35;
       }
       else {
