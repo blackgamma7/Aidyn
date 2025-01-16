@@ -236,7 +236,7 @@ void Party::ScoochMembers(){
 
 void Party::StripMember(u8 param_2,u8 param_3){
     if (this->Members[param_2]) {
-    for(u32 i = 0;i < 0xc;i++) {
+    for(u32 i = 0;i < GEARTOTAL;i++) {
       RemoveGearFrom(param_2,i); 
     }
     if (param_3) {
@@ -1354,13 +1354,10 @@ u8 Party::GetMemberWarriorIntStam(u32 param_2){
   return uVar6;
 }
 
-u8 healing_widget_AB_func(s32 this,BaseWidget *param_2){
+u8 healing_widget_AB_func(void* x,BaseWidget *param_2){
   PTR_800ed504 = NULL;
-  WidgetHandler::FreeWidget(gGlobals.widgetHandler,param_2);
-  if (param_2) {
-    (*(param_2->methods->freeWidget).func)
-              ((s32)&param_2->ptr0 + (s32)(s16)(param_2->methods->freeWidget).arg[0],3);
-  }
+  WHANDLE->FreeWidget(param_2);
+  if (param_2) param_2->~BaseWidget();
   return 0;
 }
 
@@ -1796,6 +1793,7 @@ char * Party::ApraisePrice(ItemID param_2,u32 param_3){
     }
   }
   fVar8 = ((float)(SQ(uVar6)) * -0.0186603f + (float)uVar6 * 2.366025f + 50.0f) / 100.0f;
+  //use CLAMMP macro instead?
   FLOOR(fVar8,0.0);
   else CIEL(fVar8,125.0f);
   fVar8 = ((float)GetItemPrice(param_2) * fVar8 * 3.0f) / (float)(param_3);

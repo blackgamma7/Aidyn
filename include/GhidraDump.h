@@ -634,11 +634,6 @@ typedef enum borg13_commands {
     give exp=56
 } borg13_commands;
 */
-struct WidgetHandler {
-    BaseWidget *widgetA;
-    BaseWidget *widgetB;
-};
-
 struct struct_3 {
     u8 field0_0x0;
     undefined field1_0x1;
@@ -2361,16 +2356,6 @@ struct WidgetChild3 {
     undefined field21_0x99;
     undefined field22_0x9a;
     undefined field23_0x9b;
-};
-
-
-typedef struct WidgetGameStateCheats WidgetGameStateCheats, *PWidgetGameStateCheats;
-
-struct WidgetGameStateCheats {
-    BaseWidget base;
-    BaseWidget *scrollA;
-    BaseWidget *scrollB;
-    BaseWidget *scrollC;
 };
 
 typedef struct widgetGroup widgetGroup, *PwidgetGroup;

@@ -357,12 +357,12 @@ void appProc_init(void){
     }
   }
   font_func(gGlobals.font,(fontface_struct *)font_face[0].font_face);
-  ALLOC(gGlobals.widgetHandler,447);
-  clear_widget_handler(gGlobals.widgetHandler,gGlobals.font);
+  ALLOC(WHANDLE,447);
+  WHANDLE->Init(gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;
   MemoryMaker::Init();
   CommonStrings::Init();
-  gGlobals.dialougStruct = Init_DialogStruct(new(0x28),gGlobals.widgetHandler);
+  gGlobals.dialougStruct = Init_DialogStruct(new(0x28),WHANDLE);
   HresMirror = Graphics::get_hres();
   VresMirror = Graphics::get_vres();
   gGlobals.appstateBool = 1;

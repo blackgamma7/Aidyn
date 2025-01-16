@@ -22,7 +22,7 @@ s32 appState_0(Gfx **param_1){
   BaseWidget *pBVar1;
   u8 bVar2;
   
-  while (WidgetHandler::GetWidgetB(gGlobals.widgetHandler)) WidgetHandler::Tick(gGlobals.widgetHandler,1);
+  while (WHANDLE->GetTail()) WHANDLE->Tick(1);
   if (intro_music_flag) {
     load_intro_music();
     intro_music_flag = false;

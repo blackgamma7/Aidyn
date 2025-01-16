@@ -283,7 +283,7 @@ void monster_engagement_func(wander_struct *param_1,short delta){
   bVar3 = false;
   if ((((gGlobals.screenFadeMode == 0) && (!isPaused())) &&
       (gGlobals.playerCharStruct.unkState == 3)) &&
-     ((!WidgetHandler::GetWidgetB(gGlobals.widgetHandler) && (0 < param_1->wanderersmax)))) {
+     ((!WHANDLE->GetTail() && (0 < param_1->wanderersmax)))) {
     for(s16 i = 0;i<param_1->wanderersmax;i++) {
       wanderer = &param_1->wanderSubstructs[i];
       if (wanderer->isActive) {

@@ -42,7 +42,7 @@ void set_title_screen(void){
   gGlobals.delta = 0.0;
   gGlobals.gameStartOption = 0;
   if (!gGlobals.titleScreen) gGlobals.titleScreen =  new IntroMenu();
-  WidgetHandler::AddWidget(gGlobals.widgetHandler,&gGlobals.titleScreen);
+  WHANDLE->AddWidget(&gGlobals.titleScreen);
   flycam_func();
 }
 
@@ -130,10 +130,8 @@ u8 gameStart(Gfx**GG){
     if (flycam_flag) fadeFloatMirror = 1.0f;
     RSPFUNC6(gfx);
 
-    for(uVar2=0;uVar2<gGlobals.delta;uVar2++) {
-      WidgetHandler::Tick(gGlobals.widgetHandler,1);
-    }
-    gfx = WidgetHandler::Render(gGlobals.widgetHandler,gfx,0,0,0x140,0xf0);
+    for(uVar2=0;uVar2<gGlobals.delta;uVar2++) {WHANDLE->Tick(1);}
+    gfx = WHANDLE->Render(gfx,0,0,0x140,0xf0);
     gfx = N64Print::Draw(gfx,1);
   }
   pos = &fStack104;
@@ -176,7 +174,7 @@ void check_input_7(void){
   uVar3 = 0;
   while (Controller::GetInput(&apCStack_20,0)) {
     uVar3++;
-    pBVar1 = WidgetHandler::Control(gGlobals.widgetHandler,(ControllerFull *)apCStack_20);
+    pBVar1 = WHANDLE->Control((ControllerFull *)apCStack_20);
     if (pBVar1) {
       if (freeWidgetFunc == NULL) {
         if (true) {
@@ -217,7 +215,7 @@ void start_intermediate_game(void){
   u8 cVar1 = 9;
   if (gGlobals.titleScreen) {
     cVar1 = *(u8 *)((s32)(gGlobals.titleScreen)->substruct + 0x24);
-    WidgetHandler::FreeWidget(gGlobals.widgetHandler,gGlobals.titleScreen);
+    WHANDLE->FreeWidget(gGlobals.titleScreen);
     AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.titleScreen,6,0);
     gGlobals.titleScreen = NULL;
   }

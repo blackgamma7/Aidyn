@@ -1,5 +1,5 @@
 #include "gamestateCheats.h"
-#include "stringN64.h"
+#include "globals.h"
 
 
 WidgetGameStateCheats * gamestste_cheats(void){
@@ -21,7 +21,7 @@ void FUN_8003316c(WidgetGameStateCheats *param_1){
 }
 
 WidgetGameStateCheats::WidgetGameStateCheats():WidgetMenu(){
-  WidgetHandler::AddWidget(gGlobals.widgetHandler,this);
+  WHANDLE->AddWidget(this);
   WidgetBorg8At(this,435,0x14,0x14,300,0xdc);
   ScrollA = widgetscrollmenu_init_2(this,0xc,0x14,0x14,0x14,0x14,200,200,0xff,0xff,0xff,0xff,0);
   ScrollC = widgetscrollmenu_init_2(this,0xc,0xdc,0x14,0xdc,0x14,0x104,200,0xff,0xff,0xff,0xff,0);
@@ -39,7 +39,7 @@ WidgetGameStateCheats::WidgetGameStateCheats():WidgetMenu(){
 }
 
 WidgetGameStateCheats::~WidgetGameStateCheats(){
-  WidgetHandler::FreeWidget(gGlobals.widgetHandler,this);
+  WHANDLE->FreeWidget(this);
 }
 
 BaseWidget* WidgetGameStateCheats::AFunc(){

@@ -14,6 +14,7 @@
 #include "portraits.h"
 #include "sundail.h"
 #include "commonstrings.h"
+#include "widgets/handler.h"
 
 #include "crash.h"
 #include "heapN64.h"
