@@ -1,5 +1,6 @@
 #include "GhidraDump.h"
-#include "savefiles.h"
+#include "saveParty.h"
+#include "itemInstances.h"
 
 //base interface for inventory system
 class IInventory{

@@ -1,7 +1,7 @@
 #include "typedefs.h"
 //used in 2d math
 typedef union vec2f{
-    struct{float x,y;}
+    struct{float x,y;};
     float f[2];
 };
 //used un 3d math

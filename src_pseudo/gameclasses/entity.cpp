@@ -896,7 +896,7 @@ LAB_800798b0:
   case SPELLIND_senseAura:
     bVar11 = false;
     if (combatTarget) {
-      CombatEntity::SenseAura(combatTarget,Level);
+      senseAura(combatTarget,Level);
       bVar11 = false;
       goto LAB_80079984;
     }
@@ -1409,7 +1409,7 @@ void Entity::CampHeal(CharSheet *param_1,float healing,uint time){
   addHP(param_1,uVar4);
   IncEffects(param_1,NULL,time);
   ItemCampStamina(&param_1->weapons->base,healing);
-  ItemCampStamina(&(*param_1->armor)->base,healing);
+  ItemCampStamina(&param_1->armor[0]->base,healing);
   ItemCampStamina(&param_1->armor[1]->base,healing);
   uVar1 = 0;
   if (param_1->pItemList->usedItems != 0) {

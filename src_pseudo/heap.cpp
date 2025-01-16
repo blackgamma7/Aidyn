@@ -80,7 +80,7 @@ void * HeapAlloc(u32 size,char *file,u32 line){
             uVar7 = uVar2;
             pHVar6 = pHVar3;
           }
-          pHVar3 = (HeapBlock *)FUN_8009887c((char)pHVar3);
+          pHVar3 = (HeapBlock *)FUN_8009887c(pHVar3);
         }
       } while ((!bVar1) && (pHVar3));
     }
@@ -315,11 +315,11 @@ void FUN_80098864(void *param_1,s32 param_2){
 }
 
 
-void FUN_8009886c(char param_1,s32 param_2){
-  *(s32 *)(param_1 + 8) = param_2;
+void FUN_8009886c(void* param_1,s32 param_2){
+  *(s32 *)((int)param_1 + 8) = param_2;
 }
-s32 FUN_80098874(char param_1){
-  return *(s32 *)(param_1 + 4);
+s32 FUN_80098874(void* param_1){
+  return *(s32*)((int)param_1 + 4);
 }
 
 s32 FUN_8009887c(HeapBlock* param_1){return *(s32 *)(param_1 + 8);}

@@ -1,5 +1,7 @@
 #include "widgets/WidgetBorg8.h"
 #include "widgets/WidgetClipText.h"
+#include "itemInstances.h"
+
 
 //Widget for Inventory item entry
 class SMIItem : public BaseWidget{

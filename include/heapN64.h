@@ -24,7 +24,7 @@ struct HeapBlock{
     #endif
 };
 
-extern struct MemMon_struct gMemMonitor;
+MemMon_struct gMemMonitor;
 
 void HeapInit(void *start,u32 size);
 void * HeapAlloc(uint size,char *file,uint line);

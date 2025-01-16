@@ -1,8 +1,8 @@
 #include "GhidraDump.h"
 #include "CharStats.h"
 #include "CharSkills.h"
+#include "itemInstances.h"
 #include "spells.h"
-#include "itemId.h"
 
 enum ENTITY_CATEGORY{
     ENTITY_GENERIC,

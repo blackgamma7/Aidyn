@@ -58,10 +58,10 @@ u32 teleportTimestamp;
 void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9data *param_3){
   
   voxelObject* prVar1 = GetVoxelFromObjectLink(param_3,param_1,VOXEL_Scene);
-  if ((prVar1->scene).borgArray[0].borgheader) {
-    AllocFreeQueueItem(&gGlobals.QueueA,&(prVar1->scene).borgArray[0].borgheader,
+  if ((prVar1->scene).borgArray[0].b7) {
+    AllocFreeQueueItem(&gGlobals.QueueA,&(prVar1->scene).borgArray[0].b7,
                        (ushort)(((prVar1->scene).sceneflags & 2) == 0),0);
-    (prVar1->scene).borgArray[0].borgheader = NULL;
+    (prVar1->scene).borgArray[0].b7 = NULL;
   }
   (prVar1->scene).borgArray[0].borgIndex = (prVar1->scene).borgArray[param_2].borgIndex;
 }
@@ -346,7 +346,7 @@ void trigger_vobject_func(voxelObject *arg0){
     break;
   case 2:
     prVar3 = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,arg0,VOXEL_Scene);
-    pBVar1 = (prVar3->scene).borgArray[0].borgheader;
+    pBVar1 = (prVar3->scene).borgArray[0].b7;
     if (pBVar1) FUN_800a0090(pBVar1,(arg0->trigger).flagA);
     break;
   case 4:

@@ -23,6 +23,13 @@ typedef enum PLAYERDATA_Flags {
     ACTOR_4000=0x4000
 } PLAYERDATA_Flags;
 
+
+struct attachmentNode {
+    uint borg5;
+    AnimationData *anidat;
+    u16 index;
+};
+
 //Main actor struct for entites moving in world
 struct playerData {
     u16 ID;
@@ -105,6 +112,30 @@ struct playerData {
     vec3f CombatTint; /* tint by combat effect */
     vec3f skyTint; /* tint from environmental light */
     char field81_0x77c;
+};
+struct audiokey_struct {
+    u8 (*a)[4];
+    void* b;
+    void* c;
+    u8 d[1277][4];
+};
+
+struct PlayerHandler {
+    short max_player;
+    u16 initFlag;
+    Camera_struct *camera;
+    short cameraFocus;
+    undefined field4_0xa;
+    undefined field5_0xb;
+    playerData *playerDats;
+    s16 unk10[40];
+    short playerCount;
+    u16 counter;
+    float float_0x64;
+    float float_0x68;
+    Borg1header *shadowTexture;
+    u32 field13_0x70;
+    audiokey_struct *audiokey;
 };
 
 namespace Actor{

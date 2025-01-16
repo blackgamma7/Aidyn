@@ -1,7 +1,7 @@
 #include "itemID.h"
 #include "savefiles.h"
 
-typedef enum StatEnum {
+enum StatEnum {
     STAT_INT,
     STAT_WIL,
     STAT_DEX,
@@ -11,7 +11,7 @@ typedef enum StatEnum {
     STAT_LV,
 	STAT_TOTAL,
     STAT_NONE=255
-} StatEnum;
+};
 
 #define STATCOUNT STAT_TOTAL
 struct CharStats_s { /* Stat Arrays of Party Members */

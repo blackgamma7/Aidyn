@@ -7,9 +7,9 @@ class Party { /* holds party and inventory data */
     CharSheet *Members[MAXPARTY]; /* pointer to party members */
     PartyInventory *Inventory;
     u32 Gold; /* moneyz */
-    u32 timeSneaking; //measures time in sneak pose % 5 minutes. 
+    u32 timeSneaking; //measures time in sneak pose % 10 minutes. 
     u32 timeWalking; //measures time walking % 30 minutes,
-    u32 TimeRunning; //measures time running % 10 minutes.
+    u32 TimeRunning; //measures time running % 5 minutes.
     u8 PartySize; /* how big is the party? */
     
     void Init();
@@ -51,12 +51,25 @@ class Party { /* holds party and inventory data */
     u32 UnusedRangerCheck();
     u8 UnusedRangerCheck3();
     u8 GetMemberRangerIntStam(u8);
+    u8 MechanicCheckUnused();
+    u8 DisarmDamageUnused(u32);
     
+    s8 GetMostSkilledMember(u8);
+    u8 CampCheck();
+    void CampAmbush();
+    void CampHeal(u8);
+    u8 CampAmbushCheck();
+    void noop_800821bc(u32,u32);
+    void TickMoveCounters(s32);
+    u32 SkillCheck(u8);
+    u32 BestStat(u8);
+    u32 WorstStat(u8);
 
 
-   u8 CraftArmor(char param_2,s16 param_3,ItemID material,u8 stam);
-   u8 UnequipMemberItemOfID(s32 param_2,ItemID param_3);
+   u8 CraftArmor(char ,s16 ,ItemID ,u8 );
+   u8 UnequipMemberItemOfID(s32 ,ItemID );
 };
+void ItemCampStamina(ItemInstance *,float );
 //party pointer shorthand
 #define PARTY gGlobals.party
 

@@ -1279,9 +1279,9 @@ void NoExpPak_ClearSceneVoxel(Scene_obj_dat *param_1){
     iVar1 = 0;
     do {
       iVar1 += uVar2;
-      if ((&param_1->borgArray[0].borgheader)[iVar1] != NULL) {
-        if ((param_1->sceneflags & 2) == 0) AllocFreeQueueItem(&gGlobals.QueueA,&param_1->borgArray[0].borgheader + iVar1,1,0);
-        else AllocFreeQueueItem(&gGlobals.QueueA,&param_1->borgArray[0].borgheader + iVar1,0,0);
+      if ((&param_1->borgArray[0].b7)[iVar1] != NULL) {
+        if ((param_1->sceneflags & 2) == 0) AllocFreeQueueItem(&gGlobals.QueueA,&param_1->borgArray[0].b7 + iVar1,1,0);
+        else AllocFreeQueueItem(&gGlobals.QueueA,&param_1->borgArray[0].b7 + iVar1,0,0);
       }
       uVar2 = uVar2 + 1 & 0xffff;
       iVar1 = uVar2 << 1;
@@ -1433,7 +1433,7 @@ LAB_80010068:
 LAB_80010084:
                   pAVar4 = (AnimationData *)(SObj->scene).borgArray[uVar12].borgheader;
                 }
-                else pAVar4 = ((SObj->scene).borgArray[0].borgheader)->aniDat;
+                else pAVar4 = ((SObj->scene).borgArray[0].b7)->aniDat;
                 col.W = 0;
                 if (((SObj->scene).sceneflags & 0x10)) col = (SObj->scene).tint;
                 Animation::MatrixASetPos(pAVar4,(SObj->header).pos.x - posx,(SObj->header).pos.y,(SObj->header).pos.z - posz);
@@ -1457,7 +1457,7 @@ LAB_80010084:
                   else psVar14->anidat = pAVar4;
                 }
                 else {
-                  FUN_800a0304((SObj->scene).borgArray[0].borgheader,(int)gGlobals.delta);
+                  FUN_800a0304((SObj->scene).borgArray[0].b7,(int)gGlobals.delta);
                   uVar12 = local_6c;
                   if (uVar15 < local_6c) uVar12 = uVar15;
                   set_sun_light(pAVar4,(uint)(SObj->scene).sceneflags,SObj,(char)uVar12);
@@ -1465,10 +1465,10 @@ LAB_80010084:
                   passto_initLight(pAVar4,borg9,(voxelObject *)SObj,(short)(int)gGlobals.delta);
                   if (psVar14 == NULL) {
                     local_res0 = BorgAnimDrawSceneLinked(local_res0,
-                                            (AnimationData *)(SObj->scene).borgArray[0].borgheader);
+                                            (AnimationData *)(SObj->scene).borgArray[0].b7);
                   }
                   else {
-                    psVar14->anidat = (AnimationData *)(SObj->scene).borgArray[0].borgheader;
+                    psVar14->anidat = (AnimationData *)(SObj->scene).borgArray[0].b7;
                     psVar14->flags|= 2;
                   }
                 }
@@ -1486,7 +1486,7 @@ LAB_80010084:
               if (NoExpPak_memCheck(0)) {
                 pBVar3 = func_loading_borg7((SObj->scene).borgArray[0].borgIndex,
                                             (ParticleEmmiter *)&gGlobals.Sub.particleEmmiter);
-                (SObj->scene).borgArray[0].borgheader = pBVar3;
+                (SObj->scene).borgArray[0].b7 = pBVar3;
                 pAVar4 = pBVar3->aniDat;
                 FUN_800a0090(pBVar3,0);
                 EVar1 = (SObj->header).flagB;
@@ -1496,8 +1496,8 @@ LAB_80010084:
                   else {
                     if ((getEventFlag((SObj->header).flagB)) || (((SObj->header).Bitfeild & VOXEL_Used) == 0)) goto LAB_8000ffcc;
                   }
-                  FUN_800a0090((SObj->scene).borgArray[0].borgheader,1);
-                  FUN_800a0304((SObj->scene).borgArray[0].borgheader,2);
+                  FUN_800a0090((SObj->scene).borgArray[0].b7,1);
+                  FUN_800a0304((SObj->scene).borgArray[0].b7,2);
                 }
 LAB_8000ffcc:
                 guMtxIdentF(&pAVar4->matrixA);

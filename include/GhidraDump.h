@@ -108,13 +108,6 @@ typedef enum Borg7Enum { // entity model data?
 
 */
 
-typedef struct ControllerFull ControllerFull, *PControllerFull;
-
-typedef struct MoveQueueEntry MoveQueueEntry, *PMoveQueueEntry;
-
-typedef struct DCMSub2 DCMSub2, *PDCMSub2;
-
-typedef struct attachmentNode attachmentNode, *PattachmentNode;
 
 typedef struct struct_1 struct_1, *Pstruct_1;
 
@@ -471,27 +464,6 @@ struct ParticleEmmiter {
     AnimationData *aniDat;
     collisionSphere collision;
 };
-
-struct Borg12Sub {
-    u32 channelCount;
-    int instrument_count;
-    int *unk10;
-    void *unk14;
-    astruct *ptr0x18;
-    u8 *channelDat;
-};
-
-
-struct attachmentNode {
-    uint borg5;
-    AnimationData *anidat;
-    u16 index?;
-    undefined field3_0xa;
-    undefined field4_0xb;
-};
-
-
-
 
 struct ParticleHeadStruct {
     Particle *particles;
@@ -1485,8 +1457,6 @@ typedef enum ElementEnum {
     ELEMENT_SMASHING, ELEMENT_HOLY
 } ElementEnum;
 
-typedef struct WeaponInstance WeaponInstance, *PWeaponInstance;
-
 typedef struct CharGear CharGear, *PCharGear;
 
 typedef struct Spellbook Spellbook, *PSpellbook;
@@ -1563,14 +1533,6 @@ typedef enum MagicSchoolEnum {
     SCHOOL_Star
 } MagicSchoolEnum;
 
-
-
-typedef struct ItemInstance ItemInstance, *PItemInstance;
-
-typedef struct Temp_enchant Temp_enchant, *PTemp_enchant;
-
-typedef struct GearInstance GearInstance, *PGearInstance;
-
 typedef enum AspectEnum {
     ASPECT_NONE=0,
     ASPECT_LUNAR=1,
@@ -1610,83 +1572,12 @@ typedef enum MigicCostEnum {
     SPELLUSE_Gemstone=3
 } MigicCostEnum;
 
-struct ItemInstance {
-    ItemID id;
-    u16 field1_0x2;
-    char *name;
-    enum AspectEnum aspect;
-    u8 field4_0x9;
-    u16 price;
-    StatMod *statMod;
-    SpellCharges *spellCharge;
-};
-
-
-
-
 struct combat_aiscore {
     u8 spell_pri;
     u8 x;
     u8 y;
     u8 unk0x3;
     CombatEntity *combatEnt;
-};
-
-struct resist_float { /* resistance and element when loaded into temp item */
-    enum ElementEnum element;
-    float percent;
-};
-
-struct StatMod {
-    s8 stat;
-    s8 mod;
-};
-
-struct SpellInstance{
-    ItemInstance base;
-    u8 level;
-    u8 school;
-    u8 damage;
-    u8 stamina;
-    u8 cast;
-    u8 target;
-    u8 wizard;
-    u8 special;
-    u8 range;
-    u8 cost;
-    u16 exp_modifyer;
-    u8 aspect_flag;
-};
-
-struct SpellCharges {
-    SpellInstance *Spell;
-    u8 Charges;
-};
-
-struct ArmorInstance {
-    ItemInstance base;
-    u8 unk14;
-    u8 unk15;
-    undefined field3_0x16;
-    u8 rom0x1d;
-    u8 (*skillmod)[2];
-    Temp_enchant *enchantment;
-    resist_float *resist;
-    u8 DEF;
-    u8 Protect;
-    u8 dex;
-    u8 stealth;
-};
-
-struct GearInstance {
-    ItemInstance base;
-    u8 damage;
-    u8 Protection;
-    u8 STR;
-    u8 INT;
-    u8 (*skillMod)[2];
-    void *enchantment;
-    resist_float *resist;
 };
 
 struct CombatAI_s {
@@ -1704,36 +1595,7 @@ struct CombatAI_s {
     int unk18;
 };
 
-struct WeaponInstance {
-    ItemInstance base;
-    char unk14;
-    char unk15;
-    u8 unk16;
-    u8 reqStr;
-    StatMod *SkillMod;
-    Temp_enchant *enchantment;
-    resist_float *resist;
-    enum WeaponClassEnum weaponType;
-    u8 hit;
-    u8 damage;
-    u8 range;
-    u8 animation;
-    enum ElementEnum element;
-    undefined field14_0x2a;
-    undefined field15_0x2b;
-};
 
-struct Temp_enchant {
-    enum SpellEnum index;
-    u8 lv;
-    enum MagicSchoolEnum school;
-    u8 varA;
-    u32 varB;
-    uint timer;
-    u32 unkc; /* unused */
-    u32 unk10; /* unused */
-    u32 SpellVisualIndex;
-};
 
 typedef struct combat_substruct combat_substruct, *Pcombat_substruct;
 
@@ -2236,21 +2098,6 @@ struct Spell_ROM { /* Spell Data in ROM */
 };
 
 
-typedef union EquipInstance EquipInstance, *PEquipInstance;
-
-typedef struct PotionInstance PotionInstance, *PPotionInstance;
-
-struct PotionInstance {
-    ItemInstance base;
-};
-
-union EquipInstance {
-    WeaponInstance W;
-    GearInstance G;
-    PotionInstance P;
-    ArmorInstance A;
-    SpellInstance S;
-};
 
 typedef struct printf_struct printf_struct, *Pprintf_struct;
 
@@ -2987,23 +2834,7 @@ typedef struct QueueStructAItem QueueStructAItem, *PQueueStructAItem;
 
 typedef struct QueueStructBItem QueueStructBItem, *PQueueStructBItem;
 
-struct PlayerHandler {
-    short max_player;
-    u16 initFlag;
-    Camera_struct *camera;
-    short cameraFocus;
-    undefined field4_0xa;
-    undefined field5_0xb;
-    playerData *playerDats;
-    s16 unk10[40];
-    short playerCount;
-    u16 counter;
-    float float_0x64;
-    float float_0x68;
-    Borg1header *shadowTexture;
-    u32 field13_0x70;
-    audiokey_struct *audiokey;
-};
+
 
 struct wander_struct {
     wander_substruct *wanderSubstructs;

@@ -23,12 +23,7 @@ struct SoundStructA {
     audio_obj_dat *voxelDat;
 };
 
-struct audiokey_struct {
-    u8 (*a)[4];
-    void* b;
-    void* c;
-    u8 d[1277][4];
-};
+
 
 //retail has 2 more sound obj entries.
 #ifdef DEBUGVER

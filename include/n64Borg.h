@@ -142,13 +142,13 @@ struct teleport_dat {
 struct SceneVoxelModel {
     float renderProx;
     u32 borgIndex;
-    struct Borg7header *borgheader;
+    struct Borg7header *b7;
 };
 
 struct Scene_obj_dat {
-    struct SceneVoxelModel borgArray[3];
-    struct vec3f rotation;
-    struct vec3f scale;
+    SceneVoxelModel borgArray[3];
+    vec3f rotation;
+    vec3f scale;
     Color32 tint;
     u16 BorgCount;
     u16 sceneflags;
@@ -179,7 +179,7 @@ struct monsterparty_dat {
 };
 
 struct Wandernode_dat {
-    struct vec2f startCoords;
+    vec2f startCoords;
     float wanderradius;
     float PosRandom;
     float field3_0x10;
@@ -525,8 +525,7 @@ struct borg2data {
 };
 
 struct Borg5header {
-    u32 field0_0x0;
-    u32 field1_0x4;
+    BorgHeader head;
     void *unk8;
     void *aniTextures;
     Borg5data dat;

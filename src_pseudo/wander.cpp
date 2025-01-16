@@ -87,7 +87,7 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
   playerData *ppVar3;
   EntityDB *pEVar4;
   Borg9data *pBVar5;
-  Borg7Enum borg7;
+  u32 borg7;
   playerData *pDat;
   byte bVar8;
   ushort uVar7;

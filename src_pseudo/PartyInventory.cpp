@@ -111,11 +111,9 @@ Inventory_item* PartyInventory::GetItemEntry(s32 slot){
   return NULL;
 }
 
-int PartyInventory::IncItemQuantity(int slot,int q){
-  Inventory_item *item;
-  
+s32 PartyInventory::IncItemQuantity(s32 slot,s32 q){  
   if (slot != -1) {
-    item = this->inv_slots + slot;
+    Inventory_item *item = this->inv_slots + slot;
     if (0 < item->Quantity) {
       item->Quantity+=q;
       if (item->Quantity>=99) {
@@ -256,8 +254,7 @@ void PartyInventory::AddNewItem(int slot,ItemID id,s32 quant){
 }
 //search for the index of (query) in (array), which is (size) long
 int PartyInventory::SearchArray(ItemID *array,u8 size,ItemID query){
-  int i;
-  for(i=0;i<size;i++){
+  for(s32 i=0;i<size;i++){
       if (array[i].s == query.s) return i;
   }
   return -1;

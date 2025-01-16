@@ -89,7 +89,7 @@ void * get_borg_index_x4(s32 x){return borg_index_x4[x];}
 void * getBorgItem(s32 index){
   s32 memOld;
   void *ret;
-  void *borgfile;
+  u8 *borgfile;
   s32 MemNew;
   u8 *puVar1;
   u32 uVar2;
@@ -107,10 +107,10 @@ void * getBorgItem(s32 index){
     ROMCOPYS(&listing,(void *)((s32)BorgListingPointer + index * 0x10 + 8),0x10,0x21d);
     if ((((listing.Type < 3) || (listing.Type == 6)) || (listing.Type == 11)) || (((listing.Type == 12 || (listing.Type == 13)) || (listing.Type == 14)))) {
       if (borgFlag == 0) {
-        ret = HeapAlloc(gBorgHeaderSizes[listing.Type] + 4,FILENAME,0x231);
+        ALLOCS(ret,gBorgHeaderSizes[listing.Type] + 4,0x231);
         puVar1 = borg_index_x1 + index;
         if (*puVar1 == 0) {
-          borgfile = HeapAlloc(listing.uncompressed,FILENAME,0x236);
+          ALLOCS(borgfile,listing.uncompressed,0x236);
           decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
                          borgfile,listing.uncompressed,(s32)listing.Compression);
           (*borg_funcs_a[listing.Type])(borgfile);

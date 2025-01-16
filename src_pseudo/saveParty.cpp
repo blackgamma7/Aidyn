@@ -1,6 +1,7 @@
 #define FILENAME "./src/saveParty.cpp"
 
-#include "savefiles.h"
+#include "saveParty.h"
+#include "world.h"
 #include "heapN64.h"
 
 //repeated null-check that advances the bits in the save file.

@@ -154,6 +154,9 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     char text[512]; //text buffer used for sprintf's.
 };
 
+extern u16 gDebugFlag;
+
+
 extern u16 gExpPakFlag; //set when OsMemSize>4MB.
 extern GlobalsAidyn gGlobals;
 
