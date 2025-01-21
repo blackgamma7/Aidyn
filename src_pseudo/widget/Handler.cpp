@@ -12,13 +12,13 @@ u8 WidgetHandler::Init(FontStruct *param_2){
 
 void WidgetHandler::Free(u32 flag){
 
-  BaseWidget *apBStack_18 = this->head;
-  while (apBStack_18) {
+  BaseWidget *w = this->head;
+  while (w) {
     BaseWidget *pBVar1 = this->head->link2;
     this->head = pBVar1;
     if (pBVar1) pBVar1->link1 = NULL;
-    AllocFreeQueueItem(queue_struct_pointer,&apBStack_18,6,0);
-    apBStack_18 = this->head;
+    AllocFreeQueueItem(queue_struct_pointer,&w,6,0);
+    w = this->head;
   }
   if ((flag & 1)) delete this;
 }
@@ -26,7 +26,6 @@ void WidgetHandler::Free(u32 flag){
 
 u8 WidgetHandler::Tick(u8 delta){
   BaseWidget *pBVar1;
-  u32 uVar2;
   u8 uVar3;
   byte bVar4;
   byte bVar5;
@@ -49,8 +48,7 @@ joined_r0x800b7018:
   switch(bVar4) {
   case 1:
   case 2:
-    uVar2 = pBStack_20->RunFunc0();
-    if (uVar2 != 2) goto joined_r0x800b7018;
+    if (pBStack_20->RunFunc0() != 2) goto joined_r0x800b7018;
     pBStack_20->SetState(3);
     pBStack_20->Tick();
     bVar4 = pBStack_20->state;

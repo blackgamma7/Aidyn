@@ -1776,30 +1776,27 @@ char * Party::ApraisePrice(ItemID param_2,u32 param_3){
   CharSheet *pCVar1;
   char cVar3;
   s32 iVar2;
-  u32 uVar4;
-  u32 uVar5;
+  u32 i;
   u32 uVar6;
   double dVar7;
   float fVar8;
   
   uVar6 = 0;
-  for(uVar5 = 0;uVar5<MAXPARTY;uVar5++){
-    pCVar1 = this->Members[uVar5];
+  for(i = 0;i<MAXPARTY;i++){
+    pCVar1 = this->Members[i];
     if (pCVar1) {
-      iVar2 = CharStats::getModded(pCVar1->Stats,STAT_INT);
-      cVar3 = pCVar1->Skills->getModdedSkill(SKILL_Merchant);
-      uVar4 = iVar2 + cVar3 * 6;
+      u16 uVar4 = CharStats::getModded(pCVar1->Stats,STAT_INT) + pCVar1->Skills->getModdedSkill(SKILL_Merchant) * 6;
       if (uVar6 <= uVar4) uVar6 = uVar4;
     }
   }
   fVar8 = ((float)(SQ(uVar6)) * -0.0186603f + (float)uVar6 * 2.366025f + 50.0f) / 100.0f;
-  //use CLAMMP macro instead?
+  //use CLAMP macro instead?
   FLOOR(fVar8,0.0);
   else CIEL(fVar8,125.0f);
   fVar8 = ((float)GetItemPrice(param_2) * fVar8 * 3.0f) / (float)(param_3);
   dVar7 = (double)fVar8;
-  if (0.0 < fVar8) {uVar6 = (u32)(dVar7 + 0.5);}
-  else {uVar6 = -(s32)(0.5 - dVar7);}
+  if (0.0 < fVar8) uVar6 = (u32)(dVar7 + 0.5);
+  else uVar6 = -(s32)(0.5 - dVar7);
   uVar6 &= 0xff;
   CIEL(uVar6,6);
   return price_strings[uVar6];

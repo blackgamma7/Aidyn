@@ -2,7 +2,6 @@
 #include "font.h"
 
 // Base Class for almost all UI Elements
-
 class BaseWidget{
     typedef BaseWidget* (*buttonFunc)(BaseWidget*,BaseWidget*);
 public:

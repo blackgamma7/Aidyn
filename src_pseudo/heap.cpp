@@ -268,11 +268,11 @@ void FUN_8009872c(void *param_1){
   void *pvVar2;
   
   pvVar1 = gMemMonitor.memRegionNext;
-  FUN_80098864((char)param_1,0);
-  FUN_8009886c((char)param_1,pvVar1);
+  FUN_80098864(param_1,0);
+  FUN_8009886c(param_1,(s32)pvVar1);
   pvVar2 = param_1;
   if (pvVar1) {
-    FUN_80098864((char)pvVar1,param_1);
+    FUN_80098864(pvVar1,(s32)param_1);
     pvVar2 = gMemMonitor.memRegionMaxCurr;
   }
   gMemMonitor.memRegionMaxCurr = pvVar2;
@@ -281,20 +281,19 @@ void FUN_8009872c(void *param_1){
 
 void FUN_800987a8(HeapBlock* param_1){
   void *pvVar1;
-  longlong lVar2;
   void *pvVar3;
   
-  lVar2 = FUN_80098874(param_1);
+  s32 lVar2 = FUN_80098874(param_1);
   pvVar3 = (void *)FUN_8009887c(param_1);
   pvVar1 = pvVar3;
   if (lVar2) {
-    FUN_8009886c((char)lVar2,pvVar3);
+    FUN_8009886c((void*)lVar2,(s32)pvVar3);
     pvVar1 = gMemMonitor.memRegionNext;
   }
   gMemMonitor.memRegionNext = pvVar1;
   pvVar1 = (void *)lVar2;
   if (pvVar3) {
-    FUN_80098864((char)pvVar3,(void *)lVar2);
+    FUN_80098864(pvVar3,lVar2);
     pvVar1 = gMemMonitor.memRegionMaxCurr;
   }
   gMemMonitor.memRegionMaxCurr = pvVar1;

@@ -190,8 +190,7 @@ COMMONSTRING_OptionsHelp,    // Help
     // Continue without saving
     // Insert new Controller Pak
     // Create new game
-    // The game saved in Note %d of the Controller Pak is corrupt.
-    // Insert a new Controller Pak or:
+    // The game saved in Note %d of the Controller Pak is corrupt.\nInsert a new Controller Pak or:
     // Delete the corrupt game
     // Retry
     // Continue (ignore it)
@@ -204,8 +203,7 @@ COMMONSTRING_OptionsHelp,    // Help
     // Exit
     // There is a fatal error with the Controller Pak.
     // Exit
-    // No Controller Pak detected.
-    // Insert Controller Pak or:
+    // No Controller Pak detected.\nInsert Controller Pak or:
     // Retry (insert a Controller Pak)
     // Continue without saving
     // Delete this game note?
@@ -349,32 +347,32 @@ COMMONSTRING_DaySun,    // Sunday
     // None
     // Rain
     // Snow
-    // Default
-    // Collision Player And Camera
-    // Collision Player
-    // Snow
-    // Grass
-    // Sand
-    // Mucky
-    // Sizzle
-    // Cave
-    // Wood
-    // WoodEcho
-    // Stone
-    // StoneEcho
-    // StoneHugeEcho
-    // Water
-    // Trans Snow
-    // Trans Grass
-    // Trans Sand
-    // Trans Mucky
-    // Trans Sizzle
-    // Trans Cave
-    // Trans Wood
-    // Trans WoodEcho
-    // Trans Stone
-    // Trans StoneEcho
-    // Trans StoneHugeEcho
+COMMONSTRING_Collide00=346,    // Default
+COMMONSTRING_Collide01,    // Collision Player And Camera
+COMMONSTRING_Collide02,    // Collision Player
+COMMONSTRING_Collide03,    // Snow
+COMMONSTRING_Collide04,    // Grass
+COMMONSTRING_Collide05,    // Sand
+COMMONSTRING_Collide06,    // Mucky
+COMMONSTRING_Collide07,    // Sizzle
+COMMONSTRING_Collide08,    // Cave
+COMMONSTRING_Collide09,    // Wood
+COMMONSTRING_Collide10,    // WoodEcho
+COMMONSTRING_Collide11,    // Stone
+COMMONSTRING_Collide12,    // StoneEcho
+COMMONSTRING_Collide13,    // StoneHugeEcho
+COMMONSTRING_Collide14,    // Water
+COMMONSTRING_Collide15,    // Trans Snow
+COMMONSTRING_Collide16,    // Trans Grass
+COMMONSTRING_Collide17,    // Trans Sand
+COMMONSTRING_Collide18,    // Trans Mucky
+COMMONSTRING_Collide19,    // Trans Sizzle
+COMMONSTRING_Collide20,    // Trans Cave
+COMMONSTRING_Collide21,    // Trans Wood
+COMMONSTRING_Collide22,    // Trans WoodEcho
+COMMONSTRING_Collide23,    // Trans Stone
+COMMONSTRING_Collide24,    // Trans StoneEcho
+COMMONSTRING_Collide25,    // Trans StoneHugeEcho
     // Are you sure you would like to delete that game?
     // Delete
     // Cancel
@@ -394,25 +392,21 @@ COMMONSTRING_PriceAppraise3,    // The price is about what you'd expect
 COMMONSTRING_PriceAppraise4,    // This is less than you'd expect to pay, but not much
 COMMONSTRING_PriceAppraise5,    // This is a really good price
 COMMONSTRING_PriceAppraise6,    // What an amazing bargain!
-    // Name
-    // Not enough pages on the Controller Pak to save. Aidyn Chronicles: The First Mage requires 28 pages and 1 note to save.
-    // Insert a new Controller Pak or:
-    // There are still not enough pages to save.
-    // Controller Pak is still full.
+COMMONSTRING_ContPakName,    // Name
+COMMONSTRING_ContPakFull01,    // Not enough pages on the Controller Pak to save. Aidyn Chronicles: The First Mage requires 28 pages and 1 note to save.\nInsert a new Controller Pak or:
+COMMONSTRING_ContPakFull02,    // There are still not enough pages to save.
+COMMONSTRING_ContPakFull03,    // Controller Pak is still full.
     // New Controller Pak detected.
     // Continue
-    // Controller Pak is corrupt.
-    // Insert a new Controller Pak or:
-    // Controller Pak is physically damaged.
-    // Insert a new Controller Pak or:
+    // Controller Pak is corrupt.\nInsert a new Controller Pak or:
+    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
     // Repair (Data may be lost)
     // Insert new Controller Pak (Retry)
     // Error while reading from the Controller Pak. Please ensure that the Controller and the Controller Pak are inserted correctly.
     // Continue without saving
     // Retry
     // Insert new Controller Pak
-    // No Controller Pak detected.
-    // Insert a Controller Pak or:
+    // No Controller Pak detected.\nInsert a Controller Pak or:
     // Retry (insert a Controller Pak)
     // Repair Successful
     // Repair Failed
@@ -420,16 +414,13 @@ COMMONSTRING_PriceAppraise6,    // What an amazing bargain!
     // Empty
     // Are you sure you would like to save over that game?
     // Overwrite
-    // Controller Pak is corrupt.
-    // Insert a new Controller Pak or:
-    // Controller Pak is physically damaged.
-    // Insert a new Controller Pak or:
+    // Controller Pak is corrupt.\nInsert a new Controller Pak or:
+    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
     // Repair (data may be lost)
     // Continue without saving
     // Insert new Controller Pak (Retry)
     // Error while reading from the Controller Pak. Please ensure that the Controller and the Controller Pak are inserted correctly or:
-    // Repair Failed
-    // Insert new Controller Pak or:
+    // Repair Failed\nInsert new Controller Pak or:
     // Repair Successful
     // Retry
     // Insert new Controller Pak
@@ -476,95 +467,94 @@ COMMONSTRING_ArmorcraftComponents,    // You do not have the components to creat
 COMMONSTRING_ArmorcraftMain,    // Create Armor
 COMMONSTRING_ArmorcraftFail,    // You failed to create the armor.
 COMMONSTRING_ArmorcraftSuccess,    // Armor successfully created.
-    // Healer Tasks
-    // Lay On Hands
-    // Heal With Herbs
-    // Restore
-    // Health (%d / %d)
-    // %s's %s at max.
-    // I'll give you %ld gold for that %s.
-    // Are you sure you wish to drop %s?
-    // No, thanks.
-    // Oops!  No way.
-    // Sure, here it is.
-    // Drop it.
-    // I will sell %d of them.
-    // Drop %d of them.
-    // I will sell all of them.
-    // Drop all of them.
-    // Hours: %u:%u:%u
-    // You just picked up %d gold!
-    // Unsupported Device Detected.
-    // Insert a Controller Pak or:
-    // Insert a Controller Pak
-    // There are still items that you have not picked up!  Are you sure you wish to exit?
-    // No, I changed my mind.
-    // Yes, leave them.
-    // To use that potion, exit the inventory menu, press and hold the ƒ### button and select it from the popup menu.
-    // That item cannot be equipped until that person's turn
-    // That item cannot be removed until that person's turn
-    // Each member earned %ld XP.
-    // %s gained a level!
-    // XP Cost: MAX
-    // XP Cost: %lu
-    // XP Remaining: %lu
-    // No entries have been made in the journal.
-    // You've learned a new spell! To select a spell in combat, press and hold the „### button. For more info, see the help menu.
-    // Only wizards can learn spells.
-    // I cannot teach you further in that spell.
-    // Your wizard rank is not high enough to learn this spell.
-    // You cannot learn this spell as you are of the wrong school.
-    // You need %ld XP and %ld gold to train this spell.
-    // You need %ld XP to train this spell.
-    // Are you sure you wish to train this for %ld XP and %ld gold?
-    // Are you sure you wish to train this for %ld XP?
-    // XP Remaining:
-    // Total XP:
-    // Next Level:
-    // MAX
-    // You cannot train this status any further.
-    // You need %ld XP to train this status.
-    // Are you sure you wish to train this for %ld XP?
-    // You cannot learn this skill.
-    // I cannot teach you further in that skill.
-    // You cannot train this skill any further.
-    // You need %ld XP and %ld gold to train this skill.
-    // You need %ld XP to train this skill.
-    // Are you sure you wish to train this for %ld XP and %ld gold?
-    // Are you sure you wish to train this for %ld XP?
-    // Gold Cost: %lu
-    // You've acquired a potion! To select a potion in combat, press and hold the ƒ### button. For more info, see the help menu.
-    // Nothing there.
-    // You cannot afford this item.
-    // You cannot hold any more of that item.
-    // The party's inventory is full.
-    // I do not want that item.
-    // You cannot drop that item.
-    // You must unequip that to sell it.
-    // You must unequip that to drop it.
-    // Found: %lu gold.
-    // Value: %lu
-    // You have a feeling that there's something you really need in here.
-    // Min. Wizard Rank: %d
-    // Requires: 
-    // Skill
-    // Aspect
-    // Min. Strength
-    // Base Hit
-    // Damage
-    // Spell Battery
-    // Magic:
-    // Spell:
-    // Resists:
-    // Protection
-    // Defense
-    // Dexterity
-    // Stealth
-    // Total Defense
-    // Total Protection
-    // Min. Intelligence
-    // Charges:
-    // You cannot train this spell any further.
-    // Create New Save
-    // The %s contains powerful magic that only %s can control
+COMMONSTRING_HealTaskMain,    // Healer Tasks
+COMMONSTRING_HealTaskHands,    // Lay On Hands
+COMMONSTRING_HealTaskHerbs,    // Heal With Herbs
+COMMONSTRING_HealTaskRestore,    // Restore
+COMMONSTRING_HealTaskHP,    // Health (%d / %d)
+COMMONSTRING_HealTaskMaxed,    // %s's %s at max.
+COMMONSTRING_SellYForX,    // I'll give you %ld gold for that %s.
+COMMONSTRING_DropXConfirm,    // Are you sure you wish to drop %s?
+COMMONSTRING_SellNo,    // No, thanks.
+COMMONSTRING_DropNo,    // Oops!  No way.
+COMMONSTRING_SellYes,    // Sure, here it is.
+COMMONSTRING_DropYes,    // Drop it.
+COMMONSTRING_SellXMany,    // I will sell %d of them.
+COMMONSTRING_DropXMany,    // Drop %d of them.
+COMMONSTRING_SellAll,    // I will sell all of them.
+COMMONSTRING_DropAll,    // Drop all of them.
+COMMONSTRING_HoursXYZ,    // Hours: %u:%u:%u
+COMMONSTRING_GotXGold,    // You just picked up %d gold!
+COMMONSTRING_NotContPak01,    // Unsupported Device Detected.\nInsert a Controller Pak or:
+COMMONSTRING_NotContPak02,    // Insert a Controller Pak
+COMMONSTRING_LeaveItemsConfirm,    // There are still items that you have not picked up!  Are you sure you wish to exit?
+COMMONSTRING_LeaveItemsNo,    // No, I changed my mind.
+COMMONSTRING_LeaveItemsYes,    // Yes, leave them.
+COMMONSTRING_CombatPotionPrompt,    // To use that potion, exit the inventory menu, press and hold the ƒ### button and select it from the popup menu.
+COMMONSTRING_CombatEquipPrompt,    // That item cannot be equipped until that person's turn
+COMMONSTRING_CombatUnequipPrompt,    // That item cannot be removed until that person's turn
+COMMONSTRING_EarnedExp,    // Each member earned %ld XP.
+COMMONSTRING_LevelUp,    // %s gained a level!
+COMMONSTRING_ExpCostMax,    // XP Cost: MAX
+COMMONSTRING_ExpCost,    // XP Cost: %lu
+COMMONSTRING_ExpRemain,    // XP Remaining: %lu
+COMMONSTRING_JournalEmpty,    // No entries have been made in the journal.
+COMMONSTRING_NewSpellPrompt,    // You've learned a new spell! To select a spell in combat, press and hold the „### button. For more info, see the help menu.
+COMMONSTRING_SpellWizardOnly,    // Only wizards can learn spells.
+COMMONSTRING_SpellTeacherMax,    // I cannot teach you further in that spell.
+COMMONSTRING_SpellWizardLow,    // Your wizard rank is not high enough to learn this spell.
+COMMONSTRING_SpellWrongSchool,    // You cannot learn this spell as you are of the wrong school.
+COMMONSTRING_SpellExpGCost,    // You need %ld XP and %ld gold to train this spell.
+COMMONSTRING_SpellExpCost,    // You need %ld XP to train this spell.
+COMMONSTRING_SpellExpGCostConfirm,    // Are you sure you wish to train this for %ld XP and %ld gold?
+COMMONSTRING_SpellExpCostConfirm,    // Are you sure you wish to train this for %ld XP?
+COMMONSTRING_ExpToSpend,    // XP Remaining:
+COMMONSTRING_ExpTotal,    // Total XP:
+COMMONSTRING_ExpTNL,    // Next Level:
+COMMONSTRING_ExpMax,    // MAX
+COMMONSTRING_StatTrainMax,    // You cannot train this status any further.
+COMMONSTRING_StatTrainCost,    // You need %ld XP to train this status.
+COMMONSTRING_StatTrainConfirm,    // Are you sure you wish to train this for %ld XP?
+COMMONSTRING_SkillTrainCant,    // You cannot learn this skill.
+COMMONSTRING_SkillTrainCantTeach,    // I cannot teach you further in that skill.
+COMMONSTRING_SkillTrainMax,    // You cannot train this skill any further.
+COMMONSTRING_SkillTrainExpGCost,    // You need %ld XP and %ld gold to train this skill.
+COMMONSTRING_SkillTrainExpCost,    // You need %ld XP to train this skill.
+COMMONSTRING_SkillTrainExpGCostConfirm,    // Are you sure you wish to train this for %ld XP and %ld gold?
+COMMONSTRING_SkillTrainExpCostConfirm,    // Are you sure you wish to train this for %ld XP?
+COMMONSTRING_GoldCost,    // Gold Cost: %lu
+COMMONSTRING_PotionFirstPrompt,    // You've acquired a potion! To select a potion in combat, press and hold the ƒ### button. For more info, see the help menu.
+COMMONSTRING_LootNone,    // Nothing there.
+COMMONSTRING_CantAfford,    // You cannot afford this item.
+COMMONSTRING_ItemFull,    // You cannot hold any more of that item.
+COMMONSTRING_InventoryFull,    // The party's inventory is full.
+COMMONSTRING_MerchantRefuse,    // I do not want that item.
+COMMONSTRING_ItemCantDrop,    // You cannot drop that item.
+COMMONSTRING_UnequipToSell,    // You must unequip that to sell it.
+COMMONSTRING_UnequipToDrop,    // You must unequip that to drop it.
+COMMONSTRING_FoundXGold,    // Found: %lu gold.
+COMMONSTRING_ItemGoldValue,    // Value: %lu
+COMMONSTRING_GetKeyItem,    // You have a feeling that there's something you really need in here.
+COMMONSTRING_WinWizard,    // Min. Wizard Rank: %d
+COMMONSTRING_Requires,    // Requires: 
+COMMONSTRING_Skill,    // Skill
+COMMONSTRING_Aspect,    // Aspect
+COMMONSTRING_MinSTR,    // Min. Strength
+COMMONSTRING_BaseHit,    // Base Hit
+COMMONSTRING_Damage,    // Damage
+COMMONSTRING_SpellCharges,    // Spell Battery
+COMMONSTRING_MagicColon,    // Magic:
+COMMONSTRING_SpellColon,    // Spell:
+COMMONSTRING_ResistsColon,    // Resists:
+COMMONSTRING_Protection,    // Protection
+COMMONSTRING_Defense,    // Defense
+COMMONSTRING_Dexterity,    // Dexterity
+COMMONSTRING_Stealth,    // Stealth
+COMMONSTRING_TotalDefense,    // Total Defense
+COMMONSTRING_TotalProtection,    // Total Protection
+COMMONSTRING_MinInt,    // Min. Intelligence
+COMMONSTRING_ChargesColon,    // Charges:
+COMMONSTRING_SpellTrainMax,    // You cannot train this spell any further.
+COMMONSTRING_NewSave,    // Create New Save
+COMMONSTRING_XPowerfulMagic,    // The %s contains powerful magic that only %s can control
 };
