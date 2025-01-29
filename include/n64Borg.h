@@ -1,6 +1,7 @@
 #include "mathN64.h"
 #include "Borgindecies.h"
 #include "heapN64.h"
+#include "graphics.h"
 
 //TODO: Break into headers by borg type
 

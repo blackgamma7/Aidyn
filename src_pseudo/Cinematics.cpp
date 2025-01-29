@@ -193,7 +193,7 @@ Gfx* cinematic_increment(Gfx*param_1,s16 param_2){
   Gfx*pauVar1;
 
   pauVar1 = RenderSky(param_1,param_2);
-  pauVar1 = Graphics::StartDisplay(pauVar1,0,0,320,240);
+  pauVar1 = Graphics::StartDisplay(pauVar1,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
   set_animation_speed(gGlobals.cinematic.AniDat,(char)param_2);
   FUN_800a0df4(gGlobals.cinematic.AniDat);
   pauVar1 = gsAnimationDataMtx(pauVar1,gGlobals.cinematic.AniDat);
@@ -374,7 +374,7 @@ LAB_8005d1d4:
     else {cinematic_fade_color.A = (u8)(s32)(fVar8 - INT_MAX_f);}
     if (cinematic_fade_color.A != 0) {
       pauVar3 = rsp_func(param_1,6,Graphics::get_hres(),Graphics::get_vres());
-      param_1 = gsFadeInOut(pauVar3,0,0,0x140,0xf0,cinematic_fade_color.R,cinematic_fade_color.G,
+      param_1 = gsFadeInOut(pauVar3,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,cinematic_fade_color.R,cinematic_fade_color.G,
                             cinematic_fade_color.B,cinematic_fade_color.A);
     }
   }

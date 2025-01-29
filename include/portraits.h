@@ -1,6 +1,6 @@
 #include "n64Borg.h"
 namespace Portraits{
-    u16 screen_bottom=240;
+    u16 screen_bottom=SCREEN_HEIGHT;
     void InitBorder();
     u8 CheckPos(u8 param_1);
     Gfx* Draw(Gfx*,u8);

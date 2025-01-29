@@ -281,12 +281,12 @@ loop:
       sVar7 = sVar9 + -1;
       uVar8 = doubleGlobalTickerFlag;
       if (sVar1 == 2) {
-        FUN_800095f0(psStack_40);
+        Graphics::GetTaskTime(psStack_40);
         gGlobals.ticker++;
         sVar9 = sVar7;
         if (0.0 < lensflare_floats.x) {
           uVar8 = doubleGlobalTickerFlag;
-          if (320.0f <= lensflare_floats.x) {
+          if (SCREEN_WIDTH <= lensflare_floats.x) {
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
@@ -294,12 +294,12 @@ loop:
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
-          if (240.0f <= lensflare_floats.y) {
+          if (SCREEN_HEIGHT <= lensflare_floats.y) {
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
-          psVar6 = get_depthBuffer();
-          if (psVar6[((u16)lensflare_floats.y * (Graphics::get_vres() / 240)) * Graphics::get_hres() + lensflare_floats.x * (Graphics::get_hres() / 0x140)] == -4) {
+          s16 psVar6 = Graphics::GetDepthBuffer()();
+          if (psVar6[((u16)lensflare_floats.y * (Graphics::get_vres() / 240)) * Graphics::get_hres() + lensflare_floats.x * (Graphics::get_hres() / SCREEN_WIDTH)] == -4) {
             gGlobals.appfunc_dat = 1;
             uVar8 = doubleGlobalTickerFlag;
             goto loop;
@@ -324,7 +324,7 @@ void appProc_init(void){
   Borg8Enum BVar5;
   s32 uVar6;
   
-  Graphics::SetGfxMode(320,240,16);
+  Graphics::SetGfxMode(SCREEN_WIDTH,SCREEN_HEIGHT,16);
   Sky::Reset();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
@@ -403,7 +403,7 @@ void clear_audio_video(void){
   }
 
 int appState_RegionControllerCheck(Gfx **gg){
-  int iVar6;
+  int ret;
   
   if (osTvType == OS_TV_PAL) {
     if (PAL_warning_flag) {
@@ -416,14 +416,14 @@ int appState_RegionControllerCheck(Gfx **gg){
              (Graphics::get_hres() * 0.5f) - ((PAL_Warning_image->dat).Width * 0.5f),
              (Graphics::get_vres() * 0.5f) - ((PAL_Warning_image->dat).Height * 0.5f),
             1.0f,1.0f,0xff,0xff,0xff,0xff);
-    iVar6 = 5;
+    ret = 5;
     *gg = g;
   }
   else {
     u8 bVar5 = check_for_controller();
-    iVar6 = 3;
-    if (!bVar5) iVar6 = 4;
+    ret = 3;
+    if (!bVar5) ret = 4;
   }
-  return iVar6;
+  return ret;
 }
 

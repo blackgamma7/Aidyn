@@ -1776,13 +1776,12 @@ char * Party::ApraisePrice(ItemID param_2,u32 param_3){
   CharSheet *pCVar1;
   char cVar3;
   s32 iVar2;
-  u32 i;
   u32 uVar6;
   double dVar7;
   float fVar8;
   
   uVar6 = 0;
-  for(i = 0;i<MAXPARTY;i++){
+  for(u32 i = 0;i<MAXPARTY;i++){
     pCVar1 = this->Members[i];
     if (pCVar1) {
       u16 uVar4 = CharStats::getModded(pCVar1->Stats,STAT_INT) + pCVar1->Skills->getModdedSkill(SKILL_Merchant) * 6;

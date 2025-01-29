@@ -246,7 +246,7 @@ void TakeSnapshot(void){
     h = Graphics::get_hres();
     V = Graphics::get_vres();
     Graphics::getGfxLastFrame(gQuestdataSnapshot,SNAPSHOT_H,SNAPSHOT_V,0x10,
-               (h / 320.0f) * 80.0f,(V / 240.0f) * 60.0,(h / 320.0f) * 240.0,(V / 240.0f) * 180.0);
+               (h / SCREEN_WIDTH) * 80.0f,(V / SCREEN_HEIGHT) * 60.0,(h / SCREEN_WIDTH) * SCREEN_HEIGHT,(V / SCREEN_HEIGHT) * 180.0);
     CLEAR(&gWeatherTemp);
     World::GetWeatherTemp(TerrainPointer,&gWeatherTemp);
   }

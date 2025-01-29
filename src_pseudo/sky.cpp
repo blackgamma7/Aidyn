@@ -332,7 +332,7 @@ Gfx * Sky::RenderGradient(Gfx *g,Color32 *cols,u16 h){
   if (h != 0) {
     for(u16 i=0;i<h;i++) {
       col = cols + i;
-      g = gsFadeInOut(g,0,i,0x140,i+1,col->R,col->G,col->B,col->A);
+      g = gsFadeInOut(g,0,i,SCREEN_WIDTH,i+1,col->R,col->G,col->B,col->A);
     }
   }
   return g;
@@ -385,7 +385,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   }
   //todo:refactor as case-switch.
   if (gGlobals.sky.Type == 2) {
-    gfx = gsFadeInOut(gfx,0,0,0x140,0xf0,0,0,0,0);
+    gfx = gsFadeInOut(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
     gGlobals.sky.colors[0].A = 0x60;
     gGlobals.sky.colors[0].B = 0x60;
     gGlobals.sky.colors[0].G = 0x60;
@@ -415,7 +415,7 @@ LAB_80022094:
     }
     if (((double)fVar7 < (double)TerrainPointer->ThunderFloat * 0.25) &&
        (sky_flag_b == 0)) {
-      gfx = gsFadeInOut(gfx,0,0,0x140,0xf0,0xff,0xff,0xff,0);
+      gfx = gsFadeInOut(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0xff,0xff,0xff,0);
       SetColors(gGlobals.sky.obj4.bitmap,gGlobals.sky.obj10.bitmap,fVar6,gGlobals.sky.gray,
                 gGlobals.sky.colors,gGlobals.sky.colors + 1,gGlobals.sky.colors + 2,
                 gGlobals.sky.colors + 3,gGlobals.sky.colors + 4,
@@ -436,7 +436,7 @@ LAB_800222c4:
       }
       else if (uVar2 == 0) {
         borg12 = 1820;
-        uVar8 = 0xf0;
+        uVar8 = SCREEN_HEIGHT;
       }
       else {
         borg12 = 1822;
@@ -481,7 +481,7 @@ LAB_80022478:
     B = 0;
     A = 0;
   }
-  gfx = gsFadeInOut(gfx,0,uVar2,0x140,0xf0,R,G,B,A);
+  gfx = gsFadeInOut(gfx,0,uVar2,SCREEN_WIDTH,SCREEN_HEIGHT,R,G,B,A);
 LAB_800224b0:
   sVar1 = gGlobals.sky.obj10.type;
   fVar7 = (float)(int)delta;

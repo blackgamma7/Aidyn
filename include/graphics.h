@@ -4,6 +4,10 @@ struct GtaskMsg {
     u16 unkShort;
     OSScTask *task;
 };
+
+#define SCREEN_WIDTH  320
+#define SCREEN_WIDTH_HI  512
+#define SCREEN_HEIGHT 240
 #define FBCOUNT 2 //for data with one for each framebuffer
 struct gfxManager {
     OSSched *sched;
@@ -19,7 +23,7 @@ struct gfxManager {
     int unk0x7c; /* unused? */
     OSScTask tasks[FBCOUNT];
     GtaskMsg taskMsgs[FBCOUNT];
-    ushort MoreResSettings[FBCOUNT][4]; /* H*2,V*2,511,0 */
+    u16 MoreResSettings[FBCOUNT][4]; /* H*2,V*2,511,0 */
     uint ram_size;
     uint FramebufferSize[FBCOUNT];
     uint dListSize;
@@ -27,8 +31,8 @@ struct gfxManager {
     u32 taskTime;
     u32 unkTime0;
     u32 unkTime1;
-    ushort Hres[FBCOUNT];
-    ushort Vres[FBCOUNT];
+    u16 Hres[FBCOUNT];
+    u16 Vres[FBCOUNT];
     u8 colordepth[FBCOUNT];
     u8 bufferChoice;
     s8 taskTicks;
@@ -63,8 +67,8 @@ u32 FramebufferSize1();
 u32 get_hres();
 u32 get_vres();
 u32 get_colorDepth();
+void getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres);
 void passto_GetGfxLastFrame(void*,u16,u16,u8);
 Gfx* DrawText(Gfx *,char *,u16 ,u16 ,u8 ,u8,u8,u8);
 Gfx* DisplaySystemMonitor(Gfx *);
 };
-void getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres);

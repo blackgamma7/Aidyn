@@ -10,7 +10,7 @@ void MemoryCheck(s32 ramstart,s32 arg1){
     gMemCheckStruct.MaxResolution0 = (320)*(240)*4;
     gMemCheckStruct.MaxResolution1 = (320)*(240)*4;
   }
-  gExpPakFlag = (u16)(mem >= 0x400001);
+  gExpPakFlag = (u16)(mem > 0x400000);
   gMemCheckStruct.DepthBuffer = (undefined *)((ramstart + arg1 & 0xffffffc0U) + 0x40);
   gMemCheckStruct.FreameBuffers[0] =
        (void *)((u32)mem - (gMemCheckStruct.MaxResolution1 * 2 + -0x80000000));

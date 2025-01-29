@@ -8,7 +8,7 @@
 WidgetClipText::WidgetClipText(char *str,u16 len):BaseWidget(){
 
   WidgetSubstruct_ClipText *sub = new WidgetSubstruct_ClipText;
-  sub->unk12 = 0x140;
+  sub->unk12 = SCREEN_WIDTH;
   sub->unk10 = 0;
   sub->scaleX = 1;
   sub->scaleY = 1;
@@ -22,7 +22,7 @@ WidgetClipText::WidgetClipText(char *str,u16 len):BaseWidget(){
   width = 0;
   height = 0;
   SetCoords(80,30);
-  SetColor(0xe1,0xe1,0xe1,0xff);
+  SetColor(OFFWHITE);
 }
 
 WidgetClipText::~WidgetClipText(){

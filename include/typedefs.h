@@ -29,4 +29,5 @@ typedef union Color32 {
 #define CIEL(x,hi) if(x>hi) x=hi
 #define CLAMP(x,lo,hi) FLOOR(x,lo); CIEL(x,hi)
 
+//Ghidra concatonating 2 32-bit values into 2 "low" registers
 #define CONCAT44(x,y) (u64)((x)<<32|y)

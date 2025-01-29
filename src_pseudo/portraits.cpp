@@ -6,7 +6,7 @@ u8 Portraits::CheckPos(u8 param_1){
   u8 bVar1;
   
   bVar1 = true;
-  if (param_1 == false) {if (screen_bottom < 0xf0) {bVar1 = false;}}
+  if (param_1 == false) {if (screen_bottom < SCREEN_HEIGHT) {bVar1 = false;}}
   else if (param_1 == true) bVar1 = screen_bottom < 0xba;
   return bVar1;
 }
@@ -35,7 +35,7 @@ Gfx * Portraits::DrawParty(Gfx *g,u8 raise,Color32 *col){
   if (raise) {
     if ((raise) && (0xb9 < screen_bottom)) screen_bottom-= 4;
   }
-  else if (screen_bottom < 0xf0) screen_bottom += 4;
+  else if (screen_bottom < SCREEN_HEIGHT) screen_bottom += 4;
   gfx = RSPFUNC6(g);
   BlendColors(col,&TempCol,gGlobals.brightness);
   Hscale = 0.8f;

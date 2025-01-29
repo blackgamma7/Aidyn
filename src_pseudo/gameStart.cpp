@@ -131,7 +131,7 @@ u8 gameStart(Gfx**GG){
     RSPFUNC6(gfx);
 
     for(uVar2=0;uVar2<gGlobals.delta;uVar2++) {WHANDLE->Tick(1);}
-    gfx = WHANDLE->Render(gfx,0,0,0x140,0xf0);
+    gfx = WHANDLE->Render(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
     gfx = N64Print::Draw(gfx,1);
   }
   pos = &fStack104;

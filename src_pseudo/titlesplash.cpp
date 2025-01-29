@@ -132,7 +132,7 @@ u8 TitleSplash::Show(s32 *param_1){
     splashscreen_load_flag=0;
   }
   bVar2 = true;
-  pauVar1 = Graphics::SomeOtherInit((Gfx*)*param_1,0,0,0x140,0xf0,0,0,0,0);
+  pauVar1 = Graphics::SomeOtherInit((Gfx*)*param_1,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
   *param_1 = pauVar1;
   switch(gGlobals.splashscreenSwitch) {
   case 0:
@@ -169,7 +169,7 @@ void TitleSplash::Borg8(Gfx*param_1,u8 alpha,Borg8header *borg){
   float h;
   
   if (alpha){
-    h = (float)(320 - (borg->dat).Width) * 0.5f;
+    h = (float)(SCREEN_WIDTH - (borg->dat).Width) * 0.5f;
     v = (float)(240 - (borg->dat).Height) * 0.5f;
     pauVar1 = (Gfx*)(*param_1)[0];
     pauVar1 = rsp_func(pauVar1,6,Graphics::get_hres(),Graphics::get_vres());
@@ -200,7 +200,7 @@ u8 TitleSplash::ExpansionPak(Gfx** param_1){
 }
 
 void TitleSplash::Println(Gfx*param_1,s16 *HSpace,char *TXT){
-  print_func_80044dc(gGlobals.font,param_1,(u8 *)TXT,(0x140 - passto_get_text_kerning(gGlobals.font,TXT)) / 2,(s32)*HSpace);
+  print_func_80044dc(gGlobals.font,param_1,(u8 *)TXT,(SCREEN_WIDTH - passto_get_text_kerning(gGlobals.font,TXT)) / 2,(s32)*HSpace);
   *HSpace+= (gGlobals.font)->charH;
 }
 u8 TitleSplash::Copyright(Gfx **param_1){
@@ -293,13 +293,13 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
     N64LogoRot = += 2.0d;
     TitleSplash::Noop();
   }
-  pauVar3 = Graphics::StartDisplay(pauVar3,0,0,0x140,0xf0);
+  pauVar3 = Graphics::StartDisplay(pauVar3,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
   animationData_LookAt(SplashLogoModel,n64LogoVec3[0],n64LogoVec3[1],n64LogoVec3[2],fVar5,fVar7,fVar6,0,1.0f,0);
   FUN_800a0df4(SplashLogoModel);
   pauVar3 = gsAnimationDataMtx(pauVar3,SplashLogoModel);
   pauVar3 = BorgAnimDrawScene(pauVar3,SplashLogoModel);
   RSPFUNC(pauVar3,6);
-  pauVar3 = SplashLicence->Render(pauVar3,0,0,320,240);
+  pauVar3 = SplashLicence->Render(pauVar3,0,0,SCREEN_WIDTH,240);
   *param_1 = pauVar3;
   return auStack64;
 }

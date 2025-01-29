@@ -5,7 +5,7 @@ BaseWidget::BaseWidget(){
   col.G = 0xff;
   col.B = 0xff;
   col.A = 0xff;
-  boundX1 = 320;
+  boundX1 = SCREEN_WIDTH;
   substruct = NULL;
   height = 0;
   width = 0;
@@ -16,7 +16,7 @@ BaseWidget::BaseWidget(){
   var5E = 0;
   boundY0 = 0;
   boundX0 = 0;
-  boundY1 = 240;
+  boundY1 = SCREEN_HEIGHT;
   link0 = NULL;
   link1 = NULL;
   link2 = NULL;
