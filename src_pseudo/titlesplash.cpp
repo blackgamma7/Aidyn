@@ -132,7 +132,7 @@ u8 TitleSplash::Show(s32 *param_1){
     splashscreen_load_flag=0;
   }
   bVar2 = true;
-  pauVar1 = some_video_setting_init((Gfx*)*param_1,0,0,0x140,0xf0,0,0,0,0);
+  pauVar1 = Graphics::SomeOtherInit((Gfx*)*param_1,0,0,0x140,0xf0,0,0,0,0);
   *param_1 = pauVar1;
   switch(gGlobals.splashscreenSwitch) {
   case 0:

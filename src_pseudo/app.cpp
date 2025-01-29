@@ -2,7 +2,8 @@
 #define FILENAME "./src/app.cpp"
 
 #include "globals.h"
-#include "GhidraDump.h"
+#include "memaker.h"
+#include "n64Borg.h"
 
 u16 doubleGlobalTickerFlag;
 #ifndef DEBUGVER
@@ -45,7 +46,7 @@ Gfx * display_debug_stats(Gfx *gfx){
   float fVar14;
   float fVar15;
   if ((gDebugFlag) && (1.0f <= gGlobals.delta)) {
-    if (gGlobals.DebugStatDisplay - 1 < 3) gfx = debug::DisplaySystemMonitor(gfx);
+    if (gGlobals.DebugStatDisplay - 1 < 3) gfx = Graphics::DisplaySystemMonitor(gfx);
     Gsprintf("%2d",(s16)(60.0 / gGlobals.delta));
     gfx = Graphics::DrawText(gfx,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
     if (gGlobals.DebugStatDisplay) {
@@ -66,7 +67,7 @@ Gfx * display_debug_stats(Gfx *gfx){
         }
         uVar9 = 0x114;
         fVar15 = (float)dVar11;
-        gfx_00 = gsFadeInOut(gfx,0x12,0xc4,0x114,0xde,0,0,0,0x80);
+        gfx_00 = gsFadeInOut(gfx,18,196,0x114,0xde,0,0,0,0x80);
         if (ppVar1 == NULL) {
           fVar12 = fVar14 * (float)(1.0f/1024);
           dVar11 = (double)((fVar15 / fVar14) * 100.0f);
@@ -200,16 +201,14 @@ Gfx * display_debug_stats(Gfx *gfx){
     return phi_s1_2;
 }*/
 
+#define APPSTACKSIZE 6162
 void appInit(OSSched *sched,u8 pri,u8 id){
-  s32 *stack;
-  u32 i;
-  
   appManager.sched = sched;
-  stack = (s32 *)HeapAlloc(0x6048,FILENAME,0xe7);
+  s32* stack = (s32 *)HALLOC(sizeof(s32)*APPSTACKSIZE,231);
   appStack_mirror = stack;
   appManager.stack = stack;
-  for(i = 0;i < 0x1811;i++) *stack++ = 0x12345678;
-  osCreateThread(&appManager.thread,id,AppProc,NULL,appManager.stack + 0x1812,pri);
+  for(u32 i = 0;i < APPSTACKSIZE-1;i++) stack[i] = 0x12345678;
+  osCreateThread(&appManager.thread,id,AppProc,NULL,appManager.stack + APPSTACKSIZE,pri);
   osStartThread(&appManager.thread);
 }
 
@@ -228,7 +227,7 @@ void AppProc(void *x){
   short *psStack_40;
   short **ppsStack_3c;
   
-  appManager.Mesg = (OSMesg *)HeapAlloc(0x20,s_./src/app.cpp_800d9898,0x117);
+  ALLOCS(appManager.Mesg,sizeof(OSMesg)*8,0x117);
   osCreateMesgQueue(&appManager.MesgQ2,appManager.Mesg,8);
   appManager.MesgQ = osScGetCmdQ(appManager.sched);
   appProc_init();
@@ -239,7 +238,7 @@ void AppProc(void *x){
 loop:
   while(1) {
     doubleGlobalTickerFlag = uVar8;
-    osRecvMesg(&appManager.MesgQ2,ppsStack_3c,1);
+    osRecvMesg(&appManager.MesgQ2,(OSMesg*)ppsStack_3c,1);
     if (*psStack_40 == 1) {
       if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
         if (resolution_mirror_check()) {
@@ -356,7 +355,7 @@ void appProc_init(void){
       BVar5 = pfVar4->font_face;
     }
   }
-  font_func(gGlobals.font,(fontface_struct *)font_face[0].font_face);
+  font_func(gGlobals.font,font_face[0].font_face);
   ALLOC(WHANDLE,447);
   WHANDLE->Init(gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;
@@ -374,7 +373,7 @@ Gfx* appProc_caseSwitch(Gfx** gg){
   Gfx* g=*gg;
   processQueueFree(&gGlobals.QueueA);
   Process_queue_B(&gGlobals.QueueB,0);
-  if (gGlobals.appstateBool != 0) {
+  if (gGlobals.appstateBool) {
     switch(gGlobals.appstate) {
     case 0:
       gGlobals.appstate = appstate_0(&g); break;
@@ -404,33 +403,24 @@ void clear_audio_video(void){
   }
 
 int appState_RegionControllerCheck(Gfx **gg){
-  float fVar1;
-  ushort uVar3;
-  ushort uVar4;
-  ushort h;
-  ushort v;
-  Gfx *pGVar2;
-  u8 bVar5;
   int iVar6;
-  float fVar7;
-  float fVar8;
   
   if (osTvType == OS_TV_PAL) {
     if (PAL_warning_flag) {
       PAL_Warning_image = loadBorg8(Borg8_PAL_Warning);
       PAL_warning_flag = 0;
     }
-    pGVar2 = *gg;
-    RSPFUNC6(pGVar2);
-    pGVar2 = Borg8_DrawSimple(pGVar2,PAL_Warning_image, //center image in screen.
+    Gfx* g = *gg;
+    RSPFUNC6(g);
+    g = Borg8_DrawSimple(g,PAL_Warning_image, //center image in screen.
              (Graphics::get_hres() * 0.5f) - ((PAL_Warning_image->dat).Width * 0.5f),
              (Graphics::get_vres() * 0.5f) - ((PAL_Warning_image->dat).Height * 0.5f),
             1.0f,1.0f,0xff,0xff,0xff,0xff);
     iVar6 = 5;
-    *gg = pGVar2;
+    *gg = g;
   }
   else {
-    bVar5 = check_for_controller();
+    u8 bVar5 = check_for_controller();
     iVar6 = 3;
     if (!bVar5) iVar6 = 4;
   }

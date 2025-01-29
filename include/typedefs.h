@@ -28,3 +28,5 @@ typedef union Color32 {
 #define FLOOR(x,lo) if(x<lo) x=lo
 #define CIEL(x,hi) if(x>hi) x=hi
 #define CLAMP(x,lo,hi) FLOOR(x,lo); CIEL(x,hi)
+
+#define CONCAT44(x,y) (u64)((x)<<32|y)

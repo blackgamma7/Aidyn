@@ -406,8 +406,7 @@ void borg5_func_a(Borg5header *b5){
   iVar8 = (b5->dat).aniTextureCount;
   if (0 < iVar8) {
     pvVar7 = (b5->dat).aniTextures;
-    do {
-      iVar8 += -1;
+    for(;iVar8;iVar8--) {
       *(int *)((int)pvVar7 + 0x10) = (int)&(b5->dat).substructCount + *(int *)((int)pvVar7 + 0x10);
       pvVar7 = (void *)((int)pvVar7 + 0x18);
     } while (iVar8 != 0);

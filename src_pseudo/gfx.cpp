@@ -4,6 +4,7 @@
 #include "stringN64.h"
 #include "heapN64.h"
 #include "crash.h"
+#include "memcheck.h"
 
 char* res_mode_string[3]={"Normal Resolution","High Resolution","32 Bit Color"};
 ResolutionSettings res_colormode[3]={{320,240,0,16},{512,240,0,16},{320,240,0,32}};
@@ -180,9 +181,7 @@ Gfx * Graphics::StartGfxList(void){
 
 
 
-Gfx * some_video_setting_init(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5,u8 r,u8 g,u8 b,u8 a){
-  float fVar1;
-  float fVar2;
+Gfx * Graphics::SomeOtherInit(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5,u8 r,u8 g,u8 b,u8 a){
   ushort uVar3;
   ushort uVar4;
   uint uVar5;
@@ -193,20 +192,18 @@ Gfx * some_video_setting_init(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushor
   uVar4 = gGfxManager.Vres[1];
   uVar3 = gGfxManager.Hres[1];
   (gfx->words).w0 = 0xe7000000;
-  fVar2 = 240.0f;
-  fVar1 = 320.0f;
   (gfx->words).w1 = 0;
   gfx[1].words.w0 = 0xe3000a01;
   *(undefined4 *)((int)gfx + 0xc) = 0x300000;
   gfx[2].words.w0 = 0xe200001c;
   *(undefined4 *)((int)gfx + 0x14) = 0;
-  uVar8 = (uint)(short)(int)((float)(uint)param_2 * ((float)(uint)uVar3 / fVar1));
-  uVar7 = (uint)(short)(int)((float)(uint)param_3 * ((float)(uint)uVar4 / fVar2));
-  if (gGfxManager.colordepth[1] == 16) gDPSetFillColor(gfx[3],GPACK_RGBA5551(r,g,b,a));
-  else DPRGBColor(gfx[3],G_SETFILLCOLOR,r,g,b,a);
-  uVar5 = (int)(short)(int)((float)(uint)param_4 * ((float)(uint)uVar3 / fVar1)) - 1;
+  uVar8 = (uint)(short)(int)((float)(uint)param_2 * ((float)(uint)uVar3 / 320.0f));
+  uVar7 = (uint)(short)(int)((float)(uint)param_3 * ((float)(uint)uVar4 / 240.0f));
+  if (gGfxManager.colordepth[1] == 16) {gDPSetFillColor(gfx[3],GPACK_RGBA5551(r,g,b,a))}
+  else {DPRGBColor(gfx[3],G_SETFILLCOLOR,r,g,b,a);}
+  uVar5 = (int)(short)(int)((float)(uint)param_4 * ((float)(uint)uVar3 / 320.0f)) - 1;
   if ((int)uVar5 < 0) uVar5 = 0;
-  uVar6 = (int)(short)(int)((float)(uint)param_5 * ((float)(uint)uVar4 / fVar2)) - 1;
+  uVar6 = (int)(short)(int)((float)(uint)param_5 * ((float)(uint)uVar4 / 240.0f)) - 1;
   if ((int)uVar6 < 0) uVar6 = 0;
   gfx[4].words.w0 = (uVar5 & 0x3ff) << 0xe | (uVar6 & 0x3ff) << 2 | 0xf6000000;
   if ((int)uVar8 < 1) uVar8 = 0;
@@ -245,7 +242,7 @@ Gfx * GsSetOtherMode_SysMon(Gfx *gfx){
   return gfx + 3;
 }
 
-Gfx * debug::gsDisplaySystemMonitor_Fillrect(Gfx *gfx,u16 x0,u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
+Gfx * Graphics::DebugDrawRect(Gfx *gfx,u16 x0,u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
   int uVar1;
   int uVar2;
   int uVar4;
@@ -254,21 +251,19 @@ Gfx * debug::gsDisplaySystemMonitor_Fillrect(Gfx *gfx,u16 x0,u16 x1,u16 y0,u16 y
   ushort V;
   
   V = gGfxManager.Vres[1];
-  H = gGfxManager.hres[1];
+  H = gGfxManager.Hres[1];
   gDPPipeSync(gfx++);
   uVar5 = x0 * (H / 320.0f);
   uVar4 = x1 * (V / 240.0f);
-  if (gGfxManager.colordepth[1] == 16) gDPSetFillColor(gfx[1],GPACK_RGBA5551(r,g,b,a));
-  else DPRGBColor(gfx[1],G_SETFILLCOLOR,r,g,b,a);
+  if (gGfxManager.colordepth[1] == 16) {gDPSetFillColor(gfx++,GPACK_RGBA5551(r,g,b,a))}
+  else {DPRGBColor(gfx++,G_SETFILLCOLOR,r,g,b,a)}
   uVar1 = y0 * (H / 320.0f) - 1;
   uVar2 = y1 * (V / 240.0f) - 1;
-  gDPScisFillRectangle(gfx[2],uVar5,uVar4,uVar1,uVar2);
-  return gfx + 3;
+  gDPScisFillRectangle(gfx++,uVar5,uVar4,uVar1,uVar2);
+  return gfx;
 }
 
-
-
-Gfx* Graphics::func_80008f48(Gfx*gfx){
+Gfx* Ofunc_80008f48(Gfx*gfx){
   gDPPipeSync(gfx++);
   gfx[1].words.w0 = 0xe3000a01;
   gfx[1].words.w1 = 0;
@@ -290,7 +285,7 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
   float fVar8;
   
   uVar3 = gGfxManager.Vres[1];
-  uVar2 = gGfxManager.hres[1];
+  uVar2 = gGfxManager.Hres[1];
   gDPPipeSync(g++);
   g[1].words.w0 = 0xe3000a01;
   *(undefined4 *)((int)g + 0xc) = 0x300000;
@@ -298,7 +293,7 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
   *(undefined4 *)((int)g + 0x14) = 0;
   fVar1 = 240.0f;
   fVar8 = (float)(uint)uVar2 / 320.0f;
-  g[3].words.w0 = gGfxManager.hres[1] - 1 & 0xfff | 0xff100000;
+  g[3].words.w0 = gGfxManager.Hres[1] - 1 & 0xfff | 0xff100000;
   *(s16 **)((int)g + 0x1c) = gGfxManager.DepthBuffer;
   g[4].words.w0 = 0xf7000000;
   *(undefined4 *)((int)g + 0x24) = 0xfffcfffc;
@@ -348,31 +343,31 @@ Gfx * Graphics::EndList(Gfx *gfx){
   gfx[3].words.w0 = 0xf7000000;
   *(undefined4 *)((int)gfx + 0x1c) = 0;
   uVar1 = gGfxManager.Vres[1];
-  if (gGfxManager.hres[1] == 0x140) {
+  if (gGfxManager.Hres[1] == 0x140) {
     *(undefined4 *)((int)gfx + 0x24) = 0;
     gfx[4].words.w0 = (uVar1 - 1 & 0x3ff) << 2 | 0xf603c000;
-    uVar1 = gGfxManager.hres[1];
+    uVar1 = gGfxManager.Hres[1];
     *(undefined4 *)((int)gfx + 0x2c) = 0;
     gfx[5].words.w0 = (uVar1 - 1 & 0x3ff) << 0xe | 0xf600002c;
     gfx[6].words.w0 =
-         (gGfxManager.hres[1] - 1 & 0x3ff) << 0xe |
+         (gGfxManager.Hres[1] - 1 & 0x3ff) << 0xe |
          (gGfxManager.Vres[1] - 1 & 0x3ff) << 2 | 0xf6000000;
-    uVar2 = gGfxManager.hres[1] - 0x10;
+    uVar2 = gGfxManager.Hres[1] - 0x10;
   }
   else {
     *(undefined4 *)((int)gfx + 0x24) = 0;
     gfx[4].words.w0 = (uVar1 - 1 & 0x3ff) << 2 | 0xf604c000;
-    uVar1 = gGfxManager.hres[1];
+    uVar1 = gGfxManager.Hres[1];
     *(undefined4 *)((int)gfx + 0x2c) = 0;
     gfx[5].words.w0 = (uVar1 - 1 & 0x3ff) << 0xe | 0xf600002c;
     gfx[6].words.w0 =
-         (gGfxManager.hres[1] - 1 & 0x3ff) << 0xe |
+         (gGfxManager.Hres[1] - 1 & 0x3ff) << 0xe |
          (gGfxManager.Vres[1] - 1 & 0x3ff) << 2 | 0xf6000000;
-    uVar2 = gGfxManager.hres[1] - 0x14;
+    uVar2 = gGfxManager.Hres[1] - 0x14;
   }
   *(uint *)((int)gfx + 0x34) = (uVar2 & 0x3ff) << 0xe;
   gfx[7].words.w0 =
-       (gGfxManager.hres[1] - 1 & 0x3ff) << 0xe |
+       (gGfxManager.Hres[1] - 1 & 0x3ff) << 0xe |
        (gGfxManager.Vres[1] - 1 & 0x3ff) << 2 | 0xf6000000;
   *(uint *)((int)gfx + 0x3c) = (gGfxManager.Vres[1] - 0xc & 0x3ff) << 2;
   gDPFullSync(&gfx[8]);
@@ -471,7 +466,7 @@ u32 Graphics::get_vres(void){return gGfxManager.Vres[1];}
 u32 Graphics::get_colorDepth(void){return gGfxManager.colordepth[1];}
 
 //copies the FB for BG and savegame screenshot
-void getGfxLastFrame(undefined *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres){
+void getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres){
   u16 uVar1;
   void *pvVar2;
   u32 uVar3;
@@ -646,7 +641,7 @@ LAB_80009c94:
   }
   return;
 }
-void Graphics::passto_GetGfxLastFrame(undefined *param_1,u16 param_2,u16 param_3,u8 param_4){
+void Graphics::passto_GetGfxLastFrame(void *param_1,u16 param_2,u16 param_3,u8 param_4){
   getGfxLastFrame(param_1,param_2,param_3,param_4,0,0,gGfxManager.Hres[1],gGfxManager.Vres[1]);}
 
 
@@ -665,7 +660,7 @@ Gfx * Ofunc_80009d7c(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5
   float fVar11;
   
   fVar10 = 320.0f;
-  uVar1 = (uint)gGfxManager.hres[1];
+  uVar1 = (uint)gGfxManager.Hres[1];
   uVar9 = (uint)gGfxManager.Vres[1];
   gDPPipeSync(gfx++);
   gfx[1].words.w0 = 0xe3000a01;
@@ -782,7 +777,7 @@ Gfx * Ofunc_80009d7c(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5
   return gfx + 0x1a;
 }
 
-Gfx * Graphics::DrawText(Gfx *gfx,char *txt,uint X,uint Y,u8 red,u8 green,u8 blue,u8 alpha){
+Gfx * Graphics::DrawText(Gfx *gfx,char *txt,u16 X,u16 Y,u8 red,u8 green,u8 blue,u8 alpha){
   char cVar1;
   Gfx *pGVar2;
   uint uVar4;
@@ -832,7 +827,7 @@ Gfx * Graphics::DrawText(Gfx *gfx,char *txt,uint X,uint Y,u8 red,u8 green,u8 blu
        (uint)red << 0x18 | (uint)green << 0x10 | (uint)blue << 8 | (uint)alpha;
   gfx[0xf].words.w0 = 0xe3001001;
   *(undefined4 *)((int)gfx + 0x7c) = 0;
-  fVar13 = (float)(X & 0xffff) * ((float)(uint)gGfxManager.hres[1] / fVar13);
+  fVar13 = (float)(X & 0xffff) * ((float)(uint)gGfxManager.Hres[1] / fVar13);
   if (fVar12 <= fVar13) {
     fVar13 = fVar13 - fVar12;
   }
@@ -853,7 +848,7 @@ Gfx * Graphics::DrawText(Gfx *gfx,char *txt,uint X,uint Y,u8 red,u8 green,u8 blu
       pGVar11 = pGVar2;
     }
     else {
-      if (gGfxManager.hres[1] <= uVar9) {
+      if (gGfxManager.Hres[1] <= uVar9) {
         uVar11 = uVar11 + 10U & 0xffff;
         uVar9 = uVar8;
       }
@@ -926,7 +921,7 @@ Gfx * Graphics::DrawText(Gfx *gfx,char *txt,uint X,uint Y,u8 red,u8 green,u8 blu
   return pGVar2;
 }
 
-Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
+Gfx * Graphics::DisplaySystemMonitor(Gfx *gfx){
   ushort x2;
   u32 uVar1;
   u32 uVar2;
@@ -972,13 +967,9 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
   uVar23 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (uint)OVar22 >> 0x1a,(uint)OVar22 << 6),
                    3000);
   gGfxManager.dListStartTime = (int)uVar23 - gGfxManager.dListStartTime;
-  if ((osTvType == NTSC) || (osTvType == MPAL)) {
-    ntscPalVar = 0x14585;
-  }
-  else {
-    if (osTvType != PAL) CRASH("gfx.cpp, DisplaySystemMonitor()","Unknown osTvType");
-    ntscPalVar = 100000;
-  }
+  if ((osTvType == OS_TV_NTSC) || (osTvType == OS_TV_MPAL)) ntscPalVar = (5000000/60);
+  else if (osTvType == OS_TV_PAL) ntscPalVar = (5000000/50);
+  else CRASH("gfx.cpp, DisplaySystemMonitor()","Unknown osTvType");
   uVar12 = ntscPalVar;
   if (gGfxManager.taskTime < ntscPalVar) uVar12 = gGfxManager.taskTime;
   uVar13 = ntscPalVar;
@@ -1003,7 +994,7 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
     fVar17 = fVar17 - INT_MAX_f;
   }
   uVar15 = (short)(int)fVar17 + 0x14;
-  pGVar9 = gsDisplaySystemMonitor_Fillrect(pGVar9,0x14,0x14,uVar15,0x16,0,0,0xff,0xff);
+  pGVar9 = DebugDrawRect(pGVar9,0x14,0x14,uVar15,0x16,0,0,0xff,0xff);
   dVar18 = (double)(uVar4 * 0x118);
   if ((int)(uVar4 * 0x118) < 0) {
     dVar18 = dVar18 + UINT_MAX_d;
@@ -1017,7 +1008,7 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
     fVar17 = fVar17 - INT_MAX_f;
   }
   x2 = uVar15 + (short)(int)fVar17;
-  pGVar9 = gsDisplaySystemMonitor_Fillrect(pGVar9,uVar15,0x14,x2,0x16,0,0,0xff,0xff);
+  pGVar9 = DebugDrawRect(pGVar9,uVar15,0x14,x2,0x16,0,0,0xff,0xff);
   dVar18 = (double)(uVar5 * 0x118);
   if ((int)(uVar5 * 0x118) < 0) {
     dVar18 = dVar18 + UINT_MAX_d;
@@ -1033,9 +1024,9 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
   else {
     sVar19 = (short)(int)(fVar17 - INT_MAX_f);
   }
-  pGVar9 = gsDisplaySystemMonitor_Fillrect(pGVar9,x2,0x14,x2 + sVar19,0x16,0,0,0,0xff);
-  dVar18 = (double)(iVar7 * 0x118);
-  if (iVar7 * 0x118 < 0) {
+  pGVar9 = DebugDrawRect(pGVar9,x2,0x14,x2 + sVar19,0x16,0,0,0,0xff);
+  dVar18 = (double)(iVar7 * 280);
+  if (iVar7 * 280 < 0) {
     dVar18 = dVar18 + UINT_MAX_d;
   }
   dVar16 = dVar21;
@@ -1057,7 +1048,7 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
     R = 0xff;
     G = 0;
   }
-  pGVar9 = gsDisplaySystemMonitor_Fillrect(pGVar9,x2,0x14,x2 + sVar20,0x16,R,G,0,0xff);
+  pGVar9 = DebugDrawRect(pGVar9,x2,0x14,x2 + sVar20,0x16,R,G,0,0xff);
   dVar18 = (double)(uVar6 * 0x118);
   if ((int)(uVar6 * 0x118) < 0) {
     dVar18 = dVar18 + UINT_MAX_d;
@@ -1072,8 +1063,7 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
   else {
     sVar20 = (short)(int)(fVar17 - INT_MAX_f);
   }
-  pGVar9 = gsDisplaySystemMonitor_Fillrect
-                     (pGVar9,x2 + sVar19,0x14,x2 + sVar19 + sVar20,0x16,0,0,0xff,0xff);
+  pGVar9 = DebugDrawRect(pGVar9,x2 + sVar19,0x14,x2 + sVar19 + sVar20,0x16,0,0,0xff,0xff);
   iVar7 = ((int)gfx - (int)pGVar10) * 0x118;
   dVar18 = (double)iVar7;
   if (iVar7 < 0) {
@@ -1090,8 +1080,8 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
   else {
     sVar19 = (short)(int)(fVar17 - INT_MAX_f);
   }
-  pGVar10 = gsDisplaySystemMonitor_Fillrect(pGVar9,0x14,0x18,sVar19 + 0x14U,0x1a,0,0xff,0,0xff);
-  pGVar10 = gsDisplaySystemMonitor_Fillrect(pGVar10,sVar19 + 0x14U,0x18,300,0x1a,0,0,0,0xff);
+  pGVar10 = DebugDrawRect(pGVar9,0x14,0x18,sVar19 + 0x14U,0x1a,0,0xff,0,0xff);
+  pGVar10 = DebugDrawRect(pGVar10,sVar19 + 0x14U,0x18,300,0x1a,0,0,0,0xff);
   dVar18 = (double)(gGfxManager.unkTime0 * 0x118);
   if ((int)(gGfxManager.unkTime0 * 0x118) < 0) {
     dVar18 = dVar18 + UINT_MAX_d;
@@ -1108,7 +1098,7 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
   else {
     sVar19 = (short)(int)(fVar17 - INT_MAX_f);
   }
-  pGVar10 = gsDisplaySystemMonitor_Fillrect(pGVar10,0x14,0x1c,sVar19 + 0x14,0x1e,0xff,0xff,0,0xff);
+  pGVar10 = DebugDrawRect(pGVar10,0x14,0x1c,sVar19 + 0x14,0x1e,0xff,0xff,0,0xff);
   dVar18 = (double)(gGfxManager.taskTime * 0x118);
   if ((int)(gGfxManager.taskTime * 0x118) < 0) {
     dVar18 = dVar18 + UINT_MAX_d;
@@ -1124,7 +1114,7 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
   else {
     sVar19 = (short)(int)(fVar17 - INT_MAX_f);
   }
-  pGVar10 = gsDisplaySystemMonitor_Fillrect(pGVar10,0x14,0x20,sVar19 + 0x14,0x22,0,0xff,0xff,0xff);
+  pGVar10 = DebugDrawRect(pGVar10,0x14,0x20,sVar19 + 0x14,0x22,0,0xff,0xff,0xff);
   dVar18 = (double)(gGfxManager.dListStartTime * 0x118);
   if ((int)(gGfxManager.dListStartTime * 0x118) < 0) {
     dVar18 = dVar18 + UINT_MAX_d;
@@ -1139,18 +1129,13 @@ Gfx * debug::DisplaySystemMonitor(Gfx *gfx){
   else {
     sVar19 = (short)(int)(fVar17 - INT_MAX_f);
   }
-  pGVar10 = gsDisplaySystemMonitor_Fillrect(pGVar10,0x14,0x24,sVar19 + 0x14,0x26,0xff,0,0xff,0xff);
-  uVar15 = 0x14;
-  bVar14 = 0;
-  do {
-    pGVar10 = gsDisplaySystemMonitor_Fillrect
-                        (pGVar10,uVar15,0x1c,uVar15 + 2,0x28,bVar14 * 51,~(bVar14 * 51),0,0xff);
-    uVar15 += 0x38;
-    bVar14 += 1;
-  } while (bVar14 < 6);
+  pGVar10 = DebugDrawRect(pGVar10,0x14,0x24,sVar19 + 0x14,0x26,0xff,0,0xff,0xff);
+  for(bVar14=0,uVar15 = 20;bVar14<6;uVar15 += 56,bVar14++) {
+    pGVar10 = DebugDrawRect(pGVar10,uVar15,0x1c,uVar15 + 2,40,bVar14 * 51,~(bVar14 * 51),0,0xff);
+  }
   OVar22 = osGetTime();
-  gGfxManager.unkTime0 = (u32)udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (uint)OVar22 >> 0x1a,(uint)OVar22 << 6),
-                   3000);;
+  gGfxManager.unkTime0 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (uint)OVar22 >> 0x1a,(uint)OVar22 << 6),
+                   3000);
   return pGVar10;
 }
 

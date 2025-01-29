@@ -381,11 +381,11 @@ COMMONSTRING_Collide25,    // Trans StoneHugeEcho
     // Save Game
     // Flee
 COMMONSTRING_DoorSecret=379,    // You've just discovered a secret door!
-    // Note
-    // Ext
-    // Pages
-    // Unused Pages:
-COMMONSTRING_PriceAppraise0=384,    // This is highway robbery!
+COMMONSTRING_ContPakNote,    // Note
+COMMONSTRING_ContPakExt,    // Ext
+COMMONSTRING_ContPakPages,    // Pages
+COMMONSTRING_ContPakPagesFree,    // Unused Pages:
+COMMONSTRING_PriceAppraise0,    // This is highway robbery!
 COMMONSTRING_PriceAppraise1,    // Ouch! That's pretty expensive
 COMMONSTRING_PriceAppraise2,    // That's a bit more than the usual price
 COMMONSTRING_PriceAppraise3,    // The price is about what you'd expect

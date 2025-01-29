@@ -258,7 +258,6 @@ struct monsterparty_dat {
     u8 unk0x32;
     u8 unk0x33;
     u32 borg_13;
-    u8 align[12];
 };
 
 struct referencepoint_dat{//used as locators for tp's, camera's dialouge scripts, spawners, ect.
