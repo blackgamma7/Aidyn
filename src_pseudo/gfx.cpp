@@ -408,7 +408,7 @@ u32 Graphics::get_vres(void){return gGfxManager.Vres[1];}
 u32 Graphics::get_colorDepth(void){return gGfxManager.colordepth[1];}
 
 //copies the FB for BG and savegame screenshot
-void getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres){
+void Graphics::getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres){
   u16 uVar1;
   void *pvVar2;
   u32 uVar3;
