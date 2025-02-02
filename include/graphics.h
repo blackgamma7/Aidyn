@@ -5,9 +5,9 @@ struct GtaskMsg {
     OSScTask *task;
 };
 
-#define SCREEN_WIDTH  320
-#define SCREEN_WIDTH_HI  512
-#define SCREEN_HEIGHT 240
+#define SCREEN_WIDTH  320 //standard screen width
+#define SCREEN_WIDTH_HI  512 //"Hi-Resolution" screen width
+#define SCREEN_HEIGHT 240 //Height resolution is never changed.
 #define FBCOUNT 2 //for data with one for each framebuffer
 struct gfxManager {
     OSSched *sched;
@@ -23,7 +23,7 @@ struct gfxManager {
     int unk0x7c; /* unused? */
     OSScTask tasks[FBCOUNT];
     GtaskMsg taskMsgs[FBCOUNT];
-    u16 MoreResSettings[FBCOUNT][4]; /* H*2,V*2,511,0 */
+    Vp viewport; /* H*2,V*2,511,0 (Vp?) */
     uint ram_size;
     uint FramebufferSize[FBCOUNT];
     uint dListSize;

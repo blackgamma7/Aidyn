@@ -20,6 +20,9 @@ typedef union Color32 {
     struct {u8 R, G, B, A;};
     u32 W;
 };
+
+#define ASCIIRange 94 //('~'-' ')
+
 #define OFFWHITE 0xe1,0xe1,0xe1,0xff
 #define DARKGRAY 0x32,0x32,0x32,0xff
 #define DARKGRAY_T 0x32,0x32,0x32,0x96

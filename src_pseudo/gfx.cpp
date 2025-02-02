@@ -13,7 +13,7 @@ ResolutionSettings res_colormode[3]={
   {SCREEN_WIDTH,SCREEN_HEIGHT,0,32}};
 gfxManager gGfxManager;
 
-
+//inialize graphic settings, alloc memory, load debug font.
 void Graphics::initGfx(OSSched *sched){
   byte bVar1;
   u8 uVar2;
@@ -22,9 +22,10 @@ void Graphics::initGfx(OSSched *sched){
   int iVar4;
   int iVar5;
   byte bVar7;
-  uint uVar6;
+  u8 uVar6;
   
   u32 dListSize = 0x3200*sizeof(Gfx);
+  //double dlist alloc if expansion pak detected
   if (0x400000 < gMemCheckStruct.RamSize) dListSize = 0x6400*sizeof(Gfx);
   CLEAR(&gGfxManager);
   gGfxManager.DepthBuffer = (s16 *)gMemCheckStruct.DepthBuffer;
@@ -33,11 +34,11 @@ void Graphics::initGfx(OSSched *sched){
   gGfxManager.sched = sched;
   gGfxManager.GfxLists[0] = (Gfx *)HALLOC(dListSize,0xdc);
   gGfxManager.GfxLists[1] = (Gfx *)HALLOC(dListSize,0xdd);
-  ALLOCS(gGfxManager.outputBuff,0x400,0xde);
-  ALLOCS(gGfxManager.ouputbuffSize,0xc00,0xdf);
-  ALLOCS(gGfxManager.yieldData,0x1000,0xe0);
-  ALLOCS(gGfxManager.textfont,0xbc0,0xe4);
-  ALLOCS(gGfxManager.unk0x2c,0x40,0xe5);
+  ALLOCS(gGfxManager.outputBuff,0x400,222);
+  ALLOCS(gGfxManager.ouputbuffSize,0xc00,223);
+  ALLOCS(gGfxManager.yieldData,0x1000,224);
+  ALLOCS(gGfxManager.textfont,0xbc0,228);
+  ALLOCS(gGfxManager.unk0x2c,0x40,229);
   if (osTvType == OS_TV_NTSC) src = osViModeTable + OS_VI_NTSC_LAN1;
   else if (osTvType == OS_TV_MPAL) src = osViModeTable + OS_VI_MPAL_LAN1;
   else if (osTvType == OS_TV_PAL) src = osViModeTable + OS_VI_PAL_LAN1;
@@ -55,7 +56,7 @@ void Graphics::initGfx(OSSched *sched){
   gGfxManager.FramebufferSize[1] = gMemCheckStruct.MaxResolution0;
   iVar3 = 0;
   gGfxManager.dListSize = dListSize;
-  do {
+  for(uVar6=0;uVar6<ASCIIRange;uVar6++) {
     bVar7 = 0;
     do {
       dListSize = 0;
@@ -76,16 +77,15 @@ void Graphics::initGfx(OSSched *sched){
           iVar5 = iVar4 + 1;
         }
         (*gGfxManager.textfont)[iVar4] = uVar2;
-        dListSize = dListSize + 1 & 0xff;
+        dListSize++;
         if (7 < dListSize) break;
         bVar1 = gCrashFont[0][iVar3];
         iVar4 = iVar5;
       }
-      iVar3 = iVar3 + 1;
+      iVar3++;
     } while (bVar7 < 8);
-    uVar6 = uVar6 + 1 & 0xff;
     iVar3 = uVar6 << 3;
-  } while (uVar6 < 0x5e);
+  }
   memset(gGfxManager.unk0x2c,0xff,0x40);
   SetGfxMode(res_colormode[0].Hres,res_colormode[0].Vres,res_colormode[0].colorDepth);
   gGlobals.ResolutionSelect = 0;
@@ -131,57 +131,53 @@ void Graphics::video_settings(void){
   }
   else {osViSetMode(&gGfxManager.osvimodeCustom);}
   osViSetSpecialFeatures(OS_VI_GAMMA_OFF|OS_VI_DIVOT_OFF|OS_VI_DITHER_FILTER_ON);
-  gGfxManager.MoreResSettings[0][0] = gGfxManager.Hres[0] << 1;
-  gGfxManager.MoreResSettings[0][1] = gGfxManager.Vres[0] << 1;
-  gGfxManager.MoreResSettings[0][2] = 0x1ff;
-  gGfxManager.MoreResSettings[0][3] = 0;
-  gGfxManager.MoreResSettings[1][0] = gGfxManager.Hres[0] << 1;
-  gGfxManager.MoreResSettings[1][1] = gGfxManager.Vres[0] << 1;
-  gGfxManager.MoreResSettings[1][2] = 0x1ff;
-  gGfxManager.MoreResSettings[1][3] = 0;
+  gGfxManager.viewport.vp.vscale[0] = gGfxManager.Hres[0] << 1;
+  gGfxManager.viewport.vp.vscale[1] = gGfxManager.Vres[0] << 1;
+  gGfxManager.viewport.vp.vscale[2] = 0x1ff;
+  gGfxManager.viewport.vp.vscale[3] = 0;
+  gGfxManager.viewport.vp.vtrans[0] = gGfxManager.Hres[0] << 1;
+  gGfxManager.viewport.vp.vtrans[1] = gGfxManager.Vres[0] << 1;
+  gGfxManager.viewport.vp.vtrans[2] = 0x1ff;
+  gGfxManager.viewport.vp.vtrans[3] = 0;
   gGfxManager.Hres[1] = gGfxManager.Hres[0];
   gGfxManager.Vres[1] = gGfxManager.Vres[0];
   gGfxManager.colordepth[1] = gGfxManager.colordepth[0];}
 
-//looks like ucode from here on out. needs susing out.
+// adds Framebuffer, Depthbuffer, Scissor, clip, and viewport
 Gfx * Graphics::StartGfxList(void){
-  uint uVar1;
   OSTime OVar2;
-  u64 uVar3;
-  Gfx *puVar1;
-  
-  puVar1 = gGfxManager.GfxLists[gGfxManager.bufferChoice];
+
+  Gfx* g = gGfxManager.GfxLists[gGfxManager.bufferChoice];
   OVar2 = osGetTime();
   gGfxManager.dListStartTime = (uint)udivdi3(CONCAT44((int)(OVar2 >> 0x20) << 6 | (uint)OVar2 >> 0x1a,(uint)OVar2 << 6),3000);
   OVar2 = osGetTime();
   gGfxManager.unkTime1 = (u32)udivdi3(CONCAT44((int)(OVar2 >> 0x20) << 6 | (uint)OVar2 >> 0x1a,(uint)OVar2 << 6),3000);
-  gSPSegment(puVar1++,0,0); //?
-  if (gGfxManager.colordepth[1] == 16) {gDPSetColorImage(puVar1++,G_IM_FMT_RGBA,G_IM_SIZ_16b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
-  else {gDPSetColorImage(puVar1++,G_IM_FMT_RGBA,G_IM_SIZ_32b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
-  gDPSetDepthImage(puVar1++,&gGfxManager.DepthBuffer)
-  gDPSetScissor(puVar1++,G_SC_NON_INTERLACE,0,0,gGfxManager.Hres[1],gGfxManager.Vres[1]);
-  gSPClipRatio(puVar1++,FRUSTRATIO_3);
-  gSPViewport(puVar1++,&gGfxManager.MoreResSettings);
-  return puVar1;
+  gSPSegment(g++,0,0); //?
+  if (gGfxManager.colordepth[1] == 16) {gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_16b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
+  else {gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_32b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
+  gDPSetDepthImage(g++,&gGfxManager.DepthBuffer)
+  gDPSetScissor(g++,G_SC_NON_INTERLACE,0,0,gGfxManager.Hres[1],gGfxManager.Vres[1]);
+  gSPClipRatio(g++,FRUSTRATIO_3);
+  gSPViewport(g++,&gGfxManager.viewport);
+  return g;
 }
 
-
-
-
-Gfx * Graphics::SomeOtherInit(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5,u8 r,u8 g,u8 b,u8 a){
+//draws colored Rectangle?
+Gfx * Graphics::SomeOtherInit(Gfx *gfx,u16 x0,u16 y0,u16 x1,ushort y1,u8 r,u8 g,u8 b,u8 a){
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);
   gDPSetRenderMode(gfx++,0,0);
   if (gGfxManager.colordepth[1] == 16) {gDPSetFillColor(gfx++,GPACK_RGBA5551(r,g,b,a))}
   else {DPRGBColor(gfx++,G_SETFILLCOLOR,r,g,b,a);}
   gDPScisFillRectangle(gfx++,
-    param_2 * (gGfxManager.Hres[1] / SCREEN_WIDTH),
-    param_3 * (gGfxManager.Vres[1] / SCREEN_HEIGHT),
-    param_4 * (gGfxManager.Hres[1] / SCREEN_WIDTH) - 1,
-    param_5 * (gGfxManager.Vres[1] / SCREEN_HEIGHT) - 1);
+    x0 * (gGfxManager.Hres[1] / SCREEN_WIDTH),
+    y0 * (gGfxManager.Vres[1] / SCREEN_HEIGHT),
+    x1 * (gGfxManager.Hres[1] / SCREEN_WIDTH) - 1,
+    y1 * (gGfxManager.Vres[1] / SCREEN_HEIGHT) - 1);
   return gfx;
 }
 
+//draws colored Rectangle?
 Gfx * Ofunc_rspcode(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5,Color32 param_6){
   uint uVar5;
   uint uVar6;
@@ -192,13 +188,13 @@ Gfx * Ofunc_rspcode(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5,
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);
   gDPSetRenderMode(gfx++,0,0);
-  gDPSetColor(&gfx[3],G_SETFILLCOLOR,param_6.W);
+  gDPSetColor(gfx++,G_SETFILLCOLOR,param_6.W);
   uVar6 = param_4 * (gGfxManager.Hres[1] / SCREEN_WIDTH) - 1;
   uVar7 = param_2 * (gGfxManager.Hres[1] / SCREEN_WIDTH);
   uVar8 = param_3 * (gGfxManager.Vres[1] / SCREEN_HEIGHT);
   uVar5 = param_5 * (gGfxManager.Vres[1] / SCREEN_HEIGHT)- 1;
-  gDPScisFillRectangle(&gfx[4],uVar6,uVar5,uVar7,uVar8);
-  return gfx + 5;
+  gDPScisFillRectangle(gfx++,uVar6,uVar5,uVar7,uVar8);
+  return gfx;
 }
 
 Gfx * GsSetOtherMode_SysMon(Gfx *gfx){
@@ -208,6 +204,7 @@ Gfx * GsSetOtherMode_SysMon(Gfx *gfx){
   return gfx;
 }
 
+//draws colored Rectangle for debug stats
 Gfx * Graphics::DebugDrawRect(Gfx *gfx,u16 x0,u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
   gDPPipeSync(gfx++);
   if (gGfxManager.colordepth[1] == 16) {gDPSetFillColor(gfx++,GPACK_RGBA5551(r,g,b,a))}
@@ -250,7 +247,7 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
 }
 
 
-
+//draws overscan "letterbox" and ends dlist
 Gfx * Graphics::EndList(Gfx *gfx){
   ushort uVar1;
   uint uVar2;
@@ -278,6 +275,7 @@ Gfx * Graphics::EndList(Gfx *gfx){
   return gfx;
 }
 
+
 u8 Graphics::ResolutionCheck(void){
   u8 bVar1;
   
@@ -295,6 +293,7 @@ u8 Graphics::ResolutionCheck(void){
   return bVar1;
 }
 
+// sets OSSCTask paramaters
 GtaskMsg* Graphics::CreateTask(Gfx *glist,OSMesgQueue *param_2)
 //ghidra did NOT like this function, for some reason.
 {
@@ -336,13 +335,14 @@ void Graphics::getTaskTime(GtaskMsg *t){
 
 u8 Graphics::GetBufferChoice(void){return gGfxManager.bufferChoice;}
 
-void * Graphics::pickBuffer(void *param_1,void *param_2){
-  if (gGfxManager.bufferChoice == 0) {param_2 = param_1;}
-  return param_2;}
 
-void * Graphics::pickOtherBuffer(void *param_1,void *param_2){
-  if (gGfxManager.bufferChoice == 0) {param_1 = param_2;}
-  return param_1;}
+void * Graphics::pickBuffer(void *A,void *B){
+  if (gGfxManager.bufferChoice == 0) B = A;
+  return B;}
+
+void * Graphics::pickOtherBuffer(void *A,void *B){
+  if (gGfxManager.bufferChoice == 0) A = B;
+  return A;}
 
 void * Graphics::GetFrameBuffer(u8 param_1){return gGfxManager.FrameBuffers[param_1];}
 s16 * Graphics::GetDepthBuffer(void){return gGfxManager.DepthBuffer;}
@@ -529,6 +529,7 @@ LAB_80009c94:
   }
   return;
 }
+
 void Graphics::passto_GetGfxLastFrame(void *param_1,u16 param_2,u16 param_3,u8 param_4){
   getGfxLastFrame(param_1,param_2,param_3,param_4,0,0,gGfxManager.Hres[1],gGfxManager.Vres[1]);}
 
@@ -547,7 +548,6 @@ Gfx * Ofunc_80009d7c(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5
   float fVar10;
   float fVar11;
   
-  fVar10 = SCREEN_WIDTH;
   uVar1 = (uint)gGfxManager.Hres[1];
   uVar9 = (uint)gGfxManager.Vres[1];
   gDPPipeSync(gfx++);
@@ -594,9 +594,9 @@ Gfx * Ofunc_80009d7c(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5
   gfx[0x15].words.w0 = 0xf5680800;
   *(undefined4 *)((int)gfx + 0xac) = 0x80200;
   gfx[0x16].words.w0 = 0xf2000000;
-  iVar8 = (int)(short)(int)((float)(uint)param_2 * ((float)uVar1 / fVar10));
+  iVar8 = (int)(short)(int)((float)(uint)param_2 * ((float)uVar1 / SCREEN_WIDTH));
   iVar6 = (int)(short)(int)((float)(uint)param_3 * ((float)uVar9 / SCREEN_HEIGHT));
-  iVar3 = (int)(short)(int)((float)(uint)param_4 * ((float)uVar1 / fVar10));
+  iVar3 = (int)(short)(int)((float)(uint)param_4 * ((float)uVar1 / SCREEN_WIDTH));
   iVar4 = (int)(short)(int)((float)(uint)param_5 * ((float)uVar9 / SCREEN_HEIGHT));
   fVar10 = (8.0f / (float)(iVar3 - iVar8)) * 1024.0f;
   fVar11 = (8.0f / (float)(iVar4 - iVar6)) * 1024.0f;
@@ -665,6 +665,7 @@ Gfx * Ofunc_80009d7c(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5
   return gfx + 0x1a;
 }
 
+//Draw Debug text string
 Gfx * Graphics::DrawText(Gfx *gfx,char *txt,u16 X,u16 Y,u8 red,u8 green,u8 blue,u8 alpha){
   char cVar1;
   Gfx *pGVar2;
@@ -678,11 +679,7 @@ Gfx * Graphics::DrawText(Gfx *gfx,char *txt,u16 X,u16 Y,u8 red,u8 green,u8 blue,
   u16 yOff;
   int i;
   Gfx *pGVar11;
-  float fVar12;
-  float fVar13;
-  
-  fVar12 = INT_MAX_f;
-  fVar13 = SCREEN_WIDTH;
+
   gDPPipeSync(gfx++);
   gfx[1].words.w0 = 0xe3000a01;
   *(undefined4 *)((int)gfx + 0xc) = 0;
@@ -753,6 +750,7 @@ Gfx * Graphics::DrawText(Gfx *gfx,char *txt,u16 X,u16 Y,u8 red,u8 green,u8 blue,
   return pGVar2;
 }
 
+//Show debug statistics
 Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   ushort x2;
   u32 uVar1;
