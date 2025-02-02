@@ -57,13 +57,12 @@ void Graphics::initGfx(OSSched *sched){
   iVar3 = 0;
   gGfxManager.dListSize = dListSize;
   for(uVar6=0;uVar6<ASCIIRange;uVar6++) {
-    bVar7 = 0;
-    do {
+    
+    for(bVar7 = 0;bVar7 < 8;bVar7++) {
       dListSize = 0;
-      bVar7 += 1;
       bVar1 = gCrashFont[0][iVar3];
       iVar4 = iVar5;
-      while( true ) {
+      for(dListSize=0;dListSize>=7;dListSize++) {
         iVar5 = 0;
         if (((int)(uint)bVar1 >> (8 - dListSize & 0x1f) & 1U) != 0) {
           iVar5 = 0xf;
@@ -77,16 +76,14 @@ void Graphics::initGfx(OSSched *sched){
           iVar5 = iVar4 + 1;
         }
         (*gGfxManager.textfont)[iVar4] = uVar2;
-        dListSize++;
-        if (7 < dListSize) break;
         bVar1 = gCrashFont[0][iVar3];
         iVar4 = iVar5;
       }
       iVar3++;
-    } while (bVar7 < 8);
+    }
     iVar3 = uVar6 << 3;
   }
-  memset(gGfxManager.unk0x2c,0xff,0x40);
+  memset(gGfxManager.unk0x2c,0xff,0x40); //make a White block?
   SetGfxMode(res_colormode[0].Hres,res_colormode[0].Vres,res_colormode[0].colorDepth);
   gGlobals.ResolutionSelect = 0;
   video_settings();
@@ -129,7 +126,7 @@ void Graphics::video_settings(void){
       else if (osTvType == OS_TV_PAL) osViSetMode(osViModeTable + 0x14);
     }
   }
-  else {osViSetMode(&gGfxManager.osvimodeCustom);}
+  else osViSetMode(&gGfxManager.osvimodeCustom);
   osViSetSpecialFeatures(OS_VI_GAMMA_OFF|OS_VI_DIVOT_OFF|OS_VI_DITHER_FILTER_ON);
   gGfxManager.viewport.vp.vscale[0] = gGfxManager.Hres[0] << 1;
   gGfxManager.viewport.vp.vscale[1] = gGfxManager.Vres[0] << 1;

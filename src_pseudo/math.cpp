@@ -1,74 +1,74 @@
 #include "mathN64.h"
 #include "stringN64.h"
-
+//return length of vec2
 float vec2Length(vec2f *X){
 	return  _sqrtf(SQ(X->x)+SQ(X->y));
 }
-
+//return length of vec3
 float vec3Length(vec3f *X){
 	return _sqrtf(SQ(X->x)+SQ(X->y)+SQ(X->z));
 }
-
+//subtract A from b and store result in res
 void Vec2_sub(vec2f *res,vec2f *A,vec2f *B){
   res->x = A->x - B->x;
   res->y = A->y - B->y;
   }
-
+//subtract A from b and store result in res
 void Vec3_sub(vec3f *res,vec3f *A,vec3f *B){
   res->x = A->x - B->x;
   res->y = A->y - B->y;
   res->z = A->z - B->z;
   }
-
+//subtract A from b and store result in res
 void Vec4_sub(vec4f *res,vec4f *a,vec4f *b){
   res->x = a->x - b->x;
   res->y = a->y - b->y;
   res->z = a->z - b->z;
   res->w = a->w - b->w;
 }
-
+//add A and b and store result in res
 void vec2_sum(vec2f *res,vec2f *a,vec2f *b){
   res->x = a->x + b->x;
   res->y = a->y + b->y;
   }
-
+//add A and b and store result in res
 void vec3_sum(vec3f *res,vec3f *a,vec3f *b){
   res->x = a->x + b->x;
   res->y = a->y + b->y;
   res->z = a->z + b->z;
   }
-
+//add A and b and store result in res
 void vec4_sum(vec4f *res,vec4f *a,vec4f *b){
   res->x = a->x + b->x;
   res->y = a->y + b->y;
   res->z = a->z + b->z;
   res->w = a->w + b->w;
   }
-
+//return distance between a and b
 float vec2_proximity(vec2f *A,vec2f *B){
 	vec2f temp;
 
 	Vec2_sub(&temp,A,B);
 	return vec2Length(&temp);}
-
+//return distance between a and b
 float vec3_proximity(vec3f *A,vec3f *B){
 	vec3f temp;
 
 	Vec3_sub(&temp,A,B);
 	return vec3Length(&temp);}
-
+//return dot product of a and b
 float vec2_dot(vec2f *A,vec2f *B){
 	return A->x * B->x + A->y * B->y;}
-
+//return dot product of a and b
 float vec3_dot(vec3f *A,vec3f *B){
 	return A->x * B->x + A->y * B->y + A->z * B->z;
 }
-
+//store cross product of A and b in res
 void Vec3_cross(vec3f *res,vec3f *A,vec3f *B){
   res->x = A->y * B->z - A->z * B->y;
   res->y = A->z * B->x - A->x * B->z;
   res->z = A->x * B->y - A->y * B->x;}
-
+//normalize vector and return length (or 1e-6)
 float vec2_normalize(vec2f *X){
 	float len = _sqrtf(SQ(X->x)+SQ(X->y));
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
@@ -76,7 +76,7 @@ float vec2_normalize(vec2f *X){
 	X->y /=len;
 	return len;
 }
-
+//normalize vector and return length (or 1e-6)
 float vec3_normalize(vec3f *X){
 	float len = _sqrtf(SQ(X->x)+SQ(X->y)+SQ(X->z));
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
@@ -85,7 +85,7 @@ float vec3_normalize(vec3f *X){
   X->z /= len;
 	return len;
 }
-
+//normalize vector and return length (or 1e-6)
 float vec4_normalize(vec4f *X){
 	float len = _sqrtf(SQ(X->x)+SQ(X->y)+SQ(X->z)+SQ(X->w));
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
@@ -95,7 +95,7 @@ float vec4_normalize(vec4f *X){
   X->w /= len;
 	return len;
 }
-
+//use points B C D to create a normal stored in A
 float NormalizeTri(vec3f *A,vec3f *B,vec3f *C,vec3f *D){
 	vec3f TempA;
 	vec3f TempB;
@@ -105,7 +105,7 @@ float NormalizeTri(vec3f *A,vec3f *B,vec3f *C,vec3f *D){
 	Vec3_cross(A,&TempA,&TempB);
 	return vec3_normalize(A);
 }
-
+//please identify purpose of function.
 int some_trig_func_2(vec2f *A,vec2f *B,float C){
   float x = vec2_normalize(A);
   float y = vec2_normalize(B);
@@ -145,7 +145,7 @@ int some_trig_func_2(vec2f *A,vec2f *B,float C){
     return false;
   }
 }
-
+//please identify purpose of function.
 void FUN_800ab23c(vec3f *A,vec3f *B,float C){
   vec2f V2D;
   vec2f v2A;
@@ -165,23 +165,22 @@ void FUN_800ab23c(vec3f *A,vec3f *B,float C){
   some_trig_func_2(&V2D,&v2C,C);
   A->x = V2D.x;
   A->z = V2D.y;}
-
+//rotate Vec2 A by B degrees
 void RotVec2(vec2f *A,float B){
   float A1 = A->y;
   float A0 = A->x;
-  float fVar2 = B * dtor;
-  float fVar1 = __sinf(fVar2);
-  
-  fVar2 = __cosf(fVar2);
-  A->x = fVar2 * A0 + fVar1 * A1;
-  A->y = fVar2 * A1 - fVar1 * A0;}
-
+  float sin = __sinf(B * dtor);
+  float cos = __cosf(B * dtor);
+  A->x = cos * A0 + sin * A1;
+  A->y = cos * A1 - sin * A0;}
+//please identify purpose of function.
 void some_vec2Math(vec2f *v2,float x,float y){
   float fVar1 = v2->y;
   float fVar2 = v2->x;
   v2->x = y * fVar2 + x * fVar1;
   v2->y = y * fVar1 - x * fVar2;}
 
+//please identify purpose of function.
 void Ofunc_800ab3cc(vec3f *X,float Y){
   vec2f TempA;
   vec2f TempB;
@@ -193,57 +192,58 @@ void Ofunc_800ab3cc(vec3f *X,float Y){
   TempB.y = TempA.y;
   RotVec2(&TempA,Y);
   setVec3(X,TempA.x,X->y,TempA.y);}
-
+//copy "from" to "to".
 void copyVec2(vec2f *from,vec2f *to){
   to->x = from->x;
   to->y = from->y;}
-
+//copy "from" to "to".
 void copyVec3(vec3f *from,vec3f *to){
   to->x = from->x;
   to->y = from->y;
   to->z = from->z;}
-
+//copy "from" to "to".
 void copyVec4(vec4f *from,vec4f *to){
   to->x = from->x;
   to->y = from->y;
   to->z = from->z;
   to->w = from->w;}
-
+//invert values of vec4. (used for one function)
 void negVec4(vec4f *v){
   v->x = -v->x;
   v->y = -v->y;
   v->z = -v->z;
   v->w = -v->w;}
-
+//scale v by x
 void multiVec2(vec2f *v,float x){
   v->x *= x;
   v->y *= x;}
-
+//scale v by x
 void multiVec3(vec3f *v,float x){
   v->x *= x;
   v->y *= x;
   v->z *= x;}
+//scale v by x
 void multiVec4(vec4f *v,float x){
   v->x *= x;
   v->y *= x;
   v->z *= x;
   v->w *= x;}
-
+//set values of vec2
 void setVec2(vec2f *v,float x,float y){
   v->x = x;
   v->y = y;}
-
+//set values of vec3
 void setVec3(vec3f *v,float x,float y,float z){
   v->x = x;
   v->y = y;
   v->z = z;}
-
+//set values of vec4
 void setVec4(vec4f *v,float x,float y,float z,float w){
   v->x = x;
   v->y = y;
   v->z = z;
   v->w = w;}
-
+//please identify purpose of function.
 float three_vec2_proximities(vec2f *X,vec2f *Y,vec2f *Z){
   vec2f TempA;
   vec2f TempB;
@@ -255,14 +255,14 @@ float three_vec2_proximities(vec2f *X,vec2f *Y,vec2f *Z){
   return (2.0f -
          ((TempA.x - TempB.x) * (TempA.x - TempB.x) +
          (TempA.y - TempB.y) * (TempA.y - TempB.y))) * 0.5f;}
-
+//please identify purpose of function.
 float FUN_800ab628(vec2f *A,vec2f *B,vec2f *C){
   float X = three_vec2_proximities(A,B,C);
   
   X = 1.0f - X * X;
   if (X <= 0.0) X = -X;
   return _sqrtf(X);}
-
+//please identify purpose of function.
 float big_vec2_math_func(vec2f *A,vec2f *B,vec2f *C){
   float fVar1;
   float x;
@@ -294,12 +294,12 @@ float big_vec2_math_func(vec2f *A,vec2f *B,vec2f *C){
   }
   return fVar1;
 }
-
+//please identify purpose of function.
 float Ofunc_800ab7e4(vec3f *A,vec3f *B,vec3f *C){
   return (((A->x * B->y * C->z + A->y * B->z * C->x + A->z * B->x * C->y) - A->z * B->y * C->x) -
          A->y * B->x * C->z) - A->x * B->z * C->y;
 }
-
+//please identify purpose of function.
 void FUN_800ab880(MtxF *A,MtxF *B){
   float X;
   float Y;
@@ -325,7 +325,7 @@ void FUN_800ab880(MtxF *A,MtxF *B){
   (*B)[3][3] = 1.0f;
   (*B)[3][2] = (-(*B)[0][2] * (*A)[3][0] - (*B)[1][2] * (*A)[3][1]) - (*B)[2][2] * (*A)[3][2];
 }
-
+//please identify purpose of function.
 float ofunc_sub_800aba2c(MtxF *param_1,u8 param_2,s8 param_3){
   float fVar1;
   float fVar2;
@@ -399,13 +399,13 @@ LAB_800aba8c:
   }
   return fVar2 * (*param_1)[1][0] - (*param_1)[0][1] * (*param_1)[0][3];
 }
-
+//please identify purpose of function.
 float ofunc_sub_800abbbc(float *Arg0){
   return ((((*Arg0 * Arg0[4] * Arg0[8] - *Arg0 * Arg0[5] * Arg0[7]) +
            Arg0[1] * Arg0[5] * Arg0[6]) - Arg0[1] * Arg0[3] * Arg0[8]) +
          Arg0[2] * Arg0[3] * Arg0[7]) - Arg0[2] * Arg0[4] * Arg0[6];
 }
-
+//please identify purpose of function.
 void Ofunc_800abc38(MtxF *param_1,float *param_2){
   float fVar1;
   float fVar2;
@@ -427,7 +427,7 @@ void Ofunc_800abc38(MtxF *param_1,float *param_2){
   }
 }
 
-
+//please identify purpose of function.
 void ofunc_sub_800abd94(MtxF *res,MtxF *A,MtxF *B){
   (*res)[0][0] = (*A)[0][0] * (*B)[0][0] + (*A)[1][0] * (*B)[0][1] + (*A)[2][0] * (*B)[0][2];
   (*res)[1][0] = (*A)[0][0] * (*B)[1][0] + (*A)[1][0] * (*B)[1][1] + (*A)[2][0] * (*B)[1][2];
@@ -448,7 +448,7 @@ void ofunc_sub_800abd94(MtxF *res,MtxF *A,MtxF *B){
   (*res)[3][3] = 1.0;
   (*res)[3][2] = (*A)[0][2] * (*B)[3][0] + (*A)[1][2] * (*B)[3][1] + (*A)[2][2] * (*B)[3][2] + (*A)[3][2];
 }
-
+//please identify purpose of function.
 void some_matrix_func_1(MtxF *res,MtxF *a,MtxF *b){
   (*res)[0][0] = (*a)[0][0] * (*b)[0][0] + (*a)[1][0] * (*b)[0][1] + (*a)[2][0] * (*b)[0][2];
   (*res)[1][0] = (*a)[0][0] * (*b)[1][0] + (*a)[1][0] * (*b)[1][1] + (*a)[2][0] * (*b)[1][2];
@@ -471,7 +471,7 @@ void some_matrix_func_1(MtxF *res,MtxF *a,MtxF *b){
   (*res)[2][3] = (*a)[2][3] * (*b)[2][3];
 }
 
-
+//please identify purpose of function.
 void FUN_800ac2e8(MtxF *res,MtxF *A,MtxF *B){
   (*res)[0][0] = (*A)[0][0] * (*B)[0][0] + (*A)[1][0] * (*B)[0][1] + (*A)[2][0] * (*B)[0][2];
   (*res)[1][0] = (*A)[0][0] * (*B)[1][0] + (*A)[1][0] * (*B)[1][1] + (*A)[2][0] * (*B)[1][2];
@@ -484,8 +484,7 @@ void FUN_800ac2e8(MtxF *res,MtxF *A,MtxF *B){
   (*res)[2][2] = (*A)[0][2] * (*B)[2][0] + (*A)[1][2] * (*B)[2][1] + (*A)[2][2] * (*B)[2][2];
 }
 
-
-
+//please identify purpose of function.
 void some_other_matrix_math(MtxF *res,MtxF *A,MtxF *B){
   (*res)[0][0] = (*A)[0][0] * (*B)[0][0] + (*A)[1][0] * (*B)[0][1] + (*A)[2][0] * (*B)[0][2] +
                  (*A)[3][0] * (*B)[0][3];
@@ -520,7 +519,7 @@ void some_other_matrix_math(MtxF *res,MtxF *A,MtxF *B){
   (*res)[3][3] = (*A)[0][3] * (*B)[3][0] + (*A)[1][3] * (*B)[3][1] + (*A)[2][3] * (*B)[3][2] +
                  (*A)[3][3] * (*B)[3][3];
 }
-
+//please identify purpose of function.
 void Ofunc_800ac8a0(MtxF *res,MtxF *A,MtxF *B){
   (*res)[0][0] = (*A)[0][0] * (*B)[0][0] + (*A)[1][0] * (*B)[0][3] + (*A)[2][0] * (*B)[1][2];
   (*res)[0][1] = (*A)[0][0] * (*B)[0][1] + (*A)[1][0] * (*B)[1][0] + (*A)[2][0] * (*B)[1][3];
@@ -532,7 +531,7 @@ void Ofunc_800ac8a0(MtxF *res,MtxF *A,MtxF *B){
   (*res)[1][3] = (*A)[0][2] * (*B)[0][1] + (*A)[1][2] * (*B)[1][0] + (*A)[2][2] * (*B)[1][3];
   (*res)[2][0] = (*A)[0][2] * (*B)[0][2] + (*A)[1][2] * (*B)[1][1] + (*A)[2][2] * (*B)[2][0];
 }
-
+//please identify purpose of function.
 void Ofunc_800aca54(vec3f *res,MtxF *A,vec3f *B){
   res->x = (*A)[0][0] * B->x + (*A)[1][0] * B->y + (*A)[2][0] * B->z + (*A)[3][0];
   res->y = (*A)[0][1] * B->x + (*A)[1][1] * B->y + (*A)[2][1] * B->z + (*A)[3][1];
@@ -545,11 +544,12 @@ void MtxXFMF(vec3f *A,MtxF *B,vec3f *C){
   A->y = (*B)[0][1] * C->x + (*B)[1][1] * C->y + (*B)[2][1] * C->z;
   A->z = (*B)[0][2] * C->x + (*B)[1][2] * C->y + (*B)[2][2] * C->z;
 }
-
+//does nothing, unused
 void NOOP_800acb94(void){}
+//does nothing, unused
 void NOOP_800ACB9C(void){}
 
-
+//please identify purpose of function.
 void Ofunc_800acba4(MtxF *param_1,Mtx_t *param_2){
   uint uVar1;
   uint uVar2;
@@ -580,7 +580,7 @@ void Ofunc_800acba4(MtxF *param_1,Mtx_t *param_2){
   }
   return;
 }
-
+//please identify purpose of function.
 void ofunc_sub_800acc40(MtxF *res,vec3f *v,float a){
   float fVar1;
   float fVar2;
@@ -618,7 +618,7 @@ void ofunc_sub_800acc40(MtxF *res,vec3f *v,float a){
   (*res)[2][1] = fVar4 - fVar2;
   (*res)[0][2] = fVar11 - fVar3;
   (*res)[1][2] = fVar4 + fVar2;}
-
+//please identify purpose of function.
 void Ofunc_800acd9c(MtxF *A,vec3f *B){
   vec3f v3Temp= {B->x,B->y,B->z};
   ofunc_sub_800acc40(A,&v3Temp,vec3_normalize(&v3Temp));
@@ -632,7 +632,7 @@ void Ofunc_800acd9c(MtxF *A,vec3f *B){
 }
 
 
-
+//please identify purpose of function.
 void ofunc_sub_800ace10(MtxF* A,float x,float y,float z){
   float cosx = __cosf(x*dtor);
   float cosy = __cosf(y*dtor);
@@ -651,7 +651,7 @@ void ofunc_sub_800ace10(MtxF* A,float x,float y,float z){
   (*A)[0][2] = -sinx * cosz + cosx * siny * sinz;
   (*A)[1][2] = sinx * sinz + cosx * siny * cosz;
 }
-
+//please identify purpose of function.
 void FUN_800acf64(float (*A) [4] [4],s32 X,s32 Y,s32 Z){
   ofunc_sub_800ace10(A,(float)X,(float)Y,(float)Z);
   (*A)[3][0] = 0.0;
@@ -662,7 +662,7 @@ void FUN_800acf64(float (*A) [4] [4],s32 X,s32 Y,s32 Z){
   (*A)[2][3] = 0.0;
   (*A)[3][3] = 1.0f;
 }
-
+//scales A by x,y,z
 void matrix_scale(MtxF* A,float x,float Y,float Z){
   (*A)[0][0] *= x;
   (*A)[0][1] *= x;
@@ -674,7 +674,7 @@ void matrix_scale(MtxF* A,float x,float Y,float Z){
   (*A)[2][1] *= Z;
   (*A)[2][2] *= Z;
 }
-
+//please identify purpose of function.
 void Ofunc_800ad028(MtxF* M){
 
   float X = (float)(1.0 / (double)_sqrtf(SQ((*M)[0][0]) + SQ((*M)[0][1]) + SQ((*M)[0][2])));
@@ -690,7 +690,7 @@ void Ofunc_800ad028(MtxF* M){
   (*M)[2][1] *= Z;
   (*M)[2][2] *= Z;
   }
-
+//please identify purpose of function.
 void Ofunc_800ad174(MtxF *X,vec3f *A,vec3f *B,vec3f *C){
   float fVar1;
   float fVar2;
@@ -721,7 +721,7 @@ void Ofunc_800ad174(MtxF *X,vec3f *A,vec3f *B,vec3f *C){
   (*X)[3][3] = fVar2;
   (*X)[2][3] = -fVar1;
 }
-
+//please identify purpose of function.
 void ofunc_sub_800ad30c(float *param_1,float *param_2,float *param_3){
   s32 iVar1;
   s32 iVar2;
@@ -763,13 +763,13 @@ void ofunc_sub_800ad30c(float *param_1,float *param_2,float *param_3){
   return;
 }
 
-
+//please identify purpose of function.
 void Ofunc_800ad38c(vec3f *res,MtxF *A,vec3f *B){
   res->x = (*A)[0][0] * B->x + (*A)[0][1] * B->y + (*A)[0][2] * B->z;
   res->y = (*A)[0][3] * B->x + (*A)[1][0] * B->y + (*A)[1][1] * B->z;
   res->z = (*A)[1][2] * B->x + (*A)[1][3] * B->y + (*A)[2][0] * B->z;
 }
-
+//please identify purpose of function.
 void Ofunc_800ad420(vec3f *A,vec3f *B,vec3f *C,vec3f *D){
   float fVar1 = A->x * B->x + A->y * B->y + A->z * B->z;
   float fVar2 = B->x * fVar1;
@@ -780,7 +780,7 @@ void Ofunc_800ad420(vec3f *A,vec3f *B,vec3f *C,vec3f *D){
   D->y = A->y - C->y;
   D->z = A->z - C->z;
 }
-
+//please identify purpose of function.
 void Ofunc_800ad49c(vec3f *A,vec3f *B){
   float fVar1 = vec3_dot(A,B);
   fVar1 = -fVar1;
@@ -788,7 +788,7 @@ void Ofunc_800ad49c(vec3f *A,vec3f *B){
   B->y = B->y + A->y * fVar1;
   B->z = B->z + A->z * fVar1;
 }
-
+//please identify purpose of function.
 void Ofunc_800ad50c(MtxF *A,float *B,float *C,float *D,float *E){
   MtxF fStack376;
   MtxF fStack312;
@@ -836,7 +836,7 @@ void Ofunc_800ad50c(MtxF *A,float *B,float *C,float *D,float *E){
                fStack248[2][0] * afStack_b8[1][2];
 }
 
-
+//please identify purpose of function.
 void Ofunc_800ad81c(MtxF *A,vec3f *B){
   vec3f V3TempA;
   vec3f V3TempB;
@@ -858,7 +858,7 @@ void Ofunc_800ad81c(MtxF *A,vec3f *B){
   (*A)[2][2] = V3TempB.z;
   }
 
-
+//please identify purpose of function.
 u8 FUN_800ad8d8(float X){
   u32 uVar1;
   u32 uVar2;
@@ -884,7 +884,7 @@ u8 FUN_800ad8d8(float X){
   }
   return 0xff;
 }
-
+//please identify purpose of function.
 void FUN_800ad974(MtxF *X,float A){  
   float fVar2;
   float fVar3 = SQ(A);
@@ -906,7 +906,7 @@ void FUN_800ad974(MtxF *X,float A){
   (*X)[2][0] = fVar2;
   (*X)[3][0] = fVar2;
 }
-
+//please identify purpose of function.
 void FUN_800ad9dc(vec4f *X,MtxF *Y,vec4f *Z){
   X->x = (*Y)[0][0] * Z->x + (*Y)[1][0] * Z->y + (*Y)[2][0] * Z->z + (*Y)[3][0] * Z->w;
   X->y = (*Y)[0][1] * Z->x + (*Y)[1][1] * Z->y + (*Y)[2][1] * Z->z + (*Y)[3][1] * Z->w;

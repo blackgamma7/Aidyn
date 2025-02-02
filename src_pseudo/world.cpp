@@ -4,7 +4,7 @@
 #include "crash.h"
 
 u8 weather_month_array[8] = {0x2B, 0x30, 0x21, 0x19, 0x24, 0x28, 0, 0};
-
+//initalize "TerrainStruct"
 void World::init(TerrainStruct *ter){
   CLEAR(ter);
   ter->daySpeed = 72;
@@ -19,18 +19,18 @@ void World::init(TerrainStruct *ter){
   vec3_normalize(&ter->windVelocity);
   multiVec3(&ter->windVelocity,(15.0/648)); //0.02314815
 }
-
-void World::SetTerrain(TerrainStruct *ter,u8 param_2){
+//set terrain to (type)
+void World::SetTerrain(TerrainStruct *ter,u8 type){
   u32 uVar1;
   u32 uVar2;
   
-  if (param_2 < 0x1c) {
-    if (ter->terrain != param_2) {
+  if (type < 0x1c) {
+    if (ter->terrain != type) {
       uVar2 = ter->partOfDay + 1 & 0xff;
       uVar1 = uVar2 / 5;
       ter->partOfDay = (char)uVar2 - ((char)(uVar1 << 2) + (char)uVar1);
     }
-    ter->terrain = param_2;
+    ter->terrain = type;
     SeveralTimeFuncs(ter);
     set_terrain_flags(ter->terrain);
   }
@@ -38,7 +38,7 @@ void World::SetTerrain(TerrainStruct *ter,u8 param_2){
 }
 
 u8 World::getTerrain(TerrainStruct *ter){return ter->terrain;}
-
+//increment the time of day (morning, night, ect.)
 void World::IncTimeOfDay(TerrainStruct *param_1){
   u32 uVar1;
   u32 uVar2;
@@ -52,7 +52,7 @@ void World::IncTimeOfDay(TerrainStruct *param_1){
 void World::inc_dayNightMagic(TerrainStruct *X){X->DayNightMagic++;}
 
 void World::dec_dayNightMagic(TerrainStruct *X){if (X->DayNightMagic != 0) {X->DayNightMagic--;}}
-
+//Parse Claendar struct into in-game time
 void World::SetTimeFromCalendar(TerrainStruct *param_1,Calendar *param_2){
   param_1->InGameTime =
        (u32)param_2->month * 0x114db000 + (u32)param_2->week * 0x229b600 +
@@ -62,7 +62,7 @@ void World::SetTimeFromCalendar(TerrainStruct *param_1,Calendar *param_2){
   SetFlagArray_on_Time(param_1->partOfDay,param_2->day,param_2->week,param_2->month);
 
 }
-
+//Parse in-game time into Claendar struct
 void World::GetCalendarDate(TerrainStruct *param_1,Calendar *cal){
   cal->month = GetMonth(param_1);
   cal->week = GetWeek(param_1);

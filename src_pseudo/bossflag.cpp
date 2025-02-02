@@ -1,6 +1,6 @@
 #include "globals.h"
 #include "eventFlag.h"
-
+//sets the event flag of a killed boss. 
 void set_boss_flag(void){
   ItemID id;
   for(u32 i=0;i<4;i++) {

@@ -9,11 +9,11 @@ MemoryMakerStruct* gMemoryMaker=NULL;
 void MemoryMaker::Init(void){
   if (!gExpPakFlag) ALLOC(gMemoryMaker,90);
 }
-
+//free "memoryMaker" save file
 void MemoryMaker::Free(void){
   if (!gExpPakFlag) {FREE(gMemoryMaker,112);}
 }
-
+//unload certain features in memory if no expasion pak
 void MemoryMaker::Unload(void){
   SaveDatPointers auStack80;
   
@@ -28,7 +28,7 @@ void MemoryMaker::Unload(void){
     CommonStrings::Free();
   }
 }
-
+//load certain features back in memory if no expasion pak
 void MemoryMaker::Reload(void){
   SaveDatPointers auStack72;
   
@@ -41,6 +41,7 @@ void MemoryMaker::Reload(void){
     CLEAR(gMemoryMaker);
   }
 }
-
+//unknown, unused
 void MemoryMaker::NoopA(void){}
+//unknown, unused
 void MemoryMaker::NoopB(void){}
