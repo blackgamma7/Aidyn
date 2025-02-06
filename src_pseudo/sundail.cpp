@@ -1,7 +1,8 @@
 #define FILENAME "./src/sundial.cpp"
 #include "globals.h"
 
-void Sundial::Init(void){
+namespace Sundail{
+void Init(void){
   ALLOC(gSundail,108);
   gSundail->Ring = loadBorg8(BORG8_compassRing);
   gSundail->Cross = loadBorg8(0x1ba);
@@ -17,7 +18,7 @@ void Sundial::Init(void){
   gSundail->sun = 0;
 }
 
-Gfx * Sundial::Draw(Gfx *param_1){
+Gfx * Draw(Gfx *param_1){
   byte bVar1;
   ushort h;
   ushort v;
@@ -143,30 +144,23 @@ LAB_8002ba60:
   return pGVar2;
 }
 
-void Sundial::ToggleSun(u8 x){gSundail->sun = x ^ 1;}
-void Sundial::ToggleMoon(u8 x){gSundail->moon = x ^ 1;}
+void ToggleSun(u8 x){gSundail->sun = x ^ 1;}
+void ToggleMoon(u8 x){gSundail->moon = x ^ 1;}
+void Free(void){
 
-void Sundial::Free(void){
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->Ring,4,0);
-  gSundail->Ring = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->Cross,4,0);
-  gSundail->Cross = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase0,4,0);
-  gSundail->MoonPhase0 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase1,4,0);
-  gSundail->MoonPhase1 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase2,4,0);
-  gSundail->MoonPhase2 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase3,4,0);
-  gSundail->MoonPhase3 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase4,4,0);
-  gSundail->MoonPhase4 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->MoonPhase5,4,0);
-  gSundail->MoonPhase5 = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->SunBig,4,0);
-  gSundail->SunBig = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,gSundail->SunSmall,4,0);
-  gSundail->SunSmall = NULL;
-  AllocFreeQueueItem(&gGlobals.QueueA,&gSundail,7,0);
+  #define FREEIMG(p) FREEQB8(gSundail->p); gSundail->p=NULL;
+  
+  FREEIMG(Ring);
+  FREEIMG(Cross);
+  FREEIMG(MoonPhase0);
+  FREEIMG(MoonPhase1);
+  FREEIMG(MoonPhase2);
+  FREEIMG(MoonPhase3);
+  FREEIMG(MoonPhase4);
+  FREEIMG(MoonPhase5);
+  FREEIMG(SunBig);
+  FREEIMG(SunSmall);
+  FREEQBP(&gSundail);
   gSundail = NULL;
+}
 }

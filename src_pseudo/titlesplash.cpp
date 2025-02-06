@@ -89,8 +89,8 @@ void TitleSplash::Init(void){
 }
 
 void TitleSplash::N64Free(void){
-  AllocFreeQueueItem(&gGlobals.QueueA,&SplashLogoModel,1,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&SplashLicence,6,0);
+  FREEQANI(&SplashLogoModel);
+  FREEQW(&SplashLicence);
   SplashLogoModel = NULL;
   SplashLicence = NULL;
 }
@@ -118,7 +118,7 @@ void TitleSplash::Free(void){
   AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.h20Borg8,4,0);
   AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.thqBorg8,4,0);
   AllocFreeQueueItem(&gGlobals.QueueA,&SplashExpPak,4,0);
-  font_func(gGlobals.font,(fontface_struct *)0x1c);
+  font_func(gGlobals.font,0x1c);
   free_romstring(copyrightText);
   TitleSplash::N64Free();
 }
@@ -243,8 +243,10 @@ u8 TitleSplash::Copyright(Gfx **param_1){
     Println(&aGStack_30,&sStack_36,gGlobals.text);
     Gsprintf("Max: 0x%08x - %d\n",0x100000,0x100000);
     Println(&aGStack_30,&sStack_36,gGlobals.text);
+    //reflects "boot" code size
     Gsprintf("Current: 0x%08x - %d\n",0xffa50,0xffa50);
     Println(&aGStack_30,&sStack_36,gGlobals.text);
+    //reflects "boot" code size minus 1 MB
     Gsprintf("Over: 0x%08x - %d\n",-0x5b0,-0x5b0);
     Println(&aGStack_30,&sStack_36,gGlobals.text);
     if (SplashTimerState == 1) {

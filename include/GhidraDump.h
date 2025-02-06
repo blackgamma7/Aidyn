@@ -2799,8 +2799,6 @@ typedef struct MiniMap MiniMap, *PMiniMap;
 
 typedef struct ScriptCamera_struct ScriptCamera_struct, *PScriptCamera_struct;
 
-typedef struct QueueStructA QueueStructA, *PQueueStructA;
-
 typedef struct QueueStructB QueueStructB, *PQueueStructB;
 
 typedef struct N64Print N64Print, *PN64Print;
@@ -2814,8 +2812,6 @@ typedef struct PlayerHandler PlayerHandler, *PPlayerHandler;
 typedef struct PartyInventory PartyInventory, *PPartyInventory;
 
 typedef struct ScriptCam ScriptCam, *PScriptCam;
-
-typedef struct QueueStructAItem QueueStructAItem, *PQueueStructAItem;
 
 typedef struct QueueStructBItem QueueStructBItem, *PQueueStructBItem;
 
@@ -2882,17 +2878,6 @@ struct Weather {
     u8 sfxIndex;
 };
 
-
-struct QueueStructAItem {
-    void* BorgPointer;
-    short BorgSwitch;
-    short field2_0x6;
-};
-
-struct QueueStructA {
-    QueueStructAItem array[256];
-    u16 items;
-};
 
 struct ScriptCamera_struct {
     ScriptCam *cameras; /* 0x7c size */

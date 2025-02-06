@@ -40,15 +40,18 @@ BaseWidget::BaseWidget(){
   fadeIn = NULL;
   fadeOut = NULL;
 }
+
 BaseWidget::~BaseWidget(){FreeChildren();}
 
-void BaseWidget::SetCoords(short x,short y){
-  this->x = x;
-  this->y = y;
+//set screenspace coords for widget
+void BaseWidget::SetCoords(s16 X,s16 Y){
+  this->x = X;
+  this->y = Y;
 }
-void BaseWidget::SetWidth(ushort w){width=w;}
+
+void BaseWidget::SetWidth(u16 w){width=w;}
 u16 BaseWidget::GetWidth(){return width;}
-void BaseWidget::SetHeight(ushort h){height=h;}
+void BaseWidget::SetHeight(u16 h){height=h;}
 u16 BaseWidget::GetHeight(){return height;}
 void BaseWidget::SetColor(u8 r, u8 g, u8 b, u8 a){
   col.R = r;
@@ -56,6 +59,7 @@ void BaseWidget::SetColor(u8 r, u8 g, u8 b, u8 a){
   col.B = b;
   col.A = a;
 }
+
 void BaseWidget::SetBorg8(Borg8header *b8,u8 fit){
   if (borg8) borg8_free(borg8);
   borg8 = b8;
@@ -85,7 +89,6 @@ BaseWidget * BaseWidget::Control(controller_aidyn *input){
   BaseWidget *pBVar4;
   int iVar6;
   u32 BVar7;
-  func *pfVar5;
   
   BVar7 = input->input;
   if (widget_control_dat == 0) {
@@ -110,115 +113,25 @@ BaseWidget * BaseWidget::Control(controller_aidyn *input){
   }
   widget_control_buttons = BVar3;
   widget_control_timer = cVar2;
-  if ((BVar7 & START_BUTTON) == 0) {
-    if ((BVar7 & A_BUTTON) == 0) {
-      if ((BVar7 & B_BUTTON) == 0) {
-        if ((BVar7 & D_UP) == 0) {
-          if ((BVar7 & D_DOWN) == 0) {
-            if ((BVar7 & D_LEFT) == 0) {
-              if ((BVar7 & D_RIGHT) == 0) {
-                if ((BVar7 & ANA_UP) == 0) {
-                  if ((BVar7 & ANA_DOWN) == 0) {
-                    if ((BVar7 & ANA_LEFT) == 0) {
-                      if ((BVar7 & ANA_RIGHT) == 0) {
-                        if ((BVar7 & Z_BUTTON) == 0) {
-                          if ((BVar7 & L_BUTTON) == 0) {
-                            if ((BVar7 & R_BUTTON) == 0) {
-                              if ((BVar7 & C_UP) == 0) {
-                                if ((BVar7 & C_DOWN) == 0) {
-                                  if ((BVar7 & C_LEFT) == 0) {
-                                    if ((BVar7 & C_RIGHT) == 0) {
-                                      return NULL;
-                                    }
-                                    iVar6 = (int)*(short *)&(param_1->vTable->CRightFunc).arg;
-                                    pfVar5 = (param_1->vTable->CRightFunc).func;
-                                  }
-                                  else {
-                                    iVar6 = (int)*(short *)&(param_1->vTable->CLeftFunc).arg;
-                                    pfVar5 = (param_1->vTable->CLeftFunc).func;
-                                  }
-                                }
-                                else {
-                                  iVar6 = (int)*(short *)&(param_1->vTable->CDownFunc).arg;
-                                  pfVar5 = (param_1->vTable->CDownFunc).func;
-                                }
-                              }
-                              else {
-                                iVar6 = (int)*(short *)&(param_1->vTable->CUPFunc).arg;
-                                pfVar5 = (param_1->vTable->CUPFunc).func;
-                              }
-                            }
-                            else {
-                              iVar6 = (int)*(short *)&(param_1->vTable->RFunc).arg;
-                              pfVar5 = (param_1->vTable->RFunc).func;
-                            }
-                          }
-                          else {
-                            iVar6 = (int)*(short *)&(param_1->vTable->LFunc).arg;
-                            pfVar5 = (param_1->vTable->LFunc).func;
-                          }
-                        }
-                        else {
-                          iVar6 = (int)*(short *)&(param_1->vTable->ZFunc).arg;
-                          pfVar5 = (param_1->vTable->ZFunc).func;
-                        }
-                      }
-                      else {
-                        iVar6 = (int)*(short *)&(param_1->vTable->RightFunc).arg;
-                        pfVar5 = (param_1->vTable->RightFunc).func;
-                      }
-                    }
-                    else {
-                      iVar6 = (int)*(short *)&(param_1->vTable->LeftFunc).arg;
-                      pfVar5 = (param_1->vTable->LeftFunc).func;
-                    }
-                  }
-                  else {
-                    iVar6 = (int)*(short *)&(param_1->vTable->DownFunc).arg;
-                    pfVar5 = (param_1->vTable->DownFunc).func;
-                  }
-                }
-                else {
-                  iVar6 = (int)*(short *)&(param_1->vTable->UpFunc).arg;
-                  pfVar5 = (param_1->vTable->UpFunc).func;
-                }
-              }
-              else {
-                iVar6 = (int)*(short *)&(param_1->vTable->RightFunc).arg;
-                pfVar5 = (param_1->vTable->RightFunc).func;
-              }
-            }
-            else {
-              iVar6 = (int)*(short *)&(param_1->vTable->LeftFunc).arg;
-              pfVar5 = (param_1->vTable->LeftFunc).func;
-            }
-          }
-          else {
-            iVar6 = (int)*(short *)&(param_1->vTable->DownFunc).arg;
-            pfVar5 = (param_1->vTable->DownFunc).func;
-          }
-        }
-        else {
-          iVar6 = (int)*(short *)&(param_1->vTable->UpFunc).arg;
-          pfVar5 = (param_1->vTable->UpFunc).func;
-        }
-      }
-      else {
-        iVar6 = (int)*(short *)&(param_1->vTable->Bfunc).arg;
-        pfVar5 = (param_1->vTable->Bfunc).func;
-      }
-    }
-    else {
-      iVar6 = (int)*(short *)&(param_1->vTable->AFunc).arg;
-      pfVar5 = (param_1->vTable->AFunc).func;
-    }
-  }
-  else {
-    iVar6 = (int)*(short *)&(param_1->vTable->StartFunc).arg;
-    pfVar5 = (param_1->vTable->StartFunc).func;
-  }
-  pBVar4 = (BaseWidget *)(*pfVar5)((int)&param_1->fadeIn + iVar6);
-  return pBVar4;
+  if ((BVar7 & START_BUTTON)) return this->StartFunc();
+  if ((BVar7 & A_BUTTON)) return this->AFunc();
+  if ((BVar7 & B_BUTTON)) return this->BFunc();
+  if ((BVar7 & D_UP)) return this->UpFunc();
+  if ((BVar7 & D_DOWN)) return this->DownFunc();
+  if ((BVar7 & D_LEFT)) return this->LeftFunc();
+  if ((BVar7 & D_RIGHT)) return this->RightFunc();
+  if ((BVar7 & ANA_UP)) return this->UpFunc();
+  if ((BVar7 & ANA_DOWN)) return this->DownFunc();
+  if ((BVar7 & ANA_LEFT)) return this->LeftFunc();
+  if ((BVar7 & ANA_RIGHT)) return this->RightFunc();
+  if ((BVar7 & Z_TRIG)) return this->ZFunc();
+  if ((BVar7 & L_TRIG)) return this->LFunc();
+  if ((BVar7 & R_TRIG)) return this->RFunc();
+  if ((BVar7 & U_CBUTTONS)) return this->CUPFunc();
+  if ((BVar7 & D_CBUTTONS)) return this->CDownFunc();
+  if ((BVar7 & L_CBUTTONS)) return this->CLeftFunc();
+  if ((BVar7 & R_CBUTTONS)) return this->CRightFunc();
+  return NULL;
 }
 
 

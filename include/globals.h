@@ -16,6 +16,7 @@
 #include "commonstrings.h"
 #include "widgets/handler.h"
 #include "graphics.h"
+#include "freeQueue.h"
 
 #include "crash.h"
 #include "heapN64.h"

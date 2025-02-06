@@ -99,7 +99,7 @@ Gfx * CombatAttackVisuals::Render(Gfx *g,uint delta){
       }
       else {
         FUN_800b3f9c(&gGlobals.Sub.particleEmmiter,x->borg7->aniDat);
-        AllocFreeQueueItem(&gGlobals.QueueA,x,0,0);
+        FREEQB7(x);
         CLEAR(x);
         attackVisualVars.iFreeVisual--;
         attackVisualVars.bytearray[attackVisualVars.iFreeVisual] = (byte)uVar6;
@@ -125,14 +125,9 @@ void FreePlayer(playerData *param_1){
 }
 
 void Free(void){
-
-  
-
   for (u32 i=0;i<ATTACKVISUAL_MAXVISUALS;i++) {
     Borg7header * pvVar1 = attackVisualVars.p[i].borg7;
-    if (((u32)pvVar1->unk18&1)) {
-      AllocFreeQueueItem(&gGlobals.QueueA,pvVar1,0,0);
-    }
+    if (((u32)pvVar1->unk18&1)) FREEQB7(pvVar1);
   }
   memset(attackVisualVars.p,0,sizeof(AttackVisualStruct3)*ATTACKVISUAL_MAXVISUALS);
   HFREE(attackVisualVars.p,0x132);

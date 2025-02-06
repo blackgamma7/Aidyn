@@ -31,7 +31,7 @@ void SoundStructA_get_borg12(SoundStructA *param_1){
 void ClearAudioBubble(SoundStructA *param_1){
 if (param_1->borg12) {
     DCM::Remove(param_1->voxelDat->dcmIndex,param_1->voxelDat->dcmId);
-    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->borg12,8,0);
+    FREEQB12(&param_1->borg12);
     param_1->borg12 = NULL;
     param_1->voxelDat->dcmIndex = 0;
     param_1->voxelDat->dcmId = 0;

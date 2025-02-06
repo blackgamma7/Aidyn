@@ -54,11 +54,12 @@ VoxelFunc2 gVoxelFuncs2[]={
 u32 teleportTimestamp;
 
 
-
+//used by scene object tied to "containers" - changes appearance based on if loot is collected or trap triggered
 void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9data *param_3){
   
   voxelObject* prVar1 = GetVoxelFromObjectLink(param_3,param_1,VOXEL_Scene);
   if ((prVar1->scene).borgArray[0].b7) {
+    //unique case, seems to use bool for Borg7(false) and ainDat(true) enums
     AllocFreeQueueItem(&gGlobals.QueueA,&(prVar1->scene).borgArray[0].b7,
                        (ushort)(((prVar1->scene).sceneflags & 2) == 0),0);
     (prVar1->scene).borgArray[0].b7 = NULL;
@@ -66,14 +67,14 @@ void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9data *param_3
   (prVar1->scene).borgArray[0].borgIndex = (prVar1->scene).borgArray[param_2].borgIndex;
 }
 
-
+//play a sound based on loot collected
 void play_countainer_sound(voxelObject* param_1,Borg9data *param_2){
   u32 containerSounds [8]={0x729,0x72A,0x72B,0x72C,0x729,0x729,0x729,0x729};
   PLAYSFX(containerSounds[(param_1->container).LootType],0,gGlobals.VolSFX,0xb4,0);
   replace_container_voxel(param_1,1,param_2);
 }
 
-
+//explosion effect if trap is triggered. replace mosel with destroyed one.
 void open_explosive_chest(voxelObject* param_1,Borg9data *param_2){
   int iVar1;
   int iVar2;
@@ -160,10 +161,8 @@ void teleporter_func(voxelObject* param_1){
   }
 }
 
-
-
+// special case for reagent sources, give (container.Gold* Ranger modifer) items instead
 void get_loot_reagent(voxelObject* param_1,container_Dat * param_2){
-  
   u8 quant = param_2->Gold * RangerIngredientFloat;
   if (!quant) quant = 1;
   u16 LootReagentIDs[]={0,0,0,0,0x1f,0x1e,0x20,0};
@@ -215,10 +214,12 @@ void loot_func(voxelObject *param_1){
     uVar6 = (param_1->container).LootType;
     if (uVar6 < 4) uVar6 = (param_1->container).unk0x14;
     else {
+      //clover patches, pepper plants gem veins
       if (uVar6 < 7) {
         get_loot_reagent(param_1,pcVar9);
         return;
       }
+      //represented by a misc. model
       if (uVar6 == 7) {
         set_voxel_visibility(param_1,false);
         ref_obj_bitmask_flag((param_1->header).flagB,(param_1->header).Bitfeild,VOXEL_Used);

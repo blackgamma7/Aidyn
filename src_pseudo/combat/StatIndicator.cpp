@@ -5,6 +5,7 @@
 CombatStatIndicatorHandler combatStatIndicatorDat={0};
 
 namespace CombatStatIndicator{
+  //clear combatStatIndicatorDat, load digit textures
   void Init(){
     CLEAR(&combatStatIndicatorDat);
     combatStatIndicatorDat.borg1Digits[0] = (Borg1header *)getBorgItem(0x16);
@@ -22,7 +23,7 @@ namespace CombatStatIndicator{
     ALLOCS(combatStatIndicatorDat.array,MAXSTATDIGITS,138);
     for(u32 i=0;i<MAXSTATDIGITS;i++){combatStatIndicatorDat.array[i]=i;}
     }
-    
+//parse damage/healing number for display
 uint AddItem(playerData *param_1,int type,short num){
   Borg1Data *pBVar1;
   u8 *puVar3;
@@ -151,7 +152,7 @@ uint AddItem(playerData *param_1,int type,short num){
   pcVar7->statTime = 0;
   return index;
 }
-
+//precess and draw damage/healing number
 Gfx * Tick(Gfx *g,int delta){
   uint uVar1;
   Borg1Data *pBVar2;
@@ -204,7 +205,7 @@ Gfx * Tick(Gfx *g,int delta){
   }
   return pGVar3;
 }
-
+//free combatStatIndicatorDat and digit textures
 void Free(void){
   Borg1Data *pBVar1;
   PlaneObj *pvVar2;
@@ -224,7 +225,7 @@ void Free(void){
   memset(combatStatIndicatorDat.array,0,MAXSTATDIGITS);
   HFREE(combatStatIndicatorDat.array,425);
   for(i=0;i<10;i++) {
-    AllocFreeQueueItem(&gGlobals.QueueA,&combatStatIndicatorDat.borg1Digits[i],3,0);
+    FREEQB1(&combatStatIndicatorDat.borg1Digits[i]);
   }
   CLEAR(&combatStatIndicatorDat);
 }

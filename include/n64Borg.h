@@ -143,7 +143,10 @@ struct teleport_dat {
 struct SceneVoxelModel {
     float renderProx;
     u32 borgIndex;
-    struct Borg7header *b7;
+    union{
+    Borg7header *b7;
+    AnimationData* aniDat;
+    };
 };
 
 struct Scene_obj_dat {
@@ -525,7 +528,7 @@ struct borg2data {
 };
 
 struct Borg5header {
-    BorgHeader head;
+    borgHeader head;
     void *unk8;
     void *aniTextures;
     Borg5data dat;
@@ -675,5 +678,5 @@ u32 borgTotal=0;
 #define CLAMP01(x) CLAMP(x,0.0,1.0)
 //clamp a vec3's values to 0-1
 #define CLAMP01V3(v) CLAMP01(v.x); CLAMP01(v.y); CLAMP01(v.z)
-//turn a Vec3f into 32-bit RGB values.
+//turn a Vec3f(v) into 32-bit RGB values for Color32(c).
 #define V3ToRGB(c,v) c->R=v.x*255; c->G=v.y*255; c->B=v.z*255

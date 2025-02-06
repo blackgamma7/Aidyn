@@ -1,3 +1,5 @@
+#include "globals.h"
+
 struct CinematicStruct {
     struct AnimationData * AniDat;
     struct borg_6_header * Borg6;
@@ -92,13 +94,13 @@ u16 some_cinematic_func(Gfx**param_1){
 void clear_cinematic_borgs(void){
   if (gGlobals.cinematic.Borg6) {
     clear_borg6(gGlobals.cinematic.Borg6);
-    AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.cinematic.Borg6,2,0);
+    FREEQB6(&gGlobals.cinematic.Borg6);
   }
-  if (gGlobals.cinematic.AniDat) {AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.cinematic,1,0);}
+  if (gGlobals.cinematic.AniDat) FREEQANI(&gGlobals.cinematic);
   if (gGlobals.cinematic.BGM) {
     dcm_remove_func(gGlobals.cinematic.unk0x2c,
                     gGlobals.cinematic.some_cinematic_tally);
-    AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.cinematic.BGM,8,0);
+    FREEQB12(&gGlobals.cinematic.BGM);
   }
   return;
 }

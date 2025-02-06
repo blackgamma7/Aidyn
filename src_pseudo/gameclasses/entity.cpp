@@ -128,7 +128,7 @@ void Entity::Free(CharSheet *param_1){
     FREE(param_1->pItemList,356);
   }
   if(param_1->spellbook) {
-    Spellbook::Clear(pSVar6);
+    Spellbook::Clear(param_1->spellbook);
     FREE(param_1->spellbook,363);
   }
   if(param_1->effects) {
@@ -140,7 +140,7 @@ void Entity::Free(CharSheet *param_1){
     FREE(param_1->potionEffects,0x17b);
   }
   if (param_1->portrait) {
-    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->portrait,4,0);
+    FREEQB8(&param_1->portrait);
     param_1->portrait = NULL;
   }
   FREEPTR(param_1->Stats,392);
@@ -181,7 +181,7 @@ void Entity::DecreaseHP(CharSheet *param_1,s16 dmg){
   char cVar2;
   u8 arg1;
   if (CharStats::getModded(param_1->Stats,STAT_STAM) < dmg) {
-    dmg -=CharStats::getModded(stat,STAT_STAM);
+    dmg -=CharStats::getModded(param_1->Stats,STAT_STAM);
     cVar2 = CharStats::getModded(param_1->Stats,STAT_STAM);
     CharStats::addModdedHealth(param_1->Stats,STAT_STAM,-cVar2);
     if (dmg < 1) return;

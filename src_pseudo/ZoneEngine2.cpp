@@ -121,11 +121,11 @@ u8 FUN_8000ccc0(void){
 
 u8 NoExpPak_memCheck(u16 x){
   u8 bVar3;
-  u32 theshA [5] = {0x18000,0x10000,0xc000,0x28000,0x18000};
-  u32 threshB [5]= {0x10000,0xC000,0x6000,0x18000,0x10000};
+  u32 threshA[5] = {0x18000,0x10000,0xc000,0x28000,0x18000};
+  u32 threshB[5]= {0x10000,0xC000,0x6000,0x18000,0x10000};
   if (!gExpPakFlag) {
     bVar3 = true;
-    if (get_MemFree() <= theshA[x]) {
+    if (get_MemFree() <= threshA[x]) {
       if (threshB[x] < get_memFree_2()) return true;
       else {
         no_ExpPak_memcheck_flag = 1;
@@ -364,19 +364,19 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
   Borg9header *pBVar5;
   int iVar6;
   int iVar7;
-  uint uVar8;
+  u16 uVar8;
   int iVar9;
-  uint uVar10;
+  u16 uVar10;
   voxelObject *pVVar8;
   
   pBVar2 = param_1->mapPointer;
   if ((param_1->anidat0x4) && (param_2)) {
-    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->anidat0x4,1,0);
+    FREEQANI(&param_1->anidat0x4);
     param_1->flag |= 1;
   }
   if (param_1->aniDat0x14){
     if (param_2) {
-      AllocFreeQueueItem(&gGlobals.QueueA,&param_1->aniDat0x14,1,0);
+      FREEQANI(&param_1->aniDat0x14);
       param_1->flag |= 2;
     }
   }
@@ -398,21 +398,15 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
           do {
             iVar9 = (iVar7 + uVar10) * 4;
             if (*(int *)((int)pvVar3 + iVar9 + iVar4) != 0) {
-              if ((*(ushort *)((int)pvVar3 + iVar6 * 4 + 0x6a) & 2) == 0) {
-                AllocFreeQueueItem(&gGlobals.QueueA,(void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30)
-                                   ,1,0);
-              }
-              else {
-                AllocFreeQueueItem(&gGlobals.QueueA,(void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30)
-                                   ,0,0);
-              }
+              if ((*(ushort *)((int)pvVar3 + iVar6 * 4 + 0x6a) & 2) == 0) FREEQANI((void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30));
+              else FREEQB7((void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30));
               *(undefined4 *)((int)pvVar3 + (iVar7 + uVar10) * 4 + iVar4) = 0;
             }
-            uVar10 = uVar10 + 1 & 0xffff;
+            uVar10++;
             iVar7 = uVar10 << 1;
           } while (uVar10 < *(ushort *)((int)pvVar3 + iVar6 * 4 + 0x68));
         }
-        uVar8 = uVar8 + 1 & 0xffff;
+        uVar8++;
         iVar6 = uVar8 << 3;
       } while (uVar8 < (pBVar2->dat).voxelObjCount);
     }
@@ -1263,33 +1257,23 @@ void SceneBoulders(Borg9data *param_1){
 
 void NoExpPak_ClearSceneVoxelIndex(Scene_obj_dat *param_1,u16 param_2){
   if (!gExpPakFlag) {
-    if (param_1->borgArray[param_2].borgheader) {
-      if (!(param_1->sceneflags & 2)) AllocFreeQueueItem(&gGlobals.QueueA,&param_1->borgArray[param_2].borgheader,1,0);
-      else AllocFreeQueueItem(&gGlobals.QueueA,&param_1->borgArray[param_2].borgheader,0,0);
+    if (param_1->borgArray[param_2].b7) {
+      if (!(param_1->sceneflags & 2)) FREEQANI(&param_1->borgArray[param_2].b7);
+      else FREEQB7(&param_1->borgArray[param_2].b7);
     }
   }
 }
 
-
 void NoExpPak_ClearSceneVoxel(Scene_obj_dat *param_1){
-  int iVar1;
-  uint uVar2;
-  
-  if ((!gExpPakFlag) && (uVar2 = 0, param_1->BorgCount != 0)) {
-    iVar1 = 0;
-    do {
-      iVar1 += uVar2;
-      if ((&param_1->borgArray[0].b7)[iVar1] != NULL) {
-        if ((param_1->sceneflags & 2) == 0) AllocFreeQueueItem(&gGlobals.QueueA,&param_1->borgArray[0].b7 + iVar1,1,0);
-        else AllocFreeQueueItem(&gGlobals.QueueA,&param_1->borgArray[0].b7 + iVar1,0,0);
+  if ((!gExpPakFlag) && (param_1->BorgCount)) {
+    for(u16 i=0;i<param_1->BorgCount;i++){
+      if (param_1->borgArray[i].b7) {
+        if ((param_1->sceneflags & 2) == 0) FREEQANI(&param_1->borgArray[i].aniDat);
+        else FREEQB7(&param_1->borgArray[i].b7);
       }
-      uVar2 = uVar2 + 1 & 0xffff;
-      iVar1 = uVar2 << 1;
-    } while (uVar2 < param_1->BorgCount);
+    }
   }
 }
-
-
 
 Gfx * RenderVoxelScenes(Gfx *gfx,Borg9data *borg9,vec3f *v3,short param_4,short param_5,float posx,
                        float posz){
@@ -1723,8 +1707,8 @@ void RenderZones(Gfx **g,vec3f *pos,short delta){
     if ((FUN_80010598(*psVar13,*psVar14)) && ((uStack_44 & uVar3) == 0)) {
       if ((!gExpPakFlag) && (get_MemFree()< 0x18000)) {
         iVar1 = &gGlobals.Sub.ZoneDatMtx[*psVar13][*psVar14];
-        if (iVar1->anidat0x4) AllocFreeQueueItem(&gGlobals.QueueA,&iVar1->anidat0x4,1,0);
-        if (iVar1->aniDat0x14)AllocFreeQueueItem(&gGlobals.QueueA,&iVar1->aniDat0x14,1,0);
+        if (iVar1->anidat0x4) FREEQANI(&iVar1->anidat0x4);
+        if (iVar1->aniDat0x14)FREEQANI(&iVar1->aniDat0x14);
       }
     }
     else {

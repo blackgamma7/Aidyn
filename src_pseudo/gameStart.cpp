@@ -216,16 +216,16 @@ void start_intermediate_game(void){
   if (gGlobals.titleScreen) {
     cVar1 = *(u8 *)((s32)(gGlobals.titleScreen)->substruct + 0x24);
     WHANDLE->FreeWidget(gGlobals.titleScreen);
-    AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.titleScreen,6,0);
+    FREEQW(&gGlobals.titleScreen);
     gGlobals.titleScreen = NULL;
   }
   clear_flycam();
-  if (cVar1 == 7) { //Intermediate game
+  if (cVar1 == 7) { //Intermediate game - skip intro, start in erromon
     gGlobals.Sub.mapDatA = debugMapLabels[5].a;
     gGlobals.Sub.mapDatB = debugMapLabels[5].b;
     gGlobals.Sub.mapDatC = debugMapLabels[5].c;
   }
-  else { //Start game
+  else { //Start game - skip intro cinematic.
     gGlobals.Sub.MapFloatDatEntry.mapDatB = 0xffff;
     gGlobals.Sub.mapDatA = debugMapLabels[0].a;
     gGlobals.Sub.mapDatB = debugMapLabels[0].b;
@@ -234,5 +234,5 @@ void start_intermediate_game(void){
   gGlobals.playerCharStruct.player_form = debugCharacters[0].borg7;
   gGlobals.playerCharStruct.collisionRadius = debugCharacters[0].f;
   DCM::Remove((byte)gGlobals.introMusicDatA,gGlobals.introMusicDatB);
-  AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.introMusic,8,0);
+  FREEQB12(&gGlobals.introMusic);
 }

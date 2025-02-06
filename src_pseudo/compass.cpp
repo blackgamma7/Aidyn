@@ -60,11 +60,11 @@ Gfx* Draw(Gfx*g,vec2f *XZ){
 }
 //unload images and free struct
 void Free(void){
-  AllocFreeQueueItem(&gGlobals.QueueA,gCompass->ring,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&gCompass->N,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&gCompass->S,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&gCompass->E,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&gCompass->W,4,0);
+  FREEQB8(gCompass->ring);
+  FREEQB8(gCompass->N);
+  FREEQB8(gCompass->S);
+  FREEQB8(gCompass->E);
+  FREEQB8(gCompass->W);
   FREE(gCompass,209);
 }
 }
