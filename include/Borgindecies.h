@@ -1,5 +1,6 @@
 //a list of id'd indicies used internally for the "n64Borg" art assets
 //Borg8: UI images
+
 #define BORG8_CompassNorth 0X18
 #define BORG8_CompassRing 0X1B
 #define BORG8_MainFont 0x1D

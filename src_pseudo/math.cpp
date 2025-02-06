@@ -152,12 +152,12 @@ void FUN_800ab23c(vec3f *A,vec3f *B,float C){
   vec2f v2C;
   vec2f v2B;
   
-  memset(&v2A,0,8);
+  CLEAR(&v2A);
   V2D.x = A->x;
   V2D.y = A->z;
   v2A.x = V2D.x;
   v2A.y = V2D.y;
-  memset(&v2B,0,8);
+  CLEAR(&v2B);
   v2C.x = B->x;
   v2C.y = B->z;
   v2B.x = v2C.x;

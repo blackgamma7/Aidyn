@@ -211,11 +211,11 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
       if (RollD(1,100) < 70) {
         ter->rainByte = PRECIP_RAIN;
         ter->windByte = 2;
+        //set to snow where applicable
         if (ter->terrain == 5) ter->rainByte = PRECIP_SNOW;
-        fVar5 = RAND.GetFloatRange(terrain_rand_array[ter->terrain] - 0.15f,
+        ter->PrecipScale = RAND.GetFloatRange(terrain_rand_array[ter->terrain] - 0.15f,
                            terrain_rand_array[ter->terrain] + 0.15f);
-        ter->PrecipScale = fVar5;
-        if (fVar5 < 0.0) ter->PrecipScale = 0.0;
+        FLOOR(ter->PrecipScale,0.0);
         fVar5 = 0.35;
       }
       else {
@@ -227,9 +227,9 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
       ter->FogFloat = RAND.GetFloatRange(0.1,fVar5);
     }
     ter->ThunderFloat = 0.0;
-    if (ter->rainByte == PRECIP_RAIN) {ter->ThunderFloat = RAND.GetFloat0To1() * ter->PrecipScale;}
+    if (ter->rainByte == PRECIP_RAIN)
+      ter->ThunderFloat = RAND.GetFloat0To1() * ter->PrecipScale;
   }
-  return;
 }
 
 void World::SeveralTimeFuncs(TerrainStruct *ter){
@@ -245,21 +245,21 @@ void World::SeveralTimeFuncs(TerrainStruct *ter){
     terrainStruct_floats(ter);
   }
 }
-
+//caps game time to one in-game year
 void World::cap_ingame_time(TerrainStruct *ter){
   if (YEAR <= ter->InGameTime) ter->InGameTime -= YEAR;
 }
-
+//10 seconds pass
 void World::Lapse10Seconds(TerrainStruct *ter){
   ter->InGameTime += SECONDS(10);
   cap_ingame_time(ter);
   SeveralTimeFuncs(ter);}
-
+// passes in-game time by (delta*TerrainStruct->daySpeed) ticks
 void World::inc_ingame_time(TerrainStruct *param_1,s32 delta){
   param_1->InGameTime += (delta * param_1->daySpeed);
   cap_ingame_time(param_1);
   SeveralTimeFuncs(param_1);}
-
+//8 hours pass
 void World::Lapse8Hours(TerrainStruct *ter){
   ter->InGameTime += HOURS(8);
   cap_ingame_time(ter);
@@ -340,17 +340,17 @@ void World::spellvisuals_1(TerrainStruct *param_1,float param_2,float param_3,s1
     param_1->float0x2c = param_2 - fVar1;
     fVar1 = param_1->float0x2c;
     if (fVar1 < 0.0) {
-      do {fVar1 = (float)((double)fVar1 + 1.0d);} while (fVar1 < 0.0);
+      do {fVar1 = (float)((double)fVar1 + 1.0);} while (fVar1 < 0.0);
       param_1->float0x2c = fVar1;
       fVar1 = param_1->float0x2c;
     }
     if (1.0f <= fVar1) {
-      do {fVar1 = (float)((double)fVar1 - 1.0d);} while (1.0f <= fVar1);
+      do {fVar1 = (float)((double)fVar1 - 1.0);} while (1.0f <= fVar1);
       param_1->float0x2c = fVar1;
     }
     fVar1 = param_1->float0x2c;
     if (param_4 != 2) goto LAB_80085bb8;
-    fVar1 = (float)((double)fVar1 - 1.0d);
+    fVar1 = (float)((double)fVar1 - 1.0);
   }
   param_1->float0x2c = fVar1;
   fVar1 = param_1->float0x2c;
