@@ -15,7 +15,7 @@ struct SoundStructA {
     int mapTally;
     s16 index;
     u8 zoneDatByte;
-    u8 unk13;
+    u8 active;
     u16 timer;
     ushort flag;
     Borg12Header *borg12;
@@ -127,7 +127,7 @@ void audio_ref_objs(SFX_Struct *,Borg9data *,u32,u8);
 void clear_sfx_entries(SFX_Struct *,s16);
 void sfx_struct_free(SFX_Struct *);
 void clear_sfx_on_map(SFX_Struct *,s32);
-void render_auido_voxel(SoundStructA *);
+void renderAudioVoxel(SoundStructA *);
 
 float Sound_Volume_proximity(vec3f *,float ,Camera_struct *);
 float FUN_800565a8(vec3f *,float ,Camera_struct *);

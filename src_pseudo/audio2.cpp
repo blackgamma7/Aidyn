@@ -15,7 +15,7 @@ void adjust_soundstruct_vec3(SoundStructA *param_1){
 
 void set_SFX_ZoneDatByte(SFX_Struct *param_1,s16 param_2,s16 param_3){
   for (s16 i=0;i<SoundObjCount;i++) {
-    if (param_1->pointerA[i].unk13) {
+    if (param_1->pointerA[i].active) {
       param_1->pointerA[i].zoneDatByte = get_zoneDatByte(param_2,param_3,param_1->pointerA[i].zoneDatByte);
       adjust_soundstruct_vec3(&param_1->pointerA[i]);
     }
@@ -60,7 +60,7 @@ void init_sfx_struct(SFX_Struct *param_1){
 }
 
 void SoundStructA_remove(SFX_Struct *param_1,SoundStructA *param_2){  
-  if (param_2->unk13) {
+  if (param_2->active) {
     ClearAudioBubble(param_2);
     param_1->shortArrayA[--param_1->pointerAIndex] = param_2->index;
     BZERO(param_2);
@@ -72,7 +72,7 @@ SoundStructA * soundStructA_set(SFX_Struct *param_1,voxelObject *param_2,int tal
   SoundStructA *obj = param_1->pointerA + param_1->shortArrayA[param_1->pointerAIndex++];
   BZERO(obj);
   obj->voxel = param_2;
-  obj->unk13 = true;
+  obj->active = true;
   obj->flag = 1;
   obj->mapTally = tally;
   obj->zoneDatByte = zonedat;
@@ -126,7 +126,19 @@ void FreeAudioSound(SFX_Struct *param_1,SoundStructB *param_2){
   }
 }
 
-//TODO: clear_sfx_substruct_2()
+
+void clear_sfx_substruct_2(SFX_Struct *param_1,short param_2){
+  for(s16 i=0;i<16;i++) {
+    SoundStructB *pSVar1 = &param_1->pointerB[i];
+    if (param_2 == 0) FreeAudioSound(param_1,pSVar1);
+    else {
+      SoundStructA* iVar3 = pSVar1->soundStruct;
+      if ((!iVar3) || (iVar3->mapTally=-2)) FreeAudioSound(param_1,pSVar1);
+      else pSVar1->timer = 2;
+    }
+  }
+}
+
 
 
 void play_sfx_before_delete(SFX_Struct *param_1,SoundStructA *param_2){
@@ -164,7 +176,7 @@ void Ofunc_80055fc0(SFX_Struct *param_1){
   for(u16 i=0;i<16;i++) {
     SoundStructB *pSVar1 = &param_1->pointerB[i];
     if ((pSVar1->active) &&(pSVar1->soundStruct->mapTally == -2))
-      pSVar1->timer = 0x7ffe;
+      pSVar1->timer = -2;
   }
 }
 
@@ -244,7 +256,7 @@ void clear_sfx_on_map(SFX_Struct *param_1,int tally){
   }
 }
 
-void render_auido_voxel(SoundStructA *param_1){
+void renderAudioVoxel(SoundStructA *param_1){
   audio_obj_dat *paVar1;
   byte vol;
   u8 uVar2;
@@ -259,23 +271,18 @@ void render_auido_voxel(SoundStructA *param_1){
     paVar1 = param_1->voxelDat;
     iVar6 = ((paVar1->volumeFade * paVar1->volume) * 255.0);
     sVar4 = (((paVar1->pan + 1.0f) * 0.5f) * 255.0);
-    if (iVar6 < 0) iVar6 = 0;
-    if (0xff < iVar6) iVar6 = 0xff;
-    if (sVar4 < 0) sVar4 = 0;
-    if (0xff < sVar4) sVar4 = 0xff;
+    CLAMP(iVar6,0,0xff);
+    CLAMP(sVar4,0,0xff);
     fVar7 = gGlobals.VolSFX;
     if (((param_1->voxel->audio).soundFlag & 0x10))
       fVar7 = gGlobals.VolBGM;
     uVar2 = DCM::search(paVar1->dcmIndex,paVar1->dcmId);
-    vol = (byte)(int)((float)iVar6 * fVar7);
+    vol = ((float)iVar6 * fVar7);
     if (uVar2 == 0) {
-
-      if ((run_voxelFuncs2(param_1->voxel,0)) && (uVar5 = param_1->flag & 0xfffe, (param_1->flag & 1) != 0)) {
-        param_1->flag = uVar5;
+      if ((run_voxelFuncs2(param_1->voxel,0)) && (param_1->flag & 1)) {
+        param_1->flag&=~1;
         bVar3 = (param_1->voxelDat->soundFlag & 1) != 0;
-        if (bVar3) {
-          param_1->flag = uVar5 | 1;
-        }
+        if (bVar3) param_1->flag|=1;
         DCM::Add(&param_1->voxelDat->dcmIndex,(int *)&param_1->voxelDat->dcmId,
                  &param_1->borg12->dat->sub,vol,(u8)sVar4,bVar3,2000,0);
       }
@@ -292,7 +299,7 @@ float Sound_Volume_proximity(vec3f *pos,float vol,Camera_struct *cam){
   return 1.0f - vec3_proximity(pos,&cam->aim) / vol;
 }
 
-
+//calculates pan if applicable?
 float FUN_800565a8(vec3f *param_1,float param_2,Camera_struct *cam){
   vec2f tempv2A;
   vec2f tempv2B;
@@ -314,4 +321,79 @@ void FUN_8005661c(vec3f *param_1,float param_2,Camera_struct *param_3,s8 *param_
 
 }
 
-//TODO: ProcessAudioBubbles()
+void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
+  audio_obj_dat *paVar2;
+  uint uVar3;
+  SoundStructA *pSVar5;
+  Borg12Header *pBVar6;
+  bool bVar7;
+  SoundStructB *pSVar8;
+  int iVar9;
+  s16 i;
+  float fVar11;
+  float fVar13;
+  float fVar14;
+  
+
+  for(i=0;i<SoundObjCount;i++) {
+    pSVar5 = &sfx->pointerA[i];
+    if (pSVar5->active) {
+      //fade out if far away
+      if ((pSVar5->voxel->header).size < vec3_proximity(&pSVar5->worldPos,pos)) {
+        paVar2 = pSVar5->voxelDat;
+        if (0.0 < paVar2->volumeFade) {
+          paVar2->volumeFade -= (delta / 90.0);
+          if (paVar2->volumeFade < 0.0) paVar2->volumeFade = 0.0;
+          renderAudioVoxel(pSVar5);
+        }
+        else if (pSVar5->borg12) ClearAudioBubble(pSVar5);
+      }
+      else {//fade in otherwise
+        fVar13 = Sound_Volume_proximity(&pSVar5->worldPos,(pSVar5->voxel->header).size,&gGlobals.Sub.camera);
+        paVar2 = pSVar5->voxelDat;
+        if ((paVar2->soundFlag & 4) == 0) paVar2->volumeFade = fVar13;
+        else {
+          if (paVar2->volumeFade < 1.0f) {
+            paVar2->volumeFade += (delta / 90.0);
+            if (1.0f < paVar2->volumeFade) paVar2->volumeFade = 1.0;
+          }
+        }
+        //pan to camera (unless flagged otherwise)
+        if ((paVar2->soundFlag & 8) == 0) {
+          pSVar5->voxelDat->pan = FUN_800565a8(&pSVar5->worldPos,fVar13,&gGlobals.Sub.camera);
+        }
+        if (pSVar5->borg12 == NULL) {//add sound if none
+          if (!NoExpPak_memCheck(2)) continue;//unless there's not room
+          SoundStructA_get_borg12(pSVar5);
+        }
+        pSVar5->timer -= delta;
+        if (pSVar5->timer < 1) {
+          paVar2 = pSVar5->voxelDat;
+          if ((paVar2->soundFlag & 2) == 0) pSVar5->timer = 0;
+          else {
+            DCM::Remove(paVar2->dcmIndex,paVar2->dcmId);
+            pSVar5->flag|= 1;
+            pSVar5->timer =
+               (RAND.GetFloat0ToX(pSVar5->voxelDat->randB - pSVar5->voxelDat->randA) + pSVar5->voxelDat->randA) * 60.0;
+          }
+        }
+        if (((pSVar5->flag & 2) == 0) || //?!?
+           (uVar3._0_2_ = pSVar5->timer, uVar3._2_2_ = pSVar5->flag, (uVar3 & 0xffff0002) == 2)) {
+          renderAudioVoxel(pSVar5);
+        }
+      }
+    }
+  }
+  for(s16 j=0;j<16;j++){
+      pSVar8 = &sfx->pointerB[j];
+      if (pSVar8->active) {
+         if (pSVar8->timer < -2) pSVar8->timer-= delta;
+         if (pSVar8->timer < 1) {
+          pSVar8->soundStruct->mapTally = 0;
+          FreeAudioSound(sfx,pSVar8);
+         }
+      }
+  }
+  Gsprintf("Finished ProcessAudioBubbles");
+  return;
+}
