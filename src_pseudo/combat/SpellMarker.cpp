@@ -20,7 +20,7 @@ namespace CombatSpellMarker{
   void Free(void){
     if (gCombatSpellMarker) FREEQANI(&gCombatSpellMarker);
   }
-  Gfx * CombatSpellMarker::Tick(Gfx *g,u8 delta,u8 range,Color32 col){
+  Gfx * Tick(Gfx *g,u8 delta,u8 range,Color32 col){
     vec3f posA,posB,outPos,scale,rotate;
   
     if (!gCombatSpellMarker) gCombatSpellMarker = load_borg_5_func(0x797);

@@ -3,6 +3,7 @@
 #include "heapN64.h"
 #include "graphics.h"
 
+extern struct AnimationData;
 //TODO: Break into headers by borg type
 
 /*"Borg" files are the art/level/cutscene assets of the game, in 15 different categories:

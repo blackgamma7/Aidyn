@@ -263,7 +263,6 @@ void renderAudioVoxel(SoundStructA *param_1){
   bool bVar3;
   short sVar4;
   ushort uVar5;
-  u8 in_a2_lo;
   int iVar6;
   float fVar7;
   
@@ -326,13 +325,9 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
   uint uVar3;
   SoundStructA *pSVar5;
   Borg12Header *pBVar6;
-  bool bVar7;
   SoundStructB *pSVar8;
-  int iVar9;
   s16 i;
-  float fVar11;
   float fVar13;
-  float fVar14;
   
 
   for(i=0;i<SoundObjCount;i++) {
@@ -395,5 +390,4 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
       }
   }
   Gsprintf("Finished ProcessAudioBubbles");
-  return;
 }

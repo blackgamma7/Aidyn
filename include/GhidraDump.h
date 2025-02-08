@@ -115,10 +115,6 @@ typedef struct struct_45 struct_45, *Pstruct_45;
 
 typedef struct Borg7data Borg7data, *PBorg7data;
 
-typedef struct AnidatStruct AnidatStruct, *PAnidatStruct;
-
-typedef struct AniLightData AniLightData, *PAniLightData;
-
 typedef struct ParticleHeadStruct ParticleHeadStruct, *PParticleHeadStruct;
 
 typedef struct Borg12Header Borg12Header, *PBorg12Header;
@@ -170,8 +166,6 @@ typedef enum borg6Enum {
 } borg6Enum;
 
 typedef struct Borg5header Borg5header, *PBorg5header;
-
-typedef struct AniDatSubstruct AniDatSubstruct, *PAniDatSubstruct;
 
 typedef struct Particle Particle, *PParticle;
 
@@ -225,65 +219,8 @@ typedef enum EnumMapDatA {
     MAPA_Battle=16
 } EnumMapDatA;
 
-struct AniLightData {
-    undefined field0_0x0;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    Color32 col;
-    u8 x;
-    u8 y;
-    u8 z;
-    undefined field8_0xb;
-    undefined field9_0xc;
-    undefined field10_0xd;
-    undefined field11_0xe;
-    undefined field12_0xf;
-};
-
-struct AnidatStruct {
-    Borg5header *borg5;
-    borg6header *borg6;
-    AnimationData *link;
-    AniDatSubstruct *sub;
-    void *unk10;
-    u32 unk14;
-};
 
 
-struct AnimationData {
-    AnidatStruct scene[5];
-    undefined8 field1_0x78;
-    undefined8 field2_0x80;
-    MtxF matrixA;
-    MtxF matrixB;
-    MtxF matrixC;
-    MtxF matrixD;
-    MtxF matrixE;
-    vec3f scalar;
-    int locators[8];
-    uint flags;
-    u16 aniTime;
-    u8 aniSpeed;
-    u8 perspNormIndex;
-    vec4f colorFloats;
-    int colorValA;
-    int colorValB;
-    Color32 fogColor;
-    AniLightData LightDatArray[7];
-    Color32 lightColors[4];
-    uint maxDynamicLights; /* no more than 7 */
-    uint currDynamicLights;
-    ParticleHeadStruct *particleHead;
-    AnimationData *link2a4;
-    AnimationData *link2a8;
-    u8 unk2ac;
-    char borg5_char[4];
-    undefined field27_0x2b1;
-    undefined field28_0x2b2;
-    undefined field29_0x2b3;
-    u32 unk2b4;
-};
 
 struct Particle {
     u16 id;
@@ -512,14 +449,6 @@ struct borg5substruct {
     float field17_0x3c;
 };
 
-struct AniDatSubstruct {
-    void *field0_0x0;
-    void *field1_0x4;
-    u32 field2_0x8;
-    u16 field3_0xc;
-    undefined field4_0xe;
-    undefined field5_0xf;
-};
 
 
 typedef struct unkGuiClassA unkGuiClassA, *PunkGuiClassA;

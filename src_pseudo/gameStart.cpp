@@ -207,8 +207,8 @@ void clear_flycam(void){
   FreeZoneEngine(0);
   clear_sfx_entries(&gGlobals.SFXStruct,1);
   unlinkBorg6(flycam_borg6_ptr);
-  AllocFreeQueueItem(&gGlobals.QueueA,&flycam_AniDat_ptr,1,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&flycam_borg6_ptr,2,0);
+  FREEQANI(&flycam_AniDat_ptr);
+  FREEQB6(&flycam_borg6_ptr);
 }
 
 void start_intermediate_game(void){

@@ -245,19 +245,15 @@ void loot_func(voxelObject *param_1){
       }
       uVar10 = 0;
       if ((param_1->container).LootCat) {
-        uVar8 = 0;
         get_chest_loot(loot_pointer,pcVar9);
-        iVar5 = 0;
-        do {
-          psVar4 = (short *)((int)pcVar9->lootCatDrop[0] + iVar5);
+        for(uVar8 = 0;uVar8 < 7;uVar8++) {
+          psVar4 = (short *)&pcVar9->lootCatDrop[uVar8];
           if ((*psVar4) && (psVar4[1])) {
             aIStack96[uVar10][0] = *psVar4;
             aIStack96[uVar10][1] = psVar4[1];
             uVar10++;
           }
-          uVar8++;
-          iVar5 = uVar8 << 2;
-        } while (uVar8 < 7);
+        }
       }
       set_voxel_visibility(param_1,false);
       IVar2 = (param_1->container).item;
@@ -282,7 +278,7 @@ void loot_func(voxelObject *param_1){
         loot = new GenericInventory();
         if (uVar8) {
           for(uVar10 = 0;uVar10 < uVar8;uVar10++) {
-            loot->AddItem((ItemID)[uVar10][0],aIStack96[uVar10][0]);
+            loot->AddItem((ItemID)aIStack96[uVar10][0],aIStack96[uVar10][1]);
           }
         }
         build_loot_menu(loot,(param_1->container).Gold,-1);
@@ -370,8 +366,6 @@ void trigger_vobject_func(voxelObject *arg0){
   }
   ref_obj_bitmask_flag((arg0->header).flagB,(arg0->header).Bitfeild,VOXEL_Used);
 }
-
-
 
 void savepoint_func(void){}
 

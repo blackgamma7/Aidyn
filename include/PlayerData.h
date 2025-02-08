@@ -4,6 +4,7 @@
 #include "PlaneObj.h"
 #include "collide.h"
 #include "Controller.h"
+#include "animationData.h"
 
 typedef enum PLAYERDATA_Flags {
     ACTOR_ISPLAYER=1,

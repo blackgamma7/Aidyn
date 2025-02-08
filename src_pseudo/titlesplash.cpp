@@ -115,9 +115,9 @@ void TitleSplash::Load(void){
 }
 
 void TitleSplash::Free(void){
-  AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.h20Borg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.thqBorg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&SplashExpPak,4,0);
+  FREEQB8(&gGlobals.h20Borg8);
+  FREEQB8(&gGlobals.thqBorg8);
+  FREEQB8(&SplashExpPak);
   font_func(gGlobals.font,0x1c);
   free_romstring(copyrightText);
   TitleSplash::N64Free();

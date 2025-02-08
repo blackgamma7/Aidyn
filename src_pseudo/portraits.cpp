@@ -78,6 +78,6 @@ Gfx * Portraits::DrawParty(Gfx *g,u8 raise,Color32 *col){
 }
 
 void Portraits::FreeBorder(void){
-  AllocFreeQueueItem(&gGlobals.QueueA,&gGlobals.portraitBorder,4,0);
+  FREEQB8(&gGlobals.portraitBorder);
   gGlobals.portraitBorder = NULL;
 }

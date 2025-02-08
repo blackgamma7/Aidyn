@@ -10,7 +10,7 @@ typedef union vec3f{
     float f[3];
 };
 
-//mosty used for color
+//mostly used for color
 typedef union vec4f{
     struct{float x,y,z,w;};
     struct{float r,g,b,a;};
@@ -22,6 +22,7 @@ typedef float MtxF[4][4];
 #define NORMALIZE_MIN 1.0E-6
 #define TAU 6.2831855
 #define dtor 0.017453
+#define RadInDeg_f 57.29578
 #define SQ(x) x*x
 
 extern float _sqrtf(float x);

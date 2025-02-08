@@ -101,7 +101,6 @@ bool Ofunc_800adeb0(Borg9data *param_1,collisionSphere *s,vec3f *v){
   return NORMALIZE_MIN < vec3_proximity(v,&temp);
 }
 
-
 bool CheckCollision(Borg9data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3f *outPos,
                    vec3f *outRot,short param_7){
   int iVar1;
@@ -124,7 +123,7 @@ bool CheckCollision(Borg9data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3
   if (borgDat) {
     Vec3_sub(&dist,posB,posA);
     FUN_800adae0(borgDat,posA,&dist,radius,sStack_48,sStack_48 + 1,sStack_48 + 2,sStack_48 + 3);
-    s16 lVar9 = (longlong)sStack_48[0];
+    s16 lVar9 = sStack_48[0];
     if (sStack_48[2] < lVar9) return false;
     for(;lVar9 <= sStack_48[2];lVar9++) {
       s16 lVar6=sStack_48[1];
