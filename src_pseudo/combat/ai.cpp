@@ -394,7 +394,7 @@ void FUN_80060a88(CombatAI_s *param_1){
   uint uVar15;
   int iVar16;
   ushort uVar17;
-  combat_substruct_2 *X_00;
+  CombatSubstructB *X_00;
   uint uVar18;
   float x;
   float y;
@@ -484,7 +484,7 @@ void FUN_80060db0(CombatAI_s *param_1)
   byte bVar11;
   u8 feild0;
   u16 uVar9;
-  combat_substruct_2 *X_00;
+  CombatSubstructB *X_00;
   int iVar12;
   CombatSubstructA *pcVar13;
   byte feildx;
@@ -576,7 +576,7 @@ LAB_800610b8:
 
 int fireball_func(CombatAI_s *param_1){
   CombatEntity *pCVar1;
-  combat_substruct_2 *pcVar2;
+  CombatSubstructB *pcVar2;
   u8 bVar5;
   u8 bVar6;
   int iVar7;
@@ -636,7 +636,7 @@ uint other_func_checking_fireball(CombatAI_s *param_1){
   byte bVar3;
   byte bVar4;
   CharSheet *pCVar5;
-  combat_substruct_2 *pcVar6;
+  CombatSubstructB *pcVar6;
   CombatStruct *pCVar7;
   u8 X;
   u8 Y;
@@ -734,7 +734,7 @@ u8 ai_spell_stam(CombatAI_s *param_1){
   byte bVar2;
   CharSheet *pCVar3;
   u8 bVar4;
-  combat_substruct_2 *pcVar5;
+  CombatSubstructB *pcVar5;
   CombatStruct *pCVar6;
   u8 feildx;
   u8 feildy;
@@ -812,7 +812,7 @@ void FUN_8006193c(CombatAI_s *param_1){
   ushort uVar12;
   int iVar15;
   CombatSubstructA *pcVar16;
-  combat_substruct_2 *pcVar17;
+  CombatSubstructB *pcVar17;
   uint uVar18;
   uint uVar19;
   uint uVar20;
@@ -935,7 +935,7 @@ void FUN_80061dfc(CombatAI_s* param_1){
   s32 iVar9;
   s32 iVar10;
   u8 bVar12;
-  combat_substruct_2 *X_00;
+  CombatSubstructB *X_00;
   CombatSubstructA *pcVar13;
   u32 uVar14;
   u32 uVar15;
@@ -1262,7 +1262,7 @@ void FUN_800628cc(CombatAI_s* param_1)
   CharSheet *pCVar1;
   CombatEntity *Ent;
   u8 Y;
-  combat_substruct_2 *pcVar2;
+  CombatSubstructB *pcVar2;
   u32 uVar3;
   CombatStruct *pCVar4;
   CombatStruct *pCVar5;
@@ -2081,7 +2081,7 @@ void FUN_80064714(CombatAI_s* param_1){
 u8 CombatAIInfo::ElementalInCombat(void){
   u8 bVar1;
   uint uVar2;
-  combat_substruct_2 *pcVar3;
+  CombatSubstructB *pcVar3;
   
   uVar2 = 0;
   pcVar3 = gCombatP->substruct2 + 1;
@@ -2090,7 +2090,7 @@ u8 CombatAIInfo::ElementalInCombat(void){
       if (((pcVar3->arrayA[0]) && ((&gCombatP->combatEnts)[uVar2])) &&
          (IsElemental((&gCombatP->combatEnts)[uVar2]->charSheetP->ID))) return true;
       uVar2 += 1;
-      pcVar3 = (combat_substruct_2 *)(pcVar3->arrayA + 1);
+      pcVar3 = (CombatSubstructB *)(pcVar3->arrayA + 1);
     } while (uVar2 < gCombatP->EntCount);
   }
   return false;
@@ -2100,7 +2100,7 @@ u8 CombatAIInfo::ElementalInCombat(void){
 
 u8 CombatAIInfo::ZombieInCombat(void *param_1){
   ItemID IVar1;
-  combat_substruct_2 *pcVar2;
+  CombatSubstructB *pcVar2;
   CombatEntity **ppCVar3;
   uint uVar4;
   
@@ -2116,7 +2116,7 @@ u8 CombatAIInfo::ZombieInCombat(void *param_1){
       }
       ppCVar3 = ppCVar3 + 1;
       uVar4 += 1;
-      pcVar2 = (combat_substruct_2 *)(pcVar2->arrayA + 1);
+      pcVar2 = (CombatSubstructB *)(pcVar2->arrayA + 1);
     } while (uVar4 < gCombatP->EntCount);
   }
   return false;
@@ -2126,7 +2126,7 @@ u8 CombatAIInfo::ZombieInCombat(void *param_1){
 u8 CombatAIInfo::IsSomeonePoisoned(void){
   Temp_enchant **ppTVar1;
   uint uVar2;
-  combat_substruct_2 *pcVar3;
+  CombatSubstructB *pcVar3;
   CombatEntity **ppCVar4;
   uint uVar5;
   
@@ -2148,7 +2148,7 @@ u8 CombatAIInfo::IsSomeonePoisoned(void){
       }
       ppCVar4 = ppCVar4 + 1;
       uVar5 += 1;
-      pcVar3 = (combat_substruct_2 *)(pcVar3->arrayA + 1);
+      pcVar3 = (CombatSubstructB *)(pcVar3->arrayA + 1);
     } while (uVar5 < gCombatP->EntCount);
   }
   return false;

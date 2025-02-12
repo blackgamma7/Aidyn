@@ -2,6 +2,7 @@
 #include "inventory/GenericInventory.h"
 #include "widgets/WidgetMenu.h"
 #include "combat/substructA.h"
+#include "combat/substructB.h"
 #include "combat/CombatEntity.h"
 
 
@@ -28,7 +29,7 @@ struct CombatStruct { /* combat structure. needs more study */
     CombatEntity *current_Ent;
     CombatTurn turn;
     CombatSubstructA substruct;
-    combat_substruct_2 substruct2[2];
+    CombatSubstructB substruct2[2];
     GenericInventory *loot_pool;
     WidgetMenu* SenseAuraWidget;
     u32 waitTimer;

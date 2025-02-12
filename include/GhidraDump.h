@@ -1520,35 +1520,6 @@ struct CombatAI_s {
 };
 
 
-
-typedef struct combat_substruct combat_substruct, *Pcombat_substruct;
-
-struct combat_substruct {
-    u8 array1[100][100];
-    u8 array2[100][100];
-    u16 short1;
-    u8 byteA;
-    u8 byteB;
-    u8 byteC;
-    u8 byteD;
-    char byteE;
-    undefined field8_0x4e27;
-};
-
-typedef struct combat_substruct_2 combat_substruct_2, *Pcombat_substruct_2;
-
-struct combat_substruct_2 {
-    int arrayA[18];
-    int arrayB[18];
-    u8 arrayC[18];
-    char field3_0xa2;
-    u8 field4_0xa3;
-    u8 arrayBCount;
-    u8 field6_0xa5;
-    char entindex;
-    u8 field8_0xa7;
-};
-
 typedef struct CombatAi_command CombatAi_command, *PCombatAi_command;
 
 struct CombatAi_command {
