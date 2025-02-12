@@ -76,7 +76,6 @@ void InitLight(AnimationData *aniDat,Borg9data *borg9,vec3f *pos,voxelObject *li
   u16 VVar1;
   ushort uVar2;
   void *pvVar3;
-  float fVar4;
   bool bVar6;
   Color32 *pCVar7;
   Color32 *pCVar8;
@@ -98,7 +97,7 @@ void InitLight(AnimationData *aniDat,Borg9data *borg9,vec3f *pos,voxelObject *li
   s16 i;
   Color32 *local_44;
   
-  fVar4 = 1.0f;
+
   i = 0;
   count_ = (int)count;
   delta_ = (int)delta;
@@ -125,12 +124,11 @@ void InitLight(AnimationData *aniDat,Borg9data *borg9,vec3f *pos,voxelObject *li
             switch((light->light).lightType){
             case 1: {
               fVar11 = (light->light).f0 +
-                       (fVar4 / ((light->light).f1 * 30.0f)) * (float)delta_;
+                       (1.0 / ((light->light).f1 * 30.0f)) * (float)delta_;
               (light->light).f0 = fVar11;
-              if (fVar4 < fVar11) color_XOR(colA,colB);
-              fVar11 = FUN_80054ba4((light->light).f0,1.0f);
-              (light->light).f0 = fVar11;
-              color_magnitude((light->light).cols + 1,local_44,fVar11);
+              if (1.0 < fVar11) color_XOR(colA,colB);
+              (light->light).f0 = FUN_80054ba4((light->light).f0,1.0f);
+              color_magnitude((light->light).cols + 1,local_44,(light->light).f0);
               break;
             }
             case 0:{
@@ -145,8 +143,7 @@ void InitLight(AnimationData *aniDat,Borg9data *borg9,vec3f *pos,voxelObject *li
               fVar11 = FUN_80054ba4(fVar16,360.0f);
               fVar16 = fVar11 * dtor;
               (light->light).f0 = fVar11;
-              fVar11 = __sinf(fVar16);
-              color_magnitude(pCVar7,pCVar8,(fVar11 + fVar4) * 0.5f);
+              color_magnitude(pCVar7,pCVar8,(__sinf(fVar16) + 1.0) * 0.5f);
               break;
             }
             case 3:{
@@ -155,7 +152,7 @@ void InitLight(AnimationData *aniDat,Borg9data *borg9,vec3f *pos,voxelObject *li
               fVar17 = (light->light).f2;
               fVar18 = fVar16 - fVar17;
               fVar11 = (float)delta_;
-              fVar13 = (fVar4 / (fVar15 * 60.0f)) * fVar11;
+              fVar13 = (1.0 / (fVar15 * 60.0f)) * fVar11;
               if (fVar18 < 0.0) {
                 if (fVar13 <= -fVar18) goto LAB_800550e8;
 LAB_800550d0:
@@ -167,10 +164,10 @@ LAB_800550d0:
                 if (fVar18 < fVar13) goto LAB_800550d0;
 LAB_800550e8:
                 if (fVar17 < fVar16) {
-                  fVar16 = fVar16 - (fVar4 / (fVar15 * 60.0f)) * fVar11;
+                  fVar16 -= (1.0 / (fVar15 * 60.0f)) * fVar11;
                 }
                 else {
-                  fVar16 = fVar16 + (fVar4 / (fVar15 * 60.0f)) * fVar11;
+                  fVar16 += (1.0 / (fVar15 * 60.0f)) * fVar11;
                 }
                 (light->light).f0 = fVar16;
               }
@@ -213,28 +210,23 @@ LAB_800550e8:
 }
 
 void light_init_func(playerData *param_1,AnimationData *param_2,s16 param_3){
-  Borg9data *b9C;
-  borg_9_struct *b9S;
-  voxelObject* light;
-  vec3f *pos;
-  s16 sStack_30;
-  s16 asStack_2e [23];
   
-  b9C = GetCollisionZone(param_1->zoneDatByte);
+  
+  Borg9data *b9C = GetCollisionZone(param_1->zoneDatByte);
   if (b9C) {
-    pos = &(param_1->collision).pos;
-    getZonePositionShorts(b9C,pos,&sStack_30,asStack_2e);
-    b9S = borg9_get_unkStruct(b9C,sStack_30,asStack_2e[0]);
+    s16 x,y;
+    vec3f* pos = &(param_1->collision).pos;
+    getZonePositionShorts(b9C,pos,&x,&y);
+    borg_9_struct *b9S = borg9_get_unkStruct(b9C,x,y);
     if ((param_1->visible_flag) && (b9S->lightCount)) {
-      for(s16 iVar3=0;iVar3<b9S->lightCount;iVar3++){
-        light = &b9C->voxelObjs[b9S->lightIndecies[iVar3]];
+      for(s16 i=0;i<b9S->lightCount;i++){
+        voxelObject* light = &b9C->voxelObjs[b9S->lightIndecies[i]];
         if ((light->header).type == VOXEL_Light) {
           InitLight(param_2,b9C,pos,light,1,param_3);
         }
       }
     }
   }
-  return;
 }
 
 void passto_initLight(AnimationData *param_1,Borg9data *param_2,voxelObject *param_3,s16 param_4)
@@ -248,22 +240,20 @@ void init_dynamic_light(DynamicLightHead *param_1){
   s16 (*pasVar2) [4];
   s16 (*ppasVar3) [4];
   s16 iVar3;
-  s32 iVar4;
   s16 *psVar5;
   
-  memset(param_1,0,0x764);
+  CLEAR(param_1);
   iVar3 = 0;
   ppasVar3 = (s16 (*) [4])&param_1->lights[0].header.ptr0x24;
   pasVar1 = param_1->shortsA;
   param_1->initFlag = 1;
   psVar5 = param_1->shortsB;
-  iVar4 = 0x10000;
   pasVar2 = pasVar1;
   for(iVar3=0;iVar3 < 0x10;iVar3++) {
     *(s16 (**) [4])*ppasVar3 = pasVar2;
     ppasVar3 = (s16 (*) [4])(ppasVar3[0xd] + 2);
     pasVar2 = pasVar2[1];
-    *psVar5 = (s16)iVar3;
+    param_1->shortsB[iVar3] = (s16)iVar3;
     (*pasVar1)[0] = (s16)iVar3;
     pasVar1 = pasVar1[1];
     psVar5++;
@@ -271,53 +261,37 @@ void init_dynamic_light(DynamicLightHead *param_1){
 }
 
 void dynamic_lights_free_all(DynamicLightHead *param_1){
-  s32 iVar1;
-  void **ppvVar2;
-  s32 iVar3;
-  
-  ppvVar2 = &param_1->lights[0].header.ptr0x24;
-  param_1->unk0x762 = 0;
-  iVar3 = 0x10000;
-  do {
-    if (*(s16 *)((s32)*ppvVar2 + 2) != 0) {FreeDynamicLight(param_1,**ppvVar2);}
-    iVar1 = iVar3 >> 0x10;
+  void **ppvVar2 = &param_1->lights[0].header.ptr0x24;
+  param_1->initFlag = 0;
+  for(s16 iVar1=0;iVar1<16;iVar1++) {
+    if (*(s16 *)((s32)*ppvVar2 + 2) != 0) {FreeDynamicLight(param_1,(s16)*ppvVar2);}
     ppvVar2 = ppvVar2 + 0x1b;
-    iVar3 = iVar3 + 0x10000;
-  } while (iVar1 < 0x10);
+  }
   return;
 }
 
 //This only seems to be used with the exploding chest.
 voxelObject*  AllocDynamicLight(DynamicLightHead *param_1,u16 param_2,vec3f *pos,float size,u16 type,
                  float f1,Color32 colb,Color32 colc){
-  s16 sVar1;
-  void *pvVar2;
-  voxelObject* pdVar3;
   
-  sVar1 = param_1->dynamicLightCount;
-  if (sVar1 >= 0x10) CRASH(s_AllocDynamicLight_800de68c,s_Out_of_Dynamic_Lights_800de6a0);
-    pdVar3 = (voxelObject* )((s32)param_1 + (sVar1 * 0x1c - (s32)sVar1) * 4);
-    pvVar2 = (pdVar3->header).ptr0x24;
+  if (param_1->dynamicLightCount >= 0x10) CRASH("AllocDynamicLight","Out of Dynamic Lights");
+    voxelObject* l = param_1->lights[param_1->dynamicLightCount];
+    void *v = (l->header).ptr0x24;
     param_1->dynamicLightCount++;
-    *(u16 *)((s32)pvVar2 + 2) = 1;
-    *(u16 *)((s32)pvVar2 + 4) = param_2;
-    InitLight_(pdVar3,pos,size,type,f1,colb,colc);
-    (pdVar3->header).ptr0x24 = pvVar2;
-    return pdVar3;
+    *(u16 *)((s32)v + 2) = 1;
+    *(u16 *)((s32)v + 4) = param_2;
+    InitLight_(l,pos,size,type,f1,colb,colc);
+    (l->header).ptr0x24 = v;
+    return l;
 }
 
-void FreeDynamicLight(DynamicLightHead *param_1,s16 param_2){
-  void *pvVar1;
-  u16 uVar2;
-  
-  pvVar1 = param_1->lights[param_2].header.ptr0x24;
-  if (param_1->dynamicLightCount < 1) {CRASH("FreeDynamicLight","Trying to free too many lights!");}
+void FreeDynamicLight(DynamicLightHead *param_1,s16 param_2){  
+  void *pvVar1 = param_1->lights[param_2].header.ptr0x24;
+  if (param_1->dynamicLightCount < 1) CRASH("FreeDynamicLight","Trying to free too many lights!");
   *(u16 *)((s32)pvVar1 + 4) = 0;
   *(u16 *)((s32)pvVar1 + 2) = 0;
   param_1->lights[param_2].header.Bitfeild = 0;
-  uVar2 = param_1->dynamicLightCount - 1;
-  param_1->dynamicLightCount = uVar2;
-  *(s16 *)((s32)param_1->shortsB + ((s32)((u32)uVar2 << 0x10) >> 0xf)) = param_2;
+  param_1->shortsB[--param_1->dynamicLightCount] = param_2;
 }
 
 void FUN_800556f4(DynamicLightHead *param_1,s16 param_2){
@@ -326,9 +300,8 @@ void FUN_800556f4(DynamicLightHead *param_1,s16 param_2){
   void **ppvVar3;
   s32 iVar4;
   
-  ppvVar3 = &param_1->lights[0].header.ptr0x24;
-  iVar4 = 0x10000;
-  do {
+  for(s16 iVar2=0;iVar2<16;iVar2++) {
+    void **ppvVar3 = &param_1->lights[iVar2].header.ptr0x24;
     puVar1 = (u16 *)*ppvVar3;
     if (puVar1[1] != 0) {
       if ((s16)puVar1[3] < 1) {
@@ -344,9 +317,6 @@ void FUN_800556f4(DynamicLightHead *param_1,s16 param_2){
         if (iVar2 * 0x10000 < 0) {puVar1[3] = 0;}
       }
     }
-    iVar2 = iVar4 >> 0x10;
-    ppvVar3 = ppvVar3 + 0x1b;
-    iVar4 = iVar4 + 0x10000;
-  } while (iVar2 < 0x10);
+  }
 }
 

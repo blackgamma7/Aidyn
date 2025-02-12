@@ -455,13 +455,9 @@ void FUN_8000c6e8(void){
 //Ghidra struggled with them, but.. here it goes.
 u64 Ofunc_8000c730(void){
   OSTime OVar1;
-  u64 uVar2;
   
   OVar1 = osGetTime();
-  uVar2 = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
-  return CONCAT44(((int)(uVar2 >> 0x20) - ofunc_dat._0_4_) -
-                  (uint)((uVar2 & 0xffffffff) < (ulonglong)(longlong)ofunc_dat._4_4_),
-                  (int)uVar2 - ofunc_dat._4_4_);
+  return udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3)-ofunc_dat;
 }
 
 void Ofunc_8000c788(char *param_1){

@@ -386,7 +386,7 @@ void FUN_80060a88(CombatAI_s *param_1){
   u8 uVar8;
   int iVar9;
   ushort uVar10;
-  combat_substruct *pcVar11;
+  CombatSubstructA *pcVar11;
   byte feildx;
   int iVar12;
   uint uVar13;
@@ -486,7 +486,7 @@ void FUN_80060db0(CombatAI_s *param_1)
   u16 uVar9;
   combat_substruct_2 *X_00;
   int iVar12;
-  combat_substruct *pcVar13;
+  CombatSubstructA *pcVar13;
   byte feildx;
   uint uVar14;
   u16 uVar15;
@@ -650,7 +650,7 @@ uint other_func_checking_fireball(CombatAI_s *param_1){
   longlong lVar8;
   byte cVar19;
   byte spellPri;
-  combat_substruct *pcVar16;
+  CombatSubstructA *pcVar16;
   int iVar17;
   byte feildx;
   int iVar18;
@@ -811,7 +811,7 @@ void FUN_8006193c(CombatAI_s *param_1){
   u8 uVar14;
   ushort uVar12;
   int iVar15;
-  combat_substruct *pcVar16;
+  CombatSubstructA *pcVar16;
   combat_substruct_2 *pcVar17;
   uint uVar18;
   uint uVar19;
@@ -936,7 +936,7 @@ void FUN_80061dfc(CombatAI_s* param_1){
   s32 iVar10;
   u8 bVar12;
   combat_substruct_2 *X_00;
-  combat_substruct *pcVar13;
+  CombatSubstructA *pcVar13;
   u32 uVar14;
   u32 uVar15;
   u32 uVar16;
@@ -1273,7 +1273,7 @@ void FUN_800628cc(CombatAI_s* param_1)
   u8 bVar11;
   s16 sVar8;
   u8 bVar12;
-  combat_substruct *pcVar13;
+  CombatSubstructA *pcVar13;
   u32 uVar14;
   s32 iVar15;
   char cVar16;
@@ -1414,7 +1414,7 @@ u8 FUN_80062e14(u32 param_1,u32 param_2,u8 *param_3,u8 *param_4,undefined param_
   longlong lVar3;
   s32 iVar5;
   s32 iVar7;
-  combat_substruct *pcVar8;
+  CombatSubstructA *pcVar8;
   u32 uVar9;
   s32 iVar10;
   u32 uVar11;
@@ -1561,7 +1561,7 @@ u8 FUN_80063258(CombatAI_s* param_1)
   u8 bVar8;
   u16 uVar5;
   s8 sVar9;
-  combat_substruct *pcVar10;
+  CombatSubstructA *pcVar10;
   float x;
   float y;
   double dVar11;

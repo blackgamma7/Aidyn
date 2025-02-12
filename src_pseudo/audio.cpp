@@ -36,7 +36,7 @@ u32 DCM::AddVoice(u8 *oIndex,u32 *oID,Borg11Data *istDat,u32 param_4,u32 len,u32
     gAudioManager.VoicesUsedTotal++;
   }
   else {
-    pBVar6 = (Borg11Data *)0xffffffff;
+    pBVar6 = (Borg11Data *)-1;
     if (param_11 == 0) {
       uVar7 = 0;
       uVar8 = 0;

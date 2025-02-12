@@ -3,9 +3,7 @@
 void Portraits::InitBorder(void){gGlobals.portraitBorder = loadBorg8(0xdf);}
 
 u8 Portraits::CheckPos(u8 param_1){
-  u8 bVar1;
-  
-  bVar1 = true;
+  u8 bVar1 = true;
   if (param_1 == false) {if (screen_bottom < SCREEN_HEIGHT) {bVar1 = false;}}
   else if (param_1 == true) bVar1 = screen_bottom < 0xba;
   return bVar1;

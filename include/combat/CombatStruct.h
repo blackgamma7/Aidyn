@@ -1,5 +1,7 @@
 #include "GhidraDump.h"
+#include "inventory/GenericInventory.h"
 #include "widgets/WidgetMenu.h"
+#include "combat/substructA.h"
 #include "combat/CombatEntity.h"
 
 
@@ -25,7 +27,7 @@ struct CombatStruct { /* combat structure. needs more study */
     EncounterDat *encounter_dat;
     CombatEntity *current_Ent;
     CombatTurn turn;
-    combat_substruct substruct;
+    CombatSubstructA substruct;
     combat_substruct_2 substruct2[2];
     GenericInventory *loot_pool;
     WidgetMenu* SenseAuraWidget;
