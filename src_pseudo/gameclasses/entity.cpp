@@ -90,7 +90,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   ALLOC(param_1->pItemList,273);
   CharGear::Init(param_1->pItemList,GEARTOTAL);
   ALLOC(param_1->spellbook,276);
-  Spellbook::Reset(param_1->spellbook,5);
+  SpellBook::Reset(param_1->spellbook,5);
   for(u8 i=0;i < 5;i++) {
     if (pEVar10->spells[i].s != 0xffff) {
       ALLOCL(param_1->spellbook->spells[i],282);
@@ -128,7 +128,7 @@ void Entity::Free(CharSheet *param_1){
     FREE(param_1->pItemList,356);
   }
   if(param_1->spellbook) {
-    Spellbook::Clear(param_1->spellbook);
+    SpellBook::Clear(param_1->spellbook);
     FREE(param_1->spellbook,363);
   }
   if(param_1->effects) {
@@ -497,7 +497,7 @@ void Entity::ApplyPotionEffect(CharSheet *chara,u8 pot,u8 pow,u32 time){
     if (POTION_FXMAX <= uVar2) return;
   }
   ALLOCL(chara->potionEffects[uVar2],1185);
-  PotionEffect::Init(chara->potionEffects[uVar2],pot,pow,time);
+  chara->potionEffects[uVar2]->Init(pot,pow,time);
   if (false) {return;}
   switch(pot) {
   case POTION_STRENGTH:
@@ -561,12 +561,10 @@ u8 Entity::IncPotionEffect(CharSheet *param_1,u8 noCombat,uint delta){
   
   if (!isDead(param_1)) {
     for(u8 i=0;i<POTION_FXMAX;i++) {
-      if (param_1->potionEffects[i] != NULL) {
+      if (param_1->potionEffects[i]) {
         if (noCombat) mag = TerrainPointer->daySpeed;
         else mag = 0;
-        if (PotionEffect::DecTimer(param_1->potionEffects[i],mag,delta)) {
-          RemovePotion(param_1,i);
-        }
+        if (param_1->potionEffects[i]->DecTimer(mag,delta)) RemovePotion(param_1,i);
       }
     }
   }
@@ -576,7 +574,7 @@ u8 Entity::IncPotionEffect(CharSheet *param_1,u8 noCombat,uint delta){
 void Entity::RemovePotion(CharSheet *ent,u8 slot){
   if (ent->potionEffects[slot]) {
     ReversePotionEffect(ent,slot);
-    PotionEffect::RemoveSpellVisual(ent->potionEffects[slot]);
+    ent->potionEffects[slot]->RemoveSpellVisual();
     FREE(ent->potionEffects[slot],1291);
   }
 }

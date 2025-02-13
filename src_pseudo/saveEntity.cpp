@@ -181,12 +181,12 @@ void SaveEntity::TransferSpells(CharSheet *param_1,CharSheet *param_2){
   if (pSVar1) {
     pSVar2 = param_2->spellbook;
     if (pSVar2) {
-      Spellbook::Clear(pSVar2);
+      SpellBook::Clear(pSVar2);
       FREE(pSVar2,435);
     }
     ALLOC(pSVar2,440);
     param_2->spellbook = pSVar2;
-    Spellbook::Reset(pSVar2,pSVar1->count);
+    SpellBook::Reset(pSVar2,pSVar1->count);
     if (pSVar1->count != 0) {
       for(u8 uVar5=0;uVar5<pSVar1->count;uVar5++) {
         pIVar2 = pSVar1->spells[uVar5];

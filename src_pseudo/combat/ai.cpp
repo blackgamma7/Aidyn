@@ -113,7 +113,7 @@ u8 CombatEntity::AiIsTiredOrLonely(CombatEntity *param_1){
 
 
 
-void CombatAI_s::DebateFleeing(CombatEntity *param_1,u8 param_2){
+void CombatAI::DebateFleeing(CombatEntity *param_1,u8 param_2){
   if (((param_2) && (param_1->aiP->morale < 0xc)) && (CombatEntity::AiIsTiredOrLonely(param_1))) {
     if (!gCombatP->leaderDead) CombatEntity::JudgeAIMorale((&gCombatP->combatEnts)[gCombatP->leaderIndex],false);
     if (CombatEntity::JudgeAIMorale(param_1,true) < RollD(2,6)) LookToFlee(param_1->aiP);
@@ -122,7 +122,7 @@ void CombatAI_s::DebateFleeing(CombatEntity *param_1,u8 param_2){
 }
 
 
-u8 CombatAI_s::IsNotDeadNorAlly(CombatAI_s *param_1,CombatEntity *param_2){
+u8 CombatAI::IsNotDeadNorAlly(CombatAI_s *param_1,CombatEntity *param_2){
   u8 ret;
   
   if (!param_2) return false;
@@ -136,7 +136,7 @@ u8 CombatAI_s::IsNotDeadNorAlly(CombatAI_s *param_1,CombatEntity *param_2){
   return ret;
 }
 
-u8 CombatAI_s::CanMoveToTarget(CombatAI_s *param_1){  
+u8 CombatAI::CanMoveToTarget(CombatAI_s *param_1){  
   if (combat_AiScore_tally) {
     for(u32 i=0;i<combat_AiScore_tally;i++) {
       CombatEntity *pCVar1 = combat_AiScores_pointer[i].combatEnt;
@@ -148,7 +148,7 @@ u8 CombatAI_s::CanMoveToTarget(CombatAI_s *param_1){
 }
 
 
-byte CombatAI_s::GetSpellPriority(CombatAI_s *param_1,u8 param_2)
+byte CombatAI::GetSpellPriority(CombatAI_s *param_1,u8 param_2)
 
 {
   CombatEntity *pCVar1;
@@ -365,7 +365,7 @@ void FUN_800609bc(CombatAI_s *param_1){
   if (gCombatP->EntCount != 0) {
     for(u8 i=0;i<gCombatP->EntCount;i++) {
       CombatEntity *cEnt = (&gCombatP->combatEnts)[i];
-      if (CombatAI_s::IsNotDeadNorAlly(param_1,cEnt))
+      if (CombatAI::IsNotDeadNorAlly(param_1,cEnt))
         CombatAIScore::SetEntry(CombatEntity::GetCoordXU8(cEnt),CombatEntity::GetCoordYU8(cEnt),0,0,cEnt);
     }
   }
@@ -542,7 +542,7 @@ void FUN_80060db0(CombatAI_s *param_1)
                     break;
                   }
                 }
-                feild0 = CombatAI_s::CanMoveToTarget(param_1);
+                feild0 = CombatAI::CanMoveToTarget(param_1);
                 if (bVar4) {
                   if ((feild0) || (pcVar18->spell_pri == 0)) {
                     if (sub_square_add_sqrt(feildx,feildy,bVar10,bVar11) > sub_square_add_sqrt(bVar2,bVar3,bVar10,bVar11)) goto LAB_800610b8;
@@ -593,7 +593,7 @@ int fireball_func(CombatAI_s *param_1){
   if (gCombatP->EntCount != 0) {
     do {
       pCVar1 = (&gCombatP->combatEnts)[uVar8];
-      if (CombatAI_s::IsNotDeadNorAlly(param_1,pCVar1)) {
+      if (CombatAI::IsNotDeadNorAlly(param_1,pCVar1)) {
         fVar13 += CombatEntity::GetCoordX(pCVar1);
         fVar11 += CombatEntity::GetCoordY(pCVar1);
         fVar12++;
@@ -705,7 +705,7 @@ uint other_func_checking_fireball(CombatAI_s *param_1){
                   if (param_1->spells[uStack_60] == SPELLIND_fireball) cVar19 = fireball_func(param_1);
                   else cVar19 = some_prioirty_getter(param_1);
                   if ((pCVar7->substruct2[1].arrayBCount != 0) &&
-                     (spellPri = CombatAI_s::GetSpellPriority(param_1,param_1->spells[uStack_60]),
+                     (spellPri = CombatAI::GetSpellPriority(param_1,param_1->spells[uStack_60]),
                      spellPri != 0)) {
                     CombatAIScore::SetEntry(feildx,bVar14,(byte)uVar9,spellPri + cVar19 * 10 + pSVar10->level,
                                (&gCombatP->combatEnts)[(byte)pCVar7->substruct2[1].entindex]);
@@ -776,7 +776,7 @@ u8 ai_spell_stam(CombatAI_s *param_1){
       if (SVar12 == SPELLIND_fireball) cVar11 = fireball_func(param_1);
       else cVar11 = some_prioirty_getter(param_1);
       if (pCVar6->substruct2[1].arrayBCount != 0) {
-        bVar9 = CombatAI_s::GetSpellPriority(param_1,pSVar15[uVar13]);
+        bVar9 = CombatAI::GetSpellPriority(param_1,pSVar15[uVar13]);
         if (bVar9 != 0) {
           CombatAIScore::SetEntry
                     (feildx,feildy,(char)uVar13 + 1,bVar9 + cVar11 * 10 + pSVar7->level,

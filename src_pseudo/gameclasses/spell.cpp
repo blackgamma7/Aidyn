@@ -2,32 +2,33 @@
 
 #define FILENAME "../gameclasses/spell.cpp"
 
+
+
 extern ItemID itemID_array[];
 void TempSpell::Init(SpellInstance *S,ItemID ID,u8 RANK){
-  Spell_RAM *pSVar2;
-  
   S->level = RANK;
   S->base.id = ID;
-  pSVar2 = gLoadedSpells->spells[GetIDIndex(ID)];
-  S->base.name = pSVar2->Name;
-  S->school = pSVar2->School;
-  S->damage = pSVar2->Damage;
-  S->stamina = pSVar2->stamina;
-  S->cast = pSVar2->CastedMagic;
-  S->target = pSVar2->Target;
-  S->wizard = pSVar2->WizardREQ;
-  S->special = pSVar2->Aspect;
-  S->range = pSVar2->Range;
-  S->cost = pSVar2->ingredient;
-  S->exp_modifyer = ((u16)pSVar2->EXP_Modifyer * 0x18 + (u16)pSVar2->EXP_Modifyer) * 2;
+  Spell_RAM *sRam = gLoadedSpells->spells[GetIDIndex(ID)];
+  S->base.name = sRam->Name;
+  S->school = sRam->School;
+  S->damage = sRam->Damage;
+  S->stamina = sRam->stamina;
+  S->cast = sRam->CastedMagic;
+  S->target = sRam->Target;
+  S->wizard = sRam->WizardREQ;
+  S->special = sRam->Aspect;
+  S->range = sRam->Range;
+  S->cost = sRam->ingredient;
+  S->exp_modifyer = ((u16)sRam->EXP_Modifyer * 0x18 + (u16)sRam->EXP_Modifyer) * 2;
   S->base.statMod = 0;
   S->base.spellCharge = 0;
-  S->aspect_flag = pSVar2->unk0x1f;
+  S->aspect_flag = sRam->unk0x1f;
 }
 
 s32 TempSpell::GetExpPrice(SpellInstance *S){
   s32 i = S->level + 1;
-  return SQ(i) * (u32)S->exp_modifyer;}
+  return SQ(i) * (u32)S->exp_modifyer;
+  }
 
 s32 TempSpell::GetGoldPrice(SpellInstance *param_1){
   if (param_1->level) return (param_1->level + 1) * 40;
@@ -101,7 +102,7 @@ u8 TempSpell::Ret1(SpellInstance *param_1){
 
 u8 TempSpell::IsMaxRank(SpellInstance *param_1){return 9 < param_1->level;}
 
-void TempEnchant::Init(Temp_enchant *Ench,SpellEnum Index,u8 LV,u32 Timer,u8 UNK3,
+void TempEnchant::Init(Temp_enchant *Ench,u8 Index,u8 LV,u32 Timer,u8 UNK3,
                       u32 UNK4){
   Ench->lv = LV;
   Ench->index = Index;
@@ -113,7 +114,7 @@ void TempEnchant::Init(Temp_enchant *Ench,SpellEnum Index,u8 LV,u32 Timer,u8 UNK
 }
 
 void TempEnchant::StopSpellVisual(Temp_enchant *param_1){
-  if ((param_1->SpellVisualIndex != 0xffff) && (gGlobals.screenFadeModeSwitch == 2))
+  if ((param_1->SpellVisualIndex != -1) && (gGlobals.screenFadeModeSwitch == 2))
     FUN_80095f6c(param_1->SpellVisualIndex);
 }
 
@@ -126,8 +127,8 @@ u8 TempEnchant::IncTimer(Temp_enchant *param_1,u16 daySpeed,int delta){
     if (uVar1 == 0) return true;
     uVar2 = daySpeed * delta;
     if (daySpeed == 0) {
-      if (uVar1 <= 600) param_1->timer = 0;
-      else param_1->timer -= 600;
+      if (uVar1 <= SECONDS(10)) param_1->timer = 0;
+      else param_1->timer -= SECONDS(10);
     }
     else {
       if (uVar2 < uVar1) param_1->timer -= uVar2;
@@ -155,19 +156,19 @@ void Ofunc_80084200(SpellInstance **param_1){ //probably wrong type
 }
 
 
-void Spellbook::Reset(Spellbook *param_1,u8 param_2){
+void SpellBook::Reset(Spellbook *param_1,u8 entries){
   param_1->count = 0;
   param_1->spells = NULL;
-  if (param_2) {
-    SpellInstance **x = (SpellInstance **)HALLOC(param_2*sizeof(SpellInstance*),0x15a);
+  if (entries) {
+    SpellInstance **x = (SpellInstance **)HALLOC(entries*sizeof(SpellInstance*),0x15a);
     param_1->spells = x;
-    memset(x,0,param_2*sizeof(SpellInstance*));
+    memset(x,0,entries*sizeof(SpellInstance*));
   }
 }
 
 
 
-void Spellbook::NewSpell(Spellbook *param_1,ItemID param_2,u8 param_3){
+void SpellBook::NewSpell(Spellbook *param_1,ItemID id,u8 rank){
   u32 uVar1;
   SpellInstance *pTVar2;
   u8 i;
@@ -192,10 +193,10 @@ void Spellbook::NewSpell(Spellbook *param_1,ItemID param_2,u8 param_3){
     }
   }
   ALLOCL(param_1->spells[i],0x19d);
-  TempSpell::Init(pTVar2,param_2,param_3);
+  TempSpell::Init(pTVar2,id,rank);
 }
 
-u8 Spellbook::HaveSpell(Spellbook *param_1,ItemID ID,u8 *oIndex){
+u8 SpellBook::HaveSpell(Spellbook *param_1,ItemID ID,u8 *oIndex){
   
   if (!param_1->spells) return false;
   if (param_1->count) {
@@ -210,19 +211,18 @@ u8 Spellbook::HaveSpell(Spellbook *param_1,ItemID ID,u8 *oIndex){
   return false;
 }
 
-void spellbok_free(spellbook *param_1){
+void SpellBook::Clear(Spellbook *param_1){
   u32 uVar3 = 0;
   if (param_1->spells) {
     if (param_1->count != 0) {
       while( true ) {
-        if param_1->spells[uVar3]){
-          clear_temp_Stat_spell(param_1->spells[uVar3]); //could be skipped, no applciable pointers
+        if (param_1->spells[uVar3]){
+          ItemInstance::RemoveStatSpell(param_1->spells[uVar3]); //could be skipped, no applciable pointers
           FREE(param_1->spells[uVar3],0x1ed);
         }
         if (param_1->count <= ++uVar3) break;
       }
     }
-    HFREE(param_1->spells,0x1f1);
-    param_1->spells = NULL;
+    FREE(param_1->spells,0x1f1);
   }
 }

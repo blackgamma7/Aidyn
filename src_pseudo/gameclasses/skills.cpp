@@ -1,6 +1,11 @@
 #include "globals.h"
+char** skill_strings=NULL;
+char** weapon_strings=NULL;
 
-
+#ifdef DEBUGVER
+char* sSkillsFilename="../gameclasses/skills.cpp";
+#endif
+//all skills in an array should be at or above 0.
 void FloorSkill(s8*skills,u32 len){
   u32 i=0;
   if (len != 0) {
@@ -20,14 +25,14 @@ void CharSkills::Init(ItemID id){
   COPY(this->SkillModded,EntRam->Skills);
   COPY(this->WeaponBase,EntRam->WeaponSkills);
   COPY(this->WeaponModded,EntRam->WeaponSkills);
-  FloorSkill(this->SkillModded,0xc);
-  FloorSkill(this->WeaponModded,0xb);
+  FloorSkill(this->SkillModded,sizeof(SkillModded));
+  FloorSkill(this->WeaponModded,sizeof(WeaponModded));
   this->ShieldBase = EntRam->sheildStat;
   X = EntRam->sheildStat;
   if (EntRam->sheildStat < 0) X = 0;
   this->ShieldModded = X;
 }
-
+//save all skill levels for party member (except enemy weapon proficencies.)
 void CharSkills::Save(SaveFile *save){
   SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Alchemist],4);
   SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Diplomat],4);
@@ -49,13 +54,13 @@ void CharSkills::Save(SaveFile *save){
   SaveParty::SaveBits(save,(int)this->ShieldBase,4);
 }
 
-
+//load a skill from a save file
 u8 CharSkills::LoadOne(SaveFile *param_2,s8 skill){
   u8 auStack_48[] = {(u8)SaveParty::LoadBits(param_2,4),0xFF};
   return auStack_48[-((int)skill >> 0x1f)];
 }
 
-
+//load all skill levels for party member (except enemy weapon proficencies.)
 void CharSkills::LoadAll(SaveFile *sav){
  #define LoadSkill(x) \
      this->SkillBase[SKILL_##x]=this->SkillModded[SKILL_##x]=LoadOne(sav,this->SkillBase[SKILL_##x])
@@ -84,12 +89,12 @@ void CharSkills::LoadAll(SaveFile *sav){
 
   this->ShieldBase = this->ShieldModded= LoadOne(sav,this->ShieldBase);
 
-  FloorSkill(this->SkillModded,0xc);
-  FloorSkill(this->WeaponModded,0xb);
+  FloorSkill(this->SkillModded,sizeof(SkillModded));
+  FloorSkill(this->WeaponModded,sizeof(WeaponModded));
   FLOOR(this->ShieldModded,0);
 }
 
-
+//copy skill levels between characters
 void CharSkills::Copy(CharSkills *B){
   this->ShieldBase = B->ShieldBase;
   this->ShieldModded = B->ShieldModded;
@@ -99,50 +104,52 @@ void CharSkills::Copy(CharSkills *B){
   COPY(this->WeaponModded,B->WeaponModded);
 }
 
+//get Exp price for improving skill
 u32 CharSkills::GetSkillXpMod(u8 arg1){
   s32 i = this->SkillBase[arg1] + 1;
-  s32 skill_xp_multis[12]={1500,500,1000,750,500,7500,750,500,1000,1000,1000,1500};
-  if (0xb < arg1) {
-    CRASH("Skill overwrite","../gameclasses/skills.cpp");
-  }
+  s32 skill_xp_multis[]={1500,500,1000,750,500,7500,750,500,1000,1000,1000,1500};
+  #ifdef DEBUGVER
+  if (SKILL_Total < arg1) CRASH("Skill overwrite",sSkillsFilename);
+  #endif
   return SQ(i) * skill_xp_multis[arg1];
 }
-
+//get Exp price for improving weapon skill
 u32 CharSkills::GetWeaponXpMod(u8 arg1){
   u32 i = this->WeaponBase[arg1] + 1;
   //0 value = enemy weapon classes
-  u32 weapon_xp_multis[11]={0,0,0,400,600,400,0,0,600,400,0};
-
-  if (10 <= arg1) CRASH("Weapon_XP_overflow","../gameclasses/skills.cpp");
+  u32 weapon_xp_multis[]={0,0,0,400,600,400,0,0,600,400,0};
+#ifdef DEBUGVER
+  if (WEAPON_Total < arg1) CRASH("Weapon_XP_overflow",sSkillsFilename);
+#endif
   return SQ(i) * weapon_xp_multis[arg1];
 }
-
+//get Exp price for improving shield skill
 u32 CharSkills::GetShieldXpPrice(){
   s32 iVar1 =this->ShieldBase + 1;
   return SQ(iVar1) * 500;
 }
-
+//get Gold price for improving skill
 s32 GetSkillTrainGoldPrice(u8 x){
   if (x != 0) return (x + 1) * 40;
   return 200;
 }
-
+//get Gold price for improving skill
 u32 CharSkills::GetGoldTrainPrice(u8 arg1){
   return GetSkillTrainGoldPrice(this->SkillBase[arg1]);
 }
-
+//get Gold price for improving weapon skill
 u32 CharSkills::GetWeaponGoldTrainPrice(u8 arg1){
   return GetSkillTrainGoldPrice(this->WeaponBase[arg1]);
 }
-
+//get Gold price for improving shield skill
 u32 CharSkills::GetShieldGoldTrainPrice(){
   return GetSkillTrainGoldPrice(this->ShieldBase);
 }
-
+//modify a skill level(modded[arg2]) by(mod) if applicable(skills[arg2]>-1)
 void AddToModdedSkill(s8* skills,s8 *modded,u8 arg2,s8 mod){
   if (-1 < skills[arg2]) modded[arg2]+= mod;
 }
-
+//modify a skill level(modded[arg2]) by(mod) if applicable(skills[arg2]>-1,modded[arg2]=mod<=10)
 void AddToSkill(s8 *base,s8 *modded,u8 index,s8 arg3){
   byte bVar1;
   byte bVar2;
@@ -158,23 +165,23 @@ void AddToSkill(s8 *base,s8 *modded,u8 index,s8 arg3){
     iVar3 += *pbVar4;
     *pbVar4 = iVar3;
     if (iVar3< 0)
-      CRASH("Wonky Skill Happening","../gameclasses/skills.cpp");
+      CRASH("Wonky Skill Happening",sSkillsFilename);
     bVar2 = *pbVar4;
     if (10 < *pbVar4) bVar2 = 10;
     AddToModdedSkill(base,modded,index,bVar2 - bVar1);
   }
 }
-
-void CharSkills::AddToBaseSkill(u8 arg1,u8 arg2){
-  AddToSkill(this->SkillBase,this->SkillModded,arg1,arg2);
+//mod Base Skill level(arg1) by (mod)
+void CharSkills::AddToBaseSkill(u8 arg1,u8 mod){
+  AddToSkill(this->SkillBase,this->SkillModded,arg1,mod);
 }
-
-void CharSkills::AddToBaseWeapon(u8 arg1,u8 arg2){
-  AddToSkill(this->WeaponBase,this->WeaponModded,arg1,arg2);
+//mod Base weapon Skill level(arg1) by (mod)
+void CharSkills::AddToBaseWeapon(u8 arg1,u8 mod){
+  AddToSkill(this->WeaponBase,this->WeaponModded,arg1,mod);
 }
-
-void CharSkills::AddToBaseShield(u8 param_2){
-  AddToSkill(&this->ShieldBase,&this->ShieldModded,0,param_2);
+//mod Base shield Skill level by (mod)
+void CharSkills::AddToBaseShield(u8 mod){
+  AddToSkill(&this->ShieldBase,&this->ShieldModded,0,mod);
 }
 
 extern void event_flag_skill_(s8);
@@ -209,21 +216,21 @@ s8 CharSkills::capSheildBaseMax(){
   u8 b = this->ShieldBase;
   if (SKILLMAXBASE < this->ShieldBase) b = SKILLMAXBASE;
   return b;}
-
+//get skill level +/- buffs/debuffs from spells/equip
 s8 CharSkills::getModdedSkill(u8 param_2){
   return CapModdedSkillMax(this->SkillModded[param_2],SKILLMAXMOD);}
-
+//get weapon skill level +/- buffs/debuffs from spells/equip
 s8 CharSkills::getModdedWeapon(u8 param_2){
   return CapModdedSkillMax(this->WeaponModded[param_2],SKILLMAXMOD);}
-
+//get shield skill level +/- buffs/debuffs from spells/equip
 s8 CharSkills::getModdedSheild(){
   return CapModdedSkillMax(this->ShieldModded,SKILLMAXMOD);}
-
+//is skill capped?
 u8 CharSkills::isSkilOverLv10(u8 param_2){
   return SKILLMAXBASE <= this->SkillBase[param_2];}
-
+//is weapon skill capped?
 u8 CharSkills::isWepSkillOverLv10(u8 param_2){
   return SKILLMAXBASE <= this->WeaponBase[param_2];}
-
+//is shield skill capped?
 u8 CharSkills::isSheildSkillOver10(){
   return SKILLMAXBASE <= this->ShieldBase;}

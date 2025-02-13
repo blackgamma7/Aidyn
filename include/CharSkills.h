@@ -63,3 +63,6 @@ class CharSkills { /* Skill and weapon levels. Also sheild. */
     u8 isWepSkillOverLv10(u8 param_2);
     u8 isSheildSkillOver10();
 };
+
+char** skill_strings=NULL;
+char** weapon_strings=NULL;

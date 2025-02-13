@@ -17,6 +17,7 @@
 #include "widgets/handler.h"
 #include "graphics.h"
 #include "freeQueue.h"
+#include "spells.h"
 
 #include "crash.h"
 #include "heapN64.h"

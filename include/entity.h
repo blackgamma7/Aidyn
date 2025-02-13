@@ -3,6 +3,7 @@
 #include "CharSkills.h"
 #include "itemInstances.h"
 #include "spells.h"
+#include "potion.h"
 
 enum ENTITY_CATEGORY{
     ENTITY_GENERIC,
@@ -161,14 +162,6 @@ struct CharGear {
     GearInstance **pItem;
     u8 usedItems;
     u8 maxItems;
-};
-
-struct PotionEffect {
-    enum PotionEnum ID;
-    u8 power;
-    u16 align;
-    uint timer;
-    u32 SpellVisualIndex;
 };
 
 #define MAGIC_FXMAX 15
