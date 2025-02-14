@@ -635,7 +635,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
     else {
       bVar1 = SpellList[(char)bVar1];
       auStack_228[0] = 0;
-      if (SpellBook::HaveSpell(param_4->spellbook,(ItemID)(bVar1 | 0x300),auStack_228)) {
+      if (param_4->spellbook->HaveSpell((ItemID)(bVar1 | 0x300),auStack_228)) {
         Gsprintf(gGlobals.CommonStrings[0x1ba],param_4->name);
         pcVar13 = gGlobals.text;
         pCVar14 = &acStack544;
@@ -670,7 +670,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
           if (((MVar3 == SCHOOL_Chaos) ||
               (MVar4 = pSVar7->School, MVar4 == SCHOOL_NONE))
              || (MVar3 == MVar4)) {
-            SpellBook::NewSpell(param_4->spellbook,bVar1 | 0x300,1);
+            param_4->spellbook->NewSpell((ItemID)(bVar1 | 0x300),1);
             Gsprintf(gGlobals.CommonStrings[0x1bd],param_4->name,
                         (int)pSVar7 + iVar9 * 2 + 2);
             acStack160.R = 0xe1;

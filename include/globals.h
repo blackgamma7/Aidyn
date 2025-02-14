@@ -114,7 +114,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     Borg8header *screenshot;
     Color32 screenshotTint;
     short scrollLocation[2];
-    Spellbook *ShopSpells;
+    SpellBook *ShopSpells;
     u32 shopUnused; /* probably was stats */
     CharSkills *shopSkills;
     GenericInventory *shopInv;

@@ -149,59 +149,56 @@ void malloc_equip_spell(SpellCharges *param_1,u8 param_2,u8 param_3,u8 param_4){
 
 void Ofunc_80084200(SpellInstance **param_1){ //probably wrong type
   if (*param_1 ) {
-    ItemInstance::RemoveStatSpell(param_1->base);
+    ItemInstance::RemoveStatSpell(*param_1->base);
     HFREE(*param_1,0x148);
     *param_1 = NULL;
   }
 }
 
-
-void SpellBook::Reset(Spellbook *param_1,u8 entries){
-  param_1->count = 0;
-  param_1->spells = NULL;
+void SpellBook::Reset(u8 entries){
+  this->count = 0;
+  this->spells = NULL;
   if (entries) {
     SpellInstance **x = (SpellInstance **)HALLOC(entries*sizeof(SpellInstance*),0x15a);
-    param_1->spells = x;
+    this->spells = x;
     memset(x,0,entries*sizeof(SpellInstance*));
   }
 }
 
-
-
-void SpellBook::NewSpell(Spellbook *param_1,ItemID id,u8 rank){
+void SpellBook::NewSpell(ItemID id,u8 rank){
   u32 uVar1;
   SpellInstance *pTVar2;
   u8 i;
   u32 uVar4;
   u16 tSpells [46] [2];
   
-  uVar1 = param_1->count;
+  uVar1 = this->count;
   if ((uVar1) && (uVar1)) { //yes it seems to check twice
     for (i = 0;uVar4 < uVar1;i++) {
-      tSpells[i][0] = param_1->spells[i]->base.id.s;
-      tSpells[i][1] = param_1->spells[i]->level;
+      tSpells[i][0] = this->spells[i]->base.id.s;
+      tSpells[i][1] = this->spells[i]->level;
     }
   }
-  Clear(param_1);
-  Reset(param_1,++param_1->count);
+  Clear();
+  Reset(++this->count);
   
-  if (0 < (param_1->count - 1)) {
-    for (i = 0;i < (param_1->count - 1);i++) {
+  if (0 < (this->count - 1)) {
+    for (i = 0;i < (this->count - 1);i++) {
       ALLOC(pTVar2,0x199);
-      param_1->spells[i] = pTVar2;
+      this->spells[i] = pTVar2;
       TempSpell::Init(pTVar2,*(ItemID *)tSpells[i],*(u8 *)((s32)tSpells[i] + 3));
     }
   }
-  ALLOCL(param_1->spells[i],0x19d);
+  ALLOCL(this->spells[i],0x19d);
   TempSpell::Init(pTVar2,id,rank);
 }
 
-u8 SpellBook::HaveSpell(Spellbook *param_1,ItemID ID,u8 *oIndex){
+u8 SpellBook::HaveSpell(ItemID ID,u8 *oIndex){
   
-  if (!param_1->spells) return false;
-  if (param_1->count) {
-    for(u8 i = 0;i < param_1->count;i++) {
-      SpellInstance * psVar1 = param_1->spells[i];
+  if (!this->spells) return false;
+  if (this->count) {
+    for(u8 i = 0;i < this->count;i++) {
+      SpellInstance * psVar1 = this->spells[i];
       if ((psVar1) && (psVar1->base.id == ID)) {
         *oIndex = i;
         return true;
@@ -211,18 +208,18 @@ u8 SpellBook::HaveSpell(Spellbook *param_1,ItemID ID,u8 *oIndex){
   return false;
 }
 
-void SpellBook::Clear(Spellbook *param_1){
+void SpellBook::Clear(){
   u32 uVar3 = 0;
-  if (param_1->spells) {
-    if (param_1->count != 0) {
+  if (this->spells) {
+    if (this->count != 0) {
       while( true ) {
-        if (param_1->spells[uVar3]){
-          ItemInstance::RemoveStatSpell(param_1->spells[uVar3]); //could be skipped, no applciable pointers
-          FREE(param_1->spells[uVar3],0x1ed);
+        if (this->spells[uVar3]){
+          ItemInstance::RemoveStatSpell(this->spells[uVar3]); //could be skipped, no applciable pointers
+          FREE(this->spells[uVar3],0x1ed);
         }
-        if (param_1->count <= ++uVar3) break;
+        if (this->count <= ++uVar3) break;
       }
     }
-    FREE(param_1->spells,0x1f1);
+    FREE(this->spells,0x1f1);
   }
 }

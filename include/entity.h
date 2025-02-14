@@ -152,10 +152,7 @@ struct charExp { /* data containing EXP, School, Aspect and more. */
 };
 
 
-struct Spellbook { /* pointer and count of spells */
-    SpellInstance ** spells;
-    u8 count;
-};
+
 
 #define GEARTOTAL 12
 struct CharGear {
@@ -176,7 +173,7 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     ArmorInstance **armor;
     WeaponInstance *weapons;
     CharGear *pItemList;
-    Spellbook *spellbook; /* list and count of known spells */
+    SpellBook *spellbook; /* list and count of known spells */
     u32 unk0x30; //unused
     Temp_enchant** effects;
     PotionEffect** potionEffects; //potion effects on character

@@ -93,9 +93,12 @@ namespace TempEnchant{
 void malloc_equip_spell(SpellCharges *,u8 ,u8 ,u8 );
 void Ofunc_80084200(SpellInstance **);
 
-namespace SpellBook {
-    void Reset(Spellbook*,u8);
-    void NewSpell(Spellbook*,ItemID,u8);
-    u8 HaveSpell(Spellbook *,ItemID ,u8 *);
-    void Clear(Spellbook *);
+class SpellBook {
+    public:
+    SpellInstance ** spells;
+    u8 count;
+    void Reset(u8);
+    void NewSpell(ItemID,u8);
+    u8 HaveSpell(ItemID ,u8 *);
+    void Clear();
 }

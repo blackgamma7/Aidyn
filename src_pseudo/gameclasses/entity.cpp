@@ -90,7 +90,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   ALLOC(param_1->pItemList,273);
   CharGear::Init(param_1->pItemList,GEARTOTAL);
   ALLOC(param_1->spellbook,276);
-  SpellBook::Reset(param_1->spellbook,5);
+  param_1->spellbook->Reset(5);
   for(u8 i=0;i < 5;i++) {
     if (pEVar10->spells[i].s != 0xffff) {
       ALLOCL(param_1->spellbook->spells[i],282);
@@ -128,7 +128,7 @@ void Entity::Free(CharSheet *param_1){
     FREE(param_1->pItemList,356);
   }
   if(param_1->spellbook) {
-    SpellBook::Clear(param_1->spellbook);
+    param_1->spellbook->Clear();
     FREE(param_1->spellbook,363);
   }
   if(param_1->effects) {

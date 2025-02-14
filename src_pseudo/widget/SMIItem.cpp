@@ -41,7 +41,7 @@ SMIItem::SMIItem(EquipInstance *pObject,u8 q,u8 user):BaseWidget(){
   this->var5E = (this->item->W).base.id.s;
 }
 
-SMIItem::~SMIItem(){~BaseWidget();}
+SMIItem::~SMIItem():~BaseWidget(){}
 
 
 Gfx * SMIItem::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){

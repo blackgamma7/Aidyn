@@ -111,9 +111,9 @@ void InitLight(AnimationData *aniDat,Borg9data *borg9,vec3f *pos,voxelObject *li
     local_44 = pCVar10;
     do {
       if (((((light->header).type == VOXEL_Light) &&
-           (VVar1 = (light->header).Bitfeild, (VVar1 & VOXEL_Active))) &&
+           (((light->header).Bitfeild & VOXEL_Active))) &&
           ((pvVar3 = (light->header).ptr0x24, pvVar3 == NULL || (*(short *)((int)pvVar3 + 6) < 1))))
-         && (((VVar1 & VOXEL_FlagB) == 0 ||
+         && ((((light->header).Bitfeild & VOXEL_FlagB) == 0 ||
              (!CheckCollision(borg9,&light->header.pos,pos,(float)0.25,NULL,NULL,1))))) {
         fVar11 = vec3_proximity(pos,&light->header.pos);
         fVar12 = (light->header).size;
@@ -182,7 +182,7 @@ LAB_800550e8:
             tint_color_with_screenfade((light->light).cols,fVar12);
           }
           if (((light->header).Bitfeild & 1) == 0) {
-            Vec3_sub(local_90,(vec3f *)light,pos);
+            Vec3_sub(local_90,&light->header.pos,pos);
           }
           else {
             Vec3_sub(local_90,&gGlobals.Sub.camera.pos,pos);

@@ -111,7 +111,7 @@ void SaveParty::LoadCharStats(SaveFile *sav,CharStats_s* stats){
   SKIPCHECK(stats,80) CharStats::Load(stats,sav);
 }
 
-void SaveParty::SaveSpell(SaveFile *sav,Spellbook *spellbook,u8 school){
+void SaveParty::SaveSpell(SaveFile *sav,SpellBook *sb,u8 school){
   u8 uVar2;
   u8 uVar3;
   u8 abStack_20;
@@ -120,13 +120,13 @@ void SaveParty::SaveSpell(SaveFile *sav,Spellbook *spellbook,u8 school){
   uVar3 = gLoadedSpells->schools2[school];
   uVar2 = uVar3 + gLoadedSpells->Schools[school];
   for (; uVar3 < uVar2; uVar3++) {
-    if(SpellBook::HaveSpell(spellbook,gLoadedSpells->spells[uVar3].Id,&abStack_20))
-      SaveBits(sav,spellbook->spells[abStack_20].level,4);
+    if(sb->HaveSpell(gLoadedSpells->spells[uVar3].Id,&abStack_20))
+      SaveBits(sav,sb->spells[abStack_20]->level,4);
     else Advance(sav,4);
   }
 }
 
-void SaveParty::LoadSpell(SaveFile *save,Spellbook *spellbook,u8 school){
+void SaveParty::LoadSpell(SaveFile *save,SpellBook *sb,u8 school){
   u16 uVar1;
   u8 uVar2;
   u8 uVar3;
@@ -136,23 +136,23 @@ void SaveParty::LoadSpell(SaveFile *save,Spellbook *spellbook,u8 school){
   uVar2 = uVar3 + gLoadedSpells->Schools[school];
   for (; uVar3 < uVar2; uVar3++) {
     uVar1 = LoadBits(save,4);
-    if (uVar1) SpellBook::NewSpell(spellbook,gLoadedSpells->spells[uVar3].Id,uVar1);
+    if (uVar1) sb->NewSpell(gLoadedSpells->spells[uVar3].Id,uVar1);
   }
 }
 
-void SaveParty::SaveSpellsFromSchool(SaveFile *sav,Spellbook *spellbook,u8 school){
-    SKIPCHECK(spellbook,0x5c) {
-    SaveSpell(sav,spellbook,SCHOOL_NONE);
-    SaveSpell(sav,spellbook,school);
+void SaveParty::SaveSpellsFromSchool(SaveFile *sav,SpellBook *sb,u8 school){
+    SKIPCHECK(sb,0x5c) {
+    SaveSpell(sav,sb,SCHOOL_NONE);
+    SaveSpell(sav,sb,school);
     u8 uVar1 = 13 - gLoadedSpells->Schools[school];
     if (uVar1) Advance(sav,(uVar1 & 0x3f) << 2);
   }
 }
 
-void SaveParty::LoadSpellsFromSchool(SaveFile *sav,Spellbook *spellbook,u8 school){
-  SKIPCHECK(spellbook,0x5c) {
-    LoadSpell(sav,spellbook,SCHOOL_NONE);
-    LoadSpell(sav,spellbook,school);
+void SaveParty::LoadSpellsFromSchool(SaveFile *sav,SpellBook *sb,u8 school){
+  SKIPCHECK(sb,0x5c) {
+    LoadSpell(sav,sb,SCHOOL_NONE);
+    LoadSpell(sav,sb,school);
     u8 uVar1 = 13 - gLoadedSpells->Schools[school];
     if (uVar1) Advance(sav,(uVar1 & 0x3f) << 2);
   }
@@ -259,8 +259,8 @@ CharSheet * SaveParty::LoadCharSheet(SaveFile *sav){
     LoadShield(sav,chara);
     LoadWeapon(sav,chara);
     for(i=0;i<12;i++) LoadGear(sav,chara);
-    SpellBook::Clear(chara->spellbook);
-    SpellBook::Reset(chara->spellbook,0);
+    chara->spellbook->Clear();
+    chara->spellbook->Reset(0);
     LoadSpellsFromSchool(sav,chara->spellbook,chara->EXP->school);
   }
   return chara;

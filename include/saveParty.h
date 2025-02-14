@@ -14,10 +14,10 @@ namespace SaveParty{
     void LoadCharEXP(SaveFile* sav, charExp* exp);
     void SaveCharStats(SaveFile *sav,CharSheet *chara);
     void LoadCharStats(SaveFile *sav,CharStats_s* chara);
-    void SaveSpell(SaveFile *sav,Spellbook *spellbook,u8 school);
-    void LoadSpell(SaveFile *sav,Spellbook *spellbook,u8 school);
-    void SaveSpellsFromSchool(SaveFile *sav,Spellbook *spellbook,u8 school);
-    void LoadSpellsFromSchool(SaveFile *sav,Spellbook *spellbook,u8 school);
+    void SaveSpell(SaveFile *sav,SpellBook *spellbook,u8 school);
+    void LoadSpell(SaveFile *sav,SpellBook *spellbook,u8 school);
+    void SaveSpellsFromSchool(SaveFile *sav,SpellBook *spellbook,u8 school);
+    void LoadSpellsFromSchool(SaveFile *sav,SpellBook *spellbook,u8 school);
     void SaveInGameTime(SaveFile *sav);
     void LoadInGameTime(SaveFile *sav);
     void SaveGold(SaveFile *sav);

@@ -11,7 +11,7 @@ void Ofunc_NOOP_(void){}
 void CombatEntity::Init(CombatEntity *param_1,CharSheet *charsheet,int param_3,u8 startx,
                        u8 starty,s8 param_6,byte param_7,int isAI,byte index){
   ItemID IVar1;
-  Spellbook *pSVar2;
+  SpellBook *pSVar2;
   SpellInstance *pSVar3;
   Entity_Ram *pEVar4;
   byte bVar8;

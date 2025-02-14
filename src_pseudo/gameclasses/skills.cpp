@@ -7,13 +7,11 @@ char* sSkillsFilename="../gameclasses/skills.cpp";
 #endif
 //all skills in an array should be at or above 0.
 void FloorSkill(s8*skills,u32 len){
-  u32 i=0;
-  if (len != 0) {
-    for(i=0;i<len;i++) {
+  if (len) {
+    for(u32 i=0;i<len;i++) {
       FLOOR(skills[i],0);
     }
   }
-  return;
 }
 
 void CharSkills::Init(ItemID id){
