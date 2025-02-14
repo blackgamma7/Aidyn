@@ -625,6 +625,7 @@ Borg8header* loadBorg8(u32);
 Gfx * borg8DlistInit(Gfx *,byte ,u16,u16);
 Gfx * N64BorgImageDraw(Gfx *,Borg8header *,float ,float ,u16 ,u16 ,u16 ,u16 ,float ,float ,u8 ,u8 ,u8,u8);
 Gfx* Borg8_DrawSimple(Gfx*,Borg8header *,float,float,float,float,u8,u8,u8,u8);
+void borg8_free(Borg8header *);
 Gfx * gsFadeInOut(Gfx *,u16,u16,u16,u16,u8,u8,u8,u8);
 
 //n64borg/collisionZone.cpp
@@ -675,9 +676,3 @@ u32 borgTotal=0;
 #define CheckSetPointer(x,f) if(x->f) SetPointer(x,f)
 
 
-//clamp a value to 0-1
-#define CLAMP01(x) CLAMP(x,0.0,1.0)
-//clamp a vec3's values to 0-1
-#define CLAMP01V3(v) CLAMP01(v.x); CLAMP01(v.y); CLAMP01(v.z)
-//turn a Vec3f(v) into 32-bit RGB values for Color32(c).
-#define V3ToRGB(c,v) c->R=v.x*255; c->G=v.y*255; c->B=v.z*255

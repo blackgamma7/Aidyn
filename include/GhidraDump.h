@@ -1350,25 +1350,6 @@ struct borg_short {
 typedef struct combat_aiscore combat_aiscore, *Pcombat_aiscore;
 
 
-typedef enum PotionEnum{
-	POTION_FIRE,
-    POTION_INFERNO,
-    POTION_SLEEP,
-    POTION_ACID,
-    POTION_HEALING,
-    POTION_STAMINA,
-    POTION_CURING,
-    POTION_ANTIDOTE,
-    POTION_RESTORE,
-    POTION_STRENGTH,
-    POTION_DEXTERITY,
-    POTION_ASPECT, //listed as "A"
-    POTION_JUMPING, //listed as "J"
-    POTION_CLARITY,
-    POTION_CHARISMA,
-    POTION_DEFENCE,
-    POTION_STEALTH
-}PotionEnum; // POTION_ASPECT and POTION_JUMPING are ommited. couple funcs change "A" potions into healing potions automatically.
 
 typedef struct resist_float resist_float, *Presist_float;
 
@@ -1382,80 +1363,6 @@ typedef enum ElementEnum {
 } ElementEnum;
 
 typedef struct CharGear CharGear, *PCharGear;
-
-typedef struct Spellbook Spellbook, *PSpellbook;
-
-typedef enum SpellEnum {
-    SPELLIND_Immolation,
-    SPELLIND_escape,
-    SPELLIND_removePoison,
-    SPELLIND_AirSheild,
-    SPELLIND_ControlElem,
-    SPELLIND_debilitation,
-    SPELLIND_DragonFlames,
-    SPELLIND_EarthSmite,
-    SPELLIND_fireball,
-    SPELLIND_lightning,
-    SPELLIND_strength,
-    SPELLIND_wind,
-    SPELLIND_teleportation,
-    SPELLIND_brilliance,
-    SPELLIND_stupidity,
-    SPELLIND_banishing,
-    SPELLIND_charming,
-    SPELLIND_controlMarquis,
-    SPELLIND_detectingTraps,
-    SPELLIND_endurance,
-    SPELLIND_opening,
-    SPELLIND_senseAura,
-    SPELLIND_weakness,
-    SPELLIND_cheatDeath,
-    SPELLIND_AcidBolt,
-    SPELLIND_auraOfDeath,
-    SPELLIND_wraithTouch,
-    SPELLIND_controlZombies,
-    SPELLIND_crushingDeath,
-    SPELLIND_darkness,
-    SPELLIND_haste,
-    SPELLIND_exhaustion,
-    SPELLIND_stamina,
-    SPELLIND_tapStamina,
-    SPELLIND_wallOfBones,
-    SPELLIND_spiritSheild,
-    SPELLIND_poison,
-    SPELLIND_mirror,
-    SPELLIND_vsElemental,
-    SPELLIND_vsNaming,
-    SPELLIND_vsNecromancy,
-    SPELLIND_vsStar,
-    SPELLIND_dispelElemental,
-    SPELLIND_dispelNaming,
-    SPELLIND_dispelNecro,
-    SPELLIND_dispelStar,
-    SPELLIND_photosynthesis,
-    SPELLIND_solarWraith,
-    SPELLIND_starlightSheild,
-    SPELLIND_detectMoonPhase,
-    SPELLIND_detectSunPhase,
-    SPELLIND_dexterity,
-    SPELLIND_clumsiness,
-    SPELLIND_frozenDoom,
-    SPELLIND_light,
-    SPELLIND_stealth,
-    SPELLIND_stellarGravity,
-    SPELLIND_webOfStarlight,
-    SPELLIND_whitefire,
-    SPELLIND_NONE=255
-} SpellEnum;
-
-typedef enum MagicSchoolEnum {
-    SCHOOL_Chaos,
-    SCHOOL_Elemental,
-    SCHOOL_Naming,
-    SCHOOL_Necromancy,
-    SCHOOL_NONE,
-    SCHOOL_Star
-} MagicSchoolEnum;
 
 typedef enum AspectEnum {
     ASPECT_NONE=0,
