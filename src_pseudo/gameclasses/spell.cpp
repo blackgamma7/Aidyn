@@ -114,7 +114,7 @@ void TempEnchant::Init(Temp_enchant *Ench,u8 Index,u8 LV,u32 Timer,u8 UNK3,
 }
 
 void TempEnchant::StopSpellVisual(Temp_enchant *param_1){
-  if ((param_1->SpellVisualIndex != -1) && (gGlobals.screenFadeModeSwitch == 2))
+  if ((param_1->SpellVisualIndex != 0xffff) && (gGlobals.screenFadeModeSwitch == 2))
     FUN_80095f6c(param_1->SpellVisualIndex);
 }
 
@@ -184,12 +184,12 @@ void SpellBook::NewSpell(ItemID id,u8 rank){
   
   if (0 < (this->count - 1)) {
     for (i = 0;i < (this->count - 1);i++) {
-      ALLOC(pTVar2,0x199);
+      ALLOC(pTVar2,409);
       this->spells[i] = pTVar2;
-      TempSpell::Init(pTVar2,*(ItemID *)tSpells[i],*(u8 *)((s32)tSpells[i] + 3));
+      TempSpell::Init(pTVar2,(ItemID)tSpells[i][0],tSpells[i][1]);
     }
   }
-  ALLOCL(this->spells[i],0x19d);
+  ALLOCL(this->spells[i],413);
   TempSpell::Init(pTVar2,id,rank);
 }
 

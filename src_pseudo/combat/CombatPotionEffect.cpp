@@ -3,7 +3,7 @@
 void NOOP_800941E0(){}
 
 u16 InitPotionEffect(playerData *param_1,u8 param_2){
-    return SpellVisuals::InitEffect(param_1,param_2);}
+    return SpellVisuals_InitEffect(param_1,param_2);}
 
 Gfx * ret_a0_80094204(Gfx *g){return g;}
 

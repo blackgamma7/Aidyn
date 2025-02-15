@@ -1141,34 +1141,6 @@ struct WidgetMenuChild {
 
 typedef struct romcopy_struct romcopy_struct, *Promcopy_struct;
 
-typedef struct spellVisualsEntry spellVisualsEntry, *PspellVisualsEntry;
-
-struct spellVisualsEntry {
-    u32 SpellID;
-    uint flags;
-    u16 field2_0x8;
-    u16 field3_0xa;
-    u16 field4_0xc;
-    u16 field5_0xe;
-    u16 field6_0x10;
-    undefined field7_0x12;
-    undefined field8_0x13;
-};
-
-typedef struct SpellVisualsEntry2 SpellVisualsEntry2, *PSpellVisualsEntry2;
-
-struct SpellVisualsEntry2 {
-    playerData *playerDat;
-    uint flags;
-    s16 field2_0x8;
-    s16 timer;
-    short field4_0xc;
-    short field5_0xe;
-    s16 unk10;
-    undefined field7_0x12;
-    undefined field8_0x13;
-};
-
 typedef struct UnkAudioStruct UnkAudioStruct, *PUnkAudioStruct;
 
 struct UnkAudioStruct {
@@ -2932,42 +2904,6 @@ struct spells_pointer {
     u8 schools2[6];
     u8 field3_0xd[3];
     Spell_RAM *spells;
-};
-
-typedef struct SpellVisuals1 SpellVisuals1, *PSpellVisuals1;
-
-struct SpellVisuals1 {
-    Borg7header *field0_0x0;
-    vec3f pos;
-    vec3f loc3Pos;
-    float field3_0x1c;
-    enum Borg7Enum field4_0x20;
-    u32 field5_0x24;
-    uint flags;
-    u16 field7_0x2c;
-    u8 field8_0x2e;
-    undefined field9_0x2f;
-};
-
-typedef struct SpellVisuals_struct SpellVisuals_struct, *PSpellVisuals_struct;
-
-struct SpellVisuals_struct {
-    spellVisualsEntry *ptr0; /* 64 entries */
-    SpellVisuals1 *ptr1; /* 128 entries */
-    SpellVisualsEntry2 *ptr2; /* 16 entries */
-    short *indecies0; /* 64 indecies */
-    short *indecies1; /* 128 indecies */
-    short *indecies2; /* 16 indecies */
-    float field6_0x18;
-    int field7_0x1c;
-    uint lifeTime;
-    u16 field9_0x24;
-    u16 field10_0x26;
-    u16 ptr0Count;
-    u16 ptr1count;
-    u16 prt2count;
-    u16 field14_0x2e;
-    undefined1 field15_0x30;
 };
 
 struct struct_A {
