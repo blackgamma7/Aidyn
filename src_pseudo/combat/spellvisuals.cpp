@@ -388,7 +388,7 @@ LAB_800950ec:
     copyVec3(&(ppVar2->collision).pos,&pSVar10->pos);
     (pSVar10->pos).y -= (pSVar9->playerDat->collision).radius;
     if (lVar11 == 0) pSVar10->field3_0x1c = 0.0;
-    else pSVar10->field3_0x1c = get_entity_2float_sum(gEntityDB,pSVar9->playerDat->ent_ID);
+    else pSVar10->field3_0x1c = gEntityDB->GetHeight(pSVar9->playerDat->ent_ID);
     (pSVar10->pos).y += pSVar10->field3_0x1c;
     pBVar3 = pSVar9->playerDat->locator_pointer;
     if (pBVar3) Animation::SceneGetLocatorPos(pBVar3->aniDat,&pSVar10->loc3Pos,3);

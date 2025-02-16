@@ -18,6 +18,7 @@
 #include "graphics.h"
 #include "freeQueue.h"
 #include "spells.h"
+#include "particle.h"
 
 #include "crash.h"
 #include "heapN64.h"

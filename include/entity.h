@@ -18,7 +18,7 @@ enum ENTITY_CATEGORY{
 struct Entity_ROM { /* Entity data stored in Rom */
     char name[20];
     char internalName[20];
-    enum EntityCatEnum category; /* only checks for Chaos type */
+    u8 category; /* only checks for Chaos type */
     ItemID_ROM id;
     u8 unk0x2b; /* passed to ram 0x19 */
     enum AspectEnum Aspect;
@@ -80,14 +80,14 @@ struct Entity_ROM { /* Entity data stored in Rom */
 struct Entity_Ram { /* entity data in Ram */
     ItemID ID;
     char Name[21];
-    enum EntityCatEnum Category;
-    enum CharSheetFlags unk0x18; /* 2 bits determined by rom0x2d */
+    u8 Category;
+    u8 unk0x18; /* 2 bits determined by rom0x2d */
     u8 rom0x2b;
-    enum AspectEnum aspect;
-    u8 Morale; //morale
+    u8 aspect;
+    u8 morale; //determines how likely enemies are to flee batte
     u8 Level;
     u8 BaseDamage; /* rom0x4d */
-    enum MagicSchoolEnum School;
+    u8 School;
     u8 BaseProtect; /* sheild related? */
     u8 unk0x20; //deals with monster "vision." 10 or 0.
     u8 unk0x21;
@@ -184,11 +184,30 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     Borg8header *portrait;
 };
 
-struct EntityDB {
+class EntityDB {
+    public:
     u8 total;
     u8 catSizes[7];
     u8 unk[7];
     struct Entity_Ram *entities;
+    void OldInit();
+    void Load(u8,s32 *);
+    void Init();
+    void Free();
+    u32 GetPortrait(ItemID);
+    u32 GetBorg7(ItemID);
+    char* GetEntityName(ItemID);
+    float GetPerception(ItemID);
+    float GetVal_21h(ItemID);
+    float GetHeight(ItemID);
+    float GetHeightMinPoint2(ItemID);
+    float GetHeightplusPoint35(ItemID);
+    u8 BattleCheck(ItemID);
+    float GetFloatA(ItemID);
+    float RetPoint4(ItemID);
+    u8 IsNotBoss(ItemID);
+    float GetFloatC(ItemID);
+    float GetScale(ItemID);
 };
 
 extern entity_info entity_info_array[222]; //organized alphabetically for some reason.
@@ -196,24 +215,6 @@ extern dialougeEntity_Info dailougEnt_info_array[32]; //same with this.
 extern EntityDB* gEntityDB;
 extern u8 entityList[221];
 
-extern void Ofunc_entityDB(u8 *);
-//TODO: reformat as class methods(?)
-extern void load_entityDB(EntityDB*,u8,s32 *);
-extern void build_entitydb(EntityDB *);
-extern void entitydb_free(EntityDB *);
-extern u32 getEntityPortrait(EntityDB *,ItemID);
-extern u32 get_ent_borg7(EntityDB *,ItemID);
-extern char * ofunc_getEntityName(EntityDB *,ItemID);
-extern float get_entity_ram_b(EntityDB*,ItemID);
-extern float Ofunc_get_entity_ram_c(EntityDB*,ItemID);
-extern float get_entity_2float_sum(EntityDB*,ItemID);
-extern float sub_ent_2float_sum(EntityDB*,ItemID);
-extern u8 some_entity_check(EntityDB*,ItemID);
-extern float get_ent_float_a(EntityDB*,ItemID);
-extern float ret_point4float(EntityDB*,ItemID);
-extern u8 IsNotBoss(EntityDB*,ItemID);
-extern float get_some_entity_dat(EntityDB*,ItemID);
-extern float get_entity_scale(EntityDB*,ItemID);
 extern struct CombatEntity;
 
 namespace Entity{

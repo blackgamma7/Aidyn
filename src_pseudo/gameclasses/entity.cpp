@@ -23,7 +23,7 @@ void Entity::EquipFunc0(CharSheet *ent,Entity_Ram *param_2){
   ulong uVar6;
   ItemID IVar7;
   
-  ent->portrait = loadBorg8(getEntityPortrait(gEntityDB,ent->ID));
+  ent->portrait = loadBorg8(gEntityDB->GetPortrait(ent->ID));
   x = (PotionEffect **)HALLOC(sizeof(PotionEffect*)*POTION_FXMAX,0xc1);
   ent->potionEffects=x;
   memset(x,0,sizeof(PotionEffect*)*POTION_FXMAX);
@@ -52,7 +52,6 @@ void Entity::EquipFunc1(CharSheet *param_1,Entity_Ram *param_2){
     EquipWeapon(param_1,param_2->weapon[0],0);
   }
 }
-
 
 void Entity::EquipFunc2(CharSheet *param_1,Entity_Ram *param_2){
   ItemID IVar1;

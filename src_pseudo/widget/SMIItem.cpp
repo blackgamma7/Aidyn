@@ -21,19 +21,19 @@ SMIItem::SMIItem(EquipInstance *pObject,u8 q,u8 user):BaseWidget(){
   this->ItemIcon->SetHeight(12);
   this->Link(this->ItemIcon);
   if (this->userIndex != 0xff) {
-    this->userPortait = new WidgetBorg8(loadBorg8(getEntityPortrait(gEntityDB,(gGlobals.party)->Members[this->userIndex]->ID)));
+    this->userPortait = new WidgetBorg8(loadBorg8(gEntityDB->GetPortrait((gGlobals.party)->Members[this->userIndex]->ID)));
     this->userPortait->SetWidth(0xc);
     this->userPortait->SetHeight(0xc);
     this->Link(this->userPortait);
     this->userPortait->var5E = this->userIndex;
   }
-  this->ItemName = new WidgetClipText((this->item->W).base.name,strlen((this->item->W).base.name) + 1);
+  this->ItemName = WClipTXTSafe((this->item->W).base.name);
   this->ItemName->SetColor(0x82,0x50,0x50,0xff);
   this->Link(this->ItemName);
   Utilities::SetWidgetBoundsXY0(this->ItemName,0,640);
   if (this->quantity) {
     sprintf(acStack_60,"%d",this->quantity);
-    this->QuantityTtx = new WidgetClipText(acStack_60,strlen(acStack_60) + 1);
+    this->QuantityTtx = WClipTXTSafe(acStack_60);
     this->QuantityTtx->var5E = this->quantity;
     this->QuantityTtx->SetColor(0x82,0x50,0x50,0xff);
     this->Link(this->QuantityTtx);
@@ -42,7 +42,6 @@ SMIItem::SMIItem(EquipInstance *pObject,u8 q,u8 user):BaseWidget(){
 }
 
 SMIItem::~SMIItem():~BaseWidget(){}
-
 
 Gfx * SMIItem::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   if ((this->y < (short)this->boundY1) &&

@@ -263,7 +263,7 @@ void set_teleport_pointer(voxelObject *param_1){
   if (((gGlobals.screenFadeMode == 0) && (0.0 < gGlobals.brightness)) ||
      (gGlobals.ticker - initZoneTimestamp < 3)) {
     gGlobals.screenFadeMode = 1;
-    gGlobals.screenFadeSpeed = 0.06666667f;
+    gGlobals.screenFadeSpeed = (2.0/3);
   }
 }
 
@@ -1942,7 +1942,7 @@ void ZoneEngine::InitZoneEngine(ushort param_1,short param_2){
   piVar5 = {3,0,1,-1,2,-1,4,5,6,7,8,9,10,11,-1};
   sVar9 = 0;
   dat = 0;
-  partCount = 0x180;
+  partCount = ParticleMAX;
   DAT_800e9c14 = 0;
   engineZone_flag = 1;
   initZoneTimestamp = gGlobals.ticker;
@@ -1958,18 +1958,18 @@ void ZoneEngine::InitZoneEngine(ushort param_1,short param_2){
   switch(gGlobals.Sub.gamemodeType){
     case 0: {
         sVar9=0x28;
-        if(!gExpPakFlag) partCount= 0x40;
+        if(!gExpPakFlag) partCount= ParticleJ0;
         break;
       }
     case 1: {
       sVar9 = 0xe;
-      if (!gExpPakFlag) partCount = 0x60;
+      if (!gExpPakFlag) partCount = ParticleJ1;
       break;
     }
     case 2:{
       sVar9 = 0;
       dat = 3;
-      if (!gExpPakFlag) partCount = 0x10;
+      if (!gExpPakFlag) partCount = ParticleJ2;
       break;
     }
   }
@@ -2028,22 +2028,21 @@ void ZoneEngine::InitZoneEngine(ushort param_1,short param_2){
     }
   }
   init_dynamic_light(&gGlobals.Sub.DynamicLights);
-  if (param_1 == 1) {
-    gGlobals.Sub.PlayerHandler.float_0x68 = 128.0f;
-    gGlobals.Sub.PlayerHandler.float_0x64 = 128.0f;
-  }
-  else if ((short)param_1 < 2) {
-    if (param_1 != 0) {
-LAB_800116a4:
-      Crash::ManualCrash("ZoneEngineInit","Unknown Engine Mode");
-    }
+  switch (param_1){
+  case 0:
     gGlobals.Sub.PlayerHandler.float_0x68 = 30.0f;
     gGlobals.Sub.PlayerHandler.float_0x64 = 20.0f;
-  }
-  else {
-    if (param_1 != 2) goto LAB_800116a4;
+    break;
+  case 1:
+    gGlobals.Sub.PlayerHandler.float_0x68 = 128.0f;
+    gGlobals.Sub.PlayerHandler.float_0x64 = 128.0f;
+    break;
+  case 2:
     gGlobals.Sub.PlayerHandler.float_0x68 = 0.0;
     gGlobals.Sub.PlayerHandler.float_0x64 = 0.0;
+    break;
+  default:
+    CRASH("ZoneEngineInit","Unknown Engine Mode");
   }
   if (gGlobals.minimap.active != 0) {
     if (gGlobals.playerCharStruct.playerDat != NULL) {
@@ -2053,7 +2052,6 @@ LAB_800116a4:
     }
     MiniMap::UpdateSection(&gGlobals.minimap,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
   }
-  return;
 }
 
 void SaveEngineZone(playerData *param_1,mapFloatDat *param_2){
@@ -2151,7 +2149,7 @@ void VoxelIndexPosition(short delta,playerData *param_2){
   pvVar10 = voxel_index_pointer;
   if (voxel_index != 0) {
     pBVar6 = GetCollisionZone(param_2->zoneDatByte);
-    char labels[13][24] ={"VOBJECT_CONTAINER","VOBJECT_LIGHT","VOBJECT_AUDIO","VOBJECT_WANDERNODE",
+    char labels[][24] ={"VOBJECT_CONTAINER","VOBJECT_LIGHT","VOBJECT_AUDIO","VOBJECT_WANDERNODE",
    "VOBJECT_MONSTERPARTY","VOBJECT_REFERENCEPOINT","VOBJECT_TELEPORTER","VOBJECT_CAMERA","VOBJECT_DIALOGUE",
    "VOBJECT_TRIGGER","VOBJECT_SAVEPOINT","VOBJECT_CODE"};
     uVar7 = (uint)voxel_index_timer;

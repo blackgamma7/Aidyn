@@ -108,7 +108,7 @@ uint AddItem(playerData *param_1,int type,short num){
     pcVar7->vertCols[2].B = 0x80;
     pcVar7->vertCols[3].B = 0x80;
     (pcVar7->statStartPos).x = (param_1->collision).pos.x;
-    (pcVar7->statStartPos).y = ((param_1->collision).pos.y - param_1->interactRadiusB) + get_entity_2float_sum(gEntityDB,param_1->ent_ID);
+    (pcVar7->statStartPos).y = ((param_1->collision).pos.y - param_1->interactRadiusB) + gEntityDB->GetHeight(param_1->ent_ID);
     (pcVar7->unk278).x = 0.5f;
     (pcVar7->unk278).y = 0.2f;
     (pcVar7->statStartPos).z = (param_1->collision).pos.z;
@@ -135,7 +135,7 @@ uint AddItem(playerData *param_1,int type,short num){
     pcVar7->vertCols[3].B = 0xff;
     (pcVar7->statStartPos).x = (param_1->collision).pos.x;
     pvVar8 = &pcVar7->statStartPos;
-    (pcVar7->statStartPos).y =((param_1->collision).pos.y - param_1->interactRadiusB) + get_entity_2float_sum(gEntityDB,param_1->ent_ID) + 0.5f;
+    (pcVar7->statStartPos).y =((param_1->collision).pos.y - param_1->interactRadiusB) + gEntityDB->GetHeight(param_1->ent_ID) + 0.5f;
 
     (pcVar7->unk278).x = 1.5;
     (pcVar7->unk278).y = 0.6;

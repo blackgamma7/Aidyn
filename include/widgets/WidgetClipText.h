@@ -19,3 +19,6 @@ f32 scaleY;
 u16 unk10;
 u16 unk12;
 };
+
+#define WClipTXT(txt) new WidgetClipText(txt,400)
+#define WClipTXTSafe(txt) new WidgetClipText(txt,strlen(txt)+1)

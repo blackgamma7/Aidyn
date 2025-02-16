@@ -53,7 +53,8 @@ class Party { /* holds party and inventory data */
     u8 GetMemberRangerIntStam(u8);
     u8 MechanicCheckUnused();
     u8 DisarmDamageUnused(u32);
-    
+    u8 DisarmDamage(u8);
+    u8 SecretLock();
     s8 GetMostSkilledMember(u8);
     u8 CampCheck();
     void CampAmbush();
@@ -64,10 +65,25 @@ class Party { /* holds party and inventory data */
     u32 SkillCheck(u8);
     u32 BestStat(u8);
     u32 WorstStat(u8);
+    u32 GetMemberStat(ItemID,u8);
+    u32 AlchemistCheck();
+    u32 HealerCheck();
+    u32 MechanicCheck();
+    u32 MerchantCheck();
+    u32 RangerCheck();
+    u32 StealthCheck();
+    u32 ThiefCheck();
+    u32 WarriorCheck();
+    u32 WizardCheck();
+    u8 SetWandererVal(u8);
+    u8 CraftArmor(char ,ItemID ,ItemID ,u8 );
+    u8 UnequipMemberItemOfID(s32 ,ItemID );
+    u8 TakeItem(ItemID);
+    u8 HasItemEquipped(s32,ItemID);
+    u8 hasItem(ItemID);
+    u8 GetEquipError3(byte,GearInstance *,CharSheet *,byte);
 
 
-   u8 CraftArmor(char ,s16 ,ItemID ,u8 );
-   u8 UnequipMemberItemOfID(s32 ,ItemID );
 };
 void ItemCampStamina(ItemInstance *,float );
 //party pointer shorthand

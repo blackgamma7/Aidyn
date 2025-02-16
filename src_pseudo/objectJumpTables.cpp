@@ -475,7 +475,7 @@ u8 TP_lock_secret_check(voxelObject* arg0){
       if ((arg0->teleport).secretDoorVal == 0) {uVar1 = (arg0->teleport).trapBool16;}
       else {
         if (teleport_secret_check((arg0->teleport).secrect_door_flag) == false) {
-          if (check_int_theif(PARTY) < (arg0->teleport).secretDoorVal) {return false;}
+          if (Party::SecretLock(PARTY) < (arg0->teleport).secretDoorVal) {return false;}
           (arg0->teleport).secretDoorVal = 0;
         }
         else {(arg0->teleport).secretDoorVal = 0;}

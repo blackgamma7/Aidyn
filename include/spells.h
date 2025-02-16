@@ -75,6 +75,47 @@ typedef enum MagicSchoolEnum {
     SCHOOL_Star
 } MagicSchoolEnum;
 
+typedef enum MagicCastedEnum {
+    MCAST_SELF=0,
+    MCAST_ONE=1,
+    MCAST_ALL=2,
+    MCAST_RANK=3
+} MagicCastedEnum;
+
+struct Spell_ROM { /* Spell Data in ROM */
+    char Name[23];
+    ItemID_ROM ID;
+    u8 School;
+    u8 Damage;
+    u8 StaminaCost;
+    u8 TargetAmmount;
+    u8 Target;
+    u8 unk0x1e; /* ram 0x1f */
+    u8 WizardRequired;
+    u8 Aspect;
+    u8 Range;
+    u8 Ingredient;
+    u8 EXP_Modifyer;
+};
+
+struct Spell_RAM {
+    ItemID Id;
+    char Name[24];
+    u8 School;
+    u8 Damage;
+    u8 stamina;
+    u8 CastedMagic;
+    u8 Target;
+    u8 unk0x1f;
+    u8 WizardREQ;
+    u8 Aspect;
+    u8 Range;
+    u8 ingredient;
+    u8 EXP_Modifyer;
+    undefined field13_0x25;
+};
+
+
 namespace TempSpell{
     void Init(SpellInstance *,ItemID ,u8);
     s32 GetExpPrice(SpellInstance *);
@@ -101,4 +142,4 @@ class SpellBook {
     void NewSpell(ItemID,u8);
     u8 HaveSpell(ItemID ,u8 *);
     void Clear();
-}
+};

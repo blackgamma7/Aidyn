@@ -113,14 +113,14 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
     ppVar10->NoBorg13 = 1;
     if ((refObj->monster).borg_13) ppVar10->NoBorg13 = 0;
     ppVar10->MapTally = param_3;
-    pDat = Actor::AllocPlayer(get_some_entity_dat(gEntityDB,(refObj->monster).entityID),(ppVar10->start_position).x,0.0,(ppVar10->start_position).y,boget_ent_borg7((refObj->monster).entityID)rg7);
+    pDat = Actor::AllocPlayer(gEntityDB->GetFloatC((refObj->monster).entityID),(ppVar10->start_position).x,0.0,(ppVar10->start_position).y,gEntityDB->GetBorg7((refObj->monster).entityID));
     ppVar10->playerDat = pDat;
     IVar2 = (refObj->monster).entityID;
     pDat->zoneDatByte = param_4;
     ppVar3 = ppVar10->playerDat;
     pDat->ent_ID = IVar2;
     (ppVar3->collision).flags |= 0x400;
-    fVar9 = get_entity_scale(gEntityDB,(refObj->monster).entityID);
+    fVar9 = gEntityDB->GetScale((refObj->monster).entityID);
     ppVar3 = ppVar10->playerDat;
     fVar10 = (ppVar3->collision).radius;
     ppVar3->interactRadiusA = fVar9;
@@ -289,7 +289,7 @@ void monster_engagement_func(wander_struct *param_1,short delta){
       if (wanderer->isActive) {
         borgDat = GetCollisionZone(wanderer->playerDat->zoneDatByte);
         pmVar8 = &borgDat->voxelObjs[wanderer->VoxelIndex];
-        entRamB = get_entity_ram_b(gEntityDB,(pmVar8->monster).entityID);
+        entRamB = EntityDB::GetPerception(gEntityDB,(pmVar8->monster).entityID);
         copyVec3(&(playerDat_->collision).pos,&playerPos);
         bVar1 = wanderer->playerDat->zoneDatByte;
         if (bVar1 != 0x11) Actor::SubPosOnLoadedMap(bVar1,&playerPos);

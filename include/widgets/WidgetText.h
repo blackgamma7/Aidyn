@@ -17,3 +17,6 @@ struct widgetTextSubstruct{
     float scalex;
     float scaley;
 };
+
+#define WText(txt) new WidgetText(txt,400)
+#define WTextSafe(txt) new WidgetText(txt,strlen(txt)+1)

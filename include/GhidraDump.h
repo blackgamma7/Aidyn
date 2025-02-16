@@ -115,8 +115,6 @@ typedef struct struct_45 struct_45, *Pstruct_45;
 
 typedef struct Borg7data Borg7data, *PBorg7data;
 
-typedef struct ParticleHeadStruct ParticleHeadStruct, *PParticleHeadStruct;
-
 typedef struct Borg12Header Borg12Header, *PBorg12Header;
 
 typedef enum DBTypeEnum { /* Each Data category has an Id'ing byte */
@@ -166,10 +164,6 @@ typedef enum borg6Enum {
 } borg6Enum;
 
 typedef struct Borg5header Borg5header, *PBorg5header;
-
-typedef struct Particle Particle, *PParticle;
-
-typedef struct ParticleEmmiter ParticleEmmiter, *PParticleEmmiter;
 
 /*
 typedef enum EventFlags {
@@ -222,25 +216,7 @@ typedef enum EnumMapDatA {
 
 
 
-struct Particle {
-    u16 id;
-    u16 lifespan;
-    u16 unk4;
-    u16 unk6;
-    u16 unk8;
-    u16 flags;
-    vec3f pos;
-    vec3f vel;
-    vec2f scale;
-    vec4f colorA;
-    vec4f ColorB;
-    vec3f vec_0x4c;
-    float unk0x58;
-    u32 unk0x5c; /* unused? */
-    Mtx_t scaleMtx[2];
-    Mtx_t translateMtx[2];
-    Mtx alignMtx;
-};
+
 
 struct DCMSub2 {
     Borg12Header *borg12;
@@ -370,58 +346,6 @@ struct MoveQueueEntry {
     short active;
     s16 flag;
 };
-
-struct ParticleEmmiter {
-    u16 ID;
-    u16 lifespan;
-    u16 lifespanemmiter;
-    undefined field3_0x6;
-    undefined field4_0x7;
-    u16 unk8;
-    short texture;
-    u16 flags; /* 0x2000 = tangible */
-    float height;
-    Particle *particles;
-    undefined field12_0x18;
-    undefined field13_0x19;
-    short field14_0x1a;
-    u64 unk1c;
-    vec3f pos;
-    vec3f vel;
-    u8 field18_0x3c[4];
-    u32 field19_0x40;
-    vec4f colvec4;
-    vec4f field21_0x54;
-    u8 unk0x64[340]; /* unused? */
-    ulong (*unk1b8)(void); /* (Head,Emmiter) */
-    ulong (*funcA)(void); /* (head) */
-    ulong (*funcB)(void); /* (head,emmiter,particle) */
-    Borg5_particle *dat1c4;
-    ParticleEmmiter *link;
-    AnimationData *aniDat;
-    collisionSphere collision;
-};
-
-struct ParticleHeadStruct {
-    Particle *particles;
-    short particleindecies[386];
-    ParticleEmmiter *Emmiter;
-    short emmitterIdecies[16];
-    Borg1header **ppTextures;
-    short TextureCount;
-    undefined field6_0x332;
-    undefined field7_0x333;
-    float gray;
-    Borg9data *borg9dat;
-    u16 particleStructCount;
-    u16 count1;
-    u16 count2;
-    u16 field13_0x342;
-    u32 unk344;
-    Mtx alignMtx[2];
-};
-
-
 
 struct struct_1 {
     astruct_1 *field0_0x0;
@@ -1346,12 +1270,7 @@ typedef struct StatMod StatMod, *PStatMod;
 
 typedef struct SpellCharges SpellCharges, *PSpellCharges;
 
-typedef enum MagicCastedEnum {
-    MCAST_SELF=0,
-    MCAST_ONE=1,
-    MCAST_ALL=2,
-    MCAST_RANK=3
-} MagicCastedEnum;
+
 
 typedef enum MagicTargetEnum {
     outside_Combat=0,
@@ -1618,40 +1537,6 @@ typedef enum EntityCatEnum { /* Entity Categories */
     Natural_Enemy=6
 } EntityCatEnum;
 
-struct Entity_Ram { /* entity data in Ram */
-    ItemID ID;
-    char Name[21];
-    enum EntityCatEnum Category;
-    enum CharSheetFlags unk0x18; /* 2 bits determined by rom0x2d */
-    u8 rom0x2b;
-    enum AspectEnum aspect;
-    u8 morale; /* something to do with dying? */
-    u8 Level;
-    u8 BaseDamage; /* rom0x4e */
-    enum MagicSchoolEnum School;
-    u8 BaseProtect; /* sheild related? */
-    u8 unk0x20; /* made to float */
-    u8 unk0x21;
-    u8 Skills[12];
-    u8 WeaponSkills[11];
-    u8 stats[7];
-    ItemID weapon[3];
-    ItemID spells[5];
-    u8 Spell_levels[5];
-    u8 unk_0x55[5]; /* rom0x68 */
-    u8 unk_0x5a[4]; /* rom0x6d */
-    ItemID Armor;
-    ItemID Sheild;
-    s8 sheildStat;
-    enum ElementEnum Resist[2];
-    u8 align[3];
-    float resistAmmount[2];
-    u16 FFs[4]; /* supposed to load something, but ends up blank */
-    u8 unk0x78[4];
-    u16 EXP;
-    u8 loot_Category;
-    undefined field31_0x7f;
-};
 
 typedef struct Gear_RAM Gear_RAM, *PGear_RAM;
 
@@ -1708,25 +1593,6 @@ struct shop_ram {
     ItemID shopkeep; /* entity running shop */
     u16 stock[23]; /* items */
     u8 multi[3][20];
-};
-
-typedef struct Spell_RAM Spell_RAM, *PSpell_RAM;
-
-struct Spell_RAM {
-    ItemID Id;
-    char Name[24];
-    enum MagicSchoolEnum School;
-    u8 Damage;
-    u8 stamina;
-    enum MagicCastedEnum CastedMagic;
-    enum MagicTargetEnum Target;
-    u8 unk0x1f;
-    u8 WizardREQ;
-    enum AspectEnum Aspect;
-    u8 Range;
-    enum MigicCostEnum ingredient;
-    u8 EXP_Modifyer;
-    undefined field13_0x25;
 };
 
 typedef struct weapon_ram weapon_ram, *Pweapon_ram;
@@ -1855,21 +1721,7 @@ struct shop_ROM { /* Shop Data in Rom */
 
 typedef struct Spell_ROM Spell_ROM, *PSpell_ROM;
 
-struct Spell_ROM { /* Spell Data in ROM */
-    char Name[23];
-    ItemID_ROM ID;
-    enum MagicSchoolEnum School;
-    u8 Damage;
-    u8 StaminaCost;
-    enum MagicCastedEnum TargetAmmount;
-    enum MagicTargetEnum Target;
-    u8 unk0x1e; /* ram 0x1f */
-    u8 WizardRequired;
-    enum AspectEnum Aspect;
-    u8 Range;
-    enum MigicCostEnum Ingredient;
-    u8 EXP_Modifyer;
-};
+
 
 
 
@@ -2631,7 +2483,7 @@ struct player_char_struct {
 struct ZoneDat {
     int borg5_ID;
     AnimationData *anidat0x4;
-    enum borg9Enum borg9_id;
+    u32 borg9_id;
     Borg9header *mapPointer;
     uint unk0x10;
     AnimationData *aniDat0x14;
