@@ -16,14 +16,14 @@ SMIItem::SMIItem(EquipInstance *pObject,u8 q,u8 user):BaseWidget(){
   if (pObject == NULL) CRASH("SMIItem.cpp","pObject is NULL");
   GetItemImage((pObject->W).base.id,&local_20);
   sprintf(gGlobals.text,"Trying to load %s (%u), borg id = (%ld)",(this->item->W).base.name,(this->item->W).base.id,local_20[0]);
-  this->ItemIcon = new WidgetBorg8(loadBorg8(local_20));
+  this->ItemIcon = WidgetB8(local_20);
   this->ItemIcon->SetWidth(12);
   this->ItemIcon->SetHeight(12);
   this->Link(this->ItemIcon);
   if (this->userIndex != 0xff) {
-    this->userPortait = new WidgetBorg8(loadBorg8(gEntityDB->GetPortrait((gGlobals.party)->Members[this->userIndex]->ID)));
-    this->userPortait->SetWidth(0xc);
-    this->userPortait->SetHeight(0xc);
+    this->userPortait = WidgetB8PartyPort(this->userIndex);
+    this->userPortait->SetWidth(12);
+    this->userPortait->SetHeight(12);
     this->Link(this->userPortait);
     this->userPortait->var5E = this->userIndex;
   }

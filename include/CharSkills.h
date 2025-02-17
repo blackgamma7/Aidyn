@@ -53,15 +53,16 @@ class CharSkills { /* Skill and weapon levels. Also sheild. */
     void AddToBaseShield(u8);
     void ModdedSkillAdd(u8,s8);
     void ModdedWeaponAdd(u8,s8);
+    void ModdedShieldAdd(s8);
     s8 capSkillBaseMax(u8);
     s8 capWeaponBaseMax(u8);
     s8 capSheildBaseMax();
     s8 getModdedSkill(u8);
     s8 getModdedWeapon(u8 param_2);
     s8 getModdedSheild();
-    u8 isSkilOverLv10(u8 param_2);
-    u8 isWepSkillOverLv10(u8 param_2);
-    u8 isSheildSkillOver10();
+    u8 isSkillCapped(u8 param_2);
+    u8 isWeaponCapped(u8 param_2);
+    u8 isShieldCapped();
 };
 
 char** skill_strings;

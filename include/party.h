@@ -55,6 +55,8 @@ class Party { /* holds party and inventory data */
     u8 DisarmDamageUnused(u32);
     u8 DisarmDamage(u8);
     u8 SecretLock();
+    u8 TroubadourCheck();
+    u8 GetMemberWarriorIntStam(u8);
     s8 GetMostSkilledMember(u8);
     u8 CampCheck();
     void CampAmbush();

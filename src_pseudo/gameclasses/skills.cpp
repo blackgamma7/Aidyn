@@ -21,8 +21,8 @@ void CharSkills::Init(ItemID id){
   EntRam = &gEntityDB->entities[GetIDIndex(id)];
   COPY(this->SkillBase,EntRam->Skills);
   COPY(this->SkillModded,EntRam->Skills);
-  COPY(this->WeaponBase,EntRam->WeaponSkills);
-  COPY(this->WeaponModded,EntRam->WeaponSkills);
+  COPY(this->WeaponBase,EntRam->weaponProf);
+  COPY(this->WeaponModded,EntRam->weaponProf);
   FloorSkill(this->SkillModded,sizeof(SkillModded));
   FloorSkill(this->WeaponModded,sizeof(WeaponModded));
   this->ShieldBase = EntRam->sheildStat;
@@ -162,8 +162,9 @@ void AddToSkill(s8 *base,s8 *modded,u8 index,s8 arg3){
     if (10 < *pbVar4 + iVar3) iVar3 = (10 - *pbVar4);
     iVar3 += *pbVar4;
     *pbVar4 = iVar3;
-    if (iVar3< 0)
-      CRASH("Wonky Skill Happening",sSkillsFilename);
+    #ifdef DEBUGVER
+    if (iVar3< 0) CRASH("Wonky Skill Happening",sSkillsFilename);
+    #endif
     bVar2 = *pbVar4;
     if (10 < *pbVar4) bVar2 = 10;
     AddToModdedSkill(base,modded,index,bVar2 - bVar1);
@@ -183,15 +184,17 @@ void CharSkills::AddToBaseShield(u8 mod){
 }
 
 extern void event_flag_skill_(s8);
-void CharSkills::ModdedSkillAdd(u8 arg1,s8 arg2){
-  s8 t = this->SkillModded[arg1];
-  AddToModdedSkill(this->SkillBase,this->SkillModded,arg1,arg2);
-  if (t != this->SkillModded[arg1]) event_flag_skill_(arg1);
+void CharSkills::ModdedSkillAdd(u8 sk,s8 mod){
+  s8 t = this->SkillModded[sk];
+  AddToModdedSkill(this->SkillBase,this->SkillModded,sk,mod);
+  if (t != this->SkillModded[sk]) event_flag_skill_(sk);
 }
 
-
-void CharSkills::ModdedWeaponAdd(u8 param_2,s8 param_3){
-  AddToModdedSkill(this->WeaponBase,this->WeaponModded,param_2,param_3);
+void CharSkills::ModdedWeaponAdd(u8 sk,s8 mod){
+  AddToModdedSkill(this->WeaponBase,this->WeaponModded,sk,mod);
+}
+void CharSkills::ModdedShieldAdd(s8 mod){
+  AddToModdedSkill(&this->ShieldBase,&this->ShieldModded,0,mod);
 }
 
 s8 CapModdedSkillMax(s8 skill,s8 cap){
@@ -224,11 +227,11 @@ s8 CharSkills::getModdedWeapon(u8 param_2){
 s8 CharSkills::getModdedSheild(){
   return CapModdedSkillMax(this->ShieldModded,SKILLMAXMOD);}
 //is skill capped?
-u8 CharSkills::isSkilOverLv10(u8 param_2){
+u8 CharSkills::isSkillCapped(u8 param_2){
   return SKILLMAXBASE <= this->SkillBase[param_2];}
 //is weapon skill capped?
-u8 CharSkills::isWepSkillOverLv10(u8 param_2){
+u8 CharSkills::isWeaponCapped(u8 param_2){
   return SKILLMAXBASE <= this->WeaponBase[param_2];}
 //is shield skill capped?
-u8 CharSkills::isSheildSkillOver10(){
+u8 CharSkills::isShieldCapped(){
   return SKILLMAXBASE <= this->ShieldBase;}

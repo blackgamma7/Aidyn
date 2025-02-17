@@ -46,10 +46,10 @@ BaseWidget* WidgetGameStateCheats::AFunc(){
   byte bVar1;
   char *pcVar2;
   char **ppcVar3;
-  WidgetScrollMenuSubstruct *pvVar1;
+  WSMSub *pvVar1;
   
-  pvVar1 = (WidgetScrollMenuSubstruct *)this->ScrollC->substruct;
-  bVar1 = *(byte *)((int)&pvVar1->field17_0x1e + 1);
+  pvVar1 = (WSMSub *)this->ScrollC->substruct;
+  bVar1 = *(byte *)((int)&pvVar1->highlight + 1);
   gamestate_cheats1 ^= bitfeild_array[bVar1];
   pcVar2 = Utilities::GetWidgetText(pvVar1->items[bVar1]);
   ppcVar3 = on_off_labels;
@@ -64,10 +64,10 @@ BaseWidget* WidgetGameStateCheats::ZFunc(){
   byte bVar1;
   char *pcVar2;
   char **ppcVar3;
-  WidgetScrollMenuSubstruct *pvVar1;
+  WSMSub *pvVar1;
   
-  pvVar1 = (WidgetScrollMenuSubstruct *)this->ScrollB->substruct;
-  bVar1 = *(byte *)((int)&pvVar1->field17_0x1e + 1);
+  pvVar1 = (WSMSub *)this->ScrollB->substruct;
+  bVar1 = *(byte *)((int)&pvVar1->highlight + 1);
   gamestate_cheats2 ^= bitfeild_array[bVar1];
   pcVar2 = Utilities::GetWidgetText(pvVar1->items[bVar1]);
   ppcVar3 = bool_labels;

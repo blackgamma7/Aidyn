@@ -1269,64 +1269,55 @@ u8 Party::SecretLock(){ //used for "secrect door" checks
 CharSheet *pCVar1;
 u8 ret;
 s32 i=0;
-s16 j=0;
-s32 k=0;
-s32 l=0;
-  do{
+s16 test=0;
+s32 best=0;
+  for(i=0;i<4;i++){
     pCVar1 = this->Members[i];
     if (pCVar1) {
-      j = CharStats::getModded(pCVar1->Stats,STAT_INT);
-      k = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Ranger);
-      j = (j * 3 + k * 10);
-      if (l < j) {l = j;}
+      test = (CharStats::getModded(pCVar1->Stats,STAT_INT) * 3 + pCVar1->Skills->getModdedSkill(SKILL_Ranger) * 10);
+      if (best < test) {best = test;}
       }
-    i++
-  }while(i<4);
+  }
   i = RollD(1,100);
-  if (i < l) 
-    ret = some_skillcheck_calc(((l - i));
+  if (i < best) 
+    ret = some_skillcheck_calc((best - i));
   else ret = 0;
   return ret;
 }
 
-u8 Party::TroubadourCheck(Party *arg0){
+u8 Party::TroubadourCheck(){
   char cVar3;
   s32 iVar1;
   u32 uVar2 = 0;
   u8 uVar4;
-  Party *pPVar5;
   u32 uVar6 = 0;
   u32 uVar7 = 4;
   
-  pPVar5 = arg0;
-  do {
-    if (pPVar5->Members[0]) {
-      cVar3 = CharSkills::getModdedSkill(pPVar5->Members[0]->Skills,Troubadour);
+  for(uVar6=0;uVar6 < 4;uVar6++) {
+    if (this->Members[uVar6]) {
+      cVar3 = this->Members[uVar6]->Skills->getModdedSkill(SKILL_Troubador);
       if (uVar2 <= ((s32)cVar3)) {
         uVar7 = uVar6;
         uVar2 = (s32)cVar3;
       }
     }
-    uVar6++;
-    pPVar5 = (Party *)(pPVar5->Members + 1);
-  } while (uVar6 < 4);
+  }
   uVar4 = 0;
   if ((uVar7 != 4) && (uVar4 = 0, uVar2 != 0)) {
-    if (arg0->Members[uVar7] == NULL) {uVar4 = 0;}
+    if (this->Members[uVar7] == NULL) uVar4 = 0;
     else {
-      iVar1 = CharStats::getModded(arg0->Members[uVar7]->Stats,STAT_DEX);
-      uVar6 = uVar2 + iVar1 * 3;
+      uVar6 = uVar2 + CharStats::getModded(this->Members[uVar7]->Stats,STAT_DEX) * 3;
       uVar2 = RollD(1,100);
       if (uVar2 < uVar6) {
-        uVar4 = some_skillcheck_calc((s32)((uVar6 - uVar2) * 0x10000) >> 0x10);
+        uVar4 = some_skillcheck_calc((uVar6 - uVar2));
       }
-      else {uVar4 = 0;}
+      else uVar4 = 0;
     }
   }
   return uVar4;
 }
 
-u8 Party::GetMemberWarriorIntStam(u32 param_2){
+u8 Party::GetMemberWarriorIntStam(u8 param_2){
   CharSheet *pCVar1;
   s32 iVar2;
   char cVar5;
@@ -1335,18 +1326,16 @@ u8 Party::GetMemberWarriorIntStam(u32 param_2){
   u8 uVar6;
   u32 uVar7;
   
-  pCVar1 = this->Members[param_2 & 0xff];
+  pCVar1 = this->Members[param_2];
   uVar6 = 0;
   if (pCVar1) {
     iVar2 = CharStats::getModded(pCVar1->Stats,STAT_INT);
-    cVar5 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Warrior);
+    cVar5 = pCVar1->Skills->getModdedSkill(SKILL_Warrior);
     iVar3 = CharStats::getModded(pCVar1->Stats,STAT_STAM);
     uVar7 = iVar2 + cVar5 * 7 + iVar3;
     uVar4 = RollD(1,100);
-    if (uVar4 < uVar7) {
-      uVar6 = some_skillcheck_calc((s32)((uVar7 - uVar4) * 0x10000) >> 0x10);
-    }
-    else {uVar6 = 0;}
+    if (uVar4 < uVar7) uVar6 = some_skillcheck_calc((uVar7 - uVar4));
+    else uVar6 = 0;
   }
   return uVar6;
 }
@@ -1550,85 +1539,45 @@ LAB_800812c8:
 
 
 
-byte Party::CraftPotion(u8 param_2,u8 param_3){
+u32 Party::CraftPotion(u8 user,u8 item){
   byte bVar1;
-  WidgetInvShop *pWVar2;
-  inv_funcs *piVar3;
-  WidgetMethods *pWVar4;
-  potionRecipie *recepie;
-  ulong uVar5;
-  s8 sVar9;
-  int iVar6;
-  u16 uVar8;
-  u8 uVar10;
-  ulong uVar7;
-  ulonglong uVar11;
-  CharSheet *iVar7;
-  
-  pWVar2 = (WidgetInvShop *)
-           (((gGlobals.BigAssMenu)->base).substruct)->dollmenu->field4_0x88->field7_0x94;
-  recepie = get_potion_recipie(param_3);
-  if (recepie != NULL) {
-    iVar7 = param_1->Members[param_2];
+  WidgetInvShop *pWVar2 = (WidgetInvShop *)(((gGlobals.BigAssMenu)->base).substruct)->dollmenu->field4_0x88->field7_0x94;
+  potionRecipie *recepie = get_potion_recipie(item);
+  if (recepie) {
+    CharSheet *chara = this->Members[user];
     FUN_8003d064(pWVar2,itemID_array[0x1e],recepie->spice,0xff);
     FUN_8003d064(pWVar2,itemID_array[0x1f],recepie->herb,0xff);
     FUN_8003d064(pWVar2,itemID_array[0x20],recepie->gemstone,0xff);
-    if (recepie->spice == 0) {
-      bVar1 = recepie->herb;
+    if (recepie->spice){
+      if (!this->Inventory->TakeItem(itemID_array[0x1e],recepie->spice)) return 0;
     }
-    else {
-      piVar3 = param_1->Inventory->Functions;
-      uVar5 = (*(piVar3->TakeItem).func)
-                        ((int)param_1->Inventory->inv_slots + *(short *)&(piVar3->TakeItem).arg + -4
-                         ,(ushort)itemID_array[0x1e],recepie->spice);
-      uVar7 = 0;
-      if (uVar5 == 0) goto LAB_80081538;
-      bVar1 = recepie->herb;
+    if (recepie->herb) {
+      if (!this->Inventory->TakeItem(itemID_array[0x1f],recepie->herb)) return 0;
     }
-    if (bVar1 != 0) {
-      piVar3 = param_1->Inventory->Functions;
-      uVar5 = (*(piVar3->TakeItem).func)
-                        ((int)param_1->Inventory->inv_slots + *(short *)&(piVar3->TakeItem).arg + -4
-                         ,(ushort)itemID_array[0x1f],bVar1);
-      uVar7 = 0;
-      if (uVar5 == 0) goto LAB_80081538;
+    if (recepie->gemstone) {
+      if (!this->Inventory->TakeItem(itemID_array[0x20],recepie->gemstone)) return 0;
     }
-    if (recepie->gemstone != 0) {
-      piVar3 = param_1->Inventory->Functions;
-      uVar5 = (*(piVar3->TakeItem).func)
-                        ((int)param_1->Inventory->inv_slots + *(short *)&(piVar3->TakeItem).arg + -4
-                         ,(ushort)itemID_array[0x20],recepie->gemstone);
-      uVar7 = 0;
-      if (uVar5 == 0) goto LAB_80081538;
-    }
-    sVar9 = CharSkills::getModdedSkill(iVar7->Skills,SKILL_Alchemist);
-    uVar7 = 0;
-    if (sVar9 < recepie->alchemist) goto LAB_80081538;
-    iVar6 = CharStats::getModded(iVar7->Stats,STAT_INT);
-    uVar11 = (iVar6 * 3 + sVar9 * 6) & 0xffff;
-    uVar8 = RollD(1,100);
-    if ((short)uVar8 < uVar11) {
-      uVar10 = some_skillcheck_calc((short)((uint)(((int)uVar11 - (int)(short)uVar8) * 0x10000) >> 0x10));
-      uVar7 = 0;
-      if (recepie->pad <= (char)uVar10) {
-        piVar3 = param_1->Inventory->Functions;
-        uVar7 = (*(piVar3->AddItem).func)
-                          ((int)param_1->Inventory->inv_slots +
-                           *(short *)&(piVar3->AddItem).arg + -4,param_3 | 0x1000,1);
-        if (uVar7 != 0) {
-          SMI::AddItem(pWVar2,(u16)(param_3 | 0x1000),1,0xff,
-                       s_../gameclasses/party.cpp_800e0b20,0xacb);
-          FUN_8003d640((WidgetTrainShop *)pWVar2);
+    s8 alch = chara->Skills->getModdedSkill(SKILL_Alchemist);
+    if (alch < recepie->alchemist) return 0;
+    u16 vsRoll = (CharStats::getModded(chara->Stats,STAT_INT) * 3 + alch * 6);
+    s16 roll = RollD(1,100);
+    if (roll < vsRoll) {
+      //"unk2" is 0 for all recipies, so it always passes
+      if (recepie->unk2 <= some_skillcheck_calc(vsRoll - roll)) {
+        u32 ret =this->Inventory->Additem(item | 0x1000,1);
+        if(!ret) return 0;
+        else {
+          SMI::AddItem(pWVar2,(u16)(item | 0x1000),1,0xff,FILENAME,2763);
+          FUN_8003d640(pWVar2);
           pWVar2->Tick();
           FUN_8002ff30((pWVar2->base).scrollMenu);
+          return ret;
         }
       }
-      goto LAB_80081538;
+      return 0;
     }
   }
-  uVar7 = 0;
-LAB_80081538:
-  return (byte)uVar7;
+  return 0;
 }
 
 
@@ -2017,7 +1966,7 @@ u32 Party::SkillCheck(u8 sk){
   case SKILL_Theif:
     uVar2 = ThiefCheck();
     break;
-  case Troubadour:
+  case SKILL_Troubador:
     uVar2 = TroubadourCheck();
     break;
   case SKILL_Warrior:
@@ -2054,15 +2003,15 @@ u32 Party::WorstStat(u8 param_2){
   return worst;
 }
 
-u32 Party::GetMemberStat(ItemID param_2,u8 param_3){
+u32 Party::GetMemberStat(ItemID id,u8 stat){
   u32 i = 0;
   CharSheet *psVar1;
   
-  while ((psVar1 = this->Members[i], psVar1 == NULL ||(psVar1->ID != param_2))) {
+  while ((psVar1 = this->Members[i], psVar1 == NULL ||(psVar1->ID != id))) {
     i++;
     if (3 < i) {return 0;}
   }
-  return CharStats::getModded(psVar1->Stats,param_3);
+  return CharStats::getModded(psVar1->Stats,stat);
 }
 
 u32 Party::AlchemistCheck(){
@@ -2103,7 +2052,7 @@ u32 Party::MechanicCheck(){
     CharSheet* pCVar1 = this->Members[cVar4];
     s8 iVar2 = CharStats::getModded(pCVar1->Stats,STAT_INT);
     s8 iVar3 = CharStats::getModded(pCVar1->Stats,STAT_DEX);
-    s8 cVar4 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Mechanic);
+    s8 cVar4 = pCVar1->Skills->getModdedSkill(SKILL_Mechanic);
     return some_skillcheck_calc(((RollD(1,100) - (cVar4 * 5 + iVar2 + iVar3 & 0x7fffU) * -2));
   }
 }
@@ -2113,19 +2062,19 @@ u32 Party::MerchantCheck(){
   s32 iVar1;
   char cVar4;
   u8 uVar3;
-  CharSheet *pCVar1;
+  u8 uVar5;
   
   uVar3 = 0;
   iVar1 = 0;
-  for(u8 uVar5 = 0;uVar5<4;uVar5++) {
-    pCVar1 = this->Members[uVar5]);
+  for(uVar5 = 0;uVar5<4;uVar5++) {
+    CharSheet *pCVar1 = this->Members[uVar5]);
     if ((pCVar1) && uVar3 < CharStats::getModded(pCVar1->Stats,STAT_INT)))
       uVar3 = CharStats::getModded(pCVar1->Stats,STAT_INT);
   }
   cVar4 = GetMostSkilledMember(SKILL_Merchant);
   uVar5 = 0;
   if (cVar4 != -1)
-    uVar5 = CharSkills::getModdedSkill(this->Members[cVar4]->Skills,SKILL_Merchant);
+    uVar5 = this->Members[cVar4]->Skills->getModdedSkill(SKILL_Merchant);
   return some_skillcheck_calc(((RollD(1,100) - (uVar3 * 3 + uVar5 * 10)));
 }
 

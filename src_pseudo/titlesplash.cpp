@@ -83,7 +83,7 @@ void TitleSplash::Init(void){
   gGlobals.splashScreenUnkC = 0;
   gGlobals.splashscreenTimer = 0;
   fadeFloatMirror = 1.0f;
-  SplashLicence = new WidgetBorg8(loadBorg8(BORG8_LicencedByNintendo));
+  SplashLicence = WidgetB8(BORG8_LicencedByNintendo);
   SplashLicence->SetColor(0,0,0,0);
   SplashLicence->SetCoords(160 -(SplashLicence->GetWidth()/2),190);
 }

@@ -380,7 +380,7 @@ typedef struct unkGuiClassA unkGuiClassA, *PunkGuiClassA;
 struct unkGuiClassA {
     u32 unk0;
     float unk4;
-    Method *vTable;
+    void **vTable;
     short *unkc;
     double *unk10;
     u32 unk14;
@@ -1088,32 +1088,6 @@ struct WidgetArrayMenu_substruct {
     u16 field8_0x10;
 };
 
-typedef struct WidgetFastScrollMenuSubstruct WidgetFastScrollMenuSubstruct, *PWidgetFastScrollMenuSubstruct;
-
-struct WidgetFastScrollMenuSubstruct {
-    undefined field0_0x0;
-    undefined field1_0x1;
-    Color32 colA;
-    Color32 colB;
-    undefined field4_0xa;
-    undefined field5_0xb;
-    Color32 colC;
-    undefined field7_0x10;
-    undefined field8_0x11;
-    u16 field9_0x12;
-    undefined field10_0x14;
-    undefined field11_0x15;
-    undefined field12_0x16;
-    undefined field13_0x17;
-    BaseWidget **items;
-    u16 maxItems;
-    u16 itemHighlighhted;
-    u16 ItemTotal;
-    undefined field18_0x22;
-    undefined field19_0x23;
-};
-
-
 struct WidgetOptionsSubstruct {
     BaseWidget *ScrollMenu;
     BaseWidget *theatreMenu;
@@ -1143,25 +1117,6 @@ struct WidgetScrollList_Substruct {
     u8 itemCount;
     undefined field14_0x13;
 };
-
-typedef struct WidgetSubstruct8 WidgetSubstruct8, *PWidgetSubstruct8;
-
-struct WidgetSubstruct8 { /* If widget->GetNumber returns 8 */
-    u8 field0_0x0;
-    u8 field1_0x1;
-    u8 r[2];
-    u8 g[2];
-    u8 b[2];
-    u8 a[2];
-    u8 field6_0xa;
-    u8 field7_0xb;
-    u8 field8_0xc;
-    u8 field9_0xd;
-    u8 field10_0xe;
-    u8 field11_0xf;
-};
-
-
 
 typedef struct WidgetSubstruct_Shadowtext WidgetSubstruct_Shadowtext, *PWidgetSubstruct_Shadowtext;
 
@@ -2685,7 +2640,8 @@ struct potionRecipie {
     u8 herb;
     u8 gemstone;
     u8 alchemist;
-    u8 unk;
+    u8 unk; //stamina needed
+    u8 unk2; //used for another skillcheck. always 0, so always passes
 };
 
 typedef struct ResolutionSettings ResolutionSettings, *PResolutionSettings;

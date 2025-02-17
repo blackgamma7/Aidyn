@@ -19,6 +19,7 @@ f32 scaleY;
 u16 unk10;
 u16 unk12;
 };
-
+//New widgetClipText with default length
 #define WClipTXT(txt) new WidgetClipText(txt,400)
+//New widgetClipText with calculated length
 #define WClipTXTSafe(txt) new WidgetClipText(txt,strlen(txt)+1)

@@ -17,6 +17,7 @@ struct widgetTextSubstruct{
     float scalex;
     float scaley;
 };
-
+//New widgetText with default length
 #define WText(txt) new WidgetText(txt,400)
+//New widgetText with calculated length
 #define WTextSafe(txt) new WidgetText(txt,strlen(txt)+1)
