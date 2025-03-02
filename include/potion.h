@@ -17,7 +17,7 @@ typedef enum PotionEnum{
     POTION_JUMPING, //listed as "J". ommited from game.
     POTION_CLARITY,//+3 Loremaster for 3 in-game hours.
     POTION_CHARISMA,//+3 Diplomat for 3 in-game hours.
-    POTION_DEFENCE,
+    POTION_DEFENCE,//+15 Defence for 3 in-game hours.
     POTION_STEALTH //+3 Stealth for 3 in-game hours.
 }PotionEnum;
 

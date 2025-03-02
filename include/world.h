@@ -96,8 +96,8 @@ void spellvisuals_1(TerrainStruct *,float ,float ,s16 );
 void spellvisuals_2(TerrainStruct *,float );
 };
 
-//60 ticks per second
-#define SECONDS(x) (x*60) // in-game seconds
+#define TICKSPERSECOND 60
+#define SECONDS(x) (x*TICKSPERSECOND) // in-game seconds
 #define MINUTES(x) (SECONDS(60)*x) // in-game minutes
 #define HOURS(x) (MINUTES(60)*x) // in-game hours
 #define DAYS(x) (HOURS(24)*x) // in-game days

@@ -38,7 +38,7 @@ SMIItem::SMIItem(EquipInstance *pObject,u8 q,u8 user):BaseWidget(){
     this->QuantityTtx->SetColor(0x82,0x50,0x50,0xff);
     this->Link(this->QuantityTtx);
   }
-  this->var5E = (this->item->W).base.id.s;
+  this->var5E = (this->item->W).base.id;
 }
 
 SMIItem::~SMIItem():~BaseWidget(){}

@@ -1,31 +1,32 @@
 typedef struct IconDict IconDict, *PIconDict;
+#include "globals.h"
 
 struct IconDict { /* array Proceeded by dictionary length */
     u16 key;
-    enum Borg8Enum value:16;
+    u16 value;
 };
 
-u8 GetItemImage(ItemID param_1,Borg8Enum *param_2){
-  Borg8Enum BVar1;
+u8 GetItemImage(ItemID param_1,u32 *param_2){
+  u32 BVar1;
   u16 uVar2;
   char err[144];
   
   
   switch(param_1 >> 8) {
-  case 1:
-  case 5:
-  case 6:
-  case 7:
-  case 9:
-  case 10:
-  case 0xb:
-  case 0xc:
-  case 0xd:
-  case 0xe:
-  case 0xf:
-  case 0x11:
-  case 0x12:
-  case 0x13:
+  case DB_MISC:
+  case DB_ARMOR:
+  case DB_SHIELD:
+  case DB_WEAPON:
+  case DB_HELMET:
+  case DB_CLOAK:
+  case DB_GLOVE:
+  case DB_RING:
+  case DB_WAND:
+  case DB_BELT:
+  case DB_BOOTS:
+  case DB_SCROLL:
+  case DB_KEYITEM:
+  case DB_AMULET:
     if (ItemIconCount) {
       for(uVar2 = 0;uVar2 < ItemIconCount;uVar2++) {
         if (ItemIcons[uVar2].key == param_1) {
@@ -35,20 +36,20 @@ u8 GetItemImage(ItemID param_1,Borg8Enum *param_2){
       }
     }
     Gsprintf("Using default image for %d\n",param_1);
-    N64Print::Print(gGlobals.Text);
+    N64Print::Print(gGlobals.text);
     BVar1 = QuestinmarkIcon;
     break;
   default:
-    sprintf(&err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",param_1,param_1 >> 8,param_1&0xFF);
-    CRASH("menuimages.cpp",&err);
-  case 0x10:
+    sprintf(err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",param_1,param_1 >> 8,param_1&0xFF);
+    CRASH("menuimages.cpp",err);
+  case DB_POTION:
     BVar1 = IconPotion;
   }
   *param_2 = BVar1;
   return true;
 }
 
-u8 getAspectIcon(ASPECT param_1,Borg8Enum *param_2){
+u8 getAspectIcon(u8 param_1,u32 *param_2){
   u16 i = 0;
   if (aspectIconCount) {
     for(i=0;i<aspectIconCount;i++) {
@@ -61,7 +62,7 @@ u8 getAspectIcon(ASPECT param_1,Borg8Enum *param_2){
   return false;
 }
 
-u8 getSchoolIcon(MagicSchoolEnum param_1,Borg8Enum *param_2){
+u8 getSchoolIcon(u8 param_1,u32 *param_2){
   u16 i;
   if (SchoolIconCount) {
     for(i = 0;i < SchoolIconCount;i++) {
@@ -74,12 +75,12 @@ u8 getSchoolIcon(MagicSchoolEnum param_1,Borg8Enum *param_2){
   return false;
 }
 
-u8 GetSpellIcon(ItemID param_1,Borg8Enum *param_2){
+u8 GetSpellIcon(ItemID param_1,u32 *param_2){
   u8 bVar1;
   u32 i;
   
   bVar1=0;
-  if (param_1 >> 8 == 3) bVar1 = get_spell_icon_id(param_1));
+  if (param_1 >> 8 == DB_SPELL) bVar1 = get_spell_icon_id(param_1));
   if (iconDictSpellSymbolCount) {
     for(i=0;i<iconDictSpellSymbolCount;i++) {
       if (bVar1 == iconDictSpellSymbol[i].key) {
@@ -91,10 +92,10 @@ u8 GetSpellIcon(ItemID param_1,Borg8Enum *param_2){
   return false;
 }
 
-u8 GetSpellIcons(ItemID param_1,Borg8Enum *param_2,Borg8Enum *param_3,Borg8Enum *param_4){
+u8 GetSpellIcons(ItemID param_1,u32 *param_2,u32 *param_3,u32 *param_4){
   u8 bVar2;
-  Borg8Enum BVar1;
-  ASPECT cVar1;
+  u32 BVar1;
+  u8 cVar1;
   
   bVar2 = GetIDIndex(param_1);
   cVar1 = gLoadedSpells->spells[bVar2].aspect;
@@ -104,7 +105,7 @@ u8 GetSpellIcons(ItemID param_1,Borg8Enum *param_2,Borg8Enum *param_3,Borg8Enum 
   else return GetSpellIcon(param_1,param_4) != false;
 }
 
-u8 GetSkillIcons(CHAR_SKILL param_1,Borg8Enum *param_2){
+u8 GetSkillIcons(u8 param_1,u32 *param_2){
   if (SkillIconCount) {
     for(i=0;i < SkillIconCount;i++) {
       if ((s16)param_1 == SkillIcons[i].key) {

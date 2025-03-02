@@ -1,14 +1,7 @@
 #include "typedefs.h"
+#include "itemIDList.h"
 
-typedef struct{
-    union {
-        u16 s; //often loaded as short
-        struct{
-            u8 type; // from DB_TYPE
-            u8 id;
-        };
-    };
-}ItemID;
+typedef u16 ItemID;
 
 typedef struct{
     union {
@@ -19,6 +12,10 @@ typedef struct{
         };
     };
 }ItemID_ROM; //LE version
+
+
+
+
 
 #define ITEMIDTYPE(x) x.s >> 8
 

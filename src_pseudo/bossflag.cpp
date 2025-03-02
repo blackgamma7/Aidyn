@@ -5,7 +5,7 @@ void set_boss_flag(void){
   ItemID id;
   for(u32 i=0;i<4;i++) {
     id = gGlobals.EncounterDat.enemy_entities[i];
-    if (!id.s) continue;
+    if (!id) continue;
     switch(GetIDIndex(id)) {
     case 0xa8: //Kitarak
       setEventFlag(FLAG_KilledKitarak,true);

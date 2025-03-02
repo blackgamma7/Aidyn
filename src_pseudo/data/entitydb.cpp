@@ -27,10 +27,10 @@ void EntityDB::OldInit(){
   }
 }
 //change Litte-endian short value to Big-Endian
-short ItemDB_SwapEndian(u8 *this){
-  short sVar1 = (this[1]<<8|this[0]);
+u16 ItemDB_SwapEndian(u8 *x){
+  u16 sVar1 = (x[1]<<8|x[0]);
   if (sVar1) return sVar1;
-  return -1;
+  return Item_NONE;
 }
 
 //load entity data from rom. Messy use of u8* casting
@@ -63,12 +63,12 @@ void EntityDB::Load(u8 id,s32 *param_3){
   memcpy(EntRam->stats,&EntROM.Intelligence,6);
   memcpy(&EntRam->morale,&EntROM.morale,3);
   for(uVar8 = 0x4f,uVar6 = 0;uVar6 < 3;uVar6++,uVar8+=2) {
-    EntRam->weapon[uVar6].s = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar8));
+    EntRam->weapon[uVar6] = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar8));
   }
   memcpy(&EntRam->unk0x20,EntROM.name + uVar8,2);
   uVar8+=2;
   for(uVar6 = 0;uVar6 < 5;uVar6++,uVar8+=2) {
-    EntRam->spells[uVar6].s = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar8));
+    EntRam->spells[uVar6] = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar8));
   }
   uVar6 = uVar8 + 1 & 0xff;
   EntRam->School = EntROM.name[uVar8];
@@ -78,13 +78,13 @@ void EntityDB::Load(u8 id,s32 *param_3){
   uVar6+=5;
   memcpy(EntRam->unk0x5a,EntROM.name + uVar6,4);
   uVar6+=4;
-  IVar3.s = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar6));
+  IVar3 = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar6));
   uVar6+=2;
   uVar8 = uVar6+1;
   EntRam->Armor = IVar3;
   EntRam->BaseProtect = EntROM.name[uVar6];
   //single for loop iteration?
-  IVar3.s = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar8));
+  IVar3 = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar8));
   uVar6 = uVar8+2;
   uVar8 = uVar6+1;
   EntRam->Sheild = IVar3;
@@ -142,7 +142,7 @@ u32 EntityDB::GetPortrait(ItemID id){
   dialougeEntity_Info *pdVar7;
   
   bVar3 = GetIDIndex(id);
-  if (id.s >> 8 == 2) {
+  if (id >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index != 0) {
       peVar6 = entity_info_array;
       iVar4 = 0;
@@ -160,7 +160,7 @@ u32 EntityDB::GetPortrait(ItemID id){
     }
   }
   else {
-    if (id.s >> 8 != 0x14) {
+    if (id >> 8 != DB_DIALOUGEENTITY) {
       return BORG8_PortraitNPCMale1;
     }
     if (dailougEnt_info_array[0].index != 0) {
@@ -171,7 +171,7 @@ u32 EntityDB::GetPortrait(ItemID id){
       while (uVar2 != ((short)(char)bVar3 + 1U & 0xff)) {
         pdVar5 = pdVar5 + 1;
         uVar2 = pdVar5->index;
-        iVar4 += 0x14;
+        iVar4 += DB_DIALOUGEENTITY;
         if (uVar2 == 0) {
           return BORG8_PortraitNPCMale1;
         }
@@ -194,7 +194,7 @@ u32 EntityDB::GetBorg7(ItemID id){
   dialougeEntity_Info *pdVar7;
   
   bVar3 = GetIDIndex(id);
-  if ((ushort)id >> 8 == 2) {
+  if ((ushort)id >> 8 == DB_ENTITY) {
     if (entity_info_array[0].Index != 0) {
       peVar6 = entity_info_array;
       iVar4 = 0;
@@ -212,7 +212,7 @@ u32 EntityDB::GetBorg7(ItemID id){
     }
   }
   else {
-    if ((ushort)id >> 8 != 0x14) {
+    if ((ushort)id >> 8 != DB_DIALOUGEENTITY) {
       return 0x2d4a;
     }
     if (dailougEnt_info_array[0].index != 0) {
@@ -223,7 +223,7 @@ u32 EntityDB::GetBorg7(ItemID id){
       while (uVar2 != ((short)(char)bVar3 + 1U & 0xff)) {
         pdVar5 = pdVar5 + 1;
         uVar2 = pdVar5->index;
-        iVar4 += 0x14;
+        iVar4 += DB_DIALOUGEENTITY;
         if (uVar2 == 0) {
           return 0x2d4a;
         }
@@ -242,7 +242,7 @@ char * EntityDB::GetEntityName(ItemID id){
   int iVar3;
   
   bVar2 = GetIDIndex(id);
-  switch(id.s >> 8){
+  switch(id >> 8){
     case 2: return this->entities[bVar2].Name;
     case 14: return DialougEntityPointer->ents[bVar2].Name;
     default:CRASH("Invalid ID type in GetEntityName!",FILENAME);
@@ -257,7 +257,7 @@ float Ofunc_8007573c(EntityDB *param_1,ItemID id){
 //sems to load "perception" value checked for sneaking. almost always 10.
 float EntityDB::GetPerception(ItemID id){
   float fVar2 = 10.0f;
-  if ((ushort)id >> 8 != 0x14) {
+  if ((ushort)id >> 8 != DB_DIALOUGEENTITY) {
     fVar2 = (float)entities[GetIDIndex(id)].unk0x20;
   }
   return fVar2;
@@ -266,7 +266,7 @@ float EntityDB::GetPerception(ItemID id){
 //unknown what is was meant for.
 float EntityDB::GetVal_21h(ItemID id){
   float fVar2 = 2.0;
-  if ((ushort)id >> 8 != 0x14) 
+  if ((ushort)id >> 8 != DB_DIALOUGEENTITY) 
     fVar2 = (float)entities[GetIDIndex(id)].unk0x21;
   return fVar2;
 }
@@ -279,7 +279,7 @@ float EntityDB::GetHeight(ItemID id){
   dialougeEntity_Info *pdVar6;
   
   bVar3 = GetIDIndex(id);
-  if ((ushort)id >> 8 == 2) {
+  if ((ushort)id >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index) {
       entity_info *peVar5 = entity_info_array;
       uVar1 = entity_info_array[0].index;
@@ -290,7 +290,7 @@ float EntityDB::GetHeight(ItemID id){
       } while (uVar1 != 0);
     }
   }
-  else if (((ushort)id >> 8 == 0x14) && (dailougEnt_info_array[0].index != 0)) {
+  else if (((ushort)id >> 8 == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
     dialougeEntity_Info *pdVar6 = dailougEnt_info_array;
     uVar2 = dailougEnt_info_array[0].index;
     do {
@@ -314,7 +314,7 @@ u8 EntityDB::BattleCheck(ItemID id){
   u8 uVar3;
   byte bVar2;
   
-  if (id.s >> 8 == 0x14) uVar3 = 0xff;
+  if (id >> 8 == DB_DIALOUGEENTITY) uVar3 = 0xff;
   else {
     bVar2 = GetIDIndex(id);
     uVar3 = 0xff;
@@ -332,7 +332,7 @@ float EntityDB::GetFloatA(ItemID id){
   int iVar3;
   entity_info *peVar4;
   
-  if ((ushort)id >> 8 != 0x14) {
+  if ((ushort)id >> 8 != DB_DIALOUGEENTITY) {
     bVar2 = GetIDIndex(id);
     if (entity_info_array[0].index != 0) {
       peVar4 = entity_info_array;
@@ -350,14 +350,14 @@ float EntityDB::GetFloatA(ItemID id){
 }
 //not sure what this is for, used in "processPlayers"
 float EntityDB::RetPoint4(ItemID id){
-    if ((ushort)id >> 8 != 0x14)GetIDIndex(id);
+    if ((ushort)id >> 8 != DB_DIALOUGEENTITY)GetIDIndex(id);
     return 0.4f;
 }
 
 //returns false if the ID index matches a boss's.
 u8 EntityDB::IsNotBoss(ItemID id){
   
-  if (id.s >> 8 == 0x14) return true;
+  if (id >> 8 == DB_DIALOUGEENTITY) return true;
   switch(GetIDIndex(id)) {
     case 0x57:
     case 0x58:
@@ -383,7 +383,7 @@ float EntityDB::GetFloatC(ItemID id){
   float fVar5;
   
   fVar5 = 0.55f;
-  if ((ushort)id >> 8 != 0x14) {
+  if ((ushort)id >> 8 != DB_DIALOUGEENTITY) {
     bVar2 = GetIDIndex(id);
     fVar5 = 0.75f;
     if (entity_info_array[0].index != 0) {
@@ -412,7 +412,7 @@ float EntityDB::GetScale(ItemID param_2){
   dialougeEntity_Info *pdVar6;
   
   bVar3 = GetIDIndex(param_2);
-  if ((ushort)param_2 >> 8 == 2) {
+  if ((ushort)param_2 >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index != 0) {
       peVar5 = entity_info_array;
       iVar4 = 0;
@@ -427,7 +427,7 @@ float EntityDB::GetScale(ItemID param_2){
       } while (uVar1 != 0);
     }
   }
-  else if (((ushort)param_2 >> 8 == 0x14) && (dailougEnt_info_array[0].index != 0)) {
+  else if (((ushort)param_2 >> 8 == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
     pdVar6 = dailougEnt_info_array;
     iVar4 = 0;
     uVar2 = dailougEnt_info_array[0].index;
@@ -437,7 +437,7 @@ float EntityDB::GetScale(ItemID param_2){
       }
       pdVar6 = pdVar6 + 1;
       uVar2 = pdVar6->index;
-      iVar4 += 0x14;
+      iVar4 += DB_DIALOUGEENTITY;
     } while (uVar2 != 0);
   }
   return 1;

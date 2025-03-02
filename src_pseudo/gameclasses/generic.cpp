@@ -48,7 +48,7 @@ void make_temp_armor(ArmorInstance *param_1,ItemID param_2){
   armour_RAM *paVar1;
   u8 bVar4;
   u8 (*pabVar2) [2];
-  Temp_spell *pTVar3;
+  SpellInstance *pTVar3;
   armour_RAM *pcVar5;
   
   memset(param_1,0,0x14);
@@ -64,7 +64,7 @@ void make_temp_armor(ArmorInstance *param_1,ItemID param_2){
     make_2byte_array(pabVar2,pcVar5->stat,pcVar5->statNum);
   }
   if (pcVar5->spell != NONE) {
-    pTVar3 = (Temp_spell *)HeapAlloc(8,FILENAME,0x96);
+    pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0x96);
     param_1->spell = pTVar3;
     malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellLV,pcVar5->rom0x2a);
   }
@@ -75,7 +75,7 @@ void make_temp_weapon(WeaponInstance *param_1,ItemID param_2){
   weapon_ram *pwVar1;
   u8 bVar4;
   u8 (*pabVar2) [2];
-  Temp_spell *pTVar3;
+  SpellInstance *pTVar3;
   weapon_ram *pcVar5;
   
   memset(param_1,0,0x14);
@@ -91,7 +91,7 @@ void make_temp_weapon(WeaponInstance *param_1,ItemID param_2){
     make_2byte_array(pabVar2,pcVar5->stat,pcVar5->statMod);
   }
   if (pcVar5->spell != NONE) {
-    pTVar3 = (Temp_spell *)HeapAlloc(8,FILENAME,0xb8);
+    pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0xb8);
     param_1->spell = pTVar3;
     malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellAmmount,pcVar5->SpellLV);
   }
@@ -118,7 +118,7 @@ void make_temp_potion(Temp_potion *param_1,ItemID param_2){
 void make_GearInstance(GearInstance *param_1,ItemID param_2){
   s32 iVar1;
   u8 (*pabVar2) [2];
-  Temp_spell *pTVar3;
+  SpellInstance *pTVar3;
   Gear_RAM *pGVar4;
   
   memset(param_1,0,0x14);
@@ -135,7 +135,7 @@ void make_GearInstance(GearInstance *param_1,ItemID param_2){
     make_2byte_array(pabVar2,pGVar4->stat,pGVar4->StatMod);
   }
   if (pGVar4->spell != 0xff) {
-    pTVar3 = (Temp_spell *)HeapAlloc(8,FILENAME,0xee);
+    pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0xee);
     param_1->pSpell = pTVar3;
     malloc_equip_spell(pTVar3,pGVar4->spell,pGVar4->spellVal1,pGVar4->spellVal2);
   }

@@ -1,5 +1,5 @@
 #include "globals.h"
-
+#include "combat\SpellVisuals.h"
 #define FILENAME "../gameclasses/spell.cpp"
 
 
@@ -150,8 +150,7 @@ void malloc_equip_spell(SpellCharges *param_1,u8 param_2,u8 param_3,u8 param_4){
 void Ofunc_80084200(SpellInstance **param_1){ //probably wrong type
   if (*param_1 ) {
     ItemInstance::RemoveStatSpell(*param_1->base);
-    HFREE(*param_1,0x148);
-    *param_1 = NULL;
+    FREE(*param_1,328);
   }
 }
 
@@ -175,7 +174,8 @@ void SpellBook::NewSpell(ItemID id,u8 rank){
   uVar1 = this->count;
   if ((uVar1) && (uVar1)) { //yes it seems to check twice
     for (i = 0;uVar4 < uVar1;i++) {
-      tSpells[i][0] = this->spells[i]->base.id.s;
+      //save learned spells before clearing and expanding spellbook.
+      tSpells[i][0] = this->spells[i]->base.id;
       tSpells[i][1] = this->spells[i]->level;
     }
   }

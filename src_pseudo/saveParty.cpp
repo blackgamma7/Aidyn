@@ -64,9 +64,9 @@ StatMod * SaveParty::LoadStatMod(SaveFile *sav){
 }
 
 void SaveParty::SaveItem(SaveFile *sav,ItemInstance *item){
-  if ((!item) || (!item->id.s)) Advance(sav,0x1c);
+  if ((!item) || (!item->id)) Advance(sav,0x1c);
   else {
-    SaveBits(sav,item->id.s,13);
+    SaveBits(sav,item->id,13);
     u32 dat = 0;
     if (item->spellCharge) {
       dat = item->spellCharge->Charges;

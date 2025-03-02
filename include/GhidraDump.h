@@ -889,7 +889,7 @@ typedef enum Borg8Enum { /* Sprites/Textures */
     BORG8_IconItemUnk=13788,
     BORG8_IconItemKey1=13789,
     BORG8_IconItemKey2=13790,
-    BORG8_IconItemKey3=13791,
+    BORG8_IconItemKey3=13791, //icon for the unused Blood/bone/skull/black keys
     BORG8_IconItemHorn=13792,
     BORG8_IconItemMace=13793,
     BORG8_IconItemParchment=13794,
@@ -1303,76 +1303,6 @@ struct CombatRadarBlip {
 };
 
 
-/*
-
-struct combatStrings {
-    char *begins action;
-    char *party fless;
-    char *party wins;
-    char *space;
-    char *they heal;
-    char *they gain 1 hp;
-    char *they gain HP;
-    char *they failed heal;
-    char *they avoid;
-    char *they attack;
-    char *they hit;
-    char *crit attack;
-    char *they lose  hp;
-    char *they lose1HP;
-    char *they miss;
-    char *potion already used;
-    char *potion worked;
-    char *potion failed;
-    char *potion full stamina;
-    char *they miss_;
-    char *they died;
-    char *potion Exploded;
-    char *No Spell Available;
-    char *not enough spell ingredients;
-    char *not enough Stam for Spell;
-    char *they failed spell;
-    char *they resist spell;
-    char *they cast spell;
-    char *spell was cast;
-    char *I'M POISONED!!!;
-    char *they flee;
-    char *they join battle;
-    char *shadow's vortex;
-    char *they rest;
-    char *they swap weapons;
-    char *x's details;
-    char *field36_0x90;
-    char *field37_0x94;
-    char *field38_0x98;
-    char *field39_0x9c;
-    char *field40_0xa0;
-    char *field41_0xa4;
-    char *field42_0xa8;
-    char *field43_0xac;
-    char *field44_0xb0;
-    char *field45_0xb4;
-    char *field46_0xb8;
-    char *field47_0xbc;
-    char *already performing;
-    char *too tired to perform;
-    char *they failed troubador;
-    char *they perform;
-    char *they still perform;
-    char *enemy wins by default;
-    char *flee_d;
-    char *s_u_c;
-    char *(string);
-    char *they fail;
-    char *they're banished;
-    char *enemy reinforcments flee;
-    char *Shadow dissipates;
-    char *good;
-    char *bad;
-    char *Cheated Death;
-    char *field64_0x100;
-};
-*/
 
 typedef struct EncounterDat EncounterDat, *PEncounterDat;
 

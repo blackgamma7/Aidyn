@@ -53,3 +53,9 @@ struct CombatStruct { /* combat structure. needs more study */
 };
 
 extern CombatStruct* gCombatP;
+
+//refernce romstring loaded during combat
+#define ComString(x) gCombatP->textArray[COMBATSTRING_##x]
+
+//use gGlobals.text as sprintf buffer
+#define CSprintf(x,...) Gsprintf(ComString(x),__VA_ARGS__)

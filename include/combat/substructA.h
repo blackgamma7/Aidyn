@@ -39,3 +39,5 @@ bool FUN_80071d2c(CombatSubstructA *,u8,u8,u8,u8,s16*,u8);
 uint FUN_80071e84(CombatSubstructA *,u16*);
 uint FUN_80071ec4(CombatSubstructA *,u8,u8,u8,u8,u8,u8(*) [2]);
 void Ofunc_8007216c(CombatSubstructA *,u8*,u8*,u8,u8);
+
+#define unk800714d0(CEnt) FUN_800714d0(&gCombatP->substruct,CEnt->GetCoordXU8(),CEnt->GetCoordYU8(),CEnt->unk23)

@@ -8,20 +8,19 @@ void PartyInventory::Reset(){
 }
 
 void PartyInventory::Clear(){
-    int i;
-    for(i=0;i<PARTY_CAPACITY;i++){
+    for(u32 i=0;i<PARTY_CAPACITY;i++){
         if(inv_slots[i].Quantity){
             inv_slots[i].Quantity=0;
-            if(inv_slots[i].base.id.s)ItemInstance::RemoveStatSpell(inv_slots[i].base);
+            if(inv_slots[i].base.id)ItemInstance::RemoveStatSpell(inv_slots[i].base);
         }
     }
-    this->Reset();
+    Reset();
 }
 void PartyInventory::Load(SaveFile *sav){
   Inventory_item *pIVar2;
   uint i;
   
-  this->Clear();
+  Clear();
   for(i=0;i<0x80;i++) {
     inv_slots[i].Quantity = SaveParty::LoadBits(sav,8);
     if (inv_slots[i].Quantity == 0) {
@@ -39,12 +38,8 @@ void PartyInventory::Load(SaveFile *sav){
 }
 
 void PartyInventory::Save(SaveFile *sav){
-  Inventory_item *pTVar2;
-  uint uVar1;
-  
-  uVar1 = 0;
-  pTVar2 = this->inv_slots;
-  for(i=0;i<0x80;i++){
+  Inventory_item *pTVar2 = this->inv_slots;
+  for(u32 i=0;i<0x80;i++){
     SaveParty::SaveBits(sav,pTVar2->Quantity,8);
     if (pTVar2->Quantity == 0) {
       SaveParty::SaveItem(sav,NULL);
@@ -64,7 +59,7 @@ s32 PartyInventory::AddItem(ItemID id,s32 quantity){
   u8 bVar3;
   uint slot;
   //Turn "A" potions into Healing potions.
-  if (id.s == 0x100b) id.s = 0x1004;
+  if (id == Potion_Aspect) id = Potion_Healing;
   index = this->GetItemIndex(id);
   if (index == -1) {
     bVar3 = true;
@@ -91,7 +86,7 @@ s32 PartyInventory::AddItem(ItemID id,s32 quantity){
   return bVar3;
 }
 
-s32 PartyInventory::TakeItem(ItemID id,int q){
+s32 PartyInventory::TakeItem(ItemID id,s32 q){
     s16 index = this->GetItemIndex(id);
     if(index!=-1)this->IncItemQuantity(index,-q);
     return (index!=-1);
@@ -125,7 +120,7 @@ s32 PartyInventory::IncItemQuantity(s32 slot,s32 q){
       key_item_flags((item->base).id);
       Item_is_in_some_array((item->base).id);
       item->Quantity = 0;
-      if ((item->base).id.s) {
+      if ((item->base).id) {
         ItemInstance::RemoveStatSpell(&item->base);
       }
       quantity--;
@@ -144,17 +139,20 @@ s32 PartyInventory::GetItemQuantity(s32 slot){
 
 #define SLOTSEARCH(arr) int slot =SearchArray(arr,sizeof(arr)/sizeof(arr[0]),id)
 
-ItemID D_800F1890[]=
-  { 0x0111, 0x0112, 0x0113, 0x010e, 0x0121, 0x0122, 0x0123, 0x0124,
-    0x1100, 0x1101, 0x1102, 0x1103, 0x1104, 0x1106, 0x1107, 0x1108,
-    0x1109, 0x110a, 0x110b, 0x110c, 0x110d, 0x110e, 0x110f, 0x1110,
-    0x1111, 0x112e, 0x1133, 0x1134, 0x1135, 0x1136, 0x1137, 0x1138,
-    0x113b, 0x113c, 0x113d, 0x113e, 0x110e, 0x1143, 0x1144, 0x1145,
-    0x1146, 0x1147, 0x1148, 0x1149, 0x114a, 0x114c, 0x114d, 0x114e,
-    0x1150, 0x1151, 0x1152, 0x1153, 0x1154, 0x1155, 0x1156, 0x1157,
-    0x1158, 0x1159, 0x115a, 0x115b, 0x115c, 0x115d, 0x115e, 0x115f,
-    0x1000, 0x1001, 0x1002, 0x1003, 0x1004, 0x1005, 0x1006, 0x1007,
-    0x1008, 0x1009, 0x100a, 0x100b, 0x100d, 0x100e, 0x100f, 0x1010 };
+ItemID D_800F1890[]={
+  Item_Spice, Item_Herb, Item_Gemstone, Item_Sulphur, Item_HellhoundHide,
+  Item_DarkenbatHide, Item_BeastHide, Item_Chitlin,
+  Scroll_SenseAura, Scroll_Oriana, Scroll_Wind, Scroll_Endurance, Scroll_Weakness,
+  0x1106, Scroll_Strength, Scroll_RemovePoison,Scroll_Lightning, Scroll_Immolation,
+  0x110b, Scroll_Escape, Scroll_EarthSmite, Scroll_DragonFlames, Scroll_Debilitation, Scroll_ControlElem,
+  Scroll_AirShield, Scroll_Lighthouse, 0x1133, 0x1134, 0x1135, 0x1136, 0x1137, 0x1138,
+  0x113b, 0x113c, 0x113d, 0x113e, 0x110e, 0x1143, 0x1144, 0x1145,
+  0x1146, 0x1147, 0x1148, 0x1149, 0x114a, 0x114c, 0x114d, 0x114e,
+  0x1150, 0x1151, 0x1152, 0x1153, 0x1154, 0x1155, 0x1156, 0x1157,
+  0x1158, 0x1159, 0x115a, 0x115b, 0x115c, 0x115d, 0x115e, 0x115f,
+  Potion_Fire, Potion_Inferno, Potion_Sleep, Potion_Acid, Potion_Healing,
+  Potion_Stamina, Potion_Curing, Potion_Antidote, Potion_Restore, Potion_Strength,
+  Potion_Dexterity, Potion_Aspect, Potion_Jumping, Potion_Clarity, Potion_Defence, Potion_Steath };
 
 s32 PartyInventory::AddKeyItem(ItemID id,s32 q){
   SLOTSEARCH(D_800F1890);
@@ -167,10 +165,13 @@ u16 key_item_flags_1[]={
     3416,3417,3418,3419,3420,3421,3422,3423,3424,3435,3426,3427,3428,
     3429,3430,3431,3432,0x195};
 ItemID key_item_array_2[]={
-    0x0100, 0x0101, 0x0102, 0x0105, 0x0106, 0x0107, 0x0108, 0x0109,
-    0x010a, 0x010b, 0x010c, 0x010d, 0x010f, 0x0114, 0x0119, 0x011a,
-    0x011b, 0x011c, 0x011d, 0x011e, 0x011f, 0x0120, 0x1200, 0x1201,
-    0x1202, 0x1203, 0x1204, 0x1205, 0x1206, 0x1207, 0x0104 };
+  Item_TxominLetter, Item_Amaranth, Item_OrianaLetter,
+  Item_Map1, Item_Map2, Item_Map4, Item_Map5, Item_Map6,
+  Item_Map7, Item_Map8, Item_Map10, Item_Map10, Item_Map11,
+  Item_Map12, Item_CradawghBody, Item_Map13, Item_Map14, 
+  Item_Map15, Item_Map16, Item_GoblinMap, Item_Map17, Item_Map18,
+  Key_Bowden, Key_Black, Key_Skull, Key_Blood, Key_Bone,
+  Key_Lighthouse, Key_lodin, Key_Dragon, Item_RabisatAsp };
 // this array is for map items to reveal their respective region in the pause menu.
 u16 key_item_flags_2[]={ 
     0, 0, 0, 788, 789, 790, 791, 792, 793, 794,
@@ -225,7 +226,7 @@ void PartyInventory::LoadKeyItems(SaveFile* sav){
 void PartyInventory::LoadLast15Items(SaveFile *sav){
     for(int i=0;i<13;i++){
         SaveParty::LoadItem(sav,&inv_slots[i+239].base);
-        if(inv_slots[i+239].base.id.s){
+        if(inv_slots[i+239].base.id){
             inv_slots[i+239].Quantity=1;
             quantity++;
         }
@@ -255,16 +256,16 @@ void PartyInventory::AddNewItem(int slot,ItemID id,s32 quant){
 //search for the index of (query) in (array), which is (size) long
 int PartyInventory::SearchArray(ItemID *array,u8 size,ItemID query){
   for(s32 i=0;i<size;i++){
-      if (array[i].s == query.s) return i;
+      if (array[i] == query) return i;
   }
   return -1;
 }
 //don't use "A" potions - change them to healing potions
 void PartyInventory::ChangeAspectPotions(){
-    s32 index = this->GetItemIndex((0x100B));
+    s32 index = this->GetItemIndex(Potion_Aspect);
     if(index!=-1){
         Inventory_item* i = &inv_slots[index];
-        this->AddItem((0x1004),i->Quantity);
+        this->AddItem((Potion_Healing),i->Quantity);
         this->TakeItem(i->base.id,i->Quantity);
     }
 }

@@ -93,18 +93,18 @@ u8 Party::isMemberUnequipped(u8 slot){
   chara = this->Members[slot];
   u8 index = GetIDIndex(chara->ID);
   pEVar1 = gEntityDB->entities;
-  if ((*chara->armor != NULL) || (ret = false, gEntityDB->entities[index].Armor.s == 0xffff)) {
+  if ((*chara->armor != NULL) || (ret = false, gEntityDB->entities[index].Armor == Item_NONE)) {
     if (chara->armor[1] == NULL) {
-      if (pEVar1[index].Sheild.s != 0xffff) {
+      if (pEVar1[index].Sheild != Item_NONE) {
         return false;
       }
     }
     ret = true;
     if (chara->weapons == NULL) {
       ret = false;
-      if (((pEVar1[index].weapon[0].s == 0xffff) &&
-          (ret = false, pEVar1[index].weapon[1].s == 0xffff)) &&
-         (ret = false, pEVar1[index].weapon[2].s == 0xffff)) {
+      if (((pEVar1[index].weapon[0] == Item_NONE) &&
+          (ret = false, pEVar1[index].weapon[1] == Item_NONE)) &&
+         (ret = false, pEVar1[index].weapon[2] == Item_NONE)) {
         ret = true;
       }
     }
@@ -154,7 +154,7 @@ void Party::MoveCharSheet(){
 
 s8 Party::GetMemberIndex(ItemID id){
   for(u8 i=0;i<MAXPARTY;i++){
-    if((this->Members[i])&&this->Members[i]->ID.s==id.s) return i;
+    if((this->Members[i])&&this->Members[i]->ID==id) return i;
   }
   return -1;
 }
@@ -185,7 +185,7 @@ u8 Party::IsCharacterInParty(ItemID param_2){
   CharSheet *psVar1;
 
   while ((psVar1 = this->Members[i], psVar1 == NULL ||
-         (psVar1->ID.s != param_2.s))) {
+         (psVar1->ID != param_2))) {
     i++;
     if (3 < i) return false;
   }
@@ -368,7 +368,7 @@ u8 Party::GetEquipError(u8 param_2,char param_3,ItemID*oId){
   if ((pCVar1) &&(puVar4 = &this->Inventory->GetItemEntry(param_3)->base,puVar4)) {
     if ((puVar4->aspect != ASPECT_NONE) &&(puVar4->aspect != CharExp::GetAspect(pCVar1->EXP))) return 2;
     for (u16 uVar6 = 0;itemtype_funcs[uVar6].type != 0xff;uVar6++){
-        if (itemtype_funcs[uVar6].type== puVar4->id.s >> 8) {
+        if (itemtype_funcs[uVar6].type== puVar4->id >> 8) {
           return itemtype_funcs[uVar6].func(this,param_2,puVar4,pCVar1,oId);
         }
       }
@@ -797,7 +797,7 @@ u8 Party::RemoveWeaponsFrom(u8 param_2){
     pTVar5 = pCVar1->weapons;
     if (pTVar5 == NULL) return false;
     //Can't move Archmage Staff
-    if ((weaponList[66] + 0x700) == pTVar5->base.id.s) return false;
+    if ((weaponList[66] + 0x700) == pTVar5->base.id) return false;
     StatMod* X = CreateStatMod(pTVar5->base.statMod);
     uVar6 = 0xff;
     if (pTVar5->base.spellCharge) {uVar6 = pTVar5->base.spellCharge->Charges;}
@@ -818,7 +818,7 @@ u8 Party::RemoveWeaponsFrom(u8 param_2){
           pCVar3 = (&gCombatP->combatEnts)[param_2];
           if (pCVar3 == NULL) {return false;}
           pCVar3->AtkType = 0;
-          get_weapon_sheild_borg5(pCVar3);
+          ShowWeaponSheild(pCVar3);
         }
         return false;
       }
@@ -1833,7 +1833,7 @@ u8 get_equip_stamMod(ItemID id){
   ItemID IVar4;
   
   bVar3 = 0;
-  switch(id.s >> 8) {
+  switch(id >> 8) {
   case 1:
   case 9:
   case 10:

@@ -558,3 +558,70 @@ COMMONSTRING_SpellTrainMax,    // You cannot train this spell any further.
 COMMONSTRING_NewSave,    // Create New Save
 COMMONSTRING_XPowerfulMagic,    // The %s contains powerful magic that only %s can control
 };
+
+enum CombatStrings{
+    COMBATSTRING_XsTurn,// %s begins action
+    COMBATSTRING_PartyFlees,// The Party flees
+    COMBATSTRING_PartyWins,// The Party is victorious
+    COMBATSTRING_Blank, // single space char
+    COMBATSTRING_XHealsY,// %s heals %s
+    COMBATSTRING_XHealsYHP,// %s gains %d hit points
+    COMBATSTRING_XHeals1HP,// %s gains 1 hit point
+    COMBATSTRING_XHealFail,// %s fails to perform healing
+    COMBATSTRING_XAvoids,// %s avoids the attack
+    COMBATSTRING_XAttacksY,// %s attacks %s
+    COMBATSTRING_XHitsY,// %s hits %s
+    COMBATSTRING_XCritsY,// %s scores a critical hit on %s
+    COMBATSTRING_XLosesYHP,// %s loses %d hit points
+    COMBATSTRING_XLoses1HP,// %s loses 1 hit point
+    COMBATSTRING_XMissesY,// %s misses %s
+    COMBATSTRING_XPotionedAlready,// Potion already applied to %s
+    COMBATSTRING_XPotioned,// Potion successfully applied to %s
+    COMBATSTRING_XPotionFail,// %s fails to apply potion
+    COMBATSTRING_XPotionStamina,// Potion grants %s full stamina
+    COMBATSTRING_XMiss,// %s misses
+    COMBATSTRING_XKilled,// %s killed
+    COMBATSTRING_PotionBoom,// Potion exploded
+    COMBATSTRING_SpellCant,// Spell Unavailable
+    COMBATSTRING_SpellFailComponent,// Missing spell component
+    COMBATSTRING_SpellFailTired,// Not enough ST to cast spell
+    COMBATSTRING_SpellFail,// %s fails to cast the spell
+    COMBATSTRING_SpellResist,// %s resists the spell
+    COMBATSTRING_SpellXCastsY,// %s casts %s
+    COMBATSTRING_SpellXCastOnY,// %s cast on %s
+    COMBATSTRING_PlotPoison,// ...what happened? I can't see... it's just a scratch... but it burns...
+    COMBATSTRING_XFlees,// %s flees
+    COMBATSTRING_XJoins,// %s joins the battle
+    COMBATSTRING_XShadow,// %s caught in the vortex of the Shadow
+    COMBATSTRING_XRest,// %s rests
+    COMBATSTRING_XWeaponSwap,// %s swaps weapons
+    COMBATSTRING_Details0,// %s details:
+    COMBATSTRING_Details1,// Level: %d
+    COMBATSTRING_Details2,// Level: %d   Max HP: %d
+    COMBATSTRING_Details3,// Current ST: %d   Current EN: %d
+    COMBATSTRING_Details4,// Current DX: %d   Current PS: %d
+    COMBATSTRING_Details5,// Current IN: %d   Current WL: %d
+    COMBATSTRING_Details6,// Aspect: %s
+    COMBATSTRING_Details7,// Total Protection: %d
+    COMBATSTRING_Details8,// Spell Effects:
+    COMBATSTRING_Details9,//    %s
+    COMBATSTRING_DetailsA,// Morale: %d
+    COMBATSTRING_DetailsB,// %s Resistance: %4.2f
+    COMBATSTRING_DetailsC,// Magic School: %s
+    COMBATSTRING_TroubAlready,// %s is already performing
+    COMBATSTRING_TroubTired,// %s is too weak to perform
+    COMBATSTRING_TroubFail,// %s fails to perform
+    COMBATSTRING_TroubStart,// %s performs
+    COMBATSTRING_TroubContinue,// %s continues to perform
+    COMBATSTRING_PartyKO,// The party is incapacitated. The enemy is victorious.
+    COMBATSTRING_FleeX,// flee%d
+    COMBATSTRING_SUC,// %s%u%c
+    COMBATSTRING_X,// %s
+    COMBATSTRING_XFails,// %s fails
+    COMBATSTRING_XBanished,// %s banished
+    COMBATSTRING_ReinforceFlee,// Enemy reinforcements flee
+    COMBATSTRING_ShadowVanish,// The Shadow dissipates
+    COMBATSTRING_RefPoint0,// good
+    COMBATSTRING_RefPoint1,// bad
+    COMBATSTRING_CheatDeath,// %s cheats death
+};

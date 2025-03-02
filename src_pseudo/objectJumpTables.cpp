@@ -96,7 +96,7 @@ void open_explosive_chest(voxelObject* param_1,Borg9data *param_2){
   chest_explode_particles(param_1,(param_1->header).pos.y,&particleCol,420,2,75,0.04f,
              0.06f,-0.00085714285,1);
   (param_1->container).Gold = 0;
-  (param_1->container).LootCat.s =0;
+  (param_1->container).LootCat =0;
   replace_container_voxel(param_1,2,param_2);
   setEventFlag((param_1->container).explodeFlag,true);
   getEventFlag(0x15fa);

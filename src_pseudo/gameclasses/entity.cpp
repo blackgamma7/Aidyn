@@ -5,7 +5,7 @@
 #include "combat/CombatStruct.h"
 
 u8 Entity::IsElemental(ItemID id){
-  if (id.s >> 8 == 2) {
+  if (id >> 8 == 2) {
     u8 index = GetIDIndex(id);
     //Air, Earth, Fire Water Elementals
     if ((((index == 0xc2) || (index == 0xc4)) || (index == 0xc5)) || (index == 199)) return true;
@@ -29,12 +29,12 @@ void Entity::EquipFunc0(CharSheet *ent,Entity_Ram *param_2){
   memset(x,0,sizeof(PotionEffect*)*POTION_FXMAX);
   ent->weapons = NULL;
   ent->EXP->total = EXP_TNL[CharStats::getBase(ent->Stats,STAT_LV)];
-  if (param_2->weapon[0].s != 0xffff) {EquipWeapon(ent,param_2->weapon[0],0);}
-  if (param_2->weapon[1].s != 0xffff) {
+  if (param_2->weapon[0] != 0xffff) {EquipWeapon(ent,param_2->weapon[0],0);}
+  if (param_2->weapon[1] != 0xffff) {
     if (ent->weapons == NULL) EquipWeapon(ent,param_2->weapon[1],0);
     else PARTY->Inventory->AddItem(param_2->weapon[1],1);
   }
-  if (param_2->weapon[2].s != 0xffff) {
+  if (param_2->weapon[2] != 0xffff) {
     if (ent->weapons == NULL) EquipWeapon(ent,param_2->weapon[2],0);
     else PARTY->Inventory->AddItem(param_2->weapon[2],1);
   }
@@ -47,8 +47,8 @@ void Entity::EquipFunc1(CharSheet *param_1,Entity_Ram *param_2){
   param_1->potionEffects = x;
   memset(x,0,sizeof(PotionEffect*)*POTION_FXMAX);
   param_1->weapons = NULL;
-  if (param_2->weapon[2].s != 0xffff) {EquipWeapon(param_1,param_2->weapon[2],0);}
-  if ((param_2->weapon[0].s !=0xffff) && (param_1->weapons == NULL)) {
+  if (param_2->weapon[2] != 0xffff) {EquipWeapon(param_1,param_2->weapon[2],0);}
+  if ((param_2->weapon[0] !=0xffff) && (param_1->weapons == NULL)) {
     EquipWeapon(param_1,param_2->weapon[0],0);
   }
 }
@@ -57,11 +57,11 @@ void Entity::EquipFunc2(CharSheet *param_1,Entity_Ram *param_2){
   ItemID IVar1;
   
   param_1->weapons = NULL;
-  if (param_2->weapon[0].s != (ItemID)-1){EquipWeapon(param_1,param_2->weapon[0],0);}
-  if (param_2->weapon[1].s != (ItemID)-1){
+  if (param_2->weapon[0] != (ItemID)-1){EquipWeapon(param_1,param_2->weapon[0],0);}
+  if (param_2->weapon[1] != (ItemID)-1){
     if (param_1->weapons == NULL) {EquipWeapon(param_1,param_2->weapon[1],0);}
   }
-  if ((param_2->weapon[2].s != (ItemID)-1) && (param_1->weapons == NULL)) {
+  if ((param_2->weapon[2] != (ItemID)-1) && (param_1->weapons == NULL)) {
     EquipWeapon(param_1,param_2->weapon[2],0);
   }
 }
@@ -84,14 +84,14 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   ALLOCS(param_1->armor,2*sizeof(ArmorInstance*),266);
   param_1->armor[0] = NULL;
   param_1->armor[1] = NULL;
-  if (pEVar10->Armor.s != 0xffff) EquipArmor(param_1,pEVar10->Armor,0);
-  if (pEVar10->Sheild.s != 0xffff) EquipSheild(param_1,pEVar10->Sheild,NULL);
+  if (pEVar10->Armor != 0xffff) EquipArmor(param_1,pEVar10->Armor,0);
+  if (pEVar10->Sheild != 0xffff) EquipSheild(param_1,pEVar10->Sheild,NULL);
   ALLOC(param_1->pItemList,273);
   CharGear::Init(param_1->pItemList,GEARTOTAL);
   ALLOC(param_1->spellbook,276);
   param_1->spellbook->Reset(5);
   for(u8 i=0;i < 5;i++) {
-    if (pEVar10->spells[i].s != 0xffff) {
+    if (pEVar10->spells[i] != 0xffff) {
       ALLOCL(param_1->spellbook->spells[i],282);
       TempSpell::Init(pSVar6,ID,pEVar10->Spell_levels[i]);
       param_1->spellbook->count++;
@@ -217,7 +217,7 @@ void Entity::DamageToLevel(CharSheet *ent,short param_2,CombatEntity *cEnt){
           return;
         }
       }
-      if (cEnt) clear_combatEnt_effects(cEnt);
+      if (cEnt) CombatEntity::ClearSpellEffects(cEnt);
       ClearAllPotionEffects(ent);
       if (!isDead(ent) DoubleTap(ent);
     }
@@ -975,7 +975,7 @@ LAB_800798b0:
     bVar11 = true;
     if ((uVar16 != 0) && (combatTarget)) {
       UNK4 = 1;
-      CombatEntity::FlagUnset(combatTarget,COMBATENT_CANMOVE);
+      CombatEntity::UnsetFlag(combatTarget,COMBATENT_CANMOVE);
       bVar11 = true;
     }
     goto LAB_80079984;
@@ -1062,8 +1062,8 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
   case SPELLIND_controlMarquis:
   case SPELLIND_controlZombies:
     if (combatEnt == NULL) return;
-    if (!CombatEntity::Flag5(combatEnt)) CombatEntity::FlagUnset(combatEnt,COMBATENT_ALLY);
-    else CombatEntity::FlagSet(combatEnt,COMBATENT_ALLY);
+    if (!CombatEntity::Flag5(combatEnt)) CombatEntity::UnsetFlag(combatEnt,COMBATENT_ALLY);
+    else CombatEntity::SetFlag(combatEnt,COMBATENT_ALLY);
     return;
   case SPELLIND_debilitation:
     bVar5 = pTVar1->lv;
@@ -1120,7 +1120,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
   case SPELLIND_frozenDoom:
   case SPELLIND_webOfStarlight:
     if (combatEnt) {
-      CombatEntity::FlagSet(combatEnt,COMBATENT_CANMOVE);
+      CombatEntity::SetFlag(combatEnt,COMBATENT_CANMOVE);
       return;
     }
     break;
@@ -1303,7 +1303,7 @@ void Entity::DecSpellCharge(CharSheet *param_1){
   
   if (param_1->spellSwitch == 5) {
     ptVar1 = param_1->pItemList->pItem[param_1->currSpell];
-    uVar3 = (u16)ptVar1->base.id.s >> 8;
+    uVar3 = (u16)ptVar1->base.id >> 8;
     if ((uVar3 == 0x11) || (uVar3 == 0xd)) ptVar1->base.spellCharge->Charges--;
   }
 }
@@ -1907,7 +1907,7 @@ u8 Entity::IsDebuffSpell(CharSheet* c,SpellEnum spell){
 u8 Entity::GetShieldDefence(CharSheet *param_1,ItemID param_2){
   u8 bVar2 = 0;
   if (param_1->armor[1]) {bVar2 = param_1->armor[1]->DEF;}
-  if (((param_2.s) && (param_2.s >> 8 == 6)) && (!NoSheildSkill(param_1))) {
+  if (((param_2) && (param_2 >> 8 == 6)) && (!NoSheildSkill(param_1))) {
     bVar2 = armour_pointer->Armor[GetIDIndex(param_2)].defence;}
   return bVar2;
 }

@@ -187,7 +187,7 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
           pmVar9 = param_2->enemyEntries + uVar4;
           printLine(0x27e);
           uStack_38 = uVar4 + 1;
-          if (pmVar9->enemyID.s) {
+          if (pmVar9->enemyID) {
             uVar4 = 0;
             iVar6 = 0;
             printLine(0x281);
@@ -258,7 +258,7 @@ uint add_to_enemy_encounters(EncounterDat *param_1,monsterparty_dat *param_2){
   do {
     printLine(681);
     printLine(682);
-    if (pmVar4->enemyEntries[0].enemyID.s) {
+    if (pmVar4->enemyEntries[0].enemyID) {
       printLine(685);
       uVar3 = 0;
       uVar5 = uVar6;
@@ -307,7 +307,7 @@ uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
       pIVar6 = param_2->enemyEntries + i;
       printLine(0x2cb);
       uVar4 = uVar3;
-      if ((pIVar6->enemyID.s) &&
+      if ((pIVar6->enemyID) &&
          (printLine(0x2ce),
          pIVar6->min < pIVar6->max)) {
         uVar6 = 0;
@@ -352,7 +352,7 @@ void Emergency_skeleton_func(monsterparty_dat *param_1){
   printLine(0x2f3);
   if (uVar1 == 0) {
     uVar1 = 1;                                    // skeleton
-    gGlobals.EncounterDat.enemy_entities[0].s = (entityList[187] + 0x200);
+    gGlobals.EncounterDat.enemy_entities[0] = (entityList[187] + 0x200);
   }
   printLine(0x2f7);
   if (uVar1 < 0xc)
@@ -405,7 +405,7 @@ void load_camp_ambush(void){
   
   get_battle_terrain(&gGlobals.EncounterDat);
   gGlobals.EncounterDat.collisionByte = 2;
-  gGlobals.EncounterDat.globalLoot.s = 0;
+  gGlobals.EncounterDat.globalLoot = 0;
   gGlobals.EncounterDat.unk28 = 0;
   gGlobals.EncounterDat.EncounterID = 0;
   gGlobals.EncounterDat.BossShadow = 0;
