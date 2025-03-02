@@ -231,7 +231,7 @@ LAB_80068514:
     if (!Flag2()) {
       if (IsNearShadow(this)) {
         if ((this == gCombatP->current_Ent) && (this->index != gGlobals.ShadowIndex)){
-          Gsprintf(ComString(XShadow),this->charSheetP->name);
+          CSprintf(XShadow,this->charSheetP->name);
           copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
           print_combat_textbox(gCombatP,gGlobals.text,0);
         }
@@ -1631,9 +1631,9 @@ s16 CombatEntity::CalculateWeaponAttack(CombatEntity *target){
       sVar3 = CombatEntity::STRTheifCheck(sVar3,(int)sVar4,target,1,(int)backstab);
       WeaponSkillUpChance(uVar6,pWVar1->weaponType);
       if (rand == sVar4)
-        Gsprintf(ComString(XHitsY),this->charSheetP->name,target->charSheetP->name);
+        CSprintf(XHitsY,this->charSheetP->name,target->charSheetP->name);
       else
-        Gsprintf(ComString(XCritsY),this->charSheetP->name,target->charSheetP->name);
+        CSprintf(XCritsY,this->charSheetP->name,target->charSheetP->name);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
       if (sVar3 == 0) PrintEvade(target);
@@ -1765,7 +1765,7 @@ s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *param_2,s8 param_3,s8 pa
   if (param_2->unk22 == 0) iVar7 *= 1.2f;
   if (CharStats::getModded(DefStats,STAT_STAM) == 0) iVar7 *= 1.15f;
   iVar8 = FUN_80070cc4(&gCombatP->substruct,param_3,param_4,GetCoordXU8(),GetCoordYU8());
-  iVar8 *= (iVar8 * 0.05f + 1.0f);
+  iVar8 *= (iVar7 * 0.05f + 1.0f);
   if (CharStats::getModded(Atkstats,STAT_STAM) == 0) iVar8 *= 0.9f;
   iVar7 = iVar8 *(1.0f - TerrainPointer->PrecipScale * 0.3f);
   if (TerrainPointer->partOfDay == TIME_NIGHT) iVar7 *= 0.7f;
@@ -1802,12 +1802,10 @@ u16 CombatEntity::WeaponAttack(CombatEntity *target){
   else uVar9 = 5;
   if (sVar4 < sVar3) {
     dmg = STRTheifCheck(sVar3,(int)sVar4,target,0,0);
-    if (rand == sVar4) {
-      Gsprintf(ComString(XHitsY),this->charSheetP->name,target->charSheetP->name);
-    }
-    else {
-      Gsprintf(ComString(XCritsY),this->charSheetP->name,target->charSheetP->name);
-    }
+    if (rand == sVar4) 
+      CSprintf(XHitsY,this->charSheetP->name,target->charSheetP->name);
+    else
+      CSprintf(XCritsY,this->charSheetP->name,target->charSheetP->name);
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
     print_combat_textbox(gCombatP,gGlobals.text,0);
     if (dmg == 0) PrintSwingAndMiss(target);
@@ -1844,7 +1842,7 @@ u8 CombatEntity::GetSpellError(CombatEntity *param_2,SpellInstance *param_3,u8 p
   
   if (param_3->target == outside_Combat) {
     if (param_4 == false) {
-      Gsprintf(ComString(SpellCant));
+      CSprintf(SpellCant);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
     }
@@ -1870,14 +1868,14 @@ void CombatEntity::PrintSpellFailCause(char *param_2){
 }
 
 void CombatEntity::PrintSpellCast(CombatEntity *param_2,SpellInstance *param_3){
-  Gsprintf(ComString(SpellXCastsY),this->charSheetP->name,param_3->base.name);
+  CSprintf(SpellXCastsY,this->charSheetP->name,param_3->base.name);
   copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
-  Gsprintf(ComString(SpellXCastOnY),param_3->base.name,param_2->charSheetP->name);
+  CSprintf(SpellXCastOnY,param_3->base.name,param_2->charSheetP->name);
   print_combat_textbox(gCombatP,gGlobals.text,0);
 }
 
 void CombatEntity::PrintSpellFail(){
-  Gsprintf(ComString(SpellFail),this->charSheetP->name);
+  CSprintf(SpellFail,this->charSheetP->name);
   copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
   print_combat_textbox(gCombatP,gGlobals.text,0);
 }
@@ -2072,7 +2070,7 @@ u8 CombatEntity::UseSpellCharge(CombatEntity*x,SpellInstance *param_2,u8 param_3
       goto LAB_8006d340;
     }
     if (Entity::GetSpellCharges(this->charSheetP) == 0) {
-      Gsprintf(gCombatP->textArray->they failed spell,this->charSheetP->name);
+      CSprintf(SpellFail,this->charSheetP->name);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
       this->charSheetP->spellVal = 0xfe;
@@ -2084,7 +2082,7 @@ u8 CombatEntity::UseSpellCharge(CombatEntity*x,SpellInstance *param_2,u8 param_3
   }
   this->charSheetP->spellVal = some_skillcheck_calc((s16)RollD(1,100));
 LAB_8006d340:
-  SetFlag(flag0);
+  SetFlag(COMBATENT_CASTING);
   return true;
 }
 
@@ -2173,10 +2171,10 @@ u8 CombatEntity::Banish(CombatEntity *param_2,SpellInstance *param_3){
 }
 
 s32 CombatEntity::DispelMagic(CombatEntity *param_2,SpellInstance *param_3,u8 param_4,u8 param_5){
-  if (!Entity::DispelMagic(param_2->charSheetP,(char)param_2,param_4,param_5)) {
-    Gsprintf(gCombatP->textArray->they cast spell,this->charSheetP->name,param_3->name);
+  if (!Entity::DispelMagic(param_2->charSheetP,param_2,param_4,param_5)) {
+    CSprintf(SpellXCastsY,this->charSheetP->name,param_3->base.name);
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
-    Gsprintf(gCombatP->textArray->they fail,param_3->name);
+    CSprintf(XFails,param_3->base.name);
     print_combat_textbox(gCombatP,gGlobals.text,0);
   }
   else PrintSpellCast(param_2,param_3);
@@ -2344,17 +2342,17 @@ u8 CombatEntity::UsePotion(CombatEntity *param_2){
     if (PVar1 == POTION_RESTORE){
     Entity::ClearDebuffSpells(this->charSheetP);
     AddPotionVisualEffect((u32)this->index,this->item,this->charSheetP);
-    Gsprintf(gCombatP->textArray->potion worked,this->charSheetP->name);
+    CSprintf(XPotioned,this->charSheetP->name);
     }
     else return false;
   }
   else {
     if (!has_potion_effect(this->charSheetP,PVar1)) {
       Entity::ApplyPotionEffect(this->charSheetP,this->item,0,0x9e340);
-      Gsprintf(gCombatP->textArray->potion worked,this->charSheetP->name);
+      CSprintf(XPotioned,this->charSheetP->name);
       AddPotionVisualEffect((u32)this->index,this->item,this->charSheetP);
     }
-    else {Gsprintf(gCombatP->textArray->potion already used,this->charSheetP->name);}
+    else {CSprintf(XPotionedAlready,this->charSheetP->name);}
   }
   copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
   print_combat_textbox(gCombatP,gGlobals.text,0);
@@ -2393,9 +2391,9 @@ void CombatEntity::PrintFlaskMiss(CombatEntity *param_2,u8 param_3){
   WeaponSkillUpChance(param_3 >> 1,WEAPON_Thrown);
   gGlobals.playerDataArray[this->index]->ani_type = 0xf;
   SubtractPotion();
-  Gsprintf(gCombatP->textArray->they attack,this->charSheetP->name,param_2->charSheetP->name);
+  CSprintf(XAttacksY,this->charSheetP->name,param_2->charSheetP->name);
   copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
-  Gsprintf(gCombatP->textArray->they miss_,this->charSheetP->name);
+  CSprintf(XMiss,this->charSheetP->name);
   print_combat_textbox(gCombatP,gGlobals.text,0);
 }
 
@@ -2665,12 +2663,12 @@ s16 CombatEntity::GoblinAmbushAttack(CombatEntity *target,s16 dmg){
 void CombatEntity::TryCheatDeath(s16 param_2){
   if (Entity::getHPCurrent(this->charSheetP) <= param_2) {
     if (!Entity::hasCheatDeath(this->charSheetP)) {
-      Gsprintf(ComString(XKilled),this->charSheetP->name);
+      CSprintf(XKilled,this->charSheetP->name);
       print_combat_textbox(gCombatP,gGlobals.text,0);
       Death();
     }
     else {
-      Gsprintf(ComString(CheatDeath),this->charSheetP->name);
+      CSprintf(CheatDeath,this->charSheetP->name);
       print_combat_textbox(gCombatP,gGlobals.text,0);
     }
   }
