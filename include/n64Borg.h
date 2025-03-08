@@ -92,7 +92,7 @@ typedef enum Vobject {
     VOXEL_Code // one in the corner of each map chunk. (unused?)
 } Vobject;
 
-struct voxelHeader { /* Header for Refernce objects (Voxels) */
+struct voxelHeader {
     vec3f pos; /* Where is it */
     f32 size; /* how big is it */
     u32 timestamp; /* when was it called */

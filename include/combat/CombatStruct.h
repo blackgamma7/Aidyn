@@ -33,7 +33,7 @@ struct CombatStruct { /* combat structure. needs more study */
     GenericInventory *loot_pool;
     WidgetMenu* SenseAuraWidget;
     u32 waitTimer;
-    char** textArray;
+    char** textArray; //loaded rommstring refernced in macros
     char textboxes[3][256];
     u32 TextboxFlag;
     u32 TurnCount;
@@ -45,7 +45,7 @@ struct CombatStruct { /* combat structure. needs more study */
     vec2f entity_XY;
     u8 unk5320[12][2];
     u8 unk5338[256]; /* unused? */
-    u32 field100_0x5438;
+    u32 field100_0x5438; //unused?
     s32 reinforcmentsWillFlee;
     u32 hasFleeRefpoints;
     u8 potionPos[4];
@@ -57,5 +57,5 @@ extern CombatStruct* gCombatP;
 //refernce romstring loaded during combat
 #define ComString(x) gCombatP->textArray[COMBATSTRING_##x]
 
-//use gGlobals.text as sprintf buffer
+//use gGlobals.text as sprintf buffer for combat string
 #define CSprintf(x,...) Gsprintf(ComString(x),__VA_ARGS__)

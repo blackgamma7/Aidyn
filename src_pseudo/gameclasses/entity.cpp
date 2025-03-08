@@ -203,9 +203,9 @@ u8 Entity::hasCheatDeath(CharSheet *param_1){
 }
 
 
-void Entity::DamageToLevel(CharSheet *ent,short param_2,CombatEntity *cEnt){
+void Entity::DamageToLevel(CharSheet *ent,s16 param_2,CombatEntity *cEnt){
 
-  if ((cEnt) && (CombatEntity::Flag2(cEnt))) CombatEntity::TroubadourEnd(cEnt);
+  if ((cEnt) && (cEnt->Flag2())) cEnt->TroubadourEnd();
   if (CharStats::getModded(ent->Stats,STAT_LV) < param_2) {
     CharStats::addModdedHealth(ent->Stats,STAT_LV,-CharStats::getModded(ent->Stats,STAT_LV));
     DecreaseHP(ent,param_2 - CharStats::getModded(ent->Stats,STAT_LV));
@@ -217,9 +217,9 @@ void Entity::DamageToLevel(CharSheet *ent,short param_2,CombatEntity *cEnt){
           return;
         }
       }
-      if (cEnt) CombatEntity::ClearSpellEffects(cEnt);
+      if (cEnt) cEnt->ClearSpellEffects();
       ClearAllPotionEffects(ent);
-      if (!isDead(ent) DoubleTap(ent);
+      if (!isDead(ent)) DoubleTap(ent);
     }
   }
   else
@@ -293,7 +293,7 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   iVar1 = CharStats::getBase(param_1->Stats,STAT_STR);
   bVar2 = 3;
   if (pcVar4->ReqSTR <= iVar1) {
-    if (!getModdedWeapon(param_1->Skills,pcVar4->Class)) bVar2 = 1;
+    if (!param_1->Skills->getModdedWeapon(pcVar4->Class)) bVar2 = 1;
     else {
       if (param_1->ID == (ItemID)(entityList[162] + 0x200)) { //Niesen
         bVar2 = 1;
@@ -777,7 +777,7 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,uint timer,byte
   bVar3 = true;
   uVar16 = 0;
   bVar10 = GetIDIndex(param_1->ID);
-  lVar4 = (longlong)(char)bVar10;
+  lVar4 = bVar10;
   uVar6 = FindFreeEffect(param_1);
   if (!HasSpellEffect(param_1,id)) uVar16 = ~uVar6 >> 0x1f;
   sVar9 = (short)uVar6;
@@ -795,7 +795,7 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,uint timer,byte
     if (combatTarget) {
       bVar11 = false;
       if (gGlobals.EncounterDat.BossShadow) {
-        combat_escape_func(combatTarget);
+        combatTarget->Escaped();
         bVar11 = false;
       }
       goto LAB_80079984;
@@ -865,7 +865,7 @@ control_magic:
     bVar11 = bVar3;
     if (bVar10 != 0) {
       UNK4 = 1;
-      CombatEntity::FlagToggle(combatTarget,COMBATENT_ALLY);
+      combatTarget->ToggleFlag(COMBATENT_ALLY);
       bVar11 = true;
       goto LAB_80079984;
     }
@@ -975,7 +975,7 @@ LAB_800798b0:
     bVar11 = true;
     if ((uVar16 != 0) && (combatTarget)) {
       UNK4 = 1;
-      CombatEntity::UnsetFlag(combatTarget,COMBATENT_CANMOVE);
+      combatTarget->UnsetFlag(COMBATENT_CANMOVE);
       bVar11 = true;
     }
     goto LAB_80079984;
@@ -1055,15 +1055,15 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
   if (false)/*?*/ return;
   switch(pTVar1->index) {
   case SPELLIND_AirSheild:
-    target->EXP->protection = target->EXP->protection + pTVar1->lv * -2;
+    target->EXP->protection += pTVar1->lv * -2;
     break;
   case SPELLIND_ControlElem:
   case SPELLIND_charming:
   case SPELLIND_controlMarquis:
   case SPELLIND_controlZombies:
     if (combatEnt == NULL) return;
-    if (!CombatEntity::Flag5(combatEnt)) CombatEntity::UnsetFlag(combatEnt,COMBATENT_ALLY);
-    else CombatEntity::SetFlag(combatEnt,COMBATENT_ALLY);
+    if (!combatEnt->Flag5()) combatEnt->UnsetFlag(COMBATENT_ALLY);
+    else combatEnt->SetFlag(COMBATENT_ALLY);
     return;
   case SPELLIND_debilitation:
     bVar5 = pTVar1->lv;
@@ -1120,7 +1120,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
   case SPELLIND_frozenDoom:
   case SPELLIND_webOfStarlight:
     if (combatEnt) {
-      CombatEntity::SetFlag(combatEnt,COMBATENT_CANMOVE);
+      combatEnt->SetFlag(COMBATENT_CANMOVE);
       return;
     }
     break;
@@ -1141,7 +1141,7 @@ LAB_80079c18:
     RemoveStatBuff(target,SVar3,cVar4);
     return;
   case SPELLIND_stealth:
-    CharSkills::ModdedSkillAdd(target->Skills,SKILL_Stealth,pTVar1->lv * -6);
+  target->Skills->ModdedSkillAdd(SKILL_Stealth,pTVar1->lv * -6);
   }
   return;
 }
@@ -1192,7 +1192,7 @@ s32 Entity::IncEnchantments(CharSheet *param_1,CombatEntity *cEnt,s32 delta){
           }
 LAB_80079da4:
           uVar6 = RollD(dice,6);
-          lVar10 = (longlong)(short)uVar6;
+          lVar10 = uVar6;
         }
         else if (SVar1 == SPELLIND_photosynthesis) {
           if (TerrainPointer->partOfDay == TIME_NIGHT) continue;
@@ -1445,7 +1445,7 @@ byte Entity::CheckSpellSpecial(CharSheet *param_1,SpellInstance *param_2){
   if (param_2->special == Magic_SolarAspect) {
     if (CharExp::GetAspect(param_1->EXP) != ASPECT_SOLAR) bVar2 = 9;
   }
-  if ((param_2->special == MagicLunarAspect) && (CharExp::GetAspect(param_1->EXP) != ASPECT_LUNAR)) {
+  if ((param_2->special == Magic_LunarAspect) && (CharExp::GetAspect(param_1->EXP) != ASPECT_LUNAR)) {
     bVar2 = 10;
   }
   return bVar2;
@@ -1459,7 +1459,7 @@ void Entity::CheckDeathFromDoT(CharSheet *param_1,s16 param_2,s16 param_3,Combat
      (ppVar1 = gGlobals.playerDataArray[param_4->index], ppVar1)) {
     Print_damage_healing(ppVar1,param_2,param_3,isDead(param_1),param_1);
     if (isDead(param_1)) {
-      CombatEntity::Death(param_4);
+      param_4->Death();
       some_death_func_B(ppVar1,(u32)param_4->index,param_4);
     }
   }
@@ -1578,9 +1578,9 @@ void Entity::Teleport(CharSheet* ch,CombatEntity *cEnt){
     u8 x = (gCombatP->SpellMarkerPos).x;
     u8 y = (gCombatP->SpellMarkerPos).y;
     if (!combat_substruct_lookup(&gCombatP->substruct,x,y,cEnt->unk23)) {
-      CombatEntity::SetCoords(cEnt,(gCombatP->SpellMarkerPos).x,(gCombatP->SpellMarkerPos).y);
+      cEnt->SetCoords((gCombatP->SpellMarkerPos).x,(gCombatP->SpellMarkerPos).y);
       FUN_800737b4(cEnt);
-      CombatEntity::TeleportMovePlayer(cEnt);
+      cEnt->TeleportMovePlayer();
     }
   }
 }

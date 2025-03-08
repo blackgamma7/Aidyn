@@ -2,6 +2,14 @@
 
 #define FILENAME "./src/combatattackvisuals.cpp"
 #define ATTACKVISUAL_MAXVISUALS 8
+
+struct CombatAttackVisuals_struct {
+  AttackVisualStruct3 *p;
+  u8 *bytearray;
+  u8 iFreeVisual;
+
+};
+
 CombatAttackVisuals_struct attackVisualVars={0};
 
 namespace CombatAttackVisuals{
@@ -38,7 +46,7 @@ void Orphaned(playerData *target,u32 param_2){
     pAVar7->flag = 0;
     pAVar7->player = target;
     copyVec3(&(target->collision).pos,&pAVar7->pos);
-    pBVar5 = func_loading_borg7(BVar4,(ParticleEmmiter *)&gGlobals.Sub.particleEmmiter);
+    pBVar5 = func_loading_borg7(BVar4,&gGlobals.Sub.particleEmmiter);
     ppVar1 = pAVar7->player;
     pAVar7->borg7 = pBVar5;
     if (ppVar1->locator_pointer == NULL)Actor::ChangeAppearance(ppVar1,ppVar1->borg7);
@@ -48,7 +56,7 @@ void Orphaned(playerData *target,u32 param_2){
     Animation::SetModelTint(pAVar2,0xff,0xff,0xff,0xff);
     pBVar5 = pAVar7->borg7;
     pAVar3 = pAVar7->player->locator_pointer->aniDat;
-    pAVar2->particles = (ParticleEmmiter *)&gGlobals.Sub.particleEmmiter;
+    pAVar2->particleHead = &gGlobals.Sub.particleEmmiter;
     pAVar2->link2a8 = NULL;
     pAVar2->link2a4 = pAVar3;
     FUN_800a0090(pBVar5,5);
@@ -57,7 +65,7 @@ void Orphaned(playerData *target,u32 param_2){
 }
 
 
-Gfx * CombatAttackVisuals::Render(Gfx *g,uint delta){
+Gfx * Render(Gfx *g,uint delta){
   AnimationData *pAVar2;
   struct_1 *psVar3;
   int iVar4;
@@ -91,10 +99,7 @@ Gfx * CombatAttackVisuals::Render(Gfx *g,uint delta){
           g = BorgAnimDrawSceneLinked(g,(AnimationData *)pAVar1);
         }
         else {
-          bVar5 = FUN_800b4030((ParticleHeadStruct *)pAVar1->aniDat->particles,pAVar2);
-          if (!bVar5) {
-            x->flag|= 2;
-          }
+          if (!FUN_800b4030(pAVar1->aniDat->particleHead,pAVar2)) x->flag|= 2;
         }
       }
       else {

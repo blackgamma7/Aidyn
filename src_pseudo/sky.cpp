@@ -514,34 +514,28 @@ void Sky::Set2Floats(float param_1,float param_2){
 
 
 void Sky::SetBackgroundType(short param_1,short param_2,float param_3){
-  longlong lVar1;
-  int iVar2;
-  
-  iVar2 = (int)((uint)(ushort)param_1 << 0x10) >> 0x10;
-  lVar1 = (longlong)iVar2;
   gGlobals.sky.gray = 0.0;
   gGlobals.sky.grayDelta = 0.0;
   if ((lVar1 != gGlobals.sky.Type) ||
-     ((longlong)((int)((uint)(ushort)param_2 << 0x10) >> 0x10) != (longlong)gGlobals.sky.obj4.type))
+     ((param_2 << 0x10) >> 0x10) != gGlobals.sky.obj4.type))
   {
-    if (3 < iVar2 - 1U) {
-      Gsprintf("Invalid type: %d.  Range: (1-%d)",lVar1,4);
+    if (3 < param_1 - 1U) {
+      Gsprintf("Invalid type: %d.  Range: (1-%d)",param_1,4);
       CRASH("SetBackgroundType",gGlobals.text);
     }
-    if (lVar1 < 1) {
+    if (param_1 < 1) {
 LAB_800226a0:
       CRASH("SetBackgroundType","Invalid Sky Type");
     }
-    if (lVar1 < 3) {
+    if (param_1 < 3) {
       Free();
       gGlobals.sky.Type = param_1;
     }
     else {
-      if (4 < lVar1) goto LAB_800226a0;
+      if (4 < param_1) goto LAB_800226a0;
       AllocGradient();
       if ((((param_3 <= 0.0) || (gGlobals.sky.obj4.type == 0)) ||
-          ((lVar1 == 4 && (gGlobals.sky.Type != 4)))) || ((lVar1 == 3 && (gGlobals.sky.Type != 3))))
-      {
+          ((param_1 == 4 && (gGlobals.sky.Type != 4)))) || ((param_1 == 3 && (gGlobals.sky.Type != 3)))){
         loadDay(&gGlobals.sky.obj4,param_2);
         FreeSubstruct(&gGlobals.sky.obj10);
         gGlobals.sky.Type = param_1;

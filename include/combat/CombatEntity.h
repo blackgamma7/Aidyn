@@ -2,6 +2,8 @@
 #include "entity.h"
 #include "mathN64.h"
 
+u8 NotAspectBonus(u8);
+
 //used by combatants
 class CombatEntity {
     public:
@@ -192,6 +194,29 @@ class CombatEntity {
     void SetAktRangeMulti(u8);
     void PrintEvade(CombatEntity *);
     void PrintSwingAndMiss(CombatEntity *);
+};
+
+struct combat_aiscore {
+    u8 spell_pri;
+    u8 x;
+    u8 y;
+    u8 unk0x3;
+    CombatEntity *combatEnt;
+};
+
+struct CombatAI_s {
+    WeaponInstance *weapon;
+    char unk1;
+    char entIndex;
+    u8 morale; /* morale? */
+    char unk7;
+    u8 command;
+    u8 flags;
+    u8 spells[8];
+    u8 unk12;
+    u8 unk13; /* length of array at gCombatP-> 0x5320 */
+    CombatEntity *combatEnt;
+    int unk18;
 };
 
 

@@ -771,10 +771,10 @@ RetFalse:
   else {
     if (param_2->Flag6()) return false;
     if (Entity::isDead(param_2->charSheetP)) return false;
-    if (param_3->target == Party_in_Area) {
+    if (param_3->target == MTarget_Party) {
       if (param_2->Flag4() != Flag4()) return false;
     }
-    if (param_3->target == Enemy_in_Area) {
+    if (param_3->target == MTarget_Enemy) {
       if (param_2->Flag4() == Flag4()) goto RetFalse;
     }
     bVar1 = false;
@@ -864,10 +864,8 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
       bVar1 = spell->range;
       fVar11 = this->GetCoordX();
       this->GetCoordY(); //doesn't use return?
-      uVar9 = this->GetCoordXU8();
-      uVar4 = (ulonglong)(char)uVar9;
-      uVar10 = this->GetCoordYU8();
-      uVar5 = (ulonglong)(char)uVar10;
+      uVar4 = this->GetCoordXU8();
+      uVar5 = this->GetCoordYU8();
       uStack_100[0] = 0;
       uStack_100[1] = 0;
       param_2->GetCoordU8(uStack_100,uStack_100+1);
@@ -920,7 +918,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
 u8 CombatEntity::SpellEffectsPartyInArea(){
   SpellInstance *pSVar1 = Entity::getSpell(this->charSheetP);
   u8 bVar2 = false;
-  if (pSVar1) bVar2 = pSVar1->target == Party_in_Area;
+  if (pSVar1) bVar2 = pSVar1->target == MTarget_Party;
   return bVar2;
 }
 
@@ -1840,7 +1838,7 @@ u8 isDispelMagic(char x){
 u8 CombatEntity::GetSpellError(CombatEntity *param_2,SpellInstance *param_3,u8 param_4){
   u8 bVar2;
   
-  if (param_3->target == outside_Combat) {
+  if (param_3->target == MTarget_Field) {
     if (param_4 == false) {
       CSprintf(SpellCant);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
@@ -2100,7 +2098,7 @@ u8 CombatEntity::MagicCheck(SpellInstance *param_2,CombatEntity *param_3){
       if (bVar3 == SPELLIND_teleportation) bVar2 = false;
       else {
         bVar2 = true;
-        if ((param_2->target != Enemy_in_Area) && (bVar2 = true, (param_2->aspect_flag & 0x10) == 0)
+        if ((param_2->target != MTarget_Enemy) && (bVar2 = true, (param_2->aspect_flag & 0x10) == 0)
            ) {
           if (bVar3 == SPELLIND_wind) {bVar2 = param_3->Flag4() != this->Flag4();}
           else bVar2 = false;
@@ -2198,14 +2196,13 @@ s16 CombatEntity::CalcSpellDamage(SpellInstance *param_2,CombatEntity *param_3,u
   if (isDispelMagic(spellInd))return DispelMagic(param_3,param_2,spellInd,param_5);
   else {
       if ((!ControlPetrifyCheck(param_3,param_2,spellInd)) ||
-         (!check_for_petrify(param_3,param_2,spellInd))) return 0;
+         (!CheckForPetrify(param_3,param_2,spellInd))) return 0;
       if ((param_2->damage == 0) || (TempSpell::IsBattleSpell(param_2))) {
         param_3->damage = 0;
         param_3->Healing = 0;
-        ApplySpellEffect(param_3->charSheetP,spellInd,Level,Level * 1800,param_5,param_3);
-        if (spellInd == SPELLIND_tapStamina) {
-          Entity::AllocEnchant(this->charSheetP,SPELLIND_tapStamina,Level,0,Level * 1800,0);
-        }
+        Entity::ApplySpellEffect(param_3->charSheetP,spellInd,Level,Level * SECONDS(30),param_5,param_3);
+        if (spellInd == SPELLIND_tapStamina)
+          Entity::AllocEnchant(this->charSheetP,SPELLIND_tapStamina,Level,0,Level * SECONDS(30),0);
         PrintSpellCast(param_3,param_2);
         return -1;
       }
@@ -2306,10 +2303,9 @@ void CombatEntity::HealByPotion(CombatEntity *param_2,u16 HI,u16 Lo){
   }
   else {
     AddPotionVisualEffect((u32)this->index,this->item,this->charSheetP);
-    combat_print_HP_gained(param_2,uVar1);
+    param_2->PrintHealing(uVar1);
     copy_to_textbox_1(gCombatP);
   }
-  return;
 }
 
 u8 CombatEntity::UsePotion(CombatEntity *param_2){
@@ -2347,8 +2343,8 @@ u8 CombatEntity::UsePotion(CombatEntity *param_2){
     else return false;
   }
   else {
-    if (!has_potion_effect(this->charSheetP,PVar1)) {
-      Entity::ApplyPotionEffect(this->charSheetP,this->item,0,0x9e340);
+    if (!Entity::HasPotionEffect(this->charSheetP,PVar1)) {
+      Entity::ApplyPotionEffect(this->charSheetP,this->item,0,HOURS(3));
       CSprintf(XPotioned,this->charSheetP->name);
       AddPotionVisualEffect((u32)this->index,this->item,this->charSheetP);
     }

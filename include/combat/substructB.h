@@ -31,7 +31,7 @@ void FUN_80072454(CombatSubstructB *,CombatEntity *);
 void FUN_800724f4(CombatSubstructB *,CombatEntity *);
 void FUN_800725b4(CombatSubstructB *,CombatEntity *);
 void FUN_80072698(CombatSubstructB *,CombatEntity *);
-void FUN_8007272c(CombatSubstructB *);
+void FUN_8007272c(CombatSubstructB *,CombatEntity *);
 void FUN_80072764(CombatSubstructB *,CombatEntity *);
 void ofunc_NOOP(void);
 void FUN_80072810(CombatSubstructB *,s8);

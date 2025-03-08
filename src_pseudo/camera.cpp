@@ -424,10 +424,10 @@ void some_camera_func(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,fl
   if (numFoci < 2) CRASH("../src/camera.cpp","numFoci < 2");
     fVar11 = (param_5 - 8.0f) * 0.5f;
     if ((s32)(fVar11 * 100.0f) == ((s32)(fVar11 * 100.0f) / 9000) * 9000)fVar11 += 1.0f;
-    uVar10 = (ulonglong)(u32)fVar11;
+    uVar10 = fVar11;
     setVec3(&v3Temp,0.0,0.0,0.0);
     fVar11 = (float)numFoci;
-    uVar8 = (ulonglong)(u32)fVar11;
+    uVar8 = fVar11;
     iVar4 = 0x10000;
     ppafVar3 = var_c;
     if (0 < numFoci) {
@@ -451,13 +451,13 @@ void some_camera_func(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,fl
         fVar11 = (float)uVar10;
         if ((float)uVar8 < fVar7) {
           uVar9 = uVar8 & 0xffffffff;
-          uVar8 = (ulonglong)(u32)fVar7;
+          uVar8 = fVar7;
           iVar4 = iVar1;
           iVar1 = iVar2;
         }
         else {
           if ((float)uVar9 < fVar7) {
-            uVar9 = (ulonglong)(u32)fVar7;
+            uVar9 = fVar7;
             iVar4 = iVar2;
           }
         }

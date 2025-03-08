@@ -73,7 +73,7 @@ void CombatMarkers::Create(CombatEntity *param_1){
   byte bVar6;
   CombatMarker *iVar5;
   int iVar7;
-  longlong lVar8;
+  u8 lVar8;
   int iVar9;
   int iVar10;
   float fVar11;
@@ -86,21 +86,21 @@ void CombatMarkers::Create(CombatEntity *param_1){
   s8 sVar4;
   
   ppVar1 = gGlobals.playerDataArray[param_1->index];
-  CombatEntity::SetMovementRange(param_1);
+  param_1->SetMovementRange();
   fVar13 = ppVar1->interactRadiusB;
   fVar16 = (float)param_1->moveRange + fVar13;
   if (param_1->aiP != NULL) fVar16 += fVar13;
   sVar4 = SetCount(fVar16);
-  lVar3 = (longlong)sVar4;
+  lVar3 = sVar4;
   lVar8 = 0;
   fVar15 = (360.0f / (float)(int)sVar4) * dtor;
   iVar10 = 0;
   fVar13 = __cosf(fVar15);
   fVar15 = __sinf(fVar15);
-  do {
+  for (lVar8=0;lVar8<MARKERMAX;lVar8++) {
     if (lVar8 < lVar3) {
-      fStack136.x = CombatEntity::GetCoord2X(param_1) + CombatMarkerVec2.x * fVar16;
-      fStack136.z = CombatEntity::GetCoord2Y(param_1) + CombatMarkerVec2.y * fVar16;
+      fStack136.x = param_1->GetCoord2X() + CombatMarkerVec2.x * fVar16;
+      fStack136.z = param_1->GetCoord2Y() + CombatMarkerVec2.y * fVar16;
       if (SetMarker(mapmarker_borg9,&fStack136,0.5,0)) {
         setVec3(&gCombatMarkers[lVar8].coords,fStack136.x,fStack136.y,fStack136.z);
         bVar6 = 1;
@@ -118,9 +118,8 @@ void CombatMarkers::Create(CombatEntity *param_1){
     }
     else gCombatMarkers[lVar8].active = 0;
     fVar11 = 0.5f;
-    lVar8 = (longlong)((int)lVar8 + 1);
     iVar10 += 0x1c;
-  } while (lVar8 < MARKERMAX);
+  }
   lVar8 = 0;
   if (0 < lVar3) {
     iVar10 = 0;
@@ -129,7 +128,7 @@ void CombatMarkers::Create(CombatEntity *param_1){
       iVar9 = (int)lVar8;
       iVar10 -= iVar9;
       iVar7 = iVar9 + 1;
-      lVar8 = (longlong)iVar7;
+      lVar8 = iVar7;
       if (*(char *)((int)gCombatMarkers + iVar10 * 4 + 0x18) == -0x80) {
         fVar13 = gCombatMarkers[(sVar4 + -1 + iVar9) % (int)sVar4].coords.y;
         fVar16 = gCombatMarkers[iVar7 % (int)sVar4].coords.y;

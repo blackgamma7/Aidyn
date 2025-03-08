@@ -1204,8 +1204,6 @@ typedef struct combat_aiscore combat_aiscore, *Pcombat_aiscore;
 
 typedef struct resist_float resist_float, *Presist_float;
 
-typedef struct CombatAI_s CombatAI_s, *PCombatAIInfo;
-
 typedef enum ElementEnum {
 	ELEMENT_NONE, ELEMENT_EARTH, ELEMENT_SOLAR, ELEMENT_PHYSICAL, ELEMENT_NECROMANCY,
     ELEMENT_FIRE, ELEMENT_LUNAR, ELEMENT_NAMING, ELEMENT_WATER, ELEMENT_MAGIC,
@@ -1227,50 +1225,6 @@ typedef struct SpellCharges SpellCharges, *PSpellCharges;
 
 
 
-typedef enum MagicTargetEnum {
-    outside_Combat=0,
-    Party_in_Area=1,
-    Enemy_in_Area=2,
-    All_in_Area=3,
-    Target_All=4
-} MagicTargetEnum;
-
-typedef enum MagicSpecial {
-    Magic_TrueName=1,
-    Magic_IsHeavy=2,
-    Magic_SolarAspect=3,
-    MagicLunarAspect=4
-} MagicSpecial;
-
-typedef enum MigicCostEnum {
-    SPELLUSE_NONE=0,
-    SPELLUSE_Spice=1,
-    SPELLUSE_Herb=2,
-    SPELLUSE_Gemstone=3
-} MigicCostEnum;
-
-struct combat_aiscore {
-    u8 spell_pri;
-    u8 x;
-    u8 y;
-    u8 unk0x3;
-    CombatEntity *combatEnt;
-};
-
-struct CombatAI_s {
-    WeaponInstance *weapon;
-    char unk1;
-    char entIndex;
-    u8 morale; /* morale? */
-    char unk7;
-    u8 command;
-    u8 flags;
-    enum SpellEnum spells[8];
-    u8 unk12;
-    u8 unk13; /* length of array at gCombatP-> 0x5320 */
-    CombatEntity *combatEnt;
-    int unk18;
-};
 
 
 typedef struct CombatAi_command CombatAi_command, *PCombatAi_command;
@@ -1280,14 +1234,7 @@ struct CombatAi_command {
     uint unk;
 };
 
-typedef struct CombatAttackVisuals_struct CombatAttackVisuals_struct, *PCombatAttackVisuals_struct;
 
-struct CombatAttackVisuals_struct {
-    AttackVisualStruct3 *p;
-    u8 *bytearray;
-    u8 iFreeVisual;
-
-};
 
 typedef struct CombatRadarBlip CombatRadarBlip, *PCombatRadarBlip;
 

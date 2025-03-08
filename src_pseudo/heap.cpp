@@ -171,7 +171,7 @@ void print_mem_allocated(void *param_1,void *param_2){
   uVar6 = gMemMonitor.obj_count - 1;
   pHVar4 = (HeapBlock *)gMemMonitor.memRegionStart;
   for(uVar7=0;uVar6<uVar7;uVar7++) {
-    uVar5 = (longlong)(s32)get_heap_size(pHVar4) & ~1;
+    uVar5 = get_heap_size(pHVar4) & ~1;
     uVar2 = get_heap_size(pHVar4);
     if ((uVar7 != 0) && (uVar7 != uVar6)) {
       uVar1 = FUN_80098848((char)pHVar4);

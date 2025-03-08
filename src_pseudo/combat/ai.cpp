@@ -22,9 +22,7 @@ u8 CombatAI::WillTheyFlee(ItemID param_1){
   if (0xb < lVar7) return false;
   AVar6 = ASPECT_SOLAR;
   if (gCombatP->EnemiesAlive <= gCombatP->enemyCount >> 1) return false;
-  if (gEntityDB->entities[bVar3].aspect != ASPECT_SOLAR) {
-    AVar6 = ASPECT_LUNAR;
-  }
+  if (gEntityDB->entities[bVar3].aspect != ASPECT_SOLAR) AVar6 = ASPECT_LUNAR;
   if (NotAspectBonus(AVar6)) lVar7 = bVar1-1;
   if (gCombatP->EnemiesAlive < gCombatP->enemyCount >> 1) lVar7--;
   if ((gCombatP->leaderDead) || (!gCombatP->combatEnts)[gCombatP->leaderIndex]->Flag1()) lVar7--;
@@ -40,7 +38,7 @@ LAB_800600c4:
     if (cVar5 < 2) cVar5 = 2;
     score = cVar5;
   }
-  else score = 0xb;
+  else score = 11;
   return score < RollD(2,6);
 }
 
@@ -61,7 +59,7 @@ byte CombatAI::JudgeAIMorale(CombatEntity *param_1,u8 param_2){
   pTVar4->flags &=~2;
   bVar5 = param_1->aiP->morale;
   lVar7 = bVar5;
-  if (getNotAspectBonus(param_1)) lVar7 = bVar5-1;
+  if (param_1->getNotAspectBonus()) lVar7 = bVar5-1;
   if ((param_1->aiP->flags & 0x10)) lVar7 -=2;
   if (!CharStats::getModded(param_1->charSheetP->Stats,STAT_STAM)) lVar7--;
   if (gCombatP->EnemiesAlive < gCombatP->enemyCount >> 1) lVar7--;
@@ -75,7 +73,7 @@ byte CombatAI::JudgeAIMorale(CombatEntity *param_1,u8 param_2){
   lVar7--;
 LAB_8006024c:
   if (gCombatP->playersAlive < gCombatP->playerCount >> 1) lVar7+=2;
-  if (!SpellEffectsPartyInArea(param_1)){
+  if (!param_1->SpellEffectsPartyInArea()){
     if ((param_1->aiP->entIndex != -1) && ((&gCombatP->combatEnts)[param_1->aiP->entIndex])){
       if (!CharStats::getModded((&gCombatP->combatEnts)[param_1->aiP->entIndex]->charSheetP->Stats,STAT_STAM)) {
         lVar7+=3;
@@ -245,7 +243,6 @@ switchD_80060678_caseD_10:
       if (param_2 != SPELLIND_light) return 0;
       if (TerrainPointer->partOfDay != TIME_NIGHT) return 0;
     }
-    uVar10 = 0;
     cVar11 = cVar8;
     if (gCombatP->EntCount) {
       for(u8 uVar10=0;uVar10 < gCombatP->EntCount;uVar10++) {
@@ -258,9 +255,8 @@ switchD_80060678_caseD_10:
             cVar8 = cVar11 + '\x01';
           }
         }
-        uVar10 = uVar10 + 1 & 0xff;
         cVar11 = cVar8;
-      } while (uVar10 < gCombatP->EntCount);
+      }
     }
     val = 0x55;
     goto joined_r0x800608b4;
@@ -477,10 +473,10 @@ void FUN_80060db0(CombatAI_s *param_1){
   uVar7 = (uint)bVar10;
   CombatAIScore::Reset(SQ(bVar10) * 4);
   bVar10 = 0;
-  x = CombatEntity::GetCoordX(param_1->combatEnt);
-  y = CombatEntity::GetCoordY(param_1->combatEnt);
-  X = CombatEntity::GetCoordXU8(param_1->combatEnt);
-  Y = CombatEntity::GetCoordYU8(param_1->combatEnt);
+  x = param_1->combatEnt->GetCoordX();
+  y = param_1->combatEnt->GetCoordY();
+  X = param_1->combatEnt->GetCoordXU8();
+  Y = param_1->combatEnt->GetCoordYU8();
   pCVar5 = gCombatP;
   pcVar13 = &gCombatP->substruct;
   uVar1 = param_1->combatEnt->unk23;
@@ -497,7 +493,7 @@ void FUN_80060db0(CombatAI_s *param_1){
         feildx = (byte)iVar16;
         if ((sub_square_add_sqrt(feildx,feildy,X,Y) <= uVar7) &&
            (FUN_80070fa0(pcVar13,iVar16,iVar17,uVar1))) {
-          CombatEntity::SetCoords(param_1->combatEnt,(float)iVar16,(float)iVar17);
+            param_1->combatEnt->SetCoords((float)iVar16,(float)iVar17);
           FUN_80072454(X_00,param_1->combatEnt);
           if ((pCVar5->substruct2[0].arrayBCount != 0) && (uVar14 = 0, gCombatP->EntCount != 0)) {
             iVar16 = 0;
@@ -508,8 +504,8 @@ void FUN_80060db0(CombatAI_s *param_1){
                 for (uVar15 = 0; uVar15 < combat_AiScore_tally; uVar15++) {
                   pcVar18 = combat_AiScores_pointer + uVar15;
                   if (pcVar18->combatEnt == cEnt) {
-                    bVar10 = CombatEntity::GetCoordXU8(cEnt);
-                    bVar11 = CombatEntity::GetCoordYU8(cEnt);
+                    bVar10 = cEnt->GetCoordXU8();
+                    bVar11 = cEnt->GetCoordYU8();
                     bVar2 = pcVar18->x;
                     bVar3 = pcVar18->y;
                     bVar4 = true;
@@ -542,7 +538,7 @@ LAB_800610b8:
     } while (iVar17 <= iVar12);
   }
   FUN_800713fc(pcVar13,X,Y,uVar1);
-  CombatEntity::SetCoords(param_1->combatEnt,x,y);
+  param_1->combatEnt->SetCoords(x,y);
   clear_combat_substruc2(X_00);
   return;
 }
@@ -561,19 +557,17 @@ int CombatAI::FireballCalc(CombatAI_s *param_1){
   float fVar13;
   
   fVar11 = 0.0;
-  uVar8 = 0;
   fVar13 = 0.0;
   fVar12 = 0.0;
-  if (gCombatP->EntCount != 0) {
-    do {
+  if (gCombatP->EntCount) {
+    for(uVar8=0;uVar8 < gCombatP->EntCount;uVar8++) {
       pCVar1 = (&gCombatP->combatEnts)[uVar8];
       if (CombatAI::IsNotDeadNorAlly(param_1,pCVar1)) {
         fVar13 += pCVar1->GetCoordX();
         fVar11 += pCVar1->GetCoordY();
         fVar12++;
       }
-      uVar8 += 1;
-    } while (uVar8 < gCombatP->EntCount);
+    }
   }
   pCVar1 = param_1->combatEnt;
   pcVar2 = gCombatP->substruct2;
@@ -585,13 +579,12 @@ int CombatAI::FireballCalc(CombatAI_s *param_1){
   else {
     iVar9 = 0;
     if (gCombatP->EntCount != 0) {
-      do {
+      for(uVar8=0;uVar8 < gCombatP->EntCount;uVar8++){
         if (gCombatP->substruct2[1].arrayA[uVar8]) {
-          if (CombatEntity::Flag4(gCombatP->combatEnts[uVar8]) == CombatEntity::Flag4(param_1->combatEnt)) iVar9--;
+          if (gCombatP->combatEnts[uVar8]->Flag4() == param_1->combatEnt->Flag4()) iVar9--;
           else iVar9++;
         }
-        uVar8 += 1;
-      } while (uVar8 < gCombatP->EntCount);
+      }
     }
   }
   return iVar9;
@@ -638,11 +631,11 @@ uint other_func_checking_fireball(CombatAI_s *param_1){
   bVar1 = param_1->combatEnt->moveRange;
   if (bVar1 == 0) uStack_74 = ai_spell_stam(param_1);
   else {
-    x = CombatEntity::GetCoordX(param_1->combatEnt);
+    x = param_1->combatEnt->GetCoordX();
     uStack_74 = 0;
-    y = CombatEntity::GetCoordY(param_1->combatEnt);
-    X = CombatEntity::GetCoordXU8(param_1->combatEnt);
-    Y = CombatEntity::GetCoordYU8(param_1->combatEnt);
+    y = param_1->combatEnt->GetCoordY();
+    X = param_1->combatEnt->GetCoordXU8();
+    Y = param_1->combatEnt->GetCoordYU8();
     pCVar7 = gCombatP;
     uStack_60 = 0;
     pcVar6 = gCombatP->substruct2;
@@ -675,7 +668,7 @@ uint other_func_checking_fireball(CombatAI_s *param_1){
                 feildx = (byte)iVar18;
                 if ((sub_square_add_sqrt(feildx,bVar14,X,Y) <= bVar1) &&
                    (FUN_80070fa0(pcVar16,feildx,bVar14,uVar2))) {
-                  CombatEntity::SetCoords(param_1->combatEnt,(float)iVar18,(float)iVar11);
+                    param_1->combatEnt->SetCoords(iVar18,iVar11);
                   if (param_1->spells[uStack_60] == SPELLIND_fireball) cVar19 = CombatAI::FireballCalc(param_1);
                   else cVar19 = some_prioirty_getter(param_1);
                   if ((pCVar7->substruct2[1].arrayBCount != 0) &&
@@ -697,7 +690,7 @@ uint other_func_checking_fireball(CombatAI_s *param_1){
     pCVar5->currSpell = bVar3;
     pCVar5->spellSwitch = bVar4;
     FUN_800713fc(pcVar16,X,Y,uVar2);
-    CombatEntity::SetCoords(param_1->combatEnt,x,y);
+    param_1->combatEnt->SetCoords(x,y);
     clear_combat_substruc2(pcVar6 + 1);
   }
   return uStack_74;
@@ -802,8 +795,8 @@ void FUN_8006193c(CombatAI_s *param_1){
   bStack_4d = 0;
   uVar5 = 0;
   uVar9 = (uint)param_1->combatEnt->moveRange;
-  X = CombatEntity::GetCoordXU8(param_1->combatEnt);
-  Y = CombatEntity::GetCoordYU8(param_1->combatEnt);
+  X = param_1->combatEnt->GetCoordXU8();
+  Y = param_1->combatEnt->GetCoordYU8();
   pcVar16 = &gCombatP->substruct;
   uVar1 = param_1->combatEnt->unk23;
   pcVar17 = gCombatP->substruct2;
@@ -822,24 +815,19 @@ void FUN_8006193c(CombatAI_s *param_1){
           uVar19 = _uStack80;
           uVar7 = uStack_4c;
           uVar4 = uVar5;
-          if (((ulonglong)(longlong)(int)uVar9 < (ulonglong)(longlong)(short)uVar11) ||
-             (lVar8 = FUN_80070fa0(pcVar16,uVar18,uVar20,uVar1), lVar8 == 0)) {
+          if ((uVar9 < uVar11)||(!FUN_80070fa0(pcVar16,uVar18,uVar20,uVar1))){
 LAB_80061b18:
             uStack_4c = uVar7;
             _uStack80 = uVar19;
             uVar5 = uVar4;
           }
           else {
-            uVar19 = 0;
             if (combat_AiScore_tally != 0) {
-              do {
+              for(u8 uVar19 = 0;uVar19 < combat_AiScore_tally;uVar19++) {
                 pCVar2 = combat_AiScores_pointer[uVar19].combatEnt;
-                uVar13 = CombatEntity::GetCoordXU8(pCVar2);
-                uVar14 = CombatEntity::GetCoordYU8(pCVar2);
-                uVar11 = sub_square_add_sqrt((byte)uVar18,bVar3,uVar13,uVar14);
+                uVar11 = sub_square_add_sqrt((byte)uVar18,bVar3,pCVar2->GetCoordXU8(),pCVar2->GetCoordYU8());
                 uVar12 += uVar11;
-                uVar19 = uVar19 + 1 & 0xffff;
-              } while (uVar19 < combat_AiScore_tally);
+              }
             }
             uVar19 = uVar18 & 0xff;
             uVar7 = uVar20 & 0xff;
@@ -872,8 +860,8 @@ void FUN_80061d10(CombatAI_s* param_1,s32 param_2){
   u8 local_28 [2];
   
   bVar6 = 0;
-  if (gCombatP->leaderDead == 0) {bVar6 = gCombatP->flask_byte;}
-  get_combatEnt_x_y(param_1->combatEnt,local_28,local_28 + 1);
+  if (gCombatP->leaderDead == 0) bVar6 = gCombatP->flask_byte;
+  param_1->combatEnt->GetCoordU8(local_28,local_28 + 1);
   uVar5 = 0;
   if (combat_AiScore_tally != 0) {
     iVar1 = 0;
@@ -889,13 +877,9 @@ void FUN_80061d10(CombatAI_s* param_1,s32 param_2){
       iVar1 = uVar5 << 3;
     } while (uVar5 < combat_AiScore_tally);
   }
-  return;
 }
 
-
-void FUN_80061dfc(CombatAIInfo *param_1)
-
-{
+void FUN_80061dfc(CombatAIInfo *param_1){
   byte bVar1;
   byte bVar2;
   byte bVar3;
@@ -932,10 +916,10 @@ void FUN_80061dfc(CombatAIInfo *param_1)
   if (gCombatP->leaderDead == 0) {
     bVar1 = gCombatP->flask_byte;
   }
-  x_01 = CombatEntity::GetCoordX(param_1->combatEnt);
-  y_01 = CombatEntity::GetCoordY(param_1->combatEnt);
-  x = CombatEntity::GetCoordXU8(param_1->combatEnt);
-  y = CombatEntity::GetCoordYU8(param_1->combatEnt);
+  x_01 = param_1->combatEnt->GetCoordX(param_1->combatEnt);
+  y_01 = param_1->combatEnt->GetCoordY(param_1->combatEnt);
+  x = param_1->combatEnt->GetCoordXU8(param_1->combatEnt);
+  y = param_1->combatEnt->GetCoordYU8(param_1->combatEnt);
   pCVar15 = &gCombatP->substruct;
   bVar2 = param_1->combatEnt->unk23;
   X = gCombatP->substruct2;
@@ -950,8 +934,8 @@ void FUN_80061dfc(CombatAIInfo *param_1)
       bVar14 = pcVar21->y;
       pCVar5 = pcVar21->combatEnt;
       uStack_64 = (uint)bVar14;
-      x_00 = CombatEntity::GetCoordXU8(pCVar5);
-      y_00 = CombatEntity::GetCoordYU8(pCVar5);
+      x_00 = pCVar5->GetCoordXU8();
+      y_00 = pCVar5->GetCoordYU8();
       uVar16 = (uint)pCVar5->unk23;
       uVar20 = (int)(((int)(char)y_00 - uVar9) * 0x1000000) >> 0x18;
       pCVar6 = pCVar5->charSheetP;
@@ -967,7 +951,7 @@ void FUN_80061dfc(CombatAIInfo *param_1)
               iVar10 += 0x1000000;
               lVar8 = FUN_80070fa0(pCVar15,uVar17,uVar20,uVar9);
               if (lVar8 != 0) {
-                CombatEntity::SetCoords(param_1->combatEnt,(float)(int)uVar17,(float)(int)uVar20);
+                param_1->combatEnt->SetCoords(uVar17,uVar20);
                 FUN_8006a394(param_1->combatEnt,x_00,y_00);
                 FUN_80072454(X,param_1->combatEnt);
                 if (X->arrayA[bVar4] != 0) {
@@ -983,18 +967,14 @@ void FUN_80061dfc(CombatAIInfo *param_1)
                   if (iVar11 < 0) {
                     iVar12 += 0x32;
                   }
-                  fVar22 = (float)Entity::getHPPercent(pCVar6);
-                  fVar22 = (ConstFloats::1.0f - fVar22) * ConstFloats::15.0f;
-                  if (ConstFloats::INT_MAX_f <= fVar22) {
-                    fVar22 = fVar22 - ConstFloats::INT_MAX_f;
-                  }
-                  uVar19 = (longlong)(iVar12 + (int)fVar22) & 0xff;
+                  fVar22 = (1.0f - (float)Entity::getHPPercent(pCVar6)) * 15.0f;
+                  uVar19 = (iVar12 + (int)fVar22) & 0xff;
                   if ((pWVar7 != NULL) && (pWVar7->range != 0)) {
-                    uVar19 = (longlong)((int)uVar19 + 10) & 0xff;
+                    uVar19+=10;
                   }
                   if (bVar1 != 0) {
                     bVar14 = FUN_80061bc8(param_1,(u8)uVar17,bVar3,(byte)uVar19,0,bVar1);
-                    uVar19 = (ulonglong)(char)bVar14;
+                    uVar19 = bVar14;
                   }
                   if (pcVar21->spell_pri < uVar19) {
                     pcVar21->spell_pri = (byte)uVar19;
@@ -1288,17 +1268,17 @@ void FUN_800628cc(CombatAIInfo *param_1){
   if ((pSVar6 != NULL) && (bVar9 = GetIDIndex((pSVar6->base).id), bVar9 == 8)) {
     iVar7 = Entity::CheckSpellWizard(pCVar1,pSVar6);
     uVar15 = (uint)pSVar6->range * iVar7 & 0xff;
-    uVar10 = CombatEntity::GetCoordXU8(param_1->combatEnt);
-    uVar11 = CombatEntity::GetCoordYU8(param_1->combatEnt);
+    uVar10 = param_1->combatEnt->GetCoordXU8();
+    uVar11 = param_1->combatEnt->GetCoordYU8();
     fVar22 = (gCombatP->SpellMarkerPos).x;
     uStack_54 = 0;
-    if (ConstFloats::INT_MAX_f <= fVar22) {
-      fVar22 = fVar22 - ConstFloats::INT_MAX_f;
+    if (INT_MAX_f <= fVar22) {
+      fVar22 = fVar22 - INT_MAX_f;
     }
     fVar23 = (gCombatP->SpellMarkerPos).y;
     uStack_48 = (int)fVar22 & 0xff;
-    if (ConstFloats::INT_MAX_f <= fVar23) {
-      fVar23 = fVar23 - ConstFloats::INT_MAX_f;
+    if (INT_MAX_f <= fVar23) {
+      fVar23 = fVar23 - INT_MAX_f;
     }
     uStack_44 = (int)fVar23 & 0xff;
     uVar20 = (int)(((int)(char)uVar11 - uVar15) * 0x1000000) >> 0x18;
@@ -1316,7 +1296,7 @@ void FUN_800628cc(CombatAIInfo *param_1){
           if (!bVar12) {
             uVar8 = sub_square_add_sqrt(uVar10,uVar11,X,bVar9);
             pCVar5 = gCombatP;
-            if ((ulonglong)(longlong)(short)uVar8 <= (ulonglong)(longlong)(int)uVar15) {
+            if (uVar8 <= uVar15) {
               Ent = param_1->combatEnt;
               (gCombatP->SpellMarkerPos).x = (float)(int)uVar3;
               (pCVar5->SpellMarkerPos).y = (float)(int)uVar20;
@@ -1813,7 +1793,7 @@ u8 FUN_80063c94(CombatAI_s *param_1){
     if (!ppVar2) return false;
     ppVar3 = gGlobals.playerDataArray[pCVar1->index];
     if (!ppVar3) return false;
-    fVar4 = CombatEntity::Get2DProximity(pCVar1,param_1->combatEnt);
+    fVar4 = pCVar1->Get2DProximity(param_1->combatEnt);
     fVar5 = ppVar2->interactRadiusB + ppVar3->interactRadiusB;
     if (fVar4 <= fVar5 + 2.25f) {
       if (fVar4 == 0.0) {
@@ -1842,9 +1822,9 @@ void FUN_80063db0(CombatAI_s *ai,float x0,float y0,float x1,float y1,float param
   multiVec2(&fStack240,param_6);
   vec2_sum(&fStack240,&fStack240,&afStack176);
   SetPlayerMoveToQueue(param_7,fStack240.x,fStack240.y,param_7->interactRadiusB,0);
-  FUN_800714d0(&gCombatP->substruct,CombatEntity::GetCoordXU8(ai->combatEnt),CombatEntity::GetCoordXU8(ai->combatEnt),ai->combatEnt->unk23);
-  CombatEntity::SetCoords(ai->combatEnt,fStack240.x,fStack240.y);
-  FUN_800713fc(&gCombatP->substruct,CombatEntity::GetCoordXU8(ai->combatEnt),CombatEntity::GetCoordXU8(ai->combatEnt),ai->combatEnt->unk23);
+  FUN_800714d0(&gCombatP->substruct,ai->combatEnt->GetCoordXU8(),ai->combatEnt->GetCoordXU8(),ai->combatEnt->unk23);
+  ai->combatEnt->SetCoords(fStack240.x,fStack240.y);
+  FUN_800713fc(&gCombatP->substruct,ai->combatEnt->GetCoordXU8(),ai->combatEnt->GetCoordXU8(),ai->combatEnt->unk23);
   gGlobals.combatBytes[1] = gGlobals.combatBytes[0];
   gGlobals.combatBytes[0] = 5;
   gCombatP->waitTimer = 0xf0;
@@ -1892,7 +1872,7 @@ referncepoint_obj * CombatAI::FindFleeingRefpoint(CombatAI_s *param_1,float *dis
   
   ret = NULL;
   *dist = 100000.0f;
-  setVec2(&afStack304,CombatEntity::GetCoordX(param_1->combatEnt),CombatEntity::GetCoordY(param_1->combatEnt));
+  setVec2(&afStack304,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY());
   for(u32 i=0;i<8;i++) {
     sprintf(buff,ComString(FleeX),i);
     prVar2 = FindReferncePointName(gGlobals.Sub.borg9DatPointer,buff,false);
@@ -1912,9 +1892,7 @@ referncepoint_obj * CombatAI::FindFleeingRefpoint(CombatAI_s *param_1,float *dis
 
 
 u8 CombatAI::GetFleePointCoords(CombatAI_s *param_1,u8 x,u8 y,s8 *outX,s8 *outY,float *param_6){
-  referncepoint_obj *prVar1;
-  
-  prVar1 = CombatAI::FindFleeingRefpoint(param_1,param_6);
+  voxelObject *prVar1 = CombatAI::FindFleeingRefpoint(param_1,param_6);
   if (prVar1 == NULL) return false;
   else {
       *outX = (prVar1->header).pos.x;
@@ -1929,12 +1907,12 @@ u8 FUN_800641b8(CombatAI_s *param_1,s8* param_2,s8* param_3){
   float afStack_20 [8];
 
   afStack_20[0] = 0.0;
-  if (CombatAI::GetFleePointCoords(param_1,CombatEntity::GetCoordXU8(param_1->combatEnt),CombatEntity::GetCoordYU8(param_1->combatEnt),param_2,param_3,afStack_20)) {
+  if (CombatAI::GetFleePointCoords(param_1,param_1->combatEnt->GetCoordXU8(),param_1->combatEnt->GetCoordYU8(),param_2,param_3,afStack_20)) {
     Gsprintf(ComString(XFlees),param_1->combatEnt->charSheetP->name);
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
     uVar4 = afStack_20[0] < 1.5f;
     if (uVar4) {
-      combat_escape_func(param_1->combatEnt);
+      param_1->combatEnt->Escaped();
       FUN_80029ba8();
     }
   }
@@ -1949,8 +1927,8 @@ u8 FUN_800642c4(CombatAI_s *param_1,u8 *param_2,u8 *param_3){
   u8 uVar2;
   u8 bVar3;
   
-  uVar1 = CombatEntity::GetCoordXU8(param_1->combatEnt);
-  uVar2 = CombatEntity::GetCoordYU8(param_1->combatEnt);
+  uVar1 = param_1->combatEnt->GetCoordXU8();
+  uVar2 = param_1->combatEnt->GetCoordYU8();
   combatAI_run_cmd(param_1,param_2,param_3);
   bVar3 = false;
   if (uVar1 == *param_2) && (uVar2 == *param_3)) {
@@ -1979,18 +1957,18 @@ u8 FUN_80064398(CombatAI_s *param_1){
   gCombatP->some_index = param_1->entIndex;
   target = (&gCombatP->combatEnts)[param_1->entIndex];
   if (param_1->unk1 == 2) {
-    bVar1 = CombatEntity::AIShouldCastMagic(param_1->combatEnt,target);
+    bVar1 = param_1->combatEnt->AIShouldCastMagic(target);
     bVar2 = true;
     if (!bVar1) {
-      bVar1 = CombatEntity::CanBeTargeted(param_1->combatEnt,target,0);
+      bVar1 = param_1->combatEnt->CanBeTargeted(target,0);
       bVar2 = false;
       if (bVar1) bVar2 = true;
     }
   }
   else {
-    if (CombatEntity::CanBeTargeted(param_1->combatEnt,target,0)) bVar2 = true;
+    if (param_1->combatEnt->CanBeTargeted(target,0)) bVar2 = true;
     else {
-      bVar1 = CombatEntity::AIShouldCastMagic(param_1->combatEnt,target);
+      bVar1 = param_1->combatEnt->AIShouldCastMagic(target);
       bVar2 = true;
       if (!bVar1) bVar2 = false;
     }
@@ -1999,7 +1977,7 @@ u8 FUN_80064398(CombatAI_s *param_1){
 }
 
 void CombatAIInfo::FaceTarget(CombatAIInfo *param_1){
-  CombatEntity::FaceTarget(param_1->combatEnt,(&gCombatP->combatEnts)[param_1->entIndex]);
+  param_1->combatEnt->FaceTarget((&gCombatP->combatEnts)[param_1->entIndex]);
 }
 
 
@@ -2013,12 +1991,12 @@ void FUN_80064494(CombatAI_s *param_1){
   u8 uStack24 [2];
   
   FUN_80070234(param_1->combatEnt);
-  CombatEntity::Coord2IsCoord(param_1->combatEnt);
+  param_1->combatEnt->Coord2IsCoord();
   uStack24[0] = 0;
   uStack24[1] = 0;
   if (!CombatAIInfo::IsAlly(param_1)) bVar2 = FUN_800642c4(param_1,uStack24,uStack24 + 1);
   else {
-    setVec2(&gCombatP->entity_XY,CombatEntity::GetCoordX(param_1->combatEnt),CombatEntity::GetCoordY(param_1->combatEnt));
+    setVec2(&gCombatP->entity_XY,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY(param_1->combatEnt));
     bVar2 = FUN_800641b8(param_1,uStack24,uStack24 + 1);
   }
   if (((bVar2 == false) && (!FUN_80063f1c(param_1,uStack24[0],uStack24[1]))) &&
@@ -2052,13 +2030,13 @@ void FUN_800645b4(CombatAIInfo *param_1){
       afStack_20[0] = 0.0;
       uStack104[0] = 0;
       uStack104[1] = 0;
-      if ((CombatAI::GetFleePointCoords(param_1,CombatEntity::GetCoordXU8(param_1->combatEnt),CombatEntity::GetCoordYU8(param_1->combatEnt),uStack104,uStack104 + 1,afStack_20)) && (afStack_20[0] <= 1.5f)) {
+      if ((CombatAI::GetFleePointCoords(param_1,param_1->combatEnt->GetCoordXU8(),param_1->combatEnt->GetCoordYU8(param_1->combatEnt),uStack104,uStack104 + 1,afStack_20)) && (afStack_20[0] <= 1.5f)) {
         bVar1 = true;
         combat_escape_func(param_1->combatEnt);
       }
     }
     if (!bVar1) {
-      setVec2(&afStack96,CombatEntity::GetCoordX(param_1->combatEnt),CombatEntity::GetCoordY(param_1->combatEnt));
+      setVec2(&afStack96,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY(param_1->combatEnt));
       if (vec2_proximity(&afStack96,&gCombatP->entity_XY) < 1.0f) {
         combat_escape_func(param_1->combatEnt);
       }

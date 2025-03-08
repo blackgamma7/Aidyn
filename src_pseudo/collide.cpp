@@ -180,12 +180,12 @@ bool processPlayers_sub(Borg9data *param_1,vec3f *playerPos,vec3f *playposMinY,f
   if (outNorm) setVec3(outNorm,0.0,0.0,0.0);
   Vec3_sub(&len,playposMinY,playerPos);
   FUN_800adae0(param_1,playerPos,&len,point5,&sStack_48,&sStack_46,&sStack_44,&sStack_42);
-  lVar12 = (longlong)sStack_48;
+  lVar12 = sStack_48;
   if (lVar12 <= sStack_44) {
     iVar5 = sStack_48 * 0x10000;
     do {
       iVar5 += 0x10000;
-      lVar7 = (longlong)sStack_46;
+      lVar7 = sStack_46;
       if (lVar7 <= sStack_42) {
         iVar1 = sStack_46 * 0x10000;
         do {
@@ -214,10 +214,10 @@ bool processPlayers_sub(Borg9data *param_1,vec3f *playerPos,vec3f *playposMinY,f
               iVar11 += 0x10000;
             } while (iVar6 < (int)(uint)(ushort)pbVar2->collideCount);
           }
-          lVar7 = (longlong)(iVar1 >> 0x10);
+          lVar7 = (iVar1 >> 0x10);
         } while (lVar7 <= sStack_42);
       }
-      lVar12 = (longlong)(iVar5 >> 0x10);
+      lVar12 = (iVar5 >> 0x10);
     } while (lVar12 <= sStack_44);
   }
   return false;

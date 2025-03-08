@@ -387,8 +387,8 @@ void Graphics::getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 
   bVar10 = gGfxManager.colordepth[1];
   uVar9 = gGfxManager.Hres[1];
   uVar11 = 0;
-  H_ = (longlong)(s16)H;
-  V_ = (longlong)(s16)V;
+  H_ = (s16)H;
+  V_ = (s16)V;
   if ((pDest == NULL) ||
      ((((depth != 32 && (depth != 16)) && (depth != 8)) && (depth != 4)))) {
     CRASH("gfx.cpp, GetGfxLastFrame()","pDest_ == NULL || depth_ != 32 || depth_ != 16 || depth_ != 8 || depth_ != 4");}

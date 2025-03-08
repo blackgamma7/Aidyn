@@ -63,7 +63,7 @@ typedef enum SpellEnum {
     SPELLIND_stellarGravity,
     SPELLIND_webOfStarlight,
     SPELLIND_whitefire,
-    SPELLIND_NONE=255
+    SPELLIND_NONE=-1
 } SpellEnum;
 
 typedef enum MagicSchoolEnum {
@@ -76,11 +76,33 @@ typedef enum MagicSchoolEnum {
 } MagicSchoolEnum;
 
 typedef enum MagicCastedEnum {
-    MCAST_SELF=0,
-    MCAST_ONE=1,
-    MCAST_ALL=2,
-    MCAST_RANK=3
+    MCAST_SELF,
+    MCAST_ONE,
+    MCAST_ALL,
+    MCAST_RANK
 } MagicCastedEnum;
+
+typedef enum MagicTargetEnum {
+    MTarget_Field,
+    MTarget_Party,
+    MTarget_Enemy,
+    MTarget_Area,
+    MTarget_All
+} MagicTargetEnum;
+
+typedef enum MagicSpecial {
+    Magic_TrueName=1,
+    Magic_IsHeavy,
+    Magic_SolarAspect,
+    Magic_LunarAspect
+} MagicSpecial;
+
+typedef enum MagicCostEnum {
+    SPELLUSE_NONE,
+    SPELLUSE_Spice,
+    SPELLUSE_Herb,
+    SPELLUSE_Gemstone
+} MagicCostEnum;
 
 struct Spell_ROM { /* Spell Data in ROM */
     char Name[23];

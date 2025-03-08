@@ -230,7 +230,7 @@ namespace Entity{
     u8 isDead(CharSheet *param_1);
     void DecreaseHP(CharSheet *param_1,s16 dmg);
     u8 hasCheatDeath(CharSheet *param_1);
-    void DamageToLevel(CharSheet *ent,short param_2,CombatEntity *cEnt);
+    void DamageToLevel(CharSheet *ent,s16 param_2,CombatEntity *cEnt);
     void addHP(CharSheet *param_1,u16 param_2);
     void addStamina(CharSheet *param_1,u8 pointEight);
     u8 ret0(CharSheet *param_1);
