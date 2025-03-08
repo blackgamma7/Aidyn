@@ -37,7 +37,7 @@ void Utilities::ChangeWidgetText(BaseWidget *w,char *param_2,u8 param_3){
     HFREE((void *)*puVar6,159);
     uVar3 = strlen(param_2);
     uVar3 += 1;
-    *(short *)(puVar6 + 1) = (short)uVar3;
+    *(s16 *)(puVar6 + 1) = (s16)uVar3;
     line = 0xa2;
   }
   else {
@@ -47,7 +47,7 @@ void Utilities::ChangeWidgetText(BaseWidget *w,char *param_2,u8 param_3){
       if (param_3) {
         HFREE(*puVar5,189);
         uVar3 = strlen(param_2);
-        *(short *)(puVar5 + 1) = (short)(uVar3 + 1);
+        *(s16 *)(puVar5 + 1) = (s16)(uVar3 + 1);
         pcVar4 = (char *)HALLOC(uVar3 + 1,192);
         *puVar5 = pcVar4;
       }
@@ -59,7 +59,7 @@ void Utilities::ChangeWidgetText(BaseWidget *w,char *param_2,u8 param_3){
     HFREE((void *)*puVar6,0xae);
     uVar3 = strlen(param_2);
     uVar3 += 1;
-    *(short *)(puVar6 + 1) = (short)uVar3;
+    *(s16 *)(puVar6 + 1) = (s16)uVar3;
     line = 0xb1;
   }
   pvVar2 = HALLOC(uVar3,line);
@@ -217,7 +217,7 @@ void Utilities::SetScrollMenuColors(BaseWidget *w,u8 r0,u8 g0,u8 b0,u8 a0,u8 r1,
 }
 
 void Ofunc_800bc300(BaseWidget *w,u16 param_2){
-  short sVar1;
+  s16 sVar1;
   BaseWidget **ppBVar2;
   ulong uVar3;
   int iVar4;
@@ -419,7 +419,7 @@ void Utilities::SetAlpha(BaseWidget *w,u8 a){
 }
 
 
-void Utilities::MoveWidget(BaseWidget *w,short x,short y){
+void Utilities::MoveWidget(BaseWidget *w,s16 x,s16 y){
   void *pvVar1;
   BaseWidget *pBVar2;
   ulong uVar3;
@@ -433,8 +433,8 @@ void Utilities::MoveWidget(BaseWidget *w,short x,short y){
   w->boundY1 = y + w->boundY1;
   if ((w->GetNumber() == 1)||(w->GetNumber() == 2)) {
     pvVar1 = w->substruct;
-    *(short *)((int)pvVar1 + 0x10) = x + *(short *)((int)pvVar1 + 0x10);
-    *(short *)((int)pvVar1 + 0x12) = x + *(short *)((int)pvVar1 + 0x12);
+    *(s16 *)((int)pvVar1 + 0x10) = x + *(s16 *)((int)pvVar1 + 0x10);
+    *(s16 *)((int)pvVar1 + 0x12) = x + *(s16 *)((int)pvVar1 + 0x12);
   }
   pBVar2 = w->link3;
   for (; pBVar2 != NULL; pBVar2 = pBVar2->link2) {
@@ -442,11 +442,11 @@ void Utilities::MoveWidget(BaseWidget *w,short x,short y){
   }
 }
 
-void Utilities::MoveWidget2(BaseWidget *w,short param_2,short param_3){
+void Utilities::MoveWidget2(BaseWidget *w,s16 param_2,s16 param_3){
   MoveWidget(w,param_2 - w->x,param_3 - w->y);
 }
 
-BaseWidget * Utilities::DebugBackground(BaseWidget *w,short x,short y,u16 h,u16 w,u8 r,u8 g,u8 b,u8 a){
+BaseWidget * Utilities::DebugBackground(BaseWidget *w,s16 x,s16 y,u16 h,u16 w,u8 r,u8 g,u8 b,u8 a){
   BaseWidget* pBVar1 = new wigdetUnk0();
   pBVar1->SetCoords(x,y);
   pBVar1->SetWidth(h);
@@ -456,7 +456,7 @@ BaseWidget * Utilities::DebugBackground(BaseWidget *w,short x,short y,u16 h,u16 
   return pBVar1;
 }
 
-WidgetText * Utilities::AddTextWidget(BaseWidget *w,char *str,short x,short y,u8 r,u8 g,u8 b,u8 a){
+WidgetText * Utilities::AddTextWidget(BaseWidget *w,char *str,s16 x,s16 y,u8 r,u8 g,u8 b,u8 a){
   WidgetText*pBVar1 = WText(str);
   pBVar1->SetCoords(x,y);
   pBVar1->SetColor(r,g,b,a);
@@ -501,8 +501,7 @@ Utilities::AddClipTextWidget(BaseWidget *w,char *txt,u16 bX0,u16 bY0,u16 bX1,u16
 }
 
 BaseWidget *
-Utilities::AddWidgetArrayMenu(BaseWidget *w,u16 len,u8 param_3,short x,short y,u16 x0,
-          u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
+Utilities::AddWidgetArrayMenu(BaseWidget *w,u16 len,u8 param_3,s16 x,s16 y,u16 x0,u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
   BaseWidget *pBVar1 = new WidgetArrayMenu(len);
   *(u16 *)((int)pBVar1->substruct + 10) = (u16)param_3;
   pBVar1->SetCoords(x,y);
@@ -513,4 +512,46 @@ Utilities::AddWidgetArrayMenu(BaseWidget *w,u16 len,u8 param_3,short x,short y,u
   pBVar1->SetColor(r,g,b,a);
   if (w) w->Link(pBVar1);
   return pBVar1;
+}
+
+WidgetBorg8 *
+Utilities::AddBorg8Widget(BaseWidget *w,Borg8header *b8,s16 x,s16 y){
+  WidgetBorg8 *pBVar1 = new WidgetBorg8(b8);
+  if (pBVar1 == NULL) pBVar1 = NULL;
+  else {
+    pBVar1->SetCoords(x,y);
+    if (w) w->Link(pBVar1);
+  }
+  return pBVar1;
+}
+WidgetBorg8 * Utilities::AddBorg8Widget2(BaseWidget *w,Borg8header *b8,s16 x0,s16 y0,s16 x1,s16 y1){
+  WidgetBorg8 *pBVar1 = AddBorg8Widget(w,b8,x0,y0);
+  if (pBVar1 == NULL) pBVar1 = NULL;
+  else {
+    pBVar1->SetWidth((x1 - x0) + 1);
+    pBVar1->SetHeight((y1 - y0) + 1);
+  }
+  return pBVar1;
+}
+WidgetScrollMenu* Utilities::AddScrollMenu(BaseWidget *w,u16 length,s16 x,s16 y,u16 bx0,u16 by0,u16 bx1,u16 by1,u8 r,u8 g,u8 b,u8 a,s32 setColors){
+WidgetScrollMenu* pBVar1 = new WidgetScrollMenu(length);
+pBVar1->SetCoords(x,y);
+pBVar1->boundX0 = bx0;
+pBVar1->boundX1 = bx1;
+pBVar1->boundY1 = by1;
+pBVar1->boundY0 = by0;
+pBVar1->SetColor(r,g,b,a);
+if (w) w->Link(pBVar1);
+if (setColors) {
+  WSMSub *pvVar1 = (WSMSub *)pBVar1->substruct;
+  pvVar1->reds[1] = r;
+  pvVar1->reds[0] = r;
+  pvVar1->greens[1] = g;
+  pvVar1->greens[0] = g;
+  pvVar1->blues[1] = b;
+  pvVar1->blues[0] = b;
+  pvVar1->alphas[1] = a;
+  pvVar1->alphas[0] = a;
+}
+return pBVar1;
 }
