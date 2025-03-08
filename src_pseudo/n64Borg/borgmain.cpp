@@ -219,7 +219,7 @@ void borg1_func_a(Borg1Data *param_1){
 }
 
 u8 InitBorgTexture(Borg1header *header,Borg1Data *dat){
-  ushort uVar1;
+  u16 uVar1;
   Borg1Data *pBVar2;
   uint size;
   u8 *puVar5;
@@ -743,7 +743,7 @@ u8 borg6_func_b(borg6header *param_1,void *param_2){
   undefined4 *puVar11;
   int iVar12;
   undefined4 *puVar13;
-  ushort uVar14;
+  u16 uVar14;
   void *pvVar15;
   int iVar16;
   int iVar17;
@@ -810,7 +810,7 @@ u8 borg6_func_b(borg6header *param_1,void *param_2){
           iVar4 = *(int *)(iVar6 + 4);
           puVar10 = puVar11 + 4;
           pAVar9->field2_0x8 = puVar11;
-          uVar14 = *(ushort *)(iVar4 + 2);
+          uVar14 = *(u16 *)(iVar4 + 2);
           puVar13 = *(undefined4 **)(iVar4 + 4);
           do {
             if ((uVar14 & 1) == 0) {

@@ -262,7 +262,7 @@ void renderAudioVoxel(SoundStructA *param_1){
   u8 uVar2;
   bool bVar3;
   short sVar4;
-  ushort uVar5;
+  u16 uVar5;
   int iVar6;
   float fVar7;
   

@@ -77,10 +77,10 @@ Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
 
 //{gDPLoadTextureBlock();gSPScisTextureRectangle();} seems very common. Combine into own macro?
 
-Gfx * N64BorgImageDraw(Gfx *g,Borg8header *borg8,float param_3,float param_4,ushort param_5,
-                      ushort param_6,u16 h,u16 v,float param_9,float param_10,u8 red,u8 green,
+Gfx * N64BorgImageDraw(Gfx *g,Borg8header *borg8,float param_3,float param_4,u16 param_5,
+                      u16 param_6,u16 h,u16 v,float param_9,float param_10,u8 red,u8 green,
                       u8 blue,u8 alpha){
-  ushort uVar1;
+  u16 uVar1;
   u16 iVar2;
   void *pvVar3;
   short sVar10;

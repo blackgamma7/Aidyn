@@ -74,7 +74,7 @@ void Ofunc_80054dc0(voxelObject* param_1,u16 param_2){(param_1->header).Bitfeild
 void InitLight(AnimationData *aniDat,Borg9data *borg9,vec3f *pos,voxelObject *light,s16 count,
               s16 delta){
   u16 VVar1;
-  ushort uVar2;
+  u16 uVar2;
   void *pvVar3;
   bool bVar6;
   Color32 *pCVar7;

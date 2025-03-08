@@ -31,7 +31,7 @@ struct collisionSphere {
     float radius;
     vec3f pos;
     vec3f vel;
-    ushort flags; /* 0x400 - ?,0x8000 remove */
+    u16 flags; /* 0x400 - ?,0x8000 remove */
     short unk1e;
     vec3f polyNormal;
     vec3f unk2c; /* another normal? set, but not read. */

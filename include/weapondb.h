@@ -35,7 +35,7 @@ struct weapon_ram { /* Weapon Data loaded into ram */
     u8 ReqSTR;
     u8 Hit;
     u8 damage;
-    ushort price; /* proper endian */
+    u16 price; /* proper endian */
     u8 SpellLV;
     u8 Range; /* *(5/3) */
     u8 Animation; /* which use animation */

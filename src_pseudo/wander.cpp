@@ -90,7 +90,7 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
   u32 borg7;
   playerData *pDat;
   byte bVar8;
-  ushort uVar7;
+  u16 uVar7;
   wander_substruct *ppVar10;
   voxelObject *refObj;
   float fVar9;
@@ -178,7 +178,7 @@ playerData * FUN_80012b44(wander_struct *param_1,wander_substruct *param_2){
 }
 
 void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3){
-  ushort uVar1;
+  u16 uVar1;
   Borg9data *pBVar2;
   voxelObject *pVVar3;
   vec2f *res;
@@ -226,7 +226,7 @@ void FUN_80012c58(wander_struct *param_1,wander_substruct *param_2){
 
 
 void FUN_80012d44(wander_substruct *param_1){
-  ushort uVar1;
+  u16 uVar1;
   Borg9data *pBVar2;
   vec2f fStack80;
   voxelObject *pVVar2;

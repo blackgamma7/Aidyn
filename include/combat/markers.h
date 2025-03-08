@@ -17,12 +17,12 @@ Borg9data* mapmarker_borg9=NULL;
 #define MARKERMAX 20
 
 namespace CombatMarkers{
-    u8 SetMarker(Borg9data *mapDat,vec3f *pos,float radius,ushort iter);
+    u8 SetMarker(Borg9data *mapDat,vec3f *pos,float radius,u16 iter);
     u8 Init();
     void Create(CombatEntity *param_1);
     s8 SetCount(float range);
-    Gfx * CombatMarkers::RenderMarkers(Gfx *G,ushort delta);
-    void Tick(CombatMarker *param_1,ushort delta);
+    Gfx * CombatMarkers::RenderMarkers(Gfx *G,u16 delta);
+    void Tick(CombatMarker *param_1,u16 delta);
     Gfx * RenderMarker(Gfx *param_1,CombatMarker *param_2);
     void Free(void);
 };

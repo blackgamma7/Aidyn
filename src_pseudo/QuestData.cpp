@@ -86,7 +86,7 @@ void Load(u8 *data){
 void SaveVoxelChart(byte *param_1){
   short *psVar1;
   byte *pbVar2;
-  ushort uVar3;
+  u16 uVar3;
   u16 uVar4;
   VoxelChartEntry *pVVar5;
   
@@ -113,7 +113,7 @@ void SaveVoxelChart(byte *param_1){
 void LoadVoxelChart(byte *param_1){
   byte bVar1;
   byte *pbVar2;
-  ushort uVar3;
+  u16 uVar3;
   uint uVar4;
   VoxelChartEntry *pVVar5;
   
@@ -238,8 +238,8 @@ u8 LoadFromMemPak(SaveDatStruct *param_1){
 }
 
 void TakeSnapshot(void){
-  ushort h;
-  ushort V;
+  u16 h;
+  u16 V;
   
   if (!gQuestdataSnapshot) {
     ALLOCS(gQuestdataSnapshot,SNAPSHOT_SIZE,648);

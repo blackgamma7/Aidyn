@@ -95,7 +95,7 @@ u8 WidgetScrollMenu::Tick(){
   bool bVar16;
   BaseWidget **ppBVar17;
   short sVar18;
-  ushort uVar19;
+  u16 uVar19;
   uint i;
   int iVar21;
   byte bVar23;
@@ -139,7 +139,7 @@ LAB_800b9fb0:
         }
         if (entry->GetNumber() == 1) {
 LAB_800ba040:
-          Utilities::SetWidgetBoundsXY0(entry,this->boundX0,this->boundX1);
+          Utilities::SetWidgetBoundsX(entry,this->boundX0,this->boundX1);
         }
         else {
           if (entry->GetNumber() == 2) {
@@ -178,7 +178,7 @@ LAB_800ba040:
       }
     }
   }
-  SetHeight(sVar18 - (ushort)(byte)pvVar5->field_0x22);
+  SetHeight(sVar18 - (u16)(byte)pvVar5->field_0x22);
   return TickChildren();
 }
 

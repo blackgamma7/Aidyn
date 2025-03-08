@@ -161,8 +161,8 @@ void state_TypeA_LOG(Struct_State *param_1,u16 param_2){
   uint uVar2;
   uint uVar3;
   uint uVar4;
-  ushort uVar5;
-  ushort uVar6;
+  u16 uVar5;
+  u16 uVar6;
   
   uVar3 = (uint)param_2;
   uVar5 = 0;
@@ -195,11 +195,11 @@ LAB_8002483c:
   case FLAG_MSK:
     bVar1 = uVar3 == 0;
     uVar3 = (uint)param_1->shortA;
-    uVar6 = (ushort)bVar1;
+    uVar6 = (u16)bVar1;
   }
   if (uVar4) {
     for (uVar2=0;uVar2<uVar4;uVar2++) {
-      uVar5 = (ushort)uVar3;
+      uVar5 = (u16)uVar3;
       uVar3 >>= 1;
       StateTypeA_branch((&gameStates->other_pointer->shortA)[param_1->shortB + uVar2],uVar5 ^ uVar6)
       ;

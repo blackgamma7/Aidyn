@@ -160,7 +160,7 @@ Gfx * Graphics::StartGfxList(void){
 }
 
 //draws colored Rectangle?
-Gfx * Graphics::SomeOtherInit(Gfx *gfx,u16 x0,u16 y0,u16 x1,ushort y1,u8 r,u8 g,u8 b,u8 a){
+Gfx * Graphics::SomeOtherInit(Gfx *gfx,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a){
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);
   gDPSetRenderMode(gfx++,0,0);
@@ -175,7 +175,7 @@ Gfx * Graphics::SomeOtherInit(Gfx *gfx,u16 x0,u16 y0,u16 x1,ushort y1,u8 r,u8 g,
 }
 
 //draws colored Rectangle?
-Gfx * Ofunc_rspcode(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5,Color32 param_6){
+Gfx * Ofunc_rspcode(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,u16 param_5,Color32 param_6){
   uint uVar5;
   uint uVar6;
   uint uVar7;
@@ -246,7 +246,7 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
 
 //draws overscan "letterbox" and ends dlist
 Gfx * Graphics::EndList(Gfx *gfx){
-  ushort uVar1;
+  u16 uVar1;
   uint uVar2;
   
   gDPPipeSync(gfx++);
@@ -531,7 +531,7 @@ void Graphics::passto_GetGfxLastFrame(void *param_1,u16 param_2,u16 param_3,u8 p
   getGfxLastFrame(param_1,param_2,param_3,param_4,0,0,gGfxManager.Hres[1],gGfxManager.Vres[1]);}
 
 
-Gfx * Ofunc_80009d7c(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,ushort param_5,byte r,byte g,
+Gfx * Ofunc_80009d7c(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,u16 param_5,byte r,byte g,
                     byte b,byte a){
   uint uVar1;
   uint uVar2;
@@ -749,7 +749,7 @@ Gfx * Graphics::DrawText(Gfx *gfx,char *txt,u16 X,u16 Y,u8 red,u8 green,u8 blue,
 
 //Show debug statistics
 Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
-  ushort x2;
+  u16 x2;
   u32 uVar1;
   u32 uVar2;
   u32 uVar3;
@@ -763,7 +763,7 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   uint uVar11;
   uint uVar12;
   uint uVar13;
-  ushort uVar15;
+  u16 uVar15;
   uint ntscPalVar;
   double dVar16;
   float fVar17;

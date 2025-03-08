@@ -360,7 +360,7 @@ void Emergency_skeleton_func(monsterparty_dat *param_1){
 }
 
 
-void battle_setup_func(voxelObject *param_1,u16 flag,ushort param_3){
+void battle_setup_func(voxelObject *param_1,u16 flag,u16 param_3){
   printLine(0x2fe);
   printLine(0x2ff);
   printLine(0x302);
@@ -424,8 +424,8 @@ void load_camp_ambush(void){
   memset(&auStack72,0,0x38);
   lvTeir = 0;
   pmVar2 = fromROM.entries;
-  auStack72.field6_0x28 = (ushort)fromROM.entries[0].min + (ushort)fromROM.entries[1].min;
-  auStack72.totalsize = (ushort)fromROM.entries[0].max + (ushort)fromROM.entries[1].max;
+  auStack72.field6_0x28 = (u16)fromROM.entries[0].min + (u16)fromROM.entries[1].min;
+  auStack72.totalsize = (u16)fromROM.entries[0].max + (u16)fromROM.entries[1].max;
   pmVar3 = &auStack72;
   do {
     pmVar3->enemyEntries[0].enemyID = ((monsterpartyEntry *)&pmVar2->enemyID)->enemyID;

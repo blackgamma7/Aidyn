@@ -365,7 +365,7 @@ void FUN_80060a88(CombatAI_s *param_1){
   u8 uVar7;
   u8 uVar8;
   int iVar9;
-  ushort uVar10;
+  u16 uVar10;
   CombatSubstructA *pcVar11;
   byte feildx;
   int iVar12;
@@ -373,7 +373,7 @@ void FUN_80060a88(CombatAI_s *param_1){
   uint uVar14;
   uint uVar15;
   int iVar16;
-  ushort uVar17;
+  u16 uVar17;
   CombatSubstructB *X_00;
   uint uVar18;
   float x;
@@ -765,8 +765,8 @@ void FUN_8006193c(CombatAI_s *param_1){
   u8 uVar1;
   CombatEntity *pCVar2;
   byte bVar3;
-  ushort uVar4;
-  ushort uVar5;
+  u16 uVar4;
+  u16 uVar5;
   combat_aiscore *pcVar6;
   uint uVar7;
   uint uVar9;
@@ -776,7 +776,7 @@ void FUN_8006193c(CombatAI_s *param_1){
   longlong lVar8;
   u8 uVar13;
   u8 uVar14;
-  ushort uVar12;
+  u16 uVar12;
   int iVar15;
   CombatSubstructA *pcVar16;
   CombatSubstructB *pcVar17;

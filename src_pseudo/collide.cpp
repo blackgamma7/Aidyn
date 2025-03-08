@@ -132,7 +132,7 @@ bool CheckCollision(Borg9data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3
           pbVar2 = borg9_get_unkStruct(borgDat,lVar9,lVar6);
           if (pbVar2->collideCount) {
             for(s16 iVar5=0;iVar5 < pbVar2->collideCount;iVar5++) {
-              pbVar7 = borgDat->phys_pointer + (ushort)pbVar2->collideIndecies[iVar5];
+              pbVar7 = borgDat->phys_pointer + (u16)pbVar2->collideIndecies[iVar5];
               if ((iStack_3c == 0) || (!(pbVar7->flags & 0x200))) {
                 if (vec3_dot(&dist,&pbVar7->normal) <= 0.0) {
                   if (FUN_800aec1c(posA,&dist,radius,pbVar7,auStack_40,avStack_88)) {
@@ -197,7 +197,7 @@ bool processPlayers_sub(Borg9data *param_1,vec3f *playerPos,vec3f *playposMinY,f
             uVar8 = 2;
             iVar11 = 0x10000;
             do {
-              pbVar10 = param_1->phys_pointer + (ushort)pbVar2->collideIndecies[iVar6];
+              pbVar10 = param_1->phys_pointer + (u16)pbVar2->collideIndecies[iVar6];
               uVar3 = pbVar10->GroundType & 0x1f;
               if ((uVar3 != uVar9) && (uVar3 != uVar8)) {
                 uStack_38 = uVar8;
@@ -212,7 +212,7 @@ bool processPlayers_sub(Borg9data *param_1,vec3f *playerPos,vec3f *playposMinY,f
               }
               iVar6 = iVar11 >> 0x10;
               iVar11 += 0x10000;
-            } while (iVar6 < (int)(uint)(ushort)pbVar2->collideCount);
+            } while (iVar6 < (int)(uint)(u16)pbVar2->collideCount);
           }
           lVar7 = (iVar1 >> 0x10);
         } while (lVar7 <= sStack_42);

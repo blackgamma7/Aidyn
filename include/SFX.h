@@ -2,7 +2,7 @@
 #include "Camera.h"
 
 struct SoundStructB {
-    ushort index;
+    u16 index;
     short timer;
     u16 active;
     u16 unk6; //align bytes?
@@ -17,7 +17,7 @@ struct SoundStructA {
     u8 zoneDatByte;
     u8 active;
     u16 timer;
-    ushort flag;
+    u16 flag;
     Borg12Header *borg12;
     voxelObject *voxel;
     audio_obj_dat *voxelDat;
@@ -34,11 +34,11 @@ struct SoundStructA {
 
 struct SFX_Struct {
     SoundStructA *pointerA; /* (SoundObjCount) entries */
-    ushort shortArrayA[SoundObjCount];
+    u16 shortArrayA[SoundObjCount];
     u16 pointerAIndex;
     SoundStructB *pointerB; /* 16 entries */
-    ushort shortArrayB[16];
-    ushort pointerBIndex;
+    u16 shortArrayB[16];
+    u16 pointerBIndex;
     u16 active;
 };
 
@@ -50,7 +50,7 @@ struct Voice_Aidyn {
     u32 unk0x38;
     u32 waveTableLength;
     u32 loopEnd;
-    ushort pitch;
+    u16 pitch;
     u8 loopCount;
     u8 isActive;
     u8 vol;

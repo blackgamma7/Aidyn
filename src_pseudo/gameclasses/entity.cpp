@@ -556,7 +556,7 @@ Lab_return:
 }
 
 u8 Entity::IncPotionEffect(CharSheet *param_1,u8 noCombat,uint delta){
-  ushort mag;
+  u16 mag;
   
   if (!isDead(param_1)) {
     for(u8 i=0;i<POTION_FXMAX;i++) {
@@ -1154,7 +1154,7 @@ s32 Entity::IncEnchantments(CharSheet *param_1,CombatEntity *cEnt,s32 delta){
   uint uVar4;
   uint uVar5;
   byte dice;
-  ushort daySpeed;
+  u16 daySpeed;
   longlong lVar10;
   uint i;
   int iVar11;
@@ -1750,12 +1750,12 @@ ItemInstance * Has_Item_equipped_character(CharSheet *param_1,ItemID param_2)
 {
   CharGear *pCVar1;
   GearInstance *pGVar2;
-  ushort uVar3;
+  u16 uVar3;
   GearInstance **ppGVar4;
   ItemInstance *pWVar5;
   uint uVar5;
   
-  uVar3 = (ushort)param_2 >> 8;
+  uVar3 = (u16)param_2 >> 8;
   if (uVar3 == 6) {
     pWVar5 = &param_1->armor[1]->base;
   }
@@ -1933,14 +1933,14 @@ int Entity::GetArmorProtect(CharSheet *param_1,ItemID param_2){
   if (param_2 != (ItemID)0x0) {
     bVar1 = GetIDIndex(param_2);
     iVar6 = 0;
-    if ((ushort)param_2 >> 8 == 5) {
+    if ((u16)param_2 >> 8 == 5) {
       if (ret0(param_1)) {
         return iVar5;
       }
       ppAVar3 = param_1->armor;
     }
     else {
-      if ((ushort)param_2 >> 8 != 6) return iVar5;
+      if ((u16)param_2 >> 8 != 6) return iVar5;
       if (NoSheildSkill(param_1)) return iVar5;
       iVar6 = 1;
       ppAVar3 = param_1->armor;

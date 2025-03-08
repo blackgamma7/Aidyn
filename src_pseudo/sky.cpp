@@ -342,8 +342,8 @@ Gfx * Sky::RenderGradient(Gfx *g,Color32 *cols,u16 h){
 
 Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   short sVar1;
-  ushort uVar4;
-  ushort v;
+  u16 uVar4;
+  u16 v;
   Gfx *gfx;
   uint uVar2;
   int iVar3;

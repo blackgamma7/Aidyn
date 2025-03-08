@@ -178,7 +178,7 @@ void audioProc(void* p){
 void AudioProcInit(void){
   u8 *base;
 
-  ushort uVar3;
+  u16 uVar3;
   u8 i;
   u32 uVar5;
   ALSynConfig synConf;
@@ -251,7 +251,7 @@ u8 * dmaProc(byte *param_1,s32 param_2,s32 param_3){
         bVar1 = *param_1;
         param_1++;
         iVar3--;
-        *(ushort *)pbVar2 = (ushort)bVar1 << 8;
+        *(u16 *)pbVar2 = (u16)bVar1 << 8;
         pbVar2+=2;
       } while (iVar3 != -1);
     }
@@ -262,7 +262,7 @@ u8 * dmaProc(byte *param_1,s32 param_2,s32 param_3){
 }
 
 ALMicroTime soundVoiceHandler(void){
-  ushort uVar1;
+  u16 uVar1;
   u32 *puVar3;
   u32 uVar12;
   u8 *puVar5;
@@ -371,7 +371,7 @@ Acmd * CreateAudioList(void){
   }
   gAudioManager.scaleBufferB = gAudioManager.scaleBufferA;
   uVar2 = ((u32)gAudioManager.unk0x324 - (osAiGetLength() >> 2 & 0xffff)) + 0x50;
-  gAudioManager.audioLength = (ushort)uVar2 & 0xfff0;
+  gAudioManager.audioLength = (u16)uVar2 & 0xfff0;
   if ((uVar2 & 0xfff0) < (u32)gAudioManager.audioLengthMin) {
     gAudioManager.audioLength = gAudioManager.audioLengthMin;
   }

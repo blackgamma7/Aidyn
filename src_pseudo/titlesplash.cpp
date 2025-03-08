@@ -206,8 +206,8 @@ void TitleSplash::Println(Gfx*param_1,s16 *HSpace,char *TXT){
 u8 TitleSplash::Copyright(Gfx **param_1){
   FontStruct *pFVar1;
   byte bVar2;
-  ushort uVar3;
-  ushort uVar4;
+  u16 uVar3;
+  u16 uVar4;
   uint uVar6;
   byte abStack_38;
   short sStack_36;

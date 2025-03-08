@@ -2081,7 +2081,7 @@ u32 Party::MerchantCheck(){
 //dialouge Ranger Skill Check
 u32 Party::RangerCheck(){
   s8 sVar2;
-  ushort r;
+  u16 r;
   
   sVar2 = GetMostSkilledMember(SKILL_Ranger);
   r = 0;
@@ -2295,7 +2295,7 @@ u8 Party::GetEquipError3(byte param_2,GearInstance *param_3,CharSheet *param_4,b
   if (uVar7 != 0) {
     ppGVar8 = param_4->pItemList->pItem;
     do {
-      if ((*ppGVar8 != NULL) && ((ushort)((*ppGVar8)->base).id >> 8 == (ushort)IVar1 >> 8)) {
+      if ((*ppGVar8 != NULL) && ((u16)((*ppGVar8)->base).id >> 8 == (u16)IVar1 >> 8)) {
         uVar9 += 1;
       }
       uVar10 += 1;

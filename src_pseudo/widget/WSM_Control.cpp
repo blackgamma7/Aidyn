@@ -4,7 +4,7 @@ BaseWidget* WSM_UpFunc(BaseWidget*w0,BaseWidget*w1){
     s16 sVar3;
     WSMSub* sub = (WSMSub *)w1->substruct;
     if ((sub->currentCount)){
-       BaseWidget* entry = sub->items[(ushort)sub->highlight];
+       BaseWidget* entry = sub->items[(u16)sub->highlight];
        if(entry) {
         entry->SetColor((w1->col).R,(w1->col).G,(w1->col).B,(w1->col).A);
         sVar3 = sub->highlight;
@@ -20,7 +20,7 @@ BaseWidget* WSM_DownFunc(BaseWidget* w0,BaseWidget* w1){
     s16 sVar3;
     WSMSub* sub = (WSMSub *)w1->substruct;
     if ((sub->currentCount)){
-       BaseWidget* entry = sub->items[(ushort)sub->highlight];
+       BaseWidget* entry = sub->items[(u16)sub->highlight];
        if(entry) {
         entry->SetColor((w1->col).R,(w1->col).G,(w1->col).B,(w1->col).A);
         sub->highlight++;

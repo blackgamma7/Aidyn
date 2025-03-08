@@ -30,7 +30,7 @@ SMIItem::SMIItem(EquipInstance *pObject,u8 q,u8 user):BaseWidget(){
   this->ItemName = WClipTXTSafe((this->item->W).base.name);
   this->ItemName->SetColor(0x82,0x50,0x50,0xff);
   this->Link(this->ItemName);
-  Utilities::SetWidgetBoundsXY0(this->ItemName,0,640);
+  Utilities::SetWidgetBoundsX(this->ItemName,0,640);
   if (this->quantity) {
     sprintf(acStack_60,"%d",this->quantity);
     this->QuantityTtx = WClipTXTSafe(acStack_60);

@@ -26,8 +26,8 @@ App_manager appManager;
 
 Gfx * display_debug_stats(Gfx *gfx){
   playerData *ppVar1;
-  ushort h;
-  ushort v;
+  u16 h;
+  u16 v;
   uint uVar2;
   u32 uVar3;
   uint uVar4;
@@ -220,7 +220,7 @@ void AppProc(void *x){
   Gfx *gfx1;
   int dat_size;
   short sVar7;
-  ushort uVar8;
+  u16 uVar8;
   short sVar9;
   uint uVar10;
   u32 gListSizeMax;

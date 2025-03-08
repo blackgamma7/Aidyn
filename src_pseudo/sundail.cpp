@@ -20,8 +20,8 @@ void Init(void){
 
 Gfx * Draw(Gfx *param_1){
   byte bVar1;
-  ushort h;
-  ushort v;
+  u16 h;
+  u16 v;
   Gfx *pGVar2;
   uint uVar3;
   Borg8header *borg8;

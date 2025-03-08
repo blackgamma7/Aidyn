@@ -3,7 +3,7 @@
 
 
 struct minimap_dat_2 {
-    ushort unk0x0;
+    u16 unk0x0;
     u16 flag;
     u32 borg8;
 };
@@ -43,7 +43,7 @@ struct MiniMap {
     float field22_0x54;
     float field23_0x58;
     float field24_0x5c;
-    ushort mapshorts[2];
+    u16 mapshorts[2];
     float floatX;
     float floatY;
     float mapScale;
@@ -63,6 +63,6 @@ struct MiniMap {
     float field42_0xa4;
     short field43_0xa8;
     short field44_0xaa;
-    ushort field45_0xac;
-    ushort field46_0xae;
+    u16 field45_0xac;
+    u16 field46_0xae;
 };

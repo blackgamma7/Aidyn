@@ -25,8 +25,8 @@ void Portraits::BlendColors(Color32 *colA,Color32 *colB,float fade){
 Gfx * Portraits::DrawParty(Gfx *g,u8 raise,Color32 *col){
   CharSheet *pCVar1;
   float Hscale;
-  ushort h;
-  ushort v;
+  u16 h;
+  u16 v;
   Gfx *gfx;
   Color32 TempCol;
   

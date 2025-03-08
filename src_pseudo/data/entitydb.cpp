@@ -37,7 +37,7 @@ u16 ItemDB_SwapEndian(u8 *x){
 void EntityDB::Load(u8 id,s32 *param_3){
   int iVar1;
   ItemID IVar3;
-  ushort uVar4;
+  u16 uVar4;
   char *pcVar5;
   u8 uVar6;
   uint uVar7;
@@ -52,7 +52,7 @@ void EntityDB::Load(u8 id,s32 *param_3){
   memcpy(EntRam->Name,&EntROM,20);
   EntRam->Name[20] = '\0';
   EntRam->Category = EntROM.category;
-  EntRam->ID = (ItemID)((ushort)EntROM.id.id + (ushort)EntROM.id.type * 0x100);
+  EntRam->ID = (ItemID)((u16)EntROM.id.id + (u16)EntROM.id.type * 0x100);
   EntRam->rom0x2b = EntROM.unk0x2b;
   EntRam->unk0x18 = 0;
   EntRam->aspect = EntROM.Aspect;
@@ -104,7 +104,7 @@ void EntityDB::Load(u8 id,s32 *param_3){
   }
   memcpy(EntRam->unk0x78,EntROM.name + uVar8,4);
   uVar6 = uVar8+4;
-  EntRam->EXP = ((ushort)(byte)EntROM.name[uVar6] * 0x18 + (ushort)(byte)EntROM.name[uVar6]) * 2;
+  EntRam->EXP = ((u16)(byte)EntROM.name[uVar6] * 0x18 + (u16)(byte)EntROM.name[uVar6]) * 2;
   EntRam->loot_Category = EntROM.name[uVar6+1];
   *param_3 = iVar1 + 0x88;
 }
@@ -135,7 +135,7 @@ void EntityDB::Free(){HFREE(entities,1258);}
 u32 EntityDB::GetPortrait(ItemID id){
   byte bVar3;
   u16 uVar1;
-  ushort uVar2;
+  u16 uVar2;
   int iVar4;
   dialougeEntity_Info *pdVar5;
   entity_info *peVar6;
@@ -187,14 +187,14 @@ LAB_8007558c:
 u32 EntityDB::GetBorg7(ItemID id){
   byte bVar3;
   u16 uVar1;
-  ushort uVar2;
+  u16 uVar2;
   int iVar4;
   dialougeEntity_Info *pdVar5;
   entity_info *peVar6;
   dialougeEntity_Info *pdVar7;
   
   bVar3 = GetIDIndex(id);
-  if ((ushort)id >> 8 == DB_ENTITY) {
+  if ((u16)id >> 8 == DB_ENTITY) {
     if (entity_info_array[0].Index != 0) {
       peVar6 = entity_info_array;
       iVar4 = 0;
@@ -212,7 +212,7 @@ u32 EntityDB::GetBorg7(ItemID id){
     }
   }
   else {
-    if ((ushort)id >> 8 != DB_DIALOUGEENTITY) {
+    if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
       return 0x2d4a;
     }
     if (dailougEnt_info_array[0].index != 0) {
@@ -257,7 +257,7 @@ float Ofunc_8007573c(EntityDB *param_1,ItemID id){
 //sems to load "perception" value checked for sneaking. almost always 10.
 float EntityDB::GetPerception(ItemID id){
   float fVar2 = 10.0f;
-  if ((ushort)id >> 8 != DB_DIALOUGEENTITY) {
+  if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
     fVar2 = (float)entities[GetIDIndex(id)].unk0x20;
   }
   return fVar2;
@@ -266,7 +266,7 @@ float EntityDB::GetPerception(ItemID id){
 //unknown what is was meant for.
 float EntityDB::GetVal_21h(ItemID id){
   float fVar2 = 2.0;
-  if ((ushort)id >> 8 != DB_DIALOUGEENTITY) 
+  if ((u16)id >> 8 != DB_DIALOUGEENTITY) 
     fVar2 = (float)entities[GetIDIndex(id)].unk0x21;
   return fVar2;
 }
@@ -275,11 +275,11 @@ float EntityDB::GetVal_21h(ItemID id){
 float EntityDB::GetHeight(ItemID id){
   byte bVar3;
   u16 uVar1;
-  ushort uVar2;
+  u16 uVar2;
   dialougeEntity_Info *pdVar6;
   
   bVar3 = GetIDIndex(id);
-  if ((ushort)id >> 8 == DB_ENTITY) {
+  if ((u16)id >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index) {
       entity_info *peVar5 = entity_info_array;
       uVar1 = entity_info_array[0].index;
@@ -290,7 +290,7 @@ float EntityDB::GetHeight(ItemID id){
       } while (uVar1 != 0);
     }
   }
-  else if (((ushort)id >> 8 == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
+  else if (((u16)id >> 8 == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
     dialougeEntity_Info *pdVar6 = dailougEnt_info_array;
     uVar2 = dailougEnt_info_array[0].index;
     do {
@@ -332,7 +332,7 @@ float EntityDB::GetFloatA(ItemID id){
   int iVar3;
   entity_info *peVar4;
   
-  if ((ushort)id >> 8 != DB_DIALOUGEENTITY) {
+  if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
     bVar2 = GetIDIndex(id);
     if (entity_info_array[0].index != 0) {
       peVar4 = entity_info_array;
@@ -350,7 +350,7 @@ float EntityDB::GetFloatA(ItemID id){
 }
 //not sure what this is for, used in "processPlayers"
 float EntityDB::RetPoint4(ItemID id){
-    if ((ushort)id >> 8 != DB_DIALOUGEENTITY)GetIDIndex(id);
+    if ((u16)id >> 8 != DB_DIALOUGEENTITY)GetIDIndex(id);
     return 0.4f;
 }
 
@@ -383,7 +383,7 @@ float EntityDB::GetFloatC(ItemID id){
   float fVar5;
   
   fVar5 = 0.55f;
-  if ((ushort)id >> 8 != DB_DIALOUGEENTITY) {
+  if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
     bVar2 = GetIDIndex(id);
     fVar5 = 0.75f;
     if (entity_info_array[0].index != 0) {
@@ -406,13 +406,13 @@ float EntityDB::GetFloatC(ItemID id){
 float EntityDB::GetScale(ItemID param_2){
   byte bVar3;
   u16 uVar1;
-  ushort uVar2;
+  u16 uVar2;
   int iVar4;
   entity_info *peVar5;
   dialougeEntity_Info *pdVar6;
   
   bVar3 = GetIDIndex(param_2);
-  if ((ushort)param_2 >> 8 == DB_ENTITY) {
+  if ((u16)param_2 >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index != 0) {
       peVar5 = entity_info_array;
       iVar4 = 0;
@@ -427,7 +427,7 @@ float EntityDB::GetScale(ItemID param_2){
       } while (uVar1 != 0);
     }
   }
-  else if (((ushort)param_2 >> 8 == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
+  else if (((u16)param_2 >> 8 == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
     pdVar6 = dailougEnt_info_array;
     iVar4 = 0;
     uVar2 = dailougEnt_info_array[0].index;

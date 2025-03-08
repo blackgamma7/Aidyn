@@ -8,7 +8,7 @@
 #endif
 
 u8 FUN_8000c9e0(void){
-  ushort uVar3;
+  u16 uVar3;
   u8 ret;
   double dVar4;
   double dVar5;
@@ -195,10 +195,10 @@ void ZoneEngine::FreeEnvProps(void){
 }
 
 void attachPhysicsProperties(Borg9data *param_1){
-  ushort uVar1;
+  u16 uVar1;
   borg9_phys *pbVar2;
-  ushort uVar3;
-  ushort uVar4;
+  u16 uVar3;
+  u16 uVar4;
   borg9_phys *puVar4;
   u16 uVar5;
   uint uVar6;
@@ -207,7 +207,7 @@ void attachPhysicsProperties(Borg9data *param_1){
     for(uVar5=0;uVar5<param_1->borghpys_count;uVar5++) {
       pbVar2 = param_1->phys_pointer;
       //union?
-      uVar1 = *(ushort *)((int)&pbVar2[uVar5].envProperty + 2);
+      uVar1 = *(u16 *)((int)&pbVar2[uVar5].envProperty + 2);
       if (0x19 < uVar1) {
         Gsprintf("Invalid Physics Property: %d\n",uVar1);
         CRASH("AttachPhysicsProperties",gGlobals.text);
@@ -215,7 +215,7 @@ void attachPhysicsProperties(Borg9data *param_1){
       uVar3 = pbVar2[uVar5].GroundType;
       uVar4 = uVar3 & 0xf000;
       if (uVar4 == 0x1000) {
-        uVar3 = (ushort)((uVar3 + 1 & 0x7f) << 5) | 0x1000 | uVar1 & 0x1f;
+        uVar3 = (u16)((uVar3 + 1 & 0x7f) << 5) | 0x1000 | uVar1 & 0x1f;
 LAB_8000d2c4:
         pbVar2[uVar5].GroundType = uVar3;
         pbVar2[uVar5].flags |= 0x1000;
@@ -235,7 +235,7 @@ LAB_8000d2bc:
         }
         if (uVar4 == 0x2000) {
           uVar4 = pbVar2[uVar5].flags;
-          uVar3 = (ushort)((uVar3 & 0x7f) << 5) | 0x2000 | uVar1 & 0x1f;
+          uVar3 = (u16)((uVar3 & 0x7f) << 5) | 0x2000 | uVar1 & 0x1f;
           goto LAB_8000d2c4;
         }
         if (uVar4 != 0x4000) {
@@ -296,7 +296,7 @@ void set_teleport_obj_loadgame(u16 param_1,u16 param_2,u16 param_3,vec3f *param_
 void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
   u16 VVar1;
   playerData *ppVar2;
-  ushort uVar3;
+  u16 uVar3;
   u8 bVar4;
   playerData *ppVar5;
   voxelObject *ptVar6;
@@ -357,7 +357,7 @@ void FUN_8000d744(void){
 }
 
 void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
-  ushort uVar1;
+  u16 uVar1;
   Borg9header *pBVar2;
   voxelObject *pvVar3;
   int iVar4;
@@ -398,13 +398,13 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
           do {
             iVar9 = (iVar7 + uVar10) * 4;
             if (*(int *)((int)pvVar3 + iVar9 + iVar4) != 0) {
-              if ((*(ushort *)((int)pvVar3 + iVar6 * 4 + 0x6a) & 2) == 0) FREEQANI((void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30));
+              if ((*(u16 *)((int)pvVar3 + iVar6 * 4 + 0x6a) & 2) == 0) FREEQANI((void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30));
               else FREEQB7((void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30));
               *(undefined4 *)((int)pvVar3 + (iVar7 + uVar10) * 4 + iVar4) = 0;
             }
             uVar10++;
             iVar7 = uVar10 << 1;
-          } while (uVar10 < *(ushort *)((int)pvVar3 + iVar6 * 4 + 0x68));
+          } while (uVar10 < *(u16 *)((int)pvVar3 + iVar6 * 4 + 0x68));
         }
         uVar8++;
         iVar6 = uVar8 << 3;
@@ -495,8 +495,8 @@ void checkToggleZoneScene(ZoneDat *param_1){
 }
 
 void MakeGameZoneNames(u16 param_1,u16 param_2){
-  ushort uVar1;
-  ushort uVar2;
+  u16 uVar1;
+  u16 uVar2;
   int iVar3;
   int iVar4;
   ZoneDat *dat;
@@ -990,8 +990,8 @@ void some_zoneDat_func(void){
 }
 
 void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
-  ushort uVar1;
-  ushort uVar2;
+  u16 uVar1;
+  u16 uVar2;
   voxelObject *pfVar8;
   u8 bVar5;
   int iVar6;
@@ -1135,9 +1135,9 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
 void ConfirmPlayerWithinZone(playerData *param_1,Borg9data *param_2){
 
   s16 iVar3;
-  ushort uVar4;
+  u16 uVar4;
   s16 iVar5;
-  ushort uVar6;
+  u16 uVar6;
   vec3f fStack80;
   
   if (param_1->alaron_flag == false) {
@@ -1160,7 +1160,7 @@ void ConfirmPlayerWithinZone(playerData *param_1,Borg9data *param_2){
       iVar3 = gGlobals.Sub.mapShort1-1;
       fStack80.x = gGlobals.Sub.mapCellSize.x;
     }
-    uVar4 = (ushort)iVar3;
+    uVar4 = (u16)iVar3;
     if (gGlobals.Sub.mapCellSize.x < (param_1->collision).pos.x) {
       uVar4 = iVar3 + 1;
       fStack80.x = -gGlobals.Sub.mapCellSize.x;
@@ -1169,7 +1169,7 @@ void ConfirmPlayerWithinZone(playerData *param_1,Borg9data *param_2){
       iVar5 = gGlobals.Sub.mapShort2-1;
       fStack80.z = gGlobals.Sub.mapCellSize.y;
     }
-    uVar6 = (ushort)iVar5;
+    uVar6 = (u16)iVar5;
     if (gGlobals.Sub.mapCellSize.y < (param_1->collision).pos.z) {
       uVar6 = iVar5 + 1;
       fStack80.z = -gGlobals.Sub.mapCellSize.y;
@@ -1282,7 +1282,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9data *borg9,vec3f *v3,short param_4,short 
   u8 bVar6;
   Borg7header *pBVar3;
   AnimationData *pAVar4;
-  ushort uVar5;
+  u16 uVar5;
   uint uVar7;
   short sVar8;
   int iVar9;
@@ -1642,7 +1642,7 @@ u8 FUN_80010598(short param_1,short param_2){
 void RenderZones(Gfx **g,vec3f *pos,short delta){
   int iVar2;
   uint uVar3;
-  ushort uVar5;
+  u16 uVar5;
   u16 uVar6;
   u16 uVar7;
   u32 uVar4;
@@ -1740,7 +1740,7 @@ void RenderZones(Gfx **g,vec3f *pos,short delta){
 LAB_80010bfc:
       }
       if (pZVar12->alpha != 0xff) {
-        uVar5 = (ushort)pZVar12->alpha + delta * 2;
+        uVar5 = (u16)pZVar12->alpha + delta * 2;
         if (0xff < uVar5) uVar5 = 0xff;
         pZVar12->alpha = (byte)uVar5;
       }
@@ -1922,7 +1922,7 @@ void mapFloatDat_copy(mapFloatDat *param_1){
   } while (uVar2 < 0xf);
 }
 
-void ZoneEngine::InitZoneEngine(ushort param_1,short param_2){
+void ZoneEngine::InitZoneEngine(u16 param_1,short param_2){
   EnumMapDatA Map_;
   int iVar1;
   int iVar2;
@@ -2153,14 +2153,14 @@ void VoxelIndexPosition(short delta,playerData *param_2){
    "VOBJECT_MONSTERPARTY","VOBJECT_REFERENCEPOINT","VOBJECT_TELEPORTER","VOBJECT_CAMERA","VOBJECT_DIALOGUE",
    "VOBJECT_TRIGGER","VOBJECT_SAVEPOINT","VOBJECT_CODE"};
     uVar7 = (uint)voxel_index_timer;
-    voxel_index_timer = (ushort)(uVar7 - (int)delta);
+    voxel_index_timer = (u16)(uVar7 - (int)delta);
     pvVar10 = voxel_index_pointer;
     if ((int)((uVar7 - (int)delta) * 0x10000) < 1) {
       ClearVoxelFlags(pBVar6);
       uVar7 = (voxel_index_number + 1) % (uint)pBVar6->voxelObjCount;
       enemyHostileFlag = 0;
       voxel_index_timer = 0xb4;
-      voxel_index_number = (ushort)uVar7;
+      voxel_index_number = (u16)uVar7;
       pvVar10 = pBVar6->voxelObjs + uVar7;
       Gsprintf("\n\n\nGOING to Voxel Index: %d\nType: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n"
          ,uVar7,labels[(pvVar10->header).type],
@@ -2249,7 +2249,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   }
   some_zoneDat_func();
   if ((gPlayerRenderTimer != 0) &&
-     (uVar3 = (uint)gPlayerRenderTimer, gPlayerRenderTimer = (ushort)(uVar3 - iVar4),
+     (uVar3 = (uint)gPlayerRenderTimer, gPlayerRenderTimer = (u16)(uVar3 - iVar4),
      (int)((uVar3 - iVar4) * 0x10000) < 0)) gPlayerRenderTimer = 0;
   if (gGlobals.Sub.gamemodeType != 2) {
     Gsprintf("ProcessPlayers");
@@ -2259,7 +2259,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   if ((player) && (gGlobals.Sub.gamemodeType == 0)) {
     Gsprintf("SaveZoneEngine");
     uVar3 = (uint)gGlobals.Sub.unkTimer;
-    gGlobals.Sub.unkTimer = (ushort)(uVar3 - iVar4);
+    gGlobals.Sub.unkTimer = (u16)(uVar3 - iVar4);
     if ((int)((uVar3 - iVar4) * 0x10000) < 1) {
       bVar1 = true;
       position = &(player->collision).pos;

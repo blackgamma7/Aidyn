@@ -50,7 +50,7 @@ void initGfx_2();
 void SetGfxMode(u16 ,u16 ,u8 );
 void video_settings();
 Gfx* StartGfxList();
-Gfx* SomeOtherInit(Gfx *,u16 ,u16 ,u16 ,ushort ,u8 ,u8 ,u8 ,u8 );
+Gfx* SomeOtherInit(Gfx *,u16 ,u16 ,u16 ,u16 ,u8 ,u8 ,u8 ,u8 );
 Gfx* DebugDrawRect(Gfx *,u16 ,u16 ,u16 ,u16 ,u8 ,u8 ,u8 ,u8 );
 Gfx* StartDisplay(Gfx *,u16 ,u16 ,u16 ,u16 );
 Gfx* EndList(Gfx *);

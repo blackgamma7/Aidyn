@@ -61,7 +61,7 @@ void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9data *param_3
   if ((prVar1->scene).borgArray[0].b7) {
     //unique case, seems to use bool for Borg7(false) and ainDat(true) enums
     AllocFreeQueueItem(&gGlobals.QueueA,&(prVar1->scene).borgArray[0].b7,
-                       (ushort)(((prVar1->scene).sceneflags & 2) == 0),0);
+                       (u16)(((prVar1->scene).sceneflags & 2) == 0),0);
     (prVar1->scene).borgArray[0].b7 = NULL;
   }
   (prVar1->scene).borgArray[0].borgIndex = (prVar1->scene).borgArray[param_2].borgIndex;
@@ -189,7 +189,7 @@ void loot_func(voxelObject *param_1){
   float vol;
   short *psVar4;
   u8 bVar7;
-  ushort uVar6;
+  u16 uVar6;
   voxelObject *a;
   int iVar5;
   void *ppfVar10;
@@ -291,7 +291,7 @@ void loot_func(voxelObject *param_1){
 }
 
 u8 monsterpary_func(voxelObject *param_1){
-  ushort uVar1;
+  u16 uVar1;
   playerData *ppVar2;
   u16 in_a2_lo;
   vec3f *playerPos;
@@ -330,7 +330,7 @@ void trigger_vobject_func(voxelObject *arg0){
   Borg9data *pBVar3;
   voxelObject *prVar3;
   int iVar5;
-  ushort uVar6;
+  u16 uVar6;
   voxelHeader *iVar4;
   uint uVar8;
   
@@ -354,7 +354,7 @@ void trigger_vobject_func(voxelObject *arg0){
       do {
         uVar6 = pbVar2[uVar8].GroundType;
         if (((uVar6 & 0xf000) == 0x1000) && ((uVar6 >> 5 & 0x7f) == (arg0->trigger).flagA)) {
-          uVar6 = *(ushort *)((int)pbVar2->verts + iVar5 + 0x1c) & (arg0->trigger).flagB;
+          uVar6 = *(u16 *)((int)pbVar2->verts + iVar5 + 0x1c) & (arg0->trigger).flagB;
           pbVar2[uVar8].flag &=(arg0->trigger).flagB;
           *(EventFlag *)((int)pbVar2->verts + iVar5 + 0x1c) = uVar6 | (arg0->trigger).flagC
           ;

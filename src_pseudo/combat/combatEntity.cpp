@@ -2375,7 +2375,7 @@ s16 CombatEntity::PotionAccuracy(CombatEntity *target,u8 prox){
   if (target->unk22) iVar5 -=20;
   sVar12 = iVar5;
   if (this->Flag3()) sVar12 -=25;
-  sVar12 = TroubadorMod(AspectMulti(NightCheck(sVar12,0x14,10,0x1e,(ushort)prox)));
+  sVar12 = TroubadorMod(AspectMulti(NightCheck(sVar12,0x14,10,0x1e,(u16)prox)));
   FLOOR(sVar12,5);
   return sVar12;
 }

@@ -152,7 +152,7 @@ u16 FUN_800949fc(playerData *param_1){
       if (param_1->locator_pointer == NULL) {
         Actor::ChangeAppearance(param_1,param_1->borg7);
       }
-      uVar6 = (uint)(ushort)SpellVisuals.indecies2[SpellVisuals.prt2count++];
+      uVar6 = (uint)(u16)SpellVisuals.indecies2[SpellVisuals.prt2count++];
       pSVar4 = SpellVisuals.ptr2 + uVar6;
       CLEAR(pSVar4);
       pSVar4->flags = 1;
@@ -241,7 +241,7 @@ uint FUN_80094cd0(short param_1){
     }
   }
   iVar6 = (int)lVar5;
-  iVar3 = (int)(((ushort)SpellVisuals.ptr2[iVar6].unk10 + 1) * 0x10000) >> 0x10;
+  iVar3 = (int)(((u16)SpellVisuals.ptr2[iVar6].unk10 + 1) * 0x10000) >> 0x10;
   iVar2 = iVar3;
   if (iVar3 < 0) {
     iVar2 = iVar3 + 0x7f;
@@ -249,7 +249,7 @@ uint FUN_80094cd0(short param_1){
   uVar4 = (iVar3 + (iVar2 >> 7) * -0x80) * 0x10000 >> 0x10;
   bVar1 = false;
   do {
-    if (uVar4 == (ushort)SpellVisuals.ptr2[iVar6].unk10) {
+    if (uVar4 == (u16)SpellVisuals.ptr2[iVar6].unk10) {
       SpellVisuals.ptr2[iVar6].unk10 = (short)uVar4;
       return uVar4;
     }
@@ -603,7 +603,7 @@ void FUN_80095ad8(short param_1){
   }
 }
 
-ushort FUN_80095c04(playerData *param_1,playerData *param_2,u8 spell,s32 param_4){
+u16 FUN_80095c04(playerData *param_1,playerData *param_2,u8 spell,s32 param_4){
   u16 uVar2;
   
   u16 uVar1 = SpellVisuals.indecies0[SpellVisuals.ptr0Count];
@@ -656,7 +656,7 @@ LAB_80095e00:
   entry->flags|= 1;
   return uVar1;
 }
-ushort SpellVisuals_InitEffect(playerData *param_1,u8 param_2){
+u16 SpellVisuals_InitEffect(playerData *param_1,u8 param_2){
   u16 uVar1 = SpellVisuals.indecies0[SpellVisuals.ptr0Count];
   SpellVisuals.ptr0Count++;
   SpellVisualTypeA *entry = SpellVisuals.ptr0 + uVar1;

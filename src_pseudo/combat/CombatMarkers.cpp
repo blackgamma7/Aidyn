@@ -3,7 +3,7 @@
 
 #define FILENAME "./src/combatmarkers.cpp"
 
-u8 CombatMarkers::SetMarker(Borg9data *mapDat,vec3f *pos,float radius,ushort iter){
+u8 CombatMarkers::SetMarker(Borg9data *mapDat,vec3f *pos,float radius,u16 iter){
   float fVar1;
   float fVar2;
   bool bVar3;
@@ -148,7 +148,7 @@ s8 CombatMarkers::SetCount(float range){
   return ret;
 }
 
-Gfx * CombatMarkers::RenderMarkers(Gfx *G,ushort delta){
+Gfx * CombatMarkers::RenderMarkers(Gfx *G,u16 delta){
   for(u32 i=0;i<MARKERMAX;i++) {
     if (gCombatMarkers[i].active) {
       Tick(&gCombatMarkers[i],delta);
@@ -157,7 +157,7 @@ Gfx * CombatMarkers::RenderMarkers(Gfx *G,ushort delta){
   }
   return G;
 }
-void CombatMarkers::Tick(CombatMarker *param_1,ushort delta){
+void CombatMarkers::Tick(CombatMarker *param_1,u16 delta){
 
   if (param_1->alpha < 1.0f) {
     param_1->alpha = 1.0f;

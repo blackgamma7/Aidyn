@@ -129,8 +129,8 @@ void Ofunc_800af7f4(collisionSphere *collide,void *callback){
 
 
 short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_struct *param_2,borg9_phys *param_3){
-  ushort uVar1;
-  ushort uVar2;
+  u16 uVar1;
+  u16 uVar2;
   bool bVar3;
   double dVar4;
   bool bVar6;
@@ -158,7 +158,7 @@ short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_stru
   sVar12 = 0;
   if (param_2->collideCount) {
     do {
-      pbVar11 = param_3 + (ushort)param_2->collideIndecies[iVar13];
+      pbVar11 = param_3 + (u16)param_2->collideIndecies[iVar13];
       if (((collider->flags & 0x200) == 0) || ((pbVar11->flags & 0x200) == 0)) {
         bVar3 = false;
         bVar7 = (pbVar11->flags & 1);
@@ -327,7 +327,7 @@ LAB_800afd30:
         }
       }
       iVar13 = (int)(short)((short)iVar13 + 1);
-    } while (iVar13 < (int)(uint)(ushort)param_2->collideCount);
+    } while (iVar13 < (int)(uint)(u16)param_2->collideCount);
   }
   sVar5 = collider->unk1e;
   if (sVar12) {

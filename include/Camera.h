@@ -8,8 +8,8 @@ struct Camera_struct {
     vec3f aimTarget;
     vec2f rotationXZ;
     vec3f rotation;
-    ushort camera_mode_prev;
-    ushort camera_mode;
+    u16 camera_mode_prev;
+    u16 camera_mode;
     float unk48;
     float unk4c;
     float unk50;
@@ -24,7 +24,7 @@ struct Camera_struct {
     vec3f unk70; /* another aim target? */
     s16 unk7c;
     s16 unk7e; /* length check between aimTarget and unk70 */
-    ushort unk80;
+    u16 unk80;
     s16 unk82;
     u16 unk84;
     Borg9data *borg_9; /* current map data */
