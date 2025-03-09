@@ -1888,12 +1888,11 @@ void Party::CampHeal(u8 halfHeal){
   u32 uVar8;
   u32 uVar9;
   float uVar10;
-  float local_60 [2];
   
   if (TerrainPointer->daySpeed < 2) uVar9 = HOURS(8);
   else uVar9 = HOURS(8) / TerrainPointer->daySpeed;
-  local_60 = {1.0f,.5f};
-  uVar10 = local_60[halfHeal];
+  float healPercent[] = {1.0f,.5f};
+  uVar10 = healPercent[halfHeal];
   pPVar7 = this;
   for(uVar8 = 0;uVar8 < 4;uVar8++;) {
     pCVar1 = this->Members[uVar8];

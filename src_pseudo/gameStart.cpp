@@ -139,7 +139,7 @@ u8 gameStart(Gfx**GG){
     if (gGlobals.brightness == 0.0) {
       some_gamestart_flag = true;
       bVar3 = 0xe;
-      load_cinematic(Cinematic_opening,Load_world_map,1);
+      load_cinematic(Cinematic_opening,CSwitch_WorldMap,1);
     }
   }
   else {

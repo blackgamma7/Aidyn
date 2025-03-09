@@ -1,24 +1,8 @@
 #include "globals.h"
 
-struct CinematicStruct {
-    struct AnimationData * AniDat;
-    struct borg_6_header * Borg6;
-    struct Borg_12_header * BGM;
-    enum EventFlag * cinematic_dat_seq;
-    float[2] * clippingPlanes;
-    enum borg6Enum * borg6enums;
-    enum Borg12Enum * borg12enums;
-    u16 tally;
-    u16 scene_switch;
-    u16 Bstart;
-    enum enum_cinematic_switch switch;
-    s32 some_cinematic_tally;
-    s32 some_cinematic_dat;
-    u8 unk0x2c;
-    u8 pad[3];
-};
+
 enum CinematicEnum{Cinematic_opening,Cinematic_Shadow,Cinematic_Roog,Cinematic_End};
-enum enum_cinematic_switch{get_CinematicDat,Load_world_map,Alaron_Truename,From_CinematicMenu};
+enum enum_cinematic_switch{CSwitch_CineDat,CSwitch_WorldMap,CSwitch_TrueName,CSwitch_ToMenu};
 cinematic_dats cinematic_dat_pointers[4]; //contains pointers to info on each cinematic
 u8 cinematic_init_flag=1;
 u8 cinematic_skip_flag=0;
@@ -99,7 +83,7 @@ void clear_cinematic_borgs(void){
   if (gGlobals.cinematic.AniDat) FREEQANI(&gGlobals.cinematic);
   if (gGlobals.cinematic.BGM) {
     dcm_remove_func(gGlobals.cinematic.unk0x2c,
-                    gGlobals.cinematic.some_cinematic_tally);
+                    gGlobals.cinematic.BGId);
     FREEQB12(&gGlobals.cinematic.BGM);
   }
   return;
@@ -145,19 +129,19 @@ u16 cinematic_case_switch(void){
   setEventFlag(gGlobals.cinematic.cinematic_dat_seq[uVar3],true);
   reset_sky_colors();
   switch(gGlobals.cinematic.switch) {
-  case get_CinematicDat:
+  case CSwitch_CineDat:
     uVar2 = get_some_cinematic_dat();
     break;
-  case Load_world_map:
+  case CSwitch_WorldMap:
     uVar2 = load_world_map();
     break;
-  case set_CreditsByte:
-    uVar2 = set_CreditsByte();
+  case CSwitch_Credits:
+    uVar2 = CSwitch_Credits();
     break;
-  case Alaron_Truename:
+  case CSwitch_TrueName:
     uVar2 = Alaron_truename();
     break;
-  case From_CinematicMenu:
+  case CSwitch_ToMenu:
     uVar2 = cinematic_case_FromMenu();
     break;
   default:
@@ -217,7 +201,7 @@ void func_loading_cinematics(void){
     reset_scene_timers();
     if (gGlobals.cinematic.borg12enums[gGlobals.cinematic.tally] != ~Tacet) {
       gGlobals.cinematic.BGM = load_borg_12(gGlobals.cinematic.borg12enums[gGlobals.cinematic.tally]);
-      DCM_func(&gGlobals.cinematic.unk0x2c,&gGlobals.cinematic.some_cinematic_tally,
+      DCM_func(&gGlobals.cinematic.unk0x2c,&gGlobals.cinematic.BGId,
                (void *)((s32)(gGlobals.cinematic.BGM)->unk0x8 + 8),0xff,0x80,1,0xffffffff,0);
       fVar1 = gGlobals.VolBGM * 255.0f;
       if (INT_MAX_f <= fVar1) {fVar1-= INT_MAX_f;}
@@ -225,7 +209,7 @@ void func_loading_cinematics(void){
       if (INT_MAX_f <= fVar2) {fVar2-= INT_MAX_f;}
       V = (u8)(s32)fVar2;
       if (((s32)fVar2 & 0xffU) < ((s32)fVar1 & 0xffU)) {V = (u8)(s32)fVar1;}
-      some_music_func((u32)gGlobals.cinematic.unk0x2c,gGlobals.cinematic.some_cinematic_tally,V);
+      some_music_func((u32)gGlobals.cinematic.unk0x2c,gGlobals.cinematic.BGId,V);
     }
     gGlobals.cinematic.Borg6 = get_borg_6(gGlobals.cinematic.borg6enums[gGlobals.cinematic.tally]);
     gGlobals.cinematic.AniDat = BorgAnimLoadScene(*(u32 *)(gGlobals.cinematic.Borg6)->unk0x20);
@@ -267,7 +251,7 @@ u16 load_world_map(void){
   return 12;
 }
 
-u16 set_CreditsByte(void){
+u16 CSwitch_Credits(void){
   gGlobals.creditsByte = 2;
   return 19;}
 
