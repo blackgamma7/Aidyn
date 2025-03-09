@@ -1,4 +1,5 @@
 #include "widgets/WidgetScrollMenu.h"
+#include "widgets/Utilities.h"
 #define FILENAME "./src/widgetscrollmenu.cpp"
 
 

@@ -2,6 +2,7 @@
 #include "widgets/WidgetClipText.h"
 #include "widgets/WidgetBorg8.h"
 #include "widgets/WidgetScrollMenu.h"
+#include "widgets/WidgetArrayMenu.h"
 
 
 namespace Utilities{
