@@ -334,7 +334,7 @@ u8 Entity::EquipSheild(CharSheet *param_1,u16 param_2,StatMod* param_3){
 }
 
 u8 Entity::EquipWeapon(CharSheet *param_1,u16 param_2,StatMod* param_3){
-  u8 bVar2;StatMod *param_3
+  u8 bVar2;StatMod *param_3;
   
   bVar2 = canEquipWeapon(param_1,param_2);
   if (bVar2 == 0) {

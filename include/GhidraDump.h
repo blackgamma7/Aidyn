@@ -935,8 +935,6 @@ typedef struct SaveDatStruct SaveDatStruct, *PSaveDatStruct;
 
 typedef struct SavePartyHeader SavePartyHeader, *PSavePartyHeader;
 
-typedef struct mapFloatDat mapFloatDat, *PmapFloatDat;
-
 typedef struct unkGuiSubstruct unkGuiSubstruct, *PunkGuiSubstruct;
 
 struct InputMenu {
@@ -945,83 +943,6 @@ struct InputMenu {
     u16 field2_0x7e;
 };
 
-struct mapFloatDat {
-    vec3f playerVec3;
-    vec2f playerVec2;
-    vec3f cameraVec3;
-    u16 MapShort1;
-    u16 MapShort2;
-    enum EnumMapDatA mapDatA;
-    u16 mapDatB;
-    u16 mapDatC;
-    u16 field8_0x2a;
-};
-
-struct SavePartyHeader {
-    int time;
-    ItemID party[4];
-    char name[20];
-};
-
-struct SaveDatStruct {
-    SavePartyHeader headerDat;
-    u8 field1_0x20[0x20];
-    mapFloatDat mapDat;
-    u8 field34_0x6c[20];
-    u8 flags[640];
-    u8 screenshot[4096];
-    u8 minimap[64];
-    u8 gameState[1984];
-    u8 voxelChart[256]; /* last 4 bytes for checksum */
-};
-
-struct SaveDatPointers {
-    SaveDatStruct *datStart;
-    SavePartyHeader *savePartyHead;
-    mapFloatDat *mapdata;
-    u8 *EventFlags;
-    u8 *gamestate;
-    void *screenshot;
-    u32 *minimap;
-    u8 *voxelChart;
-};
-
-struct WidgetContPakData {
-    BaseWidget base;
-    SaveDatPointers saveDatsP[16];
-    WidgetMenuChild *unk27c;
-    BaseWidget *field3_0x280;
-    ulong (*funcA)(void);
-    ulong (*funcB)(void);
-    u8 OtherState;
-    PFS_ERR8 pfsErr; /* shortened to 1 byte */
-    u8 saveSlot;
-    u8 AidynSaveSlots;
-    undefined field10_0x290;
-    undefined field11_0x291;
-    u16 unk292;
-    u16 unk294;
-    undefined field14_0x296;
-    undefined field15_0x297;
-    u32 borg8;
-    BaseWidget *field17_0x29c;
-    BaseWidget *unk2a0;
-    undefined field19_0x2a4;
-    Color32 col0;
-    Color32 col1;
-    Color32 col2;
-    undefined field23_0x2b1;
-    undefined field24_0x2b2;
-    undefined field25_0x2b3;
-    u32 unk2B4;
-    enum CONT_STATUS contStatus;
-    undefined field28_0x2b9;
-    undefined field29_0x2ba;
-    undefined field30_0x2bb;
-    WidgetHandler widgetHandler;
-    void *dataBuffer;
-    s32 filenum;
-};
 
 struct IntroMenuSub {
     BaseWidget *StartGameMenu;
@@ -1072,20 +993,6 @@ struct UnkAudioStruct {
     u8 field1_0x2;
     u8 randVal;
     u8 field3_0x4[4];
-};
-
-typedef struct WidgetArrayMenu_substruct WidgetArrayMenu_substruct, *PWidgetArrayMenu_substruct;
-
-struct WidgetArrayMenu_substruct {
-    BaseWidget **entries;
-    u16 entryCap;
-    u16 entryPos;
-    u16 field3_0x8;
-    u16 entryY;
-    u16 entryCount;
-    undefined field6_0xe;
-    undefined field7_0xf;
-    u16 field8_0x10;
 };
 
 struct WidgetOptionsSubstruct {
@@ -1840,19 +1747,6 @@ struct widgetGroup {
     u32 field4_0x84;
 };
 
-typedef struct WidgetMethodsContPakData WidgetMethodsContPakData, *PWidgetMethodsContPakData;
-
-struct WidgetMethodsContPakData { /* extra methods of WidgetContPakData class */
-    WidgetMethods base;
-    Method NewSaveFile;
-    Method LoadSaveFile;
-    Method field3_0xe0;
-    Method field4_0xe8;
-    Method field5_0xf0;
-    Method WriteSaveFile;
-    Method field7_0x100;
-    Method field8_0x108;
-};
 typedef enum AniFlags {
     ANIDAT_USEMTX=4,
     ANIDAT_FLAG8=8,
@@ -1983,24 +1877,6 @@ struct cloudStruct {
     u32 unused;
     Color32 col;
     float f3;
-};
-
-typedef struct ContPakWidget ContPakWidget, *PContPakWidget;
-
-struct ContPakWidget {
-    BaseWidget base;
-    u32 field1_0x7c;
-    BaseWidget *wiget_link;
-    u8 field3_0x84;
-    PFS_ERR8 pfserr;
-    u8 field5_0x86;
-    char field6_0x87;
-    u32 field7_0x88;
-    WidgetHandler handler;
-    enum CONT_STATUS contStat;
-    undefined field10_0x95;
-    undefined field11_0x96;
-    undefined field12_0x97;
 };
 
 typedef struct crash_DatString crash_DatString, *Pcrash_DatString;
