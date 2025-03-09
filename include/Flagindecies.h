@@ -38,7 +38,28 @@
 #define FLAG_GoblinAmbush 978 //ID of goblin poisoner group at start of game.
 
 //event flags for entering areas or collecting their map.
-#define FLAG_EnteredGweneria 788
+#define FLAG_Map1 788 //Gwernia, set at start
+#define FLAG_Map2 789 //part of Erromon Region, item found in barn in Gwernia
+#define FLAG_Map4 790 //Erromon
+#define FLAG_Map5 791 //Talewok
+#define FLAG_Map6 792 //West of Talewok
+#define FLAG_Map7 793 //Port Saiid
+#define FLAG_Map8 794 //Choas Isle
+#define FLAG_Map9 795 //Namer's Isle
+#define FLAG_Map10 796 //Terminor Region
+#define FLAG_Map11 797 //East of Terminor
+#define FLAG_Map12 798 //Darkling Hills
+#define FLAG_Map13 799 //Eastern Beach (BUG: Triggered by Cradawgh's body instead. Map 13 does not.)
+#define FLAG_Map14 800 //Desert North of Ugarit
+#define FLAG_Map15 801 //Barrow
+#define FLAG_Map16 802 //Ugarit
+#define FLAG_MapGoblin 803 //East of Ugarit
+#define FLAG_Map17 804 //Hellhound Cave
+#define FLAG_Map18 805 //Between Hellhound Cave and Barrow
+
+
+
+
 
 //cheat code flags
 #define FLAG_Slashing 3673 //Hockey stick Cheat

@@ -2,6 +2,7 @@
 
 #include "QuestData.h"
 #include "SaveEntity.h"
+#include "SaveParty.h"
 #include "CRC.h"
 
 namespace QuestData{

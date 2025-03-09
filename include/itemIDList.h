@@ -77,7 +77,7 @@ enum ItemIDS{
     Item_Exp4, //unused
     Item_Exp5, //unused
     Item_CradawghBody,
-    Item_Map13,
+    Item_Map13, //Shouldd show region on pause map, but bugged not to.
     Item_Map14,
     Item_Map15,
     Item_Map16,
@@ -161,7 +161,7 @@ enum ItemIDS{
     Potion_Restore,
     Potion_Strength,
     Potion_Dexterity,
-    Potion_Aspect,
+    Potion_Aspect, //code changes into Healing potion if found
     Potion_Jumping,
     Potion_Clarity,
     Potion_Defence,
@@ -189,7 +189,7 @@ enum ItemIDS{
 
     //Key Items
 
-    Key_Bowden=Key(0),
+    Key_Bowden=Key(0), //Unlocks door granting Trahern's Sword
     Key_Black,//unused, unique sprite
     Key_Skull,//unused, unique sprite
     Key_Blood,//unused, unique sprite
@@ -230,12 +230,12 @@ enum ItemIDS{
     //Dialouge Entities
     DEnt_Amann=DEnt(0),
     DEnt_Balfin,
-    DENT_Pillar=DEnt(3),
+    DEnt_Pillar=DEnt(3),
     DEnt_Cadme,
     DEnt_Cedric,
-    DENT_Pochanargat,
-    DENT_Fish=DEnt(28),
-    DENT_Flock,
+    DEnt_Pochanargat,
+    DEnt_Fish=DEnt(28),
+    DEnt_Flock,
 
 
 

@@ -1,4 +1,5 @@
 #include "inventory\PartyInventory.h"
+#include "eventFlag.h"
 
 PartyInventory::PartyInventory(){Reset();}
 PartyInventory::~PartyInventory(){Clear();}
@@ -11,7 +12,7 @@ void PartyInventory::Clear(){
     for(u32 i=0;i<PARTY_CAPACITY;i++){
         if(inv_slots[i].Quantity){
             inv_slots[i].Quantity=0;
-            if(inv_slots[i].base.id)ItemInstance::RemoveStatSpell(inv_slots[i].base);
+            if(inv_slots[i].base.id)inv_slots[i].base.RemoveStatSpell();
         }
     }
     Reset();
@@ -121,7 +122,7 @@ s32 PartyInventory::IncItemQuantity(s32 slot,s32 q){
       Item_is_in_some_array((item->base).id);
       item->Quantity = 0;
       if ((item->base).id) {
-        ItemInstance::RemoveStatSpell(&item->base);
+        item->base.RemoveStatSpell();
       }
       quantity--;
       return item->Quantity;
@@ -138,7 +139,7 @@ s32 PartyInventory::GetItemQuantity(s32 slot){
 }
 
 #define SLOTSEARCH(arr) int slot =SearchArray(arr,sizeof(arr)/sizeof(arr[0]),id)
-
+//Array of 80 items that occupy select slots in inv_slots[128-207]
 ItemID D_800F1890[]={
   Item_Spice, Item_Herb, Item_Gemstone, Item_Sulphur, Item_HellhoundHide,
   Item_DarkenbatHide, Item_BeastHide, Item_Chitlin,
@@ -164,19 +165,24 @@ u16 key_item_flags_1[]={
     3403,3404,3405,3406,3407,3408,3409,3410,3411,3412,3413,3414,3415,
     3416,3417,3418,3419,3420,3421,3422,3423,3424,3435,3426,3427,3428,
     3429,3430,3431,3432,0x195};
+//Array of 31 Key items that occupy select slots in inv_slots[208-239]
 ItemID key_item_array_2[]={
   Item_TxominLetter, Item_Amaranth, Item_OrianaLetter,
   Item_Map1, Item_Map2, Item_Map4, Item_Map5, Item_Map6,
-  Item_Map7, Item_Map8, Item_Map10, Item_Map10, Item_Map11,
+  Item_Map7, Item_Map8, Item_Map9, Item_Map10, Item_Map11,
   Item_Map12, Item_CradawghBody, Item_Map13, Item_Map14, 
   Item_Map15, Item_Map16, Item_GoblinMap, Item_Map17, Item_Map18,
   Key_Bowden, Key_Black, Key_Skull, Key_Blood, Key_Bone,
   Key_Lighthouse, Key_lodin, Key_Dragon, Item_RabisatAsp };
 // this array is for map items to reveal their respective region in the pause menu.
 u16 key_item_flags_2[]={ 
-    0, 0, 0, 788, 789, 790, 791, 792, 793, 794,
-    795, 796, 797, 798, 799, 0, 800, 801, 802,
-    803, 804, 805, 0,0,0,0,0,0,0,0,0};
+    0, 0, 0,
+    FLAG_Map1, FLAG_Map2, FLAG_Map4, FLAG_Map5, FLAG_Map6,
+    FLAG_Map7, FLAG_Map8,FLAG_Map9, FLAG_Map10, FLAG_Map11,
+    //BUG: Map 13's flag and Cradawgh's non-flag are swapped.
+    FLAG_Map12, FLAG_Map13, 0, FLAG_Map14, 
+    FLAG_Map15, FLAG_Map16, FLAG_MapGoblin, FLAG_Map17, FLAG_Map18,
+    0,0,0,0,0,0,0,0,0};
 s32 PartyInventory::AddKeyItem2(ItemID id,s32 q){
     SLOTSEARCH(key_item_array_2);
     if(slot!=-1){
@@ -249,7 +255,7 @@ void PartyInventory::Save239(SaveFile *sav){
 }
 void PartyInventory::AddNewItem(int slot,ItemID id,s32 quant){
   Inventory_item *item = inv_slots + slot;
-  ItemInstance::InitItem((EquipInstance *)item->base,id);
+  item->base.InitItem(id);
   item->Quantity = quant;
   quantity++;
 }

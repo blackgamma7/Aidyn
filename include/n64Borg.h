@@ -9,7 +9,7 @@ extern struct AnimationData;
 /*"Borg" files are the art/level/cutscene assets of the game, in 15 different categories:
 0-Unused, therefore, unknown. init/free code still ingame.
 1-Textures. use some compression method.
-2-Geometry data. conatins verts and ucode (primariliy G_TRI1)
+2-Geometry data. contains verts and ucode (primariliy G_TRI1)
 3-Scene perspective data (fov,clipping planes, ect.)
 4-3 floats, 8 more bytes. no clue what they're for
 5-Model data. uses the aformentioned types.

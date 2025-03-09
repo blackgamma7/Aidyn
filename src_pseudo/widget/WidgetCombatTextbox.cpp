@@ -1,10 +1,47 @@
 #include "widgets/WidgetCombatTextbox.h"
+#include "combat/CombatStruct.h"
+
+void CombatTextboxWidget_Init(void){
+  if (!gWidgetCombatTextboxP) {
+    gWidgetCombatTextboxP =  new WidgetCombatTextbox();
+    gCombatTextboxSpeaker=0;
+  }
+}
+
+void CombatTextboxWidget_Free(void){
+  if (gWidgetCombatTextboxP) {
+    gWidgetCombatTextboxP->~WidgetCombatTextbox();
+    gWidgetCombatTextboxP = NULL;
+    gCombatTextboxSpeaker=0;
+  }
+}
+
+Gfx * CombatTextboxWidget_Tick(Gfx *g,u8 delta){
+  CharSheet *pCVar2;
+  
+  if (((gWidgetCombatTextboxP) && (gCombatP->current_Ent)) &&
+     (pCVar2 = gCombatP->current_Ent->charSheetP, pCVar2 != NULL)) {
+    ItemID IVar1 = pCVar2->ID;
+    if (IVar1 != gCombatTextboxSpeaker) {
+      gCombatTextboxSpeaker = IVar1;
+      gWidgetCombatTextboxP->SetPortrait(gEntityDB->GetPortrait(IVar1));
+    }
+    for (s8 cVar5 = delta - 1; cVar5 != -1; cVar5--)
+      gWidgetCombatTextboxP->Tick();
+    g = gWidgetCombatTextboxP->Render(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+  }
+  return g;
+}
+
+void CombatTextboxWidget_SetText(char *txt){gWidgetCombatTextboxP->SetText(txt);}
+
+void CombatTextboxWidget_Lock(ItemID param_1){
+  gWidgetCombatTextboxP->SetPortrait(gEntityDB->GetPortrait(param_1));
+  gWidgetCombatTextboxP->Lock();
+}
 
 WidgetCombatTextbox::WidgetCombatTextbox():
   WidgetCinematicText({0,180,246,240},76,10,{OFFWHITE2},0){
-  Borg8header *pBVar1;
-  BaseWidget *pBVar2;
-  
 
   this->locked = false;
   this->portraitBG = Utilities::AddBorg8Widget(this,loadBorg8(BORG8_PortraitHighlight),0x14,0xae);

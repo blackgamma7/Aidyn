@@ -79,9 +79,8 @@ void ItemInstance::InitWeapon(ItemID param_2){
   this->aspect = pcVar5->aspect;
   this->price = pcVar5->price;
   if (pcVar5->stat != NONE) {
-    pabVar2 = (u8 (*) [2])HeapAlloc(2,FILENAME,0xb2);
-    this->Stat = pabVar2;
-    make_2byte_array(pabVar2,pcVar5->stat,pcVar5->statMod);
+    ALLOC(this->statMod,0xb2);
+    SetStatMod(this->statMod,pcVar5->stat,pcVar5->statMod);
   }
   if (pcVar5->spell != NONE) {
     pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0xb8);
@@ -110,8 +109,6 @@ void ItemInstance::InitPotion(ItemID param_2){
 
 void ItemInstance::InitGear(ItemID param_2){
   s32 iVar1;
-  u8 (*pabVar2) [2];
-  SpellInstance *pTVar3;
   Gear_RAM *pGVar4;
   
   CLEAR(this);
@@ -123,14 +120,12 @@ void ItemInstance::InitGear(ItemID param_2){
   this->aspect = pGVar4->aspect;
   this->price = pGVar4->price;
   if (pGVar4->stat) {
-    pabVar2 = (u8 (*) [2])HeapAlloc(2,FILENAME,0xe8);
-    this->statmod = pabVar2;
-    make_2byte_array(pabVar2,pGVar4->stat,pGVar4->StatMod);
+    ALLOC(this->statMod,0xe8);
+    SetStatMod(this->statMod,pGVar4->stat,pGVar4->StatMod);
   }
   if (pGVar4->spell != 0xff) {
-    pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0xee);
-    this->pSpell = pTVar3;
-    malloc_equip_spell(pTVar3,pGVar4->spell,pGVar4->spellVal1,pGVar4->spellVal2);
+    ALLOC(this->spellCharge,0xee);
+    malloc_equip_spell(this->spellCharge,pGVar4->spell,pGVar4->spellVal1,pGVar4->spellVal2);
   }
   return;
 }
@@ -139,21 +134,21 @@ u16 ItemInstance::GetPrice(){
   u16 uVar2;
   u32 uVar4;
   
-  uVar4 = (u32)((u16)this >> 8);
+  uVar4 = (u32)((u16)this->id >> 8);
   if (uVar4 - 5 < 2) {
-    uVar2 = armour_pointer->Armor[GetIDIndex(*this)].price;
+    uVar2 = armour_pointer->Armor[GetIDIndex(this->id)].price;
   }
   else if (uVar4 == 7) {
-    uVar2 = gWeaponsDB->weapons[GetIDIndex(*this)].price;
+    uVar2 = gWeaponsDB->weapons[GetIDIndex(this->id)].price;
     }
   else if (uVar4 == 0x10) {
-    uVar2 = potion_prices[GetIDIndex(*this)];
+    uVar2 = potion_prices[GetIDIndex(this->id)];
    }
   else {
-    uVar2 = item_pointer->Gear[search_item_array(*this)].price;
+    uVar2 = item_pointer->Gear[search_item_array(this->id)].price;
     }
   return uVar2;
 }
 
-void  ItemInstance::SetMagicCharges(WeaponInstance *this,s8 param_2){
-  if ((param_2 != -1) && (this->spell)) this->spell->Charges = param_2;}
+void  ItemInstance::SetMagicCharges(s8 param_2){
+  if ((param_2 != -1) && (this->spellCharge)) this->spellCharge->Charges = param_2;}

@@ -165,42 +165,6 @@ typedef enum borg6Enum {
 
 typedef struct Borg5header Borg5header, *PBorg5header;
 
-/*
-typedef enum EventFlags {
-    FLAG_Cinematic1=3,
-    FLAG_MeetAlaron=5,
-    FLAG_MeetShadow=9,
-    FLAG_KendallsHat_=10,
-    FLAG_BuySpiceOffGnomes=45,
-    FLAG_ShadowMerge=566,
-    FLAG_Cinematic2=569,
-    FLAG_Cinematic3=590,
-    FLAG_Cinematic4=601,
-    FLAG_EnterGweneria=788,
-    FLAG_GoblinAmbush=978,
-    FLAG_KendallsHat=2255,
-    FLAG_Rain0=2319,
-    FLAG_Rain1=2320,
-    FLAG_GotFirstItems=3612,
-    FLAG_NewJournalEntry=3617,
-    FLAG__Slashing=3673,
-    FLAG__SlashingGet=3674,
-    FLAG__Darkside=3675,
-    FLAG__DarksideGet=3676,
-    FLAG__cheater=3693,
-    FLAG__bingo=3694
-} EventFlags;
-
-typedef enum borg13Enum {
-    BROG13_GoblinAmbush=869,
-    BROG13_KingDeath=1278,
-    BROG13_AlaronDeath0=1298,
-    BROG13_AlaronDeath1=1299,
-    BROG13_AlaronDeath2=1300,
-    BORG13_HelpMenu=1355,
-    BORG13_PassTheMarshmallows=6235
-} borg13Enum;
-*/
 typedef enum EnumMapDatA {
     MAPA_Overworld=0,
     MAPA_GwenCastle=4,
