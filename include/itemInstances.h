@@ -26,7 +26,8 @@ struct StatMod {
     s8 stat;
     s8 mod;
 };
-struct ItemInstance {
+class ItemInstance {
+    public:
     ItemID id;
     u16 field1_0x2;
     char *name;
@@ -35,6 +36,14 @@ struct ItemInstance {
     u16 price;
     StatMod *statMod;
     SpellCharges *spellCharge;
+    void InitItem(ItemID );
+    void RemoveStatSpell();
+    void InitArmor(ItemID);
+    void InitWeapon(ItemID);
+    void InitPotion(ItemID);
+    void InitGear(ItemID);
+    u16 GetPrice();
+    void SetMagicCharges(s8);
 };
 
 struct WeaponInstance {

@@ -10,8 +10,8 @@ namespace SaveParty{
     StatMod* LoadStatMod(SaveFile* sav);
     void SaveItem(SaveFile* sav, ItemInstance* item);
     void LoadItem(SaveFile* sav, ItemInstance* item);
-    void SaveCharEXP(SaveFile* sav, charExp* exp);
-    void LoadCharEXP(SaveFile* sav, charExp* exp);
+    void SaveCharEXP(SaveFile* sav, CharExp* exp);
+    void LoadCharEXP(SaveFile* sav, CharExp* exp);
     void SaveCharStats(SaveFile *sav,CharSheet *chara);
     void LoadCharStats(SaveFile *sav,CharStats_s* chara);
     void SaveSpell(SaveFile *sav,SpellBook *spellbook,u8 school);

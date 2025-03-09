@@ -147,10 +147,10 @@ void malloc_equip_spell(SpellCharges *param_1,u8 param_2,u8 param_3,u8 param_4){
   param_1->Charges = param_3;
 }
 
-void Ofunc_80084200(SpellInstance **param_1){ //probably wrong type
-  if (*param_1 ) {
-    ItemInstance::RemoveStatSpell(*param_1->base);
-    FREE(*param_1,328);
+void Ofunc_80084200(SpellCharges *param_1){ //probably wrong type
+  if (param_1->Spell) {
+    param_1->Spell->base.RemoveStatSpell();
+    FREE(param_1->Spell,328);
   }
 }
 

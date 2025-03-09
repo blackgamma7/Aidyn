@@ -1072,13 +1072,13 @@ u8 NotAspectBonus(u8 x){
 }
 
 
-u8 CombatEntity::getNotAspectBonus(){return NotAspectBonus(CharExp::GetAspect(this->charSheetP->EXP));}
+u8 CombatEntity::getNotAspectBonus(){return NotAspectBonus(this->charSheetP->EXP->GetAspect());}
 
 
 
 u8 CombatEntity::IsAspectBonus(){
   
-  u8 aspect = CharExp::GetAspect(this->charSheetP->EXP);
+  u8 aspect = this->charSheetP->EXP->GetAspect();
   u8 ret = false;
   if (aspect != ASPECT_NONE) {
     if (aspect == ASPECT_LUNAR) {
@@ -1991,7 +1991,7 @@ u16 CombatEntity::AspectMulti_check(u8 param_2){
   float dayfloats [5]={0.75f,1.25f,1.25f,0.75f,0.75f};
   s32 intStat = CharStats::getModded(this->charSheetP->Stats,STAT_INT);
   s32 lvl = CharStats::getBase(this->charSheetP->Stats,STAT_LV);
-  if (CharExp::GetAspect(this->charSheetP->EXP) == ASPECT_LUNAR) aspectMod = moonfloats[TerrainPointer->moonPhases];
+  if (this->charSheetP->EXP->GetAspect() == ASPECT_LUNAR) aspectMod = moonfloats[TerrainPointer->moonPhases];
   else aspectMod = dayfloats[TerrainPointer->partOfDay];
   uVar3 = CombatEntity::TroubadorMod((intStat * 4 + param_2 * 6 + lvl) * aspectMod);
   FLOOR(uVar3,5);

@@ -1334,8 +1334,6 @@ struct shop_ram {
     u8 multi[3][20];
 };
 
-typedef struct weapon_ram weapon_ram, *Pweapon_ram;
-
 struct Armour_ROM { /* Armour data in Rom */
     char name[23];
     ItemID_ROM id;

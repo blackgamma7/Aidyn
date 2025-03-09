@@ -1,98 +1,91 @@
 #include "globals.h"
+#define FILENAME "../gameclasses/generic.cpp"
 
-enum CharSheetFlags{
-    IsSolar=1,
-    Heavy=2,
-    TrueName=4,
-};
 
-void init_charExp(charExp *param_1,ItemID param_2){
+void CharExp::Init(ItemID id){
   u8 bVar1;
   u8 bVar3;
   u8 bVar4;
   Entity_Ram *pEVar5;
   
-  bVar3 = GetIDIndex(param_2);
+  bVar3 = GetIDIndex(id);
   pEVar5 = gEntityDB->entities + bVar3;
-  param_1->rom0x2b = pEVar5->rom0x2b; //seems unused
-  param_1->school = pEVar5->School;
-  param_1->protection = pEVar5->BaseProtect;
-  param_1->total = 0;
-  param_1->spending = 0;
-  param_1->damage = pEVar5->BaseDamage;
-  param_1->flags = pEVar5->unk0x18;
-  if (pEVar5->aspect == SOLAR) param_1->flags |= IsSolar;
-  //is alaron "Named"
-  if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic3))) param_1->flags |= TrueName;
+  this->rom0x2b = pEVar5->rom0x2b; //seems unused
+  this->school = pEVar5->School;
+  this->protection = pEVar5->BaseProtect;
+  this->total = 0;
+  this->spending = 0;
+  this->damage = pEVar5->BaseDamage;
+  this->flags = pEVar5->unk0x18;
+  if (pEVar5->aspect == ASPECT_SOLAR) this->flags |= CHAR_IsSolar;
+  //is alaron "Named" yet?
+  if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic3))) this->flags |= CHAR_TrueName;
 }
 
-ASPECT GetCharAspect(charExp *param_1){
-  ASPECT AVar1 = SOLAR;
-  if ((param_1->flags & IsSolar) == 0) {AVar1 = LUNAR;}
-  return AVar1;}
+u8 CharExp::GetAspect(){return (flags & CHAR_IsSolar) ? ASPECT_SOLAR:ASPECT_LUNAR;}
 
-void temp_item_check(Temp_equip *param_1,ItemID param_2){
-  u8 uVar1 = param_2 >> 8;
-  if ((uVar1 == 5) || (uVar1 == 6)) {make_temp_armor((ArmorInstance *)param_1,param_2);}
-  else if (uVar1 == 7) {make_temp_weapon((WeaponInstance *)param_1,param_2);}
-  else if (uVar1 == 0x10) {make_temp_potion((Temp_potion *)param_1,param_2);}
-  else {make_GearInstance((GearInstance *)param_1,param_2);}
+//file break?
+
+void ItemInstance::InitItem(ItemID param_2){
+  ushort uVar1 = (ushort)param_2 >> 8;
+  if ((uVar1 == 5) || (uVar1 == 6)) InitArmor(param_2);
+  else if (uVar1 == 7) InitWeapon(param_2);
+  else if (uVar1 == 0x10) InitPotion(param_2);
+  else ItemInstance::InitGear(&this->G,param_2);
 }
 
-void clear_temp_Stat_spell(WeaponInstance *param_1){
-  FREEPTR(param_1->Stat,0x6e);
-  FREEPTR(param_1->spell,0x74);
+
+void ItemInstance::RemoveStatSpell(){
+  FREEPTR(this->statMod,110);
+  FREEPTR(this->spellCharge,116);
 }
 
-void make_temp_armor(ArmorInstance *param_1,ItemID param_2){
+void ItemInstance::InitArmor(ItemID param_2){
   armour_RAM *paVar1;
   u8 bVar4;
-  u8 (*pabVar2) [2];
   SpellInstance *pTVar3;
   armour_RAM *pcVar5;
   
-  memset(param_1,0,0x14);
+  CLEAR(this);
   bVar4 = GetIDIndex(param_2);
-  param_1->id = param_2;
+  this->id = param_2;
   pcVar5 = armour_pointer->Armor[bVar4];
-  param_1->name = pcVar5->name;
-  param_1->aspect = pcVar5->aspect;
-  param_1->price = pcVar5->price;
-  if (pcVar5->stat != NONE) {
-    pabVar2 = (u8 (*) [2])HeapAlloc(2,FILENAME,0x90);
-    param_1->statMod = pabVar2;
-    make_2byte_array(pabVar2,pcVar5->stat,pcVar5->statNum);
+  this->name = pcVar5->name;
+  this->aspect = pcVar5->aspect;
+  this->price = pcVar5->price;
+  if (pcVar5->stat != STAT_NONE) {
+    ALLOC(this->statMod,0x90);
+    SetStatMod(this->statMod,pcVar5->stat,pcVar5->statNum);
   }
-  if (pcVar5->spell != NONE) {
-    pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0x96);
-    param_1->spell = pTVar3;
+  if (pcVar5->spell != SPELLIND_NONE) {
+    ALLOC(this->spellCharge,0x96);
     malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellLV,pcVar5->rom0x2a);
   }
   return;
 }
 
-void make_temp_weapon(WeaponInstance *param_1,ItemID param_2){
+void ItemInstance::InitWeapon(ItemID param_2){
   weapon_ram *pwVar1;
   u8 bVar4;
   u8 (*pabVar2) [2];
   SpellInstance *pTVar3;
   weapon_ram *pcVar5;
   
-  memset(param_1,0,0x14);
+  CLEAR(this);
   bVar4 = GetIDIndex(param_2);
-  param_1->id = param_2;
+  this->id = param_2;
   pcVar5 = gWeaponsDB->weapons[bVar4];
-  param_1->name = pcVar5->name;
-  param_1->aspect = pcVar5->aspect;
-  param_1->price = pcVar5->price;
+  this->name = pcVar5->name;
+  this->aspect = pcVar5->aspect;
+  this->price = pcVar5->price;
   if (pcVar5->stat != NONE) {
     pabVar2 = (u8 (*) [2])HeapAlloc(2,FILENAME,0xb2);
-    param_1->Stat = pabVar2;
+    this->Stat = pabVar2;
     make_2byte_array(pabVar2,pcVar5->stat,pcVar5->statMod);
   }
   if (pcVar5->spell != NONE) {
     pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0xb8);
-    param_1->spell = pTVar3;
+    this->spell = pTVar3;
     malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellAmmount,pcVar5->SpellLV);
   }
   return;
@@ -101,66 +94,66 @@ void make_temp_weapon(WeaponInstance *param_1,ItemID param_2){
 u16 potion_prices[17]=
 {250,1000,200,500,50,300,200,200,2500,500,500,500,0,300,300,500,500};
 
-void make_temp_potion(Temp_potion *param_1,ItemID param_2){
+void ItemInstance::InitPotion(ItemID param_2){
   char *pcVar1;
   char **ppcVar2;
   u8 bVar3;
   
-  memset(param_1,0,0x14);
+  CLEAR(this);
   bVar3 = GetIDIndex(param_2);
   ppcVar2 = potion_names;
-  param_1->id = param_2;
+  this->id = param_2;
   pcVar1 = ppcVar2[bVar3];
-  param_1->price = potion_prices[bVar3];
-  param_1->name = pcVar1;
+  this->price = potion_prices[bVar3];
+  this->name = pcVar1;
 }
 
-void make_GearInstance(GearInstance *param_1,ItemID param_2){
+void ItemInstance::InitGear(ItemID param_2){
   s32 iVar1;
   u8 (*pabVar2) [2];
   SpellInstance *pTVar3;
   Gear_RAM *pGVar4;
   
-  memset(param_1,0,0x14);
+  CLEAR(this);
   iVar1 = search_item_array(param_2);
   pGVar4 = item_pointer->Gear;
-  param_1->id = param_2;
+  this->id = param_2;
   pGVar4+= iVar1;
-  param_1->name = pGVar4->name;
-  param_1->aspect = pGVar4->aspect;
-  param_1->price = pGVar4->price;
+  this->name = pGVar4->name;
+  this->aspect = pGVar4->aspect;
+  this->price = pGVar4->price;
   if (pGVar4->stat) {
     pabVar2 = (u8 (*) [2])HeapAlloc(2,FILENAME,0xe8);
-    param_1->statmod = pabVar2;
+    this->statmod = pabVar2;
     make_2byte_array(pabVar2,pGVar4->stat,pGVar4->StatMod);
   }
   if (pGVar4->spell != 0xff) {
     pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0xee);
-    param_1->pSpell = pTVar3;
+    this->pSpell = pTVar3;
     malloc_equip_spell(pTVar3,pGVar4->spell,pGVar4->spellVal1,pGVar4->spellVal2);
   }
   return;
 }
 
-u16 GetItemPrice(ItemID *param_1){
+u16 ItemInstance::GetPrice(){
   u16 uVar2;
   u32 uVar4;
   
-  uVar4 = (u32)((u16)*param_1 >> 8);
+  uVar4 = (u32)((u16)this >> 8);
   if (uVar4 - 5 < 2) {
-    uVar2 = armour_pointer->Armor[GetIDIndex(*param_1)].price;
+    uVar2 = armour_pointer->Armor[GetIDIndex(*this)].price;
   }
   else if (uVar4 == 7) {
-    uVar2 = gWeaponsDB->weapons[GetIDIndex(*param_1)].price;
+    uVar2 = gWeaponsDB->weapons[GetIDIndex(*this)].price;
     }
   else if (uVar4 == 0x10) {
-    uVar2 = potion_prices[GetIDIndex(*param_1)];
+    uVar2 = potion_prices[GetIDIndex(*this)];
    }
   else {
-    uVar2 = item_pointer->Gear[search_item_array(*param_1)].price;
+    uVar2 = item_pointer->Gear[search_item_array(*this)].price;
     }
   return uVar2;
 }
 
-void  SetMagicCharges(WeaponInstance *param_1,s8 param_2){
-  if ((param_2 != -1) && (param_1->spell)) param_1->spell->Charges = param_2;}
+void  ItemInstance::SetMagicCharges(WeaponInstance *this,s8 param_2){
+  if ((param_2 != -1) && (this->spell)) this->spell->Charges = param_2;}

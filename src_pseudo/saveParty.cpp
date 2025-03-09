@@ -89,14 +89,14 @@ void SaveParty::LoadItem(SaveFile *sav,ItemInstance *item){
   }
 }
 
-void SaveParty::SaveCharEXP(SaveFile *sav,charExp *exp){
+void SaveParty::SaveCharEXP(SaveFile *sav,CharExp *exp){
   SKIPCHECK(exp,48){
     SaveBits(sav,exp->total,24);
     SaveBits(sav,exp->spending,24);
   }
 }
 
-void SaveParty::LoadCharEXP(SaveFile *sav,charExp *exp){
+void SaveParty::LoadCharEXP(SaveFile *sav,CharExp *exp){
   SKIPCHECK(exp,48) {
     exp->total = LoadBits(sav,24) & 0xffffff;
     exp->spending = LoadBits(sav,24) & 0xffffff;

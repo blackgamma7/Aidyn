@@ -366,7 +366,7 @@ u8 Party::GetEquipError(u8 param_2,char param_3,ItemID*oId){
   
   CharSheet * pCVar1 = this->Members[param_2];
   if ((pCVar1) &&(puVar4 = &this->Inventory->GetItemEntry(param_3)->base,puVar4)) {
-    if ((puVar4->aspect != ASPECT_NONE) &&(puVar4->aspect != CharExp::GetAspect(pCVar1->EXP))) return 2;
+    if ((puVar4->aspect != ASPECT_NONE) &&(puVar4->aspect != pCVar1->EXP->GetAspect())) return 2;
     for (u16 uVar6 = 0;itemtype_funcs[uVar6].type != 0xff;uVar6++){
         if (itemtype_funcs[uVar6].type== puVar4->id >> 8) {
           return itemtype_funcs[uVar6].func(this,param_2,puVar4,pCVar1,oId);
@@ -400,7 +400,7 @@ u8 itemtype_armor(Party* p, u8 param_2,ItemInstance *param_3,CharSheet *param_4,
       bVar4 = p->RemoveArmorFrom(param_2);
       if (!bVar4) {
         Entity::EquipArmor(param_4,IVar1,X);
-        SetMagicCharges(&param_4->armor->base,bVar5);
+        param_4->armor[0]->base.SetMagicCharges(bVar5);
         bVar4 = 0;
       }
       else {
@@ -442,7 +442,7 @@ u8 itemtype_sheild(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
       }
       else {
         Entity::EquipSheild(param_4,IVar1,X);
-        SetMagicCharges(&param_4->armor[1]->base,bVar6);
+        param_4->armor[1]->base.SetMagicCharges(bVar6);
         bVar5 = false;
       }
     }
@@ -479,7 +479,7 @@ byte itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_
       if (bVar6) FUN_8007e6a4(p,IVar1,X,bVar5);
       else {
         Entity::EquipWeapon(param_4,IVar1,X);
-        SetMagicCharges(&param_4->weapons->base,bVar5);
+        param_4->weapons->base.SetMagicCharges(bVar5);
         bVar6 = 0;
         if (gGlobals.combatBytes[0] == 0xe) {
           FUN_8006a274((&gCombatP->combatEnts)[param_2]);
@@ -568,7 +568,7 @@ byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_
 void FUN_8007f10c(Party* p,CharSheet *param_2,ItemID param_3,StatMod* param_4,u8 param_5){  
   Entity::EquipGear(param_2,param_3,param_4);
   CharGear *pCVar1 = param_2->pItemList;
-  SetMagicCharges(param_2->pItemList->pItem[CharGear::GetSlotByID(pCVar1,param_3)],param_5);
+  param_2->pItemList->pItem[CharGear::GetSlotByID(pCVar1,param_3)]->base.SetMagicCharges(param_5);
 }
 
 bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
@@ -1711,7 +1711,7 @@ float Party::UnusedRangerCheck2(){return (float)Party::UnusedRangerCheck3() / 20
 
 u8 theif_over_B(Party *A,u8 B){return B <= Party::SecretLock(A);}
 
-char * Party::ApraisePrice(ItemID param_2,u32 param_3){
+char * Party::ApraisePrice(ItemInstance* param_2,u32 param_3){
   CharSheet *pCVar1;
   char cVar3;
   s32 iVar2;
@@ -1731,7 +1731,7 @@ char * Party::ApraisePrice(ItemID param_2,u32 param_3){
   //use CLAMP macro instead?
   FLOOR(fVar8,0.0);
   else CIEL(fVar8,125.0f);
-  fVar8 = ((float)GetItemPrice(param_2) * fVar8 * 3.0f) / (float)(param_3);
+  fVar8 = ((float)param_2->GetPrice() * fVar8 * 3.0f) / (float)(param_3);
   dVar7 = (double)fVar8;
   if (0.0 < fVar8) uVar6 = (u32)(dVar7 + 0.5);
   else uVar6 = -(s32)(0.5 - dVar7);

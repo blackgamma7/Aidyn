@@ -78,7 +78,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   ALLOC(param_1->Stats,257);
   CharStats::Init(param_1->Stats,param_1->ID);
   ALLOC(param_1->EXP,260);
-  CharExp::Init(param_1->EXP,param_1->ID);
+  param_1->EXP->Init(param_1->ID);
   ALLOC(param_1->Skills,263);
   param_1->Skills->Init(param_1->ID);
   ALLOCS(param_1->armor,2*sizeof(ArmorInstance*),266);
@@ -93,7 +93,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   for(u8 i=0;i < 5;i++) {
     if (pEVar10->spells[i] != 0xffff) {
       ALLOCL(param_1->spellbook->spells[i],282);
-      TempSpell::Init(pSVar6,ID,pEVar10->Spell_levels[i]);
+      TempSpell::Init(param_1->spellbook->spells[i],ID,pEVar10->Spell_levels[i]);
       param_1->spellbook->count++;
     }
   }
@@ -1443,9 +1443,9 @@ byte Entity::CheckSpellSpecial(CharSheet *param_1,SpellInstance *param_2){
     if ((param_1->EXP->flags & CHAR_IsHeavy) == 0) bVar2 = 8;
   }
   if (param_2->special == Magic_SolarAspect) {
-    if (CharExp::GetAspect(param_1->EXP) != ASPECT_SOLAR) bVar2 = 9;
+    if (param_1->EXP->GetAspect() != ASPECT_SOLAR) bVar2 = 9;
   }
-  if ((param_2->special == Magic_LunarAspect) && (CharExp::GetAspect(param_1->EXP) != ASPECT_LUNAR)) {
+  if ((param_2->special == Magic_LunarAspect) && (param_1->EXP->GetAspect() != ASPECT_LUNAR)) {
     bVar2 = 10;
   }
   return bVar2;
@@ -1477,7 +1477,7 @@ u8 Ofunc_8007a8cc(ItemID param_1,u8 param_2){
 }
 
 void Entity::AddExp(CharSheet *param_1,s32 param_2){
-  charExp *pcVar1;
+  CharExp *pcVar1;
   float fVar4 = (float)param_2 * 1.5f; //rom value  * 50 * 1.5 = 75 exp gains
   pcVar1 = param_1->EXP;
   pcVar1->spending += (s32)fVar4;

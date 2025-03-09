@@ -141,14 +141,17 @@ typedef enum CharSheetFlags {
     CHAR_IsSolar=4 //false for lunar aspect.
 } CharSheetFlags;
 
-struct charExp { /* data containing EXP, School, Aspect and more. */
-    u8 rom0x2b; /* Ent_rom data 0x2b. dunno if used */
+class CharExp { /* data containing EXP, School, Aspect and more. */
+    public:
+    u8 rom0x2b; /* Ent_rom data 0x2b. seems unused */
     u8 school;
     u8 protection;
-    u8 damage; /* Not used in combat calc */
+    u8 damage; //effected by equipment, unused in battle calculation?
     uint total; /* for level up */
     uint spending; /* for training */
     u8 flags; // true name, heavy, aspect
+    void Init(ItemID);
+    u8 GetAspect();
 };
 
 
@@ -167,7 +170,7 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     ItemID ID;
     char *name; /* pointer to entityDB entry */
     u8 unk0x8[12]; //unused
-    charExp *EXP;
+    CharExp *EXP;
     CharStats_s *Stats; /* base and modded stats of character */
     CharSkills *Skills; /* skill and weapon levels */
     ArmorInstance **armor;
