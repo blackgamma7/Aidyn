@@ -18,9 +18,9 @@ Aidyn Chronicles is one of a handful of RPG's on the system and a relatively obs
   - There has also yet to be another successful decomp of an N64 title written in C++, and I have not yet the required knowledge to set up
 
 ## Porting?
-- I have been exploring the possibilities of porting the game once the code is fully understood. Here are my current thoughts on the options:
+I have been exploring the possibilities of porting the game once the code is fully understood. Here are my current thoughts on the options:
 ### Libultraship
-- A compatability solution that is already been used by a few decompiled titles. 
+A compatability solution that is already been used by a few decompiled titles. 
 - Pros:
   - Performance potentially optimized for native platform
   - Debug and modding features potentially to implement
@@ -29,15 +29,15 @@ Aidyn Chronicles is one of a handful of RPG's on the system and a relatively obs
   - "potential": meaning code would first need to be matching, or at the very least, compilable.
   - Controller Pak support not yet implemented.
 ### N64Recomp
-- A "static recompilation" of the game's assembely code, with the potential of raytracing and other enhancments.
+A "static recompilation" of the game's assembely code, with the potential of raytracing and other enhancments.
 - Pros:
   - game's code does not require decompilation.
   - potential for raytracing and some other enhancements
 - Cons:
   - generated code is not as human-readable, optimized or modifiable as true decompilation.
   - Controller Pak support not yet implemented.
-## Existing Game Engine
--  Port the game to an existing engine such as Unity or Godot and take advantage of modern conviences it provides.
+### Existing Game Engine
+Port the game to an existing engine such as Unity or Godot and take advantage of modern conviences it provides.
 - Pros:
   - Can be re-written beyond limitations of original platform.
 - Cons:
