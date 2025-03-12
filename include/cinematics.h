@@ -16,6 +16,7 @@ typedef enum CinematicEnum {
     Cinematic_End
 } CinematicEnum;
 
+//Widget used for the text during cinematics
 class WidgetCinematicText:public WidgetMenu{
     public:
     WidgetText* textW;
@@ -29,7 +30,7 @@ class WidgetCinematicText:public WidgetMenu{
     ~WidgetCinematicText();
     virtual void SetText(char*);
 };
-
+//different fade colors for scene transitions
 enum CinFadeType{
     CFade_None,
     CFade_Black,
@@ -47,6 +48,7 @@ struct CinematicFade {
 
 typedef struct CinematicStruct CinematicStruct, *PCinematicStruct;
 
+//action to take once cinematic is stopped.
 typedef enum enum_cinematic_switch {
     CSwitch_CineDat,
     CSwitch_WorldMap,

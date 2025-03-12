@@ -147,7 +147,7 @@ void malloc_equip_spell(SpellCharges *param_1,u8 param_2,u8 param_3,u8 param_4){
   param_1->Charges = param_3;
 }
 
-void Ofunc_80084200(SpellCharges *param_1){ //probably wrong type
+void Ofunc_80084200(SpellCharges *param_1){
   if (param_1->Spell) {
     param_1->Spell->base.RemoveStatSpell();
     FREE(param_1->Spell,328);
@@ -214,8 +214,8 @@ void SpellBook::Clear(){
     if (this->count != 0) {
       while( true ) {
         if (this->spells[uVar3]){
-          ItemInstance::RemoveStatSpell(this->spells[uVar3]); //could be skipped, no applciable pointers
-          FREE(this->spells[uVar3],0x1ed);
+          this->spells[uVar3]->base.RemoveStatSpell(); //could be skipped, no applciable pointers
+          FREE(this->spells[uVar3],493);
         }
         if (this->count <= ++uVar3) break;
       }

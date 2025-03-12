@@ -69,12 +69,12 @@ void Load(u8 *data){
   }
   for(;i<9;i++){SaveEntity::LoadMember(SaveParty::LoadCharSheet(&sav),(u16)i);}
   PARTY->Inventory->Load(&sav);
-  aWStack_68.precipScale = (float)SaveParty::LoadBits(&sav,0x20);
-  aWStack_68.fogFloat = (float)SaveParty::LoadBits(&sav,0x20);
-  aWStack_68.thunderFloat = (float)SaveParty::LoadBits(&sav,0x20);
-  aWStack_68.precipScale*=0.001f;
-  aWStack_68.fogFloat*=0.001f;
-  aWStack_68.thunderFloat*=0.001f;
+  aWStack_68.PrecipScale = (float)SaveParty::LoadBits(&sav,0x20);
+  aWStack_68.FogFloat = (float)SaveParty::LoadBits(&sav,0x20);
+  aWStack_68.ThunderFloat = (float)SaveParty::LoadBits(&sav,0x20);
+  aWStack_68.PrecipScale*=0.001f;
+  aWStack_68.FogFloat*=0.001f;
+  aWStack_68.ThunderFloat*=0.001f;
   aWStack_68.precip = SaveParty::LoadBits(&sav,8);
   World::SetWithWeatherTemp(TerrainPointer,&aWStack_68);
   COPY(&gWeatherTemp,&aWStack_68);
@@ -145,7 +145,7 @@ void CopySnapshot(void *param_1){
   if (gQuestdataSnapshot) memcpy(param_1,gQuestdataSnapshot,SNAPSHOT_SIZE);
 }
 void SaveItemID(ItemID *param_1,ItemID *param_2){
-  if (param_2 != NULL) *param_1 = *param_2;
+  if (param_2) *param_1 = *param_2;
 }
 
 //saves Alaron's name, current playtime and party for savefile ID'ing
@@ -162,7 +162,7 @@ void SavePartyPlaytime(SavePartyHeader *param_1){
   strcpy(param_1->name,c2);
   
    for(iVar3 = 0;iVar3<4;iVar3++){
-    SaveItemID(param_1->party[iVar3],PARTY->Members[iVar3]->ID);
+    SaveItemID(&param_1->party[iVar3],&PARTY->Members[iVar3]->ID);
   }
 }
 void CopyEngineZone(mapFloatDat *param_1,u8 copy){

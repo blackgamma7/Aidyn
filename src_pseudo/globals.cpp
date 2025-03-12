@@ -193,15 +193,12 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
             printLine(0x281);
             printLine(0x284);
             iVar2 = 0;
-            if (param_1 != 0) {
-              do {
-                if (*(ItemID *)(&gGlobals.EncounterDat.enemy_entities[0].type + iVar2) ==
-                    pmVar9->enemyID) {
-                  iVar6 += 1;
+            if (param_1) {
+              for(uVar4=0;uVar4<param_1;uVar4++){
+                if (gGlobals.EncounterDat.enemy_entities[uVar4] ==pmVar9->enemyID) {
+                  iVar6++;
                 }
-                uVar4 = uVar4 + 1 & 0xffff;
-                iVar2 = uVar4 << 1;
-              } while (uVar4 < param_1);
+              }
             }
             uVar4 = 0;
             printLine(0x28a);
@@ -220,12 +217,12 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
                     *pIVar5 = pIVar5[1];
                     pIVar5 = pIVar5 + 1;
                   }
-                  param_1 = param_1 - 1 & 0xffff;
+                  param_1--;
                   printLine(0x297);
                   printLine(0x298);
                   printLine(0x29b);
                   pIVar5 = gGlobals.EncounterDat.enemy_entities + param_1;
-                  pIVar5->s = 0;
+                  pIVar5 = 0;
                 }
                 uVar4 = uVar1 & 0xffff;
               } while (uVar4 < param_1);
@@ -424,7 +421,7 @@ void load_camp_ambush(void){
   memset(&auStack72,0,0x38);
   lvTeir = 0;
   pmVar2 = fromROM.entries;
-  auStack72.field6_0x28 = (u16)fromROM.entries[0].min + (u16)fromROM.entries[1].min;
+  auStack72.unk0x28 = (u16)fromROM.entries[0].min + (u16)fromROM.entries[1].min;
   auStack72.totalsize = (u16)fromROM.entries[0].max + (u16)fromROM.entries[1].max;
   pmVar3 = &auStack72;
   do {

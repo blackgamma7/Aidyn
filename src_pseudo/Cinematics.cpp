@@ -297,33 +297,38 @@ void reset_scene_timers(void){
   cinematic_scene_tally++;
 }
 
-Gfx* cinematic_fade(Gfx*param_1,s16 param_2){
-  u8 bVar1;
-  s16 sVar2;
-  Gfx*pauVar3;
-  s16 sVar4;
-  u32 uVar5;
-  u32 uVar6;
-  s16 uVar7;
-  float fVar8;
+Gfx * cinematic_fade(Gfx *g,u16 delta)
+
+{
+  byte bVar1;
+  short sVar2;
+  ushort uVar3;
+  ushort uVar4;
+  Gfx *gfx;
+  short sVar5;
+  uint uVar6;
+  uint uVar7;
+  uint uVar8;
+  float fVar9;
   
-  uVar7 = param_2;
-  uVar6 = (u32)cinematic_scene_runtime;
-  cinematic_scene_runtime = uVar7 + cinematic_scene_runtime;
+  uVar8 = (uint)delta;
+  uVar7 = (uint)cinematic_scene_runtime;
+  cinematic_scene_runtime = delta + cinematic_scene_runtime;
   if (cinematicFadePointer->index != cinematic_scene_tally) goto LAB_8005d1d4;
-  uVar5 = (u32)cinematicFadePointer->runtime * 2;
-  if ((cinematic_scene_runtime < uVar5) || (uVar5 < uVar6)) goto LAB_8005d1d4;
-  uVar5 = (u32)cinematicFadePointer->fadeTime * 2;
-  sVar4 = cinematicFadePointer->exitTime * 2;
-  uVar6 = uVar5 - 4;
-  sVar2 = sVar4 + 0x40;
+  uVar6 = (uint)cinematicFadePointer->runtime * 2;
+  if ((cinematic_scene_runtime < uVar6) || (uVar6 < uVar7)) goto LAB_8005d1d4;
+  uVar4 = cinematicFadePointer->fadeTime * 2;
+  sVar5 = cinematicFadePointer->exitTime * 2;
+  sVar2 = sVar5 + 0x40;
+  uVar3 = uVar4 - 4;
   if (cinematicFadePointer->fadeTime < 5) {
-    uVar6 = uVar5;
-    sVar2 = sVar4;
+    sVar2 = sVar5;
+    uVar3 = uVar4;
   }
-  uVar7 += (u32)cinematic_scene_runtime + (u32)cinematicFadePointer->runtime * -2;
-  cinematic_fade_short = sVar2 + (s16)(uVar6 & 0xffff);
-  cinematic_fade_speed = (float)(1.0d / (double)(uVar6 & 0xffff));
+  uVar8 = (uint)delta + (uint)cinematic_scene_runtime + (uint)cinematicFadePointer->runtime * -2 &
+          0xffff;
+  cinematic_fade_short = sVar2 + uVar3;
+  cinematic_fade_speed = (float)(1.0 / (double)uVar3);
   bVar1 = cinematicFadePointer->fadeType;
   if (bVar1 == 1) {
     cinematic_fade_color.R = 0;
@@ -332,10 +337,12 @@ LAB_8005d1b0:
     cinematic_fade_color.B = 0;
     cinematic_fade_float = 0.0;
   }
-  else if (bVar1 == 0) {
-    cinematic_fade_speed = -cinematic_fade_speed;
-    cinematic_fade_float = 1.0f;
+  else if (bVar1 < 2) {
+    if (bVar1 == 0) {
+      cinematic_fade_speed = -cinematic_fade_speed;
+      cinematic_fade_float = 1.0f;
     }
+  }
   else if (bVar1 == 2) {
     cinematic_fade_color.R = 0xff;
     cinematic_fade_color.G = 0xff;
@@ -345,36 +352,38 @@ LAB_8005d1b0:
   else if (bVar1 == 3) {
     cinematic_fade_color.R = 0xff;
     goto LAB_8005d1b0;
-        }
-  cinematicFadePointer++;
+  }
+  cinematicFadePointer = cinematicFadePointer + 1;
 LAB_8005d1d4:
   if (cinematic_fade_short != 0) {
-    uVar6 = (u32)cinematic_fade_short;
-    cinematic_fade_short = (u16)(uVar6 - uVar7);
-    if ((s32)((uVar6 - uVar7) * 0x10000) < 0) {cinematic_fade_short = 0;}
-    cinematic_fade_float+= cinematic_fade_speed * (float)uVar7;
-    if (1.0f < cinematic_fade_float) {cinematic_fade_float = 1.0f;}
-    if (cinematic_fade_float < 0.0) {cinematic_fade_float = 0.0;}
-    fVar8 = cinematic_fade_float * 255.0f;
-    if (fVar8 < INT_MAX_f) {cinematic_fade_color.A = (u8)(s32)fVar8;}
-    else {cinematic_fade_color.A = (u8)(s32)(fVar8 - INT_MAX_f);}
+    uVar7 = (uint)cinematic_fade_short;
+    cinematic_fade_short = (ushort)(uVar7 - uVar8);
+    if ((int)((uVar7 - uVar8) * 0x10000) < 0) {
+      cinematic_fade_short = 0;
+    }
+    cinematic_fade_float = cinematic_fade_float + cinematic_fade_speed * (float)uVar8;
+    //reverse from CLAMP01 macro
+    CIEL(cinematic_fade_float,1.0);
+    FLOOR(cinematic_fade_float,0);
+    cinematic_fade_color.A = cinematic_fade_float * 255.0f;
+
     if (cinematic_fade_color.A != 0) {
-      pauVar3 = rsp_func(param_1,6,Graphics::get_hres(),Graphics::get_vres());
-      param_1 = gsFadeInOut(pauVar3,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,cinematic_fade_color.R,cinematic_fade_color.G,
-                            cinematic_fade_color.B,cinematic_fade_color.A);
+      uVar3 = Graphics::get_hres();
+      uVar4 = Graphics::get_vres();
+      gfx = Graphics::SomeDListInit(g,6,uVar3,uVar4);
+      g = gsFadeInOut(gfx,0,0,0x140,0xf0,cinematic_fade_color.R,cinematic_fade_color.G,
+                      cinematic_fade_color.B,cinematic_fade_color.A);
     }
   }
-  return param_1;
+  return g;
 }
 
+
 //may be part of Cinematictext, but unused, so dunno.
-BaseWidget * Ofunc_8005d330(char *param_1,s16 param_2,u16 param_3,u16 param_4,u16 param_5,
-              u16 param_6,u8 param_7,u8 param_8,u8 param_9,u8 param_10){
-  BaseWidget *pwVar1;
-  
-  pwVar1 = widgettext_func_2(passToMalloc(0x7c),param_1,param_2);
-  set_widget_coords(pwVar1,param_3,param_4);
-  some_widget_setter(pwVar1,param_4,param_3,param_5,param_6);
-  pwVar1->SetColor(param_7,param_8,param_9,param_10);
-  return pwVar1;
+WidgetText *Ofunc_8005d330(char *txt,short len,ushort x,ushort y,ushort x1,ushort y1,u8 r,u8 g,u8 b,u8 a){
+  WidgetText* pBVar1 =  new WidgetText(txt,len);
+  pBVar1->SetCoords(x,y);
+  pBVar1->SetSomeBounds(y,x,x1,y1);
+  pBVar1->SetColor(r,g,b,a);
+  return pBVar1;
 }

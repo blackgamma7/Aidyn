@@ -1270,17 +1270,9 @@ void FUN_800628cc(CombatAIInfo *param_1){
     uVar15 = (uint)pSVar6->range * iVar7 & 0xff;
     uVar10 = param_1->combatEnt->GetCoordXU8();
     uVar11 = param_1->combatEnt->GetCoordYU8();
-    fVar22 = (gCombatP->SpellMarkerPos).x;
     uStack_54 = 0;
-    if (INT_MAX_f <= fVar22) {
-      fVar22 = fVar22 - INT_MAX_f;
-    }
-    fVar23 = (gCombatP->SpellMarkerPos).y;
-    uStack_48 = (int)fVar22 & 0xff;
-    if (INT_MAX_f <= fVar23) {
-      fVar23 = fVar23 - INT_MAX_f;
-    }
-    uStack_44 = (int)fVar23 & 0xff;
+    uStack_48 = (gCombatP->SpellMarkerPos).x;
+    uStack_44 = (gCombatP->SpellMarkerPos).y;
     uVar20 = (int)(((int)(char)uVar11 - uVar15) * 0x1000000) >> 0x18;
     iVar7 = (int)(char)uVar11 + uVar15;
     if ((int)uVar20 <= iVar7) {

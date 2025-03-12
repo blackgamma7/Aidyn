@@ -11,7 +11,7 @@ WidgetCinematicText::WidgetCinematicText(ushort (*dims) [4],short param_3,short 
   this->unk80 = NULL;
   this->gradient = NULL;
   *(undefined4 *)this->dimensions = *(undefined4 *)*dims;
-  *(undefined4 *)(this->dimensions + 2) = *(undefined4 *)(*dims + 2);;
+  *(undefined4 *)(this->dimensions + 2) = *(undefined4 *)(*dims + 2);
   this->unk90 = param_3;
   this->unk92 = param_4;
   this->dimensions[0] = (*dims)[0];
