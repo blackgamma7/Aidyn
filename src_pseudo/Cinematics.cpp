@@ -357,14 +357,12 @@ LAB_8005d1b0:
 LAB_8005d1d4:
   if (cinematic_fade_short != 0) {
     uVar7 = (uint)cinematic_fade_short;
-    cinematic_fade_short = (ushort)(uVar7 - uVar8);
-    if ((int)((uVar7 - uVar8) * 0x10000) < 0) {
-      cinematic_fade_short = 0;
-    }
+    cinematic_fade_short = (s16)(uVar7 - uVar8);
+    if ((s16)(uVar7 - uVar8) < 0) cinematic_fade_short = 0;
     cinematic_fade_float = cinematic_fade_float + cinematic_fade_speed * (float)uVar8;
     //reverse from CLAMP01 macro
     CIEL(cinematic_fade_float,1.0);
-    FLOOR(cinematic_fade_float,0);
+    FLOOR(cinematic_fade_float,0.0);
     cinematic_fade_color.A = cinematic_fade_float * 255.0f;
 
     if (cinematic_fade_color.A != 0) {

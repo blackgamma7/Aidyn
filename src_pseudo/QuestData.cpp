@@ -27,8 +27,8 @@ void Save(u8 *data){
   PARTY->Inventory->Save(&sav);
   memcpy(&fStack96,&gWeatherTemp,0x10);
   fStack96.PrecipScale*=1000.0f;
-  fStack96.FogFloat*=1000.0f;;
-  fStack96.ThunderFloat*=1000.0f;;
+  fStack96.FogFloat*=1000.0f;
+  fStack96.ThunderFloat*=1000.0f;
   SaveParty::SaveBits(&sav,(s32)fStack96.PrecipScale,0x20);
   SaveParty::SaveBits(&sav,(s32)fStack96.FogFloat,0x20);
   SaveParty::SaveBits(&sav,(s32)fStack96.ThunderFloat,0x20);

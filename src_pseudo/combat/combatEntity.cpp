@@ -44,7 +44,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   SetCardinalFacing(param_6);
   this->notboss = gEntityDB->IsNotBoss(charsheet->ID);
   FUN_800713fc(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),this->unk23);
-  pSVar2 = charsheet->spellbook;;
+  pSVar2 = charsheet->spellbook;
   if (((pSVar2 != NULL) && (pSVar2->spells != NULL)) && (pSVar2->count != 0)) {
     for(u32 i=0;i < pSVar2->count;i++) {
       if (charsheet->spellbook->spells[i]) {

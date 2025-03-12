@@ -179,7 +179,7 @@ u32 SaveParty::LoadGold(SaveFile *sav){
 
 
 void SaveParty::SaveTimer(SaveFile *sav,u32 t){
-  SaveBits(sav,(u16)(t / 7200),12);
+  SaveBits(sav,(u16)(t / MINUTES(2)),12);
 }
 
 
@@ -189,7 +189,7 @@ s32 SaveParty::LoadTimer(SaveFile *sav){
   
   uVar1 = LoadBits(sav,12);
   if (uVar1 == 0xfff) iVar2 = -1;
-  else iVar2 = uVar1 * 7200;
+  else iVar2 = uVar1 * MINUTES(2);
   return iVar2;
 }
 
