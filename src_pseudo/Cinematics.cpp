@@ -2,7 +2,6 @@
 
 
 enum CinematicEnum{Cinematic_opening,Cinematic_Shadow,Cinematic_Roog,Cinematic_End};
-enum enum_cinematic_switch{CSwitch_CineDat,CSwitch_WorldMap,CSwitch_TrueName,CSwitch_ToMenu};
 cinematic_dats cinematic_dat_pointers[4]; //contains pointers to info on each cinematic
 u8 cinematic_init_flag=1;
 u8 cinematic_skip_flag=0;
