@@ -19,7 +19,7 @@ void CharExp::Init(ItemID id){
   this->flags = pEVar5->unk0x18;
   if (pEVar5->aspect == ASPECT_SOLAR) this->flags |= CHAR_IsSolar;
   //is alaron "Named" yet?
-  if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic3))) this->flags |= CHAR_TrueName;
+  if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic2))) this->flags |= CHAR_TrueName;
 }
 
 u8 CharExp::GetAspect(){return (flags & CHAR_IsSolar) ? ASPECT_SOLAR:ASPECT_LUNAR;}
@@ -28,10 +28,10 @@ u8 CharExp::GetAspect(){return (flags & CHAR_IsSolar) ? ASPECT_SOLAR:ASPECT_LUNA
 
 void ItemInstance::InitItem(ItemID param_2){
   ushort uVar1 = (ushort)param_2 >> 8;
-  if ((uVar1 == 5) || (uVar1 == 6)) InitArmor(param_2);
-  else if (uVar1 == 7) InitWeapon(param_2);
-  else if (uVar1 == 0x10) InitPotion(param_2);
-  else ItemInstance::InitGear(&this->G,param_2);
+  if ((uVar1 == DB_ARMOR) || (uVar1 == DB_SHIELD)) InitArmor(param_2);
+  else if (uVar1 == DB_WEAPON) InitWeapon(param_2);
+  else if (uVar1 == DB_POTION) InitPotion(param_2);
+  else InitGear(param_2);
 }
 
 
@@ -78,11 +78,11 @@ void ItemInstance::InitWeapon(ItemID param_2){
   this->name = pcVar5->name;
   this->aspect = pcVar5->aspect;
   this->price = pcVar5->price;
-  if (pcVar5->stat != NONE) {
+  if (pcVar5->stat != STAT_NONE) {
     ALLOC(this->statMod,0xb2);
     SetStatMod(this->statMod,pcVar5->stat,pcVar5->statMod);
   }
-  if (pcVar5->spell != NONE) {
+  if (pcVar5->spell != SPELLIND_NONE) {
     pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0xb8);
     this->spell = pTVar3;
     malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellAmmount,pcVar5->SpellLV);
@@ -138,10 +138,10 @@ u16 ItemInstance::GetPrice(){
   if (uVar4 - 5 < 2) {
     uVar2 = armour_pointer->Armor[GetIDIndex(this->id)].price;
   }
-  else if (uVar4 == 7) {
+  else if (uVar4 == DB_WEAPON) {
     uVar2 = gWeaponsDB->weapons[GetIDIndex(this->id)].price;
     }
-  else if (uVar4 == 0x10) {
+  else if (uVar4 == DB_POTION) {
     uVar2 = potion_prices[GetIDIndex(this->id)];
    }
   else {

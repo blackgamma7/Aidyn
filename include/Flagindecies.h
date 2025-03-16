@@ -1,10 +1,12 @@
 //definitions of event flags
-#define FLAG_Cinematic1 3
-#define FLAG_Cinematic2 569
-#define FLAG_Cinematic3 590
-#define FLAG_Cinematic4 601 //never legit triggered as game ends here.
+
+#define FLAG_Cinematic0 3
+#define FLAG_Cinematic1 569
+#define FLAG_Cinematic2 590 //checked during Character Init for Alaron, gives "True Name" flag
+#define FLAG_Cinematic3 601 //triggered at end of game, so cinematic cannot be legit replayed.
 
 //journal flags
+
 #define FLAG_MeetShadow 9
 #define FLAG_JournalAmbush 50
 #define FLAG_JournalPortal 62
@@ -16,6 +18,8 @@
 #define FLAG_JournalOrianaNecro 101
 #define FLAG_JournalEnteredErromon 122
 #define FLAG_JournalMetBecan 375
+
+//Boss Death Flags
 
 #define FLAG_KilledKitarak 154
 #define FLAG_KilledShamsuk 458

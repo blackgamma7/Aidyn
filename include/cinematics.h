@@ -2,10 +2,10 @@
 #include "widgets\Utilities.h"
 
 
-struct cinematic_dat_pointers {
+struct CinematicPointers {
     u32  *borg6;
     u16 *flags;
-    enum Borg12Enum *borg12;
+    u32 *borg12;
     float (*planes)[2];
 };
 
@@ -45,9 +45,6 @@ struct CinematicFade {
     u16 fadeTime; /* div 2 */
     short exitTime;
 };
-
-typedef struct CinematicStruct CinematicStruct, *PCinematicStruct;
-
 //action to take once cinematic is stopped.
 typedef enum enum_cinematic_switch {
     CSwitch_CineDat,
@@ -74,8 +71,6 @@ struct CinematicStruct {
     u8 BGIndex;
 };
 
-typedef struct cinematictext_struct cinematictext_struct, *Pcinematictext_struct;
-
 struct cinematictext_struct {
     int showCaptionTimer;
     WidgetCinematicText *widget;
@@ -90,3 +85,39 @@ struct cinematictext_struct {
     char AlaronName[256]; /* yeah, for just the player name */
     u16 pad;
 };
+
+namespace Cinematic{
+    void Load(u16,u16,s32);
+    u16 Tick(Gfx**);
+    void FreeScene();
+    s16 GetName();
+    u16 EndCase();
+    u16 Control();
+    Gfx* Render(Gfx*,s16);
+    void LoadNextScene();
+    u16 LoadMap();
+    u16 LoadCredits();
+    u16 TrueName();
+    u16 ToMenu();
+    u16 GetSomeDat();
+    void InitFade(u16);
+    void NextFadeTally();
+    Gfx * Fade(Gfx *,u16);
+};
+
+namespace CinematicText{
+    void Init(char *);
+    void Free();
+    void SetText(char *,int);
+    void Render(Gfx **,int);
+    void ResetTimer();
+    bool StringEquals(char *,char *);
+    void InsertPlayerName(char *,char *,char *,char *);
+    void NextLine();
+    void ClearRuntime();
+    void IncRuntime(int);
+    void LoadNextLine();
+    void AllocPointer8(void);
+    void FreePointer8(void);
+    void Sequence(u32);
+}

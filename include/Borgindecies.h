@@ -60,35 +60,35 @@
 
 //Cinematic music
 
-#define BORG12_Cinmatic1_Part1 0x601
-#define BORG12_Cinmatic1_Part2 0x608
-#define BORG12_Cinmatic1_Part3 0x60b
-#define BORG12_Cinmatic1_Part4 0x60c
-#define BORG12_Cinmatic1_Part5 0x60e
-#define BORG12_Cinmatic1_Part6 0x610
-#define BORG12_Cinmatic1_Part7 0x612
-#define BORG12_Cinmatic1_Part8 0x613
-#define BORG12_Cinmatic1_Part9 0x615
-#define BORG12_Cinmatic1_Part10 0x616
-#define BORG12_Cinmatic1_Part11 0x617
-#define BORG12_Cinmatic1_Part12 0x619
-#define BORG12_Cinmatic1_Part13 0x61a
+#define BORG12_Cinematic0_1 0x601
+#define BORG12_Cinematic0_2 0x608
+#define BORG12_Cinematic0_3 0x60b
+#define BORG12_Cinematic0_4 0x60c
+#define BORG12_Cinematic0_5 0x60e
+#define BORG12_Cinematic0_6 0x610
+#define BORG12_Cinematic0_7 0x612
+#define BORG12_Cinematic0_8 0x613
+#define BORG12_Cinematic0_9 0x615
+#define BORG12_Cinematic0_10 0x616
+#define BORG12_Cinematic0_11 0x617
+#define BORG12_Cinematic0_12 0x619
+#define BORG12_Cinematic0_13 0x61a
 
-#define BORG12_Cinmatic2_Part1 0x61d
-#define BORG12_Cinmatic2_Part2 0x61e
-#define BORG12_Cinmatic2_Part3 0x621
-#define BORG12_Cinmatic2_Part4 0x622
+#define BORG12_Cinematic1_1 0x61d
+#define BORG12_Cinematic1_2 0x61e
+#define BORG12_Cinematic1_3 0x621
+#define BORG12_Cinematic1_4 0x622
 
-#define BORG12_Cinmatic3_Part1 0x5da
-#define BORG12_Cinmatic3_Part2 0x5db
-#define BORG12_Cinmatic3_Part3 0x5dc
+#define BORG12_Cinematic2_1 0x5da
+#define BORG12_Cinematic2_2 0x5db
+#define BORG12_Cinematic2_3 0x5dc
 
-#define BORG12_Cinmatic4_Part1 0x5ed
-#define BORG12_Cinmatic4_Part2 0x5ee
-#define BORG12_Cinmatic4_Part3 0x5ef
-#define BORG12_Cinmatic4_Part4 0x5f0
-#define BORG12_Cinmatic4_Part5 0x5f1
-#define BORG12_Cinmatic4_Part6 0x5f2
+#define BORG12_Cinematic3_1 0x5ed
+#define BORG12_Cinematic3_2 0x5ee
+#define BORG12_Cinematic3_3 0x5ef
+#define BORG12_Cinematic3_4 0x5f0
+#define BORG12_Cinematic3_5 0x5f1
+#define BORG12_Cinematic3_6 0x5f2
 
 #define BORG12_05ea_Exp 0x5ea
 #define BORG12_05eb_NoExp 0x5eb
@@ -100,7 +100,10 @@
 #define BORG12_ErromonCaves 0x790
 #define BORG12_Intro_NoExp 0x5d9 //aka Credits
 #define BORG12_Intro_Exp 0x632
+
+
 //SFX here
+
 #define BORG12_ChimeScale 0x5e7
 #define BORG12_CheatCorrect 0x718
 #define BORG12_CheatUnused 0x720
@@ -133,6 +136,37 @@
 #define BORG6_Flycam5           0x21e6
 #define BORG6_Flycam6           0x21e8
 
+//cinematics
+
+#define BORG6_Cinematic0_1      0x2219
+#define BORG6_Cinematic0_2      0x226c
+#define BORG6_Cinematic0_3      0x2292
+#define BORG6_Cinematic0_4      0x2299
+#define BORG6_Cinematic0_5      0x22a0
+#define BORG6_Cinematic0_6      0x22d6
+#define BORG6_Cinematic0_7      0x22ed
+#define BORG6_Cinematic0_8      0x22fb
+#define BORG6_Cinematic0_9      0x231c
+#define BORG6_Cinematic0_10     0x2353
+#define BORG6_Cinematic0_11     0x235c
+#define BORG6_Cinematic0_12     0x2391
+#define BORG6_Cinematic0_13     0x23bb
+
+#define BORG6_Cinematic1_1      0x23f7
+#define BORG6_Cinematic1_2      0x2413
+#define BORG6_Cinematic1_3      0x238b
+#define BORG6_Cinematic1_4      0x24ca
+
+#define BORG6_Cinematic2_1      0x24ee
+#define BORG6_Cinematic2_2      0x2569
+#define BORG6_Cinematic2_3      0x25a2
+
+#define BORG6_Cinematic3_1      0x1f36
+#define BORG6_Cinematic3_2      0x1fe3
+#define BORG6_Cinematic3_3      0x2081
+#define BORG6_Cinematic3_4      0x2098
+#define BORG6_Cinematic3_5      0x21c0
+#define BORG6_Cinematic3_6      0x21d8
 
 //Borg13: Dialouge
 #define BORG13_GoblinAmbush     0x365
