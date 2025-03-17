@@ -5,7 +5,7 @@
 cinematictext_struct *gCinematicTextP=NULL;
 u32 cinematic_runtime=0;
 
-WidgetText *Ofunc_8005d330(char *txt,short len,ushort x,ushort y,ushort x1,ushort y1,u8 r,u8 g,u8 b,u8 a){
+WidgetText *Ofunc_8005d330(char *txt,short len,u16 x,u16 y,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a){
     WidgetText* w =  new WidgetText(txt,len);
     w->SetCoords(x,y);
     w->SetSomeBounds(y,x,x1,y1);
@@ -125,9 +125,9 @@ void ClearRuntime(void){cinematic_runtime = 0;}
 void IncRuntime(int param_1){cinematic_runtime+= param_1;}
 
 void LoadNextLine(void){
-  ushort uVar1;
-  ushort uVar2;
-  ushort (*pauVar3) [3];
+  u16 uVar1;
+  u16 uVar2;
+  u16 (*pauVar3) [3];
   cinematictext_struct *pcVar4;
   uint len;
   int len_00;
@@ -141,7 +141,7 @@ void LoadNextLine(void){
   if (gCinematicTextP->caption_index < gCinematicTextP->caption_scene_max) {
     pauVar3 = gCinematicTextP->shortsPointer;
     uVar1 = (*pauVar3)[0];
-    gCinematicTextP->shortsPointer = (ushort (*) [3])(*pauVar3 + 2);
+    gCinematicTextP->shortsPointer = (u16 (*) [3])(*pauVar3 + 2);
     uVar2 = (*pauVar3)[2];
     pcVar4->shortsPointer = pauVar3 + 1;
     auStack_18[0] = 0;
@@ -160,7 +160,7 @@ void LoadNextLine(void){
 }
 
 void AllocPointer8(void){
-  ushort uVar1;
+  u16 uVar1;
   cinematictext_struct *pcVar2;
   
   void* pauVar3 = HALLOC(0x210,285);
@@ -170,7 +170,7 @@ void AllocPointer8(void){
   ROMCOPYS(pcVar2->shortsPointer,cinematic_text_dat,0x210,287);
   pcVar2 = gCinematicTextP;
   uVar1 = (*gCinematicTextP->shortsPointer)[0];
-  gCinematicTextP->shortsPointer = (ushort (*) [3])(*gCinematicTextP->shortsPointer + 1);
+  gCinematicTextP->shortsPointer = (u16 (*) [3])(*gCinematicTextP->shortsPointer + 1);
   pcVar2->caption_index = 0;
   pcVar2->caption_scene_max = 0;
   pcVar2->field4_0x10 = uVar1;
@@ -181,22 +181,22 @@ void FreePointer8(void){
 }
 
 void Sequence(u32 param_1){
-  ushort uVar1;
+  u16 uVar1;
   cinematictext_struct *pcVar2;
-  ushort (*pauVar3) [3];
-  ushort uVar4;
+  u16 (*pauVar3) [3];
+  u16 uVar4;
   uint uVar5;
   
   pcVar2 = gCinematicTextP;
   if ((param_1 != 0xffff) && (param_1 <= gCinematicTextP->field4_0x10)) {
     uVar5 = 0;
-    gCinematicTextP->shortsPointer = (ushort (*) [3])(gCinematicTextP->field2_0x8 + 2);
+    gCinematicTextP->shortsPointer = (u16 (*) [3])(gCinematicTextP->field2_0x8 + 2);
     if (param_1 != 0) {
       do {
         uVar4 = 0;
         uVar5 += 1;
         uVar1 = (*pcVar2->shortsPointer)[0];
-        pcVar2->shortsPointer = (ushort (*) [3])(*pcVar2->shortsPointer + 1);
+        pcVar2->shortsPointer = (u16 (*) [3])(*pcVar2->shortsPointer + 1);
         if (uVar1 != 0) {
           pauVar3 = pcVar2->shortsPointer;
           do {
@@ -209,7 +209,7 @@ void Sequence(u32 param_1){
     }
     pcVar2 = gCinematicTextP;
     uVar1 = (*gCinematicTextP->shortsPointer)[0];
-    gCinematicTextP->shortsPointer = (ushort (*) [3])(*gCinematicTextP->shortsPointer + 1);
+    gCinematicTextP->shortsPointer = (u16 (*) [3])(*gCinematicTextP->shortsPointer + 1);
     pcVar2->caption_index = 0;
     pcVar2->caption_scene_max = uVar1;
     LoadNextLine();

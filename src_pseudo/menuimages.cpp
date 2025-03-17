@@ -1,4 +1,3 @@
-typedef struct IconDict IconDict, *PIconDict;
 #include "globals.h"
 
 struct IconDict { /* array Proceeded by dictionary length */
@@ -36,20 +35,23 @@ u8 GetItemImage(ItemID param_1,u32 *param_2){
       }
     }
     Gsprintf("Using default image for %d\n",param_1);
-    N64Print::Print(gGlobals.text);
-    BVar1 = QuestinmarkIcon;
+    N64PRINT(gGlobals.text);
+    BVar1 = BORG8_IconItemUnk;
     break;
+    case DB_POTION:
+    BVar1 = BORG8_IconItemPotion;
+    break;
+  #ifdef DEBUGVER
   default:
     sprintf(err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",param_1,param_1 >> 8,param_1&0xFF);
     CRASH("menuimages.cpp",err);
-  case DB_POTION:
-    BVar1 = IconPotion;
+  #endif
   }
   *param_2 = BVar1;
   return true;
 }
 
-u8 getAspectIcon(u8 param_1,u32 *param_2){
+u8 getAspectIcon(u16 param_1,u32 *param_2){
   u16 i = 0;
   if (aspectIconCount) {
     for(i=0;i<aspectIconCount;i++) {
@@ -105,10 +107,10 @@ u8 GetSpellIcons(ItemID param_1,u32 *param_2,u32 *param_3,u32 *param_4){
   else return GetSpellIcon(param_1,param_4) != false;
 }
 
-u8 GetSkillIcons(u8 param_1,u32 *param_2){
+u8 GetSkillIcons(ItemID param_1,u32 *param_2){
   if (SkillIconCount) {
-    for(i=0;i < SkillIconCount;i++) {
-      if ((s16)param_1 == SkillIcons[i].key) {
+    for(u16 i=0;i < SkillIconCount;i++) {
+      if (param_1 == SkillIcons[i].key) {
         *param_2 = SkillIcons[i].value;
         return true;
       }

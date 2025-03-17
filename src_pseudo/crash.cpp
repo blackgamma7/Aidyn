@@ -39,7 +39,7 @@ void ManualCrash(void){
   gCrashManager.IsManualCrash = true;
   STRCPYSafe(gCrashManager.position,"RELEASE VERSION");
   STRCPYSafe(gCrashManager.Cause,"NO CRASH INFO");
-  osSendMesg(&gCrashManager.MesgQ,(OSMesg)0x1,0);
+  osSendMesg(&gCrashManager.MesgQ,(OSMesg)1,0);
 }
 #endif
 }

@@ -3,9 +3,9 @@
 #define FILENAME "./src/widgetarraymenu.cpp"
 
 BaseWidget * WAM_UpFunc(BaseWidget *param_1,BaseWidget *param_2){
-  ushort uVar1;
+  u16 uVar1;
   int iVar2;
-  ushort uVar3;
+  u16 uVar3;
   WAMSub *piVar2 = (WAMSub *)param_2->substruct;
   if (!piVar2->entryCount) return NULL;
   uVar3 = piVar2->entryPos;
@@ -26,9 +26,9 @@ BaseWidget * WAM_UpFunc(BaseWidget *param_1,BaseWidget *param_2){
 }
 
 BaseWidget * WAM_DownFunc(BaseWidget* param_1,BaseWidget *param_2){
-  ushort uVar1;
+  u16 uVar1;
   uint uVar2;
-  ushort uVar3;
+  u16 uVar3;
   WAMSub *piVar2 = (WAMSub *)param_2->substruct;
   if (!piVar2->entryCount) return NULL;
     uVar3 = piVar2->entryPos;
@@ -46,8 +46,8 @@ BaseWidget * WAM_DownFunc(BaseWidget* param_1,BaseWidget *param_2){
 }
 
 BaseWidget * WAM_LeftFunc(BaseWidget* param_1,BaseWidget *param_2){
-  ushort uVar1;
-  ushort uVar2;
+  u16 uVar1;
+  u16 uVar2;
   u16 uVar3;
   WAMSub *piVar3 = (WAMSub *)param_2->substruct;
   if (!piVar3->entryCount) return NULL;
@@ -68,7 +68,7 @@ BaseWidget * WAM_LeftFunc(BaseWidget* param_1,BaseWidget *param_2){
 }
 
 BaseWidget * WAM_RightFunc(BaseWidget* param_1,BaseWidget *param_2){
-  ushort uVar1;
+  u16 uVar1;
   uint uVar2;
   u16 uVar3;
   WAMSub *piVar2 = (WAMSub *)param_2->substruct;
@@ -158,16 +158,16 @@ Gfx * WidgetArrayMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
       RENDERCHILDREN();
 }
 u8 WidgetArrayMenu::Tick() {
-ushort uVar1;
-ushort uVar2;
-ushort uVar3;
+u16 uVar1;
+u16 uVar2;
+u16 uVar3;
 u16 uVar4;
 BaseWidget *pBVar5;
 ulong uVar7;
 ulong uVar8;
 bool bVar9;
 BaseWidget **ppBVar10;
-ushort x;
+u16 x;
 int iVar11;
 WAMSub *sub = (WAMSub *)this->substruct;
 uVar1 = this->boundX1;

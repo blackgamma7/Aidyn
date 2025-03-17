@@ -125,7 +125,7 @@ class WidgetContPakDataLoad: public WidgetContPakData{
 WidgetText* ContPakTextWidget(char *,void *,u16 );
 WidgetText* ContPakTextWidget2(u16 ,char *,void *);
 WidgetChild8 * FUN_80088a78(u16 ,char *);
-WidgetChild8 *FUN_80088aac(void *,WidgetHandler *,u16 ,char *,ushort );
+WidgetChild8 *FUN_80088aac(void *,WidgetHandler *,u16 ,char *,u16 );
 void open_mempak_menu(u32 ,u32 ,u32 ,u32,u32);
 u32 appState_2(Gfx **);
 byte appState2_control(void);
@@ -183,7 +183,7 @@ class ContPakWidget:WidgetMenu{
     void m80089b9c(u8);
     void LoadWindow();
     void PrintFreeSpace();
-    void PrintFile(u8 ,char *,char *,ushort);
+    void PrintFile(u8 ,char *,char *,u16);
     void PrintBlankFile(u8);
     void m8008a4e0();
     void m8008a554();

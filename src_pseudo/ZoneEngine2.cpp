@@ -336,7 +336,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
         return;
       }
       Gsprintf("Invalid Trigger Type: %d\n",(uint)VVar1);
-      N64Print::Print(gGlobals.text);
+      N64PRINT(gGlobals.text);
     }
   }
   return;
@@ -621,7 +621,7 @@ void FreeZoneEngineMemory(void){
   int iVar5;
 
   
-  N64Print::Print("FreeZoneEngineMemory\n");
+  N64PRINT("FreeZoneEngineMemory\n");
   gFreeZoneEngineTimer = 0x78;
   no_TP_vec3 = 1;
   if (FreeZoneEngineTimestamp == handeZoneEngineTimestamp)
@@ -816,7 +816,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
             Sky::SetBackgroundType(3,gGlobals.Sub.weather.skyBgdat,600.0);
           }
           else {
-            N64Print::Print("Different Precip types, Don't set sky\n");
+            N64PRINT("Different Precip types, Don't set sky\n");
           }
         }
         else {
@@ -1145,7 +1145,7 @@ void ConfirmPlayerWithinZone(playerData *param_1,Borg9data *param_2){
       (param_1->collision).pos.y = 50.0f;
       setVec3(&(param_1->collision).vel,0.0,0.0,0.0);
       if (!Actor::CheckCollision(param_1,0.0,0,0)) (param_1->collision).vel.y = -0.054f;
-      N64Print::Print("Where's the player??\n");
+      N64PRINT("Where's the player??\n");
       return;
     }
   }
@@ -2055,7 +2055,7 @@ void ZoneEngine::InitZoneEngine(u16 param_1,short param_2){
 }
 
 void SaveEngineZone(playerData *param_1,mapFloatDat *param_2){
-  if (!engineZone_flag) N64Print::Print("SaveZoneEngine Aborted");
+  if (!engineZone_flag) N64PRINT("SaveZoneEngine Aborted");
   else {
     param_2->mapDatA = gGlobals.Sub.mapDatA;
     param_2->mapDatB = gGlobals.Sub.mapDatB;
@@ -2165,11 +2165,11 @@ void VoxelIndexPosition(short delta,playerData *param_2){
       Gsprintf("\n\n\nGOING to Voxel Index: %d\nType: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n"
          ,uVar7,labels[(pvVar10->header).type],
          (pvVar10->header).pos.x,(pvVar10->header).pos.y,(pvVar10->header).pos.z);
-      N64Print::Print(gGlobals.text);
+      N64PRINT(gGlobals.text);
       if (voxel_index_pointer) {
         Gsprintf("\n\nAT V-Type: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n",labels[voxel_index_pointer->header.type],
                  voxel_index_pointer->header.pos.x,voxel_index_pointer->header.pos.y,voxel_index_pointer->header.pos.z);
-        N64Print::Print(gGlobals.text);
+        N64PRINT(gGlobals.text);
         if ((voxel_index_pointer->header).type == VOXEL_Scene) (voxel_index_pointer->header).Bitfeild = VOXEL_Active;
         (param_2->collision).pos.x = (voxel_index_pointer->header).pos.x;
         (param_2->collision).pos.y = (voxel_index_pointer->header).pos.y;
@@ -2233,7 +2233,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
     if (gGlobals.Sub.mapDatA == 0) bVar1 = (gGlobals.Sub.refObjPointer->teleport.MapDatA == 0);
     Gsprintf("pZ->map: %d\npT->map: %d\ndoReset: %d - %d\n"(int)gGlobals.Sub.mapDatA,
                 (uint)((gGlobals.Sub.refObjPointer)->teleport).MapDatA,uVar3,0);
-    N64Print::Print();
+    N64PRINT();
     #endif
     TeleportPlayer(player,gGlobals.Sub.refObjPointer,gGlobals.Sub.tpVec3);
     gGlobals.Sub.refObjPointer = NULL;

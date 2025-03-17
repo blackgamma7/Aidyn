@@ -27,7 +27,7 @@ u8 CharExp::GetAspect(){return (flags & CHAR_IsSolar) ? ASPECT_SOLAR:ASPECT_LUNA
 //file break?
 
 void ItemInstance::InitItem(ItemID param_2){
-  ushort uVar1 = (ushort)param_2 >> 8;
+  u16 uVar1 = (u16)param_2 >> 8;
   if ((uVar1 == DB_ARMOR) || (uVar1 == DB_SHIELD)) InitArmor(param_2);
   else if (uVar1 == DB_WEAPON) InitWeapon(param_2);
   else if (uVar1 == DB_POTION) InitPotion(param_2);

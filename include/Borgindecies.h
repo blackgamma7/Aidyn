@@ -126,6 +126,7 @@
 #define BORG7_Chicken           0x2ef2
 #define BORG7_pocho             0x32b0
 #define BORG7_Zombie            0x3489
+#define BORG7_Phelan            0x2808
 
 //borg6: Animation data?
 //used for the titlescreen flycam

@@ -26,7 +26,7 @@ class WidgetCinematicText:public WidgetMenu{
     s16 unk90;
     s16 unk92;
     u32 resize; //bool?
-    WidgetCinematicText(ushort (*dims) [4],short param_3,short param_4,Color32 *txtCol,u32 param_6);
+    WidgetCinematicText(u16 (*dims) [4],short param_3,short param_4,Color32 *txtCol,u32 param_6);
     ~WidgetCinematicText();
     virtual void SetText(char*);
 };

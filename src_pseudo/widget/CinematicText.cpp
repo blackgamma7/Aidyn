@@ -1,9 +1,9 @@
 #include "cinematics.h"
 
-WidgetCinematicText::WidgetCinematicText(ushort (*dims) [4],short param_3,short param_4,Color32 *txtCol,u32 param_6):WidgetMenu(){
-  ushort uVar1;
-  ushort uVar2;
-  ushort uVar3;
+WidgetCinematicText::WidgetCinematicText(u16 (*dims) [4],short param_3,short param_4,Color32 *txtCol,u32 param_6):WidgetMenu(){
+  u16 uVar1;
+  u16 uVar2;
+  u16 uVar3;
   BaseWidget *pBVar6;
   Borg8header *pBVar7;
   
@@ -41,14 +41,14 @@ WidgetCinematicText::~WidgetCinematicText(){
 }
 
 void WidgetCinematicText::SetText(char *txt){
-  ushort uVar1;
-  ushort uVar2;
-  ushort x;
-  ushort uVar3;
-  ushort uVar4;
+  u16 uVar1;
+  u16 uVar2;
+  u16 x;
+  u16 uVar3;
+  u16 uVar4;
   ulong uVar6;
   uint uVar7;
-  ushort uStack_4e;
+  u16 uStack_4e;
   
   strcpy(Utilities::GetWidgetText(this->textW),txt);
   if (this->resize) {

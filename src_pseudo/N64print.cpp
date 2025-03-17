@@ -157,10 +157,10 @@ Gfx* N64Print::Draw(Gfx*gfx,s16 delta){
   if (((gDebugFlag) && (show_debug_queue)) && (gN64PrintP)) {
     gN64PrintP->color.w -= (delta * (1.0/60));
     if (0.0 < gN64PrintP->color.w) {
-      fVar4 = gN64PrintP->color.x * 255.0f;
-      fVar5 = gN64PrintP->color.y * 255.0f;
-      fVar6 = gN64PrintP->color.z * 255.0f;
-      fVar3 = gN64PrintP->color.w * 255.0f;
+      fVar4 = gN64PrintP->color.r * 255.0f;
+      fVar5 = gN64PrintP->color.g * 255.0f;
+      fVar6 = gN64PrintP->color.b * 255.0f;
+      fVar3 = gN64PrintP->color.a * 255.0f;
       uVar2 = (u8)(s32)fVar3;
       if (1.0f < gN64PrintP->color.w) uVar2 = 0xff;
       gfx = Graphics::DrawText(gfx,gN64PrintP->text,0x12,0x32,(char)fVar4,(char)fVar5,(char)fVar6,uVar2);

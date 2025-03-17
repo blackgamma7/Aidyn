@@ -195,14 +195,14 @@ u32 EntityDB::GetBorg7(ItemID id){
   
   bVar3 = GetIDIndex(id);
   if ((u16)id >> 8 == DB_ENTITY) {
-    if (entity_info_array[0].Index != 0) {
+    if (entity_info_array[0].index != 0) {
       peVar6 = entity_info_array;
       iVar4 = 0;
-      uVar1 = entity_info_array[0].Index;
+      uVar1 = entity_info_array[0].index;
       while (pdVar7 = (dialougeEntity_Info *)entity_info_array,
             uVar1 != ((short)(char)bVar3 + 1U & 0xff)) {
         peVar6 = peVar6 + 1;
-        uVar1 = peVar6->Index;
+        uVar1 = peVar6->index;
         iVar4 += 0x1c;
         if (uVar1 == 0) {
           return 0x2d4a;
@@ -244,7 +244,7 @@ char * EntityDB::GetEntityName(ItemID id){
   bVar2 = GetIDIndex(id);
   switch(id >> 8){
     case 2: return this->entities[bVar2].Name;
-    case 14: return DialougEntityPointer->ents[bVar2].Name;
+    case DB_DIALOUGEENTITY: return DialougEntityPointer->ents[bVar2].Name;
     default:CRASH("Invalid ID type in GetEntityName!",FILENAME);
   };
 }

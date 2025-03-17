@@ -6,6 +6,8 @@
 #include "Controller.h"
 #include "animationData.h"
 
+#define PLAYER_ABS_MAXPLAYERS 40
+
 typedef enum PLAYERDATA_Flags {
     ACTOR_ISPLAYER=1,
     ACTOR_2=2,
@@ -40,13 +42,10 @@ struct playerData {
     u32 borg7;
     u32 nextBorg7;
     short ani_type;
-    undefined field7_0x16;
-    undefined field8_0x17;
-    short field9_0x18;
-    undefined field10_0x1a;
-    undefined field11_0x1b;
-    undefined field12_0x1c;
-    undefined field13_0x1d;
+    u16 unk16;
+    short unk18;
+    u16 unk1a;
+    u16 unk1c;
     u16 flags;
     vec2f facing;
     vec2f facingMirror;
@@ -55,10 +54,10 @@ struct playerData {
     float combatRadius;
     vec3f vec3_0x3c;
     vec3f vec3_0x48;
-    u32 field22_0x54;
-    float field23_0x58;
+    u32 unk54;
+    float unk58;
     float unk5c;
-    u16 field25_0x60;
+    u16 unk60;
     collisionSphere collision;
     vec3f positionMirror;
     EnvProp envprop;
@@ -66,10 +65,10 @@ struct playerData {
     SpeedProperty colTypeB;
     u16 Ground_type;
     u16 Ground_Type_New;
-    short field35_0x104;
+    short unk104;
     undefined field36_0x106;
     undefined field37_0x107;
-    float field38_0x108;
+    float unk108;
     float voxelReach; /* 100f default */
     vec3f voxelCoords;
     ControllerFull controller;
@@ -83,16 +82,16 @@ struct playerData {
     undefined field49_0x25f;
     vec2f aiDest;
     float wanderRadius;
-    vec2f field52_0x26c;
+    vec2f unk26c;
     vec3f combat_vec3;
     float combatMoveSpeed;
     u32 unk284; /* unused? */
     PlaneObj shadow;
     u8 unused518[496];
-    short field58_0x708;
+    short unk708;
     u8 visible_flag;
-    u8 alaron_flag;
-    char unk70c;
+    u8 alaron_flag; //set if Alaron's model
+    u8 unk70c; //used for alpha
     u8 zoneDatByte;
     u8 unk70ee;
     undefined field64_0x70f;
@@ -112,7 +111,7 @@ struct playerData {
     float unk760;
     vec3f CombatTint; /* tint by combat effect */
     vec3f skyTint; /* tint from environmental light */
-    char field81_0x77c;
+    char unk77c;
 };
 struct audiokey_struct {
     u8 (*a)[4];
@@ -129,13 +128,13 @@ struct PlayerHandler {
     undefined field4_0xa;
     undefined field5_0xb;
     playerData *playerDats;
-    s16 unk10[40];
+    s16 unk10[PLAYER_ABS_MAXPLAYERS];
     short playerCount;
     u16 counter;
     float float_0x64;
     float float_0x68;
     Borg1header *shadowTexture;
-    u32 field13_0x70;
+    Borg1header * unk70; //unused? queded for freeing.
     audiokey_struct *audiokey;
 };
 
@@ -153,7 +152,7 @@ namespace Actor{
     void ChangeAppearance(playerData *,u32);
     void FreePlayerActor(playerData *);
     void SetFlag(playerData *,u16);
-    void UnSetFlag(playerData *,u16);
+    void UnsetFlag(playerData *,u16);
     void DeathFlag(playerData *);
     void EmptyHands(playerData *);
     void Move(playerData *,controller_aidyn *);
@@ -200,3 +199,17 @@ void SetPlayerMoveToQueue(playerData *,float,float,float,s16);
 void FUN_80019770(playerData *);
 void FUN_80019b08(playerData *);
 void debug_sub_3(void);
+
+
+u32 _bigw_flag=0; //used for "!bigw" cheat
+u32 _balloon_flag=0; //used for "!balloon" cheat
+u32 _flea_flag=0;//used for "!flea" cheat
+
+u16 ProcessPlayersTally=0;
+
+u32 some_borg5= 0x25AA;
+
+vec3f player_coords_A;
+vec3f player_coords_b;
+u16 map_shorts_A[2];
+u16 map_shorts_b[2];

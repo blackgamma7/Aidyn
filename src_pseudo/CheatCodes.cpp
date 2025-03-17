@@ -4,9 +4,6 @@ struct StringCheat{
     u32 (*cheat)(void);};
 
 char** cheatStrings_pointer;
-u32 _bigw_flag;
-u32 _balloon_flag;
-u32 _flea_flag;
 u8 Cheats::check_for_cheats(char *param_1){
   s32 iVar6;
   u32 uVar7;
@@ -59,10 +56,10 @@ u8 Cheats::check_for_cheats(char *param_1){
   uVar7 = 0;
   if (pcStack168) {
     do {
-      if (strcmp(pcStack168[uVar7].code),param_1) == 0) {
+      if (strcmp(pcStack168[uVar7].code,param_1) == 0) {
         bVar8 = 1;
         if (gGlobals.BigAssMenu) {
-          if ((pcStack168[uVar7].cheat))() == 0) {
+          if (pcStack168[uVar7].cheat() == 0) {
             PLAYSFX(BORG12_CheatFail,0,1.0,0xb4,0);
             bVar8 = 1;}
           else {
@@ -123,7 +120,7 @@ u8 Cheats::_Cheater(void){ // +750000 EXP to party
   u32 uVar5;
   
   #ifndef DEBUGVER
-  if(getEventFlag(FLAG_cheater)){return false;} //no double-dipping in retail
+  if(getEventFlag(FLAG_cheater))return false; //no double-dipping in retail
   #endif
   setEventFlag(FLAG_cheater,true);
   if ((PARTY)->PartySize) {
@@ -144,7 +141,7 @@ u8 Cheats::_bingo(void){ //+100000 gold
   BaseWidget *pwVar1;
   char *pcVar2;
   #ifndef DEBUGVER
-  if(getEventFlag(FLAG_bingo)){return false;} //no double-dipping in retail
+  if(getEventFlag(FLAG_bingo))return false; //no double-dipping in retail
   #endif
   setEventFlag(FLAG_bingo,true);
   //Another menu update, crashing the title screen

@@ -25,6 +25,13 @@ namespace N64Print{
     Gfx* Draw(Gfx*gfx,s16 delta);
 };
 
+//discern between debug and retail print funcs
+#ifdef DEBUGVER
+#define N64PRINT(txt) N64Print::Print(txt)
+#else
+#define N64PRINT(txt) N64Print::Print()
+#endif
+
 N64PrintStruct* gN64PrintP;
 u16 show_debug_queue;
 u16 ofunc_value;

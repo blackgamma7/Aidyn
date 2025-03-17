@@ -481,6 +481,13 @@ struct Borg12Header {
     Borg12Data *dat;
 };
 
+struct borg6Data{
+    u32 borg5;
+    s32 unk4;
+    s32 unk8;
+    s32 unkc;
+};
+
 struct borg6header {
     uint field0_0x0;
     uint field1_0x4;
@@ -490,7 +497,7 @@ struct borg6header {
     AnimationData *anidat;
     void *field6_0x18;
     float field7_0x1c;
-    void *field8_0x20;
+    borg6Data *dat;
 };
 
 struct struct_45 {

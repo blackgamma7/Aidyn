@@ -464,7 +464,7 @@ void Ofunc_8000c788(char *param_1){
   OVar1 = osGetTime();
   uVar2 = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
   Gsprintf("%s : %llu\n",param_1,uVar2-ofunc_dat);
-  N64Print::Print(gGlobals.text);
+  N64PRINT(gGlobals.text);
   OVar1 = osGetTime();
   ofunc_dat = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
 }

@@ -89,12 +89,12 @@ Gfx * Render(Gfx *g,uint delta){
         if (delta != 0) {
           psVar3 = pAVar1->unk1c;
           for(u32 uVar6=0;uVar6<delta;uVar6++) {
-            if (pAVar2->aniTime < pAVar1->unk1c->field1_0x4->unk20[1].field4_0x4) {
+            if (pAVar2->aniTime < pAVar1->unk1c->field1_0x4->dat[1].field4_0x4) {
               FUN_800a00d0(pAVar1);
             }
           }
         }
-        if (pAVar2->aniTime < pAVar1->unk1c->field1_0x4->unk20[1].field4_0x4) {
+        if (pAVar2->aniTime < pAVar1->unk1c->field1_0x4->dat[1].field4_0x4) {
           Animation::MatrixASetPos(pAVar2,(x->pos).x,(x->pos).y,(x->pos).z);
           g = BorgAnimDrawSceneLinked(g,(AnimationData *)pAVar1);
         }
@@ -112,7 +112,7 @@ Gfx * Render(Gfx *g,uint delta){
     }
     iVar4 = uVar7 * 8;
     uVar6 = uVar7;
-  } while (uVar7 < 8);
+  } while (uVar7 < ATTACKVISUAL_MAXVISUALS);
   return g;
 }
 
@@ -121,9 +121,9 @@ Gfx * Render(Gfx *g,uint delta){
 void FreePlayer(playerData *param_1){
   if (attackVisualVars.p) {
     for(u32 i=0;i<ATTACKVISUAL_MAXVISUALS<i++) {
-        AttackVisualStruct3 *puVar1 = &attackVisualVars.p[i];
-      if (((puVar1->flag & 1)) && (puVar1->player == param_1)) {
-        puVar1->player = NULL;
+        AttackVisualStruct3 *p = &attackVisualVars.p[i];
+      if (((p->flag & 1)) && (p->player == param_1)) {
+        p->player = NULL;
       }
     }
   }
@@ -131,13 +131,13 @@ void FreePlayer(playerData *param_1){
 
 void Free(void){
   for (u32 i=0;i<ATTACKVISUAL_MAXVISUALS;i++) {
-    Borg7header * pvVar1 = attackVisualVars.p[i].borg7;
-    if (((u32)pvVar1->unk18&1)) FREEQB7(pvVar1);
+    AttackVisualStruct3 * p = &attackVisualVars.p[i];
+    if ((p->flag&1)) FREEQB7(p->borg7);
   }
   memset(attackVisualVars.p,0,sizeof(AttackVisualStruct3)*ATTACKVISUAL_MAXVISUALS);
-  HFREE(attackVisualVars.p,0x132);
+  HFREE(attackVisualVars.p,306);
   memset(attackVisualVars.bytearray,0,ATTACKVISUAL_MAXVISUALS);
-  HFREE(attackVisualVars.bytearray,0x135);
+  HFREE(attackVisualVars.bytearray,209);
   CLEAR(&attackVisualVars);
 }
 

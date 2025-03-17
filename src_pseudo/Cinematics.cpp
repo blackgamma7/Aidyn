@@ -89,17 +89,16 @@ void Cinematic::Load(u16 param_1,u16 param_2,s32 param_3){
   InitFade(param_1);
 }
 
-u16 Cinematic::Tick(Gfx**param_1){
+u16 Cinematic::Tick(Gfx**GG){
   s32 iVar1;
   u8 uVar3;
-  Gfx*pauVar2;
   u16 uVar4;
   
   uVar4 = (u16)gGlobals.screenFadeModeSwitch;
-  pauVar2 = *param_1;
-  if (cinematic_init_flag != 0) {
+  Gfx* g = *GG;
+  if (cinematic_init_flag) {
     noop_8005cfac();
-    if (gGlobals.QueueA.items != 0) {return uVar4;}
+    if (gGlobals.QueueA.items) return uVar4;
     cinematic_init_flag = 0;
     Cinematic::GetName();
   }
@@ -112,9 +111,9 @@ u16 Cinematic::Tick(Gfx**param_1){
     }
     if ((gGlobals.cinematic.Borg6) &&
        (gGlobals.cinematic.AniDat)) {
-      if ((gGlobals.cinematic.AniDat)->aniTime + iVar1) < *(s32 *)((gGlobals.cinematic.Borg6)->unk0x20 + 0xc) + -1) {
-        pauVar2 = Cinematic::Render(pauVar2,(s16)iVar1);
-        pauVar2 = Cinematic::Fade(pauVar2,iVar1);
+      if (gGlobals.cinematic.AniDat->aniTime + iVar1 < *(s32 *)((gGlobals.cinematic.Borg6)->unk0x20 + 0xc) + -1) {
+        g = Cinematic::Render(g,(s16)iVar1);
+        g = Cinematic::Fade(g,iVar1);
       }
       else {
         FreeScene();
@@ -138,8 +137,8 @@ u16 Cinematic::Tick(Gfx**param_1){
     cinematic_skip_flag = 0;
     uVar4 = Cinematic::EndCase();
   }
-  pauVar2 = N64Print::Draw(pauVar2,(s16)iVar1);
-  *param_1 = pauVar2;
+  g = N64Print::Draw(g,(s16)iVar1);
+  *GG = g;
   return uVar4;
 }
 
@@ -215,15 +214,15 @@ u16 Cinematic::Control(void){
   controller_aidyn *fStack24;
   
   for(sVar3 = 0,fStack24 = NULL;!Controller::GetInput(&fStack24,0);sVar3++) {
-    if ((fStack24->input & (START_BUTTON|B_BUTTON)) != 0) {
+    if ((fStack24->input & (START_BUTTON|B_BUTTON))) {
       gGlobals.cinematic.Bstart = 0;
     }
     #ifdef DEBUGVER //may not be for loop, increment above here.
-    if ((fStack24->input_2 & A_BUTTON) != 0) {sVar3 = 12;} //FF with B button
-    if ((fStack24->input_2 & B_BUTTON) != 0) {sVar3 = 1;}
+    if ((fStack24->input_2 & A_BUTTON)) sVar3 = 12; //FF with B button
+    if ((fStack24->input_2 & B_BUTTON)) sVar3 = 1;
     #endif
   }
-  if (sVar3 == 0) {sVar3 = 1;}
+  if (sVar3 == 0) sVar3 = 1;
   return sVar3;
 }
 
@@ -263,7 +262,7 @@ void Cinematic::LoadNextScene(void){
       DCM::Start(gGlobals.cinematic.BGIndex,gGlobals.cinematic.BGId,vol);
     }
     gGlobals.cinematic.Borg6 = get_borg_6(gGlobals.cinematic.borg6enums[gGlobals.cinematic.tally]);
-    gGlobals.cinematic.AniDat = BorgAnimLoadScene((gGlobals.cinematic.Borg6)->unk20->borg5);
+    gGlobals.cinematic.AniDat = BorgAnimLoadScene((gGlobals.cinematic.Borg6)->dat->borg5);
     AniDat_SetBorg6(gGlobals.cinematic.AniDat,gGlobals.cinematic.Borg6);
     Animation::SetFlag10(gGlobals.cinematic.AniDat);
     Animation::UnsetFlag80(gGlobals.cinematic.AniDat);

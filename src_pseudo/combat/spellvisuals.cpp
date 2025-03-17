@@ -373,7 +373,7 @@ LAB_800950ec:
     pSVar10->field7_0x2c = param_1;
     if (param_3 - 5 < 2) pSVar10->b7 = NULL;
     else {
-      pAVar6 = func_loading_borg7(BVar6,(ParticleEmmiter *)&gGlobals.Sub.particleEmmiter);
+      pAVar6 = func_loading_borg7(BVar6,&gGlobals.Sub.particleEmmiter);
       pAVar1 = pAVar6->aniDat;
       Animation::SetFlag40(pAVar1);
       Animation::SetFlag4(pAVar1);
@@ -447,7 +447,6 @@ void processSpellVisuals(uint param_1){
   int iVar6;
   bool bVar8;
   AnimationData *pAVar7;
-  undefined8 uVar5;
   SpellVisualTypeC *pSVar9;
   uint uVar10;
   SpellVisualTypeB *ppBVar12;
@@ -459,10 +458,8 @@ void processSpellVisuals(uint param_1){
   u8 uVar16;
   
   fVar4 = 255.0f;
-  uVar11 = 0;
-  iVar6 = 0;
-  do {
-    ppBVar12 = (SpellVisualTypeB *)(&(SpellVisuals.ptr1)->b7 + (iVar6 + uVar11) * 4);
+  for(uVar11=0;uVar11<SpellVisCountB;uVar11++) {
+    ppBVar12 = &SpellVisuals.ptr1[uVar11];
     if ((ppBVar12->flags & 1) != 0) {
       pSVar9 = SpellVisuals.ptr2 + (short)ppBVar12->field7_0x2c;
       if (((pSVar9->flags ^ 1) & 1) != 0) CRASH("ProcessSpellVisuals","!(pPlayer->flags & SPELLVISUAL_ALLOCED)");
@@ -481,13 +478,13 @@ void processSpellVisuals(uint param_1){
           pAVar7 = pBVar2->aniDat;
           if ((ppBVar12->flags & 0x10)) {
             FUN_800a0090(pBVar2,5);
-            ppBVar12->flags = ppBVar12->flags & 0xffffffef;
+            ppBVar12->flags &=~0x10;
           }
           uVar10 = 0;
           if (param_1 != 0) {
             psVar3 = pBVar2->unk1c;
             while( true ) {
-              if (pAVar7->aniTime < psVar3->field1_0x4->unk20->unkc) {
+              if (pAVar7->aniTime < psVar3->field1_0x4->dat->unkc) {
                 FUN_800a00d0(pBVar2);
               }
               uVar10 += 1;
@@ -495,7 +492,7 @@ void processSpellVisuals(uint param_1){
               psVar3 = pBVar2->unk1c;
             }
           }
-          if (pAVar7->aniTime < pBVar2->unk1c->field1_0x4->unk20->unkc) {
+          if (pAVar7->aniTime < pBVar2->unk1c->field1_0x4->dat->unkc) {
             Animation::MatrixASetPos(pAVar7,(ppBVar12->pos).x,(ppBVar12->pos).y,(ppBVar12->pos).z);
             Animation::SetModelTint(pAVar7,gGlobals.brightness * 255,gGlobals.brightness * 255,gGlobals.brightness * 255,0xff);
           }
@@ -507,7 +504,7 @@ void processSpellVisuals(uint param_1){
           }
         }
         else {
-          if (6 < bVar1) goto LAB_800959e0;
+          if (6 < bVar1) continue;
           if ((ppBVar12->flags & 0x20)) {
             if (DAT_800f1d94 == '\0') {
               if ((int)ppBVar12->field5_0x24 < (int)get_memFree_2()) {
@@ -517,7 +514,7 @@ void processSpellVisuals(uint param_1){
                 ppBVar12->aniDat = pAVar7;
               }
               else ppBVar12->b7 = NULL;
-              ppBVar12->flags = ppBVar12->flags & 0xffffffdf | 0x40;
+              ppBVar12->flags = ppBVar12->flags & ~0x20 | 0x40;
               DAT_800f1d94 = 5;
             }
             else DAT_800f1d94--;
@@ -528,7 +525,7 @@ void processSpellVisuals(uint param_1){
               SpellVisuals.lifeTime += param_1;
             }
             if (SpellVisuals.field7_0x1c <= (int)SpellVisuals.lifeTime) {
-              ppBVar12->flags = ppBVar12->flags & 0xffffffbf | 0x80;
+              ppBVar12->flags = ppBVar12->flags & ~0x40 | 0x80;
             }
             if (pAVar7) {
               fVar12 = __sinf(((float)(int)SpellVisuals.lifeTime /
@@ -540,12 +537,10 @@ void processSpellVisuals(uint param_1){
           if ((ppBVar12->flags & 0x80)){
             if (ppBVar12->aniDat) FREEQANI(ppBVar12);
             ppBVar12->b7 = NULL;
-            ppBVar12->flags = ppBVar12->flags & 0xffffff7f;
-            uVar5 = FUN_80094cd0(ppBVar12->field7_0x2c);
-            FUN_80095414(uVar5);
-            uVar10 = ppBVar12->flags;
+            ppBVar12->flags &= ~0x80;
+            FUN_80095414(FUN_80094cd0(ppBVar12->field7_0x2c));
           }
-          if (((uVar10 & 0x100)) && (!(uVar10 & 0x40))) {
+          if (((ppBVar12->flags & 0x100)) && (!(ppBVar12->flags & 0x40))) {
             ppBVar12->flags &= ~0x100;
 LAB_800959d4:
             ppBVar12->flags |= 0x400;
@@ -554,12 +549,7 @@ LAB_800959d4:
       }
     }
 LAB_800959e0:
-    uVar11 += 1;
-    if (0x7f < uVar11) {
-      return;
-    }
-    iVar6 = uVar11 * 2;
-  } while( true );
+  }
 }
 
 Gfx * FUN_80095a24(Gfx *param_1){
