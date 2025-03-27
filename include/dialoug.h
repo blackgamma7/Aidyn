@@ -6,6 +6,11 @@
 #include "widgets/handler.h"
 #include "PlayerData.h"
 
+struct SuperMenuClass{
+    Borg8header* img;
+    u32 index;
+};
+
 namespace SuperMenuClasses{
 void Init(s32);
 void Set();
@@ -15,13 +20,13 @@ Borg8header* Add(u32);
 
 class DiaMenuSub{
     public:
-    WidgetBorg8* Widgetborg8A;
+    WidgetBorg8* PortraitBorder;
     BaseWidget* unk4;
-    WidgetBorg8* Widgetborg8B;
-    WidgetBorg8* Widgetborg8C;
+    WidgetBorg8* Portrait;
+    WidgetBorg8* Background;
     u32 unk10;
     u32 unk14;
-    WidgetBorg8* Widgetborg8D;
+    WidgetBorg8* Gradient;
     u32 unk1c;
     WidgetText* text;
     WidgetShadowText* shadText;
@@ -66,7 +71,7 @@ struct dialougmode_substruct {
 class DialougeClass{
     public:
     u8 unk0;
-    WidgetMenu menu; //uses DiaMenuSub as substruct
+    WidgetMenu* menu; //uses DiaMenuSub as substruct
     dialougmode_substruct* dialouge_substruct;
     u32 unkC; //some boolean?
     WidgetHandler* handler;
@@ -92,3 +97,11 @@ class DialougeClass{
 
 void ofunc_sub_dialouge(DialougeClass*,borg13data *);
 void look_for_dialouge_v_Num(char *);
+
+BaseWidget* Dialoug_UpButton(BaseWidget*,BaseWidget*);
+BaseWidget* Dialoug_DownButton(BaseWidget*,BaseWidget*);
+BaseWidget* Dialoug_LeftButton(BaseWidget*,BaseWidget*);
+BaseWidget* Dialoug_RightButton(BaseWidget*,BaseWidget*);
+BaseWidget* Dialoug_AButton(BaseWidget*,BaseWidget*);
+BaseWidget* Dialoug_DebugEnd(BaseWidget*,BaseWidget*);
+BaseWidget* Dialoug_BButton(BaseWidget*,BaseWidget*);
