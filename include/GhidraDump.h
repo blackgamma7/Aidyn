@@ -21,28 +21,6 @@ struct astruct_1 {
     u8 *field6_0x8;
 };
 
-struct astruct_2 {
-    BaseWidget *Widgetborg8A;
-    BaseWidget *field1_0x4;
-    BaseWidget *Widgetborg8B;
-    BaseWidget *Widgetborg8C;
-    undefined field4_0x10;
-    undefined field5_0x11;
-    undefined field6_0x12;
-    undefined field7_0x13;
-    undefined field8_0x14;
-    undefined field9_0x15;
-    undefined field10_0x16;
-    undefined field11_0x17;
-    BaseWidget *WidgetBorg8D;
-    undefined field13_0x1c;
-    undefined field14_0x1d;
-    undefined field15_0x1e;
-    undefined field16_0x1f;
-    BaseWidget *text;
-    BaseWidget *field18_0x24;
-    BaseWidget *scrollMenu;
-};
 /*
 typedef enum Borg7Enum { // entity model data? 
     Blank=0,
@@ -323,12 +301,8 @@ struct borg5substruct {
     borg5substruct **links;
     u32 unk0x8;
     Mtx *mtxs;
-    float yaw;
-    float pitch;
-    float roll;
-    float x;
-    float y;
-    float z;
+    vec3f rot;
+    vec3f pos;
     float field12_0x28;
     float field13_0x2c;
     float field14_0x30;
@@ -407,16 +381,9 @@ struct DCM_sub {
     u8 unke;
     undefined field8_0xf;
 };
-
-typedef struct DialougeStruct DialougeStruct, *PDialougeStruct;
-
 typedef struct dialougmode_substruct dialougmode_substruct, *Pdialougmode_substruct;
 
-typedef struct WidgetHandler WidgetHandler, *PWidgetHandler;
-
 typedef struct borg13data borg13data, *Pborg13data;
-
-typedef struct struct_3 struct_3, *Pstruct_3;
 
 typedef struct borg13command borg13command, *Pborg13command;
 /*
@@ -451,173 +418,7 @@ typedef enum borg13_commands {
     give exp=56
 } borg13_commands;
 */
-struct struct_3 {
-    u8 field0_0x0;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    ItemID ent_ID;
-    undefined field5_0x6;
-    undefined field6_0x7;
-    char *txt;
-};
 
-struct dialougmode_substruct {
-    struct_3 unkstruct[8];
-    undefined field1_0x60;
-    undefined field2_0x61;
-    undefined field3_0x62;
-    undefined field4_0x63;
-    undefined field5_0x64;
-    undefined field6_0x65;
-    undefined field7_0x66;
-    undefined field8_0x67;
-    undefined field9_0x68;
-    undefined field10_0x69;
-    undefined field11_0x6a;
-    undefined field12_0x6b;
-    undefined field13_0x6c;
-    undefined field14_0x6d;
-    undefined field15_0x6e;
-    undefined field16_0x6f;
-    playerData **actors;
-    u16 actorCount;
-    undefined field19_0x76;
-    undefined field20_0x77;
-    undefined field21_0x78;
-    undefined field22_0x79;
-    undefined field23_0x7a;
-    undefined field24_0x7b;
-    undefined field25_0x7c;
-    undefined field26_0x7d;
-    undefined field27_0x7e;
-    undefined field28_0x7f;
-    undefined field29_0x80;
-    undefined field30_0x81;
-    undefined field31_0x82;
-    undefined field32_0x83;
-    undefined field33_0x84;
-    undefined field34_0x85;
-    undefined field35_0x86;
-    undefined field36_0x87;
-    undefined field37_0x88;
-    undefined field38_0x89;
-    undefined field39_0x8a;
-    undefined field40_0x8b;
-    undefined field41_0x8c;
-    undefined field42_0x8d;
-    undefined field43_0x8e;
-    undefined field44_0x8f;
-    undefined field45_0x90;
-    undefined field46_0x91;
-    undefined field47_0x92;
-    undefined field48_0x93;
-    undefined field49_0x94;
-    undefined field50_0x95;
-    undefined field51_0x96;
-    undefined field52_0x97;
-    undefined field53_0x98;
-    undefined field54_0x99;
-    undefined field55_0x9a;
-    undefined field56_0x9b;
-    undefined field57_0x9c;
-    undefined field58_0x9d;
-    undefined field59_0x9e;
-    undefined field60_0x9f;
-    undefined field61_0xa0;
-    undefined field62_0xa1;
-    undefined field63_0xa2;
-    undefined field64_0xa3;
-    undefined field65_0xa4;
-    undefined field66_0xa5;
-    undefined field67_0xa6;
-    undefined field68_0xa7;
-    undefined field69_0xa8;
-    undefined field70_0xa9;
-    undefined field71_0xaa;
-    undefined field72_0xab;
-    undefined field73_0xac;
-    undefined field74_0xad;
-    undefined field75_0xae;
-    undefined field76_0xaf;
-    undefined field77_0xb0;
-    undefined field78_0xb1;
-    undefined field79_0xb2;
-    undefined field80_0xb3;
-    undefined field81_0xb4;
-    undefined field82_0xb5;
-    undefined field83_0xb6;
-    undefined field84_0xb7;
-    undefined field85_0xb8;
-    undefined field86_0xb9;
-    undefined field87_0xba;
-    undefined field88_0xbb;
-    undefined field89_0xbc;
-    undefined field90_0xbd;
-    undefined field91_0xbe;
-    undefined field92_0xbf;
-    undefined field93_0xc0;
-    undefined field94_0xc1;
-    undefined field95_0xc2;
-    undefined field96_0xc3;
-    undefined field97_0xc4;
-    undefined field98_0xc5;
-    undefined field99_0xc6;
-    undefined field100_0xc7;
-    undefined field101_0xc8;
-    undefined field102_0xc9;
-    undefined field103_0xca;
-    undefined field104_0xcb;
-    undefined field105_0xcc;
-    undefined field106_0xcd;
-    undefined field107_0xce;
-    undefined field108_0xcf;
-    undefined field109_0xd0;
-    undefined field110_0xd1;
-    undefined field111_0xd2;
-    undefined field112_0xd3;
-    undefined field113_0xd4;
-    undefined field114_0xd5;
-    undefined field115_0xd6;
-    undefined field116_0xd7;
-    undefined field117_0xd8;
-    undefined field118_0xd9;
-    undefined field119_0xda;
-    undefined field120_0xdb;
-    undefined field121_0xdc;
-    undefined field122_0xdd;
-    undefined field123_0xde;
-    undefined field124_0xdf;
-    undefined field125_0xe0;
-    undefined field126_0xe1;
-    undefined field127_0xe2;
-    undefined field128_0xe3;
-    undefined field129_0xe4;
-    undefined field130_0xe5;
-    undefined field131_0xe6;
-    undefined field132_0xe7;
-    undefined field133_0xe8;
-    undefined field134_0xe9;
-    undefined field135_0xea;
-    undefined field136_0xeb;
-    undefined field137_0xec;
-    undefined field138_0xed;
-    undefined field139_0xee;
-    undefined field140_0xef;
-    u16 encounterEnemies[12];
-    u16 unk108;
-    ItemID Entid;
-    u16 RefpointID;
-    u16 unk10e;
-    char unk110;
-    u8 unk111;
-    u8 unk112;
-    u8 unk113;
-    u8 battlefeild;
-    u8 unk115;
-    u8 unk116;
-    undefined field153_0x117;
-};
 
 struct borg13data {
     borg13command *commands_pointer;
@@ -989,26 +790,7 @@ struct WidgetScrollList_Substruct {
     undefined field14_0x13;
 };
 
-typedef struct WidgetSubstruct_Shadowtext WidgetSubstruct_Shadowtext, *PWidgetSubstruct_Shadowtext;
 
-struct WidgetSubstruct_Shadowtext {
-    char *txt;
-    undefined field1_0x4;
-    undefined field2_0x5;
-    undefined field3_0x6;
-    undefined field4_0x7;
-    char *field5_0x8;
-    char *field6_0xc;
-    u16 field7_0x10;
-    u16 field8_0x12;
-    u16 field9_0x14;
-    u16 field10_0x16;
-    undefined field11_0x18;
-    undefined field12_0x19;
-    undefined field13_0x1a;
-    undefined field14_0x1b;
-    u32 field15_0x1c;
-};
 /*
 typedef enum Borg12Enum { // Music/SFX 
     Tacet=0,

@@ -18,3 +18,6 @@ void Sort(void** ToSort,uint ArraySize,uint EntrySize,Sorter SortFunc);
       memcpy(gQuicksortTempP,A,EntrySize);\
       memcpy(A,B,EntrySize);\
       memcpy(B,gQuicksortTempP,EntrySize)
+
+// no clue what this was for. pointer near end of .data
+void passto_NOOP_800bdb34();

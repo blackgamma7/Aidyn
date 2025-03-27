@@ -593,8 +593,8 @@ void SetBorgListing(void *,void *);
 u8 decompressBorg(void *,u32 ,u8 *,u32 ,u32 );
 s16 get_borg_listing_type(s32);
 s16 GetBorgItemInfo(BorgListing *,s32);
-void* get_borg_index_x4(s32);
-void * getBorgItem(s32);
+borgHeader* get_borg_index_x4(s32);
+borgHeader * getBorgItem(s32);
 void FUN_800a2de0(void);
 u8 get_borg_index_count(s32);
 void dec_borg_count(s32);
@@ -648,29 +648,21 @@ typedef u8 (*BorgFuncB)(void*,void*);
 
 u32 borgFlag=0;
 BorgFuncA borg_funcs_a[]={
-#if 0
 borg0_func_a,borg1_func_a,borg2_func_a,borg3_func_a,borg4_func_a,
 borg5_func_a,borg6_func_a,borg7_func_a,borg8_func_a,borg9_func_a,
 borg10_func_a,borg11_func_a,borg12_func_a,borg13_func_a,borg14_func_a
-#else
-NULL
-#endif
 };
 BorgFuncB borg_funcs_b[]={
-#if 0
 borg0_func_b,InitBorgTexture,borg2_func_b,borg3_func_b,borg4_func_b,
 InitBorgScene,borg6_func_b,borg7_func_b,borg8_func_b,borg9_func_b,
 borg10_func_b,borg11_func_b,borg12_func_b,borg13_func_b,borg14_func_b
-#else
-NULL
-#endif
 };
 
 s32 gBorgHeaderSizes[15]= {8,16,88,16,8,16,32,80,8,8,8,8,8,16,8};
 u8 animChache=3;
 u32 borg_mem[15]={0};
 u32 borg_count[15]={0};
-void** borg_index_x4=0;
+borgHeader** borg_index_x4=0;
 u8* borg_index_x1=0;
 void* BorgListingPointer=0;
 void* borgFilesPointer=0;

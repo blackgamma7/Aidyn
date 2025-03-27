@@ -218,8 +218,8 @@ u8 BaseWidget::Unlink(BaseWidget *other){
 }
 
 #define buttonMacro(name)\
-        if(!##name##ButtonFunc) return (BaseWidget*)NULL;\
-        return (##name##ButtonFunc)(link0,this);
+        if(##name##ButtonFunc) return (##name##ButtonFunc)(link0,this);\
+        return (BaseWidget*)NULL;\
 
 BaseWidget* BaseWidget::UpFunc(){buttonMacro(Up)}
 BaseWidget* BaseWidget::DownFunc(){buttonMacro(Down)}

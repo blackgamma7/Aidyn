@@ -20,6 +20,7 @@
 #include "spells.h"
 #include "particle.h"
 #include "cinematics.h"
+#include "dialoug.h"
 
 #include "crash.h"
 #include "heapN64.h"
@@ -130,7 +131,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u32 unk1508; /* unused? */
     MiniMap minimap;
     u8 unk15bc; /* start of struct? */
-    DialougeStruct *dialougStruct;
+    DialougeClass *dialougStruct;
     u32 unk15c4;
     CinematicStruct cinematic;
     Party *party;

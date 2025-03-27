@@ -84,3 +84,6 @@ void Quicksort::Sort(void** ToSort,uint ArraySize,uint EntrySize,Sorter SortFunc
   if (ArraySize) Run(ToSort,0,ArraySize - 1,EntrySize,SortFunc);
   HFREE(gQuicksortTempP,267);
 }
+
+void NOOP_800bdb34(u8 x, u16 y){}
+void passto_NOOP_800bdb34(){NOOP_800bdb34(1,0xFFFF);}
