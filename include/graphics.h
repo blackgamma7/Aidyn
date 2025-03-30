@@ -17,7 +17,7 @@ struct gfxManager {
     void* yieldData;
     void *FrameBuffers[FBCOUNT];
     s16 *DepthBuffer;
-    u8 (*textfont)[32]; /* for debug text */
+    u8 (*textfont)[8][4]; /* for debug text */
     u8 (*unk0x2c)[64]; /* white block? */
     OSViMode osvimodeCustom;
     int unk0x7c; /* unused? */

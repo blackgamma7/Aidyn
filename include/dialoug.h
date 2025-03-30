@@ -21,7 +21,7 @@ Borg8header* Add(u32);
 class DiaMenuSub{
     public:
     WidgetBorg8* PortraitBorder;
-    BaseWidget* unk4;
+    BaseWidget* unk4; //unused?
     WidgetBorg8* Portrait;
     WidgetBorg8* Background;
     u32 unk10;

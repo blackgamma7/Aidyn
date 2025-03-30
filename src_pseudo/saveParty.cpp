@@ -1,8 +1,8 @@
 #define FILENAME "./src/saveParty.cpp"
 
+#include "globals.h"
 #include "saveParty.h"
-#include "world.h"
-#include "heapN64.h"
+
 
 //repeated null-check that advances the bits in the save file.
 #define SKIPCHECK(p,x) if(!p) Advance(sav,x);\
@@ -80,7 +80,7 @@ void SaveParty::LoadItem(SaveFile *sav,ItemInstance *item){
   SKIPCHECK(item,0x1c) {
     u16 uVar1 = LoadBits(sav,0xd);
     SKIPCHECK(uVar1,0xf){
-      ItemInstance::InitItem((EquipInstance *)item,uVar1);
+      item->InitItem(uVar1);
       uVar1 = LoadBits(sav,5);
       if (item->spellCharge) item->spellCharge->Charges = uVar1;
       if (item->statMod) HFREE(item->statMod,308);
@@ -225,7 +225,7 @@ void SaveParty::SaveCharSheet(SaveFile *sav,CharSheet *chara){
   u8 i;
 
   SKIPCHECK(chara,720){
-    SaveBits(sav,(chara->ID).ID,8);
+    SaveBits(sav,chara->ID,8);
     SaveCharEXP(sav,chara->EXP);
     SaveCharStats(sav,chara);
     chara->Skills->Save(sav);
@@ -251,7 +251,6 @@ CharSheet * SaveParty::LoadCharSheet(SaveFile *sav){
     ALLOC(chara,952);
     Entity::Init(chara,(ItemID)(uVar1 + 0x200),3);
     Entity::UnequipAll(chara);
-    bVar2 = 0;
     LoadCharEXP(sav,chara->EXP);
     LoadCharStats(sav,chara->Stats);
     chara->Skills->LoadAll(sav);

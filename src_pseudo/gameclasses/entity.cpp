@@ -1568,7 +1568,7 @@ void Entity::ApplyEquipEffect(CharSheet *param_1,WeaponInstance *param_2){
   if (((param_2) &&
       (pTVar1 = param_2->enchantment, pTVar1)) &&
      (pTVar1->timer == -1)) {
-    ApplySpellEffect(param_1,pTVar1->index,(u32)pTVar1->lv,pTVar1->timer,pTVar1->unk0x3,NULL);
+    ApplySpellEffect(param_1,pTVar1->index,(u32)pTVar1->lv,pTVar1->timer,pTVar1->varA,NULL);
   }
   return;
 }
@@ -1603,7 +1603,7 @@ void Entity::WraithTouch(CharSheet *param_1,CombatEntity* cEnt,u8 num,u8 slot){
   u16 pow=RollD(2,6);
   CharStats::AddModdedMagic(param_1->Stats,stat,-pow);
   ALLOCL(param_1->effects[slot],3308);
-  TempEnchant::Init((param_1->effects[slot],SPELLIND_wraithTouch,pow,-1,stat,1);
+  TempEnchant::Init(param_1->effects[slot],SPELLIND_wraithTouch,pow,-1,stat,1);
 }
 
 void Entity::DarknessLightMagic(CharSheet *param_1,u8 param_2){
@@ -1698,7 +1698,7 @@ u8 Entity::HealHandsCheck(CharSheet *param_1){
   s32 iVar1;
   s32 iVar4;
   
-  cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_Healer);
+  cVar2 = param_1->Skills->getModdedSkill(SKILL_Healer);
   if (cVar2 == 0) return false;
   else {
     iVar1 = CharStats::getModded(param_1->Stats,STAT_STAM);
@@ -1714,7 +1714,7 @@ u8 Entity::HealHerbsCheck(CharSheet *param_1){
   s32 iVar1;
   s32 iVar4;
   
-  cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_Healer);
+  cVar2 = param_1->Skills->getModdedSkill(SKILL_Healer);
   bVar3 = false;
   if (cVar2) {
     if (!(PARTY)->Inventory->HasItem(itemID_array[31])) bVar3 = false;
@@ -1734,7 +1734,7 @@ u8 Entity::TroubadorCheck(CharSheet *param_1){
   u8 bVar3;
   s32 iVar4;
   
-  cVar2 = CharSkills::getModdedSkill(param_1->Skills,SKILL_Troubador);
+  cVar2 = param_1->Skills->getModdedSkill(SKILL_Troubador);
   if (cVar2 == 0) {bVar3 = false;}
   else {
     iVar1 = CharStats::getModded(param_1->Stats,STAT_STAM);
@@ -1745,9 +1745,7 @@ u8 Entity::TroubadorCheck(CharSheet *param_1){
   return bVar3;
 }
 
-ItemInstance * Has_Item_equipped_character(CharSheet *param_1,ItemID param_2)
-
-{
+ItemInstance * Has_Item_equipped_character(CharSheet *param_1,ItemID param_2){
   CharGear *pCVar1;
   GearInstance *pGVar2;
   u16 uVar3;
