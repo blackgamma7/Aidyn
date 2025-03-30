@@ -1,12 +1,15 @@
 #define FILENAME "./src/seed.cpp"
 
 #include "globals.h"
+#include "memcheck.h"
 
 OSMesg* PTR_800e8f30=NULL;
 void* osSched_stack=NULL;
 u64 gInitThreadStack[105]={0};
 OSThread gInitThread={0};
 OSSched gSched={0};
+OSMesgQueue pimgr_qeue={0};
+
 
 
 void bootproc(void){
@@ -18,9 +21,9 @@ void bootproc(void){
 
 void InitProc(void* p){
   CLEAR(&gGlobals);
-  crashthread_init(crash_handler,0,0x32,6);
+  Crash::InitProc(crash_handler,0,0x32,6);
   MemoryCheck((s32)romMain,&clear_end - &romMain);
-  HeapInit(gMemCheckStruct.HeapStart,gMemCheckStruct.mem_free_allocated);
+  HeapInit(gMemCheckStruct.heapStart,gMemCheckStruct.mem_free_allocated);
   ALLOCS(PTR_800e8f30,sizeof(OSMesg)*8,173);
   osCreatePiManager(OS_PRIORITY_PIMGR,&pimgr_qeue,PTR_800e8f30,8);
   ALLOCS(osSched_stack,0x2000,0xb1);

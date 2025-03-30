@@ -207,8 +207,8 @@ void clear_flycam(void){
   FreeZoneEngine(0);
   clear_sfx_entries(&gGlobals.SFXStruct,1);
   unlinkBorg6(flycam_borg6_ptr);
-  FREEQANI(&flycam_AniDat_ptr);
-  FREEQB6(&flycam_borg6_ptr);
+  FREEQANI(flycam_AniDat_ptr);
+  FREEQB6(flycam_borg6_ptr);
 }
 
 void start_intermediate_game(void){
@@ -216,7 +216,7 @@ void start_intermediate_game(void){
   if (gGlobals.titleScreen) {
     cVar1 = *(u8 *)((s32)(gGlobals.titleScreen)->substruct + 0x24);
     WHANDLE->FreeWidget(gGlobals.titleScreen);
-    FREEQW(&gGlobals.titleScreen);
+    FREEQW(gGlobals.titleScreen);
     gGlobals.titleScreen = NULL;
   }
   clear_flycam();
@@ -234,5 +234,5 @@ void start_intermediate_game(void){
   gGlobals.playerCharStruct.player_form = debugCharacters[0].borg7;
   gGlobals.playerCharStruct.collisionRadius = debugCharacters[0].f;
   DCM::Remove((byte)gGlobals.introMusicDatA,gGlobals.introMusicDatB);
-  FREEQB12(&gGlobals.introMusic);
+  FREEQB12(gGlobals.introMusic);
 }

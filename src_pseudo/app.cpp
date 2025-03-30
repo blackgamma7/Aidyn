@@ -2,6 +2,7 @@
 #define FILENAME "./src/app.cpp"
 
 #include "globals.h"
+#include "lensflare.h"
 #include "memaker.h"
 #include "n64Borg.h"
 
@@ -241,9 +242,9 @@ loop:
     osRecvMesg(&appManager.MesgQ2,(OSMesg*)ppsStack_3c,1);
     if (*psStack_40 == 1) {
       if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
-        if (resolution_mirror_check()) {
+        if (Graphics::ResolutionCheck()) {
           Gsprintf("StartGfxList()");
-          gfx0 = Graphics::gsStartGfxList();
+          gfx0 = Graphics::StartGfxList();
           Gsprintf("HandleAppFrame()");
           uVar10 = gGlobals.ticker + 1;
           if (doubleGlobalTickerFlag == 1) {
@@ -251,55 +252,63 @@ loop:
           }
           gGlobals.ticker = uVar10;
           gfx1 = appProc_caseSwitch(gfx0);
+          #ifdef DEBUGVER //print detailed debug stats in Debug version
           gfx1 = display_debug_stats(gfx1);
+          #else //print just player coords if Retail Version and !version cheat used
+          if ((version_flag != 0) && (gGlobals.playerChar.playerDat != NULL)) {
+            Sprintf(gGlobals.text,"%c%02d-(%2.1f,%2.1f)\n",gGlobals.Sub.mapShortA + ('A'-1)
+                    ,gGlobals.Sub.mapShortB,((gGlobals.playerChar.playerDat)->collision).position.x,
+                    ((gGlobals.playerChar.playerDat)->collision).position.z);
+            gfx1 = Graphics::DrawText(gfx1,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);
+          }
+          #endif
           NOOP_800a2448();
           gfx1 = ret_A0(gfx1);
-          gfx1 = gsDrawScreenRects(gfx1);
+          gfx1 = Graphics::EndList(gfx1);
           gListSizeMax = 0x3200;
           if (gExpPakFlag) gListSizeMax = 0x6400;
           uVar10 = (uint)((int)gfx1 - (int)gfx0) /sizeof(Gfx);
           if (gListSizeMax*sizeof(Gfx) < (uint)(gfx1 - (int)gfx0)) {
+            #ifdef DEBUGVER
             Gsprintf("GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",uVar10,gListSizeMax,
                         uVar10 - gListSizeMax);
+            #endif
             CRASH("app.cpp::AppProc",gGlobals.text);
           }
           uVar8 = doubleGlobalTickerFlag - 1;
           if (doubleGlobalTickerFlag == 0) {
-            osSendMesg(appManager.MesgQ,func_swapping_framebuffer_(dat_size,&appManager.MesgQ2),1);
+            osSendMesg(appManager.MesgQ,Graphics::CreateTask(gfx1,&appManager.MesgQ2),1);
             sVar9++;
             uVar8 = doubleGlobalTickerFlag;
           }
         }
         goto loop;
       }
-      sVar1 = *psStack_40;
     }
-    else {
-      sVar1 = *psStack_40;
-    }
-    if (sVar1 != 4) {
+    if (*psStack_40 != 4) {
       sVar7 = sVar9 + -1;
       uVar8 = doubleGlobalTickerFlag;
-      if (sVar1 == 2) {
+      if (*psStack_40 == 2) {
         Graphics::GetTaskTime(psStack_40);
         gGlobals.ticker++;
         sVar9 = sVar7;
-        if (0.0 < lensflare_floats.x) {
+        if (0.0 < gLensFlarePos.x) {
           uVar8 = doubleGlobalTickerFlag;
-          if (SCREEN_WIDTH <= lensflare_floats.x) {
+          //TODO: clean up as && bool checks
+          if (SCREEN_WIDTH <= gLensFlarePos.x) {
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
-          if (lensflare_floats.y <= 0.0) {
+          if (gLensFlarePos.y <= 0.0) {
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
-          if (SCREEN_HEIGHT <= lensflare_floats.y) {
+          if (SCREEN_HEIGHT <= gLensFlarePos.y) {
             gGlobals.appfunc_dat = 0;
             goto loop;
           }
-          s16 psVar6 = Graphics::GetDepthBuffer()();
-          if (psVar6[((u16)lensflare_floats.y * (Graphics::get_vres() / 240)) * Graphics::get_hres() + lensflare_floats.x * (Graphics::get_hres() / SCREEN_WIDTH)] == -4) {
+          s16* psVar6 = Graphics::GetDepthBuffer();
+          if (psVar6[((u16)gLensFlarePos.y * (Graphics::get_vres() / 240)) * Graphics::get_hres() + gLensFlarePos.x * (Graphics::get_hres() / SCREEN_WIDTH)] == -4) {
             gGlobals.appfunc_dat = 1;
             uVar8 = doubleGlobalTickerFlag;
             goto loop;
@@ -323,7 +332,6 @@ void appProc_init(void){
   fontface_struct *pfVar4;
   Borg8Enum BVar5;
   s32 uVar6;
-  
   Graphics::SetGfxMode(SCREEN_WIDTH,SCREEN_HEIGHT,16);
   Sky::Reset();
   InitFreeQueueHead(&gGlobals.QueueA);
@@ -369,9 +377,9 @@ void appProc_init(void){
   gGlobals.VolBGM = 0.65f;
 }
 
-Gfx* appProc_caseSwitch(Gfx** gg){
-  Gfx* g=*gg;
-  processQueueFree(&gGlobals.QueueA);
+Gfx* appProc_caseSwitch(Gfx* gg){
+  Gfx* g=gg;
+  ProcessFreeQueue(&gGlobals.QueueA);
   Process_queue_B(&gGlobals.QueueB,0);
   if (gGlobals.appstateBool) {
     switch(gGlobals.appstate) {

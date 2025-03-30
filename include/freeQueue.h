@@ -5,9 +5,9 @@ struct QueueStructAItem {
     short BorgSwitch;
     short pri;
 };
-
+#define FREEQUEUE_QUEUESIZE 0x100
 struct QueueStructA {
-    QueueStructAItem array[256];
+    QueueStructAItem array[FREEQUEUE_QUEUESIZE];
     u16 items;
 };
 
@@ -25,7 +25,7 @@ enum FreeQueueTypes{
     FreeQueue_Borg12,
 };
 
-#define FREEQ(p,type) AllocFreeQueueItem(&gGlobals.QueueA,p,FreeQueue_##type,0)
+#define FREEQ(p,type) AllocFreeQueueItem(&gGlobals.QueueA,(void**)&p,FreeQueue_##type,0)
 #define FREEQB7(p) FREEQ(p,Borg7) //Add Borg7 item to free queue
 #define FREEQANI(p) FREEQ(p,AniDat) //Add animation item to free queue
 #define FREEQB6(p) FREEQ(p,Borg6) //Add Borg6 item to free queue
@@ -39,5 +39,5 @@ enum FreeQueueTypes{
 
 void InitFreeQueueHead(QueueStructA *);
 void NOOP_800d6194();
-void AllocFreeQueueItem(QueueStructA *,void *,u16 ,u16 );
-void processQueueFree(QueueStructA *);
+void AllocFreeQueueItem(QueueStructA *,void **,u16 ,u16 );
+void ProcessFreeQueue(QueueStructA *);
