@@ -1,6 +1,7 @@
+#include "globals.h"
+#include "skyObjects.h"
 #define FILENAME "./src/zoneengine.cpp"
 
-#include "globals.h"
 #ifdef DEBUGVER
 #define DEBUGSprintf(fmt,...) Gsprintf(fmt,__VA_ARGS)
 #else
@@ -371,12 +372,12 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
   
   pBVar2 = param_1->mapPointer;
   if ((param_1->anidat0x4) && (param_2)) {
-    FREEQANI(&param_1->anidat0x4);
+    FREEQANI(param_1->anidat0x4);
     param_1->flag |= 1;
   }
   if (param_1->aniDat0x14){
     if (param_2) {
-      FREEQANI(&param_1->aniDat0x14);
+      FREEQANI(param_1->aniDat0x14);
       param_1->flag |= 2;
     }
   }
@@ -1258,8 +1259,8 @@ void SceneBoulders(Borg9data *param_1){
 void NoExpPak_ClearSceneVoxelIndex(Scene_obj_dat *param_1,u16 param_2){
   if (!gExpPakFlag) {
     if (param_1->borgArray[param_2].b7) {
-      if (!(param_1->sceneflags & 2)) FREEQANI(&param_1->borgArray[param_2].b7);
-      else FREEQB7(&param_1->borgArray[param_2].b7);
+      if (!(param_1->sceneflags & 2)) FREEQANI(param_1->borgArray[param_2].b7);
+      else FREEQB7(param_1->borgArray[param_2].b7);
     }
   }
 }
@@ -1268,8 +1269,8 @@ void NoExpPak_ClearSceneVoxel(Scene_obj_dat *param_1){
   if ((!gExpPakFlag) && (param_1->BorgCount)) {
     for(u16 i=0;i<param_1->BorgCount;i++){
       if (param_1->borgArray[i].b7) {
-        if ((param_1->sceneflags & 2) == 0) FREEQANI(&param_1->borgArray[i].aniDat);
-        else FREEQB7(&param_1->borgArray[i].b7);
+        if ((param_1->sceneflags & 2) == 0) FREEQANI(param_1->borgArray[i].aniDat);
+        else FREEQB7(param_1->borgArray[i].b7);
       }
     }
   }
@@ -2149,9 +2150,19 @@ void VoxelIndexPosition(short delta,playerData *param_2){
   pvVar10 = voxel_index_pointer;
   if (voxel_index != 0) {
     pBVar6 = GetCollisionZone(param_2->zoneDatByte);
-    char labels[][24] ={"VOBJECT_CONTAINER","VOBJECT_LIGHT","VOBJECT_AUDIO","VOBJECT_WANDERNODE",
-   "VOBJECT_MONSTERPARTY","VOBJECT_REFERENCEPOINT","VOBJECT_TELEPORTER","VOBJECT_CAMERA","VOBJECT_DIALOGUE",
-   "VOBJECT_TRIGGER","VOBJECT_SAVEPOINT","VOBJECT_CODE"};
+    char labels[][24] ={
+      "VOBJECT_CONTAINER",
+      "VOBJECT_LIGHT",
+      "VOBJECT_AUDIO",
+      "VOBJECT_WANDERNODE",
+      "VOBJECT_MONSTERPARTY",
+      "VOBJECT_REFERENCEPOINT",
+      "VOBJECT_TELEPORTER",
+      "VOBJECT_CAMERA",
+      "VOBJECT_DIALOGUE",
+      "VOBJECT_TRIGGER",
+      "VOBJECT_SAVEPOINT",
+      "VOBJECT_CODE"};
     uVar7 = (uint)voxel_index_timer;
     voxel_index_timer = (u16)(uVar7 - (int)delta);
     pvVar10 = voxel_index_pointer;
@@ -2286,8 +2297,8 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   if (gGlobals.Sub.gamemodeType != 2) G = Sky::RenderSky(G,delta);
   if (gGlobals.sky.Type == 3) {
     DEBUGSprintf("RenderSkyObjects/RenderClouds");
-    G = Skyobjects::RenderClouds(G);
-    G = Clouds::Draw(G);
+    G = Skyobjects::Render(G);
+    G = Clouds::Render(G);
   }
   Gsprintf("RenderZones");
   if (!player) RenderZones(&G,&gGlobals.Sub.camera.aim,delta);

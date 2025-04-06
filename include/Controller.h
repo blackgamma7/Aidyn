@@ -118,5 +118,5 @@ namespace Controller{
 
 #define ContThreadStack 0x448
 
-//not in libreultra.
+//Initalize Transfer Pak. not in libreultra.
 extern s32 osGbpakInit(OSMesgQueue *siMessegeQ,OSPfs *pfs,int channel);

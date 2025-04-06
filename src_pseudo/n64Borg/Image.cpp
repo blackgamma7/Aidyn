@@ -39,8 +39,8 @@ Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
   u32 word1;
   u32 word0;
   
-  sImageHScale = h / SCREEN_WIDTH;
-  sImageVScale = v / 240.0f;
+  sImageHScale = h / (float)SCREEN_WIDTH;
+  sImageVScale = v / (float)SCREEN_HEIGHT;
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_1CYCLE);
   gDPPipelineMode(gfx++,G_PM_1PRIMITIVE);

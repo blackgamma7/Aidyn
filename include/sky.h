@@ -7,7 +7,7 @@ struct SkySubstruct {
 };
 
 struct SkyStruct {
-    u16 Type; /* no more than 5 */
+    u16 Type; /* no more than 5.  3=outside*/
     SkySubstruct obj4;
     SkySubstruct obj10;
     Color32 *gradient;

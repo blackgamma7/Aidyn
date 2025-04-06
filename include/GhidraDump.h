@@ -1541,15 +1541,6 @@ struct CityMarkers {
     u16 y;
 };
 
-typedef struct cloudStruct cloudStruct, *PcloudStruct;
-
-struct cloudStruct {
-    u8 index;
-    vec3f v3;
-    u32 unused;
-    Color32 col;
-    float f3;
-};
 
 typedef struct crash_DatString crash_DatString, *Pcrash_DatString;
 
@@ -1970,14 +1961,6 @@ struct KKBufferEvent {
     u8 buffer[240];
 };
 
-typedef struct lensflare_data lensflare_data, *Plensflare_data;
-
-struct lensflare_data {
-    u8 dat0;
-    float f0;
-    float f1;
-    Color32 col;
-};
 
 typedef struct locatorStruct locatorStruct, *PlocatorStruct;
 
@@ -2114,18 +2097,6 @@ typedef struct shop_pointer shop_pointer, *Pshop_pointer;
 struct shop_pointer {
     u8 total; /* number of shops */
     shop_ram *shops; /* shops' listing */
-};
-
-typedef byte ShortLE[2];
-
-typedef struct SkyobjectStruct SkyobjectStruct, *PSkyobjectStruct;
-
-struct SkyobjectStruct {
-    u8 byte0;
-    float f0;
-    float f1;
-    float f2;
-    Color32 col;
 };
 
 

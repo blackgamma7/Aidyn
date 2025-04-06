@@ -2,7 +2,7 @@
 #define FILENAME "./src/app.cpp"
 
 #include "globals.h"
-#include "lensflare.h"
+#include "skyObjects.h"
 #include "memaker.h"
 #include "n64Borg.h"
 
@@ -48,26 +48,18 @@ Gfx * display_debug_stats(Gfx *gfx){
   float fVar15;
   if ((gDebugFlag) && (1.0f <= gGlobals.delta)) {
     if (gGlobals.DebugStatDisplay - 1 < 3) gfx = Graphics::DisplaySystemMonitor(gfx);
+    //print (estimated) frame rate in bottom-left corner
     Gsprintf("%2d",(s16)(60.0 / gGlobals.delta));
-    gfx = Graphics::DrawText(gfx,gGlobals.text,0x120,0xd7,0x80,0x80,0x80,0xff);
+    gfx = Graphics::DrawText(gfx,gGlobals.text,(SCREEN_WIDTH-32),(SCREEN_HEIGHT-25),0x80,0x80,0x80,0xff);
     if (gGlobals.DebugStatDisplay) {
       RSPFUNC6(gfx);
       ppVar1 = gGlobals.playerCharStruct.playerDat;
       if ((gGlobals.DebugStatDisplay & 1)) {
         uVar2 = get_obj_free();
         uVar3 = get_MemFree();
-        dVar11 = (double)uVar3;
-        if ((int)uVar3 < 0) {
-          dVar11 = dVar11 + UINT_MAX_d;
-        }
-        fVar14 = (float)dVar11;
-        uVar4 = get_memFree_2();
-        dVar11 = (double)uVar4;
-        if ((int)uVar4 < 0) {
-          dVar11 = dVar11 + UINT_MAX_d;
-        }
+        fVar14 = (float)get_MemFree();
         uVar9 = 0x114;
-        fVar15 = (float)dVar11;
+        fVar15 = (float)get_memFree_2();
         gfx_00 = gsFadeInOut(gfx,18,196,0x114,0xde,0,0,0,0x80);
         if (ppVar1 == NULL) {
           fVar12 = fVar14 * (float)(1.0f/1024);
@@ -256,7 +248,7 @@ loop:
           gfx1 = display_debug_stats(gfx1);
           #else //print just player coords if Retail Version and !version cheat used
           if ((version_flag != 0) && (gGlobals.playerChar.playerDat != NULL)) {
-            Sprintf(gGlobals.text,"%c%02d-(%2.1f,%2.1f)\n",gGlobals.Sub.mapShortA + ('A'-1)
+            Gsprintf("%c%02d-(%2.1f,%2.1f)\n",gGlobals.Sub.mapShortA + ('A'-1)
                     ,gGlobals.Sub.mapShortB,((gGlobals.playerChar.playerDat)->collision).position.x,
                     ((gGlobals.playerChar.playerDat)->collision).position.z);
             gfx1 = Graphics::DrawText(gfx1,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);
@@ -269,10 +261,8 @@ loop:
           if (gExpPakFlag) gListSizeMax = 0x6400;
           uVar10 = (uint)((int)gfx1 - (int)gfx0) /sizeof(Gfx);
           if (gListSizeMax*sizeof(Gfx) < (uint)(gfx1 - (int)gfx0)) {
-            #ifdef DEBUGVER
             Gsprintf("GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",uVar10,gListSizeMax,
                         uVar10 - gListSizeMax);
-            #endif
             CRASH("app.cpp::AppProc",gGlobals.text);
           }
           uVar8 = doubleGlobalTickerFlag - 1;

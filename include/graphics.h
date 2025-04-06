@@ -18,7 +18,10 @@ struct gfxManager {
     void *FrameBuffers[FBCOUNT];
     s16 *DepthBuffer;
     u8 (*textfont)[8][4]; /* for debug text */
-    u8 (*unk0x2c)[64]; /* white block? */
+    u8 (*unkBlock)[8][8]; /* white 8x8 8-bit block */
+    #ifdef VER_NA11
+    OSViMode osvimodeBuffer;
+    #endif
     OSViMode osvimodeCustom;
     int unk0x7c; /* unused? */
     OSScTask tasks[FBCOUNT];
@@ -69,6 +72,7 @@ u32 get_vres();
 u32 get_colorDepth();
 void getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres);
 void passto_GetGfxLastFrame(void*,u16,u16,u8);
-Gfx* DrawText(Gfx *,char *,u16 ,u16 ,u8 ,u8,u8,u8);
+Gfx * DrawBlock(Gfx *gfx,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a);
+Gfx* DrawText(Gfx *,char *,u16,u16,u8,u8,u8,u8);
 Gfx* DisplaySystemMonitor(Gfx *);
 };

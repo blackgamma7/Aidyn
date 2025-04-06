@@ -175,7 +175,7 @@ Gfx * CombatMarkers::RenderMarker(Gfx *param_1,CombatMarker *param_2){
 
 void CombatMarkers::Free(void){
   for(u32 i=0;i<MARKERMAX;i++){
-    FREEQANI(&gCombatMarkers[i].borg);
+    FREEQANI(gCombatMarkers[i].borg);
     gCombatMarkers[i].borg=NULL;
   }
   CLEAR(gCombatMarkers);

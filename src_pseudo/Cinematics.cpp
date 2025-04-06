@@ -145,12 +145,12 @@ u16 Cinematic::Tick(Gfx**GG){
 void Cinematic::FreeScene(void){
   if (gGlobals.cinematic.Borg6) {
     unlinkBorg6(gGlobals.cinematic.Borg6);
-    FREEQB6(&gGlobals.cinematic.Borg6);
+    FREEQB6(gGlobals.cinematic.Borg6);
   }
-  if (gGlobals.cinematic.AniDat) FREEQANI(&gGlobals.cinematic);
+  if (gGlobals.cinematic.AniDat) FREEQANI(gGlobals.cinematic);
   if (gGlobals.cinematic.BGM) {
     DCM::Remove(gGlobals.cinematic.BGIndex,gGlobals.cinematic.BGId);
-    FREEQB12(&gGlobals.cinematic.BGM);
+    FREEQB12(gGlobals.cinematic.BGM);
   }
   return;
 }

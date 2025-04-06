@@ -1,6 +1,7 @@
 #include "../ultra/include/2.0I/ultra64.h"
 #include "../ultra/include/2.0I/PR/sched.h"
 
+extern s32 osAfterPreNMI(void); //not in libreultra
 
 typedef unsigned char   undefined;
 typedef unsigned char    byte;
@@ -32,6 +33,8 @@ typedef union Color32 {
 #define YELLOW_T 0xc8,0xc8,0,0xe1
 
 #define IABS(x) if(x<0) x=-x
+
+#define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 
 #define FLOOR(x,lo) if(x<lo) x=lo
 #define CIEL(x,hi) if(x>hi) x=hi

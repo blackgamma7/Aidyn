@@ -2,13 +2,13 @@
 #include "stringN64.h"
 
 
-struct CrashManager gCrashManager;
+struct CrashManager gCrashManager={0};
 namespace Crash{
-void InitProc(void *arg0,void* arg1,u8 Pri,u16 ID){
+void InitProc(void (*handle)(CrashSub*),void* arg1,u8 Pri,u16 ID){
   CLEAR(&gCrashManager);
-  gCrashManager.crash_func_arg = arg1;
-  gCrashManager.Func = arg0;
-  osCreateThread(&gCrashManager.Thread,ID,CrashProc,NULL,&gCrashManager.Thread,Pri;
+  gCrashManager.sub.var0 = (u32)arg1;
+  gCrashManager.Func = handle;
+  osCreateThread(&gCrashManager.Thread,ID,CrashProc,NULL,&gCrashManager.Thread,Pri);
   osStartThread(&gCrashManager.Thread);}
 
 void CrashProc(void* x){
@@ -17,28 +17,28 @@ void CrashProc(void* x){
   InitEventMesg();
   while(1) {
     osRecvMesg(&gCrashManager.MesgQ,&temp,1);
-    (*gCrashManager.Func)(&gCrashManager.crash_func_arg);
+    (*gCrashManager.Func)(&gCrashManager.sub);
   }
 }
 
 void InitEventMesg(void){
   osCreateMesgQueue(&gCrashManager.MesgQ,&gCrashManager.Mesgs,1);
   osSetEventMesg(OS_EVENT_FAULT,&gCrashManager.MesgQ,(OSMesg)1);
-  gCrashManager.IsManualCrash = false;
+  gCrashManager.sub.IsManualCrash = false;
 }
 
 #ifdef DEBUGVER
 void ManualCrash(char *pos,char *cause){
-  gCrashManager.IsManualCrash = true;
-  STRCPYSafe(gCrashManager.position,pos);
-  STRCPYSafe(gCrashManager.Cause,cause);
+  gCrashManager.sub.IsManualCrash = true;
+  STRCPYSafe(gCrashManager.sub.position,pos);
+  STRCPYSafe(gCrashManager.sub.Cause,cause);
   osSendMesg(&gCrashManager.MesgQ,(OSMesg)1,0);
 }
 #else
 void ManualCrash(void){
   gCrashManager.IsManualCrash = true;
-  STRCPYSafe(gCrashManager.position,"RELEASE VERSION");
-  STRCPYSafe(gCrashManager.Cause,"NO CRASH INFO");
+  STRCPYSafe(gCrashManager.sub.position,"RELEASE VERSION");
+  STRCPYSafe(gCrashManager.sub.Cause,"NO CRASH INFO");
   osSendMesg(&gCrashManager.MesgQ,(OSMesg)1,0);
 }
 #endif

@@ -10,74 +10,82 @@ void InitFreeQueueHead(QueueStructA *q){
 }
 
 void AllocFreeQueueItem(QueueStructA *q,void **p,ushort type,ushort pri){
-  QueueStructAItem *pQVar4 = q->array + q->items++;
+  QueueStructAItem *entry = q->array + q->items++;
   if (FREEQUEUE_QUEUESIZE <= q->items) CRASH("AllocFreeQueueItem","Too Many Items!\nIncrease FREEQUEUE_QUEUESIZE\n");
   if(type>FreeQueue_Borg12){
+    #ifdef DEBUGVER
     char errBuff [152];
     sprintf(errBuff,"Unknown Type: %d\n",type);
     CRASH("AllocFreeQueueItem",errBuff);
+    #else
+    CRASH("","");
+    #endif
   }
-    pQVar4->pri = pri;
-    pQVar4->BorgSwitch = type;
-    pQVar4->BorgPointer = *p;
+    entry->pri = pri;
+    entry->BorgSwitch = type;
+    entry->BorgPointer = *p;
     *p = NULL;
 }
 
 void ProcessFreeQueue(QueueStructA *param_1){
   short sVar1;
   int iVar2;
-  QueueStructAItem *pQVar3;
-  QueueStructAItem *ppBVar4;
+  QueueStructAItem *next;
+  QueueStructAItem *entry;
   int iVar5;
   
   iVar5 = 0;
   if (param_1->items) {
     if (param_1->items) {
       for(u16 i=0;i<FREEQUEUE_QUEUESIZE;i++) {
-        ppBVar4 = &param_1->array[i];
-        if (ppBVar4->pri == 0) {
-          switch(ppBVar4->BorgSwitch) {
+        entry = &param_1->array[i];
+        if (entry->pri == 0) {
+          switch(entry->BorgSwitch) {
           case FreeQueue_Borg7:
-            FUN_8009fca8((Borg7header *)ppBVar4->BorgPointer);
+            FUN_8009fca8((Borg7header *)entry->BorgPointer);
             break;
           case FreeQueue_AniDat:
-            borganim_free((AnimationData *)ppBVar4->BorgPointer);
+            borganim_free((AnimationData *)entry->BorgPointer);
             break;
           case FreeQueue_Borg6:
-            passto_borg_6_free((borg6header *)ppBVar4->BorgPointer);
+            passto_borg_6_free((borg6header *)entry->BorgPointer);
             break;
           case FreeQueue_Borg1:
-            borg1_free((Borg1header *)ppBVar4->BorgPointer);
+            borg1_free((Borg1header *)entry->BorgPointer);
             break;
           case FreeQueue_Borg8:
-            borg8_free((Borg8header *)ppBVar4->BorgPointer);
+            borg8_free((Borg8header *)entry->BorgPointer);
             break;
           case FreeQueue_Borg13:
-            passto_borg13_free((borg13header *)ppBVar4->BorgPointer);
+            passto_borg13_free((borg13header *)entry->BorgPointer);
             break;
           case FreeQueue_Widget:
-            BaseWidget *w = (BaseWidget *)ppBVar4->BorgPointer;
+            BaseWidget *w = (BaseWidget *)entry->BorgPointer;
             if (w) w->~BaseWidget();
             break;
           case FreeQueue_Other:
-            HFREE(ppBVar4->BorgPointer,0xaa);
+            HFREE(entry->BorgPointer,0xaa);
             break;
           case FreeQueue_Borg12:
-            free_borg_12((Borg12Header *)ppBVar4->BorgPointer);
+            free_borg_12((Borg12Header *)entry->BorgPointer);
             break;
           default:
+          #ifdef DEBUGVER
            char errBuff[144];
-            sprintf(errBuff,"Unknown Item Type: %d",ppBVar4->BorgSwitch);
+            sprintf(errBuff,"Unknown Item Type: %d",entry->BorgSwitch);
             CRASH("ProcessFreeQueue",errBuff);
+            #else
+            CRASH("","");
+            #endif
           }
         }
         else {
-          ppBVar4->pri--;
-          pQVar3 = param_1->array + iVar5;
-          pQVar3->BorgPointer = ppBVar4->BorgPointer;
+          entry->pri--;
+          next = param_1->array + iVar5;
+          next->BorgPointer = entry->BorgPointer;
           iVar5++;
-          pQVar3->BorgSwitch = ppBVar4->BorgSwitch;
-          pQVar3->pri = ppBVar4->pri;
+          next->BorgSwitch = entry->BorgSwitch;
+          next->pri = entry->pri;
         }
       }
     }

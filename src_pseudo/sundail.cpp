@@ -160,7 +160,7 @@ void Free(void){
   FREEIMG(MoonPhase5);
   FREEIMG(SunBig);
   FREEIMG(SunSmall);
-  FREEQBP(&gSundail);
+  FREEQBP(gSundail);
   gSundail = NULL;
 }
 }

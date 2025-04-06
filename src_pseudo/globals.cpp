@@ -504,10 +504,11 @@ void Ofunc_8000c850(float param_1)
 //now, to more sensible programming.
 void minimap_struct_init_or_free(u8 param_1,s16 param_2){
   if (param_2 == -1) {
-    if (param_1 == false) passto_minimap_struct_free(&MinimapStruct);
-    else minimap_struct_init(&MinimapStruct);
+    if (param_1 == false) MiniMap::Init(&MinimapStruct);
+    else MiniMap::Free2(&MinimapStruct);
   }
 }
-
+//found at the bottom of .data in an unused table.
 void minimap_struct_init_2(void){minimap_struct_init_or_free(true,-1);}
+//found at the bottom of .data in an unused table.
 void minimap_struct_free_2(void){minimap_struct_init_or_free(false,-1);}

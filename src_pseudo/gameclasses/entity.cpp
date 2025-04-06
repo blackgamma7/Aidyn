@@ -139,7 +139,7 @@ void Entity::Free(CharSheet *param_1){
     FREE(param_1->potionEffects,0x17b);
   }
   if (param_1->portrait) {
-    FREEQB8(&param_1->portrait);
+    FREEQB8(param_1->portrait);
     param_1->portrait = NULL;
   }
   FREEPTR(param_1->Stats,392);
