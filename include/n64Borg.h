@@ -98,11 +98,15 @@ struct voxelHeader {
     u32 timestamp; /* when was it called */
     u16 Bitfeild; /* Flags for rendering */
     u16 type; /* object type */
-    short LinkID[2]; /* usually 0xFFFFFFFF (none) */
+    short LinkID[2]; //index of linked voxel(s) (usually -1 aka none)
     u16 flagA; /* event flags */
     u16 flagB;
     u16 flagC;
     void *ptr0x24;
+};
+
+enum TreasureType{
+ Loot_Chest, Loot_Bag, Loot_Box, Loot_Barrel, Loot_Herb, Loot_Spice, Loot_Gem, Loot_Misc
 };
 
 struct container_Dat {
@@ -113,13 +117,13 @@ struct container_Dat {
     short trap_lv;
     u16 unk0x14;
     ItemID LootCat; /* chestdb id */
-    u16 LootType;
+    u16 LootType; // uses TreasureType
     u8 LockLV[2];
     u16 Gold; /* money */
     ItemID item; /* static item */
     u16 unk1A; /* align? */
     short lootCatDrop[6][2]; /* populated with chestdb items */
-    u8 field13_0x34[16];
+    u8 field13_0x34[16]; //align?
 };
 
 struct teleport_dat {
@@ -495,7 +499,7 @@ struct borg6header {
     borg6header *link;
     u32 flag;
     AnimationData *anidat;
-    void *field6_0x18;
+    u32 flag2;
     float field7_0x1c;
     borg6Data *dat;
 };
@@ -508,10 +512,10 @@ struct struct_45 {
 struct Borg1Data {
     u16 type;
     u16 flag;
-    u8 height;
-    u8 width;
-    u8 IlaceLvs;
-    u8 unk7;
+    u8 Width;
+    u8 Height;
+    u8 lods;
+    u8 iLace; //paramater for deinterlacing textures?
     Gfx *dList;
     u8 *bitmap;
     u16 * pallette;

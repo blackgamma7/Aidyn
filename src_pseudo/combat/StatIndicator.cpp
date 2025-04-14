@@ -67,11 +67,11 @@ uint AddItem(playerData *param_1,int type,short num){
   pBStack_2c = &pcVar7->Statborg1Head;
   (pcVar7->datStatBorg1Data).type = B1_IA8;
   (pcVar7->Statborg1Head).dat = &pcVar7->datStatBorg1Data;
-  (pcVar7->datStatBorg1Data).IlaceLvs = 1;
+  (pcVar7->datStatBorg1Data).lods = 1;
   pBVar1 = (pcVar7->Statborg1Head).dat;
   (pcVar7->datStatBorg1Data).flag = 0;
-  pBVar1->height = 0x40;
-  ((pcVar7->Statborg1Head).dat)->width = 0x10;
+  pBVar1->Width = 0x40;
+  ((pcVar7->Statborg1Head).dat)->Height = 0x10;
   pBVar1 = (pcVar7->Statborg1Head).dat;
   ALLOCS(pBVar1->bitmap,0x400,209);
   pBVar1->pallette = NULL;
@@ -196,7 +196,7 @@ Gfx * Tick(Gfx *g,int delta){
       }
       else {
         pBVar2 = (x->Statborg1Head).dat;
-        memset(pBVar2->bitmap,0,(uint)pBVar2->height * (uint)pBVar2->width);
+        memset(pBVar2->bitmap,0,(uint)pBVar2->Width * (uint)pBVar2->Height);
         HFREE(((x->Statborg1Head).dat)->bitmap,351);
         CLEAR(x);
         combatStatIndicatorDat.array[--combatStatIndicatorDat.index] = (u8)i;
@@ -215,7 +215,7 @@ void Free(void){
     pvVar2 = &combatStatIndicatorDat.Indicators[i];
     if (pvVar2->statVisible) {
       pBVar1 = (pvVar2->Statborg1Head).dat;
-      memset(pBVar1->bitmap,0,(uint)pBVar1->height * (uint)pBVar1->width);
+      memset(pBVar1->bitmap,0,(uint)pBVar1->Width * (uint)pBVar1->Height);
       HFREE(((pvVar2->Statborg1Head).dat)->bitmap,415);
       CLEAR(pvVar2);
     }

@@ -78,8 +78,8 @@ Gfx * PlaneObj_Render(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale)
     gSPTexture(g++,0,0,0,0,0);
   }
   else {
-    U = (u16)plane->borg1p->dat->height * 0x40 * plane->UScale;
-    V = (u16)plane->borg1p->dat->width << 6;
+    U = (u16)plane->borg1p->dat->Width * 0x40 * plane->UScale;
+    V = (u16)plane->borg1p->dat->Height << 6;
   }
   SetVtx(&plane->verts[fb][0].v,(Vx * -CosPIOver4),(Vy * CosPIOver4),0.0,0,0,V,
          plane->vertCols[0].R * gGlobals.brightness,plane->vertCols[0].G * gGlobals.brightness,

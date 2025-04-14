@@ -49,10 +49,9 @@ namespace Clouds{
 
 struct SkyobjectStruct {
     u8 index;
-    float f0;
-    float f1;
-    float f2;
-    Color32 col;
+    float f0; //brightness? stars always .2(then changed to .19), sun/moon 1.0
+    vec2f pos;
+    Color32 col; //always {250,250,250,250}. Sun uses gGlobals.sky.colors[4]
 };
 
 enum SkyObjType{
@@ -63,9 +62,9 @@ u16 gSkyObjectMoonIndex;
 u16 gSkyobjectsCount;
 u8 moon_phase;
 Borg8header* sjyobjects_borg8;
-Borg8header* pStarObjP;
-Borg8header* pSunObjP;
-Borg8header* pMoonObjP;
+Borg8header* gMoonBorg8;
+SkyobjectStruct* gSunObjP;
+SkyobjectStruct* gMoonObjP;
 SkyobjectStruct skyobjectStruts[94];
 
 Borg8header* sSkyObjBss[3];

@@ -107,10 +107,10 @@ borgHeader * getBorgItem(s32 index){
     ROMCOPYS(&listing,(void *)((s32)BorgListingPointer + index * 0x10 + 8),0x10,0x21d);
     if ((((listing.Type < 3) || (listing.Type == 6)) || (listing.Type == 11)) || (((listing.Type == 12 || (listing.Type == 13)) || (listing.Type == 14)))) {
       if (borgFlag == 0) {
-        ALLOCS(ret,gBorgHeaderSizes[listing.Type] + 4,0x231);
+        ALLOCS(ret,gBorgHeaderSizes[listing.Type] + 4,561);
         puVar1 = borg_index_x1 + index;
         if (*puVar1 == 0) {
-          ALLOCS(borgfile,listing.uncompressed,0x236);
+          ALLOCS(borgfile,listing.uncompressed,566);
           decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
                          borgfile,listing.uncompressed,(s32)listing.Compression);
           (*borg_funcs_a[listing.Type])(borgfile);
@@ -140,11 +140,26 @@ borgHeader * getBorgItem(s32 index){
       (*borg_funcs_b[listing.Type])(ret,borgfile);
     }
     else {
-      if (borgFlag == 0) {
+      if (borgFlag){
+        uVar2 = gBorgHeaderSizes[type] + listing.uncompressed;
+        ret = HeapAlloc(uVar2,FILENAME,627);
+        bzero(ret,uVar2);
+        decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
+                       (void *)((s32)ret + gBorgHeaderSizes[listing.Type]),listing.uncompressed,
+                       (s32)listing.Compression);
+        (*borg_funcs_a[listing.Type])(ret);
+        (*borg_funcs_b[listing.Type])(ret,0);
+        puVar1 = borg_index_x1 + index;
+        borg_index_x4[index] = NULL;
+        *puVar1 = 0;
+        ret->index = -1;
+        ret->unk = 0;
+      } 
+      else {
         puVar1 = borg_index_x1 + index;
         if (*puVar1 == 0) {
           uVar2 = gBorgHeaderSizes[type] + listing.uncompressed;
-          ret = HeapAlloc(uVar2,FILENAME,0x28d);
+          ret = HeapAlloc(uVar2,FILENAME,653);
           bzero(ret,uVar2);
           decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
                          (void *)((s32)ret + gBorgHeaderSizes[listing.Type]),listing.uncompressed,
@@ -161,21 +176,6 @@ borgHeader * getBorgItem(s32 index){
           ret = borg_index_x4[index];
           *puVar1 = *puVar1 + 1;
         }
-      }
-      else {
-        uVar2 = gBorgHeaderSizes[type] + listing.uncompressed;
-        ret = HeapAlloc(uVar2,FILENAME,0x273);
-        bzero(ret,uVar2);
-        decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
-                       (void *)((s32)ret + gBorgHeaderSizes[listing.Type]),listing.uncompressed,
-                       (s32)listing.Compression);
-        (*borg_funcs_a[listing.Type])(ret);
-        (*borg_funcs_b[listing.Type])(ret,0);
-        puVar1 = borg_index_x1 + index;
-        borg_index_x4[index] = NULL;
-        *puVar1 = 0;
-        ret->index = -1;
-        ret->unk = 0;
       }
     }
     borg_mem[listing.Type]+= (get_memUsed() - memOld);
@@ -238,7 +238,7 @@ u8 InitBorgTexture(Borg1header *header,Borg1Data *dat){
           "Procedural flag on a texture type other than 32B_RGBA,16B_RGBA/IA!");
     }
     pBVar2 = header->dat;
-    size = bitDepth * pBVar2->height * pBVar2->width;
+    size = bitDepth * pBVar2->Width * pBVar2->Height;
     header->bitmapA = pBVar2->bitmap;
     ALLOCS(puVar5,size,943);
     header->bitmapB = puVar5;
@@ -358,6 +358,7 @@ void borg3_func_a(Borg3Data *param_1){
   param_1->unk28 = (s16 *)((int)(param_1->unk28 + 8) + (int)param_1);
 }
 u8 borg3_func_b(void* x, void* y){return false;}
+
 void borg3_free(Borg3Data *param_1){
   int iVar1 = get_memUsed();
   if (param_1->index == -1) HFREE(param_1,1312);
@@ -670,13 +671,13 @@ void borg5_free(Borg5header *param_1){
       }
     }
   }
-  if (param_1->field0_0x0 == -1) {
+  if (param_1->head.index == -1) {
     HFREE(param_1->unk8,0x78b);
     HFREE(param_1,0x78f);
   }
   else {
-    if (get_borg_index_count(param_1->field0_0x0) == 1) HFREE(param_1->unk8,0x795);
-    dec_borg_count(param_1->field0_0x0);
+    if (get_borg_index_count(param_1->head.index) == 1) HFREE(param_1->unk8,0x795);
+    dec_borg_count(param_1->head.index);
   }
   borg_mem[5]-= (iVar2 - get_memUsed());
   borg_count[5]--;
@@ -728,9 +729,11 @@ void borg6_func_a(borg6header *param_1){
 
 
 
-u8 borg6_func_b(borg6header *param_1,void *param_2){
+u8      borg6_func_b(borg6header *param_1,borg6Data *param_2)
+
+{
   int iVar1;
-  void *pvVar2;
+  u32 uVar2;
   int iVar3;
   int iVar4;
   Borg5header *pBVar5;
@@ -742,7 +745,7 @@ u8 borg6_func_b(borg6header *param_1,void *param_2){
   undefined4 *puVar11;
   int iVar12;
   undefined4 *puVar13;
-  u16 uVar14;
+  ushort uVar14;
   void *pvVar15;
   int iVar16;
   int iVar17;
@@ -750,17 +753,17 @@ u8 borg6_func_b(borg6header *param_1,void *param_2){
   uint size;
   undefined4 uVar19;
   
-  fVar7 = 1.0f;
+  fVar7 = ConstFloats::1.0f;
   size = 0;
   iVar18 = 0;
-  iVar1 = *(int *)((int)param_2 + 4);
-  param_1->field8_0x20 = param_2;
-  param_1->field6_0x18 = NULL;
-  param_1->field7_0x1c = fVar7;
+  iVar1 = param_2->unk4;
+  param_1->dat = param_2;
+  param_1->flag2 = 0;
+  param_1->unk1c = fVar7;
   pAVar8 = (AnimationData *)HeapAlloc(iVar1 * 0x18,s_./src/n64borg.cpp_800e3120,0x810);
   param_1->anidat = pAVar8;
-  iVar1 = *(int *)((int)param_1->field8_0x20 + 4);
-  pBVar5 = *(Borg5header **)((int)param_1->field8_0x20 + 8);
+  iVar1 = param_1->dat->unk4;
+  pBVar5 = (Borg5header *)param_1->dat->unk8;
   if (0 < iVar1) {
     do {
       iVar12 = (pBVar5->dat).substructCount;
@@ -776,12 +779,12 @@ u8 borg6_func_b(borg6header *param_1,void *param_2){
       if (0 < iVar12) {
         do {
           size += 0x10;
-          pvVar2 = *(void **)((int)pvVar15 + 4);
+          uVar2 = *(u32 *)((int)pvVar15 + 4);
           iVar12 += -1;
-          pAVar9->field0_0x0 = pvVar15;
+          pAVar9->unk0 = pvVar15;
           pvVar15 = (void *)((int)pvVar15 + 0x10);
-          pAVar9->field3_0xc = 1;
-          pAVar9->field1_0x4 = pvVar2;
+          pAVar9->unkc = 1;
+          pAVar9->unk4 = uVar2;
           pAVar9 = pAVar9 + 1;
         } while (iVar12 != 0);
       }
@@ -791,8 +794,8 @@ u8 borg6_func_b(borg6header *param_1,void *param_2){
   }
   puVar10 = (undefined4 *)HeapAlloc(size,s_./src/n64borg.cpp_800e3120,0x87d);
   iVar12 = 0;
-  iVar1 = *(int *)((int)param_1->field8_0x20 + 4);
-  iVar18 = *(int *)((int)param_1->field8_0x20 + 8);
+  iVar1 = param_1->dat->unk4;
+  iVar18 = param_1->dat->unk8;
   pAVar8 = param_1->anidat;
   if (0 < iVar1) {
     do {
@@ -808,8 +811,8 @@ u8 borg6_func_b(borg6header *param_1,void *param_2){
           iVar17 += 1;
           iVar4 = *(int *)(iVar6 + 4);
           puVar10 = puVar11 + 4;
-          pAVar9->field2_0x8 = puVar11;
-          uVar14 = *(u16 *)(iVar4 + 2);
+          pAVar9->unk8 = puVar11;
+          uVar14 = *(ushort *)(iVar4 + 2);
           puVar13 = *(undefined4 **)(iVar4 + 4);
           do {
             if ((uVar14 & 1) == 0) {

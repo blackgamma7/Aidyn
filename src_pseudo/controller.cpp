@@ -61,10 +61,8 @@ void Controller::proc(void* x){
 
 //initalize controller events
 void Controller::InitBuffer(void){
-  controllerBuffer *pcVar1;
-  ControllerFull *pBVar2;
+  ControllerFull *buffP;
   controllerBuffer *pcVar3;
-  u32 i;
   OSContStatus contStat [4];
   u8 auStack40 [4];
   
@@ -73,12 +71,12 @@ void Controller::InitBuffer(void){
   osCreateMesgQueue(&gContManager.SIMesgQ,&gContManager.mesg0,1);
   osSetEventMesg(OS_EVENT_SI,&gContManager.SIMesgQ,(OSMesg)1);
   osCreateMesgQueue(&gContManager.contMesgQ,&gContManager.mesg1,1);
-  ALLOCS(gContManager.BufferPointer,gContManager.ports*sizeof(controllerBuffer),0x10b);
+  ALLOCS(gContManager.BufferPointer,gContManager.ports*sizeof(controllerBuffer),267);
   if (gContManager.ports) {
-    for(i=0;i < gContManager.ports;i++) {
-      ALLOCS(pBVar2,128*sizeof(ControllerFull),0x111);
+    for(u8 i=0;i < gContManager.ports;i++) {
+      ALLOCS(buffP,128*sizeof(ControllerFull),273);
       gContManager.BufferPointer[i].latest = 0;
-      gContManager.BufferPointer[i].inputlog = pBVar2;
+      gContManager.BufferPointer[i].inputlog = buffP;
       gContManager.BufferPointer[i].hori = 0.1f;
       gContManager.BufferPointer[i].vert = 0.1f;
       gContManager.BufferPointer[i].next = 0x7f;
@@ -135,31 +133,18 @@ void Controller::ReadInput(void){
           buffer->ContRead = false;
           fVar12 = 0.0;
         }
-        fVar10 = 1.0f;
         if (fVar12 <= 1.0f) {
-          if (fVar12 < -1.0f) {
-            (contEntry->contAidyn).joy_x = -1.0f;
-            fVar10 = 1.0f;
-          }
+          if (fVar12 < -1.0f) (contEntry->contAidyn).joy_x = -1.0f;
           else {
             if (fVar12 <= buffer->hori) {
-              if (fVar12 < -buffer->hori) {
-                (contEntry->contAidyn).joy_x = fVar12;
-                fVar10 = 1.0f;
-              }
-              else {
-                (contEntry->contAidyn).joy_x = 0.0;
-                fVar10 = 1.0f;
-              }
+              if (fVar12 < -buffer->hori) (contEntry->contAidyn).joy_x = fVar12;
+              else (contEntry->contAidyn).joy_x = 0.0;
             }
-            else {
-              (contEntry->contAidyn).joy_x = fVar12;
-              fVar10 = 1.0f;
-            }
+            else (contEntry->contAidyn).joy_x = fVar12;
           }
         }
-        else {(contEntry->contAidyn).joy_x = 1.0f;}
-        if (fVar11 <= fVar10) {
+        else (contEntry->contAidyn).joy_x = 1.0f;
+        if (fVar11 <= 1.0) {
           if (fVar11 < -1.0f) (contEntry->contAidyn).joy_y = -1.0f;
           else {
             if (fVar11 <= buffer->vert) {
@@ -169,7 +154,7 @@ void Controller::ReadInput(void){
             else {(contEntry->contAidyn).joy_y = fVar11;}
           }
         }
-        else {(contEntry->contAidyn).joy_y = fVar10;}
+        else (contEntry->contAidyn).joy_y = 1.0;
         if (0.7f <= fVar12) buttons |= ANA_RIGHT;
         else if (fVar12 <= -0.7f) buttons |= ANA_LEFT;
         if (0.7f <= fVar11) buttons |= ANA_UP;

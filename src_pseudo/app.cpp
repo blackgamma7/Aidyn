@@ -48,7 +48,7 @@ Gfx * display_debug_stats(Gfx *gfx){
   float fVar15;
   if ((gDebugFlag) && (1.0f <= gGlobals.delta)) {
     if (gGlobals.DebugStatDisplay - 1 < 3) gfx = Graphics::DisplaySystemMonitor(gfx);
-    //print (estimated) frame rate in bottom-left corner
+    //in debug ver, always print (estimated) frame rate in bottom-left corner
     Gsprintf("%2d",(s16)(60.0 / gGlobals.delta));
     gfx = Graphics::DrawText(gfx,gGlobals.text,(SCREEN_WIDTH-32),(SCREEN_HEIGHT-25),0x80,0x80,0x80,0xff);
     if (gGlobals.DebugStatDisplay) {
@@ -62,15 +62,17 @@ Gfx * display_debug_stats(Gfx *gfx){
         fVar15 = (float)get_memFree_2();
         gfx_00 = gsFadeInOut(gfx,18,196,0x114,0xde,0,0,0,0x80);
         if (ppVar1 == NULL) {
+          //print just memory usage, current map chunk and FPS if no Alaron
           fVar12 = fVar14 * (float)(1.0f/1024);
           dVar11 = (double)((fVar15 / fVar14) * 100.0f);
-          fVar15 = fVar15 * (float)(1.0f/1024);
+          fVar15 *= (float)(1.0f/1024);
           Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %2.0ffps\n",(u16)uVar2,
                       uVar9,dVar11,(int)fVar12,(int)fVar15,
                       gGlobals.Sub.mapShort1 + ('A'-1),gGlobals.Sub.mapShort2,
                       (60.0f / gGlobals.delta));
         }
         else {
+          //if he's active, show current ground type and position as well.
           Gsprintf("%2d - %s",ppVar1->Ground_type,ground_labels[ppVar1->Ground_type]);
           uVar5 = 0xc4;
           gfx_00 = Graphics::DrawText(gfx_00,gGlobals.text,0x12,0xc4,0,200,200,0xff);
@@ -89,110 +91,6 @@ Gfx * display_debug_stats(Gfx *gfx){
   }
   return gfx;
 }
-
-//mips_to_c version. has inaccuracies(doesn't seem to call a float for the Sprintf's.)
-/*s32 display_debug_stats(s32 arg0) {
-    f32 temp_f0;
-    f32 temp_f20;
-    f32 temp_f22;
-    f32 temp_f2_3;
-    f64 temp_f2;
-    f64 temp_f2_2;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_s1;
-    s32 temp_s1_2;
-    s32 temp_s1_3;
-    s32 temp_s1_4;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    u16 temp_a2;
-    void *temp_s0_3;
-    void *temp_s0_4;
-    void *temp_s2;
-    void *temp_s3;
-    char *phi_s5;
-    s32 phi_s1;
-    f64 phi_f2;
-    f64 phi_f2_2;
-    s32 phi_v1;
-    s32 phi_a0;
-    void *phi_s0;
-    s32 phi_s1_2;
-
-    phi_s1_2 = arg0;
-    if (gDebugFlag != 0) {
-        phi_s1_2 = arg0;
-        if (!(gGlobals.unkC < D_800D984C)) {
-            phi_s5 = &gGlobals + 0x2078;
-            phi_s1 = arg0;
-            if ((u32) (gGlobals.unk2034 - 1) < 3U) {
-                phi_s5 = &gGlobals + 0x2078;
-                phi_s1 = DisplaySystemMonitor(arg0);
-            }
-            sprintf(phi_s5, &D_800D97D0, (s16) (s32) (D_800D9850 / (f64) gGlobals.unkC));
-            temp_s1 = Graphics::DrawText(phi_s1, phi_s5, 0x120, 0xD7, 0x80, 0x80, 0x80, 0xFF);
-            phi_s1_2 = temp_s1;
-            if (gGlobals.unk2034 != 0) {
-                temp_s0 = get_hres();
-                temp_s1_2 = rsp_func(temp_s1, 6, temp_s0, get_vres());
-                phi_s1_2 = temp_s1_2;
-                if ((gGlobals.unk2034 & 1) != 0) {
-                    temp_s3 = gGlobals.unkA8;
-                    temp_s0_2 = get_obj_free() & 0xFFFF;
-                    temp_v0 = get_MemFree();
-                    temp_f2 = (f64) temp_v0;
-                    phi_f2 = temp_f2;
-                    if (temp_v0 < 0) {
-                        phi_f2 = temp_f2 + D_800D9858;
-                    }
-                    temp_f20 = (f32) phi_f2;
-                    temp_v0_2 = get_memFree_2();
-                    temp_f2_2 = (f64) temp_v0_2;
-                    phi_f2_2 = temp_f2_2;
-                    if (temp_v0_2 < 0) {
-                        phi_f2_2 = temp_f2_2 + D_800D9860;
-                    }
-                    temp_f22 = (f32) phi_f2_2;
-                    temp_s1_3 = gsFadeInOut(temp_s1_2, 0x12, 0xC4, 0x114, 0xDE, 0, 0, 0, 0x80);
-                    temp_s2 = &gGlobals + 0xE0;
-                    if (temp_s3 != 0) {
-                        temp_a2 = temp_s3->unk100;
-                        sprintf(phi_s5, (void *)0x800D97D4, temp_a2, *((temp_a2 * 4) + ground_labels));
-                        temp_s1_4 = Graphics::DrawText(temp_s1_3, phi_s5, 0x12, 0xC4, 0, 0xC8, 0xC8, 0xFF);
-                        if (!(D_800D9870 <= (temp_f20 * D_800D986C))) {
-
-                        }
-                        if (!(D_800D9878 <= (temp_f22 * D_800D9874))) {
-
-                        }
-                        temp_s0_3 = &gGlobals + 0x68A8;
-                        sprintf(phi_s5, (void *)0x800D97E0, temp_s0_2, temp_s2->unk292 + 0x40, (?32) temp_s2->unk294, (?32) temp_s2->unk2AC, (f64) temp_s3->unk68, (f64) temp_s3->unk6C, (f64) temp_s3->unk70, (f64) (D_800D987C / temp_s0_3->unkC));
-                        phi_a0 = temp_s1_4;
-                        phi_s0 = temp_s0_3;
-                    } else {
-                        if (!(D_800D9888 <= (temp_f20 * D_800D9884))) {
-
-                        }
-                        temp_f0 = temp_f22 * D_800D988C;
-                        temp_f2_3 = D_800D9890;
-                        if (!(temp_f2_3 <= temp_f0)) {
-                            phi_v1 = (s32) temp_f0;
-                        } else {
-                            phi_v1 = (s32) (temp_f0 - temp_f2_3) | 0x80000000;
-                        }
-                        temp_s0_4 = &gGlobals + 0x68A8;
-                        sprintf(phi_s5, (void *)0x800D9820, temp_s0_2, phi_v1, temp_s2->unk292 + 0x40, (?32) temp_s2->unk294, (f64) (D_800D9894 / temp_s0_4->unkC));
-                        phi_a0 = temp_s1_3;
-                        phi_s0 = temp_s0_4;
-                    }
-                    phi_s1_2 = Graphics::DrawText(phi_a0, phi_s0 + 0x2078, 0x12, 0xCC, 0xC8, 0x20, 0xC8, 0xFF);
-                }
-            }
-        }
-    }
-    return phi_s1_2;
-}*/
 
 #define APPSTACKSIZE 6162
 void appInit(OSSched *sched,u8 pri,u8 id){
