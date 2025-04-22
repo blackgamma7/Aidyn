@@ -95,30 +95,6 @@ typedef struct Borg7data Borg7data, *PBorg7data;
 
 typedef struct Borg12Header Borg12Header, *PBorg12Header;
 
-typedef enum DBTypeEnum { /* Each Data category has an Id'ing byte */
-    Empty=0,
-    Misc_item=1,
-    entity=2,
-    Spell=3,
-    UNK4=4,
-    armor=5,
-    sheild=6,
-    Weapon=7,
-    LootDrop=8,
-    Helmet=9,
-    cloak=10,
-    Glove=11,
-    Ring=12,
-    wand=13,
-    Belt=14,
-    Boots=15,
-    potion=16,
-    Scroll=17,
-    KeyItem=18,
-    Amulet=19,
-    dialougeEntity=20
-} DBTypeEnum;
-
 typedef enum borg6Enum {
     Flycam_1=8668,
     Fycam_2=8670,
@@ -141,8 +117,6 @@ typedef enum borg6Enum {
     intro_13=9147
 } borg6Enum;
 
-typedef struct Borg5header Borg5header, *PBorg5header;
-
 typedef enum EnumMapDatA {
     MAPA_Overworld=0,
     MAPA_GwenCastle=4,
@@ -154,10 +128,6 @@ typedef enum EnumMapDatA {
     MAPA_Ugairt=13,
     MAPA_Battle=16
 } EnumMapDatA;
-
-
-
-
 
 
 struct DCMSub2 {
@@ -294,25 +264,6 @@ struct struct_1 {
     borg6header *field1_0x4;
 };
 
-struct borg5substruct {
-    u16 flag;
-    u8 mtxOp;
-    u8 tier;
-    borg5substruct **links;
-    u32 unk0x8;
-    Mtx *mtxs;
-    vec3f rot;
-    vec3f pos;
-    float field12_0x28;
-    float field13_0x2c;
-    float field14_0x30;
-    float field15_0x34;
-    float field16_0x38;
-    float field17_0x3c;
-};
-
-
-
 typedef struct unkGuiClassA unkGuiClassA, *PunkGuiClassA;
 
 struct unkGuiClassA {
@@ -325,7 +276,6 @@ struct unkGuiClassA {
     double f64Array[7];
 };
 
-typedef struct astruct_8 astruct_8, *Pastruct_8;
 /*
 typedef enum borg9Enum {
     Dryad Forest=4034,
@@ -335,17 +285,7 @@ typedef enum borg9Enum {
 } borg9Enum;
 */
 
-struct astruct_8 {
-    u32 field0_0x0;
-    AnimationData *field1_0x4;
-    enum borg9Enum ID;
-    Borg9header *borg_9;
-    uint borg_5;
-    int field5_0x14;
-    int tally;
-    undefined field7_0x1c;
-    u8 field8_0x1d;
-};
+
 
 typedef struct AttackVisualStruct3 AttackVisualStruct3, *PAttackVisualStruct3;
 
@@ -1345,7 +1285,7 @@ struct pause_Substruct {
     s16 unk22;
     s16 unk24;
     s16 unk26;
-    AnimationData *aniDat;
+    SceneData *sceneDat;
     float scrollSpeed;
     Borg7header *borg7;
     vec3f camPos;
@@ -1791,10 +1731,6 @@ typedef struct wander_struct wander_struct, *Pwander_struct;
 
 typedef struct player_char_struct player_char_struct, *Pplayer_char_struct;
 
-typedef struct SFX_Struct SFX_Struct, *PSFX_Struct;
-
-typedef struct SkyStruct SkyStruct, *PSkyStruct;
-
 typedef struct PauseWidget PauseWidget, *PPauseWidget;
 
 typedef struct MiniMap MiniMap, *PMiniMap;
@@ -1803,11 +1739,7 @@ typedef struct ScriptCamera_struct ScriptCamera_struct, *PScriptCamera_struct;
 
 typedef struct QueueStructB QueueStructB, *PQueueStructB;
 
-typedef struct N64Print N64Print, *PN64Print;
-
 typedef struct ZoneDat ZoneDat, *PZoneDat;
-
-typedef struct Weather Weather, *PWeather;
 
 typedef struct PlayerHandler PlayerHandler, *PPlayerHandler;
 
@@ -1853,11 +1785,11 @@ struct player_char_struct {
 
 struct ZoneDat {
     int borg5_ID;
-    AnimationData *anidat0x4;
+    SceneData *sceneDat0x4;
     u32 borg9_id;
     Borg9header *mapPointer;
     uint unk0x10;
-    AnimationData *aniDat0x14;
+    SceneData *SceneDat0x14;
     uint MapTally;
     u8 alpha;
     u8 index; /* BCD of mtxIndex */
@@ -1903,11 +1835,6 @@ struct QueueStructB {
     QueueStructBItem array[32];
     u16 items;
 };
-
-
-
-
-
 
 
 struct ScriptCam {
@@ -1959,59 +1886,6 @@ struct KKBufferEvent {
     KKHeader header;
     s32 object;
     u8 buffer[240];
-};
-
-
-typedef struct locatorStruct locatorStruct, *PlocatorStruct;
-
-struct locatorStruct {
-    undefined field0_0x0;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    undefined field4_0x4;
-    undefined field5_0x5;
-    undefined field6_0x6;
-    undefined field7_0x7;
-    AnimationData *locators;
-    undefined field9_0xc;
-    undefined field10_0xd;
-    undefined field11_0xe;
-    undefined field12_0xf;
-    undefined field13_0x10;
-    undefined field14_0x11;
-    undefined field15_0x12;
-    undefined field16_0x13;
-    undefined field17_0x14;
-    undefined field18_0x15;
-    undefined field19_0x16;
-    undefined field20_0x17;
-    undefined field21_0x18;
-    undefined field22_0x19;
-    undefined field23_0x1a;
-    undefined field24_0x1b;
-    int field25_0x1c;
-    undefined field26_0x20;
-    undefined field27_0x21;
-    undefined field28_0x22;
-    undefined field29_0x23;
-    undefined field30_0x24;
-    undefined field31_0x25;
-    undefined field32_0x26;
-    undefined field33_0x27;
-    undefined field34_0x28;
-    undefined field35_0x29;
-    undefined field36_0x2a;
-    undefined field37_0x2b;
-    undefined field38_0x2c;
-    undefined field39_0x2d;
-    undefined field40_0x2e;
-    undefined field41_0x2f;
-    undefined field42_0x30;
-    undefined field43_0x31;
-    undefined field44_0x32;
-    undefined field45_0x33;
-    float field46_0x34;
 };
 
 typedef struct loot_Pointer loot_Pointer, *Ploot_Pointer;
@@ -2111,20 +1985,12 @@ struct spells_pointer {
 };
 
 struct struct_A {
-    AnimationData *anidat;
+    SceneData *SceneDat;
     u16 flags;
     undefined field2_0x6;
     undefined field3_0x7;
 };
 
-typedef struct struct_5 struct_5, *Pstruct_5;
-
-struct struct_5 {
-    Borg5header *borg5;
-    borg6header *borg6;
-    AnimationData *link;
-    AniDatSubstruct *substruct;
-};
 
 
 typedef struct VoxelChartEntry VoxelChartEntry, *PVoxelChartEntry;
@@ -2145,55 +2011,6 @@ typedef struct WidgetArmorCraft WidgetArmorCraft, *PWidgetArmorCraft;
 
 struct WidgetArmorCraft {
     WidgetCrafting base;
-};
-
-typedef struct WidgetBufferedMenu WidgetBufferedMenu, *PWidgetBufferedMenu;
-
-struct WidgetBufferedMenu {
-    BaseWidget base;
-    undefined field1_0x7c;
-    undefined field2_0x7d;
-    undefined field3_0x7e;
-    undefined field4_0x7f;
-    undefined field5_0x80;
-    undefined field6_0x81;
-    undefined field7_0x82;
-    undefined field8_0x83;
-    undefined field9_0x84;
-    undefined field10_0x85;
-    undefined field11_0x86;
-    undefined field12_0x87;
-    undefined field13_0x88;
-    undefined field14_0x89;
-    undefined field15_0x8a;
-    undefined field16_0x8b;
-    undefined field17_0x8c;
-    undefined field18_0x8d;
-    undefined field19_0x8e;
-    undefined field20_0x8f;
-    undefined field21_0x90;
-    undefined field22_0x91;
-    undefined field23_0x92;
-    undefined field24_0x93;
-    undefined field25_0x94;
-    undefined field26_0x95;
-    undefined field27_0x96;
-    undefined field28_0x97;
-    BaseWidget textWidgets[20];
-    BaseWidget *field30_0xa48[20];
-    undefined field31_0xa98;
-    undefined field32_0xa99;
-    undefined field33_0xa9a;
-    undefined field34_0xa9b;
-    undefined field35_0xa9c;
-    undefined field36_0xa9d;
-    undefined field37_0xa9e;
-    undefined field38_0xa9f;
-    BaseWidget titleWidget;
-    undefined field40_0xb1c;
-    undefined field41_0xb1d;
-    undefined field42_0xb1e;
-    undefined field43_0xb1f;
 };
 
 typedef struct WidgetCameraDebug WidgetCameraDebug, *PWidgetCameraDebug;

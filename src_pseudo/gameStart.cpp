@@ -2,9 +2,9 @@
 #include "graphics.h"
 
 u8 flycam_flag=false;
-borg6header*  flycam_borg6_ptr=NULL;
-AnimationData* flycam_AniDat_ptr=NULL;
-extern Flycam_entry flycam_sequences[];
+borg6header*  gFlycamBorg6P=NULL;
+SceneData* gFlycamSceneP=NULL;
+extern Flycam_entry gFlycamSequences[];
 u16 flycam_counter=0;
 u8 titlescreen_load_flag=false;
 u8 some_gamestart_flag=false;
@@ -18,10 +18,10 @@ void flycam_func(void){
   }
   gGlobals.Sub.mapDatA = 0;
   gGlobals.Sub.mapDatC = 0;
-  gGlobals.Sub.mapShort1 = flycam_sequences[flycam_counter].Deimos;
-  gGlobals.Sub.mapShort2 = flycam_sequences[flycam_counter].Phobos;
-  gGlobals.Sub.flycamDat.shortC = flycam_sequences[flycam_counter].a;
-  gGlobals.Sub.flycamDat.ShortD = flycam_sequences[flycam_counter].b;
+  gGlobals.Sub.mapShort1 = gFlycamSequences[flycam_counter].Deimos;
+  gGlobals.Sub.mapShort2 = gFlycamSequences[flycam_counter].Phobos;
+  gGlobals.Sub.flycamDat.shortC = gFlycamSequences[flycam_counter].a;
+  gGlobals.Sub.flycamDat.ShortD = gFlycamSequences[flycam_counter].b;
   gGlobals.Sub.mapDatB = 0xffff;
   gGlobals.Sub.playerPos2d.x = 0.0;
   gGlobals.Sub.playerPos2d.y = 0.0;
@@ -29,10 +29,10 @@ void flycam_func(void){
   gGlobals.brightness = 0.0;
   gGlobals.screenFadeMode = 2;
   gGlobals.screenFadeSpeed = (2.0/30);
-  flycam_borg6_ptr = get_borg_6(flycam_sequences[flycam_counter].borg6);
-  flycam_AniDat_ptr = BorgAnimLoadScene(*flycam_borg6_ptr->field8_0x20);
-  AniDat_SetBorg6(flycam_AniDat_ptr,flycam_borg6_ptr);
-  Animation::SetFlag10(flycam_AniDat_ptr);
+  gFlycamBorg6P = get_borg_6(gFlycamSequences[flycam_counter].borg6);
+  gFlycamSceneP = BorgAnimLoadScene(*gFlycamBorg6P->field8_0x20);
+  Scene_SetBorg6(gFlycamSceneP,gFlycamBorg6P);
+  Scene::SetFlag10(gFlycamSceneP);
 }
 
 
@@ -54,7 +54,7 @@ Gfx * Flycam::Render(Gfx *gfx){
   vec3f afStack88;
   
   apGStackX_0[0] = gfx;
-  if (!flycam_AniDat_ptr) {
+  if (!gFlycamSceneP) {
     if ((gGlobals.QueueA.items == 0) && (gGlobals.brightness == 0.0)) {
       flycam_func();
       gGlobals.screenFadeMode = 2;
@@ -63,11 +63,11 @@ Gfx * Flycam::Render(Gfx *gfx){
     }
   }
   else {
-    Animation::SetSpeed(flycam_AniDat_ptr,(char)(int)gGlobals.delta);
-    Animation::Tick(flycam_AniDat_ptr);
+    Scene::SetSpeed(gFlycamSceneP,(char)(int)gGlobals.delta);
+    Scene::Tick(gFlycamSceneP);
     if (((flycam_flag != '\0') ||
-        (flycam_AniDat_ptr->aniTime <
-         ((flycam_AniDat_ptr->scene[0].borg6)->field8_0x20 + 0xc) -100.0) - (double)gGlobals.delta)) ||
+        (gFlycamSceneP->aniTime <
+         ((gFlycamSceneP->scene[0].borg6)->field8_0x20 + 0xc) -100.0) - (double)gGlobals.delta)) ||
        (gGlobals.brightness != 1.0)) {
       if ((gGlobals.screenFadeMode == 0) && (gGlobals.brightness == 0.0)) {
         clear_flycam();
@@ -79,7 +79,7 @@ Gfx * Flycam::Render(Gfx *gfx){
       gGlobals.screenFadeMode = 1;
       gGlobals.screenFadeSpeed = 0.01f;
     }
-    Animation::Rotate(flycam_AniDat_ptr,&afStack216,&afStack152,&afStack88);
+    Scene::Rotate(gFlycamSceneP,&afStack216,&afStack152,&afStack88);
     some_flycam_dat_func(&gGlobals.Sub.flycamDat,&gGlobals.Sub.camera,&afStack216,&afStack152);
     if (FUN_8000ccc0()) {
       FreeZoneEngineMemory();
@@ -206,9 +206,9 @@ void check_input_7(void){
 void clear_flycam(void){
   FreeZoneEngine(0);
   clear_sfx_entries(&gGlobals.SFXStruct,1);
-  unlinkBorg6(flycam_borg6_ptr);
-  FREEQANI(flycam_AniDat_ptr);
-  FREEQB6(flycam_borg6_ptr);
+  unlinkBorg6(gFlycamBorg6P);
+  FREEQSCENE(gFlycamSceneP);
+  FREEQB6(gFlycamBorg6P);
 }
 
 void start_intermediate_game(void){

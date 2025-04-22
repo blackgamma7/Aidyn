@@ -13,7 +13,7 @@ struct SpellVisualTypeA {
 };
 struct SpellVisualTypeB {
     union{
-      AnimationData* aniDat;
+      SceneData* SceneDat;
       Borg7header *b7;
     };
     vec3f pos;

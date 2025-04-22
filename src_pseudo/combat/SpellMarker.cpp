@@ -3,11 +3,11 @@
 #include "globals.h"
 
 namespace CombatSpellMarker{
-  Gfx * Render(Gfx *g,AnimationData *aniDat,vec3f *rotate,vec3f *pos,vec3f *scale,u8 alpha,Color32 col){
+  Gfx * Render(Gfx *g,SceneData *aniDat,vec3f *rotate,vec3f *pos,vec3f *scale,u8 alpha,Color32 col){
   
-    Animation::MatrixARotate(aniDat,rotate->x,rotate->y,rotate->z);
-    Animation::MatrixASetPos(aniDat,pos->x,pos->y,pos->z);
-    Animation::MatrixANormalizeScale(aniDat,scale->x,scale->y,scale->z);
+    Scene::MatrixARotate(aniDat,rotate->x,rotate->y,rotate->z);
+    Scene::MatrixASetPos(aniDat,pos->x,pos->y,pos->z);
+    Scene::MatrixANormalizeScale(aniDat,scale->x,scale->y,scale->z);
     set_anidat_colors(aniDat,alpha,'\0',col);
     return BorgAnimDrawScene(g,aniDat);
   }
@@ -18,7 +18,7 @@ namespace CombatSpellMarker{
       CombatCurrentEnt_Y = (gGlobals.playerDataArray[gCombatP->current_Ent->index]->collision).pos.y;
   }
   void Free(void){
-    if (gCombatSpellMarker) FREEQANI(&gCombatSpellMarker);
+    if (gCombatSpellMarker) FREEQSCENE(&gCombatSpellMarker);
   }
   Gfx * Tick(Gfx *g,u8 delta,u8 range,Color32 col){
     vec3f posA,posB,outPos,scale,rotate;

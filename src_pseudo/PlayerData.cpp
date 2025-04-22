@@ -713,11 +713,11 @@ crash:
           Crash::ManualCrash("player.cpp","SETTING FACING FOR ALIGN\n");
         }
         vec2_normalize(&ppVar22->facing);
-        Animation::MatrixASetPos
-                  (ppVar22->locator_pointer->aniDat,fStack624.x,
+        Scene::MatrixASetPos
+                  (ppVar22->locator_pointer->sceneDat,fStack624.x,
                    fStack624.y - (ppVar22->collision).radius,fStack624.z);
-        Animation::MatrixAAlign
-                  (ppVar22->locator_pointer->aniDat,(ppVar22->facing).x,0.0,(ppVar22->facing).y,0.0)
+        Scene::MatrixAAlign
+                  (ppVar22->locator_pointer->sceneDat,(ppVar22->facing).x,0.0,(ppVar22->facing).y,0.0)
         ;
         if ((ppVar22->collision).unk1e == 0) {
           ppVar22->Ground_type = 0;
@@ -741,7 +741,7 @@ LAB_80016cec:
             for(iVar12=0;iVar12<delta_;iVar12++) {
               if ((ppVar22->flags & ACTOR_100) == 0) {
                 FUN_800a0090(ppVar22->locator_pointer,ppVar22->ani_type);
-                bVar18 = (uint)(u16)ppVar22->locator_pointer->aniDat->aniTime ==
+                bVar18 = (uint)(u16)ppVar22->locator_pointer->sceneDat->aniTime ==
                          ppVar22->locator_pointer->unk1c->field1_0x4->dat->unkc - 1U;
                 u16 unk16;
                 if ((u16)ppVar22->unk18 - 0xe < 2) {
@@ -752,7 +752,7 @@ LAB_80016cec:
                   unk16 = (float)ppVar22->locator_pointer->unk1c->field1_0x4->dat->unkc
                            * gEntityDB->GetFloatA(ppVar22->ent_ID);
                 }
-                uVar2 = ppVar22->locator_pointer->aniDat->aniTime;
+                uVar2 = ppVar22->locator_pointer->sceneDat->aniTime;
                 uVar3 = ppVar22->unk18;
                 bVar19 = bVar18;
                 if (((ppVar22->ani_type == 9) && (uVar3 != 9)) && (bVar18)) {
@@ -777,7 +777,7 @@ LAB_80016e90:
                   bVar18 = lVar25 != 0;
                   pBVar13 = ppVar22->locator_pointer;
                 }
-                if (pBVar13->aniDat->aniTime == 1) {
+                if (pBVar13->sceneDat->aniTime == 1) {
                   ppVar22->unk16 = ppVar22->ani_type;
                 }
                 if (bVar18) {
@@ -945,26 +945,28 @@ void FUN_80017388(playerData *param_1,float param_2){
 }
 
 extern u16 light_count;
-void some_player_render_sub(playerData *param_1,AnimationData *param_2,vec3f *param_3,u8 alpha,
+void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_3,u8 alpha,
                u16 param_5){
 
   light_count = 0;
   set_anidat_colors(param_2,alpha,0,(Color32)0x0);
-  Animation::SetModelTint(param_2,0xff,0xff,0xff,alpha);
+  Scene::SetModelTint(param_2,0xff,0xff,0xff,alpha);
+  #ifdef DEBUGVER
   if (gGlobals.DebugStatDisplay != 0) {
     if (gGlobals.delta <= 3.0);
-    else if (gGlobals.delta == 4.0) Animation::SetModelTint(param_2,0xff,0xff,0,alpha);
-    else Animation::SetModelTint(param_2,0xff,0,0,alpha);
+    else if (gGlobals.delta == 4.0) Scene::SetModelTint(param_2,0xff,0xff,0,alpha);
+    else Scene::SetModelTint(param_2,0xff,0,0,alpha);
   }
-  Animation::SetLightColors(param_2,(param_1->skyTint).x*255,(param_1->skyTint).y*255,(param_1->skyTint).z*255);
+  #endif
+  Scene::SetLightColors(param_2,(param_1->skyTint).x*255,(param_1->skyTint).y*255,(param_1->skyTint).z*255);
   if (gGlobals.sky.Type == 3) {
     //add sun light source
-    Animation::addDynamicLight
+    Scene::addDynamicLight
               (param_2,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
                gGlobals.sky.colors[4].R,gGlobals.sky.colors[4].G,gGlobals.sky.colors[4].B,light_count++);
     if (0.0 < gGlobals.MoonPos.y) {
       //add moon light source
-      Animation::addDynamicLight
+      Scene::addDynamicLight
                 (param_2,-1,gGlobals.MoonPos.x,gGlobals.MoonPos.y,gGlobals.MoonPos.z,0,
                 gGlobals.MoonPos.y * 200.0f * gGlobals.brightness * param_1->unk75c,
                  gGlobals.MoonPos.y * 200.0f * gGlobals.brightness * param_1->unk75c,light_count++);
@@ -975,23 +977,23 @@ void some_player_render_sub(playerData *param_1,AnimationData *param_2,vec3f *pa
 }
 
 
-void set_sun_light(AnimationData *param_1,u32 flag,voxelObject *param_3,u8 alpha){
+void set_sun_light(SceneData *param_1,u32 flag,voxelObject *param_3,u8 alpha){
   light_count = 0;
   set_anidat_colors(param_1,alpha,0,(Color32)0x0);
   if ((flag & 0x20)){
-    Animation::SetModelTint(param_1,
+    Scene::SetModelTint(param_1,
          gGlobals.sky.colors[0].R * gGlobals.brightness,
          gGlobals.sky.colors[0].G * gGlobals.brightness,
          gGlobals.sky.colors[0].B * gGlobals.brightness,alpha);
   }
   else{
-    Animation::SetModelTint(param_1,0xff,0xff,0xff,alpha);
-    Animation::SetLightColors(param_1,
+    Scene::SetModelTint(param_1,0xff,0xff,0xff,alpha);
+    Scene::SetLightColors(param_1,
         gGlobals.sky.colors[0].R * gGlobals.brightness,
         gGlobals.sky.colors[0].G * gGlobals.brightness,
         gGlobals.sky.colors[0].B * gGlobals.brightness);
     if (gGlobals.sky.Type == 3) {
-      Animation::addDynamicLight
+      Scene::addDynamicLight
                 (param_1,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
                  gGlobals.sky.colors[4].R,gGlobals.sky.colors[4].G,gGlobals.sky.colors[4].B,light_count++);
     }
@@ -1001,7 +1003,7 @@ void set_sun_light(AnimationData *param_1,u32 flag,voxelObject *param_3,u8 alpha
 Gfx * renderPlayers(PlayerHandler *param_1,Gfx *g,short delta,short param_4,short param_5){
   Borg7header *pBVar1;
   u8 a;
-  AnimationData *pAVar3;
+  SceneData *pAVar3;
   bool bVar5;
   short sVar4;
   attachmentNode *ppvVar8;
@@ -1061,11 +1063,11 @@ render_player:
               a = FUN_80015d70(param_1,ppVar6,fVar9,0xff);
               if (iStack_4c == 0) {
 LAB_80017c98:
-                some_player_render_sub(ppVar6,ppVar6->locator_pointer->aniDat,&fStack656,a,(short)iStack_50);
+                some_player_render_sub(ppVar6,ppVar6->locator_pointer->sceneDat,&fStack656,a,(short)iStack_50);
                 fVar9 = ppVar6->interactRadiusA;
-                Animation::MatrixANormalizeScale(ppVar6->locator_pointer->aniDat,fVar9,fVar9,fVar9);
-                Animation::MatrixASetPos
-                          (ppVar6->locator_pointer->aniDat,fStack656.x,fStack656.y,fStack656.z);
+                Scene::MatrixANormalizeScale(ppVar6->locator_pointer->sceneDat,fVar9,fVar9,fVar9);
+                Scene::MatrixASetPos
+                          (ppVar6->locator_pointer->sceneDat,fStack656.x,fStack656.y,fStack656.z);
                 if (DAT_800ee974 == 0) {
 LAB_80017d08:
                   g = BorgAnimDrawSceneLinked(g,ppVar6->locator_pointer);
@@ -1076,27 +1078,27 @@ LAB_80017d08:
                 for(sVar4=0;sVar4<3;sVar4++) {
                     ppvVar8 =&ppVar6->attachmentNodes[sVar4];
                   if ((ppvVar8->borg5 != 0) && (ppVar6->locator_pointer != NULL)) {
-                    if (!ppvVar8->anidat) {
-                      ppvVar8->anidat = BorgAnimLoadScene(ppvVar8->borg5);
-                      Animation::SetFlag40(ppvVar8->anidat);
-                      Animation::SetFlag4(ppvVar8->anidat);
-                      Animation::SetFogFlag(ppvVar8->anidat);
-                      Animation::SetLightData(ppvVar8->anidat);
-                      Animation::SceneSetMaxDynamicDirLights(ppvVar8->anidat,4);
+                    if (!ppvVar8->sceneDat) {
+                      ppvVar8->sceneDat = BorgAnimLoadScene(ppvVar8->borg5);
+                      Scene::SetFlag40(ppvVar8->sceneDat);
+                      Scene::SetFlag4(ppvVar8->sceneDat);
+                      Scene::SetFogFlag(ppvVar8->sceneDat);
+                      Scene::SetLightData(ppvVar8->sceneDat);
+                      Scene::SceneSetMaxDynamicDirLights(ppvVar8->sceneDat,4);
                     }
-                    if (Animation::HasLocator(ppVar6->locator_pointer->aniDat,(uint)ppvVar8->index)) {
-                      if (Animation::SceneGetLocatorMtx(ppVar6->locator_pointer->aniDat,&afStack_110,(uint)ppvVar8->index)) {
-                        Animation::SceneGetLocatorPos(ppVar6->locator_pointer->aniDat,avStack_d0,(uint)ppvVar8->index);
-                        Animation::SceneGetLocatorAlign(ppVar6->locator_pointer->aniDat,avStack_90,(uint)ppvVar8->index);
-                        some_player_render_sub(ppVar6,ppvVar8->anidat,avStack_d0,a,(short)iStack_50);
-                        Animation::SetModelTint(ppvVar8->anidat,
+                    if (Scene::HasLocator(ppVar6->locator_pointer->sceneDat,ppvVar8->index)) {
+                      if (Scene::SceneGetLocatorMtx(ppVar6->locator_pointer->sceneDat,&afStack_110,ppvVar8->index)) {
+                        Scene::SceneGetLocatorPos(ppVar6->locator_pointer->sceneDat,avStack_d0,ppvVar8->index);
+                        Scene::SceneGetLocatorAlign(ppVar6->locator_pointer->sceneDat,avStack_90,ppvVar8->index);
+                        some_player_render_sub(ppVar6,ppvVar8->sceneDat,avStack_d0,a,iStack_50);
+                        Scene::SetModelTint(ppvVar8->sceneDat,
                             gGlobals.sky.colors[0].R * gGlobals.brightness,
                             gGlobals.sky.colors[0].G * gGlobals.brightness,
                             gGlobals.sky.colors[0].B * gGlobals.brightness,a);
-                        Animation::CopyMatrixA(ppvVar8->anidat,&afStack_110);
-                        if (_bigw_flag) Animation::ScaleBodyPart(ppvVar8->anidat,2.0,2.0,2.0);
-                        if (sVar4 == 2) Animation::MatrixATranslate(ppvVar8->anidat,0.0,1.0,0.0);
-                        g = BorgAnimDrawScene(g,ppvVar8->anidat);
+                        Scene::CopyMatrixA(ppvVar8->sceneDat,&afStack_110);
+                        if (_bigw_flag) Scene::ScaleBodyPart(ppvVar8->sceneDat,2.0,2.0,2.0);
+                        if (sVar4 == 2) Scene::MatrixATranslate(ppvVar8->sceneDat,0.0,1.0,0.0);
+                        g = BorgAnimDrawScene(g,ppvVar8->sceneDat);
                       }
                     }
                     #ifdef DEBUGVER
@@ -1107,7 +1109,7 @@ LAB_80017d08:
                     #endif
                   }
                 }
-                if ((ppVar6->anidat) && (ppVar6->alaron_flag)) {
+                if ((ppVar6->SceneDat) && (ppVar6->alaron_flag)) {
                   if (_flea_flag == 0) {
                     ppVar6->interactRadiusA = 1.0f;
                     ppVar6->interactRadiusB = (ppVar6->collision).radius;
@@ -1116,12 +1118,10 @@ LAB_80017d08:
                     ppVar6->interactRadiusA = 0.25f;
                     ppVar6->interactRadiusB = (ppVar6->collision).radius*.25;
                   }
-                  some_player_render_sub(ppVar6,ppVar6->anidat,&fStack656,a,(short)iStack_50);
-                  bVar5 = Animation::SceneGetLocatorPos
-                                    (ppVar6->locator_pointer->aniDat,&fStack592,3);
-                  if ((bVar5) &&
-                     (bVar5 = Animation::SceneGetLocatorAlign
-                                        (ppVar6->locator_pointer->aniDat,&fStack528,3), bVar5)) {
+                  some_player_render_sub(ppVar6,ppVar6->SceneDat,&fStack656,a,(short)iStack_50);
+                  bVar5 = ;
+                  if ((Scene::SceneGetLocatorPos(ppVar6->locator_pointer->sceneDat,&fStack592,3)) &&
+                     (Scene::SceneGetLocatorAlign(ppVar6->locator_pointer->sceneDat,&fStack528,3))) {
                     to = &ppVar6->vec3_0x3c;
                     copyVec3(&fStack528,to);
                     if (ppVar6->voxelReach < 100.0f) {
@@ -1133,17 +1133,16 @@ LAB_80017d08:
                     (ppVar6->vec3_0x48).y =
                          fVar9 + ((ppVar6->vec3_0x3c).y - fVar9) / 10.0f;
                     FUN_800ab23c(&fStack528,&ppVar6->vec3_0x48,1.39624);
-                    Animation::MatrixASetPos(ppVar6->anidat,fStack592.x,fStack592.y,fStack592.z);
-                    Animation::MatrixAAlign(ppVar6->anidat,fStack528.x,fStack528.y,fStack528.z,0.0);
+                    Scene::MatrixASetPos(ppVar6->SceneDat,fStack592.x,fStack592.y,fStack592.z);
+                    Scene::MatrixAAlign(ppVar6->SceneDat,fStack528.x,fStack528.y,fStack528.z,0.0);
                     fVar9 = ppVar6->interactRadiusA;
-                    Animation::ScaleBodyPart(ppVar6->anidat,fVar9,fVar9,fVar9);
-                    if (Cheats::_balloon_flag) {
-                      Animation::ScaleBodyPart(ppVar6->anidat,2.0f,2.0f,2.0f);
-                    }
+                    Scene::ScaleBodyPart(ppVar6->SceneDat,fVar9,fVar9,fVar9);
+                    //big head mode
+                    if (_balloon_flag) Scene::ScaleBodyPart(ppVar6->SceneDat,2.0f,2.0f,2.0f);
                     if (DAT_800ee974){
                       if ((ppVar6->flags & ACTOR_2000)) continue;
                     }
-                    g = BorgAnimDrawScene(g,ppVar6->anidat);
+                    g = BorgAnimDrawScene(g,ppVar6->SceneDat);
                   }
                 }
               }
@@ -1223,41 +1222,41 @@ void remove_flagged_playerdata(void){
 }
 
 void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
-  AnimationData *pAVar1;
+  SceneData *pAVar1;
   Borg7header *pBVar2;
   
   if (((param_2 != param_1->borg7) || (param_1->locator_pointer == NULL)) &&
      (NoExpPak_memCheck(0))) {
     if (param_2 == BORG7_Alaron) param_1->alaron_flag = true;
     else param_1->alaron_flag = false;
-    if (param_1->borg7 == -1) pAVar1 = param_1->anidat;
+    if (param_1->borg7 == -1) pAVar1 = param_1->SceneDat;
     else {
       if (param_1->locator_pointer != NULL) {
         AllocFreeQueueItem(&gGlobals.QueueA,&param_1->locator_pointer,0,0);
       }
-      pAVar1 = param_1->anidat;
+      pAVar1 = param_1->SceneDat;
     }
     if ((pAVar1 == NULL) && (param_1->alaron_flag != false)) {
       pAVar1 = BorgAnimLoadScene(some_borg5);
-      param_1->anidat = pAVar1;
-      Animation::SetFlag40(pAVar1);
-      Animation::SetFlag4(param_1->anidat);
-      Animation::SetFogFlag(param_1->anidat);
-      Animation::SetModelTint(param_1->anidat,0xff,0xff,0xff,0xff);
-      Animation::SetLightData(param_1->anidat);
-      Animation::SceneSetMaxDynamicDirLights(param_1->anidat,4);
+      param_1->SceneDat = pAVar1;
+      Scene::SetFlag40(pAVar1);
+      Scene::SetFlag4(param_1->SceneDat);
+      Scene::SetFogFlag(param_1->SceneDat);
+      Scene::SetModelTint(param_1->SceneDat,0xff,0xff,0xff,0xff);
+      Scene::SetLightData(param_1->SceneDat);
+      Scene::SceneSetMaxDynamicDirLights(param_1->SceneDat,4);
     }
     pBVar2 = func_loading_borg7(param_2,&gGlobals.Sub.particleEmmiter);
-    pAVar1 = pBVar2->aniDat;
+    pAVar1 = pBVar2->sceneDat;
     param_1->locator_pointer = pBVar2;
     param_1->borg7 = param_2;
-    Animation::SetParticleHead(pAVar1,(ParticleEmmiter *)&gGlobals.Sub.particleEmmiter);
-    Animation::SetFlag40(param_1->locator_pointer->aniDat);
-    Animation::SetFlag4(param_1->locator_pointer->aniDat);
-    Animation::SetFogFlag(param_1->locator_pointer->aniDat);
-    Animation::SetModelTint(param_1->locator_pointer->aniDat,0xff,0xff,0xff,0xff);
-    Animation::SetLightData(param_1->locator_pointer->aniDat);
-    Animation::SceneSetMaxDynamicDirLights(param_1->locator_pointer->aniDat,4);
+    Scene::SetParticleHead(pAVar1,(ParticleEmmiter *)&gGlobals.Sub.particleEmmiter);
+    Scene::SetFlag40(param_1->locator_pointer->sceneDat);
+    Scene::SetFlag4(param_1->locator_pointer->sceneDat);
+    Scene::SetFogFlag(param_1->locator_pointer->sceneDat);
+    Scene::SetModelTint(param_1->locator_pointer->sceneDat,0xff,0xff,0xff,0xff);
+    Scene::SetLightData(param_1->locator_pointer->sceneDat);
+    Scene::SceneSetMaxDynamicDirLights(param_1->locator_pointer->sceneDat,4);
   }
   return;
 }
@@ -1270,11 +1269,11 @@ void Actor::FreePlayerActor(playerData *param_1)
     Crash::ManualCrash("FreePlayerActor","No Actor To Free!");
   CombatAttackVisuals::FreePlayer(param_1);
   if (param_1->locator_pointer != NULL) {
-    Particle::UnsetAnimatedEmmiter(&gGlobals.Sub.particleEmmiter,param_1->locator_pointer->aniDat);
+    Particle::UnsetAnimatedEmmiter(&gGlobals.Sub.particleEmmiter,param_1->locator_pointer->sceneDat);
     AllocFreeQueueItem(&gGlobals.QueueA,&param_1->locator_pointer,0,0);
   }
-  if (param_1->anidat != NULL) {
-    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->anidat,1,0);
+  if (param_1->SceneDat != NULL) {
+    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->SceneDat,1,0);
   }
   param_1->borg7 = -1;
   EmptyHands(param_1);
@@ -1308,8 +1307,8 @@ void Actor::DeathFlag(playerData *p){
 
 
 void FUN_800187f4(attachmentNode *param_1){
-  if ((param_1->borg5) && (param_1->anidat)) {
-    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->anidat,1,1);
+  if ((param_1->borg5) && (param_1->sceneDat)) {
+    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->sceneDat,1,1);
   }
 }
 
@@ -1352,13 +1351,13 @@ void ChangeAttachmentNode(playerData *pDat,u16 pos,u16 node,char *file,u16 line)
 
 void Ofunc_80018a74(playerData *param_1){
   if (param_1->locator_pointer)
-    Animation::SetFogFlag(param_1->locator_pointer->aniDat);
+    Scene::SetFogFlag(param_1->locator_pointer->sceneDat);
 }
 
 
 void Ofunc_80018a9c(playerData *param_1){
   if (param_1->locator_pointer) {
-    Animation::UnsetFogFlag(param_1->locator_pointer->aniDat);
+    Scene::UnsetFogFlag(param_1->locator_pointer->sceneDat);
   }
 }
 

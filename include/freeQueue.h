@@ -15,7 +15,7 @@ u16 queueHeadFreeFlag=false;
 
 enum FreeQueueTypes{
     FreeQueue_Borg7,
-    FreeQueue_AniDat,
+    FreeQueue_Scene,
     FreeQueue_Borg6,
     FreeQueue_Borg1,
     FreeQueue_Borg8,
@@ -27,7 +27,7 @@ enum FreeQueueTypes{
 
 #define FREEQ(p,type) AllocFreeQueueItem(&gGlobals.QueueA,(void**)&p,FreeQueue_##type,0)
 #define FREEQB7(p) FREEQ(p,Borg7) //Add Borg7 item to free queue
-#define FREEQANI(p) FREEQ(p,AniDat) //Add animation item to free queue
+#define FREEQSCENE(p) FREEQ(p,Scene) //Add scene item to free queue
 #define FREEQB6(p) FREEQ(p,Borg6) //Add Borg6 item to free queue
 #define FREEQB1(p) FREEQ(p,Borg1) //Add Borg1 item to free queue
 #define FREEQB8(p) FREEQ(p,Borg8) //Add Borg8 item to free queue

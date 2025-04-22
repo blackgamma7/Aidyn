@@ -27,8 +27,8 @@ void Init(void){
 
 void Orphaned(playerData *target,u32 param_2){
   playerData *ppVar1;
-  AnimationData *pAVar2;
-  AnimationData *pAVar3;
+  SceneData *pAVar2;
+  SceneData *pAVar3;
   u32 BVar4;
   Borg7header *pBVar5;
   uint uVar6;
@@ -50,12 +50,12 @@ void Orphaned(playerData *target,u32 param_2){
     ppVar1 = pAVar7->player;
     pAVar7->borg7 = pBVar5;
     if (ppVar1->locator_pointer == NULL)Actor::ChangeAppearance(ppVar1,ppVar1->borg7);
-    pAVar2 = pAVar7->borg7->aniDat;
-    Animation::SetFlag40(pAVar2);
-    Animation::SetFlag4(pAVar2);
-    Animation::SetModelTint(pAVar2,0xff,0xff,0xff,0xff);
+    pAVar2 = pAVar7->borg7->sceneDat;
+    Scene::SetFlag40(pAVar2);
+    Scene::SetFlag4(pAVar2);
+    Scene::SetModelTint(pAVar2,0xff,0xff,0xff,0xff);
     pBVar5 = pAVar7->borg7;
-    pAVar3 = pAVar7->player->locator_pointer->aniDat;
+    pAVar3 = pAVar7->player->locator_pointer->sceneDat;
     pAVar2->particleHead = &gGlobals.Sub.particleEmmiter;
     pAVar2->link2a8 = NULL;
     pAVar2->link2a4 = pAVar3;
@@ -66,7 +66,7 @@ void Orphaned(playerData *target,u32 param_2){
 
 
 Gfx * Render(Gfx *g,uint delta){
-  AnimationData *pAVar2;
+  SceneData *pAVar2;
   struct_1 *psVar3;
   int iVar4;
   bool bVar5;
@@ -85,7 +85,7 @@ Gfx * Render(Gfx *g,uint delta){
         if (x->player) copyVec3(&(x->player->collision).pos,&x->pos);
         pAVar1 = x->borg7;
         uVar6 = 0;
-        pAVar2 = pAVar1->aniDat;
+        pAVar2 = pAVar1->sceneDat;
         if (delta != 0) {
           psVar3 = pAVar1->unk1c;
           for(u32 uVar6=0;uVar6<delta;uVar6++) {
@@ -95,15 +95,15 @@ Gfx * Render(Gfx *g,uint delta){
           }
         }
         if (pAVar2->aniTime < pAVar1->unk1c->field1_0x4->dat[1].field4_0x4) {
-          Animation::MatrixASetPos(pAVar2,(x->pos).x,(x->pos).y,(x->pos).z);
-          g = BorgAnimDrawSceneLinked(g,(AnimationData *)pAVar1);
+          Scene::MatrixASetPos(pAVar2,(x->pos).x,(x->pos).y,(x->pos).z);
+          g = BorgAnimDrawSceneLinked(g,(SceneData *)pAVar1);
         }
         else {
-          if (!FUN_800b4030(pAVar1->aniDat->particleHead,pAVar2)) x->flag|= 2;
+          if (!FUN_800b4030(pAVar1->sceneDat->particleHead,pAVar2)) x->flag|= 2;
         }
       }
       else {
-        FUN_800b3f9c(&gGlobals.Sub.particleEmmiter,x->borg7->aniDat);
+        FUN_800b3f9c(&gGlobals.Sub.particleEmmiter,x->borg7->sceneDat);
         FREEQB7(x);
         CLEAR(x);
         attackVisualVars.iFreeVisual--;

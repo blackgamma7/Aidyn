@@ -45,7 +45,7 @@ void ProcessFreeQueue(QueueStructA *param_1){
             FUN_8009fca8((Borg7header *)entry->BorgPointer);
             break;
           case FreeQueue_AniDat:
-            borganim_free((AnimationData *)entry->BorgPointer);
+            borganim_free((SceneData *)entry->BorgPointer);
             break;
           case FreeQueue_Borg6:
             passto_borg_6_free((borg6header *)entry->BorgPointer);

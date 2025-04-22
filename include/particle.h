@@ -56,7 +56,7 @@ struct ParticleEmmiter {
     ParticleFuncC funcC;
     void *dobject; //varies
     ParticleEmmiter *link;
-    AnimationData *aniDat;
+    SceneData *sceneDat;
     collisionSphere collision;
 };
 

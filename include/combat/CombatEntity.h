@@ -183,7 +183,7 @@ class CombatEntity {
     void AttachWeaponShieldModel(u16,s32,s32);
     void ThrowingEquipped();
     void ShowWeaponSheild();
-    AnimationData* GetWeaponAniDat();
+    SceneData* GetWeaponScene();
     void GetWeaponRanges(float *,float *,float *);
     void ClearSpellEffects();
     void m80070234();

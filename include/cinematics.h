@@ -55,7 +55,7 @@ typedef enum enum_cinematic_switch {
 } enum_cinematic_switch;
 
 struct CinematicStruct {
-    AnimationData *AniDat;
+    SceneData *sceneDat;
     borg6header *Borg6;
     Borg12Header *BGM;
     u16 *SeqenceFlags;

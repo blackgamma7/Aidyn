@@ -4,7 +4,7 @@
 vec3f sMarkerTempV3A,sMarkerTempV3B,sMarkerTempV3C,sMarkerTempV3D;
 
 struct CombatMarker {
-    AnimationData* borg;
+    SceneData* borg;
     vec3f coords;
     float alpha;
     s32 time;

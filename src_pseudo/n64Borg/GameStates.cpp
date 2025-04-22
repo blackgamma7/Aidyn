@@ -1,6 +1,8 @@
 //Unused borg type. added from completion sake.
+
 #define FILENAME "./src/n64BorgGameStates.cpp"
 #include "heapN64.h"
+#include "n64Borg.h"
 
 u8 borg14_func_b(void *x,s32 y){
   *(s32 *)((s32)x + 8) = y;

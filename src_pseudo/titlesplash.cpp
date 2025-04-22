@@ -4,7 +4,7 @@ char** copyrightText=NULL;
 #ifdef DEBUGVER
 u16 copyright_error=0;
 #endif
-AnimationData* SplashLogoModel=NULL;
+SceneData* SplashLogoModel=NULL;
 WidgetBorg8* SplashLicence=NULL;
 
 
@@ -75,11 +75,11 @@ void TitleSplash::Timer(u16 *param_1,u8 *alpha,u8 *param_3,u32 ShowTime,u8 *para
 
 void TitleSplash::Init(void){
   SplashLogoModel = BorgAnimLoadScene(BORG5_N64Logo);
-  Animation::SetNearFarPlanes(SplashLogoModel,1.0f,256.0);
-  Animation::SetFlag8(SplashLogoModel);
-  Animation::SetFlag10(SplashLogoModel);
-  Animation::UnsetFlag4(SplashLogoModel);
-  Animation::SetModelTint(SplashLogoModel,0,0,0,0xff);
+  Scene::SetNearFarPlanes(SplashLogoModel,1.0f,256.0);
+  Scene::SetFlag8(SplashLogoModel);
+  Scene::SetFlag10(SplashLogoModel);
+  Scene::UnsetFlag4(SplashLogoModel);
+  Scene::SetModelTint(SplashLogoModel,0,0,0,0xff);
   gGlobals.splashScreenUnkC = 0;
   gGlobals.splashscreenTimer = 0;
   fadeFloatMirror = 1.0f;
@@ -89,7 +89,7 @@ void TitleSplash::Init(void){
 }
 
 void TitleSplash::N64Free(void){
-  FREEQANI(&SplashLogoModel);
+  FREEQSCENE(&SplashLogoModel);
   FREEQW(&SplashLicence);
   SplashLogoModel = NULL;
   SplashLicence = NULL;

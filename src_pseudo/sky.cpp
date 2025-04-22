@@ -516,8 +516,7 @@ void Sky::Set2Floats(float param_1,float param_2){
 void Sky::SetBackgroundType(short param_1,short param_2,float param_3){
   gGlobals.sky.gray = 0.0;
   gGlobals.sky.grayDelta = 0.0;
-  if ((lVar1 != gGlobals.sky.Type) ||
-     ((param_2 << 0x10) >> 0x10) != gGlobals.sky.obj4.type))
+  if ((param_1 != gGlobals.sky.Type) || (param_2 != gGlobals.sky.obj4.type))
   {
     if (3 < param_1 - 1U) {
       Gsprintf("Invalid type: %d.  Range: (1-%d)",param_1,4);
@@ -528,7 +527,7 @@ LAB_800226a0:
       CRASH("SetBackgroundType","Invalid Sky Type");
     }
     if (param_1 < 3) {
-      Free();
+      Sky::Free();
       gGlobals.sky.Type = param_1;
     }
     else {

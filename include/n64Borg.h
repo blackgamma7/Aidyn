@@ -3,7 +3,7 @@
 #include "heapN64.h"
 #include "graphics.h"
 
-extern struct AnimationData;
+extern struct SceneData;
 //TODO: Break into headers by borg type
 
 /*"Borg" files are the art/level/cutscene assets of the game, in 15 different categories:
@@ -148,9 +148,9 @@ struct teleport_dat {
 struct SceneVoxelModel {
     float renderProx;
     u32 borgIndex;
-    union{
+    union{ //common enough union to abstract?
     Borg7header *b7;
-    AnimationData* aniDat;
+    SceneData* sceneDat;
     };
 };
 
@@ -361,20 +361,44 @@ struct Borg1header {
     Borg1Data *dat;
 };
 
-struct Borg3Data {
-    u32 index;
-    u8 unk4[4];
-    u16 perspnorm[2];
-    int *unkc;
-    float unk10;
-    float fovy;
+//contains perspective data. Only 5 items, with the only 3 distince changes being the clipping planes.
+struct Borg3Data{
+    float unk0; //unused(?) apart from an orphaned getter/setter. always 0
+    float fovy; //always 45
     float nearplane;
     float farplane;
-    float unk20;
-    float aspect;
-    s16 *unk28;
+    float unk10; //unused(?) apart from an orphaned getter/setter. always 1
+    float aspect; // always 1.3333334 (4/3)
+    s16 *unk18; //unused(?) apart from an orphaned setter
     Mtx *mtx_;
 };
+
+//Headered perspective data
+struct Borg3Header {
+    borgHeader head;
+    u16 perspnorm[2];
+    int *unkc;
+    Borg3Data dat;
+};
+
+struct borg5substruct {
+    u16 flag;
+    u8 mtxOp;
+    u8 tier;
+    borg5substruct **links;
+    u32 unk0x8;
+    Mtx *mtxs;
+    vec3f rot;
+    vec3f pos;
+    float field12_0x28;
+    float field13_0x2c;
+    float field14_0x30;
+    float field15_0x34;
+    float field16_0x38;
+    float field17_0x3c;
+};
+
+
 
 struct Borg5data {
     s32 substructCount;
@@ -388,7 +412,7 @@ struct Borg5data {
     void* unused20; //pointer to unused data?
     union{
         s32 borg3i;
-        Borg3Data *borg3P;
+        Borg3Header *borg3P;
         };
     u32 *borg4Indecies;
     Borg2header **borg2Indecies;
@@ -436,10 +460,13 @@ struct Borg9header {
     Borg9data dat;
 };
 
+#define Borg11_Set 0x10 //always set
+#define Borg11_8bit 0x4 //8-bit sound sample
+#define Borg11_16BE 0x8 //16-bit BE sound sample
 
 //PCM mono 44.1KHz sound samples
 struct Borg11Data {
-    u32 flag; //0x10=unk(always set?), 0x4=8-bit, 0x8=16-bit BE
+    u32 flag;
     u32 len;
     u32 samples;
     u8 *wav;
@@ -452,14 +479,32 @@ struct Borg11header {
     void* p;
 };
 
+struct borg2data {
+    int unk0x0;
+    int dsplistcount;
+    float scale;
+    vec3f pos;
+    vec3f rot; /* radians */
+    Color32 unk0x24;
+    u32 unk0x28; /* ^1&1? */
+    Gfx **dsplists;
+    Vtx_t *vertlist;
+    Vtx_t *vertlist2;
+    u32 vertcount;
+    int *unk0x3c;
+    astruct_3 *unk0x40;
+    u32 unk0x44;
+    u32 unk0x48;
+    u32 unk0x4c;
+};
+
 struct Borg2header {
-    s32 index;
-    s32 field1_0x4;
-    struct LookAt *lookat[2];
+    borgHeader head;
+    LookAt *lookat[2];
     MtxF someMtx;
     Gfx **dlist;
-    u8* unk54;
-    struct borg2data *dat;
+    u8* dlistSet;
+    borg2data *dat;
 };
 
 struct Borg12Sub {
@@ -498,7 +543,7 @@ struct borg6header {
     int field2_0x8;
     borg6header *link;
     u32 flag;
-    AnimationData *anidat;
+    SceneData *sceneDat;
     u32 flag2;
     float field7_0x1c;
     borg6Data *dat;
@@ -520,23 +565,10 @@ struct Borg1Data {
     u8 *bitmap;
     u16 * pallette;
 };
-struct borg2data {
-    int unk0x0;
-    int dsplistcount;
-    float scale;
-    vec3f pos;
-    vec3f rot; /* radians */
-    Color32 unk0x24;
-    u32 unk0x28; /* ^1&1? */
-    Gfx **dsplists;
-    Vtx_t *vertlist;
-    Vtx_t *vertlist2;
-    u32 vertcount;
-    int *unk0x3c;
-    float (*unk0x40)[5]; /* posx,posy,posz,?,? unused */
-    u32 unk0x44;
-    u32 unk0x48;
-    u32 unk0x4c;
+
+struct astruct_3{
+    u16 unk0[2];
+    vec4f unk4;
 };
 
 struct Borg5header {
@@ -559,12 +591,8 @@ struct Borg7data {
 };
 
 struct Borg7header {
-    s32 index;
-    undefined field1_0x4;
-    undefined field2_0x5;
-    undefined field3_0x6;
-    undefined field4_0x7;
-    AnimationData *aniDat;
+    borgHeader head;
+    SceneData *sceneDat;
     u16 currentAni;
     u16 field7_0xe;
     u16 field8_0x10;
@@ -615,7 +643,7 @@ void borg_2_free(Borg2header *);
 void borg4_func_a(void*);
 u8 borg4_func_b(void* x,void* y);
 void Borg4_free(s32 *);
-void borg3_func_a(Borg3Data *);
+void borg3_func_a(Borg3Header *);
 u8 borg3_func_b(void*, void* );
 void borg5_func_a(Borg5header*);
 u8 InitBorgScene(Borg5header *,void*);

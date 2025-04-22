@@ -110,8 +110,8 @@ u16 Cinematic::Tick(Gfx**GG){
       LoadNextScene();
     }
     if ((gGlobals.cinematic.Borg6) &&
-       (gGlobals.cinematic.AniDat)) {
-      if (gGlobals.cinematic.AniDat->aniTime + iVar1 < *(s32 *)((gGlobals.cinematic.Borg6)->unk0x20 + 0xc) + -1) {
+       (gGlobals.cinematic.sceneDat)) {
+      if (gGlobals.cinematic.sceneDat->aniTime + iVar1 < *(s32 *)((gGlobals.cinematic.Borg6)->unk0x20 + 0xc) + -1) {
         g = Cinematic::Render(g,(s16)iVar1);
         g = Cinematic::Fade(g,iVar1);
       }
@@ -147,7 +147,7 @@ void Cinematic::FreeScene(void){
     unlinkBorg6(gGlobals.cinematic.Borg6);
     FREEQB6(gGlobals.cinematic.Borg6);
   }
-  if (gGlobals.cinematic.AniDat) FREEQANI(gGlobals.cinematic);
+  if (gGlobals.cinematic.sceneDat) FREEQSCENE(gGlobals.cinematic);
   if (gGlobals.cinematic.BGM) {
     DCM::Remove(gGlobals.cinematic.BGIndex,gGlobals.cinematic.BGId);
     FREEQB12(gGlobals.cinematic.BGM);
@@ -231,10 +231,10 @@ Gfx* Cinematic::Render(Gfx*param_1,s16 delta){
 
   g = Sky::RenderSky(param_1,delta);
   g = Graphics::StartDisplay(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  Animation::SetSpeed(gGlobals.cinematic.AniDat,delta);
-  FUN_800a0df4(gGlobals.cinematic.AniDat);
-  g = gsAnimationDataMtx(g,gGlobals.cinematic.AniDat);
-  g = BorgAnimDrawScene(g,gGlobals.cinematic.AniDat);
+  Scene::SetSpeed(gGlobals.cinematic.sceneDat,delta);
+  FUN_800a0df4(gGlobals.cinematic.sceneDat);
+  g = gsAnimationDataMtx(g,gGlobals.cinematic.sceneDat);
+  g = BorgAnimDrawScene(g,gGlobals.cinematic.sceneDat);
   CinematicText::IncRuntime(delta);
   CinematicText::NextLine();
   CinematicText::Render(&g,delta);
@@ -262,11 +262,11 @@ void Cinematic::LoadNextScene(void){
       DCM::Start(gGlobals.cinematic.BGIndex,gGlobals.cinematic.BGId,vol);
     }
     gGlobals.cinematic.Borg6 = get_borg_6(gGlobals.cinematic.borg6enums[gGlobals.cinematic.tally]);
-    gGlobals.cinematic.AniDat = BorgAnimLoadScene((gGlobals.cinematic.Borg6)->dat->borg5);
-    AniDat_SetBorg6(gGlobals.cinematic.AniDat,gGlobals.cinematic.Borg6);
-    Animation::SetFlag10(gGlobals.cinematic.AniDat);
-    Animation::UnsetFlag80(gGlobals.cinematic.AniDat);
-    Animation::SetNearFarPlanes(gGlobals.cinematic.AniDat,
+    gGlobals.cinematic.sceneDat = BorgAnimLoadScene((gGlobals.cinematic.Borg6)->dat->borg5);
+    Scene_SetBorg6(gGlobals.cinematic.sceneDat,gGlobals.cinematic.Borg6);
+    Scene::SetFlag10(gGlobals.cinematic.sceneDat);
+    Scene::UnsetFlag80(gGlobals.cinematic.sceneDat);
+    Scene::SetNearFarPlanes(gGlobals.cinematic.sceneDat,
                gGlobals.cinematic.clippingPlanes[gGlobals.cinematic.tally][0],
                gGlobals.cinematic.clippingPlanes[gGlobals.cinematic.tally][1]);
     gGlobals.cinematic.tally++;

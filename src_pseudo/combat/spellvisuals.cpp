@@ -175,7 +175,7 @@ void FUN_80094b24(short param_1){
   if ((entry->flags & 1)) {
     entry->timer = 150;
     FUN_80017330(entry->playerDat,30.0,1.0,1.0,1.0);
-    Animation::UnsetFogFlag(entry->playerDat->locator_pointer->aniDat);
+    Scene::UnsetFogFlag(entry->playerDat->locator_pointer->sceneDat);
     entry->flags|= 2;
   }
 }
@@ -279,7 +279,7 @@ void FUN_80094e6c(short param_1){
       if (entry->timer <= 0) {
         FUN_80017388(entry->playerDat,30.0);
         Borg7header *pBVar1 = entry->playerDat->locator_pointer;
-        if (pBVar1) Animation::SetFogFlag(pBVar1->aniDat);
+        if (pBVar1) Scene::SetFogFlag(pBVar1->sceneDat);
         entry->flags&=~2;
       }
       else entry->timer-= param_1;
@@ -298,7 +298,7 @@ void FUN_80094f40(short param_1){
 
 
 short FUN_80094fdc(u16 param_1,u8 param_2,u8 param_3){
-  AnimationData *pAVar1;
+  SceneData *pAVar1;
   playerData *ppVar2;
   Borg7header *pBVar3;
   u32 uVar4;
@@ -374,9 +374,9 @@ LAB_800950ec:
     if (param_3 - 5 < 2) pSVar10->b7 = NULL;
     else {
       pAVar6 = func_loading_borg7(BVar6,&gGlobals.Sub.particleEmmiter);
-      pAVar1 = pAVar6->aniDat;
-      Animation::SetFlag40(pAVar1);
-      Animation::SetFlag4(pAVar1);
+      pAVar1 = pAVar6->sceneDat;
+      Scene::SetFlag40(pAVar1);
+      Scene::SetFlag4(pAVar1);
       pSVar10->b7 = pAVar6;
       pSVar10->flags|= 0x10;
     }
@@ -391,7 +391,7 @@ LAB_800950ec:
     else pSVar10->field3_0x1c = gEntityDB->GetHeight(pSVar9->playerDat->ent_ID);
     (pSVar10->pos).y += pSVar10->field3_0x1c;
     pBVar3 = pSVar9->playerDat->locator_pointer;
-    if (pBVar3) Animation::SceneGetLocatorPos(pBVar3->aniDat,&pSVar10->loc3Pos,3);
+    if (pBVar3) Scene::SceneGetLocatorPos(pBVar3->sceneDat,&pSVar10->loc3Pos,3);
     pSVar10->field8_0x2e = param_3;
     pSVar10->flags |= 1;
   }
@@ -400,24 +400,24 @@ LAB_800950ec:
 
 
 void FUN_800952c8(short param_1,short param_2,short param_3){
-  AnimationData *pAVar1;
+  SceneData *pAVar1;
   Borg7header *pBVar2;
-  AnimationData *pAVar3;
-  AnimationData *pAVar4;
+  SceneData *pAVar3;
+  SceneData *pAVar4;
   
   if ((param_1 != -1) && ((SpellVisuals.ptr1[param_1].flags & 1) != 0)) {
-    pAVar1 = (SpellVisuals.ptr1[param_1].b7)->aniDat;
+    pAVar1 = (SpellVisuals.ptr1[param_1].b7)->sceneDat;
     if (param_2 == -1) pAVar4 = NULL;
     else {
       pBVar2 = (SpellVisuals.ptr2[param_2].playerDat)->locator_pointer;
       pAVar4 = NULL;
-      if (pBVar2 != NULL) pAVar4 = pBVar2->aniDat;
+      if (pBVar2 != NULL) pAVar4 = pBVar2->sceneDat;
     }
     if (param_3 == -1) pAVar3 = NULL;
     else {
       pBVar2 = (SpellVisuals.ptr2[param_3].playerDat)->locator_pointer;
       pAVar3 = NULL;
-      if (pBVar2 != NULL) pAVar3 = pBVar2->aniDat;
+      if (pBVar2 != NULL) pAVar3 = pBVar2->sceneDat;
     }
     pAVar1->particleHead = &gGlobals.Sub.particleEmmiter;
     pAVar1->link2a4 = pAVar4;
@@ -428,7 +428,7 @@ void FUN_800952c8(short param_1,short param_2,short param_3){
 void FUN_800953a8(short param_1){
   SpellVisualTypeB *pSVar1 = SpellVisuals.ptr1 + param_1;
   if ((((pSVar1->flags & 1)) && (pSVar1->field8_0x2e != 5)) && (pSVar1->field8_0x2e != 6)) {
-    FUN_800b3f9c(&gGlobals.Sub.particleEmmiter,pSVar1->b7->aniDat);
+    FUN_800b3f9c(&gGlobals.Sub.particleEmmiter,pSVar1->b7->sceneDat);
   }
 }
 
@@ -446,7 +446,7 @@ void processSpellVisuals(uint param_1){
   float fVar4;
   int iVar6;
   bool bVar8;
-  AnimationData *pAVar7;
+  SceneData *pAVar7;
   SpellVisualTypeC *pSVar9;
   uint uVar10;
   SpellVisualTypeB *ppBVar12;
@@ -469,13 +469,13 @@ void processSpellVisuals(uint param_1){
              ((ppBVar12->pos).y - (pSVar9->playerDat->collision).radius) + ppBVar12->field3_0x1c;
         pBVar2 = pSVar9->playerDat->locator_pointer;
         if (pBVar2) {
-          Animation::SceneGetLocatorPos(pBVar2->aniDat,&ppBVar12->loc3Pos,3);
+          Scene::SceneGetLocatorPos(pBVar2->sceneDat,&ppBVar12->loc3Pos,3);
         }
       }
       if (true) {
         if (ppBVar12->field8_0x2e < 5) {
           pBVar2 = ppBVar12->b7;
-          pAVar7 = pBVar2->aniDat;
+          pAVar7 = pBVar2->sceneDat;
           if ((ppBVar12->flags & 0x10)) {
             FUN_800a0090(pBVar2,5);
             ppBVar12->flags &=~0x10;
@@ -493,8 +493,8 @@ void processSpellVisuals(uint param_1){
             }
           }
           if (pAVar7->aniTime < pBVar2->unk1c->field1_0x4->dat->unkc) {
-            Animation::MatrixASetPos(pAVar7,(ppBVar12->pos).x,(ppBVar12->pos).y,(ppBVar12->pos).z);
-            Animation::SetModelTint(pAVar7,gGlobals.brightness * 255,gGlobals.brightness * 255,gGlobals.brightness * 255,0xff);
+            Scene::MatrixASetPos(pAVar7,(ppBVar12->pos).x,(ppBVar12->pos).y,(ppBVar12->pos).z);
+            Scene::SetModelTint(pAVar7,gGlobals.brightness * 255,gGlobals.brightness * 255,gGlobals.brightness * 255,0xff);
           }
           else {
             if (!FUN_800b4030(pAVar7->particleHead,pAVar7)) {
@@ -509,9 +509,9 @@ void processSpellVisuals(uint param_1){
             if (DAT_800f1d94 == '\0') {
               if ((int)ppBVar12->field5_0x24 < (int)get_memFree_2()) {
                 pAVar7 = BorgAnimLoadScene(ppBVar12->field4_0x20);
-                Animation::SetFlag40(pAVar7);
-                Animation::SetFlag4(pAVar7);
-                ppBVar12->aniDat = pAVar7;
+                Scene::SetFlag40(pAVar7);
+                Scene::SetFlag4(pAVar7);
+                ppBVar12->SceneDat = pAVar7;
               }
               else ppBVar12->b7 = NULL;
               ppBVar12->flags = ppBVar12->flags & ~0x20 | 0x40;
@@ -520,7 +520,7 @@ void processSpellVisuals(uint param_1){
             else DAT_800f1d94--;
           }
           if ((ppBVar12->flags & 0x40)){
-            pAVar7 = ppBVar12->aniDat;
+            pAVar7 = ppBVar12->SceneDat;
             if (SpellVisuals.field9_0x24 == 0) {
               SpellVisuals.lifeTime += param_1;
             }
@@ -530,12 +530,12 @@ void processSpellVisuals(uint param_1){
             if (pAVar7) {
               fVar12 = __sinf(((float)(int)SpellVisuals.lifeTime /
                                   (float)SpellVisuals.field7_0x1c) * (float)(TAU/2));
-              Animation::MatrixASetPos(pAVar7,(ppBVar12->loc3Pos).x,(ppBVar12->loc3Pos).y,(ppBVar12->loc3Pos).z);
-              Animation::SetModelTint(pAVar7,gGlobals.brightness * 255,gGlobals.brightness * 255,gGlobals.brightness * 255,fVar12 * 255 * SpellVisuals.field6_0x18);
+              Scene::MatrixASetPos(pAVar7,(ppBVar12->loc3Pos).x,(ppBVar12->loc3Pos).y,(ppBVar12->loc3Pos).z);
+              Scene::SetModelTint(pAVar7,gGlobals.brightness * 255,gGlobals.brightness * 255,gGlobals.brightness * 255,fVar12 * 255 * SpellVisuals.field6_0x18);
             }
           }
           if ((ppBVar12->flags & 0x80)){
-            if (ppBVar12->aniDat) FREEQANI(ppBVar12);
+            if (ppBVar12->SceneDat) FREEQSCENE(ppBVar12);
             ppBVar12->b7 = NULL;
             ppBVar12->flags &= ~0x80;
             FUN_80095414(FUN_80094cd0(ppBVar12->field7_0x2c));
@@ -558,10 +558,10 @@ Gfx * FUN_80095a24(Gfx *param_1){
     if ((entry->flags & 1) != 0) {
       if (true) {
         if (entry->field8_0x2e < 5) {
-          param_1 = BorgAnimDrawSceneLinked(param_1,entry->aniDat);
+          param_1 = BorgAnimDrawSceneLinked(param_1,entry->SceneDat);
         }
-        else if (((entry->field8_0x2e < 7) && ((entry->flags & 0x40))) &&(entry->aniDat)) {
-          param_1 = BorgAnimDrawScene(param_1,entry->aniDat);
+        else if (((entry->field8_0x2e < 7) && ((entry->flags & 0x40))) &&(entry->SceneDat)) {
+          param_1 = BorgAnimDrawScene(param_1,entry->SceneDat);
         }
       }
       }
@@ -583,7 +583,7 @@ void FUN_80095ad8(short param_1){
         pBVar1 = x->b7;
         SpellVisuals.ptr2[(short)x->field7_0x2c].field5_0xe--;
         if (pBVar1) {
-          FREEQANI(x);
+          FREEQSCENE(x);
           x->b7 = NULL;
         }
       }
@@ -728,7 +728,7 @@ void combatspellvisuals_free(void){
           FUN_800953a8(uVar4);
           FREEQB7(piVar2);
         }
-        else if (piVar2->field8_0x2e < 7) FREEQANI(piVar2);
+        else if (piVar2->field8_0x2e < 7) FREEQSCENE(piVar2);
       }
     }
   }
@@ -739,7 +739,7 @@ void combatspellvisuals_free(void){
     if (((piVar3->flags & 1) != 0) && ((piVar3->flags & 8) == 0)) {
       FUN_80017388(piVar3->playerDat,30.0);
       Borg7header* pBVar1= piVar3->playerDat->locator_pointer;
-      if (pBVar1) Animation::SetFogFlag(pBVar1->aniDat);
+      if (pBVar1) Scene::SetFogFlag(pBVar1->sceneDat);
       piVar3->playerDat->unk70ee = 0;
     }
   }

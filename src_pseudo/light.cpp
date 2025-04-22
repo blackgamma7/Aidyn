@@ -71,7 +71,7 @@ void Ofunc_80054db0(voxelObject* param_1,u16 param_2){(param_1->header).Bitfeild
 void Ofunc_80054dc0(voxelObject* param_1,u16 param_2){(param_1->header).Bitfeild &= ~param_2;}
 
 
-void InitLight(AnimationData *aniDat,Borg9data *borg9,vec3f *pos,voxelObject *light,s16 count,
+void InitLight(SceneData *aniDat,Borg9data *borg9,vec3f *pos,voxelObject *light,s16 count,
               s16 delta){
   u16 VVar1;
   u16 uVar2;
@@ -190,7 +190,7 @@ LAB_800550e8:
           vec3_normalize(local_90);
           tint_color_with_screenfade((light->light).cols,gGlobals.brightness);
 
-          Animation::addDynamicLight(aniDat,fVar12 * 250.0f,local_90[0].x,local_90[0].y,local_90[0].z,
+          Scene::addDynamicLight(aniDat,fVar12 * 250.0f,local_90[0].x,local_90[0].y,local_90[0].z,
                      (light->light).cols[0].R,(light->light).cols[0].G,(light->light).cols[0].B,
                      light_count);
         }
@@ -209,7 +209,7 @@ LAB_800550e8:
   return;
 }
 
-void light_init_func(playerData *param_1,AnimationData *param_2,s16 param_3){
+void light_init_func(playerData *param_1,SceneData *param_2,s16 param_3){
   
   
   Borg9data *b9C = GetCollisionZone(param_1->zoneDatByte);
@@ -229,10 +229,10 @@ void light_init_func(playerData *param_1,AnimationData *param_2,s16 param_3){
   }
 }
 
-void passto_initLight(AnimationData *param_1,Borg9data *param_2,voxelObject *param_3,s16 param_4)
+void passto_initLight(SceneData *param_1,Borg9data *param_2,voxelObject *param_3,s16 param_4)
   {InitLight(param_1,param_2,&param_3->header.pos,param_2->voxelObjs,param_2->voxelObjCount,param_4);}
 
-void passto_InitLight_2(DynamicLightHead *param_1,AnimationData *param_2,voxelObject *param_3,s16 param_4)
+void passto_InitLight_2(DynamicLightHead *param_1,SceneData *param_2,voxelObject *param_3,s16 param_4)
   {InitLight(param_2,gGlobals.Sub.borg9DatPointer,&param_3->header.pos,param_1->lights,16,param_4);}
 
 void init_dynamic_light(DynamicLightHead *param_1){

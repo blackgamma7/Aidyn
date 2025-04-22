@@ -44,7 +44,7 @@ u8 CombatMarkers::SetMarker(Borg9data *mapDat,vec3f *pos,float radius,u16 iter){
 }
 
 u8 CombatMarkers::Init(void){
-  AnimationData *pAVar1;
+  SceneData *pAVar1;
   CombatMarker *puVar2;
   int iVar2;
   uint uVar3;
@@ -168,14 +168,14 @@ void CombatMarkers::Tick(CombatMarker *param_1,u16 delta){
 
 
 Gfx * CombatMarkers::RenderMarker(Gfx *param_1,CombatMarker *param_2){  
-  Animation::MatrixASetPos(param_2->borg,(param_2->coords).x,(param_2->coords).y,(param_2->coords).z);
+  Scene::MatrixASetPos(param_2->borg,(param_2->coords).x,(param_2->coords).y,(param_2->coords).z);
   set_anidat_colors(param_2->borg,(param_2->alpha * 255.0f),1,(Color32)0x0);
   return BorgAnimDrawScene(param_1,param_2->borg);
 }
 
 void CombatMarkers::Free(void){
   for(u32 i=0;i<MARKERMAX;i++){
-    FREEQANI(gCombatMarkers[i].borg);
+    FREEQSCENE(gCombatMarkers[i].borg);
     gCombatMarkers[i].borg=NULL;
   }
   CLEAR(gCombatMarkers);

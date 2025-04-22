@@ -371,13 +371,13 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
   voxelObject *pVVar8;
   
   pBVar2 = param_1->mapPointer;
-  if ((param_1->anidat0x4) && (param_2)) {
-    FREEQANI(param_1->anidat0x4);
+  if ((param_1->sceneDat0x4) && (param_2)) {
+    FREEQSCENE(param_1->sceneDat0x4);
     param_1->flag |= 1;
   }
-  if (param_1->aniDat0x14){
+  if (param_1->SceneDat0x14){
     if (param_2) {
-      FREEQANI(param_1->aniDat0x14);
+      FREEQSCENE(param_1->SceneDat0x14);
       param_1->flag |= 2;
     }
   }
@@ -399,7 +399,7 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
           do {
             iVar9 = (iVar7 + uVar10) * 4;
             if (*(int *)((int)pvVar3 + iVar9 + iVar4) != 0) {
-              if ((*(u16 *)((int)pvVar3 + iVar6 * 4 + 0x6a) & 2) == 0) FREEQANI((void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30));
+              if ((*(u16 *)((int)pvVar3 + iVar6 * 4 + 0x6a) & 2) == 0) FREEQSCENE((void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30));
               else FREEQB7((void *)((int)pvVar3 + iVar9 + iVar6 * 4 + 0x30));
               *(undefined4 *)((int)pvVar3 + (iVar7 + uVar10) * 4 + iVar4) = 0;
             }
@@ -450,7 +450,7 @@ void ofunc_zoneengine_free(void){
 
 void move_zonedat(ZoneDat *param_1,ZoneDat *param_2){
   Borg9header *pBVar1;
-  AnimationData *pAVar2;
+  SceneData *pAVar2;
   uint uVar3;
   int iVar4;
   int iVar5;
@@ -467,10 +467,10 @@ void move_zonedat(ZoneDat *param_1,ZoneDat *param_2){
       do {
         if ((x->borg5_ID == param_2->borg5_ID) && (x->borg9_id == param_2->borg9_id)) {
           pBVar1 = x->mapPointer;
-          param_2->anidat0x4 = x->anidat0x4;
-          pAVar2 = x->aniDat0x14;
+          param_2->sceneDat0x4 = x->sceneDat0x4;
+          pAVar2 = x->SceneDat0x14;
           param_2->mapPointer = pBVar1;
-          param_2->aniDat0x14 = pAVar2;
+          param_2->SceneDat0x14 = pAVar2;
           param_2->alpha = x->alpha;
           uVar3 = x->MapTally;
           param_2->flag = 3;
@@ -490,7 +490,7 @@ void move_zonedat(ZoneDat *param_1,ZoneDat *param_2){
 }
 
 void checkToggleZoneScene(ZoneDat *param_1){
-  if(param_1->anidat0x4) CRASH("CheckToggleZoneScene","Scene already loaded!!\n");
+  if(param_1->sceneDat0x4) CRASH("CheckToggleZoneScene","Scene already loaded!!\n");
   if ((param_1->borg5_ID == 0xea9)&&(getEventFlag(0x1399))) param_1->borg5_ID = 0x35ba;
   else if ((param_1->borg5_ID == 0x11f9) && (getEventFlag(0x1399))) param_1->borg5_ID = 0x35af;
 }
@@ -537,7 +537,7 @@ void MakeGameZoneNames(u16 param_1,u16 param_2){
   CRASH("MakeGameZoneNames",gGlobals.text);
 }
 
-void zoneDat_moveAniDat(AnimationData *param_1,u8 index){
+void zoneDat_moveAniDat(SceneData *param_1,u8 index){
   float x;
   float y;
   
@@ -545,11 +545,11 @@ void zoneDat_moveAniDat(AnimationData *param_1,u8 index){
   param_1->flags = 0;
   guMtxIdentF(&param_1->matrixA);
   guMtxIdentF(&param_1->matrixB);
-  Animation::SetFlag10(param_1);
-  Animation::SetFogFlag(param_1);
-  Animation::SetFlag8(param_1);
-  if (index == 0x11) Animation::UnsetFlag4(param_1);
-  else Animation::SetFlag4(param_1);
+  Scene::SetFlag10(param_1);
+  Scene::SetFogFlag(param_1);
+  Scene::SetFlag8(param_1);
+  if (index == 0x11) Scene::UnsetFlag4(param_1);
+  else Scene::SetFlag4(param_1);
   if (false) return;
   y = gGlobals.Sub.mapCellSize.y;
   switch(index) {
@@ -582,13 +582,13 @@ void zoneDat_moveAniDat(AnimationData *param_1,u8 index){
   case 0x21:
     y = gGlobals.Sub.mapCellSize.x;
 LAB_8000df9c:
-    Animation::MatrixASetPos(param_1,y,0.0,0.0);
+    Scene::MatrixASetPos(param_1,y,0.0,0.0);
     return;
   case 0x22:
-    Animation::MatrixASetPos(param_1,gGlobals.Sub.mapCellSize.x,0.0,gGlobals.Sub.mapCellSize.y);
+    Scene::MatrixASetPos(param_1,gGlobals.Sub.mapCellSize.x,0.0,gGlobals.Sub.mapCellSize.y);
     return;
   }
-  Animation::MatrixASetPos(param_1,x,0.0,y);
+  Scene::MatrixASetPos(param_1,x,0.0,y);
 }
 
 void zonedat_clear_all(void){
@@ -671,7 +671,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   playerData *ppVar9;
   int iVar10;
   uint uVar11;
-  AnimationData *pAVar12;
+  SceneData *pAVar12;
   u8 bVar13;
   int iVar14;
   short sVar15;
@@ -683,8 +683,8 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   uint uVar21;
   uint uVar22;
   int iVar23;
-  AnimationData **ppAVar24;
-  AnimationData **ppAVar25;
+  SceneData **ppAVar24;
+  SceneData **ppAVar25;
   double dVar26;
   int in_f1;
   ZoneDat aZStack432 [3] [3];
@@ -782,14 +782,14 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   iVar10 = 0;
   do {
     iVar18 = 0;
-    ppAVar25 = &gGlobals.Sub.ZoneDatMtx[iVar10][0].aniDat0x14;
-    ppAVar24 = &gGlobals.Sub.ZoneDatMtx[iVar10][0].anidat0x4;
+    ppAVar25 = &gGlobals.Sub.ZoneDatMtx[iVar10][0].SceneDat0x14;
+    ppAVar24 = &gGlobals.Sub.ZoneDatMtx[iVar10][0].sceneDat0x4;
     pZVar19 = gGlobals.Sub.ZoneDatMtx[iVar10];
     do {
-      if ((pZVar19->borg5_ID) &&(pZVar19->anidat0x4 == NULL)) {
+      if ((pZVar19->borg5_ID) &&(pZVar19->sceneDat0x4 == NULL)) {
         pZVar19->alpha = 0xff;
         if (pZVar19->index == 0x11) {
-          pZVar19->anidat0x4 = BorgAnimLoadScene(pZVar19->borg5_ID);
+          pZVar19->sceneDat0x4 = BorgAnimLoadScene(pZVar19->borg5_ID);
         }
         else {
           if ((!oneZone_load) && (NoExpPak_memCheck(3))) {
@@ -797,10 +797,10 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
           }
         }
       }
-      if ((pZVar19->unk0x10 != 0) && (pZVar19->aniDat0x14 == NULL)) {
+      if ((pZVar19->unk0x10 != 0) && (pZVar19->SceneDat0x14 == NULL)) {
         if (pZVar19->index == 0x11) {
           pAVar12 = BorgAnimLoadScene(uVar21);
-          pZVar19->aniDat0x14 = pAVar12;
+          pZVar19->SceneDat0x14 = pAVar12;
         }
         else if ((oneZone_load == 0) && (NoExpPak_memCheck(4))) {
           AllocAllocQueueItem(&gGlobals.QueueB,ppAVar25,0,pZVar19->unk0x10,1,(char)uStack_30);
@@ -944,7 +944,7 @@ void set_playerdata_zoneDatByte(u16 param_1,u16 param_2){
 
 void some_zoneDat_func(void){
   int iVar1;
-  AnimationData *pAVar2;
+  SceneData *pAVar2;
   int iVar4;
   Borg9header *pBVar5;
   ZoneDat (*iVar3) [3];
@@ -956,15 +956,15 @@ void some_zoneDat_func(void){
     iVar3 = gGlobals.Sub.ZoneDatMtx + iVar4;
     iVar4 = 0x10000;
     do {
-      if ((*iVar3)[0].anidat0x4 == NULL) {
-        pAVar2 = (*iVar3)[0].aniDat0x14;
+      if ((*iVar3)[0].sceneDat0x4 == NULL) {
+        pAVar2 = (*iVar3)[0].SceneDat0x14;
       }
       else {
         if (((*iVar3)[0].flag & 1) != 0) {
           (*iVar3)[0].flag = (*iVar3)[0].flag & 0xfe;
-          zoneDat_moveAniDat((*iVar3)[0].anidat0x4,(*iVar3)[0].index);
+          zoneDat_moveAniDat((*iVar3)[0].sceneDat0x4,(*iVar3)[0].index);
         }
-        pAVar2 = (*iVar3)[0].aniDat0x14;
+        pAVar2 = (*iVar3)[0].SceneDat0x14;
       }
       if (pAVar2 == NULL) {
         pBVar5 = (*iVar3)[0].mapPointer;
@@ -1179,24 +1179,24 @@ void ConfirmPlayerWithinZone(playerData *param_1,Borg9data *param_2){
   }
 }
 
-AnimationData * load_borg_5_func(u32 param_1){
-  AnimationData *pAVar1= BorgAnimLoadScene(param_1);
-  Animation::SetFlag4(pAVar1);
-  Animation::SetFlag40(pAVar1);
-  Animation::SetFogFlag(pAVar1);
+SceneData * load_borg_5_func(u32 param_1){
+  SceneData *pAVar1= BorgAnimLoadScene(param_1);
+  Scene::SetFlag4(pAVar1);
+  Scene::SetFlag40(pAVar1);
+  Scene::SetFogFlag(pAVar1);
   return pAVar1;
 }
 
-void set_anidat_colors(AnimationData *param_1,u8 alpha,char param_3,Color32 col){
+void set_anidat_colors(SceneData *param_1,u8 alpha,char param_3,Color32 col){
   float fVar1;
   Color32 bStack216;
   Color32 auStack88;
   
-  Animation::SetFlag40(param_1);
+  Scene::SetFlag40(param_1);
   fVar1 = gGlobals.Sub.weather.fogTime;
   if (DAT_800ee974) fVar1 = 0.0;
   FUN_800a81cc(param_1,996 - (short)(int)(fVar1 * 40.0f),1000);
-  Animation::SetFogColor
+  Scene::SetFogColor
             (param_1,gGlobals.sky.colors[2].R,gGlobals.sky.colors[2].G,gGlobals.sky.colors[2].B,
              (uint)gGlobals.sky.colors[2].A);
   if (param_3) {
@@ -1205,16 +1205,16 @@ void set_anidat_colors(AnimationData *param_1,u8 alpha,char param_3,Color32 col)
       bStack216.G = (byte)((int)((uint)gGlobals.sky.colors[0].G + (col.W >> 0x10 & 0xff)) >> 1);
       bStack216.B = (byte)((int)((uint)gGlobals.sky.colors[0].B + (col.W >> 8 & 0xff)) >> 1);
       tint_color_with_screenfade(&bStack216,gGlobals.brightness);
-      Animation::SetModelTint(param_1,bStack216.R,bStack216.G,bStack216.B,alpha);
+      Scene::SetModelTint(param_1,bStack216.R,bStack216.G,bStack216.B,alpha);
       return;
     }
-    Animation::SetModelTint(param_1,gGlobals.sky.colors[0].R,gGlobals.sky.colors[0].G,gGlobals.sky.colors[0].B,
+    Scene::SetModelTint(param_1,gGlobals.sky.colors[0].R,gGlobals.sky.colors[0].G,gGlobals.sky.colors[0].B,
                alpha);
   }
   if (col.W) {
     auStack88 = col;
     tint_color_with_screenfade(&auStack88,gGlobals.brightness);
-    Animation::SetModelTint(param_1,auStack88.R,auStack88.G,auStack88.B,alpha);
+    Scene::SetModelTint(param_1,auStack88.R,auStack88.G,auStack88.B,alpha);
   }
   return;
 }
@@ -1259,7 +1259,7 @@ void SceneBoulders(Borg9data *param_1){
 void NoExpPak_ClearSceneVoxelIndex(Scene_obj_dat *param_1,u16 param_2){
   if (!gExpPakFlag) {
     if (param_1->borgArray[param_2].b7) {
-      if (!(param_1->sceneflags & 2)) FREEQANI(param_1->borgArray[param_2].b7);
+      if (!(param_1->sceneflags & 2)) FREEQSCENE(param_1->borgArray[param_2].b7);
       else FREEQB7(param_1->borgArray[param_2].b7);
     }
   }
@@ -1269,7 +1269,7 @@ void NoExpPak_ClearSceneVoxel(Scene_obj_dat *param_1){
   if ((!gExpPakFlag) && (param_1->BorgCount)) {
     for(u16 i=0;i<param_1->BorgCount;i++){
       if (param_1->borgArray[i].b7) {
-        if ((param_1->sceneflags & 2) == 0) FREEQANI(param_1->borgArray[i].aniDat);
+        if ((param_1->sceneflags & 2) == 0) FREEQSCENE(param_1->borgArray[i].sceneDat);
         else FREEQB7(param_1->borgArray[i].b7);
       }
     }
@@ -1282,7 +1282,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9data *borg9,vec3f *v3,short param_4,short 
   void *pvVar2;
   u8 bVar6;
   Borg7header *pBVar3;
-  AnimationData *pAVar4;
+  SceneData *pAVar4;
   u16 uVar5;
   uint uVar7;
   short sVar8;
@@ -1408,7 +1408,7 @@ LAB_800102b4:
                 uVar7 = (uint)voxel_counter;
                 psVar14 = struct_a_ARRAY_800f5290 + uVar7;
                 voxel_counter += 1;
-                psVar14->anidat = NULL;
+                psVar14->SceneDat = NULL;
                 struct_a_ARRAY_800f5290[uVar7].flags = 0;
               }
               ppBVar11 = &(SObj->scene).borgArray[uVar12].borgheader;
@@ -1416,12 +1416,12 @@ LAB_800102b4:
 LAB_80010068:
                 if (((SObj->scene).sceneflags & 2) == 0) {
 LAB_80010084:
-                  pAVar4 = (AnimationData *)(SObj->scene).borgArray[uVar12].borgheader;
+                  pAVar4 = (SceneData *)(SObj->scene).borgArray[uVar12].borgheader;
                 }
-                else pAVar4 = ((SObj->scene).borgArray[0].b7)->aniDat;
+                else pAVar4 = ((SObj->scene).borgArray[0].b7)->sceneDat;
                 col.W = 0;
                 if (((SObj->scene).sceneflags & 0x10)) col = (SObj->scene).tint;
-                Animation::MatrixASetPos(pAVar4,(SObj->header).pos.x - posx,(SObj->header).pos.y,(SObj->header).pos.z - posz);
+                Scene::MatrixASetPos(pAVar4,(SObj->header).pos.x - posx,(SObj->header).pos.y,(SObj->header).pos.z - posz);
                     // Oriana's Pathlights
                 if ((SObj->scene).borgArray[1].borgIndex == 0x374a) {
                   if (uVar12 == 0) {
@@ -1439,7 +1439,7 @@ LAB_80010084:
                   if (uVar15 < local_6c) uVar12 = uVar15;
                   set_anidat_colors(pAVar4,(char)uVar12,1,col);
                   if (psVar14 == NULL) local_res0 = BorgAnimDrawScene(local_res0,pAVar4);
-                  else psVar14->anidat = pAVar4;
+                  else psVar14->SceneDat = pAVar4;
                 }
                 else {
                   FUN_800a0304((SObj->scene).borgArray[0].b7,(int)gGlobals.delta);
@@ -1450,10 +1450,10 @@ LAB_80010084:
                   passto_initLight(pAVar4,borg9,(voxelObject *)SObj,(short)(int)gGlobals.delta);
                   if (psVar14 == NULL) {
                     local_res0 = BorgAnimDrawSceneLinked(local_res0,
-                                            (AnimationData *)(SObj->scene).borgArray[0].b7);
+                                            (SceneData *)(SObj->scene).borgArray[0].b7);
                   }
                   else {
-                    psVar14->anidat = (AnimationData *)(SObj->scene).borgArray[0].b7;
+                    psVar14->SceneDat = (SceneData *)(SObj->scene).borgArray[0].b7;
                     psVar14->flags|= 2;
                   }
                 }
@@ -1472,7 +1472,7 @@ LAB_80010084:
                 pBVar3 = func_loading_borg7((SObj->scene).borgArray[0].borgIndex,
                                             (ParticleEmmiter *)&gGlobals.Sub.particleEmmiter);
                 (SObj->scene).borgArray[0].b7 = pBVar3;
-                pAVar4 = pBVar3->aniDat;
+                pAVar4 = pBVar3->sceneDat;
                 FUN_800a0090(pBVar3,0);
                 EVar1 = (SObj->header).flagB;
                 if ((SObj->header).flagB != 0) {
@@ -1487,18 +1487,18 @@ LAB_80010084:
 LAB_8000ffcc:
                 guMtxIdentF(&pAVar4->matrixA);
                 guMtxIdentF(&pAVar4->matrixB);
-                Animation::SetFlag10(pAVar4);
-                Animation::SetFlag4(pAVar4);
-                Animation::SetFlag40(pAVar4);
-                Animation::SetFogFlag(pAVar4);
+                Scene::SetFlag10(pAVar4);
+                Scene::SetFlag4(pAVar4);
+                Scene::SetFlag40(pAVar4);
+                Scene::SetFogFlag(pAVar4);
                 //Rad to Deg
-                Animation::MatrixARotate(pAVar4,(SObj->scene).rotation.y * 57.29578,
+                Scene::MatrixARotate(pAVar4,(SObj->scene).rotation.y * 57.29578,
                            (SObj->scene).rotation.x * 57.29578,
                            (SObj->scene).rotation.z * 57.29578);
-                Animation::MatrixANormalizeScale(pAVar4,(SObj->scene).scale.x,(SObj->scene).scale.y,(SObj->scene).scale.z);
+                Scene::MatrixANormalizeScale(pAVar4,(SObj->scene).scale.x,(SObj->scene).scale.y,(SObj->scene).scale.z);
                 if (((SObj->scene).sceneflags & 2)) {
-                  Animation::SetLightData(pAVar4);
-                  Animation::SceneSetMaxDynamicDirLights(pAVar4,2);
+                  Scene::SetLightData(pAVar4);
+                  Scene::SceneSetMaxDynamicDirLights(pAVar4,2);
                   goto LAB_80010068;
                 }
                 goto LAB_80010084;
@@ -1524,17 +1524,17 @@ LAB_800102d8:
 
 
 Gfx* FUN_80010354(Gfx*g,ZoneDat *param_2){
-  if (param_2->anidat0x4) {
-    set_anidat_colors(param_2->anidat0x4,param_2->alpha,1,(Color32)(0));
-    g = BorgAnimDrawScene(g,param_2->anidat0x4);}
+  if (param_2->sceneDat0x4) {
+    set_anidat_colors(param_2->sceneDat0x4,param_2->alpha,1,(Color32)(0));
+    g = BorgAnimDrawScene(g,param_2->sceneDat0x4);}
   return g;
 }
 
 
 Gfx* FUN_800103b0(Gfx*g,ZoneDat *param_2){
-  if ((param_2->aniDat0x14) && (param_2->anidat0x4)){
-    set_anidat_colors(param_2->aniDat0x14,param_2->alpha,1,(Color32)(0));
-    g = BorgAnimDrawScene(g,param_2->aniDat0x14);
+  if ((param_2->SceneDat0x14) && (param_2->sceneDat0x4)){
+    set_anidat_colors(param_2->SceneDat0x14,param_2->alpha,1,(Color32)(0));
+    g = BorgAnimDrawScene(g,param_2->SceneDat0x14);
   }
   return g;
 }
@@ -1671,15 +1671,15 @@ void RenderZones(Gfx **g,vec3f *pos,short delta){
   iStack_48 = 1;
   gOut = *g;
   u16 uStack144[][2]={{0,0},{2,0},{0,2},{2,2},{1,0},{1,2},{0,1},{2,1}};
-  Animation::UnsetFlag40(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4);
+  Scene::UnsetFlag40(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4);
   if (gGlobals.screenFadeModeSwitch == 0xc) {
-    Animation::SetNearFarPlanes(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4,0.1,125.0);
+    Scene::SetNearFarPlanes(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4,0.1,125.0);
   }
   else {
-    Animation::SetNearFarPlanes(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4,1.0,180.0);
+    Scene::SetNearFarPlanes(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4,1.0,180.0);
   }
-  FUN_800a0df4(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4);
-  gOut = gsAnimationDataMtx(gOut,gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4);
+  FUN_800a0df4(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4);
+  gOut = gsAnimationDataMtx(gOut,gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4);
   if (gPlayerRenderTimer != 0) {
     gOut = renderPlayers(&gGlobals.Sub.PlayerHandler,gOut,delta,1,0);
   }
@@ -1708,8 +1708,8 @@ void RenderZones(Gfx **g,vec3f *pos,short delta){
     if ((FUN_80010598(*psVar13,*psVar14)) && ((uStack_44 & uVar3) == 0)) {
       if ((!gExpPakFlag) && (get_MemFree()< 0x18000)) {
         iVar1 = &gGlobals.Sub.ZoneDatMtx[*psVar13][*psVar14];
-        if (iVar1->anidat0x4) FREEQANI(&iVar1->anidat0x4);
-        if (iVar1->aniDat0x14)FREEQANI(&iVar1->aniDat0x14);
+        if (iVar1->sceneDat0x4) FREEQSCENE(&iVar1->sceneDat0x4);
+        if (iVar1->SceneDat0x14)FREEQSCENE(&iVar1->SceneDat0x14);
       }
     }
     else {
@@ -1719,17 +1719,17 @@ void RenderZones(Gfx **g,vec3f *pos,short delta){
           if (debug::oneZone_load == 0) {
             if (pZVar12->borg5_ID == 0) {
             }
-            else if (pZVar12->anidat0x4 == NULL) {
+            else if (pZVar12->sceneDat0x4 == NULL) {
               if (NoExpPak_memCheck(3)) {
                 pZVar12->flag |= 1;
-                AllocAllocQueueItem(&gGlobals.QueueB,&pZVar12->anidat0x4,0,pZVar12->borg5_ID,1,0);
+                AllocAllocQueueItem(&gGlobals.QueueB,&pZVar12->sceneDat0x4,0,pZVar12->borg5_ID,1,0);
               }
             }
             if (pZVar12->unk0x10){
-              if (pZVar12->aniDat0x14 == NULL) {
+              if (pZVar12->SceneDat0x14 == NULL) {
                 if (NoExpPak_memCheck(4)) {
                   pZVar12->flag |= 2;
-                  AllocAllocQueueItem(&gGlobals.QueueB,&pZVar12->aniDat0x14,0,pZVar12->borg5_ID,1,0);
+                  AllocAllocQueueItem(&gGlobals.QueueB,&pZVar12->SceneDat0x14,0,pZVar12->borg5_ID,1,0);
                 }
                 goto LAB_80010bfc;
               }
@@ -1745,7 +1745,7 @@ LAB_80010bfc:
         if (0xff < uVar5) uVar5 = 0xff;
         pZVar12->alpha = (byte)uVar5;
       }
-      if (pZVar12->anidat0x4) gOut = FUN_80010354(gOut,pZVar12);
+      if (pZVar12->sceneDat0x4) gOut = FUN_80010354(gOut,pZVar12);
       if (pZVar12->mapPointer) {
         FUN_800ade28(&pZVar12->mapPointer->dat,pos,uStack80,uStack80 + 1);
         uVar6 = (u16)(int)(gGlobals.Sub.mapCellSize.x / (pZVar12->mapPointer->dat).floatsB.x);
@@ -1838,12 +1838,12 @@ LAB_80010bfc:
 
 struct_A struct_a_ARRAY_800f5290[32];
 void RenderTransZones__(Gfx **param_1){
-  AnimationData **ppAVar2;
+  SceneData **ppAVar2;
   
   Gfx *g = *param_1;
   if (voxel_counter) {
     for(u16 i=0; i < voxel_counter; i++) {
-      ppAVar2 = &struct_a_ARRAY_800f5290[i].anidat;
+      ppAVar2 = &struct_a_ARRAY_800f5290[i].SceneDat;
       if (!(struct_a_ARRAY_800f5290[i].flags) & 2)) g = BorgAnimDrawScene(g,*ppAVar2);
       else g = BorgAnimDrawSceneLinked(g,*ppAVar2);
     }
@@ -1894,7 +1894,7 @@ void renderTransZones_(Gfx**param_1){
     bVar6 = FUN_80010598(*puVar9,*psVar11);
     if (((bVar6 == false) || ((bVar1 & uVar13) != 0)) &&
        (pZVar9 = (ZoneDat *)(*puVar9 * 0x60 + -0x7ff19678 + *psVar11 * 0x20),
-       pZVar9->aniDat0x14)) {
+       pZVar9->SceneDat0x14)) {
       pauVar5 = FUN_800103b0(pauVar5,pZVar9);
     }
     uVar13 = (uVar13 & 0x7f) << 1;
@@ -2291,7 +2291,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   if (vec3_proximity(&gGlobals.Sub.camera.pos,&gGlobals.Sub.camera.aim)< 0.05)
     CRASH("SceneSetCameraLookAt","Focus, and Camera at same Spot!");
   DEBUGSprintf("SceneSetCameraLookAt\n");
-  SceneSetCameraLookAt(gGlobals.Sub.ZoneDatMtx[1][1].anidat0x4,gGlobals.Sub.camera.pos.x,
+  SceneSetCameraLookAt(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4,gGlobals.Sub.camera.pos.x,
              gGlobals.Sub.camera.pos.y,gGlobals.Sub.camera.pos.z,gGlobals.Sub.camera.aim.x,
              gGlobals.Sub.camera.aim.y,gGlobals.Sub.camera.aim.z);
   if (gGlobals.Sub.gamemodeType != 2) G = Sky::RenderSky(G,delta);

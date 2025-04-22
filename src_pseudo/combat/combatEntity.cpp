@@ -2917,7 +2917,7 @@ void CombatEntity::AttachWeaponShieldModel(u16 param_2,s32 param_3,s32 borg5){
   if (borg5 != -1) {
     playerData *ppVar1 = gGlobals.playerDataArray[this->index];
     if (ppVar1->locator_pointer) {
-      Animation::HasLocator(ppVar1->locator_pointer->aniDat,param_3);
+      Scene::HasLocator(ppVar1->locator_pointer->sceneDat,param_3);
     }
     AttachItemToPlayer(ppVar1,param_2,borg5);
     ChangeAttachmentNode(ppVar1,param_2,param_3,NULL,0);
@@ -3008,13 +3008,13 @@ u8 CannotShowWeapon(ItemID x){
   return true;
 }
 
-AnimationData * CombatEntity::GetWeaponAniDat(){
+SceneData * CombatEntity::GetWeaponScene(){
   WeaponInstance *pTVar1;
   u8 bVar5;
   u8 bVar6;
   u16 uVar4;
   u32 uVar2;
-  AnimationData *pAVar3;
+  SceneData *pAVar3;
   s16 lVar7;
   u32 uVar8;
   
