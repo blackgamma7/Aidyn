@@ -352,7 +352,6 @@ char * remove_dir_slashes(char *str){
 }
 
 
-
 void ofunc_LISBN_called_free(void){CRASH("heap.cpp","LIBSN called free?");}
 void* operator new(size_t size){return HALLOC((u32)size,1139);}
 void operator delete(void* x){HFREE(x,1150);}

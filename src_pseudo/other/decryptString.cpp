@@ -1,41 +1,30 @@
+#include "stringDecrypt.h"
+
 //I would REALLY apprecaite help making sense of these bits.
-const u8 stringKey[16]=
-{0x5f,0x35,0x3a,0x2c,0x2a,0x2c,0x5f,0x36,0x2c,0x5f,0x33,0x30,0x2d,0x3b,0x5e,0x7f};
 
-u8 decrypt_sub_a(char arg0,char arg1){return (arg1 >> 7) + arg0 ^ 0x80;}
-u8 decrypt_sub_b(char arg0,char arg1){return arg1 - arg0 ^ 2;}
+#define stringKey {0x5f,0x35,0x3a,0x2c,0x2a,0x2c,0x5f,0x36,0x2c,0x5f,0x33,0x30,0x2d,0x3b,0x5e,0x7f};
 
-void decrypt_func_a(u8 *key,char arg1,char arg2){
+u8 decrypt_sub_a(u8 arg0,u16 arg1){return (arg1 >> 7) + arg0 ^ 0x80;}
+u8 decrypt_sub_b(u8 arg0,u8 arg1){return arg1 - arg0 ^ 2;}
+
+void decrypt_func_a(u8 *key,u8 arg1,u16 arg2){
   u8 bVar2;
   u8 bVar3;
-  s32 iVar1;
   u8 bVar4;
-  s32 iVar5;
   
   bVar2 = decrypt_sub_a(arg1,arg2);
   bVar3 = decrypt_sub_b(arg1,arg2);
-  iVar1 = 0;
-  iVar5 = 0x10000;
-  do {
-    iVar1 = (iVar1 % 2) * 0x10000 >> 0x10;
-    if (iVar1 == 0) {
-      bVar4 = bVar3 ^ bVar2 + *key;
-LAB_800d56b0:
-      *key = bVar4;
+  for(s16 iVar1=0;iVar1<14;iVar1++) {
+    switch ((iVar1 % 2)){
+    case 0:
+    bVar4 = bVar3 ^ bVar2 + key[iVar1];
+      break;
+    case 1:
+    bVar4 = bVar2 ^ key[iVar1] - bVar3;
+      break;
     }
-    else {
-      if (iVar1 == 1) {
-        bVar4 = bVar2 ^ *key - bVar3;
-        goto LAB_800d56b0;
-      }
-    }
-    iVar1 = iVar5 >> 0x10;
-    key++;
-    iVar5+= 0x10000;
-    if (0xf < iVar1) {
-      return;
-    }
-  } while( true );
+    key[iVar1] = bVar4;
+  }
 }
 
 void decrypt_ofunc_2(u8 *arg0,u8 *arg1,s32 arg2){
@@ -132,21 +121,17 @@ void decrypt_func_b(u8 *arg0,u8 *arg1,s32 arg2){
 
 
 u8 * Ofunc_decrypt(u8 *arg0,u8 arg1,char arg2,s16 arg3){
-  u32 uVar2;
-  u8 uStack80 [16];
-  uStack80= stringKey;
-  for(uVar2 = 0;uVar2 < 0x10;uVar2++) uStack80[uVar2]^=0x7f;
-  decrypt_func_a(uStack80,arg1,arg2);
-  decrypt_ofunc_2(arg0,uStack80,(s32)arg3);
+  u8 key[]= stringKey;
+  for(u8 i = 0;i < 0x10;i++) key[i]^=0x7f;
+  decrypt_func_a(key,arg1,arg2);
+  decrypt_ofunc_2(arg0,key,(s32)arg3);
   return arg0;
 }
 
-char * decrypt_string(u8 *arg0,u8 arg1,char arg2,s16 arg3){
-  u32 uVar2;
-  u8 uStack80 [16];
-  uStack80= stringKey;
-  for(uVar2 = 0;uVar2 < 0x10;uVar2++) uStack80[uVar2]^=0x7f;
-  decrypt_func_a(uStack80,arg1,arg2);
-  decrypt_func_b(arg0,uStack80,(s32)arg3);
-  return (char*)arg0;
+char * decrypt_string(char *str,u8 arg1,u16 arg2,s16 arg3){
+  u8 key[]= stringKey;
+  for(u8 i = 0;i < 0x10;i++) key[i]^=0x7f;
+  decrypt_func_a(key,arg1,arg2);
+  decrypt_func_b((u8*)str,key,(s32)arg3);
+  return str;
 }

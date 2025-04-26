@@ -1,17 +1,20 @@
 #include "globals.h"
+#include "cheats.h"
+#include "romstring.h"
+
 struct StringCheat{
     char* code;
-    u32 (*cheat)(void);};
+    u8 (*cheat)(void);};
 
 char** cheatStrings_pointer;
-u8 Cheats::check_for_cheats(char *param_1){
+u8 Cheats::Check(char *param_1){
   s32 iVar6;
   u32 uVar7;
   u8 bVar8;
   StringCheat pcStack168 [14];
   
   bVar8 = 0;
-  cheatStrings_pointer = func_romStrings(CheatStrings,0xf0);
+  cheatStrings_pointer = RomString::Load(CheatStrings,0xf0);
   memset(pcStack168,0,8);
   pcStack168[0].code = *cheatStrings_pointer; //!balloon
   pcStack168[0].cheat = _balloon;
@@ -69,9 +72,9 @@ u8 Cheats::check_for_cheats(char *param_1){
         break;
       }
       uVar7++;
-    } while (pcStack168[uVar7]);
+    } while (pcStack168[uVar7].code);
   }
-  free_romstring(cheatStrings_pointer);
+  RomString::Free(cheatStrings_pointer);
   return bVar8;
 }
 u8 Cheats::_balloon(void){ //inflates your head
@@ -95,45 +98,40 @@ u8 Cheats::_darkside(void){ //lightsaber in oriana's hut.
   return true;}
 
 
-u8 Cheats::fatboy_crawdaddy_tweety(Borg7Enum param_1){ //the 3 transform cheats go here.
-  u8 bVar1;
-  
-  if (gGlobals.playerCharStruct.playerDat == NULL) {bVar1 = false;} //fails if used on title screen.
-  else {
-    FreePlayerActor(gGlobals.playerCharStruct.playerDat);
-    if (gGlobals.playerCharStruct.player_form == param_1) {param_1 = BORG7_Alaron;}
-    gGlobals.playerCharStruct.player_form = param_1;
-    init_playerActor(gGlobals.playerCharStruct.playerDat,param_1);
-    bVar1 = true;
-  }
-  return bVar1;
+u8 Cheats::fatboy_crawdaddy_tweety(u32 b7){ //the 3 transform cheats go here.
+  if (!gGlobals.playerCharStruct.playerDat) return false; //fails if used on title screen.
+  Actor::FreePlayerActor(gGlobals.playerCharStruct.playerDat);
+  if (gGlobals.playerCharStruct.player_form == b7) b7 = BORG7_Alaron;
+  gGlobals.playerCharStruct.player_form = b7;
+  Actor::ChangeAppearance(gGlobals.playerCharStruct.playerDat,b7);
+  return true;
 }
 
 u8 Cheats::_crawdaddy(void){return fatboy_crawdaddy_tweety(BORG7_ChaosTrooper);}
 u8 Cheats::_fatboy(void){return fatboy_crawdaddy_tweety(BORG7_Ogre);}
 u8 Cheats::_tweety(void){return fatboy_crawdaddy_tweety(BORG7_Gryphon);}
 
+extern u8 gPartyPicker;
 u8 Cheats::_Cheater(void){ // +750000 EXP to party
   pause_Substruct *ppVar1;
   CharSheet *pCVar2;
-  u32 uVar3;
-  u32 uVar5;
+  u32 i;
   
   #ifndef DEBUGVER
-  if(getEventFlag(FLAG_cheater))return false; //no double-dipping in retail
+  if(getEventFlag(FLAG_Cheater))return false; //no double-dipping in retail
   #endif
-  setEventFlag(FLAG_cheater,true);
+  setEventFlag(FLAG_Cheater,true);
   if ((PARTY)->PartySize) {
-    for(uVar5=0;uVar5 < (PARTY)->PartySize;uVar5++) {
-      if ((PARTY)->Members[uVar5]) {Entity::AddExp((PARTY)->Members[uVar5],500000);}
+    for(u8 i=0;i < (PARTY)->PartySize;i++) {
+      if ((PARTY)->Members[i]) {Entity::AddExp((PARTY)->Members[i],500000);}
     }
   }
-  ppVar1 = (gGlobals.BigAssMenu)->base.substruct; //Pause menu update, crashes game if used on title screen
-  pCVar2 = (PARTY)->Members[partypicker]; //update stats for char. selected on menu
+  ppVar1 = PauseSub; //Pause menu update, crashes game if used on title screen
+  pCVar2 = (PARTY)->Members[gPartyPicker]; //update stats for char. selected on menu
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->Level_widget),"%u",Entity::GetLevel(pCVar2));
-  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->CurrHP_Widget),"%u",getHPCurrent(pCVar2));
-  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->MaxHP_widget),"%u",getHPMax(pCVar2));
-  FUN_80038bdc(ppVar1->dollmenu->unk0x88,partypicker);
+  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->CurrHP_Widget),"%u",Entity::getHPCurrent(pCVar2));
+  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->MaxHP_widget),"%u",Entity::getHPMax(pCVar2));
+  FUN_80038bdc(ppVar1->dollmenu->unk0x88,gPartyPicker);
   return true;
 }
 
@@ -145,30 +143,53 @@ u8 Cheats::_bingo(void){ //+100000 gold
   #endif
   setEventFlag(FLAG_bingo,true);
   //Another menu update, crashing the title screen
-  pwVar1 = (((gGlobals.BigAssMenu)->widget).substruct)->dollmenu->charStats_widget->gold_widget;
+  pwVar1 = PauseSub->dollmenu->charStats_widget->gold_widget;
   (PARTY)->Gold+=100000;
   sprintf(Utilities::GetWidgetText(pwVar1),"%ld",(PARTY)->Gold);
   return true;
 }
 
+extern BaseWidget *
+TextPopup_New(char *txt,u16 x,u16 y,u8 red0,u8 green0,u8 blue0,u8 alpha0,u8 alph1,u32 addToHandler);
+
 u8 Cheats::imadoofus(void){
   //asks you to enter "keepbusy"
-  another_textbox_func(cheatStrings_pointer[11],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
+  TextPopup_New(cheatStrings_pointer[11],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
   return true;}
 
 u8 Cheats::keepbusy(void){
   //asks you to enter "imadoofus"
-  another_textbox_func(cheatStrings_pointer[12],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
+  TextPopup_New(cheatStrings_pointer[12],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
   return true;}
 
 u8 Cheats::_version(void){
-  #define VERSIONNAME "02.01d-PRERELEASE"
+  #ifdef DEBUGVER
+  #define VERSIONNAME 02.01d-PRERELEASE
   #define COMPILEDATE "Feb  1 2001" //there's a few minutes difference
   #define COMPILETIME "23:55:49" //between debug splashscreen's and this one's
-  Gsprintf("Aidyn Chronicles\nVersion: "+VERSIONNAME+"\nCompile: %s-%s\nCode: %lu",COMPILEDATE,COMPILETIME);
-  another_textbox_func(gGlobals.text,200,0x32,0xff,0xff,0xff,0xff,0x96,1);
+  #elif VERNA10
+  #define VERSIONNAME 02.02a-LOT-CHECK
+  #define COMPILEDATE "Feb  2 2001" 
+  #define COMPILETIME "06:04:39" 
+  #elif VERNA11
+  #define VERSIONNAME 02.16a-LOT-CHECK
+  #define COMPILEDATE "Feb 16 2001" 
+  #define COMPILETIME "16:35:25" 
+  #endif
+  //dirty hack to show version name
+  #define STR(x) #x
+  #define STR2(x) STR(x)
+
+
+  #define FMT "Aidyn Chronicles\nVersion: " STR2(VERSIONNAME) "\nCompile: %s-%s\nCode: %lu"
+  Gsprintf(FMT,COMPILEDATE,COMPILETIME,0xffa50/*1MB-boot segment size */);
+  TextPopup_New(gGlobals.text,200,0x32,0xff,0xff,0xff,0xff,0x96,1);
   #ifndef DEBUGVER
   version_flag=1; //activates coord print in retail during AppProc()
   #endif
+  #undef STR
+  #undef STR2
+  #undef FMT
+
   return true;
 }

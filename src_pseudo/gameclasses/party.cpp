@@ -1414,8 +1414,8 @@ void pass_to_healing_func_2(u8 param_2,u8 param_3){
 }
 
 void herb_func(void){
-  pause_Substruct* ps=(pause_Substruct*)gGlobals.BigAssMenu->substruct;
-  WidgetTrainShop* puVar1 = ps->dollmenu->field4_0x88->field7_0x94;
+  pause_Substruct* ps=PauseSub;
+  WidgetTrainShop* puVar1 = ps->dollmenu->widget88->field7_0x94;
   FUN_8003d064(puVar1,itemID_array[31],1,0xff); //herb loaded
   FUN_8003d640(puVar1);
   puVar1->Tick();
@@ -1541,7 +1541,7 @@ LAB_800812c8:
 
 u32 Party::CraftPotion(u8 user,u8 item){
   byte bVar1;
-  WidgetInvShop *pWVar2 = (WidgetInvShop *)(((gGlobals.BigAssMenu)->base).substruct)->dollmenu->field4_0x88->field7_0x94;
+  WidgetInvShop *pWVar2 = (WidgetInvShop *)PauseSub->dollmenu->widget88->field7_0x94;
   potionRecipie *recepie = get_potion_recipie(item);
   if (recepie) {
     CharSheet *chara = this->Members[user];
@@ -2164,7 +2164,7 @@ u8 Party::CraftArmor(char param_2,ItemID param_3,ItemID material,u8 stam){
   s32 uVar5;
   bool bVar6;
   
-  pWVar1 = (((gGlobals.BigAssMenu)->base).substruct)->dollmenu->field4_0x88->field7_0x94;
+  pWVar1 = PauseSub->dollmenu->widget88->field7_0x94;
   uVar4 = Party::ArmorCraftCheck(param_2);
   uVar5 = this->Inventory->GetItemIndex(material);
   if (uVar5 == -1) bVar6 = false;
@@ -2192,7 +2192,7 @@ u8 Party::UnequipMemberItemOfID(s32 param_2,ItemID param_3){
   pCVar1 = this->Members[param_2];
   if (pCVar1) {
     if (pCVar1->weapons){
-      if (pCVar1->weapons->id == param_3) {
+      if (pCVar1->weapons->base.id == param_3) {
         Entity::UnequipWeapons(pCVar1);
         return true;
       }
@@ -2211,8 +2211,8 @@ u8 Party::UnequipMemberItemOfID(s32 param_2,ItemID param_3){
     }
     if (pCVar1->pItemList->usedItems) {
       for (i=0;i < pCVar1->pItemList->usedItems;i++) {
-        pptVar5 = pCVar1->pItemList->pItem[i];
-        if ((*pptVar5) && ((*pptVar5)->id == param_3)) {
+        pptVar5 = &pCVar1->pItemList->pItem[i];
+        if ((*pptVar5) && ((*pptVar5)->base.id == param_3)) {
           Entity::UnequipGear(pCVar1,i);
           return true;
         }

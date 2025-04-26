@@ -110,7 +110,7 @@ void TitleSplash::Load(void){
   gGlobals.splashScreenUnkB = 0xff;
   gGlobals.splashScreenUnkC = 0xff;
   gGlobals.splashScreenUnkD = 0;
-  copyrightText = func_romStrings(copyrightStrings,0x180);
+  copyrightText = RomString::Load(copyrightStrings,0x180);
   Controller::GetDelay(0);
 }
 
@@ -119,7 +119,7 @@ void TitleSplash::Free(void){
   FREEQB8(gGlobals.thqBorg8);
   FREEQB8(SplashExpPak);
   font_func(gGlobals.font,0x1c);
-  free_romstring(copyrightText);
+  RomString::Free(copyrightText);
   TitleSplash::N64Free();
 }
 

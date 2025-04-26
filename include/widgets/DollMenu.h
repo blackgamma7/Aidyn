@@ -1,0 +1,80 @@
+#include "widgets/WidgetMenu.h"
+#include "widgets/WidgetClipText.h"
+#include "widgets/WidgetBorg8.h"
+#include "widgets/WidgetTrainShop.h"
+#include "party.h"
+#include "unkGuiSubstruct.h"
+
+
+class WidgetMenuChild2: public WidgetMenu{
+    public:
+    u8 partySize;
+    u8 selectedMember;
+    WidgetBorg8* portraits[4];
+    WidgetClipText* names[4];
+    u8 unka0[16];
+    WidgetBorg8* aspectIcon;
+    WidgetBorg8* schoolIcon;
+    UnkGuiSubstruct unkb8;
+    WidgetMenuChild2(Party *party,u8 size,u8 selected);
+
+};
+
+class WidgetHealthGold: public WidgetMenu{
+    public:
+    WidgetClipText* Level_widget;
+    WidgetClipText* Gold_widget;
+    WidgetClipText* CurrHP_widget;
+    WidgetClipText* MaxHP_widget;
+    WidgetBorg8* borg8_widget;
+    UnkGuiSubstruct unk90;
+    s16 HpPercent;
+};
+
+class DollEquipmentMenu: public WidgetMenu{
+    public:
+    UnkGuiSubstruct unk7c;
+    u32 unk8c;
+    WidgetBorg8* icons[15];
+    ItemID icon_item_ids[15];
+};
+
+class WidgetChild4: public WidgetMenu{
+    WidgetTrainShop* StatTrainWidgets[4];
+    WidgetTrainShop* unk8c;
+    u8 unk90;
+    u8 partyPicker;
+    u8 unk92;
+    WidgetTrainShop* unk98;
+    WidgetTrainShop* unk9c;
+    WidgetTrainShop* skills;
+    WidgetTrainShop* stats;
+    WidgetBorg8* background;
+    WidgetClipText* expCost;
+    WidgetClipText* expRemain;
+    UnkGuiSubstruct unkb0;
+};
+
+class WidgetMenuSpells: public WidgetMenu{
+    WidgetTrainShop* SpellSkills[2];
+    u8 selected;
+    u8 unk85;
+    u8 count;
+    WidgetTrainShop* spells;
+    WidgetTrainShop* skills;
+    UnkGuiSubstruct unkGui;
+    WidgetBorg8* background;
+    WidgetClipText* goldCost;
+    WidgetClipText* expCost;
+    u32 unkac;
+    WidgetClipText* expRemain;
+    WidgetChild4* wc4;
+};
+
+class WidgetDollMenu: public WidgetMenu {
+    WidgetMenuChild2* unk7c;
+    WidgetHealthGold* charStats_widget;
+    DollEquipmentMenu* itemslots_widget;
+    WidgetChild4* widget88;
+    WidgetMenuSpells* spells_widget;
+};

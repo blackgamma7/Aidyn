@@ -46,5 +46,7 @@ typedef union Color32 {
 //turn a Vec3f(v) into 32-bit RGB values for Color32*(c).
 #define V3ToRGB(c,v) c->R=v.x*255; c->G=v.y*255; c->B=v.z*255
 
+
+#define CONCAT11(x,y) (u16)((x)<<8|y)
 //Ghidra concatonating 2 32-bit values into 2 "lo" registers
 #define CONCAT44(x,y) (u64)((x)<<32|y)

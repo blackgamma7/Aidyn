@@ -640,8 +640,6 @@ typedef struct SaveDatStruct SaveDatStruct, *PSaveDatStruct;
 
 typedef struct SavePartyHeader SavePartyHeader, *PSavePartyHeader;
 
-typedef struct unkGuiSubstruct unkGuiSubstruct, *PunkGuiSubstruct;
-
 struct InputMenu {
     BaseWidget base;
     u16 unk7c;
@@ -671,19 +669,13 @@ struct IntroMenuSub {
     undefined field18_0x27;
 };
 
-struct unkGuiSubstruct {
-    u32 field0_0x0;
-    unkGuiClassA **ptr;
-    u32 present;
-    int size;
-};
 
 struct WidgetMenuChild {
     BaseWidget base;
     u32 field1_0x7c;
     BaseWidget *field2_0x80;
     BaseWidget *field3_0x84;
-    unkGuiSubstruct field4_0x88;
+    UnkGuiSubstruct field4_0x88;
     u32 field5_0x98;
     u32 field6_0x9c;
     u32 field7_0xa0;
@@ -898,7 +890,7 @@ struct WidgetChild4 {
     undefined field14_0xa7;
     BaseWidget *field15_0xa8;
     BaseWidget *field16_0xac;
-    unkGuiSubstruct field17_0xb0;
+    UnkGuiSubstruct field17_0xb0;
 };
 
 struct WidgetStatTrain {
@@ -1262,7 +1254,7 @@ struct WidgetBarter {
 
 struct DollEquipmentMenu {
     BaseWidget base;
-    unkGuiSubstruct unkStruct;
+    UnkGuiSubstruct unkStruct;
     undefined field2_0x8c;
     undefined field3_0x8d;
     undefined field4_0x8e;
@@ -1273,34 +1265,6 @@ struct DollEquipmentMenu {
     undefined field9_0xeb;
 };
 
-struct pause_Substruct {
-    WidgetOptionsMenu *optionsMenu;
-    WidgetDollMenu *dollmenu;
-    WidgetCalendar *calendar;
-    BaseWidget *pauseMenuSections[3];
-    BaseWidget *backgroundWidget;
-    BaseWidget *field5_0x1c;
-    char PauseMenuSection;
-    undefined field7_0x21;
-    s16 unk22;
-    s16 unk24;
-    s16 unk26;
-    SceneData *sceneDat;
-    float scrollSpeed;
-    Borg7header *borg7;
-    vec3f camPos;
-    float scrollfloat;
-    undefined field16_0x44;
-    undefined field17_0x45;
-    undefined field18_0x46;
-    undefined field19_0x47;
-    undefined field20_0x48;
-    undefined field21_0x49;
-    undefined field22_0x4a;
-    undefined field23_0x4b;
-    u32 takeInput;
-};
-
 struct WidgetHealthGold {
     BaseWidget base;
     BaseWidget *Level_widget;
@@ -1308,7 +1272,7 @@ struct WidgetHealthGold {
     BaseWidget *CurrHP_Widget;
     BaseWidget *MaxHP_widget;
     BaseWidget *borg8_widget;
-    unkGuiSubstruct field6_0x90;
+    UnkGuiSubstruct field6_0x90;
     short HpPercent;
     undefined field8_0xa2;
     undefined field9_0xa3;
@@ -1731,8 +1695,6 @@ typedef struct wander_struct wander_struct, *Pwander_struct;
 
 typedef struct player_char_struct player_char_struct, *Pplayer_char_struct;
 
-typedef struct PauseWidget PauseWidget, *PPauseWidget;
-
 typedef struct MiniMap MiniMap, *PMiniMap;
 
 typedef struct ScriptCamera_struct ScriptCamera_struct, *PScriptCamera_struct;
@@ -1761,7 +1723,7 @@ struct wander_struct {
 
 struct player_char_struct {
     playerData *playerDat;
-    enum Borg7Enum player_form;
+    u32 player_form;
     float collisionRadius;
     u16 show_portaits;
     u16 some_sound_var;
@@ -1845,12 +1807,6 @@ struct ScriptCam {
     vec3f *aim;
     float field5_0xc;
     camera_obj voxel;
-};
-
-struct PauseWidget {
-    BaseWidgetPause base;
-    u32 unk0x7c;
-    WidgetHandler *Handler;
 };
 
 

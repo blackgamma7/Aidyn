@@ -1,7 +1,7 @@
 #include "globals.h"
 
 void CommonStrings::Init(void){
-  gGlobals.CommonStrings  = func_romStrings(common_string_array,0x2830);
+  gGlobals.CommonStrings  = RomString::Load(common_string_array,0x2830);
   commonstrings = gGlobals.CommonStrings;
   encountertype_labels = gGlobals.CommonStrings + 0xea;
   walking_labels = gGlobals.CommonStrings + 0xed;
@@ -37,7 +37,7 @@ void CommonStrings::Init(void){
 
 void CommonStrings::Free(void){
   if (gGlobals.CommonStrings) {
-    free_romstring(gGlobals.CommonStrings);
+    RomString::Free(gGlobals.CommonStrings);
     commonstrings = NULL;
 	#ifdef DEBUGVER
     debug_switch_labels = NULL;

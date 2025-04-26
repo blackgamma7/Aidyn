@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "romstring.h"
 
 void PotionEffect::Init(u8 ID_,u8 pow,u32 t){
   ID = ID_;
@@ -27,9 +28,9 @@ bool PotionEffect::DecTimer(u16 mag,int delta){
 }
 
 
-void load_potion_romstring(void){potion_names = func_romStrings(RomstringPotion,0x100);}
+void load_potion_romstring(void){potion_names = RomString::Load(RomstringPotion,0x100);}
 
-void clear_potion_romstrings(void){free_romstring(potion_names);}
+void clear_potion_romstrings(void){RomString::Free(potion_names);}
 
 //there's an identical one of these elsewhere. (file break?)
 void SetStatMod2(StatMod *param_1,u8 stat,s8 mod){
