@@ -1995,15 +1995,6 @@ struct WidgetCombatActions {
     WidgetChild0 *unkb0;
 };
 
-typedef struct WidgetCombatRadar WidgetCombatRadar, *PWidgetCombatRadar;
-
-struct WidgetCombatRadar {
-    BaseWidget base;
-    BaseWidget *compass;
-    s16 field2_0x80;
-    s16 field3_0x82;
-};
-
 typedef struct widgetCredits widgetCredits, *PwidgetCredits;
 
 struct widgetCredits {
