@@ -40,13 +40,52 @@ class UnkGuiClassCB: public UnkGuiClassU1{
   virtual u8 vMethC(f32);
 };
 
+class UnkGuiClassL: public UnkGuiClass{
+  public:
+  UnkGuiClass* link;
+  BaseWidget* w;
+  UnkGuiClassL(UnkGuiClass*,BaseWidget*);
+  ~UnkGuiClassL();
+  void vMethA(s32);
+  virtual u32 vMethB(f32);
+};
 
 class UnkGuiClassA: public UnkGuiClass{
   virtual u8 vMethC(){}
 };
 
+class UnkGuiClassU2:public UnkGuiClass{
+  public:
+  s16* unkc;
+  f64 f64Array[8];
+  UnkGuiClassU2(s16*, s16*, s32, f64*);
+  ~UnkGuiClassU2();
+  virtual u32 vMethB(f32);
+  virtual s16 vMethC(f32);
+};
 
+class UnkGuiClassU3:public UnkGuiClass{
+  public:
+  u8* unkc;
+  f64 f64Array[8];
+  UnkGuiClassU3(u8*, u8*, s32, f64*);
+  ~UnkGuiClassU3();
+  virtual u32 vMethB(f32);
+  virtual u8 vMethC(f32);
+};
 
+class UnkGuiClassU4:public UnkGuiClass{
+  public:
+  u16* unkc;
+  f64 f64Array[8];
+  UnkGuiClassU4(u16*, s16*, s32, f64*);
+  ~UnkGuiClassU4();
+  virtual u32 vMethB(f32);
+  virtual u16 vMethC(f32);
+};
+f64 double_array_0[]={0.5,1.0,1.570796012878418,0.0,3.141592979431152};
+f64 double_array_1[]={1.0,1.0,0.0,0.0,1.570796012878418};
+f64 double_array_2[]={1.0,1.0,1.570796012878418,0.0,4.712389469146729};
 
 class UnkGuiSubstruct{
     public:
@@ -61,5 +100,5 @@ class UnkGuiSubstruct{
     void Clear();
 };
 
-//used in UnkGuiSubstruct::init to alloc UnkGuiSubstruct->ptr
+//used in UnkGuiSubstruct::UnkGuiSubstruct to alloc UnkGuiSubstruct->ptr
 void* passto_new(u32 s);

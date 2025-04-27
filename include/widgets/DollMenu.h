@@ -17,7 +17,11 @@ class WidgetMenuChild2: public WidgetMenu{
     WidgetBorg8* schoolIcon;
     UnkGuiSubstruct unkb8;
     WidgetMenuChild2(Party *party,u8 size,u8 selected);
-
+    ~WidgetMenuChild2();
+    u32 m80042c04();
+    void SchoolAspectIcons(u8);
+    Gfx* Render(Gfx*g,u16 x0,u16 y0,u16 x1,u16 y1);
+    u8 Tick();
 };
 
 class WidgetHealthGold: public WidgetMenu{
