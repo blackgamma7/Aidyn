@@ -1221,8 +1221,6 @@ typedef struct pause_Substruct pause_Substruct, *Ppause_Substruct;
 
 typedef struct WidgetCalendar WidgetCalendar, *PWidgetCalendar;
 
-typedef struct WidgetHealthGold WidgetHealthGold, *PWidgetHealthGold;
-
 typedef struct DollEquipmentMenu DollEquipmentMenu, *PDollEquipmentMenu;
 
 typedef struct WidgetBarter WidgetBarter, *PWidgetBarter;
@@ -1265,18 +1263,6 @@ struct DollEquipmentMenu {
     undefined field9_0xeb;
 };
 
-struct WidgetHealthGold {
-    BaseWidget base;
-    BaseWidget *Level_widget;
-    BaseWidget *gold_widget;
-    BaseWidget *CurrHP_Widget;
-    BaseWidget *MaxHP_widget;
-    BaseWidget *borg8_widget;
-    UnkGuiSubstruct field6_0x90;
-    short HpPercent;
-    undefined field8_0xa2;
-    undefined field9_0xa3;
-};
 
 struct WidgetCalendar {
     BaseWidget base;

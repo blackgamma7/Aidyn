@@ -27,13 +27,19 @@ class WidgetMenuChild2: public WidgetMenu{
 
 class WidgetHealthGold: public WidgetMenu{
     public:
-    WidgetClipText* Level_widget;
-    WidgetClipText* Gold_widget;
-    WidgetClipText* CurrHP_widget;
-    WidgetClipText* MaxHP_widget;
-    WidgetBorg8* borg8_widget;
+    WidgetClipText* LevelText;
+    WidgetClipText* GoldText;
+    WidgetClipText* CurrHPText;
+    WidgetClipText* MaxHPText;
+    WidgetBorg8* HPBar;
     UnkGuiSubstruct unk90;
     s16 HpPercent;
+    WidgetHealthGold(CharSheet* chara);
+    ~WidgetHealthGold();
+    void Update(CharSheet* chara);
+    u8 Tick();
+    Gfx* Render(Gfx*g,u16 x0,u16 y0,u16 x1,u16 y1);
+    u32 m80043c2c();
 };
 
 class DollEquipmentMenu: public WidgetMenu{
