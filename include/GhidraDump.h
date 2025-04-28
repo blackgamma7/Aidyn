@@ -1217,11 +1217,7 @@ struct Camera_obj_dat {
 
 typedef struct BaseWidgetPause BaseWidgetPause, *PBaseWidgetPause;
 
-typedef struct pause_Substruct pause_Substruct, *Ppause_Substruct;
-
 typedef struct WidgetCalendar WidgetCalendar, *PWidgetCalendar;
-
-typedef struct DollEquipmentMenu DollEquipmentMenu, *PDollEquipmentMenu;
 
 typedef struct WidgetBarter WidgetBarter, *PWidgetBarter;
 
@@ -1248,19 +1244,6 @@ struct WidgetBarter {
     undefined field15_0x99;
     undefined field16_0x9a;
     undefined field17_0x9b;
-};
-
-struct DollEquipmentMenu {
-    BaseWidget base;
-    UnkGuiSubstruct unkStruct;
-    undefined field2_0x8c;
-    undefined field3_0x8d;
-    undefined field4_0x8e;
-    undefined field5_0x8f;
-    BaseWidget *icons[15];
-    ItemID icon_item_ids[15];
-    undefined field8_0xea;
-    undefined field9_0xeb;
 };
 
 

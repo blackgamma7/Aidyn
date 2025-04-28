@@ -48,6 +48,14 @@ class DollEquipmentMenu: public WidgetMenu{
     u32 unk8c;
     WidgetBorg8* icons[15];
     ItemID icon_item_ids[15];
+    DollEquipmentMenu(CharSheet*);
+    ~DollEquipmentMenu();
+    void GetSlotIcons(CharSheet*);
+    void GetSlotIcon(u32,ItemID);
+    ItemID GetEntityItemId(CharSheet *,u8);
+    void SetSlotCoords(u32 ,BaseWidget *);
+    u8 Tick();
+    u32 unkGetter();
 };
 
 class WidgetChild4: public WidgetMenu{
