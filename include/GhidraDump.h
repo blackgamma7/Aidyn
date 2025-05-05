@@ -866,32 +866,8 @@ struct CombatTargetVisuals_struct {
     uint entCount;
 };
 
-typedef struct WidgetChild4 WidgetChild4, *PWidgetChild4;
-
-
 typedef struct WidgetStatTrain WidgetStatTrain, *PWidgetStatTrain;
 
-
-struct WidgetChild4 {
-    BaseWidget base;
-    WidgetTrainShop *stattrainwidget[4];
-    u32 field2_0x8c;
-    u8 field3_0x90;
-    u8 partyPicker;
-    u8 field5_0x92;
-    undefined field6_0x93;
-    WidgetTrainShop *field7_0x94;
-    WidgetTrainShop *field8_0x98;
-    u32 field9_0x9c;
-    WidgetStatTrain *stats;
-    undefined field11_0xa4;
-    undefined field12_0xa5;
-    undefined field13_0xa6;
-    undefined field14_0xa7;
-    BaseWidget *field15_0xa8;
-    BaseWidget *field16_0xac;
-    UnkGuiSubstruct field17_0xb0;
-};
 
 struct WidgetStatTrain {
     WidgetTrainShop base;
@@ -1997,26 +1973,6 @@ typedef struct WidgetMenuHealer WidgetMenuHealer, *PWidgetMenuHealer;
 struct WidgetMenuHealer {
     WidgetCrafting base;
     BaseWidget *textBox;
-};
-
-typedef struct WidgetSpellEntry WidgetSpellEntry, *PWidgetSpellEntry;
-
-struct WidgetSpellEntry {
-    BaseWidget base;
-    SpellInstance *spell;
-    BaseWidget *aspectIcon;
-    BaseWidget *SchoolIcon;
-    BaseWidget *SpellIcon;
-    BaseWidget *SpelllRank;
-    BaseWidget *SpellName;
-    u16 field7_0x94;
-    u16 field8_0x96;
-};
-
-typedef struct WidgetSpellTrain WidgetSpellTrain, *PWidgetSpellTrain;
-
-struct WidgetSpellTrain {
-    WidgetTrainShop base;
 };
 
 typedef struct WorldMapPiece WorldMapPiece, *PWorldMapPiece;

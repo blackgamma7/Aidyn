@@ -446,14 +446,14 @@ void Utilities::MoveWidget2(BaseWidget *w,s16 param_2,s16 param_3){
   MoveWidget(w,param_2 - w->x,param_3 - w->y);
 }
 
-BaseWidget * Utilities::DebugBackground(BaseWidget *w,s16 x,s16 y,u16 h,u16 w,u8 r,u8 g,u8 b,u8 a){
-  BaseWidget* pBVar1 = new wigdetUnk0();
-  pBVar1->SetCoords(x,y);
-  pBVar1->SetWidth(h);
-  pBVar1->SetHeight(w);
-  pBVar1->SetColor(r,g,b,a);
-  if (w) w->Link(pBVar1);
-  return pBVar1;
+BaseWidget * Utilities::DebugBackground(BaseWidget *wP,s16 x,s16 y,u16 h,u16 w,u8 r,u8 g,u8 b,u8 a){
+  BaseWidget* BG = new wigdetUnk0();
+  BG->SetCoords(x,y);
+  BG->SetWidth(h);
+  BG->SetHeight(w);
+  BG->SetColor(r,g,b,a);
+  if (wP) wP->Link(BG);
+  return BG;
 }
 
 WidgetText * Utilities::AddTextWidget(BaseWidget *w,char *str,s16 x,s16 y,u8 r,u8 g,u8 b,u8 a){

@@ -1,5 +1,6 @@
 #include "widgets/BaseWidget.h"
 
+//Text widget
 class WidgetClipText : public BaseWidget {
 public:
   WidgetClipText(char* str, u16 len);

@@ -59,19 +59,35 @@ class DollEquipmentMenu: public WidgetMenu{
 };
 
 class WidgetChild4: public WidgetMenu{
-    WidgetTrainShop* StatTrainWidgets[4];
+    WidgetTrainShop* menus[4];
     WidgetTrainShop* unk8c;
-    u8 unk90;
+    u8 menuIndex;
     u8 partyPicker;
-    u8 unk92;
-    WidgetTrainShop* unk98;
-    WidgetTrainShop* unk9c;
-    WidgetTrainShop* skills;
-    WidgetTrainShop* stats;
+    u8 menuCount;
+    WidgetInvShop* invMenu;
+    WidgetSpellTrain* spellMenu;
+    WidgetSkillTrain* skillMenu;
+    WidgetStatTrain* statMenu;
     WidgetBorg8* background;
     WidgetClipText* expCost;
     WidgetClipText* expRemain;
     UnkGuiSubstruct unkb0;
+    WidgetChild4(DollEquipmentMenu *,u8);
+    ~WidgetChild4();
+    void InitMenu(DollEquipmentMenu *,u8);
+    Gfx* Render(Gfx*,u16,u16,u16,u16);
+    u8 Tick();
+    u32 m80038bc0();
+    void m80038bdc(u8);
+    void m80038c60(u8);
+    void ShowEXPCosts();
+    u32 GetNumber();
+    BaseWidget* UpFunc();
+    BaseWidget* DownFunc();
+    BaseWidget* LeftFunc();
+    BaseWidget* RightFunc();
+    BaseWidget* AFunc();
+    BaseWidget* CDownFunc();
 };
 
 class WidgetMenuSpells: public WidgetMenu{
