@@ -617,6 +617,51 @@ struct borg9_phys {
     u16 GroundType;
 };
 
+
+struct Borg13Op{
+    u16 val;
+    u8 com;
+    u8 unk2; //align?
+    u32 unk4; //unused?
+};
+
+struct borg13command {
+    Borg13Op ops[4];
+    s16 text_marker;
+    undefined field32_0x22;
+    undefined field33_0x23;
+    u16 a;
+    u16 b;
+    u8 index;
+    u8 c[8];
+    u8 bitmask;
+    undefined field46_0x32;
+    undefined field47_0x33;
+    u32 unk34;
+};
+
+struct borg13data {
+    borg13command *commands_pointer;
+    u16 (*actors)[4];
+    char *text;
+    u16 ID;
+    u16 flag;
+    u8 A;
+    u8 B;
+    u8 CmdCount;
+    u8 ActorCount;
+    u8 start_func;
+    u8 C;
+    u8 pad[2];
+};
+
+struct borg13header{
+    borgHeader head;
+    u32* unk8;
+    u32 unkc;
+    borg13data* dat;
+};
+
 //borgmain.cpp
 void setBorgFlag(void);
 void clearBorgFlag(void);

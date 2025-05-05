@@ -264,18 +264,6 @@ struct struct_1 {
     borg6header *field1_0x4;
 };
 
-typedef struct unkGuiClassA unkGuiClassA, *PunkGuiClassA;
-
-struct unkGuiClassA {
-    u32 unk0;
-    float unk4;
-    void **vTable;
-    short *unkc;
-    double *unk10;
-    u32 unk14;
-    double f64Array[7];
-};
-
 /*
 typedef enum borg9Enum {
     Dryad Forest=4034,
@@ -358,45 +346,6 @@ typedef enum borg13_commands {
     give exp=56
 } borg13_commands;
 */
-
-
-struct borg13data {
-    borg13command *commands_pointer;
-    u16 (*actors)[4];
-    char *text;
-    u16 ID;
-    u16 flag;
-    u8 A;
-    u8 B;
-    u8 CmdCount;
-    u8 ActorCount;
-    u8 start_func;
-    u8 C;
-    u8 pad[2];
-};
-struct Borg13Op{
-    u16 val;
-    u8 com;
-    u8 unk2; //align?
-    u32 unk4; //unused?
-};
-struct borg13command {
-    Borg13Op ops[4];
-    s16 text_marker;
-    undefined field32_0x22;
-    undefined field33_0x23;
-    u16 a;
-    u16 b;
-    u8 index;
-    u8 c[8];
-    u8 bitmask;
-    undefined field46_0x32;
-    undefined field47_0x33;
-    undefined field48_0x34;
-    undefined field49_0x35;
-    undefined field50_0x36;
-    undefined field51_0x37;
-};
 
 struct DialougeStruct {
     u8 field0_0x0;
@@ -758,22 +707,6 @@ typedef enum Borg12Enum { // Music/SFX
     Heavy Whack=1871
 } Borg12Enum;
 */
-typedef struct borg13header borg13header, *Pborg13header;
-
-struct borg13header {
-    enum borg13Enum ID;
-    int field1_0x4;
-    void *field2_0x8;
-    undefined field3_0xc;
-    undefined field4_0xd;
-    undefined field5_0xe;
-    undefined field6_0xf;
-    borg13data *borg13_dat;
-    undefined field8_0x14;
-    undefined field9_0x15;
-    undefined field10_0x16;
-    undefined field11_0x17;
-};
 
 typedef struct borg_short borg_short, *Pborg_short;
 
@@ -864,21 +797,6 @@ typedef struct CombatTargetVisuals_struct CombatTargetVisuals_struct, *PCombatTa
 struct CombatTargetVisuals_struct {
     astruct_6 *pointer;
     uint entCount;
-};
-
-typedef struct WidgetStatTrain WidgetStatTrain, *PWidgetStatTrain;
-
-
-struct WidgetStatTrain {
-    WidgetTrainShop base;
-    BaseWidget *clipText90;
-    BaseWidget *xepRemaining;
-    BaseWidget *field3_0x98;
-    BaseWidget *field4_0x9c;
-    undefined field5_0xa0;
-    undefined field6_0xa1;
-    undefined field7_0xa2;
-    undefined field8_0xa3;
 };
 
 typedef struct armour_RAM armour_RAM, *Parmour_RAM;
@@ -1146,51 +1064,6 @@ struct lldiv_t {
     longlong rem;
 };
 
-typedef struct Audio_obj Audio_obj, *PAudio_obj;
-
-typedef struct audio_obj_dat audio_obj_dat, *Paudio_obj_dat;
-
-struct audio_obj_dat {
-    enum Borg12Enum borg12Index;
-    u32 field1_0x4;
-    float volume;
-    float randA;
-    float randB;
-    u16 soundFlag; /* bitfield {2=randLoop,0x10=bgm} */
-    u16 unk16; /* align */
-    float volumeFade;
-    u32 pan;
-    u32 dcmId;
-    u16 unk24;
-    u8 dcmIndex;
-    undefined field12_0x27;
-    undefined8 field13_0x28;
-    undefined8 field14_0x30;
-    undefined8 field15_0x38;
-    u32 field16_0x40;
-};
-
-struct Audio_obj {
-    voxelHeader header;
-    audio_obj_dat audio;
-};
-
-typedef struct camera_obj camera_obj, *Pcamera_obj;
-
-typedef struct Camera_obj_dat Camera_obj_dat, *PCamera_obj_dat;
-
-struct Camera_obj_dat {
-    short refpoint_ID;
-    u16 CameraFlags;
-    uint timestamp;
-    vec3f vec3_A;
-    vec3f vec3_b;
-    vec3f vec3_C;
-    float unk0x54;
-    u8 unk0x58[20];
-};
-
-
 typedef struct BaseWidgetPause BaseWidgetPause, *PBaseWidgetPause;
 
 typedef struct WidgetCalendar WidgetCalendar, *PWidgetCalendar;
@@ -1268,8 +1141,6 @@ struct IntroMenu {
     u8 pressStartVisible;
 };
 
-
-
 typedef struct Widget_Skills Widget_Skills, *PWidget_Skills;
 
 struct Widget_Skills {
@@ -1283,43 +1154,6 @@ struct Widget_Skills {
     u16 field7_0x92;
 };
 
-typedef struct widget_text widget_text, *Pwidget_text;
-
-struct widget_text {
-    char *txt;
-    u32 unk;
-    float f1;
-    float f2;
-};
-
-typedef struct WidgetChild3 WidgetChild3, *PWidgetChild3;
-
-struct WidgetChild3 {
-    BaseWidget base;
-    BaseWidget *title_widget;
-    BaseWidget *field2_0x80;
-    undefined field3_0x84;
-    undefined field4_0x85;
-    undefined field5_0x86;
-    undefined field6_0x87;
-    u8 partyPicker;
-    undefined field8_0x89;
-    undefined field9_0x8a;
-    undefined field10_0x8b;
-    u32 field11_0x8c;
-    undefined field12_0x90;
-    undefined field13_0x91;
-    undefined field14_0x92;
-    undefined field15_0x93;
-    undefined field16_0x94;
-    undefined field17_0x95;
-    undefined field18_0x96;
-    undefined field19_0x97;
-    undefined field20_0x98;
-    undefined field21_0x99;
-    undefined field22_0x9a;
-    undefined field23_0x9b;
-};
 
 typedef struct widgetGroup widgetGroup, *PwidgetGroup;
 
