@@ -26,80 +26,40 @@ WidgetBorg8::~WidgetBorg8(){
 
 
 Gfx * WidgetBorg8::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-    //todo:fix this mess of casting
-    byte bVar1;
-  short sVar2;
-  short sVar3;
-  short sVar4;
-  short sVar5;
-  Borg8header *pBVar6;
-  Gfx *pGVar7;
-  int iVar8;
-  longlong lVar9;
-  longlong lVar10;
-  longlong lVar11;
-  longlong lVar12;
-  longlong lVar13;
-  int iVar14;
-  longlong lVar15;
-  longlong height;
-  longlong width;
-  longlong lVar16;
-  longlong lVar17;
-  float red;
-  float green;
-  float blue;
-  float alpha;
-  float scaleX;
-  float scaleY;
-
-  pBVar6 = this->borg8;
-  if (pBVar6) {
-    lVar16 = 0;
-    lVar17 = 0;
-    sVar2 = this->x;
-    lVar10 = (longlong)sVar2;
-    sVar3 = this->y;
-    lVar11 = (longlong)sVar3;
-    sVar4 = (pBVar6->dat).Width;
-    height = (longlong)sVar4;
-    sVar5 = (pBVar6->dat).Height;
-    width = (longlong)sVar5;
-    iVar14 = (int)(((uint)this->width + (int)sVar2) * 0x10000) >> 0x10;
-    iVar8 = (int)(((uint)this->height + (int)sVar3) * 0x10000) >> 0x10;
-    scaleX = this->width / (pBVar6->dat).Width;
-    scaleY = this->height / (pBVar6->dat).Height;
-    lVar9 = this->boundX0;
-    if (this->boundX0 < x0) lVar9 = x0;
-    lVar12 = this->boundX1;
-    if (x1 < this->boundX1) lVar12 = x1;
-    lVar13 = this->boundY0;
-    if (this->boundY0 < y0) lVar13 = y0;
-    lVar15 = this->boundY1;
-    if (y1 < this->boundY1) lVar15 = y1;
-    if ((((lVar9 <= iVar14) && (lVar13 <= iVar8)) && (lVar10 <= lVar12)) && (lVar11 <= lVar15)) {
-      if (lVar10 < lVar9) {
-        lVar16 = (int)((float)((int)lVar9 - (int)sVar2) / scaleX);
-        lVar10 = lVar9;
+  if (this->borg8) {
+    s32 lVar16 = 0;
+    s32 lVar17 = 0;
+    s32 lVar10 = this->x;
+    s32 lVar11 = this->y;
+    s16 iHeight = (this->borg8->dat).Width;
+    s16 iWidth = (this->borg8->dat).Height;
+    s16 iVar14 = (this->width + this->x);
+    s16 iVar8 = (this->height + this->y);
+    float iScaleX = this->width / (this->borg8->dat).Width;
+    float iScaleY = this->height / (this->borg8->dat).Height;
+    u16 bx0 = this->boundX0;
+    if (this->boundX0 < x0) bx0 = x0;
+    u16 bx1 = this->boundX1;
+    if (x1 < this->boundX1) bx1 = x1;
+    u16 by0 = this->boundY0;
+    if (this->boundY0 < y0) by0 = y0;
+    u16 by1 = this->boundY1;
+    if (y1 < this->boundY1) by1 = y1;
+    if ((((bx0 <= iVar14) && (by0 <= iVar8)) && (lVar10 <= bx1)) && (lVar11 <= by1)) {
+      if (lVar10 < bx0) {
+        lVar16 = (bx0 - this->x) / iScaleX;
+        lVar10 = bx0;
       }
-      if (lVar12 < iVar14) {
-        height = (longlong)
-                 (((int)sVar4 - (int)((float)(iVar14 - (int)lVar12) / scaleX)) * 0x10000 >> 0x10);
+      if (bx1 < iVar14) iHeight = (this->borg8->dat).Width - ((iVar14 - bx1) / iScaleX);
+      if (lVar11 < by0) {
+        lVar17 = (by0 - (int)this->y) / iScaleY;
+        lVar11 = by0;
       }
-      if (lVar11 < lVar13) {
-        lVar17 = (int)((float)((int)lVar13 - (int)sVar3) / scaleY);
-        lVar11 = lVar13;
-      }
-      if (lVar15 < iVar8) {
-        width = (longlong)
-                (((int)sVar5 - (int)((float)(iVar8 - (int)lVar15) / scaleY)) * 0x10000 >> 0x10);
-      }
-      if (((lVar16 < height) && (lVar17 < width)) && (0.0 < (float)(this->col).A * fadeFloatMirror))
-      {
-        g = N64BorgImageDraw(g,this->borg8,(float)(int)lVar10,(float)(int)lVar11,(short)lVar16,
-                             (short)lVar17,(u16)height,(u16)width,scaleX,scaleY,col.R*fadeFloatMirror,
+      if (by1 < iVar8) iWidth = ((this->borg8->dat).Height - ((iVar8 - by1) / iScaleY));
+      if (((lVar16 < iHeight) && (lVar17 < iWidth)) && (0.0 < (float)(this->col).A * fadeFloatMirror))
+        g = N64BorgImageDraw(g,this->borg8,lVar10,lVar11,lVar16,lVar17,
+                             (u16)iHeight,(u16)iWidth,iScaleX,iScaleY,col.R*fadeFloatMirror,
                              col.G*fadeFloatMirror,col.B*fadeFloatMirror,col.A*fadeFloatMirror);
-      }
     }
   }
   RENDERCHILDREN();

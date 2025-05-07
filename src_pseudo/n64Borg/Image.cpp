@@ -139,15 +139,15 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8header *borg8,float param_3,float param_4,u16
   iVar32 = (int)(1024.0f / fVar38);
   iVar2 = (borg8->dat).format;
   uStack_38 = (uint)(1024.0f / fVar39);
-  pGVar24 = g + 2;
-  if (8 < iVar2)CRASH("N64BorgImage.cpp N64BorgImageDraw","Image type was  not recognized.");
+  pGVar24 = g;
+  if (8 < (borg8->dat).format)CRASH("N64BorgImage.cpp N64BorgImageDraw","Image type was  not recognized.");
   uVar15 = (uint)uVar1;
   uVar21 = (uint)param_5;
   uVar20 = (uint)param_5;
   sVar10 = (short)iVar32;
   sVar11 = (short)uStack_38;
   sVar28 = (short)iVar31;
-  switch(iVar2) {
+  switch((borg8->dat).format) {
   case BORG8_RBGA32:
     if ((int)uVar26 < 2) {
       iVar5 = 2 - uVar26;
@@ -865,106 +865,26 @@ void borg8_free(Borg8header *param_1){
   borg_count[8]--;
 }
 
-
 Gfx * gsFadeInOut(Gfx *gfx,u16 x,u16 y,u16 H,u16 V,u8 R,u8 G,u8 B,u8 A){
-  float fVar1;
-  float fVar2;
-  uint uVar3;
-  uint uVar4;
-  int iVar5;
-  uint uVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  int iVar10;
-  uint uVar11;
+  int sicsH;
+  int sicsY;
+  int sicsV;
+  int dsdx;
+  int sicsX;
+  uint dtdy;
   
-  fVar2 = sImageVScale;
-  fVar1 = sImageHScale;
+
   gDPLoadSync(gfx++);
   gDPSetPrimColor(gfx++,0,0,R,G,B,A);
   gDPSetTextureLUT(gfx++,0);
-  //gDPLoadTextureBlock()?
-  *(byte **)((int)gfx + 0x1c) = fade_texture;
-  gfx[3].words.w0 = 0xfd680007;
-  gfx[4].words.w0 = 0xf5680800;
-  *(undefined4 *)((int)gfx + 0x24) = 0x7080200;
-  gfx[5].words.w0 = 0xe6000000;
-  *(undefined4 *)((int)gfx + 0x2c) = 0;
-  gfx[6].words.w0 = 0xf4000000;
-  *(undefined4 *)((int)gfx + 0x34) = 0x7070070;
-  gfx[7].words.w0 = 0xe7000000;
-  *(undefined4 *)((int)gfx + 0x3c) = 0;
-  gfx[8].words.w0 = 0xf5680800;
-  *(undefined4 *)((int)gfx + 0x44) = 0x80200;
-  gfx[9].words.w0 = 0xf2000000;
-  iVar10 = (int)(short)(int)((float)(uint)x * fVar1);
-  iVar7 = (int)(short)(int)((float)(uint)y * fVar2);
-  *(undefined4 *)((int)gfx + 0x4c) = 0x70070;
-  iVar5 = (int)(short)(int)((float)(uint)H * fVar1);
-  iVar8 = (int)(short)(int)((float)(uint)V * fVar2);
-  iVar9 = (int)(short)(int)((8.0f / (float)(iVar5 - iVar10)) * 1024.0f);
-  uVar11 = (uint)((8.0f / (float)(iVar8 - iVar7)) * 1024.0f);
-  uVar3 = (iVar5 << 0x12) >> 0x10;
-  iVar5 = (int)(short)uVar11;
-  //gSPScisTextureRectangle()?
-  if ((int)uVar3 < 1) {
-    uVar3 = 0xe4000000;
-  }
-  else {
-    uVar3 = (uVar3 & 0xfff) << 0xc | 0xe4000000;
-  }
-  uVar4 = (iVar8 << 0x12) >> 0x10;
-  if (0 < (int)uVar4) {
-    uVar3 |= uVar4 & 0xfff;
-  }
-  gfx[10].words.w0 = uVar3;
-  uVar3 = (iVar10 << 0x12) >> 0x10;
-  if ((int)uVar3 < 1) {
-    uVar4 = 0;
-  }
-  else {
-    uVar4 = (uVar3 & 0xfff) << 0xc;
-  }
-  uVar6 = (iVar7 << 0x12) >> 0x10;
-  if (0 < (int)uVar6) {
-    uVar4 |= uVar6 & 0xfff;
-  }
-  *(uint *)((int)gfx + 0x54) = uVar4;
-  gfx[0xb].words.w0 = 0xe1000000;
-  if ((int)uVar3 < 0) {
-    iVar8 = (int)(uVar3 * iVar9) >> 7;
-    if (iVar9 < 0) {
-      if (iVar8 < 0) {
-        iVar8 = 0;
-      }
-    }
-    else if (0 < iVar8) {
-      iVar8 = 0;
-    }
-    uVar3 = iVar8 * -0x10000;
-  }
-  else {
-    uVar3 = 0;
-  }
-  if (iVar7 << 2 < 0) {
-    if (iVar5 < 0) {
-      iVar5 = (int)(uVar6 * iVar5) >> 7;
-      if (iVar5 < 0) {
-        iVar5 = 0;
-      }
-    }
-    else {
-      iVar5 = (int)(uVar6 * iVar5) >> 7;
-      if (0 < iVar5) {
-        iVar5 = 0;
-      }
-    }
-    uVar3 |= -iVar5 & 0xffffU;
-  }
-  *(uint *)((int)gfx + 0x5c) = uVar3;
-  gfx[0xc].words.w0 = 0xf1000000;
-  *(uint *)((int)gfx + 100) = iVar9 << 0x10 | uVar11 & 0xffff;
-  return gfx + 0xd;
+  gDPLoadTextureBlock(gfx++,fade_texture,G_IM_FMT_I,G_IM_SIZ_4b,8,8,0,0,2,2,0,0,0);
+  sicsX = (x * sImageHScale);
+  sicsY = (y * sImageVScale);
+  sicsH = ((float)H * sImageHScale);
+  sicsV = ((float)V * sImageVScale);
+  dsdx = ((8.0f / (float)(sicsH - sicsX)) * 1024.0f);
+  dtdy = ((8.0f / (float)(sicsV - sicsY)) * 1024.0f);
+  gSPScisTextureRectangle(gfx++,sicsX,sicsY,sicsH,sicsV,0,0,0,dsdx,dtdy)
+  return gfx;
 }
 
