@@ -7,7 +7,6 @@ u32 gItemSlotBorg8Indecies[]={
     0x35f6,0x35ff,0x3600,0x35fb,0x35fc,0x35fd,0x35fd,0x35fe};
 
 DollEquipmentMenu::DollEquipmentMenu(CharSheet *param_2):WidgetMenu(){
-  this->unk7c=UnkGuiSubstruct(30);
   CLEAR(&this->icons);
   CLEAR(&this->icon_item_ids);
   for(u32 i=0;i<15;i++){

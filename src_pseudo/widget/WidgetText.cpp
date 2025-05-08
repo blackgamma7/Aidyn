@@ -61,7 +61,7 @@ Gfx * WidgetText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     (font_pointer->col).B = this->col.B *fadeFloatMirror;
     (font_pointer->col).A = this->col.A *fadeFloatMirror;
     if (0.0 < (this->col).A * fadeFloatMirror) {
-      uVar4 = passto_display_text_func_A(font_pointer,&apGStackX_4,ppcVar1->str,this->x,this->y,
+      uVar4 = Font::PrintWapperA(font_pointer,&apGStackX_4,ppcVar1->str,this->x,this->y,
               lVar6,lVar5,lVar8,lVar7,ppcVar1->scalex,ppcVar1->scaley);
     }
     BaseWidget::SetHeight(uVar4);
@@ -74,7 +74,7 @@ u16 WidgetText::GetWidth(){
   u16 uVar2;
   uint uVar3;
   widgetTextSubstruct *ppvVar1 = (widgetTextSubstruct *)substruct;
-  uVar1 = get_text_kerning(font_pointer,ppvVar1->str,ppvVar1->scalex);
+  uVar1 = Font::GetWidthScaled(font_pointer,ppvVar1->str,ppvVar1->scalex);
   uVar2 = 0;
   if (boundX1 < boundX0) width = 0;
   else {
@@ -88,7 +88,7 @@ u16 WidgetText::GetWidth(){
 
 u16 WidgetText::GetHeight(){
   widgetTextSubstruct *ppcVar1 = (widgetTextSubstruct *)substruct;
-  height = (u16)Font_GetHeight(font_pointer,ppcVar1->str,x,(int)(short)boundX1,
+  height = (u16)Font::GetHeightScaled(font_pointer,ppcVar1->str,x,(int)(short)boundX1,
                          ppcVar1->scalex,ppcVar1->scaley);
   return height;
 }

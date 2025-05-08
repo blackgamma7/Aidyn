@@ -16,7 +16,7 @@ class WidgetMenuChild2: public WidgetMenu{
     u16 Ws[4];
     WidgetBorg8* aspectIcon;
     WidgetBorg8* schoolIcon;
-    UnkGuiSubstruct unkb8;
+    UnkGuiSubstruct unkb8=UnkGuiSubstruct(22);
     WidgetMenuChild2(Party *party,u8 size,u8 selected);
     ~WidgetMenuChild2();
     u32 m80042c04();
@@ -32,7 +32,7 @@ class WidgetHealthGold: public WidgetMenu{
     WidgetClipText* CurrHPText;
     WidgetClipText* MaxHPText;
     WidgetBorg8* HPBar;
-    UnkGuiSubstruct unk90;
+    UnkGuiSubstruct unk90=UnkGuiSubstruct(7);
     s16 HpPercent;
     WidgetHealthGold(CharSheet* chara);
     ~WidgetHealthGold();
@@ -44,7 +44,7 @@ class WidgetHealthGold: public WidgetMenu{
 
 class DollEquipmentMenu: public WidgetMenu{
     public:
-    UnkGuiSubstruct unk7c;
+    UnkGuiSubstruct unk7c=UnkGuiSubstruct(30);
     u32 unk8c;
     WidgetBorg8* icons[15];
     ItemID icon_item_ids[15];
@@ -71,7 +71,7 @@ class WidgetChild4: public WidgetMenu{
     WidgetBorg8* background;
     WidgetClipText* expCost;
     WidgetClipText* expRemain;
-    UnkGuiSubstruct unkb0;
+    UnkGuiSubstruct unkb0=UnkGuiSubstruct(8);
     WidgetChild4(DollEquipmentMenu *,u8);
     ~WidgetChild4();
     void InitMenu(DollEquipmentMenu *,u8);

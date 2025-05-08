@@ -7,7 +7,6 @@ WidgetMenuChild2::WidgetMenuChild2(Party *party,u8 size,u8 selected):WidgetMenu(
   
     this->partySize = size;
     this->selectedMember = selected;
-    this->unkb8=UnkGuiSubstruct(0x16);
     b8P = &b8;
     for(u8 i=this->selectedMember,j = i;
         i < this->selectedMember + this->partySize;
@@ -163,9 +162,9 @@ void WidgetMenuChild2::SchoolAspectIcons(u8 param_2){
 }
 
 Gfx * WidgetMenuChild2::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  font_func(gGlobals.font,font_face[1].borg8);
+  Font::SetFace(gGlobals.font,font_face[1].borg8);
   Gfx* pGVar1 = RenderChildren(g,x0,y0,x1,y1);
-  font_func(gGlobals.font,font_face[0].borg8);
+  Font::SetFace(gGlobals.font,font_face[0].borg8);
   return pGVar1;
 }
 

@@ -139,112 +139,6 @@ struct DCMSub2 {
     undefined field5_0xb;
 };
 
-struct Borg5_particle {
-    undefined field0_0x0;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    u16 field4_0x4;
-    undefined field5_0x6;
-    undefined field6_0x7;
-    short field7_0x8;
-    short field8_0xa;
-    u16 field9_0xc;
-    u16 field10_0xe;
-    float field11_0x10;
-    short field12_0x14;
-    undefined field13_0x16;
-    undefined field14_0x17;
-    short field15_0x18;
-    u16 field16_0x1a;
-    vec3f pos;
-    undefined field18_0x28;
-    undefined field19_0x29;
-    undefined field20_0x2a;
-    undefined field21_0x2b;
-    vec3f vel;
-    undefined field23_0x38;
-    undefined field24_0x39;
-    undefined field25_0x3a;
-    undefined field26_0x3b;
-    undefined field27_0x3c;
-    undefined field28_0x3d;
-    undefined field29_0x3e;
-    undefined field30_0x3f;
-    undefined field31_0x40;
-    undefined field32_0x41;
-    undefined field33_0x42;
-    undefined field34_0x43;
-    vec4f colV;
-    float field36_0x54;
-    float field37_0x58;
-    float field38_0x5c;
-    float field39_0x60;
-    float field40_0x64;
-    float field41_0x68;
-    float field42_0x6c;
-    float field43_0x70;
-    float field44_0x74;
-    float field45_0x78;
-    float field46_0x7c;
-    float field47_0x80;
-    undefined field48_0x84;
-    undefined field49_0x85;
-    undefined field50_0x86;
-    undefined field51_0x87;
-    undefined field52_0x88;
-    undefined field53_0x89;
-    undefined field54_0x8a;
-    undefined field55_0x8b;
-    undefined field56_0x8c;
-    undefined field57_0x8d;
-    undefined field58_0x8e;
-    undefined field59_0x8f;
-    undefined field60_0x90;
-    undefined field61_0x91;
-    undefined field62_0x92;
-    undefined field63_0x93;
-    float field64_0x94;
-    undefined field65_0x98;
-    undefined field66_0x99;
-    undefined field67_0x9a;
-    undefined field68_0x9b;
-    float field69_0x9c;
-    undefined field70_0xa0;
-    undefined field71_0xa1;
-    undefined field72_0xa2;
-    undefined field73_0xa3;
-    undefined field74_0xa4;
-    undefined field75_0xa5;
-    undefined field76_0xa6;
-    undefined field77_0xa7;
-    undefined field78_0xa8;
-    undefined field79_0xa9;
-    undefined field80_0xaa;
-    undefined field81_0xab;
-    undefined field82_0xac;
-    undefined field83_0xad;
-    undefined field84_0xae;
-    undefined field85_0xaf;
-    undefined field86_0xb0;
-    undefined field87_0xb1;
-    undefined field88_0xb2;
-    undefined field89_0xb3;
-    undefined field90_0xb4;
-    undefined field91_0xb5;
-    undefined field92_0xb6;
-    undefined field93_0xb7;
-    undefined field94_0xb8;
-    undefined field95_0xb9;
-    undefined field96_0xba;
-    undefined field97_0xbb;
-    undefined field98_0xbc;
-    undefined field99_0xbd;
-    undefined field100_0xbe;
-    undefined field101_0xbf;
-};
-
-
 struct astruct_6 {
     playerData *playerdat_;
     u16 short0x4;
@@ -287,14 +181,7 @@ struct AttackVisualStruct3 {
 
 typedef struct CombatTurn CombatTurn, *PCombatTurn;
 
-struct CombatTurn {
-    u8 unk0;
-    u8 unk1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    uint unk4;
-    u8 *arr;
-};
+
 
 typedef struct DCM_sub DCM_sub, *PDCM_sub;
 

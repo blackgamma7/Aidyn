@@ -1,4 +1,4 @@
-#include "GhidraDump.h"
+#include "sceneData.h"
 
 SceneData* gCombatSpellMarker=NULL;
 float CombatCurrentEnt_Y=0.0;

@@ -4,7 +4,7 @@ typedef union vec2f{
     struct{float x,y;};
     float f[2];
 };
-//used un 3d math
+//used in 3d math
 typedef union vec3f{
     struct{float x,y,z;};
     float f[3];

@@ -4,8 +4,6 @@
 
 WidgetHealthGold::WidgetHealthGold(CharSheet *chara):WidgetMenu(){
   char buff [88];
-  
-  this->unk90=UnkGuiSubstruct(7);
   this->HpPercent = 0;
   this->HpPercent = Entity::getHPCurrent(chara)/Entity::getHPMax(chara) *80.0f;
   this->HPBar = WidgetB8(0xe0); //health bar

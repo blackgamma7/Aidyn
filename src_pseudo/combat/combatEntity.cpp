@@ -3223,5 +3223,5 @@ void CombatEntity::PrintSwingAndMiss(CombatEntity *param_2){
 }
 
 void noop_80070658(CombatEntity * x){}
-s16 retMinus1(void){return -1;}
-s16 passto_retMinus1(void){return retMinus1();}
+s16 retMinus1(u16 x,u16 y){return -1;}
+s16 passto_retMinus1(void){return retMinus1(1,-1);}

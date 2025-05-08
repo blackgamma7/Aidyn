@@ -118,7 +118,7 @@ void TitleSplash::Free(void){
   FREEQB8(gGlobals.h20Borg8);
   FREEQB8(gGlobals.thqBorg8);
   FREEQB8(SplashExpPak);
-  font_func(gGlobals.font,0x1c);
+  Font::SetFace(gGlobals.font,0x1c);
   RomString::Free(copyrightText);
   TitleSplash::N64Free();
 }
@@ -200,7 +200,7 @@ u8 TitleSplash::ExpansionPak(Gfx** param_1){
 }
 
 void TitleSplash::Println(Gfx*param_1,s16 *HSpace,char *TXT){
-  print_func_80044dc(gGlobals.font,param_1,(u8 *)TXT,(SCREEN_WIDTH - passto_get_text_kerning(gGlobals.font,TXT)) / 2,(s32)*HSpace);
+  Font::print800b44dc(gGlobals.font,param_1,(u8 *)TXT,(SCREEN_WIDTH - Font::GetWidth(gGlobals.font,TXT)) / 2,(s32)*HSpace);
   *HSpace+= (gGlobals.font)->charH;
 }
 u8 TitleSplash::Copyright(Gfx **param_1){
@@ -225,7 +225,7 @@ u8 TitleSplash::Copyright(Gfx **param_1){
   }
   RSPFUNC6(aGStack_30);
   aGStack_30 = gsFadeInOut(aGStack_30,0,0,Graphics::get_hres(),Graphics::get_vres(),0,0,0,0);
-  font_func(gGlobals.font,BORG8_MainFont);
+  Font::SetFace(gGlobals.font,BORG8_MainFont);
   ((gGlobals.font)->col).R = copyright_text_color;
   ((gGlobals.font)->col).G = copyright_text_color;
   ((gGlobals.font)->col).B = copyright_text_color;

@@ -76,7 +76,7 @@ Gfx * WidgetShadowText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
         (font_pointer->col).G = sub->col.G*fadeFloatMirror;
         (font_pointer->col).B = sub->col.B*fadeFloatMirror;
         (font_pointer->col).A = ((sub->col.A*col.A)/255)*fadeFloatMirror;
-        uVar4 = display_text_func_A(font_pointer,apGStackX_4,sub->txt,
+        uVar4 = Font::PrintMain(font_pointer,apGStackX_4,sub->txt,
                                     this->x + sub->XOff,this->y + sub->YOff,
                                     sub->X + sub->XOff,sub->Y + sub->XOff,lVar6 + sub->XOff,
                                     lVar5 + sub->YOff,lVar8 + sub->XOff,lVar7 + sub->YOff,
@@ -88,7 +88,7 @@ Gfx * WidgetShadowText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
       (font_pointer->col).G = col.G*fadeFloatMirror;
       (font_pointer->col).B = col.B*fadeFloatMirror;
       (font_pointer->col).A = fadeFloatMirror*255.0f;
-      uVar4 = display_text_func_A(font_pointer,apGStackX_4,sub->txt,this->x,this->y,sub->X
+      uVar4 = Font::PrintMain(font_pointer,apGStackX_4,sub->txt,this->x,this->y,sub->X
                                   ,sub->Y,lVar6,lVar5,lVar8,lVar7,(sub->scale).x
                                   ,(sub->scale).y);
     }
@@ -103,7 +103,7 @@ u16 WidgetShadowText::GetWidth(){
   u16 uVar2;
   uint uVar3;
   WSTSub *sub = (WSTSub *)substruct;
-  uVar1 = get_text_kerning(font_pointer,sub->txt,(sub->scale).x);
+  uVar1 = Font::GetWidthScaled(font_pointer,sub->txt,(sub->scale).x);
   uVar2 = 0;
   if (sub->Y < sub->X) width = 0;
   else {
@@ -121,7 +121,7 @@ u16 WidgetShadowText::GetHeight(){
   int iVar1;
   u16 uVar2;
   WSTSub *sub = (WSTSub *)substruct;
-  iVar1 = Font_GetHeight(font_pointer,sub->txt,sub->X,sub->Y,(sub->scale).x,(sub->scale).y);
+  iVar1 = Font::GetHeightScaled(font_pointer,sub->txt,sub->X,sub->Y,(sub->scale).x,(sub->scale).y);
   uVar2 = sub->YOff;
   if (uVar2 < 0) uVar2 = -uVar2;
   uVar2 = iVar1 + uVar2;

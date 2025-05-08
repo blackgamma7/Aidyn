@@ -1,4 +1,4 @@
-#include "GhidraDump.h"
+//#include "GhidraDump.h"
 #include "entity.h"
 #include "mathN64.h"
 
@@ -241,5 +241,5 @@ u32 u32_800f5440; //used as 3rd arg for getSpellSafe(). not set, unused in said 
 
 //two functions refenced in a table near the bottom of .data
 
-s16 retMinus1(void);
+s16 retMinus1(u16,u16);
 s16 passto_retMinus1(void);

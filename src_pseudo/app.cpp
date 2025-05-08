@@ -237,7 +237,7 @@ void appProc_init(void){
     } while (pfVar4->font_face != 0);
   }
   ALLOC(gGlobals.font,436);
-  Init_font(gGlobals.font,uVar6);
+  Font::Init(gGlobals.font,uVar6);
   if (0 < uVar6) {
     pfVar4 = font_face;
     BVar5 = font_face[0].font_face;
@@ -246,12 +246,12 @@ void appProc_init(void){
       pbVar2 = &pfVar4->b;
       pfVar4++;
       uVar6--;
-      load_font_face(gGlobals.font,BVar5,*pbVar1,*pbVar2);
+      Font::LoadFace(gGlobals.font,BVar5,*pbVar1,*pbVar2);
       if (uVar6 == 0) break;
       BVar5 = pfVar4->font_face;
     }
   }
-  font_func(gGlobals.font,font_face[0].font_face);
+  Font::SetFace(gGlobals.font,font_face[0].font_face);
   ALLOC(WHANDLE,447);
   WHANDLE->Init(gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;

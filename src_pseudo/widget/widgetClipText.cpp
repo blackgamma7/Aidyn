@@ -62,7 +62,7 @@ Gfx * WidgetClipText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     (font_pointer->col).B = (this->col).B * fadeFloatMirror;
     (font_pointer->col).A = (this->col).A * fadeFloatMirror;
     if (0.0 < (float)(this->col).A * fadeFloatMirror) {
-      iVar2 = display_text_func_A(font_pointer,&GStackX_4,ppcVar1->str,this->x,this->y,
+      iVar2 = Font::PrintMain(font_pointer,&GStackX_4,ppcVar1->str,this->x,this->y,
                                   ppcVar1->unk10,ppcVar1->unk12,lVar4,lVar7,lVar6,
                                   lVar5,ppcVar1->scaleX,ppcVar1->scaleY);
     }
@@ -76,7 +76,7 @@ u16 WidgetClipText::GetWidth(){
   u16 uVar2;
   uint uVar3;
   WidgetSubstruct_ClipText *ppbVar1 = (WidgetSubstruct_ClipText *)substruct;
-  uVar1 = get_text_kerning(font_pointer,ppbVar1->str,ppbVar1->scaleX);
+  uVar1 = Font::GetWidthScaled(font_pointer,ppbVar1->str,ppbVar1->scaleX);
   uVar2 = 0;
   if (ppbVar1->unk12 < ppbVar1->unk10) this->width = 0;
   else {
@@ -90,7 +90,7 @@ u16 WidgetClipText::GetWidth(){
 
 u16 WidgetClipText::GetHeight(){
   WidgetSubstruct_ClipText *ppbVar1 = (WidgetSubstruct_ClipText *)this->substruct;
-  u16 h = Font_GetHeight(font_pointer,ppbVar1->str,ppbVar1->unk10,ppbVar1->unk12,ppbVar1->scaleX,ppbVar1->scaleY);
+  u16 h = Font::GetHeightScaled(font_pointer,ppbVar1->str,ppbVar1->unk10,ppbVar1->unk12,ppbVar1->scaleX,ppbVar1->scaleY);
   this->height = h;
   return h;
 }

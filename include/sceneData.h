@@ -1,5 +1,5 @@
 
-#include "GhidraDump.h"
+#include "n64Borg.h"
 
 struct SceneDatSubstruct {
     void *unk0;

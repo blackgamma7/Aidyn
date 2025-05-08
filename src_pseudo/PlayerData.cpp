@@ -1269,7 +1269,7 @@ void Actor::FreePlayerActor(playerData *param_1)
     Crash::ManualCrash("FreePlayerActor","No Actor To Free!");
   CombatAttackVisuals::FreePlayer(param_1);
   if (param_1->locator_pointer != NULL) {
-    Particle::UnsetAnimatedEmmiter(&gGlobals.Sub.particleEmmiter,param_1->locator_pointer->sceneDat);
+    Particle::UnsetSceneEmmiter(&gGlobals.Sub.particleEmmiter,param_1->locator_pointer->sceneDat);
     AllocFreeQueueItem(&gGlobals.QueueA,&param_1->locator_pointer,0,0);
   }
   if (param_1->SceneDat != NULL) {

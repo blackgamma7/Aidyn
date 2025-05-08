@@ -1815,7 +1815,7 @@ LAB_80010bfc:
         gOut = FUN_80010354(gOut,&gGlobals.Sub.ZoneDatMtx[1][1]);
       }
       Gsprintf("ParticleHead");
-      ProcessAndRenderParticleHead(ppGStack_2c,pPStack_38,uStack60,delta,Graphics::GetBufferChoice(),0);
+      Particle::ProcessAndRenderParticleHead(ppGStack_2c,pPStack_38,uStack60,delta,Graphics::GetBufferChoice(),0);
       Gsprintf("Render Player Shadows\n");
       gOut = renderPlayerShadows(&gGlobals.Sub.PlayerHandler,gOut);
       Gsprintf("Render Players (Water)\n");
@@ -2313,7 +2313,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   DEBUGSprintf("ProcessAndRenderParticleHead");
   gGlobals.text[0] = '\0';
   if (gGlobals.Sub.gamemodeType != 2) {
-    ProcessAndRenderParticleHead(&G,&gGlobals.Sub.particleEmmiter,&gGlobals.Sub.camera.rotation,delta,
+    Particle::ProcessAndRenderParticleHead(&G,&gGlobals.Sub.particleEmmiter,&gGlobals.Sub.camera.rotation,delta,
                                  Graphics::GetBufferChoice(),1);
   }
   DEBUGSprintf("ProcessAudioBubbles");

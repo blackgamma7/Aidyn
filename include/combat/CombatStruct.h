@@ -1,10 +1,17 @@
-#include "GhidraDump.h"
 #include "inventory/GenericInventory.h"
 #include "widgets/WidgetMenu.h"
 #include "combat/substructA.h"
 #include "combat/substructB.h"
 #include "combat/CombatEntity.h"
 
+struct CombatTurn {
+    u8 unk0;
+    u8 unk1;
+    undefined field2_0x2;
+    undefined field3_0x3;
+    uint unk4;
+    u8 *arr;
+};
 
 struct CombatStruct { /* combat structure. needs more study */
     u8 partOfDay;

@@ -1,7 +1,6 @@
 #include "globals.h"
 
 WidgetChild4::WidgetChild4(DollEquipmentMenu *menu,u8 sel):WidgetMenu(){
-    this->unkb0=UnkGuiSubstruct(8);
     InitMenu(menu,sel);
 }
 
@@ -88,7 +87,7 @@ LAB_80038434:
     Utilities::SetWidgetBoundsX(pBVar8,0x14,0x96);
     this->Link(pBVar8);
     uVar16 = pBVar8->GetHeight() + (uVar16 & 0xffff) + 4 & 0xffff;
-    font_func(gGlobals.font,font_face[1].borg8);
+    Font::SetFace(gGlobals.font,font_face[1].borg8);
     bVar3 = false;
     if ((gGlobals.party)->PartySize) {
       for(u8 i=0;i<(gGlobals.party)->PartySize;i++) {
@@ -111,7 +110,7 @@ LAB_80038434:
       }
     }
     if (bVar3) PlayAudioSound(&gGlobals.SFXStruct,0x5e8,0,gGlobals.VolSFX,300,0x3c);
-    font_func(gGlobals.font,font_face[0].borg8);
+    Font::SetFace(gGlobals.font,font_face[0].borg8);
     this->expCost = new WidgetClipText(NULL,20);
     this->expCost->SetColor(0x82,0x50,0x50,0xff);
     this->expCost->SetCoords(0x14,0xc5 - (short)this->expCost->GetHeight());
@@ -124,21 +123,21 @@ LAB_80038434:
   }
 }
 Gfx * WidgetChild4::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  font_func(gGlobals.font,font_face[1].borg8);
+  Font::SetFace(gGlobals.font,font_face[1].borg8);
   Gfx* G = RenderChildren(g,x0,y0,x1,y1);
-  font_func(gGlobals.font,font_face[0].borg8);
+  Font::SetFace(gGlobals.font,font_face[0].borg8);
   return G;
 }
 
 u8 WidgetChild4::Tick(){
-  font_func(gGlobals.font,font_face[1].borg8);
+  Font::SetFace(gGlobals.font,font_face[1].borg8);
   this->unkb0.Tick(1);
   if (((this->unkb0).present == 0) && (this->unk8c)) {
     this->Unlink(this->unk8c);
     this->unk8c = NULL;
   }
   u8 bVar2 = this->TickChildren();
-  font_func(gGlobals.font,font_face[0].borg8);
+  Font::SetFace(gGlobals.font,font_face[0].borg8);
   return bVar2;
 }
 

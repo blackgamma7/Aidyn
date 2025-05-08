@@ -1,5 +1,4 @@
 #include "typedefs.h"
-#include "GhidraDump.h"
 
 typedef struct CrashManager CrashManager, *PCrashManager;
 
