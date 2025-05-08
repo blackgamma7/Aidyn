@@ -43,14 +43,14 @@ struct ParticleEmmiter {
     Particle_s *particles;
     undefined field12_0x18;
     undefined field13_0x19;
-    short field14_0x1a;
+    short unk1a;
     u64 unk1c;
     vec3f pos;
     vec3f vel;
     u8 field18_0x3c[4];
     u32 field19_0x40;
     vec4f colvec4;
-    vec4f field21_0x54;
+    vec4f field20_0x54;
     u8 unk0x64[340]; /* unused? */
     ParticleFuncA funcA;
     ParticleFuncB funcB;

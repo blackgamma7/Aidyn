@@ -1425,22 +1425,6 @@ struct ZoneDat {
     u8 unk1f;
 };
 
-struct Weather {
-    u16 rainShortA;
-    u16 rainShortB;
-    float timer;
-    u32 unk8;
-    float fogTime;
-    u16 skyBgdat;
-    undefined field6_0x12;
-    undefined field7_0x13;
-    ParticleEmmiter *rainParticles;
-    Borg12Header *Sfx;
-    u32 sfxID;
-    u8 sfxIndex;
-};
-
-
 struct ScriptCamera_struct {
     ScriptCam *cameras; /* 0x7c size */
     short cameraIndecies[8];

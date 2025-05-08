@@ -18,7 +18,7 @@
 #include "graphics.h"
 #include "freeQueue.h"
 #include "spells.h"
-#include "particle.h"
+#include "weather.h"
 #include "cinematics.h"
 #include "dialoug.h"
 #include "widgets/PauseWidget.h"
@@ -47,7 +47,7 @@ struct GlobalsSub { /* 0x800e6988 */
     u16 mapDatA;
     u16 mapDatB;
     u16 mapDatC;
-    Weather weather;
+    WeatherStruct weather;
     PlayerHandler PlayerHandler;
     ParticleHeadStruct particleEmmiter;
     u8 unk718[128];
