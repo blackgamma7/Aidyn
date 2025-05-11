@@ -15,7 +15,7 @@ void DCM::StartThread(OSSched *sched,u16 freq,u8 pri,u8 id){
 void DCM::ClosePlayer(void){
   gAudioManager.AudioListBool = 1;
   alSynRemovePlayer(&gAudioManager.ALSYNTH,&gAudioManager.ALPLAYER);
-  alClose(&gAudioManager.ALSYNTH);
+  alClose((ALGlobals*)&gAudioManager.ALSYNTH);
 }
 
 void DCM::AddPlayer(ALPlayer *x){alSynAddPlayer(&gAudioManager.ALSYNTH,x);}
@@ -25,7 +25,6 @@ u32 DCM::AddVoice(u8 *oIndex,u32 *oID,Borg11Data *istDat,u32 param_4,u32 len,u32
   u8 bVar1;
   int iVar4;
   u8 flag;
-  Borg11Data *pBVar6;
   u8 uVar7;
   u32 uVar8;
   
@@ -36,28 +35,20 @@ u32 DCM::AddVoice(u8 *oIndex,u32 *oID,Borg11Data *istDat,u32 param_4,u32 len,u32
     gAudioManager.VoicesUsedTotal++;
   }
   else {
-    pBVar6 = (Borg11Data *)-1;
+    s32 x=-1;
     if (param_11 == 0) {
       uVar7 = 0;
       uVar8 = 0;
     }
     else {
       uVar7 = 0;
-      iVar4 = 0;
       for(u8 i=0;i<PVoiceCount;i++) {
-        //super mangled. need untangled.
-        if (*(char *)((int)(&(gAudioManager.voicesAidyn)->wavetable + 2) +
-                     iVar4 * 0x10 + i * 0xc + 3) == '\x01') {
-          if (*(Borg11Data **)
-               ((int)(&(gAudioManager.voicesAidyn)->wavetable + 1) + (i * 3 + iVar4 * 4 + 1) * 4
-               ) < pBVar6) {
+        if(gAudioManager.voicesAidyn[i].isActive==1){
+          if (gAudioManager.voicesAidyn[i].id<x) {
             uVar7 = i;
-            pBVar6 = *(Borg11Data **)
-                      ((int)(&(gAudioManager.voicesAidyn)->wavetable + 1) +
-                      (i * 3 + iVar4 * 4 + 1) * 4);
+            x=gAudioManager.voicesAidyn[i].id;
           }
         }
-        iVar4 = i << 2;
       }
       bVar1 = true;
       uVar8 = true;
@@ -195,7 +186,7 @@ void AudioProcInit(void){
   synConf.fxType = AL_FX_SMALLROOM;
   synConf.outputRate = osAiSetFrequency(gAudioManager.frequency);
   synConf.heap = &gAudioManager.ALHEAP;
-  alInit(&gAudioManager.ALSYNTH,&synConf);
+  alInit((ALGlobals*)&gAudioManager.ALSYNTH,&synConf);
   gAudioManager.ALPLAYER.next = NULL;
   gAudioManager.ALPLAYER.handler = soundVoiceHandler;
   gAudioManager.ALPLAYER.clientData = NULL;
@@ -261,7 +252,7 @@ u8 * dmaProc(byte *param_1,s32 param_2,s32 param_3){
   return param_1;
 }
 
-ALMicroTime soundVoiceHandler(void){
+ALMicroTime soundVoiceHandler(void* p){
   u16 uVar1;
   u32 *puVar3;
   u32 uVar12;
@@ -281,7 +272,7 @@ ALMicroTime soundVoiceHandler(void){
   for(u8 i=0;i<PVoiceCount;i++){
     Voice_Aidyn *v = &gAudioManager.voicesAidyn[i];
     if ((v->isActive == 1) && !(v->flag & VOICE_FLAG4)) {
-      PVoice* pPVar2 = (v->voice).pvoice;
+      PVoice_s* pPVar2 = (v->voice).pvoice;
       uVar9 = *(u32 *)((pPVar2->decoder).state + 0xe);
       v->unk0x38 = uVar9;
       bVar8 = *(byte *)((int)(pPVar2->decoder).state + 0xb);
@@ -301,7 +292,7 @@ ALMicroTime soundVoiceHandler(void){
       v->flag &= ~VOICE_STOP;
     }
     if(v->flag & VOICE_FLAG4) {
-      *(undefined4 *)((((v->voice).pvoice)->decoder).state[0] + 0xe) = v->unk0x38;
+      *(undefined4 *)((((v->voice).pvoice)->decoder).state[0] + 0xe) = v->unk0x38; //?
       if ((v->instrumentData->flag & 4)) (v->wavetable).type = 2;
       else (v->wavetable).type = 1;
       (v->wavetable).len = v->instrumentData->len;
@@ -329,8 +320,8 @@ ALMicroTime soundVoiceHandler(void){
       alSynStartVoiceParams(&gAudioManager.ALSYNTH,&v->voice,&v->wavetable,fVar14,vol_00,AVar13,0,MTIME);
       v->flag &= ~VOICE_FLAG4;
     }
-    if ((v->flag & VOICE_SETPITCH){
-      fVar16 = (float)v->pitch / (float)gAudioManager.ALSYNTH.outputRate;
+    if (v->flag & VOICE_SETPITCH){
+      float fVar16 = (float)v->pitch / (float)gAudioManager.ALSYNTH.outputRate;
       if (0.0 < fVar16) {
         fVar14 = 2.0f;
         if ((fVar16 <= 2.0) && (fVar14 = fVar16, fVar16 <= 0.0)) {
@@ -349,7 +340,7 @@ ALMicroTime soundVoiceHandler(void){
       alSynSetVol(&gAudioManager.ALSYNTH,&v->voice,vol,MTIME);
       v->flag &= ~VOICE_SETVOL;
     }
-    if ((VVar11 & VOICE_SETPAN)) {
+    if (v->flag & VOICE_SETPAN){
       bVar1 = v->pan >> 1;
       if ((bVar1 == 0) || (AVar13 = 0x7f, bVar1 < 0x80)) {
         AVar13 = bVar1;

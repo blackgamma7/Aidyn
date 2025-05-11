@@ -1,16 +1,6 @@
 #include "mathN64.h"
 #include "widgets\BaseWidget.h"
 
-struct astruct {
-    Borg11Data *instrumentDat;
-    u32 unk4;
-    u32 unk8;
-    undefined field3_0xc;
-    undefined field4_0xd;
-    undefined field5_0xe;
-    u8 unkb;
-};
-
 struct astruct_1 {
     undefined field0_0x0;
     undefined field1_0x1;
@@ -181,21 +171,6 @@ struct AttackVisualStruct3 {
 
 typedef struct CombatTurn CombatTurn, *PCombatTurn;
 
-
-
-typedef struct DCM_sub DCM_sub, *PDCM_sub;
-
-struct DCM_sub {
-    u32 id;
-    u32 unk4;
-    u16 pitch;
-    u8 index;
-    u8 field4_0xb;
-    s8 vol;
-    u8 pan;
-    u8 unke;
-    undefined field8_0xf;
-};
 typedef struct dialougmode_substruct dialougmode_substruct, *Pdialougmode_substruct;
 
 typedef struct borg13data borg13data, *Pborg13data;
@@ -1124,32 +1099,7 @@ struct crash_DatString {
 
 typedef struct DCM_struct DCM_struct, *PDCM_struct;
 
-struct DCM_struct {
-    DCM_sub *ptr0;
-    Borg12Sub *borg12;
-    int unk8;
-    u32 unkc;
-    u32 byteIndex;
-    u32 id;
-    u8 active;
-    u8 unk19;
-    u8 unk20;
-    u8 vol;
-    u8 pan;
-    u8 unk1d;
-    u8 unk1e;
-    undefined field13_0x1f;
-};
 
-typedef struct DCMManager DCMManager, *PDCMManager;
-
-struct DCMManager {
-    ALPlayer ALplayer;
-    DCM_struct *DCMStructPointer;
-    u8 *pointer_B;
-    u32 Tally;
-    u8 index;
-};
 
 typedef struct DebugCharChanger DebugCharChanger, *PDebugCharChanger;
 

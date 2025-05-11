@@ -41,6 +41,7 @@
 #define BORG11_PrecussionRhythmB 0x61F
 #define BORG11_ChoirA 0x625
 #define BORG11_TriumphantChordB 0x631
+#define BORG11_CoinsJingle 0x6F4
 #define BORG11_EchoSound 0x726
 
 //borg12: Music/SFX

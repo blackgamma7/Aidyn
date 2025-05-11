@@ -508,12 +508,12 @@ struct Borg2header {
 };
 
 struct Borg12Sub {
-    u32 channelCount;
-    int instrument_count;
-    int *unk10;
-    void *unk14;
-    astruct *ptr0x18;
-    u8 *channelDat;
+    u32 channelCount;//0x08 on file
+    int instrument_count;//0x0C on file
+    u32 dataSize;//0x10 on file
+    u32 byteIndex;//0x14 on file
+    astruct *ptr0x18;//0x18 on file
+    u8 *channelDat;//0x1C on file
 };
 
 struct Borg12Data {
@@ -663,6 +663,7 @@ struct borg13header{
 };
 
 //borgmain.cpp
+
 void setBorgFlag(void);
 void clearBorgFlag(void);
 u32 Ofunc_getBorgTotal(void);
@@ -702,6 +703,7 @@ void borg7_free(Borg7header *);
 void set_AnimCache(u8 );
 
 //n64borg/image.cpp
+
 u8 borg8_func_b(void *,void *);
 void borg8_func_a(Borg8header *);
 void borg8_free_ofunc(s32 *);
@@ -713,6 +715,7 @@ void borg8_free(Borg8header *);
 Gfx * gsFadeInOut(Gfx *,u16,u16,u16,u16,u8,u8,u8,u8);
 
 //n64borg/collisionZone.cpp
+
 u8 borg_9_func_b(void*,void*);
 void * set_pointer_offset(void *A,void *B);
 void borg9_func_a(Borg9header *);

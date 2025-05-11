@@ -102,6 +102,54 @@ typedef enum VoiceFlag {
     VOICE_SETPAN=0x20
 } VoiceFlag;
 
+struct DCM_sub {
+    u32 id;
+    u32 unk4;
+    u16 pitch;
+    u8 index;
+    u8 unkb;
+    u8 vol;
+    u8 pan;
+    u8 timer;
+    undefined field8_0xf;
+};
+
+struct DCM_struct {
+    DCM_sub *ptr0;
+    Borg12Sub *borg12;
+    int unk8;
+    u32 unkc;
+    u32 byteIndex;
+    u32 id;
+    u8 active;
+    u8 unk19;
+    u8 unk20;
+    u8 vol;
+    u8 pan;
+    u8 unk1d;
+    u8 unk1e;
+    undefined field13_0x1f;
+};
+
+
+struct DCMManager {
+    ALPlayer ALplayer;
+    DCM_struct *DCMStructPointer;
+    u8 *pointer_B;
+    u32 Tally;
+    u8 index;
+}; 
+
+struct astruct {
+    Borg11Data *instrumentDat;
+    u32 unk4;
+    u32 unk8;
+    undefined field3_0xc;
+    undefined field4_0xd;
+    undefined field5_0xe;
+    u8 unkf;
+};
+
 #define ALHeapSize 0x12000 //size of ALHeap Base
 #define PVoiceCount 0x20 //length of Voice_Aidyn array
 #define ACMDSize 0x800 //count af Acmd's
@@ -134,7 +182,37 @@ float FUN_800565a8(vec3f *,float ,Camera_struct *);
 void FUN_8005661c(vec3f *,float ,Camera_struct *,s8 *,s8 *);
 void ProcessAudioBubbles(SFX_Struct *,vec3f *,s16);
 
+#define DCMMax 0x20
+
+#define DCMCMD_Wait 0x80
+#define DCMCMD_Pitch 0x40
+#define DCMCMD_Vol 0x20
+#define DCMCMD_Pan 0x10
+#define DCMCMD_UnkB 0x08
+#define DCMCMD_Unk4 0x04
+#define DCMCMD_SetNow 0x02
+#define DCMCMD_Stop 0x01
+
+
 namespace DCM{
+
+    //dcm.cpp
+
+    void Init();
+    bool Add(u8 *,s32 *,Borg12Sub *,u8 ,u8 ,u8 ,s32 ,u8 );
+    bool Start(u8 ,u32 ,u8);
+    bool Pan(u8 ,u32 ,u8);
+    bool SetField8(u8 ,u32 ,s32 );
+    u8 search(u8,u32);
+    bool Remove(u8,u32);
+    void StopAll();
+    ALMicroTime VoiceHandler(void*);
+    u8 GetByte(u8 *);
+    u16 GetShortLE(u8 *);
+    u32 GetWordLE(u8 *);
+
+    //audio.cpp
+
     void StartThread(OSSched *sched,u16 freq,u8 pri,u8 id);
     void ClosePlayer(void);
     void AddPlayer(ALPlayer *x);
@@ -150,7 +228,7 @@ namespace DCM{
 void AudioProcInit(void);
 void * _amDmaNew(void);
 u8 * dmaProc(u8 *param_1,s32 param_2,s32 param_3);
-ALMicroTime soundVoiceHandler(void);
+ALMicroTime soundVoiceHandler(void*);
 Acmd * CreateAudioList(void);
 void AudioSetTask(Acmd *param_1);
 u16 Ofunc_8009a0fc(void);

@@ -2109,7 +2109,7 @@ void update_BGM_(void){
       if (0 < gGlobals.Sub.Borg12Next) {
         gGlobals.Sub.BGM = load_borg_12(gGlobals.Sub.Borg12Next);
         DCM::Add(&gGlobals.Sub.BGMIndex,&gGlobals.Sub.BGMID,
-             &(gGlobals.Sub.BGM)->dat->sub,gGlobals.VolBGM * 255.0f,0x80,1,0xffffffff,0);
+             &(gGlobals.Sub.BGM)->dat->sub,gGlobals.VolBGM * 255.0f,0x80,1,-1,0);
       }
     }
     gGlobals.Sub.Borg12Next2 = gGlobals.Sub.Borg12Next;
