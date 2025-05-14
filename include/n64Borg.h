@@ -58,14 +58,6 @@ struct Borg8header {
     struct Borg8dat dat;
 };
 
-struct borg9_phys { //collision faces
-    vec3f * VertexEntries[3];
-    vec3f normal; 
-    EnvProp* envProperty;
-    u16 flags; 
-    u16 GroundType; //for footstep noises
-};
-
 typedef enum VoxelFllags {
     VOXEL_JumperPak=0x20, //activate if no Expansion Pak
     VOXEL_EXPPak=0x40, //activate if Expansion Pak
@@ -349,8 +341,7 @@ typedef enum BORG1type {
 
 
 struct Borg1header {
-    int id;
-    int field1_0x4;
+    borgHeader head;
     union{
         void* bitmapA;
         u8* bitmapA8;
@@ -390,15 +381,9 @@ struct borg5substruct {
     Mtx *mtxs;
     vec3f rot;
     vec3f pos;
-    float field12_0x28;
-    float field13_0x2c;
-    float field14_0x30;
-    float field15_0x34;
-    float field16_0x38;
-    float field17_0x3c;
+    vec3f scale;
+    vec3f unk; //used for mtxOp 1
 };
-
-
 
 struct Borg5data {
     s32 substructCount;
@@ -414,9 +399,18 @@ struct Borg5data {
         s32 borg3i;
         Borg3Header *borg3P;
         };
-    u32 *borg4Indecies;
-    Borg2header **borg2Indecies;
-    Borg1header **borg1Indecies;
+    union{
+        s32* borg4i;
+        void **borg4p;
+    };
+    union{
+        s32* borg2i;
+        Borg2header **borg2p;
+    };
+    union{
+        s32* borg1i;
+        Borg1header **borg1p;
+    };
     void * aniTextures; //not used, but pointers still set (0x18 byte struct.) 
     u16 *borg1lookup;
     Borg5_particle **ParticleDat;
@@ -429,7 +423,7 @@ struct borg_9_struct {
     u16 *lightIndecies;
     u16 collideCount;
     u16 field4_0xe; //unused?
-    u16 lightCount;
+    u16 voxelSceneCount;
     u16 field7_0x12; //align?
 };
 struct Borg9data {
@@ -609,11 +603,33 @@ struct Borg7header {
     Borg7data dat;
 };
 
+enum Borg9PhysFlags{
+    B9Phys_0001=1,
+    B9Phys_0002=2,
+    B9Phys_EdgeA=4,
+    B9Phys_EdgeB=8,
+    B9Phys_EdgeC=0x10,
+    B9Phys_EdgeMask=B9Phys_EdgeA|B9Phys_EdgeB|B9Phys_EdgeC,
+    B9Phys_VertA=0x20,
+    B9Phys_VertB=0x40,
+    B9Phys_VertC=0x80,
+    B9Phys_VertMask=B9Phys_VertA|B9Phys_VertB|B9Phys_VertC,
+    B9Phys_0100=0x100,
+    B9Phys_0200=0x200,
+    B9Phys_0400=0x400,
+    B9Phys_0800=0x800,
+    B9Phys_1000=0x1000,
+    B9Phys_2000=0x2000,
+    B9Phys_4000=0x4000,
+    B9Phys_8000=0x8000,
+};
+
+
 struct borg9_phys {
     vec3f *verts[3];
     vec3f normal;
     EnvProp *envProperty;
-    u16 flags; /* 0x100 - need normalize */
+    u16 flags; // use Borg9PhysFlags
     u16 GroundType;
 };
 
@@ -676,9 +692,9 @@ borgHeader * getBorgItem(s32);
 void FUN_800a2de0(void);
 u8 get_borg_index_count(s32);
 void dec_borg_count(s32);
-void borg0_func_a(s32 *);
-u8 borg0_func_b(s32 *,s32);
-void Ofunc_borg0_free(s32 *);
+void borg0_func_a(void**);
+u8 borg0_func_b(void**,void*);
+void Ofunc_borg0_free(void**);
 void * Ofunc_getborg(s32);
 void borg1_func_a(Borg1Data *);
 u8 InitBorgTexture(Borg1header *,Borg1Data *);
@@ -712,7 +728,7 @@ Gfx * borg8DlistInit(Gfx *,byte ,u16,u16);
 Gfx * N64BorgImageDraw(Gfx *,Borg8header *,float ,float ,u16 ,u16 ,u16 ,u16 ,float ,float ,u8 ,u8 ,u8,u8);
 Gfx* Borg8_DrawSimple(Gfx*,Borg8header *,float,float,float,float,u8,u8,u8,u8);
 void borg8_free(Borg8header *);
-Gfx * gsFadeInOut(Gfx *,u16,u16,u16,u16,u8,u8,u8,u8);
+Gfx * gsFadeInOut(Gfx *gfx,u16 x,u16 y,u16 H,u16 V,u8 R,u8 G,u8 B,u8 A);
 
 //n64borg/collisionZone.cpp
 

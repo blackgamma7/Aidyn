@@ -42,7 +42,7 @@ void set_refObj_flag(voxelObject *param_1){
   setEventFlag((param_1->header).flagB,(bool)(((param_1->header).Bitfeild >> 9) & 1 ^ 1));
 }
 
-void render_ref_objs(Borg_9_data *dat,u8 arg2)
+void VoxelObjects_Activate(Borg_9_data *dat,u8 arg2)
 
 {
   u8 bVar3;

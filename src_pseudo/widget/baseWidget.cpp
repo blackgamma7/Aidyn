@@ -140,6 +140,22 @@ Gfx * BaseWidget::RenderChildren(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   return g;
 }
 
+void BaseWidget::FreeChildren(){
+  do {
+    BaseWidget *w = this->link3;
+    while( true ) {
+      if (w == NULL) {
+        this->link4 = NULL;
+        this->link3 = NULL;
+        return;
+      }
+      this->link3 = this->link3->link2;
+      if (w == NULL) break;
+      w->~BaseWidget();
+      w = this->link3;
+    }
+  } while( true );
+}
 
 u8 BaseWidget::TickChildren(){
 for (BaseWidget *pBVar1 = link3; pBVar1 != NULL; pBVar1 = pBVar1->link2) {pBVar1->Tick();}

@@ -344,7 +344,7 @@ void Ofunc_800a8104(SceneData *param_1,int param_2,int param_3){
   if (-1 < param_2) {
     Borg5header *pBVar1 = param_1->scene[0].borg5;
     if (param_2 < (pBVar1->dat).borg2Count) {
-      (pBVar1->dat).borg2Indecies[param_2]->dat->unk0x0 = param_3;
+      (pBVar1->dat).borg2i[param_2]->dat->unk0x0 = param_3;
     }
   }
 }
@@ -381,7 +381,7 @@ void Scene::SetFogPlane(SceneData *param_1,s32 fog,s32 farplane){
 
 
 void Ofunc_800a821c(SceneData *param_1,int param_2,int param_3,vec4f *param_4){
-  astruct_3 *paVar1 = ((param_1->scene[0].borg5)->dat).borg2Indecies[param_2]->dat->unk0x40;
+  astruct_3 *paVar1 = ((param_1->scene[0].borg5)->dat).borg2i[param_2]->dat->unk0x40;
   paVar1[param_3].unk4.x = param_4->x;
   paVar1[param_3].unk4.y = param_4->y;
   paVar1[param_3].unk4.z = param_4->z;
@@ -518,7 +518,7 @@ bool Scene::SceneGetLocatorMtx(SceneData *ani,MtxF *mf,s32 i){
     CRASH("scene.cpp, SceneGetLocatorMtx()",errBuff);
   }
   else {
-    Borg2header *pbVar1 = ((ani->scene[0].borg5)->dat).borg2Indecies[ani->locators[i]];
+    Borg2header *pbVar1 = ((ani->scene[0].borg5)->dat).borg2i[ani->locators[i]];
     guMtxIdentF(&afStack344);
     borg2data *pbVar2 = pbVar1->dat;
     guRotateRPYF(&afStack344,(pbVar2->rot).x * RadInDeg_f,
@@ -563,7 +563,7 @@ bool Scene::SceneGetLocatorPos(SceneData *param_1,vec3f *pos,s32 param_3){
     sprintf(acStack_90,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorPos()",acStack_90);
   }
-  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2Indecies[param_1->locators[param_3]];
+  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2i[param_1->locators[param_3]];
   if (!pBVar1) CRASH("scene.cpp, SceneGetLocatorPos()","!pModel");
   pbVar2 = pBVar1->dat;
   guMtxXFMF(&pBVar1->someMtx,(pbVar2->pos).x,(pbVar2->pos).y,(pbVar2->pos).z,&pos->x,&pos->y,&pos->z);
@@ -585,7 +585,7 @@ bool Scene::SceneGetLocatorNorm(SceneData *param_1,vec3f *out,s32 param_3){
     sprintf(errBuff,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorNorm()",errBuff);
   }
-  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2Indecies[param_1->locators[param_3]];
+  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2i[param_1->locators[param_3]];
   guMtxIdentF(&tempA);
   pbVar2 = pBVar1->dat;
   guRotateRPYF(&tempA,(pbVar2->rot).x * RadInDeg_f,
@@ -628,7 +628,7 @@ bool Scene::SceneGetLocatorAlign(SceneData *param_1,vec3f *out,u32 param_3)
     sprintf(errrBuff,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorAlign()",errrBuff);
   }
-  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2Indecies[param_1->locators[param_3]];
+  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2i[param_1->locators[param_3]];
   guMtxIdentF(&mtxA);
   pbVar2 = pBVar1->dat;
   guRotateRPYF(&mtxA,(pbVar2->rot).x * RadInDeg_f,(pbVar2->rot).y * RadInDeg_f,(pbVar2->rot).z * RadInDeg_f);

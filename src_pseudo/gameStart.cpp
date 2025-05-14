@@ -25,7 +25,7 @@ void flycam_func(void){
   gGlobals.Sub.mapDatB = 0xffff;
   gGlobals.Sub.playerPos2d.x = 0.0;
   gGlobals.Sub.playerPos2d.y = 0.0;
-  ZoneEngine::InitZoneEngine(2,0);
+  InitZoneEngine(2,0);
   gGlobals.brightness = 0.0;
   gGlobals.screenFadeMode = 2;
   gGlobals.screenFadeSpeed = (2.0/30);

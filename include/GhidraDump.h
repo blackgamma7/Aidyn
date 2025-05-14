@@ -85,27 +85,6 @@ typedef struct Borg7data Borg7data, *PBorg7data;
 
 typedef struct Borg12Header Borg12Header, *PBorg12Header;
 
-typedef enum borg6Enum {
-    Flycam_1=8668,
-    Fycam_2=8670,
-    flycam_3=8674,
-    flycam_4=8676,
-    flycam_5=8678,
-    flycam_6=8680,
-    intro_1=8729,
-    intro_2=8812,
-    intro_3=8850,
-    intro_4=8857,
-    intro_5=8864,
-    intro_6=8918,
-    intro_7=8941,
-    intro_8=8955,
-    intro_9=8988,
-    intro_10=9043,
-    intro_11=9052,
-    intro_12=9105,
-    intro_13=9147
-} borg6Enum;
 
 typedef enum EnumMapDatA {
     MAPA_Overworld=0,
@@ -169,45 +148,9 @@ struct AttackVisualStruct3 {
     uint flag;
 };
 
-typedef struct CombatTurn CombatTurn, *PCombatTurn;
-
 typedef struct dialougmode_substruct dialougmode_substruct, *Pdialougmode_substruct;
 
-typedef struct borg13data borg13data, *Pborg13data;
 
-typedef struct borg13command borg13command, *Pborg13command;
-/*
-typedef enum borg13_commands {
-    Fade_in=1,
-    loadMonster=16,
-    Is in party?=23,
-    check event flag=24,
-    check flag get rand=25,
-    is item in inv?=26,
-    best stat=27,
-    worst stat=28,
-    this_char stat=29,
-    Get party size=30,
-    get money?=31,
-    set event flag=32,
-    clear event flag=33,
-    End_scene=34,
-    set_2_floats=35,
-    add gold=36,
-    take gold=37,
-    add_item=38,
-    look_for_item=39,
-    play sfx=43,
-    shop=44,
-    battle_encounter?=45,
-    train skill=46,
-    Add_party_member=47,
-    remove_party_member=48,
-    crash game=49,
-    CampFullHeal=54,
-    give exp=56
-} borg13_commands;
-*/
 
 struct DialougeStruct {
     u8 field0_0x0;
@@ -584,12 +527,7 @@ typedef struct combat_aiscore combat_aiscore, *Pcombat_aiscore;
 
 typedef struct resist_float resist_float, *Presist_float;
 
-typedef enum ElementEnum {
-	ELEMENT_NONE, ELEMENT_EARTH, ELEMENT_SOLAR, ELEMENT_PHYSICAL, ELEMENT_NECROMANCY,
-    ELEMENT_FIRE, ELEMENT_LUNAR, ELEMENT_NAMING, ELEMENT_WATER, ELEMENT_MAGIC,
-    ELEMENT_AIR, ELEMENT_STAR, ELEMENT_ELEMENTAL, ELEMENT_CHAOS, ELEMENT_CUTTING, 
-    ELEMENT_SMASHING, ELEMENT_HOLY
-} ElementEnum;
+
 
 typedef struct CharGear CharGear, *PCharGear;
 
@@ -1317,8 +1255,6 @@ typedef struct ScriptCamera_struct ScriptCamera_struct, *PScriptCamera_struct;
 
 typedef struct QueueStructB QueueStructB, *PQueueStructB;
 
-typedef struct ZoneDat ZoneDat, *PZoneDat;
-
 typedef struct PlayerHandler PlayerHandler, *PPlayerHandler;
 
 typedef struct PartyInventory PartyInventory, *PPartyInventory;
@@ -1357,22 +1293,6 @@ struct player_char_struct {
     u8 unkState;
     undefined field17_0x35;
     ItemID current_shopkeep;
-};
-
-
-
-struct ZoneDat {
-    int borg5_ID;
-    SceneData *sceneDat0x4;
-    u32 borg9_id;
-    Borg9header *mapPointer;
-    uint unk0x10;
-    SceneData *SceneDat0x14;
-    uint MapTally;
-    u8 alpha;
-    u8 index; /* BCD of mtxIndex */
-    u8 flag;
-    u8 unk1f;
 };
 
 struct ScriptCamera_struct {
@@ -1538,13 +1458,6 @@ struct spells_pointer {
     u8 schools2[6];
     u8 field3_0xd[3];
     Spell_RAM *spells;
-};
-
-struct struct_A {
-    SceneData *SceneDat;
-    u16 flags;
-    undefined field2_0x6;
-    undefined field3_0x7;
 };
 
 

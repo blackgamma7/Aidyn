@@ -6,7 +6,6 @@ void set_checktrigger_pointer(void *param_1){
   struct_unk_.check_trigger_func = param_1;
 }
 
-
 void collisiondat_add_velocity(collisionSphere *param_1,vec3f *accel){
   (param_1->vel).x += accel->x;
   (param_1->vel).y += accel->y;
@@ -18,7 +17,6 @@ void collisiondat_sub_velocity(collisionSphere *param_1,vec3f *accel){
   (param_1->vel).y -= accel->y;
   (param_1->vel).z -= accel->z;
 }
-
 
 void collision_velocity_func(vec3f *vel,vec3f *param_2){
   float len;
@@ -127,7 +125,6 @@ void Ofunc_800af7f4(collisionSphere *collide,void *callback){
   collide->envProps->colA->flag|=4;
 }
 
-
 short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_struct *param_2,borg9_phys *param_3){
   u16 uVar1;
   u16 uVar2;
@@ -149,15 +146,15 @@ short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_stru
   float fVar15;
   vec3f fStack224;
   vec3f fStack160;
-  vec3f fStack96;
+  float fStack96;
+  s32 sStack94,sStack90;
   
   dVar4 = 0.005;
-  iVar13 = 0;
-  fStack96.y = 0.0;
-  fStack96.z = 0.0;
+  sStack94 = 0.0;
+  sStack90 = 0.0;
   sVar12 = 0;
   if (param_2->collideCount) {
-    do {
+    for(iVar13=0;iVar13<param_2->collideCount;iVar13++) {
       pbVar11 = param_3 + (u16)param_2->collideIndecies[iVar13];
       if (((collider->flags & 0x200) == 0) || ((pbVar11->flags & 0x200) == 0)) {
         bVar3 = false;
@@ -171,11 +168,11 @@ short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_stru
         if ((pbVar11->flags & 0x2000)) {
           fVar14 = 0.0;
         }
-        bVar6 = FUN_800aea44(&collider->pos,&collider->vel,fVar15 + fVar14,pbVar11,&fStack96.x,&fStack160);
+        bVar6 = FUN_800aea44(&collider->pos,&collider->vel,fVar15 + fVar14,pbVar11,&fStack96,&fStack160);
         A = &collider->pos;
         vel = &collider->vel;
         if (bVar6) {
-          if ((0.0 < fVar14) && (-fStack96.x < fVar14)) {
+          if ((0.0 < fVar14) && (-fStack96 < fVar14)) {
             CRASH("physics.cpp","Floater");
           }
           if (bVar7) {
@@ -185,9 +182,9 @@ short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_stru
           }
           else {
             B = &pbVar11->normal;
-            fStack96.x = fStack96.x + fVar14;
+            fStack96 = fStack96 + fVar14;
             collision_velocity_func(vel,B);
-            vec3A_plusBMulC(A,B,-fStack96.x);
+            vec3A_plusBMulC(A,B,-fStack96);
             bVar7 = FUN_800af578(collider,pbVar11->envProperty,B);
             (collider->unk2c).x = fStack160.x;
             (collider->unk2c).y = fStack160.y;
@@ -213,7 +210,7 @@ LAB_800afe6c:
           }
         }
         else if (!bVar7) {
-          fVar15 = fStack96.x - fVar15;
+          fVar15 = fStack96 - fVar15;
           if (fVar15 <= 0.0) {
             fVar15 = -fVar15;
           }
@@ -222,28 +219,24 @@ LAB_800afe6c:
               sVar12 = 1;
             }
           }
-          if ((pbVar11->flags & 0x1c)) {
+          if ((pbVar11->flags & B9Phys_EdgeMask)) {
             fVar15 = collider->radius;
             iVar8 = 0;
-            do {
-              if (iVar8 == 1) {
-                fStack96.y = (float)(pbVar11->flags & 0x10);
+            for(iVar8 = 0;iVar8<3;iVar8++) {
+              switch(iVar8){
+                case 0:
+                sStack94 = (pbVar11->flags & B9Phys_EdgeA);break;
+                case 1:
+                sStack94 = (pbVar11->flags & B9Phys_EdgeC);break;
+                case 2:
+                sStack94 = (pbVar11->flags & B9Phys_EdgeB);break;
+                default:
+                CRASH("CollideCollisionSphereWithVoxelPolys","Unknown Edge");
               }
-              else if (iVar8 < 2) {
-                if (iVar8) {
-LAB_800afb44:
-                  CRASH("CollideCollisionSphereWithVoxelPolys","Unknown Edge");
-                }
-                fStack96.y = (float)(pbVar11->flags & 4);
-              }
-              else {
-                if (iVar8 != 2) goto LAB_800afb44;
-                fStack96.y = (float)(pbVar11->flags & 8);
-              }
-              if (fStack96.y) {
+              if (sStack94) {
                 if (FUN_800aede8(collider,fVar15,pbVar11->verts[iVar8],pbVar11->verts[(iVar8 + 1) % 3],&fStack96,&fStack224)) {
                   collision_velocity_func(vel,&fStack224);
-                  vec3A_plusBMulC(A,&fStack224,fStack96.x - collider->radius);
+                  vec3A_plusBMulC(A,&fStack224,fStack96 - collider->radius);
                   bVar7 = FUN_800af578(collider,pbVar11->envProperty,&fStack224);
                   (collider->unk2c).x = fStack160.x;
                   (collider->unk2c).y = fStack160.y;
@@ -258,7 +251,7 @@ LAB_800afb44:
                   bVar3 = true;
                   break;
                 }
-                fVar14 = fStack96.x - fVar15;
+                fVar14 = fStack96 - fVar15;
                 if (fVar14 <= 0.0) {
                   fVar14 = -fVar14;
                 }
@@ -266,34 +259,29 @@ LAB_800afb44:
                   sVar12 = 1;
                 }
               }
-              iVar8 = (iVar8 + 1) * 0x10000 >> 0x10;
-            } while (iVar8 < 3);
+            }
           }
           if (!bVar3) {
-            if ((pbVar11->flags & 0xe0)) {
+            if ((pbVar11->flags & B9Phys_VertMask)) {
               fVar15 = collider->radius;
               iVar9 = 0;
               iVar8 = 0x10000;
               pbVar10 = pbVar11;
-              do {
-                if (iVar9 == 1) {
-                  fStack96.z = (float)(pbVar11->flags & 0x40);
+              for(s16 iVar9=0;iVar9<3;iVar9++) {
+                switch(iVar9){
+                  case 0:
+                  sStack90 = (pbVar11->flags & B9Phys_VertA);break;
+                  case 1:
+                  sStack90 = (pbVar11->flags & B9Phys_VertB);break;
+                  case 2:
+                  sStack90 = (pbVar11->flags & B9Phys_VertC);break;
+                  default:
+                  CRASH("CollideCollisionSphereWithVoxelPolys","Unknown Vertex");
                 }
-                else if (iVar9 < 2) {
-                  if (iVar9) {
-LAB_800afd30:
-                    CRASH("CollideCollisionSphereWithVoxelPolys","Unknown Vertex");
-                  }
-                  fStack96.z = (float)(pbVar11->flags & 0x20);
-                }
-                else {
-                  if (iVar9 != 2) goto LAB_800afd30;
-                  fStack96.z = (float)(pbVar11->flags & 0x80);
-                }
-                if (fStack96.z) {
-                  if (FUN_800af050(collider,fVar15,pbVar10->verts[0],0,&fStack96,&fStack224,&fStack160)) {
+                if (sStack90) {
+                  if (FUN_800af050(collider,fVar15,pbVar10->verts[iVar9],0,&fStack96,&fStack224,&fStack160)) {
                     collision_velocity_func(vel,&fStack224);
-                    vec3A_plusBMulC(A,&fStack224,fStack96.x - fVar15);
+                    vec3A_plusBMulC(A,&fStack224,fStack96 - fVar15);
                     bVar7 = FUN_800af578(collider,pbVar11->envProperty,&fStack224);
                     (collider->unk2c).x = fStack160.x;
                     (collider->unk2c).y = fStack160.y;
@@ -308,7 +296,7 @@ LAB_800afd30:
                     bVar3 = true;
                     break;
                   }
-                  fVar14 = fStack96.x - fVar15;
+                  fVar14 = fStack96 - fVar15;
                   if (fVar14 <= 0.0) {
                     fVar14 = -fVar14;
                   }
@@ -316,18 +304,14 @@ LAB_800afd30:
                     sVar12 = 1;
                   }
                 }
-                iVar9 = iVar8 >> 0x10;
-                pbVar10 = (borg9_phys *)(pbVar10->verts + 1);
-                iVar8 = iVar8 + 0x10000;
-              } while (iVar9 < 3);
+              }
             }
             goto LAB_800afe60;
           }
           goto LAB_800afe6c;
         }
       }
-      iVar13 = (int)(short)((short)iVar13 + 1);
-    } while (iVar13 < (int)(uint)(u16)param_2->collideCount);
+    }
   }
   sVar5 = collider->unk1e;
   if (sVar12) {

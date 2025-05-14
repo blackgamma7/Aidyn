@@ -49,12 +49,12 @@ LAB_800153a4:
 }
 
 void Actor::GetPosOnLoadedMap(playerData *param_1,vec3f *param_2){
-  vec2f fStack80;
+  vec2f temp;
   
   copyVec3(&(param_1->collision).pos,param_2);
-  get_mapcellsize(param_1->zoneDatByte,&fStack80);
-  param_2->x+= fStack80.x;
-  param_2->z+= fStack80.y;
+  get_mapcellsize(param_1->zoneDatByte,&temp);
+  param_2->x+= temp.x;
+  param_2->z+= temp.y;
 }
 
 void Actor::AddPosOnLoadedMap(u8 param_1,vec2f *param_2){
@@ -65,11 +65,11 @@ void Actor::AddPosOnLoadedMap(u8 param_1,vec2f *param_2){
 }
 
 void Actor::SubPosOnLoadedMap(u8 param_1,vec3f *param_2){
-  vec2f fStack72;
+  vec2f temp;
   
-  get_mapcellsize(param_1,&fStack72);
-  param_2->x-= fStack72.x;
-  param_2->z-= fStack72.y;
+  get_mapcellsize(param_1,&temp);
+  param_2->x-= temp.x;
+  param_2->z-= temp.y;
 }
 
 u8 Actor::CheckCollision(playerData *param_1,float posY,short param_3,u16 attempt){
@@ -120,13 +120,11 @@ u8 Actor::CheckCollision(playerData *param_1,float posY,short param_3,u16 attemp
   return bVar2;
 }
 
-void Actor::Init(playerData *param_1,u16 param_2){
-  collisionTypeA *pcVar1;
-  
+void Actor::Init(playerData *param_1,u16 id){  
   CLEAR(param_1);
-  param_1->unk70c = 0xff;
+  param_1->shadowAlpha = 0xff;
   param_1->unk1c = 1;
-  param_1->ID = param_2;
+  param_1->ID = id;
   param_1->borg7 = -1;
   param_1->nextBorg7 = -1;
   param_1->ani_type = 0;
@@ -146,14 +144,13 @@ void Actor::Init(playerData *param_1,u16 param_2){
   init_collisionTypeA(&param_1->colTypeA);
   set_CollisionTypeB(&param_1->colTypeB);
   (param_1->envprop).colA = &param_1->colTypeA;
-  pcVar1 = (param_1->envprop).colA;
   (param_1->collision).envProps = &param_1->envprop;
   (param_1->envprop).Speed = &param_1->colTypeB;
-  pcVar1->unk0 = 0.0;
-  pcVar1->unk4 = 1.0;
-  pcVar1->unk8 = 0.0;
-  pcVar1->unkc = 0.0;
-  pcVar1->unk10 = 0.0;
+  (param_1->envprop).colA->unk0 = 0.0;
+  (param_1->envprop).colA->unk4 = 1.0;
+  (param_1->envprop).colA->unk8 = 0.0;
+  (param_1->envprop).colA->unkc = 0.0;
+  (param_1->envprop).colA->unk10 = 0.0;
   (param_1->colTypeB).gravity.y = -0.003f;
   (param_1->collision).link = param_1;
   param_1->Ent_index = 0x99;
@@ -189,7 +186,7 @@ void InitPlayerHandler(Camera_struct *cam,short maxPlayers,int shadIndex){
   gGlobals.Sub.PlayerHandler.cameraFocus = -1;
   gGlobals.Sub.PlayerHandler.playerCount = 0;
   gGlobals.Sub.PlayerHandler.float_0x68 = 50.0f;
-  gGlobals.Sub.PlayerHandler.float_0x64 = 50.0f;
+  gGlobals.Sub.PlayerHandler.shadowDist = 50.0f;
   gGlobals.Sub.PlayerHandler.camera = cam;
   if (0 < gGlobals.Sub.PlayerHandler.max_player) {
     for(s16 i=0;i<gGlobals.Sub.PlayerHandler.max_player;i++) {
@@ -284,61 +281,46 @@ Gfx * Actor::CalculateShadow(playerData *param_1,Gfx *g,float param_3,u8 param_4
   return PlaneObj_Render(g,&param_1->shadow,pos,outRot,pvVar8);
 }
 // calculates a model's alpha?
-u8 FUN_80015d70(PlayerHandler *param_1,playerData *param_2,float param_3,u8 param_4){
-  u8 uVar1;
-  uint uVar2;
-  float fVar3;
-  
-  uVar2 = (uint)param_4;
-  if (param_1->float_0x64 - 2.0f < param_3) {
-    uVar2 = (param_1->float_0x64 - param_3) * 0.5f * 255.0f;
+u8 PlayerShadowAlpha(PlayerHandler *param_1,playerData *pDat,float dist,u8 param_4){
+
+  u8 a = param_4;
+  if (param_1->shadowDist - 2.0f < dist) {
+    a = (param_1->shadowDist - dist) * 0.5f * 255.0f;
   }
-  uVar1 = param_2->unk70c;
-  if (uVar2 < param_2->unk70c)
-    uVar1 = (u8)uVar2;
-  return uVar1;
+  u8 ret = pDat->shadowAlpha;
+  if (a < pDat->shadowAlpha)
+    ret = (u8)a;
+  return ret;
 }
 
-Gfx * renderPlayerShadows(PlayerHandler *param_1,Gfx *param_2)
-
-{
-  bool bVar1;
-  float fVar2;
-  Gfx *pGVar3;
-  u8 uVar5;
-  int iVar4;
-  int iVar6;
-  int iVar7;
-  float fVar8;
-  float fVar9;
+Gfx * renderPlayerShadows(PlayerHandler *param_1,Gfx *gfx){
+  u8 alpha;
   vec3f afStack120;
   
   if (param_1->shadowTexture) {
-    pGVar3 = PlaneObj_SetupGfx(param_2,10);
-    pGVar3 = FUN_8009d3dc(pGVar3,param_1->shadowTexture,Graphics::GetBufferChoice());
-    param_2 = loadTextureImage(pGVar3,param_1->shadowTexture,NULL);
+    Gfx* pGVar3 = FUN_8009d3dc(PlaneObj_SetupGfx(gfx,10),param_1->shadowTexture,Graphics::GetBufferChoice());
+    gfx = loadTextureImage(pGVar3,param_1->shadowTexture,NULL);
     if (0 < param_1->max_player) {
       for(s16 i=0;i<param_1->max_player;i++) {
         playerData* p = &param_1->playerDats[i];
         if (p->removeFlag) {
           Actor::GetPosOnLoadedMap(p,&afStack120);
-          fVar8 = vec3_proximity(&param_1->camera->aim,&afStack120);
-          if (fVar8 < param_1->float_0x64) {
-            bVar1 = p->alaron_flag;
+          float prox = vec3_proximity(&param_1->camera->aim,&afStack120);
+          if (prox < param_1->shadowDist) {
             (p->shadow).borg1p = param_1->shadowTexture;
-            if (bVar1 == false) {
-              fVar9 = vec3_proximity(&(p->collision).pos,&param_1->camera->aim);
-              if (10.0f <= fVar9) continue;
-              uVar5 = FUN_80015d70(param_1,p,fVar8,0x80) * (1.0f - fVar9 / 10.0f);
+            if (!p->alaron_flag) {
+              float camProx = vec3_proximity(&(p->collision).pos,&param_1->camera->aim);
+              if (10.0f <= camProx) continue;
+              alpha = PlayerShadowAlpha(param_1,p,prox,0x80) * (1.0f - camProx / 10.0f);
             }
-            else uVar5 = FUN_80015d70(param_1,p,fVar8,0x80);
-            param_2 = Actor::CalculateShadow(p,param_2,0.0,uVar5);
+            else alpha = PlayerShadowAlpha(param_1,p,prox,0x80);
+            gfx = Actor::CalculateShadow(p,gfx,0.0,alpha);
           }
         }
       }
     }
   }
-  return param_2;
+  return gfx;
 }
 
 void playerdata_remove_dcm(playerData *param_1,u16 param_2){
@@ -361,34 +343,27 @@ extern u32 u32_ARRAY_800eee18[];
 extern u32 u32_ARRAY_800ef010[];
 DCMSub2 * AllocPlayerAudio(playerData *param_1,UnkAudioStruct *param_2,u16 type,u16 param_4){
   u16 uVar1;
-  u16 uVar2;
   Borg12Header *pBVar3;
-  u32 *puVar5;
   u16 uVar6;
   u32 *pBVar4;
   
-  uVar2 = 0;
+  u16 uVar2 = 0;
   if ((param_4 == 0) && (param_2)) {
     uVar2 = RAND.randAudio(param_2->randVal);
-    uVar2 &= 0xffff;
   }
-  if (type == 1) {
-    puVar5 = u32_ARRAY_800eee18;
+  switch(type){
+    case 0:
+    pBVar4 = u32_ARRAY_800eec98 + param_2->field3_0x4[uVar2];
+    break;
+    case 1:
+    pBVar4 = u32_ARRAY_800eee18 + param_4;
+    break;
+    case 2:
+    pBVar4 = u32_ARRAY_800ef010 + param_4;
+    break;
+    default:
+    CRASH("AllocPlayerAudio","Invalid Audio Type");
   }
-  else {
-    if (type < 2) {
-      if (type != 0) goto LAB_8001618c;
-      pBVar4 = u32_ARRAY_800eec98 + param_2->field3_0x4[uVar2];
-      goto LAB_8001617c;
-    }
-    if (type != 2) {
-LAB_8001618c:
-      CRASH("AllocPlayerAudio","Invalid Audio Type");
-    }
-    puVar5 = u32_ARRAY_800ef010;
-  }
-  pBVar4 = puVar5 + param_4;
-LAB_8001617c:
   pBVar3 = load_borg_12(*pBVar4);
   uVar2 = (u16)param_1->dcmDatIndex + 1;
   uVar6 = (short)uVar2 + (short)(uVar2 >> 1) * -2;
@@ -611,12 +586,12 @@ LAB_800168cc:
         else {
           ppVar22->unk708 = (short)iVar12;
           if (iVar12 * 0x10000 < 1) {
-            ppVar22->unk70c = 0;
+            ppVar22->shadowAlpha = 0;
             ppVar22->flags = 0;
             Actor::FreePlayer(ppVar22);
           }
           if (ppVar22->unk708 < 0x3c) {
-            ppVar22->unk70c = (ppVar22->unk708 / 60.0f) * fVar33;
+            ppVar22->shadowAlpha = (ppVar22->unk708 / 60.0f) * fVar33;
             goto LAB_800168cc;
           }
         }
@@ -665,14 +640,9 @@ LAB_80016990:
         fVar29 = (ppVar22->collision).pos.y;
         ProcessCollisionSphere(map,coliide,delta);
         local_60 = coliide;
-        if (ppVar22->alaron_flag == false) {
-LAB_80016b50:
-          fVar29 = (ppVar22->facing).x;
-        }
-        else {
-          if (((ppVar22->collision).unk1e != 0) &&
-             (fVar28 = vec3_proximity(&player_coords_A,&(ppVar22->collision).pos),
-             1.0f < fVar28)) {
+        if (ppVar22->alaron_flag){
+          if (((ppVar22->collision).unk1e != 0)&&
+            (1.0f < vec3_proximity(&player_coords_A,&(ppVar22->collision).pos))) {
             player_coords_b.x = player_coords_A.x;
             player_coords_b.y = player_coords_A.y;
             player_coords_b.z = player_coords_A.z;
@@ -684,14 +654,12 @@ LAB_80016b50:
             map_shorts_A[0] = gGlobals.Sub.mapShort1;
             map_shorts_A[1] = gGlobals.Sub.mapShort2;
           }
-          if (ppVar22->alaron_flag != false) {
+          if (ppVar22->alaron_flag) {
             if (ppVar22->Ground_type - 1 < 2) {
               fStack176.x = (ppVar22->collision).pos.x;
               fStack176.z = (ppVar22->collision).pos.z;
-              fStack176.y = (float)((double)(ppVar22->collision).pos.y - 0.05d);
-              bVar18 = processPlayers_sub(map,&(ppVar22->collision).pos,&fStack176,0.5,NULL,NULL);
-              if (!bVar18) {
-                fVar29 = (ppVar22->facing).x;
+              fStack176.y = ((ppVar22->collision).pos.y - 0.05);
+              if (!processPlayers_sub(map,&(ppVar22->collision).pos,&fStack176,0.5,NULL,NULL)) {
                 goto LAB_80016b54;
               }
               if ((ppVar22->collision).pos.y < fVar29) {
@@ -703,14 +671,13 @@ LAB_80016b50:
           fVar29 = (ppVar22->facing).x;
         }
 LAB_80016b54:
-        fVar28 = (ppVar22->facing).y;
-        fVar29 = fVar29 * fVar29 + fVar28 * fVar28;
+        fVar29 = SQ((ppVar22->facing).x) + SQ((ppVar22->facing).y);
         if (0.0 < fVar29) {
           if (fVar29 < 1.0E-6f) goto crash;
         }
         else if (-fVar29 < 1.0E-6f) {
 crash:
-          Crash::ManualCrash("player.cpp","SETTING FACING FOR ALIGN\n");
+          CRASH("player.cpp","SETTING FACING FOR ALIGN\n");
         }
         vec2_normalize(&ppVar22->facing);
         Scene::MatrixASetPos
@@ -793,11 +760,8 @@ LAB_80016ed8:
                   ppVar22->unk1c = ppVar22->unk1a;
                   ppVar22->unk1a = ppVar22->ani_type;
                 }
-                if ((ppVar22->collision).vel.y<= -0.048) {
+                if (((ppVar22->collision).vel.y<= -0.048)&&(ppVar22->alaron_flag)) {
                     // fell through world
-                  if (ppVar22->alaron_flag == false) {
-                    goto LAB_80016f24;
-                  }
                   setVec3(&(ppVar22->collision).vel,0.0,(ppVar22->collision).vel.y,0.0);
                   if (-0.3 <= (double)(ppVar22->collision).vel.y) {
                     plVar9 = ppVar22->locator_pointer;
@@ -1059,8 +1023,8 @@ render_player:
             fVar10 = vec2_proximity(&afStack336,&CamAim);
             if (((fVar10 <= fVar11) || (fVar8 < fVar9)) &&
                (fVar9 = vec3_proximity(&param_1->camera->aim,&fStack656),
-               fVar9 < param_1->float_0x64)) {
-              a = FUN_80015d70(param_1,ppVar6,fVar9,0xff);
+               fVar9 < param_1->shadowDist)) {
+              a = PlayerShadowAlpha(param_1,ppVar6,fVar9,0xff);
               if (iStack_4c == 0) {
 LAB_80017c98:
                 some_player_render_sub(ppVar6,ppVar6->locator_pointer->sceneDat,&fStack656,a,(short)iStack_50);
@@ -1266,7 +1230,7 @@ void Actor::FreePlayerActor(playerData *param_1)
 
 {
   if (param_1->borg7 == -1)
-    Crash::ManualCrash("FreePlayerActor","No Actor To Free!");
+    CRASH("FreePlayerActor","No Actor To Free!");
   CombatAttackVisuals::FreePlayer(param_1);
   if (param_1->locator_pointer != NULL) {
     Particle::UnsetSceneEmmiter(&gGlobals.Sub.particleEmmiter,param_1->locator_pointer->sceneDat);

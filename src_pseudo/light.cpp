@@ -218,8 +218,8 @@ void light_init_func(playerData *param_1,SceneData *param_2,s16 param_3){
     vec3f* pos = &(param_1->collision).pos;
     getZonePositionShorts(b9C,pos,&x,&y);
     borg_9_struct *b9S = borg9_get_unkStruct(b9C,x,y);
-    if ((param_1->visible_flag) && (b9S->lightCount)) {
-      for(s16 i=0;i<b9S->lightCount;i++){
+    if ((param_1->visible_flag) && (b9S->voxelSceneCount)) {
+      for(s16 i=0;i<b9S->voxelSceneCount;i++){
         voxelObject* light = &b9C->voxelObjs[b9S->lightIndecies[i]];
         if ((light->header).type == VOXEL_Light) {
           InitLight(param_2,b9C,pos,light,1,param_3);

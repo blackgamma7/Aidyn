@@ -43,6 +43,10 @@
 #define BORG11_TriumphantChordB 0x631
 #define BORG11_CoinsJingle 0x6F4
 #define BORG11_EchoSound 0x726
+#define BORG11_PageTurn 0x74C
+
+#define BORG11_MaleGasp 0x384C
+
 
 //borg12: Music/SFX
 //battle tracks if using ExpPak
@@ -131,6 +135,7 @@
 
 //borg6: Animation data?
 //used for the titlescreen flycam
+
 #define BORG6_Flycam1           0x21dc
 #define BORG6_Flycam2           0x21de
 #define BORG6_Flycam3           0x21e2

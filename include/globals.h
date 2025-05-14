@@ -22,6 +22,7 @@
 #include "cinematics.h"
 #include "dialoug.h"
 #include "widgets/PauseWidget.h"
+#include "ZoneEngine.h"
 
 #include "crash.h"
 #include "heapN64.h"

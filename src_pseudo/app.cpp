@@ -6,11 +6,11 @@
 #include "memaker.h"
 #include "n64Borg.h"
 
-u16 doubleGlobalTickerFlag;
+u16 doubleGlobalTickerFlag=0;
 #ifndef DEBUGVER
-u16 version_flag;
+u16 version_flag=0;
 #endif
-Borg8header* PAL_Warning_image;
+Borg8header* PAL_Warning_image=NULL;
 u8 PAL_warning_flag=true;
 
 struct App_manager{

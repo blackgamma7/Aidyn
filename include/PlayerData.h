@@ -91,7 +91,7 @@ struct playerData {
     short unk708;
     u8 visible_flag;
     u8 alaron_flag; //set if Alaron's model
-    u8 unk70c; //used for alpha
+    u8 shadowAlpha; //used for alpha
     u8 zoneDatByte;
     u8 unk70ee;
     undefined field64_0x70f;
@@ -131,7 +131,7 @@ struct PlayerHandler {
     s16 unk10[PLAYER_ABS_MAXPLAYERS];
     short playerCount;
     u16 counter;
-    float float_0x64;
+    float shadowDist;
     float float_0x68;
     Borg1header *shadowTexture;
     Borg1header * unk70; //unused? queded for freeing.
@@ -166,7 +166,7 @@ namespace Actor{
     void ResetMoveQueue(playerData *);
     void SetFacing(playerData *,float,float);
     void MoveTo(playerData *);
-    void MoveNearShadow(playerData *,vec3f *,float);
+    void SetCombatMove(playerData *,vec3f *,float);
     void UnsetFlag4(playerData *);
 };
 
@@ -175,7 +175,7 @@ namespace Actor{
 void get_mapcellsize(u8 ,vec2f *);
 void InitPlayerHandler(Camera_struct *,s16,s32);
 void FreePlayerHandler(void);
-u8 FUN_80015d70(PlayerHandler *,playerData *,float,u8);
+u8 PlayerShadowAlpha(PlayerHandler *,playerData *,float,u8);
 void playerdata_remove_dcm(playerData *,u16);
 DCMSub2 * AllocPlayerAudio(playerData *,UnkAudioStruct *,u16,u16);
 u8 FUN_8001620c(playerData *);
@@ -199,6 +199,7 @@ void SetPlayerMoveToQueue(playerData *,float,float,float,s16);
 void FUN_80019770(playerData *);
 void FUN_80019b08(playerData *);
 void debug_sub_3(void);
+Gfx * renderPlayerShadows(PlayerHandler *param_1,Gfx *gfx);
 
 
 u32 _bigw_flag=0; //used for "!bigw" cheat

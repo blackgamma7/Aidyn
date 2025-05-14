@@ -279,8 +279,7 @@ ALMicroTime soundVoiceHandler(void* p){
       v->loopCount = bVar8;
       if (bVar8 == 0) {
         if (uVar9 >= v->instrumentData->samples) {
-          gAudioManager.VoicesUsed--;
-          gAudioManager.indecies[gAudioManager.VoicesUsed] = i;
+          gAudioManager.indecies[--gAudioManager.VoicesUsed] = i;
           v->flag = VOICE_STOP;
           v->isActive = 0;
           v->unk0x38 = v->instrumentData->samples;
@@ -293,7 +292,7 @@ ALMicroTime soundVoiceHandler(void* p){
     }
     if(v->flag & VOICE_FLAG4) {
       *(undefined4 *)((((v->voice).pvoice)->decoder).state[0] + 0xe) = v->unk0x38; //?
-      if ((v->instrumentData->flag & 4)) (v->wavetable).type = 2;
+      if ((v->instrumentData->flag & Borg11_8bit)) (v->wavetable).type = 2;
       else (v->wavetable).type = 1;
       (v->wavetable).len = v->instrumentData->len;
       (v->wavetable).waveInfo.adpcmWave.loop->start = v->waveTableLength;

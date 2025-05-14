@@ -71,7 +71,7 @@ LAB_800ade1c:
   *param_3 = 0;
 }
 
-bool FUN_800ade28(Borg9data *mapdat,vec3f *pos,short *xout,short *zout){
+bool FUN_800ade28(Borg9data *mapdat,vec3f *pos,s16 *xout,s16 *zout){
   *xout = ((pos->x - (mapdat->floatsA).x) / (mapdat->floatsB).x);
   *zout = ((pos->z - (mapdat->floatsA).z) / (mapdat->floatsB).y);
   if ((((-1 < *xout) && (*xout < mapdat->shortA)) &&
@@ -247,7 +247,7 @@ void ProcessCollisionSphere(Borg9data *map,collisionSphere *coliide,short delta)
   short asStack_32 [21];
   
   iVar6 = (int)delta;
-  if (!coliide->envProps->Speed)CRASH("ProcessCollisionSphere","No Environment Properties Found on Sphere");
+  if (!coliide->envProps->Speed) {CRASH("ProcessCollisionSphere","No Environment Properties Found on Sphere");}
   else {
     if (!(coliide->flags & 0x8000)) {
       fStack120.x = (coliide->pos).x;

@@ -36,7 +36,6 @@ struct mapFloatDat {
     u16 field8_0x2a;
 };
 
-
 struct SaveDatStruct {
     SavePartyHeader headerDat;
     u8 field1_0x20[0x20];

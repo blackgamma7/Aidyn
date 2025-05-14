@@ -66,11 +66,11 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     #ifdef DEBUGVER
     if (gDebugFlag) {
       if ((controller->input_2 & L_BUTTON)&&(controller->input & D_LEFT)){
-          debug::oneZone_load ^= 1;
+          gLoadOneZone ^= 1;
           N64PRINT("Multiple Zones Load Toggled\n");
         }
-      if (((controller->input_2 & R_BUTTON) != 0) && ((controller->input & D_RIGHT) != 0)) {
-        debug::gSceneBoulder ^= 1;
+      if ((controller->input_2 & R_BUTTON) && (controller->input & D_RIGHT)) {
+        gSceneBoulder ^= 1;
         N64PRINT("Reference Objects Toggled\n");
       }
       if ((gDebugFlag) && (controller->input & C_UP)) {
@@ -143,7 +143,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     fVar9 = -controller->joy_x;
     y = controller->joy_y;
     fVar8 = _sqrtf(SQ(fVar9) + SQ(y));
-    if ((double)fVar8 <= 0.05) {
+    if (fVar8 <= 0.05) {
       if ((p->flags & ACTOR_ISPLAYER)){
         set_camera_0x70(gGlobals.Sub.PlayerHandler.camera,&(p->collision).pos);
       }
@@ -326,22 +326,18 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     Actor::ClearInput(param_1);
     (param_1->controller).contAidyn.input_2 = (param_1->controller).contAidyn.input_2 | param_2;}
   
-  
-    void Actor::MoveTo(playerData *param_1)
-  
-    {
-      PLAYERDATA_Flags PVar1;
-      BUTTON_aidyn BVar2;
+    extern u32 DAT_800ee974;
+    void Actor::MoveTo(playerData *param_1){
+      u32 BVar2;
       int iVar3;
       bool bVar5;
-      BUTTON_aidyn BVar4;
+      u32 BVar4;
       int iVar6;
-      int iVar7;
       float fVar8;
       float fVar9;
       vec2f fStack88;
       
-      iVar7 = 0;
+      s16 iVar7 = 0;
       if ((param_1->flags & ACTOR_CANMOVE) == 0) {
         (param_1->controller).contAidyn.joy_x = 0.0;
         (param_1->controller).contAidyn.joy_y = 0.0;
@@ -351,55 +347,35 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
         fStack88.y = -((param_1->aiDest).y - (param_1->collision).pos.z);
         fVar8 = vec2Length(&fStack88);
         iVar7 = 1;
-        if (ConstFloats::0.01d < (double)(param_1->aiDestDist - fVar8)) {
+        if (0.01 < (param_1->aiDestDist - fVar8)) {
           param_1->aiDestDist = fVar8;
-          if ((param_1->flags & ACTOR_WALKONLY) == 0) {
+          if ((param_1->flags & ACTOR_WALKONLY) == 0)
             SetControllerRun(&param_1->controller,&fStack88);
-            fVar9 = param_1->wanderRadius;
-          }
-          else {
-            SetControllerWalk(&param_1->controller,&fStack88);
-            fVar9 = param_1->wanderRadius;
-          }
+          else SetControllerWalk(&param_1->controller,&fStack88);
         }
-        else if (gGlobals.playerCharStruct.unkState == 3) {
-    LAB_800199e0:
-          fVar9 = param_1->wanderRadius;
-        }
-        else {
-          iVar6 = 0x1e;
-          if (DAT_800ee974 != 0) {
-            iVar6 = 300;
-          }
-          iVar3 = (uint)(u16)param_1->aiTravelTime + (int)gGlobals.delta;
-          param_1->aiTravelTime = (short)iVar3;
-          if (iVar3 * 0x10000 >> 0x10 < iVar6) {
-            fVar9 = param_1->wanderRadius;
-          }
-          else {
+        else if (gGlobals.playerCharStruct.unkState != 3) {
+          iVar6 = 30;
+          if (DAT_800ee974) iVar6 = 300;
+          param_1->aiTravelTime = (short)param_1->aiTravelTime + (int)gGlobals.delta;
+          if (param_1->aiTravelTime >= iVar6){
             if (gCombatP == NULL) {
               FUN_80019b08(param_1);
               fVar8 = 0.0;
-              goto LAB_800199e0;
             }
+            else{
             gCombatP->waitTimer = 0;
             ResetMoveQueue(param_1);
-            fVar9 = param_1->wanderRadius;
+            }
           }
         }
-        if (fVar8 < fVar9) {
+        if (fVar8 < param_1->wanderRadius) {
           UnsetFlag(param_1,ACTOR_CANMOVE);
           FUN_80019770(param_1);
-          PVar1 = param_1->flags;
-          goto LAB_80019a18;
         }
       }
-      PVar1 = param_1->flags;
-    LAB_80019a18:
-      if ((PVar1 & ACTOR_CANROTATE) != 0) {
-        iVar7 = (iVar7 + 1) * 0x10000 >> 0x10;
-        bVar5 = some_trig_func_2(&param_1->facing,&param_1->unk26c,0.17453);
-        if (bVar5) {
+      if ((param_1->flags & ACTOR_CANROTATE) != 0) {
+        iVar7++;
+        if (some_trig_func_2(&param_1->facing,&param_1->unk26c,0.17453)) {
           UnsetFlag(param_1,ACTOR_CANROTATE);
         }
       }
@@ -407,9 +383,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
       BVar4 = BVar2 & param_1->buttonMask ^ BVar2;
       (param_1->controller).contAidyn.input = BVar4;
       param_1->buttonMask = BVar2;
-      if ((BVar2 != 0) || (BVar4 != 0)) {
-        iVar7 = (iVar7 + 1) * 0x10000 >> 0x10;
-      }
+      if ((BVar2) || (BVar4))iVar7++;
       if (iVar7 == 0) {
         ClearInputMoveFlags(param_1);
         UnsetFlag(param_1,ACTOR_2);
@@ -417,7 +391,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
       return;
     }
   
-    void Actor::MoveNearShadow(playerData *param_1,vec3f *pos,float range){
+    void Actor::SetCombatMove(playerData *param_1,vec3f *pos,float range){
     
     (param_1->combat_vec3).x = pos->x;
     (param_1->combat_vec3).y = pos->y;
@@ -436,7 +410,6 @@ void FUN_80019b08(playerData *param_1){
     int iVar2;
     MoveQueueEntry *pfVar2;
     int iVar3;
-    float fVar4;
     
     if ((param_1->flags & ACTOR_2)) {
       if ((param_1->flags & ACTOR_CANMOVE)){
@@ -447,14 +420,13 @@ void FUN_80019b08(playerData *param_1){
         }
         pfVar2 = &param_1->moveQueue[iVar2];
         if (pfVar2->active == 0) {
-          fVar4 = (param_1->aiDest).y;
+          (param_1->collision).pos.z = (param_1->aiDest).y;
           (param_1->collision).pos.x = (param_1->aiDest).x;
         }
         else {
           (param_1->collision).pos.x = (pfVar2->pos2d).x;
-          fVar4 = (pfVar2->pos2d).y;
+          (param_1->collision).pos.z = (pfVar2->pos2d).y;
         }
-        (param_1->collision).pos.z = fVar4;
         Actor::CheckCollision(param_1,0.0,0,0);
       }
       if ((param_1->flags & ACTOR_CANROTATE))

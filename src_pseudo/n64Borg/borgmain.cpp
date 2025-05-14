@@ -142,7 +142,7 @@ borgHeader * getBorgItem(s32 index){
     else {
       if (borgFlag){
         uVar2 = gBorgHeaderSizes[type] + listing.uncompressed;
-        ret = HeapAlloc(uVar2,FILENAME,627);
+        ALLOCS(ret,uVar2,627);
         bzero(ret,uVar2);
         decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
                        (void *)((s32)ret + gBorgHeaderSizes[listing.Type]),listing.uncompressed,
@@ -195,12 +195,12 @@ void dec_borg_count(s32 index){
 }
 
 //"Borg0" is an unused type. Unknown what it was supposed to do.
-void borg0_func_a(s32 *a){ *a += (s32)a;}
-u8 borg0_func_b(s32 *a,s32 b){ a[2] = b; return false;}
-void Ofunc_borg0_free(s32 *param_1){
+void borg0_func_a(void**a){ a[0] =(void*)((u32)a[0]+ (u32)a);}
+u8 borg0_func_b(void**a,void* b){ a[2] = b; return false;}
+void Ofunc_borg0_free(void**param_1){
   s32 memOld = get_memUsed();
-  if (*param_1 == -1) HFREE((void *)param_1[2],834);
-  else dec_borg_count(*param_1);
+  if ((s32)param_1[0] == -1) HFREE(param_1[2],834);
+  else dec_borg_count((s32)param_1[0]);
   HFREE(param_1,841);
   borg_mem[0] -= (memOld - get_memUsed());
   borg_count[0]--;
@@ -244,10 +244,10 @@ u8 InitBorgTexture(Borg1header *header,Borg1Data *dat){
     header->bitmapB = puVar5;
     memcpy(puVar5,header->dat->bitmap,size);
     header->dat->bitmap = header->bitmapA8;
-    borg_index_x4[header->id] = NULL;
-    borg_index_x1[header->id] = 0;
-    header->id = -1;
-    header->field1_0x4 = 0;
+    borg_index_x4[header->head.index] = NULL;
+    borg_index_x1[header->head.index] = 0;
+    header->head.index = -1;
+    header->head.unk = 0;
   }
   return false;
 }
@@ -257,8 +257,8 @@ void borg1_free(Borg1header *param_1){
   if (((param_1->dat->flag & 0x100)) && (param_1->dat->type < B1_CI8)) {
     HFREE(param_1->bitmapB,0x3e4);
   }
-  if (param_1->id == -1) HFREE(param_1->dat,1001);
-  else dec_borg_count(param_1->id);
+  if (param_1->head.index == -1) HFREE(param_1->dat,1001);
+  else dec_borg_count(param_1->head.index);
   HFREE(param_1,1008);
   borg_mem[1] -= (iVar1 - get_memUsed());
   borg_count[1]--;
@@ -332,10 +332,10 @@ void borg_2_free(Borg2header *param_1){
     HFREE(param_1->dlist,1161);
   }
   if (param_1->dlistSet) HFREE(param_1->dlistSet,1166);
-  if (param_1->index == -1) HFREE(param_1->dat,1171);
+  if (param_1->head.index == -1) HFREE(param_1->dat,1171);
   else {
-    get_borg_index_count(param_1->index);
-    dec_borg_count(param_1->index);
+    get_borg_index_count(param_1->head.index);
+    dec_borg_count(param_1->head.index);
   }
   HFREE(param_1,1184);
   borg_mem[2] -= (iVar1 - get_memUsed());
@@ -354,23 +354,21 @@ void Borg4_free(s32 *param_1){
 }
 //"borg3": only 5 in the game. Seem to be camera perpective configs.
 void borg3_func_a(Borg3Header *param_1){
-  param_1->mtx_ = NULL;
-  param_1->unk28 = (s16 *)((int)(param_1->unk28 + 8) + (int)param_1);
+  param_1->dat.mtx_ = NULL;
+  param_1->dat.unk18 = (s16 *)((int)(param_1->dat.unk18 + 8) + (int)param_1);
 }
 u8 borg3_func_b(void* x, void* y){return false;}
 
 void borg3_free(Borg3Header *param_1){
   int iVar1 = get_memUsed();
-  if (param_1->index == -1) HFREE(param_1,1312);
-  else dec_borg_count(param_1->index);
+  if (param_1->head.index == -1) HFREE(param_1,1312);
+  else dec_borg_count(param_1->head.index);
   borg_mem[3]-= (iVar1 - get_memUsed());
   borg_count[3]--;
 }
 //"borg5": probably model data. DEFINITELY needs more info
 void borg5_func_a(Borg5header *b5){
   u32 *puVar1;
-  Borg2header **ppbVar2;
-  Borg1header **ppBVar3;
   u16 *puVar4;
   borg5substruct *pbVar6;
   void *pvVar7;
@@ -387,18 +385,9 @@ void borg5_func_a(Borg5header *b5){
     }
   }
   if ((b5->dat).unused20) (b5->dat).unused20 = (void *)((int)(b5->dat).unused20 + (int)&b5->dat);
-  puVar1 = (b5->dat).borg4Indecies;
-  if (puVar1 != NULL) {
-    (b5->dat).borg4Indecies = (u32 *)((int)(puVar1 + 4) + (int)b5);
-  }
-  ppbVar2 = (b5->dat).borg2Indecies;
-  if (ppbVar2 != NULL) {
-    (b5->dat).borg2Indecies = (Borg2header **)((int)(ppbVar2 + 4) + (int)b5);
-  }
-  ppBVar3 = (b5->dat).borg1Indecies;
-  if (ppBVar3 != NULL) {
-    (b5->dat).borg1Indecies = (Borg1header **)((int)(ppBVar3 + 4) + (int)b5);
-  }
+  if ((b5->dat).borg4i) (b5->dat).borg4i = (u32 *)((int)((b5->dat).borg4i + 4) + (int)b5);
+  if ((b5->dat).borg2i) (b5->dat).borg2i = (Borg2header **)((int)((b5->dat).borg2i + 4) + (int)b5);
+  if ((b5->dat).borg1i)(b5->dat).borg1i = (Borg1header **)((int)(ppBVar3 + 4) + (int)b5);
   pvVar7 = (b5->dat).aniTextures;
   if (pvVar7 != NULL) {
     (b5->dat).aniTextures = (void *)((int)pvVar7 + (int)&b5->dat);
@@ -412,7 +401,7 @@ void borg5_func_a(Borg5header *b5){
     } while (iVar8 != 0);
   }
   (b5->dat).borg1lookup = (u16 *)((int)((b5->dat).borg1lookup + 8) + (int)b5);
-  (b5->dat).ParticleDat = (Borg5_particle **)((int)&pBVar5->unk10 + (int)(b5->dat).ParticleDat);
+  (b5->dat).ParticleDat = (Borg5_particle *)((int)(b5->dat).ParticleDat->unk10 + (int)(b5->dat).ParticleDat);
 }
 //These need re-decompiled once the header format is understood.
 u8 InitBorgScene(Borg5header *param_1,void* x){
@@ -473,11 +462,8 @@ u8 InitBorgScene(Borg5header *param_1,void* x){
     setBorgFlag();
     (param_1->dat).borg3P = (Borg3Header *)getBorgItem((param_1->dat).borg3i);
   }
-  ppvVar21 = (void **)(param_1->dat).borg4Indecies;
-  if (ppvVar21 == NULL) {
-    ppbVar13 = (param_1->dat).borg2Indecies;
-  }
-  else {
+  ppvVar21 = (void **)(param_1->dat).borg4i;
+  if (ppvVar21 == NULL){
     for (iVar19 = (param_1->dat).borg4Count; iVar19 != 0; iVar19 += -1) {
       size += 0x20;
       setBorgFlag();
@@ -485,9 +471,8 @@ u8 InitBorgScene(Borg5header *param_1,void* x){
       *ppvVar21 = pvVar5;
       ppvVar21 = ppvVar21 + 1;
     }
-    ppbVar13 = (param_1->dat).borg2Indecies;
   }
-  if (ppbVar13) {
+  if ((param_1->dat).borg2p) {
     iVar19 = (param_1->dat).borg2Count;
     while (iVar19 != 0) {
       clearBorgFlag();
@@ -518,7 +503,7 @@ u8 InitBorgScene(Borg5header *param_1,void* x){
     }
   }
   clearBorgFlag();
-  ppBVar22 = (param_1->dat).borg1Indecies;
+  ppBVar22 = (param_1->dat).borg1i;
   if (ppBVar22) {
     for (uVar24 = (param_1->dat).borg1Count; uVar24 != 0; uVar24 -= 1) {
       pBVar8 = (Borg1header *)getBorgItem((int)*ppBVar22);
@@ -556,15 +541,15 @@ u8 InitBorgScene(Borg5header *param_1,void* x){
   }
   pBVar6 = (param_1->dat).borg3;
   if (pBVar6 == NULL) {
-    puVar12 = (param_1->dat).borg4Indecies;
+    puVar12 = (param_1->dat).borg4i;
   }
   else {
     pBVar6->mtx_ = pMVar9;
     pMVar9 = pMVar9 + 2;
-    puVar12 = (param_1->dat).borg4Indecies;
+    puVar12 = (param_1->dat).borg4i;
   }
   if (puVar12 == NULL) {
-    ppbVar13 = (param_1->dat).borg2Indecies;
+    ppbVar13 = (param_1->dat).borg2i;
   }
   else {
     for (iVar19 = (param_1->dat).borg4Count; iVar19 != 0; iVar19 += -1) {
@@ -573,7 +558,7 @@ u8 InitBorgScene(Borg5header *param_1,void* x){
       *(Mtx **)(uVar24 + 0x18) = pMVar9;
       pMVar9 = (Mtx *)(pMVar9->m + 2);
     }
-    ppbVar13 = (param_1->dat).borg2Indecies;
+    ppbVar13 = (param_1->dat).borg2i;
   }
   if (ppbVar13 != NULL) {
     iVar19 = (param_1->dat).borg2Count;
@@ -632,7 +617,7 @@ void borg5_free(Borg5header *param_1){
   
   iVar2 = get_memUsed();
   if ((param_1->dat).borg3P) borg3_free((param_1->dat).borg3P);
-  puVar8 = (param_1->dat).borg4Indecies;
+  puVar8 = (param_1->dat).borg4i;
   if ((puVar8 != NULL) && (iVar6 = (param_1->dat).borg4Count, iVar6 != 0)) {
     uVar7 = *puVar8;
     while( true ) {
@@ -643,7 +628,7 @@ void borg5_free(Borg5header *param_1){
       uVar7 = *puVar8;
     }
   }
-  ppbVar9 = (param_1->dat).borg2Indecies;
+  ppbVar9 = (param_1->dat).borg2i;
   if (ppbVar9) {
     iVar6 = (param_1->dat).borg2Count;
     if (iVar6 != 0) {
@@ -657,7 +642,7 @@ void borg5_free(Borg5header *param_1){
       }
     }
   }
-  ppBVar10 = (param_1->dat).borg1Indecies;
+  ppBVar10 = (param_1->dat).borg1p;
   if (ppBVar10){
     uVar7 = (param_1->dat).borg1Count;
     if (uVar7 != 0) {
@@ -929,28 +914,19 @@ u8 borg7_func_b(Borg7header *param_1,Borg7data *param_2){
 }
 
 void borg7_free(Borg7header *param_1){
-  u8 uVar2;
-  int iVar1;
-  struct_45 *psVar3;
-  int iVar4;
-  
-  psVar3 = &param_1->unk38;
-  iVar4 = 2;
-  do {
-    iVar4 += -1;
-    if (psVar3->anis[0]) borg_6_free(psVar3->anis[0]);
-    psVar3 = (struct_45 *)(psVar3->anis + 1);
-  } while (-1 < iVar4);
-  iVar4 = get_memUsed();
-  if (param_1->index == -1) {
+  for(s32 i=2;i>-1;i++) {
+    if (param_1->unk38.anis[i]) borg_6_free(param_1->unk38.anis[i]);
+  }
+  s32 memOld = get_memUsed();
+  if (param_1->head.index == -1) {
     HFREE(param_1->unk18,2422);
     HFREE(param_1,2424);
   }
   else {
-    if (get_borg_index_count(param_1->index) == 1) HFREE(param_1->unk18,0x97e);
-    dec_borg_count(param_1->index);
+    if (get_borg_index_count(param_1->head.index) == 1) HFREE(param_1->unk18,0x97e);
+    dec_borg_count(param_1->head.index);
   }
-  borg_mem[7] -= (iVar4 - get_memUsed());
+  borg_mem[7] -= (memOld - get_memUsed());
   borg_count[7]--;
 }
 

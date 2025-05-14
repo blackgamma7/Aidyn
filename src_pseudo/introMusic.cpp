@@ -6,7 +6,7 @@ u8 NOOP_flag=false;
 void load_intro_music(void){
   u32 BVar1;
   byte abStack_18;
-  int aiStack_14;
+  s32 aiStack_14;
   
   gGlobals.splashscreenFlag = 1;
   BVar1 = BORG12_Intro_NoExp;
@@ -19,7 +19,6 @@ void load_intro_music(void){
 
 
 s32 appState_0(Gfx **param_1){
-  BaseWidget *pBVar1;
   u8 bVar2;
   
   while (WHANDLE->GetTail()) WHANDLE->Tick(1);

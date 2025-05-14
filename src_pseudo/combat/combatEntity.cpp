@@ -2733,7 +2733,7 @@ void CombatEntity::m8006f448(){
   ppVar1 = gGlobals.playerDataArray[this->index];
   if (ppVar1) {
     setVec3(&afStack80,this->coord.x,(ppVar1->collision).pos.y,this->coord.y);
-    Actor::MoveNearShadow(ppVar1,&afStack80,(float)this->moveRange);
+    Actor::SetCombatMove(ppVar1,&afStack80,(float)this->moveRange);
   }
 }
 
