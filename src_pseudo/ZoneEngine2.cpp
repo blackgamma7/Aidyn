@@ -375,7 +375,7 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
         if((v->header.type==VOXEL_Scene)&&(v->scene.BorgCount)){
           for(u16 j=0;j<v->scene.BorgCount;j++){
             if(v->scene.borgArray[j].b7){
-            if(!v->scene.sceneflags&2) FREEQSCENE(v->scene.borgArray[j].sceneDat);
+            if(!v->scene.sceneflags&SceneObj_B7) FREEQSCENE(v->scene.borgArray[j].sceneDat);
             else FREEQB7(v->scene.borgArray[j].b7);
             v->scene.borgArray[j].b7=NULL;
             }
@@ -1035,11 +1035,10 @@ void SceneBoulders(Borg9data *param_1){
   if (param_1->voxelObjCount) {
     for(u16 i=0;i < param_1->voxelObjCount;i++) {
       if (param_1->voxelObjs[i].header.type == 0) {
-        u32 uVar6 = param_1->voxelObjs[i].scene.BorgCount;
-        param_1->voxelObjs[i].scene.sceneflags &= ~2;
-        if (uVar6) {
-          for(u16 j=0;j < uVar6;j++) {               //borg index of boulder
-            param_1->voxelObjs[i].scene.borgArray[j].borgIndex = 0x80e;
+        param_1->voxelObjs[i].scene.sceneflags &= ~SceneObj_B7;
+        if (param_1->voxelObjs[i].scene.BorgCount) {
+          for(u16 j=0;j < param_1->voxelObjs[i].scene.BorgCount;j++) {
+            param_1->voxelObjs[i].scene.borgArray[j].borgIndex = BORG5_SceneBoulder;
           }
         }
       }
@@ -1051,7 +1050,7 @@ void SceneBoulders(Borg9data *param_1){
 void NoExpPak_ClearSceneVoxelIndex(Scene_obj_dat *scene,u16 index){
   if (!gExpPakFlag) {
     if (scene->borgArray[index].b7) {
-      if (!(scene->sceneflags & 2)) FREEQSCENE(scene->borgArray[index].b7);
+      if (!(scene->sceneflags & SceneObj_B7)) FREEQSCENE(scene->borgArray[index].sceneDat);
       else FREEQB7(scene->borgArray[index].b7);
     }
   }
@@ -1061,7 +1060,7 @@ void NoExpPak_ClearSceneVoxel(Scene_obj_dat *scene){
   if ((!gExpPakFlag) && (scene->BorgCount)) {
     for(u16 i=0;i<scene->BorgCount;i++){
       if (scene->borgArray[i].b7) {
-        if (!(scene->sceneflags & 2)) FREEQSCENE(scene->borgArray[i].sceneDat);
+        if (!(scene->sceneflags & SceneObj_B7)) FREEQSCENE(scene->borgArray[i].sceneDat);
         else FREEQB7(scene->borgArray[i].b7);
       }
     }
@@ -1145,7 +1144,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9data *borg9,vec3f *v3,short param_4,short 
           goto LAB_800102d8;
         }
         local_6c = 0xff;
-        if ((((SObj->scene).sceneflags & 4) == 0) ||
+        if ((((SObj->scene).sceneflags & SceneObj_0004) == 0) ||
            (fVar19 * 0.5 < prox)) {
           setVec2(Sobj_pos,(SObj->header).pos.x,(SObj->header).pos.z);
           local_b8[0].x = local_b8[0].x - posx;
@@ -1198,7 +1197,7 @@ LAB_800102b4:
               if (uVar15 < local_6c) {
                 uVar7 = uVar15;
               }
-              if ((uVar7 < 0xff) || (psVar14 = NULL, ((SObj->scene).sceneflags & 0x40))) {
+              if ((uVar7 < 0xff) || (psVar14 = NULL, ((SObj->scene).sceneflags & SceneObj_0040))) {
                 uVar7 = (uint)voxel_counter;
                 psVar14 = struct_a_ARRAY_800f5290 + uVar7;
                 voxel_counter += 1;
@@ -1208,16 +1207,16 @@ LAB_800102b4:
               ppBVar11 = &(SObj->scene).borgArray[uVar12].b7;
               if (*ppBVar11 != NULL) {
 LAB_80010068:
-                if (((SObj->scene).sceneflags & 2) == 0) {
+                if (((SObj->scene).sceneflags & SceneObj_B7) == 0) {
 LAB_80010084:
                   pAVar4 = (SObj->scene).borgArray[uVar12].sceneDat;
                 }
                 else pAVar4 = ((SObj->scene).borgArray[0].b7)->sceneDat;
                 col.W = 0;
-                if (((SObj->scene).sceneflags & 0x10)) col = (SObj->scene).tint;
+                if (((SObj->scene).sceneflags & SceneObj_Tint)) col = (SObj->scene).tint;
                 Scene::MatrixASetPos(pAVar4,(SObj->header).pos.x - posx,(SObj->header).pos.y,(SObj->header).pos.z - posz);
                     // Oriana's Pathlights
-                if ((SObj->scene).borgArray[1].borgIndex == 0x374a) {
+                if ((SObj->scene).borgArray[1].borgIndex == BORG5_OrianaLight) {
                   if (uVar12 == 0) {
                     if (local_64 == 0) {
                       (SObj->header).Bitfeild &= ~VOXEL_Active;
@@ -1228,7 +1227,7 @@ LAB_80010084:
                   }
                 }
                 local_64 = uVar12 & 0xffff;
-                if (((SObj->scene).sceneflags & 2) == 0) {
+                if (((SObj->scene).sceneflags & SceneObj_B7) == 0) {
                   uVar12 = local_6c;
                   if (uVar15 < local_6c) uVar12 = uVar15;
                   set_anidat_colors(pAVar4,uVar12,1,col);
@@ -1239,20 +1238,20 @@ LAB_80010084:
                   FUN_800a0304((SObj->scene).borgArray[0].b7,(int)gGlobals.delta);
                   uVar12 = local_6c;
                   if (uVar15 < local_6c) uVar12 = uVar15;
-                  set_sun_light(pAVar4,(uint)(SObj->scene).sceneflags,SObj,(char)uVar12);
+                  set_sun_light(pAVar4,(SObj->scene).sceneflags,SObj,uVar12);
                   passto_InitLight_2(&gGlobals.Sub.DynamicLights,pAVar4,SObj,(short)(int)gGlobals.delta);
-                  passto_initLight(pAVar4,borg9,(voxelObject *)SObj,(short)(int)gGlobals.delta);
+                  passto_initLight(pAVar4,borg9,SObj,(short)(int)gGlobals.delta);
                   if (psVar14 == NULL) {
                     local_res0 = BorgAnimDrawSceneLinked(local_res0,(SObj->scene).borgArray[0].b7);
                   }
                   else {
-                    psVar14->SceneDat = (SceneData *)(SObj->scene).borgArray[0].b7;
+                    psVar14->SceneDat = (SObj->scene).borgArray[0].sceneDat;
                     psVar14->flags|= 2;
                   }
                 }
                 goto LAB_800102b4;
               }
-              if (((SObj->scene).sceneflags & 2) == 0) {
+              if (((SObj->scene).sceneflags & SceneObj_B7) == 0) {
                 if (NoExpPak_memCheck(1)) {
                   pAVar4 = BorgAnimLoadScene(pSVar10->borgArray[uVar12].borgIndex);
                   *ppBVar11 = (Borg7header *)pAVar4;
@@ -1288,7 +1287,7 @@ LAB_8000ffcc:
                            (SObj->scene).rotation.x * 57.29578,
                            (SObj->scene).rotation.z * 57.29578);
                 Scene::MatrixANormalizeScale(pAVar4,(SObj->scene).scale.x,(SObj->scene).scale.y,(SObj->scene).scale.z);
-                if (((SObj->scene).sceneflags & 2)) {
+                if (((SObj->scene).sceneflags & SceneObj_B7)) {
                   Scene::SetLightData(pAVar4);
                   Scene::SceneSetMaxDynamicDirLights(pAVar4,2);
                   goto LAB_80010068;
@@ -1885,8 +1884,8 @@ void FreeZoneEngine(s16 playMusic){
 #ifdef DEBUGVER
 void ClearVoxelFlags(Borg9data *param_1){
   if (param_1->voxelObjCount) {
-    for(u16 uVar2=0;uVar2 < param_1->voxelObjCount;uVar2++) {
-      param_1->voxelObjs[uVar2].header.Bitfeild=0;
+    for(u16 i=0;i < param_1->voxelObjCount;i++) {
+      param_1->voxelObjs[i].header.Bitfeild=0;
     }
   }
 }

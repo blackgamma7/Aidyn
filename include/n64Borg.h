@@ -141,10 +141,21 @@ struct SceneVoxelModel {
     float renderProx;
     u32 borgIndex;
     union{ //common enough union to abstract?
-    Borg7header *b7;
-    SceneData* sceneDat;
+    Borg7header *b7; //used if SceneObj_B7 is set
+    SceneData* sceneDat; //used if SceneObj_B7 is unset
     };
 };
+
+enum SceneObjFlag{
+    SceneObj_0001=1,
+    SceneObj_B7=2, //uses Borg7 index instead of Borg5
+    SceneObj_0004=4,
+    SceneObj_0008=8,
+    SceneObj_Tint=0x10, //uses "tint" field
+    SceneObj_0020=0x20,
+    SceneObj_0040=0x40,
+};
+
 
 struct Scene_obj_dat {
     SceneVoxelModel borgArray[3];
@@ -152,7 +163,7 @@ struct Scene_obj_dat {
     vec3f scale;
     Color32 tint;
     u16 BorgCount;
-    u16 sceneflags;
+    u16 sceneflags; //uses SceneObjFlag
 };
 
 struct monsterpartyEntry {
@@ -188,25 +199,35 @@ struct Wandernode_dat {
     u16 NodeSiblings[2];
     u8 field6_0x1c[40];
 };
-
-/* Sceneflags id'd
-0001
-0002
-0004
-0008
-0010=use tinting.
-0020=tint with sunlight
-doesn't seem to use all 16 bits.*/
-
+enum LightTypes{
+    Light_Static,
+    Light_Alternate,
+    Light_Sine,
+    Light_Random
+};
 
 struct light_dat{
     Color32 cols[3]; //first seems to be used for blending.
-    u16 lightType; //4 valid types. {static(use only cols[1]),alternating blend,sinewave blend,random blend}
+    u16 lightType; //use LightTypes enum
     u16 pad;
     float f0; //blend factor, changes per type.
     float f1; //blend speed,bigger is slower
     float f2; //used in light type 3 for rng lerp.
     u8 align[40];
+};
+
+struct dynaLightEntry{
+    s16 index;
+    s16 active;
+    s16 lifespan;
+    s16 timer;
+};
+struct DynamicLightHead {
+    voxelObject lights[16];
+    dynaLightEntry shortsA[16];
+    short shortsB[16];
+    short dynamicLightCount;
+    s16 initFlag;
 };
 
 struct audio_obj_dat {

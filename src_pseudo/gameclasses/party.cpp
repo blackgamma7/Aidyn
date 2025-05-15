@@ -1355,8 +1355,8 @@ void healing_result_widget(char *arg0){
     if (gCombatP) {copy_string_to_combat_textbox(gCombatP,arg0,0);}
   }
   else {
-    col1 = {OFFWHITE};
-    col2 = {DARKGRAY_T};
+    col1 = {COLOR_OFFWHITE};
+    col2 = {COLOR_DARKGRAY_T};
     PTR_800ed504 = some_textbox_func(arg0,0x96,&col1,&col2,1);
     PTR_800ed504->AbuttonFunc = healing_widget_AB_func;
     PTR_800ed504->BButtonFunc = healing_widget_AB_func;
@@ -1686,7 +1686,7 @@ u8 ofunc_mechanic_skill(Party* this,u8 param_2){
 }
 
 
-float ranger_int_float(){ //used for calulating the reagent multiplier
+float Party::HarvestSkill(){ //used for calulating the reagent multiplier
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;
@@ -1707,7 +1707,25 @@ float ranger_int_float(){ //used for calulating the reagent multiplier
   return fVar5;
 }
 
-float Party::UnusedRangerCheck2(){return (float)Party::UnusedRangerCheck3() / 20.0f;}
+u8 Party::DisarmSkill(u8 level){
+  s32 sVar2;
+  u8 uVar1;
+  bool bVar3;
+  
+  sVar2 = DisarmCheck(SKILL_Mechanic,10);
+  bVar3 = false;
+  if (sVar2 != 0xff) {
+    uVar1 = DisarmDamage((u8)sVar2);
+    if (level == 0) bVar3 = true;
+    else {
+      bVar3 = level <= uVar1;
+      if (uVar1 == 0) bVar3 = false;
+    }
+  }
+  return bVar3;
+}
+
+float Party::UnusedRangerCheck2(){return (float)UnusedRangerCheck3() / 20.0f;}
 
 u8 theif_over_B(Party *A,u8 B){return B <= Party::SecretLock(A);}
 

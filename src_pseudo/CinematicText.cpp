@@ -23,7 +23,7 @@ void Init(char *name){
     gCinematicTextP->showCaptionTimer = 0;
     gCinematicTextP->runtime = 0xffff;
     u16 uStack144[4]={0,200,300,230};
-    Color32 acStack80={OFFWHITE2};
+    Color32 acStack80={COLOR_OFFWHITE2};
     gCinematicTextP->widget = new WidgetCinematicText(&uStack144,0x19,5,&acStack80,1);
     AllocPointer8();
   }

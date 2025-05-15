@@ -141,9 +141,9 @@ Gfx * BaseWidget::RenderChildren(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 }
 
 void BaseWidget::FreeChildren(){
-  do {
+  while(1) {
     BaseWidget *w = this->link3;
-    while( true ) {
+    while(1) {
       if (w == NULL) {
         this->link4 = NULL;
         this->link3 = NULL;
@@ -154,7 +154,7 @@ void BaseWidget::FreeChildren(){
       w->~BaseWidget();
       w = this->link3;
     }
-  } while( true );
+  }
 }
 
 u8 BaseWidget::TickChildren(){

@@ -955,25 +955,6 @@ struct Widget_Skills {
 };
 
 
-typedef struct widgetGroup widgetGroup, *PwidgetGroup;
-
-typedef struct WidgetGroupItem WidgetGroupItem, *PWidgetGroupItem;
-
-struct WidgetGroupItem {
-    BaseWidget *w;
-    u16 x;
-    u16 y;
-    u32 unk8;
-};
-
-struct widgetGroup {
-    BaseWidget base;
-    WidgetGroupItem *group;
-    u16 groupMax;
-    u16 groupCount;
-    u32 field4_0x84;
-};
-
 typedef enum AniFlags {
     ANIDAT_USEMTX=4,
     ANIDAT_FLAG8=8,
@@ -1136,15 +1117,7 @@ struct wander_substruct {
     undefined field25_0x53;
 };
 
-typedef struct DynamicLightHead DynamicLightHead, *PDynamicLightHead;
 
-struct DynamicLightHead {
-    light_obj lights[16];
-    short shortsA[16][4];
-    short shortsB[16];
-    short dynamicLightCount;
-    s16 initFlag;
-};
 
 typedef struct encounter_rom_dat encounter_rom_dat, *Pencounter_rom_dat;
 
@@ -1501,12 +1474,6 @@ struct WidgetCameraDebug {
     undefined field76_0xd7;
 };
 
-typedef struct WidgetCombatActions WidgetCombatActions, *PWidgetCombatActions;
-
-struct WidgetCombatActions {
-    WidgetChild8 base;
-    WidgetChild0 *unkb0;
-};
 
 typedef struct widgetCredits widgetCredits, *PwidgetCredits;
 

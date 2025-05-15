@@ -941,10 +941,10 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
 }
 
 
-void set_sun_light(SceneData *param_1,u32 flag,voxelObject *param_3,u8 alpha){
+void set_sun_light(SceneData *param_1,u16 flag,voxelObject *param_3,u8 alpha){
   light_count = 0;
   set_anidat_colors(param_1,alpha,0,(Color32)0x0);
-  if ((flag & 0x20)){
+  if ((flag & SceneObj_0020)){
     Scene::SetModelTint(param_1,
          gGlobals.sky.colors[0].R * gGlobals.brightness,
          gGlobals.sky.colors[0].G * gGlobals.brightness,
@@ -1193,28 +1193,20 @@ void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
      (NoExpPak_memCheck(0))) {
     if (param_2 == BORG7_Alaron) param_1->alaron_flag = true;
     else param_1->alaron_flag = false;
-    if (param_1->borg7 == -1) pAVar1 = param_1->SceneDat;
-    else {
-      if (param_1->locator_pointer != NULL) {
-        AllocFreeQueueItem(&gGlobals.QueueA,&param_1->locator_pointer,0,0);
-      }
-      pAVar1 = param_1->SceneDat;
-    }
-    if ((pAVar1 == NULL) && (param_1->alaron_flag != false)) {
-      pAVar1 = BorgAnimLoadScene(some_borg5);
-      param_1->SceneDat = pAVar1;
-      Scene::SetFlag40(pAVar1);
+    if ((param_1->borg7 != -1)&&(param_1->locator_pointer))
+      FREEQB7(param_1->locator_pointer);
+    if ((param_1->SceneDat == NULL) && (param_1->alaron_flag != false)) {
+      param_1->SceneDat = BorgAnimLoadScene(some_borg5);
+      Scene::SetFlag40(param_1->SceneDat);
       Scene::SetFlag4(param_1->SceneDat);
       Scene::SetFogFlag(param_1->SceneDat);
       Scene::SetModelTint(param_1->SceneDat,0xff,0xff,0xff,0xff);
       Scene::SetLightData(param_1->SceneDat);
       Scene::SceneSetMaxDynamicDirLights(param_1->SceneDat,4);
     }
-    pBVar2 = func_loading_borg7(param_2,&gGlobals.Sub.particleEmmiter);
-    pAVar1 = pBVar2->sceneDat;
-    param_1->locator_pointer = pBVar2;
+    param_1->locator_pointer = func_loading_borg7(param_2,&gGlobals.Sub.particleEmmiter);
     param_1->borg7 = param_2;
-    Scene::SetParticleHead(pAVar1,(ParticleEmmiter *)&gGlobals.Sub.particleEmmiter);
+    Scene::SetParticleHead(param_1->locator_pointer->sceneDat,&gGlobals.Sub.particleEmmiter);
     Scene::SetFlag40(param_1->locator_pointer->sceneDat);
     Scene::SetFlag4(param_1->locator_pointer->sceneDat);
     Scene::SetFogFlag(param_1->locator_pointer->sceneDat);
@@ -1222,26 +1214,20 @@ void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
     Scene::SetLightData(param_1->locator_pointer->sceneDat);
     Scene::SceneSetMaxDynamicDirLights(param_1->locator_pointer->sceneDat,4);
   }
-  return;
 }
 
 
-void Actor::FreePlayerActor(playerData *param_1)
-
-{
+void Actor::FreePlayerActor(playerData *param_1){
   if (param_1->borg7 == -1)
     CRASH("FreePlayerActor","No Actor To Free!");
   CombatAttackVisuals::FreePlayer(param_1);
-  if (param_1->locator_pointer != NULL) {
+  if (param_1->locator_pointer) {
     Particle::UnsetSceneEmmiter(&gGlobals.Sub.particleEmmiter,param_1->locator_pointer->sceneDat);
-    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->locator_pointer,0,0);
+    FREEQB7(param_1->locator_pointer);
   }
-  if (param_1->SceneDat != NULL) {
-    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->SceneDat,1,0);
-  }
+  if (param_1->SceneDat) FREEQSCENE(param_1->SceneDat);
   param_1->borg7 = -1;
   EmptyHands(param_1);
-  return;
 }
 
 void Actor::SetFlag(playerData *p,u16 f){p->flags |= f;}

@@ -117,11 +117,14 @@
 
 
 //Borg5: Model data?
+
+#define BORG5_SceneBoulder      0x080e
 #define BORG5_ErromonMapChunk   0xef9
 #define BORG5_CoronationScene1  0x1fe2
 #define BORG5_CoronationScene2  0x2080
 #define BORG5_CoronationScene3  0x21bf
 #define BORG5_N64Logo           0x25a8
+#define BORG5_OrianaLight       0x374a
 
 
 //Borg7: actor data

@@ -734,8 +734,8 @@ void senseAura(CombatEntity *target,u8 level){
     sprintf(acStack232,"Total Armor Protection %d",get_protection_level(target,false));
     uVar3 = AppendText(acStack1064,acStack232,uVar3);
   }
-  col1 = OFFWHITE;
-  col2 = DARKGRAY_T;
+  col1 = COLOR_OFFWHITE;
+  col2 = COLOR_DARKGRAY_T;
   gCombatP->Widget0x4fb8 = some_textbox_func(acStack1064,(s16)(uVar3 << 3) - (s16)uVar3,&col1,&col2,1);
 }
 

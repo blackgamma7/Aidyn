@@ -29,7 +29,7 @@ WidgetShadowText::WidgetShadowText(char *TXT,u16 len):BaseWidget(){
   this->width = 0;
   this->height = 0;
   SetCoords(80,30);
-  SetColor(OFFWHITE);
+  SetColor(COLOR_OFFWHITE);
 }
 
 WidgetShadowText::~WidgetShadowText(){

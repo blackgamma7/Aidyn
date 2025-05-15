@@ -84,7 +84,8 @@ class Party { /* holds party and inventory data */
     u8 HasItemEquipped(s32,ItemID);
     u8 hasItem(ItemID);
     u8 GetEquipError3(byte,GearInstance *,CharSheet *,byte);
-
+    float HarvestSkill();
+    u8 DisarmSkill(u8);
 
 };
 void ItemCampStamina(ItemInstance *,float );

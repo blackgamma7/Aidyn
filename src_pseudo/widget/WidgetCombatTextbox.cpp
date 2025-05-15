@@ -41,7 +41,7 @@ void CombatTextboxWidget_Lock(ItemID param_1){
 }
 
 WidgetCombatTextbox::WidgetCombatTextbox():
-  WidgetCinematicText({0,180,246,240},76,10,{OFFWHITE2},0){
+  WidgetCinematicText({0,180,246,240},76,10,{COLOR_OFFWHITE2},0){
 
   this->locked = false;
   this->portraitBG = Utilities::AddBorg8Widget(this,loadBorg8(BORG8_PortraitHighlight),0x14,0xae);

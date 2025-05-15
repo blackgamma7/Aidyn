@@ -18,7 +18,7 @@ WidgetText::WidgetText(char *str,u16 len):BaseWidget(){
   width = 0;
   height = 0;
   SetCoords(80,30);
-  SetColor(OFFWHITE);
+  SetColor(COLOR_OFFWHITE);
 }
 
 WidgetText::~WidgetText(){

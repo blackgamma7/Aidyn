@@ -59,9 +59,9 @@ void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9data *param_3
   
   voxelObject* prVar1 = GetVoxelFromObjectLink(param_3,param_1,VOXEL_Scene);
   if ((prVar1->scene).borgArray[0].b7) {
-    //unique case, seems to use bool for Borg7(false) and ainDat(true) enums
-    AllocFreeQueueItem(&gGlobals.QueueA,&(prVar1->scene).borgArray[0].b7,
-                       (u16)(((prVar1->scene).sceneflags & 2) == 0),0);
+    //unique case, seems to use bool for Borg7(false) and sceneDat(true) enums
+    AllocFreeQueueItem(&gGlobals.QueueA,(void**)&(prVar1->scene).borgArray[0].b7,
+                       (u16)(((prVar1->scene).sceneflags & SceneObj_B7) == 0),0);
     (prVar1->scene).borgArray[0].b7 = NULL;
   }
   (prVar1->scene).borgArray[0].borgIndex = (prVar1->scene).borgArray[param_2].borgIndex;
@@ -81,7 +81,7 @@ void open_explosive_chest(voxelObject* param_1,Borg9data *param_2){
   u32 chestExplodeSFX[]={0x724,0x725,0x727,0x728};
   alloc_explosion_light(param_1->header.pos,1.0,600,false);
   for(s16 i=0;i<3;i++) {
-    alloc_explosion_light(param_1->header.pos,0.35,0x3c,true);
+    alloc_explosion_light(param_1->header.pos,0.35,60,true);
   }
   vec4f particleCol={0.35,0.3,0.25,1.0};
   chest_explode_particles(param_1,(param_1->header).pos.y,&particleCol,420,2,75,0.04f,0.06f,-0.00085714285,true);
@@ -649,8 +649,8 @@ BaseWidget* secretdoor_widget_AB(s32 param_1,secretdoor_widget_AB *param_2){
 }
 
 BaseWidget * textbox_func(char *param_1){
-  Color32 col1={OFFWHITE};
-  Color32 col2={DARKGRAY};
+  Color32 col1={COLOR_OFFWHITE};
+  Color32 col2={COLOR_DARKGRAY};
   gGlobals.playerCharStruct.text_window = some_textbox_func(param_1,0x96,&col1,&col2,1);
   (gGlobals.playerCharStruct.text_window)->AButtonFunc = textbox_func_AB;
   (gGlobals.playerCharStruct.text_window)->BButtonFunc = textbox_func_AB;
