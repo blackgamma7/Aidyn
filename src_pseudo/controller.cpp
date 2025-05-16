@@ -38,7 +38,7 @@ void Controller::Init(OSSched *sc,u8 ports,u8 pri,u8 id){
   gContManager.ossched = sc;
   gContManager.ports = ports;
   ALLOCS(gContManager.thread_stack,ContThreadStack,200);
-  osCreateThread(&gContManager.Thread,(s32)id,proc,NULL,gContManager.thread_stack + ContThreadStack,pri);
+  osCreateThread(&gContManager.Thread,(s32)id,proc,NULL,(void*)((u32)gContManager.thread_stack + ContThreadStack),pri);
   osStartThread(&gContManager.Thread);}
 
 //controller proc
@@ -231,11 +231,11 @@ void Controller::ReadInput(void){
 u8 Controller::GetQuerey(u8 port){
   OSContStatus stats [4];
   
-  osSendMesg(&gContManager.contMesgQ,NULL,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   osContStartQuery(&gContManager.SIMesgQ);
-  osRecvMesg(&gContManager.SIMesgQ,NULL,1);
+  osRecvMesg(&gContManager.SIMesgQ,NULL,OS_MESG_BLOCK);
   osContGetQuery(stats);
-  osRecvMesg(&gContManager.contMesgQ,NULL,1);
+  osRecvMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   return (stats[port].errno & CONT_NO_RESPONSE_ERROR) == 0;
 }
 
@@ -245,9 +245,9 @@ u8 Controller::CheckStatus(u8 port){
   u8 CErr;
   u16 CType;
   
-  osSendMesg(&gContManager.contMesgQ,NULL,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   osContStartQuery(&gContManager.SIMesgQ);
-  osRecvMesg(&gContManager.SIMesgQ,NULL,1);
+  osRecvMesg(&gContManager.SIMesgQ,NULL,OS_MESG_BLOCK);
   osContGetQuery(stats);
   CErr = stats[port].errno;
   CType = stats[port].type;
@@ -327,11 +327,11 @@ u8 Controller::GetPakFreeBlocks16(u16 *b,u8 port){
   s32 PVar1;
   s32 bytesFree;
   
-  osSendMesg(&gContManager.contMesgQ,NULL,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   PVar1 = osPfsFreeBlocks(&gContManager.BufferPointer[port].pfs,&bytesFree);
   if (PVar1 == 0) *b = (u16)bytesFree;
   else *b = 0;
-  osRecvMesg(&gContManager.contMesgQ,NULL,1);
+  osRecvMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   return (u8)PVar1;
 }
 
@@ -340,11 +340,11 @@ u8 Controller::GetPakFreeBlocks8(u8 *b,u8 port){
   s32 PVar1;
   s32 blocks;
   
-  osSendMesg(&gContManager.contMesgQ,NULL,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   PVar1 = osPfsFreeBlocks(&gContManager.BufferPointer[port].pfs,&blocks);
   if (PVar1 == 0) *b = blocks;
   else *b = 0;
-  osRecvMesg(&gContManager.contMesgQ,NULL,1);
+  osRecvMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   return (u8)PVar1;
 }
 
@@ -354,7 +354,7 @@ u8 Controller::NewPakSave(u8 *fileno,char *filename,char *filecode,u16 compCode,
   u8 code [4];
   s32 filenum;
   
-  osSendMesg(&gContManager.contMesgQ,NULL,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   Controller::EncodeString(name,filename,16);
   Controller::EncodeString(code,filecode,4);
   PVar2 = osPfsAllocateFile(&gContManager.BufferPointer[port].pfs,compCode,GameCode,name,code,(u32)EXTName,&filenum);
@@ -370,7 +370,7 @@ u8 Controller::GetPakSave(u8 *fileno,char* filename,char* filecode,u16 compCode,
   u8 code [4];
   s32 file_no;
   
-  osSendMesg(&gContManager.contMesgQ,NULL,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   Controller::EncodeString(name,filename,0x10);
   Controller::EncodeString(code,filecode,4);
   PVar2 = osPfsFindFile(&gContManager.BufferPointer[port].pfs,compCode,GameCode,name,code,&file_no);
@@ -385,7 +385,7 @@ u8 Controller::GetPakSaveState(fileState_aidyn *FS,u8 file_no,u8 port){
   s32 PVar1;
   OSPfsState state;
   
-  osSendMesg(&gContManager.contMesgQ,NULL,1);
+  osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   PVar1 = osPfsFileState(&gContManager.BufferPointer[port].pfs,file_no,&state);
   if (PVar1 == 0) {
     Controller::DecodeString(FS->game_name,(u8*)state.game_name,0x10);

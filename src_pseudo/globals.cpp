@@ -19,6 +19,7 @@ s32 Ofunc_get_MemUsed_difference_2(void){
   return memUsedMirror - iVar1;}
 #endif
 
+//gGlobals.rngSeed.func() with a compare. should return an int between and including A and B.
 u32 rand_range(u32 A,u32 B){
   if (A != B) A = RAND.func(A,B);
   return A;
@@ -242,7 +243,6 @@ uint add_to_enemy_encounters(EncounterDat *param_1,monsterparty_dat *param_2){
   u8 *puVar1;
   u8 *puVar2;
   uint uVar3;
-  monsterparty_dat *pmVar4;
   uint uVar5;
   uint uVar6;
   uint uStack_30;
@@ -251,35 +251,31 @@ uint add_to_enemy_encounters(EncounterDat *param_1,monsterparty_dat *param_2){
   uStack_30 = 0;
   printLine(676);
   printLine(678);
-  pmVar4 = param_2;
-  do {
+  for(;uStack_30<6;uStack_30++) {
     printLine(681);
     printLine(682);
-    if (pmVar4->enemyEntries[0].enemyID) {
+    if (param_2->enemyEntries[uStack_30].enemyID) {
       printLine(685);
       uVar3 = 0;
       uVar5 = uVar6;
-      if (pmVar4->enemyEntries[0].min != 0) {
+      if (param_2->enemyEntries[uStack_30].min != 0) {
         do {
           printLine(688);
           uVar6 = uVar5 + 1 & 0xffff;
-          param_1->enemy_entities[uVar5] = pmVar4->enemyEntries[0].enemyID;
+          param_1->enemy_entities[uVar5] = param_2->enemyEntries[uStack_30].enemyID;
           printLine(691);
           if (param_2->totalsize <= uVar6) return uVar6;
           printLine(694);
           uVar3++;
           if (0xb < uVar6) return uVar6;
           uVar5 = uVar6;
-        } while (uVar3 < pmVar4->enemyEntries[0].min);
+        } while (uVar3 < param_2->enemyEntries[uStack_30].min);
       }
     }
-    pmVar4 = (monsterparty_dat *)(pmVar4->enemyEntries + 1);
-    uStack_30++;
-    if (7 < uStack_30) {
-      printLine(699);
-      return uVar6;
-    }
-  } while( true );
+
+  }
+  printLine(699);
+  return uVar6;
 }
 
 
@@ -504,8 +500,8 @@ void Ofunc_8000c850(float param_1)
 //now, to more sensible programming.
 void minimap_struct_init_or_free(u8 param_1,s16 param_2){
   if (param_2 == -1) {
-    if (param_1 == false) MiniMap::Init(&MinimapStruct);
-    else MiniMap::Free2(&MinimapStruct);
+    if (param_1 == false) MiniMap::Init(&gGlobals.minimap);
+    else MiniMap::Free2(&gGlobals.minimap);
   }
 }
 //found at the bottom of .data in an unused table.

@@ -21,9 +21,9 @@ WidgetCinematicText::WidgetCinematicText(u16 (*dims) [4],short param_3,short par
   uVar1 = (*dims)[1];
   uVar2 = (*dims)[3];
   this->resize = param_6;
-  this->unk80 = WidgetBorg8At(this,BORG8_Pixel,0,(*dims)[1],0x140,(*dims)[3]);
+  this->unk80 = WidgetBorg8At(this,BORG8_Pixel,0,(*dims)[1],SCREEN_WIDTH,(*dims)[3]);
   this->unk80->SetColor(0,0,0,0xff);
-  this->gradient = Utilities::AddBorg8Widget2(this,loadBorg8(BORG8_GradientC),0,(*dims)[1] - 0xb,0x140,(*dims)[1] - 1);
+  this->gradient = Utilities::AddBorg8Widget2(this,loadBorg8(BORG8_GradientC),0,(*dims)[1] - 0xb,SCREEN_WIDTH,(*dims)[1] - 1);
   this->gradient->SetColor(0,0,0,0xff);
   uVar1 = (*dims)[0];
   uVar2 = (*dims)[1];

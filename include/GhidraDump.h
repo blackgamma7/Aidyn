@@ -99,14 +99,7 @@ typedef enum EnumMapDatA {
 } EnumMapDatA;
 
 
-struct DCMSub2 {
-    Borg12Header *borg12;
-    u32 index;
-    u8 id;
-    undefined field3_0x9;
-    undefined field4_0xa;
-    undefined field5_0xb;
-};
+
 
 struct astruct_6 {
     playerData *playerdat_;
@@ -115,12 +108,7 @@ struct astruct_6 {
     undefined field3_0x7;
 };
 
-struct MoveQueueEntry {
-    vec2f pos2d;
-    float rad;
-    short active;
-    s16 flag;
-};
+
 
 struct struct_1 {
     astruct_1 *field0_0x0;
@@ -437,15 +425,6 @@ struct WidgetMenuChild {
 
 typedef struct romcopy_struct romcopy_struct, *Promcopy_struct;
 
-typedef struct UnkAudioStruct UnkAudioStruct, *PUnkAudioStruct;
-
-struct UnkAudioStruct {
-    u16 field0_0x0;
-    u8 field1_0x2;
-    u8 randVal;
-    u8 field3_0x4[4];
-};
-
 struct WidgetOptionsSubstruct {
     BaseWidget *ScrollMenu;
     BaseWidget *theatreMenu;
@@ -573,23 +552,7 @@ typedef struct EncounterDat EncounterDat, *PEncounterDat;
 
 typedef struct Inventory_item Inventory_item, *PInventory_item;
 
-struct EncounterDat { /* enemy encounter data */
-    ItemID enemy_entities[12]; /* entitty id's of enemies */
-    ItemID globalLoot; /* chestdb of guarunteed loot */
-    u16 EncounterID;
-    u8 field3_0x1c;
-    undefined field4_0x1d;
-    u16 VoxelIndex;
-    u16 mapDatA;
-    u16 MapSAhortA;
-    u16 MapShortB;
-    u8 collisionByte;
-    u8 battlefield;
-    u8 unk28;
-    u8 BossShadow; /* fighting a Boss or the Shadow */
-    u16 VoxelFlagA;
-    u16 VoxelBitfield;
-};
+
 
 
 typedef struct CombatTargetVisuals_struct CombatTargetVisuals_struct, *PCombatTargetVisuals_struct;
@@ -928,18 +891,7 @@ struct ControllerPakSliders {
     BaseWidget *arrows;
 };
 
-typedef struct IntroMenu IntroMenu, *PIntroMenu;
 
-struct IntroMenu {
-    BaseWidget base;
-    u8 alphaDelta;
-    u8 blinkTimer;
-    u8 alpha0;
-    u8 alpha1;
-    BaseWidget *field5_0x80;
-    BaseWidget *field6_0x84;
-    u8 pressStartVisible;
-};
 
 typedef struct Widget_Skills Widget_Skills, *PWidget_Skills;
 
@@ -1046,8 +998,6 @@ struct DialoigEntPointer {
 
 typedef struct dialougemode_struct dialougemode_struct, *Pdialougemode_struct;
 
-typedef struct wander_substruct wander_substruct, *Pwander_substruct;
-
 struct dialougemode_struct {
     ulong (*funcs0[5])(void);
     ulong (*funcs1[5])(void);
@@ -1088,34 +1038,7 @@ struct dialougemode_struct {
     dialougmode_substruct some_substruct;
 };
 
-struct wander_substruct {
-    playerData *playerDat;
-    vec2f start_position;
-    float wanderRadius;
-    float randVal;
-    float nodeswapChance;
-    u16 timer;
-    u16 homenode;
-    u16 noderelA;
-    u16 noderelB;
-    s16 isActive;
-    short index;
-    float senseValA;
-    float senseValB;
-    float unk2c;
-    float unk30;
-    float unk34;
-    u16 flags;
-    s16 bool3a;
-    u16 NoBorg13;
-    u16 field19_0x3e;
-    vec2f position;
-    float size;
-    int MapTally;
-    u16 VoxelIndex;
-    undefined field24_0x52;
-    undefined field25_0x53;
-};
+
 
 
 
@@ -1160,36 +1083,7 @@ struct flag_cinematic {
     u8 pad;
 };
 
-typedef struct Flycam_entry Flycam_entry, *PFlycam_entry;
 
-struct Flycam_entry { /* data entry for titlescreen flycam */
-    u32  borg6;
-    undefined field1_0x4;
-    undefined field2_0x5;
-    u16 a;
-    undefined field4_0x8;
-    undefined field5_0x9;
-    u16 b;
-    undefined field7_0xc;
-    undefined field8_0xd;
-    u16 Deimos;
-    undefined field10_0x10;
-    undefined field11_0x11;
-    u16 Phobos;
-};
-
-typedef struct flycamStruct flycamStruct, *PflycamStruct;
-
-struct flycamStruct {
-    vec3f posTarget;
-    vec3f aimTarget;
-    vec3f pos;
-    vec3f aim;
-    short shortA;
-    short shortB;
-    short shortC;
-    short ShortD;
-};
 
 typedef struct FontFace FontFace, *PFontFace;
 
@@ -1218,9 +1112,6 @@ struct Gear_Pointer {
     Gear_RAM *Gear;
 };
 
-typedef struct wander_struct wander_struct, *Pwander_struct;
-
-typedef struct player_char_struct player_char_struct, *Pplayer_char_struct;
 
 typedef struct MiniMap MiniMap, *PMiniMap;
 
@@ -1238,35 +1129,9 @@ typedef struct QueueStructBItem QueueStructBItem, *PQueueStructBItem;
 
 
 
-struct wander_struct {
-    wander_substruct *wanderSubstructs;
-    short wandererIndicies[39];
-    u16 wanderers;
-    short wanderersmax;
-    u16 initalized;
-};
 
-struct player_char_struct {
-    playerData *playerDat;
-    u32 player_form;
-    float collisionRadius;
-    u16 show_portaits;
-    u16 some_sound_var;
-    u16 unk10;
-    undefined field6_0x12;
-    undefined field7_0x13;
-    BaseWidget *smallerDebugWindow;
-    BaseWidget *debugMenuTP;
-    BaseWidget *debugMenuActor;
-    u32 debugMenuUnused0;
-    BaseWidget *debugMenuEnemy;
-    BaseWidget *debugMenuArena;
-    u32 debugMenuUnused1;
-    BaseWidget *text_window;
-    u8 unkState;
-    undefined field17_0x35;
-    ItemID current_shopkeep;
-};
+
+
 
 struct ScriptCamera_struct {
     ScriptCam *cameras; /* 0x7c size */

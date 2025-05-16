@@ -225,7 +225,7 @@ LAB_80023168:
       (pPVar2->ColorB).y = (float)((double)(pPVar2->ColorB).y + -0.075);
       pPVar6 = W->rainParticles;
       fVar16 = 6.0f - W->timer * 4.0f;
-      pPVar6->unk1a = 0xf0;
+      pPVar6->unk1a = SCREEN_HEIGHT;
       sVar9 = (short)(int)fVar16;
       pPVar6->unk8 = sVar9;
       if (pPVar6->link) {

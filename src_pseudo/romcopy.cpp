@@ -26,8 +26,8 @@ void proc(void* p){
     Entry = &romcopyManage.dmaStructs[(u8)uStack36];
     osInvalDCache(Entry->VAddr,Entry->bytes);
     osPiStartDma(&IOMsg,OS_MESG_PRI_NORMAL,OS_READ,Entry->devAddr,Entry->VAddr,Entry->bytes,&TempQ);
-    osRecvMesg(&TempQ,NULL,1);
-    osSendMesg(&Entry->msgQ,NULL,1);
+    osRecvMesg(&TempQ,NULL,OS_MESG_BLOCK);
+    osSendMesg(&Entry->msgQ,NULL,OS_MESG_BLOCK);
   }
 }
 
@@ -35,7 +35,7 @@ void InitQueue(void){
   romcopy_struct *entry;
   u8 i;
   
-  romcopyManage.mesgPointer = (OSMesg *)HALLOC(0x20,0xb0);
+  romcopyManage.mesgPointer = (OSMesg *)HALLOC(8*sizeof(OSMesg),0xb0);
   osCreateMesgQueue(&romcopyManage.mesgQ0x1c0,romcopyManage.mesgPointer,8);
   osCreateMesgQueue(&romcopyManage.mesgQ0x1dc,&romcopyManage.mesg0x1d8,1);
   ALLOCS(romcopyManage.dmaStructs,8*sizeof(romcopy_struct),0xb6);
@@ -75,8 +75,8 @@ u8 RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line){
         }
         osRecvMesg(&romcopyManage.mesgQ0x1dc,NULL,1);
         if (type == 1) {
-          osRecvMesg(&prVar4->msgQ,NULL,1);
-          osSendMesg(&romcopyManage.mesgQ0x1dc,NULL,1);
+          osRecvMesg(&prVar4->msgQ,NULL,OS_MESG_BLOCK);
+          osSendMesg(&romcopyManage.mesgQ0x1dc,NULL,OS_MESG_BLOCK);
           romcopyManage.flag--;
           romcopyManage.dmaIndicies[romcopyManage.flag] = bVar1;
           osRecvMesg(&romcopyManage.mesgQ0x1dc,NULL,1);
@@ -113,11 +113,11 @@ u8 Cancel(u8 arg0,u8 arg1){
   }
   else {
     if (osRecvMesg(&romcopyManage.dmaStructs[arg0].msgQ,NULL,0)) return false;
-    osSendMesg(&romcopyManage.mesgQ0x1dc,NULL,1);
+    osSendMesg(&romcopyManage.mesgQ0x1dc,NULL,OS_MESG_BLOCK);
   }
   romcopyManage.flag--;
   romcopyManage.dmaIndicies[romcopyManage.flag] = arg0;
-  osRecvMesg(&romcopyManage.mesgQ0x1dc,NULL,1);
+  osRecvMesg(&romcopyManage.mesgQ0x1dc,NULL,OS_MESG_BLOCK);
   return true;
 }
 }

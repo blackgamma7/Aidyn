@@ -41,15 +41,13 @@ void Ofunc_800124b4(playerData **param_1,vec3f *param_2){
   param_2->x+= temp.x;
   param_2->z+= temp.y;
 }
-//A lot of examples of Ghidra "doing its best" following
+
 void WanderHead(wander_struct *wander,short size){
-  wander_substruct *x;
-  
+
   wander->initalized = 1;
   wander->wanderersmax = size;
-  ALLOCS(x,size*sizeof(wander_substruct),170);
-  wander->wanderSubstructs = x;
-  memset(x,0,wander->wanderersmax*sizeof(wander_substruct));
+  ALLOCS(wander->wanderSubstructs,size*sizeof(wander_substruct),170);
+  memset(wander->wanderSubstructs,0,wander->wanderersmax*sizeof(wander_substruct));
 
   if (0 < wander->wanderersmax) {
     for(s16 i=0;i<wander->wanderersmax;i++) {
@@ -62,7 +60,7 @@ void WanderHead(wander_struct *wander,short size){
 
 void wander_free(wander_struct *param_1){
   param_1->initalized = 0;
-  wander_struct_free_sub(param_1);
+  FreeAllWanderers(param_1);
   HFREE(param_1->wanderSubstructs,212);
 }
 
@@ -73,8 +71,8 @@ void look_for_monsterparties(wander_struct *param_1,Borg9data *param_2,s32 param
     for (s16 i=0;i < param_2->voxelObjCount;i++) {
       if ((param_2->voxelObjs[i].header.type == VOXEL_MonsterParty) &&
          ((param_2->voxelObjs[i].header.Bitfeild & 0x8000))) {
-        if (!some_monsterparty_checker((i,gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,param_4,VOXEL_MonsterParty)) {
-          AllocWanderer(param_1,iVar2,param_3,param_4);
+        if (!some_monsterparty_checker(i,gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,param_4,VOXEL_MonsterParty)) {
+          AllocWanderer(param_1,i,param_3,param_4);
         }
       }
     }
@@ -145,7 +143,7 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
 
 void  FreeWanderer(wander_struct *param_1,wander_substruct *param_2){
   if (param_2->playerDat) {
-    FreePlayer(param_2->playerDat);
+    Actor::FreePlayer(param_2->playerDat);
     param_2->playerDat = NULL;
   }
   param_2->isActive = 0;
@@ -309,7 +307,7 @@ void monster_engagement_func(wander_struct *param_1,short delta){
         setVec2(&fStack488,(playerDat_->collision).pos.x,(playerDat_->collision).pos.z);
         fVar14 = vec2_proximity(A,&fStack488);
         if (fVar12 <= entRamB + entRamB) {
-          if (wanderer->bool3a == 0) {
+          if (!wanderer->bool3a) {
             fVar15 = entRamB *(1.0 -gGlobals.Sub.weather.fogTime * 0.75);
             dVar10 = (double)fVar15;
             dVar18 = dVar10 * 1.5;
@@ -329,7 +327,7 @@ void monster_engagement_func(wander_struct *param_1,short delta){
           }
 LAB_80013188:
           if (entRamB + entRamB <= fVar12) {
-            if (wanderer->bool3a != 0) {
+            if (wanderer->bool3a) {
               entRamB = wanderer->size;
               goto LAB_800131a8;
             }
@@ -338,17 +336,15 @@ LAB_80013188:
         else {
 LAB_80013180:
           if (wanderer->field19_0x3e == 0) goto LAB_80013188;
-          entRamB = wanderer->size;
 LAB_800131a8:
-          if (entRamB <= fVar13) {
-            if (fVar14 < entRamB) {
+          if (wanderer->size <= fVar13) {
+            if (fVar14 < wanderer->size) {
               goto LAB_800131e8;
             }
             Actor::ResetMoveQueue(wanderer->playerDat);
             wanderer->timer = 300;
             wanderer->homenode|= 4;
 LAB_800131f8:
-            entRamB = wanderer->unk34;
           }
           else {
 LAB_800131e8:
@@ -356,10 +352,9 @@ LAB_800131e8:
               FUN_80012d44(wanderer);
               goto LAB_800131f8;
             }
-            entRamB = wanderer->unk34;
           }
           wanderer->bool3a = 0;
-          if ((entRamB <= fVar12) || (wanderer->size + 2.0f <= fVar13)) {
+          if ((wanderer->unk34 <= fVar12) || (wanderer->size + 2.0f <= fVar13)) {
             wanderer->field19_0x3e = 0;
             sVar6 = wanderer->NoBorg13;
           }

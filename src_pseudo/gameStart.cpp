@@ -6,7 +6,7 @@ borg6header*  gFlycamBorg6P=NULL;
 SceneData* gFlycamSceneP=NULL;
 extern Flycam_entry gFlycamSequences[];
 u16 flycam_counter=0;
-u8 titlescreen_load_flag=false;
+u8 titleSceen_load_flag=TRUE;
 u8 some_gamestart_flag=false;
 
 
@@ -30,7 +30,7 @@ void flycam_func(void){
   gGlobals.screenFadeMode = 2;
   gGlobals.screenFadeSpeed = (2.0/30);
   gFlycamBorg6P = get_borg_6(gFlycamSequences[flycam_counter].borg6);
-  gFlycamSceneP = BorgAnimLoadScene(*gFlycamBorg6P->field8_0x20);
+  gFlycamSceneP = BorgAnimLoadScene(gFlycamBorg6P->dat->borg5);
   Scene_SetBorg6(gFlycamSceneP,gFlycamBorg6P);
   Scene::SetFlag10(gFlycamSceneP);
 }
@@ -42,12 +42,12 @@ void set_title_screen(void){
   gGlobals.delta = 0.0;
   gGlobals.gameStartOption = 0;
   if (!gGlobals.titleScreen) gGlobals.titleScreen =  new IntroMenu();
-  WHANDLE->AddWidget(&gGlobals.titleScreen);
+  WHANDLE->AddWidget(gGlobals.titleScreen);
   flycam_func();
 }
 
-Gfx * Flycam::Render(Gfx *gfx){
-  u8 bVar1;
+Gfx * RenderFlycam(Gfx *gfx){
+  bool bVar1;
   Gfx *apGStackX_0 [4];
   vec3f afStack216;
   vec3f afStack152;
@@ -63,14 +63,14 @@ Gfx * Flycam::Render(Gfx *gfx){
     }
   }
   else {
-    Scene::SetSpeed(gFlycamSceneP,(char)(int)gGlobals.delta);
+    Scene::SetSpeed(gFlycamSceneP,gGlobals.delta);
     Scene::Tick(gFlycamSceneP);
-    if (((flycam_flag != '\0') ||
+    if (((flycam_flag != false) ||
         (gFlycamSceneP->aniTime <
-         ((gFlycamSceneP->scene[0].borg6)->field8_0x20 + 0xc) -100.0) - (double)gGlobals.delta)) ||
-       (gGlobals.brightness != 1.0)) {
+         ((gFlycamSceneP->scene[0].borg6)->dat->unkc - 100.0) -
+         gGlobals.delta)) || (gGlobals.brightness != 1.0)) {
       if ((gGlobals.screenFadeMode == 0) && (gGlobals.brightness == 0.0)) {
-        clear_flycam();
+        FlyCamClear();
         return apGStackX_0[0];
       }
     }
@@ -86,7 +86,7 @@ Gfx * Flycam::Render(Gfx *gfx){
       no_TP_vec3 = 1;
       loadGameBorgScenes(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
     }
-    else handleZoneEngineFrame(apGStackX_0,gGlobals.delta,NULL);
+    else handleZoneEngineFrame(apGStackX_0,(short)(int)gGlobals.delta,NULL);
     gfx = apGStackX_0[0];
     if ((gGlobals.screenFadeMode == 0) && (gGlobals.brightness == 1.0f)) {
       flycam_flag = false;
@@ -113,9 +113,9 @@ u8 gameStart(Gfx**GG){
     set_title_screen();
     titleSceen_load_flag = false;
   }
-  check_input_7();
+  TitleScreenInput();
   gfx = Sky::RenderSky(gfx,gGlobals.delta);
-  gfx = Graphics::StartDisplay(gfx,0,0,320,240);
+  gfx = Graphics::StartDisplay(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
   if (gGlobals.Sub.gamemodeType == 2) {
     w.precip = PRECIP_CLEAR;
     w.PrecipScale = 0.0;
@@ -126,7 +126,7 @@ u8 gameStart(Gfx**GG){
   if (((gGlobals.gameStartOption == 0) ||
       ((gGlobals.gameStartOption == 1 && (0.0 < gGlobals.brightness)))) ||
      ((gGlobals.gameStartOption == 2 && (gGlobals.screenFadeMode != 0)))) {
-    gfx = Flycam::Render(gfx);
+    gfx = RenderFlycam(gfx);
     if (flycam_flag) fadeFloatMirror = 1.0f;
     RSPFUNC6(gfx);
 
@@ -165,34 +165,36 @@ u8 gameStart(Gfx**GG){
   return bVar3;
 }
 
-void check_input_7(void){
+void TitleScreenInput(void){
   BaseWidget *pBVar1;
   u8 bVar2;
   u16 uVar3;
-  ControllerFull *apCStack_20;
+  ControllerFull *cont;
   
   uVar3 = 0;
-  while (Controller::GetInput(&apCStack_20,0)) {
+  while (Controller::GetInput(&cont,0)) {
     uVar3++;
-    pBVar1 = WHANDLE->Control((ControllerFull *)apCStack_20);
+    pBVar1 = WHANDLE->Control(cont);
     if (pBVar1) {
       if (freeWidgetFunc == NULL) {
-        if (true) {
-          switch(*(undefined *)((int)((gGlobals.titleScreen)->substruct + 0x24)) {
-          case 6:
+        if (true) {//?
+          switch(((IntroMenuSub*)gGlobals.titleScreen->substruct)->menuState) {
+          case IntroM_NewGame:
             gGlobals.screenFadeMode = 1;
             gGlobals.gameStartOption = 1;
             gGlobals.screenFadeSpeed = 0.05f;
             break;
-          case 7:
-          case 8:
-          case 9:
+          #ifdef DEBUGVER //two debug cases skipped. also causes compiler to not generate jumptable
+          case IntroM_IntermediateGame:
+          case IntroM_AdvancedGame:
+          #endif
+          case IntroM_StartGame:
             gGlobals.screenFadeMode = 1;
             gGlobals.gameStartOption = 2;
             gGlobals.screenFadeSpeed = 0.05f;
             break;
-          case 0xb:
-            IntroMenu::ShowContPakMenu(gGlobals.titleScreen);
+          case IntroM_LoadGame:
+          gGlobals.titleScreen->ShowContPakMenu();
           }
         }
       }
@@ -203,7 +205,7 @@ void check_input_7(void){
 }
 
 
-void clear_flycam(void){
+void FlyCamClear(void){
   FreeZoneEngine(0);
   clear_sfx_entries(&gGlobals.SFXStruct,1);
   unlinkBorg6(gFlycamBorg6P);
@@ -212,27 +214,43 @@ void clear_flycam(void){
 }
 
 void start_intermediate_game(void){
-  u8 cVar1 = 9;
+  u8 cVar1 = IntroM_StartGame;
   if (gGlobals.titleScreen) {
-    cVar1 = *(u8 *)((s32)(gGlobals.titleScreen)->substruct + 0x24);
+    cVar1 = ((IntroMenuSub*)gGlobals.titleScreen->substruct)->menuState;
     WHANDLE->FreeWidget(gGlobals.titleScreen);
     FREEQW(gGlobals.titleScreen);
     gGlobals.titleScreen = NULL;
   }
-  clear_flycam();
-  if (cVar1 == 7) { //Intermediate game - skip intro, start in erromon
+  FlyCamClear();
+  if (cVar1 == IntroM_IntermediateGame) { //Intermediate game - skip intro, start in erromon
+    #ifdef DEBUGVER
     gGlobals.Sub.mapDatA = debugMapLabels[5].a;
     gGlobals.Sub.mapDatB = debugMapLabels[5].b;
     gGlobals.Sub.mapDatC = debugMapLabels[5].c;
+    #else
+    gGlobals.Sub.mapDatB=10;
+    #endif
   }
   else { //Start game - skip intro cinematic.
+    #ifdef DEBUGVER
     gGlobals.Sub.MapFloatDatEntry.mapDatB = 0xffff;
     gGlobals.Sub.mapDatA = debugMapLabels[0].a;
     gGlobals.Sub.mapDatB = debugMapLabels[0].b;
     gGlobals.Sub.mapDatC = debugMapLabels[0].c;
+    #else
+    gGlobals.Sub.MapFloatDatEntry.mapDatB = 0xffff;
+    gGlobals.Sub.mapDatB =0;
+    #endif
   }
+  #ifdef DEBUGVER
   gGlobals.playerCharStruct.player_form = debugCharacters[0].borg7;
   gGlobals.playerCharStruct.collisionRadius = debugCharacters[0].f;
+  #else
+  gGlobals.Sub.mapDatC =0;
+  gGlobals.Sub.mapDatA =0;
+  gGlobals.playerCharStruct.player_form=BORG7_Alaron;
+  gGlobals.playerCharStruct.collisionRadius = 0.5f
+  #endif
   DCM::Remove((byte)gGlobals.introMusicDatA,gGlobals.introMusicDatB);
   FREEQB12(gGlobals.introMusic);
 }

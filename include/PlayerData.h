@@ -1,4 +1,3 @@
-//#include "GhidraDump.h"
 #include "itemID.h"
 #include "n64Borg.h"
 #include "PlaneObj.h"
@@ -31,6 +30,24 @@ struct attachmentNode {
     uint borg5;
     SceneData *sceneDat;
     u16 index;
+};
+struct DCMSub2 {
+    Borg12Header *borg12;
+    u32 index;
+    u8 id;
+};
+struct UnkAudioStruct {
+    u16 field0_0x0;
+    u8 field1_0x2;
+    u8 randVal;
+    u8 field3_0x4[4];
+};
+
+struct MoveQueueEntry {
+    vec2f pos2d;
+    float rad;
+    short active;
+    s16 flag;
 };
 
 //Main actor struct for entites moving in world
@@ -105,8 +122,6 @@ struct playerData {
     u16 rangerWarrior;
     ItemID ent_ID;
     u16 Ent_index;
-    undefined field75_0x75a;
-    undefined field76_0x75b;
     float unk75c;
     float unk760;
     vec3f CombatTint; /* tint by combat effect */
@@ -138,6 +153,28 @@ struct PlayerHandler {
     audiokey_struct *audiokey;
 };
 
+struct player_char_struct {
+    playerData *playerDat;
+    u32 player_form;
+    float collisionRadius;
+    u16 show_portaits;
+    u16 some_sound_var;
+    u16 unk10;
+    undefined field6_0x12;
+    undefined field7_0x13;
+    BaseWidget *smallerDebugWindow;
+    BaseWidget *debugMenuTP;
+    BaseWidget *debugMenuActor;
+    u32 debugMenuUnused0;
+    BaseWidget *debugMenuEnemy;
+    BaseWidget *debugMenuArena;
+    u32 debugMenuUnused1;
+    BaseWidget *text_window;
+    u8 unkState;
+    undefined field17_0x35;
+    ItemID current_shopkeep;
+};
+
 namespace Actor{
     u8 IsFlyingModel(playerData*);
     void GetPosOnLoadedMap(playerData*,vec3f*);
@@ -146,7 +183,7 @@ namespace Actor{
     u8 CheckCollision(playerData *,float ,s16 ,u16);
     void Init(playerData *,u16 );
     Gfx* CalculateShadow(playerData *,Gfx *,float ,u8);
-    playerData * AllocPlayer(float,float,float,float,u32);
+    playerData * AllocPlayer(float radius,float x,float y,float z,u32 borg7);
     void FreePlayer(playerData *);
     void remove_flagged_playerdata(void);
     void ChangeAppearance(playerData *,u32);

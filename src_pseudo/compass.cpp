@@ -29,7 +29,7 @@ Gfx* Draw(Gfx*g,vec2f *XZ){
   float fVar7;
   vec2f fStack128;
   
-  RSPFUNC(g,6);
+  RSPFUNC6(g);
   g = Borg8_DrawSimple(g,gCompass->ring,241.0,169.0,1.0f,1.0f
                        ,gGlobals.brightness * 255.0f,gGlobals.brightness * 255.0f,
                        gGlobals.brightness * 255.0f,gGlobals.brightness * 80.0f);

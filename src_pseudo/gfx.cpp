@@ -308,7 +308,7 @@ GtaskMsg* Graphics::CreateTask(Gfx *glist,OSMesgQueue *param_2)
   gGfxManager.tasks[gGfxManager.bufferChoice] = *pOVar5->task;
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.type = M_GFXTASK;
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.flags = 0;
-  gGfxManager.tasks[gGfxManager.bufferChoice].list.t.data_ptr=gGfxManager.GfxLists[gGfxManager.bufferChoice];
+  gGfxManager.tasks[gGfxManager.bufferChoice].list.t.data_ptr=(u64*)gGfxManager.GfxLists[gGfxManager.bufferChoice];
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.ucode_boot = (u64*)rspbootTextStart;
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.ucode_boot_size = sizeof(rspbootTextStart);
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.ucode = (u64*)gspF3DEX2_fifoTextStart;
@@ -321,7 +321,7 @@ GtaskMsg* Graphics::CreateTask(Gfx *glist,OSMesgQueue *param_2)
   pOVar5->task = NULL;
   gGfxManager.tasks[gGfxManager.bufferChoice].state = 0;
   gGfxManager.tasks[gGfxManager.bufferChoice].msgQ = param_2;
-  gGfxManager.tasks[gGfxManager.bufferChoice].list.t.output_buff = gGfxManager.yieldData;
+  gGfxManager.tasks[gGfxManager.bufferChoice].list.t.output_buff = (u64*)gGfxManager.yieldData;
   gGfxManager.tasks[gGfxManager.bufferChoice].flags = OS_SC_NEEDS_RDP|OS_SC_NEEDS_RSP|OS_SC_LAST_TASK|OS_SC_SWAPBUFFER;
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.output_buff_size = (u64*)(&gGfxManager.yieldData + 0x1000);
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.yield_data_size = 0xc00;
@@ -537,8 +537,8 @@ LAB_80009c94:
   return;
 }
 
-void Graphics::passto_GetGfxLastFrame(void *iOut,u16 param_2,u16 param_3,u8 param_4){
-  getGfxLastFrame(iOut,param_2,param_3,param_4,0,0,gGfxManager.Hres[1],gGfxManager.Vres[1]);}
+void Graphics::passto_GetGfxLastFrame(void *iOut,u16 w,u16 h,u8 d){
+  getGfxLastFrame(iOut,w,h,d,0,0,gGfxManager.Hres[1],gGfxManager.Vres[1]);}
 
 //print a monochrome block on the screen. Unused.
 Gfx * Graphics::DrawBlock(Gfx *gfx,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a){

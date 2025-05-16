@@ -1611,7 +1611,7 @@ u8 FUN_80063258(CombatAI_s* param_1)
       set_combatEnt_x_y(param_1->combatEnt,(float)(u32)bStack336[0],(float)(u32)bStack336[1]);
       gGlobals.combatBytes[1] = gGlobals.combatBytes[0];
       gGlobals.combatBytes[0] = 5;
-      gCombatP->unk0x4fbc = 0xf0;
+      gCombatP->unk0x4fbc = SCREEN_HEIGHT;
       return true;
     }
     FUN_800631c8(param_1);
@@ -1819,7 +1819,7 @@ void FUN_80063db0(CombatAI_s *ai,float x0,float y0,float x1,float y1,float param
   FUN_800713fc(&gCombatP->substruct,ai->combatEnt->GetCoordXU8(),ai->combatEnt->GetCoordXU8(),ai->combatEnt->unk23);
   gGlobals.combatBytes[1] = gGlobals.combatBytes[0];
   gGlobals.combatBytes[0] = 5;
-  gCombatP->waitTimer = 0xf0;
+  gCombatP->waitTimer = SCREEN_HEIGHT;
 }
 
 

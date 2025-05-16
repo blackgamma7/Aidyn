@@ -8,7 +8,7 @@ WidgetGroup::WidgetGroup(u16 max):BaseWidget(){
   this->groupCount = 0;
   this->ticked = 0;
   if (max == 0) this->groupMax = 1;
-  ALLOCS(this->group,this-groupMax*sizeof(WidgetGroupItem),46);
+  ALLOCS(this->group,this->groupMax*sizeof(WidgetGroupItem),46);
   memset(this->group,0,this->groupMax * sizeof(WidgetGroupItem));
 }
 
@@ -118,10 +118,9 @@ void WidgetGroup::Remove(BaseWidget *w){
       pBVar1 = this->group[uVar5].w;
       if (pBVar1) pBVar1->~BaseWidget();
       if (uVar5 < --this->groupCount) {
-        do {
+        for(;uVar5<this->groupCount;uVar5++) {
           memcpy(this->group + uVar5,this->group + uVar5 + 1,0xc);
-          uVar5 = uVar5 + 1 & 0xffff;
-        } while (uVar5 < (ushort)this->groupCount);
+        }
       }
       memset(this->group + (ushort)this->groupCount,0,sizeof(WidgetGroupItem));
     }

@@ -47,7 +47,7 @@ void DiaMenuSub::InitDefault(u8 param_2){
   }
   pBVar1 = this->PortraitBorder;
   pBVar2 = this->Background;
-  pBVar2->boundX1 = 0x140;
+  pBVar2->boundX1 = SCREEN_WIDTH;
   pBVar2->boundY0 = 0xb4;
   pBVar2->boundX0 = 0;
   uVar4 = this->PortraitBorder->GetHeight();
@@ -95,7 +95,7 @@ void DiaMenuSub::Init24(u8 param_2){
   bool bVar3;
   BaseWidget *pBVar4;
   
-  this->Background = WidgetBorg8At(NULL,0,0,0,0x140,0xf0);
+  this->Background = WidgetBorg8At(NULL,0,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
   bVar3 = false;
   if (((param_2 == 12) || (param_2 == 10)) || (param_2 == 11)) bVar3 = true;
   if (bVar3) {

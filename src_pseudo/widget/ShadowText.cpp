@@ -5,7 +5,7 @@ WidgetShadowText::WidgetShadowText(char *TXT,u16 len):BaseWidget(){
   char *pcVar2;
 
   WSTSub *sub = new WSTSub;;
-  sub->Y = 0x140;
+  sub->Y = SCREEN_WIDTH;
   (sub->col).A = 0xff;
   sub->unk1c = 1;
   sub->X = 0;

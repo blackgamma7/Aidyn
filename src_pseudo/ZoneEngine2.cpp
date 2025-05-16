@@ -440,13 +440,13 @@ void move_zonedat(ZoneDat **param_1,ZoneDat *param_2){
     }
   }
 }
-//replace model for 2 specific map chunks if event flag 0x1399 is set
+//replace model for lighthouse Map chunks if relevant flag is set
 void checkToggleZoneScene(ZoneDat *param_1){
   if(param_1->sceneDat0x4) CRASH("CheckToggleZoneScene","Scene already loaded!!\n");
-  //replace model for overworld cell A15
-  if ((param_1->borg5_ID == 0xea9)&&(getEventFlag(0x1399))) param_1->borg5_ID = 0x35ba;
-  //replace model for Map 3 cell A5
-  else if ((param_1->borg5_ID == 0x11f9) && (getEventFlag(0x1399))) param_1->borg5_ID = 0x35af;
+  //replace model for overworld cell A15 (lighthouse exterior)
+  if ((param_1->borg5_ID == 0xea9)&&(getEventFlag(FLAG_LighthouseLit))) param_1->borg5_ID = 0x35ba;
+  //replace model for Map 3 cell A5 (lighthouse Beacon?)
+  else if ((param_1->borg5_ID == 0x11f9) && (getEventFlag(FLAG_LighthouseLit))) param_1->borg5_ID = 0x35af;
 }
 extern u16 gLoadedMapIndecies[22][30][3];
 

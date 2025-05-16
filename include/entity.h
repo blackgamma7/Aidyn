@@ -104,8 +104,8 @@ struct Entity_Ram { /* entity data in Ram */
     u8 Resist[2];
     u8 align[3];
     float resistAmmount[2];
-    u16 FFs[4]; /* supposed to load something, but ends up blank. unused. */
-    u8 unk0x78[4];
+    u16 ritualIDs[4]; //originally starting "Rituals". unused in final game
+    u8 RiualLvs[4]; //originally starting "Rituals". unused in final game
     u16 EXP;
     u8 loot_Category;
     u8 unk0x7f;
@@ -176,7 +176,7 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     WeaponInstance *weapons;
     CharGear *pItemList;
     SpellBook *spellbook; /* list and count of known spells */
-    u32 unk0x30; //unused
+    void* unk0x30; //may have been for "Rituals" unused in final game
     Temp_enchant** effects;
     PotionEffect** potionEffects; //potion effects on character
     s8 spellVal;

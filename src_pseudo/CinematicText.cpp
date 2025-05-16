@@ -56,7 +56,7 @@ void Render(Gfx **GG,int delta){
     else {
       RSPFUNC6(pGVar2);
       fadeFloatMirror = 1.0f;
-      pGVar2 = gCinematicTextP->widget->Render(pGVar2,0,0,0x140,0xf0);
+      pGVar2 = gCinematicTextP->widget->Render(pGVar2,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
       gCinematicTextP->showCaptionTimer-= delta;
     }
     NOOP_8005d704(iVar3);

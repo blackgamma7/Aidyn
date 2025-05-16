@@ -5,7 +5,7 @@ enum DB_TYPE{
     DB_MISC, //Misc./Key/crafting item
     DB_ENTITY, //Player characters/NPC's/Enemies
     DB_SPELL, //Magic
-    DB_UNK4,  //Unused
+    DB_RITUAL,  //magic seen in early builds. Unused in final.
     DB_ARMOR, //Chest armor
     DB_SHIELD, 
     DB_WEAPON, 

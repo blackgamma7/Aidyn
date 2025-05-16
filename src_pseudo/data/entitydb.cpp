@@ -100,9 +100,9 @@ void EntityDB::Load(u8 id,s32 *param_3){
     uVar6 = uVar7;
   } while (uVar7 < 2);
   for(uVar6 = 0;uVar6 < 5;uVar6++,uVar8+=2){
-    EntRam->FFs[uVar6] = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar8));
+    EntRam->ritualIDs[uVar6] = ItemDB_SwapEndian((u8 *)(EntROM.name + uVar8));
   }
-  memcpy(EntRam->unk0x78,EntROM.name + uVar8,4);
+  memcpy(EntRam->RiualLvs,EntROM.name + uVar8,4);
   uVar6 = uVar8+4;
   EntRam->EXP = ((u16)(byte)EntROM.name[uVar6] * 0x18 + (u16)(byte)EntROM.name[uVar6]) * 2;
   EntRam->loot_Category = EntROM.name[uVar6+1];

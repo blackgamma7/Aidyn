@@ -62,7 +62,7 @@
 #define FLAG_Map18 805 //Between Hellhound Cave and Barrow
 
 
-
+#define FLAG_LighthouseLit 5017
 
 
 //cheat code flags

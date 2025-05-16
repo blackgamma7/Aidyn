@@ -1,4 +1,6 @@
-#include "GhidraDump.h"
+//#include "GhidraDump.h"
+#include "titleScreen.h"
+#include "wander.h"
 #include "Camera.h"
 #include "MiniMap.h"
 #include "party.h"
@@ -69,6 +71,23 @@ struct GlobalsSub { /* 0x800e6988 */
     u16 unkTimer;
     u8 unk1212[6];
 };
+struct EncounterDat { /* enemy encounter data */
+    ItemID enemy_entities[12]; /* entitty id's of enemies */
+    ItemID globalLoot; /* chestdb of guarunteed loot */
+    u16 EncounterID;
+    u8 field3_0x1c;
+    undefined field4_0x1d;
+    u16 VoxelIndex;
+    u16 mapDatA;
+    u16 MapSAhortA;
+    u16 MapShortB;
+    u8 collisionByte;
+    u8 battlefield;
+    u8 unk28;
+    u8 BossShadow; /* fighting a Boss or the Shadow */
+    u16 VoxelFlagA;
+    u16 VoxelBitfield;
+};
 
 struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     Random rngSeed; /* used for most rand funcs */
@@ -129,7 +148,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u8 creditsByte;
     u32 unk14fc;
     u8 gameStartOption;
-    struct IntroMenu *titleScreen;
+    IntroMenu *titleScreen;
     u32 unk1508; /* unused? */
     MiniMap minimap;
     u8 unk15bc; /* start of struct? */
@@ -185,6 +204,7 @@ s32 Ofunc_get_MemUsed_difference_2(void);
 u32 rand_range(u32 A,u32 B);
 u16 RollD(u8 dice,u8 sides);
 u32 some_skillcheck_calc(s16);
+void get_battle_terrain(EncounterDat *param_1);
 void battle_setup_func(voxelObject *param_1,u16 flag,u16 param_3);
 void load_camp_ambush(void);
 u32 AppendText(char *str1,char *str2,u8 len);
