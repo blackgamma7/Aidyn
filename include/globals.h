@@ -139,7 +139,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     Color32 screenshotTint;
     short scrollLocation[2];
     SpellBook *ShopSpells;
-    u32 shopUnused; /* probably was stats */
+    void* shopUnused; //a trainer for stats or Rituals?
     CharSkills *shopSkills;
     GenericInventory *shopInv;
     ItemID Shopkeep;
@@ -186,7 +186,7 @@ extern u16 gDebugFlag;
 
 
 extern u16 gExpPakFlag; //set when OsMemSize>4MB.
-extern GlobalsAidyn gGlobals;
+ GlobalsAidyn gGlobals;
 
 //shorthand for RNG funcs.
 #define RAND gGlobals.rngSeed

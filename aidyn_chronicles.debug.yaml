@@ -66,7 +66,7 @@ segments:
       - [0x15EB0, asm,"player"]
       - [0x1A850, asm,"PlayerCamera"]
       - [0x1B770, asm,"particles_"]
-      - [0x1C590, asm,"refobjs_1"]
+      - [0x1C590, asm,"voxObjects"]
       - [0x1C890, asm,"saveEntity"]
       - [0x1D240, asm,"saveParty"]
       - [0x1E420, asm,"questData"]

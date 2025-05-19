@@ -15,39 +15,39 @@ struct CombatTurn {
 
 struct CombatStruct { /* combat structure. needs more study */
     u8 partOfDay;
-    u8 EntCount;
-    u8 EntsAlive;
-    u8 playerCount;
-    u8 playersAlive;
-    u8 enemyCount;
-    u8 EnemiesAlive;
+    u8 EntCount; //all entities at start of battle
+    u8 EntsAlive; //all living entities
+    u8 playerCount; //all party members
+    u8 playersAlive; //remaining party members
+    u8 enemyCount; //enemies
+    u8 EnemiesAlive; //remaining enemies
     u8 enemy_index;
-    u32 firstKill;
-    s32 leaderDead;
-    u8 leaderIndex;
-    u8 leaderMorale;
-    u8 flask_byte;
-    u8 TroubadorLV;
+    u32 firstKill; //set with battle's first deayj
+    s32 leaderDead; //leader has been killed
+    u8 leaderIndex; //index of leader's Combat Enitity
+    u8 leaderMorale; //morale of leader
+    u8 flask_byte; // byte when using flask
+    u8 TroubadorLV; //troubadour-modified value
     u8 some_index;
-    vec2f SpellMarkerPos;
-    u32 gold_pool;
-    u32 EXP_pool;
+    vec2f SpellMarkerPos; //XZ coords for spell cursor
+    u32 gold_pool; //gold earned
+    u32 EXP_pool; //experience earned
     EncounterDat *encounter_dat;
-    CombatEntity *current_Ent;
+    CombatEntity *current_Ent; //entity currently taking turn.
     CombatTurn turn;
-    CombatSubstructA substruct;
-    CombatSubstructB substruct2[2];
-    GenericInventory *loot_pool;
-    WidgetMenu* SenseAuraWidget;
+    CombatSubstructA substruct;  //used for AI calculation
+    CombatSubstructB substruct2[2];//used for AI calculation
+    GenericInventory *loot_pool; //items earned
+    WidgetMenu* SenseAuraWidget; //displays "Sense Arua" data
     u32 waitTimer;
-    char** textArray; //loaded rommstring refernced in macros
-    char textboxes[3][256];
+    char** textArray; //loaded romstring refernced in macros. use COMBATSTRING_* enums
+    char textboxes[3][256]; //buffers for combat text
     u32 TextboxFlag;
     u32 TurnCount;
     u32 AniTimer;
-    CombatEntity *combatEnts;
-    u32 unk52d4;
-    CharSheet *CharSheets;
+    CombatEntity *combatEnts; //data on combatents
+    void* unk52d4; //unused?
+    CharSheet *CharSheets;//data on combatents
     u8 unk52dc[60]; /* unused */
     vec2f entity_XY;
     u8 unk5320[12][2];

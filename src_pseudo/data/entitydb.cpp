@@ -348,7 +348,7 @@ float EntityDB::GetFloatA(ItemID id){
   }
   return 0.4f;
 }
-//not sure what this is for, used in "processPlayers"
+//not sure what this is for, used in "processPlayers" always returns 0.4
 float EntityDB::RetPoint4(ItemID id){
     if ((u16)id >> 8 != DB_DIALOUGEENTITY)GetIDIndex(id);
     return 0.4f;

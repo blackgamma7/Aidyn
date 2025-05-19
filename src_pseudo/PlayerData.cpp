@@ -944,7 +944,7 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
 void set_sun_light(SceneData *param_1,u16 flag,voxelObject *param_3,u8 alpha){
   light_count = 0;
   set_anidat_colors(param_1,alpha,0,(Color32)0x0);
-  if ((flag & SceneObj_0020)){
+  if ((flag & SceneObj_Fullbright)){
     Scene::SetModelTint(param_1,
          gGlobals.sky.colors[0].R * gGlobals.brightness,
          gGlobals.sky.colors[0].G * gGlobals.brightness,

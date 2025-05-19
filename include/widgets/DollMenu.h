@@ -59,6 +59,7 @@ class DollEquipmentMenu: public WidgetMenu{
 };
 
 class WidgetChild4: public WidgetMenu{
+    public:
     WidgetTrainShop* menus[4];
     WidgetTrainShop* unk8c;
     u8 menuIndex;
@@ -107,6 +108,7 @@ class WidgetMenuSpells: public WidgetMenu{
 };
 
 class WidgetDollMenu: public WidgetMenu {
+    public:
     WidgetMenuChild2* unk7c;
     WidgetHealthGold* charStats_widget;
     DollEquipmentMenu* itemslots_widget;

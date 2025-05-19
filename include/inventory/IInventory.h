@@ -1,10 +1,15 @@
 #include "saveParty.h"
 #include "itemInstances.h"
 
-//base interface for inventory system
+struct Inventory_item {
+    ItemInstance base;
+    s32 Quantity;
+};
+
+//base "interface" for inventory system
 class IInventory{
     public:
-    virtual ~IInventory(){};
+    virtual ~IInventory();
     virtual void Reset(){};
     virtual void Clear(){};
     virtual void Load(SaveFile*){};
@@ -21,7 +26,3 @@ class IInventory{
     u32 HasNoKeyItem();
 };
 
-struct Inventory_item {
-    ItemInstance base;
-    s32 Quantity;
-};

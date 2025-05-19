@@ -1,7 +1,7 @@
 #include "widgets\WidgetMenu.h"
 #include "widgets\WidgetChild0.h"
 #include "widgets\WidgetClipText.h"
-#include "widgets/WidgetScrollMenu.h"
+#include "widgets\WidgetScrollMenu.h"
 #include "itemInstances.h"
 
 
@@ -66,10 +66,16 @@ class WidgetInvShop: public WidgetTrainShop{
     void Purchase(u16);
     u32 GetExpPrice(u16);
     u32 GetGoldPrice(u16);
-    u8 SetHighlight(ItemID,u8);
+    u8 SetHighlight(ItemID,u8,u8);
     bool m8003d194(u8);
     bool NewItem(u8,u8,u8);
+    bool AddItem(u16,u8,u8,char*,u16);
+    void SortA();
+    void SortB();
+    bool m8003d674(u16,u8);
+    u32 GetNumber();
 };
+
 class WidgetSkillTrain:public WidgetTrainShop{
     public:
     u32 isTraining;

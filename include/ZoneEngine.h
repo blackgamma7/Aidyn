@@ -13,10 +13,7 @@ struct ZoneDat {
     u8 flag;
     u8 unk1f;
 };
-struct struct_A {
-    SceneData *SceneDat;
-    u16 flags;
-};
+
 
 s16 gPlayerRenderTimer=0;
 s32 FreeZoneEngineTimestamp=-1;

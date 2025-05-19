@@ -68,6 +68,28 @@ typedef enum VoxelFllags {
     VOXEL_Active=0x8000
 } VoxelFllags;
 
+typedef enum EnumMapDatA {
+    MAPA_Overworld,
+    MAPA_GoblinCamp,
+    MAPA_PortSaiid,
+    MAPA_Lighthouse,
+    MAPA_GwenCastle,
+    MAPA_GwenInterior,
+    MAPA_Interior,
+    MAPA_Erromon,
+    MAPA_Barrows,
+    MAPA_RoogCave,
+    MAPA_JundarInteriors,
+    MAPA_Talewok,
+    MAPA_EhudUnder,
+    MAPA_Ugairt,
+    MAPA_Ugairt2,
+    MAPA_ChoasIsle,
+    MAPA_Battle,
+    MAPA_Misc,
+} EnumMapDatA;
+
+
 typedef enum Vobject {
     VOXEL_Scene, //Meshes/decal
     VOXEL_Container, //loot (chests, sacks, ingredient resources)
@@ -152,7 +174,7 @@ enum SceneObjFlag{
     SceneObj_0004=4,
     SceneObj_0008=8,
     SceneObj_Tint=0x10, //uses "tint" field
-    SceneObj_0020=0x20,
+    SceneObj_Fullbright=0x20,
     SceneObj_0040=0x40,
 };
 
@@ -230,23 +252,28 @@ struct DynamicLightHead {
     s16 initFlag;
 };
 
+enum VoxAudioFlags{
+    VoxAudio_0001=1,
+    VoxAudio_0002=2,
+    VoxAudio_0004=4,
+    VoxAudio_0008=8,
+    VoxAudio_BGM=0x10,
+};
+
 struct audio_obj_dat {
     u32 borg12Index;
     u32 unk0x4;
     float volume;
-    u16 unk0xc;
-    u8 unk0xe;
-    u8 unk0xf;
-    float unk0x10;
-    u16 AudioFlags;
+    float randA;
+    float randB;
+    u16 soundFlag;
     //these are set in-game, it seems
-    u16 unk0x16;
-    float volume_;
-    u32 sfx_arg3;
-    u32 unk0x20;
-    u16 unk0x24;
+    u16 unk16;
+    float volumeFade;
+    u32 pan;
+    s32 dcmId;
+    u16 unk24;
     u8 dcmIndex;
-    u8 align[29];
 };
 /* AudioFlags id'd
 0001=loop
@@ -311,6 +338,12 @@ struct dialoug_dat {
     u16 RefPointID;
     u16 unk0xA;
     char name[56];
+};
+
+enum VObject_Triggers{
+    VTrigger_SetFlag=1, //set flag (trigger.flagA)
+    VTrigger_ChangeAni, //changed linked Voxel's Borg7 animation to (trigger.flagA)
+    VTrigger_BorgPhys=4 //if (borgphys->groundType>>5&0x7f==trigger.flagA),borgphys->flags=borgphys->flags&(trigger.flagB)|(trigger.flagC)
 };
 
 struct Trigger_dat {

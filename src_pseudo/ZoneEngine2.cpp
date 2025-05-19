@@ -253,8 +253,8 @@ LAB_8000d2bc:
 }
 //get Borg9data loaded at BCD'd index.
 Borg9data * GetCollisionZone(u8 x){
-  Borg9header **ppBVar1 = &gGlobals.Sub.ZoneDatMtx[x >> 4][x & 3].mapPointer;
-  if (*ppBVar1) return &(*ppBVar1)->dat;
+  Borg9header **z = &gGlobals.Sub.ZoneDatMtx[x >> 4][x & 3].mapPointer;
+  if (*z) return &(*z)->dat;
   CRASH("GetCollisionZone","No Zone at Grid");
 }
 
@@ -1066,11 +1066,14 @@ void NoExpPak_ClearSceneVoxel(Scene_obj_dat *scene){
     }
   }
 }
-struct_a struct_a_ARRAY_800f5290[0x20];
+struct struct_A {
+    SceneData *SceneDat;
+    u16 flags;
+};
+struct_A struct_a_ARRAY_800f5290[0x20];
 
 //Render the "scene" voxel objects
-Gfx * RenderVoxelScenes(Gfx *gfx,Borg9data *borg9,vec3f *v3,short param_4,short param_5,float posx,
-                       float posz){
+Gfx * RenderVoxelScenes(Gfx *gfx,Borg9data *borg9,vec3f *v3,short param_4,short param_5,float posx,float posz){
   EventFlag EVar1;
   void *pvVar2;
   u8 bVar6;
@@ -1620,7 +1623,6 @@ LAB_80010bfc:
   } while( true );
 }
 
-struct_A struct_a_ARRAY_800f5290[32];
 void RenderTransZones__(Gfx **param_1){
   SceneData **ppAVar2;
   

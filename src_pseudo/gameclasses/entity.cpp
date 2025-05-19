@@ -14,19 +14,18 @@ u8 Entity::IsElemental(ItemID id){
   else return false;
 }
 
+typedef void (*CharINIT)(CharSheet*,Entity_Ram*);
 
 void Entity::EquipFunc0(CharSheet *ent,Entity_Ram *param_2){
   u32 uVar1;
   Borg8header *pBVar4;
-  PotionEffect **x;
   s32 iVar5;
   ulong uVar6;
   ItemID IVar7;
   
   ent->portrait = loadBorg8(gEntityDB->GetPortrait(ent->ID));
-  x = (PotionEffect **)HALLOC(sizeof(PotionEffect*)*POTION_FXMAX,0xc1);
-  ent->potionEffects=x;
-  memset(x,0,sizeof(PotionEffect*)*POTION_FXMAX);
+  ALLOCS(ent->potionEffects,sizeof(PotionEffect*)*POTION_FXMAX,193);
+  memset(ent->potionEffects,0,sizeof(PotionEffect*)*POTION_FXMAX);
   ent->weapons = NULL;
   ent->EXP->total = EXP_TNL[CharStats::getBase(ent->Stats,STAT_LV)];
   if (param_2->weapon[0] != 0xffff) {EquipWeapon(ent,param_2->weapon[0],0);}
@@ -41,11 +40,8 @@ void Entity::EquipFunc0(CharSheet *ent,Entity_Ram *param_2){
 }
 
 void Entity::EquipFunc1(CharSheet *param_1,Entity_Ram *param_2){
-  PotionEffect **x;
-  
-  x = (PotionEffect **)HALLOC(sizeof(PotionEffect*)*POTION_FXMAX,0xd8);
-  param_1->potionEffects = x;
-  memset(x,0,sizeof(PotionEffect*)*POTION_FXMAX);
+  ALLOCS(param_1->potionEffects,sizeof(PotionEffect*)*POTION_FXMAX,216);
+  memset(param_1->potionEffects,0,sizeof(PotionEffect*)*POTION_FXMAX);
   param_1->weapons = NULL;
   if (param_2->weapon[2] != 0xffff) {EquipWeapon(param_1,param_2->weapon[2],0);}
   if ((param_2->weapon[0] !=0xffff) && (param_1->weapons == NULL)) {
@@ -54,7 +50,6 @@ void Entity::EquipFunc1(CharSheet *param_1,Entity_Ram *param_2){
 }
 
 void Entity::EquipFunc2(CharSheet *param_1,Entity_Ram *param_2){
-  ItemID IVar1;
   
   param_1->weapons = NULL;
   if (param_2->weapon[0] != (ItemID)-1){EquipWeapon(param_1,param_2->weapon[0],0);}
@@ -99,7 +94,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   }
   ALLOCS(param_1->effects,(MAGIC_FXMAX+sizeof(void*)),287);
   memset(param_1->effects,0,MAGIC_FXMAX+sizeof(void*));
-  void* apcStack112[] = {EquipFunc0,EquipFunc1,NULL,EquipFunc2};
+  CharINIT apcStack112[] = {EquipFunc0,EquipFunc1,NULL,EquipFunc2};
   (*apcStack112[param_3])(param_1,pEVar10);
   param_1->spellSwitch = 0;
   param_1->spellVal = -1;
@@ -697,7 +692,7 @@ s32 print_element_resist(resist_float *param_1,char *param_2,char *param_3,u32 p
 
 void senseAura(CombatEntity *target,u8 level){
   CharSheet *pCVar1;
-  u32 uVar3;
+  u32 len;
   undefined8 uVar2;
   s32 iVar4;
   resist_float *prVar6;
@@ -709,34 +704,34 @@ void senseAura(CombatEntity *target,u8 level){
   
   pCVar1 = target->charSheetP;
   sprintf(acStack1064,"%s\n",pCVar1->name);
-  uVar3 = strlen(acStack1064);
+  len = strlen(acStack1064);
   if (level != 0) {
     strcpy(acStack232,"Follower");
-    if ((target->index == gCombatP->leaderIndex) && (gCombatP->leaderDead == 0)) {
+    if ((target->index == gCombatP->leaderIndex) && (!gCombatP->leaderDead)) {
       strcpy(acStack232,"Leader");}
-    uVar3 = AppendText(acStack1064,acStack232,uVar3);
+    len = AppendText(acStack1064,acStack232,len);
   }
   if (2 < level) {
-    sprintf(acStack232,"%d_Total_Hitpoints",getHPMax(pCVar1));
-    uVar3 = AppendText(acStack1064,acStack232,uVar3);
+    sprintf(acStack232,"%d_Total_Hitpoints",Entity::getHPMax(pCVar1));
+    len = AppendText(acStack1064,acStack232,len);
   }
   if (4 < level) {
     sprintf(acStack232,"Level_%lu",CharStats::getBase(pCVar1->Stats,STAT_LV));
-    uVar3 = AppendText(acStack1064,acStack232,uVar3);
+    len = AppendText(acStack1064,acStack232,len);
   }
   if (6 < level) {
     prVar6 = target->resists;
     for(uVar7 = 0;uVar7 < 2;uVar7++) {
-      uVar3 = print_element_resist(prVar6++,acStack1064,acStack232,uVar3);
+      len = print_element_resist(prVar6++,acStack1064,acStack232,len);
     }
   }
   if (8 < level) {
-    sprintf(acStack232,"Total Armor Protection %d",get_protection_level(target,false));
-    uVar3 = AppendText(acStack1064,acStack232,uVar3);
+    sprintf(acStack232,"Total Armor Protection %d",target->GetSheildProtection(false));
+    len = AppendText(acStack1064,acStack232,len);
   }
-  col1 = COLOR_OFFWHITE;
-  col2 = COLOR_DARKGRAY_T;
-  gCombatP->Widget0x4fb8 = some_textbox_func(acStack1064,(s16)(uVar3 << 3) - (s16)uVar3,&col1,&col2,1);
+  col1 = {COLOR_OFFWHITE};
+  col2 = {COLOR_DARKGRAY_T};
+  gCombatP->SenseAuraWidget = some_textbox_func(acStack1064,(s16)(len << 3) - (s16)len,&col1,&col2,1);
 }
 
 s32 Entity::FindFreeEffect(CharSheet *param_1){
@@ -1686,11 +1681,11 @@ u8 Entity::DispelMagic(CharSheet *param_1,CombatEntity* param_2,u8 param_3,u8 pa
 
 void Entity::DoubleTap(CharSheet *param_1){
   if (CharStats::getModded(param_1->Stats,STAT_END))
-    CharStats::addModdedHealth(param_1->Stats,STAT_END,-CharStats::getModded(pCVar2,STAT_END));
+    CharStats::addModdedHealth(param_1->Stats,STAT_END,-CharStats::getModded(param_1->Stats,STAT_END));
   if (CharStats::getModded(param_1->Stats,STAT_STAM))
-    CharStats::addModdedHealth(param_1->Stats,STAT_STAM,-CharStats::getModded(pCVar2,STAT_STAM));
+    CharStats::addModdedHealth(param_1->Stats,STAT_STAM,-CharStats::getModded(param_1->Stats,STAT_STAM));
   if (CharStats::getModded(param_1->Stats,STAT_LV))
-    CharStats::addModdedHealth(param_1->Stats,STAT_LV,-CharStats::getModded(pCVar2,STAT_LV));
+    CharStats::addModdedHealth(param_1->Stats,STAT_LV,-CharStats::getModded(param_1->Stats,STAT_LV));
 }
 
 u8 Entity::HealHandsCheck(CharSheet *param_1){
@@ -1745,7 +1740,7 @@ u8 Entity::TroubadorCheck(CharSheet *param_1){
   return bVar3;
 }
 
-ItemInstance * Has_Item_equipped_character(CharSheet *param_1,ItemID param_2){
+ItemInstance * Entity::HasItemEquipped(CharSheet *param_1,ItemID param_2){
   CharGear *pCVar1;
   GearInstance *pGVar2;
   u16 uVar3;
@@ -1885,18 +1880,14 @@ void Entity::ClearSpellEffect(CharSheet *param_1,u8 index,CombatEntity *param_3)
 }
 
 u8 Entity::IsDebuffSpell(CharSheet* c,SpellEnum spell){
-  char cVar1;
-  u8 *pSVar2;
   u8 debuffSpells[] =
   {SPELLIND_wraithTouch,SPELLIND_debilitation,SPELLIND_weakness,SPELLIND_exhaustion,SPELLIND_stupidity,SPELLIND_clumsiness,SPELLIND_NONE};
   
-  pSVar2 = debuffSpells;
   if (spell) {
     if (debuffSpells[0] != SPELLIND_NONE) {
-      do {
-        cVar1 = *pSVar2++;
-        if (spell == cVar1) return true;
-      } while (*pSVar2 != -1);
+      for(u32 i=0;debuffSpells[i] != SPELLIND_NONE;i++) {
+        if (spell == debuffSpells[i]) return true;
+      }
     }
   }
   return false;
@@ -1912,41 +1903,29 @@ u8 Entity::GetShieldDefence(CharSheet *param_1,ItemID param_2){
 
 int Entity::GetArmorProtect(CharSheet *param_1,ItemID param_2){
   byte bVar1;
-  bool bVar2;
-  ArmorInstance **ppAVar3;
   uint uVar4;
-  int iVar5;
+  int total;
   int iVar6;
   
-  iVar5 = 0;
-  uVar4 = 0;
-  ppAVar3 = param_1->armor;
-  do {
-    uVar4 += 1;
-    if (*ppAVar3 != NULL) {
-      iVar5 += (uint)(*ppAVar3)->Protect;
-    }
-    ppAVar3 = ppAVar3 + 1;
-  } while (uVar4 < 2);
-  if (param_2 != (ItemID)0x0) {
+  total = 0;
+  for(u32 i=0;i<2;i++) {
+    if (param_1->armor[i]) total += param_1->armor[i]->Protect;
+  }
+  if (param_2) {
     bVar1 = GetIDIndex(param_2);
     iVar6 = 0;
-    if ((u16)param_2 >> 8 == 5) {
-      if (ret0(param_1)) {
-        return iVar5;
-      }
-      ppAVar3 = param_1->armor;
+    if (param_2 >> 8 == DB_ARMOR) {
+      if (ret0(param_1)) return total;
     }
     else {
-      if ((u16)param_2 >> 8 != 6) return iVar5;
-      if (NoSheildSkill(param_1)) return iVar5;
+      if (param_2 >> 8 != DB_SHIELD) return total;
+      if (NoSheildSkill(param_1)) return total;
       iVar6 = 1;
-      ppAVar3 = param_1->armor;
     }
-    if (ppAVar3[iVar6]) {
-      iVar5 -= ppAVar3[iVar6]->Protect;
+    if (param_1->armor[iVar6]) {
+      total -= param_1->armor[iVar6]->Protect;
     }
-    iVar5 += armour_pointer->Armor[bVar1]->protection;
+    total += armour_pointer->Armor[bVar1]->protection;
   }
-  return iVar5;
+  return total;
 }

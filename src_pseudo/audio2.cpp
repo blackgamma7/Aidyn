@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "vobjects.h"
 //yes, what should be two seperate scripts, the heap functions use the same filename.
 #define FILENAME "./src/audio.cpp"
 
@@ -31,7 +32,7 @@ void SoundStructA_get_borg12(SoundStructA *param_1){
 void ClearAudioBubble(SoundStructA *param_1){
 if (param_1->borg12) {
     DCM::Remove(param_1->voxelDat->dcmIndex,param_1->voxelDat->dcmId);
-    FREEQB12(&param_1->borg12);
+    FREEQB12(param_1->borg12);
     param_1->borg12 = NULL;
     param_1->voxelDat->dcmIndex = 0;
     param_1->voxelDat->dcmId = 0;
@@ -82,12 +83,12 @@ SoundStructA * soundStructA_set(SFX_Struct *param_1,voxelObject *param_2,int tal
   (param_2->audio).unk24 = obj->index;
   obj->voxelDat->dcmId = 0;
   obj->voxelDat->volumeFade = 0.0;
-  obj->voxelDat->pan = obj->voxelDat->field1_0x4;
+  obj->voxelDat->pan = obj->voxelDat->unk0x4;
   adjust_soundstruct_vec3(obj);
   return obj;
 }
 
-SoundStructB* PlayAudioSound(SFX_Struct *param_1,Borg12Enum borg12,undefined4 pan,float vol,short param_5,u16 time){
+SoundStructB* PlayAudioSound(SFX_Struct *param_1,u32 borg12,s32 pan,float vol,short param_5,u16 time){
 
   SoundStructB *obj;
   if (param_1->pointerBIndex < 16) {
@@ -95,11 +96,11 @@ SoundStructB* PlayAudioSound(SFX_Struct *param_1,Borg12Enum borg12,undefined4 pa
     BZERO(&obj->voxel);
     (obj->voxel).header.type = VOXEL_Audio;
     (obj->voxel).audio.borg12Index = borg12;
-    (obj->voxel).audio.field1_0x4 = 0;
+    (obj->voxel).audio.unk0x4 = 0;
     obj->active = true;
     obj->timer = param_5;
     (obj->voxel).header.flagC = 1;
-    (obj->voxel).audio.soundFlag = 0xc;
+    (obj->voxel).audio.soundFlag = VoxAudio_0004|VoxAudio_0008;
     (obj->voxel).audio.volume = gGlobals.VolSFX;
     (obj->voxel).header.size = 1000.0f;
     obj->soundStruct = soundStructA_set(param_1,&obj->voxel,0,0);
@@ -143,7 +144,7 @@ void clear_sfx_substruct_2(SFX_Struct *param_1,short param_2){
 
 void play_sfx_before_delete(SFX_Struct *param_1,SoundStructA *param_2){
   audio_obj_dat* a = param_2->voxelDat;
-  if (((a) && ((a->soundFlag & 0x10))) && (param_2->mapTally)) {
+  if (((a) && ((a->soundFlag & VoxAudio_BGM))) && (param_2->mapTally)) {
     SoundStructB *objB = PlayAudioSound(param_1,a->borg12Index,a->pan,a->volumeFade,1,0);
     objB->timer = 2;
     objB->soundStruct->mapTally = -2;
@@ -197,7 +198,7 @@ void audio_ref_objs(SFX_Struct *param_1,Borg9data *param_2,uint tally,byte ZoneD
       obj = &param_2->voxelObjs[iVar9];
       if ((obj->header).type == VOXEL_Audio) {
         if (gGlobals.Sub.gamemodeType == 2) {
-          if ((((obj->audio).soundFlag & 0x10)) || (!gExpPakFlag)) continue;
+          if ((((obj->audio).soundFlag & VoxAudio_BGM)) || (!gExpPakFlag)) continue;
         }
         if (((((obj->header).Bitfeild & VOXEL_EXPPak) == 0) || (gExpPakFlag)) &&
            ((((obj->header).Bitfeild & VOXEL_JumperPak) == 0 || (!gExpPakFlag)))) {
@@ -257,32 +258,28 @@ void clear_sfx_on_map(SFX_Struct *param_1,int tally){
 }
 
 void renderAudioVoxel(SoundStructA *param_1){
-  audio_obj_dat *paVar1;
   byte vol;
   u8 uVar2;
   bool bVar3;
-  short sVar4;
   u16 uVar5;
-  int iVar6;
-  float fVar7;
   
   if (param_1->borg12) {
-    paVar1 = param_1->voxelDat;
-    iVar6 = ((paVar1->volumeFade * paVar1->volume) * 255.0);
-    sVar4 = (((paVar1->pan + 1.0f) * 0.5f) * 255.0);
+    audio_obj_dat *paVar1 = param_1->voxelDat;
+    s32 iVar6 = ((paVar1->volumeFade * paVar1->volume) * 255.0);
+    s16 sVar4 = (((paVar1->pan + 1.0f) * 0.5f) * 255.0);
     CLAMP(iVar6,0,0xff);
     CLAMP(sVar4,0,0xff);
-    fVar7 = gGlobals.VolSFX;
-    if (((param_1->voxel->audio).soundFlag & 0x10))
-      fVar7 = gGlobals.VolBGM;
+    float volSetting = gGlobals.VolSFX;
+    if (((param_1->voxel->audio).soundFlag & VoxAudio_BGM))
+      volSetting = gGlobals.VolBGM;
     uVar2 = DCM::search(paVar1->dcmIndex,paVar1->dcmId);
-    vol = ((float)iVar6 * fVar7);
+    vol = ((float)iVar6 * volSetting);
     if (uVar2 == 0) {
-      if ((run_voxelFuncs2(param_1->voxel,0)) && (param_1->flag & 1)) {
+      if ((run_voxelFuncs2(param_1->voxel,NULL)) && (param_1->flag & 1)) {
         param_1->flag&=~1;
-        bVar3 = (param_1->voxelDat->soundFlag & 1) != 0;
+        bVar3 = (param_1->voxelDat->soundFlag & VoxAudio_0001) != 0;
         if (bVar3) param_1->flag|=1;
-        DCM::Add(&param_1->voxelDat->dcmIndex,(int *)&param_1->voxelDat->dcmId,
+        DCM::Add(&param_1->voxelDat->dcmIndex,&param_1->voxelDat->dcmId,
                  &param_1->borg12->dat->sub,vol,(u8)sVar4,bVar3,2000,0);
       }
     }
@@ -346,7 +343,7 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
       else {//fade in otherwise
         fVar13 = Sound_Volume_proximity(&pSVar5->worldPos,(pSVar5->voxel->header).size,&gGlobals.Sub.camera);
         paVar2 = pSVar5->voxelDat;
-        if ((paVar2->soundFlag & 4) == 0) paVar2->volumeFade = fVar13;
+        if ((paVar2->soundFlag & VoxAudio_0004) == 0) paVar2->volumeFade = fVar13;
         else {
           if (paVar2->volumeFade < 1.0f) {
             paVar2->volumeFade += (delta / 90.0);
@@ -354,7 +351,7 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
           }
         }
         //pan to camera (unless flagged otherwise)
-        if ((paVar2->soundFlag & 8) == 0) {
+        if ((paVar2->soundFlag & VoxAudio_0008) == 0) {
           pSVar5->voxelDat->pan = FUN_800565a8(&pSVar5->worldPos,fVar13,&gGlobals.Sub.camera);
         }
         if (pSVar5->borg12 == NULL) {//add sound if none
@@ -364,7 +361,7 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
         pSVar5->timer -= delta;
         if (pSVar5->timer < 1) {
           paVar2 = pSVar5->voxelDat;
-          if ((paVar2->soundFlag & 2) == 0) pSVar5->timer = 0;
+          if ((paVar2->soundFlag & VoxAudio_0002) == 0) pSVar5->timer = 0;
           else {
             DCM::Remove(paVar2->dcmIndex,paVar2->dcmId);
             pSVar5->flag|= 1;
@@ -373,7 +370,7 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
           }
         }
         if (((pSVar5->flag & 2) == 0) || //?!?
-           (uVar3._0_2_ = pSVar5->timer, uVar3._2_2_ = pSVar5->flag, (uVar3 & 0xffff0002) == 2)) {
+           ((*(u32*)pSVar5->timer & 0xffff0002) == 2)) {
           renderAudioVoxel(pSVar5);
         }
       }

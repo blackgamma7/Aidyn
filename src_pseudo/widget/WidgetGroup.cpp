@@ -119,7 +119,7 @@ void WidgetGroup::Remove(BaseWidget *w){
       if (pBVar1) pBVar1->~BaseWidget();
       if (uVar5 < --this->groupCount) {
         for(;uVar5<this->groupCount;uVar5++) {
-          memcpy(this->group + uVar5,this->group + uVar5 + 1,0xc);
+          memcpy(this->group + uVar5,this->group + uVar5 + 1,sizeof(WidgetGroupItem));
         }
       }
       memset(this->group + (ushort)this->groupCount,0,sizeof(WidgetGroupItem));

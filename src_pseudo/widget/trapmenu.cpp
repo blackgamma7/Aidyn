@@ -37,11 +37,11 @@ bool TrapMenu::InitMenu(voxelObject *v){
 BaseWidget* TrapMenu::AttemptDisarm(BaseWidget* A,BaseWidget* B){
     if (gCurrentTrapVoxel) {
         u16 *iVar1 = GetTrapLV(gCurrentTrapVoxel);
-      if (PARTY->DisarmSkill(*(byte *)((int)iVar1 + 3)))
+      if (PARTY->DisarmSkill((u8)iVar1[1]))
         TrapDisarmed();
       else TrapExploded();
     }
-    return 0;
+    return NULL;
   }
 
   BaseWidget* TrapMenu::CloseMenu(BaseWidget*A ,BaseWidget*B ){
@@ -54,13 +54,11 @@ BaseWidget* TrapMenu::AttemptDisarm(BaseWidget* A,BaseWidget* B){
       run_voxelFuncs0(gCurrentTrapVoxel);
       gCurrentTrapVoxel = NULL;
     }
-    return 0;
+    return NULL;
   }
 
   
 void TrapMenu::TrapDisarmed(void){
-  voxelObject *pvVar1;
-  u16 *puVar2;
   Color32 uStack144={COLOR_OFFWHITE};
   Color32 uStack80={COLOR_BLACK};
   gGlobals.playerCharStruct.text_window =some_textbox_func(Cstring(TrapMenuSuccess),120,&uStack144,&uStack80,1);
@@ -68,8 +66,8 @@ void TrapMenu::TrapDisarmed(void){
   (gGlobals.playerCharStruct.text_window)->BButtonFunc = CloseMenu;
   (gGlobals.playerCharStruct.text_window)->CDownButtonFunc = NULL;
   (gGlobals.playerCharStruct.text_window)->CUpButtonFunc = NULL;
-  puVar2 = GetTrapLV(gCurrentTrapVoxel);
-  *puVar2 = 0xff;
+  u16* puVar2 = GetTrapLV(gCurrentTrapVoxel);
+  puVar2[0] = 0xff;
   puVar2[1] = 0;
 }
 

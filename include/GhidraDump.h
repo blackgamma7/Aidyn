@@ -86,17 +86,6 @@ typedef struct Borg7data Borg7data, *PBorg7data;
 typedef struct Borg12Header Borg12Header, *PBorg12Header;
 
 
-typedef enum EnumMapDatA {
-    MAPA_Overworld=0,
-    MAPA_GwenCastle=4,
-    MAPA_Interior=6,
-    MAPA_cave=7,
-    MAPA_Barrows=9,
-    MAPA_Talewok=11,
-    MAPA_EhudUnder=12,
-    MAPA_Ugairt=13,
-    MAPA_Battle=16
-} EnumMapDatA;
 
 
 
@@ -510,11 +499,6 @@ typedef struct resist_float resist_float, *Presist_float;
 
 typedef struct CharGear CharGear, *PCharGear;
 
-typedef enum AspectEnum {
-    ASPECT_NONE=0,
-    ASPECT_LUNAR=1,
-    ASPECT_SOLAR=2
-} AspectEnum;
 
 typedef struct StatMod StatMod, *PStatMod;
 

@@ -454,7 +454,7 @@ bool FUN_8007319c(CombatSubstructB *param_1,s32 index){
 
 bool FUN_8007324c(CombatSubstructB *param_1,CombatEntity *param_2,s32 param_3){
   bool bVar1 = param_1->field6_0xa5 < 2;
-  if ((bVar1) && (bVar1 = FUN_800732a0(param_1,param_2->TargetIndex), !bVar1)) {
+  if ((bVar1) && (!FUN_800732a0(param_1,param_2->TargetIndex))) {
     bVar1 = FUN_800732a0(param_1,param_3);
   }
   return bVar1;

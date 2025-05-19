@@ -172,11 +172,11 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     CharExp *EXP;
     CharStats_s *Stats; /* base and modded stats of character */
     CharSkills *Skills; /* skill and weapon levels */
-    ArmorInstance **armor;
+    ArmorInstance **armor; //first chest, second sheild
     WeaponInstance *weapons;
     CharGear *pItemList;
     SpellBook *spellbook; /* list and count of known spells */
-    void* unk0x30; //may have been for "Rituals" unused in final game
+    void* unk0x30; //may have been for "Rituals". unused in final game
     Temp_enchant** effects;
     PotionEffect** potionEffects; //potion effects on character
     s8 spellVal;
@@ -296,6 +296,7 @@ namespace Entity{
     u8 HealHandsCheck(CharSheet *param_1);
     u8 HealHerbsCheck(CharSheet *param_1);
     u8 TroubadorCheck(CharSheet *param_1);
+    ItemInstance* HasItemEquipped(CharSheet *param_1,ItemID param_2);
     void AllocEnchant(CharSheet *param_1,u8 param_2,u8 param_3,u8 param_4,u32 timer,s32 param_6);
     void EffectModStats(CharSheet *param_1,u8 param_2,u8 param_3);
     void RemoveStatBuff(CharSheet *param_1,u8 param_2,u8 param_3);

@@ -20,6 +20,12 @@ typedef enum ElementEnum {
     ELEMENT_SMASHING, ELEMENT_HOLY
 } ElementEnum;
 
+typedef enum AspectEnum {
+    ASPECT_NONE=0,
+    ASPECT_LUNAR=1,
+    ASPECT_SOLAR=2
+} AspectEnum;
+
 
 
 #define ITEMIDTYPE(x) x >> 8
