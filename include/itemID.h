@@ -35,3 +35,7 @@ u8 ItemIsMap(ItemID param_1);
 int getIDIndex_sub(char *param_1,u8 total,char param_3);
 u16 GetIDIndex(ItemID x);
 u16 search_item_array(ItemID param_1);
+
+//a leftover from older builds - two of the args were filename and line called.
+//both were 0 by the final debug build. 
+#define GETINDEX(x) GetIDIndex(x,0,0)

@@ -1,6 +1,15 @@
 #include "itemID.h"
 
-enum PRICE_MULTI{HALF, QUARTER_OFF, FULL, QUARTER_PLUS, HALF_PLUS, DOUBLE, TRIPLE, FIVE_X};
+typedef enum Price_multi {
+    PRICE_HALF,
+    PRICE_25OFF,
+    PRICE_FULL,
+    PRICE_25UP,
+    PRICE_HALFUP,
+    PRICE_DOUBLE,
+    PRICE_TRIPLE,
+    PRICE_5X
+} Price_multi;
 
 struct price_mod {
    u8 unk0;

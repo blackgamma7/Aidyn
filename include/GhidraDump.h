@@ -530,15 +530,6 @@ struct CombatRadarBlip {
     int unk14;
 };
 
-
-
-typedef struct EncounterDat EncounterDat, *PEncounterDat;
-
-typedef struct Inventory_item Inventory_item, *PInventory_item;
-
-
-
-
 typedef struct CombatTargetVisuals_struct CombatTargetVisuals_struct, *PCombatTargetVisuals_struct;
 
 struct CombatTargetVisuals_struct {
@@ -584,17 +575,6 @@ struct DialougEnt_RAM {
     u8 b;
 };
 
-typedef struct Entity_Ram Entity_Ram, *PEntity_Ram;
-
-typedef enum EntityCatEnum { /* Entity Categories */
-    Generic_NPC=0,
-    Humanoid=1,
-    Named_NPC=2,
-    Party_Character=3,
-    Chaos_Enemy=5,
-    Natural_Enemy=6
-} EntityCatEnum;
-
 
 typedef struct Gear_RAM Gear_RAM, *PGear_RAM;
 
@@ -624,26 +604,6 @@ struct Gear_RAM {
     float ResistPercent;
 };
 
-typedef struct Loot_RAM Loot_RAM, *PLoot_RAM;
-
-struct Loot_RAM { /* Chestdb loaded into RAM */
-    char Name[20];
-    char Is0;
-    char field2_0x15;
-    ItemID ID;
-    u16 GoldLo;
-    u16 GoldHi;
-    u8 armorDrop;
-    u8 sheildDrop;
-    u8 weaponDrop[3];
-    u8 reagentchance;
-    u8 reagentLlo;
-    u8 reagentHi;
-    ItemID itemDrops[6];
-    u8 itemDropChances[6];
-    u8 itemLo[2];
-    u8 itemHi[2];
-};
 
 typedef struct shop_ram shop_ram, *Pshop_ram;
 
@@ -713,72 +673,6 @@ struct Gear_Rom { /* Gear/item data stored in rom */
     enum ElementEnum ElementResist;
     u8 ResistPercent; /* 100-(25*x) */
 };
-
-typedef struct loot_ROM loot_ROM, *Ploot_ROM;
-
-struct loot_ROM { /* Loot Pools stored in ROM */
-    char Name[20];
-    ItemID_ROM ID;
-    u8 goldLo[2]; /* Endians swapped */
-    u8 goldHi[2]; /* Endians swapped */
-    u8 armorDrop[2]; /* % armor/Sheild drop */
-    u8 WeaponDrop[3]; /* % weapon drop */
-    u8 reagentPercent;
-    u8 reagentRange[2];
-    ItemID_ROM item0;
-    u8 item0chance;
-    u8 item0quantity[2]; /* lo/hi range */
-    ItemID_ROM item1;
-    u8 item1chance;
-    u8 item1quantity[2];
-    ItemID_ROM item3;
-    u8 item3chance;
-    ItemID_ROM item4;
-    u8 item4chance;
-    ItemID_ROM item5;
-    u8 item5chance;
-    ItemID_ROM item6;
-    u8 item6chance;
-};
-
-typedef struct shop_ROM shop_ROM, *Pshop_ROM;
-
-typedef struct ShopItem ShopItem, *PShopItem;
-
-typedef struct price_mod price_mod, *Pprice_mod;
-
-typedef enum Price_multi {
-    PRICE_HALF,
-    PRICE_25OFF,
-    PRICE_FULL,
-    PRICE_25UP,
-    PRICE_HALFUP,
-    PRICE_DOUBLE,
-    PRICE_TRIPLE,
-    PRICE_5X
-} Price_multi;
-
-struct price_mod {
-    u8 unk;
-    enum Price_multi multi;
-    u8 unk_;
-};
-
-struct ShopItem { /* Shop Item listing with 3 mystery bytes */
-    ItemID_ROM item;
-    price_mod mod;
-};
-
-struct shop_ROM { /* Shop Data in Rom */
-    ItemID_ROM EntityID; /* Which entity runs the shop */
-    ShopItem longItem[20]; /* each entry has 3 mystery bytes */
-    ItemID_ROM shortItem[3]; /* these do not. */
-};
-
-typedef struct Spell_ROM Spell_ROM, *PSpell_ROM;
-
-
-
 
 
 typedef struct printf_struct printf_struct, *Pprintf_struct;
@@ -1186,12 +1080,6 @@ struct KKBufferEvent {
     u8 buffer[240];
 };
 
-typedef struct loot_Pointer loot_Pointer, *Ploot_Pointer;
-
-struct loot_Pointer {
-    u8 total;
-    Loot_RAM *lootCat;
-};
 
 typedef struct mapDataList mapDataList, *PmapDataList;
 

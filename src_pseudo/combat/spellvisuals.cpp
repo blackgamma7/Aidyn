@@ -1,4 +1,4 @@
-#include "combat\SpellVisuals.h"
+#include "combat/SpellVisuals.h"
 #include "globals.h"
 #define FILENAME "./src/combatspellvisuals.cpp"
 

@@ -102,3 +102,11 @@ s32 FUN_800968c4(u8,u32 *);
 bool Ofunc_80096928(int);
 void noop_800969a4(void);
 
+//CombatPotionEffect.cpp
+
+void NOOP_800941E0();
+u16 InitPotionEffect(playerData *param_1,u8 param_2);
+Gfx * ret_a0_80094204(Gfx *g);
+void FUN_8009420c(int param_1);
+void FUN_80094228(playerData *param_1);
+void NOOP_80094244();

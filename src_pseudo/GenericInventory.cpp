@@ -1,5 +1,6 @@
 #include "inventory/GenericInventory.h"
 #include "crash.h"
+extern u8 weaponList[];
 
 u32 IInventory::HasItem(ItemID id){
     return this->GetItemIndex(id)!=-1;
@@ -8,7 +9,7 @@ ItemID key_item_ids[]={
     0x0100,0x0101,0x0119,0x0541,0x0640,0x0734,0x0757,0x0926,0x0a28,0x0b29,0x0c27,0x0d03,0x0d02,
   0x112e,0x1201,0x1202,0x1202,0x1203,0x1204,0x1205,0x1207};
 u32 IInventory::HasNoKeyItem(){
-    for(u32 i=0;i<21;i++){
+    for(u32 i=0;i<ARRAY_COUNT(key_item_ids);i++){
         if(this->GetItemIndex(key_item_ids[i])!=-1)return false;
     }
     return true;
@@ -43,21 +44,21 @@ void GenericInventory::Load(SaveFile*){}
 s32 GenericInventory::AddItem(ItemID id,s32 q){
   // don't add cyclops club
   if((weaponList[0x20] | 0x700) == id) return false;
-  // don't add aspect potions
+  // don't add aspect potions, make them healing instead.
   if (id == Potion_Aspect) id = Potion_Healing;
-    s32 index =this->GetItemIndex(id);
-    if (index != -1) {
+  s32 index =this->GetItemIndex(id);
+  if (index != -1) {
        this->IncItemQuantity(index,q);
       return true;
+  }
+  for(u32 i=0;i<GEN_CAPACITY;i++){
+    if (this->inv_slots[i].Quantity == 0) {
+      this->inv_slots[i].base.InitItem(id);
+      this->inv_slots[i].Quantity=q;
+      this->quantity++;
+      return true;
     }
-    for(u32 i=0;i<GEN_CAPACITY;i++){
-      if (this->inv_slots[i].Quantity == 0) {
-        this->inv_slots[i].base.InitItem(id);
-        this->inv_slots[i].Quantity=q;
-        this->quantity++;
-        return true;
-      }
-    }
+  }
   return false;
 }
 

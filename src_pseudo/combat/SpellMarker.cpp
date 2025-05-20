@@ -18,7 +18,7 @@ namespace CombatSpellMarker{
       CombatCurrentEnt_Y = (gGlobals.playerDataArray[gCombatP->current_Ent->index]->collision).pos.y;
   }
   void Free(void){
-    if (gCombatSpellMarker) FREEQSCENE(&gCombatSpellMarker);
+    if (gCombatSpellMarker) FREEQSCENE(gCombatSpellMarker);
   }
   Gfx * Tick(Gfx *g,u8 delta,u8 range,Color32 col){
     vec3f posA,posB,outPos,scale,rotate;

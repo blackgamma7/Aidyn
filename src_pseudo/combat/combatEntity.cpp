@@ -3,9 +3,9 @@
 
 #include "combat/CombatEntity.h"
 #include "combat/CombatStruct.h"
+#include "combat/SpellVisuals.h"
 #include "globals.h"
 
-extern void copy_string_to_combat_textbox(CombatStruct*,char*,u32);
 extern void print_combat_textbox(CombatStruct*,char*,u32);
 
 void Ofunc_NOOP_80067c70(void){}
@@ -95,7 +95,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
 void CombatEntity::FreeAi(){
   if (this->aiP) {
     CombatAIInfo::Free(this->aiP);
-    FREE(this->aiP,0xf0);
+    FREE(this->aiP,240);
   }
 }
 
@@ -151,19 +151,20 @@ void CombatEntity::SetCoords2(float x,float y){
   this->coord2.x = y;}
 
 
-/* Used for Casting Magic */
+//Casting Magic
 u8 CombatEntity::Flag0(){return (bool)((u8)this->flags & 1);}
-//the rest, mostly no clue
+
 u8 CombatEntity::Flag1(){return this->flags >> 1 & 1;}
-//troubador related (raised if performer?)
+//playing Troubadour
 u8 CombatEntity::Flag2(){return this->flags >> 2 & 1;}
 u8 CombatEntity::Flag3(){return this->flags >> 3 & 1;}
-//this one is friend-or-foe, i think
+//Friend or foe
 u8 CombatEntity::Flag4(){return this->flags >> 4 & 1;}
 u8 CombatEntity::Flag5(){return this->flags >> 5 & 1;}
+//Fled the field
 u8 CombatEntity::Flag6(){return this->flags >> 6 & 1;}
 u8 CombatEntity::Flag7(){return this->flags >> 7 & 1;}
-
+//using one of 2 medic skills
 u8 CombatEntity::Flag89(){return (this->flags & (COMBATENT_MEDIC|COMBATENT_HERBS)) !=0;}
 void CombatEntity::SetFlag(u16 f){flags |= f;}
 void CombatEntity::UnsetFlag(u16 f){flags &= ~f;}
@@ -193,8 +194,6 @@ u8 CombatEntity::m80068358(){
 u8 DEX_steps[16]{0,0,0,3,7,12,16,21,26,28,30,33,36,38,0,0};
 
 void CombatEntity::SetMovementRange(){
-  u8 bVar4;
-  u32 uVar7;
 
   NOOP_80068350();
   this->moveRange = 0;
@@ -206,17 +205,14 @@ void CombatEntity::SetMovementRange(){
     Temp_enchant *pTVar1 = this->charSheetP->effects[i];
     if (pTVar1) {
       if (pTVar1->index == SPELLIND_stellarGravity) {
-        bVar4 = this->moveRange - pTVar1->lv;
-        if (pTVar1->lv < this->moveRange) {
-LAB_80068514:
+        u8 bVar4 = this->moveRange - pTVar1->lv;
+        if (pTVar1->lv < this->moveRange)
           this->moveRange = bVar4;
-        }
         else this->moveRange = 1;
       }
       else {
         if (pTVar1->index == SPELLIND_haste) {
-          bVar4 = this->moveRange + pTVar1->lv;
-          goto LAB_80068514;
+          this->moveRange += pTVar1->lv;
         }
       }
     }
@@ -287,10 +283,11 @@ u8 CombatEntity::GetProtection(){
   }
   uVar6 = 0;
   if (chara->armor[0]) uVar6 = chara->armor[0]->Protect;
-  if ((((this->charSheetP->EXP->protection + uVar6) - acid) + warrior_dividing(pCVar1->Skills->getModdedSkill(SKILL_Warrior),5,false,0,0) + def) < 1)
+  //is this a macro? Calculated twice.
+  if ((((this->charSheetP->EXP->protection + uVar6) - acid) + warrior_dividing(chara->Skills->getModdedSkill(SKILL_Warrior),5,false,0,0) + def) < 1)
   return 0;
   else 
-    return (((this->charSheetP->EXP->protection + uVar6) - acid) + warrior_dividing(pCVar1->Skills->getModdedSkill(SKILL_Warrior),5,false,0,0) + def);
+    return (((this->charSheetP->EXP->protection + uVar6) - acid) + warrior_dividing(chara->Skills->getModdedSkill(SKILL_Warrior),5,false,0,0) + def);
 }
 
 s8 CombatEntity::GetBlock(){
@@ -403,7 +400,7 @@ u8 CombatEntity::CheckBackstab(CombatEntity *param_2){
   if (0.0 < fVar4) {iVar2 = (s32)(dVar3 + 0.5);}
   else {iVar2 = -(s32)(0.5 - dVar3);}
   bVar1 = true;
-  if ((float)iVar2 / 1000000.0f < 0.707107/*Cos(PI/4)*/) {bVar1 = false;}
+  if ((float)iVar2 / 1000000.0f < 0.707107/*Cos(PI/4)*/) bVar1 = false;
   return bVar1;
 }
 
@@ -667,7 +664,7 @@ LAB_800696f0:
   return bVar2;
 }
 
-u8 CombatEntity::CanBeTargeted(CombatEntity *param_2,s32 param_3){
+u8 CombatEntity::CanBeTargeted(CombatEntity *target,s32 param_3){
   u32 uVar4;
   u32 uVar5;
   float fVar8;
@@ -675,32 +672,32 @@ u8 CombatEntity::CanBeTargeted(CombatEntity *param_2,s32 param_3){
   vec3f fStack168;
   vec3f afStack104;
   
-  if (param_2->charSheetP->ID != (ItemID)(entityList[172] + 0x200)) { //not shadow
+  if (target->charSheetP->ID != (ItemID)(entityList[172] + 0x200)) { //not shadow
     if (!Flag89()) {
-      if (gGlobals.combatBytes[0] == 0x19) {return param_2 == this;}
-      if (!m8006963c(param_2)) {return false;}
+      if (gGlobals.combatBytes[0] == 0x19) {return target == this;}
+      if (!m8006963c(target)) {return false;}
     }
     else {
-      if (Entity::isDead(param_2->charSheetP)) return false;
-      if (param_2->Flag6()) return false;
-      if (param_2->Flag4() != this->Flag4()) return false;
-      if (Entity::getHPCurrent(param_2->charSheetP) == Entity::getHPMax(param_2->charSheetP)) return false;
-      if (!(this->flags & COMBATENT_MEDIC)) {if (param_2 == this) {return true;}}
-      else {if (param_2 == this) return false;}
+      if (Entity::isDead(target->charSheetP)) return false;
+      if (target->Flag6()) return false;
+      if (target->Flag4() != this->Flag4()) return false;
+      if (Entity::getHPCurrent(target->charSheetP) == Entity::getHPMax(target->charSheetP)) return false;
+      if (!(this->flags & COMBATENT_MEDIC)) {if (target == this) {return true;}}
+      else {if (target == this) return false;}
     }
     bStack176[0] = 0;
     bStack176[1] = 0;
-    param_2->GetCoordU8(bStack176,bStack176 + 1);
-    if (!m80069384(param_2,(u32)bStack176[0],(u32)bStack176[1],param_3)) {return false;}
+    target->GetCoordU8(bStack176,bStack176 + 1);
+    if (!m80069384(target,(u32)bStack176[0],(u32)bStack176[1],param_3)) {return false;}
     if (FUN_8007105c(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),(u32)bStack176[0],bStack176[1])) {return true;}
     playerData *p1 = gGlobals.playerDataArray[this->index];
-    playerData *p2 = gGlobals.playerDataArray[param_2->index];
+    playerData *p2 = gGlobals.playerDataArray[target->index];
     if ((p1) && (p2)) {
       copyVec3(&(p1->collision).pos,&fStack168);
       copyVec3(&(p2->collision).pos,&afStack104);
       fStack168.y += -p1->interactRadiusB + gEntityDB->GetHeight(this->charSheetP->ID);
-      fStack168.y += -p2->interactRadiusB + gEntityDB->GetHeight(param_2->charSheetP->ID);
-      return FUN_800716b4(&gCombatP->substruct,&fStack168,&afStack104,(u32)this->index,param_2->index);
+      fStack168.y += -p2->interactRadiusB + gEntityDB->GetHeight(target->charSheetP->ID);
+      return FUN_800716b4(&gCombatP->substruct,&fStack168,&afStack104,(u32)this->index,target->index);
       
     }
   }
@@ -743,7 +740,7 @@ u8 CombatEntity::canControl(SpellInstance *param_2){
     default:
       goto LAB_80069b1c;
     case SPELLIND_charming:
-      if (gEntityDB->entities[GetIDIndex(x)].Category == Chaos_Enemy) return false;
+      if (gEntityDB->entities[GetIDIndex(x)].Category == ENTITY_CHAOS) return false;
       return true;
     case SPELLIND_controlMarquis:
       bVar2 = entityList[0xaa];
@@ -778,8 +775,8 @@ RetFalse:
       if (param_2->Flag4() == Flag4()) goto RetFalse;
     }
     bVar1 = false;
-    if (!Entity::HasSpellEffect(param_2->charSheetP,GetIDIndex(param_3->id))) {
-      if (Entity::CheckSpellSpecial(param_2->charSheetP,param_3) == 0) {bVar1 = canControl(param_2,param_3) != false;}
+    if (!Entity::HasSpellEffect(param_2->charSheetP,GetIDIndex(param_3->base.id))) {
+      if (Entity::CheckSpellSpecial(param_2->charSheetP,param_3) == 0) bVar1 = param_2->canControl(param_3);
       else bVar1 = false;
     }
   }
@@ -1531,7 +1528,7 @@ s16 CombatEntity::AttackCalc1(CombatEntity *param_2,s8 x,s8 y,u8 backstab){
     backstab,1,0x14);
   if (CharStats::getModded(DefStats,STAT_STAM) == 0) {iVar6 *= 1.15f;} //increase if target tired
   iVar7 = FUN_80070cc4(&gCombatP->substruct,x,y,GetCoordXU8(),GetCoordYU8(););
-  iVar7 *= 0.05f * (float)iVar6 + (float)iVar6);
+  iVar7 *= 0.05f * (float)iVar6 + (float)iVar6;
   if (CharStats::getModded(stats,STAT_STAM) == 0) iVar7 *= 0.8f; //decrease if user tired
   if (TerrainPointer->partOfDay == TIME_NIGHT) iVar7 *= 0.9f; //decrease if night
   sVar10 = TroubadorMod(CombatEntity::AspectMulti(iVar7));
@@ -1593,7 +1590,7 @@ s16 CombatEntity::UseWeaponEnchantment(CombatEntity *param_2){
         if (ret == -1) ret = 0;
         if (ret == -2) ret = 0;
       }
-      ItemInstance::RemoveStatSpell(&TStack80.base);
+      TStack80.base.RemoveStatSpell();
       return ret;
     }
   }
@@ -1685,7 +1682,7 @@ s32 CombatEntity::AspectMulti(s16 param_2){
   iVar2 = (s32)param_2;
   fVar3 = 0.75f;
   if ((getNotAspectBonus()) ||(bVar1 = IsAspectBonus(), fVar3 = 1.25f, bVar1))
-    {iVar2 *= fVar3);}
+    {iVar2 *= fVar3;}
   return iVar2;
 }
 
@@ -2253,7 +2250,7 @@ s16 CombatEntity::CalcMagicResist(s16 param_2,SpellInstance *param_3){
   float afStack32 = 0.0;
 
   if (CombatEntity::MagicResistChecks(param_3,&afStack32)) {
-    param_2 *= afStack32);
+    param_2 *= afStack32;
     if ((afStack32 != 0.0) && (param_2 < 1)) {param_2 = 1;}
     if (((1.0f < afStack32) &&
         (pcVar1 = this->aiP, pcVar1)) &&
@@ -2396,11 +2393,11 @@ void CombatEntity::PrintFlaskMiss(CombatEntity *param_2,u8 param_3){
 void CombatEntity::FlaskNoop(s8 x,s8 y,bool unk,s16 val,u8 arg5){}
 
 u16 CombatEntity::GetFlaskDamage(){
-  u16 table [4]= {RollD(4,6),RollD(8,6),RollD(2,6),15};
+  u16 table [4]= {RollD(4,6),RollD(8,6),15,RollD(2,6)};
   return table[this->item];
 }
 
-void CombatEntity::FlaskAttack(CombatEntity *param_2,s16 param_3){
+void CombatEntity::FlaskAttack(CombatEntity *target,s16 dmgBase){
   u8 A;
   u8 B;
   CombatEntity *pCVar1;
@@ -2433,11 +2430,11 @@ void CombatEntity::FlaskAttack(CombatEntity *param_2,s16 param_3){
           AddPotionVisualEffect((u32)pCVar1->index,this->item,pCVar1->charSheetP);
         }
         else {
-          if (uVar10 <= param_3) {
-            s16 iVar5 = param_3 / uVar10;
-            if (pCVar1 == param_2) pCVar1->PrintDamage((s16)iVar5);
+          if (uVar10 <= dmgBase) {
+            s16 iVar5 = dmgBase / uVar10;
+            if (pCVar1 == target) pCVar1->PrintDamage((s16)iVar5);
             if (this->item == POTION_SLEEP) {
-              if ((pCVar1 != param_2) &&
+              if ((pCVar1 != target) &&
                  (CharStats::getModded(pCVar1->charSheetP->Stats,STAT_STAM) <= iVar5)) {
                 iVar5 = CharStats::getModded(pCVar1->charSheetP->Stats,STAT_STAM)-1;
               }
@@ -2449,7 +2446,7 @@ void CombatEntity::FlaskAttack(CombatEntity *param_2,s16 param_3){
               }
             }
             else {
-              if ((pCVar1 != param_2) &&
+              if ((pCVar1 != target) &&
                  (Entity::getHPCurrent(pCVar1->charSheetP) <= iVar5)) {
                 iVar5 = (Entity::getHPCurrent(pCVar1->charSheetP) - 1);
               }
@@ -2459,9 +2456,9 @@ void CombatEntity::FlaskAttack(CombatEntity *param_2,s16 param_3){
               }
               pCVar1->damage = (u8)iVar5;
             }
-            if (pCVar1 == param_2) {pCVar1->TryCheatDeath((s16)iVar5);}
+            if (pCVar1 == target) {pCVar1->TryCheatDeath((s16)iVar5);}
             ppVar2 = gGlobals.playerDataArray[pCVar1->index];
-            if ((ppVar2) && (ppVar2->ani_type = 7, pCVar1 != param_2)) {
+            if ((ppVar2) && (ppVar2->ani_type = 7, pCVar1 != target)) {
               Print_damage_healing(ppVar2,(u16)pCVar1->damage,0,false,pCVar1->charSheetP);
               pCVar1->damage = 0;
             }
