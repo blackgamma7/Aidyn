@@ -3,6 +3,7 @@
 #include "globals.h"
 #include "romstring.h"
 #include "widgets/WidgetCombatTextbox.h"
+#include "weapondb.h"
 
 #define FILENAME "../combatengine/combat.cpp"
 
@@ -478,10 +479,9 @@ bool Ofunc_CombatLeaderDead(CombatStruct *param_1,s32 param_2){
 }
 
 
-bool some_combat_proximity_check(CombatStruct *param_1,ItemID param_2,float param_3,float param_4)
+bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y)
 
 {
-  playerData *ppVar1;
   uint uVar4;
   float fVar5;
   float fVar6;
@@ -490,25 +490,24 @@ bool some_combat_proximity_check(CombatStruct *param_1,ItemID param_2,float para
   vec2f afStack120;
   
   uVar4 = 0;
-  fVar5 = gEntityDB->GetFloatC(param_2);
-  fVar6 = gEntityDB->GetScale(param_2);
+  fVar5 = gEntityDB->GetFloatC(id);
+  fVar6 = gEntityDB->GetScale(id);
   CLEAR(&fStack184);
   if (param_1->EntCount) {
-    fStack184.x = param_3;
-    fStack184.y = param_4;
-    do {
-      CombatEntity *ppCVar3 = &param_1->combatEnts[uVar4];
-      if (ppCVar3){
-        playerData *ppVar1 = gGlobals.playerDataArray[(ppCVar3)->index];
-        if (ppVar1){
-          setVec2(&afStack120,(ppVar1->collision).pos.x,(ppVar1->collision).pos.z);
-          if (vec2_proximity(&fStack184,&afStack120) <= ppVar1->interactRadiusB + fVar5 * fVar6) {
+    fStack184.x = x;
+    fStack184.y = y;
+    for(u32 i=0;i<param_1->EntCount;i++) {
+      CombatEntity *cEnt = &param_1->combatEnts[i];
+      if (cEnt){
+        playerData *pDat = gGlobals.playerDataArray[(cEnt)->index];
+        if (pDat){
+          setVec2(&afStack120,(pDat->collision).pos.x,(pDat->collision).pos.z);
+          if (vec2_proximity(&fStack184,&afStack120) <= pDat->interactRadiusB + fVar5 * fVar6) {
             return false;
           }
         }
       }
-      uVar4 += 1;
-    } while (uVar4 < param_1->EntCount);
+    }
   }
   return true;
 }
@@ -672,69 +671,40 @@ LAB_80066b7c:
 void get_gear_drop(CombatStruct *param_1,Entity_Ram *param_2,Loot_RAM *param_3)
 
 {
-  ItemID IVar1;
-  weapon_ram *pwVar3;
-  u16 uVar5;
-  byte bVar6;
-  int iVar4;
-  weapon_ram *pcVar8;
-  byte *pbVar7;
-  ItemID *pIVar8;
-  uint uVar9;
-  bool uStack104 [11];
-  
+  ItemID id;
   if (param_2 == NULL) return;
-  IVar1 = param_2->Armor;
-  if ((param_3->armorDrop != 0) && (IVar1 != (ItemID)0xffff)) {
-    uVar5 = RollD(1,100);
-    if (param_3->armorDrop < uVar5) {
-      bVar6 = param_3->sheildDrop;
-      goto LAB_80066ef0;
+  id = param_2->Armor;
+  if ((param_3->armorDrop != 0) && (id != (ItemID)0xffff)) {
+    if (param_3->armorDrop >= RollD(1,100)) {
+      param_1->loot_pool->AddItem(id,1);
+      param_1->EXP_pool +=gArmorDBp->Armor[GetIDIndex(id)].expBonus*25;//?
     }
-    param_1->loot_pool->AddItem(IVar1,1);
-    bVar6 = GetIDIndex(IVar1);
-    param_1->EXP_pool +=armour_pointer->Armor[bVar6].expBonus*25;//?
   }
-  bVar6 = param_3->sheildDrop;
-LAB_80066ef0:
-  IVar1 = param_2->Sheild;
-  if (((bVar6 != 0) && (IVar1 != (ItemID)0xffff)) &&
-     (uVar5 = RollD(1,100), uVar5 <= param_3->sheildDrop)) {
-    param_1->loot_pool->AddItem(IVar1,1);
-    param_1->EXP_pool += armour_pointer->Armor[GetIDIndex(IVar1)].expBonus;
+  id = param_2->Sheild;
+  if (((param_3->sheildDrop != 0) && (id != (ItemID)0xffff)) &&
+     (RollD(1,100) <= param_3->sheildDrop)) {
+    param_1->loot_pool->AddItem(id,1);
+    param_1->EXP_pool += gArmorDBp->Armor[GetIDIndex(id)].expBonus;
   }
-  uVar9 = 0;
-  pbVar7 = param_3->weaponDrop;
-  pIVar8 = param_2->weapon;
-  do {
-    IVar1 = *pIVar8;
-    if (((*pbVar7 != 0) && (IVar1 != (ItemID)0xffff)) && (IVar1 != (ItemID)0x0)) {
-      bVar6 = GetIDIndex(IVar1);
-      bool uStack104[]={0};
-      iVar4 = (char)bVar6 * 0xc + (int)(char)bVar6;
-      if ((uStack104[gWeaponsDB->weapons[bVar6].Class]) &&
-         (RollD(1,100)<= *pbVar7)) {
-        param_1->loot_pool->AddItem(IVar1,1);
-        param_1->EXP_pool += gWeaponsDB->weapons[bVar6].EXPMod;
+  for(u32 i=0;i>3;i++) {
+    id = param_2->weapon[i];
+    if (((param_3->weaponDrop[i] != 0) && (id != (ItemID)0xffff)) && (id != (ItemID)0x0)) {
+      u8 index = GetIDIndex(id);
+      u8 isntMonsterWeapon[]={false,false,false,true,true,true,false,false,true,true,false};
+      if ((isntMonsterWeapon[gWeaponsDB->weapons[index].wepClass]) &&
+         (RollD(1,100)<= param_3->weaponDrop[i])) {
+        param_1->loot_pool->AddItem(id,1);
+        param_1->EXP_pool += gWeaponsDB->weapons[index].EXPMod;
       }
     }
-    pbVar7 = pbVar7 + 1;
-    uVar9 += 1;
-    pIVar8 = pIVar8 + 1;
-  } while (uVar9 < 3);
-  return;
+  }
+
 }
 
 
 void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,uint param_3)
 
-{
-  u16 uVar3;
-  uint uVar2;
-  byte bVar5;
-  u16 uVar4;
-  uint uVar6;
-  
+{ 
   if (param_2->itemDropChances[param_3]) {
     if (param_2->itemDropChances[param_3] < RollD(1,100)) return;
     u8 uVar2 = 1;
@@ -743,7 +713,8 @@ void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,uint param_3)
     }
     //Short means messy bitshifting casting and AND casting. yeesh.
     s16 x = param_2->itemDrops[param_3];
-    piVar1 = param_1->loot_pool->AddItem(x,uVar2);
+    param_1->loot_pool->AddItem(x,uVar2);
+    u16 uVar6;
     if (true) {
       switch(x>>8) {
       case 1:
@@ -757,16 +728,16 @@ void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,uint param_3)
       case 0x11:
       case 0x12:
       case 0x13:
-        uVar6 = (uint)item_pointer->Gear[(u8)search_item_array(x)].exp_multi;
+        uVar6 = (uint)gItemDBp->Gear[(u8)search_item_array(x)].exp_multi;
         break;
       default:
         return;
       case 5:
       case 6:
-        uVar6 = armour_pointer->Armor[GetIDIndex(x)].expBonus;
+        uVar6 = gArmorDBp->Armor[GetIDIndex(x)].expBonus;
         break;
       case 7:
-        uVar6 = (uint)gWeaponsDB->weapons[GetIDIndex(x)].EXPMod;
+        uVar6 = gWeaponsDB->weapons[GetIDIndex(x)].EXPMod;
       }
       param_1->EXP_pool += uVar2 * uVar6;
     }
@@ -784,7 +755,7 @@ void calc_loot(CombatStruct *param_1,byte param_2,Entity_Ram *param_3){
   if ((pLVar5->reagentchance) && (RollD(1,100) <= pLVar5->reagentchance)) {
     u8 uVar2 = rand_range(0x1e,0x20);
     param_1->loot_pool->AddItem(itemID_array[uVar2],(u8)rand_range(pLVar5->reagentLlo,pLVar5->reagentHi));
-    param_1->EXP_pool += (uint)item_pointer->Gear[uVar2].exp_multi;
+    param_1->EXP_pool += (uint)gItemDBp->Gear[uVar2].exp_multi;
   }
   for(u32 i=0;i<6;i++) {get_exp_mod(param_1,pLVar5,i);}
 }
@@ -800,82 +771,51 @@ void add_globalLoot(CombatStruct *param_1,ItemID param_2){
 void calc_combat_loot(CombatStruct *param_1)
 
 {
-  CharSheet *pCVar1;
-  Party *pPVar2;
-  GenericInventory *pGVar3;
-  EncounterDat *pEVar4;
   byte bVar6;
   int iVar5;
   bool bVar7;
   Entity_Ram *pEVar8;
-  uint uVar9;
+  u8 i;
   
-  pPVar2 = gGlobals.party;
-  uVar9 = 0;
   param_1->loot_pool = new GenericInventory();
   param_1->gold_pool = 0;
   param_1->EXP_pool = 0;
-  pEVar4 = param_1->encounter_dat;
-  while( true ) {
-    if (pEVar4->enemy_entities[uVar9]) {
-      pEVar8 = gEntityDB->entities + (char)GetIDIndex(pEVar4->enemy_entities[uVar9]);
+  for(i = 0;i<12;i++){
+    if (param_1->encounter_dat->enemy_entities[i]) {
+      pEVar8 = gEntityDB->entities + (char)GetIDIndex(param_1->encounter_dat->enemy_entities[i]);
       param_1->EXP_pool+=pEVar8->EXP;
       if (pEVar8->loot_Category) {
         calc_loot(param_1,GetIDIndex((ItemID)(pEVar8->loot_Category + 0x7ff)),pEVar8);
       }
     }
-    uVar9 = uVar9 + 1 & 0xff;
-    if (0xb < uVar9) break;
-    pEVar4 = param_1->encounter_dat;
   }
-  if (gGlobals.EncounterDat.globalLoot) {
+  if (gGlobals.EncounterDat.globalLoot) 
     add_globalLoot(param_1,gGlobals.EncounterDat.globalLoot);
-  }
-  uVar9 = 0;
-  iVar5 = 0;
-  do {
-    pCVar1 = *(CharSheet **)((int)pPVar2->Members + iVar5);
-    if ((pCVar1 != NULL) && (bVar7 = Entity::isDead(pCVar1), !bVar7)) {
+  for(i=0;i<MAXPARTY;i++){
+    CharSheet* pCVar1 = PARTY->Members[i];
+    if ((pCVar1) && (!Entity::isDead(pCVar1))) {
       Entity::AddExp(pCVar1,param_1->EXP_pool);
     }
-    uVar9 = uVar9 + 1 & 0xff;
-    iVar5 = uVar9 << 2;
-  } while (uVar9 < 4);
+  }
   //double money earned
   param_1->gold_pool <<= 1;
-  return;
 }
-void FUN_800675b0(CombatStruct *param_1)
-
-{
-  CombatEntity *X;
-  GenericInventory *pGVar1;
-  Party *pPVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
+void FUN_800675b0(CombatStruct *param_1){
+  uint uVar4,uVar5;
   
   combat_turn_free(&param_1->turn);
-  pPVar2 = gGlobals.party;
   uVar5 = 0;
-  if (param_1->EntCount != 0) {
-    iVar3 = 0;
+  if (param_1->EntCount) {
     do {
-      X = *(CombatEntity **)((int)&param_1->combatEnts + iVar3);
-      uVar5 += 1;
-      if (X != NULL) {
+      CombatEntity *X = (&gCombatP->combatEnts)[uVar5++];
+      if (X) {
         uVar4 = 0;
         while (uVar4 < 4) {
-          if (pPVar2->Members[uVar4] == NULL) {
-            uVar4 += 1;
-          }
-          else {
-            if (X->charSheetP == pPVar2->Members[uVar4]) {
+            if((PARTY->Members[uVar4])&&(X->charSheetP == PARTY->Members[uVar4])) {
               Entity::ResetEffects(X->charSheetP);
               break;
             }
             uVar4++;
-          }
         }
         if (uVar4 == 4) {
           Entity::ClearAllPotionEffects(X->charSheetP);
@@ -883,11 +823,10 @@ void FUN_800675b0(CombatStruct *param_1)
           Entity::Free(X->charSheetP);
           FREE(X->charSheetP,1662);
         }
-        CombatEntity::FreeAi(X);
+        X->FreeAi();
         FREE(X,1668);
-        *(undefined4 *)((int)&param_1->combatEnts + iVar3) = 0;
+        (&gCombatP->combatEnts)[uVar5]=NULL;
       }
-      iVar3 = uVar5 * 4;
     } while (uVar5 < param_1->EntCount);
   }
   NOOP_80070c94(&param_1->substruct);
@@ -951,20 +890,17 @@ void Ofunc_800678e8(CombatStruct *param_1){
 
 
 void check_battlefeild_fleeing_refpoints(CombatStruct *param_1){
-  uint uVar2;
   char buff [88];
   
-  uVar2 = 0;
   param_1->hasFleeRefpoints = 0;
-  do {
+  for(u32 uVar2=0;uVar2<8;uVar2++) {
     sprintf(buff,gCombatP->textArray[COMBATSTRING_FleeX],uVar2);
     voxelObject* prVar1 = FindReferncePointName(gGlobals.Sub.borg9DatPointer,buff,false);
-    uVar2 += 1;
     if (prVar1) {
       param_1->hasFleeRefpoints = true;
       return;
     }
-  } while (uVar2 < 8);
+  }
 }
 
 bool renderTicker_GreaterThan3(CombatStruct *param_1){return 3 < (uint)param_1->renderTicker;}

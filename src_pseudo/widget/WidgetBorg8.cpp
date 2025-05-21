@@ -66,4 +66,4 @@ Gfx * WidgetBorg8::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 }
 
 u8 WidgetBorg8::Tick(){return TickChildren();}
-u32 WidgetBorg8::GetNumber(){return 4;}
+u32 WidgetBorg8::GetNumber(){return WidgetN_Borg8;}

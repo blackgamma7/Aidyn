@@ -4,16 +4,15 @@
 #define FILENAME "./src/widgettext.cpp"
 
 WidgetText::WidgetText(char *str,u16 len):BaseWidget(){
-  widgetTextSubstruct *ppcVar2;
   uint size = (uint)len;
-  ppcVar2 = new widgetTextSubstruct;
-  ppcVar2->scalex = 1.0f;
-  ppcVar2->scaley = 1.0f;
+  widgetTextSubstruct *sub = new widgetTextSubstruct;
+  sub->scale.x = 1.0f;
+  sub->scale.y = 1.0f;
   if (len < 2) size = 2;
-  ALLOCS(ppcVar2->str,size,36);
-  if (!str) sprintf(ppcVar2->str," ");
-  else sprintf(ppcVar2->str,str);
-  substruct = ppcVar2;
+  ALLOCS(sub->str,size,36);
+  if (!str) sprintf(sub->str," ");
+  else sprintf(sub->str,str);
+  substruct = sub;
   SetState(1);
   width = 0;
   height = 0;
@@ -62,7 +61,7 @@ Gfx * WidgetText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     (font_pointer->col).A = this->col.A *fadeFloatMirror;
     if (0.0 < (this->col).A * fadeFloatMirror) {
       uVar4 = Font::PrintWapperA(font_pointer,&apGStackX_4,ppcVar1->str,this->x,this->y,
-              lVar6,lVar5,lVar8,lVar7,ppcVar1->scalex,ppcVar1->scaley);
+              lVar6,lVar5,lVar8,lVar7,ppcVar1->scale.x,ppcVar1->scale.y);
     }
     BaseWidget::SetHeight(uVar4);
     return RenderChildren(apGStackX_4,x0,y0,x1,y1);
@@ -74,7 +73,7 @@ u16 WidgetText::GetWidth(){
   u16 uVar2;
   uint uVar3;
   widgetTextSubstruct *ppvVar1 = (widgetTextSubstruct *)substruct;
-  uVar1 = Font::GetWidthScaled(font_pointer,ppvVar1->str,ppvVar1->scalex);
+  uVar1 = Font::GetWidthScaled(font_pointer,ppvVar1->str,ppvVar1->scale.x);
   uVar2 = 0;
   if (boundX1 < boundX0) width = 0;
   else {
@@ -89,7 +88,7 @@ u16 WidgetText::GetWidth(){
 u16 WidgetText::GetHeight(){
   widgetTextSubstruct *ppcVar1 = (widgetTextSubstruct *)substruct;
   height = (u16)Font::GetHeightScaled(font_pointer,ppcVar1->str,x,(int)(short)boundX1,
-                         ppcVar1->scalex,ppcVar1->scaley);
+                         ppcVar1->scale.x,ppcVar1->scale.y);
   return height;
 }
 
@@ -115,6 +114,6 @@ u8 WidgetText::Modify(char *newStr,u8 b){
     return true;
   }
 }
-u32 WidgetText::GetNumber(){return 0;}
+u32 WidgetText::GetNumber(){return WidgetN_Text;}
 
 

@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "weapondb.h"
 #define FILENAME "../gameclasses/generic.cpp"
 
 
@@ -49,7 +50,7 @@ void ItemInstance::InitArmor(ItemID param_2){
   CLEAR(this);
   bVar4 = GetIDIndex(param_2);
   this->id = param_2;
-  pcVar5 = armour_pointer->Armor[bVar4];
+  pcVar5 = gArmorDBp->Armor[bVar4];
   this->name = pcVar5->name;
   this->aspect = pcVar5->aspect;
   this->price = pcVar5->price;
@@ -74,7 +75,7 @@ void ItemInstance::InitWeapon(ItemID param_2){
   CLEAR(this);
   bVar4 = GetIDIndex(param_2);
   this->id = param_2;
-  pcVar5 = gWeaponsDB->weapons[bVar4];
+  pcVar5 = &gWeaponsDB->weapons[bVar4];
   this->name = pcVar5->name;
   this->aspect = pcVar5->aspect;
   this->price = pcVar5->price;
@@ -93,18 +94,15 @@ void ItemInstance::InitWeapon(ItemID param_2){
 u16 potion_prices[17]=
 {250,1000,200,500,50,300,200,200,2500,500,500,500,0,300,300,500,500};
 
-void ItemInstance::InitPotion(ItemID param_2){
-  char *pcVar1;
+void ItemInstance::InitPotion(ItemID id){
   char **ppcVar2;
   u8 bVar3;
   
   CLEAR(this);
-  bVar3 = GetIDIndex(param_2);
-  ppcVar2 = potion_names;
-  this->id = param_2;
-  pcVar1 = ppcVar2[bVar3];
+  u8 index = GetIDIndex(id);
+  this->id = id;
   this->price = potion_prices[bVar3];
-  this->name = pcVar1;
+  this->name = potion_names[bVar3];
 }
 
 void ItemInstance::InitGear(ItemID param_2){
@@ -113,7 +111,7 @@ void ItemInstance::InitGear(ItemID param_2){
   
   CLEAR(this);
   iVar1 = search_item_array(param_2);
-  pGVar4 = item_pointer->Gear;
+  pGVar4 = gItemDBp->Gear;
   this->id = param_2;
   pGVar4+= iVar1;
   this->name = pGVar4->name;
@@ -136,7 +134,7 @@ u16 ItemInstance::GetPrice(){
   
   uVar4 = (u32)((u16)this->id >> 8);
   if (uVar4 - 5 < 2) {
-    uVar2 = armour_pointer->Armor[GetIDIndex(this->id)].price;
+    uVar2 = gArmorDBp->Armor[GetIDIndex(this->id)].price;
   }
   else if (uVar4 == DB_WEAPON) {
     uVar2 = gWeaponsDB->weapons[GetIDIndex(this->id)].price;
@@ -145,7 +143,7 @@ u16 ItemInstance::GetPrice(){
     uVar2 = potion_prices[GetIDIndex(this->id)];
    }
   else {
-    uVar2 = item_pointer->Gear[search_item_array(this->id)].price;
+    uVar2 = gItemDBp->Gear[search_item_array(this->id)].price;
     }
   return uVar2;
 }

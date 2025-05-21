@@ -124,7 +124,7 @@ void get_loot_reagent(voxelObject* v,container_Dat * cont){
               );
   }
   GenericInventory * pGVar1 = new GenericInventory();
-  pGVar1->AddItem(item_pointer->Gear[LootReagentIDs[cont->LootType]].ID,quant);
+  pGVar1->AddItem(gItemDBp->Gear[LootReagentIDs[cont->LootType]].ID,quant);
   build_loot_menu(pGVar1,0,-1);
   gGlobals.playerCharStruct.unkState = 7;
 }

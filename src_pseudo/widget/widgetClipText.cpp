@@ -112,4 +112,4 @@ u8 WidgetClipText::SetText(char *str,u8 b){
   return true;
 }
 
-u32 WidgetClipText::GetNumber(){return 1;}
+u32 WidgetClipText::GetNumber(){return WidgetN_ClipText;}

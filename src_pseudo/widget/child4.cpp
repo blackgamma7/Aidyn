@@ -204,4 +204,4 @@ void WidgetChild4::ShowEXPCosts(){
   }
 }
 
-u32 WidgetChild4::GetNumber(){return 12;}
+u32 WidgetChild4::GetNumber(){return WidgetN_Other;}

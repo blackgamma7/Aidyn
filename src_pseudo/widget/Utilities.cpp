@@ -1,146 +1,142 @@
 #include "widgets/Utilities.h"
 #define FILENAME "./src/utilities.cpp"
 
-
+//Get string from Text Widget
+//@returns string of text widget
 char * Utilities::GetWidgetText(BaseWidget *w){
   char** p;
   
-  if (w->GetNumber() == 0)
+  if (w->GetNumber() == WidgetN_Text)
     p = (char**)w->substruct;
-  else if (w->GetNumber() == 1)
+  else if (w->GetNumber() == WidgetN_ClipText)
     p = (char**)w->substruct;
-  else if (w->GetNumber() == 2)
+  else if (w->GetNumber() == WidgetN_ShadText)
     p = (char**)w->substruct;
   else return NULL;
   return *p;
 }
-
-void Utilities::ChangeWidgetText(BaseWidget *w,char *param_2,u8 param_3){
-  void *pvVar2;
-  u16 uVar3;
-  char *pcVar4;
-  uint line;
-  undefined4 *puVar6;
-  char **puVar5;
-  
-  //Todo:: clean up mess
-  if (w->GetNumber() != 0) {
-    if (w->GetNumber() != 1) {
-      if (w->GetNumber() != 2) {
-        return;
-      }
+//replace the text in a text Widget. Could be optimized.
+//@param w: widget to replace text
+//@param txt: new text
+//@param realloc: if the memory for the text should be reallocated.
+void Utilities::ChangeWidgetText(BaseWidget *w,char *txt,u8 realloc){
+  WSTSub* sub; //enoungh similarites to structs to allow it.
+  u16 len;  
+  if ((w->GetNumber() != WidgetN_Text)&&
+      (w->GetNumber() != WidgetN_ClipText)&&
+      (w->GetNumber() != WidgetN_ShadText)) 
+    return;
+  if (w->GetNumber() == WidgetN_Text) {
+    sub = (WSTSub *)w->substruct;
+    if (realloc){
+    HFREE(sub->txt,159);
+    len = strlen(txt)+1;
+    sub->len=len;
+    ALLOCS(sub->txt,len,162);
     }
+    sprintf(sub->txt,txt);
   }
-  if (w->GetNumber() == 0) {
-    puVar6 = (undefined4 *)w->substruct;
-    if (!param_3) goto LAB_800bbcac;
-    HFREE((void *)*puVar6,159);
-    uVar3 = strlen(param_2);
-    uVar3 += 1;
-    *(s16 *)(puVar6 + 1) = (s16)uVar3;
-    line = 0xa2;
-  }
-  else {
-    if (w->GetNumber() != 1) {
-      if (w->GetNumber() != 2) return;
-      puVar5 = (char **)w->substruct;
-      if (param_3) {
-        HFREE(*puVar5,189);
-        uVar3 = strlen(param_2);
-        *(s16 *)(puVar5 + 1) = (s16)(uVar3 + 1);
-        pcVar4 = (char *)HALLOC(uVar3 + 1,192);
-        *puVar5 = pcVar4;
-      }
-      sprintf(*puVar5,param_2);
-      return;
+  else if (w->GetNumber() == WidgetN_ClipText){
+    sub = (WSTSub *)w->substruct;
+    if (realloc){
+    HFREE(sub->txt,174);
+    len = strlen(txt)+1;
+    sub->len = len;
+    ALLOCS(sub->txt,len,177);
     }
-    puVar6 = (undefined4 *)w->substruct;
-    if (!param_3) goto LAB_800bbcac;
-    HFREE((void *)*puVar6,0xae);
-    uVar3 = strlen(param_2);
-    uVar3 += 1;
-    *(s16 *)(puVar6 + 1) = (s16)uVar3;
-    line = 0xb1;
+    sprintf(sub->txt,txt);
   }
-  pvVar2 = HALLOC(uVar3,line);
-  (void*)*puVar6 = pvVar2;
-LAB_800bbcac:
-  sprintf((char *)*puVar6,param_2);
+  else if (w->GetNumber() == WidgetN_ShadText){
+    sub = (WSTSub *)w->substruct;
+    if (realloc){
+    HFREE(sub->txt,189);
+    len = strlen(txt)+1;
+    sub->len = len;
+    ALLOCS(sub->txt,len,192);
+    }
+    sprintf(sub->txt,txt);
+  }
 }
-
+//set x-axis bounds for text widgets
+//@param w: widget to change
+//@param x: boundx0
+//@param y: boundx1
 void Utilities::SetWidgetBoundsX(BaseWidget *w,u16 x,u16 y){
-  void *pvVar1;
+  WSTSub* sub;
   
   if (w->GetNumber() == 0) {
     w->boundX0 = x;
     w->boundX1 = y;
   }
   else {
-  if (w->GetNumber() == 1)
-      pvVar1 = w->substruct;
-  else if (w->GetNumber() == 2)
-      pvVar1 = w->substruct;
+  if (w->GetNumber() == WidgetN_ClipText)
+      sub = (WSTSub *)w->substruct;
+  else if (w->GetNumber() == WidgetN_ShadText)
+      sub = (WSTSub *)w->substruct;
   else return;
-  *(u16 *)((int)pvVar1 + 0x10) = x;
-  *(u16 *)((int)pvVar1 + 0x12) = y;
+  sub->X=x;
+  sub->Y=y;
   }
 }
-
+//set x-axis bound for text widgets
+//@param w: widget to change
+//@param x: boundx0
 void Utilities::SetWidgetBoundsX0(BaseWidget *w,u16 x){
-    void *pvVar1;
+    WSTSub *sub;
     
-    if (w->GetNumber() == 0) {
+    if (w->GetNumber() == WidgetN_Text)
       w->boundX0 = x;
-    }
     else {
-    if (w->GetNumber() == 1)
-        pvVar1 = w->substruct;
-    else if (w->GetNumber() == 2)
-        pvVar1 = w->substruct;
+    if (w->GetNumber() == WidgetN_ClipText)
+        sub = (WSTSub *)w->substruct;
+    else if (w->GetNumber() == WidgetN_ShadText)
+        sub = (WSTSub *)w->substruct;
     else return;
-    *(u16 *)((int)pvVar1 + 0x10) = x;
+    sub->X = x;
     }
   }
-  
+//set x-axis bounds for text widgets
+//@param w: widget to change
+//@param y: boundx1
   void Utilities::SetWidgetBoundsX1(BaseWidget *w,u16 y){
-    void *pvVar1;
+    WSTSub *pvVar1;
     
-    if (w->GetNumber() == 0) {
+    if (w->GetNumber() == WidgetN_Text) {
       w->boundX1 = y;
     }
     else {
-    if (w->GetNumber() == 1)
-        pvVar1 = w->substruct;
-    else if (w->GetNumber() == 2)
-        pvVar1 = w->substruct;
+    if (w->GetNumber() == WidgetN_ClipText)
+        pvVar1 = (WSTSub *)w->substruct;
+    else if (w->GetNumber() == WidgetN_ShadText)
+        pvVar1 = (WSTSub *)w->substruct;
     else return;
-    *(u16 *)((int)pvVar1 + 0x12) = y;
+    pvVar1->Y = y;
     }
   }
 
 //set scale of widget? unused.
-void Ofunc_800bbf28(BaseWidget *w,float param_2,float param_3){
-  float *p;
+void Ofunc_800bbf28(BaseWidget *w,float x,float y){
+  WSTSub* sub;
   
-  if (w->GetNumber() == 0)
-    p = (float *)w->substruct;
-  else if (w->GetNumber() == 1)
-    p = (float *)w->substruct;
-  else if (w->GetNumber() == 2)
-    p = (float *)w->substruct;
+  if (w->GetNumber() == WidgetN_Text)
+    sub = (WSTSub *)w->substruct;
+  else if (w->GetNumber() == WidgetN_ClipText)
+    sub = (WSTSub *)w->substruct;
+  else if (w->GetNumber() == WidgetN_ShadText)
+    sub = (WSTSub *)w->substruct;
   else return;
-  p[2]=param_2;
-  p[3]=param_3;
+  sub->scale.x=x;
+  sub->scale.y=y;
 }
 
 //something about a scrollmenu item's vertical spacing?
 void FUN_800bbfc8(BaseWidget *w,u16 param_2){
   switch (w->GetNumber()){
-    case 9:
-    *(u16 *)((int)w->substruct + 8) = param_2;
+    case WidgetN_ArrayMenu:
+    ((WAMSub*)w->substruct)->entryX=param_2;
     break;
-    case 8:
-    ((WSMSub*)w->substruct)->field_0x22 = (u8)param_2;
+    case WidgetN_ScrollMenu:
+    ((WSMSub*)w->substruct)->unk22 = (u8)param_2;
     break;
     case 11:
     *(u8 *)((int)w->substruct + 0x13) = (u8)param_2;
@@ -150,7 +146,7 @@ void FUN_800bbfc8(BaseWidget *w,u16 param_2){
 
 void Ofunc_800bc064(BaseWidget *w,u8 param_2){
     switch (w->GetNumber()){
-        case 8:
+        case WidgetN_ScrollMenu:
         case 11:
         ((WSMSub*)w->substruct)->field0_0x0 = param_2;
         break;
@@ -161,11 +157,11 @@ BaseWidget * Utilities::GetHighlightedEntry(BaseWidget *w){
   uint uVar2;
   BaseWidget **iVar3;
   
-  if (w->GetNumber() == 9){
-    uVar2 = (uint)*(u16 *)((int)w->substruct + 6);
-    iVar3 = *(BaseWidget ***)(w->substruct);
+  if (w->GetNumber() == WidgetN_ArrayMenu){
+    uVar2 = ((WAMSub*)w->substruct)->entryPos;
+    iVar3 = ((WAMSub*)w->substruct)->entries;
   }
-  else if (w->GetNumber() == 8){
+  else if (w->GetNumber() == WidgetN_ScrollMenu){
     uVar2 = ((WSMSub*)w->substruct)->highlight;
     iVar3 = ((WSMSub*)w->substruct)->items;
   }
@@ -178,25 +174,25 @@ BaseWidget * Utilities::GetHighlightedEntry(BaseWidget *w){
 }
 
 u16 Utilities::GetHighlightIndex(BaseWidget *w){
-  u16 uVar2;
+  u16 highlight;
   switch (w->GetNumber()){
-    case 9:
-    uVar2 = *(u16 *)((int)w->substruct + 6);
+    case WidgetN_ArrayMenu:
+    highlight = ((WAMSub*)w->substruct)->entryPos;
     break;
-    case 8:
-    uVar2 = ((WSMSub*)w->substruct)->highlight;
+    case WidgetN_ScrollMenu:
+    highlight = ((WSMSub*)w->substruct)->highlight;
     break;
     case 11:
-    uVar2 = (u16)*(u8 *)((int)w->substruct + 0x11);
+    highlight = (u16)*(u8 *)((int)w->substruct + 0x11);
     break;
     default:
-    uVar2=0;
+    highlight=0;
   }
-  return uVar2;
+  return highlight;
 }
 
 void Utilities::SetScrollMenuColors(BaseWidget *w,u8 r0,u8 g0,u8 b0,u8 a0,u8 r1,u8 g1,u8 b1,u8 a1,u8 w0){
-  if (w->GetNumber() == 8) {
+  if (w->GetNumber() == WidgetN_ScrollMenu) {
     WSMSub *sub = (WSMSub *)w->substruct;
     sub->field1_0x1 = 1;
     (sub->col).R = r0;
@@ -224,26 +220,26 @@ void Ofunc_800bc300(BaseWidget *w,u16 param_2){
   BaseWidget **ppBVar5;
   u16 uVar6;
   u16 uVar7;
-  WSMSub *pvVar2;
+  WSMSub *sub;
   
   uVar7 = param_2;
-  if ((w->GetNumber() == 8) && (pvVar2 = (WSMSub *)w->substruct, uVar7 < (u16)pvVar2->currentCount))
+  if ((w->GetNumber() == WidgetN_ScrollMenu) && (sub = (WSMSub *)w->substruct, uVar7 < (u16)sub->currentCount))
   {
-    iVar4 = (u16)pvVar2->currentCount - 1;
+    iVar4 = (u16)sub->currentCount - 1;
     if ((int)uVar7 < iVar4) {
-      ppBVar2 = pvVar2->items;
+      ppBVar2 = sub->items;
       do {
         ppBVar5 = ppBVar2 + uVar7;
         uVar7++;
         *ppBVar5 = ppBVar5[1];
       } while ((int)uVar7 < iVar4);
     }
-    sVar1 = pvVar2->currentCount;
+    sVar1 = sub->currentCount;
     uVar6 = sVar1 - 1;
-    pvVar2->items[uVar7] = NULL;
-    pvVar2->currentCount = uVar6;
-    if (uVar6 <= (u16)pvVar2->highlight) {
-      pvVar2->highlight = sVar1 + -2;
+    sub->items[uVar7] = NULL;
+    sub->currentCount = uVar6;
+    if (uVar6 <= (u16)sub->highlight) {
+      sub->highlight = sVar1 + -2;
     }
   }
 }
@@ -287,26 +283,24 @@ void Utilities::SetBorg8Dims(BaseWidget *w,Borg8header *image,u8 replace){
 
 void Utilities::SetWidgetBounds
                (BaseWidget *w,u16 param_2,u16 param_3,u16 param_4,u16 param_5){
-  BaseWidget *pBVar1;
-  
   if (w) {
-    pBVar1 = w->link3;
+    BaseWidget *link = w->link3;
     w->boundX0 = param_2;
     w->boundX1 = param_4;
     w->boundY0 = param_3;
     w->boundY1 = param_5;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
-      SetWidgetBounds(pBVar1,param_2,param_3,param_4,param_5);
+    for (; link != NULL; link = link->link2) {
+      SetWidgetBounds(link,param_2,param_3,param_4,param_5);
     }
   }
 }
 
 
 void Utilities::SetWidgetBoundsX02(BaseWidget *w,u16 param_2){
-  BaseWidget *pBVar1;
+  pBVar1;
   
   if (w != NULL) {
-    pBVar1 = w->link3;
+    BaseWidget *pBVar1 = w->link3;
     w->boundX0 = param_2;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
       SetWidgetBoundsX02(pBVar1,param_2);
@@ -446,8 +440,8 @@ void Utilities::MoveWidget2(BaseWidget *w,s16 param_2,s16 param_3){
   MoveWidget(w,param_2 - w->x,param_3 - w->y);
 }
 
-BaseWidget * Utilities::DebugBackground(BaseWidget *wP,s16 x,s16 y,u16 h,u16 w,u8 r,u8 g,u8 b,u8 a){
-  BaseWidget* BG = new wigdetUnk0();
+WidgetDebugBG * Utilities::DebugBackground(BaseWidget *wP,s16 x,s16 y,u16 h,u16 w,u8 r,u8 g,u8 b,u8 a){
+  WidgetDebugBG* BG = new WidgetDebugBG();
   BG->SetCoords(x,y);
   BG->SetWidth(h);
   BG->SetHeight(w);
@@ -500,22 +494,26 @@ Utilities::AddClipTextWidget(BaseWidget *w,char *txt,u16 bX0,u16 bY0,u16 bX1,u16
   return pBVar1;
 }
 
-BaseWidget *
-Utilities::AddWidgetArrayMenu(BaseWidget *w,u16 len,u8 param_3,s16 x,s16 y,u16 x0,u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
-  BaseWidget *pBVar1 = new WidgetArrayMenu(len);
-  *(u16 *)((int)pBVar1->substruct + 10) = (u16)param_3;
-  pBVar1->SetCoords(x,y);
-  pBVar1->boundX0 = x0;
-  pBVar1->boundX1 = y0;
-  pBVar1->boundY0 = x1;
-  pBVar1->boundY1 = y1;
-  pBVar1->SetColor(r,g,b,a);
-  if (w) w->Link(pBVar1);
-  return pBVar1;
+WidgetArrayMenu *Utilities::AddWidgetArrayMenu(BaseWidget *w,u16 len,u8 param_3,s16 x,s16 y,u16 x0,u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
+  WidgetArrayMenu *ret = new WidgetArrayMenu(len);
+  ((WAMSub*)ret->substruct)->entryY=param_3;
+  ret->SetCoords(x,y);
+  ret->boundX0 = x0;
+  ret->boundX1 = y0;
+  ret->boundY0 = x1;
+  ret->boundY1 = y1;
+  ret->SetColor(r,g,b,a);
+  if (w) w->Link(ret);
+  return ret;
 }
 
-WidgetBorg8 *
-Utilities::AddBorg8Widget(BaseWidget *w,Borg8header *b8,s16 x,s16 y){
+//Creates and returns a parented WidgetBorg8 at a given screenspace position
+//@param w: parent widget
+//@param b8: borrg8header to use
+//@param x: x position
+//@param y: y position
+//@returns WidgetBorg8 pointer
+WidgetBorg8 * Utilities::AddBorg8Widget(BaseWidget *w,Borg8header *b8,s16 x,s16 y){
   WidgetBorg8 *pBVar1 = new WidgetBorg8(b8);
   if (pBVar1 == NULL) pBVar1 = NULL;
   else {
@@ -524,6 +522,14 @@ Utilities::AddBorg8Widget(BaseWidget *w,Borg8header *b8,s16 x,s16 y){
   }
   return pBVar1;
 }
+//Creates and returns a parented WidgetBorg8 at a given screenspace position and size
+//@param w: parent widget
+//@param b8: borrg8header to use
+//@param x0: top-left position
+//@param y0: top-right position
+//@param x0: bottom-left position
+//@param y0: bottom-right position
+//@returns WidgetBorg8 pointer
 WidgetBorg8 * Utilities::AddBorg8Widget2(BaseWidget *w,Borg8header *b8,s16 x0,s16 y0,s16 x1,s16 y1){
   WidgetBorg8 *pBVar1 = AddBorg8Widget(w,b8,x0,y0);
   if (pBVar1 == NULL) pBVar1 = NULL;
@@ -533,17 +539,32 @@ WidgetBorg8 * Utilities::AddBorg8Widget2(BaseWidget *w,Borg8header *b8,s16 x0,s1
   }
   return pBVar1;
 }
+//Creates and Returns a parented Scroll menu widget with given paramaters
+//@param w: widget to parent.
+//@param length: max expected entries
+//@param x: x position
+//@param y: y position
+//@param bx0: boundX0
+//@param by0: boundY0
+//@param bx1: boundX1
+//@param by1: boundY1
+//@param r: red
+//@param g: green
+//@param b: blue
+//@param a: alpha
+//@param setColors: use colors for subtruct
+//@returns array menu
 WidgetScrollMenu* Utilities::AddScrollMenu(BaseWidget *w,u16 length,s16 x,s16 y,u16 bx0,u16 by0,u16 bx1,u16 by1,u8 r,u8 g,u8 b,u8 a,s32 setColors){
-WidgetScrollMenu* pBVar1 = new WidgetScrollMenu(length);
-pBVar1->SetCoords(x,y);
-pBVar1->boundX0 = bx0;
-pBVar1->boundX1 = bx1;
-pBVar1->boundY1 = by1;
-pBVar1->boundY0 = by0;
-pBVar1->SetColor(r,g,b,a);
-if (w) w->Link(pBVar1);
+WidgetScrollMenu* ret = new WidgetScrollMenu(length);
+ret->SetCoords(x,y);
+ret->boundX0 = bx0;
+ret->boundX1 = bx1;
+ret->boundY1 = by1;
+ret->boundY0 = by0;
+ret->SetColor(r,g,b,a);
+if (w) w->Link(ret);
 if (setColors) {
-  WSMSub *pvVar1 = (WSMSub *)pBVar1->substruct;
+  WSMSub *pvVar1 = (WSMSub *)ret->substruct;
   pvVar1->reds[1] = r;
   pvVar1->reds[0] = r;
   pvVar1->greens[1] = g;
@@ -553,5 +574,5 @@ if (setColors) {
   pvVar1->alphas[1] = a;
   pvVar1->alphas[0] = a;
 }
-return pBVar1;
+return ret;
 }

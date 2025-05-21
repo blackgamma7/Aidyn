@@ -99,4 +99,4 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   return gfx;
 }
 
-u32 WidgetCombatRadar::GetNumber(){return 12;}
+u32 WidgetCombatRadar::GetNumber(){return WidgetN_Other;}

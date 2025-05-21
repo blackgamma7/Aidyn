@@ -14,8 +14,7 @@ class WidgetText : public BaseWidget{
 struct widgetTextSubstruct{
     char* str;
     u16 len;
-    float scalex;
-    float scaley;
+    vec2f scale;
 };
 //New widgetText with default length
 #define WText(txt) new WidgetText(txt,400)

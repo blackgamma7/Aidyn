@@ -57,4 +57,4 @@ void operator delete(void* x);
 #define FREE(x,line) HFREE(x,line); x=NULL
 //lvalue free
 #define FREEL(x,line) void* p = x;HFREE(p,line); p=(NULL)
-#define FREEPTR(x,line) if(x) {FREE(x,line);}
+#define FREEPTR(x,line) if(x!=NULL) {FREE(x,line);}

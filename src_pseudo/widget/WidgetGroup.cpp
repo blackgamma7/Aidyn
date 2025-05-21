@@ -28,7 +28,7 @@ WidgetGroup::~WidgetGroup(){
     BaseWidget::~BaseWidget();
 }
 
-u32 WidgetGroup::GetNumber(){return 12;}
+u32 WidgetGroup::GetNumber(){return WidgetN_Other;}
 
 u8 WidgetGroup::Tick(){
   this->ticked = true;

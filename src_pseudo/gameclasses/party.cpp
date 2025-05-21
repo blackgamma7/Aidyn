@@ -496,7 +496,7 @@ u8 itemtype_scroll(Party* p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
   u8 uVar2;
   
   if (gametrek_flag0 == 0) {
-    if (item_pointer->Gear[search_item_array(param_3->id)].spell == 0xff) uVar2 = 1;
+    if (gItemDBp->Gear[search_item_array(param_3->id)].spell == 0xff) uVar2 = 1;
     else uVar2 = p->GetEquipError3(param_2,param_3,param_4,3);
   }
   else uVar2 = p->UseScroll(param_2,(GearInstance*)param_3,param_4);
@@ -617,7 +617,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
   else {
     IVar5 = param_3->id;
     uVar10 = search_item_array(IVar5);
-    pGVar6 = item_pointer->Gear;
+    pGVar6 = gItemDBp->Gear;
     bVar1 = pGVar6[uVar10].spell;
     if (bVar1 == 0xff) {
       pcVar13 = "The enchantment on this scroll can only be used to re-light the Port Saiid Lighthouse.";
@@ -1865,14 +1865,14 @@ u8 get_equip_stamMod(ItemID id){
   case 0x12:
   case 0x13:
     iVar2 = search_item_array(IVar4);
-    if (item_pointer->Gear[iVar2].stat != STAT_STAM) {return 0;}
-    return item_pointer->Gear[iVar2].StatMod;
+    if (gItemDBp->Gear[iVar2].stat != STAT_STAM) {return 0;}
+    return gItemDBp->Gear[iVar2].StatMod;
   default:
     goto LAB_80081f64;
   case 5:
   case 6:
     bVar3 = GetIDIndex(IVar4);
-    pwVar1 = (weapon_ram *)armour_pointer->Armor;
+    pwVar1 = (weapon_ram *)gArmorDBp->Armor;
     break;
   case 7:
     bVar3 = GetIDIndex(IVar4);

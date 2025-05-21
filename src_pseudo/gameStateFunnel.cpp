@@ -6,12 +6,6 @@
 #include "gamestateCheats.h"
 #include "romcopy.h"
 
-struct event_flag_array {
-    u16 to;
-    u16 from;
-    s16 val;
-    u8 skill_stat;
-};
 
 void Event_flag_stat(u8 param_1){
   EventFlag EVar1;
@@ -80,7 +74,7 @@ void set_flag_array(EventFlag param_1,EventFlag param_2,u16 param_3){
   if ((gameStates) && (param_1 < gameStates->flag_count) && (param_2 < gameStates->flag_count)) {
     uVar2 = param_1;
     while (uVar2 < param_2+1) {
-      bVar1 = (u8)praram_3;
+      bVar1 = (u8)param_3;
       uVar3 = uVar3 >> 1;
       gameStates->States_pointer[uVar2].Flag = (u8)(bVar1 & 1);
       uVar2++;
@@ -124,7 +118,7 @@ extern u8 Get_eventFlagCheck(u16 flag);
 #endif
 
 u8 getEventFlag(u16 flag){
-#ifdef DEBUGVER
+#ifdef DEBUGVER //Seems to get broken into 2 funcs with debug(?)
   checkCheat(All);
   return Get_eventFlagCheck(flag);
   }
@@ -210,77 +204,54 @@ LAB_8002483c:
 
 
 void state_typeA_VAL(Struct_State *param_1,u16 param_2){
-  Event_flag_typeB EVar1;
-  u8 bVar2;
+  u8 cmd;
   u32 uVar3;
-  u32 uVar4;
+  u16 uVar4;
   
   uVar4 = (s32)param_2;
-  EVar1 = param_1->command;
-  bVar2 = param_1->byte7;
-  if (EVar1 == GRT) {
-    if (uVar4 == 0) {
-      uVar4 = (u32)param_1->shortA;
-      goto LAB_80024978;
-    }
-    uVar4 = (u32)param_1->shortA;
+  cmd = param_1->command;
+  switch(param_1->command){
+    case FLAG_GRT:
+     if (param_2 == 0) uVar4 = param_1->shortA;
+     else uVar4 = param_1->shortA+1;
+     break;
+   case FLAG_EQU:
+     if (param_2) uVar4 = param_1->shortA;
+     else uVar4 = param_1->shortA+1;
+     break;
+   case FLAG_LST:
+     if (param_2 == 0) uVar4 = param_1->shortA;
+     else uVar4 = param_1->shortA -1;
+     break;
+  case FLAG_NEQ:
+   if (param_2 == 0) uVar4 = param_1->shortA;
+   else uVar4 = param_1->shortA+1;
+   break;
   }
-  else {
-    if (EVar1 < LST) {
-      if (EVar1 != EQU) goto LAB_80024978;
-      if (uVar4 != 0) {
-        uVar4 = (u32)param_1->shortA;
-        goto LAB_80024978;
-      }
-      uVar4 = (u32)param_1->shortA;
+  if (param_1->byte7) {
+    for(u32 i=0;i<param_1->byte7;i++) {
+      StateTypeA_branch(gameStates->other_pointer[param_1->shortB + i].shortA,uVar4);
     }
-    else {
-      if (EVar1 == LST) {
-        if (uVar4 == 0) {
-          uVar4 = (u32)param_1->shortA;
-        }
-        else {
-          uVar4 = param_1->shortA - 1 & 0xffff;
-        }
-        goto LAB_80024978;
-      }
-      if (EVar1 != NEQ) goto LAB_80024978;
-      if (uVar4 == 0) {
-        uVar4 = (u32)param_1->shortA;
-        goto LAB_80024978;
-      }
-      uVar4 = (u32)param_1->shortA;
-    }
-  }
-  uVar4++;
-LAB_80024978:
-  uVar3 = 0;
-  if (bVar2 != 0) {
-    do {
-      StateTypeA_branch((&gameStates->other_pointer->shortA)[param_1->shortB + uVar3],uVar4);
-      uVar3++;
-      uVar4 = uVar4 >> 1;
-    } while (uVar3 < bVar2);
   }
   return;
 }
 
 void State_TypeA_CNT(Struct_State *param_1,u32 param_2){
-  Event_flag_typeB EVar1;
+  u8 cmd;
   u8 bVar2;
   u16 uVar3;
   u32 uVar4;
   u32 uVar5;
   
-  EVar1 = param_1->command;
+  cmd = param_1->command;
   uVar5 = param_2;
-  if (EVar1 == GRT) {
+  if (cmd == FLAG_GRT) {
     if (uVar5 == 0) {uVar5 = (u32)param_1->shortA;}
     else {uVar5 = param_1->shortA + 1;}
     goto LAB_80024aac;
   }
-  if (EVar1 < LST) {
-    if (EVar1 != EQU) goto LAB_80024aac;
+  if (cmd < FLAG_LST) {
+    if (cmd != FLAG_EQU) goto LAB_80024aac;
     if (uVar5 != 0) {
       uVar5 = (u32)param_1->shortA;
       goto LAB_80024aac;
@@ -293,7 +264,7 @@ LAB_80024a98:
     uVar5 = 1;
   }
   else {
-    if (EVar1 == LST) {
+    if (cmd == FLAG_LST) {
       if (uVar5 == 0) {
         uVar5 = (u32)param_1->shortA;
         goto LAB_80024aac;
@@ -301,7 +272,7 @@ LAB_80024a98:
       uVar3 = param_1->shortA;
     }
     else {
-      if (EVar1 != NEQ) goto LAB_80024aac;
+      if (cmd != FLAG_NEQ) goto LAB_80024aac;
       if (uVar5 == 0) {
         uVar5 = (u32)param_1->shortA;
         goto LAB_80024aac;
@@ -313,24 +284,14 @@ LAB_80024a98:
   }
 LAB_80024aac:
   uVar4 = 0;
-  if (uVar5 == 0) {bVar2 = param_1->byte7;}
-  else {
-    uVar3 = param_1->shortB;
-    while( true ) {
-      StateTypeA_branch((&gameStates->other_pointer->shortA)[uVar3 + uVar4],1);
-      uVar4++;
-      if (uVar5 <= uVar4) break;
-      uVar3 = param_1->shortB;
+  if (uVar5 ){
+    for(;uVar4>uVar5;uVar4++) {
+      StateTypeA_branch((&gameStates->other_pointer->shortA)[param_1->shortB + uVar4],1);
     }
-    bVar2 = param_1->byte7;
   }
-  if (uVar4 < bVar2) {
-    uVar3 = param_1->shortB;
-    while( true ) {
-      StateTypeA_branch((&gameStates->other_pointer->shortA)[uVar3 + uVar4],0);
-      uVar4++;
-      if (param_1->byte7 <= uVar4) break;
-      uVar3 = param_1->shortB;
+  if (uVar4 < param_1->byte7) {
+    for(;uVar4>param_1->byte7;uVar4++) {
+      StateTypeA_branch((&gameStates->other_pointer->shortA)[ param_1->shortB + uVar4],0);
     }
   }
   return;

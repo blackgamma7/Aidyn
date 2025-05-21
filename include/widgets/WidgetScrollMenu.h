@@ -13,10 +13,12 @@ u8 SetFlags(u8 f);
 };
 
 //unused Scroll Menu child
-class WidgetScrollMenuGray: WidgetScrollMenu{
+class WidgetScrollMenuGray: public WidgetScrollMenu{
+    public:
     Color32 unk80;
     WidgetScrollMenuGray(u16 length,Color32* colP);
     u8 Tick();
+    bool Append(BaseWidget *w,byte val);
     ~WidgetScrollMenuGray();
     u8 Append(BaseWidget* entry);
     void SetHighlight();
@@ -56,7 +58,7 @@ struct WSMSub {
     u8 alphas[2];
     u8 blendA;
     u8 blendB;
-    Color32 col;
+    Color32 col; //color used for highlighted item.
     u8 field13_0x10;
     u8 field14_0x11;
     u16 field11_0x12;
@@ -67,7 +69,7 @@ struct WSMSub {
     short field16_0x1c;
     u16 highlight;
     u16 currentCount;
-    u8 field_0x22;
+    u8 unk22;
     u8 flag;
 };
 

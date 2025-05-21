@@ -6,8 +6,6 @@
 #include "combat/SpellVisuals.h"
 #include "globals.h"
 
-extern void print_combat_textbox(CombatStruct*,char*,u32);
-
 void Ofunc_NOOP_80067c70(void){}
 void Ofunc_NOOP_(void){}
 
@@ -184,7 +182,7 @@ u8 CombatEntity::m80068358(){
       CombatEntity *CEnt = (&gCombatP->combatEnts)[i];
       if ((((CEnt) && (this != CEnt)) &&
           (!Entity::isDead(CEnt->charSheetP))) && (CEnt->Flag1())) {
-        if ((CEnt->Flag4() != this->Flag4())&& (CEnt->m800692bc())) return false;
+        if ((CEnt->Flag4() != this->Flag4())&& (CEnt->m800692bc(CEnt))) return false;
       }
     }
   }
@@ -3156,9 +3154,9 @@ void CombatEntity::ClearSpellEffects(){
 void CombatEntity::m80070234(){
   playerData *ppVar1 = gGlobals.playerDataArray[this->index];
   if (ppVar1) {
-    FUN_800714d0(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),this->unk0x23);
+    FUN_800714d0(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),this->unk23);
     this->coord = {(ppVar1->collision).pos.x,(ppVar1->collision).pos.z};
-    FUN_800713fc(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),(u32)this->unk0x23);
+    FUN_800713fc(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),(u32)this->unk23);
   }
 }
 

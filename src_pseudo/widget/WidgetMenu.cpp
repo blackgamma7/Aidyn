@@ -19,4 +19,4 @@ u8 WidgetMenu::Tick(){
     TickChildren();
 }
 
-u32 WidgetMenu::GetNumber(){return 3;}
+u32 WidgetMenu::GetNumber(){return WidgetN_Menu;}

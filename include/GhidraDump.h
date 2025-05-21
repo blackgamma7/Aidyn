@@ -930,16 +930,6 @@ typedef enum enum_someCase {
     CombatLevelUp=5
 } enum_someCase;
 
-typedef struct event_flag_array event_flag_array, *Pevent_flag_array;
-
-struct event_flag_array {
-    u16 to;
-    u16 from;
-    short val;
-    u8 skill_stat;
-    u8 pad;
-};
-
 
 
 typedef struct fileState_aidyn fileState_aidyn, *PfileState_aidyn;

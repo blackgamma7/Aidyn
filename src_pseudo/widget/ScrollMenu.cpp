@@ -42,7 +42,7 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     puVar1->highlight = 0;
     puVar1->field16_0x1c = length;
     puVar1->currentCount = 0;
-    puVar1->field_0x22 = 0;
+    puVar1->unk22 = 0;
     if (length == 0) puVar1->items = NULL;
     else {
       BaseWidget** ppBVar1= (BaseWidget**)HALLOC(length*sizeof(BaseWidget*),89);
@@ -138,17 +138,11 @@ u8 WidgetScrollMenu::Tick(){
 LAB_800b9fb0:
           entry->SetCoords(sVar18,sVar9 + (short)iVar21 + pvVar5->field11_0x12);
         }
-        if (entry->GetNumber() == 1) {
-LAB_800ba040:
+        if ((entry->GetNumber() == WidgetN_ClipText)||(entry->GetNumber() == WidgetN_ShadText)) {
           Utilities::SetWidgetBoundsX(entry,this->boundX0,this->boundX1);
         }
-        else {
-          if (entry->GetNumber() == 2) {
-            goto LAB_800ba040;
-          }
-        }
         uVar13= entry->GetHeight();
-        iVar21 += uVar13 + (byte)pvVar5->field_0x22;
+        iVar21 += uVar13 + (byte)pvVar5->unk22;
         sVar18 = (short)iVar21;
         if (i == pvVar5->highlight) {
           sVar9 = entry->y;
@@ -164,22 +158,22 @@ LAB_800ba040:
             pvVar5->field11_0x12+= (this->y - (sVar9 + (uVar13 / 2)));
           }
           entry->SetColor((pvVar5->col).R,(pvVar5->col).G,(pvVar5->col).B,(pvVar5->col).A);
-          if (entry->GetNumber() == 2) {
-            *(undefined4 *)((int)entry->substruct + 0x1c) = 0;
+          if (entry->GetNumber() == WidgetN_ShadText) {
+            ((WSTSub*)entry->substruct)->unk1c=0;
           }
           entry->Tick();
         }
         else {
           entry->SetColor((this->col).R,(this->col).G,(this->col).B,(this->col).A);
-          if (entry->GetNumber() == 2) {
-            *(undefined4 *)((int)entry->substruct + 0x1c) = 1;
+          if (entry->GetNumber() == WidgetN_ShadText) {
+            ((WSTSub*)entry->substruct)->unk1c=1;
           }
           entry->Tick();
         }
       }
     }
   }
-  SetHeight(sVar18 - (u16)(byte)pvVar5->field_0x22);
+  SetHeight(sVar18 - (u16)(byte)pvVar5->unk22);
   return TickChildren();
 }
 
@@ -234,4 +228,4 @@ u8 WidgetScrollMenu::SetFlags(u8 f){
     ((WSMSub *)substruct)->flag=f;
 }
 
-u32 WidgetScrollMenu::GetNumber(){return 8;}
+u32 WidgetScrollMenu::GetNumber(){return WidgetN_ScrollMenu;}

@@ -32,10 +32,10 @@ public:
     u16 var5E; //changes for each widget type.
     s16 x;
     s16 y;
-    u16 boundX0;
-    u16 boundX1;
-    u16 boundY0;
-    u16 boundY1;
+    s16 boundX0;
+    s16 boundX1;
+    s16 boundY0;
+    s16 boundY1;
     Borg8header *borg8;
     byte state;
     u16 height;
@@ -89,3 +89,15 @@ float fadeFloatMirror=1.0;
 u32 widget_control_dat=0;
 u8 widget_control_timer=30;
 u32 widget_control_buttons;
+
+//return for GetNumber()
+enum WidgetNumber{
+    WidgetN_Text,
+    WidgetN_ClipText,
+    WidgetN_ShadText,
+    WidgetN_Menu,
+    WidgetN_Borg8,
+    WidgetN_ScrollMenu=8,
+    WidgetN_ArrayMenu,
+    WidgetN_Other=12
+};

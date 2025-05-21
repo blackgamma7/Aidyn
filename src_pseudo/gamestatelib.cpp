@@ -22,9 +22,8 @@ void ProcessGameStates(GameStateFunnel *param_1){
   EventFlag flag;
   
   do {
-    sVar3 = param_1->f;
     while( true ) {
-      if (sVar3 == 0) return;
+      if (param_1->f == 0) return;
       flag = param_1->flag_count;
       param_1->f = 0;
       if (param_1->a <= flag) break;
@@ -115,7 +114,6 @@ LAB_800d5230:
         set_journalentry_flag(param_1,flag,bit);
         flag++;
       } while (flag < param_1->a);
-      sVar3 = param_1->f;
     }
   } while( true );
 }

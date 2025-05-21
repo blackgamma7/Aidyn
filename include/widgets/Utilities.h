@@ -3,6 +3,8 @@
 #include "widgets/WidgetBorg8.h"
 #include "widgets/WidgetScrollMenu.h"
 #include "widgets/WidgetArrayMenu.h"
+#include "widgets/ShadowText.h"
+#include "widgets/debugBG.h"
 
 
 namespace Utilities{
@@ -32,12 +34,12 @@ namespace Utilities{
 
 //TODO: replace return with proper class.
 
-    BaseWidget* DebugBackground(BaseWidget *,s16,s16,u16,u16,u8,u8,u8,u8);
+    WidgetDebugBG* DebugBackground(BaseWidget *,s16,s16,u16,u16,u8,u8,u8,u8);
     WidgetText* AddTextWidget(BaseWidget*,char*,s16 ,s16 ,byte ,byte ,byte ,byte);
     WidgetText* AddTextWidget2(BaseWidget*,char*,u16,u16,u16,u16);
     WidgetText* AddTextWidget3(BaseWidget*,char*,u16,u16,u16,u16,u8,u8,u8,u8);
     WidgetClipText* AddClipTextWidget(BaseWidget*,char*,u16,u16,u16,u16,u16);
-    BaseWidget* AddWidgetArrayMenu(BaseWidget*,u16,u16,s16,s16,u16,u16,u16,u16 ,u8,u8,u8,u8);
+    WidgetArrayMenu* AddWidgetArrayMenu(BaseWidget*,u16,u16,s16,s16,u16,u16,u16,u16 ,u8,u8,u8,u8);
     WidgetBorg8* AddBorg8Widget(BaseWidget*,Borg8header *,s16,s16);
     WidgetBorg8* AddBorg8Widget2(BaseWidget*,Borg8header *,short,short,short,short);
     WidgetScrollMenu* AddScrollMenu(BaseWidget*,u16,s16,s16,u16,u16,u16,u16,u8,u8,u8,u8,s32);

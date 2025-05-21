@@ -250,7 +250,7 @@ LAB_800bacc4:
       }
     }
     else {
-      for (iVar5 = 1; ppBVar3 = ppBVar3 + 1, iVar5 < (int)uVar2; iVar5 += 1) {
+      for (iVar5 = 1; ppBVar3++, iVar5 < (int)uVar2; iVar5++) {
         if (*ppBVar3 == entry) goto LAB_800bacc4;
       }
     }
@@ -258,4 +258,4 @@ LAB_800bacc4:
   return false;
 }
 
-u32 WidgetArrayMenu::GetNumber(){return 9;}
+u32 WidgetArrayMenu::GetNumber(){return WidgetN_ArrayMenu;}

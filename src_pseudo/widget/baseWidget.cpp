@@ -41,7 +41,10 @@ BaseWidget::BaseWidget(){
   fadeOut = NULL;
 }
 
-BaseWidget::~BaseWidget(){FreeChildren();}
+BaseWidget::~BaseWidget(){
+  FreeChildren();
+  delete this;
+}
 
 //set screenspace coords for widget
 void BaseWidget::SetCoords(s16 X,s16 Y){

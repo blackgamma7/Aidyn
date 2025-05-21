@@ -3,6 +3,7 @@
 
 #include "globals.h"
 #include "combat/CombatStruct.h"
+#include "weapondb.h"
 
 u8 Entity::IsElemental(ItemID id){
   if (id >> 8 == 2) {
@@ -284,11 +285,11 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   weapon_ram *pcVar4;
   
 
-  pcVar4 = gWeaponsDB->weapons[GetIDIndex(param_2)];
+  pcVar4 = &gWeaponsDB->weapons[GetIDIndex(param_2)];
   iVar1 = CharStats::getBase(param_1->Stats,STAT_STR);
   bVar2 = 3;
   if (pcVar4->ReqSTR <= iVar1) {
-    if (!param_1->Skills->getModdedWeapon(pcVar4->Class)) bVar2 = 1;
+    if (!param_1->Skills->getModdedWeapon(pcVar4->wepClass)) bVar2 = 1;
     else {
       if (param_1->ID == (ItemID)(entityList[162] + 0x200)) { //Niesen
         bVar2 = 1;
@@ -307,7 +308,7 @@ s32 Entity::GearMinStatCheck(CharSheet *param_1,ItemID param_2){
   s32 iVar3 = 1;
   if (CharGear::HasRoom(param_1->pItemList)) {
     iVar3 = search_item_array(param_2);
-    pGVar1 = item_pointer->Gear;
+    pGVar1 = gItemDBp->Gear;
     if (CharStats::getBase(param_1->Stats,STAT_STR) < pGVar1[iVar3].STR) {iVar3 = 3;}
     else {
       iVar3 = (CharStats::getBase(param_1->Stats,STAT_INT) < pGVar1[iVar3].INT) << 1;
@@ -1897,7 +1898,7 @@ u8 Entity::GetShieldDefence(CharSheet *param_1,ItemID param_2){
   u8 bVar2 = 0;
   if (param_1->armor[1]) {bVar2 = param_1->armor[1]->DEF;}
   if (((param_2) && (param_2 >> 8 == 6)) && (!NoSheildSkill(param_1))) {
-    bVar2 = armour_pointer->Armor[GetIDIndex(param_2)].defence;}
+    bVar2 = gArmorDBp->Armor[GetIDIndex(param_2)].defence;}
   return bVar2;
 }
 
@@ -1925,7 +1926,7 @@ int Entity::GetArmorProtect(CharSheet *param_1,ItemID param_2){
     if (param_1->armor[iVar6]) {
       total -= param_1->armor[iVar6]->Protect;
     }
-    total += armour_pointer->Armor[bVar1]->protection;
+    total += gArmorDBp->Armor[bVar1]->protection;
   }
   return total;
 }

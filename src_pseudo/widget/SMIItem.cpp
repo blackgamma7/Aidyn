@@ -84,6 +84,6 @@ u16 SMIItem::GetHeight(){return 13;}
 BaseWidget * SMIItem::AFunc(){return userPortait;}
 BaseWidget * SMIItem::BFunc(){return QuantityTtx;}
 BaseWidget * SMIItem::ZFunc(){return (BaseWidget*)item;}
-u32 SMIItem::GetNumber(){return 12;}
+u32 SMIItem::GetNumber(){return WidgetN_Other;}
 
 

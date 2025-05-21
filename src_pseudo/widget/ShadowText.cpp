@@ -157,4 +157,4 @@ u8 WidgetShadowText::ChangeText(char *txt,u8 replace){
   return bVar2;
 }
 
-u32 WidgetShadowText::GetNumber(){return 2;}
+u32 WidgetShadowText::GetNumber(){return WidgetN_ShadText;}

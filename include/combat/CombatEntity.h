@@ -12,8 +12,8 @@ class CombatEntity {
     s32 TargetIndex;
     s8 unk14;
     vec2f facing;
-    u8 index;
-    u8 moveRange;
+    u8 index; //index of associated PlayerData Object
+    u8 moveRange; // steps of range during turn/
     u8 unk22;
     u8 unk23;
     u8 AtkTypeOther;
@@ -23,12 +23,12 @@ class CombatEntity {
     u8 mirrorVal; //enhanced by "mirror" spell.
     u8 damage;
     u8 Healing;
-    u16 flags;
+    u16 flags; //uses "COMBATENT_*" flags, or getter/setter methods.
     resist_float resists[2];
     CharSheet *charSheetP;
-    CombatAI_s *aiP;
+    CombatAI_s *aiP; //used by enemies and Sholeh
     u8 unk48[60]; //unused?
-    u32 notboss;
+    u32 notboss; // set if not boss or Shadow
     u8 wepLocator;
     u8 shieldLocator;
     u8 throwingFlag;

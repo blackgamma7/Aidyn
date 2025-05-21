@@ -31,7 +31,7 @@ struct Weapon_ROM {
 struct weapon_ram { /* Weapon Data loaded into ram */
     ItemID ID;
     char name[22];
-    u8 Class; /* Type of weapon (sword, breath, spit, etc.) */
+    u8 wepClass; /* Type of weapon (sword, breath, spit, etc.) */
     u8 ReqSTR;
     u8 Hit;
     u8 damage;
@@ -63,7 +63,7 @@ struct weaponDB_s {
     weapon_ram *weapons;
 };
 
-weaponDB_s* gWeaponDB=NULL;
+weaponDB_s* gWeaponsDB=NULL;
 
 void load_weaponDB(weaponDB_s *db,u8 index,int *pos);
 void build_weapondb(weaponDB_s *db);

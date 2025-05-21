@@ -45,11 +45,11 @@ u8 LoadFace(FontStruct *font,u32 b8,u8 rows,u8 cols);
 void SetFace(FontStruct *font,u32 param_2);
 void print800b44dc(FontStruct *font,Gfx **gg,char *txt,s32 x,s32 y);
 int printSimple(FontStruct *font,Gfx **gg,char *txt,int x,int y,float scalex,float scaley);
-int printUnused(FontStruct *font,Gfx **gg,char *param_3,int param_4,undefined4 param_5,
+int printUnused(FontStruct *font,Gfx **gg,char *txt,int param_4,undefined4 param_5,
                   undefined4 param_6,undefined4 param_7,undefined4 param_8,undefined4 param_9);
-int PrintWapperA(FontStruct *font,Gfx **gg,char *param_3,int param_4,int param_5,int param_6,
+int PrintWapperA(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_5,int param_6,
               int param_7,int param_8,int param_9,float param_10,float param_11);
-int PrintWapperUnused(FontStruct *font,Gfx **gg,char *param_3,int param_4,int param_5,
+int PrintWapperUnused(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_5,
                       short param_6,short param_7,int param_8,int param_9,int param_10,int param_11);                       
 int PrintMain(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_5,short param_6,
                        short param_7,int param_8,int param_9,int param_10,int param_11,
