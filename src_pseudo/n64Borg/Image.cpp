@@ -20,10 +20,10 @@ void borg8_func_a(Borg8header *param_1){
   SetPointer(param_1,dat.offset);
 }
 
-void borg8_free_ofunc(s32 *param_1){
+void borg8_free_ofunc(Borg8header *param_1){
   s32 iVar1 = get_memUsed();
-  if (*param_1 == -1) HFREE(param_1,0x8f);
-  else dec_borg_count(*param_1);
+  if (param_1->head.index == -1) HFREE(param_1,0x8f);
+  else dec_borg_count(param_1->head.index);
   borg_mem[8]-= (iVar1 - get_memUsed());
   borg_count[8]--;
 }
@@ -859,8 +859,8 @@ Gfx* Borg8_DrawSimple(Gfx*g,Borg8header *borg8,float x,float y,float Hscale,
 
 void borg8_free(Borg8header *param_1){
   s32 iVar1 = get_memUsed();
-  if ((param_1->index).index == -1) HFREE(param_1,0x24f);
-  else dec_borg_count((param_1->index).index);
+  if ((param_1->head).index == -1) HFREE(param_1,0x24f);
+  else dec_borg_count((param_1->head).index);
   borg_mem[8]-= (iVar1 - get_memUsed());
   borg_count[8]--;
 }

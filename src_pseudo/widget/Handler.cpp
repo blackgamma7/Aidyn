@@ -75,9 +75,7 @@ switchD_800b7054_caseD_4:
 }
 
 u8 WidgetHandler::StopWidget(BaseWidget *w){
-  BaseWidget *pBVar1;
-  
-  pBVar1 = this->head;
+  BaseWidget *pBVar1 = this->head;
   while(1) {
     if (!pBVar1) return false;
     if (pBVar1 == w) break;

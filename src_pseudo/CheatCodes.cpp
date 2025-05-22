@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "cheats.h"
 #include "romstring.h"
+#include "widgets/textPopup.h"
 
 struct StringCheat{
     char* code;
@@ -115,7 +116,6 @@ extern u8 gPartyPicker;
 u8 Cheats::_Cheater(void){ // +750000 EXP to party
   pause_Substruct *ppVar1;
   CharSheet *pCVar2;
-  u32 i;
   
   #ifndef DEBUGVER
   if(getEventFlag(FLAG_Cheater))return false; //no double-dipping in retail
@@ -128,10 +128,10 @@ u8 Cheats::_Cheater(void){ // +750000 EXP to party
   }
   ppVar1 = PauseSub; //Pause menu update, crashes game if used on title screen
   pCVar2 = (PARTY)->Members[gPartyPicker]; //update stats for char. selected on menu
-  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->Level_widget),"%u",Entity::GetLevel(pCVar2));
-  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->CurrHP_Widget),"%u",Entity::getHPCurrent(pCVar2));
-  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->MaxHP_widget),"%u",Entity::getHPMax(pCVar2));
-  FUN_80038bdc(ppVar1->dollmenu->unk0x88,gPartyPicker);
+  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->LevelText),"%u",Entity::GetLevel(pCVar2));
+  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->CurrHPText),"%u",Entity::getHPCurrent(pCVar2));
+  sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->MaxHPText),"%u",Entity::getHPMax(pCVar2));
+  ppVar1->dollmenu->widget88->m80038bdc(gPartyPicker);
   return true;
 }
 
@@ -139,11 +139,11 @@ u8 Cheats::_bingo(void){ //+100000 gold
   BaseWidget *pwVar1;
   char *pcVar2;
   #ifndef DEBUGVER
-  if(getEventFlag(FLAG_bingo))return false; //no double-dipping in retail
+  if(getEventFlag(FLAG_Bingo))return false; //no double-dipping in retail
   #endif
-  setEventFlag(FLAG_bingo,true);
+  setEventFlag(FLAG_Bingo,true);
   //Another menu update, crashing the title screen
-  pwVar1 = PauseSub->dollmenu->charStats_widget->gold_widget;
+  BaseWidget *pwVar1 = PauseSub->dollmenu->charStats_widget->GoldText;
   (PARTY)->Gold+=100000;
   sprintf(Utilities::GetWidgetText(pwVar1),"%ld",(PARTY)->Gold);
   return true;

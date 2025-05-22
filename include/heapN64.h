@@ -35,6 +35,7 @@ u32 get_memUsed(void);
 u32 get_MemFree(void);
 u32 Ofunc_get_objCount(void);
 u32 Ofunc_get_obj_count_2(void);
+u32 get_obj_free();
 u32 get_memFree_2(void);
 void print_mem_allocated(void *func_,void *param_2);
 void malloc_update_mem_mon(HeapBlock *h,int param_2);

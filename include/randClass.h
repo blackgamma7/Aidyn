@@ -3,7 +3,7 @@
 //RNG functions, with a seed field.
 class Random{
 private:
-u32 seed;
+u32 seed=0;
 public:
 void SetSeed(u32 num);
 u32 ShiftSeed();

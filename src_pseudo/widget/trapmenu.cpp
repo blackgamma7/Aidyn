@@ -1,4 +1,5 @@
 #include "trapMenu.h"
+#include "widgets/textPopup.h"
 #include "globals.h"
 
 voxelObject* gCurrentTrapVoxel=NULL;
@@ -145,7 +146,7 @@ BaseWidget * TrapMenu::TakeDamage(short param_1,char *param_2){
     }
   }
   BaseWidget *pBVar5 = TextPopup_New(abStack1080,(short)txtWidth + 0x10,((short)txtHeight + 2) * (short)txtLines,
-                         0xff,0xff,0xff,0xff,0x96,1);
+                         0xff,0xff,0xff,0xff,0x96,true);
   gGlobals.playerCharStruct.text_window = pBVar5;
   pBVar5->CDownButtonFunc = NULL;
   pBVar5->CUpButtonFunc = NULL;

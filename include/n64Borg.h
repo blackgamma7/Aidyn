@@ -54,7 +54,7 @@ struct Borg8dat {
 };
 
 struct Borg8header {
-    struct borgHeader index;
+    struct borgHeader head;
     struct Borg8dat dat;
 };
 
@@ -776,7 +776,7 @@ void set_AnimCache(u8 );
 
 u8 borg8_func_b(void *,void *);
 void borg8_func_a(Borg8header *);
-void borg8_free_ofunc(s32 *);
+void borg8_free_ofunc(Borg8header *);
 Borg8header* loadBorg8(u32);
 Gfx * borg8DlistInit(Gfx *,byte ,u16,u16);
 Gfx * N64BorgImageDraw(Gfx *,Borg8header *,float ,float ,u16 ,u16 ,u16 ,u16 ,float ,float ,u8 ,u8 ,u8,u8);
