@@ -1,8 +1,10 @@
-#include "typedefs.h"
+#include "widgets/BaseWidget.h"
+
+//these seem to be used for animating parts of the menus.
 
 class UnkGuiClass{
     public:
-    u32 unk0;
+    f32 unk0;
     f32 unk4;
     virtual ~UnkGuiClass();
     virtual void vMethA(s32);
@@ -39,13 +41,18 @@ class UnkGuiClassCB: public UnkGuiClassU1{
   virtual u32 vMethB(f32);
   virtual u8 vMethC(f32);
 };
+class UnkGuiClassF: public UnkGuiClass{
+  virtual void vMethA(s32);
+  virtual u32 vMethB(f32){}
+};
 
-class UnkGuiClassL: public UnkGuiClass{
+class UnkGuiClassL: public UnkGuiClassF{
   public:
   UnkGuiClass* link;
   BaseWidget* w;
   UnkGuiClassL(UnkGuiClass*,BaseWidget*);
   ~UnkGuiClassL();
+  void m80046ac4();
   void vMethA(s32);
   virtual u32 vMethB(f32);
 };
@@ -53,12 +60,20 @@ class UnkGuiClassL: public UnkGuiClass{
 class UnkGuiClassA: public UnkGuiClass{
   virtual u8 vMethC(){}
 };
-
+struct UnkGuiClassStruct{
+  f64 unk0;
+  f64 unk8;
+  f64 unk10;
+  f64 unk18;
+  f64 unk20;
+  f64 unk28;
+};
 class UnkGuiClassU2:public UnkGuiClass{
   public:
-  s16* unkc;
-  f64 f64Array[8];
-  UnkGuiClassU2(s16*, s16*, s32, f64*);
+  s16* val;
+  UnkGuiClassStruct unk;
+  f64 f64Array[2];
+  UnkGuiClassU2(s16*, s16*, s32, UnkGuiClassStruct*);
   ~UnkGuiClassU2();
   virtual u32 vMethB(f32);
   virtual s16 vMethC(f32);
@@ -66,9 +81,10 @@ class UnkGuiClassU2:public UnkGuiClass{
 
 class UnkGuiClassU3:public UnkGuiClass{
   public:
-  u8* unkc;
-  f64 f64Array[8];
-  UnkGuiClassU3(u8*, u8*, s32, f64*);
+  u8* val;
+  UnkGuiClassStruct unk;
+  f64 f64Array[2];
+  UnkGuiClassU3(u8*, u8*, s32, UnkGuiClassStruct*);
   ~UnkGuiClassU3();
   virtual u32 vMethB(f32);
   virtual u8 vMethC(f32);
@@ -76,16 +92,19 @@ class UnkGuiClassU3:public UnkGuiClass{
 
 class UnkGuiClassU4:public UnkGuiClass{
   public:
-  u16* unkc;
-  f64 f64Array[8];
-  UnkGuiClassU4(u16*, s16*, s32, f64*);
+  u16* val;
+  UnkGuiClassStruct unk;
+  f64 f64Array[2];
+  UnkGuiClassU4(u16*, u16*, s32, UnkGuiClassStruct*);
   ~UnkGuiClassU4();
   virtual u32 vMethB(f32);
   virtual u16 vMethC(f32);
 };
-f64 double_array_0[]={0.5,1.0,1.570796012878418,0.0,3.141592979431152};
-f64 double_array_1[]={1.0,1.0,0.0,0.0,1.570796012878418};
-f64 double_array_2[]={1.0,1.0,1.570796012878418,0.0,4.712389469146729};
+
+#define PiOver2 1.570796012878418
+UnkGuiClassStruct double_array_0={0.5,1.0,PiOver2,0.5,0.0,(PiOver2*2)};
+UnkGuiClassStruct double_array_1={1.0,1.0,0.0,0.0,0.0,PiOver2};
+UnkGuiClassStruct double_array_2={1.0,1.0,PiOver2,1.0,0.0,(PiOver2*3)};
 
 class UnkGuiSubstruct{
     public:

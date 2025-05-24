@@ -25,18 +25,18 @@ class WidgetTrainShop : public WidgetMenu{
     virtual u32 GetGoldPrice(u16){};
     virtual u32 GetExpPrice(u16){};
 };
-
+//Widget for Inventory item entry
 class SMIItem:public BaseWidget{
     ItemInstance* item;
     u8 quantity;
     u8 userIndex;
     u16 unk82; //align?
     WidgetBorg8* userPortrait;
-    WidgetBorg8* itemIcon;
+    WidgetBorg8* ItemIcon;
     WidgetClipText* QuantityText;
     WidgetClipText* ItemName;
-    u16 nameX;
-    u16 unkX;
+    u16 nameX; //some x offset for ItemName
+    u16 unkX; //set during Tick(), but not read?
     SMIItem(ItemInstance *,u8,u8);
     ~SMIItem();
     Gfx* Render(Gfx*,u16,u16,u16,u16);

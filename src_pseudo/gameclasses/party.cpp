@@ -1416,7 +1416,7 @@ void pass_to_healing_func_2(u8 param_2,u8 param_3){
 
 void herb_func(void){
   pause_Substruct* ps=PauseSub;
-  WidgetTrainShop* puVar1 = ps->dollmenu->widget88->field7_0x94;
+  WidgetTrainShop* puVar1 = ps->dollmenu->lists->field7_0x94;
   FUN_8003d064(puVar1,itemID_array[31],1,0xff); //herb loaded
   FUN_8003d640(puVar1);
   puVar1->Tick();
@@ -1542,7 +1542,7 @@ LAB_800812c8:
 
 u32 Party::CraftPotion(u8 user,u8 item){
   byte bVar1;
-  WidgetInvShop *pWVar2 = (WidgetInvShop *)PauseSub->dollmenu->widget88->field7_0x94;
+  WidgetInvShop *pWVar2 = (WidgetInvShop *)PauseSub->dollmenu->lists->field7_0x94;
   potionRecipie *recepie = get_potion_recipie(item);
   if (recepie) {
     CharSheet *chara = this->Members[user];
@@ -2179,7 +2179,7 @@ u8 Party::CraftArmor(char param_2,ItemID param_3,ItemID material,u8 stam){
   s32 uVar5;
   bool bVar6;
   
-  WidgetInvShop* pWVar1 = PauseSub->dollmenu->widget88->invMenu;
+  WidgetInvShop* pWVar1 = PauseSub->dollmenu->lists->invMenu;
   uVar4 = Party::ArmorCraftCheck(param_2);
   uVar5 = this->Inventory->GetItemIndex(material);
   if (uVar5 == -1) bVar6 = false;

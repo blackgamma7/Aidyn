@@ -4,9 +4,9 @@
 #include "widgets/WidgetTrainShop.h"
 #include "party.h"
 #include "unkGuiSubstruct.h"
+#include "menuImages.h"
 
-
-class WidgetMenuChild2: public WidgetMenu{
+class DollMenuPortraits: public WidgetMenu{
     public:
     u8 partySize;
     u8 selectedMember;
@@ -17,8 +17,8 @@ class WidgetMenuChild2: public WidgetMenu{
     WidgetBorg8* aspectIcon;
     WidgetBorg8* schoolIcon;
     UnkGuiSubstruct unkb8=UnkGuiSubstruct(22);
-    WidgetMenuChild2(Party *party,u8 size,u8 selected);
-    ~WidgetMenuChild2();
+    DollMenuPortraits(Party *party,u8 size,u8 selected);
+    ~DollMenuPortraits();
     u32 m80042c04();
     void SchoolAspectIcons(u8);
     Gfx* Render(Gfx*g,u16 x0,u16 y0,u16 x1,u16 y1);
@@ -58,7 +58,7 @@ class DollEquipmentMenu: public WidgetMenu{
     u32 unkGetter();
 };
 
-class WidgetChild4: public WidgetMenu{
+class DollMenuLists: public WidgetMenu{
     public:
     WidgetTrainShop* menus[4];
     WidgetTrainShop* unk8c;
@@ -73,14 +73,14 @@ class WidgetChild4: public WidgetMenu{
     WidgetClipText* expCost;
     WidgetClipText* expRemain;
     UnkGuiSubstruct unkb0=UnkGuiSubstruct(8);
-    WidgetChild4(DollEquipmentMenu *,u8);
-    ~WidgetChild4();
+    DollMenuLists(DollEquipmentMenu *,u8);
+    ~DollMenuLists();
     void InitMenu(DollEquipmentMenu *,u8);
     Gfx* Render(Gfx*,u16,u16,u16,u16);
     u8 Tick();
     u32 m80038bc0();
     void m80038bdc(u8);
-    void m80038c60(u8);
+    void LRToggle(u8);
     void ShowEXPCosts();
     u32 GetNumber();
     BaseWidget* UpFunc();
@@ -104,14 +104,14 @@ class WidgetMenuSpells: public WidgetMenu{
     WidgetClipText* expCost;
     u32 unkac;
     WidgetClipText* expRemain;
-    WidgetChild4* wc4;
+    DollMenuLists* lists;
 };
 
 class WidgetDollMenu: public WidgetMenu {
     public:
-    WidgetMenuChild2* unk7c;
+    DollMenuPortraits* unk7c;
     WidgetHealthGold* charStats_widget;
     DollEquipmentMenu* itemslots_widget;
-    WidgetChild4* widget88;
+    DollMenuLists* lists;
     WidgetMenuSpells* spells_widget;
 };

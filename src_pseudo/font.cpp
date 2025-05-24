@@ -207,14 +207,9 @@ int Font::PrintWapperA(FontStruct *fontP,Gfx **gg,char *txt,int posX,int posY,u1
 
 int Font::PrintWapperUnused
               (FontStruct *font,Gfx **gg,char *txt,int posX,int posY,short param_6,short param_7,
-              int param_8,int param_9,int param_10,int param_11)
-
-{
-  int iVar1;
-  
-  iVar1 = PrintMain(font,gg,txt,posX,posY,param_6,param_7,param_8,param_9,param_10,param_11,
+              int param_8,int param_9,int param_10,int param_11){
+  return PrintMain(font,gg,txt,posX,posY,param_6,param_7,param_8,param_9,param_10,param_11,
                     font->scale,font->scale);
-  return iVar1;
 }
 
 int Font::PrintMain(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,short param_6,
@@ -256,9 +251,9 @@ int Font::PrintMain(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,short 
   
   iStack_5c = posY;
   iStack_64 = param_7;
-  uStack_58 = (uint)(ushort)font->charW;
+  uStack_58 = (u16)font->charW;
   iVar11 = 0;
-  uStack_54 = (uint)(ushort)font->charH;
+  uStack_54 = (u16)font->charH;
   if ((((font->currFont == NULL) || (iStack_64 <= param_6)) ||
       (param_10 <= param_8)) || (param_11 <= param_9)) {
     iStack_5c = 0;
@@ -272,7 +267,7 @@ int Font::PrintMain(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,short 
       do {
         iStack_3c = iVar11;
         iStack_4c = GetCharWidthScaled(font,bVar10,scaleX);
-        if (*pbVar13 == 10) {
+        if (*pbVar13 == '\n') {
 LAB_800b49c0:
           iVar11 = iStack_3c + 1;
           posY += iStack_50;
@@ -392,12 +387,9 @@ LAB_800b4d2c:
 
 void Font::PrintCharaWapper
                (FontStruct *param_1,Gfx **param_2,uint param_3,u32 param_4,int param_5,short param_6
-               ,short param_7,short param_8,short param_9)
-
-{
+               ,short param_7,short param_8,short param_9){
   PrintChara(param_1,param_2,(u8)param_3,param_4,param_5,param_6,param_7,param_8,param_9,
              param_1->scale,param_1->scale);
-  return;
 }
 
 void Font::PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_5,short param_6,
@@ -459,9 +451,7 @@ LAB_800b4f9c:
     col.R = (fontP->col).R;
     col.G = (fontP->col).G;
     col.B = (fontP->col).B;
-    if (126 < chara) {
-      GetButtonColor(chara + 0x81,&col.R,&col.G,&col.B);
-    }
+    if ('~' < chara) GetButtonColor(chara -'~',&col.R,&col.G,&col.B);
     sVar3 = ((ushort)bVar1 / (ushort)bVar2) * sVar3;
     sVar6 = ((ushort)bVar1 % (ushort)bVar2) * uVar4;
     pGVar7 = N64BorgImageDraw(*gg,fontP->currFont,(param_4 + iVar10),(param_5 + iVar8)
@@ -474,33 +464,18 @@ LAB_800b4f9c:
   return;
 }
 
-int Font::GetWidth(FontStruct *param_1,char *param_2)
-
-{
-  int iVar1;
-  
-  iVar1 = GetWidthScaled(param_1,param_2,param_1->scale);
-  return iVar1;
+int Font::GetWidth(FontStruct *param_1,char *txt){
+  return GetWidthScaled(param_1,txt,param_1->scale);
 }
 
-int Font::GetWidthScaled(FontStruct *font,char *str,float scale)
-
-{
-  byte bVar1;
-  int w;
-  
-  w = 0;
-  if (font->currFont != NULL) {
-    if (*str != '\0') {
-      bVar1 = *str;
-      while( true ) {
-        if ((struct_unk_.textIndexies[bVar1 - ' '] != 0x2b) && (bVar1 != '\n')) {
-          w += (font->kerning[struct_unk_.textIndexies[bVar1 - ' ']] * scale);
-        }
-        str = (char *)((byte *)str + 1);
-        if (*str == 0) break;
-        bVar1 = *str;
-      }
+int Font::GetWidthScaled(FontStruct *font,char *txt,float scale){
+  int w = 0;
+  if (font->currFont) {
+    while(*txt) {
+      u8 c = *txt;
+      if ((struct_unk_.textIndexies[c - ' '] != 43) && (c != '\n'))
+          w += (font->kerning[struct_unk_.textIndexies[c - ' ']] * scale);
+      txt++;
     }
     return w;
   }
@@ -508,39 +483,31 @@ int Font::GetWidthScaled(FontStruct *font,char *str,float scale)
 }
 
 
-u16 Font::GetCharWidth(FontStruct *param_1,u8 param_2){
+u16 Font::GetCharWidth(FontStruct *param_1,u8 chara){
   if (param_1->currFont == NULL) return 0;
-  if ((struct_unk_.textIndexies[param_2 - ' '] != 43) && (param_2 != '\n')) {
-    return param_1->kerning[struct_unk_.textIndexies[param_2 - ' ']];
+  if ((struct_unk_.textIndexies[chara - ' '] != 43) && (chara != '\n')) {
+    return param_1->kerning[struct_unk_.textIndexies[chara - ' ']];
   }
   return 0;
 }
 
 
-int Font::GetCharWidthScaled(FontStruct *param_1,char c,float scale){
+int Font::GetCharWidthScaled(FontStruct *param_1,char chara,float scale){
   if (param_1->currFont == NULL) return 0;
-  if ((struct_unk_.textIndexies[(byte)c - ' '] != 0x2b) && (c != '\n')) {
-    return (param_1->kerning[struct_unk_.textIndexies[(byte)c - ' ']] * scale)
-    ;
+  if ((struct_unk_.textIndexies[(byte)chara - ' '] != 43) && (chara != '\n')) {
+    return (param_1->kerning[struct_unk_.textIndexies[(byte)chara - ' ']] * scale);
   }
   return 0;
 }
 
 
 
-int Font::GetHeight(FontStruct *f,char *str,int h,int w)
-
-{
-  int iVar1;
-  
-  iVar1 = GetHeightScaled(f,str,h,w,f->scale,f->scale);
-  return iVar1;
+int Font::GetHeight(FontStruct *f,char *str,int h,int w){
+  return GetHeightScaled(f,str,h,w,f->scale,f->scale);
 }
 
 
-int Font::GetHeightScaled(FontStruct *font,char *str,int h,int w,float scaleX,float scaleY)
-
-{
+int Font::GetHeightScaled(FontStruct *font,char *str,int h,int w,float scaleX,float scaleY){
   int iVar1;
   int iVar2;
   byte bVar3;
@@ -554,9 +521,7 @@ int Font::GetHeightScaled(FontStruct *font,char *str,int h,int w,float scaleX,fl
   iVar8 = 0;
   iVar4 = 0;
   if ((font->currFont != NULL) && (str != NULL)) {
-    if (w <= h) {
-      return 0;
-    }
+    if (w <= h) return 0;
     if (*str != '\0') {
       iVar9 = ((ushort)font->charH * scaleY + 2.0f);
       bVar3 = *str;
@@ -564,14 +529,14 @@ int Font::GetHeightScaled(FontStruct *font,char *str,int h,int w,float scaleX,fl
       pbVar6 = (byte *)str;
       do {
         iVar1 = GetCharWidthScaled(font,bVar3,scaleX);
-        if (*pbVar6 == 10) {
+        if (*pbVar6 == '\n') {
           iVar4 += iVar9;
           iVar7 = h;
 LAB_800b5488:
           bVar3 = pbVar6[1];
         }
         else {
-          if (struct_unk_.textIndexies[*pbVar6 - ' '] == 0x2b) goto LAB_800b5488;
+          if (struct_unk_.textIndexies[*pbVar6 - ' '] == 43) goto LAB_800b5488;
           if (*pbVar6 != ' ') {
             iVar7 += iVar1;
             goto LAB_800b5488;
@@ -590,7 +555,7 @@ LAB_800b5474:
             pbVar5 = (byte *)(str + iVar8 + 1);
             bVar3 = *pbVar5;
             while( true ) {
-              if (struct_unk_.textIndexies[bVar3 - ' '] != 0x2b) {
+              if (struct_unk_.textIndexies[bVar3 - ' '] != 43) {
                 iVar2 = GetCharWidthScaled(font,bVar3,scaleX);
                 iVar1 += iVar2;
               }
@@ -619,107 +584,106 @@ LAB_800b5474:
 u8 Font::SetupBorg8(FontStruct *font,Borg8header *param_2,u16 *sizes,u16 rows,u16 cols){
   u8 uVar1;
   u16 uVar3;
-  uint uVar4;
-  uint uVar5;
+  uint charW;
+  uint charH;
   byte bVar7;
-  uint uVar6;
+  uint rows32_;
   ushort uVar8;
   int iVar9;
-  uint uVar10;
-  uint uVar11;
+  uint rows32;
+  uint cols32;
   ushort *sizeOut;
   int iVar13;
   u16 uVar14;
-  int iVar15;
+  int i;
   byte bVar16;
   int iVar17;
   ushort uVar18;
   uint uVar19;
   
-  uVar18 = (param_2->dat).Width;
-  uVar4 = (uint)uVar18 / (uint)cols;
-  uVar5 = (uint)(ushort)(param_2->dat).Height / (uint)rows;
+  charW = (uint)(param_2->dat).Width / (uint)cols;
+  charH = (uint)(param_2->dat).Height / (uint)rows;
 
   if (8 < ((param_2->dat).format - 1)) return false;
-  uVar11 = (uint)cols;
-  uVar6 = (uint)rows;
-  uVar10 = (uint)rows;
-  uVar19 = (uint)uVar18;
-  uVar18 = (ushort)uVar4;
+  cols32 = (uint)cols;
+  rows32_ = (uint)rows;
+  rows32 = (uint)rows;
+  uVar19 = (uint)(param_2->dat).Width;
+  uVar18 = (ushort)charW;
   switch((param_2->dat).format) {
   case BORG8_RBGA32:
   //32-bit image
-    iVar15 = 0;
-    if (0 < (int)(uVar10 * uVar11)) {
+    i = 0;
+    if (0 < (int)(rows32 * cols32)) {
       Color32* p32 = (Color32 *)(param_2->dat).offset;
       iVar9 = 0;
-      uVar14 = 0 % uVar10;
+      uVar14 = 0 % rows32;
       do {
-        sizeOut = sizes + iVar15;
+        sizeOut = sizes + i;
         *sizeOut = uVar18;
-        iVar9 = iVar9 * uVar4 + uVar19 * uVar14 * uVar5;
-        iVar15 += 1;
-        uVar14 = uVar4;
-        if (p32[iVar9 + uVar4 + -1].W == p32[iVar9 + uVar4].W) {
+        iVar9 = iVar9 * charW + uVar19 * uVar14 * charH;
+        i++;
+        uVar14 = charW;
+        if (p32[iVar9 + charW + -1].W == p32[iVar9 + charW].W) {
           do {
-            uVar14 -= 1;
-          } while (p32[iVar9 + uVar14 + -1].W == p32[iVar9 + uVar4].W);
+            uVar14--;
+          } while (p32[iVar9 + uVar14 + -1].W == p32[iVar9 + charW].W);
           *sizeOut = (ushort)uVar14;
         }
-        iVar9 = iVar15 / (int)uVar10;
-        uVar14 = iVar15 % (int)uVar6;
-      } while (iVar15 < (int)(uVar10 * uVar11));
+        iVar9 = i / (int)rows32;
+        uVar14 = i % (int)rows32_;
+      } while (i < (int)(rows32 * cols32));
       return true;
     }
     break;
   case BORG8_RGBA16:
   case 3:
   //16-bit image
-    iVar15 = 0;
-    if (0 < (int)(uVar6 * uVar11)) {
+    i = 0;
+    if (0 < (int)(rows32_ * cols32)) {
       u16* p16 = (u16 *)(param_2->dat).offset;
       iVar9 = 0;
-      uVar14 = 0 % uVar10;
+      uVar14 = 0 % rows32;
       do {
-        sizeOut = sizes + iVar15;
+        sizeOut = sizes + i;
         *sizeOut = uVar18;
-        iVar9 = iVar9 * uVar4 + uVar19 * uVar14 * uVar5;
-        uVar3 = p16[iVar9 + uVar4];
-        iVar15 += 1;
-        if (p16[iVar9 + uVar4 + -1] == uVar3) {
+        iVar9 = iVar9 * charW + uVar19 * uVar14 * charH;
+        uVar3 = p16[iVar9 + charW];
+        i++;
+        if (p16[iVar9 + charW + -1] == uVar3) {
           uVar8 = *sizeOut;
-          while (*sizeOut = uVar8 - 1, p16[iVar9 + (uint)(ushort)(uVar8 - 1) + -1] == uVar3) {
+          while (*sizeOut = uVar8 - 1, p16[iVar9 + (u16)(uVar8 - 1) + -1] == uVar3) {
             uVar8 = *sizeOut;
           }
         }
-        iVar9 = iVar15 / (int)uVar10;
-        uVar14 = iVar15 % (int)uVar10;
-      } while (iVar15 < (int)(uVar6 * uVar11));
+        iVar9 = i / (int)rows32;
+        uVar14 = i % (int)rows32;
+      } while (i < (int)(rows32_ * cols32));
       return true;
     }
     break;
   default:
   //8-bit image
-    iVar15 = 0;
-    if (0 < (int)(uVar10 * uVar11)) {
+    i = 0;
+    if (0 < (int)(rows32 * cols32)) {
       u8* p8 = (u8 *)(param_2->dat).offset;
       iVar9 = 0;
-      uVar14 = 0 % uVar10;
+      uVar14 = 0 % rows32;
       do {
-        sizeOut = sizes + iVar15;
+        sizeOut = sizes + i;
         *sizeOut = uVar18;
-        iVar9 = iVar9 * uVar4 + uVar19 * uVar14 * uVar5;
-        uVar1 = p8[iVar9 + uVar4 + -1];
-        iVar15 += 1;
-        if (p8[iVar9 + uVar4 + -1] == uVar1) {
+        iVar9 = iVar9 * charW + uVar19 * uVar14 * charH;
+        uVar1 = p8[iVar9 + charW + -1];
+        i += 1;
+        if (p8[iVar9 + charW + -1] == uVar1) {
           uVar8 = *sizeOut;
-          while (*sizeOut = uVar8 - 1, p8[iVar9 + (uint)(ushort)(uVar8 - 1) + -1] == uVar1) {
+          while (*sizeOut = uVar8 - 1, p8[iVar9 + (u16)(uVar8 - 1) + -1] == uVar1) {
             uVar8 = *sizeOut;
           }
         }
-        iVar9 = iVar15 / (int)uVar10;
-        uVar14 = iVar15 % (int)uVar6;
-      } while (iVar15 < (int)(uVar10 * uVar11));
+        iVar9 = i / (int)rows32;
+        uVar14 = i % (int)rows32_;
+      } while (i < (int)(rows32 * cols32));
       return true;
     }
     break;
@@ -727,33 +691,31 @@ u8 Font::SetupBorg8(FontStruct *font,Borg8header *param_2,u16 *sizes,u16 rows,u1
   case 8:
   case 9:
   //4-bit image
-    iVar15 = (uint)rows * (uint)cols;
-    if (0 < iVar15) {
+    i = (uint)rows * (uint)cols;
+    if (0 < i) {
       u8* p4 = (u8 *)(param_2->dat).offset;
       iVar9 = 0;
-      uVar6 = 0 % uVar10;
+      rows32_ = 0 % rows32;
       iVar13 = 0;
       do {
         sizes[iVar13] = uVar18;
-        iVar9 = iVar9 * uVar4 + uVar19 * uVar6 * uVar5;
+        iVar9 = iVar9 * charW + uVar19 * rows32_ * charH;
         iVar17 = iVar13 + 1;
-        bVar16 = p4[uVar4] & 7;
+        bVar16 = p4[charW] & 7;
         bVar7 = bVar16;
         while (sizeOut = sizes + iVar13, bVar7 == bVar16) {
           uVar8 = *sizeOut - 1;
           *sizeOut = uVar8;
-          uVar6 = uVar8 - 1;
+          rows32_ = uVar8 - 1;
           if ((p4[iVar9 + (uint)uVar8 + -1] >> 4 & 7) != bVar16) break;
-          *sizeOut = (ushort)uVar6;
-          bVar7 = p4[iVar9 + (uVar6 & 0xffff) + -1] >> 4 & 7;
+          *sizeOut = (u16)rows32_;
+          bVar7 = p4[iVar9 + (u16)rows32_ + -1] >> 4 & 7;
         }
-        iVar9 = iVar17 / (int)uVar10;
-        uVar6 = iVar17 % (int)uVar10;
+        iVar9 = iVar17 / (int)rows32;
+        rows32_ = iVar17 % (int)rows32;
         iVar13 = iVar17;
-        if (iVar15 <= iVar17) {
-          return true;
-        }
-      } while( true );
+      } while(iVar17<i);
+      return true;
     }
   }
   return true;

@@ -1,6 +1,7 @@
 #include "widgets/DollMenu.h"
 #include "combat/CombatStruct.h"
 #include "globals.h"
+#include "menuImages.h"
 
 u32 gItemSlotBorg8Indecies[]={
     0x3601,0x35f8,0x35fa,0x35f9,0x35f3,0x35f7,0x35f4,0x35f5,
@@ -31,19 +32,19 @@ void DollEquipmentMenu::GetSlotIcons(CharSheet *param_2){
 }
 
 void DollEquipmentMenu::GetSlotIcon(u32 param_2,ItemID param_3){
-  byte abStack_38 [4];
+  u8 abStack_38;
   u32 BStack_34;
-  byte abStack_30 [4];
+  u8 abStack_30;
   
   if (this->icon_item_ids[param_2] != param_3) {
-    if ((this->unk7c).present != 0) {
+    if ((this->unk7c).present != 0) { // why not just Tick(10020)?
       this->unk7c.Tick(10000);
       this->unk7c.Tick(10);
       this->unk7c.Tick(10);
     }
     if (this->icons[param_2]) {
-      abStack_38[0] = 0;
-      this->unk7c.AddItem(new UnkGuiClassL(new UnkGuiClassU3(&(this->icons[param_2]->col).A,abStack_38,0xf,double_array_0),this->icons[param_2]));
+      abStack_38 = 0;
+      this->unk7c.AddItem(new UnkGuiClassL(new UnkGuiClassU3(&(this->icons[param_2]->col).A,&abStack_38,0xf,&double_array_0),this->icons[param_2]));
       this->icons[param_2] = NULL;
     }
     this->icon_item_ids[param_2] = param_3;
@@ -53,8 +54,8 @@ void DollEquipmentMenu::GetSlotIcon(u32 param_2,ItemID param_3){
     SetSlotCoords(param_2,pBVar6);
     this->Link(pBVar6);
     (pBVar6->col).A = 0;
-    abStack_30[0] = 0xff;
-    this->unk7c.AddItem(new UnkGuiClassU3(&(pBVar6->col).A,abStack_30,0xf,double_array_0));
+    abStack_30 = 0xff;
+    this->unk7c.AddItem(new UnkGuiClassU3(&(pBVar6->col).A,&abStack_30,0xf,&double_array_0));
     this->icons[param_2] = pBVar6;
   }
 }

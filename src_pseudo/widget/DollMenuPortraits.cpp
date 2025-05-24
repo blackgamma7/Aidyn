@@ -1,7 +1,7 @@
 #include "widgets/DollMenu.h"
 #include "globals.h"
 
-WidgetMenuChild2::WidgetMenuChild2(Party *party,u8 size,u8 selected):WidgetMenu(){
+DollMenuPortraits::DollMenuPortraits(Party *party,u8 size,u8 selected):WidgetMenu(){
     u32 b8;
     u32 *b8P;
   
@@ -18,9 +18,7 @@ WidgetMenuChild2::WidgetMenuChild2(Party *party,u8 size,u8 selected):WidgetMenu(
         this->Link(this->names[j]);
         u16 uVar13 = 24;
         this->portraits[j] = WidgetB8Port(chara->ID);
-        if (j == this->selectedMember) {
-          uVar13 = 40;
-        }
+        if (j == this->selectedMember) uVar13 = 40;
         this->Hs[j] = uVar13;
         this->Ws[j] = uVar13;
         this->portraits[j]->SetHeight(this->Hs[j]);
@@ -63,15 +61,15 @@ WidgetMenuChild2::WidgetMenuChild2(Party *party,u8 size,u8 selected):WidgetMenu(
       this->Link(this->schoolIcon);
     }
 }
-WidgetMenuChild2::~WidgetMenuChild2(){
+DollMenuPortraits::~DollMenuPortraits(){
     this->unkb8.~UnkGuiSubstruct();
     WidgetMenu::~WidgetMenu();
 }
 
-u32 WidgetMenuChild2::m80042c04(){return unkb8.present;}
+u32 DollMenuPortraits::m80042c04(){return unkb8.present;}
 
 
-void WidgetMenuChild2::SchoolAspectIcons(u8 param_2){
+void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
   byte bVar1;
   CharSheet *pCVar4;
   int iVar6;
@@ -83,7 +81,7 @@ void WidgetMenuChild2::SchoolAspectIcons(u8 param_2){
   ushort uStack_50;
   u16 uStack_4e;
   byte abStack_4c [4];
-  Borg8Enum BStack_48;
+  u32 BStack_48;
   byte abStack_44 [4];
   ushort *puStack_40;
   int iStack_3c;
@@ -108,16 +106,16 @@ void WidgetMenuChild2::SchoolAspectIcons(u8 param_2){
     if (this->partySize != 0) {
         for(u8 i=0;i<this->partySize;i++) {
           u8 uVar16 = (int)(i + iStack_3c + (uint)this->partySize) % (int)(uint)this->partySize;
-          this->unkb8.AddItem(new UnkGuiClassU2(&this->portraits[i]->x,&this->portraits[uVar16]->x,0xf,double_array_0));
-          this->unkb8.AddItem(new UnkGuiClassU2(&this->portraits[i]->y,&this->portraits[uVar16]->y,0xf,double_array_0));
-          this->unkb8.AddItem(new UnkGuiClassU2((short *)(this->Ws + i),(short *)(this->Ws + uVar16),0xf,double_array_0));
-          this->unkb8.AddItem(new UnkGuiClassU2((short *)(this->Hs + i),(short *)(this->Hs + uVar16),0xf,double_array_0));
+          this->unkb8.AddItem(new UnkGuiClassU2(&this->portraits[i]->x,&this->portraits[uVar16]->x,0xf,&double_array_0));
+          this->unkb8.AddItem(new UnkGuiClassU2(&this->portraits[i]->y,&this->portraits[uVar16]->y,0xf,&double_array_0));
+          this->unkb8.AddItem(new UnkGuiClassU2(&this->Ws[i],&this->Ws[uVar16],0xf,&double_array_0));
+          this->unkb8.AddItem(new UnkGuiClassU2(&this->Hs[i],&this->Hs[uVar16],0xf,&double_array_0));
         }
       }
     abStack_4c[0] = 0;
-    this->unkb8.AddItem(new UnkGuiClassU3(&(this->names[this->selectedMember]->col).A,pbStack_34,0xf,double_array_0));
+    this->unkb8.AddItem(new UnkGuiClassU3(&(this->names[this->selectedMember]->col).A,pbStack_34,0xf,&double_array_0));
     abStack_4c[1] = 0xff;
-    this->unkb8.AddItem(new UnkGuiClassU3(&(this->names[uStack_4e]->col).A,pbStack_30,0xf,double_array_0));
+    this->unkb8.AddItem(new UnkGuiClassU3(&(this->names[uStack_4e]->col).A,pbStack_30,0xf,&double_array_0));
     if (this->partySize != 0) {
         for(u8 i=0;i<this->partySize;i++)  {
         if (i != *puStack_40) {
@@ -132,20 +130,20 @@ void WidgetMenuChild2::SchoolAspectIcons(u8 param_2){
     pBVar12 = this->aspectIcon;
     if (pBVar12->var5E != AVar15){
       abStack_4c[2] = 0;
-      this->unkb8.AddItem(new UnkGuiClassL(new UnkGuiClassU3(&(pBVar12->col).A,abStack_4c + 2,0xf,double_array_0),pBVar12));
+      this->unkb8.AddItem(new UnkGuiClassL(new UnkGuiClassU3(&(pBVar12->col).A,abStack_4c + 2,0xf,&double_array_0),pBVar12));
       getAspectIcon(AVar15,&BStack_48);
       this->aspectIcon = WidgetB8(BStack_48);
       this->aspectIcon->SetCoords(pBVar12->x,pBVar12->y);
       (this->aspectIcon->col).A = 0;
       this->aspectIcon->var5E = AVar15;
       this->Link(this->aspectIcon);
-      this->unkb8.AddItem(new UnkGuiClassU3(&(this->aspectIcon->col).A,abStack_44,0xf,double_array_0));
+      this->unkb8.AddItem(new UnkGuiClassU3(&(this->aspectIcon->col).A,abStack_44,0xf,&double_array_0));
     }
     pBVar12 = this->schoolIcon;
     u8 MVar2 = pCVar4->EXP->school;
     if (pBVar12) {
       if (pBVar12->var5E == (ushort)MVar2) return;
-      this->unkb8.AddItem(new UnkGuiClassL(new UnkGuiClassU3(&(pBVar12->col).A,abStack_44 + 1,0xf,double_array_0),pBVar12));
+      this->unkb8.AddItem(new UnkGuiClassL(new UnkGuiClassU3(&(pBVar12->col).A,abStack_44 + 1,0xf,&double_array_0),pBVar12));
     }
     getSchoolIcon(MVar2,&BStack_48);
     if (BStack_48 == 0) this->schoolIcon = NULL;
@@ -156,12 +154,12 @@ void WidgetMenuChild2::SchoolAspectIcons(u8 param_2){
       pBVar12->var5E = (ushort)MVar2;
       this->Link(this->schoolIcon);
       abStack_44[2] = 0xff;
-      this->unkb8.AddItem(new UnkGuiClassU3(&(this->schoolIcon->col).A,abStack_44 + 2,0xf,double_array_0));
+      this->unkb8.AddItem(new UnkGuiClassU3(&(this->schoolIcon->col).A,abStack_44 + 2,0xf,&double_array_0));
     }
   }
 }
 
-Gfx * WidgetMenuChild2::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
+Gfx * DollMenuPortraits::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   Font::SetFace(gGlobals.font,font_face[1].borg8);
   Gfx* pGVar1 = RenderChildren(g,x0,y0,x1,y1);
   Font::SetFace(gGlobals.font,font_face[0].borg8);
@@ -169,7 +167,7 @@ Gfx * WidgetMenuChild2::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 }
 
 
-u8 WidgetMenuChild2::Tick(){
+u8 DollMenuPortraits::Tick(){
   
   unkb8.Tick(1);
   if (this->partySize != 0) {

@@ -131,7 +131,7 @@ u8 Cheats::_Cheater(void){ // +750000 EXP to party
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->LevelText),"%u",Entity::GetLevel(pCVar2));
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->CurrHPText),"%u",Entity::getHPCurrent(pCVar2));
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->MaxHPText),"%u",Entity::getHPMax(pCVar2));
-  ppVar1->dollmenu->widget88->m80038bdc(gPartyPicker);
+  ppVar1->dollmenu->lists->m80038bdc(gPartyPicker);
   return true;
 }
 

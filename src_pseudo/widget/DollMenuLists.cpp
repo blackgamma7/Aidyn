@@ -1,10 +1,10 @@
 #include "globals.h"
 
-WidgetChild4::WidgetChild4(DollEquipmentMenu *menu,u8 sel):WidgetMenu(){
+DollMenuLists::DollMenuLists(DollEquipmentMenu *menu,u8 sel):WidgetMenu(){
     InitMenu(menu,sel);
 }
 
-WidgetChild4::~WidgetChild4(){
+DollMenuLists::~DollMenuLists(){
   if (this->unk8c) {
     this->Unlink(this->unk8c);
     this->unk8c = NULL;
@@ -21,8 +21,7 @@ WidgetChild4::~WidgetChild4(){
 }
 
 
-void WidgetChild4::InitMenu(DollEquipmentMenu *menu,byte sel){
-  bool bVar3;
+void DollMenuLists::InitMenu(DollEquipmentMenu *menu,u8 sel){
   
   this->menuIndex = sel;
   u8 bVar14 = gPartyPicker;
@@ -80,24 +79,24 @@ LAB_80038434:
     pBVar8->SetCoords(0x5a - (pBVar8->GetHeight() >> 1),0x58 - pBVar8->GetWidth());
     this->Link(pBVar8);
     u16 uVar16 = (ushort)pBVar8->y + pBVar8->GetHeight() + 4;
-    Gsprintf(gGlobals.CommonStrings[0x1eb],(gGlobals.expGained * 1.5f));
+    Gsprintf(Cstring(EarnedExp),(gGlobals.expGained * 1.5f));
     pBVar8 = WClipTXT(gGlobals.text);
     pBVar8->SetColor(0x82,0x50,0x50,0xff);
     pBVar8->SetCoords(0x14,uVar16);
     Utilities::SetWidgetBoundsX(pBVar8,0x14,0x96);
     this->Link(pBVar8);
-    uVar16 = pBVar8->GetHeight() + (uVar16 & 0xffff) + 4 & 0xffff;
+    uVar16 = pBVar8->GetHeight() + uVar16 + 4;
     Font::SetFace(gGlobals.font,font_face[1].borg8);
-    bVar3 = false;
+    u8 bVar3 = false;
     if ((gGlobals.party)->PartySize) {
       for(u8 i=0;i<(gGlobals.party)->PartySize;i++) {
-        if ((gGlobals.party)->Members[i]) {
+        if ((gGlobals.party)->Members[i]) { //bug(?) calculation doesn't take into account 1.5x
           Entity::ModExpTotal((gGlobals.party)->Members[i],-gGlobals.expGained);
-          u32 uVar12 = Entity::GetLevel((gGlobals.party)->Members[i]);
+          u32 lvPre = Entity::GetLevel((gGlobals.party)->Members[i]);
           Entity::ModExpTotal((gGlobals.party)->Members[i],gGlobals.expGained);
-          u32 uVar13 = Entity::GetLevel((gGlobals.party)->Members[i]);
-          if (uVar12 < uVar13) {
-            Gsprintf(gGlobals.CommonStrings[0x1ec],(gGlobals.party)->Members[i]->name);
+          u32 lvPost = Entity::GetLevel((gGlobals.party)->Members[i]);
+          if (lvPre < lvPost) {
+            Gsprintf(Cstring(LevelUp),(gGlobals.party)->Members[i]->name);
             pBVar8 = WClipTXT(gGlobals.text);
             pBVar8->SetColor(0x82,0x50,0x50,0xff);
             pBVar8->SetCoords(0x14,(short)uVar16);
@@ -122,14 +121,14 @@ LAB_80038434:
     ShowEXPCosts();
   }
 }
-Gfx * WidgetChild4::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
+Gfx * DollMenuLists::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   Font::SetFace(gGlobals.font,font_face[1].borg8);
   Gfx* G = RenderChildren(g,x0,y0,x1,y1);
   Font::SetFace(gGlobals.font,font_face[0].borg8);
   return G;
 }
 
-u8 WidgetChild4::Tick(){
+u8 DollMenuLists::Tick(){
   Font::SetFace(gGlobals.font,font_face[1].borg8);
   this->unkb0.Tick(1);
   if (((this->unkb0).present == 0) && (this->unk8c)) {
@@ -141,12 +140,12 @@ u8 WidgetChild4::Tick(){
   return bVar2;
 }
 
-u32 WidgetChild4::m80038bc0(){
+u32 DollMenuLists::m80038bc0(){
   if (this->unk8c == NULL) return (this->unkb0).present;
   return 1;
 }
 
-void WidgetChild4::m80038bdc(u8 ind){
+void DollMenuLists::m80038bdc(u8 ind){
   this->partyPicker=ind;
   for(u8 i=0;i<this->menuCount;i++){
     if(this->menus[i])this->menus[i]->InitMenu();
@@ -154,34 +153,30 @@ void WidgetChild4::m80038bdc(u8 ind){
 }
 
 
-void WidgetChild4::m80038c60(u8 param_2){
-  byte bVar1;
+void DollMenuLists::LRToggle(u8 param_2){
   WidgetTrainShop *pWVar3;
-  u8 uVar4;
-  UnkGuiClassU2 *pUVar6;
-  UnkGuiClass *pUVar7;
-  WidgetTrainShop **ppWVar8;
+  u8 newIndex;
   short sVar9;
   short asStack_28 [20];
   
   if (!m80038bc0()) {
     sVar9 = 0x8c;
     if (param_2 == 0) {
-      uVar4 = (this->menuIndex + this->menuCount + -1) % this->menuCount;
+      newIndex = (this->menuIndex + this->menuCount +1) % this->menuCount;
     }
     else {
-      uVar4 = (this->menuIndex + this->menuCount + -1) % this->menuCount;
+      newIndex = (this->menuIndex + this->menuCount -1) % this->menuCount;
       sVar9 = -0x8c;
     }
-    if (uVar4!= this->menuIndex) {
-      WidgetTrainShop* w=this->menus[uVar4];
+    if (newIndex!= this->menuIndex) {
+      WidgetTrainShop* w=this->menus[newIndex];
       w->x = 0xa0 - sVar9;
-      this->unkb0.AddItem(new UnkGuiClassU2(&w->x,&this->menus[this->menuIndex]->x,0x14,double_array_0));
+      this->unkb0.AddItem(new UnkGuiClassU2(&w->x,&this->menus[this->menuIndex]->x,0x14,&double_array_0));
       asStack_28[0] = sVar9 + this->menus[this->menuIndex]->x;
-      this->unkb0.AddItem(new UnkGuiClassU2(&this->menus[this->menuIndex]->x,asStack_28,0x14,double_array_0));
+      this->unkb0.AddItem(new UnkGuiClassU2(&this->menus[this->menuIndex]->x,asStack_28,0x14,&double_array_0));
       this->Link(w);
       pWVar3 = this->menus[this->menuIndex];
-      this->menuIndex = (byte)uVar4;
+      this->menuIndex = (byte)newIndex;
       this->unk8c = pWVar3;
     }
     ShowEXPCosts();
@@ -190,7 +185,7 @@ void WidgetChild4::m80038c60(u8 param_2){
 }
 
 
-void WidgetChild4::ShowEXPCosts(){
+void DollMenuLists::ShowEXPCosts(){
   if (gGlobals.SomeCase == 5) {
     BaseWidget* w = this->menus[this->menuIndex]->AFunc();
     if (!w) strcpy(Utilities::GetWidgetText(this->expCost)," ");
@@ -204,4 +199,4 @@ void WidgetChild4::ShowEXPCosts(){
   }
 }
 
-u32 WidgetChild4::GetNumber(){return WidgetN_Other;}
+u32 DollMenuLists::GetNumber(){return WidgetN_Other;}

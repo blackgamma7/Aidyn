@@ -20,10 +20,8 @@ Gfx gPlaneObjDlist[]={
     gsSPLoadGeometryMode(0),
     gsSPTexture(0x8000,0x8000,0,0,2),
     gsSPEndDisplayList(),
-    gsSPNoOp() //this may just be align bytes.
+    gsDPNoOp() //this may just be align bytes.
 };
-
-extern void SetVtx(Vtx_t *v,float x,float y,float z,u16 flag,s16 U,s16 V,u8 R,u8 G,u8 B,u8 A);
 
 Gfx * PlaneObj_SetupGfx(Gfx *g,byte flags){
   u32 uVar1;

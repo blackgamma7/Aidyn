@@ -578,6 +578,19 @@ Gfx * Particle::FUN_800b2f9c(Gfx *param_1,u16 param_2){
 
 Vtx gParticleVerts[4];
 
+void SetVtx(Vtx_t *v,float x,float y,float z,u16 flag,s16 U,s16 V,u8 R,u8 G,u8 B,u8 A){
+  v->flag = flag;
+  v->tc[0] = U;
+  v->tc[1] = V;
+  v->cn[0] = R;
+  v->cn[1] = G;
+  v->cn[2] = B;
+  v->cn[3] = A;
+  v->ob[0] = x*16.f;
+  v->ob[1] = y*16.0f;
+  v->ob[2] = z*16.0f;
+}
+
 void Particle::RenderParticles(Gfx **gg,ParticleHeadStruct *phead,Particle_s *part,Borg1header *texture,ushort framebuff){
 Mtx *pMVar2;
 Color32 color;

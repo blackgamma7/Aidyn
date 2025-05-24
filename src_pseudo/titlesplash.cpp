@@ -199,8 +199,8 @@ u8 TitleSplash::ExpansionPak(Gfx** param_1){
   return abStack40;
 }
 
-void TitleSplash::Println(Gfx*param_1,s16 *HSpace,char *TXT){
-  Font::print800b44dc(gGlobals.font,param_1,(u8 *)TXT,(SCREEN_WIDTH - Font::GetWidth(gGlobals.font,TXT)) / 2,(s32)*HSpace);
+void TitleSplash::Println(Gfx**param_1,s16 *HSpace,char *TXT){
+  Font::print800b44dc(gGlobals.font,param_1,TXT,(SCREEN_WIDTH - Font::GetWidth(gGlobals.font,TXT)) / 2,(s32)*HSpace);
   *HSpace+= (gGlobals.font)->charH;
 }
 u8 TitleSplash::Copyright(Gfx **param_1){
@@ -225,7 +225,7 @@ u8 TitleSplash::Copyright(Gfx **param_1){
   }
   RSPFUNC6(aGStack_30);
   aGStack_30 = gsFadeInOut(aGStack_30,0,0,Graphics::get_hres(),Graphics::get_vres(),0,0,0,0);
-  Font::SetFace(gGlobals.font,BORG8_MainFont);
+  Font::SetFace(gGlobals.font,BORG8_SlimFont);
   ((gGlobals.font)->col).R = copyright_text_color;
   ((gGlobals.font)->col).G = copyright_text_color;
   ((gGlobals.font)->col).B = copyright_text_color;
@@ -284,51 +284,53 @@ u8 TitleSplash::N64Logo(Gfx**param_1){
   set_anidat_color(SplashLogoModel,(u32)N64_logo_alpha,(u32)N64_logo_alpha,(u32)N64_logo_alpha,0xff);
   if (360.0f < N64LogoRot) N64LogoRot-= 360.0f;
   fVar7 = N64LogoRot * dtor;
-  n64LogoVec3[0] = __sinf(fVar7) * 40.0f;
-  n64LogoVec3[1] = 15.0f;
-  n64LogoVec3[2] = __cosf(fVar7) * 40.0f;
-  fVar5 = -n64LogoVec3[0];
-  fVar7 = -n64LogoVec3[1];
-  fVar6 = -n64LogoVec3[2];
+  n64LogoVec3.x = __sinf(fVar7) * 40.0f;
+  n64LogoVec3.y = 15.0f;
+  n64LogoVec3.z = __cosf(fVar7) * 40.0f;
+  fVar5 = -n64LogoVec3.x;
+  fVar7 = -n64LogoVec3.y;
+  fVar6 = -n64LogoVec3.z;
   while (Controller::GetInput(&BStack60,0)) {
     TitleSplash::Timer(&N64_logo_short,&N64_logo_alpha,NULL,ShowTime,&auStack64,2);
-    N64LogoRot = += 2.0d;
+    N64LogoRot += 2.0;
     TitleSplash::Noop();
   }
   pauVar3 = Graphics::StartDisplay(pauVar3,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  animationData_LookAt(SplashLogoModel,n64LogoVec3[0],n64LogoVec3[1],n64LogoVec3[2],fVar5,fVar7,fVar6,0,1.0f,0);
+  Scene::LookAt(SplashLogoModel,n64LogoVec3.x,n64LogoVec3.y,n64LogoVec3.z,fVar5,fVar7,fVar6,0,1.0f,0);
   FUN_800a0df4(SplashLogoModel);
   pauVar3 = gsAnimationDataMtx(pauVar3,SplashLogoModel);
   pauVar3 = BorgAnimDrawScene(pauVar3,SplashLogoModel);
   RSPFUNC(pauVar3,6);
-  pauVar3 = SplashLicence->Render(pauVar3,0,0,SCREEN_WIDTH,240);
+  pauVar3 = SplashLicence->Render(pauVar3,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
   *param_1 = pauVar3;
   return auStack64;
 }
 
-u8 TitleSplash::THQLogo(BUTTON_aidyn *param_1){
-  u8 bVar1;
-  controller_aidyn auStack36;
-  
+u8 TitleSplash::THQLogo(Gfx** GG){
+  bool bVar1;
+  byte abStack_28 [4];
+  controller_aidyn *pcStack_24;
+  Gfx *apGStack_20;
+
   #ifdef DEBUGVER
   #define ShowTime 2
   #else
   #define ShowTime 120
   #endif
-
-  auStack36.input = *param_1;
-  auStack36.joy_x._0_1_ = gGlobals.splashscreenSwitch;
-  while (bVar1 = Controller::GetInput((Button_hold *)&auStack36.joy_y,0), bVar1) {
-    TitleSplash::Timer(&u16_800e98fc,&THQLogoAlpha,NULL,ShowTime,&auStack36,3);
-    TitleSplash::Noop();
+  
+  apGStack_20 = *GG;
+  abStack_28[0] = gGlobals.splashscreenSwitch;
+  while (bVar1 = Controller::GetInput(&pcStack_24,0), bVar1) {
+    Timer(&u16_800e98fc,&THQLogoAlpha,NULL,ShowTime,abStack_28,3);
+    Noop();
   }
-  TitleSplash::Borg8((Gfx*)&auStack36.input,THQLogoAlpha,gGlobals.thqBorg8);
-  #ifdef DEBUGVER
-  TitleSplash::ShowVerion((Gfx*)&auStack36.input,THQLogoAlpha);
-  #endif
-  *param_1 = auStack36.input;
-  if (auStack36.joy_x._0_1_ == 3) {THQLogoAlpha = 0;}
-  return auStack36.joy_x._0_1_;
+  Borg8(&apGStack_20,THQLogoAlpha,gGlobals.thqBorg8);
+  ShowVerion(&apGStack_20,THQLogoAlpha);
+  *GG = apGStack_20;
+  if (abStack_28[0] == 3) {
+    THQLogoAlpha = 0;
+  }
+  return abStack_28[0];
 }
 
 u8 TitleSplash::H2OLogo(BUTTON_aidyn *param_1){

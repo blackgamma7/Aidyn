@@ -173,200 +173,6 @@ struct InputWidgetSubStruct {
 };
 
 
-typedef u8 PFS_ERR8;
-
-typedef enum Borg8Enum { /* Sprites/Textures */
-    BORG8_CompassWest=23,
-    //BORG8_CompassNorth=24,
-    BORG8_CompassSouth=25,
-    BORG8_CompassEast=26,
-    BORG8_compassRing=27,
-    //BORG8_MainFont=29,
-    BORG8_MapIconStart=30,
-    //long down arrow=213,
-    //BORG8_Spacer=215,
-    BORG8_PauseBGOptions=216,
-    BORG8_PauseBGStats=217,
-    BORG8_PauseBGMap=218,
-    BORG8_CurrDayMarker=220,
-    BORG8_CampTitle=221,
-    BORG8_LogoH2O=222,
-    BORG8_PortraitHighlight=223,
-    //Parchment background=226,
-   // Parchment Background_2=227,
-    //Parchment shadow=228,
-    //Parchment Window 2=229,
-    BORG8_TitleJournal=230,
-    BORG8_TitleInventory=233,
-    BORG8_TitleSkills=236,
-    BORG8_TitleSpells=237,
-    BORG8_TitleTrain=239,
-    BORG8_TitleMenui=242,
-    //square highlight=243,
-    //66 px highligh 2=244,
-    //66 px highlight=245,
-    //map marker=246,
-    BORG8_CONTROLLER_PAK=247,
-    //blank space?=248,
-    BORG8_TitleEnterName=249,
-    BORG8_TitleLicence=250,
-    BORG8_WarningNoController=251,
-    BORG8_WarningNoControllerPak=252,
-    BORG8_TitleOptions=253,
-    BORG8_TitlePause=254,
-    BORG8_TitleSaveGame=255,
-    BORG8_TitleTheater=256,
-    BORG8_LogoTHQ=257,
-    BORG8_TitlePressStart=258,
-    Borg8_TitleCard=259,
-    Borg8_TitleCardShadow=260,
-    //42 px box=261,
-    BORG8_PortraitAbrecan=262,
-    BORG8_PortraitAlaron=264,
-    BORG8_PortraitBat=272,
-    BORG8_PortraitBear=274,
-    BORG8_PortraitChaosScout=284,
-    BORG8_PortraitNPCMale1=293,
-    BORG8_PortraitGoblin=318,
-    BORG8_PortraitGodrik=320,
-    BORG8_PortraitKeelin=335,
-    BORG8_PortraitShadow=361,
-    BORG8_PortraitSheridan=362,
-    BORG8_PortraitCrossbone=365,
-    BORG8_PortraitTentacle=366,
-    BORG8_PortraitBanner=384,
-    BORG8_PortraitSignpost=385,
-    BORG8_JournalBG=386,
-    BORG8_IconSkAlchemist=387,
-    BORG8_IconSkDiplomat=388,
-    BORG8_IconSkHealer=389,
-    BORG8_IconSkLoremaster=390,
-    BORG8_IconSkMechanic=391,
-    BORG8_IconSkMerchant=392,
-    BORG8_IconSkRanger=393,
-    BORG8_IconSkStealth=394,
-    BORG8_IconSkTheif=395,
-    BORG8_IconSkTroubador=396,
-    BORG8_IconSkWarrior=397,
-    BORG8_IconSkWizard=398,
-    BORG8_CloudA=399,
-    BORG8_CloudB=400,
-    BORG8_CloudC=401,
-    Borg8_LensflareFilled=402,
-    Borg8_LensflareRing=403,
-    BORG8_MoonNew=404,
-    BORG8_MoonCresent=405,
-    BORG8_MoonQuarter=406,
-    BORG8_MoonGibb=407,
-    BORG8_MoonFull=408,
-    pillar=409,
-    //Sun texture?=418,
-    BORG8_IconAsLunar=419,
-    BORG8_IconAsSolar=420,
-    BORG8_IconSpell0=421,
-    BORG8_IconSpell1=422,
-    BORG8_IconSpell2=423,
-    BORG8_IconSpell3=424,
-    BORG8_IconSpell4=425,
-    BORG8_IconSpell5=426,
-    BORG8_IconSpell6=427,
-    BORG8_IconSpell7=428,
-    BORG8_IconSpell8=429,
-    BORG8_IconSpell9=430,
-    BORG8_IconSpell10=431,
-    BORG8_IconSpell11=434,
-    BORG8_SundailMoonA=436,
-    BORG8_SundailMoonB=440,
-    BORG8_SundaiCross=442,
-    BORG8_GradientA=447,
-    BORG8_GradientB=450,
-    BORG8_GradientC=451,
-    BORG8_Pixel=452,
-    //2 black pixels=453,
-    //28 px soft edge square=454,
-    //14px square=455,
-    //Gwen map overlay=457,
-    //galaxy swirl?=464,
-    //Fire effect?=3424,
-    //Some Face?=3514,
-    //musical notes=6842,
-    BORG8_IconItemAmoranth=13756,
-    BORG8_IconItemAmulet1=13757,
-    BORG8_IconItemAmulet2=13758,
-    BORG8_IconItemAmulet3=13759,
-    BORG8_IconItemAmulet4=13760,
-    BORG8_IconItemChestArmor1=13761,
-    BORG8_IconItemCheatArmor2=13762,
-    BORG8_IconItemCheastArmor3=13763,
-    BORG8_IconItemCheastArmor4=13764,
-    Axe=13765,
-    //Flag/sythe=13766,
-    Circlet=13767,
-    Cuccoon=13768,
-    //Boot icon=13769,
-    //Bow and arrow icon=13770,
-    //Cloack Icon=13771,
-    //green cloack icon=13772,
-    //purple cloack icon=13773,
-    BORG8_IconItemClub=13774,
-    BORG8_IconItemSword=13775,
-    BORG8_IconItemStaff=13776,
-    //2 pad icon=13777,
-    BORG8_IconItemGem=13778,
-    BORG8_IconItemGem2=13779,
-    BORG8_IconItemGem3=13780,
-    BORG8_IconItemLeatherGlove=13781,
-    BORG8_IconItemHarp=13782,
-    BORG8_IconItemBlueHat=13783,
-    BORG8_IconItemKendallHat=13784,
-    BORG8_IconItemLeatherCloak=13785,
-    BORG8_IconItemHerb=13786,
-    BORG8_IconItemHide=13787,
-    BORG8_IconItemUnk=13788,
-    BORG8_IconItemKey1=13789,
-    BORG8_IconItemKey2=13790,
-    BORG8_IconItemKey3=13791, //icon for the unused Blood/bone/skull/black keys
-    BORG8_IconItemHorn=13792,
-    BORG8_IconItemMace=13793,
-    BORG8_IconItemParchment=13794,
-    BORG8_IconItemPike=13795,
-    BORG8_IconItemPotion=13797,
-    BORG8_IconItemScroll=13801,
-    BORG8_IconItemSicle=13802,
-    BORG8_IconItemShield1=13803,
-    BORG8_IconItemStaff2=13805,
-    BORG8_IconItemSword2=13806,
-    BORG8_IconItemSword3=13807,
-    BORG8_IconItemThrowIron=13808,
-    BORG8_IconSlotCloak=13815,
-    BORG8_IconSlotGlove=13816,
-    BORG8_IconSlotHelmet=13817,
-    BORG8_IconSlotShield=13823,
-    BORG8_IconSlotStaff=13824,
-    BORG8_IconSlotSword=13825,
-    //Spotlight?=13826,
-    BORG8_BGBook2=13827,
-    BORG8_BGPlaque=13828,
-    BORG8_BGParchment=13829,
-    BORG8_BGBookLeaf=13830,
-    BORG8_BGBluPlaque=13831,
-    BORG8_BGParchment2=13832,
-    //2 horizontal arrows=14166,
-    BORG8_ExpPakYes=14168,
-    BORG8_ExpPakNo=14169,
-    Ritual=14171,
-    //crecent moon=14239,
-    //half moon=14240,
-    PortSaidMarker=14270,
-    //Terminor Marker=14272,
-    //Ugarit Marker=14273,
-    Borg8_PAL_Warning=14275,
-    BORG8_PortraitMinotuar=14406,
-    cyclops_Hurlstar=14422,
-    BORG8_PortraitHorse=14423,
-    //up arrow=14544
-} Borg8Enum;
-
 typedef struct SaveDatStruct SaveDatStruct, *PSaveDatStruct;
 
 typedef struct SavePartyHeader SavePartyHeader, *PSavePartyHeader;
@@ -412,8 +218,6 @@ struct WidgetMenuChild {
     u32 field7_0xa0;
 };
 
-typedef struct romcopy_struct romcopy_struct, *Promcopy_struct;
-
 struct WidgetOptionsSubstruct {
     BaseWidget *ScrollMenu;
     BaseWidget *theatreMenu;
@@ -422,26 +226,6 @@ struct WidgetOptionsSubstruct {
     BaseWidget *unk10;
     BaseWidget *unk14;
     u8 field6_0x18;
-};
-
-typedef struct WidgetScrollList_Substruct WidgetScrollList_Substruct, *PWidgetScrollList_Substruct;
-
-struct WidgetScrollList_Substruct {
-    undefined field0_0x0;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    u16 field4_0x4;
-    undefined field5_0x6;
-    undefined field6_0x7;
-    u16 field7_0x8;
-    undefined field8_0xa;
-    undefined field9_0xb;
-    BaseWidget **items;
-    u8 itemMax;
-    undefined field12_0x11;
-    u8 itemCount;
-    undefined field14_0x13;
 };
 
 
@@ -503,10 +287,6 @@ typedef struct CharGear CharGear, *PCharGear;
 typedef struct StatMod StatMod, *PStatMod;
 
 typedef struct SpellCharges SpellCharges, *PSpellCharges;
-
-
-
-
 
 typedef struct CombatAi_command CombatAi_command, *PCombatAi_command;
 
