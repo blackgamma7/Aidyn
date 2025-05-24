@@ -5,10 +5,10 @@
 Aidyn Chronicles is one of a handful of RPG's on the system and a relatively obscure title. As such it's inner workings fascinated me. It led to the discoveries of the workings of the system, such as cheat codes, turning enemies passive on the field, and randomized battle encounters. since then, my interest grew to fully understanding the game.
 
 ## What this contains:
-- Splat yaml's. One for NTSC v1.0 and one for the recently-uncovered debug version.
+- Splat yaml's for Debug and another one for NTSC 1.0.
 - symbol tables for both.
 - src_pseudo/ : pseudocode of the source files based lagely on the debug build interpreted by ghidra and cleaned up by hand (apart from OS files - they're largely unchanged, AFAIK)
-- include/ : typical pseudocode header files, with one of a dump of Ghidra definitions (ghidradump.h)
+- include/ : header files, with one of a dump of Ghidra definitions (ghidradump.h)
 
 
 ## why no usable code?
@@ -35,7 +35,7 @@ A "static recompilation" of the game's assembely code, with the potential of ray
   - potential for raytracing and some other enhancements
 - Cons:
   - generated code is not as human-readable, optimized or modifiable as true decompilation.
-  - Controller Pak support not yet implemented.
+  - Controller Pak and osSched support not yet implemented.
 ### Existing Game Engine
 Port the game to an existing engine such as Unity or Godot and take advantage of modern conviences it provides.
 - Pros:
