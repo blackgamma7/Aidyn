@@ -195,7 +195,7 @@ void InitPlayerHandler(Camera_struct *cam,short maxPlayers,int shadIndex){
     }
   }
   if (shadIndex)
-    gGlobals.Sub.PlayerHandler.shadowTexture = (Borg1header *)getBorgItem(shadIndex);
+    gGlobals.Sub.PlayerHandler.shadowTexture = (Borg1Header *)getBorgItem(shadIndex);
   gGlobals.Sub.PlayerHandler.audiokey = load_audiokey();
 }
 
@@ -216,7 +216,7 @@ void FreePlayerHandler(void){
 
 
 Gfx * Actor::CalculateShadow(playerData *param_1,Gfx *g,float param_3,u8 param_4){
-  Borg9data *borgDat;
+  Borg9Data *borgDat;
   Gfx *pGVar2;
   vec3f *pos;
   vec3f *outRot;
@@ -397,10 +397,10 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
   double dVar10;
   int iVar12;
   short sVar15;
-  Borg9data *map;
-  Borg7header *pBVar13;
+  Borg9Data *map;
+  Borg7Header *pBVar13;
   bool bVar18;
-  Borg7header *plVar9;
+  Borg7Header *plVar9;
   PLAYERDATA_Flags PVar16;
   short sVar17;
   bool bVar19;
@@ -965,7 +965,7 @@ void set_sun_light(SceneData *param_1,u16 flag,voxelObject *param_3,u8 alpha){
 }
 
 Gfx * renderPlayers(PlayerHandler *param_1,Gfx *g,short delta,short param_4,short param_5){
-  Borg7header *pBVar1;
+  Borg7Header *pBVar1;
   u8 a;
   SceneData *pAVar3;
   bool bVar5;
@@ -1187,7 +1187,7 @@ void remove_flagged_playerdata(void){
 
 void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
   SceneData *pAVar1;
-  Borg7header *pBVar2;
+  Borg7Header *pBVar2;
   
   if (((param_2 != param_1->borg7) || (param_1->locator_pointer == NULL)) &&
      (NoExpPak_memCheck(0))) {

@@ -3,7 +3,7 @@
 // widget type used for displaying icons and images.
 class WidgetBorg8 : public BaseWidget {
 public:
-WidgetBorg8(Borg8header*);
+WidgetBorg8(Borg8Header*);
 ~WidgetBorg8();
 Gfx* Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1);
 u8 Tick();

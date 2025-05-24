@@ -41,13 +41,13 @@ struct collisionSphere {
 
 //collide.cpp
 
-void FUN_800adae0(Borg9data*,vec3f*,vec3f*,float ,s16*,s16 *,s16 *,s16 *);
-void FUN_800adc44(Borg9data*,collisionSphere*,s16*,s16*,s16*,s16*);
-void getZonePositionShorts(Borg9data *,vec3f *,s16 *,s16 *);
-bool FUN_800ade28(Borg9data*,vec3f*,s16*,s16*);
-bool CheckCollision(Borg9data *,vec3f *,vec3f *,float ,vec3f *,vec3f *,s16);
-bool processPlayers_sub(Borg9data *,vec3f *,vec3f *,float ,vec3f *,vec3f *);
-void ProcessCollisionSphere(Borg9data *,collisionSphere *,s16);
+void FUN_800adae0(Borg9Data*,vec3f*,vec3f*,float ,s16*,s16 *,s16 *,s16 *);
+void FUN_800adc44(Borg9Data*,collisionSphere*,s16*,s16*,s16*,s16*);
+void getZonePositionShorts(Borg9Data *,vec3f *,s16 *,s16 *);
+bool FUN_800ade28(Borg9Data*,vec3f*,s16*,s16*);
+bool CheckCollision(Borg9Data *,vec3f *,vec3f *,float ,vec3f *,vec3f *,s16);
+bool processPlayers_sub(Borg9Data *,vec3f *,vec3f *,float ,vec3f *,vec3f *);
+void ProcessCollisionSphere(Borg9Data *,collisionSphere *,s16);
 
 //collide2.cpp
 
@@ -63,8 +63,8 @@ bool FUN_800af120(collisionSphere *,float ,vec3f *pos,float ,float *,vec3f *,vec
 void init_collisionTypeA(collisionTypeA *);
 void set_CollisionTypeB(SpeedProperty *);
 void set_collisionSphere(collisionSphere *dat,float r,float px,float py,float pz,float vx,float vy,float vz);
-int GetVoxelOffset(Borg9data *,short ,short );
-borg_9_struct * borg9_get_unkStruct(Borg9data *,short ,short );
+int GetVoxelOffset(Borg9Data *,short ,short );
+borg_9_struct * borg9_get_unkStruct(Borg9Data *,short ,short );
 
 //physics.cpp
 

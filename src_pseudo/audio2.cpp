@@ -181,7 +181,7 @@ void Ofunc_80055fc0(SFX_Struct *param_1){
   }
 }
 
-void audio_ref_objs(SFX_Struct *param_1,Borg9data *param_2,uint tally,byte ZoneDat){
+void audio_ref_objs(SFX_Struct *param_1,Borg9Data *param_2,uint tally,byte ZoneDat){
   audio_obj_dat *paVar2;
   SoundStructA *pSVar3;
   audio_obj_dat *paVar4;

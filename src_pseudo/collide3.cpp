@@ -44,7 +44,7 @@ void set_collisionSphere(collisionSphere *dat,float r,float px,float py,float pz
 }
 
 
-int GetVoxelOffset(Borg9data *param_1,short param_2,short param_3){
+int GetVoxelOffset(Borg9Data *param_1,short param_2,short param_3){
   int iVar1;
   int iVar2;
   
@@ -57,7 +57,7 @@ int GetVoxelOffset(Borg9data *param_1,short param_2,short param_3){
   CRASH("GetVoxelOffset","Invalid Zone");
 }
 
-borg_9_struct * borg9_get_unkStruct(Borg9data *param_1,short param_2,short param_3){
+borg_9_struct * borg9_get_unkStruct(Borg9Data *param_1,short param_2,short param_3){
   int iVar1;
   int iVar2;
   uint uVar3;

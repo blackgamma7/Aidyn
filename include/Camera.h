@@ -27,7 +27,7 @@ struct Camera_struct {
     u16 unk80;
     s16 unk82;
     u16 unk84;
-    Borg9data *borg_9; /* current map data */
+    Borg9Data *borg_9; /* current map data */
     collisionSphere collide; /* only pos updated in 1 func, otherwise unused */
     EnvProp envProp; /* only a guess - unused */
     collisionTypeA colTypeA; /* unused */

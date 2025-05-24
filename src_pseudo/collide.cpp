@@ -1,7 +1,7 @@
 #include "globals.h"
 
 
-void FUN_800adae0(Borg9data *param_1,vec3f *position,vec3f *dist,float radius,s16 *param_5,s16 *param_6,short *param_7,s16 *param_8){
+void FUN_800adae0(Borg9Data *param_1,vec3f *position,vec3f *dist,float radius,s16 *param_5,s16 *param_6,short *param_7,s16 *param_8){
   short sVar1;
   float len;
   float fVar2;
@@ -26,7 +26,7 @@ void FUN_800adae0(Borg9data *param_1,vec3f *position,vec3f *dist,float radius,s1
 }
 
 
-void FUN_800adc44(Borg9data *param_1,collisionSphere *param_2,short *param_3,short *param_4,
+void FUN_800adc44(Borg9Data *param_1,collisionSphere *param_2,short *param_3,short *param_4,
                  short *param_5,short *param_6){
   float fVar2;
   float fVar3;
@@ -50,7 +50,7 @@ void FUN_800adc44(Borg9data *param_1,collisionSphere *param_2,short *param_3,sho
 
 
 
-void getZonePositionShorts(Borg9data *param_1,vec3f *position,s16 *param_3,s16 *param_4){
+void getZonePositionShorts(Borg9Data *param_1,vec3f *position,s16 *param_3,s16 *param_4){
   short sVar1;
   
   *param_3 = ((position->x - (param_1->floatsA).x) / (param_1->floatsB).x);
@@ -71,7 +71,7 @@ LAB_800ade1c:
   *param_3 = 0;
 }
 
-bool FUN_800ade28(Borg9data *mapdat,vec3f *pos,s16 *xout,s16 *zout){
+bool FUN_800ade28(Borg9Data *mapdat,vec3f *pos,s16 *xout,s16 *zout){
   *xout = ((pos->x - (mapdat->floatsA).x) / (mapdat->floatsB).x);
   *zout = ((pos->z - (mapdat->floatsA).z) / (mapdat->floatsB).y);
   if ((((-1 < *xout) && (*xout < mapdat->shortA)) &&
@@ -82,7 +82,7 @@ bool FUN_800ade28(Borg9data *mapdat,vec3f *pos,s16 *xout,s16 *zout){
 }
 
 
-bool Ofunc_800adeb0(Borg9data *param_1,collisionSphere *s,vec3f *v){
+bool Ofunc_800adeb0(Borg9Data *param_1,collisionSphere *s,vec3f *v){
   vec3f temp;
   
   (s->vel).x = v->x - (s->pos).x;
@@ -101,7 +101,7 @@ bool Ofunc_800adeb0(Borg9data *param_1,collisionSphere *s,vec3f *v){
   return NORMALIZE_MIN < vec3_proximity(v,&temp);
 }
 
-bool CheckCollision(Borg9data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3f *outPos,
+bool CheckCollision(Borg9Data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3f *outPos,
                    vec3f *outRot,short param_7){
   int iVar1;
   borg_9_struct *pbVar2;
@@ -152,7 +152,7 @@ bool CheckCollision(Borg9data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3
 }
 
 
-bool processPlayers_sub(Borg9data *param_1,vec3f *playerPos,vec3f *playposMinY,float point5,
+bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,float point5,
                        vec3f *outpos,vec3f *outNorm){
   int iVar1;
   borg_9_struct *pbVar2;
@@ -226,7 +226,7 @@ bool processPlayers_sub(Borg9data *param_1,vec3f *playerPos,vec3f *playposMinY,f
 
 
 
-void ProcessCollisionSphere(Borg9data *map,collisionSphere *coliide,short delta){
+void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,short delta){
   int iVar1;
   int iVar2;
   borg_9_struct *pbVar3;

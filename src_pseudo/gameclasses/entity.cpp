@@ -19,7 +19,7 @@ typedef void (*CharINIT)(CharSheet*,Entity_Ram*);
 
 void Entity::EquipFunc0(CharSheet *ent,Entity_Ram *param_2){
   u32 uVar1;
-  Borg8header *pBVar4;
+  Borg8Header *pBVar4;
   s32 iVar5;
   ulong uVar6;
   ItemID IVar7;

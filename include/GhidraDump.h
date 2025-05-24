@@ -81,7 +81,7 @@ typedef struct struct_1 struct_1, *Pstruct_1;
 
 typedef struct struct_45 struct_45, *Pstruct_45;
 
-typedef struct Borg7data Borg7data, *PBorg7data;
+typedef struct Borg7Data Borg7Data, *PBorg7data;
 
 typedef struct Borg12Header Borg12Header, *PBorg12Header;
 
@@ -101,7 +101,7 @@ struct astruct_6 {
 
 struct struct_1 {
     astruct_1 *field0_0x0;
-    borg6header *field1_0x4;
+    Borg6Header *field1_0x4;
 };
 
 /*
@@ -118,7 +118,7 @@ typedef enum borg9Enum {
 typedef struct AttackVisualStruct3 AttackVisualStruct3, *PAttackVisualStruct3;
 
 struct AttackVisualStruct3 {
-    Borg7header *borg7;
+    Borg7Header *borg7;
     playerData *player;
     vec3f pos;
     u32 unk14;
@@ -138,7 +138,7 @@ struct DialougeStruct {
     dialougmode_substruct *dialouge_substruct;
     u32 field6_0xc;
     WidgetHandler *handler;
-    borg13data *borg_13_dat;
+    Borg13Data *borg_13_dat;
     undefined field9_0x18;
     undefined field10_0x19;
     undefined field11_0x1a;
@@ -539,7 +539,7 @@ struct ControllerPakSliders {
     u32 field2_0x80;
     SaveDatPointers *saveDat;
     BaseWidget *screenshotWidget;
-    Borg8header *screenshotBorg8;
+    Borg8Header *screenshotBorg8;
     BaseWidget *PlayerName;
     BaseWidget *TimePlayed;
     u32 isEntrySet;
@@ -668,7 +668,7 @@ struct dialougemode_struct {
     undefined field8_0x7e;
     undefined field9_0x7f;
     u8 *partySkillLvls; /* one for each skill */
-    borg13data *borg13_dat;
+    Borg13Data *borg13_dat;
     playerData *playerDat;
     enum borg13Enum borg13;
     u32 field14_0x90;

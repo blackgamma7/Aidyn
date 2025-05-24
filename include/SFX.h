@@ -171,7 +171,7 @@ void clear_sfx_substruct_2(SFX_Struct *,s16);
 void play_sfx_before_delete(SFX_Struct *,SoundStructA *);
 SoundStructB * get_audio_substruct_2_by_index(SFX_Struct *,u16);
 void Ofunc_80055fc0(SFX_Struct *);
-void audio_ref_objs(SFX_Struct *,Borg9data *,u32,u8);
+void audio_ref_objs(SFX_Struct *,Borg9Data *,u32,u8);
 void clear_sfx_entries(SFX_Struct *,s16);
 void sfx_struct_free(SFX_Struct *);
 void clear_sfx_on_map(SFX_Struct *,s32);

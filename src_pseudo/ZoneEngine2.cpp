@@ -193,7 +193,7 @@ void FreeEnvProps(){
   gGlobals.Sub.zoneEnginePtr2 = NULL;
 }
 //associate Enviromental Properties with Borg9Phys objects.
-void attachPhysicsProperties(Borg9data *param_1){
+void attachPhysicsProperties(Borg9Data *param_1){
   u16 uVar1;
   borg9_phys *pbVar2;
   u16 uVar3;
@@ -252,8 +252,8 @@ LAB_8000d2bc:
   }
 }
 //get Borg9data loaded at BCD'd index.
-Borg9data * GetCollisionZone(u8 x){
-  Borg9header **z = &gGlobals.Sub.ZoneDatMtx[x >> 4][x & 3].mapPointer;
+Borg9Data * GetCollisionZone(u8 x){
+  Borg9Header **z = &gGlobals.Sub.ZoneDatMtx[x >> 4][x & 3].mapPointer;
   if (*z) return &(*z)->dat;
   CRASH("GetCollisionZone","No Zone at Grid");
 }
@@ -355,7 +355,7 @@ void FUN_8000d744(){
 }
 
 void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
-  Borg9header *pBVar2 = param_1->mapPointer;
+  Borg9Header *pBVar2 = param_1->mapPointer;
   if ((param_1->sceneDat0x4) && (param_2)) {
     FREEQSCENE(param_1->sceneDat0x4);
     param_1->flag |= 1;
@@ -694,7 +694,7 @@ void ApplyZoneVelocity(vec3f *param_1,playerData *param_2){
   FUN_8001b888(&gGlobals.Sub.particleEmmiter,param_1);
 }
 //get reference point map object by ID number
-voxelObject * FindReferncePoint(Borg9data *param_1,u16 id){  
+voxelObject * FindReferncePoint(Borg9Data *param_1,u16 id){  
   if (param_1->voxelObjCount) {
     for(u16 i = 0;i < param_1->voxelObjCount;i++) {
       voxelObject *v = &param_1->voxelObjs[i];
@@ -706,7 +706,7 @@ voxelObject * FindReferncePoint(Borg9data *param_1,u16 id){
   return NULL;
 }
 //duplicates FindReferncePoint()? used by dialouge funcs.
-voxelObject * get_map_referencepoint(Borg9data *param_1,u16 id){  
+voxelObject * get_map_referencepoint(Borg9Data *param_1,u16 id){  
   if (param_1->voxelObjCount) {
     for(u16 i = 0;i < param_1->voxelObjCount;i++) {
       voxelObject *v = &param_1->voxelObjs[i];
@@ -718,7 +718,7 @@ voxelObject * get_map_referencepoint(Borg9data *param_1,u16 id){
   return NULL;
 }
 //get reference point map object by name. used for battle positions (Spawn, retreat)
-voxelObject * FindReferncePointName(Borg9data *param_1,char *name,u8 cantFail){
+voxelObject * FindReferncePointName(Borg9Data *param_1,char *name,u8 cantFail){
   u16 len = strlen(name);
   if (param_1->voxelObjCount) {
     for(u16 i=0;i<param_1->voxelObjCount;i++){
@@ -923,7 +923,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   }
 }
 
-void ConfirmPlayerWithinZone(playerData *param_1,Borg9data *param_2){
+void ConfirmPlayerWithinZone(playerData *param_1,Borg9Data *param_2){
 
   s16 iVar3;
   u16 uVar4;
@@ -1031,7 +1031,7 @@ u8 get_scene_obj_proximity(vec2f *obj,vec2f *cam,vec2f *aim,float *outx,float *o
 }
 #ifdef DEBUGVER
 //replace scene object models with boulders
-void SceneBoulders(Borg9data *param_1){
+void SceneBoulders(Borg9Data *param_1){
   if (param_1->voxelObjCount) {
     for(u16 i=0;i < param_1->voxelObjCount;i++) {
       if (param_1->voxelObjs[i].header.type == 0) {
@@ -1073,18 +1073,18 @@ struct struct_A {
 struct_A struct_a_ARRAY_800f5290[0x20];
 
 //Render the "scene" voxel objects
-Gfx * RenderVoxelScenes(Gfx *gfx,Borg9data *borg9,vec3f *v3,short param_4,short param_5,float posx,float posz){
+Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *v3,short param_4,short param_5,float posx,float posz){
   EventFlag EVar1;
   void *pvVar2;
   u8 bVar6;
-  Borg7header *pBVar3;
+  Borg7Header *pBVar3;
   SceneData *pAVar4;
   u16 uVar5;
   uint uVar7;
   short sVar8;
   int iVar9;
   Scene_obj_dat *pSVar10;
-  Borg7header **ppBVar11;
+  Borg7Header **ppBVar11;
   Color32 col;
   voxelObject *SObj;
   uint uVar12;
@@ -1257,7 +1257,7 @@ LAB_80010084:
               if (((SObj->scene).sceneflags & SceneObj_B7) == 0) {
                 if (NoExpPak_memCheck(1)) {
                   pAVar4 = BorgAnimLoadScene(pSVar10->borgArray[uVar12].borgIndex);
-                  *ppBVar11 = (Borg7header *)pAVar4;
+                  *ppBVar11 = (Borg7Header *)pAVar4;
                   goto LAB_8000ffcc;
                 }
                 goto LAB_800102b4;
@@ -1884,7 +1884,7 @@ void FreeZoneEngine(s16 playMusic){
   Sky::SetBackgroundType(2,0,0.0);
 }
 #ifdef DEBUGVER
-void ClearVoxelFlags(Borg9data *param_1){
+void ClearVoxelFlags(Borg9Data *param_1){
   if (param_1->voxelObjCount) {
     for(u16 i=0;i < param_1->voxelObjCount;i++) {
       param_1->voxelObjs[i].header.Bitfeild=0;
@@ -1894,7 +1894,7 @@ void ClearVoxelFlags(Borg9data *param_1){
 extern u16 enemyHostileFlag;
 
 void VoxelIndexPosition(short delta,playerData *param_2){
-  Borg9data *pBVar6;
+  Borg9Data *pBVar6;
   uint uVar7;
   voxelObject *pvVar10;
   pvVar10 = voxel_index_pointer;

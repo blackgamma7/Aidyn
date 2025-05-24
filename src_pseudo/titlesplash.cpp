@@ -162,7 +162,7 @@ u8 TitleSplash::Show(s32 *param_1){
   return bVar2;
 }
 
-void TitleSplash::Borg8(Gfx*param_1,u8 alpha,Borg8header *borg){
+void TitleSplash::Borg8(Gfx*param_1,u8 alpha,Borg8Header *borg){
 
   Gfx*pauVar1;
   float v;

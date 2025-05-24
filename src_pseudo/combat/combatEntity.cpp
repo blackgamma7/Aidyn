@@ -837,7 +837,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
   u8 uVar10;
   ulonglong uVar4;
   ulonglong uVar5;
-  Borg9data *borgDat;
+  Borg9Data *borgDat;
   float fVar11;
   int iVar12;
   double dVar13;
@@ -2473,7 +2473,7 @@ u8 CombatEntity::PotionAttack(CombatEntity *target){
   u16 rand;
   s16 sVar3;
   byte bVar5;
-  Borg9data *borgDat;
+  Borg9Data *borgDat;
   u8 uVar6;
   float fVar7;
   u8 coord8 [2];

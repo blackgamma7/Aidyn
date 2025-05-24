@@ -8,7 +8,7 @@ namespace Compass{
 //Alloc Compass struct and load its images
 void Init(void){
   ALLOC(gCompass,101);
-  gCompass->ring = loadBorg8(BORG8_compassRing);
+  gCompass->ring = loadBorg8(BORG8_CompassRing);
   gCompass->N = loadBorg8(BORG8_CompassNorth);
   gCompass->S = loadBorg8(BORG8_CompassSouth);
   gCompass->E = loadBorg8(BORG8_CompassEast);

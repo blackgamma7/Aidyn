@@ -278,7 +278,7 @@ void FUN_80094e6c(short param_1){
     if (((entry->flags & 1)) && ((entry->flags & 2))) {
       if (entry->timer <= 0) {
         FUN_80017388(entry->playerDat,30.0);
-        Borg7header *pBVar1 = entry->playerDat->locator_pointer;
+        Borg7Header *pBVar1 = entry->playerDat->locator_pointer;
         if (pBVar1) Scene::SetFogFlag(pBVar1->sceneDat);
         entry->flags&=~2;
       }
@@ -300,12 +300,12 @@ void FUN_80094f40(short param_1){
 short FUN_80094fdc(u16 param_1,u8 param_2,u8 param_3){
   SceneData *pAVar1;
   playerData *ppVar2;
-  Borg7header *pBVar3;
+  Borg7Header *pBVar3;
   u32 uVar4;
   uint uVar5;
   bool bVar8;
   u32 BVar6;
-  Borg7header *pAVar6;
+  Borg7Header *pAVar6;
   short sVar7;
   SpellVisualTypeC *pSVar9;
   SpellVisualTypeB *pSVar10;
@@ -401,7 +401,7 @@ LAB_800950ec:
 
 void FUN_800952c8(short param_1,short param_2,short param_3){
   SceneData *pAVar1;
-  Borg7header *pBVar2;
+  Borg7Header *pBVar2;
   SceneData *pAVar3;
   SceneData *pAVar4;
   
@@ -441,7 +441,7 @@ void FUN_800953a8(short param_1){
 }
 void processSpellVisuals(uint param_1){
   byte bVar1;
-  Borg7header *pBVar2;
+  Borg7Header *pBVar2;
   struct_1 *psVar3;
   float fVar4;
   int iVar6;
@@ -570,7 +570,7 @@ Gfx * FUN_80095a24(Gfx *param_1){
 }
 
 void FUN_80095ad8(short param_1){
-  Borg7header *pBVar1;
+  Borg7Header *pBVar1;
   SpellVisualTypeB *x = SpellVisuals.ptr1 + param_1;
   if ((x->flags & 1) != 0) {
     if (true) {
@@ -738,7 +738,7 @@ void combatspellvisuals_free(void){
     SpellVisualTypeC *piVar3 = &SpellVisuals.ptr2[uVar4];
     if (((piVar3->flags & 1) != 0) && ((piVar3->flags & 8) == 0)) {
       FUN_80017388(piVar3->playerDat,30.0);
-      Borg7header* pBVar1= piVar3->playerDat->locator_pointer;
+      Borg7Header* pBVar1= piVar3->playerDat->locator_pointer;
       if (pBVar1) Scene::SetFogFlag(pBVar1->sceneDat);
       piVar3->playerDat->unk70ee = 0;
     }

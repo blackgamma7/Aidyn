@@ -27,8 +27,8 @@ namespace SuperMenuClasses{
         }
       }
 
-    Borg8header * Add(u32 ind){
-        Borg8header *pBVar2;
+    Borg8Header * Add(u32 ind){
+        Borg8Header *pBVar2;
         SuperMenuClass *pSVar3;
         SuperMenuClass *pSVar4;
         

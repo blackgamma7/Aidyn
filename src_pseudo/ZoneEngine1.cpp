@@ -56,7 +56,7 @@ u8 some_dialoug_short_lookup(u16 flag){
 }
 
 void campfire_func(void){
-  Borg9header *pBVar1;
+  Borg9Header *pBVar1;
   int iVar2;
   int iVar3;
   dialoug_dat *puVar4;

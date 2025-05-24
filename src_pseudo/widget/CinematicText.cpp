@@ -5,7 +5,7 @@ WidgetCinematicText::WidgetCinematicText(u16 (*dims) [4],short param_3,short par
   u16 uVar2;
   u16 uVar3;
   BaseWidget *pBVar6;
-  Borg8header *pBVar7;
+  Borg8Header *pBVar7;
   
   this->textW = NULL;
   this->unk80 = NULL;

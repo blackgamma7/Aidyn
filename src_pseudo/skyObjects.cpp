@@ -5,8 +5,8 @@
 u16 gSkyObjectMoonIndex=0;
 u16 gSkyobjectsCount=0;
 u8 moon_phase=3;
-Borg8header** skyobjects_borg8 =NULL;
-Borg8header* gMoonBorg8=NULL;
+Borg8Header** skyobjects_borg8 =NULL;
+Borg8Header* gMoonBorg8=NULL;
 SkyobjectStruct* gSunObjP=NULL;
 SkyobjectStruct* gMoonObjP=NULL;
 
@@ -115,8 +115,8 @@ SkyobjectStruct skyobjectStructs[]={
 void Skyobjects::Init(void){
   SkyObjType SVar1;
   float fVar2;
-  Borg8header *pBVar3;
-  Borg8header *pBVar4;
+  Borg8Header *pBVar3;
+  Borg8Header *pBVar4;
   u32 BVar5;
   uint uVar6;
   uint uVar7;
@@ -124,7 +124,7 @@ void Skyobjects::Init(void){
   uint uVar9;
   SkyobjectStruct *pSVar10;
   int iVar11;
-  Borg8header **ppBVar12;
+  Borg8Header **ppBVar12;
   Calendar cal;
   
   gSkyobjectsCount = 0;
@@ -165,7 +165,7 @@ void Skyobjects::Init(void){
         sSkyObjBss[iVar11]=NULL;
     }
   }
-  ALLOCS(ppBVar12,gSkyobjectsCount*sizeof(Borg8header*),0xf8);
+  ALLOCS(ppBVar12,gSkyobjectsCount*sizeof(Borg8Header*),0xf8);
   fVar2 = 0.19f;
   uVar7 = 0;
   uVar6 = (uint)gSkyobjectsCount;
@@ -213,7 +213,7 @@ LAB_80030640:
 
 void Skyobjects::Free(void){
   uint uVar1;
-  Borg8header **ppBVar2;
+  Borg8Header **ppBVar2;
   int i;
   
 
@@ -367,7 +367,7 @@ LAB_80030b04:
               blue = (float)uVar9 * gGlobals.brightness;
               uVar12=(u16)((float)uVar12 * gGlobals.brightness);
             }
-            g = Borg8_DrawSimple(g,*(Borg8header **)(iStack_5c + (int)skyobjects_borg8),x,y,Hscale,
+            g = Borg8_DrawSimple(g,*(Borg8Header **)(iStack_5c + (int)skyobjects_borg8),x,y,Hscale,
                                  Hscale,red,green,blue,(u8)uVar12);
           }
         }

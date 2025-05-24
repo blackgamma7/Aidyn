@@ -7,7 +7,7 @@
 
 void set_ranger_float(void){RangerIngredientFloat = PARTY->HarvestSkill();}
 
-u8 FUN_8001b9bc(voxelObject *param_1,Borg9data*map){
+u8 FUN_8001b9bc(voxelObject *param_1,Borg9Data*map){
   EventFlag EVar1;
   u8 bVar2;
   u8 bVar3;
@@ -30,7 +30,7 @@ void set_refObj_flag(voxelObject *param_1){
 }
 
 
-void VoxelObjects_Activate(Borg9data *dat,byte arg2)
+void VoxelObjects_Activate(Borg9Data *dat,byte arg2)
 
 {
   bool visBool;

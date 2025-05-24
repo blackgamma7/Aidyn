@@ -1,7 +1,7 @@
 #include "n64Borg.h"
 
 struct PlaneObj { /* used for damage numbers and shadows */
-    Borg1header *borg1p;
+    Borg1Header *borg1p;
     u32 unk4; /* unused */
     Vtx verts[2][4];
     Mtx transMtx[2];
@@ -14,7 +14,7 @@ struct PlaneObj { /* used for damage numbers and shadows */
     u16 UScale;
     u16 unk23a;
     u32 unk23c; /* unused? */
-    Borg1header Statborg1Head;
+    Borg1Header Statborg1Head;
     Borg1Data datStatBorg1Data;
     u32 field15_0x268;
     vec3f statStartPos;

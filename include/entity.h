@@ -183,7 +183,7 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     u8 spellSwitch;
     u8 currSpell;
     u32 unk0x40;
-    Borg8header *portrait;
+    Borg8Header *portrait;
 };
 
 class EntityDB {

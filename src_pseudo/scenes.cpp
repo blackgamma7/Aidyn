@@ -342,7 +342,7 @@ void FUN_800a80d8(SceneData *param_1,vec3f *param_2,int param_3){
 
 void Ofunc_800a8104(SceneData *param_1,int param_2,int param_3){
   if (-1 < param_2) {
-    Borg5header *pBVar1 = param_1->scene[0].borg5;
+    Borg5Header *pBVar1 = param_1->scene[0].borg5;
     if (param_2 < (pBVar1->dat).borg2Count) {
       (pBVar1->dat).borg2i[param_2]->dat->unk0x0 = param_3;
     }
@@ -518,9 +518,9 @@ bool Scene::SceneGetLocatorMtx(SceneData *ani,MtxF *mf,s32 i){
     CRASH("scene.cpp, SceneGetLocatorMtx()",errBuff);
   }
   else {
-    Borg2header *pbVar1 = ((ani->scene[0].borg5)->dat).borg2i[ani->locators[i]];
+    Borg2Header *pbVar1 = ((ani->scene[0].borg5)->dat).borg2i[ani->locators[i]];
     guMtxIdentF(&afStack344);
-    borg2data *pbVar2 = pbVar1->dat;
+    Borg2Data *pbVar2 = pbVar1->dat;
     guRotateRPYF(&afStack344,(pbVar2->rot).x * RadInDeg_f,
                      (pbVar2->rot).y * RadInDeg_f,
                      (pbVar2->rot).z * RadInDeg_f);
@@ -551,8 +551,8 @@ CRASH("scene.cpp, SceneGetLocatorMtx()","Locator is greater than MAX_LOCATORS");
 }
 
 bool Scene::SceneGetLocatorPos(SceneData *param_1,vec3f *pos,s32 param_3){
-  Borg2header *pBVar1;
-  borg2data *pbVar2;
+  Borg2Header *pBVar1;
+  Borg2Data *pbVar2;
   float fVar3;
   float fVar4;
   char acStack_90 [144];
@@ -574,8 +574,8 @@ bool Scene::SceneGetLocatorPos(SceneData *param_1,vec3f *pos,s32 param_3){
 }
 
 bool Scene::SceneGetLocatorNorm(SceneData *param_1,vec3f *out,s32 param_3){
-  Borg2header *pBVar1;
-  borg2data *pbVar2;
+  Borg2Header *pBVar1;
+  Borg2Data *pbVar2;
   MtxF tempA,tempB;
 
   
@@ -615,8 +615,8 @@ bool Scene::SceneGetLocatorNorm(SceneData *param_1,vec3f *out,s32 param_3){
 bool Scene::SceneGetLocatorAlign(SceneData *param_1,vec3f *out,u32 param_3)
 
 {
-  Borg2header *pBVar1;
-  borg2data *pbVar2;
+  Borg2Header *pBVar1;
+  Borg2Data *pbVar2;
   float fVar3;
   MtxF mtxA,mtxB;
   

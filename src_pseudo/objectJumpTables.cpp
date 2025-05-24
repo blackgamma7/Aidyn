@@ -8,10 +8,10 @@
 #define UnkVoxelFlagCheck getEventFlag(0x15fa)
 
 
-extern voxelObject* GetVoxelFromObjectLink(Borg9data*,voxelObject*,u16);
+extern voxelObject* GetVoxelFromObjectLink(Borg9Data*,voxelObject*,u16);
 
 //used by scene object tied to "containers" - changes appearance based on if loot is collected or trap triggered
-void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9data *param_3){
+void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9Data *param_3){
   
   voxelObject* prVar1 = GetVoxelFromObjectLink(param_3,param_1,VOXEL_Scene);
   if ((prVar1->scene).borgArray[0].b7) {
@@ -24,7 +24,7 @@ void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9data *param_3
 }
 
 //play a sound based on loot collected
-void play_countainer_sound(voxelObject* param_1,Borg9data *param_2){
+void play_countainer_sound(voxelObject* param_1,Borg9Data *param_2){
                            //chest,bag, box, barrel, herb, spice, gem, misc
   u32 containerSounds [8]={0x729,0x72A,0x72B,0x72C,0x729,0x729,0x729,0x729};
   PLAYSFX(containerSounds[(param_1->container).LootType],0,gGlobals.VolSFX,0xb4,0);
@@ -32,7 +32,7 @@ void play_countainer_sound(voxelObject* param_1,Borg9data *param_2){
 }
 
 //explosion effect if trap is triggered. replace mosel with destroyed one.
-void open_explosive_chest(voxelObject* param_1,Borg9data *param_2){
+void open_explosive_chest(voxelObject* param_1,Borg9Data *param_2){
 
   u32 chestExplodeSFX[]={0x724,0x725,0x727,0x728};
   alloc_explosion_light(param_1->header.pos,1.0,600,false);
@@ -56,7 +56,7 @@ void NOOP_tp(void){}
 void run_voxelFuncs0(voxelObject *v){(*gVoxelUseFuncs[(v->header).type])(v);}
 
 //visibility check, i think
-u8 run_voxelFuncs2(voxelObject *v,Borg9data*map){return (*gVoxelFuncs2[(v->header).type])(v,map);}
+u8 run_voxelFuncs2(voxelObject *v,Borg9Data*map){return (*gVoxelFuncs2[(v->header).type])(v,map);}
 
 //collision
 u8 run_voxelFuncs1(voxelObject *v,playerData *p){return (*gVoxelProxFuncs[(v->header).type])(v,p);}
@@ -267,9 +267,9 @@ void monsterpary_func(voxelObject *v,u16 A,u16 B){
 
 
 void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
-  Borg7header *pBVar1;
+  Borg7Header *pBVar1;
   borg9_phys *pbVar2;
-  Borg9data *pBVar3;
+  Borg9Data *pBVar3;
   voxelObject *prVar3;
   int iVar5;
   u16 uVar6;
@@ -323,7 +323,7 @@ void dialouge_vobject_func(voxelObject *v,u16 A,u16 B){
 }
 
 
-u8 check_reference_object(voxelObject *v,Borg9data* map){
+u8 check_reference_object(voxelObject *v,Borg9Data* map){
   u16 EVar1;
   u8 bVar2;
   u8 bVar3;
@@ -340,11 +340,11 @@ u8 check_reference_object(voxelObject *v,Borg9data* map){
   return bVar3;
 }
 
-u8 scene_object_check(voxelObject *v,Borg9data* map){
+u8 scene_object_check(voxelObject *v,Borg9Data* map){
   checkCheat(referenceObject);
   return check_reference_object(v,map);}
 
-u8 exploding_container_sub(voxelObject* v,Borg9data *arg1){
+u8 exploding_container_sub(voxelObject* v,Borg9Data *arg1){
   u8 bVar2;
   s16 *psVar1;
   u8 uVar3;
@@ -360,7 +360,7 @@ u8 exploding_container_sub(voxelObject* v,Borg9data *arg1){
   return uVar3;
 }
 
-u8 exploding_container_check(voxelObject *param_1,Borg9data *param_2){
+u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
   ushort uVar1;
   voxelObject *a;
   u8 bVar3;
@@ -396,7 +396,7 @@ u8 exploding_container_check(voxelObject *param_1,Borg9data *param_2){
   return bVar3;
 }
 
-u8 TP_lock_secret_check(voxelObject* v,Borg9data*map){
+u8 TP_lock_secret_check(voxelObject* v,Borg9Data*map){
   u16 uVar1;
   u8 uVar3;
   u8 bVar4;
@@ -438,7 +438,7 @@ u8 some_trigger_check(voxelObject *v){
   checkCheat(dialougeTrigger);
   return trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,0x80);}
 
-u8 some_dialouge_trigger_check(voxelObject *v,Borg9data*map){
+u8 some_dialouge_trigger_check(voxelObject *v,Borg9Data*map){
   checkCheat(appear);
   checkCheat(dialougeTrigger);
 return true;}
@@ -518,11 +518,11 @@ u8 savepoint_prox_check(voxelObject *v,playerData *arg1){return vec3_proximity(v
 
 u8 VoxelObj_Ret0(voxelObject *v,playerData *arg1){return 0;}
 
-void render_container(voxelObject* param_1,Borg9data *param_2){
+void render_container(voxelObject* param_1,Borg9Data *param_2){
   if ((param_1->header).type == VOXEL_Container) set_container_obj_visible(param_1,param_2);
 }
 
-void set_container_obj_visible(voxelObject* param_1,Borg9data *param_2){
+void set_container_obj_visible(voxelObject* param_1,Borg9Data *param_2){
   u16 uVar1;
   voxelObject *a;
   u8 b;

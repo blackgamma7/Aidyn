@@ -17,7 +17,7 @@ void Sky::FreeSubstruct(SkySubstruct *param_1){
 void Sky::loadDay(SkySubstruct *param_1,u16 param_2){
   u32 BVar2;
   int iVar5;
-  Borg8header *pBVar6;
+  Borg8Header *pBVar6;
   u32 sky_borg8s []={0,0x19f,0x19E,0x19A,0x0199,0x1A0,0x19D,0x19B,0x19C};
   if (param_2 != param_1->type) {
     FreeSubstruct(param_1);

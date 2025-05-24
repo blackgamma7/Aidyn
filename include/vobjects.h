@@ -11,12 +11,12 @@ void set_voxel_visibility(voxelObject *a,u8 b);
 
 //objectJumpTables.cpp
 
-void replace_container_voxel(voxelObject*cont,u16 index,Borg9data*map);
-void play_countainer_sound(voxelObject*cont,Borg9data*map);
-void open_explosive_chest(voxelObject*cont,Borg9data*map);
+void replace_container_voxel(voxelObject*cont,u16 index,Borg9Data*map);
+void play_countainer_sound(voxelObject*cont,Borg9Data*map);
+void open_explosive_chest(voxelObject*cont,Borg9Data*map);
 void NOOP_tp();
 void run_voxelFuncs0(voxelObject*v);
-u8 run_voxelFuncs2(voxelObject *v,Borg9data*map);
+u8 run_voxelFuncs2(voxelObject *v,Borg9Data*map);
 u8 run_voxelFuncs1(voxelObject *v,playerData *p);
 void Voxel_func_NOOP(voxelObject* v,u16 A, u16 B);
 u8 teleport_trap(voxelObject* v);
@@ -28,15 +28,15 @@ void trigger_vobject_func(voxelObject *v,u16 A,u16 B);
 void savepoint_func(voxelObject *v,u16 A,u16 B);
 u8 vobject_pause_check(void);
 void dialouge_vobject_func(voxelObject *v,u16 A,u16 B);
-u8 check_reference_object(voxelObject *v,Borg9data* map);
-u8 scene_object_check(voxelObject *v,Borg9data* map);
-u8 exploding_container_sub(voxelObject* v,Borg9data *map);
-u8 exploding_container_check(voxelObject *v,Borg9data *map);
-u8 TP_lock_secret_check(voxelObject* v,Borg9data* map);
-u8 some_monster_check(voxelObject *v,Borg9data* map);
-u8 some_trigger_check(voxelObject *v,Borg9data* map);
-u8 some_dialouge_trigger_check(voxelObject *v,Borg9data*map);
-u8 savepoint_appear_check(voxelObject *v,Borg9data*map);
+u8 check_reference_object(voxelObject *v,Borg9Data* map);
+u8 scene_object_check(voxelObject *v,Borg9Data* map);
+u8 exploding_container_sub(voxelObject* v,Borg9Data *map);
+u8 exploding_container_check(voxelObject *v,Borg9Data *map);
+u8 TP_lock_secret_check(voxelObject* v,Borg9Data* map);
+u8 some_monster_check(voxelObject *v,Borg9Data* map);
+u8 some_trigger_check(voxelObject *v,Borg9Data* map);
+u8 some_dialouge_trigger_check(voxelObject *v,Borg9Data*map);
+u8 savepoint_appear_check(voxelObject *v,Borg9Data*map);
 u8 container_obj_check(voxelObject* v,playerData *arg1);
 u8 Ofunc_80014ba0(voxelObject *v,vec3f *arg1);
 u8 some_gamestate_check_B(voxelObject* v,playerData *arg1,u8 istrue);
@@ -49,8 +49,8 @@ u8 dialoug_obj_func(voxelObject *v,playerData *arg1);
 u8 dialoug_obj_check(voxelObject* v,playerData *arg1);
 u8 savepoint_prox_check(voxelObject *v,playerData *arg1);
 u8 VoxelObj_Ret0(voxelObject *v,playerData *arg1);
-void render_container(voxelObject* param_1,Borg9data *param_2);
-void set_container_obj_visible(voxelObject* param_1,Borg9data *param_2);
+void render_container(voxelObject* param_1,Borg9Data *param_2);
+void set_container_obj_visible(voxelObject* param_1,Borg9Data *param_2);
 BaseWidget* textbox_func_AB(BaseWidget* param_1,BaseWidget *param_2);
 BaseWidget* secretdoor_widget_AB(BaseWidget* param_1,BaseWidget *param_2);
 BaseWidget * textbox_func(char *param_1);
@@ -68,7 +68,7 @@ void secret_door_func(voxelObject* param_1);
 
 typedef void (*VoxelUse)(voxelObject*,u16,u16);
 typedef u8 (*VoxelProx)(voxelObject*,playerData*);
-typedef u8 (*VoxelFunc2)(voxelObject*,Borg9data*);
+typedef u8 (*VoxelFunc2)(voxelObject*,Borg9Data*);
 
 VoxelUse gVoxelUseFuncs[]={
   Voxel_func_NOOP,

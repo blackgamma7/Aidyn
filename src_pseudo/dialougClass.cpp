@@ -136,7 +136,7 @@ DialougeClass::DialougeClass(WidgetHandler *h){
   this->borg_13_dat = NULL;
 }
 
-bool DialougeClass::StartDialoug(borg13data *b13,dialougmode_substruct *param_3,byte param_4,u8 param_5){  
+bool DialougeClass::StartDialoug(Borg13Data *b13,dialougmode_substruct *param_3,byte param_4,u8 param_5){  
   this->borg_13_dat = b13;
   this->unkC = 0;
   if (b13) {
@@ -227,7 +227,7 @@ bool DialougeClass::Setup(){
   short sVar6;
   u32 ind;
   char *c1;
-  Borg8header *image;
+  Borg8Header *image;
   ulong uVar7;
   BaseWidget *pBVar8;
   BaseWidget *entry;
@@ -395,7 +395,7 @@ bool DialougeClass::m8004f264(){
 
 void DialougeClass::BigBGDialoug(u8 BG){
   u8 b1;
-  Borg8header *pBVar2;
+  Borg8Header *pBVar2;
   u8 g1;
   u32 ind;
   BaseWidget *pBVar3;
@@ -574,7 +574,7 @@ void DialougeClass::m8004f810(){
   return;
 }
 
-void ofunc_sub_dialouge(DialougeClass *param_1,borg13data *param_2){param_1->borg_13_dat = param_2;}
+void ofunc_sub_dialouge(DialougeClass *param_1,Borg13Data *param_2){param_1->borg_13_dat = param_2;}
 
 //Borg13 text starts with a "V####". This trims that out.
 void look_for_dialouge_v_Num(char *param_1){

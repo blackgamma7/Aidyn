@@ -2,14 +2,14 @@
 
 #define FILENAME "./src/n64BorgCollisionZone.cpp"
 
-u8 borg_9_func_b(void*,void*){return false;}
+u8 borg9_func_b(void*,void*){return false;}
 
 //used instead of macro TODO: redefine macro for this script.
 void * set_pointer_offset(void *A,void *B){
  return (void *)((int)A + (int)B);
 }
 
-void borg9_func_a(Borg9header *param_1){
+void borg9_func_a(Borg9Header *param_1){
   u16 i,j;
   
   param_1->dat.counting_pointer = (s16 *)set_pointer_offset(&param_1->dat,param_1->dat.counting_pointer);
@@ -38,7 +38,7 @@ void borg9_func_a(Borg9header *param_1){
   }
 }
 
-void n64BorgCollisionZone_free(Borg9header *param_1){
+void n64BorgCollisionZone_free(Borg9Header *param_1){
   int mOld = get_memUsed();
   if (param_1->ID == -1) HFREE(param_1,0xf0);
   else dec_borg_count(param_1->ID);
@@ -47,10 +47,10 @@ void n64BorgCollisionZone_free(Borg9header *param_1){
 }
 
 //Load Map Collision/interactive data
-Borg9header * loadBorg9(u32 param_1){
+Borg9Header * loadBorg9(u32 param_1){
   setBorgFlag();
-  return (Borg9header *)getBorgItem(param_1);
+  return (Borg9Header *)getBorgItem(param_1);
 }
 
-void remove_borg_9(Borg9header *param_1){n64BorgCollisionZone_free(param_1);}
+void remove_borg_9(Borg9Header *param_1){n64BorgCollisionZone_free(param_1);}
 

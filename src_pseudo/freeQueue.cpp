@@ -42,29 +42,29 @@ void ProcessFreeQueue(QueueStructA *param_1){
         if (entry->pri == 0) {
           switch(entry->BorgSwitch) {
           case FreeQueue_Borg7:
-            FUN_8009fca8((Borg7header *)entry->BorgPointer);
+            FUN_8009fca8((Borg7Header *)entry->BorgPointer);
             break;
-          case FreeQueue_AniDat:
+          case FreeQueue_Scene:
             borganim_free((SceneData *)entry->BorgPointer);
             break;
           case FreeQueue_Borg6:
-            passto_borg_6_free((borg6header *)entry->BorgPointer);
+            passto_borg_6_free((Borg6Header *)entry->BorgPointer);
             break;
           case FreeQueue_Borg1:
-            borg1_free((Borg1header *)entry->BorgPointer);
+            borg1_free((Borg1Header *)entry->BorgPointer);
             break;
           case FreeQueue_Borg8:
-            borg8_free((Borg8header *)entry->BorgPointer);
+            borg8_free((Borg8Header *)entry->BorgPointer);
             break;
           case FreeQueue_Borg13:
-            passto_borg13_free((borg13header *)entry->BorgPointer);
+            passto_borg13_free((Borg13Header *)entry->BorgPointer);
             break;
           case FreeQueue_Widget:
             BaseWidget *w = (BaseWidget *)entry->BorgPointer;
             if (w) w->~BaseWidget();
             break;
           case FreeQueue_Other:
-            HFREE(entry->BorgPointer,0xaa);
+            HFREE(entry->BorgPointer,170);
             break;
           case FreeQueue_Borg12:
             free_borg_12((Borg12Header *)entry->BorgPointer);

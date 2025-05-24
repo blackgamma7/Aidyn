@@ -14,10 +14,10 @@ lensflare_data gLensFlareData[]={
     {1,0.3,1.76,{250,250,250,50}},
 };
 vec2f gLensFlarePos={0,0};
-Borg8header* gLensflare=NULL;
+Borg8Header* gLensflare=NULL;
 
 void Lensflare::Init(void){
-  ALLOCS(gLensflare,sizeof(Borg8header)*ARRAY_COUNT(gLensFlareData),87);
+  ALLOCS(gLensflare,sizeof(Borg8Header)*ARRAY_COUNT(gLensFlareData),87);
   for(s32 i=0;i<ARRAY_COUNT(gLensFlareData);i++) {
     switch(gLensFlareData[i].dat0){
         case 0:

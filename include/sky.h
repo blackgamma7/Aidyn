@@ -1,7 +1,7 @@
 #include "n64Borg.h"
 
 struct SkySubstruct {
-    Borg8header *Borg8;
+    Borg8Header *Borg8;
     Color32* Bitmap;
     u16 type;
 };

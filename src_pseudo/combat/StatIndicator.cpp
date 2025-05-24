@@ -8,16 +8,16 @@ namespace CombatStatIndicator{
   //clear combatStatIndicatorDat, load digit textures
   void Init(){
     CLEAR(&combatStatIndicatorDat);
-    combatStatIndicatorDat.borg1Digits[0] = (Borg1header *)getBorgItem(0x16);
-    combatStatIndicatorDat.borg1Digits[1] = (Borg1header *)getBorgItem(0x11);
-    combatStatIndicatorDat.borg1Digits[2] = (Borg1header *)getBorgItem(0x15);
-    combatStatIndicatorDat.borg1Digits[3] = (Borg1header *)getBorgItem(0x14);
-    combatStatIndicatorDat.borg1Digits[4] = (Borg1header *)getBorgItem(0xf);
-    combatStatIndicatorDat.borg1Digits[5] = (Borg1header *)getBorgItem(0xe);
-    combatStatIndicatorDat.borg1Digits[6] = (Borg1header *)getBorgItem(0x13);
-    combatStatIndicatorDat.borg1Digits[7] = (Borg1header *)getBorgItem(0x12);
-    combatStatIndicatorDat.borg1Digits[8] = (Borg1header *)getBorgItem(0xd);
-    combatStatIndicatorDat.borg1Digits[9] = (Borg1header *)getBorgItem(0x10);
+    combatStatIndicatorDat.borg1Digits[0] = (Borg1Header *)getBorgItem(0x16);
+    combatStatIndicatorDat.borg1Digits[1] = (Borg1Header *)getBorgItem(0x11);
+    combatStatIndicatorDat.borg1Digits[2] = (Borg1Header *)getBorgItem(0x15);
+    combatStatIndicatorDat.borg1Digits[3] = (Borg1Header *)getBorgItem(0x14);
+    combatStatIndicatorDat.borg1Digits[4] = (Borg1Header *)getBorgItem(0xf);
+    combatStatIndicatorDat.borg1Digits[5] = (Borg1Header *)getBorgItem(0xe);
+    combatStatIndicatorDat.borg1Digits[6] = (Borg1Header *)getBorgItem(0x13);
+    combatStatIndicatorDat.borg1Digits[7] = (Borg1Header *)getBorgItem(0x12);
+    combatStatIndicatorDat.borg1Digits[8] = (Borg1Header *)getBorgItem(0xd);
+    combatStatIndicatorDat.borg1Digits[9] = (Borg1Header *)getBorgItem(0x10);
     ALLOCS(combatStatIndicatorDat.Indicators,MAXSTATDIGITS*sizeof(PlaneObj),135);
     memset(combatStatIndicatorDat.Indicators,0,MAXSTATDIGITS*sizeof(PlaneObj));
     ALLOCS(combatStatIndicatorDat.array,MAXSTATDIGITS,138);
@@ -37,27 +37,27 @@ uint AddItem(playerData *param_1,int type,short num){
   float fVar11;
   u8* aiStack_70 [MAXSTATDIGITS];
   uint index;
-  Borg1header *pBStack_2c;
+  Borg1Header *pBStack_2c;
   
   index = (uint)combatStatIndicatorDat.array[combatStatIndicatorDat.index++];
   pcVar7 = &combatStatIndicatorDat.Indicators[index];
   if (num < 100) {
     iVar6 = (int)num;
     if (num < 10) {
-      aiStack_70[0] = combatStatIndicatorDat.borg1Digits[iVar6]->dat->bitmap;
+      aiStack_70[0] = combatStatIndicatorDat.borg1Digits[iVar6]->dat->bmp;
       uVar4 = 1;
     }
     else {
-      aiStack_70[0] = combatStatIndicatorDat.borg1Digits[iVar6/10]->dat->bitmap;
-      aiStack_70[1] = combatStatIndicatorDat.borg1Digits[iVar6%10]->dat->bitmap;                    
+      aiStack_70[0] = combatStatIndicatorDat.borg1Digits[iVar6/10]->dat->bmp;
+      aiStack_70[1] = combatStatIndicatorDat.borg1Digits[iVar6%10]->dat->bmp;                    
       uVar4 = 2;
     }
   }
   else {
     iVar5 = (int)num + ((int)num / 100) * -100;
     iVar6 = iVar5 / 10;
-    aiStack_70[0] = combatStatIndicatorDat.borg1Digits[(int)num / 100]->dat->bitmap;
-    aiStack_70[1] = combatStatIndicatorDat.borg1Digits[iVar6]->dat->bitmap;
+    aiStack_70[0] = combatStatIndicatorDat.borg1Digits[(int)num / 100]->dat->bmp;
+    aiStack_70[1] = combatStatIndicatorDat.borg1Digits[iVar6]->dat->bmp;
     aiStack_70[2] =
          *(undefined4 *)
           (*(int *)(*(int *)((int)&combatStatIndicatorDat + iVar5 * 4 + iVar6 * -0x28) + 0x10) + 0xc
@@ -73,13 +73,13 @@ uint AddItem(playerData *param_1,int type,short num){
   pBVar1->Width = 0x40;
   ((pcVar7->Statborg1Head).dat)->Height = 0x10;
   pBVar1 = (pcVar7->Statborg1Head).dat;
-  ALLOCS(pBVar1->bitmap,0x400,209);
+  ALLOCS(pBVar1->bmp,0x400,209);
   pBVar1->pallette = NULL;
   pBVar1->dList = NULL;
   (pcVar7->Statborg1Head).bitmapA = NULL;
   (pcVar7->Statborg1Head).bitmapB = NULL;
-  memset(pBVar1->bitmap,0,0x400);
-  puVar3 = ((pcVar7->Statborg1Head).dat)->bitmap;
+  memset(pBVar1->bmp,0,0x400);
+  puVar3 = ((pcVar7->Statborg1Head).dat)->bmp;
   for(bVar10=0;bVar10 < MAXSTATDIGITS;bVar10++) {
     dst = puVar3 + uVar4 * -8 + 0x20;
     puVar3+= 0x40;
@@ -196,8 +196,8 @@ Gfx * Tick(Gfx *g,int delta){
       }
       else {
         pBVar2 = (x->Statborg1Head).dat;
-        memset(pBVar2->bitmap,0,(uint)pBVar2->Width * (uint)pBVar2->Height);
-        HFREE(((x->Statborg1Head).dat)->bitmap,351);
+        memset(pBVar2->bmp,0,(uint)pBVar2->Width * (uint)pBVar2->Height);
+        HFREE(((x->Statborg1Head).dat)->bmp,351);
         CLEAR(x);
         combatStatIndicatorDat.array[--combatStatIndicatorDat.index] = (u8)i;
       }
@@ -215,8 +215,8 @@ void Free(void){
     pvVar2 = &combatStatIndicatorDat.Indicators[i];
     if (pvVar2->statVisible) {
       pBVar1 = (pvVar2->Statborg1Head).dat;
-      memset(pBVar1->bitmap,0,(uint)pBVar1->Width * (uint)pBVar1->Height);
-      HFREE(((pvVar2->Statborg1Head).dat)->bitmap,415);
+      memset(pBVar1->bmp,0,(uint)pBVar1->Width * (uint)pBVar1->Height);
+      HFREE(((pvVar2->Statborg1Head).dat)->bmp,415);
       CLEAR(pvVar2);
     }
   }

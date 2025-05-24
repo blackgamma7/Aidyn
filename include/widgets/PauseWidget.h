@@ -36,7 +36,7 @@ struct pause_Substruct {
     s16 unk26;
     SceneData *sceneDat;
     float scrollSpeed;
-    Borg7header *borg7;
+    Borg7Header *borg7;
     vec3f camPos;
     float scrollfloat;
     u8 unk44[8];

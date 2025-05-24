@@ -54,7 +54,7 @@ struct MoveQueueEntry {
 struct playerData {
     u16 ID;
     short removeFlag;
-    Borg7header *locator_pointer;
+    Borg7Header *locator_pointer;
     SceneData *SceneDat;
     u32 borg7;
     u32 nextBorg7;
@@ -148,8 +148,8 @@ struct PlayerHandler {
     u16 counter;
     float shadowDist;
     float float_0x68;
-    Borg1header *shadowTexture;
-    Borg1header * unk70; //unused? queded for freeing.
+    Borg1Header *shadowTexture;
+    Borg1Header * unk70; //unused? queded for freeing.
     audiokey_struct *audiokey;
 };
 

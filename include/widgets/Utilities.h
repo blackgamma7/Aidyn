@@ -18,7 +18,7 @@ namespace Utilities{
     void SetScrollMenuColors(BaseWidget *,u8,u8,u8,u8,u8,u8,u8,u8,u8);
     void ClearScrollMenu(BaseWidget *);
     void ClearScrollMenu2(BaseWidget *);
-    void SetBorg8Dims(BaseWidget *,Borg8header *,u8);
+    void SetBorg8Dims(BaseWidget *,Borg8Header *,u8);
     void SetWidgetBounds(BaseWidget *,u16,u16,u16,u16);
     void SetWidgetBoundsX02(BaseWidget *,u16);
     void SetWidgetBoundsX12(BaseWidget *,u16);
@@ -40,8 +40,8 @@ namespace Utilities{
     WidgetText* AddTextWidget3(BaseWidget*,char*,u16,u16,u16,u16,u8,u8,u8,u8);
     WidgetClipText* AddClipTextWidget(BaseWidget*,char*,u16,u16,u16,u16,u16);
     WidgetArrayMenu* AddWidgetArrayMenu(BaseWidget*,u16,u16,s16,s16,u16,u16,u16,u16 ,u8,u8,u8,u8);
-    WidgetBorg8* AddBorg8Widget(BaseWidget*,Borg8header *,s16,s16);
-    WidgetBorg8* AddBorg8Widget2(BaseWidget*,Borg8header *,short,short,short,short);
+    WidgetBorg8* AddBorg8Widget(BaseWidget*,Borg8Header *,s16,s16);
+    WidgetBorg8* AddBorg8Widget2(BaseWidget*,Borg8Header *,short,short,short,short);
     WidgetScrollMenu* AddScrollMenu(BaseWidget*,u16,s16,s16,u16,u16,u16,u16,u8,u8,u8,u8,s32);
 };
 

@@ -2,6 +2,7 @@
 #include "Borgindecies.h"
 #include "heapN64.h"
 #include "graphics.h"
+#include "itemID.h"
 
 extern struct SceneData;
 //TODO: Break into headers by borg type
@@ -44,18 +45,18 @@ struct borgHeader {
     u32 unk;
 };
 
-struct Borg8dat {
+struct Borg8Data {
     u16 format;
     u16 Width;
     u16 Height;
     u16 PALSize;
     u16* palette; //for CI8/4
-    void* offset;
+    void* offset; //offset to bitmap
 };
 
-struct Borg8header {
+struct Borg8Header {
     struct borgHeader head;
-    struct Borg8dat dat;
+    struct Borg8Data dat;
 };
 
 typedef enum VoxelFllags {
@@ -163,7 +164,7 @@ struct SceneVoxelModel {
     float renderProx;
     u32 borgIndex;
     union{ //common enough union to abstract?
-    Borg7header *b7; //used if SceneObj_B7 is set
+    Borg7Header *b7; //used if SceneObj_B7 is set
     SceneData* sceneDat; //used if SceneObj_B7 is unset
     };
 };
@@ -394,7 +395,7 @@ typedef enum BORG1type {
 } BORG1type;
 
 
-struct Borg1header {
+struct Borg1Header {
     borgHeader head;
     union{
         void* bitmapA;
@@ -438,8 +439,41 @@ struct borg5substruct {
     vec3f scale;
     vec3f unk; //used for mtxOp 1
 };
-
-struct Borg5data {
+struct Borg5_particle{
+    u16 flag0;
+    u16 flag2;
+    u16 aniUsed;
+    u16 unk6;
+    s16 unk8;
+    u16 field5_0xa;
+    u16 lifespan;
+    u16 flagE;
+    float unk10;
+    s16 unk14;
+    s16 unk16;
+    s16 texture;
+    u16 count;
+    vec3f pos;
+    float randRangeA;
+    vec3f pos2;
+    float randRangeB;
+    float randRangeC;
+    u32 unk40;
+    vec4f colVA;
+    vec4f colVB;
+    vec4f colVC;
+    vec4f colVD;
+    vec3f norm;
+    float unk90;
+    float unk94;
+    float randRangeD;
+    float unk9c;
+    Color32 colRandLo;
+    Color32 colRandHi;
+    Color32 colBlend;
+    u8 unkAc[20]; //unused?
+};
+struct Borg5Data {
     s32 substructCount;
     s32 borg4Count;
     s32 borg2Count;
@@ -459,11 +493,11 @@ struct Borg5data {
     };
     union{
         s32* borg2i;
-        Borg2header **borg2p;
+        Borg2Header **borg2p;
     };
     union{
         s32* borg1i;
-        Borg1header **borg1p;
+        Borg1Header **borg1p;
     };
     void * aniTextures; //not used, but pointers still set (0x18 byte struct.) 
     u16 *borg1lookup;
@@ -480,7 +514,7 @@ struct borg_9_struct {
     u16 voxelSceneCount;
     u16 field7_0x12; //align?
 };
-struct Borg9data {
+struct Borg9Data {
     vec3f floatsA; /* position? */
     vec2f floatsB; /* size? */
     u8 unk1[6]; /* seems unused */
@@ -502,10 +536,9 @@ struct Borg9data {
     voxelObject *voxelObjs;
     borg_9_struct *unkStructs;
 };
-struct Borg9header {
-    u32 ID;
-    u32 field1_0x4;
-    Borg9data dat;
+struct Borg9Header {
+    borgHeader head;
+    Borg9Data dat;
 };
 
 #define Borg11_Set 0x10 //always set
@@ -520,14 +553,12 @@ struct Borg11Data {
     u8 *wav;
 };
 
-struct Borg11header {
-    u32 index;
-    u32 field1_0x4;
+struct Borg11Header {
+    borgHeader head;
     Borg11Data *dat;
-    void* p;
 };
 
-struct borg2data {
+struct Borg2Data {
     int unk0x0;
     int dsplistcount;
     float scale;
@@ -546,13 +577,13 @@ struct borg2data {
     u32 unk0x4c;
 };
 
-struct Borg2header {
+struct Borg2Header {
     borgHeader head;
     LookAt *lookat[2];
     MtxF someMtx;
     Gfx **dlist;
     u8* dlistSet;
-    borg2data *dat;
+    Borg2Data *dat;
 };
 
 struct Borg12Sub {
@@ -567,7 +598,7 @@ struct Borg12Sub {
 struct Borg12Data {
     union{
     u32* instrumentsI;
-    Borg11header **intrumentsP;
+    Borg11Header **intrumentsP;
     };
     u32 unk4;
     Borg12Sub sub;
@@ -578,27 +609,27 @@ struct Borg12Header {
     Borg12Data *dat;
 };
 
-struct borg6Data{
+struct Borg6Data{
     u32 borg5;
     s32 unk4;
     s32 unk8;
     s32 unkc;
 };
 
-struct borg6header {
+struct Borg6Header {
     uint field0_0x0;
     uint field1_0x4;
     int field2_0x8;
-    borg6header *link;
+    Borg6Header *link;
     u32 flag;
     SceneData *sceneDat;
     u32 flag2;
-    float field7_0x1c;
-    borg6Data *dat;
+    float unk1c;
+    Borg6Data *dat;
 };
 
 struct struct_45 {
-    struct borg6header *anis[3];
+    struct Borg6Header *anis[3];
     u32 indecies[3];
 };
 
@@ -610,7 +641,7 @@ struct Borg1Data {
     u8 lods;
     u8 iLace; //paramater for deinterlacing textures?
     Gfx *dList;
-    u8 *bitmap;
+    u8 *bmp;
     u16 * pallette;
 };
 
@@ -619,14 +650,14 @@ struct astruct_3{
     vec4f unk4;
 };
 
-struct Borg5header {
+struct Borg5Header {
     borgHeader head;
     void *unk8;
     void *aniTextures;
-    Borg5data dat;
+    Borg5Data dat;
 };
 
-struct Borg7data {
+struct Borg7Data {
     u32 field0_0x0;
     int borg6_size;
     int field2_0x8;
@@ -638,7 +669,7 @@ struct Borg7data {
     undefined *unk14;
 };
 
-struct Borg7header {
+struct Borg7Header {
     borgHeader head;
     SceneData *sceneDat;
     u16 currentAni;
@@ -650,11 +681,11 @@ struct Borg7header {
     undefined field12_0x16;
     undefined field13_0x17;
     void **unk18;
-    struct_1 *unk1c;
+    struct struct_1 *unk1c;
     vec3f unk20;
     vec3f unk2c;
     struct_45 unk38;
-    Borg7data dat;
+    Borg7Data dat;
 };
 
 enum Borg9PhysFlags{
@@ -682,7 +713,7 @@ enum Borg9PhysFlags{
 struct borg9_phys {
     vec3f *verts[3];
     vec3f normal;
-    EnvProp *envProperty;
+    struct EnvProp *envProperty;
     u16 flags; // use Borg9PhysFlags
     u16 GroundType;
 };
@@ -710,7 +741,7 @@ struct borg13command {
     u32 unk34;
 };
 
-struct borg13data {
+struct Borg13Data {
     borg13command *commands_pointer;
     u16 (*actors)[4];
     char *text;
@@ -725,11 +756,11 @@ struct borg13data {
     u8 pad[2];
 };
 
-struct borg13header{
+struct Borg13Header{
     borgHeader head;
     u32* unk8;
     u32 unkc;
-    borg13data* dat;
+    Borg13Data* dat;
 };
 
 //borgmain.cpp
@@ -741,7 +772,7 @@ void SetBorgListing(void *,void *);
 u8 decompressBorg(void *,u32 ,u8 *,u32 ,u32 );
 s16 get_borg_listing_type(s32);
 s16 GetBorgItemInfo(BorgListing *,s32);
-borgHeader* get_borg_index_x4(s32);
+borgHeader* getLoadedBorg(s32);
 borgHeader * getBorgItem(s32);
 void FUN_800a2de0(void);
 u8 get_borg_index_count(s32);
@@ -751,69 +782,122 @@ u8 borg0_func_b(void**,void*);
 void Ofunc_borg0_free(void**);
 void * Ofunc_getborg(s32);
 void borg1_func_a(Borg1Data *);
-u8 InitBorgTexture(Borg1header *,Borg1Data *);
-void borg1_free(Borg1header *);
-void borg2_func_a(borg2data *);
-u8 borg2_func_b(Borg2header *,borg2data *);
-void borg_2_free(Borg2header *);
+u8 InitBorgTexture(Borg1Header *,Borg1Data *);
+void borg1_free(Borg1Header *);
+void borg2_func_a(Borg2Data *);
+u8 borg2_func_b(Borg2Header *,Borg2Data *);
+void borg_2_free(Borg2Header *);
 void borg4_func_a(void*);
 u8 borg4_func_b(void* x,void* y);
 void Borg4_free(s32 *);
 void borg3_func_a(Borg3Header *);
 u8 borg3_func_b(void*, void* );
-void borg5_func_a(Borg5header*);
-u8 InitBorgScene(Borg5header *,void*);
-void borg5_free(Borg5header *);
-void borg6_func_a(borg6header*);
-u8 borg6_func_b(borg6header *,void *);
-void borg_6_free(borg6header *);
-void borg7_func_a(Borg7header *);
-u8 borg7_func_b(Borg7header *,Borg7data *);
-void borg7_free(Borg7header *);
+void borg5_func_a(Borg5Header*);
+u8 InitBorgScene(Borg5Header *,void*);
+void borg5_free(Borg5Header *);
+void borg6_func_a(Borg6Header*);
+u8 borg6_func_b(Borg6Header *,void *);
+void borg_6_free(Borg6Header *);
+void borg7_func_a(Borg7Header *);
+u8 borg7_func_b(Borg7Header *,Borg7Data *);
+void borg7_free(Borg7Header *);
 void set_AnimCache(u8 );
 
 //n64borg/image.cpp
 
 u8 borg8_func_b(void *,void *);
-void borg8_func_a(Borg8header *);
-void borg8_free_ofunc(Borg8header *);
-Borg8header* loadBorg8(u32);
+void borg8_func_a(Borg8Header *);
+void borg8_free_ofunc(Borg8Header *);
+Borg8Header* loadBorg8(u32);
 Gfx * borg8DlistInit(Gfx *,byte ,u16,u16);
-Gfx * N64BorgImageDraw(Gfx *,Borg8header *,float ,float ,u16 ,u16 ,u16 ,u16 ,float ,float ,u8 ,u8 ,u8,u8);
-Gfx* Borg8_DrawSimple(Gfx*,Borg8header *,float,float,float,float,u8,u8,u8,u8);
-void borg8_free(Borg8header *);
+Gfx * N64BorgImageDraw(Gfx *,Borg8Header *,float ,float ,u16 ,u16 ,u16 ,u16 ,float ,float ,u8 ,u8 ,u8,u8);
+Gfx* Borg8_DrawSimple(Gfx*,Borg8Header *,float,float,float,float,u8,u8,u8,u8);
+void borg8_free(Borg8Header *);
 Gfx * gsFadeInOut(Gfx *gfx,u16 x,u16 y,u16 H,u16 V,u8 R,u8 G,u8 B,u8 A);
 
 //n64borg/collisionZone.cpp
 
-u8 borg_9_func_b(void*,void*);
+u8 borg9_func_b(void*,void*);
 void * set_pointer_offset(void *A,void *B);
-void borg9_func_a(Borg9header *);
-void n64BorgCollisionZone_free(Borg9header *);
-Borg9header * loadBorg9(u32);
-void remove_borg_9(Borg9header *);
+void borg9_func_a(Borg9Header *);
+void n64BorgCollisionZone_free(Borg9Header *);
+Borg9Header * loadBorg9(u32);
+void remove_borg_9(Borg9Header *);
+
+//n64borg/DCMModule.cpp
+
+void borg12_func_a(Borg12Data *);
+u8 borg12_func_b(Borg12Header *,Borg12Data *);
+void n64BorgDCMModule_free(Borg12Header *);
+Borg12Header * load_borg_12(u32 index);
+void free_borg_12(Borg12Header *p);
+
+//n64borg/CollisionMaterial.cpp
+
+u8 borg10_func_b(void *x,void *y);
+void borg10_func_a(void *x);
+void borg_10_free(s32 *arg0);
+void * get_borg_10(s32 arg0);
+void passto_borg_10_free(s32 *arg0);
+
+//n64borg/Sample.cpp
+
+void borg11_func_a(Borg11Data *);
+u8 borg11_func_b(Borg11Header *,Borg11Data *);
+void borg11_free(Borg11Header *);
+Borg11Header * get_borg_11(u32);
+void passto_borg11_free(Borg11Header *);
+
+//n64borg/Dialog.cpp
+
+u8 borg13_func_b(Borg13Header *,Borg13Data *);
+void borg13_func_a(Borg13Data *);
+void borg13_free(Borg13Header *);
+Borg13Header * get_borg13(u32);
+void passto_borg13_free(Borg13Header *);
+
+//n64borg/GameStates.cpp
+
+u8 borg14_func_b(void *x,s32 y);
+void borg14_func_a(void *arg0);
+void ofunc_borg14_free(s32 *arg0);
+void * get_borg_14(s32 arg0);
+void passto_borg_14_free(s32 *arg0);
+
 
 typedef void (*BorgFuncA)(void*);
 typedef u8 (*BorgFuncB)(void*,void*);
 
 u32 borgFlag=0;
 BorgFuncA borg_funcs_a[]={
-borg0_func_a,borg1_func_a,borg2_func_a,borg3_func_a,borg4_func_a,
-borg5_func_a,borg6_func_a,borg7_func_a,borg8_func_a,borg9_func_a,
-borg10_func_a,borg11_func_a,borg12_func_a,borg13_func_a,borg14_func_a
+(BorgFuncA)borg0_func_a,(BorgFuncA)borg1_func_a,(BorgFuncA)borg2_func_a,
+(BorgFuncA)borg3_func_a,(BorgFuncA)borg4_func_a,(BorgFuncA)borg5_func_a,
+(BorgFuncA)borg6_func_a,(BorgFuncA)borg7_func_a,(BorgFuncA)borg8_func_a,
+(BorgFuncA)borg9_func_a,(BorgFuncA)borg10_func_a,(BorgFuncA)borg11_func_a,
+(BorgFuncA)borg12_func_a,(BorgFuncA)borg13_func_a,(BorgFuncA)borg14_func_a
 };
 BorgFuncB borg_funcs_b[]={
-borg0_func_b,InitBorgTexture,borg2_func_b,borg3_func_b,borg4_func_b,
-InitBorgScene,borg6_func_b,borg7_func_b,borg8_func_b,borg9_func_b,
-borg10_func_b,borg11_func_b,borg12_func_b,borg13_func_b,borg14_func_b
+(BorgFuncB)borg0_func_b,(BorgFuncB)InitBorgTexture,(BorgFuncB)borg2_func_b,
+(BorgFuncB)borg3_func_b,(BorgFuncB)borg4_func_b,(BorgFuncB)InitBorgScene,
+(BorgFuncB)borg6_func_b,(BorgFuncB)borg7_func_b,(BorgFuncB)borg8_func_b,
+(BorgFuncB)borg9_func_b,(BorgFuncB)borg10_func_b,(BorgFuncB)borg11_func_b,
+(BorgFuncB)borg12_func_b,(BorgFuncB)borg13_func_b,(BorgFuncB)borg14_func_b
 };
-
-s32 gBorgHeaderSizes[15]= {8,16,88,16,8,16,32,80,8,8,8,8,8,16,8};
+//for header sizes that use pointer to data
+#define BorgHSize(x) (sizeof(Borg##x##Header)-sizeof(Borg##x##Data*))
+//for header sizes that use copy of data
+#define BorgHSize2(x) (sizeof(Borg##x##Header)-sizeof(Borg##x##Data))
+//sizeof(BorgXHeader)-sizeof(BorgXData* or BorgXData)
+s32 gBorgHeaderSizes[15]= {
+    sizeof(borgHeader),BorgHSize(1),BorgHSize(2),BorgHSize2(3),
+    sizeof(borgHeader),BorgHSize2(5),BorgHSize(6),BorgHSize2(7),
+    BorgHSize(8),BorgHSize2(9),sizeof(borgHeader),BorgHSize(11),
+    BorgHSize(12),BorgHSize(13),sizeof(borgHeader)};
 u8 animChache=3;
 u32 borg_mem[15]={0};
 u32 borg_count[15]={0};
-borgHeader** borg_index_x4=0;
-u8* borg_index_x1=0;
+borgHeader** gBorgpointers=NULL;
+u8* gBorgBytes=0;
 void* BorgListingPointer=0;
 void* borgFilesPointer=0;
 u32 borgTotal=0;

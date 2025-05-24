@@ -11,7 +11,7 @@ struct lensflare_data {
 
 lensflare_data gLensFlareData[];
 vec2f gLensFlarePos;
-Borg8header** gLensflare;
+Borg8Header** gLensflare;
 
 u8 lensflare_bss;
 
@@ -35,10 +35,10 @@ struct cloudStruct {
 
 
 u16 gCloudCount;
-Borg8header** gCloudBorg8;
+Borg8Header** gCloudBorg8;
 cloudStruct gCloudData[];
 
-Borg8header* gCloudBorg8Base[3];
+Borg8Header* gCloudBorg8Base[3];
 
 namespace Clouds{
     void Init();
@@ -61,13 +61,13 @@ enum SkyObjType{
 u16 gSkyObjectMoonIndex;
 u16 gSkyobjectsCount;
 u8 moon_phase;
-Borg8header* sjyobjects_borg8;
-Borg8header* gMoonBorg8;
+Borg8Header* sjyobjects_borg8;
+Borg8Header* gMoonBorg8;
 SkyobjectStruct* gSunObjP;
 SkyobjectStruct* gMoonObjP;
 SkyobjectStruct skyobjectStruts[94];
 
-Borg8header* sSkyObjBss[3];
+Borg8Header* sSkyObjBss[3];
 
 namespace Skyobjects{
     void Init();

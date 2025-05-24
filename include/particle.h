@@ -66,53 +66,18 @@ struct ParticleHeadStruct {
     short particleindecies[ParticleMAX+2];
     ParticleEmmiter *Emmiter;
     short emmitterIndecies[ParticleEmmiMAX];
-    Borg1header **ppTextures;
+    Borg1Header **ppTextures;
     short TextureCount;
     undefined field6_0x332;
     undefined field7_0x333;
     float gray;
-    Borg9data *borg9dat;
+    Borg9Data *borg9dat;
     u16 particleStructCount;
     u16 count1;
     s16 count2;
     u16 field13_0x342;
     u32 unk344;
     Mtx alignMtx[2];
-};
-
-struct Borg5_particle{
-    u16 flag0;
-    u16 flag2;
-    u16 aniUsed;
-    u16 unk6;
-    s16 unk8;
-    u16 field5_0xa;
-    u16 lifespan;
-    u16 flagE;
-    float unk10;
-    s16 unk14;
-    s16 unk16;
-    s16 texture;
-    u16 count;
-    vec3f pos;
-    float randRangeA;
-    vec3f pos2;
-    float randRangeB;
-    float randRangeC;
-    u32 unk40;
-    vec4f colVA;
-    vec4f colVB;
-    vec4f colVC;
-    vec4f colVD;
-    vec3f norm;
-    float unk90;
-    float unk94;
-    float randRangeD;
-    float unk9c;
-    Color32 colRandLo;
-    Color32 colRandHi;
-    Color32 colBlend;
-    u8 unkAc[20]; //unused?
 };
 
 namespace Particle{
@@ -122,7 +87,7 @@ namespace Particle{
     void InitEmmiters(ParticleHeadStruct *);
     void LoadTextures(ParticleHeadStruct *,s16 ,s32 *);
     void FreeTextures(ParticleHeadStruct *);
-    void InitParticleHead(ParticleHeadStruct *head,Borg9data *borg9,s16 partCount,u16 textCount,s32 *textureP);
+    void InitParticleHead(ParticleHeadStruct *head,Borg9Data *borg9,s16 partCount,u16 textCount,s32 *textureP);
     void FreeEmmiters(ParticleHeadStruct *);
     void UpdateParticle(ParticleHeadStruct *param_1,vec4f *col,u32 flag,s16 index,float delta);
     void ApplyVelocity(ParticleHeadStruct *,ParticleEmmiter *,s16,float);
@@ -152,7 +117,7 @@ namespace Particle{
     void UnsetEmmiterFlag4000(ParticleEmmiter *);
     Gfx * FUN_800b2d34(Gfx *,ParticleHeadStruct *,vec3f *,u16);
     Gfx * FUN_800b2f9c(Gfx *,u16);
-    void RenderParticles(Gfx **,ParticleHeadStruct *,Particle_s *,Borg1header *,u16);
+    void RenderParticles(Gfx **,ParticleHeadStruct *,Particle_s *,Borg1Header *,u16);
     SceneData * GetLocatorScene(SceneData *,u16);
     ParticleEmmiter * FUN_800b3c18(ParticleHeadStruct *,SceneData *,Borg5_particle *);
     void UnsetSceneEmmiter(ParticleHeadStruct *,SceneData *);

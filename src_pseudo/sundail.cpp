@@ -24,7 +24,7 @@ Gfx * Draw(Gfx *param_1){
   u16 v;
   Gfx *pGVar2;
   uint uVar3;
-  Borg8header *borg8;
+  Borg8Header *borg8;
   u8 blue;
   u8 green;
   u8 red;

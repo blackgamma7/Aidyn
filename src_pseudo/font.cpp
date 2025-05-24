@@ -83,7 +83,7 @@ u8 Font::LoadFace(FontStruct *fontP,u32 b8,u8 rows,u8 cols){
   ushort uVar2;
   u16 uVar3;
   byte bVar6;
-  Borg8header *pBVar4;
+  Borg8Header *pBVar4;
   u16 *puVar5;
   FontSubstruct *pFVar7;
   
@@ -451,7 +451,7 @@ LAB_800b4f9c:
     col.R = (fontP->col).R;
     col.G = (fontP->col).G;
     col.B = (fontP->col).B;
-    if ('~' < chara) GetButtonColor(chara -'~',&col.R,&col.G,&col.B);
+    if ('~' < chara) GetButtonColor(chara -0x7F,&col.R,&col.G,&col.B);
     sVar3 = ((ushort)bVar1 / (ushort)bVar2) * sVar3;
     sVar6 = ((ushort)bVar1 % (ushort)bVar2) * uVar4;
     pGVar7 = N64BorgImageDraw(*gg,fontP->currFont,(param_4 + iVar10),(param_5 + iVar8)
@@ -461,7 +461,6 @@ LAB_800b4f9c:
                               (fontP->col).A);
     *gg = pGVar7;
   }
-  return;
 }
 
 int Font::GetWidth(FontStruct *param_1,char *txt){
@@ -581,7 +580,7 @@ LAB_800b5474:
 }
 
 //scan image for character sizes
-u8 Font::SetupBorg8(FontStruct *font,Borg8header *param_2,u16 *sizes,u16 rows,u16 cols){
+u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u16 cols){
   u8 uVar1;
   u16 uVar3;
   uint charW;

@@ -1,6 +1,6 @@
 #include "widgets/WidgetBorg8.h"
 
-WidgetBorg8::WidgetBorg8(Borg8header* b8):BaseWidget(){
+WidgetBorg8::WidgetBorg8(Borg8Header* b8):BaseWidget(){
     borg8 = b8;
     if (!b8) {
       width = 32;

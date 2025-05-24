@@ -65,7 +65,7 @@ void wander_free(wander_struct *param_1){
 }
 
 
-void look_for_monsterparties(wander_struct *param_1,Borg9data *param_2,s32 param_3,byte param_4){
+void look_for_monsterparties(wander_struct *param_1,Borg9Data *param_2,s32 param_3,byte param_4){
   if (((gGlobals.screenFadeModeSwitch != 0xc) && (gGlobals.Sub.gamemodeType != 2)) &&
      (param_2->voxelObjCount != 0)) {
     for (s16 i=0;i < param_2->voxelObjCount;i++) {
@@ -85,7 +85,7 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
   ItemID IVar2;
   playerData *ppVar3;
   EntityDB *pEVar4;
-  Borg9data *pBVar5;
+  Borg9Data *pBVar5;
   u32 borg7;
   playerData *pDat;
   byte bVar8;
@@ -178,7 +178,7 @@ playerData * FUN_80012b44(wander_struct *param_1,wander_substruct *param_2){
 
 void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3){
   u16 uVar1;
-  Borg9data *pBVar2;
+  Borg9Data *pBVar2;
   voxelObject *pVVar3;
   vec2f *res;
   vec2f fStack80;
@@ -226,7 +226,7 @@ void FUN_80012c58(wander_struct *param_1,wander_substruct *param_2){
 
 void FUN_80012d44(wander_substruct *param_1){
   u16 uVar1;
-  Borg9data *pBVar2;
+  Borg9Data *pBVar2;
   vec2f fStack80;
   voxelObject *pVVar2;
   
@@ -254,7 +254,7 @@ void monster_engagement_func(wander_struct *param_1,short delta){
   double dVar4;
   bool bVar7;
   BaseWidget *pBVar5;
-  Borg9data *borgDat;
+  Borg9Data *borgDat;
   short sVar6;
   vec2f *A;
   wander_substruct *wanderer;

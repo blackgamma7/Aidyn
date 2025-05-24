@@ -272,7 +272,7 @@ void Utilities::ClearScrollMenu2(BaseWidget *w){
   pvVar1->highlight = 0;
 }
 
-void Utilities::SetBorg8Dims(BaseWidget *w,Borg8header *image,u8 replace){ 
+void Utilities::SetBorg8Dims(BaseWidget *w,Borg8Header *image,u8 replace){ 
   if ((image) && (w)) {
     if (replace) borg8_free(w->borg8);
     w->borg8 = image;
@@ -513,7 +513,7 @@ WidgetArrayMenu *Utilities::AddWidgetArrayMenu(BaseWidget *w,u16 len,u8 param_3,
 //@param x: x position
 //@param y: y position
 //@returns WidgetBorg8 pointer
-WidgetBorg8 * Utilities::AddBorg8Widget(BaseWidget *w,Borg8header *b8,s16 x,s16 y){
+WidgetBorg8 * Utilities::AddBorg8Widget(BaseWidget *w,Borg8Header *b8,s16 x,s16 y){
   WidgetBorg8 *pBVar1 = new WidgetBorg8(b8);
   if (pBVar1 == NULL) pBVar1 = NULL;
   else {
@@ -530,7 +530,7 @@ WidgetBorg8 * Utilities::AddBorg8Widget(BaseWidget *w,Borg8header *b8,s16 x,s16 
 //@param x0: bottom-left position
 //@param y0: bottom-right position
 //@returns WidgetBorg8 pointer
-WidgetBorg8 * Utilities::AddBorg8Widget2(BaseWidget *w,Borg8header *b8,s16 x0,s16 y0,s16 x1,s16 y1){
+WidgetBorg8 * Utilities::AddBorg8Widget2(BaseWidget *w,Borg8Header *b8,s16 x0,s16 y0,s16 x1,s16 y1){
   WidgetBorg8 *pBVar1 = AddBorg8Widget(w,b8,x0,y0);
   if (pBVar1 == NULL) pBVar1 = NULL;
   else {

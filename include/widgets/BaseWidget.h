@@ -36,7 +36,7 @@ public:
     s16 boundX1;
     s16 boundY0;
     s16 boundY1;
-    Borg8header *borg8;
+    Borg8Header *borg8;
     byte state;
     u16 height;
     u16 width;
@@ -68,7 +68,7 @@ public:
     void SetCoords(s16 x,s16 y);
     void SetWidth(u16 w);
     void SetHeight(u16 h);
-    void SetBorg8(Borg8header* b8,u8 fit);
+    void SetBorg8(Borg8Header* b8,u8 fit);
     void SetSomeBounds(u16 Y0,u16 X0, u16 X1, u16 Y1);
     void GetSomeBounds(u16* Y0,u16* X0, u16* X1, u16* Y1);
     Gfx* RenderChildren(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1);

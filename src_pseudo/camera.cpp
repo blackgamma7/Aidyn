@@ -12,7 +12,7 @@ void camera_set_aim(Camera_struct *CAM,vec3f *arg1){
   copyVec3(arg1,&CAM->aimTarget);
 }
 
-void camera_init(Camera_struct *param_1,Borg9data *map,vec3f *pos,u16 mode){
+void camera_init(Camera_struct *param_1,Borg9Data *map,vec3f *pos,u16 mode){
   CLEAR(param_1);
   param_1->unk7c = 1;
   param_1->unk7e = 3;

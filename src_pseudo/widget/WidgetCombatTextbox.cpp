@@ -61,7 +61,7 @@ void WidgetCombatTextbox::SetPortrait(u32 param_2){
   if ((!locked) && (param_2 != speakerId)) {
     speakerId = param_2;
     free_borg8_widget(speakerPortrait);
-    Borg8header *pBVar2 = loadBorg8(param_2);
+    Borg8Header *pBVar2 = loadBorg8(param_2);
     speakerPortrait->borg8 = pBVar2;
     speakerPortrait->SetWidth(pBVar2->dat.Width);
     speakerPortrait->SetHeight(pBVar2->dat.Height);

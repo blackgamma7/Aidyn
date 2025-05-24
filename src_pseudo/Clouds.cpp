@@ -4,7 +4,7 @@
 #define FILENAME "./src/clouds.cpp"
 
 u16 gCloudCount=0;
-Borg8header* gCloudBorg8=NULL;
+Borg8Header* gCloudBorg8=NULL;
 cloudStruct gCloudData[]={
     {CloudTypeA,{-530,10,-530},0,{150,150,150,255},0.2},  //0
     {CloudTypeB,{-318,10,-530},0,{150,150,150,255},0.4},  //1
@@ -72,7 +72,6 @@ void Clouds::Init(void){
     gCloudCount = 1;
     while (gCloudData[gCloudCount].index != CloudTypeEND) gCloudCount++;
   }
-  gCloudBorg8Base;
   for(s32 i=0;i<3;i++) {
     switch(i){
         case 0: gCloudBorg8Base[0] = loadBorg8(BORG8_CloudA); break;
@@ -81,7 +80,7 @@ void Clouds::Init(void){
         default: gCloudBorg8Base[i] = NULL; break;
     }
   }
-  ALLOCS(gCloudBorg8,gCloudCount*sizeof(Borg8header*),0xe2);
+  ALLOCS(gCloudBorg8,gCloudCount*sizeof(Borg8Header*),226);
   for(u32 i=gCloudCount;i!=0;i--){
       switch (gCloudData[i].index){
       case CloudTypeA:

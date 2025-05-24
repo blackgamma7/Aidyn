@@ -56,7 +56,7 @@ typedef enum enum_cinematic_switch {
 
 struct CinematicStruct {
     SceneData *sceneDat;
-    borg6header *Borg6;
+    Borg6Header *Borg6;
     Borg12Header *BGM;
     u16 *SeqenceFlags;
     float (*clippingPlanes)[2];

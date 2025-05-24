@@ -56,7 +56,7 @@ void Particle::LoadTextures(ParticleHeadStruct *param_1,s16 count,s32 *textures)
   if (0 < count) {
     for(s16 i=0;i<count;i++){
       if (textures[i] == -1) param_1->ppTextures[i] = NULL;
-      else param_1->ppTextures[i] = (Borg1header *)getBorgItem(textures[i]);
+      else param_1->ppTextures[i] = (Borg1Header *)getBorgItem(textures[i]);
     }
   }
 }
@@ -73,7 +73,7 @@ void Particle::FreeTextures(ParticleHeadStruct *param_1){
 }
 
 
-void Particle::InitParticleHead(ParticleHeadStruct *head,Borg9data *borg9,s16 partCount,u16 textCount,s32 *textureP){
+void Particle::InitParticleHead(ParticleHeadStruct *head,Borg9Data *borg9,s16 partCount,u16 textCount,s32 *textureP){
 
   ALLOCS(head->Emmiter,ParticleEmmiMAX*sizeof(ParticleEmmiter),218);
   if (partCount >= ParticleMAX+1){
@@ -591,7 +591,7 @@ void SetVtx(Vtx_t *v,float x,float y,float z,u16 flag,s16 U,s16 V,u8 R,u8 G,u8 B
   v->ob[2] = z*16.0f;
 }
 
-void Particle::RenderParticles(Gfx **gg,ParticleHeadStruct *phead,Particle_s *part,Borg1header *texture,ushort framebuff){
+void Particle::RenderParticles(Gfx **gg,ParticleHeadStruct *phead,Particle_s *part,Borg1Header *texture,ushort framebuff){
 Mtx *pMVar2;
 Color32 color;
 vec4f fStack128;

@@ -13,14 +13,14 @@ u8 fade_texture[88]={0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff
 u8 borg8_func_b(void *param_1,void *param_2){return false;}
 
 
-void borg8_func_a(Borg8header *param_1){
+void borg8_func_a(Borg8Header *param_1){
   if (((param_1->dat).format == BORG8_CI8) || ((param_1->dat).format == BORG8_CI4))
     SetPointer(param_1,dat.palette);
   else (param_1->dat).palette = NULL;
   SetPointer(param_1,dat.offset);
 }
 
-void borg8_free_ofunc(Borg8header *param_1){
+void borg8_free_ofunc(Borg8Header *param_1){
   s32 iVar1 = get_memUsed();
   if (param_1->head.index == -1) HFREE(param_1,0x8f);
   else dec_borg_count(param_1->head.index);
@@ -29,9 +29,9 @@ void borg8_free_ofunc(Borg8header *param_1){
 }
 
 //load "Borg8" image
-Borg8header* loadBorg8(u32 index){
+Borg8Header* loadBorg8(u32 index){
   setBorgFlag();
-  return (Borg8header *)getBorgItem(index);}
+  return (Borg8Header *)getBorgItem(index);}
 
 
 //gets called before almost every draw command
@@ -77,7 +77,7 @@ Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
 
 //{gDPLoadTextureBlock();gSPScisTextureRectangle();} seems very common. Combine into own macro?
 
-Gfx * N64BorgImageDraw(Gfx *g,Borg8header *borg8,float param_3,float param_4,u16 param_5,
+Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float param_3,float param_4,u16 param_5,
                       u16 param_6,u16 h,u16 v,float param_9,float param_10,u8 red,u8 green,
                       u8 blue,u8 alpha){
   u16 uVar1;
@@ -851,13 +851,13 @@ LAB_800a662c:
   return pGVar25 + 1;
 }
 
-Gfx* Borg8_DrawSimple(Gfx*g,Borg8header *borg8,float x,float y,float Hscale,
+Gfx* Borg8_DrawSimple(Gfx*g,Borg8Header *borg8,float x,float y,float Hscale,
                    float Vscale,u8 R,u8 G,u8 B,u8 A){
   return 
     N64BorgImageDraw(g,borg8,x,y,0,0,(borg8->dat).Width,(borg8->dat).Height,Hscale,Vscale,R,G,B,A);
     }
 
-void borg8_free(Borg8header *param_1){
+void borg8_free(Borg8Header *param_1){
   s32 iVar1 = get_memUsed();
   if ((param_1->head).index == -1) HFREE(param_1,0x24f);
   else dec_borg_count((param_1->head).index);

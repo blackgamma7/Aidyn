@@ -6,7 +6,7 @@ void Gameover_func(void){
   voxelObject *pvVar2;
   CharSheet *pCVar3;
   u32 bVar4;
-  Borg9header *pBVar5;
+  Borg9Header *pBVar5;
   s16 iVar8;
   dialoug_dat *pvVar9;
   //borg13 indecies of Alarorn death scenes

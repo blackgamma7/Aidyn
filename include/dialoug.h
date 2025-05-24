@@ -7,7 +7,7 @@
 #include "PlayerData.h"
 
 struct SuperMenuClass{
-    Borg8header* img;
+    Borg8Header* img;
     u32 index;
 };
 
@@ -15,7 +15,7 @@ namespace SuperMenuClasses{
 void Init(s32);
 void Set();
 void Free();
-Borg8header* Add(u32);
+Borg8Header* Add(u32);
 };
 
 class DiaMenuSub{
@@ -75,14 +75,14 @@ class DialougeClass{
     dialougmode_substruct* dialouge_substruct;
     u32 unkC; //some boolean?
     WidgetHandler* handler;
-    borg13data* borg_13_dat;
+    Borg13Data* borg_13_dat;
     u32 unk18; //unused?
     u32 unk1C; //some boolean?
     u32 unk20; //some boolean?
     u8 type;
     DialougeClass(WidgetHandler*);
     ~DialougeClass();
-    bool StartDialoug(borg13data *,dialougmode_substruct *,u8,u8);
+    bool StartDialoug(Borg13Data *,dialougmode_substruct *,u8,u8);
     bool m8004ea94(BaseWidget*);
     void LoadMenuSubstruct(u8);
     bool Setup();
@@ -95,7 +95,7 @@ class DialougeClass{
 
 };
 
-void ofunc_sub_dialouge(DialougeClass*,borg13data *);
+void ofunc_sub_dialouge(DialougeClass*,Borg13Data *);
 void look_for_dialouge_v_Num(char *);
 
 BaseWidget* Dialoug_UpButton(BaseWidget*,BaseWidget*);

@@ -163,7 +163,7 @@ u8 WidgetChild8::AppendScrollMenu(BaseWidget* w){
 
 
 void WidgetChild8::SetImages(short *param_2,u32 param_3){
-  Borg8header *pBVar1;
+  Borg8Header *pBVar1;
   WidgetBorg8 *pBVar2;
   short sVar3;
   ushort uVar4;

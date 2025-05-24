@@ -63,7 +63,7 @@ void BaseWidget::SetColor(u8 r, u8 g, u8 b, u8 a){
   col.A = a;
 }
 //replace current borg8 with (b8), resize widget to (b8) if (fit)
-void BaseWidget::SetBorg8(Borg8header *b8,u8 fit){
+void BaseWidget::SetBorg8(Borg8Header *b8,u8 fit){
   if (borg8) borg8_free(borg8);
   borg8 = b8;
   if ((fit) && (b8)) {

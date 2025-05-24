@@ -24,7 +24,7 @@
 
 struct FontSubstruct{
     u32 borgIndex;
-    Borg8header* borgP;
+    Borg8Header* borgP;
     u16 charW;
     u16 charH;
     u16 borgW;
@@ -37,7 +37,7 @@ struct FontSubstruct{
 
 struct FontStruct {
     FontSubstruct *substruct0;
-    Borg8header *currFont;
+    Borg8Header *currFont;
     u8 fontIndex;
     u8 fontsLoaded;
     u8 fontTotal;
@@ -86,5 +86,5 @@ u16 GetCharWidth(FontStruct *font,u8 param_2);
 int GetCharWidthScaled(FontStruct *font,char param_2,float param_3);
 int GetHeight(FontStruct *f,char *str,int h,int w);
 int GetHeightScaled(FontStruct *font,char *str,int h,int w,float scaleX,float scaleY);
-u8 SetupBorg8(FontStruct *font,Borg8header *b8,u16* sizes,u16 rows,u16 cols);
+u8 SetupBorg8(FontStruct *font,Borg8Header *b8,u16* sizes,u16 rows,u16 cols);
 };

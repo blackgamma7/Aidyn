@@ -34,7 +34,7 @@
 
 struct GlobalsSub { /* 0x800e6988 */
     ZoneDat ZoneDatMtx[3][3];
-    Borg9data *borg9DatPointer;
+    Borg9Data *borg9DatPointer;
     EnvProp *EnvProps;
     collisionTypeA *zoneEnginePtr1;
     SpeedProperty *zoneEnginePtr2;
@@ -83,8 +83,8 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u32 introMusicDatA;
     u32 introMusicDatB;
     u8 splashscreenSwitch;
-    Borg8header *thqBorg8;
-    Borg8header *h20Borg8;
+    Borg8Header *thqBorg8;
+    Borg8Header *h20Borg8;
     u8 align2c[8];
     uint splashscreenTimer;
     u8 splashScreenUnkA; /* written, never read */
@@ -112,14 +112,14 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u64 unk14a4;
     vec3f MoonPos;
     u64 unk14b8;
-    Borg8header *portraitBorder;
+    Borg8Header *portraitBorder;
     u8 SomeCase;
     WidgetBarter *barterMenu;
     PauseWidget *BigAssMenu; /* Hey, that's what the devs called it */
     u8 cinematicReplay;
     u8 field47_0x14d1;
     u16 BackgroundTypeCopy;
-    Borg8header *screenshot;
+    Borg8Header *screenshot;
     Color32 screenshotTint;
     short scrollLocation[2];
     SpellBook *ShopSpells;

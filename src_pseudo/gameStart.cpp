@@ -2,7 +2,7 @@
 #include "graphics.h"
 
 u8 flycam_flag=false;
-borg6header*  gFlycamBorg6P=NULL;
+Borg6Header*  gFlycamBorg6P=NULL;
 SceneData* gFlycamSceneP=NULL;
 extern Flycam_entry gFlycamSequences[];
 u16 flycam_counter=0;

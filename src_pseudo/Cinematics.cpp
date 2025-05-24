@@ -275,7 +275,7 @@ void Cinematic::LoadNextScene(void){
 }
 
 u16 Cinematic::LoadMap(void){
-  Borg9header *pBVar1;
+  Borg9Header *pBVar1;
   dialoug_dat *pdVar5;
   
   pBVar1 = loadBorg9(0x0fdb); //load map chunk player starts at

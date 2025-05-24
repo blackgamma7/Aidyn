@@ -9,8 +9,8 @@ struct SceneDatSubstruct {
 };
 
 struct SceneDatStruct {
-    Borg5header *borg5;
-    borg6header *borg6;
+    Borg5Header *borg5;
+    Borg6Header *borg6;
     SceneData* link;
     SceneDatSubstruct *sub;
     void *unk10;

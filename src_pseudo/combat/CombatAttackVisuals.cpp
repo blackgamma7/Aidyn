@@ -30,7 +30,7 @@ void Orphaned(playerData *target,u32 param_2){
   SceneData *pAVar2;
   SceneData *pAVar3;
   u32 BVar4;
-  Borg7header *pBVar5;
+  Borg7Header *pBVar5;
   uint uVar6;
   AttackVisualStruct3 *pAVar7;
   
@@ -73,7 +73,7 @@ Gfx * Render(Gfx *g,uint delta){
   uint uVar6;
   AttackVisualStruct3 *x;
   uint uVar7;
-  Borg7header *pAVar1;
+  Borg7Header *pAVar1;
   
   iVar4 = 0;
   uVar6 = 0;
