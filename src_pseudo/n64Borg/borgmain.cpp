@@ -91,7 +91,6 @@ borgHeader * getBorgItem(s32 index){
   borgHeader *ret;
   u8 *borgfile;
   s32 type;
-  u8 *puVar1;
   u32 size;
   BorgListing listing;
   
@@ -100,40 +99,39 @@ borgHeader * getBorgItem(s32 index){
     #ifdef DEBUGVER
     char errmsg [96];
     sprintf(errmsg,"item_index_is_out_of_Range(%i/%i)",index,borgTotal - 1);
-    #endif
     CRASH("n64Borg.cpp,_GetBorgItem()",errmsg);
+    #else
+    CRASH("","");
+    #endif
   }
   else{
     ROMCOPYS(&listing,(void *)((s32)BorgListingPointer + index * sizeof(BorgListing) + 8),sizeof(BorgListing),541);
     if ((((listing.Type < 3) || (listing.Type == 6)) || (listing.Type == 11)) || (((listing.Type == 12 || (listing.Type == 13)) || (listing.Type == 14)))) {
       if (borgFlag == 0) {
-        ALLOCS(ret,gBorgHeaderSizes[listing.Type] + 4,561);
-        puVar1 = gBorgBytes + index;
-        if (*puVar1 == 0) {
+        ALLOCS(ret,gBorgHeaderSizes[listing.Type] + sizeof(void*),561);
+        if (gBorgBytes[index] == 0) {
           ALLOCS(borgfile,listing.uncompressed,566);
           decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
                          borgfile,listing.uncompressed,(s32)listing.Compression);
           (*borg_funcs_a[listing.Type])(borgfile);
-          puVar1 = gBorgBytes + index;
           gBorgpointers[index] = borgfile;
-          *puVar1 = 1;
+          gBorgBytes[index] = 1;
         }
         else {
           borgfile = gBorgpointers[index];
-          *puVar1++;
+          gBorgBytes[index]++;
         }
         ret->index = index;
         ret->unk = 0;
       }
       else {
-        ALLOCS(ret,gBorgHeaderSizes[listing.Type] + 4,600);
+        ALLOCS(ret,gBorgHeaderSizes[listing.Type] + sizeof(void*),600);
         ALLOCS(borgfile,listing.uncompressed,602);
         decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,borgfile,
                        listing.uncompressed,(s32)listing.Compression);
         (*borg_funcs_a[listing.Type])(borgfile);
-        puVar1 = gBorgBytes + index;
         gBorgpointers[index] = NULL;
-        *puVar1 = 0;
+        gBorgBytes[index] = 0;
         ret->index = -1;
         ret->unk = 0;
       }
@@ -149,15 +147,13 @@ borgHeader * getBorgItem(s32 index){
                        (s32)listing.Compression);
         (*borg_funcs_a[listing.Type])(ret);
         (*borg_funcs_b[listing.Type])(ret,0);
-        puVar1 = gBorgBytes + index;
         gBorgpointers[index] = NULL;
-        *puVar1 = 0;
+        gBorgBytes[index] = 0;
         ret->index = -1;
         ret->unk = 0;
       } 
       else {
-        puVar1 = gBorgBytes + index;
-        if (*puVar1 == 0) {
+        if (!gBorgBytes[index]) {
           size = gBorgHeaderSizes[type] + listing.uncompressed;
           ALLOCS(ret,size,653);
           bzero(ret,size);
@@ -166,15 +162,14 @@ borgHeader * getBorgItem(s32 index){
                          (s32)listing.Compression);
           (*borg_funcs_a[listing.Type])(ret);
           (*borg_funcs_b[listing.Type])(ret,0);
-          puVar1 = gBorgBytes + index;
           gBorgpointers[index] = ret;
-          *puVar1 = 1;
+          gBorgBytes[index] = 1;
           ret->index = index;
           ret->unk = 0;
         }
         else {
           ret = gBorgpointers[index];
-          *puVar1 = *puVar1 + 1;
+          gBorgBytes[index]++;
         }
       }
     }
@@ -188,9 +183,9 @@ void FUN_800a2de0(void){}
 u8 get_borg_index_count(s32 param_1){return gBorgBytes[param_1];}
 
 void dec_borg_count(s32 index){
-  u8 *puVar1 = gBorgBytes + index;
-  if ((0 < *puVar1) && (*puVar1--, gBorgBytes[index] == 0)) {
-    FREEL(gBorgpointers[index],761);
+  if(gBorgBytes[index]>0){
+    gBorgBytes[index]--;
+    if(!gBorgBytes[index])FREEL(gBorgpointers[index],761);
   }
 }
 

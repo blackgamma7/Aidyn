@@ -91,7 +91,7 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
         }
         u16 blipx = this->x + avStack_70.x;
         u16 blipy = this->y + avStack_70.y;
-        gfx = gsFadeInOut(gfx,blipx,blipy,blipx + 2,blipy + 2,
+        gfx = DrawRectangle(gfx,blipx,blipy,blipx + 2,blipy + 2,
           this->col.R*gGlobals.brightness,this->col.G*gGlobals.brightness,this->col.B*gGlobals.brightness,this->col.A*gGlobals.brightness);
       }
     }

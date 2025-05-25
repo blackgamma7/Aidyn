@@ -32,16 +32,16 @@ struct Struct_State {
 };
 
 struct GameStateFunnel { /* used for event flags and whatnot */
-    u16 a;
-    u16 b;
-    u16 flag_count;
+    u16 flagTotal; //all (valid) state entries in struct
+    u16 flagCountB;
+    u16 bitFlags; //number of (mostly) BIT type flags
     u16 f;
     Struct_State *States_pointer; //mostly BIT types - could be optimized as u8*?
-    Struct_State *other_pointer;
-    u8 field6_0x10[12];
-    int g;
+    Struct_State *other_pointer; //ofset to otherStates[467] aka flag 5467
+    u8 field6_0x10[12]; //blank, unused
+    int g;// value unknown unused.
     Struct_State states[5000]; //mostly BIT types - could be optimized as u8[]?
-    Struct_State otherStates[970];
+    Struct_State otherStates[970]; //627 are valid, the rest are garbage bytes
 };
 
 struct event_flag_array {
@@ -63,6 +63,21 @@ event_flag_array eventflagArraySkills[]={
 
 GameStateFunnel* gameStates=NULL;
 
+char eventflag_types1[][4]={
+    "LOG","VAL","CNT","BIT","INV"
+};
+char eventflag_types2[][4]={
+    "AND","IOR","EOR","NOT","MSK","EQU","GRT","LST","NEG","INV"
+};
+u16 gamestateShortBitfeild[]={
+    1<<0,1<<1,1<<2,1<<3,1<<4,1<<5,1<<6,1<<7,1<<8,1<<9,1<<10,
+    1<<11,1<<12,1<<13,1<<14,1<<15
+};
+u16 gamestateShortANDfeild[]={
+    ((1<<0)-1),((1<<1)-1),((1<<2)-1),((1<<3)-1),((1<<4)-1),((1<<5)-1),
+    ((1<<6)-1),((1<<7)-1),((1<<8)-1),((1<<9)-1),((1<<10)-1),((1<<11)-1),
+    ((1<<12)-1),((1<<13)-1),((1<<14)-1),((1<<15)-1),((1<<16)-1),0
+};
 
 typedef u16 EventFlag;
 
@@ -71,6 +86,9 @@ typedef u16 EventFlag;
 void Event_flag_stat(u8 param_1);
 void set_flag_array(EventFlag param_1,EventFlag param_2,u16 param_3);
 s32 find_event_flag_array_index(char param_1,event_flag_array *param_2,u8 param_3);
+void SetFlagArray_on_Time(u8 ToD,u8 Day,u8 week,u8 month);
+void set_weather_flags(u8 x);
+void set_terrain_flags(u8 x);
 
 
 void setEventFlag(u16 flag,u8 state);
@@ -93,6 +111,6 @@ void ProcessGameStates(GameStateFunnel *param_1);
 void set_gamestateFunnel_f(GameStateFunnel *param_1);
 void set_journalentry_flag(GameStateFunnel *param_1,EventFlag flag,u16 bit);
 byte get_eventFlag_(GameStateFunnel *param_1,EventFlag param_2);
-bool get_EventFlag(GameStateFunnel *param_1,EventFlag param_2);
+u8 get_EventFlag(GameStateFunnel *param_1,EventFlag param_2);
 Struct_State * get_struct_state(GameStateFunnel *param_1,EventFlag param_2);
 

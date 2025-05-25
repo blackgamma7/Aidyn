@@ -617,8 +617,7 @@ struct Borg6Data{
 };
 
 struct Borg6Header {
-    uint field0_0x0;
-    uint field1_0x4;
+    borgHeader head;
     int field2_0x8;
     Borg6Header *link;
     u32 flag;
@@ -676,10 +675,7 @@ struct Borg7Header {
     u16 field7_0xe;
     u16 field8_0x10;
     u16 field9_0x12;
-    undefined field10_0x14;
-    undefined field11_0x15;
-    undefined field12_0x16;
-    undefined field13_0x17;
+    u32 unk14;
     void **unk18;
     struct struct_1 *unk1c;
     vec3f unk20;
@@ -811,9 +807,9 @@ void borg8_free_ofunc(Borg8Header *);
 Borg8Header* loadBorg8(u32);
 Gfx * borg8DlistInit(Gfx *,byte ,u16,u16);
 Gfx * N64BorgImageDraw(Gfx *,Borg8Header *,float ,float ,u16 ,u16 ,u16 ,u16 ,float ,float ,u8 ,u8 ,u8,u8);
-Gfx* Borg8_DrawSimple(Gfx*,Borg8Header *,float,float,float,float,u8,u8,u8,u8);
+Gfx* Borg8_DrawSimple(Gfx*g,Borg8Header *borg8,float x,float y,float Hscale,float Vscale,u8 R,u8 G,u8 B,u8 A);
 void borg8_free(Borg8Header *);
-Gfx * gsFadeInOut(Gfx *gfx,u16 x,u16 y,u16 H,u16 V,u8 R,u8 G,u8 B,u8 A);
+Gfx * DrawRectangle(Gfx *gfx,u16 x,u16 y,u16 H,u16 V,u8 R,u8 G,u8 B,u8 A);
 
 //n64borg/collisionZone.cpp
 

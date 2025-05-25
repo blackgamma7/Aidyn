@@ -98,7 +98,7 @@ void World::ShiftTimeOfDay(TerrainStruct *ter,s8 param_2){
   tempCal.hour = timeofday_hours[ter->partOfDay];
   tempCal.minute = 0;
   tempCal.second = 0;
-  World::SetTimeFromCalendar(ter,&tempCal);
+  SetTimeFromCalendar(ter,&tempCal);
 }
 
 void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float magChange){
@@ -122,7 +122,7 @@ void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float ma
   multiVec3(coords,x);
 }
 
-void World::set_with_WeatherTemp(TerrainStruct *ter,WeatherTemp *w){
+void World::SetWithWeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   ter->rainByte = w->precip;
   ter->PrecipScale = w->PrecipScale;
   gGlobals.Sub.weather.fogTime = w->FogFloat;
@@ -231,7 +231,7 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
       ter->ThunderFloat = RAND.GetFloat0To1() * ter->PrecipScale;
   }
 }
-
+extern u8 gDebugGameTime;
 void World::SeveralTimeFuncs(TerrainStruct *ter){
   Calendar CalTemp;
 

@@ -20,7 +20,6 @@
 #define BORG8_ErrorRegion 0x37c3
 //TODO: process list as #deine's with hex values
 typedef enum Borg8Enum {
-    //BORG8_MainFont=29,
     BORG8_MapIconStart=30,
     //long down arrow=213,
     //BORG8_Spacer=215,
@@ -121,7 +120,7 @@ typedef enum Borg8Enum {
     BORG8_GradientB=450,
     BORG8_GradientC=451,
     BORG8_Pixel=452,
-    //2 black pixels=453,
+    BORG8_2x2Pixel=453,
     //28 px soft edge square=454,
     //14px square=455,
     //Gwen map overlay=457,
@@ -138,19 +137,19 @@ typedef enum Borg8Enum {
     BORG8_IconItemCheatArmor2=13762,
     BORG8_IconItemCheastArmor3=13763,
     BORG8_IconItemCheastArmor4=13764,
-    Axe=13765,
-    //Flag/sythe=13766,
-    Circlet=13767,
-    Cuccoon=13768,
-    //Boot icon=13769,
-    //Bow and arrow icon=13770,
-    //Cloack Icon=13771,
-    //green cloack icon=13772,
-    //purple cloack icon=13773,
+    BORG8_IconItemAxe=13765,
+    BORG8_IconItemSythe=13766,
+    BORG8_IconItemCirclet=13767,
+    BORG8_IconItemCuccoon=13768,
+    BORG8_IconItemBoot=13769,
+    BORG8_IconItemBowArrow=13770,
+    BORG8_IconItemCloakA=13771,
+    BORG8_IconItemCloakB=13772,
+    BORG8_IconItemCloakC=13773,
     BORG8_IconItemClub=13774,
     BORG8_IconItemSword=13775,
     BORG8_IconItemStaff=13776,
-    //2 pad icon=13777,
+    BORG8_IconItem2Pads=0x35d1,
     BORG8_IconItemGem=13778,
     BORG8_IconItemGem2=13779,
     BORG8_IconItemGem3=13780,
@@ -308,6 +307,7 @@ typedef enum Borg8Enum {
 //Borg5: Model data?
 
 #define BORG5_SceneBoulder      0x080e
+#define BORG5_Ship              0x0DBE
 #define BORG5_ErromonMapChunk   0xef9
 #define BORG5_CoronationScene1  0x1fe2
 #define BORG5_CoronationScene2  0x2080
@@ -326,6 +326,7 @@ typedef enum Borg8Enum {
 #define BORG7_Phelan            0x2808
 
 //borg6: Animation data?
+
 //used for the titlescreen flycam
 
 #define BORG6_Flycam1           0x21dc
@@ -368,6 +369,7 @@ typedef enum Borg8Enum {
 #define BORG6_Cinematic3_6      0x21d8
 
 //Borg13: Dialouge
+#define BORG13_OpeningDialog    0x362
 #define BORG13_GoblinAmbush     0x365
 #define BORG13_AlaronDies1      0x512
 #define BORG13_AlaronDies2      0x513

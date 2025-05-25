@@ -180,27 +180,18 @@ u8 DCM::search(u8 param_1,u32 id){
 
 
 bool DCM::Remove(byte index,u32 id){
-  uint uVar1;
   bool bVar2;
-  DCM_sub *pDVar3;
-  u8 uVar4;
   DCM_struct *pDVar5;
   
   pDVar5 = gDCMManager.DCMStructPointer + index;
   bVar2 = false;
   if ((pDVar5->active == 2) && (bVar2 = false, pDVar5->id == id)) {
-    gDCMManager.index -= 1;
+    gDCMManager.index--;
     gDCMManager.pointer_B[gDCMManager.index] = index;
     pDVar5->active = 0;
-    uVar1 = pDVar5->borg12->channelCount;
-    uVar4 = 0;
-    if (uVar1 != 0) {
-      pDVar3 = pDVar5->ptr0;
-      while( true ) {
-        StopVoice((uint)pDVar3[uVar4].index,pDVar3[uVar4].id);
-        uVar4++;
-        if (uVar1 <= uVar4) break;
-        pDVar3 = pDVar5->ptr0;
+    if (pDVar5->borg12->channelCount) {
+      for(u8 i = 0;i<pDVar5->borg12->channelCount;i++) {
+        StopVoice((uint)pDVar5->ptr0[i].index,pDVar5->ptr0[i].id);
       }
     }
     bVar2 = true;

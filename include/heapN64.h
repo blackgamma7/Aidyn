@@ -53,9 +53,9 @@ void operator delete(void* x);
 #define ALLOCS(x,s,line) x=static_cast<decltype(x)>(HALLOC(s,line))
 #define ALLOC(x,line) ALLOCS(x,sizeof(*x),line)
 //lvalue alloc
-#define ALLOCL(x,line) void* p=HALLOC(sizeof(*x),line);\
-                       x=(decltype(x))(p)
+#define ALLOCL(x,line) {void* p=HALLOC(sizeof(*x),line);\
+                       x=(decltype(x))(p);}
 #define FREE(x,line) HFREE(x,line); x=NULL
 //lvalue free
-#define FREEL(x,line) void* p = x;HFREE(p,line); p=(NULL)
+#define FREEL(x,line) {void* p = x;HFREE(p,line); p=(NULL);}
 #define FREEPTR(x,line) if(x!=NULL) {FREE(x,line);}

@@ -71,7 +71,7 @@ void set_flag_array(EventFlag param_1,EventFlag param_2,u16 param_3){
   u8 bVar1;
   u32 uVar2;
   u32 uVar3;
-  if ((gameStates) && (param_1 < gameStates->flag_count) && (param_2 < gameStates->flag_count)) {
+  if ((gameStates) && (param_1 < gameStates->bitFlags) && (param_2 < gameStates->bitFlags)) {
     uVar2 = param_1;
     while (uVar2 < param_2+1) {
       bVar1 = (u8)param_3;
@@ -125,26 +125,26 @@ u8 getEventFlag(u16 flag){
 
 u8 Get_eventFlagCheck(u16 flag){
 #endif
-  if (flag == false) return false;
-  if (flag == true) return true;
+  if (flag == FLAG_False) return false;
+  if (flag == FLAG_True) return true;
   return (get_eventFlag_(gameStates,flag));
 }
 
 void setEventFlag(EventFlag param_1,u8 param_2){
-  if ((1 < param_1) && (param_1 < gameStates->flag_count)) {
+  if ((1 < param_1) && (param_1 < gameStates->bitFlags)) {
     set_journalentry_flag(gameStates,param_1,param_2);}}
 
 void SetFlagArray_on_Time(u8 ToD,u8 Day,u8 week,u8 month){
-  set_flag_array(0x8fd,0x8ff,(s16)ToD);
-  set_flag_array(0x909,0x90b,(s16)Day);
-  set_flag_array(0x90c,0x90e,(s16)week);
-  set_flag_array(0x906,0x908,(s16)month);
-  set_flag_array(0x8fb,0x8fc,(u16)TerrainPointer->moonPhases);
-  set_flag_array(0x900,0x905,((s16)week * 7 + ((s16)Day)));
+  set_flag_array(FLAG_CalendarToDA,FLAG_CalendarToDC,(s16)ToD);
+  set_flag_array(FLAG_CalendarDayA,FLAG_CalendarDayC,(s16)Day);
+  set_flag_array(FLAG_CalendarWeekA,FLAG_CalendarWeekC,(s16)week);
+  set_flag_array(FLAG_CalendarMonthA,FLAG_CalendarMonthC,(s16)month);
+  set_flag_array(FLAG_CalendarMoonA,FLAG_CalendarMoonB,(u16)TerrainPointer->moonPhases);
+  set_flag_array(FLAG_CalendarWeekdayA,FLAG_CalendarWeekdayF,((s16)week * 7 + ((s16)Day)));
 }
 
-void set_weather_flags(u8 x){set_flag_array(0x90f,0x910,x);}
-void set_terrain_flags(u8 x){set_flag_array(0x911,0x914,x);}
+void set_weather_flags(u8 x){set_flag_array(FLAG_WeatherRainA,FLAG_WeatherRainB,x);}
+void set_terrain_flags(u8 x){set_flag_array(FLAG_TerrainA,FLAG_TerrainD,x);}
 
 void Passto_State_typeA_branch(EventFlag param_1){
   StateTypeA_branch(param_1,gameStates->States_pointer[param_1].Flag == false);
@@ -299,7 +299,7 @@ LAB_80024aac:
 
 void StateTypeA_branch(EventFlag param_1,u32 param_2){
   Struct_State *pSVar2;
-  if (param_1 < gameStates->flag_count) setEventFlag(param_1,param_2);
+  if (param_1 < gameStates->bitFlags) setEventFlag(param_1,param_2);
   else {
     pSVar2 = get_struct_state(gameStates,param_1);
     if (param_2 != pSVar2->Flag) {

@@ -29,12 +29,19 @@ void borg8_free_ofunc(Borg8Header *param_1){
 }
 
 //load "Borg8" image
+//@param index: index of image (see "BORG8_*" #defines)
+//@returns Header of image
 Borg8Header* loadBorg8(u32 index){
   setBorgFlag();
   return (Borg8Header *)getBorgItem(index);}
 
 
-//gets called before almost every draw command
+//gets called before almost every borg8 draw command
+//@param gfx: display list
+//@param flag: determines combine and render mode
+//@param h: screen height
+//@param w: screen width
+//@returns display list changes
 Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
   u32 word1;
   u32 word0;
@@ -77,8 +84,8 @@ Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
 
 //{gDPLoadTextureBlock();gSPScisTextureRectangle();} seems very common. Combine into own macro?
 
-Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float param_3,float param_4,u16 param_5,
-                      u16 param_6,u16 h,u16 v,float param_9,float param_10,u8 red,u8 green,
+Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
+                      u16 param_6,u16 h,u16 v,float hScale,float vScale,u8 red,u8 green,
                       u8 blue,u8 alpha){
   u16 uVar1;
   u16 iVar2;
@@ -123,17 +130,17 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float param_3,float param_4,u16
   
   fVar37 = sImageVScale;
   fVar30 = 4.0f;
-  fVar38 = param_9 * sImageHScale;
+  fVar38 = hScale * sImageHScale;
   pvVar3 = (borg8->dat).offset;
-  fVar39 = param_10 * sImageVScale;
+  fVar39 = vScale * sImageVScale;
   uVar26 = (uint)h - (uint)param_5;
-  fVar36 = param_3 * sImageHScale;
+  fVar36 = x * sImageHScale;
   uVar1 = (borg8->dat).Width;
   gDPPipeSync(g++);
   gDPSetPrimColor(g++,0,0,red,green,blue,alpha);
   fVar33 = 4.0f;
   uVar17 = (uint)v - (uint)param_6;
-  fVar37 = param_4 * fVar37 * fVar30;
+  fVar37 = y * fVar37 * fVar30;
   iVar29 = (int)((float)uVar26 * fVar38 * fVar30);
   iVar31 = (int)(fVar36 * fVar30);
   iVar32 = (int)(1024.0f / fVar38);
@@ -850,7 +857,18 @@ LAB_800a662c:
   (pGVar25->words).w1 = iVar32 << 0x10 | uStack_38;
   return pGVar25 + 1;
 }
-
+//simplified wrapper for N64BorgImageDraw()
+//@param gfx: display list
+//@param borg8: image
+//@param x: x position
+//@param x: x position
+//@param Hscale: horizontal scale
+//@param Vscale: vertical scale
+//@param R: red
+//@param G: green
+//@param B: blue
+//@param A: alpha
+//@returns display list change
 Gfx* Borg8_DrawSimple(Gfx*g,Borg8Header *borg8,float x,float y,float Hscale,
                    float Vscale,u8 R,u8 G,u8 B,u8 A){
   return 
@@ -864,8 +882,18 @@ void borg8_free(Borg8Header *param_1){
   borg_mem[8]-= (iVar1 - get_memUsed());
   borg_count[8]--;
 }
-
-Gfx * gsFadeInOut(Gfx *gfx,u16 x,u16 y,u16 H,u16 V,u8 R,u8 G,u8 B,u8 A){
+//another function to draw a rectangle
+//@param gfx: display list
+//@param x: x position
+//@param x: x position
+//@param H: height
+//@param W: width
+//@param R: red
+//@param G: green
+//@param B: blue
+//@param A: alpha
+//@returns display list changes
+Gfx * DrawRectangle(Gfx *gfx,u16 x,u16 y,u16 H,u16 V,u8 R,u8 G,u8 B,u8 A){
   int sicsH;
   int sicsY;
   int sicsV;

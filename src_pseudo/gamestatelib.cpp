@@ -24,9 +24,9 @@ void ProcessGameStates(GameStateFunnel *param_1){
   do {
     while( true ) {
       if (param_1->f == 0) return;
-      flag = param_1->flag_count;
+      flag = param_1->bitFlags;
       param_1->f = 0;
-      if (param_1->a <= flag) break;
+      if (param_1->flagTotal <= flag) break;
       do {
         puVar6 = get_struct_state(param_1,flag);
         uVar5 = gameStateBitmask(param_1,puVar6);
@@ -81,7 +81,6 @@ LAB_800d51fc:
         }
         if (eVar1 != FLAG_LOG) {
 LAB_800d5220:
-                    // WARNING: Subroutine does not return
           CRASH("gamestatelib.cpp::\nProcessGameStates","Unknown Game State Type");
         }
         switch(puVar6->command) {
@@ -113,7 +112,7 @@ LAB_800d522c:
 LAB_800d5230:
         set_journalentry_flag(param_1,flag,bit);
         flag++;
-      } while (flag < param_1->a);
+      } while (flag < param_1->flagTotal);
     }
   } while( true );
 }
@@ -122,14 +121,14 @@ void set_gamestateFunnel_f(GameStateFunnel *param_1){
   param_1->f = 1;
   ProcessGameStates(param_1);
 }
-
+extern void SetNewJounalEntry(u16);
 void set_journalentry_flag(GameStateFunnel *param_1,EventFlag flag,u16 bit){
   if (param_1->States_pointer[flag].Flag != bit) {
     param_1->States_pointer[flag].Flag = bit;
     param_1->f = 1;
-    if ((5555 < flag) && (bit)) {
+    if ((FLAG_JournalFlag <= flag) && (bit)) {
       param_1->States_pointer[FLAG_NewJournalEntry].Flag = true;
-      SetNewJounalEntry(flag - 5556);
+      SetNewJounalEntry(flag - FLAG_JournalFlag);
     }
   }
 }

@@ -60,7 +60,7 @@ Gfx * display_debug_stats(Gfx *gfx){
         fVar14 = (float)get_MemFree();
         uVar9 = 0x114;
         fVar15 = (float)get_memFree_2();
-        gfx_00 = gsFadeInOut(gfx,18,196,0x114,0xde,0,0,0,0x80);
+        gfx_00 = DrawRectangle(gfx,18,196,0x114,0xde,0,0,0,0x80);
         if (ppVar1 == NULL) {
           //print just memory usage, current map chunk and FPS if no Alaron
           fVar12 = fVar14 * (float)(1.0f/1024);

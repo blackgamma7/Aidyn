@@ -9,7 +9,7 @@ WidgetMenu::WidgetMenu():BaseWidget(){
     state=1;
 }
 
-WidgetMenu::~WidgetMenu(){}
+WidgetMenu::~WidgetMenu(){BaseWidget::~BaseWidget();}
 
 Gfx* WidgetMenu::Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1){
     RENDERCHILDREN();

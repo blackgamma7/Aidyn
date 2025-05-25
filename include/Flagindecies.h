@@ -1,5 +1,10 @@
 //definitions of event flags
 
+#define FLAG_Total 5627
+
+#define FLAG_False 0 //return false if flag is 0
+#define FLAG_True 1  //return true if flag is 1
+#define FLAG_2 2 //only(?) entry in gamestatefunnel_rom->states that's not BIT/INV
 #define FLAG_Cinematic0 3
 #define FLAG_Cinematic1 569
 #define FLAG_Cinematic2 590 //checked during Character Init for Alaron, gives "True Name" flag
@@ -18,6 +23,39 @@
 #define FLAG_JournalOrianaNecro 101
 #define FLAG_JournalEnteredErromon 122
 #define FLAG_JournalMetBecan 375
+#define FLAG_NewJournalEntry 3617
+#define FLAG_JournalFlag 5556 //added to journal flags to trigger "new entry" flag
+
+//Calendar flags
+
+#define FLAG_CalendarMoonA 2299
+#define FLAG_CalendarMoonB 2300
+#define FLAG_CalendarToDA 2301
+#define FLAG_CalendarToDB 2302
+#define FLAG_CalendarToDC 2303
+#define FLAG_CalendarWeekdayA 2304
+#define FLAG_CalendarWeekdayB 2305
+#define FLAG_CalendarWeekdayC 2306
+#define FLAG_CalendarWeekdayD 2307
+#define FLAG_CalendarWeekdayE 2308
+#define FLAG_CalendarWeekdayF 2309
+#define FLAG_CalendarMonthA 2310
+#define FLAG_CalendarMonthB 2314
+#define FLAG_CalendarMonthC 2312
+#define FLAG_CalendarDayA 2313
+#define FLAG_CalendarDayB 2314
+#define FLAG_CalendarDayC 2315
+#define FLAG_CalendarWeekA 2316
+#define FLAG_CalendarWeekB 2317
+#define FLAG_CalendarWeekC 2318
+#define FLAG_WeatherRainA 2319
+#define FLAG_WeatherRainB 2320
+#define FLAG_TerrainA 2321
+#define FLAG_TerrainB 2322
+#define FLAG_TerrainC 2323
+#define FLAG_TerrainD 2324
+
+
 
 //Boss Death Flags
 
@@ -66,6 +104,7 @@
 
 
 //cheat code flags
+
 #define FLAG_Slashing 3673 //Hockey stick Cheat
 #define FLAG_SlashingGet 3674 //Hockey stick Cheat, prevents multiple gets
 #define FLAG_Darkside 3675 //Lightreaver Cheat

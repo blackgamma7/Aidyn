@@ -37,7 +37,7 @@ Gfx * WidgetDebugBG::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     if (x0 == x1) x1++;
     if (y0 == y1) y1++;
     if (0.0 < (float)(this->col).A * fadeFloatMirror) {
-      g = gsFadeInOut(g,x0,y0,x1,y1,col.R*fadeFloatMirror,col.G*fadeFloatMirror,col.B*fadeFloatMirror,col.A*fadeFloatMirror);
+      g = DrawRectangle(g,x0,y0,x1,y1,col.R*fadeFloatMirror,col.G*fadeFloatMirror,col.B*fadeFloatMirror,col.A*fadeFloatMirror);
     }
   }
   RENDERCHILDREN();

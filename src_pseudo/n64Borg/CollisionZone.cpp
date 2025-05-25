@@ -4,22 +4,22 @@
 
 u8 borg9_func_b(void*,void*){return false;}
 
-//used instead of macro TODO: redefine macro for this script.
 void * set_pointer_offset(void *A,void *B){
- return (void *)((int)A + (int)B);
+ return (void *)((u32)A + (u32)B);
 }
+//Macro to replace SetPointer() used elsewhere.
+#define Borg9SetPointer(x,f) x.f=decltype(x.f)(set_pointer_offset(&x,x.f));
 
 void borg9_func_a(Borg9Header *param_1){
   u16 i,j;
-  
-  param_1->dat.counting_pointer = (s16 *)set_pointer_offset(&param_1->dat,param_1->dat.counting_pointer);
-  (param_1->dat).someint = set_pointer_offset(&param_1->dat,(param_1->dat).someint);
-  (param_1->dat).pointer2 = (s16 *)set_pointer_offset(&param_1->dat,(param_1->dat).pointer2);
-  (param_1->dat).phys_pointer = (borg9_phys *)set_pointer_offset(&param_1->dat,(param_1->dat).phys_pointer);
-  (param_1->dat).verts = (vec3f *)set_pointer_offset(&param_1->dat,(param_1->dat).verts);
-  (param_1->dat).someInt_2 = set_pointer_offset(&param_1->dat,(param_1->dat).someInt_2);
-  (param_1->dat).voxelObjs = (voxelObject *)set_pointer_offset(&param_1->dat,(param_1->dat).voxelObjs);
-  (param_1->dat).unkStructs = (borg_9_struct *)set_pointer_offset(&param_1->dat,(param_1->dat).unkStructs);
+  Borg9SetPointer(param_1->dat,counting_pointer);
+  Borg9SetPointer(param_1->dat,someint);
+  Borg9SetPointer(param_1->dat,pointer2);
+  Borg9SetPointer(param_1->dat,phys_pointer);
+  Borg9SetPointer(param_1->dat,verts);
+  Borg9SetPointer(param_1->dat,someInt_2);
+  Borg9SetPointer(param_1->dat,voxelObjs);
+  Borg9SetPointer(param_1->dat,unkStructs);
   if ((param_1->dat).borghpys_count) {
     for(i=0;i < (param_1->dat).borghpys_count;i++) {
       for(j = 0;j<3;j++) {
@@ -40,8 +40,8 @@ void borg9_func_a(Borg9Header *param_1){
 
 void n64BorgCollisionZone_free(Borg9Header *param_1){
   int mOld = get_memUsed();
-  if (param_1->ID == -1) HFREE(param_1,0xf0);
-  else dec_borg_count(param_1->ID);
+  if (param_1->head.index == -1) HFREE(param_1,0xf0);
+  else dec_borg_count(param_1->head.index);
   borg_mem[9]-= (mOld - get_memUsed());
   borg_count[9]--;
 }

@@ -16,8 +16,7 @@ WidgetDebugDummyToggle::WidgetDebugDummyToggle():WidgetMenu(){
       scrollMenu->Append(entry);
     }
 }
-WidgetDebugDummyToggle::~WidgetDebugDummyToggle(){
-}
+WidgetDebugDummyToggle::~WidgetDebugDummyToggle(){WidgetMenu::~WidgetMenu();}
 
 BaseWidget * WidgetDebugDummyToggle::AFunc(){
     return Utilities::GetHighlightedEntry(scrollMenu);
@@ -39,7 +38,6 @@ u8 WidgetDebugDummyToggle::Tick(){
   WSMSub *sub = (WSMSub*)scrollMenu->substruct;
   for (u8 i=0;i<13;i++) {
     sprintf(Utilities::GetWidgetText(sub->items[i]),"%s - %s",debug_switch_labels[i],
-                On_or_off_strings[(unused_bitfeild & 1 << (i & 0x1f)) == 0]);
-            }
+                On_or_off_strings[(unused_bitfeild & 1 << (i & 0x1f)) == 0]);}
   return WidgetMenu::Tick();
 }

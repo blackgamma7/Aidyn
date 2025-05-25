@@ -71,7 +71,7 @@ void SetTimeFromCalendar(TerrainStruct *,Calendar *);
 void GetCalendarDate(TerrainStruct *,Calendar *);
 void ShiftTimeOfDay(TerrainStruct *,s8 );
 void ChangeWind(TerrainStruct *,vec3f *,float ,float );
-void set_with_WeatherTemp(TerrainStruct *,WeatherTemp *);
+void SetWithWeatherTemp(TerrainStruct *,WeatherTemp *);
 void get_WeatherTemp(TerrainStruct *,WeatherTemp *);
 void set_moonPhase(TerrainStruct *,Calendar *);
 u8 set_timeofDay(TerrainStruct *,Calendar *);

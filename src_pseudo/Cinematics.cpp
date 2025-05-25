@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "memaker.h"
 
 
 u32 sCinematic0Borg6[]{
@@ -111,7 +112,7 @@ u16 Cinematic::Tick(Gfx**GG){
     }
     if ((gGlobals.cinematic.Borg6) &&
        (gGlobals.cinematic.sceneDat)) {
-      if (gGlobals.cinematic.sceneDat->aniTime + iVar1 < *(s32 *)((gGlobals.cinematic.Borg6)->unk0x20 + 0xc) + -1) {
+      if (gGlobals.cinematic.sceneDat->aniTime + iVar1 < gGlobals.cinematic.Borg6->dat->unkc + -1) {
         g = Cinematic::Render(g,(s16)iVar1);
         g = Cinematic::Fade(g,iVar1);
       }
@@ -152,7 +153,6 @@ void Cinematic::FreeScene(void){
     DCM::Remove(gGlobals.cinematic.BGIndex,gGlobals.cinematic.BGId);
     FREEQB12(gGlobals.cinematic.BGM);
   }
-  return;
 }
 
 
@@ -210,20 +210,20 @@ u16 Cinematic::EndCase(void){
 }
 
 u16 Cinematic::Control(void){
-  u16 sVar3;
-  controller_aidyn *fStack24;
+  u16 delta;
+  controller_aidyn *cont;
   
-  for(sVar3 = 0,fStack24 = NULL;!Controller::GetInput(&fStack24,0);sVar3++) {
-    if ((fStack24->input & (START_BUTTON|B_BUTTON))) {
+  for(delta = 0,cont = NULL;!Controller::GetInput(&cont,0);delta++) {
+    if ((cont->input & (START_BUTTON|B_BUTTON))) {
       gGlobals.cinematic.Bstart = 0;
     }
     #ifdef DEBUGVER //may not be for loop, increment above here.
-    if ((fStack24->input_2 & A_BUTTON)) sVar3 = 12; //FF with B button
-    if ((fStack24->input_2 & B_BUTTON)) sVar3 = 1;
+    if ((cont->input_2 & A_BUTTON)) delta = 12; //Fast Forward
+    if ((cont->input_2 & B_BUTTON)) delta = 1;
     #endif
   }
-  if (sVar3 == 0) sVar3 = 1;
-  return sVar3;
+  if (delta == 0) delta = 1;
+  return delta;
 }
 
 Gfx* Cinematic::Render(Gfx*param_1,s16 delta){
@@ -285,7 +285,7 @@ u16 Cinematic::LoadMap(void){
   if (uVar2) {
     for(s16 i=0;i<uVar2;i++){
     if((pBVar1->dat.voxelObjs[i].header.type==VOXEL_Dialouge)&&
-       (pBVar1->dat.voxelObjs[i].dialoug.borg_13==0x362)){ //find first dialoug scene
+       (pBVar1->dat.voxelObjs[i].dialoug.borg_13==BORG13_OpeningDialog)){
         pdVar5 = &pBVar1->dat.voxelObjs[i].dialoug;
       }
     }
