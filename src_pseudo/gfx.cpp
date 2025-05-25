@@ -4,6 +4,13 @@
 #include "globals.h"
 #include "memcheck.h"
 
+struct ResolutionSettings {
+    u16 Hres;
+    u16 Vres;
+    u8 pad;
+    u8 colorDepth;
+};
+
 char* res_mode_string[3]={"Normal Resolution","High Resolution","32 Bit Color"};
 ResolutionSettings res_colormode[3]={
   {SCREEN_WIDTH,SCREEN_HEIGHT,0,16},

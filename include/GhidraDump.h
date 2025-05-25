@@ -85,11 +85,6 @@ typedef struct Borg7Data Borg7Data, *PBorg7data;
 
 typedef struct Borg12Header Borg12Header, *PBorg12Header;
 
-
-
-
-
-
 struct astruct_6 {
     playerData *playerdat_;
     u16 short0x4;
@@ -97,23 +92,10 @@ struct astruct_6 {
     undefined field3_0x7;
 };
 
-
-
 struct struct_1 {
     astruct_1 *field0_0x0;
     Borg6Header *field1_0x4;
 };
-
-/*
-typedef enum borg9Enum {
-    Dryad Forest=4034,
-    StartingMap=4059,
-    oriana's hut=5266,
-    Borg9_campfire=6236
-} borg9Enum;
-*/
-
-
 
 typedef struct AttackVisualStruct3 AttackVisualStruct3, *PAttackVisualStruct3;
 
@@ -123,32 +105,6 @@ struct AttackVisualStruct3 {
     vec3f pos;
     u32 unk14;
     uint flag;
-};
-
-typedef struct dialougmode_substruct dialougmode_substruct, *Pdialougmode_substruct;
-
-
-
-struct DialougeStruct {
-    u8 field0_0x0;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    BaseWidget *widgetMenu;
-    dialougmode_substruct *dialouge_substruct;
-    u32 field6_0xc;
-    WidgetHandler *handler;
-    Borg13Data *borg_13_dat;
-    undefined field9_0x18;
-    undefined field10_0x19;
-    undefined field11_0x1a;
-    undefined field12_0x1b;
-    u32 field13_0x1c;
-    u32 field14_0x20;
-    u8 type;
-    undefined field16_0x25;
-    undefined field17_0x26;
-    undefined field18_0x27;
 };
 
 typedef struct DollBarterConfirm DollBarterConfirm, *PDollBarterConfirm;
@@ -172,9 +128,6 @@ struct InputWidgetSubStruct {
     u8 entryIndex;
 };
 
-
-typedef struct SaveDatStruct SaveDatStruct, *PSaveDatStruct;
-
 typedef struct SavePartyHeader SavePartyHeader, *PSavePartyHeader;
 
 struct InputMenu {
@@ -182,30 +135,6 @@ struct InputMenu {
     u16 unk7c;
     u16 field2_0x7e;
 };
-
-
-struct IntroMenuSub {
-    BaseWidget *StartGameMenu;
-    undefined field1_0x4;
-    undefined field2_0x5;
-    undefined field3_0x6;
-    undefined field4_0x7;
-    InputMenu *inputMenu;
-    undefined field6_0xc;
-    undefined field7_0xd;
-    undefined field8_0xe;
-    undefined field9_0xf;
-    WidgetContPakData *field10_0x10;
-    BaseWidget *titleShadow;
-    BaseWidget *PressStart;
-    BaseWidget *field13_0x1c;
-    BaseWidget *field14_0x20;
-    u8 menuState;
-    undefined field16_0x25;
-    undefined field17_0x26;
-    undefined field18_0x27;
-};
-
 
 struct WidgetMenuChild {
     BaseWidget base;
@@ -227,7 +156,6 @@ struct WidgetOptionsSubstruct {
     BaseWidget *unk14;
     u8 field6_0x18;
 };
-
 
 /*
 typedef enum Borg12Enum { // Music/SFX 
@@ -273,20 +201,9 @@ struct borg_short {
     short some_num;
 };
 
-typedef struct combat_aiscore combat_aiscore, *Pcombat_aiscore;
-
-
-
-typedef struct resist_float resist_float, *Presist_float;
-
-
-
 typedef struct CharGear CharGear, *PCharGear;
 
-
 typedef struct StatMod StatMod, *PStatMod;
-
-typedef struct SpellCharges SpellCharges, *PSpellCharges;
 
 typedef struct CombatAi_command CombatAi_command, *PCombatAi_command;
 
@@ -294,8 +211,6 @@ struct CombatAi_command {
     ulong (*cmd)(void);
     uint unk;
 };
-
-
 
 typedef struct CombatRadarBlip CombatRadarBlip, *PCombatRadarBlip;
 
@@ -355,7 +270,6 @@ struct DialougEnt_RAM {
     u8 b;
 };
 
-
 typedef struct Gear_RAM Gear_RAM, *PGear_RAM;
 
 struct Gear_RAM {
@@ -383,7 +297,6 @@ struct Gear_RAM {
     undefined field21_0x2b;
     float ResistPercent;
 };
-
 
 typedef struct shop_ram shop_ram, *Pshop_ram;
 
@@ -428,7 +341,6 @@ struct DialougeEntity_ROM { /* Dialouge entity in ROM */
     ItemID_ROM ID;
 };
 
-
 typedef struct Gear_Rom Gear_Rom, *PGear_Rom;
 
 struct Gear_Rom { /* Gear/item data stored in rom */
@@ -453,7 +365,6 @@ struct Gear_Rom { /* Gear/item data stored in rom */
     enum ElementEnum ElementResist;
     u8 ResistPercent; /* 100-(25*x) */
 };
-
 
 typedef struct printf_struct printf_struct, *Pprintf_struct;
 
@@ -575,17 +486,7 @@ typedef enum AniFlags {
     ANIFLAG_DYNLIGHT=32768
 } AniFlags;
 
-typedef struct App_manager App_manager, *PApp_manager;
 
-struct App_manager {
-    OSSched *sched;
-    OSMesgQueue *MesgQ;
-    OSMesg *Mesg;
-    int *stack;
-    OSThread Thread;
-    OSMesgQueue MesgQ2;
-    OSScClient client;
-};
 
 typedef struct ArmorCraftRecipie ArmorCraftRecipie, *PArmorCraftRecipie;
 
@@ -624,12 +525,6 @@ struct crash_DatString {
     char *String;
 };
 
-
-
-typedef struct DCM_struct DCM_struct, *PDCM_struct;
-
-
-
 typedef struct DebugCharChanger DebugCharChanger, *PDebugCharChanger;
 
 struct DebugCharChanger {
@@ -654,52 +549,6 @@ struct DialoigEntPointer {
     DialougEnt_RAM *ents;
 };
 
-typedef struct dialougemode_struct dialougemode_struct, *Pdialougemode_struct;
-
-struct dialougemode_struct {
-    ulong (*funcs0[5])(void);
-    ulong (*funcs1[5])(void);
-    ulong (*funcs2[5])(void);
-    ulong (*funcs3[5])(void);
-    ulong (*funcs4[5])(void);
-    ulong (*unk0x64[5])(void);
-    wander_substruct *Wanderers;
-    u16 Unk0x7C;
-    undefined field8_0x7e;
-    undefined field9_0x7f;
-    u8 *partySkillLvls; /* one for each skill */
-    Borg13Data *borg13_dat;
-    playerData *playerDat;
-    enum borg13Enum borg13;
-    u32 field14_0x90;
-    u16 RefPointID;
-    u16 mapDatA;
-    u16 mapShort1;
-    u16 mapShort2;
-    u16 unk9c;
-    undefined field20_0x9e;
-    undefined field21_0x9f;
-    int field22_0xa0;
-    undefined field23_0xa4;
-    undefined field24_0xa5;
-    undefined field25_0xa6;
-    undefined field26_0xa7;
-    undefined field27_0xa8;
-    undefined field28_0xa9;
-    u8 func_index;
-    u8 field30_0xab;
-    u8 field31_0xac;
-    u8 field32_0xad;
-    undefined field33_0xae;
-    undefined field34_0xaf;
-    int camp_flag;
-    dialougmode_substruct some_substruct;
-};
-
-
-
-
-
 typedef struct encounter_rom_dat encounter_rom_dat, *Pencounter_rom_dat;
 
 struct encounter_rom_dat {
@@ -711,18 +560,6 @@ typedef enum enum_someCase {
 } enum_someCase;
 
 
-
-typedef struct fileState_aidyn fileState_aidyn, *PfileState_aidyn;
-
-struct fileState_aidyn {
-    u16 filesize;
-    u16 comp_code;
-    u32 game_code;
-    char game_name[16];
-    u8 field4_0x18;
-    char ext_name[4];
-};
-
 typedef struct flag_cinematic flag_cinematic, *Pflag_cinematic;
 
 struct flag_cinematic {
@@ -730,25 +567,6 @@ struct flag_cinematic {
     enum CinematicEnum cinematic;
     u8 pad;
 };
-
-
-
-typedef struct FontFace FontFace, *PFontFace;
-
-struct FontFace {
-    u32 borg8;
-    u8 rows;
-    u8 cols;
-    undefined field3_0x6;
-    undefined field4_0x7;
-};
-
-
-
-typedef struct GameStateFunnel GameStateFunnel, *PGameStateFunnel;
-
-typedef struct Struct_State Struct_State, *PStruct_State;
-
 
 
 typedef struct Gear_Pointer Gear_Pointer, *PGear_Pointer;
@@ -767,18 +585,11 @@ typedef struct ScriptCamera_struct ScriptCamera_struct, *PScriptCamera_struct;
 
 typedef struct QueueStructB QueueStructB, *PQueueStructB;
 
-typedef struct PlayerHandler PlayerHandler, *PPlayerHandler;
-
 typedef struct PartyInventory PartyInventory, *PPartyInventory;
 
 typedef struct ScriptCam ScriptCam, *PScriptCam;
 
 typedef struct QueueStructBItem QueueStructBItem, *PQueueStructBItem;
-
-
-
-
-
 
 
 struct ScriptCamera_struct {
@@ -813,22 +624,6 @@ struct ScriptCam {
     vec3f *aim;
     float field5_0xc;
     camera_obj voxel;
-};
-
-
-
-typedef struct IconDict IconDict, *PIconDict;
-
-struct IconDict { /* array Proceeded by dictionary length */
-    u16 key;
-    u16 value;
-};
-
-typedef struct Item_Icon Item_Icon, *PItem_Icon;
-
-struct Item_Icon {
-    ItemID id;
-    u16 icon;
 };
 
 
@@ -882,17 +677,7 @@ struct potionRecipie {
     u8 unk2; //used for another skillcheck. always 0, so always passes
 };
 
-typedef struct ResolutionSettings ResolutionSettings, *PResolutionSettings;
 
-struct ResolutionSettings {
-    u16 Hres;
-    u16 Vres;
-    u8 pad;
-    u8 colorDepth;
-};
-
-
-typedef struct RomstringController RomstringController, *PRomstringController;
 //Placeholder struct for romstrings. to replace with char** and enums.
 /*
 struct RomstringController {

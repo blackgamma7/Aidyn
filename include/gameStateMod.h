@@ -5,6 +5,7 @@
 
 //class for getting strings for flags. Not sure why it needed to be a class...
 class GSMClass{
+    public:
     virtual void vMethA(u16 i, char* str);
     virtual void vMethB(u16 i, char* str);
     virtual void vMethC(u16 i, char* str);
@@ -12,6 +13,7 @@ class GSMClass{
 
 //only used for child showing event flags in debug version
 class WidgetBufferedMenu:public BaseWidget{
+    public:
     GSMClass* txtGetter;
     u8 unk80[2];
     u8 reds[2];
@@ -51,8 +53,9 @@ class WidgetBufferedMenu:public BaseWidget{
     void UpdateTexts();
     u32 GetNumber();
 };
-//largely unchanged cild of WidgetBufferedMenu. only used for showing event flags in debug version
+//largely unchanged child of WidgetBufferedMenu. only used for showing event flags in debug version
 class WBMGSM:public WidgetBufferedMenu{
+    public:
     WBMGSM(GSMClass *obj,u16 param_3,u16 param_4,u16 *bounds,s16 *titleBounds,
           Color32 *colA,Color32 *ColB,Color32 *colC,Color32 *colD);
     ~WBMGSM();

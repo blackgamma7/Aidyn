@@ -119,5 +119,5 @@ class UnkGuiSubstruct{
     void Clear();
 };
 
-//used in UnkGuiSubstruct::UnkGuiSubstruct to alloc UnkGuiSubstruct->ptr
+//used in UnkGuiSubstruct contructor to alloc UnkGuiSubstruct->ptr
 void* passto_new(u32 s);
