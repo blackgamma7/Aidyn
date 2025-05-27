@@ -125,8 +125,33 @@ class DialougeClass{
     bool m8004f264();
     void BigBGDialoug(u8);
     void m8004f810();
-
 };
+
+struct borg_short {
+    u32 borg_13;
+    u16 pad; //unused? always 0
+    u16 some_num;
+};
+
+//indecies of borg12's for "play SFX" borg13 commands
+u32 dialoug_SFX[]={
+    0x720,0x721,0x5e7,0x2e8,0x587,0x588,0x58a,0x722,0x723,0x576,
+    0x577,0x578,0x57a,0x634,0x635,0x56c,0x56d,0x56e,0x56f,0x638,
+    0x637,0x641,0x636,0x639,0x70e,0x70f,0x710,0x711,0x71c,0x71d,
+    0x71e,0x71f,0x724,0x725,0x727,0x728,0x72d,0x72e,0x729,0x000};
+dialougemode_struct* dialougemode_pointer=NULL;
+Borg13Header* borg_13_pointer=NULL;
+u32 borg13_flag=0;
+u32 DAT_800ee96c=0;
+u32 DAT_800ee970=1;
+u32 DAT_800ee974=0;
+u32 DAT_800ee978=0;
+//seem to be indecies to "death" borg13's.
+borg_short borg_short_list[]={
+    {0x512,0,2},{0x513,0,2},{0x514,0,2},{0x4f4,0,3},{0x4fe,0,1},{-1,-1,-1}
+};
+u16 whoDied_short=0; //uses borg_short.some_num.
+u32 unusedDialougToggle=0; //set, but not read.
 
 void ofunc_sub_dialouge(DialougeClass*,Borg13Data *);
 void look_for_dialouge_v_Num(char *);
@@ -140,7 +165,7 @@ BaseWidget* Dialoug_DebugEnd(BaseWidget*,BaseWidget*);
 BaseWidget* Dialoug_BButton(BaseWidget*,BaseWidget*);
 
 typedef void (*DialogCallback)(dialougmode_substruct*,Borg13Data *,u16,s16);
-typedef u8 (*DialogCallback2)(dialougmode_substruct*,Borg13Data *,u16,u16);
+typedef s32 (*DialogCallback2)(dialougmode_substruct*,Borg13Data *,u16,u16);
 
 void set_dialougprecallback(DialogCallback *);
 void set_dialoug_func_b(DialogCallback2 *);
@@ -164,11 +189,11 @@ u8 FUN_800b6cb8(dialougmode_substruct *,Borg13Data *,u8);
 bool FUN_800b6e4c(dialougmode_substruct *,Borg13Data *,float);
 
 void DialougCreateScriptCamera(u16 ,s16 ,playerData *,u16 ,float);
-ActorAndID * DialougGetActorAndID(dialougmode_substruct *,Borg13Data *,short);
+ActorAndID * DialougGetActorAndID(dialougmode_substruct *,Borg13Data *,ItemID);
 CharSheet * DialougGetPartyMemberName(ItemID);
 void DialougFreeActors(dialougmode_substruct *,Borg13Data *);
 void DialoguePreCallback(dialougmode_substruct *,Borg13Data *,u16,s16);
-u8 DialougCallbackB(dialougmode_substruct *,Borg13Data *,u16,u16);
+s32 DialougCallbackB(dialougmode_substruct *,Borg13Data *,u16,u16);
 void dialougemode_0x90_funcs3(u32);
 void DialogCallbackC(dialougmode_substruct *,Borg13Data *,u16,s16);
 char * DialougFindPlayerNameSpace(char *);

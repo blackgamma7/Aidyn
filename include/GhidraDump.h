@@ -193,14 +193,6 @@ typedef enum Borg12Enum { // Music/SFX
 } Borg12Enum;
 */
 
-typedef struct borg_short borg_short, *Pborg_short;
-
-struct borg_short {
-    enum borg13Enum borg_13;
-    u16 pad;
-    short some_num;
-};
-
 typedef struct CharGear CharGear, *PCharGear;
 
 typedef struct StatMod StatMod, *PStatMod;
@@ -581,25 +573,9 @@ struct Gear_Pointer {
 
 typedef struct MiniMap MiniMap, *PMiniMap;
 
-typedef struct ScriptCamera_struct ScriptCamera_struct, *PScriptCamera_struct;
-
 typedef struct QueueStructB QueueStructB, *PQueueStructB;
 
-typedef struct PartyInventory PartyInventory, *PPartyInventory;
-
-typedef struct ScriptCam ScriptCam, *PScriptCam;
-
 typedef struct QueueStructBItem QueueStructBItem, *PQueueStructBItem;
-
-
-struct ScriptCamera_struct {
-    ScriptCam *cameras; /* 0x7c size */
-    short cameraIndecies[8];
-    u16 cameraCount; /* up to 8 */
-    short dataActive;
-    short counter0;
-    short counter1;
-};
 
 struct QueueStructBItem {
     void *pBorg;
@@ -614,18 +590,6 @@ struct QueueStructB {
     QueueStructBItem array[32];
     u16 items;
 };
-
-
-struct ScriptCam {
-    short field0_0x0;
-    short field1_0x2;
-    u16 field2_0x4;
-    short flag;
-    vec3f *aim;
-    float field5_0xc;
-    camera_obj voxel;
-};
-
 
 typedef struct KKBufferEvent KKBufferEvent, *PKKBufferEvent;
 
@@ -724,22 +688,6 @@ struct spells_pointer {
     u8 field3_0xd[3];
     Spell_RAM *spells;
 };
-
-
-
-typedef struct VoxelChartEntry VoxelChartEntry, *PVoxelChartEntry;
-
-struct VoxelChartEntry {
-    short arg0;
-    u8 bool0x2;
-    u8 arg7;
-    u8 MapDatA;
-    u8 MapShortA;
-    u8 MapShortB;
-    u8 type; /* VOBJECT */
-    u32 unk0x8;
-};
-
 
 typedef struct WidgetArmorCraft WidgetArmorCraft, *PWidgetArmorCraft;
 

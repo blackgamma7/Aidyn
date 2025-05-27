@@ -1,5 +1,5 @@
 #include "widgets/WidgetChild8.h"
-#include "n64Borg.h"
+#include "vobjects.h"
 
 namespace TrapMenu{
     bool InitMenu(voxelObject* v);

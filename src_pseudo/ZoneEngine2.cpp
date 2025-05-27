@@ -1,5 +1,6 @@
 #include "globals.h"
 #include "skyObjects.h"
+#include "voxelChart.h"
 #define FILENAME "./src/zoneengine.cpp"
 
 #ifdef DEBUGVER
@@ -1873,7 +1874,7 @@ void FreeZoneEngine(s16 playMusic){
   if (gGlobals.Sub.zoneEngineInit == 0) {CRASH("FreeZoneEngine","Zone Engine Not Initialized");}
   gGlobals.Sub.zoneEngineInit = 0;
   if (!playMusic) clear_music_values(true);
-  FreeParticleEmmiter(&gGlobals.Sub.particleEmmiter);
+  Particle::FreeEmmiters(&gGlobals.Sub.particleEmmiter);
   Weather::Free(&gGlobals.Sub.weather);
   zonedat_clear_all();
   freeScriptCameras(&gGlobals.scriptcamera);
@@ -1901,6 +1902,7 @@ void VoxelIndexPosition(short delta,playerData *param_2){
   if (voxel_index) {
     pBVar6 = GetCollisionZone(param_2->zoneDatByte);
     char labels[][24] ={
+      "VOBJECT_SCENE",
       "VOBJECT_CONTAINER",
       "VOBJECT_LIGHT",
       "VOBJECT_AUDIO",

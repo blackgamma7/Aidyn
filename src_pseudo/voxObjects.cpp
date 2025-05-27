@@ -2,6 +2,7 @@
 #include "globals.h"
 #include "inventory\GenericInventory.h"
 #include "vobjects.h"
+#include "voxelChart.h"
 
 //these are use for the gamestate_cheat_check"s in Debug.
 

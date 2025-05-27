@@ -1,5 +1,5 @@
 #include "playerData.h"
-#include "trapMenu.h"
+#include "n64Borg.h"
 
 // header for funcs used by Voxel Objects
 

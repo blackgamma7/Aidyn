@@ -715,9 +715,35 @@ struct borg9_phys {
 };
 
 
+enum B13_Commands{
+    B13Com_CreateCamera4=4,
+    B13Com_CreateCamera5,
+    B13Com_CreateCamera6,
+    B13Com_CreateCamera7,
+    B13Com_CreateCamera8,
+    B13Com_CreateCamera9,
+    B13Com_CreateCamera10,
+    B13Com_CreateCamera11,
+    B13Com_CreateCamera12,
+    B13Com_CreateCamera13,
+    B13Com_CreateCamera14,
+    B13Com_SetActorFacing=17,
+    B13Com_CreateActor,
+    B13Com_CheckMemberInParty=23,
+    B13Com_CheckEventFlag,
+    B13Com_CheckPartySkill,
+    B13Com_CheckForItem,
+    B13Com_CheckBestStat,
+    B13Com_CheckWorstStat,
+    B13Com_CheckMemberStat,
+    B13Com_CheckPartySize,
+    B13Com_CheckPartyGoldU16,
+    
+}
+
 struct Borg13Op{
     u16 val;
-    u8 com;
+    u8 com; //uses B13_Commands
     u8 unk2; //align?
     u32 unk4; //unused?
 };

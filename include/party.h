@@ -32,6 +32,7 @@ class Party { /* holds party and inventory data */
     void RemoveMember(u8,u8);
     u8 HasEntity(CharSheet*);
     u32 GetAvgLevel();
+    void m8007e6a4(ItemID param_2,StatMod *param_3,byte param_4);
     void ClearInventory();
     u8 GetEquipError2(u8);
     u8 CombatItemCheck1(CharSheet*,u8,ItemID);
@@ -57,6 +58,12 @@ class Party { /* holds party and inventory data */
     u8 SecretLock();
     u8 TroubadourCheck();
     u8 GetMemberWarriorIntStam(u8);
+    char * HealingFunc2(u8 param_2,u8 param_3,u8 param_4);
+    u32 CraftPotion(u8 user,u8 item);
+    bool Lockpicking(byte lock,char *text);
+    u8 UnusedMechanic4(u8 param_2);
+    float HarvestSkill();
+    u8 DisarmSkill(u8);
     float UnusedRangerCheck2();
     char * ApraisePrice(ItemInstance* param_2,u32 param_3);
     s8 DisarmCheck(u8,u8);
@@ -86,9 +93,7 @@ class Party { /* holds party and inventory data */
     u8 TakeItem(ItemID);
     u8 HasItemEquipped(s32,ItemID);
     u8 hasItem(ItemID);
-    u8 GetEquipError3(byte,GearInstance *,CharSheet *,byte);
-    float HarvestSkill();
-    u8 DisarmSkill(u8);
+    u8 GetEquipError3(byte,ItemInstance *,CharSheet *,byte);
 
 };
 void ItemCampStamina(ItemInstance *,float );

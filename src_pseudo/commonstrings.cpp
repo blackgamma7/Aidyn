@@ -11,7 +11,7 @@ void CommonStrings::Init(void){
   weapon_strings = gGlobals.CommonStrings + 0x11b;
   aspect_labels = gGlobals.CommonStrings + 0x126;
   magic_school_labels = gGlobals.CommonStrings + 0x129;
-  stat_labels = gGlobals.CommonStrings + 0x12f;
+  Stat_labels = gGlobals.CommonStrings + 0x12f;
   humidity_labels = gGlobals.CommonStrings + 0x136;
   timeofday_labels = gGlobals.CommonStrings + 0x139;
   moon_phase_labels = gGlobals.CommonStrings + 0x13e;

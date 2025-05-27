@@ -98,7 +98,7 @@ void TrapMenu::TrapExploded(void){
   }
 }
 
-BaseWidget * TrapMenu::TakeDamage(short param_1,char *param_2){
+BaseWidget * TrapMenu::TakeDamage(short param_1,char *txtStart){
   CharSheet *pCVar1;
   uint txtWidth;
   int iVar3;
@@ -115,8 +115,8 @@ BaseWidget * TrapMenu::TakeDamage(short param_1,char *param_2){
   txtStarted = 0;
   txtHeight = 0;
   txtLines = 0;
-  if (param_2) {
-    strcpy(abStack1080,param_2);
+  if (txtStart) {
+    strcpy(abStack1080,txtStart);
     txtStarted = 1;
     txtLines = 1;
     txtHeight = Font::GetHeight(gGlobals.font,abStack1080,0,SCREEN_WIDTH);

@@ -33,3 +33,22 @@ struct Camera_struct {
     collisionTypeA colTypeA; /* unused */
     SpeedProperty colTypeB; /* unused */
 };
+
+struct ScriptCam {
+    short field0_0x0;
+    short field1_0x2;
+    u16 field2_0x4;
+    short flag;
+    vec3f *aim;
+    float field5_0xc;
+    voxelObject voxel;
+};
+
+struct ScriptCamera_struct {
+    ScriptCam *cameras; /* 0x7c size */
+    short cameraIndecies[8];
+    u16 cameraCount; /* up to 8 */
+    short dataActive;
+    short counter0;
+    short counter1;
+};
