@@ -89,12 +89,12 @@ Gfx * Render(Gfx *g,uint delta){
         if (delta != 0) {
           psVar3 = pAVar1->unk1c;
           for(u32 uVar6=0;uVar6<delta;uVar6++) {
-            if (pAVar2->aniTime < pAVar1->unk1c->field1_0x4->dat[1].field4_0x4) {
+            if (pAVar2->aniTime < pAVar1->unk1c->b6->dat[1].field4_0x4) {
               FUN_800a00d0(pAVar1);
             }
           }
         }
-        if (pAVar2->aniTime < pAVar1->unk1c->field1_0x4->dat[1].field4_0x4) {
+        if (pAVar2->aniTime < pAVar1->unk1c->b6->dat[1].field4_0x4) {
           Scene::MatrixASetPos(pAVar2,(x->pos).x,(x->pos).y,(x->pos).z);
           g = BorgAnimDrawSceneLinked(g,(SceneData *)pAVar1);
         }

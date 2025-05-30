@@ -16,7 +16,7 @@ struct SceneDatStruct {
     void *unk10;
     u32 unk14;
 };
-
+#define MAX_LOCATORS 7
 struct SceneData {
     SceneDatStruct scene[5];
     u8 unk78[16];

@@ -66,6 +66,10 @@ u8 FUN_8001520c(voxelObject* param_1);
 void secret_door_func(voxelObject* param_1);
 
 
+void lockpicking_check(voxelObject *v);
+BaseWidget * lockpicking_widget_ABfunc(BaseWidget *b0,BaseWidget *b1);
+
+
 typedef void (*VoxelUse)(voxelObject*,u16,u16);
 typedef u8 (*VoxelProx)(voxelObject*,playerData*);
 typedef u8 (*VoxelFunc2)(voxelObject*,Borg9Data*);

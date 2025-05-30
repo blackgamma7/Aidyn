@@ -2,7 +2,9 @@
 #include "savefiles.h"
 #include "widgets/handler.h"
 #include "widgets/WidgetChild8.h"
-extern struct WidgetMenuChild;
+#include "widgets/WidgetChild6.h"
+
+
 class WidgetContPakData : public WidgetMenu{
     public:
     SaveDatPointers saveDatsP[16];
@@ -89,7 +91,7 @@ class WidgetContPakData : public WidgetMenu{
     void CorruptSaveFile(u8);
     void RepairFail();
     void RepairOk();
-    void LoadSliders(SaveDatPointers *);
+    void LoadSliders(SaveDatPointers *,u8);
     void ClearScrollMenu();
     void m80087c40();
     void m80087c88();

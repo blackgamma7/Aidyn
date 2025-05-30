@@ -35,11 +35,11 @@ struct GameStateFunnel { /* used for event flags and whatnot */
     u16 flagTotal; //all (valid) state entries in struct
     u16 flagCountB;
     u16 bitFlags; //number of (mostly) BIT type flags
-    u16 f;
+    u16 flag;
     Struct_State *States_pointer; //mostly BIT types - could be optimized as u8*?
     Struct_State *other_pointer; //ofset to otherStates[467] aka flag 5467
     u8 field6_0x10[12]; //blank, unused
-    int g;// value unknown unused.
+    int g;// inital non-zero value. unused.
     Struct_State states[5000]; //mostly BIT types - could be optimized as u8[]?
     Struct_State otherStates[970]; //627 are valid, the rest are garbage bytes
 };

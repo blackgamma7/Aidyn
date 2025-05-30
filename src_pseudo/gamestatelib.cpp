@@ -23,9 +23,9 @@ void ProcessGameStates(GameStateFunnel *param_1){
   
   do {
     while( true ) {
-      if (param_1->f == 0) return;
+      if (param_1->flag == 0) return;
       flag = param_1->bitFlags;
-      param_1->f = 0;
+      param_1->flag = 0;
       if (param_1->flagTotal <= flag) break;
       do {
         puVar6 = get_struct_state(param_1,flag);
@@ -118,14 +118,14 @@ LAB_800d5230:
 }
 
 void set_gamestateFunnel_f(GameStateFunnel *param_1){
-  param_1->f = 1;
+  param_1->flag = 1;
   ProcessGameStates(param_1);
 }
 extern void SetNewJounalEntry(u16);
 void set_journalentry_flag(GameStateFunnel *param_1,EventFlag flag,u16 bit){
   if (param_1->States_pointer[flag].Flag != bit) {
     param_1->States_pointer[flag].Flag = bit;
-    param_1->f = 1;
+    param_1->flag = 1;
     if ((FLAG_JournalFlag <= flag) && (bit)) {
       param_1->States_pointer[FLAG_NewJournalEntry].Flag = true;
       SetNewJounalEntry(flag - FLAG_JournalFlag);
@@ -134,7 +134,7 @@ void set_journalentry_flag(GameStateFunnel *param_1,EventFlag flag,u16 bit){
 }
 
 u8 get_eventFlag_(GameStateFunnel *param_1,EventFlag param_2){
-  if ((param_1->States_pointer[param_2].type != FLAG_BIT) && (param_1->f))
+  if ((param_1->States_pointer[param_2].type != FLAG_BIT) && (param_1->flag))
     ProcessGameStates(param_1);
   return param_1->States_pointer[param_2].Flag;
 }

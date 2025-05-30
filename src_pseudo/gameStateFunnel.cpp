@@ -79,7 +79,7 @@ void set_flag_array(EventFlag param_1,EventFlag param_2,u16 param_3){
       gameStates->States_pointer[uVar2].Flag = (u8)(bVar1 & 1);
       uVar2++;
     }
-    gameStates->f = 1;
+    gameStates->flag = 1;
   }
   return;
 }
@@ -306,7 +306,7 @@ void StateTypeA_branch(EventFlag param_1,u32 param_2){
       if (pSVar2->type == FLAG_VAL) state_typeA_VAL(pSVar2,(u16)param_2);
       else if (pSVar2->type == FLAG_LOG) state_TypeA_LOG(pSVar2,param_2);
       else if (pSVar2->type == FLAG_CNT) State_TypeA_CNT(pSVar2,param_2);
-      gameStates->f = 1;
+      gameStates->flag = 1;
     }
   }
 }

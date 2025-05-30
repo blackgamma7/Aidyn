@@ -134,6 +134,7 @@ void Scene::MatrixBCopyTo(SceneData *param_1,MtxF *param_2){
   float (*pafVar5) [4];
   
   pafVar5 = param_1->matrixB;
+  
   pafVar4 = param_2[1];
   do {
     fVar1 = (*(float (*) [4])(*param_2)[0])[1];
@@ -344,7 +345,7 @@ void Ofunc_800a8104(SceneData *param_1,int param_2,int param_3){
   if (-1 < param_2) {
     Borg5Header *pBVar1 = param_1->scene[0].borg5;
     if (param_2 < (pBVar1->dat).borg2Count) {
-      (pBVar1->dat).borg2i[param_2]->dat->unk0x0 = param_3;
+      (pBVar1->dat).borg2p[param_2]->dat->unk0x0 = param_3;
     }
   }
 }
@@ -381,7 +382,7 @@ void Scene::SetFogPlane(SceneData *param_1,s32 fog,s32 farplane){
 
 
 void Ofunc_800a821c(SceneData *param_1,int param_2,int param_3,vec4f *param_4){
-  astruct_3 *paVar1 = ((param_1->scene[0].borg5)->dat).borg2i[param_2]->dat->unk0x40;
+  astruct_3 *paVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_2]->dat->unk0x40;
   paVar1[param_3].unk4.x = param_4->x;
   paVar1[param_3].unk4.y = param_4->y;
   paVar1[param_3].unk4.z = param_4->z;
@@ -436,8 +437,8 @@ s16 Scene::addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z
   int iVar5;
   Light_t *pLVar6;
   s16 sVar7;
-  u32 lVar10;
-  u32 lVar11;
+  s32 lVar10;
+  s32 lVar11;
   s8 sVar14;
   int iVar9;
   
@@ -511,14 +512,14 @@ bool Scene::SceneGetLocatorMtx(SceneData *ani,MtxF *mf,s32 i){
   MtxF afStack280;
   MtxF afStack216;
   
-  if (7 >= i){
+  if (MAX_LOCATORS >= i){
   if (ani->locators[i] == -1){
     char errBuff [152];
     sprintf(errBuff,"Locator: %d is undefined for %s!\n",i,ani->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorMtx()",errBuff);
   }
   else {
-    Borg2Header *pbVar1 = ((ani->scene[0].borg5)->dat).borg2i[ani->locators[i]];
+    Borg2Header *pbVar1 = ((ani->scene[0].borg5)->dat).borg2p[ani->locators[i]];
     guMtxIdentF(&afStack344);
     Borg2Data *pbVar2 = pbVar1->dat;
     guRotateRPYF(&afStack344,(pbVar2->rot).x * RadInDeg_f,
@@ -551,22 +552,21 @@ CRASH("scene.cpp, SceneGetLocatorMtx()","Locator is greater than MAX_LOCATORS");
 }
 
 bool Scene::SceneGetLocatorPos(SceneData *param_1,vec3f *pos,s32 param_3){
-  Borg2Header *pBVar1;
   Borg2Data *pbVar2;
   float fVar3;
   float fVar4;
   char acStack_90 [144];
   
   if (!param_1) CRASH("scene.cpp, SceneGetLocatorPos()","!pScene");
-  if (7 < param_3) CRASH("scene.cpp, SceneGetLocatorPos()","Locator is greater than MAX_LOCATORS");
+  if (MAX_LOCATORS < param_3) CRASH("scene.cpp, SceneGetLocatorPos()","Locator is greater than MAX_LOCATORS");
   if (param_1->locators[param_3] == -1) { //if you force roog into a fight, it will crash here.
     sprintf(acStack_90,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorPos()",acStack_90);
   }
-  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2i[param_1->locators[param_3]];
-  if (!pBVar1) CRASH("scene.cpp, SceneGetLocatorPos()","!pModel");
-  pbVar2 = pBVar1->dat;
-  guMtxXFMF(&pBVar1->someMtx,(pbVar2->pos).x,(pbVar2->pos).y,(pbVar2->pos).z,&pos->x,&pos->y,&pos->z);
+  Borg2Header *pModel = ((param_1->scene[0].borg5)->dat).borg2p[param_1->locators[param_3]];
+  if (!pModel) CRASH("scene.cpp, SceneGetLocatorPos()","!pModel");
+  pbVar2 = pModel->dat;
+  guMtxXFMF(&pModel->someMtx,(pbVar2->pos).x,(pbVar2->pos).y,(pbVar2->pos).z,&pos->x,&pos->y,&pos->z);
   pos->x *= (float)(1.0/16);
   pos->y *= (float)(1.0/16);
   pos->z *= (float)(1.0/16);
@@ -579,13 +579,13 @@ bool Scene::SceneGetLocatorNorm(SceneData *param_1,vec3f *out,s32 param_3){
   MtxF tempA,tempB;
 
   
-  if (7 < param_3) CRASH("scene.cpp, SceneGetLocatorNorm()","Locator is greater than MAX_LOCATORS");
+  if (MAX_LOCATORS < param_3) CRASH("scene.cpp, SceneGetLocatorNorm()","Locator is greater than MAX_LOCATORS");
   if (param_1->locators[param_3] == -1) {
     char errBuff [144];
     sprintf(errBuff,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorNorm()",errBuff);
   }
-  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2i[param_1->locators[param_3]];
+  Borg2Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_1->locators[param_3]];
   guMtxIdentF(&tempA);
   pbVar2 = pBVar1->dat;
   guRotateRPYF(&tempA,(pbVar2->rot).x * RadInDeg_f,
@@ -621,14 +621,14 @@ bool Scene::SceneGetLocatorAlign(SceneData *param_1,vec3f *out,u32 param_3)
   MtxF mtxA,mtxB;
   
   
-  if (7 < (int)param_3)// oops, copy-paste oversight
+  if (MAX_LOCATORS < (int)param_3)// oops, copy-paste oversight
          CRASH("scene.cpp, SceneGetLocatorNorm()","Locator is greater than MAX_LOCATORS");
   if (param_1->locators[param_3] == -1) {
     char errrBuff [144];
     sprintf(errrBuff,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorAlign()",errrBuff);
   }
-  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2i[param_1->locators[param_3]];
+  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_1->locators[param_3]];
   guMtxIdentF(&mtxA);
   pbVar2 = pBVar1->dat;
   guRotateRPYF(&mtxA,(pbVar2->rot).x * RadInDeg_f,(pbVar2->rot).y * RadInDeg_f,(pbVar2->rot).z * RadInDeg_f);

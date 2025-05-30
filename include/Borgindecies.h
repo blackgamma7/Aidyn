@@ -371,6 +371,7 @@ typedef enum Borg8Enum {
 //Borg13: Dialouge
 #define BORG13_OpeningDialog    0x362
 #define BORG13_GoblinAmbush     0x365
+#define BORG13_LugashIntro      0x4D1
 #define BORG13_AlaronDies1      0x512
 #define BORG13_AlaronDies2      0x513
 #define BORG13_AlaronDies3      0x514

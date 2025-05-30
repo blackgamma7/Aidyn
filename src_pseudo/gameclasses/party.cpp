@@ -1678,8 +1678,8 @@ u8 Party::UnusedMechanic4(u8 param_2){
   return uVar7;
 }
 
-
-float Party::HarvestSkill(){ //used for calulating the reagent multiplier
+ //used for calulating the reagent multiplier
+float Party::HarvestSkill(){
   CharSheet *pCVar1;
   char cVar4;
   s32 iVar2;

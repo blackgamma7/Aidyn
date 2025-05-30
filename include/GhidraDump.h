@@ -1,15 +1,6 @@
 #include "mathN64.h"
 #include "widgets\BaseWidget.h"
 
-struct astruct_1 {
-    undefined field0_0x0;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    u16 field4_0x4;
-    u16 field5_0x6;
-    u8 *field6_0x8;
-};
 
 /*
 typedef enum Borg7Enum { // entity model data? 
@@ -92,10 +83,6 @@ struct astruct_6 {
     undefined field3_0x7;
 };
 
-struct struct_1 {
-    astruct_1 *field0_0x0;
-    Borg6Header *field1_0x4;
-};
 
 typedef struct AttackVisualStruct3 AttackVisualStruct3, *PAttackVisualStruct3;
 
@@ -136,16 +123,7 @@ struct InputMenu {
     u16 field2_0x7e;
 };
 
-struct WidgetMenuChild {
-    BaseWidget base;
-    u32 field1_0x7c;
-    BaseWidget *field2_0x80;
-    BaseWidget *field3_0x84;
-    UnkGuiSubstruct field4_0x88;
-    u32 field5_0x98;
-    u32 field6_0x9c;
-    u32 field7_0xa0;
-};
+
 
 struct WidgetOptionsSubstruct {
     BaseWidget *ScrollMenu;
@@ -436,21 +414,6 @@ struct WidgetCalendar {
 
 typedef struct ControllerPakSliders ControllerPakSliders, *PControllerPakSliders;
 
-struct ControllerPakSliders {
-    BaseWidget base;
-    u32 field1_0x7c;
-    u32 field2_0x80;
-    SaveDatPointers *saveDat;
-    BaseWidget *screenshotWidget;
-    Borg8Header *screenshotBorg8;
-    BaseWidget *PlayerName;
-    BaseWidget *TimePlayed;
-    u32 isEntrySet;
-    BaseWidget *PartyPortraits[4];
-    u16 unkBounds[4];
-    Color32 unkCol;
-    BaseWidget *arrows;
-};
 
 
 

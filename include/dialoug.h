@@ -148,10 +148,11 @@ u32 DAT_800ee974=0;
 u32 DAT_800ee978=0;
 //seem to be indecies to "death" borg13's.
 borg_short borg_short_list[]={
-    {0x512,0,2},{0x513,0,2},{0x514,0,2},{0x4f4,0,3},{0x4fe,0,1},{-1,-1,-1}
+    {BORG13_AlaronDies1,0,2},{BORG13_AlaronDies2,0,2},{BORG13_AlaronDies3,0,2},
+    {0x4f4,0,3},{0x4fe,0,1},{-1,-1,-1}
 };
 u16 whoDied_short=0; //uses borg_short.some_num.
-u32 unusedDialougToggle=0; //set, but not read.
+u32 unusedDialougToggle=0; //toggled, but not read.
 
 void ofunc_sub_dialouge(DialougeClass*,Borg13Data *);
 void look_for_dialouge_v_Num(char *);
@@ -188,6 +189,8 @@ void FUN_800b6c38(dialougmode_substruct *,u16);
 u8 FUN_800b6cb8(dialougmode_substruct *,Borg13Data *,u8);
 bool FUN_800b6e4c(dialougmode_substruct *,Borg13Data *,float);
 
+//dialogue.cpp
+
 void DialougCreateScriptCamera(u16 ,s16 ,playerData *,u16 ,float);
 ActorAndID * DialougGetActorAndID(dialougmode_substruct *,Borg13Data *,ItemID);
 CharSheet * DialougGetPartyMemberName(ItemID);
@@ -200,6 +203,7 @@ char * DialougFindPlayerNameSpace(char *);
 void DialougInsertPlayerName(char *);
 void some_string_func(char *);
 
+//dialogmode.cpp
 
 void dialoug_func(u32,u16,u16,u16,u16,u16);
 void run_dialougemode_funcs3();

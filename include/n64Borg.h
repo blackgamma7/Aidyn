@@ -344,7 +344,9 @@ struct dialoug_dat {
 enum VObject_Triggers{
     VTrigger_SetFlag=1, //set flag (trigger.flagA)
     VTrigger_ChangeAni, //changed linked Voxel's Borg7 animation to (trigger.flagA)
-    VTrigger_BorgPhys=4 //if (borgphys->groundType>>5&0x7f==trigger.flagA),borgphys->flags=borgphys->flags&(trigger.flagB)|(trigger.flagC)
+    VTrigger_3, //unused?
+    VTrigger_BorgPhys, //if (borgphys->groundType>>5&0x7f==trigger.flagA),borgphys->flags=borgphys->flags&(trigger.flagB)|(trigger.flagC)
+    VTrigger_5, //unused?
 };
 
 struct Trigger_dat {
@@ -613,7 +615,7 @@ struct Borg6Data{
     u32 borg5;
     s32 unk4;
     s32 unk8;
-    s32 unkc;
+    s32 aniLength;
 };
 
 struct Borg6Header {
@@ -656,28 +658,42 @@ struct Borg5Header {
     Borg5Data dat;
 };
 
+struct b7SubSub{
+    u8 ani;
+    u8 unk1;
+    u8 flag;
+    u8 unk3;
+};
+
+struct Borg7Sub{
+    u32 borg6;
+    u16 flag;
+    u16 subSubCount;
+    b7SubSub* p;
+};
+
 struct Borg7Data {
-    u32 field0_0x0;
-    int borg6_size;
-    int field2_0x8;
-    u32  borg6;
-    undefined field4_0x10;
-    undefined field5_0x11;
-    undefined field6_0x12;
-    undefined field7_0x13;
-    undefined *unk14;
+    u32 unk0;
+    int subCount;
+    int unk8;
+    Borg7Sub sub[1]; //acually Borg7Sub[subCount]
+};
+
+struct struct_1 {
+    Borg7Sub *sub;
+    Borg6Header *b6;
 };
 
 struct Borg7Header {
     borgHeader head;
     SceneData *sceneDat;
     u16 currentAni;
-    u16 field7_0xe;
-    u16 field8_0x10;
-    u16 field9_0x12;
+    u16 prevAni;
+    u16 nextAni;
+    u16 unk12;
     u32 unk14;
-    void **unk18;
-    struct struct_1 *unk1c;
+    struct_1*unk18;
+    struct_1 *unk1c;
     vec3f unk20;
     vec3f unk2c;
     struct_45 unk38;
@@ -739,7 +755,7 @@ enum B13_Commands{
     B13Com_CheckPartySize,
     B13Com_CheckPartyGoldU16,
     
-}
+};
 
 struct Borg13Op{
     u16 val;

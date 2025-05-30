@@ -484,7 +484,7 @@ void processSpellVisuals(uint param_1){
           if (param_1 != 0) {
             psVar3 = pBVar2->unk1c;
             while( true ) {
-              if (pAVar7->aniTime < psVar3->field1_0x4->dat->unkc) {
+              if (pAVar7->aniTime < psVar3->b6->dat->aniLength) {
                 FUN_800a00d0(pBVar2);
               }
               uVar10 += 1;
@@ -492,7 +492,7 @@ void processSpellVisuals(uint param_1){
               psVar3 = pBVar2->unk1c;
             }
           }
-          if (pAVar7->aniTime < pBVar2->unk1c->field1_0x4->dat->unkc) {
+          if (pAVar7->aniTime < pBVar2->unk1c->b6->dat->aniLength) {
             Scene::MatrixASetPos(pAVar7,(ppBVar12->pos).x,(ppBVar12->pos).y,(ppBVar12->pos).z);
             Scene::SetModelTint(pAVar7,gGlobals.brightness * 255,gGlobals.brightness * 255,gGlobals.brightness * 255,0xff);
           }

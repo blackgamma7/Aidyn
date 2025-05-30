@@ -112,7 +112,7 @@ u16 Cinematic::Tick(Gfx**GG){
     }
     if ((gGlobals.cinematic.Borg6) &&
        (gGlobals.cinematic.sceneDat)) {
-      if (gGlobals.cinematic.sceneDat->aniTime + iVar1 < gGlobals.cinematic.Borg6->dat->unkc + -1) {
+      if (gGlobals.cinematic.sceneDat->aniTime + iVar1 < gGlobals.cinematic.Borg6->dat->aniLength + -1) {
         g = Cinematic::Render(g,(s16)iVar1);
         g = Cinematic::Fade(g,iVar1);
       }
@@ -275,23 +275,20 @@ void Cinematic::LoadNextScene(void){
 }
 
 u16 Cinematic::LoadMap(void){
-  Borg9Header *pBVar1;
-  dialoug_dat *pdVar5;
+  Borg9Header *map = loadBorg9(0x0fdb); //load map chunk player starts at
+  u32 c = (u32)(map->dat).voxelObjCount;
+  dialoug_dat *dia = NULL;
   
-  pBVar1 = loadBorg9(0x0fdb); //load map chunk player starts at
-  u32 uVar2 = (u32)(pBVar1->dat).voxelObjCount;
-  pdVar5 = NULL;
-  
-  if (uVar2) {
-    for(s16 i=0;i<uVar2;i++){
-    if((pBVar1->dat.voxelObjs[i].header.type==VOXEL_Dialouge)&&
-       (pBVar1->dat.voxelObjs[i].dialoug.borg_13==BORG13_OpeningDialog)){
-        pdVar5 = &pBVar1->dat.voxelObjs[i].dialoug;
+  if (c) {
+    for(s16 i=0;i<c;i++){//find and load voxel for opening dialog
+    if((map->dat.voxelObjs[i].header.type==VOXEL_Dialouge)&&
+       (map->dat.voxelObjs[i].dialoug.borg_13==BORG13_OpeningDialog)){
+        dia = &map->dat.voxelObjs[i].dialoug;
       }
     }
   }
-  dialoug_func((uint)pdVar5->borg_13,pdVar5->RefPointID,pdVar5->MapDatA,pdVar5->MapShortA,pdVar5->MapShortB,0x7fff);
-  remove_borg_9(pBVar1);
+  dialoug_func((uint)dia->borg_13,dia->RefPointID,dia->MapDatA,dia->MapShortA,dia->MapShortB,0x7fff);
+  remove_borg_9(map);
   return 12;
 }
 

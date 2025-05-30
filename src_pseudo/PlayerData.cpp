@@ -709,14 +709,14 @@ LAB_80016cec:
               if ((ppVar22->flags & ACTOR_100) == 0) {
                 FUN_800a0090(ppVar22->locator_pointer,ppVar22->ani_type);
                 bVar18 = (uint)(u16)ppVar22->locator_pointer->sceneDat->aniTime ==
-                         ppVar22->locator_pointer->unk1c->field1_0x4->dat->unkc - 1U;
+                         ppVar22->locator_pointer->unk1c->b6->dat->aniLength - 1U;
                 u16 unk16;
                 if ((u16)ppVar22->unk18 - 0xe < 2) {
-                  unk16 = (float)ppVar22->locator_pointer->unk1c->field1_0x4->dat->unkc
+                  unk16 = (float)ppVar22->locator_pointer->unk1c->b6->dat->aniLength
                            * gEntityDB->RetPoint4(ppVar22->ent_ID);
                 }
                 else {
-                  unk16 = (float)ppVar22->locator_pointer->unk1c->field1_0x4->dat->unkc
+                  unk16 = (float)ppVar22->locator_pointer->unk1c->b6->dat->aniLength
                            * gEntityDB->GetFloatA(ppVar22->ent_ID);
                 }
                 uVar2 = ppVar22->locator_pointer->sceneDat->aniTime;

@@ -854,10 +854,11 @@ void borg_6_free(Borg6Header *param_1){
 
 void borg7_func_a(Borg7Header *param_1){
   Borg7Data *pBVar1 = &param_1->dat;
-  if (0 < (param_1->dat).borg6_size) {
-    for(s32 iVar2 = (param_1->dat).borg6_size;iVar2 != 0;iVar2--) {
-      pBVar1->unk14 = pBVar1->unk14 + (int)&param_1->dat;
-      pBVar1 = (Borg7Data *)&pBVar1->borg6;
+  if (0 < (param_1->dat).subCount) {
+    Borg7Sub* sub= &pBVar1->sub[0];
+    for(s32 iVar2 = (param_1->dat).subCount;iVar2 != 0;iVar2--) {
+      sub->p =(b7SubSub*)((u32)sub->p + (u32)&param_1->dat);
+      sub++;
     }
   }
 }
@@ -865,49 +866,43 @@ void borg7_func_a(Borg7Header *param_1){
 
 u8 borg7_func_b(Borg7Header *param_1,Borg7Data *param_2){
   u32 bVar1;
-  void **ppvVar2;
-  borg6Enum **ppbVar3;
-  Borg6Header *pbVar4;
-  borg6Enum *pbVar5;
-  int iVar6;
-  
-  iVar6 = (param_1->dat).borg6_size;
-  ppbVar3 = (borg6Enum **)HeapAlloc(iVar6 << 3,s_./src/n64borg.cpp_800e3120,0x92e);
-  param_1->unk18 = ppbVar3;
-  if (0 < iVar6) {
-    pbVar5 = &(param_1->dat).borg6;
-    do {
-      *ppbVar3 = pbVar5;
-      pbVar5 = pbVar5 + 3;
-      ppbVar3[1] = NULL;
-      iVar6 += -1;
-      ppbVar3 = ppbVar3 + 2;
-    } while (iVar6 != 0);
+  struct_1 *psVar2;
+  Borg6Header *pBVar3;
+  int iVar5 = (param_1->dat).subCount;
+  ALLOCS(psVar2,iVar5 *sizeof(struct_1),2350);
+  param_1->unk18 = psVar2;
+  if (0 < iVar5) {
+    Borg7Sub *pBVar4 = (param_1->dat).sub;
+    for(;iVar5!=0;iVar5--,psVar2++) {
+      psVar2->sub = pBVar4;
+      pBVar4++;
+      psVar2->b6 = NULL;
+      psVar2++;
+    }
   }
   CLEAR(&param_1->unk38);
   clearBorgFlag();
-  pbVar4 = (Borg6Header *)getBorgItem((param_1->dat).borg6);
-  bVar1 = (param_1->dat).borg6;
-  ppvVar2 = param_1->unk18;
-  (param_1->unk38).anis[0] = pbVar4;
+  Borg6Header *pBVar3 = (Borg6Header *)getBorgItem((param_1->dat).sub[0].borg6);
+  bVar1 = (param_1->dat).sub[0].borg6;
+  psVar2 = param_1->unk18;
+  (param_1->unk38).anis[0] = pBVar3;
   param_1->sceneDat = NULL;
   param_1->currentAni = 0;
-  param_1->field7_0xe = 0;
-  param_1->field8_0x10 = 0;
-  ppvVar2[1] = pbVar4;
+  param_1->prevAni = 0;
+  param_1->nextAni = 0;
+  psVar2->b6 = pBVar3;
   (param_1->unk20).x = 0.0;
   (param_1->unk20).y = 0.0;
   (param_1->unk20).z = 0.0;
   (param_1->unk2c).x = 0.0;
   (param_1->unk2c).y = 0.0;
   (param_1->unk2c).z = 0.0;
-  iVar6 = (param_1->dat).unk8;
-  param_1->field9_0x12 = 1;
+  iVar5 = (param_1->dat).unk8;
+  param_1->unk12 = 1;
   (param_1->unk38).indecies[0] = bVar1;
-  param_1->unk1c = (struct_1 *)(ppvVar2 + iVar6 * 2);
+  param_1->unk1c = psVar2 + iVar5;
   return true;
 }
-
 void borg7_free(Borg7Header *param_1){
   for(s32 i=2;i>-1;i++) {
     if (param_1->unk38.anis[i]) borg_6_free(param_1->unk38.anis[i]);

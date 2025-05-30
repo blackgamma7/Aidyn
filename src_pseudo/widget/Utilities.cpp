@@ -297,9 +297,7 @@ void Utilities::SetWidgetBounds
 
 
 void Utilities::SetWidgetBoundsX02(BaseWidget *w,u16 param_2){
-  pBVar1;
-  
-  if (w != NULL) {
+  if (w) {
     BaseWidget *pBVar1 = w->link3;
     w->boundX0 = param_2;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
@@ -309,37 +307,29 @@ void Utilities::SetWidgetBoundsX02(BaseWidget *w,u16 param_2){
 }
 
 void Utilities::SetWidgetBoundsX12(BaseWidget *w,u16 param_2){
-  BaseWidget *pBVar1;
-  
-  if (w != NULL) {
-    pBVar1 = w->link3;
+  if (w) {
+    BaseWidget *pBVar1 = w->link3;
     w->boundX1 = param_2;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
       SetWidgetBoundsX12(pBVar1,param_2);
     }
   }
-  return;
 }
 
 
-void Utilities::SetWidgetBoundsY02(BaseWidget *w,u16 param_2)
-
-{
-  BaseWidget *pBVar1;
-  
-  if (w != NULL) {
-    pBVar1 = w->link3;
+void Utilities::SetWidgetBoundsY02(BaseWidget *w,u16 param_2){
+  if (w) {
+    BaseWidget *pBVar1 = w->link3;
     w->boundY0 = param_2;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
       SetWidgetBoundsY02(pBVar1,param_2);
     }
   }
-  return;
 }
 
 
 void Utilities::SetWidgetBoundsY12(BaseWidget *w,u16 param_2){  
-  if (w != NULL) {
+  if (w) {
     BaseWidget *pBVar1 = w->link3;
     w->boundY1 = param_2;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
@@ -349,7 +339,7 @@ void Utilities::SetWidgetBoundsY12(BaseWidget *w,u16 param_2){
 }
 
 void Utilities::SetWidgetColor(BaseWidget *w,u8 r,u8 g,u8 b,u8 a){
-  if (w != NULL) {
+  if (w) {
     BaseWidget *next = w->link3;
     (w->col).R = r;
     (w->col).G = g;
@@ -364,10 +354,8 @@ void Utilities::SetWidgetColor(BaseWidget *w,u8 r,u8 g,u8 b,u8 a){
 
 
 void Utilities::SetRed(BaseWidget *w,u8 r){
-  BaseWidget *pBVar1;
-  
-  if (w != NULL) {
-    pBVar1 = w->link3;
+  if (w) {
+    BaseWidget *pBVar1 = w->link3;
     (w->col).R = r;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
       SetRed(pBVar1,r);
@@ -375,10 +363,8 @@ void Utilities::SetRed(BaseWidget *w,u8 r){
   }
 }
 void Utilities::SetGreen(BaseWidget *w,u8 g){
-  BaseWidget *pBVar1;
-  
-  if (w != NULL) {
-    pBVar1 = w->link3;
+  if (w) {
+    BaseWidget *pBVar1 = w->link3;
     (w->col).G = g;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
       SetGreen(pBVar1,g);
@@ -388,10 +374,8 @@ void Utilities::SetGreen(BaseWidget *w,u8 g){
 
 
 void Utilities::SetBlue(BaseWidget *w,u8 b){
-  BaseWidget *pBVar1;
-  
-  if (w != NULL) {
-    pBVar1 = w->link3;
+  if (w) {
+    BaseWidget *pBVar1 = w->link3;
     (w->col).B = b;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
       SetBlue(pBVar1,b);
@@ -401,10 +385,8 @@ void Utilities::SetBlue(BaseWidget *w,u8 b){
 
 
 void Utilities::SetAlpha(BaseWidget *w,u8 a){
-  BaseWidget *pBVar1;
-  
   if (w) {
-    pBVar1 = w->link3;
+    BaseWidget *pBVar1 = w->link3;
     (w->col).A = a;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
       SetAlpha(pBVar1,a);
@@ -414,10 +396,6 @@ void Utilities::SetAlpha(BaseWidget *w,u8 a){
 
 
 void Utilities::MoveWidget(BaseWidget *w,s16 x,s16 y){
-  void *pvVar1;
-  BaseWidget *pBVar2;
-  ulong uVar3;
-  
   if (!w) return;
   w->x = x + w->x;
   w->y = y + w->y;
@@ -425,12 +403,12 @@ void Utilities::MoveWidget(BaseWidget *w,s16 x,s16 y){
   w->boundX1 = x + w->boundX1;
   w->boundY0 = y + w->boundY0;
   w->boundY1 = y + w->boundY1;
-  if ((w->GetNumber() == 1)||(w->GetNumber() == 2)) {
-    pvVar1 = w->substruct;
-    *(s16 *)((int)pvVar1 + 0x10) = x + *(s16 *)((int)pvVar1 + 0x10);
-    *(s16 *)((int)pvVar1 + 0x12) = x + *(s16 *)((int)pvVar1 + 0x12);
+  if ((w->GetNumber() == WidgetN_ClipText)||(w->GetNumber() == WidgetN_ShadText)) {
+     WSTSub* pvVar1 = (WSTSub*)w->substruct;
+     pvVar1->X= x+pvVar1->X;
+     pvVar1->Y= x+pvVar1->Y;
   }
-  pBVar2 = w->link3;
+  BaseWidget *pBVar2 = w->link3;
   for (; pBVar2 != NULL; pBVar2 = pBVar2->link2) {
     MoveWidget(pBVar2,x,y);
   }

@@ -5,8 +5,9 @@
 #include "vobjects.h"
 #include "voxelChart.h"
 #include "trapMenu.h"
+#include "widgets/textPopup.h"
 //keeps coming up, return value unused. could be removed?
-#define UnkVoxelFlagCheck getEventFlag(0x15fa)
+#define UnkVoxelFlagCheck getEventFlag(FLAG_VoxelCheckUNK)
 
 
 extern voxelObject* GetVoxelFromObjectLink(Borg9Data*,voxelObject*,u16);
@@ -141,7 +142,6 @@ void loot_func(voxelObject *v,u16 A, u16 B){
   voxelObject *a;
   int iVar5;
   void *ppfVar10;
-  GenericInventory *loot;
   u8 uVar8;
   container_Dat *contP;
   u8 uVar10;
@@ -151,8 +151,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
   contP = &v->container;
   psVar4 = some_ref_obj_lookup_func((short)(((int)v - (int)(gGlobals.Sub.borg9DatPointer)->voxelObjs) *
                               /*?!?*/0x684bda13 >> 2),(char)gGlobals.Sub.mapDatA,
-                      (u8)gGlobals.Sub.mapShort1,(u8)gGlobals.Sub.mapShort2,0x11,
-                      *(undefined *)((int)&(v->header).type + 1));
+                      (u8)gGlobals.Sub.mapShort1,(u8)gGlobals.Sub.mapShort2,0x11,(u8)v->header.type);
 
   if (((container_open_check((v->container).openFlag)) || (psVar4)) ||
      (container_explode_check((v->container).explodeFlag))) {
@@ -193,7 +192,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
       if ((v->container).LootCat) {
         get_chest_loot(loot_pointer,contP);
         for(uVar8 = 0;uVar8 < 7;uVar8++) {
-          psVar4 = (short *)&contP->lootCatDrop[uVar8];
+          s16* psVar4 = (short *)&contP->lootCatDrop[uVar8];
           if ((*psVar4) && (psVar4[1])) {
             aIStack96[uVar10][0] = *psVar4;
             aIStack96[uVar10][1] = psVar4[1];
@@ -221,7 +220,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
         PLAYSFX(Coins_jingle,0,gGlobals.VolSFX,300,time);
       }
       else {
-        loot = new GenericInventory();
+        GenericInventory *loot = new GenericInventory();
         if (uVar8) {
           for(uVar10 = 0;uVar10 < uVar8;uVar10++) {
             loot->AddItem((ItemID)aIStack96[uVar10][0],aIStack96[uVar10][1]);
@@ -287,17 +286,17 @@ void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
     pBVar1 = (prVar3->scene).borgArray[0].b7;
     if (pBVar1) FUN_800a0090(pBVar1,(v->trigger).flagA);
     break;
-  case 3: break;
+  case VTrigger_3: break;
   case VTrigger_BorgPhys:
     if ((gGlobals.Sub.borg9DatPointer)->borghpys_count != 0) {
       pbVar2 = (gGlobals.Sub.borg9DatPointer)->phys_pointer;
       for(u16 i=0;i<(gGlobals.Sub.borg9DatPointer)->borghpys_count;i++){
-        uVar6 = pbVar2[uVar8].GroundType;
+        uVar6 = pbVar2[i].GroundType;
         if (((uVar6 & 0xf000) == 0x1000) && ((uVar6 >> 5 & 0x7f) == (v->trigger).flagA))
           pbVar2[i].flags=pbVar2[i].flags&(v->trigger).flagB|(v->trigger).flagC;
       }
     }
-  case 5:break;
+  case VTrigger_5:break;
   }
   ref_obj_bitmask_flag((v->header).flagB,(v->header).Bitfeild,VOXEL_Used);
 }
@@ -511,11 +510,11 @@ u8 dialouge_trigger_check(voxelObject *v,vec3f *arg1,u8 getProx){
   return uVar2;
 }
 
-u8 dialoug_obj_func(voxelObject *v,playerData *arg1){return dialouge_trigger_check(v,(arg1->collision).pos,true);}
+u8 dialoug_obj_func(voxelObject *v,playerData *arg1){return dialouge_trigger_check(v,&(arg1->collision).pos,true);}
 
 void dialoug_obj_check(voxelObject* v,playerData *arg1){dialoug_obj_func(v,arg1);}
 
-u8 savepoint_prox_check(voxelObject *v,playerData *arg1){return vec3_proximity(v,(arg1->collision).pos); <= (v->header).size;}
+u8 savepoint_prox_check(voxelObject *v,playerData *arg1){return vec3_proximity(&v->header.pos,&(arg1->collision).pos) <= (v->header).size;}
 
 u8 VoxelObj_Ret0(voxelObject *v,playerData *arg1){return 0;}
 

@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "combat/CombatStruct.h"
 #include "weapondb.h"
+#include "widgets/textPopup.h"
 
 u8 Entity::IsElemental(ItemID id){
   if (id >> 8 == 2) {
@@ -127,7 +128,7 @@ void Entity::Free(CharSheet *param_1){
     FREE(param_1->spellbook,363);
   }
   if(param_1->effects) {
-    Entity::RemoveAllEffects(param_1);
+    RemoveAllEffects(param_1);
     FREE(param_1->effects,0x173);
   }
   if(param_1->potionEffects) {
@@ -386,11 +387,11 @@ void Entity::ApplyEquipment(CharSheet *param_1,WeaponInstance *param_2,StatMod *
 }
 
 void Entity::EquipArmorOrShield(CharSheet *param_1,ItemID id,StatMod *param_3,u8 sheild){
-  ALLOC(param_1->armor[sheild],991);
+  ALLOCL(param_1->armor[sheild],991);
   make_temp_armor_3(param_1->armor[sheild],id);
   ApplyEquipment(param_1,(WeaponInstance *)param_1->armor[sheild],param_3,true);
   CharStats::AddModded(param_1->Stats,STAT_DEX,param_1->armor[sheild]->dex);
-  param_1->Skills->ModdedSkillAdd(param_1->Skills,SKILL_Stealth,param_1->armor[sheild]->stealth);
+  param_1->Skills->ModdedSkillAdd(SKILL_Stealth,param_1->armor[sheild]->stealth);
 }
 
 void Entity::RemoveArmor(CharSheet *param_1){RemoveArmorOrShield(param_1,0);}
@@ -426,19 +427,16 @@ void Entity::UnequipGear(CharSheet *param_1,u8 slot){
 
 
 void FUN_80078874(CharSheet *param_1,WeaponInstance *param_2,u8 param_3){
-  s8 mod;
-  StatMod *skilmod;
-  
-  skilmod = param_2->SkillMod;
+  StatMod *skilmod = param_2->SkillMod;
   if (skilmod){
-    if (CharSkills::capSkillBaseMax(param_1->Skills,skilmod->stat)) {
-      CharSkills::ModdedSkillAdd(param_1->Skills,skilmod->stat,-skilmod->mod);
+    if (param_1->Skills->capSkillBaseMax(skilmod->stat)) {
+      param_1->Skills->ModdedSkillAdd(skilmod->stat,-skilmod->mod);
     }
   }
   skilmod = (param_2->base).statMod;
   if (skilmod) {
     if (skilmod->stat != STAT_STAM) {
-    mod = FUN_8007b760(param_1,skilmod->stat,skilmod->mod);
+    s8 mod = FUN_8007b760(param_1,skilmod->stat,skilmod->mod);
     if (skilmod->stat != STAT_END) {
       CharStats::SubModded(param_1->Stats,skilmod->stat,mod);
     }
@@ -514,39 +512,35 @@ LAB_80078b24:
   case POTION_STEALTH:
     skill = SKILL_Stealth;
   }
-  CharSkills::ModdedSkillAdd(chara->Skills,skill,3);
+  chara->Skills->ModdedSkillAdd(skill,3);
 }
 
 void Entity::ReversePotionEffect(CharSheet *param_1,u8 param_2){
-  CharSkills *arg0;
-  u8 SVar1;
-  u8 arg1;
+  u8 val;
   
   if (!param_1->potionEffects[param_2]) return;
   switch(param_1->potionEffects[param_2]->ID) {
   case POTION_STRENGTH:
-    SVar1 = STAT_STR;
+    val = STAT_STR;
     break;
   case POTION_DEXTERITY:
-    SVar1 = STAT_DEX;
+    val = STAT_DEX;
     break;
   default:
     goto Lab_return;
   case POTION_CLARITY:
-    arg0 = param_1->Skills;
-    arg1 = SKILL_Loremaster;
+    val = SKILL_Loremaster;
     goto remove_skill_buff;
   case POTION_CHARISMA:
-    arg0 = param_1->Skills;
-    arg1 = SKILL_Diplomat;
+    val = SKILL_Diplomat;
 remove_skill_buff:
-    CharSkills::ModdedSkillAdd(arg0,arg1,-3);
+    param_1->Skills->ModdedSkillAdd(val,-3);
     return;
   case POTION_STEALTH:
-    CharSkills::ModdedSkillAdd(param_1->Skills,SKILL_Stealth,-3);
+    param_1->Skills->ModdedSkillAdd(SKILL_Stealth,-3);
     goto Lab_return;
   }
-  RemoveStatBuff(param_1,SVar1,10);
+  RemoveStatBuff(param_1,val,10);
 Lab_return:
   return;
 }
@@ -575,18 +569,13 @@ void Entity::RemovePotion(CharSheet *ent,u8 slot){
 }
 
 void Entity::StaminaPotion(CharSheet *param_1){
-  SpellEffect*peVar1;
-  u32 uVar2;
-  
-  uVar2 = 0;
-  peVar1 = param_1->spellEffects;
-  while( true ) {
-    if ((peVar1->list[uVar2]) && (peVar1->list[uVar2]->index == exhaustion))
-    {Entity::ClearSpellEffect(param_1,uVar2,NULL);}
-    uVar2++;
-    if (0xe < uVar2) break;
+
+  for(u32 i=0;i<MAGIC_FXMAX;i++){
+    if((param_1->effects[i])&&(param_1->effects[i]->index==SPELLIND_exhaustion)){
+      ClearSpellEffect(param_1,(u8)i,NULL);
+    }
   }
-  calc_stamina_change(param_1,false);
+  addStamina(param_1,false);
 }
 
 u8 Entity::CanUsePotion(CharSheet *param_1,u8 param_2,char *errTxt){
@@ -614,7 +603,7 @@ u8 Entity::CanUsePotion(CharSheet *param_1,u8 param_2,char *errTxt){
       return false;
     case POTION_RESTORE:
       for(i=0;i<MAGIC_FXMAX;i++){
-        if(IsDebuffSpell(param_1,ppTVar5[i]->index)) return true;
+        if(IsDebuffSpell(param_1,param_1->effects[i]->index)) return true;
       }
       if (errTxt) strcpy(errTxt,"That potion cannot be used right now.");
       return false;
@@ -744,8 +733,7 @@ s32 Entity::FindFreeEffect(CharSheet *param_1){
 
 
 
-short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,uint timer,byte pow,
-                CombatEntity *combatTarget){
+short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,CombatEntity *combatTarget){
   CombatAI_s *pCVar1;
   Temp_enchant **ppTVar2;
   bool bVar3;
@@ -1019,7 +1007,7 @@ LAB_800798b0:
     break;
   case SPELLIND_stealth:
     if (uVar16 != 0) {
-      CharSkills::ModdedSkillAdd(param_1->Skills,SKILL_Stealth,(s8)(Lv * 6));
+      param_1->Skills->ModdedSkillAdd(SKILL_Stealth,(s8)(Lv * 6));
       bVar11 = true;
       goto LAB_80079984;
     }
@@ -1108,6 +1096,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
     bVar5 = pTVar1->lv;
     SVar3 = STAT_STAM;
     goto LAB_80079c10;
+  //Bug: further removes stamina, assintally doubling debuff
   case SPELLIND_stamina:
     SVar3 = STAT_STAM;
     cVar4 = (char)(((uint)pTVar1->lv << 0x19) >> 0x18);
@@ -1120,6 +1109,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
       return;
     }
     break;
+  //Bug: only remocvves half of protection buff
   case SPELLIND_spiritSheild:
   case SPELLIND_starlightSheild:
     target->EXP->protection-= pTVar1->lv;
@@ -1142,7 +1132,7 @@ LAB_80079c18:
   return;
 }
 
-s32 Entity::IncEnchantments(CharSheet *param_1,CombatEntity *cEnt,s32 delta){
+s32 Entity::IncEnchantments(CharSheet *chara,CombatEntity *cEnt,s32 delta){
   u8 SVar1;
   int iVar3;
   u8 uVar8;
@@ -1156,29 +1146,29 @@ s32 Entity::IncEnchantments(CharSheet *param_1,CombatEntity *cEnt,s32 delta){
   int iVar11;
   int iVar12;
   
-  if (isDead(param_1)) return 0;
+  if (isDead(chara)) return 0;
   iVar11 = 0;
   iVar12 = 0;
   for(u32 i=0;i<MAGIC_FXMAX;i++) {
     //todo: rewrite without goto's.
-    Temp_enchant *pTVar2 = param_1->effects[i];
+    Temp_enchant *pTVar2 = chara->effects[i];
     if (pTVar2) {
       daySpeed = 0;
       if (!cEnt) daySpeed = TerrainPointer->daySpeed;
-      if (TempEnchant::IncTimer(pTVar2,daySpeed,delta)) ClearSpellEffect(param_1,(u8)i,cEnt);
+      if (TempEnchant::IncTimer(pTVar2,daySpeed,delta)) ClearSpellEffect(chara,(u8)i,cEnt);
       else {
         SVar1 = pTVar2->index;
         lVar10 = 0;
         if (SVar1 == SPELLIND_poison) {
           uVar5 = (uint)(pTVar2->lv >> 1);
-          iVar3 = CharStats::getModded(param_1->Stats,STAT_END);
+          iVar3 = CharStats::getModded(chara->Stats,STAT_END);
           if (iVar3 < (int)uVar5) {
-            uVar5 = CharStats::getModded(param_1->Stats,STAT_END);
+            uVar5 = CharStats::getModded(chara->Stats,STAT_END);
           }
-          if (getHPCurrent(param_1) < (int)uVar5) continue;
+          if (getHPCurrent(chara) < (int)uVar5) continue;
           iVar11 += uVar5;
           lVar10 = 0;
-          CharStats::addModdedHealth(param_1->Stats,STAT_END,-(char)uVar5);
+          CharStats::addModdedHealth(chara->Stats,STAT_END,-(char)uVar5);
         }
         else if (SVar1 < SPELLIND_mirror) {
           if (SVar1 == SPELLIND_Immolation) dice = 1;
@@ -1192,28 +1182,28 @@ LAB_80079da4:
         }
         else if (SVar1 == SPELLIND_photosynthesis) {
           if (TerrainPointer->partOfDay == TIME_NIGHT) continue;
-          addHP(param_1,pTVar2->varA);
+          addHP(chara,pTVar2->varA);
           iVar12 += pTVar2->varA;
         }
         else if (SVar1 == SPELLIND_webOfStarlight) {
-          iVar3 = CharStats::getModded(param_1->Stats,STAT_STR);
+          iVar3 = CharStats::getModded(chara->Stats,STAT_STR);
           uVar6 = RollD(1,100);
           if (((iVar3 * 2) <= uVar6) ||(!some_skillcheck_calc((iVar3 * 2 - uVar6)))) {
             dice = 2;
             goto LAB_80079da4;
           }
-          ClearSpellEffect(param_1,(u8)i,cEnt);
+          ClearSpellEffect(chara,(u8)i,cEnt);
           lVar10 = 0;
         }
 LAB_80079e48:
-        if ((lVar10 != 0) && (lVar10 <= getHPCurrent(param_1))) {
-          DamageToLevel(param_1,(short)lVar10,cEnt);
+        if ((lVar10 != 0) && (lVar10 <= getHPCurrent(chara))) {
+          DamageToLevel(chara,(short)lVar10,cEnt);
           iVar11 += (int)lVar10;
         }
       }
     }
   }
-  if (iVar12) CheckDeathFromDoT(param_1,0,(short)iVar12,cEnt);
+  if (iVar12) CheckDeathFromDoT(chara,0,(short)iVar12,cEnt);
   return iVar11;
 }
 
@@ -1312,8 +1302,8 @@ u8 Entity::CheckSpellWizard(CharSheet *param_1,SpellInstance *param_2){
   if (param_2) {
     bVar2 = param_1->spellSwitch;
     if (bVar2 == 1) {
-      if (CharSkills::getModdedSkill(param_1->Skills,SKILL_Wizard) <= param_2->level)
-         return CharSkills::getModdedSkill(param_1->Skills,SKILL_Wizard);
+      if (param_1->Skills->getModdedSkill(SKILL_Wizard) <= param_2->level)
+         return param_1->Skills->getModdedSkill(SKILL_Wizard);
       return param_2->level;
     }
     if (bVar2 != 0) {
@@ -1564,7 +1554,7 @@ void Entity::ApplyEquipEffect(CharSheet *param_1,WeaponInstance *param_2){
   if (((param_2) &&
       (pTVar1 = param_2->enchantment, pTVar1)) &&
      (pTVar1->timer == -1)) {
-    ApplySpellEffect(param_1,pTVar1->index,(u32)pTVar1->lv,pTVar1->timer,pTVar1->varA,NULL);
+    ApplySpellEffect(param_1,pTVar1->index,pTVar1->lv,pTVar1->timer,pTVar1->varA,NULL);
   }
   return;
 }

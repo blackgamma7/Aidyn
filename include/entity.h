@@ -217,7 +217,7 @@ extern dialougeEntity_Info dailougEnt_info_array[32]; //same with this.
 extern EntityDB* gEntityDB;
 extern u8 entityList[221];
 
-extern struct CombatEntity;
+extern class CombatEntity;
 
 namespace Entity{
     u8 IsElemental(ItemID param_1);
@@ -261,7 +261,7 @@ namespace Entity{
     u8 UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4);
     u8 HasSpellEffect(CharSheet *param_1,u8 id);
     s32 FindFreeEffect(CharSheet *param_1);
-    short ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,uint timer,byte pow,CombatEntity *combatTarget);
+    short ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,CombatEntity *combatTarget);
     void ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatEnt);
     s32 IncEnchantments(CharSheet *param_1,CombatEntity *param_2,s32 param_3);
     SpellInstance* getSpell(CharSheet *param_1);

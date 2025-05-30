@@ -1,6 +1,8 @@
 //definitions of event flags
 
-#define FLAG_Total 5627
+#define FLAG_Total 5627 //total of (valid) entries in gameStateFunnel
+#define FLAG_CountB 1372 // value of gamestatefunnel_rom.flagCountB
+#define FLAG_BitCount 5001 // value of gamestatefunnel_rom.bitFlags. total of BIT-type event flags?
 
 #define FLAG_False 0 //return false if flag is 0
 #define FLAG_True 1  //return true if flag is 1
@@ -55,7 +57,8 @@
 #define FLAG_TerrainC 2323
 #define FLAG_TerrainD 2324
 
-
+//checked many times throughout objectJumpTables.cpp. return never used
+#define FLAG_VoxelCheckUNK 5626
 
 //Boss Death Flags
 
@@ -78,6 +81,7 @@
 #define FLAG_JournalKilledDougal 582
 
 #define FLAG_GoblinAmbush 978 //ID of goblin poisoner group at start of game.
+#define FLAG_LugashFight 5250
 
 //event flags for entering areas or collecting their map.
 #define FLAG_Map1 788 //Gwernia, set at start
