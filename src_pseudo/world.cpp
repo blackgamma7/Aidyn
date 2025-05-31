@@ -3,7 +3,7 @@
 #include "stringN64.h"
 #include "crash.h"
 
-u8 weather_month_array[8] = {0x2B, 0x30, 0x21, 0x19, 0x24, 0x28, 0, 0};
+u8 weather_season_array[] = {0x2B, 0x30, 0x21, 0x19, 0x24, 0x28, 0, 0};
 //initalize "TerrainStruct"
 void World::init(TerrainStruct *ter){
   CLEAR(ter);
@@ -55,16 +55,16 @@ void World::dec_dayNightMagic(TerrainStruct *X){if (X->DayNightMagic != 0) {X->D
 //Parse Claendar struct into in-game time
 void World::SetTimeFromCalendar(TerrainStruct *param_1,Calendar *param_2){
   param_1->InGameTime =
-       (u32)param_2->month * 0x114db000 + (u32)param_2->week * 0x229b600 +
-       (u32)param_2->day * 0x4f1a00 + ((u32)param_2->hour * 0xe0 + (u32)param_2->hour) * 0x3c0 +
+       (u32)param_2->season * (DAYS(56)) + (u32)param_2->week * (DAYS(7)) +
+       (u32)param_2->day * (DAYS(1)) + ((u32)param_2->hour * 0xe0 + (u32)param_2->hour) * 0x3c0 +
        ((u32)param_2->minute * 0xe0 + (u32)param_2->minute) * 0x10 + (u32)param_2->second * SECONDS(1);
   SeveralTimeFuncs(param_1);
-  SetFlagArray_on_Time(param_1->partOfDay,param_2->day,param_2->week,param_2->month);
+  SetFlagArray_on_Time(param_1->partOfDay,param_2->day,param_2->week,param_2->season);
 
 }
 //Parse in-game time into Claendar struct
 void World::GetCalendarDate(TerrainStruct *param_1,Calendar *cal){
-  cal->month = GetMonth(param_1);
+  cal->season = GetSeason(param_1);
   cal->week = GetWeek(param_1);
   cal->day = GetDay(param_1);
   cal->hour = GetHour(param_1);
@@ -206,7 +206,7 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
     ter->PrecipScale = 0.0;
     ter->FogFloat = 0.0;
     bVar1 = weather_terrain_array[ter->terrain];
-    bVar2 = weather_month_array[cal->month];
+    bVar2 = weather_season_array[cal->season];
     if ((bVar2 + bVar1) >= RollD(1,100)) {  
       if (RollD(1,100) < 70) {
         ter->rainByte = PRECIP_RAIN;
@@ -240,7 +240,7 @@ void World::SeveralTimeFuncs(TerrainStruct *ter){
   if (gDebugGameTime) {
     if (set_timeofDay(ter,&CalTemp)) set_weather(ter,&CalTemp);
     ChangeWind(ter, &ter->windVelocity, 0.05f, 0.05f);
-    SetFlagArray_on_Time(ter->partOfDay,CalTemp.day,CalTemp.week,CalTemp.month);
+    SetFlagArray_on_Time(ter->partOfDay,CalTemp.day,CalTemp.week,CalTemp.season);
     set_weather_flags(ter->rainByte);
     terrainStruct_floats(ter);
   }
@@ -271,7 +271,7 @@ u32 World::GetTime(TerrainStruct *param_1){return param_1->InGameTime;}
 
 void World::SetTime(TerrainStruct *param_1,u32 param_2){param_1->InGameTime = param_2;}
 
-u8 World::GetMonth(TerrainStruct *param_1){return param_1->InGameTime / DAYS(56);}
+u8 World::GetSeason(TerrainStruct *param_1){return param_1->InGameTime / DAYS(56);}
 
 u8 World::GetWeek(TerrainStruct *param_1){return (param_1->InGameTime % DAYS(56)) / DAYS(7);}
 

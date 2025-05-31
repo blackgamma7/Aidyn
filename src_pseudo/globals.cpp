@@ -3,9 +3,17 @@
 #include "world.h"
 #include "stringN64.h"
 
+
+u8 DAT_800e8d50[]={0,0,0,0,1,0,0,0};//unused data, seen at strat of section.
+u16 SkillCheckSteps[22]={0,26,46,62,81,96,111,122,
+     133,144,155,166,177,188,199,210,221,232,243,255,266,0};
+char* sGlobalsFmt="%s - %d";
+char* sGlobalsFilename="./src/globals.cpp";
+
 #ifdef DEBUGVER
-u32 memUsedMirror;
-u64 ofunc_dat;
+u32 memUsedMirror=0;
+u64 DAT_800e8d90=0;//unused, but 64-bit space from vars
+u64 ofunc_dat=0;
 void set_memUsedMirror(void){memUsedMirror = get_memUsed();}
 
 s32 Ofunc_get_MemUsed_difference(void){
@@ -35,8 +43,7 @@ u16 RollD(u8 dice,u8 sides){
   return i;
 }
 
-s16 SkillCheckSteps[22]={0,26,46,62,81,96,111,122,
-     133,144,155,166,177,188,199,210,221,232,243,255,266,0};
+
 u32 some_skillcheck_calc(s16 param_1){
   u32 i = 21;
   do {
@@ -45,8 +52,7 @@ u32 some_skillcheck_calc(s16 param_1){
   } while (param_1 < SkillCheckSteps[i]);
   return i++;
 }
-char* sGlobalsFmt="%s - %d";
-char* sGlobalsFilename="./src/globals.cpp";
+
 //used several times throughout this part. not sure why.
 #define printLine(line) Gsprintf(sGlobalsFmt,sGlobalsFilename,line)
 
@@ -163,7 +169,7 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
     if (param_1 != 0) {
       for(uVar7=0;uVar7<param_1;uVar7++) {
         printLine(0x263);
-        bVar3 = GetIDIndex(gGlobals.EncounterDat.enemy_entities[uVar7]);
+        bVar3 = GETINDEX(gGlobals.EncounterDat.enemy_entities[uVar7]);
         printLine(0x264);
         uVar4 += gEntityDB->entities[(char)bVar3].Level;
       }

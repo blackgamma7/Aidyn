@@ -1,0 +1,995 @@
+#include "globals.h"
+#include "vobjects.h"
+#include "voxelChart.h"
+#define FILENAME "./src/dialogmode.cpp"
+
+void dialoug_func(borg13Enum BorgID,undefined2 RefPointID,undefined2 MapDatA,undefined2 MapShortA,
+                 undefined2 MapShortB,undefined2 param_6)
+
+{
+  bool bVar2;
+  char *pcVar1;
+  uint uVar3;
+  ushort uVar4;
+  int iVar5;
+  uint uVar6;
+  u16 uStack104 [6];
+  
+  uStack104._0_4_ = USHORT_ARRAY_ARRAY_800deb40[0];
+  uStack104._4_4_ = USHORT_ARRAY_ARRAY_800deb40[1];
+  uStack104._8_4_ = USHORT_ARRAY_ARRAY_800deb40[2];
+  if (dialougemode_pointer == NULL) {
+    get_some_borg13(BorgID);
+    for (iVar5 = 0; uStack104[iVar5] != 0xffff; iVar5 += 2) {
+      if (BorgID == uStack104[iVar5]) {
+        gGlobals.EncounterDat.EncounterID = uStack104[iVar5 + 1];
+        break;
+      }
+    }
+    if (dialougmode_struct_init(BorgID,RefPointID,MapDatA,MapShortA,MapShortB,param_6)) {
+      uVar4 = 0;
+      if (borg_13_pointer->dat->CmdCount != 0) {
+        do {
+          DialougInsertPlayerName(get_borg_13_text(borg_13_pointer->dat,(u8)uVar4));          
+          some_string_func(get_borg_13_text(borg_13_pointer->dat,(u8)uVar4));
+          uVar4 += 1;
+        } while (uVar4 < borg_13_pointer->dat->CmdCount);
+      }
+      (*dialougemode_pointer->funcs0[dialougemode_pointer->func_index])();
+      sprintf(gGlobals.text,"Dialog #%d\n",dialougemode_pointer->borg13_dat->ID);
+      N64Print::Print(gGlobals.text);
+      whoDied_short = 0;
+      if ((borg_short_list[0].borg_13 != 0xffffffff) &&
+         (uVar3 = 2, whoDied_short = borg_short_list[0].some_num,
+         BorgID != borg_short_list[0].borg_13)) {
+        do {
+          uVar6 = uVar3 & 0xffff;
+          if ((&borg_short_list[0].borg_13)[uVar6] == 0xffffffff) {
+            whoDied_short = 0;
+            return;
+          }
+          uVar3 = uVar6 + 2;
+        } while (BorgID != (&borg_short_list[0].borg_13)[uVar6]);
+        whoDied_short = (&borg_short_list[0].some_num)[uVar6 * 2];
+      }
+    }
+    else {
+      passto_borg13_free(borg_13_pointer);
+      borg_13_pointer = NULL;
+    }
+  }
+  return;
+}
+
+void run_dialougemode_funcs3(void){
+  freeWidgetFunc = NULL;
+  if (dialougemode_pointer) {
+    (*dialougemode_pointer->funcs3[dialougemode_pointer->func_index])();
+  }
+}
+
+void CreateNewDialouge_(u32 param_1){
+  Borg13Data *pBVar1;
+  
+  FREEQB13(borg_13_pointer);
+  borg_13_pointer = get_borg13(param_1);
+  dialougemode_pointer->borg13_dat = borg_13_pointer->dat;
+  ofunc_sub_dialouge(gGlobals.diaClass,borg_13_pointer->dat);
+  sprintf(gGlobals.text,"CreateNewDialogue\n");
+  N64Print::Print(gGlobals.text);
+  FUN_800b6cb8(&dialougemode_pointer->some_substruct,dialougemode_pointer->borg13_dat,0);
+  return;
+}
+
+Gfx * FUN_80057e78(Gfx *gfx,ushort delta){
+  Gfx *g = gfx;
+  switch(dialougemode_pointer->borg13_dat->start_func){
+    case 1:{
+    g = Graphics::StartDisplay(gfx,0,0,0x140,0xf0);
+    handleZoneEngineFrame(&g,delta,NULL);
+    if (gGlobals.screenFadeMode) return g;
+    break;}
+    case 2:{
+    Sky::ResetColors();
+    g = Graphics::StartDisplay(g,0,0,0x140,0xf0);
+    g = Graphics::SomeOtherInit(g,0,0,0x140,0xf0,0,0,0,0);
+    g = FUN_800591a8(g,(u8)delta,true);
+    if (gGlobals.screenFadeMode) return g;
+    break;
+    }
+  }
+  if (gGlobals.screenFadeMode) return g;
+  dialougemode_pointer->unkab = 3;
+  return g;
+}
+
+int ScreenFadeMode_12(Gfx **GG)
+
+{
+  byte bVar1;
+  int iVar2;
+  bool bVar4;
+  Gfx *pGVar3;
+  u8 delta;
+  Gfx *g;
+  controller_aidyn *apcStack_1c;
+  
+  g = *GG;
+  delta = 0;
+  switch(dialougemode_pointer->unkab){
+    case 0:{
+      DAT_800ee974 = 1;
+      dialougemode_pointer->unkab = 1;
+      run_dialougemode_funcs4();
+      return 0xc;
+    }
+    case 1:{
+    run_dialougemode_funcs1();
+    g = Graphics::StartDisplay(g,0,0,0x140,0xf0);
+    iVar2 = cutScene_control_func();
+    gGlobals.delta = iVar2;
+    FUN_80058b88(&g,iVar2);
+    pGVar3 = FUN_800591a8(g,iVar2,false);
+    break;
+  }
+  case 2:{
+    apcStack_1c = NULL;
+    ContDelta(apcStack_1c,delta);
+    gGlobals.delta = (float)delta;
+    pGVar3 = FUN_80057e78(g,delta);
+    break;
+  }
+  case 3:{
+      DAT_800ee970 = dialougemode_pointer->unk90;
+      run_dialougemode_funcs5();
+      if (DAT_800ee970 != 7) {
+        DAT_800ee974 = 0;
+        return DAT_800ee970;
+      }
+      DAT_800ee970 = 1;
+      DAT_800ee974 = 0;
+      DAT_800ee978 = 1;
+      return 1;
+  }
+  }
+  *GG = pGVar3;
+  return 0xc;
+}
+
+void run_dialougemode_funcs1(void)
+
+{
+  if ((borg_13_pointer != NULL) && (dialougemode_pointer != NULL)) {
+    (*dialougemode_pointer->funcs1[dialougemode_pointer->func_index])();
+    dialougemode_pointer->unkac = 0;
+  }
+  return;
+}
+
+u8 dialougSkillCheck(SkillEnum param_1)
+
+{
+  uint uVar1;
+  VoxelChartEntry *pVVar2;
+  
+  if (dialougemode_pointer->partySkillLvls[param_1] == 0xff) {
+    uVar1 = PARTY->SkillCheck(param_1);
+    dialougemode_pointer->partySkillLvls[param_1] = (u8)uVar1;
+    if (param_1 == SKILL_Troubadour) {
+      return dialougemode_pointer->partySkillLvls[9];
+    }
+    if (dialougemode_pointer->Unk0x7C != 0x7fff) {
+      pVVar2 = some_ref_obj_lookup_func
+                         (dialougemode_pointer->Unk0x7C,
+                          *(char *)((int)&dialougemode_pointer->mapDatA + 1),
+                          *(byte *)((int)&dialougemode_pointer->mapShort1 + 1),
+                          *(byte *)((int)&dialougemode_pointer->mapShort2 + 1),0x11,param_1 + 0x49);
+      if (pVVar2 == NULL) {
+        pVVar2 = passto_WriteTo_VoxelChart
+                           (dialougemode_pointer->Unk0x7C,
+                            *(undefined1 *)((int)&dialougemode_pointer->mapDatA + 1),
+                            *(undefined1 *)((int)&dialougemode_pointer->mapShort1 + 1),
+                            *(undefined1 *)((int)&dialougemode_pointer->mapShort2 + 1),0x11,
+                            param_1 + 0x49,10);
+        pVVar2->unk0x8 = (float)(uint)dialougemode_pointer->partySkillLvls[param_1];
+      }
+      else {
+        dialougemode_pointer->partySkillLvls[param_1] = *(u8 *)((int)&pVVar2->unk0x8 + 3);
+        pVVar2->arg7 = 10;
+      }
+    }
+  }
+  return dialougemode_pointer->partySkillLvls[param_1];
+}
+
+void FUN_8005831c(void)
+
+{
+  DialougeClass *pDVar1;
+  
+  pDVar1 = gGlobals.diaClass;
+  if ((((dialougemode_pointer != NULL) && (dialougemode_pointer->unka0 != 0)) &&
+      (dialougemode_pointer->unka4 == 0)) && (gGlobals.scriptcamera.counter1 == 0)) {
+    dialougemode_pointer->unka0 = 0;
+    gGlobals.diaClass->m8004f264(pDVar1);
+  }
+  return;
+}
+
+void FUN_80058370(void)
+
+{
+  BaseWidget *pBVar1;
+  DialougeClass *pDVar2;
+  WidgetHandler *pWVar3;
+  
+  pWVar3 = gGlobals.widgetHandler;
+  if (dialougemode_pointer->unka0 == 0) {
+    pBVar1 = (gGlobals.diaClass)->menu;
+    dialougemode_pointer->unka0 = 1;
+    WidgetHandler::FreeWidget(pWVar3,pBVar1);
+    pDVar2 = gGlobals.diaClass;
+    (gGlobals.diaClass)->unkC = 0;
+    gGlobals.diaClass->SetUnk20(pDVar2);
+  }
+  return;
+}
+
+void FUN_800583d0(u16 param_1){
+  dialougemode_struct *pdVar1;
+  
+  pdVar1 = dialougemode_pointer;
+  dialougemode_pointer->unka4 = 1;
+  dialougemode_pointer->unk9c = param_1;
+  FUN_80058370();
+}
+
+void set_dialougemode_0x90(undefined4 param_1)
+
+{
+  dialougemode_pointer->unk90 = param_1;
+  return;
+}
+void encounterDat_func(void)
+
+{
+  dialougemode_struct *pdVar1;
+  uint uVar2;
+  uint uVar3;
+  
+  pdVar1 = dialougemode_pointer;
+  memset(&gGlobals.EncounterDat,0,0x18);
+  uVar2 = 0;
+  do {
+    uVar3 = uVar2 + 1 & 0xff;
+    gGlobals.EncounterDat.enemy_entities[uVar2] =
+         *(ItemID *)((pdVar1->some_substruct).encounterEnemies + uVar2);
+    uVar2 = uVar3;
+  } while (uVar3 < 0xc);
+  gGlobals.EncounterDat.battlefield = (pdVar1->some_substruct).battlefeild;
+  gGlobals.EncounterDat.collisionByte = (pdVar1->some_substruct).unk112;
+  gGlobals.EncounterDat.unk28 = (pdVar1->some_substruct).unk113;
+  if (0x1b < gGlobals.EncounterDat.battlefield) {
+    gGlobals.EncounterDat.battlefield = 0;
+  }
+  gGlobals.combatBytes[2] = 1;
+  gGlobals.EncounterDat.BossShadow = dialougemode_pointer->func_index != 1;
+  return;
+}
+
+void monsterparty_wanderstruct(wander_substruct *param_1)
+
+{
+  playerData *ppVar1;
+  playerData *ppVar2;
+  vec3f afStack80;
+  
+  dialougemode_pointer->Wanderers = param_1;
+  WanderSubstruct_setFlag1(param_1);
+  ppVar1 = param_1->playerDat;
+  Actor::SetFlag(ppVar1,ACTOR_800|ACTOR_40);
+  ppVar2 = gGlobals.playerCharStruct.playerDat;
+  ppVar1->ani_type = 0;
+  ppVar2->ani_type = 0;
+  Vec3_sub(&afStack80,&(ppVar1->collision).pos,&(ppVar2->collision).pos);
+  vec3_normalize(&afStack80);
+  Actor::SetFacing(ppVar1,afStack80.x,afStack80.z);
+  Actor::SetFacing(ppVar2,-afStack80.x,-afStack80.z);
+  return;
+}
+bool DialougeAddPartyMember(ItemID param_1)
+
+{
+  bool bVar1 = PARTY->AddMember(param_1);
+  if (bVar1) {
+    bVar1 = true;
+    if (dialougemode_pointer->borg13_dat->start_func == 0) {
+      dialougemode_pointer->unka8 = 1;
+      bVar1 = true;
+    }
+  }
+  else {
+    bVar1 = false;
+  }
+  return bVar1;
+}
+
+void FUN_800585d0(ushort param_1){
+  if (dialougemode_pointer->borg13_dat->start_func == 0)
+    ApplyStimulus(FUN_800591e4(),param_1);
+  else ApplyStimulus(FUN_80059ae8(),param_1);
+}
+
+void some_debug_func_3(void)
+
+{
+  if (dialougemode_pointer->borg13_dat->start_func == 1) {
+    debug_sub_3();
+  }
+  return;
+}
+
+ItemID set_shopkeep(void)
+
+{
+  playerData *ppVar1;
+  
+  gGlobals.playerCharStruct.current_shopkeep = (dialougemode_pointer->some_substruct).Entid;
+  if (((dialougemode_pointer->func_index == 0) && (dialougemode_pointer->Wanderers != NULL)) &&
+     (ppVar1 = dialougemode_pointer->Wanderers->playerDat, ppVar1 != NULL)) {
+    gGlobals.playerCharStruct.current_shopkeep = ppVar1->ent_ID;
+  }
+  return gGlobals.playerCharStruct.current_shopkeep;
+}
+
+void init_skill_trainer(void)
+
+{
+  Entity_Ram *pEVar1;
+  ItemID IVar5;
+  byte index;
+  CharSkills *sk;
+  int iVar2;
+  SpellBook *pSVar3;
+  SpellInstance *pSVar4;
+  ItemID *pIVar7;
+  u16 i;
+  short sVar10;
+  u8 uVar9;
+  
+  IVar5 = set_shopkeep();
+  if (IVar5) {
+    index = GETINDEX(IVar5);
+    pSVar3 = NULL;
+    sVar10 = 0;
+    i = 0;
+    pEVar1 = gEntityDB->entities;
+    ALLOC(sk,663);
+    sk->Init(IVar5);
+    for(i=0;i<5;i++){
+      if (gEntityDB->entities[index].Spell_levels[i] != -1) sVar10++;
+    }
+    if (sVar10 != 0) {
+      ALLOC(pSVar3,674);
+      pSVar3->Reset((u8)sVar10);
+      pSVar3->count = (u8)sVar10;
+      for(i=0,uVar9=0;i<5;i++){
+        pIVar7 = &gEntityDB->entities[index].spells[i];
+        if (*pIVar7 != -1) {
+          ALLOC(pSVar4,682);
+          IVar5 = *pIVar7;
+          pSVar3->spells[uVar9] = pSVar4;
+          TempSpell::Init(pSVar4,IVar5,pEVar1[(char)index].Spell_levels[i]);
+          uVar9++;
+        }
+      }
+    }
+    set_shopkeep_skills(sk,pSVar3);
+  }
+  return;
+}
+
+void shop_func(void)
+
+{
+  float fVar1;
+  ItemID keep;
+  GenericInventory *pGVar2;
+  GenericInventory *pIVar3;
+  int iVar3;
+  shop_ram *puVar4;
+  ulong uVar4;
+  Inventory_item *uVar5;
+  ulonglong uVar6;
+  u8 uVar7;
+  
+  keep = set_shopkeep();
+  if (keep) {
+    pIVar3 = new GenericInventory();
+    uVar7 = 0;
+    puVar4 = NULL;
+    if (shop_pointer->total != 0) {
+      iVar3 = 0;
+      do {
+        puVar4 = shop_pointer->shops[uVar7];
+        if (puVar4->shopkeep == keep) break;
+        uVar7++;
+        puVar4 = NULL;
+      } while (uVar7 < shop_pointer->total);
+    }
+    uVar7 = 0;
+    iVar3 = 0;
+    do {
+      uVar6 = (ulonglong)*(ushort *)((int)puVar4->stock + iVar3);
+      if ((uVar6 != 0) && (puVar4->multi[2][uVar7] != 0)) {
+        pIVar3->AddItem(uVar6,1);
+        uVar5 = pIVar3->GetItemEntry(pIVar3->GetItemIndex(uVar6));
+        f32 price_multis[]={0.5,0.75,1.0,1.25,1.5,2.0,3.0,5.0};
+        (uVar5->base).price = (float)(uVar5->base).price * price_multis[puVar4->multi[1][uVar7]];
+      }
+      uVar7++;
+      iVar3 = uVar7 << 1;
+    } while (uVar7 < 0x14);
+    for (; uVar7 < 0x17; uVar7++) {
+      if (puVar4->stock[uVar7])
+        pIVar3->AddItem(puVar4->stock[uVar7],1);
+    }
+    build_loot_menu(pIVar3,0,(short)keep);
+  }
+  return;
+}
+
+
+void set_some_borg13_flag(void){
+  if (borg13_flag == 0) {
+    borg13_flag = 1;
+    FUN_80058370();
+  }
+}
+
+void FUN_80058ad4(void){
+  Borg7Header *pBVar1;
+  
+  if (dialougemode_pointer->unkad != 0) {
+    dialougemode_pointer->unkad = 0;
+    if ((dialougemode_pointer->playerDat != NULL) &&
+       (pBVar1 = dialougemode_pointer->playerDat->locator_pointer, pBVar1 != NULL)) {
+      FUN_800583d0(pBVar1->unk1c->b6->dat->aniLength);
+    }
+  }
+}
+
+void FUN_80058b30(ushort param_1){
+  if (dialougemode_pointer->unka4 != 0) {
+    if (param_1 < dialougemode_pointer->unk9c) {
+      dialougemode_pointer->unk9c-= param_1;
+    }
+    else {
+      dialougemode_pointer->unk9c = 0;
+      dialougemode_pointer->unka4 = 0;
+      dialougemode_pointer->unka0 = 0;
+      gGlobals.diaClass->m8004f264();
+    }
+  }
+}
+
+void FUN_80058b88(Gfx **param_1,u16 param_2){
+  u8 b = dialougemode_pointer->borg13_dat->start_func;
+  if (b == 1) {
+    handleZoneEngineFrame(param_1,param_2,NULL);
+    ProcessAudioBubbles(&gGlobals.SFXStruct,&gGlobals.Sub.camera.pos,param_2);
+  }
+  else if ((1 < b) && (b < 5)) {
+    gGlobals.scriptcamera.counter0 = 0;
+    gGlobals.scriptcamera.counter1 = 0;
+    return;
+  }
+  FUN_80058ad4();
+  FUN_80058b30(param_2);
+  return;
+}
+
+
+void ApplyStimulus(playerData *param_1,ushort param_2){
+  if (param_1) {
+    sprintf(gGlobals.text,"ApplyStimulus(%d)\n",param_2);
+    N64Print::Print(gGlobals.text);
+    param_1->ani_type = param_2;
+    dialougemode_pointer->unkac = 1;
+    dialougemode_pointer->unkad = 1;
+    dialougemode_pointer->playerDat = param_1;
+  }
+}
+
+void get_dialougemode_funcs(void)
+
+{
+  dialougemode_struct *pdVar1;
+  
+  pdVar1 = dialougemode_pointer;
+  dialougemode_pointer->funcs0[0] = FUN_80059888;
+  pdVar1->funcs0[1] = FUN_80059b28;
+  pdVar1->funcs0[3] = FUN_80059d38;
+  pdVar1->funcs0[2] = SetUnkState11;
+  pdVar1->funcs0[4] = SetUnkState11;
+  pdVar1->funcs1[0] = FUN_800598fc;
+  pdVar1->funcs1[3] = NOOP_80059d7c;
+  pdVar1->funcs1[1] = FUN_80059b50;
+  pdVar1->funcs1[2] = NOOP_80059D08;
+  pdVar1->funcs1[4] = NOOP_80059D08;
+  pdVar1->funcs2[0] = FUN_80059970;
+  pdVar1->funcs2[3] = FUN_80059d84;
+  pdVar1->funcs2[1] = FUN_80059bf8;
+  pdVar1->funcs3[0] = FUN_800599f0;
+  pdVar1->funcs2[2] = FUN_80059d10;
+  pdVar1->funcs2[4] = FUN_80059d10;
+  pdVar1->funcs3[3] = FUN_80059dac;
+  pdVar1->funcs3[1] = FUN_80059c70;
+  pdVar1->funcs3[2] = FUN_80059c70;
+  pdVar1->funcs3[4] = FUN_80059c70;
+  pdVar1->funcs4[2] = FUN_80059628;
+  pdVar1->funcs4[4] = FUN_80059628;
+  pdVar1->funcs4[0] = DialogueModeInitPrescripted;
+  pdVar1->funcs4[1] = DialogueModeInitPrescripted;
+  pdVar1->funcs4[3] = DialogueModeInitPrescripted;
+  pdVar1->unk0x64[0] = load_one_of_two_cinematics;
+  pdVar1->unk0x64[1] = load_one_of_two_cinematics;
+  pdVar1->unk0x64[2] = FUN_80059674;
+  pdVar1->unk0x64[3] = load_one_of_two_cinematics;
+  pdVar1->unk0x64[4] = FUN_80059674;
+  return;
+}
+
+void NOOP_80058dc8(void){}
+
+void get_some_borg13(u32 param_1){
+  borg_13_pointer = get_borg13(param_1);
+  if (borg_13_pointer == NULL)
+    gGlobals.EncounterDat.EncounterID = 0;
+}
+
+bool dialougmode_struct_init
+               (borg13Enum BorgID,undefined2 RefPointID,undefined2 MapDatA,undefined2 MapShortA,
+               undefined2 MapShortB,undefined2 param_6){
+  Borg13Data *pBVar1;
+  dialougemode_struct *pdVar2;
+  dialougemode_struct *pdVar3;
+  u8 *x;
+  
+  ALLOC(dialougemode_pointer,0x3a3);
+  CLEAR(dialougemode_pointer);
+  pdVar2 = dialougemode_pointer;
+  pBVar1 = borg_13_pointer->dat;
+  dialougemode_pointer->unkab = 0;
+  pdVar3 = dialougemode_pointer;
+  pdVar2->borg13 = BorgID;
+  pdVar2->mapDatA = MapDatA;
+  pdVar2->mapShort1 = MapShortA;
+  pdVar2->mapShort2 = MapShortB;
+  pdVar2->RefPointID = RefPointID;
+  pdVar2->unk90 = 1;
+  pdVar2->borg13_dat = pBVar1;
+  pdVar3->Unk0x7C = param_6;
+  x = (u8 *)HALLOC(0xc,0x3b2);
+  dialougemode_pointer->partySkillLvls = x;
+  memset(x,0xff,0xc);
+  FUN_800b6c38(&dialougemode_pointer->some_substruct,dialougemode_pointer->RefPointID);
+  dialougemode_pointer->func_index = dialougemode_pointer->borg13_dat->start_func;
+  get_dialougemode_funcs();
+  return true;
+}
+
+void clear_borg13_pointer(void){
+  if (borg_13_pointer) {
+    FREEQB13(borg_13_pointer);
+    borg_13_pointer = NULL;
+  }
+}
+
+
+void dialougmode_free(void){
+  if (dialougemode_pointer) {
+    if (dialougemode_pointer->camp_flag)
+      World::Lapse8Hours(TerrainPointer);
+    FREE(dialougemode_pointer->partySkillLvls,0x3cd);
+    FREE(dialougemode_pointer,0x3d0);
+    NOOP_80058dc8();
+  }
+  return;
+}
+
+byte cutScene_control_func(void)
+
+{
+  BaseWidget *pBVar1;
+  bool bVar2;
+  byte bVar3;
+  byte delta;
+  controller_aidyn *acStack32;
+  
+  acStack32 = NULL;
+  delta = 0;
+  do {
+    do {
+      bVar3 = delta + 1;
+      if (!Controller::GetInput(&acStack32,0)) goto LAB_80059174;
+      delta = bVar3;
+    } while (gGlobals.screenFadeMode != 0);
+    if ((acStack32->input & B_BUTTON) != 0) unusedDialougToggle ^= 1;
+    #ifdef DEBUGVER
+    if (((gDebugFlag != 0) && (dialougemode_pointer->unka0 == 0)) &&
+       ((acStack32->input & START_BUTTON) != 0))
+      build_camera_debug(dialougemode_pointer->RefPointID);
+    #endif
+    u32 buttons = acStack32->input_2;
+    if ((((buttons & R_BUTTON) != 0) && (buttons != 0)) &&
+       (((buttons & (A_BUTTON|Z_BUTTON)) == (A_BUTTON|Z_BUTTON) &&
+        ((acStack32->input & B_BUTTON) != 0)))) {
+      DialogCallbackC((gGlobals.diaClass)->dialouge_substruct,borg_13_pointer->dat,B13Com_EndDialoug,0);
+    }
+    N64Print::Toggle(&gGlobals.DebugQueue,acStack32);
+  } while (((dialougemode_pointer->unka0) || (dialougemode_pointer->unka4)) ||
+          ((gGlobals.scriptcamera.counter1 != 0 ||
+           (((!WHANDLE->Control((ControllerFull *)acStack32)|| (freeWidgetFunc == NULL)) ||
+            ((*freeWidgetFunc)(), dialougemode_pointer->unkab != 2))))));
+LAB_80059174:
+  DeltaCap(delta);
+  return delta;
+}
+
+
+Gfx * FUN_800591a8(Gfx *g,u8 delta,bool param_3){
+  if ((gGlobals.screenFadeMode == 0) || (param_3)) {
+    g = tick_and_render_widgets(N64Print::Draw(g,(ushort)delta));
+  }
+  return g;
+}
+
+playerData * FUN_800591e4(void){
+  ItemID x;
+  byte bVar2;
+  playerData *ppVar1;
+  
+  x = (dialougemode_pointer->some_substruct).diags[0].ent_ID;
+  ppVar1 = NULL;
+  if (((ushort)x >> 8 == 2) &&
+     (bVar2 = GETINDEX(x), ppVar1 = gGlobals.playerCharStruct.playerDat,
+     bVar2 != 0x99)) {
+    if (dialougemode_pointer->Wanderers == NULL) ppVar1 = NULL;
+    else ppVar1 = dialougemode_pointer->Wanderers->playerDat;
+  }
+  return ppVar1;
+}
+
+void run_dialougemode_funcs4(void){
+  if (dialougemode_pointer)
+    (*dialougemode_pointer->funcs4[dialougemode_pointer->func_index])();
+}
+
+void run_dialougemode_funcs5(void){
+  if (dialougemode_pointer)
+    (*dialougemode_pointer->unk0x64[dialougemode_pointer->func_index])();
+}
+
+void DialogueModeInitPrescripted(void){
+  vec3f afStack80;
+  
+  N64Print::Print("DialogueModeInitPrescripted\n");
+  freeWidgetFunc = run_dialougemode_funcs2;
+  WanderHead(&gGlobals.wander,8);
+  InitZoneEngine(0,0);
+  DialogueModeInitPrescripted_set_map
+            (dialougemode_pointer->mapDatA,dialougemode_pointer->mapShort1,
+             dialougemode_pointer->mapShort2);
+  memset(&afStack80,0,0xc);
+  Camera::SetPos(gGlobals.Sub.PlayerHandler.camera,&afStack80);
+  afStack80.x += 100.0f;
+  Camera::SetAim(gGlobals.Sub.PlayerHandler.camera,&afStack80);
+  gGlobals.diaClass->StartDialoug
+            (gGlobals.diaClass,dialougemode_pointer->borg13_dat,
+             &dialougemode_pointer->some_substruct,dialougemode_pointer->func_index,
+             dialougemode_pointer->borg13_dat->C);
+  gGlobals.screenFadeMode = 2;
+  gGlobals.brightness = 0.0;
+  gGlobals.screenFadeSpeed = (1.0/60);
+}
+
+void load_one_of_two_cinematics(void)
+
+{
+  bool bVar3;
+  Borg9Header *pBVar2;
+  undefined4 uVar6;
+  int iVar8;
+  int iVar9;
+  int iVar10;
+  
+  DialougFreeActors(&dialougemode_pointer->some_substruct,dialougemode_pointer->borg13_dat);
+  Process_queue_B(&gGlobals.QueueB,1);
+  FreeZoneEngine(1);
+  clear_sfx_entries(&gGlobals.SFXStruct,1);
+  FreeWanderHead(&gGlobals.wander);
+  gGlobals.diaClass->FreeWidgets();
+  if (isCampfireScene(dialougemode_pointer->borg13))
+    World::Lapse8Hours(TerrainPointer);
+  dialougmode_free();
+  clear_borg13_pointer();
+  switch (whoDied_short){
+    case 1:{
+      Cinematic::Load(Cinematic_End,CSwitch_Credits,0);
+      DAT_800ee970 = 0xe;
+      return;
+    }
+    case 2:{
+      DAT_800ee970 = 0;
+      return;
+    }
+    case 3:{
+    if (getEventFlag(0xd72)) {
+      Cinematic::Load(Cinematic_Roog,CSwitch_TrueName,1);
+      DAT_800ee970 = 0xe;
+      return;
+    }
+   }
+   default:break;
+  }
+  if ((DAT_800ee970 == 1) && (gGlobals.Sub.MapFloatDatEntry.mapDatB != -1)) {
+    pBVar2 = loadBorg9(BorgMaps::GetMapList(gGlobals.Sub.MapFloatDatEntry.mapDatA,gGlobals.Sub.MapFloatDatEntry.MapShort1
+                       ,gGlobals.Sub.MapFloatDatEntry.MapShort2));
+    if ((pBVar2->dat).voxelObjCount != 0) {
+      for(s16 i=0;i<(pBVar2->dat).voxelObjCount;i++) {
+        voxelObject* obj = &pBVar2->dat.voxelObjs[i];
+        if ((((obj->header).type == VOXEL_Dialouge) &&
+            (((obj->header).Bitfeild & VOXEL_tangible))) &&
+           (dialouge_trigger_check(obj,&gGlobals.Sub.MapFloatDatEntry.playerVec3,true))) {
+          DAT_800ee96c = 1;
+          dialoug_func((uint)(obj->dialoug).borg_13,(obj->dialoug).RefPointID,
+                       (obj->dialoug).MapDatA,(obj->dialoug).MapShortA,
+                       (obj->dialoug).MapShortB,(short)iVar8);
+          DAT_800ee96c = 0;
+          DAT_800ee970 = 0xc;
+          break;
+        }
+      }
+    }
+    remove_borg_9(pBVar2);
+  }
+  return;
+}
+
+bool FUN_80059628(void){
+  freeWidgetFunc = run_dialougemode_funcs2;
+  Borg13Data *pBVar1 = dialougemode_pointer->borg13_dat;
+  return gGlobals.diaClass->StartDialoug(pBVar1,&dialougemode_pointer->some_substruct,
+                     pBVar1->start_func,pBVar1->C);
+}
+
+void FUN_80059674(void){
+  gGlobals.diaClass->FreeWidgets();
+  dialougmode_free();
+  clear_borg13_pointer();
+}
+
+void DialogueModeInitPrescripted_set_map(EnumMapDatA mapdatA,u16 short1,u16 short2){
+  set_playerdata_zoneDatByte(short1,short2);
+  set_SFX_ZoneDatByte(&gGlobals.SFXStruct,short1,short2);
+  gGlobals.Sub.mapDatB = 0xffff;
+  gGlobals.Sub.mapDatC = 0xffff;
+  gGlobals.Sub.mapShort1 = short1;
+  gGlobals.Sub.mapShort2 = short2;
+  gGlobals.Sub.mapDatA = mapdatA;
+  BorgMaps::LoadMap(mapdatA,-1,-1,false);
+  no_TP_vec3 = 1;
+  loadGameBorgScenes(short1,short2);
+  BorgMaps::GetMapTerrain(short1,short2);
+  gGlobals.Sub.camera.unk80 = 5;
+}
+
+void FUN_80059770(void){
+  wander_substruct *pwVar1 = dialougemode_pointer->Wanderers;
+  if ((pwVar1) && (pwVar1->playerDat)) {
+    Borg9Data *pBVar2 = GetCollisionZone(pwVar1->playerDat->zoneDatByte);
+    gGlobals.playerCharStruct.unkState = 2;
+    gGlobals.EncounterDat.collisionByte = 0;
+    gGlobals.EncounterDat.unk28 = 0;
+    voxelObject* pmVar3 = &pBVar2->voxelObjs[pwVar1->VoxelIndex];
+    battle_setup_func(pmVar3,(pmVar3->header).flagC,pwVar1->VoxelIndex);
+  }
+}
+
+void FUN_800597f8(void){
+  uint uVar1;
+  u16 lVar2;
+  
+  uVar1 = dialougemode_pointer->unk90;
+  lVar2 = 0xffff;
+  if (uVar1 == 5) lVar2 = 5;
+  else if (uVar1 < 6) {
+    if (uVar1 == 2) FUN_80059770();
+  }
+  else if (uVar1 == 7) lVar2 = 7;
+  if (lVar2 != 0xffff) {
+    gGlobals.playerCharStruct.unkState = (u8)lVar2;
+  }
+}
+
+void FUN_80059888(void){
+  playerData *ppVar1 = gGlobals.playerCharStruct.playerDat;
+  (gGlobals.playerCharStruct.playerDat)->ani_type = 0;
+  Actor::SetFlag(ppVar1,ACTOR_800);
+  gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
+             &dialougemode_pointer->some_substruct,0,0);
+  clear_some_playerHandler_field();
+  Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,&(ppVar1->collision).pos);
+}
+
+void FUN_800598fc(void){
+  playerData *ppVar1;
+  playerData *ppVar2;
+  
+  if (dialougemode_pointer->Wanderers != NULL) {
+    WanderSubstruct_setFlag1(dialougemode_pointer->Wanderers);
+    ppVar2 = gGlobals.playerCharStruct.playerDat;
+    ppVar1 = dialougemode_pointer->Wanderers->playerDat;
+    Actor::SetFlag(ppVar1,ACTOR_800|ACTOR_40);
+    Actor::SetFlag(ppVar2,ACTOR_800);
+    ppVar2->ani_type = 0;
+    ppVar1->ani_type = 0;
+  }
+  return;
+}
+
+void FUN_80059970(BaseWidget *param_1){
+  playerData *ppVar1 = gGlobals.playerCharStruct.playerDat;
+  if (dialougemode_pointer->Wanderers) {
+    dialougemode_pointer->Wanderers->playerDat->ani_type = 0;
+  }
+  ppVar1->ani_type = 0;
+  gGlobals.diaClass->m8004ea94(param_1);
+  if (((dialougemode_pointer) && (dialougemode_pointer->unkac == 0)) &&
+     (ppVar1 = FUN_800591e4(), ppVar1)) {
+    ppVar1->ani_type = 4;
+  }
+  return;
+}
+
+
+void FUN_80059970(BaseWidget *param_1)
+
+{
+  playerData *ppVar1 = gGlobals.playerCharStruct.playerDat;
+  if (dialougemode_pointer->Wanderers)
+    dialougemode_pointer->Wanderers->playerDat->ani_type = 0;
+  ppVar1->ani_type = 0;
+  gGlobals.diaClass->m8004ea94(param_1);
+  if (((dialougemode_pointer) && (dialougemode_pointer->unkac == 0)) &&
+     (ppVar1 = FUN_800591e4(), ppVar1 != NULL)) {
+    ppVar1->ani_type = 4;
+  }
+  return;
+}
+
+void FUN_800599f0(void){
+  wander_substruct *pwVar1;
+  playerData *ppVar2;
+  Camera_struct *pCVar3;
+  
+  gGlobals.diaClass->FreeWidgets();
+  pwVar1 = dialougemode_pointer->Wanderers;
+  FUN_800597f8();
+  pCVar3 = gGlobals.Sub.PlayerHandler.camera;
+  ppVar2 = gGlobals.playerCharStruct.playerDat;
+  if ((gGlobals.playerCharStruct.playerDat != NULL) && (gGlobals.Sub.PlayerHandler.camera != NULL))
+  {
+    Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,
+                    &((gGlobals.playerCharStruct.playerDat)->collision).pos);
+    pCVar3->unk80 = 5;
+  }
+  if (pwVar1 != NULL) {
+    if (dialougemode_pointer->unka8 == '\0') {
+      Actor::UnsetFlag(dialougemode_pointer->Wanderers->playerDat,ACTOR_800|ACTOR_40);
+      FUN_80012d44(dialougemode_pointer->Wanderers);
+    }
+    else {
+      FreeWanderer(&gGlobals.wander,dialougemode_pointer->Wanderers);
+    }
+  }
+  if (ppVar2 != NULL) {
+    Actor::UnsetFlag(ppVar2,ACTOR_800);
+    clear_some_playerHandler_field();
+    GiveCameraToPlayer(ppVar2);
+  }
+  dialougmode_free();
+  clear_borg13_pointer();
+}
+
+playerData * FUN_80059ae8(void){
+  ActorAndID* pAVar1 = DialougGetActorAndID
+                     (&dialougemode_pointer->some_substruct,borg_13_pointer->dat,
+                      (dialougemode_pointer->some_substruct).Entid);
+  if (pAVar1 == NULL) return NULL;
+  else return pAVar1->actor;
+}
+
+
+void FUN_80059b28(void){
+  if (DAT_800ee96c == 0)
+    FUN_80024c54(0xb);
+}
+
+
+void FUN_80059b50(void){
+  u8 uVar5 = 0;
+  if (dialougemode_pointer->borg13_dat->ActorCount != 0) {
+    do {
+      playerData *ppVar2 = dialougemode_pointer->some_substruct.actors[uVar5].actor;
+      if (ppVar2) {
+        if (dialougemode_pointer->unkac == 0) ppVar2->ani_type = 0;
+        else if (ppVar2 != dialougemode_pointer->playerDat) ppVar2->ani_type = 0;
+      }
+      uVar5++;
+    } while (uVar5 < dialougemode_pointer->borg13_dat->ActorCount);
+  }
+  if ((gGlobals.scriptcamera.counter1 == 0) && (borg13_flag != 0)) {
+    borg13_flag = 0;
+    FUN_8005831c();
+  }
+  return;
+}
+
+
+void FUN_80059bf8(BaseWidget *param_1){
+  playerData *ppVar1;
+  
+  if ((((gGlobals.scriptcamera.counter1 == 0) &&
+       (gGlobals.diaClass->m8004ea94(param_1), dialougemode_pointer->unkab == 1))
+      && (ppVar1 = FUN_80059ae8(), ppVar1 != NULL)) && (dialougemode_pointer->unkac == 0)) {
+    ppVar1->ani_type = 4;
+  }
+}
+
+
+void FUN_80059c70(void){
+  setEventFlag(dialougemode_pointer->borg13_dat->flag,true);
+  gGlobals.screenFadeSpeed = (1.0/60);
+  dialougemode_pointer->unkab = 2;
+  dialougemode_pointer->unka8 = 1;
+  gGlobals.screenFadeMode = 1;
+  if (dialougemode_pointer->borg13_dat->start_func == 2) {
+    gGlobals.screenFadeSpeed = (1.0/30);
+  }
+}
+
+void SetUnkState11(void){
+  gGlobals.playerCharStruct.unkState = 0xb;
+}
+
+void NOOP_80059D08(void){}
+
+bool FUN_80059d10(BaseWidget *param_1){
+  return gGlobals.diaClass->m8004ea94(param_1);
+}
+
+
+bool FUN_80059d38(void){
+  (gGlobals.playerCharStruct.playerDat)->ani_type = 0;
+  return gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,&dialougemode_pointer->some_substruct,3,0);
+}
+
+void NOOP_80059d7c(void){}
+
+bool FUN_80059d84(BaseWidget *param_1){
+  return gGlobals.diaClass->m8004ea94(param_1);
+}
+
+void FUN_80059dac(void){
+  gGlobals.diaClass->FreeWidgets();
+  dialougmode_free();
+  clear_borg13_pointer();
+}
+
+bool isDialougeMode(void){
+  if (gGlobals.screenFadeModeSwitch == 0xc)
+    return true;
+  return dialougemode_pointer != NULL;
+}

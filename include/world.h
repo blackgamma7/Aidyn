@@ -27,7 +27,7 @@ struct TerrainStruct {
 };
 
 struct Calendar { // TerrainStruct->IngameTime as x
-   u8 month; // x / 0x114db000
+   u8 season; // x / 0x114db000
    u8 week; // (x % 0x114db000)/0x229b600
    u8 day; // (x % 0x229b600) / 0x4f1a00
    u8 hour; // (x % 0x4f1a00 >> 6) / 0xd2f
@@ -53,7 +53,7 @@ extern char** precip_labels;
 
 extern TerrainStruct* TerrainPointer;
 
-extern u8 weather_month_array[8]; // {2Bh, 30h, 21h, 19h, 24h, 28h, 0h, 0h}
+extern u8 weather_season_array[8]; // {2Bh, 30h, 21h, 19h, 24h, 28h, 0h, 0h}
 extern u8 weather_terrain_array[28];
 // {0h, 0h, 0h, 9Ch, 5h, 1Eh, 0h, Fh, 0h, 0h, 14h, 0h, 0h, 0h, 0h, 0h, 0h, 0h, 64h, 0h, 0h, 0h, 0h, 1Eh, Fh, 0h, 9Ch, 9Ch}
 extern float terrain_rand_array[28];
@@ -84,7 +84,7 @@ void Lapse8Hours(TerrainStruct *);
 void add_playTime(TerrainStruct *,s32 );
 u32 GetTime(TerrainStruct *);
 void SetTime(TerrainStruct *,u32 );
-u8 GetMonth(TerrainStruct *);
+u8 GetSeason(TerrainStruct *);
 u8 GetWeek(TerrainStruct *);
 u8 GetDay(TerrainStruct *);
 u8 GetHour(TerrainStruct *);

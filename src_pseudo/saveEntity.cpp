@@ -226,7 +226,7 @@ void SaveEntity::BenchInSlot(CharSheet *param_1){
 
 u8 SaveEntity::GetSlot(ItemID param_1){
   u8 bVar1;
-  switch(GetIDIndex(param_1)) {
+  switch(GETINDEX(param_1)) {
   case 0x98:
     bVar1 = 4;
     break;

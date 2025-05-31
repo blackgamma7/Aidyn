@@ -16,7 +16,7 @@ u8 CombatAI::WillTheyFlee(ItemID param_1){
   s32 lVar7;
   
   if (gCombatP->hasFleeRefpoints == 0) return false;
-  bVar3 = GetIDIndex(param_1);
+  bVar3 = GETINDEX(param_1);
   bVar1 = gEntityDB->entities[(char)bVar3].morale;
   lVar7 = bVar1;
   if (0xb < lVar7) return false;
@@ -1265,7 +1265,7 @@ void FUN_800628cc(CombatAIInfo *param_1){
   pCVar1 = param_1->combatEnt->charSheetP;
   pCVar14 = &gCombatP->substruct;
   pSVar6 = Entity::GetSpell(pCVar1);
-  if ((pSVar6 != NULL) && (bVar9 = GetIDIndex((pSVar6->base).id), bVar9 == 8)) {
+  if ((pSVar6 != NULL) && (bVar9 = GETINDEX((pSVar6->base).id), bVar9 == 8)) {
     iVar7 = Entity::CheckSpellWizard(pCVar1,pSVar6);
     uVar15 = (uint)pSVar6->range * iVar7 & 0xff;
     uVar10 = param_1->combatEnt->GetCoordXU8();

@@ -41,9 +41,9 @@
 #define FLAG_CalendarWeekdayD 2307
 #define FLAG_CalendarWeekdayE 2308
 #define FLAG_CalendarWeekdayF 2309
-#define FLAG_CalendarMonthA 2310
-#define FLAG_CalendarMonthB 2314
-#define FLAG_CalendarMonthC 2312
+#define FLAG_CalendarSeasonA 2310
+#define FLAG_CalendarSeasonB 2314
+#define FLAG_CalendarSeasonC 2312
 #define FLAG_CalendarDayA 2313
 #define FLAG_CalendarDayB 2314
 #define FLAG_CalendarDayC 2315

@@ -23,8 +23,8 @@ void MemoryMaker::Unload(void){
     QuestData::SetPointers(gMemoryMaker,&auStack80);
     QuestData::SaveToFile(&auStack80,false);
     clear_DBs();
-    if (gGlobals.dialougStruct) gGlobals.dialougStruct->~DialougeClass();
-    gGlobals.dialougStruct = NULL;
+    if (gGlobals.diaClass) gGlobals.diaClass->~DialougeClass();
+    gGlobals.diaClass = NULL;
     CommonStrings::Free();
   }
 }
@@ -34,7 +34,7 @@ void MemoryMaker::Reload(void){
   
   if (!gExpPakFlag) {
     CommonStrings::Init();
-    gGlobals.dialougStruct = new DialougeClass(WHANDLE);
+    gGlobals.diaClass = new DialougeClass(WHANDLE);
     init_DBs();
     QuestData::SetPointers(gMemoryMaker,&auStack72);
     QuestData::LoadFile(&auStack72,false);

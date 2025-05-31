@@ -10,7 +10,7 @@
 
 // check if ID is for non-fighting entity (or not an entity at all.)
 bool EntityCannotFight(ItemID id){
-  u16 index = GetIDIndex(id);
+  u16 index = GETINDEX(id);
   if (id >> 8 != DB_ENTITY) return true;
   if (index < 0x91) {
     if (0x81 < index) return true;
@@ -112,11 +112,11 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
   ItemID x = C_Ent->charSheetP->ID;
   init_combatgui_struct(x,index,param_1->playerCount <= index);
   //are they Alaton or Shadow?
-  if (GetIDIndex(x) == 0xac) set_shadow_index(index);
-  if (GetIDIndex(x) == 0x99) set_alaron_index(index);
+  if (GETINDEX(x) == 0xac) set_shadow_index(index);
+  if (GETINDEX(x) == 0x99) set_alaron_index(index);
   playerData *ppVar2 = Actor::AllocPlayer(gEntityDB->GetFloatC(x),C_Ent->GetCoordX(),1.0,C_Ent->GetCoordY(),gEntityDB->GetBorg7(x));
   ppVar2->ent_ID = x;
-  ppVar2->Ent_index = GetIDIndex(x);
+  ppVar2->Ent_index = GETINDEX(x);
   float fVar5 = gEntityDB->GetScale(x);
   ppVar2->interactRadiusA = fVar5;
   ppVar2->interactRadiusB = (ppVar2->collision).radius * fVar5;
@@ -274,7 +274,7 @@ uint Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
 }
 
 void look_for_boss_shadow(ItemID param_1){
-  u8 ID = GetIDIndex(param_1);
+  u8 ID = GETINDEX(param_1);
   if (ID == 0xac) gCombatP->encounter_dat->BossShadow = 1;
   else {
     u8 Boss_Ent_Indecies[]={
@@ -677,19 +677,19 @@ void get_gear_drop(CombatStruct *param_1,Entity_Ram *param_2,Loot_RAM *param_3)
   if ((param_3->armorDrop != 0) && (id != (ItemID)0xffff)) {
     if (param_3->armorDrop >= RollD(1,100)) {
       param_1->loot_pool->AddItem(id,1);
-      param_1->EXP_pool +=gArmorDBp->Armor[GetIDIndex(id)].expBonus*25;//?
+      param_1->EXP_pool +=gArmorDBp->Armor[GETINDEX(id)].expBonus*25;//?
     }
   }
   id = param_2->Sheild;
   if (((param_3->sheildDrop != 0) && (id != (ItemID)0xffff)) &&
      (RollD(1,100) <= param_3->sheildDrop)) {
     param_1->loot_pool->AddItem(id,1);
-    param_1->EXP_pool += gArmorDBp->Armor[GetIDIndex(id)].expBonus;
+    param_1->EXP_pool += gArmorDBp->Armor[GETINDEX(id)].expBonus;
   }
   for(u32 i=0;i>3;i++) {
     id = param_2->weapon[i];
     if (((param_3->weaponDrop[i] != 0) && (id != (ItemID)0xffff)) && (id != (ItemID)0x0)) {
-      u8 index = GetIDIndex(id);
+      u8 index = GETINDEX(id);
       u8 isntMonsterWeapon[]={false,false,false,true,true,true,false,false,true,true,false};
       if ((isntMonsterWeapon[gWeaponsDB->weapons[index].wepClass]) &&
          (RollD(1,100)<= param_3->weaponDrop[i])) {
@@ -734,10 +734,10 @@ void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,uint param_3)
         return;
       case 5:
       case 6:
-        uVar6 = gArmorDBp->Armor[GetIDIndex(x)].expBonus;
+        uVar6 = gArmorDBp->Armor[GETINDEX(x)].expBonus;
         break;
       case 7:
-        uVar6 = gWeaponsDB->weapons[GetIDIndex(x)].EXPMod;
+        uVar6 = gWeaponsDB->weapons[GETINDEX(x)].EXPMod;
       }
       param_1->EXP_pool += uVar2 * uVar6;
     }
@@ -763,7 +763,7 @@ void calc_loot(CombatStruct *param_1,byte param_2,Entity_Ram *param_3){
 
 
 void add_globalLoot(CombatStruct *param_1,ItemID param_2){
-  if (param_2 >> 8 == DB_CHEST) calc_loot(param_1,GetIDIndex(param_2),(Entity_Ram *)NULL);
+  if (param_2 >> 8 == DB_CHEST) calc_loot(param_1,GETINDEX(param_2),(Entity_Ram *)NULL);
   else param_1->loot_pool->AddItem(param_2,1);
   return;
 }
@@ -782,10 +782,10 @@ void calc_combat_loot(CombatStruct *param_1)
   param_1->EXP_pool = 0;
   for(i = 0;i<12;i++){
     if (param_1->encounter_dat->enemy_entities[i]) {
-      pEVar8 = gEntityDB->entities + (char)GetIDIndex(param_1->encounter_dat->enemy_entities[i]);
+      pEVar8 = gEntityDB->entities + (char)GETINDEX(param_1->encounter_dat->enemy_entities[i]);
       param_1->EXP_pool+=pEVar8->EXP;
       if (pEVar8->loot_Category) {
-        calc_loot(param_1,GetIDIndex((ItemID)(pEVar8->loot_Category + 0x7ff)),pEVar8);
+        calc_loot(param_1,GETINDEX((ItemID)(pEVar8->loot_Category + 0x7ff)),pEVar8);
       }
     }
   }

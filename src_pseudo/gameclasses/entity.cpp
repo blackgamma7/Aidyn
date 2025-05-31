@@ -8,7 +8,7 @@
 
 u8 Entity::IsElemental(ItemID id){
   if (id >> 8 == 2) {
-    u8 index = GetIDIndex(id);
+    u8 index = GETINDEX(id);
     //Air, Earth, Fire Water Elementals
     if ((((index == 0xc2) || (index == 0xc4)) || (index == 0xc5)) || (index == 199)) return true;
     else return (index == 0xbf); //firelord
@@ -67,7 +67,7 @@ void Entity::EquipFunc2(CharSheet *param_1,Entity_Ram *param_2){
 void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   
   CLEAR(param_1);
-  u8 bVar7 = GetIDIndex(param_2);
+  u8 bVar7 = GETINDEX(param_2);
   param_1->ID = param_2;
   Entity_Ram*  pEVar10 = &gEntityDB->entities[bVar7];
   strlen(pEVar10->Name);
@@ -286,7 +286,7 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   weapon_ram *pcVar4;
   
 
-  pcVar4 = &gWeaponsDB->weapons[GetIDIndex(param_2)];
+  pcVar4 = &gWeaponsDB->weapons[GETINDEX(param_2)];
   iVar1 = CharStats::getBase(param_1->Stats,STAT_STR);
   bVar2 = 3;
   if (pcVar4->ReqSTR <= iVar1) {
@@ -760,7 +760,7 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 po
   UNK4 = 0;
   bVar3 = true;
   uVar16 = 0;
-  bVar10 = GetIDIndex(param_1->ID);
+  bVar10 = GETINDEX(param_1->ID);
   lVar4 = bVar10;
   uVar6 = FindFreeEffect(param_1);
   if (!HasSpellEffect(param_1,id)) uVar16 = ~uVar6 >> 0x1f;
@@ -1457,7 +1457,7 @@ void Entity::IncEffects(CharSheet *Ent,CombatEntity *CEnt,uint Delta){
 
 ///IDK what this was... Unused.
 u8 Ofunc_8007a8cc(ItemID param_1,u8 param_2){
-  byte bVar1 = GetIDIndex(param_1);
+  byte bVar1 = GETINDEX(param_1);
   return gWeaponsDB->Types2[param_2] <= bVar1 &&
          bVar1 <= gWeaponsDB->Types2[param_2] + (uint)gWeaponsDB->Types[param_2] + -1;
 }
@@ -1888,7 +1888,7 @@ u8 Entity::GetShieldDefence(CharSheet *param_1,ItemID param_2){
   u8 bVar2 = 0;
   if (param_1->armor[1]) {bVar2 = param_1->armor[1]->DEF;}
   if (((param_2) && (param_2 >> 8 == 6)) && (!NoSheildSkill(param_1))) {
-    bVar2 = gArmorDBp->Armor[GetIDIndex(param_2)].defence;}
+    bVar2 = gArmorDBp->Armor[GETINDEX(param_2)].defence;}
   return bVar2;
 }
 
@@ -1903,7 +1903,7 @@ int Entity::GetArmorProtect(CharSheet *param_1,ItemID param_2){
     if (param_1->armor[i]) total += param_1->armor[i]->Protect;
   }
   if (param_2) {
-    bVar1 = GetIDIndex(param_2);
+    bVar1 = GETINDEX(param_2);
     iVar6 = 0;
     if (param_2 >> 8 == DB_ARMOR) {
       if (ret0(param_1)) return total;

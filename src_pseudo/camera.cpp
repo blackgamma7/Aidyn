@@ -2,17 +2,17 @@
 #include "stringN64.h"
 #include "crash.h"
 
-void camera_set_position(Camera_struct *CAM,vec3f *arg1){
+void Camera::SetPos(Camera_struct *CAM,vec3f *arg1){
   copyVec3(arg1,&CAM->pos);
   copyVec3(arg1,&CAM->posTarget);
 }
 
-void camera_set_aim(Camera_struct *CAM,vec3f *arg1){
+void Camera::SetAim(Camera_struct *CAM,vec3f *arg1){
   copyVec3(arg1,&CAM->aim);
   copyVec3(arg1,&CAM->aimTarget);
 }
 
-void camera_init(Camera_struct *param_1,Borg9Data *map,vec3f *pos,u16 mode){
+void Camera::Init(Camera_struct *param_1,Borg9Data *map,vec3f *pos,u16 mode){
   CLEAR(param_1);
   param_1->unk7c = 1;
   param_1->unk7e = 3;
@@ -26,7 +26,7 @@ void camera_init(Camera_struct *param_1,Borg9Data *map,vec3f *pos,u16 mode){
   (param_1->unk70).x = 0.0;
   (param_1->unk70).y = 0.0;
   (param_1->unk70).z = 0.0;
-  camera_set_position(param_1,pos);
+  Camera::SetPos(param_1,pos);
   (param_1->rotationXZ).y = 0.0;
   (param_1->rotation).z = 0.0;
   (param_1->rotation).y = 0.0;
@@ -49,25 +49,25 @@ void camera_init(Camera_struct *param_1,Borg9Data *map,vec3f *pos,u16 mode){
   set_CollisionTypeB(&param_1->colTypeB);
 }
 
-void camera_orient(Camera_struct *param_1){
+void Camera::Orient(Camera_struct *param_1){
   Vec3_sub(&param_1->rotation,&param_1->aim,&param_1->pos);
   setVec2(&param_1->rotationXZ,(param_1->rotation).x,(param_1->rotation).z);
   vec3_normalize(&param_1->rotation);
   vec2_normalize(&param_1->rotationXZ);
 }
  
-void camera_lerp(vec3f *arg,vec3f *target,float f){
+void Camera::Lerp(vec3f *arg,vec3f *target,float f){
   arg->x = arg->x - (arg->x - target->x) / f;
   arg->y = arg->y - (arg->y - target->y) / f;
   arg->z = arg->z - (arg->z - target->z) / f;
 }
 
-void camera_adjustAim(vec3f *aim0,vec3f *aim1,float arg2,s16 arg3,float arg4){
+void Camera::AdjustAim(vec3f *aim0,vec3f *aim1,float arg2,s16 delta,float arg4){
   float x;
   vec3f v3temp;
   
-  if (0 < arg3) {
-    for(s16 i=0;i<arg3;i++) {
+  if (0 < delta) {
+    for(s16 i=0;i<delta;i++) {
       Vec3_sub(&v3temp,aim0,aim1);
       multiVec3(&v3temp,(float)(1.0 / (double)arg2));
       x = vec3_normalize(&v3temp);
@@ -78,14 +78,14 @@ void camera_adjustAim(vec3f *aim0,vec3f *aim1,float arg2,s16 arg3,float arg4){
   }
 }
 
-void set_camera_0x70(Camera_struct *CAM,vec3f *arg1){
+void Camera::SetFeild70(Camera_struct *CAM,vec3f *arg1){
   CAM->unk70.x = (*arg1).x;
   CAM->unk70.y = (*arg1).y + CAM->camHeight;
   CAM->unk7c = 0;
   CAM->unk70.z = (*arg1).z;
 }
 
-void FUN_800b04ec(Camera_struct *CAM){
+void Camera::FUN_800b04ec(Camera_struct *CAM){
   CAM->unk80 = 0;
   if (CAM->unk82) {
     CAM->unk58 = 0;
@@ -94,7 +94,7 @@ void FUN_800b04ec(Camera_struct *CAM){
 }
 
 
-void FUN_800b050c(Camera_struct *param_1,vec3f *param_2){
+void Camera::FUN_800b050c(Camera_struct *param_1,vec3f *param_2){
   
   if (param_1->unk48 < param_1->unk50) param_1->unk48 = param_1->unk50;
   if (param_1->unk54 < param_1->unk48) param_1->unk48 = param_1->unk54;
@@ -103,7 +103,7 @@ void FUN_800b050c(Camera_struct *param_1,vec3f *param_2){
   param_2->z = (param_1->aim).z - (param_1->rotationXZ).y * param_1->unk5c;
 }
 
-void FUN_800b05d0(Camera_struct *CAM,vec3f *Arg1,vec3f *Arg2){
+void Camera::FUN_800b05d0(Camera_struct *CAM,vec3f *Arg1,vec3f *Arg2){
   float sine = __sinf(CAM->unk58 * dtor);
   float cosine = __cosf(CAM->unk58 * dtor);
   float fVar3 = cosine * (*Arg2).x + sine * (*Arg2).z;
@@ -113,7 +113,7 @@ void FUN_800b05d0(Camera_struct *CAM,vec3f *Arg1,vec3f *Arg2){
   (*Arg1).y = CAM->aim.y + __sinf((180.0f - CAM->unk48) * dtor) * CAM->unk5c;
   (*Arg1).z = CAM->aim.z + (*Arg1).z * CAM->unk5c;}
 
-void ProcessGameCamera_mode1(Camera_struct *CAM,vec3f *arg1,vec3f *arg2,s16 arg3,float arg4,
+void Camera::Mode1(Camera_struct *CAM,vec3f *arg1,vec3f *arg2,s16 arg3,float arg4,
                float arg5,s32 arg6,s32 arg7,float arg8,float arg9,
                float arg10,float arg11,float arg12,float arg13,s16 arg14,
                s16 arg15){
@@ -133,11 +133,11 @@ void ProcessGameCamera_mode1(Camera_struct *CAM,vec3f *arg1,vec3f *arg2,s16 arg3
   fStack336 = CAM->pos;
   copyVec3(arg1,&CAM->aimTarget);
   CAM->aimTarget.y+= CAM->camHeight;
-  camera_adjustAim(&CAM->aim,&CAM->aimTarget,arg10,arg3,arg12);
+  AdjustAim(&CAM->aim,&CAM->aimTarget,arg10,arg3,arg12);
   if (CAM->holdCamera == 0) {
     if (arg15 != 0) CAM->posTarget.y = CAM->aimTarget.y + arg8;
     aim1 = &CAM->posTarget;
-    camera_adjustAim(&CAM->pos,aim1,arg11,arg3,arg13);
+    AdjustAim(&CAM->pos,aim1,arg11,arg3,arg13);
     setVec2(&fStack656,CAM->aimTarget.x,CAM->aimTarget.z);
     setVec2(&afStack592,CAM->posTarget.x,CAM->posTarget.z);
     Vec2_Sub(&fStack528,&afStack592,&fStack656);
@@ -182,13 +182,13 @@ void ProcessGameCamera_mode1(Camera_struct *CAM,vec3f *arg1,vec3f *arg2,s16 arg3
         copyVec3(&afStack144,aim1);
       else copyVec3(&afStack208,aim1);
     }
-    camera_orient(CAM);
+    Orient(CAM);
   }
   else FUN_800b0fac(CAM,arg2,arg3,arg9,arg6,arg7);
 }
 
 
-void ProcessGameCamera_mode0(Camera_struct *param_1,vec3f *param_2,vec3f *param_3,short param_4,short param_5){
+void Camera::Mode0(Camera_struct *param_1,vec3f *param_2,vec3f *param_3,short param_4,short param_5){
   short sVar1;
   int iVar2;
   u16 uVar3;
@@ -220,7 +220,7 @@ LAB_800b0be4:
     (param_1->aimTarget).x = param_2->x;
     (param_1->aimTarget).y = param_2->y + param_1->camHeight;
     (param_1->aimTarget).z = param_2->z;
-    camera_adjustAim(aim0,&param_1->aimTarget,12.0,param_4,5.0f);
+    Camera::AdjustAim(aim0,&param_1->aimTarget,12.0,param_4,5.0f);
     Vec3_sub(&fStack176,&param_1->aimTarget,&param_1->unk70);
     fVar5 = vec3Length(&fStack176);
     if (param_1->unk7e < fVar5) {
@@ -230,7 +230,7 @@ LAB_800b0be4:
       FUN_800b04ec(param_1);
       param_1->unk7c = 0;
     }
-    camera_orient(param_1);
+    Camera::Orient(param_1);
     A = &param_1->posTarget;
     FUN_800b050c(param_1,A);
     FUN_800b05d0(param_1,&afStack240,param_3);
@@ -253,7 +253,7 @@ LAB_800b0be4:
       FUN_800b04ec(param_1);
     }
     fVar6 = 5.0f;
-    camera_adjustAim(A,&afStack240,fVar5,param_4,5.0f);
+    AdjustAim(A,&afStack240,fVar5,param_4,5.0f);
     Vec3_sub(&fStack176,&param_1->pos,aim0);
     fStack176.y = 0.0;
     fVar5 = vec3_normalize(&fStack176);
@@ -270,10 +270,9 @@ LAB_800b0be4:
       vec3_sum(&param_1->pos,&param_1->pos,aim0);
       vec3_sum(A,A,aim0);
     }
-    camera_adjustAim(&param_1->pos,A,16.0,param_4,fVar6);
+    AdjustAim(&param_1->pos,A,16.0,param_4,fVar6);
     if (((short)param_1->unk80 < 2) && (param_5 != 0)) {
-      bVar4 = CheckCollision(param_1->borg_9,&param_1->pos,aim0,0.25,NULL,NULL,0);
-      if (bVar4) {
+      if (CheckCollision(param_1->borg_9,&param_1->pos,aim0,0.25,NULL,NULL,0)) {
         param_1->unk82 = 0;
       }
       else {
@@ -284,14 +283,14 @@ LAB_800b0be4:
        && (param_1->unk82 != 0)) {
       FUN_800b04ec(param_1);
     }
-    camera_orient(param_1);
+    Orient(param_1);
   }
   else {
     if (param_1->holdCamera != 2) param_1->unk48 = 0.0;
     copyVec3(param_2,&param_1->aimTarget);
     fVar5 = 0.25f;
     (param_1->aimTarget).y = (param_1->aimTarget).y + param_1->camHeight;
-    camera_adjustAim(&param_1->aim,&param_1->aimTarget,16.0,param_4,fVar5);
+    AdjustAim(&param_1->aim,&param_1->aimTarget,16.0,param_4,fVar5);
     FUN_800b0fac(param_1,param_3,param_4,param_1->unk5c,0,5.0f);
   }
 }
@@ -299,7 +298,7 @@ LAB_800b0be4:
 
 
 
-void FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,short param_3,float param_4,float param_5,float param_6){
+void Camera::FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,short param_3,float param_4,float param_5,float param_6){
   float fVar4;
   double dVar3;
   float fVar5;
@@ -365,36 +364,36 @@ void FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,short param_3,float param_4,
     (CAM->pos).y = fVar5;
     CAM->unk48 = (fVar5 - (CAM->posTarget).y) * 10.0f;
   }
-  camera_orient(CAM);
+  Camera::Orient(CAM);
 }
 
 void NOOP_800b134c(Camera_struct *c){}
 
-void set_camera_mode(Camera_struct *cam,u16 mode){
+void Camera::SetMode(Camera_struct *cam,u16 mode){
   if (cam->camera_mode != mode) {
     cam->camera_mode_prev = cam->camera_mode;
     cam->camera_mode = mode;
   }
 }
 
-void revert_camera_mode(Camera_struct *c){c->camera_mode = c->camera_mode_prev;}
+void Camera::RevertMode(Camera_struct *c){c->camera_mode = c->camera_mode_prev;}
 
-void ProcessGameCamera(Camera_struct *cam,vec3f *param_2,vec3f* param_3,s16 param_4,
+void Camera::ProcessGameCamera(Camera_struct *cam,vec3f *param_2,vec3f* param_3,s16 param_4,
                       u16 param_5){
 
   char buff [72];
   
   switch (cam->camera_mode){
   case 0:
-    ProcessGameCamera_mode0(cam,param_2,param_3,param_4,param_5);
+    Mode0(cam,param_2,param_3,param_4,param_5);
     break;
   case 1:
-    ProcessGameCamera_mode1(cam,param_2,param_3,param_4,2.0f,4.0f,0.5f,
+    Mode1(cam,param_2,param_3,param_4,2.0f,4.0f,0.5f,
                             2.5f,1.5f,3.0f,16.0f,32.0f,0.25f,0.1f,1,1);
     break;
   case 2:
     NOOP_800b134c(cam);
-    revert_camera_mode(cam);
+    RevertMode(cam);
     break;
   case 3: return;
   default:
@@ -407,7 +406,7 @@ void ProcessGameCamera(Camera_struct *cam,vec3f *param_2,vec3f* param_3,s16 para
   }
 }
 
-void some_camera_func(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,float param_5){
+void Camera::ProcessVectors(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,float param_5){
   s32 iVar1;
   s32 iVar2;
   vec3f **ppafVar3;

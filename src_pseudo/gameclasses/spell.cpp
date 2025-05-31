@@ -8,7 +8,7 @@ extern ItemID itemID_array[];
 void TempSpell::Init(SpellInstance *S,ItemID ID,u8 RANK){
   S->level = RANK;
   S->base.id = ID;
-  Spell_RAM *sRam = gLoadedSpells->spells[GetIDIndex(ID)];
+  Spell_RAM *sRam = gLoadedSpells->spells[GETINDEX(ID)];
   S->base.name = sRam->Name;
   S->school = sRam->School;
   S->damage = sRam->Damage;
@@ -48,7 +48,7 @@ ItemID TempSpell::GetIngredient(SpellInstance *param_1){
 u8 TempSpell::IsBattleSpell(SpellInstance *param_1){
 
   if (true) {
-    switch(GetIDIndex((param_1->base).id))
+    switch(GETINDEX((param_1->base).id))
     case SPELLIND_Immolation:
     case SPELLIND_escape:
     case SPELLIND_AirSheild:
@@ -96,7 +96,7 @@ u8 TempSpell::IsBattleSpell(SpellInstance *param_1){
 
 //No clue what this was for.
 u8 TempSpell::Ret1(SpellInstance *param_1){
-  GetIDIndex(param_1->base.id);
+  GETINDEX(param_1->base.id);
   return 1;
 }
 

@@ -318,11 +318,29 @@ struct referencepoint_dat{//used as locators for tp's, camera's dialouge scripts
     u8 align[36];
 };
 
-
+enum CamObjFlags{
+    CamOBJ_MoveCut=1, //instantly change camera angle
+    CamOBJ_MovePan=2,
+    CamOBJ_MoveSine=4,
+    CamOBJ_0008=8,
+    CamOBJ_0010=0x10,
+    CamObj_M001f=0x1f,
+    CamOBJ_0020=0x20,
+    CamOBJ_0040=0x40,
+    CamOBJ_0080=0x80,
+    CamOBJ_0100=0x100,
+    CamOBJ_0200=0x200,
+    CamOBJ_0400=0x400,
+    CamOBJ_0800=0x800,
+    CamOBJ_1000=0x1000,
+    CamOBJ_TrackOn=0x2000,
+    CamOBJ_CopyAim=0x4000, //copy target of camera
+    CamOBJ_CopyPos=0x8000, //copy posittion of camera
+};
 
 struct camera_dat {
     s16 refpoint_ID; //used as inital aim for camera.
-    u16 CameraFlags; //bitfeild in need of later documentation.
+    u16 CameraFlags; //uses CamObjFlags
     u32 timestamp;
     vec3f vec3_A;
     vec3f vec3_b;
@@ -732,20 +750,26 @@ struct borg9_phys {
 
 
 enum B13_Commands{
-    B13Com_CreateCamera4=4,
-    B13Com_CreateCamera5,
-    B13Com_CreateCamera6,
-    B13Com_CreateCamera7,
-    B13Com_CreateCamera8,
-    B13Com_CreateCamera9,
-    B13Com_CreateCamera10,
-    B13Com_CreateCamera11,
-    B13Com_CreateCamera12,
-    B13Com_CreateCamera13,
-    B13Com_CreateCamera14,
-    B13Com_SetActorFacing=17,
+    B13Com_CameraCutTo=4,
+    B13Com_CutToPOV,
+    B13Com_CameraOn,
+    B13Com_CameraOnPOV,
+    B13Com_CameraAngleTo,
+    B13Com_CameraAngleToPOV,
+    B13Com_CameraPanTo,
+    B13Com_CameraPanToPOV,
+    B13Com_CameraSineTo,
+    B13Com_CameraSineToPOV,
+    B13Com_CameraTrackOn,
+    B13Com_15,
+    B13Com_16,
+    B13Com_SetActorFacing,
     B13Com_CreateActor,
-    B13Com_CheckMemberInParty=23,
+    B13Com_19,
+    B13Com_20,
+    B13Com_21,
+    B13Com_22,
+    B13Com_CheckMemberInParty,
     B13Com_CheckEventFlag,
     B13Com_CheckPartySkill,
     B13Com_CheckForItem,
@@ -754,7 +778,32 @@ enum B13_Commands{
     B13Com_CheckMemberStat,
     B13Com_CheckPartySize,
     B13Com_CheckPartyGoldU16,
-    
+    B13Com_SetFlag,
+    B13Com_UnsetFlag,
+    B13Com_EndDialoug,
+    B13Com_Fade35,
+    B13Com_AddGold,
+    B13Com_TakeGold,
+    B13Com_AddItem,
+    B13Com_TakeItem,
+    B13Com_ActorWalk,
+    B13Com_ActorRun,
+    B13Com_ApplyStimulus,
+    B13Com_PlaySFX,
+    B13Com_Shop,
+    B13Com_Battle,
+    B13Com_Train,
+    B13Com_AddMember,
+    B13Com_RemoveMember,
+    B13Com_Unimplemented49,
+    B13Com_RandDialog,
+    B13Com_ShowItem,
+    B13Com_HideItem,
+    B13Com_53,
+    B13Com_CampHeal,
+    B13Com_AddExp,
+    B13Com_57,
+    B13Com_58
 };
 
 struct Borg13Op{

@@ -24,7 +24,7 @@ DollMenuPortraits::DollMenuPortraits(Party *party,u8 size,u8 selected):WidgetMen
         this->portraits[j]->SetHeight(this->Hs[j]);
         this->portraits[j]->SetWidth(this->Ws[j]);
         this->portraits[j]->var5C = (byte)j;
-        this->portraits[j]->var5E = (short)(char)GetIDIndex(chara->ID);
+        this->portraits[j]->var5E = (short)(char)GETINDEX(chara->ID);
         this->Link(this->portraits[j]);
     }
     switch(this->partySize){ //uses fallthrough for party sizes?

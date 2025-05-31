@@ -25,7 +25,7 @@ void Party::Free(){
 void Party::CheckFlags(ItemID param_2,u8 alive,u8 state){
   u16 i;
   
-  u8 index = GetIDIndex(param_2);
+  u8 index = GETINDEX(param_2);
   if (alive) {
     //TODO: replace with #define's and enums
     u16 party_eventflag_dict1[][3]={ //ID index, alive, left party
@@ -93,7 +93,7 @@ u8 Party::isMemberUnequipped(u8 slot){
   CharSheet *chara;
   
   chara = this->Members[slot];
-  u8 index = GetIDIndex(chara->ID);
+  u8 index = GETINDEX(chara->ID);
   pEVar1 = gEntityDB->entities;
   if ((*chara->armor != NULL) || (ret = false, gEntityDB->entities[index].Armor == Item_NONE)) {
     if (chara->armor[1] == NULL) {
@@ -344,7 +344,7 @@ u8 Party::CombatItemCheck1(CharSheet* param_2,u8 param_3,ItemID param_4){
 
   if (this->Inventory->HasItem(param_4)) {
     s32 uVar2 = this->Inventory->GetItemIndex(param_4);
-    u8 bVar4 = GetIDIndex(param_4);
+    u8 bVar4 = GETINDEX(param_4);
     if ((&gCombatP->combatEnts)[param_3] == NULL) return true;
     //Not Neisen
     if (param_2->ID != (ItemID)(entityList[162] + 0x200)) {
@@ -1419,12 +1419,11 @@ void pass_to_healing_func_2(u8 param_2,u8 param_3){
 }
 
 void herb_func(void){
-  pause_Substruct* ps=PauseSub;
-  WidgetTrainShop* puVar1 = ps->dollmenu->lists->field7_0x94;
-  FUN_8003d064(puVar1,itemID_array[31],1,0xff); //herb loaded
-  FUN_8003d640(puVar1);
+  WidgetInvShop* puVar1 = PauseSub->dollmenu->lists->invMenu;
+  puVar1->SetHighlight(itemID_array[31],1,0xff); //herb loaded
+  puVar1->SortB();
   puVar1->Tick();
-  FUN_8002ff30(puVar1->ScrollMenu);
+  puVar1->scrollMenu->m8002ff30();
 }
 
 char * Party::HerbHeal(u8 param_2,u8 param_3){
@@ -1783,8 +1782,8 @@ s8 Party::DisarmCheck(u8 param_2,u8 param_3){
   if(uVar7 != 0) i = uVar8;
   return i;
 }
-
-s8 Party::GetMostSkilledMember(u8 param_2){
+//return index of member with highest level at (skill)
+s8 Party::GetMostSkilledMember(u8 skill){
 //kinda frustrating how inconsitently this is used.
   s32 iVar2;
   u8 bVar3;
@@ -1800,14 +1799,14 @@ s8 Party::GetMostSkilledMember(u8 param_2){
   for(u8 i=0;i<MAXPARTY;i++) {
     iVar1 = this->Members[i]);
     if ((iVar1) &&
-       (bVar3 = iVar1->Skills->getModdedSkill(param_2), bVar5 <= bVar3)) {
+       (bVar3 = iVar1->Skills->getModdedSkill(skill), bVar5 <= bVar3)) {
       uVar6 = i;
       bVar5 = bVar3;
     }
   }
   return (s8)uVar6;}
 
-float camp_float_array[30]= //ambush risk. 0=can't camp there.
+float camp_float_array[]= //ambush risk. 0=can't camp there.
 {20.0,15.0,10.0,20.0,20.0,10.0,0.0,10.0,0.0,0.0,50.0,
 0.0,0.0,0.0,0.0,0.0,0.0,10.0,0.0,0.0,30.0,30.0,30.0,
 0.0,15.0,0.0,0.0,20.0,0.0,0.0};
@@ -1856,18 +1855,18 @@ u8 get_equip_stamMod(ItemID id){
   case 0x11:
   case 0x12:
   case 0x13:
-    iVar2 = search_item_array(IVar4);
+    u16 iVar2 = search_item_array(IVar4);
     if (gItemDBp->Gear[iVar2].stat != STAT_STAM) {return 0;}
     return gItemDBp->Gear[iVar2].StatMod;
   default:
     goto LAB_80081f64;
   case 5:
   case 6:
-    bVar3 = GetIDIndex(IVar4);
+    bVar3 = GETINDEX(IVar4);
     pwVar1 = (weapon_ram *)gArmorDBp->Armor;
     break;
   case 7:
-    bVar3 = GetIDIndex(IVar4);
+    bVar3 = GETINDEX(IVar4);
     pwVar1 = gWeaponsDB->weapons;
   }
   if (pwVar1[bVar3].stat == STAT_STAM) {bVar3 = pwVar1[bVar3].statMod;}

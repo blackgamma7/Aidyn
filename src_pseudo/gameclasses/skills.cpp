@@ -18,7 +18,7 @@ void CharSkills::Init(ItemID id){
   u8 X;
   Entity_Ram *EntRam;
   
-  EntRam = &gEntityDB->entities[GetIDIndex(id)];
+  EntRam = &gEntityDB->entities[GETINDEX(id)];
   COPY(this->SkillBase,EntRam->Skills);
   COPY(this->SkillModded,EntRam->Skills);
   COPY(this->WeaponBase,EntRam->weaponProf);

@@ -26,7 +26,7 @@ BaseWidget * Dialog_AButton(BaseWidget*A,BaseWidget *param_2){
 #ifdef DEBUGVER
 //in debug version press B to prematurley end the dialoug.
 BaseWidget * Dialoug_DebugEnd(BaseWidget*A,BaseWidget*B){
-  DialogCallbackC((gGlobals.dialougStruct)->dialouge_substruct,borg_13_pointer->dat,0x22,0);
+  DialogCallbackC((gGlobals.diaClass)->dialouge_substruct,borg_13_pointer->dat,B13Com_EndDialoug,0);
   return NULL;
 }
 #endif

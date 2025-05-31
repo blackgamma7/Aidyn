@@ -32,7 +32,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   
   CLEAR(this);
   this->charSheetP = charsheet;
-  bVar8 = GetIDIndex(charsheet->ID);
+  bVar8 = GETINDEX(charsheet->ID);
   (this->coord2).x = startx;
   (this->coord).x = startx;
   (this->coord2).y = starty;
@@ -727,7 +727,7 @@ u8 CombatEntity::canControl(SpellInstance *param_2){
   bool bVar1;
   byte bVar2;
   
-  bVar3 = GetIDIndex((param_2->base).id);
+  bVar3 = GETINDEX((param_2->base).id);
   x = this->charSheetP->ID;
   if (true) {
     switch(bVar3) {
@@ -738,7 +738,7 @@ u8 CombatEntity::canControl(SpellInstance *param_2){
     default:
       goto LAB_80069b1c;
     case SPELLIND_charming:
-      if (gEntityDB->entities[GetIDIndex(x)].Category == ENTITY_CHAOS) return false;
+      if (gEntityDB->entities[GETINDEX(x)].Category == ENTITY_CHAOS) return false;
       return true;
     case SPELLIND_controlMarquis:
       bVar2 = entityList[0xaa];
@@ -773,7 +773,7 @@ RetFalse:
       if (param_2->Flag4() == Flag4()) goto RetFalse;
     }
     bVar1 = false;
-    if (!Entity::HasSpellEffect(param_2->charSheetP,GetIDIndex(param_3->base.id))) {
+    if (!Entity::HasSpellEffect(param_2->charSheetP,GETINDEX(param_3->base.id))) {
       if (Entity::CheckSpellSpecial(param_2->charSheetP,param_3) == 0) bVar1 = param_2->canControl(param_3);
       else bVar1 = false;
     }
@@ -851,7 +851,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
   if (this->index == gGlobals.ShadowIndex) return false;
   spell = Entity::getSpell(this->charSheetP);
   if (SpellEffectsTarget(param_2,spell)) {
-    bVar8 = GetIDIndex((spell->base).id);
+    bVar8 = GETINDEX((spell->base).id);
     AIShouldNotCastSpell(param_2,spell);
     if (AIShouldNotCastSpell(param_2,spell)) {
       if ((bVar8 == 0xc) || (spell->cast == MCAST_ALL)) return param_2 == this;
@@ -1302,7 +1302,7 @@ u8 CombatEntity::CanResistSpell(SpellInstance *spel_,u8 Elem){
   u8 bVar1;
   u8 SVar2;
   
-  spellID = GetIDIndex(spel_->base.id);
+  spellID = GETINDEX(spel_->base.id);
   switch(Elem) {
   default:
     bVar1 = false;
@@ -2084,7 +2084,7 @@ u8 CombatEntity::MagicCheck(SpellInstance *param_2,CombatEntity *param_3){
   u8 bVar1;
   u8 bVar2;
   
-  bVar3 = GetIDIndex(param_2->base.id);
+  bVar3 = GETINDEX(param_2->base.id);
   if ((bVar3 != SPELLIND_wallOfBones) ||
      (bVar2 = false, param_3->charSheetP->ID != (ItemID)(entityList[170] + 0x200))) {//marquis
     bVar1 = isDispelMagic(bVar3);
@@ -2186,7 +2186,7 @@ s32 CombatEntity::EnchantAlly(CombatEntity *param_2,SpellInstance *param_3,u8 pa
 }
 
 s16 CombatEntity::CalcSpellDamage(SpellInstance *param_2,CombatEntity *param_3,u32 Level,u8 param_5){
-  u8 spellInd = GetIDIndex(param_2->id);
+  u8 spellInd = GETINDEX(param_2->id);
   if (spellInd == SPELLIND_banishing) return Banish(param_3,param_2);
   if (isDispelMagic(spellInd))return DispelMagic(param_3,param_2,spellInd,param_5);
   else {
@@ -2609,7 +2609,7 @@ s16 CombatEntity::m8006edd0(CombatEntity *param_2,playerData *param_3,playerData
       lVar9 = 0;
     }
     param_3->ani_type = 5;
-    SVar6 = GetIDIndex((pSVar2->base).id);
+    SVar6 = GETINDEX((pSVar2->base).id);
     set_movement_spellUsed(param_3,param_3->ani_type,(short)(char)SVar6);
     uVar3 = FUN_80095c04(param_3,param_4,SVar6,(s32)lVar10);
     if ((lVar9 != 0) || (sVar4 = 0, lVar10 == 0xfffd)) {
@@ -2821,7 +2821,7 @@ void CombatEntity::m8006f8d8(ItemID param_2,u8 param_3){
   u8 bVar3;
   
   this->itemIndex = param_3;
-  this->item = GetIDIndex(param_2);
+  this->item = GETINDEX(param_2);
   bVar1 = this->AtkType;
   if (bVar1 != 3) {
     this->AtkType = 3;
@@ -2879,7 +2879,7 @@ u16 CombatEntity::GetWeaponModel(){
   
   WeaponInstance *wep = this->charSheetP->weapons;
   if(wep) {
-    uVar2 = Weapon_borg5_lookup(GetIDIndex(wep->base.id));
+    uVar2 = Weapon_borg5_lookup(GETINDEX(wep->base.id));
     uVar3 = -1;
     if (uVar2 != -1) uVar3 = uVar2;
   }
@@ -2896,7 +2896,7 @@ u8 CombatEntity::BowEquipped(){
 
   pTVar2 = this->charSheetP->weapons;
   if (pTVar2) {
-    bVar3 = GetIDIndex(pTVar2->id);
+    bVar3 = GETINDEX(pTVar2->id);
     if (missle_ids[0] != 0xff) {
       pbVar4 = missle_ids;
       do {
@@ -2931,7 +2931,7 @@ void CombatEntity::ThrowingEquipped(){
   else {
     if (this->charSheetP->weapons) {
       if (!BowEquipped()) {
-        bVar3 = GetIDIndex(this->charSheetP->weapons->id);
+        bVar3 = GETINDEX(this->charSheetP->weapons->id);
         if (throwing_ids[0] != 0xff) {
           pbVar4 = throwing_ids;
           do {
@@ -2982,7 +2982,7 @@ void CombatEntity::ShowWeaponSheild(){
   return;
 }
 
-u8 cannotSheild(ItemID x){return gEntityDB->entities[GetIDIndex(x)].sheildStat == -1;}
+u8 cannotSheild(ItemID x){return gEntityDB->entities[GETINDEX(x)].sheildStat == -1;}
 
 u8 CannotShowWeapon(ItemID x){
   u8 bVar2;
@@ -2990,7 +2990,7 @@ u8 CannotShowWeapon(ItemID x){
   u32 uVar3;
   /* ehud gorgon chaos.Lt. harpy marquis minotuar mino.lord neilsin */
   u8 auStack72 []={0xAD,0x75,0xA6,0x76,0xAA,0x80,0xA5,0xA2,0xff};
-  bVar2 = GetIDIndex(x);
+  bVar2 = GETINDEX(x);
   uVar3 = 0;
   pbVar1 = auStack72;
   while( true ) {
@@ -3022,7 +3022,7 @@ LAB_8006ff78:
   else {
     pTVar1 = this->charSheetP->weapons;
     if (pTVar1) {
-      bVar6 = GetIDIndex(pTVar1->id);
+      bVar6 = GETINDEX(pTVar1->id);
       lVar7 = (s16)Weapon_borg5_lookup(bVar6);
       if (lVar7 != -1) {
         if (missle_ids[0] != 0xff) {
@@ -3061,7 +3061,7 @@ switchD_80070018_caseD_3d:
     if (bVar7 != 4) {return;}
   }
   fVar8 = 6.0f;
-  switch(GetIDIndex(this->charSheetP->weapons->base.id)) {
+  switch(GETINDEX(this->charSheetP->weapons->base.id)) {
   case 0x35: //Bow of Accuracy
     *param_2 = 9.9f;
     *param_3 = 0.0;

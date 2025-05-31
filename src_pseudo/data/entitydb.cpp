@@ -141,7 +141,7 @@ u32 EntityDB::GetPortrait(ItemID id){
   entity_info *peVar6;
   dialougeEntity_Info *pdVar7;
   
-  bVar3 = GetIDIndex(id);
+  bVar3 = GETINDEX(id);
   if (id >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index != 0) {
       peVar6 = entity_info_array;
@@ -193,7 +193,7 @@ u32 EntityDB::GetBorg7(ItemID id){
   entity_info *peVar6;
   dialougeEntity_Info *pdVar7;
   
-  bVar3 = GetIDIndex(id);
+  bVar3 = GETINDEX(id);
   if ((u16)id >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index != 0) {
       peVar6 = entity_info_array;
@@ -241,7 +241,7 @@ char * EntityDB::GetEntityName(ItemID id){
   Entity_Ram *pEVar1;
   int iVar3;
   
-  bVar2 = GetIDIndex(id);
+  bVar2 = GETINDEX(id);
   switch(id >> 8){
     case 2: return this->entities[bVar2].Name;
     case DB_DIALOUGEENTITY: return DialougEntityPointer->ents[bVar2].Name;
@@ -258,7 +258,7 @@ float Ofunc_8007573c(EntityDB *param_1,ItemID id){
 float EntityDB::GetPerception(ItemID id){
   float fVar2 = 10.0f;
   if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
-    fVar2 = (float)entities[GetIDIndex(id)].unk0x20;
+    fVar2 = (float)entities[GETINDEX(id)].unk0x20;
   }
   return fVar2;
 }
@@ -267,7 +267,7 @@ float EntityDB::GetPerception(ItemID id){
 float EntityDB::GetVal_21h(ItemID id){
   float fVar2 = 2.0;
   if ((u16)id >> 8 != DB_DIALOUGEENTITY) 
-    fVar2 = (float)entities[GetIDIndex(id)].unk0x21;
+    fVar2 = (float)entities[GETINDEX(id)].unk0x21;
   return fVar2;
 }
 
@@ -278,7 +278,7 @@ float EntityDB::GetHeight(ItemID id){
   u16 uVar2;
   dialougeEntity_Info *pdVar6;
   
-  bVar3 = GetIDIndex(id);
+  bVar3 = GETINDEX(id);
   if ((u16)id >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index) {
       entity_info *peVar5 = entity_info_array;
@@ -316,7 +316,7 @@ u8 EntityDB::BattleCheck(ItemID id){
   
   if (id >> 8 == DB_DIALOUGEENTITY) uVar3 = 0xff;
   else {
-    bVar2 = GetIDIndex(id);
+    bVar2 = GETINDEX(id);
     uVar3 = 0xff;
     if (((0xae < bVar2) && (uVar3 = 0x7f, 0xb5 < bVar2)) && (uVar3 = 0xff, bVar2 == 0xc0)) {
       uVar3 = 0x7f;
@@ -333,7 +333,7 @@ float EntityDB::GetFloatA(ItemID id){
   entity_info *peVar4;
   
   if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
-    bVar2 = GetIDIndex(id);
+    bVar2 = GETINDEX(id);
     if (entity_info_array[0].index != 0) {
       peVar4 = entity_info_array;
       uVar1 = entity_info_array[0].index;
@@ -350,7 +350,7 @@ float EntityDB::GetFloatA(ItemID id){
 }
 //not sure what this is for, used in "processPlayers" always returns 0.4
 float EntityDB::RetPoint4(ItemID id){
-    if ((u16)id >> 8 != DB_DIALOUGEENTITY)GetIDIndex(id);
+    if ((u16)id >> 8 != DB_DIALOUGEENTITY)GETINDEX(id);
     return 0.4f;
 }
 
@@ -358,7 +358,7 @@ float EntityDB::RetPoint4(ItemID id){
 u8 EntityDB::IsNotBoss(ItemID id){
   
   if (id >> 8 == DB_DIALOUGEENTITY) return true;
-  switch(GetIDIndex(id)) {
+  switch(GETINDEX(id)) {
     case 0x57:
     case 0x58:
     case 0x59:
@@ -384,7 +384,7 @@ float EntityDB::GetFloatC(ItemID id){
   
   fVar5 = 0.55f;
   if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
-    bVar2 = GetIDIndex(id);
+    bVar2 = GETINDEX(id);
     fVar5 = 0.75f;
     if (entity_info_array[0].index != 0) {
       peVar4 = entity_info_array;
@@ -411,7 +411,7 @@ float EntityDB::GetScale(ItemID param_2){
   entity_info *peVar5;
   dialougeEntity_Info *pdVar6;
   
-  bVar3 = GetIDIndex(param_2);
+  bVar3 = GETINDEX(param_2);
   if ((u16)param_2 >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index != 0) {
       peVar5 = entity_info_array;

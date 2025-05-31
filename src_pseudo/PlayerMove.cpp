@@ -125,7 +125,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
       if ((gGlobals.Sub.PlayerHandler.camera)->holdCamera == 0) {
         (gGlobals.Sub.PlayerHandler.camera)->holdCamera = 1;
       }
-      set_camera_0x70(gGlobals.Sub.PlayerHandler.camera,&(p->collision).pos);
+      Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,&(p->collision).pos);
       (gGlobals.Sub.PlayerHandler.camera)->unk58 -= controller->joy_x * 3.0f;
       gGlobals.Sub.PlayerHandler.camera->unk48 += controller->joy_y;
       return;
@@ -145,7 +145,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     fVar8 = _sqrtf(SQ(fVar9) + SQ(y));
     if (fVar8 <= 0.05) {
       if ((p->flags & ACTOR_ISPLAYER)){
-        set_camera_0x70(gGlobals.Sub.PlayerHandler.camera,&(p->collision).pos);
+        Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,&(p->collision).pos);
       }
       sVar6 = p->ani_type;
       goto LAB_80019358;

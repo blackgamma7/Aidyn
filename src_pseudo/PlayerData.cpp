@@ -460,7 +460,7 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
     if (sVar15 == -1) {
       if (gGlobals.Sub.camPtrArraySize) {
         fVar27 = 75.0f;
-        some_camera_func(&afStack304,&fStack240,gGlobals.Sub.camPtrArray,
+        Camera::ProcessVectors(&afStack304,&fStack240,gGlobals.Sub.camPtrArray,
                          gGlobals.Sub.camPtrArraySize,75.0f);
         fVar33 = 5.0f;
         pCVar4 = handler->camera;
@@ -474,8 +474,8 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
         fStack688.x = fStack240.x;
         fStack688.z = fStack240.y;
         pCVar4->unk80 = 1;
-        set_camera_0x70(pCVar4,&afStack304);
-        ProcessGameCamera(handler->camera,&afStack304,&fStack688,delta,0);
+        Camera::SetFeild70(pCVar4,&afStack304);
+        Camera::ProcessGameCamera(handler->camera,&afStack304,&fStack688,delta,0);
         handler->camera->unk5c = handler->camera->unk60;
       }
     }
@@ -488,7 +488,7 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
         if ((fVar33 < 1.0E-6f)||(-fVar33 < 1.0E-6f))
         CRASH("Player.cpp","SETTING FACING FOR CAMERA\n");
       }
-      ProcessGameCamera(handler->camera,&handler->playerDats[handler->cameraFocus].collision.pos,
+      Camera::ProcessGameCamera(handler->camera,&handler->playerDats[handler->cameraFocus].collision.pos,
                         &fStack688,delta,1);
     }
   }
@@ -917,7 +917,7 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
   Scene::SetModelTint(param_2,0xff,0xff,0xff,alpha);
   #ifdef DEBUGVER
   if (gGlobals.DebugStatDisplay != 0) {
-    if (gGlobals.delta <= 3.0);
+    if (gGlobals.delta <= 3.0){}
     else if (gGlobals.delta == 4.0) Scene::SetModelTint(param_2,0xff,0xff,0,alpha);
     else Scene::SetModelTint(param_2,0xff,0,0,alpha);
   }

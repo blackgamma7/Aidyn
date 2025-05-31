@@ -21,9 +21,9 @@ typedef enum ElementEnum {
 } ElementEnum;
 
 typedef enum AspectEnum {
-    ASPECT_NONE=0,
-    ASPECT_LUNAR=1,
-    ASPECT_SOLAR=2
+    ASPECT_NONE,
+    ASPECT_LUNAR,
+    ASPECT_SOLAR
 } AspectEnum;
 
 
@@ -33,9 +33,9 @@ typedef enum AspectEnum {
 
 u8 ItemIsMap(ItemID param_1);
 int getIDIndex_sub(char *param_1,u8 total,char param_3);
-u16 GetIDIndex(ItemID x);
+u16 GetIDIndex(ItemID x,char* file, u32 line);
 u16 search_item_array(ItemID param_1);
 
 //a leftover from older builds - two of the args were filename and line called.
 //both were 0 by the final debug build. 
-#define GETINDEX(x) GetIDIndex(x,0,0)
+#define GETINDEX(x) GetIDIndex(x,NULL,0)

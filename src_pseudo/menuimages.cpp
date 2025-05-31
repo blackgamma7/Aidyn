@@ -147,7 +147,7 @@ u8 GetSpellIcons(ItemID param_1,u32 *param_2,u32 *param_3,u32 *param_4){
   u32 BVar1;
   u8 cVar1;
   
-  bVar2 = GetIDIndex(param_1);
+  bVar2 = GETINDEX(param_1);
   cVar1 = gLoadedSpells->spells[bVar2].aspect;
   if (cVar1 == SOLAR_MAGIC) *param_2 = BORG8_IconAsSolar;
   else if (cVar1 == LUNAR_MAGIC) *param_2 = BORG8_IconAsLunar;

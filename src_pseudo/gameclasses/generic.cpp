@@ -9,7 +9,7 @@ void CharExp::Init(ItemID id){
   u8 bVar4;
   Entity_Ram *pEVar5;
   
-  bVar3 = GetIDIndex(id);
+  bVar3 = GETINDEX(id);
   pEVar5 = gEntityDB->entities + bVar3;
   this->rom0x2b = pEVar5->rom0x2b; //seems unused
   this->school = pEVar5->School;
@@ -48,7 +48,7 @@ void ItemInstance::InitArmor(ItemID param_2){
   armour_RAM *pcVar5;
   
   CLEAR(this);
-  bVar4 = GetIDIndex(param_2);
+  bVar4 = GETINDEX(param_2);
   this->id = param_2;
   pcVar5 = gArmorDBp->Armor[bVar4];
   this->name = pcVar5->name;
@@ -73,7 +73,7 @@ void ItemInstance::InitWeapon(ItemID param_2){
   weapon_ram *pcVar5;
   
   CLEAR(this);
-  bVar4 = GetIDIndex(param_2);
+  bVar4 = GETINDEX(param_2);
   this->id = param_2;
   pcVar5 = &gWeaponsDB->weapons[bVar4];
   this->name = pcVar5->name;
@@ -99,7 +99,7 @@ void ItemInstance::InitPotion(ItemID id){
   u8 bVar3;
   
   CLEAR(this);
-  u8 index = GetIDIndex(id);
+  u8 index = GETINDEX(id);
   this->id = id;
   this->price = potion_prices[bVar3];
   this->name = potion_names[bVar3];
@@ -134,13 +134,13 @@ u16 ItemInstance::GetPrice(){
   
   uVar4 = (u32)((u16)this->id >> 8);
   if (uVar4 - 5 < 2) {
-    uVar2 = gArmorDBp->Armor[GetIDIndex(this->id)].price;
+    uVar2 = gArmorDBp->Armor[GETINDEX(this->id)].price;
   }
   else if (uVar4 == DB_WEAPON) {
-    uVar2 = gWeaponsDB->weapons[GetIDIndex(this->id)].price;
+    uVar2 = gWeaponsDB->weapons[GETINDEX(this->id)].price;
     }
   else if (uVar4 == DB_POTION) {
-    uVar2 = potion_prices[GetIDIndex(this->id)];
+    uVar2 = potion_prices[GETINDEX(this->id)];
    }
   else {
     uVar2 = gItemDBp->Gear[search_item_array(this->id)].price;

@@ -818,10 +818,10 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   loadGameBorgScenes((tp->teleport).MapShort1,(tp->teleport).MapShort2);
   if (param_3 == NULL) {
     if (gGlobals.sky.Type == 4) {
-      set_camera_mode(&gGlobals.Sub.camera,1);
+      Camera::SetMode(&gGlobals.Sub.camera,1);
     }
     if (gGlobals.sky.Type == 3) {
-      set_camera_mode(&gGlobals.Sub.camera,0);
+      Camera::SetMode(&gGlobals.Sub.camera,0);
     }
     if (uVar1 == 0x7ff8) {
       fStack312.x = (tp->header).pos.x;
@@ -869,7 +869,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
       gGlobals.Sub.weather.rainParticles = NULL;
       Particle::FUN_800b2bc4(&gGlobals.Sub.particleEmmiter);
     }
-    set_camera_0x70(&gGlobals.Sub.camera,pvVar9);
+    Camera::SetFeild70(&gGlobals.Sub.camera,pvVar9);
   }
   if (prStack_38 == NULL) {
     if ((player != NULL) && (param_3 == NULL)) {
@@ -881,23 +881,23 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
         fStack248.x = fStack184.x - (player->facing).x * 4.0f;
         fStack248.y = fVar10 + 3.0f;
         fStack248.z = fStack184.z - (player->facing).y * 4.0f;
-        camera_set_position(&gGlobals.Sub.camera,&fStack248);
-        camera_set_aim(&gGlobals.Sub.camera,&fStack184);
+        Camera::SetPos(&gGlobals.Sub.camera,&fStack248);
+        Camera::SetAim(&gGlobals.Sub.camera,&fStack184);
       }
       else {
         fStack120.x = (player->collision).pos.x;
         fStack120.z = (player->collision).pos.z;
         fStack120.y = (player->collision).pos.y + gGlobals.Sub.camera.camHeight;
-        camera_set_aim(&gGlobals.Sub.camera,&fStack120);
+        Camera::SetAim(&gGlobals.Sub.camera,&fStack120);
         gGlobals.Sub.camera.rotationXZ.x = (player->facing).x;
         gGlobals.Sub.camera.rotationXZ.y = (player->facing).y;
         multiVec2(&gGlobals.Sub.camera.rotationXZ,-1.0);
-        FUN_800b050c(&gGlobals.Sub.camera,&fStack120);
-        camera_set_position(&gGlobals.Sub.camera,&fStack120);
+        Camera::FUN_800b050c(&gGlobals.Sub.camera,&fStack120);
+        Camera::SetPos(&gGlobals.Sub.camera,&fStack120);
       }
     }
   }
-  else camera_set_position(&gGlobals.Sub.camera,&prStack_38->header.pos);
+  else Camera::SetPos(&gGlobals.Sub.camera,&prStack_38->header.pos);
   gGlobals.Sub.camera.unk80 = 5;
   if ((param_3 == NULL) || (pfVar8 != NULL)) {
     for(s16 i = 0;i < 9;i++) {
@@ -1766,9 +1766,9 @@ void InitZoneEngine(u16 param_1,short param_2){
     passto_camera_init(&gGlobals.Sub.camera,gGlobals.Sub.borg9DatPointer,&afStack104,dat);
     if ((gGlobals.playerCharStruct.playerDat != NULL) &&
        ((gGlobals.playerCharStruct.playerDat)->removeFlag == 0)) {
-      camera_set_aim(&gGlobals.Sub.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
-      FUN_800b050c(&gGlobals.Sub.camera,&afStack104);
-      camera_set_position(&gGlobals.Sub.camera,&afStack104);
+      Camera::SetAim(&gGlobals.Sub.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
+      Camera::FUN_800b050c(&gGlobals.Sub.camera,&afStack104);
+      Camera::SetPos(&gGlobals.Sub.camera,&afStack104);
     }
   }
   else {
@@ -1777,7 +1777,7 @@ void InitZoneEngine(u16 param_1,short param_2){
     if (gGlobals.playerCharStruct.playerDat != NULL) {
       ((gGlobals.playerCharStruct.playerDat)->facing).x = (pmVar8->playerVec2).x;
       (ppVar4->facing).y = (pmVar8->playerVec2).y;
-      camera_set_aim(&gGlobals.Sub.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
+      Camera::SetAim(&gGlobals.Sub.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
     }
   }
   init_dynamic_light(&gGlobals.Sub.DynamicLights);
@@ -1877,7 +1877,7 @@ void FreeZoneEngine(s16 playMusic){
   Particle::FreeEmmiters(&gGlobals.Sub.particleEmmiter);
   Weather::Free(&gGlobals.Sub.weather);
   zonedat_clear_all();
-  freeScriptCameras(&gGlobals.scriptcamera);
+  FreeScriptCameras(&gGlobals.scriptcamera);
   clear_some_playerHandler_field();
   FreePlayerHandler();
   dynamic_lights_free_all(&gGlobals.Sub.DynamicLights);

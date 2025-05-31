@@ -8,7 +8,7 @@ void CharStats::Init(CharStats_s *stats,ItemID ID){
   u8 index;
   Entity_Ram *Entram;
   
-  index = GetIDIndex(ID);
+  index = GETINDEX(ID);
   Entram = gEntityDB->entities;
   memcpy(stats,Entram[index].stats,6);
   stats->Base[STAT_LV] = Entram[index].Level;

@@ -134,11 +134,11 @@ void setEventFlag(EventFlag param_1,u8 param_2){
   if ((1 < param_1) && (param_1 < gameStates->bitFlags)) {
     set_journalentry_flag(gameStates,param_1,param_2);}}
 
-void SetFlagArray_on_Time(u8 ToD,u8 Day,u8 week,u8 month){
+void SetFlagArray_on_Time(u8 ToD,u8 Day,u8 week,u8 season){
   set_flag_array(FLAG_CalendarToDA,FLAG_CalendarToDC,(s16)ToD);
   set_flag_array(FLAG_CalendarDayA,FLAG_CalendarDayC,(s16)Day);
   set_flag_array(FLAG_CalendarWeekA,FLAG_CalendarWeekC,(s16)week);
-  set_flag_array(FLAG_CalendarMonthA,FLAG_CalendarMonthC,(s16)month);
+  set_flag_array(FLAG_CalendarSeasonA,FLAG_CalendarSeasonC,(s16)season);
   set_flag_array(FLAG_CalendarMoonA,FLAG_CalendarMoonB,(u16)TerrainPointer->moonPhases);
   set_flag_array(FLAG_CalendarWeekdayA,FLAG_CalendarWeekdayF,((s16)week * 7 + ((s16)Day)));
 }

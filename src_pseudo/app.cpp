@@ -257,7 +257,7 @@ void appProc_init(void){
   queue_struct_pointer = &gGlobals.QueueA;
   MemoryMaker::Init();
   CommonStrings::Init();
-  gGlobals.dialougStruct =  new DialougeClass(WHANDLE);
+  gGlobals.diaClass =  new DialougeClass(WHANDLE);
   HresMirror = Graphics::get_hres();
   VresMirror = Graphics::get_vres();
   gGlobals.appstateBool = 1;

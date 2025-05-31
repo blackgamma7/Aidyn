@@ -1,26 +1,18 @@
 #include "globals.h"
 #include "voxelChart.h"
 
-void DialougCreateScriptCamera(u16 param_1,s16 id,playerData *player,u16 flags,float param_5){
-  ushort uVar1;
-  ScriptCam *pSVar2;
-  
-  pSVar2 = AllocScriptCamera(&gGlobals.scriptcamera,param_1);
-  uVar1 = (pSVar2->voxel).camera.CameraFlags;
-  pSVar2->aim = &player->positionMirror;
-  (pSVar2->voxel).camera.refpoint_ID = id;
-  pSVar2->flag = 2;
-  (pSVar2->voxel).camera.CameraFlags = flags | uVar1;
-  pSVar2->field5_0xc = param_5;
-  if (id == 0) {
-    (pSVar2->voxel).camera.refpoint_ID = 0;
-  }
-  gGlobals.scriptcamera.counter1 += 1;
-  gGlobals.scriptcamera.counter0 += 1;
-  if (player == NULL) {
-                    // WARNING: Subroutine does not return
-    CRASH(s_NULL_Player_pointer_in_CreateScr_800de7b0,"./src/dialogue.cpp");
-  }
+void DialougCreateScriptCamera(u16 param_1,s16 id,playerData *player,u16 flags,float height){
+  ScriptCam *sCam = AllocScriptCamera(&gGlobals.scriptcamera,param_1);
+  sCam->aim = &player->positionMirror;
+  (sCam->voxel).camera.refpoint_ID = id;
+  sCam->flag = 2;
+  (sCam->voxel).camera.CameraFlags|= flags;
+  sCam->height = height;
+  if (id == 0) (sCam->voxel).camera.refpoint_ID = 0;
+  gGlobals.scriptcamera.counter1++;
+  gGlobals.scriptcamera.counter0++;
+  if (player == NULL)
+    CRASH("NULL Player pointer in CreateScriptCamera()!","./src/dialogue.cpp");
   GiveCameraToPlayer(player);
 
 }
@@ -71,7 +63,7 @@ void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,usho
   u16 BVar7;
   playerData *ppVar8;
   uint uVar9;
-  float fVar10;
+  float camHeight;
   float fVar11;
 
   byte uStack376 [6];
@@ -85,28 +77,32 @@ void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,usho
   ppVar8 = NULL;
   pVOR = NULL;
 
-  fVar10 = 0.0;
+  camHeight = 0.0;
   uVar2 = param_1->unk108;
-  u8 uStack440[]={18,5,13,4,12,0xFF};
+  u8 uStack440[]={
+    B13Com_CreateActor,B13Com_CutToPOV,B13Com_CameraSineToPOV,
+    B13Com_CameraCutTo,B13Com_CameraSineTo,0xFF};
   for(u16 i=0;uStack440[i]!=0xFF;i++){
     if (uStack440[i] == cmd) FUN_80018b84();
   }
   bVar3 = false;
-  u8 uStack376[]={7,9,11,5,13,0xFF};
+  u8 uStack376[]={
+    B13Com_CameraOnPOV,B13Com_CameraAngleToPOV,B13Com_CameraPanToPOV,
+    B13Com_CutToPOV,B13Com_CameraSineToPOV,0xFF};
   for(u16 i=0;uStack376[i]!=0xFF;i++){
     if (uStack376[i] == cmd) {
       pAI = DialougGetActorAndID(param_1,param_2,refpointID);
       if (pAI) ppVar8 = pAI->actor;
       if (ppVar8 == NULL) CRASH("No Player in DialoguePreCallback","./src/dialogue.cpp");
-      fVar10 = gEntityDB->GetHeightMinPoint2(pAI->id);
+      camHeight = gEntityDB->GetHeightMinPoint2(pAI->id);
       fStack312.x = (ppVar8->facing).x;
       fStack312.y = (ppVar8->facing).y;
-      fVar10-= ppVar8->interactRadiusB;
+      camHeight-= ppVar8->interactRadiusB;
       multiVec2(&fStack312,-0.15);
       setVec3(&ppVar8->positionMirror,fStack312.x + (ppVar8->collision).pos.x,
               (ppVar8->collision).pos.y,fStack312.y + (ppVar8->collision).pos.z);
       bVar3 = true;
-      if (uStack376[i] == 5) {
+      if (uStack376[i] == B13Com_CutToPOV) {
         Actor::SetFlag(ppVar8,ACTOR_2000);
         bVar3 = true;
       }
@@ -122,52 +118,52 @@ void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,usho
     pVOR = get_map_referencepoint(gGlobals.Sub.borg9DatPointer,refpointID);
   }
   switch(cmd) {
-  case 4:
+  case B13Com_CameraCutTo:
     goto LAB_80057134;
-  case 5:
+  case B13Com_CutToPOV:
     refpointID = 0;
 LAB_80057134:
-    DialougCreateScriptCamera(1,refpointID,ppVar8,0x8001,fVar10);
+    DialougCreateScriptCamera(1,refpointID,ppVar8,CamOBJ_CopyPos|CamOBJ_MoveCut,camHeight);
     break;
-  case 6:
+  case B13Com_CameraOn:
     goto LAB_80057098;
-  case 7:
+  case B13Com_CameraOnPOV:
     refpointID = 0;
 LAB_80057098:
-    DialougCreateScriptCamera(1,refpointID,ppVar8,0x4001,fVar10);
+    DialougCreateScriptCamera(1,refpointID,ppVar8,CamOBJ_CopyAim|CamOBJ_MoveCut,camHeight);
     break;
-  case 8:
+  case B13Com_CameraAngleTo:
     goto LAB_800570e0;
-  case 9:
+  case B13Com_CameraAngleToPOV:
     refpointID = 0;
     goto LAB_800570bc;
-  case 10:
+  case B13Com_CameraPanTo:
 LAB_800570bc:
-    DialougCreateScriptCamera(uVar2,refpointID,ppVar8,0x4004,fVar10);
+    DialougCreateScriptCamera(uVar2,refpointID,ppVar8,CamOBJ_CopyAim|CamOBJ_MoveSine,camHeight);
     break;
-  case 0xb:
+  case B13Com_CameraPanToPOV:
     refpointID = 0;
 LAB_800570e0:
-    DialougCreateScriptCamera(uVar2,refpointID,ppVar8,0x4002,fVar10);
+    DialougCreateScriptCamera(uVar2,refpointID,ppVar8,CamOBJ_CopyAim|CamOBJ_MovePan,camHeight);
     break;
-  case 0xc:
-    DialougCreateScriptCamera(uVar2,refpointID,ppVar8,0x8004,fVar10);
+  case B13Com_CameraSineTo:
+    DialougCreateScriptCamera(uVar2,refpointID,ppVar8,CamOBJ_CopyPos|CamOBJ_MoveSine,camHeight);
     break;
-  case 0xd:
-    DialougCreateScriptCamera(uVar2,0,ppVar8,0x8004,fVar10);
+  case B13Com_CameraSineToPOV:
+    DialougCreateScriptCamera(uVar2,0,ppVar8,CamOBJ_CopyPos|CamOBJ_MoveSine,camHeight);
   default:
     break;
-  case 0xe:
-    DialougCreateScriptCamera(uVar2,0,ppVar8,0x2000,fVar10);
+  case B13Com_CameraTrackOn:
+    DialougCreateScriptCamera(uVar2,0,ppVar8,CamOBJ_TrackOn,camHeight);
     break;
-  case 0x11:
+  case B13Com_SetActorFacing:
     setVec2(&afStack248,(ppVar8->collision).pos.x,(ppVar8->collision).pos.z);
     setVec2(&avStack_b8,(pVOR->header).pos.x,(pVOR->header).pos.z);
     Vec2_Sub(&fStack120,&afStack248,&avStack_b8);
     vec2_normalize(&fStack120);
     Actor::SetFacing(ppVar8,fStack120.x,fStack120.y);
     break;
-  case 0x12:
+  case B13Com_CreateActor:
     if (pAI == NULL) CRASH("No pAI","./src/dialogue.cpp");
     if (pVOR == NULL) CRASH("No pVOR","./src/dialogue.cpp");
     if (pAI->actor) CRASH("DialoguePreCallback","Actor Already Allocated!(ActorAndID::pPlayer != NULL)");
@@ -176,11 +172,11 @@ LAB_800570e0:
                                 (pVOR->header).pos.z,BVar7);
     pAI->actor = ppVar8;
     Actor::CheckCollision(ppVar8,0.0,0,0);
-    fVar10 = gEntityDB->GetScale(pAI->id);
+    camHeight = gEntityDB->GetScale(pAI->id);
     fVar11 = (ppVar8->collision).radius;
-    ppVar8->interactRadiusA = fVar10;
+    ppVar8->interactRadiusA = camHeight;
     ppVar8->flags |= (ACTOR_1000|ACTOR_400);
-    ppVar8->interactRadiusB = fVar10 * fVar11;
+    ppVar8->interactRadiusB = camHeight * fVar11;
     break;
   }
   return;
@@ -265,39 +261,37 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
   if (uVar13 != 0) {
     prVar3 = get_map_referencepoint(gGlobals.Sub.borg9DatPointer,param_4);
   }
-  if (0x1a < (ushort)(command - 0x20U)) {
-    return;
-  }
+  if (0x1a < (ushort)(command - 0x20U)) return;
   switch(command) {
-  case 0x20:
+  case B13Com_SetFlag:
     setEventFlag(param_4,true);
     break;
-  case 0x21:
+  case B13Com_UnsetFlag:
     setEventFlag(param_4,false);
     break;
-  case 0x22:
+  case B13Com_EndDialoug:
     uVar10 = 1;
     goto LAB_80057628;
-  case 0x23:
+  case B13Com_Fade35:
     gGlobals.brightness2 = -1.0f;
     gGlobals.screenFadeSpeed = (1.0f/60);
     gGlobals.screenFadeMode = 3;
     return;
-  case 0x24:
+  case B13Com_AddGold:
     borg12 = Coins_jingle;
     (gGlobals.party)->Gold+=param_4;
     goto play_sound;
-  case 0x25:
+  case B13Com_TakeGold:
     if ((gGlobals.party)->Gold < uVar13) {
       return;
     }
     borg12 = coinJingle;
     (gGlobals.party)->Gold-=param_4;
     goto play_sound;
-  case 0x26:
+  case B13Com_AddItem:
     PARTY->Inventory->AddItem(uVar13,1);
     break;
-  case 0x27:
+  case B13Com_TakeItem:
     if (!gGlobals.party->TakeItem(param_4)) {
       auStack880.InitItem(param_4);
       pcVar11 = acStack_330;
@@ -306,19 +300,19 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
       goto print_error;
     }
     break;
-  case 0x28:
+  case B13Com_ActorWalk:
     flag = 1;
     goto LAB_80057798;
-  case 0x29:
+  case B13Com_ActorRun:
     flag = 0;
 LAB_80057798:
     Actor::SetAiDest(p,(prVar3->header).pos.x,(prVar3->header).pos.z,1.0,flag);
     FUN_80058370();
     break;
-  case 0x2a:
+  case B13Com_ApplyStimulus:
     FUN_800585d0(uVar13);
     break;
-  case 0x2b:
+  case B13Com_PlaySFX:
     borg12 = dialoug_SFX[param_4];
 play_sound:
     PlayAudioSound(&gGlobals.SFXStruct,borg12,0,gGlobals.VolSFX,300,0);
@@ -335,26 +329,24 @@ play_sound:
     init_skill_trainer();
     uVar10 = 5;
     goto LAB_80057628;
-  case 0x2f:
-    bVar9 = DialougeAddPartyMember((ItemID)param_4);
-    if (!bVar9) {
+  case B13Com_AddMember:
+    if (!DialougeAddPartyMember((ItemID)param_4)) {
       cause = acStack_230;
       pcVar11 = "Couldn't add %d to the party. This usually means that the party is full. Line = %d";
       uVar12 = 0x494;
 print_error_2:
       sprintf(cause,pcVar11,uVar13,uVar12);
-      Crash::ManualCrash("./src/dialogue.cpp",cause);
+      CRASH("./src/dialogue.cpp",cause);
     }
     break;
-  case 0x30:
+  case B13Com_RemoveMember:
     PARTY->removeAliveMemberByID(param_4);
     break;
-  case 0x31:
+  case B13Com_Unimplemented49:
     pcVar11 = "Dialogue Command executed!\nThis command has not been implemented yet!";
 print_error:
-                    // WARNING: Subroutine does not return
-    Crash::ManualCrash(pcVar11,"./src/dialogue.cpp");
-  case 0x32:
+    CRASH(pcVar11,"./src/dialogue.cpp");
+  case B13Com_RandDialog:
     pBVar5 = get_borg13((uint)param_4);
     if (pBVar5 == NULL) {
       cause = acStack_130;
@@ -367,12 +359,12 @@ print_error:
       VoxelChartEntry*v0 = some_ref_obj_lookup_func(dialougemode_pointer->Unk0x7C,
                             (u8)dialougemode_pointer->mapDatA,
                             (u8)dialougemode_pointer->mapShort1,
-                            (u8)dialougemode_pointer->mapShort2,0x11,9);
+                            (u8)dialougemode_pointer->mapShort2,0x11,VOXEL_Dialouge);
       if (v0 == NULL) {
         v0 = passto_WriteTo_VoxelChart(dialougemode_pointer->Unk0x7C,
                             (u8)dialougemode_pointer->mapDatA,
                             (u8)dialougemode_pointer->mapShort1,
-                            (u8)dialougemode_pointer->mapShort2,0x11,9,10);
+                            (u8)dialougemode_pointer->mapShort2,0x11,VOXEL_Dialouge,10);
         v0->unk0x8 = fVar14;
       }
       else {
@@ -384,18 +376,18 @@ print_error:
     apBStack_30 = pBVar5;
     FREEQB13(apBStack_30);
     break;
-  case 0x33:
+  case B13Com_ShowItem:
     sVar8 = get_item_borg5((ItemID)param_4);
     if (sVar8 != -1) {
       AttachItemToPlayer(p,0,(int)sVar8);
     }
     break;
-  case 0x34:
+  case B13Com_HideItem:
     FreeAttachmentFromPlayer(p,0);
     break;
   default:
     return;
-  case 0x36:
+  case B13Com_CampHeal:
     PARTY->CampHeal(false);
     dialougemode_pointer->camp_flag = 1;
     uVar10 = 1;
@@ -407,7 +399,7 @@ print_error:
 LAB_80057628:
     dialougemode_0x90_funcs3(uVar10);
     break;
-  case 0x38:
+  case B13Com_AddExp:
     pCVar4 = PARTY->GetMemberById(param_1->Entid);
     if (pCVar4 == NULL) {
       sprintf(acStack_470,"Trying to get a party member that isn't in the party (id = %d)\nLine = %d",
@@ -418,14 +410,15 @@ LAB_80057628:
     PlayAudioSound(&gGlobals.SFXStruct,BORG12_ChimeScale,0,gGlobals.VolSFX,300,0);
     Entity::AddExp(pCVar4,(uint)param_4);
     break;
-  case 0x39:
+  case B13Com_57:
     FUN_800583d0(uVar13);
     return;
-  case 0x3a:
+  case B13Com_58:
     set_some_borg13_flag();
   }
   return;
 }
+//find "####################" to replace with player name
 char * DialougfindPlayerNameSpace(char *str){
   char cVar1;
   uint len;
@@ -452,7 +445,7 @@ char * DialougfindPlayerNameSpace(char *str){
   return NULL;
 }
 
-
+//replace "####################" with player name
 void DialougInsertPlayerName(char *str){
   uint uVar1;
   char *pcVar2;

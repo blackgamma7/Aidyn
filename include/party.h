@@ -67,7 +67,7 @@ class Party { /* holds party and inventory data */
     float UnusedRangerCheck2();
     char * ApraisePrice(ItemInstance* param_2,u32 param_3);
     s8 DisarmCheck(u8,u8);
-    s8 GetMostSkilledMember(u8);
+    s8 GetMostSkilledMember(u8 skill);
     u8 CampCheck();
     void CampAmbush();
     void CampHeal(u8);

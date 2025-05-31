@@ -71,7 +71,7 @@ struct dialougmode_substruct {
 struct dialougemode_struct {
     void (*funcs0[5])(void);
     void (*funcs1[5])(void);
-    void (*funcs2[5])(void);
+    void (*funcs2[5])(BaseWidget*);
     void (*funcs3[5])(void);
     void (*funcs4[5])(void);
     void (*unk0x64[5])(void);

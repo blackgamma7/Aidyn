@@ -118,5 +118,16 @@ namespace Controller{
 
 #define ContThreadStack 0x448
 
+//delta is between 1/60 and 1/10 second
+#define DeltaCap(delta)\
+if(delta==0)delta=1;\
+if(delta>6)delta=6
+
+//used to get delta from controller querries.
+#define ContDelta(cont,delta)\
+delta=0;\
+while(Controller::GetInput(&cont,0)){delta++;}\
+DeltaCap(delta)
+
 //Initalize Transfer Pak. not in libreultra.
 extern s32 osGbpakInit(OSMesgQueue *siMessegeQ,OSPfs *pfs,int channel);

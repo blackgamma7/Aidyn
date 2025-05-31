@@ -35,12 +35,12 @@ struct Camera_struct {
 };
 
 struct ScriptCam {
-    short field0_0x0;
-    short field1_0x2;
-    u16 field2_0x4;
+    short active;
+    short index;
+    u16 timer;
     short flag;
     vec3f *aim;
-    float field5_0xc;
+    float height;
     voxelObject voxel;
 };
 
@@ -52,3 +52,41 @@ struct ScriptCamera_struct {
     short counter0;
     short counter1;
 };
+
+namespace Camera{
+    void SetPos(Camera_struct *cam,vec3f *pos);
+    void SetAim(Camera_struct *cam,vec3f *pos);
+    void Init(Camera_struct *cam,Borg9Data *map,vec3f *pos,u16 mode);
+    void Orient(Camera_struct *cam);
+    void Lerp(vec3f *arg,vec3f *target,float f);
+    void AdjustAim(vec3f *aim0,vec3f *aim1,float arg2,s16 delta,float arg4);
+    void SetFeild70(Camera_struct *cam,vec3f *arg1);
+    void FUN_800b04ec(Camera_struct *cam);
+    void FUN_800b050c(Camera_struct *cam,vec3f *param_2);
+    void FUN_800b05d0(Camera_struct *cam,vec3f *Arg1,vec3f *Arg2);
+    void Mode1(Camera_struct *cam,vec3f *arg1,vec3f *arg2,s16 arg3,float arg4,
+               float arg5,s32 arg6,s32 arg7,float arg8,float arg9,
+               float arg10,float arg11,float arg12,float arg13,s16 arg14,
+               s16 arg15);
+    void Mode0(Camera_struct *cam,vec3f *param_2,vec3f *param_3,short param_4,short param_5);
+    void FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,short param_3,float param_4,float param_5,float param_6);
+    void SetMode(Camera_struct *cam,u16 mode);
+    void RevertMode(Camera_struct *cam);
+    void ProcessGameCamera(Camera_struct *cam,vec3f *param_2,vec3f* param_3,s16 param_4,u16 param_5);
+    void ProcessVectors(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,float param_5);
+    void ApplyVelocity(Camera_struct *cam,vec3f *vel);
+    void AddPosToList(vec3f *param_1);
+    void CopyPosAim(Camera_struct *cam,u16 flag,vec3f *param_3);
+    void CopyPosAim2(Camera_struct *cam,u16 flag,vec3f *param_3);
+    
+};
+
+void set_camera_voxel_pointer(voxelObject *param_1,vec3f *param_2);
+void clear_camera_voxel_pointer();
+void passto_camera_init(Camera_struct *cam,Borg9Data *map,vec3f *pos,u16 dat);
+void clear_some_playerHandler_field(void);
+void FUN_80019ccc(playerData *param_1);
+void GiveCameraToPlayer(playerData *param_1);
+void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float delta);
+void InitScriptCameras(ScriptCamera_struct *param_1);
+void FreeScriptCameras(ScriptCamera_struct *param_1);

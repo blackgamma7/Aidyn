@@ -77,7 +77,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     Random rngSeed; /* used for most rand funcs */
     int appstate;
     u32 ticker;
-    float delta;
+    float delta; //defined as (x/60) second, 1>=x<=6
     u32 splashscreenFlag;
     Borg12Header *introMusic;
     u32 introMusicDatA;
@@ -136,7 +136,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u32 unk1508; /* unused? */
     MiniMap minimap;
     u8 unk15bc; /* start of struct? */
-    DialougeClass *dialougStruct;
+    DialougeClass *diaClass;
     u32 unk15c4;
     CinematicStruct cinematic;
     Party *party;

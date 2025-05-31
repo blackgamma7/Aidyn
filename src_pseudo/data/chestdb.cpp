@@ -99,7 +99,7 @@ u32 item_chances(container_Dat *chest,u8 chance,u8 QLo,u8 Qhi,u8 slot,s16 item,u
 void get_chest_loot(loot_Pointer *param_1,container_Dat *param_2){
   u8 bVar3;
   u32 uVar1;
-  Loot_RAM *pcVar4 = &param_1->lootCat[GetIDIndex(param_2->LootCat)];
+  Loot_RAM *pcVar4 = &param_1->lootCat[GETINDEX(param_2->LootCat)];
   param_2->Gold = (u16)(rand_range(pcVar4->GoldLo,pcVar4->GoldHi) << 1);
   uVar1 = item_chances(param_2,pcVar4->reagentchance,pcVar4->reagentLlo,
                        pcVar4->reagentHi,0,itemID_array[rand_range(0x1e,0x20)],1);
