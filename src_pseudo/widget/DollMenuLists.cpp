@@ -86,11 +86,11 @@ LAB_80038434:
     Utilities::SetWidgetBoundsX(pBVar8,0x14,0x96);
     this->Link(pBVar8);
     uVar16 = pBVar8->GetHeight() + uVar16 + 4;
-    Font::SetFace(gGlobals.font,font_face[1].borg8);
+    SlimFont;
     u8 bVar3 = false;
     if ((gGlobals.party)->PartySize) {
       for(u8 i=0;i<(gGlobals.party)->PartySize;i++) {
-        if ((gGlobals.party)->Members[i]) { //bug(?) calculation doesn't take into account 1.5x
+        if ((gGlobals.party)->Members[i]) {
           Entity::ModExpTotal((gGlobals.party)->Members[i],-gGlobals.expGained);
           u32 lvPre = Entity::GetLevel((gGlobals.party)->Members[i]);
           Entity::ModExpTotal((gGlobals.party)->Members[i],gGlobals.expGained);
@@ -109,7 +109,7 @@ LAB_80038434:
       }
     }
     if (bVar3) PlayAudioSound(&gGlobals.SFXStruct,0x5e8,0,gGlobals.VolSFX,300,0x3c);
-    Font::SetFace(gGlobals.font,font_face[0].borg8);
+    NormalFont;
     this->expCost = new WidgetClipText(NULL,20);
     this->expCost->SetColor(0x82,0x50,0x50,0xff);
     this->expCost->SetCoords(0x14,0xc5 - (short)this->expCost->GetHeight());
@@ -122,21 +122,21 @@ LAB_80038434:
   }
 }
 Gfx * DollMenuLists::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  Font::SetFace(gGlobals.font,font_face[1].borg8);
+  SlimFont;
   Gfx* G = RenderChildren(g,x0,y0,x1,y1);
-  Font::SetFace(gGlobals.font,font_face[0].borg8);
+  NormalFont;
   return G;
 }
 
 u8 DollMenuLists::Tick(){
-  Font::SetFace(gGlobals.font,font_face[1].borg8);
+  SlimFont;
   this->unkb0.Tick(1);
   if (((this->unkb0).present == 0) && (this->unk8c)) {
     this->Unlink(this->unk8c);
     this->unk8c = NULL;
   }
   u8 bVar2 = this->TickChildren();
-  Font::SetFace(gGlobals.font,font_face[0].borg8);
+  NormalFont;
   return bVar2;
 }
 
@@ -145,13 +145,12 @@ u32 DollMenuLists::m80038bc0(){
   return 1;
 }
 
-void DollMenuLists::m80038bdc(u8 ind){
+void DollMenuLists::UpdateMenus(u8 ind){
   this->partyPicker=ind;
   for(u8 i=0;i<this->menuCount;i++){
     if(this->menus[i])this->menus[i]->InitMenu();
   }
 }
-
 
 void DollMenuLists::LRToggle(u8 param_2){
   WidgetTrainShop *pWVar3;
@@ -183,7 +182,6 @@ void DollMenuLists::LRToggle(u8 param_2){
     PlayAudioSound(&gGlobals.SFXStruct,0x73d,0,1.0,0x1e,0);
   }
 }
-
 
 void DollMenuLists::ShowEXPCosts(){
   if (gGlobals.SomeCase == 5) {

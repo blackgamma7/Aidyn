@@ -88,3 +88,9 @@ int GetHeight(FontStruct *f,char *str,int h,int w);
 int GetHeightScaled(FontStruct *font,char *str,int h,int w,float scaleX,float scaleY);
 u8 SetupBorg8(FontStruct *font,Borg8Header *b8,u16* sizes,u16 rows,u16 cols);
 };
+
+//switch to slightly smaller font for certain text
+#define SlimFont Font::SetFace(gGlobals.font,font_face[1].borg8)
+
+//use "normal-sized" font
+#define NormalFont Font::SetFace(gGlobals.font,font_face[0].borg8)

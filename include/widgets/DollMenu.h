@@ -79,7 +79,7 @@ class DollMenuLists: public WidgetMenu{
     Gfx* Render(Gfx*,u16,u16,u16,u16);
     u8 Tick();
     u32 m80038bc0();
-    void m80038bdc(u8);
+    void UpdateMenus(u8);
     void LRToggle(u8);
     void ShowEXPCosts();
     u32 GetNumber();

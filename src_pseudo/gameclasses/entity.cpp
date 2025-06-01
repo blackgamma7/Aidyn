@@ -1461,17 +1461,15 @@ u8 Ofunc_8007a8cc(ItemID param_1,u8 param_2){
   return gWeaponsDB->Types2[param_2] <= bVar1 &&
          bVar1 <= gWeaponsDB->Types2[param_2] + (uint)gWeaponsDB->Types[param_2] + -1;
 }
-
-void Entity::AddExp(CharSheet *param_1,s32 param_2){
-  CharExp *pcVar1;
-  float fVar4 = (float)param_2 * 1.5f; //rom value  * 50 * 1.5 = 75 exp gains
-  pcVar1 = param_1->EXP;
-  pcVar1->spending += (s32)fVar4;
-  pcVar1->total += (s32)fVar4;
-  CharStats:::AddBase(param_1->Stats,STAT_LV,Entity::GetLevel(param_1) - CharStats::getBase(param_1->Stats,STAT_LV));
+//add (x*1.5) exp to (chara)
+void Entity::AddExp(CharSheet *chara,s32 x){
+  float fVar4 = (float)x * 1.5f; //rom value  * 50 * 1.5 = 75 exp gains
+  chara->EXP->spending += (s32)fVar4;
+  chara->EXP->total += (s32)fVar4;
+  CharStats::AddBase(chara->Stats,STAT_LV,Entity::GetLevel(chara) - CharStats::getBase(chara->Stats,STAT_LV));
 }
 
-//above, but no spending exp or STAT_LV up
+//ueed to test EXP gain to see if there's a level up.
 void Entity::ModExpTotal(CharSheet *param_1,s32 param_2){param_1->EXP->total+= (s32)((float)param_2 * 1.5f);}
 
 u16 Entity::HealByPotion(CharSheet *param_1,u16 Hi,u16 Lo){

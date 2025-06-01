@@ -238,7 +238,7 @@ void appProc_init(void){
       Font::LoadFace(gGlobals.font,f->borg8,f->rows,f->cols);
     }
   }
-  Font::SetFace(gGlobals.font,font_face[0].borg8);
+  NormalFont;
   ALLOC(WHANDLE,447);
   WHANDLE->Init(gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;
