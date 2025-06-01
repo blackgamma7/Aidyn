@@ -111,9 +111,6 @@ struct GearInstance {
     resist_float *resist;
 };
 
-
-
-
 struct PotionInstance {
     ItemInstance base;
 };

@@ -7,99 +7,100 @@ struct StringCheat{
     char* code;
     u8 (*cheat)(void);};
 
-char** cheatStrings_pointer;
+char** cheatStrings_pointer=NULL;
 u8 Cheats::Check(char *param_1){
   s32 iVar6;
   u32 uVar7;
   u8 bVar8;
-  StringCheat pcStack168 [14];
+  StringCheat cheatArray [14];
   
   bVar8 = 0;
   cheatStrings_pointer = RomString::Load(CheatStrings,0xf0);
-  memset(pcStack168,0,8);
-  pcStack168[0].code = *cheatStrings_pointer; //!balloon
-  pcStack168[0].cheat = _balloon;
-  memset(pcStack168 + 1,0,8);
-  pcStack168[1].code = cheatStrings_pointer[1]; //!BigW
-  pcStack168[1].cheat = _Bigw;
-  memset(pcStack168 + 2,0,8);
-  pcStack168[2].code = cheatStrings_pointer[2]; //!flea
-  pcStack168[2].cheat = _Flea;
-  memset(pcStack168 + 3,0,8);
-  pcStack168[3].code = cheatStrings_pointer[3]; //!slashing
-  pcStack168[3].cheat = _slashing;
-  memset(pcStack168 + 4,0,8);
-  pcStack168[4].code = cheatStrings_pointer[4]; //!darkside
-  pcStack168[4].cheat = _darkside;
-  memset(pcStack168 + 5,0,8);
-  pcStack168[5].code = cheatStrings_pointer[5]; //!crawdaddy
-  pcStack168[5].cheat = _crawdaddy;
-  memset(pcStack168 + 6,0,8);
-  pcStack168[6].code = cheatStrings_pointer[6]; //!fatboy
-  pcStack168[6].cheat = _fatboy;
-  memset(pcStack168 + 7,0,8);
-  pcStack168[7].code = cheatStrings_pointer[7]; //Tweety
-  pcStack168[7].cheat = _tweety;
-  memset(pcStack168 + 8,0,8);
-  pcStack168[8].code = cheatStrings_pointer[8]; //!cheater
-  pcStack168[8].cheat = _Cheater;
-  memset(pcStack168 + 9,0,8);
-  pcStack168[9].code = cheatStrings_pointer[9]; //!bingo
-  pcStack168[9].cheat = _bingo;
-  memset(pcStack168 + 10,0,8);
-  pcStack168[10].code = cheatStrings_pointer[10]; //imadoofus
-  pcStack168[10].cheat = imadoofus;
-  memset(pcStack168 + 0xb,0,8);
-  pcStack168[11].code = cheatStrings_pointer[0xc]; //keepbusy
-  pcStack168[11].cheat = keepbusy;
-  memset(pcStack168 + 0xc,0,8);
-  pcStack168[12].code = cheatStrings_pointer[0x10]; //!version
-  pcStack168[12].cheat = _version;
-  memset(pcStack168 + 0xd,0,8);
+  memset(cheatArray,0,8);
+  cheatArray[0].code = *cheatStrings_pointer; //!balloon
+  cheatArray[0].cheat = _balloon;
+  memset(cheatArray + 1,0,8);
+  cheatArray[1].code = cheatStrings_pointer[1]; //!BigW
+  cheatArray[1].cheat = _Bigw;
+  memset(cheatArray + 2,0,8);
+  cheatArray[2].code = cheatStrings_pointer[2]; //!flea
+  cheatArray[2].cheat = _Flea;
+  memset(cheatArray + 3,0,8);
+  cheatArray[3].code = cheatStrings_pointer[3]; //!slashing
+  cheatArray[3].cheat = _slashing;
+  memset(cheatArray + 4,0,8);
+  cheatArray[4].code = cheatStrings_pointer[4]; //!darkside
+  cheatArray[4].cheat = _darkside;
+  memset(cheatArray + 5,0,8);
+  cheatArray[5].code = cheatStrings_pointer[5]; //!crawdaddy
+  cheatArray[5].cheat = _crawdaddy;
+  memset(cheatArray + 6,0,8);
+  cheatArray[6].code = cheatStrings_pointer[6]; //!fatboy
+  cheatArray[6].cheat = _fatboy;
+  memset(cheatArray + 7,0,8);
+  cheatArray[7].code = cheatStrings_pointer[7]; //Tweety
+  cheatArray[7].cheat = _tweety;
+  memset(cheatArray + 8,0,8);
+  cheatArray[8].code = cheatStrings_pointer[8]; //!cheater
+  cheatArray[8].cheat = _Cheater;
+  memset(cheatArray + 9,0,8);
+  cheatArray[9].code = cheatStrings_pointer[9]; //!bingo
+  cheatArray[9].cheat = _bingo;
+  memset(cheatArray + 10,0,8);
+  cheatArray[10].code = cheatStrings_pointer[10]; //imadoofus
+  cheatArray[10].cheat = imadoofus;
+  memset(cheatArray + 0xb,0,8);
+  cheatArray[11].code = cheatStrings_pointer[0xc]; //keepbusy
+  cheatArray[11].cheat = keepbusy;
+  memset(cheatArray + 0xc,0,8);
+  cheatArray[12].code = cheatStrings_pointer[0x10]; //!version
+  cheatArray[12].cheat = _version;
+  memset(cheatArray + 0xd,0,8);
   //There were 2 more cheat phrases (!gene, !gotmilk) that were unimplimented
   uVar7 = 0;
-  if (pcStack168) {
+  if (cheatArray) {
     do {
-      if (strcmp(pcStack168[uVar7].code,param_1) == 0) {
+      if (strcmp(cheatArray[uVar7].code,param_1) == 0) {
         bVar8 = 1;
         if (gGlobals.BigAssMenu) {
-          if (pcStack168[uVar7].cheat() == 0) {
-            PLAYSFX(BORG12_CheatFail,0,1.0,0xb4,0);
+          if (cheatArray[uVar7].cheat() == 0) {
+            PLAYSFX(BORG12_CheatFail,0,1.0,180,0);
             bVar8 = 1;}
           else {
-            PLAYSFX(BORG12_CheatCorrect,0,1.0,0xb4,0);
+            PLAYSFX(BORG12_CheatCorrect,0,1.0,180,0);
             bVar8 = 1;}
         }
         break;
       }
       uVar7++;
-    } while (pcStack168[uVar7].code);
+    } while (cheatArray[uVar7].code);
   }
   RomString::Free(cheatStrings_pointer);
   return bVar8;
 }
-u8 Cheats::_balloon(void){ //inflates your head
+//inflates your head
+u8 Cheats::_balloon(void){ 
   _balloon_flag = (u32)(_balloon_flag != 1);
   return true;}
-
-u8 Cheats::_Bigw(void){ //inflates your weapons
+//inflates your weapons
+u8 Cheats::_Bigw(void){ 
   _bigw_flag = (u32)(_bigw_flag != 1);
   return true;}
-
-u8 Cheats::_Flea(void){ //makes you small and jump with A.
+//Scales down the player's size (and speed). can jump high with A.
+u8 Cheats::_Flea(void){ 
   _flea_flag = (u32)(_flea_flag != 1);
   return true;}
-
-u8 Cheats::_slashing(void){ //hockey stick in Gwen castle
+//hockey stick in Gwernia castle
+u8 Cheats::_slashing(void){ 
   setEventFlag(FLAG_Slashing,true);
   return true;}
-
-u8 Cheats::_darkside(void){ //lightsaber in oriana's hut.
+//lightsaber in oriana's hut.
+u8 Cheats::_darkside(void){ 
   setEventFlag(FLAG_Darkside,true);
   return true;}
 
-
-u8 Cheats::fatboy_crawdaddy_tweety(u32 b7){ //the 3 transform cheats go here.
+//the 3 transform cheats go here.
+u8 Cheats::fatboy_crawdaddy_tweety(u32 b7){ 
   if (!gGlobals.playerCharStruct.playerDat) return false; //fails if used on title screen.
   Actor::FreePlayerActor(gGlobals.playerCharStruct.playerDat);
   if (gGlobals.playerCharStruct.player_form == b7) b7 = BORG7_Alaron;
@@ -107,16 +108,15 @@ u8 Cheats::fatboy_crawdaddy_tweety(u32 b7){ //the 3 transform cheats go here.
   Actor::ChangeAppearance(gGlobals.playerCharStruct.playerDat,b7);
   return true;
 }
+//Transform into Chaos Trooper
+u8 Cheats::_crawdaddy(){return fatboy_crawdaddy_tweety(BORG7_ChaosTrooper);}
+//Transform into Ogre
+u8 Cheats::_fatboy(){return fatboy_crawdaddy_tweety(BORG7_Ogre);}
+//Transform into Gryphon
+u8 Cheats::_tweety(){return fatboy_crawdaddy_tweety(BORG7_Gryphon);}
+// +750000 EXP to party
+u8 Cheats::_Cheater(){ 
 
-u8 Cheats::_crawdaddy(void){return fatboy_crawdaddy_tweety(BORG7_ChaosTrooper);}
-u8 Cheats::_fatboy(void){return fatboy_crawdaddy_tweety(BORG7_Ogre);}
-u8 Cheats::_tweety(void){return fatboy_crawdaddy_tweety(BORG7_Gryphon);}
-
-extern u8 gPartyPicker;
-u8 Cheats::_Cheater(void){ // +750000 EXP to party
-  pause_Substruct *ppVar1;
-  CharSheet *pCVar2;
-  
   #ifndef DEBUGVER
   if(getEventFlag(FLAG_Cheater))return false; //no double-dipping in retail
   #endif
@@ -126,16 +126,16 @@ u8 Cheats::_Cheater(void){ // +750000 EXP to party
       if ((PARTY)->Members[i]) {Entity::AddExp((PARTY)->Members[i],500000);}
     }
   }
-  ppVar1 = PauseSub; //Pause menu update, crashes game if used on title screen
-  pCVar2 = (PARTY)->Members[gPartyPicker]; //update stats for char. selected on menu
+  pause_Substruct *ppVar1 = PauseSub; //Pause menu update, crashes game if used on title screen
+  CharSheet *pCVar2 = (PARTY)->Members[gPartyPicker]; //update stats for char. selected on menu
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->LevelText),"%u",Entity::GetLevel(pCVar2));
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->CurrHPText),"%u",Entity::getHPCurrent(pCVar2));
   sprintf(Utilities::GetWidgetText(ppVar1->dollmenu->charStats_widget->MaxHPText),"%u",Entity::getHPMax(pCVar2));
   ppVar1->dollmenu->lists->m80038bdc(gPartyPicker);
   return true;
 }
-
-u8 Cheats::_bingo(void){ //+100000 gold
+ //+100000 gold
+u8 Cheats::_bingo(void){
   BaseWidget *pwVar1;
   char *pcVar2;
   #ifndef DEBUGVER
@@ -149,16 +149,12 @@ u8 Cheats::_bingo(void){ //+100000 gold
   return true;
 }
 
-extern BaseWidget *
-TextPopup_New(char *txt,u16 x,u16 y,u8 red0,u8 green0,u8 blue0,u8 alpha0,u8 alph1,u32 addToHandler);
-
+//asks you to enter "keepbusy"
 u8 Cheats::imadoofus(void){
-  //asks you to enter "keepbusy"
   TextPopup_New(cheatStrings_pointer[11],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
   return true;}
-
+//asks you to enter "imadoofus"
 u8 Cheats::keepbusy(void){
-  //asks you to enter "imadoofus"
   TextPopup_New(cheatStrings_pointer[12],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
   return true;}
 

@@ -240,33 +240,6 @@ struct DialougEnt_RAM {
     u8 b;
 };
 
-typedef struct Gear_RAM Gear_RAM, *PGear_RAM;
-
-struct Gear_RAM {
-    ItemID ID;
-    char name[20];
-    u8 is 0;
-    u8 field3_0x17;
-    u16 exp_multi;
-    u8 damage;
-    u8 Protection;
-    u8 STR;
-    u8 INT;
-    u16 price;
-    enum AspectEnum aspect;
-    enum StatEnum stat;
-    u8 StatMod;
-    enum SkillEnum skill;
-    u8 SkillMod;
-    u8 spell;
-    u8 spellVal1;
-    u8 spellVal2;
-    u8 magic;
-    u8 magicAmmount;
-    enum ElementEnum elementResist;
-    undefined field21_0x2b;
-    float ResistPercent;
-};
 
 typedef struct shop_ram shop_ram, *Pshop_ram;
 
@@ -311,31 +284,6 @@ struct DialougeEntity_ROM { /* Dialouge entity in ROM */
     ItemID_ROM ID;
 };
 
-typedef struct Gear_Rom Gear_Rom, *PGear_Rom;
-
-struct Gear_Rom { /* Gear/item data stored in rom */
-    char name[20];
-    ItemID_ROM ID;
-    u8 ExpMulti[2];
-    u8 damage;
-    u8 Protection;
-    u8 required_STR;
-    u8 Required_INT;
-    u8 price[2]; /* Endian reversed */
-    enum AspectEnum Aspect;
-    enum StatEnum stat;
-    s8 statMod;
-    enum SkillEnum Skill; /* Can also modify Stat */
-    s8 SkillMod;
-    ItemID_ROM Spell;
-    u8 spellvalue;
-    u8 SpellValue2;
-    ItemID_ROM Magic;
-    u8 MagicAmmount;
-    enum ElementEnum ElementResist;
-    u8 ResistPercent; /* 100-(25*x) */
-};
-
 typedef struct printf_struct printf_struct, *Pprintf_struct;
 
 struct printf_struct {
@@ -370,33 +318,9 @@ typedef struct BaseWidgetPause BaseWidgetPause, *PBaseWidgetPause;
 
 typedef struct WidgetCalendar WidgetCalendar, *PWidgetCalendar;
 
-typedef struct WidgetBarter WidgetBarter, *PWidgetBarter;
-
 typedef struct WidgetMenuWorldMap WidgetMenuWorldMap, *PWidgetMenuWorldMap;
 
 typedef struct struct_4 struct_4, *Pstruct_4;
-
-struct WidgetBarter {
-    BaseWidget base; /* 0x5e=Merchant */
-    u8 partyPicker;
-    undefined field2_0x7d;
-    undefined field3_0x7e;
-    undefined field4_0x7f;
-    WidgetTrainShop *field5_0x80;
-    WidgetTrainShop *field6_0x84;
-    WidgetTrainShop *description;
-    u8 invType;
-    undefined field9_0x8d;
-    undefined field10_0x8e;
-    undefined field11_0x8f;
-    BaseWidget *background;
-    BaseWidget *goldText;
-    undefined field14_0x98;
-    undefined field15_0x99;
-    undefined field16_0x9a;
-    undefined field17_0x9b;
-};
-
 
 struct WidgetCalendar {
     BaseWidget base;
@@ -513,26 +437,6 @@ struct encounter_rom_dat {
 typedef enum enum_someCase {
     CombatLevelUp=5
 } enum_someCase;
-
-
-typedef struct flag_cinematic flag_cinematic, *Pflag_cinematic;
-
-struct flag_cinematic {
-    u16 flag;
-    enum CinematicEnum cinematic;
-    u8 pad;
-};
-
-
-typedef struct Gear_Pointer Gear_Pointer, *PGear_Pointer;
-
-struct Gear_Pointer {
-    u8 total;
-    u8 totalPerGear[11];
-    u8 unk1[12];
-    Gear_RAM *Gear;
-};
-
 
 typedef struct MiniMap MiniMap, *PMiniMap;
 

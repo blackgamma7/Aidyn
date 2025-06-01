@@ -94,7 +94,7 @@ class DollMenuLists: public WidgetMenu{
 class WidgetMenuSpells: public WidgetMenu{
     WidgetTrainShop* SpellSkills[2];
     u8 selected;
-    u8 unk85;
+    u8 partyPicker;
     u8 count;
     WidgetTrainShop* spells;
     WidgetTrainShop* skills;

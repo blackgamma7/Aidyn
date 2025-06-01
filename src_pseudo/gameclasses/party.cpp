@@ -620,7 +620,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
     pCVar15 = &acStack744;
   }
   else {
-    IVar5 = param_3->id;
+    IVar5 = param_3->base.id;
     uVar10 = search_item_array(IVar5);
     pGVar6 = gItemDBp->Gear;
     bVar1 = pGVar6[uVar10].spell;

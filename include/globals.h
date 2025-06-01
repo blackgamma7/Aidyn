@@ -1,4 +1,3 @@
-//#include "GhidraDump.h"
 #include "titleScreen.h"
 #include "wander.h"
 #include "Camera.h"
@@ -24,8 +23,10 @@
 #include "cinematics.h"
 #include "dialoug.h"
 #include "widgets/PauseWidget.h"
+#include "widgets/WidgetBarter.h"
 #include "ZoneEngine.h"
 #include "combat/encounterDat.h"
+#include "itemDB.h"
 
 #include "crash.h"
 #include "heapN64.h"
@@ -66,7 +67,7 @@ struct GlobalsSub { /* 0x800e6988 */
     u16 Borg12Next2;
     u16 gamemodeType;
     flycamStruct flycamDat;
-    mapFloatDat MapFloatDats[3][5];
+    mapFloatDat MapFloatDats[15];
     u16 unkCounter;
     u16 unk120e;
     u16 unkTimer;

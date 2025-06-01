@@ -135,3 +135,5 @@ class WidgetStatTrain: public WidgetTrainShop{
     BaseWidget* AFunc();
     BaseWidget* CDownFunc();
 };
+
+u8 gPartyPicker=0;

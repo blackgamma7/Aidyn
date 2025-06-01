@@ -272,12 +272,12 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
     gGlobals.screenFadeMode = 3;
     return;
   case B13Com_AddGold:
-    borg12 = Coins_jingle;
+    borg12 = BORG12_CoinJingle;
     (gGlobals.party)->Gold+=val;
     goto play_sound;
   case B13Com_TakeGold:
     if ((gGlobals.party)->Gold < val) return;
-    borg12 = coinJingle;
+    borg12 = BORG12_CoinJingle2;
     (gGlobals.party)->Gold-=val;
     goto play_sound;
   case B13Com_AddItem:

@@ -217,7 +217,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
         Gsprintf(Cstring(GotXGold),(v->container).Gold);
         textbox_func(gGlobals.text);
         (PARTY)->Gold+=(v->container).Gold;
-        PLAYSFX(Coins_jingle,0,gGlobals.VolSFX,300,time);
+        PLAYSFX(BORG12_CoinJingle,0,gGlobals.VolSFX,300,time);
       }
       else {
         GenericInventory *loot = new GenericInventory();

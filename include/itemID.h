@@ -3,6 +3,7 @@
 
 typedef u16 ItemID;
 
+//ItemID endian swapped
 typedef struct{
     union {
         u16 s; //often loaded as short

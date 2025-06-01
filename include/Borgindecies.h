@@ -302,6 +302,7 @@ typedef enum Borg8Enum {
 #define BORG12_CheatUnused 0x720
 #define BORG12_CheatFail 0x721
 #define BORG12_CoinJingle 0x72d
+#define BORG12_CoinJingle2 0x72e
 
 
 //Borg5: Model data?

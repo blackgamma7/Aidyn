@@ -51,7 +51,7 @@ mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_
   vec3f globalPos;
   vec3f pvec3;
   vec3f fStack104;
-  
+  //assumes 100x100 map chunks
   fVar9 = 0.0;
   if (param_5) fVar9 = 100000.0f;
   setVec3(&globalPos,position->x + (float)(mapshortA * 100),position->y,
@@ -59,18 +59,14 @@ mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_
   iVar4 = 0;
   pmVar6 = NULL;
   for(u16 i=0;i<15;i++) {
-    iVar3 = iVar4 * 0x10 + i * 0xc;
-    pmVar5 = (mapFloatDat *)((int)&gGlobals.Sub.MapFloatDats[0][0].playerVec3 + iVar3);
+    pmVar5 = &gGlobals.Sub.MapFloatDats[i];
     fVar8 = fVar9;
     pmVar7 = pmVar6;
-    if (param_4 ==(&gGlobals.Sub.MapFloatDats[iVar4][i].mapDatA)[i * 6 + iVar4 * 8]) {
+    if (param_4 ==gGlobals.Sub.MapFloatDats[i].mapDatA) {
       CLEAR(&fStack104);
-      uVar1 = (&gGlobals.Sub.MapFloatDats[0][0].MapShort1)[i * 6 + iVar4 * 8];
-      pvec3.x = (pmVar5->playerVec3).x + (float)(((short)uVar1 * 0x18 + (int)(short)uVar1) * 4);
-      uVar1 = (&gGlobals.Sub.MapFloatDats[0][0].MapShort2)[i * 6 + iVar4 * 8];
-      pvec3.y = *(float *)((int)&gGlobals.Sub.MapFloatDats[0][0].playerVec3 + iVar3 + 4);
-      pvec3.z = *(float *)((int)&gGlobals.Sub.MapFloatDats[0][0].playerVec3 + iVar3 + 8) +
-                (float)(((short)uVar1 * 0x18 + (int)(short)uVar1) * 4);
+      pvec3.x = pmVar5->playerVec3.x+(float)(pmVar5->MapShort1*100);
+      pvec3.y = pmVar5->playerVec3.y;
+      pvec3.z = pmVar5->playerVec3.z+(float)(pmVar5->MapShort2*100);
       fStack104.x = pvec3.x;
       fStack104.y = pvec3.y;
       fStack104.z = pvec3.z;
@@ -86,8 +82,6 @@ mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_
       }
     }
     fVar9 = fVar8;
-
-    iVar4 = i << 1;
     pmVar6 = pmVar7;
   }
   return pmVar7;
@@ -396,27 +390,12 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
 }
 
 void ofunc_zoneengine_free(){
-  int iVar1;
-  ZoneDat *pZVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar4 = 0;
-  iVar5 = 1;
-  do {
-    pZVar2 = gGlobals.Sub.ZoneDatMtx[iVar4];
-    iVar3 = 0x10000;
-    do {
-      Zonedat_clear(pZVar2,1,0);
-      iVar1 = iVar3 >> 0x10;
-      pZVar2 = pZVar2 + 1;
-      iVar3 = iVar3 + 0x10000;
-    } while (iVar1 < 3);
-    HFREE(gGlobals.Sub.ZoneDatMtx + iVar4,1034);
-    iVar4 = (int)(short)iVar5;
-    iVar5 = iVar4 + 1;
-  } while (iVar4 < 3);
+  for(s16 i=0;i<3;i++){
+    for(s16 j=0;j<3;j++){
+      Zonedat_clear(&gGlobals.Sub.ZoneDatMtx[i][j],1,0);
+    }
+    HFREE(&gGlobals.Sub.ZoneDatMtx[i],1034);
+  }
   //old bug?
   HFREE(&gGlobals.Sub,1036);
 }
@@ -566,7 +545,7 @@ void FreeZoneEngineMemory(){
   FreeZoneEngineTimestamp = gGlobals.ticker;
   for(s16 i=0;i<3;i++){
     for(s16 j=0;j<3;j++) {
-      if(i==j)Zonedat_clear(&gGlobals.Sub.ZoneDatMtx[i][i],0,1);//?
+      if(i==j)Zonedat_clear(&gGlobals.Sub.ZoneDatMtx[i][i],0,1);//clears [0][0],[1][1],and [2][2]. Onlly [1][1] intended?
       else Zonedat_clear(&gGlobals.Sub.ZoneDatMtx[i][j],1,1);
     }
   }
@@ -800,7 +779,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   prStack_38 = NULL;
   uVar1 = (tp->teleport).refPoint_Pos;
   uVar2 = (tp->teleport).refPoint_Cam;
-  iVar4 = (int)gGlobals.sky.Type;
+  s32 iVar4 = (int)gGlobals.sky.Type;
   memset_voxelChart_entries();
   pfVar8 = NULL;
   clear_camera_voxel_pointer();
@@ -1660,19 +1639,13 @@ void renderTransZones_(Gfx**GG){
 }
 
 void mapFloatDat_copy(mapFloatDat *param_1){
-  s32 iVar1;
-  u16 uVar2;
-  
-  uVar2 = 0;
+
   gGlobals.Sub.unk120e = 0;
   gGlobals.Sub.unkCounter = 0;
   gGlobals.Sub.unkTimer = 0;
-  iVar1 = 0;
-  do {
-    COPY(&gGlobals.Sub.MapFloatDats[uVar2][iVar1],param_1);
-    uVar2++;
-    iVar1 = uVar2 << 1;
-  } while (uVar2 < 15);
+  for(u16 i=0;i<15;i++){
+    COPY(&gGlobals.Sub.MapFloatDats[i],param_1);
+  }
 }
 
 void InitZoneEngine(u16 param_1,short param_2){
