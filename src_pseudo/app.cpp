@@ -4,7 +4,7 @@
 #include "globals.h"
 #include "skyObjects.h"
 #include "memaker.h"
-#include "n64Borg.h"
+#include "titlesplash.h"
 
 u16 doubleGlobalTickerFlag=0;
 #ifndef DEBUGVER
@@ -217,8 +217,8 @@ loop:
 void appProc_init(void){
   u8 *pbVar1;
   u8 *pbVar2;
-  fontface_struct *pfVar4;
-  Borg8Enum BVar5;
+  FontFace *pfVar4;
+  u32 BVar5;
   s32 uVar6;
   Graphics::SetGfxMode(SCREEN_WIDTH,SCREEN_HEIGHT,16);
   Sky::Reset();
@@ -229,35 +229,22 @@ void appProc_init(void){
   gGlobals.appstate = 5;
   gGlobals.ticker = 0;
   gGlobals.delta = 0.0;
-  if (font_face[0].font_face != 0) {
-    pfVar4 = font_face;
-    do {
-      pfVar4++;
-      uVar6++;
-    } while (pfVar4->font_face != 0);
-  }
+  while(font_face[uVar6].borg8){uVar6++;}
   ALLOC(gGlobals.font,436);
   Font::Init(gGlobals.font,uVar6);
   if (0 < uVar6) {
-    pfVar4 = font_face;
-    BVar5 = font_face[0].font_face;
-    while( true ) {
-      pbVar1 = &pfVar4->a;
-      pbVar2 = &pfVar4->b;
-      pfVar4++;
-      uVar6--;
-      Font::LoadFace(gGlobals.font,BVar5,*pbVar1,*pbVar2);
-      if (uVar6 == 0) break;
-      BVar5 = pfVar4->font_face;
+    for(;uVar6!=0;uVar6--){
+      FontFace *f=&font_face[uVar6];
+      Font::LoadFace(gGlobals.font,f->borg8,f->rows,f->cols);
     }
   }
-  Font::SetFace(gGlobals.font,font_face[0].font_face);
+  Font::SetFace(gGlobals.font,font_face[0].borg8);
   ALLOC(WHANDLE,447);
   WHANDLE->Init(gGlobals.font);
   queue_struct_pointer = &gGlobals.QueueA;
   MemoryMaker::Init();
   CommonStrings::Init();
-  gGlobals.diaClass =  new DialougeClass(WHANDLE);
+  gGlobals.diaClass = new DialougeClass(WHANDLE);
   HresMirror = Graphics::get_hres();
   VresMirror = Graphics::get_vres();
   gGlobals.appstateBool = 1;
@@ -272,15 +259,15 @@ Gfx* appProc_caseSwitch(Gfx* gg){
   if (gGlobals.appstateBool) {
     switch(gGlobals.appstate) {
     case 0:
-      gGlobals.appstate = appstate_0(&g); break;
+      gGlobals.appstate = appState_0(&g); break;
     case 1:
-      gGlobals.appstate = appstate_1(&g); break;
+      gGlobals.appstate = appState_1(&g); break;
     case 2:
-      gGlobals.appstate = appstate_2(&g); break;
+      gGlobals.appstate = appState_2(&g); break;
     case 3:
       gGlobals.appstate = appState_ContPakCheck(&g); break;
     case 4:
-      gGlobals.appstate = appstate_4(&g); break;
+      gGlobals.appstate = appState_4(&g); break;
     case 5:
       gGlobals.appstate = appState_RegionControllerCheck(&g); break;
     default:
@@ -303,7 +290,7 @@ int appState_RegionControllerCheck(Gfx **gg){
   
   if (osTvType == OS_TV_PAL) {
     if (PAL_warning_flag) {
-      PAL_Warning_image = loadBorg8(Borg8_PAL_Warning);
+      PAL_Warning_image = loadBorg8(BORG8_ErrorRegion);
       PAL_warning_flag = 0;
     }
     Gfx* g = *gg;

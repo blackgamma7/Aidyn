@@ -87,10 +87,10 @@ struct dialougemode_struct {
     u16 mapDatA;
     u16 mapShort1;
     u16 mapShort2;
-    u16 unk9c;
+    u16 timer9c;
     u16 unk9e;
-    int unka0;
-    u32 unka4;
+    int controlLock;
+    u32 timerFlag;
     u16 unka8;
     u8 func_index;
     u8 unkab;

@@ -3,8 +3,7 @@
 #include "voxelChart.h"
 #define FILENAME "./src/dialogmode.cpp"
 
-void dialoug_func(borg13Enum BorgID,undefined2 RefPointID,undefined2 MapDatA,undefined2 MapShortA,
-                 undefined2 MapShortB,undefined2 param_6)
+void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapShortB,u16 param_6)
 
 {
   bool bVar2;
@@ -13,11 +12,9 @@ void dialoug_func(borg13Enum BorgID,undefined2 RefPointID,undefined2 MapDatA,und
   ushort uVar4;
   int iVar5;
   uint uVar6;
-  u16 uStack104 [6];
-  
-  uStack104._0_4_ = USHORT_ARRAY_ARRAY_800deb40[0];
-  uStack104._4_4_ = USHORT_ARRAY_ARRAY_800deb40[1];
-  uStack104._8_4_ = USHORT_ARRAY_ARRAY_800deb40[2];
+  u16 uStack104 []={
+    BORG13_GoblinAmbush,FLAG_GoblinAmbush,BORG13_LugashIntro,FLAG_LugashFight,-1,-1};
+
   if (dialougemode_pointer == NULL) {
     get_some_borg13(BorgID);
     for (iVar5 = 0; uStack104[iVar5] != 0xffff; iVar5 += 2) {
@@ -85,14 +82,14 @@ Gfx * FUN_80057e78(Gfx *gfx,ushort delta){
   Gfx *g = gfx;
   switch(dialougemode_pointer->borg13_dat->start_func){
     case 1:{
-    g = Graphics::StartDisplay(gfx,0,0,0x140,0xf0);
+    g = Graphics::StartDisplay(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
     handleZoneEngineFrame(&g,delta,NULL);
     if (gGlobals.screenFadeMode) return g;
     break;}
     case 2:{
     Sky::ResetColors();
-    g = Graphics::StartDisplay(g,0,0,0x140,0xf0);
-    g = Graphics::SomeOtherInit(g,0,0,0x140,0xf0,0,0,0,0);
+    g = Graphics::StartDisplay(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    g = Graphics::SomeOtherInit(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
     g = FUN_800591a8(g,(u8)delta,true);
     if (gGlobals.screenFadeMode) return g;
     break;
@@ -125,7 +122,7 @@ int ScreenFadeMode_12(Gfx **GG)
     }
     case 1:{
     run_dialougemode_funcs1();
-    g = Graphics::StartDisplay(g,0,0,0x140,0xf0);
+    g = Graphics::StartDisplay(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
     iVar2 = cutScene_control_func();
     gGlobals.delta = iVar2;
     FUN_80058b88(&g,iVar2);
@@ -156,41 +153,33 @@ int ScreenFadeMode_12(Gfx **GG)
   return 0xc;
 }
 
-void run_dialougemode_funcs1(void)
-
-{
-  if ((borg_13_pointer != NULL) && (dialougemode_pointer != NULL)) {
+void run_dialougemode_funcs1(void){
+  if ((borg_13_pointer) && (dialougemode_pointer)) {
     (*dialougemode_pointer->funcs1[dialougemode_pointer->func_index])();
     dialougemode_pointer->unkac = 0;
   }
-  return;
 }
 
-u8 dialougSkillCheck(SkillEnum param_1)
-
-{
+u8 dialougSkillCheck(u8 param_1){
   uint uVar1;
   VoxelChartEntry *pVVar2;
   
   if (dialougemode_pointer->partySkillLvls[param_1] == 0xff) {
     uVar1 = PARTY->SkillCheck(param_1);
     dialougemode_pointer->partySkillLvls[param_1] = (u8)uVar1;
-    if (param_1 == SKILL_Troubadour) {
-      return dialougemode_pointer->partySkillLvls[9];
-    }
+    if (param_1 == SKILL_Troubador) return dialougemode_pointer->partySkillLvls[9];
     if (dialougemode_pointer->Unk0x7C != 0x7fff) {
       pVVar2 = some_ref_obj_lookup_func
                          (dialougemode_pointer->Unk0x7C,
-                          *(char *)((int)&dialougemode_pointer->mapDatA + 1),
-                          *(byte *)((int)&dialougemode_pointer->mapShort1 + 1),
-                          *(byte *)((int)&dialougemode_pointer->mapShort2 + 1),0x11,param_1 + 0x49);
+                          (u8)dialougemode_pointer->mapDatA,
+                          (u8)dialougemode_pointer->mapShort1,
+                          (u8)dialougemode_pointer->mapShort2,0x11,param_1 + 0x49);
       if (pVVar2 == NULL) {
         pVVar2 = passto_WriteTo_VoxelChart
                            (dialougemode_pointer->Unk0x7C,
-                            *(undefined1 *)((int)&dialougemode_pointer->mapDatA + 1),
-                            *(undefined1 *)((int)&dialougemode_pointer->mapShort1 + 1),
-                            *(undefined1 *)((int)&dialougemode_pointer->mapShort2 + 1),0x11,
-                            param_1 + 0x49,10);
+                           (u8)dialougemode_pointer->mapDatA,
+                           (u8)dialougemode_pointer->mapShort1,
+                            (u8)dialougemode_pointer->mapShort2,0x11,param_1 + 0x49,10);
         pVVar2->unk0x8 = (float)(uint)dialougemode_pointer->partySkillLvls[param_1];
       }
       else {
@@ -202,49 +191,33 @@ u8 dialougSkillCheck(SkillEnum param_1)
   return dialougemode_pointer->partySkillLvls[param_1];
 }
 
-void FUN_8005831c(void)
-
-{
-  DialougeClass *pDVar1;
-  
-  pDVar1 = gGlobals.diaClass;
-  if ((((dialougemode_pointer != NULL) && (dialougemode_pointer->unka0 != 0)) &&
-      (dialougemode_pointer->unka4 == 0)) && (gGlobals.scriptcamera.counter1 == 0)) {
-    dialougemode_pointer->unka0 = 0;
-    gGlobals.diaClass->m8004f264(pDVar1);
+void FUN_8005831c(void){
+  if ((((dialougemode_pointer != NULL) && (dialougemode_pointer->controlLock)) &&
+      (dialougemode_pointer->timerFlag == 0)) && (gGlobals.scriptcamera.counter1 == 0)) {
+    dialougemode_pointer->controlLock = 0;
+    gGlobals.diaClass->m8004f264();
   }
-  return;
 }
 
-void FUN_80058370(void)
-
-{
-  BaseWidget *pBVar1;
-  DialougeClass *pDVar2;
-  WidgetHandler *pWVar3;
-  
-  pWVar3 = gGlobals.widgetHandler;
-  if (dialougemode_pointer->unka0 == 0) {
-    pBVar1 = (gGlobals.diaClass)->menu;
-    dialougemode_pointer->unka0 = 1;
-    WidgetHandler::FreeWidget(pWVar3,pBVar1);
-    pDVar2 = gGlobals.diaClass;
+void FUN_80058370(void){ 
+  if (!dialougemode_pointer->controlLock) {
+    dialougemode_pointer->controlLock = true;
+    WHANDLE->FreeWidget((gGlobals.diaClass)->menu);
     (gGlobals.diaClass)->unkC = 0;
-    gGlobals.diaClass->SetUnk20(pDVar2);
+    gGlobals.diaClass->SetUnk20();
   }
-  return;
 }
 
-void FUN_800583d0(u16 param_1){
+void FUN_800583d0(u16 t){
   dialougemode_struct *pdVar1;
   
   pdVar1 = dialougemode_pointer;
-  dialougemode_pointer->unka4 = 1;
-  dialougemode_pointer->unk9c = param_1;
+  dialougemode_pointer->timerFlag = true;
+  dialougemode_pointer->timer9c = t;
   FUN_80058370();
 }
 
-void set_dialougemode_0x90(undefined4 param_1)
+void set_dialougemode_0x90(u32 param_1)
 
 {
   dialougemode_pointer->unk90 = param_1;
@@ -386,7 +359,6 @@ void init_skill_trainer(void)
     }
     set_shopkeep_skills(sk,pSVar3);
   }
-  return;
 }
 
 void shop_func(void)
@@ -401,38 +373,30 @@ void shop_func(void)
   ulong uVar4;
   Inventory_item *uVar5;
   ulonglong uVar6;
-  u8 uVar7;
+  u8 i;
   
   keep = set_shopkeep();
   if (keep) {
     pIVar3 = new GenericInventory();
-    uVar7 = 0;
+    i = 0;
     puVar4 = NULL;
-    if (shop_pointer->total != 0) {
-      iVar3 = 0;
-      do {
-        puVar4 = shop_pointer->shops[uVar7];
+    for(i=0;i<shop_pointer->total;i++){
+        puVar4 = shop_pointer->shops[i];
         if (puVar4->shopkeep == keep) break;
-        uVar7++;
         puVar4 = NULL;
-      } while (uVar7 < shop_pointer->total);
-    }
-    uVar7 = 0;
-    iVar3 = 0;
-    do {
-      uVar6 = (ulonglong)*(ushort *)((int)puVar4->stock + iVar3);
-      if ((uVar6 != 0) && (puVar4->multi[2][uVar7] != 0)) {
+      }
+    for(i=0;i<20;i++){
+      uVar6 = puVar4->stock[i];
+      if ((uVar6 != 0) && (puVar4->multi[2][i] != 0)) {
         pIVar3->AddItem(uVar6,1);
         uVar5 = pIVar3->GetItemEntry(pIVar3->GetItemIndex(uVar6));
         f32 price_multis[]={0.5,0.75,1.0,1.25,1.5,2.0,3.0,5.0};
-        (uVar5->base).price = (float)(uVar5->base).price * price_multis[puVar4->multi[1][uVar7]];
+        (uVar5->base).price = (float)(uVar5->base).price * price_multis[puVar4->multi[1][i]];
       }
-      uVar7++;
-      iVar3 = uVar7 << 1;
-    } while (uVar7 < 0x14);
-    for (; uVar7 < 0x17; uVar7++) {
-      if (puVar4->stock[uVar7])
-        pIVar3->AddItem(puVar4->stock[uVar7],1);
+    }
+    for (; i < 23; i++) {
+      if (puVar4->stock[i])
+        pIVar3->AddItem(puVar4->stock[i],1);
     }
     build_loot_menu(pIVar3,0,(short)keep);
   }
@@ -459,25 +423,25 @@ void FUN_80058ad4(void){
   }
 }
 
-void FUN_80058b30(ushort param_1){
-  if (dialougemode_pointer->unka4 != 0) {
-    if (param_1 < dialougemode_pointer->unk9c) {
-      dialougemode_pointer->unk9c-= param_1;
+void FUN_80058b30(ushort delta){
+  if (dialougemode_pointer->timerFlag) {
+    if (delta < dialougemode_pointer->timer9c) {
+      dialougemode_pointer->timer9c-= delta;
     }
     else {
-      dialougemode_pointer->unk9c = 0;
-      dialougemode_pointer->unka4 = 0;
-      dialougemode_pointer->unka0 = 0;
+      dialougemode_pointer->timer9c = 0;
+      dialougemode_pointer->timerFlag = false;
+      dialougemode_pointer->controlLock = 0;
       gGlobals.diaClass->m8004f264();
     }
   }
 }
 
-void FUN_80058b88(Gfx **param_1,u16 param_2){
+void FUN_80058b88(Gfx **param_1,u16 delta){
   u8 b = dialougemode_pointer->borg13_dat->start_func;
   if (b == 1) {
-    handleZoneEngineFrame(param_1,param_2,NULL);
-    ProcessAudioBubbles(&gGlobals.SFXStruct,&gGlobals.Sub.camera.pos,param_2);
+    handleZoneEngineFrame(param_1,delta,NULL);
+    ProcessAudioBubbles(&gGlobals.SFXStruct,&gGlobals.Sub.camera.pos,delta);
   }
   else if ((1 < b) && (b < 5)) {
     gGlobals.scriptcamera.counter0 = 0;
@@ -485,7 +449,7 @@ void FUN_80058b88(Gfx **param_1,u16 param_2){
     return;
   }
   FUN_80058ad4();
-  FUN_80058b30(param_2);
+  FUN_80058b30(delta);
   return;
 }
 
@@ -548,31 +512,21 @@ void get_some_borg13(u32 param_1){
     gGlobals.EncounterDat.EncounterID = 0;
 }
 
-bool dialougmode_struct_init
-               (borg13Enum BorgID,undefined2 RefPointID,undefined2 MapDatA,undefined2 MapShortA,
-               undefined2 MapShortB,undefined2 param_6){
-  Borg13Data *pBVar1;
-  dialougemode_struct *pdVar2;
-  dialougemode_struct *pdVar3;
-  u8 *x;
-  
-  ALLOC(dialougemode_pointer,0x3a3);
+bool dialougmode_struct_init(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapShortB,u16 param_6){
+
+  ALLOC(dialougemode_pointer,931);
   CLEAR(dialougemode_pointer);
-  pdVar2 = dialougemode_pointer;
-  pBVar1 = borg_13_pointer->dat;
   dialougemode_pointer->unkab = 0;
-  pdVar3 = dialougemode_pointer;
-  pdVar2->borg13 = BorgID;
-  pdVar2->mapDatA = MapDatA;
-  pdVar2->mapShort1 = MapShortA;
-  pdVar2->mapShort2 = MapShortB;
-  pdVar2->RefPointID = RefPointID;
-  pdVar2->unk90 = 1;
-  pdVar2->borg13_dat = pBVar1;
-  pdVar3->Unk0x7C = param_6;
-  x = (u8 *)HALLOC(0xc,0x3b2);
-  dialougemode_pointer->partySkillLvls = x;
-  memset(x,0xff,0xc);
+  dialougemode_pointer->borg13 = BorgID;
+  dialougemode_pointer->mapDatA = MapDatA;
+  dialougemode_pointer->mapShort1 = MapShortA;
+  dialougemode_pointer->mapShort2 = MapShortB;
+  dialougemode_pointer->RefPointID = RefPointID;
+  dialougemode_pointer->unk90 = 1;
+  dialougemode_pointer->borg13_dat = borg_13_pointer->dat;
+  dialougemode_pointer->Unk0x7C = param_6;
+  ALLOCS(dialougemode_pointer->partySkillLvls,12,946);
+  memset(dialougemode_pointer->partySkillLvls,0xff,0xc);
   FUN_800b6c38(&dialougemode_pointer->some_substruct,dialougemode_pointer->RefPointID);
   dialougemode_pointer->func_index = dialougemode_pointer->borg13_dat->start_func;
   get_dialougemode_funcs();
@@ -591,8 +545,8 @@ void dialougmode_free(void){
   if (dialougemode_pointer) {
     if (dialougemode_pointer->camp_flag)
       World::Lapse8Hours(TerrainPointer);
-    FREE(dialougemode_pointer->partySkillLvls,0x3cd);
-    FREE(dialougemode_pointer,0x3d0);
+    FREE(dialougemode_pointer->partySkillLvls,973);
+    FREE(dialougemode_pointer,976);
     NOOP_80058dc8();
   }
   return;
@@ -617,7 +571,7 @@ byte cutScene_control_func(void)
     } while (gGlobals.screenFadeMode != 0);
     if ((acStack32->input & B_BUTTON) != 0) unusedDialougToggle ^= 1;
     #ifdef DEBUGVER
-    if (((gDebugFlag != 0) && (dialougemode_pointer->unka0 == 0)) &&
+    if (((gDebugFlag != 0) && (dialougemode_pointer->controlLock == 0)) &&
        ((acStack32->input & START_BUTTON) != 0))
       build_camera_debug(dialougemode_pointer->RefPointID);
     #endif
@@ -628,8 +582,8 @@ byte cutScene_control_func(void)
       DialogCallbackC((gGlobals.diaClass)->dialouge_substruct,borg_13_pointer->dat,B13Com_EndDialoug,0);
     }
     N64Print::Toggle(&gGlobals.DebugQueue,acStack32);
-  } while (((dialougemode_pointer->unka0) || (dialougemode_pointer->unka4)) ||
-          ((gGlobals.scriptcamera.counter1 != 0 ||
+  } while (((dialougemode_pointer->controlLock) || (dialougemode_pointer->timerFlag)) ||
+          ((gGlobals.scriptcamera.counter1 ||
            (((!WHANDLE->Control((ControllerFull *)acStack32)|| (freeWidgetFunc == NULL)) ||
             ((*freeWidgetFunc)(), dialougemode_pointer->unkab != 2))))));
 LAB_80059174:
@@ -685,8 +639,7 @@ void DialogueModeInitPrescripted(void){
   Camera::SetPos(gGlobals.Sub.PlayerHandler.camera,&afStack80);
   afStack80.x += 100.0f;
   Camera::SetAim(gGlobals.Sub.PlayerHandler.camera,&afStack80);
-  gGlobals.diaClass->StartDialoug
-            (gGlobals.diaClass,dialougemode_pointer->borg13_dat,
+  gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
              &dialougemode_pointer->some_substruct,dialougemode_pointer->func_index,
              dialougemode_pointer->borg13_dat->C);
   gGlobals.screenFadeMode = 2;
@@ -694,19 +647,12 @@ void DialogueModeInitPrescripted(void){
   gGlobals.screenFadeSpeed = (1.0/60);
 }
 
-void load_one_of_two_cinematics(void)
+void load_one_of_two_cinematics(void){
 
-{
-  bool bVar3;
-  Borg9Header *pBVar2;
-  undefined4 uVar6;
-  int iVar8;
-  int iVar9;
-  int iVar10;
-  
+
   DialougFreeActors(&dialougemode_pointer->some_substruct,dialougemode_pointer->borg13_dat);
   Process_queue_B(&gGlobals.QueueB,1);
-  FreeZoneEngine(1);
+  FreeZoneEngine(true);
   clear_sfx_entries(&gGlobals.SFXStruct,1);
   FreeWanderHead(&gGlobals.wander);
   gGlobals.diaClass->FreeWidgets();
@@ -725,7 +671,7 @@ void load_one_of_two_cinematics(void)
       return;
     }
     case 3:{
-    if (getEventFlag(0xd72)) {
+    if (getEventFlag(3442)) {
       Cinematic::Load(Cinematic_Roog,CSwitch_TrueName,1);
       DAT_800ee970 = 0xe;
       return;
@@ -734,7 +680,7 @@ void load_one_of_two_cinematics(void)
    default:break;
   }
   if ((DAT_800ee970 == 1) && (gGlobals.Sub.MapFloatDatEntry.mapDatB != -1)) {
-    pBVar2 = loadBorg9(BorgMaps::GetMapList(gGlobals.Sub.MapFloatDatEntry.mapDatA,gGlobals.Sub.MapFloatDatEntry.MapShort1
+    Borg9Header *pBVar2 = loadBorg9(BorgMaps::GetMapList(gGlobals.Sub.MapFloatDatEntry.mapDatA,gGlobals.Sub.MapFloatDatEntry.MapShort1
                        ,gGlobals.Sub.MapFloatDatEntry.MapShort2));
     if ((pBVar2->dat).voxelObjCount != 0) {
       for(s16 i=0;i<(pBVar2->dat).voxelObjCount;i++) {
@@ -745,7 +691,7 @@ void load_one_of_two_cinematics(void)
           DAT_800ee96c = 1;
           dialoug_func((uint)(obj->dialoug).borg_13,(obj->dialoug).RefPointID,
                        (obj->dialoug).MapDatA,(obj->dialoug).MapShortA,
-                       (obj->dialoug).MapShortB,(short)iVar8);
+                       (obj->dialoug).MapShortB,i);
           DAT_800ee96c = 0;
           DAT_800ee970 = 0xc;
           break;
@@ -836,7 +782,6 @@ void FUN_800598fc(void){
     ppVar2->ani_type = 0;
     ppVar1->ani_type = 0;
   }
-  return;
 }
 
 void FUN_80059970(BaseWidget *param_1){
@@ -881,20 +826,17 @@ void FUN_800599f0(void){
   ppVar2 = gGlobals.playerCharStruct.playerDat;
   if ((gGlobals.playerCharStruct.playerDat != NULL) && (gGlobals.Sub.PlayerHandler.camera != NULL))
   {
-    Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,
-                    &((gGlobals.playerCharStruct.playerDat)->collision).pos);
+    Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
     pCVar3->unk80 = 5;
   }
-  if (pwVar1 != NULL) {
-    if (dialougemode_pointer->unka8 == '\0') {
+  if (pwVar1) {
+    if (!dialougemode_pointer->unka8) {
       Actor::UnsetFlag(dialougemode_pointer->Wanderers->playerDat,ACTOR_800|ACTOR_40);
       FUN_80012d44(dialougemode_pointer->Wanderers);
     }
-    else {
-      FreeWanderer(&gGlobals.wander,dialougemode_pointer->Wanderers);
-    }
+    else FreeWanderer(&gGlobals.wander,dialougemode_pointer->Wanderers);
   }
-  if (ppVar2 != NULL) {
+  if (ppVar2) {
     Actor::UnsetFlag(ppVar2,ACTOR_800);
     clear_some_playerHandler_field();
     GiveCameraToPlayer(ppVar2);
@@ -904,9 +846,8 @@ void FUN_800599f0(void){
 }
 
 playerData * FUN_80059ae8(void){
-  ActorAndID* pAVar1 = DialougGetActorAndID
-                     (&dialougemode_pointer->some_substruct,borg_13_pointer->dat,
-                      (dialougemode_pointer->some_substruct).Entid);
+  ActorAndID* pAVar1 = DialougGetActorAndID(&dialougemode_pointer->some_substruct,borg_13_pointer->dat,
+                       (dialougemode_pointer->some_substruct).Entid);
   if (pAVar1 == NULL) return NULL;
   else return pAVar1->actor;
 }
@@ -919,22 +860,19 @@ void FUN_80059b28(void){
 
 
 void FUN_80059b50(void){
-  u8 uVar5 = 0;
   if (dialougemode_pointer->borg13_dat->ActorCount != 0) {
-    do {
-      playerData *ppVar2 = dialougemode_pointer->some_substruct.actors[uVar5].actor;
+    for(u8 i=0;i<dialougemode_pointer->borg13_dat->ActorCount;i++){
+      playerData *ppVar2 = dialougemode_pointer->some_substruct.actors[i].actor;
       if (ppVar2) {
         if (dialougemode_pointer->unkac == 0) ppVar2->ani_type = 0;
         else if (ppVar2 != dialougemode_pointer->playerDat) ppVar2->ani_type = 0;
       }
-      uVar5++;
-    } while (uVar5 < dialougemode_pointer->borg13_dat->ActorCount);
+    }
   }
-  if ((gGlobals.scriptcamera.counter1 == 0) && (borg13_flag != 0)) {
+  if ((gGlobals.scriptcamera.counter1 == 0) && (borg13_flag)) {
     borg13_flag = 0;
     FUN_8005831c();
   }
-  return;
 }
 
 

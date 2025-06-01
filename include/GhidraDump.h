@@ -536,24 +536,6 @@ struct Gear_Pointer {
 
 typedef struct MiniMap MiniMap, *PMiniMap;
 
-typedef struct QueueStructB QueueStructB, *PQueueStructB;
-
-typedef struct QueueStructBItem QueueStructBItem, *PQueueStructBItem;
-
-struct QueueStructBItem {
-    void *pBorg;
-    int field1_0x4;
-    int BorgIndex;
-    u16 BorgSwitch;
-    u8 field4_0xe;
-    undefined field5_0xf;
-};
-
-struct QueueStructB {
-    QueueStructBItem array[32];
-    u16 items;
-};
-
 typedef struct KKBufferEvent KKBufferEvent, *PKKBufferEvent;
 
 struct KKHeader {

@@ -1,9 +1,10 @@
 #include "globals.h"
+#include "titlesplash.h"
 
 u8 intro_music_flag=true;
 u8 NOOP_flag=false;
 
-void load_intro_music(void){
+void load_intro_music(){
   u32 BVar1;
   byte abStack_18;
   s32 aiStack_14;
@@ -16,7 +17,6 @@ void load_intro_music(void){
   gGlobals.introMusicDatA = abStack_18;
   gGlobals.introMusicDatB = aiStack_14;
 }
-
 
 s32 appState_0(Gfx **param_1){
   u8 bVar2;
@@ -40,4 +40,4 @@ s32 appState_0(Gfx **param_1){
   return (s32)bVar2;
 }
 
-void noop_intromusic(void){}
+void noop_intromusic(){}

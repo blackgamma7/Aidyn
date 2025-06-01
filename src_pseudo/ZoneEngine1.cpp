@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "vobjects.h"
 
 void checking_camping_safety(void){
   gGlobals.playerCharStruct.unkState = 3;
@@ -13,8 +14,8 @@ void dialoug_ref_obj_func(void){
       voxelObject* vObj = &(gGlobals.Sub.borg9DatPointer)->voxelObjs[i];
       if ((((vObj->header).type == VOXEL_Dialouge) &&
           (some_dialoug_short_lookup((vObj->header).flagA))) &&
-         (dialouge_trigger_check(vObj,((gGlobals.playerCharStruct.playerDat)->collision).pos,false))) {
-        dialoug_func((u32)(vObj->dialoug).borg_13,(vObj->dialoug).RefPointID,(vObj->dialoug).MapDatA,
+         (dialouge_trigger_check(vObj,&gGlobals.playerCharStruct.playerDat->collision.pos,false))) {
+        dialoug_func((vObj->dialoug).borg_13,(vObj->dialoug).RefPointID,(vObj->dialoug).MapDatA,
                      (vObj->dialoug).MapShortA,(vObj->dialoug).MapShortB,0x7fff);
         setEventFlag(0x1090,false);
         return;
@@ -44,7 +45,7 @@ u8 isCampfireScene(u32 b13ID){
   }
   return false;
 }
-u16 dialoug_voxel_flagAs[9]={0x13c0,0x141e,0x141f,0x1422,0x1423,0x142b,0x1447,0x1393,0xffff};
+u16 dialoug_voxel_flagAs[9]={0x13c0,0x141e,0x141f,0x1422,0x1423,0x142b,0x1447,0x1393,-1};
 
 u8 some_dialoug_short_lookup(u16 flag){
   u16* x= dialoug_voxel_flagAs;
@@ -62,7 +63,7 @@ void campfire_func(void){
   dialoug_dat *puVar4;
   voxelObject *pVVar1;
   
-  pBVar1 = loadBorg9(Borg9_campfire);
+  pBVar1 = loadBorg9(BORG9_Campsite);
   puVar4 = NULL;
   if ((pBVar1->dat).voxelObjCount != 0) {
     pVVar1 = (pBVar1->dat).voxelObjs;

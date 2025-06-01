@@ -558,7 +558,10 @@ COMMONSTRING_SpellTrainMax,    // You cannot train this spell any further.
 COMMONSTRING_NewSave,    // Create New Save
 COMMONSTRING_XPowerfulMagic,    // The %s contains powerful magic that only %s can control
 };
-
+namespace CommonStrings{
+    void Init(); 
+    void Free();
+};
 enum CombatStrings{
     COMBATSTRING_XsTurn,// %s begins action
     COMBATSTRING_PartyFlees,// The Party flees

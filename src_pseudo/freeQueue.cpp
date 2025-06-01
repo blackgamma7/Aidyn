@@ -12,7 +12,7 @@ void InitFreeQueueHead(QueueStructA *q){
 void AllocFreeQueueItem(QueueStructA *q,void **p,ushort type,ushort pri){
   QueueStructAItem *entry = q->array + q->items++;
   if (FREEQUEUE_QUEUESIZE <= q->items) CRASH("AllocFreeQueueItem","Too Many Items!\nIncrease FREEQUEUE_QUEUESIZE\n");
-  if(type>FreeQueue_Borg12){
+  if(type>QueueType_Borg12){
     #ifdef DEBUGVER
     char errBuff [152];
     sprintf(errBuff,"Unknown Type: %d\n",type);
@@ -41,32 +41,32 @@ void ProcessFreeQueue(QueueStructA *param_1){
         entry = &param_1->array[i];
         if (entry->pri == 0) {
           switch(entry->BorgSwitch) {
-          case FreeQueue_Borg7:
+          case QueueType_Borg7:
             FUN_8009fca8((Borg7Header *)entry->BorgPointer);
             break;
-          case FreeQueue_Scene:
+          case QueueType_Scene:
             borganim_free((SceneData *)entry->BorgPointer);
             break;
-          case FreeQueue_Borg6:
+          case QueueType_Borg6:
             passto_borg_6_free((Borg6Header *)entry->BorgPointer);
             break;
-          case FreeQueue_Borg1:
+          case QueueType_Borg1:
             borg1_free((Borg1Header *)entry->BorgPointer);
             break;
-          case FreeQueue_Borg8:
+          case QueueType_Borg8:
             borg8_free((Borg8Header *)entry->BorgPointer);
             break;
-          case FreeQueue_Borg13:
+          case QueueType_Borg13:
             passto_borg13_free((Borg13Header *)entry->BorgPointer);
             break;
-          case FreeQueue_Widget:
+          case QueueType_Widget:
             BaseWidget *w = (BaseWidget *)entry->BorgPointer;
             if (w) w->~BaseWidget();
             break;
-          case FreeQueue_Other:
+          case QueueType_Other:
             HFREE(entry->BorgPointer,170);
             break;
-          case FreeQueue_Borg12:
+          case QueueType_Borg12:
             free_borg_12((Borg12Header *)entry->BorgPointer);
             break;
           default:

@@ -107,3 +107,5 @@ struct itemtype_func {
     s32 unk;
     u8 (* func)(Party*,u8,ItemInstance*,CharSheet*,ItemID*);
 };
+
+char** price_strings=NULL;

@@ -18,7 +18,7 @@
 #include "commonstrings.h"
 #include "widgets/handler.h"
 #include "graphics.h"
-#include "freeQueue.h"
+#include "allocQueue.h"
 #include "spells.h"
 #include "weather.h"
 #include "cinematics.h"

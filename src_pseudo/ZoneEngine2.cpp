@@ -649,7 +649,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
           #else
           if (NoExpPak_memCheck(3))
           #endif
-            AllocAllocQueueItem(&gGlobals.QueueB,z->sceneDat0x4,0,z->borg5_ID,1,(char)uStack_30);
+            AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->sceneDat0x4,0,z->borg5_ID,1,(char)uStack_30);
         }
       }
       if ((z->unk0x10) && (z->SceneDat0x14 == NULL)) {
@@ -657,7 +657,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
           z->SceneDat0x14 = BorgAnimLoadScene(uVar21);
         }
         else if ((gLoadOneZone == 0) && (NoExpPak_memCheck(4))) {
-          AllocAllocQueueItem(&gGlobals.QueueB,z->SceneDat0x14,0,z->unk0x10,1,(char)uStack_30);
+          AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->SceneDat0x14,0,z->unk0x10,1,(char)uStack_30);
         }
       }
       loading_map_data(z);
@@ -1074,7 +1074,7 @@ struct struct_A {
 struct_A struct_a_ARRAY_800f5290[0x20];
 
 //Render the "scene" voxel objects
-Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *v3,short param_4,short param_5,float posx,float posz){
+Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,short param_5,float cellX,float cellZ){
   EventFlag EVar1;
   void *pvVar2;
   u8 bVar6;
@@ -1088,7 +1088,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *v3,short param_4,short 
   Borg7Header **ppBVar11;
   Color32 col;
   voxelObject *SObj;
-  uint uVar12;
+  s16 uVar12;
   int iVar13;
   struct_A *psVar14;
   uint uVar15;
@@ -1099,7 +1099,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *v3,short param_4,short 
   float fVar19;
   float fVar20;
   Gfx *local_res0;
-  vec3f param3;
+  vec3f pos;
   vec2f camCoord;
   vec2f CamAim;
   vec2f local_f8;
@@ -1116,13 +1116,13 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *v3,short param_4,short 
   
   fVar17 = __cosf(0.6544875f);
   fVar18 = __cosf(0.7417525f);
-  param3.x = v3->x + posx;
+  pos.x = posLocal->x + cellX;
   camCoord.x = gGlobals.Sub.camera.pos.x;
   camCoord.y = gGlobals.Sub.camera.pos.z;
   CamAim.x = gGlobals.Sub.camera.aim.x;
   CamAim.y = gGlobals.Sub.camera.aim.z;
-  param3.y = v3->y;
-  param3.z = v3->z + posz;
+  pos.y = posLocal->y;
+  pos.z = posLocal->z + cellZ;
   local_70 = borg9_get_unkStruct(borg9,param_4,param_5);
   iVar13 = 0;
   local_res0 = gfx;
@@ -1141,7 +1141,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *v3,short param_4,short 
       if ((((SObj->header).type == VOXEL_Scene) && (((SObj->header).Bitfeild & VOXEL_Active)))
          && (pSVar10 = &SObj->scene, (SObj->header).timestamp < gGlobals.ticker)) {
         (SObj->header).timestamp = gGlobals.ticker;
-        prox = vec3_proximity(&param3,&SObj->header.pos);
+        prox = vec3_proximity(&pos,&SObj->header.pos);
         fVar19 = (SObj->header).size;
         if (fVar19 <= prox) {
           NoExpPak_ClearSceneVoxel(pSVar10);
@@ -1151,8 +1151,8 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *v3,short param_4,short 
         if ((((SObj->scene).sceneflags & SceneObj_0004) == 0) ||
            (fVar19 * 0.5 < prox)) {
           setVec2(Sobj_pos,(SObj->header).pos.x,(SObj->header).pos.z);
-          local_b8[0].x = local_b8[0].x - posx;
-          local_b8[0].y = local_b8[0].y - posz;
+          local_b8[0].x = local_b8[0].x - cellX;
+          local_b8[0].y = local_b8[0].y - cellZ;
           fVar19 = three_vec2_proximities(&camCoord,&CamAim,Sobj_pos);
           if (fVar19 <= fVar17) {
             if (fVar19 <= fVar18) local_6c = 0;
@@ -1175,7 +1175,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *v3,short param_4,short 
         }
         local_64 = 0;
         local_5c = iVar13 + 1;
-        uVar12 = (int)(((SObj->scene).BorgCount - 1) * 0x10000) >> 0x10;
+        uVar12 = ((SObj->scene).BorgCount - 1);
         sVar8 = (short)local_5c;
         if (-1 < (int)uVar12) {
           do {
@@ -1217,8 +1217,8 @@ LAB_80010084:
                 }
                 else pAVar4 = ((SObj->scene).borgArray[0].b7)->sceneDat;
                 col.W = 0;
-                if (((SObj->scene).sceneflags & SceneObj_Tint)) col = (SObj->scene).tint;
-                Scene::MatrixASetPos(pAVar4,(SObj->header).pos.x - posx,(SObj->header).pos.y,(SObj->header).pos.z - posz);
+                if (((SObj->scene).sceneflags & SceneObj_Tint)) col.W = (SObj->scene).tint.W;
+                Scene::MatrixASetPos(pAVar4,(SObj->header).pos.x - cellX,(SObj->header).pos.y,(SObj->header).pos.z - cellZ);
                     // Oriana's Pathlights
                 if ((SObj->scene).borgArray[1].borgIndex == BORG5_OrianaLight) {
                   if (uVar12 == 0) {
@@ -1226,7 +1226,7 @@ LAB_80010084:
                       (SObj->header).Bitfeild &= ~VOXEL_Active;
                       passto_WriteTo_VoxelChart(local_70->lightIndecies[local_58],
                                  gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,
-                                 gGlobals.Sub.mapShort2,0x11,0,0x10);
+                                 gGlobals.Sub.mapShort2,0x11,VOXEL_Scene,0x10);
                     }
                   }
                 }
@@ -1239,12 +1239,12 @@ LAB_80010084:
                   else psVar14->SceneDat = pAVar4;
                 }
                 else {
-                  FUN_800a0304((SObj->scene).borgArray[0].b7,(int)gGlobals.delta);
+                  FUN_800a0304((SObj->scene).borgArray[0].b7,gGlobals.delta);
                   uVar12 = local_6c;
                   if (uVar15 < local_6c) uVar12 = uVar15;
                   set_sun_light(pAVar4,(SObj->scene).sceneflags,SObj,uVar12);
-                  passto_InitLight_2(&gGlobals.Sub.DynamicLights,pAVar4,SObj,(short)(int)gGlobals.delta);
-                  passto_initLight(pAVar4,borg9,SObj,(short)(int)gGlobals.delta);
+                  passto_InitLight_2(&gGlobals.Sub.DynamicLights,pAVar4,SObj,gGlobals.delta);
+                  passto_initLight(pAVar4,borg9,SObj,gGlobals.delta);
                   if (psVar14 == NULL) {
                     local_res0 = BorgAnimDrawSceneLinked(local_res0,(SObj->scene).borgArray[0].b7);
                   }
@@ -1510,14 +1510,14 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
             else if (pZVar12->sceneDat0x4 == NULL) {
               if (NoExpPak_memCheck(3)) {
                 pZVar12->flag |= 1;
-                AllocAllocQueueItem(&gGlobals.QueueB,&pZVar12->sceneDat0x4,0,pZVar12->borg5_ID,1,0);
+                AllocAllocQueueItem(&gGlobals.QueueB,(void**)&pZVar12->sceneDat0x4,0,pZVar12->borg5_ID,QueueType_Scene,0);
               }
             }
             if (pZVar12->unk0x10){
               if (pZVar12->SceneDat0x14 == NULL) {
                 if (NoExpPak_memCheck(4)) {
                   pZVar12->flag |= 2;
-                  AllocAllocQueueItem(&gGlobals.QueueB,&pZVar12->SceneDat0x14,0,pZVar12->borg5_ID,1,0);
+                  AllocAllocQueueItem(&gGlobals.QueueB,(void**)&pZVar12->SceneDat0x14,0,pZVar12->borg5_ID,QueueType_Scene,0);
                 }
                 goto LAB_80010bfc;
               }

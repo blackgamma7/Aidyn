@@ -195,23 +195,7 @@ struct monsterpartyEntry {
     u8 max;
 };
 
-struct monsterparty_dat {
-    monsterpartyEntry enemyEntries[8];
-    ItemID entityID;
-    ItemID globalLoot;
-    u16 field3_0x24;
-    undefined field4_0x26;
-    undefined field5_0x27;
-    u16 field6_0x28;
-    u16 totalsize;
-    ItemID field8_0x2c;
-    u16 wanderNode;
-    u16 flags;
-    undefined field11_0x32;
-    undefined field12_0x33;
-    u32 borg_13;
-    u8 align[12];
-};
+
 
 struct Wandernode_dat {
     vec2f startCoords;
@@ -338,7 +322,7 @@ enum CamObjFlags{
     CamOBJ_CopyPos=0x8000, //copy posittion of camera
 };
 
-struct camera_dat {
+struct voxelCamera {
     s16 refpoint_ID; //used as inital aim for camera.
     u16 CameraFlags; //uses CamObjFlags
     u32 timestamp;
@@ -395,7 +379,7 @@ struct voxelObject {
         monsterparty_dat monster;
         referencepoint_dat refpoint;
         teleport_dat teleport;
-        camera_dat camera;
+        voxelCamera camera;
         dialoug_dat dialoug;
         Trigger_dat trigger;
         u8 dat[68]; //"CODE" is usually blank, "SAVEPOINT" is never used (you can save anywhere.)
@@ -750,59 +734,59 @@ struct borg9_phys {
 
 
 enum B13_Commands{
-    B13Com_CameraCutTo=4,
-    B13Com_CutToPOV,
-    B13Com_CameraOn,
-    B13Com_CameraOnPOV,
-    B13Com_CameraAngleTo,
-    B13Com_CameraAngleToPOV,
-    B13Com_CameraPanTo,
-    B13Com_CameraPanToPOV,
-    B13Com_CameraSineTo,
-    B13Com_CameraSineToPOV,
+    B13Com_CameraCutTo=4, //instantly move camera to reference point
+    B13Com_CutToPOV,//instantly move camera to actor
+    B13Com_CameraOn, //point camera to reference point
+    B13Com_CameraOnPOV, //point camera to actor
+    B13Com_CameraAngleTo, //move camera to focus on reference point
+    B13Com_CameraAngleToPOV, //point camera to actor
+    B13Com_CameraPanTo, //move camera to focus on reference point
+    B13Com_CameraPanToPOV, //point camera to actor
+    B13Com_CameraSineTo, //move camera to focus on reference point
+    B13Com_CameraSineToPOV, //point camera to actor
     B13Com_CameraTrackOn,
     B13Com_15,
     B13Com_16,
-    B13Com_SetActorFacing,
-    B13Com_CreateActor,
+    B13Com_SetActorFacing, //actor moves to face ref obj
+    B13Com_CreateActor, //creates actor
     B13Com_19,
     B13Com_20,
     B13Com_21,
     B13Com_22,
-    B13Com_CheckMemberInParty,
-    B13Com_CheckEventFlag,
-    B13Com_CheckPartySkill,
-    B13Com_CheckForItem,
-    B13Com_CheckBestStat,
-    B13Com_CheckWorstStat,
-    B13Com_CheckMemberStat,
-    B13Com_CheckPartySize,
-    B13Com_CheckPartyGoldU16,
-    B13Com_SetFlag,
-    B13Com_UnsetFlag,
-    B13Com_EndDialoug,
-    B13Com_Fade35,
-    B13Com_AddGold,
-    B13Com_TakeGold,
-    B13Com_AddItem,
-    B13Com_TakeItem,
-    B13Com_ActorWalk,
-    B13Com_ActorRun,
+    B13Com_CheckMemberInParty, //is member (val) in party?
+    B13Com_CheckEventFlag,  //is event flag (val) set?
+    B13Com_CheckPartySkill, //get highest level of (val). if flag 3717 is set then it's randRange(0,21)
+    B13Com_CheckForItem, //if the party has (val)
+    B13Com_CheckBestStat,//get highest stat of (val) in party
+    B13Com_CheckWorstStat,//get lowest stat of (val) in party
+    B13Com_CheckMemberStat, //get dialougmode_substruct->Entid stat of (val)
+    B13Com_CheckPartySize, //get size of current party
+    B13Com_CheckPartyGoldU16, //get 16-bit value of party's Gold
+    B13Com_SetFlag, //set Event flag (val)
+    B13Com_UnsetFlag, //unset Event flag (val)
+    B13Com_EndDialoug, //end dialouge
+    B13Com_Fade35, //fade out
+    B13Com_AddGold, //add ((u16)val) gold to party
+    B13Com_TakeGold, //remove ((u16)val) gold from party
+    B13Com_AddItem, //add item of ID (val) to party
+    B13Com_TakeItem, //remove item of ID (val) to party. Crash if you don't have it.
+    B13Com_ActorWalk, //dialougmode_substruct->Entid walks to ref obj (val)
+    B13Com_ActorRun,//dialougmode_substruct->Entid runs to ref obj (val)
     B13Com_ApplyStimulus,
-    B13Com_PlaySFX,
-    B13Com_Shop,
-    B13Com_Battle,
-    B13Com_Train,
-    B13Com_AddMember,
-    B13Com_RemoveMember,
-    B13Com_Unimplemented49,
-    B13Com_RandDialog,
-    B13Com_ShowItem,
-    B13Com_HideItem,
+    B13Com_PlaySFX, //plays sfx dialoug_SFX[val]
+    B13Com_Shop, // start the shopping menu
+    B13Com_Battle, //start combat
+    B13Com_Train, // start the training menu
+    B13Com_AddMember, //add member if ItemID (val)
+    B13Com_RemoveMember, //remove member if ItemID (val) without killing them
+    B13Com_Unimplemented49, //unimplemented, triggers crash
+    B13Com_RandDialog, //display a random dialoug from borg13(val)
+    B13Com_ShowItem, //attach a model of itemID(val) on dialougmode_substruct->Entid
+    B13Com_HideItem,//remove item model from dialougmode_substruct->Entid
     B13Com_53,
-    B13Com_CampHeal,
-    B13Com_AddExp,
-    B13Com_57,
+    B13Com_CampHeal,//fully heal party, lapse 8 hours
+    B13Com_AddExp,//add (val) exp points to dialougmode_substruct->Entid
+    B13Com_57, //set some timer?
     B13Com_58
 };
 

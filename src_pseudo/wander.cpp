@@ -10,8 +10,7 @@ float sneak_value(float point8){
     s8 index = PARTY->GetMostSkilledMember(SKILL_Stealth);
     if ((index != -1) && (PARTY->Members[index])) {
       index = PARTY->Members[index]->Skills->getModdedSkill(SKILL_Stealth);
-      fVar3 = (float)(s32)index / 10.0f;
-      if (1.0f < (float)(s32)index / 10.0f) {fVar3 = 1.0f;}
+      fVar3 =MIN((f32)index / 10.0f,1.0);
       return 1.0f - fVar3 * point8;
     }
   }

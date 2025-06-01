@@ -368,6 +368,10 @@ typedef enum Borg8Enum {
 #define BORG6_Cinematic3_5      0x21c0
 #define BORG6_Cinematic3_6      0x21d8
 
+//Borg9: Map/collision data
+
+#define BORG9_Campsite          0x185c
+
 //Borg13: Dialouge
 #define BORG13_OpeningDialog    0x362
 #define BORG13_GoblinAmbush     0x365

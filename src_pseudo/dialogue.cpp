@@ -194,7 +194,7 @@ s32 DialougCallbackB(dialougmode_substruct *param_1,Borg13Data *param_2,u16 cmd,
     break;
   case B13Com_CheckPartySkill:
     ret = dialougSkillCheck(VAL);
-    if (getEventFlag(0xe85))
+    if (getEventFlag(3717))
       ret = (u16)rand_range(0,21);
     break;
   case B13Com_CheckForItem:
@@ -226,7 +226,7 @@ void dialougemode_0x90_funcs3(undefined4 param_1){
   run_dialougemode_funcs3();
 }
 
-void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short command,u16 param_4){
+void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short command,u16 val){
   ActorAndID *pAVar2;
   voxelObject *prVar3;
   s16 sVar8;
@@ -240,7 +240,6 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
   char *pcVar11;
   undefined8 uVar12;
   char *cause;
-  uint uVar13;
   playerData *p;
   float fVar14;
   u16 flag;
@@ -253,21 +252,16 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
   
   p = NULL;
   prVar3 = NULL;
-  uVar13 = (uint)param_4;
   pAVar2 = DialougGetActorAndID(param_1,param_2,param_1->Entid);
-  if (pAVar2 != NULL) {
-    p = pAVar2->actor;
-  }
-  if (uVar13 != 0) {
-    prVar3 = get_map_referencepoint(gGlobals.Sub.borg9DatPointer,param_4);
-  }
-  if (0x1a < (ushort)(command - 0x20U)) return;
+  if (pAVar2) p = pAVar2->actor;
+  if (val) prVar3 = get_map_referencepoint(gGlobals.Sub.borg9DatPointer,val);
+  if (0x1a < (ushort)(command - B13Com_SetFlag)) return; //not a vaild command for this function
   switch(command) {
   case B13Com_SetFlag:
-    setEventFlag(param_4,true);
+    setEventFlag(val,true);
     break;
   case B13Com_UnsetFlag:
-    setEventFlag(param_4,false);
+    setEventFlag(val,false);
     break;
   case B13Com_EndDialoug:
     uVar10 = 1;
@@ -279,21 +273,19 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
     return;
   case B13Com_AddGold:
     borg12 = Coins_jingle;
-    (gGlobals.party)->Gold+=param_4;
+    (gGlobals.party)->Gold+=val;
     goto play_sound;
   case B13Com_TakeGold:
-    if ((gGlobals.party)->Gold < uVar13) {
-      return;
-    }
+    if ((gGlobals.party)->Gold < val) return;
     borg12 = coinJingle;
-    (gGlobals.party)->Gold-=param_4;
+    (gGlobals.party)->Gold-=val;
     goto play_sound;
   case B13Com_AddItem:
-    PARTY->Inventory->AddItem(uVar13,1);
+    PARTY->Inventory->AddItem(val,1);
     break;
   case B13Com_TakeItem:
-    if (!gGlobals.party->TakeItem(param_4)) {
-      auStack880.InitItem(param_4);
+    if (!gGlobals.party->TakeItem(val)) {
+      auStack880.InitItem(val);
       pcVar11 = acStack_330;
       sprintf(pcVar11,"Party doesn't have that item in their inventory!\nTell someone to fix dialogue %d to check the party's inventory before taking trying to take the %s!",param_2->ID,
                   auStack880.name);
@@ -310,44 +302,44 @@ LAB_80057798:
     FUN_80058370();
     break;
   case B13Com_ApplyStimulus:
-    FUN_800585d0(uVar13);
+    FUN_800585d0(val);
     break;
   case B13Com_PlaySFX:
-    borg12 = dialoug_SFX[param_4];
+    borg12 = dialoug_SFX[val];
 play_sound:
     PlayAudioSound(&gGlobals.SFXStruct,borg12,0,gGlobals.VolSFX,300,0);
     break;
-  case 0x2c:
+  case B13Com_Shop:
     shop_func();
     uVar10 = 7;
     goto LAB_80057628;
-  case 0x2d:
+  case B13Com_Battle:
     encounterDat_func();
     uVar10 = 2;
     goto LAB_80057628;
-  case 0x2e:
+  case B13Com_Train:
     init_skill_trainer();
     uVar10 = 5;
     goto LAB_80057628;
   case B13Com_AddMember:
-    if (!DialougeAddPartyMember((ItemID)param_4)) {
+    if (!DialougeAddPartyMember(val)) {
       cause = acStack_230;
       pcVar11 = "Couldn't add %d to the party. This usually means that the party is full. Line = %d";
       uVar12 = 0x494;
 print_error_2:
-      sprintf(cause,pcVar11,uVar13,uVar12);
+      sprintf(cause,pcVar11,val,uVar12);
       CRASH("./src/dialogue.cpp",cause);
     }
     break;
   case B13Com_RemoveMember:
-    PARTY->removeAliveMemberByID(param_4);
+    PARTY->removeAliveMemberByID(val);
     break;
   case B13Com_Unimplemented49:
     pcVar11 = "Dialogue Command executed!\nThis command has not been implemented yet!";
 print_error:
     CRASH(pcVar11,"./src/dialogue.cpp");
   case B13Com_RandDialog:
-    pBVar5 = get_borg13((uint)param_4);
+    pBVar5 = get_borg13(val);
     if (pBVar5 == NULL) {
       cause = acStack_130;
       pcVar11 = "Couldn't load dialog with id = %d. Line = %d";
@@ -377,7 +369,7 @@ print_error:
     FREEQB13(apBStack_30);
     break;
   case B13Com_ShowItem:
-    sVar8 = get_item_borg5((ItemID)param_4);
+    sVar8 = get_item_borg5((ItemID)val);
     if (sVar8 != -1) {
       AttachItemToPlayer(p,0,(int)sVar8);
     }
@@ -408,10 +400,10 @@ LAB_80057628:
       goto print_error;
     }
     PlayAudioSound(&gGlobals.SFXStruct,BORG12_ChimeScale,0,gGlobals.VolSFX,300,0);
-    Entity::AddExp(pCVar4,(uint)param_4);
+    Entity::AddExp(pCVar4,(uint)val);
     break;
   case B13Com_57:
-    FUN_800583d0(uVar13);
+    FUN_800583d0(val);
     return;
   case B13Com_58:
     set_some_borg13_flag();

@@ -61,7 +61,11 @@ struct CombatStruct { /* combat structure. needs more study */
     u32 renderTicker;
 };
 
-extern CombatStruct* gCombatP;
+CombatStruct* gCombatP=NULL;
+char** encounterType_labels=NULL;
+char** walking_labels=NULL;
+extern char* sFilenameCombatEngine;
+char** element_labels=NULL;
 
 //refernce romstring loaded during combat
 #define ComString(x) gCombatP->textArray[COMBATSTRING_##x]

@@ -43,7 +43,7 @@ struct WeatherTemp {
   u8 unk0xd[3]; //likely padding
 };
 
-extern char** humidty_labels;
+extern char** humidity_labels;
 extern char** timeofday_labels;
 extern char** moon_phase_labels;
 extern char** dark_storm_labels;

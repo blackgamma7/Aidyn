@@ -20,7 +20,7 @@ void WidgetHandler::Free(u32 flag){
     BaseWidget *pBVar1 = this->head->link2;
     this->head = pBVar1;
     if (pBVar1) pBVar1->link1 = NULL;
-    AllocFreeQueueItem(queue_struct_pointer,(void**)&w,FreeQueue_Widget,0);
+    AllocFreeQueueItem(queue_struct_pointer,(void**)&w,QueueType_Widget,0);
     w = this->head;
   }
   if ((flag & 1)) delete this;
@@ -67,7 +67,7 @@ joined_r0x800b7018:
     if (uVar3 != 6) break;
     bVar4 = 6;
     FreeWidget(pBStack_20);
-    AllocFreeQueueItem(queue_struct_pointer,(void**)&pBStack_20,FreeQueue_Widget,0);
+    AllocFreeQueueItem(queue_struct_pointer,(void**)&pBStack_20,QueueType_Widget,0);
     goto joined_r0x800b7018;
   }
 switchD_800b7054_caseD_4:

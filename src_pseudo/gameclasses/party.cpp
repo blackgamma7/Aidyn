@@ -356,6 +356,7 @@ u8 Party::CombatItemCheck1(CharSheet* param_2,u8 param_3,ItemID param_4){
   }
   return true;
 }
+
 itemtype_func itemtype_funcs[]={
 {5,0xFFFF,itemtype_armor},{6,0xFFFF,itemtype_sheild},{7,0xFFFF,itemtype_weapon},
 {9,0xFFFF,itemtype_gear},{10,0xFFFF,itemtype_gear},{11,0xFFFF,itemtype_gear},
@@ -1991,16 +1992,16 @@ u32 Party::SkillCheck(u8 sk){
 }
 
 u32 Party::BestStat(u8 param_2){
-  u32 uVar1;
+  u32 best;
   CharSheet *piVar4;
 
-  uVar1 = CharStats::getModded(this->Members[0]->Stats,param_2);
+  best = CharStats::getModded(this->Members[0]->Stats,param_2);
   for(u8 uVar3 = 1;uVar3 < 4;uVar3++) {
     piVar4 = this->Members[uVar3];
-    if ((piVar4) && (uVar1 < CharStats::getModded(piVar4->Stats,param_2)))
-      uVar1 = CharStats::getModded(piVar4->Stats,param_2);
+    if ((piVar4) && (best < CharStats::getModded(piVar4->Stats,param_2)))
+      best = CharStats::getModded(piVar4->Stats,param_2);
   }
-  return uVar1;}
+  return best;}
 
 u32 Party::WorstStat(u8 param_2){
   s32 worst = CharStats::getModded(this->Members[0]->Stats,param_2);

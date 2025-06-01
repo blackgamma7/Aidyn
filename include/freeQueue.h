@@ -13,19 +13,19 @@ struct QueueStructA {
 
 u16 queueHeadFreeFlag=false;
 
-enum FreeQueueTypes{
-    FreeQueue_Borg7,
-    FreeQueue_Scene,
-    FreeQueue_Borg6,
-    FreeQueue_Borg1,
-    FreeQueue_Borg8,
-    FreeQueue_Borg13,
-    FreeQueue_Widget,
-    FreeQueue_Other,
-    FreeQueue_Borg12,
+enum QueueTypes{
+    QueueType_Borg7,
+    QueueType_Scene,
+    QueueType_Borg6,
+    QueueType_Borg1,
+    QueueType_Borg8,
+    QueueType_Borg13,
+    QueueType_Widget,
+    QueueType_Other,
+    QueueType_Borg12,
 };
 
-#define FREEQ(p,type) AllocFreeQueueItem(&gGlobals.QueueA,(void**)&p,FreeQueue_##type,0)
+#define FREEQ(p,type) AllocFreeQueueItem(&gGlobals.QueueA,(void**)&p,QueueType_##type,0)
 #define FREEQB7(p) FREEQ(p,Borg7) //Add Borg7 item to free queue
 #define FREEQSCENE(p) FREEQ(p,Scene) //Add scene item to free queue
 #define FREEQB6(p) FREEQ(p,Borg6) //Add Borg6 item to free queue

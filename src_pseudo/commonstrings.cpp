@@ -1,9 +1,23 @@
 #include "globals.h"
+#include "romstring.h"
+#include "combat/CombatStruct.h"
+//TODO: add the other pointers to their appropriate scripts
+extern char** spell_error_labels;
+extern char** debug_switch_labels;
+extern char** debug_switch_labels;
+extern char** cheatStatus_labels;
+extern char** task_failue_labels;
+extern char** on_off_labels;
+extern char**   debug_state_labels;
+extern char** boolean_labels;
+extern char** bool_labels;
 
+//load CommonString RomString
+char** commonstrings=NULL;
 void CommonStrings::Init(void){
   gGlobals.CommonStrings  = RomString::Load(common_string_array,0x2830);
   commonstrings = gGlobals.CommonStrings;
-  encountertype_labels = gGlobals.CommonStrings + 0xea;
+  encounterType_labels = gGlobals.CommonStrings + 0xea;
   walking_labels = gGlobals.CommonStrings + 0xed;
   element_labels = gGlobals.CommonStrings + 0xf1;
   spell_error_labels = gGlobals.CommonStrings + 0x102;
@@ -15,7 +29,7 @@ void CommonStrings::Init(void){
   humidity_labels = gGlobals.CommonStrings + 0x136;
   timeofday_labels = gGlobals.CommonStrings + 0x139;
   moon_phase_labels = gGlobals.CommonStrings + 0x13e;
-  dark_strorm_labels = gGlobals.CommonStrings + 0x142;
+  dark_storm_labels = gGlobals.CommonStrings + 0x142;
   weekday_labels = gGlobals.CommonStrings + 0x148;
   terrain_labels = gGlobals.CommonStrings + 0x14f;
   precip_labels = gGlobals.CommonStrings + 0x157;
@@ -34,7 +48,7 @@ void CommonStrings::Init(void){
   bool_labels = gGlobals.CommonStrings + 0x1d;
   #endif
 }
-
+//Free CommonString RomString
 void CommonStrings::Free(void){
   if (gGlobals.CommonStrings) {
     RomString::Free(gGlobals.CommonStrings);
