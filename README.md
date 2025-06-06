@@ -27,7 +27,7 @@ A compatability solution that is already been used by a few decompiled titles.
   - Proven porting potential to several PC AND console platforms.
 - Cons:
   - "potential": meaning code would first need to be matching, or at the very least, compilable.
-  - Controller Pak support not yet implemented.
+  - Controller Pak and osSched support not yet implemented.
 ### N64Recomp
 A "static recompilation" of the game's assembely code, with the potential of raytracing and other enhancments.
 - Pros:
@@ -35,7 +35,7 @@ A "static recompilation" of the game's assembely code, with the potential of ray
   - potential for raytracing and some other enhancements
 - Cons:
   - generated code is not as human-readable, optimized or modifiable as true decompilation.
-  - Controller Pak and osSched support not yet implemented.
+  - Controller Pak support not yet implemented.
 ### Existing Game Engine
 Port the game to an existing engine such as Unity or Godot and take advantage of modern conviences it provides.
 - Pros:
