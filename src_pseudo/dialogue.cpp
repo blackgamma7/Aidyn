@@ -323,9 +323,7 @@ play_sound:
     goto LAB_80057628;
   case B13Com_AddMember:
     if (!DialougeAddPartyMember(val)) {
-      cause = acStack_230;
-      pcVar11 = "Couldn't add %d to the party. This usually means that the party is full. Line = %d";
-      uVar12 = 0x494;
+      cause = acStack_230;pcVar11 = "Couldn't add %d to the party. This usually means that the party is full. Line = %d";uVar12 = 1172;
 print_error_2:
       sprintf(cause,pcVar11,val,uVar12);
       CRASH("./src/dialogue.cpp",cause);
@@ -341,9 +339,7 @@ print_error:
   case B13Com_RandDialog:
     pBVar5 = get_borg13(val);
     if (pBVar5 == NULL) {
-      cause = acStack_130;
-      pcVar11 = "Couldn't load dialog with id = %d. Line = %d";
-      uVar12 = 0x529;
+      cause = acStack_130;pcVar11 = "Couldn't load dialog with id = %d. Line = %d";uVar12 = 1321;
       goto print_error_2;
     }
     fVar14 = rand_range(0,100) / 100.0f;
@@ -369,9 +365,9 @@ print_error:
     FREEQB13(apBStack_30);
     break;
   case B13Com_ShowItem:
-    sVar8 = get_item_borg5((ItemID)val);
+    sVar8 = get_item_borg5(val);
     if (sVar8 != -1) {
-      AttachItemToPlayer(p,0,(int)sVar8);
+      AttachItemToPlayer(p,0,sVar8);
     }
     break;
   case B13Com_HideItem:
@@ -395,12 +391,12 @@ LAB_80057628:
     pCVar4 = PARTY->GetMemberById(param_1->Entid);
     if (pCVar4 == NULL) {
       sprintf(acStack_470,"Trying to get a party member that isn't in the party (id = %d)\nLine = %d",
-                  param_1->Entid,0x445);
+                  param_1->Entid,1093);
       pcVar11 = acStack_470;
       goto print_error;
     }
     PlayAudioSound(&gGlobals.SFXStruct,BORG12_ChimeScale,0,gGlobals.VolSFX,300,0);
-    Entity::AddExp(pCVar4,(uint)val);
+    Entity::AddExp(pCVar4,val);
     break;
   case B13Com_57:
     FUN_800583d0(val);

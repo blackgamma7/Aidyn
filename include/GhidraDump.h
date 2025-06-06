@@ -67,15 +67,6 @@ typedef enum Borg7Enum { // entity model data?
 
 */
 
-
-typedef struct struct_1 struct_1, *Pstruct_1;
-
-typedef struct struct_45 struct_45, *Pstruct_45;
-
-typedef struct Borg7Data Borg7Data, *PBorg7data;
-
-typedef struct Borg12Header Borg12Header, *PBorg12Header;
-
 struct astruct_6 {
     playerData *playerdat_;
     u16 short0x4;
@@ -171,10 +162,6 @@ typedef enum Borg12Enum { // Music/SFX
 } Borg12Enum;
 */
 
-typedef struct CharGear CharGear, *PCharGear;
-
-typedef struct StatMod StatMod, *PStatMod;
-
 typedef struct CombatAi_command CombatAi_command, *PCombatAi_command;
 
 struct CombatAi_command {
@@ -182,53 +169,11 @@ struct CombatAi_command {
     uint unk;
 };
 
-typedef struct CombatRadarBlip CombatRadarBlip, *PCombatRadarBlip;
-
-struct CombatRadarBlip {
-    WidgetBorg8Combat *widget;
-    short unk4;
-    short unk6;
-    short unk8;
-    short unka;
-    int unkc;
-    u32 unk10;
-    int unk14;
-};
-
 typedef struct CombatTargetVisuals_struct CombatTargetVisuals_struct, *PCombatTargetVisuals_struct;
 
 struct CombatTargetVisuals_struct {
     astruct_6 *pointer;
     uint entCount;
-};
-
-typedef struct armour_RAM armour_RAM, *Parmour_RAM;
-
-struct armour_RAM {
-    ItemID ID;
-    char name[23];
-    u8 is0;
-    u8 slot;
-    u8 defence;
-    u8 protection;
-    u8 dex;
-    u8 rom0x1d;
-    u8 stealth;
-    u16 price;
-    u8 expBonus;
-    enum AspectEnum aspect;
-    enum StatEnum stat;
-    char statNum;
-    enum SkillEnum skill;
-    char skillNum;
-    enum SpellEnum spell;
-    u8 spellLV;
-    u8 SpellCharge; /* 10 for stardrake */
-    enum SpellEnum magic;
-    u8 magic LV;
-    enum ElementEnum element;
-    u16 align;
-    float resist percent;
 };
 
 typedef struct DialougEnt_RAM DialougEnt_RAM, *PDialougEnt_RAM;
@@ -249,30 +194,6 @@ struct shop_ram {
     u8 multi[3][20];
 };
 
-struct Armour_ROM { /* Armour data in Rom */
-    char name[23];
-    ItemID_ROM id;
-    u8 slot;
-    u8 Defence;
-    u8 protection;
-    u8 dex;
-    u8 unk0x1d;
-    u8 stealth;
-    u8 price[2]; /* endian swapped */
-    u8 expBonus;
-    enum AspectEnum aspect;
-    enum StatEnum stat;
-    char statNum;
-    enum SkillEnum skill;
-    char skillNum;
-    ItemID_ROM spell;
-    u8 SpellLV;
-    u8 unk0x2a;
-    ItemID_ROM magic;
-    u8 magicLV;
-    enum ElementEnum Element;
-    u8 ElementResist;
-};
 
 struct ArrayHeader { /* ROM Db array Header */
     u8 Size; /* number of items in array */
@@ -377,15 +298,7 @@ struct ArmorCraftRecipie {
     u8 pad; /* i dunno */
 };
 
-typedef struct ArmorPointer ArmorPointer, *PArmorPointer;
 
-struct ArmorPointer {
-    u8 armors;
-    u8 sheilds;
-    u8 total;
-    u8 pad;
-    armour_RAM *Armor;
-};
 
 typedef struct CityMarkers CityMarkers, *PCityMarkers;
 

@@ -4,6 +4,7 @@
 #include "combat/substructB.h"
 #include "combat/CombatEntity.h"
 #include "combat/encounterDat.h"
+#include "combat/CombatGui.h"
 #include "chestdb.h"
 
 struct CombatTurn {

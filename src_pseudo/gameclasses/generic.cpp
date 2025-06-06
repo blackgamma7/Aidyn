@@ -1,5 +1,6 @@
 #include "globals.h"
 #include "weapondb.h"
+#include "armordb.h"
 #define FILENAME "../gameclasses/generic.cpp"
 
 
@@ -17,7 +18,7 @@ void CharExp::Init(ItemID id){
   this->total = 0;
   this->spending = 0;
   this->damage = pEVar5->BaseDamage;
-  this->flags = pEVar5->unk0x18;
+  this->flags = pEVar5->flags;
   if (pEVar5->aspect == ASPECT_SOLAR) this->flags |= CHAR_IsSolar;
   //is alaron "Named" yet?
   if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic2))) this->flags |= CHAR_TrueName;
@@ -42,10 +43,10 @@ void ItemInstance::RemoveStatSpell(){
 }
 
 void ItemInstance::InitArmor(ItemID param_2){
-  armour_RAM *paVar1;
+  ArmorRam *paVar1;
   u8 bVar4;
   SpellInstance *pTVar3;
-  armour_RAM *pcVar5;
+  ArmorRam *pcVar5;
   
   CLEAR(this);
   bVar4 = GETINDEX(param_2);
@@ -125,7 +126,6 @@ void ItemInstance::InitGear(ItemID param_2){
     ALLOC(this->spellCharge,0xee);
     malloc_equip_spell(this->spellCharge,pGVar4->spell,pGVar4->spellVal1,pGVar4->spellVal2);
   }
-  return;
 }
 
 u16 ItemInstance::GetPrice(){

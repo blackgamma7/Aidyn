@@ -168,7 +168,6 @@ Gfx * DollMenuPortraits::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 
 
 u8 DollMenuPortraits::Tick(){
-  
   unkb8.Tick(1);
   if (this->partySize != 0) {
     for(u8 i=0;i<this->partySize;i++) {

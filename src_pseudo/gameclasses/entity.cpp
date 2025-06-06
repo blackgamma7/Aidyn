@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "combat/CombatStruct.h"
 #include "weapondb.h"
+#include "armordb.h"
 #include "widgets/textPopup.h"
 
 u8 Entity::IsElemental(ItemID id){
@@ -1470,7 +1471,7 @@ void Entity::AddExp(CharSheet *chara,s32 x){
 }
 
 //ueed to test EXP gain to see if there's a level up.
-void Entity::ModExpTotal(CharSheet *param_1,s32 param_2){param_1->EXP->total+= (s32)((float)param_2 * 1.5f);}
+void Entity::ModExpTotal(CharSheet *chara,s32 x){chara->EXP->total+= (s32)((float)x * 1.5f);}
 
 u16 Entity::HealByPotion(CharSheet *param_1,u16 Hi,u16 Lo){
 

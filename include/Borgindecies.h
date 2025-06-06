@@ -123,7 +123,7 @@ typedef enum Borg8Enum {
     BORG8_2x2Pixel=453,
     //28 px soft edge square=454,
     //14px square=455,
-    //Gwen map overlay=457,
+    //Gwernia map overlay=457,
     //galaxy swirl?=464,
     //Fire effect?=3424,
     //Some Face?=3514,
@@ -286,7 +286,7 @@ typedef enum Borg8Enum {
 #define BORG12_05ea_Exp 0x5ea
 #define BORG12_05eb_NoExp 0x5eb
 #define BORG12_Ehud 0x5df
-#define BORG12_GwenCastle 0x5fd
+#define BORG12_GwerniaCastle 0x5fd
 #define BORG12_Ugairt 0x61b
 #define BORG12_629 0x789
 #define BORG12_789 0x789
@@ -298,6 +298,7 @@ typedef enum Borg8Enum {
 //SFX here
 
 #define BORG12_ChimeScale 0x5e7
+#define BORG12_LevelUp 0x5e8
 #define BORG12_CheatCorrect 0x718
 #define BORG12_CheatUnused 0x720
 #define BORG12_CheatFail 0x721

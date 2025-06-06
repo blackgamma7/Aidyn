@@ -77,7 +77,7 @@ enum ItemIDS{
     Item_Exp4, //unused
     Item_Exp5, //unused
     Item_CradawghBody,
-    Item_Map13, //Shouldd show region on pause map, but bugged not to.
+    Item_Map13, //Should show region on pause map, but bugged not to. Cradawgh's Body does, instead.
     Item_Map14,
     Item_Map15,
     Item_Map16,
@@ -219,7 +219,7 @@ enum ItemIDS{
     Amulet_Pandara=Medal(0),
     Amulet_Elisheva,
     Amulet_Shamsuk,
-    Amulet_STGem,//Unused
+    Amulet_STGem,//Unused. Would originally be made with Ritual magic
     Amulet_Haste,
     Amulet_Shield,
     Amulet_Mirror,
@@ -243,3 +243,23 @@ enum ItemIDS{
 
     Item_NONE=-1 //item was not parsed correctly or desn't exist
 };
+#undef ID
+#undef Misc
+#undef Ent
+#undef Spell
+#undef Armor
+#undef Sheild
+#undef Weapon
+#undef Loot
+#undef Helm
+#undef Cloak
+#undef Glove
+#undef Ring
+#undef Wand
+#undef Belt
+#undef Boot
+#undef Potion
+#undef Scroll
+#undef Key
+#undef Medal
+#undef DEnt

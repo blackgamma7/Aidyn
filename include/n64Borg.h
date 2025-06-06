@@ -74,8 +74,8 @@ typedef enum EnumMapDatA {
     MAPA_GoblinCamp,
     MAPA_PortSaiid,
     MAPA_Lighthouse,
-    MAPA_GwenCastle,
-    MAPA_GwenInterior,
+    MAPA_GwerniaCastle,
+    MAPA_GwerniaInterior,
     MAPA_Interior,
     MAPA_Erromon,
     MAPA_Barrows,
@@ -785,7 +785,7 @@ enum B13_Commands{
     B13Com_HideItem,//remove item model from dialougmode_substruct->Entid
     B13Com_53,
     B13Com_CampHeal,//fully heal party, lapse 8 hours
-    B13Com_AddExp,//add (val) exp points to dialougmode_substruct->Entid
+    B13Com_AddExp,//add (val*1.5) exp points to dialougmode_substruct->Entid
     B13Com_57, //set some timer?
     B13Com_58
 };

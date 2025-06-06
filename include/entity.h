@@ -80,7 +80,7 @@ struct Entity_Ram { /* entity data in Ram */
     ItemID ID;
     char Name[21];
     u8 Category;
-    u8 unk0x18; /* 2 bits determined by rom0x2d */
+    u8 flags; /* 2 bits determined by rom0x2d */
     u8 rom0x2b;
     u8 aspect;
     u8 morale; //determines how likely enemies are to flee batte

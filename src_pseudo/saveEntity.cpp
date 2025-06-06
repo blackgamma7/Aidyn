@@ -39,7 +39,7 @@ void SaveEntity::BenchParty(Party *param_1){
       else {
         if (pCVar2->ID != pCVar1->ID) {
           Entity::Free(pCVar2);
-          Entity::Init(gSaveEntity[iVar4]),pCVar1->ID,3);
+          Entity::Init(gSaveEntity[iVar4],pCVar1->ID,3);
         }
       }
       SaveEntity::Copy(pCVar1,gSaveEntity[iVar4]);
@@ -181,7 +181,7 @@ void SaveEntity::TransferSpells(CharSheet *param_1,CharSheet *param_2){
   if (pSVar1) {
     pSVar2 = param_2->spellbook;
     if (pSVar2) {
-      pSVar2->Clear(pSVar2);
+      pSVar2->Clear();
       FREE(pSVar2,435);
     }
     ALLOC(pSVar2,440);
@@ -191,7 +191,7 @@ void SaveEntity::TransferSpells(CharSheet *param_1,CharSheet *param_2){
       for(u8 uVar5=0;uVar5<pSVar1->count;uVar5++) {
         pIVar2 = pSVar1->spells[uVar5];
         if (pIVar2 != NULL) {
-          ALLOC(pSVar4.452);
+          ALLOC(pSVar4,452);
           pSVar2->spells[uVar5] = pSVar4;
           TempSpell::Init(pSVar4,(pIVar2->base).id,pIVar2->level);
         }
@@ -206,7 +206,7 @@ char * SaveEntity::Copy(CharSheet *param_1,CharSheet *param_2){
 
   param_2->EXP->total = param_1->EXP->total;
   param_2->EXP->spending = param_1->EXP->spending;
-  CharStats:::Copy(param_2->Stats,param_1->Stats);
+  CharStats::Copy(param_2->Stats,param_1->Stats);
   param_2->Skills->Copy(param_1->Skills);
   for(i=0;i<2;i++) TransferArmor(param_1,param_2,i);
   TransferWeapons(param_1,param_2);

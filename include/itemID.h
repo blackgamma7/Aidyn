@@ -33,9 +33,14 @@ typedef enum AspectEnum {
 
 
 u8 ItemIsMap(ItemID param_1);
-int getIDIndex_sub(char *param_1,u8 total,char param_3);
+int getIDIndex_sub(u8 *param_1,u8 total,u8 param_3);
 u16 GetIDIndex(ItemID x,char* file, u32 line);
 u16 search_item_array(ItemID param_1);
+ItemID Ofunc_80075f9c(u8 index);
+u16 GetWeaponBorg5(ItemID param_1);
+u16 GetArmorBorg5(ItemID param_1);
+u16 ItemBorg5Search(ItemID param_1);
+u16 get_item_borg5(ItemID param_1);
 
 //a leftover from older builds - two of the args were filename and line called.
 //both were 0 by the final debug build. 

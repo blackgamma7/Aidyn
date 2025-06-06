@@ -21,7 +21,7 @@
 #define FLAG_JournalTrahernSword1 85
 #define FLAG_JournalTrahernSword2 19
 #define FLAG_JournalTrahernSword3 87
-#define FLAG_JournalGwenCamp 58
+#define FLAG_JournalGwerniaCamp 58
 #define FLAG_JournalOrianaNecro 101
 #define FLAG_JournalEnteredErromon 122
 #define FLAG_JournalMetBecan 375

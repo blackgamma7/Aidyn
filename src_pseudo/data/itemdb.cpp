@@ -1,6 +1,7 @@
 #include "itemDB.h"
 #include "romcopy.h"
 #include "heapN64.h"
+#include "armordb.h"
 #define FILENAME "../data/itemdb.cpp"
 
 extern void*itemDB; //ROM address of item data

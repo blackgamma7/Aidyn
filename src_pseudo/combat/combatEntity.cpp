@@ -2865,7 +2865,7 @@ u32 CombatEntity::GetShieldModel(){
     ptVar1 = this->charSheetP->armor[1];
     if (ptVar1 == NULL) {uVar4 = 0xffffffff;}
     else {
-      uVar3 = get_sheild_borg5(ptVar1->id);
+      uVar3 = gArmorDBp->GetBorg5(ptVar1->base.id);
       uVar4 = 0xffffffff;
       if (uVar3 != 0x38f9) {uVar4 = uVar3;}
     }

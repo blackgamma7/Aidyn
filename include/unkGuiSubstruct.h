@@ -24,7 +24,7 @@ class UnkGuiClassBlip : public UnkGuiClassU1{
   s16* unkc;
   f32 unk10;
   f32 unk14;
-  UnkGuiClassBlip(s16 *param_2,short *param_3,s32 param_4);
+  UnkGuiClassBlip(s16 *param_2,short *param_3,f32 param_4);
   ~UnkGuiClassBlip();
   virtual u32 vMethB(f32);
   virtual s16 vMethC(f32);
@@ -36,7 +36,13 @@ class UnkGuiClassCB: public UnkGuiClassU1{
   u8* unkc;
   f32 unk10;
   f32 unk14;
-  UnkGuiClassCB(u8 *param_2,u8 *param_3,s32 param_4);
+  UnkGuiClassCB(u8 *param_2,u8 *param_3,f32 param_4);
+  inline UnkGuiClassCB(u8*p,f32 f1,f32 f2){
+      unk0 = 0;
+    unk4 = f2;
+    unkc = p;
+    unk10 = *p;
+    unk14 = f1;}
   ~UnkGuiClassCB();
   virtual u32 vMethB(f32);
   virtual u8 vMethC(f32);

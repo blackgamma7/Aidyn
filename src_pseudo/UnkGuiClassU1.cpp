@@ -22,7 +22,7 @@ UnkGuiClassBlip::~UnkGuiClassBlip(){}
 UnkGuiClassCB::~UnkGuiClassCB(){}
 
 //gets unrolled when called
-UnkGuiClassBlip::UnkGuiClassBlip(s16 *param_2,short *param_3,s32 param_4){
+UnkGuiClassBlip::UnkGuiClassBlip(s16 *param_2,short *param_3,f32 param_4){
   this->unk0 = 0;
   this->unk4 = param_4;
   this->unkc = param_2;
@@ -30,7 +30,7 @@ UnkGuiClassBlip::UnkGuiClassBlip(s16 *param_2,short *param_3,s32 param_4){
   this->unk14 = *param_3;
 }
 //gets unrolled when called
-UnkGuiClassCB::UnkGuiClassCB(u8 *param_2,u8 *param_3,s32 param_4){
+UnkGuiClassCB::UnkGuiClassCB(u8 *param_2,u8 *param_3,f32 param_4){
   unk0 = 0;
   unk4 = param_4;
   unkc = param_2;

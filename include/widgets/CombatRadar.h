@@ -1,7 +1,7 @@
 #include "widgets/WidgetBorg8.h"
 
 //radar show friends/foes on battlefield.
-class WidgetCombatRadar: BaseWidget{
+class WidgetCombatRadar: public BaseWidget{
     public:
     WidgetBorg8* compass;
     s16 unk80;

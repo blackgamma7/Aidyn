@@ -108,7 +108,7 @@ LAB_80038434:
         }
       }
     }
-    if (bVar3) PlayAudioSound(&gGlobals.SFXStruct,0x5e8,0,gGlobals.VolSFX,300,0x3c);
+    if (bVar3) PlayAudioSound(&gGlobals.SFXStruct,BORG12_LevelUp,0,gGlobals.VolSFX,300,0x3c);
     NormalFont;
     this->expCost = new WidgetClipText(NULL,20);
     this->expCost->SetColor(0x82,0x50,0x50,0xff);
@@ -189,11 +189,11 @@ void DollMenuLists::ShowEXPCosts(){
     if (!w) strcpy(Utilities::GetWidgetText(this->expCost)," ");
     else {
       s32 price = this->menus[this->menuIndex]->GetExpPrice(w->var5E);
-      if (price == -1) strcpy(Utilities::GetWidgetText(this->expCost),gGlobals.CommonStrings[0x1ed]);
-      else sprintf(Utilities::GetWidgetText(this->expCost),gGlobals.CommonStrings[0x1ee],price);
+      if (price == -1) strcpy(Utilities::GetWidgetText(this->expCost),Cstring(ExpCostMax));
+      else sprintf(Utilities::GetWidgetText(this->expCost),Cstring(ExpCost),price);
     }
     this->partyPicker = gPartyPicker;
-    sprintf(Utilities::GetWidgetText(this->expRemain),gGlobals.CommonStrings[0x1ef],(gGlobals.party)->Members[this->partyPicker]->EXP->spending);
+    sprintf(Utilities::GetWidgetText(this->expRemain),Cstring(ExpRemain),(gGlobals.party)->Members[this->partyPicker]->EXP->spending);
   }
 }
 

@@ -54,12 +54,12 @@ void EntityDB::Load(u8 id,s32 *param_3){
   EntRam->Category = EntROM.category;
   EntRam->ID = (ItemID)((u16)EntROM.id.id + (u16)EntROM.id.type * 0x100);
   EntRam->rom0x2b = EntROM.unk0x2b;
-  EntRam->unk0x18 = 0;
+  EntRam->flags = 0;
   EntRam->aspect = EntROM.Aspect;
-  if (EntROM.trueName) EntRam->unk0x18 = CHAR_TrueName;
-  if (EntROM.Heavy) EntRam->unk0x18|= CHAR_IsHeavy;
-  memcpy(EntRam->Skills,&EntROM.Alchemist,0xc);
-  memcpy(EntRam->weaponProf,&EntROM.Bite,0xb);
+  if (EntROM.trueName) EntRam->flags = CHAR_TrueName;
+  if (EntROM.Heavy) EntRam->flags|= CHAR_IsHeavy;
+  memcpy(EntRam->Skills,&EntROM.Alchemist,sizeof(EntRam->Skills));
+  memcpy(EntRam->weaponProf,&EntROM.Bite,sizeof(EntRam->weaponProf));
   memcpy(EntRam->stats,&EntROM.Intelligence,6);
   memcpy(&EntRam->morale,&EntROM.morale,3);
   for(uVar8 = 0x4f,uVar6 = 0;uVar6 < 3;uVar6++,uVar8+=2) {

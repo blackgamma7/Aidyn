@@ -1,4 +1,4 @@
-#include "entity.h"
+#include "party.h"
 #include "heapN64.h"
 
 CharSheet** gSaveEntity=0;
