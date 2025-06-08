@@ -18,12 +18,12 @@ class WidgetTrainShop : public WidgetMenu{
     BaseWidget* DownFunc();
     u8 Tick();
     void SetArrows();
-    virtual void InitMenu(){};
-    virtual u32 unk(){}; //just returns 0?
-    virtual void Confirm(u16,u16){};
-    virtual void Purchase(u16){};
-    virtual u32 GetGoldPrice(u16){};
-    virtual u32 GetExpPrice(u16){};
+    virtual void InitMenu();
+    virtual u32 unk(); //just returns 0?
+    virtual void Confirm(u16,u16);
+    virtual void Purchase(u16);
+    virtual u32 GetGoldPrice(u16);
+    virtual u32 GetExpPrice(u16);
 };
 //Widget for Inventory item entry
 class SMIItem:public BaseWidget{

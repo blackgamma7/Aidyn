@@ -8,13 +8,13 @@ class UnkGuiClass{
     f32 unk4;
     virtual ~UnkGuiClass();
     virtual void vMethA(s32);
-    virtual u32 vMethB(f32){}
+    virtual u32 vMethB(f32);
     
 };
 
 class UnkGuiClassU1: public UnkGuiClass{
   public:
-  ~UnkGuiClassU1(){}
+  ~UnkGuiClassU1();
   virtual void vMethA(s32);
 };
 
@@ -49,7 +49,7 @@ class UnkGuiClassCB: public UnkGuiClassU1{
 };
 class UnkGuiClassF: public UnkGuiClass{
   virtual void vMethA(s32);
-  virtual u32 vMethB(f32){}
+  virtual u32 vMethB(f32);
 };
 
 class UnkGuiClassL: public UnkGuiClassF{
@@ -64,7 +64,7 @@ class UnkGuiClassL: public UnkGuiClassF{
 };
 
 class UnkGuiClassA: public UnkGuiClass{
-  virtual u8 vMethC(){}
+  virtual u8 vMethC();
 };
 struct UnkGuiClassStruct{
   f64 unk0;

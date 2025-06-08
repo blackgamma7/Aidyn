@@ -19,8 +19,8 @@ struct SpellVisualTypeB {
     vec3f pos;
     vec3f loc3Pos;
     float field3_0x1c;
-    u32 field4_0x20;
-    u32 field5_0x24;
+    u32 borg5Index;
+    u32 memNeeded;
     uint flags;
     u16 field7_0x2c;
     u8 field8_0x2e;
@@ -49,7 +49,7 @@ struct SpellVisuals_struct {
     short *indecies1; 
     short *indecies2; 
     float field6_0x18;
-    int field7_0x1c;
+    int lifespan;
     uint lifeTime;
     u16 field9_0x24;
     u16 field10_0x26;

@@ -73,12 +73,12 @@ class WidgetContPakData : public WidgetMenu{
     void SavingPrompt();
     void m80087548();
     void m8008759c();
-    virtual void unk(){};
-    virtual u32 ShowSaveFiles(){};
-    virtual void LoadSaveFile(){};
-    virtual u32 vmE0(BaseWidget*){};
+    virtual void unk();
+    virtual u32 ShowSaveFiles();
+    virtual void LoadSaveFile();
+    virtual u32 vmE0(BaseWidget*);
     virtual u32 vmE8();
-    virtual u32 vmF0(){};
+    virtual u32 vmF0();
     virtual u32 WriteSaveFile();
     virtual u32 vm100();
     virtual void NewContPak();

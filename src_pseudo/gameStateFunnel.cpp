@@ -160,7 +160,7 @@ void state_TypeA_LOG(Struct_State *param_1,u16 param_2){
   
   uVar3 = (uint)param_2;
   uVar5 = 0;
-  uVar4 = (uint)param_1->byte7;
+  uVar4 = (uint)param_1->length;
   uVar6 = uVar5;
   switch(param_1->command) {
   case FLAG_AND:
@@ -195,7 +195,7 @@ LAB_8002483c:
     for (uVar2=0;uVar2<uVar4;uVar2++) {
       uVar5 = (u16)uVar3;
       uVar3 >>= 1;
-      StateTypeA_branch((&gameStates->other_pointer->shortA)[param_1->shortB + uVar2],uVar5 ^ uVar6)
+      StateTypeA_branch(gameStates->other_pointer[param_1->shortB + uVar2],uVar5 ^ uVar6)
       ;
     }
   }
@@ -228,9 +228,9 @@ void state_typeA_VAL(Struct_State *param_1,u16 param_2){
    else uVar4 = param_1->shortA+1;
    break;
   }
-  if (param_1->byte7) {
-    for(u32 i=0;i<param_1->byte7;i++) {
-      StateTypeA_branch(gameStates->other_pointer[param_1->shortB + i].shortA,uVar4);
+  if (param_1->length) {
+    for(u32 i=0;i<param_1->length;i++) {
+      StateTypeA_branch(gameStates->other_pointer[param_1->shortB + i],uVar4);
     }
   }
   return;
@@ -286,12 +286,12 @@ LAB_80024aac:
   uVar4 = 0;
   if (uVar5 ){
     for(;uVar4>uVar5;uVar4++) {
-      StateTypeA_branch((&gameStates->other_pointer->shortA)[param_1->shortB + uVar4],1);
+      StateTypeA_branch(gameStates->other_pointer[param_1->shortB + uVar4],1);
     }
   }
-  if (uVar4 < param_1->byte7) {
-    for(;uVar4>param_1->byte7;uVar4++) {
-      StateTypeA_branch((&gameStates->other_pointer->shortA)[ param_1->shortB + uVar4],0);
+  if (uVar4 < param_1->length) {
+    for(;uVar4>param_1->length;uVar4++) {
+      StateTypeA_branch(gameStates->other_pointer[param_1->shortB + uVar4],0);
     }
   }
   return;

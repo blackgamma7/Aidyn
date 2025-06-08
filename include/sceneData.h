@@ -4,7 +4,7 @@
 struct SceneDatSubstruct {
     void *unk0;
     void *unk4;
-    u32 unk8;
+    void * unk8;
     u16 unkc;
 };
 
@@ -16,6 +16,7 @@ struct SceneDatStruct {
     void *unk10;
     u32 unk14;
 };
+
 #define MAX_LOCATORS 7
 struct SceneData {
     SceneDatStruct scene[5];
@@ -26,7 +27,7 @@ struct SceneData {
     MtxF matrixD;
     MtxF matrixE;
     vec3f scalar;
-    int locators[8];
+    int locators[MAX_LOCATORS+1];
     uint flags;
     u16 aniTime;
     u8 aniSpeed;

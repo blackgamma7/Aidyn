@@ -408,26 +408,20 @@ LAB_80057628:
 }
 //find "####################" to replace with player name
 char * DialougfindPlayerNameSpace(char *str){
-  char cVar1;
-  uint len;
-  int iVar3;
+  int i;
   char *pcVar4;
   
-  len = strlen(str);
-  if ((0x13 < (int)len) && (pcVar4 = str + (len - 0x14), str != pcVar4)) {
-    cVar1 = *str;
+  s32 len = strlen(str);
+  if ((19 < len) && (pcVar4 = str + (len - 0x14), str != pcVar4)) {
+    char c = *str;
     while( true ) {
-      if (cVar1 == '#') {
-        iVar3 = 0x13;
-        if (str[0x13] == '#') {
-          for (iVar3 = 0x12; (0 < iVar3 && (str[iVar3] == '#')); iVar3 += -1) {
-          }
-        }
-        if (iVar3 == 0) return str;
+      if (c == '#') {
+          for (i = 19; (0 < i && (str[i] == '#')); i--) {}
+        if (i == 0) return str;
       }
       str++;
       if (str == pcVar4) break;
-      cVar1 = *str;
+      c = *str;
     }
   }
   return NULL;
@@ -469,7 +463,6 @@ void some_string_func(char *str)
         cVar4 = str[1];
         if (cVar4 == '\0') {
 LAB_80057a20:
-          cVar5 = *str;
         }
         else if (cVar4 == 'x') {
           if (str[2]) {
@@ -478,12 +471,11 @@ LAB_80057a20:
               bVar2 = str[2];
               cVar4 = bVar2 - '0';
               if ('A' < bVar2) {
-                cVar4 = bVar2 - 0x37;
+                cVar4 = bVar2 - 55;
               }
-              if (bVar1 < 'B') cVar5 -48;
-              else {
-                cVar5 = -0x37;
-              }
+
+              if (bVar1 < 'B') cVar5 = -48;
+              else cVar5 = -55;
               *str = cVar4 * '\x10' + bVar1 + cVar5;
               str[1] = '#';
               str[2] = '#';
@@ -493,12 +485,8 @@ LAB_80057a20:
             }
             goto LAB_80057a20;
           }
-          cVar5 = *str;
         }
-        else {
-          cVar5 = *str;
-        }
-        if (cVar5 == '\\') {
+        if (*str == '\\') {
           if (!cVar4) str++;
           else if (cVar4 == 'n') {
             *str = '\n';

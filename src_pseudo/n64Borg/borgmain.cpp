@@ -221,9 +221,7 @@ u8 InitBorgTexture(Borg1Header *header,Borg1Data *dat){
   
   header->dat = dat;
   if (!(dat->flag & 0x100)) {
-    puVar5 = dat->bmp;
-    header->bitmapB = puVar5;
-    header->bitmapA = puVar5;
+    header->bitmapA = header->bitmapB = dat->bmp;
   }
   else {
     bitDepth = 2;
@@ -263,18 +261,18 @@ void borg1_free(Borg1Header *param_1){
 -Zoinkity*/
 void borg2_func_a(Borg2Data *param_1){
   int *piVar1;
-  Gfx **ppGVar2;
   int *piVar3;
   int iVar4;
   
-  ppGVar2 = (Gfx **)((int)param_1->dsplists + (int)param_1);
-  param_1->dsplists = ppGVar2;
+
+  SetPointer(param_1,dsplists);
   SetPointer(param_1,vertlist);
   SetPointer(param_1,vertlist2);
   SetPointer(param_1,unk0x40);
+  Gfx **gg =param_1->dsplists;
   for (iVar4 = param_1->dsplistcount; iVar4 != 0; iVar4--) {
-    *ppGVar2 = (Gfx *)((int)*ppGVar2 + (int)param_1);
-    ppGVar2++;
+    *gg = (Gfx *)((int)*gg + (int)param_1);
+    gg++;
   }
   piVar1 = param_1->unk0x3c;
   piVar3 = (int *)((int)piVar1 + (int)param_1);
@@ -305,7 +303,7 @@ u8 borg2_func_b(Borg2Header *param_1,Borg2Data *param_2){
   else {
     ALLOCS(param_1->dlistSet,param_2->dsplistcount,1111);
     ALLOCS(param_1->dlist,param_1->dat->dsplistcount*sizeof(Gfx*),1112);
-    if (0 < param_1->dat->dsplistcount) {
+    if (0 < param_1->dat->dsplistcount) { //breakup dlist into 32-instruction chunks.
       for(s32 i = 0;i < param_1->dat->dsplistcount;i++){
         param_1->dlist[i] = (Gfx *)HALLOC((0x20*sizeof(Gfx)),1118);
         param_1->dlistSet[i]=1;
@@ -320,8 +318,8 @@ void borg_2_free(Borg2Header *param_1){
   int iVar1 = get_memUsed();
   if (param_1->dlist) {
     if (0 < param_1->dat->dsplistcount) {
-      for(s32 iVar3 = 0;param_1->dat->dsplistcount > iVar3;iVar3++) {
-        if (param_1->dlist[iVar3]) HFREE(param_1->dlist[iVar3],1157);
+      for(s32 i = 0;param_1->dat->dsplistcount > i;i++) {
+        if (param_1->dlist[i]) HFREE(param_1->dlist[i],1157);
       }
     }
     HFREE(param_1->dlist,1161);
@@ -340,10 +338,10 @@ void borg_2_free(Borg2Header *param_1){
 //"borg4": 3 floats, 8 more bytes. no clue what they're for
 void borg4_func_a(void* x){}
 u8 borg4_func_b(void* x,void* y){return false;}
-void Borg4_free(s32 *param_1){
+void Borg4_free(borgHeader *param_1){
   s32 iVar1 = get_memUsed();
-  if (*param_1 == -1) HFREE(param_1,1240);
-  else {dec_borg_count(*param_1);}
+  if (param_1->index == -1) HFREE(param_1,1240);
+  else {dec_borg_count(param_1->index);}
   borg_mem[4]-= (iVar1 - get_memUsed());
   borg_count[4]--;
 }
@@ -371,7 +369,7 @@ void borg5_func_a(Borg5Header *b5){
   
   pbVar6 = (b5->dat).someSubstruct;
   if (pbVar6 != NULL) {
-    pbVar6 = (borg5substruct *)((int)&b5->head.index + (int)&(pbVar6->rot).x);
+    pbVar6 = (borg5substruct *)((int)&b5 + (int)&pbVar6);
     iVar8 = (b5->dat).substructCount;
     (b5->dat).someSubstruct = pbVar6;
     for (; iVar8 != 0; iVar8--) {
@@ -380,13 +378,10 @@ void borg5_func_a(Borg5Header *b5){
     }
   }
   if ((b5->dat).unused20) (b5->dat).unused20 = (void *)((int)(b5->dat).unused20 + (int)&b5->dat);
-  if ((b5->dat).borg4i) (b5->dat).borg4i = (u32 *)((int)((b5->dat).borg4i + 4) + (int)b5);
-  if ((b5->dat).borg2i) (b5->dat).borg2i = (Borg2Header **)((int)((b5->dat).borg2i + 4) + (int)b5);
-  if ((b5->dat).borg1i)(b5->dat).borg1i = (Borg1Header **)((int)(ppBVar3 + 4) + (int)b5);
-  pvVar7 = (b5->dat).aniTextures;
-  if (pvVar7 != NULL) {
-    (b5->dat).aniTextures = (void *)((int)pvVar7 + (int)&b5->dat);
-  }
+  if ((b5->dat).borg4i) (b5->dat).borg4i = (s32 *)((int)((b5->dat).borg4i + 4) + (int)b5);
+  if ((b5->dat).borg2i) (b5->dat).borg2i = (s32 *)((int)((b5->dat).borg2i + 4) + (int)b5);
+  if ((b5->dat).borg1i)(b5->dat).borg1i = (s32 *)((int)((b5->dat).borg1i + 4) + (int)b5);
+  if (b5->dat.aniTextures)b5->dat.aniTextures = (void *)((int)b5->dat.aniTextures + (int)&b5->dat);
   iVar8 = (b5->dat).aniTextureCount;
   if (0 < iVar8) {
     pvVar7 = (b5->dat).aniTextures;
@@ -401,197 +396,179 @@ void borg5_func_a(Borg5Header *b5){
 //These need re-decompiled once the header format is understood.
 u8 InitBorgScene(Borg5Header *param_1,void* x){
   Color32 *pCVar1;
-  Borg2Data *pbVar2;
+  Borg2Data *pBVar2;
   int *piVar3;
-  u8 bVar4;
-  void *pvVar5;
-  Borg3Header *pBVar6;
-  Borg2Header *pbVar7;
+  bool bVar4;
+  void *x;
+  Borg4Header *pBVar6;
+  Borg2Header *pBVar7;
   Borg1Header *pBVar8;
-  Mtx *pMVar9;
-  LookAt *pLVar10;
-  astruct_3 *paVar11;
-  u32 *puVar12;
-  uint size;
-  Borg2Header **ppbVar13;
-  Vtx_t *puVar13;
-  uint uVar14;
-  u32 uVar15;
-  borg5substruct **ppbVar16;
-  Vtx_t *pVVar17;
-  int iVar18;
-  int iVar19;
-  Borg2Header **ppbVar20;
-  void **ppvVar21;
-  Borg1Header **ppBVar22;
-  borg5substruct *pbVar23;
-  u32 uVar24;
-  Vtx_t *pVVar25;
+  LookAt *pLVar9;
+  astruct_3 *paVar10;
+  Borg2Header **ppBVar11;
+  Vtx_t *puVar12;
+  uint uVar12;
+  u32 uVar13;
+  borg5substruct **ppbVar14;
+  Vtx_t *pVVar15;
+  int j;
+  int i;
+  Borg2Header **ppBVar18;
+  Borg4Header **ppBVar19;
+  Borg1Header **ppBVar20;
+  borg5substruct *pbVar21;
+  u32 uVar22;
+  Vtx_t *pVVar23;
   
-  iVar19 = (param_1->dat).aniTextureCount;
-  if (iVar19) {
-    pvVar5 = HALLOC(iVar19 << 3,1471);
-    param_1->aniTextures = pvVar5;
-    if (pvVar5) memset(pvVar5,0,(param_1->dat).aniTextureCount << 3);
-    else CRASH("n64borg.cpp,_InitBorgScene()","Alloc for animated texture states failed!");
+  if ((param_1->dat).aniTextureCount) {
+    ALLOCS(param_1->aniTextures,(param_1->dat).aniTextureCount*8,1471);
+    if (!param_1->aniTextures)
+      CRASH("n64borg.cpp, InitBorgScene()","Alloc for animated texture states failed!");
+    memset(param_1->aniTextures,0,(param_1->dat).aniTextureCount*8);
   }
-  size = 0;
-  iVar18 = 0;
-  iVar19 = (param_1->dat).substructCount;
-  pbVar23 = (param_1->dat).someSubstruct;
-  if (0 < iVar19) {
+  u32 size = 0;//calculate size for needed structs and use in one alloc
+  j = 0;
+  i = (param_1->dat).substructCount;
+  pbVar21 = (param_1->dat).someSubstruct;
+  if (0 < i) {
     do {
-      size += 0x188;
-      iVar18 += 1;
-      ppbVar16 = pbVar23->links;
-      for (uVar14 = (uint)pbVar23->tier; uVar14 != 0; uVar14 -= 1) {
-        *ppbVar16 = (param_1->dat).someSubstruct + (int)*ppbVar16;
-        ppbVar16 = ppbVar16 + 1;
+      size += sizeof(Borg5Struct2);
+      j++;
+      ppbVar14 = pbVar21->links;
+      for (uVar12 = (uint)pbVar21->tier; uVar12 != 0; uVar12--) {
+        *ppbVar14 = (param_1->dat).someSubstruct + (int)*ppbVar14;
+        ppbVar14++;
       }
-      pbVar23 = pbVar23 + 1;
-    } while (iVar18 < iVar19);
+      pbVar21++;
+    } while (j < i);
   }
   if ((param_1->dat).borg3i == -1) (param_1->dat).borg3P = NULL;
   else {
-    size += 0x80;
+    size += sizeof(Mtx)*2;
     setBorgFlag();
-    (param_1->dat).borg3P = (Borg3Header *)getBorgItem((param_1->dat).borg3i);
+    (param_1->dat).borg3P = (Borg3Header *)getBorgItem(param_1->dat.borg3i);
   }
-  ppvVar21 = (void **)(param_1->dat).borg4i;
-  if (ppvVar21 == NULL){
-    for (iVar19 = (param_1->dat).borg4Count; iVar19 != 0; iVar19 += -1) {
-      size += 0x20;
+  ppBVar19 = (param_1->dat).borg4p;
+  if (ppBVar19){
+    for (i = (param_1->dat).borg4Count; i != 0; i += -1) {
+      size += sizeof(Light)*2;
       setBorgFlag();
-      pvVar5 = getBorgItem((int)*ppvVar21);
-      *ppvVar21 = pvVar5;
-      ppvVar21 = ppvVar21 + 1;
+      *ppBVar19 = (Borg4Header *)getBorgItem((int)*ppBVar19);
+      ppBVar19++;
     }
   }
-  if ((param_1->dat).borg2p) {
-    iVar19 = (param_1->dat).borg2Count;
-    while (iVar19 != 0) {
+  ppBVar11 = (param_1->dat).borg2p;
+  if (ppBVar11 != NULL) {
+    i = (param_1->dat).borg2Count;
+    while (i != 0) {
       clearBorgFlag();
-      pbVar7 = (Borg2Header *)getBorgItem((int)*ppbVar13);
-      pbVar2 = pbVar7->dat;
-      piVar3 = pbVar2->unk0x3c;
-      *ppbVar13 = pbVar7;
-      if (piVar3) size += pbVar2->vertcount * 0x10;
+      pBVar7 = (Borg2Header *)getBorgItem((int)*ppBVar11);
+      pBVar2 = pBVar7->dat;
+      piVar3 = pBVar2->unk0x3c;
+      *ppBVar11 = pBVar7;
+      if (piVar3 != NULL) {
+        size += pBVar2->vertcount * sizeof(Vtx);
+      }
       bVar4 = false;
-      iVar19 += -1;
-      paVar11 = pbVar2->unk0x40;
-      ppbVar13 = ppbVar13 + 1;
-      for (iVar18 = pbVar2->dsplistcount; iVar18 != 0; iVar18 += -1) {
-        uVar14._0_2_ = paVar11->field0_0x0;
-        uVar14._2_2_ = paVar11->field1_0x2;
-        if ((uVar14 & 3)) {bVar4 = true;}
-        paVar11++;
+      i--;
+      paVar10 = pBVar2->unk0x40;
+      ppBVar11 = ppBVar11 + 1;
+      for (j = pBVar2->dsplistcount; j != 0; j--) {
+        if ((*(u32*)paVar10->unk0 & 3) != 0) bVar4 = true;
+        paVar10++;
       }
       if (bVar4) {
-        size += 0x60;
-        pbVar7->lookat[0] = (LookAt *)-1;
-        pbVar7->lookat[1] = (LookAt *)-1;
+        size += (sizeof(LookAt)*3);
+        pBVar7->lookat[0] = (LookAt *)-1;
+        pBVar7->lookat[1] = (LookAt *)-1;
       }
       else {
-        pbVar7->lookat[0] = NULL;
-        pbVar7->lookat[1] = NULL;
+        pBVar7->lookat[0] = NULL;
+        pBVar7->lookat[1] = NULL;
       }
     }
   }
   clearBorgFlag();
-  ppBVar22 = (param_1->dat).borg1i;
-  if (ppBVar22) {
-    for (uVar24 = (param_1->dat).borg1Count; uVar24 != 0; uVar24 -= 1) {
-      pBVar8 = (Borg1Header *)getBorgItem((int)*ppBVar22);
-      *ppBVar22 = pBVar8;
-      ppBVar22++;
+  ppBVar20 = (param_1->dat).borg1p;
+  if (ppBVar20) {
+    for (uVar22 = (param_1->dat).borg1Count; uVar22 != 0; uVar22 -= 1) {
+      pBVar8 = (Borg1Header *)getBorgItem((int)*ppBVar20);
+      *ppBVar20 = pBVar8;
+      ppBVar20 = ppBVar20 + 1;
     }
   }
-  pMVar9 = (Mtx *)HALLOC(size,0x6bf);
-  pbVar23 = (param_1->dat).someSubstruct;
-  iVar19 = (param_1->dat).substructCount;
-  param_1->unk8 = pMVar9;
-  if (iVar19 != 0) {
-    pbVar23->mtxs = pMVar9;
+  void* p = HALLOC(size,1727);
+  pbVar21 = (param_1->dat).someSubstruct;
+  i = (param_1->dat).substructCount;
+  param_1->allocedDat = p;
+  if (i != 0) {
+    pbVar21->unkStruct = (Borg5Struct2 *)p;
     while( true ) {
-      pMVar9[5].m[0][0] = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x144) = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x148) = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x14c) = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x150) = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x154) = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x158) = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x15c) = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x160) = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x164) = 0;
-      *(undefined4 *)((int)pbVar23->mtxs + 0x168) = 0;
-      pMVar9 = (Mtx *)((int)pMVar9 + 0x188);
-      *(undefined4 *)((int)pbVar23->mtxs + 0x16c) = 0;
-      iVar19 += -1;
-      guMtxIdent(pbVar23->mtxs);
-      guMtxIdent(pbVar23->mtxs + 1);
-      if (iVar19 == 0) break;
-      pbVar23[1].mtxs = pMVar9;
-      pbVar23 = pbVar23 + 1;
+      pbVar21->unkStruct->unk140 = 0;
+      pbVar21->unkStruct->unk144 = 0;
+      pbVar21->unkStruct->unk148 = 0;
+      pbVar21->unkStruct->unk14c = 0;
+      pbVar21->unkStruct->unk150 = 0;
+      pbVar21->unkStruct->unk154 = 0;
+      pbVar21->unkStruct->unk158 = 0;
+      pbVar21->unkStruct->unk15c = 0;
+      pbVar21->unkStruct->unk160 = 0;
+      pbVar21->unkStruct->unk164 = 0;
+      pbVar21->unkStruct->unk168 = 0;
+      p = (void *)((u32)p + sizeof(Borg5Struct2));
+      pbVar21->unkStruct->unk16c = 0;
+      i--;
+      guMtxIdent(pbVar21->unkStruct->mtxs);
+      guMtxIdent(pbVar21->unkStruct->mtxs + 1);
+      if (i == 0) break;
+      pbVar21[1].unkStruct = (Borg5Struct2 *)p;
+      pbVar21++;
     }
   }
-  pBVar6 = (param_1->dat).borg3;
-  if (pBVar6 == NULL) {
-    puVar12 = (param_1->dat).borg4i;
+  if (param_1->dat.borg3P){
+    param_1->dat.borg3P->dat.mtx_ = (Mtx *)p;
+    p = (void *)((int)p + sizeof(Mtx)*2);
   }
-  else {
-    pBVar6->mtx_ = pMVar9;
-    pMVar9 = pMVar9 + 2;
-    puVar12 = (param_1->dat).borg4i;
-  }
-  if (puVar12 == NULL) {
-    ppbVar13 = (param_1->dat).borg2i;
-  }
-  else {
-    for (iVar19 = (param_1->dat).borg4Count; iVar19 != 0; iVar19 += -1) {
-      uVar24 = *puVar12;
-      puVar12 = puVar12 + 1;
-      *(Mtx **)(uVar24 + 0x18) = pMVar9;
-      pMVar9 = (Mtx *)(pMVar9->m + 2);
+  ppBVar19 = (param_1->dat).borg4p;
+  if (ppBVar19){
+    for (i = (param_1->dat).borg4Count; i != 0; i--) {
+      pBVar6 = *ppBVar19;
+      ppBVar19++;
+      pBVar6->dat->unk10 = (Light *)p;
+      p = (void *)((int)p + sizeof(Light)*2);
     }
-    ppbVar13 = (param_1->dat).borg2i;
   }
-  if (ppbVar13 != NULL) {
-    iVar19 = (param_1->dat).borg2Count;
-    while (iVar19 != 0) {
-      pbVar2 = (*ppbVar13)->dat;
-      iVar19 += -1;
-      ppbVar20 = ppbVar13 + 1;
-      if (pbVar2->unk0x3c != NULL) {
-        pVVar25 = (Vtx_t *)((uint)((int)pMVar9->m[0] + 7) & 0xfffffff8);
-        uVar24 = pbVar2->vertcount;
-        pVVar17 = pbVar2->vertlist2;
-        pbVar2->vertcount = (u32)pVVar25;
-        puVar13 = pVVar25;
-        for (uVar15 = uVar24; uVar15 != 0; uVar15 -= 1) {
-          *(undefined4 *)puVar13->ob = *(undefined4 *)pVVar17->ob;
-          *(undefined4 *)(puVar13->ob + 2) = *(undefined4 *)(pVVar17->ob + 2);
-          *(undefined4 *)puVar13->tc = *(undefined4 *)pVVar17->tc;
-          pCVar1 = &pVVar17->cn;
-          pVVar17 = pVVar17 + 1;
-          puVar13->cn = *pCVar1;
-          puVar13 = puVar13 + 1;
+  ppBVar11 = (param_1->dat).borg2p;
+  if (ppBVar11 != NULL) {
+    i = (param_1->dat).borg2Count;
+    while (i != 0) {
+      pBVar2 = (*ppBVar11)->dat;
+      i += -1;
+      ppBVar18 = ppBVar11 + 1;
+      if (pBVar2->unk0x3c != NULL) { //align 8?
+        pVVar23 = (Vtx_t *)((uint)((u32)p + 7) & 0xfffffff8);
+        uVar22 = pBVar2->vertcount;
+        pVVar15 = pBVar2->vertlist2;
+        pBVar2->vertcount = (u32)pVVar23;
+        puVar12 = pVVar23;
+        for (uVar13 = uVar22; uVar13 != 0; uVar13--) {
+          *puVar12 = *pVVar15;
+          pVVar15++;
+          puVar12++;
         }
-        pMVar9 = (Mtx *)(pVVar25 + uVar24);
+        p = pVVar23 + uVar22;
       }
-      pbVar7 = *ppbVar13;
-      if (pbVar7->lookat[0] == NULL) {
-        pLVar10 = pbVar7->lookat[1];
+      pBVar7 = *ppBVar11;
+      if (pBVar7->lookat[0]){
+        pBVar7->lookat[0] = (LookAt *)p;
+        p = (void *)((int)p + sizeof(LookAt)*2);
+        pBVar7 = *ppBVar11;
       }
-      else {
-        pbVar7->lookat[0] = (LookAt *)pMVar9;
-        pMVar9 = pMVar9 + 1;
-        pbVar7 = *ppbVar13;
-        pLVar10 = pbVar7->lookat[1];
-      }
-      ppbVar13 = ppbVar20;
-      if (pLVar10 != NULL) {
-        pbVar7->lookat[1] = (LookAt *)pMVar9;
-        pMVar9 = (Mtx *)(pMVar9->m + 2);
+      pLVar9 = pBVar7->lookat[1];
+      ppBVar11 = ppBVar18;
+      if (pBVar7->lookat[1]) {
+        pBVar7->lookat[1] = (LookAt *)p;
+        p = (void *)((int)p + sizeof(LookAt));
       }
     }
   }
@@ -600,254 +577,229 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
 
 
 void borg5_free(Borg5Header *param_1){
-  int iVar2;
-  u8 uVar3;
-  Borg2Header *pbVar4;
-  Borg1Header *pBVar5;
-  int iVar6;
-  u32 uVar7;
-  u32 *puVar8;
-  Borg2Header **ppbVar9;
-  Borg1Header **ppBVar10;
+  int memOld;
+  int iVar7;
+  u32 uVar8;
   
-  iVar2 = get_memUsed();
+  memOld = get_memUsed();
   if ((param_1->dat).borg3P) borg3_free((param_1->dat).borg3P);
-  puVar8 = (param_1->dat).borg4i;
-  if ((puVar8 != NULL) && (iVar6 = (param_1->dat).borg4Count, iVar6 != 0)) {
-    uVar7 = *puVar8;
+  Borg4Header **ppBVar9 = (param_1->dat).borg4p;
+  if ((ppBVar9) && (iVar7 = (param_1->dat).borg4Count, iVar7 != 0)) {
+    Borg4Header *pBVar2 = *ppBVar9;
     while( true ) {
-      iVar6 += -1;
-      puVar8 = puVar8 + 1;
-      Borg4_free(uVar7);
-      if (iVar6 == 0) break;
-      uVar7 = *puVar8;
+      iVar7--;
+      ppBVar9++;
+      Borg4_free(&pBVar2->head);
+      if (iVar7 == 0) break;
+      pBVar2 = *ppBVar9;
     }
   }
-  ppbVar9 = (param_1->dat).borg2i;
-  if (ppbVar9) {
-    iVar6 = (param_1->dat).borg2Count;
-    if (iVar6 != 0) {
-      pbVar4 = *ppbVar9;
-      while( true ) {
-        iVar6 += -1;
-        ppbVar9 = ppbVar9 + 1;
-        borg_2_free(pbVar4);
-        if (iVar6 == 0) break;
-        pbVar4 = *ppbVar9;
-      }
-    }
-  }
-  ppBVar10 = (param_1->dat).borg1p;
+  Borg2Header **ppBVar10 = (param_1->dat).borg2p;
   if (ppBVar10){
-    uVar7 = (param_1->dat).borg1Count;
-    if (uVar7 != 0) {
-      pBVar5 = *ppBVar10;
+    iVar7 = (param_1->dat).borg2Count;
+    if (iVar7 != 0) {
+      Borg2Header *pBVar5 = *ppBVar10;
       while( true ) {
-        uVar7 -= 1;
+        iVar7 += -1;
         ppBVar10 = ppBVar10 + 1;
-        borg1_free(pBVar5);
-        if (uVar7 == 0) break;
+        borg_2_free(pBVar5);
+        if (iVar7 == 0) break;
         pBVar5 = *ppBVar10;
       }
     }
   }
-  if (param_1->head.index == -1) {
-    HFREE(param_1->unk8,0x78b);
-    HFREE(param_1,0x78f);
+  Borg1Header **ppBVar11 = (param_1->dat).borg1p;
+  if (ppBVar11){
+    uVar8 = (param_1->dat).borg1Count;
+    if (uVar8 != 0) {
+      Borg1Header *pBVar6 = *ppBVar11;
+      while( true ) {
+        uVar8--;
+        ppBVar11 = ppBVar11 + 1;
+        borg1_free(pBVar6);
+        if (uVar8 == 0) break;
+        pBVar6 = *ppBVar11;
+      }
+    }
+  }
+  if ((param_1->head).index == -1) {
+    HFREE(param_1->allocedDat,1931);
+    HFREE(param_1,1935);
   }
   else {
-    if (get_borg_index_count(param_1->head.index) == 1) HFREE(param_1->unk8,0x795);
-    dec_borg_count(param_1->head.index);
+    if (get_borg_index_count((param_1->head).index) == 1)
+      HFREE(param_1->allocedDat,1941);
+    dec_borg_count((param_1->head).index);
   }
-  borg_mem[5]-= (iVar2 - get_memUsed());
+  borg_mem[5]-= (memOld - get_memUsed());
   borg_count[5]--;
 }
+
+
 //"borg6": animation/cinematic data
-void borg6_func_a(Borg6Header *param_1){
+void borg6_func_a(Borg6Data *param_1){
   short sVar1;
   short sVar2;
-  int iVar3;
-  int iVar4;
-  void *pvVar5;
-  short *psVar6;
-  short *psVar7;
-  int iVar8;
-  int iVar9;
+  u32 uVar3;
+  u32 uVar4;
+  float *pfVar5;
+  Borg6Sub *pBVar6;
+  Borg6SubSub *pBVar7;
+  int j;
+  int i;
   
-  iVar9 = 0;
-  iVar3 = param_1->unk4;
-  pvVar5 = (void *)((int)param_1->unk8 + (int)param_1);
-  param_1->unk8 = pvVar5;
-  if (0 < iVar3) {
+  i = 0;
+  uVar3 = param_1->subCount;
+  pBVar6 = (Borg6Sub *)((int)&param_1->borg5 + (int)&param_1->sub->borg5);
+  param_1->sub = pBVar6;
+  if (0 < (int)uVar3) {
     do {
-      iVar8 = 0;
-      iVar9 += 1;
-      iVar4 = *(int *)((int)pvVar5 + 0x10);
-      psVar7 = (short *)((int)&param_1->field0_0x0 + *(int *)((int)pvVar5 + 0x14));
-      *(short **)((int)pvVar5 + 0x14) = psVar7;
-      if (0 < iVar4) {
+      j = 0;
+      i += 1;
+      uVar4 = pBVar6->subCount;
+      pBVar7 = (Borg6SubSub *)((int)&param_1->borg5 + (int)&pBVar6->sub->unk0);
+      pBVar6->sub = pBVar7;
+      if (0 < (int)uVar4) {
         do {
-          iVar8 += 1;
-          psVar6 = (short *)((int)&param_1->field0_0x0 + *(int *)(psVar7 + 2));
-          *(short **)(psVar7 + 2) = psVar6;
-          sVar1 = *psVar6;
-          *(int *)(psVar6 + 2) = (int)&param_1->field0_0x0 + *(int *)(psVar6 + 2);
-          sVar2 = *psVar7;
-          psVar7 = psVar7 + 8;
+          j += 1;
+          pfVar5 = (float *)((int)pBVar7->unk4 + (int)param_1);
+          pBVar7->unk4 = pfVar5;
+          sVar1 = *(short *)pfVar5;
+          pfVar5[1] = (float)((int)&param_1->borg5 + (int)pfVar5[1]);
+          sVar2 = pBVar7->unk0;
+          pBVar7 = pBVar7 + 1;
           while (sVar1 != sVar2) {
-            sVar1 = psVar6[4];
-            *(int *)(psVar6 + 6) = (int)&param_1->field0_0x0 + *(int *)(psVar6 + 6);
-            psVar6 = psVar6 + 4;
+            sVar1 = *(short *)(pfVar5 + 2);
+            pfVar5[3] = (float)((int)&param_1->borg5 + (int)pfVar5[3]);
+            pfVar5 = pfVar5 + 2;
           }
-        } while (iVar8 < iVar4);
+        } while (j < (int)uVar4);
       }
-      pvVar5 = (void *)((int)pvVar5 + 0x18);
-    } while (iVar9 < iVar3);
+      pBVar6 = pBVar6 + 1;
+    } while (i < (int)uVar3);
   }
-  return;
 }
 
-
-
-u8      borg6_func_b(Borg6Header *param_1,Borg6Data *param_2)
-
-{
-  int iVar1;
-  u32 uVar2;
-  int iVar3;
-  int iVar4;
-  Borg5Header *pBVar5;
-  int iVar6;
-  float fVar7;
-  SceneData *pAVar8;
-  SceneDatSubstruct *pAVar9;
-  undefined4 *puVar10;
+u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
+  u32 uVar1;
+  float *pfVar2;
+  Borg6Sub *pBVar3;
+  void *pvVar4;
+  Borg6Struct *pBVar6;
+  int *piVar7;
+  undefined4 *puVar8;
+  undefined4 *puVar9;
+  u32 uVar10;
   undefined4 *puVar11;
-  int iVar12;
-  undefined4 *puVar13;
-  ushort uVar14;
-  void *pvVar15;
+  ushort uVar12;
+  Borg6SubSub *pBVar13;
+  int iVar14;
+  int iVar15;
   int iVar16;
-  int iVar17;
-  int iVar18;
   uint size;
-  undefined4 uVar19;
+  undefined4 uVar17;
   
-  fVar7 = ConstFloats::1.0f;
   size = 0;
-  iVar18 = 0;
-  iVar1 = param_2->unk4;
+  iVar16 = 0;
+  uVar1 = param_2->subCount;
   param_1->dat = param_2;
-  param_1->flag2 = 0;
-  param_1->unk1c = fVar7;
-  pAVar8 = (SceneData *)HeapAlloc(iVar1 * 0x18,s_./src/n64borg.cpp_800e3120,0x810);
-  param_1->sceneDat = pAVar8;
-  iVar1 = param_1->dat->unk4;
-  pBVar5 = (Borg5Header *)param_1->dat->unk8;
-  if (0 < iVar1) {
+  param_1->flag = 0;
+  param_1->unk1c = 1.0;
+  pBVar6 = (Borg6Struct *)HeapAlloc(uVar1 * 0x18,s_./src/n64borg.cpp_800e3120,0x810);
+  param_1->structDat = pBVar6;
+  uVar1 = param_1->dat->subCount;
+  pBVar3 = param_1->dat->sub;
+  if (0 < (int)uVar1) {
     do {
-      iVar12 = (pBVar5->dat).substructCount;
-      pAVar8->scene[0].borg5 = pBVar5;
-      pAVar8->scene[0].borg6 = NULL;
-      pAVar8->scene[0].link = NULL;
-      pAVar9 = (SceneDatSubstruct *)HeapAlloc(iVar12 << 4,s_./src/n64borg.cpp_800e3120,0x821);
-      iVar18 += 1;
-      pvVar15 = (void *)(pBVar5->dat).borg4Count;
-      pAVar8->scene[0].unk10 = pBVar5->unk8;
-      iVar12 = (pBVar5->dat).substructCount;
-      pAVar8->scene[0].sub = pAVar9;
-      if (0 < iVar12) {
+      uVar10 = pBVar3->subCount;
+      pBVar6->sub = pBVar3;
+      pBVar6->unk4 = 0;
+      pBVar6->unk8 = 0;
+      piVar7 = (int *)HeapAlloc(uVar10 << 4,s_./src/n64borg.cpp_800e3120,0x821);
+      iVar16 += 1;
+      pBVar13 = pBVar3->sub;
+      pBVar6->unk10 = (void *)pBVar3->unk8;
+      uVar10 = pBVar3->subCount;
+      pBVar6->unkc = piVar7;
+      if (0 < (int)uVar10) {
         do {
           size += 0x10;
-          uVar2 = *(u32 *)((int)pvVar15 + 4);
-          iVar12 += -1;
-          pAVar9->unk0 = pvVar15;
-          pvVar15 = (void *)((int)pvVar15 + 0x10);
-          pAVar9->unkc = 1;
-          pAVar9->unk4 = uVar2;
-          pAVar9 = pAVar9 + 1;
-        } while (iVar12 != 0);
+          pfVar2 = pBVar13->unk4;
+          uVar10 -= 1;
+          *piVar7 = (int)pBVar13;
+          pBVar13 = pBVar13 + 1;
+          *(u16 *)(piVar7 + 3) = 1;
+          piVar7[1] = (int)pfVar2;
+          piVar7 = piVar7 + 4;
+        } while (uVar10 != 0);
       }
-      pAVar8 = (SceneData *)(pAVar8->scene + 1);
-      pBVar5 = (Borg5Header *)&(pBVar5->dat).borg2Count;
-    } while (iVar18 < iVar1);
+      pBVar6 = pBVar6 + 1;
+      pBVar3 = pBVar3 + 1;
+    } while (iVar16 < (int)uVar1);
   }
-  puVar10 = (undefined4 *)HeapAlloc(size,s_./src/n64borg.cpp_800e3120,0x87d);
-  iVar12 = 0;
-  iVar1 = param_1->dat->unk4;
-  iVar18 = param_1->dat->unk8;
-  pAVar8 = param_1->sceneDat;
-  if (0 < iVar1) {
+  puVar8 = (undefined4 *)HALLOC(size,0x87d);
+  iVar16 = 0;
+  uVar1 = param_1->dat->subCount;
+  pBVar3 = param_1->dat->sub;
+  pBVar6 = param_1->structDat;
+  if (0 < (int)uVar1) {
     do {
-      iVar17 = 0;
-      iVar12 += 1;
-      iVar3 = *(int *)(iVar18 + 0x10);
-      puVar11 = puVar10;
-      pAVar9 = pAVar8->scene[0].sub;
-      iVar6 = *(int *)(iVar18 + 0x14);
-      if (0 < iVar3) {
+      iVar15 = 0;
+      iVar16 += 1;
+      uVar10 = pBVar3->subCount;
+      puVar9 = puVar8;
+      pvVar4 = pBVar6->unkc;
+      pBVar13 = pBVar3->sub;
+      if (0 < (int)uVar10) {
         do {
-          iVar16 = 4;
-          iVar17 += 1;
-          iVar4 = *(int *)(iVar6 + 4);
-          puVar10 = puVar11 + 4;
-          pAVar9->unk8 = puVar11;
-          uVar14 = *(ushort *)(iVar4 + 2);
-          puVar13 = *(undefined4 **)(iVar4 + 4);
+          iVar14 = 4;
+          iVar15 += 1;
+          pfVar2 = pBVar13->unk4;
+          puVar8 = puVar9 + 4;
+          *(undefined4 **)((int)pvVar4 + 8) = puVar9;
+          uVar12 = *(ushort *)((int)pfVar2 + 2);
+          puVar11 = (undefined4 *)pfVar2[1];
           do {
-            if ((uVar14 & 1) == 0) {
-              *puVar11 = 0;
+            if ((uVar12 & 1) == 0) {
+              *puVar9 = 0;
             }
             else {
-              uVar19 = *puVar13;
-              puVar13 = puVar13 + 1;
-              *puVar11 = uVar19;
+              uVar17 = *puVar11;
+              puVar11 = puVar11 + 1;
+              *puVar9 = uVar17;
             }
-            uVar14 = (short)uVar14 >> 1;
-            iVar16 += -1;
-            puVar11 = puVar11 + 1;
-          } while (iVar16 != 0);
-          puVar11 = puVar10;
-          pAVar9 = pAVar9 + 1;
-          iVar6 = iVar6 + 0x10;
-        } while (iVar17 < iVar3);
+            uVar12 = (short)uVar12 >> 1;
+            iVar14 += -1;
+            puVar9 = puVar9 + 1;
+          } while (iVar14 != 0);
+          puVar9 = puVar8;
+          pvVar4 = (void *)((int)pvVar4 + 0x10);
+          pBVar13 = pBVar13 + 1;
+        } while (iVar15 < (int)uVar10);
       }
-      iVar18 = iVar18 + 0x18;
-      pAVar8 = (SceneData *)(pAVar8->scene + 1);
-    } while (iVar12 < iVar1);
+      pBVar3 = pBVar3 + 1;
+      pBVar6 = pBVar6 + 1;
+    } while (iVar16 < (int)uVar1);
   }
   param_1->link = NULL;
-  param_1->flag = 0;
+  param_1->link2 = NULL;
   return false;
 }
+
 void borg_6_free(Borg6Header *param_1){
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar1 = get_memUsed();
-  if (param_1->sceneDat != NULL) {
-    HeapFree((void *)(param_1->sceneDat->scene[0].sub)->field2_0x8,s_./src/n64borg.cpp_800e3120,0x8d7)
-    ;
-    iVar2 = 0;
-    if (0 < *(int *)((int)param_1->field8_0x20 + 4)) {
-      iVar3 = 0;
-      do {
-        HeapFree(*(void **)((int)&param_1->sceneDat->scene[0].sub + iVar3),
-                 s_./src/n64borg.cpp_800e3120,0x8dd);
-        iVar2 += 1;
-        iVar3 += 0x18;
-      } while (iVar2 < *(int *)((int)param_1->field8_0x20 + 4));
+  int iVar1 = get_memUsed();
+  if (param_1->structDat) {
+    HFREE(param_1->structDat->sub->unk8,2263);
+    for(u32 i=0;i<param_1->dat->subCount;i++){
+      HFREE(param_1->structDat->unkc[i],2269);
     }
-    HeapFree(param_1->sceneDat,s_./src/n64borg.cpp_800e3120,0x8e0);
+    HFREE(param_1->structDat,2272);
   }
-  if (param_1->field0_0x0 == -1) HFREE(param_1->field8_0x20,0x8e5);
-  else dec_borg_count(param_1->field0_0x0);
-  HFREE(param_1,0x8ec);
-  iVar2 = get_memUsed();
+  if (param_1->head.index == -1) HFREE(param_1->dat,2277);
+  else dec_borg_count(param_1->head.index);
+  HFREE(param_1,2284);
   borg_mem[6]-= (iVar1 - get_memUsed());
   borg_count[6]--;
-  return;
 }
 
 //"borg7": actor data. also need more comprehension

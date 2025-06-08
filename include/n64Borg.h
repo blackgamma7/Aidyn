@@ -398,6 +398,17 @@ typedef enum BORG1type {
     B1_RGBA32
 } BORG1type;
 
+struct Borg1Data {
+    u16 type;
+    u16 flag;
+    u8 Width;
+    u8 Height;
+    u8 lods;
+    u8 iLace; //paramater for deinterlacing textures?
+    Gfx *dList;
+    u8 *bmp;
+    u16 * pallette;
+};
 
 struct Borg1Header {
     borgHeader head;
@@ -430,6 +441,41 @@ struct Borg3Header {
     int *unkc;
     Borg3Data dat;
 };
+struct Borg4Data{
+    float unk0;
+    float unk4;
+    float unk8;
+    float unkc;
+    Light* unk10;
+    s16 unk14;
+    s16 unk16;
+};
+
+struct Borg4Header {
+    borgHeader head;
+    Borg4Data* dat;
+};
+
+struct Borg5Struct2{
+    Mtx mtxs[2];
+    MtxF mfs[2];
+    //much of what below this is unread or unused.
+    u8 unk100[0x40]; //may be an Mtx(F) unused
+    u32 unk140; //set to 0 in InitBorgScene, never read(?)
+    u32 unk144; //set to 0 in InitBorgScene, never read(?)
+    u32 unk148; //set to 0 in InitBorgScene, never read(?)
+    u32 unk14c; //set to 0 in InitBorgScene, never read(?)
+    u32 unk150; //set to 0 in InitBorgScene, never read(?)
+    u32 unk154; //set to 0 in InitBorgScene, never read(?)
+    u32 unk158; //set to 0 in InitBorgScene, never read(?)
+    u32 unk15c; //set to 0 in InitBorgScene, never read(?)
+    u32 unk160; //set to 0 in InitBorgScene, never read(?)
+    u32 unk164; //set to 0 in InitBorgScene, never read(?)
+    u32 unk168; //set to 0 in InitBorgScene, never read(?)
+    u32 unk16c; //set to 0 in InitBorgScene, never read(?)
+    vec3f unk170; //used in orphaned functions.
+    vec3f unk17c; //used in orphaned functions.
+};
 
 struct borg5substruct {
     u16 flag;
@@ -437,7 +483,7 @@ struct borg5substruct {
     u8 tier;
     borg5substruct **links;
     u32 unk0x8;
-    Mtx *mtxs;
+    Borg5Struct2* unkStruct;
     vec3f rot;
     vec3f pos;
     vec3f scale;
@@ -493,7 +539,7 @@ struct Borg5Data {
         };
     union{
         s32* borg4i;
-        void **borg4p;
+        Borg4Header **borg4p;
     };
     union{
         s32* borg2i;
@@ -612,22 +658,44 @@ struct Borg12Header {
     borgHeader head;
     Borg12Data *dat;
 };
-
+struct Borg6SubSub{
+    s16 unk0;
+    s16 unk2;
+    float*unk4;
+    s16 unk8;
+    s16 unka;
+    float*unkc;
+};
+struct Borg6Sub{
+    u32 borg5;
+    u32 unk4;
+    void* unk8;
+    u32 unkc;
+    u32 subCount;
+    Borg6SubSub* sub;
+};
 struct Borg6Data{
     u32 borg5;
-    s32 unk4;
-    s32 unk8;
+    s32 subCount;
+    Borg6Sub* sub;
     s32 aniLength;
 };
-
+struct Borg6Struct{
+    Borg6Sub* sub;
+    u32 unk4;
+    u32 unk8;
+    void* unkc;
+    void* unk10;
+    u32 unk14;
+};
 struct Borg6Header {
     borgHeader head;
-    int field2_0x8;
+    SceneData* unk8;
     Borg6Header *link;
+    Borg6Header * link2;
+    Borg6Struct *structDat;
     u32 flag;
-    SceneData *sceneDat;
-    u32 flag2;
-    float unk1c;
+    float unk1c; //always 1.0(?)
     Borg6Data *dat;
 };
 
@@ -636,17 +704,7 @@ struct struct_45 {
     u32 indecies[3];
 };
 
-struct Borg1Data {
-    u16 type;
-    u16 flag;
-    u8 Width;
-    u8 Height;
-    u8 lods;
-    u8 iLace; //paramater for deinterlacing textures?
-    Gfx *dList;
-    u8 *bmp;
-    u16 * pallette;
-};
+
 
 struct astruct_3{
     u16 unk0[2];
@@ -655,7 +713,7 @@ struct astruct_3{
 
 struct Borg5Header {
     borgHeader head;
-    void *unk8;
+    void *allocedDat;
     void *aniTextures;
     Borg5Data dat;
 };
@@ -860,14 +918,14 @@ u8 borg2_func_b(Borg2Header *,Borg2Data *);
 void borg_2_free(Borg2Header *);
 void borg4_func_a(void*);
 u8 borg4_func_b(void* x,void* y);
-void Borg4_free(s32 *);
+void Borg4_free(borgHeader *);
 void borg3_func_a(Borg3Header *);
 u8 borg3_func_b(void*, void* );
 void borg5_func_a(Borg5Header*);
 u8 InitBorgScene(Borg5Header *,void*);
 void borg5_free(Borg5Header *);
 void borg6_func_a(Borg6Header*);
-u8 borg6_func_b(Borg6Header *,void *);
+u8 borg6_func_b(Borg6Header *,Borg6Data *);
 void borg_6_free(Borg6Header *);
 void borg7_func_a(Borg7Header *);
 u8 borg7_func_b(Borg7Header *,Borg7Data *);

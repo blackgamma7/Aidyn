@@ -85,21 +85,21 @@ LAB_800d5220:
         }
         switch(puVar6->command) {
         case FLAG_AND:
-          uVar7 = gamestateShortANDfeild[puVar6->byte7];
+          uVar7 = gamestateShortANDfeild[puVar6->length];
           uVar8 = uVar7 & uVar5;
           goto LAB_800d5120;
         case FLAG_IOR:
-          if ((gamestateShortANDfeild[puVar6->byte7] & uVar5) != 0) goto LAB_800d522c;
+          if ((gamestateShortANDfeild[puVar6->length] & uVar5) != 0) goto LAB_800d522c;
           break;
         case FLAG_EOR:
-          if (gamestate_func_with_ANDgate(gamestateShortANDfeild[puVar6->byte7] & uVar5) == 1) goto LAB_800d522c;
+          if (gamestate_func_with_ANDgate(gamestateShortANDfeild[puVar6->length] & uVar5) == 1) goto LAB_800d522c;
           break;
         case FLAG_NOT:
-          if ((gamestateShortANDfeild[puVar6->byte7] & uVar5) == 0) goto LAB_800d522c;
+          if ((gamestateShortANDfeild[puVar6->length] & uVar5) == 0) goto LAB_800d522c;
           break;
         case FLAG_MSK:
           uVar8 = puVar6->shortA;
-          uVar7 = gamestateShortANDfeild[puVar6->byte7] & uVar5;
+          uVar7 = gamestateShortANDfeild[puVar6->length] & uVar5;
 LAB_800d5120:
           if (uVar7 == uVar8) {
 LAB_800d522c:

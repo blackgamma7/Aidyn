@@ -6,6 +6,7 @@
 //class for getting strings for flags. Not sure why it needed to be a class...
 class GSMClass{
     public:
+    class GSMClass(){};
     virtual void vMethA(u16 i, char* str);
     virtual void vMethB(u16 i, char* str);
     virtual void vMethC(u16 i, char* str);
@@ -60,18 +61,18 @@ class WBMGSM:public WidgetBufferedMenu{
           Color32 *colA,Color32 *ColB,Color32 *colC,Color32 *colD);
     ~WBMGSM();
 };
-
+typedef u16 EventFlagPair[2];
 char** debug_switch_labels=NULL;
 char**boolean_labels=NULL;
 char**cheatStatus_labels=NULL;
 u8 gamestatemod_byte=0;
 void*PTR_800e61c0=NULL;
-EventFlag* gamestatemod_pointer=NULL;
+EventFlagPair* gamestatemod_pointer=NULL;
 WBMGSM* gBufferedMenuP=NULL;
 u8 DAT_800e61cc=0;
 GSMClass* gGSMClassP=NULL;
 
-bool debug_gamestatefunnel_sub();
+u8 debug_gamestatefunnel_sub();
 u8 ScreenFademode_10(Gfx **GG);
 s32 FUN_80005500(EventFlag *param_1,EventFlag *param_2);
 void quicksort_gamestatemod(void **toSort,u32 arraySize);

@@ -8,8 +8,8 @@ class WidgetChild10 : public WidgetMenu {
     BaseWidget* unk80;
     inline WidgetChild10();
     ~WidgetChild10();
-    void unk(){};
-    void unk2(){};
+    void unk();
+    void unk2();
     void unk3();
 };
 // Widget for showing blank save slot (?)

@@ -209,23 +209,16 @@ void FUN_80058370(void){
 }
 
 void FUN_800583d0(u16 t){
-  dialougemode_struct *pdVar1;
-  
-  pdVar1 = dialougemode_pointer;
   dialougemode_pointer->timerFlag = true;
   dialougemode_pointer->timer9c = t;
   FUN_80058370();
 }
 
-void set_dialougemode_0x90(u32 param_1)
-
-{
+void set_dialougemode_0x90(u32 param_1){
   dialougemode_pointer->unk90 = param_1;
-  return;
 }
-void encounterDat_func(void)
 
-{
+void encounterDat_func(void){
   dialougemode_struct *pdVar1;
   uint uVar2;
   uint uVar3;
@@ -250,9 +243,7 @@ void encounterDat_func(void)
   return;
 }
 
-void monsterparty_wanderstruct(wander_substruct *param_1)
-
-{
+void monsterparty_wanderstruct(wander_substruct *param_1){
   playerData *ppVar1;
   playerData *ppVar2;
   vec3f afStack80;
@@ -268,11 +259,8 @@ void monsterparty_wanderstruct(wander_substruct *param_1)
   vec3_normalize(&afStack80);
   Actor::SetFacing(ppVar1,afStack80.x,afStack80.z);
   Actor::SetFacing(ppVar2,-afStack80.x,-afStack80.z);
-  return;
 }
-bool DialougeAddPartyMember(ItemID param_1)
-
-{
+bool DialougeAddPartyMember(ItemID param_1){
   bool bVar1 = PARTY->AddMember(param_1);
   if (bVar1) {
     bVar1 = true;
@@ -293,18 +281,12 @@ void FUN_800585d0(ushort param_1){
   else ApplyStimulus(FUN_80059ae8(),param_1);
 }
 
-void some_debug_func_3(void)
-
-{
-  if (dialougemode_pointer->borg13_dat->start_func == 1) {
+void some_debug_func_3(void){
+  if (dialougemode_pointer->borg13_dat->start_func == 1)
     debug_sub_3();
-  }
-  return;
 }
 
-ItemID set_shopkeep(void)
-
-{
+ItemID set_shopkeep(void){
   playerData *ppVar1;
   
   gGlobals.playerCharStruct.current_shopkeep = (dialougemode_pointer->some_substruct).Entid;
@@ -315,9 +297,7 @@ ItemID set_shopkeep(void)
   return gGlobals.playerCharStruct.current_shopkeep;
 }
 
-void init_skill_trainer(void)
-
-{
+void init_skill_trainer(void){
   Entity_Ram *pEVar1;
   ItemID IVar5;
   byte index;

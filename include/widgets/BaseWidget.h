@@ -44,11 +44,11 @@ public:
     virtual ~BaseWidget();
     virtual u16 GetWidth();
     virtual u16 GetHeight();
-    virtual u32 GetNumber(){};
-    virtual u8 Tick(){};
+    virtual u32 GetNumber();
+    virtual u8 Tick();
     virtual u8 Link(BaseWidget* other);
     virtual u8 Unlink(BaseWidget* other);
-    virtual Gfx* Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1){};
+    virtual Gfx* Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1);
     virtual void SetColor(u8 r, u8 g, u8 b, u8 a);
     virtual BaseWidget* Control(controller_aidyn* input);
     virtual BaseWidget* UpFunc();

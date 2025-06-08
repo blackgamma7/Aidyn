@@ -32,6 +32,10 @@
 
 #define FLAG_CalendarMoonA 2299
 #define FLAG_CalendarMoonB 2300
+#define FLAG_CalendarMoon0 5725
+#define FLAG_CalendarMoon1 5726
+#define FLAG_CalendarMoon2 5727
+#define FLAG_CalendarMoon3 5728
 #define FLAG_CalendarToDA 2301
 #define FLAG_CalendarToDB 2302
 #define FLAG_CalendarToDC 2303

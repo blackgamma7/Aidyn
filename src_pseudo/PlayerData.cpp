@@ -988,8 +988,8 @@ Gfx * renderPlayers(PlayerHandler *param_1,Gfx *g,short delta,short param_4,shor
   vec2f CamAim;
   vec2f afStack336;
   MtxF afStack_110;
-  vec3f avStack_d0 [5];
-  vec3f avStack_90 [5];
+  vec3f avStack_d0;
+  vec3f avStack_90;
   int iStack_50;
   int iStack_4c;
   int iStack_48;
@@ -1052,9 +1052,9 @@ LAB_80017d08:
                     }
                     if (Scene::HasLocator(ppVar6->locator_pointer->sceneDat,ppvVar8->index)) {
                       if (Scene::SceneGetLocatorMtx(ppVar6->locator_pointer->sceneDat,&afStack_110,ppvVar8->index)) {
-                        Scene::SceneGetLocatorPos(ppVar6->locator_pointer->sceneDat,avStack_d0,ppvVar8->index);
-                        Scene::SceneGetLocatorAlign(ppVar6->locator_pointer->sceneDat,avStack_90,ppvVar8->index);
-                        some_player_render_sub(ppVar6,ppvVar8->sceneDat,avStack_d0,a,iStack_50);
+                        Scene::SceneGetLocatorPos(ppVar6->locator_pointer->sceneDat,&avStack_d0,ppvVar8->index);
+                        Scene::SceneGetLocatorAlign(ppVar6->locator_pointer->sceneDat,&avStack_90,ppvVar8->index);
+                        some_player_render_sub(ppVar6,ppvVar8->sceneDat,&avStack_d0,a,iStack_50);
                         Scene::SetModelTint(ppvVar8->sceneDat,
                             gGlobals.sky.colors[0].R * gGlobals.brightness,
                             gGlobals.sky.colors[0].G * gGlobals.brightness,

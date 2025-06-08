@@ -24,24 +24,25 @@ typedef enum Event_flag_typeB {
 
 struct Struct_State {
     u16 shortA;
-    u16 shortB;
-    u8 type;
-    u8 command;
+    u16 shortB; //index at GameStateFunnel.other_pointer
+    u8 type; //uses event_flag_typeA
+    u8 command; //uses Event_flag_typeB
     u8 Flag;
-    u8 byte7;
+    u8 length;
 };
 
 struct GameStateFunnel { /* used for event flags and whatnot */
     u16 flagTotal; //all (valid) state entries in struct
-    u16 flagCountB;
+    u16 flagCountB; //length of unklist
     u16 bitFlags; //number of (mostly) BIT type flags
     u16 flag;
-    Struct_State *States_pointer; //mostly BIT types - could be optimized as u8*?
-    Struct_State *other_pointer; //ofset to otherStates[467] aka flag 5467
+    Struct_State *States_pointer; //first 5001 are BIT types - could be optimized as u8*?
+    u16 *other_pointer; //set to &unklist.
     u8 field6_0x10[12]; //blank, unused
     int g;// inital non-zero value. unused.
-    Struct_State states[5000]; //mostly BIT types - could be optimized as u8[]?
-    Struct_State otherStates[970]; //627 are valid, the rest are garbage bytes
+    Struct_State states[5001]; //mostly BIT types - could be optimized as u8[]?
+    Struct_State otherStates[626]; //flags that are not simply BIT types
+    u16 unklist[1372];
 };
 
 struct event_flag_array {
@@ -89,7 +90,7 @@ s32 find_event_flag_array_index(char param_1,event_flag_array *param_2,u8 param_
 void SetFlagArray_on_Time(u8 ToD,u8 Day,u8 week,u8 month);
 void set_weather_flags(u8 x);
 void set_terrain_flags(u8 x);
-
+void Passto_State_typeA_branch(EventFlag param_1);
 
 void setEventFlag(u16 flag,u8 state);
 u8 getEventFlag(u16 flag);

@@ -89,15 +89,12 @@ mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_
 
 u8 FUN_8000ccc0(){
   u16 uVar3;
-  u32 uVar1;
-  u32 uVar2;
   float fVar4;
-  double dVar5;
   float fVar6;
   
-  uVar3 = get_obj_free();
-  fVar6 = (float)get_MemFree();
-  fVar4 = (float)get_memFree_2();
+  u16 uVar3 = get_obj_free();
+  float fVar4 = (float)(u16)get_MemFree();
+  float fVar6 = (float)get_memFree_2();
   if (gFreeZoneEngineTimer == 0) {
     if (DAT_800e8dc6) DAT_800e8dc6--;
     if (gExpPakFlag) return false;

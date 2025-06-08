@@ -310,22 +310,22 @@ short FUN_80094fdc(u16 param_1,u8 param_2,u8 param_3){
   SpellVisualTypeC *pSVar9;
   SpellVisualTypeB *pSVar10;
   u32 lVar11;
-  u32 aiStack_30;
+  u32 memNeeded;
   
-  aiStack_30 = 0;
+  memNeeded = 0;
   switch(param_3) {
   case 0:
-    BVar6 = FUN_80096308(param_2,&aiStack_30);
+    BVar6 = FUN_80096308(param_2,&memNeeded);
     uVar4 = ret0_80096300();
     lVar11 = uVar4;
     goto LAB_800950ec;
   case 1:
-    BVar6 = get_spell_borg7(param_2,&aiStack_30);
+    BVar6 = get_spell_borg7(param_2,&memNeeded);
     bVar8 = some_spellEnum_bool(param_2);
     lVar11 = bVar8;
     goto LAB_800950ec;
   case 2:
-    BVar6 = FUN_80096800(param_2,&aiStack_30);
+    BVar6 = FUN_80096800(param_2,&memNeeded);
     break;
   case 3:
     BVar6 = 0x1caa;
@@ -334,31 +334,31 @@ short FUN_80094fdc(u16 param_1,u8 param_2,u8 param_3){
     BVar6 = 0x37f1;
     break;
   case 5:
-    BVar6 = FUN_80096640(param_2,&aiStack_30);
+    BVar6 = FUN_80096640(param_2,&memNeeded);
     bVar8 = some_spellEnum_bool(param_2);
     lVar11 = bVar8;
-    aiStack_30 = 0;
+    memNeeded = 0;
     goto LAB_800950ec;
   case 6:
-    BVar6 = FUN_800968c4(param_2,&aiStack_30);
+    BVar6 = FUN_800968c4(param_2,&memNeeded);
     lVar11 = 0;
-    aiStack_30 = 0;
+    memNeeded = 0;
     goto LAB_800950ec;
   default:
     BVar6 = -1;
   }
   lVar11 = 0;
 LAB_800950ec:
-  if (get_memFree_2() < aiStack_30) {
+  if (get_memFree_2() < memNeeded) {
     if (param_3 == 5) {
-      BVar6 = FUN_80096640(param_2,&aiStack_30);
+      BVar6 = FUN_80096640(param_2,&memNeeded);
       bVar8 = some_spellEnum_bool(param_2);
       lVar11 = bVar8;
     }
     else {
       BVar6 = -1;
       if (param_3 == 6) {
-        BVar6 = FUN_800968c4(param_2,&aiStack_30);
+        BVar6 = FUN_800968c4(param_2,&memNeeded);
         lVar11 = 0;
       }
       else lVar11 = 0;
@@ -381,10 +381,10 @@ LAB_800950ec:
       pSVar10->flags|= 0x10;
     }
     pSVar9 = SpellVisuals.ptr2;
-    pSVar10->field4_0x20 = BVar6;
+    pSVar10->borg5Index = BVar6;
     pSVar9 = pSVar9 + (short)pSVar10->field7_0x2c;
     ppVar2 = pSVar9->playerDat;
-    pSVar10->field5_0x24 = aiStack_30;
+    pSVar10->memNeeded = memNeeded;
     copyVec3(&(ppVar2->collision).pos,&pSVar10->pos);
     (pSVar10->pos).y -= (pSVar9->playerDat->collision).radius;
     if (lVar11 == 0) pSVar10->field3_0x1c = 0.0;
@@ -435,7 +435,7 @@ void FUN_800953a8(short param_1){
  void FUN_80095414(short param_1){
   if ((SpellVisuals.ptr1[param_1].flags & 1)) {
     SpellVisuals.ptr1[param_1].flags|= 0x20;
-    SpellVisuals.field7_0x1c = 125;
+    SpellVisuals.lifespan = 125;
     SpellVisuals.lifeTime = 0;
   }
 }
@@ -450,7 +450,7 @@ void processSpellVisuals(uint param_1){
   SpellVisualTypeC *pSVar9;
   uint uVar10;
   SpellVisualTypeB *ppBVar12;
-  uint uVar11;
+  uint i;
   float fVar12;
   float fVar13;
   u8 uVar14;
@@ -458,8 +458,8 @@ void processSpellVisuals(uint param_1){
   u8 uVar16;
   
   fVar4 = 255.0f;
-  for(uVar11=0;uVar11<SpellVisCountB;uVar11++) {
-    ppBVar12 = &SpellVisuals.ptr1[uVar11];
+  for(i=0;i<SpellVisCountB;i++) {
+    ppBVar12 = &SpellVisuals.ptr1[i];
     if ((ppBVar12->flags & 1) != 0) {
       pSVar9 = SpellVisuals.ptr2 + (short)ppBVar12->field7_0x2c;
       if (((pSVar9->flags ^ 1) & 1) != 0) CRASH("ProcessSpellVisuals","!(pPlayer->flags & SPELLVISUAL_ALLOCED)");
@@ -487,9 +487,8 @@ void processSpellVisuals(uint param_1){
               if (pAVar7->aniTime < psVar3->b6->dat->aniLength) {
                 FUN_800a00d0(pBVar2);
               }
-              uVar10 += 1;
+              uVar10++;
               if (param_1 <= uVar10) break;
-              psVar3 = pBVar2->unk1c;
             }
           }
           if (pAVar7->aniTime < pBVar2->unk1c->b6->dat->aniLength) {
@@ -507,8 +506,8 @@ void processSpellVisuals(uint param_1){
           if (6 < bVar1) continue;
           if ((ppBVar12->flags & 0x20)) {
             if (DAT_800f1d94 == '\0') {
-              if ((int)ppBVar12->field5_0x24 < (int)get_memFree_2()) {
-                pAVar7 = BorgAnimLoadScene(ppBVar12->field4_0x20);
+              if ((int)ppBVar12->memNeeded < (int)get_memFree_2()) {
+                pAVar7 = BorgAnimLoadScene(ppBVar12->borg5Index);
                 Scene::SetFlag40(pAVar7);
                 Scene::SetFlag4(pAVar7);
                 ppBVar12->SceneDat = pAVar7;
@@ -524,12 +523,12 @@ void processSpellVisuals(uint param_1){
             if (SpellVisuals.field9_0x24 == 0) {
               SpellVisuals.lifeTime += param_1;
             }
-            if (SpellVisuals.field7_0x1c <= (int)SpellVisuals.lifeTime) {
+            if (SpellVisuals.lifespan <= (int)SpellVisuals.lifeTime) {
               ppBVar12->flags = ppBVar12->flags & ~0x40 | 0x80;
             }
             if (pAVar7) {
               fVar12 = __sinf(((float)(int)SpellVisuals.lifeTime /
-                                  (float)SpellVisuals.field7_0x1c) * (float)(TAU/2));
+                                  (float)SpellVisuals.lifespan) * (float)(TAU/2));
               Scene::MatrixASetPos(pAVar7,(ppBVar12->loc3Pos).x,(ppBVar12->loc3Pos).y,(ppBVar12->loc3Pos).z);
               Scene::SetModelTint(pAVar7,gGlobals.brightness * 255,gGlobals.brightness * 255,gGlobals.brightness * 255,fVar12 * 255 * SpellVisuals.field6_0x18);
             }
