@@ -67,24 +67,6 @@ typedef enum Borg7Enum { // entity model data?
 
 */
 
-struct astruct_6 {
-    playerData *playerdat_;
-    u16 short0x4;
-    u8 byte0x5;
-    undefined field3_0x7;
-};
-
-
-typedef struct AttackVisualStruct3 AttackVisualStruct3, *PAttackVisualStruct3;
-
-struct AttackVisualStruct3 {
-    Borg7Header *borg7;
-    playerData *player;
-    vec3f pos;
-    u32 unk14;
-    uint flag;
-};
-
 typedef struct DollBarterConfirm DollBarterConfirm, *PDollBarterConfirm;
 
 struct DollBarterConfirm {
@@ -106,15 +88,11 @@ struct InputWidgetSubStruct {
     u8 entryIndex;
 };
 
-typedef struct SavePartyHeader SavePartyHeader, *PSavePartyHeader;
-
 struct InputMenu {
     BaseWidget base;
     u16 unk7c;
     u16 field2_0x7e;
 };
-
-
 
 struct WidgetOptionsSubstruct {
     BaseWidget *ScrollMenu;
@@ -169,13 +147,6 @@ struct CombatAi_command {
     uint unk;
 };
 
-typedef struct CombatTargetVisuals_struct CombatTargetVisuals_struct, *PCombatTargetVisuals_struct;
-
-struct CombatTargetVisuals_struct {
-    astruct_6 *pointer;
-    uint entCount;
-};
-
 typedef struct DialougEnt_RAM DialougEnt_RAM, *PDialougEnt_RAM;
 
 struct DialougEnt_RAM {
@@ -205,61 +176,9 @@ struct DialougeEntity_ROM { /* Dialouge entity in ROM */
     ItemID_ROM ID;
 };
 
-typedef struct printf_struct printf_struct, *Pprintf_struct;
-
-struct printf_struct {
-    undefined8 value;
-    char *buff;
-    int n0;
-    int num_leading_zeros;
-    int part2_len;
-    int num_mid_zeros;
-    int part3_len;
-    int num_trailing_zeros;
-    int precision;
-    int width;
-    uint size;
-    uint flags;
-    char length;
-};
-
-
-typedef void *__gnuc_va_list;
-
-typedef __gnuc_va_list va_list;
-
-typedef struct lldiv_t lldiv_t, *Plldiv_t;
-
-struct lldiv_t {
-    longlong quot;
-    longlong rem;
-};
-
-typedef struct BaseWidgetPause BaseWidgetPause, *PBaseWidgetPause;
-
-typedef struct WidgetCalendar WidgetCalendar, *PWidgetCalendar;
-
 typedef struct WidgetMenuWorldMap WidgetMenuWorldMap, *PWidgetMenuWorldMap;
 
 typedef struct struct_4 struct_4, *Pstruct_4;
-
-struct WidgetCalendar {
-    BaseWidget base;
-    WidgetMenuWorldMap *map;
-    Color32 col0;
-    Color32 col1;
-    u8 waveTint;
-    u8 waveAmmount; /* inverts if waveTint is 0 or 20 */
-    u8 dayofMonth;
-    u8 weekofMonth;
-    u8 monthVal;
-    BaseWidget *DayMarker;
-    BaseWidget *monthTitle;
-};
-
-typedef struct ControllerPakSliders ControllerPakSliders, *PControllerPakSliders;
-
-
 
 
 typedef struct Widget_Skills Widget_Skills, *PWidget_Skills;
@@ -306,32 +225,6 @@ struct CityMarkers {
     u16 borg;
     u16 x;
     u16 y;
-};
-
-
-typedef struct crash_DatString crash_DatString, *Pcrash_DatString;
-
-struct crash_DatString {
-    uint ANDMask;
-    uint Value;
-    char *String;
-};
-
-typedef struct DebugCharChanger DebugCharChanger, *PDebugCharChanger;
-
-struct DebugCharChanger {
-    u32 borg7;
-    float f;
-    char *label;
-};
-
-typedef struct DebugMapLabel DebugMapLabel, *PDebugMapLabel;
-
-struct DebugMapLabel {
-    enum EnumMapDatA a;
-    u16 b;
-    u16 c;
-    char *label;
 };
 
 typedef struct DialoigEntPointer DialoigEntPointer, *PDialoigEntPointer;
@@ -383,13 +276,6 @@ struct mapDataList {
     u16 terrian;
 };
 
-typedef struct MapEventFlag MapEventFlag, *PMapEventFlag;
-
-struct MapEventFlag {
-    uint MapShortA;
-    uint MapShortB;
-    uint flag;
-};
 
 typedef struct potionRecipie potionRecipie, *PpotionRecipie;
 
@@ -457,53 +343,8 @@ struct WidgetArmorCraft {
     WidgetCrafting base;
 };
 
-typedef struct WidgetCameraDebug WidgetCameraDebug, *PWidgetCameraDebug;
-
-struct WidgetCameraDebugSub{
-    u16 stringIndex;
-    u8 unk2;
-    u8 unk3;
-    u8 unk4;
-    u8 unk5;
-};
-
-struct WidgetCameraDebug {
-    BaseWidget base;
-    BaseWidget *scrollMenu;
-    u16 currRefpoint;
-    WidgetCameraDebugSub Arr[14];
-    undefined field75_0xd6;
-    undefined field76_0xd7;
-};
 
 
-typedef struct widgetCredits widgetCredits, *PwidgetCredits;
-
-struct widgetCredits {
-    BaseWidget base;
-    u8 creditState;
-    undefined field2_0x7d;
-    undefined field3_0x7e;
-    undefined field4_0x7f;
-    BaseWidget *field5_0x80;
-    BaseWidget *clipText;
-    u8 field7_0x88;
-    u8 field8_0x89;
-    u8 field9_0x8a;
-    undefined field10_0x8b;
-    Borg12Header *bgm;
-    u8 *indecies0;
-    u8 *indecies1;
-    float BGMVol;
-    float SFXVol;
-};
-
-typedef struct WidgetDebugBig WidgetDebugBig, *PWidgetDebugBig;
-
-struct WidgetDebugBig {
-    BaseWidget base;
-    BaseWidget *scrollMenu;
-};
 
 typedef struct WidgetMenuHealer WidgetMenuHealer, *PWidgetMenuHealer;
 
@@ -511,13 +352,3 @@ struct WidgetMenuHealer {
     WidgetCrafting base;
     BaseWidget *textBox;
 };
-
-typedef struct WorldMapPiece WorldMapPiece, *PWorldMapPiece;
-
-struct WorldMapPiece {
-    u16 eventFlag;
-    u16 mapBorg8;
-    u16 x;
-    u16 y;
-};
-

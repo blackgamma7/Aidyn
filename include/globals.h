@@ -27,6 +27,7 @@
 #include "ZoneEngine.h"
 #include "combat/encounterDat.h"
 #include "itemDB.h"
+#include "debug.h"
 
 #include "crash.h"
 #include "heapN64.h"
@@ -173,6 +174,15 @@ extern u16 gDebugFlag;
 extern u16 gExpPakFlag; //set when OsMemSize>4MB.
  GlobalsAidyn gGlobals;
 
+extern OSMesg* PTR_800e8f30=NULL;
+extern void* osSched_stack=NULL;
+extern u64 gInitThreadStack[];
+extern OSThread gInitThread;
+extern OSSched gSched;
+extern OSMesgQueue gPIManagerQueue;
+extern void* appStack_mirror;
+extern u16 doubleGlobalTickerFlag;
+
 //shorthand for RNG funcs.
 #define RAND gGlobals.rngSeed
 //many sprintfs use "gGlobals.text" as the buffer.
@@ -182,6 +192,7 @@ extern u16 gExpPakFlag; //set when OsMemSize>4MB.
 
 #define PLAYSFX(b12,pan,vol,timer,time) PlayAudioSound(&gGlobals.SFXStruct,b12,pan,vol,timer,time)
 
+void appInit(OSSched *sched,u8 pri,u8 id);
 
 void set_memUsedMirror(void);
 s32 Ofunc_get_MemUsed_difference(void);

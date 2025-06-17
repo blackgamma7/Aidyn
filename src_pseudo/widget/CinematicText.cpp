@@ -40,25 +40,16 @@ WidgetCinematicText::~WidgetCinematicText(){
   WidgetMenu::~WidgetMenu();
 }
 
-void WidgetCinematicText::SetText(char *txt){
-  u16 uVar1;
-  u16 uVar2;
-  u16 x;
-  u16 uVar3;
-  u16 uVar4;
-  ulong uVar6;
-  uint uVar7;
-  u16 uStack_4e;
-  
+void WidgetCinematicText::SetText(char *txt){  
   strcpy(Utilities::GetWidgetText(this->textW),txt);
   if (this->resize) {
-    uVar1 = this->dimensions[3];
-    uVar2 = this->dimensions[1];
-    uVar6 = this->textW->GetHeight();
-    x = this->dimensions[0];
-    uStack_4e = this->dimensions[1];
-    uVar3 = this->dimensions[2];
-    uVar4 = this->dimensions[3];
+    u16 uVar1 = this->dimensions[3];
+    u16 uVar2 = this->dimensions[1];
+    u16 uVar6 = this->textW->GetHeight();
+    u16 x = this->dimensions[0];
+    u16 uStack_4e = this->dimensions[1];
+    u16 uVar3 = this->dimensions[2];
+    u16 uVar4 = this->dimensions[3];
     u16 uVar7 = this->unk92 * 2 + uVar6;
     if ((u16)(uVar1 - uVar2) < uVar7) uStack_4e = uVar4 - (short)uVar7;
     this->unk80->SetCoords(x,uStack_4e);

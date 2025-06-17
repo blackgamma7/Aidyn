@@ -26,6 +26,7 @@ WidgetText::~WidgetText(){
     if (ppvVar1->str) HFREE(ppvVar1->str,65);
     delete ppvVar1;
   }
+  BaseWidget::~BaseWidget();
 }
 
 

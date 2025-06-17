@@ -11,6 +11,7 @@ struct MemCheck_struct {
     u32 mem_free_allocated;
     u32 MaxResolution1;
 };
+void MemoryCheck(s32 ramstart,s32 arg1);
 
 MemCheck_struct gMemCheckStruct={0};
 u16 gExpPakFlag=0;

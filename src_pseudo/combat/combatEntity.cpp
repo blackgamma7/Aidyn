@@ -3,7 +3,7 @@
 
 #include "combat/CombatEntity.h"
 #include "combat/CombatStruct.h"
-#include "combat/SpellVisuals.h"
+#include "combat/Visuals.h"
 #include "globals.h"
 
 void Ofunc_NOOP_80067c70(void){}

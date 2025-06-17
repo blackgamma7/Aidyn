@@ -18,7 +18,6 @@ ResolutionSettings res_colormode[3]={
   {SCREEN_WIDTH,SCREEN_HEIGHT,0,32}};
 gfxManager gGfxManager={0};
 
-extern u8 gCrashFont[ASCIIRange][8];
 //inialize graphic settings, alloc memory, load debug font.
 void Graphics::initGfx(OSSched *sched){
   byte bVar1;
@@ -365,7 +364,7 @@ u32 Graphics::FramebufferSize0(void){return gGfxManager.FramebufferSize[0];}
 u32 Graphics::FramebufferSize1(void){return gGfxManager.FramebufferSize[1];}
 u32 Graphics::get_hres(void){return gGfxManager.Hres[1];}
 u32 Graphics::get_vres(void){return gGfxManager.Vres[1];}
-u32 Graphics::get_colorDepth(void){return gGfxManager.colordepth[1];}
+u32 Graphics::GetColorDepth(void){return gGfxManager.colordepth[1];}
 
 //copies the FB for pause BG and savegame screenshot
 void Graphics::getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres){

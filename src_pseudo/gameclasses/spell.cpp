@@ -1,5 +1,5 @@
 #include "globals.h"
-#include "combat/SpellVisuals.h"
+#include "combat/Visuals.h"
 #define FILENAME "../gameclasses/spell.cpp"
 
 

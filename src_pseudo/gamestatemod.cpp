@@ -103,8 +103,8 @@ s32 FUN_80005500(EventFlag *param_1,EventFlag *param_2){
   return -1;
 }
 
-void quicksort_gamestatemod(void **toSort,uint arraySize){
-    Quicksort::Sort(toSort,arraySize,sizeof(EventFlagPair),(Sorter)FUN_80005500);}
+void quicksort_gamestatemod(EventFlagPair **toSort,uint arraySize){
+    QSort(toSort,arraySize,FUN_80005500);}
 
 
 #define GSMSize 0x57f0
@@ -116,7 +116,7 @@ void load_gamestatemod_dat(void){
     //seems redundant. Why not alloc once?
     ALLOCS(gamestatemod_pointer,GSMSize,624);
     memcpy(gamestatemod_pointer,PTR_800e61c0,GSMSize);
-    quicksort_gamestatemod((void**)gamestatemod_pointer,(uint)gameStates->flagTotal);
+    quicksort_gamestatemod((EventFlagPair**)gamestatemod_pointer,(uint)gameStates->flagTotal);
   }
 }
 

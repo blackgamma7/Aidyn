@@ -47,8 +47,8 @@ void stack_dump(CrashSub *,CrashBuff *);
 void crash_handler(CrashSub *);
 void heap_error(CrashBuff*,s32,s32,int,int,int,int,s32,int);
 void heap_walk(CrashSub *,CrashBuff *);
-//void crash_print(CrashBuff *,char *,u16,u16,u8,u8,u8);
-extern u8 gCrashFont[95][8];
+void crash_print(CrashBuff *,char *,u16,u16,u8,u8,u8);
+extern u8 gCrashFont[][8];
 
 //differentiate between debug and retail crash versions.
 #ifdef DEBUGVER

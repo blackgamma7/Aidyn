@@ -75,7 +75,7 @@ GSMClass* gGSMClassP=NULL;
 u8 debug_gamestatefunnel_sub();
 u8 ScreenFademode_10(Gfx **GG);
 s32 FUN_80005500(EventFlag *param_1,EventFlag *param_2);
-void quicksort_gamestatemod(void **toSort,u32 arraySize);
+void quicksort_gamestatemod(EventFlagPair **toSort,u32 arraySize);
 void load_gamestatemod_dat();
 void FUN_80005610();
 void gamestatemod_free();

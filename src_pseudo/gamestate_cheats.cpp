@@ -40,6 +40,7 @@ WidgetGameStateCheats::WidgetGameStateCheats():WidgetMenu(){
 
 WidgetGameStateCheats::~WidgetGameStateCheats(){
   WHANDLE->FreeWidget(this);
+  WidgetMenu::~WidgetMenu();
 }
 
 BaseWidget* WidgetGameStateCheats::AFunc(){
@@ -49,7 +50,7 @@ BaseWidget* WidgetGameStateCheats::AFunc(){
   WSMSub *pvVar1;
   
   pvVar1 = (WSMSub *)this->ScrollC->substruct;
-  bVar1 = *(byte *)((int)&pvVar1->highlight + 1);
+  bVar1 = (u8)pvVar1->highlight;
   gamestate_cheats1 ^= bitfeild_array[bVar1];
   pcVar2 = Utilities::GetWidgetText(pvVar1->items[bVar1]);
   ppcVar3 = on_off_labels;
@@ -67,7 +68,7 @@ BaseWidget* WidgetGameStateCheats::ZFunc(){
   WSMSub *pvVar1;
   
   pvVar1 = (WSMSub *)this->ScrollB->substruct;
-  bVar1 = *(byte *)((int)&pvVar1->highlight + 1);
+  bVar1 = (u8)pvVar1->highlight;
   gamestate_cheats2 ^= bitfeild_array[bVar1];
   pcVar2 = Utilities::GetWidgetText(pvVar1->items[bVar1]);
   ppcVar3 = bool_labels;

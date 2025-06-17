@@ -69,7 +69,7 @@ u32 FramebufferSize0();
 u32 FramebufferSize1();
 u32 get_hres();
 u32 get_vres();
-u32 get_colorDepth();
+u32 GetColorDepth();
 void getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres);
 void passto_GetGfxLastFrame(void*,u16,u16,u8);
 Gfx * DrawBlock(Gfx *gfx,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a);

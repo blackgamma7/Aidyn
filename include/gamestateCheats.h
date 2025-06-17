@@ -3,14 +3,17 @@
 #include "widgets\WidgetScrollMenu.h"
 
 class WidgetGameStateCheats : public WidgetMenu {
+    public:
     WidgetScrollMenu* ScrollA;
     WidgetScrollMenu* ScrollB;
     WidgetScrollMenu* ScrollC;
-    virtual BaseWidget* AFunc();
-    virtual BaseWidget* BFunc();
-    virtual BaseWidget* ZFunc();
-    virtual BaseWidget* UpFunc();
-    virtual BaseWidget* DownFunc();
+    WidgetGameStateCheats();
+    ~WidgetGameStateCheats();
+    BaseWidget* AFunc();
+    BaseWidget* BFunc();
+    BaseWidget* ZFunc();
+    BaseWidget* UpFunc();
+    BaseWidget* DownFunc();
 };
 
 u32 gamestate_cheats1=0;

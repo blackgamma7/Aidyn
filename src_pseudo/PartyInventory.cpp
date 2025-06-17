@@ -2,7 +2,7 @@
 #include "eventFlag.h"
 
 PartyInventory::PartyInventory(){Reset();}
-PartyInventory::~PartyInventory(){Clear();}
+PartyInventory::~PartyInventory(){Clear();IInventory::~IInventory();}
 void PartyInventory::Reset(){
     CLEAR(inv_slots);
     quantity = 0;

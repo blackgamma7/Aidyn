@@ -1,5 +1,5 @@
 #include "combat/CombatStruct.h"
-#include "combat/SpellVisuals.h"
+#include "combat/Visuals.h"
 #include "globals.h"
 #include "romstring.h"
 #include "widgets/WidgetCombatTextbox.h"
@@ -59,18 +59,11 @@ voxelObject * get_refpoint_by_name(u32 param_1,u8 param_2,bool GOrE){
 }
 
 char* sFilenameCombatEngine=FILENAME;
-void Combat_GetSpawnPoint(CombatStruct *param_1,u8 *posx,u8 *posz,u8 *rand,u8 param_5,int param_6,int param_7,
-               u8 param_8)
-
-{
-  bool GOrE;
-  uint uVar1;
-  voxelObject *prVar2;
+void Combat_GetSpawnPoint(CombatStruct *param_1,u8 *posx,u8 *posz,u8 *rand,u8 param_5,int param_6,int param_7,u8 param_8){
   u8 uVar3;
   u8 uVar4;
-  EncounterDat *pEVar5;
   
-  uVar1 = 7;
+  uint uVar1 = 7;
   if ((param_6 != 0) || (uVar4 = 5, param_1->encounter_dat->collisionByte != 0)) {
     uVar1 = 3;
     uVar4 = 1;
@@ -79,7 +72,7 @@ void Combat_GetSpawnPoint(CombatStruct *param_1,u8 *posx,u8 *posz,u8 *rand,u8 pa
   if (param_7 == 0)
     uVar4 = 4 - param_1->encounter_dat->unk28;
   else uVar4 = 0;
-  GOrE = true;
+  bool GOrE = true;
   if ((param_1->encounter_dat->collisionByte == 2) && (GOrE = false, param_6 != 0)) {
     if (param_5 == 0) {
       uVar4 = 4;
@@ -91,7 +84,7 @@ void Combat_GetSpawnPoint(CombatStruct *param_1,u8 *posx,u8 *posz,u8 *rand,u8 pa
     else if ((3 < param_5) && (param_1->encounter_dat->unk28 != 3)) uVar4--;
   }
   if (param_6 == 0) GOrE = !GOrE;
-  prVar2 = get_refpoint_by_name(uVar4,param_8,GOrE);
+  voxelObject *prVar2 = get_refpoint_by_name(uVar4,param_8,GOrE);
   if(!prVar2)CRASH(sFilenameCombatEngine,"No Reference Point!");
     *posx =(prVar2->header).pos.x;
     *posz =(prVar2->header).pos.z;
@@ -101,13 +94,13 @@ void Combat_GetSpawnPoint(CombatStruct *param_1,u8 *posx,u8 *posz,u8 *rand,u8 pa
 void combatEnt_setup(CombatStruct *param_1,u8 index){
   CombatEntity *C_Ent = (&param_1->combatEnts)[index];
   C_Ent->SetMovementRange();
-  playerData *pppVar6 = gGlobals.playerDataArray[index];
-  if (pppVar6) {
-    FUN_80094228(pppVar6);
-    FUN_80096048(pppVar6);
-    Actor::FreePlayer(pppVar6);
-    pppVar6->ID = 0;
-    pppVar6->removeFlag = 0;
+  playerData *pDat = gGlobals.playerDataArray[index];
+  if (pDat) {
+    FUN_80094228(pDat);
+    FUN_80096048(pDat);
+    Actor::FreePlayer(pDat);
+    pDat->ID = 0;
+    pDat->removeFlag = 0;
   }
   ItemID x = C_Ent->charSheetP->ID;
   init_combatgui_struct(x,index,param_1->playerCount <= index);

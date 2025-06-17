@@ -162,12 +162,12 @@ struct player_char_struct {
     u16 unk10;
     undefined field6_0x12;
     undefined field7_0x13;
-    BaseWidget *smallerDebugWindow;
-    BaseWidget *debugMenuTP;
-    BaseWidget *debugMenuActor;
+    WidgetMenu *smallerDebugWindow;
+    WidgetMenu *debugMenuTP;
+    WidgetMenu *debugMenuActor;
     u32 debugMenuUnused0;
-    BaseWidget *debugMenuEnemy;
-    BaseWidget *debugMenuArena;
+    WidgetMenu *debugMenuEnemy;
+    WidgetMenu *debugMenuArena;
     u32 debugMenuUnused1;
     BaseWidget *text_window;
     u8 unkState;

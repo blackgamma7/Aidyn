@@ -110,3 +110,29 @@ Gfx * ret_a0_80094204(Gfx *g);
 void FUN_8009420c(int param_1);
 void FUN_80094228(playerData *param_1);
 void NOOP_80094244();
+
+struct CombatTargetVisual {
+    playerData *playerdat_;
+    u16 time;
+    u8 byte0x5;
+    u8 field3_0x7;
+};
+
+struct CombatTargetVisualsHandler {
+    CombatTargetVisual *pointer;
+    u32 entCount;
+};
+
+namespace CombatTargetVisuals{
+    CombatTargetVisual *Init();
+    void Render(bool param_1,short param_2);
+    void Free();
+}
+
+struct AttackVisualStruct3 {
+    Borg7Header *borg7;
+    playerData *player;
+    vec3f pos;
+    u32 unk14;
+    uint flag;
+};

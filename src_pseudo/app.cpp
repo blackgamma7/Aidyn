@@ -6,6 +6,7 @@
 #include "memaker.h"
 #include "titlesplash.h"
 
+void * appStack_mirror=NULL;
 u16 doubleGlobalTickerFlag=0;
 #ifndef DEBUGVER
 u16 version_flag=0;
@@ -34,12 +35,7 @@ Gfx * display_debug_stats(Gfx *gfx){
   uint uVar4;
   Gfx *gfx_00;
   u32 uVar5;
-  u32 unaff_s0_lo;
-  u32 unaff_s1_lo;
   u32 uVar9;
-  double dVar6;
-  double dVar7;
-  double dVar8;
   u32 uVar10;
   double dVar11;
   float fVar12;
@@ -180,23 +176,10 @@ loop:
         Graphics::GetTaskTime(psStack_40);
         gGlobals.ticker++;
         sVar9 = sVar7;
-        if (0.0 < gLensFlarePos.x) {
-          uVar8 = doubleGlobalTickerFlag;
-          //TODO: clean up as && bool checks
-          if (SCREEN_WIDTH <= gLensFlarePos.x) {
-            gGlobals.appfunc_dat = 0;
-            goto loop;
-          }
-          if (gLensFlarePos.y <= 0.0) {
-            gGlobals.appfunc_dat = 0;
-            goto loop;
-          }
-          if (SCREEN_HEIGHT <= gLensFlarePos.y) {
-            gGlobals.appfunc_dat = 0;
-            goto loop;
-          }
+        if ((0.0 < gLensFlarePos.x)&&(gLensFlarePos.x<SCREEN_WIDTH)&&
+           (0.0<gLensFlarePos.y)&&(gLensFlarePos.y<SCREEN_HEIGHT)){
           s16* psVar6 = Graphics::GetDepthBuffer();
-          if (psVar6[((u16)gLensFlarePos.y * (Graphics::get_vres() / 240)) * Graphics::get_hres() + gLensFlarePos.x * (Graphics::get_hres() / SCREEN_WIDTH)] == -4) {
+          if (psVar6[(u16)gLensFlarePos.y * (Graphics::get_vres() / 240) * Graphics::get_hres() + gLensFlarePos.x * (Graphics::get_hres() / SCREEN_WIDTH)] == -4) {
             gGlobals.appfunc_dat = 1;
             uVar8 = doubleGlobalTickerFlag;
             goto loop;

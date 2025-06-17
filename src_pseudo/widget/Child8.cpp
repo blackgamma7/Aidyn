@@ -1,4 +1,4 @@
-#include "widgets/WidgetChild8.h"
+#include "widgets/CombatScrollMenu.h"
 #include "globals.h"
 
 extern void(*freeWidgetFunc)(BaseWidget*);
@@ -114,15 +114,7 @@ WidgetChild8::~WidgetChild8(){
   FREEQB8(this->borg8WidgetH->borg8);
   FREEQB8(this->borg8WidgetI->borg8);
   FREEQB8(this->borg8WidgetA->borg8);
-  AllocFreeQueueItem(&gGlobals.QueueA,&this->borg8WidgetB->borg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&this->borg8WidgetC->borg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&this->borg8WidgetD->borg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&this->borg8WidgetE->borg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&this->borg8WidgetF->borg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&this->borg8WidgetG->borg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&this->borg8WidgetH->borg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&this->borg8WidgetI->borg8,4,0);
-  AllocFreeQueueItem(&gGlobals.QueueA,&this->borg8WidgetA->borg8,4,0);
+
   if ((this->var5C == 0xff) &&(pBVar1 = Utilities::GetHighlightedEntry(this->scrollMenu), pBVar1 != NULL)) {
         pBVar1->AFunc();
   }
@@ -226,7 +218,7 @@ void WidgetChild8_moveX(BaseWidget *w,s16 x){
   w->boundX1+=x;
 }
 
-void WidgetChild8::MoveX(WidgetChild8 *this,short posX){
+void WidgetChild8::MoveX(short posX){
   WidgetChild8_moveX(this->scrollMenu,posX);
   WidgetChild8_moveX(this->borg8WidgetC,posX);
   WidgetChild8_moveX(this->borg8WidgetE,posX);

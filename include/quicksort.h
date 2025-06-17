@@ -21,3 +21,5 @@ void Sort(void** ToSort,uint ArraySize,uint EntrySize,Sorter SortFunc);
 
 // no clue what this was for. pointer near end of .data
 void passto_NOOP_800bdb34();
+
+#define QSort(list,size,func) Quicksort::Sort((void**)&list,size,sizeof(list[0]),(Sorter)func)

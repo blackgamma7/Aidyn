@@ -6,6 +6,18 @@ typedef struct MapPieceWidget{
     WidgetBorg8* img;
     u16 x,y;
 };
+struct WorldMapPiece {
+    u16 eventFlag;
+    u16 mapBorg8;
+    u16 x;
+    u16 y;
+};
+
+struct MapEventFlag {
+    uint MapShortA;
+    uint MapShortB;
+    uint flag;
+};
 
 class WidgetMenuWorldMap : public WidgetMenu{
     Color32 col;
