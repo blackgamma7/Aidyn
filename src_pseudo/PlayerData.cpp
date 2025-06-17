@@ -132,7 +132,7 @@ void Actor::Init(playerData *param_1,u16 id){
   param_1->unk1a = 0;
   param_1->zoneDatByte = 0x11;
   param_1->flags = 0;
-  param_1->interactRadiusA = 1.0;
+  param_1->scale = 1.0;
   (param_1->facing).y = 1.0;
   (param_1->facing).x = 1.0;
   MemsetController(&param_1->controller);
@@ -245,10 +245,10 @@ Gfx * Actor::CalculateShadow(playerData *param_1,Gfx *g,float param_3,u8 param_4
     fStack440.x = afStack184.x + fStack376.x * param_3;
     fStack440.y = fStack440.y + fStack376.y * param_3;
     fStack440.z = afStack184.z + fStack376.z * param_3;
-    fVar5 = (3.0f - (vec3_proximity(&afStack184,&fStack440) - param_1->interactRadiusB)) / 3.0f;
+    fVar5 = (3.0f - (vec3_proximity(&afStack184,&fStack440) - param_1->scaleRad)) / 3.0f;
     if (1.0f < fVar5) fVar5 = 1.0f;
     fVar4 = fVar5 * 160.0f;
-    avStack_78[0].x = (param_1->interactRadiusB + param_1->interactRadiusB) * fVar5;
+    avStack_78[0].x = (param_1->scaleRad + param_1->scaleRad) * fVar5;
     (param_1->shadow).vertCols[3].R = 0;
     (param_1->shadow).vertCols[2].R = 0;
     (param_1->shadow).vertCols[1].R = 0;
@@ -517,7 +517,7 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
       fVar5 = (ppVar22->collision).pos.y;
       fVar6 = (ppVar22->collision).pos.z;
       if (ppVar22->borg7 == BORG7_Phelan) {
-        Gsprintf("Scale: %3.2f\nScaleRad: %3.2f\nSphere Rad: %3.2f",ppVar22->interactRadiusA,ppVar22->interactRadiusB,ppVar22->collision.radius);
+        Gsprintf("Scale: %3.2f\nScaleRad: %3.2f\nSphere Rad: %3.2f",ppVar22->scale,ppVar22->scaleRad,ppVar22->collision.radius);
         N64PRINT(gGlobals.text);
       }
       if ((ppVar22->removeFlag == 0) && ((ppVar22->flags & ACTOR_100) == 0)) {
@@ -530,9 +530,9 @@ LAB_8001729c:
         Gsprintf("Process Player: %d\n",ppVar22->ID);
         fVar31 = ppVar22->unk5c;
         if (fVar31 != 0.0) {
-          fVar29 = ppVar22->interactRadiusA + fVar31 * (float)delta_;
+          fVar29 = ppVar22->scale + fVar31 * (float)delta_;
           ProcessPlayersTally += 1;
-          ppVar22->interactRadiusA = fVar29;
+          ppVar22->scale = fVar29;
           if ((fVar31 <= 0.0) || (fVar28 = (float)ppVar22->unk54, fVar29 < fVar28)) {
             if (fVar31 < 0.0) {
               fVar28 = (float)ppVar22->unk54;
@@ -545,9 +545,9 @@ LAB_8001729c:
           else {
             ppVar22->unk5c = 0.0;
 LAB_8001666c:
-            ppVar22->interactRadiusA = fVar28;
+            ppVar22->scale = fVar28;
           }
-          ppVar22->interactRadiusB = ppVar22->interactRadiusA * (ppVar22->collision).radius;
+          ppVar22->scaleRad = ppVar22->scale * (ppVar22->collision).radius;
         }
         (ppVar22->skyTint).x = (float)((double)((float)gGlobals.sky.colors[1].R / fVar33) * dVar9);
         (ppVar22->skyTint).y = (float)((double)((float)gGlobals.sky.colors[1].G / fVar33) * dVar9);
@@ -784,7 +784,7 @@ LAB_80016f24:
                   if (ppVar22->ani_type != 0) {
                     plVar9 = ppVar22->locator_pointer;
 LAB_80016f38:
-                    local_70 = -(ppVar22->locator_pointer->unk2c).z * ppVar22->interactRadiusA;
+                    local_70 = -(ppVar22->locator_pointer->unk2c).z * ppVar22->scale;
                     fVar29 = (ppVar22->facing).y;
                     fVar31 = (ppVar22->collision).pos.z;
                     (ppVar22->collision).pos.x =
@@ -848,8 +848,8 @@ LAB_8001727c:
                   if (fVar29 <= fVar31) {
                     fVar29 = (ppVar22->collision).radius;
                     fVar28 = ppVar8[iVar12].collision.radius;
-                    bVar19 = FUN_800b003c(local_60,ppVar22->interactRadiusA,
-                                          &ppVar8[iVar12].collision,ppVar8[iVar12].interactRadiusA,
+                    bVar19 = FUN_800b003c(local_60,ppVar22->scale,
+                                          &ppVar8[iVar12].collision,ppVar8[iVar12].scale,
                                           &local_70);
                     if (bVar19) {
                       if (bVar18) {
@@ -1028,7 +1028,7 @@ render_player:
               if (iStack_4c == 0) {
 LAB_80017c98:
                 some_player_render_sub(ppVar6,ppVar6->locator_pointer->sceneDat,&fStack656,a,(short)iStack_50);
-                fVar9 = ppVar6->interactRadiusA;
+                fVar9 = ppVar6->scale;
                 Scene::MatrixANormalizeScale(ppVar6->locator_pointer->sceneDat,fVar9,fVar9,fVar9);
                 Scene::MatrixASetPos
                           (ppVar6->locator_pointer->sceneDat,fStack656.x,fStack656.y,fStack656.z);
@@ -1075,12 +1075,12 @@ LAB_80017d08:
                 }
                 if ((ppVar6->SceneDat) && (ppVar6->alaron_flag)) {
                   if (_flea_flag == 0) {
-                    ppVar6->interactRadiusA = 1.0f;
-                    ppVar6->interactRadiusB = (ppVar6->collision).radius;
+                    ppVar6->scale = 1.0f;
+                    ppVar6->scaleRad = (ppVar6->collision).radius;
                   }
                   else {
-                    ppVar6->interactRadiusA = 0.25f;
-                    ppVar6->interactRadiusB = (ppVar6->collision).radius*.25;
+                    ppVar6->scale = 0.25f;
+                    ppVar6->scaleRad = (ppVar6->collision).radius*.25;
                   }
                   some_player_render_sub(ppVar6,ppVar6->SceneDat,&fStack656,a,(short)iStack_50);
                   bVar5 = ;
@@ -1099,7 +1099,7 @@ LAB_80017d08:
                     FUN_800ab23c(&fStack528,&ppVar6->vec3_0x48,1.39624);
                     Scene::MatrixASetPos(ppVar6->SceneDat,fStack592.x,fStack592.y,fStack592.z);
                     Scene::MatrixAAlign(ppVar6->SceneDat,fStack528.x,fStack528.y,fStack528.z,0.0);
-                    fVar9 = ppVar6->interactRadiusA;
+                    fVar9 = ppVar6->scale;
                     Scene::ScaleBodyPart(ppVar6->SceneDat,fVar9,fVar9,fVar9);
                     //big head mode
                     if (_balloon_flag) Scene::ScaleBodyPart(ppVar6->SceneDat,2.0f,2.0f,2.0f);
@@ -1141,7 +1141,7 @@ playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
   playerData *ppVar1 = &gGlobals.Sub.PlayerHandler.playerDats[gGlobals.Sub.PlayerHandler.unk10[gGlobals.Sub.PlayerHandler.playerCount++]];
 
   Init(ppVar1,ppVar1->ID);
-  fVar2 = ppVar1->interactRadiusA;
+  fVar2 = ppVar1->scale;
   ppVar1->removeFlag = 1;
   (ppVar1->collision).radius = radius;
   ppVar1->combatRadius = radius;
@@ -1149,7 +1149,7 @@ playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
   (ppVar1->collision).pos.y = y;
   (ppVar1->collision).pos.z = z;
   ppVar1->borg7 = borg7;
-  ppVar1->interactRadiusB = radius * fVar2;
+  ppVar1->scaleRad = radius * fVar2;
   if (borg7 == BORG7_Alaron) {
     player_coords_A.x = (ppVar1->collision).pos.x;
     player_coords_A.y = (ppVar1->collision).pos.y;
@@ -1315,15 +1315,15 @@ void Ofunc_80018a9c(playerData *param_1){
 void Ofunc_80018ac4(playerData *param_1,float param_2,float param_3){
   if (param_1->unk60 == 0) {
     if (param_1->unk5c == 0.0) {
-      param_1->unk58 = param_1->interactRadiusA;
+      param_1->unk58 = param_1->scale;
     }
   }
   param_1->unk5c = 0.0;
   param_1->unk60 = 1;
   param_1->unk54 = param_2;
   if (param_1->unk5c < param_3)
-    param_1->unk5c = (param_2 - param_1->interactRadiusA) / param_3;
-  else param_1->interactRadiusA = param_2;
+    param_1->unk5c = (param_2 - param_1->scale) / param_3;
+  else param_1->scale = param_2;
 }
 
 void Ofunc_80018b34(playerData *param_1,float param_2){
@@ -1331,8 +1331,8 @@ void Ofunc_80018b34(playerData *param_1,float param_2){
     param_1->unk5c = 0.0;
     param_1->unk60 = 0;
     param_1->unk54 = param_1->unk58;
-    if (param_2 <= param_1->unk5c) param_1->interactRadiusA = param_1->unk58;
-    else param_1->unk5c = (param_1->unk58 - param_1->interactRadiusA) / param_2;
+    if (param_2 <= param_1->unk5c) param_1->scale = param_1->unk58;
+    else param_1->unk5c = (param_1->unk58 - param_1->scale) / param_2;
   }
 }
 

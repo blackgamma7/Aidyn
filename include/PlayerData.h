@@ -66,8 +66,8 @@ struct playerData {
     u16 flags;
     vec2f facing;
     vec2f facingMirror;
-    float interactRadiusA;
-    float interactRadiusB;
+    float scale;
+    float scaleRad;
     float combatRadius;
     vec3f vec3_0x3c;
     vec3f vec3_0x48;

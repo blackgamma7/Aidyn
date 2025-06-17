@@ -406,8 +406,8 @@ u8 CombatEntity::CheckBackstab(CombatEntity *param_2){
 void CombatEntity::m80068dd8(){
   playerData *ppVar1 = gGlobals.playerDataArray[this->index];
   if (ppVar1) {
-    Actor::SetAiDest(ppVar1,this->coord.x + ppVar1->interactRadiusB,
-      this->coord.y + ppVar1->interactRadiusB,ppVar1->interactRadiusB,0);
+    Actor::SetAiDest(ppVar1,this->coord.x + ppVar1->scaleRad,
+      this->coord.y + ppVar1->scaleRad,ppVar1->scaleRad,0);
   }
 }
 
@@ -448,8 +448,8 @@ void CombatEntity::TeleportMovePlayer(){
   
   ppVar1 = gGlobals.playerDataArray[this->index];
   if (ppVar1) {
-    (ppVar1->collision).pos.x = this->coord.x + ppVar1->interactRadiusB;
-    (ppVar1->collision).pos.z = this->coord.y + ppVar1->interactRadiusB;
+    (ppVar1->collision).pos.x = this->coord.x + ppVar1->scaleRad;
+    (ppVar1->collision).pos.z = this->coord.y + ppVar1->scaleRad;
     Actor::CheckCollision(ppVar1,0,0,0);
   }
 }
@@ -573,9 +573,9 @@ u8 CombatEntity::m800692bc(CombatEntity *param_2){
     bVar3 = false;
     if (ppVar2) {
       fVar4 = m80069554(param_2);
-      fVar5 = ppVar1->interactRadiusB;
+      fVar5 = ppVar1->scaleRad;
       if (fVar5 <= ppVar1->combatRadius) fVar5 = ppVar1->combatRadius;
-      fVar6 = ppVar2->interactRadiusB;
+      fVar6 = ppVar2->scaleRad;
       if (fVar6 <= ppVar2->combatRadius) fVar6 = ppVar2->combatRadius;
       bVar3 = true;
       if (fVar5 + fVar6 + 0.75f < fVar4) {bVar3 = false;}
@@ -693,8 +693,8 @@ u8 CombatEntity::CanBeTargeted(CombatEntity *target,s32 param_3){
     if ((p1) && (p2)) {
       copyVec3(&(p1->collision).pos,&fStack168);
       copyVec3(&(p2->collision).pos,&afStack104);
-      fStack168.y += -p1->interactRadiusB + gEntityDB->GetHeight(this->charSheetP->ID);
-      fStack168.y += -p2->interactRadiusB + gEntityDB->GetHeight(target->charSheetP->ID);
+      fStack168.y += -p1->scaleRad + gEntityDB->GetHeight(this->charSheetP->ID);
+      fStack168.y += -p2->scaleRad + gEntityDB->GetHeight(target->charSheetP->ID);
       return FUN_800716b4(&gCombatP->substruct,&fStack168,&afStack104,(u32)this->index,target->index);
       
     }
@@ -819,7 +819,7 @@ u8 CombatEntity::m80069d00(CombatEntity *param_2,float param_3,float param_4){
     fStack96.x = fStack160.x;
     fStack96.y = fStack160.y;
     bVar2 = true;
-    if (param_3 + ppVar1->interactRadiusB < vec2_proximity(&afStack224,&fStack160)) bVar2 = false;
+    if (param_3 + ppVar1->scaleRad < vec2_proximity(&afStack224,&fStack160)) bVar2 = false;
   }
   return bVar2;
 }
@@ -901,7 +901,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
         }
         else setVec3(&fStack120,fVar14,10.0,fVar11);
         copyVec3(&(ppVar2->collision).pos,&fStack248);
-        fStack248.y = fStack248.y + -ppVar2->interactRadiusB + gEntityDB->GetHeight(gEntityDB,param_2->charSheetP->ID);
+        fStack248.y = fStack248.y + -ppVar2->scaleRad + gEntityDB->GetHeight(gEntityDB,param_2->charSheetP->ID);
         return FUN_800716b4(&gCombatP->substruct,&fStack120,&fStack248,param_2->index,
           param_2->index);
       }

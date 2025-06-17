@@ -124,7 +124,7 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
           copyVec3(arg0,v3b);
           if (gGlobals.playerCharStruct.playerDat == NULL)
             (vox->camera).vec3_C.y = (float)((double)(vox->camera).vec3_C.y - 0.5);
-          else (vox->camera).vec3_C.y -= (gGlobals.playerCharStruct.playerDat)->interactRadiusB;
+          else (vox->camera).vec3_C.y -= (gGlobals.playerCharStruct.playerDat)->scaleRad;
           if (isDialougeMode()) (vox->camera).vec3_C.y = ((vox->camera).vec3_C.y + 0.5);
           else (vox->camera).vec3_C.y += cam->camHeight;
         }

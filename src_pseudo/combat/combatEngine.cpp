@@ -111,8 +111,8 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
   ppVar2->ent_ID = x;
   ppVar2->Ent_index = GETINDEX(x);
   float fVar5 = gEntityDB->GetScale(x);
-  ppVar2->interactRadiusA = fVar5;
-  ppVar2->interactRadiusB = (ppVar2->collision).radius * fVar5;
+  ppVar2->scale = fVar5;
+  ppVar2->scaleRad = (ppVar2->collision).radius * fVar5;
   ppVar2->shadowAlpha = gEntityDB->BattleCheck(x);
   ppVar2->visible_flag = 1;
   if (param_1->playerCount <= index) {
@@ -495,7 +495,7 @@ bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y
         playerData *pDat = gGlobals.playerDataArray[(cEnt)->index];
         if (pDat){
           setVec2(&afStack120,(pDat->collision).pos.x,(pDat->collision).pos.z);
-          if (vec2_proximity(&fStack184,&afStack120) <= pDat->interactRadiusB + fVar5 * fVar6) {
+          if (vec2_proximity(&fStack184,&afStack120) <= pDat->scaleRad + fVar5 * fVar6) {
             return false;
           }
         }

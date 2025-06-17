@@ -453,7 +453,7 @@ u8 container_obj_check(voxelObject* v,playerData *arg1){
   u8 ret;
   
   ret = false;
-  if (vec3_proximity(&v->header.pos,&arg1->collision.pos) <= v->container.chestSize + arg1->interactRadiusB) {
+  if (vec3_proximity(&v->header.pos,&arg1->collision.pos) <= v->container.chestSize + arg1->scaleRad) {
     checkCheat(check);
       uVar1 = (v->container).LootType;
       if ((7 < uVar1) || (ret = true, uVar1 < 4)){

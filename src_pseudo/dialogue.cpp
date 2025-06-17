@@ -97,7 +97,7 @@ void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,usho
       camHeight = gEntityDB->GetHeightMinPoint2(pAI->id);
       fStack312.x = (ppVar8->facing).x;
       fStack312.y = (ppVar8->facing).y;
-      camHeight-= ppVar8->interactRadiusB;
+      camHeight-= ppVar8->scaleRad;
       multiVec2(&fStack312,-0.15);
       setVec3(&ppVar8->positionMirror,fStack312.x + (ppVar8->collision).pos.x,
               (ppVar8->collision).pos.y,fStack312.y + (ppVar8->collision).pos.z);
@@ -174,9 +174,9 @@ LAB_800570e0:
     Actor::CheckCollision(ppVar8,0.0,0,0);
     camHeight = gEntityDB->GetScale(pAI->id);
     fVar11 = (ppVar8->collision).radius;
-    ppVar8->interactRadiusA = camHeight;
+    ppVar8->scale = camHeight;
     ppVar8->flags |= (ACTOR_1000|ACTOR_400);
-    ppVar8->interactRadiusB = camHeight * fVar11;
+    ppVar8->scaleRad = camHeight * fVar11;
     break;
   }
   return;
