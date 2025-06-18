@@ -1208,7 +1208,7 @@ LAB_80079e48:
   return iVar11;
 }
 
-SpellInstance * Entity::getSpell(CharSheet *param_1){
+SpellInstance * Entity::GetSpell(CharSheet *param_1){
   ItemInstance* temp;
   
   switch(param_1->spellSwitch) {
@@ -1255,9 +1255,9 @@ SpellInstance * Entity::getSpell(CharSheet *param_1){
   return temp->spellCharge->Spell;
 }
 //2 extra args, no clue what for
-SpellInstance * Entity::getSpellSafe(CharSheet *param_1,u32 unk1,u32 unk2){
+SpellInstance * Entity::GetSpellSafe(CharSheet *param_1,u32 unk1,u32 unk2){
   SpellInstance* ret = NULL;
-  if (param_1->spellSwitch < 6) ret = getSpell(param_1);
+  if (param_1->spellSwitch < 6) ret = GetSpell(param_1);
   return ret;
 }
 

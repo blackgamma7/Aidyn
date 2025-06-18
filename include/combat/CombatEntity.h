@@ -26,7 +26,7 @@ class CombatEntity {
     u16 flags; //uses "COMBATENT_*" flags, or getter/setter methods.
     resist_float resists[2];
     CharSheet *charSheetP;
-    CombatAI_s *aiP; //used by enemies and Sholeh
+    struct CombatAI_s *aiP; //used by enemies and Sholeh
     u8 unk48[60]; //unused?
     u32 notboss; // set if not boss or Shadow
     u8 wepLocator;
@@ -190,7 +190,6 @@ class CombatEntity {
     void CheckTargetIndex();
     void PrintDamage(s16);
     void PrintHealing(s16);
-
     void SetAktRangeMulti(u8);
     void PrintEvade(CombatEntity *);
     void PrintSwingAndMiss(CombatEntity *);

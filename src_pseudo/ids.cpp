@@ -25,11 +25,11 @@ int getIDIndex_sub(u8 *list,u8 total,u8 id){
 
 u16 GetIDIndex(ItemID x,char* file, u32 line){
   s32 uVar1;
-  void *pEVar4;
+  u8 *pEVar4;
   byte *pbVar2;
   u8 total;
   uint uVar3;
-  char acStack_90 [144];
+  
   
   uVar3 = (ushort)x & 0xff;
   uVar1 = -1;
@@ -37,11 +37,11 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
   switch((uint)((ushort)x >> 8)) {
   case 2:
     pbVar2 = entityList;
-    pEVar4 = gEntityDB;
+    pEVar4 = (u8*)gEntityDB;
     break;
   case 3:
     pbVar2 = SpellList;
-    pEVar4 = gLoadedSpells;
+    pEVar4 = (u8*)gLoadedSpells;
     break;
   default:
     goto switchD_80075e2c_caseD_4;
@@ -52,11 +52,11 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
     goto LAB_80075eb0;
   case 7:
     pbVar2 = weaponList;
-    pEVar4 = gWeaponsDB;
+    pEVar4 =(u8*)gWeaponsDB;
     break;
   case 8:
     pbVar2 = lootList;
-    pEVar4 = gChestDBp;
+    pEVar4 = (u8*)gChestDBp;
     break;
   case 0x10:
   case 0x15:
@@ -69,17 +69,16 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
     pbVar2 = DialougEntList;
     pEVar4 = DialougEntityPointer;
     break;
-  default:
-  
   }
   total = *pEVar4;
 LAB_80075eb0:
   uVar1 = getIDIndex_sub(pbVar2,total,x&0xFF);
 switchD_80075e2c_caseD_4:
   if (uVar1 != -1) return (byte)uVar1;
-  sprintf(acStack_90,"Invalid id %d (%d)\nMay need to re-compile\nType = %d\n",
+  char txtBuff [144];
+  sprintf(txtBuff,"Invalid id %d (%d)\nMay need to re-compile\nType = %d\n",
            x,uVar3,(x >> 8));
-  CRASH("GetIdIndex (ids.cpp)",acStack_90);
+  CRASH("GetIdIndex (ids.cpp)",txtBuff);
 }
 
 u16 search_item_array(ItemID param_1){ 
@@ -124,7 +123,7 @@ u16 Weapon_borg5_lookup(u8 index){
       0x34DD,0x34E6,0x349C,0x34AE,0x34B0,0x34FE,0x354F,0x3551,0x34A2,0x34A0,0x34C2,0x3519,
       0x34B5,0x34BF,0x34CC,0x34D3,0x34F1,0x34DF,0x3547,0x34E5,0x349E,0x34A5,0x34DB,0x34CD,
       0x34D1,0x354D,0x3500,0x350D,0x34F9,0x34C1,-1,0};
-    for(u16 i=0;weapons_with_borg5[i]!=0xFF,i++){
+    for(u16 i=0;weapons_with_borg5[i]!=0xFF;i++){
         if(weapons_with_borg5[i]==index)return weapon_borg5_ID[i];
     }
     return-1;

@@ -37,6 +37,7 @@ int getIDIndex_sub(u8 *param_1,u8 total,u8 param_3);
 u16 GetIDIndex(ItemID x,char* file, u32 line);
 u16 search_item_array(ItemID param_1);
 ItemID Ofunc_80075f9c(u8 index);
+u16 Weapon_borg5_lookup(u8 index);
 u16 GetWeaponBorg5(ItemID param_1);
 u16 GetArmorBorg5(ItemID param_1);
 u16 ItemBorg5Search(ItemID param_1);

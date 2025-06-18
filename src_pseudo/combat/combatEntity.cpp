@@ -5,6 +5,7 @@
 #include "combat/CombatStruct.h"
 #include "combat/Visuals.h"
 #include "globals.h"
+#include "armordb.h"
 
 void Ofunc_NOOP_80067c70(void){}
 void Ofunc_NOOP_(void){}
@@ -709,7 +710,7 @@ u32 CombatEntity::GetSpellTargetCount(){
   uint ret;
   int iVar3;
   
-  pSVar1 = Entity::getSpell(this->charSheetP);
+  pSVar1 = Entity::GetSpell(this->charSheetP);
   if (!pSVar1) ret = 0;
   else if (pSVar1->cast == MCAST_ALL) ret = (uint)gCombatP->EntCount;
   else {
@@ -849,7 +850,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
   
   if (param_2->index == gGlobals.ShadowIndex) return false;
   if (this->index == gGlobals.ShadowIndex) return false;
-  spell = Entity::getSpell(this->charSheetP);
+  spell = Entity::GetSpell(this->charSheetP);
   if (SpellEffectsTarget(param_2,spell)) {
     bVar8 = GETINDEX((spell->base).id);
     AIShouldNotCastSpell(param_2,spell);
@@ -896,14 +897,13 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
         borgDat = &(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat;
         setVec3(&fStack248,fVar14,50.0,fVar11);
         setVec3(&afStack184,fVar14,-10.0,fVar11);
-        if (CheckCollision(borgDat,&fStack248,&afStack184,0.5,&fStack120,NULL,0)) {
+        if (CheckCollision(borgDat,&fStack248,&afStack184,0.5f,&fStack120,NULL,0)) {
           fStack120.y+=2;
         }
         else setVec3(&fStack120,fVar14,10.0,fVar11);
         copyVec3(&(ppVar2->collision).pos,&fStack248);
-        fStack248.y = fStack248.y + -ppVar2->scaleRad + gEntityDB->GetHeight(gEntityDB,param_2->charSheetP->ID);
-        return FUN_800716b4(&gCombatP->substruct,&fStack120,&fStack248,param_2->index,
-          param_2->index);
+        fStack248.y = fStack248.y + -ppVar2->scaleRad + gEntityDB->GetHeight(param_2->charSheetP->ID);
+        return FUN_800716b4(&gCombatP->substruct,&fStack120,&fStack248,param_2->index,param_2->index);
       }
     }
   }
@@ -911,7 +911,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
 }
 
 u8 CombatEntity::SpellEffectsPartyInArea(){
-  SpellInstance *pSVar1 = Entity::getSpell(this->charSheetP);
+  SpellInstance *pSVar1 = Entity::GetSpell(this->charSheetP);
   u8 bVar2 = false;
   if (pSVar1) bVar2 = pSVar1->target == MTarget_Party;
   return bVar2;
@@ -1026,7 +1026,7 @@ void CombatEntity::EndTurn(){
   if (pCVar1->spellSwitch == 5) {
     puVar2 = pCVar1->pItemList->pItem[pCVar1->currSpell];
     if ((puVar2->base.spellCharge->Charges == 0) &&
-       ((uVar2 = (u16)puVar2->id >> 8, uVar2 == 0x11 || (uVar2 == 0xd)))) { //scroll or wand
+       ((uVar2 = (u16)puVar2->base.id >> 8, uVar2 == 0x11 || (uVar2 == 0xd)))) { //scroll or wand
       //dispose of drained acc.
       Entity::UnequipGear(pCVar1,(u32)pCVar1->currSpell);
       this->charSheetP->spellSwitch = 0;
@@ -2592,7 +2592,7 @@ s16 CombatEntity::m8006edd0(CombatEntity *param_2,playerData *param_3,playerData
   s16 lVar9;
   s16 lVar10;
   
-  pSVar2 = Entity::getSpellSafe(this->charSheetP,0x13cb,u32_800f5440);
+  pSVar2 = Entity::GetSpellSafe(this->charSheetP,0x13cb,u32_800f5440);
   if (!pSVar2) return 0;
   else {
     sVar5 = MagicDamageResistCalc(param_2,pSVar2,false);
@@ -2760,7 +2760,7 @@ void CombatEntity::Troubadour(){
       gGlobals.combatBytes[0] = 1;
     }
     else {
-      iVar3 = this->charSheetP->Skills->getModdedSkill(SKILL_Troubador) * 5 + CharStats::getModded(this->charSheetP->Stats,STAT_INT)) * 0x20000 >> 0x10;
+      iVar3 = this->charSheetP->Skills->getModdedSkill(SKILL_Troubador) * 5 + CharStats::getModded(this->charSheetP->Stats,STAT_INT)*2;
       uVar8 = RollD(1,100);
       bVar6 = this->charSheetP->Skills->getModdedSkill(SKILL_Troubador);
       if (bVar6 < 6) uVar9 = SQ(8 - bVar6);
@@ -2896,7 +2896,7 @@ u8 CombatEntity::BowEquipped(){
 
   pTVar2 = this->charSheetP->weapons;
   if (pTVar2) {
-    bVar3 = GETINDEX(pTVar2->id);
+    bVar3 = GETINDEX(pTVar2->base.id);
     if (missle_ids[0] != 0xff) {
       pbVar4 = missle_ids;
       do {
@@ -2931,7 +2931,7 @@ void CombatEntity::ThrowingEquipped(){
   else {
     if (this->charSheetP->weapons) {
       if (!BowEquipped()) {
-        bVar3 = GETINDEX(this->charSheetP->weapons->id);
+        bVar3 = GETINDEX(this->charSheetP->weapons->base.id);
         if (throwing_ids[0] != 0xff) {
           pbVar4 = throwing_ids;
           do {
@@ -2971,14 +2971,14 @@ void CombatEntity::ShowWeaponSheild(){
         else {
           this->shieldLocator = this->notboss != 0;
           this->wepLocator = this->notboss == 0;
-          borg5 = CombatEntity::GetWeaponModel();
+          borg5 = GetWeaponModel();
         }
       }
     }
   }
-  CombatEntity::ThrowingEquipped();
-  CombatEntity::AttachWeaponShieldModel(1,(u32)this->shieldLocator,borg5);
-  if (!CannotShowWeapon(this->charSheetP->ID)) {CombatEntity::AttachWeaponShieldModel(0,(u32)this->wepLocator,borg5_00);}
+  ThrowingEquipped();
+  AttachWeaponShieldModel(1,(u32)this->shieldLocator,borg5);
+  if (!CannotShowWeapon(this->charSheetP->ID)) {AttachWeaponShieldModel(0,this->wepLocator,borg5_00);}
   return;
 }
 

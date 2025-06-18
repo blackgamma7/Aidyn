@@ -12,6 +12,8 @@
 #define FLAG_Cinematic2 590 //checked during Character Init for Alaron, gives "True Name" flag
 #define FLAG_Cinematic3 601 //triggered at end of game, so cinematic cannot be legit replayed.
 
+#define FLAG_MeetOriana 47
+
 //journal flags
 
 #define FLAG_MeetShadow 9

@@ -264,8 +264,8 @@ namespace Entity{
     short ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,CombatEntity *combatTarget);
     void ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatEnt);
     s32 IncEnchantments(CharSheet *param_1,CombatEntity *param_2,s32 param_3);
-    SpellInstance* getSpell(CharSheet *param_1);
-    SpellInstance* getSpellSafe(CharSheet *param_1,u32 unk1,u32 unk2);
+    SpellInstance* GetSpell(CharSheet *param_1);
+    SpellInstance* GetSpellSafe(CharSheet *param_1,u32 unk1,u32 unk2);
     u8 GetSpellCharges(CharSheet *param_1);
     void DecSpellCharge(CharSheet *param_1);
     u8 CheckSpellWizard(CharSheet *param_1,SpellInstance *param_2);

@@ -428,7 +428,7 @@ void FUN_800952c8(short param_1,short param_2,short param_3){
 void FUN_800953a8(short param_1){
   SpellVisualTypeB *pSVar1 = SpellVisuals.ptr1 + param_1;
   if ((((pSVar1->flags & 1)) && (pSVar1->field8_0x2e != 5)) && (pSVar1->field8_0x2e != 6)) {
-    FUN_800b3f9c(&gGlobals.Sub.particleEmmiter,pSVar1->b7->sceneDat);
+    Particle::UnsetSceneEmmiter(&gGlobals.Sub.particleEmmiter,pSVar1->b7->sceneDat);
   }
 }
 

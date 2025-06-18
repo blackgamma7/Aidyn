@@ -136,3 +136,12 @@ struct AttackVisualStruct3 {
     u32 unk14;
     uint flag;
 };
+
+namespace CombatAttackVisuals{
+    void Init();
+    void Orphaned(playerData *target,u32 param_2);
+    Gfx * Render(Gfx *g,uint delta);
+    void FreePlayer(playerData *param_1);
+    void Free();
+    u32 GetAttackActor(u32 param_1);
+};

@@ -101,8 +101,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     SFX_Struct SFXStruct;
     u8 combatBytes[4];
     EncounterDat EncounterDat;
-    playerData *playerDataArray[12];
-    u64 unk142c; /* unused */
+    playerData *playerDataArray[14];
     vec3f combatCursorPos;
     s8 ShadowIndex;
     s8 AlaronIndex;

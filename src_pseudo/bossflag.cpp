@@ -2,9 +2,8 @@
 #include "eventFlag.h"
 //sets the event flag of a killed boss. 
 void set_boss_flag(void){
-  ItemID id;
-  for(u32 i=0;i<4;i++) {
-    id = gGlobals.EncounterDat.enemy_entities[i];
+  for(u8 i=0;i<4;i++) {
+    ItemID id = gGlobals.EncounterDat.enemy_entities[i];
     if (!id) continue;
     switch(GETINDEX(id)) {
     case 0xa8: //Kitarak
