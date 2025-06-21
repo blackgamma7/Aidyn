@@ -921,7 +921,7 @@ void alaron_shadow_merge_attempt(){
 
 void shadow_merge_cinematic(void){
   gGlobals.combatBytes[0] = 0x11;
-  Cinematic::Load(Cinematic_Shadow,From_CinematicMenu,1);
+  Cinematic::Load(Cinematic_Shadow,CSwitch_ToMenu,1);
 }
 
 void merge_no_horn(){

@@ -2,7 +2,7 @@
 #include "n64Borg.h"
 
 struct SceneDatSubstruct {
-    void *unk0;
+    Borg6SubSub *unk0;
     void *unk4;
     void * unk8;
     u16 unkc;
@@ -33,8 +33,8 @@ struct SceneData {
     u8 aniSpeed;
     u8 perspNormIndex;
     vec4f colorFloats;
-    int colorValA;
-    int colorValB;
+    int fogMin;
+    int fogMax;
     Color32 fogColor;
     Light DirLights[7]; //"pad" fields are also set (to 0) for some reason.
     Light envLight;
@@ -123,6 +123,7 @@ void SetParticleHead(SceneData *,ParticleHeadStruct *);
 void Ofunc_800a8e80(SceneData *,SceneData *);
 void Ofunc_800a8e88(SceneData *,SceneData *);
 bool Rotate(SceneData *,vec3f *,vec3f *,vec3f *);
+void Tick(SceneData*);
 };
 void SceneSetCameraLookAt(SceneData*,float,float,float,float,float,float);
 void FUN_800a80ac(SceneData*,vec3f *,s32);

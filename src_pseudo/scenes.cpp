@@ -345,7 +345,7 @@ void Ofunc_800a8104(SceneData *param_1,int param_2,int param_3){
   if (-1 < param_2) {
     Borg5Header *pBVar1 = param_1->scene[0].borg5;
     if (param_2 < (pBVar1->dat).borg2Count) {
-      (pBVar1->dat).borg2p[param_2]->dat->unk0x0 = param_3;
+      (pBVar1->dat).borg2p[param_2]->dat->alpha = param_3;
     }
   }
 }
@@ -372,12 +372,12 @@ void Scene::SetFogPlane(SceneData *param_1,s32 fog,s32 farplane){
   if (fog == farplane) {
     if (farplane - 1 < 0) {
       iVar1 = farplane + 1;
-      param_1->colorValA = farplane;
+      param_1->fogMin = farplane;
     }
-    else param_1->colorValA = farplane - 1;
+    else param_1->fogMin = farplane - 1;
   }
-  else param_1->colorValA = fog;
-  param_1->colorValB = iVar1;
+  else param_1->fogMin = fog;
+  param_1->fogMax = iVar1;
 }
 
 

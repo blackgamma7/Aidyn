@@ -9,7 +9,7 @@ Gfx gPlaneObjDlist[]={
     gsDPSetCombine(0x121824,0xff33ffffff), // redo as gsDPSetCombineLERP()?
     gsDPSetCombineKey(0),
     gsDPSetColorDither(G_CD_NOISE),
-    gsSPSetOtherMode(G_SETOTHERMODE_H,G_MDSFT_BLENDMASK,2,0), // ??
+    gsDPSetAlphaCompare(0),
     gsDPSetAlphaDither(0),
     gsDPSetTextureLOD(0),
     gsDPSetTextureLUT(0),

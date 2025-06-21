@@ -278,14 +278,14 @@ void borg2_func_a(Borg2Data *param_1){
   piVar3 = (int *)((int)piVar1 + (int)param_1);
   if (piVar1 != NULL) {
     param_1->unk0x3c = piVar3;
-    piVar3[1] = (int)&param_1->unk0x0 + piVar3[1];
+    piVar3[1] = (int)&param_1->alpha + piVar3[1];
     iVar4 = *piVar1;
-    piVar3 = (int *)((int)&param_1->unk0x0 + piVar1[2]);
+    piVar3 = (int *)((int)&param_1->alpha + piVar1[2]);
     piVar1[2] = (int)piVar3;
     while (iVar4 != 0) {
       iVar4 += -1;
       if (1 < *piVar3) {
-        piVar3[1] = (int)&param_1->unk0x0 + piVar3[1];
+        piVar3[1] = (int)&param_1->alpha + piVar3[1];
       }
       piVar3 = piVar3 + 2;
     }
@@ -504,15 +504,15 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
   if (i != 0) {
     pbVar21->unkStruct = (Borg5Struct2 *)p;
     while( true ) {
-      pbVar21->unkStruct->unk140 = 0;
-      pbVar21->unkStruct->unk144 = 0;
-      pbVar21->unkStruct->unk148 = 0;
-      pbVar21->unkStruct->unk14c = 0;
-      pbVar21->unkStruct->unk150 = 0;
-      pbVar21->unkStruct->unk154 = 0;
-      pbVar21->unkStruct->unk158 = 0;
-      pbVar21->unkStruct->unk15c = 0;
-      pbVar21->unkStruct->unk160 = 0;
+      pbVar21->unkStruct->unk140.x = 0;
+      pbVar21->unkStruct->unk140.y = 0;
+      pbVar21->unkStruct->unk140.z = 0;
+      pbVar21->unkStruct->unk14c.x = 0;
+      pbVar21->unkStruct->unk14c.y = 0;
+      pbVar21->unkStruct->unk14c.z = 0;
+      pbVar21->unkStruct->unk158.x = 0;
+      pbVar21->unkStruct->unk158.y = 0;
+      pbVar21->unkStruct->unk158.z = 0;
       pbVar21->unkStruct->unk164 = 0;
       pbVar21->unkStruct->unk168 = 0;
       p = (void *)((u32)p + sizeof(Borg5Struct2));
@@ -534,7 +534,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
     for (i = (param_1->dat).borg4Count; i != 0; i--) {
       pBVar6 = *ppBVar19;
       ppBVar19++;
-      pBVar6->dat->unk10 = (Light *)p;
+      pBVar6->dat->l = (Light *)p;
       p = (void *)((int)p + sizeof(Light)*2);
     }
   }

@@ -441,12 +441,13 @@ struct Borg3Header {
     int *unkc;
     Borg3Data dat;
 };
+//lighting data
 struct Borg4Data{
     float unk0;
-    float unk4;
-    float unk8;
-    float unkc;
-    Light* unk10;
+    float red;
+    float green;
+    float blue;
+    Light* l;
     s16 unk14;
     s16 unk16;
 };
@@ -460,19 +461,11 @@ struct Borg5Struct2{
     Mtx mtxs[2];
     MtxF mfs[2];
     //much of what below this is unread or unused.
-    u8 unk100[0x40]; //may be an Mtx(F) unused
-    u32 unk140; //set to 0 in InitBorgScene, never read(?)
-    u32 unk144; //set to 0 in InitBorgScene, never read(?)
-    u32 unk148; //set to 0 in InitBorgScene, never read(?)
-    u32 unk14c; //set to 0 in InitBorgScene, never read(?)
-    u32 unk150; //set to 0 in InitBorgScene, never read(?)
-    u32 unk154; //set to 0 in InitBorgScene, never read(?)
-    u32 unk158; //set to 0 in InitBorgScene, never read(?)
-    u32 unk15c; //set to 0 in InitBorgScene, never read(?)
-    u32 unk160; //set to 0 in InitBorgScene, never read(?)
-    u32 unk164; //set to 0 in InitBorgScene, never read(?)
-    u32 unk168; //set to 0 in InitBorgScene, never read(?)
-    u32 unk16c; //set to 0 in InitBorgScene, never read(?)
+    u8 unk100[0x40]; //may be an Mtx(F) unused(?)
+    vec3f unk140;
+    vec3f unk14c;
+    vec3f unk158; //set to 0 in InitBorgScene, never read(?)
+    vec3f unk164; //set to 0 in InitBorgScene, never read(?)
     vec3f unk170; //used in orphaned functions.
     vec3f unk17c; //used in orphaned functions.
 };
@@ -609,7 +602,7 @@ struct Borg11Header {
 };
 
 struct Borg2Data {
-    int unk0x0;
+    int alpha;
     int dsplistcount;
     float scale;
     vec3f pos;
