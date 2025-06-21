@@ -1514,9 +1514,9 @@ void takeBranch(Borg7Header *param_1,b7SubSub *param_2)
 
 {
   Borg7Sub *pBVar1;
-  borg6Enum index;
+  u32 index;
   struct_1 *psVar2;
-  borg6Enum bVar3;
+  u32 bVar3;
   int iVar4;
   int iVar5;
   Borg6Header *pBVar6;
@@ -1586,7 +1586,6 @@ LAB_8009ffd4:
   }
   FUN_8009fd40(param_1);
   FUN_8009fdec(param_1);
-  return;
 }
 
 void animate_borg7(Borg7Header *param_1){
@@ -1622,7 +1621,6 @@ bool FUN_800a00d0(Borg7Header *param_1)
   short sVar5;
   longlong lVar7;
   int iVar8;
-  SceneData *ani;
   b7SubSub *pbVar9;
   b7SubSub *pbVar10;
   float fVar11;
@@ -1639,9 +1637,8 @@ bool FUN_800a00d0(Borg7Header *param_1)
     for (lVar7 = (longlong)(short)pBVar2->subSubCount; lVar7 != 0;
         lVar7 = (longlong)((int)lVar7 + -1)) {
       if (param_1->currentAni == (ushort)pbVar9->ani) {
-        bVar1 = pbVar9->unk1;
 LAB_800a016c:
-        iVar4 -= (uint)bVar1;
+        iVar4 -= (uint)pbVar9->unk1;
         if (iVar4 < 1) {
           bVar3 = true;
           takeBranch(param_1,pbVar9);
@@ -1650,7 +1647,6 @@ LAB_800a016c:
         }
       }
       else if (pbVar9->ani == 0xff) {
-        bVar1 = pbVar9->unk1;
         goto LAB_800a016c;
       }
       pbVar9++;
@@ -1661,12 +1657,10 @@ LAB_800a016c:
     }
 LAB_800a0220:
     Borg7_StartParticles(param_1);
-    ani = param_1->sceneDat;
   }
   else if (param_1->prevAni == param_1->currentAni) {
     animate_borg7(param_1);
     Scene::Tick(param_1->sceneDat);
-    ani = param_1->sceneDat;
   }
   else {
     pbVar10 = pBVar2->p;
@@ -1693,12 +1687,11 @@ LAB_800a0220:
       }
       pbVar10 = pbVar10 + 1;
     }
-    ani = param_1->sceneDat;
   }
   i = (param_1->dat).unk0;
   param_1->prevAni = param_1->currentAni;
   param_1->currentAni = param_1->nextAni;
-  FUN_800a80ac(ani,&local_58,i);
+  FUN_800a80ac(param_1->sceneDat,&local_58,i);
   if (param_1->unk12 == 0) {
     if (bVar3) {
       (param_1->unk2c).x = 0.0;
@@ -1739,8 +1732,7 @@ bool FUN_800a0304(Borg7Header *param_1,int delta)
   bool bVar4;
   int rand;
   short sVar3;
-  SceneData *ani;
-  longlong lVar5;
+  s32 lVar5;
   b7SubSub *pbVar6;
   int i;
   float fVar7;
@@ -1757,8 +1749,7 @@ bool FUN_800a0304(Borg7Header *param_1,int delta)
         pbVar6 = pBVar1->p;
         rand = gAniRandSeed.Range(0,99);
         bVar4 = false;
-        for (lVar5 = (longlong)(short)pBVar1->subSubCount; lVar5 != 0;
-            lVar5 = (longlong)((int)lVar5 + -1)) {
+        for (lVar5 =pBVar1->subSubCount; lVar5 != 0;lVar5--) {
           if ((param_1->currentAni == (ushort)pbVar6->ani) || (pbVar6->ani == 0xff)) {
             rand -= (uint)pbVar6->unk1;
             if (rand < 1) {
@@ -1776,7 +1767,6 @@ bool FUN_800a0304(Borg7Header *param_1,int delta)
         }
 LAB_800a046c:
         Borg7_StartParticles(param_1);
-        ani = param_1->sceneDat;
       }
       else if (param_1->prevAni == param_1->currentAni) {
         if ((param_1->unk1c->sub->flag & 2) == 0) {
@@ -1784,7 +1774,6 @@ LAB_800a046c:
         }
         Scene::SetSpeed(param_1->sceneDat,1);
         Scene::Tick(param_1->sceneDat);
-        ani = param_1->sceneDat;
       }
       else {
         pbVar6 = pBVar1->p;
@@ -1805,13 +1794,12 @@ LAB_800a046c:
             pbVar6++;
           }
         }
-        ani = param_1->sceneDat;
       }
       i += 1;
       i_00 = (param_1->dat).unk0;
       param_1->prevAni = param_1->currentAni;
       param_1->currentAni = param_1->nextAni;
-      FUN_800a80ac(ani,&local_60,i_00);
+      FUN_800a80ac(param_1->sceneDat,&local_60,i_00);
       if (param_1->unk12 == 0) {
         if (bVar2) {
           goto LAB_800a04ec;
@@ -1943,13 +1931,12 @@ void FUN_800a07b0(SceneDatStruct *param_1,float param_2)
 }
 
 
-void FUN_800a0800(SceneDatStruct *param_1,float param_2)
 
-{
+void FUN_800a0800(SceneDatStruct *param_1,float param_2){
   void **ppvVar1;
   float *pfVar2;
-  float *pfVar3;
-  float *pfVar4;
+  vec3f *pvVar3;
+  vec3f *pvVar4;
   vec3f *pvVar5;
   void *pvVar6;
   SceneDatSubstruct *pSVar7;
@@ -1961,38 +1948,38 @@ void FUN_800a0800(SceneDatStruct *param_1,float param_2)
   pSVar7 = param_1->sub;
   pvVar5 = &pvVar2->rot;
   pvVar6 = param_1->borg5->aniTextures;
-  pfVar4 = (float *)&pvVar2->unkStruct->unk158;
-  pfVar3 = (float *)&pvVar2->unkStruct->unk164;
+  pvVar4 = &pvVar2->unkStruct->unk158;
+  pvVar3 = &pvVar2->unkStruct->unk164;
   do {
     iVar8 += -1;
     if (((uint)pvVar6 & 1) != 0) {
       pfVar2 = (float *)pSVar7->unk8;
       pvVar5->x = pvVar5->x + *pfVar2 * param_2;
-      *pfVar4 = *pfVar4 + pfVar2[1] * param_2;
+      pvVar4->x = pvVar4->x + pfVar2[1] * param_2;
       pSVar7 = pSVar7 + 1;
-      *pfVar3 = *pfVar3 + pfVar2[2] * param_2;
+      pvVar3->x = pvVar3->x + pfVar2[2] * param_2;
     }
     pvVar6 = (void *)((int)pvVar6 >> 1);
     pvVar5 = (vec3f *)&pvVar5->y;
-    pfVar4 = pfVar4 + 1;
-    pfVar3 = pfVar3 + 1;
+    pvVar4 = (vec3f *)&pvVar4->y;
+    pvVar3 = (vec3f *)&pvVar3->y;
   } while (iVar8 != 0);
   iVar8 = 3;
-  pfVar4 = (float *)&pvVar2->unkStruct->unk140;
-  pfVar3 = (float *)&pvVar2->unkStruct->unk14c;
+  pvVar4 = &pvVar2->unkStruct->unk140;
+  pvVar3 = &pvVar2->unkStruct->unk14c;
   do {
     iVar8 += -1;
     if (((uint)pvVar6 & 1) != 0) {
       pfVar2 = (float *)pSVar7->unk8;
       pvVar5->x = pvVar5->x + *pfVar2 * param_2;
-      *pfVar4 = *pfVar4 + pfVar2[1] * param_2;
+      pvVar4->x = pvVar4->x + pfVar2[1] * param_2;
       pSVar7 = pSVar7 + 1;
-      *pfVar3 = *pfVar3 + pfVar2[2] * param_2;
+      pvVar3->x = pvVar3->x + pfVar2[2] * param_2;
     }
     pvVar6 = (void *)((int)pvVar6 >> 1);
     pvVar5 = (vec3f *)((int)pvVar5 + 4);
-    pfVar4 = pfVar4 + 1;
-    pfVar3 = pfVar3 + 1;
+    pvVar4 = (vec3f *)&pvVar4->y;
+    pvVar3 = (vec3f *)&pvVar3->y;
   } while (iVar8 != 0);
   iVar8 = 3;
   do {
@@ -2008,6 +1995,8 @@ void FUN_800a0800(SceneDatStruct *param_1,float param_2)
   } while (iVar8 != 0);
   return;
 }
+
+
 
 
 void FUN_800a0940(Borg6Struct *param_1)
@@ -2032,9 +2021,9 @@ void FUN_800a0940(Borg6Struct *param_1)
     iVar1->unk158.x = 0;
     iVar1->unk158.y = 0;
     iVar1->unk158.z = 0;
-    iVar1->unk164 = 0;
-    iVar1->unk168 = 0;
-    iVar1->unk16c = 0;
+    iVar1->unk164.x = 0;
+    iVar1->unk164.y = 0;
+    iVar1->unk164.z = 0;
     pBVar1 = param_1->sub;
   }
   for (uVar2 = pBVar1->unkc; uVar2 != 0; uVar2 = (int)uVar2 >> 1) {
@@ -2730,11 +2719,10 @@ switchD_800a1cc4_caseD_8:
       if (uVar18 == 0xff) {
         pGVar12 = pGVar10 + 1;
         unkAnimStructB.b1 = NULL;
-        (pGVar10->words).w0 = 0xd7000000;
-        (pGVar10->words).w1 = 0;
+        gSPTexture(pGVar10++,0,0,0,0,0);
       }
       else {
-        unkAnimStructB.b1 = (unkAnimStructB.b5)->borg1Indecies[uVar18];
+        unkAnimStructB.b1 = (unkAnimStructB.b5)->borg1p[uVar18];
         pGVar12 = FUN_8009d3dc(pGVar10,unkAnimStructB.b1,(u8)uVar17);
       }
       break;
@@ -2746,18 +2734,7 @@ switchD_800a1cc4_caseD_8:
         pBVar2 = pbVar23->unkStruct;
         mf = pBVar2->mfs;
         if ((pbVar23->flag & 0x200) == 0) {
-          paafVar11 = pBVar2->mfs + 1;
-          pafVar16 = *mf;
-          do {
-
-            (*(float (*) [4])*pafVar16)[0] = (*paafVar11)[0][0];
-            (*(float (*) [4])*pafVar16)[1] = (*paafVar11)[0][1];
-            (*(float (*) [4])*pafVar16)[2] = (*paafVar11)[0][2];
-            (*(float (*) [4])*pafVar16)[3] = (*paafVar11)[0][3];
-            paafVar11 = (MtxF *)(*paafVar11 + 1);
-            pafVar16 = pafVar16 + 1;
-          } while ((Mtx *)paafVar11 != &pBVar2->unk100);
-          fVar30 = pBVar2->mfs[0][3][0];
+          *pBVar2->mfs=*pBVar2->mfs + 1;
         }
         else {
           fStack384.x = pBVar2->mfs[1][3][0] - vec3f_800f3378.x;
@@ -2765,47 +2742,33 @@ switchD_800a1cc4_caseD_8:
           fStack384.z = pBVar2->mfs[1][3][2] - vec3f_800f3378.z;
           vec3_normalize(&fStack384);
           guAlignF(&afStack320,(pbVar23->rot).z,fStack384.x,fStack384.y,fStack384.z);
-          memset(mf,0,0x40);
+          CLEAR(&mf);
           pSVar7 = unkAnimStructB.scene;
           pBVar2->mfs[0][0][0] = (pbVar23->scale).x * ((unkAnimStructB.scene)->scalar).x;
           pBVar2->mfs[0][1][1] = (pbVar23->scale).y * (pSVar7->scalar).y;
           pBVar2->mfs[0][2][2] = (pbVar23->scale).z * (pSVar7->scalar).z;
           pBVar2->mfs[0][3][0] = pBVar2->mfs[1][3][0];
           pBVar2->mfs[0][3][1] = pBVar2->mfs[1][3][1];
-          fVar30 = pBVar2->mfs[1][3][2];
           pBVar2->mfs[0][3][3] = 1.0f;
-          pBVar2->mfs[0][3][2] = fVar30;
+          pBVar2->mfs[0][3][2] = pBVar2->mfs[1][3][2];
           guMtxCatF(&afStack320,mf,mf);
-          fVar30 = pBVar2->mfs[0][3][0];
         }
         pBVar8 = unkAnimStructB.b2;
-        fVar30 = fVar30 * 16.0f;
-        fVar25 = pBVar2->mfs[0][3][1] * 16.0f;
-        fVar37 = (*mf)[0][0];
-        fVar26 = (unkAnimStructB.b2)->dat->scale;
-        fVar36 = pBVar2->mfs[0][1][0];
-        fVar35 = pBVar2->mfs[0][2][0];
-        fVar33 = pBVar2->mfs[0][0][1];
-        fVar34 = pBVar2->mfs[0][1][1];
-        fVar28 = pBVar2->mfs[0][2][1];
-        fVar27 = pBVar2->mfs[0][0][2];
- 
-        pBVar2->mfs[0][3][2] = pBVar2->mfs[0][3][2] * 16.0f;
-
-        pBVar2->mfs[0][3][0] = fVar30;
-        pBVar2->mfs[0][3][1] = fVar25;
-        (*mf)[0][0] = (*mf)[0][0] * fVar26;
-        pBVar2->mfs[0][1][0] = fVar36 * fVar26;
-        pBVar2->mfs[0][2][0] = fVar35 * fVar26;
-        pBVar2->mfs[0][0][1] = fVar33 * fVar26;
-        pBVar2->mfs[0][1][1] = fVar34 * fVar26;
-        pBVar2->mfs[0][2][1] = fVar28 * fVar26;
-        pBVar2->mfs[0][0][2] = pBVar2->mfs[0][0][2] * fVar26;
-        pBVar2->mfs[0][1][2] = pBVar2->mfs[0][1][2] * fVar26;
-        pBVar2->mfs[0][2][2] = pBVar2->mfs[0][2][2] * fVar26;
+        pBVar2->mfs[0][3][2] *= 16.0f;
+        pBVar2->mfs[0][3][0] *= 16.0f;
+        pBVar2->mfs[0][3][1] *= 16.0f;
+        (*mf)[0][0] *= (unkAnimStructB.b2)->dat->scale;
+        pBVar2->mfs[0][1][0] *= (unkAnimStructB.b2)->dat->scale;
+        pBVar2->mfs[0][2][0] *= (unkAnimStructB.b2)->dat->scale;
+        pBVar2->mfs[0][0][1] *= (unkAnimStructB.b2)->dat->scale;
+        pBVar2->mfs[0][1][1] *= (unkAnimStructB.b2)->dat->scale;
+        pBVar2->mfs[0][2][1] *= (unkAnimStructB.b2)->dat->scale;
+        pBVar2->mfs[0][0][2] *= (unkAnimStructB.b2)->dat->scale;
+        pBVar2->mfs[0][1][2] *= (unkAnimStructB.b2)->dat->scale;
+        pBVar2->mfs[0][2][2] *= (unkAnimStructB.b2)->dat->scale;
         memcpy(pBVar8->someMtx,mf,0x40);
-        guMtxF2L(mf,(Mtx_t *)(unkAnimStructB.b5Sub)->unkStruct->mtxs[uVar17].m);
-        (unkAnimStructB.b5Sub)->flag = (unkAnimStructB.b5Sub)->flag | 2;
+        guMtxF2L(mf,&unkAnimStructB.b5Sub->unkStruct->mtxs[uVar17]);
+        (unkAnimStructB.b5Sub)->flag |= 2;
       }
       (pGVar10->words).w0 = 0xda380003;
       (pGVar10->words).w1 = (uint)((unkAnimStructB.b5Sub)->unkStruct->mtxs + uVar17);

@@ -513,10 +513,10 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       pbVar21->unkStruct->unk158.x = 0;
       pbVar21->unkStruct->unk158.y = 0;
       pbVar21->unkStruct->unk158.z = 0;
-      pbVar21->unkStruct->unk164 = 0;
-      pbVar21->unkStruct->unk168 = 0;
+      pbVar21->unkStruct->unk164.x = 0;
+      pbVar21->unkStruct->unk164.y = 0;
+      pbVar21->unkStruct->unk164.z = 0;
       p = (void *)((u32)p + sizeof(Borg5Struct2));
-      pbVar21->unkStruct->unk16c = 0;
       i--;
       guMtxIdent(pbVar21->unkStruct->mtxs);
       guMtxIdent(pbVar21->unkStruct->mtxs + 1);
