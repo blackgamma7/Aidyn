@@ -2,10 +2,9 @@
 
 
 class WidgetHandler{
-    private:
+    public:
     BaseWidget* head;
     BaseWidget* tail;
-    public:
     u8 Init(FontStruct*);
     void Free(u32); //may just be destructor
     u8 Tick(u8);

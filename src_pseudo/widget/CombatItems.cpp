@@ -5,7 +5,7 @@
 
 s8 gCombatItemSelections[]={-1,-1,-1,-1};
 
-WidgetCombatItems * LoadCombatItems(int showWeapon,int showShield,int ShowArmor,u8 *gear,s32 *potions){
+WidgetCombatItems * LoadCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions){
   return new WidgetCombatItems(showWeapon,ShowArmor,showShield,gear,potions);
 }
 
@@ -24,7 +24,7 @@ BaseWidget * FUN_80092894(BaseWidget *param_1,BaseWidget *param_2){
     return NULL;
 }
 
-WidgetCombatItems::WidgetCombatItems(int showWeapon,int showShield,int ShowArmor,u8 *gear,s32 *potions):
+WidgetCombatItems::WidgetCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions):
 WidgetChild8(32,120,gExpPakFlag?95:55,0,0){
   ushort iconSize;
   CombatEntity *pCVar1;

@@ -63,6 +63,7 @@ typedef enum SpellEnum {
     SPELLIND_stellarGravity,
     SPELLIND_webOfStarlight,
     SPELLIND_whitefire,
+    SPELLIND_TOTAL,
     SPELLIND_NONE=-1
 } SpellEnum;
 

@@ -32,14 +32,14 @@ int FUN_80092270(u8 *param_1,CombatMenuSpell *param_2,CharSheet *param_3);
 class WidgetCombatItems: public WidgetChild8{
   public:
   WidgetChild0* wc0;
-  WidgetCombatItems(int showWeapon,int showShield,int ShowArmor,u8 *gear,s32 *potions);
+  WidgetCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions);
   ~WidgetCombatItems();
   BaseWidget* AFunc();
   BaseWidget* BFunc();
   u16 AddItem(ItemInstance *param_2,BaseWidget *(*UseFunc)(BaseWidget*,BaseWidget*),u16 param_4,u8 param_5,u16 param_6,u16 param_7);
 };
 
-WidgetCombatItems* LoadCombatItems(int showWeapon,int showShield,int ShowArmor,u8 *gear,s32 *potions);
+WidgetCombatItems* LoadCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions);
 void init_combatItemValues();
 BaseWidget * FUN_80092894(BaseWidget *w0,BaseWidget *w1);
 BaseWidget * FUN_800928f8(BaseWidget *w0,BaseWidget *w1);

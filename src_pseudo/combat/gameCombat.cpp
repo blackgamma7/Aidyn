@@ -6,6 +6,7 @@
 #include "combat/markers.h"
 #include "voxelChart.h"
 #include "memaker.h"
+#include "gameover.h"
 
 #define FILENAME "./src/gamecombat.cpp"
 
@@ -591,10 +592,10 @@ u8 combat_byte_func_31(Gfx **GG,u16 delta){
 bool fleeing_reinforcements_func(void){
   bool bVar3 = false;
   if (gCombatP->reinforcmentsWillFlee) {
-    CombatTextboxWidget_SetText(gCombatP->textArray->enemy reinforcments flee);
-   gCombatP->TurnCount = gCombatP->TurnCount + gGlobals.delta;
+    CombatTextboxWidget_SetText(ComString(ReinforceFlee));
+   gCombatP->TurnCount+= gGlobals.delta;
     bVar3 = true;
-    if (0x3b < (uint)gCombatP->TurnCount) {
+    if (60 <= gCombatP->TurnCount) {
       gCombatP->TurnCount = 0;
       gCombatP->reinforcmentsWillFlee = 0;
       passto_combat_widget_print_func(gCombatP);
@@ -629,7 +630,7 @@ u8 ScreenFadeMode_2(Gfx **GG){
 
 void combat_start_turn_(void){
   CombatEntity *pCVar1 = gCombatP->current_Ent;
-  sprintf(gGlobals.text,gCombatP->textArray->begins action,pCVar1->charSheetP->name);
+  CSprintf(XsTurn,pCVar1->charSheetP->name);
   copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
   pCVar1->SetMovementRange();
   CombatMarkers::Create(pCVar1);
@@ -665,16 +666,13 @@ void init_combat_struct(void){
     gGlobals.Sub.mapDatA = 0x10;
     gGlobals.Sub.mapDatC = 0;
     gGlobals.Sub.mapDatB = (ushort)gGlobals.EncounterDat.battlefield;
-    ZoneEngine::InitZoneEngine(1,0);
+    InitZoneEngine(1,0);
     Sky::ResetColors();
     Combat_InitEncounter(gCombatP,&gGlobals.EncounterDat);
     combat_gui_init();
-    for(u32 i=0;i<gCombatP->EntCount;i++){
-        combatEnt_setup(gCombatP,i);
-    }
+    for(u32 i=0;i<gCombatP->EntCount;i++){combatEnt_setup(gCombatP,i);}
     FUN_80067740(gCombatP);
-    sprintf(gGlobals.text,gCombatP->textArray->begins action,
-                gCombatP->current_Ent->charSheetP->name);
+    CSprintf(XsTurn,gCombatP->current_Ent->charSheetP->name);
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
     playerData* ppVar1 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
     if (ppVar1) {
@@ -715,7 +713,7 @@ void clear_combat_func(){
   bool bVar8;
   undefined4 *puVar9;
   
-  if (clear_combatstruct_flag != 0) {
+  if (clear_combatstruct_flag) {
     load_combatstruct_flag = 1;
     clear_combatstruct_flag = 0;
     gGlobals.EncounterDat.field3_0x1c = 0;
@@ -930,7 +928,7 @@ void merge_no_horn(){
   if (HasHornOfKynon()) shadow_merge_cinematic();
   else {
     gGlobals.combatBytes[0] = 0x1d;
-    copy_string_to_combat_textbox(gCombatP,gCombatP->textArray->Shadow dissipates,0);
+    copy_string_to_combat_textbox(gCombatP,ComString(ShadowVanish),0);
     for(u32 i=0;i<gCombatP->EntCount;i++){
         if((&gCombatP->combatEnts[i])&&(gGlobals.playerDataArray[gCombatP->combatEnts[i].index])){
             gGlobals.playerDataArray[gCombatP->combatEnts[i].index]->ani_type=0;

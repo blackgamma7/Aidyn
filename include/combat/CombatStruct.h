@@ -1,7 +1,7 @@
 #include "inventory/GenericInventory.h"
 #include "widgets/WidgetMenu.h"
 #include "combat/substructA.h"
-#include "combat/substructB.h"
+#include "combat/control.h"
 #include "combat/CombatEntity.h"
 #include "combat/encounterDat.h"
 #include "combat/CombatGui.h"

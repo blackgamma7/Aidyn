@@ -21,7 +21,7 @@ struct CombatRadarBlip {
     u32 unk10;
     int unk14;
 };
-
+extern u32 gCombatGuiUnusedToggle;
 void combat_gui_init();
 void combatgui_free();
 Gfx * FUN_8008f6e4(Gfx *g,u8 delta);

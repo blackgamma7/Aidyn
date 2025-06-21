@@ -1,6 +1,6 @@
 #include "typedefs.h"
 
-enum BUTTON_aidyn{ //same as standard enum, but with 32 bits for analog joystick
+enum BUTTON_aidyn{ //same as standard enum, but with 4 extra bits for analog joystick
 	C_RIGHT=1,
 	C_LEFT=2,
 	C_DOWN=4,
@@ -15,10 +15,10 @@ enum BUTTON_aidyn{ //same as standard enum, but with 32 bits for analog joystick
 	Z_BUTTON=0X2000,
 	//B_BUTTON=0X4000,
 	//A_BUTTON=0X8000,
-	ANA_LEFT=0X10000,
-	ANA_RIGHT=0X20000,
-	ANA_DOWN=0X40000,
-	ANA_UP=0X80000,
+	ANA_LEFT=0X10000, //analog stick left
+	ANA_RIGHT=0X20000,//analog stick right
+	ANA_DOWN=0X40000,//analog stick up
+	ANA_UP=0X80000, //analog stick down
 };
 
 struct controller_aidyn { /* Controller input used by game */
