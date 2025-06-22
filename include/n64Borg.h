@@ -391,9 +391,9 @@ typedef enum BORG1type {
     B1_IA16,
     B1_CI8,
     B1_IA8,
-    B1_UNK4,
+    B1_I8,
     B1_CI4,
-    B1_UNK6,
+    B1_IA4,
     B1_I4,
     B1_RGBA32
 } BORG1type;

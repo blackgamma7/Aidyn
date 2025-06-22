@@ -27,10 +27,11 @@ Gfx gDlist800f32d8[]={
     gsDPSetTextureLUT(0),
     gsDPSetTextureDetail(0),
     gsDPSetTexturePersp(G_TP_PERSP),
-    gsSPClearGeometryMode(0x0d0000), //TODO: decypher properly
-    gsSPSetGeometryMode(0x220405), //TODO: decypher properly
+    gsSPClearGeometryMode(G_FOG|G_TEXTURE_GEN|G_TEXTURE_GEN_LINEAR),
+    gsSPSetGeometryMode(G_ZBUFFER|G_SHADE|G_CULL_BACK|G_LIGHTING|G_SHADING_SMOOTH),
     gsSPEndDisplayList() 
 };
+u32 x=(G_ZBUFFER|G_SHADE|G_CULL_BACK|G_LIGHTING|G_SHADING_SMOOTH);
 vec3f vec3f_800f3378={0,0,100.0};
 vec3f vec3f_800f3384={1.0,0,0.0};
 u32 UINT_800f3390=false;
@@ -57,11 +58,11 @@ s8 GetN64ImageDimension(u16 X){
     break;
   case B1_CI8:
   case B1_IA8:
-  case B1_UNK4:
+  case B1_I8:
     ret = 1;
     break;
   case B1_CI4:
-  case B1_UNK6:
+  case B1_IA4:
   case B1_I4:
     ret = -1;
     break;
@@ -284,21 +285,14 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   uint w;
   Gfx *pauVar9;
   int iVar10;
-  longlong i;
+  s32 i;
   u8 BVar1;
   Borg1Data *pBVar2;
   
-  (gfx->words).w0 = 0xe7000000;
-  (gfx->words).w1 = 0;
-  gfx[1].words.w0 = 0xe8000000;
-  *(undefined4 *)((int)gfx + 0xc) = 0;
-  gfx[2].words.w0 = 0xdb06002c;
-  uVar1 = osVirtualToPhysical(param_2->dat->bmp);
-  *(u32 *)((int)gfx + 0x14) = uVar1;
-  gfx[3].words.w0 = 0xdb060030;
-  pauVar9 = gfx + 4;
-  uVar1 = osVirtualToPhysical(param_2->dat->pallette);
-  *(u32 *)((int)gfx + 0x1c) = uVar1;
+  gDPPipeSync(gfx++);
+  gDPTileSync(gfx++);
+  gSPSegment(gfx++,11,osVirtualToPhysical(param_2->dat->bmp));
+  gSPSegment(gfx++,12,osVirtualToPhysical(param_2->dat->pallette));
   iVar10 = 0;
   sVar6 = GetN64ImageDimension(param_2->dat->type);
   i = 0;
@@ -311,15 +305,15 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
       iVar10 += iVar4;
       h = half(h);
       w = half(w);
-      i = (longlong)((int)i + 1);
+      i++;
     } while (i <= param_2->dat->lods);
   }
   BVar1 = param_2->dat->type;
-  if (B1_RGBA32 < BVar1) {
+  if (B1_RGBA32 < param_2->dat->type) {
     CRASH("borganim.cpp:LoadTextureImage","TEXTURE TYPE NOT SUPPORTED");
   }
   iVar4 = iVar10 >> 1;
-  switch(BVar1) {
+  switch(param_2->dat->type) {
   case B1_RGBA16:
     break;
   case B1_IA16:
@@ -340,7 +334,7 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
     goto LAB_8009dadc;
   case B1_IA8:
     break;
-  case B1_UNK4:
+  case B1_I8:
     break;
   case B1_CI4:
     h = ((iVar10 << 1) >> 2) - 1;
@@ -410,101 +404,73 @@ Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3){
   s8 sVar1;
   byte bVar2;
   byte bVar3;
-  u16 BVar4;
   Borg1Data *pBVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
+  uint masks;
+  uint maskt;
+  uint shifts;
+  uint shiftt;
   int iVar10;
   uint uVar11;
-  undefined4 uVar12;
+  u32 uVar12;
   uint x;
   uint uVar13;
-  ulonglong uVar14;
+  u16 uVar14;
   Gfx *pGVar15;
   Gfx *pGVar16;
-  uint uVar17;
-  uint uVar18;
-  uint uVar19;
-  uint uVar20;
-  uint uStack_3c;
-  uint uStack_30;
+  uint line;
+  uint cms;
+  uint i;
+  uint tmem;
+  uint cmt;
+  uint lrt;
   
-  if (param_3 == NULL) {
-    uVar14 = 0;
-  }
-  else {
-    uVar14 = (ulonglong)(short)param_3->unk0[1];
-  }
-  (gfx->words).w0 = 0xe7000000;
-  (gfx->words).w1 = 0;
-  gfx[1].words.w0 = 0xe8000000;
-  *(undefined4 *)((int)gfx + 0xc) = 0;
-  BVar4 = param_2->dat->flag;
-  if ((BVar4 & B1_TDDetail) == 0) {
-    if ((BVar4 & B1_TDSharpen) == 0) {
-      gfx[2].words.w0 = 0xe3000d01;
-      *(undefined4 *)((int)gfx + 0x14) = 0;
+  if (!param_3) uVar14 = 0;
+  else uVar14 = param_3->unk0[1];
+  gDPPipeSync(gfx++);
+  gDPTileSync(gfx++);
+  u16 b1Flag = param_2->dat->flag;
+  if ((b1Flag & B1_TDDetail) == 0) {
+    if ((b1Flag & B1_TDSharpen) == 0) {
+        gDPSetTextureDetail(gfx++,G_TD_CLAMP);
       goto LAB_8009dd14;
     }
-    uVar12 = 0x20000;
+    uVar12 = G_TD_SHARPEN;
   }
-  else {
-    uVar12 = 0x40000;
-  }
-  gfx[2].words.w0 = 0xe3000d01;
-  *(undefined4 *)((int)gfx + 0x14) = uVar12;
+  else uVar12 = G_TD_DETAIL;
+  gDPSetTextureDetail(gfx++,uVar12);
 LAB_8009dd14:
-  if (param_2->dat->lods < 1) {
-    gfx[3].words.w0 = 0xe3000f00;
-    *(undefined4 *)((int)gfx + 0x1c) = 0;
-  }
-  else {
-    gfx[3].words.w0 = 0xe3000f00;
-    *(undefined4 *)((int)gfx + 0x1c) = 0x10000;
-  }
-  pGVar16 = gfx + 4;
-  uStack_3c = 2;
-  uVar18 = (uint)((uVar14 & 0x1000) == 0) << 1;
-  if ((uVar14 & 0x4000) != 0) {
-    uVar18 |= 1;
-  }
-  if ((uVar14 & 0x2000) != 0) {
-    uStack_3c = 0;
-  }
-  if ((uVar14 & 0x8000) != 0) {
-    uStack_3c |= 1;
-  }
+  if (param_2->dat->lods <= 0) {gDPSetTextureLOD(gfx++,0);}
+  else {gDPSetTextureLOD(gfx++,G_TL_LOD);}
+  cmt = G_TX_CLAMP;
+  cms = (uint)((uVar14 & 0x1000) == 0) << 1;
+  if ((uVar14 & 0x4000)) cms |= G_TX_MIRROR;
+  if ((uVar14 & 0x2000)) cmt = 0;
+  if ((uVar14 & 0x8000)) cmt |= G_TX_MIRROR;
   pBVar5 = param_2->dat;
   bVar2 = pBVar5->Width;
   x = (uint)bVar2;
-  uVar20 = 0;
+  tmem = 0;
   bVar3 = pBVar5->Height;
-  uVar19 = 0;
+  i = 0;
   sVar1 = pBVar5->lods;
-  pGVar15 = pGVar16;
-  uStack_30 = (uint)bVar3;
+  lrt = (uint)bVar3;
   if (-1 < sVar1) {
-    do {
-      uVar6 = getPow2(x);
-      uVar7 = getPow2(uStack_30);
-      uVar8 = FUN_8009d3b0((uint)bVar2,x);
-      uVar9 = FUN_8009d3b0((uint)bVar3,uStack_30);
+    do { 
+      u8 fmt,siz;//1st word of macro got cmd, size, and format optimised together for each case...
+      masks = getPow2(x);
+      maskt = getPow2(lrt);
+      shifts = FUN_8009d3b0((uint)bVar2,x);
+      shiftt = FUN_8009d3b0((uint)bVar3,lrt);
       switch(param_2->dat->type) {
       case B1_RGBA16:
-        if ((int)x < 4) {
-          iVar10 = 4 - x;
-        }
+        if ((int)x < 4) iVar10 = 4 - x;
         else {
           iVar10 = 4 - (x & 3);
-          if ((x & 3) == 0) {
-            iVar10 = 0;
-          }
+          if ((x & 3) == 0) iVar10 = 0;
         }
-        uVar17 = (int)(x + iVar10) >> 2;
-        uVar13 = (uVar17 & 0x1ff) << 9;
-        uVar11 = 0xf5100000;
+        line = (int)(x + iVar10) >> 2;
+        fmt=G_IM_FMT_RGBA;
+        siz=G_IM_SIZ_16b;
         break;
       case B1_IA16:
         if ((int)x < 4) {
@@ -512,13 +478,11 @@ LAB_8009dd14:
         }
         else {
           iVar10 = 4 - (x & 3);
-          if ((x & 3) == 0) {
-            iVar10 = 0;
-          }
+          if ((x & 3) == 0) iVar10 = 0;
         }
-        uVar17 = (int)(x + iVar10) >> 2;
-        uVar13 = (uVar17 & 0x1ff) << 9;
-        uVar11 = 0xf5700000;
+        line = (int)(x + iVar10) >> 2;
+        fmt=G_IM_FMT_IA;
+        siz=G_IM_SIZ_16b;
         break;
       case B1_CI8:
         if ((int)x < 8) {
@@ -526,122 +490,89 @@ LAB_8009dd14:
         }
         else {
           iVar10 = 8 - (x & 7);
-          if ((x & 7) == 0) {
-            iVar10 = 0;
-          }
+          if ((x & 7) == 0) iVar10 = 0;
         }
-        uVar17 = (int)(x + iVar10) >> 3;
-        uVar13 = (uVar17 & 0x1ff) << 9;
-        uVar11 = 0xf5480000;
+        line = (int)(x + iVar10) >> 3;
+        fmt=G_IM_FMT_CI;
+        siz=G_IM_SIZ_8b;
         break;
       case B1_IA8:
-        if ((int)x < 8) {
-          iVar10 = 8 - x;
-        }
+        if ((int)x < 8) iVar10 = 8 - x;
         else {
           iVar10 = 8 - (x & 7);
-          if ((x & 7) == 0) {
-            iVar10 = 0;
-          }
+          if ((x & 7) == 0) iVar10 = 0;
         }
-        uVar17 = (int)(x + iVar10) >> 3;
-        uVar13 = (uVar17 & 0x1ff) << 9;
-        uVar11 = 0xf5680000;
+        line = (int)(x + iVar10) >> 3;
+        fmt=G_IM_FMT_IA;
+        siz=G_IM_SIZ_8b;
         break;
-      case B1_UNK4:
-        if ((int)x < 8) {
-          iVar10 = 8 - x;
-        }
+      case B1_I8:
+        if ((int)x < 8) iVar10 = 8 - x;
         else {
           iVar10 = 8 - (x & 7);
-          if ((x & 7) == 0) {
-            iVar10 = 0;
-          }
+          if ((x & 7) == 0) iVar10 = 0;
         }
-        uVar17 = (int)(x + iVar10) >> 3;
-        uVar13 = (uVar17 & 0x1ff) << 9;
-        uVar11 = 0xf5880000;
+        line = (int)(x + iVar10) >> 3;
+        fmt=G_IM_FMT_I;
+        siz=G_IM_SIZ_8b;
         break;
       case B1_CI4:
-        if ((int)x < 0x10) {
-          iVar10 = 0x10 - x;
-        }
+        if ((int)x < 0x10) iVar10 = 0x10 - x;
         else {
           iVar10 = 0x10 - (x & 0xf);
-          if ((x & 0xf) == 0) {
-            iVar10 = 0;
-          }
+          if ((x & 0xf) == 0) iVar10 = 0;
         }
-        uVar17 = (int)(x + iVar10) >> 4;
-        uVar13 = (uVar17 & 0x1ff) << 9;
-        uVar11 = 0xf5400000;
+        line = (int)(x + iVar10) >> 4;
+        fmt=G_IM_FMT_CI;
+        siz=G_IM_SIZ_4b;
         break;
-      case B1_UNK6:
-        if ((int)x < 0x10) {
-          iVar10 = 0x10 - x;
-        }
+      case B1_IA4:
+        if ((int)x < 0x10) iVar10 = 0x10 - x;
         else {
           iVar10 = 0x10 - (x & 0xf);
-          if ((x & 0xf) == 0) {
-            iVar10 = 0;
-          }
+          if ((x & 0xf) == 0) iVar10 = 0;
         }
-        uVar17 = (int)(x + iVar10) >> 4;
-        uVar13 = (uVar17 & 0x1ff) << 9;
-        uVar11 = 0xf5600000;
+        line = (int)(x + iVar10) >> 4;
+        fmt=G_IM_FMT_IA;
+        siz=G_IM_SIZ_4b;
         break;
       case B1_I4:
-        if ((int)x < 0x10) {
-          iVar10 = 0x10 - x;
-        }
+        if ((int)x < 0x10) iVar10 = 0x10 - x;
         else {
           iVar10 = 0x10 - (x & 0xf);
-          if ((x & 0xf) == 0) {
-            iVar10 = 0;
-          }
+          if ((x & 0xf) == 0) iVar10 = 0;
         }
-        uVar17 = (int)(x + iVar10) >> 4;
-        uVar13 = (uVar17 & 0x1ff) << 9;
-        uVar11 = 0xf5800000;
+        line = (int)(x + iVar10) >> 4;
+        fmt=G_IM_FMT_I;
+        siz=G_IM_SIZ_4b;
         break;
       case B1_RGBA32:
-        if ((int)x < 2) {
-          iVar10 = 2 - x;
-        }
+        if ((int)x < 2) iVar10 = 2 - x;
         else {
           iVar10 = 2 - (x & 1);
           if ((x & 1) == 0) {
             iVar10 = 0;
           }
         }
-        uVar17 = (int)(x + iVar10) >> 2;
-        uVar13 = (uVar17 & 0x1ff) << 9;
-        uVar11 = 0xf5180000;
+        line = (int)(x + iVar10) >> 2;
+        fmt=G_IM_FMT_RGBA;
+        siz=G_IM_SIZ_32b;
         break;
-      default: //yeah, I'm not sure which is which.
+      default: //yeah, I'm not sure which function is which.
         CRASH("borganim.cpp:LoadTextureImage","TEXTURE TYPE NOT SUPPORTED");
       }
-                    // gsDPSetTile
-      (pGVar15->words).w0 = uVar13 | uVar20 & 0x1ff | uVar11;
-      (pGVar15->words).w1 =
-           (uVar19 & 7) << 0x18 | uStack_3c << 0x12 | (uVar7 & 0xf) << 0xe | (uVar9 & 0xf) << 10 |
-           uVar18 << 8 | (uVar6 & 0xf) << 4 | uVar8 & 0xf;
-      pGVar16 = pGVar15 + 2;
-                    // gDPSetTileSize
-      pGVar15[1].words.w0 = 0xf2000000;
-      *(uint *)((int)pGVar15 + 0xc) =
-           (uVar19 & 7) << 0x18 | (x - 1 & 0x3ff) << 0xe | (uStack_30 - 1) * 4 & 0xfff;
-      uVar20 += uVar17 * uStack_30;
+      gDPSetTile(gfx++,fmt,siz,line,tmem,i,0,cmt,maskt,shiftt,cms,masks,shifts);
+      gDPSetTileSize(gfx++,i,0,0,x-1,(lrt-1)*4);
+      tmem += line * lrt;
       x = half(x);
-      uStack_30 = half(uStack_30);
-      uVar19 += 1;
-      pGVar15 = pGVar16;
-    } while ((int)uVar19 <= (int)sVar1);
+      lrt = half(lrt);
+      i++;
+    } while ((int)i <= (int)sVar1);
   }
-  return pGVar16;
+  return gfx;
 }
 
-
+//TODO: Redo once relevant data is better understood
 Gfx * Ofunc_8009e228(Gfx *param_1,SceneData *param_2,int param_3){
   Gfx *pGVar1;
   u32 uVar2;
@@ -663,12 +594,9 @@ Gfx * Ofunc_8009e228(Gfx *param_1,SceneData *param_2,int param_3){
   puVar5 = *(undefined4 **)((int)pvVar3 + 0x2c);
   pGVar1 = param_1 + 1;
   for (iVar4 = *(int *)((int)pvVar3 + 4); iVar4 != 0; iVar4 += -1) {
-    (pGVar1->words).w0 = 0xde000000;
+    gSPDisplayList(pGVar1++,osVirtualToPhysical((void *)*puVar5));
     pvVar3 = (void *)*puVar5;
-    puVar5 = puVar5 + 1;
-    uVar2 = osVirtualToPhysical(pvVar3);
-    (pGVar1->words).w1 = uVar2;
-    pGVar1 = pGVar1 + 1;
+    puVar5++;
   }
   return pGVar1;
 }
@@ -741,7 +669,6 @@ void Borg5Sub_op1(borg5substruct *param_1,MtxF *mf){
   fVar8 = fVar14 * fVar12 * (param_1->scale).x;
   fVar5 = fVar3 * fVar12 * (param_1->scale).x;
   fVar4 = (-fVar3 * fVar11 + fVar14 * fVar2 * fVar1) * (param_1->scale).y;
-  fVar9 = (param_1->scale).z;
   fVar6 = (fVar3 * fVar1 + fVar14 * fVar2 * fVar11) * (param_1->scale).z;
   fVar15 = fVar12 * fVar1 * (param_1->scale).y;
   fVar13 = fVar12 * fVar11 * (param_1->scale).z;
@@ -1099,7 +1026,7 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
       if ((param_1->flags & 0x4000) == 0) guMtxF2L(&mf3,(pBVar4->dat).mtx_[param_1->perspNormIndex]);
       else guMtxF2L(&mf6,&(pBVar4->dat).mtx_[param_1->perspNormIndex]);
     }
-    pbVar12 = pbVar12 + 1;
+    pbVar12++;
     iVar11--;
   }
   iVar10 = pBStack_40->borg4Count + -1;
@@ -1196,27 +1123,17 @@ void Ofunc_8009f608(SceneData *param_1){
   }
 }
 
-void Ofunc_8009f664(SceneData *param_1)
-
-{
-  Borg5Header *pBVar1;
-  Borg5Struct2 *pBVar2;
-  int iVar3;
-  borg5substruct *pbVar4;
-  
-  pBVar1 = param_1->scene[0].borg5;
-  pbVar4 = (pBVar1->dat).someSubstruct;
-  for (iVar3 = (pBVar1->dat).substructCount; iVar3 != 0; iVar3 += -1) {
-    pBVar2 = pbVar4->unkStruct;
-    (pBVar2->unk17c).x = 0.0;
-    (pBVar2->unk17c).y = 0.0;
-    (pBVar2->unk17c).z = 0.0;
-    (pBVar2->unk170).x = pBVar2->mfs[1][3][0];
-    (pBVar2->unk170).y = pBVar2->mfs[1][3][1];
-    pbVar4 = pbVar4 + 1;
-    (pBVar2->unk170).z = pBVar2->mfs[1][3][2];
+void Ofunc_8009f664(SceneData *param_1){
+  borg5substruct *pbVar4 = (param_1->scene[0].borg5->dat).someSubstruct;
+  for (s32 i = (param_1->scene[0].borg5->dat).substructCount; i != 0; i--) {
+    (pbVar4->unkStruct->unk17c).x = 0.0;
+    (pbVar4->unkStruct->unk17c).y = 0.0;
+    (pbVar4->unkStruct->unk17c).z = 0.0;
+    (pbVar4->unkStruct->unk170).x = pbVar4->unkStruct->mfs[1][3][0];
+    (pbVar4->unkStruct->unk170).y = pbVar4->unkStruct->mfs[1][3][1];
+    (pbVar4->unkStruct->unk170).z = pbVar4->unkStruct->mfs[1][3][2];
+    pbVar4++;
   }
-  return;
 }
 
 void FUN_8009f6b4(SceneData *param_1,Borg6Header *param_2)
@@ -1509,10 +1426,7 @@ void FUN_8009fd98(Borg7Header *param_1){
 
 void FUN_8009fdec(Borg7Header *param_1){FUN_800a0a08(param_1->sceneDat);}
 
-
-void takeBranch(Borg7Header *param_1,b7SubSub *param_2)
-
-{
+void takeBranch(Borg7Header *param_1,b7SubSub *param_2){
   Borg7Sub *pBVar1;
   u32 index;
   struct_1 *psVar2;
@@ -1539,12 +1453,10 @@ void takeBranch(Borg7Header *param_1,b7SubSub *param_2)
     puVar7 = (param_1->unk38).indecies;
     bVar3 = *puVar7;
     while( true ) {
-      if (bVar3 == index) {
-        bVar9 = true;
-      }
+      if (bVar3 == index) bVar9 = true;
       else {
-        puVar7 = puVar7 + 1;
-        uVar10 += 1;
+        puVar7++;
+        uVar10++;
       }
       if (bVar9) goto LAB_8009ffd4;
       if (animChache <= uVar10) break;
@@ -1568,7 +1480,7 @@ LAB_8009ffd4:
     if (iVar4 != 0) {
       ppBVar8 = psVar11->anis + (animChache - 1);
       do {
-        iVar4 += -1;
+        iVar4--;
         *ppBVar8 = ppBVar8[-1];
         ppBVar8[3] = ppBVar8[2];
         ppBVar8 = ppBVar8 + -1;
@@ -1576,8 +1488,8 @@ LAB_8009ffd4:
     }
     clearBorgFlag();
     iVar4 = get_memUsed();
-    pBVar6 = (Borg6Header *)getBorgItem(index);
-    psVar11->anis[0] = pBVar6;
+
+    psVar11->anis[0] = (Borg6Header *)getBorgItem(index);
     iVar5 = get_memUsed();
     psVar2 = param_1->unk1c;
     (param_1->unk38).indecies[0] = index;
@@ -1609,9 +1521,7 @@ void FUN_800a0090(Borg7Header *param_1,ushort param_2){
 }
 
 
-bool FUN_800a00d0(Borg7Header *param_1)
-
-{
+bool FUN_800a00d0(Borg7Header *param_1){
   byte bVar1;
   Borg7Sub *pBVar2;
   u32 i;
@@ -1619,7 +1529,7 @@ bool FUN_800a00d0(Borg7Header *param_1)
   bool bVar6;
   int iVar4;
   short sVar5;
-  longlong lVar7;
+  s32 i;
   int iVar8;
   b7SubSub *pbVar9;
   b7SubSub *pbVar10;
@@ -1634,8 +1544,7 @@ bool FUN_800a00d0(Borg7Header *param_1)
     pbVar9 = pBVar2->p;
     iVar4 = gBorg7Rand.Range(0,99);
     bVar6 = false;
-    for (lVar7 = (longlong)(short)pBVar2->subSubCount; lVar7 != 0;
-        lVar7 = (longlong)((int)lVar7 + -1)) {
+    for (i = pBVar2->subSubCount; i != 0;i--) {
       if (param_1->currentAni == (ushort)pbVar9->ani) {
 LAB_800a016c:
         iVar4 -= (uint)pbVar9->unk1;
@@ -1665,12 +1574,12 @@ LAB_800a0220:
   else {
     pbVar10 = pBVar2->p;
     iVar4 = gBorg7Rand.Range(0,99);
-    lVar7 = (longlong)(short)pBVar2->subSubCount;
-    while (lVar7 != 0) {
-      iVar8 = (int)lVar7;
+    i = (short)pBVar2->subSubCount;
+    while (i != 0) {
+      iVar8 = (int)i;
       if (param_1->currentAni == (ushort)pbVar10->ani) {
         if ((pbVar10->flag & 1) == 0) {
-          lVar7 = (longlong)(iVar8 + -1);
+          i=(iVar8 + -1);
         }
         else {
           iVar4 -= (uint)pbVar10->unk1;
@@ -1679,11 +1588,11 @@ LAB_800a0220:
             takeBranch(param_1,pbVar10);
             goto LAB_800a0220;
           }
-          lVar7 = (longlong)(iVar8 + -1);
+          i=(iVar8 + -1);
         }
       }
       else {
-        lVar7 = (longlong)(iVar8 + -1);
+        i=(iVar8 + -1);
       }
       pbVar10 = pbVar10 + 1;
     }
@@ -1694,7 +1603,6 @@ LAB_800a0220:
   FUN_800a80ac(param_1->sceneDat,&local_58,i);
   if (param_1->unk12 == 0) {
     if (bVar3) {
-      (param_1->unk2c).x = 0.0;
       goto LAB_800a0278;
     }
     fVar11 = (param_1->unk20).y;
@@ -1704,8 +1612,8 @@ LAB_800a0220:
     (param_1->unk2c).z = local_58.z - fVar12;
   }
   else {
-    (param_1->unk2c).x = 0.0;
 LAB_800a0278:
+    (param_1->unk2c).x = 0.0;
     (param_1->unk2c).y = 0.0;
     (param_1->unk2c).z = 0.0;
   }
@@ -1723,9 +1631,7 @@ LAB_800a02cc:
 }
 
 
-bool FUN_800a0304(Borg7Header *param_1,int delta)
-
-{
+bool FUN_800a0304(Borg7Header *param_1,int delta){
   Borg7Sub *pBVar1;
   u32 i_00;
   bool bVar2;
@@ -1778,9 +1684,9 @@ LAB_800a046c:
       else {
         pbVar6 = pBVar1->p;
         rand = gAniRandSeed.Range(0,99);
-        lVar5 = (longlong)(short)pBVar1->subSubCount;
+        lVar5 = pBVar1->subSubCount;
         while (lVar5 != 0) {
-          lVar5 = (longlong)((int)lVar5 + -1);
+          lVar5--;
           if ((param_1->currentAni == (ushort)pbVar6->ani) && ((pbVar6->flag & 1) != 0)) {
             rand -= (uint)pbVar6->unk1;
             if (rand < 1) {
@@ -1869,24 +1775,24 @@ Gfx * BorgAnimDrawSceneLinked(Gfx *g,Borg7Header *param_2){
   }
   return g;
 }
-
+//TODO: Redo once relevant data is better understood
 void FUN_800a0714(SceneDatSubstruct *param_1){
   float *pfVar1;
-  ulonglong uVar2;
-  ulonglong uVar3;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
-  undefined4 uVar6;
+  s32 uVar2;
+  s32 uVar3;
+  u32 *puVar4;
+  u32 *puVar5;
+  u32 uVar6;
   
-  puVar5 = (undefined4 *)param_1->unk8;
+  puVar5 = (u32 *)param_1->unk8;
   param_1->unk4 = param_1->unk0->unk4;
   pfVar1 = param_1->unk0->unk4;
   param_1->unkc = 1;
-  uVar3 = (ulonglong)*(short *)((int)pfVar1 + 2);
-  puVar4 = (undefined4 *)pfVar1[1];
+  uVar3 = *(short *)((int)pfVar1 + 2);
+  puVar4 = *(u32 *)pfVar1[1];
   while (uVar3 != 0) {
     uVar2 = uVar3 & 1;
-    uVar3 = (ulonglong)((int)uVar3 >> 1);
+    uVar3 >>=1;
     if (uVar2 != 0) {
       uVar6 = *puVar4;
       puVar4++;
@@ -1903,10 +1809,8 @@ void FUN_800a0764(SceneDatStruct *param_1,float param_2){
   else FUN_800a07b0(param_1,param_2);
 }
 
-
-void FUN_800a07b0(SceneDatStruct *param_1,float param_2)
-
-{
+//TODO: Redo once relevant data is better understood
+void FUN_800a07b0(SceneDatStruct *param_1,float param_2){
   void **ppvVar1;
   uint uVar2;
   void *pvVar3;
@@ -1921,17 +1825,14 @@ void FUN_800a07b0(SceneDatStruct *param_1,float param_2)
     pvVar3 = (void *)((int)pvVar3 >> 1);
     if (uVar2 != 0) {
       ppvVar1 = &pSVar5->unk8;
-                    // WARNING: Load size is inaccurate
-      pSVar5 = pSVar5 + 1;
-      *pfVar4 = *pfVar4 + **ppvVar1 * param_2;
+      pSVar5++;
+      *pfVar4+= **ppvVar1 * param_2;
     }
-    pfVar4 = pfVar4 + 1;
+    pfVar4++;
   }
-  return;
 }
 
-
-
+//TODO: Redo once relevant data is better understood
 void FUN_800a0800(SceneDatStruct *param_1,float param_2){
   void **ppvVar1;
   float *pfVar2;
@@ -1986,7 +1887,6 @@ void FUN_800a0800(SceneDatStruct *param_1,float param_2){
     iVar8 += -1;
     if (((uint)pvVar6 & 1) != 0) {
       ppvVar1 = &pSVar7->unk8;
-                    // WARNING: Load size is inaccurate
       pSVar7 = pSVar7 + 1;
       pvVar5->x = pvVar5->x + **ppvVar1 * param_2;
     }
@@ -1995,13 +1895,8 @@ void FUN_800a0800(SceneDatStruct *param_1,float param_2){
   } while (iVar8 != 0);
   return;
 }
-
-
-
-
-void FUN_800a0940(Borg6Struct *param_1)
-
-{
+//TODO: Redo once relevant data is better understood
+void FUN_800a0940(Borg6Struct *param_1){
   Borg6Sub *pBVar1;
   borg5substruct *puVar2;
   uint uVar2;
@@ -2038,24 +1933,15 @@ void FUN_800a0940(Borg6Struct *param_1)
 }
 
 
-void FUN_800a09c0(SceneData *param_1)
-
-{
-  int iVar1;
-  SceneDatSubstruct *pSVar2;
-  
-  pSVar2 = param_1->scene[0].sub;
-  for (iVar1 = ((param_1->scene[0].borg5)->dat).substructCount; iVar1 != 0; iVar1 += -1) {
+void FUN_800a09c0(SceneData *param_1){
+  SceneDatSubstruct *pSVar2 = param_1->scene[0].sub;
+  for (s32 i = ((param_1->scene[0].borg5)->dat).substructCount; i != 0; i--,pSVar2++) {
     FUN_800a0714(pSVar2);
-    pSVar2 = pSVar2 + 1;
   }
-  return;
 }
 
 
-void FUN_800a0a08(SceneData *param_1)
-
-{
+void FUN_800a0a08(SceneData *param_1){
   Borg6Data *pBVar1;
   u32 uVar2;
   SceneData *pSVar3;
@@ -2076,13 +1962,10 @@ void FUN_800a0a08(SceneData *param_1)
       pBVar1 = pBVar4->dat;
     }
   }
-  return;
 }
 
-
-void FUN_800a0a74(Borg6Struct *param_1)
-
-{
+//TODO: Redo once relevant data is better understood.
+void FUN_800a0a74(Borg6Struct *param_1){
   Borg6SubSub *pBVar1;
   void *pvVar2;
   float *pfVar3;
@@ -2167,9 +2050,7 @@ LAB_800a0bd8:
 
 
 
-void Scene::Tick(SceneData *param_1)
-
-{
+void Scene::Tick(SceneData *param_1){
   byte bVar1;
   Borg6Data *pBVar2;
   Borg6Struct *pBVar3;
@@ -2191,7 +2072,7 @@ void Scene::Tick(SceneData *param_1)
           FUN_800a0a74(pBVar3);
         }
         FUN_800a0940(pBVar3);
-        pBVar3 = pBVar3 + 1;
+        pBVar3++;
       }
       pBVar5 = pBVar5->link2;
       if (pBVar5 == NULL) break;
@@ -2201,22 +2082,21 @@ void Scene::Tick(SceneData *param_1)
     if (pBVar5){
       fVar7 = pBVar5->unk1c;
       while( true ) {
-        if ((double)fVar7 == (double)(unaff_f22 & 0xffffffff00000000)) {
+        if ((double)fVar7 == (double)(unaff_f22 & 0xffffffff00000000)) { //?
           pBVar5 = pBVar5->link2;
         }
         else {
           pSVar4 = (SceneDatStruct *)pBVar5->structDat;
           for (uVar6 = pBVar5->dat->subCount; uVar6 != 0; uVar6 -= 1) {
-            FUN_800a0764(pSVar4,fVar7);
-            pSVar4 = pSVar4 + 1;
+            FUN_800a0764(pSVar4,pBVar5->unk1c);
+            pSVar4++;
           }
           pBVar5 = pBVar5->link2;
         }
         if (pBVar5 == NULL) break;
-        fVar7 = pBVar5->unk1c;
       }
     }
-    param_1->aniTime = param_1->aniTime + (ushort)param_1->aniSpeed;
+    param_1->aniTime+= (ushort)param_1->aniSpeed;
   }
   return;
 }
@@ -2271,7 +2151,7 @@ struct unkAnimStruct{
     Borg1Header*b1;
     astruct_3*unk14;
     Borg4Header* unk1c[8];
-    //repeated settings for dlists?
+    //repeated settings for gDlist800f32d8?
     u32 unk3c,unk40,unk44; 
     Color32 unk48;
     u32 unk4c,unk50,unk54;
@@ -2282,8 +2162,8 @@ unkAnimStruct unkAnimStructA,unkAnimStructB;
 
 
 Gfx * FUN_800a0e60(Gfx *G){
-  unkAnimStructB.unk40 = 0xd0000;
-  unkAnimStructB.unk3c = 0x220405;
+  unkAnimStructB.unk40 = G_FOG|G_TEXTURE_GEN|G_TEXTURE_GEN_LINEAR;
+  unkAnimStructB.unk3c = G_ZBUFFER|G_SHADE|G_CULL_BACK|G_LIGHTING|G_SHADING_SMOOTH;
   unkAnimStructB.unk48.R = 0;
   unkAnimStructB.unk48.G = 0;
   unkAnimStructB.unk48.B = 0;
@@ -2293,102 +2173,55 @@ Gfx * FUN_800a0e60(Gfx *G){
   unkAnimStructB.unk54 = 0x112038;
   unkAnimStructB.b1 = NULL;
   unkAnimStructB.unk44 = 0x2000;
-  gSPDisplayList(G++,gDlist800f32d8)
+  gSPDisplayList(G++,gDlist800f32d8);
   unkAnimStructA=unkAnimStructB;
   return G;
 }
 
 
-Gfx * setStaticMode(Gfx *g)
-
-{
-  s8 sVar1;
-  uint uVar2;
-  Borg5Data *pBVar3;
-  borg5substruct *pbVar4;
-  Borg2Header *pBVar5;
+Gfx * setStaticMode(Gfx *g){
   uint uVar6;
-  Gfx *pGVar7;
-  unkAnimStruct *puVar8;
-  unkAnimStruct *puVar9;
-  uint uVar10;
-  
-  if (g == NULL) {
-    Crash::ManualCrash("./src/borganim.cpp","SetStaticMode() !g");
-  }
-  uVar10 = 4;
-  uVar2 = *(uint *)(unkAnimStructB.unk14)->unk0;
-  if ((uVar2 & 0x200) == 0) {
-    uVar10 = 5;
-  }
-  if ((uVar2 & 0x10) != 0) {
-    uVar10 |= 0x200000;
-  }
-  if ((uVar2 & 4) != 0) {
-    uVar10 |= 0x400;
-  }
-  if ((uVar2 & 8) == 0) {
-    uVar10 |= 0x20000;
-  }
-  if (unkAnimStructB.b1 == NULL) {
-    pGVar7 = g + 1;
-    (g->words).w0 = 0xfcfffe03;
-    (g->words).w1 = 0xff0e79ff;
-  }
+  if (!g) {CRASH("./src/borganim.cpp","SetStaticMode() !g");}
+  u32 geoMode = G_SHADE;
+  u32 flag = *(u32 *)(unkAnimStructB.unk14)->unk0;
+  if (!(flag & 0x200)) geoMode = G_SHADE|G_ZBUFFER;
+  if ((flag & 0x10))geoMode |= G_SHADING_SMOOTH;
+  if ((flag & 4)) geoMode |= G_CULL_BACK;
+  if (!(flag & 8)) geoMode |= G_LIGHTING;
+  if (!unkAnimStructB.b1) {gDPSetCombine(g++,0xfffe03,0xff0e79ff);}
   else {
-    if ((uVar2 & 1) == 0) {
-      sVar1 = (unkAnimStructB.b1)->dat->lods;
+    if ((flag & 1) == 0) {
       if (((unkAnimStructB.b1)->dat->flag & B1_TDDetail) == 0) {
-        uVar6 = (uint)sVar1;
+        uVar6 = (unkAnimStructB.b1)->dat->lods;
       }
-      else {
-        uVar6 = (int)sVar1 - 1;
-      }
-      (g->words).w0 = (uVar6 & 7) << 0xb | 0xd7000002;
-      (g->words).w1 = 0x80008000;
+      else uVar6 = (unkAnimStructB.b1)->dat->lods - 1;
+      gSPTexture(g++,0x8000,0x8000,uVar6,0,2);
     }
     else {
-      uVar6 = uVar10 | 0x40000;
-      if ((uVar2 & 2) != 0) {
-        uVar6 = uVar10 | 0xc0000;
-      }
-      uVar10 = uVar6;
-      gSPTexture(g++,(unkAnimStructB.b1)->dat->Width,(unkAnimStructB.b1)->dat->Height,
+      geoMode|=((flag & 2) != 0)?G_TEXTURE_GEN|G_TEXTURE_GEN_LINEAR:G_TEXTURE_GEN;
+      gSPTexture(g++,(unkAnimStructB.b1)->dat->Width<<6,(unkAnimStructB.b1)->dat->Height<<6,
         (unkAnimStructB.b1->dat->lods ),0,2);
-    }
-    gDPSetTextureFilter(g++,((uVar2 & 0x80) == 0) << (G_MDSFT_TEXTFILT+1));
-    g[2].words.w0 = 0xfc127e03;
-    *(undefined4 *)((int)g + 0x14) = 0xff0ff3ff;
-    pGVar7 = loadTextureImage(g + 3,unkAnimStructB.b1,unkAnimStructB.unk14);
+    }                         //should still equal G_TF_AVERAGE or G_TF_POINT
+    gDPSetTextureFilter(g++,((flag & 0x80) == 0) << (G_MDSFT_TEXTFILT+1));
+    gDPSetCombine(g++,0x127e03,0xff0ff3ff);
+    g = loadTextureImage(g,unkAnimStructB.b1,unkAnimStructB.unk14);
   }
 
-  (pGVar7->words).w0 = 0xd9000000;
-  (pGVar7->words).w1 = 0;
-  pGVar7[1].words.w0 = 0xd9ffffff;
-  *(uint *)((int)pGVar7 + 0xc) = uVar10;
-  pGVar7[2].words.w0 = 0xe3000a01;
-  *(undefined4 *)((int)pGVar7 + 0x14) = 0x100000;
+  gSPLoadGeometryMode(g++,0);
+  gSPSetGeometryMode(g++,geoMode);
+  gDPSetCycleType(g++,G_CYC_2CYCLE);
   unkAnimStructA=unkAnimStructB;
-  return pGVar7 + 3;
+  return g;
 }
 
-
-Gfx * FUN_800a1184(Gfx *param_1)
-
-{
+Gfx * FUN_800a1184(Gfx *gfx){
   u16 BVar1;
   int iVar2;
-  uint uVar3;
-  Gfx *pGVar4;
-  u8 a;
-  u8 b;
-  u8 g;
-  u8 r;
-  uint uVar5;
-  float fVar6;
-  float fVar7;
+  uint c1; //TODO: replace vals with proper #defines
+  u8 r,g,b,a;
+  uint c0;//TODO: replace vals with proper #defines
   
-  uVar5 = 0xc080000;
+  c0 = 0xc080000;
   if (unkAnimStructB.b1 == NULL) {
     r = (int)(((unkAnimStructB.scene)->colorFloats).r * ((unkAnimStructB.unk14)->unk4).r *
              255.0f) ;
@@ -2399,7 +2232,7 @@ Gfx * FUN_800a1184(Gfx *param_1)
     a = (int)(((unkAnimStructB.scene)->colorFloats).a *
               (1.0f - ((unkAnimStructB.unk14)->unk4).a) *
               (1.0f - (float)(unkAnimStructB.b2)->dat->alpha) * 255.0f);
-    uVar3 = 0x112078;
+    c1 = 0x112078;
     if (255 <= a) goto LAB_800a1428;
   }
   else {
@@ -2411,44 +2244,37 @@ Gfx * FUN_800a1184(Gfx *param_1)
             (1.0f - (float)(unkAnimStructB.b2)->dat->alpha) * 255.0f;
     if (0xfe < a) {
       if (((unkAnimStructB.b1)->dat->flag & B1_Flag20) == 0) {
-        uVar3 = 0x112078;
+        c1 = 0x112078;
         goto LAB_800a1428;
       }
       BVar1 = (unkAnimStructB.b1)->dat->type;
       if (((BVar1 != B1_IA16) && (BVar1 != B1_IA8)) && (BVar1 != B1_RGBA32)) {
-        uVar3 = 0x113078;
+        c1 = 0x113078;
         goto LAB_800a1428;
       }
     }
   }
-  uVar3 = 0x1049d8;
+  c1 = 0x1049d8;
 LAB_800a1428:
-  pGVar4 = param_1;
   if (((unkAnimStructB.scene)->flags & 0x100) != 0) {
-    (param_1->words).w0 = 0xd9ffffff;
-    (param_1->words).w1 = 0x10000;
-    gDPSetFogColor(param_1++,unkAnimStructB.scene->fogColor.R,unkAnimStructB.scene->fogColor.G,
+    gSPSetGeometryMode(gfx++,G_FOG);
+    gDPSetFogColor(gfx++,unkAnimStructB.scene->fogColor.R,unkAnimStructB.scene->fogColor.G,
       unkAnimStructB.scene->fogColor.B,unkAnimStructB.scene->fogColor.A);
-    gSPFogPosition(param_1++,unkAnimStructB.scene->fogMin,unkAnimStructB.scene->fogMax);
-    uVar5 = 0xc8000000;
+    gSPFogPosition(gfx++,unkAnimStructB.scene->fogMin,unkAnimStructB.scene->fogMax);
+    c0 = 0xc8000000;
   }
-  gDPSetRenderMode(pGVar4++,uVar5,uVar3);
-  gDPSetPrimColor(pGVar4++,0,0,r,g,b,a);
-  return pGVar4;
+  gDPSetRenderMode(gfx++,c0,c1);
+  gDPSetPrimColor(gfx++,0,0,r,g,b,a);
+  return gfx;
 }
 
-void Ofunc_800a1548(vec3f *param_1)
-
-{
+void Ofunc_800a1548(vec3f *param_1){
   vec3f_800f3378.x = param_1->x;
   vec3f_800f3378.y = param_1->y;
   vec3f_800f3378.z = param_1->z;
-  return;
 }
 
-Gfx * gsAnimationDataMtx(Gfx *G,SceneData *param_2)
-
-{
+Gfx * gsAnimationDataMtx(Gfx *G,SceneData *param_2){
   Borg5Header *pBVar1;
   Borg3Header *pBVar2;
   uint uVar4;
@@ -2583,7 +2409,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2)
           if (fVar25 < 1.0f) fVar28 = fVar25;
         }
         else fVar28 = 0.0;
-        pLVar4 = (Light_t*)(pBVar3->dat).unk10;
+        pLVar4 = &pBVar3->dat->l->l;
         pLVar4[uVar17].dir[0]=pBVar2->mfs[1][2][0] *90.0f;
         pLVar4[uVar17].dir[1]=pBVar2->mfs[1][2][1] *90.0f;
         pLVar4[uVar17].dir[2]=pBVar2->mfs[1][2][2] *90.0f;
@@ -2599,27 +2425,21 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2)
       } while (i != 0);
       i = (unkAnimStructB.b5)->borg4Count;
       if (i == 1) {
-        
-        (g->words).w0 = 0xdc08090a;
-        pGVar12 = g + 2;
-        (g->words).w1 = (int)((*(unkAnimStructB.b5)->borg4p)->dat).unk10 + iVar20;
-        g[1].words.w0 = 0xdc08060a;
-        *(Light **)((int)g + 0xc) = &gBlackLight;
+        gSPLight(g++,(u32)&pLVar4[uVar17],2);
+        gSPLight(g++,(u32)&gBlackLight,1);
+        pGVar12 = g;
       }
       else {
         ppBVar15 = (unkAnimStructB.b5)->borg4p;
         pGVar12 = g;
         if (i != 0) {
-          uVar18 = 6;
+          u8 ind=1;
           do {
-            pGVar12 = g + 1;
-            uVar9 = uVar18 & 0xff;
-            uVar18 += 3;
-            (g->words).w0 = uVar9 << 8 | 0xdc08000a;
-            pBVar3 = *ppBVar15;
-            i += -1;
-            ppBVar15 = ppBVar15 + 1;
-            (g->words).w1 = (int)(pBVar3->dat).unk10 + iVar20;
+            pBVar3=*ppBVar15;
+            gSPLight(g++,(u32)&pBVar3->dat->l[uVar17],ind);
+            i--;
+            ind++;
+            ppBVar15++;
             g = pGVar12;
           } while (i != 0);
         }
@@ -2670,26 +2490,14 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2)
     i = 0;
     s32 aiStack512[]={1,2,3,4,5,6,7};
     if (0 < (int)param_2->currDynamicLights) {
-      iVar20 = 0x218;
-      uVar18 = 6;
-      pGVar10 = g;
       do {
-        g = pGVar10 + 1;
-                    // gSPLight(g,0x800f55f0->LightDatArray[],i)
-        (pGVar10->words).w0 = (uVar18 & 0xff) << 8 | 0xdc08000a;
-        uVar18 += 3;
-        (pGVar10->words).w1 = (int)&(unkAnimStructB.scene)->scene[0].borg5 + iVar20;
-        i += 1;
-        iVar20 += 0x10;
-        pGVar10 = g;
+        gSPLight(g++,&(unkAnimStructB.scene)->DirLights[i],i+1);
       } while (i < (int)(unkAnimStructB.scene)->currDynamicLights);
     }
-    (g->words).w0 = ((i + 1) * 3 + 3U & 0xff) << 8 | 0xdc08000a;
-    (g->words).w1 = (uint)&(unkAnimStructB.scene)->envLight.l;
-    g[1].words.w0 = 0xdb020000;
-    *(int *)((int)g + 0xc) = aiStack512[i + -1] * 0x18;
+    gSPLight(g++,&(unkAnimStructB.scene)->envLight,i+1);
+    gSPNumLights(g++,aiStack512[i + -1]);
     (unkAnimStructB.scene)->currDynamicLights = 0;
-    pGVar10 = g + 2;
+    pGVar10 = g;
   }
 switchD_800a1cc4_caseD_8:
   if (iVar22 < 8) {
@@ -2705,10 +2513,9 @@ switchD_800a1cc4_caseD_8:
   puVar24 = (unkAnimStructB.b5)->borg1lookup;
   fVar30 = 1.0f;
   do {
-    1.0f = fVar30;
     if (iVar22 == 0) {
       param_2->unk2ac = 0;
-      param_2->perspNormIndex = param_2->perspNormIndex ^ 1;
+      param_2->perspNormIndex^= 1;
       unkAnimStructB.b5 = NULL;
       return pGVar10;
     }
@@ -2744,9 +2551,9 @@ switchD_800a1cc4_caseD_8:
           guAlignF(&afStack320,(pbVar23->rot).z,fStack384.x,fStack384.y,fStack384.z);
           CLEAR(&mf);
           pSVar7 = unkAnimStructB.scene;
-          pBVar2->mfs[0][0][0] = (pbVar23->scale).x * ((unkAnimStructB.scene)->scalar).x;
-          pBVar2->mfs[0][1][1] = (pbVar23->scale).y * (pSVar7->scalar).y;
-          pBVar2->mfs[0][2][2] = (pbVar23->scale).z * (pSVar7->scalar).z;
+          pBVar2->mfs[0][0][0] = (pbVar23->scale).x * unkAnimStructB.scene->scalar.x;
+          pBVar2->mfs[0][1][1] = (pbVar23->scale).y * unkAnimStructB.scene->scalar.y;
+          pBVar2->mfs[0][2][2] = (pbVar23->scale).z * unkAnimStructB.scene->scalar.z;
           pBVar2->mfs[0][3][0] = pBVar2->mfs[1][3][0];
           pBVar2->mfs[0][3][1] = pBVar2->mfs[1][3][1];
           pBVar2->mfs[0][3][3] = 1.0f;
@@ -2770,21 +2577,16 @@ switchD_800a1cc4_caseD_8:
         guMtxF2L(mf,&unkAnimStructB.b5Sub->unkStruct->mtxs[uVar17]);
         (unkAnimStructB.b5Sub)->flag |= 2;
       }
-      (pGVar10->words).w0 = 0xda380003;
-      (pGVar10->words).w1 = (uint)((unkAnimStructB.b5Sub)->unkStruct->mtxs + uVar17);
+      gSPMatrix(pGVar10,(uint)((unkAnimStructB.b5Sub)->unkStruct->mtxs + uVar17),G_MTX_LOAD);
       break;
     case 3:
-      Crash::ManualCrash("BorgAnimDrawSceneRaw()",
+      CRASH("BorgAnimDrawSceneRaw()",
                          "We are not using animated textures on this project :)");
     case 4:
       unkAnimStructB.b2 = (unkAnimStructB.b5)->borg2p[uVar18];
-      (pGVar10->words).w0 = 0xdb060028;
-      uVar13 = osVirtualToPhysical((unkAnimStructB.b2)->dat->vertlist2);
-      (pGVar10->words).w1 = uVar13;
-      pGVar10[1].words.w0 = 0xdb060038;
-      pGVar12 = pGVar10 + 2;
-      uVar13 = osVirtualToPhysical((unkAnimStructB.b2)->dat->vertlist);
-      *(u32 *)((int)pGVar10 + 0xc) = uVar13;
+      gSPSegment(pGVar10++,10,osVirtualToPhysical((unkAnimStructB.b2)->dat->vertlist2));
+      gSPSegment(pGVar10++,14,osVirtualToPhysical((unkAnimStructB.b2)->dat->vertlist));
+      pGVar12 = pGVar10;
       break;
     case 5:
       pBVar5 = (unkAnimStructB.b2)->dat;
@@ -2798,16 +2600,13 @@ switchD_800a1cc4_caseD_8:
           sprintf(errBuff,"INVALID BORG SCENE\nop >= n op: %i n: %i",pBVar5->dsplistcount,uVar18);
           CRASH("./src/borganim.cpp",errBuff);
         }
-        if ((unkAnimStructB.b2)->dlistSet[uVar18] != 0) {
+        if ((unkAnimStructB.b2)->dlistSet[uVar18]) {
           pGVar12 = setStaticMode((unkAnimStructB.b2)->dlist[uVar18]);
-          (pGVar12->words).w0 = 0xdf000000;
-          (pGVar12->words).w1 = 0;
+          gSPEndDisplayList(pGVar12++);
           (unkAnimStructB.b2)->dlistSet[uVar18] = 0;
         }
-        (pGVar10->words).w0 = 0xde000000;
-        uVar13 = osVirtualToPhysical((unkAnimStructB.b2)->dlist[uVar18]);
-        (pGVar10->words).w1 = uVar13;
-        pGVar12 = FUN_800a1184(pGVar10 + 1);
+        gSPDisplayList(pGVar10++,osVirtualToPhysical((unkAnimStructB.b2)->dlist[uVar18]));
+        pGVar12 = FUN_800a1184(pGVar10);
         pGVar10 = pGVar12;
         if ((*(uint *)(unkAnimStructB.unk14)->unk0 & 1) != 0) {
           guLookAtReflect(&auStack128,(unkAnimStructB.b2)->lookat[0] + uVar17,
@@ -2815,19 +2614,14 @@ switchD_800a1cc4_caseD_8:
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][0],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][1],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][2],0.0,fVar30,0.0);
-          (pGVar12->words).w0 = 0xdc08000a;
-          (pGVar12->words).w1 = (uint)((unkAnimStructB.b2)->lookat[0] + uVar17);
-          pGVar12[1].words.w0 = 0xdc08030a;
-          pGVar10 = pGVar12 + 2;
-          *(Light **)((int)pGVar12 + 0xc) = (unkAnimStructB.b2)->lookat[0][uVar17].l + 1;
+          gSPLookAt(pGVar12++,(unkAnimStructB.b2)->lookat[uVar17]);
+          pGVar10 = pGVar12;
         }
         pGVar12 = pGVar10 + 1;
-        (pGVar10->words).w0 = 0xde000000;
-        uVar13 = osVirtualToPhysical(pGVar6);
-        (pGVar10->words).w1 = uVar13;
+        gSPDisplayList(pGVar10++,osVirtualToPhysical(pGVar6));
       }
     }
-    iVar22 += -1;
+    iVar22--;
     puVar24 = puVar24 + 1;
     pGVar10 = pGVar12;
     fVar30 = 1.0f;
