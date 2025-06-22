@@ -31,7 +31,6 @@ Gfx gDlist800f32d8[]={
     gsSPSetGeometryMode(G_ZBUFFER|G_SHADE|G_CULL_BACK|G_LIGHTING|G_SHADING_SMOOTH),
     gsSPEndDisplayList() 
 };
-u32 x=(G_ZBUFFER|G_SHADE|G_CULL_BACK|G_LIGHTING|G_SHADING_SMOOTH);
 vec3f vec3f_800f3378={0,0,100.0};
 vec3f vec3f_800f3384={1.0,0,0.0};
 u32 UINT_800f3390=false;
@@ -43,7 +42,7 @@ MtxF MtxF_800f54b0,some_mtx,unused_matrix;
 Random gBorg7Rand,gAniRandSeed;
 
 
-void Ofunc_8009d250(void){PTR_800f32b4 = NULL;}
+void Ofunc_8009d250(){PTR_800f32b4 = NULL;}
 
 void Ofunc_8009d25c(void* p){DAT_800f32b0 = p;}
 
@@ -97,10 +96,10 @@ uint half(int x){
 }
 
 
-int getPow2(uint param_1){
+int getPow2(uint x){
   int pow = -1;
-  for(;param_1!=0;pow++){
-    param_1 = half(param_1);
+  for(;x!=0;pow++){
+    x = half(x);
   }
   return pow;
 }
@@ -138,7 +137,6 @@ LAB_8009d4c0:
   PTR_800f32b4 = b1;
   return param_1;
 }
-
 
 void deinterlace32(Borg1Header *param_1,int param_2){
   byte bVar1;
@@ -205,7 +203,6 @@ void deinterlace32(Borg1Header *param_1,int param_2){
   }
   return;
 }
-
 
 void deinterlace16(Borg1Header *param_1,int param_2){
   byte bVar1;
@@ -398,7 +395,6 @@ LAB_8009db84:
   *(undefined4 *)((int)gfx + 0x4c) = 0;
   return gfx + 10;
 }
-
 
 Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3){
   s8 sVar1;
@@ -639,45 +635,25 @@ void Borg5Sub_op0(borg5substruct *param_1,MtxF *mf){
   (*mf)[3][3] = 1.0f;
 }
 
-
 void Borg5Sub_op1(borg5substruct *param_1,MtxF *mf){
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  float fVar11;
-  float fVar12;
-  float fVar13;
-  float fVar14;
-  float fVar15;
-  
-  fVar12 = (param_1->rot).x * DtoR_f;
-  fVar11 = (param_1->rot).y * DtoR_f;
-  fVar14 = (param_1->rot).z * DtoR_f;
-  fVar1 = __sinf(fVar11);
-  fVar11 = __cosf(fVar11);
-  fVar2 = __sinf(fVar12);
-  fVar12 = __cosf(fVar12);
-  fVar3 = __sinf(fVar14);
-  fVar14 = __cosf(fVar14);
-  fVar8 = fVar14 * fVar12 * (param_1->scale).x;
-  fVar5 = fVar3 * fVar12 * (param_1->scale).x;
-  fVar4 = (-fVar3 * fVar11 + fVar14 * fVar2 * fVar1) * (param_1->scale).y;
-  fVar6 = (fVar3 * fVar1 + fVar14 * fVar2 * fVar11) * (param_1->scale).z;
-  fVar15 = fVar12 * fVar1 * (param_1->scale).y;
-  fVar13 = fVar12 * fVar11 * (param_1->scale).z;
-  fVar7 = (fVar14 * fVar11 + fVar3 * fVar2 * fVar1) * (param_1->scale).y;
-  (*mf)[0][2] = -fVar2 * (param_1->scale).x;
+  float sinx = __sinf((param_1->rot).x * DtoR_f);
+  float cosx = __cosf((param_1->rot).x * DtoR_f);
+  float siny = __sinf((param_1->rot).y * DtoR_f);
+  float cosy = __cosf((param_1->rot).y * DtoR_f);
+  float sinz = __sinf((param_1->rot).z * DtoR_f);
+  float cosz = __cosf((param_1->rot).z * DtoR_f);
+  float fVar8 = cosz * cosy * (param_1->scale).x;
+  float fVar5 = sinz * cosy * (param_1->scale).x;
+  float fVar4 = (-sinz * cosx + cosz * siny * sinx) * (param_1->scale).y;
+  float fVar6 = (sinz * sinx + cosz * siny * cosx) * (param_1->scale).z;
+  float fVar15 = cosy * sinx * (param_1->scale).y;
+  float fVar13 = cosy * cosx * (param_1->scale).z;
+  float fVar7 = (cosz * cosx + sinz * siny * sinx) * (param_1->scale).y;
+  (*mf)[0][2] = -siny * (param_1->scale).x;
   (*mf)[0][0] = fVar8;
   (*mf)[0][1] = fVar5;
   (*mf)[1][0] = fVar4;
-  fVar9 = (-fVar14 * fVar1 + fVar3 * fVar2 * fVar11) * (param_1->scale).z;
+  float fVar9 = (-cosz * sinx + sinz * siny * cosx) * (param_1->scale).z;
   (*mf)[2][0] = fVar6;
   (*mf)[1][2] = fVar15;
   (*mf)[2][2] = fVar13;
@@ -685,7 +661,7 @@ void Borg5Sub_op1(borg5substruct *param_1,MtxF *mf){
   (*mf)[2][1] = fVar9;
   (*mf)[3][0] = (param_1->pos).x - (fVar8 * (param_1->unk).x + fVar4 * (param_1->unk).y + fVar6 * (param_1->unk).z);
   (*mf)[3][1] = (param_1->pos).y - (fVar5 * (param_1->unk).x + fVar7 * (param_1->unk).y + fVar9 * (param_1->unk).z);
-  (*mf)[3][2] = (param_1->pos).z - (-fVar2 * (param_1->scale).x * (param_1->unk).x + fVar15 * (param_1->unk).y + fVar13 * (param_1->unk).z);
+  (*mf)[3][2] = (param_1->pos).z - (-siny * (param_1->scale).x * (param_1->unk).x + fVar15 * (param_1->unk).y + fVar13 * (param_1->unk).z);
   (*mf)[0][3] = 1.0;
   (*mf)[1][3] = 1.0;
   (*mf)[2][3] = 1.0;
@@ -1136,9 +1112,7 @@ void Ofunc_8009f664(SceneData *param_1){
   }
 }
 
-void FUN_8009f6b4(SceneData *param_1,Borg6Header *param_2)
-
-{
+void FUN_8009f6b4(SceneData *param_1,Borg6Header *param_2){
   u32 uVar1;
   Borg6Sub *pBVar2;
   u32 uVar3;
@@ -1221,9 +1195,7 @@ LAB_8009f83c:
 }
 
 
-void Scene_SetBorg6(SceneData *scene,Borg6Header *b6)
-
-{
+void Scene_SetBorg6(SceneData *scene,Borg6Header *b6){
   Borg6Header *pBVar1;
   
   if ((b6->flag & 1) == 0) {
@@ -1241,9 +1213,7 @@ void Scene_SetBorg6(SceneData *scene,Borg6Header *b6)
   return;
 }
 
-void unlinkBorg6(Borg6Header *param_1)
-
-{
+void unlinkBorg6(Borg6Header *param_1){
   SceneData *pSVar1;
   Borg6Header *pBVar2;
   
@@ -1274,8 +1244,6 @@ void unlinkBorg6(Borg6Header *param_1)
   return;
 }
 
-
-
 void Ofunc_8009f938(Borg5Header *param_1,s32 param_2,int param_3,s32 param_4,int param_5){
   int iVar2;
   
@@ -1298,9 +1266,7 @@ void FUN_8009f9d0(SceneData *param_1,s16 *param_2){
 }
 
 
-SceneData * BorgAnimLoadScene(uint borg_5)
-
-{
+SceneData * BorgAnimLoadScene(uint borg_5){
   Borg5Header *pBVar1;
   bool bVar2;
   SceneData *ret;
@@ -1519,7 +1485,6 @@ void FUN_800a0090(Borg7Header *param_1,ushort param_2){
   }
   param_1->currentAni = param_2;
 }
-
 
 bool FUN_800a00d0(Borg7Header *param_1){
   byte bVar1;
@@ -1932,14 +1897,12 @@ void FUN_800a0940(Borg6Struct *param_1){
   return;
 }
 
-
 void FUN_800a09c0(SceneData *param_1){
   SceneDatSubstruct *pSVar2 = param_1->scene[0].sub;
   for (s32 i = ((param_1->scene[0].borg5)->dat).substructCount; i != 0; i--,pSVar2++) {
     FUN_800a0714(pSVar2);
   }
 }
-
 
 void FUN_800a0a08(SceneData *param_1){
   Borg6Data *pBVar1;
@@ -2048,8 +2011,6 @@ LAB_800a0bd8:
   goto joined_r0x800a0a8c;
 }
 
-
-
 void Scene::Tick(SceneData *param_1){
   byte bVar1;
   Borg6Data *pBVar2;
@@ -2119,7 +2080,6 @@ void Ofunc_800a0d30(Borg6Header *param_1,int param_2){
     }
   }
 }
-
 
 Gfx * BorgAnimDrawScene(Gfx *param_1,SceneData *param_2){
   if (param_2->unk2ac == 0) {
@@ -2239,8 +2199,8 @@ Gfx * FUN_800a1184(Gfx *gfx){
     r = ((unkAnimStructB.scene)->colorFloats).r * 255.0f;
     g = ((unkAnimStructB.scene)->colorFloats).g * 255.0f;
     b = ((unkAnimStructB.scene)->colorFloats).b * 255.0f;
-    a = ((unkAnimStructB.scene)->colorFloats).w *
-            (1.0f - ((unkAnimStructB.unk14)->unk4).w) *
+    a = ((unkAnimStructB.scene)->colorFloats).a *
+            (1.0f - ((unkAnimStructB.unk14)->unk4).a) *
             (1.0f - (float)(unkAnimStructB.b2)->dat->alpha) * 255.0f;
     if (0xfe < a) {
       if (((unkAnimStructB.b1)->dat->flag & B1_Flag20) == 0) {
@@ -2256,7 +2216,7 @@ Gfx * FUN_800a1184(Gfx *gfx){
   }
   c1 = 0x1049d8;
 LAB_800a1428:
-  if (((unkAnimStructB.scene)->flags & 0x100) != 0) {
+  if (((unkAnimStructB.scene)->flags & 0x100)) {
     gSPSetGeometryMode(gfx++,G_FOG);
     gDPSetFogColor(gfx++,unkAnimStructB.scene->fogColor.R,unkAnimStructB.scene->fogColor.G,
       unkAnimStructB.scene->fogColor.B,unkAnimStructB.scene->fogColor.A);
@@ -2292,9 +2252,7 @@ Gfx * gsAnimationDataMtx(Gfx *G,SceneData *param_2){
   return G;
 }
 
-Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2)
-
-{
+Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   Borg5Header *pBVar1;
   Borg5Struct2 *pBVar2;
   Borg4Header *pBVar3;
@@ -2627,6 +2585,7 @@ switchD_800a1cc4_caseD_8:
     fVar30 = 1.0f;
   } while( true );
 }
+
 void NOOP_800a2448(void *x){}
 
 Gfx * ret_A0(Gfx *g){return g;}

@@ -271,7 +271,6 @@ void Cinematic::LoadNextScene(void){
                gGlobals.cinematic.clippingPlanes[gGlobals.cinematic.tally][1]);
     gGlobals.cinematic.tally++;
   }
-  return;
 }
 
 u16 Cinematic::LoadMap(void){

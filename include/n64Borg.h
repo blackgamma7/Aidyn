@@ -602,12 +602,12 @@ struct Borg11Header {
 };
 
 struct Borg2Data {
-    int alpha;
+    int alpha; //inverted - 0=opaque, 1=transparent.
     int dsplistcount;
     float scale;
     vec3f pos;
     vec3f rot; /* radians */
-    Color32 unk0x24;
+    Color32 unk0x24; //might not be color, only "alpha" read as scene index.
     u32 unk0x28; /* ^1&1? */
     Gfx **dsplists;
     Vtx_t *vertlist;
@@ -985,6 +985,82 @@ void borg14_func_a(void *arg0);
 void ofunc_borg14_free(s32 *arg0);
 void * get_borg_14(s32 arg0);
 void passto_borg_14_free(s32 *arg0);
+
+//n64borg/anim.cpp
+void Ofunc_8009d250();
+void Ofunc_8009d25c(void* p);
+s8 GetN64ImageDimension(u16 X);
+int GetBitmapSize(int h,int w,s32 d);
+uint half(int x);
+int getPow2(uint);
+s32 FUN_8009d3b0(s32 param_1,s32 param_2);
+Gfx * FUN_8009d3dc(Gfx *param_1,Borg1Header *b1,u8 bufferchoice);
+void deinterlace32(Borg1Header *param_1,int param_2);
+void deinterlace16(Borg1Header *param_1,int param_2);
+void FUN_8009d7b0(Borg1Header *param_1);
+Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2);
+Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3);
+Gfx * Ofunc_8009e228(Gfx *param_1,SceneData *param_2,int param_3);
+void Borg5Sub_op0(borg5substruct *param_1,MtxF *mf);
+void Borg5Sub_op1(borg5substruct *param_1,MtxF *mf);
+void Borg5Sub_op2(borg5substruct *param_1,MtxF *mf);
+void Borg5Sub_op3(borg5substruct *param_1,MtxF *mf);
+void Borg5Sub_op4(borg5substruct *param_1,MtxF *mf);
+void Borg5Sub_ops(borg5substruct *param_1,MtxF *mf);
+void FUN_8009ed9c(MtxF *in,MtxF *out);
+void FUN_8009ee48(MtxF *in,MtxF *out);
+void FUN_8009ee98(borg5substruct *param_1,MtxF *param_2);
+void FUN_8009ef34(SceneData *param_1);
+void Ofunc_8009efd0(SceneData *param_1,MtxF *param_2);
+void FUN_8009f060(SceneData *param_1,MtxF *param_2);
+void Ofunc_8009f4e0(SceneData *param_1);
+void Ofunc_8009f554(SceneData *param_1,vec3f *param_2);
+void Ofunc_8009f608(SceneData *param_1);
+void Ofunc_8009f664(SceneData *param_1);
+void FUN_8009f6b4(SceneData *param_1,Borg6Header *param_2);
+void Scene_SetBorg6(SceneData *scene,Borg6Header *b6);
+void unlinkBorg6(Borg6Header *param_1);
+void Ofunc_8009f938(Borg5Header *param_1,s32 param_2,int param_3,s32 param_4,int param_5);
+void FUN_8009f9d0(SceneData *param_1,s16 *param_2);
+SceneData * BorgAnimLoadScene(uint borg_5);
+void borganim_free(SceneData *param_1);
+Borg6Header * get_borg_6(int param_1);
+void passto_borg_6_free(Borg6Header *param_1);
+Borg7Header * func_loading_borg7(u32 param_1,ParticleHeadStruct *param_2);
+void FUN_8009fca8(Borg7Header *param_1);
+void FUN_8009fd40(Borg7Header *param_1);
+void FUN_8009fd98(Borg7Header *param_1);
+void FUN_8009fdec(Borg7Header *param_1);
+void takeBranch(Borg7Header *param_1,b7SubSub *param_2);
+void animate_borg7(Borg7Header *param_1);
+bool Borg7_AnimationExpired(Borg7Header *param_1);
+void FUN_800a0088();
+void FUN_800a0090(Borg7Header *param_1,ushort param_2);
+bool FUN_800a00d0(Borg7Header *param_1);
+bool FUN_800a0304(Borg7Header *param_1,int delta);
+u16 Ofunc_800a058c(Borg7Header *param_1);
+void Borg7_StartParticles(Borg7Header *param_1);
+Gfx * BorgAnimDrawSceneLinked(Gfx *g,Borg7Header *param_2);
+void FUN_800a0714(SceneDatSubstruct *param_1);
+void FUN_800a0764(SceneDatStruct *param_1,float param_2);
+void FUN_800a07b0(SceneDatStruct *param_1,float param_2);
+void FUN_800a0800(SceneDatStruct *param_1,float param_2);
+void FUN_800a0940(Borg6Struct *param_1);
+void FUN_800a09c0(SceneData *param_1);
+void FUN_800a0a08(SceneData *param_1);
+void FUN_800a0a74(Borg6Struct *param_1);
+void Ofunc_800a0d30(Borg6Header *param_1,int param_2);
+Gfx * BorgAnimDrawScene(Gfx *param_1,SceneData *param_2);
+void FUN_800a0df4(SceneData *param_1);
+void Ofunc_800a0e30(void);
+Gfx * FUN_800a0e60(Gfx *G);
+Gfx * setStaticMode(Gfx *g);
+Gfx * FUN_800a1184(Gfx *gfx);
+void Ofunc_800a1548(vec3f *param_1);
+Gfx * gsAnimationDataMtx(Gfx *G,SceneData *param_2);
+Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2);
+void NOOP_800a2448(void *x);
+Gfx * ret_A0(Gfx *g);
 
 
 typedef void (*BorgFuncA)(void*);
