@@ -1,6 +1,6 @@
 #include "widgets/WidgetMenu.h"
 #include "savefiles.h"
-#include "unkGuiSubstruct.h"
+#include "GuiAnimation.h"
 
 class WidgetChild10 : public WidgetMenu {
     public:
@@ -37,7 +37,7 @@ class WidgetMenuChild:public WidgetMenu {
     u32 field1_0x7c;
     WidgetChild10 *field2_0x80;
     WidgetChild10 *field3_0x84;
-    UnkGuiSubstruct field4_0x88;
+    GuiAnimationManager field4_0x88;
     u32 field5_0x98;
     u32 field6_0x9c;
     u32 field7_0xa0;

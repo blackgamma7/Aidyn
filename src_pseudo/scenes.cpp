@@ -304,9 +304,9 @@ void Scene::SetFlag20(SceneData *param_1){param_1->flags|=0x20;}
 
 void Scene::UnsetFlag20(SceneData *param_1){param_1->flags&=~0x20;}
 
-void Scene::SetFlag10(SceneData *param_1){param_1->flags|=0x40;}
+void Scene::SetFlag40(SceneData *param_1){param_1->flags|=0x40;}
 
-void Scene::UnsetFlag10(SceneData *param_1){param_1->flags&=~0x40;}
+void Scene::UnsetFlag40(SceneData *param_1){param_1->flags&=~0x40;}
 
 void Scene::SetFlag80(SceneData *param_1){param_1->flags|=0x80;}
 
@@ -341,7 +341,7 @@ void FUN_800a80d8(SceneData *param_1,vec3f *param_2,int param_3){
 }
 
 
-void Ofunc_800a8104(SceneData *param_1,int param_2,int param_3){
+void Ofunc_800a8104(SceneData *param_1,int param_2,float param_3){
   if (-1 < param_2) {
     Borg5Header *pBVar1 = param_1->scene[0].borg5;
     if (param_2 < (pBVar1->dat).borg2Count) {
@@ -395,11 +395,11 @@ void Scene::SetFlag4000(SceneData *param_1){param_1->flags|=0x4000;}
 
 void Scene::UnsetFlag4000(SceneData *param_1){param_1->flags&=~0x4000;}
 
-void Scene::SetModelTint(SceneData *param_1,u8 r,u8 g,u8 b,u8 a){
-  (param_1->colorFloats).r = (float)r / 255.0f;
-  (param_1->colorFloats).g = (float)g / 255.0f;
-  (param_1->colorFloats).b = (float)b / 255.0f;
-  (param_1->colorFloats).a = (float)a / 255.0f;
+void Scene::SetModelTint(SceneData *scene,u8 r,u8 g,u8 b,u8 a){
+  (scene->colorFloats).r = (float)r / 255.0f;
+  (scene->colorFloats).g = (float)g / 255.0f;
+  (scene->colorFloats).b = (float)b / 255.0f;
+  (scene->colorFloats).a = (float)a / 255.0f;
 }
 
 void Scene::SetLightData(SceneData *param_1){
@@ -430,8 +430,7 @@ int Scene::LengthSquared(byte A,byte B,byte C){
   return SQ((uint)A)+SQ((uint)B)+SQ((uint)C);
 }
 
-s16 Scene::addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z,byte red,byte green,
-              byte blue,short index){
+s16 Scene::addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z,u8 red,u8 green,u8 blue,s16 index){
   uint uVar3;
   uint uVar4;
   int iVar5;

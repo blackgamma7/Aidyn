@@ -22,7 +22,7 @@ typedef float MtxF[4][4];
 #define NORMALIZE_MIN 1.0E-6
 #define TAU 6.2831855
 #define dtor 0.017453
-#define RadInDeg_f 57.29578
+#define RadInDeg_f 57.29578f
 #define SQ(x) x*x
 
 extern float _sqrtf(float x);

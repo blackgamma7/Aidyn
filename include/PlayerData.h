@@ -54,7 +54,7 @@ struct MoveQueueEntry {
 struct playerData {
     u16 ID;
     short removeFlag;
-    Borg7Header *locator_pointer;
+    Borg7Header *borg7P;
     SceneData *SceneDat;
     u32 borg7;
     u32 nextBorg7;

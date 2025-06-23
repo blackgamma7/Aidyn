@@ -1,91 +1,91 @@
-#include "unkGuiSubstruct.h"
+#include "GuiAnimation.h"
 
-UnkGuiClassU2::UnkGuiClassU2(s16 *param_2,s16 *param_3,s32 param_4,UnkGuiClassStruct *param_5){
+GuiAnimatorU2::GuiAnimatorU2(s16 *obj,s16 *target,s32 param_4,GuiAnimatorStruct *param_5){
   this->unk0 = 0;
-  this->unk4 = param_4;
-  this->val = param_2;
+  this->spd = param_4;
+  this->val = obj;
   this->unk=*param_5;
-  this->f64Array[0] = *param_2;
-  this->f64Array[1] = *param_3;
+  this->f64Array[0] = *obj;
+  this->f64Array[1] = *target;
 }
 
-UnkGuiClassU2::~UnkGuiClassU2(){
+GuiAnimatorU2::~GuiAnimatorU2(){
     *this->val=this->f64Array[1];
-    UnkGuiClass::~UnkGuiClass(); //gets inline'd.
+    GuiAnimator::~GuiAnimator();
 }
 
-short UnkGuiClassU2::vMethC(float param_2){
+s16 GuiAnimatorU2::vMethC(f32 param_2){
   float sinX = sinf(((this->unk).unk8 *
                            (((this->unk).unk20 + (double)param_2 * ((this->unk).unk28 - (this->unk).unk20)) -
                            (this->unk).unk10)));
   return (this->f64Array[0] +(this->f64Array[1] - this->f64Array[0]) *((this->unk).unk0 * (double)sinX + (this->unk).unk18));
 }
 
-UnkGuiClassU4::UnkGuiClassU4(u16 *param_2,u16 *param_3,s32 param_4,UnkGuiClassStruct *param_5){
+GuiAnimatorU4::GuiAnimatorU4(u16 *param_2,u16 *param_3,s32 param_4,GuiAnimatorStruct *param_5){
   this->unk0 = 0;
-  this->unk4 = param_4;
+  this->spd = param_4;
   this->val = param_2;
   this->unk=*param_5;
   this->f64Array[0] = *param_2;
   this->f64Array[1] = *param_3;
 }
 
-UnkGuiClassU4::~UnkGuiClassU4(){
+GuiAnimatorU4::~GuiAnimatorU4(){
     *this->val=this->f64Array[1];
-    UnkGuiClass::~UnkGuiClass(); //gets inline'd.
+    GuiAnimator::~GuiAnimator(); 
 }
 
-u16 UnkGuiClassU4::vMethC(float param_2){
+u16 GuiAnimatorU4::vMethC(float param_2){
   float sinX = sinf(((this->unk).unk8 *
                            (((this->unk).unk20 + (double)param_2 * ((this->unk).unk28 - (this->unk).unk20)) -
                            (this->unk).unk10)));
   return (this->f64Array[0] +(this->f64Array[1] - this->f64Array[0]) *((this->unk).unk0 * (double)sinX + (this->unk).unk18));
 }
 
-UnkGuiClassU3::UnkGuiClassU3(u8 *param_2,u8 *param_3,s32 param_4,UnkGuiClassStruct *param_5){
+GuiAnimatorU3::GuiAnimatorU3(u8 *param_2,u8 *param_3,s32 param_4,GuiAnimatorStruct *param_5){
   this->unk0 = 0;
-  this->unk4 = param_4;
+  this->spd = param_4;
   this->val = param_2;
   this->unk=*param_5;
   this->f64Array[0] = *param_2;
   this->f64Array[1] = *param_3;
 }
 
-UnkGuiClassU3::~UnkGuiClassU3(){
+GuiAnimatorU3::~GuiAnimatorU3(){
     *this->val=this->f64Array[1];
-    UnkGuiClass::~UnkGuiClass(); //gets inline'd.
+    GuiAnimator::~GuiAnimator();
 }
 
-u8 UnkGuiClassU3::vMethC(float param_2){
+u8 GuiAnimatorU3::vMethC(float param_2){
   float sinX = sinf(((this->unk).unk8 *
                            (((this->unk).unk20 + (double)param_2 * ((this->unk).unk28 - (this->unk).unk20)) -
                            (this->unk).unk10)));
   return (this->f64Array[0] +(this->f64Array[1] - this->f64Array[0]) *((this->unk).unk0 * (double)sinX + (this->unk).unk18));
 }
 
-UnkGuiClass::~UnkGuiClass(){delete this;}
+inline GuiAnimator::~GuiAnimator(){delete this;}
 
 
-void UnkGuiClass::vMethA(s32 param_2){
+void GuiAnimator::vMethA(s32 param_2){
 
-  if (this->unk0 < this->unk4) {
+  if (this->unk0 < this->spd) {
     this->unk0+=param_2;
-    if (this->unk4 < this->unk0) this->unk0 = this->unk4;
-    this->vMethB(this->unk0 / this->unk4);
+    if (this->spd < this->unk0) this->unk0 = this->spd;
+    this->vMethB(this->unk0 / this->spd);
   }
 }
 
-u32 UnkGuiClassU3::vMethB(f32 x){
+u32 GuiAnimatorU3::vMethB(f32 x){
     u32 ret=this->vMethC(x);
     *this->val=ret;
     return ret;
 }
-u32 UnkGuiClassU4::vMethB(f32 x){
+u32 GuiAnimatorU4::vMethB(f32 x){
     u32 ret=this->vMethC(x);
     *this->val=ret;
     return ret;
 }
-u32 UnkGuiClassU4::vMethB(f32 x){
+u32 GuiAnimatorU4::vMethB(f32 x){
     u32 ret=this->vMethC(x);
     *this->val=ret;
     return ret;

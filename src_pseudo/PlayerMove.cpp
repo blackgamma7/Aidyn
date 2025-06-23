@@ -177,7 +177,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     else if (-fVar9 < 1.0E-6f) (p->facing).x = 1.0E-6f;
     vec2_normalize(&p->facing);
   LAB_80019358:
-    if (((p->ani_type != 0) && (p->locator_pointer != NULL)) && (p->locator_pointer->currentAni == 0)) {
+    if (((p->ani_type != 0) && (p->borg7P != NULL)) && (p->borg7P->currentAni == 0)) {
       copyVec3(&(p->collision).pos,&fStack120);
       fStack120.y -= 0.475;
       UNK_NOOP(&fStack120,p->Ground_type);

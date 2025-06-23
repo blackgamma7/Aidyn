@@ -40,13 +40,13 @@ void Orphaned(playerData *target,u32 param_2){
     Borg7Header *pBVar5 = func_loading_borg7(borgIndex,&gGlobals.Sub.particleEmmiter);
     playerData *ppVar1 = pAVar7->player;
     pAVar7->borg7 = pBVar5;
-    if (ppVar1->locator_pointer == NULL)Actor::ChangeAppearance(ppVar1,ppVar1->borg7);
+    if (ppVar1->borg7P == NULL)Actor::ChangeAppearance(ppVar1,ppVar1->borg7);
     Scene::SetFlag40(pAVar7->borg7->sceneDat);
     Scene::SetFlag4(pAVar7->borg7->sceneDat);
     Scene::SetModelTint(pAVar7->borg7->sceneDat,0xff,0xff,0xff,0xff);
     pAVar7->borg7->sceneDat->particleHead = &gGlobals.Sub.particleEmmiter;
     pAVar7->borg7->sceneDat->link2a8 = NULL;
-    pAVar7->borg7->sceneDat->link2a4 = pAVar7->player->locator_pointer->sceneDat;
+    pAVar7->borg7->sceneDat->link2a4 = pAVar7->player->borg7P->sceneDat;
     FUN_800a0090(pAVar7->borg7,5);
     pAVar7->flag|= 1;
   }

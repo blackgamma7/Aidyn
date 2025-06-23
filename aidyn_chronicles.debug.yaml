@@ -412,7 +412,7 @@ segments:
       - [0xD67E0, asm,"other/CRCTable"]
       - [0xD6900, asm,"other/allocqueue"]
       - [0xD6D30, asm,"other/freeQueue"]
-      - [0xD6FF0, asm,other/unkguisubstruct]
+      - [0xD6FF0, asm,other/GuiAnimationManager]
       - [0xD7260, asm,"other/doubleMalloc"]
       - [0xD7280, asm]
       - [0xD7540, asm]

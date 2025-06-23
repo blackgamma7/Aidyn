@@ -111,7 +111,7 @@ void SetModelTint(SceneData *,u8,u8,u8,u8);
 void SetLightData(SceneData *);
 void SceneSetMaxDynamicDirLights(SceneData *,u8);
 int LengthSquared(byte,byte,byte);
-s16 addDynamicLight(SceneData *,s8 ,float,float,float,u8,u8,u8,s16);
+s16 addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z,u8 red,u8 green,u8 blue,s16 index);
 void SetLightColors(SceneData *,u8 ,u8 ,u8);
 bool HasLocator(SceneData *,s32);
 bool SceneGetLocatorMtx(SceneData *,MtxF *,s32);
@@ -128,6 +128,6 @@ void Tick(SceneData*);
 void SceneSetCameraLookAt(SceneData*,float,float,float,float,float,float);
 void FUN_800a80ac(SceneData*,vec3f *,s32);
 void FUN_800a80d8(SceneData*,vec3f *,s32);
-void Ofunc_800a8104(SceneData*,s32 ,s32 );
+void Ofunc_800a8104(SceneData*,s32 ,float);
 
 vec3f gAnimationLookatVec={1,0,0};

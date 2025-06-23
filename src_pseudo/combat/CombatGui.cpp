@@ -8,7 +8,7 @@ u32 gCombatGuiUnusedToggle=1;
 u8 gCombatPortraitCount=0;
 CombatPortrait* gCombatPortraits=NULL;
 CombatRadarBlip* gCombatRadarBlips=NULL;
-UnkGuiSubstruct* combat_gui_substruct=NULL;
+GuiAnimationManager* combat_gui_substruct=NULL;
 u32 combat_gui_flag=true;
 u8 combat_gui_incrementer=1;
 
@@ -62,14 +62,14 @@ void combat_gui_init(void){
   }
   CombatTextboxWidget_Init();
   gCombatGuiUnusedToggle = 1;
-  combat_gui_substruct= new UnkGuiSubstruct(0x40);
+  combat_gui_substruct= new GuiAnimationManager(0x40);
   combat_gui_flag = 1;
 }
 
 extern void free_borg8_widget(Borg8Header*);
 void combatgui_free(void){
   if (combat_gui_substruct) {
-    combat_gui_substruct->~UnkGuiSubstruct();
+    combat_gui_substruct->~GuiAnimationManager();
     combat_gui_substruct = NULL;
   }
   CombatTextboxWidget_Free();
@@ -349,15 +349,15 @@ void FUN_80090174(u8 param_1,CombatPortrait *param_2){
   pCVar9->widget->visible = 1;
   pCVar9->unk14 = 0;
 
-  combat_gui_substruct->AddItem(new UnkGuiClassBlip(&param_2->basePortait->x,&pCVar9->unk4,60));
-  combat_gui_substruct->AddItem(new UnkGuiClassU2(&param_2->basePortait->y,&pCVar9->unk6,60,&double_array_1));
-  combat_gui_substruct->AddItem(new UnkGuiClassU4(&param_2->basePortait->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
-  combat_gui_substruct->AddItem(new UnkGuiClassU4(&param_2->basePortait->height,(u16 *)&pCVar9->unka,60,&double_array_0));
+  combat_gui_substruct->AddItem(new GuiAnimatorBlip(&param_2->basePortait->x,&pCVar9->unk4,60));
+  combat_gui_substruct->AddItem(new GuiAnimatorU2(&param_2->basePortait->y,&pCVar9->unk6,60,&double_array_1));
+  combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->basePortait->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
+  combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->basePortait->height,(u16 *)&pCVar9->unka,60,&double_array_0));
   if (param_2->Overlay) {
-    combat_gui_substruct->AddItem(new UnkGuiClassBlip(&param_2->Overlay->x,&pCVar9->unk4,60));
-    combat_gui_substruct->AddItem(new UnkGuiClassU2(&param_2->Overlay->y,&pCVar9->unk6,60,&double_array_1));
-    combat_gui_substruct->AddItem(new UnkGuiClassU4(&param_2->Overlay->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
-    combat_gui_substruct->AddItem(new UnkGuiClassU4(&param_2->Overlay->height,(u16 *)&pCVar9->unka,60,&double_array_0));
+    combat_gui_substruct->AddItem(new GuiAnimatorBlip(&param_2->Overlay->x,&pCVar9->unk4,60));
+    combat_gui_substruct->AddItem(new GuiAnimatorU2(&param_2->Overlay->y,&pCVar9->unk6,60,&double_array_1));
+    combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->Overlay->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
+    combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->Overlay->height,(u16 *)&pCVar9->unka,60,&double_array_0));
   }
 }
 
@@ -439,16 +439,16 @@ Gfx * CombatDrawHealthbar(Gfx *g,u32 param_2){
   u16 x;
   float fVar8;
   s16 afStack_e8[2]={-4,24};
-  Color32 aCStack_a8;
-  Color32 aCStack_68;
+  Color32 hpColBlended;
+  Color32 hpCol;
   
   for(u16 i=0;i<gCombatPortraitCount;i++){
       CombatPortrait *pCVar3 = &gCombatPortraits[i];
       u8 bVar1 = pCVar3->unkb;
       if ((((bVar1 != 0) && (bVar1 != 1)) && (bVar1 != 4)) && (bVar1 != 5)) {
         CharSheet *pCVar2 = (&gCombatP->combatEnts)[pCVar3->cEntIndex]->charSheetP;
-        getHPColor(&aCStack_68,pCVar2);
-        Portraits::BlendColors(&aCStack_68,&aCStack_a8,gGlobals.brightness);
+        getHPColor(&hpCol,pCVar2);
+        Portraits::BlendColors(&hpCol,&hpColBlended,gGlobals.brightness);
         CombatRadarBlip *pCVar4 = gCombatRadarBlips;
         bVar1 = pCVar3->blipIndex;
         x = gCombatRadarBlips[bVar1].unk4 + afStack_e8[pCVar3->unkb != 2];
@@ -460,19 +460,19 @@ Gfx * CombatDrawHealthbar(Gfx *g,u32 param_2){
         V = pCVar4[bVar1].unk6 + pCVar4[bVar1].unka;
         if (uVar7 == V) uVar7--;
         Gfx *gfx = DrawRectangle(g,x,pCVar4[bVar1].unk6,x + 3,V,0,0,0,0xff);
-        g = DrawRectangle(gfx,x,uVar7,x + 3,V,aCStack_a8.R,aCStack_a8.G,aCStack_a8.B,0xff);
+        g = DrawRectangle(gfx,x,uVar7,x + 3,V,hpColBlended.R,hpColBlended.G,hpColBlended.B,0xff);
       }
   }
   return g;
 }
 
 void draw_crossbone(CombatPortrait *param_1,u32 param_2){
-  param_1->Overlay = ConstructWidgetBorg8Combat(&param_1->basePortait,loadBorg8(param_2),param_1->basePortait->x,param_1->basePortait->y,1);
+  param_1->Overlay = ConstructWidgetBorg8Combat(param_1->basePortait,loadBorg8(param_2),param_1->basePortait->x,param_1->basePortait->y,1);
   param_1->Overlay->SetWidth(param_1->basePortait->GetWidth());
   param_1->Overlay->SetHeight(param_1->basePortait->GetHeight());
   param_1->Overlay->col.A = 0;
   //inline'd constructor(?)
-  combat_gui_substruct->AddItem(new UnkGuiClassCB(&param_1->Overlay->col.A,255,60.0));
+  combat_gui_substruct->AddItem(new GuiAnimatorCB(&param_1->Overlay->col.A,255,60.0));
 }
 
 WidgetBorg8Combat::~WidgetBorg8Combat(){WidgetBorg8::~WidgetBorg8();}

@@ -16,7 +16,7 @@ DollMenuLists::~DollMenuLists(){
         this->menus[i]->~WidgetTrainShop();
     }
   }
-  this->unkb0.~UnkGuiSubstruct();
+  this->unkb0.~GuiAnimationManager();
   WidgetMenu::~WidgetMenu();
 }
 
@@ -170,9 +170,9 @@ void DollMenuLists::LRToggle(u8 param_2){
     if (newIndex!= this->menuIndex) {
       WidgetTrainShop* w=this->menus[newIndex];
       w->x = 0xa0 - sVar9;
-      this->unkb0.AddItem(new UnkGuiClassU2(&w->x,&this->menus[this->menuIndex]->x,0x14,&double_array_0));
+      this->unkb0.AddItem(new GuiAnimatorU2(&w->x,&this->menus[this->menuIndex]->x,0x14,&double_array_0));
       asStack_28[0] = sVar9 + this->menus[this->menuIndex]->x;
-      this->unkb0.AddItem(new UnkGuiClassU2(&this->menus[this->menuIndex]->x,asStack_28,0x14,&double_array_0));
+      this->unkb0.AddItem(new GuiAnimatorU2(&this->menus[this->menuIndex]->x,asStack_28,0x14,&double_array_0));
       this->Link(w);
       pWVar3 = this->menus[this->menuIndex];
       this->menuIndex = (byte)newIndex;

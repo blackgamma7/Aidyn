@@ -149,7 +149,7 @@ u16 FUN_800949fc(playerData *param_1){
     if (bVar2) break;
     pSVar4 = pSVar5;
     if (0xf < (int)uVar6) {
-      if (param_1->locator_pointer == NULL) {
+      if (param_1->borg7P == NULL) {
         Actor::ChangeAppearance(param_1,param_1->borg7);
       }
       uVar6 = (uint)(u16)SpellVisuals.indecies2[SpellVisuals.prt2count++];
@@ -163,7 +163,7 @@ LAB_80094b00:
     }
   }
   ppVar1 = pSVar4->playerDat;
-  if (ppVar1->locator_pointer == NULL) {
+  if (ppVar1->borg7P == NULL) {
     Actor::ChangeAppearance(ppVar1,ppVar1->borg7);
   }
   pSVar4->field2_0x8++;
@@ -175,7 +175,7 @@ void FUN_80094b24(short param_1){
   if ((entry->flags & 1)) {
     entry->timer = 150;
     FUN_80017330(entry->playerDat,30.0,1.0,1.0,1.0);
-    Scene::UnsetFogFlag(entry->playerDat->locator_pointer->sceneDat);
+    Scene::UnsetFogFlag(entry->playerDat->borg7P->sceneDat);
     entry->flags|= 2;
   }
 }
@@ -278,7 +278,7 @@ void FUN_80094e6c(short param_1){
     if (((entry->flags & 1)) && ((entry->flags & 2))) {
       if (entry->timer <= 0) {
         FUN_80017388(entry->playerDat,30.0);
-        Borg7Header *pBVar1 = entry->playerDat->locator_pointer;
+        Borg7Header *pBVar1 = entry->playerDat->borg7P;
         if (pBVar1) Scene::SetFogFlag(pBVar1->sceneDat);
         entry->flags&=~2;
       }
@@ -390,7 +390,7 @@ LAB_800950ec:
     if (lVar11 == 0) pSVar10->field3_0x1c = 0.0;
     else pSVar10->field3_0x1c = gEntityDB->GetHeight(pSVar9->playerDat->ent_ID);
     (pSVar10->pos).y += pSVar10->field3_0x1c;
-    pBVar3 = pSVar9->playerDat->locator_pointer;
+    pBVar3 = pSVar9->playerDat->borg7P;
     if (pBVar3) Scene::SceneGetLocatorPos(pBVar3->sceneDat,&pSVar10->loc3Pos,3);
     pSVar10->field8_0x2e = param_3;
     pSVar10->flags |= 1;
@@ -409,13 +409,13 @@ void FUN_800952c8(short param_1,short param_2,short param_3){
     pAVar1 = (SpellVisuals.ptr1[param_1].b7)->sceneDat;
     if (param_2 == -1) pAVar4 = NULL;
     else {
-      pBVar2 = (SpellVisuals.ptr2[param_2].playerDat)->locator_pointer;
+      pBVar2 = (SpellVisuals.ptr2[param_2].playerDat)->borg7P;
       pAVar4 = NULL;
       if (pBVar2 != NULL) pAVar4 = pBVar2->sceneDat;
     }
     if (param_3 == -1) pAVar3 = NULL;
     else {
-      pBVar2 = (SpellVisuals.ptr2[param_3].playerDat)->locator_pointer;
+      pBVar2 = (SpellVisuals.ptr2[param_3].playerDat)->borg7P;
       pAVar3 = NULL;
       if (pBVar2 != NULL) pAVar3 = pBVar2->sceneDat;
     }
@@ -467,7 +467,7 @@ void processSpellVisuals(uint param_1){
         copyVec3(&(pSVar9->playerDat->collision).pos,&ppBVar12->pos);
         (ppBVar12->pos).y =
              ((ppBVar12->pos).y - (pSVar9->playerDat->collision).radius) + ppBVar12->field3_0x1c;
-        pBVar2 = pSVar9->playerDat->locator_pointer;
+        pBVar2 = pSVar9->playerDat->borg7P;
         if (pBVar2) {
           Scene::SceneGetLocatorPos(pBVar2->sceneDat,&ppBVar12->loc3Pos,3);
         }
@@ -737,7 +737,7 @@ void combatspellvisuals_free(void){
     SpellVisualTypeC *piVar3 = &SpellVisuals.ptr2[uVar4];
     if (((piVar3->flags & 1) != 0) && ((piVar3->flags & 8) == 0)) {
       FUN_80017388(piVar3->playerDat,30.0);
-      Borg7Header* pBVar1= piVar3->playerDat->locator_pointer;
+      Borg7Header* pBVar1= piVar3->playerDat->borg7P;
       if (pBVar1) Scene::SetFogFlag(pBVar1->sceneDat);
       piVar3->playerDat->unk70ee = 0;
     }

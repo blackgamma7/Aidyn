@@ -19,7 +19,7 @@ DollEquipmentMenu::DollEquipmentMenu(CharSheet *param_2):WidgetMenu(){
 }
 
 DollEquipmentMenu::~DollEquipmentMenu(){
-    this->unk7c.~UnkGuiSubstruct();
+    this->unk7c.~GuiAnimationManager();
     WidgetMenu::~WidgetMenu();
 }
 
@@ -44,7 +44,7 @@ void DollEquipmentMenu::GetSlotIcon(u32 param_2,ItemID param_3){
     }
     if (this->icons[param_2]) {
       abStack_38 = 0;
-      this->unk7c.AddItem(new UnkGuiClassL(new UnkGuiClassU3(&(this->icons[param_2]->col).A,&abStack_38,0xf,&double_array_0),this->icons[param_2]));
+      this->unk7c.AddItem(new GuiAnimatorL(new GuiAnimatorU3(&(this->icons[param_2]->col).A,&abStack_38,0xf,&double_array_0),this->icons[param_2]));
       this->icons[param_2] = NULL;
     }
     this->icon_item_ids[param_2] = param_3;
@@ -55,7 +55,7 @@ void DollEquipmentMenu::GetSlotIcon(u32 param_2,ItemID param_3){
     this->Link(pBVar6);
     (pBVar6->col).A = 0;
     abStack_30 = 0xff;
-    this->unk7c.AddItem(new UnkGuiClassU3(&(pBVar6->col).A,&abStack_30,0xf,&double_array_0));
+    this->unk7c.AddItem(new GuiAnimatorU3(&(pBVar6->col).A,&abStack_30,0xf,&double_array_0));
     this->icons[param_2] = pBVar6;
   }
 }

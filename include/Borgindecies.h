@@ -308,6 +308,8 @@ typedef enum Borg8Enum {
 
 //Borg5: Model data?
 
+#define BORG5_CombatMarker      0x0794
+#define BORG5_SpellMarker       0x0797
 #define BORG5_SceneBoulder      0x080e
 #define BORG5_Ship              0x0DBE
 #define BORG5_ErromonMapChunk   0xef9
@@ -319,7 +321,8 @@ typedef enum Borg8Enum {
 
 
 //Borg7: actor data
-#define BORG7_ship              0xdc3
+
+#define BORG7_ship              0x0dc3
 #define BORG7_Alaron            0x25f9
 #define BORG7_Keelin            0x2b29
 #define BORG7_Chicken           0x2ef2
@@ -375,13 +378,13 @@ typedef enum Borg8Enum {
 #define BORG9_Campsite          0x185c
 
 //Borg13: Dialouge
-#define BORG13_OpeningDialog    0x362
-#define BORG13_GoblinAmbush     0x365
-#define BORG13_LugashIntro      0x4D1
-#define BORG13_AlaronDies1      0x512
-#define BORG13_AlaronDies2      0x513
-#define BORG13_AlaronDies3      0x514
+#define BORG13_OpeningDialog    0x0362
+#define BORG13_GoblinAmbush     0x0365
+#define BORG13_LugashIntro      0x04D1
+#define BORG13_AlaronDies1      0x0512
+#define BORG13_AlaronDies2      0x0513
+#define BORG13_AlaronDies3      0x0514
 
-#define BORG13_HelpMenu         0x54b
+#define BORG13_HelpMenu         0x054b
 
-#define BORG13_CampSafe 0x185b
+#define BORG13_CampSafe         0x185b

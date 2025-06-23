@@ -25,7 +25,7 @@ u8 CombatAI::WillTheyFlee(ItemID param_1){
   if (gEntityDB->entities[bVar3].aspect != ASPECT_SOLAR) AVar6 = ASPECT_LUNAR;
   if (NotAspectBonus(AVar6)) lVar7 = bVar1-1;
   if (gCombatP->EnemiesAlive < gCombatP->enemyCount >> 1) lVar7--;
-  if ((gCombatP->leaderDead) || (!gCombatP->combatEnts)[gCombatP->leaderIndex]->Flag1()) lVar7--;
+  if ((gCombatP->leaderDead) || (!gCombatP->combatEnts[gCombatP->leaderIndex].Flag1())) lVar7--;
   cVar5 = lVar7 + 1;
   if (2 < gCombatP->leaderMorale - 8) {
     if (gCombatP->leaderMorale < 0xb) goto LAB_800600c4;

@@ -602,7 +602,7 @@ struct Borg11Header {
 };
 
 struct Borg2Data {
-    int alpha; //inverted - 0=opaque, 1=transparent.
+    float alpha; //inverted - 0=opaque, 1=transparent.
     int dsplistcount;
     float scale;
     vec3f pos;

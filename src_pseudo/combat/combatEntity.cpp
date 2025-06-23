@@ -2911,8 +2911,8 @@ void CombatEntity::AttachWeaponShieldModel(u16 param_2,s32 param_3,s32 borg5){
   
   if (borg5 != -1) {
     playerData *ppVar1 = gGlobals.playerDataArray[this->index];
-    if (ppVar1->locator_pointer) {
-      Scene::HasLocator(ppVar1->locator_pointer->sceneDat,param_3);
+    if (ppVar1->borg7P) {
+      Scene::HasLocator(ppVar1->borg7P->sceneDat,param_3);
     }
     AttachItemToPlayer(ppVar1,param_2,borg5);
     ChangeAttachmentNode(ppVar1,param_2,param_3,NULL,0);

@@ -955,7 +955,7 @@ SceneData * load_borg_5_func(u32 b5){
 }
 extern u32 DAT_800ee974;
 
-void set_anidat_colors(SceneData *param_1,u8 alpha,u8 param_3,Color32 col){
+void SetSceneColors(SceneData *param_1,u8 alpha,u8 param_3,u32 col){
   float fVar1;
   Color32 bStack216;
   Color32 auStack88;
@@ -968,10 +968,10 @@ void set_anidat_colors(SceneData *param_1,u8 alpha,u8 param_3,Color32 col){
             (param_1,gGlobals.sky.colors[2].R,gGlobals.sky.colors[2].G,gGlobals.sky.colors[2].B,
              (uint)gGlobals.sky.colors[2].A);
   if (param_3) {
-    if (col.W) {
-      bStack216.R = (byte)((int)((uint)gGlobals.sky.colors[0].R + (col.W >> 0x18)) >> 1);
-      bStack216.G = (byte)((int)((uint)gGlobals.sky.colors[0].G + (col.W >> 0x10 & 0xff)) >> 1);
-      bStack216.B = (byte)((int)((uint)gGlobals.sky.colors[0].B + (col.W >> 8 & 0xff)) >> 1);
+    if (col) { //if porting, will need case for LE word
+      bStack216.R = (byte)((int)((uint)gGlobals.sky.colors[0].R + (col >> 0x18)) >> 1);
+      bStack216.G = (byte)((int)((uint)gGlobals.sky.colors[0].G + (col >> 0x10 & 0xff)) >> 1);
+      bStack216.B = (byte)((int)((uint)gGlobals.sky.colors[0].B + (col >> 8 & 0xff)) >> 1);
       tint_color_with_screenfade(&bStack216,gGlobals.brightness);
       Scene::SetModelTint(param_1,bStack216.R,bStack216.G,bStack216.B,alpha);
       return;
@@ -979,8 +979,8 @@ void set_anidat_colors(SceneData *param_1,u8 alpha,u8 param_3,Color32 col){
     Scene::SetModelTint(param_1,gGlobals.sky.colors[0].R,gGlobals.sky.colors[0].G,gGlobals.sky.colors[0].B,
                alpha);
   }
-  if (col.W) {
-    auStack88 = col;
+  if (col) {
+    auStack88.W = col;
     tint_color_with_screenfade(&auStack88,gGlobals.brightness);
     Scene::SetModelTint(param_1,auStack88.R,auStack88.G,auStack88.B,alpha);
   }
@@ -1210,7 +1210,7 @@ LAB_80010084:
                 if (((SObj->scene).sceneflags & SceneObj_B7) == 0) {
                   uVar12 = local_6c;
                   if (uVar15 < local_6c) uVar12 = uVar15;
-                  set_anidat_colors(pAVar4,uVar12,1,col);
+                  SetSceneColors(pAVar4,uVar12,1,col.W);
                   if (psVar14 == NULL) local_res0 = BorgAnimDrawScene(local_res0,pAVar4);
                   else psVar14->SceneDat = pAVar4;
                 }
@@ -1263,9 +1263,9 @@ LAB_8000ffcc:
                 Scene::SetFlag40(pAVar4);
                 Scene::SetFogFlag(pAVar4);
                 //Rad to Deg
-                Scene::MatrixARotate(pAVar4,(SObj->scene).rotation.y * 57.29578,
-                           (SObj->scene).rotation.x * 57.29578,
-                           (SObj->scene).rotation.z * 57.29578);
+                Scene::MatrixARotate(pAVar4,(SObj->scene).rotation.y * RadInDeg_f,
+                           (SObj->scene).rotation.x * RadInDeg_f,
+                           (SObj->scene).rotation.z * RadInDeg_f);
                 Scene::MatrixANormalizeScale(pAVar4,(SObj->scene).scale.x,(SObj->scene).scale.y,(SObj->scene).scale.z);
                 if (((SObj->scene).sceneflags & SceneObj_B7)) {
                   Scene::SetLightData(pAVar4);
@@ -1294,7 +1294,7 @@ LAB_800102d8:
 
 Gfx* FUN_80010354(Gfx*g,ZoneDat *param_2){
   if (param_2->sceneDat0x4) {
-    set_anidat_colors(param_2->sceneDat0x4,param_2->alpha,1,(Color32)(0));
+    SetSceneColors(param_2->sceneDat0x4,param_2->alpha,1,0);
     g = BorgAnimDrawScene(g,param_2->sceneDat0x4);}
   return g;
 }
@@ -1302,7 +1302,7 @@ Gfx* FUN_80010354(Gfx*g,ZoneDat *param_2){
 
 Gfx* FUN_800103b0(Gfx*g,ZoneDat *param_2){
   if ((param_2->SceneDat0x14) && (param_2->sceneDat0x4)){
-    set_anidat_colors(param_2->SceneDat0x14,param_2->alpha,1,(Color32)(0));
+    SetSceneColors(param_2->SceneDat0x14,param_2->alpha,1,0);
     g = BorgAnimDrawScene(g,param_2->SceneDat0x14);
   }
   return g;

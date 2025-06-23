@@ -3,13 +3,13 @@
 #include "globals.h"
 
 namespace CombatSpellMarker{
-  Gfx * Render(Gfx *g,SceneData *aniDat,vec3f *rotate,vec3f *pos,vec3f *scale,u8 alpha,Color32 col){
+  Gfx * Render(Gfx *g,SceneData *scene,vec3f *rotate,vec3f *pos,vec3f *scale,u8 alpha,u32 col){
   
-    Scene::MatrixARotate(aniDat,rotate->x,rotate->y,rotate->z);
-    Scene::MatrixASetPos(aniDat,pos->x,pos->y,pos->z);
-    Scene::MatrixANormalizeScale(aniDat,scale->x,scale->y,scale->z);
-    set_anidat_colors(aniDat,alpha,'\0',col);
-    return BorgAnimDrawScene(g,aniDat);
+    Scene::MatrixARotate(scene,rotate->x,rotate->y,rotate->z);
+    Scene::MatrixASetPos(scene,pos->x,pos->y,pos->z);
+    Scene::MatrixANormalizeScale(scene,scale->x,scale->y,scale->z);
+    SetSceneColors(scene,alpha,0,col);
+    return BorgAnimDrawScene(g,scene);
   }
   void Init(void){
     gCombatSpellMarker = NULL;
@@ -20,10 +20,10 @@ namespace CombatSpellMarker{
   void Free(void){
     if (gCombatSpellMarker) FREEQSCENE(gCombatSpellMarker);
   }
-  Gfx * Tick(Gfx *g,u8 delta,u8 range,Color32 col){
+  Gfx * Tick(Gfx *g,u8 delta,u8 range,u32 col){
     vec3f posA,posB,outPos,scale,rotate;
   
-    if (!gCombatSpellMarker) gCombatSpellMarker = load_borg_5_func(0x797);
+    if (!gCombatSpellMarker) gCombatSpellMarker = load_borg_5_func(BORG5_SpellMarker);
     setVec3(&posA,(gCombatP->SpellMarkerPos).x,50.0,(gCombatP->SpellMarkerPos).y);
     setVec3(&posB,(gCombatP->SpellMarkerPos).x,-10.0,(gCombatP->SpellMarkerPos).y);
     if (!CheckCollision(&(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat,&posA,&posB,1.0,&outPos,NULL,0))

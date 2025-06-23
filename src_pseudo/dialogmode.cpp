@@ -397,7 +397,7 @@ void FUN_80058ad4(void){
   if (dialougemode_pointer->unkad != 0) {
     dialougemode_pointer->unkad = 0;
     if ((dialougemode_pointer->playerDat != NULL) &&
-       (pBVar1 = dialougemode_pointer->playerDat->locator_pointer, pBVar1 != NULL)) {
+       (pBVar1 = dialougemode_pointer->playerDat->borg7P, pBVar1 != NULL)) {
       FUN_800583d0(pBVar1->unk1c->b6->dat->aniLength);
     }
   }

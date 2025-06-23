@@ -93,7 +93,7 @@ void some_zoneDat_func();
 void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3);
 void ConfirmPlayerWithinZone(playerData *param_1,Borg9Data *param_2);
 SceneData * load_borg_5_func(u32 b5);
-void set_anidat_colors(SceneData *param_1,u8 alpha,u8 param_3,Color32 col);
+void SetSceneColors(SceneData *param_1,u8 alpha,u8 param_3,u32 col);
 u8 get_scene_obj_proximity(vec2f *obj,vec2f *cam,vec2f *aim,float *outx,float *outy);
 void NoExpPak_ClearSceneVoxelIndex(Scene_obj_dat *scene,u16 index);
 void NoExpPak_ClearSceneVoxel(Scene_obj_dat *scene);

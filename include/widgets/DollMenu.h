@@ -3,7 +3,7 @@
 #include "widgets/WidgetBorg8.h"
 #include "widgets/WidgetTrainShop.h"
 #include "party.h"
-#include "unkGuiSubstruct.h"
+#include "GuiAnimation.h"
 #include "menuImages.h"
 
 class DollMenuPortraits: public WidgetMenu{
@@ -16,7 +16,7 @@ class DollMenuPortraits: public WidgetMenu{
     u16 Ws[4];
     WidgetBorg8* aspectIcon;
     WidgetBorg8* schoolIcon;
-    UnkGuiSubstruct unkb8=UnkGuiSubstruct(22);
+    GuiAnimationManager unkb8=GuiAnimationManager(22);
     DollMenuPortraits(Party *party,u8 size,u8 selected);
     ~DollMenuPortraits();
     u32 m80042c04();
@@ -32,7 +32,7 @@ class WidgetHealthGold: public WidgetMenu{
     WidgetClipText* CurrHPText;
     WidgetClipText* MaxHPText;
     WidgetBorg8* HPBar;
-    UnkGuiSubstruct unk90=UnkGuiSubstruct(7);
+    GuiAnimationManager unk90=GuiAnimationManager(7);
     s16 HpPercent;
     WidgetHealthGold(CharSheet* chara);
     ~WidgetHealthGold();
@@ -44,7 +44,7 @@ class WidgetHealthGold: public WidgetMenu{
 
 class DollEquipmentMenu: public WidgetMenu{
     public:
-    UnkGuiSubstruct unk7c=UnkGuiSubstruct(30);
+    GuiAnimationManager unk7c=GuiAnimationManager(30);
     u32 unk8c;
     WidgetBorg8* icons[15];
     ItemID icon_item_ids[15];
@@ -72,7 +72,7 @@ class DollMenuLists: public WidgetMenu{
     WidgetBorg8* background;
     WidgetClipText* expCost;
     WidgetClipText* expRemain;
-    UnkGuiSubstruct unkb0=UnkGuiSubstruct(8);
+    GuiAnimationManager unkb0=GuiAnimationManager(8);
     DollMenuLists(DollEquipmentMenu *,u8);
     ~DollMenuLists();
     void InitMenu(DollEquipmentMenu *,u8);
@@ -98,7 +98,7 @@ class WidgetMenuSpells: public WidgetMenu{
     u8 count;
     WidgetTrainShop* spells;
     WidgetTrainShop* skills;
-    UnkGuiSubstruct unkGui;
+    GuiAnimationManager unkGui;
     WidgetBorg8* background;
     WidgetClipText* goldCost;
     WidgetClipText* expCost;

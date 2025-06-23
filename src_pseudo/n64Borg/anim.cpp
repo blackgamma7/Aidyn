@@ -2191,7 +2191,7 @@ Gfx * FUN_800a1184(Gfx *gfx){
              255.0f);
     a = (int)(((unkAnimStructB.scene)->colorFloats).a *
               (1.0f - ((unkAnimStructB.unk14)->unk4).a) *
-              (1.0f - (float)(unkAnimStructB.b2)->dat->alpha) * 255.0f);
+              (1.0f - (unkAnimStructB.b2)->dat->alpha) * 255.0f);
     c1 = 0x112078;
     if (255 <= a) goto LAB_800a1428;
   }
@@ -2201,7 +2201,7 @@ Gfx * FUN_800a1184(Gfx *gfx){
     b = ((unkAnimStructB.scene)->colorFloats).b * 255.0f;
     a = ((unkAnimStructB.scene)->colorFloats).a *
             (1.0f - ((unkAnimStructB.unk14)->unk4).a) *
-            (1.0f - (float)(unkAnimStructB.b2)->dat->alpha) * 255.0f;
+            (1.0f - (unkAnimStructB.b2)->dat->alpha) * 255.0f;
     if (0xfe < a) {
       if (((unkAnimStructB.b1)->dat->flag & B1_Flag20) == 0) {
         c1 = 0x112078;
@@ -2553,7 +2553,7 @@ switchD_800a1cc4_caseD_8:
           ((((pGVar6->words).w0 != sEndDL.words.w0 || ((pGVar6->words).w1 != sEndDL.words.w1)) &&
            (((pBVar5->unk0x28 ^ 1) & 1))))) &&
          (((unkAnimStructB.unk14 = pBVar5->unk0x40 + uVar18, unkAnimStructB.unk14 != NULL &&
-           ((float)pBVar5->alpha < fVar30)) && (((unkAnimStructB.unk14)->unk4).w < fVar30)))) {
+           (pBVar5->alpha < fVar30)) && (((unkAnimStructB.unk14)->unk4).a < fVar30)))) {
         if (pBVar5->dsplistcount <= (int)uVar18) {
           sprintf(errBuff,"INVALID BORG SCENE\nop >= n op: %i n: %i",pBVar5->dsplistcount,uVar18);
           CRASH("./src/borganim.cpp",errBuff);

@@ -45,11 +45,11 @@ void Set_keelover_aniType(playerData *param_1){
 void Print_damage_healing(playerData *PDAT,short DMG,short Healing,bool isdead,CharSheet *param_5){
   if (DMG) {
     CombatStatIndicator::AddItem(PDAT,0,DMG);
-    if (PDAT->locator_pointer) {
-      if (!Scene::HasLocator(PDAT->locator_pointer->sceneDat,3)) {
+    if (PDAT->borg7P) {
+      if (!Scene::HasLocator(PDAT->borg7P->sceneDat,3)) {
         char acStack_210 [528];
         sprintf(acStack_210,"The actor (borgID = %s) for %s doesn't have a locator 3 for the blood effect",
-                    PDAT->locator_pointer->sceneDat->borg5_char,param_5->name);
+                    PDAT->borg7P->sceneDat->borg5_char,param_5->name);
         CRASH(acStack_210,FILENAME);
       }
     }
@@ -67,7 +67,7 @@ Gfx * FUN_80027aa8(Gfx *param_1){
     Scene::MatrixASetPos
               (SceneDataP,vec3f_800f5400.x,vec3f_800f5400.y + FLOAT_800e9b78 * fVar1,
                vec3f_800f5400.z);
-    set_anidat_colors(SceneDataP,0xff,'\x01',(Color32)0x0);
+    SetSceneColors(SceneDataP,0xff,'\x01',0x0);
     fVar1 = gEntityDB->GetScale(gCombatP->current_Ent->charSheetP->ID);
     Scene::MatrixANormalizeScale(SceneDataP,fVar1,fVar1,fVar1);
     param_1 = BorgAnimDrawScene(param_1,SceneDataP);
@@ -84,17 +84,17 @@ Gfx * FUN_80027bf0(Gfx *g,u16 delta,CharSheet *param_3){
     if (spell != NULL) {
       range = Entity::CheckSpellWizard(param_3,spell);
       if (GETINDEX((spell->base).id) == SPELLIND_teleportation) range = 1;
-      g = CombatSpellMarker::Tick(g,(u8)delta,range,(Color32)0xff0000ff);
+      g = CombatSpellMarker::Tick(g,(u8)delta,range,0xff0000ff);
     }
   }
   else if (gGlobals.combatBytes[0] == 10) {
     if (spell != NULL) {
       g = CombatSpellMarker::Tick(g,(u8)delta,
-         spell->range * Entity::CheckSpellWizard(param_3,spell),(Color32)0xff0000ff);
+         spell->range * Entity::CheckSpellWizard(param_3,spell),0xff0000ff);
     }
   }
   else if (gGlobals.combatBytes[0] == 0x12) {
-    g = CombatSpellMarker::Tick(g,(u8)delta,1,(Color32)0x00ff00ff);
+    g = CombatSpellMarker::Tick(g,(u8)delta,1,0x00ff00ff);
   }
   return g;
 }
@@ -329,7 +329,7 @@ u8 FUN_80028778(Gfx **GG,u16 delta){
   CombatEntity *pCVar2 = gCombatP->current_Ent;
   playerData *ppVar3 = gGlobals.playerDataArray[pCVar2->index];
   copyVec3(&(ppVar3->collision).pos,&combatVec3B);
-  if ((((u8)(vec3_proximity(&combatVec3B,&combatVec3A)*100.0f)) < 3) || ((ppVar3->locator_pointer->unk2c).z < 1.0E-6f)) {
+  if ((((u8)(vec3_proximity(&combatVec3B,&combatVec3A)*100.0f)) < 3) || ((ppVar3->borg7P->unk2c).z < 1.0E-6f)) {
     gCombatP->waitTimer-= delta;
   }
   if ((ppVar3->flags & ACTOR_CANMOVE) == 0) {
@@ -822,11 +822,11 @@ void gamecombat_weapon_func(){
   
   pCVar2 = gCombatP->current_Ent;
   ppVar3 = gGlobals.playerDataArray[pCVar2->index];
-  if (ppVar3->locator_pointer != NULL) {
-    if (!Scene::HasLocator(ppVar3->locator_pointer->sceneDat,(uint)pCVar2->wepLocator)) {
+  if (ppVar3->borg7P != NULL) {
+    if (!Scene::HasLocator(ppVar3->borg7P->sceneDat,(uint)pCVar2->wepLocator)) {
       char txtBuff [0x100];
       sprintf(txtBuff,"The actor for %s doesn't have a weapon locator (%d)!\nBorg ID = %s",pCVar2->charSheetP->name,
-                  pCVar2->wepLocator,ppVar3->locator_pointer->sceneDat->borg5_char);
+                  pCVar2->wepLocator,ppVar3->borg7P->sceneDat->borg5_char);
       CRASH(txtBuff,FILENAME);
     }
   }
@@ -836,7 +836,7 @@ void gamecombat_weapon_func(){
     Scene::SetFlag4(SceneDataP);
     Scene::SetFogFlag(SceneDataP);
     FreeAttachmentFromPlayer(ppVar3,0);
-    Scene::SceneGetLocatorPos(ppVar3->locator_pointer->sceneDat,&vec3f_800f5400,pCVar2->wepLocator);
+    Scene::SceneGetLocatorPos(ppVar3->borg7P->sceneDat,&vec3f_800f5400,pCVar2->wepLocator);
     bVar1 = gCombatP->some_index;
     ppVar3 = gGlobals.playerDataArray[bVar1];
     if (ppVar3) {

@@ -3,11 +3,11 @@
 
 #define FILENAME "./src/combatmarkers.cpp"
 
-u8 CombatMarkers::SetMarker(Borg9data *mapDat,vec3f *pos,float radius,u16 iter){
+u8 CombatMarkers::SetMarker(Borg9Data *mapDat,vec3f *pos,float radius,u16 iter){
   float fVar1;
   float fVar2;
   bool bVar3;
-  bool uVar2;
+  bool ret;
   float fVar4;
   float fVar5;
   float fVar6;
@@ -25,7 +25,7 @@ u8 CombatMarkers::SetMarker(Borg9data *mapDat,vec3f *pos,float radius,u16 iter){
     pos->x = sMarkerTempV3C.x + sMarkerTempV3D.x * radius;
     pos->y = (sMarkerTempV3C.y + 0.01 +(sMarkerTempV3D.y * radius));
     pos->z = sMarkerTempV3C.z + sMarkerTempV3D.z * radius;
-    uVar2 = true;
+    ret = true;
     
   }
   else if (iter < 4) {
@@ -37,26 +37,17 @@ u8 CombatMarkers::SetMarker(Borg9data *mapDat,vec3f *pos,float radius,u16 iter){
     fVar5 = (fVar4 + 1.0f) * 0.5f * fVar5;
     setVec3(&sMarkerTempV3A,pos->x + fVar6,sMarkerTempV3A.y,pos->z + fVar5);
     setVec3(&sMarkerTempV3B,pos->x + fVar6,sMarkerTempV3B.y,pos->z + fVar5);
-    uVar2 = SetMarker(mapDat,pos,radius,iter + 1);
+    ret = SetMarker(mapDat,pos,radius,iter + 1);
   }
-  else uVar2 = false;
-  return uVar2;
+  else ret = false;
+  return ret;
 }
 
 u8 CombatMarkers::Init(void){
-  SceneData *pAVar1;
-  CombatMarker *puVar2;
-  int iVar2;
-  uint uVar3;
-  
   ALLOCS(gCombatMarkers,sizeof(CombatMarker)*MARKERMAX,0xac);
-  uVar3 = 0;
-  iVar2 = 0;
-  for(uVar3 = 0;uVar3<MARKERMAX;uVar3++) {
-    pAVar1 = load_borg_5_func(0x794);
-    uVar3 += 1;
-    puVar2 = &gCombatMarkers[uVar3];
-    puVar2->borg = pAVar1;
+  for(u32 uVar3 = 0;uVar3<MARKERMAX;uVar3++) {
+    CombatMarker *puVar2 = &gCombatMarkers[uVar3];
+    puVar2->borg =  load_borg_5_func(BORG5_CombatMarker);
     puVar2->alpha = 0.0;
     puVar2->time = 0;
     puVar2->active = 0;
@@ -70,10 +61,10 @@ void CombatMarkers::Create(CombatEntity *param_1){
   CombatMarker *pCVar2;
   longlong lVar3;
   bool bVar5;
-  byte bVar6;
+  byte flag;
   CombatMarker *iVar5;
   int iVar7;
-  u8 lVar8;
+  u8 i;
   int iVar9;
   int iVar10;
   float fVar11;
@@ -83,60 +74,56 @@ void CombatMarkers::Create(CombatEntity *param_1){
   float fVar15;
   float fVar16;
   vec3f fStack136;
-  s8 sVar4;
   
   ppVar1 = gGlobals.playerDataArray[param_1->index];
   param_1->SetMovementRange();
-  fVar13 = ppVar1->interactRadiusB;
-  fVar16 = (float)param_1->moveRange + fVar13;
-  if (param_1->aiP != NULL) fVar16 += fVar13;
-  sVar4 = SetCount(fVar16);
-  lVar3 = sVar4;
-  lVar8 = 0;
-  fVar15 = (360.0f / (float)(int)sVar4) * dtor;
-  iVar10 = 0;
+  fVar16 = (float)param_1->moveRange + ppVar1->scaleRad;
+  if (param_1->aiP != NULL) fVar16 += ppVar1->scaleRad;
+  s8 count = SetCount(fVar16);
+  lVar3 = count;
+  i = 0;
+  fVar15 = (360.0f / (float)(int)count) * dtor;
   fVar13 = __cosf(fVar15);
   fVar15 = __sinf(fVar15);
-  for (lVar8=0;lVar8<MARKERMAX;lVar8++) {
-    if (lVar8 < lVar3) {
+  for (i=0;i<MARKERMAX;i++) {
+    if (i < lVar3) {
       fStack136.x = param_1->GetCoord2X() + CombatMarkerVec2.x * fVar16;
       fStack136.z = param_1->GetCoord2Y() + CombatMarkerVec2.y * fVar16;
-      if (SetMarker(mapmarker_borg9,&fStack136,0.5,0)) {
-        setVec3(&gCombatMarkers[lVar8].coords,fStack136.x,fStack136.y,fStack136.z);
-        bVar6 = 1;
+      if (SetMarker(mapmarker_borg9,&fStack136,0.5f,0)) {
+        setVec3(&gCombatMarkers[i].coords,fStack136.x,fStack136.y,fStack136.z);
+        flag = CMarkSet;
       }
       else {
-        setVec3(&gCombatMarkers[lVar8].coords,fStack136.x,(ppVar1->collision).pos.y,fStack136.z);
-        bVar6 = 0x80;
+        setVec3(&gCombatMarkers[i].coords,fStack136.x,(ppVar1->collision).pos.y,fStack136.z);
+        flag = CMarkYAvg;
       }
       pCVar2 = gCombatMarkers;
-      gCombatMarkers[lVar8].alpha = 0;
-      gCombatMarkers[lVar8].time = 0;
-      gCombatMarkers[lVar8].active = bVar6;
+      gCombatMarkers[i].alpha = 0;
+      gCombatMarkers[i].time = 0;
+      gCombatMarkers[i].active = flag;
       CombatMarkerVec2.x = fVar13 * CombatMarkerVec2.x - fVar15 * CombatMarkerVec2.y;
       CombatMarkerVec2.y = fVar13 * CombatMarkerVec2.y + fVar15 * CombatMarkerVec2.x;
     }
-    else gCombatMarkers[lVar8].active = 0;
-    fVar11 = 0.5f;
-    iVar10 += 0x1c;
+    else gCombatMarkers[i].active = 0;
   }
-  lVar8 = 0;
+  i = 0;
+  //this loop is very messy. seems to adjust certain markers' y pos based on adjacent entries'.
   if (0 < lVar3) {
     iVar10 = 0;
     do {
       pCVar2 = gCombatMarkers;
-      iVar9 = (int)lVar8;
+      iVar9 = (int)i;
       iVar10 -= iVar9;
       iVar7 = iVar9 + 1;
-      lVar8 = iVar7;
-      if (*(char *)((int)gCombatMarkers + iVar10 * 4 + 0x18) == -0x80) {
-        fVar13 = gCombatMarkers[(sVar4 + -1 + iVar9) % (int)sVar4].coords.y;
-        fVar16 = gCombatMarkers[iVar7 % (int)sVar4].coords.y;
-        *(undefined *)((int)gCombatMarkers + iVar10 * 4 + 0x18) = 1;
-        *(float *)((int)pCVar2 + iVar10 * 4 + 8) = fVar13 + (fVar16 - fVar13) * fVar11;
+      i = iVar7;
+      if (gCombatMarkers[(count + -1 + iVar9) % (int)count].active == CMarkYAvg) {
+        fVar13 = gCombatMarkers[(count + -1 + iVar9) % (int)count].coords.y;
+        fVar16 = gCombatMarkers[(i) % (int)count].coords.y;
+        gCombatMarkers[(count + -1 + iVar9) % (int)count].active= true;
+        *(float *)((int)pCVar2 + iVar10 * 4 + 8) = fVar13 + (fVar16 - fVar13) * 0.5f;
       }
       iVar10 = iVar7 * 8;
-    } while (lVar8 < lVar3);
+    } while (i < lVar3);
   }
 }
 
@@ -169,7 +156,7 @@ void CombatMarkers::Tick(CombatMarker *param_1,u16 delta){
 
 Gfx * CombatMarkers::RenderMarker(Gfx *param_1,CombatMarker *param_2){  
   Scene::MatrixASetPos(param_2->borg,(param_2->coords).x,(param_2->coords).y,(param_2->coords).z);
-  set_anidat_colors(param_2->borg,(param_2->alpha * 255.0f),1,(Color32)0x0);
+  SetSceneColors(param_2->borg,(param_2->alpha * 255.0f),1,0x0);
   return BorgAnimDrawScene(param_1,param_2->borg);
 }
 
@@ -179,5 +166,5 @@ void CombatMarkers::Free(void){
     gCombatMarkers[i].borg=NULL;
   }
   CLEAR(gCombatMarkers);
-  FREE(gCombatMarkers,0x18a);
+  FREE(gCombatMarkers,394);
 }
