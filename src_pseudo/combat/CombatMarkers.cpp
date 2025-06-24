@@ -103,12 +103,12 @@ void CombatMarkers::Create(CombatEntity *param_1){
     else gCombatMarkers[i].active = 0;
   }
   i = 0;
-  //this loop was very messy. seems to adjust certain markers' y pos based on adjacent entries'.
+  //seems to adjust certain markers' y pos based on adjacent entries'.
   for(i=0;i<count;i++){;
       if (gCombatMarkers[i].active == CMarkYAvg) {
         fVar13 = gCombatMarkers[(count-1+i) % (int)count].coords.y;
         fVar16 = gCombatMarkers[(i+1) % (int)count].coords.y;
-        gCombatMarkers[i].active= true;
+        gCombatMarkers[i].active= CMarkSet;
         gCombatMarkers[i].coords.y = fVar13 + (fVar16 - fVar13) * 0.5f;
       }
   }
@@ -116,9 +116,8 @@ void CombatMarkers::Create(CombatEntity *param_1){
 
 s8 CombatMarkers::SetCount(float range){
   s8 ret = 6;
-  if ((3.0f < range) && (ret = MARKERMAX, range <= 7.0f)) {
-    ret = 0x10;
-  }
+  if(range>3.0f) ret=16;
+  if(range>7.0f) ret=MARKERMAX;
   return ret;
 }
 
