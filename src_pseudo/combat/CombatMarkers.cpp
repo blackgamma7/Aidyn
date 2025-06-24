@@ -58,11 +58,8 @@ u8 CombatMarkers::Init(void){
 
 void CombatMarkers::Create(CombatEntity *param_1){
   playerData *ppVar1;
-  CombatMarker *pCVar2;
-  longlong lVar3;
-  bool bVar5;
+  s32 lVar3;
   byte flag;
-  CombatMarker *iVar5;
   int iVar7;
   u8 i;
   int iVar9;
@@ -86,7 +83,7 @@ void CombatMarkers::Create(CombatEntity *param_1){
   fVar13 = __cosf(fVar15);
   fVar15 = __sinf(fVar15);
   for (i=0;i<MARKERMAX;i++) {
-    if (i < lVar3) {
+    if (i < count) {
       fStack136.x = param_1->GetCoord2X() + CombatMarkerVec2.x * fVar16;
       fStack136.z = param_1->GetCoord2Y() + CombatMarkerVec2.y * fVar16;
       if (SetMarker(mapmarker_borg9,&fStack136,0.5f,0)) {
@@ -97,7 +94,6 @@ void CombatMarkers::Create(CombatEntity *param_1){
         setVec3(&gCombatMarkers[i].coords,fStack136.x,(ppVar1->collision).pos.y,fStack136.z);
         flag = CMarkYAvg;
       }
-      pCVar2 = gCombatMarkers;
       gCombatMarkers[i].alpha = 0;
       gCombatMarkers[i].time = 0;
       gCombatMarkers[i].active = flag;
@@ -107,23 +103,14 @@ void CombatMarkers::Create(CombatEntity *param_1){
     else gCombatMarkers[i].active = 0;
   }
   i = 0;
-  //this loop is very messy. seems to adjust certain markers' y pos based on adjacent entries'.
-  if (0 < lVar3) {
-    iVar10 = 0;
-    do {
-      pCVar2 = gCombatMarkers;
-      iVar9 = (int)i;
-      iVar10 -= iVar9;
-      iVar7 = iVar9 + 1;
-      i = iVar7;
-      if (gCombatMarkers[(count + -1 + iVar9) % (int)count].active == CMarkYAvg) {
-        fVar13 = gCombatMarkers[(count + -1 + iVar9) % (int)count].coords.y;
-        fVar16 = gCombatMarkers[(i) % (int)count].coords.y;
-        gCombatMarkers[(count + -1 + iVar9) % (int)count].active= true;
-        *(float *)((int)pCVar2 + iVar10 * 4 + 8) = fVar13 + (fVar16 - fVar13) * 0.5f;
+  //this loop was very messy. seems to adjust certain markers' y pos based on adjacent entries'.
+  for(i=0;i<count;i++){;
+      if (gCombatMarkers[i].active == CMarkYAvg) {
+        fVar13 = gCombatMarkers[(count-1+i) % (int)count].coords.y;
+        fVar16 = gCombatMarkers[(i+1) % (int)count].coords.y;
+        gCombatMarkers[i].active= true;
+        gCombatMarkers[i].coords.y = fVar13 + (fVar16 - fVar13) * 0.5f;
       }
-      iVar10 = iVar7 * 8;
-    } while (i < lVar3);
   }
 }
 
