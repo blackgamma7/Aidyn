@@ -522,7 +522,7 @@ void Particle::SetEmmiterHeight(ParticleEmmiter *param_1,float param_2){
 void Particle::UnsetEmmiterFlag4000(ParticleEmmiter *param_1){UnsetEmmiterFlags(param_1,0x4000);}
 
 Gfx * Particle::FUN_800b2d34(Gfx *g,ParticleHeadStruct *param_2,vec3f *v,u16 buffChoice){
-  guAlign(&param_2->alignMtx[buffChoice],0.0,v->x + 1.0E-6f,v->y,v->z);
+  guAlign(&param_2->alignMtx[buffChoice],0.0,v->x + NORMALIZE_MIN,v->y,v->z);
   (g->words).w0 = 0xe7000000;
   (g->words).w1 = 0;
   g[1].words.w0 = 0xe3000a01;

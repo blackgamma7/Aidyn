@@ -86,9 +86,9 @@ void Combat_GetSpawnPoint(CombatStruct *param_1,u8 *posx,u8 *posz,u8 *rand,u8 pa
   if (param_6 == 0) GOrE = !GOrE;
   voxelObject *prVar2 = get_refpoint_by_name(uVar4,param_8,GOrE);
   if(!prVar2)CRASH(sFilenameCombatEngine,"No Reference Point!");
-    *posx =(prVar2->header).pos.x;
-    *posz =(prVar2->header).pos.z;
-    *rand = (u8)uVar1;
+  *posx =(prVar2->header).pos.x;
+  *posz =(prVar2->header).pos.z;
+  *rand = (u8)uVar1;
 }
 
 void combatEnt_setup(CombatStruct *param_1,u8 index){
@@ -107,7 +107,7 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
   //are they Alaton or Shadow?
   if (GETINDEX(x) == 0xac) set_shadow_index(index);
   if (GETINDEX(x) == 0x99) set_alaron_index(index);
-  playerData *ppVar2 = Actor::AllocPlayer(gEntityDB->GetFloatC(x),C_Ent->GetCoordX(),1.0,C_Ent->GetCoordY(),gEntityDB->GetBorg7(x));
+  playerData *ppVar2 = Actor::AllocPlayer(gEntityDB->GetCollideRadius(x),C_Ent->GetCoordX(),1.0,C_Ent->GetCoordY(),gEntityDB->GetBorg7(x));
   ppVar2->ent_ID = x;
   ppVar2->Ent_index = GETINDEX(x);
   float fVar5 = gEntityDB->GetScale(x);
@@ -239,9 +239,9 @@ uint Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
   
   uVar7 = (uint)param_2;
   if (param_1 != (ItemID)0x0) {
-    if (0.0 < (gEntityDB->GetFloatC(param_1) * gEntityDB->GetScale(param_1))*2)
-          uVar7 = ((gEntityDB->GetFloatC(param_1) * gEntityDB->GetScale(param_1))*2)+0.5;
-        else uVar7 = -(0.5 - ((gEntityDB->GetFloatC(param_1) * gEntityDB->GetScale(param_1))*2));
+    if (0.0 < (gEntityDB->GetCollideRadius(param_1) * gEntityDB->GetScale(param_1))*2)
+          uVar7 = ((gEntityDB->GetCollideRadius(param_1) * gEntityDB->GetScale(param_1))*2)+0.5;
+        else uVar7 = -(0.5 - ((gEntityDB->GetCollideRadius(param_1) * gEntityDB->GetScale(param_1))*2));
         uVar5 = (u8)uVar7;
         if (!uVar7) uVar5 = 1;
     Combat_GetSpawnPoint(gCombatP,&uStack_30,&uStack_2f,&uStack_2e,param_3,1,0,3);
@@ -471,31 +471,22 @@ bool Ofunc_CombatLeaderDead(CombatStruct *param_1,s32 param_2){
   return true;
 }
 
-
-bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y)
-
-{
-  uint uVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  vec2f fStack184;
-  vec2f afStack120;
+bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y){
+  vec2f tempA,tempB;
   
-  uVar4 = 0;
-  fVar5 = gEntityDB->GetFloatC(id);
-  fVar6 = gEntityDB->GetScale(id);
-  CLEAR(&fStack184);
+  float radius = gEntityDB->GetCollideRadius(id);
+  float scale = gEntityDB->GetScale(id);
+  CLEAR(&tempA);
   if (param_1->EntCount) {
-    fStack184.x = x;
-    fStack184.y = y;
+    tempA.x = x;
+    tempA.y = y;
     for(u32 i=0;i<param_1->EntCount;i++) {
       CombatEntity *cEnt = &param_1->combatEnts[i];
       if (cEnt){
         playerData *pDat = gGlobals.playerDataArray[(cEnt)->index];
         if (pDat){
-          setVec2(&afStack120,(pDat->collision).pos.x,(pDat->collision).pos.z);
-          if (vec2_proximity(&fStack184,&afStack120) <= pDat->scaleRad + fVar5 * fVar6) {
+          setVec2(&tempB,(pDat->collision).pos.x,(pDat->collision).pos.z);
+          if (vec2_proximity(&tempA,&tempB) <= pDat->scaleRad + radius * scale) {
             return false;
           }
         }
@@ -508,43 +499,32 @@ bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y
 
 bool FUN_8006674c(CombatStruct *param_1,u32 param_2,u16 param_3,byte param_4,
                  float *coordA,float *CoordB,uint param_7){
-  bool bVar2;
-  uint uVar3;
-  uint uVar4;
   float fVar6;
   double dVar5;
   byte x;
   byte y;
   
-  uVar4 = 0;
-  do {
-    uVar3 = 0;
-    do {
-      voxelObject* pfVar1 = get_refpoint_by_name(param_2,(u8)uVar3,uVar4 != param_7);
-      fVar6 = (pfVar1->header).pos.x;
+  for(u32 i=0;i<1;i++){
+    for(u32 j=0;j<4;j++){
+      voxelObject* refObj = get_refpoint_by_name(param_2,(u8)j,i != param_7);
+      fVar6 = (refObj->header).pos.x;
       dVar5 = (double)fVar6;
-      if (0.0 < fVar6) {
-        x = (byte)(int)(dVar5 + 0.5);
-      }
-      else {
-        x = -(char)(int)(0.5 - dVar5);
-      }
-      fVar6 = (pfVar1->header).pos.z;
+      if (0.0 < fVar6) x = (byte)(int)(dVar5 + 0.5);
+      else x = -(char)(int)(0.5 - dVar5);
+      fVar6 = (refObj->header).pos.z;
       dVar5 = (double)fVar6;
       if (0.0 < fVar6) y = (dVar5 + 0.5);
       else y = -(0.5 - dVar5);
       if ((!combat_substruct_lookup(&param_1->substruct,x,y,param_4)) &&
-         (some_combat_proximity_check(param_1,param_3,(pfVar1->header).pos.x,(pfVar1->header).pos.z)))
+         (some_combat_proximity_check(param_1,param_3,(refObj->header).pos.x,(refObj->header).pos.z)))
       {
-        *coordA = (pfVar1->header).pos.x;
-        *CoordB = (pfVar1->header).pos.z;
+        *coordA = (refObj->header).pos.x;
+        *CoordB = (refObj->header).pos.z;
         return true;
       }
-      uVar3 += 1;
-    } while (uVar3 < 4);
-    uVar4 += 1;
-    if (1 < uVar4) return false;
-  } while( true );
+    }
+  }
+  return false;
 }
 
 

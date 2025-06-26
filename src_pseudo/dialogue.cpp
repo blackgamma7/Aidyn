@@ -168,7 +168,7 @@ LAB_800570e0:
     if (pVOR == NULL) CRASH("No pVOR","./src/dialogue.cpp");
     if (pAI->actor) CRASH("DialoguePreCallback","Actor Already Allocated!(ActorAndID::pPlayer != NULL)");
     BVar7 = gEntityDB->GetBorg7(pAI->id);
-    ppVar8 = Actor::AllocPlayer(gEntityDB->GetFloatC(pAI->id),(pVOR->header).pos.x,(pVOR->header).pos.y,
+    ppVar8 = Actor::AllocPlayer(gEntityDB->GetCollideRadius(pAI->id),(pVOR->header).pos.x,(pVOR->header).pos.y,
                                 (pVOR->header).pos.z,BVar7);
     pAI->actor = ppVar8;
     Actor::CheckCollision(ppVar8,0.0,0,0);

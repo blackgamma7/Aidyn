@@ -234,7 +234,7 @@ bool FUN_800716b4(CombatSubstructA *param_1,vec3f *param_2,vec3f *param_3,u8 par
   Vec3_sub(&afStack320,param_3,param_2);
   copyVec3(&afStack320,&afStack256);
   float fVar5=vec3_normalize(&afStack256);
-  if (1.0E-6f < fVar5) {
+  if (NORMALIZE_MIN < fVar5) {
     if (CheckCollision(&gGlobals.Sub.ZoneDatMtx[1][1].mapPointer->dat,param_2,param_3,0.1,&afStack128,NULL,0)) {
       return false;
     }

@@ -36,11 +36,18 @@ struct DCMSub2 {
     u32 index;
     u8 id;
 };
-struct UnkAudioStruct {
-    u16 field0_0x0;
-    u8 field1_0x2;
-    u8 randVal;
-    u8 field3_0x4[4];
+struct audiokeyEntryA{
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+    u16 unk6;
+};
+
+struct audioKeyEntryB {
+    u16 unk0;
+    u8 id1;
+    u8 arrLen;
+    u8 arr[4];
 };
 
 struct MoveQueueEntry {
@@ -128,11 +135,17 @@ struct playerData {
     vec3f skyTint; /* tint from environmental light */
     char unk77c;
 };
+
 struct audiokey_struct {
-    u8 (*a)[4];
-    void* b;
-    void* c;
-    u8 d[1277][4];
+    audiokeyEntryA* a;
+    audioKeyEntryB* b;
+    u16* c;
+    u16 aLen,bLen,cLen; //lengths of entries. unused.
+    u16 unk[3];//0, unused.
+    audiokeyEntryA d[220];
+    audioKeyEntryB e[276];
+    u16 f[560];
+    u8 unk2[8];//0, unused
 };
 
 struct PlayerHandler {
@@ -214,7 +227,7 @@ void InitPlayerHandler(Camera_struct *,s16,s32);
 void FreePlayerHandler(void);
 u8 PlayerShadowAlpha(PlayerHandler *,playerData *,float,u8);
 void playerdata_remove_dcm(playerData *,u16);
-DCMSub2 * AllocPlayerAudio(playerData *,UnkAudioStruct *,u16,u16);
+DCMSub2 * AllocPlayerAudio(playerData *,audioKeyEntryB *,u16,u16);
 u8 FUN_8001620c(playerData *);
 void ProcessPlayers(PlayerHandler *,s16);
 void FUN_80017330(playerData *,float,float,float,float);
@@ -238,6 +251,24 @@ void FUN_80019b08(playerData *);
 void debug_sub_3(void);
 Gfx * renderPlayerShadows(PlayerHandler *param_1,Gfx *gfx);
 
+//audiokey.cpp
+
+audiokey_struct * load_audiokey();
+void Audiokey_free(audiokey_struct *p);
+void FUN_8005bf10(playerData *pDat,audioKeyEntryB *UAS,u16 id1,u16 id2,u16 amp,byte vol,s8 pan
+                 ,u8 *arr,byte arrsize,u16 type);
+bool FUN_8005c0f0(playerData *param_1,audiokey_struct *param_2,audiokeyEntryA *entryA,u16 param_4
+                 ,u16 param_5,u16 param_6,byte vol,u8 param_8);
+bool FUN_8005c2f0(playerData *param_1,u16 param_2,u8 param_3,u8 param_4);
+void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp);
+audioKeyEntryB audioKeyEntryB_ARRAY_800ee9d0[];
+u8 audiokey_unk1[][3];
+u8 audiokey_unk2[][3];
+u8 audiokey_unk3[][3];
+u8 audiokey_unk4[][3];
+u32 u32_ARRAY_800eec98[];
+u32 u32_ARRAY_800eee18[];
+u32 u32_ARRAY_800ef010[];
 
 u32 _bigw_flag=0; //used for "!bigw" cheat
 u32 _balloon_flag=0; //used for "!balloon" cheat

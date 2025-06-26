@@ -255,7 +255,7 @@ uint FUN_80094cd0(short param_1){
     }
     if ((((SpellVisuals.ptr1[uVar4].flags & 1) == 0) ||
         ((short)SpellVisuals.ptr1[uVar4].field7_0x2c != lVar5)) ||
-       (1 < SpellVisuals.ptr1[uVar4].field8_0x2e - 5)) {
+       (1 < SpellVisuals.ptr1[uVar4].spellID - 5)) {
       iVar3 = (int)(short)((short)uVar4 + 1);
       iVar2 = iVar3;
       if (iVar3 < 0) {
@@ -387,12 +387,12 @@ LAB_800950ec:
     pSVar10->memNeeded = memNeeded;
     copyVec3(&(ppVar2->collision).pos,&pSVar10->pos);
     (pSVar10->pos).y -= (pSVar9->playerDat->collision).radius;
-    if (lVar11 == 0) pSVar10->field3_0x1c = 0.0;
-    else pSVar10->field3_0x1c = gEntityDB->GetHeight(pSVar9->playerDat->ent_ID);
-    (pSVar10->pos).y += pSVar10->field3_0x1c;
+    if (lVar11 == 0) pSVar10->height = 0.0;
+    else pSVar10->height = gEntityDB->GetHeight(pSVar9->playerDat->ent_ID);
+    (pSVar10->pos).y += pSVar10->height;
     pBVar3 = pSVar9->playerDat->borg7P;
     if (pBVar3) Scene::SceneGetLocatorPos(pBVar3->sceneDat,&pSVar10->loc3Pos,3);
-    pSVar10->field8_0x2e = param_3;
+    pSVar10->spellID = param_3;
     pSVar10->flags |= 1;
   }
   return sVar7;
@@ -427,7 +427,7 @@ void FUN_800952c8(short param_1,short param_2,short param_3){
 
 void FUN_800953a8(short param_1){
   SpellVisualTypeB *pSVar1 = SpellVisuals.ptr1 + param_1;
-  if ((((pSVar1->flags & 1)) && (pSVar1->field8_0x2e != 5)) && (pSVar1->field8_0x2e != 6)) {
+  if ((((pSVar1->flags & 1)) && (pSVar1->spellID != 5)) && (pSVar1->spellID != 6)) {
     Particle::UnsetSceneEmmiter(&gGlobals.Sub.particleEmmiter,pSVar1->b7->sceneDat);
   }
 }
@@ -466,14 +466,14 @@ void processSpellVisuals(uint param_1){
       if ((pSVar9->flags & 8) == 0) {
         copyVec3(&(pSVar9->playerDat->collision).pos,&ppBVar12->pos);
         (ppBVar12->pos).y =
-             ((ppBVar12->pos).y - (pSVar9->playerDat->collision).radius) + ppBVar12->field3_0x1c;
+             ((ppBVar12->pos).y - (pSVar9->playerDat->collision).radius) + ppBVar12->height;
         pBVar2 = pSVar9->playerDat->borg7P;
         if (pBVar2) {
           Scene::SceneGetLocatorPos(pBVar2->sceneDat,&ppBVar12->loc3Pos,3);
         }
       }
       if (true) {
-        if (ppBVar12->field8_0x2e < 5) {
+        if (ppBVar12->spellID < 5) {
           pBVar2 = ppBVar12->b7;
           pAVar7 = pBVar2->sceneDat;
           if ((ppBVar12->flags & 0x10)) {
@@ -556,10 +556,10 @@ Gfx * FUN_80095a24(Gfx *param_1){
     SpellVisualTypeB *entry = &SpellVisuals.ptr1[i];
     if ((entry->flags & 1) != 0) {
       if (true) {
-        if (entry->field8_0x2e < 5) {
+        if (entry->spellID < 5) {
           param_1 = BorgAnimDrawSceneLinked(param_1,entry->SceneDat);
         }
-        else if (((entry->field8_0x2e < 7) && ((entry->flags & 0x40))) &&(entry->SceneDat)) {
+        else if (((entry->spellID < 7) && ((entry->flags & 0x40))) &&(entry->SceneDat)) {
           param_1 = BorgAnimDrawScene(param_1,entry->SceneDat);
         }
       }
@@ -573,11 +573,11 @@ void FUN_80095ad8(short param_1){
   SpellVisualTypeB *x = SpellVisuals.ptr1 + param_1;
   if ((x->flags & 1) != 0) {
     if (true) {
-      if (x->field8_0x2e < 5) {
+      if (x->spellID < 5) {
         FUN_800953a8(param_1);
         FREEQB7(x);
       }
-      else if (x->field8_0x2e < 7) {
+      else if (x->spellID < 7) {
         SpellVisuals.field14_0x2e--;
         pBVar1 = x->b7;
         SpellVisuals.ptr2[(short)x->field7_0x2c].field5_0xe--;
@@ -723,11 +723,11 @@ void combatspellvisuals_free(void){
     SpellVisualTypeB *piVar2 = &SpellVisuals.ptr1[uVar4];
     if (((piVar2->flags & 1) != 0) && (piVar2->b7 != NULL)) {
       if (true) {
-        if (piVar2->field8_0x2e < 5) {
+        if (piVar2->spellID < 5) {
           FUN_800953a8(uVar4);
           FREEQB7(piVar2);
         }
-        else if (piVar2->field8_0x2e < 7) FREEQSCENE(piVar2);
+        else if (piVar2->spellID < 7) FREEQSCENE(piVar2);
       }
     }
   }

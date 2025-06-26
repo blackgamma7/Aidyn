@@ -30,7 +30,6 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     float *pfVar1;
     u16 *puVar2;
     bool bVar3;
-    Camera_struct *pCVar4;
     u32 BVar5;
     short sVar6;
     double dVar7;
@@ -41,7 +40,6 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     vec2f fStack184;
     vec3f fStack120;
     
-    pCVar4 = gGlobals.Sub.PlayerHandler.camera;
     if (p->borg7 == -1) return;
     if (gGlobals.screenFadeMode != 0) {
       if (p->ani_type == 9) return;
@@ -51,7 +49,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     if ((gGlobals.scriptcamera.counter1 != 0) &&
        (sVar6 = (gGlobals.Sub.PlayerHandler.camera)->holdCamera,
        controller->input_2 = controller->input_2 & ~R_BUTTON, sVar6 != 0)) {
-      pCVar4->holdCamera = 3;
+      gGlobals.Sub.PlayerHandler.camera->holdCamera = 3;
     }
                       // Flea Jump
     if ((((_flea_flag != 0) && (p->alaron_flag)) &&
@@ -96,10 +94,9 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
           gCombatFreeCamera = 2;
           (gGlobals.Sub.PlayerHandler.camera)->unk48 = 4.0f;
         }
-        pCVar4 = gGlobals.Sub.PlayerHandler.camera;
         if ((controller->input_2 & R_BUTTON)) {
           (gGlobals.Sub.PlayerHandler.camera)->unk58 = -controller->joy_x * 8.0f;
-          pCVar4->unk48 += (controller->joy_y * 0.5);
+          gGlobals.Sub.PlayerHandler.camera->unk48 += (controller->joy_y * 0.5);
           return;
         }
         camera_control_update_(controller->joy_x,-controller->joy_y,&(gGlobals.Sub.PlayerHandler.camera)->rotationXZ,&fStack184);
@@ -134,11 +131,10 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
       if ((gGlobals.Sub.PlayerHandler.camera)->holdCamera != 0) {
         (gGlobals.Sub.PlayerHandler.camera)->holdCamera = 3;
       }
-      pCVar4 = gGlobals.Sub.PlayerHandler.camera;
       puVar2 = &(gGlobals.Sub.PlayerHandler.camera)->camera_mode;
       (gGlobals.Sub.PlayerHandler.camera)->unk58 = 0.0;
-      if (*puVar2 == 0) pCVar4->unk48 = pCVar4->unk4c;
-      else pCVar4->unk48 = 0.0;
+      if (*puVar2 == 0) gGlobals.Sub.PlayerHandler.camera->unk48 = gGlobals.Sub.PlayerHandler.camera->unk4c;
+      else gGlobals.Sub.PlayerHandler.camera->unk48 = 0.0;
     }
     fVar9 = -controller->joy_x;
     y = controller->joy_y;
@@ -147,24 +143,21 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
       if ((p->flags & ACTOR_ISPLAYER)){
         Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,&(p->collision).pos);
       }
-      sVar6 = p->ani_type;
       goto LAB_80019358;
     }
     if (p->visible_flag) {
       gGlobals.playerCharStruct.show_portaits = 0;
       MiniMap::Toggle(&gGlobals.minimap,0);
     }
-    sVar6 = 0x19;
     if ((controller->input_2 & Z_BUTTON) == 0) {
       p->ani_type = 2;
       if (0.8 <= (double)fVar8) {
-        sVar6 = 3;
-        goto LAB_80019274;
+        p->ani_type = 3;
       }
     }
     else {
   LAB_80019274:
-      p->ani_type = sVar6;
+      p->ani_type = 0x19;
     }
     camera_control_update_(fVar9,y,&(gGlobals.Sub.PlayerHandler.camera)->rotationXZ,&p->facingMirror);
     if (p->visible_flag == 0) fVar9 = 0.34906;
@@ -172,9 +165,9 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     some_trig_func_2(&p->facing,&p->facingMirror,fVar9);
     fVar9 = (p->facing).x;
     if (0.0 < fVar9) {
-      if (fVar9 < 1.0E-6f) (p->facing).x = 1.0E-6f;
+      if (fVar9 < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
     }
-    else if (-fVar9 < 1.0E-6f) (p->facing).x = 1.0E-6f;
+    else if (-fVar9 < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
     vec2_normalize(&p->facing);
   LAB_80019358:
     if (((p->ani_type != 0) && (p->borg7P != NULL)) && (p->borg7P->currentAni == 0)) {
@@ -391,14 +384,14 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
       return;
     }
   
-    void Actor::SetCombatMove(playerData *param_1,vec3f *pos,float range){
+void Actor::SetCombatMove(playerData *param_1,vec3f *pos,float range){
     
-    (param_1->combat_vec3).x = pos->x;
-    (param_1->combat_vec3).y = pos->y;
-    param_1->combatMoveSpeed = range;
-    (param_1->combat_vec3).z = pos->z;
-    SetFlag(param_1,ACTOR_4);
-  }
+  (param_1->combat_vec3).x = pos->x;
+  (param_1->combat_vec3).y = pos->y;
+  param_1->combatMoveSpeed = range;
+  (param_1->combat_vec3).z = pos->z;
+  SetFlag(param_1,ACTOR_4);
+}
   
   
   void Actor::UnsetFlag2(playerData *param_1){

@@ -26,7 +26,7 @@ void Init(void){
   attackVisualVars.iFreeVisual = 0;
 }
 
-void Orphaned(playerData *target,u32 param_2){
+void Add(playerData *target,u32 param_2){
   if (!target)
     CRASH(FILENAME,"!pVisual->pTarget\nTried to add a attack effect with no target!");
   if (attackVisualVars.iFreeVisual>=ATTACKVISUAL_MAXVISUALS)

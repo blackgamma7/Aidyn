@@ -111,7 +111,7 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
     ppVar10->NoBorg13 = 1;
     if ((refObj->monster).borg_13) ppVar10->NoBorg13 = 0;
     ppVar10->MapTally = param_3;
-    pDat = Actor::AllocPlayer(gEntityDB->GetFloatC((refObj->monster).entityID),(ppVar10->start_position).x,0.0,(ppVar10->start_position).y,gEntityDB->GetBorg7((refObj->monster).entityID));
+    pDat = Actor::AllocPlayer(gEntityDB->GetCollideRadius((refObj->monster).entityID),(ppVar10->start_position).x,0.0,(ppVar10->start_position).y,gEntityDB->GetBorg7((refObj->monster).entityID));
     ppVar10->playerDat = pDat;
     IVar2 = (refObj->monster).entityID;
     pDat->zoneDatByte = param_4;

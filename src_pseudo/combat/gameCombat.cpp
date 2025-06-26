@@ -329,7 +329,7 @@ u8 FUN_80028778(Gfx **GG,u16 delta){
   CombatEntity *pCVar2 = gCombatP->current_Ent;
   playerData *ppVar3 = gGlobals.playerDataArray[pCVar2->index];
   copyVec3(&(ppVar3->collision).pos,&combatVec3B);
-  if ((((u8)(vec3_proximity(&combatVec3B,&combatVec3A)*100.0f)) < 3) || ((ppVar3->borg7P->unk2c).z < 1.0E-6f)) {
+  if ((((u8)(vec3_proximity(&combatVec3B,&combatVec3A)*100.0f)) < 3) || ((ppVar3->borg7P->unk2c).z < NORMALIZE_MIN)) {
     gCombatP->waitTimer-= delta;
   }
   if ((ppVar3->flags & ACTOR_CANMOVE) == 0) {

@@ -77,9 +77,9 @@ char** element_labels=NULL;
 // a very odd macro, repeated a few times
 // might be part of a casting macro. float is calculated THRICE.
 #define CombatInitMacro1(id,A,B)\
-            if (0.0 < (gEntityDB->GetFloatC(id) * gEntityDB->GetScale(id))*2)\
-          A = ((gEntityDB->GetFloatC(id) * gEntityDB->GetScale(id))*2)+0.5;\
-        else A = -(0.5 - ((gEntityDB->GetFloatC(id) * gEntityDB->GetScale(id))*2));\
+            if (0.0 < (gEntityDB->GetCollideRadius(id) * gEntityDB->GetScale(id))*2)\
+          A = ((gEntityDB->GetCollideRadius(id) * gEntityDB->GetScale(id))*2)+0.5;\
+        else A = -(0.5 - ((gEntityDB->GetCollideRadius(id) * gEntityDB->GetScale(id))*2));\
         B = (u8)A;\
         if (!A) B = 1;
 
@@ -104,7 +104,7 @@ void scoot_enemy_list(EncounterDat *param_1);
 void Combat_InitEncounter(CombatStruct *param_1,EncounterDat *param_2);
 bool Ofunc_800664ac(CombatStruct *param_1);
 bool Ofunc_CombatLeaderDead(CombatStruct *param_1,s32 param_2);
-bool some_combat_proximity_check(CombatStruct *param_1,ItemID param_2,float param_3,float param_4);
+bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y);
 bool FUN_8006674c(CombatStruct *param_1,u32 param_2,u16 param_3,byte param_4,float *coordA,float *CoordB,uint param_7);
 void FUN_800668e4(CombatStruct *param_1,u8 *outX,u8 *outY,u8 *param_4,u8 param_5,u8 param_6,
                  u32 param_7,u32 param_8,u8 param_9,ItemID id);

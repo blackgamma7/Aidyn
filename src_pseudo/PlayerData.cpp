@@ -280,7 +280,7 @@ Gfx * Actor::CalculateShadow(playerData *param_1,Gfx *g,float param_3,u8 param_4
   }
   return PlaneObj_Render(g,&param_1->shadow,pos,outRot,pvVar8);
 }
-// calculates a model's alpha?
+
 u8 PlayerShadowAlpha(PlayerHandler *param_1,playerData *pDat,float dist,u8 param_4){
 
   u8 a = param_4;
@@ -338,10 +338,7 @@ void playerdata_remove_both_dcm(playerData *param_1){
     playerdata_remove_dcm(param_1,i);
 }
 
-extern u32 u32_ARRAY_800eec98[];
-extern u32 u32_ARRAY_800eee18[];
-extern u32 u32_ARRAY_800ef010[];
-DCMSub2 * AllocPlayerAudio(playerData *param_1,UnkAudioStruct *param_2,u16 type,u16 param_4){
+DCMSub2 * AllocPlayerAudio(playerData *param_1,audioKeyEntryB *param_2,u16 type,u16 param_4){
   u16 uVar1;
   Borg12Header *pBVar3;
   u16 uVar6;
@@ -349,11 +346,11 @@ DCMSub2 * AllocPlayerAudio(playerData *param_1,UnkAudioStruct *param_2,u16 type,
   
   u16 uVar2 = 0;
   if ((param_4 == 0) && (param_2)) {
-    uVar2 = RAND.randAudio(param_2->randVal);
+    uVar2 = RAND.randAudio(param_2->arrLen);
   }
   switch(type){
     case 0:
-    pBVar4 = u32_ARRAY_800eec98 + param_2->field3_0x4[uVar2];
+    pBVar4 = u32_ARRAY_800eec98 + param_2->arr[uVar2];
     break;
     case 1:
     pBVar4 = u32_ARRAY_800eee18 + param_4;
@@ -401,7 +398,6 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
   Borg7Header *pBVar13;
   bool bVar18;
   Borg7Header *plVar9;
-  PLAYERDATA_Flags PVar16;
   short sVar17;
   bool bVar19;
   longlong lVar11;
@@ -485,7 +481,7 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
       fStack688.z = handler->playerDats[sVar15].facing.y;
       fVar33 = SQ(fStack688.x)+ SQ(fStack688.z);
       if (0.0 < fVar33) {
-        if ((fVar33 < 1.0E-6f)||(-fVar33 < 1.0E-6f))
+        if ((fVar33 < NORMALIZE_MIN)||(-fVar33 < NORMALIZE_MIN))
         CRASH("Player.cpp","SETTING FACING FOR CAMERA\n");
       }
       Camera::ProcessGameCamera(handler->camera,&handler->playerDats[handler->cameraFocus].collision.pos,
@@ -673,9 +669,9 @@ LAB_80016990:
 LAB_80016b54:
         fVar29 = SQ((ppVar22->facing).x) + SQ((ppVar22->facing).y);
         if (0.0 < fVar29) {
-          if (fVar29 < 1.0E-6f) goto crash;
+          if (fVar29 < NORMALIZE_MIN) goto crash;
         }
-        else if (-fVar29 < 1.0E-6f) {
+        else if (-fVar29 < NORMALIZE_MIN) {
 crash:
           CRASH("player.cpp","SETTING FACING FOR ALIGN\n");
         }
@@ -796,11 +792,9 @@ LAB_80016f38:
                   if (ppVar22->unk1a != 0) goto LAB_80016f38;
                 }
 LAB_80017014:
-                player_audiokey(ppVar22,ppVar22->unk16,plVar9->locators->aniTime,
-                                *(undefined2 *)
-                                 (*(int *)(*(int *)(plVar9->field25_0x1c + 4) + 0x20) + 0xe));
+                player_audiokey(ppVar22,ppVar22->unk16,plVar9->sceneDat->aniTime,
+                                plVar9->unk1c->b6->dat->aniLength);
               }
-              PVar16 = ppVar22->flags;
             }
           }
 not_flying_borg7:

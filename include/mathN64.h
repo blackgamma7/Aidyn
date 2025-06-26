@@ -19,7 +19,7 @@ typedef union vec4f{
 
 typedef float MtxF[4][4];
 
-#define NORMALIZE_MIN 1.0E-6
+#define NORMALIZE_MIN 1.0E-6f
 #define TAU 6.2831855
 #define dtor 0.017453
 #define RadInDeg_f 57.29578f

@@ -16,15 +16,14 @@ struct SpellVisualTypeB {
       SceneData* SceneDat;
       Borg7Header *b7;
     };
-    vec3f pos;
-    vec3f loc3Pos;
-    float field3_0x1c;
+    vec3f pos; //position of effect
+    vec3f loc3Pos; //position of Locator#3
+    float height; //height of associated entity
     u32 borg5Index;
-    u32 memNeeded;
-    uint flags;
+    u32 memNeeded; //estimated memory required for effect
+    u32 flags;
     u16 field7_0x2c;
-    u8 field8_0x2e;
-    undefined field9_0x2f;
+    u8 spellID;
 };
 struct SpellVisualTypeC {
     playerData *playerDat;
@@ -136,10 +135,10 @@ struct AttackVisualStruct3 {
     u32 unk14;
     uint flag;
 };
-
+//Attack visual effects. Initalized, freed, Render func called, but nothing calls Add() to use them. Essentialy unused.
 namespace CombatAttackVisuals{
     void Init();
-    void Orphaned(playerData *target,u32 param_2);
+    void Add(playerData *target,u32 param_2);
     Gfx * Render(Gfx *g,uint delta);
     void FreePlayer(playerData *param_1);
     void Free();

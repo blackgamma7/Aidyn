@@ -113,12 +113,12 @@ struct Entity_Ram { /* entity data in Ram */
 
 struct entity_info{
 	u16 index;
-	u32 Model; //index of "borg7 file.
+	u32 Model; //index of "borg7" file.
 	u32 portrait; //index of "borg8" file.
 	float a;
-	float b;
-	float c;
-	float scale; 
+	float height;
+	float radius; //radius of collision sphere
+	float scale; //scale of model
 };
 
 struct dialougeEntity_Info { /* extended data of Dialouge entities in RAM */
@@ -208,7 +208,7 @@ class EntityDB {
     float GetFloatA(ItemID);
     float RetPoint4(ItemID);
     u8 IsNotBoss(ItemID);
-    float GetFloatC(ItemID);
+    float GetCollideRadius(ItemID);
     float GetScale(ItemID);
 };
 

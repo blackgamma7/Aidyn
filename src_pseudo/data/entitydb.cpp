@@ -251,7 +251,7 @@ char * EntityDB::GetEntityName(ItemID id){
 
 //no clue what is was meant for. unused
 float Ofunc_8007573c(EntityDB *param_1,ItemID id){
-  return param_1->GetFloatC(id)+.25;
+  return param_1->GetCollideRadius(id)+.25;
 }
 
 //sems to load "perception" value checked for sneaking. almost always 10.
@@ -284,7 +284,7 @@ float EntityDB::GetHeight(ItemID id){
       entity_info *peVar5 = entity_info_array;
       uVar1 = entity_info_array[0].index;
       do {
-        if (uVar1 == ((short)(char)bVar3 + 1U & 0xff)) return peVar5->b*peVar5->scale;
+        if (uVar1 == ((short)(char)bVar3 + 1U & 0xff)) return peVar5->height*peVar5->scale;
         peVar5++;
         uVar1 = peVar5->index;
       } while (uVar1 != 0);
@@ -375,7 +375,7 @@ u8 EntityDB::IsNotBoss(ItemID id){
   return true;
 }
 
-float EntityDB::GetFloatC(ItemID id){
+float EntityDB::GetCollideRadius(ItemID id){
   byte bVar2;
   u16 uVar1;
   int iVar3;
@@ -393,7 +393,7 @@ float EntityDB::GetFloatC(ItemID id){
       do {
         peVar4 = peVar4 + 1;
         if (uVar1 == ((short)(char)bVar2 + 1U & 0xff)) {
-          return *(float *)((int)&entity_info_array[0].c + iVar3);
+          return *(float *)((int)&entity_info_array[0].radius + iVar3);
         }
         uVar1 = peVar4->index;
         iVar3 += 0x1c;
