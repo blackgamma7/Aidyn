@@ -18,6 +18,85 @@
 #define BORG8_EXPPakYes 0x3758
 #define BORG8_EXPPakNo 0x3759
 #define BORG8_ErrorRegion 0x37c3
+
+//item Icons
+
+#define BORG8_IconItemAmoranth 0x35bc
+#define BORG8_IconItemAmulet1 0x35bd
+#define BORG8_IconItemAmulet2 0x35be
+#define BORG8_IconItemAmulet3 0x35bf
+#define BORG8_IconItemAmulet4 0x35c0
+#define BORG8_IconItemChestArmor1 0x35c1
+#define BORG8_IconItemChestArmor2 0x35c2
+#define BORG8_IconItemChestArmor3 0x35c3
+#define BORG8_IconItemChestArmor4 0x35c4
+#define BORG8_IconItemAxe 0x35c5
+#define BORG8_IconItemSythe 0x35c6
+#define BORG8_IconItemCirclet 0x35c7
+#define BORG8_IconItemRemains 0x35c8
+#define BORG8_IconItemBoot 0x35c9
+#define BORG8_IconItemBowArrow 0x35ca
+#define BORG8_IconItemCloakA 0x35cb
+#define BORG8_IconItemCloakB 0x35cc
+#define BORG8_IconItemCloakC 0x35cd
+#define BORG8_IconItemClub 0x35ce
+#define BORG8_IconItemSword 0x35cf
+#define BORG8_IconItemStaff 0x35d0
+#define BORG8_IconItem2Pads 0x35d1
+#define BORG8_IconItemGem 0x35d2
+#define BORG8_IconItemGem2 0x35d3
+#define BORG8_IconItemGem3 0x35d4
+#define BORG8_IconItemLeatherGlove 0x35d5
+#define BORG8_IconItemHarp 0x35d6
+#define BORG8_IconItemBlueHat 0x35d7
+#define BORG8_IconItemKendallHat 0x35d8
+#define BORG8_IconItemLeatherHood 0x35d9
+#define BORG8_IconItemHerb 0x35da
+#define BORG8_IconItemHide 0x35db
+#define BORG8_IconItemUnk 0x35dc
+#define BORG8_IconItemKey1 0x35dd
+#define BORG8_IconItemKey2 0x35de
+#define BORG8_IconItemKey3 0x35df //icon for the unused Blood/bone/skull/black keys
+#define BORG8_IconItemHorn 0x35e0
+#define BORG8_IconItemMace 0x35e1
+#define BORG8_IconItemParchment 0x35e2
+#define BORG8_IconItemPike 0x35e3
+#define BORG8_IconItemHalberd 0x35e4
+#define BORG8_IconItemPotion 0x35e5
+#define BORG8_IconItemRing1 0x35e6
+#define BORG8_IconItemRing2 0x35e7
+#define BORG8_IconItemRope 0x35e8
+#define BORG8_IconItemScroll 0x35e9
+#define BORG8_IconItemSicle 0x35ea
+#define BORG8_IconItemShield1 0x35eb
+#define BORG8_IconItemSpice 0x35ec
+#define BORG8_IconItemStaff2 0x35ed
+#define BORG8_IconItemSword2 0x35ee
+#define BORG8_IconItemSword3 0x35ef
+#define BORG8_IconItemThrowIron 0x35f0
+#define BORG8_IconItemWand 0x35f1
+#define BORG8_IconItemStormbreaker 0x35f2
+#define BORG8_IconItemAsp 0x37e1
+#define BORG8_IconSlotHurlstar 0x3856
+#define BORG8_IconItemHockeyStick 0x38d4
+#define BORG8_IconItemLightreaver 0x38d5
+
+#define BORG8_IconSlotAmulet 0x35f3
+#define BORG8_IconSlotChest 0x35f4
+#define BORG8_IconSlotCirclet 0x35f5
+#define BORG8_IconSlotBoot 0x35f6
+#define BORG8_IconSlotCloak 0x35f7
+#define BORG8_IconSlotGlove 0x35f8
+#define BORG8_IconSlotHelmet 0x35f9
+#define BORG8_IconSlotRing1 0x35fa
+#define BORG8_IconSlotRing2 0x35fb
+#define BORG8_IconSlotScroll1 0x35fc
+#define BORG8_IconSlotScroll2 0x35fd
+#define BORG8_IconSlotScroll3 0x35fe
+#define BORG8_IconSlotShield 0x35ff
+#define BORG8_IconSlotStaff 0x3600
+#define BORG8_IconSlotSword 0x3601
+
 //TODO: process list as #deine's with hex values
 typedef enum Borg8Enum {
     BORG8_MapIconStart=30,
@@ -121,67 +200,8 @@ typedef enum Borg8Enum {
     BORG8_GradientC=451,
     BORG8_Pixel=452,
     BORG8_2x2Pixel=453,
-    //28 px soft edge square=454,
-    //14px square=455,
-    //Gwernia map overlay=457,
-    //galaxy swirl?=464,
-    //Fire effect?=3424,
-    //Some Face?=3514,
-    //musical notes=6842,
-    BORG8_IconItemAmoranth=13756,
-    BORG8_IconItemAmulet1=13757,
-    BORG8_IconItemAmulet2=13758,
-    BORG8_IconItemAmulet3=13759,
-    BORG8_IconItemAmulet4=13760,
-    BORG8_IconItemChestArmor1=13761,
-    BORG8_IconItemCheatArmor2=13762,
-    BORG8_IconItemCheastArmor3=13763,
-    BORG8_IconItemCheastArmor4=13764,
-    BORG8_IconItemAxe=13765,
-    BORG8_IconItemSythe=13766,
-    BORG8_IconItemCirclet=13767,
-    BORG8_IconItemCuccoon=13768,
-    BORG8_IconItemBoot=13769,
-    BORG8_IconItemBowArrow=13770,
-    BORG8_IconItemCloakA=13771,
-    BORG8_IconItemCloakB=13772,
-    BORG8_IconItemCloakC=13773,
-    BORG8_IconItemClub=13774,
-    BORG8_IconItemSword=13775,
-    BORG8_IconItemStaff=13776,
-    BORG8_IconItem2Pads=0x35d1,
-    BORG8_IconItemGem=13778,
-    BORG8_IconItemGem2=13779,
-    BORG8_IconItemGem3=13780,
-    BORG8_IconItemLeatherGlove=13781,
-    BORG8_IconItemHarp=13782,
-    BORG8_IconItemBlueHat=13783,
-    BORG8_IconItemKendallHat=13784,
-    BORG8_IconItemLeatherCloak=13785,
-    BORG8_IconItemHerb=13786,
-    BORG8_IconItemHide=13787,
-    BORG8_IconItemUnk=13788,
-    BORG8_IconItemKey1=13789,
-    BORG8_IconItemKey2=13790,
-    BORG8_IconItemKey3=13791, //icon for the unused Blood/bone/skull/black keys
-    BORG8_IconItemHorn=13792,
-    BORG8_IconItemMace=13793,
-    BORG8_IconItemParchment=13794,
-    BORG8_IconItemPike=13795,
-    BORG8_IconItemPotion=13797,
-    BORG8_IconItemScroll=13801,
-    BORG8_IconItemSicle=13802,
-    BORG8_IconItemShield1=13803,
-    BORG8_IconItemStaff2=13805,
-    BORG8_IconItemSword2=13806,
-    BORG8_IconItemSword3=13807,
-    BORG8_IconItemThrowIron=13808,
-    BORG8_IconSlotCloak=13815,
-    BORG8_IconSlotGlove=13816,
-    BORG8_IconSlotHelmet=13817,
-    BORG8_IconSlotShield=13823,
-    BORG8_IconSlotStaff=13824,
-    BORG8_IconSlotSword=13825,
+
+    
     //Spotlight?=13826,
     BORG8_BGBook2=13827,
     BORG8_BGPlaque=13828,
@@ -197,7 +217,6 @@ typedef enum Borg8Enum {
     //Terminor Marker=14272,
     //Ugarit Marker=14273,
     BORG8_PortraitMinotuar=14406,
-    cyclops_Hurlstar=14422,
     BORG8_PortraitHorse=14423,
     //up arrow=14544
 } Borg8Enum;
@@ -206,32 +225,32 @@ typedef enum Borg8Enum {
 
 //borg11: Sound samples
 
-#define BORG11_PrecussionHitA 0x5A0
-#define BORG11_PrecussionRhythmA 0x5A1
-#define BORG11_PrecussionHitB 0x5A2
-#define BORG11_DramaticStingA 0x5A3
-#define BORG11_StringA 0x5A4
-#define BORG11_TambouineA 0x5A6
-#define BORG11_StringB 0x5A7
-#define BORG11_HornA 0x5A8
-#define BORG11_TriumphantChordA 0x5A9
-#define BORG11_HornB 0x5AA
-#define BORG11_PrecussionHitC 0x5AC
-#define BORG11_PrecussionHitD 0x5AD
-#define BORG11_PrecussionHitE 0x5AE
-#define BORG11_PrecussionHitF 0x5AF
-#define BORG11_PrecussionHitF 0x5B0
-#define BORG11_DramaticStingB 0x5B1
+#define BORG11_PrecussionHitA 0x05A0
+#define BORG11_PrecussionRhythmA 0x05A1
+#define BORG11_PrecussionHitB 0x05A2
+#define BORG11_DramaticStingA 0x05A3
+#define BORG11_StringA 0x05A4
+#define BORG11_TambouineA 0x05A6
+#define BORG11_StringB 0x05A7
+#define BORG11_HornA 0x05A8
+#define BORG11_TriumphantChordA 0x05A9
+#define BORG11_HornB 0x05AA
+#define BORG11_PrecussionHitC 0x05AC
+#define BORG11_PrecussionHitD 0x05AD
+#define BORG11_PrecussionHitE 0x05AE
+#define BORG11_PrecussionHitF 0x05AF
+#define BORG11_PrecussionHitF 0x05B0
+#define BORG11_DramaticStingB 0x05B1
 
-#define BORG11_CymbalCrash 0x5B6
+#define BORG11_CymbalCrash 0x05B6
 
-#define BORG11_DramaticStingC 0x5BB
-#define BORG11_PrecussionRhythmB 0x61F
-#define BORG11_ChoirA 0x625
-#define BORG11_TriumphantChordB 0x631
-#define BORG11_CoinsJingle 0x6F4
-#define BORG11_EchoSound 0x726
-#define BORG11_PageTurn 0x74C
+#define BORG11_DramaticStingC 0x05BB
+#define BORG11_PrecussionRhythmB 0x061F
+#define BORG11_ChoirA 0x0625
+#define BORG11_TriumphantChordB 0x0631
+#define BORG11_CoinsJingle 0x06F4
+#define BORG11_EchoSound 0x0726
+#define BORG11_PageTurn 0x074C
 
 #define BORG11_MaleGasp 0x384C
 

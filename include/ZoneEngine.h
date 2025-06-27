@@ -14,6 +14,8 @@ struct ZoneDat {
     u8 unk1f;
 };
 
+#define ZoneCenter 0x11 //BCD index of MapZoneData[1][1]
+
 
 s16 gPlayerRenderTimer=0;
 s32 FreeZoneEngineTimestamp=-1;

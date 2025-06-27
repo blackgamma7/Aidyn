@@ -122,7 +122,7 @@ void get_loot_reagent(voxelObject* v,container_Dat * cont){
   if (exploding_container_check(v,gGlobals.Sub.borg9DatPointer)) {
     passto_WriteTo_VoxelChart((short)(((int)v - (int)(gGlobals.Sub.borg9DatPointer)->voxelObjs) * 0x684bda13
                       >> 2),(undefined)gGlobals.Sub.mapDatA,(undefined)gGlobals.Sub.mapShort1,
-               (undefined)gGlobals.Sub.mapShort2,0x11,*(u8 *)((int)&(v->header).type + 1),10
+               (undefined)gGlobals.Sub.mapShort2,ZoneCenter,*(u8 *)((int)&(v->header).type + 1),10
               );
   }
   GenericInventory * pGVar1 = new GenericInventory();
@@ -151,7 +151,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
   contP = &v->container;
   psVar4 = some_ref_obj_lookup_func((short)(((int)v - (int)(gGlobals.Sub.borg9DatPointer)->voxelObjs) *
                               /*?!?*/0x684bda13 >> 2),(char)gGlobals.Sub.mapDatA,
-                      (u8)gGlobals.Sub.mapShort1,(u8)gGlobals.Sub.mapShort2,0x11,(u8)v->header.type);
+                      (u8)gGlobals.Sub.mapShort1,(u8)gGlobals.Sub.mapShort2,ZoneCenter,(u8)v->header.type);
 
   if (((container_open_check((v->container).openFlag)) || (psVar4)) ||
      (container_explode_check((v->container).explodeFlag))) {
@@ -211,7 +211,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
       if ((!container_explode_check((v->container).explodeFlag)) && (!container_open_check((v->container).openFlag))) {
         passto_WriteTo_VoxelChart((short)(((int)v - (int)(gGlobals.Sub.borg9DatPointer)->voxelObjs) *
                            /*?!?*/0x684bda13 >> 2),(char)gGlobals.Sub.mapDatA,(u8)gGlobals.Sub.mapShort1,
-                   (u8)gGlobals.Sub.mapShort2,0x11,(u8)v->header.type,10);
+                   (u8)gGlobals.Sub.mapShort2,ZoneCenter,(u8)v->header.type,10);
       }
       if (!uVar8) {
         Gsprintf(Cstring(GotXGold),(v->container).Gold);
@@ -354,7 +354,7 @@ u8 exploding_container_sub(voxelObject* v,Borg9Data *arg1){
      (some_ref_obj_lookup_func((short)(((int)v - (int)arg1->voxelObjs)
                             * 0x684bda13 >> 2),
                           gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,
-                          (u8)gGlobals.Sub.mapShort2,0x11,(u8)(v->header).type)))
+                          (u8)gGlobals.Sub.mapShort2,ZoneCenter,(u8)(v->header).type)))
     {uVar3 = false;}
   else {uVar3 = trigger_event_flag_check((v->header).flagA,(v->header).Bitfeild,0x100);}
   return uVar3;
@@ -375,7 +375,7 @@ u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
       set_voxel_visibility(param_1,true);
       psVar2 = some_ref_obj_lookup_func((short)(((int)param_1 - (int)param_2->voxelObjs) * 0x684bda13 >> 2),
                           (char)gGlobals.Sub.mapDatA,(u8)gGlobals.Sub.mapShort1,
-                          (u8)gGlobals.Sub.mapShort2,0x11,(u8)(param_1->header).type);;
+                          (u8)gGlobals.Sub.mapShort2,ZoneCenter,(u8)(param_1->header).type);;
       if ((container_open_check((param_1->container).openFlag)) || (psVar2 != NULL)) {
         replace_container_voxel(param_1,1,param_2);
         *(u16 *)(param_1->container).LockLV = 0;

@@ -1,41 +1,43 @@
-void Ofunc_80074ca0(DialoigEntPointer *param_1){
-  DialougEnt_RAM *pDVar1;
+#include "romcopy.h"
+#include "heapN64.h"
+#include "dialougEnt.h"
+
+#define FILENAME "../data/dialogEntitydb.cpp"
+
+DialogEntityDB* gDialogEntityDBp=NULL;
+
+void DialogEntityDB::Orphaned(){
   s32 auStack16 [4];
   
   auStack16[0] = 0;
-  load_db_array_size(&dialouge_entity,param_1,auStack16);
-  pDVar1 = (DialougEnt_RAM *)
-           HeapAlloc(((u32)param_1->total * 0xc + (u32)param_1->total) * 2,FILENAME,0x2e);
-  param_1->ents = pDVar1;
+  load_db_array_size(&dialouge_entity,this,auStack16);
+  ALLOCS(this->ents,this->total*sizeof(this->total),46);
 }
 
-void load_dialougEnt(DialoigEntPointer *param_1,u8 param_2,s32 *param_3){
-  s32 iVar1;
-  DialougEnt_RAM *pDVar2;
+void DialogEntityDB::Load(u8 index,u32 *pos){
   DialougeEntity_ROM temp;
   
-  iVar1 = *param_3;
-  pDVar2 = param_1->ents + param_2;
-  RomCopy::RomCopy(&temp,dialouge_entity + iVar1,sizeof(DialougeEntity_ROM),1,FILENAME,0x3f);
-  memcpy(pDVar2->name,&temp,0x16);
-  pDVar2->a = 0;
-  *param_3 = iVar1 + sizeof(DialougeEntity_ROM);
-  pDVar2->ID = (ItemID)((u16)temp.ID.ID + (u16)temp.ID.Type * 0x100);
+  DialougEnt_RAM *pDVar2 = this->ents + index;
+  ROMCOPYS(&temp,dialouge_entity + *pos,sizeof(DialougeEntity_ROM),63);
+  memcpy(pDVar2->name,&temp,22);
+  pDVar2->name[22] = '\0';
+  *pos += sizeof(DialougeEntity_ROM);
+  pDVar2->ID = (ItemID)((u16)temp.ID.id + (u16)temp.ID.type * 0x100);
 }
 
-void build_dailougentitydb(DialoigEntPointer *param_1){
+void DialogEntityDB::Init(){
   DialougEnt_RAM *pDVar1;
   u8 bVar2;
-  s32 auStack24 [6];
+  u32 auStack24 [6];
   
   auStack24[0] = 0;
-  load_db_array_size(&dialouge_entity,param_1,auStack24);
-  pDVar1 = (DialougEnt_RAM *)HeapAlloc(((u32)param_1->total * 0xc + (u32)param_1->total) * 2,FILENAME,0x8f);
-  param_1->ents = pDVar1;
+  load_db_array_size(&dialouge_entity,this,auStack24);
+  pDVar1 = (DialougEnt_RAM *)HeapAlloc(((u32)this->total * 0xc + (u32)this->total) * 2,FILENAME,0x8f);
+  this->ents = pDVar1;
   bVar2 = 0;
-  if (param_1->total != 0) {
-    do {load_dialougEnt(param_1,bVar2++,auStack24);} while (bVar2 < param_1->total);
+  if (this->total != 0) {
+    do {Load(bVar2++,auStack24);} while (bVar2 < this->total);
   }
 }
 
-void dialougEnt_free(DialoigEntPointer *param_1){HeapFree(param_1->ents,FILENAME,0x9f);}
+void DialogEntityDB::Free(){HFREE(this->ents,159);}

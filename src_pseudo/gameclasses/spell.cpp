@@ -8,7 +8,7 @@ extern ItemID itemID_array[];
 void TempSpell::Init(SpellInstance *S,ItemID ID,u8 RANK){
   S->level = RANK;
   S->base.id = ID;
-  Spell_RAM *sRam = gLoadedSpells->spells[GETINDEX(ID)];
+  Spell_RAM *sRam = &gSpellDBp->spells[GETINDEX(ID)];
   S->base.name = sRam->Name;
   S->school = sRam->School;
   S->damage = sRam->Damage;
@@ -110,7 +110,7 @@ void TempEnchant::Init(Temp_enchant *Ench,u8 Index,u8 LV,u32 Timer,u8 UNK3,
   Ench->varA = UNK3;
   Ench->varB = UNK4;
   Ench->SpellVisualIndex = 0xffff;
-  Ench->school = gLoadedSpells->spells[Index].School;
+  Ench->school = gSpellDBp->spells[Index].School;
 }
 
 void TempEnchant::StopSpellVisual(Temp_enchant *param_1){

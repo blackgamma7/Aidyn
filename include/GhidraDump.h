@@ -1,7 +1,6 @@
 #include "mathN64.h"
 #include "widgets\BaseWidget.h"
 
-
 /*
 typedef enum Borg7Enum { // entity model data? 
     Blank=0,
@@ -147,16 +146,6 @@ struct CombatAi_command {
     uint unk;
 };
 
-typedef struct DialougEnt_RAM DialougEnt_RAM, *PDialougEnt_RAM;
-
-struct DialougEnt_RAM {
-    ItemID ID;
-    char name[22];
-    u8 a; /* unused, set to 0 */
-    u8 b;
-};
-
-
 typedef struct shop_ram shop_ram, *Pshop_ram;
 
 struct shop_ram {
@@ -171,17 +160,7 @@ struct ArrayHeader { /* ROM Db array Header */
     u8 unk[3]; //junk bytes
 };
 
-struct DialougeEntity_ROM { /* Dialouge entity in ROM */
-    char name[22];
-    ItemID_ROM ID;
-};
 
-typedef struct WidgetMenuWorldMap WidgetMenuWorldMap, *PWidgetMenuWorldMap;
-
-typedef struct struct_4 struct_4, *Pstruct_4;
-
-
-typedef struct Widget_Skills Widget_Skills, *PWidget_Skills;
 
 struct Widget_Skills {
     BaseWidget base;
@@ -217,21 +196,12 @@ struct ArmorCraftRecipie {
     u8 pad; /* i dunno */
 };
 
-
-
 typedef struct CityMarkers CityMarkers, *PCityMarkers;
 
 struct CityMarkers {
     u16 borg;
     u16 x;
     u16 y;
-};
-
-typedef struct DialoigEntPointer DialoigEntPointer, *PDialoigEntPointer;
-
-struct DialoigEntPointer {
-    u8 total;
-    DialougEnt_RAM *ents;
 };
 
 typedef struct encounter_rom_dat encounter_rom_dat, *Pencounter_rom_dat;
@@ -317,8 +287,6 @@ struct RomstringController {
 };
 */
 
-
-
 typedef struct shop_pointer shop_pointer, *Pshop_pointer;
 
 struct shop_pointer {
@@ -326,25 +294,11 @@ struct shop_pointer {
     shop_ram *shops; /* shops' listing */
 };
 
-
-typedef struct spells_pointer spells_pointer, *Pspells_pointer;
-
-struct spells_pointer {
-    u8 Total;
-    u8 Schools[6];
-    u8 schools2[6];
-    u8 field3_0xd[3];
-    Spell_RAM *spells;
-};
-
 typedef struct WidgetArmorCraft WidgetArmorCraft, *PWidgetArmorCraft;
 
 struct WidgetArmorCraft {
     WidgetCrafting base;
 };
-
-
-
 
 typedef struct WidgetMenuHealer WidgetMenuHealer, *PWidgetMenuHealer;
 

@@ -33,7 +33,7 @@ struct attachmentNode {
 };
 struct DCMSub2 {
     Borg12Header *borg12;
-    u32 index;
+    s32 index;
     u8 id;
 };
 struct audiokeyEntryA{

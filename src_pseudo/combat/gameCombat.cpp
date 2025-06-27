@@ -410,7 +410,7 @@ u8 combat_byte_func_12(Gfx **GG,u16 delta){
       if ((FUN_80015128(gGlobals.EncounterDat.VoxelFlagA,gGlobals.EncounterDat.VoxelBitfield))
         && (!getEventFlag(gGlobals.EncounterDat.EncounterID))) {
           WriteTo_VoxelChart(gGlobals.EncounterDat.VoxelIndex,(u8)gGlobals.EncounterDat.mapDatA,
-                           (u8)gGlobals.EncounterDat.MapSAhortA,(u8)gGlobals.EncounterDat.MapShortB,0x11,5,3);
+                           (u8)gGlobals.EncounterDat.MapSAhortA,(u8)gGlobals.EncounterDat.MapShortB,ZoneCenter,5,3);
       }
     }
     set_boss_flag();

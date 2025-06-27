@@ -656,7 +656,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
       }
       else {
         bVar2 = pGVar6[(short)uVar10].spell;
-        pSVar7 = gLoadedSpells->spells[bVar2];
+        pSVar7 = gSpellDBp->spells[bVar2];
         if (wizLV < pSVar7->WizardREQ){
           pCVar14 = &acStack416;
           acStack416.R = 0xe1;

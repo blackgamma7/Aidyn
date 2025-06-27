@@ -104,7 +104,7 @@ typedef enum MagicCostEnum {
     SPELLUSE_Herb,
     SPELLUSE_Gemstone
 } MagicCostEnum;
-
+#pragma pack (push, 1) //struct is 1-byte aligned.
 struct Spell_ROM { /* Spell Data in ROM */
     char Name[23];
     ItemID_ROM ID;
@@ -120,6 +120,7 @@ struct Spell_ROM { /* Spell Data in ROM */
     u8 Ingredient;
     u8 EXP_Modifyer;
 };
+#pragma pack(pop)
 
 struct Spell_RAM {
     ItemID Id;
@@ -166,3 +167,20 @@ class SpellBook {
     u8 HaveSpell(ItemID ,u8 *);
     void Clear();
 };
+
+class SpellDB {
+    public;
+    u8 Total;
+    u8 Schools[6];
+    u8 schools2[6];
+    u8 field3_0xd[3];
+    Spell_RAM *spells;
+    void Orphaned();
+    void Load(u8 index,u32 *pos);
+    void Init();
+    void Free();
+    u8 GetIcon(ItemID);
+
+};
+
+extern SpellDB* gSpellDBp;

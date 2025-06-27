@@ -2,6 +2,8 @@
 #include "entity.h"
 #include "crash.h"
 #include "armordb.h"
+#include "chestdb.h"
+#include "weapondb.h"
 
 extern ItemID itemID_array[];
 
@@ -35,28 +37,28 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
   uVar1 = -1;
   if (false) goto switchD_80075e2c_caseD_4;
   switch((uint)((ushort)x >> 8)) {
-  case 2:
+  case DB_ENTITY:
     pbVar2 = entityList;
     pEVar4 = (u8*)gEntityDB;
     break;
-  case 3:
+  case DB_SPELL:
     pbVar2 = SpellList;
-    pEVar4 = (u8*)gLoadedSpells;
+    pEVar4 = gSpellDBp->Total;
     break;
   default:
     goto switchD_80075e2c_caseD_4;
-  case 5:
-  case 6:
+  case DB_ARMOR:
+  case DB_SHIELD:
     pbVar2 = ArmorList;
     total = gArmorDBp->total;
     goto LAB_80075eb0;
-  case 7:
+  case DB_WEAPON:
     pbVar2 = weaponList;
-    pEVar4 =(u8*)gWeaponsDB;
+    pEVar4 = &gWeaponsDB->Total;
     break;
-  case 8:
+  case DB_CHEST:
     pbVar2 = lootList;
-    pEVar4 = (u8*)gChestDBp;
+    pEVar4 = &gChestDBp->total;
     break;
   case 0x10:
   case 0x15:
@@ -67,7 +69,7 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
     goto switchD_80075e2c_caseD_4;
   case 0x14:
     pbVar2 = DialougEntList;
-    pEVar4 = DialougEntityPointer;
+    pEVar4 = gDialogEntityDBp;
     break;
   }
   total = *pEVar4;
@@ -84,17 +86,17 @@ switchD_80075e2c_caseD_4:
 u16 search_item_array(ItemID param_1){ 
   if (true) {
     switch(param_1 >> 8) {
-    case 1:
-    case 9:
-    case 10:
+    case DB_MISC:
+    case DB_HELMET:
+    case DB_CLOAK:
     case 0xb:
     case 0xc:
     case 0xd:
     case 0xe:
     case 0xf:
-    case 0x11:
-    case 0x12:
-    case 0x13:
+    case DB_SCROLL:
+    case DB_KEYITEM:
+    case DB_AMULET:
       for(u16 i=0;i<gItemDBp->total;i++){
         if(itemID_array[i]==param_1)return i;
       }

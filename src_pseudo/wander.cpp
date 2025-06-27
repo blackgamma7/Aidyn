@@ -87,7 +87,6 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
   Borg9Data *pBVar5;
   u32 borg7;
   playerData *pDat;
-  byte bVar8;
   u16 uVar7;
   wander_substruct *ppVar10;
   voxelObject *refObj;
@@ -100,8 +99,7 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
   if (param_1->wanderers >= param_1->wanderersmax) CRASH("AllocWanderer","Too Many wanderers already allocated");
     uVar7 = param_1->wanderers++;
     sVar1 = *(short *)((int)param_1->wandererIndicies + ((int)((uint)uVar7 << 0x10) >> 0xf));
-    ppVar10 = (wander_substruct *)
-              (&param_1->wanderSubstructs->playerDat + sVar1 * 0x14 + (int)sVar1);
+    ppVar10 = &param_1->wanderSubstructs[sVar1];
     uVar7 = ppVar10->index;
     CLEAR(ppVar10);
     ppVar10->index = uVar7;
@@ -113,27 +111,23 @@ void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
     ppVar10->MapTally = param_3;
     pDat = Actor::AllocPlayer(gEntityDB->GetCollideRadius((refObj->monster).entityID),(ppVar10->start_position).x,0.0,(ppVar10->start_position).y,gEntityDB->GetBorg7((refObj->monster).entityID));
     ppVar10->playerDat = pDat;
-    IVar2 = (refObj->monster).entityID;
     pDat->zoneDatByte = param_4;
     ppVar3 = ppVar10->playerDat;
-    pDat->ent_ID = IVar2;
+    pDat->ent_ID = (refObj->monster).entityID;
     (ppVar3->collision).flags |= 0x400;
     fVar9 = gEntityDB->GetScale((refObj->monster).entityID);
     ppVar3 = ppVar10->playerDat;
-    fVar10 = (ppVar3->collision).radius;
     ppVar3->scale = fVar9;
-    ppVar3->scaleRad = fVar9 * fVar10;
-    bVar8 = GETINDEX((refObj->monster).entityID);
-    ppVar10->playerDat->Ent_index = (short)(char)bVar8;
+    ppVar3->scaleRad = fVar9 * (ppVar3->collision).radius;
+    ppVar10->playerDat->Ent_index = GETINDEX((refObj->monster).entityID);
     if ((refObj->monster).borg_13 == 0) 
       ppVar10->playerDat->rangerWarrior = PARTY->SetWandererVal(*(u8 *)((int)&(refObj->monster).totalsize + 1));
     FUN_80012b70(param_1,ppVar10,(refObj->monster).wanderNode);
-    fVar9 = (refObj->header).pos.x;
     ppVar3 = ppVar10->playerDat;
-    (ppVar10->position).x = fVar9;
+    (ppVar10->position).x = (refObj->header).pos.x;
     (ppVar10->position).y = (refObj->header).pos.z;
     ppVar10->size = (refObj->header).size;
-    (ppVar3->collision).pos.x = fVar9;
+    (ppVar3->collision).pos.x = (refObj->header).pos.x;
     (ppVar10->playerDat->collision).pos.z = (ppVar10->position).y;
     Actor::CheckCollision(ppVar10->playerDat,(refObj->header).pos.y,1,0);
     if (((ppVar10->homenode ^ 1) & 1) != 0) CRASH("AllocWanderer","Home Node not WANDER_MOVE\n");
@@ -178,10 +172,7 @@ playerData * FUN_80012b44(wander_struct *param_1,wander_substruct *param_2){
 void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3){
   u16 uVar1;
   Borg9Data *pBVar2;
-  voxelObject *pVVar3;
-  vec2f *res;
   vec2f fStack80;
-  voxelObject *pVVar2;
   voxelObject *prVar2;
   
   pBVar2 = GetCollisionZone(param_2->playerDat->zoneDatByte);
@@ -192,12 +183,11 @@ void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3
   param_2->randVal = prVar2[param_3].wander.randVal;
   param_2->nodeswapChance = prVar2[param_3].wander.NodeChangeChance;
   param_2->timer = prVar2[param_3].wander.Timer;
-  *(undefined4 *)&param_2->noderelA = *(undefined4 *)prVar2[param_3].wander.NodeSiblings;
-  pVVar2 = pBVar2->voxelObjs;
-  (param_2->start_position).x = pVVar2[param_3].header.pos.x;
-  (param_2->start_position).y = pVVar2[param_3].header.pos.z;
+  *(u32 *)&param_2->noderelA = *(u32 *)prVar2[param_3].wander.NodeSiblings;
+  (param_2->start_position).x = pBVar2->voxelObjs[param_3].header.pos.x;
+  (param_2->start_position).y = pBVar2->voxelObjs[param_3].header.pos.z;
   if ((param_2->homenode & 2)) {
-    res = &param_2->start_position;
+    vec2f *res = &param_2->start_position;
     fStack80.x = (param_2->playerDat->collision).pos.x;
     fStack80.y = (param_2->playerDat->collision).pos.z;
     Vec2_Sub(res,&fStack80,res);
@@ -206,39 +196,25 @@ void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3
 }
 
 void FUN_80012c58(wander_struct *param_1,wander_substruct *param_2){
-  u16 uVar1;
-  float rot;
-  float len;
-  
-  uVar1 = param_2->noderelA;
+  u16 uVar1 = param_2->noderelA;
   if (RAND.GetFloat0ToX(1.0) < param_2->nodeswapChance) uVar1 = param_2->noderelB;
   FUN_80012b70(param_1,param_2,uVar1);
   if ((param_2->homenode & 1)) {
-    rot = RAND.GetFloat0ToX(6.283186);
-    len = RAND.GetFloat0ToX(param_2->randVal);
+    float rot = RAND.GetFloat0ToX(6.283186);
+    float len = RAND.GetFloat0ToX(param_2->randVal);
     (param_2->start_position).x += __sinf(rot) * len;
     (param_2->start_position).y += __cosf(rot) * len;
   }
 }
 
-
-
 void FUN_80012d44(wander_substruct *param_1){
-  u16 uVar1;
-  Borg9Data *pBVar2;
-  vec2f fStack80;
-  voxelObject *pVVar2;
-  
-  pBVar2 = GetCollisionZone(param_1->playerDat->zoneDatByte);
-  uVar1 = param_1->VoxelIndex;
+  Borg9Data *pBVar2 = GetCollisionZone(param_1->playerDat->zoneDatByte);
   param_1->flags &=~1;
-  pVVar2 = pBVar2->voxelObjs;
   if ((param_1->homenode & 1)) {
-    fStack80.x = (param_1->playerDat->collision).pos.x;
-    fStack80.y = (param_1->playerDat->collision).pos.z;
+    vec2f fStack80={(param_1->playerDat->collision).pos.x,(param_1->playerDat->collision).pos.z};
     if (vec2_proximity(&fStack80,&param_1->start_position) > param_1->wanderRadius)
       Actor::SetAiDest(param_1->playerDat,(param_1->start_position).x,(param_1->start_position).y,
-               param_1->wanderRadius,(pVVar2[uVar1].wander.nodeflags & 2));
+               param_1->wanderRadius,(pBVar2->voxelObjs[param_1->VoxelIndex].wander.nodeflags & 2));
   }
   if ((param_1->homenode & 2)) 
     Actor::SetFacing(param_1->playerDat,(param_1->start_position).x,(param_1->start_position).y);
@@ -287,10 +263,10 @@ void monster_engagement_func(wander_struct *param_1,short delta){
       if (wanderer->isActive) {
         borgDat = GetCollisionZone(wanderer->playerDat->zoneDatByte);
         pmVar8 = &borgDat->voxelObjs[wanderer->VoxelIndex];
-        entRamB = EntityDB::GetPerception(gEntityDB,(pmVar8->monster).entityID);
+        entRamB = gEntityDB->GetPerception((pmVar8->monster).entityID);
         copyVec3(&(playerDat_->collision).pos,&playerPos);
-        bVar1 = wanderer->playerDat->zoneDatByte;
-        if (bVar1 != 0x11) Actor::SubPosOnLoadedMap(bVar1,&playerPos);
+        if (wanderer->playerDat->zoneDatByte != ZoneCenter)
+        Actor::SubPosOnLoadedMap(wanderer->playerDat->zoneDatByte,&playerPos);
         wanderer->timer-= delta;
         Actor::GetPosOnLoadedMap(wanderer->playerDat,&afStack360);
         fVar11 = vec3_proximity(&afStack360,&(playerDat_->collision).pos);

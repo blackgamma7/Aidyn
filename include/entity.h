@@ -13,7 +13,7 @@ enum ENTITY_CATEGORY{
     ENTITY_NATURAL
     };
 
-
+#pragma pack (push, 1) //struct is 1-byte aligned.
 struct Entity_ROM { /* Entity data stored in Rom */
     char name[20];
     char internalName[20];
@@ -75,6 +75,7 @@ struct Entity_ROM { /* Entity data stored in Rom */
     u8 EXP_X75; /* x50, then 1.5 on EXP func */
     u8 LootCategory;
 };
+#pragma pack(pop)
 
 struct Entity_Ram { /* entity data in Ram */
     ItemID ID;
@@ -121,13 +122,7 @@ struct entity_info{
 	float scale; //scale of model
 };
 
-struct dialougeEntity_Info { /* extended data of Dialouge entities in RAM */
-    u16 index;
-    u32 model;
-    u32 portrait;
-    float a;
-    float b;
-};
+
 
 struct resist_float { /* resistance and element when loaded into temp item */
     u8 element;

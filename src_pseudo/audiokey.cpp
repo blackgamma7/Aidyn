@@ -99,9 +99,6 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,ushort amp){
   ushort uVar1;
   ushort uVar2;
   audiokeyEntryA *paVar3;
-  audiokey_struct *paVar4;
-  u8 (*pauVar5) [3];
-  bool bVar6;
   u8 uVar7;
   uint uVar8;
   double dVar9;
@@ -109,7 +106,6 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,ushort amp){
   s8 bStack_28;
   u8 auStack_27 [1];
   
-  paVar4 = gGlobals.Sub.PlayerHandler.audiokey;
   paVar3 = (gGlobals.Sub.PlayerHandler.audiokey)->a;
   if ((2 < pDat->Ground_type) || (false)) {
     pDat->Ground_Type_New = pDat->Ground_type;
@@ -129,27 +125,27 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,ushort amp){
     default:
     uVar7=bStack_28;
   }
-  if (uVar7 == 0) goto switchD_8005c518_caseD_5;
-  switch(paVar3[pDat->Ent_index].unk0) {
-  case 1:
-  case 2:
-    pauVar5 = audiokey_unk1;
+  if (uVar7){
+   switch(paVar3[pDat->Ent_index].unk0) {
+   case 1:
+   case 2:
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27[0],
+                 audiokey_unk1[pDat->Ground_Type_New],3,0);
     break;
-  case 3:
-    pauVar5 = audiokey_unk2;
+   case 3:
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27[0],
+                 audiokey_unk2[pDat->Ground_Type_New],3,0);
     break;
-  case 4:
-    pauVar5 = audiokey_unk3;
+   case 4:
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27[0],
+                 audiokey_unk3[pDat->Ground_Type_New],3,0);
     break;
-  case 5:
+   case 5:
     FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27[0],
                  audiokey_unk4[pDat->Ground_Type_New],3,0);
-  default:
-    goto switchD_8005c518_caseD_5;
+   default:
+   }
   }
-  FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27[0],
-               pauVar5[pDat->Ground_Type_New],3,0);
-switchD_8005c518_caseD_5:
-  FUN_8005c0f0(pDat,paVar4,paVar3 + pDat->Ent_index,id1,id2,amp,bStack_28,auStack_27[0]);
+  FUN_8005c0f0(pDat,gGlobals.Sub.PlayerHandler.audiokey,paVar3 + pDat->Ent_index,id1,id2,amp,bStack_28,auStack_27[0]);
   FUN_8005c2f0(pDat,id1,bStack_28,auStack_27[0]);
 }

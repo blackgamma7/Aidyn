@@ -1,6 +1,7 @@
 #include "armordb.h"
 #include "heapN64.h"
 #include "romcopy.h"
+#include "spells.h"
 #define FILENAME "../data/armordb.cpp"
 
 void ArmorDB::Orphaned(){
@@ -14,8 +15,8 @@ void ArmorDB::Orphaned(){
 
 u8 getRomEquipSpell(ItemID id){
   if (!id)return SPELLIND_NONE;
-  for(u16 i=0;i<gLoadedSpells->Total;i++){
-    if (gLoadedSpells->spells[i].Id == id) return (u8)i;
+  for(u16 i=0;i<gSpellDBp->Total;i++){
+    if (gSpellDBp->spells[i].Id == id) return (u8)i;
   }
   return SPELLIND_NONE;
 }

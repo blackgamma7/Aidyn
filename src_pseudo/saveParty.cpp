@@ -117,10 +117,10 @@ void SaveParty::SaveSpell(SaveFile *sav,SpellBook *sb,u8 school){
   u8 abStack_20;
   
   if (school == SCHOOL_Chaos) school = SCHOOL_Star;
-  uVar3 = gLoadedSpells->schools2[school];
-  uVar2 = uVar3 + gLoadedSpells->Schools[school];
+  uVar3 = gSpellDBp->schools2[school];
+  uVar2 = uVar3 + gSpellDBp->Schools[school];
   for (; uVar3 < uVar2; uVar3++) {
-    if(sb->HaveSpell(gLoadedSpells->spells[uVar3].Id,&abStack_20))
+    if(sb->HaveSpell(gSpellDBp->spells[uVar3].Id,&abStack_20))
       SaveBits(sav,sb->spells[abStack_20]->level,4);
     else Advance(sav,4);
   }
@@ -132,11 +132,11 @@ void SaveParty::LoadSpell(SaveFile *save,SpellBook *sb,u8 school){
   u8 uVar3;
   
   if (school == SCHOOL_Chaos) school = SCHOOL_Star;
-  uVar3 = gLoadedSpells->schools2[school];
-  uVar2 = uVar3 + gLoadedSpells->Schools[school];
+  uVar3 = gSpellDBp->schools2[school];
+  uVar2 = uVar3 + gSpellDBp->Schools[school];
   for (; uVar3 < uVar2; uVar3++) {
     uVar1 = LoadBits(save,4);
-    if (uVar1) sb->NewSpell(gLoadedSpells->spells[uVar3].Id,uVar1);
+    if (uVar1) sb->NewSpell(gSpellDBp->spells[uVar3].Id,uVar1);
   }
 }
 
@@ -144,7 +144,7 @@ void SaveParty::SaveSpellsFromSchool(SaveFile *sav,SpellBook *sb,u8 school){
     SKIPCHECK(sb,0x5c) {
     SaveSpell(sav,sb,SCHOOL_NONE);
     SaveSpell(sav,sb,school);
-    u8 uVar1 = 13 - gLoadedSpells->Schools[school];
+    u8 uVar1 = 13 - gSpellDBp->Schools[school];
     if (uVar1) Advance(sav,(uVar1 & 0x3f) << 2);
   }
 }
@@ -153,7 +153,7 @@ void SaveParty::LoadSpellsFromSchool(SaveFile *sav,SpellBook *sb,u8 school){
   SKIPCHECK(sb,0x5c) {
     LoadSpell(sav,sb,SCHOOL_NONE);
     LoadSpell(sav,sb,school);
-    u8 uVar1 = 13 - gLoadedSpells->Schools[school];
+    u8 uVar1 = 13 - gSpellDBp->Schools[school];
     if (uVar1) Advance(sav,(uVar1 & 0x3f) << 2);
   }
 }

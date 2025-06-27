@@ -4,8 +4,11 @@
 #include "menuImages.h"
 
 u32 gItemSlotBorg8Indecies[]={
-    0x3601,0x35f8,0x35fa,0x35f9,0x35f3,0x35f7,0x35f4,0x35f5,
-    0x35f6,0x35ff,0x3600,0x35fb,0x35fc,0x35fd,0x35fd,0x35fe};
+    BORG8_IconSlotSword,BORG8_IconSlotGlove,BORG8_IconSlotRing1,
+    BORG8_IconSlotHelmet,BORG8_IconSlotAmulet,BORG8_IconSlotCloak,
+    BORG8_IconSlotChest,BORG8_IconSlotCirclet,BORG8_IconSlotBoot,
+    BORG8_IconSlotShield,BORG8_IconSlotStaff,BORG8_IconSlotRing2,
+    BORG8_IconSlotScroll1,BORG8_IconSlotScroll2,BORG8_IconSlotScroll3};
 
 DollEquipmentMenu::DollEquipmentMenu(CharSheet *param_2):WidgetMenu(){
   CLEAR(&this->icons);
@@ -33,7 +36,7 @@ void DollEquipmentMenu::GetSlotIcons(CharSheet *param_2){
 
 void DollEquipmentMenu::GetSlotIcon(u32 param_2,ItemID param_3){
   u8 abStack_38;
-  u32 BStack_34;
+  u32 iconIndex;
   u8 abStack_30;
   
   if (this->icon_item_ids[param_2] != param_3) {
@@ -48,9 +51,9 @@ void DollEquipmentMenu::GetSlotIcon(u32 param_2,ItemID param_3){
       this->icons[param_2] = NULL;
     }
     this->icon_item_ids[param_2] = param_3;
-    if (!param_3) BStack_34 = gItemSlotBorg8Indecies[param_2];
-    else GetItemImage(param_3,&BStack_34);
-    WidgetBorg8* pBVar6 = WidgetB8(BStack_34);
+    if (!param_3) iconIndex = gItemSlotBorg8Indecies[param_2];
+    else GetItemImage(param_3,&iconIndex);
+    WidgetBorg8* pBVar6 = WidgetB8(iconIndex);
     SetSlotCoords(param_2,pBVar6);
     this->Link(pBVar6);
     (pBVar6->col).A = 0;

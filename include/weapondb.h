@@ -1,6 +1,6 @@
 #include "itemID.h"
 
-
+#pragma pack (push, 1) //struct is 1-byte aligned.
 struct Weapon_ROM {
     char Name[21];
     ItemID_ROM ID;
@@ -27,6 +27,7 @@ struct Weapon_ROM {
     u8 ResistElement;
     u8 ResistPercent;
 };
+#pragma pack(pop)
 
 struct weapon_ram { /* Weapon Data loaded into ram */
     ItemID ID;

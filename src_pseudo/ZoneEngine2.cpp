@@ -480,7 +480,7 @@ void ZoneMoveSceneDat(SceneData *param_1,u8 index){
   Scene::SetFlag10(param_1);
   Scene::SetFogFlag(param_1);
   Scene::SetFlag8(param_1);
-  if (index == 0x11) Scene::UnsetFlag4(param_1);
+  if (index == ZoneCenter) Scene::UnsetFlag4(param_1);
   else Scene::SetFlag4(param_1);
   if (false) return;
   y = gGlobals.Sub.mapCellSize.y;
@@ -501,7 +501,7 @@ void ZoneMoveSceneDat(SceneData *param_1,u8 index){
     x = 0.0;
     y = -gGlobals.Sub.mapCellSize.y;
     break;
-  case 0x11:
+  case ZoneCenter:
     y = 0.0;
     goto LAB_8000df9c;
   case 0x12:
@@ -616,7 +616,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
       ZoneDat* z= &gGlobals.Sub.ZoneDatMtx[i][j];
       if ((z->borg5_ID) &&(z->sceneDat0x4 == NULL)) {
         z->alpha = 0xff;
-        if (z->index == 0x11) {
+        if (z->index == ZoneCenter) {
           z->sceneDat0x4 = BorgAnimLoadScene(z->borg5_ID);
         }
         else {
@@ -629,7 +629,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
         }
       }
       if ((z->unk0x10) && (z->SceneDat0x14 == NULL)) {
-        if (z->index == 0x11) {
+        if (z->index == ZoneCenter) {
           z->SceneDat0x14 = BorgAnimLoadScene(uVar21);
         }
         else if ((gLoadOneZone == 0) && (NoExpPak_memCheck(4))) {
@@ -637,7 +637,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
         }
       }
       loading_map_data(z);
-      if (z->index == 0x11) {
+      if (z->index == ZoneCenter) {
         gGlobals.Sub.borg9DatPointer = &z->mapPointer->dat;
         gGlobals.Sub.particleEmmiter.borg9dat = gGlobals.Sub.borg9DatPointer;
         BorgMaps::GetMapTerrain(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
@@ -723,7 +723,7 @@ u32 get_zoneDatByte(s16 param_1,s16 param_2,u32 param_3){
   u16 uVar2 = ((param_3 & 0xff) >> 4) + ((u32)gGlobals.Sub.mapShort1 - (s32)param_1);
   u16 uVar1 = (param_3 & 0xf) + ((u32)gGlobals.Sub.mapShort2 - (s32)param_2);
   if ((uVar2 < 3) && (uVar1 < 3)) return (uVar2 << 4 | uVar1);
-  return 0x11;
+  return ZoneCenter;
 }
 
 void set_playerdata_zoneDatByte(u16 param_1,u16 param_2){

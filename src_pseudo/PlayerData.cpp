@@ -130,7 +130,7 @@ void Actor::Init(playerData *param_1,u16 id){
   param_1->ani_type = 0;
   param_1->unk18 = 0;
   param_1->unk1a = 0;
-  param_1->zoneDatByte = 0x11;
+  param_1->zoneDatByte = ZoneCenter;
   param_1->flags = 0;
   param_1->scale = 1.0;
   (param_1->facing).y = 1.0;
@@ -205,13 +205,13 @@ void FreePlayerHandler(void){
   gGlobals.Sub.PlayerHandler.initFlag = 0;
   Actor::remove_flagged_playerdata();
   if (gGlobals.Sub.PlayerHandler.shadowTexture)
-    FREEQB1(&gGlobals.Sub.PlayerHandler.shadowTexture);
+    FREEQB1(gGlobals.Sub.PlayerHandler.shadowTexture);
   if (gGlobals.Sub.PlayerHandler.unk70)
-    FREEQB1(&gGlobals.Sub.PlayerHandler.unk70);
+    FREEQB1(gGlobals.Sub.PlayerHandler.unk70);
   Audiokey_free(gGlobals.Sub.PlayerHandler.audiokey);
   gGlobals.Sub.PlayerHandler.audiokey = NULL;
   if (gGlobals.Sub.PlayerHandler.playerDats)
-    HFREE(gGlobals.Sub.PlayerHandler.playerDats,0x19f);
+    HFREE(gGlobals.Sub.PlayerHandler.playerDats,415);
 }
 
 
@@ -289,7 +289,7 @@ u8 PlayerShadowAlpha(PlayerHandler *param_1,playerData *pDat,float dist,u8 param
   }
   u8 ret = pDat->shadowAlpha;
   if (a < pDat->shadowAlpha)
-    ret = (u8)a;
+    ret = a;
   return ret;
 }
 

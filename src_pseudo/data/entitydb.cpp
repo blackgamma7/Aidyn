@@ -1,6 +1,7 @@
 #include "entity.h"
 #include "heapN64.h"
 #include "romcopy.h"
+#include "dialougEnt.h"
 #define FILENAME "../data/entitydb.cpp"
 
 //unused inialization method.
@@ -244,7 +245,7 @@ char * EntityDB::GetEntityName(ItemID id){
   bVar2 = GETINDEX(id);
   switch(id >> 8){
     case 2: return this->entities[bVar2].Name;
-    case DB_DIALOUGEENTITY: return DialougEntityPointer->ents[bVar2].Name;
+    case DB_DIALOUGEENTITY: return gDialogEntityDBp->ents[bVar2].Name;
     default:CRASH("Invalid ID type in GetEntityName!",FILENAME);
   };
 }
