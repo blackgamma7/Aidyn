@@ -30,38 +30,19 @@ void LoadGameState(GameStateFunnel *param_1,u8 *param_2){
 }
 
 void SaveGameState(GameStateFunnel *param_1,u8 *param_2){
-  uint uVar1;
-  byte *pbVar2;
-  byte bVar3;
-  byte *pbVar4;
-  uint i;
-  u8 auStack_98 [64];
-  u8 auStack_58 [88];
+  u32 i;
+  u8 auStack_98 [8];
+  u8 auStack_58 [8];
   
-  i = 0;
-  do {
-    pbVar2 = auStack_98 + i;
-    uVar1 = i & 0x1f;
-    pbVar4 = auStack_58 + i;
-    i += 1;
-    bVar3 = (byte)(1 << uVar1);
-    *pbVar2 = bVar3;
-    *pbVar4 = ~bVar3;
-  } while (i < 8);
-  i = param_1->bitFlags + 0x1f;
-  if (false) { //?
-    i = param_1->bitFlags + 0x3e;
+  for(i=0;i<8;i++){
+    u8 bVar3 = (1 << i & 0x1f);
+    auStack_98[i]=bVar3;
+    auStack_58[i]=~bVar3;
   }
+  i = param_1->bitFlags + 0x1f;
+  if (false)i = param_1->bitFlags + 0x3e;//?
   memset(param_2,0,(i >> 5) << 2);
-  i = 0;
-  if (param_1->bitFlags != 0) {
-    do {
-      setBit(param_2,i,param_1->States_pointer[i].Flag != false,auStack_98,auStack_58);
-      i += 1;
-    } while (i < param_1->bitFlags);
+  for(i=0;i<param_1->bitFlags;i++){
+    setBit(param_2,i,param_1->States_pointer[i].Flag != false,auStack_98,auStack_58);
   }
 }
-
-
-
-
