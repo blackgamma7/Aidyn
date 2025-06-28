@@ -458,13 +458,9 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
         fVar27 = 75.0f;
         Camera::ProcessVectors(&afStack304,&fStack240,gGlobals.Sub.camPtrArray,
                          gGlobals.Sub.camPtrArraySize,75.0f);
-        fVar33 = 5.0f;
         pCVar4 = handler->camera;
-        bVar18 = fVar27 < 5.0f;
         pCVar4->unk5c = fVar27;
-        if (bVar18) {
-          pCVar4->unk5c = fVar33;
-        }
+        if (fVar27 < 5.0f) pCVar4->unk5c = 5.0f;
         fStack688.y = 0.0;
         pCVar4 = handler->camera;
         fStack688.x = fStack240.x;
@@ -499,8 +495,6 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
   }
   setVec2(local_64,gGlobals.Sub.camera.pos.x,gGlobals.Sub.camera.pos.z);
   setVec2(local_5c,gGlobals.Sub.camera.aim.x,gGlobals.Sub.camera.aim.z);
-  dVar9 = 0.5d;
-  fVar33 = 255.0f;
   lVar25 = 0;
   gGlobals.Sub.camPtrArraySize = 0;
   local_6c = &handler->camera->aim;
@@ -545,10 +539,10 @@ LAB_8001666c:
           }
           ppVar22->scaleRad = ppVar22->scale * (ppVar22->collision).radius;
         }
-        (ppVar22->skyTint).x = (float)((double)((float)gGlobals.sky.colors[1].R / fVar33) * dVar9);
-        (ppVar22->skyTint).y = (float)((double)((float)gGlobals.sky.colors[1].G / fVar33) * dVar9);
+        (ppVar22->skyTint).x = (float)((double)((float)gGlobals.sky.colors[1].R / 255.0f) * 0.5);
+        (ppVar22->skyTint).y = (float)((double)((float)gGlobals.sky.colors[1].G / 255.0f) * 0.5);
         fVar29 = ppVar22->unk760;
-        (ppVar22->skyTint).z = (float)((double)((float)gGlobals.sky.colors[1].B / fVar33) * dVar9);
+        (ppVar22->skyTint).z = (float)((double)((float)gGlobals.sky.colors[1].B / 255.0f) * 0.5);
         fVar31 = 1.0f;
         if ((fVar29 == 0.0) && (ppVar22->unk75c == 0.0)) {}
         else {
@@ -587,7 +581,7 @@ LAB_800168cc:
             Actor::FreePlayer(ppVar22);
           }
           if (ppVar22->unk708 < 0x3c) {
-            ppVar22->shadowAlpha = (ppVar22->unk708 / 60.0f) * fVar33;
+            ppVar22->shadowAlpha = (ppVar22->unk708 / 60.0f) * 255.0f;
             goto LAB_800168cc;
           }
         }
@@ -658,11 +652,8 @@ LAB_80016990:
               if (!processPlayers_sub(map,&(ppVar22->collision).pos,&fStack176,0.5,NULL,NULL)) {
                 goto LAB_80016b54;
               }
-              if ((ppVar22->collision).pos.y < fVar29) {
-                (ppVar22->collision).pos.y = fVar29;
-              }
+              if ((ppVar22->collision).pos.y < fVar29) (ppVar22->collision).pos.y = fVar29;
             }
-            goto LAB_80016b50;
           }
           fVar29 = (ppVar22->facing).x;
         }
@@ -1250,7 +1241,7 @@ void Actor::DeathFlag(playerData *p){
 
 void FUN_800187f4(attachmentNode *param_1){
   if ((param_1->borg5) && (param_1->sceneDat)) {
-    AllocFreeQueueItem(&gGlobals.QueueA,&param_1->sceneDat,1,1);
+    AllocFreeQueueItem(&gGlobals.QueueA,(void**)&param_1->sceneDat,1,1);
   }
 }
 

@@ -32,29 +32,29 @@ void CharSkills::Init(ItemID id){
 }
 //save all skill levels for party member (except enemy weapon proficencies.)
 void CharSkills::Save(SaveFile *save){
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Alchemist],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Diplomat],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Healer],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Loremaster],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Mechanic],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Merchant],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Ranger],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Stealth],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Theif],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Troubador],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Warrior],4);
-  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Wizard],4);
-  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Hafted],4);
-  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Missle],4);
-  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Pole],4);
-  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Sword],4);
-  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Thrown],4);
-  SaveParty::SaveBits(save,(int)this->ShieldBase,4);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Alchemist],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Diplomat],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Healer],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Loremaster],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Mechanic],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Merchant],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Ranger],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Stealth],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Theif],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Troubador],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Warrior],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->SkillBase[SKILL_Wizard],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Hafted],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Missle],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Pole],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Sword],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->WeaponBase[WEAPON_Thrown],SaveBits_SkillLV);
+  SaveParty::SaveBits(save,(int)this->ShieldBase,SaveBits_SkillLV);
 }
 
 //load a skill from a save file
 u8 CharSkills::LoadOne(SaveFile *param_2,s8 skill){
-  u8 auStack_48[] = {(u8)SaveParty::LoadBits(param_2,4),0xFF};
+  u8 auStack_48[] = {(u8)SaveParty::LoadBits(param_2,SaveBits_SkillLV),0xFF};
   return auStack_48[-((int)skill >> 0x1f)];
 }
 

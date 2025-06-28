@@ -1,8 +1,8 @@
 #include "randClass.h"
-
+#include "collide.h"
 //a weird struct used for trigger map objects, particles, and font.
 struct struct_unk {
-    void (*check_trigger_func)(void*,void*);
+    collideCallback check_trigger_func;
     u8 field1_0x4[12]; // unused?
     Random particleRngSeed; //used for particle random funcs.
     u16 vertsNeedSet;

@@ -20,53 +20,37 @@ void CharStats::Init(CharStats_s *stats,ItemID ID){
 void Ofunc_NOOP_800845f4(void){}
 
 void CharStats::Save(CharStats_s *param_1,SaveFile *param_2){
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[5],8);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[3],6);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[6],6);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[1],5);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[0],5);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[4],5);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[2],5);
-  SaveParty::SaveBits(param_2,(int)param_1->health[5],8);
-  SaveParty::SaveBits(param_2,(int)param_1->health[3],6);
-  SaveParty::SaveBits(param_2,(int)param_1->health[6],6);
-  SaveParty::SaveBits(param_2,(int)param_1->health[1],5);
-  SaveParty::SaveBits(param_2,(int)param_1->health[0],5);
-  SaveParty::SaveBits(param_2,(int)param_1->health[4],5);
-  SaveParty::SaveBits(param_2,(int)param_1->health[2],5);
+  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_STAM],SaveBits_StatStam);
+  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_END],SaveBits_StatEndLV);
+  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_LV],SaveBits_StatEndLV);
+  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_WIL],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_INT],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_STR],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_DEX],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(int)param_1->health[STAT_STAM],SaveBits_StatStam);
+  SaveParty::SaveBits(param_2,(int)param_1->health[STAT_END],SaveBits_StatEndLV);
+  SaveParty::SaveBits(param_2,(int)param_1->health[STAT_LV],SaveBits_StatEndLV);
+  SaveParty::SaveBits(param_2,(int)param_1->health[STAT_WIL],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(int)param_1->health[STAT_INT],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(int)param_1->health[STAT_STR],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(int)param_1->health[STAT_DEX],SaveBits_StatOther);
 }
 
-void CharStats::Load(CharStats_s *param_1,SaveFile *param_2){
-  uint uVar1;
-  
-  uVar1 = SaveParty::LoadBits(param_2,8);
-  param_1->Base[5] = (byte)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,6);
-  param_1->Base[3] = (byte)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,6);
-  param_1->Base[6] = (byte)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,5);
-  param_1->Base[1] = (byte)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,5);
-  param_1->Base[0] = (byte)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,5);
-  param_1->Base[4] = (byte)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,5);
-  param_1->Base[2] = (byte)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,8);
-  param_1->health[5] = (s8)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,6);
-  param_1->health[3] = (s8)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,6);
-  param_1->health[6] = (s8)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,5);
-  param_1->health[1] = (s8)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,5);
-  param_1->health[0] = (s8)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,5);
-  param_1->health[4] = (s8)uVar1;
-  uVar1 = SaveParty::LoadBits(param_2,5);
-  param_1->health[2] = (s8)uVar1;
+void CharStats::Load(CharStats_s *param_1,SaveFile *param_2){  
+  param_1->Base[STAT_STAM] = SaveParty::LoadBits(param_2,SaveBits_StatStam);
+  param_1->Base[STAT_END] = SaveParty::LoadBits(param_2,SaveBits_StatEndLV);
+  param_1->Base[STAT_LV] = SaveParty::LoadBits(param_2,SaveBits_StatEndLV);
+  param_1->Base[STAT_WIL] = SaveParty::LoadBits(param_2,SaveBits_StatOther);
+  param_1->Base[STAT_INT] = SaveParty::LoadBits(param_2,SaveBits_StatOther);
+  param_1->Base[STAT_STR] = SaveParty::LoadBits(param_2,SaveBits_StatOther);
+  param_1->Base[STAT_DEX] = SaveParty::LoadBits(param_2,SaveBits_StatOther);
+  param_1->health[STAT_STAM] = SaveParty::LoadBits(param_2,SaveBits_StatStam);
+  param_1->health[STAT_END] = SaveParty::LoadBits(param_2,SaveBits_StatEndLV);
+  param_1->health[STAT_LV] = SaveParty::LoadBits(param_2,SaveBits_StatEndLV);
+  param_1->health[STAT_WIL] = SaveParty::LoadBits(param_2,SaveBits_StatOther);
+  param_1->health[STAT_INT] = SaveParty::LoadBits(param_2,SaveBits_StatOther);
+  param_1->health[STAT_STR] = SaveParty::LoadBits(param_2,SaveBits_StatOther);
+  param_1->health[STAT_DEX] = SaveParty::LoadBits(param_2,SaveBits_StatOther);
   memcpy(param_1->magicMod,param_1,7);
   memcpy(param_1->Modded,param_1->health,7);
 }

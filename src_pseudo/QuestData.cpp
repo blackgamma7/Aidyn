@@ -25,19 +25,19 @@ void Save(u8 *data){
   for(i=1;i<4;i++) {SaveParty::SaveCharSheetEffects(&sav,SaveEntity::GetMember(i));}
   for(;i<9;i++) {SaveParty::SaveCharSheet(&sav,SaveEntity::GetMember(i));}
   PARTY->Inventory->Save(&sav);
-  memcpy(&fStack96,&gWeatherTemp,0x10);
+  memcpy(&fStack96,&gWeatherTemp,16);
   fStack96.PrecipScale*=1000.0f;
   fStack96.FogFloat*=1000.0f;
   fStack96.ThunderFloat*=1000.0f;
-  SaveParty::SaveBits(&sav,(s32)fStack96.PrecipScale,0x20);
-  SaveParty::SaveBits(&sav,(s32)fStack96.FogFloat,0x20);
-  SaveParty::SaveBits(&sav,(s32)fStack96.ThunderFloat,0x20);
-  SaveParty::SaveBits(&sav,(uint)fStack96.precip,8);
+  SaveParty::SaveBits(&sav,(s32)fStack96.PrecipScale,SaveBits_Float);
+  SaveParty::SaveBits(&sav,(s32)fStack96.FogFloat,SaveBits_Float);
+  SaveParty::SaveBits(&sav,(s32)fStack96.ThunderFloat,SaveBits_Float);
+  SaveParty::SaveBits(&sav,(uint)fStack96.precip,SaveBits_Byte);
   fVar5 = gGlobals.VolSFX * 1000.0f;
   fVar6 = gGlobals.VolBGM * 1000.0f;
-  SaveParty::SaveBits(&sav,(s32)fVar5,0x20);
-  SaveParty::SaveBits(&sav,(s32)fVar6,0x20);
-  SaveParty::SaveBits(&sav,(uint)gGlobals.ResolutionSelect,1);
+  SaveParty::SaveBits(&sav,(s32)fVar5,SaveBits_Float);
+  SaveParty::SaveBits(&sav,(s32)fVar6,SaveBits_Float);
+  SaveParty::SaveBits(&sav,(uint)gGlobals.ResolutionSelect,SaveBits_Bool);
 }
 
 void Load(u8 *data){
@@ -69,9 +69,9 @@ void Load(u8 *data){
   }
   for(;i<9;i++){SaveEntity::LoadMember(SaveParty::LoadCharSheet(&sav),(u16)i);}
   PARTY->Inventory->Load(&sav);
-  aWStack_68.PrecipScale = (float)SaveParty::LoadBits(&sav,0x20);
-  aWStack_68.FogFloat = (float)SaveParty::LoadBits(&sav,0x20);
-  aWStack_68.ThunderFloat = (float)SaveParty::LoadBits(&sav,0x20);
+  aWStack_68.PrecipScale = (float)SaveParty::LoadBits(&sav,SaveBits_Float);
+  aWStack_68.FogFloat = (float)SaveParty::LoadBits(&sav,SaveBits_Float);
+  aWStack_68.ThunderFloat = (float)SaveParty::LoadBits(&sav,SaveBits_Float);
   aWStack_68.PrecipScale*=0.001f;
   aWStack_68.FogFloat*=0.001f;
   aWStack_68.ThunderFloat*=0.001f;
@@ -79,9 +79,9 @@ void Load(u8 *data){
   World::SetWithWeatherTemp(TerrainPointer,&aWStack_68);
   COPY(&gWeatherTemp,&aWStack_68);
   LoadedGameSaveFlag = 1;
-  gGlobals.VolSFX = (float)SaveParty::LoadBits(&sav,0x20) * 0.001f;
-  gGlobals.VolBGM = (float)SaveParty::LoadBits(&sav,0x20) * 0.001f;
-  selectResMode((byte)SaveParty::LoadBits(&sav,1));
+  gGlobals.VolSFX = (float)SaveParty::LoadBits(&sav,SaveBits_Float) * 0.001f;
+  gGlobals.VolBGM = (float)SaveParty::LoadBits(&sav,SaveBits_Float) * 0.001f;
+  selectResMode((byte)SaveParty::LoadBits(&sav,SaveBits_Bool));
 }
 
 void SaveVoxelChart(byte *param_1){

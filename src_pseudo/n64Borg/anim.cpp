@@ -880,7 +880,6 @@ void Ofunc_8009efd0(SceneData *param_1,MtxF *param_2){
 
 void FUN_8009f060(SceneData *param_1,MtxF *param_2){
   float fVar1;
-  uint uVar2;
   Borg5Struct2 *pBVar3;
   Borg3Header *pBVar4;
   float (*pafVar5) [4];
@@ -923,10 +922,9 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
   pbVar12 = pBStack_40->someSubstruct;
   iVar11 = pBStack_40->substructCount;
   if (pBStack_40->borg3P) {
-    uVar2 = param_1->flags;
-    if ((uVar2 & 0x40) == 0) {
-      if ((uVar2 & 8) == 0) {
-        if ((uVar2 & 0x10) == 0) {
+    if ((param_1->flags & 0x40) == 0) {
+      if ((param_1->flags & 8) == 0) {
+        if ((param_1->flags & 0x10) == 0) {
           Borg5Sub_ops(pbVar12,&mf2);
           some_matrix_func_1(&mf5,&mf0,&mf2);
         }
@@ -935,7 +933,7 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
           FUN_8009ee48(&param_1->matrixB,&mf5);
         }
       }
-      else if ((uVar2 & 0x10) == 0) {
+      else if ((param_1->flags & 0x10) == 0) {
         Borg5Sub_ops(pbVar12,&mf2);
         FUN_8009ee48(&param_1->matrixB,&mf1);
         some_matrix_func_1(&mf5,&mf2,&mf1);

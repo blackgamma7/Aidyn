@@ -9,39 +9,41 @@
                        else
 
 void SaveParty::SavePotionEffect(SaveFile *sav,PotionEffect *pot){
-  SKIPCHECK(pot,20){
-    SaveBits(sav,pot->ID,4);
-    SaveBits(sav,pot->power,4);
+  SKIPCHECK(pot,SaveBits_PotionTimer){
+    SaveBits(sav,pot->ID,SaveBits_PotionID);
+    SaveBits(sav,pot->power,SaveBits_PotionPower);
     SaveTimer(sav,pot->timer);
   }
 }
 
 u8 SaveParty::LoadPotionEffect(SaveFile *sav,CharSheet *chara){
-  u8 uVar1 = LoadBits(sav,4);
-  SKIPCHECK(uVar1,16) Entity::ApplyPotionEffect(chara,uVar1,LoadBits(sav,4),LoadTimer(sav));
+  u8 uVar1 = LoadBits(sav,SaveBits_PotionID);
+  SKIPCHECK(uVar1,(SaveBits_PotionPower+SaveBits_Timer))
+    Entity::ApplyPotionEffect(chara,uVar1,LoadBits(sav,SaveBits_PotionPower),LoadTimer(sav));
   return 0;
 }
 
 void SaveParty::SaveSpellEffect(SaveFile *sav,Temp_enchant *ench){
-  SKIPCHECK(ench,28){
-    SaveBits(sav,ench->lv,4);
-    SaveBits(sav,ench->index,6);
-    SaveBits(sav,ench->varA & 0x1f,5);
-    SaveBits(sav,(ench->varB != 0),1);
+  SKIPCHECK(ench,SaveBits_SpellEffect){
+    SaveBits(sav,ench->lv,SaveBits_SpellLV);
+    SaveBits(sav,ench->index,SaveBits_SpellIndex);
+    SaveBits(sav,ench->varA & 0x1f,SaveBits_SpellVarA);
+    SaveBits(sav,(ench->varB != 0),SaveBits_SpellVarB);
     SaveTimer(sav,ench->timer);
   }
 }
 
 Temp_enchant * SaveParty::LoadSpellEffect(SaveFile *sav){
   Temp_enchant* Ench;
-  u8 uVar1 = LoadBits(sav,4);
+  u8 uVar1 = LoadBits(sav,SaveBits_SpellLV);
   if (!uVar1) {
-    Advance(sav,0x18);
+    Advance(sav,(SaveBits_SpellSkip));
     Ench = NULL;
   }
   else {
     ALLOC(Ench,167);
-    TempEnchant::Init(Ench,LoadBits(sav,6),uVar1,0,LoadBits(sav,5),((u8)LoadBits(sav,1)!= 0));
+    TempEnchant::Init(Ench,LoadBits(sav,SaveBits_SpellIndex),
+      uVar1,0,LoadBits(sav,SaveBits_SpellVarA),((u8)LoadBits(sav,SaveBits_SpellVarB)!= 0));
     if (Ench->varA == 0x1f) Ench->varA = 0xff;
     Ench->timer = LoadTimer(sav);
   }
@@ -49,12 +51,12 @@ Temp_enchant * SaveParty::LoadSpellEffect(SaveFile *sav){
 }
 
 void SaveParty::SaveStatMod(SaveFile *sav,StatMod *Mod){
-  SKIPCHECK(Mod,10) SaveBits(sav,(int)Mod->mod + 0x32U & 0x7f | (uint)(byte)Mod->stat << 7,10);
+  SKIPCHECK(Mod,SaveBits_StatMod) SaveBits(sav,(int)Mod->mod + 0x32U & 0x7f | (uint)(byte)Mod->stat << 7,SaveBits_StatMod);
 }
 
 StatMod * SaveParty::LoadStatMod(SaveFile *sav){
   StatMod *pSVar2;  
-  u16 uVar1 = LoadBits(sav,10);
+  u16 uVar1 = LoadBits(sav,SaveBits_StatMod);
   if (!uVar1) pSVar2 = NULL;
   else {
     ALLOC(pSVar2,0xe1);
@@ -64,24 +66,24 @@ StatMod * SaveParty::LoadStatMod(SaveFile *sav){
 }
 
 void SaveParty::SaveItem(SaveFile *sav,ItemInstance *item){
-  if ((!item) || (!item->id)) Advance(sav,0x1c);
+  if ((!item) || (!item->id)) Advance(sav,(SaveBits_ItemInstance));
   else {
-    SaveBits(sav,item->id,13);
+    SaveBits(sav,item->id,SaveBits_ItemID);
     u32 dat = 0;
     if (item->spellCharge) {
       dat = item->spellCharge->Charges;
     }
-    SaveBits(sav,dat,5);
+    SaveBits(sav,dat,SaveBits_SpellCharge);
     SaveStatMod(sav,item->statMod);
   }
 }
 
 void SaveParty::LoadItem(SaveFile *sav,ItemInstance *item){
-  SKIPCHECK(item,0x1c) {
-    u16 uVar1 = LoadBits(sav,0xd);
-    SKIPCHECK(uVar1,0xf){
+  SKIPCHECK(item,(SaveBits_ItemInstance)) {
+    u16 uVar1 = LoadBits(sav,SaveBits_ItemID);
+    SKIPCHECK(uVar1,SaveBits_SpellCharge+SaveBits_StatMod){
       item->InitItem(uVar1);
-      uVar1 = LoadBits(sav,5);
+      uVar1 = LoadBits(sav,SaveBits_SpellCharge);
       if (item->spellCharge) item->spellCharge->Charges = uVar1;
       if (item->statMod) HFREE(item->statMod,308);
       item->statMod = LoadStatMod(sav);
@@ -90,25 +92,24 @@ void SaveParty::LoadItem(SaveFile *sav,ItemInstance *item){
 }
 
 void SaveParty::SaveCharEXP(SaveFile *sav,CharExp *exp){
-  SKIPCHECK(exp,48){
-    SaveBits(sav,exp->total,24);
-    SaveBits(sav,exp->spending,24);
+  SKIPCHECK(exp,SaveBits_CharExp){
+    SaveBits(sav,exp->total,SaveBits_Experience);
+    SaveBits(sav,exp->spending,SaveBits_Experience);
   }
 }
 
 void SaveParty::LoadCharEXP(SaveFile *sav,CharExp *exp){
-  SKIPCHECK(exp,48) {
-    exp->total = LoadBits(sav,24) & 0xffffff;
-    exp->spending = LoadBits(sav,24) & 0xffffff;
+  SKIPCHECK(exp,SaveBits_CharExp) {
+    exp->total = LoadBits(sav,SaveBits_Experience) & 0xffffff;
+    exp->spending = LoadBits(sav,SaveBits_Experience) & 0xffffff;
   }
 }
-
 void SaveParty::SaveCharStats(SaveFile *sav,CharSheet *chara){
-  SKIPCHECK(chara->Stats,80) CharStats::Save(chara->Stats,sav);
+  SKIPCHECK(chara->Stats,(SaveBits_CharStats)) CharStats::Save(chara->Stats,sav);
 }
 
 void SaveParty::LoadCharStats(SaveFile *sav,CharStats_s* stats){
-  SKIPCHECK(stats,80) CharStats::Load(stats,sav);
+  SKIPCHECK(stats,(SaveBits_CharStats)) CharStats::Load(stats,sav);
 }
 
 void SaveParty::SaveSpell(SaveFile *sav,SpellBook *sb,u8 school){
@@ -121,8 +122,8 @@ void SaveParty::SaveSpell(SaveFile *sav,SpellBook *sb,u8 school){
   uVar2 = uVar3 + gSpellDBp->Schools[school];
   for (; uVar3 < uVar2; uVar3++) {
     if(sb->HaveSpell(gSpellDBp->spells[uVar3].Id,&abStack_20))
-      SaveBits(sav,sb->spells[abStack_20]->level,4);
-    else Advance(sav,4);
+      SaveBits(sav,sb->spells[abStack_20]->level,SaveBits_SpellLV);
+    else Advance(sav,SaveBits_SpellLV);
   }
 }
 
@@ -135,59 +136,57 @@ void SaveParty::LoadSpell(SaveFile *save,SpellBook *sb,u8 school){
   uVar3 = gSpellDBp->schools2[school];
   uVar2 = uVar3 + gSpellDBp->Schools[school];
   for (; uVar3 < uVar2; uVar3++) {
-    uVar1 = LoadBits(save,4);
+    uVar1 = LoadBits(save,SaveBits_SpellLV);
     if (uVar1) sb->NewSpell(gSpellDBp->spells[uVar3].Id,uVar1);
   }
 }
 
 void SaveParty::SaveSpellsFromSchool(SaveFile *sav,SpellBook *sb,u8 school){
-    SKIPCHECK(sb,0x5c) {
+    SKIPCHECK(sb,SaveBits_SpellSchools) {
     SaveSpell(sav,sb,SCHOOL_NONE);
     SaveSpell(sav,sb,school);
-    u8 uVar1 = 13 - gSpellDBp->Schools[school];
-    if (uVar1) Advance(sav,(uVar1 & 0x3f) << 2);
+    u8 uVar1 = Save_SchoolMax - gSpellDBp->Schools[school];
+    if (uVar1) Advance(sav,(uVar1 & 0x3f)*SaveBits_SpellLV);
   }
 }
 
 void SaveParty::LoadSpellsFromSchool(SaveFile *sav,SpellBook *sb,u8 school){
-  SKIPCHECK(sb,0x5c) {
+  SKIPCHECK(sb,SaveBits_SpellSchools) {
     LoadSpell(sav,sb,SCHOOL_NONE);
     LoadSpell(sav,sb,school);
-    u8 uVar1 = 13 - gSpellDBp->Schools[school];
-    if (uVar1) Advance(sav,(uVar1 & 0x3f) << 2);
+    u8 uVar1 = Save_SchoolMax - gSpellDBp->Schools[school];
+    if (uVar1) Advance(sav,(uVar1 & 0x3f)*SaveBits_SpellLV);
   }
 }
 
 void SaveParty::SaveInGameTime(SaveFile *sav){
-  SaveBits(sav,World::GetInGameTime(TerrainPointer),32);
+  SaveBits(sav,World::GetInGameTime(TerrainPointer),SaveBits_Word);
 }
 
 
 void SaveParty::LoadInGameTime(SaveFile *sav){
-  World::SetInGameTime(TerrainPointer,LoadBits(sav,32));
+  World::SetInGameTime(TerrainPointer,LoadBits(sav,SaveBits_Word));
 }
 
-
 void SaveParty::SaveGold(SaveFile *sav){
-  SaveBits(sav,(PARTY)->Gold,32);
+  SaveBits(sav,(PARTY)->Gold,SaveBits_Word);
 }
 
 
 u32 SaveParty::LoadGold(SaveFile *sav){ 
-  return LoadBits(sav,32);
+  return LoadBits(sav,SaveBits_Word);
 }
 
-
+//saves t/2 minutes
 void SaveParty::SaveTimer(SaveFile *sav,u32 t){
-  SaveBits(sav,(u16)(t / MINUTES(2)),12);
+  SaveBits(sav,(u16)(t / MINUTES(2)),SaveBits_Timer);
 }
-
 
 s32 SaveParty::LoadTimer(SaveFile *sav){
   u32 uVar1;
   int iVar2;
   
-  uVar1 = LoadBits(sav,12);
+  uVar1 = LoadBits(sav,SaveBits_Timer);
   if (uVar1 == 0xfff) iVar2 = -1;
   else iVar2 = uVar1 * MINUTES(2);
   return iVar2;
@@ -201,10 +200,10 @@ void SaveParty::SaveAlaron(SaveFile *sav,CharSheet *param_2){
   len = strlen(param_2->name);
   if (len) {
     for(i=0;i<len;i++) {
-      SaveBits(sav,param_2->name[i],8);
+      SaveBits(sav,param_2->name[i],SaveBits_Byte);
     }
   }
-  Advance(sav,(20 - len) * 8);
+  Advance(sav,(20 - len) * SaveBits_Byte);
   SaveSpell(sav,param_2->spellbook,SCHOOL_Elemental);
   SaveSpell(sav,param_2->spellbook,SCHOOL_Naming);
   SaveSpell(sav,param_2->spellbook,SCHOOL_Necromancy);
@@ -213,19 +212,19 @@ void SaveParty::SaveAlaron(SaveFile *sav,CharSheet *param_2){
 void SaveParty::LoadAlaron(SaveFile *sav,CharSheet *param_2){
   memset(param_2->name,0,20);
   for(u8 i=0;i<20;i++) {
-    param_2->name[i] + LoadBits(sav,8);
+    param_2->name[i] + LoadBits(sav,SaveBits_Byte);
   }
   LoadSpell(sav,param_2->spellbook,SCHOOL_Elemental);
   LoadSpell(sav,param_2->spellbook,SCHOOL_Naming);
   LoadSpell(sav,param_2->spellbook,SCHOOL_Necromancy);
 }
 
-
+u32 x=(SaveBits_PotionEffects);
 void SaveParty::SaveCharSheet(SaveFile *sav,CharSheet *chara){
   u8 i;
 
-  SKIPCHECK(chara,720){
-    SaveBits(sav,chara->ID,8);
+  SKIPCHECK(chara,SaveBits_CharSheet){
+    SaveBits(sav,chara->ID,SaveBits_Byte);
     SaveCharEXP(sav,chara->EXP);
     SaveCharStats(sav,chara);
     chara->Skills->Save(sav);
@@ -242,9 +241,9 @@ CharSheet * SaveParty::LoadCharSheet(SaveFile *sav){
   CharSheet *chara;
   byte i;
   
-  uVar1 = LoadBits(sav,8);
+  uVar1 = LoadBits(sav,SaveBits_Byte);
   if (!uVar1) {
-    Advance(sav,712);
+    Advance(sav,SaveBits_CharSheet-SaveBits_Byte);
     chara = NULL;
   }
   else {
@@ -267,12 +266,12 @@ CharSheet * SaveParty::LoadCharSheet(SaveFile *sav){
 
 void SaveParty::SaveCharSheetEffects(SaveFile *sav,CharSheet *chara){
   u8 i;
-  SKIPCHECK(chara,0x500){
+  SKIPCHECK(chara,SaveBits_SpellEffects+SaveBits_PotionEffects+SaveBits_CharSheet){
     SaveCharSheet(sav,chara);
-    SKIPCHECK(chara->effects,420){
+    SKIPCHECK(chara->effects,SaveBits_SpellEffects){
       for(i=0;i<MAGIC_FXMAX;i++) SaveSpellEffect(sav,chara->effects[i]);
     }
-    SKIPCHECK(chara->potionEffects,140);{
+    SKIPCHECK(chara->potionEffects,SaveBits_PotionEffects);{
       for(i=0;i<POTION_FXMAX;i++) SavePotionEffect(sav,chara->potionEffects[i]);
     }
   }
@@ -284,13 +283,13 @@ CharSheet * SaveParty::LoadCharSheetEffects(SaveFile *sav){
   
   chara = LoadCharSheet(sav);
   if (!chara) {
-    Advance(sav,0x230);
+    Advance(sav,(SaveBits_SpellEffects+SaveBits_PotionEffects));
     chara = NULL;
   }
   else {
     for(i=0;i<MAGIC_FXMAX;i++) chara->effects[i] = LoadSpellEffect(sav);
     ALLOCS(chara->potionEffects,sizeof(PotionEffect*) * POTION_FXMAX,1855);
-    memset(chara->potionEffects,0,0x1c);
+    memset(chara->potionEffects,0,sizeof(PotionEffect*) * POTION_FXMAX);
     for(i=0;i<POTION_FXMAX;i++) LoadPotionEffect(sav,chara);
     chara->portrait = loadBorg8(gEntityDB->GetPortrait(chara->ID));
   }
@@ -302,9 +301,9 @@ void SaveParty::LoadShield(SaveFile *sav,CharSheet *param_2){
   uint uVar3;
   
   if (param_2->armor[1]) Entity::RemoveShield(param_2);
-  uVar2 = LoadBits(sav,0xd);
-  SKIPCHECK(uVar2,15) {
-    uVar3 = LoadBits(sav,5);
+  uVar2 = LoadBits(sav,SaveBits_ItemID);
+  SKIPCHECK(uVar2,SaveBits_ItemInstance-SaveBits_ItemID) {
+    uVar3 = LoadBits(sav,SaveBits_SpellCharge);
     Entity::EquipSheild(param_2,(short)uVar2,LoadStatMod(sav));
     if ((param_2->armor[1]->base).spellCharge)
       (param_2->armor[1]->base).spellCharge->Charges = uVar3;
@@ -312,13 +311,12 @@ void SaveParty::LoadShield(SaveFile *sav,CharSheet *param_2){
 }
 
 void SaveParty::LoadWeapon(SaveFile *sav,CharSheet *chara){
-  u16 uVar2;
   uint uVar3;
   
   if (chara->weapons) Entity::UnequipWeapons(chara);
-  uVar2 = LoadBits(sav,0xd);
-  SKIPCHECK(uVar2,15) {
-    uVar3 = LoadBits(sav,5);
+  ItemID uVar2 = LoadBits(sav,SaveBits_ItemID);
+  SKIPCHECK(uVar2,SaveBits_ItemInstance-SaveBits_ItemID) {
+    uVar3 = LoadBits(sav,SaveBits_SpellCharge);
     Entity::EquipWeapon(chara,uVar2,LoadStatMod(sav));
     if ((chara->weapons->base).spellCharge)(chara->weapons->base).spellCharge->Charges = uVar3;
   }
@@ -330,9 +328,9 @@ void SaveParty::LoadArmor(SaveFile *sav,CharSheet *chara){
   uint uVar3;
   
   if (chara->armor[0])Entity::RemoveArmor(chara);
-  uVar2 = LoadBits(sav,0xd);
-  SKIPCHECK(uVar2,15) {
-    uVar3 = LoadBits(sav,5);
+  uVar2 = LoadBits(sav,SaveBits_ItemID);
+  SKIPCHECK(uVar2,SaveBits_ItemInstance-SaveBits_ItemID) {
+    uVar3 = LoadBits(sav,SaveBits_SpellCharge);
     Entity::EquipArmor(chara,uVar2,LoadStatMod(sav));
     if (((*chara->armor)->base).spellCharge) ((*chara->armor)->base).spellCharge->Charges = (byte)uVar3;
   }
@@ -343,9 +341,9 @@ void SaveParty::LoadGear(SaveFile *sav,CharSheet *chara){
   uint uVar3;
   u32 slot;
   
-  uVar2 = LoadBits(sav,0xd);
-  SKIPCHECK(uVar2,15) {
-    uVar3 = SaveParty::LoadBits(sav,5);
+  uVar2 = LoadBits(sav,SaveBits_ItemID);
+  SKIPCHECK(uVar2,SaveBits_ItemInstance-SaveBits_ItemID) {
+    uVar3 = SaveParty::LoadBits(sav,SaveBits_SpellCharge);
     slot = Entity::EquipGear(chara,uVar2,SaveParty::LoadStatMod(sav));
     if ((chara->pItemList->pItem[slot]->base).spellCharge) 
       (chara->pItemList->pItem[slot]->base).spellCharge->Charges = uVar3;

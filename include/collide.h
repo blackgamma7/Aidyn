@@ -7,6 +7,8 @@ struct SpeedProperty {
     float velScale;
 };
 
+typedef void (*collideCallback)(collisionSphere*,borg9_phys*);
+
 struct collisionTypeA {
     float unk0;
     float unk4;
@@ -15,9 +17,9 @@ struct collisionTypeA {
     float unk10; /* set to 0, unused */
     u16 flag; /* set when callback added */
     u32 unk18;
-    void (*callbackA)(collisionSphere*,borg9_phys*); /* never seem to be set outside orphaned code */
-    void (*callbackB)(collisionSphere*,borg9_phys*); /* never seem to be set outside orphaned code */
-    void (*callbackC)(collisionSphere*,borg9_phys*); /* never seem to be set outside orphaned code */
+    collideCallback callbackA;/* never seem to be set outside orphaned code */
+    collideCallback callbackB;/* never seem to be set outside orphaned code */
+    collideCallback callbackC;/* never seem to be set outside orphaned code */
 };
 
 struct EnvProp {
@@ -68,7 +70,7 @@ borg_9_struct * borg9_get_unkStruct(Borg9Data *,short ,short );
 
 //physics.cpp
 
-void set_checktrigger_pointer(void *);
+void set_checktrigger_pointer(collideCallback);
 void collisiondat_add_velocity(collisionSphere *,vec3f *accel);
 void collisiondat_sub_velocity(collisionSphere *,vec3f *accel);
 void collision_velocity_func(vec3f *vel,vec3f *);

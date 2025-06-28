@@ -2,7 +2,7 @@
 #include "unkStructs.h"
 
 
-void set_checktrigger_pointer(void *param_1){
+void set_checktrigger_pointer(collideCallback param_1){
   struct_unk_.check_trigger_func = param_1;
 }
 
@@ -45,8 +45,6 @@ void collision_velocity_func(vec3f *vel,vec3f *param_2){
   }
 }
 
-
-
 void vec3A_plusBMulC(vec3f *A,vec3f *B,float c){
   A->x = A->x + B->x * c;
   A->y = A->y + B->y * c;
@@ -84,43 +82,43 @@ bool FUN_800af578(collisionSphere *param_1,EnvProp *param_2,vec3f *param_3){
 
 
 void PerformCallback(short type,collisionSphere *param_2,borg9_phys *param_3){
-  void *pfVar2;
+  collideCallback cb;
   char acStack_48 [72];
   
   if ((param_2->flags & 0x1000) == 0) {
     switch(type){
         case 2:
-          pfVar2 = param_2->envProps->colA->callbackB;
+          cb = param_2->envProps->colA->callbackB;
           break;
         case 1:
-          pfVar2 = param_2->envProps->colA->callbackA;
+          cb = param_2->envProps->colA->callbackA;
           break;
         case 4:
-          pfVar2 = param_2->envProps->colA->callbackC;
+          cb = param_2->envProps->colA->callbackC;
           break;
         case 8:
-          pfVar2 = struct_unk_.check_trigger_func;
+          cb = struct_unk_.check_trigger_func;
           break;
         default:
         sprintf(acStack_48,"Unknown callback: %d\n",type);
         CRASH("PerformCallback",acStack_48);
     }
-    (*pfVar2)(param_2,param_3);
+    (*cb)(param_2,param_3);
   }
 }
 
 
-void Ofunc_800af7ac(collisionSphere *collide,void *callback){
+void Ofunc_800af7ac(collisionSphere *collide,collideCallback callback){
   collide->envProps->colA->callbackA = callback;
   collide->envProps->colA->flag|=1;
 }
 
-void Ofunc_800af7d0(collisionSphere *collide,void *callback){
+void Ofunc_800af7d0(collisionSphere *collide,collideCallback callback){
   collide->envProps->colA->callbackB = callback;
   collide->envProps->colA->flag|=2;
 }
 
-void Ofunc_800af7f4(collisionSphere *collide,void *callback){
+void Ofunc_800af7f4(collisionSphere *collide,collideCallback callback){
   collide->envProps->colA->callbackC = callback;
   collide->envProps->colA->flag|=4;
 }
@@ -129,7 +127,6 @@ short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_stru
   u16 uVar1;
   u16 uVar2;
   bool bVar3;
-  double dVar4;
   bool bVar6;
   bool bVar7;
   short sVar5;
@@ -149,7 +146,6 @@ short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_stru
   float fStack96;
   s32 sStack94,sStack90;
   
-  dVar4 = 0.005;
   sStack94 = 0.0;
   sStack90 = 0.0;
   sVar12 = 0;
@@ -214,7 +210,7 @@ LAB_800afe6c:
           if (fVar15 <= 0.0) {
             fVar15 = -fVar15;
           }
-          if ((double)fVar15 < dVar4) {
+          if ((double)fVar15 < 0.005) {
             if (collider->unk1e) {
               sVar12 = 1;
             }
@@ -255,7 +251,7 @@ LAB_800afe6c:
                 if (fVar14 <= 0.0) {
                   fVar14 = -fVar14;
                 }
-                if (((double)fVar14 < dVar4) && (collider->unk1e)) {
+                if (((double)fVar14 < 0.005) && (collider->unk1e)) {
                   sVar12 = 1;
                 }
               }
@@ -297,10 +293,8 @@ LAB_800afe6c:
                     break;
                   }
                   fVar14 = fStack96 - fVar15;
-                  if (fVar14 <= 0.0) {
-                    fVar14 = -fVar14;
-                  }
-                  if (((double)fVar14 < dVar4) && (collider->unk1e)) {
+                  if (fVar14 <= 0.0) fVar14 = -fVar14;
+                  if ((fVar14 < 0.005) && (collider->unk1e)) {
                     sVar12 = 1;
                   }
                 }

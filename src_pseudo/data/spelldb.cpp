@@ -31,10 +31,10 @@ void SpellDB::Load(u8 index,u32 *pos){
   Spell_ROM ROM;
   
   Spell_RAM *Ram = this->spells + index;
-  ROMCOPYS(&ROM,spelldb.unk + *pos + -1,sizeof(Spell_ROM),78);
+  ROMCOPYS(&ROM,spelldb + *pos,sizeof(Spell_ROM),78);
   memcpy(Ram->Name,&ROM,0x17);
   Ram->Name[0x17] = '\0';
-  Ram->Id = (ItemID)((ushort)ROM.ID.id + (ushort)ROM.ID.t * 0x100);
+  Ram->Id = (ItemID)((ushort)ROM.ID.id + (ushort)ROM.ID.type * 0x100);
   Ram->School = ROM.School;
   Ram->Damage = ROM.Damage;
   Ram->stamina = ROM.StaminaCost;
