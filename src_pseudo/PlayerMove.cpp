@@ -80,11 +80,11 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     if ((controller->input & B_BUTTON)) {
     if (gGlobals.playerCharStruct.show_portaits == 0) {
       gGlobals.playerCharStruct.show_portaits = 1;
-      MiniMap::Toggle(&gGlobals.minimap,1);
+      MINIMAP.Toggle(1);
     }
     else {
       gGlobals.playerCharStruct.show_portaits = 0;
-      MiniMap::Toggle(&gGlobals.minimap,0);
+      MINIMAP.Toggle(0);
     }
 }
     if (p->ani_type != 9) p->ani_type = 0;
@@ -147,7 +147,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     }
     if (p->visible_flag) {
       gGlobals.playerCharStruct.show_portaits = 0;
-      MiniMap::Toggle(&gGlobals.minimap,0);
+      MINIMAP.Toggle(0);
     }
     if ((controller->input_2 & Z_BUTTON) == 0) {
       p->ani_type = 2;

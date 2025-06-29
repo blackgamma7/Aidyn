@@ -471,9 +471,7 @@ void Ofunc_8000c788(char *param_1){
   ofunc_dat = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
 }
 
-void Ofunc_8000c850(float param_1)
-
-{
+void Ofunc_8000c850(float param_1){
   ulonglong uVar1;
   float fVar2;
   undefined4 in_v1_hi;
@@ -506,8 +504,8 @@ void Ofunc_8000c850(float param_1)
 //now, to more sensible programming.
 void minimap_struct_init_or_free(u8 param_1,s16 param_2){
   if (param_2 == -1) {
-    if (param_1 == false) MiniMap::Init(&gGlobals.minimap);
-    else MiniMap::Free2(&gGlobals.minimap);
+    if (param_1 == false) MINIMAP.Init();
+    else MINIMAP.Free2();
   }
 }
 //found at the bottom of .data in an unused table.

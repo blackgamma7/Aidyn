@@ -14,15 +14,16 @@ struct MinimapSec_dat {
     u16 flagIndex;
     u16 checked;
     u16 borg8;
-    s16 x;
-    s16 y;
+    u16 x;
+    u16 y;
 };
 
-struct MiniMap {
+class MiniMap {
+    public:
     uint active;
     uint ShowMinimap;
     u8 B_buttonToggle;
-    u8 ShowAll;
+    u8 showAllVar;
     vec3f savedPlayerPos;
     WidgetBorg8 *widget18;
     WidgetBorg8 *widget1c;
@@ -55,14 +56,46 @@ struct MiniMap {
     float mapY;
     float field35_0x88;
     float field36_0x8c;
-    float field37_0x90;
+    float X90;
     float field38_0x94;
     u32 field39_0x98;
-    float field40_0x9c;
+    float Y9C;
     float field41_0xa0;
     float field42_0xa4;
     short field43_0xa8;
     short field44_0xaa;
     u16 field45_0xac;
     u16 field46_0xae;
+    void Init();
+    void Free();
+    bool Free2();
+    bool FreeLinked();
+    void LoadData(MinimapSec_dat *param_2);
+    bool SpecialSections(float posX,float posY,float posZ);
+    bool CaseBarrows(float param_2);
+    void Update(float posx,float posy,float posz);
+    Gfx * Render(Gfx *g);
+    void UpdateSection(short param_2,short param_3);
+    bool LoadSections();
+    void ToggleShowAll();
+    s32 ShowAll();
+    void Toggle(u8);
+
+    //a few methods for special condition minimap sections
+
+    bool m800533bc(u16);
+    bool Ehud99(u16);
+    bool Ehud3b(u16);
+    bool Gwern11(u16);
+    bool Gwern97(u16);
+    bool Gwernf9(u16);
+    bool m80053818(u16);
+    bool Ehudf5(u16);
+    bool m80053960(u16);
+    bool m800539fc(u16);
 };
+
+void Minimap_Save(u8*);
+void Minimap_Load(u8*);
+
+#define MINIMAP gGlobals.minimap //shorthand for minimapobject

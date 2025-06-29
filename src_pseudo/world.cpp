@@ -132,7 +132,7 @@ void World::SetWithWeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   set_weather_flags(ter->rainByte);
 }
 
-void World::get_WeatherTemp(TerrainStruct *ter,WeatherTemp *w){
+void World::GetWeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   w->precip = ter->rainByte;
   w->PrecipScale = ter->PrecipScale;
   w->FogFloat = ter->FogFloat;

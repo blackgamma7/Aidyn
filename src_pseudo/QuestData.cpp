@@ -176,7 +176,7 @@ void SaveToFile(SaveDatPointers *param_1,u8 param_2){
   SavePartyPlaytime(param_1->savePartyHead);
   CopyEngineZone(param_1->mapdata,param_2);
   SaveGameState(gameStates,param_1->EventFlags);
-  MiniMap::Save((u8 *)param_1->minimap);
+  Minimap_Save((u8 *)param_1->minimap);
   Save(param_1->gamestate);
   SaveVoxelChart(param_1->voxelChart);
 }
@@ -218,7 +218,7 @@ void LoadFile(SaveDatPointers *param_1,u8 param_2){
   LoadGameState(gameStates,param_1->EventFlags);
   setEventFlag(FLAG_NewJournalEntry,false);
   Teleport(param_1->mapdata,param_2);
-  MiniMap::Load(param_1->minimap);
+  Minimap_Load((u8*)param_1->minimap);
   Load(param_1->gamestate);
   LoadVoxelChart(param_1->voxelChart);
   TerrainPointer->PlayTime = param_1->savePartyHead->time;
@@ -239,13 +239,10 @@ u8 LoadFromMemPak(SaveDatStruct *param_1){
 }
 
 void TakeSnapshot(void){
-  u16 h;
-  u16 V;
-  
   if (!gQuestdataSnapshot) {
     ALLOCS(gQuestdataSnapshot,SNAPSHOT_SIZE,648);
-    h = Graphics::get_hres();
-    V = Graphics::get_vres();
+    u16 h = Graphics::get_hres();
+    u16 V = Graphics::get_vres();
     Graphics::getGfxLastFrame(gQuestdataSnapshot,SNAPSHOT_H,SNAPSHOT_V,0x10,
                (h / SCREEN_WIDTH) * 80.0f,(V / SCREEN_HEIGHT) * 60.0,(h / SCREEN_WIDTH) * SCREEN_HEIGHT,(V / SCREEN_HEIGHT) * 180.0);
     CLEAR(&gWeatherTemp);

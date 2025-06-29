@@ -896,7 +896,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
     gGlobals.minimap.savedPlayerPos.x = ((gGlobals.playerCharStruct.playerDat)->collision).pos.x;
     gGlobals.minimap.savedPlayerPos.y = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y;
     gGlobals.minimap.savedPlayerPos.z = ((gGlobals.playerCharStruct.playerDat)->collision).pos.z;
-    MiniMap::UpdateSection(&gGlobals.minimap,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
+    MINIMAP.UpdateSection(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
   }
 }
 
@@ -1773,7 +1773,7 @@ void InitZoneEngine(u16 param_1,short param_2){
       gGlobals.minimap.savedPlayerPos.y = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y;
       gGlobals.minimap.savedPlayerPos.z = ((gGlobals.playerCharStruct.playerDat)->collision).pos.z;
     }
-    MiniMap::UpdateSection(&gGlobals.minimap,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
+    MINIMAP.UpdateSection(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
   }
 }
 
