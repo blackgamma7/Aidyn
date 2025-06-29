@@ -658,7 +658,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
       }
     }
   }
-if (((gGlobals.Sub.gamemodeType == 0) && (gGlobals.minimap.active == 0)) && (gGlobals.sky.Type == 3))
+if (((gGlobals.Sub.gamemodeType == 0) && (MINIMAP.active == 0)) && (gGlobals.sky.Type == 3))
  set_map_event_flag(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
 }
 
@@ -892,10 +892,10 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
       Sundial::ToggleSun(1);
     }
   }
-  if (gGlobals.minimap.active) {
-    gGlobals.minimap.savedPlayerPos.x = ((gGlobals.playerCharStruct.playerDat)->collision).pos.x;
-    gGlobals.minimap.savedPlayerPos.y = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y;
-    gGlobals.minimap.savedPlayerPos.z = ((gGlobals.playerCharStruct.playerDat)->collision).pos.z;
+  if (MINIMAP.active) {
+    MINIMAP.savedPlayerPos.x = ((gGlobals.playerCharStruct.playerDat)->collision).pos.x;
+    MINIMAP.savedPlayerPos.y = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y;
+    MINIMAP.savedPlayerPos.z = ((gGlobals.playerCharStruct.playerDat)->collision).pos.z;
     MINIMAP.UpdateSection(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
   }
 }
@@ -1767,11 +1767,11 @@ void InitZoneEngine(u16 param_1,short param_2){
   default:
     CRASH("ZoneEngineInit","Unknown Engine Mode");
   }
-  if (gGlobals.minimap.active != 0) {
+  if (MINIMAP.active != 0) {
     if (gGlobals.playerCharStruct.playerDat != NULL) {
-      gGlobals.minimap.savedPlayerPos.x = ((gGlobals.playerCharStruct.playerDat)->collision).pos.x;
-      gGlobals.minimap.savedPlayerPos.y = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y;
-      gGlobals.minimap.savedPlayerPos.z = ((gGlobals.playerCharStruct.playerDat)->collision).pos.z;
+      MINIMAP.savedPlayerPos.x = ((gGlobals.playerCharStruct.playerDat)->collision).pos.x;
+      MINIMAP.savedPlayerPos.y = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y;
+      MINIMAP.savedPlayerPos.z = ((gGlobals.playerCharStruct.playerDat)->collision).pos.z;
     }
     MINIMAP.UpdateSection(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
   }
