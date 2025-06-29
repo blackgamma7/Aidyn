@@ -172,7 +172,7 @@ void TitleScreenInput(void){
   ControllerFull *cont;
   
   uVar3 = 0;
-  while (Controller::GetInput(&cont,0)) {
+  while (Controller::GetInput((controller_aidyn**)&cont,0)) {
     uVar3++;
     pBVar1 = WHANDLE->Control(cont);
     if (pBVar1) {
