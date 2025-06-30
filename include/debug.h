@@ -29,7 +29,7 @@ class WidgetDebugBig: public WidgetMenu {
     BaseWidget* UpFunc();
     BaseWidget* DownFunc();
     void AddEntry(u16);
-    void ExecOption();
+    void ExecOption(BaseWidget*);
 };
 
 extern u32 gZoneEngineHide;
@@ -61,9 +61,9 @@ class WidgetItemDBItem :public UnkWidget{
     ~WidgetItemDBItem();
     BaseWidget* AFunc();
     BaseWidget* BFunc();
-    void Append(ItemInstance*);
+    void Append(char*,ItemID);
 };
-class WidgetItemDB: public WidgetItemDBItem{
+class WidgetItemDB: public UnkWidget{
     public:
     u32 unk80;
     WidgetItemDB();
@@ -71,7 +71,6 @@ class WidgetItemDB: public WidgetItemDBItem{
     BaseWidget* AFunc();
     BaseWidget* BFunc();
 };
-
 
 struct WidgetCameraDebugSub{
     u16 stringIndex;

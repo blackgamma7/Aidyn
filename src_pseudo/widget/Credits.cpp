@@ -33,7 +33,6 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
     pBVar7->SetColor(0xe1,0xe1,0,0xff);
     pBVar7->SetCoords((short)((int)(0x140 - pBVar7->GetWidth()) / 2),0xf0);
     pBVar7->SetSomeBounds(pBVar7->y,0,0x140,pBVar7->y + pBVar7->GetHeight());
-    count++;
     uVar14++;
     uVar12 = (ushort)pBVar7->y + pBVar7->GetHeight();
     posY = (ushort)uVar12;
