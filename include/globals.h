@@ -118,7 +118,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     WidgetBarter *barterMenu;
     PauseWidget *BigAssMenu; /* Hey, that's what the devs called it */
     u8 cinematicReplay;
-    u8 field47_0x14d1;
+    u8 pauseMenuSection;
     u16 BackgroundTypeCopy;
     Borg8Header *screenshot;
     Color32 screenshotTint;
@@ -166,6 +166,8 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     N64PrintStruct DebugQueue;
     char text[512]; //text buffer used for sprintf's.
 };
+
+extern void(*freeWidgetFunc)(BaseWidget*);
 
 extern u16 gDebugFlag;
 

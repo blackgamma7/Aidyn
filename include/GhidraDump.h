@@ -93,16 +93,6 @@ struct InputMenu {
     u16 field2_0x7e;
 };
 
-struct WidgetOptionsSubstruct {
-    BaseWidget *ScrollMenu;
-    BaseWidget *theatreMenu;
-    BaseWidget *optionsConfig;
-    u32 field3_0xc;
-    BaseWidget *unk10;
-    BaseWidget *unk14;
-    u8 field6_0x18;
-};
-
 /*
 typedef enum Borg12Enum { // Music/SFX 
     Tacet=0,

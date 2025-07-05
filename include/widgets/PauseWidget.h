@@ -1,6 +1,7 @@
 #include "widgets/WidgetMenu.h"
 #include "widgets/DollMenu.h"
 #include "widgets/handler.h"
+#include "widgets/optionsMenu.h"
 
 //Widget showing pause menu aka "BigAssMenu"
 class PauseWidget: public WidgetMenu{
@@ -24,13 +25,13 @@ class PauseWidget: public WidgetMenu{
 
 //PauseWidget->substruct
 struct pause_Substruct {
-    struct WidgetOptionsMenu *optionsMenu;
+    WidgetOptionsMenu *optionsMenu;
     WidgetDollMenu *dollmenu;
     struct WidgetCalendar *calendar;
     BaseWidget *pauseMenuSections[3];
     BaseWidget *backgroundWidget;
-    BaseWidget *field5_0x1c;
-    char PauseMenuSection;
+    BaseWidget *backgroundImage;
+    u8 PauseMenuSection;
     s16 unk22;
     s16 unk24;
     s16 unk26;
@@ -45,10 +46,10 @@ struct pause_Substruct {
 
 #define PauseSub ((pause_Substruct*)gGlobals.BigAssMenu->substruct)
 
-u8 bigAssOpenCallback_1(PauseWidget*);
-u8 PauseMenuClose1(PauseWidget*);
-u8 bigAssOpenCallback(PauseWidget*);
-u8 PauseMenuClose2(PauseWidget*);
+u8 bigAssOpenCallback_1(BaseWidget*);
+u8 PauseMenuClose1(BaseWidget*);
+u8 bigAssOpenCallback(BaseWidget*);
+u8 PauseMenuClose2(BaseWidget*);
 
 BaseWidget * bigAssMenu_LZFunc(BaseWidget *,BaseWidget *);
 BaseWidget * bigAssMenu_RFunc(BaseWidget *,BaseWidget *);

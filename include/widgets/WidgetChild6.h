@@ -34,6 +34,7 @@ class WidgetChild6: public WidgetChild10 {
     void unk2();
 };
 class WidgetMenuChild:public WidgetMenu {
+    public:
     u32 field1_0x7c;
     WidgetChild10 *field2_0x80;
     WidgetChild10 *field3_0x84;
@@ -41,9 +42,24 @@ class WidgetMenuChild:public WidgetMenu {
     u32 field5_0x98;
     u32 field6_0x9c;
     u32 field7_0xa0;
+    WidgetMenuChild(u16 param_2,u16 param_3,u16 param_4,u16 param_5);
+    ~WidgetMenuChild();
+    Gfx * Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
+    u8 Tick();
+    s32 AddChild10(WidgetChild6 *param_2);
+    WidgetChild6 *FreeMenu();
+    void m80032c98();
+    void m80032dc4();
+    BaseWidget* m80032ef8();
+    bool m80032f00();
+    void m80032f0c();
+    void m80033018(WidgetChild6 *param_2);
+    void m80033020();
+
 };
 
 class ControllerPakSliders: public WidgetChild10 {
+    public:
     SaveDatPointers *saveDat;
     WidgetBorg8 *screenshotWidget;
     Borg8Header *screenshotBorg8;

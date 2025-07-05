@@ -12,7 +12,7 @@ extern struct SceneData;
 1-Textures. use some compression method.
 2-Geometry data. contains verts and ucode (primariliy G_TRI1)
 3-Scene perspective data (fov,clipping planes, ect.)
-4-3 floats, 8 more bytes. no clue what they're for
+4-seems to be light object data
 5-Model data. uses the aformentioned types.
 6-animation data.
 7-Actor models.
@@ -157,7 +157,7 @@ struct teleport_dat {
     u16 secrect_door_flag;
     u16 secretDoorVal; /* skill check */
     char name[16];
-    undefined unk0x54[24]; /* align bytes */
+    u8 unk0x54[24]; /* align bytes */
 };
 
 struct SceneVoxelModel {
@@ -179,7 +179,6 @@ enum SceneObjFlag{
     SceneObj_0040=0x40,
 };
 
-
 struct Scene_obj_dat {
     SceneVoxelModel borgArray[3];
     vec3f rotation;
@@ -195,8 +194,6 @@ struct monsterpartyEntry {
     u8 max;
 };
 
-
-
 struct Wandernode_dat {
     vec2f startCoords;
     float wanderradius;
@@ -206,6 +203,7 @@ struct Wandernode_dat {
     u16 NodeSiblings[2];
     u8 field6_0x1c[40];
 };
+
 enum LightTypes{
     Light_Static,
     Light_Alternate,
@@ -251,8 +249,10 @@ struct audio_obj_dat {
     float volume;
     float randA;
     float randB;
-    u16 soundFlag;
+    u16 soundFlag; //uses VoxAudioFlags
+    
     //these are set in-game, it seems
+
     u16 unk16;
     float volumeFade;
     u32 pan;
@@ -260,13 +260,7 @@ struct audio_obj_dat {
     u16 unk24;
     u8 dcmIndex;
 };
-/* AudioFlags id'd
-0001=loop
-0002
-0004
-0008=Don't diminish by distance
-0010=BGM
-doesn't seem to use all 16 bits.*/
+
 struct wandernode_dat{
     vec2f startCoords;
     float wanderRadius;
@@ -697,8 +691,6 @@ struct struct_45 {
     u32 indecies[3];
 };
 
-
-
 struct astruct_3{
     u16 unk0[2];
     vec4f unk4;
@@ -774,7 +766,6 @@ enum Borg9PhysFlags{
     B9Phys_8000=0x8000,
 };
 
-
 struct borg9_phys {
     vec3f *verts[3];
     vec3f normal;
@@ -782,7 +773,6 @@ struct borg9_phys {
     u16 flags; // use Borg9PhysFlags
     u16 GroundType;
 };
-
 
 enum B13_Commands{
     B13Com_CameraCutTo=4, //instantly move camera to reference point
@@ -987,6 +977,7 @@ void * get_borg_14(s32 arg0);
 void passto_borg_14_free(s32 *arg0);
 
 //n64borg/anim.cpp
+
 void Ofunc_8009d250();
 void Ofunc_8009d25c(void* p);
 s8 GetN64ImageDimension(u16 X);

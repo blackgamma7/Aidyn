@@ -325,13 +325,13 @@ typedef enum Borg8Enum {
 #define BORG12_CoinJingle2 0x72e
 
 
-//Borg5: Model data?
+//Borg5: Model data
 
 #define BORG5_CombatMarker      0x0794
 #define BORG5_SpellMarker       0x0797
 #define BORG5_SceneBoulder      0x080e
 #define BORG5_Ship              0x0DBE
-#define BORG5_ErromonMapChunk   0xef9
+#define BORG5_ErromonMapChunk   0x0ef9
 #define BORG5_CoronationScene1  0x1fe2
 #define BORG5_CoronationScene2  0x2080
 #define BORG5_CoronationScene3  0x21bf
@@ -339,8 +339,9 @@ typedef enum Borg8Enum {
 #define BORG5_OrianaLight       0x374a
 
 
-//Borg7: actor data
+//Borg7: Animated model data
 
+#define BORG7_PauseMenu         0x0e6b
 #define BORG7_ship              0x0dc3
 #define BORG7_Alaron            0x25f9
 #define BORG7_Keelin            0x2b29
@@ -349,7 +350,7 @@ typedef enum Borg8Enum {
 #define BORG7_Zombie            0x3489
 #define BORG7_Phelan            0x2808
 
-//borg6: Animation data?
+//borg6: Animation data
 
 //used for the titlescreen flycam
 

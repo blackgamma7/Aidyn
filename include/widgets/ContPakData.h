@@ -4,20 +4,28 @@
 #include "widgets/WidgetChild8.h"
 #include "widgets/WidgetChild6.h"
 
+class WidgetChild9: public WidgetMenu{
+    public:
+    u32 timer;
+    WidgetChild9(u32 t, BaseWidget*(*AButton)(BaseWidget*,BaseWidget*));
+    ~WidgetChild9();
+    u8 Tick();
+    BaseWidget* Control(controller_aidyn*);
+};
 
 class WidgetContPakData : public WidgetMenu{
     public:
     SaveDatPointers saveDatsP[16];
     WidgetMenuChild *unk27c;
-    BaseWidget *field3_0x280;
-    ulong (*funcA)(void);
-    ulong (*funcB)(void);
+    WidgetScrollMenu *field3_0x280;
+    void (*funcA)(void);
+    void (*funcB)(void);
     u8 OtherState;
     u8 pfsErr;
     u8 saveSlot;
     u8 AidynSaveSlots;
-    undefined field10_0x290;
-    undefined field11_0x291;
+    u8 unk290;
+    u8 unk291;
     u16 unk292;
     u16 unk294;
     undefined field14_0x296;
@@ -25,7 +33,7 @@ class WidgetContPakData : public WidgetMenu{
     u32 borg8;
     BaseWidget *field17_0x29c;
     WidgetChild8 *unk2a0;
-    undefined field19_0x2a4;
+    u8 unk2a4;
     Color32 col0;
     Color32 col1;
     Color32 col2;
@@ -34,11 +42,11 @@ class WidgetContPakData : public WidgetMenu{
     undefined field25_0x2b3;
     u32 unk2B4;
     u8 contStatus;
-    undefined field28_0x2b9;
-    undefined field29_0x2ba;
+    undefined unk2b9;
+    undefined unk2ba;
     undefined field30_0x2bb;
     WidgetHandler wHandler;
-    void *dataBuffer;
+    SaveDatStruct *dataBuffer;
     s32 filenum;
     WidgetContPakData(u16,u16,void *,void *,u32,Color32*,Color32 *,Color32*);
     ~WidgetContPakData();
@@ -54,7 +62,7 @@ class WidgetContPakData : public WidgetMenu{
     void m80086bd0();
     void GetPFSErr();
     void TryRepair();
-    void EraseFile();
+    void EraseFile(u8);
     void m80086d30();
     BaseWidget* m80086d3c();
     void m80086d78();
@@ -66,6 +74,7 @@ class WidgetContPakData : public WidgetMenu{
     void ReadSaveFile();
     void m800871c8();
     void m80087230();
+    void m80087260();
     void CheckContStatus();
     void m800873ac();
     void m800873f0();
@@ -75,12 +84,12 @@ class WidgetContPakData : public WidgetMenu{
     void m8008759c();
     virtual void unk();
     virtual u32 ShowSaveFiles();
-    virtual void LoadSaveFile();
+    virtual void LoadSaveFile(u8);
     virtual u32 vmE0(BaseWidget*);
     virtual u32 vmE8();
     virtual u32 vmF0();
-    virtual u32 WriteSaveFile();
-    virtual u32 vm100();
+    virtual u32 WriteSaveFile(u8);
+    virtual void vm100();
     virtual void NewContPak();
     void PfsErrDevice();
     void CourrputPak();
@@ -88,9 +97,11 @@ class WidgetContPakData : public WidgetMenu{
     void ConfirmOverwrite(char*);
     void PfsErrBadRead();
     void PfsErrBadPak();
+    void PfsErrNoPak();
+    void PfsErrOK();
     void CorruptSaveFile(u8);
     void RepairFail();
-    void RepairOk();
+    void RepairOK();
     void LoadSliders(SaveDatPointers *,u8);
     void ClearScrollMenu();
     void m80087c40();
@@ -105,12 +116,15 @@ class WidgetContPakDataSave:public WidgetContPakData{
     ~WidgetContPakDataSave();
     void unk();
     u32 ShowSaveFiles();
-    void LoadSaveFile();
+    void LoadSaveFile(u8);
     u32 vmE0(BaseWidget*);
+    void NewSaveFile();
     u32 vmE8();
     u32 vmF0();
-    u32 WriteSaveFile();
-    u32 vm100();
+    u32 WriteSaveFile(u8);
+    void vm100();
+    void LowSpaceWarn();
+    void FullWarning();
     void NewContPak();
 };
 class WidgetContPakDataLoad: public WidgetContPakData{
@@ -119,16 +133,16 @@ class WidgetContPakDataLoad: public WidgetContPakData{
     ~WidgetContPakDataLoad();
     void unk();
     u32 ShowSaveFiles();
-    void LoadSaveFile();
+    void LoadSaveFile(u8);
     u32 vmE0(BaseWidget*);
     u32 vmF0();
 };
 
-WidgetText* ContPakTextWidget(char *,void *,u16 );
-WidgetText* ContPakTextWidget2(u16 ,char *,void *);
+WidgetText * ContPakTextWidget(char *txt,BaseWidget *(*AFunc)(BaseWidget *,BaseWidget *),u16 length);
+WidgetText * ContPakTextWidget2(u16 param_1,char *txt,BaseWidget *(*AFunc)(BaseWidget *,BaseWidget *));
 WidgetChild8 * FUN_80088a78(u16 ,char *);
-WidgetChild8 *FUN_80088aac(void *,WidgetHandler *,u16 ,char *,u16 );
-void open_mempak_menu(u32 ,u32 ,u32 ,u32,u32);
+WidgetChild8 *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,ushort var);
+void open_mempak_menu(u32 ,u32 ,u16 ,u16,u32);
 u32 appState_2(Gfx **);
 byte appState2_control(void);
 void appState2_Tick(Gfx **,u8);
@@ -136,14 +150,14 @@ u32 FUN_80088d80();
 void make_mempak_menu(short ,short ,undefined4);
 u32 FUN_80088e2c(void);
 
-class ContPakWidget:WidgetMenu{
+class ContPakWidget:public WidgetMenu{
     public:
-    u32 field1_0x7c;
-    BaseWidget *w80;
+    BaseWidget * field1_0x7c;
+    WidgetScrollMenu *w80;
     u8 field3_0x84;
     u8 pfserr;
-    u8 field5_0x86;
-    char field6_0x87;
+    u8 fileNum;
+    u8 field6_0x87;
     u32 field7_0x88;
     WidgetHandler handler;
     u8 contStat;
@@ -177,7 +191,7 @@ class ContPakWidget:WidgetMenu{
     void PfsErr();
     void DeviceErr();
     void FatalErr();
-    void m80089978();
+    void m80089978(char*);
     void m80089a1c();
     void m80089a40();
     void m80089a64(u8);
@@ -199,9 +213,35 @@ BaseWidget * ContPak_8008a768(BaseWidget *,BaseWidget *);
 BaseWidget * ContPak_8008a790(BaseWidget *,BaseWidget *);
 void FUN_8008a7b8(BaseWidget *);
 void FUN_8008a848(BaseWidget *);
-void FUN_8008a848(BaseWidget *);
 BaseWidget * FUN_8008a87c(BaseWidget *,BaseWidget *);
 BaseWidget * FUN_8008a8a4(BaseWidget *,BaseWidget *);
 
+WidgetContPakData * WContPakData_Save(u16 param_1,u16 param_2,void *param_3,
+      Color32 *param_4,Color32 *param_5,Color32 *param_6);
+WidgetContPakData * WContPakData_Load(u16 param_1,u16 param_2,void *param_3,
+      void *param_4,Color32* param_5, Color32 *param_6,Color32 param_7);
+BaseWidget * FUN_80085d64(BaseWidget *wo,BaseWidget *w1);
+BaseWidget * FUN_80085da0(BaseWidget *wo,BaseWidget *w1);
+BaseWidget * FUN_80085dcc(BaseWidget *wo,BaseWidget *w1);
+BaseWidget * FUN_80085e08(BaseWidget *wo,BaseWidget *w1);
+BaseWidget * FUN_80085e44(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * FUN_80085f08(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * FUN_80085fcc(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * FUN_80086018(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * FUN_80086054(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * FUN_80086080(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * FUN_800860cc(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * FUN_80086118(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * FUN_80086144(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * FUN_80086180(BaseWidget *w0,BaseWidget *w1);
+BaseWidget * repeated_space_warning(BaseWidget *w0,BaseWidget *w1);
+
+
+void FUN_80086290(BaseWidget *);
+u32 FUN_800862c8(void);
+BaseWidget * FUN_800862f4(u8 param_1,ushort param_2,char *txt,BaseWidget* (*param_4)(BaseWidget*,BaseWidget*));
+
+
 WidgetContPakData* contPakDat=NULL;
 u16 gContPakDatTimer=0;
+

@@ -61,6 +61,13 @@ struct controllerBuffer { /* buffer of controller inputs */
     u8 ContRead;
 };
 
+#define THQCompCode 0x3738 //"78"
+#if 0 //European version
+#define AidynGameCode 0x4e415950 //"NAYP"
+#else
+#define AidynGameCode 0x4e415945 //"NAYE"
+#endif
+
 typedef struct{
 	u16 filesize;
 	u16 comp_code;
@@ -69,6 +76,8 @@ typedef struct{
 	char ext_name[4];
 	u8 align[3];
 }fileState_aidyn;
+
+
 
 typedef struct{
 	void* thread_stack;
@@ -118,7 +127,7 @@ namespace Controller{
 
 #define ContThreadStack 0x448
 
-//delta is between 1/60 and 1/10 second
+//delta is between 1/60 and 1/10(6/60) second
 #define DeltaCap(delta)\
 if(delta==0)delta=1;\
 if(delta>6)delta=6
@@ -128,6 +137,10 @@ if(delta>6)delta=6
 delta=0;\
 while(Controller::GetInput(&cont,0)){delta++;}\
 DeltaCap(delta)
+
+//double-checks the PFS error value if returns PFS_ERR_BAD_DATA.
+#define Pfs2xCheck(val,func) val=func;\
+if(val==PFS_ERR_BAD_DATA)val=func
 
 //Initalize Transfer Pak. not in libreultra.
 extern s32 osGbpakInit(OSMesgQueue *siMessegeQ,OSPfs *pfs,int channel);

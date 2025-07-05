@@ -114,4 +114,5 @@ class WidgetDollMenu: public WidgetMenu {
     DollEquipmentMenu* itemslots_widget;
     DollMenuLists* lists;
     WidgetMenuSpells* spells_widget;
+    WidgetDollMenu(u8,u8);
 };
