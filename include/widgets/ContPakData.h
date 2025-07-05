@@ -245,3 +245,4 @@ BaseWidget * FUN_800862f4(u8 param_1,ushort param_2,char *txt,BaseWidget* (*para
 WidgetContPakData* contPakDat=NULL;
 u16 gContPakDatTimer=0;
 
+#define SaveFileMax 16

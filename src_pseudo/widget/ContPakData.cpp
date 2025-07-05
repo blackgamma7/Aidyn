@@ -189,7 +189,7 @@ WidgetContPakData::WidgetContPakData(u16 param_2,u16 param_3,void *param_4,
 
 WidgetContPakData::~WidgetContPakData(){
   CRCTable::Free();
-  for(u8 i=0;i<16;i++){
+  for(u8 i=0;i<SaveFileMax;i++){
     FREEPTR(this->saveDatsP[i].datStart,513);
   }
   this->m80087c40();
@@ -828,9 +828,7 @@ void WidgetContPakDataSave::NewSaveFile(){
   Pfs2xCheck(this->pfsErr,Controller::GetPakFreeBlocks8(&freespace,0));
 
   if (this->pfsErr == 0) {
-    i = 0;
-    c1 = acStack_b0;
-    do {
+    for(i=0,c1 = acStack_b0;i<SaveFileMax;i++) {
       Pfs2xCheck(PVar1,Controller::GetPakSaveState(filestate,i,0));
       if (((PVar1 == 0) && (iVar4++, filestate[0].comp_code == THQCompCode)) &&
          (filestate[0].game_code == AidynGameCode)) {
@@ -838,9 +836,8 @@ void WidgetContPakDataSave::NewSaveFile(){
         c1+=4;
         uVar5++;
       }
-      i++;
-    } while (i < 0x10);
-    if (iVar4 == 0x10) {
+    }
+    if (iVar4 == SaveFileMax) {
       FullWarning();
       return;
     }
@@ -854,7 +851,7 @@ void WidgetContPakDataSave::NewSaveFile(){
       for (j = 0; j < uVar5; j++) {
         if (!strcmp(acStack_b0 + j * 4,acStack_70)) break;
       }
-    } while ((j != uVar5) && (i++, i < 0x10));
+    } while ((j != uVar5) && (i++, i < SaveFileMax));
 
     this->pfsErr = Controller::NewPakSave(auStack_2f,"CHRONICLES",acStack_70,THQCompCode,AidynGameCode,sizeof(SaveDatStruct),0);;
     if (this->pfsErr == 0) {
@@ -1255,7 +1252,7 @@ void ContPakWidget::PrintMemcardFiles(){
   fileState_aidyn afStack_50 [2];
   
   u8 fileno = this->fileNum++;
-  if (this->fileNum <= 16) {
+  if (this->fileNum <= SaveFileMax) {
     Pfs2xCheck(this->pfserr,Controller::GetPakSaveState(afStack_50,(uint)fileno,0));
     if (this->pfserr == 0) {
       PrintFile(fileno,afStack_50[0].game_name,afStack_50[0].ext_name,afStack_50[0].filesize);
@@ -1420,7 +1417,7 @@ void ContPakWidget::LoadWindow(){
   sVar7 = this->field1_0x7c->GetHeight();
   sVar9 = this->x;
   x = sVar9 + 5;
-  this->w80 = Utilities::AddScrollMenu(this,0x10,x,y + (short)uVar6 + 2,x,y + sVar7 + 2,sVar9 + 199,
+  this->w80 = Utilities::AddScrollMenu(this,SaveFileMax,x,y + (short)uVar6 + 2,x,y + sVar7 + 2,sVar9 + 199,
                       this->field1_0x7c->y + -7,0x67,0x46,0x3c,0xff,0);
   Utilities::SetScrollMenuColors(this->w80,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   sVar8 += -0x1b;
