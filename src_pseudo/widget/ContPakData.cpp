@@ -856,7 +856,7 @@ void WidgetContPakDataSave::NewSaveFile(){
     this->pfsErr = Controller::NewPakSave(auStack_2f,"CHRONICLES",acStack_70,THQCompCode,AidynGameCode,sizeof(SaveDatStruct),0);;
     if (this->pfsErr == 0) {
       this->OtherState = 9;
-      this->field_0x2ba = auStack_2f[0];
+      this->unk2ba = auStack_2f[0];
       return;
     }
   }
