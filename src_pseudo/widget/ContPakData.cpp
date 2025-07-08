@@ -1216,7 +1216,7 @@ void ContPakWidget::ErrSwitch(){
     PfsOK();
     break;
   case PFS_ERR_NOPACK:
-    PFSNoPak();
+    PfsNoPak();
     break;
   case PFS_ERR_NEW_PACK:
     PfsNewPak();

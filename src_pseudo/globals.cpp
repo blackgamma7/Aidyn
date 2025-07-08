@@ -4,7 +4,7 @@
 #include "stringN64.h"
 
 
-u8 DAT_800e8d50[]={0,0,0,0,1,0,0,0};//unused data, seen at strat of section.
+u8 DAT_800e8d50[]={0,0,0,0,1,0,0,0};//unused data, seen at start of section.
 u16 SkillCheckSteps[22]={0,26,46,62,81,96,111,122,
      133,144,155,166,177,188,199,210,221,232,243,255,266,0};
 char* sGlobalsFmt="%s - %d";

@@ -392,6 +392,16 @@ typedef enum BORG1type {
     B1_RGBA32
 } BORG1type;
 
+enum Borg1Flag{
+    B1_Flag20 =0x20,
+    B1_TDDetail=0x40,
+    B1_TDSharpen=0x80,
+    B1_Procedural=0x100,
+    B1_Interlaced=0x200,
+    B1_Flag4000=0x4000,
+    B1_Flag4000=0x8000
+};
+
 struct Borg1Data {
     u16 type;
     u16 flag;

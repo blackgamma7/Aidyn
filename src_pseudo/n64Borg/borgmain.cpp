@@ -143,7 +143,7 @@ borgHeader * getBorgItem(s32 index){
         ALLOCS(ret,size,627);
         bzero(ret,size);
         decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
-                       (void *)((s32)ret + gBorgHeaderSizes[listing.Type]),listing.uncompressed,
+                       (u8 *)((s32)ret + gBorgHeaderSizes[listing.Type]),listing.uncompressed,
                        (s32)listing.Compression);
         (*borg_funcs_a[listing.Type])(ret);
         (*borg_funcs_b[listing.Type])(ret,0);
@@ -158,7 +158,7 @@ borgHeader * getBorgItem(s32 index){
           ALLOCS(ret,size,653);
           bzero(ret,size);
           decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
-                         (void *)((s32)ret + gBorgHeaderSizes[listing.Type]),listing.uncompressed,
+                         (u8 *)((s32)ret + gBorgHeaderSizes[listing.Type]),listing.uncompressed,
                          (s32)listing.Compression);
           (*borg_funcs_a[listing.Type])(ret);
           (*borg_funcs_b[listing.Type])(ret,0);
@@ -220,7 +220,7 @@ u8 InitBorgTexture(Borg1Header *header,Borg1Data *dat){
   int bitDepth;
   
   header->dat = dat;
-  if (!(dat->flag & 0x100)) {
+  if (!(dat->flag & B1_Procedural)) {
     header->bitmapA = header->bitmapB = dat->bmp;
   }
   else {
@@ -247,8 +247,8 @@ u8 InitBorgTexture(Borg1Header *header,Borg1Data *dat){
 
 void borg1_free(Borg1Header *param_1){
   int iVar1 = get_memUsed();
-  if (((param_1->dat->flag & 0x100)) && (param_1->dat->type < B1_CI8)) {
-    HFREE(param_1->bitmapB,0x3e4);
+  if (((param_1->dat->flag & B1_Procedural)) && (param_1->dat->type < B1_CI8)) {
+    HFREE(param_1->bitmapB,996);
   }
   if (param_1->head.index == -1) HFREE(param_1->dat,1001);
   else dec_borg_count(param_1->head.index);
@@ -335,14 +335,14 @@ void borg_2_free(Borg2Header *param_1){
   borg_count[2]--;
 }
 
-//"borg4": 3 floats, 8 more bytes. no clue what they're for
+//"borg4": seems to used for lighting data
 void borg4_func_a(void* x){}
 u8 borg4_func_b(void* x,void* y){return false;}
 void Borg4_free(borgHeader *param_1){
-  s32 iVar1 = get_memUsed();
+  s32 oldMem = get_memUsed();
   if (param_1->index == -1) HFREE(param_1,1240);
   else {dec_borg_count(param_1->index);}
-  borg_mem[4]-= (iVar1 - get_memUsed());
+  borg_mem[4]-= (oldMem - get_memUsed());
   borg_count[4]--;
 }
 //"borg3": only 5 in the game. Seem to be camera perpective configs.
@@ -705,7 +705,7 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
   param_1->dat = param_2;
   param_1->flag = 0;
   param_1->unk1c = 1.0;
-  pBVar6 = (Borg6Struct *)HeapAlloc(uVar1 * 0x18,s_./src/n64borg.cpp_800e3120,0x810);
+  pBVar6 = (Borg6Struct *)HALLOC(uVar1 * 0x18,2064);
   param_1->structDat = pBVar6;
   uVar1 = param_1->dat->subCount;
   pBVar3 = param_1->dat->sub;
@@ -715,7 +715,7 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
       pBVar6->sub = pBVar3;
       pBVar6->unk4 = 0;
       pBVar6->unk8 = 0;
-      piVar7 = (int *)HeapAlloc(uVar10 << 4,s_./src/n64borg.cpp_800e3120,0x821);
+      piVar7 = (int *)HALLOC(uVar10 << 4,2081);
       iVar16 += 1;
       pBVar13 = pBVar3->sub;
       pBVar6->unk10 = (void *)pBVar3->unk8;
