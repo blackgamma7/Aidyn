@@ -364,15 +364,14 @@ void borg5_func_a(Borg5Header *b5){
   u32 *puVar1;
   u16 *puVar4;
   borg5substruct *pbVar6;
-  void *pvVar7;
-  int iVar8;
+  int i;
   
   pbVar6 = (b5->dat).someSubstruct;
   if (pbVar6 != NULL) {
     pbVar6 = (borg5substruct *)((int)&b5 + (int)&pbVar6);
-    iVar8 = (b5->dat).substructCount;
+    i = (b5->dat).substructCount;
     (b5->dat).someSubstruct = pbVar6;
-    for (; iVar8 != 0; iVar8--) {
+    for (; i != 0; i--) {
       pbVar6->links = (borg5substruct **)((int)(pbVar6->links + 4) + (int)b5);
       pbVar6++;
     }
@@ -382,13 +381,13 @@ void borg5_func_a(Borg5Header *b5){
   if ((b5->dat).borg2i) (b5->dat).borg2i = (s32 *)((int)((b5->dat).borg2i + 4) + (int)b5);
   if ((b5->dat).borg1i)(b5->dat).borg1i = (s32 *)((int)((b5->dat).borg1i + 4) + (int)b5);
   if (b5->dat.aniTextures)b5->dat.aniTextures = (void *)((int)b5->dat.aniTextures + (int)&b5->dat);
-  iVar8 = (b5->dat).aniTextureCount;
-  if (0 < iVar8) {
-    pvVar7 = (b5->dat).aniTextures;
-    for(;iVar8;iVar8--) {
-      *(int *)((int)pvVar7 + 0x10) = (int)&(b5->dat).substructCount + *(int *)((int)pvVar7 + 0x10);
-      pvVar7 = (void *)((int)pvVar7 + 0x18);
-    } while (iVar8 != 0);
+  i = (b5->dat).aniTextureCount;
+  if (0 < i) {
+    Borg5AniTexture* ani = (Borg5AniTexture*)(b5->dat).aniTextures;
+    for(;i!=0;i--) {
+      ani->p = (void*)((u32)&b5->dat + (u32)ani->p);
+      ani++;
+    }
   }
   (b5->dat).borg1lookup = (u16 *)((int)((b5->dat).borg1lookup + 8) + (int)b5);
   (b5->dat).ParticleDat = (Borg5_particle *)((int)(b5->dat).ParticleDat->unk10 + (int)(b5->dat).ParticleDat);

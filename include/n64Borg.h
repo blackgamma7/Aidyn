@@ -473,7 +473,12 @@ struct Borg5Struct2{
     vec3f unk170; //used in orphaned functions.
     vec3f unk17c; //used in orphaned functions.
 };
-
+//unused as a case-switch error says. pointers are still set if there are any.
+struct Borg5AniTexture{
+    u8 unk0[16];
+    void* p;
+    u8 unk14[4];
+};
 struct borg5substruct {
     u16 flag;
     u8 mtxOp;
@@ -484,7 +489,7 @@ struct borg5substruct {
     vec3f rot;
     vec3f pos;
     vec3f scale;
-    vec3f unk; //used for mtxOp 1
+    vec3f pivot; //used for mtxOp 1
 };
 struct Borg5_particle{
     u16 flag0;

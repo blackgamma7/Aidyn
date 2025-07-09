@@ -659,9 +659,9 @@ void Borg5Sub_op1(borg5substruct *param_1,MtxF *mf){
   (*mf)[2][2] = fVar13;
   (*mf)[1][1] = fVar7;
   (*mf)[2][1] = fVar9;
-  (*mf)[3][0] = (param_1->pos).x - (fVar8 * (param_1->unk).x + fVar4 * (param_1->unk).y + fVar6 * (param_1->unk).z);
-  (*mf)[3][1] = (param_1->pos).y - (fVar5 * (param_1->unk).x + fVar7 * (param_1->unk).y + fVar9 * (param_1->unk).z);
-  (*mf)[3][2] = (param_1->pos).z - (-siny * (param_1->scale).x * (param_1->unk).x + fVar15 * (param_1->unk).y + fVar13 * (param_1->unk).z);
+  (*mf)[3][0] = (param_1->pos).x - (fVar8 * (param_1->pivot).x + fVar4 * (param_1->pivot).y + fVar6 * (param_1->pivot).z);
+  (*mf)[3][1] = (param_1->pos).y - (fVar5 * (param_1->pivot).x + fVar7 * (param_1->pivot).y + fVar9 * (param_1->pivot).z);
+  (*mf)[3][2] = (param_1->pos).z - (-siny * (param_1->scale).x * (param_1->pivot).x + fVar15 * (param_1->pivot).y + fVar13 * (param_1->pivot).z);
   (*mf)[0][3] = 1.0;
   (*mf)[1][3] = 1.0;
   (*mf)[2][3] = 1.0;
