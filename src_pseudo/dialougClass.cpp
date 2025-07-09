@@ -12,10 +12,10 @@ DiaMenuSub::DiaMenuSub(WidgetHandler *handle,u8 a2,u8 a3){
       case 1:
       case 3:
       default:
-    this->Portrait = new WidgetBorg8(NULL);;
-    this->PortraitBorder = new WidgetBorg8(NULL);;
-    this->Background = new WidgetBorg8(NULL);;
-    this->Gradient = new WidgetBorg8(NULL);
+    this->Portrait = WigetB8Blank;
+    this->PortraitBorder = WigetB8Blank;
+    this->Background = WigetB8Blank;
+    this->Gradient = WigetB8Blank;
     this->text = new WidgetText("",500);
     this->scrollMenu = new WidgetScrollMenu(9);
     Utilities::SetBorg8Dims(this->PortraitBorder,SuperMenuClasses::Add(BORG8_PortraitHighlight),false);

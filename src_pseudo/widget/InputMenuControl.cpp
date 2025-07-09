@@ -1,0 +1,205 @@
+#include "globals.h"
+#include "cheats.h"
+
+#define UpdateCursorPos(IMSub,AMSub)\
+  IMSub->cursor->SetCoords(\
+  (AMSub->entries[AMSub->entryPos]->x + (AMSub->entries[AMSub->entryPos]->GetWidth() >> 1) - (IMSub->cursor->GetWidth() >> 1)),\
+  (AMSub->entries[AMSub->entryPos]->y + (AMSub->entries[AMSub->entryPos]->GetHeight() >> 1) - (IMSub->cursor->GetHeight() >> 1)))\
+
+BaseWidget * InputMenu_LeftButton(BaseWidget *w0,BaseWidget *w1){
+  InputWidgetSubStruct *IMSub = (InputWidgetSubStruct *)w1->substruct;
+  WAMSub *AMSub = (WAMSub *)IMSub->arrayMenu->substruct;
+  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->LeftFunc()->var5E;
+  UpdateCursorPos(IMSub,AMSub);
+  PlayAudioSound(&gGlobals.SFXStruct,BORG12_CursorChirp,0,1.0,30,0);
+  return NULL;
+}
+
+BaseWidget * InputMenu_RightButton(BaseWidget *w0,BaseWidget *w1){
+  InputWidgetSubStruct *IMSub = (InputWidgetSubStruct *)w1->substruct;
+  WAMSub *AMSub = (WAMSub *)IMSub->arrayMenu->substruct;
+  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->RightFunc()->var5E;
+  BaseWidget* entry=AMSub->entries[AMSub->entryPos];
+  UpdateCursorPos(IMSub,AMSub);
+  PlayAudioSound(&gGlobals.SFXStruct,BORG12_CursorChirp,0,1.0,30,0);
+  return NULL;
+}
+
+BaseWidget * InputMenu_UpButton(BaseWidget *w0,BaseWidget *w1){
+  InputWidgetSubStruct *IMSub = (InputWidgetSubStruct *)w1->substruct;
+  WAMSub *AMSub = (WAMSub *)IMSub->arrayMenu->substruct;
+  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->UpFunc()->var5E;
+  BaseWidget* entry=AMSub->entries[AMSub->entryPos];
+  UpdateCursorPos(IMSub,AMSub);
+  return NULL;
+}
+
+BaseWidget * InputMenu_DownButton(BaseWidget *w0,BaseWidget *w1){
+  InputWidgetSubStruct *IMSub = (InputWidgetSubStruct *)w1->substruct;
+  WAMSub *AMSub = (WAMSub *)IMSub->arrayMenu->substruct;
+  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->DownFunc()->var5E;
+  BaseWidget* entry=AMSub->entries[AMSub->entryPos];
+  UpdateCursorPos(IMSub,AMSub);
+  return NULL;
+}
+
+BaseWidget * InputMenu_BButton(BaseWidget *w0,BaseWidget *w1){
+    w1->var5C=0;
+    return w1;
+}
+
+
+BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
+  short sVar1;
+  char *pcVar3;
+  WidgetDollMenu *pWVar4;
+  BaseWidget *pBVar6;
+  BaseWidget *uVar10;
+  u32 uVar7;
+  u8 uVar8;
+  byte bVar16;
+  byte *pbVar17;
+  InputWidgetSubStruct *piVar2;
+  WAMSub *piVar7;
+  
+  piVar2 = (InputWidgetSubStruct *)w1->substruct;
+  uVar10 = piVar2->arrayMenu->AFunc();
+  if (uVar10->GetNumber() != WidgetN_ClipText) return NULL;
+  u16 uVar14 = uVar10->var5E;
+  if (uVar14 == '~') {//backspace
+    piVar2->entry[piVar2->entryIndex] = '\0';
+    if (piVar2->entryIndex != 0) piVar2->entryIndex--;
+    piVar2->entry[piVar2->entryIndex] = (char)uVar10->var5E;
+  }
+  else {
+    if (uVar14 == '`') {//"X"
+      w1->var5C = 0;
+      return w1;
+    }
+    if (uVar14 == '\\') {//"Ok"
+      if (piVar2->entry[piVar2->entryIndex] == '\\') {
+        if (piVar2->entryIndex != 0) {
+          piVar2->entry[piVar2->entryIndex] = '\0';
+        }
+      }
+      pbVar17 = (byte *)(piVar2->entry + 1);
+      if (piVar2->entry[1] != '\0') {
+        bVar16 = *pbVar17;
+        while( true ) {
+          if ((bVar16 - 'A' < 26) && (pbVar17[-1] != ' ')) {
+            *pbVar17 = bVar16 + 0x20;
+          }
+          pbVar17++;
+          if (*pbVar17 == 0) break;
+          bVar16 = *pbVar17;
+        }
+      }
+      if (piVar2->entryIndex == 0) return NULL;
+      //if correct cheat, reset name entry
+      if (Cheats::Check(piVar2->entry)) {
+        strcpy(piVar2->entry,piVar2->output);
+        uVar8 = strlen(piVar2->entry);
+        piVar2->entryIndex = uVar8;
+        if (uVar8 >= 10)piVar2->entryIndex = 9;
+        piVar2->entry[piVar2->entryIndex] = (char)uVar10->var5E;
+        piVar2->entry[piVar2->entryIndex + 1] = '\0';
+        return NULL;
+      }
+      sprintf(piVar2->output,piVar2->entry);
+      if (gGlobals.BigAssMenu){
+        pWVar4 = PauseSub->dollmenu;
+        if (pWVar4) {
+          for (uVar8 = 0; uVar8 < pWVar4->unk7c->partySize; uVar8++) {
+            if (pWVar4->unk7c->portraits[uVar8]->var5E == 0x99) {
+              Utilities::ChangeWidgetText(pWVar4->unk7c->names[uVar8],piVar2->entry,true);
+              break;
+            }
+          }
+        }
+      }
+      w1->var5C = piVar2->entryIndex;
+      return w1;
+    }
+    if ((piVar2->entryIndex == 0) && (uVar14 == ' ')) {
+      return NULL;
+    }
+    if (piVar2->entryIndex < 9) {
+      piVar2->entry[++piVar2->entryIndex] = (char)uVar10->var5E;
+    }
+    else {
+      piVar7 = (WAMSub *)piVar2->arrayMenu->substruct;
+      piVar7->entryCount--;
+      UpdateCursorPos(piVar2,piVar7);
+    }
+  }
+  return NULL;
+}
+
+
+BaseWidget * InputMenu_StartButton(BaseWidget *w0,BaseWidget *w1){
+  byte bVar1;
+  short sVar2;
+  WidgetDollMenu *pWVar4;
+  BaseWidget *pBVar6;
+  u8 uVar12;
+  byte *pbVar13;
+  WAMSub *piVar4;
+  InputWidgetSubStruct *piVar3;
+  
+  piVar3 = (InputWidgetSubStruct *)w1->substruct;
+  pBVar6 = piVar3->arrayMenu->AFunc();
+  if (pBVar6->GetNumber() == WidgetN_ClipText) {
+    piVar4 = (WAMSub *)piVar3->arrayMenu->substruct;
+    uVar12 = piVar4->entryCount - 1;
+    if (piVar4->entryPos == uVar12) {
+      pbVar13 = (byte *)(piVar3->entry + 1);
+      if (piVar3->entry[1] != '\0') {
+        bVar1 = *pbVar13;
+        while( true ) {
+          if ((bVar1 - 'A' < 26) && (pbVar13[-1] != ' ')) {
+            *pbVar13 = bVar1 + 0x20;
+          }
+          pbVar13++;
+          if (*pbVar13 == 0) break;
+          bVar1 = *pbVar13;
+        }
+      }
+      if (piVar3->entryIndex != 0) {
+        if (piVar3->entry[piVar3->entryIndex] == '\\') {
+          piVar3->entry[piVar3->entryIndex] = '\0';
+        }
+        if (Cheats::Check(piVar3->entry)) {
+          strcpy(piVar3->entry,piVar3->output);
+          uVar12 = strlen(piVar3->entry);
+          piVar3->entryIndex = uVar12;
+          if (uVar12 >= 10) piVar3->entryIndex = 9;
+          piVar3->entry[piVar3->entryIndex] = (char)pBVar6->var5E;
+          piVar3->entry[piVar3->entryIndex + 1] = '\0';
+          return NULL;
+        }
+        sprintf(piVar3->output,piVar3->entry);
+        w1->var5C = piVar3->entryIndex;
+        if (gGlobals.BigAssMenu == NULL) return w1;
+        pWVar4 = PauseSub->dollmenu;
+        if (pWVar4) {
+          for(uVar12 = 0;uVar12<pWVar4->unk7c->partySize;uVar12++) {
+            if (pWVar4->unk7c->portraits[uVar12]->var5E == 0x99){
+            Utilities::ChangeWidgetText(pWVar4->unk7c->names[uVar12],piVar3->entry,true);
+            break;
+            }
+          }
+          return w1;
+        }
+        return w1;
+      }
+    }
+    else {
+      piVar4->entryPos = (u16)uVar12;
+      UpdateCursorPos(piVar3,piVar4);
+      piVar3->entry[piVar3->entryIndex] = '\\';
+    }
+  }
+  return NULL;
+}
+
+

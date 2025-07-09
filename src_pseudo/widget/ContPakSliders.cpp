@@ -109,7 +109,7 @@ void ControllerPakSliders::SetEntry(){
     (this->screenshotBorg8->dat).Height = 32;
     (this->screenshotBorg8->dat).format = BORG8_RGBA16;
     (this->screenshotBorg8->dat).offset = this->saveDat->screenshot;
-    this->screenshotWidget = new WidgetBorg8(NULL);
+    this->screenshotWidget = WigetB8Blank;
     this->screenshotWidget->SetWidth(104);
     this->screenshotWidget->SetHeight(78);
     SetWidgetBounds(this->screenshotWidget,this->boundX0 + 6,

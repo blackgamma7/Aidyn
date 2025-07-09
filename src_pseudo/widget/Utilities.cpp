@@ -487,7 +487,7 @@ WidgetArrayMenu *Utilities::AddWidgetArrayMenu(BaseWidget *w,u16 len,u8 param_3,
 
 //Creates and returns a parented WidgetBorg8 at a given screenspace position
 //@param w: parent widget
-//@param b8: borrg8header to use
+//@param b8: borg8header to use
 //@param x: x position
 //@param y: y position
 //@returns WidgetBorg8 pointer
@@ -502,7 +502,7 @@ WidgetBorg8 * Utilities::AddBorg8Widget(BaseWidget *w,Borg8Header *b8,s16 x,s16 
 }
 //Creates and returns a parented WidgetBorg8 at a given screenspace position and size
 //@param w: parent widget
-//@param b8: borrg8header to use
+//@param b8: borg8header to use
 //@param x0: top-left position
 //@param y0: top-right position
 //@param x0: bottom-left position

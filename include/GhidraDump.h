@@ -77,57 +77,6 @@ struct DollBarterConfirm {
     u8 field8_0x8c;
 };
 
-typedef struct InputWidgetSubStruct InputWidgetSubStruct, *PInputWidgetSubStruct;
-
-struct InputWidgetSubStruct {
-    BaseWidget *arrayMenu;
-    char *output;
-    char *entry;
-    BaseWidget *cursor;
-    u8 entryIndex;
-};
-
-struct InputMenu {
-    BaseWidget base;
-    u16 unk7c;
-    u16 field2_0x7e;
-};
-
-/*
-typedef enum Borg12Enum { // Music/SFX 
-    Tacet=0,
-    BORG12_Intro_NoExp=1497,
-    BORG12_chimeScale=1511,
-    BORG12_Intro_Exp=1586,
-    Metal klink=1791,
-    Metal Klink=1792,
-    Metal Knink 2=1793,
-    BORG12_CheatCorrect=1816,
-    Waterfall=1817,
-    Fire Crackle=1819,
-    Underwater_noise=1820,
-    rolling thunder=1822,
-    thunderstorm=1823,
-    BORG12_CheatUnused=1824,
-    BORG12_CheatFail=1825,
-    Bag Open?=1828,
-    Medium Whack=1829,
-    Explosion Bang=1831,
-    Light Whack=1832,
-    Chest Open=1833,
-    door Open?=1835,
-    Creak open=1836,
-    Coins_jingle=1837,
-    coinJingle=1838,
-    cursor tick=1851,
-    CursorChirp=1853,
-    menu select=1857,
-    coughing=1865,
-    Menu_open=1869,
-    Menu_Scroll=1870,
-    Heavy Whack=1871
-} Borg12Enum;
-*/
 
 typedef struct CombatAi_command CombatAi_command, *PCombatAi_command;
 

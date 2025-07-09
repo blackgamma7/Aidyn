@@ -45,7 +45,7 @@ WidgetCombatTextbox::WidgetCombatTextbox():
 
   this->locked = false;
   this->portraitBG = Utilities::AddBorg8Widget(this,loadBorg8(BORG8_PortraitHighlight),0x14,0xae);
-  this->speakerPortrait = new WidgetBorg8(NULL);
+  this->speakerPortrait = WigetB8Blank;
   this->speakerPortrait->SetCoords(0x1a,0xb4);
   this->Link(this->speakerPortrait);
   this->speakerId = 0;
