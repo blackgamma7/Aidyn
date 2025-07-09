@@ -7,7 +7,7 @@ InputMenu::InputMenu(char* txt):WidgetMenu(){InitMenu(txt);}
 
 InputMenu::~InputMenu(){
   InputWidgetSubStruct *sub = (InputWidgetSubStruct *)this->substruct;
-  FREEPTR(sub->entry,0x30)
+  FREEPTR(sub->entry,48)
   delete(sub);
   this->substruct = NULL;
   WidgetMenu::~WidgetMenu();
@@ -49,7 +49,7 @@ void InputMenu::InitMenu(char *txt){
     sub->arrayMenu->AddEntry(entry);
   }
   sub->arrayMenu->Tick();
-  ALLOCS(sub->entry,11,0x77);
+  ALLOCS(sub->entry,IMNameLength+1,0x77);
   sub->cursor = WidgetB8(0xF8);
   SetCurrentName(txt);
   this->Link(sub->cursor);
@@ -58,42 +58,36 @@ void InputMenu::InitMenu(char *txt){
 }
 
 
-void InputMenu::SetCurrentName(char *txt)
-
-{
+void InputMenu::SetCurrentName(char *txt){
   short sVar1;
-  char *x;
   BaseWidget *pBVar3;
   u16 i;
   InputWidgetSubStruct *sub;
   WAMSub *piVar3;
   
   sub = (InputWidgetSubStruct *)this->substruct;
-  x = sub->entry;
   piVar3 = (WAMSub *)sub->arrayMenu->substruct;
   piVar3->entryPos = 0;
-  memset(x,0,11);
+  memset(sub->entry,0,IMNameLength+1);
   sub->output = txt;
   if (txt) {
     i = 0;
-    if (*txt != '\0') {
-      for(bool bVar4 = true;sub->output[i]!=0;i++,bVar4 = i < 10) {
+    if (*txt) {
+      for(bool bVar4 = true;sub->output[i]!=0;i++,bVar4 = i < IMNameLength) {
         if (!bVar4) CRASH("inputmenu.cpp","source text is too long!");
         sub->entry[i] = sub->output[i];
       }
     }
-    if (i < 9) {
+    if (i < IMNameLength-1) {
       sub->entryIndex = (u8)i;
       sub->entry[(u8)i] = (char)piVar3->entries[piVar3->entryPos]->var5E;
     }
     else {
-      sub->entryIndex = 9;
+      sub->entryIndex = IMNameLength-1;
       piVar3->entryPos = piVar3->entryCount - 1;
     }
   }
-  sub->cursor->SetCoords
-            ((piVar3->entries[piVar3->entryPos]->x + (piVar3->entries[piVar3->entryPos]->GetWidth() >> 1)) - (sub->cursor->GetWidth() >> 1),
-             (piVar3->entries[piVar3->entryPos]->y + (piVar3->entries[piVar3->entryPos]->GetHeight() >> 1)) - (sub->cursor->GetHeight() >> 1));
+  UpdateCursorPos(sub,piVar3);
 }
 
 Gfx * InputMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
@@ -156,7 +150,7 @@ Gfx * InputMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     Font::PrintCharaWapper(gGlobals.font,apGStackX_4,uVar4,iVar3 + this->x,this->y + 85,x0,y0,x1,y1);
     iVar3 += Font::GetCharWidth(gGlobals.font,(u8)uVar4);
     uVar7 = uVar4;
-  } while ((int)i < 10);
+  } while ((int)i < IMNameLength);
   return RenderChildren(apGStackX_4[0],x0,y0,x1,y1);
 }
 

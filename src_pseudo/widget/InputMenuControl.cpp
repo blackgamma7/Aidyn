@@ -1,10 +1,6 @@
 #include "globals.h"
 #include "cheats.h"
 
-#define UpdateCursorPos(IMSub,AMSub)\
-  IMSub->cursor->SetCoords(\
-  (AMSub->entries[AMSub->entryPos]->x + (AMSub->entries[AMSub->entryPos]->GetWidth() >> 1) - (IMSub->cursor->GetWidth() >> 1)),\
-  (AMSub->entries[AMSub->entryPos]->y + (AMSub->entries[AMSub->entryPos]->GetHeight() >> 1) - (IMSub->cursor->GetHeight() >> 1)))\
 
 BaseWidget * InputMenu_LeftButton(BaseWidget *w0,BaseWidget *w1){
   InputWidgetSubStruct *IMSub = (InputWidgetSubStruct *)w1->substruct;
@@ -100,7 +96,7 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
         strcpy(piVar2->entry,piVar2->output);
         uVar8 = strlen(piVar2->entry);
         piVar2->entryIndex = uVar8;
-        if (uVar8 >= 10)piVar2->entryIndex = 9;
+        if (uVar8 >= IMNameLength)piVar2->entryIndex = IMNameLength-1;
         piVar2->entry[piVar2->entryIndex] = (char)uVar10->var5E;
         piVar2->entry[piVar2->entryIndex + 1] = '\0';
         return NULL;
@@ -123,7 +119,7 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
     if ((piVar2->entryIndex == 0) && (uVar14 == ' ')) {
       return NULL;
     }
-    if (piVar2->entryIndex < 9) {
+    if (piVar2->entryIndex < IMNameLength-1) {
       piVar2->entry[++piVar2->entryIndex] = (char)uVar10->var5E;
     }
     else {
@@ -172,7 +168,7 @@ BaseWidget * InputMenu_StartButton(BaseWidget *w0,BaseWidget *w1){
           strcpy(piVar3->entry,piVar3->output);
           uVar12 = strlen(piVar3->entry);
           piVar3->entryIndex = uVar12;
-          if (uVar12 >= 10) piVar3->entryIndex = 9;
+          if (uVar12 >= IMNameLength) piVar3->entryIndex = IMNameLength-1;
           piVar3->entry[piVar3->entryIndex] = (char)pBVar6->var5E;
           piVar3->entry[piVar3->entryIndex + 1] = '\0';
           return NULL;
@@ -201,5 +197,3 @@ BaseWidget * InputMenu_StartButton(BaseWidget *w0,BaseWidget *w1){
   }
   return NULL;
 }
-
-
