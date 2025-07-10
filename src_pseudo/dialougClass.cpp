@@ -150,7 +150,7 @@ bool DialougeClass::StartDialoug(Borg13Data *b13,dialougmode_substruct *param_3,
     #endif
     FUN_800b6cb8(this->dialouge_substruct,this->borg_13_dat,0);
     if (this->dialouge_substruct != NULL) {
-      if (this->dialouge_substruct->unk111) return false;
+      if (this->dialouge_substruct->borg13End) return false;
       LoadMenuSubstruct(param_5);
       if (this->unk20 == 0) {
         if (this->unkC == 0) {
@@ -374,14 +374,14 @@ bool DialougeClass::m8004f264(){
   
   bVar2 = false;
   if ((((this->unk20 != 0) && (pdVar1 = this->dialouge_substruct, pdVar1 != NULL)) &&
-      (this->borg_13_dat != NULL)) && (bVar2 = false, pdVar1->unk111 == 0)) {
+      (this->borg_13_dat != NULL)) && (bVar2 = false, pdVar1->borg13End == 0)) {
     this->unk20 = 0;
     bVar2 = false;
     if (pdVar1->unk110 != -1) {
       FUN_800b6cb8(pdVar1,this->borg_13_dat,pdVar1->unk110);
       bVar2 = false;
       if (((this->unk20 == 0) && (pdVar1 = this->dialouge_substruct, pdVar1 != NULL)) &&
-         (bVar2 = false, pdVar1->unk111 == 0)) {
+         (bVar2 = false, pdVar1->borg13End == 0)) {
         if ((this->unkC == 0) && (pdVar1->unk110 == -1)) {
           this->unkC = 1;
           handler->AddWidget(this->menu);

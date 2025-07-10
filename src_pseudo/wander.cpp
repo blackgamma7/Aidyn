@@ -29,7 +29,7 @@ wander_substruct * findWandererFromPlayerName(s16 arg0){
             return pwVar2;
       }
     }
-  sprintf(acStack72,"Wanderer Not Found\nPlayerName: %d\n",arg0));
+  sprintf(acStack72,"Wanderer Not Found\nPlayerName: %d\n",arg0);
   CRASH("FindWandererFromPlayerName",acStack72);
 }
 
@@ -80,58 +80,41 @@ void look_for_monsterparties(wander_struct *param_1,Borg9Data *param_2,s32 param
 }
 
 void AllocWanderer(wander_struct *param_1,s16 param_2,s32 param_3,u8 param_4){
-  short sVar1;
-  ItemID IVar2;
-  playerData *ppVar3;
-  EntityDB *pEVar4;
-  Borg9Data *pBVar5;
-  u32 borg7;
-  playerData *pDat;
-  u16 uVar7;
-  wander_substruct *ppVar10;
-  voxelObject *refObj;
-  float fVar9;
-  float fVar10;
-  
-  pBVar5 = GetCollisionZone(param_4);
-  refObj = &pBVar5->voxelObjs[param_2];
-  if (!pBVar5) CRASH("AllocWanderer","Invalid Collision Zone");
+  Borg9Data *map = GetCollisionZone(param_4);
+  voxelObject *vox = &map->voxelObjs[param_2];
+  if (!map) CRASH("AllocWanderer","Invalid Collision Zone");
   if (param_1->wanderers >= param_1->wanderersmax) CRASH("AllocWanderer","Too Many wanderers already allocated");
-    uVar7 = param_1->wanderers++;
-    sVar1 = *(short *)((int)param_1->wandererIndicies + ((int)((uint)uVar7 << 0x10) >> 0xf));
-    ppVar10 = &param_1->wanderSubstructs[sVar1];
-    uVar7 = ppVar10->index;
-    CLEAR(ppVar10);
-    ppVar10->index = uVar7;
-    (refObj->monster).wandererIndex = uVar7;
-    ppVar10->isActive = 1;
-    ppVar10->VoxelIndex = param_2;
-    ppVar10->NoBorg13 = 1;
-    if ((refObj->monster).borg_13) ppVar10->NoBorg13 = 0;
-    ppVar10->MapTally = param_3;
-    pDat = Actor::AllocPlayer(gEntityDB->GetCollideRadius((refObj->monster).entityID),(ppVar10->start_position).x,0.0,(ppVar10->start_position).y,gEntityDB->GetBorg7((refObj->monster).entityID));
-    ppVar10->playerDat = pDat;
-    pDat->zoneDatByte = param_4;
-    ppVar3 = ppVar10->playerDat;
-    pDat->ent_ID = (refObj->monster).entityID;
-    (ppVar3->collision).flags |= 0x400;
-    fVar9 = gEntityDB->GetScale((refObj->monster).entityID);
-    ppVar3 = ppVar10->playerDat;
-    ppVar3->scale = fVar9;
-    ppVar3->scaleRad = fVar9 * (ppVar3->collision).radius;
-    ppVar10->playerDat->Ent_index = GETINDEX((refObj->monster).entityID);
-    if ((refObj->monster).borg_13 == 0) 
-      ppVar10->playerDat->rangerWarrior = PARTY->SetWandererVal(*(u8 *)((int)&(refObj->monster).totalsize + 1));
-    FUN_80012b70(param_1,ppVar10,(refObj->monster).wanderNode);
-    ppVar3 = ppVar10->playerDat;
-    (ppVar10->position).x = (refObj->header).pos.x;
-    (ppVar10->position).y = (refObj->header).pos.z;
-    ppVar10->size = (refObj->header).size;
-    (ppVar3->collision).pos.x = (refObj->header).pos.x;
-    (ppVar10->playerDat->collision).pos.z = (ppVar10->position).y;
-    Actor::CheckCollision(ppVar10->playerDat,(refObj->header).pos.y,1,0);
-    if (((ppVar10->homenode ^ 1) & 1) != 0) CRASH("AllocWanderer","Home Node not WANDER_MOVE\n");
-    FUN_80012d44(ppVar10);
+    wander_substruct *wEntry = &param_1->wanderSubstructs[param_1->wandererIndicies[param_1->wanderers++]];
+    CLEAR(wEntry);
+    wEntry->index = wEntry->index;
+    (vox->monster).wandererIndex = wEntry->index;
+    wEntry->isActive = 1;
+    wEntry->VoxelIndex = param_2;
+    wEntry->NoBorg13 = 1;
+    if ((vox->monster).borg_13) wEntry->NoBorg13 = 0;
+    wEntry->MapTally = param_3;
+    wEntry->playerDat = Actor::AllocPlayer(gEntityDB->GetCollideRadius((vox->monster).entityID),
+      (wEntry->start_position).x,0.0,(wEntry->start_position).y,
+      gEntityDB->GetBorg7((vox->monster).entityID));
+
+    wEntry->playerDat->zoneDatByte = param_4;
+    wEntry->playerDat->ent_ID = (vox->monster).entityID;
+    (wEntry->playerDat->collision).flags |= 0x400;
+    float scale = gEntityDB->GetScale((vox->monster).entityID);
+    wEntry->playerDat->scale = scale;
+    wEntry->playerDat->scaleRad = scale * (wEntry->playerDat->collision).radius;
+    wEntry->playerDat->Ent_index = GETINDEX((vox->monster).entityID);
+    if ((vox->monster).borg_13 == 0) 
+      wEntry->playerDat->rangerWarrior = PARTY->SetWandererVal(*(u8 *)((int)&(vox->monster).totalsize + 1));
+    WanderGetNextNode(param_1,wEntry,(vox->monster).wanderNode);
+    (wEntry->position).x = (vox->header).pos.x;
+    (wEntry->position).y = (vox->header).pos.z;
+    wEntry->size = (vox->header).size;
+    (wEntry->playerDat->collision).pos.x = (vox->header).pos.x;
+    (wEntry->playerDat->collision).pos.z = (wEntry->position).y;
+    Actor::CheckCollision(wEntry->playerDat,(vox->header).pos.y,1,0);
+    if (((wEntry->homenode ^ 1) & 1) != 0) CRASH("AllocWanderer","Home Node not WANDER_MOVE\n");
+    FUN_80012d44(wEntry);
 }
 
 void  FreeWanderer(wander_struct *param_1,wander_substruct *param_2){
@@ -169,36 +152,30 @@ playerData * FUN_80012b44(wander_struct *param_1,wander_substruct *param_2){
   return ppVar1;
 }
 
-void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3){
-  u16 uVar1;
-  Borg9Data *pBVar2;
+void WanderGetNextNode(wander_struct *param_1,wander_substruct *param_2,short param_3){
   vec2f fStack80;
-  voxelObject *prVar2;
-  
-  pBVar2 = GetCollisionZone(param_2->playerDat->zoneDatByte);
-  prVar2 = pBVar2->voxelObjs;
-  (param_2->start_position).x = prVar2[param_3].wander.startCoords.x;
-  (param_2->start_position).y = prVar2[param_3].wander.startCoords.y;
-  param_2->wanderRadius = prVar2[param_3].wander.wanderRadius;
-  param_2->randVal = prVar2[param_3].wander.randVal;
-  param_2->nodeswapChance = prVar2[param_3].wander.NodeChangeChance;
-  param_2->timer = prVar2[param_3].wander.Timer;
-  *(u32 *)&param_2->noderelA = *(u32 *)prVar2[param_3].wander.NodeSiblings;
-  (param_2->start_position).x = pBVar2->voxelObjs[param_3].header.pos.x;
-  (param_2->start_position).y = pBVar2->voxelObjs[param_3].header.pos.z;
+  Borg9Data *map = GetCollisionZone(param_2->playerDat->zoneDatByte);
+  (param_2->start_position).x = map->voxelObjs[param_3].wander.startCoords.x;
+  (param_2->start_position).y = map->voxelObjs[param_3].wander.startCoords.y;
+  param_2->wanderRadius = map->voxelObjs[param_3].wander.wanderRadius;
+  param_2->randVal = map->voxelObjs[param_3].wander.randVal;
+  param_2->nodeswapChance = map->voxelObjs[param_3].wander.NodeChangeChance;
+  param_2->timer = map->voxelObjs[param_3].wander.Timer;
+  *(u32 *)&param_2->noderelA = *(u32 *)map->voxelObjs[param_3].wander.NodeSiblings;
+  (param_2->start_position).x = map->voxelObjs[param_3].header.pos.x;
+  (param_2->start_position).y = map->voxelObjs[param_3].header.pos.z;
   if ((param_2->homenode & 2)) {
-    vec2f *res = &param_2->start_position;
     fStack80.x = (param_2->playerDat->collision).pos.x;
     fStack80.y = (param_2->playerDat->collision).pos.z;
-    Vec2_Sub(res,&fStack80,res);
-    vec2_normalize(res);
+    Vec2_Sub(&param_2->start_position,&fStack80,&param_2->start_position);
+    vec2_normalize(&param_2->start_position);
   }
 }
 
 void FUN_80012c58(wander_struct *param_1,wander_substruct *param_2){
   u16 uVar1 = param_2->noderelA;
   if (RAND.GetFloat0ToX(1.0) < param_2->nodeswapChance) uVar1 = param_2->noderelB;
-  FUN_80012b70(param_1,param_2,uVar1);
+  WanderGetNextNode(param_1,param_2,uVar1);
   if ((param_2->homenode & 1)) {
     float rot = RAND.GetFloat0ToX(6.283186);
     float len = RAND.GetFloat0ToX(param_2->randVal);
@@ -222,7 +199,7 @@ void FUN_80012d44(wander_substruct *param_1){
 
 void WanderSubstruct_setFlag1(wander_substruct *param_1){param_1->flags |= 1;}
 
-void monster_engagement_func(wander_struct *param_1,short delta){
+void WanderTick(wander_struct *param_1,short delta){
   byte bVar1;
   playerData *ppVar2;
   bool bVar3;
@@ -231,14 +208,13 @@ void monster_engagement_func(wander_struct *param_1,short delta){
   BaseWidget *pBVar5;
   Borg9Data *borgDat;
   short sVar6;
-  vec2f *A;
   wander_substruct *wanderer;
   vec3f *from;
   voxelObject *pmVar8;
   float sneakval;
-  float entRamB;
-  float fVar11;
-  float fVar12;
+  float perception;
+  float playerProx;
+  float perceptionProx;
   float fVar13;
   float fVar14;
   double dVar10;
@@ -263,47 +239,41 @@ void monster_engagement_func(wander_struct *param_1,short delta){
       if (wanderer->isActive) {
         borgDat = GetCollisionZone(wanderer->playerDat->zoneDatByte);
         pmVar8 = &borgDat->voxelObjs[wanderer->VoxelIndex];
-        entRamB = gEntityDB->GetPerception((pmVar8->monster).entityID);
+        perception = gEntityDB->GetPerception((pmVar8->monster).entityID);
         copyVec3(&(playerDat_->collision).pos,&playerPos);
         if (wanderer->playerDat->zoneDatByte != ZoneCenter)
         Actor::SubPosOnLoadedMap(wanderer->playerDat->zoneDatByte,&playerPos);
         wanderer->timer-= delta;
         Actor::GetPosOnLoadedMap(wanderer->playerDat,&afStack360);
-        fVar11 = vec3_proximity(&afStack360,&(playerDat_->collision).pos);
-        afStack360.x -=((wanderer->playerDat->facing).x * entRamB) * 0.3);
-        afStack360.z -=((wanderer->playerDat->facing).y * entRamB) * 0.3);
-        fVar12 = vec3_proximity(&afStack360,&(playerDat_->collision).pos);
+        playerProx = vec3_proximity(&afStack360,&(playerDat_->collision).pos);
+        afStack360.x -=(((wanderer->playerDat->facing).x * perception) * 0.3);
+        afStack360.z -=(((wanderer->playerDat->facing).y * perception) * 0.3);
+        perceptionProx = vec3_proximity(&afStack360,&(playerDat_->collision).pos);
         setVec2(&fStack488,(wanderer->playerDat->collision).pos.x,
                 (wanderer->playerDat->collision).pos.z);
-        A = &wanderer->position;
-        fVar13 = vec2_proximity(A,&fStack488);
-        copyVec2(A,&afStack424);
+        fVar13 = vec2_proximity(&wanderer->position,&fStack488);
+        copyVec2(&wanderer->position,&afStack424);
         Actor::AddPosOnLoadedMap(wanderer->playerDat->zoneDatByte,&afStack424);
         setVec2(&fStack488,(playerDat_->collision).pos.x,(playerDat_->collision).pos.z);
-        fVar14 = vec2_proximity(A,&fStack488);
-        if (fVar12 <= entRamB + entRamB) {
-          if (!wanderer->bool3a) {
-            fVar15 = entRamB *(1.0 -gGlobals.Sub.weather.fogTime * 0.75);
-            dVar10 = (double)fVar15;
-            dVar18 = dVar10 * 1.5;
-            dVar17 = dVar10 * 0.6;
-            dVar16 = dVar10 * 0.55;
-            wanderer->bool3a = 1;
-            wanderer->unk2c = fVar15;
-            wanderer->unk34 = (float)(dVar10 + dVar10);
-            wanderer->unk30 = (float)dVar18;
-            wanderer->senseValB = (float)(dVar17 * (double)sneakval);
-            wanderer->senseValA = (float)(dVar16 * (double)sneakval);
+        fVar14 = vec2_proximity(&wanderer->position,&fStack488);
+        if (perceptionProx <= perception + perception) {
+          if (!wanderer->perceptionsSet) {
+            fVar15 = perception * (1.0 -gGlobals.Sub.weather.fogTime * 0.75);
+            wanderer->perceptionsSet = true;
+            wanderer->precepWalk = fVar15;
+            wanderer->percepMax = (fVar15 *2);
+            wanderer->perecpRun = (fVar15 * 1.5);
+            wanderer->percepSneak = (fVar15 * 0.6) * sneakval;
+            wanderer->percepDefault = (fVar15 * 0.55) * sneakval;
           }
         }
-        if (fVar12 < wanderer->unk34) {
+        if (perceptionProx < wanderer->percepMax) {
           if ((wanderer->size <= fVar13) && (wanderer->size <= fVar14)) {
             goto LAB_80013180;
           }
 LAB_80013188:
-          if (entRamB + entRamB <= fVar12) {
-            if (wanderer->bool3a) {
-              entRamB = wanderer->size;
+          if (perception + perception <= perceptionProx) {
+            if (wanderer->perceptionsSet) {
               goto LAB_800131a8;
             }
           }
@@ -312,10 +282,7 @@ LAB_80013188:
 LAB_80013180:
           if (wanderer->field19_0x3e == 0) goto LAB_80013188;
 LAB_800131a8:
-          if (wanderer->size <= fVar13) {
-            if (fVar14 < wanderer->size) {
-              goto LAB_800131e8;
-            }
+          if ((wanderer->size <= fVar13)&&(wanderer->size<=fVar14)) {
             Actor::ResetMoveQueue(wanderer->playerDat);
             wanderer->timer = 300;
             wanderer->homenode|= 4;
@@ -328,66 +295,51 @@ LAB_800131e8:
               goto LAB_800131f8;
             }
           }
-          wanderer->bool3a = 0;
-          if ((wanderer->unk34 <= fVar12) || (wanderer->size + 2.0f <= fVar13)) {
+          wanderer->perceptionsSet = false;
+          if ((wanderer->percepMax <= perceptionProx) || (wanderer->size + 2.0f <= fVar13)) {
             wanderer->field19_0x3e = 0;
-            sVar6 = wanderer->NoBorg13;
-          }
-          else {
-            sVar6 = wanderer->NoBorg13;
           }
         }
-        if (sVar6 == 0) {
+        if (wanderer->NoBorg13 == 0) {
 LAB_80013318:
-          if (fVar11 < 3.0f) {
+          if (playerProx < 3.0f) {
             ppVar2 = wanderer->playerDat;
-            entRamB = (ppVar2->collision).pos.x;
             ppVar2->ani_type = 0;
-            Actor::SetFacing(ppVar2,entRamB - playerPos.x,(ppVar2->collision).pos.z - playerPos.z);
+            Actor::SetFacing(ppVar2,(ppVar2->collision).pos.x - playerPos.x,(ppVar2->collision).pos.z - playerPos.z);
           }
         }
         else {
           if (fVar13 <= wanderer->size) {
             if (((wanderer->flags ^ 1) & 1)) {
-              sVar6 = playerDat_->ani_type;
-              if (sVar6 == 3) {
-                if (wanderer->unk30 < fVar12) {
-                  goto LAB_80013310;
-                }
-                bVar1 = 3;
-LAB_80013308:
-                gGlobals.EncounterDat.unk28 = bVar1;
-                bVar3 = true;
-              }
-              else if (sVar6 < 4) {
-                if (sVar6 == 2) {
-                  bVar1 = 2;
-                  if (fVar12 <= wanderer->unk2c) goto LAB_80013308;
-                }
-                else {
-                  entRamB = wanderer->senseValA;
-LAB_800132a0:
-                  if (entRamB < fVar12) {
-                    goto LAB_80013310;
-                  }
-                  bVar3 = true;
-                  gGlobals.EncounterDat.unk28 = 0;
-                }
-              }
-              else {
-                if (sVar6 != 0x19) {
-                  entRamB = wanderer->senseValA;
-                  goto LAB_800132a0;
-                }
-                if (wanderer->senseValB < fVar12) {
-                  goto LAB_80013310;
-                }
-                bVar3 = true;
-                gGlobals.EncounterDat.unk28 = 1;
+              switch(playerDat_->ani_type){
+                case 3: //running
+                 if (wanderer->perecpRun >= perceptionProx){
+                  gGlobals.EncounterDat.aniByte=EncountAni_Run;
+                  bVar3=true;
+                 }
+                 break;
+                case 2: //walking
+                 if (wanderer->precepWalk >= perceptionProx){
+                  gGlobals.EncounterDat.aniByte=EncountAni_Walk;
+                  bVar3=true;
+                 }
+                 break;
+                case 4:
+                default:
+                 if (wanderer->percepDefault >= perceptionProx){
+                  gGlobals.EncounterDat.aniByte=EncountAni_Default;
+                  bVar3=true;
+                 }
+                 break;
+                case 0x19: //sneaking
+                 if (wanderer->percepSneak >= perceptionProx){
+                  gGlobals.EncounterDat.aniByte=EncountAni_Sneak;
+                  bVar3=true;
+                 }
+                 break;
               }
             }
           }
-LAB_80013310:
           if (wanderer->NoBorg13 == 0) goto LAB_80013318;
         }
         if (!bVar3){
@@ -409,7 +361,7 @@ LAB_80013310:
         wanderer->field19_0x3e = 1;
         if (wanderer->NoBorg13 == 1) {
           Actor::SetAiDest(wanderer->playerDat,playerPos.x,playerPos.z,2.0,0);
-          if (((fVar11 < 7.0f) && (enemyHostileFlag)) &&
+          if (((playerProx < 7.0f) && (enemyHostileFlag)) &&
              ((pmVar8->monster).borg_13 == 0)) {
             ppVar2 = wanderer->playerDat;
             fStack232.x = (ppVar2->collision).pos.x;
@@ -418,11 +370,11 @@ LAB_80013310:
             fStack168.y = playerPos.y + 1.0f;
             fStack168.x = playerPos.x;
             fStack168.z = playerPos.z;
-            entRamB = fStack232.y - fStack168.y;
-            if (0.0 < entRamB) {
-              if (entRamB < 3.0f) goto LAB_80013488;
+            perception = fStack232.y - fStack168.y;
+            if (0.0 < perception) {
+              if (perception < 3.0f) goto LAB_80013488;
             }
-            else if (-entRamB < 3.0f) {
+            else if (-perception < 3.0f) {
 LAB_80013488:
               if (!CheckCollision(borgDat,&fStack232,&fStack168,0.5,NULL,NULL,0)) {
                 gGlobals.EncounterDat.collisionByte = 2;

@@ -60,9 +60,9 @@ struct dialougmode_substruct {
     u16 RefpointID;
     u16 unk10e;
     char unk110;
-    u8 unk111;
-    u8 unk112;
-    u8 unk113;
+    u8 borg13End; //set by commands ending borg13
+    u8 collisionByte;
+    u8 aniByte;
     u8 battlefeild;
     u8 unk115;
     u8 unk116;
@@ -168,9 +168,9 @@ BaseWidget* Dialoug_BButton(BaseWidget*,BaseWidget*);
 typedef void (*DialogCallback)(dialougmode_substruct*,Borg13Data *,u16,s16);
 typedef s32 (*DialogCallback2)(dialougmode_substruct*,Borg13Data *,u16,u16);
 
-void set_dialougprecallback(DialogCallback *);
-void set_dialoug_func_b(DialogCallback2 *);
-void set_dialoug_func_c(DialogCallback *);
+void set_dialougprecallback(DialogCallback);
+void set_dialoug_func_b(DialogCallback2);
+void set_dialoug_func_c(DialogCallback);
 u8 check_command_bitmask(Borg13Data *,u8);
 char * get_borg_13_text(Borg13Data *,u8 );
 u8 command_bitmask_6(Borg13Data *,u8);

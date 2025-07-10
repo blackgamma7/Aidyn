@@ -155,10 +155,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
         p->ani_type = 3;
       }
     }
-    else {
-  LAB_80019274:
-      p->ani_type = 0x19;
-    }
+    else p->ani_type = 0x19;
     camera_control_update_(fVar9,y,&(gGlobals.Sub.PlayerHandler.camera)->rotationXZ,&p->facingMirror);
     if (p->visible_flag == 0) fVar9 = 0.34906;
     else fVar9 = 0.17453;
@@ -235,7 +232,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
   
   
   
-  void Actor::SetAiDest(playerData *p,float x,float y,float rad,short flag){
+  void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
     if ((p->flags & ACTOR_CANMOVE)) ResetMoveQueue(p);
     ClearInputMoveFlags(p);
     SetFlag(p,ACTOR_CANMOVE);

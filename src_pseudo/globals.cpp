@@ -405,7 +405,7 @@ void load_camp_ambush(void){
   get_battle_terrain(&gGlobals.EncounterDat);
   gGlobals.EncounterDat.collisionByte = 2;
   gGlobals.EncounterDat.globalLoot = 0;
-  gGlobals.EncounterDat.unk28 = 0;
+  gGlobals.EncounterDat.aniByte = 0;
   gGlobals.EncounterDat.EncounterID = 0;
   gGlobals.EncounterDat.BossShadow = 0;
   gGlobals.combatBytes[2] = 1;

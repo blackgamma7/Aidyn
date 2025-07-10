@@ -397,21 +397,18 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
   Borg9Data *map;
   Borg7Header *pBVar13;
   bool bVar18;
-  Borg7Header *plVar9;
   short sVar17;
   bool bVar19;
-  longlong lVar11;
-  uint uVar14;
   playerData *ppVar20;
   int iVar21;
   collisionSphere *coliide;
   vec3f *v;
   playerData *iVar23;
-  playerData *ppVar22;
+  playerData *pDat;
   ulonglong uVar23;
   ulonglong uVar24;
   int iVar26;
-  longlong lVar25;
+  longlong count;
   int delta_;
   float fVar27;
   float fVar28;
@@ -424,10 +421,10 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
   float fVar34;
   float fVar35;
   float fVar36;
-  vec3f fStack688;
-  vec3f fStack624;
-  vec2f afStack560;
-  vec2f afStack496;
+  vec3f facingV3;
+  vec3f mapPos;
+  vec2f camPosV2;
+  vec2f camAimV2;
   vec2f afStack432;
   vec3f fStack368;
   vec3f afStack304;
@@ -436,15 +433,15 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
   float local_70;
   vec3f *local_6c;
   u16 local_68;
-  vec2f *local_64;
+  vec2f *camPosV2p;
   collisionSphere *local_60;
-  vec2f *local_5c;
+  vec2f *camAimV2p;
   
   delta_ = (int)delta;
   ProcessPlayersTally = 0;
-  local_64 = &afStack560;
+  camPosV2p = &camPosV2;
   local_68 = 0;
-  local_5c = &afStack496;
+  camAimV2p = &camAimV2;
   if (0 < handler->max_player) {
     for(s16 i=0;i<handler->max_player;i++) {
       if ((handler->playerDats[i].removeFlag) && (handler->playerDats[i].flags&ACTOR_800))
@@ -461,27 +458,27 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
         pCVar4 = handler->camera;
         pCVar4->unk5c = fVar27;
         if (fVar27 < 5.0f) pCVar4->unk5c = 5.0f;
-        fStack688.y = 0.0;
+        facingV3.y = 0.0;
         pCVar4 = handler->camera;
-        fStack688.x = fStack240.x;
-        fStack688.z = fStack240.y;
+        facingV3.x = fStack240.x;
+        facingV3.z = fStack240.y;
         pCVar4->unk80 = 1;
         Camera::SetFeild70(pCVar4,&afStack304);
-        Camera::ProcessGameCamera(handler->camera,&afStack304,&fStack688,delta,0);
+        Camera::ProcessGameCamera(handler->camera,&afStack304,&facingV3,delta,0);
         handler->camera->unk5c = handler->camera->unk60;
       }
     }
     else {
-      fStack688.x = handler->playerDats[sVar15].facing.x;
-      fStack688.y = 0.0;
-      fStack688.z = handler->playerDats[sVar15].facing.y;
-      fVar33 = SQ(fStack688.x)+ SQ(fStack688.z);
+      facingV3.x = handler->playerDats[sVar15].facing.x;
+      facingV3.y = 0.0;
+      facingV3.z = handler->playerDats[sVar15].facing.y;
+      fVar33 = SQ(facingV3.x)+ SQ(facingV3.z);
       if (0.0 < fVar33) {
         if ((fVar33 < NORMALIZE_MIN)||(-fVar33 < NORMALIZE_MIN))
         CRASH("Player.cpp","SETTING FACING FOR CAMERA\n");
       }
       Camera::ProcessGameCamera(handler->camera,&handler->playerDats[handler->cameraFocus].collision.pos,
-                        &fStack688,delta,1);
+                        &facingV3,delta,1);
     }
   }
   else if (gGlobals.Sub.gamemodeType == 1) {
@@ -493,102 +490,101 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
     strcpy(gGlobals.text,"Crash was not in ProcessCombatCamera");
     #endif
   }
-  setVec2(local_64,gGlobals.Sub.camera.pos.x,gGlobals.Sub.camera.pos.z);
-  setVec2(local_5c,gGlobals.Sub.camera.aim.x,gGlobals.Sub.camera.aim.z);
-  lVar25 = 0;
+  setVec2(camPosV2p,gGlobals.Sub.camera.pos.x,gGlobals.Sub.camera.pos.z);
+  setVec2(camAimV2p,gGlobals.Sub.camera.aim.x,gGlobals.Sub.camera.aim.z);
+  count = 0;
   gGlobals.Sub.camPtrArraySize = 0;
   local_6c = &handler->camera->aim;
   if (0 < handler->max_player) {
     iVar12 = 0;
     do {
-      iVar21 = (int)lVar25;
-      ppVar22 = (playerData *)((int)handler->playerDats + (iVar12 - iVar21) * 0x80);
-      fVar27 = (ppVar22->collision).pos.x;
-      fVar5 = (ppVar22->collision).pos.y;
-      fVar6 = (ppVar22->collision).pos.z;
-      if (ppVar22->borg7 == BORG7_Phelan) {
-        Gsprintf("Scale: %3.2f\nScaleRad: %3.2f\nSphere Rad: %3.2f",ppVar22->scale,ppVar22->scaleRad,ppVar22->collision.radius);
+      iVar21 = (int)count;
+      pDat = handler->playerDats[count];
+      fVar27 = (pDat->collision).pos.x;
+      fVar5 = (pDat->collision).pos.y;
+      fVar6 = (pDat->collision).pos.z;
+      if (pDat->borg7 == BORG7_Phelan) {//?
+        Gsprintf("Scale: %3.2f\nScaleRad: %3.2f\nSphere Rad: %3.2f",pDat->scale,pDat->scaleRad,pDat->collision.radius);
         N64PRINT(gGlobals.text);
       }
-      if ((ppVar22->removeFlag == 0) && ((ppVar22->flags & ACTOR_100) == 0)) {
+      if ((pDat->removeFlag == 0) && ((pDat->flags & ACTOR_100) == 0)) {
 LAB_80017298:
         iVar12 = (iVar21 + 1) * 0x10000;
 LAB_8001729c:
-        lVar11 = (longlong)handler->max_player;
       }
       else {
-        Gsprintf("Process Player: %d\n",ppVar22->ID);
-        fVar31 = ppVar22->unk5c;
+        Gsprintf("Process Player: %d\n",pDat->ID);
+        fVar31 = pDat->unk5c;
         if (fVar31 != 0.0) {
-          fVar29 = ppVar22->scale + fVar31 * (float)delta_;
-          ProcessPlayersTally += 1;
-          ppVar22->scale = fVar29;
-          if ((fVar31 <= 0.0) || (fVar28 = (float)ppVar22->unk54, fVar29 < fVar28)) {
+          fVar29 = pDat->scale + fVar31 * (float)delta_;
+          ProcessPlayersTally++;
+          pDat->scale = fVar29;
+          if ((fVar31 <= 0.0) || (fVar28 = (float)pDat->unk54, fVar29 < fVar28)) {
             if (fVar31 < 0.0) {
-              fVar28 = (float)ppVar22->unk54;
+              fVar28 = (float)pDat->unk54;
               if (fVar29 <= fVar28) {
-                ppVar22->unk5c = 0.0;
+                pDat->unk5c = 0.0;
                 goto LAB_8001666c;
               }
             }
           }
           else {
-            ppVar22->unk5c = 0.0;
+            pDat->unk5c = 0.0;
 LAB_8001666c:
-            ppVar22->scale = fVar28;
+            pDat->scale = fVar28;
           }
-          ppVar22->scaleRad = ppVar22->scale * (ppVar22->collision).radius;
+          pDat->scaleRad = pDat->scale * (pDat->collision).radius;
         }
-        (ppVar22->skyTint).x = (float)((double)((float)gGlobals.sky.colors[1].R / 255.0f) * 0.5);
-        (ppVar22->skyTint).y = (float)((double)((float)gGlobals.sky.colors[1].G / 255.0f) * 0.5);
-        fVar29 = ppVar22->unk760;
-        (ppVar22->skyTint).z = (float)((double)((float)gGlobals.sky.colors[1].B / 255.0f) * 0.5);
+        (pDat->skyTint).x = (float)((double)((float)gGlobals.sky.colors[1].R / 255.0f) * 0.5);
+        (pDat->skyTint).y = (float)((double)((float)gGlobals.sky.colors[1].G / 255.0f) * 0.5);
+        fVar29 = pDat->unk760;
+        (pDat->skyTint).z = (float)((double)((float)gGlobals.sky.colors[1].B / 255.0f) * 0.5);
         fVar31 = 1.0f;
-        if ((fVar29 == 0.0) && (ppVar22->unk75c == 0.0)) {}
+        if ((fVar29 == 0.0) && (pDat->unk75c == 0.0)) {}
         else {
-          fVar29 = ppVar22->unk75c + fVar29 * (float)delta_;
+          fVar29 = pDat->unk75c + fVar29 * (float)delta_;
           bVar18 = 1.0f < fVar29;
-          ppVar22->unk75c = fVar29;
+          pDat->unk75c = fVar29;
           if (bVar18) {
-            ppVar22->unk75c = 1.0;
-            ppVar22->unk760 = 0.0;
+            pDat->unk75c = 1.0;
+            pDat->unk760 = 0.0;
           }
-          if (ppVar22->unk75c < 0.0) {
-            ppVar22->unk75c = 0.0;
-            ppVar22->unk760 = 0.0;
+          if (pDat->unk75c < 0.0) {
+            pDat->unk75c = 0.0;
+            pDat->unk760 = 0.0;
           }
-          fVar35 = ppVar22->unk75c;
-          (ppVar22->skyTint).x += ((ppVar22->CombatTint).x - (ppVar22->skyTint).x) * fVar35;
-          (ppVar22->skyTint).y += ((ppVar22->CombatTint).y - (ppVar22->skyTint).y) * fVar35;
-          (ppVar22->skyTint).z += ((ppVar22->CombatTint).z - (ppVar22->skyTint).z) * fVar35;
-          multiVec3(&ppVar22->skyTint,gGlobals.brightness);
-          CIEL((ppVar22->skyTint).x,1.0);
-          CIEL((ppVar22->skyTint).y,1.0);
-          CIEL((ppVar22->skyTint).z,1.0);
-          FLOOR((ppVar22->skyTint).x,0.0);
-          FLOOR((ppVar22->skyTint).y,0.0);
-          FLOOR((ppVar22->skyTint).z,0.0);
+          fVar35 = pDat->unk75c;
+          (pDat->skyTint).x += ((pDat->CombatTint).x - (pDat->skyTint).x) * fVar35;
+          (pDat->skyTint).y += ((pDat->CombatTint).y - (pDat->skyTint).y) * fVar35;
+          (pDat->skyTint).z += ((pDat->CombatTint).z - (pDat->skyTint).z) * fVar35;
+          multiVec3(&pDat->skyTint,gGlobals.brightness);
+          CIEL((pDat->skyTint).x,1.0);
+          CIEL((pDat->skyTint).y,1.0);
+          CIEL((pDat->skyTint).z,1.0);
+          FLOOR((pDat->skyTint).x,0.0);
+          FLOOR((pDat->skyTint).y,0.0);
+          FLOOR((pDat->skyTint).z,0.0);
         }
-        if ((ppVar22->unk708 < 1) ||
-           (iVar12 = (uint)(u16)ppVar22->unk708 - delta_, (ppVar22->flags & ACTOR_100) == 0)) {
+        if ((pDat->unk708 < 1) ||
+           (iVar12 = (uint)(u16)pDat->unk708 - delta_, (pDat->flags & ACTOR_100) == 0)) {
 LAB_800168cc:
         }
         else {
-          ppVar22->unk708 = (short)iVar12;
+          pDat->unk708 = (short)iVar12;
           if (iVar12 * 0x10000 < 1) {
-            ppVar22->shadowAlpha = 0;
-            ppVar22->flags = 0;
-            Actor::FreePlayer(ppVar22);
+            pDat->shadowAlpha = 0;
+            pDat->flags = 0;
+            Actor::FreePlayer(pDat);
           }
-          if (ppVar22->unk708 < 0x3c) {
-            ppVar22->shadowAlpha = (ppVar22->unk708 / 60.0f) * 255.0f;
+          if (pDat->unk708 < 60) {
+            pDat->shadowAlpha = (pDat->unk708 / 60.0f) * 255.0f;
             goto LAB_800168cc;
           }
         }
-        if (ppVar22->removeFlag == 0) goto LAB_80017298;
-        Actor::GetPosOnLoadedMap(ppVar22,&fStack624);
-        map = GetCollisionZone(ppVar22->zoneDatByte);
-        fVar31 = vec3_proximity(local_6c,&fStack624);
+        if (pDat->removeFlag == 0) goto LAB_80017298;
+        Actor::GetPosOnLoadedMap(pDat,&mapPos);
+        map = GetCollisionZone(pDat->zoneDatByte);
+        fVar31 = vec3_proximity(local_6c,&mapPos);
         if (handler->float_0x68 < fVar31) {
           if (gGlobals.Sub.gamemodeType != 1) {
             if (gExpPakFlag){
@@ -597,68 +593,68 @@ LAB_800168cc:
                 goto LAB_80016990;
               }
             }
-            if (ppVar22->borg7P == NULL) {
+            if (pDat->borg7P == NULL) {
               goto LAB_80016990;
             }
-            BVar7 = ppVar22->borg7;
-            Actor::FreePlayerActor(ppVar22);
-            ppVar22->borg7 = BVar7;
+            BVar7 = pDat->borg7;
+            Actor::FreePlayerActor(pDat);
+            pDat->borg7 = BVar7;
           }
 LAB_8001698c:
         }
         else {
-          if (ppVar22->borg7P == NULL) {
-            Actor::ChangeAppearance(ppVar22,ppVar22->borg7);
+          if (pDat->borg7P == NULL) {
+            Actor::ChangeAppearance(pDat,pDat->borg7);
             goto LAB_8001698c;
           }
         }
 LAB_80016990:
         if (handler->float_0x68 < fVar31) goto LAB_80017298;
         iVar12 = (iVar21 + 1) * 0x10000;
-        if (ppVar22->borg7P == NULL) goto LAB_8001729c;
-        if ((ppVar22->flags & ACTOR_2) != 0) {
+        if (pDat->borg7P == NULL) goto LAB_8001729c;
+        if ((pDat->flags & ACTOR_2) != 0) {
           local_68++;
-          Actor::MoveTo(ppVar22);
-          Actor::Move(ppVar22,&(ppVar22->controller).contAidyn);
-          (ppVar22->controller).contAidyn.input = 0;
+          Actor::MoveTo(pDat);
+          Actor::Move(pDat,&(pDat->controller).contAidyn);
+          (pDat->controller).contAidyn.input = 0;
         }
-        if (ppVar22->nextBorg7 != -1) {
-          Actor::ChangeAppearance(ppVar22,ppVar22->nextBorg7);
-          ppVar22->nextBorg7 = -1;
+        if (pDat->nextBorg7 != -1) {
+          Actor::ChangeAppearance(pDat,pDat->nextBorg7);
+          pDat->nextBorg7 = -1;
         }
-        coliide = &ppVar22->collision;
-        fVar29 = (ppVar22->collision).pos.y;
+        coliide = &pDat->collision;
+        fVar29 = (pDat->collision).pos.y;
         ProcessCollisionSphere(map,coliide,delta);
         local_60 = coliide;
-        if (ppVar22->alaron_flag){
-          if (((ppVar22->collision).unk1e != 0)&&
-            (1.0f < vec3_proximity(&player_coords_A,&(ppVar22->collision).pos))) {
+        if (pDat->alaron_flag){
+          if (((pDat->collision).unk1e != 0)&&
+            (1.0f < vec3_proximity(&player_coords_A,&(pDat->collision).pos))) {
             player_coords_b.x = player_coords_A.x;
             player_coords_b.y = player_coords_A.y;
             player_coords_b.z = player_coords_A.z;
             map_shorts_b[0] = map_shorts_A[0];
             map_shorts_b[1] = map_shorts_A[1];
-            player_coords_A.x = (ppVar22->collision).pos.x;
-            player_coords_A.y = (ppVar22->collision).pos.y;
-            player_coords_A.z = (ppVar22->collision).pos.z;
+            player_coords_A.x = (pDat->collision).pos.x;
+            player_coords_A.y = (pDat->collision).pos.y;
+            player_coords_A.z = (pDat->collision).pos.z;
             map_shorts_A[0] = gGlobals.Sub.mapShort1;
             map_shorts_A[1] = gGlobals.Sub.mapShort2;
           }
-          if (ppVar22->alaron_flag) {
-            if (ppVar22->Ground_type - 1 < 2) {
-              fStack176.x = (ppVar22->collision).pos.x;
-              fStack176.z = (ppVar22->collision).pos.z;
-              fStack176.y = ((ppVar22->collision).pos.y - 0.05);
-              if (!processPlayers_sub(map,&(ppVar22->collision).pos,&fStack176,0.5,NULL,NULL)) {
+          if (pDat->alaron_flag) {
+            if (pDat->Ground_type - 1 < 2) {
+              fStack176.x = (pDat->collision).pos.x;
+              fStack176.z = (pDat->collision).pos.z;
+              fStack176.y = ((pDat->collision).pos.y - 0.05);
+              if (!processPlayers_sub(map,&(pDat->collision).pos,&fStack176,0.5,NULL,NULL)) {
                 goto LAB_80016b54;
               }
-              if ((ppVar22->collision).pos.y < fVar29) (ppVar22->collision).pos.y = fVar29;
+              if ((pDat->collision).pos.y < fVar29) (pDat->collision).pos.y = fVar29;
             }
           }
-          fVar29 = (ppVar22->facing).x;
+          fVar29 = (pDat->facing).x;
         }
 LAB_80016b54:
-        fVar29 = SQ((ppVar22->facing).x) + SQ((ppVar22->facing).y);
+        fVar29 = SQ((pDat->facing).x) + SQ((pDat->facing).y);
         if (0.0 < fVar29) {
           if (fVar29 < NORMALIZE_MIN) goto crash;
         }
@@ -666,150 +662,140 @@ LAB_80016b54:
 crash:
           CRASH("player.cpp","SETTING FACING FOR ALIGN\n");
         }
-        vec2_normalize(&ppVar22->facing);
+        vec2_normalize(&pDat->facing);
         Scene::MatrixASetPos
-                  (ppVar22->borg7P->sceneDat,fStack624.x,
-                   fStack624.y - (ppVar22->collision).radius,fStack624.z);
+                  (pDat->borg7P->sceneDat,mapPos.x,mapPos.y - (pDat->collision).radius,mapPos.z);
         Scene::MatrixAAlign
-                  (ppVar22->borg7P->sceneDat,(ppVar22->facing).x,0.0,(ppVar22->facing).y,0.0)
-        ;
-        if ((ppVar22->collision).unk1e == 0) {
-          ppVar22->Ground_type = 0;
+                  (pDat->borg7P->sceneDat,(pDat->facing).x,0.0,(pDat->facing).y,0.0);
+        if ((pDat->collision).unk1e == 0) {
+          pDat->Ground_type = 0;
         }
-        if (ppVar22->Ground_type - 1 < 2) {
-          (ppVar22->collision).vel.y =
-               (float)((double)(ppVar22->collision).vel.y - 0.03);
+        if (pDat->Ground_type - 1 < 2) {
+          (pDat->collision).vel.y =
+               (float)((double)(pDat->collision).vel.y - 0.03);
         }
-        setVec2(&afStack432,(ppVar22->collision).pos.x,(ppVar22->collision).pos.z);
-        three_vec2_proximities(local_64,local_5c,&afStack432);
-        if (((((ppVar22->ani_type == 0) && (ppVar22->unk1a == 0)) && (ppVar22->unk1c == 0)) &&
+        setVec2(&afStack432,(pDat->collision).pos.x,(pDat->collision).pos.z);
+        three_vec2_proximities(camPosV2p,camAimV2p,&afStack432);
+        if (((((pDat->ani_type == 0) && (pDat->unk1a == 0)) && (pDat->unk1c == 0)) &&
             ((13.0f <= fVar31 && (gGlobals.Sub.gamemodeType == 1)))) ||
-           (bVar18 = FUN_8001620c(ppVar22), bVar18)) {
-          if (!Actor::IsFlyngModel(ppVar22)) goto not_flying_borg7;
-          if (ppVar22->unk70ee == 0) goto LAB_80016cec;
-          bVar1 = ppVar22->visible_flag;
+           (bVar18 = FUN_8001620c(pDat), bVar18)) {
+          if (!Actor::IsFlyngModel(pDat)) goto not_flying_borg7;
+          if (pDat->unk70ee == 0) goto LAB_80016cec;
+          bVar1 = pDat->visible_flag;
         }
         else {
 LAB_80016cec:
           if (0 < delta_) {
             for(iVar12=0;iVar12<delta_;iVar12++) {
-              if ((ppVar22->flags & ACTOR_100) == 0) {
-                FUN_800a0090(ppVar22->borg7P,ppVar22->ani_type);
-                bVar18 = (uint)(u16)ppVar22->borg7P->sceneDat->aniTime ==
-                         ppVar22->borg7P->unk1c->b6->dat->aniLength - 1U;
+              if ((pDat->flags & ACTOR_100) == 0) {
+                FUN_800a0090(pDat->borg7P,pDat->ani_type);
+                bVar18 = (uint)(u16)pDat->borg7P->sceneDat->aniTime ==
+                         pDat->borg7P->unk1c->b6->dat->aniLength - 1U;
                 u16 unk16;
-                if ((u16)ppVar22->unk18 - 0xe < 2) {
-                  unk16 = (float)ppVar22->borg7P->unk1c->b6->dat->aniLength
-                           * gEntityDB->RetPoint4(ppVar22->ent_ID);
+                if ((u16)pDat->unk18 - 0xe < 2) {
+                  unk16 = (float)pDat->borg7P->unk1c->b6->dat->aniLength
+                           * gEntityDB->RetPoint4(pDat->ent_ID);
                 }
                 else {
-                  unk16 = (float)ppVar22->borg7P->unk1c->b6->dat->aniLength
-                           * gEntityDB->GetFloatA(ppVar22->ent_ID);
+                  unk16 = (float)pDat->borg7P->unk1c->b6->dat->aniLength
+                           * gEntityDB->GetFloatA(pDat->ent_ID);
                 }
-                uVar2 = ppVar22->borg7P->sceneDat->aniTime;
-                uVar3 = ppVar22->unk18;
+                uVar2 = pDat->borg7P->sceneDat->aniTime;
+                uVar3 = pDat->unk18;
                 bVar19 = bVar18;
-                if (((ppVar22->ani_type == 9) && (uVar3 != 9)) && (bVar18)) {
+                if (((pDat->ani_type == 9) && (uVar3 != 9)) && (bVar18)) {
                   bVar19 = false;
                 }
                 if (uVar3 == 9) {
-                  if (ppVar22->ani_type != 9) {
-                    ppVar22->unk77c = 1;
-                    sVar15 = ppVar22->ani_type;
+                  if (pDat->ani_type != 9) {
+                    pDat->unk77c = 1;
+                    sVar15 = pDat->ani_type;
                     goto LAB_80016e74;
                   }
 LAB_80016e88:
                   if (!bVar19) goto LAB_80016e90;
-                  pBVar13 = ppVar22->borg7P;
+                  pBVar13 = pDat->borg7P;
                 }
                 else {
-                  sVar15 = ppVar22->ani_type;
+                  sVar15 = pDat->ani_type;
 LAB_80016e74:
-                  if ((sVar15 == 9) || (ppVar22->unk77c != 0)) goto LAB_80016e88;
+                  if ((sVar15 == 9) || (pDat->unk77c != 0)) goto LAB_80016e88;
 LAB_80016e90:
-                  lVar25 = FUN_800a00d0(ppVar22->borg7P);
-                  bVar18 = lVar25 != 0;
-                  pBVar13 = ppVar22->borg7P;
+                  count = FUN_800a00d0(pDat->borg7P);
+                  bVar18 = count != 0;
+                  pBVar13 = pDat->borg7P;
                 }
                 if (pBVar13->sceneDat->aniTime == 1) {
-                  ppVar22->unk16 = ppVar22->ani_type;
+                  pDat->unk16 = pDat->ani_type;
                 }
                 if (bVar18) {
-                  sVar15 = ppVar22->ani_type;
+                  sVar15 = pDat->ani_type;
 LAB_80016ed8:
-                  ppVar22->unk18 = sVar15;
+                  pDat->unk18 = sVar15;
                 }
                 else if (((uint)uVar2 == unk16) && (uVar3 - 0xc < 7)) {
-                  sVar15 = ppVar22->ani_type;
+                  sVar15 = pDat->ani_type;
                   goto LAB_80016ed8;
                 }
                 if (bVar18) {
-                  ppVar22->unk1c = ppVar22->unk1a;
-                  ppVar22->unk1a = ppVar22->ani_type;
+                  pDat->unk1c = pDat->unk1a;
+                  pDat->unk1a = pDat->ani_type;
                 }
-                if (((ppVar22->collision).vel.y<= -0.048)&&(ppVar22->alaron_flag)) {
+                if (((pDat->collision).vel.y<= -0.048)&&(pDat->alaron_flag)) {
                     // fell through world
-                  setVec3(&(ppVar22->collision).vel,0.0,(ppVar22->collision).vel.y,0.0);
-                  if (-0.3 <= (double)(ppVar22->collision).vel.y) {
-                    plVar9 = ppVar22->borg7P;
+                  setVec3(&(pDat->collision).vel,0.0,(pDat->collision).vel.y,0.0);
+                  if (-0.3 <= (double)(pDat->collision).vel.y) {
                     goto LAB_80017014;
                   }
-                  setVec3(&(ppVar22->collision).vel,0.0,0.0,0.0);
-                  (ppVar22->collision).pos.x = player_coords_b.x;
-                  (ppVar22->collision).pos.y = player_coords_b.y;
-                  (ppVar22->collision).pos.z = player_coords_b.z;
+                  setVec3(&(pDat->collision).vel,0.0,0.0,0.0);
+                  (pDat->collision).pos.x = player_coords_b.x;
+                  (pDat->collision).pos.y = player_coords_b.y;
+                  (pDat->collision).pos.z = player_coords_b.z;
                   gGlobals.Sub.mapShort1 = map_shorts_b[0];
                   gGlobals.Sub.mapShort2 = map_shorts_b[1];
                   #ifdef DEBUGVER
                   N64PRINT("Saved your life!\nIf this was NOT a pop though\nIT IS A BUG.  Show Bailey!\n");
                   #endif
 LAB_80017010:
-                  plVar9 = ppVar22->borg7P;
                 }
                 else {
 LAB_80016f24:
-                  if (ppVar22->ani_type != 0) {
-                    plVar9 = ppVar22->borg7P;
+                  if (pDat->ani_type != 0) {
 LAB_80016f38:
-                    local_70 = -(ppVar22->borg7P->unk2c).z * ppVar22->scale;
-                    fVar29 = (ppVar22->facing).y;
-                    fVar31 = (ppVar22->collision).pos.z;
-                    (ppVar22->collision).pos.x =
-                         (ppVar22->collision).pos.x + (ppVar22->facing).x * local_70;
-                    (ppVar22->collision).pos.z = fVar31 + fVar29 * local_70;
+                    local_70 = -(pDat->borg7P->unk2c).z * pDat->scale;
+                    (pDat->collision).pos.x += (pDat->facing).x * local_70;
+                    (pDat->collision).pos.z += (pDat->facing).y * local_70;
                     goto LAB_80017010;
                   }
-                  plVar9 = ppVar22->borg7P;
-                  if (ppVar22->unk1a != 0) goto LAB_80016f38;
+                  if (pDat->unk1a != 0) goto LAB_80016f38;
                 }
 LAB_80017014:
-                player_audiokey(ppVar22,ppVar22->unk16,plVar9->sceneDat->aniTime,
-                                plVar9->unk1c->b6->dat->aniLength);
+                player_audiokey(pDat,pDat->unk16,pDat->borg7P->sceneDat->aniTime,
+                                pDat->borg7P->unk1c->b6->dat->aniLength);
               }
             }
           }
 not_flying_borg7:
-          bVar1 = ppVar22->visible_flag;
+          bVar1 = pDat->visible_flag;
         }
         if (bVar1 == 0) {
-          FLOOR((ppVar22->collision).pos.x,0.05);
-          FLOOR((ppVar22->collision).pos.z,0.05);
-          CIEL((ppVar22->collision).pos.x,(gGlobals.Sub.mapCellSize.x - 0.05));
-          CIEL((ppVar22->collision).pos.z,(gGlobals.Sub.mapCellSize.y - 0.05));
+          FLOOR((pDat->collision).pos.x,0.05);
+          FLOOR((pDat->collision).pos.z,0.05);
+          CIEL((pDat->collision).pos.x,(gGlobals.Sub.mapCellSize.x - 0.05));
+          CIEL((pDat->collision).pos.z,(gGlobals.Sub.mapCellSize.y - 0.05));
         }
-        if ((ppVar22->flags & ACTOR_4) != 0) {
-          edit_playerdat_combat_pos(ppVar22,&ppVar22->combat_vec3);
+        if ((pDat->flags & ACTOR_4) != 0) {
+          edit_playerdat_combat_pos(pDat,&pDat->combat_vec3);
         }
         fVar31 = 1000000.0f;
         iVar12 = (iVar21 + 1) * 0x10000;
-        if ((ppVar22->flags & ACTOR_400) != 0) goto LAB_8001729c;
+        if ((pDat->flags & ACTOR_400) != 0) goto LAB_8001729c;
         bVar18 = false;
-        ppVar22->unk104 = -1;
-        ppVar22->unk108 = fVar31;
+        pDat->unk104 = -1;
+        pDat->unk108 = fVar31;
         fVar31 = 3.0f;
-        lVar11 = (longlong)handler->max_player;
         uVar24 = 0;
-        if (0 < lVar11) {
+        if (0 < handler->max_player) {
           uVar23 = 0;
           do {
             sVar15 = (short)uVar24;
@@ -822,25 +808,25 @@ LAB_8001727c:
             }
             else {
               sVar17 = sVar15 + 1;
-              if ((ppVar20->ID != ppVar22->ID) &&
+              if ((ppVar20->ID != pDat->ID) &&
                  (sVar17 = sVar15 + 1, (ppVar20->flags & ACTOR_400) == 0)) {
-                if (ppVar20->zoneDatByte == ppVar22->zoneDatByte) {
-                  fVar29 = (ppVar20->collision).pos.y - (ppVar22->collision).pos.y;
+                if (ppVar20->zoneDatByte == pDat->zoneDatByte) {
+                  fVar29 = (ppVar20->collision).pos.y - (pDat->collision).pos.y;
                   if (fVar29 <= 0.0) {
                     fVar29 = -fVar29;
                   }
                   sVar17 = sVar15 + 1;
                   if (fVar29 <= fVar31) {
-                    fVar29 = (ppVar22->collision).radius;
+                    fVar29 = (pDat->collision).radius;
                     fVar28 = ppVar8[iVar12].collision.radius;
-                    bVar19 = FUN_800b003c(local_60,ppVar22->scale,
+                    bVar19 = FUN_800b003c(local_60,pDat->scale,
                                           &ppVar8[iVar12].collision,ppVar8[iVar12].scale,
                                           &local_70);
                     if (bVar19) {
                       if (bVar18) {
-                        (ppVar22->collision).pos.x = fVar27;
-                        (ppVar22->collision).pos.y = fVar5;
-                        (ppVar22->collision).pos.z = fVar6;
+                        (pDat->collision).pos.x = fVar27;
+                        (pDat->collision).pos.y = fVar5;
+                        (pDat->collision).pos.z = fVar6;
                       }
                       else {
                         bVar18 = true;
@@ -848,12 +834,12 @@ LAB_8001727c:
                       }
                     }
                     ppVar8 = handler->playerDats;
-                    (ppVar22->collision).radius = fVar29;
+                    (pDat->collision).radius = fVar29;
                     ppVar8[iVar12].collision.radius = fVar28;
                     sVar17 = sVar15 + 1;
-                    if (local_70 < ppVar22->unk108) {
-                      ppVar22->unk108 = local_70;
-                      ppVar22->unk104 = (short)uVar23;
+                    if (local_70 < pDat->unk108) {
+                      pDat->unk108 = local_70;
+                      pDat->unk104 = (short)uVar23;
                       goto LAB_8001727c;
                     }
                   }
@@ -869,16 +855,13 @@ LAB_8001727c:
           goto LAB_80017298;
         }
       }
-      lVar25 = (longlong)(iVar12 >> 0x10);
+      count = (longlong)(iVar12 >> 0x10);
       iVar12 = (iVar12 >> 0x10) << 4;
-    } while (lVar25 < lVar11);
+    } while (count < handler->max_player);
   }
   if (local_68 == 0) {
-    uVar14 = (uint)handler->counter + delta_;
-    handler->counter = (u16)uVar14;
-    if (0x1d < handler->counter) {
-      FUN_8005831c();
-    }
+    handler->counter+=delta_;
+    if (30 <= handler->counter) FUN_8005831c();
   }
   else handler->counter = 0;
 }

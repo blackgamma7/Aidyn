@@ -755,7 +755,7 @@ struct Borg7Header {
     struct_1*unk18;
     struct_1 *unk1c;
     vec3f unk20;
-    vec3f unk2c;
+    vec3f unk2c; //z axis used for moving playerData based on 2d normal and scale
     struct_45 unk38;
     Borg7Data dat;
 };
@@ -790,7 +790,8 @@ struct borg9_phys {
 };
 
 enum B13_Commands{
-    B13Com_CameraCutTo=4, //instantly move camera to reference point
+    B13Com_SetEnt=3, //set dislougmode_substruct->EntId to (val)
+    B13Com_CameraCutTo, //instantly move camera to reference point
     B13Com_CutToPOV,//instantly move camera to actor
     B13Com_CameraOn, //point camera to reference point
     B13Com_CameraOnPOV, //point camera to actor
@@ -802,13 +803,13 @@ enum B13_Commands{
     B13Com_CameraSineToPOV, //point camera to actor
     B13Com_CameraTrackOn,
     B13Com_15,
-    B13Com_16,
+    B13Com_LoadMonster,
     B13Com_SetActorFacing, //actor moves to face ref obj
     B13Com_CreateActor, //creates actor
     B13Com_19,
-    B13Com_20,
-    B13Com_21,
-    B13Com_22,
+    B13Com_SetCollideByte,
+    B13Com_SetBattlefield,
+    B13Com_setAniByte,
     B13Com_CheckMemberInParty, //is member (val) in party?
     B13Com_CheckEventFlag,  //is event flag (val) set?
     B13Com_CheckPartySkill, //get highest level of (val). if flag 3717 is set then it's randRange(0,21)
@@ -841,9 +842,12 @@ enum B13_Commands{
     B13Com_HideItem,//remove item model from dialougmode_substruct->Entid
     B13Com_53,
     B13Com_CampHeal,//fully heal party, lapse 8 hours
+    B13Com_55,
     B13Com_AddExp,//add (val*1.5) exp points to dialougmode_substruct->Entid
     B13Com_57, //set some timer?
-    B13Com_58
+    B13Com_58,
+    B13Com_59,
+    B13Com_60,
 };
 
 struct Borg13Op{
@@ -1030,9 +1034,9 @@ void Ofunc_8009f938(Borg5Header *param_1,s32 param_2,int param_3,s32 param_4,int
 void FUN_8009f9d0(SceneData *param_1,s16 *param_2);
 SceneData * BorgAnimLoadScene(uint borg_5);
 void borganim_free(SceneData *param_1);
-Borg6Header * get_borg_6(int param_1);
+Borg6Header * get_borg_6(int index);
 void passto_borg_6_free(Borg6Header *param_1);
-Borg7Header * func_loading_borg7(u32 param_1,ParticleHeadStruct *param_2);
+Borg7Header * func_loading_borg7(u32 index,ParticleHeadStruct *pHead);
 void FUN_8009fca8(Borg7Header *param_1);
 void FUN_8009fd40(Borg7Header *param_1);
 void FUN_8009fd98(Borg7Header *param_1);

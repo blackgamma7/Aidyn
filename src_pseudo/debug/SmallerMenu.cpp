@@ -322,7 +322,7 @@ void set_debug_combat_battlefeild(BaseWidget *param_1){
     if (param_1->GetNumber() == WidgetN_Text) {
       gGlobals.EncounterDat.battlefield = param_1->var5E;
       gGlobals.EncounterDat.collisionByte = rand_range(1,2);
-      gGlobals.EncounterDat.unk28 = 0;
+      gGlobals.EncounterDat.aniByte = 0;
       gGlobals.EncounterDat.EncounterID = 0;
       gGlobals.EncounterDat.BossShadow = 1;
       gGlobals.combatBytes[2] = 1;

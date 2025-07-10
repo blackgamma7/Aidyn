@@ -259,7 +259,7 @@ void monsterpary_func(voxelObject *v,u16 A,u16 B){
     vec3_sum(&temp,&temp,&(ppVar2->collision).pos);
     Vec3_sub(&temp,&temp,playerPos);
     gGlobals.EncounterDat.collisionByte = x <= vec3_normalize(&temp);
-    gGlobals.EncounterDat.unk28 = 0;
+    gGlobals.EncounterDat.aniByte = 0;
     battle_setup_func(v,(v->header).flagB,gGlobals.wander.wanderSubstructs[(v->monster).wandererIndex].VoxelIndex);
     gGlobals.playerCharStruct.unkState = 2;
   }

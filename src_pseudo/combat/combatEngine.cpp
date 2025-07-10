@@ -70,18 +70,18 @@ void Combat_GetSpawnPoint(CombatStruct *param_1,u8 *posx,u8 *posz,u8 *rand,u8 pa
   }
   uVar1 = rand_range(uVar4,uVar1);
   if (param_7 == 0)
-    uVar4 = 4 - param_1->encounter_dat->unk28;
+    uVar4 = 4 - param_1->encounter_dat->aniByte;
   else uVar4 = 0;
   bool GOrE = true;
   if ((param_1->encounter_dat->collisionByte == 2) && (GOrE = false, param_6 != 0)) {
     if (param_5 == 0) {
       uVar4 = 4;
-      if (param_1->encounter_dat->unk28 == 3) uVar4 = 3;
+      if (param_1->encounter_dat->aniByte == EncountAni_Run) uVar4 = 3;
     }
     else if (param_5 == 1) {
-      if (param_1->encounter_dat->unk28 != 0) uVar4++;
+      if (param_1->encounter_dat->aniByte != EncountAni_Default) uVar4++;
     }
-    else if ((3 < param_5) && (param_1->encounter_dat->unk28 != 3)) uVar4--;
+    else if ((3 < param_5) && (param_1->encounter_dat->aniByte != EncountAni_Run)) uVar4--;
   }
   if (param_6 == 0) GOrE = !GOrE;
   voxelObject *prVar2 = get_refpoint_by_name(uVar4,param_8,GOrE);

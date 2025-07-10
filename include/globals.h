@@ -34,7 +34,7 @@
 #include "romcopy.h"
 #include "eventFlag.h"
 
-struct GlobalsSub { /* 0x800e6988 */
+struct GlobalsSub { /* 0x800e6988 in Debug version*/
     ZoneDat ZoneDatMtx[3][3];
     Borg9Data *borg9DatPointer;
     EnvProp *EnvProps;
@@ -48,7 +48,7 @@ struct GlobalsSub { /* 0x800e6988 */
     u16 mapShort2;
     u16 mapShort1Copy;
     u16 mapShort2Copy;
-    vec2f mapCellSize;
+    vec2f mapCellSize; //size of each map chunk.
     vec2f playerPos2d;
     u16 mapDatA;
     u16 mapDatB;
@@ -56,7 +56,7 @@ struct GlobalsSub { /* 0x800e6988 */
     WeatherStruct weather;
     PlayerHandler PlayerHandler;
     ParticleHeadStruct particleEmmiter;
-    u8 unk718[128];
+    u8 unk718[128]; //unused?
     DynamicLightHead DynamicLights;
     voxelObject *refObjPointer;
     vec3f *tpVec3;
@@ -67,7 +67,7 @@ struct GlobalsSub { /* 0x800e6988 */
     u16 Borg12Next;
     u16 Borg12Next2;
     u16 gamemodeType;
-    flycamStruct flycamDat;
+    flycamStruct flycamDat; //used for title screen flycam
     mapFloatDat MapFloatDats[15];
     u16 unkCounter;
     u16 unk120e;

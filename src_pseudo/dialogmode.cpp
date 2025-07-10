@@ -233,14 +233,13 @@ void encounterDat_func(void){
     uVar2 = uVar3;
   } while (uVar3 < 0xc);
   gGlobals.EncounterDat.battlefield = (pdVar1->some_substruct).battlefeild;
-  gGlobals.EncounterDat.collisionByte = (pdVar1->some_substruct).unk112;
-  gGlobals.EncounterDat.unk28 = (pdVar1->some_substruct).unk113;
+  gGlobals.EncounterDat.collisionByte = (pdVar1->some_substruct).collisionByte;
+  gGlobals.EncounterDat.aniByte = (pdVar1->some_substruct).aniByte;
   if (0x1b < gGlobals.EncounterDat.battlefield) {
     gGlobals.EncounterDat.battlefield = 0;
   }
   gGlobals.combatBytes[2] = 1;
   gGlobals.EncounterDat.BossShadow = dialougemode_pointer->func_index != 1;
-  return;
 }
 
 void monsterparty_wanderstruct(wander_substruct *param_1){
@@ -717,7 +716,7 @@ void FUN_80059770(void){
     Borg9Data *pBVar2 = GetCollisionZone(pwVar1->playerDat->zoneDatByte);
     gGlobals.playerCharStruct.unkState = 2;
     gGlobals.EncounterDat.collisionByte = 0;
-    gGlobals.EncounterDat.unk28 = 0;
+    gGlobals.EncounterDat.aniByte = 0;
     voxelObject* pmVar3 = &pBVar2->voxelObjs[pwVar1->VoxelIndex];
     battle_setup_func(pmVar3,(pmVar3->header).flagC,pwVar1->VoxelIndex);
   }

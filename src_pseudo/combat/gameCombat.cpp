@@ -659,7 +659,7 @@ void init_combat_struct(void){
       gGlobals.EncounterDat.EncounterID = 0;
       gGlobals.EncounterDat.battlefield = rand_range(0,0x1b);
       gGlobals.EncounterDat.collisionByte = rand_range(0,2);
-      gGlobals.EncounterDat.unk28 = rand_range(0,3);
+      gGlobals.EncounterDat.aniByte = rand_range(0,EncountAni_Run);
       gGlobals.EncounterDat.BossShadow = 1;
     }
     for(u8 i=0;i<14;i++) {gGlobals.playerDataArray[i] = 0;}

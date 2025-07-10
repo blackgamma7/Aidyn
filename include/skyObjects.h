@@ -29,7 +29,7 @@ struct cloudStruct {
     u8 index; //which image to use for this cloud
     vec3f v3; //y always 10 and never used
     u32 unused; //always 0, never read/written
-    Color32 col; //only alpha used, R/G/B drawn from gGlobals.sky.colors[3]
+    Color32 col; //only alpha used, R/G/B drawn instead from gGlobals.sky.colors[3]
     float f3; //visibility in sky?
 };
 

@@ -212,7 +212,7 @@ namespace Actor{
     void SetControllerWalk(ControllerFull *,vec2f *);
     void SetControllerRun(ControllerFull *,vec2f *);
     void ClearInputMoveFlags(playerData *);
-    void SetAiDest(playerData *,float,float,float,u16);
+    void SetAiDest(playerData *p,float x,float y,float rad,u16 flag);
     void ResetMoveQueue(playerData *);
     void SetFacing(playerData *,float,float);
     void MoveTo(playerData *);

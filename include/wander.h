@@ -12,13 +12,13 @@ struct wander_substruct {
     u16 noderelB;
     s16 isActive;
     short index;
-    float senseValA;
-    float senseValB;
-    float unk2c;
-    float unk30;
-    float unk34;
+    float percepDefault;//used when nearby player is idle. effected by stealth skill
+    float percepSneak;//used when nearby player is in sneak state. effected by stealth skill
+    float precepWalk;//used when nearby player is in walk state
+    float perecpRun;//used when nearby player is in walk state
+    float percepMax;
     u16 flags;
-    s16 bool3a;
+    s16 perceptionsSet;
     u16 NoBorg13;
     u16 field19_0x3e;
     vec2f position;
@@ -47,8 +47,8 @@ void  FreeWanderer(wander_struct *param_1,wander_substruct *param_2);
 void FreeWandererFromZone(wander_struct *param_1,int param_2);
 void FreeAllWanderers(wander_struct *param_1);
 playerData * FUN_80012b44(wander_struct *param_1,wander_substruct *param_2);
-void FUN_80012b70(wander_struct *param_1,wander_substruct *param_2,short param_3);
+void WanderGetNextNode(wander_struct *param_1,wander_substruct *param_2,short param_3);
 void FUN_80012c58(wander_struct *param_1,wander_substruct *param_2);
 void FUN_80012d44(wander_substruct *param_1);
 void WanderSubstruct_setFlag1(wander_substruct *param_1);
-void monster_engagement_func(wander_struct *param_1,short delta);
+void WanderTick(wander_struct *param_1,short delta);
