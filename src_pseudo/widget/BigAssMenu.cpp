@@ -63,20 +63,20 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   sub->backgroundImage = WigetB8Blank;
   sub->backgroundImage->SetColor(0xff,0xff,0xff,0xff);
   sub->backgroundImage->SetCoords(0,0);
-  sub->backgroundImage->SetWidth(0x140);
-  sub->backgroundImage->SetHeight(0xf0);
+  sub->backgroundImage->SetWidth(SCREEN_WIDTH);
+  sub->backgroundImage->SetHeight(SCREEN_HEIGHT);
   sub->backgroundWidget = WidgetB8(pause_menu_borg8[menu_section]);
   sub->backgroundWidget->SetCoords(0,0);
   sub->backgroundWidget->SetColor(0xff,0xff,0xff,0xff);
-  sub->backgroundWidget->SetWidth(0x140);
-  sub->backgroundWidget->SetHeight(0xf0);
+  sub->backgroundWidget->SetWidth(SCREEN_WIDTH);
+  sub->backgroundWidget->SetHeight(SCREEN_HEIGHT);
   this->Link(sub->backgroundWidget);
   this->Link(sub->backgroundImage);
   switch(menu_section){
     case 0:
     borg12 = Menu_open;
-    gGlobals.scrollLocation[0] = 0x140;
-    gGlobals.scrollLocation[1] = 0x140;
+    gGlobals.scrollLocation[0] = SCREEN_WIDTH;
+    gGlobals.scrollLocation[1] = SCREEN_WIDTH;
     sub->scrollSpeed = 27.0f;
     if (bVar4) {
       pBVar7 = sub->borg7;
@@ -195,7 +195,7 @@ void PauseWidget::InitOptionsMenu(){
     sub->optionsMenu->InitMenu(2);
     gGlobals.cinematicReplay = 0;
   }
-  Utilities::MoveWidget(sub->optionsMenu,(ushort)(byte)sub->PauseMenuSection * -0x140,0);
+  Utilities::MoveWidget(sub->optionsMenu,(ushort)(byte)sub->PauseMenuSection * -SCREEN_WIDTH,0);
   sub->optionsMenu->Tick();
   this->Link(sub->optionsMenu);
 }
@@ -205,7 +205,7 @@ void PauseWidget::BuildDollMenu(u8 param_2){;
   sub->dollmenu = new WidgetDollMenu(0,param_2);
   sub->dollmenu->var5C = 1;
   sub->pauseMenuSections[1] = sub->dollmenu;
-  Utilities::MoveWidget(sub->dollmenu,(1 - (ushort)sub->PauseMenuSection) * 0x140,0);
+  Utilities::MoveWidget(sub->dollmenu,(1 - (ushort)sub->PauseMenuSection) * SCREEN_WIDTH,0);
   sub->dollmenu->Tick();
   this->Link(sub->dollmenu);
 }
@@ -215,7 +215,7 @@ void PauseWidget::BuildCalendarMenu(){
   sub->calendar = new WidgetCalendar();
   sub->calendar->var5C = 2;
   sub->pauseMenuSections[2] = sub->calendar;
-  Utilities::MoveWidget(sub->calendar,(2 - (ushort)sub->PauseMenuSection) * 0x140,0);
+  Utilities::MoveWidget(sub->calendar,(2 - (ushort)sub->PauseMenuSection) * SCREEN_WIDTH,0);
   sub->calendar->Tick();
   this->Link(sub->calendar);
   return;
@@ -270,7 +270,7 @@ u8 PauseWidget::Tick(){
         sub->unk22 = sub->unk24;
       }
       else sub->unk22+= sub->unk26;
-      sub->backgroundImage->SetCoords(sub->unk22 + -0x140,0);
+      sub->backgroundImage->SetCoords(sub->unk22 + -SCREEN_WIDTH,0);
     }
     if (sub->unk24 < sub->unk22) {
       if (sub->unk22 < (sub->unk24 + sub->unk26)) {
@@ -281,7 +281,7 @@ u8 PauseWidget::Tick(){
         sub->unk22 -= sub->unk26;
         x = -sub->unk26;
       }
-      sub->backgroundImage->SetCoords(sub->unk22 + 0x140,0);
+      sub->backgroundImage->SetCoords(sub->unk22 + SCREEN_WIDTH,0);
     }
     for(u8 i=0;i<3;i++){Utilities::MoveWidget(sub->pauseMenuSections[i],x,0);}
     sub->backgroundWidget->SetCoords(sub->unk22,0);

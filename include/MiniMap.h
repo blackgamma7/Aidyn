@@ -84,13 +84,13 @@ class MiniMap {
     //a few methods for special condition minimap sections
 
     bool m800533bc(u16);
-    bool Ehud99(u16);
-    bool Ehud3b(u16);
-    bool Gwern11(u16);
-    bool Gwern97(u16);
-    bool Gwernf9(u16);
-    bool m80053818(u16);
-    bool Ehudf5(u16);
+    bool EhudI09(u16);
+    bool EhudC11(u16);
+    bool GwernWalls(u16);
+    bool GwernCourt(u16);
+    bool GwernTower(u16);
+    bool MageschoolStairs(u16);
+    bool EhudO05(u16);
     bool m80053960(u16);
     bool m800539fc(u16);
 };

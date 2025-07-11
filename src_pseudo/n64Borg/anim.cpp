@@ -114,7 +114,7 @@ Gfx * FUN_8009d3dc(Gfx *param_1,Borg1Header *b1,u8 bufferchoice){
   if ((b1->dat->flag & B1_Interlaced)) {
     bVar1 = b1->dat->iLace;
     if ((bVar1 & 0xf) == 0) {
-      if ((bVar1 & 0xf0) != 0) {
+      if ((bVar1 & SCREEN_HEIGHT) != 0) {
         if (b1->dat->type < B1_CI8) deinterlace16(b1,(uint)(bVar1 >> 4));
         else deinterlace32(b1,(uint)(bVar1 >> 4));
         FUN_8009d7b0(b1);

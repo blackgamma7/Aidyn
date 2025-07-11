@@ -23,6 +23,10 @@ char gMinimapUnkCoords[][2]={
 };
 u16 gMinimapUnkVal=0;
 
+//a macro that could be replaced with an LE adaptation
+
+#define MapShorts32 *(u32*)this->mapshorts
+
 void MiniMap_Save(u8 *dat){
   u16 k = 0;
   memset(dat,0,24);
@@ -62,9 +66,9 @@ void MiniMap::Init(){
   this->field22_0x54 = 0.0;
   this->floatX = 0.0;
   this->floatY = 0.0;
-  (this->savedPlayerPos).x = 0.0;
-  (this->savedPlayerPos).y = 0.0;
-  (this->savedPlayerPos).z = 0.0;
+  this->savedPlayerPos.x = 0.0;
+  this->savedPlayerPos.y = 0.0;
+  this->savedPlayerPos.z = 0.0;
   this->unk3c = 0;
   this->B_buttonToggle = false;
   this->showAllVar = 0;
@@ -188,12 +192,12 @@ bool MiniMap::SpecialSections(float posX,float posY,float posZ){
   pMVar1 = this->mapdat;
   //another case-switch?
   if (pMVar1 == minimaps_gwen) {
-    cellCoord = *(u32 *)this->mapshorts;
+    cellCoord = MapShorts32;
     //messy case-switch optimization. cleanup later.
     if (cellCoord == 0x90007) {
-      if ((u32)((this->savedPlayerPos).y *.25) != (u32)(posY *.25)) return true;
+      if ((u32)(this->savedPlayerPos.y *.25) != (u32)(posY *.25)) return true;
       if (this->unk3c != 8) return false;
-      uVar10 = (this->savedPlayerPos).z / 26.0f;
+      uVar10 = this->savedPlayerPos.z / 26.0f;
       fVar8 = 26.0f;
     }
     else {
@@ -201,7 +205,7 @@ bool MiniMap::SpecialSections(float posX,float posY,float posZ){
         if (cellCoord != 0xf0009) {
           return false;
         }
-        uVar10 = (this->savedPlayerPos).y * 0.25f;
+        uVar10 = this->savedPlayerPos.y * 0.25f;
         fVar8 = posY * 0.25f;
         if (INT_MAX_f <= fVar8) {
           fVar8 = fVar8 - INT_MAX_f;
@@ -209,17 +213,12 @@ bool MiniMap::SpecialSections(float posX,float posY,float posZ){
         }
         goto LAB_80051c60;
       }
-      if ((u32)(this->savedPlayerPos).x / 35.0f != (u32)posX / 35.0f) {
+      if ((u32)this->savedPlayerPos.x / 35.0f != (u32)posX / 35.0f) {
         return true;
       }
-      fVar9 = (this->savedPlayerPos).z / 25.0f;
+      fVar9 = this->savedPlayerPos.z / 25.0f;
       fVar8 = 25.0f;
-      if (fVar9 < INT_MAX_f) {
-        uVar10 = (uint)fVar9;
-      }
-      else {
-        uVar10 = (int)(fVar9 - INT_MAX_f) | 0x80000000;
-      }
+      uVar10=fVar9;
     }
     fVar8 = posZ / fVar8;
     if (fVar8 < INT_MAX_f) {
@@ -231,10 +230,10 @@ LAB_80051e0c:
   }
   else {
     if (pMVar1 == minimap_sec_mageschool) {
-      if (*(int *)this->mapshorts != 0x10001) {
+      if (MapShorts32 != 0x10001) {
         return false;
       }
-      fVar8 = (this->savedPlayerPos).y * 0.25f;
+      fVar8 = this->savedPlayerPos.y * 0.25f;
       if (fVar8 < INT_MAX_f) {
         uVar10 = (uint)fVar8;
       }
@@ -261,7 +260,7 @@ LAB_80051c80:
       if (pMVar1 != MinimapSec_dat_ARRAY_800ee508) {
         return false;
       }
-      if (*(int *)this->mapshorts != 0xb0003) {
+      if (MapShorts32 != 0xb0003) {
         return false;
       }
       pmVar7 = minimap_dats_2 + 0xc;
@@ -280,7 +279,7 @@ LAB_80051cd8:
       }
       return false;
     }
-    iVar2 = *(int *)this->mapshorts;
+    iVar2 = MapShorts32;
     if (iVar2 == 0xf0005) {
       pmVar7 = minimap_dats_2;
       if (minimap_dats_2[0].borg8 == 0) {
@@ -298,19 +297,13 @@ LAB_80051cd8:
       if (iVar2 != 0x90009) {
         return false;
       }
-      if (0.0 <= ((this->savedPlayerPos).x - 16.0f) * (posX - 16.0f)) {
+      if (0.0 <= (this->savedPlayerPos.x - 16.0f) * (posX - 16.0f)) {
         return false;
       }
       return true;
     }
     if ((u32)(this->savedPlayerPos.x / 48.0f) != (u32)(posX / 48.0f)) return true;
-    fVar8 = (this->savedPlayerPos).z / 48.0f;
-    if (fVar8 < INT_MAX_f) {
-      uVar10 = (uint)fVar8;
-    }
-    else {
-      uVar10 = (int)(fVar8 - INT_MAX_f) | 0x80000000;
-    }
+    uVar10 = this->savedPlayerPos.z / 48.0f;
     fVar8 = posZ / 48.0f;
     if (fVar8 < INT_MAX_f) goto LAB_80051e0c;
     fVar8 = fVar8 - INT_MAX_f;
@@ -343,9 +336,9 @@ bool MiniMap::CaseBarrows(float param_2){
   bVar3 = true;
   if (this->field18_0x44 == 0) {
     bVar3 = false;
-    if ((*(int *)this->mapshorts == 0x50001) &&
+    if ((MapShorts32 == 0x50001) &&
        (bVar3 = true,
-       0.0 <= ((this->savedPlayerPos).x - 1.3f) * (param_2 - 1.3f))) {
+       0.0 <= (this->savedPlayerPos.x - 1.3f) * (param_2 - 1.3f))) {
       bVar3 = false;
     }
   }
@@ -368,9 +361,9 @@ void MiniMap::Update(float posx,float posy,float posz){
   
   if (this->active == 0) return;
   bVar4 = SpecialSections(posx,posy,posz);
-  (this->savedPlayerPos).x = posx;
-  (this->savedPlayerPos).y = posy;
-  (this->savedPlayerPos).z = posz;
+  this->savedPlayerPos.x = posx;
+  this->savedPlayerPos.y = posy;
+  this->savedPlayerPos.z = posz;
   if (bVar4) UpdateSection(this->mapshorts[0],this->mapshorts[1]);
   fVar9 = this->field19_0x48;
   fVar12 = this->field21_0x50;
@@ -568,14 +561,14 @@ Gfx * MiniMap::Render(Gfx *G){
   if ((this->active) && (this->widget20)) {
     if (gMinimapUnkVal) gMinimapUnkVal = 0;
     RSPFUNC6(G);
-    G = this->widget24->Render(G,0,0,0x140,0xf0);
+    G = this->widget24->Render(G,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
     for (w = this->widget1c; w != NULL; w = w->link2) {
       G = w->Render(G,this->mapX,this->mapY,this->X90,this->Y9C);
     }
     for (w = this->widget18; w != NULL; w = w->link2) {
       G = w->Render(G,this->mapX,this->mapY,this->X90,this->Y9C);
     }
-    G = this->widget28->Render(G,0,0,0x140,0xf0);
+    G = this->widget28->Render(G,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
   }
   return G;
 }
@@ -584,12 +577,11 @@ void MiniMap::UpdateSection(short param_2,short param_3){
   char cVar1;
   short sVar3;
   ushort uVar4;
-  float fVar6;
   int iVar8;
   s32 lVar7;
-  WidgetBorg8 *pBVar9;
+  BaseWidget *pBVar9;
   Borg8Header *b8;
-  WidgetBorg8 *pBVar10;
+  BaseWidget *pBVar10;
   u16 uVar11;
   ushort *puVar12;
   MinimapSec_dat *pMVar13;
@@ -602,7 +594,6 @@ void MiniMap::UpdateSection(short param_2,short param_3){
     pMVar13 = this->mapdat;
     this->mapshorts[0] = param_2;
     this->mapshorts[1] = param_3;
-    fVar6 = 14.0f;
     i = 0;
     if (this->mapdat[i].borg8) {
       iVar8 = 0;
@@ -640,14 +631,14 @@ LAB_800529b4:
           pBVar10 = this->widget1c;
           pBVar9 = apBStack_28[0];
           while (apBStack_28[0] = pBVar10, apBStack_28[0] != NULL) {
-            this->widget1c = this->widget1c->link2;
+            this->widget1c = (WidgetBorg8*)this->widget1c->link2;
             FREEQW(apBStack_28);
             pBVar9 = apBStack_28[0];
             pBVar10 = this->widget1c;
           }
           pBVar10 = this->widget18;
           this->widget18 = NULL;
-          this->widget1c = pBVar10;
+          this->widget1c = (WidgetBorg8*)pBVar10;
           this->mapdat[i].checked = true;
           apBStack_28[0] = pBVar9;
           LoadSections();
@@ -677,7 +668,7 @@ LAB_80052cac:
               goto LAB_80052da0;
             }
             if (pBVar9->var5C == i) {
-              this->widget20 = pBVar9;
+              this->widget20 = (WidgetBorg8*)pBVar9;
               goto LAB_80052cac;
             }
             pBVar9 = pBVar9->link2;
@@ -718,8 +709,8 @@ LAB_80052da0:
     pBVar9 = this->widget20;
     if (pBVar9) pBVar9->SetColor(0x9b,0x9b,0x9b,0);
     this->ShowMinimap = 1;
-    this->field23_0x58 = (this->field21_0x50 - this->field19_0x48) / fVar6;
-    this->field24_0x5c = (this->field22_0x54 - this->field20_0x4c) / fVar6;
+    this->field23_0x58 = (this->field21_0x50 - this->field19_0x48) / 14.0f;
+    this->field24_0x5c = (this->field22_0x54 - this->field20_0x4c) / 14.0f;
     return;
   }
   if (pBVar9->var5C == i) {
@@ -838,7 +829,7 @@ void MiniMap::Toggle(byte x){
     case 2:
     this->B_buttonToggle^=1;
   }
-  if (this->B_buttonToggle == '\0') {
+  if (!this->B_buttonToggle) {
     pBVar1 = this->widget20;
     this->field43_0xa8 = 0xed;
     this->field45_0xac = 0x3c;
@@ -873,11 +864,11 @@ void MiniMap::Toggle(byte x){
   }
   this->field32_0x7c = (float)(int)this->field43_0xa8;
   fVar9 = (float)(int)this->field44_0xaa;
-  this->field35_0x88 = fVar9;
+  this->field35_0x88 = (float)(int)this->field44_0xaa;
   fVar8 = (float)((int)this->field44_0xaa + (int)(short)this->field46_0xae);
   this->field41_0xa0 = fVar8;
   this->field33_0x80 = ((float)(int)this->field43_0xa8 - this->mapX) / 14.0f;
-  this->field36_0x8c = (fVar9 - this->mapY) / 14.0f;
+  this->field36_0x8c = ((float)(int)this->field44_0xaa - this->mapY) / 14.0f;
   this->field42_0xa4 = (fVar8 - this->Y9C) / 14.0f;
   this->field30_0x74 = (this->field29_0x70 - this->mapScale) / 14.0f;
   this->field23_0x58 = (this->field21_0x50 - this->field19_0x48) / 14.0f;
@@ -888,25 +879,25 @@ bool MiniMap::m800533bc(ushort param_2){
   int iVar2;
   
   if (this->mapdat == minimaps_gwen) {
-    iVar2 = *(int *)this->mapshorts;
-    if (iVar2 == 0x90007) return Gwern97(param_2);
-    if (iVar2 == 0x10001) return Gwern11(param_2);
-    if (iVar2 == 0xf0009) return Gwernf9(param_2);
+    iVar2 = MapShorts32;
+    if (iVar2 == 0x90007) return GwernCourt(param_2);
+    if (iVar2 == 0x10001) return GwernWalls(param_2);
+    if (iVar2 == 0xf0009) return GwernTower(param_2);
     this->field18_0x44 = 0;
   }
   else if (this->mapdat == MinimapSec_ehud) {
-    iVar2 = *(int *)this->mapshorts;
-    if (iVar2 == 0xf0005) return Ehudf5(param_2);
-    if (iVar2 == 0x3000b) return Ehud3b(param_2);
-    if (iVar2 == 0x90009) return Ehud99(param_2);
+    iVar2 = MapShorts32;
+    if (iVar2 == 0xf0005) return EhudO05(param_2);
+    if (iVar2 == 0x3000b) return EhudC11(param_2);
+    if (iVar2 == 0x90009) return EhudI09(param_2);
     this->field18_0x44 = 0;
   }
   else if (this->mapdat == MinimapSec_dat_ARRAY_800ee508) {
-    if (*(int *)this->mapshorts == 0xb0003) return m80053960(param_2);
+    if (MapShorts32 == 0xb0003) return m80053960(param_2);
     this->field18_0x44 = 0;
   }
   else if (this->mapdat == minimap_sec_mageschool) {
-    if (*(int *)this->mapshorts == 0x10001) return m80053818(param_2);
+    if (MapShorts32 == 0x10001) return MageschoolStairs(param_2);
     this->field18_0x44 = 0;
   }
   else {
@@ -919,10 +910,10 @@ bool MiniMap::m800533bc(ushort param_2){
 }
 
 
-bool MiniMap::Ehud99(u16 param_2){
+bool MiniMap::EhudI09(u16 param_2){
   bool bVar1;
   
-  if ((this->savedPlayerPos).x < 16.0f) {
+  if (this->savedPlayerPos.x < 16.0f) {
     bVar1 = false;
     if (this->mapdat[param_2].borg8 == 0x5a) {
       return true;
@@ -938,43 +929,45 @@ bool MiniMap::Ehud99(u16 param_2){
 }
 
 
-bool MiniMap::Ehud3b(u16 param_2){
+bool MiniMap::EhudC11(u16 param_2){
   short sVar1;
   
-  if ((this->savedPlayerPos).x < 48.0f) {
+  if (this->savedPlayerPos.x < 48.0f) {
     sVar1 = 0x82;
-    if ((this->savedPlayerPos).z < 48.0f) {
+    if (this->savedPlayerPos.z < 48.0f) {
       sVar1 = 0x80;
     }
   }
   else {
     sVar1 = 0x83;
-    if ((this->savedPlayerPos).z < 48.0f) {
+    if (this->savedPlayerPos.z < 48.0f) {
       sVar1 = 0x81;
     }
   }
   return this->mapdat[param_2].borg8 == sVar1;
 }
 
-bool MiniMap::Gwern11(u16 param_2){
+//minimap of castle rampart
+bool MiniMap::GwernWalls(u16 param_2){
   short sVar1;
   
-  if ((this->savedPlayerPos).x < 35.0f) {
+  if (this->savedPlayerPos.x < 35.0f) {
     sVar1 = 0x3829;
-    if ((this->savedPlayerPos).z < 25.0f) {
+    if (this->savedPlayerPos.z < 25.0f) {
       sVar1 = 0x3827;
     }
   }
   else {
     sVar1 = 0x382a;
-    if ((this->savedPlayerPos).z < 25.0f) {
+    if (this->savedPlayerPos.z < 25.0f) {
       sVar1 = 0x3828;
     }
   }
   return this->mapdat[param_2].borg8 == sVar1;
 }
 
-bool MiniMap::Gwern97(u16 param_2){
+//minimap of castle courtyard
+bool MiniMap::GwernCourt(u16 param_2){
   short sVar1;
   short sVar2;
   bool bVar3;
@@ -982,10 +975,9 @@ bool MiniMap::Gwern97(u16 param_2){
   uint uVar5;
   float fVar6;
   
-  fVar6 = (this->savedPlayerPos).y;
   uVar5 = (uint)param_2;
-  if (fVar6 < 4.0f) {
-    if (26.0f < (this->savedPlayerPos).z) {
+  if (this->savedPlayerPos.y < 4.0f) {
+    if (26.0f < this->savedPlayerPos.z) {
       pMVar4 = this->mapdat + param_2;
       sVar1 = *(short *)&pMVar4->borg8;
       sVar2 = 0x2a;
@@ -1000,7 +992,7 @@ bool MiniMap::Gwern97(u16 param_2){
       return true;
     }
   }
-  else if (fVar6 < 8.0f) {
+  else if (this->savedPlayerPos.y < 8.0f) {
     bVar3 = false;
     if (this->mapdat[param_2].borg8 == 0x37) {
       return true;
@@ -1015,10 +1007,10 @@ bool MiniMap::Gwern97(u16 param_2){
   return bVar3;
 }
 
-bool MiniMap::Gwernf9(u16 param_2){
+bool MiniMap::GwernTower(u16 param_2){
   bool bVar1;
   
-  if ((this->savedPlayerPos).y < 4.0f) {
+  if (this->savedPlayerPos.y < 4.0f) {
     bVar1 = false;
     if (this->mapdat[param_2].borg8 == 0x98) {
       return true;
@@ -1033,18 +1025,18 @@ bool MiniMap::Gwernf9(u16 param_2){
   return bVar1;
 }
 
-
-bool MiniMap::m80053818(u16 param_2){
+//change displayed minimap as you climb the stairs
+bool MiniMap::MageschoolStairs(u16 param_2){
   short sVar1;
   short sVar2;
   float fVar3;
   
-  if ((this->savedPlayerPos).y < 4.0f) {
+  if (this->savedPlayerPos.y < 4.0f) {
     sVar1 = this->mapdat[param_2].borg8;
     sVar2 = 0xa2;
   }
   else {
-    if (8.0f <= (this->savedPlayerPos).y) {
+    if (8.0f <= this->savedPlayerPos.y) {
       if (this->mapdat[param_2].borg8 == 0xaa) {
         return true;
       }
@@ -1058,7 +1050,7 @@ bool MiniMap::m80053818(u16 param_2){
 }
 
 
-bool MiniMap::Ehudf5(u16 param_2){
+bool MiniMap::EhudO05(u16 param_2){
   minimap_dat_2 *pmVar1;
   minimap_dat_2 *pmVar3;
   
@@ -1138,7 +1130,7 @@ bool MiniMap::m800539fc(u16 param_2){
         if (this->mapshorts[1] != 1) {
           return false;
         }
-        if (1.3f <= (this->savedPlayerPos).x) {
+        if (1.3f <= this->savedPlayerPos.x) {
           if (this->mapdat[param_2].borg8 == 199) {
             return true;
           }
@@ -1176,7 +1168,7 @@ bool MiniMap::m800539fc(u16 param_2){
         return this->mapdat[param_2].borg8 == 0xcd;
       }
     }
-    else if ((*(int *)this->mapshorts == 0x80003) && (bVar2 = getEventFlag(0x10c2), bVar2)) {
+    else if ((MapShorts32 == 0x80003) && (getEventFlag(0x10c2))) {
       return this->mapdat[param_2].borg8 == 0xd3;
     }
   }

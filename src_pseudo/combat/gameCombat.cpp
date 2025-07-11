@@ -104,7 +104,7 @@ Gfx * Combat_Render(Gfx *gfx,short delta){
   CharSheet *pCVar1 = gCombatP->current_Ent->charSheetP;
   playerData *player = gGlobals.playerDataArray[gCombatP->current_Ent->index];
   Gfx *g = gfx;
-  g = Graphics::StartDisplay(gfx,0,0,0x140,0xf0);
+  g = Graphics::StartDisplay(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
   if (gGlobals.combatBytes[0] - 10 < 2) CombatTargetVisuals::Render(true,delta);
   else CombatTargetVisuals::Render(false,delta);
   g = Lensflare::Render(g);

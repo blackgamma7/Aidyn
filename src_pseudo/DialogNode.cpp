@@ -220,7 +220,6 @@ LAB_800b60a4:
 u8 DialogNode_func(dialougmode_substruct *param_1,Borg13Data *param_2){
   borg13command *pbVar1;
   int iVar2;
-  byte bVar7;
   char *pcVar4;
   u8 uVar8;
   longlong lVar3;
@@ -234,7 +233,6 @@ u8 DialogNode_func(dialougmode_substruct *param_1,Borg13Data *param_2){
   param_1->borg13End = 0;
   command_bitmask_6(param_2,0);
   Dialoug_commands(param_1,param_2,0);
-  bVar7 = check_command_bitmask(param_2,0);
   switch(check_command_bitmask(param_2,0)){
     case 0:{
       pcVar4 = get_borg_13_text(param_2,0);
@@ -246,8 +244,7 @@ u8 DialogNode_func(dialougmode_substruct *param_1,Borg13Data *param_2){
       break;
     }
     case 1:{
-    uVar5 = dialoug_func_b_check(param_1,param_2,0);
-    if (uVar5 == 1) uVar8 = param_2->commands_pointer->index;
+    if (dialoug_func_b_check(param_1,param_2,0) == 1) uVar8 = param_2->commands_pointer->index;
     else uVar8 = param_2->commands_pointer->c[0];
     Dialoug_commands(param_1,param_2,uVar8);
     pcVar4 = get_borg_13_text(param_2,uVar8);
@@ -277,9 +274,9 @@ LAB_800b65a8:
       iVar2 = 0;
       while (uVar8 != 0xff) {
         iVar6 = (uint)uVar8 * 8 - (uint)uVar8;
-        if (((int)(uint)*(ushort *)((int)pbVar1 + iVar6 * 8 + 0x24) <= (int)uVar5) &&
-           ((uVar9 = (uint)*(ushort *)((int)pbVar1 + iVar6 * 8 + 0x26), (int)uVar5 <= (int)uVar9 ||
-            (uVar9 == 65000)))) {
+        if ((param_2->commands_pointer[uVar8].a <= (int)uVar5) &&
+           ((uVar5 <= (int)param_2->commands_pointer[uVar8].b ||
+            (param_2->commands_pointer[uVar8].b == 65000)))) {
           iVar10++;
         }
         if (7 < iVar2 + 1) break;

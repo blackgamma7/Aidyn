@@ -717,7 +717,7 @@ void WidgetContPakData::m80087c88(){
   this->field17_0x29c = Utilities::AddBorg8Widget(this,loadBorg8(this->borg8),this->unk292 + 0x41,this->unk294);
   this->unk27c = new WidgetMenuChild(this->unk292,this->unk294,this->unk292 + 0xdb,this->unk294 + 0xc0);
   this->Link(this->unk27c);
-  this->field3_0x280 = Utilities::AddScrollMenu(this,4,this->unk292 + 0xaa,this->unk294 + 0x9c,0,0,0x140,0xf0,
+  this->field3_0x280 = Utilities::AddScrollMenu(this,4,this->unk292 + 0xaa,this->unk294 + 0x9c,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,
                       (this->col0).R,(this->col0).G,(this->col0).B,(this->col0).A,0);
   this->field3_0x280->SetFlags(1);
   Utilities::SetScrollMenuColors(this->field3_0x280,(this->col1).R,(this->col1).G,(this->col1).B,
@@ -1052,8 +1052,8 @@ byte appState2_control(void){
 void appState2_Tick(Gfx **GG,u8 delta){
   Gfx *g;  
   gGlobals.delta = (float)delta;
-  g = Graphics::StartDisplay(*GG,0,0,0x140,0xf0);
-  g = Graphics::SomeOtherInit(g,0,0,0x140,0xf0,0,0,0,0);
+  g = Graphics::StartDisplay(*GG,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+  g = Graphics::SomeOtherInit(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
   g = tick_and_render_widgets(g);
   g = N64Print::Draw(g,delta);
   *GG = g;

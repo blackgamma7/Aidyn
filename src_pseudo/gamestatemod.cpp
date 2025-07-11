@@ -85,10 +85,10 @@ u8 ScreenFademode_10(Gfx **GG){
         DAT_800e61cc = 6;
       }
     }
-    pGVar5 = Graphics::SomeOtherInit(pGVar5,0,0,0x140,0xf0,0,0,0,0);
+    pGVar5 = Graphics::SomeOtherInit(pGVar5,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
     RSPFUNC6(pGVar5);
     gBufferedMenuP->Tick();
-    *GG = gBufferedMenuP->Render(pGVar5,0,0,0x140,0xf0);
+    *GG = gBufferedMenuP->Render(pGVar5,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
     cVar2 = DAT_800e61cc;
   }
   DAT_800e61cc = cVar2;

@@ -211,7 +211,7 @@ void WidgetOptionsMenu::MakeScrollList(WidgetOptionsMenu *this)
     pWVar1 = sub->ScrollMenu->vTable;
     uVar7 = (*(pWVar1->getHeight).func)
                       ((int)&sub->ScrollMenu->fadeIn + (int)*(short *)&(pWVar1->getHeight).arg);
-    pBVar2->y = (short)((int)(0xf0 - (uVar4 + uVar7 + 0x10 & 0xffff)) / 2);
+    pBVar2->y = (short)((int)(SCREEN_HEIGHT - (uVar4 + uVar7 + 0x10 & 0xffff)) / 2);
     uVar4 = (*(pBVar2->vTable->getHeight).func)
                       ((int)&pBVar2->fadeIn + (int)*(short *)&(pBVar2->vTable->getHeight).arg);
     sub->ScrollMenu->y = pBVar2->y + (short)uVar4 + 0x10;

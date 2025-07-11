@@ -31,8 +31,8 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
     WidgetClipText* pBVar7 = WClipTXT(creditStrings[count]);
     this->Link(pBVar7);
     pBVar7->SetColor(0xe1,0xe1,0,0xff);
-    pBVar7->SetCoords((short)((int)(0x140 - pBVar7->GetWidth()) / 2),0xf0);
-    pBVar7->SetSomeBounds(pBVar7->y,0,0x140,pBVar7->y + pBVar7->GetHeight());
+    pBVar7->SetCoords((short)((int)(SCREEN_WIDTH - pBVar7->GetWidth()) / 2),SCREEN_HEIGHT);
+    pBVar7->SetSomeBounds(pBVar7->y,0,SCREEN_WIDTH,pBVar7->y + pBVar7->GetHeight());
     uVar14++;
     uVar12 = (ushort)pBVar7->y + pBVar7->GetHeight();
     posY = (ushort)uVar12;
@@ -42,12 +42,12 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
         if (128 < count) break;
         pBVar9 = WClipTXT(creditStrings[count]);
         pBVar9->SetColor(0xe1,0xe1,0xe1,0xff);
-        pBVar9->SetCoords(((0x140 - pBVar9->GetWidth()) / 2),posY);
+        pBVar9->SetCoords(((SCREEN_WIDTH - pBVar9->GetWidth()) / 2),posY);
         pBVar7->Link(pBVar9);
         uVar12 += pBVar9->GetHeight();
         posY = (ushort)uVar12;
         count++;
-        pBVar9->SetSomeBounds(pBVar9->y,0,0x140,posY);
+        pBVar9->SetSomeBounds(pBVar9->y,0,SCREEN_WIDTH,posY);
       } while (count != credits_linebreaks[uVar14]);
     }
     pBVar7->var5C = (byte)count;
@@ -55,7 +55,7 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
 }
  this->clipText = WClipTXT(creditStrings[0x81]);
  this->clipText->SetColor(0xff,0xff,0xff,0);
- this->clipText->SetCoords((0x140 - this->clipText->GetWidth()) / 2,((0xf0 - this->clipText->GetHeight()) / 2));
+ this->clipText->SetCoords((SCREEN_WIDTH - this->clipText->GetWidth()) / 2,((SCREEN_HEIGHT - this->clipText->GetHeight()) / 2));
  RomString::Free(creditStrings);
  pBVar11 = gGlobals.Sub.BGM;
  this->BGMVol = gGlobals.VolBGM;
@@ -105,7 +105,7 @@ void WidgetCredits::State1(){
   
   pBVar2 = this->field5_0x80;
   this->col.A = (this->field5_0x80->col).A;
-  if (this->field5_0x80->y < 0xf0) {
+  if (this->field5_0x80->y < SCREEN_HEIGHT) {
     if (this->unk89 == 0) {
       if ((u8)(gGlobals.delta * 5.0f) << 1 < this->col.A) {
         this->col.A+= gGlobals.delta * 5.0f * -2;
@@ -124,7 +124,7 @@ void WidgetCredits::State1(){
     }
   }
   else {
-    Utilities::MoveWidget(this->field5_0x80,0,((this->field5_0x80->var5E + 0xf0) >> 1));
+    Utilities::MoveWidget(this->field5_0x80,0,((this->field5_0x80->var5E + SCREEN_HEIGHT) >> 1));
     this->col.A = 0;
     this->unk89 = 1;
     this->unk88 = 10.0f / gGlobals.delta;
@@ -160,7 +160,7 @@ void WidgetCredits::State2(){
     }
     else {
       pBVar1 = pBVar3->link1;
-      if ((pBVar1 == NULL) || (bVar2 = 1, (int)((int)pBVar1->y + (uint)pBVar1->var5E + 0x20) < 0xf0)
+      if ((pBVar1 == NULL) || (bVar2 = 1, (int)((int)pBVar1->y + (uint)pBVar1->var5E + 0x20) < SCREEN_HEIGHT)
          ) {
         do {
           bVar2 = this->unk8a;
@@ -199,7 +199,7 @@ void WidgetCredits::State3()
   if (gGlobals.creditsByte == 2) {
     if (DAT_800ed510 == 0) {
       this->Link(this->clipText);
-      this->unk88 = 0xf0;
+      this->unk88 = SCREEN_HEIGHT;
       this->unk89 = 1;
       DAT_800ed510 = 1;
     }

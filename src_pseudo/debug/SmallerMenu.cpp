@@ -17,7 +17,7 @@ DebugMapLabel debugMapLabels[]={
     {0}
 };
 DebugCharChanger debugCharacters[]={
-    {0x25f9,0.5,"Alaron"},{0x2ef2,0.25,"Chicken"},{0x2a58,0.5,"Guard"},{0}
+    {BORG7_Alaron,0.5,"Alaron"},{BORG7_Chicken,0.25,"Chicken"},{0x2a58,0.5,"Guard"},{0}
 };
 
 #define  FreeDebugMenu(w) WHANDLE->FreeWidget(w);\
@@ -338,7 +338,7 @@ bool change_actor_menu(void){
   u32 length;
   for(length=0;debugCharacters[length].label!=NULL;length++){}
   WidgetScrollMenu* scrollMenu=new WidgetScrollMenu(length);
-  scrollMenu->SetCoords(0x28,0x4b);
+  scrollMenu->SetCoords(40,75);
   for(u32 i=0;debugCharacters[i].label!=NULL;i++){
     WidgetText* txt=WText(debugCharacters[i].label);
     txt->var5E = i;
@@ -381,7 +381,7 @@ bool DebugTeleportMenu(void){
   u16 length;
   for(length=0;debugMapLabels[length].label!=NULL;length++) {}
   WidgetScrollMenu* scrollMenu  =  new WidgetScrollMenu(length);
-  scrollMenu->SetCoords(0x28,0x4b);
+  scrollMenu->SetCoords(40,75);
   for(u32 i=0;debugMapLabels[i].label!=NULL;i++){
     WidgetText* txt = WText(debugMapLabels[i].label);
     scrollMenu->Append(txt);
@@ -416,6 +416,5 @@ void debug_teleport(BaseWidget *param_1){
     gGlobals.playerCharStruct.unkState = 4;
   }
 }
-
 
 #endif
