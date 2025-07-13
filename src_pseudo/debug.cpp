@@ -1,5 +1,8 @@
 #include "globals.h"
 #include "debug.h"
+#include "armordb.h"
+#include "chestdb.h"
+#include "weapondb.h"
 #include "gamestatemod.h"
 #include "gamestateCheats.h"
 #include "widgets/credits.h"
@@ -145,32 +148,32 @@ WidgetItemDB::~WidgetItemDB(){
     pBVar4 = NULL;
     switch(iVar3->var5E) {
     case 0:
-      pBVar4 = new WidgetItemDBItem((ushort)armour_pointer->armors);
-      for(i=0;i<armour_pointer->armors;i++){
-                  IVar1 = armour_pointer->Armor[i].ID;
+      pBVar4 = new WidgetItemDBItem(gArmorDBp->armors);
+      for(i=0;i<gArmorDBp->armors;i++){
+                  IVar1 = gArmorDBp->Armor[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ulonglong)(ushort)IVar1,
-                      &armour_pointer->Armor[i].name,i,(uint)((ushort)IVar1 >> 8),
+                      &gArmorDBp->Armor[i].name,i,(uint)((ushort)IVar1 >> 8),
                       (ushort)IVar1 & 0xff,ArmorList[i] + 0x500);
           pBVar4->Append(gGlobals.text,IVar1);
       }
       break;
     case 1:
-      pBVar4 = new WidgetItemDBItem(armour_pointer->sheilds);
-      for(i=armour_pointer->armors;i<armour_pointer->total;i++){
-          IVar1 = armour_pointer->Armor[i].ID;
+      pBVar4 = new WidgetItemDBItem(gArmorDBp->sheilds);
+      for(i=gArmorDBp->armors;i<gArmorDBp->total;i++){
+          IVar1 = gArmorDBp->Armor[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ushort)IVar1,
-                      &armour_pointer->Armor[i].name,i,(uint)((ushort)IVar1 >> 8),
+                      &gArmorDBp->Armor[i].name,i,(uint)((ushort)IVar1 >> 8),
                       (ushort)IVar1 & 0xff,ArmorList[i] + 0x600);
           pBVar4->Append(gGlobals.text,IVar1);
       }
       break;
     case 2:
-      pBVar4 = new WidgetItemDBItem((ushort)gItemDBp->total);
+      pBVar4 = new WidgetItemDBItem(gItemDBp->total);
       for(i=0;i<gItemDBp->total;i++){
                   IVar1 = gItemDBp->Gear[i].ID;
-          sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ulonglong)(ushort)IVar1,
-                      gItemDBp->Gear[i].name,i,(uint)((ushort)IVar1 >> 8),
-                      (ushort)IVar1 & 0xff,(uint)(ushort)itemID_array[i]);
+          sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",IVar1,
+                      gItemDBp->Gear[i].name,i,IVar1 >> 8,
+                      IVar1 & 0xff,itemID_array[i]);
           pBVar4->Append(gGlobals.text,IVar1);
       }
       break;

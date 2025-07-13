@@ -68,4 +68,6 @@ class ArmorDB {
 };
 ArmorDB* gArmorDBp=NULL;
 
+extern u8 ArmorList[];
+
 u8 getRomEquipSpell(ItemID id);

@@ -467,18 +467,14 @@ void CombatEntity::SetPlayerRotate(){
 }
 
 u8 CombatEntity::GetWeaponAnimation(u8 param_2){
-  u8 (*pabVar1) [2];
-  u8 uStack64 [7] [2]={{0,16},{1,17},{2,13},{3,12},{4,15},{5,14},{0xff,0xff}};
+  u8 table []={0,AniType_Atk0,1,AniType_Atk1,2,AniType_Atk2,
+               3,AniType_Atk3,4,AniType_Atk4,5,AniType_Atk5,
+               0xff,0xff};
   
-  pabVar1 = uStack64;
-
-  while( true ) {
-    if (uStack64[0][0] == 0xff) {return 18;}
-    if (*pabVar1[0] == param_2) break;
-    pabVar1 = (u8 (*) [2])((s32)pabVar1 + 2);
-    uStack64[0][0] = *(u8 *)pabVar1;
+  for(u32 i=0;table[i]!=0xff;i+=2){
+    if(table[i]==param_2)return table[i+1];
   }
-  return *pabVar1[1];
+  return AniType_Atk6;
 }
 
 
@@ -2273,7 +2269,7 @@ void AddPotionVisualEffect(u8 playerDatIndex,u8 potion,CharSheet *ent){
   
   ppVar1 = gGlobals.playerDataArray[playerDatIndex];
   if (ppVar1) {
-    ppVar1->ani_type = 5;
+    ppVar1->ani_type = AniType_GetBuff;
     uVar2 = InitPotionEffect(ppVar1,potion);
     pPVar2 = *(PotionEffect **)*ent->potionEffects;
     uVar3 = 0;
@@ -2380,7 +2376,7 @@ void CombatEntity::PrintFlaskMiss(CombatEntity *param_2,u8 param_3){
   copyVec3(&(ppVar1->collision).pos,&gGlobals.combatCursorPos);
   gGlobals.combatCursorPos.y += gEntityDB->GetHeight(param_2->charSheetP->ID) * 0.5f - (ppVar1->collision).radius;
   WeaponSkillUpChance(param_3 >> 1,WEAPON_Thrown);
-  gGlobals.playerDataArray[this->index]->ani_type = 0xf;
+  gGlobals.playerDataArray[this->index]->ani_type = AniType_Atk4;
   SubtractPotion();
   CSprintf(XAttacksY,this->charSheetP->name,param_2->charSheetP->name);
   copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
@@ -2456,7 +2452,7 @@ void CombatEntity::FlaskAttack(CombatEntity *target,s16 dmgBase){
             }
             if (pCVar1 == target) {pCVar1->TryCheatDeath((s16)iVar5);}
             ppVar2 = gGlobals.playerDataArray[pCVar1->index];
-            if ((ppVar2) && (ppVar2->ani_type = 7, pCVar1 != target)) {
+            if ((ppVar2) && (ppVar2->ani_type = AniType_Hit, pCVar1 != target)) {
               Print_damage_healing(ppVar2,(u16)pCVar1->damage,0,false,pCVar1->charSheetP);
               pCVar1->damage = 0;
             }
@@ -2526,7 +2522,7 @@ u8 CombatEntity::HealingSkill(CombatEntity *param_2,playerData * param_3){
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
       param_2->PrintHealing((hpNew - hpOld));
-      param_3->ani_type = 5;
+      param_3->ani_type = AniType_GetBuff;
       param_2->Healing = (u8)(hpNew - hpOld);
     }
     else {
@@ -2599,16 +2595,16 @@ s16 CombatEntity::m8006edd0(CombatEntity *param_2,playerData *param_3,playerData
     lVar10 = sVar5;
     if (lVar10 == 0) param_2->PrintSpellResist(param_2,pSVar2);
     lVar9 = lVar10;
-    if (lVar10 == 0xfffd) lVar9 = 0;
-    if (lVar9 == 0xffff) {
+    if (lVar10 == -3) lVar9 = 0;
+    if (lVar9 == -1) {
       lVar10 = -1;
       lVar9 = 0;
     }
-    if (lVar9 == 0xfffe) {
+    if (lVar9 == -2) {
       lVar10 = -2;
       lVar9 = 0;
     }
-    param_3->ani_type = 5;
+    param_3->ani_type = AniType_GetBuff;
     SVar6 = GETINDEX((pSVar2->base).id);
     set_movement_spellUsed(param_3,param_3->ani_type,(short)(char)SVar6);
     uVar3 = FUN_80095c04(param_3,param_4,SVar6,(s32)lVar10);
@@ -2788,7 +2784,7 @@ void CombatEntity::Troubadour(){
         CombatEntity::TroubadourUpChance((u8)uVar9);
         AttachItemToPlayer(ppVar2,2,0x1abb);
       }
-      ppVar2->ani_type = 5;
+      ppVar2->ani_type = AniType_GetBuff;
       combat_byte_0x1a(ppVar2);
     }
   }

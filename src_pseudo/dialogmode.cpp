@@ -772,7 +772,7 @@ void FUN_80059970(BaseWidget *param_1){
   gGlobals.diaClass->m8004ea94(param_1);
   if (((dialougemode_pointer) && (dialougemode_pointer->unkac == 0)) &&
      (ppVar1 = FUN_800591e4(), ppVar1)) {
-    ppVar1->ani_type = 4;
+    ppVar1->ani_type = AniType_4;
   }
   return;
 }
@@ -788,7 +788,7 @@ void FUN_80059970(BaseWidget *param_1)
   gGlobals.diaClass->m8004ea94(param_1);
   if (((dialougemode_pointer) && (dialougemode_pointer->unkac == 0)) &&
      (ppVar1 = FUN_800591e4(), ppVar1 != NULL)) {
-    ppVar1->ani_type = 4;
+    ppVar1->ani_type = AniType_4;
   }
   return;
 }
@@ -861,7 +861,7 @@ void FUN_80059bf8(BaseWidget *param_1){
   if ((((gGlobals.scriptcamera.counter1 == 0) &&
        (gGlobals.diaClass->m8004ea94(param_1), dialougemode_pointer->unkab == 1))
       && (ppVar1 = FUN_80059ae8(), ppVar1 != NULL)) && (dialougemode_pointer->unkac == 0)) {
-    ppVar1->ani_type = 4;
+    ppVar1->ani_type = AniType_4;
   }
 }
 

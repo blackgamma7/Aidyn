@@ -56,7 +56,34 @@ struct MoveQueueEntry {
     short active;
     s16 flag;
 };
-
+//enums for different animation states
+enum AniTypes{
+    AniType_0,
+    AniType_1,
+    AniType_Walk=2,
+    AniType_Run,
+    AniType_4, //speaking motion?
+    AniType_GetBuff=5,
+    AniType_6,
+    AniType_Hit,
+    AniType_8,
+    AniType_Dying,
+    AniType_10,
+    AniType_Atk3=12,
+    AniType_Atk2,
+    AniType_Atk5,
+    AniType_Atk4,
+    AniType_Atk0,
+    AniType_Atk1,
+    AniType_Atk6,
+    AniType_19,
+    AniType_20,
+    AniType_21,
+    AniType_22,
+    AniType_23,
+    AniType_24,
+    AniType_Sneak,
+};
 //Main actor struct for entites moving in world
 struct playerData {
     u16 ID;

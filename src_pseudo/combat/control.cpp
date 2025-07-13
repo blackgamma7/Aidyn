@@ -402,7 +402,7 @@ void combat_control_case_0x12(controller_aidyn *cont,u8 param_2){
       else {
         FUN_8008d9d4(gCombatP->substruct2,pCVar3);
         ppVar4 = gGlobals.playerDataArray
-                 [(&gCombatP->combatEnts)[(byte)gCombatP->substruct2[0].entindex]->index];
+                 [(&gCombatP->combatEnts)[gCombatP->substruct2[0].entindex]->index];
         if (ppVar4) {
           (gCombatP->SpellMarkerPos).x = (ppVar4->collision).pos.x;
           (gCombatP->SpellMarkerPos).y = (ppVar4->collision).pos.z;

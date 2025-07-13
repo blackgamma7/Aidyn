@@ -37,7 +37,7 @@ void Combat_SetHideMarkers(u32 param_1){gCombatHideMarkers = param_1;}
 
 void Set_keelover_aniType(playerData *param_1){
   if (param_1) {
-    param_1->ani_type = 9;
+    param_1->ani_type = AniType_Dying;
     param_1->unk18 = 9;
   }
 }
@@ -161,8 +161,7 @@ u8 FUN_80027f1c(Gfx **GG,u16 delta){
   if (FUN_80027eb0(GG,delta)) {
     PDAT = gGlobals.playerDataArray[bVar1];
     if (PDAT == NULL) return 2;
-    if ((pCVar2->throwingFlag == 0) || (gCombatP->substruct2[0].arrayBCount == 0)) {}
-    else {
+    if ((pCVar2->throwingFlag) && (gCombatP->substruct2[0].arrayBCount)){
       bVar1 = pCVar2->AtkType;
       if (((bVar1 == 2) || (bVar1 == 4)) || (bVar1 == 3)) {
         gamecombat_weapon_func();
@@ -191,7 +190,7 @@ u8 FUN_80027f1c(Gfx **GG,u16 delta){
 
 void func_keel_over_after_ambush(CombatEntity *param_1,playerData *param_2){
   Entity::DamageToLevel(param_1->charSheetP,param_1->damage,param_1);
-  param_2->ani_type = 7;
+  param_2->ani_type = AniType_Hit;
   if (((gGlobals.EncounterDat.EncounterID == FLAG_GoblinAmbush) && (param_1->index == 0)) &&
      (gGlobals.GoblinHitTally == 0)) {
     Set_keelover_aniType(param_2);
@@ -208,10 +207,10 @@ void FUN_80028180(void){
   if (user->AtkType == 3) user->FlaskAttack(target,(ushort)user->damage);
   if (target->damage == 0) {
     if (user->Flag4() == target->Flag4()) {
-      PDAT->ani_type = 10;
+      PDAT->ani_type = AniType_10;
       Print_damage_healing(PDAT,0,(ushort)target->Healing,Entity::isDead(target->charSheetP),target->charSheetP);
     }
-    else PDAT->ani_type = 8;
+    else PDAT->ani_type = AniType_8;
   }
   else func_keel_over_after_ambush(target,PDAT);
   if (Entity::isDead(target->charSheetP)) Set_keelover_aniType(PDAT);
@@ -783,17 +782,17 @@ void refersh_terrain_check_anidat_alaronMerge(){
       playerData *pDat = gGlobals.playerDataArray[i];
       if (pDat) {
         switch(pDat->ani_type) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 0x14:
-        case 0x15:
-        case 0x16:
-        case 0x19:
+        case AniType_0:
+        case AniType_1:
+        case AniType_Walk:
+        case AniType_Run:
+        case AniType_20:
+        case AniType_21:
+        case AniType_22:
+        case AniType_Sneak:
           break;
         default:
-          pDat->ani_type = 0;
+          pDat->ani_type = AniType_0;
         }
       }
       i++;
@@ -931,7 +930,7 @@ void merge_no_horn(){
     copy_string_to_combat_textbox(gCombatP,ComString(ShadowVanish),0);
     for(u32 i=0;i<gCombatP->EntCount;i++){
         if((&gCombatP->combatEnts[i])&&(gGlobals.playerDataArray[gCombatP->combatEnts[i].index])){
-            gGlobals.playerDataArray[gCombatP->combatEnts[i].index]->ani_type=0;
+            gGlobals.playerDataArray[gCombatP->combatEnts[i].index]->ani_type=AniType_0;
         }
     }
   }

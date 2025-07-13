@@ -312,13 +312,13 @@ LAB_80013318:
           if (fVar13 <= wanderer->size) {
             if (((wanderer->flags ^ 1) & 1)) {
               switch(playerDat_->ani_type){
-                case 3: //running
+                case AniType_Run:
                  if (wanderer->perecpRun >= perceptionProx){
                   gGlobals.EncounterDat.aniByte=EncountAni_Run;
                   bVar3=true;
                  }
                  break;
-                case 2: //walking
+                case AniType_Walk:
                  if (wanderer->precepWalk >= perceptionProx){
                   gGlobals.EncounterDat.aniByte=EncountAni_Walk;
                   bVar3=true;
@@ -331,7 +331,7 @@ LAB_80013318:
                   bVar3=true;
                  }
                  break;
-                case 0x19: //sneaking
+                case AniType_Sneak:
                  if (wanderer->percepSneak >= perceptionProx){
                   gGlobals.EncounterDat.aniByte=EncountAni_Sneak;
                   bVar3=true;

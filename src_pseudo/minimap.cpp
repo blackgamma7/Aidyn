@@ -618,13 +618,13 @@ LAB_800529b4:
             pBVar10->var5E = this->mapdat[i].borg8;
             pBVar10->SetColor(0x9b,0x9b,0x9b,0);
             pBVar9 = this->widget18;
-            this->widget20 = pBVar10;
+            this->widget20 = (WidgetBorg8*)pBVar10;
             this->mapdat[i].checked = true;
             if (pBVar9) {
               pBVar10->link2 = pBVar9;
               this->widget18->link1 = pBVar10;
             }
-            this->widget18 = pBVar10;
+            this->widget18 = (WidgetBorg8*)pBVar10;
             goto LAB_80052b2c;
           }
           this->unk3c = sVar3;

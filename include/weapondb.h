@@ -65,6 +65,7 @@ struct weaponDB_s {
 };
 
 weaponDB_s* gWeaponsDB=NULL;
+extern u8 weaponList[];
 
 void load_weaponDB(weaponDB_s *db,u8 index,int *pos);
 void build_weapondb(weaponDB_s *db);

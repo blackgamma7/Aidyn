@@ -703,13 +703,12 @@ LAB_80016cec:
                 uVar2 = pDat->borg7P->sceneDat->aniTime;
                 uVar3 = pDat->unk18;
                 bVar19 = bVar18;
-                if (((pDat->ani_type == 9) && (uVar3 != 9)) && (bVar18)) {
+                if (((pDat->ani_type == AniType_Dying) && (uVar3 != 9)) && (bVar18)) {
                   bVar19 = false;
                 }
                 if (uVar3 == 9) {
-                  if (pDat->ani_type != 9) {
+                  if (pDat->ani_type != AniType_Dying) {
                     pDat->unk77c = 1;
-                    sVar15 = pDat->ani_type;
                     goto LAB_80016e74;
                   }
 LAB_80016e88:
@@ -717,9 +716,8 @@ LAB_80016e88:
                   pBVar13 = pDat->borg7P;
                 }
                 else {
-                  sVar15 = pDat->ani_type;
 LAB_80016e74:
-                  if ((sVar15 == 9) || (pDat->unk77c != 0)) goto LAB_80016e88;
+                  if ((pDat->ani_type == AniType_Dying) || (pDat->unk77c != 0)) goto LAB_80016e88;
 LAB_80016e90:
                   count = FUN_800a00d0(pDat->borg7P);
                   bVar18 = count != 0;

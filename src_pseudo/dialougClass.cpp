@@ -297,23 +297,20 @@ LAB_8004ef58:
     pBVar8->boundX0 = uVar12;
     uVar12 = (short)uVar7 + 0xb0;
     if (pdVar2->diags[2].next != 0xff) {
-      iVar9 = 0xc;
       do {
         entry = WText(this->dialouge_substruct->diags[iVar11].txt);
         bVar1 = this->dialouge_substruct->diags[iVar11+1].next;
-        entry->var5C = (byte)iVar11;
-        entry->var5E = (ushort)bVar1;
+        entry->var5C = iVar11;
+        entry->var5E = bVar1;
         sub->scrollMenu->Append(entry);
         iVar11 += 1;
         if (this->dialouge_substruct->diags[iVar11+2].next == 0xff) break;
-        iVar9 = iVar9 + 0xc;
       } while (iVar11 < 9);
     }
     sub->scrollMenu->Tick();
     pBVar8 = sub->scrollMenu;
     pBVar8->boundY1 = uVar12;
-    uVar7 = pBVar8->GetHeight();
-    uVar12 -= (short)uVar7;
+    uVar12 -= (short)pBVar8->GetHeight();
     pBVar8 = sub->scrollMenu;
     iVar11 = this->unk1C;
     pBVar8->boundY0 = uVar12;

@@ -36,13 +36,11 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     float fVar8;
     float fVar9;
     float y;
-    vec2f fStack248;
     vec2f fStack184;
-    vec3f fStack120;
     
     if (p->borg7 == -1) return;
     if (gGlobals.screenFadeMode != 0) {
-      if (p->ani_type == 9) return;
+      if (p->ani_type == AniType_Dying) return;
       p->ani_type = 0;
       return;
     }
@@ -54,12 +52,11 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
                       // Flea Jump
     if ((((_flea_flag != 0) && (p->alaron_flag)) &&
         ((controller->input & A_BUTTON) != 0)) && ((p->collision).unk1e != 0)) {
-      fStack248.x = (p->facing).x;
-      fStack248.y = (p->facing).y;
-      multiVec2(&fStack248,-0.06);
-      (p->collision).vel.x += fStack248.x;
+      vec2f fleaVec = {(p->facing).x,(p->facing).y};
+      multiVec2(&fleaVec,-0.06);
+      (p->collision).vel.x += fleaVec.x;
       (p->collision).vel.y += 0.084;
-      (p->collision).vel.z += fStack248.y;
+      (p->collision).vel.z += fleaVec.y;
     }
     #ifdef DEBUGVER
     if (gDebugFlag) {
@@ -87,7 +84,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
       MINIMAP.Toggle(0);
     }
 }
-    if (p->ani_type != 9) p->ani_type = 0;
+    if (p->ani_type != AniType_Dying) p->ani_type = 0;
     if (gGlobals.Sub.gamemodeType == 1) {
       if (gCombatFreeCamera != 0) {
         if (gCombatFreeCamera == 1) {
@@ -143,34 +140,32 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
       if ((p->flags & ACTOR_ISPLAYER)){
         Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,&(p->collision).pos);
       }
-      goto LAB_80019358;
     }
-    if (p->visible_flag) {
-      gGlobals.playerCharStruct.show_portaits = 0;
-      MINIMAP.Toggle(0);
-    }
-    if ((controller->input_2 & Z_BUTTON) == 0) {
-      p->ani_type = 2;
-      if (0.8 <= (double)fVar8) {
-        p->ani_type = 3;
+    else{
+      if (p->visible_flag) {
+        gGlobals.playerCharStruct.show_portaits = 0;
+        MINIMAP.Toggle(0);
       }
-    }
-    else p->ani_type = 0x19;
-    camera_control_update_(fVar9,y,&(gGlobals.Sub.PlayerHandler.camera)->rotationXZ,&p->facingMirror);
-    if (p->visible_flag == 0) fVar9 = 0.34906;
-    else fVar9 = 0.17453;
-    some_trig_func_2(&p->facing,&p->facingMirror,fVar9);
-    fVar9 = (p->facing).x;
-    if (0.0 < fVar9) {
-      if (fVar9 < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
-    }
-    else if (-fVar9 < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
-    vec2_normalize(&p->facing);
-  LAB_80019358:
-    if (((p->ani_type != 0) && (p->borg7P != NULL)) && (p->borg7P->currentAni == 0)) {
-      copyVec3(&(p->collision).pos,&fStack120);
-      fStack120.y -= 0.475;
-      UNK_NOOP(&fStack120,p->Ground_type);
+      if ((controller->input_2 & Z_BUTTON) == 0) {
+        p->ani_type = AniType_Walk;
+        if (0.8 <= fVar8) p->ani_type = AniType_Run;
+      }
+      else p->ani_type = AniType_Sneak;
+      camera_control_update_(fVar9,y,&(gGlobals.Sub.PlayerHandler.camera)->rotationXZ,&p->facingMirror);
+      if (p->visible_flag == 0) fVar9 = 0.34906;
+      else fVar9 = 0.17453;
+      some_trig_func_2(&p->facing,&p->facingMirror,fVar9);
+      if (0.0 < (p->facing).x) {
+        if ((p->facing).x < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
+      }
+      else if (-(p->facing).x < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
+      vec2_normalize(&p->facing);
+  };
+  if (((p->ani_type != 0) && (p->borg7P)) && (p->borg7P->currentAni == 0)) {
+      vec3f unkPosVec;
+      copyVec3(&(p->collision).pos,&unkPosVec);
+      unkPosVec.y -= 0.475;
+      UNK_NOOP(&unkPosVec,p->Ground_type);
     }
   }
   
