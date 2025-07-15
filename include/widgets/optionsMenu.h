@@ -42,8 +42,7 @@ struct OptionsConfigSubstruct{
 BaseWidget* AudioTitle;
 BaseWidget* GraphicsTitle;
 BaseWidget* GameTitle;
-BaseWidget* optionTitles[3];
-u8 unk18;
+BaseWidget* optionTitles[4];
 BaseWidget* TitleImage;
 u32 unk20;
 BaseWidget* unk24;

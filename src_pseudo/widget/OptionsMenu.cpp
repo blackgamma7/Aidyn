@@ -106,7 +106,6 @@ u8 WidgetOptionsMenu::Tick(){
   return TickChildren();
 }
 
-
 void WidgetOptionsMenu::MakeScrollList(){
   BaseWidget *pBVar2;
   Borg8Header *pBVar3;
@@ -179,45 +178,30 @@ void WidgetOptionsMenu::MakeScrollList(){
   this->alpha0 = 0;
   Utilities::SetAlpha(sub->unk10,0);
   this->alpha1 = 0xff;
-  if (sub->unk14 != NULL) {
-    Utilities::SetAlpha(sub->unk14,0xff);
-  }
-  return;
+  if (sub->unk14 != NULL) Utilities::SetAlpha(sub->unk14,0xff);
 }
-
 
 void WidgetOptionsMenu::InitConfigMenu(){
-  WidgetMethods *pWVar1;
-  void *pvVar2;
-  BaseWidget *pBVar3;
-  WidgetOptionsSubstruct *iVar1;
-  
-  iVar1 = (WidgetOptionsSubstruct *)this->substruct;
-  iVar1->unk14 = iVar1->unk10;
-  if (iVar1->unk10 != NULL) {
-    pWVar1 = this->vTable;
-    (*(pWVar1->Unlink).func)((int)&this->fadeIn + (int)*(short *)&(pWVar1->Unlink).arg);
-    iVar1->unk10 = NULL;
+  WidgetOptionsSubstruct *sub = (WidgetOptionsSubstruct *)this->substruct;
+  sub->unk14 = sub->unk10;
+  if (sub->unk10) {
+    this->Unlink(sub->unk10);
+    sub->unk10 = NULL;
   }
-  if (!iVar1->optionsConfig) {
-    iVar1->optionsConfig = new WidgetOptionsConfig(1);
-    Utilities::MoveWidget(iVar1->optionsConfig,0x19,0);
+  if (!sub->optionsConfig) {
+    sub->optionsConfig = new WidgetOptionsConfig(1);
+    Utilities::MoveWidget(sub->optionsConfig,25,0);
   }
-  iVar1->unk18 = 1;
-  iVar1->unk10 = iVar1->optionsConfig;
-  this->Link(pBVar3);
+  sub->selected = 1;
+  sub->unk10 = sub->optionsConfig;
+  this->Link(sub->optionsConfig);
   this->alpha0 = 0;
-  Utilities::SetAlpha(iVar1->unk10,0);
+  Utilities::SetAlpha(sub->unk10,0);
   this->alpha1 = 0xff;
-  if (iVar1->unk14 != NULL) {
-    Utilities::SetAlpha(iVar1->unk14,0xff);
-  }
-  return;
+  if (sub->unk14) Utilities::SetAlpha(sub->unk14,0xff);
 }
 
-
 void WidgetOptionsMenu::InitTheatreMenu(){
-  WidgetMethods *pWVar1;
   BaseWidget *pBVar2;
   WidgetOptionsSubstruct *sub;
   

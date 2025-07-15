@@ -108,8 +108,8 @@ BaseWidget * DebugTerrainChangePlus(BaseWidget * param_1,BaseWidget *param_2){
 }
 
 BaseWidget * DebugTerrainChangeMinus(BaseWidget * param_1,BaseWidget *param_2){
-  WSMSub *iVar1 = *(WSMSub **)(((BaseWidget*)param_2->substruct)->substruct);
-  BaseWidget *pBVar1 = iVar1->items[iVar1->highlight]->link3;
+  WSMSub *sub = *(WSMSub **)(((BaseWidget*)param_2->substruct)->substruct);
+  BaseWidget *pBVar1 = sub->items[sub->highlight]->link3;
   float *pfVar4 = NULL;
   if (pBVar1) {
     char **puVar2 = (char **)pBVar1->substruct;
