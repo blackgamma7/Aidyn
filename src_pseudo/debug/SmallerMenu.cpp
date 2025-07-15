@@ -27,7 +27,7 @@ DebugCharChanger debugCharacters[]={
 
 #define  FreeSmallDebug FreeDebugMenu(gGlobals.playerCharStruct.smallerDebugWindow)
 #define DebugBG(w) {\
-  WidgetBorg8* BG = WidgetB8(BORG8_2x2Pixel);\
+  WidgetBorg8* BG = WidgetB8(BORG8_DebugBG);\
   w->Link(BG);\
   BG->SetCoords(0,0);\
   BG->SetHeight(SCREEN_HEIGHT);\
@@ -62,6 +62,9 @@ BaseWidget * SmallerDebugWidgetAFunc(BaseWidget *param_1,BaseWidget *param_2){
 }
 
 BaseWidget * SmallerDebugWidget_ret_a1(BaseWidget *param_1,BaseWidget *param_2){return param_2;}
+
+u16 gDebugGameTimeSpeeds[]={0,1,2,5,10,15,30,60,120,300,600,900,1800,3600,57600};
+u8 gDebugGameTime=1;
 
 BaseWidget * DebugTerrainChangePlus(BaseWidget * param_1,BaseWidget *param_2){
   u8 PVar3;
@@ -105,7 +108,6 @@ BaseWidget * DebugTerrainChangePlus(BaseWidget * param_1,BaseWidget *param_2){
 }
 
 BaseWidget * DebugTerrainChangeMinus(BaseWidget * param_1,BaseWidget *param_2){
-  u8 PVar3;
   WSMSub *iVar1 = *(WSMSub **)(((BaseWidget*)param_2->substruct)->substruct);
   BaseWidget *pBVar1 = iVar1->items[iVar1->highlight]->link3;
   float *pfVar4 = NULL;
@@ -113,9 +115,8 @@ BaseWidget * DebugTerrainChangeMinus(BaseWidget * param_1,BaseWidget *param_2){
     char **puVar2 = (char **)pBVar1->substruct;
     switch(pBVar1->var5E) {
     case 0:
-      if (TerrainPointer->rainByte == PRECIP_CLEAR) PVar3 = PRECIP_SNOW;
-      else PVar3 = TerrainPointer->rainByte - PRECIP_RAIN;
-      TerrainPointer->rainByte = PVar3;
+      if (TerrainPointer->rainByte == PRECIP_CLEAR) TerrainPointer->rainByte = PRECIP_SNOW;
+      else TerrainPointer->rainByte--;
       sprintf(*puVar2,precip_labels[TerrainPointer->rainByte]);
       break;
     case 1:
@@ -283,7 +284,13 @@ void DebugSingleEnemyFight(BaseWidget *param_1){
   }
 }
 
-extern char* arena_name_list[];
+char* arena_name_list[]={
+  "FOREST_1","FOREST_2","HILLS_1","HILLS_2","MOUNTAIN_1","MOUNTAIN_2",
+  "PLAINS_1","PLAINS_2","ROAD_1","ROAD_2","ROAD_3","ROAD_4","CAVES_1",
+  "CAVES_2","DESERT_1","DESERT_2","CHAOS_1","CHAOS_INT_1","BARROW_1",
+  "SWAMP_1","SHIP_1","ARENA_1","BATTLEMENTS_1","EHUD_TOWER_1","TILE_INT_1",
+  "TILE_INT_2","WOOD_INT_1","COBB_INT_1"
+};
 bool DebugCombatSelectArena(){
   DebugMenuInit(gGlobals.playerCharStruct.debugMenuArena,"ARENA");
   WidgetScrollMenu* scrollMenu =new WidgetScrollMenu(28);
@@ -309,7 +316,6 @@ bool DebugCombatSelectArena(){
   return WHANDLE->AddWidget(gGlobals.playerCharStruct.debugMenuArena);
 }
 
-
 void set_debug_combat_battlefeild(BaseWidget *param_1){
   if (param_1 == gGlobals.playerCharStruct.debugMenuArena) {
     WHANDLE->FreeWidget(param_1);
@@ -331,7 +337,6 @@ void set_debug_combat_battlefeild(BaseWidget *param_1){
     }
   }
 }
-
 
 bool change_actor_menu(void){
   DebugMenuInit(gGlobals.playerCharStruct.debugMenuActor,"ACTOR");

@@ -74,7 +74,7 @@ u8 ScreenFademode_10(Gfx **GG){
       uStack96.A = 0;
       gBufferedMenuP= new WBMGSM(gGSMClassP,0xe,gameStates->flagTotal,(ushort *)uStack416,
                           asStack_160,&uStack288,&uStack224,&uStack160,&uStack96);
-      WidgetBorg8At(gBufferedMenuP,BORG8_2x2Pixel,0x14,0x14,300,200);
+      WidgetBorg8At(gBufferedMenuP,BORG8_DebugBG,0x14,0x14,300,200);
       return 10;
     }
     pGVar5 = *GG;

@@ -2,9 +2,9 @@
 
 
 struct WidgetOptionsSubstruct {
-    BaseWidget *ScrollMenu;
+    WidgetScrollMenu *ScrollMenu;
     BaseWidget *theatreMenu;
-    BaseWidget *optionsConfig;
+    class WidgetOptionsConfig *optionsConfig;
     BaseWidget *unkc;
     BaseWidget *unk10;
     BaseWidget *unk14;
@@ -42,7 +42,8 @@ struct OptionsConfigSubstruct{
 BaseWidget* AudioTitle;
 BaseWidget* GraphicsTitle;
 BaseWidget* GameTitle;
-BaseWidget* optionTitles[4];
+BaseWidget* optionTitles[3];
+u8 unk18;
 BaseWidget* TitleImage;
 u32 unk20;
 BaseWidget* unk24;
@@ -52,6 +53,7 @@ u32 unk30;
 };
 
 class WidgetOptionsConfig : public WidgetMenu{
+  public:
   BaseWidget* unk7c;
   BaseWidget* unk80;
   WidgetOptionsConfig(u8);

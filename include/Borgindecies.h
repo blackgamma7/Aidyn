@@ -199,7 +199,7 @@ typedef enum Borg8Enum {
     BORG8_GradientB=450,
     BORG8_GradientC=451,
     BORG8_Pixel=452,
-    BORG8_2x2Pixel=453,
+    BORG8_DebugBG=0x01c5,
 
     
     //Spotlight?=13826,
