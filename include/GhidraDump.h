@@ -180,7 +180,7 @@ struct mapDataList {
     u16 mapShortA;
     u16 MapShortB;
     u16 borg5;
-    u16 borg6;
+    u16 borg5_2;
     u16 borg9;
     u16 terrian;
 };

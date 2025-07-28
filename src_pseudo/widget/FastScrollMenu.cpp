@@ -5,9 +5,9 @@
 WidgetFastScrollMenu::WidgetFastScrollMenu(u16 length):BaseWidget(){
   WSMSub* sub = new WSMSub;
   sub->field11_0x12 = 0;
-  sub->field1_0x1 = 1;
+  sub->blendSign = 1;
   sub->highlight = 0;
-  sub->field16_0x1c = length;
+  sub->maxCount = length;
   sub->currentCount = 0;
   sub->unk22 = 0;
   if(length) {
@@ -68,9 +68,9 @@ u8 WidgetFastScrollMenu::Tick(){
       m8002fd90();
     if ((highlighted->y < this->boundY0) || (this->boundY1 <= highlighted->y))
       m8002ff30();
-    sub->blendB+=sub->field1_0x1;
+    sub->blendB+=sub->blendSign;
     if ((sub->blendB == '\0') || ((sub->blendA - 1) <= sub->blendB)) {
-      sub->field1_0x1 = -sub->field1_0x1;
+      sub->blendSign = -sub->blendSign;
     }
     sub->col.R = sub->reds[0] + (sub->reds[1]-sub->reds[0])/sub->blendA;
     sub->col.G = sub->greens[0] + (sub->greens[1]-sub->greens[0])/sub->blendA;
@@ -200,7 +200,7 @@ u16 WidgetFastScrollMenu::GetHeight(){
 
 void WidgetFastScrollMenu::SetSubstructColors(u8 r,u8 g,u8 b,u8 a,u8 r1,u8 g1,u8 b1,u8 a1,u8 param_10){
   WSMSub *sub = (WSMSub *)this->substruct;
-  sub->field1_0x1 = 1;
+  sub->blendSign = 1;
   (sub->col).R = r;
   sub->reds[0] = r;
   (sub->col).G = g;

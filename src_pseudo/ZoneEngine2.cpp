@@ -1127,8 +1127,8 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
         if ((((SObj->scene).sceneflags & SceneObj_0004) == 0) ||
            (fVar19 * 0.5 < prox)) {
           setVec2(Sobj_pos,(SObj->header).pos.x,(SObj->header).pos.z);
-          local_b8[0].x = local_b8[0].x - cellX;
-          local_b8[0].y = local_b8[0].y - cellZ;
+          local_b8[0].x -= cellX;
+          local_b8[0].y -= cellZ;
           fVar19 = three_vec2_proximities(&camCoord,&CamAim,Sobj_pos);
           if (fVar19 <= fVar17) {
             if (fVar19 <= fVar18) local_6c = 0;

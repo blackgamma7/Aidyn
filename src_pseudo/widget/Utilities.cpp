@@ -194,7 +194,7 @@ u16 Utilities::GetHighlightIndex(BaseWidget *w){
 void Utilities::SetScrollMenuColors(BaseWidget *w,u8 r0,u8 g0,u8 b0,u8 a0,u8 r1,u8 g1,u8 b1,u8 a1,u8 w0){
   if (w->GetNumber() == WidgetN_ScrollMenu) {
     WSMSub *sub = (WSMSub *)w->substruct;
-    sub->field1_0x1 = 1;
+    sub->blendSign = 1;
     (sub->col).R = r0;
     sub->reds[0] = r0;
     (sub->col).G = g0;

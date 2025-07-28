@@ -90,7 +90,6 @@ typedef enum EnumMapDatA {
     MAPA_Misc,
 } EnumMapDatA;
 
-
 typedef enum Vobject {
     VOXEL_Scene, //Meshes/decal
     VOXEL_Container, //loot (chests, sacks, ingredient resources)
@@ -338,28 +337,22 @@ struct dialoug_dat {
 };
 
 enum VObject_Triggers{
-    VTrigger_SetFlag=1, //set flag (trigger.flagA)
+    VTrigger_0,//unused?
+    VTrigger_SetFlag, //set flag (trigger.flagA)
     VTrigger_ChangeAni, //changed linked Voxel's Borg7 animation to (trigger.flagA)
-    VTrigger_3, //unused?
+    VTrigger_3, //unused. checked in case-switch with no effect
     VTrigger_BorgPhys, //if (borgphys->groundType>>5&0x7f==trigger.flagA),borgphys->flags=borgphys->flags&(trigger.flagB)|(trigger.flagC)
-    VTrigger_5, //unused?
+    VTrigger_5, //unused. checked in case-switch with no effect
 };
 
 struct Trigger_dat {
-    s16 triggertype; // 1,2,4 are valid
+    s16 triggertype; // uses VObject_Triggers
     u8 unk0x2;
     u8 unk0x3;
     u16 flagA;
     u16 flagB;
     u16 flagC;
-    u16 unk0xa;
-    s16 unk0xc;
-    u8 unk0xe[6];
-    u16 unk0x14;
-    u16 unk0x16;
-    u32 unk0x18;
-    char name[16];
-    u8 align[24];
+    u8 align[58];
 };
 
 struct voxelObject {

@@ -267,14 +267,8 @@ void monsterpary_func(voxelObject *v,u16 A,u16 B){
 
 
 void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
-  Borg7Header *pBVar1;
-  borg9_phys *pbVar2;
-  Borg9Data *pBVar3;
-  voxelObject *prVar3;
-  int iVar5;
-  u16 uVar6;
-  
-  pBVar3 = gGlobals.Sub.borg9DatPointer;
+
+  Borg9Data *pBVar3 = gGlobals.Sub.borg9DatPointer;
   switch((v->trigger).triggertype) {
   case VTrigger_SetFlag:
     setEventFlag((v->trigger).flagA,true);
@@ -282,17 +276,16 @@ void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
     set_refObj_flag(v);
     break;
   case VTrigger_ChangeAni:
-    voxelObject *prVar3 = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,v,VOXEL_Scene);
-    pBVar1 = (prVar3->scene).borgArray[0].b7;
+    Borg7Header *pBVar1 = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,v,VOXEL_Scene)->scene.borgArray[0].b7;
     if (pBVar1) FUN_800a0090(pBVar1,(v->trigger).flagA);
     break;
   case VTrigger_3: break;
   case VTrigger_BorgPhys:
     if ((gGlobals.Sub.borg9DatPointer)->borghpys_count != 0) {
-      pbVar2 = (gGlobals.Sub.borg9DatPointer)->phys_pointer;
+      borg9_phys *pbVar2 = (gGlobals.Sub.borg9DatPointer)->phys_pointer;
       for(u16 i=0;i<(gGlobals.Sub.borg9DatPointer)->borghpys_count;i++){
-        uVar6 = pbVar2[i].GroundType;
-        if (((uVar6 & 0xf000) == 0x1000) && ((uVar6 >> 5 & 0x7f) == (v->trigger).flagA))
+        u16 gFlag = pbVar2[i].GroundType;
+        if (((gFlag & 0xf000) == 0x1000) && ((gFlag >> 5 & 0x7f) == (v->trigger).flagA))
           pbVar2[i].flags=pbVar2[i].flags&(v->trigger).flagB|(v->trigger).flagC;
       }
     }

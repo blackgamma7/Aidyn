@@ -11,7 +11,7 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     this->height = 0;
     puVar1->field0_0x0 = 10;
     puVar1->flag = 1;
-    puVar1->field1_0x1 = 1;
+    puVar1->blendSign = 1;
     puVar1->reds[0] = 100;
     puVar1->greens[0] = 100;
     puVar1->blues[0] = 100;
@@ -40,7 +40,7 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     this->fadeIn = NULL;
     this->fadeOut = NULL;
     puVar1->highlight = 0;
-    puVar1->field16_0x1c = length;
+    puVar1->maxCount = length;
     puVar1->currentCount = 0;
     puVar1->unk22 = 0;
     if (length == 0) puVar1->items = NULL;
@@ -104,11 +104,11 @@ u8 WidgetScrollMenu::Tick(){
   iVar21 = 0;
   sVar18 = 0;
   if (pvVar5->items) {
-    cVar15 = pvVar5->blendB + pvVar5->field1_0x1;
+    cVar15 = pvVar5->blendB + pvVar5->blendSign;
     pvVar5->blendB = cVar15;
     if ((cVar15 == 0) ||
        ((pvVar5->blendA - 1) <= pvVar5->blendB)) {
-      pvVar5->field1_0x1 = -pvVar5->field1_0x1;
+      pvVar5->blendSign = -pvVar5->blendSign;
     }
     bVar1 = pvVar5->blendA;
     bVar4 = pvVar5->blendB;
