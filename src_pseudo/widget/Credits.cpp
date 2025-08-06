@@ -2,6 +2,12 @@
 #include "globals.h"
 #include "romstring.h"
 
+#ifdef DEBUGVER
+#define CreditsSpeed 5
+#else
+#define CreditsSpeed 2
+#endif
+
 u32 DAT_800ed510=0;
 extern void* romstring_credits;
 WidgetCredits::WidgetCredits():WidgetMenu(){
@@ -76,7 +82,7 @@ WidgetCredits::~WidgetCredits(){
     this->Unlink(this->clipText);
     if (this->clipText) this->clipText->~BaseWidget();
   }
-  DCM::Remove(this->indecies0,this->indecies1);
+  DCM::Remove(*this->indecies0,*this->indecies1);
   free_borg_12(this->bgm);
   WidgetMenu::~WidgetMenu();
 }
@@ -107,14 +113,14 @@ void WidgetCredits::State1(){
   this->col.A = (this->field5_0x80->col).A;
   if (this->field5_0x80->y < SCREEN_HEIGHT) {
     if (this->unk89 == 0) {
-      if ((u8)(gGlobals.delta * 5.0f) << 1 < this->col.A) {
-        this->col.A+= gGlobals.delta * 5.0f * -2;
+      if ((u8)(gGlobals.delta * CreditsSpeed) << 1 < this->col.A) {
+        this->col.A+= gGlobals.delta * CreditsSpeed * -2;
       }
       else this->col.A = 0;
     }
     else {
-      if (this->col.A < (u8)((u8)(gGlobals.delta * 5.0f) * -2)) {
-        this->col.A += (u8)(gGlobals.delta * 5.0f) << 1;
+      if (this->col.A < (u8)((u8)(gGlobals.delta * CreditsSpeed) * -2)) {
+        this->col.A += (u8)(gGlobals.delta * CreditsSpeed) << 1;
       }
       else {
         this->col.A = 0xff;
@@ -205,8 +211,8 @@ void WidgetCredits::State3()
     }
     if (this->unk89 == 0) {
       if (this->unk88 == 0) {
-        if ((u8)(gGlobals.delta * 5.0f) < (this->clipText->col).A)
-          (this->clipText->col).A -= gGlobals.delta * 5.0f;
+        if ((u8)(gGlobals.delta * CreditsSpeed) < (this->clipText->col).A)
+          (this->clipText->col).A -= gGlobals.delta * CreditsSpeed;
         else {
           (this->clipText->col).A = 0;
           this->creditState++;
@@ -217,8 +223,8 @@ void WidgetCredits::State3()
       else this->unk88--;
     }
     else {
-      if ((this->clipText->col).A < (0xff - (u8)(gGlobals.delta * 5.0f))) {
-        (this->clipText->col).A+= gGlobals.delta * 5.0f;
+      if ((this->clipText->col).A < (0xff - (u8)(gGlobals.delta * CreditsSpeed))) {
+        (this->clipText->col).A+= gGlobals.delta * CreditsSpeed;
       }
       else {
         (this->clipText->col).A = 0xff;

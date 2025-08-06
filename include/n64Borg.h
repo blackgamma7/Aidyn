@@ -636,7 +636,7 @@ struct Borg12Sub {
     int instrument_count;//0x0C on file
     u32 dataSize;//0x10 on file
     u32 byteIndex;//0x14 on file
-    astruct *ptr0x18;//0x18 on file
+    struct astruct *ptr0x18;//0x18 on file
     u8 *channelDat;//0x1C on file
 };
 
@@ -1029,7 +1029,7 @@ SceneData * BorgAnimLoadScene(uint borg_5);
 void borganim_free(SceneData *param_1);
 Borg6Header * get_borg_6(int index);
 void passto_borg_6_free(Borg6Header *param_1);
-Borg7Header * func_loading_borg7(u32 index,ParticleHeadStruct *pHead);
+Borg7Header * func_loading_borg7(u32 index,struct ParticleHeadStruct *pHead);
 void FUN_8009fca8(Borg7Header *param_1);
 void FUN_8009fd40(Borg7Header *param_1);
 void FUN_8009fd98(Borg7Header *param_1);
@@ -1044,10 +1044,10 @@ bool FUN_800a0304(Borg7Header *param_1,int delta);
 u16 Ofunc_800a058c(Borg7Header *param_1);
 void Borg7_StartParticles(Borg7Header *param_1);
 Gfx * BorgAnimDrawSceneLinked(Gfx *g,Borg7Header *param_2);
-void FUN_800a0714(SceneDatSubstruct *param_1);
-void FUN_800a0764(SceneDatStruct *param_1,float param_2);
-void FUN_800a07b0(SceneDatStruct *param_1,float param_2);
-void FUN_800a0800(SceneDatStruct *param_1,float param_2);
+void FUN_800a0714(struct SceneDatSubstruct *param_1);
+void FUN_800a0764(struct SceneDatStruct *param_1,float param_2);
+void FUN_800a07b0(struct SceneDatStruct *param_1,float param_2);
+void FUN_800a0800(struct SceneDatStruct *param_1,float param_2);
 void FUN_800a0940(Borg6Struct *param_1);
 void FUN_800a09c0(SceneData *param_1);
 void FUN_800a0a08(SceneData *param_1);

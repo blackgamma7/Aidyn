@@ -28,10 +28,10 @@ public:
     BaseWidget *link3;
     BaseWidget *link4;
     Color32 col;
-    byte var5C;
+    u8 var5C; //changes for each widget type
     u16 var5E; //changes for each widget type.
-    s16 x;
-    s16 y;
+    s16 x; //screenspace x position
+    s16 y; //screenspace y position
     s16 boundX0;
     s16 boundX1;
     s16 boundY0;

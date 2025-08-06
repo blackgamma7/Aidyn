@@ -1257,7 +1257,6 @@ void FUN_8009f9d0(SceneData *param_1,s16 *param_2){
   if (pBVar1) (pBVar1->dat).unk18 = param_2;
 }
 
-
 SceneData * BorgAnimLoadScene(uint borg_5){
   Borg5Header *pBVar1;
   bool bVar2;
