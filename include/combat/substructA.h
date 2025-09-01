@@ -1,9 +1,11 @@
 #include "mathN64.h"
 
+#define CStructALen 100
+
 //struct found in main "CombatStruct". needs more study.
 struct CombatSubstructA {
-    u8 array1[100][100];
-    u8 array2[100][100];
+    u8 array1[CStructALen][CStructALen];
+    u8 array2[CStructALen][CStructALen];
     u16 short1;
     u8 byteA;
     u8 byteB;
@@ -39,5 +41,9 @@ bool FUN_80071d2c(CombatSubstructA *,u8,u8,u8,u8,s16*,u8);
 uint FUN_80071e84(CombatSubstructA *,u16*);
 uint FUN_80071ec4(CombatSubstructA *,u8,u8,u8,u8,u8,u8(*) [2]);
 void Ofunc_8007216c(CombatSubstructA *,u8*,u8*,u8,u8);
+
+u8 get_borg9_floatB_X_ShortA(u8);
+u8 get_borg9_floatB_Y_ShortB(u8);
+void FUN_80067aa0(u8,CombatSubstructA *,u8,u8);
 
 #define unk800714d0(CEnt) FUN_800714d0(&gCombatP->substruct,CEnt->GetCoordXU8(),CEnt->GetCoordYU8(),CEnt->unk23)

@@ -168,7 +168,7 @@ Gfx * Graphics::StartGfxList(void){
   gSPSegment(g++,0,0); //?
   if (gGfxManager.colordepth[1] == 16) {gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_16b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
   else {gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_32b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
-  gDPSetDepthImage(g++,&gGfxManager.DepthBuffer)
+  gDPSetDepthImage(g++,&gGfxManager.DepthBuffer);
   gDPSetScissor(g++,G_SC_NON_INTERLACE,0,0,gGfxManager.Hres[1],gGfxManager.Vres[1]);
   gSPClipRatio(g++,FRUSTRATIO_3);
   gSPViewport(g++,&gGfxManager.viewport);
@@ -180,7 +180,7 @@ Gfx * Graphics::SomeOtherInit(Gfx *gfx,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);
   gDPSetRenderMode(gfx++,0,0);
-  if (gGfxManager.colordepth[1] == 16) {gDPSetFillColor(gfx++,GPACK_RGBA5551(r,g,b,a))}
+  if (gGfxManager.colordepth[1] == 16) {gDPSetFillColor(gfx++,GPACK_RGBA5551(r,g,b,a));}
   else {DPRGBColor(gfx++,G_SETFILLCOLOR,r,g,b,a);}
   gDPScisFillRectangle(gfx++,
     x0 * (gGfxManager.Hres[1] / SCREEN_WIDTH),
@@ -220,8 +220,8 @@ Gfx * GsSetOtherMode_SysMon(Gfx *gfx){
 //draws colored Rectangle for debug stats
 Gfx * Graphics::DebugDrawRect(Gfx *gfx,u16 x0,u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
   gDPPipeSync(gfx++);
-  if (gGfxManager.colordepth[1] == 16) {gDPSetFillColor(gfx++,GPACK_RGBA5551(r,g,b,a))}
-  else {DPRGBColor(gfx++,G_SETFILLCOLOR,r,g,b,a)}
+  if (gGfxManager.colordepth[1] == 16) {gDPSetFillColor(gfx++,GPACK_RGBA5551(r,g,b,a));}
+  else {DPRGBColor(gfx++,G_SETFILLCOLOR,r,g,b,a);}
   gDPScisFillRectangle(gfx++,
   x0 * (gGfxManager.Hres[1] / SCREEN_WIDTH),
   x1 * (gGfxManager.Vres[1] / SCREEN_HEIGHT),
@@ -242,7 +242,7 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
   gDPPipeSync(g++);
   gDPSetCycleType(g++,G_CYC_FILL);
   gDPSetRenderMode(g++,0,0);
-  gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_16b,gGfxManager.Hres[1],gGfxManager.DepthBuffer)
+  gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_16b,gGfxManager.Hres[1],gGfxManager.DepthBuffer);
   gDPSetFillColor(g++,0xfffcfffc);
   gDPScisFillRectangle(g++,
     (h*(gGfxManager.Hres[1] / SCREEN_WIDTH))-1,
@@ -495,7 +495,7 @@ LAB_80009cb4:
                 if (INT_MAX_f <= fVar28) {fVar5 = fVar28 - INT_MAX_f;}
                 uVar1 = *(u16 *)(((s32)fVar26 * (u32)uVar9 + (s32)fVar5) * 2 + (s32)fb);
                 if (depth == 32) {
-                  *puVar20 = (u32)(uVar1 >> 0xb) << 0x1b | (uVar1 >> 6 & 0x1f) << 0x13 |
+                  *puVar20->W = (u32)(uVar1 >> 0xb) << 0x1b | (uVar1 >> 6 & 0x1f) << 0x13 |
                              (uVar1 & 0x3e) << 10 | 0xff;
                 }
                 else {

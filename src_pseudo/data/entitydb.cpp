@@ -340,7 +340,7 @@ float EntityDB::GetFloatA(ItemID id){
       uVar1 = entity_info_array[0].index;
       do {
         if (uVar1 == ((short)(char)bVar2 + 1U & 0xff)) {
-          return peVar4->a;
+          return peVar4->unk10;
         }
         peVar4++;
         uVar1 = peVar4->index;

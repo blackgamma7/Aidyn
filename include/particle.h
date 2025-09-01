@@ -21,7 +21,7 @@ struct Particle_s {
     vec3f vel;
     vec2f scale;
     vec4f colorA;
-    vec4f ColorB;
+    vec4f colorB;
     vec4f vec_0x4c;
     u32 unk0x5c; /* unused? */
     Mtx scaleMtx[2];

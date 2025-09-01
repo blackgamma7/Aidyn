@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "skyObjects.h"
 #include "voxelChart.h"
+#include "combat/Visuals.h"
 #define FILENAME "./src/zoneengine.cpp"
 
 #ifdef DEBUGVER
@@ -132,47 +133,40 @@ u8 NoExpPak_memCheck(u16 x){
 }
 //set Enviromental Properties to associate with Borg9Phys objects.
 void InitEnvProps(){
-  u8 (*pabVar1) [2];
-  float fVar3;
-  float fVar4;
-  float fVar6;
-  collisionTypeA *x;
-  SpeedProperty *x_00;
-  EnvProp *x_01;
   u16 i;
   
   ALLOCS(gGlobals.Sub.zoneEnginePtr1,(sizeof(collisionTypeA)*2),456);
   ALLOCS(gGlobals.Sub.zoneEnginePtr2,(sizeof(SpeedProperty)*2),457);
   ALLOCS(gGlobals.Sub.EnvProps,(sizeof(EnvProp)*26),458);
   for(i = 0;i < 2;i++) {
-    x = gGlobals.Sub.zoneEnginePtr1 + i;
+    collisionTypeA *x = gGlobals.Sub.zoneEnginePtr1 + i;
     CLEAR(x);
     if (i == 0) {
       x->unk0 = 0.0;
       x->unk4 = 0.0;
     }
-    else if (i == 1) {
+    else if (i == 1) {//used by "Collision Player" and "Collision Player And Camera"
       x->unk0 = 0.0;
       x->unk4 = 1.0;
     }
   }
   for(i = 0;i < 2;i++)  {
-    x_00 = gGlobals.Sub.zoneEnginePtr2 + i;
-    CLEAR(x_00);
+    SpeedProperty *x = gGlobals.Sub.zoneEnginePtr2 + i;
+    CLEAR(x);
     if (i == 0) {
-      x_00->velScale = 1.0;
-      (x_00->gravity).y = -0.06;
+      x->velScale = 1.0;
+      (x->gravity).y = -0.06;
     }
-    else if (i == 1) {
-      x_00->velScale = .5;
-      (x_00->gravity).y = -0.0015;
+    else if (i == 1) { //used by "Water" to simulate water resistance
+      x->velScale = .5;
+      (x->gravity).y = -0.0015;
     }
   }
   for(i = 0;i < 26;i++) {
-    x_01 = gGlobals.Sub.EnvProps + i;
-    CLEAR(x_01);
-    x_01->colA = gGlobals.Sub.zoneEnginePtr1 + EnvPropBools[i][0];
-    x_01->Speed = gGlobals.Sub.zoneEnginePtr2 + EnvPropBools[i][1];
+    EnvProp *x = gGlobals.Sub.EnvProps + i;
+    CLEAR(x);
+    x->colA = gGlobals.Sub.zoneEnginePtr1 + EnvPropBools[i][0];
+    x->Speed = gGlobals.Sub.zoneEnginePtr2 + EnvPropBools[i][1];
   }
 }
 //clar Enviromental Properties associated with Borg9Phys objects.
@@ -191,55 +185,55 @@ void attachPhysicsProperties(Borg9Data *param_1){
   u16 uVar3;
   u16 uVar4;
   borg9_phys *puVar4;
-  u16 uVar5;
+  u16 i;
   uint uVar6;
   
   if (param_1->borghpys_count != 0) {
-    for(uVar5=0;uVar5<param_1->borghpys_count;uVar5++) {
+    for(i=0;i<param_1->borghpys_count;i++) {
       pbVar2 = param_1->phys_pointer;
       //union?
-      uVar1 = *(u16 *)((int)&pbVar2[uVar5].envProperty + 2);
+      uVar1 = *(u16 *)((int)&pbVar2[i].envProperty + 2);
       #ifdef DEBUGVER
-      if (0x19 < uVar1) {
+      if (25 < uVar1) {
         Gsprintf("Invalid Physics Property: %d\n",uVar1);
         CRASH("AttachPhysicsProperties",gGlobals.text);
       }
       #endif
-      uVar3 = pbVar2[uVar5].GroundType;
+      uVar3 = pbVar2[i].GroundType;
       uVar4 = uVar3 & 0xf000;
       if (uVar4 == 0x1000) {
         uVar3 = (u16)((uVar3 + 1 & 0x7f) << 5) | 0x1000 | uVar1 & 0x1f;
 LAB_8000d2c4:
-        pbVar2[uVar5].GroundType = uVar3;
-        pbVar2[uVar5].flags |= B9Phys_1000;
+        pbVar2[i].GroundType = uVar3;
+        pbVar2[i].flags |= B9Phys_1000;
       }
       else {
         if (uVar4 < 0x1001) {
           if ((uVar3 & 0xf000) != 0) {
-            uVar1 = pbVar2[uVar5].GroundType;
+            uVar1 = pbVar2[i].GroundType;
 LAB_8000d25c:
             Gsprintf("Unknown attach: %04x\n",uVar1);
             CRASH("AttachPhysicsProperties",gGlobals.text);
           }
 LAB_8000d2bc:
-          uVar4 = pbVar2[uVar5].flags;
+          uVar4 = pbVar2[i].flags;
           uVar3 = uVar1 | 0x3000;
           goto LAB_8000d2c4;
         }
         if (uVar4 == B9Phys_2000) {
-          uVar4 = pbVar2[uVar5].flags;
+          uVar4 = pbVar2[i].flags;
           uVar3 = (u16)((uVar3 & 0x7f) << 5) | 0x2000 | uVar1 & 0x1f;
           goto LAB_8000d2c4;
         }
         if (uVar4 != 0x4000) {
-          uVar1 = pbVar2[uVar5].GroundType;
+          uVar1 = pbVar2[i].GroundType;
           goto LAB_8000d25c;
         }
         if (gExpPakFlag) goto LAB_8000d2bc;
-        pbVar2[uVar5].flags = B9Phys_0001;
-        pbVar2[uVar5].GroundType = 0;
+        pbVar2[i].flags = B9Phys_0001;
+        pbVar2[i].GroundType = 0;
       }
-      pbVar2[uVar5].envProperty = gGlobals.Sub.EnvProps + uVar1;
+      pbVar2[i].envProperty = gGlobals.Sub.EnvProps + uVar1;
     }
   }
 }
@@ -397,12 +391,12 @@ void ofunc_zoneengine_free(){
   HFREE(&gGlobals.Sub,1036);
 }
 
-void move_zonedat(ZoneDat **param_1,ZoneDat *param_2){
+void move_zonedat(ZoneDat *param_1[3][3],ZoneDat *param_2){
   
   if (param_2->borg5_ID) {
     for(s16 i=0;i<3;i++){
       for(s16 j=0;j<3;j++){
-        ZoneDat *x=&param_1[i][j];
+        ZoneDat *x=param_1[i][j];
         if ((x->borg5_ID == param_2->borg5_ID) && (x->borg9_id == param_2->borg9_id)) {
           param_2->sceneDat0x4 = x->sceneDat0x4;
           param_2->mapPointer = x->mapPointer;
@@ -531,7 +525,6 @@ void zonedat_clear_all(){
   }
 }
 
-extern void noop_800969a4();
 //clear all loaded map chunks.
 void FreeZoneEngineMemory(){
   N64PRINT("FreeZoneEngineMemory\n");
@@ -592,8 +585,8 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
     }
   }
   loading_map_data(gGlobals.Sub.ZoneDatMtx[1] + 1);
-  if ((gGlobals.Sub.ZoneDatMtx[1][1].borg5_ID == 0) ||
-     (uVar21 = 1, gGlobals.Sub.ZoneDatMtx[1][1].borg9_id == 0)) {
+  if ((MAPCENTER.borg5_ID == 0) ||
+     (uVar21 = 1, MAPCENTER.borg9_id == 0)) {
     playerData* ppVar9 = gGlobals.playerCharStruct.playerDat;
     if (gGlobals.screenFadeModeSwitch == 2) {
       ppVar9 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
@@ -602,7 +595,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
       (ppVar9->collision).pos.x,(ppVar9->collision).pos.z,gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1 - 1 + 0x41,gGlobals.Sub.mapShort2);
     CRASH("LoadGameBorgScenes",gGlobals.text);
   }
-  uVar22 = (uint)((gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat).byte0x1a;
+  uVar22 = (uint)((MAPCENTER.mapPointer)->dat).byte0x1a;
   uVar11 = uVar22 & 1;
   for(u16 i=0;i<8;i++) {
     if (uVar11 != 0) {
@@ -805,14 +798,14 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
       fStack312.z = (tp->header).pos.z;
     }
     else {
-      pfVar8 = FindReferncePoint(&(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat,uVar1);
+      pfVar8 = FindReferncePoint(&(MAPCENTER.mapPointer)->dat,uVar1);
       Gsprintf("FindReferencePoint\nPoint Not Found: %d\n",(uint)uVar1);
       if (pfVar8 == NULL) CRASH("TeleportPlayer",gGlobals.text);
       fStack312.x = (pfVar8->header).pos.x;
       fStack312.y = (pfVar8->header).pos.y;
       fStack312.z = (pfVar8->header).pos.z;
     }
-    if (uVar2 != 0) prStack_38 = FindReferncePoint(&(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat,uVar2);
+    if (uVar2 != 0) prStack_38 = FindReferncePoint(&(MAPCENTER.mapPointer)->dat,uVar2);
     if (player) Vec3_sub(&fStack312,&fStack312,&(player->collision).pos);
     fStack312.y = 0.0;
     if (pfVar8 != NULL) {
@@ -1082,7 +1075,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
   vec2f local_b8 [8];
   float local_78;
   float local_74;
-  borg_9_struct *local_70;
+  CollideSection *local_70;
   uint local_6c;
   vec2f *Sobj_pos;
   uint local_64;
@@ -1099,7 +1092,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
   CamAim.y = gGlobals.Sub.camera.aim.z;
   pos.y = posLocal->y;
   pos.z = posLocal->z + cellZ;
-  local_70 = borg9_get_unkStruct(borg9,param_4,param_5);
+  local_70 = getCollideSection(borg9,param_4,param_5);
   iVar13 = 0;
   local_res0 = gfx;
   if (local_70->voxelSceneCount != 0) {
@@ -1440,12 +1433,12 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
   iStack_48 = 1;
   gOut = *GG;
   u16 uStack144[][2]={{0,0},{2,0},{0,2},{2,2},{1,0},{1,2},{0,1},{2,1}};
-  Scene::UnsetFlag40(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4);
+  Scene::UnsetFlag40(MAPCENTER.sceneDat0x4);
   if (gGlobals.screenFadeModeSwitch == 0xc)
-    Scene::SetNearFarPlanes(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4,0.1,125.0);
-  else Scene::SetNearFarPlanes(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4,1.0,180.0);
-  FUN_800a0df4(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4);
-  gOut = gsAnimationDataMtx(gOut,gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4);
+    Scene::SetNearFarPlanes(MAPCENTER.sceneDat0x4,0.1,125.0);
+  else Scene::SetNearFarPlanes(MAPCENTER.sceneDat0x4,1.0,180.0);
+  FUN_800a0df4(MAPCENTER.sceneDat0x4);
+  gOut = gsAnimationDataMtx(gOut,MAPCENTER.sceneDat0x4);
   if (gPlayerRenderTimer) gOut = renderPlayers(&gGlobals.Sub.PlayerHandler,gOut,delta,1,0);
   if ((((gGlobals.Sub.camera.pos.x < 0.0) || (gGlobals.Sub.camera.pos.z < 0.0)) ||
       (gGlobals.Sub.mapCellSize.x < gGlobals.Sub.camera.pos.x)) ||
@@ -1576,7 +1569,7 @@ LAB_80010bfc:
     iVar2 = iVar15 << 2;
     if (7 < iVar15) {
       if (iStack_48) {
-        gOut = FUN_80010354(gOut,&gGlobals.Sub.ZoneDatMtx[1][1]);
+        gOut = FUN_80010354(gOut,&MAPCENTER);
       }
       Gsprintf("ParticleHead");
       Particle::ProcessAndRenderParticleHead(ppGStack_2c,pPStack_38,uStack60,delta,Graphics::GetBufferChoice(),0);
@@ -1587,9 +1580,9 @@ LAB_80010bfc:
         gOut = renderPlayers(&gGlobals.Sub.PlayerHandler,gOut,delta,1,0);
       }
       Gsprintf("RenderVoxelScenesInZone[1][1]\n");
-      getZonePositionShorts(&(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat,pos,(s16 *)uStack80,
+      getZonePositionShorts(&(MAPCENTER.mapPointer)->dat,pos,(s16 *)uStack80,
                  (s16 *)(uStack80 + 1));
-      gOut = RenderVoxelScenes(gOut,&(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat,pos,uStack80[0]
+      gOut = RenderVoxelScenes(gOut,&(MAPCENTER.mapPointer)->dat,pos,uStack80[0]
                                ,uStack80[1],0.0,0.0);
       Gsprintf("Render Players(trans)\n");
       gOut = renderPlayers(&gGlobals.Sub.PlayerHandler,gOut,delta,1,1);
@@ -2013,7 +2006,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   if (vec3_proximity(&gGlobals.Sub.camera.pos,&gGlobals.Sub.camera.aim)< 0.05)
     CRASH("SceneSetCameraLookAt","Focus, and Camera at same Spot!");
   DEBUGSprintf("SceneSetCameraLookAt\n");
-  SceneSetCameraLookAt(gGlobals.Sub.ZoneDatMtx[1][1].sceneDat0x4,gGlobals.Sub.camera.pos.x,
+  SceneSetCameraLookAt(MAPCENTER.sceneDat0x4,gGlobals.Sub.camera.pos.x,
              gGlobals.Sub.camera.pos.y,gGlobals.Sub.camera.pos.z,gGlobals.Sub.camera.aim.x,
              gGlobals.Sub.camera.aim.y,gGlobals.Sub.camera.aim.z);
   if (gGlobals.Sub.gamemodeType != 2) G = Sky::RenderSky(G,delta);

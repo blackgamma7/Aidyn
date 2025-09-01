@@ -550,7 +550,8 @@ struct Borg5Data {
     u32 ParticleCount;
 };
 
-struct borg_9_struct {
+//a section of map collsion indecies - saves on calulating for entire map.
+struct CollideSection {
     u16 *collideIndecies;
     void* unk4; //offset calculated, unused(?)
     u16 *lightIndecies;
@@ -571,15 +572,15 @@ struct Borg9Data {
     u16 borghpys_count;
     u16 field9_0x26;
     u16 voxelObjCount;
-    u16 unkStructCount;
-    s16 *counting_pointer;
+    u16 collideSectionCount;
+    s16 *collideCount;
     void *someint;
-    s16 *pointer2;
+    s16 *lightCount;
     vec3f *verts; //vertex data
     borg9_phys *phys_pointer;
     void* someInt_2; //(off)set, seems unused.
     voxelObject *voxelObjs;
-    borg_9_struct *unkStructs;
+    CollideSection *collideSections;
 };
 struct Borg9Header {
     borgHeader head;

@@ -12,14 +12,14 @@ void * set_pointer_offset(void *A,void *B){
 
 void borg9_func_a(Borg9Header *param_1){
   u16 i,j;
-  Borg9SetPointer(param_1->dat,counting_pointer);
+  Borg9SetPointer(param_1->dat,collideCount);
   Borg9SetPointer(param_1->dat,someint);
-  Borg9SetPointer(param_1->dat,pointer2);
+  Borg9SetPointer(param_1->dat,lightCount);
   Borg9SetPointer(param_1->dat,phys_pointer);
   Borg9SetPointer(param_1->dat,verts);
   Borg9SetPointer(param_1->dat,someInt_2);
   Borg9SetPointer(param_1->dat,voxelObjs);
-  Borg9SetPointer(param_1->dat,unkStructs);
+  Borg9SetPointer(param_1->dat,collideSections);
   if ((param_1->dat).borghpys_count) {
     for(i=0;i < (param_1->dat).borghpys_count;i++) {
       for(j = 0;j<3;j++) {
@@ -28,12 +28,12 @@ void borg9_func_a(Borg9Header *param_1){
       }
     }
   }
-  if ((param_1->dat).unkStructCount) {
-    for(i=0;i<(param_1->dat).unkStructCount;i++) {
-      borg_9_struct* p = (param_1->dat).unkStructs + i;
-      p->collideIndecies = (u16*)set_pointer_offset(p->collideIndecies,(param_1->dat).counting_pointer);
+  if ((param_1->dat).collideSectionCount) {
+    for(i=0;i<(param_1->dat).collideSectionCount;i++) {
+      CollideSection* p = (param_1->dat).collideSections + i;
+      p->collideIndecies = (u16*)set_pointer_offset(p->collideIndecies,(param_1->dat).collideCount);
       p->unk4 = set_pointer_offset(p->unk4,(param_1->dat).someint);
-      p->lightIndecies = (u16*)set_pointer_offset(p->lightIndecies,(param_1->dat).pointer2);
+      p->lightIndecies = (u16*)set_pointer_offset(p->lightIndecies,(param_1->dat).lightCount);
     }
   }
 }

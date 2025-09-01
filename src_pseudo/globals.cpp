@@ -50,16 +50,14 @@ u32 some_skillcheck_calc(s16 param_1){
     if (i == 0) break;
     i--;
   } while (param_1 < SkillCheckSteps[i]);
-  return i++;
+  return i+1;
 }
 
 //used several times throughout this part. not sure why.
 #define printLine(line) Gsprintf(sGlobalsFmt,sGlobalsFilename,line)
 
 void get_battle_terrain(EncounterDat *param_1){
-  u8 bVar4;
-
-  printLine(0x1e7);
+  printLine(487);
   switch(World::getTerrain(TerrainPointer)) {
   case 0:
     param_1->battlefield = rand_range(6,7);
@@ -76,15 +74,15 @@ void get_battle_terrain(EncounterDat *param_1){
     param_1->battlefield = rand_range(0xe,0xf);
     break;
   case 4:
-    bVar4 = 0x13;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x13;
+    break;
   case 5:
   case 0x11:
     param_1->battlefield = rand_range(4,5);
     break;
   case 6:
-    bVar4 = 0x12;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x12;
+    break;
   case 7:
     param_1->battlefield = rand_range(6,7);
     break;
@@ -92,34 +90,32 @@ void get_battle_terrain(EncounterDat *param_1){
     param_1->battlefield = rand_range(0xc,0xd);
     break;
   case 9:
-    bVar4 = 0x11;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x11;
+    break;
   case 10:
-    bVar4 = 0x10;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x10;
+    break;
   case 0xb:
-    bVar4 = 0x17;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x17;
+    break;
   case 0xc:
-    bVar4 = 0x16;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x16;
+    break;
   case 0xd:
   case 0x19:
-    bVar4 = 0x1b;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x1b;
+    break;
   case 0xe:
-    bVar4 = 0x18;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x18;
+    break;
   case 0xf:
-    bVar4 = 0x19;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x19;
+    break;
   case 0x10:
-    bVar4 = 0x1a;
-    goto setBattlefeildTerrain;
+    param_1->battlefield = 0x1a;
+    break;
   case 0x12:
-    bVar4 = 0x14;
-setBattlefeildTerrain:
-    param_1->battlefield = bVar4;
+    param_1->battlefield = 0x14;
     break;
   case 0x13:
   case 0x17:
@@ -138,7 +134,7 @@ setBattlefeildTerrain:
     if (RollD(1,2) == 1) param_1->battlefield = rand_range(0,1);
     else param_1->battlefield = rand_range(8,0xb);
   }
-  printLine(0x253);
+  printLine(595);
 }
 
 

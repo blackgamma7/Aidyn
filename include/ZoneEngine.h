@@ -16,6 +16,7 @@ struct ZoneDat {
 
 #define ZoneCenter 0x11 //BCD index of MapZoneData[1][1]
 
+#define MAPCENTER gGlobals.Sub.ZoneDatMtx[1][1]
 
 s16 gPlayerRenderTimer=0;
 s32 FreeZoneEngineTimestamp=-1;
@@ -77,7 +78,7 @@ void init_some_map_data(ZoneDat *dat,short i,char j);
 void FUN_8000d744();
 void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3);
 void ofunc_zoneengine_free();
-void move_zonedat(ZoneDat **param_1,ZoneDat *param_2);
+void move_zonedat(ZoneDat *param_1[3][3],ZoneDat *param_2);
 void checkToggleZoneScene(ZoneDat *param_1);
 void MakeGameZoneNames(u16 param_1,u16 param_2);
 void ZoneMoveSceneDat(SceneData *param_1,u8 index);

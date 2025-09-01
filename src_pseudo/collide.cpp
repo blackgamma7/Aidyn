@@ -2,21 +2,16 @@
 
 
 void FUN_800adae0(Borg9Data *param_1,vec3f *position,vec3f *dist,float radius,s16 *param_5,s16 *param_6,short *param_7,s16 *param_8){
-  short sVar1;
   float len;
-  float fVar2;
-  float fVar3;
   vec2f local_68;
   
   local_68.x = dist->x;
   local_68.y = dist->z;
   len = vec2Length(&local_68) + radius + 1.0f;
-  fVar3 = (param_1->floatsB).x;
-  *param_5 = (((position->x - (param_1->floatsA).x) - len) / fVar3);
-  fVar2 = (param_1->floatsB).y;
-  *param_6 = (((position->z - (param_1->floatsA).z) - len) / fVar2);
-  *param_7 = (((position->x - (param_1->floatsA).x) + len) / fVar3);
-  *param_8 = (((position->z - (param_1->floatsA).z) + len) / fVar2);
+  *param_5 = (((position->x - (param_1->floatsA).x) - len) / (param_1->floatsB).x);
+  *param_6 = (((position->z - (param_1->floatsA).z) - len) / (param_1->floatsB).y);
+  *param_7 = (((position->x - (param_1->floatsA).x) + len) / (param_1->floatsB).x);
+  *param_8 = (((position->z - (param_1->floatsA).z) + len) / (param_1->floatsB).y);
   if (*param_5 < 0) *param_5 = 0;
   if (*param_6 < 0) *param_6 = 0;
   if (*param_7 >= param_1->shortA)
@@ -99,9 +94,9 @@ bool Ofunc_800adeb0(Borg9Data *param_1,collisionSphere *s,vec3f *v){
 }
 
 bool CheckCollision(Borg9Data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3f *outPos,
-                   vec3f *outRot,short param_7){
+                   vec3f *outRot,s16 param_7){
   int iVar1;
-  borg_9_struct *pbVar2;
+  CollideSection *pbVar2;
   bool bVar3;
   int iVar4;
   int iVar5;
@@ -126,7 +121,7 @@ bool CheckCollision(Borg9Data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3
       s16 lVar6=sStack_48[1];
       if (lVar6 <= sStack_48[3]) {
         for(;lVar6 <= sStack_48[3];lVar6++) {
-          pbVar2 = borg9_get_unkStruct(borgDat,lVar9,lVar6);
+          pbVar2 = getCollideSection(borgDat,lVar9,lVar6);
           if (pbVar2->collideCount) {
             for(s16 iVar5=0;iVar5 < pbVar2->collideCount;iVar5++) {
               pbVar7 = borgDat->phys_pointer + (u16)pbVar2->collideIndecies[iVar5];
@@ -152,7 +147,7 @@ bool CheckCollision(Borg9Data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3
 bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,float point5,
                        vec3f *outpos,vec3f *outNorm){
   int iVar1;
-  borg_9_struct *pbVar2;
+  CollideSection *pbVar2;
   uint uVar3;
   bool bVar4;
   int iVar5;
@@ -187,7 +182,7 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
         iVar1 = sStack_46 * 0x10000;
         do {
           iVar1 += 0x10000;
-          pbVar2 = borg9_get_unkStruct(param_1,lVar12,lVar7);
+          pbVar2 = getCollideSection(param_1,lVar12,lVar7);
           iVar6 = 0;
           if (pbVar2->collideCount != 0) {
             uVar9 = 1;
@@ -223,7 +218,7 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
 void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,short delta){
   int iVar1;
   int iVar2;
-  borg_9_struct *pbVar3;
+  CollideSection *pbVar3;
   s16 lVar4;
   s16 lVar5;
   double dVar13;
@@ -231,7 +226,7 @@ void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,short delta)
   short sStack_38;
   short sStack_36;
   short sStack_34;
-  short asStack_32 [21];
+  short asStack_32;
   
   if (!coliide->envProps->Speed) {CRASH("ProcessCollisionSphere","No Environment Properties Found on Sphere");}
   else {
@@ -245,8 +240,7 @@ void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,short delta)
         coliide->flags|= 0x8000;
       }
       else {
-        if (0 < delta) {
-          for(s16 i=0;i<delta;i++) {
+        for(s16 i=0;i<delta;i++) {
             collisiondat_add_velocity(coliide,&coliide->envProps->Speed->gravity);
             collisiondat_add_velocity(coliide,&coliide->envProps->Speed->Accel);
             (coliide->vel).x *=coliide->envProps->Speed->velScale;
@@ -255,18 +249,17 @@ void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,short delta)
             (coliide->pos).x += (coliide->vel).x;
             (coliide->pos).y += (coliide->vel).y;
             (coliide->pos).z += (coliide->vel).z;
-          }
         }
         if (!(coliide->flags & 0x4000)) {
-          FUN_800adc44(map,coliide,&sStack_38,&sStack_36,&sStack_34,asStack_32);
+          FUN_800adc44(map,coliide,&sStack_38,&sStack_36,&sStack_34,&asStack_32);
           lVar5 = sStack_38;
           coliide->unk1e = 0;
           if (lVar5 <= sStack_34) {
             for(;lVar5 <= sStack_34;lVar5++) {
               lVar4 = sStack_36;
-              if (lVar4 <= asStack_32[0]) {
-                for(;lVar4 <= asStack_32[0];lVar4++) {
-                  CollideCollisionSphereWithVoxelPolys(coliide,borg9_get_unkStruct(map,lVar5,lVar4),map->phys_pointer);
+              if (lVar4 <= asStack_32) {
+                for(;lVar4 <= asStack_32;lVar4++) {
+                  CollideCollisionSphereWithVoxelPolys(coliide,getCollideSection(map,lVar5,lVar4),map->phys_pointer);
                 }
               }
             }

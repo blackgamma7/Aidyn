@@ -10,7 +10,7 @@ void init_combat_substruct(CombatSubstructA *param_1,u8 param_2){
   param_1->byteC = param_1->byteA >> 1;
   param_1->short1 = (ushort)param_1->byteA * (ushort)uVar1;
   param_1->byteE = _sqrtf(SQ(param_1->byteA) +SQ(param_1->byteB));
-  for(u32 i=0;i<100;i++) {
+  for(u32 i=0;i<CStructALen;i++) {
     CLEAR(param_1->array1[i]);
     CLEAR(param_1->array2[i]);
   }
@@ -218,14 +218,8 @@ void FUN_800715d8(CombatSubstructA *param_1){
 }
 
 
-bool FUN_800716b4(CombatSubstructA *param_1,vec3f *param_2,vec3f *param_3,u8 param_4,u8 param_5)
-
-{
-  CombatEntity *pCVar1;
-  playerData *ppVar2;
-  uint i;
-  float fVar5;
-  float fVar6;
+bool FUN_800716b4(CombatSubstructA *param_1,vec3f *param_2,vec3f *param_3,u8 param_4,u8 param_5){
+  CombatEntity *cEnt;
   vec3f afStack320;
   vec3f afStack256;
   vec3f fStack192;
@@ -233,26 +227,26 @@ bool FUN_800716b4(CombatSubstructA *param_1,vec3f *param_2,vec3f *param_3,u8 par
   
   Vec3_sub(&afStack320,param_3,param_2);
   copyVec3(&afStack320,&afStack256);
-  float fVar5=vec3_normalize(&afStack256);
-  if (NORMALIZE_MIN < fVar5) {
-    if (CheckCollision(&gGlobals.Sub.ZoneDatMtx[1][1].mapPointer->dat,param_2,param_3,0.1,&afStack128,NULL,0)) {
+  float len=vec3_normalize(&afStack256);
+  if (NORMALIZE_MIN < len) {
+    if (CheckCollision(&MAPCENTER.mapPointer->dat,param_2,param_3,0.1,&afStack128,NULL,0)) {
       return false;
     }
     if (gCombatP->EntCount != 0) {
       for(u8 i = 0;i < gCombatP->EntCount;i++){
         if ((((i != param_4) && (i != param_5)) &&
-            (pCVar1 = (&gCombatP->combatEnts)[i], pCVar1 != NULL)) &&
-           ((!Entity::isDead(pCVar1->charSheetP) &&(!pCVar1->Flag6())))) {
-          playerData *ppVar2 = gGlobals.playerDataArray[i];
-          copyVec3(&(ppVar2->collision).pos,&afStack128);
+            (cEnt = (&gCombatP->combatEnts)[i], cEnt != NULL)) &&
+           ((!Entity::isDead(cEnt->charSheetP) &&(!cEnt->Flag6())))) {
+          playerData *pDat = gGlobals.playerDataArray[i];
+          copyVec3(&(pDat->collision).pos,&afStack128);
           Vec3_sub(&fStack192,&afStack128,param_2);
-          fVar6 = vec3_dot(&afStack320,&fStack192);
-          if (fVar6 != 0.0) {
-            multiVec3(&afStack256,fVar6 / fVar5);
+          float dot = vec3_dot(&afStack320,&fStack192);
+          if (dot != 0.0) {
+            multiVec3(&afStack256,dot / len);
             vec3_sum(&fStack192,&afStack256,param_2);
-            if (vec3_proximity(&fStack192,&afStack128) <= (ppVar2->collision).radius)
+            if (vec3_proximity(&fStack192,&afStack128) <= (pDat->collision).radius)
               return false;
-            multiVec3(&afStack256,1.0f / (fVar6 / fVar5));
+            multiVec3(&afStack256,1.0f / (dot / len));
           }
         }
 

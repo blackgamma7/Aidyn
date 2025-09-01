@@ -787,10 +787,10 @@ u8 CombatEntity::AIShouldNotCastSpell(CombatEntity *param_2,SpellInstance *param
   if ((this->aiP == NULL) || (!(this->aiP->flags & 8))) bVar4 = true;
   else {
     bVar4 = false;
-    if (Entity::SpellStaminaSubtract(this->charSheetP,param_3,Entity::CheckSpellWizard(this->charSheetP,param_3)) <= CharStats::getModded(this->charSheetP->Stats,STAT_STAM)) {
+    if (Entity::SpellStaminaSubtract(this->charSheetP,param_3,(u8)Entity::CheckSpellWizard(this->charSheetP,param_3)) <= CharStats::getModded(this->charSheetP->Stats,STAT_STAM)) {
       bVar4 = false;
-      if (Entity::GetSpellCharges(this->charSheetP) != 0) {
-        if (Entity::CheckSpellSpecial(param_2->charSheetP,param_3) == 0) {bVar4 = Entity::CheckSpellTimeOfDay(this->charSheetP,param_3) == 0;}
+      if (Entity::GetSpellCharges(this->charSheetP)) {
+        if (Entity::CheckSpellSpecial(param_2->charSheetP,param_3) == 0) {bVar4 = (Entity::CheckSpellTimeOfDay(this->charSheetP,param_3) == 0);}
         else {bVar4 = false;}
       }
     }
@@ -828,12 +828,12 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
   SpellInstance *spell;
   bool bVar7;
   byte bVar8;
-  longlong lVar3;
+  s32 lVar3;
   int iVar6;
   u8 uVar9;
   u8 uVar10;
-  ulonglong uVar4;
-  ulonglong uVar5;
+  u8 uVar4;
+  u8 uVar5;
   Borg9Data *borgDat;
   float fVar11;
   int iVar12;
@@ -890,7 +890,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
       if (ppVar2) {
         fVar14 = (float)(int)uVar4;
         fVar11 = (float)(int)uVar5;
-        borgDat = &(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat;
+        borgDat = &(MAPCENTER.mapPointer)->dat;
         setVec3(&fStack248,fVar14,50.0,fVar11);
         setVec3(&afStack184,fVar14,-10.0,fVar11);
         if (CheckCollision(borgDat,&fStack248,&afStack184,0.5f,&fStack120,NULL,0)) {
@@ -1253,7 +1253,7 @@ u8 CombatEntity::CalcGearResist(u8 param_2,float *param_3){
   for(uVar7 = 0;uVar7 < 2;uVar7++){
     if (DoesElementResist(param_2,this->resists[uVar7].element)) {
       bVar8 = true;
-      uVar9*= this->resists[uVar7].percent);
+      uVar9*= this->resists[uVar7].percent;
     }
     ptVar1 = this->charSheetP->armor[uVar7];
     if (((ptVar1) && (ptVar1->resist)) &&
@@ -1281,7 +1281,7 @@ u8 CombatEntity::CalcGearResist(u8 param_2,float *param_3){
          (DoesElementResist(param_2,ptVar6->resist->element)))
       {
         bVar8 = true;
-        uVar9*= ptVar6->resist->percent);
+        uVar9*= ptVar6->resist->percent;
       }
       fVar10 = uVar9;
       uVar7++;
@@ -1521,7 +1521,7 @@ s16 CombatEntity::AttackCalc1(CombatEntity *param_2,s8 x,s8 y,u8 backstab){
     (s16)((((iVar6 + iVar7 + iVar8)) +(u32)pTVar4->hit + cVar11 * 6 + cVar12 * 2)) - (DefDex * 2 + (s16)iVar9 + sVar10),
     backstab,1,0x14);
   if (CharStats::getModded(DefStats,STAT_STAM) == 0) {iVar6 *= 1.15f;} //increase if target tired
-  iVar7 = FUN_80070cc4(&gCombatP->substruct,x,y,GetCoordXU8(),GetCoordYU8(););
+  iVar7 = FUN_80070cc4(&gCombatP->substruct,x,y,GetCoordXU8(),GetCoordYU8());
   iVar7 *= 0.05f * (float)iVar6 + (float)iVar6;
   if (CharStats::getModded(stats,STAT_STAM) == 0) iVar7 *= 0.8f; //decrease if user tired
   if (TerrainPointer->partOfDay == TIME_NIGHT) iVar7 *= 0.9f; //decrease if night
@@ -1557,7 +1557,7 @@ s16 CombatEntity::CalcAttackResist(CombatEntity *param_2,s16 param_3,u8 param_4)
   
   afStack32 = 0.0;
   if (param_2->CalcGearResist(param_4,&afStack32)) {
-    param_3 *= afStack32);
+    param_3 *= afStack32;
     if ((afStack32 != 0.0) && (param_3 < 1)) param_3 = 1;
     if (((1.0f < afStack32) &&
         (pcVar1 = param_2->aiP, pcVar1)) &&
@@ -1577,7 +1577,7 @@ s16 CombatEntity::UseWeaponEnchantment(CombatEntity *param_2){
     pTVar2 = pTVar1->enchantment;
     if (pTVar2) {
       ret = 0;
-      TempSpell::Init(&TStack80,SpellList[pTVar2->index] | 0x300,pTVar2->lv);
+      TempSpell::Init(&TStack80,(ItemID)SpellList[pTVar2->index] | 0x300,pTVar2->lv);
       if (CombatEntity::SpellEffectsTarget(param_2,&TStack80)) {
         ret = MagicDamageResistCalc(param_2,&TStack80,true);
         if (ret == -3) ret = 0;
@@ -1646,7 +1646,7 @@ s16 CombatEntity::STRTheifCheck(s16 param_2,s32 param_3,CombatEntity *target,u8 
   pCVar3 = this->charSheetP;
   DMG = RollD(pCVar3->weapons->damage + GetSTRSteps() * diceMulti,6);
   iVar6 = some_skillcheck_calc(((s32)param_2 - (s32)(s16)param_3));
-  iVar6 = (DMG + ((iVar6 + CharStats::getBase(pCVar3->Stats,STAT_LV)) - GetSheildProtection(target,backStab)) * 0x10000 >> 0x10) +
+  iVar6 = (DMG + ((iVar6 + CharStats::getBase(pCVar3->Stats,STAT_LV)) - target->GetSheildProtection(backStab)) +
           pCVar3->Skills->getModdedSkill(SKILL_Theif) * 2 * backStab);
   if (iVar6 < 1) iVar6 = 1;
   sVar9 = CalcAttackResist(target,(s16)iVar6,pCVar3->weapons->element);
@@ -1875,7 +1875,7 @@ void CombatEntity::PrintSpellResist(CombatEntity *param_2,SpellInstance *param_3
   CSprintf(SpellResist,param_2->charSheetP->name);
   print_combat_textbox(gCombatP,gGlobals.text,0);
 }
-
+extern char** spell_error_labels[];
 void CombatEntity::PrintSpellError(CombatEntity* param_2,s32 param_3,u8 param_4){
   if (param_4 == false) {
     CSprintf(X,spell_error_labels[param_3]);
@@ -1894,7 +1894,7 @@ u8 CombatEntity::IsControlMagic(u8 x){
   while( true ) {
     if (uStack64[0] == 0xff) return false;
     if (*pbVar1 == x) break;
-    pbVar1++
+    pbVar1++;
     uStack64[0] = *pbVar1;
   }
   return true;
@@ -2122,7 +2122,7 @@ u8 CombatEntity::VSMagic(SpellInstance *param_2,CombatEntity *param_3,char *para
   if (uVar6) iVar3 = (s16)(uVar6 + iVar3);
   if ((param_2->aspect_flag & 2) == 0) {if ((param_2->aspect_flag & 1) == 0) goto LAB_8006d5ac;}
   fVar11 = 0.75f;
-  if (GetCharAspect(param_3->charSheetP->EXP) != GetCharAspect(this->charSheetP->EXP)) {fVar11 = 1.25f;}
+  if (param_3->charSheetP->EXP->GetAspect() != this->charSheetP->EXP->GetAspect()) {fVar11 = 1.25f;}
   iVar3 *= fVar11;
 LAB_8006d5ac:
   uVar6 = RollD(1,100);
@@ -2182,7 +2182,7 @@ s32 CombatEntity::EnchantAlly(CombatEntity *param_2,SpellInstance *param_3,u8 pa
 }
 
 s16 CombatEntity::CalcSpellDamage(SpellInstance *param_2,CombatEntity *param_3,u32 Level,u8 param_5){
-  u8 spellInd = GETINDEX(param_2->id);
+  u8 spellInd = GETINDEX(param_2->base.id);
   if (spellInd == SPELLIND_banishing) return Banish(param_3,param_2);
   if (isDispelMagic(spellInd))return DispelMagic(param_3,param_2,spellInd,param_5);
   else {
@@ -2488,7 +2488,7 @@ u8 CombatEntity::PotionAttack(CombatEntity *target){
       return 0;
     }
     FlaskNoop(coord8[0],coord8[1],rand != sVar3,sVar2 - sVar3,fVar7);
-    borgDat = &(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat;
+    borgDat = &(MAPCENTER.mapPointer)->dat;
     setVec3(&posHi,(float)coord8[0],50.0,(float)coord8[1]);
     setVec3(&posLo,(float)coord8[0],-10.0,(float)coord8[1]);
     if (!CheckCollision(borgDat,&posHi,&posLo,0.5,&gGlobals.combatCursorPos,NULL,0)) {
@@ -3018,7 +3018,7 @@ LAB_8006ff78:
   else {
     pTVar1 = this->charSheetP->weapons;
     if (pTVar1) {
-      bVar6 = GETINDEX(pTVar1->id);
+      bVar6 = GETINDEX(pTVar1->base.id);
       lVar7 = (s16)Weapon_borg5_lookup(bVar6);
       if (lVar7 != -1) {
         if (missle_ids[0] != 0xff) {

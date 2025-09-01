@@ -2,6 +2,7 @@
 
 char** aspect_labels=NULL;
 char** magic_school_labels=NULL;
+extern u8 SpellList[];
 
 typedef enum SpellEnum {
     SPELLIND_Immolation,
@@ -169,7 +170,7 @@ class SpellBook {
 };
 
 class SpellDB {
-    public;
+    public:
     u8 Total;
     u8 Schools[6];
     u8 schools2[6];

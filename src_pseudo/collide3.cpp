@@ -44,35 +44,23 @@ void set_collisionSphere(collisionSphere *dat,float r,float px,float py,float pz
 }
 
 
-int GetVoxelOffset(Borg9Data *param_1,short param_2,short param_3){
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = (int)param_2;
-  iVar2 = (int)param_3;
-  if ((((-1 < iVar1) && (-1 < iVar2)) && (iVar1 < (int)(uint)param_1->shortA)) &&
-     (iVar2 < (int)(uint)param_1->shortB)) {
-    return (int)((iVar1 + iVar2 * (uint)param_1->shortA) * 0x10000) >> 0x10;
+s16 GetVoxelOffset(Borg9Data *param_1,s16 param_2,s16 param_3){
+  if ((((-1 < param_2) && (-1 < param_3)) && (param_2 < (int)(uint)param_1->shortA)) &&
+     (param_3 < (int)(uint)param_1->shortB)) {
+    return (param_2 + param_3 * (uint)param_1->shortA);
   }
   CRASH("GetVoxelOffset","Invalid Zone");
 }
 
-borg_9_struct * borg9_get_unkStruct(Borg9Data *param_1,short param_2,short param_3){
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = (int)param_2;
-  iVar1 = (int)param_3;
+CollideSection * getCollideSection(Borg9Data *param_1,s16 param_2,s16 param_3){
+  s16 iVar2 = (int)param_2;
+  s16 iVar1 = (int)param_3;
+  FLOOR(iVar2,0);
+  FLOOR(iVar1,0);
   if (iVar2 < 0) iVar2 = 0;
   if (iVar1 < 0) iVar1 = 0;
-  uVar3 = (uint)param_1->shortA;
-  if ((int)uVar3 <= iVar2) {
-    iVar2 = (int)((uVar3 - 1) * 0x10000) >> 0x10;
-  }
-  if ((int)(uint)param_1->shortB <= iVar1) {
-    iVar1 = (int)((param_1->shortB - 1) * 0x10000) >> 0x10;
-  }
-  return param_1->unkStructs + iVar1 * uVar3 + iVar2;
+  if (param_1->shortA <= iVar2) iVar2 = (param_1->shortA - 1);
+  if (param_1->shortB <= iVar1) iVar1 = (param_1->shortB - 1);
+  return param_1->collideSections + iVar1 * param_1->shortA + iVar2;
 }
 

@@ -116,7 +116,7 @@ struct entity_info{
 	u16 index;
 	u32 Model; //index of "borg7" file.
 	u32 portrait; //index of "borg8" file.
-	float a;
+	float unk10;
 	float height;
 	float radius; //radius of collision sphere
 	float scale; //scale of model

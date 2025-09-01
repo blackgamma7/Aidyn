@@ -15,20 +15,17 @@ void AlignParticle(Particle_s *part,vec3f *pos,vec3f *rot){
   copyVec3(pos,&part->pos);
   vec3_sum(&part->pos,&part->pos,&temp);
   multiVec2(&part->scale,3.0);
-  copyVec4(&part->colorA,&part->ColorB);
-  multiVec4(&part->ColorB,-0.008333334);
+  copyVec4(&part->colorA,&part->colorB);
+  multiVec4(&part->colorB,-0.008333334);
   part->lifespan = 120;
 }
 
 void FUN_800228e8(ParticleHeadStruct *param_1,ParticleEmmiter *param_2,Particle_s *param_3){
   float fVar2;
-  vec3f posA;
-  vec3f posB;
-  vec3f fStack152;
-  vec3f afStack88;
+  vec3f posA,posB,dist,rot;
   
-  Vec3_sub(&fStack152,&param_3->pos,(vec3f *)&param_3->vec_0x4c);
-  fVar2 = SQ(fStack152.x)+ SQ(fStack152.y) + SQ(fStack152.z);
+  Vec3_sub(&dist,&param_3->pos,(vec3f *)&param_3->vec_0x4c);
+  fVar2 = SQ(dist.x)+ SQ(dist.y) + SQ(dist.z);
   if (fVar2 < (param_3->vec_0x4c).w)
     (param_3->vec_0x4c).w = fVar2;
   else {
@@ -38,12 +35,11 @@ void FUN_800228e8(ParticleHeadStruct *param_1,ParticleEmmiter *param_2,Particle_
     posA.y = (param_3->pos).y + 5.0f;
     posB.x = posA.x;
     posB.z = posA.z;
-    if ((CheckCollision(gGlobals.Sub.borg9DatPointer,&posA,&posB,0.1,&fStack152,&afStack88,1))
+    if ((CheckCollision(gGlobals.Sub.borg9DatPointer,&posA,&posB,0.1,&dist,&rot,1))
       && (Particle::FUN_800b2890(param_1,param_2->link,param_3)))
-      AlignParticle(param_3,&fStack152,&afStack88);
+      AlignParticle(param_3,&dist,&rot);
   }
 }
-
 
 void FUN_80022a24(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
   ParticleEmmiter *pPVar1;
@@ -71,8 +67,8 @@ void FUN_80022a24(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
     Particle::SetScale(p,0.25f,0.25f);
     copyVec4(&pPVar1->colvec4,&p->colorA);
     Particle::SetFlag(p,0x200);
-    copyVec4(&p->colorA,&p->ColorB);
-    multiVec4(&p->ColorB,(float)(-0.75 / pPVar1->unk1a));
+    copyVec4(&p->colorA,&p->colorB);
+    multiVec4(&p->colorB,(float)(-0.75 / pPVar1->unk1a));
     AlignParticle(p,pos,rot);
   }
 }
@@ -93,7 +89,7 @@ void FUN_80022bf4(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
   RAND.GetVec2(&fStack88,RAND.GetFloatRange(0.01,(param_2->field20_0x54).x));
   Particle::SetPos(p,pfVar1->x + (param_2->vel).x + fStack88.x,pfVar1->y + (param_2->vel).y,
                    pfVar1->z + (param_2->vel).z + fStack88.y);
-  copyVec3((vec3f *)&param_2->particles->ColorB,&afStack216);
+  copyVec3((vec3f *)&param_2->particles->colorB,&afStack216);
   multiVec3(&afStack216,(float)(int)lifespan);
   vec3_sum(&afStack216,&afStack216,&p->pos);
   if (CheckCollision(gGlobals.Sub.borg9DatPointer,&p->pos,&afStack216,0.1,&fStack152,NULL,1))
@@ -102,8 +98,8 @@ void FUN_80022bf4(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
     setVec4(&p->vec_0x4c,0.0,-1000.0,0.0,100000.0f);
   copyVec4(&param_2->colvec4,&p->colorA);
   Particle::SetFlag(p,0x200);
-  copyVec4(&p->colorA,&p->ColorB);
-  multiVec4(&p->ColorB,(float)(-0.75 / lifespan));
+  copyVec4(&p->colorA,&p->colorB);
+  multiVec4(&p->colorB,(float)(-0.75 / lifespan));
 }
 
 ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,short param_4,short param_5,void *param_6){
@@ -217,12 +213,12 @@ LAB_80023168:
     pTVar5 = TerrainPointer;
     fVar16 = 7.0f;
     (W->rainParticles->vel).y = 7.0f - (W->timer - 2.0f);
-    (W->rainParticles->particles->ColorB).x = (pTVar5->windVelocity).x;
-    (W->rainParticles->particles->ColorB).y = (pTVar5->windVelocity).y;
-    (W->rainParticles->particles->ColorB).z = (pTVar5->windVelocity).z;
+    (W->rainParticles->particles->colorB).x = (pTVar5->windVelocity).x;
+    (W->rainParticles->particles->colorB).y = (pTVar5->windVelocity).y;
+    (W->rainParticles->particles->colorB).z = (pTVar5->windVelocity).z;
     if (W->rainShortB == 1) {
       pPVar2 = W->rainParticles->particles;
-      (pPVar2->ColorB).y = (float)((double)(pPVar2->ColorB).y + -0.075);
+      (pPVar2->colorB).y = (float)((double)(pPVar2->colorB).y + -0.075);
       pPVar6 = W->rainParticles;
       fVar16 = 6.0f - W->timer * 4.0f;
       pPVar6->unk1a = SCREEN_HEIGHT;
@@ -240,7 +236,7 @@ LAB_80023308:
       pPVar6->unk8 = (short)(int)(6.0f - W->timer * fVar16);
       fVar16 = 60.0f;
       pPVar2 = pPVar6->particles;
-      (pPVar2->ColorB).y = (float)((double)(pPVar2->ColorB).y - (dVar17 + 0.03));
+      (pPVar2->colorB).y = (float)((double)(pPVar2->colorB).y - (dVar17 + 0.03));
       W->rainParticles->unk1a = (short)(int)(360.0f - W->timer * 60.0);
       goto LAB_80023308;
     }

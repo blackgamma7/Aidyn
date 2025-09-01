@@ -148,7 +148,8 @@ loop:
             gfx1 = Graphics::DrawText(gfx1,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);
           }
           #endif
-          NOOP_800a2448();
+          void* x;
+          NOOP_800a2448(x);
           gfx1 = ret_A0(gfx1);
           gfx1 = Graphics::EndList(gfx1);
           gListSizeMax = 0x3200;
@@ -173,7 +174,7 @@ loop:
       sVar7 = sVar9 + -1;
       uVar8 = doubleGlobalTickerFlag;
       if (*psStack_40 == 2) {
-        Graphics::GetTaskTime(psStack_40);
+        Graphics::getTaskTime((GtaskMsg*)psStack_40);
         gGlobals.ticker++;
         sVar9 = sVar7;
         if ((0.0 < gLensFlarePos.x)&&(gLensFlarePos.x<SCREEN_WIDTH)&&

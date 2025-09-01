@@ -41,7 +41,7 @@ void Lensflare::Free(void){
     FREEQB8(gLensflare[i]);
     gLensflare[i]=NULL;
   }
-  HFREE(gLensflare,0x7c);
+  HFREE(gLensflare,124);
 }
 Gfx * Lensflare::Render(Gfx *g){
   bool bVar2;
@@ -63,7 +63,7 @@ Gfx * Lensflare::Render(Gfx *g){
     return g;
   }
   if ((gGlobals.appfunc_dat != 0) && (10.0f < gLensFlarePos.x)) {
-    if (310.0f <= gLensFlarePos.x) {
+    if ((SCREEN_WIDTH-10) <= gLensFlarePos.x) {
       bVar2 = false;
       goto LAB_8002e068;
     }
@@ -84,7 +84,7 @@ LAB_8002e068:
       gGlobals.sky.lensFlareVal = 0.0;
       return g;
     }
-    if (lensflare_bss < 0xb) lensflare_bss = 0;
+    if (lensflare_bss <= 10) lensflare_bss = 0;
     else lensflare_bss -= 10;
   }
   if (lensflare_bss != 0) {

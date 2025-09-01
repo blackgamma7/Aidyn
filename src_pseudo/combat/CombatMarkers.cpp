@@ -52,7 +52,7 @@ u8 CombatMarkers::Init(void){
     puVar2->time = 0;
     puVar2->active = 0;
   }
-  mapmarker_borg9 = &(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat;
+  mapmarker_borg9 = &(MAPCENTER.mapPointer)->dat;
   return true;
 }
 

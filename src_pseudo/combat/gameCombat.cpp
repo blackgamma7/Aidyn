@@ -847,7 +847,7 @@ void gamecombat_weapon_func(){
       local_38.z = 0.0;
       local_38.x = 4.0f;
       local_38.y = 8.0f;
-      get_ranged_weapon_floats(pCVar2,&local_38.x,&local_38.y,&local_38.z);
+      CombatEntity::GetWeaponRanges(pCVar2,&local_38.x,&local_38.y,&local_38.z);
       Vec3_sub(&vec3f_800f53f0,&fStack120,&vec3f_800f5400);
       FLOAT_800e9b70 = vec3_normalize(&vec3f_800f53f0);
       fVar6 = 2.0f;

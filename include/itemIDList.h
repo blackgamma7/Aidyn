@@ -28,6 +28,7 @@ enum DB_TYPE{
 #define Misc(n) ID(MISC,n) //set hex of low byte
 #define Ent(n) ID(ENTITY,n) //set hex of low byte
 #define Spell(n) ID(SPELL,n) //set hex of low byte
+#define Rite(n) ID(RITUAL,n) //set hex of low byte
 #define Armor(n) ID(ARMOR,n) //set hex of low byte
 #define Sheild(n) ID(SHEILD,n) //set hex of low byte
 #define Weapon(n) ID(WEAPON,n) //set hex of low byte
@@ -247,6 +248,7 @@ enum ItemIDS{
 #undef Misc
 #undef Ent
 #undef Spell
+#undef Rite
 #undef Armor
 #undef Sheild
 #undef Weapon

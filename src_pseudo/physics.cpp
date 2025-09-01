@@ -123,7 +123,7 @@ void Ofunc_800af7f4(collisionSphere *collide,collideCallback callback){
   collide->envProps->colA->flag|=4;
 }
 
-short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,borg_9_struct *param_2,borg9_phys *param_3){
+short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSection *param_2,borg9_phys *param_3){
   u16 uVar1;
   u16 uVar2;
   bool bVar3;

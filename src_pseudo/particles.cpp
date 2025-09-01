@@ -84,9 +84,9 @@ void Particle::InitParticleHead(ParticleHeadStruct *head,Borg9Data *borg9,s16 pa
   head->particleStructCount = partCount;
   ALLOCS(head->particles,(u16)(partCount+1)*sizeof(Particle_s),223);
   head->gray = 1.0f;
-  InitEmmiters(head);
-  InitParticles(head);
-  LoadTextures(head,textCount,textureP);
+  Particle::InitEmmiters(head);
+  Particle::InitParticles(head);
+  Particle::LoadTextures(head,textCount,textureP);
   head->borg9dat = borg9;
   OSTime OVar3 = osGetTime();
   PartRand.SetSeed(udivdi3(CONCAT44((int)(OVar3 >> 0x20) << 6 | (uint)OVar3 >> 0x1a,(uint)OVar3 << 6),3000));
@@ -113,10 +113,10 @@ void Particle::UpdateParticle(ParticleHeadStruct *param_1,vec4f *col,u32 flag,s1
       float dScale = 1.0f;
       if ((flag & 0x40)) dScale = col->w;
       if ((flag & 0x800)) {
-        part->ColorB.r+=col->x * delta * dScale;
-        part->ColorB.g+=col->y * delta * dScale;
-        part->ColorB.b+=col->z * delta * dScale;
-        part->ColorB.a+=col->w * delta * dScale;
+        part->colorB.r+=col->x * delta * dScale;
+        part->colorB.g+=col->y * delta * dScale;
+        part->colorB.b+=col->z * delta * dScale;
+        part->colorB.a+=col->w * delta * dScale;
       }
       if (!(part->flags & 0x4000)) {
         if ((flag & 0x80)) {
@@ -165,8 +165,8 @@ void Particle::ApplyVelocity(ParticleHeadStruct *param_1,ParticleEmmiter *param_
     part->vel.y *=-6;
     part->vel.z *=.6;
   }
-  if (((part->flags & 0x8000) == 0)&&(part->unk4 != -1)) UpdateParticle(param_1,&part->ColorB,part->flags,part->unk4,delta);
-  else UpdateParticle(param_1,&part->ColorB,part->flags,param_2->particles->id,delta);
+  if (((part->flags & 0x8000) == 0)&&(part->unk4 != -1)) UpdateParticle(param_1,&part->colorB,part->flags,part->unk4,delta);
+  else UpdateParticle(param_1,&part->colorB,part->flags,param_2->particles->id,delta);
 }
 
 
@@ -211,9 +211,8 @@ LAB_800b2590:
         sVar4 = pE->lifespanemmiter;
 LAB_800b2214:
         if (0 < sVar4) {
-          iVar2 = (uint)(ushort)pE->lifespanemmiter - delta_;
-          pE->lifespanemmiter = (short)iVar2;
-          if (iVar2 * 0x10000 < 0) {
+          pE->lifespanemmiter -=delta_;
+          if (pE->lifespanemmiter < 0) {
             pE->lifespanemmiter = 0;
           }
           goto LAB_800b2590;
@@ -231,13 +230,12 @@ LAB_800b2214:
             CRASH("../src/Particles.cpp","pPH->ppTextures[pE->texture] == NULL\nParticle emitter tried to use an discarded texture!");
           pGStack_38 = FUN_8009d3dc(pGStack_38,pPH->ppTextures[pE->texture],0);
           pGStack_38 = loadTextureImage(pGStack_38,pPH->ppTextures[pE->texture],NULL);
-          iVar2 = (uint)(ushort)pE->lifespan - delta_;
-          pE->lifespan = (short)iVar2;
+          pE->lifespan -=delta_;
           if (pE->funcB == NULL) {
 LAB_800b23cc:
             pPVar3 = pE->particles;
           }
-          else if (iVar2 * 0x10000 < 1) {
+          else if (pE->lifespan < 1) {
             pPVar3 = pE->particles;
           }
           else {
@@ -284,7 +282,7 @@ LAB_800b24c4:
                 uVar5 = pPVar3->lifespan;
               }
               else {
-                pPVar3->lifespan = pPVar3->lifespan - delta;
+                pPVar3->lifespan-= delta;
                 ApplyVelocity(pPH,pE,(short)lVar9,(float)delta_);
                 uVar5 = pPVar3->lifespan;
                 if ((pPVar3->flags & 0x10) != 0) {
@@ -499,10 +497,10 @@ void Particle::SetScale(Particle_s *p,float x,float y){
 
 
 void Particle::SetColorB(Particle_s *param_1,float r,float g,float b,float a){
-  (param_1->ColorB).x = r;
-  (param_1->ColorB).y = g;
-  (param_1->ColorB).z = b;
-  (param_1->ColorB).w = a;
+  (param_1->colorB).x = r;
+  (param_1->colorB).y = g;
+  (param_1->colorB).z = b;
+  (param_1->colorB).w = a;
 }
 
 void Particle::SetFlag(Particle_s *part,u16 flag){part->flags|= flag;}
@@ -734,8 +732,8 @@ void BorgParticleEmitterB(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
     v4Temp.y = ((pvVar2->colBlend).G / 255.0);
     v4Temp.z = ((pvVar2->colBlend).B / 255.0);
     v4Temp.w = ((pvVar2->colBlend).A / 255.0);
-    Vec4_sub(&p->ColorB,&v4Temp,&p->colorA);
-    multiVec4(&p->ColorB,(float)(1.0 / (double)(int)p->lifespan));
+    Vec4_sub(&p->colorB,&v4Temp,&p->colorA);
+    multiVec4(&p->colorB,(float)(1.0 / (double)(int)p->lifespan));
     p->unk4 = p->id;
     Particle::SetFlag(p,0x200);
   }
@@ -767,7 +765,7 @@ Particle::FUN_800b3c18(ParticleHeadStruct *param_1,SceneData *scene,Borg5_partic
   SetFlag(pEmmi->particles,0x140);
   fVar4 = 0.006f;
   SetColorB(pEmmi->particles,(dat->colVA).x,(dat->colVA).y,(dat->colVA).z,(dat->colVA).w);
-  multiVec3((vec3f *)&pEmmi->particles->ColorB,0.006f);
+  multiVec3((vec3f *)&pEmmi->particles->colorB,0.006f);
   if ((dat->flagE & 0x1000) == 0){
     pPVar2 = FUN_800b277c(param_1,pEmmi,dat->unk8);
     if (pPVar2 == NULL) goto LAB_800b3e80;
@@ -775,7 +773,7 @@ Particle::FUN_800b3c18(ParticleHeadStruct *param_1,SceneData *scene,Borg5_partic
     UnsetFlag(pPVar2,0x10);
     pPVar2->unk4 = pEmmi->particles->id;
     SetColorB(pPVar2,(dat->colVB).x,(dat->colVB).y,(dat->colVB).z,(dat->colVB).w);
-    multiVec3((vec3f *)&pPVar2->ColorB,0.006f);
+    multiVec3((vec3f *)&pPVar2->colorB,0.006f);
   }
   if ((dat->flagE & 0x800)) {
     pPVar2 = FUN_800b27cc(param_1,pEmmi,dat->unk8);
@@ -784,7 +782,7 @@ Particle::FUN_800b3c18(ParticleHeadStruct *param_1,SceneData *scene,Borg5_partic
     SetFlag(pPVar2,0x140);
     fVar4 = 0.006f;
     SetColorB(pPVar2,(dat->colVC).x,(dat->colVC).y,(dat->colVC).z,(dat->colVC).w);
-    multiVec3((vec3f *)&pPVar2->ColorB,0.006f);
+    multiVec3((vec3f *)&pPVar2->colorB,0.006f);
     if ((dat->flagE & 0x400)){
       pPVar2 = FUN_800b277c(param_1,pEmmi,dat->unk8);
       if (pPVar2 == NULL) goto LAB_800b3e80;
@@ -792,7 +790,7 @@ Particle::FUN_800b3c18(ParticleHeadStruct *param_1,SceneData *scene,Borg5_partic
       UnsetFlag(pPVar2,0x10);
       pPVar2->unk4 = uVar1;
       SetColorB(pPVar2,(dat->colVD).x,(dat->colVD).y,(dat->colVD).z,(dat->colVD).w);
-      multiVec3((vec3f *)&pPVar2->ColorB,0.006f);
+      multiVec3((vec3f *)&pPVar2->colorB,0.006f);
     }
   }
   if ((dat->flagE & 0x8000)) {

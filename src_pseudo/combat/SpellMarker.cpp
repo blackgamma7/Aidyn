@@ -26,7 +26,7 @@ namespace CombatSpellMarker{
     if (!gCombatSpellMarker) gCombatSpellMarker = load_borg_5_func(BORG5_SpellMarker);
     setVec3(&posA,(gCombatP->SpellMarkerPos).x,50.0,(gCombatP->SpellMarkerPos).y);
     setVec3(&posB,(gCombatP->SpellMarkerPos).x,-10.0,(gCombatP->SpellMarkerPos).y);
-    if (!CheckCollision(&(gGlobals.Sub.ZoneDatMtx[1][1].mapPointer)->dat,&posA,&posB,1.0,&outPos,NULL,0))
+    if (!CheckCollision(&(MAPCENTER.mapPointer)->dat,&posA,&posB,1.0,&outPos,NULL,0))
       setVec3(&outPos,(gCombatP->SpellMarkerPos).x,CombatCurrentEnt_Y,(gCombatP->SpellMarkerPos).y);
     CLEAR(&scale);
     scale.y = 2.0f;
