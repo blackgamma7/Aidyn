@@ -37,11 +37,11 @@ s32 TempSpell::GetGoldPrice(SpellInstance *param_1){
 
 ItemID TempSpell::GetIngredient(SpellInstance *param_1){
   switch(param_1->cost){
-  case SPELLUSE_Herb: return itemID_array[0x1f];
-  case SPELLUSE_Spice: return itemID_array[0x1e];
-  case SPELLUSE_Gemstone: return itemID_array[0x20];
+  case SPELLUSE_Herb: return itemID_array[ItemInd_Herb];
+  case SPELLUSE_Spice: return itemID_array[ItemInd_Spice];
+  case SPELLUSE_Gemstone: return itemID_array[ItemInd_Gemstone];
   }
-  return itemID_array[0x1f];
+  return itemID_array[ItemInd_Herb];
 }
 
 
@@ -143,7 +143,7 @@ void malloc_equip_spell(SpellCharges *param_1,u8 param_2,u8 param_3,u8 param_4){
   
   ALLOC(pTVar1,0x138);
   param_1->Spell = pTVar1;
-  TempSpell::Init(pTVar1,(ItemID)(SpellList[param_2] | 0x300),param_4);
+  TempSpell::Init(pTVar1,IDSpell(SpellList[param_2]),param_4);
   param_1->Charges = param_3;
 }
 

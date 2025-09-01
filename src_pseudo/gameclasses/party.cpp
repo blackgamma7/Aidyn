@@ -640,7 +640,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
     else {
       bVar1 = SpellList[(char)bVar1];
       auStack_228[0] = 0;
-      if (param_4->spellbook->HaveSpell((ItemID)(bVar1 | 0x300),auStack_228)) {
+      if (param_4->spellbook->HaveSpell(IDSpell(bVar1),auStack_228)) {
         Gsprintf(Cstring(LearnMagicKnows),param_4->name);
         pcVar13 = gGlobals.text;
         pCVar14 = &acStack544;
@@ -675,7 +675,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
           if (((MVar3 == SCHOOL_Chaos) ||
               (MVar4 = pSVar7->School, MVar4 == SCHOOL_NONE))
              || (MVar3 == MVar4)) {
-            param_4->spellbook->NewSpell((ItemID)(bVar1 | 0x300),1);
+            param_4->spellbook->NewSpell(IDSpell(bVar1),1);
             Gsprintf(Cstring(LearnMagicLearned),param_4->name,pSVar7->Name);
             acStack160.R = 0xe1;
             acStack160.G = 0xe1;
@@ -1544,17 +1544,17 @@ u32 Party::CraftPotion(u8 user,u8 item){
   potionRecipie *recepie = get_potion_recipie(item);
   if (recepie) {
     CharSheet *chara = this->Members[user];
-    pWVar2->SetHighlight(itemID_array[0x1e],recepie->spice,0xff);
-    pWVar2->SetHighlight(itemID_array[0x1f],recepie->spice,0xff);
-    pWVar2->SetHighlight(itemID_array[0x20],recepie->spice,0xff);
+    pWVar2->SetHighlight(itemID_array[ItemInd_Spice],recepie->spice,0xff);
+    pWVar2->SetHighlight(itemID_array[ItemInd_Herb],recepie->herb,0xff);
+    pWVar2->SetHighlight(itemID_array[ItemInd_Gemstone],recepie->gemstone,0xff);
     if (recepie->spice){
-      if (!this->Inventory->TakeItem(itemID_array[0x1e],recepie->spice)) return 0;
+      if (!this->Inventory->TakeItem(itemID_array[ItemInd_Spice],recepie->spice)) return 0;
     }
     if (recepie->herb) {
-      if (!this->Inventory->TakeItem(itemID_array[0x1f],recepie->herb)) return 0;
+      if (!this->Inventory->TakeItem(itemID_array[ItemInd_Herb],recepie->herb)) return 0;
     }
     if (recepie->gemstone) {
-      if (!this->Inventory->TakeItem(itemID_array[0x20],recepie->gemstone)) return 0;
+      if (!this->Inventory->TakeItem(itemID_array[ItemInd_Gemstone],recepie->gemstone)) return 0;
     }
     s8 alch = chara->Skills->getModdedSkill(SKILL_Alchemist);
     if (alch < recepie->alchemist) return 0;
@@ -1563,10 +1563,10 @@ u32 Party::CraftPotion(u8 user,u8 item){
     if (roll < vsRoll) {
       //"unk2" is 0 for all recipies, so it always passes
       if (recepie->unk2 <= some_skillcheck_calc(vsRoll - roll)) {
-        u32 ret =this->Inventory->AddItem(item | 0x1000,1);
+        u32 ret =this->Inventory->AddItem(IDPotion(item),1);
         if(!ret) return 0;
         else {
-          pWVar2->AddItem((u16)(item | 0x1000),1,0xff,FILENAME,2763);
+          pWVar2->AddItem(IDPotion(item),1,0xff,FILENAME,2763);
           pWVar2->SortB();
           pWVar2->Tick();
           pWVar2->scrollMenu->m8002ff30();

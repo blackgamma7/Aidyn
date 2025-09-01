@@ -587,7 +587,7 @@ playerData * FUN_800591e4(void){
   ppVar1 = NULL;
   if (((ushort)x >> 8 == 2) &&
      (bVar2 = GETINDEX(x), ppVar1 = gGlobals.playerCharStruct.playerDat,
-     bVar2 != 0x99)) {
+     bVar2 != EntInd_Alaron)) {
     if (dialougemode_pointer->Wanderers == NULL) ppVar1 = NULL;
     else ppVar1 = dialougemode_pointer->Wanderers->playerDat;
   }

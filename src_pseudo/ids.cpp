@@ -39,11 +39,11 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
   switch((uint)((ushort)x >> 8)) {
   case DB_ENTITY:
     pbVar2 = entityList;
-    pEVar4 = (u8*)gEntityDB;
+    pEVar4 = &gEntityDB->total;
     break;
   case DB_SPELL:
     pbVar2 = SpellList;
-    pEVar4 = gSpellDBp->Total;
+    pEVar4 = &gSpellDBp->Total;
     break;
   default:
     goto switchD_80075e2c_caseD_4;
@@ -60,14 +60,14 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
     pbVar2 = lootList;
     pEVar4 = &gChestDBp->total;
     break;
-  case 0x10:
-  case 0x15:
-  case 0x16:
-  case 0x17:
-  case 0x18:
+  case DB_POTION:
+  case 21: //?
+  case 22: //?
+  case 23: //?
+  case 24: //?
     uVar1 = uVar3;
     goto switchD_80075e2c_caseD_4;
-  case 0x14:
+  case DB_DIALOUGEENTITY:
     pbVar2 = DialougEntList;
     pEVar4 = gDialogEntityDBp;
     break;
@@ -89,11 +89,11 @@ u16 search_item_array(ItemID param_1){
     case DB_MISC:
     case DB_HELMET:
     case DB_CLOAK:
-    case 0xb:
-    case 0xc:
-    case 0xd:
-    case 0xe:
-    case 0xf:
+    case DB_GLOVE:
+    case DB_RING:
+    case DB_WAND:
+    case DB_BELT:
+    case DB_BOOTS:
     case DB_SCROLL:
     case DB_KEYITEM:
     case DB_AMULET:

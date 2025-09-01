@@ -102,7 +102,7 @@ void get_chest_loot(loot_Pointer *param_1,container_Dat *param_2){
   Loot_RAM *pcVar4 = &param_1->lootCat[GETINDEX(param_2->LootCat)];
   param_2->Gold = (u16)(rand_range(pcVar4->GoldLo,pcVar4->GoldHi) << 1);
   uVar1 = item_chances(param_2,pcVar4->reagentchance,pcVar4->reagentLlo,
-                       pcVar4->reagentHi,0,itemID_array[rand_range(0x1e,0x20)],1);
+                       pcVar4->reagentHi,0,itemID_array[rand_range(ItemInd_Spice,ItemInd_Gemstone)],1);
   for(u16 i=0;i<6;i++) {
     uVar1 = item_chances(param_2,pcVar4->itemDropChances[i],pcVar4->itemLo[i],
                          pcVar4->itemHi[i],uVar1,pcVar4->itemDrops[i],

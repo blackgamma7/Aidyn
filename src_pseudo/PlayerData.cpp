@@ -153,10 +153,10 @@ void Actor::Init(playerData *param_1,u16 id){
   (param_1->envprop).colA->unk10 = 0.0;
   (param_1->colTypeB).gravity.y = -0.003f;
   (param_1->collision).link = param_1;
-  param_1->Ent_index = 0x99;
+  param_1->Ent_index = EntInd_Alaron;
   param_1->voxelReach = 100.0f;
   //default Alaron
-  param_1->ent_ID = (ItemID)(entityList[0x99] + 0x200);
+  param_1->ent_ID = IDEnt(entityList[EntInd_Alaron]);
   setVec3(&param_1->CombatTint,1.0,1.0,1.0);
   param_1->unk75c = 0.0;
   param_1->unk760 = 0.0;
@@ -382,7 +382,6 @@ u8 FUN_8001620c(playerData *param_1){
 
 
 void ProcessPlayers(PlayerHandler *handler,short delta){
-  byte bVar1;
   u16 uVar2;
   u16 uVar3;
   Camera_struct *pCVar4;
@@ -679,9 +678,8 @@ crash:
         if (((((pDat->ani_type == 0) && (pDat->unk1a == 0)) && (pDat->unk1c == 0)) &&
             ((13.0f <= fVar31 && (gGlobals.Sub.gamemodeType == 1)))) ||
            (bVar18 = FUN_8001620c(pDat), bVar18)) {
-          if (!Actor::IsFlyngModel(pDat)) goto not_flying_borg7;
+          if (!Actor::IsFlyingModel(pDat)) goto not_flying_borg7;
           if (pDat->unk70ee == 0) goto LAB_80016cec;
-          bVar1 = pDat->visible_flag;
         }
         else {
 LAB_80016cec:
@@ -774,9 +772,8 @@ LAB_80017014:
             }
           }
 not_flying_borg7:
-          bVar1 = pDat->visible_flag;
         }
-        if (bVar1 == 0) {
+        if (pDat->visible_flag == 0) {
           FLOOR((pDat->collision).pos.x,0.05);
           FLOOR((pDat->collision).pos.z,0.05);
           CIEL((pDat->collision).pos.x,(gGlobals.Sub.mapCellSize.x - 0.05));

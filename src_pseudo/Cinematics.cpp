@@ -296,7 +296,7 @@ u16 Cinematic::LoadCredits(void){
   return 19;}
 
 u16 Cinematic::TrueName(void){
-  CharSheet *pCVar1 = PARTY->GetMemberById(gEntityDB->entities[0x99].ID);
+  CharSheet *pCVar1 = PARTY->GetMemberById(gEntityDB->entities[EntInd_Alaron].ID);
   if (pCVar1) {pCVar1->EXP->flags |= CHAR_TrueName;}
   return 1;
 }

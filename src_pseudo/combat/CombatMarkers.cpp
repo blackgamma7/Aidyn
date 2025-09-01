@@ -44,7 +44,7 @@ u8 CombatMarkers::SetMarker(Borg9Data *mapDat,vec3f *pos,float radius,u16 iter){
 }
 
 u8 CombatMarkers::Init(void){
-  ALLOCS(gCombatMarkers,sizeof(CombatMarker)*MARKERMAX,0xac);
+  ALLOCS(gCombatMarkers,sizeof(CombatMarker)*MARKERMAX,172);
   for(u32 uVar3 = 0;uVar3<MARKERMAX;uVar3++) {
     CombatMarker *puVar2 = &gCombatMarkers[uVar3];
     puVar2->borg =  load_borg_5_func(BORG5_CombatMarker);

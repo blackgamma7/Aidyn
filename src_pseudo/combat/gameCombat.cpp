@@ -254,8 +254,8 @@ void some_death_func_B(playerData *param_1,u8 param_2,CombatEntity *param_3){
     pass_to_draw_crossbones(param_1->ent_ID,param_2);
     gGlobals.playerDataArray[param_2] = NULL;
     u8 index = GETINDEX(param_1->ent_ID);
-    if (index == 0xac) clear_shadow_index();
-    if (index == 0x99) clear_alaron_index();
+    if (index == EntInd_Shadow) clear_shadow_index();
+    if (index == EntInd_Alaron) clear_alaron_index();
   }
 }
 
@@ -654,7 +654,7 @@ void init_combat_struct(void){
     //ganerate random encounter if something went wrong.
     if (gGlobals.combatBytes[2] == 0) {
       random_enemy_generator();
-      gGlobals.EncounterDat.globalLoot= DB_CHEST<<8|0xc;
+      gGlobals.EncounterDat.globalLoot= Loot_LizardBoss;
       gGlobals.EncounterDat.EncounterID = 0;
       gGlobals.EncounterDat.battlefield = rand_range(0,0x1b);
       gGlobals.EncounterDat.collisionByte = rand_range(0,2);
@@ -732,7 +732,7 @@ void clear_combat_func(){
       setVec3(&gGlobals.Sub.MapFloatDatEntry.playerVec3,5.9f,0.5f,3.0f);
       setVec2(&gGlobals.Sub.MapFloatDatEntry.playerVec2,1.0f,0.0f);
       copyVec3(&gGlobals.Sub.MapFloatDatEntry.playerVec3,&gGlobals.Sub.MapFloatDatEntry.cameraVec3);
-      CharSheet *pCVar5 = PARTY->GetMemberById((ItemID)(entityList[0x99] | 0x200));
+      CharSheet *pCVar5 = PARTY->GetMemberById((ItemID)(entityList[EntInd_Alaron] | DB_ENTITY<<8));
       if (pCVar5) {
         Entity::addHP(pCVar5,Entity::getHPMax(pCVar5) - (short) Entity::getHPCurrent(pCVar5));
       }
@@ -944,7 +944,7 @@ void clear_shadow_index(void){gGlobals.ShadowIndex = -1;}
 
 void clear_alaron_index(void){gGlobals.AlaronIndex = -1;}
 
-bool HasHornOfKynon(void){return PARTY->hasItem(itemID_array[0x59]);}
+bool HasHornOfKynon(void){return PARTY->hasItem(itemID_array[ItemInd_HornKynon]);}
 
 bool shadow_combat_func(){
 

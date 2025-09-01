@@ -12,7 +12,7 @@ void set_boss_flag(void){
     case 0xad: //Ehud
       setEventFlag(FLAG_KilledEhud,true);
       break;
-    case 0xac: //Shadow
+    case EntInd_Shadow:
       setEventFlag(0x1ca,true);
       break;
     case 0xaf: //Ksathra

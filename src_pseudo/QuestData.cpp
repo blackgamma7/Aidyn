@@ -156,7 +156,7 @@ void SavePartyPlaytime(SavePartyHeader *param_1){
   uint uVar4;
   
   uVar4 = 0;
-  pCVar2 = PARTY->GetMemberById(gEntityDB->entities[0x99].ID);
+  pCVar2 = PARTY->GetMemberById(gEntityDB->entities[EntInd_Alaron].ID);
   c2 = pCVar2->name;
   param_1->time = TerrainPointer->PlayTime;
   strcpy(param_1->name,c2);

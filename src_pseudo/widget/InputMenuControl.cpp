@@ -106,7 +106,7 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
         pWVar4 = PauseSub->dollmenu;
         if (pWVar4) {
           for (uVar8 = 0; uVar8 < pWVar4->unk7c->partySize; uVar8++) {
-            if (pWVar4->unk7c->portraits[uVar8]->var5E == 0x99) {
+            if (pWVar4->unk7c->portraits[uVar8]->var5E == EntInd_Alaron) {
               Utilities::ChangeWidgetText(pWVar4->unk7c->names[uVar8],piVar2->entry,true);
               break;
             }
@@ -179,7 +179,7 @@ BaseWidget * InputMenu_StartButton(BaseWidget *w0,BaseWidget *w1){
         pWVar4 = PauseSub->dollmenu;
         if (pWVar4) {
           for(uVar12 = 0;uVar12<pWVar4->unk7c->partySize;uVar12++) {
-            if (pWVar4->unk7c->portraits[uVar12]->var5E == 0x99){
+            if (pWVar4->unk7c->portraits[uVar12]->var5E == EntInd_Alaron){
             Utilities::ChangeWidgetText(pWVar4->unk7c->names[uVar12],piVar3->entry,true);
             break;
             }

@@ -105,8 +105,8 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
   ItemID x = C_Ent->charSheetP->ID;
   init_combatgui_struct(x,index,param_1->playerCount <= index);
   //are they Alaton or Shadow?
-  if (GETINDEX(x) == 0xac) set_shadow_index(index);
-  if (GETINDEX(x) == 0x99) set_alaron_index(index);
+  if (GETINDEX(x) == EntInd_Shadow) set_shadow_index(index);
+  if (GETINDEX(x) == EntInd_Alaron) set_alaron_index(index);
   playerData *ppVar2 = Actor::AllocPlayer(gEntityDB->GetCollideRadius(x),C_Ent->GetCoordX(),1.0,C_Ent->GetCoordY(),gEntityDB->GetBorg7(x));
   ppVar2->ent_ID = x;
   ppVar2->Ent_index = GETINDEX(x);
@@ -207,7 +207,7 @@ u16 Combat_CreatePartyMembers(u8 param_1){
         (&gCombatP->combatEnts)[uVar7] = pCVar3;
         gCombatP->combatEnts[uVar7++].Init(charsheet,0,posx,posz,uStack_3e,uVar6,0,(char)uVar7);
         auStack_3d[0] = 0;
-        if (charsheet->spellbook->HaveSpell((SpellList[8] | 0x300),auStack_3d)) {
+        if (charsheet->spellbook->HaveSpell(IDSpell(SpellList[8]),auStack_3d)) {
           iVar4 = Entity::CheckSpellWizard(charsheet,charsheet->spellbook->spells[auStack_3d[0]]);
           if ((uint)gCombatP->flask_byte < (iVar4 << 1 & 0xffU)) {
             gCombatP->flask_byte = (byte)(iVar4 << 1);
@@ -256,7 +256,7 @@ uint Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
     auStack_2d[0] = 0;
     pCVar2 = pCVar1->charSheetP;
                     // fireball
-    if (pCVar2->spellbook->HaveSpell((ItemID)(SpellList[8] | 0x300),auStack_2d)) {
+    if (pCVar2->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_fireball]),auStack_2d)) {
       iVar4 = Entity::CheckSpellWizard(pCVar2,pCVar2->spellbook->spells[auStack_2d[0]]);
       if ((uint)gCombatP->flask_byte < (iVar4 << 1 & 0xffU)) {
         gCombatP->flask_byte = (byte)(iVar4 << 1);
@@ -268,7 +268,7 @@ uint Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
 
 void look_for_boss_shadow(ItemID param_1){
   u8 ID = GETINDEX(param_1);
-  if (ID == 0xac) gCombatP->encounter_dat->BossShadow = 1;
+  if (ID == EntInd_Shadow) gCombatP->encounter_dat->BossShadow = 1;
   else {
     u8 Boss_Ent_Indecies[]={
         0xA8,0xAA,0xAB,0xAD,0xAE,0xB4,0xB3,0xB2,0xB1,0xB0,0xAF,0xB5,0xFF};
@@ -726,7 +726,7 @@ void calc_loot(CombatStruct *param_1,byte param_2,Entity_Ram *param_3){
   param_1->gold_pool+=rand_range(pLVar5->GoldLo,pLVar5->GoldHi);
   get_gear_drop(param_1,param_3,pLVar5);
   if ((pLVar5->reagentchance) && (RollD(1,100) <= pLVar5->reagentchance)) {
-    u8 uVar2 = rand_range(0x1e,0x20);
+    u8 uVar2 = rand_range(ItemInd_Spice,ItemInd_Gemstone);
     param_1->loot_pool->AddItem(itemID_array[uVar2],(u8)rand_range(pLVar5->reagentLlo,pLVar5->reagentHi));
     param_1->EXP_pool += (uint)gItemDBp->Gear[uVar2].exp_multi;
   }

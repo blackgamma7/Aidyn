@@ -21,7 +21,7 @@ void CharExp::Init(ItemID id){
   this->flags = pEVar5->flags;
   if (pEVar5->aspect == ASPECT_SOLAR) this->flags |= CHAR_IsSolar;
   //is alaron "Named" yet?
-  if ((bVar3 == 0x99) && (getEventFlag(FLAG_Cinematic2))) this->flags |= CHAR_TrueName;
+  if ((bVar3 == EntInd_Alaron) && (getEventFlag(FLAG_Cinematic2))) this->flags |= CHAR_TrueName;
 }
 
 u8 CharExp::GetAspect(){return (flags & CHAR_IsSolar) ? ASPECT_SOLAR:ASPECT_LUNAR;}

@@ -267,7 +267,7 @@ bool DialougeClass::Setup(){
   else {
 LAB_8004edd4:
                     // Alaron portait
-    ind = gEntityDB->GetPortrait((ItemID)(entityList[0x99] | 0x200));
+    ind = gEntityDB->GetPortrait(IDEnt(entityList[EntInd_Alaron]));
     strcpy(Utilities::GetWidgetText(sub->text)," ");
   }
   Utilities::SetBorg8Dims(sub->Portrait,SuperMenuClasses::Add(ind),false);

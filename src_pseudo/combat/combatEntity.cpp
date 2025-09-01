@@ -1577,7 +1577,7 @@ s16 CombatEntity::UseWeaponEnchantment(CombatEntity *param_2){
     pTVar2 = pTVar1->enchantment;
     if (pTVar2) {
       ret = 0;
-      TempSpell::Init(&TStack80,(ItemID)SpellList[pTVar2->index] | 0x300,pTVar2->lv);
+      TempSpell::Init(&TStack80,IDSpell(SpellList[pTVar2->index]),pTVar2->lv);
       if (CombatEntity::SpellEffectsTarget(param_2,&TStack80)) {
         ret = MagicDamageResistCalc(param_2,&TStack80,true);
         if (ret == -3) ret = 0;
@@ -2111,7 +2111,7 @@ u8 CombatEntity::VSMagic(SpellInstance *param_2,CombatEntity *param_3,char *para
   float fVar11;
   
 // no TP with Shadow present
-  if ((param_2->base.id == (ItemID)(SpellList[SPELLIND_teleportation] + 0x300)) && (gGlobals.ShadowIndex != -1)) {
+  if ((param_2->base.id == IDSpell(SpellList[SPELLIND_teleportation])) && (gGlobals.ShadowIndex != -1)) {
     PrintSpellFail();
     return false;
   }

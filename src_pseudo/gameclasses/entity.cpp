@@ -956,7 +956,7 @@ LAB_800798b0:
   case SPELLIND_frozenDoom:
   case SPELLIND_webOfStarlight:
                     // fail with Shadow
-    if (lVar4 == 0xac) return -1;
+    if (lVar4 == EntInd_Shadow) return -1;
     bVar11 = true;
     if ((uVar16 != 0) && (combatTarget)) {
       UNK4 = 1;
