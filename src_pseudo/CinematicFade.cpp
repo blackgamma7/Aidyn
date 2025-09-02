@@ -78,7 +78,6 @@ void Cinematic::NextFadeTally(void){
 }
 
 Gfx * Cinematic::Fade(Gfx *g,u16 delta){
-  byte bVar1;
   short sVar2;
   u16 uVar3;
   u16 uVar4;
@@ -107,7 +106,6 @@ Gfx * Cinematic::Fade(Gfx *g,u16 delta){
           0xffff;
   sCFades16 = sVar2 + uVar3;
   sCFadeSpeed = (float)(1.0 / (double)uVar3);
-  bVar1 = sCFadeP->fadeType;
   switch(sCFadeP->fadeType){
     case CFade_None:
       sCFadeSpeed = -sCFadeSpeed;
@@ -120,16 +118,16 @@ Gfx * Cinematic::Fade(Gfx *g,u16 delta){
       sCFadeFloat = 0.0;
       break;
     case CFade_White:
-    sCFadeCol.R = 0xff;
-    sCFadeCol.G = 0xff;
-    sCFadeCol.B = 0xff;
-    sCFadeFloat = 0.0;
+      sCFadeCol.R = 0xff;
+      sCFadeCol.G = 0xff;
+      sCFadeCol.B = 0xff;
+      sCFadeFloat = 0.0;
     break;
     case CFade_Red:
-    sCFadeCol.R = 0xff;
-    sCFadeCol.G = 0;
-    sCFadeCol.B = 0;
-    sCFadeFloat = 0.0; 
+      sCFadeCol.R = 0xff;
+      sCFadeCol.G = 0;
+      sCFadeCol.B = 0;
+      sCFadeFloat = 0.0; 
   }
   sCFadeP++;
 LAB_8005d1d4:
