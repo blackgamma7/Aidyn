@@ -814,10 +814,8 @@ LAB_8001727c:
                   if (fVar29 <= fVar31) {
                     fVar29 = (pDat->collision).radius;
                     fVar28 = ppVar8[iVar12].collision.radius;
-                    bVar19 = FUN_800b003c(local_60,pDat->scale,
-                                          &ppVar8[iVar12].collision,ppVar8[iVar12].scale,
-                                          &local_70);
-                    if (bVar19) {
+                    if (FUN_800b003c(local_60,pDat->scale,&ppVar8[iVar12].collision,
+                                     ppVar8[iVar12].scale,&local_70)) {
                       if (bVar18) {
                         (pDat->collision).pos.x = fVar27;
                         (pDat->collision).pos.y = fVar5;
