@@ -1,4 +1,7 @@
 #include "globals.h"
+#include "combat/CombatCamera.h"
+#include "combat/Visuals.h"
+
 #define FILENAME "./src/player.cpp"
 
 u8 Actor::IsFlyingModel(playerData* p){
@@ -384,7 +387,6 @@ u8 FUN_8001620c(playerData *param_1){
 void ProcessPlayers(PlayerHandler *handler,short delta){
   u16 uVar2;
   u16 uVar3;
-  Camera_struct *pCVar4;
   float fVar5;
   float fVar6;
   u32 BVar7;
@@ -454,15 +456,13 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
         fVar27 = 75.0f;
         Camera::ProcessVectors(&afStack304,&fStack240,gGlobals.Sub.camPtrArray,
                          gGlobals.Sub.camPtrArraySize,75.0f);
-        pCVar4 = handler->camera;
-        pCVar4->unk5c = fVar27;
-        if (fVar27 < 5.0f) pCVar4->unk5c = 5.0f;
+        handler->camera->unk5c = fVar27;
+        if (fVar27 < 5.0f) handler->camera->unk5c = 5.0f;
         facingV3.y = 0.0;
-        pCVar4 = handler->camera;
         facingV3.x = fStack240.x;
         facingV3.z = fStack240.y;
-        pCVar4->unk80 = 1;
-        Camera::SetFeild70(pCVar4,&afStack304);
+        handler->camera->unk80 = 1;
+        Camera::SetFeild70(handler->camera,&afStack304);
         Camera::ProcessGameCamera(handler->camera,&afStack304,&facingV3,delta,0);
         handler->camera->unk5c = handler->camera->unk60;
       }
@@ -498,7 +498,7 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
     iVar12 = 0;
     do {
       iVar21 = (int)count;
-      pDat = handler->playerDats[count];
+      pDat = &handler->playerDats[count];
       fVar27 = (pDat->collision).pos.x;
       fVar5 = (pDat->collision).pos.y;
       fVar6 = (pDat->collision).pos.z;
@@ -536,12 +536,11 @@ LAB_8001666c:
         }
         (pDat->skyTint).x = (float)((double)((float)gGlobals.sky.colors[1].R / 255.0f) * 0.5);
         (pDat->skyTint).y = (float)((double)((float)gGlobals.sky.colors[1].G / 255.0f) * 0.5);
-        fVar29 = pDat->unk760;
         (pDat->skyTint).z = (float)((double)((float)gGlobals.sky.colors[1].B / 255.0f) * 0.5);
         fVar31 = 1.0f;
-        if ((fVar29 == 0.0) && (pDat->unk75c == 0.0)) {}
+        if ((pDat->unk760 == 0.0) && (pDat->unk75c == 0.0)) {}
         else {
-          fVar29 = pDat->unk75c + fVar29 * (float)delta_;
+          fVar29 = pDat->unk75c + pDat->unk760 * (float)delta_;
           bVar18 = 1.0f < fVar29;
           pDat->unk75c = fVar29;
           if (bVar18) {
@@ -844,11 +843,11 @@ LAB_8001727c:
             }
             uVar24 = (ulonglong)(int)sVar17;
             uVar23 = uVar24 & 0xffff;
-          } while ((longlong)uVar24 < (longlong)handler->max_player);
+          } while (uVar24 < handler->max_player);
           goto LAB_80017298;
         }
       }
-      count = (longlong)(iVar12 >> 0x10);
+      count = (iVar12 >> 0x10);
       iVar12 = (iVar12 >> 0x10) << 4;
     } while (count < handler->max_player);
   }
@@ -1323,8 +1322,8 @@ void FUN_80018c38(void){
     iVar1 = 0;
     while( true ) {
       FUN_80018bf0((int)gGlobals.Sub.PlayerHandler.playerDats + (iVar1 - (int)uVar2) * 0x80);
-      uVar2 = (longlong)((int)uVar2 + 1) & 0xffff;
-      if ((longlong)gGlobals.Sub.PlayerHandler.max_player <= (longlong)uVar2) break;
+      uVar2 = ((int)uVar2 + 1) & 0xffff;
+      if (gGlobals.Sub.PlayerHandler.max_player <= uVar2) break;
       iVar1 = (int)uVar2 << 4;
     }
   }

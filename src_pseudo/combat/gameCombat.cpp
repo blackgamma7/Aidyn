@@ -4,6 +4,7 @@
 #include "combat/SpellMarker.h"
 #include "combat/Visuals.h"
 #include "combat/markers.h"
+#include "combat/CombatCamera.h"
 #include "voxelChart.h"
 #include "memaker.h"
 #include "gameover.h"
