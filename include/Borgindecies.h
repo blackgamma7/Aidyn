@@ -339,6 +339,7 @@ typedef enum Borg8Enum {
 #define BORG5_LootChestExploded 0x0905
 #define BORG5_LootChestClosed   0x0907
 #define BORG5_LootChestOpened   0x0909
+#define BORG5_LootGemVein       0x09CC
 #define BORG5_LootCloverPatch   0x09F2
 #define BORG5_LootKendallsHat   0x0A26
 #define BORG5_GwernHeroPlaque   0x0AE1

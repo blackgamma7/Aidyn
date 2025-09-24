@@ -16,38 +16,15 @@ u8 Actor::IsFlyingModel(playerData* p){
 }
 
 void get_mapcellsize(u8 index,vec2f *out){
-  byte bVar1;
-  float fVar2;
-  
-  bVar1 = index >> 4;
-  if (bVar1 == 1) out->x = 0.0;
-  else {
-    if (bVar1 < 2) {
-      if (bVar1 != 0) goto LAB_800153a4;
-      fVar2 = -gGlobals.Sub.mapCellSize.x;
-    }
-    else {
-      fVar2 = gGlobals.Sub.mapCellSize.x;
-      if (bVar1 != 2) goto LAB_800153a4;
-    }
-    out->x = fVar2;
+  switch(index >> 4){
+    case 0: out->x = -gGlobals.Sub.mapCellSize.x; break;
+    case 1: out->x = 0.0; break;
+    case 2: out->x = gGlobals.Sub.mapCellSize.x; break;
   }
-LAB_800153a4:
-  bVar1 = index & 3;
-  if (bVar1 == 1) {
-    out->y = 0.0;
-    return;
-  }
-  if (bVar1 < 2) {
-    if ((index & 3) == 0) {
-      out->y = -gGlobals.Sub.mapCellSize.y;
-      return;
-    }
-    return;
-  }
-  if (bVar1 == 2) {
-    out->y = gGlobals.Sub.mapCellSize.y;
-    return;
+  switch(index&3){
+    case 0: out->y = -gGlobals.Sub.mapCellSize.y; break;
+    case 1: out->y = 0.0; break;
+    case 2: out->y = gGlobals.Sub.mapCellSize.y; break;
   }
 }
 
@@ -167,7 +144,6 @@ void Actor::Init(playerData *param_1,u16 id){
 }
 
 void InitPlayerHandler(Camera_struct *cam,short maxPlayers,int shadIndex){
-  longlong lVar1;
   int iVar2;
   s16 *psVar3;
   int iVar4;
@@ -540,10 +516,8 @@ LAB_8001666c:
         fVar31 = 1.0f;
         if ((pDat->unk760 == 0.0) && (pDat->unk75c == 0.0)) {}
         else {
-          fVar29 = pDat->unk75c + pDat->unk760 * (float)delta_;
-          bVar18 = 1.0f < fVar29;
-          pDat->unk75c = fVar29;
-          if (bVar18) {
+          pDat->unk75c += pDat->unk760 * (float)delta_;
+          if (1.0f<pDat->unk75c) {
             pDat->unk75c = 1.0;
             pDat->unk760 = 0.0;
           }
@@ -610,7 +584,7 @@ LAB_80016990:
         if (handler->float_0x68 < fVar31) goto LAB_80017298;
         iVar12 = (iVar21 + 1) * 0x10000;
         if (pDat->borg7P == NULL) goto LAB_8001729c;
-        if ((pDat->flags & ACTOR_2) != 0) {
+        if (pDat->flags & ACTOR_2) {
           local_68++;
           Actor::MoveTo(pDat);
           Actor::Move(pDat,&(pDat->controller).contAidyn);
@@ -676,7 +650,7 @@ crash:
         three_vec2_proximities(camPosV2p,camAimV2p,&afStack432);
         if (((((pDat->ani_type == 0) && (pDat->unk1a == 0)) && (pDat->unk1c == 0)) &&
             ((13.0f <= fVar31 && (gGlobals.Sub.gamemodeType == 1)))) ||
-           (bVar18 = FUN_8001620c(pDat), bVar18)) {
+           (FUN_8001620c(pDat))) {
           if (!Actor::IsFlyingModel(pDat)) goto not_flying_borg7;
           if (pDat->unk70ee == 0) goto LAB_80016cec;
         }

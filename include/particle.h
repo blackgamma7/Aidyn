@@ -31,7 +31,7 @@ struct Particle_s {
 
 struct ParticleEmmiter {
     u16 ID;
-    u16 lifespan;
+    s16 lifespan;
     u16 lifespanemmiter;
     s16 unk6;
     undefined field3_0x6;
@@ -48,7 +48,7 @@ struct ParticleEmmiter {
     vec3f pos;
     vec3f vel;
     u8 field18_0x3c[4];
-    u32 field19_0x40;
+    float unk40;
     vec4f colvec4;
     vec4f field20_0x54;
     u8 unk0x64[340]; /* unused? */

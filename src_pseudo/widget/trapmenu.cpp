@@ -52,7 +52,7 @@ BaseWidget* TrapMenu::AttemptDisarm(BaseWidget* A,BaseWidget* B){
       if ((gCurrentTrapVoxel->header).type == VOXEL_Teleporter) {
         setEventFlag(gCurrentTrapVoxel->teleport.trapDisarmFlag,true);
       }
-      run_voxelFuncs0(gCurrentTrapVoxel);
+      run_voxelFuncs0(gCurrentTrapVoxel,0x7fff,0);
       gCurrentTrapVoxel = NULL;
     }
     return NULL;

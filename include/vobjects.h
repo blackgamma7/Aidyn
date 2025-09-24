@@ -5,7 +5,7 @@
 
 //voxObjects.cpp
 void set_ranger_float(void);
-u8 FUN_8001b9bc(voxelObject *param_1);
+u8 FUN_8001b9bc(voxelObject *param_1,Borg9Data*map);
 void set_refObj_flag(voxelObject *param_1);
 void set_voxel_visibility(voxelObject *a,u8 b);
 
@@ -15,9 +15,9 @@ void replace_container_voxel(voxelObject*cont,u16 index,Borg9Data*map);
 void play_countainer_sound(voxelObject*cont,Borg9Data*map);
 void open_explosive_chest(voxelObject*cont,Borg9Data*map);
 void NOOP_tp();
-void run_voxelFuncs0(voxelObject*v);
+void run_voxelFuncs0(voxelObject*v,u16 A, u16 B);
 u8 run_voxelFuncs2(voxelObject *v,Borg9Data*map);
-u8 run_voxelFuncs1(voxelObject *v,playerData *p);
+u8 Voxel_CheckProc(voxelObject *v,playerData *p);
 void Voxel_func_NOOP(voxelObject* v,u16 A, u16 B);
 u8 teleport_trap(voxelObject* v);
 void teleporter_func(voxelObject* v,u16 A, u16 B);
@@ -64,6 +64,25 @@ u8 trigger_event_flag_check(u16 param_1,u16 param_2,u16 param_3);
 void ref_obj_bitmask_flag(u16 param_1,u16 param_2,u16 param_3);
 u8 FUN_8001520c(voxelObject* param_1);
 void secret_door_func(voxelObject* param_1);
+
+u16 FUN_80005d60(wander_substruct **w);
+float func_checking_monsterparty(voxelObject *v,vec3f *pos);
+void monsterparty_setvec2(voxelObject *v,vec2f *pos);
+void obj_ref_func(void);
+
+void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 param_4,short param_5,short count
+               ,float randHi,float randLo,float param_9,short addLight);
+void ofunc_sub_8001ae04(ParticleHeadStruct *param_1,ParticleEmmiter *param_2);
+void Ofunc_8001af40(container_Dat *param_1,vec3f *param_2,vec4f *param_3,float param_4,
+                   u16 param_5,short param_6,float param_7);
+void FUN_8001b0a8(ParticleHeadStruct *param_1,ParticleEmmiter *param_2);
+ParticleEmmiter *
+FUN_8001b29c(vec3f *param_1,u16 param_2,short param_3,u16 param_4,short param_5,float param_6
+            ,vec4f *param_7,vec4f *param_8,vec4f *param_9,vec3f *param_10);
+void alloc_explosion_light(vec3f *pos,float param_2,u16 param_3,bool moving);
+void Ofunc_8001b688(vec3f *pos,vec2f *param_2,u16 param_3);
+void UNK_NOOP(void *param_1,u16 param_2);
+void FUN_8001b888(ParticleHeadStruct *param_1,vec3f *param_2);
 
 
 void lockpicking_check(voxelObject *v);

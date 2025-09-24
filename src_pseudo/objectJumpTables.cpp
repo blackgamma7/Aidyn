@@ -55,13 +55,13 @@ void open_explosive_chest(voxelObject* param_1,Borg9Data *param_2){
 void NOOP_tp(void){}
 
 //activaction funcs
-void run_voxelFuncs0(voxelObject *v){(*gVoxelUseFuncs[(v->header).type])(v);}
+void run_voxelFuncs0(voxelObject *v,u16 A, u16 B){(*gVoxelUseFuncs[(v->header).type])(v,B,A);}
 
 //visibility check, i think
 u8 run_voxelFuncs2(voxelObject *v,Borg9Data*map){return (*gVoxelFuncs2[(v->header).type])(v,map);}
 
 //collision
-u8 run_voxelFuncs1(voxelObject *v,playerData *p){return (*gVoxelProxFuncs[(v->header).type])(v,p);}
+u8 Voxel_CheckProc(voxelObject *v,playerData *p){return (*gVoxelProxFuncs[(v->header).type])(v,p);}
 
 void Voxel_func_NOOP(voxelObject* v,u16 A, u16 B){}
 
@@ -601,11 +601,11 @@ u8 FUN_8001520c(voxelObject* param_1){
   return getEventFlag((param_1->teleport).secrect_door_flag)==false;}
 
 void secret_door_func(voxelObject* param_1){
-  BaseWidget *pwVar1 = textbox_func(Cstring(DoorSecret));
+  BaseWidget *w = textbox_func(Cstring(DoorSecret));
   (param_1->teleport).secretDoorVal = 0;
   setEventFlag((param_1->teleport).secrect_door_flag,true);
   UnkVoxelFlagCheck;
-  pwVar1->substruct = param_1;
-  pwVar1->AButtonFunc = secretdoor_widget_AB;
-  pwVar1->BButtonFunc = secretdoor_widget_AB;
+  w->substruct = param_1;
+  w->AButtonFunc = secretdoor_widget_AB;
+  w->BButtonFunc = secretdoor_widget_AB;
   }
