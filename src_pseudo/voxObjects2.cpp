@@ -58,7 +58,6 @@ void monsterparty_setvec2(voxelObject *v,vec2f *pos) {
 
 void obj_ref_func(void) {
   u16 VVar1;
-  float fVar2;
   playerData *ppVar3;
   Borg9Data *pBVar4;
   bool bVar9;
@@ -72,8 +71,8 @@ void obj_ref_func(void) {
   ushort *puVar12;
   voxelObject *v;
   uint uVar13;
-  uint i;
-  uint uVar14;
+  u16 i;
+  u16 uVar14;
   float fVar15;
   float fVar16;
   float fVar17;
@@ -119,7 +118,6 @@ LAB_800060a0:
       uVar14 = i;
       if (i == 0x10) {
 LAB_8000613c:
-        uVar6 = (uint)pbVar5->voxelSceneCount;
       }
       else {
         uVar8 = pbVar5->lightIndecies[uVar13];
@@ -129,7 +127,7 @@ LAB_8000613c:
           if ((VVar1 & VOXEL_Active)){
             if ((pvVar11->header).timestamp <= gGlobals.ticker) {
               if (Voxel_CheckProc(pvVar11,ppVar3)) {
-                uVar14 = i + 1 & 0xffff;
+                uVar14 = i + 1;
                 voxInds[i] = uVar8;
               }
               goto LAB_8000613c;
@@ -142,7 +140,7 @@ LAB_8000613c:
     } while (uVar13 < pbVar5->voxelSceneCount);
   }
   if (uVar14) {
-    if (uVar14 == 1) {
+    if (uVar14 == 1) {//only one in range, use it.
       run_voxelFuncs0(&pBVar4->voxelObjs[voxInds[0]],voxInds[0],0);
     }
     else {
@@ -155,9 +153,6 @@ LAB_8000613c:
         fVar18 = fVar15;
         }
       }
-      fVar2 = 0.5f;
-      fVar15 = 1.0f;
-      i = 0;
       fVar19 = 0.0;
       pvVar11 = NULL;
       uStack_58 = 0x7fff;
@@ -168,10 +163,10 @@ LAB_8000613c:
             monsterparty_setvec2(v,&auStack160);
             Vec2_Sub(&afStack224,&afStack288,&auStack160);
             vec2_normalize(&afStack224);
-            fVar17 = vec2_dot(&afStack224,&ppVar3->facing);
-            fVar16 = (fVar18 - fVar16) / fVar18 + (fVar17 + fVar15) * fVar2;
+            fVar16 = (fVar18 - fVar16) / fVar18 + 
+               (vec2_dot(&afStack224,&ppVar3->facing) + 1.0) * 0.5;
             if (fVar19 <= fVar16) {
-              uStack_58 = (uint)*puVar12;
+              uStack_58 = voxInds[i];
               fVar19 = fVar16;
               pvVar11 = v;
             }

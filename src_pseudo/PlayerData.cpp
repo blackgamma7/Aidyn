@@ -1006,16 +1006,15 @@ LAB_80017d08:
                   }
                 }
                 if ((ppVar6->SceneDat) && (ppVar6->alaron_flag)) {
-                  if (_flea_flag == 0) {
-                    ppVar6->scale = 1.0f;
-                    ppVar6->scaleRad = (ppVar6->collision).radius;
-                  }
-                  else {
+                  if(_flea_flag){ //scale down for "!flea" cheat
                     ppVar6->scale = 0.25f;
                     ppVar6->scaleRad = (ppVar6->collision).radius*.25;
                   }
+                  else {
+                    ppVar6->scale = 1.0f;
+                    ppVar6->scaleRad = (ppVar6->collision).radius;
+                  }
                   some_player_render_sub(ppVar6,ppVar6->SceneDat,&fStack656,a,(short)iStack_50);
-                  bVar5 = ;
                   if ((Scene::SceneGetLocatorPos(ppVar6->borg7P->sceneDat,&fStack592,3)) &&
                      (Scene::SceneGetLocatorAlign(ppVar6->borg7P->sceneDat,&fStack528,3))) {
                     to = &ppVar6->vec3_0x3c;

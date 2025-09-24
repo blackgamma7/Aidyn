@@ -1054,7 +1054,7 @@ void FUN_800a09c0(SceneData *param_1);
 void FUN_800a0a08(SceneData *param_1);
 void FUN_800a0a74(Borg6Struct *param_1);
 void Ofunc_800a0d30(Borg6Header *param_1,int param_2);
-Gfx * BorgAnimDrawScene(Gfx *param_1,SceneData *param_2);
+Gfx * BorgAnimDrawScene(Gfx *g,SceneData *scene);
 void FUN_800a0df4(SceneData *param_1);
 void Ofunc_800a0e30(void);
 Gfx * FUN_800a0e60(Gfx *G);

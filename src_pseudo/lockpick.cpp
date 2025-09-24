@@ -4,36 +4,33 @@
 //lockpicking popup
 
 void lockpicking_check(voxelObject *param_1) {
-  BaseWidget *w;
-  u16 *pmVar4;
-  
   u16 VVar1 = (param_1->header).type;
   if ((VVar1 == VOXEL_Teleporter) || (VVar1 == VOXEL_Container)) {
-    pmVar4 = NULL;
-    if (VVar1 == VOXEL_Container) pmVar4 = (u16 *)param_1->container.LockLV;
-    if (VVar1 == VOXEL_Teleporter) pmVar4 = &param_1->teleport.lock_lv;
-    if (PARTY->Lockpicking(*pmVar4,gGlobals.text)) {
+    u16 *LV = NULL;
+    if (VVar1 == VOXEL_Container) LV = (u16 *)param_1->container.LockLV;
+    if (VVar1 == VOXEL_Teleporter) LV = &param_1->teleport.lock_lv;
+    if (PARTY->Lockpicking(*LV,gGlobals.text)) {
       //successful, show unlock message.
-      w = textbox_func(gGlobals.text);
+      BaseWidget *w = textbox_func(gGlobals.text);
       w->BButtonFunc = lockpicking_widget_ABfunc;
       w->AButtonFunc = lockpicking_widget_ABfunc;
       w->substruct = param_1;
-      *pmVar4 = 0;
+      *LV = 0;
     }
     //failed showed "beyond your skill" message
     else textbox_func(gGlobals.text);
   }
 }
 
-BaseWidget * lockpicking_widget_ABfunc(BaseWidget *param_1,BaseWidget *param_2) {
-  param_2->SetState(5);
-  voxelObject *pvVar1 = (voxelObject *)param_2->substruct;
+BaseWidget * lockpicking_widget_ABfunc(BaseWidget *w0,BaseWidget *w1) {
+  w1->SetState(5);
+  voxelObject *v = (voxelObject *)w1->substruct;
   gGlobals.playerCharStruct.text_window = NULL;
-  if (pvVar1) {
+  if (v) {
     //containers likey use "opened" flag for "unlocked" flag.
-    if ((pvVar1->header).type == VOXEL_Teleporter)
-      setEventFlag(pvVar1->teleport.lockpick_flag_2,true);
-    run_voxelFuncs0(pvVar1,0x7fff,0);
+    if ((v->header).type == VOXEL_Teleporter)
+      setEventFlag(v->teleport.lockpick_flag_2,true);
+    run_voxelFuncs0(v,0x7fff,0);
   }
   return NULL;
 }
