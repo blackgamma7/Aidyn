@@ -186,19 +186,6 @@ struct mapDataList {
 };
 
 
-typedef struct potionRecipie potionRecipie, *PpotionRecipie;
-
-struct potionRecipie {
-    u8 ID;
-    u8 spice;
-    u8 herb;
-    u8 gemstone;
-    u8 alchemist;
-    u8 unk; //stamina needed
-    u8 unk2; //used for another skillcheck. always 0, so always passes
-};
-
-
 //Placeholder struct for romstrings. to replace with char** and enums.
 /*
 struct RomstringController {

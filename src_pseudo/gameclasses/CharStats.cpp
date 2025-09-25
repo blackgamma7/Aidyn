@@ -1,8 +1,6 @@
 #include "globals.h"
-//char[8]* Stat_labels ={"Intelligence","willpower","Dexterity","Endurance","Strength","Stamina","Level"};
-s32 base_stat_cap[STATCOUNT] = {30,30,30,40,30,90,40};
-s32 modded_stat_cap[STATCOUNT] = {40,40,40,50,40,120,40};
-s32 stat_multiplier[STATCOUNT] = {12,12,24,12,12,4,500};
+
+
 
 void CharStats::Init(CharStats_s *stats,ItemID ID){
   u8 index;

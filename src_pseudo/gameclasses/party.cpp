@@ -1372,7 +1372,7 @@ void healing_result_widget(char *arg0){
   return;
 }
 
-char * healing_func(Party *arg0,byte A,byte B){
+char * Party::PrintHeal(u8 A,u8 B){
   char *pcVar1;
   uint uVar2;
   u16 uVar6;
@@ -1382,8 +1382,8 @@ char * healing_func(Party *arg0,byte A,byte B){
   char *pcVar5;
   char *pcVar9;
 
-  CharSheet* user = arg0->Members[A];
-  CharSheet* target = arg0->Members[B];
+  CharSheet* user = this->Members[A];
+  CharSheet* target = this->Members[B];
   if ((!user) || (!target)) return gGlobals.CommonStrings[0x1b4];
   else {
     uVar2 = Entity::getHPCurrent(target);
@@ -1416,12 +1416,12 @@ char * healing_func(Party *arg0,byte A,byte B){
 }
 
 void pass_to_healing_func_2(u8 param_2,u8 param_3){
-  healing_result_widget(healing_func(param_2,param_3));
+  healing_result_widget(PrintHeal(param_2,param_3));
 }
 
 void herb_func(void){
   WidgetInvShop* puVar1 = PauseSub->dollmenu->lists->invMenu;
-  puVar1->SetHighlight(itemID_array[31],1,0xff); //herb loaded
+  puVar1->SetHighlight(itemID_array[ItemInd_Herb],1,0xff); //herb loaded
   puVar1->SortB();
   puVar1->Tick();
   puVar1->scrollMenu->m8002ff30();

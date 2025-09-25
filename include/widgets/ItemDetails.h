@@ -49,3 +49,6 @@ class WidgetItemDetail :public WidgetMenu{
 
 //maybe method?
 void WidgetMenuPopup(BaseWidget* w);
+
+u8 widget_left_side_fade_in(BaseWidget*);
+u8 widget_left_side_fade_out(BaseWidget*);

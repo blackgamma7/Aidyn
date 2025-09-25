@@ -87,6 +87,8 @@ class Party { /* holds party and inventory data */
     u32 ThiefCheck();
     u32 WarriorCheck();
     u32 WizardCheck();
+    char* PrintHeal(u8 A, u8 B);
+    char* HerbHeal(u8 A, u8 B);
     u8 SetWandererVal(u8);
     u8 CraftArmor(char ,ItemID ,ItemID ,u8 );
     u8 UnequipMemberItemOfID(s32 ,ItemID );

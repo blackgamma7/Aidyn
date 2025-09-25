@@ -41,7 +41,8 @@ namespace CharStats{
     s32 capStatMax(CharStats_s*,u8,s32,s32 *);
     u8 someStatCheck(CharStats_s*,u8);
 };
-char** Stat_labels;
-s32 base_stat_cap[STATCOUNT]; //{30,30,30,40,30,90,40}
-s32 modded_stat_cap[STATCOUNT]; //{40,40,40,50,40,120,40}
-s32 stat_multiplier[STATCOUNT]; //{12,12,24,12,12,4,500} by (stat+1)^2*stat_multiplier
+
+char** Stat_labels=NULL;
+s32 base_stat_cap[STATCOUNT] = {30,30,30,40,30,90,40};
+s32 modded_stat_cap[STATCOUNT] = {40,40,40,50,40,120,40};
+s32 stat_multiplier[STATCOUNT] = {12,12,24,12,12,4,500};//by (stat+1)^2*stat_multiplier
