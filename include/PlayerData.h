@@ -10,19 +10,19 @@
 typedef enum PLAYERDATA_Flags {
     ACTOR_ISPLAYER=1,
     ACTOR_2=2,
-    ACTOR_4=4,
+    ACTOR_4=4, //Combat movement position has ben set?
     ACTOR_WALKONLY=8,
     ACTOR_CANMOVE=0x10,
     ACTOR_CANROTATE=0x20,
-    ACTOR_40=0x40,
-    ACTOR_80=0x80,
-    ACTOR_100=0x100,
-    ACTOR_200=0x200,
-    ACTOR_400=0x400,
-    ACTOR_800=0x800,
-    ACTOR_1000=0x1000,
-    ACTOR_2000=0x2000,
-    ACTOR_4000=0x4000
+    ACTOR_40=0x40, //set/unset, not Read?
+    ACTOR_80=0x80, //unused?
+    ACTOR_100=0x100, //actor is "dying?"
+    ACTOR_200=0x200, //set in combatEnt_setup(), not read?
+    ACTOR_400=0x400, //skip player processing?
+    ACTOR_800=0x800, //adds position to list in ProcessPlayers()?
+    ACTOR_1000=0x1000, //something with movement?
+    ACTOR_2000=0x2000, //visibility?
+    ACTOR_4000=0x4000 //unused?
 } PLAYERDATA_Flags;
 
 
@@ -243,7 +243,7 @@ namespace Actor{
     void ResetMoveQueue(playerData *);
     void SetFacing(playerData *,float,float);
     void MoveTo(playerData *);
-    void SetCombatMove(playerData *,vec3f *,float);
+    void SetCombatMove(playerData *param_1,vec3f *pos,float range);
     void UnsetFlag4(playerData *);
 };
 

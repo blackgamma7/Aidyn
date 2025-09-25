@@ -213,6 +213,7 @@ s32 DialougCallbackB(dialougmode_substruct *param_1,Borg13Data *param_2,u16 cmd,
     ret = (gGlobals.party)->PartySize;
     break;
   case B13Com_CheckPartyGoldU16:
+  //possible bug? could parse out money if >0xffff.
     ret = (u16)(gGlobals.party)->Gold;
     break;
   default:

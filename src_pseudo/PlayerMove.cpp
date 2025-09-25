@@ -183,21 +183,20 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
   
   
   void Actor::setMoveBasedOnCamera(vec2f *out,vec2f *in){
-    vec2f local_98;
-    vec2f local_58;
+    vec2f v2,rot;
     
-    local_58.x = ((gGlobals.Sub.PlayerHandler.camera)->rotationXZ).x;
-    local_58.y = ((gGlobals.Sub.PlayerHandler.camera)->rotationXZ).y;
-    local_98.x = 0.0;
-    local_98.y = 1.0f;
-    vec2_normalize(&local_98);
-    float fVar1 = vec2_dot(&local_98,&local_58);
-    local_98.x = 1.0f;
-    local_98.y = 0.0;
-    vec2_normalize(&local_98);
-    float fVar2 = vec2_dot(&local_98,&local_58);
-    out->x = -(fVar1 * in->x + fVar2 * in->y);
-    out->y = -(fVar1 * in->y - fVar2 * in->x);
+    rot.x = ((gGlobals.Sub.PlayerHandler.camera)->rotationXZ).x;
+    rot.y = ((gGlobals.Sub.PlayerHandler.camera)->rotationXZ).y;
+    v2.x = 0.0;
+    v2.y = 1.0f;
+    vec2_normalize(&v2);
+    float dot1 = vec2_dot(&v2,&rot);
+    v2.x = 1.0f;
+    v2.y = 0.0;
+    vec2_normalize(&v2);
+    float dot2 = vec2_dot(&v2,&rot);
+    out->x = -(dot1 * in->x + dot2 * in->y);
+    out->y = -(dot1 * in->y - dot2 * in->x);
     vec2_normalize(out);
   
   }
@@ -225,9 +224,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     UnsetFlag(param_1,ACTOR_CANROTATE|ACTOR_CANMOVE|ACTOR_WALKONLY);
   }
   
-  
-  
-  void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
+void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
     if ((p->flags & ACTOR_CANMOVE)) ResetMoveQueue(p);
     ClearInputMoveFlags(p);
     SetFlag(p,ACTOR_CANMOVE);
@@ -261,7 +258,6 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
       FUN_80019770(param_1);
     }
     else N64PRINT("SetPlayerMoveToQueue Full\n");
-    return;
   }
   
   void Actor::ResetMoveQueue(playerData *param_1){
@@ -310,9 +306,8 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
   void Ofunc_8001986c(playerData *param_1,BUTTON_aidyn param_2){
     Actor::ClearInput(param_1);
     (param_1->controller).contAidyn.input_2 = (param_1->controller).contAidyn.input_2 | param_2;}
-  
-    extern u32 DAT_800ee974;
-    void Actor::MoveTo(playerData *param_1){
+  extern u32 DAT_800ee974;
+  void Actor::MoveTo(playerData *param_1){
       u32 BVar2;
       int iVar3;
       bool bVar5;
@@ -341,7 +336,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
         else if (gGlobals.playerCharStruct.unkState != 3) {
           iVar6 = 30;
           if (DAT_800ee974) iVar6 = 300;
-          param_1->aiTravelTime = (short)param_1->aiTravelTime + (int)gGlobals.delta;
+          param_1->aiTravelTime += gGlobals.delta;
           if (param_1->aiTravelTime >= iVar6){
             if (gCombatP == NULL) {
               FUN_80019b08(param_1);
@@ -373,8 +368,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
         ClearInputMoveFlags(param_1);
         UnsetFlag(param_1,ACTOR_2);
       }
-      return;
-    }
+  }
   
 void Actor::SetCombatMove(playerData *param_1,vec3f *pos,float range){
     
@@ -384,12 +378,10 @@ void Actor::SetCombatMove(playerData *param_1,vec3f *pos,float range){
   (param_1->combat_vec3).z = pos->z;
   SetFlag(param_1,ACTOR_4);
 }
-  
-  
-  void Actor::UnsetFlag2(playerData *param_1){
+
+void Actor::UnsetFlag4(playerData *param_1){
     UnsetFlag(param_1,ACTOR_4);
-  }
-  
+}
   
 void FUN_80019b08(playerData *param_1){
     int iVar2;
