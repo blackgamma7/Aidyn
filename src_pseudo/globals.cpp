@@ -1,11 +1,10 @@
-#include "commonTypes.h"
 #include "globals.h"
 #include "world.h"
 #include "stringN64.h"
 
 
 u8 DAT_800e8d50[]={0,0,0,0,1,0,0,0};//unused data, seen at start of section.
-u16 SkillCheckSteps[22]={0,26,46,62,81,96,111,122,
+u16 SkillCheckSteps[]={0,26,46,62,81,96,111,122,
      133,144,155,166,177,188,199,210,221,232,243,255,266,0};
 char* sGlobalsFmt="%s - %d";
 char* sGlobalsFilename="./src/globals.cpp";
@@ -36,10 +35,7 @@ u32 rand_range(u32 A,u32 B){
 //several random functions use "dice notation" for their calculations.
 u16 RollD(u8 dice,u8 sides){
   u16 i = 0;
-  
-  if (dice) {
-    for(u8 j = 0; j < dice; j++)i+= rand_range(1,sides);
-  }
+  for(u8 j = 0; j < dice; j++){i+= rand_range(1,sides);}
   return i;
 }
 
@@ -242,48 +238,30 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
 
 
 uint add_to_enemy_encounters(EncounterDat *param_1,monsterparty_dat *param_2){
-  u8 *puVar1;
-  u8 *puVar2;
-  uint uVar3;
-  uint uVar5;
-  uint uVar6;
-  uint uStack_30;
-  
-  uVar6 = 0;
-  uStack_30 = 0;
+  u16 n = 0;
+  u32 i = 0;
   printLine(676);
   printLine(678);
-  for(;uStack_30<6;uStack_30++) {
+  for(;i<6;i++) {
     printLine(681);
     printLine(682);
-    if (param_2->enemyEntries[uStack_30].enemyID) {
+    if (param_2->enemyEntries[i].enemyID) {
       printLine(685);
-      uVar3 = 0;
-      uVar5 = uVar6;
-      if (param_2->enemyEntries[uStack_30].min != 0) {
-        do {
-          printLine(688);
-          uVar6 = uVar5 + 1 & 0xffff;
-          param_1->enemy_entities[uVar5] = param_2->enemyEntries[uStack_30].enemyID;
-          printLine(691);
-          if (param_2->totalsize <= uVar6) return uVar6;
-          printLine(694);
-          uVar3++;
-          if (0xb < uVar6) return uVar6;
-          uVar5 = uVar6;
-        } while (uVar3 < param_2->enemyEntries[uStack_30].min);
+      for(u32 j=0;j<param_2->enemyEntries[i].min;j++){
+        printLine(688);
+        param_1->enemy_entities[n++] = param_2->enemyEntries[i].enemyID;
+        printLine(691);
+        if (param_2->maxsize <= n) return n;
+        printLine(694);
+        if (0xb < n) return n;
       }
     }
-
   }
   printLine(699);
-  return uVar6;
+  return n;
 }
 
-
 uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
-  undefined *puVar1;
-  undefined *puVar2;
   uint uVar3;
   u16 uVar4;
   u8 uVar5;
@@ -294,7 +272,7 @@ uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
   printLine(0x2c0);
   uVar3 = add_to_enemy_encounters(param_1,param_2);
   printLine(0x2c3);
-  if (uVar3 < param_2->totalsize) {
+  if (uVar3 < param_2->maxsize) {
     printLine(0x2c6);
     printLine(0x2c7);
     for(i=0;i<8;i++){
@@ -315,7 +293,7 @@ uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
             uVar4=uVar3 + 1;
             param_1->enemy_entities[uVar3] = pIVar6->enemyID;
             printLine(0x2d9);
-            if (param_2->totalsize <= uVar4) return uVar4;
+            if (param_2->maxsize <= uVar4) return uVar4;
             printLine(0x2da);
             if (0xb < uVar4) return uVar4;
             uVar6++;
@@ -326,10 +304,10 @@ uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
       uVar3 = uVar4;
     }
     printLine(0x2df);
-    if (uVar4 < param_2->unk0x28) uVar4 = 0;
+    if (uVar4 < param_2->minsize) uVar4 = 0;
     else printLine(0x2e2);
   }
-  else uVar4 = (uint)param_2->totalsize;
+  else uVar4 = (uint)param_2->maxsize;
   return uVar4;
 }
 
@@ -346,8 +324,8 @@ void Emergency_skeleton_func(monsterparty_dat *param_1){
   uVar1 = get_enemy_avg_lv(uVar2,param_1);
   printLine(0x2f3);
   if (uVar1 == 0) {
-    uVar1 = 1;                                    // skeleton
-    gGlobals.EncounterDat.enemy_entities[0] = (entityList[187] + 0x200);
+    uVar1 = 1;                                 
+    gGlobals.EncounterDat.enemy_entities[0] = IDEnt(entityList[EntInd_Skeleton]);
   }
   printLine(0x2f7);
   if (uVar1 < 0xc)
@@ -387,16 +365,15 @@ void battle_setup_func(voxelObject *param_1,u16 flag,u16 param_3){
   printLine(0x315);
 }
 
+struct encounter_rom_dat {
+    monsterpartyEntry entries[2];
+};
+extern monsterpartyEntry globals_rom[];
 
 void load_camp_ambush(void){
-  byte *pbVar1;
-  int ter;
-  ulonglong lv;
-  uint lvTeir;
-  monsterpartyEntry *pmVar2;
-  monsterparty_dat *pmVar3;
+  u32 lvTeir;
   encounter_rom_dat fromROM;
-  monsterparty_dat auStack72;
+  monsterparty_dat toRAM;
   
   get_battle_terrain(&gGlobals.EncounterDat);
   gGlobals.EncounterDat.collisionByte = 2;
@@ -405,33 +382,23 @@ void load_camp_ambush(void){
   gGlobals.EncounterDat.EncounterID = 0;
   gGlobals.EncounterDat.BossShadow = 0;
   gGlobals.combatBytes[2] = 1;
-  ter = World::getTerrain(TerrainPointer);
-  lv = PARTY->GetAvgLevel();
-  if (lv < 0x15) {
-    if (lv < 0x10) {
-      if (lv < 0xb) lvTeir = lv < 6 ^ 1;
-      else lvTeir = 2;
-    }
-    else lvTeir = 3;
+  u8 ter = World::getTerrain(TerrainPointer);
+  u32 lv = PARTY->GetAvgLevel();
+  if(lv>20)      lvTeir=4;
+  else if(lv>15) lvTeir=3;
+  else if(lv>10) lvTeir=2;
+  else if(lv>5)  lvTeir=1;
+  else           lvTeir=0;
+  RomCopy::RomCopy(&fromROM,globals_rom[0] + lvTeir + (ter * 5 & 0xfffU) * 2,8,1,sGlobalsFilename,840);
+  CLEAR(&toRAM);
+  toRAM.minsize = (u16)fromROM.entries[0].min + (u16)fromROM.entries[1].min;
+  toRAM.maxsize = (u16)fromROM.entries[0].max + (u16)fromROM.entries[1].max;
+  for(lvTeir=0;lvTeir<2;lvTeir++) {
+    toRAM.enemyEntries[lvTeir].enemyID=fromROM.entries[lvTeir].enemyID;
+    toRAM.enemyEntries[lvTeir].min=fromROM.entries[lvTeir].min;
+    toRAM.enemyEntries[lvTeir].max=fromROM.entries[lvTeir].max;
   }
-  else lvTeir = 4;
-  RomCopy::RomCopy(&fromROM,globals_rom[0] + lvTeir + (ter * 5 & 0xfffU) * 2,8,1,sGlobalsFilename,0x348);
-  memset(&auStack72,0,0x38);
-  lvTeir = 0;
-  pmVar2 = fromROM.entries;
-  auStack72.unk0x28 = (u16)fromROM.entries[0].min + (u16)fromROM.entries[1].min;
-  auStack72.totalsize = (u16)fromROM.entries[0].max + (u16)fromROM.entries[1].max;
-  pmVar3 = &auStack72;
-  do {
-    pmVar3->enemyEntries[0].enemyID = ((monsterpartyEntry *)&pmVar2->enemyID)->enemyID;
-    lvTeir += 1;
-    pmVar3->enemyEntries[0].min = pmVar2->min;
-    pbVar1 = &pmVar2->max;
-    pmVar2 = pmVar2 + 1;
-    pmVar3->enemyEntries[0].max = *pbVar1;
-    pmVar3 = (monsterparty_dat *)(pmVar3->enemyEntries + 1);
-  } while (lvTeir < 2);
-  Emergency_skeleton_func(&auStack72);
+  Emergency_skeleton_func(&toRAM);
 }
 
 u32 AppendText(char *str1,char *str2,u8 len){
@@ -479,21 +446,14 @@ void Ofunc_8000c850(float param_1){
   param_1 = param_1 * 1000000.0f;
   OVar4 = osGetTime();
   uVar5 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (uint)OVar4 >> 0x1a,(uint)OVar4 << 6),3000);
-  fVar2 = INT_MAX_f;
   uVar1 = CONCAT44(in_v1_hi,(int)uVar5);
   do {
-    if (param_1 < fVar2) {
-      uVar3 = (uint)param_1;
-    }
-    else {
-      uVar3 = (int)(param_1 - fVar2) | 0x80000000;
-    }
     OVar4 = osGetTime();
     uVar6 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (uint)OVar4 >> 0x1a,(uint)OVar4 << 6),3000)
     ;
   } while ((false) ||
           (((uint)(uVar6 >> 0x20) == (uint)(CONCAT44(in_v1_hi,(int)uVar6) < uVar1) &&
-           ((uint)((int)uVar6 - (int)uVar5) < uVar3))));
+           ((uint)((int)uVar6 - (int)uVar5) < (int)param_1))));
 }
 
 #endif

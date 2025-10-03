@@ -24,9 +24,15 @@ extern struct SceneData;
 13-Dialogue/cutscenes.
 14-unused. refered internally in Debug as "GameState"*/
 
+enum CompressType{
+    Compress_None, //no compression, as is
+    Compress_LZ01x, //used by text in ROM
+    Compress_LZB   //used by most of Borg assets.
+};
+
 struct BorgListing {
     s16 Type; /* Borg type */
-    s16 Compression; /* none,LZ01x,LZB */
+    s16 Compression; //uses CompressType.
     s32 compressed; /* size in ROM */
     s32 uncompressed; /* size in RAM */
     s32 Offset; /* index in in ROM DB */
@@ -66,7 +72,7 @@ typedef enum VoxelFllags {
     VOXEL_Used=0x200,
     VOXEL_FlagB=0x1000,
     VOXEL_tangible=0x2000,
-    VOXEL_Active=0x8000
+    VOXEL_Active=0x8000 //map object is active/visible
 } VoxelFllags;
 
 typedef enum EnumMapDatA {
@@ -120,7 +126,14 @@ struct voxelHeader {
 };
 
 enum TreasureType{
- Loot_Chest, Loot_Bag, Loot_Box, Loot_Barrel, Loot_Herb, Loot_Spice, Loot_Gem, Loot_Misc
+ Treasure_Chest, //should appear as a typical treasure chest
+ Treasure_Bag, // should appear as a sack
+ Treasure_Box, // should appear as a crate
+ Treasure_Barrel, // should appear as a barrel.
+ Treasure_Herb, // should appear as a clover patch. Gives only herbs based on Ranger skill
+ Treasure_Spice, // should appear as a pepper plant. Gives only spices based on Ranger skill
+ Treasure_Gem, // should appear as a gem vein. Gives only gemstones based on Ranger skill
+ Treasure_Misc // custom model for loot.
 };
 
 struct container_Dat {
@@ -160,8 +173,8 @@ struct teleport_dat {
 };
 
 struct SceneVoxelModel {
-    float renderProx;
-    u32 borgIndex;
+    float renderProx; //draw distance of model
+    u32 borgIndex; // index of model
     union{ //common enough union to abstract?
     Borg7Header *b7; //used if SceneObj_B7 is set
     SceneData* sceneDat; //used if SceneObj_B7 is unset
@@ -204,10 +217,10 @@ struct Wandernode_dat {
 };
 
 enum LightTypes{
-    Light_Static,
-    Light_Alternate,
-    Light_Sine,
-    Light_Random
+    Light_Static, // light remains one color
+    Light_Alternate, // light alternates between colors
+    Light_Sine, // light changes color based on sine function
+    Light_Random //light's color "flickers" between two values
 };
 
 struct light_dat{
@@ -277,8 +290,8 @@ struct monsterparty_dat {
     u16 wandererIndex;
     u8 unk0x26;
     u8 unk0x27;
-    u16 unk0x28;
-    u16 totalsize;
+    u16 minsize;
+    u16 maxsize;
     ItemID unk0x2c; //usually mirror of entityID.
     u16 wanderNode; //index on map chunk.
     u16 flags;

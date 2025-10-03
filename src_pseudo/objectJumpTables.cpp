@@ -113,17 +113,17 @@ void teleporter_func(voxelObject* v,u16 A,u16 B){
 // special case for reagent sources, give (container.Gold* Ranger modifer) items instead
 void get_loot_reagent(voxelObject* v,container_Dat * cont){
   u8 quant = cont->Gold * RangerIngredientFloat;
-  if (!quant) quant = 1;
-  u16 LootReagentIDs[]={0,0,0,0,0x1f,0x1e,0x20,0};
+  if (!quant) quant = 1; //always guarunteed 1 reagent.
+  //array of reagents by container type
+  u16 LootReagentIDs[]={0,0,0,0,ItemInd_Spice,ItemInd_Herb,ItemInd_Gemstone,0};
   ref_obj_bitmask_flag((v->header).flagB,(v->header).Bitfeild,VOXEL_Used);
   set_voxel_visibility(v,false);
   voxelObject *a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,v,VOXEL_Scene);
   if (a) set_voxel_visibility(a,false);
   if (exploding_container_check(v,gGlobals.Sub.borg9DatPointer)) {
     passto_WriteTo_VoxelChart((short)(((int)v - (int)(gGlobals.Sub.borg9DatPointer)->voxelObjs) * 0x684bda13
-                      >> 2),(undefined)gGlobals.Sub.mapDatA,(undefined)gGlobals.Sub.mapShort1,
-               (undefined)gGlobals.Sub.mapShort2,ZoneCenter,*(u8 *)((int)&(v->header).type + 1),10
-              );
+                      >> 2),gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,
+               gGlobals.Sub.mapShort2,ZoneCenter,*(u8 *)((int)&(v->header).type + 1),10);
   }
   GenericInventory * pGVar1 = new GenericInventory();
   pGVar1->AddItem(gItemDBp->Gear[LootReagentIDs[cont->LootType]].ID,quant);
@@ -158,14 +158,14 @@ void loot_func(voxelObject *v,u16 A, u16 B){
     set_voxel_visibility(v,false);
   }
   else {
-    if ((v->container).LootType >= Loot_Herb){
+    if ((v->container).LootType >= Treasure_Herb){
       //clover patches, pepper plants gem veins
-      if ((v->container).LootType <= Loot_Gem) {
+      if ((v->container).LootType <= Treasure_Gem) {
         get_loot_reagent(v,contP);
         return;
       }
       //represented by a misc. model
-      if ((v->container).LootType == Loot_Misc) {
+      if ((v->container).LootType == Treasure_Misc) {
         set_voxel_visibility(v,false);
         ref_obj_bitmask_flag((v->header).flagB,(v->header).Bitfeild,VOXEL_Used);
       }
@@ -181,11 +181,11 @@ void loot_func(voxelObject *v,u16 A, u16 B){
       setEventFlag((v->container).openFlag,true);
       UnkVoxelFlagCheck;
       set_refObj_flag(v);
-      if ((v->container).LootType == Loot_Misc) {
+      if ((v->container).LootType == Treasure_Misc) {
         set_voxel_visibility(GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,v,VOXEL_Scene),false);
       }
       else {
-        time = 0x3c;
+        time = 60;
         play_countainer_sound(v,gGlobals.Sub.borg9DatPointer);
       }
       uVar10 = 0;
@@ -213,7 +213,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
                            /*?!?*/0x684bda13 >> 2),(char)gGlobals.Sub.mapDatA,(u8)gGlobals.Sub.mapShort1,
                    (u8)gGlobals.Sub.mapShort2,ZoneCenter,(u8)v->header.type,10);
       }
-      if (!uVar8) {
+      if (!uVar8) { //no items, just money.
         Gsprintf(Cstring(GotXGold),(v->container).Gold);
         textbox_func(gGlobals.text);
         (PARTY)->Gold+=(v->container).Gold;
@@ -228,7 +228,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
         }
         build_loot_menu(loot,(v->container).Gold,-1);
         gGlobals.playerCharStruct.unkState = 0x13;
-        if ((v->container).LootType == Loot_Misc) gGlobals.playerCharStruct.unkState = 7;
+        if ((v->container).LootType == Treasure_Misc) gGlobals.playerCharStruct.unkState = 7;
       }
     }
     else lockpicking_check(v);
@@ -236,9 +236,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
 }
 
 void monsterpary_func(voxelObject *v,u16 A,u16 B){
-  
-  
-  if ((v->monster).borg_13){
+  if ((v->monster).borg_13){ //dialouge attached
     if(!v->monster.flags&4){
     dialoug_func((v->monster).borg_13,0,gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,
                  B);
@@ -363,7 +361,7 @@ u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
   checkCheat(appear);
   else {
     uVar1 = (param_1->container).LootType;
-    if ((Loot_Misc < uVar1) || (uVar1 < Loot_Herb)) {
+    if ((Treasure_Misc < uVar1) || (uVar1 < Treasure_Herb)) {
       set_voxel_visibility(a,true);
       set_voxel_visibility(param_1,true);
       psVar2 = some_ref_obj_lookup_func((short)(((int)param_1 - (int)param_2->voxelObjs) * 0x684bda13 >> 2),
@@ -449,7 +447,7 @@ u8 container_obj_check(voxelObject* v,playerData *arg1){
   if (vec3_proximity(&v->header.pos,&arg1->collision.pos) <= v->container.chestSize + arg1->scaleRad) {
     checkCheat(check);
       uVar1 = (v->container).LootType;
-      if ((7 < uVar1) || (ret = true, uVar1 < 4)){
+      if ((Treasure_Misc < uVar1) || (ret = true, uVar1 < Treasure_Herb)){
         bVar2 = container_open_check(v->container.openFlag);
         ret = false;
         if ((bVar2 == false) &&
@@ -523,7 +521,7 @@ void set_container_obj_visible(voxelObject* param_1,Borg9Data *param_2){
   a = GetVoxelFromObjectLink(param_2,param_1,VOXEL_Scene);
   uVar1 = (param_1->container).LootType;
   b = true;
-  if ((uVar1 <= Loot_Misc) && (Loot_Herb <= uVar1)) {
+  if ((uVar1 <= Treasure_Misc) && (Treasure_Herb <= uVar1)) {
     b = (param_1->header).Bitfeild >> 0xf;
   }
   set_voxel_visibility(a,b);}

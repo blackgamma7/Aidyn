@@ -28,25 +28,25 @@ void SetBorgListing(void *listing,void *files){
   CLEAR(borg_count);
 }
 
-u8 decompressBorg(void *param_1,u32 compSize,u8 *borgfile,u32 param_4,u32 compression){
-  u8 *pvVar1;
-  u32 auStack40 [10];
-  
-  auStack40[0] = param_4;
-  if (compression == 1) {
-    ALLOCS(pvVar1,compSize,0x17f);
-    ROMCOPYS(pvVar1,param_1,compSize,0x183);
-    decompress_LZ01(pvVar1,compSize,borgfile,auStack40);
-    HFREE(pvVar1,0x18d);
-  }
-  else if (compression == 0) {
-    ROMCOPYS(borgfile,param_1,compSize,0x175);
-  }
-  else if (compression == 2) {
-    ALLOCS(pvVar1,compSize,0x197);
-    ROMCOPYS(pvVar1,param_1,compSize,0x19b);
-    decompress_LZB(pvVar1,compSize,borgfile,auStack40);
-    HFREE(pvVar1,0x1a5);
+u8 decompressBorg(void *param_1,u32 compSize,u8 *borgfile,u32 outSize,u32 compression){
+  u8 *compressedDat;
+  u32 auStack40[10];
+  auStack40[0]= outSize;
+  switch(compression){
+    case Compress_None:
+      ROMCOPYS(borgfile,param_1,compSize,373);
+      break;
+    case Compress_LZ01x:
+      ALLOCS(compressedDat,compSize,383);
+      ROMCOPYS(compressedDat,param_1,compSize,387);
+      decompress_LZ01(compressedDat,compSize,borgfile,auStack40);
+      HFREE(compressedDat,397);
+      break;
+    case Compress_LZB:
+      ALLOCS(compressedDat,compSize,407);
+      ROMCOPYS(compressedDat,param_1,compSize,411);
+      decompress_LZB(compressedDat,compSize,borgfile,auStack40);
+      HFREE(compressedDat,421);
   }
   return true;
 }
@@ -55,7 +55,7 @@ s16 get_borg_listing_type(s32 param_1){
   BorgListing listing;
   s32 temp [2];
   
-  ROMCOPYS(temp,BorgListingPointer,8,0x1be);
+  ROMCOPYS(temp,BorgListingPointer,8,446);
   if ((param_1 < 0) || (temp[0] <= param_1)) {
     listing.Type = -1;
   }
@@ -83,8 +83,7 @@ s16 GetBorgItemInfo(BorgListing *itemInfo,s32 param_2){ //orphaned, low priority
   return sVar1;
 }
 
-borgHeader * get_gBorgpointers(s32 x){return gBorgpointers[x];}
-
+borgHeader * getLoadedBorg(s32 x){return gBorgpointers[x];}
 
 borgHeader * getBorgItem(s32 index){
   s32 memOld;

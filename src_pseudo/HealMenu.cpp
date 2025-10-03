@@ -82,8 +82,8 @@ void WidgetMenuHealer::LayOnHands() {
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,0x82,0x50,0x50,0xff,0);;
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
-  for(u32 i=0;i<4;i++) {
-    CharSheet *chara = (gGlobals.party)->Members[i];
+  for(u32 i=0;i<MAXPARTY;i++) {
+    CharSheet *chara = PARTY->Members[i];
     if (((chara) && (!Entity::isDead(chara))) && (i != this->partyIndex)) {
       ShowHealedMember(chara,(ushort)i,WidgetMenuHealer_LayOnHands2);
     }
@@ -97,8 +97,8 @@ void WidgetMenuHealer::HealWithHerbs() {
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,0x82,0x50,0x50,0xff,0);;
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
-  for(u32 i=0;i<4;i++) {
-    CharSheet *chara = (gGlobals.party)->Members[i];
+  for(u32 i=0;i<MAXPARTY;i++) {
+    CharSheet *chara = PARTY->Members[i];
     if ((chara) && (!Entity::isDead(chara))) {
       ShowHealedMember(chara,(ushort)i,WidgetMenuHealer_AFuncHerbs2);
     }
@@ -112,8 +112,8 @@ void WidgetMenuHealer::Restore() {
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,0x82,0x50,0x50,0xff,0);;
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
-  for(u32 i=0;i<4;i++) {
-    CharSheet *chara = (gGlobals.party)->Members[i];
+  for(u32 i=0;i<MAXPARTY;i++) {
+    CharSheet *chara = PARTY->Members[i];
     if ((chara) && (!Entity::isDead(chara))) {
       ShowHealedMember(chara,(ushort)i,WidgetMenuHealer_Restore2);
     }
@@ -144,10 +144,9 @@ void WidgetMenuHealer::PrintHealing(u8 val){
     this->TextPopup(PARTY->PrintHeal(this->partyIndex,val));
 }
 
-void WidgetMenuHealer::PrintHealing(u8 val){
+void WidgetMenuHealer::PrintHerbHealing(u8 val){
     this->TextPopup(PARTY->HerbHeal(this->partyIndex,val));
 }
-
 
 void WidgetMenuHealer::PrintRestore(u8 val) {
   ClearText();

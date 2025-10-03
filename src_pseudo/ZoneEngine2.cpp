@@ -1037,8 +1037,11 @@ void NoExpPak_ClearSceneVoxel(Scene_obj_dat *scene){
   }
 }
 struct struct_A {
+  union{  
     SceneData *SceneDat;
-    u16 flags;
+    Borg7Header* b7;
+  };
+  u16 flags;
 };
 struct_A struct_a_ARRAY_800f5290[0x20];
 
@@ -1171,11 +1174,9 @@ LAB_800102b4:
                 uVar7 = uVar15;
               }
               if ((uVar7 < 0xff) || (psVar14 = NULL, ((SObj->scene).sceneflags & SceneObj_0040))) {
-                uVar7 = (uint)voxel_counter;
-                psVar14 = struct_a_ARRAY_800f5290 + uVar7;
-                voxel_counter += 1;
+                psVar14 = &struct_a_ARRAY_800f5290[voxel_counter++];
                 psVar14->SceneDat = NULL;
-                struct_a_ARRAY_800f5290[uVar7].flags = 0;
+                psVar14->flags = 0;
               }
               ppBVar11 = &(SObj->scene).borgArray[uVar12].b7;
               if (*ppBVar11 != NULL) {
@@ -1218,8 +1219,8 @@ LAB_80010084:
                     local_res0 = BorgAnimDrawSceneLinked(local_res0,(SObj->scene).borgArray[0].b7);
                   }
                   else {
-                    psVar14->SceneDat = (SObj->scene).borgArray[0].sceneDat;
-                    psVar14->flags|= 2;
+                    psVar14->b7 = (SObj->scene).borgArray[0].b7;
+                    psVar14->flags|= SceneObj_B7;
                   }
                 }
                 goto LAB_800102b4;
@@ -1599,9 +1600,8 @@ void RenderTransZones__(Gfx **param_1){
   Gfx *g = *param_1;
   if (voxel_counter) {
     for(u16 i=0; i < voxel_counter; i++) {
-      ppAVar2 = &struct_a_ARRAY_800f5290[i].SceneDat;
-      if (!(struct_a_ARRAY_800f5290[i].flags) & 2)) g = BorgAnimDrawScene(g,*ppAVar2);
-      else g = BorgAnimDrawSceneLinked(g,*ppAVar2);
+      if (!(struct_a_ARRAY_800f5290[i].flags & SceneObj_B7)) g = BorgAnimDrawScene(g,struct_a_ARRAY_800f5290[i].SceneDat);
+      else g = BorgAnimDrawSceneLinked(g,struct_a_ARRAY_800f5290[i].b7);
     }
   }
   *param_1 = g;

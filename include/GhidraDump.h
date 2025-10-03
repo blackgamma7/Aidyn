@@ -124,29 +124,12 @@ typedef enum AniFlags {
 } AniFlags;
 
 
-
-typedef struct ArmorCraftRecipie ArmorCraftRecipie, *PArmorCraftRecipie;
-
-struct ArmorCraftRecipie {
-    u16 item; /* gear in ram */
-    u8 armor; /* armor in ram */
-    u8 stam; /* hp used */
-    u8 Mechanic; /* mechanic needed */
-    u8 pad; /* i dunno */
-};
-
 typedef struct CityMarkers CityMarkers, *PCityMarkers;
 
 struct CityMarkers {
     u16 borg;
     u16 x;
     u16 y;
-};
-
-typedef struct encounter_rom_dat encounter_rom_dat, *Pencounter_rom_dat;
-
-struct encounter_rom_dat {
-    monsterpartyEntry entries[2];
 };
 
 typedef enum enum_someCase {
@@ -218,17 +201,4 @@ typedef struct shop_pointer shop_pointer, *Pshop_pointer;
 struct shop_pointer {
     u8 total; /* number of shops */
     shop_ram *shops; /* shops' listing */
-};
-
-typedef struct WidgetArmorCraft WidgetArmorCraft, *PWidgetArmorCraft;
-
-struct WidgetArmorCraft {
-    WidgetCrafting base;
-};
-
-typedef struct WidgetMenuHealer WidgetMenuHealer, *PWidgetMenuHealer;
-
-struct WidgetMenuHealer {
-    WidgetCrafting base;
-    BaseWidget *textBox;
 };
