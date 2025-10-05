@@ -18,6 +18,7 @@ class WidgetTrainShop : public WidgetMenu{
     BaseWidget* DownFunc();
     u8 Tick();
     void SetArrows();
+    u32 GetNumber();
     virtual void InitMenu();
     virtual u32 unk(); //just returns 0?
     virtual void Confirm(u16,u16);

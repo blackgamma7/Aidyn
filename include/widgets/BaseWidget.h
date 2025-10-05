@@ -74,10 +74,10 @@ public:
     Gfx* RenderChildren(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1);
     void FreeChildren();
     u8 TickChildren();
-    u32 RunFunc0();
-    u32 RunFunc0Children();
-    u32 RunFunc1();
-    u32 RunFunc1Children();
+    u32 RunFadeIn();
+    u32 RunFadeInChildren();
+    u32 RunFadeOut();
+    u32 RunFadeOutChildren();
     void SetState(u8 state);
 };
 

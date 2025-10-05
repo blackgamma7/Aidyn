@@ -165,33 +165,33 @@ for (BaseWidget *w = this->link3; w != NULL; w = w->link2) {w->Tick();}
   return false;
 }
 
-u32 BaseWidget::RunFunc0(){
+u32 BaseWidget::RunFadeIn(){
   if (this->state - 1 < 2) {
     if ((fadeIn == NULL) || (this->state != 1)) this->state = 2;
     else (*fadeIn)(this);
   }
-  return RunFunc0Children();
+  return RunFadeInChildren();
 }
-u32 BaseWidget::RunFunc0Children(){
+u32 BaseWidget::RunFadeInChildren(){
     u32 ret = this->state;
     for (BaseWidget *w = this->link3; w != NULL; w = w->link2) {
-        if(w->RunFunc0()==1)ret=1;
+        if(w->RunFadeIn()==1)ret=1;
         }
     return ret;
 }
 
-u32 BaseWidget::RunFunc1(){
+u32 BaseWidget::RunFadeOut(){
   if (this->state - 5 < 2) {
     if ((fadeOut == NULL) || (this->state != 5)) this->state = 6;
     else (*fadeOut)(this);
   }
-  return RunFunc1Children();
+  return RunFadeOutChildren();
 }
 
-u32 BaseWidget::RunFunc1Children(){
+u32 BaseWidget::RunFadeOutChildren(){
     u32 ret = this->state;
     for (BaseWidget *w = this->link3; w != NULL; w = w->link2) {
-        if(w->RunFunc1()==5)ret=5;
+        if(w->RunFadeOut()==5)ret=5;
         }
     return ret;
 }

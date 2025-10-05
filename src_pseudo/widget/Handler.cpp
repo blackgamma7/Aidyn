@@ -51,7 +51,7 @@ joined_r0x800b7018:
   switch(bVar4) {
   case 1:
   case 2:
-    if (pBStack_20->RunFunc0() != 2) goto joined_r0x800b7018;
+    if (pBStack_20->RunFadeIn() != 2) goto joined_r0x800b7018;
     pBStack_20->SetState(3);
     pBStack_20->Tick();
     bVar4 = pBStack_20->state;
@@ -62,7 +62,7 @@ joined_r0x800b7018:
     break;
   case 5:
   case 6:
-    pBStack_20->RunFunc1();
+    pBStack_20->RunFadeOut();
     bVar4 = 5;
     if (uVar3 != 6) break;
     bVar4 = 6;
