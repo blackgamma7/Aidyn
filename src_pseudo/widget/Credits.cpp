@@ -63,13 +63,13 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
  this->clipText->SetColor(0xff,0xff,0xff,0);
  this->clipText->SetCoords((SCREEN_WIDTH - this->clipText->GetWidth()) / 2,((SCREEN_HEIGHT - this->clipText->GetHeight()) / 2));
  RomString::Free(creditStrings);
- pBVar11 = gGlobals.Sub.BGM;
+ pBVar11 = gGlobals.gameVars.BGM;
  this->BGMVol = gGlobals.VolBGM;
  this->field5_0x80 = this->link3;
  this->SFXVol = gGlobals.VolSFX;
  gGlobals.VolBGM = 0.0;
  gGlobals.VolSFX = 0.0;
- if (gGlobals.Sub.BGM) DCM::Start(gGlobals.Sub.BGMIndex,gGlobals.Sub.BGMID,0);
+ if (gGlobals.gameVars.BGM) DCM::Start(gGlobals.gameVars.BGMIndex,gGlobals.gameVars.BGMID,0);
  this->bgm = load_borg_12(BORG12_Intro_NoExp);
  DCM::Add((byte *)&this->indecies0,(s32 *)&this->indecies1,&this->bgm->dat->sub,this->BGMVol * 255.0f,0x80,1,-1,0);
 }
@@ -77,7 +77,7 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
 WidgetCredits::~WidgetCredits(){
   gGlobals.VolBGM = this->BGMVol;
   gGlobals.VolSFX = this->SFXVol;
-  if (gGlobals.Sub.BGM) DCM::Start(gGlobals.Sub.BGMIndex,gGlobals.Sub.BGMID,gGlobals.VolBGM * 255.0f);
+  if (gGlobals.gameVars.BGM) DCM::Start(gGlobals.gameVars.BGMIndex,gGlobals.gameVars.BGMID,gGlobals.VolBGM * 255.0f);
   if (this->clipText){
     this->Unlink(this->clipText);
     if (this->clipText) this->clipText->~BaseWidget();

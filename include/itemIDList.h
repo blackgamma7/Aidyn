@@ -24,7 +24,7 @@ enum DB_TYPE{
     DB_DIALOUGEENTITY //Simpler entities for dialouge (signs, animals)
 };
 //set item ID by category and low byte
-#define IDSet(name,n) (u16)(DB_##name <<8|n)
+#define IDSet(name,n) (u16)(n|(DB_##name <<8))
 #define IDMisc(n) IDSet(MISC,n) 
 #define IDEnt(n) IDSet(ENTITY,n) 
 #define IDSpell(n) IDSet(SPELL,n) 
@@ -45,6 +45,8 @@ enum DB_TYPE{
 #define IDKeyItem(n) IDSet(KEYITEM,n) 
 #define IDMedal(n) IDSet(AMULET,n) 
 #define IDDEnt(n) IDSet(DIALOUGEENTITY,n) 
+
+#define IDEntInd(n) IDEnt(entityList[n])
 
 enum ItemIDS{
     //misc items
@@ -512,5 +514,9 @@ enum ItemInd{
 
 enum EntInd{
     EntInd_Alaron=0x99,
+    EndInd_Neilsen=162,
+    EntInd_Sholeh=164,
+    EndInd_Marquis=170,
+    EntInd_Skeleton=187,
     EntInd_Shadow=0xac,
 };

@@ -17,13 +17,13 @@ u16 FUN_80005d60(wander_substruct **w) {
     uVar2 = -1;
   }
   else {
-    ppVar4 = gGlobals.Sub.PlayerHandler.playerDats + player->unk104;
+    ppVar4 = gGlobals.gameVars.PlayerHandler.playerDats + player->unk104;
     uVar2 = -1;
     if (ppVar4->removeFlag) {
       pwVar1 = findWandererFromPlayerName(ppVar4->ID);
       uVar2 = -1;
       if (pwVar1) {
-        pvVar3 = &gGlobals.Sub.borg9DatPointer->voxelObjs[pwVar1->VoxelIndex];
+        pvVar3 = &gGlobals.gameVars.borg9DatPointer->voxelObjs[pwVar1->VoxelIndex];
         uVar2 = -1;
         if ((pvVar3) &&
            (player->unk108 <= ppVar4->scaleRad + player->scaleRad + 0.5f)) {
@@ -51,8 +51,8 @@ void monsterparty_setvec2(voxelObject *v,vec2f *pos) {
   setVec2(pos,(v->header).pos.x,(v->header).pos.z);
   if ((((v->header).type == VOXEL_MonsterParty) && (gGlobals.playerCharStruct.playerDat != NULL)) &&
      (sVar1 = (gGlobals.playerCharStruct.playerDat)->unk104, sVar1 != -1)) {
-    setVec2(pos,gGlobals.Sub.PlayerHandler.playerDats[sVar1].collision.pos.x,
-            gGlobals.Sub.PlayerHandler.playerDats[sVar1].collision.pos.z);
+    setVec2(pos,gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.x,
+            gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.z);
   }
 }
 
@@ -89,15 +89,15 @@ void obj_ref_func(void) {
   uint uStack_58;
   
   if (gGlobals.screenFadeMode) return;
-  pBVar4 = gGlobals.Sub.borg9DatPointer;
+  pBVar4 = gGlobals.gameVars.borg9DatPointer;
   ppVar3 = gGlobals.playerCharStruct.playerDat;
   if (check_some_toggle()) return;
   if (gGlobals.playerCharStruct.playerDat == NULL) return;
-  if (gGlobals.Sub.borg9DatPointer == NULL) return;
+  if (gGlobals.gameVars.borg9DatPointer == NULL) return;
   pvStack_5c = &((gGlobals.playerCharStruct.playerDat)->collision).pos;
   sStack_168 = 0;
   asStack_166[0] = 0;
-  getZonePositionShorts(gGlobals.Sub.borg9DatPointer,pvStack_5c,&sStack_168,asStack_166);
+  getZonePositionShorts(gGlobals.gameVars.borg9DatPointer,pvStack_5c,&sStack_168,asStack_166);
   pbVar5 = getCollideSection(pBVar4,sStack_168,asStack_166[0]);
   uVar14 = 0;
   if (pbVar5 == NULL) return;

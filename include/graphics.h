@@ -43,7 +43,7 @@ struct gfxManager {
 };
 
 //may need to move this to header for Borg8 properties.
-#define RSPFUNC(g,flag) g=borg8DlistInit(g,flag,Graphics::get_hres(),Graphics::get_vres())
+#define RSPFUNC(g,flag) g=borg8DlistInit(g,flag,Graphics::GetHRes(),Graphics::GetVRes())
 #define RSPFUNC6(g) RSPFUNC(g,6)
 #define RSPFUNC5(g) RSPFUNC(g,5)
 
@@ -67,8 +67,8 @@ void* GetFrameBuffer(u8 );
 s16* GetDepthBuffer();
 u32 FramebufferSize0();
 u32 FramebufferSize1();
-u32 get_hres();
-u32 get_vres();
+u32 GetHRes();
+u32 GetVRes();
 u32 GetColorDepth();
 void getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres);
 void passto_GetGfxLastFrame(void*,u16,u16,u8);

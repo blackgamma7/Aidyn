@@ -317,7 +317,7 @@ LAB_800a6620:
       uVar18 = iVar5 << 0x15 | ((int)((uVar8 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
       uVar27 = (uVar21 << 2 & 0xfff) << 0xc;
       uVar19 = (uVar8 & 0x3ff) << 0xe;
-      uVar12 = (iVar31 + iVar29) * 0x10000 >> 0x10;
+      uVar12 = (iVar31 + iVar29);
       uVar8 = uVar16;
       pGVar24 = pGVar25;
       for(uVar23 = 0;uVar23 < uVar13;uVar23++) {

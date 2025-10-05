@@ -20,31 +20,31 @@ void clear_camera_voxel_pointer(void){
 
 void passto_camera_init(Camera_struct *cam,Borg9Data *map,vec3f *pos,u16 dat){
   Camera::Init(cam,map,pos,dat);
-  gGlobals.Sub.camPtrArraySize = 0;
+  gGlobals.gameVars.camPtrArraySize = 0;
 }
 
 void clear_some_playerHandler_field(void){
-  gGlobals.Sub.PlayerHandler.cameraFocus = -1;
+  gGlobals.gameVars.PlayerHandler.cameraFocus = -1;
 }
 
 void FUN_80019ccc(playerData *param_1){
   if ((param_1->flags & ACTOR_ISPLAYER) != 0) {
     Actor::UnsetFlag(param_1,ACTOR_ISPLAYER);
-    gGlobals.Sub.PlayerHandler.cameraFocus = -1;
+    gGlobals.gameVars.PlayerHandler.cameraFocus = -1;
     clear_some_playerHandler_field();
   }
 }
 
 void GiveCameraToPlayer(playerData *param_1){
   if (param_1 == NULL) CRASH("GiveCameraToPlayer","Player Pointer is NULL!")
-  if (gGlobals.Sub.PlayerHandler.cameraFocus != -1) {
-    FUN_80019ccc(gGlobals.Sub.PlayerHandler.playerDats + gGlobals.Sub.PlayerHandler.cameraFocus);
+  if (gGlobals.gameVars.PlayerHandler.cameraFocus != -1) {
+    FUN_80019ccc(gGlobals.gameVars.PlayerHandler.playerDats + gGlobals.gameVars.PlayerHandler.cameraFocus);
   }
-  gGlobals.Sub.camera.borg_9 = GetCollisionZone(param_1->zoneDatByte);
-  gGlobals.Sub.camera.unk58 = 0.0;
-  gGlobals.Sub.camera.unk48 = gGlobals.Sub.camera.unk4c;
+  gGlobals.gameVars.camera.borg_9 = GetCollisionZone(param_1->zoneDatByte);
+  gGlobals.gameVars.camera.unk58 = 0.0;
+  gGlobals.gameVars.camera.unk48 = gGlobals.gameVars.camera.unk4c;
   Actor::SetFlag(param_1,ACTOR_ISPLAYER);
-  gGlobals.Sub.PlayerHandler.cameraFocus = param_1->ID;
+  gGlobals.gameVars.PlayerHandler.cameraFocus = param_1->ID;
   return;
 }
 
@@ -70,7 +70,7 @@ void Camera::ApplyVelocity(Camera_struct *cam,vec3f *vel){
 }
 
 void Camera::AddPosToList(vec3f *param_1){
-  gGlobals.Sub.camPtrArray[gGlobals.Sub.camPtrArraySize++] = param_1;
+  gGlobals.gameVars.camPtrArray[gGlobals.gameVars.camPtrArraySize++] = param_1;
 }
 
 void Camera::CopyPosAim(Camera_struct *param_1,u16 flag,vec3f *param_3){
@@ -128,7 +128,7 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
           if (isDialougeMode()) (vox->camera).vec3_C.y = ((vox->camera).vec3_C.y + 0.5);
           else (vox->camera).vec3_C.y += cam->camHeight;
         }
-        else copyVec3(&FindReferncePoint(gGlobals.Sub.borg9DatPointer,sVar1)->header.pos,v3b);
+        else copyVec3(&FindReferncePoint(gGlobals.gameVars.borg9DatPointer,sVar1)->header.pos,v3b);
         (vox->camera).unk0x54 = 0.0;
         if (((vox->camera).CameraFlags & CamOBJ_TrackOn)) {
           fStack120.x = arg0->x;
@@ -309,7 +309,7 @@ void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
           setVec3(&afStack112,sCam->aim->x,sCam->aim->y + sCam->height,sCam->aim->z);
           sCam->aim = &afStack112;
         }
-        processVoxelCamera(arg0,&sCam->voxel,&gGlobals.Sub.camera,delta);
+        processVoxelCamera(arg0,&sCam->voxel,&gGlobals.gameVars.camera,delta);
         sCam->timer -=delta;
         if ((s16)sCam->timer < 1) freeScriptCamera(param_1,sCam);
       }
@@ -319,7 +319,7 @@ void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
       camera_dat-=delta;
       if ((s16)camera_dat < 0) camera_dat = 0;
       if (cameraVoxelPointer)
-        processVoxelCamera(cameraVec3Ptr,cameraVoxelPointer,&gGlobals.Sub.camera,delta);
+        processVoxelCamera(cameraVec3Ptr,cameraVoxelPointer,&gGlobals.gameVars.camera,delta);
     }
     sprintf(gGlobals.text,"FINISHED ProcessScriptCameras");
   }

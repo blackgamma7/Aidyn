@@ -6,6 +6,11 @@ enum PRECIPITATION {
     PRECIP_RAIN,
     PRECIP_SNOW
 };
+enum WIND{
+  WIND_CLEAR,
+  WIND_FOG,
+  WIND_STORM,
+};
 
 struct TerrainStruct {
     u16 daySpeed; /* set to 72 (1.2 seconds per tick) */

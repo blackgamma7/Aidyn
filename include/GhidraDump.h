@@ -78,13 +78,6 @@ struct DollBarterConfirm {
 };
 
 
-typedef struct CombatAi_command CombatAi_command, *PCombatAi_command;
-
-struct CombatAi_command {
-    ulong (*cmd)(void);
-    uint unk;
-};
-
 typedef struct shop_ram shop_ram, *Pshop_ram;
 
 struct shop_ram {

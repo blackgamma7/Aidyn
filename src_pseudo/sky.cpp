@@ -33,7 +33,7 @@ void Sky::loadDay(SkySubstruct *param_1,u16 param_2){
 
 void Sky::AllocGradient(void){  
   if (!gGlobals.sky.gradient)
-    ALLOCS(gGlobals.sky.gradient,Graphics::get_vres() << 2,137);
+    ALLOCS(gGlobals.sky.gradient,Graphics::GetVRes() << 2,137);
 }
 
 void Sky::Free(void){
@@ -96,7 +96,7 @@ int Sky::GenerateGradient(Color32 *c0,Color32 *c1,float vert,float param_4,float
   float fogx2;
   int iStack_ac;
   
-  fogx2 = gGlobals.Sub.weather.fogTime + gGlobals.Sub.weather.fogTime;
+  fogx2 = gGlobals.gameVars.weather.fogTime + gGlobals.gameVars.weather.fogTime;
   if (1.0f < fogx2) fogx2 = 1.0f;
   red2 = gGlobals.sky.colors[2].R / 255.0f;
   green2 = gGlobals.sky.colors[2].G / 255.0f;
@@ -321,7 +321,7 @@ void Sky::SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32
 }
 
 void Sky::ResetGradient(Color32 *c){
-  for (s16 i=0; i<Graphics::get_vres();i++) {
+  for (s16 i=0; i<Graphics::GetVRes();i++) {
     c->W = 0;
     c++;
     }
@@ -450,14 +450,14 @@ LAB_800222c4:
       PLAYSFX(borg12,0,gGlobals.VolSFX,uVar8,0);
       goto LAB_800224b0;
     }
-    Vec3_sub(&fStack128,&gGlobals.Sub.camera.pos,&gGlobals.Sub.camera.aim);
+    Vec3_sub(&fStack128,&gGlobals.gameVars.camera.pos,&gGlobals.gameVars.camera.aim);
     vec3_normalize(&fStack128);
     SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
               gGlobals.sky.colors,gGlobals.sky.colors + 1,gGlobals.sky.colors + 2,
               gGlobals.sky.colors + 3,gGlobals.sky.colors + 4,
               -gGlobals.sky.lensFlareVal * 0.5));
     iVar3 = GenerateGradient(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,
-                             (float)(__sinf(fStack128.y) * Graphics::get_vres()),fVar6,gGlobals.sky.gray,
+                             (float)(__sinf(fStack128.y) * Graphics::GetVRes()),fVar6,gGlobals.sky.gray,
                              gGlobals.sky.gradient,gGlobals.sky.lensFlareVal);
     gfx = RenderGradient(gfx,gGlobals.sky.gradient,(u16)iVar3);
     if (iVar3 == 0) goto LAB_80022478;

@@ -27,8 +27,8 @@ int getIDIndex_sub(u8 *list,u8 total,u8 id){
 
 u16 GetIDIndex(ItemID x,char* file, u32 line){
   s32 uVar1;
-  u8 *pEVar4;
-  byte *pbVar2;
+  u8 *totalP;
+  byte *entriesP;
   u8 total;
   uint uVar3;
   
@@ -38,27 +38,27 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
   if (false) goto switchD_80075e2c_caseD_4;
   switch((uint)((ushort)x >> 8)) {
   case DB_ENTITY:
-    pbVar2 = entityList;
-    pEVar4 = &gEntityDB->total;
+    entriesP = entityList;
+    totalP = &gEntityDB->total;
     break;
   case DB_SPELL:
-    pbVar2 = SpellList;
-    pEVar4 = &gSpellDBp->Total;
+    entriesP = SpellList;
+    totalP = &gSpellDBp->Total;
     break;
   default:
     goto switchD_80075e2c_caseD_4;
   case DB_ARMOR:
   case DB_SHIELD:
-    pbVar2 = ArmorList;
+    entriesP = ArmorList;
     total = gArmorDBp->total;
     goto LAB_80075eb0;
   case DB_WEAPON:
-    pbVar2 = weaponList;
-    pEVar4 = &gWeaponsDB->Total;
+    entriesP = weaponList;
+    totalP = &gWeaponsDB->Total;
     break;
   case DB_CHEST:
-    pbVar2 = lootList;
-    pEVar4 = &gChestDBp->total;
+    entriesP = lootList;
+    totalP = &gChestDBp->total;
     break;
   case DB_POTION:
   case 21: //?
@@ -68,13 +68,13 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
     uVar1 = uVar3;
     goto switchD_80075e2c_caseD_4;
   case DB_DIALOUGEENTITY:
-    pbVar2 = DialougEntList;
-    pEVar4 = gDialogEntityDBp;
+    entriesP = DialougEntList;
+    totalP = gDialogEntityDBp;
     break;
   }
-  total = *pEVar4;
+  total = *totalP;
 LAB_80075eb0:
-  uVar1 = getIDIndex_sub(pbVar2,total,x&0xFF);
+  uVar1 = getIDIndex_sub(entriesP,total,x&0xFF);
 switchD_80075e2c_caseD_4:
   if (uVar1 != -1) return (byte)uVar1;
   char txtBuff [144];

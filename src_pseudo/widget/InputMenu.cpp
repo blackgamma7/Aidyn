@@ -120,7 +120,7 @@ Gfx * InputMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   iVar3 = (SCREEN_WIDTH/2) - Font::GetWidth(gGlobals.font,piVar1->entry) / 2;
   uVar7 = 0;
   do {
-    iVar3 = iVar3 * 0x10000 >> 0x10;
+    iVar3 = iVar3;
     fVar9 = (float)this->col.R;
     fVar14 = (float)this->col.G;
     fVar15 = (float)this->col.B;

@@ -118,12 +118,12 @@ void get_loot_reagent(voxelObject* v,container_Dat * cont){
   u16 LootReagentIDs[]={0,0,0,0,ItemInd_Spice,ItemInd_Herb,ItemInd_Gemstone,0};
   ref_obj_bitmask_flag((v->header).flagB,(v->header).Bitfeild,VOXEL_Used);
   set_voxel_visibility(v,false);
-  voxelObject *a = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,v,VOXEL_Scene);
+  voxelObject *a = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene);
   if (a) set_voxel_visibility(a,false);
-  if (exploding_container_check(v,gGlobals.Sub.borg9DatPointer)) {
-    passto_WriteTo_VoxelChart((short)(((int)v - (int)(gGlobals.Sub.borg9DatPointer)->voxelObjs) * 0x684bda13
-                      >> 2),gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,
-               gGlobals.Sub.mapShort2,ZoneCenter,*(u8 *)((int)&(v->header).type + 1),10);
+  if (exploding_container_check(v,gGlobals.gameVars.borg9DatPointer)) {
+    passto_WriteTo_VoxelChart((short)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) * 0x684bda13
+                      >> 2),gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
+               gGlobals.gameVars.mapShort2,ZoneCenter,*(u8 *)((int)&(v->header).type + 1),10);
   }
   GenericInventory * pGVar1 = new GenericInventory();
   pGVar1->AddItem(gItemDBp->Gear[LootReagentIDs[cont->LootType]].ID,quant);
@@ -149,9 +149,9 @@ void loot_func(voxelObject *v,u16 A, u16 B){
   short aIStack96 [6] [2];
   
   contP = &v->container;
-  psVar4 = some_ref_obj_lookup_func((short)(((int)v - (int)(gGlobals.Sub.borg9DatPointer)->voxelObjs) *
-                              /*?!?*/0x684bda13 >> 2),(char)gGlobals.Sub.mapDatA,
-                      (u8)gGlobals.Sub.mapShort1,(u8)gGlobals.Sub.mapShort2,ZoneCenter,(u8)v->header.type);
+  psVar4 = some_ref_obj_lookup_func((short)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) *
+                              /*?!?*/0x684bda13 >> 2),(char)gGlobals.gameVars.mapDatA,
+                      (u8)gGlobals.gameVars.mapShort1,(u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)v->header.type);
 
   if (((container_open_check((v->container).openFlag)) || (psVar4)) ||
      (container_explode_check((v->container).explodeFlag))) {
@@ -182,11 +182,11 @@ void loot_func(voxelObject *v,u16 A, u16 B){
       UnkVoxelFlagCheck;
       set_refObj_flag(v);
       if ((v->container).LootType == Treasure_Misc) {
-        set_voxel_visibility(GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,v,VOXEL_Scene),false);
+        set_voxel_visibility(GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene),false);
       }
       else {
         time = 60;
-        play_countainer_sound(v,gGlobals.Sub.borg9DatPointer);
+        play_countainer_sound(v,gGlobals.gameVars.borg9DatPointer);
       }
       uVar10 = 0;
       if ((v->container).LootCat) {
@@ -209,9 +209,9 @@ void loot_func(voxelObject *v,u16 A, u16 B){
         aIStack96[uVar10][1] = 1;
       }
       if ((!container_explode_check((v->container).explodeFlag)) && (!container_open_check((v->container).openFlag))) {
-        passto_WriteTo_VoxelChart((short)(((int)v - (int)(gGlobals.Sub.borg9DatPointer)->voxelObjs) *
-                           /*?!?*/0x684bda13 >> 2),(char)gGlobals.Sub.mapDatA,(u8)gGlobals.Sub.mapShort1,
-                   (u8)gGlobals.Sub.mapShort2,ZoneCenter,(u8)v->header.type,10);
+        passto_WriteTo_VoxelChart((short)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) *
+                           /*?!?*/0x684bda13 >> 2),(char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
+                   (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)v->header.type,10);
       }
       if (!uVar8) { //no items, just money.
         Gsprintf(Cstring(GotXGold),(v->container).Gold);
@@ -238,7 +238,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
 void monsterpary_func(voxelObject *v,u16 A,u16 B){
   if ((v->monster).borg_13){ //dialouge attached
     if(!v->monster.flags&4){
-    dialoug_func((v->monster).borg_13,0,gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,
+    dialoug_func((v->monster).borg_13,0,gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2,
                  B);
     monsterparty_wanderstruct(&gGlobals.wander.wanderSubstructs[(v->monster).wandererIndex]);
     setEventFlag((v->header).flagB,true);
@@ -266,7 +266,7 @@ void monsterpary_func(voxelObject *v,u16 A,u16 B){
 
 void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
 
-  Borg9Data *pBVar3 = gGlobals.Sub.borg9DatPointer;
+  Borg9Data *pBVar3 = gGlobals.gameVars.borg9DatPointer;
   switch((v->trigger).triggertype) {
   case VTrigger_SetFlag:
     setEventFlag((v->trigger).flagA,true);
@@ -274,14 +274,14 @@ void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
     set_refObj_flag(v);
     break;
   case VTrigger_ChangeAni:
-    Borg7Header *pBVar1 = GetVoxelFromObjectLink(gGlobals.Sub.borg9DatPointer,v,VOXEL_Scene)->scene.borgArray[0].b7;
+    Borg7Header *pBVar1 = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene)->scene.borgArray[0].b7;
     if (pBVar1) FUN_800a0090(pBVar1,(v->trigger).flagA);
     break;
   case VTrigger_3: break;
   case VTrigger_BorgPhys:
-    if ((gGlobals.Sub.borg9DatPointer)->borghpys_count != 0) {
-      borg9_phys *pbVar2 = (gGlobals.Sub.borg9DatPointer)->phys_pointer;
-      for(u16 i=0;i<(gGlobals.Sub.borg9DatPointer)->borghpys_count;i++){
+    if ((gGlobals.gameVars.borg9DatPointer)->borghpys_count != 0) {
+      borg9_phys *pbVar2 = (gGlobals.gameVars.borg9DatPointer)->phys_pointer;
+      for(u16 i=0;i<(gGlobals.gameVars.borg9DatPointer)->borghpys_count;i++){
         u16 gFlag = pbVar2[i].GroundType;
         if (((gFlag & 0xf000) == 0x1000) && ((gFlag >> 5 & 0x7f) == (v->trigger).flagA))
           pbVar2[i].flags=pbVar2[i].flags&(v->trigger).flagB|(v->trigger).flagC;
@@ -344,8 +344,8 @@ u8 exploding_container_sub(voxelObject* v,Borg9Data *arg1){
   if ((bVar2 == false) ||
      (some_ref_obj_lookup_func((short)(((int)v - (int)arg1->voxelObjs)
                             * 0x684bda13 >> 2),
-                          gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,
-                          (u8)gGlobals.Sub.mapShort2,ZoneCenter,(u8)(v->header).type)))
+                          gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
+                          (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(v->header).type)))
     {uVar3 = false;}
   else {uVar3 = trigger_event_flag_check((v->header).flagA,(v->header).Bitfeild,0x100);}
   return uVar3;
@@ -365,8 +365,8 @@ u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
       set_voxel_visibility(a,true);
       set_voxel_visibility(param_1,true);
       psVar2 = some_ref_obj_lookup_func((short)(((int)param_1 - (int)param_2->voxelObjs) * 0x684bda13 >> 2),
-                          (char)gGlobals.Sub.mapDatA,(u8)gGlobals.Sub.mapShort1,
-                          (u8)gGlobals.Sub.mapShort2,ZoneCenter,(u8)(param_1->header).type);;
+                          (char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
+                          (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(param_1->header).type);;
       if ((container_open_check((param_1->container).openFlag)) || (psVar2 != NULL)) {
         replace_container_voxel(param_1,1,param_2);
         *(u16 *)(param_1->container).LockLV = 0;

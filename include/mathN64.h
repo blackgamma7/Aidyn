@@ -61,7 +61,7 @@ void setVec2(vec2f *v,float x,float y);
 void setVec3(vec3f *v,float x,float y,float z);
 void setVec4(vec4f *v,float x,float y,float z, float w);
 float three_vec2_proximities(vec2f *X,vec2f *Y,vec2f *Z);
-float Ofunc_800ab628(vec2f *A,vec2f *B,vec2f *C);
+float FUN_800ab628(vec2f *A,vec2f *B,vec2f *C);
 float big_vec2_math_func(vec2f *A,vec2f *B,vec2f *C);
 float Ofunc_800ab7e4(vec3f *A,vec3f *B,vec3f *C);
 void FUN_800ab880(MtxF *A,MtxF *B);

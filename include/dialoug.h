@@ -196,7 +196,7 @@ ActorAndID * DialougGetActorAndID(dialougmode_substruct *,Borg13Data *,ItemID);
 CharSheet * DialougGetPartyMemberName(ItemID);
 void DialougFreeActors(dialougmode_substruct *,Borg13Data *);
 void DialoguePreCallback(dialougmode_substruct *,Borg13Data *,u16,s16);
-s32 DialougCallbackB(dialougmode_substruct *,Borg13Data *,u16,u16);
+s32 DialogEvalCallback(dialougmode_substruct *,Borg13Data *,u16,u16);
 void dialougemode_0x90_funcs3(u32);
 void DialogCallbackC(dialougmode_substruct *,Borg13Data *,u16,s16);
 char * DialougFindPlayerNameSpace(char *);

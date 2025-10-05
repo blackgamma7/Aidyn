@@ -65,12 +65,12 @@ void wander_free(wander_struct *param_1){
 
 
 void look_for_monsterparties(wander_struct *param_1,Borg9Data *param_2,s32 param_3,byte param_4){
-  if (((gGlobals.screenFadeModeSwitch != 0xc) && (gGlobals.Sub.gamemodeType != 2)) &&
+  if (((gGlobals.screenFadeModeSwitch != 0xc) && (gGlobals.gameVars.gamemodeType != 2)) &&
      (param_2->voxelObjCount != 0)) {
     for (s16 i=0;i < param_2->voxelObjCount;i++) {
       if ((param_2->voxelObjs[i].header.type == VOXEL_MonsterParty) &&
          ((param_2->voxelObjs[i].header.Bitfeild & 0x8000))) {
-        if (!some_monsterparty_checker(i,gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2,param_4,VOXEL_MonsterParty)) {
+        if (!some_monsterparty_checker(i,gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2,param_4,VOXEL_MonsterParty)) {
           AllocWanderer(param_1,i,param_3,param_4);
         }
       }
@@ -258,7 +258,7 @@ void WanderTick(wander_struct *param_1,short delta){
         fVar14 = vec2_proximity(&wanderer->position,&fStack488);
         if (perceptionProx <= perception + perception) {
           if (!wanderer->perceptionsSet) {
-            fVar15 = perception * (1.0 -gGlobals.Sub.weather.fogTime * 0.75);
+            fVar15 = perception * (1.0 -gGlobals.gameVars.weather.fogTime * 0.75);
             wanderer->perceptionsSet = true;
             wanderer->precepWalk = fVar15;
             wanderer->percepMax = (fVar15 *2);

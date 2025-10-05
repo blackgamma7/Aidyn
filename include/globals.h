@@ -75,29 +75,33 @@ struct GlobalsSub { /* 0x800e6988 in Debug version*/
     u8 unk1212[6];
 };
 
+struct SpashVars{
+    u32 flag;
+    Borg12Header *introMusic;
+    u32 introMusicDatA;
+    u32 introMusicDatB;
+    u8 state;
+    Borg8Header *thqBorg8;
+    Borg8Header *h20Borg8;
+    u8 align2c[8];
+    uint timer;
+    u8 UnkA; /* written, never read */
+    u16 UnkB; /* written, never read */
+    u16 UnkC; /* written, never read */
+    u16 UnkD; /* written, never read */
+};
+
 struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     Random rngSeed; /* used for most rand funcs */
     int appstate;
     u32 ticker;
     float delta; //defined as (x/60) second, 1>=x<=6
-    u32 splashscreenFlag;
-    Borg12Header *introMusic;
-    u32 introMusicDatA;
-    u32 introMusicDatB;
-    u8 splashscreenSwitch;
-    Borg8Header *thqBorg8;
-    Borg8Header *h20Borg8;
-    u8 align2c[8];
-    uint splashscreenTimer;
-    u8 splashScreenUnkA; /* written, never read */
-    u16 splashScreenUnkB; /* written, never read */
-    u16 splashScreenUnkC; /* written, never read */
-    u16 splashScreenUnkD; /* written, never read */
+    SpashVars titleSplashVars;
     u8 screenFadeModeSwitch;
     u8 align41[15];
     wander_struct wander;
     player_char_struct playerCharStruct;
-    GlobalsSub Sub;
+    GlobalsSub gameVars;
     SFX_Struct SFXStruct;
     u8 combatBytes[4];
     EncounterDat EncounterDat;
@@ -150,7 +154,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     QueueStructB QueueB;
     u16 field81_0x202a;
     u8 appstateBool;
-    u32 appfunc_dat;
+    u32 lensFlareBool;
     u8 DebugStatDisplay;
     uint maptally;
     float brightness;

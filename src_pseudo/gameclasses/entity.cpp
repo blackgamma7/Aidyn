@@ -293,9 +293,9 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   if (pcVar4->ReqSTR <= iVar1) {
     if (!param_1->Skills->getModdedWeapon(pcVar4->wepClass)) bVar2 = 1;
     else {
-      if (param_1->ID == (ItemID)(entityList[162] + 0x200)) { //Niesen
+      if (param_1->ID == IDEntInd(EndInd_Neilsen)) { //Niesen
         bVar2 = 1;
-        if (param_2 == (ItemID)(weaponList[66] + 0x700)) //archmage stafff
+        if (param_2 == IDWeapon(weaponList[66])) //archmage stafff
         bVar2 = 0;
       }
       else bVar2 = 0;
@@ -1059,7 +1059,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
     cVar4 = (char)(((uint)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case SPELLIND_wind:
-    TerrainPointer->windByte = 1;
+    TerrainPointer->windByte = WIND_FOG;
     break;
   case SPELLIND_brilliance:
     SVar3 = STAT_INT;

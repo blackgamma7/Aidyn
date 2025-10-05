@@ -209,16 +209,16 @@ uint FUN_80094cd0(short param_1){
   int iVar2;
   int iVar3;
   uint uVar4;
-  int iVar6;
-  longlong lVar5;
+  s16 iVar6;
+  s16 lVar5;
   
   iVar3 = (int)param_1;
-  iVar6 = (iVar3 + 1) * 0x10000 >> 0x10;
+  iVar6 = (iVar3 + 1);
   iVar2 = iVar6;
   if (iVar6 < 0) {
     iVar2 = iVar6 + 0xf;
   }
-  iVar2 = (iVar6 + (iVar2 >> 4) * -0x10) * 0x10000 >> 0x10;
+  iVar2 = (iVar6 + (iVar2 >> 4) * -0x10);
   lVar5 = iVar2;
   bVar1 = false;
   if (lVar5 != iVar3) {
@@ -231,7 +231,7 @@ uint FUN_80094cd0(short param_1){
         if (iVar6 < 0) {
           iVar2 = iVar6 + 0xf;
         }
-        lVar5 = ((iVar6 + (iVar2 >> 4) * -0x10) * 0x10000 >> 0x10);
+        lVar5 = ((iVar6 + (iVar2 >> 4) * -0x10));
       }
       else {
         bVar1 = true;
@@ -373,7 +373,7 @@ LAB_800950ec:
     pSVar10->field7_0x2c = param_1;
     if (param_3 - 5 < 2) pSVar10->b7 = NULL;
     else {
-      pAVar6 = func_loading_borg7(BVar6,&gGlobals.Sub.particleEmmiter);
+      pAVar6 = func_loading_borg7(BVar6,&gGlobals.gameVars.particleEmmiter);
       pAVar1 = pAVar6->sceneDat;
       Scene::SetFlag40(pAVar1);
       Scene::SetFlag4(pAVar1);
@@ -419,7 +419,7 @@ void FUN_800952c8(short param_1,short param_2,short param_3){
       pAVar3 = NULL;
       if (pBVar2 != NULL) pAVar3 = pBVar2->sceneDat;
     }
-    pAVar1->particleHead = &gGlobals.Sub.particleEmmiter;
+    pAVar1->particleHead = &gGlobals.gameVars.particleEmmiter;
     pAVar1->link2a4 = pAVar4;
     pAVar1->link2a8 = pAVar3;
   }
@@ -428,7 +428,7 @@ void FUN_800952c8(short param_1,short param_2,short param_3){
 void FUN_800953a8(short param_1){
   SpellVisualTypeB *pSVar1 = SpellVisuals.ptr1 + param_1;
   if ((((pSVar1->flags & 1)) && (pSVar1->spellID != 5)) && (pSVar1->spellID != 6)) {
-    Particle::UnsetSceneEmmiter(&gGlobals.Sub.particleEmmiter,pSVar1->b7->sceneDat);
+    Particle::UnsetSceneEmmiter(&gGlobals.gameVars.particleEmmiter,pSVar1->b7->sceneDat);
   }
 }
 

@@ -115,7 +115,7 @@ void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,usho
     if (ppVar8) copyVec3(&(ppVar8->collision).pos,&ppVar8->positionMirror);
   }
   if (refpointID) {
-    pVOR = get_map_referencepoint(gGlobals.Sub.borg9DatPointer,refpointID);
+    pVOR = get_map_referencepoint(gGlobals.gameVars.borg9DatPointer,refpointID);
   }
   switch(cmd) {
   case B13Com_CameraCutTo:
@@ -182,7 +182,7 @@ LAB_800570e0:
   return;
 }
 
-s32 DialougCallbackB(dialougmode_substruct *param_1,Borg13Data *param_2,u16 cmd,u16 VAL){
+s32 DialogEvalCallback(dialougmode_substruct *param_1,Borg13Data *param_2,u16 cmd,u16 VAL){
   s32 ret;
   
   switch(cmd) {
@@ -255,7 +255,7 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
   prVar3 = NULL;
   pAVar2 = DialougGetActorAndID(param_1,param_2,param_1->Entid);
   if (pAVar2) p = pAVar2->actor;
-  if (val) prVar3 = get_map_referencepoint(gGlobals.Sub.borg9DatPointer,val);
+  if (val) prVar3 = get_map_referencepoint(gGlobals.gameVars.borg9DatPointer,val);
   if (0x1a < (ushort)(command - B13Com_SetFlag)) return; //not a vaild command for this function
   switch(command) {
   case B13Com_SetFlag:

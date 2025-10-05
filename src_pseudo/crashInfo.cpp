@@ -216,8 +216,8 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
   crash_print(param_2,"Last gGlobals.text:",200,uVar5,0xff,0xff,0);
   crash_print(param_2,gGlobals.text,200,uVar5 + 9,0,0xff,0);
   if (gGlobals.ticker != 0) {
-    u16 uVar6 = Graphics::get_hres();
-    u16 uVar7 = Graphics::get_vres();
+    u16 uVar6 = Graphics::GetHRes();
+    u16 uVar7 = Graphics::GetVRes();
     u8 cDepth = Graphics::GetColorDepth();
     bVar8 = Graphics::GetBufferChoice();
     if (cDepth == 0x10) {

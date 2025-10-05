@@ -17,14 +17,14 @@ u8 Actor::IsFlyingModel(playerData* p){
 
 void get_mapcellsize(u8 index,vec2f *out){
   switch(index >> 4){
-    case 0: out->x = -gGlobals.Sub.mapCellSize.x; break;
+    case 0: out->x = -gGlobals.gameVars.mapCellSize.x; break;
     case 1: out->x = 0.0; break;
-    case 2: out->x = gGlobals.Sub.mapCellSize.x; break;
+    case 2: out->x = gGlobals.gameVars.mapCellSize.x; break;
   }
   switch(index&3){
-    case 0: out->y = -gGlobals.Sub.mapCellSize.y; break;
+    case 0: out->y = -gGlobals.gameVars.mapCellSize.y; break;
     case 1: out->y = 0.0; break;
-    case 2: out->y = gGlobals.Sub.mapCellSize.y; break;
+    case 2: out->y = gGlobals.gameVars.mapCellSize.y; break;
   }
 }
 
@@ -135,8 +135,7 @@ void Actor::Init(playerData *param_1,u16 id){
   (param_1->collision).link = param_1;
   param_1->Ent_index = EntInd_Alaron;
   param_1->voxelReach = 100.0f;
-  //default Alaron
-  param_1->ent_ID = IDEnt(entityList[EntInd_Alaron]);
+  param_1->ent_ID = IDEntInd(EntInd_Alaron);
   setVec3(&param_1->CombatTint,1.0,1.0,1.0);
   param_1->unk75c = 0.0;
   param_1->unk760 = 0.0;
@@ -149,48 +148,48 @@ void InitPlayerHandler(Camera_struct *cam,short maxPlayers,int shadIndex){
   int iVar4;
   
   iVar2 = (int)maxPlayers;
-  if (gGlobals.Sub.PlayerHandler.initFlag)
+  if (gGlobals.gameVars.PlayerHandler.initFlag)
     CRASH("InitPlayerHandler","Player Handler is already Initialized.");
   if (PLAYER_ABS_MAXPLAYERS < iVar2)
     CRASH("InitPlayerHandler","Too Many Players..\nover PLAYER_ABS_MAXPLAYERS");
-  CLEAR(&gGlobals.Sub.PlayerHandler);
-  gGlobals.Sub.PlayerHandler.initFlag = 1;
-  gGlobals.Sub.PlayerHandler.max_player = maxPlayers;
+  CLEAR(&gGlobals.gameVars.PlayerHandler);
+  gGlobals.gameVars.PlayerHandler.initFlag = 1;
+  gGlobals.gameVars.PlayerHandler.max_player = maxPlayers;
   if (maxPlayers == 0)
-    gGlobals.Sub.PlayerHandler.playerDats = NULL;
+    gGlobals.gameVars.PlayerHandler.playerDats = NULL;
   else {
-    ALLOCS(gGlobals.Sub.PlayerHandler.playerDats,iVar2 * sizeof(playerData),351);
-    memset(gGlobals.Sub.PlayerHandler.playerDats,0,gGlobals.Sub.PlayerHandler.max_player * sizeof(playerData));
+    ALLOCS(gGlobals.gameVars.PlayerHandler.playerDats,iVar2 * sizeof(playerData),351);
+    memset(gGlobals.gameVars.PlayerHandler.playerDats,0,gGlobals.gameVars.PlayerHandler.max_player * sizeof(playerData));
   }
-  gGlobals.Sub.PlayerHandler.cameraFocus = -1;
-  gGlobals.Sub.PlayerHandler.playerCount = 0;
-  gGlobals.Sub.PlayerHandler.float_0x68 = 50.0f;
-  gGlobals.Sub.PlayerHandler.shadowDist = 50.0f;
-  gGlobals.Sub.PlayerHandler.camera = cam;
-  if (0 < gGlobals.Sub.PlayerHandler.max_player) {
-    for(s16 i=0;i<gGlobals.Sub.PlayerHandler.max_player;i++) {
-      gGlobals.Sub.PlayerHandler.unk10[i] = i;
-      Actor::Init(&gGlobals.Sub.PlayerHandler.playerDats[i],i);
+  gGlobals.gameVars.PlayerHandler.cameraFocus = -1;
+  gGlobals.gameVars.PlayerHandler.playerCount = 0;
+  gGlobals.gameVars.PlayerHandler.float_0x68 = 50.0f;
+  gGlobals.gameVars.PlayerHandler.shadowDist = 50.0f;
+  gGlobals.gameVars.PlayerHandler.camera = cam;
+  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
+    for(s16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
+      gGlobals.gameVars.PlayerHandler.unk10[i] = i;
+      Actor::Init(&gGlobals.gameVars.PlayerHandler.playerDats[i],i);
     }
   }
   if (shadIndex)
-    gGlobals.Sub.PlayerHandler.shadowTexture = (Borg1Header *)getBorgItem(shadIndex);
-  gGlobals.Sub.PlayerHandler.audiokey = load_audiokey();
+    gGlobals.gameVars.PlayerHandler.shadowTexture = (Borg1Header *)getBorgItem(shadIndex);
+  gGlobals.gameVars.PlayerHandler.audiokey = load_audiokey();
 }
 
 void FreePlayerHandler(void){
-  if (gGlobals.Sub.PlayerHandler.initFlag == 0)
+  if (gGlobals.gameVars.PlayerHandler.initFlag == 0)
     CRASH("FreePlayerHandler","Player Handler Not Initialized!");
-  gGlobals.Sub.PlayerHandler.initFlag = 0;
+  gGlobals.gameVars.PlayerHandler.initFlag = 0;
   Actor::remove_flagged_playerdata();
-  if (gGlobals.Sub.PlayerHandler.shadowTexture)
-    FREEQB1(gGlobals.Sub.PlayerHandler.shadowTexture);
-  if (gGlobals.Sub.PlayerHandler.unk70)
-    FREEQB1(gGlobals.Sub.PlayerHandler.unk70);
-  Audiokey_free(gGlobals.Sub.PlayerHandler.audiokey);
-  gGlobals.Sub.PlayerHandler.audiokey = NULL;
-  if (gGlobals.Sub.PlayerHandler.playerDats)
-    HFREE(gGlobals.Sub.PlayerHandler.playerDats,415);
+  if (gGlobals.gameVars.PlayerHandler.shadowTexture)
+    FREEQB1(gGlobals.gameVars.PlayerHandler.shadowTexture);
+  if (gGlobals.gameVars.PlayerHandler.unk70)
+    FREEQB1(gGlobals.gameVars.PlayerHandler.unk70);
+  Audiokey_free(gGlobals.gameVars.PlayerHandler.audiokey);
+  gGlobals.gameVars.PlayerHandler.audiokey = NULL;
+  if (gGlobals.gameVars.PlayerHandler.playerDats)
+    HFREE(gGlobals.gameVars.PlayerHandler.playerDats,415);
 }
 
 
@@ -425,13 +424,13 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
         Camera::AddPosToList(&handler->playerDats[i].collision.pos);
     }
   }
-  if (gGlobals.Sub.gamemodeType == 0) {
+  if (gGlobals.gameVars.gamemodeType == 0) {
     sVar15 = handler->cameraFocus;
     if (sVar15 == -1) {
-      if (gGlobals.Sub.camPtrArraySize) {
+      if (gGlobals.gameVars.camPtrArraySize) {
         fVar27 = 75.0f;
-        Camera::ProcessVectors(&afStack304,&fStack240,gGlobals.Sub.camPtrArray,
-                         gGlobals.Sub.camPtrArraySize,75.0f);
+        Camera::ProcessVectors(&afStack304,&fStack240,gGlobals.gameVars.camPtrArray,
+                         gGlobals.gameVars.camPtrArraySize,75.0f);
         handler->camera->unk5c = fVar27;
         if (fVar27 < 5.0f) handler->camera->unk5c = 5.0f;
         facingV3.y = 0.0;
@@ -456,7 +455,7 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
                         &facingV3,delta,1);
     }
   }
-  else if (gGlobals.Sub.gamemodeType == 1) {
+  else if (gGlobals.gameVars.gamemodeType == 1) {
     #ifdef DEBUGVER
     strcpy(gGlobals.text,"ProcessCombatCamera");
     #endif
@@ -465,10 +464,10 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
     strcpy(gGlobals.text,"Crash was not in ProcessCombatCamera");
     #endif
   }
-  setVec2(camPosV2p,gGlobals.Sub.camera.pos.x,gGlobals.Sub.camera.pos.z);
-  setVec2(camAimV2p,gGlobals.Sub.camera.aim.x,gGlobals.Sub.camera.aim.z);
+  setVec2(camPosV2p,gGlobals.gameVars.camera.pos.x,gGlobals.gameVars.camera.pos.z);
+  setVec2(camAimV2p,gGlobals.gameVars.camera.aim.x,gGlobals.gameVars.camera.aim.z);
   count = 0;
-  gGlobals.Sub.camPtrArraySize = 0;
+  gGlobals.gameVars.camPtrArraySize = 0;
   local_6c = &handler->camera->aim;
   if (0 < handler->max_player) {
     iVar12 = 0;
@@ -510,9 +509,9 @@ LAB_8001666c:
           }
           pDat->scaleRad = pDat->scale * (pDat->collision).radius;
         }
-        (pDat->skyTint).x = (float)((double)((float)gGlobals.sky.colors[1].R / 255.0f) * 0.5);
-        (pDat->skyTint).y = (float)((double)((float)gGlobals.sky.colors[1].G / 255.0f) * 0.5);
-        (pDat->skyTint).z = (float)((double)((float)gGlobals.sky.colors[1].B / 255.0f) * 0.5);
+        (pDat->skyTint).x = (float)((float)gGlobals.sky.colors[1].R / 255.0f) * 0.5;
+        (pDat->skyTint).y = (float)((float)gGlobals.sky.colors[1].G / 255.0f) * 0.5;
+        (pDat->skyTint).z = (float)((float)gGlobals.sky.colors[1].B / 255.0f) * 0.5;
         fVar31 = 1.0f;
         if ((pDat->unk760 == 0.0) && (pDat->unk75c == 0.0)) {}
         else {
@@ -558,7 +557,7 @@ LAB_800168cc:
         map = GetCollisionZone(pDat->zoneDatByte);
         fVar31 = vec3_proximity(local_6c,&mapPos);
         if (handler->float_0x68 < fVar31) {
-          if (gGlobals.Sub.gamemodeType != 1) {
+          if (gGlobals.gameVars.gamemodeType != 1) {
             if (gExpPakFlag){
               if (fVar31 <= handler->float_0x68 * 3.0f) {
                 fVar29 = handler->float_0x68;
@@ -609,8 +608,8 @@ LAB_80016990:
             player_coords_A.x = (pDat->collision).pos.x;
             player_coords_A.y = (pDat->collision).pos.y;
             player_coords_A.z = (pDat->collision).pos.z;
-            map_shorts_A[0] = gGlobals.Sub.mapShort1;
-            map_shorts_A[1] = gGlobals.Sub.mapShort2;
+            map_shorts_A[0] = gGlobals.gameVars.mapShort1;
+            map_shorts_A[1] = gGlobals.gameVars.mapShort2;
           }
           if (pDat->alaron_flag) {
             if (pDat->Ground_type - 1 < 2) {
@@ -649,7 +648,7 @@ crash:
         setVec2(&afStack432,(pDat->collision).pos.x,(pDat->collision).pos.z);
         three_vec2_proximities(camPosV2p,camAimV2p,&afStack432);
         if (((((pDat->ani_type == 0) && (pDat->unk1a == 0)) && (pDat->unk1c == 0)) &&
-            ((13.0f <= fVar31 && (gGlobals.Sub.gamemodeType == 1)))) ||
+            ((13.0f <= fVar31 && (gGlobals.gameVars.gamemodeType == 1)))) ||
            (FUN_8001620c(pDat))) {
           if (!Actor::IsFlyingModel(pDat)) goto not_flying_borg7;
           if (pDat->unk70ee == 0) goto LAB_80016cec;
@@ -720,8 +719,8 @@ LAB_80016ed8:
                   (pDat->collision).pos.x = player_coords_b.x;
                   (pDat->collision).pos.y = player_coords_b.y;
                   (pDat->collision).pos.z = player_coords_b.z;
-                  gGlobals.Sub.mapShort1 = map_shorts_b[0];
-                  gGlobals.Sub.mapShort2 = map_shorts_b[1];
+                  gGlobals.gameVars.mapShort1 = map_shorts_b[0];
+                  gGlobals.gameVars.mapShort2 = map_shorts_b[1];
                   #ifdef DEBUGVER
                   N64PRINT("Saved your life!\nIf this was NOT a pop though\nIT IS A BUG.  Show Bailey!\n");
                   #endif
@@ -749,8 +748,8 @@ not_flying_borg7:
         if (pDat->visible_flag == 0) {
           FLOOR((pDat->collision).pos.x,0.05);
           FLOOR((pDat->collision).pos.z,0.05);
-          CIEL((pDat->collision).pos.x,(gGlobals.Sub.mapCellSize.x - 0.05));
-          CIEL((pDat->collision).pos.z,(gGlobals.Sub.mapCellSize.y - 0.05));
+          CIEL((pDat->collision).pos.x,(gGlobals.gameVars.mapCellSize.x - 0.05));
+          CIEL((pDat->collision).pos.z,(gGlobals.gameVars.mapCellSize.y - 0.05));
         }
         if ((pDat->flags & ACTOR_4)) {
           edit_playerdat_combat_pos(pDat,&pDat->combat_vec3);
@@ -867,7 +866,7 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
                  gGlobals.MoonPos.y * 200.0f * gGlobals.brightness * param_1->unk75c,light_count++);
     }
   }
-  passto_InitLight_2(&gGlobals.Sub.DynamicLights,param_2,&(param_1->collision).pos,param_5);
+  passto_InitLight_2(&gGlobals.gameVars.DynamicLights,param_2,&(param_1->collision).pos,param_5);
   light_init_func(param_1,param_2,param_5);
 }
 
@@ -928,8 +927,8 @@ Gfx * renderPlayers(PlayerHandler *param_1,Gfx *g,short delta,short param_4,shor
   iStack_4c = (int)param_4;
   iStack_48 = (int)param_5;
   fVar8 = __cosf(0.7417525f);
-  setVec2(&camCoord,gGlobals.Sub.camera.pos.x,gGlobals.Sub.camera.pos.z);
-  setVec2(&CamAim,gGlobals.Sub.camera.aim.x,gGlobals.Sub.camera.aim.z);
+  setVec2(&camCoord,gGlobals.gameVars.camera.pos.x,gGlobals.gameVars.camera.pos.z);
+  setVec2(&CamAim,gGlobals.gameVars.camera.aim.x,gGlobals.gameVars.camera.aim.z);
 
   if (0 < param_1->max_player) {
     for(i=0;i< param_1->max_player;i++) {
@@ -1061,9 +1060,9 @@ void edit_playerdat_combat_pos(playerData *param_1,vec3f *param_2){
 playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
   float fVar2;
   
-  if (gGlobals.Sub.PlayerHandler.max_player <= gGlobals.Sub.PlayerHandler.playerCount)
+  if (gGlobals.gameVars.PlayerHandler.max_player <= gGlobals.gameVars.PlayerHandler.playerCount)
     CRASH("AllocPlayer","Too Many Players");
-  playerData *ppVar1 = &gGlobals.Sub.PlayerHandler.playerDats[gGlobals.Sub.PlayerHandler.unk10[gGlobals.Sub.PlayerHandler.playerCount++]];
+  playerData *ppVar1 = &gGlobals.gameVars.PlayerHandler.playerDats[gGlobals.gameVars.PlayerHandler.unk10[gGlobals.gameVars.PlayerHandler.playerCount++]];
 
   Init(ppVar1,ppVar1->ID);
   fVar2 = ppVar1->scale;
@@ -1079,10 +1078,10 @@ playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
     player_coords_A.x = (ppVar1->collision).pos.x;
     player_coords_A.y = (ppVar1->collision).pos.y;
     player_coords_A.z = (ppVar1->collision).pos.z;
-    map_shorts_b[0] = gGlobals.Sub.mapShort1;
-    map_shorts_A[0] = gGlobals.Sub.mapShort1;
-    map_shorts_b[1] = gGlobals.Sub.mapShort2;
-    map_shorts_A[1] = gGlobals.Sub.mapShort2;
+    map_shorts_b[0] = gGlobals.gameVars.mapShort1;
+    map_shorts_A[0] = gGlobals.gameVars.mapShort1;
+    map_shorts_b[1] = gGlobals.gameVars.mapShort2;
+    map_shorts_A[1] = gGlobals.gameVars.mapShort2;
     player_coords_b.x = player_coords_A.x;
     player_coords_b.y = player_coords_A.y;
     player_coords_b.z = player_coords_A.z;
@@ -1091,9 +1090,9 @@ playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
 }
 
 void Actor::FreePlayer(playerData *param_1){
-  if (gGlobals.Sub.PlayerHandler.playerCount < 1)
+  if (gGlobals.gameVars.PlayerHandler.playerCount < 1)
     CRASH("FreePlayer","Invalid Free");
-  gGlobals.Sub.PlayerHandler.unk10[--gGlobals.Sub.PlayerHandler.playerCount] = param_1->ID;
+  gGlobals.gameVars.PlayerHandler.unk10[--gGlobals.gameVars.PlayerHandler.playerCount] = param_1->ID;
   FreePlayerActor(param_1);
   playerdata_remove_both_dcm(param_1);
   param_1->removeFlag = 0;
@@ -1102,9 +1101,9 @@ void Actor::FreePlayer(playerData *param_1){
 
 
 void remove_flagged_playerdata(void){
-  if (0 < gGlobals.Sub.PlayerHandler.max_player) {
-    for(s16 i=0; i < gGlobals.Sub.PlayerHandler.max_player;i++) {
-      playerData *ppVar2 = &gGlobals.Sub.PlayerHandler.playerDats[i];
+  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
+    for(s16 i=0; i < gGlobals.gameVars.PlayerHandler.max_player;i++) {
+      playerData *ppVar2 = &gGlobals.gameVars.PlayerHandler.playerDats[i];
       if (ppVar2->removeFlag) Actor::FreePlayer(ppVar2);
     }
   }
@@ -1129,9 +1128,9 @@ void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
       Scene::SetLightData(param_1->SceneDat);
       Scene::SceneSetMaxDynamicDirLights(param_1->SceneDat,4);
     }
-    param_1->borg7P = func_loading_borg7(param_2,&gGlobals.Sub.particleEmmiter);
+    param_1->borg7P = func_loading_borg7(param_2,&gGlobals.gameVars.particleEmmiter);
     param_1->borg7 = param_2;
-    Scene::SetParticleHead(param_1->borg7P->sceneDat,&gGlobals.Sub.particleEmmiter);
+    Scene::SetParticleHead(param_1->borg7P->sceneDat,&gGlobals.gameVars.particleEmmiter);
     Scene::SetFlag40(param_1->borg7P->sceneDat);
     Scene::SetFlag4(param_1->borg7P->sceneDat);
     Scene::SetFogFlag(param_1->borg7P->sceneDat);
@@ -1147,7 +1146,7 @@ void Actor::FreePlayerActor(playerData *param_1){
     CRASH("FreePlayerActor","No Actor To Free!");
   CombatAttackVisuals::FreePlayer(param_1);
   if (param_1->borg7P) {
-    Particle::UnsetSceneEmmiter(&gGlobals.Sub.particleEmmiter,param_1->borg7P->sceneDat);
+    Particle::UnsetSceneEmmiter(&gGlobals.gameVars.particleEmmiter,param_1->borg7P->sceneDat);
     FREEQB7(param_1->borg7P);
   }
   if (param_1->SceneDat) FREEQSCENE(param_1->SceneDat);
@@ -1263,9 +1262,9 @@ void Ofunc_80018b34(playerData *param_1,float param_2){
 
 
 void FUN_80018b84(void){
-  if (0 < gGlobals.Sub.PlayerHandler.max_player) {
-    for(u16 i=0;i<gGlobals.Sub.PlayerHandler.max_player;i++) {
-      Actor::UnsetFlag(&gGlobals.Sub.PlayerHandler.playerDats[i],ACTOR_2000);
+  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
+    for(u16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
+      Actor::UnsetFlag(&gGlobals.gameVars.PlayerHandler.playerDats[i],ACTOR_2000);
     }
   }
 }
@@ -1285,12 +1284,12 @@ void FUN_80018c38(void){
   ulonglong uVar2;
   
   uVar2 = 0;
-  if (0 < gGlobals.Sub.PlayerHandler.max_player) {
+  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
     iVar1 = 0;
     while( true ) {
-      FUN_80018bf0((int)gGlobals.Sub.PlayerHandler.playerDats + (iVar1 - (int)uVar2) * 0x80);
+      FUN_80018bf0((int)gGlobals.gameVars.PlayerHandler.playerDats + (iVar1 - (int)uVar2) * 0x80);
       uVar2 = ((int)uVar2 + 1) & 0xffff;
-      if (gGlobals.Sub.PlayerHandler.max_player <= uVar2) break;
+      if (gGlobals.gameVars.PlayerHandler.max_player <= uVar2) break;
       iVar1 = (int)uVar2 << 4;
     }
   }

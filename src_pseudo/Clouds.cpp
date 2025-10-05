@@ -136,10 +136,10 @@ Gfx * Clouds::Render(Gfx *g){
   
   if ((true) && (gGlobals.sky.Type == 3)) {
     CalcWind();
-    camRotY = gGlobals.Sub.camera.rotation.y;
-    camRotZ = gGlobals.Sub.camera.rotationXZ.y;
-    camRotX = gGlobals.Sub.camera.rotationXZ.x;
-    camLength = _sqrtf(SQ(gGlobals.Sub.camera.rotation.x)+SQ(gGlobals.Sub.camera.rotation.z));
+    camRotY = gGlobals.gameVars.camera.rotation.y;
+    camRotZ = gGlobals.gameVars.camera.rotationXZ.y;
+    camRotX = gGlobals.gameVars.camera.rotationXZ.x;
+    camLength = _sqrtf(SQ(gGlobals.gameVars.camera.rotation.x)+SQ(gGlobals.gameVars.camera.rotation.z));
     RSPFUNC6(g);
     if (gCloudCount != 0) {
       for(i=0;i<gCloudCount;i++){
@@ -157,7 +157,7 @@ Gfx * Clouds::Render(Gfx *g){
         fVar9 = _sqrtf(SQ(v3Temp.x) + SQ(v3Temp.z));
         fVar8 = (float)gCloudData[i].col.A;
         fVar11 = v3Temp.y * camRotY;
-        alpha = (float)((double)(fVar8 * gGlobals.Sub.weather.fogTime) * 1.5);
+        alpha = (float)((double)(fVar8 * gGlobals.gameVars.weather.fogTime) * 1.5);
         fVar14 = (fVar9 * camRotY + v3Temp.y * camLength) * 300.0f + 120.0f;
         if ((alpha <= fVar8) && (fVar8 = alpha, alpha < 0.0)) {
           fVar8 = 0.0;

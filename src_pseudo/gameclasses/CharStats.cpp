@@ -1,6 +1,6 @@
 #include "globals.h"
 
-
+#define FILENAME "../gameclasses/stats.cpp"
 
 void CharStats::Init(CharStats_s *stats,ItemID ID){
   u8 index;

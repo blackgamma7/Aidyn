@@ -49,7 +49,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   sub->dollmenu = NULL;
   sub->calendar = NULL;
   sub->takeInput = 0;
-  pBVar7 = func_loading_borg7(BORG7_PauseMenu,&gGlobals.Sub.particleEmmiter);
+  pBVar7 = func_loading_borg7(BORG7_PauseMenu,&gGlobals.gameVars.particleEmmiter);
   (sub->camPos).x = 0.0;
   (sub->camPos).z = 0.0;
   (sub->camPos).y = 27.0f;

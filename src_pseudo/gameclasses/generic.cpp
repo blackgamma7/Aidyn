@@ -26,7 +26,7 @@ void CharExp::Init(ItemID id){
 
 u8 CharExp::GetAspect(){return (flags & CHAR_IsSolar) ? ASPECT_SOLAR:ASPECT_LUNAR;}
 
-//file break?
+//file break - above is called "../gameclasses/entityInfo.cpp" in older builds
 
 void ItemInstance::InitItem(ItemID param_2){
   u16 uVar1 = (u16)param_2 >> 8;

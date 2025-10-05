@@ -7,9 +7,9 @@ class Party { /* holds party and inventory data */
     CharSheet *Members[MAXPARTY]; /* pointer to party members */
     PartyInventory *Inventory;
     u32 Gold; /* moneyz */
-    u32 timeSneaking; //measures time in sneak pose % 10 minutes. 
-    u32 timeWalking; //measures time walking % 30 minutes,
-    u32 TimeRunning; //measures time running % 5 minutes.
+    u32 timeSneaking; //measures time in sneak pose % 10 in-game minutes. 
+    u32 timeWalking; //measures time walking % 30 in-game minutes,
+    u32 TimeRunning; //measures time running % 5 in-game minutes.
     u8 PartySize; /* how big is the party? */
     
     void Init();
@@ -58,6 +58,7 @@ class Party { /* holds party and inventory data */
     u8 SecretLock();
     u8 TroubadourCheck();
     u8 GetMemberWarriorIntStam(u8);
+    void DoHerbHeal(u8,u8);
     char * HealingFunc2(u8 param_2,u8 param_3,u8 param_4);
     u32 CraftPotion(u8 user,u8 item);
     bool Lockpicking(byte lock,char *text);
@@ -72,7 +73,7 @@ class Party { /* holds party and inventory data */
     void CampAmbush();
     void CampHeal(u8);
     u8 CampAmbushCheck();
-    void noop_800821bc(u32,u32);
+    void DecRitualTimers(u32,u32);
     void TickMoveCounters(s32);
     u32 SkillCheck(u8);
     u32 BestStat(u8);
@@ -88,6 +89,7 @@ class Party { /* holds party and inventory data */
     u32 WarriorCheck();
     u32 WizardCheck();
     char* PrintHeal(u8 A, u8 B);
+    void DoHandsHeal(u8,u8);
     char* HerbHeal(u8 A, u8 B);
     u8 SetWandererVal(u8);
     u8 CraftArmor(char ,ItemID ,ItemID ,u8 );

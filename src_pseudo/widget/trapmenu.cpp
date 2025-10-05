@@ -85,7 +85,7 @@ void TrapMenu::TrapExploded(void){
   puVar4[1] = 0;
   *puVar4 = 0xff;
   if ((pvVar3->header).type == VOXEL_Container) 
-    open_explosive_chest(pvVar3,gGlobals.Sub.borg9DatPointer);
+    open_explosive_chest(pvVar3,gGlobals.gameVars.borg9DatPointer);
   pBVar5 = TakeDamage(uVar2,Cstring(TrapMenuBoom));
   if (pBVar5) {
     pBVar5->AButtonFunc = textbox_func_AB;

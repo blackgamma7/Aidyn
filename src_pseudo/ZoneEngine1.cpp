@@ -9,9 +9,9 @@ void checking_camping_safety(void){
 
 void dialoug_ref_obj_func(void){
   setEventFlag(0x1090,true);
-  if ((gGlobals.Sub.borg9DatPointer)->voxelObjCount) {
-    for(s16 i=0;i<(gGlobals.Sub.borg9DatPointer)->voxelObjCount;i++){
-      voxelObject* vObj = &(gGlobals.Sub.borg9DatPointer)->voxelObjs[i];
+  if ((gGlobals.gameVars.borg9DatPointer)->voxelObjCount) {
+    for(s16 i=0;i<(gGlobals.gameVars.borg9DatPointer)->voxelObjCount;i++){
+      voxelObject* vObj = &(gGlobals.gameVars.borg9DatPointer)->voxelObjs[i];
       if ((((vObj->header).type == VOXEL_Dialouge) &&
           (some_dialoug_short_lookup((vObj->header).flagA))) &&
          (dialouge_trigger_check(vObj,&gGlobals.playerCharStruct.playerDat->collision.pos,false))) {

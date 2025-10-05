@@ -163,7 +163,7 @@ struct CharGear {
 struct CharSheet { /* Skills, stats and misc of Characters */
     ItemID ID;
     char *name; /* pointer to entityDB entry */
-    u8 unk0x8[12]; //unused
+    void* unk0x8[3]; //unused, was used for some rituals
     CharExp *EXP;
     CharStats_s *Stats; /* base and modded stats of character */
     CharSkills *Skills; /* skill and weapon levels */

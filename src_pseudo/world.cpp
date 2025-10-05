@@ -8,7 +8,7 @@ u8 weather_season_array[] = {0x2B, 0x30, 0x21, 0x19, 0x24, 0x28, 0, 0};
 void World::init(TerrainStruct *ter){
   CLEAR(ter);
   ter->daySpeed = 72;
-  ter->windByte = 0;
+  ter->windByte = WIND_CLEAR;
   ter->partOfDay = TIME_MORNING;
   ter->moonPhases = 0;
   ter->terrain = 0;
@@ -17,7 +17,7 @@ void World::init(TerrainStruct *ter){
   ter->windVelocity.y = -0.1f;
   ter->windVelocity.z = 1.0f;
   vec3_normalize(&ter->windVelocity);
-  multiVec3(&ter->windVelocity,(15.0/648)); //0.02314815
+  multiVec3(&ter->windVelocity,(15.0f/648)); //0.02314815
 }
 //set terrain to (type)
 void World::SetTerrain(TerrainStruct *ter,u8 type){
@@ -125,10 +125,10 @@ void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float ma
 void World::SetWithWeatherTemp(TerrainStruct *ter,WeatherTemp *w){
   ter->rainByte = w->precip;
   ter->PrecipScale = w->PrecipScale;
-  gGlobals.Sub.weather.fogTime = w->FogFloat;
-  ter->FogFloat = gGlobals.Sub.weather.fogTime;
+  gGlobals.gameVars.weather.fogTime = w->FogFloat;
+  ter->FogFloat = gGlobals.gameVars.weather.fogTime;
   ter->ThunderFloat = w->ThunderFloat;
-  gGlobals.Sub.weather.timer = ter->PrecipScale;
+  gGlobals.gameVars.weather.timer = ter->PrecipScale;
   set_weather_flags(ter->rainByte);
 }
 
@@ -201,7 +201,7 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
   float fVar5;
   
   if (75 < RollD(1,100)) {
-    ter->windByte = 0;
+    ter->windByte = WIND_CLEAR;
     ter->rainByte = PRECIP_CLEAR;
     ter->PrecipScale = 0.0;
     ter->FogFloat = 0.0;
@@ -210,7 +210,7 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
     if ((bVar2 + bVar1) >= RollD(1,100)) {  
       if (RollD(1,100) < 70) {
         ter->rainByte = PRECIP_RAIN;
-        ter->windByte = 2;
+        ter->windByte = WIND_STORM;
         //set to snow where applicable
         if (ter->terrain == 5) ter->rainByte = PRECIP_SNOW;
         ter->PrecipScale = RAND.GetFloatRange(terrain_rand_array[ter->terrain] - 0.15f,
@@ -220,7 +220,7 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
       }
       else {
         fVar5 = 0.75;
-        ter->windByte = 1;
+        ter->windByte = WIND_FOG;
         ter->rainByte = PRECIP_CLEAR;
         ter->PrecipScale = 0.0;
       }

@@ -6,6 +6,8 @@
 #include "SaveEntity.h"
 #include "combat/CombatStruct.h"
 #include "widgets/textPopup.h"
+#include "crafting/potion.h"
+
 extern u8 itemID_array[];
 
 void Party::Init(){
@@ -347,7 +349,7 @@ u8 Party::CombatItemCheck1(CharSheet* param_2,u8 param_3,ItemID param_4){
     u8 bVar4 = GETINDEX(param_4);
     if ((&gCombatP->combatEnts)[param_3] == NULL) return true;
     //Not Neisen
-    if (param_2->ID != (ItemID)(entityList[162] + 0x200)) {
+    if (param_2->ID != IDEntInd(162)) {
       gCombatP->combatEnts[param_3].m8006f8d8(param_4,uVar2);
       //using flask
       if (bVar4 < POTION_HEALING) gGlobals.combatBytes[1] = 0x13;
@@ -455,7 +457,6 @@ u8 itemtype_sheild(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
   return bVar5;
 }
 
-
 byte itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5){
   ItemID IVar1;
   SpellCharges *pSVar2;
@@ -496,6 +497,7 @@ byte itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_
   else bVar6 = p->GetEquipError2(bVar5);
   return bVar6;
 }
+extern u32 gametrek_flag0;
 
 u8 itemtype_scroll(Party* p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID* oID){
   u8 uVar2;
@@ -508,7 +510,7 @@ u8 itemtype_scroll(Party* p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
   return uVar2;}
 
 u8 itemtype_ring(Party* p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID* oID){
-  return p->GetEquipError3(param_2,(GearInstance*)param_3,param_4,2);}
+  return p->GetEquipError3(param_2,param_3,param_4,2);}
 
 
 byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5){
@@ -549,9 +551,9 @@ byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_
             IVar3 = (ppGVar11[uVar12]->base).id;
             if (ITEMIDTYPE(IVar3) == ITEMIDTYPE(IVar2)) {
               if (param_5) *param_5 = IVar3;
-              bVar10 = Party::RemoveGearFrom(p,param_2,(byte)uVar12);
+              bVar10 = p->RemoveGearFrom(param_2,(byte)uVar12);
               if (bVar10) {
-                m8007e6a4(p,IVar2,X,bVar9);
+                p->m8007e6a4(IVar2,X,bVar9);
                 return bVar10;
               }
               break;
@@ -823,7 +825,7 @@ u8 Party::RemoveWeaponsFrom(u8 param_2){
           pCVar3 = (&gCombatP->combatEnts)[param_2];
           if (pCVar3 == NULL) {return false;}
           pCVar3->AtkType = 0;
-          ShowWeaponSheild(pCVar3);
+          pCVar3->ShowWeaponSheild();
         }
         return false;
       }
@@ -835,7 +837,6 @@ u8 Party::RemoveWeaponsFrom(u8 param_2){
   }
   return true;
 }
-
 
 u8 Party::RemoveGearFrom(u8 param_2,u8 param_3){
   CharSheet *pCVar1;
@@ -1353,17 +1354,17 @@ BaseWidget* healing_widget_AB_func(BaseWidget* x,BaseWidget *param_2){
   return NULL;
 }
 
-void healing_result_widget(char *arg0){
+void healing_result_widget(char *txt){
   Color32 col1;
   Color32 col2;
   
   if (gGlobals.screenFadeModeSwitch == 2) {
-    if (gCombatP) {copy_string_to_combat_textbox(gCombatP,arg0,0);}
+    if (gCombatP) {copy_string_to_combat_textbox(gCombatP,txt,0);}
   }
   else {
     col1 = {COLOR_OFFWHITE};
     col2 = {COLOR_DARKGRAY_T};
-    PTR_800ed504 = some_textbox_func(arg0,0x96,&col1,&col2,1);
+    PTR_800ed504 = some_textbox_func(txt,0x96,&col1,&col2,1);
     PTR_800ed504->AButtonFunc = healing_widget_AB_func;
     PTR_800ed504->BButtonFunc = healing_widget_AB_func;
     PTR_800ed504->CDownButtonFunc = NULL;
@@ -1415,13 +1416,13 @@ char * Party::PrintHeal(u8 A,u8 B){
   }
 }
 
-void pass_to_healing_func_2(u8 param_2,u8 param_3){
+void Party::DoHandsHeal(u8 param_2,u8 param_3){
   healing_result_widget(PrintHeal(param_2,param_3));
 }
 
 void herb_func(void){
   WidgetInvShop* puVar1 = PauseSub->dollmenu->lists->invMenu;
-  puVar1->SetHighlight(itemID_array[ItemInd_Herb],1,0xff); //herb loaded
+  puVar1->SetHighlight(itemID_array[ItemInd_Herb],1,0xff);
   puVar1->SortB();
   puVar1->Tick();
   puVar1->scrollMenu->m8002ff30();
@@ -1439,7 +1440,7 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
   int iVar6;
   u8 uVar10;
   uint uVar7;
-  CharStats *pCVar11;
+  CharStats_s *pCVar11;
   char *pcVar12;
   
   ent = this->Members[param_2];
@@ -1463,7 +1464,7 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
         }
         Entity::DecreaseHP(ent,(short)skillMod);
         skillMod = CharStats::getModded(ent->Stats,STAT_INT);
-        skillMod = (skillMod * 4 + ((sVar9 * 2 + (int)sVar9) * 4 - (int)sVar9)) * 0x10000 >> 0x10;
+        skillMod = (skillMod * 4 + ((sVar9 * 2 + (int)sVar9) * 4 - (int)sVar9));
         uVar8 = RollD(1,100);
         Gsprintf(gGlobals.CommonStrings[0x1b6],ent->name);
         if ((short)uVar8 < skillMod) {
@@ -1485,14 +1486,14 @@ LAB_80081018:
   return gGlobals.text;
 }
 
-void pass_to_party_healing_func(u8 param_2,u8 param_3){
+void Party::DoHerbHeal(u8 param_2,u8 param_3){
   healing_result_widget(HerbHeal(param_2,param_3));}
 
 char * Party::HealingFunc2(u8 param_2,u8 param_3,u8 param_4){
   CharSheet *pCVar1;
   CharSheet *pCVar2;
   char cVar9;
-  s32 iVar5;
+  s16 iVar5;
   ulong uVar6;
   s32 iVar7;
   u32 uVar8;
@@ -1505,7 +1506,7 @@ char * Party::HealingFunc2(u8 param_2,u8 param_3,u8 param_4){
   if (!CharStats::someStatCheck(pCVar2->Stats,param_4))
    {Gsprintf(Cstring(HealTaskMaxed),pCVar2->name,Stat_labels[param_4]);}
   else {
-    cVar9 = CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Healer);
+    cVar9 = pCVar1->Skills->getModdedSkill(SKILL_Healer);
     iVar5 = 0xf - cVar9;
     if (iVar5 < 0) {iVar5 = 0;}
     piVar3 = this->Inventory->TakeItem(itemID_array[31],1);
@@ -1513,15 +1514,15 @@ char * Party::HealingFunc2(u8 param_2,u8 param_3,u8 param_4){
       herb_func();
       if ((s16)iVar5 <= CharStats::getModded(pCVar1->Stats,STAT_STAM)) {
         Entity::DecreaseHP(pCVar1,(s16)iVar5);
-        iVar5 = (CharStats::getModded(pCVar1->Stats,STAT_INT) * 2 + cVar9 * 4 + (s32)cVar9) * 0x10000 >> 0x10;
+        iVar5 = (CharStats::getModded(pCVar1->Stats,STAT_INT) * 2 + cVar9 * 4 + (s32)cVar9);
         uVar8 = RollD(1,100);
         Gsprintf((gGlobals.CommonStrings)->X failed the task,pCVar1->name);
         if ((s32)uVar8 < iVar5) {
-          iVar5 = some_skillcheck_calc((s32)((iVar5 - uVar8) * 0x10000) >> 0x10);
-          iVar10 = (iVar5 << 0x11) >> 0x10;
+          iVar5 = some_skillcheck_calc(iVar5 - uVar8);
+          iVar10 = iVar5*2;
           iVar5 = CharStats::getModded(pCVar2->Stats,arg1);
           if (CharStats::getBase(pCVar2->Stats,arg1) < iVar5 + iVar10) {
-            iVar10 = (CharStats::getBase(pCVar2->Stats,arg1) - iVar5) * 0x10000 >> 0x10;
+            iVar10 = (CharStats::getBase(pCVar2->Stats,arg1) - iVar5);
           }
           CharStats::addModdedHealth(pCVar2->Stats,arg1,(char)iVar10);
           if (0 < CharStats::getModded(pCVar2->Stats,arg1) - iVar5) {
@@ -1561,7 +1562,7 @@ u32 Party::CraftPotion(u8 user,u8 item){
     u16 vsRoll = (CharStats::getModded(chara->Stats,STAT_INT) * 3 + alch * 6);
     s16 roll = RollD(1,100);
     if (roll < vsRoll) {
-      //"unk2" is 0 for all recipies, so it always passes
+      //"unk2" is 0 for all recipies
       if (recepie->unk2 <= some_skillcheck_calc(vsRoll - roll)) {
         u32 ret =this->Inventory->AddItem(IDPotion(item),1);
         if(!ret) return 0;
@@ -1915,7 +1916,7 @@ void Party::CampHeal(u8 halfHeal){
       ItemCampStamina(&this->Inventory->GetItemEntry(uVar8)->base,uVar10);
     }
   }
-  noop_800821bc(1,uVar9);
+  DecRitualTimers(1,uVar9);
   gGlobals.combatBytes[2] = 0;
 }
 
@@ -1925,20 +1926,21 @@ u8 Party::CampAmbushCheck(){
   else CampHeal(true);
   return bVar1;}
 
-//dummied, probably for some incrementation based on ingame time.
-void Party::noop_800821bc(u32 A,u32 time){}
+//In older builds, this would decrement the ritual timers
+//Was stubbed by the final build.
+void Party::DecRitualTimers(u32 A,u32 time){}
 
 void Party::TickMoveCounters(s32 delta){
   //3 values in the party struct. seem useless.
   int t = delta * (uint)TerrainPointer->daySpeed;
   switch((gGlobals.playerCharStruct.playerDat)->ani_type){
-    case 3:
+    case AniType_Run:
     this->TimeRunning = (this->TimeRunning + t) % MINUTES(5);
     return;
-    case 2:
+    case AniType_Walk:
     this->timeWalking = (this->timeWalking + t) % MINUTES(30);
     return;
-    case 0x19:
+    case AniType_Sneak:
     this->timeSneaking = (this->timeSneaking + t) % MINUTES(10);
     return;
   }

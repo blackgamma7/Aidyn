@@ -113,7 +113,7 @@ SkyobjectStruct skyobjectStructs[]={
 
 
 void Skyobjects::Init(void){
-  SkyObjType SVar1;
+  u8 SVar1;
   float fVar2;
   Borg8Header *pBVar3;
   Borg8Header *pBVar4;
@@ -233,16 +233,14 @@ void Skyobjects::Free(void){
 }
 
 
-Gfx * Skyobjects::Render(Gfx *g)
-
-{
+Gfx * Skyobjects::Render(Gfx *g){
   byte bVar1;
   float fVar3;
   float fVar4;
   float fVar5;
   float fVar6;
   byte bVar7;
-  SkyObjType SVar8;
+  u8 SVar8;
   uint uVar9;
   u8 blue;
   uint uVar10;
@@ -260,7 +258,7 @@ Gfx * Skyobjects::Render(Gfx *g)
   float fVar21;
   float fVar22;
   float fVar23;
-  float Hscale;
+  float scale;
   float y;
   float x;
   vec3f fStack240;
@@ -270,21 +268,19 @@ Gfx * Skyobjects::Render(Gfx *g)
   if ((true) && (gGlobals.sky.Type == 3)) {
     i = 0;
     UpdateSunMoon();
-    fVar17 = gGlobals.Sub.camera.rotation.z;
-    fVar4 = gGlobals.Sub.camera.rotation.y;
-    fVar3 = gGlobals.Sub.camera.rotation.x;
+    fVar17 = gGlobals.gameVars.camera.rotation.z;
+    fVar4 = gGlobals.gameVars.camera.rotation.y;
+    fVar3 = gGlobals.gameVars.camera.rotation.x;
     fStack240.y = 0.0;
-    fStack240.x = gGlobals.Sub.camera.rotation.x;
-    fStack240.z = gGlobals.Sub.camera.rotation.z;
+    fStack240.x = gGlobals.gameVars.camera.rotation.x;
+    fStack240.z = gGlobals.gameVars.camera.rotation.z;
     vec3_normalize(&fStack240);
     fVar6 = fStack240.z;
     fVar5 = fStack240.x;
-    fVar17 = _sqrtf(SQ(gGlobals.Sub.camera.rotation.x) + SQ(gGlobals.Sub.camera.rotation.z));
+    fVar17 = _sqrtf(SQ(gGlobals.gameVars.camera.rotation.x) + SQ(gGlobals.gameVars.camera.rotation.z));
     RSPFUNC6(g);
     fVar3 = dtor;
-    if (gSkyobjectsCount != 0) {
-      iStack_5c = 0;
-      do {
+    for(i=0,iStack_5c = 0;i<gSkyobjectsCount;i++,iStack_5c += 4){
         if (((gSunObjP->pos.x <= 0.0) || (180.0f <= gSunObjP->pos.x)) ||
            (skyobjectStructs[i].index != SkyObj_Star)) {
           fVar21 = skyobjectStructs[i].pos.x;
@@ -309,31 +305,23 @@ Gfx * Skyobjects::Render(Gfx *g)
           fVar23 = -(fVar18 * 90.0f) * dtor;
           fVar18 = __cosf(fVar23);
           fVar23 = __sinf(fVar23);
-          Hscale = skyobjectStructs[i].f0;
-          SVar8 = skyobjectStructs[i].index;
+          scale = skyobjectStructs[i].f0;
           y = (fVar18 * fVar4 + fVar23 * fVar17) * 300.0f + 120.0f;
-          if (SVar8 == SkyObj_Moon) {
-            bVar7 = (skyobjectStructs[i].col).A;
-LAB_80030ae8:
-            dVar16 = (double)((float)bVar7 * gGlobals.Sub.weather.fogTime) * 1.5;
-LAB_80030b04:
-            fVar19 = (float)dVar16;
-            bVar7 = (skyobjectStructs[i].col).A;
-          }
-          else {
-            if (SkyObj_Moon < SVar8) {
-              bVar7 = (skyobjectStructs[i].col).A;
-              if (SVar8 != SkyObj_Star) goto LAB_80030ae8;
-              dVar16 = (double)((float)bVar7 * gGlobals.Sub.weather.fogTime) +
-                       (double)((float)bVar7 * gGlobals.Sub.weather.fogTime);
-              goto LAB_80030b04;
+          switch(skyobjectStructs[i].index){
+            case SkyObj_Sun:{
+              fVar19 = (skyobjectStructs[i].col.A*gGlobals.gameVars.weather.fogTime);
+             break; 
             }
-            bVar7 = (skyobjectStructs[i].col).A;
-            if (SVar8 != SkyObj_Sun) goto LAB_80030ae8;
-            fVar19 = (float)bVar7 * gGlobals.Sub.weather.fogTime;
-            bVar7 = (skyobjectStructs[i].col).A;
+            case SkyObj_Moon:{
+              fVar19 = (skyobjectStructs[i].col.A*gGlobals.gameVars.weather.fogTime) * 1.5;
+              break;
+            }
+            case SkyObj_Star:{
+              fVar19 = (skyobjectStructs[i].col.A*gGlobals.gameVars.weather.fogTime) * 2;
+              break;
+            }
           }
-          fVar20 = (float)bVar7;
+          fVar20 = (float)skyobjectStructs[i].col.A;
           if ((fVar19 <= fVar20) && (fVar20 = fVar19, fVar19 < 0.0)) {
             fVar20 = 0.0;
           }
@@ -346,9 +334,8 @@ LAB_80030b04:
             bVar1 = (skyobjectStructs[i].col).G;
             bVar2 = (skyobjectStructs[i].col).B;
             if (skyobjectStructs[i].index == SkyObj_Sun) {
-              gLensFlarePos.x = x + (float)((ushort)(skyobjects_borg8[i]->dat).Width >> 1) * Hscale;
-              gLensFlarePos.y = y + (float)((ushort)(skyobjects_borg8[i]->dat).Height >> 1) * Hscale
-              ;
+              gLensFlarePos.x = x + (float)((ushort)(skyobjects_borg8[i]->dat).Width >> 1) * scale;
+              gLensFlarePos.y = y + (float)((ushort)(skyobjects_borg8[i]->dat).Height >> 1) * scale;
               bVar7 = gGlobals.sky.colors[4].R;
               bVar1 = gGlobals.sky.colors[4].G;
               bVar2 = gGlobals.sky.colors[4].B;
@@ -367,25 +354,20 @@ LAB_80030b04:
               blue = (float)uVar9 * gGlobals.brightness;
               uVar12=(u16)((float)uVar12 * gGlobals.brightness);
             }
-            g = Borg8_DrawSimple(g,*(Borg8Header **)(iStack_5c + (int)skyobjects_borg8),x,y,Hscale,
-                                 Hscale,red,green,blue,(u8)uVar12);
+            g = Borg8_DrawSimple(g,*(Borg8Header **)(iStack_5c + (int)skyobjects_borg8),x,y,scale,
+                                 scale,red,green,blue,(u8)uVar12);
           }
         }
-        iStack_5c += 4;
-        i += 1;
-      } while (i < (int)(uint)gSkyobjectsCount);
     }
   }
   return g;
 }
 
 void Skyobjects::UpdateSunMoon(void){
-  if (gSkyobjectsCount != 0) {
-    for(s32 i=0;i<gSkyobjectsCount;i++) {
-        switch(skyobjectStructs[i].index){
-            case SkyObj_Moon:UpdateMoon();break;
-            case SkyObj_Sun:UpdateSun();break;
-        }
+  for(s32 i=0;i<gSkyobjectsCount;i++) {
+    switch(skyobjectStructs[i].index){
+      case SkyObj_Moon:UpdateMoon();break;
+      case SkyObj_Sun:UpdateSun();break;
     }
   }
 }

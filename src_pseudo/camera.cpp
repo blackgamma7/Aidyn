@@ -26,7 +26,7 @@ void Camera::Init(Camera_struct *param_1,Borg9Data *map,vec3f *pos,u16 mode){
   (param_1->unk70).x = 0.0;
   (param_1->unk70).y = 0.0;
   (param_1->unk70).z = 0.0;
-  Camera::SetPos(param_1,pos);
+  SetPos(param_1,pos);
   (param_1->rotationXZ).y = 0.0;
   (param_1->rotation).z = 0.0;
   (param_1->rotation).y = 0.0;
@@ -77,6 +77,10 @@ void Camera::AdjustAim(vec3f *aim0,vec3f *aim1,float arg2,s16 delta,float arg4){
     }
   }
 }
+#if 0
+//there used to be a DtoR function here.
+float Camera::DtoR(float x){return ((x*3.141592654)/180);}
+#endif
 
 void Camera::SetFeild70(Camera_struct *CAM,vec3f *arg1){
   CAM->unk70.x = (*arg1).x;

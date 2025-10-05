@@ -420,7 +420,7 @@ void FUN_80058b88(Gfx **param_1,u16 delta){
   u8 b = dialougemode_pointer->borg13_dat->start_func;
   if (b == 1) {
     handleZoneEngineFrame(param_1,delta,NULL);
-    ProcessAudioBubbles(&gGlobals.SFXStruct,&gGlobals.Sub.camera.pos,delta);
+    ProcessAudioBubbles(&gGlobals.SFXStruct,&gGlobals.gameVars.camera.pos,delta);
   }
   else if ((1 < b) && (b < 5)) {
     gGlobals.scriptcamera.counter0 = 0;
@@ -615,12 +615,12 @@ void DialogueModeInitPrescripted(void){
             (dialougemode_pointer->mapDatA,dialougemode_pointer->mapShort1,
              dialougemode_pointer->mapShort2);
   memset(&afStack80,0,0xc);
-  Camera::SetPos(gGlobals.Sub.PlayerHandler.camera,&afStack80);
+  Camera::SetPos(gGlobals.gameVars.PlayerHandler.camera,&afStack80);
   afStack80.x += 100.0f;
-  Camera::SetAim(gGlobals.Sub.PlayerHandler.camera,&afStack80);
+  Camera::SetAim(gGlobals.gameVars.PlayerHandler.camera,&afStack80);
   gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
              &dialougemode_pointer->some_substruct,dialougemode_pointer->func_index,
-             dialougemode_pointer->borg13_dat->C);
+             dialougemode_pointer->borg13_dat->libraryType);
   gGlobals.screenFadeMode = 2;
   gGlobals.brightness = 0.0;
   gGlobals.screenFadeSpeed = (1.0/60);
@@ -658,15 +658,15 @@ void load_one_of_two_cinematics(void){
    }
    default:break;
   }
-  if ((DAT_800ee970 == 1) && (gGlobals.Sub.MapFloatDatEntry.mapDatB != -1)) {
-    Borg9Header *pBVar2 = loadBorg9(BorgMaps::GetMapList(gGlobals.Sub.MapFloatDatEntry.mapDatA,gGlobals.Sub.MapFloatDatEntry.MapShort1
-                       ,gGlobals.Sub.MapFloatDatEntry.MapShort2));
+  if ((DAT_800ee970 == 1) && (gGlobals.gameVars.MapFloatDatEntry.mapDatB != -1)) {
+    Borg9Header *pBVar2 = loadBorg9(BorgMaps::GetMapList(gGlobals.gameVars.MapFloatDatEntry.mapDatA,gGlobals.gameVars.MapFloatDatEntry.MapShort1
+                       ,gGlobals.gameVars.MapFloatDatEntry.MapShort2));
     if ((pBVar2->dat).voxelObjCount != 0) {
       for(s16 i=0;i<(pBVar2->dat).voxelObjCount;i++) {
         voxelObject* obj = &pBVar2->dat.voxelObjs[i];
         if ((((obj->header).type == VOXEL_Dialouge) &&
             (((obj->header).Bitfeild & VOXEL_tangible))) &&
-           (dialouge_trigger_check(obj,&gGlobals.Sub.MapFloatDatEntry.playerVec3,true))) {
+           (dialouge_trigger_check(obj,&gGlobals.gameVars.MapFloatDatEntry.playerVec3,true))) {
           DAT_800ee96c = 1;
           dialoug_func((uint)(obj->dialoug).borg_13,(obj->dialoug).RefPointID,
                        (obj->dialoug).MapDatA,(obj->dialoug).MapShortA,
@@ -686,7 +686,7 @@ bool FUN_80059628(void){
   freeWidgetFunc = run_dialougemode_funcs2;
   Borg13Data *pBVar1 = dialougemode_pointer->borg13_dat;
   return gGlobals.diaClass->StartDialoug(pBVar1,&dialougemode_pointer->some_substruct,
-                     pBVar1->start_func,pBVar1->C);
+                     pBVar1->start_func,pBVar1->libraryType);
 }
 
 void FUN_80059674(void){
@@ -698,16 +698,16 @@ void FUN_80059674(void){
 void DialogueModeInitPrescripted_set_map(EnumMapDatA mapdatA,u16 short1,u16 short2){
   set_playerdata_zoneDatByte(short1,short2);
   set_SFX_ZoneDatByte(&gGlobals.SFXStruct,short1,short2);
-  gGlobals.Sub.mapDatB = 0xffff;
-  gGlobals.Sub.mapDatC = 0xffff;
-  gGlobals.Sub.mapShort1 = short1;
-  gGlobals.Sub.mapShort2 = short2;
-  gGlobals.Sub.mapDatA = mapdatA;
+  gGlobals.gameVars.mapDatB = 0xffff;
+  gGlobals.gameVars.mapDatC = 0xffff;
+  gGlobals.gameVars.mapShort1 = short1;
+  gGlobals.gameVars.mapShort2 = short2;
+  gGlobals.gameVars.mapDatA = mapdatA;
   BorgMaps::LoadMap(mapdatA,-1,-1,false);
   no_TP_vec3 = 1;
   loadGameBorgScenes(short1,short2);
   BorgMaps::GetMapTerrain(short1,short2);
-  gGlobals.Sub.camera.unk80 = 5;
+  gGlobals.gameVars.camera.unk80 = 5;
 }
 
 void FUN_80059770(void){
@@ -745,7 +745,7 @@ void FUN_80059888(void){
   gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
              &dialougemode_pointer->some_substruct,0,0);
   clear_some_playerHandler_field();
-  Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,&(ppVar1->collision).pos);
+  Camera::SetFeild70(gGlobals.gameVars.PlayerHandler.camera,&(ppVar1->collision).pos);
 }
 
 void FUN_800598fc(void){
@@ -801,11 +801,11 @@ void FUN_800599f0(void){
   gGlobals.diaClass->FreeWidgets();
   pwVar1 = dialougemode_pointer->Wanderers;
   FUN_800597f8();
-  pCVar3 = gGlobals.Sub.PlayerHandler.camera;
+  pCVar3 = gGlobals.gameVars.PlayerHandler.camera;
   ppVar2 = gGlobals.playerCharStruct.playerDat;
-  if ((gGlobals.playerCharStruct.playerDat != NULL) && (gGlobals.Sub.PlayerHandler.camera != NULL))
+  if ((gGlobals.playerCharStruct.playerDat != NULL) && (gGlobals.gameVars.PlayerHandler.camera != NULL))
   {
-    Camera::SetFeild70(gGlobals.Sub.PlayerHandler.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
+    Camera::SetFeild70(gGlobals.gameVars.PlayerHandler.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
     pCVar3->unk80 = 5;
   }
   if (pwVar1) {

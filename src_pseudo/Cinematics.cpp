@@ -162,10 +162,10 @@ s16 Cinematic::GetName(void){
   
   gGlobals.cinematic.Bstart = 1;
   Sky::SetBackgroundType(2,0,0.0);
-  uVar1 = gGlobals.Sub.Borg12Next2;
-  if (gGlobals.Sub.BGM) {
+  uVar1 = gGlobals.gameVars.Borg12Next2;
+  if (gGlobals.gameVars.BGM) {
     clear_music_values(1);
-    gGlobals.Sub.BGMIndex = uVar1;
+    gGlobals.gameVars.BGMIndex = uVar1;
   }
   CLEAR(acStack272);
   if ((PARTY) && ((PARTY)->Members[0])) {

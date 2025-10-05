@@ -9,13 +9,13 @@ void load_intro_music(){
   byte abStack_18;
   s32 aiStack_14;
   
-  gGlobals.splashscreenFlag = 1;
+  gGlobals.titleSplashVars.flag = 1;
   BVar1 = BORG12_Intro_NoExp;
   if (gExpPakFlag) BVar1 = BORG12_Intro_Exp;
-  gGlobals.introMusic = load_borg_12(BVar1);
-  DCM::Add(&abStack_18,&aiStack_14,&(gGlobals.introMusic)->dat->sub,0xa5,0x80,1,-1,0);
-  gGlobals.introMusicDatA = abStack_18;
-  gGlobals.introMusicDatB = aiStack_14;
+  gGlobals.titleSplashVars.introMusic = load_borg_12(BVar1);
+  DCM::Add(&abStack_18,&aiStack_14,&(gGlobals.titleSplashVars.introMusic)->dat->sub,0xa5,0x80,1,-1,0);
+  gGlobals.titleSplashVars.introMusicDatA = abStack_18;
+  gGlobals.titleSplashVars.introMusicDatB = aiStack_14;
 }
 
 s32 appState_0(Gfx **param_1){
@@ -26,11 +26,11 @@ s32 appState_0(Gfx **param_1){
     load_intro_music();
     intro_music_flag = false;
   }
-  if (gGlobals.splashscreenFlag == 1) {
+  if (gGlobals.titleSplashVars.flag == 1) {
     bVar2 = TitleSplash::Show(param_1);
-    gGlobals.splashscreenFlag = (int)bVar2;
+    gGlobals.titleSplashVars.flag = (int)bVar2;
   }
-  bVar2 = gGlobals.splashscreenFlag == 0;
+  bVar2 = gGlobals.titleSplashVars.flag == 0;
   if (bVar2) NOOP_flag = true;
   if (NOOP_flag) {
     noop_intromusic();

@@ -141,7 +141,7 @@ LAB_800550e8:
           }
           vec3f v3Dist;
           if (((lightObj->header).Bitfeild & 1) == 0) Vec3_sub(&v3Dist,&lightObj->header.pos,pos);
-          else Vec3_sub(&v3Dist,&gGlobals.Sub.camera.pos,pos);
+          else Vec3_sub(&v3Dist,&gGlobals.gameVars.camera.pos,pos);
           vec3_normalize(&v3Dist);
           tint_color_with_screenfade((lightObj->light).cols,gGlobals.brightness);
           Scene::addDynamicLight(scene,size * 250.0f,v3Dist.x,v3Dist.y,v3Dist.z,
@@ -178,7 +178,7 @@ void passto_initLight(SceneData *param_1,Borg9Data *param_2,voxelObject *param_3
   {InitLight(param_1,param_2,&param_3->header.pos,param_2->voxelObjs,param_2->voxelObjCount,param_4);}
 
 void passto_InitLight_2(DynamicLightHead *param_1,SceneData *param_2,voxelObject *param_3,s16 param_4)
-  {InitLight(param_2,gGlobals.Sub.borg9DatPointer,&param_3->header.pos,param_1->lights,16,param_4);}
+  {InitLight(param_2,gGlobals.gameVars.borg9DatPointer,&param_3->header.pos,param_1->lights,16,param_4);}
 
 void init_dynamic_light(DynamicLightHead *param_1){
   CLEAR(param_1);

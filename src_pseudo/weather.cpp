@@ -35,7 +35,7 @@ void FUN_800228e8(ParticleHeadStruct *param_1,ParticleEmmiter *param_2,Particle_
     posA.y = (param_3->pos).y + 5.0f;
     posB.x = posA.x;
     posB.z = posA.z;
-    if ((CheckCollision(gGlobals.Sub.borg9DatPointer,&posA,&posB,0.1,&dist,&rot,1))
+    if ((CheckCollision(gGlobals.gameVars.borg9DatPointer,&posA,&posB,0.1,&dist,&rot,1))
       && (Particle::FUN_800b2890(param_1,param_2->link,param_3)))
       AlignParticle(param_3,&dist,&rot);
   }
@@ -62,7 +62,7 @@ void FUN_80022a24(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
   posB.y = pfVar2->y + (pPVar1->vel).y - 50.0f;
   posB.x = posA.x;
   posB.z = posA.z;
-  if (CheckCollision(gGlobals.Sub.borg9DatPointer,&posA,&posB,0.1,pos,rot,0)) {
+  if (CheckCollision(gGlobals.gameVars.borg9DatPointer,&posA,&posB,0.1,pos,rot,0)) {
     Particle_s *p = Particle::FUN_800b277c(param_1,param_2,0x78);
     Particle::SetScale(p,0.25f,0.25f);
     copyVec4(&pPVar1->colvec4,&p->colorA);
@@ -92,7 +92,7 @@ void FUN_80022bf4(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
   copyVec3((vec3f *)&param_2->particles->colorB,&afStack216);
   multiVec3(&afStack216,(float)(int)lifespan);
   vec3_sum(&afStack216,&afStack216,&p->pos);
-  if (CheckCollision(gGlobals.Sub.borg9DatPointer,&p->pos,&afStack216,0.1,&fStack152,NULL,1))
+  if (CheckCollision(gGlobals.gameVars.borg9DatPointer,&p->pos,&afStack216,0.1,&fStack152,NULL,1))
     setVec4(&p->vec_0x4c,fStack152.x,fStack152.y,fStack152.z,100000.0f);
   else
     setVec4(&p->vec_0x4c,0.0,-1000.0,0.0,100000.0f);
@@ -106,14 +106,14 @@ ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,short par
   ParticleEmmiter *link;
   ParticleEmmiter *pPVar1;
   
-  link = Particle::AllocParticleEmitter(&gGlobals.Sub.particleEmmiter,0x3c,param_5,0,NULL,param_6,NULL,NULL,NULL);
+  link = Particle::AllocParticleEmitter(&gGlobals.gameVars.particleEmmiter,0x3c,param_5,0,NULL,param_6,NULL,NULL,NULL);
   pPVar1 = NULL;
   if (link) {
     Particle::SetColorB(link->particles,-(1.0f/120),-(1.0f/120),-(1.0f/120),0.0);
     Particle::SetFlag(link->particles,0x400);
-    pPVar1 = Particle::AllocParticleEmitter(&gGlobals.Sub.particleEmmiter,60,param_4,0,NULL,FUN_80022bf4,FUN_800228e8,aim,link);
+    pPVar1 = Particle::AllocParticleEmitter(&gGlobals.gameVars.particleEmmiter,60,param_4,0,NULL,FUN_80022bf4,FUN_800228e8,aim,link);
     if (pPVar1 == NULL) {
-      Particle::ResetEmmiter(&gGlobals.Sub.particleEmmiter,link);
+      Particle::ResetEmmiter(&gGlobals.gameVars.particleEmmiter,link);
       pPVar1 = NULL;
     }
     else {
@@ -171,7 +171,7 @@ void ProcessWeather(WeatherStruct *W,short delta){
   if (W->rainShortA == 0) {
     if (ProcessWeatherFlag){
       ProcessWeatherFlag = 0;
-      Sky::SetBackgroundType(gGlobals.sky.Type,gGlobals.Sub.weather.skyBgdat,600.0);
+      Sky::SetBackgroundType(gGlobals.sky.Type,gGlobals.gameVars.weather.skyBgdat,600.0);
     }
   }
   pPVar6 = W->rainParticles;
@@ -200,7 +200,7 @@ void ProcessWeather(WeatherStruct *W,short delta){
           default:
           CRASH("weather.cpp::ProcessWeather","Unknown Precipitation Type");
         }
-        W->rainParticles = AllocPrecipParticles(&gGlobals.Sub.camera.aim,&precipVel,&precipCol,sVar9,uVar13,pcVar12);
+        W->rainParticles = AllocPrecipParticles(&gGlobals.gameVars.camera.aim,&precipVel,&precipCol,sVar9,uVar13,pcVar12);
         pPVar6 = W->rainParticles;
       }
       goto LAB_80023160;
@@ -208,8 +208,8 @@ void ProcessWeather(WeatherStruct *W,short delta){
 LAB_80023168:
 
     (pPVar6->field20_0x54).x = 20.0f;
-    (W->rainParticles->vel).x = gGlobals.Sub.camera.rotationXZ.x * 5.0f;
-    (W->rainParticles->vel).z = gGlobals.Sub.camera.rotationXZ.y * 5.0f;
+    (W->rainParticles->vel).x = gGlobals.gameVars.camera.rotationXZ.x * 5.0f;
+    (W->rainParticles->vel).z = gGlobals.gameVars.camera.rotationXZ.y * 5.0f;
     pTVar5 = TerrainPointer;
     fVar16 = 7.0f;
     (W->rainParticles->vel).y = 7.0f - (W->timer - 2.0f);
@@ -302,10 +302,10 @@ LAB_80023514:
     if (W->rainParticles) {
       pPVar6 = W->rainParticles->link;
       if (pPVar6) {
-        Particle::ResetEmmiter(&gGlobals.Sub.particleEmmiter,pPVar6);
+        Particle::ResetEmmiter(&gGlobals.gameVars.particleEmmiter,pPVar6);
         W->rainParticles->link = NULL;
       }
-      Particle::ResetEmmiter(&gGlobals.Sub.particleEmmiter,W->rainParticles);
+      Particle::ResetEmmiter(&gGlobals.gameVars.particleEmmiter,W->rainParticles);
       W->rainParticles = NULL;
     }
     RemoveSFX(W);

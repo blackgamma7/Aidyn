@@ -414,9 +414,9 @@ void debug_teleport(BaseWidget *param_1){
     smaller_debug_menu();
   }
   else {
-    gGlobals.Sub.mapDatA = debugMapLabels[param_1->var5E].a;
-    gGlobals.Sub.mapDatB = debugMapLabels[param_1->var5E].b;
-    gGlobals.Sub.mapDatC = debugMapLabels[param_1->var5E].c;
+    gGlobals.gameVars.mapDatA = debugMapLabels[param_1->var5E].a;
+    gGlobals.gameVars.mapDatB = debugMapLabels[param_1->var5E].b;
+    gGlobals.gameVars.mapDatC = debugMapLabels[param_1->var5E].c;
     gGlobals.playerCharStruct.some_sound_var = 0;
     FreeDebugMenu(gGlobals.playerCharStruct.debugMenuTP);
     gGlobals.playerCharStruct.unkState = 4;

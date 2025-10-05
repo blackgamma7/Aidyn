@@ -362,8 +362,8 @@ s16 * Graphics::GetDepthBuffer(void){return gGfxManager.DepthBuffer;}
 
 u32 Graphics::FramebufferSize0(void){return gGfxManager.FramebufferSize[0];}
 u32 Graphics::FramebufferSize1(void){return gGfxManager.FramebufferSize[1];}
-u32 Graphics::get_hres(void){return gGfxManager.Hres[1];}
-u32 Graphics::get_vres(void){return gGfxManager.Vres[1];}
+u32 Graphics::GetHRes(void){return gGfxManager.Hres[1];}
+u32 Graphics::GetVRes(void){return gGfxManager.Vres[1];}
 u32 Graphics::GetColorDepth(void){return gGfxManager.colordepth[1];}
 
 //copies the FB for pause BG and savegame screenshot

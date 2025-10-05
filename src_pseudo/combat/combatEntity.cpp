@@ -77,13 +77,12 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
     this->flags = COMBATENT_CANMOVE|COMBATENT_ALLY|COMBATENT_ENEMY;
   this->index = index;
   if (isAI) {
-    ALLOC(this->aiP,0xcc);
+    ALLOC(this->aiP,204);
     CombatAIInfo::Init(this->aiP,this->charSheetP->ID,this);
   }
   this->shieldLocator = 2;
   this->TargetIndex = -1;
-                    // check for Shadow and horn
-  if (((ItemID)(entityList[172] + 0x200) == this->charSheetP->ID) &&(HasHornOfKynon())) {
+  if ((IDEntInd(EntInd_Shadow) == this->charSheetP->ID) &&(HasHornOfKynon())) {
     iVar7 = CharStats::getBase(this->charSheetP->Stats,STAT_DEX);
     if (0 < 30 - iVar7) {
       CharStats::AddBase(this->charSheetP->Stats,STAT_DEX,30 - iVar7);
@@ -237,7 +236,7 @@ void CombatEntity::SetMovementRange(){
    }
    CIEL(this->moveRange,13);
                 /* pocho no move */
-  if (this->charSheetP->ID == (ItemID)(entityList[171] + 0x200)) this->moveRange = 0;
+  if (this->charSheetP->ID == IDEntInd(171)) this->moveRange = 0;
 }
 
 u8 CombatEntity::DEXCheck(){
@@ -667,7 +666,7 @@ u8 CombatEntity::CanBeTargeted(CombatEntity *target,s32 param_3){
   vec3f fStack168;
   vec3f afStack104;
   
-  if (target->charSheetP->ID != (ItemID)(entityList[172] + 0x200)) { //not shadow
+  if (target->charSheetP->ID != IDEntInd(EntInd_Shadow)) {
     if (!Flag89()) {
       if (gGlobals.combatBytes[0] == 0x19) {return target == this;}
       if (!m8006963c(target)) {return false;}
@@ -738,13 +737,13 @@ u8 CombatEntity::canControl(SpellInstance *param_2){
       if (gEntityDB->entities[GETINDEX(x)].Category == ENTITY_CHAOS) return false;
       return true;
     case SPELLIND_controlMarquis:
-      bVar2 = entityList[0xaa];
+      bVar2 = entityList[EndInd_Marquis];
       break;
     case SPELLIND_controlZombies:
       bVar2 = entityList[0xb6];
-      if (x == (ItemID)(entityList[0xbe] + 0x200)) return true;
+      if (x == IDEntInd(0xbe)) return true;
     }
-    if (x != (ItemID)(bVar2 + 0x200)) return false;
+    if (x != IDEnt(bVar2)) return false;
   }
 LAB_80069b1c:
   return true;
@@ -784,7 +783,7 @@ u8 CombatEntity::AIShouldNotCastSpell(CombatEntity *param_2,SpellInstance *param
   u32 uVar2;
   u8 bVar4;
   
-  if ((this->aiP == NULL) || (!(this->aiP->flags & 8))) bVar4 = true;
+  if ((this->aiP == NULL) || (!(this->aiP->flags & AIFlag_08))) bVar4 = true;
   else {
     bVar4 = false;
     if (Entity::SpellStaminaSubtract(this->charSheetP,param_3,(u8)Entity::CheckSpellWizard(this->charSheetP,param_3)) <= CharStats::getModded(this->charSheetP->Stats,STAT_STAM)) {
@@ -1015,7 +1014,7 @@ void CombatEntity::EndTurn(){
   
   clear_camera_playerdata_focus();
   pTVar1 = this->aiP;
-  if ((pTVar1) && ((pTVar1->flags & 8))) CombatAIInfo::ClearEntIndex(pTVar1);
+  if ((pTVar1) && ((pTVar1->flags & AIFlag_08))) CombatAIInfo::ClearEntIndex(pTVar1);
   this->charSheetP->spellVal = 0xff;
   UnsetFlag(COMBATENT_CASTING);
   pCVar1 = this->charSheetP;
@@ -1453,8 +1452,7 @@ void CombatEntity::Death(){
   }
   unk800714d0(this);
   gCombatP->EntsAlive--;
-                    // Sholeh
-  if ((ItemID)(entityList[0xa4] + 0x200) == this->charSheetP->ID) setEventFlag(0x26e,true);
+  if (IDEntInd(EntInd_Sholeh) == this->charSheetP->ID) setEventFlag(0x26e,true);
   if (Flag5()) {
     gCombatP->EnemiesAlive--;
     if (gCombatP->firstKill == 0) {
@@ -1463,7 +1461,7 @@ void CombatEntity::Death(){
         for(i=0;i < gCombatP->EntCount;i++) {
           pCVar3 = (&gCombatP->combatEnts)[i];
             if ((pCVar3) && (pCVar3 == this)) {
-              if (pCVar3->Flag4()&&(pCVar3->aiP)) pCVar3->aiP->flags|= 2;
+              if (pCVar3->Flag4()&&(pCVar3->aiP)) pCVar3->aiP->flags|= AIFlag_02;
             }
         }
       }
@@ -1680,20 +1678,16 @@ s32 CombatEntity::AspectMulti(s16 param_2){
   return iVar2;
 }
 
-s16 CombatEntity::NightCheck(s16 param_2,s16 param_3,s16 param_4,s16 nightPenalty,u16 param_6){
-  short sVar1;
-  
-  if (TerrainPointer->partOfDay == TIME_NIGHT) {
-    param_2 -= nightPenalty;
+s16 CombatEntity::NightCheck(s16 param_2,s16 rainPenalty,s16 fogPenalty,s16 nightPenalty,u16 prox){
+  if (TerrainPointer->partOfDay == TIME_NIGHT) param_2 -= nightPenalty;
+  switch(TerrainPointer->windByte){
+    case WIND_CLEAR: return param_2;
+    case WIND_FOG: rainPenalty=fogPenalty;//fallthrough
+    case WIND_STORM:
+      s16 ret = param_2 - rainPenalty;
+      if (prox>=5) ret-= (prox-5);
+      return ret;
   }
-  if ((TerrainPointer->windByte != 2) && (param_3 = param_4, TerrainPointer->windByte != 1)) {
-    return param_2;
-  }
-  sVar1 = param_2 - param_3;
-  if (6 < param_6) {
-    sVar1 = (short)((uint)(((int)sVar1 - ((int)((param_6 - 5))))));
-  }
-  return sVar1;
 }
 
 s16 CombatEntity::Unk8006bfc0(s16 param_2,u8 param_3,u8 param_4,s16 param_5,s16 param_6){
@@ -1713,7 +1707,7 @@ s16 CombatEntity::TheifBackstabMod(s16 param_2,u8 backstab,s16 param_4,s16 param
   return ((s16)((param_2 + param_5 * backstab)) + (s16)this->charSheetP->Skills->getModdedSkill(SKILL_Theif) * param_4 * 10);
 }
 
-s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *param_2,s8 param_3,s8 param_4,u8 backstab){
+s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *target,s8 param_3,s8 param_4,u8 backstab){
   CharSheet *pCVar3;
   CharStats_s* Atkstats;
   CharStats_s* DefStats;
@@ -1733,10 +1727,10 @@ s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *param_2,s8 param_3,s8 pa
   
   pCVar3 = this->charSheetP;
   Atkstats = this->charSheetP->Stats;
-  DefStats = param_2->charSheetP->Stats;
+  DefStats = target->charSheetP->Stats;
   pTVar4 = this->charSheetP->weapons;
   pCVar5 = this->charSheetP->Skills;
-  prox = Get2DProximity(param_2);
+  prox = Get2DProximity(target);
   iVar7 = CharStats::getModded(Atkstats,STAT_INT);
   iVar8 = CharStats::getModded(Atkstats,STAT_DEX);
   iVar9 = CharStats::getBase(Atkstats,STAT_LV);
@@ -1747,18 +1741,18 @@ s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *param_2,s8 param_3,s8 pa
   if (6 < (s32)prox) {uVar15 = (s32)(uVar15 - ((s32)prox - 5) * 0x10000) >> 0x10;}
   iVar7 = (uVar15 - CharStats::getBase(DefStats,STAT_LV)) * 0x10000;
   uVar16 = (u16)((u32)iVar7 >> 0x10);
-  if (!param_2->HasPetrifyEffect()) {
-    uVar16 = (u16)((u32)(((((iVar7 >> 0x10) + CharStats::getModded(DefStats,STAT_DEX) * -2) * 0x10000 >> 0x10) - param_2->GetBlock()) * 0x10000) >> 0x10);
+  if (!target->HasPetrifyEffect()) {
+    uVar16 = (u16)((u32)(((((iVar7 >> 0x10) + CharStats::getModded(DefStats,STAT_DEX) * -2) * 0x10000 >> 0x10) - target->GetBlock()) * 0x10000) >> 0x10);
   }
   iVar7 = TheifBackstabMod(uVar16,backstab,0,0x14);
-  if (param_2->unk22 == 0) iVar7 *= 1.2f;
+  if (target->unk22 == 0) iVar7 *= 1.2f;
   if (CharStats::getModded(DefStats,STAT_STAM) == 0) iVar7 *= 1.15f;
   iVar8 = FUN_80070cc4(&gCombatP->substruct,param_3,param_4,GetCoordXU8(),GetCoordYU8());
   iVar8 *= (iVar7 * 0.05f + 1.0f);
   if (CharStats::getModded(Atkstats,STAT_STAM) == 0) iVar8 *= 0.9f;
   iVar7 = iVar8 *(1.0f - TerrainPointer->PrecipScale * 0.3f);
   if (TerrainPointer->partOfDay == TIME_NIGHT) iVar7 *= 0.7f;
-  if (param_2->unk22 != 0) iVar7 *= 0.8f;
+  if (target->unk22 != 0) iVar7 *= 0.8f;
   sVar10 = TroubadorMod(CombatEntity::AspectMulti(iVar7));
   if (sVar10 < 5) sVar10 = 5;
   return sVar10;
@@ -2082,7 +2076,7 @@ u8 CombatEntity::MagicCheck(SpellInstance *param_2,CombatEntity *param_3){
   
   bVar3 = GETINDEX(param_2->base.id);
   if ((bVar3 != SPELLIND_wallOfBones) ||
-     (bVar2 = false, param_3->charSheetP->ID != (ItemID)(entityList[170] + 0x200))) {//marquis
+     (bVar2 = false, param_3->charSheetP->ID != IDEntInd(EndInd_Marquis))) {
     bVar1 = isDispelMagic(bVar3);
     bVar2 = false;
     if (bVar1 == false) {
@@ -2366,7 +2360,7 @@ s16 CombatEntity::PotionAccuracy(CombatEntity *target,u8 prox){
   if (target->unk22) iVar5 -=20;
   sVar12 = iVar5;
   if (this->Flag3()) sVar12 -=25;
-  sVar12 = TroubadorMod(AspectMulti(NightCheck(sVar12,0x14,10,0x1e,(u16)prox)));
+  sVar12 = TroubadorMod(AspectMulti(NightCheck(sVar12,20,10,0x1e,(u16)prox)));
   FLOOR(sVar12,5);
   return sVar12;
 }
@@ -2508,22 +2502,22 @@ u8 CombatEntity::PotionAttack(CombatEntity *target){
   return 0;
 }
 
-u8 CombatEntity::HealingSkill(CombatEntity *param_2,playerData * param_3){
+u8 CombatEntity::HealingSkill(CombatEntity *target,playerData * pDat){
   
-  u32 hpOld = Entity::getHPCurrent(param_2->charSheetP);
+  u32 hpOld = Entity::getHPCurrent(target->charSheetP);
   s8 healerI = PARTY->GetMemberIndex(this->charSheetP->ID);
-  s8 healedI = PARTY->GetMemberIndex(param_2->charSheetP->ID);
+  s8 healedI = PARTY->GetMemberIndex(target->charSheetP->ID);
   if ((healerI != 0xff) && (healedI != 0xff)) {
-    if ((this->flags & COMBATENT_MEDIC) == 0) pass_to_party_healing_func(PARTY,healerI,healedI);
-    else pass_to_healing_func_2(PARTY,healerI,healedI);
-    if ((s32)hpOld < (s32)Entity::getHPCurrent(param_2->charSheetP)) {
-      u32 hpNew = Entity::getHPCurrent(param_2->charSheetP);
-      CSprintf(XHealsY,this->charSheetP->name,param_2->charSheetP->name);
+    if ((this->flags & COMBATENT_MEDIC) == 0) PARTY->DoHerbHeal(healerI,healedI);
+    else PARTY->DoHandsHeal(healerI,healedI);
+    if ((s32)hpOld < (s32)Entity::getHPCurrent(target->charSheetP)) {
+      u32 hpNew = Entity::getHPCurrent(target->charSheetP);
+      CSprintf(XHealsY,this->charSheetP->name,target->charSheetP->name);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
-      param_2->PrintHealing((hpNew - hpOld));
-      param_3->ani_type = AniType_GetBuff;
-      param_2->Healing = (u8)(hpNew - hpOld);
+      target->PrintHealing((hpNew - hpOld));
+      pDat->ani_type = AniType_GetBuff;
+      target->Healing = (u8)(hpNew - hpOld);
     }
     else {
       CSprintf(XHealFail,this->charSheetP->name);
@@ -2730,7 +2724,7 @@ void CombatEntity::m8006f448(){
 
 void CombatEntity::Troubadour(){
   playerData *ppVar2;
-  s32 iVar3;
+  s16 iVar3;
   char cVar5;
   u8 bVar6;
   u32 uVar8;

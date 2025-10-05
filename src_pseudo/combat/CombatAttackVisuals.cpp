@@ -37,14 +37,14 @@ void Add(playerData *target,u32 param_2){
     pAVar7->flag = 0;
     pAVar7->player = target;
     copyVec3(&(target->collision).pos,&pAVar7->pos);
-    Borg7Header *pBVar5 = func_loading_borg7(borgIndex,&gGlobals.Sub.particleEmmiter);
+    Borg7Header *pBVar5 = func_loading_borg7(borgIndex,&gGlobals.gameVars.particleEmmiter);
     playerData *ppVar1 = pAVar7->player;
     pAVar7->borg7 = pBVar5;
     if (ppVar1->borg7P == NULL)Actor::ChangeAppearance(ppVar1,ppVar1->borg7);
     Scene::SetFlag40(pAVar7->borg7->sceneDat);
     Scene::SetFlag4(pAVar7->borg7->sceneDat);
     Scene::SetModelTint(pAVar7->borg7->sceneDat,0xff,0xff,0xff,0xff);
-    pAVar7->borg7->sceneDat->particleHead = &gGlobals.Sub.particleEmmiter;
+    pAVar7->borg7->sceneDat->particleHead = &gGlobals.gameVars.particleEmmiter;
     pAVar7->borg7->sceneDat->link2a8 = NULL;
     pAVar7->borg7->sceneDat->link2a4 = pAVar7->player->borg7P->sceneDat;
     FUN_800a0090(pAVar7->borg7,5);
@@ -79,7 +79,7 @@ Gfx * Render(Gfx *g,uint delta){
         }
       }
       else {
-        Particle::UnsetSceneEmmiter(&gGlobals.Sub.particleEmmiter,x->borg7->sceneDat);
+        Particle::UnsetSceneEmmiter(&gGlobals.gameVars.particleEmmiter,x->borg7->sceneDat);
         FREEQB7(x);
         CLEAR(x);
         attackVisualVars.iFreeVisual--;

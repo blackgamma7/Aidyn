@@ -55,7 +55,7 @@ voxelObject * get_refpoint_by_name(u32 param_1,u8 param_2,bool GOrE){
   local_c8[0] = local_88[0];
   local_c8[1] = local_88[1];
   sprintf(acStack_48,gCombatP->textArray[COMBATSTRING_SUC],local_c8[GOrE],param_1,param_2 + 'a');
-  return FindReferncePointName(gGlobals.Sub.borg9DatPointer,acStack_48,true);
+  return FindReferncePointName(gGlobals.gameVars.borg9DatPointer,acStack_48,true);
 }
 
 char* sFilenameCombatEngine=FILENAME;
@@ -370,10 +370,7 @@ void scoot_enemy_list(EncounterDat *param_1){
   } while (uVar5 < 0xc);
 }
 
-
-void Combat_InitEncounter(CombatStruct *param_1,EncounterDat *param_2)
-
-{
+void Combat_InitEncounter(CombatStruct *param_1,EncounterDat *param_2){
   CombatEntity *pCVar3;
   u16 uVar8;
   byte bVar9;
@@ -395,14 +392,13 @@ void Combat_InitEncounter(CombatStruct *param_1,EncounterDat *param_2)
     param_1->enemyCount--;
     pIVar11= 0;
     param_1->playerCount++;
-    uVar6 = (ItemID)(entityList[0xa4] | 0x200);
+    uVar6 = IDEntInd(EntInd_Sholeh);
   }
   scoot_enemy_list(param_1->encounter_dat);
   NOOP_800658a0(param_1->playerCount,param_1->enemyCount);
   param_1->enemy_index = recount_enemy_party(param_1->encounter_dat,param_1->enemyCount - 1);
   param_1->TroubadorLV = 0;
   param_1->some_index = 0;
-
   param_1->firstKill = 0;
   param_1->leaderDead = 0;
   param_1->EntCount = param_1->playerCount + param_1->enemyCount;
@@ -868,7 +864,7 @@ void check_battlefeild_fleeing_refpoints(CombatStruct *param_1){
   param_1->hasFleeRefpoints = 0;
   for(u32 uVar2=0;uVar2<8;uVar2++) {
     sprintf(buff,gCombatP->textArray[COMBATSTRING_FleeX],uVar2);
-    voxelObject* prVar1 = FindReferncePointName(gGlobals.Sub.borg9DatPointer,buff,false);
+    voxelObject* prVar1 = FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,false);
     if (prVar1) {
       param_1->hasFleeRefpoints = true;
       return;

@@ -64,7 +64,7 @@ Gfx * display_debug_stats(Gfx *gfx){
           fVar15 *= (float)(1.0f/1024);
           Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %2.0ffps\n",(u16)uVar2,
                       uVar9,dVar11,(int)fVar12,(int)fVar15,
-                      gGlobals.Sub.mapShort1 + ('A'-1),gGlobals.Sub.mapShort2,
+                      gGlobals.gameVars.mapShort1 + ('A'-1),gGlobals.gameVars.mapShort2,
                       (60.0f / gGlobals.delta));
         }
         else {
@@ -77,7 +77,7 @@ Gfx * display_debug_stats(Gfx *gfx){
           fVar15 = fVar15 * (float)(1.0f/1024);
           Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %d-(%3.2f,%3.2f,%3.2f) - %2.0f\n",
                    (u16)uVar2,uVar5,dVar11,(int)fVar12,(int)fVar15,
-                   gGlobals.Sub.mapShort1 + ('A'-1),gGlobals.Sub.mapShort2,gGlobals.Sub.mapDatA,
+                   gGlobals.gameVars.mapShort1 + ('A'-1),gGlobals.gameVars.mapShort2,gGlobals.gameVars.mapDatA,
                    ppVar1->collision.pos.x,ppVar1->collision.pos.y,ppVar1->collision.pos.z,
                   (60.0f / gGlobals.delta));
         }
@@ -180,13 +180,13 @@ loop:
         if ((0.0 < gLensFlarePos.x)&&(gLensFlarePos.x<SCREEN_WIDTH)&&
            (0.0<gLensFlarePos.y)&&(gLensFlarePos.y<SCREEN_HEIGHT)){
           s16* psVar6 = Graphics::GetDepthBuffer();
-          if (psVar6[(u16)gLensFlarePos.y * (Graphics::get_vres() / 240) * Graphics::get_hres() + gLensFlarePos.x * (Graphics::get_hres() / SCREEN_WIDTH)] == -4) {
-            gGlobals.appfunc_dat = 1;
+          if (psVar6[(u16)gLensFlarePos.y * (Graphics::GetVRes() / 240) * Graphics::GetHRes() + gLensFlarePos.x * (Graphics::GetHRes() / SCREEN_WIDTH)] == -4) {
+            gGlobals.lensFlareBool = 1;
             uVar8 = doubleGlobalTickerFlag;
             goto loop;
           }
         }
-        gGlobals.appfunc_dat = 0;
+        gGlobals.lensFlareBool = 0;
         uVar8 = doubleGlobalTickerFlag;
       }
       goto loop;
@@ -229,8 +229,8 @@ void appProc_init(void){
   MemoryMaker::Init();
   CommonStrings::Init();
   gGlobals.diaClass = new DialougeClass(WHANDLE);
-  HresMirror = Graphics::get_hres();
-  VresMirror = Graphics::get_vres();
+  HresMirror = Graphics::GetHRes();
+  VresMirror = Graphics::GetVRes();
   gGlobals.appstateBool = 1;
   gGlobals.VolSFX = 1.0f;
   gGlobals.VolBGM = 0.65f;
@@ -280,8 +280,8 @@ int appState_RegionControllerCheck(Gfx **gg){
     Gfx* g = *gg;
     RSPFUNC6(g);
     g = Borg8_DrawSimple(g,PAL_Warning_image, //center image in screen.
-             (Graphics::get_hres() * 0.5f) - ((PAL_Warning_image->dat).Width * 0.5f),
-             (Graphics::get_vres() * 0.5f) - ((PAL_Warning_image->dat).Height * 0.5f),
+             (Graphics::GetHRes() * 0.5f) - ((PAL_Warning_image->dat).Width * 0.5f),
+             (Graphics::GetVRes() * 0.5f) - ((PAL_Warning_image->dat).Height * 0.5f),
             1.0f,1.0f,0xff,0xff,0xff,0xff);
     ret = 5;
     *gg = g;

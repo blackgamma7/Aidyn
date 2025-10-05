@@ -62,7 +62,7 @@ Gfx * Lensflare::Render(Gfx *g){
     gGlobals.sky.lensFlareVal = 0.0;
     return g;
   }
-  if ((gGlobals.appfunc_dat != 0) && (10.0f < gLensFlarePos.x)) {
+  if ((gGlobals.lensFlareBool) && (10.0f < gLensFlarePos.x)) {
     if ((SCREEN_WIDTH-10) <= gLensFlarePos.x) {
       bVar2 = false;
       goto LAB_8002e068;

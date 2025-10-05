@@ -885,12 +885,11 @@ struct Borg13Data {
     char *text;
     u16 ID;
     u16 flag;
-    u8 A;
-    u8 B;
+    u16 baseTextSize;
     u8 CmdCount;
     u8 ActorCount;
     u8 start_func;
-    u8 C;
+    u8 libraryType;
     u8 pad[2];
 };
 

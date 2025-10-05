@@ -43,11 +43,11 @@ int FUN_80097674(playerData *p){
 
 Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   Gfx* gfx = RenderChildren(g,x0,y0,x1,y1);
-  if (0 < gGlobals.Sub.PlayerHandler.max_player) {
-    for(u16 i=0;i<gGlobals.Sub.PlayerHandler.max_player;i++) {
-      playerData *pDat = &gGlobals.Sub.PlayerHandler.playerDats[i];
+  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
+    for(u16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
+      playerData *pDat = &gGlobals.gameVars.PlayerHandler.playerDats[i];
       if ((pDat) && (pDat->removeFlag)) {
-        if (i == gGlobals.Sub.PlayerHandler.cameraFocus) {
+        if (i == gGlobals.gameVars.PlayerHandler.cameraFocus) {
           this->col.R = 0x96;
           this->col.G = 0x96;
         }
@@ -74,12 +74,12 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
           }
         }
         float posX = (pDat->collision).pos.x -
-          gGlobals.Sub.PlayerHandler.playerDats[gGlobals.Sub.PlayerHandler.cameraFocus].collision.pos.x;
+          gGlobals.gameVars.PlayerHandler.playerDats[gGlobals.gameVars.PlayerHandler.cameraFocus].collision.pos.x;
         float posY = (pDat->collision).pos.z -
-          gGlobals.Sub.PlayerHandler.playerDats[gGlobals.Sub.PlayerHandler.cameraFocus].collision.pos.z;
+          gGlobals.gameVars.PlayerHandler.playerDats[gGlobals.gameVars.PlayerHandler.cameraFocus].collision.pos.z;
         vec2f avStack_70={
-          (posX * -gGlobals.Sub.camera.rotationXZ.y + posY * gGlobals.Sub.camera.rotationXZ.x) * 0.5f,
-          (posX * gGlobals.Sub.camera.rotationXZ.x - posY * -gGlobals.Sub.camera.rotationXZ.y) * 0.5f
+          (posX * -gGlobals.gameVars.camera.rotationXZ.y + posY * gGlobals.gameVars.camera.rotationXZ.x) * 0.5f,
+          (posX * gGlobals.gameVars.camera.rotationXZ.x - posY * -gGlobals.gameVars.camera.rotationXZ.y) * 0.5f
         };
         if (20.0f < vec2Length(&avStack_70)) {
           this->col.R >>= 1;

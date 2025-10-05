@@ -325,7 +325,7 @@ void Emergency_skeleton_func(monsterparty_dat *param_1){
   printLine(0x2f3);
   if (uVar1 == 0) {
     uVar1 = 1;                                 
-    gGlobals.EncounterDat.enemy_entities[0] = IDEnt(entityList[EntInd_Skeleton]);
+    gGlobals.EncounterDat.enemy_entities[0] = IDEntInd(EntInd_Skeleton);
   }
   printLine(0x2f7);
   if (uVar1 < 0xc)
@@ -339,11 +339,11 @@ void battle_setup_func(voxelObject *param_1,u16 flag,u16 param_3){
   printLine(0x302);
   gGlobals.EncounterDat.field3_0x1c = 1;
   printLine(0x303);
-  gGlobals.EncounterDat.mapDatA = gGlobals.Sub.mapDatA;
+  gGlobals.EncounterDat.mapDatA = gGlobals.gameVars.mapDatA;
   printLine(0x304);
-  gGlobals.EncounterDat.MapSAhortA = gGlobals.Sub.mapShort1;
+  gGlobals.EncounterDat.MapSAhortA = gGlobals.gameVars.mapShort1;
   printLine(0x305);
-  gGlobals.EncounterDat.MapShortB = gGlobals.Sub.mapShort2;
+  gGlobals.EncounterDat.MapShortB = gGlobals.gameVars.mapShort2;
   printLine(0x306);
   gGlobals.EncounterDat.globalLoot = (param_1->monster).globalLoot;
   printLine(0x307);

@@ -34,12 +34,12 @@ void TitleSplash::Timer(u16 *stateP,u8 *alpha,u8 *alpha2,u32 ShowTime,u8 *nextP,
         a = 0xff;
         state = 1;
         splashscreen_fadeTimer = 0;
-        gGlobals.splashscreenTimer = 0;
+        gGlobals.titleSplashVars.timer = 0;
       }
     break;
     case 1:
-    gGlobals.splashscreenTimer++;
-    if (ShowTime <= gGlobals.splashscreenTimer) state = 2;
+    gGlobals.titleSplashVars.timer++;
+    if (ShowTime <= gGlobals.titleSplashVars.timer) state = 2;
     break;
     case 2:{
         a-=30;
@@ -69,8 +69,8 @@ void TitleSplash::Init(void){
   Scene::SetFlag10(SplashLogoModel);
   Scene::UnsetFlag4(SplashLogoModel);
   Scene::SetModelTint(SplashLogoModel,0,0,0,0xff);
-  gGlobals.splashScreenUnkC = 0;
-  gGlobals.splashscreenTimer = 0;
+  gGlobals.titleSplashVars.UnkC = 0;
+  gGlobals.titleSplashVars.timer = 0;
   fadeFloatMirror = 1.0f;
   SplashLicence = WidgetB8(BORG8_LicencedByNintendo);
   SplashLicence->SetColor(0,0,0,0);
@@ -85,27 +85,23 @@ void TitleSplash::N64Free(void){
 }
 
 void TitleSplash::Load(void){
-  u32 BVar1;
-  
-  gGlobals.splashscreenSwitch = 5;
-  gGlobals.thqBorg8 = loadBorg8(BORG8_LogoTHQ);
-  gGlobals.h20Borg8 = loadBorg8(BORG8_LogoH20);
-  u32 BVar1 = BORG8_EXPPakNo;
-  if (gExpPakFlag) BVar1 = BORG8_EXPPakYes;
-  sSplashExpPak = loadBorg8(BVar1);
+  gGlobals.titleSplashVars.state = 5;
+  gGlobals.titleSplashVars.thqBorg8 = loadBorg8(BORG8_LogoTHQ);
+  gGlobals.titleSplashVars.h20Borg8 = loadBorg8(BORG8_LogoH2O);
+  sSplashExpPak = loadBorg8((gExpPakFlag)?BORG8_EXPPakYes:BORG8_EXPPakNo);
   TitleSplash::Init();
-  gGlobals.splashscreenTimer = 0;
-  gGlobals.splashScreenUnkA = 0;
-  gGlobals.splashScreenUnkB = 0xff;
-  gGlobals.splashScreenUnkC = 0xff;
-  gGlobals.splashScreenUnkD = 0;
+  gGlobals.titleSplashVars.timer = 0;
+  gGlobals.titleSplashVars.UnkA = 0;
+  gGlobals.titleSplashVars.UnkB = 0xff;
+  gGlobals.titleSplashVars.UnkC = 0xff;
+  gGlobals.titleSplashVars.UnkD = 0;
   copyrightText = RomString::Load(copyrightStrings,0x180);
   Controller::GetDelay(0);
 }
 
 void TitleSplash::Free(void){
-  FREEQB8(gGlobals.h20Borg8);
-  FREEQB8(gGlobals.thqBorg8);
+  FREEQB8(gGlobals.titleSplashVars.h20Borg8);
+  FREEQB8(gGlobals.titleSplashVars.thqBorg8);
   FREEQB8(sSplashExpPak);
   Font::SetFace(gGlobals.font,0x1c);
   RomString::Free(copyrightText);
@@ -121,25 +117,25 @@ u8 TitleSplash::Show(Gfx**GG){
   }
   bVar2 = true;
   *GG = Graphics::SomeOtherInit(*GG,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
-  switch(gGlobals.splashscreenSwitch) {
+  switch(gGlobals.titleSplashVars.state) {
   case 0:
     splashscreen_clear_flag=1;
     bVar2 = false;
     break;
   case 1:
-    gGlobals.splashscreenSwitch = N64Logo(GG);
+    gGlobals.titleSplashVars.state = N64Logo(GG);
     break;
   case 2:
-    gGlobals.splashscreenSwitch = THQLogo(GG);
+    gGlobals.titleSplashVars.state = THQLogo(GG);
     break;
   case 3:
-    gGlobals.splashscreenSwitch = H2OLogo(GG);
+    gGlobals.titleSplashVars.state = H2OLogo(GG);
     break;
   case 4:
-    gGlobals.splashscreenSwitch = Copyright(GG);
+    gGlobals.titleSplashVars.state = Copyright(GG);
     break;
   case 5:
-    gGlobals.splashscreenSwitch = ExpansionPak(GG);
+    gGlobals.titleSplashVars.state = ExpansionPak(GG);
   }
   if (splashscreen_clear_flag) {
     Free();
@@ -167,7 +163,7 @@ u8 TitleSplash::ExpansionPak(Gfx** GG){
   #endif
 
   Gfx* g = *GG;
-  u8 state = gGlobals.splashscreenSwitch;
+  u8 state = gGlobals.titleSplashVars.state;
   controller_aidyn* temp;
   while (Controller::GetInput(&temp,0)) {
     TitleSplash::Timer(&splashscreen_exppakdatA,&sSplashExpPakAlpha,NULL,ShowTime,&state,4);
@@ -194,8 +190,8 @@ u8 TitleSplash::Copyright(Gfx **GG){
   #endif
 
   g = *GG;
-  state = gGlobals.splashscreenSwitch;
-  textY = (Graphics::get_vres()/2) + -7 + (gGlobals.font)->charH * -6;
+  state = gGlobals.titleSplashVars.state;
+  textY = (Graphics::GetVRes()/2) + -7 + (gGlobals.font)->charH * -6;
   while (Controller::GetInput(&cont,0)) {
     #ifdef DEBUGVER
     if ((cont->input_2 & (R_BUTTON|L_BUTTON)) == (R_BUTTON|L_BUTTON)) {
@@ -205,7 +201,7 @@ u8 TitleSplash::Copyright(Gfx **GG){
     Timer(&sSplashCopyrightState,&sSplashCopyrightGray,NULL,ShowTime,&state,1);
   }
   RSPFUNC6(g);
-  g = DrawRectangle(g,0,0,Graphics::get_hres(),Graphics::get_vres(),0,0,0,0);
+  g = DrawRectangle(g,0,0,Graphics::GetHRes(),Graphics::GetVRes(),0,0,0,0);
   Font::SetFace(gGlobals.font,BORG8_SlimFont);
   ((gGlobals.font)->col).R = sSplashCopyrightGray;
   ((gGlobals.font)->col).G = sSplashCopyrightGray;
@@ -232,7 +228,7 @@ u8 TitleSplash::Copyright(Gfx **GG){
     //reflects "boot" code size minus 1 MB
     Gsprintf("Over: 0x%08x - %d\n",-0x5b0,-0x5b0);
     Println(&g,&textY,gGlobals.text);
-    if (sSplashCopyrightState == 1) gGlobals.splashscreenTimer = 0;
+    if (sSplashCopyrightState == 1) gGlobals.titleSplashVars.timer = 0;
   }
   #endif
   *GG = g;
@@ -254,7 +250,7 @@ u8 TitleSplash::N64Logo(Gfx**GG){
   #endif
 
   g = *GG;
-  auStack64 = gGlobals.splashscreenSwitch;
+  auStack64 = gGlobals.titleSplashVars.state;
   //yeah, sets value directly instead of using setter.
   (SplashLicence->col)={sSplashN64Alpha,sSplashN64Alpha,sSplashN64Alpha,sSplashN64Alpha};
   Scene::SetModelTint(SplashLogoModel,sSplashN64Alpha,sSplashN64Alpha,sSplashN64Alpha,0xff);
@@ -294,12 +290,12 @@ u8 TitleSplash::THQLogo(Gfx** GG){
   #endif
   
   g = *GG;
-  abStack_28[0] = gGlobals.splashscreenSwitch;
+  abStack_28[0] = gGlobals.titleSplashVars.state;
   while (bVar1 = Controller::GetInput(&pcStack_24,0), bVar1) {
     Timer(&u16_800e98fc,&sSplashTHQAlpha,NULL,ShowTime,abStack_28,3);
     SplashNoop(pcStack_24);
   }
-  Borg8(&g,sSplashTHQAlpha,gGlobals.thqBorg8);
+  Borg8(&g,sSplashTHQAlpha,gGlobals.titleSplashVars.thqBorg8);
   ShowVersion(&g,sSplashTHQAlpha);
   *GG = g;
   if (abStack_28[0] == 3) {
@@ -321,12 +317,12 @@ u8 TitleSplash::H2OLogo(Gfx**GG){
   Gfx *g [8];
   
   g[0] = *GG;
-  state = gGlobals.splashscreenSwitch;
+  state = gGlobals.titleSplashVars.state;
   do {
     SplashNoop(cont);
     Timer(&u16_800e9900,&h20LogoAlpha,NULL,ShowTime,&state,0);
   }while(Controller::GetInput(&cont,0));
-  Borg8(g,h20LogoAlpha,gGlobals.h20Borg8);
+  Borg8(g,h20LogoAlpha,gGlobals.titleSplashVars.h20Borg8);
   ShowVersion(g,h20LogoAlpha);
   *GG = g[0];
   if (state == 0) h20LogoAlpha = 0;

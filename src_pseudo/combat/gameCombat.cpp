@@ -497,7 +497,7 @@ u8 combat_byte_func_19(Gfx **GG,u16 delta){
 
 u8 combat_byte_func_20(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
-  gGlobals.Sub.unk120e = 1;
+  gGlobals.gameVars.unk120e = 1;
   return 1;
 }
 
@@ -663,9 +663,9 @@ void init_combat_struct(void){
       gGlobals.EncounterDat.BossShadow = 1;
     }
     for(u8 i=0;i<14;i++) {gGlobals.playerDataArray[i] = 0;}
-    gGlobals.Sub.mapDatA = 0x10;
-    gGlobals.Sub.mapDatC = 0;
-    gGlobals.Sub.mapDatB = (ushort)gGlobals.EncounterDat.battlefield;
+    gGlobals.gameVars.mapDatA = 0x10;
+    gGlobals.gameVars.mapDatC = 0;
+    gGlobals.gameVars.mapDatB = (ushort)gGlobals.EncounterDat.battlefield;
     InitZoneEngine(1,0);
     Sky::ResetColors();
     Combat_InitEncounter(gCombatP,&gGlobals.EncounterDat);
@@ -676,7 +676,7 @@ void init_combat_struct(void){
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
     playerData* ppVar1 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
     if (ppVar1) {
-      Camera::SetPos(gGlobals.Sub.PlayerHandler.camera,&(ppVar1->collision).pos);
+      Camera::SetPos(gGlobals.gameVars.PlayerHandler.camera,&(ppVar1->collision).pos);
       GiveCameraToPlayer(ppVar1);
     }
     clear_camera_playerdata_focus();
@@ -725,17 +725,17 @@ void clear_combat_func(){
       CharStats::addModdedHealth(PARTY->Members[0]->Stats,STAT_STR,CharStats::getBase(PARTY->Members[0]->Stats,STAT_STR));
       setEventFlag(FLAG_MeetOriana,true);
       //move to bed in Oriana's Hut
-      gGlobals.Sub.MapFloatDatEntry.mapDatA = MAPA_Interior;
-      gGlobals.Sub.MapFloatDatEntry.mapDatB = 0;
-      gGlobals.Sub.MapFloatDatEntry.mapDatC = 0;
-      gGlobals.Sub.MapFloatDatEntry.MapShort1 = 5;
-      gGlobals.Sub.MapFloatDatEntry.MapShort2 = 3;
-      setVec3(&gGlobals.Sub.MapFloatDatEntry.playerVec3,5.9f,0.5f,3.0f);
-      setVec2(&gGlobals.Sub.MapFloatDatEntry.playerVec2,1.0f,0.0f);
-      copyVec3(&gGlobals.Sub.MapFloatDatEntry.playerVec3,&gGlobals.Sub.MapFloatDatEntry.cameraVec3);
-      CharSheet *pCVar5 = PARTY->GetMemberById((ItemID)(entityList[EntInd_Alaron] | DB_ENTITY<<8));
-      if (pCVar5) {
-        Entity::addHP(pCVar5,Entity::getHPMax(pCVar5) - (short) Entity::getHPCurrent(pCVar5));
+      gGlobals.gameVars.MapFloatDatEntry.mapDatA = MAPA_Interior;
+      gGlobals.gameVars.MapFloatDatEntry.mapDatB = 0;
+      gGlobals.gameVars.MapFloatDatEntry.mapDatC = 0;
+      gGlobals.gameVars.MapFloatDatEntry.MapShort1 = 5;
+      gGlobals.gameVars.MapFloatDatEntry.MapShort2 = 3;
+      setVec3(&gGlobals.gameVars.MapFloatDatEntry.playerVec3,5.9f,0.5f,3.0f);
+      setVec2(&gGlobals.gameVars.MapFloatDatEntry.playerVec2,1.0f,0.0f);
+      copyVec3(&gGlobals.gameVars.MapFloatDatEntry.playerVec3,&gGlobals.gameVars.MapFloatDatEntry.cameraVec3);
+      CharSheet *alaron = PARTY->GetMemberById(IDEntInd(EntInd_Alaron));
+      if (alaron) {
+        Entity::addHP(alaron,Entity::getHPMax(alaron) - (s16)Entity::getHPCurrent(alaron));
       }
     }
     set_memUsedMirror();

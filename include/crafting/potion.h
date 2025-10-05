@@ -7,7 +7,7 @@ struct potionRecipie {
     u8 gemstone;
     u8 alchemist;
     u8 unk;
-    u8 pad;
+    u8 unk2;
 };
 
 potionRecipie potionRecipies[15]={

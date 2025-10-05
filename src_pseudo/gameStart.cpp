@@ -16,15 +16,15 @@ void flycam_func(void){
      //jumper pak - skip desert scene
      if ((flycam_counter == 4) && (!gExpPakFlag)) flycam_counter++;
   }
-  gGlobals.Sub.mapDatA = 0;
-  gGlobals.Sub.mapDatC = 0;
-  gGlobals.Sub.mapShort1 = gFlycamSequences[flycam_counter].Deimos;
-  gGlobals.Sub.mapShort2 = gFlycamSequences[flycam_counter].Phobos;
-  gGlobals.Sub.flycamDat.shortC = gFlycamSequences[flycam_counter].a;
-  gGlobals.Sub.flycamDat.ShortD = gFlycamSequences[flycam_counter].b;
-  gGlobals.Sub.mapDatB = 0xffff;
-  gGlobals.Sub.playerPos2d.x = 0.0;
-  gGlobals.Sub.playerPos2d.y = 0.0;
+  gGlobals.gameVars.mapDatA = 0;
+  gGlobals.gameVars.mapDatC = 0;
+  gGlobals.gameVars.mapShort1 = gFlycamSequences[flycam_counter].Deimos;
+  gGlobals.gameVars.mapShort2 = gFlycamSequences[flycam_counter].Phobos;
+  gGlobals.gameVars.flycamDat.shortC = gFlycamSequences[flycam_counter].a;
+  gGlobals.gameVars.flycamDat.ShortD = gFlycamSequences[flycam_counter].b;
+  gGlobals.gameVars.mapDatB = 0xffff;
+  gGlobals.gameVars.playerPos2d.x = 0.0;
+  gGlobals.gameVars.playerPos2d.y = 0.0;
   InitZoneEngine(2,0);
   gGlobals.brightness = 0.0;
   gGlobals.screenFadeMode = 2;
@@ -80,11 +80,11 @@ Gfx * RenderFlycam(Gfx *gfx){
       gGlobals.screenFadeSpeed = 0.01f;
     }
     Scene::Rotate(gFlycamSceneP,&afStack216,&afStack152,&afStack88);
-    some_flycam_dat_func(&gGlobals.Sub.flycamDat,&gGlobals.Sub.camera,&afStack216,&afStack152);
+    some_flycam_dat_func(&gGlobals.gameVars.flycamDat,&gGlobals.gameVars.camera,&afStack216,&afStack152);
     if (FUN_8000ccc0()) {
       FreeZoneEngineMemory();
       no_TP_vec3 = 1;
-      loadGameBorgScenes(gGlobals.Sub.mapShort1,gGlobals.Sub.mapShort2);
+      loadGameBorgScenes(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
     }
     else handleZoneEngineFrame(apGStackX_0,(short)(int)gGlobals.delta,NULL);
     gfx = apGStackX_0[0];
@@ -116,7 +116,7 @@ u8 gameStart(Gfx**GG){
   TitleScreenInput();
   gfx = Sky::RenderSky(gfx,gGlobals.delta);
   gfx = Graphics::StartDisplay(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  if (gGlobals.Sub.gamemodeType == 2) {
+  if (gGlobals.gameVars.gamemodeType == 2) {
     w.precip = PRECIP_CLEAR;
     w.PrecipScale = 0.0;
     w.FogFloat = 0.0;
@@ -224,19 +224,19 @@ void start_intermediate_game(void){
   FlyCamClear();
   if (cVar1 == IntroM_IntermediateGame) { //Intermediate game - skip intro, start in erromon
     #ifdef DEBUGVER
-    gGlobals.Sub.mapDatA = debugMapLabels[5].a;
-    gGlobals.Sub.mapDatB = debugMapLabels[5].b;
-    gGlobals.Sub.mapDatC = debugMapLabels[5].c;
+    gGlobals.gameVars.mapDatA = debugMapLabels[5].a;
+    gGlobals.gameVars.mapDatB = debugMapLabels[5].b;
+    gGlobals.gameVars.mapDatC = debugMapLabels[5].c;
     #else
     gGlobals.Sub.mapDatB=10;
     #endif
   }
   else { //Start game - skip intro cinematic.
     #ifdef DEBUGVER
-    gGlobals.Sub.MapFloatDatEntry.mapDatB = 0xffff;
-    gGlobals.Sub.mapDatA = debugMapLabels[0].a;
-    gGlobals.Sub.mapDatB = debugMapLabels[0].b;
-    gGlobals.Sub.mapDatC = debugMapLabels[0].c;
+    gGlobals.gameVars.MapFloatDatEntry.mapDatB = 0xffff;
+    gGlobals.gameVars.mapDatA = debugMapLabels[0].a;
+    gGlobals.gameVars.mapDatB = debugMapLabels[0].b;
+    gGlobals.gameVars.mapDatC = debugMapLabels[0].c;
     #else
     gGlobals.Sub.MapFloatDatEntry.mapDatB = 0xffff;
     gGlobals.Sub.mapDatB =0;

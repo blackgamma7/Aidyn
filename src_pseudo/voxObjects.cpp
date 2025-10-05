@@ -63,8 +63,8 @@ void VoxelObjects_Activate(Borg9Data *dat,byte arg2)
           expFlag = (a->header).Bitfeild & VOXEL_JumperPak;
         if (expFlag) visBool = false;
         if (((a->header).type == VOXEL_Scene) &&
-           (some_ref_obj_lookup_func(i,gGlobals.Sub.mapDatA,gGlobals.Sub.mapShort1,
-                                gGlobals.Sub.mapShort2,arg2,0))) {
+           (some_ref_obj_lookup_func(i,gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
+                                gGlobals.gameVars.mapShort2,arg2,0))) {
           visBool = false;
         }
         set_voxel_visibility(a,visBool);

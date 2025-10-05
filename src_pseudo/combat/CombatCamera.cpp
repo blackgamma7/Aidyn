@@ -116,7 +116,7 @@ void calc_camera_playerdata_focus(Camera_struct *camera,float param_2) {
     (camera->aimTarget).y = ActorBPos.y;
     (camera->aimTarget).z = ActorBPos.z;
   }
-  combat_camera_func(camera,gGlobals.Sub.borg9DatPointer);
+  combat_camera_func(camera,gGlobals.gameVars.borg9DatPointer);
   Camera::Lerp(&camera->pos,&camera->posTarget,8.0f);
   Camera::Lerp(&camera->aim,&camera->aimTarget,4.0f);
   Camera::Orient(camera);
@@ -238,7 +238,7 @@ void processCombatCamera(PlayerHandler *param_1) {
       avStack_138[0].z = param_1->playerDats[param_1->cameraFocus].facing.y;
       Camera::Mode1(cam,&fStack440,avStack_138,gGlobals.delta,fVar7,fVar9,
                     0.5f,8.0f,2.0f,8.0f,16.0f,32.0f,1.0f,0.5f,0,uVar6);
-      combat_camera_func(cam,gGlobals.Sub.borg9DatPointer);
+      combat_camera_func(cam,gGlobals.gameVars.borg9DatPointer);
       if (bVar3) {
         setVec2(&afStack184,(cam->aim).x,(cam->aim).z);
         setVec2(&fStack120,avStack_178[0].x,avStack_178[0].z);
@@ -250,7 +250,7 @@ void processCombatCamera(PlayerHandler *param_1) {
           setVec3(avStack_178,fStack120.x,avStack_178[0].y,fStack120.y);
         }
         Camera::SetPos(cam,avStack_178);
-        combat_camera_func(cam,gGlobals.Sub.borg9DatPointer);
+        combat_camera_func(cam,gGlobals.gameVars.borg9DatPointer);
         Camera::Orient(cam);
       }
     }

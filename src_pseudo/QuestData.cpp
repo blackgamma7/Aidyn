@@ -167,8 +167,8 @@ void SavePartyPlaytime(SavePartyHeader *param_1){
 }
 void CopyEngineZone(mapFloatDat *param_1,u8 copy){
   if (copy) {
-    SaveEngineZone(gGlobals.playerCharStruct.playerDat,&gGlobals.Sub.MapFloatDatEntry);
-    COPY(param_1,&gGlobals.Sub.MapFloatDatEntry);
+    SaveEngineZone(gGlobals.playerCharStruct.playerDat,&gGlobals.gameVars.MapFloatDatEntry);
+    COPY(param_1,&gGlobals.gameVars.MapFloatDatEntry);
   }
 }
 
@@ -226,8 +226,8 @@ void LoadFile(SaveDatPointers *param_1,u8 param_2){
     engineZone_flag = 0;
     gGlobals.playerCharStruct.some_sound_var = 1;
     param_1->mapdata->mapDatB = 0xffff;
-    gGlobals.Sub.mapDatB = 0xffff;
-    gGlobals.Sub.MapFloatDatEntry.mapDatB = 0xffff;
+    gGlobals.gameVars.mapDatB = 0xffff;
+    gGlobals.gameVars.MapFloatDatEntry.mapDatB = 0xffff;
   }
 }
 
@@ -241,8 +241,8 @@ u8 LoadFromMemPak(SaveDatStruct *param_1){
 void TakeSnapshot(void){
   if (!gQuestdataSnapshot) {
     ALLOCS(gQuestdataSnapshot,SNAPSHOT_SIZE,648);
-    u16 h = Graphics::get_hres();
-    u16 V = Graphics::get_vres();
+    u16 h = Graphics::GetHRes();
+    u16 V = Graphics::GetVRes();
     Graphics::getGfxLastFrame(gQuestdataSnapshot,SNAPSHOT_H,SNAPSHOT_V,0x10,
                (h / SCREEN_WIDTH) * 80.0f,(V / SCREEN_HEIGHT) * 60.0,(h / SCREEN_WIDTH) * SCREEN_HEIGHT,(V / SCREEN_HEIGHT) * 180.0);
     CLEAR(&gWeatherTemp);
@@ -256,7 +256,7 @@ void FreeSnapshot(void){
 
 void Teleport(mapFloatDat *param_1,u8 param_2){
   if (param_2) {
-    COPY(&gGlobals.Sub.MapFloatDatEntry,param_1);
+    COPY(&gGlobals.gameVars.MapFloatDatEntry,param_1);
     gGlobals.playerCharStruct.some_sound_var = 1;
     if (gGlobals.playerCharStruct.playerDat) set_teleport_obj_loadgame(param_1->mapDatA,param_1->MapShort1,param_1->MapShort2,param_1);
   }

@@ -22,10 +22,10 @@ public:
     buttonFunc CLeftButtonFunc;
     buttonFunc CRightButtonFunc;
     void *substruct; /* changes for each widget type */
-    BaseWidget *link0;
-    BaseWidget *link1;
-    BaseWidget *link2;
-    BaseWidget *link3;
+    BaseWidget *link0; //parent?
+    BaseWidget *link1; //left sibling?
+    BaseWidget *link2; //right sibling?
+    BaseWidget *link3; //child?
     BaseWidget *link4;
     Color32 col;
     u8 var5C; //changes for each widget type

@@ -202,12 +202,19 @@ struct combat_aiscore {
     u8 unk0x3;
     CombatEntity *combatEnt;
 };
-
+#define AIFlag_01 1
+#define AIFlag_02 2
+#define AIFlag_04 4
+#define AIFlag_08 8
+#define AIFlag_10 0x10 //"Panic" flag?
+#define AIFlag_20 0x20
+#define AIFlag_40 0x40
+#define AIFlag_80 0x80
 struct CombatAI_s {
     WeaponInstance *weapon;
     char unk1;
     char entIndex;
-    u8 morale; /* morale? */
+    u8 morale;
     char unk7;
     u8 command;
     u8 flags;
@@ -217,7 +224,27 @@ struct CombatAI_s {
     CombatEntity *combatEnt;
     int unk18;
 };
-
+namespace CombatAI{
+    u8 WillTheyFlee(ItemID id);
+    u8 JudgeAIMorale(CombatEntity *param_1,u8 param_2);
+    u8 IsTiredOrLonely(CombatEntity *param_1);
+    void DebateFleeing(CombatEntity *param_1,u8 param_2);
+    u8 IsNotDeadNorAlly(CombatAI_s *param_1,CombatEntity *param_2);
+    u8 CanMoveToTarget(CombatAI_s *param_1);
+    byte GetSpellPriority(CombatAI_s *param_1,u8 param_2);
+    void FUN_800609bc(CombatAI_s *param_1);
+    void FUN_80060a88(CombatAI_s *param_1);
+    void FUN_80060db0(CombatAI_s *param_1);
+    int FireballCalc(CombatAI_s *param_1);
+    
+    
+    s32 SortScoreFuncB(combat_aiscore *param_1,combat_aiscore *param_2);
+    void ResetScore(u8);
+    void SetScoreEntry(u8 feildx,u8 feildy,u8 feild3,u8 feild0,CombatEntity *cEnt);
+};
+u16 aiscores_move=0;
+u16 combat_AiScore_tally=0;
+combat_aiscore* combat_AiScores_pointer;
 
 #define COMBATENT_CASTING 1<<0  /* casting Magic */
 #define COMBATENT_CANMOVE 1<<1  /* petrify? */
