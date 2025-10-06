@@ -28,6 +28,7 @@ class WidgetTrainShop : public WidgetMenu{
 };
 //Widget for Inventory item entry
 class SMIItem:public BaseWidget{
+    public:
     ItemInstance* item;
     u8 quantity;
     u8 userIndex;
@@ -69,7 +70,7 @@ class WidgetInvShop: public WidgetTrainShop{
     u32 GetGoldPrice(u16);
     u8 SetHighlight(ItemID,u8,u8);
     bool m8003d194(u8);
-    bool NewItem(u8,u8,u8);
+    bool NewItem(ItemInstance*,u8,u8);
     bool AddItem(u16,u8,u8,char*,u16);
     void SortA();
     void SortB();
