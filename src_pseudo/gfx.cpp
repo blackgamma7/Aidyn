@@ -358,7 +358,7 @@ void * Graphics::pickOtherBuffer(void *A,void *B){
   return A;}
 
 void * Graphics::GetFrameBuffer(u8 param_1){return gGfxManager.FrameBuffers[param_1];}
-s16 * Graphics::GetDepthBuffer(void){return gGfxManager.DepthBuffer;}
+u16 * Graphics::GetDepthBuffer(void){return gGfxManager.DepthBuffer;}
 
 u32 Graphics::FramebufferSize0(void){return gGfxManager.FramebufferSize[0];}
 u32 Graphics::FramebufferSize1(void){return gGfxManager.FramebufferSize[1];}

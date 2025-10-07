@@ -188,6 +188,9 @@ extern OSMesgQueue gPIManagerQueue;
 extern void* appStack_mirror;
 extern u16 doubleGlobalTickerFlag;
 
+#define APPSTACKSIZE 6162
+#define APPSTACKMASK 0x12345678
+
 //shorthand for RNG funcs.
 #define RAND gGlobals.rngSeed
 //many sprintfs use "gGlobals.text" as the buffer.

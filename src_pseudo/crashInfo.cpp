@@ -178,7 +178,7 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
   crash_print(param_2,acStack_128,uVar5,0xf,0xff,0xff,0);
   iVar14 = 0;
   piVar9 = (int *)appStack_mirror;
-  while (*piVar9 == 0x12345678) {
+  while (*piVar9 == APPSTACKMASK) {
     piVar9++;
     iVar14++;
   }
@@ -363,7 +363,7 @@ void stack_dump(CrashSub *param_1,CrashBuff *param_2){
   } while (j < 0x800);
   iVar7 = 0;
   piVar6 = (int *)appStack_mirror;
-  while (*piVar6 == 0x12345678) {
+  while (*piVar6 == APPSTACKMASK) {
     piVar6++;
     iVar7++;
   }

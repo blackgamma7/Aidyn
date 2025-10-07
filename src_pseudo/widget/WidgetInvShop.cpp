@@ -394,16 +394,11 @@ bool WidgetInvShop::m8003d674(ushort param_2,u8 param_3) {
     }
   }
   else {
-    i = 0;
-    if (this->unk98 != 0) {
-      while( true ) {
+    for(i=0;i<this->unk98;i++){
         if ((sub->items[i]->BFunc()->var5E == (ushort)param_3) && (pBVar1->var5E == param_2)) {
           sub->highlight = i;
           return true;
         }
-        i++;
-        if (this->unk98 <= i) break;
-      }
     }
   }
   return false;

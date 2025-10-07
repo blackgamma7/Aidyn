@@ -16,7 +16,7 @@ struct gfxManager {
     void* ouputbuffSize;
     void* yieldData;
     void *FrameBuffers[FBCOUNT];
-    s16 *DepthBuffer;
+    u16 *DepthBuffer;
     u8 (*textfont)[8][4]; /* for debug text */
     u8 (*unkBlock)[8][8]; /* white 8x8 8-bit block */
     #ifdef VER_NA11
@@ -64,7 +64,7 @@ u8 GetBufferChoice();
 void* pickBuffer(void *,void *);
 void* pickOtherBuffer(void *,void *);
 void* GetFrameBuffer(u8 );
-s16* GetDepthBuffer();
+u16* GetDepthBuffer();
 u32 FramebufferSize0();
 u32 FramebufferSize1();
 u32 GetHRes();

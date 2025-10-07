@@ -25,7 +25,7 @@ typedef union Color32 {
 #define ASCIIRange 94 //('~'-' ')
 
 //common colors used by Color32
-
+#define COLOR_WHITE 0xff,0xff,0xff,0xff
 #define COLOR_OFFWHITE 0xe1,0xe1,0xe1,0xff
 #define COLOR_OFFWHITE2 0xe1,0xe1,0xe1,200
 #define COLOR_DARKGRAY 0x32,0x32,0x32,0xff
@@ -44,7 +44,7 @@ typedef union Color32 {
 #define CLAMP01(x) CLAMP(x,0.0,1.0)
 //clamp a vec3's values to 0-1
 #define CLAMP01V3(v) CLAMP01(v.x); CLAMP01(v.y); CLAMP01(v.z)
-//turn a Vec3f(v) into 32-bit RGB values for Color32*(c).
+//turn a Vec3f or vec4f(v) into 32-bit RGB values for Color32*(c).
 #define V3ToRGB(c,v) c->R=v.x*255; c->G=v.y*255; c->B=v.z*255
 
 

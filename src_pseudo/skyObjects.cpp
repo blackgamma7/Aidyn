@@ -333,7 +333,7 @@ Gfx * Skyobjects::Render(Gfx *g){
             bVar7 = (skyobjectStructs[i].col).R;
             bVar1 = (skyobjectStructs[i].col).G;
             bVar2 = (skyobjectStructs[i].col).B;
-            if (skyobjectStructs[i].index == SkyObj_Sun) {
+            if (skyobjectStructs[i].index == SkyObj_Sun) { //set lensflare pos and sun tint
               gLensFlarePos.x = x + (float)((ushort)(skyobjects_borg8[i]->dat).Width >> 1) * scale;
               gLensFlarePos.y = y + (float)((ushort)(skyobjects_borg8[i]->dat).Height >> 1) * scale;
               bVar7 = gGlobals.sky.colors[4].R;

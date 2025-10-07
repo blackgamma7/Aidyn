@@ -88,13 +88,13 @@ Gfx * display_debug_stats(Gfx *gfx){
   return gfx;
 }
 
-#define APPSTACKSIZE 6162
+
 void appInit(OSSched *sched,u8 pri,u8 id){
   appManager.sched = sched;
   s32* stack = (s32 *)HALLOC(sizeof(s32)*APPSTACKSIZE,231);
   appStack_mirror = stack;
   appManager.stack = stack;
-  for(u32 i = 0;i < APPSTACKSIZE-1;i++) stack[i] = 0x12345678;
+  for(u32 i = 0;i < APPSTACKSIZE-1;i++) stack[i] = APPSTACKMASK;
   osCreateThread(&appManager.thread,id,AppProc,NULL,appManager.stack + APPSTACKSIZE,pri);
   osStartThread(&appManager.thread);
 }
@@ -132,11 +132,8 @@ loop:
           Gsprintf("StartGfxList()");
           gfx0 = Graphics::StartGfxList();
           Gsprintf("HandleAppFrame()");
-          uVar10 = gGlobals.ticker + 1;
-          if (doubleGlobalTickerFlag == 1) {
-            uVar10 = gGlobals.ticker + 2;
-          }
-          gGlobals.ticker = uVar10;
+          gGlobals.ticker++;
+          if (doubleGlobalTickerFlag == 1) gGlobals.ticker++;
           gfx1 = appProc_caseSwitch(gfx0);
           #ifdef DEBUGVER //print detailed debug stats in Debug version
           gfx1 = display_debug_stats(gfx1);
@@ -179,14 +176,14 @@ loop:
         sVar9 = sVar7;
         if ((0.0 < gLensFlarePos.x)&&(gLensFlarePos.x<SCREEN_WIDTH)&&
            (0.0<gLensFlarePos.y)&&(gLensFlarePos.y<SCREEN_HEIGHT)){
-          s16* psVar6 = Graphics::GetDepthBuffer();
-          if (psVar6[(u16)gLensFlarePos.y * (Graphics::GetVRes() / 240) * Graphics::GetHRes() + gLensFlarePos.x * (Graphics::GetHRes() / SCREEN_WIDTH)] == -4) {
-            gGlobals.lensFlareBool = 1;
+          u16* zBuff = Graphics::GetDepthBuffer(); //Lens flare origin is at furthest z value
+          if (zBuff[(u16)gLensFlarePos.y * (Graphics::GetVRes() / 240) * Graphics::GetHRes() + gLensFlarePos.x * (Graphics::GetHRes() / SCREEN_WIDTH)] == 0xfffc) {
+            gGlobals.lensFlareBool = true;
             uVar8 = doubleGlobalTickerFlag;
             goto loop;
           }
         }
-        gGlobals.lensFlareBool = 0;
+        gGlobals.lensFlareBool = false;
         uVar8 = doubleGlobalTickerFlag;
       }
       goto loop;
@@ -258,7 +255,7 @@ Gfx* appProc_caseSwitch(Gfx* gg){
       CRASH("app.cpp","gGlobals.appState is not valid");
     }
   }
-  if (appManager.stack[0] != 0x12345678) CRASH("AppProc","Stack Overwrite!!");
+  if (appManager.stack[0] != APPSTACKMASK) CRASH("AppProc","Stack Overwrite!!");
   return g;
 }
 
