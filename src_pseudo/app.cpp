@@ -24,8 +24,8 @@ OSMesgQueue MesgQ2;
 OSScClient client;};
 App_manager appManager;
 
-//this first func is debug-vesion exculsive, and not easy to sus out.
 
+#ifdef DEBUGVER
 Gfx * display_debug_stats(Gfx *gfx){
   playerData *ppVar1;
   u16 h;
@@ -87,7 +87,7 @@ Gfx * display_debug_stats(Gfx *gfx){
   }
   return gfx;
 }
-
+#endif
 
 void appInit(OSSched *sched,u8 pri,u8 id){
   appManager.sched = sched;
@@ -176,7 +176,7 @@ loop:
         sVar9 = sVar7;
         if ((0.0 < gLensFlarePos.x)&&(gLensFlarePos.x<SCREEN_WIDTH)&&
            (0.0<gLensFlarePos.y)&&(gLensFlarePos.y<SCREEN_HEIGHT)){
-          u16* zBuff = Graphics::GetDepthBuffer(); //Lens flare origin is at furthest z value
+          u16* zBuff = Graphics::GetDepthBuffer(); //Lens flare origin is at furthest z value?
           if (zBuff[(u16)gLensFlarePos.y * (Graphics::GetVRes() / 240) * Graphics::GetHRes() + gLensFlarePos.x * (Graphics::GetHRes() / SCREEN_WIDTH)] == 0xfffc) {
             gGlobals.lensFlareBool = true;
             uVar8 = doubleGlobalTickerFlag;
@@ -193,29 +193,23 @@ loop:
   } 
 }
 
-
-
 void appProc_init(void){
-  u8 *pbVar1;
-  u8 *pbVar2;
-  FontFace *pfVar4;
-  u32 BVar5;
-  s32 uVar6;
+  s32 i;
   Graphics::SetGfxMode(SCREEN_WIDTH,SCREEN_HEIGHT,16);
   Sky::Reset();
   InitFreeQueueHead(&gGlobals.QueueA);
   memset_QueueStructB(&gGlobals.QueueB);
   RAND.SetSeed(0x3dbb6cd);
-  uVar6 = 0;
+  i = 0;
   gGlobals.appstate = 5;
   gGlobals.ticker = 0;
   gGlobals.delta = 0.0;
-  while(font_face[uVar6].borg8){uVar6++;}
+  while(font_face[i].borg8){i++;}
   ALLOC(gGlobals.font,436);
-  Font::Init(gGlobals.font,uVar6);
-  if (0 < uVar6) {
-    for(;uVar6!=0;uVar6--){
-      FontFace *f=&font_face[uVar6];
+  Font::Init(gGlobals.font,i);
+  if (0 < i) {
+    for(;i!=0;i--){
+      FontFace *f=&font_face[i];
       Font::LoadFace(gGlobals.font,f->borg8,f->rows,f->cols);
     }
   }

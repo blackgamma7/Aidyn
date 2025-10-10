@@ -26,7 +26,7 @@ struct gfxManager {
     int unk0x7c; /* unused? */
     OSScTask tasks[FBCOUNT];
     GtaskMsg taskMsgs[FBCOUNT];
-    Vp viewport; /* H*2,V*2,511,0 (Vp?) */
+    Vp viewport;
     uint ram_size;
     uint FramebufferSize[FBCOUNT];
     uint dListSize;
