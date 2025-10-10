@@ -400,19 +400,15 @@ void crash_handler(CrashSub *arg){
   OSMesg apvStack_30 [12];
   
   osSpTaskYield();
-  do {} while (osAfterPreNMI());
-  if (osTvType == OS_TV_MPAL) {
-    src = osViModeTable + 0x1e;
+  while (osAfterPreNMI()){;}
+  switch(osTvType){
+    case OS_TV_PAL:
+    COPY(&osViCustom,&osViModeTable[OS_VI_PAL_LAN1]);break;
+    case OS_TV_NTSC:
+    COPY(&osViCustom,&osViModeTable[OS_VI_NTSC_LAN1]);break;
+    case OS_TV_MPAL:
+    COPY(&osViCustom,&osViModeTable[OS_VI_MPAL_LAN1]);break;
   }
-  else {
-    if (osTvType != OS_TV_PAL) {
-      memcpy(&osViCustom,osViModeTable + 2,0x50);
-      goto LAB_80007a14;
-    }
-    src = osViModeTable + 0x10;
-  }
-  memcpy(&osViCustom,src,0x50);
-LAB_80007a14:
   osViCustom.comRegs.width = 400;
   osViCustom.comRegs.xScale = 0x280;
   osViCustom.fldRegs[0].origin = 800;
@@ -433,7 +429,7 @@ LAB_80007a14:
     #ifdef DEBUGVER
     do {
       osContStartReadData(aOStack_b8);
-      do {} while (osRecvMesg(aOStack_b8,NULL,0));
+      while (osRecvMesg(aOStack_b8,NULL,0)){;}
       osContGetReadData(aOStack_70);
       BVar3 = aOStack_70[0].button;
     } while ((aOStack_70[0].errno & CONT_NO_RESPONSE_ERROR));
