@@ -84,7 +84,7 @@ void set_weather(TerrainStruct *,Calendar *);
 void SeveralTimeFuncs(TerrainStruct *);
 void cap_ingame_time(TerrainStruct *);
 void Lapse10Seconds(TerrainStruct *);
-void inc_ingame_time(TerrainStruct *,s32 );
+void IncGameTime(TerrainStruct *,s32 );
 void Lapse8Hours(TerrainStruct *);
 void add_playTime(TerrainStruct *,s32 );
 u32 GetTime(TerrainStruct *);

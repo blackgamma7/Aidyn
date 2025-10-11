@@ -113,10 +113,6 @@ u8 clear_gamestatefunnel(void){
   FREE(gameStates,312);
   return true;}
 
-#ifdef DEBUGVER
-extern u8 Get_eventFlagCheck(u16 flag);
-#endif
-
 u8 getEventFlag(u16 flag){
 #ifdef DEBUGVER //Seems to get broken into 2 funcs with debug(?)
   checkCheat(All);

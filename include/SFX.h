@@ -48,7 +48,7 @@ struct Voice_Aidyn {
     Borg11Data *instrumentData;
     u32 id;
     u32 unk0x38;
-    u32 waveTableLength;
+    u32 loopStart;
     u32 loopEnd;
     u16 pitch;
     u8 loopCount;
@@ -107,11 +107,11 @@ struct DCM_sub {
     u32 unk4;
     u16 pitch;
     u8 index;
-    u8 unkb;
+    u8 chanInd;
     u8 vol;
     u8 pan;
     u8 timer;
-    undefined field8_0xf;
+    u8 field8_0xf;
 };
 
 struct DCM_struct {
@@ -128,7 +128,7 @@ struct DCM_struct {
     u8 pan;
     u8 unk1d;
     u8 unk1e;
-    undefined field13_0x1f;
+    u8 field13_0x1f;
 };
 
 
@@ -140,20 +140,17 @@ struct DCMManager {
     u8 index;
 }; 
 
-struct astruct {
+struct dcmStruct2 {
     Borg11Data *instrumentDat;
-    u32 unk4;
-    u32 unk8;
-    undefined field3_0xc;
-    undefined field4_0xd;
-    undefined field5_0xe;
-    u8 unkf;
+    u32 sampleStart; //same index for loop start(?)
+    u32 sampleEnd;//same index for loop end(?)
+    u8 unkc[4]; //only last entry used. All usually 0xFF. Loops?
 };
 
 #define ALHeapSize 0x12000 //size of ALHeap Base
 #define PVoiceCount 0x20 //length of Voice_Aidyn array
 #define ACMDSize 0x800 //count af Acmd's
-#define MTIME 1000
+#define MTIME 1000 //sound handler return result
 
 void adjust_soundstruct_vec3(SoundStructA *);
 void set_SFX_ZoneDatByte(SFX_Struct *,s16,s16);
@@ -188,9 +185,9 @@ void ProcessAudioBubbles(SFX_Struct *,vec3f *,s16);
 #define DCMCMD_Pitch 0x40
 #define DCMCMD_Vol 0x20
 #define DCMCMD_Pan 0x10
-#define DCMCMD_UnkB 0x08
+#define DCMCMD_ChanIndex 0x08
 #define DCMCMD_Unk4 0x04
-#define DCMCMD_SetNow 0x02
+#define DCMCMD_NewVoice 0x02
 #define DCMCMD_Stop 0x01
 
 

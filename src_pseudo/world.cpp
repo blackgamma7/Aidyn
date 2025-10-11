@@ -255,7 +255,7 @@ void World::Lapse10Seconds(TerrainStruct *ter){
   cap_ingame_time(ter);
   SeveralTimeFuncs(ter);}
 // passes in-game time by (delta*TerrainStruct->daySpeed) ticks
-void World::inc_ingame_time(TerrainStruct *param_1,s32 delta){
+void World::IncGameTime(TerrainStruct *param_1,s32 delta){
   param_1->InGameTime += (delta * param_1->daySpeed);
   cap_ingame_time(param_1);
   SeveralTimeFuncs(param_1);}

@@ -95,6 +95,10 @@ void Passto_State_typeA_branch(EventFlag param_1);
 void setEventFlag(u16 flag,u8 state);
 u8 getEventFlag(u16 flag);
 
+#ifdef DEBUGVER
+u8 Get_eventFlagCheck(u16 flag);
+#endif
+
 //gamestatefilehandler.cpp
 
 void setBit(u8 *out,uint i,bool set,u8 *maskA,u8 *maskB);

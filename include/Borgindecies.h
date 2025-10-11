@@ -225,6 +225,15 @@ typedef enum Borg8Enum {
 
 //borg11: Sound samples
 
+#define BORG11_054E 0x054E
+#define BORG11_0550 0x0550
+#define BORG11_BirdA 0x0552
+
+#define BORG11_BirdB 0x0556
+
+#define BORG11_Cricket 0x0570
+#define BORG11_Seagull 0x057B
+
 #define BORG11_PrecussionHitA 0x05A0
 #define BORG11_PrecussionRhythmA 0x05A1
 #define BORG11_PrecussionHitB 0x05A2
@@ -302,8 +311,9 @@ typedef enum Borg8Enum {
 #define BORG12_Cinematic3_5 0x5f1
 #define BORG12_Cinematic3_6 0x5f2
 
-#define BORG12_05ea_Exp 0x5ea
-#define BORG12_05eb_NoExp 0x5eb
+#define BORG12_05ea_Exp 0x05ea
+#define BORG12_05eb_NoExp 0x05eb
+#define BORG12_05DD 0x05dd
 #define BORG12_Ehud 0x5df
 #define BORG12_GwerniaCastle 0x5fd
 #define BORG12_Ugairt 0x61b
@@ -315,6 +325,10 @@ typedef enum Borg8Enum {
 
 
 //SFX here
+
+#define BORG12_CricketA 0x57A
+#define BORG12_SeagullA 0x57C
+
 
 #define BORG12_ChimeScale 0x5e7
 #define BORG12_LevelUp 0x5e8

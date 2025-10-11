@@ -21,31 +21,31 @@ void DCM::ClosePlayer(void){
 void DCM::AddPlayer(ALPlayer *x){alSynAddPlayer(&gAudioManager.ALSYNTH,x);}
 
 
-u32 DCM::AddVoice(u8 *oIndex,u32 *oID,Borg11Data *istDat,u32 param_4,u32 len,u32 loopEnd,u8 loops,u16 pitch,u8 vol,u8 pan,u8 param_11){
+u32 DCM::AddVoice(u8 *oIndex,u32 *oID,Borg11Data *istDat,u32 param_4,u32 start,u32 end,u8 loops,u16 pitch,u8 vol,u8 pan,u8 param_11){
   u8 bVar1;
   int iVar4;
   u8 flag;
-  u8 uVar7;
+  u8 ind;
   u32 uVar8;
   
   bVar1 = false;
   if (gAudioManager.VoicesUsed < PVoiceCount) {
     uVar8 = true;
-    uVar7 = (u32)gAudioManager.indecies[gAudioManager.VoicesUsed++];
+    ind = (u32)gAudioManager.indecies[gAudioManager.VoicesUsed++];
     gAudioManager.VoicesUsedTotal++;
   }
   else {
     s32 x=-1;
     if (param_11 == 0) {
-      uVar7 = 0;
+      ind = 0;
       uVar8 = 0;
     }
     else {
-      uVar7 = 0;
+      ind = 0;
       for(u8 i=0;i<PVoiceCount;i++) {
         if(gAudioManager.voicesAidyn[i].isActive==1){
           if (gAudioManager.voicesAidyn[i].id<x) {
-            uVar7 = i;
+            ind = i;
             x=gAudioManager.voicesAidyn[i].id;
           }
         }
@@ -56,22 +56,22 @@ u32 DCM::AddVoice(u8 *oIndex,u32 *oID,Borg11Data *istDat,u32 param_4,u32 len,u32
     }
   }
   if (uVar8) {
-    gAudioManager.voicesAidyn[uVar7].loopCount = loops;
-    gAudioManager.voicesAidyn[uVar7].instrumentData = istDat;
-    gAudioManager.voicesAidyn[uVar7].unk0x38 = param_4;
-    gAudioManager.voicesAidyn[uVar7].waveTableLength = len;
-    gAudioManager.voicesAidyn[uVar7].loopEnd = loopEnd;
-    gAudioManager.voicesAidyn[uVar7].vol = vol;
-    gAudioManager.voicesAidyn[uVar7].pitch = pitch;
-    gAudioManager.voicesAidyn[uVar7].pan = pan;
+    gAudioManager.voicesAidyn[ind].loopCount = loops;
+    gAudioManager.voicesAidyn[ind].instrumentData = istDat;
+    gAudioManager.voicesAidyn[ind].unk0x38 = param_4;
+    gAudioManager.voicesAidyn[ind].loopStart = start;
+    gAudioManager.voicesAidyn[ind].loopEnd = end;
+    gAudioManager.voicesAidyn[ind].vol = vol;
+    gAudioManager.voicesAidyn[ind].pitch = pitch;
+    gAudioManager.voicesAidyn[ind].pan = pan;
     if (bVar1) flag = VOICE_FLAG4|VOICE_STOP;
     else flag = VOICE_FLAG4;
-    gAudioManager.voicesAidyn[uVar7].flag = flag;
-    gAudioManager.voicesAidyn[uVar7].isActive = 1;
-    gAudioManager.voicesAidyn[uVar7].id = gAudioManager.VoicesUsedTotal;
-    gAudioManager.voicesAidyn[uVar7].unk0x4b = param_11;
-    *oIndex = uVar7;
-    *oID = gAudioManager.voicesAidyn[uVar7].id;
+    gAudioManager.voicesAidyn[ind].flag = flag;
+    gAudioManager.voicesAidyn[ind].isActive = 1;
+    gAudioManager.voicesAidyn[ind].id = gAudioManager.VoicesUsedTotal;
+    gAudioManager.voicesAidyn[ind].unk0x4b = param_11;
+    *oIndex = ind;
+    *oID = gAudioManager.voicesAidyn[ind].id;
   }
   return uVar8;
 }
@@ -291,11 +291,11 @@ ALMicroTime soundVoiceHandler(void* p){
       v->flag &= ~VOICE_STOP;
     }
     if(v->flag & VOICE_FLAG4) {
-      *(undefined4 *)((((v->voice).pvoice)->decoder).state[0] + 0xe) = v->unk0x38; //?
+      *(u32 *)((((v->voice).pvoice)->decoder).state[0] + 0xe) = v->unk0x38; //?
       if ((v->instrumentData->flag & Borg11_8bit)) (v->wavetable).type = 2;
       else (v->wavetable).type = 1;
       (v->wavetable).len = v->instrumentData->len;
-      (v->wavetable).waveInfo.adpcmWave.loop->start = v->waveTableLength;
+      (v->wavetable).waveInfo.adpcmWave.loop->start = v->loopStart;
       (v->wavetable).waveInfo.adpcmWave.loop->end = v->loopEnd;
       (v->wavetable).base = v->instrumentData->wav;
       (v->wavetable).flags = 1;

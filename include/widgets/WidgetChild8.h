@@ -35,3 +35,5 @@ class WidgetChild8 :public WidgetMenu{
     void m8004de18();
     void m8004e0b0(Color32 *);
 };
+
+void FUN_8004cfd0(BaseWidget *w);

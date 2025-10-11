@@ -1,5 +1,17 @@
 #include "globals.h"
 
+//game.cpp
+
+void init_DBs();
+void clear_DBs();
+void some_init_func();
+void passto_clear_dbs();
+u32 appState_1(Gfx **GG);
+u8 func_loading_credits(Gfx **GG);
+
+
+//gametrek.cpp
+
 bool check_some_toggle();
 void FUN_80024c54(short);
 Gfx * ofunc_80024c90(Gfx *);
@@ -23,3 +35,4 @@ void NewJournalEntryPopup();
 void initGameTrek();
 void clear_HUD_elements(short );
 
+Gfx* tick_and_render_widgets(Gfx*);

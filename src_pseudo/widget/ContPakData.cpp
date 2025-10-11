@@ -685,7 +685,7 @@ void WidgetContPakData::RepairOK(){
 
 void WidgetContPakData::LoadSliders(SaveDatPointers *param_2,u8 param_3){
   ControllerPakSliders *pCVar1;
-  WidgetChild6 *pWVar2;
+  s32 ind;
   s16 sStack_50 [4];
   
   sStack_50[0] = this->unk292;
@@ -693,10 +693,10 @@ void WidgetContPakData::LoadSliders(SaveDatPointers *param_2,u8 param_3){
   sStack_50[2] = sStack_50[0] + 0xdb;
   sStack_50[3] = sStack_50[1] + 0xc0;
   pCVar1 = new ControllerPakSliders(param_2,sStack_50,&this->col0);
-  pWVar2 = (WidgetChild6 *)this->unk27c->AddChild10((WidgetChild6 *)pCVar1);
+  ind = this->unk27c->AddChild10(pCVar1);
   pCVar1->var5E = (ushort)param_3;
   Utilities::SetAlpha(this,this->col.A);
-  if (this->vmE0(pCVar1)) this->unk27c->m80033018(pWVar2);
+  if (this->vmE0(pCVar1)) this->unk27c->m80033018(ind);
 }
 
 void WidgetContPakData::ClearScrollMenu(){

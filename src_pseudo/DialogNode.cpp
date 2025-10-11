@@ -594,7 +594,7 @@ void FUN_800b6c38(dialougmode_substruct *param_1,ushort param_2)
   
   iVar3 = 0xb;
   puVar2 = param_1->encounterEnemies + 0xb;
-  param_1->unk108 = 0x3c;
+  param_1->unk108 = 60;
   param_1->RefpointID = param_2;
   param_1->unk110 = -1;
   param_1->unk116 = 0xff;

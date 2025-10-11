@@ -314,7 +314,7 @@ enum CamObjFlags{
     CamOBJ_MoveSine=4,
     CamOBJ_0008=8,
     CamOBJ_0010=0x10,
-    CamObj_M001f=0x1f,
+    CamObj_M001f=CamOBJ_0010|CamOBJ_0008|CamOBJ_MoveSine|CamOBJ_MovePan|CamOBJ_MoveCut,
     CamOBJ_0020=0x20,
     CamOBJ_0040=0x40,
     CamOBJ_0080=0x80,
@@ -650,7 +650,7 @@ struct Borg12Sub {
     int instrument_count;//0x0C on file
     u32 dataSize;//0x10 on file
     u32 byteIndex;//0x14 on file
-    struct astruct *ptr0x18;//0x18 on file
+    struct dcmStruct2 *ptr0x18;//0x18 on file
     u8 *channelDat;//0x1C on file
 };
 
