@@ -115,14 +115,14 @@ void Ofunc_80006a4c(CrashBuff *param_1,OSThread *param_2){
 
 int strlenX8(char *txt){return (strlen(txt) & 0x1fff) << 3;}
 
-void crash_print_2(CrashBuff *buff,char *txt,u32 val,u16 param_4,u16 param_5){
+void crash_print_2(CrashBuff *buff,char *txt,u32 val,u16 x,u16 y){
   char txtBuff [96];
   
   sprintf(txtBuff,txt,val);
-  s16 sVar1 = strlenX8(txtBuff);
-  crash_print(buff,txtBuff,param_4,param_5,0xff,0xff,0);
+  s16 xOff = strlenX8(txtBuff);
+  crash_print(buff,txtBuff,x,y,0xff,0xff,0);
   sprintf(txtBuff,"%lu",val);
-  crash_print(buff,txtBuff,param_4 + sVar1 + 2,param_5,0,0xff,0);
+  crash_print(buff,txtBuff,x + xOff + 2,y,0,0xff,0);
 }
 //get color based on memory region.
 //TODO: NOT HARDCODE REGIONS
@@ -257,9 +257,7 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
 
 
 void Ofunc_8000729c(CrashBuff *param_1,u16 x_,u16 y,void *p1,void *p2,void *p3,void *p4,void *p5,
-                   void *p6,void *p7,void *p8)
-
-{
+                   void *p6,void *p7,void *p8){
   uint i;
   void *arr [8];
   char strBuff [64];
@@ -335,7 +333,7 @@ void stack_dump(CrashSub *param_1,CrashBuff *param_2){
   puStack_30 = &uStack_40;
   pvVar1 = *(void **)((int)&(pOStack_38->context).ra + 4);
   bVar4 = true;
-  do {
+  for(j=0;j<0x40;j++)  {
     if ((((bVar4) && (pvVar2 = *(void **)((int)&(pOVar5->context) + j * 4), pvVar2 != pvVar1)
          ) && ((void *)0x8000046f < pvVar2)) && (pvVar2 <= pvStack_3c)) {
       sprintf(acStack_140,"%08x",(uint)pvVar2);
@@ -343,15 +341,13 @@ void stack_dump(CrashSub *param_1,CrashBuff *param_2){
                   (short)(i >> 2) * 9 + 0x4f,0,0xc0,0xc0);
       i++;
     }
-    j++;
     bVar4 = i < 0xc;
-  } while (j < 0x40);
+  }
   sprintf(acStack_140,"%08x",pvVar1);
   crash_print(param_2,acStack_140,((ushort)i & 3) * 0x50 + 0x19,(short)(i >> 2) * 9 + 0x4f,0
               ,0xc0,0xc0);
   i++;
-  j = 0;
-  do {
+  for(j=0;j<0x800;j++) {
     if (((i < 0xc) && (pvVar1 = iStack_34[j], (void *)0x8000046f < pvVar1)) &&
        (pvVar1 <= pvStack_3c)) {
       sprintf(acStack_140,"%08x",(uint)pvVar1);
@@ -359,8 +355,7 @@ void stack_dump(CrashSub *param_1,CrashBuff *param_2){
                   (short)(i >> 2) * 9 + 0x4f,0,0xc0,0xc0);
       i++;
     }
-    j++;
-  } while (j < 0x800);
+  }
   iVar7 = 0;
   piVar6 = (int *)appStack_mirror;
   while (*piVar6 == APPSTACKMASK) {
@@ -528,9 +523,7 @@ void heap_walk(CrashSub *param_1,CrashBuff *param_2){
 }
 #endif
 
-void crash_print(CrashBuff *buff,char *txt,u16 x,u16 y,u8 r,u8 g,u8 b)
-
-{
+void crash_print(CrashBuff *buff,char *txt,u16 x,u16 y,u8 r,u8 g,u8 b){
   char cVar1;
   byte bVar2;
   bool bVar3;
@@ -554,7 +547,7 @@ void crash_print(CrashBuff *buff,char *txt,u16 x,u16 y,u8 r,u8 g,u8 b)
     }
     else if (cVar1 == '\0') bVar3 = false;
     else {
-      if (0x171 < currX) {
+      if (currX>=370) {
         currY+= 10;
         currX = startX;
       }
