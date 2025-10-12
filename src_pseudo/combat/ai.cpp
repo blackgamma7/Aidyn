@@ -1871,7 +1871,7 @@ referncepoint_obj * CombatAI::FindFleeingRefpoint(CombatAI_s *param_1,float *dis
   setVec2(&afStack304,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY());
   for(u32 i=0;i<8;i++) {
     sprintf(buff,ComString(FleeX),i);
-    prVar2 = FindReferncePointName(gGlobals.Sub.borg9DatPointer,buff,false);
+    prVar2 = FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,false);
     if (prVar2) {
       setVec2(&afStack112,(prVar2->header).pos.x,(prVar2->header).pos.z);
       prox = vec2_proximity(&afStack112,&afStack304);

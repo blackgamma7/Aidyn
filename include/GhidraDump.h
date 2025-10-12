@@ -87,13 +87,6 @@ struct shop_ram {
 };
 
 
-struct ArrayHeader { /* ROM Db array Header */
-    u8 Size; /* number of items in array */
-    u8 unk[3]; //junk bytes
-};
-
-
-
 struct Widget_Skills {
     BaseWidget base;
     CharSkills *skills;

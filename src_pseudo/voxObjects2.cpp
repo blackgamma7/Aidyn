@@ -1,42 +1,35 @@
 #include "vobjects.h"
-#include "globals.h"
+#include "game.h"
 
 
 u16 FUN_80005d60(wander_substruct **w) {
-  wander_substruct *pwVar1;
-  bool bVar2;
-  u16 uVar2;
-  voxelObject *pvVar3;
-  playerData *ppVar4;
-  playerData *player;
-  
-  player = gGlobals.playerCharStruct.playerDat;
-  bVar2 = gGlobals.playerCharStruct.playerDat == NULL;
+  u16 ret;
+  playerData *player = gGlobals.playerCharStruct.playerDat;
   *w = NULL;
-  if ((bVar2) || (player->unk104 == -1)) {
-    uVar2 = -1;
+  if ((gGlobals.playerCharStruct.playerDat == NULL) || (player->index == -1)) {
+    ret = -1;
   }
   else {
-    ppVar4 = gGlobals.gameVars.PlayerHandler.playerDats + player->unk104;
-    uVar2 = -1;
-    if (ppVar4->removeFlag) {
-      pwVar1 = findWandererFromPlayerName(ppVar4->ID);
-      uVar2 = -1;
-      if (pwVar1) {
-        pvVar3 = &gGlobals.gameVars.borg9DatPointer->voxelObjs[pwVar1->VoxelIndex];
-        uVar2 = -1;
-        if ((pvVar3) &&
-           (player->unk108 <= ppVar4->scaleRad + player->scaleRad + 0.5f)) {
-          uVar2 = -1;
-          if (Voxel_CheckProc(pvVar3,gGlobals.playerCharStruct.playerDat)) {
-            uVar2 = pwVar1->VoxelIndex;
-            *w = pwVar1;
+    playerData *pDat = gGlobals.gameVars.PlayerHandler.playerDats + player->index;
+    ret = -1;
+    if (pDat->removeFlag) {
+      wander_substruct *wander = findWandererFromPlayerName(pDat->ID);
+      ret = -1;
+      if (wander) {
+        voxelObject *vox = &gGlobals.gameVars.borg9DatPointer->voxelObjs[wander->VoxelIndex];
+        ret = -1;
+        if ((vox) &&
+           (player->unk108 <= (pDat->scaleRad)*2 + 0.5f)) {
+          ret = -1;
+          if (Voxel_CheckProc(vox,gGlobals.playerCharStruct.playerDat)) {
+            ret = wander->VoxelIndex;
+            *w = wander;
           }
         }
       }
     }
   }
-  return uVar2;
+  return ret;
 }
 
 float func_checking_monsterparty(voxelObject *v,vec3f *po) {
@@ -50,7 +43,7 @@ void monsterparty_setvec2(voxelObject *v,vec2f *pos) {
   
   setVec2(pos,(v->header).pos.x,(v->header).pos.z);
   if ((((v->header).type == VOXEL_MonsterParty) && (gGlobals.playerCharStruct.playerDat != NULL)) &&
-     (sVar1 = (gGlobals.playerCharStruct.playerDat)->unk104, sVar1 != -1)) {
+     (sVar1 = (gGlobals.playerCharStruct.playerDat)->index, sVar1 != -1)) {
     setVec2(pos,gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.x,
             gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.z);
   }
@@ -175,9 +168,9 @@ LAB_8000613c:
       if (pvVar11) {
         run_voxelFuncs0(pvVar11,(u16)uStack_58,(u16)0);
         if ((pvVar11->header).type == VOXEL_Container) 
-          ppVar3->ani_type = 0xb;
+          ppVar3->ani_type = AniType_11;
         if ((pvVar11->header).type == VOXEL_Teleporter)
-          ppVar3->ani_type = 0x13;
+          ppVar3->ani_type = AniType_19;
       }
     }
   }

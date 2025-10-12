@@ -16,7 +16,7 @@ struct ZoneDat {
 
 #define ZoneCenter 0x11 //BCD index of MapZoneData[1][1]
 
-#define MAPCENTER gGlobals.Sub.ZoneDatMtx[1][1]
+#define MAPCENTER gGlobals.gameVars.ZoneDatMtx[1][1]
 
 s16 gPlayerRenderTimer=0;
 s32 FreeZoneEngineTimestamp=-1;

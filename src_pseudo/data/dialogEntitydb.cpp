@@ -5,7 +5,7 @@
 #define FILENAME "../data/dialogEntitydb.cpp"
 
 DialogEntityDB* gDialogEntityDBp=NULL;
-
+extern void*dialouge_entity;
 void DialogEntityDB::Orphaned(){
   s32 auStack16 [4];
   
@@ -26,14 +26,12 @@ void DialogEntityDB::Load(u8 index,u32 *pos){
 }
 
 void DialogEntityDB::Init(){
-  DialougEnt_RAM *pDVar1;
   u8 bVar2;
   u32 auStack24 [6];
   
   auStack24[0] = 0;
   load_db_array_size(&dialouge_entity,this,auStack24);
-  pDVar1 = (DialougEnt_RAM *)HeapAlloc(((u32)this->total * 0xc + (u32)this->total) * 2,FILENAME,0x8f);
-  this->ents = pDVar1;
+  ALLOCS(this->ents,this->total*sizeof(DialougEnt_RAM),143);
   bVar2 = 0;
   if (this->total != 0) {
     do {Load(bVar2++,auStack24);} while (bVar2 < this->total);

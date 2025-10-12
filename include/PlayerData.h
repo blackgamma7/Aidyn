@@ -60,16 +60,17 @@ struct MoveQueueEntry {
 enum AniTypes{
     AniType_0,
     AniType_1,
-    AniType_Walk=2,
+    AniType_Walk,
     AniType_Run,
     AniType_4, //speaking motion?
-    AniType_GetBuff=5,
+    AniType_GetBuff,
     AniType_6,
     AniType_Hit,
     AniType_8,
     AniType_Dying,
     AniType_10,
-    AniType_Atk3=12,
+    AniType_11,
+    AniType_Atk3,
     AniType_Atk2,
     AniType_Atk5,
     AniType_Atk4,
@@ -116,9 +117,7 @@ struct playerData {
     SpeedProperty colTypeB;
     u16 Ground_type;
     u16 Ground_Type_New;
-    short unk104;
-    undefined field36_0x106;
-    undefined field37_0x107;
+    s16 index; //index in gGlobals.gameVars.PlayerHandler.playerDats[]
     float unk108;
     float voxelReach; /* 100f default */
     vec3f voxelCoords;
@@ -139,7 +138,7 @@ struct playerData {
     u32 unk284; /* unused? */
     PlaneObj shadow;
     u8 unused518[496];
-    short unk708;
+    s16 deathTimer;
     u8 visible_flag;
     u8 alaron_flag; //set if Alaron's model
     u8 shadowAlpha; //used for alpha

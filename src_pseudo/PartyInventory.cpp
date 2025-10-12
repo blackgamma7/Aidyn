@@ -138,15 +138,16 @@ s32 PartyInventory::GetItemQuantity(s32 slot){
   return 0;
 }
 
-#define SLOTSEARCH(arr) int slot =SearchArray(arr,sizeof(arr)/sizeof(arr[0]),id)
+#define SLOTSEARCH(arr) int slot =SearchArray(arr,ARRAY_COUNT(arr),id)
 //Array of 80 items that occupy select slots in inv_slots[128-207]
 ItemID D_800F1890[]={
   Item_Spice, Item_Herb, Item_Gemstone, Item_Sulphur, Item_HellhoundHide,
   Item_DarkenbatHide, Item_BeastHide, Item_Chitlin,
   Scroll_SenseAura, Scroll_Oriana, Scroll_Wind, Scroll_Endurance, Scroll_Weakness,
-  0x1106, Scroll_Strength, Scroll_RemovePoison,Scroll_Lightning, Scroll_Immolation,
-  0x110b, Scroll_Escape, Scroll_EarthSmite, Scroll_DragonFlames, Scroll_Debilitation, Scroll_ControlElem,
-  Scroll_AirShield, Scroll_Lighthouse, 0x1133, 0x1134, 0x1135, 0x1136, 0x1137, 0x1138,
+  Scroll_6, Scroll_Strength, Scroll_RemovePoison,Scroll_Lightning, Scroll_Immolation,
+  Scroll_11, Scroll_Escape, Scroll_EarthSmite, Scroll_DragonFlames, Scroll_Debilitation, Scroll_ControlElem,
+  Scroll_AirShield, Scroll_Lighthouse, Scroll_AcidBolt, Scroll_AuraOfDeath,
+  Scroll_SolarWrath, Scroll_Banishing, Scroll_Brilliance, 0x1138,
   0x113b, 0x113c, 0x113d, 0x113e, 0x110e, 0x1143, 0x1144, 0x1145,
   0x1146, 0x1147, 0x1148, 0x1149, 0x114a, 0x114c, 0x114d, 0x114e,
   0x1150, 0x1151, 0x1152, 0x1153, 0x1154, 0x1155, 0x1156, 0x1157,
@@ -162,9 +163,13 @@ s32 PartyInventory::AddKeyItem(ItemID id,s32 q){
 }
 
 u16 key_item_flags_1[]={
-    3403,3404,3405,3406,3407,3408,3409,3410,3411,3412,3413,3414,3415,
-    3416,3417,3418,3419,3420,3421,3422,3423,3424,3435,3426,3427,3428,
-    3429,3430,3431,3432,0x195};
+  FLAG_HasTxominLetter,FLAG_HasAmaranth,FLAG_HasOrianaLetter,
+  FLAG_HasMap1,FLAG_HasMap2,FLAG_HasMap4,FLAG_HasMap5,FLAG_HasMap6,
+  FLAG_HasMap7,FLAG_HasMap8,FLAG_HasMap9,FLAG_HasMap10,FLAG_HasMap11,
+  FLAG_HasMap12,FLAG_HasCradawghBody,FLAG_HasMap13,FLAG_HasMap14,
+  FLAG_HasMap15,FLAG_HasMap16,FLAG_HasMapGoblin,FLAG_HasMap17,FLAG_HasMap18,
+  FLAG_HasBowdenKey,FLAG_HasBlackKey,FLAG_HasSkullKey,FLAG_HasBloodKey,FLAG_HasBoneKey,
+  FLAG_HasLighthouseKey,FLAG_HasLodinKey,FLAG_HasDragonKey,FLAG_HasRabisatAsp};
 //Array of 31 Key items that occupy select slots in inv_slots[208-239]
 ItemID key_item_array_2[]={
   Item_TxominLetter, Item_Amaranth, Item_OrianaLetter,
@@ -193,8 +198,9 @@ s32 PartyInventory::AddKeyItem2(ItemID id,s32 q){
     return(slot!=-1);
 }
 ItemID D_800F19F0[]={
-    0x0541, 0x0640, 0x0734, 0x0757, 0x0926, 0x0a28, 0x0b29, 0x0c27,
-    0x0d03, 0x0d00, 0x0d02, 0x1300, 0x0b04};
+    0x0541, 0x0640, 0x0734, 0x0757, Helm_SpiritDrake,
+    Cloak_Nightdrake, Glove_Stormdrake, Ring_Magedrake, Wand_HornKynon, 
+    Wand_Banner, Wand_Stormbreaker, Amulet_Pandara, Glove_Plate};
 
 s32 PartyInventory::AddKeyEquipment(ItemID id,s32 q){
   SLOTSEARCH(D_800F19F0);

@@ -536,19 +536,19 @@ LAB_8001666c:
           FLOOR((pDat->skyTint).y,0.0);
           FLOOR((pDat->skyTint).z,0.0);
         }
-        if ((pDat->unk708 < 1) ||
-           (iVar12 = (uint)(u16)pDat->unk708 - delta_, (pDat->flags & ACTOR_100) == 0)) {
+        if ((pDat->deathTimer < 1) ||
+           (iVar12 = (uint)(u16)pDat->deathTimer - delta_, (pDat->flags & ACTOR_100) == 0)) {
 LAB_800168cc:
         }
         else {
-          pDat->unk708 = (short)iVar12;
+          pDat->deathTimer = (short)iVar12;
           if (iVar12 * 0x10000 < 1) {
             pDat->shadowAlpha = 0;
             pDat->flags = 0;
             Actor::FreePlayer(pDat);
           }
-          if (pDat->unk708 < 60) {
-            pDat->shadowAlpha = (pDat->unk708 / 60.0f) * 255.0f;
+          if (pDat->deathTimer < 60) {
+            pDat->shadowAlpha = (pDat->deathTimer / 60.0f) * 255.0f;
             goto LAB_800168cc;
           }
         }
@@ -758,7 +758,7 @@ not_flying_borg7:
         iVar12 = (iVar21 + 1) * 0x10000;
         if ((pDat->flags & ACTOR_400)) goto LAB_8001729c;
         bVar18 = false;
-        pDat->unk104 = -1;
+        pDat->index = -1;
         pDat->unk108 = fVar31;
         fVar31 = 3.0f;
         uVar24 = 0;
@@ -804,7 +804,7 @@ LAB_8001727c:
                     sVar17 = sVar15 + 1;
                     if (local_70 < pDat->unk108) {
                       pDat->unk108 = local_70;
-                      pDat->unk104 = (short)uVar23;
+                      pDat->index = (short)uVar23;
                       goto LAB_8001727c;
                     }
                   }
@@ -1176,14 +1176,13 @@ void Ofunc_80018760(playerData *p,vec3f *v){
 
 void Actor::DeathFlag(playerData *p){
   SetFlag(p,ACTOR_100);
-  p->unk708 = 120;
+  p->deathTimer = 120;
 }
 
 
-void FUN_800187f4(attachmentNode *param_1){
-  if ((param_1->borg5) && (param_1->sceneDat)) {
-    AllocFreeQueueItem(&gGlobals.QueueA,(void**)&param_1->sceneDat,1,1);
-  }
+void FUN_800187f4(attachmentNode *node){
+  if ((node->borg5) && (node->sceneDat))//priorty is set a little lower
+    AllocFreeQueueItem(&gGlobals.QueueA,(void**)&node->sceneDat,QueueType_Scene,1);
 }
 
 void Actor::EmptyHands(playerData *p){
@@ -1196,10 +1195,10 @@ void AttachItemToPlayer(playerData *p,u16 pos,uint b5){
   if (2 < pos) CRASH("AttachItemToPlayer","Invalid Attachment Position");
   #endif
   attachmentNode *paVar2 = p->attachmentNodes + pos;
-  u16 uStack_58[]={0,2,3};
+  u16 indecies[]={0,2,3};
   FUN_800187f4(paVar2);
   paVar2->borg5 = b5;
-  paVar2->index = uStack_58[pos];
+  paVar2->index = indecies[pos];
 }
 
 void FreeAttachmentFromPlayer(playerData *param_1,u16 pos){
@@ -1278,20 +1277,8 @@ void FUN_80018bf0(playerData *param_1){
   }
 }
 
-
-void FUN_80018c38(void){
-  int iVar1;
-  ulonglong uVar2;
-  
-  uVar2 = 0;
-  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
-    iVar1 = 0;
-    while( true ) {
-      FUN_80018bf0((int)gGlobals.gameVars.PlayerHandler.playerDats + (iVar1 - (int)uVar2) * 0x80);
-      uVar2 = ((int)uVar2 + 1) & 0xffff;
-      if (gGlobals.gameVars.PlayerHandler.max_player <= uVar2) break;
-      iVar1 = (int)uVar2 << 4;
-    }
+void FUN_80018c38(){
+  for(u16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++){
+    FUN_80018bf0(&gGlobals.gameVars.PlayerHandler.playerDats[i]);
   }
-  return;
 }

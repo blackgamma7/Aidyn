@@ -139,8 +139,8 @@ loop:
           gfx1 = display_debug_stats(gfx1);
           #else //print just player coords if Retail Version and !version cheat used
           if ((version_flag != 0) && (gGlobals.playerChar.playerDat != NULL)) {
-            Gsprintf("%c%02d-(%2.1f,%2.1f)\n",gGlobals.Sub.mapShortA + ('A'-1)
-                    ,gGlobals.Sub.mapShortB,((gGlobals.playerChar.playerDat)->collision).position.x,
+            Gsprintf("%c%02d-(%2.1f,%2.1f)\n",gGlobals.gameVars.mapShortA + ('A'-1)
+                    ,gGlobals.gameVars.mapShortB,((gGlobals.playerChar.playerDat)->collision).position.x,
                     ((gGlobals.playerChar.playerDat)->collision).position.z);
             gfx1 = Graphics::DrawText(gfx1,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);
           }

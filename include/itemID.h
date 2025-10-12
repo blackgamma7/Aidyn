@@ -14,6 +14,13 @@ typedef struct{
     };
 }ItemID_ROM; //LE version
 
+struct ArrayHeader { /* ROM Db array Header */
+    u8 Size; /* number of items in array */
+    u8 unk[3]; //junk bytes
+};
+
+u8 load_db_array_size(ArrayHeader *header,u8 *size,u32 *offset);
+
 typedef enum ElementEnum {
 	ELEMENT_NONE, ELEMENT_EARTH, ELEMENT_SOLAR, ELEMENT_PHYSICAL, ELEMENT_NECROMANCY,
     ELEMENT_FIRE, ELEMENT_LUNAR, ELEMENT_NAMING, ELEMENT_WATER, ELEMENT_MAGIC,
@@ -26,8 +33,6 @@ typedef enum AspectEnum {
     ASPECT_LUNAR,
     ASPECT_SOLAR
 } AspectEnum;
-
-
 
 #define ITEMIDTYPE(x) x >> 8
 

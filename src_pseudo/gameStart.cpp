@@ -228,7 +228,7 @@ void start_intermediate_game(void){
     gGlobals.gameVars.mapDatB = debugMapLabels[5].b;
     gGlobals.gameVars.mapDatC = debugMapLabels[5].c;
     #else
-    gGlobals.Sub.mapDatB=10;
+    gGlobals.gameVars.mapDatB=10;
     #endif
   }
   else { //Start game - skip intro cinematic.
@@ -238,16 +238,16 @@ void start_intermediate_game(void){
     gGlobals.gameVars.mapDatB = debugMapLabels[0].b;
     gGlobals.gameVars.mapDatC = debugMapLabels[0].c;
     #else
-    gGlobals.Sub.MapFloatDatEntry.mapDatB = 0xffff;
-    gGlobals.Sub.mapDatB =0;
+    gGlobals.gameVars.MapFloatDatEntry.mapDatB = 0xffff;
+    gGlobals.gameVars.mapDatB =0;
     #endif
   }
   #ifdef DEBUGVER
   gGlobals.playerCharStruct.player_form = debugCharacters[0].borg7;
   gGlobals.playerCharStruct.collisionRadius = debugCharacters[0].f;
   #else
-  gGlobals.Sub.mapDatC =0;
-  gGlobals.Sub.mapDatA =0;
+  gGlobals.gameVars.mapDatC =0;
+  gGlobals.gameVars.mapDatA =0;
   gGlobals.playerCharStruct.player_form=BORG7_Alaron;
   gGlobals.playerCharStruct.collisionRadius = 0.5f
   #endif

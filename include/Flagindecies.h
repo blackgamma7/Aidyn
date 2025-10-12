@@ -109,6 +109,40 @@
 #define FLAG_Map17 804 //Hellhound Cave
 #define FLAG_Map18 805 //Between Hellhound Cave and Barrow
 
+//Key Item collection flags
+
+#define FLAG_HasTxominLetter 3403
+#define FLAG_HasAmaranth 3404
+#define FLAG_HasOrianaLetter 3405
+#define FLAG_HasMap1 3406
+#define FLAG_HasMap2 3407
+#define FLAG_HasMap4 3408
+#define FLAG_HasMap5 3409
+#define FLAG_HasMap6 3410
+#define FLAG_HasMap7 3411
+#define FLAG_HasMap8 3412
+#define FLAG_HasMap9 3413
+#define FLAG_HasMap10 3414
+#define FLAG_HasMap11 3415
+#define FLAG_HasMap12 3416
+#define FLAG_HasCradawghBody 3417
+#define FLAG_HasMap13 3418
+#define FLAG_HasMap14 3419
+#define FLAG_HasMap15 3420
+#define FLAG_HasMap16 3421
+#define FLAG_HasMapGoblin 3422
+#define FLAG_HasMap17 3423
+#define FLAG_HasMap18 3424
+#define FLAG_HasBowdenKey 3425
+#define FLAG_HasBlackKey 3426
+#define FLAG_HasSkullKey 3427
+#define FLAG_HasBloodKey 3428
+#define FLAG_HasBoneKey 3429
+#define FLAG_HasLighthouseKey 3430
+#define FLAG_HasLodinKey 3431
+#define FLAG_HasDragonKey 3432
+#define FLAG_HasRabisatAsp 405
+
 
 #define FLAG_LighthouseLit 5017
 

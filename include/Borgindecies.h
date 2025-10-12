@@ -230,6 +230,8 @@ typedef enum Borg8Enum {
 #define BORG11_BirdA 0x0552
 
 #define BORG11_BirdB 0x0556
+#define BORG11_BirdC 0x0559
+#define BORG11_BirdD 0x055E
 
 #define BORG11_Cricket 0x0570
 #define BORG11_Seagull 0x057B

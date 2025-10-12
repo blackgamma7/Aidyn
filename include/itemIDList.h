@@ -24,7 +24,7 @@ enum DB_TYPE{
     DB_DIALOUGEENTITY //Simpler entities for dialouge (signs, animals)
 };
 //set item ID by category and low byte
-#define IDSet(name,n) (u16)(n|(DB_##name <<8))
+#define IDSet(name,n) (ItemID)(n|(DB_##name <<8))
 #define IDMisc(n) IDSet(MISC,n) 
 #define IDEnt(n) IDSet(ENTITY,n) 
 #define IDSpell(n) IDSet(SPELL,n) 
@@ -98,9 +98,9 @@ enum ItemIDS{
     Helm_Tempests,
     Helm_Defence,
     Helm_Wisdom,
-    Helm_Tempests,
     Helm_Charisma,
     Helm_Wizard,
+    Helm_SpiritDrake=IDHelm(38),
 
     //cloaks
 

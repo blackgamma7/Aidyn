@@ -562,7 +562,6 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   u32 uVar21,uVar22,uVar11;
   ZoneDat aZStack432 [3] [3];
   uint uStack_30;
-  
   s16 sVar15 = no_TP_vec3;
   u16 uStack112[2][8]={{0,0,1,0,2,0,0,1},{2,1,0,2,1,2,2,2}};
   no_TP_vec3 = 0;
@@ -1956,9 +1955,9 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
       gGlobals.screenFadeSpeed = 0.06666667f;
     }
     #ifndef DEBUGVER
-    if (gGlobals.Sub.mapDatA == 0) bVar1 = (gGlobals.Sub.refObjPointer->teleport.MapDatA == 0);
-    Gsprintf("pZ->map: %d\npT->map: %d\ndoReset: %d - %d\n"(int)gGlobals.Sub.mapDatA,
-                (uint)((gGlobals.Sub.refObjPointer)->teleport).MapDatA,uVar3,0);
+    if (gGlobals.gameVars.mapDatA == 0) bVar1 = (gGlobals.gameVars.refObjPointer->teleport.MapDatA == 0);
+    Gsprintf("pZ->map: %d\npT->map: %d\ndoReset: %d - %d\n"(int)gGlobals.gameVars.mapDatA,
+                (uint)((gGlobals.gameVars.refObjPointer)->teleport).MapDatA,uVar3,0);
     N64PRINT();
     #endif
     TeleportPlayer(player,gGlobals.gameVars.refObjPointer,gGlobals.gameVars.tpVec3);

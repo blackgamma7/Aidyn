@@ -2625,7 +2625,7 @@ s16 CombatEntity::GoblinAmbushAttack(CombatEntity *target,s16 dmg){
   if(dmg){
     CharSheet *pCVar1 = target->charSheetP;
     ret = dmg;
-    if((pCVar1->ID == (ItemID)(entityList[153] | 0x200))&&
+    if((pCVar1->ID == IDEntInd(EntInd_Alaron))&&
       (gCombatP->encounter_dat->EncounterID == FLAG_GoblinAmbush)){
       target->PrintDamage(1);
       gGlobals.GoblinHitTally--;
@@ -2691,7 +2691,7 @@ u8 CombatEntity::CalculateAttack(CombatEntity *target,u8 param_3){
 
 void CombatEntity::TroubadourEnd(){
   UnsetFlag(COMBATENT_BARD);
-  gCombatP->Troubador = 0;
+  gCombatP->TroubadorLV = 0;
   if (gGlobals.playerDataArray[this->index])
     {FreeAttachmentFromPlayer(gGlobals.playerDataArray[this->index],2);}
 }
@@ -2775,7 +2775,7 @@ void CombatEntity::Troubadour(){
         CSprintf(TroubStart,this->charSheetP->name);
         copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
         print_combat_textbox(gCombatP,gGlobals.text,0);
-        CombatEntity::TroubadourUpChance((u8)uVar9);
+        TroubadourUpChance((u8)uVar9);
         AttachItemToPlayer(ppVar2,2,0x1abb);
       }
       ppVar2->ani_type = AniType_GetBuff;
