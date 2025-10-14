@@ -10,7 +10,7 @@ typedef enum Price_multi {
     PRICE_TRIPLE,
     PRICE_5X
 } Price_multi;
-
+#pragma pack (push, 1)
 struct price_mod {
    u8 unk0;
    u8 multi;
@@ -27,7 +27,7 @@ struct shop_ROM { // Shop Data in Rom
     ShopItem longItem[20]; // each entry has 3 mystery bytes
     ItemID_ROM shortItem[3]; // these do not.
 };
-
+#pragma pack(pop)
 struct shop_ram{
 	ItemID shopkeep;
 	ItemID stock[23];
@@ -39,6 +39,7 @@ class ShopDB{
 	u8 total;
 	u8 pad[3];
 	shop_ram* shops;
+    void Orphaned();
     void Load(u8,u32*);
     void Init();
     void Free();
