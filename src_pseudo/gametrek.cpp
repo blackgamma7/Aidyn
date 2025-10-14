@@ -1,8 +1,10 @@
 #include "globals.h"
 #include "compass.h"
+#include "skyObjects.h"
 #include "vobjects.h"
 #include "memaker.h"
 #include "game.h"
+#include "QuestData.h"
 
 #define FILENAME "./src/gametrek.cpp"
 
@@ -18,6 +20,7 @@ u8 gMemMakerFlag=false;
 u16 gDelta=1;
 u32 DAT_800e9aac=1;
 u32 DAT_800e9ab0=0;
+u16 DAT_800e9ab4=0;
 
 bool check_some_toggle(void) {return some_toggle != -1;}
 
@@ -112,7 +115,7 @@ u8 screenFadeMode_1_9(Gfx **GG) {
       }
     }
     if (gDelta < 1) gDelta = 1;
-    if (gDelta >= 6) gDelta = 6
+    if (gDelta >= 6) gDelta = 6;
     gGlobals.delta = (float)(u8)gDelta;
     gfxTemp[0] = tick_trek_features(gfxTemp[0],(u8)gDelta);
     break;
@@ -227,33 +230,20 @@ switchD_80024ecc_caseD_c:
   goto switchD_80024ecc_caseD_1;
 }
 
-extern u32 DAT_800e9ab4;
-bool GetDelta_TickTrek(Gfx **param_1) {
-  bool bVar2;
-  Gfx *pGVar1;
-  uint delay;
-  double dVar3;
-  controller_aidyn *apcStack_20 [8];
-  
-  delay = 0;
-  apcStack_20[0] = NULL;
+bool GetDelta_TickTrek(Gfx **GG) {
+  u32 delay = 0;
+  controller_aidyn *cont = NULL;
   DAT_800e9ab4++;
-  while (Controller::GetInput(apcStack_20,0)) {
-    delay++;
-  }
+  while (Controller::GetInput(&cont,0)) {delay++;}
   DeltaCap(delay);
   gGlobals.delta = (float)delay;
-  pGVar1 = tick_trek_features(*param_1,(u8)delay);
-  *param_1 = pGVar1;
+  *GG = tick_trek_features(*GG,(u8)delay);
   if (DAT_800e9ab4 < 10) {
     DAT_800e9ab4 = 0;
-    bVar2 = false;
+    return false;
   }
-  else bVar2 = true;
-  return bVar2;
+  return true;
 }
-
-
 
 extern BaseWidget* PTR_800ed504;
 bool isPaused(void) {
@@ -514,8 +504,8 @@ Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
 void SetNewJounalEntry(s16 param_1) {newestJournal = param_1;}
 
 void NewJournalEntryPopup(void) {
-  if ((((gGlobals.screenFadeMode == 0) && (some_toggle == -1)) && (bVar1 = isPaused(), !bVar1)) &&
-     ((gGlobals.playerCharStruct.unkState == 3 &&
+  if ((((gGlobals.screenFadeMode == 0) && (some_toggle == -1))
+      && (!isPaused())) &&((gGlobals.playerCharStruct.unkState == 3 &&
       #ifdef DEBUGVER //yeah, no clue why this discrepancy...
       (Get_eventFlagCheck(FLAG_NewJournalEntry)))))
       #else

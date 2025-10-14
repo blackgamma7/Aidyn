@@ -1,8 +1,17 @@
 #include "globals.h"
+#include "vobjects.h"
 //Script for chest explosion particles (and the sole use of dynamic lighting)
 
-extern voxelObject*  AllocDynamicLight(DynamicLightHead *param_1,u16 param_2,vec3f *pos,float size,u16 type,
-                 float f1,Color32 colb,Color32 colc);
+#if 0 //for future LE porting
+#define BoomColRed0 0x000080ff
+#define BoomColRed1 0x00000060
+#define BoomColYellow 0x0000ffff
+#else
+#define BoomColRed0 0xff800000
+#define BoomColRed1 0x60000000
+#define BoomColYellow 0xffff0000
+#endif
+
 
 void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 param_4,short param_5,short count
                ,float randHi,float randLo,float param_9,short addLight) {
@@ -26,8 +35,7 @@ void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 pa
         RAND.GetVec3(&pPVar1->vel,RAND.GetFloatRange(randHi,randLo));
     }
     if (addLight) {
-      AllocDynamicLight(&gGlobals.gameVars.DynamicLights,0x78,&chest->header.pos,10.0,1,4.0f,
-                        (Color32)0xff800000,(Color32)0x0);
+      AllocDynamicLight(&gGlobals.gameVars.DynamicLights,0x78,&chest->header.pos,10.0,1,4.0f,BoomColRed0,0x0);
     }
   }
 }
@@ -170,7 +178,7 @@ void alloc_explosion_light(vec3f *pos,float param_2,u16 param_3,bool moving) {
       setVec3(&(pPVar1->collision).vel,local_70.x,0.12,local_70.y);
     }
     pPVar1->object = AllocDynamicLight(&gGlobals.gameVars.DynamicLights,param_3,pos,5.0,3,0.75f,
-                               (Color32)0x60000000,(Color32)0xffff0000);
+                               BoomColRed1,BoomColYellow);
   }
 }
 void Ofunc_8001b688(vec3f *pos,vec2f *param_2,u16 param_3) {

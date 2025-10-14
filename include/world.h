@@ -48,15 +48,15 @@ struct WeatherTemp {
   u8 unk0xd[3]; //likely padding
 };
 
-extern char** humidity_labels;
-extern char** timeofday_labels;
-extern char** moon_phase_labels;
-extern char** dark_storm_labels;
-extern char** weekday_labels;
-extern char** terrain_labels;
-extern char** precip_labels;
+char** humidity_labels=NULL;
+char** timeofday_labels=NULL;
+char** moon_phase_labels=NULL;
+char** dark_storm_labels=NULL;
+char** weekday_labels=NULL;
+char** terrain_labels=NULL;
+char** precip_labels=NULL;
 
-extern TerrainStruct* TerrainPointer;
+TerrainStruct* TerrainPointer=NULL;
 
 extern u8 weather_season_array[8]; // {2Bh, 30h, 21h, 19h, 24h, 28h, 0h, 0h}
 extern u8 weather_terrain_array[28];

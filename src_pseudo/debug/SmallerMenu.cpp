@@ -96,8 +96,8 @@ BaseWidget * DebugTerrainChangePlus(BaseWidget * param_1,BaseWidget *param_2){
       sprintf(*puVar2,"%dx",gDebugGameTimeSpeeds[gDebugGameTime]);
       break;
     case 5:
-      World::SetByTimeOfDay(TerrainPointer,1);
-      sprintf(*puVar2,"%s",timeofDay_labels[TerrainPointer->partOfDay]);
+      World::ShiftTimeOfDay(TerrainPointer,1);
+      sprintf(*puVar2,"%s",timeofday_labels[TerrainPointer->partOfDay]);
     }
     if (pfVar4) {
       *pfVar4+=.1;
@@ -136,8 +136,8 @@ BaseWidget * DebugTerrainChangeMinus(BaseWidget * param_1,BaseWidget *param_2){
       sprintf(*puVar2,"%dx",gDebugGameTimeSpeeds[gDebugGameTime]);
       break;
     case 5:
-      World::SetByTimeOfDay(TerrainPointer,-1);
-      sprintf(*puVar2,"%s",timeofDay_labels[TerrainPointer->partOfDay]);
+      World::ShiftTimeOfDay(TerrainPointer,-1);
+      sprintf(*puVar2,"%s",timeofday_labels[TerrainPointer->partOfDay]);
     }
     if (pfVar4) {
       *pfVar4-=.1;

@@ -1,22 +1,22 @@
 #include "globals.h"
 
-void InitLight_(voxelObject* light,vec3f *pos,float size,u16 type,float f1,Color32 colB,Color32 colC){
-  CLEAR(light);
-  (light->header).type = VOXEL_Light;
-  (light->header).Bitfeild = VOXEL_Active;
-  copyVec3(pos,&(light->header).pos);
-  (light->light).lightType = type;
-  (light->header).size = size;
-  (lightObj->light).cols[1] = colB;
-  (lightObj->light).cols[2] = colC;
-  switch((lightObj->light).lightType){
+void InitLight_(voxelObject* vox,vec3f *pos,float size,u16 type,float f1,u32 colB,u32 colC){
+  CLEAR(vox);
+  vox->header.type = VOXEL_Light;
+  vox->header.Bitfeild = VOXEL_Active;
+  copyVec3(pos,&(vox->header).pos);
+  vox->light.lightType = type;
+  vox->header.size = size;
+  vox->light.cols[1].W = colB;
+  vox->light.cols[2].W = colC;
+  switch(vox->light.lightType){
     case Light_Static:
-      (lightObj->light).cols[0] = (lightObj->light).cols[1];
+      (vox->light).cols[0] = (vox->light).cols[1];
       return;
     case Light_Alternate:
     case Light_Sine:
     case Light_Random:
-     (lightObj->light).f1 = f1;
+     vox->light.f1 = f1;
      return;
     default:
       CRASH("InitLight","Unknown Light Type");
@@ -155,8 +155,6 @@ LAB_800550e8:
 }
 
 void light_init_func(playerData *param_1,SceneData *param_2,s16 param_3){
-  
-  
   Borg9Data *b9C = GetCollisionZone(param_1->zoneDatByte);
   if (b9C) {
     s16 x,y;
@@ -201,7 +199,7 @@ void dynamic_lights_free_all(DynamicLightHead *param_1){
 
 //This only seems to be used with the exploding chest.
 voxelObject*  AllocDynamicLight(DynamicLightHead *param_1,u16 param_2,vec3f *pos,float size,u16 type,
-                 float f1,Color32 colb,Color32 colc){
+                 float f1,u32 colb,u32 colc){
   
   if (param_1->dynamicLightCount >= 0x10) CRASH("AllocDynamicLight","Out of Dynamic Lights");
     voxelObject* l = &param_1->lights[param_1->dynamicLightCount];

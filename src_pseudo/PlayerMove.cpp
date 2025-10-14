@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "vobjects.h"
 
 u16 gCombatFreeCamera=0;
 

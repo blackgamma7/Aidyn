@@ -88,6 +88,26 @@ void FUN_8001b888(ParticleHeadStruct *param_1,vec3f *param_2);
 void lockpicking_check(voxelObject *v);
 BaseWidget * lockpicking_widget_ABfunc(BaseWidget *b0,BaseWidget *b1);
 
+//light.cpp
+
+void InitLight_(voxelObject* vox,vec3f *pos,float size,u16 type,float f1,u32 colB,u32 colC);
+void color_magnitude(Color32 *param_1,Color32 *param_2,float amp);
+float FUN_80054ba4(float x,float y);
+void color_XOR(Color32 *colA,Color32 *colB);
+void tint_color_with_screenfade(Color32 *param_1,float fade);
+void Ofunc_80054db0(voxelObject* param_1,u16 param_2);
+void Ofunc_80054dc0(voxelObject* param_1,u16 param_2);
+void InitLight(SceneData *scene,Borg9Data *borg9,vec3f *pos,voxelObject *lightObj,s16 count,s16 delta);
+void light_init_func(playerData *param_1,SceneData *param_2,s16 param_3);
+void passto_initLight(SceneData *param_1,Borg9Data *param_2,voxelObject *param_3,s16 param_4);
+void passto_InitLight_2(DynamicLightHead *param_1,SceneData *param_2,voxelObject *param_3,s16 param_4);
+void init_dynamic_light(DynamicLightHead *param_1);
+void dynamic_lights_free_all(DynamicLightHead *param_1);
+voxelObject*  AllocDynamicLight(DynamicLightHead *param_1,u16 param_2,vec3f *pos,float size,u16 type,
+                 float f1,u32 colb,u32 colc);
+void FreeDynamicLight(DynamicLightHead *param_1,s16 param_2);
+void FUN_800556f4(DynamicLightHead *param_1,s16 delta);
+
 
 typedef void (*VoxelUse)(voxelObject*,u16,u16);
 typedef u8 (*VoxelProx)(voxelObject*,playerData*);
