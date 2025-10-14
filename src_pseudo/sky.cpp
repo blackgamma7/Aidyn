@@ -14,22 +14,17 @@ void Sky::FreeSubstruct(SkySubstruct *param_1){
 }
 
 //Loads 37*12 RGBA32 texture
-void Sky::loadDay(SkySubstruct *param_1,u16 param_2){
-  u32 BVar2;
-  int iVar5;
-  Borg8Header *pBVar6;
+void Sky::loadDay(SkySubstruct *sub,u16 type){
   u32 sky_borg8s []={0,0x19f,0x19E,0x19A,0x0199,0x1A0,0x19D,0x19B,0x19C};
-  if (param_2 != param_1->type) {
-    FreeSubstruct(param_1);
-    param_1->type = param_2;
-    pBVar6 = loadBorg8(sky_borg8s[param_2]);
-    param_1->Borg8 = pBVar6;
-    param_1->Bitmap = (pBVar6->dat).offset;
-    if (((pBVar6->dat).Height != 37) || ((pBVar6->dat).Width != 12))
+  if (type != sub->type) {
+    FreeSubstruct(sub);
+    sub->type = type;
+    sub->Borg8 = loadBorg8(sky_borg8s[type]);
+    sub->Bitmap = (Color32*)sub->Borg8->dat.offset;
+    if ((sub->Borg8->dat.Height != 37) || (sub->Borg8->dat.Width != 12))
       CRASH("LoadDay","Invalid Image Height or Width");
   }
 }
-
 
 void Sky::AllocGradient(void){  
   if (!gGlobals.sky.gradient)
@@ -458,8 +453,8 @@ LAB_80022478:
   }
 LAB_800224b0:
   sVar1 = gGlobals.sky.obj10.type;
-  fVar7 = (float)(int)delta;
-  gGlobals.sky.gray = gGlobals.sky.gray + gGlobals.sky.grayDelta * fVar7;
+  fVar7 = (float)delta;
+  gGlobals.sky.gray+= gGlobals.sky.grayDelta * fVar7;
   if (1.0f <= gGlobals.sky.gray) {
     gGlobals.sky.gray = 0.0;
     gGlobals.sky.grayDelta = 0.0;
