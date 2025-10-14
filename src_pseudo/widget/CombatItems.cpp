@@ -80,7 +80,7 @@ WidgetChild8(32,120,gExpPakFlag?95:55,0,0){
   pBVar6->SetCoords(this->scrollMenu->x + -8,(this->scrollMenu->y - (short)pBVar6->GetHeight()) -2);
   pBVar7->SetCoords(this->scrollMenu->x + -8,this->scrollMenu->boundY1 + 2);
   this->wc0 =new WidgetChild0(this->scrollMenu,pBVar6,pBVar7,0);
-  this->wc0->SetColor(0xff,0xff,0xff,0xff);
+  this->wc0->SetColor(COLOR_WHITE);
   this->scrollMenu->Link(this->wc0);
   s8 lVar11 = gCombatItemSelections[iVar6];
   if (lVar11 != -1) {

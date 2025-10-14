@@ -2,6 +2,7 @@
 #include "widgets/DollMenu.h"
 #include "widgets/handler.h"
 #include "widgets/optionsMenu.h"
+#include "widgets/Calendar.h"
 
 //Widget showing pause menu aka "BigAssMenu"
 class PauseWidget: public WidgetMenu{
@@ -15,8 +16,8 @@ class PauseWidget: public WidgetMenu{
     void InitOptionsMenu();
     void BuildDollMenu(u8);
     void BuildCalendarMenu();
-    void m8003636c();
-    void m8003639c();
+    void FreeFromHandler();
+    void AddToHandler();
     Gfx* Render(Gfx*,u16,u16,u16,u16);
     u8 Tick();
     BaseWidget* Control(controller_aidyn*);
@@ -27,10 +28,10 @@ class PauseWidget: public WidgetMenu{
 struct pause_Substruct {
     WidgetOptionsMenu *optionsMenu;
     WidgetDollMenu *dollmenu;
-    struct WidgetCalendar *calendar;
+    WidgetCalendar *calendar;
     BaseWidget *pauseMenuSections[3];
     BaseWidget *backgroundWidget;
-    BaseWidget *backgroundImage;
+    WidgetBorg8 *backgroundImage;
     u8 PauseMenuSection;
     s16 unk22;
     s16 unk24;
@@ -55,3 +56,12 @@ BaseWidget * bigAssMenu_LZFunc(BaseWidget *,BaseWidget *);
 BaseWidget * bigAssMenu_RFunc(BaseWidget *,BaseWidget *);
 BaseWidget * bigAssMenu_LeftFunc(BaseWidget *,BaseWidget *);
 BaseWidget * bigAssMenu_RightFunc(BaseWidget *,BaseWidget *);
+BaseWidget * bigAssMenu_UpFunc(BaseWidget *,BaseWidget *);
+BaseWidget * bigAssMenu_DownFunc(BaseWidget *,BaseWidget *);
+BaseWidget * bigAssMenu_CLeftFunc(BaseWidget *,BaseWidget *);
+BaseWidget * bigAssMenu_CRightFunc(BaseWidget *,BaseWidget *);
+BaseWidget * bigAssMenu_CUpFunc(BaseWidget *,BaseWidget *);
+BaseWidget * bigAssMenu_CDownFunc(BaseWidget *,BaseWidget *);
+BaseWidget * bigAssMenu_BFunc(BaseWidget *,BaseWidget *);
+BaseWidget * bigAssMenu_AFunc(BaseWidget *,BaseWidget *);
+BaseWidget * bigAssMenu_StartFunc(BaseWidget *,BaseWidget *);

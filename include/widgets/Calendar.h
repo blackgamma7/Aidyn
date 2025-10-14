@@ -20,3 +20,8 @@ class WidgetCalendar: public WidgetMenu {
 };
 
 
+struct CityMarker {
+    u16 borg;
+    u16 x;
+    u16 y;
+};

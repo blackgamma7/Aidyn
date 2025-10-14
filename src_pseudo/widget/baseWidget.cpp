@@ -250,7 +250,7 @@ BaseWidget* BaseWidget::ZFunc(){buttonMacro(Z)}
 BaseWidget* BaseWidget::LFunc(){buttonMacro(L)}
 BaseWidget* BaseWidget::RFunc(){buttonMacro(R)}
 BaseWidget* BaseWidget::StartFunc(){buttonMacro(Start)}
-BaseWidget* BaseWidget::CUPFunc(){buttonMacro(CUp)}
+BaseWidget* BaseWidget::CUpFunc(){buttonMacro(CUp)}
 BaseWidget* BaseWidget::CDownFunc(){buttonMacro(CDown)}
 BaseWidget* BaseWidget::CLeftFunc(){buttonMacro(CLeft)}
 BaseWidget* BaseWidget::CRightFunc(){buttonMacro(CRight)}

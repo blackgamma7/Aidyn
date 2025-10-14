@@ -193,9 +193,7 @@ LAB_800340fc:
 }
 
 
-void WidgetCredits::State3()
-
-{
+void WidgetCredits::State3(){
   byte bVar1;
   u8 uVar2;
   BaseWidget *pBVar4;

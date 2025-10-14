@@ -509,9 +509,9 @@ LAB_8001666c:
           }
           pDat->scaleRad = pDat->scale * (pDat->collision).radius;
         }
-        (pDat->skyTint).x = (float)((float)gGlobals.sky.colors[1].R / 255.0f) * 0.5;
-        (pDat->skyTint).y = (float)((float)gGlobals.sky.colors[1].G / 255.0f) * 0.5;
-        (pDat->skyTint).z = (float)((float)gGlobals.sky.colors[1].B / 255.0f) * 0.5;
+        (pDat->skyTint).x = (float)((float)gSkyColor.R / 255.0f) * 0.5;
+        (pDat->skyTint).y = (float)((float)gSkyColor.G / 255.0f) * 0.5;
+        (pDat->skyTint).z = (float)((float)gSkyColor.B / 255.0f) * 0.5;
         fVar31 = 1.0f;
         if ((pDat->unk760 == 0.0) && (pDat->unk75c == 0.0)) {}
         else {
@@ -858,7 +858,7 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
   if (gGlobals.sky.Type == 3) {
     //add sun light source
     Scene::addDynamicLight(param_2,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
-               gGlobals.sky.colors[4].R,gGlobals.sky.colors[4].G,gGlobals.sky.colors[4].B,light_count++);
+               gSunColor.R,gSunColor.G,gSunColor.B,light_count++);
     if (0.0 < gGlobals.MoonPos.y) {
       //add moon light source
       Scene::addDynamicLight(param_2,-1,gGlobals.MoonPos.x,gGlobals.MoonPos.y,gGlobals.MoonPos.z,0,
@@ -876,20 +876,20 @@ void set_sun_light(SceneData *param_1,u16 flag,voxelObject *param_3,u8 alpha){
   SetSceneColors(param_1,alpha,0,0x0);
   if ((flag & SceneObj_Fullbright)){
     Scene::SetModelTint(param_1,
-         gGlobals.sky.colors[0].R * gGlobals.brightness,
-         gGlobals.sky.colors[0].G * gGlobals.brightness,
-         gGlobals.sky.colors[0].B * gGlobals.brightness,alpha);
+         gMainColor.R * gGlobals.brightness,
+         gMainColor.G * gGlobals.brightness,
+         gMainColor.B * gGlobals.brightness,alpha);
   }
   else{
     Scene::SetModelTint(param_1,0xff,0xff,0xff,alpha);
     Scene::SetLightColors(param_1,
-        gGlobals.sky.colors[0].R * gGlobals.brightness,
-        gGlobals.sky.colors[0].G * gGlobals.brightness,
-        gGlobals.sky.colors[0].B * gGlobals.brightness);
+        gMainColor.R * gGlobals.brightness,
+        gMainColor.G * gGlobals.brightness,
+        gMainColor.B * gGlobals.brightness);
     if (gGlobals.sky.Type == 3) {
       Scene::addDynamicLight
                 (param_1,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
-                 gGlobals.sky.colors[4].R,gGlobals.sky.colors[4].G,gGlobals.sky.colors[4].B,light_count++);
+                 gSunColor.R,gSunColor.G,gSunColor.B,light_count++);
     }
   }
 }
@@ -982,9 +982,9 @@ LAB_80017d08:
                         Scene::SceneGetLocatorAlign(pDat->borg7P->sceneDat,&avStack_90,node->index);
                         some_player_render_sub(pDat,node->sceneDat,&avStack_d0,a,delta32);
                         Scene::SetModelTint(node->sceneDat,
-                            gGlobals.sky.colors[0].R * gGlobals.brightness,
-                            gGlobals.sky.colors[0].G * gGlobals.brightness,
-                            gGlobals.sky.colors[0].B * gGlobals.brightness,a);
+                            gMainColor.R * gGlobals.brightness,
+                            gMainColor.G * gGlobals.brightness,
+                            gMainColor.B * gGlobals.brightness,a);
                         Scene::CopyMatrixA(node->sceneDat,&afStack_110);
                         if (_bigw_flag) Scene::ScaleBodyPart(node->sceneDat,2.0,2.0,2.0);
                         if (j == 2) Scene::MatrixATranslate(node->sceneDat,0.0,1.0,0.0);

@@ -94,7 +94,7 @@ LAB_8002e068:
     fStack120.y = fStack184.y;
     vec2_normalize(&fStack120);
     fVar9 = (float)(1.0 -
-                   (255.0 - (double)gGlobals.sky.colors[0].R) / 255.0);
+                   (255.0 - (double)gMainColor.R) / 255.0);
     fVar10 = (float)lensflare_bss * fVar9;
     fVar8 = vec2Length(&fStack184);
     if (fVar8 <= 80.0f) {

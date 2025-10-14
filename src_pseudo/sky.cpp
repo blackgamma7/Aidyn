@@ -96,11 +96,11 @@ int Sky::GenerateGradient(Color32 *c0,Color32 *c1,float vert,float param_4,float
   float fogx2;
   int iStack_ac;
   
-  fogx2 = gGlobals.gameVars.weather.fogTime + gGlobals.gameVars.weather.fogTime;
-  if (1.0f < fogx2) fogx2 = 1.0f;
-  red2 = gGlobals.sky.colors[2].R / 255.0f;
-  green2 = gGlobals.sky.colors[2].G / 255.0f;
-  blue2 = gGlobals.sky.colors[2].B / 255.0f;
+  fogx2 = (gGlobals.gameVars.weather.fogTime*2);
+  CIEL(fogx2,1.0f);
+  red2 = gFogColor.R / 255.0f;
+  green2 = gFogColor.G / 255.0f;
+  blue2 = gFogColor.B / 255.0f;
   iVar16 = (200 - (int)vert);
   iVar3 = 0;
   if (-1 < iVar16) {
@@ -144,15 +144,9 @@ int Sky::GenerateGradient(Color32 *c0,Color32 *c1,float vert,float param_4,float
         fVar20 = pCVar9->B / 255.0f;
         fVar25 = fVar25 - (fVar25 - pCVar7->G / 255.0f) * fVar22;
         fVar27 = fVar27 - (fVar27 - pCVar7->B / 255.0f) * fVar22;
-        colfloat.x = fVar26 - (fVar26 - (fVar28 - (fVar28 - pCVar5->R /
-                                                            255.0f) * fVar22)) * fVar18
-        ;
-        colfloat.y = fVar25 - (fVar25 - (fVar23 - (fVar23 - pCVar5->G /
-                                                            255.0f) * fVar22)) * fVar18
-        ;
-        colfloat.z = fVar27 - (fVar27 - (fVar20 - (fVar20 - pCVar5->B /
-                                                            255.0f) * fVar22)) * fVar18
-        ;
+        colfloat.x = fVar26 - (fVar26 - (fVar28 - (fVar28 - pCVar5->R /255.0f) * fVar22)) * fVar18;
+        colfloat.y = fVar25 - (fVar25 - (fVar23 - (fVar23 - pCVar5->G /255.0f) * fVar22)) * fVar18;
+        colfloat.z = fVar27 - (fVar27 - (fVar20 - (fVar20 - pCVar5->B /255.0f) * fVar22)) * fVar18;
         if (0.0 < param_5) {
           pCVar5 = c1 + iVar2;
           pCVar9 = c1 + iVar6;
@@ -167,17 +161,9 @@ int Sky::GenerateGradient(Color32 *c0,Color32 *c1,float vert,float param_4,float
           fVar27 = fVar27 - (fVar27 - pCVar9->R / 255.0f) * fVar22;
           fVar26 = fVar26 - (fVar26 - pCVar9->G / 255.0f) * fVar22;
           fVar23 = fVar23 - (fVar23 - pCVar9->B / 255.0f) * fVar22;
-          colfloat.x-=(colfloat.x -(fVar27 - (fVar27 - (fVar28 - (fVar28 - pCVar7->R /
-                                                               255.0f) * fVar22)) *
-                                 fVar18)) * param_5;
-          colfloat.y-=(colfloat.y -
-                       (fVar26 - (fVar26 - (fVar25 - (fVar25 - pCVar7->G /
-                                                               255.0f) * fVar22)) *
-                                 fVar18)) * param_5;
-          colfloat.z -=(colfloat.z -
-                       (fVar23 - (fVar23 - (fVar20 - (fVar20 - pCVar7->B /
-                                                               255.0f) * fVar22)) *
-                                 fVar18)) * param_5;
+          colfloat.x-=(colfloat.x -(fVar27 - (fVar27 - (fVar28 - (fVar28 - pCVar7->R /255.0f) * fVar22)) *fVar18)) * param_5;
+          colfloat.y-=(colfloat.y -(fVar26 - (fVar26 - (fVar25 - (fVar25 - pCVar7->G /255.0f) * fVar22)) *fVar18)) * param_5;
+          colfloat.z -=(colfloat.z -(fVar23 - (fVar23 - (fVar20 - (fVar20 - pCVar7->B /255.0f) * fVar22)) *fVar18)) * param_5;
         }
         if ((param_7 != 0.0) || (fogx2 != 0.0)) {
           if (param_7 != 0.0) {
@@ -190,12 +176,12 @@ int Sky::GenerateGradient(Color32 *c0,Color32 *c1,float vert,float param_4,float
             colfloat.y-= (colfloat.y - green2 * fogx2) * fogx2;
             colfloat.z-= (colfloat.z - blue2 * fogx2) * fogx2;
           }
-          if (colfloat.x < 0.0) colfloat.x = 0.0;
-          if (colfloat.y < 0.0) colfloat.y = 0.0;
-          if (colfloat.z < 0.0) colfloat.z = 0.0;
-          if (1.0f < colfloat.x) colfloat.x = 1.0f;
-          if (1.0f < colfloat.y) colfloat.y = 1.0f;
-          if (1.0f < colfloat.z) colfloat.z = 1.0f;
+          FLOOR(colfloat.x,0.0);
+          FLOOR(colfloat.y,0.0);
+          FLOOR(colfloat.z,0.0);
+          CIEL(colfloat.x,1.0f);
+          CIEL(colfloat.y,1.0f);
+          CIEL(colfloat.z,1.0f);
         }
         if (gGlobals.brightness < 1.0f) multiVec3(&colfloat,gGlobals.brightness);
         if (gGlobals.sky.unk40 < fVar19) multiVec3(&colfloat,gGlobals.sky.unk40);
@@ -221,7 +207,7 @@ void Sky::GenerateSky(Color32 *col,Color32 *transSky,float param_3,float gray,sh
   float fVar7;
   float fVar8;
   float fVar9;
-  vec3f fStack304;
+  vec3f tempV;
   
   iVar3 = (int)(param_3 * 12.0f) << 0x10;
   iVar4 = iVar3 >> 0x10;
@@ -238,9 +224,9 @@ void Sky::GenerateSky(Color32 *col,Color32 *transSky,float param_3,float gray,sh
           ((iVar4 + ((iVar4 / 6 + (iVar4 >> 0x1f) >> 1) - (iVar4 >> 0x1f)) * -0xc) * 0x10000 >> 0x10
           );
   pCVar1 = col + iVar4;
-  fStack304.x = fVar6 - (fVar6 - pCVar1->R / 255.0f) * fVar9;
-  fStack304.y = fVar8 - (fVar8 - pCVar1->G / 255.0f) * fVar9;
-  fStack304.z = fVar7 - (fVar7 - pCVar1->B / 255.0f) * fVar9;
+  tempV.x = fVar6 - (fVar6 - pCVar1->R / 255.0f) * fVar9;
+  tempV.y = fVar8 - (fVar8 - pCVar1->G / 255.0f) * fVar9;
+  tempV.z = fVar7 - (fVar7 - pCVar1->B / 255.0f) * fVar9;
   if (0.0 < gray) {
     pCVar1 = transSky + iVar3;
     if (!transSky) CRASH("GenerateSky","No Transition Sky to load from");
@@ -248,20 +234,20 @@ void Sky::GenerateSky(Color32 *col,Color32 *transSky,float param_3,float gray,sh
     fVar8 = pCVar1->G / 255.0f;
     pCVar2 = transSky + iVar4;
     fVar7 = pCVar1->B / 255.0f;
-    fStack304.x -=(fStack304.x -
+    tempV.x -=(tempV.x -
                   (fVar6 - (fVar6 - pCVar2->R / 255.0f) * fVar9)) * gray;
-    fStack304.y -=(fStack304.y -
+    tempV.y -=(tempV.y -
                   (fVar8 - (fVar8 - pCVar2->G / 255.0f) * fVar9)) * gray;
-    fStack304.z -=(fStack304.z -
+    tempV.z -=(tempV.z -
                   (fVar7 - (fVar7 - pCVar2->B / 255.0f) * fVar9)) * gray;
   }
-  outVec->x = fStack304.x;
-  outVec->y = fStack304.y;
-  outVec->z = fStack304.z;
+  outVec->x = tempV.x;
+  outVec->y = tempV.y;
+  outVec->z = tempV.z;
 }
 
-void Sky::SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32 *param_5,
-                   Color32 *param_6,Color32 *param_7,Color32 *param_8,Color32 *param_9,
+void Sky::SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32 *mainTint,
+                   Color32 *skyTint,Color32 *fogTint,Color32 *cloudTint,Color32 *sunTint,
                    float param_10){
   float fVar3;
   float fVar4;
@@ -270,54 +256,49 @@ void Sky::SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32
   double dVar7,dVar2;
   float fVar8;
   float fVar9;
-  vec3f fStack512;
-  vec3f fStack448;
-  vec3f fStack384;
-  vec3f fStack320;
-  vec3f fStack256;
-  vec3f fStack_c0;
-  vec3f fStack_80;
+  vec3f mainColVec,skyColRes,fogColVec,cloudColVec,
+     sunColVec,mainColRes,skyColRes;
   
-  GenerateSky(col0,col1,param_3,gray,0x20,&fStack512);
-  GenerateSky(col0,col1,param_3,gray,0x21,&fStack448);
-  GenerateSky(col0,col1,param_3,gray,0x22,&fStack384);
-  GenerateSky(col0,col1,param_3,gray,0x23,&fStack320);
-  GenerateSky(col0,col1,param_3,gray,0x24,&fStack256);
-  dVar7 = fStack512.x * 0.65 + 0.15;
-  dVar2 = fStack512.y * 0.65 + 0.15;
-  multiVec3(&fStack512,gGlobals.brightness);
-  multiVec3(&fStack448,gGlobals.brightness);
-  multiVec3(&fStack384,gGlobals.brightness);
-  multiVec3(&fStack320,gGlobals.brightness);
-  multiVec3(&fStack256,gGlobals.brightness);
+  GenerateSky(col0,col1,param_3,gray,0x20,&mainColVec);
+  GenerateSky(col0,col1,param_3,gray,0x21,&skyColRes);
+  GenerateSky(col0,col1,param_3,gray,0x22,&fogColVec);
+  GenerateSky(col0,col1,param_3,gray,0x23,&cloudColVec);
+  GenerateSky(col0,col1,param_3,gray,0x24,&sunColVec);
+  dVar7 = mainColVec.x * 0.65 + 0.15;
+  dVar2 = mainColVec.y * 0.65 + 0.15;
+  multiVec3(&mainColVec,gGlobals.brightness);
+  multiVec3(&skyColRes,gGlobals.brightness);
+  multiVec3(&fogColVec,gGlobals.brightness);
+  multiVec3(&cloudColVec,gGlobals.brightness);
+  multiVec3(&sunColVec,gGlobals.brightness);
   fVar8 = (dVar7 + param_10) * gGlobals.brightness;
   fVar9 = (dVar2 + param_10) * gGlobals.brightness;
-  multiVec3(&fStack512,gGlobals.sky.unk40);
-  multiVec3(&fStack448,gGlobals.sky.unk40);
-  multiVec3(&fStack384,gGlobals.sky.unk40);
-  multiVec3(&fStack320,gGlobals.sky.unk40);
-  multiVec3(&fStack256,gGlobals.sky.unk40);
+  multiVec3(&mainColVec,gGlobals.sky.unk40);
+  multiVec3(&skyColRes,gGlobals.sky.unk40);
+  multiVec3(&fogColVec,gGlobals.sky.unk40);
+  multiVec3(&cloudColVec,gGlobals.sky.unk40);
+  multiVec3(&sunColVec,gGlobals.sky.unk40);
   fVar8 *= gGlobals.sky.unk40;
   fVar9 *= gGlobals.sky.unk40;
   fVar6 = (gGlobals.brightness * 0.2 * gGlobals.sky.unk40);
-  fStack_c0.x = fStack448.x * fVar6 + fVar8;
-  fStack_c0.y = fStack448.y * fVar6 + fVar8;
-  fStack_c0.z = fStack448.z * fVar6 + fVar8;
-  CLAMP01V3(fStack_c0);
-  V3ToRGB(param_5,fStack_c0);
-  param_5->A = 0xff;
-  fStack_80.x = fStack448.x * fVar6 + fVar9;
-  fStack_80.y = fStack448.y * fVar6 + fVar9;
-  fStack_80.z = fStack448.z * fVar6 + fVar9;
-  CLAMP01V3(fStack_80);
-  V3ToRGB(param_6,fStack_80);
-  param_6->A = 0xff;
-  V3ToRGB(param_7,fStack384);
-  param_7->A = 0xff;
-  V3ToRGB(param_8,fStack320);
-  param_8->A = 0xff;
-  V3ToRGB(param_9,fStack256);
-  param_9->A = 0xff;
+  mainColRes.x = skyColRes.x * fVar6 + fVar8;
+  mainColRes.y = skyColRes.y * fVar6 + fVar8;
+  mainColRes.z = skyColRes.z * fVar6 + fVar8;
+  CLAMP01V3(mainColRes);
+  V3ToRGB(mainTint,mainColRes);
+  mainTint->A = 0xff;
+  skyColRes.x = skyColRes.x * fVar6 + fVar9;
+  skyColRes.y = skyColRes.y * fVar6 + fVar9;
+  skyColRes.z = skyColRes.z * fVar6 + fVar9;
+  CLAMP01V3(skyColRes);
+  V3ToRGB(skyTint,skyColRes);
+  skyTint->A = 0xff;
+  V3ToRGB(fogTint,fogColVec);
+  fogTint->A = 0xff;
+  V3ToRGB(cloudTint,cloudColVec);
+  cloudTint->A = 0xff;
+  V3ToRGB(sunTint,sunColVec);
+  sunTint->A = 0xff;
 }
 
 void Sky::ResetGradient(Color32 *c){
@@ -338,8 +319,6 @@ Gfx * Sky::RenderGradient(Gfx *g,Color32 *cols,u16 h){
   return g;
 }
 
-
-
 Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   short sVar1;
   u16 uVar4;
@@ -347,7 +326,6 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   Gfx *gfx;
   uint uVar2;
   int iVar3;
-  u32 borg12;
   float fVar5;
   float fVar6;
   float fVar7;
@@ -365,123 +343,119 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
       CRASH("RenderSky",gGlobals.text);
   }
   RSPFUNC5(gfx);
-  gGlobals.sky.colors[0].A = 0xff;
-  gGlobals.sky.colors[0].B = 0xff;
-  gGlobals.sky.colors[0].G = 0xff;
-  gGlobals.sky.colors[0].R = 0xff;
-  gGlobals.sky.colors[1].A = 0xff;
-  gGlobals.sky.colors[1].B = 0xff;
-  gGlobals.sky.colors[1].G = 0xff;
-  gGlobals.sky.colors[1].R = 0xff;
-  gGlobals.sky.colors[2].A = 0xff;
-  gGlobals.sky.colors[2].B = 0xff;
-  gGlobals.sky.colors[2].G = 0xff;
-  gGlobals.sky.colors[2].R = 0xff;
+  gMainColor.A = 0xff;
+  gMainColor.B = 0xff;
+  gMainColor.G = 0xff;
+  gMainColor.R = 0xff;
+  gSkyColor.A = 0xff;
+  gSkyColor.B = 0xff;
+  gSkyColor.G = 0xff;
+  gSkyColor.R = 0xff;
+  gFogColor.A = 0xff;
+  gFogColor.B = 0xff;
+  gFogColor.G = 0xff;
+  gFogColor.R = 0xff;
   if (sky_flag_A != 0) {
     if (gGlobals.sky.Type - 3 < 2) {
       sky_flag_A = 0;
     }
     ClearColors();
   }
-  //todo:refactor as case-switch.
-  if (gGlobals.sky.Type == 2) {
-    gfx = DrawRectangle(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
-    gGlobals.sky.colors[0].A = 0x60;
-    gGlobals.sky.colors[0].B = 0x60;
-    gGlobals.sky.colors[0].G = 0x60;
-    gGlobals.sky.colors[0].R = 0x60;
-    gGlobals.sky.colors[1].A = 0x60;
-    gGlobals.sky.colors[1].B = 0x60;
-    gGlobals.sky.colors[1].G = 0x60;
-    gGlobals.sky.colors[1].R = 0x60;
-    gGlobals.sky.colors[2].A = 0;
-    gGlobals.sky.colors[2].B = 0;
-    gGlobals.sky.colors[2].G = 0;
-    gGlobals.sky.colors[2].R = 0;
-    goto LAB_800224b0;
-  }
-  if ((short)gGlobals.sky.Type < 3) {
-    if (gGlobals.sky.Type != 1) {
-LAB_80022094:
-      Gsprintf("type: %d Not Supported.\nRange: (1 - %d)",gGlobals.sky.Type,5);
-      CRASH("RenderSky",gGlobals.text);
+  switch(gGlobals.sky.Type){
+    case 1:{
+      break;
     }
-    goto LAB_800224b0;
-  }
-  if (gGlobals.sky.Type == 3) {
+    case 2:{
+    gfx = DrawRectangle(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
+    gMainColor.A = 0x60;
+    gMainColor.B = 0x60;
+    gMainColor.G = 0x60;
+    gMainColor.R = 0x60;
+    gSkyColor.A = 0x60;
+    gSkyColor.B = 0x60;
+    gSkyColor.G = 0x60;
+    gSkyColor.R = 0x60;
+    gFogColor.A = 0;
+    gFogColor.B = 0;
+    gFogColor.G = 0;
+    gFogColor.R = 0;
+    break;
+    }
+    case 3:{
     fVar6 = World::get_timeofDay_float(TerrainPointer);
     if (0.0 < TerrainPointer->ThunderFloat) {
       fVar7 = RAND.GetFloatRange(0.0,1.0);
     }
-    if (((double)fVar7 < (double)TerrainPointer->ThunderFloat * 0.25) &&
-       (sky_flag_b == 0)) {
+    if ((fVar7 < TerrainPointer->ThunderFloat * 0.25) &&(sky_flag_b == 0)) {
       gfx = DrawRectangle(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0xff,0xff,0xff,0);
-      SetColors(gGlobals.sky.obj4.bitmap,gGlobals.sky.obj10.bitmap,fVar6,gGlobals.sky.gray,
-                gGlobals.sky.colors,gGlobals.sky.colors + 1,gGlobals.sky.colors + 2,
-                gGlobals.sky.colors + 3,gGlobals.sky.colors + 4,
-                (float)((double)-gGlobals.sky.lensFlareVal * 0.5));
-      gGlobals.sky.colors[0].A = 0xff;
-      gGlobals.sky.colors[0].B = 0xff;
-      gGlobals.sky.colors[0].G = 0xff;
-      gGlobals.sky.colors[0].R = 0xff;
-      gGlobals.sky.colors[1].A = 0xff;
-      gGlobals.sky.colors[1].B = 0xff;
-      gGlobals.sky.colors[1].G = 0xff;
-      gGlobals.sky.colors[1].R = 0xff;
-      uVar2 = RAND.func(0,3);
-      if (uVar2 == 1) {
-        borg12 = 0x71d;
-LAB_800222c4:
-        uVar8 = 0x168;
-      }
-      else if (uVar2 == 0) {
-        borg12 = 1820;
-        uVar8 = SCREEN_HEIGHT;
-      }
-      else {
-        borg12 = 1822;
-        if (uVar2 != 2) {
-          borg12 = 1823;
-          if (uVar2 != 3) goto LAB_800224b0;
-          goto LAB_800222c4;
+      SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
+                &gMainColor,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
+                (-gGlobals.sky.lensFlareVal * 0.5));
+      gMainColor.A = 0xff;
+      gMainColor.B = 0xff;
+      gMainColor.G = 0xff;
+      gMainColor.R = 0xff;
+      gSkyColor.A = 0xff;
+      gSkyColor.B = 0xff;
+      gSkyColor.G = 0xff;
+      gSkyColor.R = 0xff;
+      switch(RAND.func(0,3)){
+        case 0:{
+          PLAYSFX(0x071c,0,gGlobals.VolSFX,320,0);
+          break;
         }
-        uVar8 = 0x1a4;
+        case 1:{
+          PLAYSFX(0x071d,0,gGlobals.VolSFX,360,0);
+          break;
+        }
+        case 2:{
+          PLAYSFX(0x071e,0,gGlobals.VolSFX,420,0);
+          break;
+        }
+        case 3:{
+          PLAYSFX(0x071f,0,gGlobals.VolSFX,360,0);
+          break;
+        }
       }
-      PLAYSFX(borg12,0,gGlobals.VolSFX,uVar8,0);
-      goto LAB_800224b0;
     }
-    Vec3_sub(&fStack128,&gGlobals.gameVars.camera.pos,&gGlobals.gameVars.camera.aim);
-    vec3_normalize(&fStack128);
-    SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
-              gGlobals.sky.colors,gGlobals.sky.colors + 1,gGlobals.sky.colors + 2,
-              gGlobals.sky.colors + 3,gGlobals.sky.colors + 4,
+    else{
+      Vec3_sub(&fStack128,&gGlobals.gameVars.camera.pos,&gGlobals.gameVars.camera.aim);
+      vec3_normalize(&fStack128);
+      SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
+              gGlobals.sky.colors,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
               -gGlobals.sky.lensFlareVal * 0.5));
-    iVar3 = GenerateGradient(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,
+      iVar3 = GenerateGradient(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,
                              (float)(__sinf(fStack128.y) * Graphics::GetVRes()),fVar6,gGlobals.sky.gray,
                              gGlobals.sky.gradient,gGlobals.sky.lensFlareVal);
-    gfx = RenderGradient(gfx,gGlobals.sky.gradient,(u16)iVar3);
-    if (iVar3 == 0) goto LAB_80022478;
-    R = gGlobals.sky.gradient[iVar3 + -1].R;
-    G = gGlobals.sky.gradient[iVar3 + -1].G;
-    uVar2 = iVar3 - 1U & 0xffff;
-    B = gGlobals.sky.gradient[iVar3 + -1].B;
-    A = gGlobals.sky.gradient[iVar3 + -1].A;
+      gfx = RenderGradient(gfx,gGlobals.sky.gradient,(u16)iVar3);
+      if (iVar3 == 0) goto LAB_80022478;
+      R = gGlobals.sky.gradient[iVar3 + -1].R;
+      G = gGlobals.sky.gradient[iVar3 + -1].G;
+      B = gGlobals.sky.gradient[iVar3 + -1].B;
+      A = gGlobals.sky.gradient[iVar3 + -1].A;
+      gfx = DrawRectangle(gfx,0,(u16)(iVar3-1),SCREEN_WIDTH,SCREEN_HEIGHT,R,G,B,A);
+    }
+    break;
   }
-  else {
-    if (gGlobals.sky.Type != 4) goto LAB_80022094;
-    fVar7 = World::get_timeofDay_float(TerrainPointer);
-    SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar7,gGlobals.sky.gray,
-              gGlobals.sky.colors,gGlobals.sky.colors + 1,gGlobals.sky.colors + 2,
-              gGlobals.sky.colors + 3,gGlobals.sky.colors + 4,
-              -gGlobals.sky.lensFlareVal * 0.5));
+  case 4:{
+    SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,
+      World::get_timeofDay_float(TerrainPointer),gGlobals.sky.gray,
+              &gMainColor,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
+              -gGlobals.sky.lensFlareVal * 0.5);
 LAB_80022478:
     uVar2 = 0;
     R = 0;
     G = 0;
     B = 0;
     A = 0;
+    gfx = DrawRectangle(gfx,0,uVar2,SCREEN_WIDTH,SCREEN_HEIGHT,R,G,B,A);
+    break;
   }
-  gfx = DrawRectangle(gfx,0,uVar2,SCREEN_WIDTH,SCREEN_HEIGHT,R,G,B,A);
+  default:{
+      Gsprintf("type: %d Not Supported.\nRange: (1 - %d)",gGlobals.sky.Type,5);
+      CRASH("RenderSky",gGlobals.text);
+  }
+  }
 LAB_800224b0:
   sVar1 = gGlobals.sky.obj10.type;
   fVar7 = (float)(int)delta;
@@ -549,7 +523,7 @@ LAB_800226a0:
 }
 
 void Sky::ClearColors(void){
-  gGlobals.sky.colors[0].W = 0;
-  gGlobals.sky.colors[1].W = 0;
-  gGlobals.sky.colors[2].W = 0;
+  gMainColor.W = 0;
+  gSkyColor.W = 0;
+  gFogColor.W = 0;
 }

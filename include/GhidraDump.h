@@ -66,27 +66,6 @@ typedef enum Borg7Enum { // entity model data?
 
 */
 
-typedef struct DollBarterConfirm DollBarterConfirm, *PDollBarterConfirm;
-
-struct DollBarterConfirm {
-    BaseWidget base;
-    void* field1_0x7c;
-    BaseWidget *field5_0x80;
-    BaseWidget *field6_0x84;
-    int field7_0x88;
-    u8 field8_0x8c;
-};
-
-
-typedef struct shop_ram shop_ram, *Pshop_ram;
-
-struct shop_ram {
-    ItemID shopkeep; /* entity running shop */
-    u16 stock[23]; /* items */
-    u8 multi[3][20];
-};
-
-
 struct Widget_Skills {
     BaseWidget base;
     CharSkills *skills;
@@ -110,19 +89,9 @@ typedef enum AniFlags {
 } AniFlags;
 
 
-typedef struct CityMarkers CityMarkers, *PCityMarkers;
-
-struct CityMarkers {
-    u16 borg;
-    u16 x;
-    u16 y;
-};
-
 typedef enum enum_someCase {
     CombatLevelUp=5
 } enum_someCase;
-
-typedef struct MiniMap MiniMap, *PMiniMap;
 
 typedef struct KKBufferEvent KKBufferEvent, *PKKBufferEvent;
 
@@ -181,10 +150,3 @@ struct RomstringController {
     char *insert cont pak;
 };
 */
-
-typedef struct shop_pointer shop_pointer, *Pshop_pointer;
-
-struct shop_pointer {
-    u8 total; /* number of shops */
-    shop_ram *shops; /* shops' listing */
-};

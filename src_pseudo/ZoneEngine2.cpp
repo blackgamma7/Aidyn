@@ -957,18 +957,18 @@ void SetSceneColors(SceneData *param_1,u8 alpha,u8 param_3,u32 col){
   if (DAT_800ee974) fVar1 = 0.0;
   Scene::SetFogPlane(param_1,996 - (short)(int)(fVar1 * 40.0f),1000);
   Scene::SetFogColor
-            (param_1,gGlobals.sky.colors[2].R,gGlobals.sky.colors[2].G,gGlobals.sky.colors[2].B,
-             (uint)gGlobals.sky.colors[2].A);
+            (param_1,gFogColor.R,gFogColor.G,gFogColor.B,
+             (uint)gFogColor.A);
   if (param_3) {
     if (col) { //if porting, will need case for LE word
-      bStack216.R = (byte)((int)((uint)gGlobals.sky.colors[0].R + (col >> 0x18)) >> 1);
-      bStack216.G = (byte)((int)((uint)gGlobals.sky.colors[0].G + (col >> 0x10 & 0xff)) >> 1);
-      bStack216.B = (byte)((int)((uint)gGlobals.sky.colors[0].B + (col >> 8 & 0xff)) >> 1);
+      bStack216.R = (byte)((int)((uint)gMainColor.R + (col >> 0x18)) >> 1);
+      bStack216.G = (byte)((int)((uint)gMainColor.G + (col >> 0x10 & 0xff)) >> 1);
+      bStack216.B = (byte)((int)((uint)gMainColor.B + (col >> 8 & 0xff)) >> 1);
       tint_color_with_screenfade(&bStack216,gGlobals.brightness);
       Scene::SetModelTint(param_1,bStack216.R,bStack216.G,bStack216.B,alpha);
       return;
     }
-    Scene::SetModelTint(param_1,gGlobals.sky.colors[0].R,gGlobals.sky.colors[0].G,gGlobals.sky.colors[0].B,
+    Scene::SetModelTint(param_1,gMainColor.R,gMainColor.G,gMainColor.B,
                alpha);
   }
   if (col) {

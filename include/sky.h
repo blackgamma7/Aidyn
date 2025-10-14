@@ -32,8 +32,8 @@ namespace Sky{
   void Reset();
   int GenerateGradient(Color32 *,Color32 *,float,float,float,Color32 *,float);
   void GenerateSky(Color32 *col,Color32 *transSky,float param_3,float gray,short param_5,vec3f *outVec);
-  void SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32 *param_5,
-                   Color32 *param_6,Color32 *param_7,Color32 *param_8,Color32 *param_9,
+  void SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32 *mainTint,
+                   Color32 *skyTint,Color32 *fogTint,Color32 *cloudTint,Color32 *sunTint,
                    float param_10);
   void ResetGradient(Color32 *);
   Gfx* RenderGradient(Gfx *g,Color32 *cols,u16 h);
@@ -44,3 +44,8 @@ namespace Sky{
   void ResetColors();
 };
 
+#define gMainColor gGlobals.sky.colors[0]
+#define gSkyColor gGlobals.sky.colors[1]
+#define gFogColor gGlobals.sky.colors[2]
+#define gCloudColor gGlobals.sky.colors[3]
+#define gSunColor gGlobals.sky.colors[4]

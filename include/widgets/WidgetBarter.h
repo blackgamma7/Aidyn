@@ -3,9 +3,6 @@
 
 class WidgetBarter: public WidgetMenu{
     u8 partyPicker;
-    undefined field2_0x7d;
-    undefined field3_0x7e;
-    undefined field4_0x7f;
     WidgetInvShop *field5_0x80;
     WidgetTrainShop *field6_0x84;
     WidgetTrainShop *description;
@@ -16,4 +13,31 @@ class WidgetBarter: public WidgetMenu{
     BaseWidget *background;
     WidgetClipText *goldText;
     u32 unk98;
+    WidgetBarter(WidgetTrainShop,ItemID);
+    ~WidgetBarter();
+    void UpdateGoldText();
+    Gfx* Render(Gfx*, u16, u16, u16, u16);
+    u8 Tick();
+    void m80044a94();
+    BaseWidget* UpFunc();
+    BaseWidget* DownFunc();
+    BaseWidget* LeftFunc();
+    BaseWidget* RightFunc();
+    BaseWidget* BFunc();
+    BaseWidget* AFunc();
+    BaseWidget* CUpFunc();
+    BaseWidget* CDownFunc();
+};
+
+BaseWidget* WidgetBarter_ACallback(BaseWidget*,BaseWidget*);
+
+
+class DollBarterConfirm: public WidgetMenu {
+    void* field1_0x7c;
+    WidgetTrainShop *field5_0x80;
+    BaseWidget *field6_0x84;
+    int field7_0x88;
+    u8 field8_0x8c;
+    DollBarterConfirm(WidgetTrainShop *,u32);
+    ~DollBarterConfirm();
 };

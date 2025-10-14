@@ -15,7 +15,7 @@ PauseWidget::~PauseWidget(){
     sub->borg7 = NULL;
     sub->sceneDat = NULL;
   }
-  delete(sub);
+  delete sub;
   this->substruct = NULL;
   this->Handler->FreeWidget(this);
   WidgetMenu::~WidgetMenu();
@@ -61,13 +61,13 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   Scene::SetFlag4(sub->sceneDat);
   Scene::SetModelTint(sub->sceneDat,0xff,0xff,0xff,0xff);
   sub->backgroundImage = WigetB8Blank;
-  sub->backgroundImage->SetColor(0xff,0xff,0xff,0xff);
+  sub->backgroundImage->SetColor(COLOR_WHITE);
   sub->backgroundImage->SetCoords(0,0);
   sub->backgroundImage->SetWidth(SCREEN_WIDTH);
   sub->backgroundImage->SetHeight(SCREEN_HEIGHT);
   sub->backgroundWidget = WidgetB8(pause_menu_borg8[menu_section]);
   sub->backgroundWidget->SetCoords(0,0);
-  sub->backgroundWidget->SetColor(0xff,0xff,0xff,0xff);
+  sub->backgroundWidget->SetColor(COLOR_WHITE);
   sub->backgroundWidget->SetWidth(SCREEN_WIDTH);
   sub->backgroundWidget->SetHeight(SCREEN_HEIGHT);
   this->Link(sub->backgroundWidget);
@@ -124,12 +124,12 @@ LAB_80035e34:
   this->RightButtonFunc = bigAssMenu_RightFunc;
   this->UpButtonFunc = bigAssMenu_UpFunc;
   this->DownButtonFunc = bigAssMenu_DownFunc;
-  this->CLeftFunc = bigAssMenu_CLeftFunc;
-  this->CRightFunc = FUN_800373a0;
-  this->CUpFunc = FUN_800373ec;
-  this->CDownFunc = bigAssMenu_CDownFunc;
-  this->StartButtonFunc = BigAssMenu_StartFunc;
-  this->AbuttonFunc = bigassMenu_AFunc;
+  this->CLeftButtonFunc = bigAssMenu_CLeftFunc;
+  this->CRightButtonFunc = bigAssMenu_CRightFunc;
+  this->CUpButtonFunc = bigAssMenu_CUpFunc;
+  this->CDownButtonFunc = bigAssMenu_CDownFunc;
+  this->StartButtonFunc = bigAssMenu_StartFunc;
+  this->AButtonFunc = bigAssMenu_AFunc;
   this->BButtonFunc = bigAssMenu_BFunc;
   this->LButtonFunc = bigAssMenu_LZFunc;
   this->ZButtonFunc = bigAssMenu_LZFunc;
@@ -221,16 +221,16 @@ void PauseWidget::BuildCalendarMenu(){
   return;
 }
 
-void PauseWidget::m8003636c(){
-  if (this->handlerBool != 0) {
-    this->handlerBool = 0;
+void PauseWidget::FreeFromHandler(){
+  if (this->handlerBool) {
+    this->handlerBool = false;
     this->Handler->FreeWidget(this);
   }
 }
 
-void PauseWidget::m8003639c(){
-  if (this->handlerBool == 0) {
-    this->handlerBool = 1;
+void PauseWidget::AddToHandler(){
+  if (!this->handlerBool) {
+    this->handlerBool = true;
     this->Handler->AddWidget(this);
   }
 }
@@ -297,7 +297,7 @@ u8 PauseWidget::Tick(){
     fVar8 = fVar8 + sub->scrollfloat;
   }
   sub->scrollSpeed = fVar8;
-  if (DAT_800ed620 == 0) FUN_800a0304(sub->borg7,1);
+  if (!gOptionsMenuContPak) FUN_800a0304(sub->borg7,1);
   Scene::MatrixASetPos(sub->sceneDat,sub->scrollSpeed,0.0,0.0);
   Scene::LookAt(sub->sceneDat,(sub->camPos).x,(sub->camPos).y,(sub->camPos).z,0.0,-100.0f,0.0,0.0,0.0,-1.0f);
   return TickChildren();

@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "vobjects.h"
 #include "voxelChart.h"
+#include "shopdb.h"
 #define FILENAME "./src/dialogmode.cpp"
 
 void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapShortB,u16 param_6)
@@ -306,25 +307,25 @@ void init_skill_trainer(void){
   SpellInstance *pSVar4;
   ItemID *pIVar7;
   u16 i;
-  short sVar10;
+  short spellCount;
   u8 uVar9;
   
   IVar5 = set_shopkeep();
   if (IVar5) {
     index = GETINDEX(IVar5);
     pSVar3 = NULL;
-    sVar10 = 0;
+    spellCount = 0;
     i = 0;
     pEVar1 = gEntityDB->entities;
     ALLOC(sk,663);
     sk->Init(IVar5);
     for(i=0;i<5;i++){
-      if (gEntityDB->entities[index].Spell_levels[i] != -1) sVar10++;
+      if (gEntityDB->entities[index].Spell_levels[i] != -1) spellCount++;
     }
-    if (sVar10 != 0) {
+    if (spellCount != 0) {
       ALLOC(pSVar3,674);
-      pSVar3->Reset((u8)sVar10);
-      pSVar3->count = (u8)sVar10;
+      pSVar3->Reset((u8)spellCount);
+      pSVar3->count = (u8)spellCount;
       for(i=0,uVar9=0;i<5;i++){
         pIVar7 = &gEntityDB->entities[index].spells[i];
         if (*pIVar7 != -1) {
@@ -357,10 +358,9 @@ void shop_func(void)
   keep = set_shopkeep();
   if (keep) {
     pIVar3 = new GenericInventory();
-    i = 0;
     puVar4 = NULL;
-    for(i=0;i<shop_pointer->total;i++){
-        puVar4 = shop_pointer->shops[i];
+    for(i=0;i<gShopDBP->total;i++){
+        puVar4 = &gShopDBP->shops[i];
         if (puVar4->shopkeep == keep) break;
         puVar4 = NULL;
       }
@@ -379,7 +379,6 @@ void shop_func(void)
     }
     build_loot_menu(pIVar3,0,(short)keep);
   }
-  return;
 }
 
 

@@ -1,6 +1,5 @@
 #include "globals.h"
 
-u32 gOptionsMenuContPak=false;
 
 WidgetOptionsMenu::WidgetOptionsMenu():WidgetMenu(){}
 

@@ -56,17 +56,18 @@ struct weapon_ram { /* Weapon Data loaded into ram */
     float ResistPercent;
 };
 
-struct weaponDB_s {
+class WeaponDB {
+    public:
     u8 Total;
     u8 Types[11];
     u8 Types2[11];
     u8 pad;
     weapon_ram *weapons;
+    void Orphaned();
+    void Load(u8 index,int *pos);
+    void Init();
+    void Free();
 };
 
-weaponDB_s* gWeaponsDB=NULL;
+WeaponDB* gWeaponsDB=NULL;
 extern u8 weaponList[];
-
-void load_weaponDB(weaponDB_s *db,u8 index,int *pos);
-void build_weapondb(weaponDB_s *db);
-void weaponDB_clear(weaponDB_s *db);

@@ -912,7 +912,7 @@ Gfx * DrawRectangle(Gfx *gfx,u16 x,u16 y,u16 H,u16 V,u8 R,u8 G,u8 B,u8 A){
   sicsV = ((float)V * sImageVScale);
   dsdx = ((8.0f / (float)(sicsH - sicsX)) * 1024.0f);
   dtdy = ((8.0f / (float)(sicsV - sicsY)) * 1024.0f);
-  gSPScisTextureRectangle(gfx++,sicsX,sicsY,sicsH,sicsV,0,0,0,dsdx,dtdy)
+  gSPScisTextureRectangle(gfx++,sicsX,sicsY,sicsH,sicsV,0,0,0,dsdx,dtdy);
   return gfx;
 }
 

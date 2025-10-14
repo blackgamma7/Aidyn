@@ -61,7 +61,7 @@ public:
     virtual BaseWidget* LFunc();
     virtual BaseWidget* RFunc();
     virtual BaseWidget* StartFunc();
-    virtual BaseWidget* CUPFunc();
+    virtual BaseWidget* CUpFunc();
     virtual BaseWidget* CDownFunc();
     virtual BaseWidget* CLeftFunc();
     virtual BaseWidget* CRightFunc();

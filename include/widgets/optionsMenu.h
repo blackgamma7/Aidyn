@@ -74,3 +74,4 @@ BaseWidget* options_func_BButton(BaseWidget*,BaseWidget*);
 BaseWidget* options_func_AButton(BaseWidget*,BaseWidget*);
 BaseWidget* options_func_StartButton(BaseWidget*,BaseWidget*);
 
+u32 gOptionsMenuContPak=false;

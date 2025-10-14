@@ -169,7 +169,7 @@ Gfx * Clouds::Render(Gfx *g){
                                (fVar14 - fVar15 * 240.0f) - gCloudBorg8[i]->dat.Height * fVar15 * 0.5f,
                                (float)((double)fVar15 + 0.2),
                                (float)((double)fVar15 + 0.2),
-                               gGlobals.sky.colors[3].R,gGlobals.sky.colors[3].G,gGlobals.sky.colors[3].B,alpha);
+                               gCloudColor.R,gCloudColor.G,gCloudColor.B,alpha);
         }
       }
     }
