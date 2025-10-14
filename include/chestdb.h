@@ -44,18 +44,21 @@ struct Loot_RAM { /* Chestdb loaded into RAM */
     u8 itemHi[2];
 };
 
-struct loot_Pointer {
+class ChestDB {
+    public:
     u8 total;
     Loot_RAM *lootCat;
+    void Orphaned();
+    void Load(u8,u32 *);
+    void Orphaned2(u16 param_2);
+    void Init();
+    void Free();
 };
 
-extern loot_Pointer* gChestDBp;
+extern ChestDB* gChestDBp;
 
 extern u8 lootList[];//indecies of loot entries
 
-void chestdb_ofunc(loot_Pointer *param_1);
-void load_chestDB(loot_Pointer *param_1,u8 param_2,s32 *param_3);
-void Ofunc_800748c4(loot_Pointer *param_1,u16 param_2);
 u32 item_chances(container_Dat *chest,u8 chance,u8 QLo,u8 Qhi,u8 slot,s16 item,u32 isMulti);
-void get_chest_loot(loot_Pointer *param_1,container_Dat *param_2);
+void get_chest_loot(ChestDB *param_1,container_Dat *param_2);
 

@@ -101,9 +101,7 @@ Gfx * FUN_80057e78(Gfx *gfx,ushort delta){
   return g;
 }
 
-int ScreenFadeMode_12(Gfx **GG)
-
-{
+int ScreenFadeMode_12(Gfx **GG){
   byte bVar1;
   int iVar2;
   bool bVar4;
@@ -341,43 +339,31 @@ void init_skill_trainer(void){
   }
 }
 
-void shop_func(void)
-
-{
-  float fVar1;
-  ItemID keep;
-  GenericInventory *pGVar2;
-  GenericInventory *pIVar3;
-  int iVar3;
-  shop_ram *puVar4;
-  ulong uVar4;
-  Inventory_item *uVar5;
-  ulonglong uVar6;
-  u8 i;
-  
-  keep = set_shopkeep();
+void shop_func(void){
+  ItemID keep = set_shopkeep();
   if (keep) {
-    pIVar3 = new GenericInventory();
-    puVar4 = NULL;
+    GenericInventory *inv = new GenericInventory();
+    shop_ram *puVar4 = NULL;
+    u8 i;
     for(i=0;i<gShopDBP->total;i++){
         puVar4 = &gShopDBP->shops[i];
         if (puVar4->shopkeep == keep) break;
         puVar4 = NULL;
       }
     for(i=0;i<20;i++){
-      uVar6 = puVar4->stock[i];
-      if ((uVar6 != 0) && (puVar4->multi[2][i] != 0)) {
-        pIVar3->AddItem(uVar6,1);
-        uVar5 = pIVar3->GetItemEntry(pIVar3->GetItemIndex(uVar6));
+      ItemID uVar6 = puVar4->stock[i];
+      if ((uVar6) && (puVar4->multi[2][i])) {
+        inv->AddItem(uVar6,1);
+        Inventory_item *uVar5 = inv->GetItemEntry(inv->GetItemIndex(uVar6));
         f32 price_multis[]={0.5,0.75,1.0,1.25,1.5,2.0,3.0,5.0};
         (uVar5->base).price = (float)(uVar5->base).price * price_multis[puVar4->multi[1][i]];
       }
     }
     for (; i < 23; i++) {
       if (puVar4->stock[i])
-        pIVar3->AddItem(puVar4->stock[i],1);
+        inv->AddItem(puVar4->stock[i],1);
     }
-    build_loot_menu(pIVar3,0,(short)keep);
+    build_loot_menu(inv,0,keep);
   }
 }
 

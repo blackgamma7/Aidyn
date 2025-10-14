@@ -31,7 +31,6 @@ Gfx * tick_trek_features(Gfx *,u8 );
 void SetNewJounalEntry(s16);
 void NewJournalEntryPopup();
 
-
 void initGameTrek();
 void clear_HUD_elements(short );
 

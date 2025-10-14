@@ -408,7 +408,7 @@ LAB_80057628:
   return;
 }
 //find "####################" to replace with player name
-char * DialougfindPlayerNameSpace(char *str){
+char * DialougFindPlayerNameSpace(char *str){
   int i;
   char *pcVar4;
   

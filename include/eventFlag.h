@@ -92,6 +92,8 @@ void set_weather_flags(u8 x);
 void set_terrain_flags(u8 x);
 void Passto_State_typeA_branch(EventFlag param_1);
 
+u8 load_gamestateFunnel();
+u8 clear_gamestatefunnel();
 void setEventFlag(u16 flag,u8 state);
 u8 getEventFlag(u16 flag);
 
