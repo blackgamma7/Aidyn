@@ -341,7 +341,7 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
         else if (pSVar5->borg12) ClearAudioBubble(pSVar5);
       }
       else {//fade in otherwise
-        fVar13 = Sound_Volume_proximity(&pSVar5->worldPos,(pSVar5->voxel->header).size,&gGlobals.gameVars.camera);
+        fVar13 = Sound_Volume_proximity(&pSVar5->worldPos,(pSVar5->voxel->header).size,&gCamera);
         paVar2 = pSVar5->voxelDat;
         if ((paVar2->soundFlag & VoxAudio_0004) == 0) paVar2->volumeFade = fVar13;
         else {
@@ -352,7 +352,7 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
         }
         //pan to camera (unless flagged otherwise)
         if ((paVar2->soundFlag & VoxAudio_0008) == 0) {
-          pSVar5->voxelDat->pan = FUN_800565a8(&pSVar5->worldPos,fVar13,&gGlobals.gameVars.camera);
+          pSVar5->voxelDat->pan = FUN_800565a8(&pSVar5->worldPos,fVar13,&gCamera);
         }
         if (pSVar5->borg12 == NULL) {//add sound if none
           if (!NoExpPak_memCheck(2)) continue;//unless there's not room

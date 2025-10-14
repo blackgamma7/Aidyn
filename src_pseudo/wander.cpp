@@ -228,7 +228,7 @@ void WanderTick(wander_struct *param_1,short delta){
   vec3f playerPos;
   vec3f fStack232;
   vec3f fStack168;
-  playerData *playerDat_ = gGlobals.playerCharStruct.playerDat;
+  playerData *playerDat_ = gPlayer;
   sneakval = sneak_value(0.8f);
   bVar3 = false;
   if ((((gGlobals.screenFadeMode == 0) && (!isPaused())) &&

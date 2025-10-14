@@ -4,9 +4,9 @@
 
 u16 FUN_80005d60(wander_substruct **w) {
   u16 ret;
-  playerData *player = gGlobals.playerCharStruct.playerDat;
+  playerData *player = gPlayer;
   *w = NULL;
-  if ((gGlobals.playerCharStruct.playerDat == NULL) || (player->index == -1)) {
+  if ((gPlayer == NULL) || (player->index == -1)) {
     ret = -1;
   }
   else {
@@ -21,7 +21,7 @@ u16 FUN_80005d60(wander_substruct **w) {
         if ((vox) &&
            (player->unk108 <= (pDat->scaleRad)*2 + 0.5f)) {
           ret = -1;
-          if (Voxel_CheckProc(vox,gGlobals.playerCharStruct.playerDat)) {
+          if (Voxel_CheckProc(vox,gPlayer)) {
             ret = wander->VoxelIndex;
             *w = wander;
           }
@@ -34,7 +34,7 @@ u16 FUN_80005d60(wander_substruct **w) {
 
 float func_checking_monsterparty(voxelObject *v,vec3f *po) {
   if ((v->header).type == VOXEL_MonsterParty)
-    return (gGlobals.playerCharStruct.playerDat)->unk108;
+    return (gPlayer)->unk108;
   return vec3_proximity(&v->header.pos,po);
 }
 
@@ -42,8 +42,8 @@ void monsterparty_setvec2(voxelObject *v,vec2f *pos) {
   short sVar1;
   
   setVec2(pos,(v->header).pos.x,(v->header).pos.z);
-  if ((((v->header).type == VOXEL_MonsterParty) && (gGlobals.playerCharStruct.playerDat != NULL)) &&
-     (sVar1 = (gGlobals.playerCharStruct.playerDat)->index, sVar1 != -1)) {
+  if ((((v->header).type == VOXEL_MonsterParty) && (gPlayer != NULL)) &&
+     (sVar1 = (gPlayer)->index, sVar1 != -1)) {
     setVec2(pos,gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.x,
             gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.z);
   }
@@ -83,11 +83,11 @@ void obj_ref_func(void) {
   
   if (gGlobals.screenFadeMode) return;
   pBVar4 = gGlobals.gameVars.borg9DatPointer;
-  ppVar3 = gGlobals.playerCharStruct.playerDat;
+  ppVar3 = gPlayer;
   if (check_some_toggle()) return;
-  if (gGlobals.playerCharStruct.playerDat == NULL) return;
+  if (gPlayer == NULL) return;
   if (gGlobals.gameVars.borg9DatPointer == NULL) return;
-  pvStack_5c = &((gGlobals.playerCharStruct.playerDat)->collision).pos;
+  pvStack_5c = &((gPlayer)->collision).pos;
   sStack_168 = 0;
   asStack_166[0] = 0;
   getZonePositionShorts(gGlobals.gameVars.borg9DatPointer,pvStack_5c,&sStack_168,asStack_166);
@@ -96,7 +96,7 @@ void obj_ref_func(void) {
   if (pbVar5 == NULL) return;
   uVar7 = FUN_80005d60(&pwStack_60);
   if ((uVar7 != 0xffff) &&(!pBVar4->voxelObjs[uVar7].monster.flags&4)) {
-    fVar18 = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y -
+    fVar18 = ((gPlayer)->collision).pos.y -
              (pwStack_60->playerDat->collision).pos.y;
     if((fVar18>0&&fVar18<2.0)||fVar18<-2.0f){
     uVar14 = 1;

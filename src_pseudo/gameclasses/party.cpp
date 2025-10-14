@@ -1933,7 +1933,7 @@ void Party::DecRitualTimers(u32 A,u32 time){}
 void Party::TickMoveCounters(s32 delta){
   //3 values in the party struct. seem useless.
   int t = delta * (uint)TerrainPointer->daySpeed;
-  switch((gGlobals.playerCharStruct.playerDat)->ani_type){
+  switch((gPlayer)->ani_type){
     case AniType_Run:
     this->TimeRunning = (this->TimeRunning + t) % MINUTES(5);
     return;

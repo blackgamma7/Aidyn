@@ -2,6 +2,7 @@
 #include "compass.h"
 #include "vobjects.h"
 #include "memaker.h"
+#include "game.h"
 
 #define FILENAME "./src/gametrek.cpp"
 
@@ -42,14 +43,14 @@ Gfx * ofunc_80024c90(Gfx *param_1) {
   return tick_trek_features(param_1,(u8)iVar3);
 }
 
-u8 screenFadeMode_1_9(Gfx **param_1) {
+u8 screenFadeMode_1_9(Gfx **GG) {
   bool bVar1;
   u8 uVar2;
   controller_aidyn *pcStack_30;
-  Gfx *apGStack_2c [11];
+  Gfx *gfxTemp [11];
   
   uVar2 = 1;
-  apGStack_2c[0] = *param_1;
+  gfxTemp[0] = *GG;
   if (gTrekUninitted) {
     some_ticker = 0;
     if (gGlobals.screenshot != NULL) {
@@ -110,16 +111,10 @@ u8 screenFadeMode_1_9(Gfx **param_1) {
         gDelta++;
       }
     }
-    if (gDelta < 1) {
-      gDelta = 1;
-    }
-    if (gDelta < 7) {
-    }
-    else {
-      gDelta = 6;
-    }
+    if (gDelta < 1) gDelta = 1;
+    if (gDelta >= 6) gDelta = 6
     gGlobals.delta = (float)(u8)gDelta;
-    apGStack_2c[0] = tick_trek_features(apGStack_2c[0],(u8)gDelta);
+    gfxTemp[0] = tick_trek_features(gfxTemp[0],(u8)gDelta);
     break;
   case 4:
     DAT_800e9aa7 = '\x01';
@@ -194,19 +189,14 @@ u8 screenFadeMode_1_9(Gfx **param_1) {
     while (bVar1 = Controller::GetInput(&pcStack_30,0), bVar1) {
       gDelta++;
     }
-    if (gDelta < 1) {
-      gDelta = 1;
-    }
-    if (gDelta < 7) {}
-    else {
-      gDelta = 6;
-    }
-    gGlobals.delta = (float)(int)gDelta;
-    apGStack_2c[0] = tick_trek_features(apGStack_2c[0],(u8)gDelta);
+    if (gDelta < 1) gDelta = 1;
+    if (gDelta >= 6) gDelta = 6;
+    gGlobals.delta = (float)(u8)gDelta;
+    gfxTemp[0] = tick_trek_features(gfxTemp[0],(u8)gDelta);
     gGlobals.playerCharStruct.unkState = 7;
     break;
   case 0x16:
-    if (!GetDelta_TickTrek(apGStack_2c)) {
+    if (!GetDelta_TickTrek(gfxTemp)) {
       gGlobals.playerCharStruct.unkState = 0x17;
     }
     goto LAB_80025208;
@@ -223,14 +213,14 @@ LAB_80025208:
     gGlobals.playerCharStruct.unkState = (u8)some_toggle;
     some_toggle = -1;
   }
-  if (DAT_800e9aa7 != '\0') {
+  if (DAT_800e9aa7) {
     Process_queue_B(&gGlobals.QueueB,1);
     clear_HUD_elements(0);
     gTrekUninitted = true;
-    DAT_800e9aa7 = '\0';
+    DAT_800e9aa7 = false;
   }
-  *param_1 = apGStack_2c[0];
-  some_ticker = some_ticker + 1;
+  *GG = gfxTemp[0];
+  some_ticker++;
   return uVar2;
 switchD_80024ecc_caseD_c:
   uVar2 = 0xd;
@@ -300,7 +290,7 @@ void player_control_func(controller_aidyn *cont) {
     return;
   }
 #endif
-  Actor::Move(gGlobals.playerCharStruct.playerDat,cont);
+  Actor::Move(gPlayer,cont);
   N64Print::Toggle(&gGlobals.DebugQueue,cont);
 #ifdef DEBUGVER
   if(gDebugFlag) {
@@ -312,8 +302,8 @@ void player_control_func(controller_aidyn *cont) {
 #endif  
   if ((cont->input & START_BUTTON)){
     if (gGlobals.playerCharStruct.smallerDebugWindow == NULL) {
-      if (gGlobals.playerCharStruct.playerDat) {
-        (gGlobals.playerCharStruct.playerDat)->ani_type = 0;
+      if (gPlayer) {
+        (gPlayer)->ani_type = 0;
       }
       if ((cont->input_2 & Z_BUTTON) == 0) {
         if (some_ticker < 2) return;
@@ -339,7 +329,7 @@ void small_debug_menu_check(controller_aidyn *param_1) {
     if ((bVar3) || (bVar2)) {
       if (w == NULL) {
         if ((gGlobals.diaClass)->menu == NULL) {
-          (gGlobals.playerCharStruct.playerDat)->ani_type = 0;
+          (gPlayer)->ani_type = 0;
         }
       }
       #ifdef DEBUGVER
@@ -456,12 +446,12 @@ Gfx * draw_hud_elements(Gfx *gfx) {
   if ((gGlobals.diaClass)->menu == NULL) {
     gfx = Portraits::Draw(Sundial::Draw(gfx),gGlobals.playerCharStruct.show_portaits);
     if ((gGlobals.minimap.active == 0) ||
-       (gGlobals.minimap.Update(((gGlobals.playerCharStruct.playerDat)->collision).pos.x,
-                        ((gGlobals.playerCharStruct.playerDat)->collision).pos.y,
-                        ((gGlobals.playerCharStruct.playerDat)->collision).pos.z),
+       (gGlobals.minimap.Update(((gPlayer)->collision).pos.x,
+                        ((gPlayer)->collision).pos.y,
+                        ((gPlayer)->collision).pos.z),
        gGlobals.minimap.ShowMinimap == 0)) {
       if (gGlobals.sky.Type == 3) {
-        gfx = Compass::Draw(gfx,&gGlobals.gameVars.camera.rotationXZ);
+        gfx = Compass::Draw(gfx,&gCamera.rotationXZ);
       }
     }
     else gfx = gGlobals.minimap.Render(gfx);
@@ -473,11 +463,11 @@ Gfx * draw_hud_elements(Gfx *gfx) {
 Gfx * zoneEngine_debug(Gfx *g,u8 delta) {
   Gfx *gTemp = g;
   if (gDebugFlag == 0) {
-    handleZoneEngineFrame(&gTemp,delta,gGlobals.playerCharStruct.playerDat);
+    handleZoneEngineFrame(&gTemp,delta,gPlayer);
     g = gTemp;
   }
   else if (gZoneEngineHide == 0) {
-    handleZoneEngineFrame(&gTemp,delta,gGlobals.playerCharStruct.playerDat);
+    handleZoneEngineFrame(&gTemp,delta,gPlayer);
     g = gTemp;
   }
   return g;
@@ -505,7 +495,7 @@ Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
     #ifdef DEBUGVER
     gTemp = zoneEngine_debug(gTemp,delta);
     #else
-    handleZoneEngineFrame(&gTemp,delta,gGlobals.playerCharStruct.playerDat);
+    handleZoneEngineFrame(&gTemp,delta,gPlayer);
     #endif
     fadeFloatMirror = gGlobals.brightness;
     gTemp = Lensflare::Render(gTemp);

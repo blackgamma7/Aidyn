@@ -111,7 +111,7 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,ushort amp){
     pDat->Ground_Type_New = pDat->Ground_type;
   }
   Actor::GetPosOnLoadedMap(pDat,&pos);
-  FUN_8005661c(&pos,15.0,&gGlobals.gameVars.camera,&bStack_28,(s8 *)auStack_27);
+  FUN_8005661c(&pos,15.0,&gCamera,&bStack_28,(s8 *)auStack_27);
   if (bStack_28 == 0) return;
   switch(paVar3[pDat->Ent_index].unk0){
     case 0:

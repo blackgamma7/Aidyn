@@ -200,7 +200,7 @@ void ProcessWeather(WeatherStruct *W,short delta){
           default:
           CRASH("weather.cpp::ProcessWeather","Unknown Precipitation Type");
         }
-        W->rainParticles = AllocPrecipParticles(&gGlobals.gameVars.camera.aim,&precipVel,&precipCol,sVar9,uVar13,pcVar12);
+        W->rainParticles = AllocPrecipParticles(&gCamera.aim,&precipVel,&precipCol,sVar9,uVar13,pcVar12);
         pPVar6 = W->rainParticles;
       }
       goto LAB_80023160;
@@ -208,8 +208,8 @@ void ProcessWeather(WeatherStruct *W,short delta){
 LAB_80023168:
 
     (pPVar6->field20_0x54).x = 20.0f;
-    (W->rainParticles->vel).x = gGlobals.gameVars.camera.rotationXZ.x * 5.0f;
-    (W->rainParticles->vel).z = gGlobals.gameVars.camera.rotationXZ.y * 5.0f;
+    (W->rainParticles->vel).x = gCamera.rotationXZ.x * 5.0f;
+    (W->rainParticles->vel).z = gCamera.rotationXZ.y * 5.0f;
     pTVar5 = TerrainPointer;
     fVar16 = 7.0f;
     (W->rainParticles->vel).y = 7.0f - (W->timer - 2.0f);

@@ -167,7 +167,7 @@ void SavePartyPlaytime(SavePartyHeader *param_1){
 }
 void CopyEngineZone(mapFloatDat *param_1,u8 copy){
   if (copy) {
-    SaveEngineZone(gGlobals.playerCharStruct.playerDat,&gGlobals.gameVars.MapFloatDatEntry);
+    SaveEngineZone(gPlayer,&gGlobals.gameVars.MapFloatDatEntry);
     COPY(param_1,&gGlobals.gameVars.MapFloatDatEntry);
   }
 }
@@ -258,7 +258,7 @@ void Teleport(mapFloatDat *param_1,u8 param_2){
   if (param_2) {
     COPY(&gGlobals.gameVars.MapFloatDatEntry,param_1);
     gGlobals.playerCharStruct.some_sound_var = 1;
-    if (gGlobals.playerCharStruct.playerDat) set_teleport_obj_loadgame(param_1->mapDatA,param_1->MapShort1,param_1->MapShort2,param_1);
+    if (gPlayer) set_teleport_obj_loadgame(param_1->mapDatA,param_1->MapShort1,param_1->MapShort2,param_1);
   }
 }
 

@@ -136,10 +136,10 @@ Gfx * Clouds::Render(Gfx *g){
   
   if ((true) && (gGlobals.sky.Type == 3)) {
     CalcWind();
-    camRotY = gGlobals.gameVars.camera.rotation.y;
-    camRotZ = gGlobals.gameVars.camera.rotationXZ.y;
-    camRotX = gGlobals.gameVars.camera.rotationXZ.x;
-    camLength = _sqrtf(SQ(gGlobals.gameVars.camera.rotation.x)+SQ(gGlobals.gameVars.camera.rotation.z));
+    camRotY = gCamera.rotation.y;
+    camRotZ = gCamera.rotationXZ.y;
+    camRotX = gCamera.rotationXZ.x;
+    camLength = _sqrtf(SQ(gCamera.rotation.x)+SQ(gCamera.rotation.z));
     RSPFUNC6(g);
     if (gCloudCount != 0) {
       for(i=0;i<gCloudCount;i++){

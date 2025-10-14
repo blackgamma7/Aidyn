@@ -102,7 +102,7 @@ s32 find_event_flag_array_index(char param_1,event_flag_array *param_2,u8 param_
   }
   return (s32)uVar2;
 }
-
+extern GameStateFunnel gamestatefunnel_rom;
 u8 load_gamestateFunnel(void){
   ALLOC(gameStates,291);
   ROMCOPYS(gameStates,&gamestatefunnel_rom,sizeof(GameStateFunnel),293);
@@ -293,15 +293,14 @@ LAB_80024aac:
   return;
 }
 
-void StateTypeA_branch(EventFlag param_1,u32 param_2){
-  Struct_State *pSVar2;
-  if (param_1 < gameStates->bitFlags) setEventFlag(param_1,param_2);
+void StateTypeA_branch(EventFlag flag,u32 state){
+  if (flag < gameStates->bitFlags) setEventFlag(flag,state);
   else {
-    pSVar2 = get_struct_state(gameStates,param_1);
-    if (param_2 != pSVar2->Flag) {
-      if (pSVar2->type == FLAG_VAL) state_typeA_VAL(pSVar2,(u16)param_2);
-      else if (pSVar2->type == FLAG_LOG) state_TypeA_LOG(pSVar2,param_2);
-      else if (pSVar2->type == FLAG_CNT) State_TypeA_CNT(pSVar2,param_2);
+    Struct_State *entry = get_struct_state(gameStates,flag);
+    if (state != entry->Flag) {
+      if (entry->type == FLAG_VAL) state_typeA_VAL(entry,(u16)state);
+      else if (entry->type == FLAG_LOG) state_TypeA_LOG(entry,state);
+      else if (entry->type == FLAG_CNT) State_TypeA_CNT(entry,state);
       gameStates->flag = 1;
     }
   }

@@ -268,16 +268,16 @@ Gfx * Skyobjects::Render(Gfx *g){
   if ((true) && (gGlobals.sky.Type == 3)) {
     i = 0;
     UpdateSunMoon();
-    fVar17 = gGlobals.gameVars.camera.rotation.z;
-    fVar4 = gGlobals.gameVars.camera.rotation.y;
-    fVar3 = gGlobals.gameVars.camera.rotation.x;
+    fVar17 = gCamera.rotation.z;
+    fVar4 = gCamera.rotation.y;
+    fVar3 = gCamera.rotation.x;
     fStack240.y = 0.0;
-    fStack240.x = gGlobals.gameVars.camera.rotation.x;
-    fStack240.z = gGlobals.gameVars.camera.rotation.z;
+    fStack240.x = gCamera.rotation.x;
+    fStack240.z = gCamera.rotation.z;
     vec3_normalize(&fStack240);
     fVar6 = fStack240.z;
     fVar5 = fStack240.x;
-    fVar17 = _sqrtf(SQ(gGlobals.gameVars.camera.rotation.x) + SQ(gGlobals.gameVars.camera.rotation.z));
+    fVar17 = _sqrtf(SQ(gCamera.rotation.x) + SQ(gCamera.rotation.z));
     RSPFUNC6(g);
     fVar3 = dtor;
     for(i=0,iStack_5c = 0;i<gSkyobjectsCount;i++,iStack_5c += 4){

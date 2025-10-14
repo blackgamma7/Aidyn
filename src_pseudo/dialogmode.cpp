@@ -250,7 +250,7 @@ void monsterparty_wanderstruct(wander_substruct *param_1){
   WanderSubstruct_setFlag1(param_1);
   ppVar1 = param_1->playerDat;
   Actor::SetFlag(ppVar1,ACTOR_800|ACTOR_40);
-  ppVar2 = gGlobals.playerCharStruct.playerDat;
+  ppVar2 = gPlayer;
   ppVar1->ani_type = 0;
   ppVar2->ani_type = 0;
   Vec3_sub(&afStack80,&(ppVar1->collision).pos,&(ppVar2->collision).pos);
@@ -405,7 +405,7 @@ void FUN_80058b88(Gfx **param_1,u16 delta){
   u8 b = dialougemode_pointer->borg13_dat->start_func;
   if (b == 1) {
     handleZoneEngineFrame(param_1,delta,NULL);
-    ProcessAudioBubbles(&gGlobals.SFXStruct,&gGlobals.gameVars.camera.pos,delta);
+    ProcessAudioBubbles(&gGlobals.SFXStruct,&gCamera.pos,delta);
   }
   else if ((1 < b) && (b < 5)) {
     gGlobals.scriptcamera.counter0 = 0;
@@ -571,7 +571,7 @@ playerData * FUN_800591e4(void){
   x = (dialougemode_pointer->some_substruct).diags[0].ent_ID;
   ppVar1 = NULL;
   if (((ushort)x >> 8 == 2) &&
-     (bVar2 = GETINDEX(x), ppVar1 = gGlobals.playerCharStruct.playerDat,
+     (bVar2 = GETINDEX(x), ppVar1 = gPlayer,
      bVar2 != EntInd_Alaron)) {
     if (dialougemode_pointer->Wanderers == NULL) ppVar1 = NULL;
     else ppVar1 = dialougemode_pointer->Wanderers->playerDat;
@@ -692,7 +692,7 @@ void DialogueModeInitPrescripted_set_map(EnumMapDatA mapdatA,u16 short1,u16 shor
   no_TP_vec3 = 1;
   loadGameBorgScenes(short1,short2);
   BorgMaps::GetMapTerrain(short1,short2);
-  gGlobals.gameVars.camera.unk80 = 5;
+  gCamera.unk80 = 5;
 }
 
 void FUN_80059770(void){
@@ -724,8 +724,8 @@ void FUN_800597f8(void){
 }
 
 void FUN_80059888(void){
-  playerData *ppVar1 = gGlobals.playerCharStruct.playerDat;
-  (gGlobals.playerCharStruct.playerDat)->ani_type = 0;
+  playerData *ppVar1 = gPlayer;
+  (gPlayer)->ani_type = 0;
   Actor::SetFlag(ppVar1,ACTOR_800);
   gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
              &dialougemode_pointer->some_substruct,0,0);
@@ -739,7 +739,7 @@ void FUN_800598fc(void){
   
   if (dialougemode_pointer->Wanderers != NULL) {
     WanderSubstruct_setFlag1(dialougemode_pointer->Wanderers);
-    ppVar2 = gGlobals.playerCharStruct.playerDat;
+    ppVar2 = gPlayer;
     ppVar1 = dialougemode_pointer->Wanderers->playerDat;
     Actor::SetFlag(ppVar1,ACTOR_800|ACTOR_40);
     Actor::SetFlag(ppVar2,ACTOR_800);
@@ -749,7 +749,7 @@ void FUN_800598fc(void){
 }
 
 void FUN_80059970(BaseWidget *param_1){
-  playerData *ppVar1 = gGlobals.playerCharStruct.playerDat;
+  playerData *ppVar1 = gPlayer;
   if (dialougemode_pointer->Wanderers) {
     dialougemode_pointer->Wanderers->playerDat->ani_type = 0;
   }
@@ -766,7 +766,7 @@ void FUN_80059970(BaseWidget *param_1){
 void FUN_80059970(BaseWidget *param_1)
 
 {
-  playerData *ppVar1 = gGlobals.playerCharStruct.playerDat;
+  playerData *ppVar1 = gPlayer;
   if (dialougemode_pointer->Wanderers)
     dialougemode_pointer->Wanderers->playerDat->ani_type = 0;
   ppVar1->ani_type = 0;
@@ -787,10 +787,10 @@ void FUN_800599f0(void){
   pwVar1 = dialougemode_pointer->Wanderers;
   FUN_800597f8();
   pCVar3 = gGlobals.gameVars.PlayerHandler.camera;
-  ppVar2 = gGlobals.playerCharStruct.playerDat;
-  if ((gGlobals.playerCharStruct.playerDat != NULL) && (gGlobals.gameVars.PlayerHandler.camera != NULL))
+  ppVar2 = gPlayer;
+  if ((gPlayer != NULL) && (gGlobals.gameVars.PlayerHandler.camera != NULL))
   {
-    Camera::SetFeild70(gGlobals.gameVars.PlayerHandler.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
+    Camera::SetFeild70(gGlobals.gameVars.PlayerHandler.camera,&((gPlayer)->collision).pos);
     pCVar3->unk80 = 5;
   }
   if (pwVar1) {
@@ -874,7 +874,7 @@ bool FUN_80059d10(BaseWidget *param_1){
 
 
 bool FUN_80059d38(void){
-  (gGlobals.playerCharStruct.playerDat)->ani_type = 0;
+  (gPlayer)->ani_type = 0;
   return gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,&dialougemode_pointer->some_substruct,3,0);
 }
 

@@ -247,7 +247,7 @@ void monsterpary_func(voxelObject *v,u16 A,u16 B){
   }
   else {
     vec3f temp;
-    vec3f *playerPos = &((gGlobals.playerCharStruct.playerDat)->collision).pos;
+    vec3f *playerPos = &((gPlayer)->collision).pos;
     playerData *ppVar2 = gGlobals.wander.wanderSubstructs[(v->monster).wandererIndex].playerDat;
     Vec3_sub(&temp,&(ppVar2->collision).pos,playerPos);
     float x = vec3_normalize(&temp);

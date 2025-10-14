@@ -13,8 +13,8 @@ void N64Print::UnkB(void){show_debug_queue = ofunc_value;}
 void N64Print::Toggle(N64PrintStruct *param_1,controller_aidyn *param_2){
 #ifdef DEBUGVER
   if ((param_2->input & L_BUTTON)){
-    if (param_1->color.w <= 0.0) {param_1->color.w = 60.0f;}
-    else {param_1->color.w = 1.0f;}
+    if (param_1->color.a <= 0.0) {param_1->color.a = 60.0f;}
+    else {param_1->color.a = 1.0f;}
   }
   if (((param_2->input_2 & R_BUTTON)) && ((param_2->input & START_BUTTON))) {
     param_2->input &= ~START_BUTTON;
@@ -41,10 +41,10 @@ void N64Print::Init(N64PrintStruct *param_1){
   #ifdef DEBUGVER
   gN64PrintP = param_1;
   ALLOCS(gN64PrintP->text,370,141);
-  gN64PrintP->color.z = 1.0f;
-  gN64PrintP->color.y = 1.0f;
-  gN64PrintP->color.x = 1.0f;
-  gN64PrintP->color.w = 0.0;
+  gN64PrintP->color.r = 1.0f;
+  gN64PrintP->color.g = 1.0f;
+  gN64PrintP->color.b = 1.0f;
+  gN64PrintP->color.a = 0.0;
   gN64PrintP->ShortA = 0;
   Clear();
   #else
@@ -107,7 +107,7 @@ void N64Print::Print(char *param_1){
   if ((*param_1) && (gN64PrintP)) {
     lVar4 = gN64PrintP->ShortA;
     iVar6 = 0;
-    gN64PrintP->color.w = 15.0f;
+    gN64PrintP->color.a = 15.0f;
     pDVar2 = gN64PrintP;
     cStack400 = *param_1;
     pcVar7 = acStack399;
@@ -148,24 +148,18 @@ void N64Print::Print(){}
 
 Gfx* N64Print::Draw(Gfx*gfx,s16 delta){
 #ifdef DEBUGVER
-  u8 uVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  
   if (((gDebugFlag) && (show_debug_queue)) && (gN64PrintP)) {
-    gN64PrintP->color.w -= (delta * (1.0/60));
-    if (0.0 < gN64PrintP->color.w) {
-      fVar4 = gN64PrintP->color.r * 255.0f;
-      fVar5 = gN64PrintP->color.g * 255.0f;
-      fVar6 = gN64PrintP->color.b * 255.0f;
-      fVar3 = gN64PrintP->color.a * 255.0f;
-      uVar2 = (u8)(s32)fVar3;
-      if (1.0f < gN64PrintP->color.w) uVar2 = 0xff;
+    gN64PrintP->color.a -= (delta * (1.0/60));
+    if (0.0 < gN64PrintP->color.a) {
+      float fVar4 = gN64PrintP->color.r * 255.0f;
+      float fVar5 = gN64PrintP->color.g * 255.0f;
+      float fVar6 = gN64PrintP->color.b * 255.0f;
+      float fVar3 = gN64PrintP->color.a * 255.0f;
+      u8 uVar2 = (u8)(s32)fVar3;
+      if (1.0f < gN64PrintP->color.a) uVar2 = 0xff;
       gfx = Graphics::DrawText(gfx,gN64PrintP->text,0x12,0x32,(char)fVar4,(char)fVar5,(char)fVar6,uVar2);
     }
-    else gN64PrintP->color.w = 0.0;
+    else gN64PrintP->color.a = 0.0;
   }
 #endif
   return gfx;

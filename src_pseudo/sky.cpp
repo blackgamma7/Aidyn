@@ -414,7 +414,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
       }
     }
     else{
-      Vec3_sub(&fStack128,&gGlobals.gameVars.camera.pos,&gGlobals.gameVars.camera.aim);
+      Vec3_sub(&fStack128,&gCamera.pos,&gCamera.aim);
       vec3_normalize(&fStack128);
       SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
               gGlobals.sky.colors,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,

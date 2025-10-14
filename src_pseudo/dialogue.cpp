@@ -45,7 +45,7 @@ void DialougFreeActors(dialougmode_substruct *param_1,Borg13Data *param_2){
     }
   }
   if ((param_2->start_func != 0) && (param_2->start_func != 3))
-    gGlobals.playerCharStruct.playerDat = NULL;
+    gPlayer = NULL;
 }
 
 

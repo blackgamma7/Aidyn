@@ -586,7 +586,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   loading_map_data(gGlobals.gameVars.ZoneDatMtx[1] + 1);
   if ((MAPCENTER.borg5_ID == 0) ||
      (uVar21 = 1, MAPCENTER.borg9_id == 0)) {
-    playerData* ppVar9 = gGlobals.playerCharStruct.playerDat;
+    playerData* ppVar9 = gPlayer;
     if (gGlobals.screenFadeModeSwitch == 2) {
       ppVar9 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
     }
@@ -659,7 +659,7 @@ void ApplyZoneVelocity(vec3f *param_1,playerData *param_2){
   (param_2->collision).pos.y += (*param_1).y;
   (param_2->collision).pos.z += (*param_1).z;
   if (param_2->flags & ACTOR_ISPLAYER) GiveCameraToPlayer(param_2);
-  Camera::ApplyVelocity(&gGlobals.gameVars.camera,param_1);
+  Camera::ApplyVelocity(&gCamera,param_1);
   FUN_8001b888(&gGlobals.gameVars.particleEmmiter,param_1);
 }
 //get reference point map object by ID number
@@ -786,10 +786,10 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   loadGameBorgScenes((tp->teleport).MapShort1,(tp->teleport).MapShort2);
   if (param_3 == NULL) {
     if (gGlobals.sky.Type == 4) {
-      Camera::SetMode(&gGlobals.gameVars.camera,1);
+      Camera::SetMode(&gCamera,1);
     }
     if (gGlobals.sky.Type == 3) {
-      Camera::SetMode(&gGlobals.gameVars.camera,0);
+      Camera::SetMode(&gCamera,0);
     }
     if (uVar1 == 0x7ff8) {
       fStack312.x = (tp->header).pos.x;
@@ -837,7 +837,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
       gGlobals.gameVars.weather.rainParticles = NULL;
       Particle::FUN_800b2bc4(&gGlobals.gameVars.particleEmmiter);
     }
-    Camera::SetFeild70(&gGlobals.gameVars.camera,pvVar9);
+    Camera::SetFeild70(&gCamera,pvVar9);
   }
   if (prStack_38 == NULL) {
     if ((player != NULL) && (param_3 == NULL)) {
@@ -845,28 +845,28 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
         fStack184.x = (player->collision).pos.x;
         fVar10 = (player->collision).pos.y;
         fStack184.z = (player->collision).pos.z;
-        fStack184.y = fVar10 + gGlobals.gameVars.camera.camHeight;
+        fStack184.y = fVar10 + gCamera.camHeight;
         fStack248.x = fStack184.x - (player->facing).x * 4.0f;
         fStack248.y = fVar10 + 3.0f;
         fStack248.z = fStack184.z - (player->facing).y * 4.0f;
-        Camera::SetPos(&gGlobals.gameVars.camera,&fStack248);
-        Camera::SetAim(&gGlobals.gameVars.camera,&fStack184);
+        Camera::SetPos(&gCamera,&fStack248);
+        Camera::SetAim(&gCamera,&fStack184);
       }
       else {
         fStack120.x = (player->collision).pos.x;
         fStack120.z = (player->collision).pos.z;
-        fStack120.y = (player->collision).pos.y + gGlobals.gameVars.camera.camHeight;
-        Camera::SetAim(&gGlobals.gameVars.camera,&fStack120);
-        gGlobals.gameVars.camera.rotationXZ.x = (player->facing).x;
-        gGlobals.gameVars.camera.rotationXZ.y = (player->facing).y;
-        multiVec2(&gGlobals.gameVars.camera.rotationXZ,-1.0);
-        Camera::FUN_800b050c(&gGlobals.gameVars.camera,&fStack120);
-        Camera::SetPos(&gGlobals.gameVars.camera,&fStack120);
+        fStack120.y = (player->collision).pos.y + gCamera.camHeight;
+        Camera::SetAim(&gCamera,&fStack120);
+        gCamera.rotationXZ.x = (player->facing).x;
+        gCamera.rotationXZ.y = (player->facing).y;
+        multiVec2(&gCamera.rotationXZ,-1.0);
+        Camera::FUN_800b050c(&gCamera,&fStack120);
+        Camera::SetPos(&gCamera,&fStack120);
       }
     }
   }
-  else Camera::SetPos(&gGlobals.gameVars.camera,&prStack_38->header.pos);
-  gGlobals.gameVars.camera.unk80 = 5;
+  else Camera::SetPos(&gCamera,&prStack_38->header.pos);
+  gCamera.unk80 = 5;
   if ((param_3 == NULL) || (pfVar8 != NULL)) {
     for(s16 i = 0;i < 9;i++) {
       s16 j = i / 3;
@@ -885,9 +885,9 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
     }
   }
   if (MINIMAP.active) {
-    MINIMAP.savedPlayerPos.x = ((gGlobals.playerCharStruct.playerDat)->collision).pos.x;
-    MINIMAP.savedPlayerPos.y = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y;
-    MINIMAP.savedPlayerPos.z = ((gGlobals.playerCharStruct.playerDat)->collision).pos.z;
+    MINIMAP.savedPlayerPos.x = ((gPlayer)->collision).pos.x;
+    MINIMAP.savedPlayerPos.y = ((gPlayer)->collision).pos.y;
+    MINIMAP.savedPlayerPos.z = ((gPlayer)->collision).pos.z;
     MINIMAP.UpdateSection(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
   }
 }
@@ -1088,10 +1088,10 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
   fVar17 = __cosf(0.6544875f);
   fVar18 = __cosf(0.7417525f);
   pos.x = posLocal->x + cellX;
-  camCoord.x = gGlobals.gameVars.camera.pos.x;
-  camCoord.y = gGlobals.gameVars.camera.pos.z;
-  CamAim.x = gGlobals.gameVars.camera.aim.x;
-  CamAim.y = gGlobals.gameVars.camera.aim.z;
+  camCoord.x = gCamera.pos.x;
+  camCoord.y = gCamera.pos.z;
+  CamAim.x = gCamera.aim.x;
+  CamAim.y = gCamera.aim.z;
   pos.y = posLocal->y;
   pos.z = posLocal->z + cellZ;
   local_70 = getCollideSection(borg9,param_4,param_5);
@@ -1363,12 +1363,12 @@ u8 FUN_80010598(short param_1,short param_2){
   vec2f fStack104[3];
   fVar6 = (float)(param_1 + -1) * gGlobals.gameVars.mapCellSize.x;
   fVar5 = (float)(param_2 + -1) * gGlobals.gameVars.mapCellSize.y;
-  fStack104[0].x = gGlobals.gameVars.camera.rotationXZ.x * 200.0f;
-  fStack104[0].y = gGlobals.gameVars.camera.rotationXZ.y * 200.0f;
+  fStack104[0].x = gCamera.rotationXZ.x * 200.0f;
+  fStack104[0].y = gCamera.rotationXZ.y * 200.0f;
   fStack176.x = fVar6 - 20.0f;
-  fStack112.x = gGlobals.gameVars.camera.pos.x;
+  fStack112.x = gCamera.pos.x;
   fStack176.y = fVar5 - 20.0f;
-  fStack112.y = gGlobals.gameVars.camera.pos.z;
+  fStack112.y = gCamera.pos.z;
   fStack168.x = fVar6 + gGlobals.gameVars.mapCellSize.x + 20.0f;
   fStack160.y = fVar5 + gGlobals.gameVars.mapCellSize.y + 20.0f;
   fStack168.y = fStack176.y;
@@ -1440,9 +1440,9 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
   FUN_800a0df4(MAPCENTER.sceneDat0x4);
   gOut = gsAnimationDataMtx(gOut,MAPCENTER.sceneDat0x4);
   if (gPlayerRenderTimer) gOut = renderPlayers(&gGlobals.gameVars.PlayerHandler,gOut,delta,1,0);
-  if ((((gGlobals.gameVars.camera.pos.x < 0.0) || (gGlobals.gameVars.camera.pos.z < 0.0)) ||
-      (gGlobals.gameVars.mapCellSize.x < gGlobals.gameVars.camera.pos.x)) ||
-     (gGlobals.gameVars.mapCellSize.y < gGlobals.gameVars.camera.pos.z)) {
+  if ((((gCamera.pos.x < 0.0) || (gCamera.pos.z < 0.0)) ||
+      (gGlobals.gameVars.mapCellSize.x < gCamera.pos.x)) ||
+     (gGlobals.gameVars.mapCellSize.y < gCamera.pos.z)) {
     iStack_48 = 0;
   }
   if (iStack_48 == 0) {
@@ -1454,7 +1454,7 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
   ppGStack_2c = &gOut;
   uStack_40 = 1;
   pPStack_38 = &gGlobals.gameVars.particleEmmiter;
-  uStack60 = &gGlobals.gameVars.camera.rotation;
+  uStack60 = &gCamera.rotation;
   uStack_44 = (uint)(gGlobals.gameVars.borg9DatPointer)->byte0x1b;
   iVar2 = 0;
   do {
@@ -1717,7 +1717,7 @@ void InitZoneEngine(u16 param_1,short param_2){
     gGlobals.gameVars.playerPos2d.x = (pmVar8->playerVec3).x;
     gGlobals.gameVars.playerPos2d.y = (pmVar8->playerVec3).z;
   }
-  InitPlayerHandler(&gGlobals.gameVars.camera,sVar9,3);
+  InitPlayerHandler(&gCamera,sVar9,3);
   InitParticleHead(&gGlobals.gameVars.particleEmmiter,gGlobals.gameVars.borg9DatPointer,partCount,0x11,
                    aiStack_e8);
   FUN_8000d744();
@@ -1725,21 +1725,21 @@ void InitZoneEngine(u16 param_1,short param_2){
   loadGameBorgScenes(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
   if (param_2 == 0) {
     CLEAR(&afStack104);
-    passto_camera_init(&gGlobals.gameVars.camera,gGlobals.gameVars.borg9DatPointer,&afStack104,dat);
-    if ((gGlobals.playerCharStruct.playerDat != NULL) &&
-       ((gGlobals.playerCharStruct.playerDat)->removeFlag == 0)) {
-      Camera::SetAim(&gGlobals.gameVars.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
-      Camera::FUN_800b050c(&gGlobals.gameVars.camera,&afStack104);
-      Camera::SetPos(&gGlobals.gameVars.camera,&afStack104);
+    passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&afStack104,dat);
+    if ((gPlayer != NULL) &&
+       ((gPlayer)->removeFlag == 0)) {
+      Camera::SetAim(&gCamera,&((gPlayer)->collision).pos);
+      Camera::FUN_800b050c(&gCamera,&afStack104);
+      Camera::SetPos(&gCamera,&afStack104);
     }
   }
   else {
-    passto_camera_init(&gGlobals.gameVars.camera,gGlobals.gameVars.borg9DatPointer,&pmVar8->cameraVec3,dat);
-    ppVar4 = gGlobals.playerCharStruct.playerDat;
-    if (gGlobals.playerCharStruct.playerDat != NULL) {
-      ((gGlobals.playerCharStruct.playerDat)->facing).x = (pmVar8->playerVec2).x;
+    passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&pmVar8->cameraVec3,dat);
+    ppVar4 = gPlayer;
+    if (gPlayer != NULL) {
+      ((gPlayer)->facing).x = (pmVar8->playerVec2).x;
       (ppVar4->facing).y = (pmVar8->playerVec2).y;
-      Camera::SetAim(&gGlobals.gameVars.camera,&((gGlobals.playerCharStruct.playerDat)->collision).pos);
+      Camera::SetAim(&gCamera,&((gPlayer)->collision).pos);
     }
   }
   init_dynamic_light(&gGlobals.gameVars.DynamicLights);
@@ -1760,10 +1760,10 @@ void InitZoneEngine(u16 param_1,short param_2){
     CRASH("ZoneEngineInit","Unknown Engine Mode");
   }
   if (MINIMAP.active != 0) {
-    if (gGlobals.playerCharStruct.playerDat != NULL) {
-      MINIMAP.savedPlayerPos.x = ((gGlobals.playerCharStruct.playerDat)->collision).pos.x;
-      MINIMAP.savedPlayerPos.y = ((gGlobals.playerCharStruct.playerDat)->collision).pos.y;
-      MINIMAP.savedPlayerPos.z = ((gGlobals.playerCharStruct.playerDat)->collision).pos.z;
+    if (gPlayer != NULL) {
+      MINIMAP.savedPlayerPos.x = ((gPlayer)->collision).pos.x;
+      MINIMAP.savedPlayerPos.y = ((gPlayer)->collision).pos.y;
+      MINIMAP.savedPlayerPos.z = ((gPlayer)->collision).pos.z;
     }
     MINIMAP.UpdateSection(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
   }
@@ -1788,9 +1788,9 @@ void SaveEngineZone(playerData *param_1,mapFloatDat *param_2){
       (param_2->playerVec2).x = (param_1->facing).x;
       (param_2->playerVec2).y = (param_1->facing).y;
     }
-    (param_2->cameraVec3).x = gGlobals.gameVars.camera.pos.x;
-    (param_2->cameraVec3).y = gGlobals.gameVars.camera.pos.y;
-    (param_2->cameraVec3).z = gGlobals.gameVars.camera.pos.z;
+    (param_2->cameraVec3).x = gCamera.pos.x;
+    (param_2->cameraVec3).y = gCamera.pos.y;
+    (param_2->cameraVec3).z = gCamera.pos.z;
   }
 }
 
@@ -1899,18 +1899,18 @@ void VoxelIndexPosition(short delta,playerData *param_2){
         (param_2->collision).pos.x = (voxel_index_pointer->header).pos.x;
         (param_2->collision).pos.y = (voxel_index_pointer->header).pos.y;
         (param_2->collision).pos.z = (voxel_index_pointer->header).pos.z;
-        gGlobals.gameVars.camera.aim.x = (voxel_index_pointer->header).pos.x;
-        gGlobals.gameVars.camera.aim.y = (voxel_index_pointer->header).pos.y;
-        gGlobals.gameVars.camera.aim.z = (voxel_index_pointer->header).pos.z;
-        gGlobals.gameVars.camera.pos.x = (voxel_index_pointer->header).pos.x + 2.0;
-        gGlobals.gameVars.camera.pos.y = (voxel_index_pointer->header).pos.y + 7.0;
-        gGlobals.gameVars.camera.pos.z = (voxel_index_pointer->header).pos.z + 2.0;
-        gGlobals.gameVars.camera.posTarget.x = gGlobals.gameVars.camera.pos.x;
-        gGlobals.gameVars.camera.posTarget.y = gGlobals.gameVars.camera.pos.y;
-        gGlobals.gameVars.camera.posTarget.z = gGlobals.gameVars.camera.pos.z;
-        gGlobals.gameVars.camera.aimTarget.x = gGlobals.gameVars.camera.aim.x;
-        gGlobals.gameVars.camera.aimTarget.y = gGlobals.gameVars.camera.aim.y;
-        gGlobals.gameVars.camera.aimTarget.z = gGlobals.gameVars.camera.aim.z;
+        gCamera.aim.x = (voxel_index_pointer->header).pos.x;
+        gCamera.aim.y = (voxel_index_pointer->header).pos.y;
+        gCamera.aim.z = (voxel_index_pointer->header).pos.z;
+        gCamera.pos.x = (voxel_index_pointer->header).pos.x + 2.0;
+        gCamera.pos.y = (voxel_index_pointer->header).pos.y + 7.0;
+        gCamera.pos.z = (voxel_index_pointer->header).pos.z + 2.0;
+        gCamera.posTarget.x = gCamera.pos.x;
+        gCamera.posTarget.y = gCamera.pos.y;
+        gCamera.posTarget.z = gCamera.pos.z;
+        gCamera.aimTarget.x = gCamera.aim.x;
+        gCamera.aimTarget.y = gCamera.aim.y;
+        gCamera.aimTarget.z = gCamera.aim.z;
       }
     }
   }
@@ -2002,12 +2002,12 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
     }
   }
   if (gGlobals.gameVars.gamemodeType != 2) ProcessScriptCamera(&gGlobals.scriptcamera,(float)delta);
-  if (vec3_proximity(&gGlobals.gameVars.camera.pos,&gGlobals.gameVars.camera.aim)< 0.05)
+  if (vec3_proximity(&gCamera.pos,&gCamera.aim)< 0.05)
     CRASH("SceneSetCameraLookAt","Focus, and Camera at same Spot!");
   DEBUGSprintf("SceneSetCameraLookAt\n");
-  SceneSetCameraLookAt(MAPCENTER.sceneDat0x4,gGlobals.gameVars.camera.pos.x,
-             gGlobals.gameVars.camera.pos.y,gGlobals.gameVars.camera.pos.z,gGlobals.gameVars.camera.aim.x,
-             gGlobals.gameVars.camera.aim.y,gGlobals.gameVars.camera.aim.z);
+  SceneSetCameraLookAt(MAPCENTER.sceneDat0x4,gCamera.pos.x,
+             gCamera.pos.y,gCamera.pos.z,gCamera.aim.x,
+             gCamera.aim.y,gCamera.aim.z);
   if (gGlobals.gameVars.gamemodeType != 2) G = Sky::RenderSky(G,delta);
   if (gGlobals.sky.Type == 3) {
     DEBUGSprintf("RenderSkyObjects/RenderClouds");
@@ -2015,7 +2015,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
     G = Clouds::Render(G);
   }
   Gsprintf("RenderZones");
-  if (!player) RenderZones(&G,&gGlobals.gameVars.camera.aim,delta);
+  if (!player) RenderZones(&G,&gCamera.aim,delta);
   else RenderZones(&G,&(player->collision).pos,delta);
   if (gGlobals.gameVars.gamemodeType != 2) {
     DEBUGSprintf("RenderPlayers");
@@ -2027,7 +2027,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   DEBUGSprintf("ProcessAndRenderParticleHead");
   gGlobals.text[0] = '\0';
   if (gGlobals.gameVars.gamemodeType != 2) {
-    Particle::ProcessAndRenderParticleHead(&G,&gGlobals.gameVars.particleEmmiter,&gGlobals.gameVars.camera.rotation,delta,
+    Particle::ProcessAndRenderParticleHead(&G,&gGlobals.gameVars.particleEmmiter,&gCamera.rotation,delta,
                                  Graphics::GetBufferChoice(),1);
   }
   DEBUGSprintf("ProcessAudioBubbles");

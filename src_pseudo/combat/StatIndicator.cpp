@@ -112,10 +112,10 @@ uint AddItem(playerData *param_1,int type,short num){
     (pcVar7->unk278).x = 0.5f;
     (pcVar7->unk278).y = 0.2f;
     (pcVar7->statStartPos).z = (param_1->collision).pos.z;
-    if (vec3_proximity(&pcVar7->statStartPos,&gGlobals.gameVars.camera.pos) < 0.0)
-      fVar11 = -vec3_proximity(&pcVar7->statStartPos,&gGlobals.gameVars.camera.pos);
+    if (vec3_proximity(&pcVar7->statStartPos,&gCamera.pos) < 0.0)
+      fVar11 = -vec3_proximity(&pcVar7->statStartPos,&gCamera.pos);
     else
-      fVar11 = vec3_proximity(&pcVar7->statStartPos,&gGlobals.gameVars.camera.pos);
+      fVar11 = vec3_proximity(&pcVar7->statStartPos,&gCamera.pos);
     pcVar7->unk280 = fVar11 * 0.15f;
     pcVar7->statAlpha = 0xff;
     pcVar7->statAlphaDelta = 1;
@@ -140,10 +140,10 @@ uint AddItem(playerData *param_1,int type,short num){
     (pcVar7->unk278).x = 1.5;
     (pcVar7->unk278).y = 0.6;
     (pcVar7->statStartPos).z = (param_1->collision).pos.z;
-    if (vec3_proximity(pvVar8,&gGlobals.gameVars.camera.pos) < 0.0)
-      fVar11 = -vec3_proximity(pvVar8,&gGlobals.gameVars.camera.pos);
+    if (vec3_proximity(pvVar8,&gCamera.pos) < 0.0)
+      fVar11 = -vec3_proximity(pvVar8,&gCamera.pos);
     else 
-      fVar11 = vec3_proximity(pvVar8,&gGlobals.gameVars.camera.pos);
+      fVar11 = vec3_proximity(pvVar8,&gCamera.pos);
     pcVar7->unk280 = fVar11 * 0.15;
     pcVar7->statAlpha = 0;
     pcVar7->statAlphaDelta = -1;
@@ -186,9 +186,9 @@ Gfx * Tick(Gfx *g,int delta){
         pos.y = (x->statStartPos).y + fVar9 * x->unk280;
         pos.z = (x->statStartPos).z;
         avStack_68.x = (x->unk278).x + fVar8 * x->unk280;
-        rot.x = pos.x - gGlobals.gameVars.camera.pos.x;
-        rot.z = pos.z - gGlobals.gameVars.camera.pos.z;
-        rot.y = pos.y - gGlobals.gameVars.camera.pos.y;
+        rot.x = pos.x - gCamera.pos.x;
+        rot.z = pos.z - gCamera.pos.z;
+        rot.y = pos.y - gCamera.pos.y;
         avStack_68.y = (x->unk278).y + fVar8 * 0.4f * x->unk280;
         guNormalize(&rot.x,&rot.y,&rot.z);
         pGVar3 = PlaneObj_Render(PlaneObj_GetTexture(pGVar3,x),x,&pos,&rot,&avStack_68);

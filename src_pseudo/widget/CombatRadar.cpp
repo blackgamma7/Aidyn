@@ -78,8 +78,8 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
         float posY = (pDat->collision).pos.z -
           gGlobals.gameVars.PlayerHandler.playerDats[gGlobals.gameVars.PlayerHandler.cameraFocus].collision.pos.z;
         vec2f avStack_70={
-          (posX * -gGlobals.gameVars.camera.rotationXZ.y + posY * gGlobals.gameVars.camera.rotationXZ.x) * 0.5f,
-          (posX * gGlobals.gameVars.camera.rotationXZ.x - posY * -gGlobals.gameVars.camera.rotationXZ.y) * 0.5f
+          (posX * -gCamera.rotationXZ.y + posY * gCamera.rotationXZ.x) * 0.5f,
+          (posX * gCamera.rotationXZ.x - posY * -gCamera.rotationXZ.y) * 0.5f
         };
         if (20.0f < vec2Length(&avStack_70)) {
           this->col.R >>= 1;

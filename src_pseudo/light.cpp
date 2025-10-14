@@ -141,7 +141,7 @@ LAB_800550e8:
           }
           vec3f v3Dist;
           if (((lightObj->header).Bitfeild & 1) == 0) Vec3_sub(&v3Dist,&lightObj->header.pos,pos);
-          else Vec3_sub(&v3Dist,&gGlobals.gameVars.camera.pos,pos);
+          else Vec3_sub(&v3Dist,&gCamera.pos,pos);
           vec3_normalize(&v3Dist);
           tint_color_with_screenfade((lightObj->light).cols,gGlobals.brightness);
           Scene::addDynamicLight(scene,size * 250.0f,v3Dist.x,v3Dist.y,v3Dist.z,

@@ -464,8 +464,8 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
     strcpy(gGlobals.text,"Crash was not in ProcessCombatCamera");
     #endif
   }
-  setVec2(camPosV2p,gGlobals.gameVars.camera.pos.x,gGlobals.gameVars.camera.pos.z);
-  setVec2(camAimV2p,gGlobals.gameVars.camera.aim.x,gGlobals.gameVars.camera.aim.z);
+  setVec2(camPosV2p,gCamera.pos.x,gCamera.pos.z);
+  setVec2(camAimV2p,gCamera.aim.x,gCamera.aim.z);
   count = 0;
   gGlobals.gameVars.camPtrArraySize = 0;
   local_6c = &handler->camera->aim;
@@ -927,8 +927,8 @@ Gfx * renderPlayers(PlayerHandler *param_1,Gfx *g,short delta,short param_4,shor
   iStack_4c = (int)param_4;
   iStack_48 = (int)param_5;
   fVar8 = __cosf(0.7417525f);
-  setVec2(&camCoord,gGlobals.gameVars.camera.pos.x,gGlobals.gameVars.camera.pos.z);
-  setVec2(&CamAim,gGlobals.gameVars.camera.aim.x,gGlobals.gameVars.camera.aim.z);
+  setVec2(&camCoord,gCamera.pos.x,gCamera.pos.z);
+  setVec2(&CamAim,gCamera.aim.x,gCamera.aim.z);
 
   if (0 < param_1->max_player) {
     for(i=0;i< param_1->max_player;i++) {

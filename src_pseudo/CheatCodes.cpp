@@ -101,11 +101,11 @@ u8 Cheats::_darkside(void){
 
 //the 3 transform cheats go here.
 u8 Cheats::fatboy_crawdaddy_tweety(u32 b7){ 
-  if (!gGlobals.playerCharStruct.playerDat) return false; //fails if used on title screen.
-  Actor::FreePlayerActor(gGlobals.playerCharStruct.playerDat);
+  if (!gPlayer) return false; //fails if used on title screen.
+  Actor::FreePlayerActor(gPlayer);
   if (gGlobals.playerCharStruct.player_form == b7) b7 = BORG7_Alaron;
   gGlobals.playerCharStruct.player_form = b7;
-  Actor::ChangeAppearance(gGlobals.playerCharStruct.playerDat,b7);
+  Actor::ChangeAppearance(gPlayer,b7);
   return true;
 }
 //Transform into Chaos Trooper

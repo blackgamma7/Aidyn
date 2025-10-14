@@ -308,3 +308,6 @@ vec3f player_coords_A;
 vec3f player_coords_b;
 u16 map_shorts_A[2];
 u16 map_shorts_b[2];
+
+//shorthand for player actor object
+#define gPlayer gGlobals.playerCharStruct.playerDat 

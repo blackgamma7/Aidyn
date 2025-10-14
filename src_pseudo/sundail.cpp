@@ -2,7 +2,7 @@
 #include "globals.h"
 
 namespace Sundail{
-void Init(void){
+void Init(){
   ALLOC(gSundail,108);
   gSundail->Ring = loadBorg8(BORG8_compassRing);
   gSundail->Cross = loadBorg8(0x1ba);

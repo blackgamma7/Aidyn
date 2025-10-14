@@ -40,9 +40,9 @@ void GiveCameraToPlayer(playerData *param_1){
   if (gGlobals.gameVars.PlayerHandler.cameraFocus != -1) {
     FUN_80019ccc(gGlobals.gameVars.PlayerHandler.playerDats + gGlobals.gameVars.PlayerHandler.cameraFocus);
   }
-  gGlobals.gameVars.camera.borg_9 = GetCollisionZone(param_1->zoneDatByte);
-  gGlobals.gameVars.camera.unk58 = 0.0;
-  gGlobals.gameVars.camera.unk48 = gGlobals.gameVars.camera.unk4c;
+  gCamera.borg_9 = GetCollisionZone(param_1->zoneDatByte);
+  gCamera.unk58 = 0.0;
+  gCamera.unk48 = gCamera.unk4c;
   Actor::SetFlag(param_1,ACTOR_ISPLAYER);
   gGlobals.gameVars.PlayerHandler.cameraFocus = param_1->ID;
   return;
@@ -122,9 +122,9 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
         sVar1 = (vox->camera).refpoint_ID;
         if (sVar1 == 0) {
           copyVec3(arg0,v3b);
-          if (gGlobals.playerCharStruct.playerDat == NULL)
+          if (gPlayer == NULL)
             (vox->camera).vec3_C.y = (float)((double)(vox->camera).vec3_C.y - 0.5);
-          else (vox->camera).vec3_C.y -= (gGlobals.playerCharStruct.playerDat)->scaleRad;
+          else (vox->camera).vec3_C.y -= (gPlayer)->scaleRad;
           if (isDialougeMode()) (vox->camera).vec3_C.y = ((vox->camera).vec3_C.y + 0.5);
           else (vox->camera).vec3_C.y += cam->camHeight;
         }
@@ -309,7 +309,7 @@ void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
           setVec3(&afStack112,sCam->aim->x,sCam->aim->y + sCam->height,sCam->aim->z);
           sCam->aim = &afStack112;
         }
-        processVoxelCamera(arg0,&sCam->voxel,&gGlobals.gameVars.camera,delta);
+        processVoxelCamera(arg0,&sCam->voxel,&gCamera,delta);
         sCam->timer -=delta;
         if ((s16)sCam->timer < 1) freeScriptCamera(param_1,sCam);
       }
@@ -319,7 +319,7 @@ void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
       camera_dat-=delta;
       if ((s16)camera_dat < 0) camera_dat = 0;
       if (cameraVoxelPointer)
-        processVoxelCamera(cameraVec3Ptr,cameraVoxelPointer,&gGlobals.gameVars.camera,delta);
+        processVoxelCamera(cameraVec3Ptr,cameraVoxelPointer,&gCamera,delta);
     }
     sprintf(gGlobals.text,"FINISHED ProcessScriptCameras");
   }

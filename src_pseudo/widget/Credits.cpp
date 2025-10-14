@@ -96,8 +96,8 @@ u8 WidgetCredits::Tick(){
     case 2: State2();break;
     case 3: State3();break;
   }
-  if (gGlobals.playerCharStruct.playerDat) {
-    ProcessAudioBubbles(&gGlobals.SFXStruct,&((gGlobals.playerCharStruct.playerDat)->collision).pos,gGlobals.delta);
+  if (gPlayer) {
+    ProcessAudioBubbles(&gGlobals.SFXStruct,&((gPlayer)->collision).pos,gGlobals.delta);
   }
   return TickChildren();
 }

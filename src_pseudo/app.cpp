@@ -49,7 +49,7 @@ Gfx * display_debug_stats(Gfx *gfx){
     gfx = Graphics::DrawText(gfx,gGlobals.text,(SCREEN_WIDTH-32),(SCREEN_HEIGHT-25),0x80,0x80,0x80,0xff);
     if (gGlobals.DebugStatDisplay) {
       RSPFUNC6(gfx);
-      ppVar1 = gGlobals.playerCharStruct.playerDat;
+      ppVar1 = gPlayer;
       if ((gGlobals.DebugStatDisplay & 1)) {
         uVar2 = get_obj_free();
         uVar3 = get_MemFree();

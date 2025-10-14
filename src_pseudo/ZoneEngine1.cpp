@@ -14,7 +14,7 @@ void dialoug_ref_obj_func(void){
       voxelObject* vObj = &(gGlobals.gameVars.borg9DatPointer)->voxelObjs[i];
       if ((((vObj->header).type == VOXEL_Dialouge) &&
           (some_dialoug_short_lookup((vObj->header).flagA))) &&
-         (dialouge_trigger_check(vObj,&gGlobals.playerCharStruct.playerDat->collision.pos,false))) {
+         (dialouge_trigger_check(vObj,&gPlayer->collision.pos,false))) {
         dialoug_func((vObj->dialoug).borg_13,(vObj->dialoug).RefPointID,(vObj->dialoug).MapDatA,
                      (vObj->dialoug).MapShortA,(vObj->dialoug).MapShortB,0x7fff);
         setEventFlag(0x1090,false);

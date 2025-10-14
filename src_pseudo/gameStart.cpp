@@ -80,7 +80,7 @@ Gfx * RenderFlycam(Gfx *gfx){
       gGlobals.screenFadeSpeed = 0.01f;
     }
     Scene::Rotate(gFlycamSceneP,&afStack216,&afStack152,&afStack88);
-    some_flycam_dat_func(&gGlobals.gameVars.flycamDat,&gGlobals.gameVars.camera,&afStack216,&afStack152);
+    some_flycam_dat_func(&gGlobals.gameVars.flycamDat,&gCamera,&afStack216,&afStack152);
     if (FUN_8000ccc0()) {
       FreeZoneEngineMemory();
       no_TP_vec3 = 1;
@@ -150,7 +150,7 @@ u8 gameStart(Gfx**GG){
     }
   }
   fStack104={0};
-  if (gGlobals.playerCharStruct.playerDat) pos = &((gGlobals.playerCharStruct.playerDat)->collision).pos;
+  if (gPlayer) pos = &((gPlayer)->collision).pos;
   if (gGlobals.introMusic) {
     DCM::Start((u8)gGlobals.introMusicDatA,gGlobals.introMusicDatB,gGlobals.VolBGM * 255.0);
   }
