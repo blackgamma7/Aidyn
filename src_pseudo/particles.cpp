@@ -251,10 +251,10 @@ LAB_800b23cc:
               if (iVar2 < 1) goto LAB_800b23cc;
               do {
                 (*pE->funcB)(pPH,pE);
-                lVar9 = (longlong)(short)pE->unk8;
+                lVar9 = pE->unk8;
                 iVar2 = iVar6 >> 0x10;
                 if (lVar9 < 0) {
-                  lVar9 = (longlong)-(int)(short)pE->unk8;
+                  lVar9 = -(int)(short)pE->unk8;
                 }
                 iVar6 += 0x10000;
               } while (iVar2 < lVar9);
@@ -266,7 +266,7 @@ LAB_800b23cc:
             }
           }
           if (!pE->particles) CRASH("ProcessAndRenderParticleHead","We need a pE->pParticle!!");
-          lVar9 = (longlong)(short)pE->particles->id;
+          lVar9 = pE->particles->id;
           if (lVar9 == -1) {
             sVar4 = pE->lifespan;
           }
@@ -521,57 +521,36 @@ void Particle::UnsetEmmiterFlag4000(ParticleEmmiter *param_1){UnsetEmmiterFlags(
 
 Gfx * Particle::FUN_800b2d34(Gfx *g,ParticleHeadStruct *param_2,vec3f *v,u16 buffChoice){
   guAlign(&param_2->alignMtx[buffChoice],0.0,v->x + NORMALIZE_MIN,v->y,v->z);
-  (g->words).w0 = 0xe7000000;
-  (g->words).w1 = 0;
-  g[1].words.w0 = 0xe3000a01;
-  *(undefined4 *)((int)g + 0xc) = 0;
-  g[2].words.w0 = 0xe3000800;
-  *(undefined4 *)((int)g + 0x14) = 0;
-  g[3].words.w0 = 0xe200001c;
-  *(undefined4 *)((int)g + 0x1c) = 0x504a50;
-  g[4].words.w0 = 0xfc121824;
-  *(undefined4 *)((int)g + 0x24) = 0xff33ffff;
-  g[5].words.w0 = 0xe3001700;
-  *(undefined4 *)((int)g + 0x2c) = 0;
-  g[6].words.w0 = 0xe3001801;
-  *(undefined4 *)((int)g + 0x34) = 0x80;
-  g[7].words.w0 = 0xe2001e01;
-  *(undefined4 *)((int)g + 0x3c) = 0;
-  g[8].words.w0 = 0xe3001a01;
-  *(undefined4 *)((int)g + 0x44) = 0;
-  g[9].words.w0 = 0xe3000f00;
-  *(undefined4 *)((int)g + 0x4c) = 0;
-  g[10].words.w0 = 0xe3001001;
-  *(undefined4 *)((int)g + 0x54) = 0;
-  *(undefined4 *)((int)g + 0x5c) = 0xc00;
-  g[0xb].words.w0 = 0xe3001402;
-  *(undefined4 *)((int)g + 100) = 0x2000;
-  g[0xc].words.w0 = 0xe3001201;
-  g[0xd].words.w0 = 0xe3000c00;
-  *(undefined4 *)((int)g + 0x6c) = 0x80000;
-  g[0xe].words.w0 = 0xe3000d01;
-  *(undefined4 *)((int)g + 0x74) = 0;
-  g[0xf].words.w0 = 0xd7000002;
-  *(undefined4 *)((int)g + 0x7c) = 0x80008000;
-  return g + 0x10;
+  gDPPipeSync(g++);
+  gDPSetCycleType(g++,0);
+  gDPPipelineMode(g++,0);
+  gDPSetRenderMode(g++,0x504a50,0);
+  gDPSetCombine(g++,0x121824,0xff33ffff);
+  gDPSetCombineKey(g++,0);
+  gDPSetColorDither(g++,G_CD_NOISE);
+  gDPSetAlphaCompare(g++,0);
+  gDPSetAlphaDither(g++,0);
+  gDPSetTextureLOD(g++,0);
+  gDPSetTextureLUT(g++,0);
+  gDPSetTextureConvert(g++,G_TC_FILT);
+  gDPSetTextureFilter(g++,G_TF_BILERP);
+  gDPSetTextureLUT(g++,G_TT_RGBA16);
+  gDPSetTextureDetail(g++,0);
+  gSPTexture(g++,0x8000,0x8000,0,G_TX_RENDERTILE,G_ON);
+  return g;
 }
 
-Gfx * Particle::FUN_800b2f9c(Gfx *param_1,u16 param_2){
-  (param_1->words).w0 = 0xd9000000;
-  (param_1->words).w1 = 0;
-  if (param_2 == 0) {
-    *(undefined4 *)((int)param_1 + 0xc) = 0x200004;
-    param_1[1].words.w0 = 0xd9ffffff;
-    param_1[2].words.w0 = 0xe2001d00;
-    *(undefined4 *)((int)param_1 + 0x14) = 4;
+Gfx * Particle::FUN_800b2f9c(Gfx *g,u16 param_2){
+  gSPSetGeometryMode(g++,0);
+  if(param_2){
+    gSPLoadGeometryMode(g++,G_SHADING_SMOOTH|G_SHADE|G_ZBUFFER);
+    gDPSetDepthSource(g++,G_ZS_PIXEL);
   }
-  else {
-    param_1[1].words.w0 = 0xd9ffffff;
-    *(undefined4 *)((int)param_1 + 0xc) = 0x200005;
-    param_1[2].words.w0 = 0xe2001d00;
-    *(undefined4 *)((int)param_1 + 0x14) = 0;
+  else{
+    gSPLoadGeometryMode(g++,G_SHADING_SMOOTH|G_SHADE);
+    gDPSetDepthSource(g++,G_ZS_PRIM);
   }
-  return param_1 + 3;
+  return g;
 }
 
 Vtx gParticleVerts[4];
