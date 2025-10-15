@@ -429,7 +429,7 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
     if (sVar15 == -1) {
       if (gGlobals.gameVars.camPtrArraySize) {
         fVar27 = 75.0f;
-        Camera::ProcessVectors(&afStack304,&fStack240,gGlobals.gameVars.camPtrArray,
+        Camera::CreateFocusFromMultiple(&afStack304,&fStack240,gGlobals.gameVars.camPtrArray,
                          gGlobals.gameVars.camPtrArraySize,75.0f);
         handler->camera->unk5c = fVar27;
         if (fVar27 < 5.0f) handler->camera->unk5c = 5.0f;

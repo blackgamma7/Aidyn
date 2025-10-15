@@ -160,12 +160,12 @@ void SaveParty::LoadSpellsFromSchool(SaveFile *sav,SpellBook *sb,u8 school){
 }
 
 void SaveParty::SaveInGameTime(SaveFile *sav){
-  SaveBits(sav,World::GetInGameTime(TerrainPointer),SaveBits_Word);
+  SaveBits(sav,World::GetTime(TerrainPointer),SaveBits_Word);
 }
 
 
 void SaveParty::LoadInGameTime(SaveFile *sav){
-  World::SetInGameTime(TerrainPointer,LoadBits(sav,SaveBits_Word));
+  World::SetTime(TerrainPointer,LoadBits(sav,SaveBits_Word));
 }
 
 void SaveParty::SaveGold(SaveFile *sav){
@@ -183,23 +183,15 @@ void SaveParty::SaveTimer(SaveFile *sav,u32 t){
 }
 
 s32 SaveParty::LoadTimer(SaveFile *sav){
-  u32 uVar1;
-  int iVar2;
-  
-  uVar1 = LoadBits(sav,SaveBits_Timer);
-  if (uVar1 == 0xfff) iVar2 = -1;
-  else iVar2 = uVar1 * MINUTES(2);
-  return iVar2;
+  u32 uVar1 = LoadBits(sav,SaveBits_Timer);
+  if (uVar1 == 0xfff) return -1;
+  return uVar1 * MINUTES(2);
 }
 
 void SaveParty::SaveAlaron(SaveFile *sav,CharSheet *param_2){
-  u8 len;
-  u8 i;
-  
-  i = 0;
-  len = strlen(param_2->name);
+  u8 len = strlen(param_2->name);
   if (len) {
-    for(i=0;i<len;i++) {
+    for(u8 i=0;i<len;i++) {
       SaveBits(sav,param_2->name[i],SaveBits_Byte);
     }
   }
@@ -228,7 +220,7 @@ void SaveParty::SaveCharSheet(SaveFile *sav,CharSheet *chara){
     SaveCharEXP(sav,chara->EXP);
     SaveCharStats(sav,chara);
     chara->Skills->Save(sav);
-    for(i=0;i<1;i++) SaveItem(sav,&chara->armor[i]->base);
+    for(i=0;i<2;i++) SaveItem(sav,&chara->armor[i]->base);
     SaveItem(sav,&chara->weapons->base);
     for(i=0;i<12;i++) SaveItem(sav,&chara->pItemList->pItem[i]->base);
     SaveSpellsFromSchool(sav,chara->spellbook,chara->EXP->school);
@@ -248,7 +240,7 @@ CharSheet * SaveParty::LoadCharSheet(SaveFile *sav){
   }
   else {
     ALLOC(chara,952);
-    Entity::Init(chara,(ItemID)(uVar1 + 0x200),3);
+    Entity::Init(chara,IDEnt(uVar1),3);
     Entity::UnequipAll(chara);
     LoadCharEXP(sav,chara->EXP);
     LoadCharStats(sav,chara->Stats);

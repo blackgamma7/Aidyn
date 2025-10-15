@@ -410,7 +410,7 @@ void Camera::ProcessGameCamera(Camera_struct *cam,vec3f *param_2,vec3f* param_3,
   }
 }
 
-void Camera::ProcessVectors(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,float param_5){
+void Camera::CreateFocusFromMultiple(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,float param_5){
   s32 iVar1;
   s32 iVar2;
   vec3f **ppafVar3;

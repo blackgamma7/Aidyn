@@ -136,12 +136,12 @@ void WidgetOptionsMenu::MakeScrollList(){
       pBVar6->var5E = COMMONSTRING_OptionsLoadGame;
       sub->ScrollMenu->Append(pBVar6);
       pBVar6 = WClipTXT(gGlobals.CommonStrings[0x179]);
-      pBVar6->var5E = 0x179;
+      pBVar6->var5E = ;
       sub->ScrollMenu->Append(pBVar6);
     }
-    pBVar6 = WClipTXT(gGlobals.CommonStrings[0xa1]);
+    pBVar6 = WClipTXT(Cstring(OptionsOptions));
     pBVar5 = sub->ScrollMenu;
-    pBVar6->var5E = 0xa1;
+    pBVar6->var5E = COMMONSTRING_OptionsOptions;
     sub->ScrollMenu->Append(pBVar6);
     if (gGlobals.screenFadeModeSwitch == 3) {
       if ((gGlobals.EncounterDat.BossShadow != 0) && (gGlobals.combatBytes[0] == 0xe)) {
@@ -151,14 +151,14 @@ void WidgetOptionsMenu::MakeScrollList(){
       }
     }
     else {
-      pBVar6 = WClipTXT(gGlobals.CommonStrings[0xa2]);
-      pBVar6->var5E = 0xa2;
+      pBVar6 = WClipTXT(Cstring(OptionsTheatre));
+      pBVar6->var5E = COMMONSTRING_OptionsTheatre;
       sub->ScrollMenu->Append(pBVar6);
       pBVar6 = WClipTXT("Credits");
       pBVar6->var5E = 9999;
       sub->ScrollMenu->Append(pBVar6);
-      pBVar6 = WClipTXT(gGlobals.CommonStrings[0xad]);
-      pBVar6->var5E = 0xad;
+      pBVar6 = WClipTXT(Cstring(OptionsHelp));
+      pBVar6->var5E = COMMONSTRING_OptionsHelp;
       sub->ScrollMenu->Append(pBVar6);
     }
     sub->ScrollMenu->SetCoords(SCREEN_WIDTH/2,110);

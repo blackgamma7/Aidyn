@@ -373,14 +373,14 @@ COMMONSTRING_Collide22,    // Trans WoodEcho
 COMMONSTRING_Collide23,    // Trans Stone
 COMMONSTRING_Collide24,    // Trans StoneEcho
 COMMONSTRING_Collide25,    // Trans StoneHugeEcho
-    // Are you sure you would like to delete that game?
-    // Delete
-    // Cancel
-    // Invalid! This shouldn't happen
-    // Bad data
-    // Save Game
-    // Flee
-COMMONSTRING_DoorSecret=379,    // You've just discovered a secret door!
+COMMONSTRING_DeleteConfirm,    // Are you sure you would like to delete that game?
+COMMONSTRING_DeleteDelete,    // Delete
+COMMONSTRING_DeleteCancel,    // Cancel
+COMMONSTRING_DeleteError,    // Invalid! This shouldn't happen
+COMMONSTRING_DeleteBadData,    // Bad data
+COMMONSTRING_OptionsSaveGame,    // Save Game
+COMMONSTRING_OptionsFlee,    // Flee
+COMMONSTRING_DoorSecret,    // You've just discovered a secret door!
 COMMONSTRING_ContPakNote,    // Note
 COMMONSTRING_ContPakExt,    // Ext
 COMMONSTRING_ContPakPages,    // Pages
@@ -396,11 +396,11 @@ COMMONSTRING_ContPakName,    // Name
 COMMONSTRING_ContPakFull01,    // Not enough pages on the Controller Pak to save. Aidyn Chronicles: The First Mage requires 28 pages and 1 note to save.\nInsert a new Controller Pak or:
 COMMONSTRING_ContPakFull02,    // There are still not enough pages to save.
 COMMONSTRING_ContPakFull03,    // Controller Pak is still full.
-    // New Controller Pak detected.
-    // Continue
-    // Controller Pak is corrupt.\nInsert a new Controller Pak or:
-    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
-    // Repair (Data may be lost)
+COMMONSTRING_ContPakNew,    // New Controller Pak detected.
+COMMONSTRING_ContPakContinue01,    // Continue
+COMMONSTRING_ContPakCorrupt,    // Controller Pak is corrupt.\nInsert a new Controller Pak or:
+COMMONSTRING_ContPakDamaged,    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
+COMMONSTRING_ContPakRepair,    // Repair (Data may be lost)
     // Insert new Controller Pak (Retry)
     // Error while reading from the Controller Pak. Please ensure that the Controller and the Controller Pak are inserted correctly.
     // Continue without saving

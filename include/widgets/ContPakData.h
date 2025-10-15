@@ -33,14 +33,14 @@ class WidgetContPakData : public WidgetMenu{
     u32 borg8;
     BaseWidget *field17_0x29c;
     WidgetChild8 *unk2a0;
-    u8 unk2a4;
+    u8 showingSaveFiles;
     Color32 col0;
     Color32 col1;
     Color32 col2;
     undefined field23_0x2b1;
     undefined field24_0x2b2;
     undefined field25_0x2b3;
-    u32 unk2B4;
+    u32 attemptedRepair;
     u8 contStatus;
     undefined unk2b9;
     undefined unk2ba;
@@ -157,8 +157,8 @@ class ContPakWidget:public WidgetMenu{
     u8 field3_0x84;
     u8 pfserr;
     u8 fileNum;
-    u8 field6_0x87;
-    u32 field7_0x88;
+    u8 windowLoaded;
+    u32 BgShadow;
     WidgetHandler handler;
     u8 contStat;
     undefined field10_0x95;

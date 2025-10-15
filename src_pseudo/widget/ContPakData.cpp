@@ -147,7 +147,7 @@ WidgetClipText * FUN_800862f4(u8 param_1,u16 param_2,char *txt,BaseWidget * (*pa
 
 
 WidgetContPakData::WidgetContPakData(u16 param_2,u16 param_3,void *param_4,
-          void *param_5,u32 param_6,Color32 *col0,Color32 *col1,Color32 *col2):WidgetMenu(){
+          void *param_5,u32 b8,Color32 *col0,Color32 *col1,Color32 *col2):WidgetMenu(){
 
   (this->col0).R = col0->R;
   (this->col0).G = col0->G;
@@ -161,7 +161,7 @@ WidgetContPakData::WidgetContPakData(u16 param_2,u16 param_3,void *param_4,
   (this->col2).G = col2->G;
   (this->col2).B = col2->B;
   (this->col2).A = col2->A;
-  this->unk2B4 = 1;
+  this->attemptedRepair = true;
   this->col.A = 0;
   CLEAR(&this->saveDatsP);
   this->unk27c = NULL;
@@ -176,9 +176,9 @@ WidgetContPakData::WidgetContPakData(u16 param_2,u16 param_3,void *param_4,
   this->unk290 = 0;
   this->unk292 = param_2;
   this->unk294 = param_3;
-  this->borg8 = param_6;
+  this->borg8 = b8;
   this->unk2a0 = NULL;
-  this->unk2a4 = 0;
+  this->showingSaveFiles = false;
   this->field17_0x29c = NULL;
   this->contStatus = 0;
   Controller::GetStatus(0,&this->contStatus);
@@ -209,7 +209,7 @@ u8 WidgetContPakData::Tick(){
   }
   Utilities::SetAlpha(this,this->col.A);
   ret = false;
-  if (this->unk2B4){
+  if (this->attemptedRepair){
     if (gGlobals.BigAssMenu == NULL)
       ret = this->WidgetMenu::Tick();
     else{
@@ -259,7 +259,7 @@ u8 WidgetContPakData::Tick(){
 Gfx * WidgetContPakData::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y){
   if (!this->wHandler.GetTail()) {
     if (this->unk2a0 == NULL) {
-      if (this->unk2a4) {
+      if (this->showingSaveFiles) {
         g = this->WidgetMenu::Render(g,x0,y0,x1,y);
       }
     }
@@ -343,7 +343,7 @@ BaseWidget * WidgetContPakData::Control(controller_aidyn *param_2){
 }
 
 void WidgetContPakData::m80086bd0(){
-  open_mempak_menu(1,0,0x57,0x17,1);
+  open_mempak_menu(1,0,0x57,0x17,true);
   this->unk290 = 1;
   this->OtherState = 4;
 }
@@ -354,7 +354,7 @@ void WidgetContPakData::GetPFSErr(){
 }
 
 void WidgetContPakData::TryRepair(){  
-  this->unk2B4 = 1;
+  this->attemptedRepair = true;
   if (Controller::RepairPak(0) == 0) RepairOK();
   else RepairFail();
 }
@@ -376,7 +376,7 @@ BaseWidget * WidgetContPakData::m80086d3c(){
 
 void WidgetContPakData::m80086d78(){
   this->wHandler.AddWidget(new WidgetChild9(60,FUN_80085dcc));
-  this->unk2B4 = 0;
+  this->attemptedRepair = 0;
 }
 
 
@@ -442,36 +442,34 @@ void WidgetContPakData::m80086F40(){
 }
 
 void WidgetContPakData::ReadSaveFile(){
-  byte bVar1;
   SaveDatStruct *buff;
-  bool bVar3;
   fileState_aidyn filestate;
   
-  bVar1 = this->saveSlot++;
-  if (15 < this->saveSlot) {
-    this->unk2a4 = 1;
+  u8 index = this->saveSlot++;
+  if (this->saveSlot>=SaveFileMax) {
+    this->showingSaveFiles = true;
     this->ShowSaveFiles();
     this->OtherState = 4;
     return;
   }
-  this->pfsErr = Controller::GetPakSaveState(&filestate,(uint)bVar1,0);
+  this->pfsErr = Controller::GetPakSaveState(&filestate,(uint)index,0);
   if (this->pfsErr == PFS_ERR_BAD_DATA) {
-    this->pfsErr = Controller::GetPakSaveState(&filestate,(uint)bVar1,0);
+    this->pfsErr = Controller::GetPakSaveState(&filestate,(uint)index,0);
     if (this->pfsErr == PFS_ERR_BAD_DATA) goto LAB_80087164;
   }
   if (this->pfsErr) return;
   if (filestate.comp_code != THQCompCode) return;
   if (filestate.game_code != AidynGameCode) return;
-  buff = this->saveDatsP[bVar1].datStart;
+  buff = this->saveDatsP[index].datStart;
   if (buff == NULL){
-     buff= (SaveDatStruct *)HALLOC(sizeof(SaveDatStruct),988);
-    this->saveDatsP[bVar1].datStart = buff;
+    ALLOC(buff,988);
+    this->saveDatsP[index].datStart = buff;
   }
-  this->pfsErr = Controller::ReadPakSave((u8 *)buff,(ushort)bVar1,0,sizeof(SaveDatStruct),0);
+  this->pfsErr = Controller::ReadPakSave((u8 *)buff,(ushort)index,0,sizeof(SaveDatStruct),0);
   if (this->pfsErr == PFS_ERR_BAD_DATA) {
-    this->pfsErr = Controller::ReadPakSave((u8 *)buff,(ushort)bVar1,0,sizeof(SaveDatStruct),0);
+    this->pfsErr = Controller::ReadPakSave((u8 *)buff,(ushort)index,0,sizeof(SaveDatStruct),0);
     this->OtherState = 4;
-    CorruptSaveFile(bVar1);
+    CorruptSaveFile(index);
     return;
   }
   if (this->pfsErr) {
@@ -479,14 +477,14 @@ void WidgetContPakData::ReadSaveFile(){
     return;
   }
   if (QuestData::VerifyChecksum(buff)) {
-    QuestData::SetPointers(buff,this->saveDatsP + bVar1);
-    LoadSliders(this->saveDatsP + bVar1,bVar1);
+    QuestData::SetPointers(buff,this->saveDatsP + index);
+    LoadSliders(this->saveDatsP + index,index);
     this->AidynSaveSlots++;
     return;
   }
 LAB_80087164:
   this->OtherState = 4;
-  CorruptSaveFile(bVar1);
+  CorruptSaveFile(index);
   return;
 }
 
@@ -686,13 +684,13 @@ void WidgetContPakData::RepairOK(){
 void WidgetContPakData::LoadSliders(SaveDatPointers *param_2,u8 param_3){
   ControllerPakSliders *pCVar1;
   s32 ind;
-  s16 sStack_50 [4];
+  s16 bounds [4];
   
-  sStack_50[0] = this->unk292;
-  sStack_50[1] = this->unk294;
-  sStack_50[2] = sStack_50[0] + 0xdb;
-  sStack_50[3] = sStack_50[1] + 0xc0;
-  pCVar1 = new ControllerPakSliders(param_2,sStack_50,&this->col0);
+  bounds[0] = this->unk292;
+  bounds[1] = this->unk294;
+  bounds[2] = bounds[0] + 0xdb;
+  bounds[3] = bounds[1] + 0xc0;
+  pCVar1 = new ControllerPakSliders(param_2,bounds,&this->col0);
   ind = this->unk27c->AddChild10(pCVar1);
   pCVar1->var5E = (ushort)param_3;
   Utilities::SetAlpha(this,this->col.A);
@@ -758,8 +756,8 @@ void WidgetContPakData::m80087ec0(){
 
 WidgetContPakDataSave::WidgetContPakDataSave(u16 param_2,u16 param_3,void* param_4,
       void* param_5,Color32 *param_6,Color32 *param_7,Color32 *param_8):
-      WidgetContPakData(param_2,param_3,param_4,param_5,0xff,param_6,param_7,param_8){
-  ALLOCS(this->dataBuffer,sizeof(SaveDatStruct),1536);
+      WidgetContPakData(param_2,param_3,param_4,param_5,BORG8_SaveGameTitle,param_6,param_7,param_8){
+  ALLOC(this->dataBuffer,1536);
   QuestData::InitSaveFile(this->dataBuffer);
   this->filenum = -1;
 }
@@ -911,7 +909,7 @@ void WidgetContPakDataSave::NewContPak(){
 
 WidgetContPakDataLoad::WidgetContPakDataLoad(u16 param_2,u16 param_3,void *param_4,void *param_5,
           Color32 *param_6,Color32 *param_7,Color32 *param_8):
-          WidgetContPakData(param_2,param_3,param_4,param_5,0xf1,param_6,param_7,param_8){}
+          WidgetContPakData(param_2,param_3,param_4,param_5,BORG8_LoadGameTitle,param_6,param_7,param_8){}
 
 void WidgetContPakDataLoad::unk(){}
 
@@ -1014,10 +1012,10 @@ void(*DAT_800f1c7c)(BaseWidget*)=NULL;
 ContPakWidget* contpak_widget=NULL;
 u32 u32_800f1c84=0;
 
-void open_mempak_menu(u32 param_1,u32 param_2,u16 param_3,u16 param_4,u32 param_5){
+void open_mempak_menu(u32 param_1,u32 param_2,u16 param_3,u16 param_4,u32 shadow){
   DAT_800f1c74 = param_1;
   DAT_800f1c78 = param_2;
-  make_mempak_menu(param_3,param_4,param_5);
+  make_mempak_menu(param_3,param_4,shadow);
 }
 
 u32 appState_2(Gfx **param_1){
@@ -1062,9 +1060,9 @@ void appState2_Tick(Gfx **GG,u8 delta){
 u32 FUN_80088d80(void){return DAT_800f1c78;}
 
 
-void make_mempak_menu(short x,short y,u32 param_3){
-  if (contpak_widget == NULL) {
-    contpak_widget = new ContPakWidget(param_3);
+void make_mempak_menu(short x,short y,u32 shadow){
+  if (!contpak_widget) {
+    contpak_widget = new ContPakWidget(shadow);
     contpak_widget->SetCoords(x,y);
     DAT_800f1c7c = freeWidgetFunc;
     freeWidgetFunc = FUN_8008a7b8;
@@ -1074,15 +1072,15 @@ void make_mempak_menu(short x,short y,u32 param_3){
 
 u32 FUN_80088e2c(void){return u32_800f1c84;}
 
-ContPakWidget::ContPakWidget(u32 param_2):WidgetMenu(){
+ContPakWidget::ContPakWidget(u32 shadow):WidgetMenu(){
   this->field3_0x84 = 0;
   this->pfserr = 0;
   this->fileNum = 0;
-  this->field6_0x87 = 0;
+  this->windowLoaded = false;
   this->contStat = 0;
   this->field1_0x7c = 0;
   this->w80 = NULL;
-  this->field7_0x88 = param_2;
+  this->BgShadow = shadow;
   u32_800f1c84 = 0;
   this->handler.Init(font_pointer);
   Controller::GetStatus(0,&this->contStat);
@@ -1102,19 +1100,19 @@ void ContPakWidget::m80088f44(){this->field3_0x84 = 0;}
 
 BaseWidget * ContPakWidget::AFunc(){
   BaseWidget *w = NULL;
-  if (this->field6_0x87) w = Utilities::GetHighlightedEntry(this->w80);
+  if (this->windowLoaded) w = Utilities::GetHighlightedEntry(this->w80);
   return w;
 }
 
 BaseWidget * ContPakWidget::AFunc(){return this;}
 
 BaseWidget * ContPakWidget::UpFunc(){
-  if (this->field6_0x87) this->w80->UpFunc();
+  if (this->windowLoaded) this->w80->UpFunc();
   return NULL;
 }
 
 BaseWidget * ContPakWidget::DownFunc(){
-  if (this->field6_0x87) this->w80->DownFunc();
+  if (this->windowLoaded) this->w80->DownFunc();
   return NULL;
 }
 
@@ -1244,7 +1242,7 @@ void ContPakWidget::ErrSwitch(){
 void ContPakWidget::LoadWindowCheck(){
   this->fileNum = 0;
   this->field3_0x84 = 3;
-  if (!this->field6_0x87) LoadWindow();
+  if (!this->windowLoaded) LoadWindow();
   else Utilities::ClearScrollMenu2(this->w80);
 }
 
@@ -1377,14 +1375,14 @@ void ContPakWidget::LoadWindow(){
   short sVar9;
   short y;
   
-  this->field6_0x87 = 1;
-  if (this->field7_0x88) {
-    pBVar4 = loadBorg8(0xe5);
+  this->windowLoaded = true;
+  if (this->BgShadow) {
+    pBVar4 = loadBorg8(BORG8_ContPakBGShad);
     Utilities::AddBorg8Widget2
               (this,pBVar4,this->x + -0xc,this->y + -7,
                (pBVar4->dat).Width + -0xc,(pBVar4->dat).Height + -7);
   }
-  pBVar4 = loadBorg8(0xe3);
+  pBVar4 = loadBorg8(BORG8_ContPakBG);
   sVar9 = this->x;
   Utilities::AddBorg8Widget2(this,pBVar4,sVar9,this->y,sVar9 + (pBVar4->dat).Width,
              this->y + (pBVar4->dat).Height);
@@ -1397,13 +1395,12 @@ void ContPakWidget::LoadWindow(){
             (this,pBVar4,sVar7 - uVar3,sVar9 + 0xd,uVar3 + sVar7,
              (pBVar4->dat).Height + sVar9 + 0xd);
   y = (pBVar4->dat).Height + this->y + 0x16;
-  Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x17c],this->x + 10,y,0x67,0x46,0x3c,0xff);
-  Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x187],this->x + 0x26,y,0x67,0x46,0x3c,0xff);
-  Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x17d],this->x + 0x92,y,0x67,0x46,0x3c,0xff);
-  Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x17e],this->x + 0xa5,y,0x67,0x46,0x3c,0xff);
+  Utilities::AddTextWidget(this,Cstring(ContPakNote),this->x + 10,y,0x67,0x46,0x3c,0xff);
+  Utilities::AddTextWidget(this,Cstring(ContPakName),this->x + 0x26,y,0x67,0x46,0x3c,0xff);
+  Utilities::AddTextWidget(this,Cstring(ContPakExt),this->x + 0x92,y,0x67,0x46,0x3c,0xff);
+  Utilities::AddTextWidget(this,Cstring(ContPakPages),this->x + 0xa5,y,0x67,0x46,0x3c,0xff);
   sVar9 = sVar8 + -0x14;
-  pBVar5 = Utilities::AddTextWidget
-                     (this,gGlobals.CommonStrings[0x17f],0,sVar9,0x67,0x46,0x3c,0xff);
+  pBVar5 = Utilities::AddTextWidget(this,Cstring(ContPakPagesFree),0,sVar9,0x67,0x46,0x3c,0xff);
   uVar6 = pBVar5->GetWidth();
   pBVar5->x = (this->x - (short)uVar6) + 0xb3;
   uVar6 = pBVar5->GetWidth();
@@ -1420,7 +1417,7 @@ void ContPakWidget::LoadWindow(){
   this->w80 = Utilities::AddScrollMenu(this,SaveFileMax,x,y + (short)uVar6 + 2,x,y + sVar7 + 2,sVar9 + 199,
                       this->field1_0x7c->y + -7,0x67,0x46,0x3c,0xff,0);
   Utilities::SetScrollMenuColors(this->w80,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
-  sVar8 += -0x1b;
+  sVar8 -=27;
   sVar9 = this->x + 10;
   pBVar5 = Utilities::AddTextWidget(this,"{ ",sVar9,sVar8,0,0,0xa4,0xff);
   Utilities::AddTextWidget(this," Delete",(short)pBVar5->GetWidth() + sVar9,sVar8,0x67,0x46,0x3c,0xff);

@@ -3,6 +3,7 @@
 #include "QuestData.h"
 #include "SaveEntity.h"
 #include "SaveParty.h"
+#include "voxelChart.h"
 #include "CRC.h"
 
 namespace QuestData{
@@ -63,7 +64,7 @@ void Load(u8 *data){
   PARTY->Members[0] = SaveParty::LoadCharSheetEffects(&sav);
   SaveParty::LoadAlaron(&sav,PARTY->Members[0]);
   PARTY->PartySize++;
-  for(i=1;i<4;i++) {
+  for(i=1;i<MAXPARTY;i++) {
     PARTY->Members[i] = SaveParty::LoadCharSheetEffects(&sav);
     if (PARTY->Members[i]) PARTY->PartySize++;
   }
@@ -72,71 +73,38 @@ void Load(u8 *data){
   aWStack_68.PrecipScale = (float)SaveParty::LoadBits(&sav,SaveBits_Float);
   aWStack_68.FogFloat = (float)SaveParty::LoadBits(&sav,SaveBits_Float);
   aWStack_68.ThunderFloat = (float)SaveParty::LoadBits(&sav,SaveBits_Float);
-  aWStack_68.PrecipScale*=0.001f;
-  aWStack_68.FogFloat*=0.001f;
-  aWStack_68.ThunderFloat*=0.001f;
+  aWStack_68.PrecipScale*=(1.0f/1000); 
+  aWStack_68.FogFloat*=(1.0f/1000);
+  aWStack_68.ThunderFloat*=(1.0f/1000);
   aWStack_68.precip = SaveParty::LoadBits(&sav,8);
   World::SetWithWeatherTemp(TerrainPointer,&aWStack_68);
   COPY(&gWeatherTemp,&aWStack_68);
   LoadedGameSaveFlag = 1;
-  gGlobals.VolSFX = (float)SaveParty::LoadBits(&sav,SaveBits_Float) * 0.001f;
-  gGlobals.VolBGM = (float)SaveParty::LoadBits(&sav,SaveBits_Float) * 0.001f;
+  gGlobals.VolSFX = (float)SaveParty::LoadBits(&sav,SaveBits_Float) * (1.0f/1000);
+  gGlobals.VolBGM = (float)SaveParty::LoadBits(&sav,SaveBits_Float) * (1.0f/1000);
   selectResMode((byte)SaveParty::LoadBits(&sav,SaveBits_Bool));
 }
 
 void SaveVoxelChart(byte *param_1){
-  short *psVar1;
-  byte *pbVar2;
-  u16 uVar3;
-  u16 uVar4;
-  VoxelChartEntry *pVVar5;
-  
-  pVVar5 = voxelChart;
-  uVar4 = 0;
-  *param_1 = voxelChartIndex;
+  *param_1=voxelChartIndex;
   param_1++;
-  do {
-    pbVar2 = voxelChartIndecies + uVar4;
-    uVar4++;
-    *param_1 = *pbVar2;
-    param_1++;
-  } while (uVar4 < 0x13);
-  uVar3 = 0;
-  do {
-    psVar1 = &pVVar5->arg0;
-    pVVar5 = (VoxelChartEntry *)((int)&pVVar5->arg0 + 1);
-    uVar3 += 1;
-    *param_1 = *(byte *)psVar1;
-    param_1++;
-  } while (uVar3 < 0xe4);
+  for(u16 i=0;i<sizeof(voxelChartIndecies);i++,param_1++){
+    *param_1=voxelChartIndecies[i];
+  }
+  for(u16 j=0;j<sizeof(voxelChart);j++,param_1++) {
+    *param_1=((u8*)&voxelChart)[j];
+  }
 }
 
 void LoadVoxelChart(byte *param_1){
-  byte bVar1;
-  byte *pbVar2;
-  u16 uVar3;
-  uint uVar4;
-  VoxelChartEntry *pVVar5;
-  
-  pVVar5 = voxelChart;
   voxelChartIndex = *param_1;
-  param_1 = param_1 + 1;
-  uVar4 = 0;
-  do {
-    bVar1 = *param_1;
-    param_1 = param_1 + 1;
-    pbVar2 = voxelChartIndecies + uVar4;
-    uVar4 = uVar4 + 1 & 0xffff;
-    *pbVar2 = bVar1;
-  } while (uVar4 < 0x13);
-  uVar3 = 0;
-  do {
-    bVar1 = *param_1;
-    param_1 = param_1 + 1;
-    uVar3 += 1;
-    *(byte *)&pVVar5->arg0 = bVar1;
-    pVVar5 = (VoxelChartEntry *)((int)&pVVar5->arg0 + 1);
-  } while (uVar3 < 0xe4);
+  param_1++;
+  for(u16 i=0;i<sizeof(voxelChartIndecies);i++,param_1++){
+    voxelChartIndecies[i]=*param_1;
+  }
+  for(u16 j=0;j<sizeof(voxelChart);j++,param_1++) {
+    ((u8*)&voxelChart)[j]=*param_1;
+  }
 }
 
 u8 VerifyChecksum(SaveDatStruct *p){return CRC::VerifyChecksum(p,sizeof(*p));}

@@ -1,19 +1,23 @@
 //a list of id'd indicies used internally for the "n64Borg" art assets
 //Borg8: UI images
 
-#define BORG8_CompassWest 0X17
-#define BORG8_CompassNorth 0X18
-#define BORG8_CompassSouth 0X19
-#define BORG8_CompassEast 0X1A
-#define BORG8_CompassRing 0X1B
-#define BORG8_MainFont 0x1C //main font, contains Controler button characters
-#define BORG8_SlimFont 0x1D //text is a few pixels smaller, no Controler button characters
+#define BORG8_CompassWest 0X0017
+#define BORG8_CompassNorth 0X0018
+#define BORG8_CompassSouth 0X0019
+#define BORG8_CompassEast 0X001A
+#define BORG8_CompassRing 0X001B
+#define BORG8_MainFont 0x001C //main font, contains Controler button characters
+#define BORG8_SlimFont 0x001D //text is a few pixels smaller, no Controler button characters
 //0x1e - 0xa1 are minimap sections.
-#define BORG8_longDownArrow 0xd5
-#define BORG8_Spacer 0xd7
-#define BORG8_PauseMenuA 0xd8
-#define BORG8_PauseMenuB 0xd9
-#define BORG8_PauseMenuC 0xda
+#define BORG8_longDownArrow 0x00d5
+#define BORG8_Spacer 0x00d7
+#define BORG8_PauseMenuA 0x00d8
+#define BORG8_PauseMenuB 0x00d9
+#define BORG8_PauseMenuC 0x00da
+#define BORG8_ContPakBG 0x00e3
+#define BORG8_ContPakBGShad 0x00e5
+#define BORG8_LoadGameTitle 0x00f1
+#define BORG8_SaveGameTitle 0x00ff
 //0x106-0x181 are most the character portaits.
 #define BORG8_EXPPakYes 0x3758
 #define BORG8_EXPPakNo 0x3759
