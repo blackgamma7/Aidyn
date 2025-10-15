@@ -26,6 +26,8 @@ struct StatMod {
     s8 stat;
     s8 mod;
 };
+void SetStatMod(StatMod *param_1,u8 stat,s8 mod);
+
 class ItemInstance {
     public:
     ItemID id;

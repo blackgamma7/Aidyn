@@ -2,9 +2,6 @@
 #include "combat/Visuals.h"
 #define FILENAME "../gameclasses/spell.cpp"
 
-
-
-extern ItemID itemID_array[];
 void TempSpell::Init(SpellInstance *S,ItemID ID,u8 RANK){
   S->level = RANK;
   S->base.id = ID;

@@ -5,8 +5,6 @@
 #include "chestdb.h"
 #include "weapondb.h"
 
-extern ItemID itemID_array[];
-
 u8 ItemIsMap(ItemID id){
     if(id>>8==1){
         u16 MapItemIds[]={5,6,7,8,9,10,11,12,13,14,15,20,21,23,32,0};

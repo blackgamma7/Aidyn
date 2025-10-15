@@ -2,7 +2,7 @@
 #include "itemIDList.h"
 
 typedef u16 ItemID;
-
+extern ItemID itemID_array[];
 //ItemID endian swapped
 typedef struct{
     union {
