@@ -428,8 +428,7 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
     sVar15 = handler->cameraFocus;
     if (sVar15 == -1) {
       if (gGlobals.gameVars.camPtrArraySize) {
-        fVar27 = 75.0f;
-        Camera::CreateFocusFromMultiple(&afStack304,&fStack240,gGlobals.gameVars.camPtrArray,
+        fVar27 = Camera::CreateFocusFromMultiple(&afStack304,&fStack240,gGlobals.gameVars.camPtrArray,
                          gGlobals.gameVars.camPtrArraySize,75.0f);
         handler->camera->unk5c = fVar27;
         if (fVar27 < 5.0f) handler->camera->unk5c = 5.0f;
@@ -814,7 +813,7 @@ LAB_8001727c:
                 }
               }
             }
-            uVar24 = (ulonglong)(int)sVar17;
+            uVar24 =sVar17;
             uVar23 = uVar24 & 0xffff;
           } while (uVar24 < handler->max_player);
           goto LAB_80017298;

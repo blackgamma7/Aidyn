@@ -1971,8 +1971,8 @@ void Scene::Tick(SceneData *param_1){
       uVar6 = pBVar2->subCount;
       pBVar3 = pBVar5->structDat;
       while (uVar6 != 0) {
-        uVar6 -= 1;
-        for (i = (uint)param_1->aniSpeed; i != 0; i -= 1) {
+        uVar6--;
+        for (i = (uint)param_1->aniSpeed; i != 0; i--) {
           FUN_800a0a74(pBVar3);
         }
         FUN_800a0940(pBVar3);
@@ -1986,17 +1986,14 @@ void Scene::Tick(SceneData *param_1){
     if (pBVar5){
       fVar7 = pBVar5->unk1c;
       while( true ) {
-        if ((double)fVar7 == (double)(unaff_f22 & 0xffffffff00000000)) { //?
-          pBVar5 = pBVar5->link2;
-        }
-        else {
+        if ((double)fVar7 != (double)(unaff_f22 & 0xffffffff00000000)){//?
           pSVar4 = (SceneDatStruct *)pBVar5->structDat;
-          for (uVar6 = pBVar5->dat->subCount; uVar6 != 0; uVar6 -= 1) {
+          for (uVar6 = pBVar5->dat->subCount; uVar6 != 0; uVar6--) {
             FUN_800a0764(pSVar4,pBVar5->unk1c);
             pSVar4++;
           }
-          pBVar5 = pBVar5->link2;
         }
+        pBVar5 = pBVar5->link2;
         if (pBVar5 == NULL) break;
       }
     }

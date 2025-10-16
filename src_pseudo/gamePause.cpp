@@ -126,7 +126,7 @@ u8 ScreenFadeMode_3(Gfx **GG) {
       bVar7 = 2;
       u8_800edb99 = 1;
       gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
-      if (gGlobals.unk14fc != 0) {
+      if (gGlobals.unk14fc) {
         if (gGlobals.combatBytes[1] != 0x14) {
           gGlobals.combatBytes[0] = (byte)gGlobals.combatByteMirror;
         }
@@ -263,7 +263,7 @@ void func_clearing_shopkeep(void) {
     no_TP_vec3 = 1;
     loadGameBorgScenes(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
   }
-  gGlobals.unk14fc = 0;
+  gGlobals.unk14fc = false;
   freeWidgetFunc = NULL;
 }
 

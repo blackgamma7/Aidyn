@@ -542,7 +542,7 @@ u8 combat_byte_func_27(Gfx **GG,u16 delta){
     if (gExpPakFlag == 0) FreeZoneEngineMemory();
     GetSnapshot_();
     uVar1 = 3;
-    gGlobals.unk14fc = 1;
+    gGlobals.unk14fc = true;
     gGlobals.BackgroundTypeCopy = gGlobals.sky.Type;
   }
   return uVar1;

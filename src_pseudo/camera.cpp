@@ -410,77 +410,57 @@ void Camera::ProcessGameCamera(Camera_struct *cam,vec3f *param_2,vec3f* param_3,
   }
 }
 
-void Camera::CreateFocusFromMultiple(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,float param_5){
-  s32 iVar1;
-  s32 iVar2;
-  vec3f **ppafVar3;
-  s32 iVar4;
-  s32 iVar6;
-  float fVar7;
-  ulonglong uVar8;
-  ulonglong uVar9;
-  ulonglong uVar10;
-  vec3f v3Temp;
+float Camera::CreateFocusFromMultiple(vec3f *outV3,vec2f *outV2,vec3f **arr,s16 numFoci,float param_5) {
+  float fVar1;
+  s16 i;
+  vec3f **ppvVar3;
+  int iVar4;
+  int iVar5;
+  int iVar7;
+  int iVar8;
+  float fVar9;
+  float fVar10;
   float fVar11;
-  
+  float fVar12;
+  vec3f tempV3;
   
   if (numFoci < 2) CRASH("../src/camera.cpp","numFoci < 2");
-    fVar11 = (param_5 - 8.0f) * 0.5f;
-    if ((s32)(fVar11 * 100.0f) == ((s32)(fVar11 * 100.0f) / 9000) * 9000)fVar11 += 1.0f;
-    uVar10 = fVar11;
-    setVec3(&v3Temp,0.0,0.0,0.0);
-    fVar11 = (float)numFoci;
-    uVar8 = fVar11;
-    iVar4 = 0x10000;
-    ppafVar3 = var_c;
-    if (0 < numFoci) {
-      for(s16 i=0;i<numFoci;i++) {
-        vec3_sum(&v3Temp,&v3Temp,var_c[i]);
-        fVar11 = (float)uVar8;
-      }
-    }
-    iVar1 = 0;
-    iVar2 = 0;
-    uVar8 = 0;
+  fVar12 = (param_5 - 8.0f) * 0.5f;
+  if ((int)(fVar12 * 100.0f) == ((int)(fVar12 * 100.0f) / 9000) * 9000)
+      fVar12+=1.0f;
+    setVec3(&tempV3,0.0,0.0,0.0);
+    for(i=0;i<numFoci;i++){vec3_sum(&tempV3,&tempV3,arr[i]);}
+    iVar8 = 0;
+    i = 0;
+    fVar10 = 0.0;
     iVar4 = 0;
-    multiVec3(&v3Temp,(float)(1.0 / fVar11));
-    fVar11 = (float)uVar10;
-    uVar9 = uVar8 & 0xffffffff;
-    if (0 < numFoci) {
-      iVar6 = 0x10000;
-      ppafVar3 = var_c;
-      do {
-        fVar7 = vec3_proximity(&v3Temp,*ppafVar3);
-        fVar11 = (float)uVar10;
-        if ((float)uVar8 < fVar7) {
-          uVar9 = uVar8 & 0xffffffff;
-          uVar8 = fVar7;
-          iVar4 = iVar1;
-          iVar1 = iVar2;
+    multiVec3(&tempV3,(float)(1.0 / numFoci));
+    fVar11 = 0.0;
+    for(i=0,iVar5 = iVar4;i<numFoci;i++){
+      fVar9 = vec3_proximity(&tempV3,arr[i]);
+      iVar4 = iVar8;
+      fVar1 = fVar9;
+      if ((fVar9 <= fVar10) &&
+          (iVar4 = i, i = iVar8, fVar1 = fVar10, fVar10 = fVar9, fVar9 <= fVar11)) {
+          iVar4 = iVar5;
+          fVar10 = fVar11;
         }
-        else {
-          if ((float)uVar9 < fVar7) {
-            uVar9 = fVar7;
-            iVar4 = iVar2;
-          }
-        }
-        iVar2 = iVar6 >> 0x10;
-        ppafVar3++;
-        iVar6 = iVar6 + 0x10000;
-      } while (iVar2 < numFoci);
-    }
-    ppafVar3 = var_c + iVar1;
-    vec3_sum(param_1,*ppafVar3,var_c[iVar4]);
-    multiVec3(param_1,0.5);
-    Vec3_sub(&v3Temp,param_1,*ppafVar3);
-    if (0.0 < v3Temp.z) v3Temp.z = -v3Temp.z;
-    (*param_2).x = v3Temp.z;
-    if (v3Temp.x <= 0.0) v3Temp.x = -v3Temp.x;
-    (*param_2).y = v3Temp.x;
-    vec2_normalize(param_2);
-    vec3_proximity(param_1,*ppafVar3);
-    fVar11 *= dtor;
-    __sinf(fVar11);
-    __cosf(fVar11);
+        fVar11 = fVar10;
+        fVar10 = fVar1;
+        iVar8 = i;
+        iVar5 = iVar4;
+      }
+    vec3_sum(outV3,arr[iVar8],arr[iVar4]);
+    multiVec3(outV3,0.5);
+    Vec3_sub(&tempV3,outV3,arr[iVar8]);
+    if (0.0 < tempV3.z) tempV3.z = -tempV3.z;
+    outV2->x = tempV3.z;
+    if (tempV3.x <= 0.0) tempV3.x = -tempV3.x;
+    outV2->y = tempV3.x;
+    vec2_normalize(outV2);
+    fVar10 = vec3_proximity(outV3,arr[iVar8]);
+    fVar12*=dtor;
+    fVar10+= 4.0f;
+    return fVar10 / (__cosf(fVar12) / __sinf(fVar12));
 }
 

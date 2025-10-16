@@ -89,7 +89,7 @@ bool LZBStart_to_cancel_Turn(controller_aidyn *cont){
     bVar1 = true;
     gGlobals.combatBytes[0] = 0xe;
     gGlobals.combatBytes[1] = 1;
-    gGlobals.unk14fc = 0;
+    gGlobals.unk14fc = false;
   }
   return bVar1;
 }

@@ -73,7 +73,7 @@ namespace Camera{
     void SetMode(Camera_struct *cam,u16 mode);
     void RevertMode(Camera_struct *cam);
     void ProcessGameCamera(Camera_struct *cam,vec3f *param_2,vec3f* param_3,s16 param_4,u16 param_5);
-    void CreateFocusFromMultiple(vec3f *param_1,vec2f *param_2,vec3f **var_c,s16 numFoci,float param_5);
+    float CreateFocusFromMultiple(vec3f *outV3,vec2f *outV2,vec3f **arr,s16 numFoci,float param_5);
     void ApplyVelocity(Camera_struct *cam,vec3f *vel);
     void AddPosToList(vec3f *param_1);
     void CopyPosAim(Camera_struct *cam,u16 flag,vec3f *param_3);

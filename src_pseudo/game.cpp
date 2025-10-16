@@ -58,7 +58,7 @@ void init_DBs(void) {
   gGlobals.screenshotTint.B = 0xff;
   gGlobals.screenshotTint.A = 0xff;
   gGlobals.cinematicReplay = 0;
-  gGlobals.unk14fc = 0;
+  gGlobals.unk14fc = false;
   gGlobals.pauseMenuSection = 0;
   gGlobals.shopInv = NULL;
   gGlobals.shopUnused = NULL;
@@ -97,7 +97,7 @@ void clear_DBs(void) {
 
 void some_init_func(void) {
   CLEAR(&gGlobals.playerCharStruct);
-  CLEAR(&gGlobals.gameVars,);
+  CLEAR(&gGlobals.gameVars);
   init_DBs();
   gGlobals.screenFadeModeSwitch = 0xf;
   gGlobals.combatBytes[2] = 0;
