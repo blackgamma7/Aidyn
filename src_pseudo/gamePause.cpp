@@ -72,7 +72,7 @@ Gfx * draw_screenshot_background(Gfx *g,u8 state) {
     g = N64BorgImageDraw(g,gGlobals.screenshot,0.0,0.0,0,0,Graphics::GetHRes(),40,1.0f,
                               1.0f,gGlobals.screenshotTint.R,gGlobals.screenshotTint.G,
                               gGlobals.screenshotTint.B,gGlobals.screenshotTint.A);
-    g = N64BorgImageDraw(g,gGlobals.screenshot,0.0,(float)(Graphics::GetVRes() - 40),0,
+    g = N64BorgImageDraw(g,gGlobals.screenshot,0.0,(Graphics::GetVRes() - 40),0,
                               Graphics::GetVRes() - 40,Graphics::GetHRes(),Graphics::GetVRes(),
                               1.0f,1.0f,gGlobals.screenshotTint.R,
                               gGlobals.screenshotTint.G,gGlobals.screenshotTint.B,
