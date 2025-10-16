@@ -83,14 +83,14 @@ Gfx * FUN_80057e78(Gfx *gfx,ushort delta){
   Gfx *g = gfx;
   switch(dialougemode_pointer->borg13_dat->start_func){
     case 1:{
-    g = Graphics::StartDisplay(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    g = Graphics::StartDisplay(gfx,FULL_SCREENSPACE);
     handleZoneEngineFrame(&g,delta,NULL);
     if (gGlobals.screenFadeMode) return g;
     break;}
     case 2:{
     Sky::ResetColors();
-    g = Graphics::StartDisplay(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-    g = Graphics::SomeOtherInit(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
+    g = Graphics::StartDisplay(g,FULL_SCREENSPACE);
+    g = Graphics::SomeOtherInit(g,FULL_SCREENSPACE,0,0,0,0);
     g = FUN_800591a8(g,(u8)delta,true);
     if (gGlobals.screenFadeMode) return g;
     break;
@@ -121,7 +121,7 @@ int ScreenFadeMode_12(Gfx **GG){
     }
     case 1:{
     run_dialougemode_funcs1();
-    g = Graphics::StartDisplay(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    g = Graphics::StartDisplay(g,FULL_SCREENSPACE);
     iVar2 = cutScene_control_func();
     gGlobals.delta = iVar2;
     FUN_80058b88(&g,iVar2);

@@ -481,7 +481,7 @@ Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
 
   if (((gGlobals.playerCharStruct.unkState != 5) && (gGlobals.playerCharStruct.unkState != 7)) &&
      (gGlobals.playerCharStruct.unkState != 2)) {
-    gTemp = Graphics::StartDisplay(param_1,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    gTemp = Graphics::StartDisplay(param_1,FULL_SCREENSPACE);
     #ifdef DEBUGVER
     gTemp = zoneEngine_debug(gTemp,delta);
     #else

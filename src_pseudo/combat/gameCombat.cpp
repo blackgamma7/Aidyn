@@ -11,7 +11,7 @@
 
 #define FILENAME "./src/gamecombat.cpp"
 
-u32 some_combat_flag_ =0;
+u32 some_combat_flag_ =false;
 u32 load_combatstruct_flag=true;
 u32 clear_combatstruct_flag=false;
 u16 DAT_800e9b6c=0;
@@ -105,7 +105,7 @@ Gfx * Combat_Render(Gfx *gfx,short delta){
   CharSheet *pCVar1 = gCombatP->current_Ent->charSheetP;
   playerData *player = gGlobals.playerDataArray[gCombatP->current_Ent->index];
   Gfx *g = gfx;
-  g = Graphics::StartDisplay(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+  g = Graphics::StartDisplay(gfx,FULL_SCREENSPACE);
   if (gGlobals.combatBytes[0] - 10 < 2) CombatTargetVisuals::Render(true,delta);
   else CombatTargetVisuals::Render(false,delta);
   g = Lensflare::Render(g);

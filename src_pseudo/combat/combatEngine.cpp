@@ -136,7 +136,7 @@ u16 count_enemies(EncounterDat *param_1){
 
 byte find_sholeh(EncounterDat *param_1){
     for(u16 i=0;i<4;i++) {
-    if (param_1->enemy_entities[i]==(entityList[0xa4] | 0x200))return i;
+    if (param_1->enemy_entities[i]==IDEntInd(EntInd_Sholeh))return i;
   }
 }
 
@@ -163,13 +163,13 @@ u8 recount_enemy_party(EncounterDat *param_1,u16 param_2){
 
 int look_for_flasks(void){
   int iVar2 = 7;
-  if (!PARTY->Inventory->HasItem(0x1001)) {
+  if (!PARTY->Inventory->HasItem(Potion_Inferno)) {
     iVar2 = 5;
-    if (!PARTY->Inventory->HasItem(0x1000)) {
-      if (PARTY->Inventory->HasItem(0x1002)) {
+    if (!PARTY->Inventory->HasItem(Potion_Fire)) {
+      if (PARTY->Inventory->HasItem(Potion_Sleep)) {
         iVar2 = 4;
       }
-      else iVar2 = (uint)PARTY->Inventory->HasItem(0x1003) << 2;
+      else iVar2 = (uint)PARTY->Inventory->HasItem(Potion_Acid) << 2;
     }
   }
   return iVar2;

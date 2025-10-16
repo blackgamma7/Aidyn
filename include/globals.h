@@ -119,7 +119,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u64 unk14b8;
     Borg8Header *portraitBorder;
     u8 SomeCase;
-    WidgetBarter *barterMenu;
+    BaseWidget *barterMenu;
     PauseWidget *BigAssMenu; /* Hey, that's what the devs called it */
     u8 cinematicReplay;
     u8 pauseMenuSection;

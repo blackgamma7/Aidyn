@@ -43,7 +43,7 @@ Gfx * Combat_RenderCVertMenu(Gfx *G,u16 delta){
   if ((gCombatCVertMenu) &&
      (!FUN_80091dfc(gGlobals.widgetHandler,gCombatCVertMenu))) {
     RSPFUNC6(G);
-    G = gCombatCVertMenu->Render(G,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    G = gCombatCVertMenu->Render(G,FULL_SCREENSPACE);
   }
   return G;
 }

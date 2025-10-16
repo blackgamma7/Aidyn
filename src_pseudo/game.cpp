@@ -176,7 +176,7 @@ LAB_80023c90:
     case 3:
       gGlobals.screenFadeModeSwitch = ScreenFadeMode_3(GG);
       if (gGlobals.screenFadeModeSwitch != 2) {
-        if (gGlobals.screenFadeModeSwitch != 1) goto LAB_80023d98;
+        if (gGlobals.screenFadeModeSwitch != 1) break;
         gGlobals.screenFadeModeSwitch = 2;
         gGlobals.combatBytes[0] = 0x10;
       }
@@ -252,8 +252,8 @@ u8 func_loading_credits(Gfx **GG) {
     }
     DeltaCap(delta);
     gGlobals.delta = delta;
-    *GG = DrawRectangle(*GG,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
-    *GG = Graphics::StartDisplay(*GG,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    *GG = DrawRectangle(*GG,FULL_SCREENSPACE,0,0,0,0);
+    *GG = Graphics::StartDisplay(*GG,FULL_SCREENSPACE);
     *GG = tick_and_render_widgets(*GG);
     uVar2 = 0x13;
     if (gCreditsWidget->creditState == 4) {

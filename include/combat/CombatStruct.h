@@ -67,6 +67,8 @@ char** encounterType_labels=NULL;
 char** walking_labels=NULL;
 extern char* sFilenameCombatEngine;
 char** element_labels=NULL;
+extern u32 some_combat_flag_;
+extern u16 DAT_800e9c14;
 
 //refernce romstring loaded during combat
 #define ComString(x) gCombatP->textArray[COMBATSTRING_##x]
@@ -82,6 +84,8 @@ char** element_labels=NULL;
         else A = -(0.5 - ((gEntityDB->GetCollideRadius(id) * gEntityDB->GetScale(id))*2));\
         B = (u8)A;\
         if (!A) B = 1;
+
+void set_boss_flag();
 
 //combatengine/combat.cpp
 

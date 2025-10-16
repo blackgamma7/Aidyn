@@ -116,7 +116,7 @@ u8 TitleSplash::Show(Gfx**GG){
     splashscreen_load_flag=0;
   }
   bVar2 = true;
-  *GG = Graphics::SomeOtherInit(*GG,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
+  *GG = Graphics::SomeOtherInit(*GG,FULL_SCREENSPACE,0,0,0,0);
   switch(gGlobals.titleSplashVars.state) {
   case 0:
     splashscreen_clear_flag=1;
@@ -267,13 +267,13 @@ u8 TitleSplash::N64Logo(Gfx**GG){
     N64LogoRot += 2.0;
     SplashNoop(tempCont);
   }
-  g = Graphics::StartDisplay(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+  g = Graphics::StartDisplay(g,FULL_SCREENSPACE);
   Scene::LookAt(SplashLogoModel,n64LogoVec3.x,n64LogoVec3.y,n64LogoVec3.z,fVar5,fVar7,fVar6,0,1.0f,0);
   FUN_800a0df4(SplashLogoModel);
   g = gsAnimationDataMtx(g,SplashLogoModel);
   g = BorgAnimDrawScene(g,SplashLogoModel);
   RSPFUNC6(g);
-  *GG = SplashLicence->Render(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+  *GG = SplashLicence->Render(g,FULL_SCREENSPACE);
   return auStack64;
 }
 

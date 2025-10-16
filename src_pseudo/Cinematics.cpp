@@ -230,7 +230,7 @@ Gfx* Cinematic::Render(Gfx*param_1,s16 delta){
   Gfx*g;
 
   g = Sky::RenderSky(param_1,delta);
-  g = Graphics::StartDisplay(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+  g = Graphics::StartDisplay(g,FULL_SCREENSPACE);
   Scene::SetSpeed(gGlobals.cinematic.sceneDat,delta);
   FUN_800a0df4(gGlobals.cinematic.sceneDat);
   g = gsAnimationDataMtx(g,gGlobals.cinematic.sceneDat);

@@ -126,7 +126,7 @@ BaseWidget * UnkWidget::DownFunc(){
 WidgetItemDB::WidgetItemDB(){
     WidgetMenu();
     char* titles[]={"ARMOR","SHIELD","ITEM","WEAPON","POTION"};
-    FUN_8004ce14(this,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,200);
+    FUN_8004ce14(this,FULL_SCREENSPACE,0,0,0,200);
     this->scrollMenu=Utilities::AddScrollMenu(this,5,0x14,0x14,0x14,0x14,300,0xdc,0xe1,0xe1,0xe1,0xff,0);
     for(u16 i=0;i<5;i++){
         WidgetText* title=WText(titles[i]);
@@ -210,7 +210,7 @@ BaseWidget* WidgetItemDB::BFunc(){this->unk80=0;return this;}
 
 WidgetItemDBItem::WidgetItemDBItem(u16 length){
     WidgetMenu();
-    FUN_8004ce14(this,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,200);
+    FUN_8004ce14(this,FULL_SCREENSPACE,0,0,0,200);
     this->scrollMenu=Utilities::AddScrollMenu(this,length,0x14,0x14,0x14,0x14,300,0xdc,0xe1,0xe1,0xe1,0xff,0);
 }
 

@@ -35,3 +35,5 @@ void initGameTrek();
 void clear_HUD_elements(short );
 
 Gfx* tick_and_render_widgets(Gfx*);
+
+extern u32 gametrek_flag0;

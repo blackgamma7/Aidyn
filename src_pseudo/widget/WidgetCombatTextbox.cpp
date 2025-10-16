@@ -28,7 +28,7 @@ Gfx * CombatTextboxWidget_Tick(Gfx *g,u8 delta){
     }
     for (s8 cVar5 = delta - 1; cVar5 != -1; cVar5--)
       gWidgetCombatTextboxP->Tick();
-    g = gWidgetCombatTextboxP->Render(g,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    g = gWidgetCombatTextboxP->Render(g,FULL_SCREENSPACE);
   }
   return g;
 }

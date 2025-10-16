@@ -9,6 +9,8 @@ struct GtaskMsg {
 #define SCREEN_WIDTH_HI  512 //"Hi-Resolution" screen width
 #define SCREEN_HEIGHT 240 //Height resolution is never changed.
 #define FBCOUNT 2 //for data with one for each framebuffer
+//for render params that are the entire screenspace
+#define FULL_SCREENSPACE 0,0,SCREEN_WIDTH,SCREEN_HEIGHT
 struct gfxManager {
     OSSched *sched;
     Gfx *GfxLists[FBCOUNT];

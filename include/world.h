@@ -26,8 +26,8 @@ struct TerrainStruct {
     u32 InGameTime; /* measured in seconds * 60 */
     u8 terrain; /* detemines terrain? */
     float TimeOfDayFloat;
-    float float0x2c;
-    float float0x30;
+    float spellVisValA;
+    float spellVisValB;
     int PlayTime;
 };
 
@@ -86,7 +86,7 @@ void cap_ingame_time(TerrainStruct *);
 void Lapse10Seconds(TerrainStruct *);
 void IncGameTime(TerrainStruct *,s32 );
 void Lapse8Hours(TerrainStruct *);
-void add_playTime(TerrainStruct *,s32 );
+void AddPlayTime(TerrainStruct *,s32 );
 u32 GetTime(TerrainStruct *);
 void SetTime(TerrainStruct *,u32 );
 u8 GetSeason(TerrainStruct *);

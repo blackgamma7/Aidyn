@@ -95,7 +95,7 @@ void DiaMenuSub::Init24(u8 param_2){
   bool bVar3;
   BaseWidget *pBVar4;
   
-  this->Background = WidgetBorg8At(NULL,0,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+  this->Background = WidgetBorg8At(NULL,0,FULL_SCREENSPACE);
   bVar3 = false;
   if (((param_2 == 12) || (param_2 == 10)) || (param_2 == 11)) bVar3 = true;
   if (bVar3) {

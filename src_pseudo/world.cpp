@@ -265,7 +265,7 @@ void World::Lapse8Hours(TerrainStruct *ter){
   cap_ingame_time(ter);
   SeveralTimeFuncs(ter);}
 
-void World::add_playTime(TerrainStruct *param_1,s32 x){param_1->PlayTime += x;}
+void World::AddPlayTime(TerrainStruct *param_1,s32 x){param_1->PlayTime += x;}
 
 u32 World::GetTime(TerrainStruct *param_1){return param_1->InGameTime;}
 
@@ -295,30 +295,30 @@ void World::terrainStruct_floats(TerrainStruct *param_1){
   float fVar2;
   float fVar3;
   
-  if (param_1->float0x30 != 0.0) {
-    fVar1 = param_1->float0x2c;
+  if (param_1->spellVisValB != 0.0) {
+    fVar1 = param_1->spellVisValA;
     fVar3 = fVar1 - param_1->TimeOfDayFloat;
     if (fVar3 <= 0.0) {
       fVar3 = -fVar3;
     }
-    fVar2 = param_1->float0x30 * gGlobals.delta;
+    fVar2 = param_1->spellVisValB * gGlobals.delta;
     if (0.0 < fVar2) {
       if (fVar2 < fVar3) {
-        fVar1 = param_1->float0x30;
+        fVar1 = param_1->spellVisValB;
         goto LAB_80085a64;
       }
       param_1->TimeOfDayFloat = fVar1;
     }
     else {
       if (-fVar2 < fVar3) {
-        fVar1 = param_1->float0x30;
+        fVar1 = param_1->spellVisValB;
 LAB_80085a64:
         param_1->TimeOfDayFloat = param_1->TimeOfDayFloat + fVar1 * gGlobals.delta;
         return;
       }
       param_1->TimeOfDayFloat = fVar1;
     }
-    param_1->float0x30 = 0.0;
+    param_1->spellVisValB = 0.0;
   }
   return;
 }
@@ -337,30 +337,30 @@ void World::spellvisuals_1(TerrainStruct *param_1,float param_2,float param_3,s1
   }
   else {
     if (param_2 <= 0.0) {param_2 = -param_2;}
-    param_1->float0x2c = param_2 - fVar1;
-    fVar1 = param_1->float0x2c;
+    param_1->spellVisValA = param_2 - fVar1;
+    fVar1 = param_1->spellVisValA;
     if (fVar1 < 0.0) {
       do {fVar1 = (float)((double)fVar1 + 1.0);} while (fVar1 < 0.0);
-      param_1->float0x2c = fVar1;
-      fVar1 = param_1->float0x2c;
+      param_1->spellVisValA = fVar1;
+      fVar1 = param_1->spellVisValA;
     }
     if (1.0f <= fVar1) {
       do {fVar1 = (float)((double)fVar1 - 1.0);} while (1.0f <= fVar1);
-      param_1->float0x2c = fVar1;
+      param_1->spellVisValA = fVar1;
     }
-    fVar1 = param_1->float0x2c;
+    fVar1 = param_1->spellVisValA;
     if (param_4 != 2) goto LAB_80085bb8;
     fVar1 = (float)((double)fVar1 - 1.0);
   }
-  param_1->float0x2c = fVar1;
-  fVar1 = param_1->float0x2c;
+  param_1->spellVisValA = fVar1;
+  fVar1 = param_1->spellVisValA;
 LAB_80085bb8:
-  param_1->float0x30 = (fVar1 - param_1->TimeOfDayFloat) / param_3;
+  param_1->spellVisValB = (fVar1 - param_1->TimeOfDayFloat) / param_3;
 }
 
 void World::spellvisuals_2(TerrainStruct *param_1,float param_2){
   float fVar1 = 1.0f;
   if (0.0 < param_2) fVar1 = param_2;
-  param_1->float0x2c = 0.0;
-  param_1->float0x30 = (0.0 - param_1->TimeOfDayFloat) / fVar1;
+  param_1->spellVisValA = 0.0;
+  param_1->spellVisValB = (0.0 - param_1->TimeOfDayFloat) / fVar1;
 }

@@ -1,4 +1,5 @@
 #include "combat/Visuals.h"
+#include "particle.h"
 #include "globals.h"
 #define FILENAME "./src/combatspellvisuals.cpp"
 
@@ -208,7 +209,6 @@ uint FUN_80094cd0(short param_1){
   bool bVar1;
   int iVar2;
   int iVar3;
-  uint uVar4;
   s16 iVar6;
   s16 lVar5;
   
@@ -246,7 +246,7 @@ uint FUN_80094cd0(short param_1){
   if (iVar3 < 0) {
     iVar2 = iVar3 + 0x7f;
   }
-  uVar4 = (iVar3 + (iVar2 >> 7) * -0x80) * 0x10000 >> 0x10;
+  s16 uVar4 = (iVar3 + (iVar2 >> 7) * -0x80);
   bVar1 = false;
   do {
     if (uVar4 == (u16)SpellVisuals.ptr2[iVar6].unk10) {
@@ -261,13 +261,13 @@ uint FUN_80094cd0(short param_1){
       if (iVar3 < 0) {
         iVar2 = iVar3 + 0x7f;
       }
-      uVar4 = (iVar3 + (iVar2 >> 7) * -0x80) * 0x10000 >> 0x10;
+      uVar4 = (iVar3 + (iVar2 >> 7) * -0x80);
     }
     else {
       bVar1 = true;
     }
   } while (!bVar1);
-  SpellVisuals.ptr2[iVar6].unk10 = (s16)uVar4;
+  SpellVisuals.ptr2[iVar6].unk10 = uVar4;
   return uVar4;
 }
 
@@ -405,7 +405,7 @@ void FUN_800952c8(short param_1,short param_2,short param_3){
   SceneData *pAVar3;
   SceneData *pAVar4;
   
-  if ((param_1 != -1) && ((SpellVisuals.ptr1[param_1].flags & 1) != 0)) {
+  if ((param_1 != -1) && ((SpellVisuals.ptr1[param_1].flags & 1))) {
     pAVar1 = (SpellVisuals.ptr1[param_1].b7)->sceneDat;
     if (param_2 == -1) pAVar4 = NULL;
     else {
@@ -496,7 +496,7 @@ void processSpellVisuals(uint param_1){
             Scene::SetModelTint(pAVar7,gGlobals.brightness * 255,gGlobals.brightness * 255,gGlobals.brightness * 255,0xff);
           }
           else {
-            if (!FUN_800b4030(pAVar7->particleHead,pAVar7)) {
+            if (!Particle::FUN_800b4030(pAVar7->particleHead,pAVar7)) {
               uVar10 = ppBVar12->flags;
               goto LAB_800959d4;
             }
@@ -557,7 +557,7 @@ Gfx * FUN_80095a24(Gfx *param_1){
     if ((entry->flags & 1) != 0) {
       if (true) {
         if (entry->spellID < 5) {
-          param_1 = BorgAnimDrawSceneLinked(param_1,entry->SceneDat);
+          param_1 = BorgAnimDrawSceneLinked(param_1,entry->b7);
         }
         else if (((entry->spellID < 7) && ((entry->flags & 0x40))) &&(entry->SceneDat)) {
           param_1 = BorgAnimDrawScene(param_1,entry->SceneDat);

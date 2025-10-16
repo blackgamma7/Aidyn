@@ -6,7 +6,7 @@
 extern BaseWidget *FUN_8004ce14(BaseWidget *,short,short,short,u16,u8 r,u8 g,u8 b,u8 a);
 extern char** debug_switch_labels;
 WidgetDebugDummyToggle::WidgetDebugDummyToggle():WidgetMenu(){
-    FUN_8004ce14(this,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,200);
+    FUN_8004ce14(this,FULL_SCREENSPACE,0,0,0,200);
     scrollMenu = Utilities::AddScrollMenu(this,0xd,0x14,0x14,0x14,0x14,SCREEN_WIDTH,SCREEN_HEIGHT,0xe1,0xe1,0xe1,0xff,0);
     for(u8 i=0;i<13;i++) {
       Gsprintf("%s - %s",debug_switch_labels[i],

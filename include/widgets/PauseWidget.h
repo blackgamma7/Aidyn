@@ -65,3 +65,16 @@ BaseWidget * bigAssMenu_CDownFunc(BaseWidget *,BaseWidget *);
 BaseWidget * bigAssMenu_BFunc(BaseWidget *,BaseWidget *);
 BaseWidget * bigAssMenu_AFunc(BaseWidget *,BaseWidget *);
 BaseWidget * bigAssMenu_StartFunc(BaseWidget *,BaseWidget *);
+
+void FUN_8004fe00(void);
+bool set_screenshot_tint(void);
+Gfx * draw_screenshot_background(Gfx *g,u8 state);
+u8 ScreenFadeMode_3(Gfx **GG);
+int FUN_800505f4();
+void func_clearing_shopkeep(void);
+void FUN_80050868(void);
+void FUN_800508b4(u16 x);
+void setGlobalsPointer(BaseWidget*);
+void passto_getSnapshot();
+void set_shopkeep_skills(CharSkills *sk,SpellBook *sp);
+void build_loot_menu(GenericInventory *loot,int gold,ItemID keep);

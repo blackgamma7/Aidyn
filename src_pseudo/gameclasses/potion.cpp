@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "combat/Visuals.h"
 #include "romstring.h"
 
 void PotionEffect::Init(u8 ID_,u8 pow,u32 t){
@@ -27,7 +28,7 @@ bool PotionEffect::DecTimer(u16 mag,int delta){
   return false;
 }
 
-
+extern void* RomstringPotion;
 void load_potion_romstring(void){potion_names = RomString::Load(RomstringPotion,0x100);}
 
 void clear_potion_romstrings(void){RomString::Free(potion_names);}

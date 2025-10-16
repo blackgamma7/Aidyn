@@ -77,6 +77,7 @@ class WidgetInvShop: public WidgetTrainShop{
     bool m8003d674(u16,u8);
     u32 GetNumber();
 };
+u32 UINT_800ed580=false;
 
 class WidgetSkillTrain:public WidgetTrainShop{
     public:

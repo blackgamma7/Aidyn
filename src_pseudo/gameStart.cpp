@@ -115,7 +115,7 @@ u8 gameStart(Gfx**GG){
   }
   TitleScreenInput();
   gfx = Sky::RenderSky(gfx,gGlobals.delta);
-  gfx = Graphics::StartDisplay(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+  gfx = Graphics::StartDisplay(gfx,FULL_SCREENSPACE);
   if (gGlobals.gameVars.gamemodeType == 2) {
     w.precip = PRECIP_CLEAR;
     w.PrecipScale = 0.0;
@@ -131,7 +131,7 @@ u8 gameStart(Gfx**GG){
     RSPFUNC6(gfx);
 
     for(uVar2=0;uVar2<gGlobals.delta;uVar2++) {WHANDLE->Tick(1);}
-    gfx = WHANDLE->Render(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    gfx = WHANDLE->Render(gfx,FULL_SCREENSPACE);
     gfx = N64Print::Draw(gfx,1);
   }
   pos = &fStack104;

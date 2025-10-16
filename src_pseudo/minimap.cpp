@@ -561,14 +561,14 @@ Gfx * MiniMap::Render(Gfx *G){
   if ((this->active) && (this->widget20)) {
     if (gMinimapUnkVal) gMinimapUnkVal = 0;
     RSPFUNC6(G);
-    G = this->widget24->Render(G,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    G = this->widget24->Render(G,FULL_SCREENSPACE);
     for (w = this->widget1c; w != NULL; w = w->link2) {
       G = w->Render(G,this->mapX,this->mapY,this->X90,this->Y9C);
     }
     for (w = this->widget18; w != NULL; w = w->link2) {
       G = w->Render(G,this->mapX,this->mapY,this->X90,this->Y9C);
     }
-    G = this->widget28->Render(G,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+    G = this->widget28->Render(G,FULL_SCREENSPACE);
   }
   return G;
 }

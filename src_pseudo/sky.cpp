@@ -361,7 +361,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
       break;
     }
     case 2:{
-    gfx = DrawRectangle(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0,0,0,0);
+    gfx = DrawRectangle(gfx,FULL_SCREENSPACE,0,0,0,0);
     gMainColor.A = 0x60;
     gMainColor.B = 0x60;
     gMainColor.G = 0x60;
@@ -382,7 +382,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
       fVar7 = RAND.GetFloatRange(0.0,1.0);
     }
     if ((fVar7 < TerrainPointer->ThunderFloat * 0.25) &&(sky_flag_b == 0)) {
-      gfx = DrawRectangle(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0xff,0xff,0xff,0);
+      gfx = DrawRectangle(gfx,FULL_SCREENSPACE,0xff,0xff,0xff,0);
       SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
                 &gMainColor,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
                 (-gGlobals.sky.lensFlareVal * 0.5));

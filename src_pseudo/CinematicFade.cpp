@@ -142,7 +142,7 @@ LAB_8005d1d4:
     sCFadeCol.A = sCFadeFloat * 255.0f;
     if (sCFadeCol.A) {
       gfx =RSPFUNC6(g);
-      g = DrawRectangle(gfx,0,0,SCREEN_WIDTH,SCREEN_HEIGHT,sCFadeCol.R,sCFadeCol.G,
+      g = DrawRectangle(gfx,FULL_SCREENSPACE,sCFadeCol.R,sCFadeCol.G,
                       sCFadeCol.B,sCFadeCol.A);
     }
   }

@@ -199,14 +199,14 @@ void WidgetChild8::SetImages(short *param_2,u32 param_3){
                       *param_2 + -1,param_2[3] + (pBVar1->dat).Height);
   this->borg8WidgetI = pBVar2;
   Utilities::SetWidgetColor(this,COLOR_BLACK);
-  SetWidgetBounds(this->borg8WidgetB,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  SetWidgetBounds(this->borg8WidgetC,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  SetWidgetBounds(this->borg8WidgetD,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  SetWidgetBounds(this->borg8WidgetE,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  SetWidgetBounds(this->borg8WidgetF,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  SetWidgetBounds(this->borg8WidgetG,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  SetWidgetBounds(this->borg8WidgetH,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
-  SetWidgetBounds(this->borg8WidgetI,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+  SetWidgetBounds(this->borg8WidgetB,FULL_SCREENSPACE);
+  SetWidgetBounds(this->borg8WidgetC,FULL_SCREENSPACE);
+  SetWidgetBounds(this->borg8WidgetD,FULL_SCREENSPACE);
+  SetWidgetBounds(this->borg8WidgetE,FULL_SCREENSPACE);
+  SetWidgetBounds(this->borg8WidgetF,FULL_SCREENSPACE);
+  SetWidgetBounds(this->borg8WidgetG,FULL_SCREENSPACE);
+  SetWidgetBounds(this->borg8WidgetH,FULL_SCREENSPACE);
+  SetWidgetBounds(this->borg8WidgetI,FULL_SCREENSPACE);
 
 }
 

@@ -4,6 +4,7 @@
 #include "stringN64.h"
 #include "heapN64.h"
 #include "SaveEntity.h"
+#include "weapondb.h"
 #include "combat/CombatStruct.h"
 #include "widgets/textPopup.h"
 #include "crafting/potion.h"
@@ -658,7 +659,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
       }
       else {
         bVar2 = pGVar6[(short)uVar10].spell;
-        pSVar7 = gSpellDBp->spells[bVar2];
+        pSVar7 = &gSpellDBp->spells[bVar2];
         if (wizLV < pSVar7->WizardREQ){
           pCVar14 = &acStack416;
           acStack416.R = 0xe1;
@@ -777,7 +778,7 @@ u8 Party::RemoveShieldFrom(u8 param_2){
   if (pSVar3) bVar7 = pSVar3->Charges;
   if (this->Inventory->AddItem((pAVar2->base).id,1) == 0) {
     if (X == NULL) return true;
-    HFREE(X,0x5a4);
+    HFREE(X,1444);
   }
   else {
     pIVar6 = &this->Inventory->GetItemEntry(this->Inventory->GetItemIndex((pAVar2->base).id))->base;
@@ -787,7 +788,7 @@ u8 Party::RemoveShieldFrom(u8 param_2){
       return false;
     }
     if (X == NULL) return true;
-    HFREE(X,0x5af);
+    HFREE(X,1455);
   }
   return true;
 }
@@ -804,7 +805,7 @@ u8 Party::RemoveWeaponsFrom(u8 param_2){
     pTVar5 = pCVar1->weapons;
     if (pTVar5 == NULL) return false;
     //Can't move Archmage Staff
-    if ((weaponList[66] + 0x700) == pTVar5->base.id) return false;
+    if (IDWeapon(weaponList[66]) == pTVar5->base.id) return false;
     StatMod* X = CreateStatMod(pTVar5->base.statMod);
     uVar6 = 0xff;
     if (pTVar5->base.spellCharge) {uVar6 = pTVar5->base.spellCharge->Charges;}
@@ -1200,7 +1201,7 @@ s32 l=0;
   for(i=0;i<MAXPARTY;i++){
     pCVar1 = this->Members[i];
     if (pCVar1) {
-      j = (CharStats::getModded(pCVar1->Stats,STAT_INT) * 2 + CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Mechanic) * 5);
+      j = (CharStats::getModded(pCVar1->Stats,STAT_INT) * 2 + pCVar1->Skills->getModdedSkill(SKILL_Mechanic) * 5);
       if (l < j) l = j;
       }
   }
@@ -1259,7 +1260,7 @@ u8 Party::DisarmDamage(u8 param_2){
     if (uVar3 < uVar7) {
       uVar5 = some_skillcheck_calc((uVar7 - uVar3));
       uVar3 = 10 - (s32)cVar4;
-      FLOOR(uVar3,1)
+      FLOOR(uVar3,1);
       uVar6 = 0;
       if ((uVar3) <= CharStats::getModded(pCVar1->Stats,STAT_STAM)) {
         Entity::DecreaseHP(pCVar1,(s16)(uVar3));
@@ -1455,7 +1456,7 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
     pcVar12 = gGlobals.CommonStrings[0x1b7];
   }
   else {
-    uVar5 = this->Inventory->TakeItem(itemID_array[0x1f],1);
+    uVar5 = this->Inventory->TakeItem(itemID_array[ItemInd_Herb],1);
     if (uVar5 != 0) {
       if (gCombatP == NULL) herb_func();
       if ((short)skillMod <= CharStats::getModded(ent->Stats,STAT_STAM)) {
@@ -1501,22 +1502,21 @@ char * Party::HealingFunc2(u8 param_2,u8 param_3,u8 param_4){
   s32 iVar10;
   
   pCVar1 = this->Members[param_2];
-  if ((pCVar1 == NULL) ||
-     (pCVar2 = this->Members[param_3], pCVar2 == NULL)) {return (gGlobals.CommonStrings)->"someone in party is invalid";}  
+  if ((pCVar1 == NULL) ||(pCVar2 = this->Members[param_3], pCVar2 == NULL)) {
+    return gGlobals.CommonStrings[0x1b4];}  
   if (!CharStats::someStatCheck(pCVar2->Stats,param_4))
    {Gsprintf(Cstring(HealTaskMaxed),pCVar2->name,Stat_labels[param_4]);}
   else {
     cVar9 = pCVar1->Skills->getModdedSkill(SKILL_Healer);
     iVar5 = 0xf - cVar9;
     if (iVar5 < 0) {iVar5 = 0;}
-    piVar3 = this->Inventory->TakeItem(itemID_array[31],1);
-    if (uVar6 != 0) {
+    if (this->Inventory->TakeItem(itemID_array[31],1)) {
       herb_func();
       if ((s16)iVar5 <= CharStats::getModded(pCVar1->Stats,STAT_STAM)) {
         Entity::DecreaseHP(pCVar1,(s16)iVar5);
         iVar5 = (CharStats::getModded(pCVar1->Stats,STAT_INT) * 2 + cVar9 * 4 + (s32)cVar9);
         uVar8 = RollD(1,100);
-        Gsprintf((gGlobals.CommonStrings)->X failed the task,pCVar1->name);
+        Gsprintf(gGlobals.CommonStrings[0x1b6],pCVar1->name);
         if ((s32)uVar8 < iVar5) {
           iVar5 = some_skillcheck_calc(iVar5 - uVar8);
           iVar10 = iVar5*2;
@@ -1526,7 +1526,7 @@ char * Party::HealingFunc2(u8 param_2,u8 param_3,u8 param_4){
           }
           CharStats::addModdedHealth(pCVar2->Stats,arg1,(char)iVar10);
           if (0 < CharStats::getModded(pCVar2->Stats,arg1) - iVar5) {
-            Gsprintf((gGlobals.CommonStrings)->"hp restored by x",pCVar2->name,
+            Gsprintf(gGlobals.CommonStrings[0x1be],pCVar2->name,
                         Stat_labels[param_4]);
           }
         }
@@ -1755,7 +1755,7 @@ char * Party::ApraisePrice(ItemInstance* param_2,u32 param_3){
 s8 Party::DisarmCheck(u8 param_2,u8 param_3){
   s32 iVar1;
   char cVar3;
-  u8 uVar2;
+  u8 uVar2,i;
   u32 uVar4;
   CharSheet *piVar5;
   u32 uVar6;
