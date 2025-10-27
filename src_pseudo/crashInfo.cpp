@@ -164,7 +164,6 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
   int *piVar9;
   uint uVar10;
   crash_DatString *pcVar11;
-  ulonglong uVar12;
   uint uVar13;
   int iVar14;
   char acStack_128 [128];
@@ -229,7 +228,7 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
       fb32[1] = (u32*)Graphics::GetFrameBuffer(1);
     }
     u16 uVar12 = 0;
-    if ((longlong)(short)uVar7 != 0) {
+    if ((s16)uVar7 != 0) {
       do {
         u16 uVar10 = 0;
         uVar13 = (uint)uVar12;

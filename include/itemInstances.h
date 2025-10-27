@@ -113,14 +113,10 @@ struct GearInstance {
     resist_float *resist;
 };
 
-struct PotionInstance {
-    ItemInstance base;
-};
-
 union EquipInstance {
     WeaponInstance W;
     GearInstance G;
-    PotionInstance P;
+    ItemInstance P;
     ArmorInstance A;
     SpellInstance S;
 };

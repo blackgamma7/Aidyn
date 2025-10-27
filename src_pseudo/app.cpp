@@ -102,7 +102,6 @@ void appInit(OSSched *sched,u8 pri,u8 id){
 
 void AppProc(void *x){
   short sVar1;
-  longlong lVar2;
   Gfx *gfx0;
   Gfx *gfx1;
   int dat_size;

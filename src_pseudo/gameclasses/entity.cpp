@@ -738,7 +738,6 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 po
   CombatAI_s *pCVar1;
   Temp_enchant **ppTVar2;
   bool bVar3;
-  longlong lVar4;
   uint uVar6;
   bool bVar11;
   int iVar7;
@@ -762,7 +761,6 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 po
   bVar3 = true;
   uVar16 = 0;
   bVar10 = GETINDEX(param_1->ID);
-  lVar4 = bVar10;
   uVar6 = FindFreeEffect(param_1);
   if (!HasSpellEffect(param_1,id)) uVar16 = ~uVar6 >> 0x1f;
   sVar9 = (short)uVar6;
@@ -863,7 +861,7 @@ control_magic:
     if (combatTarget != NULL) {
 LAB_800798b0:
       bVar11 = true;
-      if (lVar4 != lVar5) goto LAB_80079984;
+      if (bVar10 != lVar5) goto LAB_80079984;
       goto control_magic;
     }
     break;
@@ -915,7 +913,7 @@ LAB_800798b0:
     bVar11 = bVar3;
     if (combatTarget != NULL) {
       lVar5 = 0xb6;
-      if (lVar4 != 0xbe) goto LAB_800798b0;
+      if (bVar10 != 0xbe) goto LAB_800798b0;
       goto control_magic;
     }
     break;
@@ -956,7 +954,7 @@ LAB_800798b0:
   case SPELLIND_frozenDoom:
   case SPELLIND_webOfStarlight:
                     // fail with Shadow
-    if (lVar4 == EntInd_Shadow) return -1;
+    if (bVar10 == EntInd_Shadow) return -1;
     bVar11 = true;
     if ((uVar16 != 0) && (combatTarget)) {
       UNK4 = 1;

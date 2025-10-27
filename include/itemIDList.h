@@ -265,6 +265,7 @@ enum ItemIDS{
     Potion_Aspect, //code changes into Healing potion if found
     Potion_Jumping,
     Potion_Clarity,
+    Potion_Charisma,
     Potion_Defence,
     Potion_Steath,
 

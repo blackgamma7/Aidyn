@@ -37,8 +37,6 @@ WidgetChild8(32,120,gExpPakFlag?95:55,0,0){
   BaseWidget *pBVar8;
   ulong uVar9;
   WidgetChild0 *pWVar10;
-  longlong lVar11;
-  longlong lVar12;
   uint i;
   Color32 aCStack_68 [26];
   

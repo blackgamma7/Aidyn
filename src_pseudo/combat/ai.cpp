@@ -446,7 +446,6 @@ void CombatAI::FUN_80060db0(CombatAI_s *param_1){
   u8 X;
   u8 Y;
   u16 uVar8;
-  longlong lVar6;
   byte bVar10;
   byte bVar11;
   u8 feild0;
@@ -455,7 +454,7 @@ void CombatAI::FUN_80060db0(CombatAI_s *param_1){
   int iVar12;
   CombatSubstructA *pcVar13;
   byte feildx;
-  uint uVar14;
+  u8 uVar14;
   u16 uVar15;
   int iVar16;
   int iVar17;
@@ -524,7 +523,7 @@ void CombatAI::FUN_80060db0(CombatAI_s *param_1){
                 }
               }
 LAB_800610b8:
-              uVar14 = uVar14 + 1 & 0xff;
+              uVar14++;
               iVar16 = uVar14 << 2;
             } while (uVar14 < gCombatP->EntCount);
           }
@@ -1222,7 +1221,7 @@ void combatAI_run_cmd(CombatAI_s* param_1,u8 *param_2,u8 *param_3){
 
 
 
-void FUN_800628cc(CombatAIInfo *param_1){
+void FUN_800628cc(CombatAI_s* param_1){
   CharSheet *pCVar1;
   CombatEntity *Ent;
   CombatSubstructB *pCVar2;
@@ -1324,7 +1323,7 @@ void FUN_800628cc(CombatAIInfo *param_1){
   return;
 }
 
-void FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec2f *param_5){
+bool FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec2f *param_5) {
   vec2f *a;
   float fVar1;
   float fVar2;
@@ -1347,7 +1346,6 @@ void FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec
     fVar3 = vec2_dot(&fStack176,&fStack176);
     fVar3 = SQ(fVar2) - fVar1 * (fVar3 - SQ(param_2)) * 4.0f;
     if (fVar3 < 0.0) {
-      return;
     }
     fVar3 = _sqrtf(fVar3);
     fVar4 = 1.0f / (fVar1 + fVar1);
@@ -1355,10 +1353,10 @@ void FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec
     fVar4 = (-fVar3 - fVar2) * fVar4;
     if ((fVar1 < 0.0) || (1.0f < fVar1)) {
       if (fVar4 < 0.0) {
-        return;
+        return false;
       }
       fVar1 = fVar4;
-      if (1.0f < fVar4) return;
+      if (1.0f < fVar4) return false;
     }
     else if (((0.0 <= fVar4) && (fVar4 <= 1.0f)) && (fVar4 <= fVar1)) {
       fVar1 = fVar4;
@@ -1367,7 +1365,7 @@ void FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec
     a = &fStack112;
   }
   vec2_sum(param_5,a,param_3);
-  return;
+  return true;
 }
 
 
@@ -1531,9 +1529,8 @@ bool FUN_80063258(CombatAI_s *param_1) {
   vec2f afStack200;
   vec2f fStack136;
   
-  playerData *ppVar1 = gGlobals.playerDataArray[param_1->combatEnt->index];
-  bool bVar2 = false;
-  if (ppVar1) {
+  ppVar1 = gGlobals.playerDataArray[param_1->combatEnt->index];
+  if (ppVar1 != NULL) {
     bVar3 = false;
     bStack336[0] = 0;
     bStack336[1] = 0;
@@ -1563,7 +1560,9 @@ bool FUN_80063258(CombatAI_s *param_1) {
                                param_1->combatEnt->unk23);
           if (!bVar8) break;
         }
-        uVar7 = sub_square_add_sqrt(param_1->combatEnt->GetCoord2XU8(),param_1->combatEnt->GetCoord2YU8(),bStack336[2],bStack336[3]);
+        uVar9 = CombatEntity::GetCoord2XU8(param_1->combatEnt);
+        uVar10 = CombatEntity::GetCoord2YU8(param_1->combatEnt);
+        uVar7 = sub_square_add_sqrt(uVar9,uVar10,bStack336[2],bStack336[3]);
         if ((ushort)param_1->combatEnt->moveRange < (uVar7 & 0xff)) {
           setVec2(&afStack328,(float)bStack336[0],(float)bStack336[1]);
           setVec2(&afStack264,(float)bStack336[2],(float)bStack336[3]);
@@ -1571,10 +1570,8 @@ bool FUN_80063258(CombatAI_s *param_1) {
           x = CombatEntity::GetCoord2X(param_1->combatEnt);
           y = CombatEntity::GetCoord2Y(param_1->combatEnt);
           setVec2(&afStack200,x,y);
-          lVar5 = (longlong)(int)&fStack136;
-          FUN_80062c04(&afStack200,(float)param_1->combatEnt->moveRange,&afStack328,&afStack264,
-                       &fStack136);
-          if (lVar5 == 0) break;
+          if (!FUN_80062c04(&afStack200,(float)param_1->combatEnt->moveRange,&afStack328,
+                               &afStack264,&fStack136)) break;
           if (0.0 < fStack136.x) {
             bStack336[2] = (byte)(int)((double)fStack136.x + dVar4);
           }
@@ -1597,15 +1594,15 @@ bool FUN_80063258(CombatAI_s *param_1) {
         bStack336[1] = bStack336[3];
         SetPlayerMoveToQueue(ppVar1,(float)bStack336[2],(float)bStack336[3],ppVar1->scaleRad,0);
         if ((uVar7 & 0xff) < 3) {
-          param_1->combatEnt->UnsetFlag(COMBATENT_FLAG3);
+          CombatEntity::UnsetFlag(param_1->combatEnt,COMBATENT_FLAG3);
           bVar11 = param_1->unk12;
         }
         else {
-          param_1->combatEnt->SetFlag(COMBATENT_FLAG3);
+          CombatEntity::SetFlag(param_1->combatEnt,COMBATENT_FLAG3);
           bVar11 = param_1->unk12;
         }
         bVar11 = bVar11 + 1;
-        param_1->unk12++;
+        param_1->unk12 = bVar11;
         if (((int)(uint)param_1->unk13 <= (int)(char)bVar11) || (bVar2)) break;
       } while( true );
     }
@@ -1621,6 +1618,8 @@ bool FUN_80063258(CombatAI_s *param_1) {
   }
   return false;
 }
+
+
 
 
 void Ai_swap_weapons(CombatAI_s* param_1){
@@ -1643,9 +1642,7 @@ void Ai_swap_weapons(CombatAI_s* param_1){
   }
 }
 
-u8 ai_should_swap_weapons(CombatAI_s* param_1)
-
-{
+u8 ai_should_swap_weapons(CombatAI_s* param_1){
   CharSheet *pCVar1;
   WeaponInstance *pTVar2;
   u8 bVar3;
@@ -1678,76 +1675,59 @@ u8 ai_should_swap_weapons(CombatAI_s* param_1)
   return bVar5;
 }
 
-void combat_ai_shadow(CombatAI_s* param_1){
+
+void combat_ai_shadow(CombatAI_s*param_1) {
   CombatEntity *pCVar1;
-  longlong lVar2;
-  s32 iVar3;
+  double dVar2;
   CombatStruct *iVar4;
-  s32 iVar5;
-  u32 uVar6;
+  int iVar5;
+  uint uVar6;
   float x;
   float y;
-  double dVar7;
-  undefined8 uVar8;
   vec2f afStack304;
   vec2f afStack240;
   vec2f afStack176;
   vec2f fStack112;
   
-  if ((param_1->combatEnt->move_length != 1) && (gGlobals.ShadowIndex != -1)) {
-    pCVar1 = (&gCombatP->combatEnts)[(u8)gGlobals.ShadowIndex];
-    x = get_combatEnt_x_f(pCVar1);
-    y = get_combatEnt_y_f(pCVar1);
-    setVec2(afStack176,x,y);
-    iVar4 = (CombatStruct *)(&gCombatP->unk0x0 + (char)param_1->unk0x12 * 2);
-    setVec2(afStack304,(float)(s32)(char)iVar4->unk0x5320,
-            (float)(s32)(char)iVar4->unk0x5321);
-    uVar6 = (s32)(char)param_1->unk0x12 + 1;
-    if (uVar6 < param_1->unk0x13) {
+  if ((param_1->combatEnt->moveRange != 1) && (gGlobals.ShadowIndex != -1)) {
+    pCVar1 = (&gCombatP->combatEnts)[(byte)gGlobals.ShadowIndex];
+    x = CombatEntity::GetCoordX(pCVar1);
+    y = CombatEntity::GetCoordY(pCVar1);
+    setVec2(&afStack176,x,y);
+    setVec2(&afStack304,(float)(int)(char)(&gCombatP->unk5320)[(char)param_1->unk12 * 2],
+            (float)(int)(char)(&gCombatP->field_0x5321)[(char)param_1->unk12 * 2]);
+    dVar2 = ConstFloats::0.5d;
+    uVar6 = (int)(char)param_1->unk12 + 1;
+    if (uVar6 < param_1->unk13) {
       iVar5 = uVar6 * 2;
-      uVar8 = 0;
-      dVar7 = 0.5d;
       do {
-        iVar3 = &gCombatP->unk0x0 + iVar5;
-        setVec2(afStack240,(float)(s32)*(char *)(iVar3 + 0x5320),(float)(s32)*(char *)(iVar3 + 0x5321));
-        lVar2 = (longlong)(s32)fStack112;
-        FUN_80062c04(afStack176,10.0,afStack304,afStack240,fStack112);
-        if (lVar2 != 0) {
-          param_1->unk0x13 = (char)uVar6 + 1;
-          if ((float)uVar8 < fStack112[0]) {
-            (&gCombatP->unk0x5320)[iVar5] = (u8)(s32)((double)fStack112[0] + dVar7);
+        setVec2(&afStack240,(float)(int)(char)(&gCombatP->unk5320)[iVar5],
+                (float)(int)(char)(&gCombatP->field_0x5321)[iVar5]);
+        if (FUN_80062c04(&afStack176,10.0,&afStack304,&afStack240,&fStack112)) {
+          param_1->unk13 = (char)uVar6 + 1;
+          if (0.0 < fStack112.x) {
+            (&gCombatP->unk5320)[iVar5] = (u8)(int)((double)fStack112.x + dVar2);
           }
           else {
-            (&gCombatP->unk0x5320)[iVar5] = -(char)(s32)(dVar7 - (double)fStack112[0]);
+            (&gCombatP->unk5320)[iVar5] = -(char)(int)(dVar2 - (double)fStack112.x);
           }
-          if (fStack112[1] <= (float)uVar8) {
-            (&gCombatP->unk0x5321)[iVar5] = -(char)(s32)(dVar7 - (double)fStack112[1]);
+          if (fStack112.y <= 0.0) {
+            (&gCombatP->field_0x5321)[iVar5] = -(char)(int)(dVar2 - (double)fStack112.y);
             return;
           }
-          (&gCombatP->unk0x5321)[iVar5] = (u8)(s32)((double)fStack112[1] + dVar7);
+          (&gCombatP->field_0x5321)[iVar5] = (char)(int)((double)fStack112.y + dVar2);
           return;
         }
-        copyVec2(afStack240,afStack304);
-        iVar5+=2;
-        uVar6++;
-      } while (uVar6 < param_1->unk0x13);
+        copyVec2(&afStack240,&afStack304);
+        iVar5 = iVar5 + 2;
+        uVar6 = uVar6 + 1;
+      } while (uVar6 < param_1->unk13);
     }
   }
   return;
 }
 
-u8 FUN_80063af4(CombatAI_s* param_1,u8 param_2,u8 param_3){
-  u8 bVar1;
 
-  param_1->unk0x13 = FUN_80071ec4(&gCombatP->substruct,get_combatEnt_x(param_1->combatEnt),get_combatEnt_y(param_1->combatEnt),
-   param_2,param_3,param_1->combatEnt->unk0x23,(u8 (*) [2])&gCombatP->unk0x5320);
-  bVar1 = param_1->unk0x13 < get_byte_E(&gCombatP->substruct);
-  if (bVar1) {
-    param_1->unk0x12 = 0;
-    combat_ai_shadow(param_1);
-  }
-  return bVar1;
-}
 
 
 u8 FUN_80063bbc(CombatAI_s *param_1){
@@ -1972,7 +1952,7 @@ u8 FUN_80064398(CombatAI_s *param_1){
   return bVar2;
 }
 
-void CombatAIInfo::FaceTarget(CombatAIInfo *param_1){
+void CombatAIInfo::FaceTarget(CombatAI_s*param_1){
   param_1->combatEnt->FaceTarget((&gCombatP->combatEnts)[param_1->entIndex]);
 }
 
@@ -2008,7 +1988,7 @@ void FUN_80064494(CombatAI_s *param_1){
   }
 }
 
-void FUN_800645b4(CombatAIInfo *param_1){
+void FUN_800645b4(CombatAI_s*param_1){
   u8 bVar1;
   u8 uStack104 [2];
   vec2f afStack96;

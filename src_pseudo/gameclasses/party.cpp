@@ -2169,7 +2169,7 @@ LAB_80082bf0:
 }
 
 u8 Party::CraftArmor(char param_2,ItemID param_3,ItemID material,u8 stam){
-  ulonglong uVar4;
+  u8 uVar4;
   s32 uVar5;
   bool bVar6;
   

@@ -247,7 +247,7 @@ u8 PauseWidget::Tick(){
   BaseWidget *pBVar2;
   int iVar3;
   bool bVar4;
-  longlong lVar5;
+  s16 lVar5;
   SceneData *pSVar6;
   uint uVar7;
   short x;

@@ -179,7 +179,7 @@ void Particle::ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec
   int iVar6;
   int i;
   ParticleEmmiter *pE;
-  longlong lVar9;
+  s16 lVar9;
   int delta_;
   char acStack_78 [64];
   Gfx *pGStack_38;
@@ -298,7 +298,7 @@ LAB_800b24c4:
                 }
               }
 LAB_800b24c8:
-              lVar9 = (longlong)pPVar3->unk6;
+              lVar9 = pPVar3->unk6;
               if ((short)uVar5 < 1) {
                 if ((pPVar3->flags & 2) != 0) {
                   UnsetFlag(pPVar3,0x10);

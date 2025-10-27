@@ -48,7 +48,6 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
   bool bVar6;
   byte bVar7;
   char *pcVar3;
-  longlong lVar2;
   u32 uVar4;
   int iVar5;
   uint uVar8;
@@ -70,7 +69,7 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
     while (uVar8 = (uint)uVar9, uVar8 != 0xff) {
       if (((pbVar1[uVar8].a <= param_1->unk10e) &&
           ((param_1->unk10e <= pbVar1[uVar8].b || (pbVar1[uVar8].b == 65000)))) &&
-         ((lVar2 = command_bitmask_7(param_2,uVar9), lVar2 == 0 ||
+         ((!command_bitmask_7(param_2,uVar9) ||
           ((param_2->start_func == 2 || (param_2->start_func == 4)))))) {
         param_1->unk10e = 0xffff;
         Dialoug_commands(param_1,param_2,uVar9);
@@ -175,7 +174,7 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
             }
             if ((((int)(uint)pbVar1[uVar8].a <= (int)uVar4) &&
                 (((int)uVar4 <= (int)(uint)pbVar1[uVar8].b || (pbVar1[uVar8].b == 65000)))) &&
-               ((lVar2 = command_bitmask_7(param_2,uVar9), lVar2 == 0 ||
+               ((!command_bitmask_7(param_2,uVar9) ||
                 ((param_2->start_func == 2 || (param_2->start_func == 4)))))) {
               Dialoug_commands(param_1,param_2,uVar9);
               pcVar3 = get_borg_13_text(param_2,uVar9);
@@ -222,7 +221,6 @@ u8 DialogNode_func(dialougmode_substruct *param_1,Borg13Data *param_2){
   int iVar2;
   char *pcVar4;
   u8 uVar8;
-  longlong lVar3;
   u32 uVar5;
   int iVar6;
   uint uVar9;
@@ -324,8 +322,7 @@ LAB_800b65a8:
         uVar8 = param_2->commands_pointer->index;
         iVar2 = 0;
         while (uVar8 != 0xff) {
-          lVar3 = command_bitmask_7(param_2,uVar8);
-          if (((lVar3 == 0) || (param_2->start_func == 2)) || (param_2->start_func == 4)) {
+          if (((!command_bitmask_7(param_2,uVar8)) || (param_2->start_func == 2)) || (param_2->start_func == 4)) {
             Dialoug_commands(param_1,param_2,uVar8);
             pcVar4 = get_borg_13_text(param_2,uVar8);
             if (pcVar4 == NULL) goto LAB_800b65a8;

@@ -1141,9 +1141,9 @@ u8 ContPakWidget::Tick(){
     case 5:
       m800895f4();
     }
-    Font::SetFace(gGlobals.font,font_face[1].borg8);
+    SlimFont;
     bVar2 = WidgetMenu::Tick();
-    Font::SetFace(gGlobals.font,font_face[0].borg8);
+    NormalFont;
   }
   else {
     this->handler.Tick(1);
@@ -1156,9 +1156,9 @@ u8 ContPakWidget::Tick(){
 Gfx * ContPakWidget::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   Gfx *pGVar1;
   
-  Font::SetFace(gGlobals.font,font_face[1].borg8);
+  SlimFont;
   g = RenderChildren(g,x0,y0,x1,y1);
-  Font::SetFace(gGlobals.font,font_face[0].borg8);
+  NormalFont;
   g = this->handler.Render(g,x0,y0,x1,y1);
   return g;
 }

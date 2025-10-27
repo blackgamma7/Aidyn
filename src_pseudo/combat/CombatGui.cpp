@@ -141,7 +141,7 @@ void init_combatgui_struct(ItemID param_1,u8 param_2,u8 param_3){
   pCVar9->unkb = bVar5;
   pCVar9->cEntIndex = param_2;
   uVar6 = get_combat_gui_index_((int)param_3);
-  if ((longlong)(char)uVar6 == 0xff) {
+  if (uVar6 == 0xff) {
     if (param_3) {
       pCVar8 = NULL;
       if ((gCombatPortraitCount != 0) && (pCVar8 = gCombatPortraits, gCombatPortraits->unkb != 4)) {

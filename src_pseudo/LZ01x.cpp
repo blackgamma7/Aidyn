@@ -293,7 +293,6 @@ s32 ofunc_sub_800a95b0(void) {
   u32 uVar4;
   s32 sVar5;
   undefined1 *puVar6;
-  longlong lVar2;
   bool bVar7;
   int iVar8;
   uint uVar9;
@@ -313,9 +312,8 @@ s32 ofunc_sub_800a95b0(void) {
     } while (-1 < iVar8);
     uVar11 = 1;
     if (true) {
-      lVar2 = ret_some_bool();
       uVar1 = DAT_800f3590;
-      if (lVar2 != 0) {
+      if (ret_some_bool()) {
         uVar11 = 0;
       }
       if (uVar11 == 1) {

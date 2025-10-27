@@ -114,7 +114,7 @@ void HeapFree(void *X,char *cpp,s32 line){
     uVar3 = uVar1 & ~1;
     if ((((uVar1 & 6) != 0) || (uVar3 < 0x10)) || (gMemMonitor.memFreeMax < uVar3)) 
       {HeapCrash(468,"%s %i tried to free a pointer with an invalid start tag! Owner: %24s",cpp,line,pHVar2->filename);}
-    if ((FUN_80098848((char)pHVar2) & ~1) != uVar3) 
+    if ((FUN_80098848((void**)pHVar2) & ~1) != uVar3) 
       {HeapCrash(485,"%s %i tried to free a pointer with an invalid end tag! Owner: %24s",cpp,line,pHVar2->filename);}
     if ((get_heap_size(pHVar2) & 1) == 0) {HeapCrash(502,"%s %i tried to free a pointer that has already been freed!",cpp,line);}
     free_update_mem_mon(pHVar2);
@@ -174,8 +174,8 @@ void print_mem_allocated(void *param_1,void *param_2){
     uVar5 = get_heap_size(pHVar4) & ~1;
     uVar2 = get_heap_size(pHVar4);
     if ((uVar7 != 0) && (uVar7 != uVar6)) {
-      uVar1 = FUN_80098848((char)pHVar4);
-      uVar3 = FUN_80098848((char)pHVar4);
+      uVar1 = FUN_80098848((void**)pHVar4);
+      uVar3 = FUN_80098848((void**)pHVar4);
       if ((uVar2 & 1) == 0) {
         if (pfVar8) (*param_1)(param_2,"NA",uVar7,uVar5);
       }
@@ -306,8 +306,9 @@ void FUN_8009882c(s32 param_1,u32 param_2){
 
 u32 get_heap_size(HeapBlock *param_1){return param_1->size;}
 
-s32 FUN_80098848(char param_1){
-  return *(s32 *)((s32)(u32 *)(s32)param_1 + ((*(u32 *)(s32)param_1 & ~1) - 4));}
+s32  FUN_80098848(void **param_1) {
+  return *(s32 *)((int)param_1 + (((uint)*param_1 & 0xfffffffe) - 4));
+}
 
 void FUN_80098864(void *param_1,s32 param_2){
   *(s32 *)((s32)param_1 + 4) = param_2;

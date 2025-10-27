@@ -42,7 +42,7 @@ bool FUN_8005c0f0(playerData *param_1,audiokey_struct *param_2,audiokeyEntryA *e
   u16 uVar1;
   bool bVar6;
   uint uVar3;
-  ulonglong uVar2;
+  u16 uVar2;
   DCMSub2 *pDVar5;
   audioKeyEntryB *EntryB;
   float fVar8;
@@ -65,8 +65,8 @@ bool FUN_8005c0f0(playerData *param_1,audiokey_struct *param_2,audiokeyEntryA *e
           else {
             uVar2 = EntryB->arr[RAND.MultiByB(EntryB->arrLen)];
           }
-          if (uVar2 != 0) {
-            pDVar5 = AllocPlayerAudio(param_1,NULL,1,(u16)uVar2);
+          if (uVar2) {
+            pDVar5 = AllocPlayerAudio(param_1,NULL,1,uVar2);
             DCM::Add(&pDVar5->id,&pDVar5->index,&pDVar5->borg12->dat->sub,vol8,param_8,0,-1,0);
             return true;
           }
