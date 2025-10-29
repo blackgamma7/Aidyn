@@ -2,8 +2,8 @@
 #include "menuImages.h"
 
 SMIItem::SMIItem(ItemInstance *pObject,u8 q,u8 user):BaseWidget(){
-  char acStack_60 [64];
-  u32 local_20;
+  char buff [64];
+  u32 borgInd;
   this->item = pObject;
   this->quantity = q;
   this->userIndex = user;
@@ -14,9 +14,9 @@ SMIItem::SMIItem(ItemInstance *pObject,u8 q,u8 user):BaseWidget(){
   this->nameX = 0;
   this->unkX = 0;
   if (pObject == NULL) CRASH("SMIItem.cpp","pObject is NULL");
-  GetItemImage(pObject->id,&local_20);
-  sprintf(gGlobals.text,"Trying to load %s (%u), borg id = (%ld)",this->item->name,this->item->id,local_20);
-  this->ItemIcon = WidgetB8(local_20);
+  GetItemImage(pObject->id,&borgInd);
+  sprintf(gGlobals.text,"Trying to load %s (%u), borg id = (%ld)",this->item->name,this->item->id,borgInd);
+  this->ItemIcon = WidgetB8(borgInd);
   this->ItemIcon->SetWidth(12);
   this->ItemIcon->SetHeight(12);
   this->Link(this->ItemIcon);
@@ -30,10 +30,10 @@ SMIItem::SMIItem(ItemInstance *pObject,u8 q,u8 user):BaseWidget(){
   this->ItemName = WClipTXTSafe(this->item->name);
   this->ItemName->SetColor(0x82,0x50,0x50,0xff);
   this->Link(this->ItemName);
-  Utilities::SetWidgetBoundsX(this->ItemName,0,640);
+  Utilities::SetTextWidgetBoundsX(this->ItemName,0,640);
   if (this->quantity) {
-    sprintf(acStack_60,"%d",this->quantity);
-    this->QuantityText = WClipTXTSafe(acStack_60);
+    sprintf(buff,"%d",this->quantity);
+    this->QuantityText = WClipTXTSafe(buff);
     this->QuantityText->var5E = this->quantity;
     this->QuantityText->SetColor(0x82,0x50,0x50,0xff);
     this->Link(this->QuantityText);
@@ -52,8 +52,6 @@ Gfx * SMIItem::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 }
 
 u8 SMIItem::Tick(){
-  short sVar2;
-  
   if (this->ItemName) {
     if ((this->y < (short)this->boundY1) &&((short)this->boundY0 < (this->y + 0x1c))) {
       if(this->userPortrait) {
@@ -66,11 +64,11 @@ u8 SMIItem::Tick(){
         this->QuantityText->SetCoords(this->x + 0x1a,this->y);
         this->QuantityText->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       }
-      sVar2=this->x;
+      s16 nx=this->x;
       this->unkX = this->x + 130;
-      if (this->QuantityText == NULL) sVar2 += 30;
-      else sVar2 += 40;
-      this->nameX = sVar2;
+      if (this->QuantityText == NULL) nx += 30;
+      else nx += 40;
+      this->nameX = nx;
       this->ItemName->SetCoords(this->nameX,this->y);
       this->ItemName->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
       this->ItemName->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);

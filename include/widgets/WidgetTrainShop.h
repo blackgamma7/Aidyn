@@ -22,9 +22,9 @@ class WidgetTrainShop : public WidgetMenu{
     virtual void InitMenu();
     virtual u32 unk(); //just returns 0?
     virtual void Confirm(u16,u16);
-    virtual void Purchase(u16);
+    virtual void Purchase(u16,u8);
     virtual u32 GetGoldPrice(u16);
-    virtual u32 GetExpPrice(u16);
+    virtual s32 GetExpPrice(u16);
 };
 //Widget for Inventory item entry
 class SMIItem:public BaseWidget{
@@ -65,8 +65,8 @@ class WidgetInvShop: public WidgetTrainShop{
     Gfx* Render(Gfx*,u16,u16,u16,u16);
     u8 Tick();
     void Confirm(u16,u16);
-    void Purchase(u16);
-    u32 GetExpPrice(u16);
+    void Purchase(u16,u8);
+    s32 GetExpPrice(u16);
     u32 GetGoldPrice(u16);
     u8 SetHighlight(ItemID,u8,u8);
     bool m8003d194(u8);
@@ -91,8 +91,8 @@ class WidgetSkillTrain:public WidgetTrainShop{
     BaseWidget* AFunc();
     BaseWidget* CDownFunc();
     u32 GetGoldPrice(u16);
-    u32 GetExpPrice(u16);
-    void Purchase(u16);
+    s32 GetExpPrice(u16);
+    void Purchase(u16,u8);
     void Confirm(u16,u16);
     u32 GetNumber();
 };
@@ -110,8 +110,8 @@ class WidgetSpellTrain: public WidgetTrainShop{
     BaseWidget* AFunc();
     BaseWidget* CDownFunc();
     u32 GetGoldPrice(u16);
-    u32 GetExpPrice(u16);
-    void Purchase(u16);
+    s32 GetExpPrice(u16);
+    void Purchase(u16,u8);
     void Confirm(u16,u16);
     u32 GetNumber();
 };
@@ -120,7 +120,7 @@ class WidgetStatTrain: public WidgetTrainShop{
     public:
     WidgetClipText* expToSpendT;
     WidgetClipText* expSpending;
-    WidgetClipText* expremaining;
+    WidgetClipText* expRemaining;
     WidgetClipText* expTotal;
     WidgetClipText* expPrice;
     WidgetClipText* expTNL;
@@ -132,11 +132,29 @@ class WidgetStatTrain: public WidgetTrainShop{
     u8 Tick();
     u32 GetNumber();
     void Confirm(u16,u16);
-    void Purchase(u16);
-    u32 GetExpPrice(u16);
+    void Purchase(u16,u8);
+    s32 GetExpPrice(u16);
     u32 GetGoldPrice(u16);
     BaseWidget* AFunc();
     BaseWidget* CDownFunc();
+};
+
+class SMStatItem:public BaseWidget{
+    public:
+    CharStats_s* stats;
+    BaseWidget* unk80;
+    WidgetClipText* baseLevel;
+    WidgetClipText* modDiff;
+    WidgetClipText* statName;
+    u16 unk90, unk92;
+    SMStatItem(CharStats_s *pStats,u16 statInd);
+    ~SMStatItem();
+    Gfx* Render(Gfx*g,u16 x0,u16 y0, u16 x1, u16 y1);
+    u8 Tick();
+    u16 GetWidth();
+    u16 GetHeight();
+    BaseWidget* AFunc();
+    u32 GetNumber();
 };
 
 u8 gPartyPicker=0;

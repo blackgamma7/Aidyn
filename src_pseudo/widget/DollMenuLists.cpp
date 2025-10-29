@@ -83,7 +83,7 @@ LAB_80038434:
     pBVar8 = WClipTXT(gGlobals.text);
     pBVar8->SetColor(0x82,0x50,0x50,0xff);
     pBVar8->SetCoords(0x14,uVar16);
-    Utilities::SetWidgetBoundsX(pBVar8,0x14,0x96);
+    Utilities::SetTextWidgetBoundsX(pBVar8,0x14,0x96);
     this->Link(pBVar8);
     uVar16 = pBVar8->GetHeight() + uVar16 + 4;
     SlimFont;
@@ -100,7 +100,7 @@ LAB_80038434:
             pBVar8 = WClipTXT(gGlobals.text);
             pBVar8->SetColor(0x82,0x50,0x50,0xff);
             pBVar8->SetCoords(0x14,(short)uVar16);
-            Utilities::SetWidgetBoundsX(pBVar8,0x14,0x9b);
+            Utilities::SetTextWidgetBoundsX(pBVar8,0x14,0x9b);
             this->Link(pBVar8);
             bVar3 = true;
             uVar16+=pBVar8->GetHeight();

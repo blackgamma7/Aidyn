@@ -209,7 +209,7 @@ u8 WidgetInvShop::Tick(){
 
 void WidgetInvShop::Confirm(u16 a, u16 b){}
 
-u32 WidgetInvShop::GetExpPrice(u16 x){return 0;}
+s32 WidgetInvShop::GetExpPrice(u16 x){return 0;}
 
 extern float gBarterFloat;
 

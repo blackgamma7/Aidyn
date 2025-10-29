@@ -2,6 +2,7 @@
 #define FILENAME "./src/utilities.cpp"
 
 //Get string from Text Widget
+//@param w: widget to retrieve text
 //@returns string of text widget
 char * Utilities::GetWidgetText(BaseWidget *w){
   char** p;
@@ -61,10 +62,10 @@ void Utilities::ChangeWidgetText(BaseWidget *w,char *txt,u8 realloc){
 //@param w: widget to change
 //@param x: boundx0
 //@param y: boundx1
-void Utilities::SetWidgetBoundsX(BaseWidget *w,u16 x,u16 y){
+void Utilities::SetTextWidgetBoundsX(BaseWidget *w,u16 x,u16 y){
   WSTSub* sub;
   
-  if (w->GetNumber() == 0) {
+  if (w->GetNumber() == WidgetN_Text) {
     w->boundX0 = x;
     w->boundX1 = y;
   }
@@ -81,7 +82,7 @@ void Utilities::SetWidgetBoundsX(BaseWidget *w,u16 x,u16 y){
 //set x-axis bound for text widgets
 //@param w: widget to change
 //@param x: boundx0
-void Utilities::SetWidgetBoundsX0(BaseWidget *w,u16 x){
+void Utilities::SetTextWidgetBoundsX0(BaseWidget *w,u16 x){
     WSTSub *sub;
     
     if (w->GetNumber() == WidgetN_Text)
@@ -98,19 +99,19 @@ void Utilities::SetWidgetBoundsX0(BaseWidget *w,u16 x){
 //set x-axis bounds for text widgets
 //@param w: widget to change
 //@param y: boundx1
-  void Utilities::SetWidgetBoundsX1(BaseWidget *w,u16 y){
-    WSTSub *pvVar1;
+  void Utilities::SetTextWidgetBoundsX1(BaseWidget *w,u16 y){
+    WSTSub *sub;
     
     if (w->GetNumber() == WidgetN_Text) {
       w->boundX1 = y;
     }
     else {
     if (w->GetNumber() == WidgetN_ClipText)
-        pvVar1 = (WSTSub *)w->substruct;
+        sub = (WSTSub *)w->substruct;
     else if (w->GetNumber() == WidgetN_ShadText)
-        pvVar1 = (WSTSub *)w->substruct;
+        sub = (WSTSub *)w->substruct;
     else return;
-    pvVar1->Y = y;
+    sub->Y = y;
     }
   }
 
@@ -138,8 +139,8 @@ void FUN_800bbfc8(BaseWidget *w,u16 param_2){
     case WidgetN_ScrollMenu:
     ((WSMSub*)w->substruct)->unk22 = (u8)param_2;
     break;
-    case 11:
-    *(u8 *)((int)w->substruct + 0x13) = (u8)param_2;
+    case WidgetN_ScrollList:
+    ((WSLSub*)w->substruct)->unk13 = (u8)param_2;
     break;
   }
 }
@@ -147,30 +148,31 @@ void FUN_800bbfc8(BaseWidget *w,u16 param_2){
 void Ofunc_800bc064(BaseWidget *w,u8 param_2){
     switch (w->GetNumber()){
         case WidgetN_ScrollMenu:
-        case 11:
+        case WidgetN_ScrollList:
         ((WSMSub*)w->substruct)->field0_0x0 = param_2;
         break;
       }
 }
-
+//Get Highlighted entry of an array Widget
+//@param w: widget
 BaseWidget * Utilities::GetHighlightedEntry(BaseWidget *w){
-  uint uVar2;
-  BaseWidget **iVar3;
+  uint ind;
+  BaseWidget **wArr;
   
   if (w->GetNumber() == WidgetN_ArrayMenu){
-    uVar2 = ((WAMSub*)w->substruct)->entryPos;
-    iVar3 = ((WAMSub*)w->substruct)->entries;
+    ind = ((WAMSub*)w->substruct)->entryPos;
+    wArr = ((WAMSub*)w->substruct)->entries;
   }
   else if (w->GetNumber() == WidgetN_ScrollMenu){
-    uVar2 = ((WSMSub*)w->substruct)->highlight;
-    iVar3 = ((WSMSub*)w->substruct)->items;
+    ind = ((WSMSub*)w->substruct)->highlight;
+    wArr = ((WSMSub*)w->substruct)->items;
   }
-  else if (w->GetNumber() == 11){
-    uVar2 = (uint)*(u8 *)((int)w->substruct + 0x11);
-    iVar3 = *(BaseWidget ***)((int)w->substruct + 0xc);
+  else if (w->GetNumber() == WidgetN_ScrollList){
+    ind = ((WSLSub*)w->substruct)->itemHighlight;
+    wArr = ((WSLSub*)w->substruct)->items;
   }
   else return NULL;
-  return iVar3[uVar2];
+  return wArr[ind];
 }
 
 u16 Utilities::GetHighlightIndex(BaseWidget *w){
@@ -182,8 +184,8 @@ u16 Utilities::GetHighlightIndex(BaseWidget *w){
     case WidgetN_ScrollMenu:
     highlight = ((WSMSub*)w->substruct)->highlight;
     break;
-    case 11:
-    highlight = (u16)*(u8 *)((int)w->substruct + 0x11);
+    case WidgetN_ScrollList:
+    highlight = ((WSLSub*)w->substruct)->itemHighlight;
     break;
     default:
     highlight=0;
@@ -258,18 +260,18 @@ void Utilities::ClearScrollMenu(BaseWidget *w){
 }
 
 void Utilities::ClearScrollMenu2(BaseWidget *w){
-  WSMSub *pvVar1 = (WSMSub *)w->substruct;
-  if (pvVar1->currentCount != 0) {
-    for(u16 i=0;i<pvVar1->currentCount;i++){
-     BaseWidget *pBVar1 = pvVar1->items[i];
+  WSMSub *sub = (WSMSub *)w->substruct;
+  if (sub->currentCount != 0) {
+    for(u16 i=0;i<sub->currentCount;i++){
+     BaseWidget *pBVar1 = sub->items[i];
       if (pBVar1) {
         pBVar1->~BaseWidget();
-        pvVar1->items[i] = NULL;
+        sub->items[i] = NULL;
       }
     }
   }
-  pvVar1->currentCount = 0;
-  pvVar1->highlight = 0;
+  sub->currentCount = 0;
+  sub->highlight = 0;
 }
 
 void Utilities::SetBorg8Dims(BaseWidget *w,Borg8Header *image,u8 replace){ 
@@ -296,22 +298,22 @@ void Utilities::SetWidgetBounds
 }
 
 
-void Utilities::SetWidgetBoundsX02(BaseWidget *w,u16 param_2){
+void Utilities::SetTextWidgetBoundsX02(BaseWidget *w,u16 param_2){
   if (w) {
     BaseWidget *pBVar1 = w->link3;
     w->boundX0 = param_2;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
-      SetWidgetBoundsX02(pBVar1,param_2);
+      SetTextWidgetBoundsX02(pBVar1,param_2);
     }
   }
 }
 
-void Utilities::SetWidgetBoundsX12(BaseWidget *w,u16 param_2){
+void Utilities::SetTextWidgetBoundsX12(BaseWidget *w,u16 param_2){
   if (w) {
     BaseWidget *pBVar1 = w->link3;
     w->boundX1 = param_2;
     for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
-      SetWidgetBoundsX12(pBVar1,param_2);
+      SetTextWidgetBoundsX12(pBVar1,param_2);
     }
   }
 }
@@ -404,9 +406,9 @@ void Utilities::MoveWidget(BaseWidget *w,s16 x,s16 y){
   w->boundY0 = y + w->boundY0;
   w->boundY1 = y + w->boundY1;
   if ((w->GetNumber() == WidgetN_ClipText)||(w->GetNumber() == WidgetN_ShadText)) {
-     WSTSub* pvVar1 = (WSTSub*)w->substruct;
-     pvVar1->X= x+pvVar1->X;
-     pvVar1->Y= x+pvVar1->Y;
+     WSTSub* sub = (WSTSub*)w->substruct;
+     sub->X= x+sub->X;
+     sub->Y= x+sub->Y;
   }
   BaseWidget *pBVar2 = w->link3;
   for (; pBVar2 != NULL; pBVar2 = pBVar2->link2) {
@@ -467,7 +469,7 @@ Utilities::AddClipTextWidget(BaseWidget *w,char *txt,u16 bX0,u16 bY0,u16 bX1,u16
   pBVar1->boundY0 = bY0;
   pBVar1->boundX1 = bX1;
   pBVar1->boundY1 = bY1;
-  SetWidgetBoundsX(pBVar1,bX0,bX1);
+  SetTextWidgetBoundsX(pBVar1,bX0,bX1);
   if (w) w->Link(pBVar1);
   return pBVar1;
 }
@@ -542,15 +544,15 @@ ret->boundY0 = by0;
 ret->SetColor(r,g,b,a);
 if (w) w->Link(ret);
 if (setColors) {
-  WSMSub *pvVar1 = (WSMSub *)ret->substruct;
-  pvVar1->reds[1] = r;
-  pvVar1->reds[0] = r;
-  pvVar1->greens[1] = g;
-  pvVar1->greens[0] = g;
-  pvVar1->blues[1] = b;
-  pvVar1->blues[0] = b;
-  pvVar1->alphas[1] = a;
-  pvVar1->alphas[0] = a;
+  WSMSub *sub = (WSMSub *)ret->substruct;
+  sub->reds[1] = r;
+  sub->reds[0] = r;
+  sub->greens[1] = g;
+  sub->greens[0] = g;
+  sub->blues[1] = b;
+  sub->blues[0] = b;
+  sub->alphas[1] = a;
+  sub->alphas[0] = a;
 }
 return ret;
 }

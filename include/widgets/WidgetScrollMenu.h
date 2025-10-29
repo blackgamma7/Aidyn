@@ -59,7 +59,7 @@ struct WSMSub {
     u8 blendA;
     u8 blendB;
     Color32 col; //color used for highlighted item.
-    u8 unk10[2]; //unused?
+    u16 unk10; //unused?
     u16 field11_0x12;
     u8 unk14[2]; //unused?
     u16 field14_0x16;

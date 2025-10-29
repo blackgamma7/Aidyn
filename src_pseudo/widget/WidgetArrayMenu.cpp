@@ -187,7 +187,7 @@ if (sub->entries) {
       pBVar5->boundY1 = this->boundY1;
       pBVar5->SetColor(col.R,col.G,col.B,col.A);
       if ((pBVar5->GetNumber() == 1)||(pBVar5->GetNumber() == 2))
-        Utilities::SetWidgetBoundsX(pBVar5,this->boundX0,this->boundX1);
+        Utilities::SetTextWidgetBoundsX(pBVar5,this->boundX0,this->boundX1);
 
       pBVar5->SetCoords(this->x + (short)(iVar11 % (int)(uint)uVar3) *
                                   (short)(((int)(short)uVar1 - (int)(short)uVar2) /

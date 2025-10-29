@@ -1346,6 +1346,7 @@ bool FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec
     fVar3 = vec2_dot(&fStack176,&fStack176);
     fVar3 = SQ(fVar2) - fVar1 * (fVar3 - SQ(param_2)) * 4.0f;
     if (fVar3 < 0.0) {
+      return false;
     }
     fVar3 = _sqrtf(fVar3);
     fVar4 = 1.0f / (fVar1 + fVar1);
@@ -1530,6 +1531,7 @@ bool FUN_80063258(CombatAI_s *param_1) {
   vec2f fStack136;
   
   ppVar1 = gGlobals.playerDataArray[param_1->combatEnt->index];
+  bVar2 = false;
   if (ppVar1 != NULL) {
     bVar3 = false;
     bStack336[0] = 0;

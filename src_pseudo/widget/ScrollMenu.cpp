@@ -139,7 +139,7 @@ LAB_800b9fb0:
           entry->SetCoords(sVar18,sVar9 + (short)iVar21 + pvVar5->field11_0x12);
         }
         if ((entry->GetNumber() == WidgetN_ClipText)||(entry->GetNumber() == WidgetN_ShadText)) {
-          Utilities::SetWidgetBoundsX(entry,this->boundX0,this->boundX1);
+          Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
         }
         uVar13= entry->GetHeight();
         iVar21 += uVar13 + (byte)pvVar5->unk22;

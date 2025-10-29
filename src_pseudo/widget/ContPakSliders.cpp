@@ -250,7 +250,7 @@ void WidgetChild6::SetEntry(){
     this->unk84->y = sVar12;
     this->unk84->boundY0 = this->unk84->y;
     this->unk84->boundX1 -= sVar11;
-    Utilities::SetWidgetBoundsX(this->unk84,this->unk84->x,this->unk84->boundX1);
+    Utilities::SetTextWidgetBoundsX(this->unk84,this->unk84->x,this->unk84->boundX1);
   }
 
 }

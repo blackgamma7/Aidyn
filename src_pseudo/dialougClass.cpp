@@ -102,7 +102,7 @@ void DiaMenuSub::Init24(u8 param_2){
     this->text = NULL;
     this->shadText = new WidgetShadowText(" ",0x200);
     SetWidgetBounds(this->shadText,64,30,256,205);
-    Utilities::SetWidgetBoundsX(this->shadText,this->shadText->boundX0,this->shadText->boundX1);
+    Utilities::SetTextWidgetBoundsX(this->shadText,this->shadText->boundX0,this->shadText->boundX1);
     this->shadText->SetColor(0x67,0x46,0x3c,0xff);
     this->shadText->SetCoords(64,30);
     this->shadText->boundX0 = 64;

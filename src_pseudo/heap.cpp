@@ -11,7 +11,7 @@
 #define HeapCrash(l,fmt,...) Msprintf("%d",l); CRASH("heap.cpp",gMemMonitor.text)
 #endif
 
-void HeapInit(void *X,u32 Y){
+void HeapInit(void *X,size_t Y){
   u32 uVar1;
   void* iVar2;
   
@@ -49,7 +49,7 @@ void HeapInit(void *X,u32 Y){
 }
 
 
-void * HeapAlloc(u32 size,char *file,u32 line){
+void * HeapAlloc(size_t size,char *file,u32 line){
   u8 bVar1;
   u32 uVar2;
   HeapBlock *pHVar3;
@@ -99,7 +99,7 @@ void * HeapAlloc(u32 size,char *file,u32 line){
   return ret;
 }
 
-void HeapFree(void *X,char *cpp,s32 line){
+void HeapFree(void *X,char *cpp,u32 line){
   u32 uVar1;
   HeapBlock *pHVar2;
   u32 uVar3;

@@ -81,7 +81,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
     }
     ppcVar12 = RomString::Load(romstring_potiondetails,2688);
     pBVar13 = AddLeftText(ppcVar12[potion_romstring_id[i][1]]);
-    Utilities::SetWidgetBoundsX(pBVar13,this->x,ItemDetailsWidth);
+    Utilities::SetTextWidgetBoundsX(pBVar13,this->x,ItemDetailsWidth);
     this->bottom+=pBVar13->GetHeight();
     RomString::Free(ppcVar12);
   }
@@ -123,7 +123,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
     }
     ppcVar12 = RomString::Load(romstring_items,0xed0);
     pBVar13 = AddLeftText(ppcVar12[item_romstring_id[i][1]]);
-    Utilities::SetWidgetBoundsX(pBVar13,this->x,ItemDetailsWidth);
+    Utilities::SetTextWidgetBoundsX(pBVar13,this->x,ItemDetailsWidth);
     this->bottom+=pBVar13->GetHeight();
     RomString::Free(ppcVar12);
     if ((ushort)param_2->id >> 8 == 0x11) {
@@ -188,7 +188,7 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
     }
   char** ppcVar15 = RomString::Load(romstring_spells,0x13a0);
   pBVar9 = AddLeftText(ppcVar15[RomstringSpellIndecies[i][1]]);
-  Utilities::SetWidgetBoundsX(pBVar9,this->x,ItemDetailsWidth);
+  Utilities::SetTextWidgetBoundsX(pBVar9,this->x,ItemDetailsWidth);
   this->bottom +=pBVar9->GetHeight();
   RomString::Free(ppcVar15);
   if (param_2->wizard != 0) {
@@ -232,7 +232,7 @@ WidgetItemDetail::WidgetItemDetail(u16 stat):WidgetMenu() {
   this->var5E = stat;
   char **ppcVar3 = RomString::Load(romstring_stats,0x2f0);
   BaseWidget *pBVar4 = AddLeftText(ppcVar3[this->var5E]);
-  Utilities::SetWidgetBoundsX(pBVar4,this->x,ItemDetailsWidth);
+  Utilities::SetTextWidgetBoundsX(pBVar4,this->x,ItemDetailsWidth);
     this->bottom+=pBVar4->GetHeight();
   RomString::Free(ppcVar3);
   NormalFont;
@@ -266,7 +266,7 @@ WidgetItemDetail::WidgetItemDetail(CharSkills *sk,u16 type):WidgetMenu() {
   }
   char **ppcVar4 = RomString::Load(romstring_skills,0x790);
   BaseWidget *pBVar5 = AddLeftText(ppcVar4[index]);
-  Utilities::SetWidgetBoundsX(pBVar5,this->x,ItemDetailsWidth);
+  Utilities::SetTextWidgetBoundsX(pBVar5,this->x,ItemDetailsWidth);
   this->bottom+=pBVar5->GetHeight();
   RomString::Free(ppcVar4);
   NormalFont;
@@ -473,14 +473,14 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   uVar14 = 0;
   if ((char)bVar12 < (char)bVar13) {
     uVar15 = 0x80;
-LAB_8003bbe8:
+setColor1:
     pBVar10->SetColor(uVar14,uVar15,0,0xff);
   }
   else {
     if ((char)bVar13 < (char)bVar12) {
       uVar14 = 0x80;
       uVar15 = 0;
-      goto LAB_8003bbe8;
+      goto setColor1;
     }
     pBVar10->SetColor(0x82,0x50,0x50,0xff);
   }
@@ -504,14 +504,14 @@ LAB_8003bbe8:
   uVar14 = 0;
   if (lVar8 < lVar9) {
     uVar15 = 0x80;
-LAB_8003be00:
+setColor2:
     pBVar10->SetColor(uVar14,uVar15,0,0xff);
   }
   else {
     if (lVar9 < lVar8) {
       uVar14 = 0x80;
       uVar15 = 0;
-      goto LAB_8003be00;
+      goto setColor2;
     }
     pBVar10->SetColor(0x82,0x50,0x50,0xff);
   }

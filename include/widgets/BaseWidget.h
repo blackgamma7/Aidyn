@@ -4,9 +4,10 @@
 // Base Class for almost all UI Elements
 class BaseWidget{
     typedef BaseWidget* (*buttonFunc)(BaseWidget*,BaseWidget*);
+    typedef u8 (*fadeFunc)(BaseWidget*);
 public:
-    u8 (*fadeIn)(BaseWidget*); 
-    u8 (*fadeOut)(BaseWidget*);
+    fadeFunc fadeIn; 
+    fadeFunc fadeOut;
     buttonFunc UpButtonFunc;
     buttonFunc DownButtonFunc;
     buttonFunc LeftButtonFunc;
@@ -81,7 +82,7 @@ public:
     void SetState(u8 state);
 };
 
-#define RENDERCHILDREN() return RenderChildren(g, x0, y0, x1, y1) 
+#define RENDERCHILDREN() return this->RenderChildren(g, x0, y0, x1, y1) 
 FontStruct* font_pointer=NULL;
 u16 HresMirror=0;
 u16 VresMirror=0;
@@ -99,5 +100,6 @@ enum WidgetNumber{
     WidgetN_Borg8,
     WidgetN_ScrollMenu=8,
     WidgetN_ArrayMenu,
-    WidgetN_Other=12
+    WidgetN_ScrollList=11,
+    WidgetN_Other
 };
