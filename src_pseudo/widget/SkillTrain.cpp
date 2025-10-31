@@ -172,29 +172,22 @@ BaseWidget * WST_AButtonFunc(BaseWidget *param_1,BaseWidget *param_2) {
 void WidgetSkillTrain::Purchase(u16 param_2,u8 v) {
   CharSheet *pCVar1;
   CharSkills *skills;
-  StatMod *pSVar2;
-  CharGear *pCVar3;
-  byte (*pabVar4) [2];
-  pause_Substruct *ppVar5;
-  WidgetMenuSpells *pWVar6;
-  WidgetDollMenu *pWVar7;
-  bool bVar8;
+
+  bool Shop;
   ushort type;
-  bool bVar13;
   byte bVar14;
   byte bVar15;
   short lvOld;
   short lvNew;
   char *pcVar10;
-  ArmorInstance **ppAVar16;
-  CharExp *pcVar17;
+
   u8 i;
   ushort subtype;
   
   type = param_2 >> 8;
   subtype = param_2 & 0xff;
   pCVar1 = PARTY->Members[this->partyPicker];
-  bVar8 = gGlobals.SomeCase != 5;
+  Shop = gGlobals.SomeCase != 5;
   skills = pCVar1->Skills;
   switch(type){
     case 0:{
@@ -241,8 +234,8 @@ void WidgetSkillTrain::Purchase(u16 param_2,u8 v) {
     }
   }
   pCVar1->EXP->spending-= exp_train_price;
-  if (bVar8) PARTY->Gold-=gold_train_price;
-  ppVar5 = PauseSub;
+  if (Shop) PARTY->Gold-=gold_train_price;
+  pause_Substruct *ppVar5 = PauseSub;
   ppVar5->dollmenu->lists->UpdateMenus(this->partyPicker);
   if (!ppVar5->dollmenu->spells_widget)
     ppVar5->dollmenu->lists->ShowEXPCosts();
@@ -264,7 +257,7 @@ void WidgetSkillTrain::Confirm(u16 param_2,u16 param_3) {
   BaseWidget *pBVar8;
   Color32 *txtCol;
   Color32 *bgCol;
-  float fVar11;
+  s8 skLv;
   float discount;
   uint teacherLV;
   int notOriana;
@@ -280,7 +273,6 @@ void WidgetSkillTrain::Confirm(u16 param_2,u16 param_3) {
   notOriana = (int)shopkeepNotOriana();
   afterBattle = (uint)(gGlobals.SomeCase == 5);
   if (gGlobals.SomeCase == 5) discount = 1.0f;
-  s8 skLv;
   switch(type){
     case 0:{
         skLv=skills->capSkillBaseMax(param_2 & 0xff);

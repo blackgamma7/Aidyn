@@ -5,7 +5,7 @@
 //lists spells, heal methods and troubadour party member can do.
 class WidgetCombatSkills: public WidgetChild8{
   public:
-  WidgetChild0* wc0;
+  WidgetScrollArrows* wc0;
     WidgetCombatSkills(u8 *spells,bool troub,bool hands,int herbs);
   ~WidgetCombatSkills();
   BaseWidget* AFunc();
@@ -31,7 +31,7 @@ int FUN_80092270(u8 *param_1,CombatMenuSpell *param_2,CharSheet *param_3);
 //used to show Item with enchantements and potions usable in battle
 class WidgetCombatItems: public WidgetChild8{
   public:
-  WidgetChild0* wc0;
+  WidgetScrollArrows* wc0;
   WidgetCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions);
   ~WidgetCombatItems();
   BaseWidget* AFunc();

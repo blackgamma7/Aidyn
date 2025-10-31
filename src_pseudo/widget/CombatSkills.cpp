@@ -163,7 +163,7 @@ WidgetChild8(62,120,gExpPakFlag?95:55,0,0){
   WidgetBorg8* pBVar7 = WidgetB8(0x38CF);
   pBVar6->SetCoords(this->scrollMenu->x + -8,(this->scrollMenu->y - (short)pBVar6->GetHeight()) -2);
   pBVar7->SetCoords(this->scrollMenu->x + -8,this->scrollMenu->boundY1 + 2);
-  this->wc0 =new WidgetChild0(this->scrollMenu,pBVar6,pBVar7,0);
+  this->wc0 =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7,0);
   this->wc0->SetColor(COLOR_WHITE);
   this->scrollMenu->Link(this->wc0);
   s8 lVar11 = gCombatSkillSelections[iVar5];

@@ -2,7 +2,7 @@
 #include "widgets/WidgetBorg8.h"
 #include "widgets/WidgetClipText.h"
 #include "widgets/WidgetScrollList.h"
-#include "widgets/WidgetChild0.h"
+#include "widgets/WidgetScrollArrows.h"
 
 int some_char_to_int_parsing(int base,uint y);
 
@@ -14,7 +14,7 @@ class Journal : public WidgetMenu{
     WidgetScrollList *scrollList;
     WidgetBorg8 *title;
     BaseWidget *Arrow;
-    WidgetChild0 *unk88;
+    WidgetScrollArrows *unk88;
     WidgetBorg8 *background;
     private:
     void InitMenu(s16);

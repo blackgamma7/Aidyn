@@ -1,5 +1,5 @@
 #include "widgets\WidgetMenu.h"
-#include "widgets\WidgetChild0.h"
+#include "widgets\WidgetScrollArrows.h"
 #include "widgets\WidgetClipText.h"
 #include "widgets\WidgetScrollMenu.h"
 #include "entity.h"
@@ -9,7 +9,7 @@ class WidgetTrainShop : public WidgetMenu{
     public:
     BaseWidget *TitleWidget;
     WidgetFastScrollMenu *scrollMenu;
-    WidgetChild0* unk84;
+    WidgetScrollArrows* unk84;
     u8 partyPicker;
     WidgetTrainShop();
     ~WidgetTrainShop();
@@ -119,8 +119,6 @@ void get_crafting_menu(BaseWidget *w,u16 sk,u8 val);
 BaseWidget* passto_makePotionMenu(BaseWidget *,BaseWidget *);
 BaseWidget* passto_makeHealerMenu(BaseWidget *,BaseWidget *);
 BaseWidget* passto_makeArmorMenu(BaseWidget *,BaseWidget *);
-
-
 
 BaseWidget* WST_AButtonFunc(BaseWidget*,BaseWidget*);
 

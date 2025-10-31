@@ -251,7 +251,7 @@ segments:
       - [0xBAF70, asm,"widget/WSM_Control"]
       - [0xBB150, asm,"widget/arraymenu"]
       - [0xBB940, asm,"widget/scrolllist"]
-      - [0xBC130, asm,"widget/Child0"]
+      - [0xBC130, asm,"widget/ScrollArrows"]
       - [0xBC6F0, asm,"utilities"]
       - [0xBDE30, asm]
       - [0xBe260, asm,"quicksort"]

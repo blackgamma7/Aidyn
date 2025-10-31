@@ -98,7 +98,8 @@ enum WidgetNumber{
     WidgetN_ShadText,
     WidgetN_Menu,
     WidgetN_Borg8,
-    WidgetN_ScrollMenu=8,
+    WidgetN_ScrollArrows=7,
+    WidgetN_ScrollMenu,
     WidgetN_ArrayMenu,
     WidgetN_ScrollList=11,
     WidgetN_Other
