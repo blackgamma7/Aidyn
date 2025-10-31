@@ -2,7 +2,7 @@
 #include "widgets\WidgetChild0.h"
 #include "widgets\WidgetClipText.h"
 #include "widgets\WidgetScrollMenu.h"
-#include "itemInstances.h"
+#include "entity.h"
 
 
 class WidgetTrainShop : public WidgetMenu{
@@ -96,6 +96,32 @@ class WidgetSkillTrain:public WidgetTrainShop{
     void Confirm(u16,u16);
     u32 GetNumber();
 };
+
+class WidgetSkillInfo: public BaseWidget{
+    public:
+    CharSkills* skills;
+    WidgetBorg8* skillIcon;
+    WidgetClipText* skillVal;
+    WidgetClipText* skillMod;
+    WidgetClipText* skillText;
+    u16 unk90,unk92;
+    WidgetSkillInfo(CharSkills *sk,u16 subtype,u8 type);
+    ~WidgetSkillInfo();
+    Gfx* Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1);
+    u8 Tick();
+    u16 GetWidth();
+    u16 GetHeight();
+    BaseWidget* AFunc();
+    u32 GetNumber();
+};
+
+void get_crafting_menu(BaseWidget *w,u16 sk,u8 val);
+BaseWidget* passto_makePotionMenu(BaseWidget *,BaseWidget *);
+BaseWidget* passto_makeHealerMenu(BaseWidget *,BaseWidget *);
+BaseWidget* passto_makeArmorMenu(BaseWidget *,BaseWidget *);
+
+
+
 BaseWidget* WST_AButtonFunc(BaseWidget*,BaseWidget*);
 
 class WidgetSpellTrain: public WidgetTrainShop{
@@ -115,6 +141,8 @@ class WidgetSpellTrain: public WidgetTrainShop{
     void Confirm(u16,u16);
     u32 GetNumber();
 };
+bool shopkeepNotOriana();
+
 
 class WidgetStatTrain: public WidgetTrainShop{
     public:

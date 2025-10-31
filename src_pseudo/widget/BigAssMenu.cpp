@@ -79,9 +79,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
     gGlobals.scrollLocation[1] = SCREEN_WIDTH;
     sub->scrollSpeed = 27.0f;
     if (bVar4) {
-      pBVar7 = sub->borg7;
-LAB_80035e18:
-      FUN_800a0090(pBVar7,0x16);
+      FUN_800a0090(sub->borg7,0x16);
       goto LAB_80035e34;
     }
     break;
@@ -101,8 +99,8 @@ LAB_80035e18:
     gGlobals.scrollLocation[1] = -5;
     sub->scrollSpeed = -26.0f;
     if (bVar4) {
-      pBVar7 = sub->borg7;
-      goto LAB_80035e18;
+      FUN_800a0090(sub->borg7,0x16);
+      goto LAB_80035e34;
     }
     break;
     default:
@@ -250,7 +248,7 @@ u8 PauseWidget::Tick(){
   s16 lVar5;
   SceneData *pSVar6;
   uint uVar7;
-  short x;
+  short varX;
   float fVar8;
   pause_Substruct *sub;
   
@@ -262,11 +260,11 @@ u8 PauseWidget::Tick(){
     sub->takeInput = 0;
   }
   else {
-    x = 0;
+    varX = 0;
     if (lVar5 < sVar1) {
-      x = sub->unk26;
-      if ((int)sVar1 - (int)x < lVar5) {
-        x = sub->unk24 - sub->unk22;
+      varX = sub->unk26;
+      if ((int)sVar1 - (int)varX < lVar5) {
+        varX = sub->unk24 - sub->unk22;
         sub->unk22 = sub->unk24;
       }
       else sub->unk22+= sub->unk26;
@@ -275,15 +273,15 @@ u8 PauseWidget::Tick(){
     if (sub->unk24 < sub->unk22) {
       if (sub->unk22 < (sub->unk24 + sub->unk26)) {
         sub->unk22 = sub->unk24;
-        x = 0;
+        varX = 0;
       }
       else {
         sub->unk22 -= sub->unk26;
-        x = -sub->unk26;
+        varX = -sub->unk26;
       }
       sub->backgroundImage->SetCoords(sub->unk22 + SCREEN_WIDTH,0);
     }
-    for(u8 i=0;i<3;i++){Utilities::MoveWidget(sub->pauseMenuSections[i],x,0);}
+    for(u8 i=0;i<3;i++){Utilities::MoveWidget(sub->pauseMenuSections[i],varX,0);}
     sub->backgroundWidget->SetCoords(sub->unk22,0);
     if (sub->unk22 == sub->unk24) {
       sub->backgroundWidget->SetBorg8(sub->backgroundImage->borg8,true);
@@ -294,7 +292,7 @@ u8 PauseWidget::Tick(){
       sub->backgroundWidget->SetCoords(0,0);
       fVar8 = sub->scrollSpeed;
     }
-    fVar8 = fVar8 + sub->scrollfloat;
+    fVar8+= sub->scrollfloat;
   }
   sub->scrollSpeed = fVar8;
   if (!gOptionsMenuContPak) FUN_800a0304(sub->borg7,1);

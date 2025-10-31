@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "widgets/WidgetTrainShop.h"
 #include "widgets/ItemDetails.h"
+#include "widgets/textPopup.h"
 
 s32 stat_EXP_price=0;
 
@@ -154,14 +155,14 @@ void WidgetStatTrain::Purchase(u16 unk,u8 statInd){
   if (CharStats::isStatCapped(stats,statInd)) {
     Color32 col1={COLOR_OFFWHITE};
     Color32 col2={COLOR_DARKGRAY_T};
-    some_textbox_func(gGlobals.CommonStrings[0x1fe],150,col1,col2,1);
+    some_textbox_func(gGlobals.CommonStrings[0x1fe],150,&col1,&col2,1);
   }
   else {
     CharStats::AddBase(stats,statInd,1);
     if (CharStats::GetBase2(stats,statInd) == oldBase) {
       Color32 col1={COLOR_OFFWHITE};
       Color32 col2={COLOR_DARKGRAY_T};
-      some_textbox_func(gGlobals.CommonStrings[0x1fe],150,col1,col2,1);
+      some_textbox_func(gGlobals.CommonStrings[0x1fe],150,&col1,&col2,1);
     }
     else {
       pause_Substruct *pSub = (pause_Substruct *)gGlobals.BigAssMenu->substruct;
@@ -187,13 +188,13 @@ void WidgetStatTrain::Confirm(u16 x, u16 y) {
     if (CharStats::isStatCapped(pCVar4,w->var5C)) {
       Color32 col1={COLOR_OFFWHITE};
       Color32 col2={COLOR_DARKGRAY_T};
-      some_textbox_func(gGlobals.CommonStrings[0x1fe],0x96,col1,col2,1);
+      some_textbox_func(gGlobals.CommonStrings[0x1fe],0x96,&col1,&col2,1);
     }
     else if (pCVar3->EXP->spending < stat_EXP_price) {
       Gsprintf(gGlobals.CommonStrings[0x1ff],stat_EXP_price);
       Color32 col1={COLOR_OFFWHITE};
       Color32 col2={COLOR_DARKGRAY_T};
-      some_textbox_func(gGlobals.text,0x96,col1,col2,1);
+      some_textbox_func(gGlobals.text,0x96,&col1,&col2,1);
     }
     else {
       Color32 col1={COLOR_WHITE};

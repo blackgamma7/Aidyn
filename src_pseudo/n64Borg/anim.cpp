@@ -1549,7 +1549,6 @@ LAB_800a0220:
   return bVar3;
 }
 
-
 bool FUN_800a0304(Borg7Header *param_1,int delta){
   Borg7Sub *pBVar1;
   u32 i_00;
@@ -1999,7 +1998,6 @@ void Scene::Tick(SceneData *param_1){
     }
     param_1->aniTime+= (ushort)param_1->aniSpeed;
   }
-  return;
 }
 
 void Ofunc_800a0d30(Borg6Header *param_1,int param_2){

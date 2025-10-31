@@ -25,6 +25,7 @@ BaseWidget * TextPopup_Close(BaseWidget * param_1,BaseWidget *param_2){
   param_2->SetState(5);
   return NULL;
 }
+extern BaseWidget* IntroMenu_ShadowBG(u16,u16,u16,u16);
 //open a centered text popup
 BaseWidget * TextPopup_New(char *txt,u16 x,u16 y,u8 red0,u8 green0,u8 blue0,u8 alpha0,
       u8 alph1,u32 addToHandler){

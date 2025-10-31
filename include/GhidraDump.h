@@ -66,54 +66,6 @@ typedef enum Borg7Enum { // entity model data?
 
 */
 
-struct Widget_Skills {
-    BaseWidget base;
-    CharSkills *skills;
-    BaseWidget *skillIcon;
-    BaseWidget *skillVal;
-    BaseWidget *skillmod;
-    BaseWidget *skilltext;
-    u16 field6_0x90;
-    u16 field7_0x92;
-};
-
-
-typedef enum AniFlags {
-    ANIDAT_USEMTX=4,
-    ANIDAT_FLAG8=8,
-    ANIDAT_FLAG10=16,
-    ANIDAT_FLAG20=32,
-    ANIDAT_FLAG40=64,
-    ANIDAT_FLAG80=128,
-    ANIFLAG_DYNLIGHT=32768
-} AniFlags;
-
-
-typedef enum enum_someCase {
-    CombatLevelUp=5
-} enum_someCase;
-
-typedef struct KKBufferEvent KKBufferEvent, *PKKBufferEvent;
-
-struct KKHeader {
-    int length;
-    char code;
-    char type;
-    short error;
-    char rev;
-    char method;
-    short unused;
-};
-
-struct KKBufferEvent {
-    KKHeader header;
-    s32 object;
-    u8 buffer[240];
-};
-
-
-typedef struct mapDataList mapDataList, *PmapDataList;
-
 struct mapDataList {
     u16 mapShortA;
     u16 MapShortB;

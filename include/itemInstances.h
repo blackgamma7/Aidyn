@@ -93,7 +93,7 @@ struct ArmorInstance {
     u8 unk15;
     undefined field3_0x16;
     u8 rom0x1d;
-    u8 (*skillmod)[2];
+    StatMod* skillmod;
     Temp_enchant *enchantment;
     resist_float *resist;
     u8 DEF;
@@ -108,7 +108,7 @@ struct GearInstance {
     u8 Protection;
     u8 STR;
     u8 INT;
-    u8 (*skillMod)[2];
+    StatMod* skillMod;
     void *enchantment;
     resist_float *resist;
 };

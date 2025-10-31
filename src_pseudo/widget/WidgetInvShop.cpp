@@ -287,7 +287,7 @@ bool WidgetInvShop::m8003d194(u8 param_2) {
     pBVar3->var5E-=param_2;
     if (pBVar3->var5E == 0) {
       if (apBStack_20[0]->AFunc()) this->unk98--;
-      FREEQW(apBStack_20);
+      FREEQW(apBStack_20[0]);
       uVar8 = (uint)pvVar2->highlight;
       iVar6 = pvVar2->currentCount - 1;
       if ((int)uVar8 < iVar6) {
@@ -308,14 +308,14 @@ bool WidgetInvShop::m8003d194(u8 param_2) {
   return true;
 }
 
-bool WidgetInvShop::NewItem(ItemInstance *param_2,byte param_3,byte param_4) {
+bool WidgetInvShop::NewItem(ItemInstance *param_2,u8 param_3,u8 param_4) {
   this->scrollMenu->Append(new SMIItem(param_2,param_3,param_4));
   if (param_4 != 0xff) this->unk98++;
   return true;
 }
 
-bool WidgetInvShop::AddItem(u16 param_2,byte param_3,u8 param_4,char *script,ushort line){
-  ulong uVar3;
+bool WidgetInvShop::AddItem(u16 param_2,u8 param_3,u8 param_4,char *script,u16 line){
+  s32 uVar3;
   ItemInstance *pIVar4;
   BaseWidget **ppBVar5;
   ushort *puVar6;
@@ -372,7 +372,7 @@ void WidgetInvShop::SortB(){
 }
 
 
-bool WidgetInvShop::m8003d674(ushort param_2,u8 param_3) {
+bool WidgetInvShop::m8003d674(u16 param_2,u8 param_3) {
   BaseWidget *pBVar1;
   ulong uVar2;
   BaseWidget **ppBVar3;
