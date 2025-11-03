@@ -471,8 +471,8 @@ void crash_handler(CrashSub *arg){
   }
 }
 #ifdef DEBUGVER
-void heap_error(CrashBuff* param_1,s32 param_2,s32 param_3,int param_4,int param_5,int param_6,int param_7,
-               s32 param_8,int param_9)
+void heap_error(CrashBuff* param_1,char* param_2,s32 param_3,int param_4,int param_5,int ramUsed,int param_7,
+               s32 param_8,int ramMax)
 
 {
   double dVar1;
@@ -481,20 +481,20 @@ void heap_error(CrashBuff* param_1,s32 param_2,s32 param_3,int param_4,int param
   char acStack_90 [144];
   
   if ((heapMax < heapScroll) || (0x16 < heapMax - heapScroll)) goto LAB_80007e80;
-  if ((param_6 == param_4) && (param_7 == param_5)) {
+  if ((ramUsed == param_4) && (param_7 == param_5)) {
     if (param_7 == 0) {
-      sprintf(acStack_90,"[%i]: %4i %3.1f%% %s",param_3,param_6,                                                           param_3,param_6,
-                (double)(((float)param_6 / (float)param_9) * 100.0f),param_2);
+      sprintf(acStack_90,"[%i]: %4i %3.1f%% %s",param_3,ramUsed,                                                           param_3,ramUsed,
+                (double)(((float)ramUsed / (float)ramMax) * 100.0f),param_2);
       uVar3 = 0xff;
       goto LAB_80007dd4;
     }
-    sprintf(acStack_90,"[%i]: %4i %3.1f%% %s",param_3,param_6,
-                (double)(((float)param_6 / (float)param_9) * 100.0f),param_2);
+    sprintf(acStack_90,"[%i]: %4i %3.1f%% %s",param_3,ramUsed,
+                (double)(((float)ramUsed / (float)ramMax) * 100.0f),param_2);
     crash_print(param_1,acStack_90,0x14,(u16)heapPrinted,0xff,0xff,0);
   }
   else {
     sprintf(acStack_90,"[%i]: %4i %3.1f%% %s\n***** HEAP ERROR *****",param_3,param_4,
-                (double)(((float)param_4 / (float)param_9) * 100.0f),param_2);
+                (double)(((float)param_4 / (float)ramMax) * 100.0f),param_2);
     uVar3 = 0xff00000000;
 LAB_80007dd4:
     crash_print(param_1,acStack_90,0x14,(u16)heapPrinted,
@@ -516,7 +516,7 @@ void heap_walk(CrashSub *param_1,CrashBuff *param_2){
     crash_print(param_2,"================================",0x14,0x1e,0,0xff,0xff);
     heapMax = 0;
     heapPrinted = 0x28;
-    print_mem_allocated(heap_error,param_2);
+    print_mem_allocated((memPrint*)heap_error,(u16*)param_2);
     crash_print(param_2,"================================",0x14,0x10e,0,0xff,0xff);
   }
 }

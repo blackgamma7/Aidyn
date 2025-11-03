@@ -505,7 +505,7 @@ LAB_800523c0:
     while(pBVar7) {
       (pBVar7->col).A-=10;
       if((pBVar7->col).A<=10)(pBVar7->col).A=0;
-      pBVar7 = pBVar7->link2;
+      pBVar7 = pBVar7->siblingR;
     }
   }
   pBVar7 = this->widget18;
@@ -546,13 +546,13 @@ LAB_8005265c:
       else sVar3 = (pBVar7->col).A - 10;
     }
     pBVar7->SetColor(iVar8,iVar8,iVar8,sVar3);
-    pBVar7 = pBVar7->link2;
+    pBVar7 = pBVar7->siblingR;
   }
   pBVar7 = this->widget18;
   while(pBVar7) {
-        pBVar7->SetCoords((this->field19_0x48 + (float)this->mapdat[pBVar7->var5C].x),
-                   (this->field20_0x4c + (float)this->mapdat[pBVar7->var5C].y));
-        pBVar7 = pBVar7->link2;
+        pBVar7->SetCoords((this->field19_0x48 + (float)this->mapdat[pBVar7->varU8].x),
+                   (this->field20_0x4c + (float)this->mapdat[pBVar7->varU8].y));
+        pBVar7 = pBVar7->siblingR;
       }
 }
 
@@ -562,10 +562,10 @@ Gfx * MiniMap::Render(Gfx *G){
     if (gMinimapUnkVal) gMinimapUnkVal = 0;
     RSPFUNC6(G);
     G = this->widget24->Render(G,FULL_SCREENSPACE);
-    for (w = this->widget1c; w != NULL; w = w->link2) {
+    for (w = this->widget1c; w != NULL; w = w->siblingR) {
       G = w->Render(G,this->mapX,this->mapY,this->X90,this->Y9C);
     }
-    for (w = this->widget18; w != NULL; w = w->link2) {
+    for (w = this->widget18; w != NULL; w = w->siblingR) {
       G = w->Render(G,this->mapX,this->mapY,this->X90,this->Y9C);
     }
     G = this->widget28->Render(G,FULL_SCREENSPACE);
@@ -614,15 +614,15 @@ LAB_800529b4:
               goto LAB_80052a58;
             }
             pBVar10 = WidgetB8(this->mapdat[i].borg8);
-            pBVar10->var5C = i;
-            pBVar10->var5E = this->mapdat[i].borg8;
+            pBVar10->varU8 = i;
+            pBVar10->varU16 = this->mapdat[i].borg8;
             pBVar10->SetColor(0x9b,0x9b,0x9b,0);
             pBVar9 = this->widget18;
             this->widget20 = (WidgetBorg8*)pBVar10;
             this->mapdat[i].checked = true;
             if (pBVar9) {
-              pBVar10->link2 = pBVar9;
-              this->widget18->link1 = pBVar10;
+              pBVar10->siblingR = pBVar9;
+              this->widget18->siblingL = pBVar10;
             }
             this->widget18 = (WidgetBorg8*)pBVar10;
             goto LAB_80052b2c;
@@ -631,7 +631,7 @@ LAB_800529b4:
           pBVar10 = this->widget1c;
           pBVar9 = apBStack_28[0];
           while (apBStack_28[0] = pBVar10, apBStack_28[0] != NULL) {
-            this->widget1c = (WidgetBorg8*)this->widget1c->link2;
+            this->widget1c = (WidgetBorg8*)this->widget1c->siblingR;
             FREEQW(apBStack_28);
             pBVar9 = apBStack_28[0];
             pBVar10 = this->widget1c;
@@ -667,11 +667,11 @@ LAB_80052cac:
               this->field20_0x4c = this->field22_0x54;
               goto LAB_80052da0;
             }
-            if (pBVar9->var5C == i) {
+            if (pBVar9->varU8 == i) {
               this->widget20 = (WidgetBorg8*)pBVar9;
               goto LAB_80052cac;
             }
-            pBVar9 = pBVar9->link2;
+            pBVar9 = pBVar9->siblingR;
           } while( true );
         }
       }
@@ -713,14 +713,14 @@ LAB_80052da0:
     this->field24_0x5c = (this->field22_0x54 - this->field20_0x4c) / 14.0f;
     return;
   }
-  if (pBVar9->var5C == i) {
+  if (pBVar9->varU8 == i) {
     if ((this->widget20)&&(this->widget20 == pBVar9)) return;
     this->widget20 = pBVar9;
     if (this->showAllVar) this->mapdat[i].checked = 1;
 LAB_80052b2c:
     goto LAB_80052b30;
   }
-  pBVar9 = pBVar9->link2;
+  pBVar9 = pBVar9->siblingR;
   goto LAB_80052a58;
 }
 
@@ -730,13 +730,13 @@ bool MiniMap::LoadSections(){
       if((this->showAllVar)||(this->mapdat[i].checked)){
         if (this->mapdat[i].flagIndex == this->unk3c) {
           WidgetBorg8* pBVar4 = WidgetB8(this->mapdat[i].borg8);
-          pBVar4->var5C = i;
-          pBVar4->var5E = this->mapdat[i].borg8;
+          pBVar4->varU8 = i;
+          pBVar4->varU16 = this->mapdat[i].borg8;
           pBVar4->SetColor(0x60,0x60,0x60,0);
           if (this->widget18 == NULL) this->widget18 = pBVar4;
           else {
-            pBVar4->link2 = this->widget18;
-            this->widget18->link1 = pBVar4;
+            pBVar4->siblingR = this->widget18;
+            this->widget18->siblingL = pBVar4;
             this->widget18 = pBVar4;
           }
         }
@@ -752,13 +752,13 @@ bool MiniMap::FreeLinked(){
   
   w = this->widget18;
   while (w) {
-    this->widget18 = (WidgetBorg8*)this->widget18->link2;
+    this->widget18 = (WidgetBorg8*)this->widget18->siblingR;
     FREEQW(w);
     w = this->widget18;
   }
   w = this->widget1c;
   while (w) {
-    this->widget1c = (WidgetBorg8*)this->widget1c->link2;
+    this->widget1c = (WidgetBorg8*)this->widget1c->siblingR;
     FREEQW(w);
     w = this->widget1c;
   }
@@ -781,11 +781,11 @@ s32 MiniMap::ShowAll(){
   BaseWidget *apBStack_18;
   
   uVar5 = -1;
-  if (this->widget20) uVar5 = this->widget20->var5C;
+  if (this->widget20) uVar5 = this->widget20->varU8;
   pBVar1 = this->widget1c;
   pBVar2 = apBStack_18;
   while (apBStack_18 = pBVar1, apBStack_18 != NULL) {
-    this->widget1c = (WidgetBorg8*)this->widget1c->link2;
+    this->widget1c = (WidgetBorg8*)this->widget1c->siblingR;
     FREEQW(apBStack_18);
     pBVar2 = apBStack_18;
     pBVar1 = this->widget1c;
@@ -796,8 +796,8 @@ s32 MiniMap::ShowAll(){
   apBStack_18 = pBVar2;
   uVar3 = LoadSections();
   if (-1 < uVar5) {
-    for (pBVar2 = this->widget18; pBVar2 != NULL; pBVar2 = pBVar2->link2) {
-      uVar3 = pBVar2->var5C;
+    for (pBVar2 = this->widget18; pBVar2 != NULL; pBVar2 = pBVar2->siblingR) {
+      uVar3 = pBVar2->varU8;
       if (uVar3 == uVar5) {
         this->widget20 = (WidgetBorg8*)pBVar2;
         break;

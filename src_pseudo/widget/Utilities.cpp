@@ -2,10 +2,10 @@
 #define FILENAME "./src/utilities.cpp"
 
 //Get string from Text Widget
-//@param w: widget to retrieve text
+//@param w widget to retrieve text
 //@returns string of text widget
 char * Utilities::GetWidgetText(BaseWidget *w){
-  char** p;
+  char** p; // dirty hack - each substruct starts with the text's string
   
   if (w->GetNumber() == WidgetN_Text)
     p = (char**)w->substruct;
@@ -17,9 +17,9 @@ char * Utilities::GetWidgetText(BaseWidget *w){
   return *p;
 }
 //replace the text in a text Widget. Could be optimized.
-//@param w: widget to replace text
-//@param txt: new text
-//@param realloc: if the memory for the text should be reallocated.
+//@param w widget to replace text
+//@param txt new text
+//@param realloc if the memory for the text should be reallocated.
 void Utilities::ChangeWidgetText(BaseWidget *w,char *txt,u8 realloc){
   WSTSub* sub; //enoungh similarites to structs to allow it.
   u16 len;  
@@ -59,9 +59,9 @@ void Utilities::ChangeWidgetText(BaseWidget *w,char *txt,u8 realloc){
   }
 }
 //set x-axis bounds for text widgets
-//@param w: widget to change
-//@param x: boundx0
-//@param y: boundx1
+//@param w widget to change
+//@param x boundx0
+//@param y boundx1
 void Utilities::SetTextWidgetBoundsX(BaseWidget *w,u16 x,u16 y){
   WSTSub* sub;
   
@@ -80,8 +80,8 @@ void Utilities::SetTextWidgetBoundsX(BaseWidget *w,u16 x,u16 y){
   }
 }
 //set x-axis bound for text widgets
-//@param w: widget to change
-//@param x: boundx0
+//@param w widget to change
+//@param x boundx0
 void Utilities::SetTextWidgetBoundsX0(BaseWidget *w,u16 x){
     WSTSub *sub;
     
@@ -97,8 +97,8 @@ void Utilities::SetTextWidgetBoundsX0(BaseWidget *w,u16 x){
     }
   }
 //set x-axis bounds for text widgets
-//@param w: widget to change
-//@param y: boundx1
+//@param w widget to change
+//@param y boundx1
   void Utilities::SetTextWidgetBoundsX1(BaseWidget *w,u16 y){
     WSTSub *sub;
     
@@ -115,8 +115,11 @@ void Utilities::SetTextWidgetBoundsX0(BaseWidget *w,u16 x){
     }
   }
 
-//set scale of widget? unused.
-void Ofunc_800bbf28(BaseWidget *w,float x,float y){
+//set scale of widget text
+//@param w widget to change
+//@param x x-Scale
+//@param y y-Scale
+void Utilities::SetTextWidgetScale(BaseWidget *w,float x,float y){
   WSTSub* sub;
   
   if (w->GetNumber() == WidgetN_Text)
@@ -245,7 +248,8 @@ void Ofunc_800bc300(BaseWidget *w,u16 param_2){
     }
   }
 }
-
+//remove all widgets in Scroll menu without destroying then
+//@param w Scroll Menu Widget
 void Utilities::ClearScrollMenu(BaseWidget *w){
   u16 uVar1;
   WSMSub *pvVar2 = (WSMSub *)w->substruct;
@@ -259,21 +263,22 @@ void Utilities::ClearScrollMenu(BaseWidget *w){
   pvVar2->highlight = 0;
 }
 
+//destruct and remove all widgets in Scroll menu
+//@param w Scroll Menu Widget
 void Utilities::ClearScrollMenu2(BaseWidget *w){
   WSMSub *sub = (WSMSub *)w->substruct;
   if (sub->currentCount != 0) {
     for(u16 i=0;i<sub->currentCount;i++){
-     BaseWidget *pBVar1 = sub->items[i];
-      if (pBVar1) {
-        pBVar1->~BaseWidget();
-        sub->items[i] = NULL;
-      }
+      DestructWidget(sub->items[i])
     }
   }
   sub->currentCount = 0;
   sub->highlight = 0;
 }
-
+//add or or replace image in widget and size widget to image
+//@param w widget to change
+//@param image Borg8 to set
+//@param replace free original borg8
 void Utilities::SetBorg8Dims(BaseWidget *w,Borg8Header *image,u8 replace){ 
   if ((image) && (w)) {
     if (replace) borg8_free(w->borg8);
@@ -286,12 +291,12 @@ void Utilities::SetBorg8Dims(BaseWidget *w,Borg8Header *image,u8 replace){
 void Utilities::SetWidgetBounds
                (BaseWidget *w,u16 param_2,u16 param_3,u16 param_4,u16 param_5){
   if (w) {
-    BaseWidget *link = w->link3;
+    BaseWidget *link = w->child;
     w->boundX0 = param_2;
     w->boundX1 = param_4;
     w->boundY0 = param_3;
     w->boundY1 = param_5;
-    for (; link != NULL; link = link->link2) {
+    for (; link != NULL; link = link->siblingR) {
       SetWidgetBounds(link,param_2,param_3,param_4,param_5);
     }
   }
@@ -300,9 +305,9 @@ void Utilities::SetWidgetBounds
 
 void Utilities::SetTextWidgetBoundsX02(BaseWidget *w,u16 param_2){
   if (w) {
-    BaseWidget *pBVar1 = w->link3;
+    BaseWidget *pBVar1 = w->child;
     w->boundX0 = param_2;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
+    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
       SetTextWidgetBoundsX02(pBVar1,param_2);
     }
   }
@@ -310,9 +315,9 @@ void Utilities::SetTextWidgetBoundsX02(BaseWidget *w,u16 param_2){
 
 void Utilities::SetTextWidgetBoundsX12(BaseWidget *w,u16 param_2){
   if (w) {
-    BaseWidget *pBVar1 = w->link3;
+    BaseWidget *pBVar1 = w->child;
     w->boundX1 = param_2;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
+    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
       SetTextWidgetBoundsX12(pBVar1,param_2);
     }
   }
@@ -321,10 +326,10 @@ void Utilities::SetTextWidgetBoundsX12(BaseWidget *w,u16 param_2){
 
 void Utilities::SetWidgetBoundsY02(BaseWidget *w,u16 param_2){
   if (w) {
-    BaseWidget *pBVar1 = w->link3;
+    BaseWidget *w = w->child;
     w->boundY0 = param_2;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
-      SetWidgetBoundsY02(pBVar1,param_2);
+    for (; w != NULL; w = w->siblingR) {
+      SetWidgetBoundsY02(w,param_2);
     }
   }
 }
@@ -332,9 +337,9 @@ void Utilities::SetWidgetBoundsY02(BaseWidget *w,u16 param_2){
 
 void Utilities::SetWidgetBoundsY12(BaseWidget *w,u16 param_2){  
   if (w) {
-    BaseWidget *pBVar1 = w->link3;
+    BaseWidget *pBVar1 = w->child;
     w->boundY1 = param_2;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
+    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
       SetWidgetBoundsY12(pBVar1,param_2);
     }
   }
@@ -342,12 +347,12 @@ void Utilities::SetWidgetBoundsY12(BaseWidget *w,u16 param_2){
 
 void Utilities::SetWidgetColor(BaseWidget *w,u8 r,u8 g,u8 b,u8 a){
   if (w) {
-    BaseWidget *next = w->link3;
+    BaseWidget *next = w->child;
     (w->col).R = r;
     (w->col).G = g;
     (w->col).B = b;
     (w->col).A = a;
-    for (; next != NULL; next = next->link2) {
+    for (; next != NULL; next = next->siblingR) {
       SetWidgetColor(next,r,g,b,a);
     }
   }
@@ -357,18 +362,18 @@ void Utilities::SetWidgetColor(BaseWidget *w,u8 r,u8 g,u8 b,u8 a){
 
 void Utilities::SetRed(BaseWidget *w,u8 r){
   if (w) {
-    BaseWidget *pBVar1 = w->link3;
+    BaseWidget *pBVar1 = w->child;
     (w->col).R = r;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
+    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
       SetRed(pBVar1,r);
     }
   }
 }
 void Utilities::SetGreen(BaseWidget *w,u8 g){
   if (w) {
-    BaseWidget *pBVar1 = w->link3;
+    BaseWidget *pBVar1 = w->child;
     (w->col).G = g;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
+    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
       SetGreen(pBVar1,g);
     }
   }
@@ -377,9 +382,9 @@ void Utilities::SetGreen(BaseWidget *w,u8 g){
 
 void Utilities::SetBlue(BaseWidget *w,u8 b){
   if (w) {
-    BaseWidget *pBVar1 = w->link3;
+    BaseWidget *pBVar1 = w->child;
     (w->col).B = b;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
+    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
       SetBlue(pBVar1,b);
     }
   }
@@ -388,9 +393,9 @@ void Utilities::SetBlue(BaseWidget *w,u8 b){
 
 void Utilities::SetAlpha(BaseWidget *w,u8 a){
   if (w) {
-    BaseWidget *pBVar1 = w->link3;
+    BaseWidget *pBVar1 = w->child;
     (w->col).A = a;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->link2) {
+    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
       SetAlpha(pBVar1,a);
     }
   }
@@ -399,8 +404,8 @@ void Utilities::SetAlpha(BaseWidget *w,u8 a){
 
 void Utilities::MoveWidget(BaseWidget *w,s16 x,s16 y){
   if (!w) return;
-  w->x = x + w->x;
-  w->y = y + w->y;
+  w->posX = x + w->posX;
+  w->posY = y + w->posY;
   w->boundX0 = x + w->boundX0;
   w->boundX1 = x + w->boundX1;
   w->boundY0 = y + w->boundY0;
@@ -410,14 +415,14 @@ void Utilities::MoveWidget(BaseWidget *w,s16 x,s16 y){
      sub->X= x+sub->X;
      sub->Y= x+sub->Y;
   }
-  BaseWidget *pBVar2 = w->link3;
-  for (; pBVar2 != NULL; pBVar2 = pBVar2->link2) {
+  BaseWidget *pBVar2 = w->child;
+  for (; pBVar2 != NULL; pBVar2 = pBVar2->siblingR) {
     MoveWidget(pBVar2,x,y);
   }
 }
 
 void Utilities::MoveWidget2(BaseWidget *w,s16 param_2,s16 param_3){
-  MoveWidget(w,param_2 - w->x,param_3 - w->y);
+  MoveWidget(w,param_2 - w->posX,param_3 - w->posY);
 }
 
 WidgetDebugBG * Utilities::DebugBackground(BaseWidget *wP,s16 x,s16 y,u16 h,u16 w,u8 r,u8 g,u8 b,u8 a){

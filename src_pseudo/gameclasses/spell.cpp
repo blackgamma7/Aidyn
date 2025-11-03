@@ -16,7 +16,7 @@ void TempSpell::Init(SpellInstance *S,ItemID ID,u8 RANK){
   S->special = sRam->Aspect;
   S->range = sRam->Range;
   S->cost = sRam->ingredient;
-  S->exp_modifyer = ((u16)sRam->EXP_Modifyer * 0x18 + (u16)sRam->EXP_Modifyer) * 2;
+  S->exp_modifyer = sRam->EXP_Modifyer * 50;
   S->base.statMod = 0;
   S->base.spellCharge = 0;
   S->aspect_flag = sRam->unk0x1f;

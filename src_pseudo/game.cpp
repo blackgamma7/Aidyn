@@ -257,7 +257,7 @@ u8 func_loading_credits(Gfx **GG) {
     *GG = tick_and_render_widgets(*GG);
     uVar2 = 0x13;
     if (gCreditsWidget->creditState == 4) {
-      gCreditsWidget->SetState(5);
+      gCreditsWidget->SetState(WidgetS_Closing);
       DAT_800e9933 = 1;
       if (gGlobals.creditsByte == 1) uVar2 = 9;
       else {

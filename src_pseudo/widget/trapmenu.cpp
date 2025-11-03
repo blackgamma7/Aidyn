@@ -31,7 +31,7 @@ bool TrapMenu::InitMenu(voxelObject *v){
   iVar3->AButtonFunc = AttemptDisarm;
   pWVar2->AppendScrollMenu(iVar3);
   pWVar2->AppendScrollMenu(WTextSafe(Cstring(TrapMenuExit)));
-  pWVar2->m8004de18();
+  pWVar2->Update();
   return WHANDLE->AddWidget(pWVar2);
 }
 
@@ -46,7 +46,7 @@ BaseWidget* TrapMenu::AttemptDisarm(BaseWidget* A,BaseWidget* B){
   }
 
   BaseWidget* TrapMenu::CloseMenu(BaseWidget*A ,BaseWidget*B ){
-    B->SetState(5);
+    B->SetState(WidgetS_Closing);
     gGlobals.playerCharStruct.text_window = NULL;
     if (gCurrentTrapVoxel) {
       if ((gCurrentTrapVoxel->header).type == VOXEL_Teleporter) {

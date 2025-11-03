@@ -9,18 +9,18 @@ WidgetDebugBG::WidgetDebugBG():BaseWidget(){
 WidgetDebugBG::WidgetDebugBG(u8 r,u8 g, u8 b, u8 a):BaseWidget(){
   this->width = 0x20;
   this->height = 0x20;
-  this->x = 144;
-  this->y = 104;
+  this->posX = 144;
+  this->posY = 104;
   this->SetColor(r,g,b,a);
 }
 
 WidgetDebugBG::~WidgetDebugBG(){BaseWidget::~BaseWidget();}
 
 Gfx * WidgetDebugBG::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  s16 px0 = this->x;
-  s16 py0 = this->y;
-  s16 py1 = this->height + this->y;
-  s16 px1 = this->width + (int)this->x;
+  s16 px0 = this->posX;
+  s16 py0 = this->posY;
+  s16 py1 = this->height + this->posY;
+  s16 px1 = this->width + (int)this->posX;
   s16 bx0 = this->boundX0;
   if (this->boundX0 < (int)x0) bx0 = x0;
   s16 bx1 = this->boundX1;

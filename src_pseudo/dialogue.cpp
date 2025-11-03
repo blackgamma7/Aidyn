@@ -436,7 +436,7 @@ void DialougInsertPlayerName(char *str){
   
   if ((str != NULL) && (uVar1 = strlen(str), uVar1)) {
     while( true ) {
-      pcVar2 = DialougfindPlayerNameSpace(str);
+      pcVar2 = DialougFindPlayerNameSpace(str);
       iVar3 = 0;
       if (pcVar2 == NULL) break;
       str = pcVar2 + 0x14;

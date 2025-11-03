@@ -12,8 +12,8 @@ WidgetBorg8::WidgetBorg8(Borg8Header* b8):BaseWidget(){
     }
     state = 1;
     substruct = NULL;
-    x = (short)((int)(SCREEN_WIDTH - width) / 2);
-    y = (short)((int)(SCREEN_HEIGHT - height) / 2);
+    posX = (short)((int)(SCREEN_WIDTH - width) / 2);
+    posY = (short)((int)(SCREEN_HEIGHT - height) / 2);
 }
 
 WidgetBorg8::~WidgetBorg8(){
@@ -29,12 +29,12 @@ Gfx * WidgetBorg8::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   if (this->borg8) {
     s32 lVar16 = 0;
     s32 lVar17 = 0;
-    s32 lVar10 = this->x;
-    s32 lVar11 = this->y;
+    s32 lVar10 = this->posX;
+    s32 lVar11 = this->posY;
     s16 iHeight = (this->borg8->dat).Width;
     s16 iWidth = (this->borg8->dat).Height;
-    s16 iVar14 = (this->width + this->x);
-    s16 iVar8 = (this->height + this->y);
+    s16 iVar14 = (this->width + this->posX);
+    s16 iVar8 = (this->height + this->posY);
     float iScaleX = this->width / (this->borg8->dat).Width;
     float iScaleY = this->height / (this->borg8->dat).Height;
     u16 bx0 = this->boundX0;
@@ -47,12 +47,12 @@ Gfx * WidgetBorg8::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     if (y1 < this->boundY1) by1 = y1;
     if ((((bx0 <= iVar14) && (by0 <= iVar8)) && (lVar10 <= bx1)) && (lVar11 <= by1)) {
       if (lVar10 < bx0) {
-        lVar16 = (bx0 - this->x) / iScaleX;
+        lVar16 = (bx0 - this->posX) / iScaleX;
         lVar10 = bx0;
       }
       if (bx1 < iVar14) iHeight = (this->borg8->dat).Width - ((iVar14 - bx1) / iScaleX);
       if (lVar11 < by0) {
-        lVar17 = (by0 - (int)this->y) / iScaleY;
+        lVar17 = (by0 - (int)this->posY) / iScaleY;
         lVar11 = by0;
       }
       if (by1 < iVar8) iWidth = ((this->borg8->dat).Height - ((iVar8 - by1) / iScaleY));

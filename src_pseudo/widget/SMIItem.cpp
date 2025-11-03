@@ -25,7 +25,7 @@ SMIItem::SMIItem(ItemInstance *pObject,u8 q,u8 user):BaseWidget(){
     this->userPortrait->SetWidth(12);
     this->userPortrait->SetHeight(12);
     this->Link(this->userPortrait);
-    this->userPortrait->var5E = this->userIndex;
+    this->userPortrait->varU16 = this->userIndex;
   }
   this->ItemName = WClipTXTSafe(this->item->name);
   this->ItemName->SetColor(0x82,0x50,0x50,0xff);
@@ -34,18 +34,18 @@ SMIItem::SMIItem(ItemInstance *pObject,u8 q,u8 user):BaseWidget(){
   if (this->quantity) {
     sprintf(buff,"%d",this->quantity);
     this->QuantityText = WClipTXTSafe(buff);
-    this->QuantityText->var5E = this->quantity;
+    this->QuantityText->varU16 = this->quantity;
     this->QuantityText->SetColor(0x82,0x50,0x50,0xff);
     this->Link(this->QuantityText);
   }
-  this->var5E = this->item->id;
+  this->varU16 = this->item->id;
 }
 
 SMIItem::~SMIItem(){BaseWidget::~BaseWidget();}
 
 Gfx * SMIItem::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  if ((this->y < (short)this->boundY1) &&
-     ((short)this->boundY0 < (this->y + 0x1c))) {
+  if ((this->posY < (short)this->boundY1) &&
+     ((short)this->boundY0 < (this->posY + 0x1c))) {
     g = this->RenderChildren(g,x0,y0,x1,y1);
   }
   return g;
@@ -53,23 +53,23 @@ Gfx * SMIItem::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 
 u8 SMIItem::Tick(){
   if (this->ItemName) {
-    if ((this->y < (short)this->boundY1) &&((short)this->boundY0 < (this->y + 0x1c))) {
+    if ((this->posY < (short)this->boundY1) &&((short)this->boundY0 < (this->posY + 0x1c))) {
       if(this->userPortrait) {
-        this->userPortrait->SetCoords(this->x,this->y);
+        this->userPortrait->SetCoords(this->posX,this->posY);
         this->userPortrait->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       }
-      this->ItemIcon->SetCoords(this->x + 0xd,this->y);
+      this->ItemIcon->SetCoords(this->posX + 0xd,this->posY);
       this->ItemIcon->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       if(this->QuantityText) {
-        this->QuantityText->SetCoords(this->x + 0x1a,this->y);
+        this->QuantityText->SetCoords(this->posX + 0x1a,this->posY);
         this->QuantityText->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       }
-      s16 nx=this->x;
-      this->unkX = this->x + 130;
+      s16 nx=this->posX;
+      this->unkX = this->posX + 130;
       if (this->QuantityText == NULL) nx += 30;
       else nx += 40;
       this->nameX = nx;
-      this->ItemName->SetCoords(this->nameX,this->y);
+      this->ItemName->SetCoords(this->nameX,this->posY);
       this->ItemName->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
       this->ItemName->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
     }

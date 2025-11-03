@@ -1,6 +1,5 @@
 #include "globals.h"
 
-
 WidgetOptionsMenu::WidgetOptionsMenu():WidgetMenu(){}
 
 WidgetOptionsMenu::~WidgetOptionsMenu(){
@@ -75,7 +74,7 @@ Gfx * WidgetOptionsMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     }
   }
   pBVar1 = sub->unkc;
-  if (((pBVar1) && (pBVar3 = sub->unk14, pBVar3 == pBVar1)) && (this->state == 3)){
+  if (((pBVar1) && (pBVar3 = sub->unk14, pBVar3 == pBVar1)) && (this->state == WidgetS_Running)){
     if (pBVar3) {
       pBVar3->~BaseWidget();
     }
@@ -110,7 +109,7 @@ void WidgetOptionsMenu::MakeScrollList(){
   Borg8Header *pBVar3;
   ulong uVar4;
   BaseWidget *pBVar5;
-  BaseWidget *pBVar6;
+  WidgetClipText *txt;
   ulong uVar7;
   WidgetOptionsSubstruct *sub;
   
@@ -132,34 +131,33 @@ void WidgetOptionsMenu::MakeScrollList(){
     pBVar5->SetColor(0x82,0x50,0x50,0xff);
     sub->ScrollMenu->Link(pBVar5);
     if (gGlobals.screenFadeModeSwitch != 3) {
-      pBVar6 = WClipTXT(Cstring(OptionsLoadGame));
-      pBVar6->var5E = COMMONSTRING_OptionsLoadGame;
-      sub->ScrollMenu->Append(pBVar6);
-      pBVar6 = WClipTXT(gGlobals.CommonStrings[0x179]);
-      pBVar6->var5E = ;
-      sub->ScrollMenu->Append(pBVar6);
+      txt = WClipTXT(Cstring(OptionsLoadGame));
+      txt->varU16 = OptionN_LoadGame;
+      sub->ScrollMenu->Append(txt);
+      txt = WClipTXT(Cstring(OptionsSaveGame));
+      txt->varU16 = OptionN_SaveGame;
+      sub->ScrollMenu->Append(txt);
     }
-    pBVar6 = WClipTXT(Cstring(OptionsOptions));
-    pBVar5 = sub->ScrollMenu;
-    pBVar6->var5E = COMMONSTRING_OptionsOptions;
-    sub->ScrollMenu->Append(pBVar6);
+    txt = WClipTXT(Cstring(OptionsOptions));
+    txt->varU16 = OptionN_Config;
+    sub->ScrollMenu->Append(txt);
     if (gGlobals.screenFadeModeSwitch == 3) {
       if ((gGlobals.EncounterDat.BossShadow != 0) && (gGlobals.combatBytes[0] == 0xe)) {
-        pBVar6 = WClipTXT(gGlobals.CommonStrings[0x17a]);
-        pBVar6->var5E = 0x17a;
-        sub->ScrollMenu->Append(pBVar6);
+        txt = WClipTXT(Cstring(OptionsFlee));
+        txt->varU16 = OptionN_Flee;
+        sub->ScrollMenu->Append(txt);
       }
     }
     else {
-      pBVar6 = WClipTXT(Cstring(OptionsTheatre));
-      pBVar6->var5E = COMMONSTRING_OptionsTheatre;
-      sub->ScrollMenu->Append(pBVar6);
-      pBVar6 = WClipTXT("Credits");
-      pBVar6->var5E = 9999;
-      sub->ScrollMenu->Append(pBVar6);
-      pBVar6 = WClipTXT(Cstring(OptionsHelp));
-      pBVar6->var5E = COMMONSTRING_OptionsHelp;
-      sub->ScrollMenu->Append(pBVar6);
+      txt = WClipTXT(Cstring(OptionsTheatre));
+      txt->varU16 = OptionN_Theatre;
+      sub->ScrollMenu->Append(txt);
+      txt = WClipTXT("Credits");
+      txt->varU16 = OptionN_Credits;
+      sub->ScrollMenu->Append(txt);
+      txt = WClipTXT(Cstring(OptionsHelp));
+      txt->varU16 = OptionN_Help;
+      sub->ScrollMenu->Append(txt);
     }
     sub->ScrollMenu->SetCoords(SCREEN_WIDTH/2,110);
     FUN_800bbfc8(sub->ScrollMenu,5);
@@ -167,8 +165,8 @@ void WidgetOptionsMenu::MakeScrollList(){
     sub->ScrollMenu->SetColor(0x82,0x50,0x50,0xff);
     Utilities::SetScrollMenuColors(sub->ScrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
     sub->ScrollMenu->Tick();
-    pBVar2->y = (short)((int)(SCREEN_HEIGHT - (u16)(pBVar2->GetHeight() + sub->ScrollMenu->GetHeight() + 0x10)) / 2);
-    sub->ScrollMenu->y = pBVar2->y + (short)pBVar2->GetHeight() + 0x10;
+    pBVar2->posY = (short)((int)(SCREEN_HEIGHT - (u16)(pBVar2->GetHeight() + sub->ScrollMenu->GetHeight() + 0x10)) / 2);
+    sub->ScrollMenu->posY = pBVar2->posY + (short)pBVar2->GetHeight() + 0x10;
     pBVar2 = sub->ScrollMenu;
   }
   sub->selected = 0;

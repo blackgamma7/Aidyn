@@ -18,14 +18,14 @@ u8 WidgetScrollMenuGray::Tick(){
   }
   for(u16 i=0;i<sub->currentCount;i++){
     BaseWidget* w =sub->items[i];
-    if(w->var5C==1)w->SetColor(unk80.R,unk80.G,unk80.B,unk80.A);
+    if(w->varU8==1)w->SetColor(unk80.R,unk80.G,unk80.B,unk80.A);
   }
   return uVar3;
 }
 
 bool WidgetScrollMenuGray::Append(BaseWidget *w,byte val){
   bool ret=WidgetScrollMenu::Append(w);
-  if (ret) w->var5C = val;
+  if (ret) w->varU8 = val;
   return ret;
 }
 
@@ -33,7 +33,7 @@ void WidgetScrollMenuGray::SetHighlight(){
   WSMSub* sub = (WSMSub *)this->substruct;
   if ((ushort)sub->currentCount != 0) {
     for(u16 i=0;i<sub->currentCount;i++){
-        if(sub->items[i]->var5C!=1){
+        if(sub->items[i]->varU8!=1){
             sub->highlight=i;
             return;
         }
@@ -58,7 +58,7 @@ void WidgetScrollMenuGray::SetChoice(u16 param_2){
                              "./menus/widgetscrollmenugray.cpp");
         }
         w = sub->items[iVar9];
-        if (w->var5C != 1) {
+        if (w->varU8 != 1) {
           sub->highlight = (s16)iVar9;
           w->SetColor(sub->col.R,sub->col.G,sub->col.B,sub->col.A);
           return;

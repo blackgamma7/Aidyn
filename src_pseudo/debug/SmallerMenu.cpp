@@ -70,11 +70,11 @@ u8 gDebugGameTime=1;
 BaseWidget * DebugTerrainChangePlus(BaseWidget * param_1,BaseWidget *param_2){
   u8 PVar3;
   WSMSub *iVar1 = *(WSMSub **)(((BaseWidget*)param_2->substruct)->substruct);
-  BaseWidget *pBVar1 = iVar1->items[iVar1->highlight]->link3;
+  BaseWidget *pBVar1 = iVar1->items[iVar1->highlight]->child;
   float *pfVar4 = NULL;
   if (pBVar1) {
     char **puVar2 = (char **)pBVar1->substruct;
-    switch(pBVar1->var5E) {
+    switch(pBVar1->varU16) {
     case 0:
       TerrainPointer->rainByte++;
       if (TerrainPointer->rainByte > PRECIP_SNOW) PVar3 = PRECIP_CLEAR;
@@ -110,11 +110,11 @@ BaseWidget * DebugTerrainChangePlus(BaseWidget * param_1,BaseWidget *param_2){
 
 BaseWidget * DebugTerrainChangeMinus(BaseWidget * param_1,BaseWidget *param_2){
   WSMSub *sub = *(WSMSub **)(((BaseWidget*)param_2->substruct)->substruct);
-  BaseWidget *pBVar1 = sub->items[sub->highlight]->link3;
+  BaseWidget *pBVar1 = sub->items[sub->highlight]->child;
   float *pfVar4 = NULL;
   if (pBVar1) {
     char **puVar2 = (char **)pBVar1->substruct;
-    switch(pBVar1->var5E) {
+    switch(pBVar1->varU16) {
     case 0:
       if (TerrainPointer->rainByte == PRECIP_CLEAR) TerrainPointer->rainByte = PRECIP_SNOW;
       else TerrainPointer->rainByte--;
@@ -241,7 +241,7 @@ bool create_enemy_list(){
       Entity_Ram *ent = gEntityDB->entities + i;
       if (!EntityCannotFight(ent->ID)) {
         WidgetText* name = WText(ent->Name);
-        name->var5E = ent->ID;
+        name->varU16 = ent->ID;
         scrollMenu->Append(name);
       }
     }
@@ -275,7 +275,7 @@ void DebugSingleEnemyFight(BaseWidget *param_1){
   }
   else {
     if (param_1->GetNumber() == WidgetN_Text) {
-      gGlobals.EncounterDat.enemy_entities[0] = param_1->var5E;
+      gGlobals.EncounterDat.enemy_entities[0] = param_1->varU16;
       for(u8 i=1;i<12;i++){
         gGlobals.EncounterDat.enemy_entities[i] = 0;
       }
@@ -299,7 +299,7 @@ bool DebugCombatSelectArena(){
   for(u32 i=0;i<28;i++){
     if(arena_name_list[i]){
         WidgetText* txt=WText(arena_name_list[i]);
-        txt->var5E=i;
+        txt->varU16=i;
         scrollMenu->Append(txt);
     }
   }
@@ -327,7 +327,7 @@ void set_debug_combat_battlefeild(BaseWidget *param_1){
   }
   else {
     if (param_1->GetNumber() == WidgetN_Text) {
-      gGlobals.EncounterDat.battlefield = param_1->var5E;
+      gGlobals.EncounterDat.battlefield = param_1->varU16;
       gGlobals.EncounterDat.collisionByte = rand_range(1,2);
       gGlobals.EncounterDat.aniByte = 0;
       gGlobals.EncounterDat.EncounterID = 0;
@@ -347,7 +347,7 @@ bool change_actor_menu(void){
   scrollMenu->SetCoords(40,75);
   for(u32 i=0;debugCharacters[i].label!=NULL;i++){
     WidgetText* txt=WText(debugCharacters[i].label);
-    txt->var5E = i;
+    txt->varU16 = i;
     scrollMenu->Append(txt);
   }
   scrollMenu->boundY0 = 0x4b;
@@ -374,8 +374,8 @@ void debug_change_form(BaseWidget *param_1){
     smaller_debug_menu();
   }
   else {
-    gGlobals.playerCharStruct.player_form = debugCharacters[param_1->var5E].borg7;
-    gGlobals.playerCharStruct.collisionRadius = debugCharacters[param_1->var5E].f;
+    gGlobals.playerCharStruct.player_form = debugCharacters[param_1->varU16].borg7;
+    gGlobals.playerCharStruct.collisionRadius = debugCharacters[param_1->varU16].f;
     FreeDebugMenu(gGlobals.playerCharStruct.debugMenuActor);
     gGlobals.playerCharStruct.unkState = 4;
   }
@@ -391,7 +391,7 @@ bool DebugTeleportMenu(void){
   for(u32 i=0;debugMapLabels[i].label!=NULL;i++){
     WidgetText* txt = WText(debugMapLabels[i].label);
     scrollMenu->Append(txt);
-    txt->var5E=i;
+    txt->varU16=i;
   }
   scrollMenu->boundY0 = 0x4b;
   scrollMenu->boundY1 = 200;
@@ -414,9 +414,9 @@ void debug_teleport(BaseWidget *param_1){
     smaller_debug_menu();
   }
   else {
-    gGlobals.gameVars.mapDatA = debugMapLabels[param_1->var5E].a;
-    gGlobals.gameVars.mapDatB = debugMapLabels[param_1->var5E].b;
-    gGlobals.gameVars.mapDatC = debugMapLabels[param_1->var5E].c;
+    gGlobals.gameVars.mapDatA = debugMapLabels[param_1->varU16].a;
+    gGlobals.gameVars.mapDatB = debugMapLabels[param_1->varU16].b;
+    gGlobals.gameVars.mapDatC = debugMapLabels[param_1->varU16].c;
     gGlobals.playerCharStruct.some_sound_var = 0;
     FreeDebugMenu(gGlobals.playerCharStruct.debugMenuTP);
     gGlobals.playerCharStruct.unkState = 4;

@@ -17,8 +17,8 @@ WidgetSkillInfo::WidgetSkillInfo(CharSkills *sk,u16 subType,u8 type):BaseWidget(
   this->skillMod = NULL;
   this->unk90 = 0;
   this->unk92 = 0;
-  this->var5C = subType;
-  this->var5E = subType| (u16)(type<<8);
+  this->varU8 = subType;
+  this->varU16 = subType| (u16)(type<<8);
   switch(type){
     case 0:{
       GetSkillIcons(subType,&borgInd);
@@ -46,7 +46,7 @@ WidgetSkillInfo::WidgetSkillInfo(CharSkills *sk,u16 subType,u8 type):BaseWidget(
   this->Link(this->skillText);
   sprintf(buff,"%d",baseLV);
   this->skillVal=WClipTXTSafe(buff);
-  this->skillVal->var5E=baseLV;
+  this->skillVal->varU16=baseLV;
   this->skillVal->SetColor(0x82,0x50,0x50,0xff);
   this->Link(this->skillVal);
   if (mod) {
@@ -63,7 +63,7 @@ WidgetSkillInfo::WidgetSkillInfo(CharSkills *sk,u16 subType,u8 type):BaseWidget(
     }
     this->skillMod = WClipTXTSafe(buff);
     this->skillMod->SetColor(txtRed,txtGreen,0,0xff);
-    this->skillMod->var5E = mod;
+    this->skillMod->varU16 = mod;
     this->Link(this->skillMod);
   }
   get_crafting_menu(this->skillVal,subType,type);
@@ -76,21 +76,21 @@ Gfx* WidgetSkillInfo::Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1){RENDERCHILD
 u8 WidgetSkillInfo::Tick() {
   if (this->skillText) {
     if(this->skillIcon) {
-      this->skillIcon->SetCoords(this->x,this->y);
+      this->skillIcon->SetCoords(this->posX,this->posY);
       this->skillIcon->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       (this->skillIcon->col).A = this->col.A;
     }
     if(this->skillMod) {
-      this->skillMod->SetCoords(this->x + 95,this->y);
+      this->skillMod->SetCoords(this->posX + 95,this->posY);
       this->skillMod->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       (this->skillMod->col).A = this->col.A;
     }
-    this->skillVal->SetCoords(this->x + 79,this->y);
+    this->skillVal->SetCoords(this->posX + 79,this->posY);
     this->skillVal->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
     (this->skillVal->col).A = this->col.A;
-    this->unk92 = this->x + 140;
-    this->unk90 = this->x+12;
-    this->skillText->SetCoords(this->x+12,this->y);
+    this->unk92 = this->posX + 140;
+    this->unk90 = this->posX+12;
+    this->skillText->SetCoords(this->posX+12,this->posY);
     Utilities::SetTextWidgetBoundsX(this->skillText,this->unk90,this->unk92);
     this->skillText->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
     this->skillText->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);

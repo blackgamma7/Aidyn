@@ -28,13 +28,23 @@ class WidgetOptionsMenu: public WidgetMenu{
     void ContPakSave();
     u32 GetNumber();
 };
-BaseWidget* WidgetOptions_Left(BaseWidget*,BaseWidget*);
-BaseWidget* WidgetOptions_Right(BaseWidget*,BaseWidget*);
-BaseWidget* WidgetOptions_Up(BaseWidget*,BaseWidget*);
-BaseWidget* WidgetOptions_Down(BaseWidget*,BaseWidget*);
-BaseWidget* WidgetOptions_BButton(BaseWidget*,BaseWidget*);
-BaseWidget* PauseMenuSelectCallback(BaseWidget*,BaseWidget*);
-BaseWidget* WidgetOptions_StartButton(BaseWidget*,BaseWidget*);
+
+
+#define OptionN_SaveGame COMMONSTRING_OptionsSaveGame
+#define OptionN_LoadGame COMMONSTRING_OptionsLoadGame
+#define OptionN_Config COMMONSTRING_OptionsOptions
+#define OptionN_Help COMMONSTRING_OptionsHelp
+#define OptionN_Flee COMMONSTRING_OptionsFlee
+#define OptionN_Theatre COMMONSTRING_OptionsTheatre
+#define OptionN_Credits 9999
+
+BaseWidget* WidgetOptions_Left(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* WidgetOptions_Right(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* WidgetOptions_Up(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* WidgetOptions_Down(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* WidgetOptions_BButton(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* PauseMenuSelectCallback(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* WidgetOptions_StartButton(BaseWidget* w0,BaseWidget* w1);
 
 
 
@@ -48,9 +58,10 @@ u32 unk20;
 BaseWidget* unk24;
 Color32 col0;
 Color32 col1;
-u32 unk30;
+u8 unk30,unk31,unk32,unk33;
 };
 
+//the sound/resolution/Character Rename menu
 class WidgetOptionsConfig : public WidgetMenu{
   public:
   BaseWidget* unk7c;
@@ -66,12 +77,12 @@ class WidgetOptionsConfig : public WidgetMenu{
 void selectResMode(u8);
 void FUN_800499b8(BaseWidget*);
 void Options_RenameMenu(BaseWidget*);
-BaseWidget* options_func_Left(BaseWidget*,BaseWidget*);
-BaseWidget* options_func_Right(BaseWidget*,BaseWidget*);
-BaseWidget* options_func_Up(BaseWidget*,BaseWidget*);
-BaseWidget* options_func_Down(BaseWidget*,BaseWidget*);
-BaseWidget* options_func_BButton(BaseWidget*,BaseWidget*);
-BaseWidget* options_func_AButton(BaseWidget*,BaseWidget*);
-BaseWidget* options_func_StartButton(BaseWidget*,BaseWidget*);
+BaseWidget* options_func_Left(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* options_func_Right(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* options_func_Up(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* options_func_Down(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* options_func_BButton(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* options_func_AButton(BaseWidget* w0,BaseWidget* w1);
+BaseWidget* options_func_StartButton(BaseWidget* w0,BaseWidget* w1);
 
 u32 gOptionsMenuContPak=false;

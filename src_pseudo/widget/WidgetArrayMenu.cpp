@@ -108,8 +108,8 @@ WidgetArrayMenu::WidgetArrayMenu(u16 len):BaseWidget(){
     sub->entryCap = len;
     sub->entryPos = 0;
     sub->unk10 = 0;
-    this->x = 0;
-    this->y = 0;
+    this->posX = 0;
+    this->posY = 0;
     this->width = 0;
     this->height = 0;
     this->RightButtonFunc = WAM_RightFunc;
@@ -123,7 +123,7 @@ WidgetArrayMenu::WidgetArrayMenu(u16 len):BaseWidget(){
       }
     }
     this->substruct = sub;
-    this->state = 1;
+    this->state = WidgetS_Init;
 }
 
 WidgetArrayMenu::~WidgetArrayMenu(){
@@ -131,11 +131,7 @@ WidgetArrayMenu::~WidgetArrayMenu(){
   if (sub) {
     if (sub->entryCap) {
       for(u32 i=0;i<sub->entryCap;i++) {
-        BaseWidget* entry = sub->entries[i];
-        if (entry) {
-          entry->~BaseWidget();
-          sub->entries[i] = NULL;
-        }
+        DestructWidget(sub->entries[i])
       }
     }
     HFREE(sub->entries,212);
@@ -189,10 +185,10 @@ if (sub->entries) {
       if ((pBVar5->GetNumber() == 1)||(pBVar5->GetNumber() == 2))
         Utilities::SetTextWidgetBoundsX(pBVar5,this->boundX0,this->boundX1);
 
-      pBVar5->SetCoords(this->x + (short)(iVar11 % (int)(uint)uVar3) *
+      pBVar5->SetCoords(this->posX + (short)(iVar11 % (int)(uint)uVar3) *
                                   (short)(((int)(short)uVar1 - (int)(short)uVar2) /
                                          (int)(uint)uVar3),
-                 this->y + sub->unk10 +
+                 this->posY + sub->unk10 +
                  (short)(iVar11 / (int)(uint)uVar3) * (uVar4 + (short)uVar7));
 
     }

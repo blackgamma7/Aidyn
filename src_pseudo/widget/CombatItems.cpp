@@ -11,15 +11,15 @@ WidgetCombatItems * LoadCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,
 
 BaseWidget * FUN_80092894(BaseWidget *param_1,BaseWidget *param_2){
   CombatEntity *pCVar1 = gCombatP->current_Ent;
-  FUN_8006f8d8(pCVar1,param_2->var5E,param_2->var5C);
+  FUN_8006f8d8(pCVar1,param_2->varU16,param_2->varU8);
   gGlobals.combatBytes[0] = 9;
   FUN_8007272c(gCombatP->substruct2,pCVar1);
   return NULL;
 }
 
 BaseWidget * FUN_80092894(BaseWidget *param_1,BaseWidget *param_2){
-    gCombatP->current_Ent->charSheetP->spellSwitch=param_2->var5E;
-    gCombatP->current_Ent->charSheetP->currSpell=param_2->var5C;
+    gCombatP->current_Ent->charSheetP->spellSwitch=param_2->varU16;
+    gCombatP->current_Ent->charSheetP->currSpell=param_2->varU8;
     FUN_8008d56c();
     return NULL;
 }
@@ -71,15 +71,15 @@ WidgetChild8(32,120,gExpPakFlag?95:55,0,0){
     }
   }
   FUN_800bbfc8(this->scrollMenu,3);
-  m8004de18();
+  Update();
   iVar6 = find_char_in_party(pCVar2);
   WidgetBorg8* pBVar6 = WidgetB8(0x38D0);
   WidgetBorg8* pBVar7 = WidgetB8(0x38CF);
-  pBVar6->SetCoords(this->scrollMenu->x + -8,(this->scrollMenu->y - (short)pBVar6->GetHeight()) -2);
-  pBVar7->SetCoords(this->scrollMenu->x + -8,this->scrollMenu->boundY1 + 2);
-  this->wc0 =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7,0);
-  this->wc0->SetColor(COLOR_WHITE);
-  this->scrollMenu->Link(this->wc0);
+  pBVar6->SetCoords(this->scrollMenu->posX + -8,(this->scrollMenu->posY - (short)pBVar6->GetHeight()) -2);
+  pBVar7->SetCoords(this->scrollMenu->posX + -8,this->scrollMenu->boundY1 + 2);
+  this->arrows =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7,0);
+  this->arrows->SetColor(COLOR_WHITE);
+  this->scrollMenu->Link(this->arrows);
   s8 lVar11 = gCombatItemSelections[iVar6];
   if (lVar11 != -1) {
     WSMSub* s = (WSMSub*)this->scrollMenu->substruct;
@@ -94,8 +94,8 @@ WidgetChild8(32,120,gExpPakFlag?95:55,0,0){
 WidgetCombatItems::~WidgetCombatItems(){
   Utilities::GetHighlightedEntry(this->scrollMenu)->AFunc();
   gCombatItemSelections[find_char_in_party(gCombatP->current_Ent->charSheetP)] = (u8)((WSMSub*)this->scrollMenu->substruct)->highlight;
-  this->var5C = 0;
-  this->scrollMenu->Unlink(this->wc0);
+  this->varU8 = 0;
+  this->scrollMenu->Unlink(this->arrows);
   WidgetChild8::~WidgetChild8();
 }
 

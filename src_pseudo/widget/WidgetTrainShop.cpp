@@ -3,7 +3,7 @@
 WidgetTrainShop::WidgetTrainShop():WidgetMenu(){
   this->TitleWidget = NULL;
   this->scrollMenu = NULL;
-  this->unk84 = NULL;
+  this->arrows = NULL;
   this->partyPicker = 0;
 }
 
@@ -15,7 +15,7 @@ BaseWidget* WidgetTrainShop::SetHighlight(u16 h){
   BaseWidget *ret = NULL;
   if (sub->currentCount != 0) {
     ret = *sub->items;
-    if (ret->var5E == h) sub->highlight = 0;
+    if (ret->varU16 == h) sub->highlight = 0;
     else {
       uVar2 = 1;
       do {
@@ -24,7 +24,7 @@ BaseWidget* WidgetTrainShop::SetHighlight(u16 h){
         ret = NULL;
         if (sub->currentCount <= uVar2) goto LAB_80037dd4;
         ret = sub->items[uVar2++];
-      } while (ret->var5E != h);
+      } while (ret->varU16 != h);
       sub->highlight = (u16)uVar1;
     }
   }
@@ -41,7 +41,7 @@ BaseWidget * WidgetTrainShop::UpFunc(){return this->scrollMenu->UpFunc();}
 BaseWidget * WidgetTrainShop::DownFunc(){return this->scrollMenu->DownFunc();}
 
 u8 WidgetTrainShop::Tick(){
-  this->scrollMenu->SetCoords(this->x,this->y);
+  this->scrollMenu->SetCoords(this->posX,this->posY);
   this->scrollMenu->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
   BaseWidget*pBVar2 = this->scrollMenu;
   BaseWidget*pBVar3 = this->TitleWidget;
@@ -52,17 +52,17 @@ u8 WidgetTrainShop::Tick(){
   if (this->TitleWidget) {
     pBVar3->boundX0 = this->boundX0 + 10;
     pBVar3->boundX1 = this->boundX1;
-    this->TitleWidget->x = this->x - (pBVar3->GetWidth() >> 1) + -70;
+    this->TitleWidget->posX = this->posX - (pBVar3->GetWidth() >> 1) + -70;
   }
-  if (this->unk84) {
-    BaseWidget**puVar4 = (BaseWidget**)this->unk84->substruct;
+  if (this->arrows) {
+    BaseWidget**puVar4 = (BaseWidget**)this->arrows->substruct;
     pBVar2 = puVar4[0];
     pBVar3 = puVar4[1];
-    pBVar2->SetCoords(this->scrollMenu->x + 0xf,this->scrollMenu->y + -0xd);
+    pBVar2->SetCoords(this->scrollMenu->posX + 0xf,this->scrollMenu->posY + -0xd);
     pBVar2->boundX0 = this->boundX0;
     pBVar2->boundX1 = this->boundX1;
-    pBVar3->SetCoords(this->scrollMenu->x + (this->scrollMenu->boundX1 - this->scrollMenu->boundX0) + -0xf,
-          this->scrollMenu->y + -0xd);
+    pBVar3->SetCoords(this->scrollMenu->posX + (this->scrollMenu->boundX1 - this->scrollMenu->boundX0) + -0xf,
+          this->scrollMenu->posY + -0xd);
     pBVar3->boundX0 = this->boundX0;
     pBVar3->boundX1 = this->boundX1;
   }
@@ -71,9 +71,9 @@ u8 WidgetTrainShop::Tick(){
 
 void WidgetTrainShop::SetArrows(){
   if(this->scrollMenu){
-    this->unk84=new WidgetScrollArrows(this->scrollMenu,WidgetB8(0x38D0),WidgetB8(0x38D1),0);
-    this->unk84->SetColor(COLOR_OFFWHITE);
-    this->scrollMenu->Link(this->unk84);
+    this->arrows=new WidgetScrollArrows(this->scrollMenu,WidgetB8(0x38D0),WidgetB8(0x38D1),0);
+    this->arrows->SetColor(COLOR_OFFWHITE);
+    this->scrollMenu->Link(this->arrows);
   }
 }
 

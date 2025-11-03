@@ -76,12 +76,12 @@ BaseWidget * WidgetDebugBig::UpFunc(){
 void WidgetDebugBig::AddEntry(u16 i){
     WidgetText* t=WTextSafe(gGlobals.CommonStrings[COMMONSTRING_DebugBigMenu00+i]);
     this->scrollMenu->Append(t);
-    t->var5E=i;
+    t->varU16=i;
 }
 
 void WidgetDebugBig::ExecOption(BaseWidget *param_2){
-  if ((param_2 != this) && (debug_menu_funcs[param_2->var5E]))
-    (*debug_menu_funcs[param_2->var5E])();
+  if ((param_2 != this) && (debug_menu_funcs[param_2->varU16]))
+    (*debug_menu_funcs[param_2->varU16])();
 }
 
 void debug_gamestatefunnel(void){
@@ -130,7 +130,7 @@ WidgetItemDB::WidgetItemDB(){
     this->scrollMenu=Utilities::AddScrollMenu(this,5,0x14,0x14,0x14,0x14,300,0xdc,0xe1,0xe1,0xe1,0xff,0);
     for(u16 i=0;i<5;i++){
         WidgetText* title=WText(titles[i]);
-        title->var5E=i;
+        title->varU16=i;
         this->scrollMenu->Append(title);
     }
 }
@@ -146,7 +146,7 @@ WidgetItemDB::~WidgetItemDB(){
   uVar2 = this->unk80;
   if ((uVar2) && (iVar3 = this->scrollMenu->AFunc(),iVar3 != NULL)) {
     pBVar4 = NULL;
-    switch(iVar3->var5E) {
+    switch(iVar3->varU16) {
     case 0:
       pBVar4 = new WidgetItemDBItem(gArmorDBp->armors);
       for(i=0;i<gArmorDBp->armors;i++){
@@ -216,7 +216,7 @@ WidgetItemDBItem::WidgetItemDBItem(u16 length){
 
 BaseWidget* WidgetItemDBItem::AFunc(){
     BaseWidget* w=this->scrollMenu->AFunc();
-    if(w) PARTY->Inventory->AddItem(w->var5E,1);
+    if(w) PARTY->Inventory->AddItem(w->varU16,1);
     return NULL;
 }
 
@@ -224,7 +224,7 @@ BaseWidget* WidgetItemDBItem::BFunc(){return this;}
 
 void WidgetItemDBItem::Append(char *name,ushort id){
     WidgetText* w=new WidgetText(name,60);
-    w->var5E=id;
+    w->varU16=id;
     this->scrollMenu->Append(w);
 }
 

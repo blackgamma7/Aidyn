@@ -527,13 +527,13 @@ void set_container_obj_visible(voxelObject* param_1,Borg9Data *param_2){
   set_voxel_visibility(a,b);}
 
 BaseWidget* textbox_func_AB(BaseWidget* param_1,BaseWidget *param_2){
-  param_2->SetState(5);
+  param_2->SetState(WidgetS_Closing);
   gGlobals.playerCharStruct.text_window = NULL;
   return 0;}
 
 BaseWidget* secretdoor_widget_AB(BaseWidget* param_1,BaseWidget *param_2){
   teleporter_func((voxelObject* )param_2->substruct,0,0x7fff);
-  param_2->SetState(5);
+  param_2->SetState(WidgetS_Closing);
   gGlobals.playerCharStruct.text_window = NULL;
   return 0;
 }

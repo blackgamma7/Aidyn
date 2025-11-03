@@ -1,6 +1,6 @@
 #include "widgets/BaseWidget.h"
 
-//used by journal and shops to handle scroll menus(?)
+//Arrows on the side of lists (inventory, journal, etc.)
 class WidgetScrollArrows : public BaseWidget{
     public:
     BaseWidget* scrollMenu;

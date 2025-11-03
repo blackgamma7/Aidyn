@@ -19,7 +19,7 @@ GuiAnimatorL::~GuiAnimatorL(){
 
 void GuiAnimatorL::m80046ac4(){
   if (this->w){
-    BaseWidget *pBVar2 = this->w->link0;
+    BaseWidget *pBVar2 = this->w->parent;
     if (pBVar2 != NULL) pBVar2->Unlink(this->w);
     FREEQW(this->w);
     this->w = NULL;

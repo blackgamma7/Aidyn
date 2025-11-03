@@ -3,16 +3,16 @@
 #include "globals.h"
 
 WidgetCombatRadar::WidgetCombatRadar():BaseWidget(){
-  this->x = 0x112;
-  this->y = 199;
-  this->col.A = 0xa4;
-  this->unk80 = 0;
-  this->unk82 = -4;
-  this->compass = WidgetB8(BORG8_compassRing);
-  this->compass->x = x - (GetWidth()/1) + 1;
-  this->compass->y = y - (GetHeight()/1) + 1;
+  this->posX = (SCREEN_WIDTH-46);
+  this->posY = (SCREEN_HEIGHT-41);
+  this->col.A = 164;
+  this->glow = 0;
+  this->glowDelta = -4;
+  this->compass = WidgetB8(BORG8_CompassRing);
+  this->compass->posX = this->posX - (this->compass->GetWidth()/2) + 1;
+  this->compass->posY = this->posY - (this->compass->GetHeight()/2) + 1;
   this->compass->col.A = col.A;
-  Link(this->compass);
+  this->Link(this->compass);
 }
 
 WidgetCombatRadar::~WidgetCombatRadar(){
@@ -20,17 +20,17 @@ WidgetCombatRadar::~WidgetCombatRadar(){
 }
 
 u8 WidgetCombatRadar::Tick(){
-  this->unk80+=this->unk82;
-  if (this->unk80 < -0x96) {
-    this->unk80 = -0x96;
-    this->unk82 = -this->unk82;
+  this->glow+=this->glowDelta;
+  if (this->glow < -150) {
+    this->glow = -150;
+    this->glowDelta = -this->glowDelta;
   }
-  else if (0 < this->unk80) {
-    this->unk80 = 0;
-    this->unk82 = -this->unk82;
+  else if (0 < this->glow) {
+    this->glow = 0;
+    this->glowDelta = -this->glowDelta;
   }
-  (this->compass->col).A = col.A;
-  return TickChildren();
+  this->compass->col.A = this->col.A;
+  return this->TickChildren();
 }
 
 int FUN_80097674(playerData *p){
@@ -40,7 +40,6 @@ int FUN_80097674(playerData *p){
   return 0;
 }
 
-
 Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   Gfx* gfx = RenderChildren(g,x0,y0,x1,y1);
   if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
@@ -48,16 +47,16 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
       playerData *pDat = &gGlobals.gameVars.PlayerHandler.playerDats[i];
       if ((pDat) && (pDat->removeFlag)) {
         if (i == gGlobals.gameVars.PlayerHandler.cameraFocus) {
-          this->col.R = 0x96;
-          this->col.G = 0x96;
+          this->col.R = 150;
+          this->col.G = 150;
         }
         else if (pDat->visible_flag == 0) {
-          this->col.R = 0x96;
+          this->col.R = 150;
           this->col.G = 0;
         }
         else {
           this->col.R = 0;
-          this->col.G = 0x96;
+          this->col.G = 150;
         }
         this->col.B = 0;
         if (((gGlobals.combatBytes[0] == 0x12) || (gGlobals.combatBytes[0] == 10)) ||
@@ -68,18 +67,18 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
             this->col.B >>= 1;
           }
           else {
-            if(this->col.R)this->col.R+=this->unk80;
-            if(this->col.G)this->col.G+=this->unk80;
-            if(this->col.B)this->col.B+=this->unk80;
+            if(this->col.R)this->col.R+=this->glow;
+            if(this->col.G)this->col.G+=this->glow;
+            if(this->col.B)this->col.B+=this->glow;
           }
         }
-        float posX = (pDat->collision).pos.x -
+        float posXF = (pDat->collision).pos.x -
           gGlobals.gameVars.PlayerHandler.playerDats[gGlobals.gameVars.PlayerHandler.cameraFocus].collision.pos.x;
-        float posY = (pDat->collision).pos.z -
+        float posYF = (pDat->collision).pos.z -
           gGlobals.gameVars.PlayerHandler.playerDats[gGlobals.gameVars.PlayerHandler.cameraFocus].collision.pos.z;
         vec2f avStack_70={
-          (posX * -gCamera.rotationXZ.y + posY * gCamera.rotationXZ.x) * 0.5f,
-          (posX * gCamera.rotationXZ.x - posY * -gCamera.rotationXZ.y) * 0.5f
+          (posXF * -gCamera.rotationXZ.y + posYF * gCamera.rotationXZ.x) * 0.5f,
+          (posXF * gCamera.rotationXZ.x - posYF * -gCamera.rotationXZ.y) * 0.5f
         };
         if (20.0f < vec2Length(&avStack_70)) {
           this->col.R >>= 1;
@@ -89,8 +88,8 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
           avStack_70.x*= 20.0;
           avStack_70.y*= 20.0;
         }
-        u16 blipx = this->x + avStack_70.x;
-        u16 blipy = this->y + avStack_70.y;
+        u16 blipx = this->posX + avStack_70.x;
+        u16 blipy = this->posY + avStack_70.y;
         gfx = DrawRectangle(gfx,blipx,blipy,blipx + 2,blipy + 2,
           this->col.R*gGlobals.brightness,this->col.G*gGlobals.brightness,this->col.B*gGlobals.brightness,this->col.A*gGlobals.brightness);
       }

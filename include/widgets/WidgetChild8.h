@@ -32,7 +32,7 @@ class WidgetChild8 :public WidgetMenu{
     void SetImages(s16*,u32);
     void MoveX(s16);
     void SetHighlight(u16);
-    void m8004de18();
+    void Update();
     void m8004e0b0(Color32 *);
 };
 

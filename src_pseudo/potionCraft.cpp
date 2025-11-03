@@ -37,7 +37,7 @@ bool check_potion_ingredients(potionRecipie *rec) {
 
 WidgetPotionCraft::WidgetPotionCraft(u32 partyind):WidgetCrafting(partyind){
   WidgetText* Wtxt=Utilities::AddTextWidget(this,Cstring(AlchemyMain),0x17,0x46,0x82,0x50,0x50,0xff);
-  Wtxt->SetCoords(93-(Wtxt->GetWidth()>>1),Wtxt->y);
+  Wtxt->SetCoords(93-(Wtxt->GetWidth()>>1),Wtxt->posY);
   s16 by0 = Wtxt->GetHeight()+70;
   this->scrollMenu=Utilities::AddScrollMenu(this,0xf,0x17,by0,0x17,by0,0xa3,by0 + 0x7a,0x82,0x50,0x50,0xff,0);
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
@@ -46,7 +46,7 @@ WidgetPotionCraft::WidgetPotionCraft(u32 partyind):WidgetCrafting(partyind){
     if (potionRecipies[i].alchemist <= alch) {
       Wtxt= WTextSafe(potion_names[potionRecipies[i].ID]);
       this->scrollMenu->Append(Wtxt);
-      Wtxt->var5E = i;
+      Wtxt->varU16 = i;
     }
   }
 }
@@ -57,10 +57,10 @@ BaseWidget* WidgetPotionCraft::AFunc(){
   char *pcStack_54;
   
   if (this->scrollMenu == NULL) {
-    this->SetState(5);
+    this->SetState(WidgetS_Closing);
     return NULL;
   }
-  potionRecipie *recipie = potionRecipies + (byte)Utilities::GetHighlightedEntry(this->scrollMenu)->var5E;
+  potionRecipie *recipie = potionRecipies + (byte)Utilities::GetHighlightedEntry(this->scrollMenu)->varU16;
   bool success = false;
   if (!check_potion_ingredients(recipie)) {
     this->TextPopup(NotEnoughString(recipie->ID));
@@ -82,7 +82,7 @@ BaseWidget * WidgetPotionCraft::CDownFunc() {
   if (this->scrollMenu) {
     ItemInstance pot;
     pot.InitItem(IDPotion(potionRecipies[
-      Utilities::GetHighlightedEntry(this->scrollMenu)->var5E].ID));
+      Utilities::GetHighlightedEntry(this->scrollMenu)->varU16].ID));
     WHANDLE->AddWidget(new WidgetItemDetail(&pot));
     pot.RemoveStatSpell();
   }

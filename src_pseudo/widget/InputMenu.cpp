@@ -45,7 +45,7 @@ void InputMenu::InitMenu(char *txt){
     WidgetClipText* entry = WClipTXT(gGlobals.text);
     u8 bVar1 = *pbVar13;
     pbVar13++;
-    entry->var5E = bVar1;
+    entry->varU16 = bVar1;
     sub->arrayMenu->AddEntry(entry);
   }
   sub->arrayMenu->Tick();
@@ -80,7 +80,7 @@ void InputMenu::SetCurrentName(char *txt){
     }
     if (i < IMNameLength-1) {
       sub->entryIndex = (u8)i;
-      sub->entry[(u8)i] = (char)piVar3->entries[piVar3->entryPos]->var5E;
+      sub->entry[(u8)i] = (char)piVar3->entries[piVar3->entryPos]->varU16;
     }
     else {
       sub->entryIndex = IMNameLength-1;
@@ -147,7 +147,7 @@ Gfx * InputMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
       }
     }
     i++;
-    Font::PrintCharaWapper(gGlobals.font,apGStackX_4,uVar4,iVar3 + this->x,this->y + 85,x0,y0,x1,y1);
+    Font::PrintCharaWapper(gGlobals.font,apGStackX_4,uVar4,iVar3 + this->posX,this->posY + 85,x0,y0,x1,y1);
     iVar3 += Font::GetCharWidth(gGlobals.font,(u8)uVar4);
     uVar7 = uVar4;
   } while ((int)i < IMNameLength);

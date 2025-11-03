@@ -7,8 +7,8 @@ WidgetScrollArrows::WidgetScrollArrows(BaseWidget *scroll,BaseWidget *arrowA,Bas
 :BaseWidget(){
   WSA_Sub *sub = new WSA_Sub;
   this->scrollMenu = scroll;
-  this->x = this->scrollMenu->x - arrowA->GetHeight();
-  this->y = this->scrollMenu->y;
+  this->posX = this->scrollMenu->posX - arrowA->GetHeight();
+  this->posY = this->scrollMenu->posY;
   this->width = arrowA->GetWidth();
   this->height = h;
   if (h == -1)
@@ -17,26 +17,21 @@ WidgetScrollArrows::WidgetScrollArrows(BaseWidget *scroll,BaseWidget *arrowA,Bas
   sub->arrowB = arrowB;
   sub->bottom = 20;
   if (h) {
-    sub->arrowA->SetCoords(this->x,this->y);
-    sub->arrowB->SetCoords(this->x,(this->y + this->height) - sub->arrowB->GetHeight());
+    sub->arrowA->SetCoords(this->posX,this->posY);
+    sub->arrowB->SetCoords(this->posX,(this->posY + this->height) - sub->arrowB->GetHeight());
   }
   (sub->arrowA->col).A = 0;
   (sub->arrowB->col).A = 0;
   this->substruct = sub;
-  this->state = 1;
+  this->state = WidgetS_Init;
 }
 
 WidgetScrollArrows::~WidgetScrollArrows() {
   WSA_Sub *sub = (WSA_Sub *)this->substruct;
   if (sub) {
-    if (sub->arrowA) {
-      sub->arrowA->~BaseWidget();
-      sub->arrowA = NULL;
-    }
-    if (sub->arrowB) {
-      sub->arrowB->~BaseWidget();
-      sub->arrowB = NULL;
-    }
+    
+    DestructWidget(sub->arrowA)
+    DestructWidget(sub->arrowB)
     delete(sub);
     this->substruct = NULL;
   }
@@ -55,8 +50,8 @@ Gfx * WidgetScrollArrows::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
 u8 WidgetScrollArrows::Tick() {
   WSA_Sub *sub = (WSA_Sub *)this->substruct;
   if (this->height) {
-    sub->arrowA->SetCoords(this->x,this->y);
-    sub->arrowB->SetCoords(this->x,(this->y + this->height) - (short)sub->arrowB->GetHeight());
+    sub->arrowA->SetCoords(this->posX,this->posY);
+    sub->arrowB->SetCoords(this->posX,(this->posY + this->height) - (short)sub->arrowB->GetHeight());
   }
   BaseWidget **items = NULL;
   u32 index = 0;
@@ -83,7 +78,7 @@ u8 WidgetScrollArrows::Tick() {
   if (items){
     if (index != 0) {
       BaseWidget *pBVar6 = items[index - 1];
-      if ((*items)->y < this->scrollMenu->boundY0) {
+      if ((*items)->posY < this->scrollMenu->boundY0) {
         BaseWidget *pBVar5 = sub->arrowA;
         if ((pBVar5->col).A < (int)(0xff - (uint)sub->bottom)) {
           (pBVar5->col).A += sub->bottom;
@@ -96,7 +91,7 @@ u8 WidgetScrollArrows::Tick() {
           (pBVar5->col).A -= sub->bottom;
         else (pBVar5->col).A = 0;
       }
-      if (this->scrollMenu->boundY1 < (pBVar6->y + pBVar6->GetHeight())) {
+      if (this->scrollMenu->boundY1 < (pBVar6->posY + pBVar6->GetHeight())) {
         pBVar6 = sub->arrowB;
         if ((pBVar6->col).A < (0xff - (uint)sub->bottom))
           (pBVar6->col).A += sub->bottom;

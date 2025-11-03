@@ -175,8 +175,8 @@ void ControllerPakSliders::Free(){
       free_borg8_widget(this->arrows);
       if (this->arrows) this->arrows->~WidgetBorg8();
       this->arrows = NULL;
-      this->isEntrySet = 0;
     }
+    this->isEntrySet = 0;
   }
 }
 
@@ -242,15 +242,15 @@ void WidgetChild6::SetEntry(){
     s16 sVar12 = this->boundY0;
     s16 sVar11 = (short)(((int)this->boundX1 - (int)this->boundX0) + 1 >> 1) -
              (short)((int)(uVar10 + 1) >> 1);
-    this->unk84->x = this->field10_0x98 + this->boundX0 + sVar11;
-    this->unk84->boundX0 = this->unk84->x;
+    this->unk84->posX = this->field10_0x98 + this->boundX0 + sVar11;
+    this->unk84->boundX0 = this->unk84->posX;
     sVar12 = this->field11_0x9a +
              this->boundY0 +
              ((short)(((int)this->boundY1 - (int)this->boundY0) + 1 >> 1) - (short)((int)(uVar9 + 1) >> 1));
-    this->unk84->y = sVar12;
-    this->unk84->boundY0 = this->unk84->y;
+    this->unk84->posY = sVar12;
+    this->unk84->boundY0 = this->unk84->posY;
     this->unk84->boundX1 -= sVar11;
-    Utilities::SetTextWidgetBoundsX(this->unk84,this->unk84->x,this->unk84->boundX1);
+    Utilities::SetTextWidgetBoundsX(this->unk84,this->unk84->posX,this->unk84->boundX1);
   }
 
 }
@@ -274,10 +274,10 @@ void WidgetChild6::SetArrow(u32 param_2){
     this->field12_0x9c = Utilities::AddBorg8Widget(this,loadBorg8(param_2),0,0);
     this->field12_0x9c->SetColor(this->col94.R,this->col94.G,this->col94.B,this->col94.A);
     this->field12_0x9c->SetCoords(
-               (this->unk84->x + (this->unk84->GetWidth() >> 1)) - (this->field12_0x9c->GetWidth() >> 1),
-               (this->unk84->y - this->field12_0x9c->GetHeight()) + -2);
-    SetWidgetBounds(this->field12_0x9c,this->field12_0x9c->x,this->field12_0x9c->y,
-        this->field12_0x9c->x + (short)this->field12_0x9c->GetWidth(),
-        this->field12_0x9c->y + (short)this->field12_0x9c->GetHeight());
+               (this->unk84->posX + (this->unk84->GetWidth() >> 1)) - (this->field12_0x9c->GetWidth() >> 1),
+               (this->unk84->posY - this->field12_0x9c->GetHeight()) + -2);
+    SetWidgetBounds(this->field12_0x9c,this->field12_0x9c->posX,this->field12_0x9c->posY,
+        this->field12_0x9c->posX + (short)this->field12_0x9c->GetWidth(),
+        this->field12_0x9c->posY + (short)this->field12_0x9c->GetHeight());
   }
 }

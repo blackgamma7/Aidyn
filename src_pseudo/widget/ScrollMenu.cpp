@@ -5,8 +5,8 @@
 
 WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     WSMSub *puVar1 = new WSMSub;
-    this->x = 0;
-    this->y = 0;
+    this->posX = 0;
+    this->posY = 0;
     this->width = 0;
     this->height = 0;
     puVar1->field0_0x0 = 10;
@@ -53,7 +53,7 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
       }
     }
     this->substruct = puVar1;
-    SetState(1);
+    SetState(WidgetS_Init);
 }
 WidgetScrollMenu::~WidgetScrollMenu(){
   
@@ -61,10 +61,7 @@ WidgetScrollMenu::~WidgetScrollMenu(){
   if (pvVar1) {
     if (pvVar1->currentCount) {
       for(u32 i=0;i<pvVar1->currentCount;i++) {
-        if (pvVar1->items[i]) {
-          pvVar1->items[i]->~BaseWidget();
-          pvVar1->items[i] = NULL;
-        }
+        DestructWidget(pvVar1->items[i])
       }
     }
     FREEPTR(pvVar1->items,124)
@@ -126,15 +123,15 @@ u8 WidgetScrollMenu::Tick(){
         entry->boundY1 = this->boundY1;
         if ((pvVar5->flag & 1) == 0) {
           if ((pvVar5->flag & 2) != 0) {
-            sVar9 = this->y;
-            sVar18 = this->x - entry->GetWidth();
+            sVar9 = this->posY;
+            sVar18 = this->posX - entry->GetWidth();
             goto LAB_800b9fb0;
           }
-          entry->SetCoords(this->x - (short)(entry->GetWidth() >> 1),this->y + (short)iVar21 + pvVar5->field11_0x12);
+          entry->SetCoords(this->posX - (short)(entry->GetWidth() >> 1),this->posY + (short)iVar21 + pvVar5->field11_0x12);
         }
         else {
-          sVar18 = this->x;
-          sVar9 = this->y;
+          sVar18 = this->posX;
+          sVar9 = this->posY;
 LAB_800b9fb0:
           entry->SetCoords(sVar18,sVar9 + (short)iVar21 + pvVar5->field11_0x12);
         }
@@ -145,7 +142,7 @@ LAB_800b9fb0:
         iVar21 += uVar13 + (byte)pvVar5->unk22;
         sVar18 = (short)iVar21;
         if (i == pvVar5->highlight) {
-          sVar9 = entry->y;
+          sVar9 = entry->posY;
           if ((pvVar5->flag & 8) == 0) {
             if (this->boundY1 < (sVar9 + uVar13)) {
               pvVar5->field11_0x12-= (sVar9 + uVar13) - this->boundY1;
@@ -155,7 +152,7 @@ LAB_800b9fb0:
             }
           }
           else {
-            pvVar5->field11_0x12+= (this->y - (sVar9 + (uVar13 / 2)));
+            pvVar5->field11_0x12+= (this->posY - (sVar9 + (uVar13 / 2)));
           }
           entry->SetColor((pvVar5->col).R,(pvVar5->col).G,(pvVar5->col).B,(pvVar5->col).A);
           if (entry->GetNumber() == WidgetN_ShadText) {

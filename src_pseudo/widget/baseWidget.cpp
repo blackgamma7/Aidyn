@@ -1,26 +1,23 @@
 #include "widgets\BaseWidget.h"
 
 BaseWidget::BaseWidget(){
-  this->col.R = 0xff;
-  this->col.G = 0xff;
-  this->col.B = 0xff;
-  this->col.A = 0xff;
+  this->col={COLOR_WHITE};
   this->boundX1 = SCREEN_WIDTH;
   this->substruct = NULL;
   this->height = 0;
   this->width = 0;
-  this->x = 0;
-  this->y = 0;
+  this->posX = 0;
+  this->posY = 0;
   this->borg8 = NULL;
-  this->var5C = 0;
-  this->var5E = 0;
+  this->varU8 = 0;
+  this->varU16 = 0;
   this->boundY0 = 0;
   this->boundX0 = 0;
   this->boundY1 = SCREEN_HEIGHT;
-  this->link0 = NULL;
-  this->link1 = NULL;
-  this->link2 = NULL;
-  this->link3 = NULL;
+  this->parent = NULL;
+  this->siblingL = NULL;
+  this->siblingR = NULL;
+  this->child = NULL;
   this->link4 = NULL;
   this->UpButtonFunc = NULL;
   this->DownButtonFunc = NULL;
@@ -36,7 +33,7 @@ BaseWidget::BaseWidget(){
   this->CDownButtonFunc = NULL;
   this->CLeftButtonFunc = NULL;
   this->CRightButtonFunc = NULL;
-  this->state = 1;
+  this->state = WidgetS_Init;
   this->fadeIn = NULL;
   this->fadeOut = NULL;
 }
@@ -48,8 +45,8 @@ BaseWidget::~BaseWidget(){
 
 //set screenspace coords for widget
 void BaseWidget::SetCoords(s16 X,s16 Y){
-  this->x = X;
-  this->y = Y;
+  this->posX = X;
+  this->posY = Y;
 }
 
 void BaseWidget::SetWidth(u16 w){this->width=w;}
@@ -78,7 +75,8 @@ void BaseWidget::SetSomeBounds(u16 Y0,u16 X0, u16 X1, u16 Y1){
   this->boundX1 = X1;
   this->boundY1 = Y1;
 }
-void BaseWidget::GetSomeBounds(u16* Y0,u16* X0, u16* X1, u16* Y1){
+
+void BaseWidget::GetSomeBounds(s32* Y0,s32* X0, s32* X1, s32* Y1){
   *Y0 = boundY0;
   *X0 = boundX0;
   *X1 = boundX1;
@@ -130,7 +128,7 @@ BaseWidget * BaseWidget::Control(controller_aidyn *input){
   if ((buttons & Z_TRIG)) return this->ZFunc();
   if ((buttons & L_TRIG)) return this->LFunc();
   if ((buttons & R_TRIG)) return this->RFunc();
-  if ((buttons & U_CBUTTONS)) return this->CUPFunc();
+  if ((buttons & U_CBUTTONS)) return this->CUpFunc();
   if ((buttons & D_CBUTTONS)) return this->CDownFunc();
   if ((buttons & L_CBUTTONS)) return this->CLeftFunc();
   if ((buttons & R_CBUTTONS)) return this->CRightFunc();
@@ -139,42 +137,42 @@ BaseWidget * BaseWidget::Control(controller_aidyn *input){
 
 
 Gfx * BaseWidget::RenderChildren(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  for (BaseWidget *w = this->link3; w != NULL; w = w->link2) {g = w->Render(g,x0,y0,x1,y1);}
+  for (BaseWidget *w = this->child; w != NULL; w = w->siblingR) {g = w->Render(g,x0,y0,x1,y1);}
   return g;
 }
 
 void BaseWidget::FreeChildren(){
   while(1) {
-    BaseWidget *w = this->link3;
+    BaseWidget *w = this->child;
     while(1) {
       if (w == NULL) {
         this->link4 = NULL;
-        this->link3 = NULL;
+        this->child = NULL;
         return;
       }
-      this->link3 = this->link3->link2;
+      this->child = this->child->siblingR;
       if (w == NULL) break;
       w->~BaseWidget();
-      w = this->link3;
+      w = this->child;
     }
   }
 }
 
 u8 BaseWidget::TickChildren(){
-for (BaseWidget *w = this->link3; w != NULL; w = w->link2) {w->Tick();}
+for (BaseWidget *w = this->child; w != NULL; w = w->siblingR) {w->Tick();}
   return false;
 }
 
 u32 BaseWidget::RunFadeIn(){
   if (this->state - 1 < 2) {
-    if ((fadeIn == NULL) || (this->state != 1)) this->state = 2;
+    if ((fadeIn == NULL) || (this->state != 1)) this->state = WidgetS_FadedIn;
     else (*fadeIn)(this);
   }
   return RunFadeInChildren();
 }
 u32 BaseWidget::RunFadeInChildren(){
     u32 ret = this->state;
-    for (BaseWidget *w = this->link3; w != NULL; w = w->link2) {
+    for (BaseWidget *w = this->child; w != NULL; w = w->siblingR) {
         if(w->RunFadeIn()==1)ret=1;
         }
     return ret;
@@ -190,7 +188,7 @@ u32 BaseWidget::RunFadeOut(){
 
 u32 BaseWidget::RunFadeOutChildren(){
     u32 ret = this->state;
-    for (BaseWidget *w = this->link3; w != NULL; w = w->link2) {
+    for (BaseWidget *w = this->child; w != NULL; w = w->siblingR) {
         if(w->RunFadeOut()==5)ret=5;
         }
     return ret;
@@ -198,46 +196,46 @@ u32 BaseWidget::RunFadeOutChildren(){
 
 void BaseWidget::SetState(u8 newState){
   this->state = newState;
-  for (BaseWidget *w = this->link3; w != NULL; w = w->link2) {w->SetState(newState);}
+  for (BaseWidget *w = this->child; w != NULL; w = w->siblingR) {w->SetState(newState);}
 }
 
 u8 BaseWidget::Link(BaseWidget *other){  
-  if (this->link3 == NULL) {
-    this->link3 = other;
+  if (this->child == NULL) {
+    this->child = other;
     this->link4 = other;
-    other->link0 = this;
-    this->link3->link1 = NULL;
-    this->link3->link2 = NULL;
+    other->parent = this;
+    this->child->siblingL = NULL;
+    this->child->siblingR = NULL;
   }
   else {
-    this->link4->link2 = other;
-    other->link2 = NULL;
-    other->link1 = this->link4;
+    this->link4->siblingR = other;
+    other->siblingR = NULL;
+    other->siblingL = this->link4;
     this->link4 = other;
-    other->link0 = this;
+    other->parent = this;
   }
   return true;
 }
 
 u8 BaseWidget::Unlink(BaseWidget *other){
-  BaseWidget *w = this->link3;
+  BaseWidget *w = this->child;
   while(1) {
     if (w == NULL) return false;
     if (w == other) break;
-    w = w->link2;
+    w = w->siblingR;
   }
-  if (this->link3 == w) this->link3 = w->link2;
-  if (this->link4 == w) this->link4 = w->link1;
-  if (w->link1) w->link1->link2 = w->link2;
-  if (w->link2) w->link2->link1 = w->link1;
-  w->link0 = NULL;
-  w->link1 = NULL;
-  w->link2 = NULL;
+  if (this->child == w) this->child = w->siblingR;
+  if (this->link4 == w) this->link4 = w->siblingL;
+  if (w->siblingL) w->siblingL->siblingR = w->siblingR;
+  if (w->siblingR) w->siblingR->siblingL = w->siblingL;
+  w->parent = NULL;
+  w->siblingL = NULL;
+  w->siblingR = NULL;
   return true;
 }
 
 #define buttonMacro(name)\
-        if(##name##ButtonFunc) return (##name##ButtonFunc)(link0,this);\
+        if(##name##ButtonFunc) return (##name##ButtonFunc)(parent,this);\
         return (BaseWidget*)NULL;\
 
 BaseWidget* BaseWidget::UpFunc(){buttonMacro(Up)}

@@ -8,7 +8,7 @@ u8 TextPopup_FadeIn(BaseWidget *w){
   }
   else  (w->col).A+= 90;
   Utilities::SetAlpha(w,(w->col).A);
-  if (bVar2) w->state = 2;
+  if (bVar2) w->state = WidgetS_FadedIn;
   return w->state;
 }
 
@@ -17,12 +17,12 @@ u8 TextPopup_FadeOut(BaseWidget *w){
   if (bVar1 <= 90) (w->col).A = 0;
   else (w->col).A += 166;
   Utilities::SetAlpha(w,(w->col).A);
-  if (bVar1 <= 90) w->state = 6;
+  if (bVar1 <= 90) w->state = WidgetS_Closed;
   return w->state;
 }
 //close the text popup by hitting A, B, C-up or C-down.
 BaseWidget * TextPopup_Close(BaseWidget * param_1,BaseWidget *param_2){
-  param_2->SetState(5);
+  param_2->SetState(WidgetS_Closing);
   return NULL;
 }
 extern BaseWidget* IntroMenu_ShadowBG(u16,u16,u16,u16);

@@ -20,12 +20,12 @@ WidgetShadowText::WidgetShadowText(char *TXT,u16 len):BaseWidget(){
     len = strlen(TXT) + 1;
   }
   if (len < 2) len = 2;
-  ALLOCS(pcVar2,len,0x3c);
+  ALLOCS(pcVar2,len,60);
   sub->txt = pcVar2;
   if (TXT == NULL) sprintf(pcVar2," ");
   else sprintf(pcVar2,TXT);
   this->substruct = sub;
-  SetState(1);
+  SetState(WidgetS_Init);
   this->width = 0;
   this->height = 0;
   SetCoords(80,30);
@@ -77,7 +77,7 @@ Gfx * WidgetShadowText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
         (font_pointer->col).B = sub->col.B*fadeFloatMirror;
         (font_pointer->col).A = ((sub->col.A*col.A)/255)*fadeFloatMirror;
         uVar4 = Font::PrintMain(font_pointer,apGStackX_4,sub->txt,
-                                    this->x + sub->XOff,this->y + sub->YOff,
+                                    this->posX + sub->XOff,this->posY + sub->YOff,
                                     sub->X + sub->XOff,sub->Y + sub->XOff,lVar6 + sub->XOff,
                                     lVar5 + sub->YOff,lVar8 + sub->XOff,lVar7 + sub->YOff,
                                     (sub->scale).x,(sub->scale).y);
@@ -88,7 +88,7 @@ Gfx * WidgetShadowText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
       (font_pointer->col).G = col.G*fadeFloatMirror;
       (font_pointer->col).B = col.B*fadeFloatMirror;
       (font_pointer->col).A = fadeFloatMirror*255.0f;
-      uVar4 = Font::PrintMain(font_pointer,apGStackX_4,sub->txt,this->x,this->y,sub->X
+      uVar4 = Font::PrintMain(font_pointer,apGStackX_4,sub->txt,this->posX,this->posY,sub->X
                                   ,sub->Y,lVar6,lVar5,lVar8,lVar7,(sub->scale).x
                                   ,(sub->scale).y);
     }

@@ -175,7 +175,7 @@ bool DialougeClass::m8004ea94(BaseWidget *w){
       ClearScrollMenu();
       if (this->unk1C == 0) {
         dialougmode_substruct *pdVar1 = this->dialouge_substruct;
-        if (pdVar1->unk110 == -1) FUN_800b6cb8(pdVar1,this->borg_13_dat,(char)w->var5E);
+        if (pdVar1->unk110 == -1) FUN_800b6cb8(pdVar1,this->borg_13_dat,(char)w->varU16);
         else FUN_800b6cb8(pdVar1,this->borg_13_dat,pdVar1->unk110);
       }
       if (this->dialouge_substruct == NULL) bVar2 = false;
@@ -262,7 +262,7 @@ bool DialougeClass::Setup(){
     if (gGlobals.DebugStatDisplay == 0) {
       look_for_dialouge_v_Num(*cc);
     }
-    sub->text->var5E = (ushort)this->dialouge_substruct->diags[1].next;
+    sub->text->varU16 = (ushort)this->dialouge_substruct->diags[1].next;
   }
   else {
 LAB_8004edd4:
@@ -279,59 +279,52 @@ LAB_8004ef58:
     uVar7 = pBVar8->GetHeight();
     pBVar8 = sub->text;
     uVar10 = (pBVar8->boundY1 - uVar7) - 4;
-    if (0xb3 < uVar10) uVar10 = 0xb4;
+    if (180 <= uVar10) uVar10 = 180;
     uVar12 = uVar10;
     pBVar8->boundY0 = (uVar10 + 4);
     pBVar8->SetCoords(pBVar8->boundX0,(uVar10 + 4));
     sub->text->SetColor(200,200,200,0xff);
     sub->PortraitBorder->SetCoords(0x14,sub->text->boundY0 - 4);
-    sub->Portrait->SetCoords(0x1a,sub->PortraitBorder->y + 6);
+    sub->Portrait->SetCoords(0x1a,sub->PortraitBorder->posY + 6);
   }
   else {
-    iVar11 = 1;
     pBVar8 = sub->scrollMenu;
     pdVar2 = this->dialouge_substruct;
     uVar12 = sub->text->boundX0 + 10;
-    pBVar8->x = uVar12;
+    pBVar8->posX = uVar12;
     pBVar8->boundX0 = uVar12;
     uVar12 = (short)uVar7 + 0xb0;
-    if (pdVar2->diags[2].next != 0xff) {
-      do {
+    for(iVar11 = 1;this->dialouge_substruct->diags[iVar11+1].next != 0xff,iVar11 < 9;iVar11++) {
         entry = WText(this->dialouge_substruct->diags[iVar11].txt);
         bVar1 = this->dialouge_substruct->diags[iVar11+1].next;
-        entry->var5C = iVar11;
-        entry->var5E = bVar1;
+        entry->varU8 = iVar11;
+        entry->varU16 = bVar1;
         sub->scrollMenu->Append(entry);
-        iVar11 += 1;
-        if (this->dialouge_substruct->diags[iVar11+2].next == 0xff) break;
-      } while (iVar11 < 9);
     }
     sub->scrollMenu->Tick();
     pBVar8 = sub->scrollMenu;
     pBVar8->boundY1 = uVar12;
-    uVar12 -= (short)pBVar8->GetHeight();
+    uVar12 -= pBVar8->GetHeight();
     pBVar8 = sub->scrollMenu;
-    iVar11 = this->unk1C;
     pBVar8->boundY0 = uVar12;
-    pBVar8->y = uVar12;
-    if (iVar11 == 0) goto LAB_8004ef58;
+    pBVar8->posY = uVar12;
+    if (this->unk1C == 0) goto LAB_8004ef58;
   }
   sub->Background->boundY0 = uVar12;
   sub->Background->SetCoords(sub->Background->boundX0,uVar12);
   sub->Background->SetHeight(sub->Background->boundY1 - sub->Background->boundY0);
-  sub->Gradient->SetCoords(sub->Background->x,sub->Background->y - sub->Gradient->GetHeight());
+  sub->Gradient->SetCoords(sub->Background->posX,sub->Background->posY - sub->Gradient->GetHeight());
   sub->Gradient->SetWidth(sub->Background->GetWidth());
   if (bVar5) this->unk1C = 1;
   else this->unk1C = 0;
 LAB_8004f0bc:
-  pBVar8 = this->menu;
-  pBVar8->UpButtonFunc = Dialoug_UpButton;
-  pBVar8->DownButtonFunc = Dialoug_DownButton;
-  pBVar8->RightButtonFunc = Dialoug_RightButton;
-  pBVar8->LeftButtonFunc = Dialoug_LeftButton;
-  pBVar8->AButtonFunc = Dialoug_AButton;
+  this->menu->UpButtonFunc = Dialoug_UpButton;
+  this->menu->DownButtonFunc = Dialoug_DownButton;
+  this->menu->RightButtonFunc = Dialoug_RightButton;
+  this->menu->LeftButtonFunc = Dialoug_LeftButton;
+  this->menu->AButtonFunc = Dialoug_AButton;
   #ifdef DEBUGVER
-  if (gDebugFlag) pBVar8->BButtonFunc = Dialoug_DebugEnd;
+  if (gDebugFlag) this->menu->BButtonFunc = Dialoug_DebugEnd;
   #endif
   if (this->type == 4) this->menu->BButtonFunc = Dialoug_BButton;
   return true;
@@ -497,9 +490,6 @@ void DialougeClass::m8004f810(){
   byte bVar1;
   BaseWidget *pBVar2;
   BaseWidget *pBVar3;
-  char *pcVar4;
-  ulong uVar5;
-  int iVar7;
   int iVar8;
   WSTSub *pvVar4;
   WSTSub *pvVar3;
@@ -507,16 +497,12 @@ void DialougeClass::m8004f810(){
   short sVar6;
   
   pvVar2 = (DiaMenuSub *)this->menu->substruct;
-  if ((this->dialouge_substruct->diags[2].next != 0xff) &&
-     (iVar8 = 1, this->dialouge_substruct->diags[2].next != 0xff)) {
-    pBVar2 = pvVar2->text;
-    iVar7 = 0xc;
-    while( true ) {
-      if (pBVar2 == NULL) {
-        pBVar3 = new WidgetShadowText(*(char **)((int)&this->dialouge_substruct->diags[0].txt +iVar7),400);
-        bVar1 = (&this->dialouge_substruct->diags[1].next)[iVar7];
-        pBVar3->var5C = (byte)iVar8;
-        pBVar3->var5E = (ushort)bVar1;
+  if ((this->dialouge_substruct->diags[2].next != 0xff)) {
+    for(iVar8=1;(this->dialouge_substruct->diags[iVar8+2].next != 0xff) && (8 >= iVar8);iVar8++){
+      if (pvVar2->text == NULL) {
+        pBVar3 = new WidgetShadowText(this->dialouge_substruct->diags[iVar8].txt,400);
+        pBVar3->varU8 = (byte)iVar8;
+        pBVar3->varU16 = this->dialouge_substruct->diags[iVar8+1].next;
         pvVar2->scrollMenu->Append(pBVar3);
         pvVar3 = (WSTSub *)pvVar2->shadText->substruct;
         pvVar4 = (WSTSub *)pBVar3->substruct;
@@ -528,16 +514,11 @@ void DialougeClass::m8004f810(){
         (pvVar4->col).A = (pvVar3->col).A;
       }
       else {
-        pBVar3 = WText(*(char **)((int)&this->dialouge_substruct->diags[0].txt +iVar7));
-        bVar1 = (&this->dialouge_substruct->diags[1].next)[iVar7];
-        pBVar3->var5C = (byte)iVar8;
-        pBVar3->var5E = (ushort)bVar1;
+        pBVar3 = WText(this->dialouge_substruct->diags[iVar8].txt);
+        pBVar3->varU8 = iVar8;
+        pBVar3->varU16 = this->dialouge_substruct->diags[iVar8+1].next;
         pvVar2->scrollMenu->Append(pBVar3);
       }
-      iVar8 += 1;
-      if (((&this->dialouge_substruct->diags[2].next)[iVar7] == 0xff) || (8 < iVar8)) break;
-      pBVar2 = pvVar2->text;
-      iVar7 = iVar7 + 0xc;
     }
   }
   if (pvVar2->text == NULL) {
@@ -558,16 +539,16 @@ void DialougeClass::m8004f810(){
     #endif
   if (pvVar2->text == NULL) {
     pBVar2 = pvVar2->shadText;
-    pBVar2->var5E = (ushort)this->dialouge_substruct->diags[1].next;
+    pBVar2->varU16 = (ushort)this->dialouge_substruct->diags[1].next;
     sVar6 = pBVar2->GetHeight();
     pBVar2 = pvVar2->shadText;
   }
   else {
-    pBVar2->var5E = (ushort)this->dialouge_substruct->diags[1].next;
+    pBVar2->varU16 = (ushort)this->dialouge_substruct->diags[1].next;
     sVar6 = pBVar2->GetHeight();
     pBVar2 = pvVar2->text;
   }
-  pvVar2->scrollMenu->y = pBVar2->y + sVar6 + 4;
+  pvVar2->scrollMenu->posY = pBVar2->posY + sVar6 + 4;
   return;
 }
 

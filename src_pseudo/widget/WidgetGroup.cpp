@@ -37,8 +37,8 @@ u8 WidgetGroup::Tick(){
         WidgetGroupItem* gi=&this->group[i];
 
       gi->w->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
-      gi->w->SetCoords(this->x + gi->w->x,this->y + gi->w->y);
-      if (gi->unk8){
+      gi->w->SetCoords(this->posX + gi->w->posX,this->posY + gi->w->posY);
+      if (gi->tint){
         gi->w->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
       }
      gi->w->Tick();
@@ -81,21 +81,20 @@ u16 WidgetGroup::GetHeight(){
 }
 
 BaseWidget * WidgetGroup::GetEntry(u16 entry){
-  if (entry < (ushort)this->groupCount)
+  if (entry < this->groupCount)
     return this->group[entry].w;
   return NULL;
 }
 
-void WidgetGroup::AddToGroup(BaseWidget *w,u16 px,u16 py,u32 pz){
+void WidgetGroup::AddToGroup(BaseWidget *w,u16 px,u16 py,u32 tint){
   if (this->groupCount < this->groupMax) {
     WidgetGroupItem *gi = this->group + this->groupCount++;
     gi->w = w;
     gi->x = px;
     gi->y = py;
-    gi->unk8 = pz;
+    gi->tint = tint;
   }
 }
-
 
 void WidgetGroup::Remove(BaseWidget *w){
   BaseWidget *pBVar1;
@@ -104,7 +103,7 @@ void WidgetGroup::Remove(BaseWidget *w){
   ushort uVar4;
   
   if (w) {
-    uVar2 = (uint)(ushort)this->groupCount;
+    uVar2 = this->groupCount;
     u16 uVar5 = 0;
     if (uVar2 != 0) {
       pBVar1 = this->group->w;
@@ -126,7 +125,6 @@ void WidgetGroup::Remove(BaseWidget *w){
     }
   }
 }
-
 
 void WidgetGroup::Move(u16 entry,u16 px,u16 py){
   this->group[entry].x+= px;

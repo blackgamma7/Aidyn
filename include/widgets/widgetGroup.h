@@ -4,7 +4,7 @@ struct WidgetGroupItem {
     BaseWidget *w;
     u16 x;
     u16 y;
-    u32 unk8;
+    u32 tint;
 };
 
 class WidgetGroup:public BaseWidget {
@@ -21,7 +21,7 @@ class WidgetGroup:public BaseWidget {
     u16 GetWidth();
     u16 GetHeight();
     BaseWidget* GetEntry(u16);
-    void AddToGroup(BaseWidget *w,u16 px,u16 py,u32 pz);
+    void AddToGroup(BaseWidget *w,u16 px,u16 py,u32 tint);
     void Remove(BaseWidget *w);
     void Move(u16 entry, u16 px,u16 py);
 };

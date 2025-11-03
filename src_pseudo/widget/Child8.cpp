@@ -115,7 +115,7 @@ WidgetChild8::~WidgetChild8(){
   FREEQB8(this->borg8WidgetI->borg8);
   FREEQB8(this->borg8WidgetA->borg8);
 
-  if ((this->var5C == 0xff) &&(pBVar1 = Utilities::GetHighlightedEntry(this->scrollMenu), pBVar1 != NULL)) {
+  if ((this->varU8 == 0xff) &&(pBVar1 = Utilities::GetHighlightedEntry(this->scrollMenu), pBVar1 != NULL)) {
         pBVar1->AFunc();
   }
   WidgetMenu::~WidgetMenu();
@@ -127,13 +127,13 @@ Gfx* WidgetChild8::Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1){
 }
 
 BaseWidget* WidgetChild8::AFunc(){
-    this->var5C=0xff;
+    this->varU8=0xff;
     return this;
 }
 
 BaseWidget* WidgetChild8::BFunc(){
     if(this->unkac){
-        this->var5C=0;
+        this->varU8=0;
         return this;
     }
     return NULL;
@@ -154,49 +154,49 @@ u8 WidgetChild8::AppendScrollMenu(BaseWidget* w){
 }
 
 
-void WidgetChild8::SetImages(short *param_2,u32 param_3){
+void WidgetChild8::SetImages(s16 *bounds,u32 param_3){
   Borg8Header *pBVar1;
   WidgetBorg8 *pBVar2;
   short sVar3;
   ushort uVar4;
   
-  this->borg8WidgetA = Utilities::AddBorg8Widget2(this,loadBorg8(BORG8_Pixel),*param_2,param_2[1],param_2[2],param_2[3]);
+  this->borg8WidgetA = Utilities::AddBorg8Widget2(this,loadBorg8(BORG8_Pixel),*bounds,bounds[1],bounds[2],bounds[3]);
   pBVar1 = loadBorg8(BORG8_GradientC);
-  this->borg8WidgetC = Utilities::AddBorg8Widget2(this,pBVar1,*param_2,param_2[1] - (pBVar1->dat).Height,param_2[2],param_2[1]);
+  this->borg8WidgetC = Utilities::AddBorg8Widget2(this,pBVar1,*bounds,bounds[1] - (pBVar1->dat).Height,bounds[2],bounds[1]);
   pBVar1 = loadBorg8(BORG8_GradientB);
-  this->borg8WidgetE = Utilities::AddBorg8Widget2(this,pBVar1,*param_2,param_2[3],param_2[2],param_2[3] + (pBVar1->dat).Height);
+  this->borg8WidgetE = Utilities::AddBorg8Widget2(this,pBVar1,*bounds,bounds[3],bounds[2],bounds[3] + (pBVar1->dat).Height);
   pBVar1 = loadBorg8(0x1c0);
-  this->borg8WidgetB = Utilities::AddBorg8Widget2(this,pBVar1,(*param_2 - (pBVar1->dat).Width) + -1,param_2[1],*param_2 + -1,param_2[3]);
+  this->borg8WidgetB = Utilities::AddBorg8Widget2(this,pBVar1,(*bounds - (pBVar1->dat).Width) + -1,bounds[1],*bounds + -1,bounds[3]);
   pBVar1 = loadBorg8(0x1c1);
   uVar4 = (ushort)(param_3 != 0);
   sVar3 = uVar4 + 1;
   pBVar2 = Utilities::AddBorg8Widget2
-                     (this,pBVar1,param_2[2] + sVar3,param_2[1],
-                      param_2[2] + (pBVar1->dat).Width + 1 + uVar4,param_2[3]);
+                     (this,pBVar1,bounds[2] + sVar3,bounds[1],
+                      bounds[2] + (pBVar1->dat).Width + 1 + uVar4,bounds[3]);
   this->borg8WidgetD = pBVar2;
   pBVar1 = loadBorg8(0x1bc);
-  this->x = (*param_2 - (pBVar1->dat).Width) + -1;
-  this->y = param_2[1] - (pBVar1->dat).Height;
+  this->posX = (*bounds - (pBVar1->dat).Width) + -1;
+  this->posY = bounds[1] - (pBVar1->dat).Height;
   pBVar2 = Utilities::AddBorg8Widget2
-                     (this,pBVar1,(*param_2 - (pBVar1->dat).Width) + -1,
-                      param_2[1] - (pBVar1->dat).Height,*param_2 + -1,param_2[1]);
+                     (this,pBVar1,(*bounds - (pBVar1->dat).Width) + -1,
+                      bounds[1] - (pBVar1->dat).Height,*bounds + -1,bounds[1]);
   this->borg8WidgetF = pBVar2;
   pBVar1 = loadBorg8(0x1bd);
   uVar4 = (ushort)(param_3 != 0);
   pBVar2 = Utilities::AddBorg8Widget2
-                     (this,pBVar1,param_2[2] + sVar3,param_2[1] - (pBVar1->dat).Height,
-                      param_2[2] + (pBVar1->dat).Width + 1 + uVar4,param_2[1]);
+                     (this,pBVar1,bounds[2] + sVar3,bounds[1] - (pBVar1->dat).Height,
+                      bounds[2] + (pBVar1->dat).Width + 1 + uVar4,bounds[1]);
   this->borg8WidgetG = pBVar2;
   pBVar1 = loadBorg8(0x1be);
   pBVar2 = Utilities::AddBorg8Widget2
-                     (this,pBVar1,param_2[2] + sVar3,param_2[3],
-                      param_2[2] + (pBVar1->dat).Width + 1 + uVar4,param_2[3] + (pBVar1->dat).Height
+                     (this,pBVar1,bounds[2] + sVar3,bounds[3],
+                      bounds[2] + (pBVar1->dat).Width + 1 + uVar4,bounds[3] + (pBVar1->dat).Height
                      );
   this->borg8WidgetH = pBVar2;
   pBVar1 = loadBorg8(BORG8_GradientA);
   pBVar2 = Utilities::AddBorg8Widget2
-                     (this,pBVar1,(*param_2 - (pBVar1->dat).Width) + -1,param_2[3],
-                      *param_2 + -1,param_2[3] + (pBVar1->dat).Height);
+                     (this,pBVar1,(*bounds - (pBVar1->dat).Width) + -1,bounds[3],
+                      *bounds + -1,bounds[3] + (pBVar1->dat).Height);
   this->borg8WidgetI = pBVar2;
   Utilities::SetWidgetColor(this,COLOR_BLACK);
   SetWidgetBounds(this->borg8WidgetB,FULL_SCREENSPACE);
@@ -214,11 +214,11 @@ void WidgetChild8_moveX(BaseWidget *w,s16 x){
   w->SetWidth(w->GetWidth() + x);
   x >>= 1;
   w->boundX0-= x;
-  w->x-= x;
+  w->posX-= x;
   w->boundX1+=x;
 }
 
-void WidgetChild8::MoveX(short posX){
+void WidgetChild8::MoveX(s16 posX){
   WidgetChild8_moveX(this->scrollMenu,posX);
   WidgetChild8_moveX(this->borg8WidgetC,posX);
   WidgetChild8_moveX(this->borg8WidgetE,posX);
@@ -241,7 +241,7 @@ void WidgetChild8::SetHighlight(ushort h){
 }
 
 
-void WidgetChild8::m8004de18(){
+void WidgetChild8::Update(){
   u16 uVar1;
   BaseWidget *pBVar2;
   BaseWidget *pBVar4;
@@ -261,54 +261,53 @@ void WidgetChild8::m8004de18(){
   uVar8 = this->scrollMenu->GetHeight();
   if (this->scrollMenu->boundY1 < uVar8)
     uVar8 = this->scrollMenu->boundY1;
-  uVar10 = 0x78 - (u16)((uVar8 + uVar7 + this->unka8 + (uint)this->unkaa * 2) >> 1)
-  ;
+  uVar10 = 0x78 - (u16)((uVar8 + uVar7 + this->unka8 + (uint)this->unkaa * 2) >> 1);
   sVar6 = uVar10 - this->unkaa;
   if (this->TextWidget) {
     this->TextWidget->boundY1 = uVar10 + (short)uVar7;
-    this->TextWidget->y = uVar10;
+    this->TextWidget->posY = uVar10;
     this->TextWidget->boundY0 = uVar10;
   }
   pBVar2 = this->scrollMenu;
-  pBVar2->y = uVar10;
+  pBVar2->posY = uVar10;
   pBVar2->boundY0 = uVar10;
   if (this->TextWidget) {
     uVar10 = this->TextWidget->boundY1 + this->unka8;
-    this->TextWidget->y = uVar10;
+    this->TextWidget->posY = uVar10;
     this->TextWidget->boundY0 = uVar10;
   }
   pBVar2 = this->borg8WidgetA;
   uVar10 = (short)uVar8 + this->scrollMenu->boundY0;
   this->scrollMenu->boundY1 = uVar10;
   uVar1 = this->unkaa;
-  this->borg8WidgetA->y = sVar6;
+  this->borg8WidgetA->posY = sVar6;
   sVar5 = uVar10 + uVar1;
   sVar9 = sVar5 - sVar6;
   this->borg8WidgetA->SetHeight(sVar9);
   pBVar2 = this->borg8WidgetB;
-  pBVar2->y = sVar6;
+  pBVar2->posY = sVar6;
   this->borg8WidgetB->SetHeight(sVar9);
   uVar7 =this->borg8WidgetC->GetHeight();
   pBVar2 = this->borg8WidgetD;
-  this->borg8WidgetC->y = sVar6 - (short)uVar7;
-  pBVar2->y = sVar6;
+  this->borg8WidgetC->posY = sVar6 - (short)uVar7;
+  pBVar2->posY = sVar6;
   this->borg8WidgetD->SetHeight(sVar9);
   pBVar2 = this->borg8WidgetF;
-  this->borg8WidgetE->y = sVar5;
+  this->borg8WidgetE->posY = sVar5;
   uVar7 = pBVar2->GetHeight();
   pBVar2 = this->borg8WidgetG;
-  this->borg8WidgetF->y = sVar6 - (short)uVar7;
+  this->borg8WidgetF->posY = sVar6 - (short)uVar7;
   uVar7 = pBVar2->GetHeight();
   pBVar2 = this->borg8WidgetH;
   pBVar4 = this->borg8WidgetI;
-  this->borg8WidgetG->y = sVar6 - (short)uVar7;
-  pBVar2->y = sVar5;
-  pBVar4->y = sVar5;
+  this->borg8WidgetG->posY = sVar6 - (short)uVar7;
+  pBVar2->posY = sVar5;
+  pBVar4->posY = sVar5;
   this->Tick();
 }
 
 void Ofunc_8004e048(BaseWidget *w,short x,short y){
-  Utilities::MoveWidget(w,x - w->x,y - w->y);
+  Utilities::MoveWidget(w,x - w->posX,y - w->posY);
   w->Tick();
 }
 

@@ -12,13 +12,13 @@ WidgetCombatSkills* InitCombatSkillsMenu(u8 *spells,bool troub,bool hands,bool h
 WidgetGroup *
 char_func_icon(char *str,BaseWidget *(*AFunc)(BaseWidget*,BaseWidget*),u16 param_3,u8 param_4,Color32 *col,u32 borg8,u16 height){  
   WidgetGroup *wg = new WidgetGroup(2);
-  if (borg8) wg->AddToGroup(WidgetB8(borg8),0,0,0);
+  if (borg8) wg->AddToGroup(WidgetB8(borg8),0,0,false);
   WidgetText* wt = WTextSafe(str);
-  wg->AddToGroup(wt,height + 5,(height >> 1) - (short)(wt->GetHeight() >> 1),1);
+  wg->AddToGroup(wt,height + 5,(height >> 1) - (short)(wt->GetHeight() >> 1),true);
   wg->SetColor(col->R,col->G,col->B,col->A);
   wg->AButtonFunc = AFunc;
-  wg->var5C = param_4;
-  wg->var5E = param_3;
+  wg->varU8 = param_4;
+  wg->varU16 = param_3;
   return wg;
 }
 
@@ -42,9 +42,9 @@ for(u32 i=0;i<4;i++){gCombatSkillSelections[i]=-1;}
 
 BaseWidget * FUN_800920d8(BaseWidget *param_1,BaseWidget *param_2){
   CharSheet *pCVar1 = gCombatP->current_Ent->charSheetP;
-  if (pCVar1->spellbook->spells[param_2->var5C] != NULL) {
+  if (pCVar1->spellbook->spells[param_2->varU8] != NULL) {
     pCVar1->spellSwitch = 1;
-    pCVar1->currSpell = param_2->var5C;
+    pCVar1->currSpell = param_2->varU8;
     FUN_8008d56c();
   }
   return NULL;
@@ -157,15 +157,15 @@ WidgetChild8(62,120,gExpPakFlag?95:55,0,0){
     }
   }
   FUN_800bbfc8(this->scrollMenu,3);
-  m8004de18();
+  Update();
   iVar5 = find_char_in_party(local_2c);
   WidgetBorg8* pBVar6 = WidgetB8(0x38D0);
   WidgetBorg8* pBVar7 = WidgetB8(0x38CF);
-  pBVar6->SetCoords(this->scrollMenu->x + -8,(this->scrollMenu->y - (short)pBVar6->GetHeight()) -2);
-  pBVar7->SetCoords(this->scrollMenu->x + -8,this->scrollMenu->boundY1 + 2);
-  this->wc0 =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7,0);
-  this->wc0->SetColor(COLOR_WHITE);
-  this->scrollMenu->Link(this->wc0);
+  pBVar6->SetCoords(this->scrollMenu->posX + -8,(this->scrollMenu->posY - (short)pBVar6->GetHeight()) -2);
+  pBVar7->SetCoords(this->scrollMenu->posX + -8,this->scrollMenu->boundY1 + 2);
+  this->arrows =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7,0);
+  this->arrows->SetColor(COLOR_WHITE);
+  this->scrollMenu->Link(this->arrows);
   s8 lVar11 = gCombatSkillSelections[iVar5];
   if (lVar11 != -1) {
     WSMSub* s = (WSMSub*)this->scrollMenu->substruct;
@@ -180,8 +180,8 @@ WidgetChild8(62,120,gExpPakFlag?95:55,0,0){
 WidgetCombatSkills::~WidgetCombatSkills(){
   Utilities::GetHighlightedEntry(this->scrollMenu)->AFunc();
   gCombatSkillSelections[find_char_in_party(gCombatP->current_Ent->charSheetP)] = (u8)((WSMSub*)this->scrollMenu->substruct)->highlight;
-  this->var5C = 0;
-  this->scrollMenu->Unlink(this->wc0);
+  this->varU8 = 0;
+  this->scrollMenu->Unlink(this->arrows);
   WidgetChild8::~WidgetChild8();
 }
 

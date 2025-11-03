@@ -23,7 +23,7 @@ void lockpicking_check(voxelObject *param_1) {
 }
 
 BaseWidget * lockpicking_widget_ABfunc(BaseWidget *w0,BaseWidget *w1) {
-  w1->SetState(5);
+  w1->SetState(WidgetS_Closing);
   voxelObject *v = (voxelObject *)w1->substruct;
   gGlobals.playerCharStruct.text_window = NULL;
   if (v) {

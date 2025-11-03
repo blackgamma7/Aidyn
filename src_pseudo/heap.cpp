@@ -154,42 +154,40 @@ u32 get_memFree_2(void){
 #ifdef DEBUGVER
 char D_800f5490[16];
 char D_800f54a0[16];
-void print_mem_allocated(void *param_1,void *param_2){
-  u32 uVar2;
-  ulonglong uVar1;
-  u32 uVar3;
-  HeapBlock *pHVar4;
-  ulonglong uVar5;
-  u32 uVar6;
-  u32 uVar7;
-  void *pfVar8;
+void print_mem_allocated(memPrint *printFunc,u16 *buff){
+  u32 memMax;
+  uint uVar2;
+  uint uVar3;
+  uint uVar4;
+  uint uVar5;
+  HeapBlock *pHVar6;
+  uint count;
+  uint i;
   
-  pfVar8 = param_1;
   strcpy(D_800f5490,"FREE");
   strcpy(D_800f54a0,"ALLOCATED");
-  uVar7 = 0;
-  uVar6 = gMemMonitor.obj_count - 1;
-  pHVar4 = (HeapBlock *)gMemMonitor.memRegionStart;
-  for(uVar7=0;uVar6<uVar7;uVar7++) {
-    uVar5 = get_heap_size(pHVar4) & ~1;
-    uVar2 = get_heap_size(pHVar4);
-    if ((uVar7 != 0) && (uVar7 != uVar6)) {
-      uVar1 = FUN_80098848((void**)pHVar4);
-      uVar3 = FUN_80098848((void**)pHVar4);
-      if ((uVar2 & 1) == 0) {
-        if (pfVar8) (*param_1)(param_2,"NA",uVar7,uVar5);
+  memMax = gMemMonitor.memFreeMax;
+  count = gMemMonitor.obj_count - 1;
+  pHVar6 = (HeapBlock *)gMemMonitor.memRegionStart;
+  for(i=0;i<count;i++) {
+    uVar2 = get_heap_size(pHVar6)&~1;
+    uVar3 = get_heap_size(pHVar6)&1;
+    if ((i != 0) && (i != count)) {
+      uVar4 = FUN_80098848((void**)pHVar6)&~1;
+      uVar5 = FUN_80098848((void**)pHVar6)&1;
+      if (uVar3 == 0) {
+        if (printFunc) (*printFunc)(buff,"NA",i,uVar2,0,uVar4,uVar5,count,memMax);
       }
-      else {
-        if (pfVar8) (*param_1)(param_2,pHVar4->filename,uVar7,uVar5);
-      }
-      if ((uVar1 & ~1) != uVar5) return;
-      if ((uVar3 & 1) != (uVar2 & 1)) return;
+      else if (printFunc)
+        (*printFunc)(buff,pHVar6->filename,i,uVar2,uVar3,uVar4,uVar5,count,memMax);
+      if (uVar4 != uVar2) return;
+      if (uVar5 != uVar3) return;
     }
-    pHVar4 = (HeapBlock *)(pHVar4->filename + (s32)uVar5 + -4);
+    pHVar6 = (HeapBlock *)((size_t)(&pHVar6) +uVar2);
   }
 }
 #else
-void print_mem_allocated(void *param_1,void *param_2){}
+void print_mem_allocated(memPrint *printFunc,u16 *buff){}
 #endif
 
 void malloc_update_mem_mon(HeapBlock *param_1,u32 param_2){
@@ -307,7 +305,7 @@ void FUN_8009882c(s32 param_1,u32 param_2){
 u32 get_heap_size(HeapBlock *param_1){return param_1->size;}
 
 s32  FUN_80098848(void **param_1) {
-  return *(s32 *)((int)param_1 + (((uint)*param_1 & 0xfffffffe) - 4));
+  return *(s32 *)((int)param_1 + (((uint)*param_1 & ~1) - 4));
 }
 
 void FUN_80098864(void *param_1,s32 param_2){
@@ -352,7 +350,6 @@ char * remove_dir_slashes(char *str){
   return pcVar2;
 }
 
-
 void ofunc_LISBN_called_free(void){CRASH("heap.cpp","LIBSN called free?");}
-void* operator new(size_t size){return HALLOC((u32)size,1139);}
+void* operator new(size_t size){return HALLOC(size,1139);}
 void operator delete(void* x){HFREE(x,1150);}

@@ -178,13 +178,13 @@ LAB_800360bc:
 LAB_800360dc:
   FUN_800a0304(sub->borg7,1);
   PlayAudioSound(&gGlobals.SFXStruct,borg12,0,1.0,60,0);
-  this->SetState(5);
+  this->SetState(WidgetS_Closing);
 }
 
 void PauseWidget::InitOptionsMenu(){
   pause_Substruct *sub = (pause_Substruct *)this->substruct;
   sub->optionsMenu = new WidgetOptionsMenu();
-  sub->optionsMenu->var5C = 0;
+  sub->optionsMenu->varU8 = 0;
   sub->pauseMenuSections[0] = sub->optionsMenu;
   if (gGlobals.cinematicReplay == 0) {
     sub->optionsMenu->InitMenu(0);
@@ -201,7 +201,7 @@ void PauseWidget::InitOptionsMenu(){
 void PauseWidget::BuildDollMenu(u8 param_2){;
   pause_Substruct *sub = (pause_Substruct *)this->substruct;
   sub->dollmenu = new WidgetDollMenu(0,param_2);
-  sub->dollmenu->var5C = 1;
+  sub->dollmenu->varU8 = 1;
   sub->pauseMenuSections[1] = sub->dollmenu;
   Utilities::MoveWidget(sub->dollmenu,(1 - (ushort)sub->PauseMenuSection) * SCREEN_WIDTH,0);
   sub->dollmenu->Tick();
@@ -211,7 +211,7 @@ void PauseWidget::BuildDollMenu(u8 param_2){;
 void PauseWidget::BuildCalendarMenu(){
   pause_Substruct *sub = (pause_Substruct *)this->substruct;
   sub->calendar = new WidgetCalendar();
-  sub->calendar->var5C = 2;
+  sub->calendar->varU8 = 2;
   sub->pauseMenuSections[2] = sub->calendar;
   Utilities::MoveWidget(sub->calendar,(2 - (ushort)sub->PauseMenuSection) * SCREEN_WIDTH,0);
   sub->calendar->Tick();

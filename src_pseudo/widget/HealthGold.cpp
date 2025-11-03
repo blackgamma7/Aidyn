@@ -55,9 +55,9 @@ void WidgetHealthGold::Update(CharSheet *param_2){;
   sprintf(buff,"%u",Entity::GetLevel(param_2));
   this->LevelText = new WidgetClipText(buff,3);
   this->LevelText->SetCoords(0xdf,0x37);
-  this->LevelText->x+=this->x;
-  this->LevelText->boundX0 +=this->x;
-  this->LevelText->boundX1 +=this->x;
+  this->LevelText->posX+=this->posX;
+  this->LevelText->boundX0 +=this->posX;
+  this->LevelText->boundX1 +=this->posX;
   this->LevelText->SetColor(0x82,0x50,0x50,0xff);
   (this->LevelText->col).A = 0;//why not use setter?
   abStack_38[0] = 0xff;
@@ -68,9 +68,9 @@ void WidgetHealthGold::Update(CharSheet *param_2){;
   sprintf(buff,"%u",Entity::getHPCurrent(param_2));
   this->CurrHPText = new WidgetClipText(buff,4);
   this->CurrHPText->SetCoords(0xdf,0x29);
-  this->CurrHPText->x+=this->x;
-  this->CurrHPText->boundX0+=this->x;
-  this->CurrHPText->boundX1+=this->x;
+  this->CurrHPText->posX+=this->posX;
+  this->CurrHPText->boundX0+=this->posX;
+  this->CurrHPText->boundX1+=this->posX;
   this->CurrHPText->SetColor(0x82,0x50,0x50,0xff);
   (this->CurrHPText->col).A = 0;//why not use setter?
   abStack_38[2] = 0xff;
@@ -81,9 +81,9 @@ void WidgetHealthGold::Update(CharSheet *param_2){;
   sprintf(buff,"%u",Entity::getHPMax(param_2));
   this->MaxHPText = new WidgetClipText(buff,4);
   this->MaxHPText->SetCoords(0xff,0x29);
-  this->MaxHPText->x+= this->x;//why not use setter?
-  this->MaxHPText->boundX0+= this->x;
-  this->MaxHPText->boundX1+= this->x;
+  this->MaxHPText->posX+= this->posX;//why not use setter?
+  this->MaxHPText->boundX0+= this->posX;
+  this->MaxHPText->boundX1+= this->posX;
   this->MaxHPText->SetColor(0x82,0x50,0x50,0xff);
   this->MaxHPText->col.A = 0; // why not use setter?
   abStack_38[4] = 0xff;
@@ -95,8 +95,8 @@ void WidgetHealthGold::Update(CharSheet *param_2){;
 
 u8 WidgetHealthGold::Tick(){
   this->unk90.Tick(1);
-  this->HPBar->boundX0 = this->HPBar->x;
-  this->HPBar->boundX1 = this->HPBar->x + this->HpPercent;
+  this->HPBar->boundX0 = this->HPBar->posX;
+  this->HPBar->boundX1 = this->HPBar->posX + this->HpPercent;
   return TickChildren();
 }
 

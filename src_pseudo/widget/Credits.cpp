@@ -38,9 +38,9 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
     this->Link(pBVar7);
     pBVar7->SetColor(0xe1,0xe1,0,0xff);
     pBVar7->SetCoords((short)((int)(SCREEN_WIDTH - pBVar7->GetWidth()) / 2),SCREEN_HEIGHT);
-    pBVar7->SetSomeBounds(pBVar7->y,0,SCREEN_WIDTH,pBVar7->y + pBVar7->GetHeight());
+    pBVar7->SetSomeBounds(pBVar7->posY,0,SCREEN_WIDTH,pBVar7->posY + pBVar7->GetHeight());
     uVar14++;
-    uVar12 = (ushort)pBVar7->y + pBVar7->GetHeight();
+    uVar12 = (ushort)pBVar7->posY + pBVar7->GetHeight();
     posY = (ushort)uVar12;
     if (count != credits_linebreaks[uVar14]) {
       do {
@@ -53,11 +53,11 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
         uVar12 += pBVar9->GetHeight();
         posY = (ushort)uVar12;
         count++;
-        pBVar9->SetSomeBounds(pBVar9->y,0,SCREEN_WIDTH,posY);
+        pBVar9->SetSomeBounds(pBVar9->posY,0,SCREEN_WIDTH,posY);
       } while (count != credits_linebreaks[uVar14]);
     }
-    pBVar7->var5C = (byte)count;
-    pBVar7->var5E = posY - pBVar7->y;
+    pBVar7->varU8 = (byte)count;
+    pBVar7->varU16 = posY - pBVar7->posY;
 }
  this->clipText = WClipTXT(creditStrings[0x81]);
  this->clipText->SetColor(0xff,0xff,0xff,0);
@@ -65,7 +65,7 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
  RomString::Free(creditStrings);
  pBVar11 = gGlobals.gameVars.BGM;
  this->BGMVol = gGlobals.VolBGM;
- this->field5_0x80 = this->link3;
+ this->field5_0x80 = this->child;
  this->SFXVol = gGlobals.VolSFX;
  gGlobals.VolBGM = 0.0;
  gGlobals.VolSFX = 0.0;
@@ -111,7 +111,7 @@ void WidgetCredits::State1(){
   
   pBVar2 = this->field5_0x80;
   this->col.A = (this->field5_0x80->col).A;
-  if (this->field5_0x80->y < SCREEN_HEIGHT) {
+  if (this->field5_0x80->posY < SCREEN_HEIGHT) {
     if (this->unk89 == 0) {
       if ((u8)(gGlobals.delta * CreditsSpeed) << 1 < this->col.A) {
         this->col.A+= gGlobals.delta * CreditsSpeed * -2;
@@ -130,7 +130,7 @@ void WidgetCredits::State1(){
     }
   }
   else {
-    Utilities::MoveWidget(this->field5_0x80,0,((this->field5_0x80->var5E + SCREEN_HEIGHT) >> 1));
+    Utilities::MoveWidget(this->field5_0x80,0,((this->field5_0x80->varU16 + SCREEN_HEIGHT) >> 1));
     this->col.A = 0;
     this->unk89 = 1;
     this->unk88 = 10.0f / gGlobals.delta;
@@ -138,10 +138,10 @@ void WidgetCredits::State1(){
   Utilities::SetAlpha(this->field5_0x80,this->col.A);
   if (this->col.A == 0) {
     if (this->unk89 == 0) {
-      this->field5_0x80 = this->field5_0x80->link2;
+      this->field5_0x80 = this->field5_0x80->siblingR;
     }
   }
-  if (this->field5_0x80->var5C == 0x1d) {
+  if (this->field5_0x80->varU8 == 0x1d) {
     this->unk88 = 1;
     this->creditState++;
   }
@@ -156,8 +156,8 @@ void WidgetCredits::State2(){
   bVar2 = this->unk88 - 1;
   if (this->unk88 == 0) {
     pBVar3 = this->field5_0x80;
-    if ((int)((int)pBVar3->y + (uint)pBVar3->var5E) < 0) {
-      this->field5_0x80 = pBVar3->link2;
+    if ((int)((int)pBVar3->posY + (uint)pBVar3->varU16) < 0) {
+      this->field5_0x80 = pBVar3->siblingR;
       pBVar3 = this->field5_0x80;
     }
     if (pBVar3 == NULL) {
@@ -165,19 +165,19 @@ void WidgetCredits::State2(){
       bVar2 = 1;
     }
     else {
-      pBVar1 = pBVar3->link1;
-      if ((pBVar1 == NULL) || (bVar2 = 1, (int)((int)pBVar1->y + (uint)pBVar1->var5E + 0x20) < SCREEN_HEIGHT)
+      pBVar1 = pBVar3->siblingL;
+      if ((pBVar1 == NULL) || (bVar2 = 1, (int)((int)pBVar1->posY + (uint)pBVar1->varU16 + 0x20) < SCREEN_HEIGHT)
          ) {
         do {
           bVar2 = this->unk8a;
           while( true ) {
             Utilities::MoveWidget(pBVar3,0,-(ushort)bVar2);
-            pBVar3 = pBVar3->link2;
+            pBVar3 = pBVar3->siblingR;
             bVar2 = 1;
             if (pBVar3 == NULL) goto LAB_800340fc;
-            pBVar1 = pBVar3->link1;
+            pBVar1 = pBVar3->siblingL;
             if (pBVar1 == NULL) break;
-            if (0xef < (int)((int)pBVar1->y + (uint)pBVar1->var5E + 0x20)) {
+            if (0xef < (int)((int)pBVar1->posY + (uint)pBVar1->varU16 + 0x20)) {
               bVar2 = 1;
               goto LAB_800340fc;
             }

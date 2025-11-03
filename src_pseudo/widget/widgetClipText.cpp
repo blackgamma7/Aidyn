@@ -55,14 +55,14 @@ Gfx * WidgetClipText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   iVar2 = 0;
   ppcVar1 = (WidgetSubstruct_ClipText *)substruct;
   GStackX_4 = g;
-  if (((lVar6 < this->x) || (ppcVar1->unk12 < lVar4)) || (lVar5 < this->y)) RENDERCHILDREN();
+  if (((lVar6 < this->posX) || (ppcVar1->unk12 < lVar4)) || (lVar5 < this->posY)) RENDERCHILDREN();
   else {
     (font_pointer->col).R = (this->col).R * fadeFloatMirror;
     (font_pointer->col).G = (this->col).G * fadeFloatMirror;
     (font_pointer->col).B = (this->col).B * fadeFloatMirror;
     (font_pointer->col).A = (this->col).A * fadeFloatMirror;
     if (0.0 < (float)(this->col).A * fadeFloatMirror) {
-      iVar2 = Font::PrintMain(font_pointer,&GStackX_4,ppcVar1->str,this->x,this->y,
+      iVar2 = Font::PrintMain(font_pointer,&GStackX_4,ppcVar1->str,this->posX,this->posY,
                                   ppcVar1->unk10,ppcVar1->unk12,lVar4,lVar7,lVar6,
                                   lVar5,ppcVar1->scaleX,ppcVar1->scaleY);
     }

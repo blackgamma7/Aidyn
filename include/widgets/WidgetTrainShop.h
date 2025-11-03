@@ -9,7 +9,7 @@ class WidgetTrainShop : public WidgetMenu{
     public:
     BaseWidget *TitleWidget;
     WidgetFastScrollMenu *scrollMenu;
-    WidgetScrollArrows* unk84;
+    WidgetScrollArrows* arrows;
     u8 partyPicker;
     WidgetTrainShop();
     ~WidgetTrainShop();

@@ -349,13 +349,13 @@ void FUN_80090174(u8 param_1,CombatPortrait *param_2){
   pCVar9->widget->visible = 1;
   pCVar9->unk14 = 0;
 
-  combat_gui_substruct->AddItem(new GuiAnimatorBlip(&param_2->basePortait->x,&pCVar9->unk4,60));
-  combat_gui_substruct->AddItem(new GuiAnimatorU2(&param_2->basePortait->y,&pCVar9->unk6,60,&double_array_1));
+  combat_gui_substruct->AddItem(new GuiAnimatorBlip(&param_2->basePortait->posX,&pCVar9->unk4,60));
+  combat_gui_substruct->AddItem(new GuiAnimatorU2(&param_2->basePortait->posY,&pCVar9->unk6,60,&double_array_1));
   combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->basePortait->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
   combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->basePortait->height,(u16 *)&pCVar9->unka,60,&double_array_0));
   if (param_2->Overlay) {
-    combat_gui_substruct->AddItem(new GuiAnimatorBlip(&param_2->Overlay->x,&pCVar9->unk4,60));
-    combat_gui_substruct->AddItem(new GuiAnimatorU2(&param_2->Overlay->y,&pCVar9->unk6,60,&double_array_1));
+    combat_gui_substruct->AddItem(new GuiAnimatorBlip(&param_2->Overlay->posX,&pCVar9->unk4,60));
+    combat_gui_substruct->AddItem(new GuiAnimatorU2(&param_2->Overlay->posY,&pCVar9->unk6,60,&double_array_1));
     combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->Overlay->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
     combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->Overlay->height,(u16 *)&pCVar9->unka,60,&double_array_0));
   }
@@ -467,7 +467,7 @@ Gfx * CombatDrawHealthbar(Gfx *g,u32 param_2){
 }
 
 void draw_crossbone(CombatPortrait *param_1,u32 param_2){
-  param_1->Overlay = ConstructWidgetBorg8Combat(param_1->basePortait,loadBorg8(param_2),param_1->basePortait->x,param_1->basePortait->y,1);
+  param_1->Overlay = ConstructWidgetBorg8Combat(param_1->basePortait,loadBorg8(param_2),param_1->basePortait->posX,param_1->basePortait->posY,1);
   param_1->Overlay->SetWidth(param_1->basePortait->GetWidth());
   param_1->Overlay->SetHeight(param_1->basePortait->GetHeight());
   param_1->Overlay->col.A = 0;

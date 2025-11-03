@@ -113,7 +113,7 @@ BaseWidget * WidgetSkillTrain::AFunc() {
 BaseWidget * WidgetSkillTrain::CDownFunc() {
   BaseWidget *w = this->scrollMenu->AFunc();
   if (w)
-    WHANDLE->AddWidget(new WidgetItemDetail(PARTY->Members[this->partyPicker]->Skills,w->var5E));
+    WHANDLE->AddWidget(new WidgetItemDetail(PARTY->Members[this->partyPicker]->Skills,w->varU16));
   return NULL;
 }
 
@@ -164,7 +164,7 @@ s32 WidgetSkillTrain::GetExpPrice(u16 param_2) {
 BaseWidget * WST_AButtonFunc(BaseWidget *param_1,BaseWidget *param_2) {
   pause_Substruct* sub=PauseSub;
   DollMenuLists *pDVar1 = sub->dollmenu->lists;
-  pDVar1->menus[pDVar1->menuIndex]->Purchase(param_2->var5E,param_2->var5C);
+  pDVar1->menus[pDVar1->menuIndex]->Purchase(param_2->varU16,param_2->varU8);
   return NULL;
 }
 
@@ -326,11 +326,11 @@ LAB_8003fd14:
       pWVar7 = new WidgetChild8(2,gGlobals.text,0x96,&col1,&col2,0,0,0);
       pBVar8 = WClipTXT(gGlobals.CommonStrings[0x1f]);
       pBVar8->AButtonFunc = WST_AButtonFunc;
-      pBVar8->var5E = param_2;
-      pBVar8->var5C = this->partyPicker;
+      pBVar8->varU16 = param_2;
+      pBVar8->varU8 = this->partyPicker;
       pWVar7->AppendScrollMenu(pBVar8);
       pWVar7->AppendScrollMenu(WClipTXT(gGlobals.CommonStrings[0x20]));
-      pWVar7->m8004de18();
+      pWVar7->Update();
       WHANDLE->AddWidget(pWVar7);
     }
     if (gold_train_price == 0) {

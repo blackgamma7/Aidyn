@@ -28,11 +28,7 @@ WidgetFastScrollMenu::~WidgetFastScrollMenu(){
   if (sub) {
     if (sub->currentCount != 0) {
         for(u32 i=0;i<sub->currentCount;i++){
-          BaseWidget*w = sub->items[i];
-          if (w) {
-            w->~BaseWidget();
-            sub->items[i] = NULL;
-          }
+          DestructWidget(sub->items[i])
         }
     }
     FREEPTR(sub->items,72);
@@ -64,9 +60,9 @@ u8 WidgetFastScrollMenu::Tick(){
       sub->highlight = sub->currentCount - 1;
     }
     BaseWidget*highlighted = sub->items[sub->highlight];
-    if (highlighted->x != this->x)
+    if (highlighted->posX != this->posX)
       m8002fd90();
-    if ((highlighted->y < this->boundY0) || (this->boundY1 <= highlighted->y))
+    if ((highlighted->posY < this->boundY0) || (this->boundY1 <= highlighted->posY))
       m8002ff30();
     sub->blendB+=sub->blendSign;
     if ((sub->blendB == '\0') || ((sub->blendA - 1) <= sub->blendB)) {
@@ -89,7 +85,7 @@ void WidgetFastScrollMenu::m8002fd90(){
     u16 h = w->GetHeight();
     u16 i;
     for (i = sub->highlight; i != 0; i--) {
-      if ((sub->items[i]->y + h) < this->boundY0)
+      if ((sub->items[i]->posY + h) < this->boundY0)
       {
         if (i != 0) {
           goto LAB_8002fe90;
@@ -97,20 +93,20 @@ void WidgetFastScrollMenu::m8002fd90(){
         break;
       }
       w = sub->items[i];
-      w->x = this->x;
+      w->posX = this->posX;
       w->boundX0 = this->boundX0;
       w->Tick();
     }
     w = sub->items[i];
-    w->x = this->x;
+    w->posX = this->posX;
     w->boundX0 = this->boundX0;
     w->Tick();
 LAB_8002fe90:
     i = sub->highlight + 1;
     if (i < sub->currentCount) {
-      while (sub->items[i]->y <= (short)this->boundY1) {
+      while (sub->items[i]->posY <= (short)this->boundY1) {
         w = sub->items[i];
-        w->x = this->x;
+        w->posX = this->posX;
         w->boundX0 = this->boundX0;
         w->Tick();
         i++;
@@ -127,7 +123,7 @@ void WidgetFastScrollMenu::m8002ff30(){
   if ((sub->items != NULL) && (sub->currentCount != 0)) {
     BaseWidget*w = sub->items[sub->highlight];
     u16 h = w->GetHeight();
-    s32 iVar4 = this->y + sub->field11_0x12 + h * sub->highlight;
+    s32 iVar4 = this->posY + sub->field11_0x12 + h * sub->highlight;
     if (this->boundY1 < (int)(iVar4 + h))
       sub->field11_0x12 -= ((short)(iVar4 + h) - this->boundY1);
     if (iVar4 < this->boundY0)
@@ -139,7 +135,7 @@ void WidgetFastScrollMenu::m8002ff30(){
         w->boundX1 = this->boundX1;
         w->boundY0 = this->boundY0;
         w->boundY1 = this->boundY1;
-        w->SetCoords(this->x,this->y + sub->field11_0x12 + (short)iVar4);
+        w->SetCoords(this->posX,this->posY + sub->field11_0x12 + (short)iVar4);
         if (i == sub->highlight) w->SetColor(sub->col.R,sub->col.G,sub->col.B,sub->col.A);
         else w->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
         iVar4+=h;

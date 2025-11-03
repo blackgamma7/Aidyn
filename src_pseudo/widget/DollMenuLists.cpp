@@ -78,7 +78,7 @@ LAB_80038434:
     pBVar8 = WidgetB8(BORG8_TitleTrain);
     pBVar8->SetCoords(0x5a - (pBVar8->GetHeight() >> 1),0x58 - pBVar8->GetWidth());
     this->Link(pBVar8);
-    u16 uVar16 = (ushort)pBVar8->y + pBVar8->GetHeight() + 4;
+    u16 uVar16 = (ushort)pBVar8->posY + pBVar8->GetHeight() + 4;
     Gsprintf(Cstring(EarnedExp),(gGlobals.expGained * 1.5f));
     pBVar8 = WClipTXT(gGlobals.text);
     pBVar8->SetColor(0x82,0x50,0x50,0xff);
@@ -116,7 +116,7 @@ LAB_80038434:
     this->Link(this->expCost);
     this->expRemain = new WidgetClipText(NULL,20);
     this->expRemain->SetColor(0x82,0x50,0x50,0xff);
-    this->expRemain->SetCoords(0x14,this->expCost->y + this->expCost->GetHeight());
+    this->expRemain->SetCoords(0x14,this->expCost->posY + this->expCost->GetHeight());
     this-Link(this->expRemain);
     ShowEXPCosts();
   }
@@ -169,10 +169,10 @@ void DollMenuLists::LRToggle(u8 param_2){
     }
     if (newIndex!= this->menuIndex) {
       WidgetTrainShop* w=this->menus[newIndex];
-      w->x = 0xa0 - sVar9;
-      this->unkb0.AddItem(new GuiAnimatorU2(&w->x,&this->menus[this->menuIndex]->x,0x14,&double_array_0));
-      asStack_28[0] = sVar9 + this->menus[this->menuIndex]->x;
-      this->unkb0.AddItem(new GuiAnimatorU2(&this->menus[this->menuIndex]->x,asStack_28,0x14,&double_array_0));
+      w->posX = 0xa0 - sVar9;
+      this->unkb0.AddItem(new GuiAnimatorU2(&w->posX,&this->menus[this->menuIndex]->posX,0x14,&double_array_0));
+      asStack_28[0] = sVar9 + this->menus[this->menuIndex]->posX;
+      this->unkb0.AddItem(new GuiAnimatorU2(&this->menus[this->menuIndex]->posX,asStack_28,0x14,&double_array_0));
       this->Link(w);
       pWVar3 = this->menus[this->menuIndex];
       this->menuIndex = (byte)newIndex;
@@ -188,7 +188,7 @@ void DollMenuLists::ShowEXPCosts(){
     BaseWidget* w = this->menus[this->menuIndex]->AFunc();
     if (!w) strcpy(Utilities::GetWidgetText(this->expCost)," ");
     else {
-      s32 price = this->menus[this->menuIndex]->GetExpPrice(w->var5E);
+      s32 price = this->menus[this->menuIndex]->GetExpPrice(w->varU16);
       if (price == -1) strcpy(Utilities::GetWidgetText(this->expCost),Cstring(ExpCostMax));
       else sprintf(Utilities::GetWidgetText(this->expCost),Cstring(ExpCost),price);
     }

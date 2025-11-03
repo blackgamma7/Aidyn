@@ -244,7 +244,7 @@ LAB_80050770:
         setGlobalsPointer(w);
         break;
       case 7:
-        FUN_800508b4(w->var5E);
+        FUN_800508b4(w->varU16);
       }
       gGlobals.SomeCase = 0xc;
       gGlobals.barterMenu = w;

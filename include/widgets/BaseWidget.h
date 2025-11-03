@@ -3,9 +3,9 @@
 
 // Base Class for almost all UI Elements
 class BaseWidget{
+public:
     typedef BaseWidget* (*buttonFunc)(BaseWidget*,BaseWidget*);
     typedef u8 (*fadeFunc)(BaseWidget*);
-public:
     fadeFunc fadeIn; 
     fadeFunc fadeOut;
     buttonFunc UpButtonFunc;
@@ -23,22 +23,22 @@ public:
     buttonFunc CLeftButtonFunc;
     buttonFunc CRightButtonFunc;
     void *substruct; /* changes for each widget type */
-    BaseWidget *link0; //parent?
-    BaseWidget *link1; //left sibling?
-    BaseWidget *link2; //right sibling?
-    BaseWidget *link3; //child?
-    BaseWidget *link4;
+    BaseWidget *parent; //parent widget
+    BaseWidget *siblingL; //left sibling(?)
+    BaseWidget *siblingR; //right sibling(?)
+    BaseWidget *child; //child widget
+    BaseWidget *link4; //other child widget?
     Color32 col;
-    u8 var5C; //changes for each widget type
-    u16 var5E; //changes for each widget type.
-    s16 x; //screenspace x position
-    s16 y; //screenspace y position
+    u8 varU8; //changes for each widget type
+    u16 varU16; //changes for each widget type.
+    s16 posX; //screenspace x position
+    s16 posY; //screenspace y position
     s16 boundX0;
     s16 boundX1;
     s16 boundY0;
     s16 boundY1;
     Borg8Header *borg8;
-    byte state;
+    u8 state;
     u16 height;
     u16 width;
     BaseWidget();
@@ -71,7 +71,7 @@ public:
     void SetHeight(u16 h);
     void SetBorg8(Borg8Header* b8,u8 fit);
     void SetSomeBounds(u16 Y0,u16 X0, u16 X1, u16 Y1);
-    void GetSomeBounds(u16* Y0,u16* X0, u16* X1, u16* Y1);
+    void GetSomeBounds(s32* Y0,s32* X0, s32* X1, s32* Y1);
     Gfx* RenderChildren(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1);
     void FreeChildren();
     u8 TickChildren();
@@ -81,8 +81,17 @@ public:
     u32 RunFadeOutChildren();
     void SetState(u8 state);
 };
-
+//Render() methods usually end (or sometimes only contain) this call.
 #define RENDERCHILDREN() return this->RenderChildren(g, x0, y0, x1, y1) 
+
+//destructors sometimes use this check for widgets in arrays and substructs
+#define DestructWidget(w) \
+if(w){\
+w->~BaseWidget();\
+w=NULL;\
+}\
+
+
 FontStruct* font_pointer=NULL;
 u16 HresMirror=0;
 u16 VresMirror=0;
@@ -90,6 +99,15 @@ float fadeFloatMirror=1.0;
 u32 widget_control_dat=0;
 u8 widget_control_timer=30;
 u32 widget_control_buttons;
+
+enum WidgetState{
+    WidgetS_Inactive,
+    WidgetS_Init,
+    WidgetS_FadedIn,
+    WidgetS_Running,
+    WidgetS_Closing=5,
+    WidgetS_Closed
+};
 
 //return for GetNumber()
 enum WidgetNumber{

@@ -44,7 +44,7 @@ bool combat_C_Up_Down(controller_aidyn *cont);
 void Combat_menu_C_Up();
 void combat_menu_C_down();
 void Combat_CloseCVertMenu();
-bool some_inventory_check(s32 *param_1);
+bool hasUsablePotions(s32 *param_1);
 bool gear_has_spell(s32 *wep,s32 *armor,s32 *shield,u8 *gear);
 bool can_perform_or_heal(s32 *troub,s32 *hands,s32 *herb);
 u8 can_use_spell(u8 *param_1);

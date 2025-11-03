@@ -17,7 +17,7 @@ u8 widget_left_side_fade_in(BaseWidget *w) {
   }
   else {
     (w->col).A = 0xff;
-    w->state = 2;
+    w->state = WidgetS_FadedIn;
   }
   Utilities::SetAlpha(w,(w->col).A);
   w->Tick();
@@ -29,7 +29,7 @@ u8 widget_left_side_fade_out(BaseWidget *w) {
   if((w->col).A >60)(w->col).A-= 60;
   else {
     (w->col).A = 0;
-    w->state = 6;
+    w->state = WidgetS_Closed;
   }
   Utilities::SetAlpha(w,(w->col).A);
   w->Tick();
@@ -39,7 +39,7 @@ u8 widget_left_side_fade_out(BaseWidget *w) {
 WidgetClipText * WidgetItemDetail::AddLeftText(char *txt) {
   WidgetClipText *w = WClipTXT(txt);
   w->SetColor(0x82,0x50,0x50,0xff);
-  w->SetCoords(this->x,this->bottom);
+  w->SetCoords(this->posX,this->bottom);
   this->Link(w);
   return w;
 }
@@ -61,7 +61,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
   u16 uVar16;
   uint i;
   SlimFont;
-  this->var5E = param_2->id;
+  this->varU16 = param_2->id;
   SidePopup();
   PrintNameIcon(param_2->name);
   if ((ushort)param_2->id >> 8 == DB_POTION) {
@@ -81,7 +81,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
     }
     ppcVar12 = RomString::Load(romstring_potiondetails,2688);
     pBVar13 = AddLeftText(ppcVar12[potion_romstring_id[i][1]]);
-    Utilities::SetTextWidgetBoundsX(pBVar13,this->x,ItemDetailsWidth);
+    Utilities::SetTextWidgetBoundsX(pBVar13,this->posX,ItemDetailsWidth);
     this->bottom+=pBVar13->GetHeight();
     RomString::Free(ppcVar12);
   }
@@ -123,7 +123,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
     }
     ppcVar12 = RomString::Load(romstring_items,0xed0);
     pBVar13 = AddLeftText(ppcVar12[item_romstring_id[i][1]]);
-    Utilities::SetTextWidgetBoundsX(pBVar13,this->x,ItemDetailsWidth);
+    Utilities::SetTextWidgetBoundsX(pBVar13,this->posX,ItemDetailsWidth);
     this->bottom+=pBVar13->GetHeight();
     RomString::Free(ppcVar12);
     if ((ushort)param_2->id >> 8 == 0x11) {
@@ -150,14 +150,14 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
   SlimFont;
   SidePopup();
   IVar20 = (param_2->base).id;
-  this->var5E = (ushort)IVar20;
+  this->varU16 = (ushort)IVar20;
   GetSpellIcons(IVar20,&BStack_38,&BStack_34,&aBStack_30);
   BaseWidget* pBVar9 =WidgetB8(aBStack_30);
-  pBVar9->SetCoords(this->x,this->bottom);
+  pBVar9->SetCoords(this->posX,this->bottom);
   this->Link(pBVar9);
   this->bottom = (short)pBVar9->GetHeight() + this->bottom + 2;
   BaseWidget* pBVar12 = AddLeftText((param_2->base).name);
-  pBVar12->SetCoords(this->x + pBVar9->GetWidth() + 2,this->bottom - (short)pBVar12->GetHeight());
+  pBVar12->SetCoords(this->posX + pBVar9->GetWidth() + 2,this->bottom - (short)pBVar12->GetHeight());
   this->bottom+= 4;
   u16 RomstringSpellIndecies[][2]={
    {0x0300, 0x0000},{0x0301, 0x0001},{0x0302, 0x0002},
@@ -188,7 +188,7 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
     }
   char** ppcVar15 = RomString::Load(romstring_spells,0x13a0);
   pBVar9 = AddLeftText(ppcVar15[RomstringSpellIndecies[i][1]]);
-  Utilities::SetTextWidgetBoundsX(pBVar9,this->x,ItemDetailsWidth);
+  Utilities::SetTextWidgetBoundsX(pBVar9,this->posX,ItemDetailsWidth);
   this->bottom +=pBVar9->GetHeight();
   RomString::Free(ppcVar15);
   if (param_2->wizard != 0) {
@@ -208,18 +208,18 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
     s16 uVar11=pBVar9->GetHeight();
     this->bottom = uVar11 + 187;
     pBVar9->SetColor(0x82,0x50,0x50,0xff);
-    pBVar9->SetCoords(this->x,this->bottom);
+    pBVar9->SetCoords(this->posX,this->bottom);
     this->Link(pBVar9);
     GetItemImage(IVar20,&aBStack_30);
     pBVar12 = WidgetB8(aBStack_30);
-    pBVar12->SetCoords(this->x + pBVar9->GetWidth(),this->bottom);
+    pBVar12->SetCoords(this->posX + pBVar9->GetWidth(),this->bottom);
     s16 sVar18 = uVar11 + -2;
     pBVar12->SetWidth(sVar18);
     pBVar12->SetHeight(sVar18);
     this->Link(pBVar12);
     pBVar9 = WClipTXT(gItemDBp->Gear[(s16)search_item_array(IVar20)].name);
     pBVar9->SetColor(0x82,0x50,0x50,0xff);
-    pBVar9->SetCoords(pBVar12->x + pBVar12->GetWidth() + 2,this->bottom);
+    pBVar9->SetCoords(pBVar12->posX + pBVar12->GetWidth() + 2,this->bottom);
     this->Link(pBVar9);
     this->bottom+=pBVar9->GetHeight();
   }
@@ -229,10 +229,10 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
 WidgetItemDetail::WidgetItemDetail(u16 stat):WidgetMenu() {
   SlimFont;
   SidePopup();
-  this->var5E = stat;
+  this->varU16 = stat;
   char **ppcVar3 = RomString::Load(romstring_stats,0x2f0);
-  BaseWidget *pBVar4 = AddLeftText(ppcVar3[this->var5E]);
-  Utilities::SetTextWidgetBoundsX(pBVar4,this->x,ItemDetailsWidth);
+  BaseWidget *pBVar4 = AddLeftText(ppcVar3[this->varU16]);
+  Utilities::SetTextWidgetBoundsX(pBVar4,this->posX,ItemDetailsWidth);
     this->bottom+=pBVar4->GetHeight();
   RomString::Free(ppcVar3);
   NormalFont;
@@ -247,7 +247,7 @@ WidgetItemDetail::WidgetItemDetail(CharSkills *sk,u16 type):WidgetMenu() {
   SidePopup();
   uVar1 = type >> 8;
   uVar7 = type & 0xff;
-  this->var5E = type;
+  this->varU16 = type;
   switch(uVar1){
     case 0:
       index = uVar7; break;
@@ -266,7 +266,7 @@ WidgetItemDetail::WidgetItemDetail(CharSkills *sk,u16 type):WidgetMenu() {
   }
   char **ppcVar4 = RomString::Load(romstring_skills,0x790);
   BaseWidget *pBVar5 = AddLeftText(ppcVar4[index]);
-  Utilities::SetTextWidgetBoundsX(pBVar5,this->x,ItemDetailsWidth);
+  Utilities::SetTextWidgetBoundsX(pBVar5,this->posX,ItemDetailsWidth);
   this->bottom+=pBVar5->GetHeight();
   RomString::Free(ppcVar4);
   NormalFont;
@@ -274,8 +274,8 @@ WidgetItemDetail::WidgetItemDetail(CharSkills *sk,u16 type):WidgetMenu() {
 
 void WidgetMenuPopup(BaseWidget *w) {
   (w->col).A = 0;
-  w->x = 23;
-  w->y = 70;
+  w->posX = 23;
+  w->posY = 70;
   WidgetBorg8* w0=WidgetB8(228);
   w0->SetCoords(5,60);
   w->Link(w0);
@@ -296,13 +296,13 @@ void WidgetItemDetail::SidePopup(){
 void WidgetItemDetail::PrintNameIcon(char *txt) {
   u32 index;
   
-  GetItemImage((ItemID)this->var5E,&index);
+  GetItemImage((ItemID)this->varU16,&index);
   WidgetBorg8* wicon = WidgetB8(&index);
-  wicon->SetCoords(this->x,this->bottom);
+  wicon->SetCoords(this->posX,this->bottom);
   this->Link(wicon);
   this->bottom+= this->GetHeight()+2;
   WidgetClipText*wtxt = WClipTXTSafe(txt);
-  wtxt->SetCoords(this->x + wicon->GetWidth() + 2,this->bottom - wtxt->GetHeight());
+  wtxt->SetCoords(this->posX + wicon->GetWidth() + 2,this->bottom - wtxt->GetHeight());
   wtxt->SetColor(0x82,0x50,0x50,0xff);
   this->Link(wtxt);
   this->bottom+=4;
@@ -377,7 +377,7 @@ void WidgetItemDetail::PrintEnchantment(SpellCharges *charges) {
     WidgetClipText *pBVar2 = AddLeftText(gGlobals.CommonStrings[0x21e]);
     this->bottom+=pBVar2->GetHeight();
     pBVar2 = AddLeftText(charges->Spell->base.name);
-    pBVar2->SetCoords(this->x + 0x10,this->bottom);
+    pBVar2->SetCoords(this->posX + 0x10,this->bottom);
     this->bottom+=(short)pBVar2->GetHeight();
   }
 }
@@ -389,7 +389,7 @@ void WidgetItemDetail::PrintResistance(resist_float *resist) {
     BaseWidget *pBVar1 = AddLeftText(gGlobals.CommonStrings[0x21f]);
     this->bottom+=pBVar1->GetHeight();
     pBVar1 = AddLeftText(element_labels[resist->element]);
-    pBVar1->SetCoords(this->x + 0x10,this->bottom);
+    pBVar1->SetCoords(this->posX + 0x10,this->bottom);
     sprintf(buff,"%.0f",(1.0f - resist->percent) *100.0f);
     pBVar1 = AddRightText(buff);
     this->bottom+=pBVar1->GetHeight();
@@ -399,7 +399,7 @@ void WidgetItemDetail::PrintResistance(resist_float *resist) {
 WidgetItemDetail::WidgetItemDetail(WeaponInstance *wep):WidgetMenu() {
   SlimFont;
   SidePopup();
-  this->var5E = (wep->base).id;
+  this->varU16 = (wep->base).id;
   PrintNameIcon((wep->base).name);
   PrintWeaponType(weapon_strings[wep->weaponType]);
   PrintAspect((wep->base).aspect);
@@ -432,7 +432,7 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   SlimFont;
   SidePopup();
   pcVar1 = (armor->base).name;
-  this->var5E = (ushort)(armor->base).id;
+  this->varU16 = (ushort)(armor->base).id;
   PrintNameIcon(pcVar1);
   PrintAspect((armor->base).aspect);
   AddLeftText(gGlobals.CommonStrings[0x220]);
@@ -463,7 +463,7 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   if (pCVar3){
   this->bottom = 0xd5;
   bVar12 = Entity::GetShieldDefence(pCVar3,(ItemID)0x0);
-  bVar13 = Entity::GetShieldDefence(pCVar3,(ItemID)this->var5E);
+  bVar13 = Entity::GetShieldDefence(pCVar3,(ItemID)this->varU16);
   sprintf(acStack_128,"(%ld)",bVar13);
   pBVar10 = WClipTXT(acStack_128);
   this->bottom -= pBVar10->GetHeight();
@@ -491,10 +491,10 @@ setColor1:
   this->Link(pBVar10);
   pBVar10 =  WClipTXT(gGlobals.CommonStrings[0x224]);
   pBVar10->SetColor(0x82,0x50,0x50,0xff);
-  pBVar10->SetCoords(this->x,this->bottom);
+  pBVar10->SetCoords(this->posX,this->bottom);
   this->Link(pBVar10);
   u8 lVar8 = Entity::GetArmorProtect(pCVar3,0);
-  u8 lVar9 = Entity::GetArmorProtect(pCVar3,this->var5E);
+  u8 lVar9 = Entity::GetArmorProtect(pCVar3,this->varU16);
   sprintf(acStack_128,"(%ld)",lVar9);
   pBVar10 = WClipTXT(acStack_128);
   this->bottom-=pBVar10->GetHeight();
@@ -522,7 +522,7 @@ setColor2:
   this->Link(pBVar10);
   pBVar10 = WClipTXT(gGlobals.CommonStrings[0x225]);
   pBVar10->SetColor(0x82,0x50,0x50,0xff);
-  pBVar10->SetCoords(this->x,this->bottom);
+  pBVar10->SetCoords(this->posX,this->bottom);
   this->Link(pBVar10);
   }
   NormalFont;
@@ -534,7 +534,7 @@ WidgetItemDetail::WidgetItemDetail(GearInstance *gear):WidgetMenu() {
   
   SlimFont;
   SidePopup();
-  this->var5E = (ushort)(gear->base).id;
+  this->varU16 = (ushort)(gear->base).id;
   PrintNameIcon((gear->base).name);
   PrintAspect((gear->base).aspect);
   AddLeftText(gGlobals.CommonStrings[0x226]);
@@ -586,7 +586,7 @@ u8 WidgetItemDetail::Tick() {
 BaseWidget* WidgetItemDetail::Control(controller_aidyn*cont){
   if((cont->input_2&C_DOWN)==0){
     PlayAudioSound(&gGlobals.SFXStruct,0x74e,0,1.0,0x3c,0);
-    this->state = 5;
+    this->state = WidgetS_Closing;
   }
   return NULL;
 }

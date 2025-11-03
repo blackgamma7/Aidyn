@@ -5,7 +5,7 @@
 BaseWidget * InputMenu_LeftButton(BaseWidget *w0,BaseWidget *w1){
   InputWidgetSubStruct *IMSub = (InputWidgetSubStruct *)w1->substruct;
   WAMSub *AMSub = (WAMSub *)IMSub->arrayMenu->substruct;
-  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->LeftFunc()->var5E;
+  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->LeftFunc()->varU16;
   UpdateCursorPos(IMSub,AMSub);
   PlayAudioSound(&gGlobals.SFXStruct,BORG12_CursorChirp,0,1.0,30,0);
   return NULL;
@@ -14,7 +14,7 @@ BaseWidget * InputMenu_LeftButton(BaseWidget *w0,BaseWidget *w1){
 BaseWidget * InputMenu_RightButton(BaseWidget *w0,BaseWidget *w1){
   InputWidgetSubStruct *IMSub = (InputWidgetSubStruct *)w1->substruct;
   WAMSub *AMSub = (WAMSub *)IMSub->arrayMenu->substruct;
-  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->RightFunc()->var5E;
+  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->RightFunc()->varU16;
   BaseWidget* entry=AMSub->entries[AMSub->entryPos];
   UpdateCursorPos(IMSub,AMSub);
   PlayAudioSound(&gGlobals.SFXStruct,BORG12_CursorChirp,0,1.0,30,0);
@@ -24,7 +24,7 @@ BaseWidget * InputMenu_RightButton(BaseWidget *w0,BaseWidget *w1){
 BaseWidget * InputMenu_UpButton(BaseWidget *w0,BaseWidget *w1){
   InputWidgetSubStruct *IMSub = (InputWidgetSubStruct *)w1->substruct;
   WAMSub *AMSub = (WAMSub *)IMSub->arrayMenu->substruct;
-  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->UpFunc()->var5E;
+  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->UpFunc()->varU16;
   BaseWidget* entry=AMSub->entries[AMSub->entryPos];
   UpdateCursorPos(IMSub,AMSub);
   return NULL;
@@ -33,14 +33,14 @@ BaseWidget * InputMenu_UpButton(BaseWidget *w0,BaseWidget *w1){
 BaseWidget * InputMenu_DownButton(BaseWidget *w0,BaseWidget *w1){
   InputWidgetSubStruct *IMSub = (InputWidgetSubStruct *)w1->substruct;
   WAMSub *AMSub = (WAMSub *)IMSub->arrayMenu->substruct;
-  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->DownFunc()->var5E;
+  IMSub->entry[IMSub->entryIndex] = (u8)IMSub->arrayMenu->DownFunc()->varU16;
   BaseWidget* entry=AMSub->entries[AMSub->entryPos];
   UpdateCursorPos(IMSub,AMSub);
   return NULL;
 }
 
 BaseWidget * InputMenu_BButton(BaseWidget *w0,BaseWidget *w1){
-    w1->var5C=0;
+    w1->varU8=0;
     return w1;
 }
 
@@ -61,15 +61,15 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
   piVar2 = (InputWidgetSubStruct *)w1->substruct;
   uVar10 = piVar2->arrayMenu->AFunc();
   if (uVar10->GetNumber() != WidgetN_ClipText) return NULL;
-  u16 uVar14 = uVar10->var5E;
+  u16 uVar14 = uVar10->varU16;
   if (uVar14 == '~') {//backspace
     piVar2->entry[piVar2->entryIndex] = '\0';
     if (piVar2->entryIndex != 0) piVar2->entryIndex--;
-    piVar2->entry[piVar2->entryIndex] = (char)uVar10->var5E;
+    piVar2->entry[piVar2->entryIndex] = (char)uVar10->varU16;
   }
   else {
     if (uVar14 == '`') {//"X"
-      w1->var5C = 0;
+      w1->varU8 = 0;
       return w1;
     }
     if (uVar14 == '\\') {//"Ok"
@@ -97,7 +97,7 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
         uVar8 = strlen(piVar2->entry);
         piVar2->entryIndex = uVar8;
         if (uVar8 >= IMNameLength)piVar2->entryIndex = IMNameLength-1;
-        piVar2->entry[piVar2->entryIndex] = (char)uVar10->var5E;
+        piVar2->entry[piVar2->entryIndex] = (char)uVar10->varU16;
         piVar2->entry[piVar2->entryIndex + 1] = '\0';
         return NULL;
       }
@@ -106,21 +106,21 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
         pWVar4 = PauseSub->dollmenu;
         if (pWVar4) {
           for (uVar8 = 0; uVar8 < pWVar4->unk7c->partySize; uVar8++) {
-            if (pWVar4->unk7c->portraits[uVar8]->var5E == EntInd_Alaron) {
+            if (pWVar4->unk7c->portraits[uVar8]->varU16 == EntInd_Alaron) {
               Utilities::ChangeWidgetText(pWVar4->unk7c->names[uVar8],piVar2->entry,true);
               break;
             }
           }
         }
       }
-      w1->var5C = piVar2->entryIndex;
+      w1->varU8 = piVar2->entryIndex;
       return w1;
     }
     if ((piVar2->entryIndex == 0) && (uVar14 == ' ')) {
       return NULL;
     }
     if (piVar2->entryIndex < IMNameLength-1) {
-      piVar2->entry[++piVar2->entryIndex] = (char)uVar10->var5E;
+      piVar2->entry[++piVar2->entryIndex] = (char)uVar10->varU16;
     }
     else {
       piVar7 = (WAMSub *)piVar2->arrayMenu->substruct;
@@ -169,17 +169,17 @@ BaseWidget * InputMenu_StartButton(BaseWidget *w0,BaseWidget *w1){
           uVar12 = strlen(piVar3->entry);
           piVar3->entryIndex = uVar12;
           if (uVar12 >= IMNameLength) piVar3->entryIndex = IMNameLength-1;
-          piVar3->entry[piVar3->entryIndex] = (char)pBVar6->var5E;
+          piVar3->entry[piVar3->entryIndex] = (char)pBVar6->varU16;
           piVar3->entry[piVar3->entryIndex + 1] = '\0';
           return NULL;
         }
         sprintf(piVar3->output,piVar3->entry);
-        w1->var5C = piVar3->entryIndex;
+        w1->varU8 = piVar3->entryIndex;
         if (gGlobals.BigAssMenu == NULL) return w1;
         pWVar4 = PauseSub->dollmenu;
         if (pWVar4) {
           for(uVar12 = 0;uVar12<pWVar4->unk7c->partySize;uVar12++) {
-            if (pWVar4->unk7c->portraits[uVar12]->var5E == EntInd_Alaron){
+            if (pWVar4->unk7c->portraits[uVar12]->varU16 == EntInd_Alaron){
             Utilities::ChangeWidgetText(pWVar4->unk7c->names[uVar12],piVar3->entry,true);
             break;
             }

@@ -108,12 +108,12 @@ u8 WidgetStatTrain::Tick() {
   this->expRemaining->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
   this->expPrice->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
   this->expTNL->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
-  this->expToSpendT->SetCoords(this->x,this->y + this->scrollMenu->GetHeight() + 4);
-  this->expSpending->SetCoords(this->x + this->expToSpendT->GetWidth() + 4,this->expToSpendT->y);
-  this->expRemaining->SetCoords(this->x,this->expSpending->y + this->expSpending->GetHeight());
-  this->expTotal->SetCoords(this->expSpending->x,this->expRemaining->y);
-  this->expTNL->SetCoords(this->x,this->expTotal->y + this->expTotal->GetHeight());
-  this->expPrice->SetCoords(this->expSpending->x,this->expTNL->y);
+  this->expToSpendT->SetCoords(this->posX,this->posY + this->scrollMenu->GetHeight() + 4);
+  this->expSpending->SetCoords(this->posX + this->expToSpendT->GetWidth() + 4,this->expToSpendT->posY);
+  this->expRemaining->SetCoords(this->posX,this->expSpending->posY + this->expSpending->GetHeight());
+  this->expTotal->SetCoords(this->expSpending->posX,this->expRemaining->posY);
+  this->expTNL->SetCoords(this->posX,this->expTotal->posY + this->expTotal->GetHeight());
+  this->expPrice->SetCoords(this->expSpending->posX,this->expTNL->posY);
   Utilities::SetWidgetBounds(this->expSpending,this->boundX0,this->boundY0,this->boundX1,this->boundY1);
   Utilities::SetWidgetBounds(this->expToSpendT,this->boundX0,this->boundY0,this->boundX1,this->boundY1);
   Utilities::SetWidgetBounds(this->expTotal,this->boundX0,this->boundY0,this->boundX1,this->boundY1);
@@ -128,7 +128,7 @@ BaseWidget * WidgetStatTrain::AFunc() {return this->scrollMenu->AFunc();}
 
 BaseWidget* WidgetStatTrain::CDownFunc() {
   BaseWidget* w=this->scrollMenu->AFunc();
-  if (w) WHANDLE->AddWidget(new WidgetItemDetail((u16)w->var5C));
+  if (w) WHANDLE->AddWidget(new WidgetItemDetail((u16)w->varU8));
   return NULL;
 }
 
@@ -141,8 +141,8 @@ s32 WidgetStatTrain::GetExpPrice(u16 x) {
   if(w){
     CharStats_s* st=PARTY->Members[this->partyPicker]->Stats;
     ret=-1;
-    if(!CharStats::isStatCapped(st,w->var5C))
-      ret=CharStats::GetTraningPrice(st,w->var5C);
+    if(!CharStats::isStatCapped(st,w->varU8))
+      ret=CharStats::GetTraningPrice(st,w->varU8);
   }
   else ret=0;
   return ret;
@@ -184,8 +184,8 @@ void WidgetStatTrain::Confirm(u16 x, u16 y) {
   BaseWidget* w = this->scrollMenu->AFunc();
   if (w) {
     pCVar4 = pCVar3->Stats;
-    stat_EXP_price = CharStats::GetTraningPrice(pCVar4,w->var5C);
-    if (CharStats::isStatCapped(pCVar4,w->var5C)) {
+    stat_EXP_price = CharStats::GetTraningPrice(pCVar4,w->varU8);
+    if (CharStats::isStatCapped(pCVar4,w->varU8)) {
       Color32 col1={COLOR_OFFWHITE};
       Color32 col2={COLOR_DARKGRAY_T};
       some_textbox_func(gGlobals.CommonStrings[0x1fe],0x96,&col1,&col2,1);
@@ -203,12 +203,12 @@ void WidgetStatTrain::Confirm(u16 x, u16 y) {
       pWVar6 = new WidgetChild8(2,gGlobals.text,0x96,col1,col2,0,0,0);
       pBVar7 = WClipTXT(gGlobals.CommonStrings[0x1f]);
       pBVar7->AButtonFunc = WST_AButtonFunc;
-      pBVar7->var5C = w->var5C;
-      pBVar7->var5E = this->partyPicker;
+      pBVar7->varU8 = w->varU8;
+      pBVar7->varU16 = this->partyPicker;
       pWVar6->AppendScrollMenu(pBVar7);
       pBVar7 = WClipTXT(gGlobals.CommonStrings[0x20]);
       pWVar6->AppendScrollMenu(pBVar7);
-      pWVar6->m8004de18();
+      pWVar6->Update();
       WHANDLE->AddWidget(pWVar6);
     }
   }

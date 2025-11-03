@@ -24,29 +24,29 @@ BaseWidget* WidgetMenuHealer_Restore(BaseWidget*w0,BaseWidget*w1){
 }
 
 BaseWidget* WidgetMenuHealer_LayOnHands2(BaseWidget*w0,BaseWidget*w1){
-    gHealerWidget->PrintHealing(w1->var5E);
+    gHealerWidget->PrintHealing(w1->varU16);
     return NULL;
 }
 
 BaseWidget* WidgetMenuHealer_AFuncHerbs2(BaseWidget*w0,BaseWidget*w1){
-    gHealerWidget->PrintHerbHealing(w1->var5E);
+    gHealerWidget->PrintHerbHealing(w1->varU16);
     return NULL;
 }
 
 BaseWidget* WidgetMenuHealer_Restore2(BaseWidget*w0,BaseWidget*w1){
-    gHealerWidget->PrintRestore(w1->var5E);
+    gHealerWidget->PrintRestore(w1->varU16);
     return NULL;
 }
 
 
 BaseWidget * WidgetMenuHealer_HealingFunc2(BaseWidget *w0,BaseWidget *w1) {
-  gHealerWidget->HealingFunc2(w1->var5E,w1->var5C);
+  gHealerWidget->HealingFunc2(w1->varU16,w1->varU8);
   return NULL;
 }
 
 WidgetMenuHealer::WidgetMenuHealer(u32 partyInd):WidgetCrafting(partyInd){
   this->textBox = Utilities::AddTextWidget(this, gGlobals.CommonStrings[0x1d1],0x17,0x46,0x82,0x50,0x50,0xff);
-  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->y);
+  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,3,0x17,by0,0x17,by0,0xa3,by0 + 0x75,0x82,0x50,0x50,0xff,0);
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
@@ -62,7 +62,7 @@ WidgetMenuHealer::WidgetMenuHealer(u32 partyInd):WidgetCrafting(partyInd){
 }
 
 BaseWidget * WidgetMenuHealer::AFunc(){
-    if(!this->scrollMenu) this->SetState(5);
+    if(!this->scrollMenu) this->SetState(WidgetS_Closing);
     else{
         BaseWidget* w=Utilities::GetHighlightedEntry(this->scrollMenu);
         if(w) w->AFunc();
@@ -78,7 +78,7 @@ BaseWidget* WidgetMenuHealer::BFunc(){
 void WidgetMenuHealer::LayOnHands() {
   ClearText();
   this->textBox = Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x1d2],0x17,0x46,0x82,0x50,0x50,0xff);
-  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->y);
+  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,0x82,0x50,0x50,0xff,0);;
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
@@ -93,7 +93,7 @@ void WidgetMenuHealer::LayOnHands() {
 void WidgetMenuHealer::HealWithHerbs() {
   ClearText();
   this->textBox = Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x1d3],0x17,0x46,0x82,0x50,0x50,0xff);
-  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->y);
+  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,0x82,0x50,0x50,0xff,0);;
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
@@ -108,7 +108,7 @@ void WidgetMenuHealer::HealWithHerbs() {
 void WidgetMenuHealer::Restore() {
   ClearText();
   this->textBox = Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x1d4],0x17,0x46,0x82,0x50,0x50,0xff);
-  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->y);
+  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,0x82,0x50,0x50,0xff,0);;
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
@@ -127,7 +127,7 @@ void WidgetMenuHealer::ShowHealedMember(CharSheet* chara,u16 var,BaseWidget*(fun
     WidgetBorg8* portrait = WidgetB8Port(chara->ID);
     portrait->SetWidth(25);
     portrait->SetHeight(25);
-    group->AddToGroup(portrait,0,0,0);
+    group->AddToGroup(portrait,0,0,false);
     WidgetText* name=WTextSafe(chara->name);
     group->AddToGroup(name,portrait->GetWidth()+2,0,1);
     sprintf(buff,gGlobals.CommonStrings[0x1d5],Entity::getHPCurrent(chara),Entity::getHPMax(chara));
@@ -136,7 +136,7 @@ void WidgetMenuHealer::ShowHealedMember(CharSheet* chara,u16 var,BaseWidget*(fun
     group->SetColor(0x82,0x50,0x50,0xff);
     this->scrollMenu->Append(group);
     group->AButtonFunc = func;
-    group->var5E = var;
+    group->varU16 = var;
   }
 }
 
@@ -151,7 +151,7 @@ void WidgetMenuHealer::PrintHerbHealing(u8 val){
 void WidgetMenuHealer::PrintRestore(u8 val) {
   ClearText();
   this->textBox=Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x1d4],0x17,0x46,0x82,0x50,0x50,0xff);
-  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->y);
+  this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,7,0x17,by0,0x17,by0,0xa3,by0 + 0x75,0x82,0x50,0x50,0xff,0);
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
@@ -182,8 +182,8 @@ void WidgetMenuHealer::ClearText() {
 
 void WidgetMenuHealer::PrintStat(u8 stat, u8 val){
     WidgetText* txt=WTextSafe(Stat_labels[stat]);
-    txt->var5C=val;
-    txt->var5E=stat;
+    txt->varU8=val;
+    txt->varU16=stat;
     txt->AButtonFunc=WidgetMenuHealer_HealingFunc2;
     this->scrollMenu->Append(txt);
 }

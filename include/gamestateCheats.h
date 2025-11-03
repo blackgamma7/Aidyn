@@ -33,18 +33,18 @@ u8 gamestate_cheat_check2(GameState_Cheat param_1);
 void FUN_8003316c(WidgetGameStateCheats *param_1);
 
 typedef enum GameState_Cheat { /* Set in big Debug Menu */
-    STATECHEAT_All=0,
-    STATECHEAT_appear=1,
-    STATECHEAT_check=2,
-    STATECHEAT_teleportLock=3,
-    STATECHEAT_teletrap=4,
-    STATECHEAT_teleportSecret=5,
-    STATECHEAT_containerOpen=6,
-    STATECHEAT_containerExplode=7,
-    STATECHEAT_monsterCheck=8,
-    STATECHEAT_dialougeTrigger=9,
-    STATECHEAT_trigger=10,
-    STATECHEAT_referenceObject=11
+    STATECHEAT_All,
+    STATECHEAT_appear,
+    STATECHEAT_check,
+    STATECHEAT_teleportLock,
+    STATECHEAT_teletrap,
+    STATECHEAT_teleportSecret,
+    STATECHEAT_containerOpen,
+    STATECHEAT_containerExplode,
+    STATECHEAT_monsterCheck,
+    STATECHEAT_dialougeTrigger,
+    STATECHEAT_trigger,
+    STATECHEAT_referenceObject
 } GameState_Cheat;
 
 #ifdef DEBUGVER

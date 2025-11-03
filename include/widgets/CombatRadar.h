@@ -4,8 +4,8 @@
 class WidgetCombatRadar: public BaseWidget{
     public:
     WidgetBorg8* compass;
-    s16 unk80;
-    s8 unk82;
+    s16 glow;
+    s8 glowDelta;
     WidgetCombatRadar();
     ~WidgetCombatRadar();
     u8 Tick();

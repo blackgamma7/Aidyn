@@ -62,8 +62,8 @@ s32 FUN_8003c69c(BaseWidget **A,BaseWidget **B) {
   pIVar4 = (ItemInstance *)B[0]->ZFunc();
   uVar5 = A[0]->AFunc();
   uVar6 = B[0]->AFunc();
-  uVar8 = uVar5->var5E;
-  uVar7 = uVar6->var5E;
+  uVar8 = uVar5->varU16;
+  uVar7 = uVar6->varU16;
   if (uVar8 == uVar7) sVar5 = FUN_8003c590(pIVar3,pIVar4);
   else {
     if (uVar8 < gPartyPicker) uVar8 = uVar8 + 4;
@@ -186,7 +186,7 @@ void WidgetInvShop::InitMenu() {
           }
           pSVar9 = new SMIItem(pObject_00,bVar11,0xff);
           this->scrollMenu->Append(pSVar9);
-          pSVar9->var5C = tempList[i];
+          pSVar9->varU8 = tempList[i];
         }
     }
     HFREE(tempList,395);
@@ -247,7 +247,7 @@ u8 WidgetInvShop::SetHighlight(ItemID param_2,u8 param_3,u8 param_4) {
   if (param_4 == 0xff) {
     if (this->unk98 < sub->currentCount) {
         for(i=this->unk98;i<sub->currentCount;i++){
-         if ((ItemID)sub->items[i]->var5E == param_2) {
+         if ((ItemID)sub->items[i]->varU16 == param_2) {
           sub->highlight = (u16)i;
           return m8003d194(param_3);
          }
@@ -257,7 +257,7 @@ u8 WidgetInvShop::SetHighlight(ItemID param_2,u8 param_3,u8 param_4) {
   else {
     for(i=0;i<this->unk98;i++){
         BaseWidget * uVar2 = sub->items[i]->AFunc();
-        if ((uVar2->var5E == param_4) && (sub->items[i]->var5E == param_2)) {
+        if ((uVar2->varU16 == param_4) && (sub->items[i]->varU16 == param_2)) {
           sub->highlight = (u16)i;
           return m8003d194(param_3);
         }
@@ -283,9 +283,9 @@ bool WidgetInvShop::m8003d194(u8 param_2) {
     pvVar2 = (WSMSub *)(this->scrollMenu)->substruct;
     apBStack_20[0] = pvVar2->items[pvVar2->highlight];
     pBVar3 = apBStack_20[0]->BFunc();
-    if (pBVar3->var5E < param_2) pBVar3->var5E = param_2;
-    pBVar3->var5E-=param_2;
-    if (pBVar3->var5E == 0) {
+    if (pBVar3->varU16 < param_2) pBVar3->varU16 = param_2;
+    pBVar3->varU16-=param_2;
+    if (pBVar3->varU16 == 0) {
       if (apBStack_20[0]->AFunc()) this->unk98--;
       FREEQW(apBStack_20[0]);
       uVar8 = (uint)pvVar2->highlight;
@@ -301,7 +301,7 @@ bool WidgetInvShop::m8003d194(u8 param_2) {
       pvVar2->currentCount--;
     }
     else {
-      sprintf(acStack_60,"%d",pBVar3->var5E);
+      sprintf(acStack_60,"%d",pBVar3->varU16);
       Utilities::ChangeWidgetText(pBVar3,acStack_60,true);
     }
   }
@@ -340,7 +340,7 @@ bool WidgetInvShop::AddItem(u16 param_2,u8 param_3,u8 param_4,char *script,u16 l
             pBVar7 = pvVar1->items[i]->BFunc();
             sprintf(acStack_68,"%ld",uVar3);
             Utilities::ChangeWidgetText(pBVar7,acStack_68,true);
-            pBVar7->var5E = (ushort)uVar3;
+            pBVar7->varU16 = (ushort)uVar3;
             return true;
           }
           if (i + -1 < 0) break;
@@ -384,7 +384,7 @@ bool WidgetInvShop::m8003d674(u16 param_2,u8 param_3) {
     if (this->unk98 < sub->currentCount) {
       i = this->unk98;
       do {
-        if (sub->items[i]->var5E == param_2) {
+        if (sub->items[i]->varU16 == param_2) {
           sub->highlight = i;
           return true;
         }
@@ -395,7 +395,7 @@ bool WidgetInvShop::m8003d674(u16 param_2,u8 param_3) {
   }
   else {
     for(i=0;i<this->unk98;i++){
-        if ((sub->items[i]->BFunc()->var5E == (ushort)param_3) && (pBVar1->var5E == param_2)) {
+        if ((sub->items[i]->BFunc()->varU16 == (ushort)param_3) && (pBVar1->varU16 == param_2)) {
           sub->highlight = i;
           return true;
         }

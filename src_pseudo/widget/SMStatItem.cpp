@@ -20,11 +20,11 @@ SMStatItem::SMStatItem(CharStats_s *pStats,u16 statInd):BaseWidget() {
   u16 uVar3 = (u16)CharStats::GetBase2(this->stats,statInd);
   sprintf(buff,"%d",uVar3);
   this->baseLevel = WClipTXTSafe(buff);
-  this->baseLevel->var5E = (ushort)uVar3;
+  this->baseLevel->varU16 = (ushort)uVar3;
   this->baseLevel->SetColor(0x82,0x50,0x50,0xff);
   this->Link(this->baseLevel);
   u16 diff = CharStats::getBaseModDiff(this->stats,statInd);
-  if (diff == 0) this->var5C = statInd;
+  if (diff == 0) this->varU8 = statInd;
   else {
     u8 red,green;
     red = 0;
@@ -39,9 +39,9 @@ SMStatItem::SMStatItem(CharStats_s *pStats,u16 statInd):BaseWidget() {
     }
     this->modDiff = WClipTXTSafe(buff);
     this->modDiff->SetColor(red,green,0,0xff);
-    this->modDiff->var5E = diff;
+    this->modDiff->varU16 = diff;
     this->Link(this->modDiff);
-    this->var5C = statInd;
+    this->varU8 = statInd;
   }
 }
 
@@ -52,21 +52,21 @@ Gfx* SMStatItem::Render(Gfx*g,u16 x0,u16 y0, u16 x1, u16 y1){RENDERCHILDREN();}
 u8 SMStatItem::Tick() {
   if (this->statName) {
     if(this->unk80) {
-      this->unk80->SetCoords(this->x,this->y);
+      this->unk80->SetCoords(this->posX,this->posY);
       this->unk80->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       this->unk80->col.A = this->col.A;
     }
     if(this->modDiff){
-      this->modDiff->SetCoords(this->x + 100,this->y);
+      this->modDiff->SetCoords(this->posX + 100,this->posY);
       this->modDiff->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       this->modDiff->col.A = this->col.A;
     }
-    this->baseLevel->SetCoords(this->x + 0x4f,this->y);
+    this->baseLevel->SetCoords(this->posX + 0x4f,this->posY);
     this->baseLevel->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
     this->baseLevel->col.A = this->col.A;
-    this->unk92 = this->x + 0x8c;
-    this->unk90 = this->x;
-    this->statName->SetCoords(this->x,this->y);
+    this->unk92 = this->posX + 0x8c;
+    this->unk90 = this->posX;
+    this->statName->SetCoords(this->posX,this->posY);
     //this seems redundant - overwritten 2 lines later.
     Utilities::SetTextWidgetBoundsX(this->statName,this->unk90,this->unk92);
     this->statName->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);

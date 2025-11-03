@@ -111,7 +111,7 @@ bool FUN_8008d4d0(controller_aidyn *cont){
   if (gCombatP->SenseAuraWidget) {
     if (cont->input == 0) bVar2 = false;
     else {
-      gCombatP->SenseAuraWidget->SetState(5);
+      gCombatP->SenseAuraWidget->SetState(WidgetS_Closing);
       gCombatP->SenseAuraWidget = NULL;
       gCombatP->current_Ent->EndTurn();
       bVar2 = true;

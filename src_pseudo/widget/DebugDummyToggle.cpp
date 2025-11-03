@@ -12,7 +12,7 @@ WidgetDebugDummyToggle::WidgetDebugDummyToggle():WidgetMenu(){
       Gsprintf("%s - %s",debug_switch_labels[i],
                   On_or_off_strings[(unused_bitfeild & 1 << (i & 0x1f)) == 0]);
       WidgetText* entry = new WidgetText(gGlobals.text,30);
-      entry->var5E = i;
+      entry->varU16 = i;
       scrollMenu->Append(entry);
     }
 }

@@ -14,6 +14,7 @@ namespace Utilities{
     void SetTextWidgetBoundsX(BaseWidget *,u16,u16);
     void SetTextWidgetBoundsX0(BaseWidget *,u16);
     void SetTextWidgetBoundsX1(BaseWidget *,u16);
+    void SetTextWidgetScale(BaseWidget *w,float x,float y);
     BaseWidget * GetHighlightedEntry(BaseWidget *);
     u16 GetHighlightIndex(BaseWidget*);
     void SetScrollMenuColors(BaseWidget *,u8,u8,u8,u8,u8,u8,u8,u8,u8);
@@ -45,7 +46,6 @@ namespace Utilities{
 
 //TODO: add below to namespace once better understood.
 
-void Ofunc_800bbf28(BaseWidget *,float,float);
 void FUN_800bbfc8(BaseWidget *,u16);
 void Ofunc_800bc064(BaseWidget *,u8 );
 void Ofunc_800bc300(BaseWidget *,u16);

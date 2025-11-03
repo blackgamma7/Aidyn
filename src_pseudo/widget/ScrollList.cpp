@@ -10,7 +10,7 @@ BaseWidget * WSL_DownFunc(BaseWidget *param_1,BaseWidget *param_2) {
     u8 hl = sub->itemHighlight;
     while( true ) {
       sub->itemHighlight = hl + 1;
-      h = (sub->items[sub->itemHighlight]->y + sub->items[(hl + 1)]->GetHeight());
+      h = (sub->items[sub->itemHighlight]->posY + sub->items[(hl + 1)]->GetHeight());
       if (param_2->boundY1 < h ) break;
       if ((sub->itemCount - 1) <= sub->itemHighlight) {
         return NULL;
@@ -35,11 +35,11 @@ BaseWidget * WSL_UpFunc(BaseWidget * param_1,BaseWidget *param_2) {
     while( true ) {
       bVar3 = uVar2 - 1;
       sub->itemHighlight = bVar3;
-      if (sub->items[bVar3]->y < param_2->boundY0) break;
+      if (sub->items[bVar3]->posY < param_2->boundY0) break;
       if (bVar3 == 0) return 0;
       uVar2 = sub->itemHighlight;
     }
-    iVar1 = sub->unk8 +(param_2->boundY0 - sub->items[bVar3]->y);
+    iVar1 = sub->unk8 +(param_2->boundY0 - sub->items[bVar3]->posY);
     sub->unk8 = (u16)iVar1;
     if (iVar1 < 1) return 0;
     sub->unk8 = 0;
@@ -56,8 +56,8 @@ WidgetScrollList::WidgetScrollList(u8 len):BaseWidget() {
   
   uVar2 = (uint)len;
   WSLSub *sub = new WSLSub;
-  this->x = 0;
-  this->y = 0;
+  this->posX = 0;
+  this->posY = 0;
   this->width = 0;
   this->height = 0;
   sub->unk0 = 5;
@@ -85,7 +85,7 @@ WidgetScrollList::WidgetScrollList(u8 len):BaseWidget() {
     }
   }
   this->substruct = sub;
-  this->SetState(1);
+  this->SetState(WidgetS_Init);
 }
 
 
@@ -95,10 +95,7 @@ WidgetScrollList::~WidgetScrollList() {
   sub = (WSLSub *)this->substruct;
   if (sub) {
     for(s32 i=0;i<sub->itemCount;i++){
-        if(sub->items[i]){
-            sub->items[i]->~BaseWidget();
-            sub->items[i]=NULL;
-        }
+      DestructWidget(sub->items[i])
     }
     FREEPTR(sub->items,169);
     delete sub;
@@ -138,7 +135,7 @@ u8 WidgetScrollList::Tick() {
         Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
       else if (entry->GetNumber() == WidgetN_ShadText)
         Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
-      entry->SetCoords(this->x,this->y + (short)iVar8 + sub->unk4);
+      entry->SetCoords(this->posX,this->posY + (short)iVar8 + sub->unk4);
       (entry->col).A = (this->col).A;
       iVar8+= entry->GetHeight() + sub->unk13;
       sVar9 = (short)iVar8;
