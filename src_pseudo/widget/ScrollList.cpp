@@ -2,44 +2,44 @@
 
 #define FILENAME "./src/widgetscrolllist.cpp"
 
-BaseWidget * WSL_DownFunc(BaseWidget *param_1,BaseWidget *param_2) {
+BaseWidget * WSL_DownFunc(BaseWidget *w0,BaseWidget *w1) {
   s16 h;
   
-  WSLSub *sub = (WSLSub *)param_2->substruct;
+  WSLSub *sub = (WSLSub *)w1->substruct;
   if ((sub->unk4 == sub->unk8) &&(sub->itemHighlight < (sub->itemCount - 1))) {
     u8 hl = sub->itemHighlight;
     while( true ) {
       sub->itemHighlight = hl + 1;
       h = (sub->items[sub->itemHighlight]->posY + sub->items[(hl + 1)]->GetHeight());
-      if (param_2->boundY1 < h ) break;
+      if (w1->boundY1 < h ) break;
       if ((sub->itemCount - 1) <= sub->itemHighlight) {
         return NULL;
       }
       hl = sub->itemHighlight;
     }
-    sub->unk8-= (h - param_2->boundY1);
-    h = ((param_2->boundY1 - param_2->boundY0) - param_2->GetHeight());
+    sub->unk8-= (h - w1->boundY1);
+    h = ((w1->boundY1 - w1->boundY0) - w1->GetHeight());
     if (sub->unk8 < h) sub->unk8 = h;
   }
   return NULL;
 }
 
 
-BaseWidget * WSL_UpFunc(BaseWidget * param_1,BaseWidget *param_2) {
+BaseWidget * WSL_UpFunc(BaseWidget * w0,BaseWidget *w1) {
   s16 iVar1;
   u8 bVar3 ;
-  WSLSub *sub = (WSLSub *)param_2->substruct;
+  WSLSub *sub = (WSLSub *)w1->substruct;
   if (sub->unk4 != sub->unk8) return 0;
   if (sub->itemHighlight != 0) {
     u8 uVar2 = sub->itemHighlight;
     while( true ) {
       bVar3 = uVar2 - 1;
       sub->itemHighlight = bVar3;
-      if (sub->items[bVar3]->posY < param_2->boundY0) break;
+      if (sub->items[bVar3]->posY < w1->boundY0) break;
       if (bVar3 == 0) return 0;
       uVar2 = sub->itemHighlight;
     }
-    iVar1 = sub->unk8 +(param_2->boundY0 - sub->items[bVar3]->posY);
+    iVar1 = sub->unk8 +(w1->boundY0 - sub->items[bVar3]->posY);
     sub->unk8 = (u16)iVar1;
     if (iVar1 < 1) return 0;
     sub->unk8 = 0;
@@ -47,9 +47,9 @@ BaseWidget * WSL_UpFunc(BaseWidget * param_1,BaseWidget *param_2) {
   return 0;
 }
 
-BaseWidget * WSL_LeftFunc(BaseWidget * param_1,BaseWidget *param_2){return NULL;}
-BaseWidget * WSL_RightFunc(BaseWidget * param_1,BaseWidget *param_2){return NULL;}
-BaseWidget * WSL_AFunc(BaseWidget * param_1,BaseWidget *param_2){return param_2;}
+BaseWidget * WSL_LeftFunc(BaseWidget * w0,BaseWidget *w1){return NULL;}
+BaseWidget * WSL_RightFunc(BaseWidget * w0,BaseWidget *w1){return NULL;}
+BaseWidget * WSL_AFunc(BaseWidget * w0,BaseWidget *w1){return w1;}
 
 WidgetScrollList::WidgetScrollList(u8 len):BaseWidget() {
   uint uVar2;
