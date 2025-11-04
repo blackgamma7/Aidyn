@@ -5,7 +5,7 @@ struct WidgetOptionsSubstruct {
     WidgetScrollMenu *ScrollMenu;
     BaseWidget *theatreMenu;
     class WidgetOptionsConfig *optionsConfig;
-    BaseWidget *unkc;
+    BaseWidget *contPakWidget;
     BaseWidget *unk10;
     BaseWidget *unk14;
     u8 selected;

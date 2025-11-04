@@ -1,4 +1,6 @@
 #include "globals.h"
+#include "widgets/theatreMenu.h"
+
 
 WidgetOptionsMenu::WidgetOptionsMenu():WidgetMenu(){}
 
@@ -18,10 +20,10 @@ WidgetOptionsMenu::~WidgetOptionsMenu(){
     this->Unlink(sub->optionsConfig);
     if (sub->optionsConfig) sub->optionsConfig->~WidgetOptionsConfig();
   }
-  if (sub->unkc) {
-    this->Unlink(sub->unkc);
-    if (sub->unkc) sub->unkc->~BaseWidget();
-    sub->unkc = NULL;;
+  if (sub->contPakWidget) {
+    this->Unlink(sub->contPakWidget);
+    if (sub->contPakWidget) sub->contPakWidget->~BaseWidget();
+    sub->contPakWidget = NULL;;
   }
   sub->unk10 = NULL;
   sub->unk14 = NULL;
@@ -36,7 +38,7 @@ u32 WidgetOptionsMenu::InitMenu(u8 sel){
   sub->selected = sel;
   sub->unk10 = NULL;
   sub->ScrollMenu = NULL;
-  sub->unkc = 0;
+  sub->contPakWidget = 0;
   sub->optionsConfig = NULL;
   sub->theatreMenu = NULL;
   sub->unk14 = NULL;
@@ -73,12 +75,12 @@ Gfx * WidgetOptionsMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
       RENDERCHILDREN();
     }
   }
-  pBVar1 = sub->unkc;
+  pBVar1 = sub->contPakWidget;
   if (((pBVar1) && (pBVar3 = sub->unk14, pBVar3 == pBVar1)) && (this->state == WidgetS_Running)){
     if (pBVar3) {
       pBVar3->~BaseWidget();
     }
-    sub->unkc = NULL;
+    sub->contPakWidget = NULL;
     sub->unk14 = NULL;
     gOptionsMenuContPak = 0;
   }
@@ -106,8 +108,6 @@ u8 WidgetOptionsMenu::Tick(){
 
 void WidgetOptionsMenu::MakeScrollList(){
   BaseWidget *pBVar2;
-  Borg8Header *pBVar3;
-  ulong uVar4;
   BaseWidget *pBVar5;
   WidgetClipText *txt;
   ulong uVar7;
@@ -186,7 +186,7 @@ void WidgetOptionsMenu::InitConfigMenu(){
     sub->unk10 = NULL;
   }
   if (!sub->optionsConfig) {
-    sub->optionsConfig = new WidgetOptionsConfig(1);
+    sub->optionsConfig = new WidgetOptionsConfig(true);
     Utilities::MoveWidget(sub->optionsConfig,25,0);
   }
   sub->selected = 1;
@@ -235,15 +235,15 @@ void WidgetOptionsMenu::ContPakLoad(){
   WidgetOptionsSubstruct *sub = (WidgetOptionsSubstruct *)this->substruct;
   sub->unk14 = sub->unk10;
   this->Unlink(sub->unk10);
-  if (!sub->unkc) {
+  if (!sub->contPakWidget) {
     Color32 col0={0x82,0x50,0x50,0xff};
     Color32 col1={0x44,0x22,0x2a,0xff};
     Color32 col2= {0x97,0xbf,0x8d,0xff};
-    sub->unkc = WContPakData_Load(0x43,0x18,FUN_80050868,FUN_800477a0,&col0,&col1,&col2);
+    sub->contPakWidget = WContPakData_Load(0x43,0x18,FUN_80050868,FUN_800477a0,&col0,&col1,&col2);
   }
   sub->selected = 3;
-  sub->unk10 = sub->unkc;
-  this->Link(sub->unkc);
+  sub->unk10 = sub->contPakWidget;
+  this->Link(sub->contPakWidget);
   this->alpha0 = 0;
   Utilities::SetAlpha(sub->unk10,0);
   this->alpha1 = 0xff;
@@ -262,15 +262,15 @@ void WidgetOptionsMenu::ContPakSave(){
   pvVar1 = (WidgetOptionsSubstruct *)this->substruct;
   pvVar1->unk14 = pvVar1->unk10;
   this->Unlink(pvVar1->unk10);
-  if (!pvVar1->unkc) {
+  if (!pvVar1->contPakWidget) {
     Color32 col0={0x82,0x50,0x50,0xff};
     Color32 col1={0x44,0x22,0x2a,0xff};
     Color32 col2= {0x97,0xbf,0x8d,0xff};
-    pvVar1->unkc = WContPakData_Save(0x43,0x18,FUN_800477a0,&col0,&col1,&col2);
+    pvVar1->contPakWidget = WContPakData_Save(0x43,0x18,FUN_800477a0,&col0,&col1,&col2);
   }
   pvVar1->selected = 3;
-  pvVar1->unk10 = pvVar1->unkc;
-  this->Link(pvVar1->unkc);
+  pvVar1->unk10 = pvVar1->contPakWidget;
+  this->Link(pvVar1->contPakWidget);
   this->alpha0 = 0;
   Utilities::SetAlpha(pvVar1->unk10,0);
   this->alpha1 = 0xff;
