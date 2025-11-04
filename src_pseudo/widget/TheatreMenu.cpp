@@ -1,4 +1,5 @@
 #include "widgets/theatreMenu.h"
+#include "widgets/JournalWidget.h"
 #include "globals.h"
 #include "stringDecrypt.h"
 

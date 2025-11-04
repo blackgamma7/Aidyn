@@ -37,3 +37,17 @@ void clear_HUD_elements(short );
 Gfx* tick_and_render_widgets(Gfx*);
 
 extern u32 gametrek_flag0;
+
+u8 orphanedByte=0;
+void(*orphanedfuncPointer)(u32)=NULL;
+u32 OrphanedFuncArg=0;
+s16 newestJournal=-1;
+u32 some_ticker=0;
+s16 some_toggle=0;
+u8 gTrekUninitted=true;
+u8 DAT_800e9aa7=0;
+u8 gMemMakerFlag=false;
+u16 gDelta=1;
+u32 DAT_800e9aac=1;
+u32 DAT_800e9ab0=0;
+u16 DAT_800e9ab4=0;

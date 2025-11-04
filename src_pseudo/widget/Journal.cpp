@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "game.h"
 #include "stringDecrypt.h"
 #include "widgets/JournalWidget.h"
 
@@ -110,7 +110,7 @@ u8 Journal::ShowTriggeredEntry(char *txt) {
   }
   return ret;
 }
-extern s16 newestJournal;
+
 extern void* journal_ROM;
 #define JOURNALSIZE 0x2090
 void Journal::Load(s32 newest) {

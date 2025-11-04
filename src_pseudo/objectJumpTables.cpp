@@ -215,7 +215,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
       }
       if (!uVar8) { //no items, just money.
         Gsprintf(Cstring(GotXGold),(v->container).Gold);
-        textbox_func(gGlobals.text);
+        TrekTextPopup(gGlobals.text);
         (PARTY)->Gold+=(v->container).Gold;
         PLAYSFX(BORG12_CoinJingle,0,gGlobals.VolSFX,300,time);
       }
@@ -538,7 +538,7 @@ BaseWidget* secretdoor_widget_AB(BaseWidget* param_1,BaseWidget *param_2){
   return 0;
 }
 
-BaseWidget * textbox_func(char *param_1){
+BaseWidget * TrekTextPopup(char *param_1){
   Color32 col1={COLOR_OFFWHITE};
   Color32 col2={COLOR_DARKGRAY};
   gGlobals.playerCharStruct.text_window = some_textbox_func(param_1,0x96,&col1,&col2,1);
@@ -599,7 +599,7 @@ u8 FUN_8001520c(voxelObject* param_1){
   return getEventFlag((param_1->teleport).secrect_door_flag)==false;}
 
 void secret_door_func(voxelObject* param_1){
-  BaseWidget *w = textbox_func(Cstring(DoorSecret));
+  BaseWidget *w = TrekTextPopup(Cstring(DoorSecret));
   (param_1->teleport).secretDoorVal = 0;
   setEventFlag((param_1->teleport).secrect_door_flag,true);
   UnkVoxelFlagCheck;

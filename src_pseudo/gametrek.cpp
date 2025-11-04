@@ -8,20 +8,6 @@
 
 #define FILENAME "./src/gametrek.cpp"
 
-u8 orphanedByte=0;
-void(*orphanedfuncPointer)(u32)=NULL;
-u32 OrphanedFuncArg=0;
-s16 newestJournal=-1;
-u32 some_ticker=0;
-s16 some_toggle=0;
-u8 gTrekUninitted=true;
-u8 DAT_800e9aa7=0;
-u8 gMemMakerFlag=false;
-u16 gDelta=1;
-u32 DAT_800e9aac=1;
-u32 DAT_800e9ab0=0;
-u16 DAT_800e9ab4=0;
-
 bool check_some_toggle(void) {return some_toggle != -1;}
 
 void FUN_80024c54(short param_1) {
@@ -409,7 +395,7 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *param_3,ve
   iVar4+= (uint)uVar3;
   fly->shortA = (short)iVar4;
   fVar6 = (fly->posTarget).z;
-  iVar5 = iVar5 + (uint)(ushort)fly->ShortD;
+  iVar5+= (uint)(ushort)fly->ShortD;
   fly->shortB = (short)iVar5;
   (fly->pos).z = fVar6 - fVar9 * fVar8;
   if (((iVar4) != sVar1) ||
@@ -513,6 +499,6 @@ void NewJournalEntryPopup(void) {
       #endif
       {
     setEventFlag(FLAG_NewJournalEntry,false);
-    textbox_func("A new journal entry has been added.");
+    TrekTextPopup("A new journal entry has been added.");
   }
 }

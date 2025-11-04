@@ -53,7 +53,7 @@ void render_container(voxelObject* param_1,Borg9Data *param_2);
 void set_container_obj_visible(voxelObject* param_1,Borg9Data *param_2);
 BaseWidget* textbox_func_AB(BaseWidget* param_1,BaseWidget *param_2);
 BaseWidget* secretdoor_widget_AB(BaseWidget* param_1,BaseWidget *param_2);
-BaseWidget * textbox_func(char *param_1);
+BaseWidget * TrekTextPopup(char *param_1);
 u8 container_open_check(u16 param_1);
 u8 container_explode_check(u16 param_1);
 u8 Teleport_lock_check(u16 param_1);

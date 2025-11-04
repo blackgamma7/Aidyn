@@ -11,14 +11,14 @@ void lockpicking_check(voxelObject *param_1) {
     if (VVar1 == VOXEL_Teleporter) LV = &param_1->teleport.lock_lv;
     if (PARTY->Lockpicking(*LV,gGlobals.text)) {
       //successful, show unlock message.
-      BaseWidget *w = textbox_func(gGlobals.text);
+      BaseWidget *w = TrekTextPopup(gGlobals.text);
       w->BButtonFunc = lockpicking_widget_ABfunc;
       w->AButtonFunc = lockpicking_widget_ABfunc;
       w->substruct = param_1;
       *LV = 0;
     }
     //failed showed "beyond your skill" message
-    else textbox_func(gGlobals.text);
+    else TrekTextPopup(gGlobals.text);
   }
 }
 

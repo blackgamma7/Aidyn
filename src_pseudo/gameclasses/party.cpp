@@ -680,15 +680,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
              || (MVar3 == MVar4)) {
             param_4->spellbook->NewSpell(IDSpell(bVar1),1);
             Gsprintf(Cstring(LearnMagicLearned),param_4->name,pSVar7->Name);
-            acStack160.R = 0xe1;
-            acStack160.G = 0xe1;
-            acStack160.B = 0xe1;
-            acStack160.A = 0xff;
-            acStack96.R = 0x32;
-            acStack96.G = 0x32;
-            acStack96.B = 0x32;
-            acStack96.A = 0x96;
-            some_textbox_func(gGlobals.text,0x96,&acStack160,&acStack96,1);
+            ErrPopup(gGlobals.text);
             this->Inventory->TakeItem(IVar5,1);
             return false;
           }

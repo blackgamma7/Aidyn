@@ -298,21 +298,15 @@ void WidgetSkillTrain::Confirm(u16 param_2,u16 param_3) {
     return;}
   }
   if (skLv == -1) {
-    Color32 col1={COLOR_OFFWHITE};
-    Color32 col2={COLOR_DARKGRAY_T};
-    some_textbox_func(gGlobals.CommonStrings[0x201],0x96,&col1,&col2,true);
+    ErrPopup(gGlobals.CommonStrings[0x201]);
     return;
   }
   if ((int)teacherLV <= skLv) {
-    Color32 col1={COLOR_OFFWHITE};
-    Color32 col2={COLOR_DARKGRAY_T};
-    some_textbox_func(gGlobals.CommonStrings[0x202],0x96,&col1,&col2,true);
+    ErrPopup(gGlobals.CommonStrings[0x202]);
     return;
   }
   if (SKILLMAXBASE <= skLv) {
-    Color32 col1={COLOR_OFFWHITE};
-    Color32 col2={COLOR_DARKGRAY_T};
-    some_textbox_func(gGlobals.CommonStrings[0x203],0x96,&col1,&col2,true);
+    ErrPopup(gGlobals.CommonStrings[0x203]);
     return;
   }
   if (!notOriana) gold_train_price = 0;
