@@ -5,6 +5,7 @@ struct GtaskMsg {
     OSScTask *task;
 };
 
+
 #define SCREEN_WIDTH  320 //standard screen width
 #define SCREEN_WIDTH_HI  512 //"Hi-Resolution" screen width
 #define SCREEN_HEIGHT 240 //Height resolution is never changed.
@@ -78,3 +79,16 @@ Gfx * DrawBlock(Gfx *gfx,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a);
 Gfx* DrawText(Gfx *,char *,u16,u16,u8,u8,u8,u8);
 Gfx* DisplaySystemMonitor(Gfx *);
 };
+
+struct ResolutionSettings {
+    u16 Hres;
+    u16 Vres;
+    u8 pad;
+    u8 colorDepth;
+};
+
+char* res_mode_string[3]={"Normal Resolution","High Resolution","32 Bit Color"};
+ResolutionSettings res_colormode[3]={
+  {SCREEN_WIDTH,SCREEN_HEIGHT,0,16},
+  {SCREEN_WIDTH_HI,SCREEN_HEIGHT,0,16},
+  {SCREEN_WIDTH,SCREEN_HEIGHT,0,32}};

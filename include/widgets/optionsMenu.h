@@ -47,25 +47,27 @@ BaseWidget* PauseMenuSelectCallback(BaseWidget* w0,BaseWidget* w1);
 BaseWidget* WidgetOptions_StartButton(BaseWidget* w0,BaseWidget* w1);
 
 
-
 struct OptionsConfigSubstruct{
-BaseWidget* AudioTitle;
-BaseWidget* GraphicsTitle;
-BaseWidget* GameTitle;
-BaseWidget* optionTitles[4];
-BaseWidget* TitleImage;
-u32 unk20;
-BaseWidget* unk24;
-Color32 col0;
-Color32 col1;
-u8 unk30,unk31,unk32,unk33;
+WidgetClipText* AudioTitle;
+WidgetClipText* GraphicsTitle;
+WidgetClipText* GameTitle;
+WidgetClipText* optionTitles[4];
+WidgetBorg8* TitleImage;
+u8 selected;
+InputMenu* nameEntry;
+u8 renameOpen;
+u8 red0,green0,blue0,alpha0;
+u8 red1,green1,blue1;
+u8 unk30,unk31;
+s8 unk32;
+u8 unk33;
 };
 
 //the sound/resolution/Character Rename menu
 class WidgetOptionsConfig : public WidgetMenu{
   public:
-  BaseWidget* unk7c;
-  BaseWidget* unk80;
+  WidgetBorg8* SFXSlider;
+  WidgetBorg8* BGMSlider;
   WidgetOptionsConfig(u8);
   ~WidgetOptionsConfig();
   void InitMenu(u8);

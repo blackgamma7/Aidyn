@@ -24,6 +24,7 @@ struct HeapBlock{
     #endif
 };
 
+typedef void (*memPrint)(u16 * , char *, s32 , int, int, int, int, s32, int);
 MemMon_struct gMemMonitor={0};
 
 void HeapInit(void *start,size_t size);
@@ -37,7 +38,7 @@ u32 Ofunc_get_objCount(void);
 u32 Ofunc_get_obj_count_2(void);
 u32 get_obj_free();
 u32 get_memFree_2(void);
-void print_mem_allocated(void *func_,void *param_2);
+void print_mem_allocated(memPrint *func_,u16 *param_2);
 void malloc_update_mem_mon(HeapBlock *h,int param_2);
 void* operator new(size_t size);
 void operator delete(void* x);

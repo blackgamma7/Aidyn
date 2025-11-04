@@ -87,7 +87,7 @@ public:
 //destructors sometimes use this check for widgets in arrays and substructs
 #define DestructWidget(w) \
 if(w){\
-w->~BaseWidget();\
+((BaseWidget*)w)->~BaseWidget();\
 w=NULL;\
 }\
 

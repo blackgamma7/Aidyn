@@ -61,15 +61,14 @@ void * HeapAlloc(size_t size,char *file,u32 line){
   
   if (size == 0) return NULL;
   else {
-    uVar5 = size + 0x27 & 0xfffffff8;
+    uVar5 = size + (sizeof(HeapBlock)+11) & ~7;
     pHVar6 = NULL;
     uVar7 = 0xffffffff;
     bVar1 = false;
     pHVar3 = (HeapBlock *)gMemMonitor.memRegionNext;
     if (gMemMonitor.memRegionNext) {
       do {
-        uVar2 = get_heap_size(pHVar3);
-        uVar2 = uVar2 & ~1;
+        uVar2 = get_heap_size(pHVar3) & ~1;
         if (uVar2 == uVar5) {
           bVar1 = true;
           uVar7 = uVar5;
@@ -106,7 +105,7 @@ void HeapFree(void *X,char *cpp,u32 line){
   
   if (X) {
     if (((((u32)X & 7) != 0) || (X < gMemMonitor.memRegionStart)) ||
-       (pHVar2 = (HeapBlock *)((s32)X + -(sizeof(HeapBlock))),
+       (pHVar2 = (HeapBlock *)((size_t)X + -(sizeof(HeapBlock))),
        (void *)((s32)gMemMonitor.memRegionStart + gMemMonitor.memFreeMax) < X)) {
       HeapCrash(441,"%s %i tried to free an invalid pointer 0x%08x",cpp,line,X);
     }
@@ -160,7 +159,7 @@ void print_mem_allocated(memPrint *printFunc,u16 *buff){
   uint uVar3;
   uint uVar4;
   uint uVar5;
-  HeapBlock *pHVar6;
+  HeapBlock *block;
   uint count;
   uint i;
   
@@ -168,22 +167,22 @@ void print_mem_allocated(memPrint *printFunc,u16 *buff){
   strcpy(D_800f54a0,"ALLOCATED");
   memMax = gMemMonitor.memFreeMax;
   count = gMemMonitor.obj_count - 1;
-  pHVar6 = (HeapBlock *)gMemMonitor.memRegionStart;
+  block = (HeapBlock *)gMemMonitor.memRegionStart;
   for(i=0;i<count;i++) {
-    uVar2 = get_heap_size(pHVar6)&~1;
-    uVar3 = get_heap_size(pHVar6)&1;
+    uVar2 = get_heap_size(block)&~1;
+    uVar3 = get_heap_size(block)&1;
     if ((i != 0) && (i != count)) {
-      uVar4 = FUN_80098848((void**)pHVar6)&~1;
-      uVar5 = FUN_80098848((void**)pHVar6)&1;
+      uVar4 = FUN_80098848((void**)block)&~1;
+      uVar5 = FUN_80098848((void**)block)&1;
       if (uVar3 == 0) {
         if (printFunc) (*printFunc)(buff,"NA",i,uVar2,0,uVar4,uVar5,count,memMax);
       }
       else if (printFunc)
-        (*printFunc)(buff,pHVar6->filename,i,uVar2,uVar3,uVar4,uVar5,count,memMax);
+        (*printFunc)(buff,block->filename,i,uVar2,uVar3,uVar4,uVar5,count,memMax);
       if (uVar4 != uVar2) return;
       if (uVar5 != uVar3) return;
     }
-    pHVar6 = (HeapBlock *)((size_t)(&pHVar6) +uVar2);
+    block = (HeapBlock *)((size_t)(&block) +uVar2);
   }
 }
 #else
