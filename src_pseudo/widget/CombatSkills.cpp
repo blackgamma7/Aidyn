@@ -10,7 +10,7 @@ WidgetCombatSkills* InitCombatSkillsMenu(u8 *spells,bool troub,bool hands,bool h
 }
 
 WidgetGroup *
-char_func_icon(char *str,BaseWidget *(*AFunc)(BaseWidget*,BaseWidget*),u16 param_3,u8 param_4,Color32 *col,u32 borg8,u16 height){  
+char_func_icon(char *str,BaseWidget::buttonFunc AFunc,u16 param_3,u8 param_4,Color32 *col,u32 borg8,u16 height){  
   WidgetGroup *wg = new WidgetGroup(2);
   if (borg8) wg->AddToGroup(WidgetB8(borg8),0,0,false);
   WidgetText* wt = WTextSafe(str);

@@ -1,10 +1,11 @@
 
 #define FILENAME "./src/app.cpp"
 
-#include "globals.h"
+#include "game.h"
 #include "skyObjects.h"
 #include "memaker.h"
 #include "titlesplash.h"
+#include "ContPakInit.h"
 
 void * appStack_mirror=NULL;
 u16 doubleGlobalTickerFlag=0;

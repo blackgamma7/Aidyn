@@ -120,7 +120,7 @@ void WidgetMenuHealer::Restore() {
   }
 }
 
-void WidgetMenuHealer::ShowHealedMember(CharSheet* chara,u16 var,BaseWidget*(func)(BaseWidget*,BaseWidget*)){
+void WidgetMenuHealer::ShowHealedMember(CharSheet* chara,u16 var,buttonFunc func){
   char buff [296];
   if (chara) {
     WidgetGroup* group = new WidgetGroup(3);

@@ -296,7 +296,7 @@ u8 Controller::InitGBPak(u8 port){
 }
 
 //check for Controller, Rumble, and Transfer paks, then return status.
-u8 Controller::GetPSFERR(u8 port){
+u8 Controller::GetPFSERR(u8 port){
   u8 PVar1 = InitPak(port);
   if (PVar1 == PFS_ERR_DEVICE) {
     PVar1 = InitRumble(port);

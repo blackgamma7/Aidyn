@@ -4,11 +4,11 @@
 #include "widgets/WidgetChild8.h"
 #include "widgets/WidgetChild6.h"
 
-class WidgetChild9: public WidgetMenu{
+class WidgetTimed: public WidgetMenu{
     public:
     u32 timer;
-    WidgetChild9(u32 t, BaseWidget*(*AButton)(BaseWidget*,BaseWidget*));
-    ~WidgetChild9();
+    WidgetTimed(u32 t, buttonFunc AButton);
+    ~WidgetTimed();
     u8 Tick();
     BaseWidget* Control(controller_aidyn*);
 };
@@ -236,10 +236,9 @@ BaseWidget * FUN_80086144(BaseWidget *w0,BaseWidget *w1);
 BaseWidget * FUN_80086180(BaseWidget *w0,BaseWidget *w1);
 BaseWidget * repeated_space_warning(BaseWidget *w0,BaseWidget *w1);
 
-
 void FUN_80086290(BaseWidget *);
 u32 FUN_800862c8(void);
-BaseWidget * FUN_800862f4(u8 param_1,ushort param_2,char *txt,BaseWidget* (*param_4)(BaseWidget*,BaseWidget*));
+BaseWidget * FUN_800862f4(u8 param_1,ushort param_2,char *txt,BaseWidget::buttonFunc param_4);
 
 
 WidgetContPakData* contPakDat=NULL;

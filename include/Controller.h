@@ -77,8 +77,6 @@ typedef struct{
 	u8 align[3];
 }fileState_aidyn;
 
-
-
 typedef struct{
 	void* thread_stack;
 	OSMesg* osmesgPointer;
@@ -105,7 +103,7 @@ namespace Controller{
   u8 InitPak(u8 port);
   u8 InitRumble(u8 port);
   u8 InitGBPak(u8 port);
-  u8 GetPSFERR(u8 port);
+  u8 GetPFSERR(u8 port);
   u8 RepairPak(u8 port);
   u8 GetPakFreeBlocks16(u16 *b,u8 port);
   u8 GetPakFreeBlocks8(u8 *b,u8 port);

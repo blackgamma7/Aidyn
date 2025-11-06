@@ -349,7 +349,7 @@ void WidgetContPakData::m80086bd0(){
 }
 
 void WidgetContPakData::GetPFSErr(){
-  Pfs2xCheck(this->pfsErr,Controller::GetPSFERR(0));
+  Pfs2xCheck(this->pfsErr,Controller::GetPFSERR(0));
   this->OtherState = 0;
 }
 
@@ -375,7 +375,7 @@ BaseWidget * WidgetContPakData::m80086d3c(){
 }
 
 void WidgetContPakData::m80086d78(){
-  this->wHandler.AddWidget(new WidgetChild9(60,FUN_80085dcc));
+  this->wHandler.AddWidget(new WidgetTimed(60,FUN_80085dcc));
   this->attemptedRepair = 0;
 }
 
@@ -391,7 +391,7 @@ void WidgetContPakData::m80086e08(){
 }
 
 void WidgetContPakData::TestPak2(){
-  Pfs2xCheck(this->pfsErr,Controller::GetPSFERR(0));
+  Pfs2xCheck(this->pfsErr,Controller::GetPFSERR(0));
   this->OtherState = 1;
 }
 
@@ -526,7 +526,7 @@ void WidgetContPakData::CheckContStatus(){
     }
     if (((CVar2 != CONT_CARD_ON) || (CVar1 != CONT_CARD_ON)) && (CVar2 != CVar1)) {
       if ((CVar2 == (CONT_CARD_PULL|CONT_CARD_ON)) && (CVar1 == CONT_CARD_PULL)) {
-        Pfs2xCheck(PVar4,Controller::GetPSFERR(0));
+        Pfs2xCheck(PVar4,Controller::GetPFSERR(0));
         m80087ec0();
         if (PVar4 == PFS_ERR_NEW_PACK) this->pfsErr = PFS_ERR_NEW_PACK;
         else {
@@ -618,7 +618,7 @@ void WidgetContPakData::PfsErrNoPak(){
 
 void WidgetContPakData::NewContPak(){
   u8 PVar3;
-  Pfs2xCheck(PVar3,Controller::GetPSFERR(0));
+  Pfs2xCheck(PVar3,Controller::GetPFSERR(0));
   if (PVar3 == 0) {
     WidgetChild8 *pWVar1 = FUN_80088aac(FUN_80086290,&this->wHandler,1,gGlobals.CommonStrings[0xae],0);
     pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0xb0],FUN_80085d64,0x80));
@@ -935,7 +935,7 @@ u32 WidgetContPakDataLoad::ShowSaveFiles(){
 void WidgetContPakDataLoad::LoadSaveFile(u8 param_2){
   
   u8 PVar1;
-  Pfs2xCheck(PVar1,Controller::GetPSFERR(0));
+  Pfs2xCheck(PVar1,Controller::GetPFSERR(0));
   if (PVar1 == 0) {
     QuestData::LoadFromMemPak(this->saveDatsP[param_2].datStart);
     this->OtherState = 5;
@@ -1200,10 +1200,10 @@ void ContPakWidget::m80089384(BaseWidget *w){
 }
 
 void ContPakWidget::GetPfsErr(){
-  this->pfserr = Controller::GetPSFERR(0);
+  this->pfserr = Controller::GetPFSERR(0);
   this->field3_0x84 = 1;
   if (this->pfserr == PFS_ERR_BAD_DATA) {
-    this->pfserr = Controller::GetPSFERR(0);
+    this->pfserr = Controller::GetPFSERR(0);
   }
 }
 
@@ -1267,7 +1267,7 @@ void ContPakWidget::m800895f4(){
     BaseWidget*w=this->handler.GetTail();
     if (!w) this->field3_0x84 = 0;
     else if (w->varU16 == 2) {
-      if (Controller::GetPSFERR(0) == 0) {
+      if (Controller::GetPFSERR(0) == 0) {
         this->field3_0x84 = 4;
         return;
       }
@@ -1296,7 +1296,7 @@ void ContPakWidget::PfsNoPak(){
 
 void ContPakWidget::PfsNewPak(){
   u8 PVar3;
-  Pfs2xCheck(PVar3,Controller::GetPSFERR(0));
+  Pfs2xCheck(PVar3,Controller::GetPFSERR(0));
   if (PVar3 == 0) {
     WidgetChild8 *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x18b],this->pfserr);
     pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x18c],ContPak_8008a768,0x80));
@@ -1357,7 +1357,7 @@ void ContPakWidget::m80089b0c(u8 param_2){
 }
 
 void ContPakWidget::m80089b9c(u8 param_2){
-  WidgetChild9 *pWVar1 = new WidgetChild9(60,ContPak_8008a790);
+  WidgetTimed *pWVar1 = new WidgetTimed(60,ContPak_8008a790);
   pWVar1->varU16 = (ushort)param_2;
   pWVar1->BButtonFunc = FUN_8008c1b0;
   this->handler.AddWidget(pWVar1);
@@ -1487,7 +1487,7 @@ void ContPakWidget::m8008a554(){
     }
     if (((CVar2 != CONT_CARD_ON) || (CVar1 != CONT_CARD_ON)) && (CVar2 != CVar1)) {
       if ((CVar2 == (CONT_CARD_PULL|CONT_CARD_ON)) && (CVar1 == CONT_CARD_PULL)) {
-        Pfs2xCheck(PVar4,Controller::GetPSFERR(0));
+        Pfs2xCheck(PVar4,Controller::GetPFSERR(0));
         m8008a4e0();
         if (PVar4 == PFS_ERR_NEW_PACK) {
           this->pfserr = PFS_ERR_NEW_PACK;

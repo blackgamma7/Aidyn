@@ -12,7 +12,6 @@ void FUN_8004cfd0(BaseWidget *w){
   }
 }
 
-
 WidgetChild8::WidgetChild8(u16 choices,char *msg,s16 *dims,u16 *dims2,short *dims3,Color32 *colA,Color32 *colB,u32 param_9)
  :WidgetMenu(){
   PTR_800edb70 = freeWidgetFunc;

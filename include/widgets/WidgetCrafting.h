@@ -38,7 +38,7 @@ class WidgetMenuHealer: public WidgetCrafting{
     void LayOnHands();
     void HealWithHerbs();
     void Restore();
-    void ShowHealedMember(CharSheet* chara,u16 var,BaseWidget*(func)(BaseWidget*,BaseWidget*));
+    void ShowHealedMember(CharSheet* chara,u16 var,buttonFunc func);
     void HealingFunc2(u8,u8);
     void ClearText();
     void PrintHealing(u8);

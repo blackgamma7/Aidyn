@@ -103,7 +103,7 @@ BaseWidget* WidgetCombatItems::AFunc(){return NULL;}
 BaseWidget* WidgetCombatItems::BFunc(){return NULL;}
 
 
-u16 WidgetCombatItems::AddItem(ItemInstance *param_2,BaseWidget *(*UseFunc)(BaseWidget*,BaseWidget*),u16 param_4,u8 param_5,u16 param_6,u16 param_7){
+u16 WidgetCombatItems::AddItem(ItemInstance *param_2,BaseWidget::buttonFunc UseFunc,u16 param_4,u8 param_5,u16 param_6,u16 param_7){
   SpellCharges *pSVar1;
   SpellInstance *pSVar2;
   WidgetGroup *w;

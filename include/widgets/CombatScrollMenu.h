@@ -16,7 +16,7 @@ struct CombatMenuSpell{
     u32 index;
 };
 WidgetCombatSkills* InitCombatSkillsMenu(u8 *spells,bool troub,bool hands,bool herbs);
-WidgetGroup * char_func_icon(char *str,BaseWidget *(*AFunc)(BaseWidget*,BaseWidget*),u16 param_3,u8 param_4,Color32 *col,u32 borg8,u16 height);
+WidgetGroup * char_func_icon(char *str,BaseWidget::buttonFunc AFunc,u16 param_3,u8 param_4,Color32 *col,u32 borg8,u16 height);
 u16 MaxWidgetWidth(BaseWidget *w,u16 wMax);
 int find_char_in_party(CharSheet *param_1);
 void init_combatSkillValues();
@@ -36,7 +36,7 @@ class WidgetCombatItems: public WidgetChild8{
   ~WidgetCombatItems();
   BaseWidget* AFunc();
   BaseWidget* BFunc();
-  u16 AddItem(ItemInstance *param_2,BaseWidget *(*UseFunc)(BaseWidget*,BaseWidget*),u16 param_4,u8 param_5,u16 param_6,u16 param_7);
+  u16 AddItem(ItemInstance *param_2,buttonFunc UseFunc,u16 param_4,u8 param_5,u16 param_6,u16 param_7);
 };
 
 WidgetCombatItems* LoadCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions);
