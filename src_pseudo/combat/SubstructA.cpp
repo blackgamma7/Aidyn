@@ -225,9 +225,9 @@ bool FUN_800716b4(CombatSubstructA *param_1,vec3f *param_2,vec3f *param_3,u8 par
   vec3f fStack192;
   vec3f afStack128;
   
-  Vec3_sub(&afStack320,param_3,param_2);
-  copyVec3(&afStack320,&afStack256);
-  float len=vec3_normalize(&afStack256);
+  Vec3Sub(&afStack320,param_3,param_2);
+  Vec3Copy(&afStack320,&afStack256);
+  float len=Vec3Normalize(&afStack256);
   if (NORMALIZE_MIN < len) {
     if (CheckCollision(&MAPCENTER.mapPointer->dat,param_2,param_3,0.1,&afStack128,NULL,0)) {
       return false;
@@ -238,15 +238,15 @@ bool FUN_800716b4(CombatSubstructA *param_1,vec3f *param_2,vec3f *param_3,u8 par
             (cEnt = (&gCombatP->combatEnts)[i], cEnt != NULL)) &&
            ((!Entity::isDead(cEnt->charSheetP) &&(!cEnt->Flag6())))) {
           playerData *pDat = gGlobals.playerDataArray[i];
-          copyVec3(&(pDat->collision).pos,&afStack128);
-          Vec3_sub(&fStack192,&afStack128,param_2);
-          float dot = vec3_dot(&afStack320,&fStack192);
+          Vec3Copy(&(pDat->collision).pos,&afStack128);
+          Vec3Sub(&fStack192,&afStack128,param_2);
+          float dot = Vec3Dot(&afStack320,&fStack192);
           if (dot != 0.0) {
-            multiVec3(&afStack256,dot / len);
-            vec3_sum(&fStack192,&afStack256,param_2);
-            if (vec3_proximity(&fStack192,&afStack128) <= (pDat->collision).radius)
+            Vec3Scale(&afStack256,dot / len);
+            Vec3Sum(&fStack192,&afStack256,param_2);
+            if (Vec3Dist(&fStack192,&afStack128) <= (pDat->collision).radius)
               return false;
-            multiVec3(&afStack256,1.0f / (dot / len));
+            Vec3Scale(&afStack256,1.0f / (dot / len));
           }
         }
 

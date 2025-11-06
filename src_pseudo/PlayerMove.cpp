@@ -10,10 +10,10 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     
     fStack104.x = 0.0;
     fStack104.y = 1.0f;
-    fVar1 = vec2_dot(&fStack104,param_3);
+    fVar1 = Vec2Dot(&fStack104,param_3);
     fStack104.x = 1.0;
     fStack104.y = 0.0;
-    fVar2 = vec2_dot(&fStack104,param_3);
+    fVar2 = Vec2Dot(&fStack104,param_3);
     param_4->x = -(fVar1 * x + fVar2 * y);
     param_4->y = -(fVar1 * y - fVar2 * x);
   }
@@ -54,7 +54,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     if ((((_flea_flag != 0) && (p->alaron_flag)) &&
         ((controller->input & A_BUTTON) != 0)) && ((p->collision).unk1e != 0)) {
       vec2f fleaVec = {(p->facing).x,(p->facing).y};
-      multiVec2(&fleaVec,-0.06);
+      Vec2Scale(&fleaVec,-0.06);
       (p->collision).vel.x += fleaVec.x;
       (p->collision).vel.y += 0.084;
       (p->collision).vel.z += fleaVec.y;
@@ -160,11 +160,11 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
         if ((p->facing).x < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
       }
       else if (-(p->facing).x < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
-      vec2_normalize(&p->facing);
+      Vec2Normalize(&p->facing);
   };
   if (((p->ani_type != 0) && (p->borg7P)) && (p->borg7P->currentAni == 0)) {
       vec3f unkPosVec;
-      copyVec3(&(p->collision).pos,&unkPosVec);
+      Vec3Copy(&(p->collision).pos,&unkPosVec);
       unkPosVec.y -= 0.475;
       UNK_NOOP(&unkPosVec,p->Ground_type);
     }
@@ -190,15 +190,15 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     rot.y = ((gGlobals.gameVars.PlayerHandler.camera)->rotationXZ).y;
     v2.x = 0.0;
     v2.y = 1.0f;
-    vec2_normalize(&v2);
-    float dot1 = vec2_dot(&v2,&rot);
+    Vec2Normalize(&v2);
+    float dot1 = Vec2Dot(&v2,&rot);
     v2.x = 1.0f;
     v2.y = 0.0;
-    vec2_normalize(&v2);
-    float dot2 = vec2_dot(&v2,&rot);
+    Vec2Normalize(&v2);
+    float dot2 = Vec2Dot(&v2,&rot);
     out->x = -(dot1 * in->x + dot2 * in->y);
     out->y = -(dot1 * in->y - dot2 * in->x);
-    vec2_normalize(out);
+    Vec2Normalize(out);
   
   }
   
@@ -293,7 +293,7 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
       SetFlag(param_1,ACTOR_CANROTATE);
       (param_1->unk26c).x = param_2;
       (param_1->unk26c).y = param_3;
-      vec2_normalize(&param_1->unk26c);
+      Vec2Normalize(&param_1->unk26c);
     }
     else {
       param_1->flags = param_1->flags & ~ACTOR_1000;
@@ -326,7 +326,7 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
       else {
         fStack88.x = (param_1->aiDest).x - (param_1->collision).pos.x;
         fStack88.y = -((param_1->aiDest).y - (param_1->collision).pos.z);
-        fVar8 = vec2Length(&fStack88);
+        fVar8 = Vec2Length(&fStack88);
         iVar7 = 1;
         if (0.01 < (param_1->aiDestDist - fVar8)) {
           param_1->aiDestDist = fVar8;
@@ -408,7 +408,7 @@ void FUN_80019b08(playerData *param_1){
         Actor::CheckCollision(param_1,0.0,0,0);
       }
       if ((param_1->flags & ACTOR_CANROTATE))
-        copyVec2(&param_1->facingMirror,&param_1->facing);
+        Vec2Copy(&param_1->facingMirror,&param_1->facing);
       Actor::ResetMoveQueue(param_1);
     }
 }

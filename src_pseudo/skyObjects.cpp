@@ -274,7 +274,7 @@ Gfx * Skyobjects::Render(Gfx *g){
     fStack240.y = 0.0;
     fStack240.x = gCamera.rotation.x;
     fStack240.z = gCamera.rotation.z;
-    vec3_normalize(&fStack240);
+    Vec3Normalize(&fStack240);
     fVar6 = fStack240.z;
     fVar5 = fStack240.x;
     fVar17 = _sqrtf(SQ(gCamera.rotation.x) + SQ(gCamera.rotation.z));

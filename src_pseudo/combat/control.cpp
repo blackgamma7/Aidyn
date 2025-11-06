@@ -223,7 +223,7 @@ void FUN_8008d9d4(CombatSubstructB *param_1,CombatEntity *param_2){
      (pCVar1 = (&gCombatP->combatEnts)[param_1->entindex], pCVar1 != param_2)) {
     fStack88.x = param_2->GetCoordX() - pCVar1->GetCoordX();
     fStack88.y = param_2->GetCoordY() - pCVar1->GetCoordY();
-    vec2_normalize(&fStack88);
+    Vec2Normalize(&fStack88);
     Actor::SetFacing(gGlobals.playerDataArray[param_2->index],fStack88.x,fStack88.y);
     if (gGlobals.playerDataArray[pCVar1->index])
       GiveCameraToPlayer(gGlobals.playerDataArray[pCVar1->index]);
@@ -264,12 +264,12 @@ bool adjust_camera_joystick(controller_aidyn *cont,vec2f *param_2){
     CLEAR(&fStack_60);
     fStack160.x = ((gGlobals.gameVars.PlayerHandler.camera)->rotationXZ).x;
     fStack160.y = ((gGlobals.gameVars.PlayerHandler.camera)->rotationXZ).y;
-    vec2_normalize(&fStack160);
+    Vec2Normalize(&fStack160);
     fStack_60.y = -fStack160.x;
     fStack_60.x = fStack160.y;
     param_2->x = x * fStack160.y + y * fStack160.x;
     param_2->y = x * fStack_60.y + y * fStack160.y;
-    vec2_normalize(param_2);
+    Vec2Normalize(param_2);
     ret = true;
   }
   return ret;
@@ -291,7 +291,7 @@ bool FUN_8008dcfc(controller_aidyn *cont,ushort param_2){
   pCVar1 = gCombatP->current_Ent;
   memset(&fStack280,0,8);
   if (adjust_camera_joystick(cont,&fStack280)) {
-    multiVec2(&fStack280,0.8);
+    Vec2Scale(&fStack280,0.8);
     x = (gCombatP->SpellMarkerPos).x + fStack280.x;
     y = (gCombatP->SpellMarkerPos).y + fStack280.y;
     fVar7 = x;
@@ -321,13 +321,13 @@ bool FUN_8008dcfc(controller_aidyn *cont,ushort param_2){
     }
     ppVar2 = gGlobals.playerDataArray[pCVar1->index];
     if (ppVar2 != NULL) {
-      setVec2(&fStack88,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
-      setVec2(&fStack152,x - fStack88.x,y - fStack88.y);
-      fVar7 = vec2_normalize(&fStack152);
+      Vec2Set(&fStack88,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
+      Vec2Set(&fStack152,x - fStack88.x,y - fStack88.y);
+      fVar7 = Vec2Normalize(&fStack152);
       if (fVar7 < 0.0) bVar5 = fVar7 < (float)param_2;
       else bVar5 = (float)param_2 < fVar7;
       if (bVar5) fVar7 = (float)param_2;
-      multiVec2(&fStack152,fVar7);
+      Vec2Scale(&fStack152,fVar7);
       pCVar3 = gCombatP;
       (gCombatP->SpellMarkerPos).x = fStack152.x + fStack88.x;
       (pCVar3->SpellMarkerPos).y = fStack152.y + fStack88.y;
@@ -356,7 +356,7 @@ void FUN_8008e0c4(CombatSubstructB *param_1){
   vec2f markerPos,playerPos;
   
   //why copy? 
-  setVec2(&markerPos,(gCombatP->SpellMarkerPos).x,(gCombatP->SpellMarkerPos).y);
+  Vec2Set(&markerPos,(gCombatP->SpellMarkerPos).x,(gCombatP->SpellMarkerPos).y);
   clear_substruct2_arrayB(param_1);
   param_1->arrayBCount = 0;
   float proxMin=2.0f;
@@ -364,10 +364,10 @@ void FUN_8008e0c4(CombatSubstructB *param_1){
     if(param_1->arrayA[i]){
       CombatEntity* cEnt=&gCombatP->combatEnts[i];
       if((cEnt)&&(gGlobals.playerDataArray[cEnt->index])){
-        setVec2(&playerPos,
+        Vec2Set(&playerPos,
           (gGlobals.playerDataArray[cEnt->index]->collision).pos.x,
           (gGlobals.playerDataArray[cEnt->index]->collision).pos.z);
-          float fVar6=vec2_proximity(&playerPos,&markerPos);
+          float fVar6=Vec2Dist(&playerPos,&markerPos);
           if ((fVar6 <= 1.0f) && (fVar6 <= proxMin)) {
           clear_substruct2_arrayB(param_1);
           param_1->arrayB[i] = 1;

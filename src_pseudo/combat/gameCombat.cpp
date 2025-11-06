@@ -328,8 +328,8 @@ LAB_8002874c:
 u8 FUN_80028778(Gfx **GG,u16 delta){
   CombatEntity *pCVar2 = gCombatP->current_Ent;
   playerData *ppVar3 = gGlobals.playerDataArray[pCVar2->index];
-  copyVec3(&(ppVar3->collision).pos,&combatVec3B);
-  if ((((u8)(vec3_proximity(&combatVec3B,&combatVec3A)*100.0f)) < 3) || ((ppVar3->borg7P->unk2c).z < NORMALIZE_MIN)) {
+  Vec3Copy(&(ppVar3->collision).pos,&combatVec3B);
+  if ((((u8)(Vec3Dist(&combatVec3B,&combatVec3A)*100.0f)) < 3) || ((ppVar3->borg7P->unk2c).z < NORMALIZE_MIN)) {
     gCombatP->waitTimer-= delta;
   }
   if ((ppVar3->flags & ACTOR_CANMOVE) == 0) {
@@ -344,7 +344,7 @@ u8 FUN_80028778(Gfx **GG,u16 delta){
     if (!pCVar2->aiP) pCVar2->EndTurn();
     else FUN_800645b4(pCVar2->aiP);
   }
-  copyVec3(&combatVec3B,&combatVec3A);
+  Vec3Copy(&combatVec3B,&combatVec3A);
   *GG = Combat_Render(*GG,delta);
   return 2;
 }
@@ -646,8 +646,8 @@ void init_combat_struct(void){
     if (gExpPakFlag == 0) set_AnimCache(1);
     gCombatHideMarkers = 0;
     load_combatstruct_flag = 0;
-    setVec3(&combatVec3A,0.0,0.0,0.0);
-    setVec3(&combatVec3B,0.0,0.0,0.0);
+    Vec3Set(&combatVec3A,0.0,0.0,0.0);
+    Vec3Set(&combatVec3B,0.0,0.0,0.0);
     clear_alaron_shadow_indices();
     CLEAR(&gGlobals.playerDataArray);
     ALLOC(gCombatP,1745);
@@ -730,9 +730,9 @@ void clear_combat_func(){
       gGlobals.gameVars.MapFloatDatEntry.mapDatC = 0;
       gGlobals.gameVars.MapFloatDatEntry.MapShort1 = 5;
       gGlobals.gameVars.MapFloatDatEntry.MapShort2 = 3;
-      setVec3(&gGlobals.gameVars.MapFloatDatEntry.playerVec3,5.9f,0.5f,3.0f);
-      setVec2(&gGlobals.gameVars.MapFloatDatEntry.playerVec2,1.0f,0.0f);
-      copyVec3(&gGlobals.gameVars.MapFloatDatEntry.playerVec3,&gGlobals.gameVars.MapFloatDatEntry.cameraVec3);
+      Vec3Set(&gGlobals.gameVars.MapFloatDatEntry.playerVec3,5.9f,0.5f,3.0f);
+      Vec2Set(&gGlobals.gameVars.MapFloatDatEntry.playerVec2,1.0f,0.0f);
+      Vec3Copy(&gGlobals.gameVars.MapFloatDatEntry.playerVec3,&gGlobals.gameVars.MapFloatDatEntry.cameraVec3);
       CharSheet *alaron = PARTY->GetMemberById(IDEntInd(EntInd_Alaron));
       if (alaron) {
         Entity::addHP(alaron,Entity::getHPMax(alaron) - (s16)Entity::getHPCurrent(alaron));
@@ -840,7 +840,7 @@ void gamecombat_weapon_func(){
     bVar1 = gCombatP->some_index;
     ppVar3 = gGlobals.playerDataArray[bVar1];
     if (ppVar3) {
-      copyVec3(&(ppVar3->collision).pos,&fStack120);
+      Vec3Copy(&(ppVar3->collision).pos,&fStack120);
       if (pCVar2->AtkType != 3) {
         fStack120.y += (gEntityDB->GetHeight((&gCombatP->combatEnts)[bVar1]->charSheetP->ID) * 0.5f - (ppVar3->collision).radius);
       }
@@ -849,8 +849,8 @@ void gamecombat_weapon_func(){
       local_38.x = 4.0f;
       local_38.y = 8.0f;
       CombatEntity::GetWeaponRanges(pCVar2,&local_38.x,&local_38.y,&local_38.z);
-      Vec3_sub(&vec3f_800f53f0,&fStack120,&vec3f_800f5400);
-      FLOAT_800e9b70 = vec3_normalize(&vec3f_800f53f0);
+      Vec3Sub(&vec3f_800f53f0,&fStack120,&vec3f_800f5400);
+      FLOAT_800e9b70 = Vec3Normalize(&vec3f_800f53f0);
       fVar6 = 2.0f;
       if (FLOAT_800e9b70 <= 40.0f) {
         fVar6 = (FLOAT_800e9b70 / 40.0f) * fVar5 + -2.0f;
@@ -874,7 +874,7 @@ void gamecombat_weapon_func(){
       FLOAT_800e9b80 = 0.0;
       FLOAT_800e9b7c = local_38.y;
       FLOAT_800e9b84 = local_38.z;
-      multiVec3(&vec3f_800f53f0,FLOAT_800e9b74);
+      Vec3Scale(&vec3f_800f53f0,FLOAT_800e9b74);
     }
   }
 }
@@ -911,7 +911,7 @@ void alaron_shadow_merge_attempt(){
       playerData *alaron = gGlobals.playerDataArray[(&gCombatP->combatEnts)[(byte)gGlobals.AlaronIndex]->index];
       if ((alaron != NULL) &&
          ((shadow->scaleRad + alaron->scaleRad + 0.5f)>
-         vec3_proximity(&(shadow->collision).pos,&(alaron->collision).pos))){
+         Vec3Dist(&(shadow->collision).pos,&(alaron->collision).pos))){
         if (HasHornOfKynon()) shadow_merge_cinematic();
         else merge_no_horn();
       }

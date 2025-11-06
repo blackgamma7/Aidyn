@@ -193,8 +193,8 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
   }
   else {
     ppVar2 = gGlobals.playerDataArray[param_2->index];
-    setVec2(avStack_270,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
-    setVec2(avStack_230,avStack_270[0].x + (ppVar2->facing).x,avStack_270[0].y + (ppVar2->facing).y)
+    Vec2Set(avStack_270,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
+    Vec2Set(avStack_230,avStack_270[0].x + (ppVar2->facing).x,avStack_270[0].y + (ppVar2->facing).y)
     ;
     memset(abStack_b0,0,4);
     if (param_1->arrayA[param_2->index] != 0) {
@@ -207,7 +207,7 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
       for(uVar8 = 0;uVar8 < gCombatP->EntCount;uVar8++) {
         if ((param_1->arrayA[uVar8]) && (uVar8 != param_2->index)) {
           ppVar2 = gGlobals.playerDataArray[uVar8];
-          setVec2(&afStack496,ppVar2->collision.pos.x,ppVar2->collision.pos.z);
+          Vec2Set(&afStack496,ppVar2->collision.pos.x,ppVar2->collision.pos.z);
           fVar9 = big_vec2_math_func(avStack_270,avStack_230,&afStack496);
           fVar10 = three_vec2_proximities(avStack_270,avStack_230,&afStack496);
           uVar4 = (uint)(fVar10 <= 0.0) | (uint)(fVar9 <= 0.0) << 1;
@@ -376,7 +376,7 @@ void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2)
   
   ppVar2 = gGlobals.playerDataArray[param_2->index];
   if (ppVar2) {
-    setVec2(avStack_128,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
+    Vec2Set(avStack_128,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
     uVar8 = 0;
     uVar7 = 0;
     if (gCombatP->EntCount != 0) {
@@ -385,8 +385,8 @@ void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2)
         if (param_1->arrayA[uVar7]){
           playerData* p= gGlobals.playerDataArray[uVar7];
           if(p){
-          setVec2(avStack_68,p->collision.pos.x,p->collision.pos.z);
-          afStack_a8[uVar8] = vec2_proximity(avStack_68,avStack_128);
+          Vec2Set(avStack_68,p->collision.pos.x,p->collision.pos.z);
+          afStack_a8[uVar8] = Vec2Dist(avStack_68,avStack_128);
           abStack_e8[uVar8++] = uVar7;
         }
         }

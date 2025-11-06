@@ -40,7 +40,7 @@ void memset_combat_struct(CombatStruct *param_1){
   param_1->reinforcmentsWillFlee = 0;
   param_1->TurnCount = 0;
   param_1->AniTimer = 0;
-  setVec2(&param_1->entity_XY,0.0,0.0);
+  Vec2Set(&param_1->entity_XY,0.0,0.0);
   param_1->hasFleeRefpoints = 0;
   param_1->renderTicker = 0;
 }
@@ -481,8 +481,8 @@ bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y
       if (cEnt){
         playerData *pDat = gGlobals.playerDataArray[(cEnt)->index];
         if (pDat){
-          setVec2(&tempB,(pDat->collision).pos.x,(pDat->collision).pos.z);
-          if (vec2_proximity(&tempA,&tempB) <= pDat->scaleRad + radius * scale) {
+          Vec2Set(&tempB,(pDat->collision).pos.x,(pDat->collision).pos.z);
+          if (Vec2Dist(&tempA,&tempB) <= pDat->scaleRad + radius * scale) {
             return false;
           }
         }

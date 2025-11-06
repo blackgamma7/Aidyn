@@ -34,9 +34,9 @@ Gfx* Draw(Gfx*g,vec2f *XZ){
                        ,gGlobals.brightness * 255.0f,gGlobals.brightness * 255.0f,
                        gGlobals.brightness * 255.0f,gGlobals.brightness * 80.0f);
   fStack128={1,0};
-  fVar3 = vec2_dot(XZ,&fStack128);
+  fVar3 = Vec2Dot(XZ,&fStack128);
   fStack128={0,1};
-  fVar4 = vec2_dot(XZ,&fStack128);
+  fVar4 = Vec2Dot(XZ,&fStack128);
   fVar7 = fVar3 * 25.0f;
   fVar3 = fVar3 * 95.0f;
   fVar5 = fVar4 * 25.0f;

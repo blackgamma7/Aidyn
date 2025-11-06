@@ -151,11 +151,11 @@ u8 Cheats::_bingo(void){
 
 //asks you to enter "keepbusy"
 u8 Cheats::imadoofus(void){
-  TextPopup_New(cheatStrings_pointer[11],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
+  TextPopup_New(cheatStrings_pointer[11],200,0x1e,COLOR_WHITE,0x96,1);
   return true;}
 //asks you to enter "imadoofus"
 u8 Cheats::keepbusy(void){
-  TextPopup_New(cheatStrings_pointer[12],200,0x1e,0xff,0xff,0xff,0xff,0x96,1);
+  TextPopup_New(cheatStrings_pointer[12],200,0x1e,COLOR_WHITE,0x96,1);
   return true;}
 
 u8 Cheats::_version(void){
@@ -179,7 +179,7 @@ u8 Cheats::_version(void){
 
   #define FMT "Aidyn Chronicles\nVersion: " STR2(VERSIONNAME) "\nCompile: %s-%s\nCode: %lu"
   Gsprintf(FMT,COMPILEDATE,COMPILETIME,0xffa50/*1MB-boot segment size */);
-  TextPopup_New(gGlobals.text,200,0x32,0xff,0xff,0xff,0xff,0x96,1);
+  TextPopup_New(gGlobals.text,200,0x32,COLOR_WHITE,0x96,1);
   #ifndef DEBUGVER
   version_flag=1; //activates coord print in retail during AppProc()
   #endif

@@ -273,7 +273,7 @@ int appState_RegionControllerCheck(Gfx **gg){
     g = Borg8_DrawSimple(g,PAL_Warning_image, //center image in screen.
              (Graphics::GetHRes() * 0.5f) - ((PAL_Warning_image->dat).Width * 0.5f),
              (Graphics::GetVRes() * 0.5f) - ((PAL_Warning_image->dat).Height * 0.5f),
-            1.0f,1.0f,0xff,0xff,0xff,0xff);
+            1.0f,1.0f,COLOR_WHITE);
     ret = 5;
     *gg = g;
   }

@@ -718,7 +718,7 @@ void some_matrix_func(MtxF *param_1,float posX,float posY,float posZ,float param
   fStack184.x = vec3f_800f3384.x;
   fStack184.y = vec3f_800f3384.y;
   fStack184.z = vec3f_800f3384.z;
-  Vec3_cross(&fStack120,&fStack248,&fStack184);
+  Vec3Cross(&fStack120,&fStack248,&fStack184);
   (*param_1)[3][0] = posX;
   (*param_1)[3][1] = posY;
   (*param_1)[3][2] = posZ;
@@ -1658,7 +1658,7 @@ void Borg7_StartParticles(Borg7Header *param_1){
     for(u32 i=0;i<count;i++) {
       SceneData *scene = param_1->sceneDat;
       Borg5_particle *dat = scene->scene[0].borg5->dat.ParticleDat[i];
-      if (((dat->flagE & 0x20)) &&
+      if (((dat->flagE & B5PART_0020)) &&
          (dat->aniUsed == param_1->currentAni)) {
         Particle::FUN_800b3c18(scene->particleHead,scene,dat);
       }
@@ -2443,7 +2443,7 @@ switchD_800a1cc4_caseD_8:
           fStack384.x = pBVar2->mfs[1][3][0] - vec3f_800f3378.x;
           fStack384.y = pBVar2->mfs[1][3][1] - vec3f_800f3378.y;
           fStack384.z = pBVar2->mfs[1][3][2] - vec3f_800f3378.z;
-          vec3_normalize(&fStack384);
+          Vec3Normalize(&fStack384);
           guAlignF(&afStack320,(pbVar23->rot).z,fStack384.x,fStack384.y,fStack384.z);
           CLEAR(&mf);
           pSVar7 = unkAnimStructB.scene;

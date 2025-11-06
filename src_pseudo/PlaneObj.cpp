@@ -59,9 +59,9 @@ Gfx * PlaneObj_Render(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale)
   float Vx;
   
   fb = Graphics::GetBufferChoice();
-  copyVec3(pos,&plane->pos);
-  copyVec3(rot,&plane->rot);
-  copyVec2(scale,&plane->scale);
+  Vec3Copy(pos,&plane->pos);
+  Vec3Copy(rot,&plane->rot);
+  Vec2Copy(scale,&plane->scale);
   Vx = scale->x * 25.0f;
   Vy = scale->y * 25.0f;
   guTranslate(&plane->transMtx[fb],pos->x * 16.0f,pos->y * 16.0f,pos->z * 16.0f);

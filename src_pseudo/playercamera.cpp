@@ -74,13 +74,13 @@ void Camera::AddPosToList(vec3f *param_1){
 }
 
 void Camera::CopyPosAim(Camera_struct *param_1,u16 flag,vec3f *param_3){
-  if ((flag & CamOBJ_CopyAim)) copyVec3(&param_1->aim,param_3);
-  if ((flag & CamOBJ_CopyPos)) copyVec3(&param_1->pos,param_3);
+  if ((flag & CamOBJ_CopyAim)) Vec3Copy(&param_1->aim,param_3);
+  if ((flag & CamOBJ_CopyPos)) Vec3Copy(&param_1->pos,param_3);
 }
 
 void Camera::CopyPosAim2(Camera_struct *param_1,u16 flags,vec3f *param_3){
-  if ((flags & CamOBJ_CopyAim)) copyVec3(param_3,&param_1->aim);
-  if ((flags & CamOBJ_CopyPos)) copyVec3(param_3,&param_1->pos);
+  if ((flags & CamOBJ_CopyAim)) Vec3Copy(param_3,&param_1->aim);
+  if ((flags & CamOBJ_CopyPos)) Vec3Copy(param_3,&param_1->pos);
 }
 
 #define PI_f 3.141593f
@@ -102,7 +102,7 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
   bVar4 = false;
   if (((((vox->header).type == VOXEL_Camera) && ((vox->header).timestamp < gGlobals.ticker)) &&
       (((vox->header).Bitfeild & VOXEL_Active) != 0)) &&
-     (vec3_proximity(arg0,&vox->header.pos) <= (vox->header).size)) {
+     (Vec3Dist(arg0,&vox->header.pos) <= (vox->header).size)) {
     if (gGlobals.screenFadeModeSwitch == 0xc) {
       if (((vox->camera).CameraFlags & CamObj_M001f)){
         gGlobals.scriptcamera.counter0++;
@@ -118,17 +118,17 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
       v3b = &(vox->camera).vec3_C;
       if ((vox->camera).timestamp < gGlobals.ticker) {
         Camera::CopyPosAim(cam,(vox->camera).CameraFlags,&afStack248);
-        copyVec3(&afStack248,v3a);
+        Vec3Copy(&afStack248,v3a);
         sVar1 = (vox->camera).refpoint_ID;
         if (sVar1 == 0) {
-          copyVec3(arg0,v3b);
+          Vec3Copy(arg0,v3b);
           if (gPlayer == NULL)
             (vox->camera).vec3_C.y = (float)((double)(vox->camera).vec3_C.y - 0.5);
           else (vox->camera).vec3_C.y -= (gPlayer)->scaleRad;
           if (isDialougeMode()) (vox->camera).vec3_C.y = ((vox->camera).vec3_C.y + 0.5);
           else (vox->camera).vec3_C.y += cam->camHeight;
         }
-        else copyVec3(&FindReferncePoint(gGlobals.gameVars.borg9DatPointer,sVar1)->header.pos,v3b);
+        else Vec3Copy(&FindReferncePoint(gGlobals.gameVars.borg9DatPointer,sVar1)->header.pos,v3b);
         (vox->camera).unk0x54 = 0.0;
         if (((vox->camera).CameraFlags & CamOBJ_TrackOn)) {
           fStack120.x = arg0->x;
@@ -137,25 +137,25 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
           Camera::SetAim(cam,&fStack120);
         }
         if (((vox->camera).CameraFlags & CamOBJ_MoveCut)) {
-          copyVec3(v3b,v3a);
+          Vec3Copy(v3b,v3a);
           Camera::CopyPosAim2(cam,(vox->camera).CameraFlags,v3b);
         }
         if (((vox->camera).CameraFlags & CamOBJ_MovePan)) {
-          Vec3_sub(&afStack248,v3b,v3a);
-          multiVec3(&afStack248,vec3_normalize(&afStack248) / (vox->camera).vec3_A.z);
-          copyVec3(&afStack248,v3a);
+          Vec3Sub(&afStack248,v3b,v3a);
+          Vec3Scale(&afStack248,Vec3Normalize(&afStack248) / (vox->camera).vec3_A.z);
+          Vec3Copy(&afStack248,v3a);
           (vox->camera).unk0x54 = (vox->camera).vec3_A.z;
         }
       }
-      bVar2 = 0.5 < vec3_proximity(v3a,v3b);
+      bVar2 = 0.5 < Vec3Dist(v3a,v3b);
       bVar6 = ((vox->camera).CameraFlags & CamObj_M001f) != 0;
       if (((vox->camera).CameraFlags & CamOBJ_MovePan)){
         if (0.0 < (vox->camera).unk0x54) {
           (vox->camera).unk0x54 -= delta;
           Camera::CopyPosAim(cam,(vox->camera).CameraFlags,&afStack248);
-          copyVec3(v3a,avStack_b8);
-          multiVec3(avStack_b8,delta);
-          vec3_sum(&afStack248,&afStack248,avStack_b8);
+          Vec3Copy(v3a,avStack_b8);
+          Vec3Scale(avStack_b8,delta);
+          Vec3Sum(&afStack248,&afStack248,avStack_b8);
           Camera::CopyPosAim2(cam,(vox->camera).CameraFlags,&afStack248);
         }
         else bVar4 = bVar6 && bVar2;
@@ -170,9 +170,9 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
           if (bVar3) {
             (vox->camera).unk0x54 = fVar7;
           }
-          Vec3_sub(&afStack248,v3b,v3a);
-          multiVec3(&afStack248,-(vec3_normalize(&afStack248) * (__cosf((vox->camera).unk0x54) - 1.0f) * 0.5f));
-          vec3_sum(&afStack248,&afStack248,v3a);
+          Vec3Sub(&afStack248,v3b,v3a);
+          Vec3Scale(&afStack248,-(Vec3Normalize(&afStack248) * (__cosf((vox->camera).unk0x54) - 1.0f) * 0.5f));
+          Vec3Sum(&afStack248,&afStack248,v3a);
           Camera::CopyPosAim2(cam,(vox->camera).CameraFlags,&afStack248);
         }
         else {
@@ -189,9 +189,9 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
           if (bVar3) {
             (vox->camera).unk0x54 = (f32)PiOver2;
           }
-          Vec3_sub(&afStack248,v3b,v3a);
-          multiVec3(&afStack248,vec3_normalize(&afStack248) * 1.0f - __cosf((vox->camera).unk0x54));
-          vec3_sum(&afStack248,&afStack248,v3a);
+          Vec3Sub(&afStack248,v3b,v3a);
+          Vec3Scale(&afStack248,Vec3Normalize(&afStack248) * 1.0f - __cosf((vox->camera).unk0x54));
+          Vec3Sum(&afStack248,&afStack248,v3a);
           Camera::CopyPosAim2(cam,(vox->camera).CameraFlags,&afStack248);
         }
         else {
@@ -206,11 +206,11 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
           bVar6 = PiOver2 < (double)fVar7;
           (vox->camera).unk0x54 = fVar7;
           if (bVar6) (vox->camera).unk0x54 = (f32)PiOver2;
-          Vec3_sub(&afStack248,v3b,v3a);
-          fVar7 = vec3_normalize(&afStack248);
+          Vec3Sub(&afStack248,v3b,v3a);
+          fVar7 = Vec3Normalize(&afStack248);
           fVar8 = __sinf((vox->camera).unk0x54);
-          multiVec3(&afStack248,fVar7 * fVar8);
-          vec3_sum(&afStack248,&afStack248,v3a);
+          Vec3Scale(&afStack248,fVar7 * fVar8);
+          Vec3Sum(&afStack248,&afStack248,v3a);
           Camera::CopyPosAim2(cam,(vox->camera).CameraFlags,&afStack248);
         }
         else if (bVar6 && bVar2) bVar4 = true;
@@ -218,7 +218,7 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
       if (bVar4) (vox->camera).timestamp = 0;
     }
     if (((vox->camera).CameraFlags & CamOBJ_TrackOn)) {
-      copyVec3(arg0,&cam->aimTarget);
+      Vec3Copy(arg0,&cam->aimTarget);
       (cam->aimTarget).y += cam->camHeight;
       Camera::AdjustAim(&cam->aim,&cam->aimTarget,24.0,delta,0.25f);
     }
@@ -306,7 +306,7 @@ void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
       if (sCam->active != 0) {
         if (gGlobals.screenFadeModeSwitch == 0xc) param_1->counter0++;
         if (sCam->aim) {
-          setVec3(&afStack112,sCam->aim->x,sCam->aim->y + sCam->height,sCam->aim->z);
+          Vec3Set(&afStack112,sCam->aim->x,sCam->aim->y + sCam->height,sCam->aim->z);
           sCam->aim = &afStack112;
         }
         processVoxelCamera(arg0,&sCam->voxel,&gCamera,delta);

@@ -33,7 +33,7 @@ void play_countainer_sound(voxelObject* param_1,Borg9Data *param_2){
   replace_container_voxel(param_1,1,param_2);
 }
 
-//explosion effect if trap is triggered. replace mosel with destroyed one.
+//explosion effect if trap is triggered. replace model with destroyed one.
 void open_explosive_chest(voxelObject* param_1,Borg9Data *param_2){
 
   u32 chestExplodeSFX[]={0x724,0x725,0x727,0x728};
@@ -249,14 +249,14 @@ void monsterpary_func(voxelObject *v,u16 A,u16 B){
     vec3f temp;
     vec3f *playerPos = &((gPlayer)->collision).pos;
     playerData *ppVar2 = gGlobals.wander.wanderSubstructs[(v->monster).wandererIndex].playerDat;
-    Vec3_sub(&temp,&(ppVar2->collision).pos,playerPos);
-    float x = vec3_normalize(&temp);
-    setVec3(&temp,-(ppVar2->facing).x,0.0,-(ppVar2->facing).y);
-    vec3_normalize(&temp);
-    multiVec3(&temp,x);
-    vec3_sum(&temp,&temp,&(ppVar2->collision).pos);
-    Vec3_sub(&temp,&temp,playerPos);
-    gGlobals.EncounterDat.collisionByte = x <= vec3_normalize(&temp);
+    Vec3Sub(&temp,&(ppVar2->collision).pos,playerPos);
+    float x = Vec3Normalize(&temp);
+    Vec3Set(&temp,-(ppVar2->facing).x,0.0,-(ppVar2->facing).y);
+    Vec3Normalize(&temp);
+    Vec3Scale(&temp,x);
+    Vec3Sum(&temp,&temp,&(ppVar2->collision).pos);
+    Vec3Sub(&temp,&temp,playerPos);
+    gGlobals.EncounterDat.collisionByte = x <= Vec3Normalize(&temp);
     gGlobals.EncounterDat.aniByte = 0;
     battle_setup_func(v,(v->header).flagB,gGlobals.wander.wanderSubstructs[(v->monster).wandererIndex].VoxelIndex);
     gGlobals.playerCharStruct.unkState = 2;
@@ -444,7 +444,7 @@ u8 container_obj_check(voxelObject* v,playerData *arg1){
   u8 ret;
   
   ret = false;
-  if (vec3_proximity(&v->header.pos,&arg1->collision.pos) <= v->container.chestSize + arg1->scaleRad) {
+  if (Vec3Dist(&v->header.pos,&arg1->collision.pos) <= v->container.chestSize + arg1->scaleRad) {
     checkCheat(check);
       uVar1 = (v->container).LootType;
       if ((Treasure_Misc < uVar1) || (ret = true, uVar1 < Treasure_Herb)){
@@ -463,13 +463,13 @@ u8 Ofunc_80014ba0(voxelObject *v,vec3f *arg1){
   u8 uVar1;
   
   uVar1 = 0;
-  if (vec3_proximity(&v->header.pos,arg1) <= (v->header).size) {
+  if (Vec3Dist(&v->header.pos,arg1) <= (v->header).size) {
     uVar1 = trigger_event_flag_check((v->header).flagA,(v->header).Bitfeild,0x100);
   }
   return uVar1;}
 
 u8 some_gamestate_check_B(voxelObject* v,playerData *arg1,u8 istrue){
-  if ((istrue) &&(vec3_proximity(&v->header.pos,&(arg1->collision).pos) >(v->header).size)) {return false;}
+  if ((istrue) &&(Vec3Dist(&v->header.pos,&(arg1->collision).pos) >(v->header).size)) {return false;}
   checkCheat(check);
   return trigger_event_flag_check((v->header).flagA,(v->header).Bitfeild,0x100) != false;
 }
@@ -482,7 +482,7 @@ u8 monsterparty_obj_check(voxelObject* v){
   }
 
 u8 trigger_obj_check_prox(voxelObject *v,playerData *arg1,u8 param_3){
-  if ((param_3) && (vec3_proximity(&v->header.pos,&(arg1->collision).pos) > (v->header).size)) {return false;}
+  if ((param_3) && (Vec3Dist(&v->header.pos,&(arg1->collision).pos) > (v->header).size)) {return false;}
   checkCheat(check);
   return trigger_event_flag_check((v->header).flagA,(v->header).Bitfeild,0x100);
 }
@@ -491,7 +491,7 @@ u8 trigger_obj_check(voxelObject *v,playerData *arg1){return trigger_obj_check_p
 
 u8 dialouge_trigger_check(voxelObject *v,vec3f *arg1,u8 getProx){
   float fVar3 = 0.0;
-  if (getProx) {fVar3 = vec3_proximity(&v->header.pos,arg1);}
+  if (getProx) {fVar3 = Vec3Dist(&v->header.pos,arg1);}
   u8 uVar2 = false;
   if (fVar3 <= (v->header).size) {
     checkCheat(check);
@@ -505,7 +505,7 @@ u8 dialoug_obj_func(voxelObject *v,playerData *arg1){return dialouge_trigger_che
 
 void dialoug_obj_check(voxelObject* v,playerData *arg1){dialoug_obj_func(v,arg1);}
 
-u8 savepoint_prox_check(voxelObject *v,playerData *arg1){return vec3_proximity(&v->header.pos,&(arg1->collision).pos) <= (v->header).size;}
+u8 savepoint_prox_check(voxelObject *v,playerData *arg1){return Vec3Dist(&v->header.pos,&(arg1->collision).pos) <= (v->header).size;}
 
 u8 VoxelObj_Ret0(voxelObject *v,playerData *arg1){return 0;}
 

@@ -189,7 +189,7 @@ if (0.000001 <= length) {
 v3_1.x = gAnimationLookatVec.x;
 v3_1.y = gAnimationLookatVec.y;
 v3_1.z = gAnimationLookatVec.z;
-Vec3_cross(&v3_2,&v3_0,&v3_1);
+Vec3Cross(&v3_2,&v3_0,&v3_1);
 ani->matrixB[3][0] = posx;
 ani->matrixB[3][1] = posy;
 ani->matrixB[3][2] = poz;

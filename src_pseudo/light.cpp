@@ -4,7 +4,7 @@ void InitLight_(voxelObject* vox,vec3f *pos,float size,u16 type,float f1,u32 col
   CLEAR(vox);
   vox->header.type = VOXEL_Light;
   vox->header.Bitfeild = VOXEL_Active;
-  copyVec3(pos,&(vox->header).pos);
+  Vec3Copy(pos,&(vox->header).pos);
   vox->light.lightType = type;
   vox->header.size = size;
   vox->light.cols[1].W = colB;
@@ -77,7 +77,7 @@ void InitLight(SceneData *scene,Borg9Data *borg9,vec3f *pos,voxelObject *lightOb
     if(((lightObj->header.type == VOXEL_Light) && (lightObj->header.Bitfeild & VOXEL_Active))){
      if(((lightObj->header).ptr0x24 == NULL || ((dynaLightEntry*)lightObj->header.ptr0x24)->timer < 1)){
       if(((lightObj->header).Bitfeild & VOXEL_FlagB) == 0 ||(!CheckCollision(borg9,&lightObj->header.pos,pos,(float)0.25,NULL,NULL,1))){
-       float prox=vec3_proximity(pos,&lightObj->header.pos);
+       float prox=Vec3Dist(pos,&lightObj->header.pos);
        float size=lightObj->header.size;
        if(prox<size){
         size=(size-prox)/prox;
@@ -140,9 +140,9 @@ LAB_800550e8:
           tint_color_with_screenfade((lightObj->light).cols,size);
           }
           vec3f v3Dist;
-          if (((lightObj->header).Bitfeild & 1) == 0) Vec3_sub(&v3Dist,&lightObj->header.pos,pos);
-          else Vec3_sub(&v3Dist,&gCamera.pos,pos);
-          vec3_normalize(&v3Dist);
+          if (((lightObj->header).Bitfeild & 1) == 0) Vec3Sub(&v3Dist,&lightObj->header.pos,pos);
+          else Vec3Sub(&v3Dist,&gCamera.pos,pos);
+          Vec3Normalize(&v3Dist);
           tint_color_with_screenfade((lightObj->light).cols,gGlobals.brightness);
           Scene::addDynamicLight(scene,size * 250.0f,v3Dist.x,v3Dist.y,v3Dist.z,
                      (lightObj->light).cols[0].R,(lightObj->light).cols[0].G,(lightObj->light).cols[0].B,

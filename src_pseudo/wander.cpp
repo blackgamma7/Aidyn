@@ -35,7 +35,7 @@ wander_substruct * findWandererFromPlayerName(s16 arg0){
 
 void Ofunc_800124b4(playerData **param_1,vec3f *param_2){
   vec2f temp;
-  copyVec3(&((*param_1)->collision).pos,param_2);
+  Vec3Copy(&((*param_1)->collision).pos,param_2);
   get_mapcellsize((*param_1)->zoneDatByte,&temp);
   param_2->x+= temp.x;
   param_2->z+= temp.y;
@@ -167,8 +167,8 @@ void WanderGetNextNode(wander_struct *param_1,wander_substruct *param_2,short pa
   if ((param_2->homenode & 2)) {
     fStack80.x = (param_2->playerDat->collision).pos.x;
     fStack80.y = (param_2->playerDat->collision).pos.z;
-    Vec2_Sub(&param_2->start_position,&fStack80,&param_2->start_position);
-    vec2_normalize(&param_2->start_position);
+    Vec2Sub(&param_2->start_position,&fStack80,&param_2->start_position);
+    Vec2Normalize(&param_2->start_position);
   }
 }
 
@@ -189,7 +189,7 @@ void FUN_80012d44(wander_substruct *param_1){
   param_1->flags &=~1;
   if ((param_1->homenode & 1)) {
     vec2f fStack80={(param_1->playerDat->collision).pos.x,(param_1->playerDat->collision).pos.z};
-    if (vec2_proximity(&fStack80,&param_1->start_position) > param_1->wanderRadius)
+    if (Vec2Dist(&fStack80,&param_1->start_position) > param_1->wanderRadius)
       Actor::SetAiDest(param_1->playerDat,(param_1->start_position).x,(param_1->start_position).y,
                param_1->wanderRadius,(pBVar2->voxelObjs[param_1->VoxelIndex].wander.nodeflags & 2));
   }
@@ -240,22 +240,22 @@ void WanderTick(wander_struct *param_1,short delta){
         borgDat = GetCollisionZone(wanderer->playerDat->zoneDatByte);
         pmVar8 = &borgDat->voxelObjs[wanderer->VoxelIndex];
         perception = gEntityDB->GetPerception((pmVar8->monster).entityID);
-        copyVec3(&(playerDat_->collision).pos,&playerPos);
+        Vec3Copy(&(playerDat_->collision).pos,&playerPos);
         if (wanderer->playerDat->zoneDatByte != ZoneCenter)
         Actor::SubPosOnLoadedMap(wanderer->playerDat->zoneDatByte,&playerPos);
         wanderer->timer-= delta;
         Actor::GetPosOnLoadedMap(wanderer->playerDat,&afStack360);
-        playerProx = vec3_proximity(&afStack360,&(playerDat_->collision).pos);
+        playerProx = Vec3Dist(&afStack360,&(playerDat_->collision).pos);
         afStack360.x -=(((wanderer->playerDat->facing).x * perception) * 0.3);
         afStack360.z -=(((wanderer->playerDat->facing).y * perception) * 0.3);
-        perceptionProx = vec3_proximity(&afStack360,&(playerDat_->collision).pos);
-        setVec2(&fStack488,(wanderer->playerDat->collision).pos.x,
+        perceptionProx = Vec3Dist(&afStack360,&(playerDat_->collision).pos);
+        Vec2Set(&fStack488,(wanderer->playerDat->collision).pos.x,
                 (wanderer->playerDat->collision).pos.z);
-        fVar13 = vec2_proximity(&wanderer->position,&fStack488);
-        copyVec2(&wanderer->position,&afStack424);
+        fVar13 = Vec2Dist(&wanderer->position,&fStack488);
+        Vec2Copy(&wanderer->position,&afStack424);
         Actor::AddPosOnLoadedMap(wanderer->playerDat->zoneDatByte,&afStack424);
-        setVec2(&fStack488,(playerDat_->collision).pos.x,(playerDat_->collision).pos.z);
-        fVar14 = vec2_proximity(&wanderer->position,&fStack488);
+        Vec2Set(&fStack488,(playerDat_->collision).pos.x,(playerDat_->collision).pos.z);
+        fVar14 = Vec2Dist(&wanderer->position,&fStack488);
         if (perceptionProx <= perception + perception) {
           if (!wanderer->perceptionsSet) {
             fVar15 = perception * (1.0 -gGlobals.gameVars.weather.fogTime * 0.75);
@@ -388,8 +388,8 @@ LAB_80013488:
         else if (wanderer->NoBorg13 == 2) {
           fStack488.x = playerPos.x - (wanderer->playerDat->collision).pos.x;
           fStack488.y = playerPos.z - (wanderer->playerDat->collision).pos.z;
-          vec2_normalize(&fStack488);
-          multiVec2(&fStack488,-1.0);
+          Vec2Normalize(&fStack488);
+          Vec2Scale(&fStack488,-1.0);
           fStack488.x = fStack488.x + (wanderer->playerDat->collision).pos.x;
           fStack488.y = fStack488.y + (wanderer->playerDat->collision).pos.z;
           Actor::SetAiDest(wanderer->playerDat,fStack488.x,fStack488.y,1.0,0);

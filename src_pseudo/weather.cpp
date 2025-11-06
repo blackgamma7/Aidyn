@@ -9,22 +9,22 @@ void Free(WeatherStruct* W){RemoveSFX(W);}
 
 void AlignParticle(Particle_s *part,vec3f *pos,vec3f *rot){
   vec3f temp={rot->x,rot->y,rot->z};
-  multiVec3(&temp,0.05);
-  Particle::SetFlag(part,4);
+  Vec3Scale(&temp,0.05);
+  Particle::SetFlag(part,PARTICLE_0004);
   guAlign(&part->alignMtx,0.0,rot->x + 1.0E-6f,rot->y,rot->z);
-  copyVec3(pos,&part->pos);
-  vec3_sum(&part->pos,&part->pos,&temp);
-  multiVec2(&part->scale,3.0);
-  copyVec4(&part->colorA,&part->colorB);
-  multiVec4(&part->colorB,-0.008333334);
+  Vec3Copy(pos,&part->pos);
+  Vec3Sum(&part->pos,&part->pos,&temp);
+  Vec2Scale(&part->scale,3.0);
+  Vec4Copy(&part->colorA,&part->colorB);
+  Vec4Scale(&part->colorB,-0.008333334);
   part->lifespan = 120;
 }
 
-void FUN_800228e8(ParticleHeadStruct *param_1,ParticleEmmiter *param_2,Particle_s *param_3){
+void FUN_800228e8(ParticleHeadStruct *head,ParticleEmmiter *emmi,Particle_s *param_3){
   float fVar2;
   vec3f posA,posB,dist,rot;
   
-  Vec3_sub(&dist,&param_3->pos,(vec3f *)&param_3->vec_0x4c);
+  Vec3Sub(&dist,&param_3->pos,(vec3f *)&param_3->vec_0x4c);
   fVar2 = SQ(dist.x)+ SQ(dist.y) + SQ(dist.z);
   if (fVar2 < (param_3->vec_0x4c).w)
     (param_3->vec_0x4c).w = fVar2;
@@ -36,12 +36,12 @@ void FUN_800228e8(ParticleHeadStruct *param_1,ParticleEmmiter *param_2,Particle_
     posB.x = posA.x;
     posB.z = posA.z;
     if ((CheckCollision(gGlobals.gameVars.borg9DatPointer,&posA,&posB,0.1,&dist,&rot,1))
-      && (Particle::FUN_800b2890(param_1,param_2->link,param_3)))
+      && (Particle::FUN_800b2890(head,emmi->link,param_3)))
       AlignParticle(param_3,&dist,&rot);
   }
 }
 
-void FUN_80022a24(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
+void FUN_80022a24(ParticleHeadStruct *head,ParticleEmmiter *emmi){
   ParticleEmmiter *pPVar1;
   bool bVar2;
   Particle_s *p;
@@ -53,7 +53,7 @@ void FUN_80022a24(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
   vec3f rot [8];
   vec3f *pfVar2;
   
-  pPVar1 = param_2->link;
+  pPVar1 = emmi->link;
   pfVar2 = (vec3f *)pPVar1->object;
   RAND.GetVec2(avStack_e0,RAND.GetFloatRange(0.01,(pPVar1->field20_0x54).x * 0.5f));
   posA.x = pfVar2->x + (pPVar1->vel).x + avStack_e0[0].x;
@@ -63,12 +63,12 @@ void FUN_80022a24(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
   posB.x = posA.x;
   posB.z = posA.z;
   if (CheckCollision(gGlobals.gameVars.borg9DatPointer,&posA,&posB,0.1,pos,rot,0)) {
-    Particle_s *p = Particle::FUN_800b277c(param_1,param_2,0x78);
+    Particle_s *p = Particle::FUN_800b277c(head,emmi,0x78);
     Particle::SetScale(p,0.25f,0.25f);
-    copyVec4(&pPVar1->colvec4,&p->colorA);
-    Particle::SetFlag(p,0x200);
-    copyVec4(&p->colorA,&p->colorB);
-    multiVec4(&p->colorB,(float)(-0.75 / pPVar1->unk1a));
+    Vec4Copy(&pPVar1->colvec4,&p->colorA);
+    Particle::SetFlag(p,PARTICLE_0200);
+    Vec4Copy(&p->colorA,&p->colorB);
+    Vec4Scale(&p->colorB,(float)(-0.75 / pPVar1->unk1a));
     AlignParticle(p,pos,rot);
   }
 }
@@ -89,17 +89,17 @@ void FUN_80022bf4(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
   RAND.GetVec2(&fStack88,RAND.GetFloatRange(0.01,(param_2->field20_0x54).x));
   Particle::SetPos(p,pfVar1->x + (param_2->vel).x + fStack88.x,pfVar1->y + (param_2->vel).y,
                    pfVar1->z + (param_2->vel).z + fStack88.y);
-  copyVec3((vec3f *)&param_2->particles->colorB,&afStack216);
-  multiVec3(&afStack216,(float)(int)lifespan);
-  vec3_sum(&afStack216,&afStack216,&p->pos);
+  Vec3Copy((vec3f *)&param_2->particles->colorB,&afStack216);
+  Vec3Scale(&afStack216,(float)(int)lifespan);
+  Vec3Sum(&afStack216,&afStack216,&p->pos);
   if (CheckCollision(gGlobals.gameVars.borg9DatPointer,&p->pos,&afStack216,0.1,&fStack152,NULL,1))
-    setVec4(&p->vec_0x4c,fStack152.x,fStack152.y,fStack152.z,100000.0f);
+    Vec4Set(&p->vec_0x4c,fStack152.x,fStack152.y,fStack152.z,100000.0f);
   else
-    setVec4(&p->vec_0x4c,0.0,-1000.0,0.0,100000.0f);
-  copyVec4(&param_2->colvec4,&p->colorA);
-  Particle::SetFlag(p,0x200);
-  copyVec4(&p->colorA,&p->colorB);
-  multiVec4(&p->colorB,(float)(-0.75 / lifespan));
+    Vec4Set(&p->vec_0x4c,0.0,-1000.0,0.0,100000.0f);
+  Vec4Copy(&param_2->colvec4,&p->colorA);
+  Particle::SetFlag(p,PARTICLE_0200);
+  Vec4Copy(&p->colorA,&p->colorB);
+  Vec4Scale(&p->colorB,(float)(-0.75 / lifespan));
 }
 
 ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,short param_4,short param_5,void *param_6){
@@ -110,7 +110,7 @@ ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,short par
   pPVar1 = NULL;
   if (link) {
     Particle::SetColorB(link->particles,-(1.0f/120),-(1.0f/120),-(1.0f/120),0.0);
-    Particle::SetFlag(link->particles,0x400);
+    Particle::SetFlag(link->particles,PARTICLE_0400);
     pPVar1 = Particle::AllocParticleEmitter(&gGlobals.gameVars.particleEmmiter,60,param_4,0,NULL,FUN_80022bf4,FUN_800228e8,aim,link);
     if (pPVar1 == NULL) {
       Particle::ResetEmmiter(&gGlobals.gameVars.particleEmmiter,link);
@@ -118,9 +118,9 @@ ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,short par
     }
     else {
       link->link = pPVar1;
-      copyVec4(col,&pPVar1->colvec4);
-      copyVec3(vel,&pPVar1->vel);
-      Particle::SetFlag(pPVar1->particles,0x80);
+      Vec4Copy(col,&pPVar1->colvec4);
+      Vec3Copy(vel,&pPVar1->vel);
+      Particle::SetFlag(pPVar1->particles,PARTICLE_0080);
     }
   }
   return pPVar1;

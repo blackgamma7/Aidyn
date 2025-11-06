@@ -373,8 +373,8 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *param_3,ve
   
   sVar1 = fly->shortA;
   sVar2 = fly->shortB;
-  copyVec3(param_3,&fly->posTarget);
-  copyVec3(param_4,&fly->aimTarget);
+  Vec3Copy(param_3,&fly->posTarget);
+  Vec3Copy(param_4,&fly->aimTarget);
   fVar8 = gGlobals.gameVars.mapCellSize.y;
   fVar9 = (fly->aimTarget).x;
   iVar4 = (fVar9 / gGlobals.gameVars.mapCellSize.x);
@@ -411,10 +411,10 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *param_3,ve
   if (cam) {
     Camera::SetAim(cam,&fly->aim);
     Camera::SetPos(cam,&fly->pos);
-    Vec3_sub(&cam->rotation,&fly->aim,&fly->pos);
-    setVec2(&cam->rotationXZ,(cam->rotation).x,(cam->rotation).z);
-    vec3_normalize(&cam->rotation);
-    vec2_normalize(&cam->rotationXZ);
+    Vec3Sub(&cam->rotation,&fly->aim,&fly->pos);
+    Vec2Set(&cam->rotationXZ,(cam->rotation).x,(cam->rotation).z);
+    Vec3Normalize(&cam->rotation);
+    Vec2Normalize(&cam->rotationXZ);
   }
 }
 

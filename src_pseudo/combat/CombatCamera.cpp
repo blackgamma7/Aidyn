@@ -18,10 +18,10 @@ void clear_camera_playerdata_focus(void) {
 void camera_collision_far(vec3f *a,vec3f *b) {
   vec3f temp;
   a->y +=1.5;
-  Vec3_sub(&temp,a,b);
-  vec3_normalize(&temp);
-  multiVec3(&temp,4.0);
-  vec3_sum(a,a,&temp);
+  Vec3Sub(&temp,a,b);
+  Vec3Normalize(&temp);
+  Vec3Scale(&temp,4.0);
+  Vec3Sum(a,a,&temp);
 }
 
 void combat_camera_func(Camera_struct *param_1,Borg9Data *param_2) {
@@ -78,25 +78,25 @@ void calc_camera_playerdata_focus(Camera_struct *camera,float param_2) {
   if (camera_PlayerData_flag == 1) {
     camera_PlayerData_flag = 2;
     if (camera_PlayerData_A->ID == camera_PlayerData_B->ID) ActorAPos.x -= 1.0f;
-    if (5.0f < vec3_proximity(&ActorAPos,&ActorBPos)) {
+    if (5.0f < Vec3Dist(&ActorAPos,&ActorBPos)) {
       camera_collision_far(&ActorAPos,&ActorBPos);
     }
     else {
-      Vec3_sub(&local_120,&ActorAPos,&ActorBPos);
-      fVar1 = vec3_normalize(&local_120);
+      Vec3Sub(&local_120,&ActorAPos,&ActorBPos);
+      fVar1 = Vec3Normalize(&local_120);
       local_e0.x = local_120.x;
       local_e0.y = local_120.y;
       local_e0.z = local_120.z;
-      multiVec3(&local_e0,fVar1 * 0.5f);
+      Vec3Scale(&local_e0,fVar1 * 0.5f);
       local_e0.y = local_e0.y + param_2;
-      vec3_sum(&ActorBPos,&ActorBPos,&local_e0);
-      multiVec3(&local_120,6.0);
+      Vec3Sum(&ActorBPos,&ActorBPos,&local_e0);
+      Vec3Scale(&local_120,6.0);
       fVar1 = 2.0f;
-      setVec3(&local_a0,ActorBPos.x + local_120.z,ActorBPos.y + 2.0f,
+      Vec3Set(&local_a0,ActorBPos.x + local_120.z,ActorBPos.y + 2.0f,
               ActorBPos.z - local_120.x);
-      setVec3(&local_60,ActorBPos.x - local_120.z,ActorBPos.y + fVar1,ActorBPos.z + local_120.x);
-      fVar1 = vec3_proximity(&camera->pos,&local_a0);
-      fVar2 = vec3_proximity(&camera->pos,&local_60);
+      Vec3Set(&local_60,ActorBPos.x - local_120.z,ActorBPos.y + fVar1,ActorBPos.z + local_120.x);
+      fVar1 = Vec3Dist(&camera->pos,&local_a0);
+      fVar2 = Vec3Dist(&camera->pos,&local_60);
       ActorAPos.x = local_a0.x;
       ActorAPos.y = local_a0.y;
       ActorAPos.z = local_a0.z;
@@ -106,7 +106,7 @@ void calc_camera_playerdata_focus(Camera_struct *camera,float param_2) {
         ActorAPos.z = local_60.z;
       }
     }
-    if (15.0f < vec3_proximity(&ActorAPos,&camera->pos)) Camera::SetPos(camera,&ActorAPos);
+    if (15.0f < Vec3Dist(&ActorAPos,&camera->pos)) Camera::SetPos(camera,&ActorAPos);
     else {
       (camera->posTarget).x = ActorAPos.x;
       (camera->posTarget).y = ActorAPos.y;
@@ -129,7 +129,7 @@ u32 FUN_80096e58(PlayerHandler *param_1,playerData *param_2,vec3f *pos) {
   for(u16 i=0;i<param_1->max_player;i++){
     playerData* pDat=&param_1->playerDats[i];
     if((pDat->removeFlag)&&(!pDat->visible_flag)){
-        float dist=vec3_proximity(&param_2->collision.pos,&pDat->collision.pos);
+        float dist=Vec3Dist(&param_2->collision.pos,&pDat->collision.pos);
         if(dist<min){
             pos->x=pDat->collision.pos.x;
             pos->y=pDat->collision.pos.y;
@@ -148,9 +148,9 @@ void FUN_80096f4c(PlayerHandler *param_1,playerData *param_2,vec3f *param_3,Came
   vec3f avStack_58;
   
   if (param_5) Camera::SetAim(param_4,&param_1->playerDats[param_1->cameraFocus].collision.pos);
-  Vec3_sub(&avStack_d8,&(param_2->collision).pos,param_3);
-  setVec2(&avStack_98,avStack_d8.x,avStack_d8.z);
-  vec2_normalize(&avStack_98);
+  Vec3Sub(&avStack_d8,&(param_2->collision).pos,param_3);
+  Vec2Set(&avStack_98,avStack_d8.x,avStack_d8.z);
+  Vec2Normalize(&avStack_98);
   avStack_58.x = (param_2->collision).pos.x + avStack_98.x * 8.0f;
   avStack_58.y = (param_2->collision).pos.y + 1.5;
   avStack_58.z = (param_2->collision).pos.z + avStack_98.y * 8.0f;
@@ -225,7 +225,7 @@ void processCombatCamera(PlayerHandler *param_1) {
         fVar9 = 16.0f;
       }
       if ((gGlobals.combatBytes[0] == 9) &&
-         (vec3_proximity(&fStack440,&(ppVar5->collision).pos)>=5.0f)) {
+         (Vec3Dist(&fStack440,&(ppVar5->collision).pos)>=5.0f)) {
         uVar6 = 0;
         bVar3 = false;
         (cam->posTarget).x = (ppVar5->collision).pos.x;
@@ -240,14 +240,14 @@ void processCombatCamera(PlayerHandler *param_1) {
                     0.5f,8.0f,2.0f,8.0f,16.0f,32.0f,1.0f,0.5f,0,uVar6);
       combat_camera_func(cam,gGlobals.gameVars.borg9DatPointer);
       if (bVar3) {
-        setVec2(&afStack184,(cam->aim).x,(cam->aim).z);
-        setVec2(&fStack120,avStack_178[0].x,avStack_178[0].z);
-        Vec2_Sub(&afStack248,&fStack120,&afStack184);
-        fVar7 = vec2_normalize(&afStack248);
+        Vec2Set(&afStack184,(cam->aim).x,(cam->aim).z);
+        Vec2Set(&fStack120,avStack_178[0].x,avStack_178[0].z);
+        Vec2Sub(&afStack248,&fStack120,&afStack184);
+        fVar7 = Vec2Normalize(&afStack248);
         if (fVar7 < 4.0f) {
-          multiVec2(&afStack248,4.0f);
-          vec2_sum(&fStack120,&afStack184,&afStack248);
-          setVec3(avStack_178,fStack120.x,avStack_178[0].y,fStack120.y);
+          Vec2Scale(&afStack248,4.0f);
+          Vec2Sum(&fStack120,&afStack184,&afStack248);
+          Vec3Set(avStack_178,fStack120.x,avStack_178[0].y,fStack120.y);
         }
         Camera::SetPos(cam,avStack_178);
         combat_camera_func(cam,gGlobals.gameVars.borg9DatPointer);

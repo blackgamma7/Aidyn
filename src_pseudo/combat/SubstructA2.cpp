@@ -41,9 +41,9 @@ void FUN_80067aa0(u8 bf,CombatSubstructA *s,u8 xMax,u8 zMax) {
     float z=i+0.5f;
     for(u8 j=0;j<xMax;j++){
       float x = (float)j + 0.5f;
-      setVec3(&posA,x,100.0,z);
-      setVec3(&posB,x,-100.0,z);
-      setVec3(&rot,0.0,1.0,0.0);
+      Vec3Set(&posA,x,100.0,z);
+      Vec3Set(&posB,x,-100.0,z);
+      Vec3Set(&rot,0.0,1.0,0.0);
       u8* pbVar3 = s->array1[j] + i;
       *pbVar3 = 0x80;
       if (CheckCollision(&(MAPCENTER.mapPointer)->dat,&posA,&posB,0.5f,&outPos,&rot,0))

@@ -68,7 +68,7 @@ void secret_door_func(voxelObject* param_1);
 
 u16 FUN_80005d60(wander_substruct **w);
 float func_checking_monsterparty(voxelObject *v,vec3f *pos);
-void monsterparty_setvec2(voxelObject *v,vec2f *pos);
+void Voxel_Get2DPos(voxelObject *v,vec2f *pos);
 void obj_ref_func(void);
 
 void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 param_4,short param_5,short count

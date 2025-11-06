@@ -503,9 +503,9 @@ struct Borg5_particle{
     u16 aniUsed;
     u16 unk6;
     s16 unk8;
-    u16 field5_0xa;
+    s16 field5_0xa;
     u16 lifespan;
-    u16 flagE;
+    u16 flagE;//uses Borg5PartFlag
     float unk10;
     s16 unk14;
     s16 unk16;
@@ -530,6 +530,24 @@ struct Borg5_particle{
     Color32 colRandHi;
     Color32 colBlend;
     u8 unkAc[20]; //unused?
+};
+enum Borg5PartFlag{
+    B5PART_0001=0x1, //particles have height of 0.
+    B5PART_0002=0x2, //unused?
+    B5PART_0004=0x4, //use randRangeB for velocity range when set, 0 to randRangeB when unset
+    B5PART_0008=0x8, //use randRangeA for position range when set, 0 to randRangeA when unset
+    B5PART_0010=0x10, //get locator normal when set.
+    B5PART_0020=0x20,
+    B5PART_0040=0x40, //unused?
+    B5PART_0080=0x80, //unused?
+    B5PART_0100=0x100, //unused?
+    B5PART_0200=0x200, //emmiter's collision position is used.
+    B5PART_0400=0x400, //color colVD is used for ColorB to set particles' colorB.
+    B5PART_0800=0x800, //color colVC is used for ColorB to set particles' velocity.
+    B5PART_1000=0x1000, //color colVB is used for ColorB to set particles' colorB.
+    B5PART_2000=0x2000, //get locator position and check B5PART_0004 when set.
+    B5PART_4000=0x4000, //use colBlend to set particles' colorA
+    B5PART_8000=0x8000, //use (unk9c - unk94) / field5_0xa to mod particles' scale.
 };
 struct Borg5Data {
     s32 substructCount;

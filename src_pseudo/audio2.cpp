@@ -8,7 +8,7 @@
 void adjust_soundstruct_vec3(SoundStructA *param_1){
   vec2f temp;
   
-  copyVec3(&param_1->voxel->header.pos,&param_1->worldPos);
+  Vec3Copy(&param_1->voxel->header.pos,&param_1->worldPos);
   get_mapcellsize(param_1->zoneDatByte,&temp);
   (param_1->worldPos).x += temp.x;
   (param_1->worldPos).z += temp.y;
@@ -292,7 +292,7 @@ void renderAudioVoxel(SoundStructA *param_1){
 }
 
 float Sound_Volume_proximity(vec3f *pos,float vol,Camera_struct *cam){
-  return 1.0f - vec3_proximity(pos,&cam->aim) / vol;
+  return 1.0f - Vec3Dist(pos,&cam->aim) / vol;
 }
 
 //calculates pan if applicable?
@@ -331,7 +331,7 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
     pSVar5 = &sfx->pointerA[i];
     if (pSVar5->active) {
       //fade out if far away
-      if ((pSVar5->voxel->header).size < vec3_proximity(&pSVar5->worldPos,pos)) {
+      if ((pSVar5->voxel->header).size < Vec3Dist(&pSVar5->worldPos,pos)) {
         paVar2 = pSVar5->voxelDat;
         if (0.0 < paVar2->volumeFade) {
           paVar2->volumeFade -= (delta / 90.0);

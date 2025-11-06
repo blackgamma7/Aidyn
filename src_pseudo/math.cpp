@@ -1,75 +1,75 @@
 #include "mathN64.h"
 #include "stringN64.h"
 //return length of vec2
-float vec2Length(vec2f *X){
+float Vec2Length(vec2f *X){
 	return  _sqrtf(SQ(X->x)+SQ(X->y));
 }
 //return length of vec3
-float vec3Length(vec3f *X){
+float Vec3Length(vec3f *X){
 	return _sqrtf(SQ(X->x)+SQ(X->y)+SQ(X->z));
 }
 //subtract A from b and store result in res
-void Vec2_sub(vec2f *res,vec2f *A,vec2f *B){
+void Vec2Sub(vec2f *res,vec2f *A,vec2f *B){
   res->x = A->x - B->x;
   res->y = A->y - B->y;
   }
 //subtract A from b and store result in res
-void Vec3_sub(vec3f *res,vec3f *A,vec3f *B){
+void Vec3Sub(vec3f *res,vec3f *A,vec3f *B){
   res->x = A->x - B->x;
   res->y = A->y - B->y;
   res->z = A->z - B->z;
   }
 //subtract A from b and store result in res
-void Vec4_sub(vec4f *res,vec4f *a,vec4f *b){
+void Vec4Sub(vec4f *res,vec4f *a,vec4f *b){
   res->x = a->x - b->x;
   res->y = a->y - b->y;
   res->z = a->z - b->z;
   res->w = a->w - b->w;
 }
 //add A and b and store result in res
-void vec2_sum(vec2f *res,vec2f *a,vec2f *b){
+void Vec2Sum(vec2f *res,vec2f *a,vec2f *b){
   res->x = a->x + b->x;
   res->y = a->y + b->y;
   }
 //add A and b and store result in res
-void vec3_sum(vec3f *res,vec3f *a,vec3f *b){
+void Vec3Sum(vec3f *res,vec3f *a,vec3f *b){
   res->x = a->x + b->x;
   res->y = a->y + b->y;
   res->z = a->z + b->z;
   }
 //add A and b and store result in res
-void vec4_sum(vec4f *res,vec4f *a,vec4f *b){
+void Vec4Sum(vec4f *res,vec4f *a,vec4f *b){
   res->x = a->x + b->x;
   res->y = a->y + b->y;
   res->z = a->z + b->z;
   res->w = a->w + b->w;
   }
 //return distance between a and b
-float vec2_proximity(vec2f *A,vec2f *B){
+float Vec2Dist(vec2f *A,vec2f *B){
 	vec2f temp;
 
-	Vec2_sub(&temp,A,B);
-	return vec2Length(&temp);}
+	Vec2Sub(&temp,A,B);
+	return Vec2Length(&temp);}
 //return distance between a and b
-float vec3_proximity(vec3f *A,vec3f *B){
+float Vec3Dist(vec3f *A,vec3f *B){
 	vec3f temp;
 
-	Vec3_sub(&temp,A,B);
-	return vec3Length(&temp);}
+	Vec3Sub(&temp,A,B);
+	return Vec3Length(&temp);}
 //return dot product of a and b
-float vec2_dot(vec2f *A,vec2f *B){
+float Vec2Dot(vec2f *A,vec2f *B){
 	return A->x * B->x + A->y * B->y;}
 //return dot product of a and b
-float vec3_dot(vec3f *A,vec3f *B){
+float Vec3Dot(vec3f *A,vec3f *B){
 	return A->x * B->x + A->y * B->y + A->z * B->z;
 }
 //store cross product of A and b in res
-void Vec3_cross(vec3f *res,vec3f *A,vec3f *B){
+void Vec3Cross(vec3f *res,vec3f *A,vec3f *B){
   res->x = A->y * B->z - A->z * B->y;
   res->y = A->z * B->x - A->x * B->z;
   res->z = A->x * B->y - A->y * B->x;}
 //normalize vector and return length (or 1e-6)
-float vec2_normalize(vec2f *X){
+float Vec2Normalize(vec2f *X){
 	float len = _sqrtf(SQ(X->x)+SQ(X->y));
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
 	X->x /=len;
@@ -77,7 +77,7 @@ float vec2_normalize(vec2f *X){
 	return len;
 }
 //normalize vector and return length (or 1e-6)
-float vec3_normalize(vec3f *X){
+float Vec3Normalize(vec3f *X){
 	float len = _sqrtf(SQ(X->x)+SQ(X->y)+SQ(X->z));
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
   X->x /= len;
@@ -86,7 +86,7 @@ float vec3_normalize(vec3f *X){
 	return len;
 }
 //normalize vector and return length (or 1e-6)
-float vec4_normalize(vec4f *X){
+float Vec4Normalize(vec4f *X){
 	float len = _sqrtf(SQ(X->x)+SQ(X->y)+SQ(X->z)+SQ(X->w));
 	if(len < NORMALIZE_MIN) len = NORMALIZE_MIN;
   X->x /= len;
@@ -100,15 +100,15 @@ float NormalizeTri(vec3f *A,vec3f *B,vec3f *C,vec3f *D){
 	vec3f TempA;
 	vec3f TempB;
 
-	Vec3_sub(&TempA,B,C);
-	Vec3_sub(&TempB,B,D);
-	Vec3_cross(A,&TempA,&TempB);
-	return vec3_normalize(A);
+	Vec3Sub(&TempA,B,C);
+	Vec3Sub(&TempB,B,D);
+	Vec3Cross(A,&TempA,&TempB);
+	return Vec3Normalize(A);
 }
 //please identify purpose of function.
 int some_trig_func_2(vec2f *A,vec2f *B,float C){
-  float x = vec2_normalize(A);
-  float y = vec2_normalize(B);
+  float x = Vec2Normalize(A);
+  float y = Vec2Normalize(B);
   float fVar1;
   float fVar3;
   float fVar4;
@@ -117,10 +117,10 @@ int some_trig_func_2(vec2f *A,vec2f *B,float C){
   vec2f fStack192;
   vec2f fStack128;
   float fVar2 = __sinf(C);
-  if (vec2_proximity(A,B) <= fVar2) {
-    copyVec2(B,A);
-    multiVec2(A,x);
-    multiVec2(B,y);
+  if (Vec2Dist(A,B) <= fVar2) {
+    Vec2Copy(B,A);
+    Vec2Scale(A,x);
+    Vec2Scale(B,y);
     return true;
   }
   else {
@@ -131,8 +131,8 @@ int some_trig_func_2(vec2f *A,vec2f *B,float C){
     fStack192.y = fVar3 * A->y - fVar2 * A->x;
     fStack128.x = fVar6 * A->x + fVar1 * A->y;
     fStack128.y = fVar6 * A->y - fVar1 * A->x;
-    fVar3 = vec2_proximity(&fStack192,B);
-    fVar6 = vec2_proximity(&fStack128,B);
+    fVar3 = Vec2Dist(&fStack192,B);
+    fVar6 = Vec2Dist(&fStack128,B);
     fVar1 = fStack192.y;
     fVar2 = fStack192.x;
     if (fVar6 <= fVar3) {
@@ -141,7 +141,7 @@ int some_trig_func_2(vec2f *A,vec2f *B,float C){
     }
     A->x = fVar2 * x;
     A->y = fVar1 * x;
-    multiVec2(B,y);
+    Vec2Scale(B,y);
     return false;
   }
 }
@@ -166,7 +166,7 @@ void FUN_800ab23c(vec3f *A,vec3f *B,float C){
   A->x = V2D.x;
   A->z = V2D.y;}
 //rotate Vec2 A by B degrees
-void RotVec2(vec2f *A,float B){
+void Vec2Rot(vec2f *A,float B){
   float A1 = A->y;
   float A0 = A->x;
   float sin = __sinf(B * dtor);
@@ -190,55 +190,55 @@ void Ofunc_800ab3cc(vec3f *X,float Y){
   TempA.y = X->z;
   TempB.x = TempA.x;
   TempB.y = TempA.y;
-  RotVec2(&TempA,Y);
-  setVec3(X,TempA.x,X->y,TempA.y);}
+  Vec2Rot(&TempA,Y);
+  Vec3Set(X,TempA.x,X->y,TempA.y);}
 //copy "from" to "to".
-void copyVec2(vec2f *from,vec2f *to){
+void Vec2Copy(vec2f *from,vec2f *to){
   to->x = from->x;
   to->y = from->y;}
 //copy "from" to "to".
-void copyVec3(vec3f *from,vec3f *to){
+void Vec3Copy(vec3f *from,vec3f *to){
   to->x = from->x;
   to->y = from->y;
   to->z = from->z;}
 //copy "from" to "to".
-void copyVec4(vec4f *from,vec4f *to){
+void Vec4Copy(vec4f *from,vec4f *to){
   to->x = from->x;
   to->y = from->y;
   to->z = from->z;
   to->w = from->w;}
 //invert values of vec4. (used for one function)
-void negVec4(vec4f *v){
+void Vec4Neg(vec4f *v){
   v->x = -v->x;
   v->y = -v->y;
   v->z = -v->z;
   v->w = -v->w;}
 //scale v by x
-void multiVec2(vec2f *v,float x){
+void Vec2Scale(vec2f *v,float x){
   v->x *= x;
   v->y *= x;}
 //scale v by x
-void multiVec3(vec3f *v,float x){
+void Vec3Scale(vec3f *v,float x){
   v->x *= x;
   v->y *= x;
   v->z *= x;}
 //scale v by x
-void multiVec4(vec4f *v,float x){
+void Vec4Scale(vec4f *v,float x){
   v->x *= x;
   v->y *= x;
   v->z *= x;
   v->w *= x;}
 //set values of vec2
-void setVec2(vec2f *v,float x,float y){
+void Vec2Set(vec2f *v,float x,float y){
   v->x = x;
   v->y = y;}
 //set values of vec3
-void setVec3(vec3f *v,float x,float y,float z){
+void Vec3Set(vec3f *v,float x,float y,float z){
   v->x = x;
   v->y = y;
   v->z = z;}
 //set values of vec4
-void setVec4(vec4f *v,float x,float y,float z,float w){
+void Vec4Set(vec4f *v,float x,float y,float z,float w){
   v->x = x;
   v->y = y;
   v->z = z;
@@ -248,10 +248,10 @@ float three_vec2_proximities(vec2f *X,vec2f *Y,vec2f *Z){
   vec2f TempA;
   vec2f TempB;
   
-  Vec2_Sub(&TempA,Y,X);
-  vec2_normalize(&TempA);
-  Vec2_Sub(&TempB,Z,X);
-  vec2_normalize(&TempB);
+  Vec2Sub(&TempA,Y,X);
+  Vec2Normalize(&TempA);
+  Vec2Sub(&TempB,Z,X);
+  Vec2Normalize(&TempB);
   return (2.0f -
          ((TempA.x - TempB.x) * (TempA.x - TempB.x) +
          (TempA.y - TempB.y) * (TempA.y - TempB.y))) * 0.5f;}
@@ -273,23 +273,23 @@ float big_vec2_math_func(vec2f *A,vec2f *B,vec2f *C){
   vec2f afStack176;
   vec2f afStack112;
   
-  Vec2_Sub(&afStack304,B,A);
-  vec2_normalize(&afStack304);
-  Vec2_Sub(&afStack240,C,A);
-  vec2_normalize(&afStack240);
-  fVar1 = vec2_proximity(&afStack304,&afStack240);
+  Vec2Sub(&afStack304,B,A);
+  Vec2Normalize(&afStack304);
+  Vec2Sub(&afStack240,C,A);
+  Vec2Normalize(&afStack240);
+  fVar1 = Vec2Dist(&afStack304,&afStack240);
   fVar3 = (2.0f - SQ(fVar1)) * 0.5f;
   fVar1 = 1.0f - SQ(fVar3);
   if (fVar1 <= 0.0) fVar1 = -fVar1;
   x = _sqrtf(fVar1);
-  multiVec2(&afStack304,100.0);
-  multiVec2(&afStack240,100.0);
-  copyVec2(&afStack304,&afStack176);
-  copyVec2(&afStack304,&afStack112);
+  Vec2Scale(&afStack304,100.0);
+  Vec2Scale(&afStack240,100.0);
+  Vec2Copy(&afStack304,&afStack176);
+  Vec2Copy(&afStack304,&afStack112);
   some_vec2Math(&afStack176,x,fVar3);
   fVar1 = -x;
   some_vec2Math(&afStack112,fVar1,fVar3);
-  if (vec2_proximity(&afStack176,&afStack240) < vec2_proximity(&afStack112,&afStack240)) {
+  if (Vec2Dist(&afStack176,&afStack240) < Vec2Dist(&afStack112,&afStack240)) {
     fVar1 = x;
   }
   return fVar1;
@@ -621,7 +621,7 @@ void ofunc_sub_800acc40(MtxF *res,vec3f *v,float a){
 //please identify purpose of function.
 void Ofunc_800acd9c(MtxF *A,vec3f *B){
   vec3f v3Temp= {B->x,B->y,B->z};
-  ofunc_sub_800acc40(A,&v3Temp,vec3_normalize(&v3Temp));
+  ofunc_sub_800acc40(A,&v3Temp,Vec3Normalize(&v3Temp));
   (*A)[3][0] = 0.0;
   (*A)[3][1] = 0.0;
   (*A)[3][2] = 0.0;
@@ -700,8 +700,8 @@ void Ofunc_800ad174(MtxF *X,vec3f *A,vec3f *B,vec3f *C){
   V3temp.x = B->x - C->x;
   V3temp.y = B->y - C->y;
   V3temp.z = B->z - C->z;
-  fVar1 = vec3_dot(&V3temp,A);
-  fVar2 = vec3_dot(C,A);
+  fVar1 = Vec3Dot(&V3temp,A);
+  fVar2 = Vec3Dot(C,A);
   (*X)[0][0] = -C->x * A->x - fVar1;
   (*X)[1][0] = -C->x * A->y;
   fVar3 = fVar1 + fVar2;
@@ -782,7 +782,7 @@ void Ofunc_800ad420(vec3f *A,vec3f *B,vec3f *C,vec3f *D){
 }
 //please identify purpose of function.
 void Ofunc_800ad49c(vec3f *A,vec3f *B){
-  float fVar1 = vec3_dot(A,B);
+  float fVar1 = Vec3Dot(A,B);
   fVar1 = -fVar1;
   B->x = B->x + A->x * fVar1;
   B->y = B->y + A->y * fVar1;
@@ -844,9 +844,9 @@ void Ofunc_800ad81c(MtxF *A,vec3f *B){
   V3TempB.x = (*A)[2][0];
   V3TempB.y = (*A)[2][1];
   V3TempB.z = (*A)[2][2];
-  Vec3_cross(&V3TempA,B,&V3TempB);
-  vec3_normalize(&V3TempA);
-  Vec3_cross(&V3TempB,&V3TempA,B);
+  Vec3Cross(&V3TempA,B,&V3TempB);
+  Vec3Normalize(&V3TempA);
+  Vec3Cross(&V3TempB,&V3TempA,B);
   (*A)[0][0] = V3TempA.x;
   (*A)[0][1] = V3TempA.y;
   (*A)[0][2] = V3TempA.z;

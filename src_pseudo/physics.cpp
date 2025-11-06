@@ -24,7 +24,7 @@ void collision_velocity_func(vec3f *vel,vec3f *param_2){
   float fVar2;
   float fVar3;
 
-  len = vec3_normalize(vel);
+  len = Vec3Normalize(vel);
   fVar2 = vel->x * param_2->x + vel->y * param_2->y + vel->z * param_2->z;
   if (0.0 < fVar2) {
     vel->x *= len;
@@ -38,7 +38,7 @@ void collision_velocity_func(vec3f *vel,vec3f *param_2){
     vel->y -= (fVar3 + fVar3);
     fVar2 = param_2->z * fVar2;
     vel->z -= (fVar2 + fVar2);
-    vec3_normalize(vel);
+    Vec3Normalize(vel);
     vel->x *= len;
     vel->y *= len;
     vel->z *= len;

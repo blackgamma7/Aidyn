@@ -3,13 +3,13 @@
 #include "crash.h"
 
 void Camera::SetPos(Camera_struct *CAM,vec3f *arg1){
-  copyVec3(arg1,&CAM->pos);
-  copyVec3(arg1,&CAM->posTarget);
+  Vec3Copy(arg1,&CAM->pos);
+  Vec3Copy(arg1,&CAM->posTarget);
 }
 
 void Camera::SetAim(Camera_struct *CAM,vec3f *arg1){
-  copyVec3(arg1,&CAM->aim);
-  copyVec3(arg1,&CAM->aimTarget);
+  Vec3Copy(arg1,&CAM->aim);
+  Vec3Copy(arg1,&CAM->aimTarget);
 }
 
 void Camera::Init(Camera_struct *param_1,Borg9Data *map,vec3f *pos,u16 mode){
@@ -50,10 +50,10 @@ void Camera::Init(Camera_struct *param_1,Borg9Data *map,vec3f *pos,u16 mode){
 }
 
 void Camera::Orient(Camera_struct *param_1){
-  Vec3_sub(&param_1->rotation,&param_1->aim,&param_1->pos);
-  setVec2(&param_1->rotationXZ,(param_1->rotation).x,(param_1->rotation).z);
-  vec3_normalize(&param_1->rotation);
-  vec2_normalize(&param_1->rotationXZ);
+  Vec3Sub(&param_1->rotation,&param_1->aim,&param_1->pos);
+  Vec2Set(&param_1->rotationXZ,(param_1->rotation).x,(param_1->rotation).z);
+  Vec3Normalize(&param_1->rotation);
+  Vec2Normalize(&param_1->rotationXZ);
 }
  
 void Camera::Lerp(vec3f *arg,vec3f *target,float f){
@@ -68,12 +68,12 @@ void Camera::AdjustAim(vec3f *aim0,vec3f *aim1,float arg2,s16 delta,float arg4){
   
   if (0 < delta) {
     for(s16 i=0;i<delta;i++) {
-      Vec3_sub(&v3temp,aim0,aim1);
-      multiVec3(&v3temp,(float)(1.0 / (double)arg2));
-      x = vec3_normalize(&v3temp);
+      Vec3Sub(&v3temp,aim0,aim1);
+      Vec3Scale(&v3temp,(float)(1.0 / (double)arg2));
+      x = Vec3Normalize(&v3temp);
       if (arg4 < x) x = arg4;
-      multiVec3(&v3temp,x);
-      Vec3_sub(aim0,aim0,&v3temp);
+      Vec3Scale(&v3temp,x);
+      Vec3Sub(aim0,aim0,&v3temp);
     }
   }
 }
@@ -135,39 +135,39 @@ void Camera::Mode1(Camera_struct *CAM,vec3f *arg1,vec3f *arg2,s16 arg3,float arg
   vec3f afStack144;
   
   fStack336 = CAM->pos;
-  copyVec3(arg1,&CAM->aimTarget);
+  Vec3Copy(arg1,&CAM->aimTarget);
   CAM->aimTarget.y+= CAM->camHeight;
   AdjustAim(&CAM->aim,&CAM->aimTarget,arg10,arg3,arg12);
   if (CAM->holdCamera == 0) {
     if (arg15 != 0) CAM->posTarget.y = CAM->aimTarget.y + arg8;
     aim1 = &CAM->posTarget;
     AdjustAim(&CAM->pos,aim1,arg11,arg3,arg13);
-    setVec2(&fStack656,CAM->aimTarget.x,CAM->aimTarget.z);
-    setVec2(&afStack592,CAM->posTarget.x,CAM->posTarget.z);
-    Vec2_Sub(&fStack528,&afStack592,&fStack656);
-    fVar3 = vec2_normalize(&fStack528);
+    Vec2Set(&fStack656,CAM->aimTarget.x,CAM->aimTarget.z);
+    Vec2Set(&afStack592,CAM->posTarget.x,CAM->posTarget.z);
+    Vec2Sub(&fStack528,&afStack592,&fStack656);
+    fVar3 = Vec2Normalize(&fStack528);
     if (arg15 != 0) {
-      if (fVar3 < arg4) setVec3(aim1,fStack656.x + arg4 * fStack528.x,CAM->posTarget.y,fStack656.y + arg4 * fStack528.y);
-      if (arg5 < fVar3) setVec3(aim1,fStack656.x + arg5 * fStack528.x,CAM->posTarget.y,fStack656.y + arg5 * fStack528.y);      
+      if (fVar3 < arg4) Vec3Set(aim1,fStack656.x + arg4 * fStack528.x,CAM->posTarget.y,fStack656.y + arg4 * fStack528.y);
+      if (arg5 < fVar3) Vec3Set(aim1,fStack656.x + arg5 * fStack528.x,CAM->posTarget.y,fStack656.y + arg5 * fStack528.y);      
     }
 
-    Vec3_sub(&fStack272,&CAM->pos,&CAM->aim);
+    Vec3Sub(&fStack272,&CAM->pos,&CAM->aim);
     fStack272.y = 0.0;
-    if (vec3_normalize(&fStack272) < arg4) {
+    if (Vec3Normalize(&fStack272) < arg4) {
       CAM->pos.x = CAM->aim.x + fStack272.x * arg4;
       CAM->pos.z = CAM->aim.z + fStack272.z * arg4;
     }
     if (CheckCollision(CAM->borg_9,&fStack336,&CAM->pos,0.25f,&fStack464,&afStack400,1)) {
-      multiVec3(&afStack400,0.25f);
-      vec3_sum(&fStack464,&fStack464,&afStack400);
+      Vec3Scale(&afStack400,0.25f);
+      Vec3Sum(&fStack464,&fStack464,&afStack400);
       CAM->pos = fStack464;
     }
     if (arg14 != 0) {
-      Vec3_sub(&CAM->pos,&CAM->pos,&CAM->aim);
-      Vec3_sub(aim1,aim1,&CAM->aim);
+      Vec3Sub(&CAM->pos,&CAM->pos,&CAM->aim);
+      Vec3Sub(aim1,aim1,&CAM->aim);
       FUN_800ab23c(&CAM->pos,aim1,(float)(s32)arg3 * dtor);
-      vec3_sum(&CAM->pos,&CAM->pos,&CAM->aim);
-      vec3_sum(aim1,aim1,&CAM->aim);
+      Vec3Sum(&CAM->pos,&CAM->pos,&CAM->aim);
+      Vec3Sum(aim1,aim1,&CAM->aim);
     }
     if ((CAM->unk84 != 0) &&
        (iVar2 = (u32)(u16)CAM->unk84 - (s32)arg3, CAM->unk84 = (s16)iVar2
@@ -175,16 +175,16 @@ void Camera::Mode1(Camera_struct *CAM,vec3f *arg1,vec3f *arg2,s16 arg3,float arg
       CAM->unk84 = 0;
     }
     if ((((arg15 != 0) && (CAM->unk84 == 0)) &&
-        (vec3_proximity(&CAM->pos,aim1) < 1.0f)) &&
+        (Vec3Dist(&CAM->pos,aim1) < 1.0f)) &&
        (CheckCollision(CAM->borg_9,&CAM->aim,aim1,0.25f,NULL,NULL,1))) {
       CAM->unk84 = 300;
-      setVec2(&fStack528,arg2->x,arg2->z);
-      vec2_normalize(&fStack528);
-      setVec3(&afStack208,fStack656.x + arg9 * fStack528.x,CAM->posTarget.y,
+      Vec2Set(&fStack528,arg2->x,arg2->z);
+      Vec2Normalize(&fStack528);
+      Vec3Set(&afStack208,fStack656.x + arg9 * fStack528.x,CAM->posTarget.y,
               fStack656.y + arg9 * fStack528.y);
       if (CheckCollision(CAM->borg_9,&CAM->aim,&afStack208,fVar3,&afStack144,NULL,1))
-        copyVec3(&afStack144,aim1);
-      else copyVec3(&afStack208,aim1);
+        Vec3Copy(&afStack144,aim1);
+      else Vec3Copy(&afStack208,aim1);
     }
     Orient(CAM);
   }
@@ -225,8 +225,8 @@ LAB_800b0be4:
     (param_1->aimTarget).y = param_2->y + param_1->camHeight;
     (param_1->aimTarget).z = param_2->z;
     Camera::AdjustAim(aim0,&param_1->aimTarget,12.0,param_4,5.0f);
-    Vec3_sub(&fStack176,&param_1->aimTarget,&param_1->unk70);
-    fVar5 = vec3Length(&fStack176);
+    Vec3Sub(&fStack176,&param_1->aimTarget,&param_1->unk70);
+    fVar5 = Vec3Length(&fStack176);
     if (param_1->unk7e < fVar5) {
       param_1->unk7c = 1;
     }
@@ -251,16 +251,16 @@ LAB_800b0be4:
       fVar5 = 16.0f;
     }
     if (((uVar3 != 0) &&
-        (fVar6 = vec3_proximity(A,&afStack240), fVar5 = 5.0f,
+        (fVar6 = Vec3Dist(A,&afStack240), fVar5 = 5.0f,
         fVar6 < 0.5)) &&
        (uVar3 = param_1->unk80 - 1, param_1->unk80 = uVar3, (int)((uint)uVar3 << 0x10) < 1)) {
       FUN_800b04ec(param_1);
     }
     fVar6 = 5.0f;
     AdjustAim(A,&afStack240,fVar5,param_4,5.0f);
-    Vec3_sub(&fStack176,&param_1->pos,aim0);
+    Vec3Sub(&fStack176,&param_1->pos,aim0);
     fStack176.y = 0.0;
-    fVar5 = vec3_normalize(&fStack176);
+    fVar5 = Vec3Normalize(&fStack176);
     fVar7 = param_1->unk64;
     if (fVar5 < fVar7) {
       fVar5 = (param_1->aim).z;
@@ -268,11 +268,11 @@ LAB_800b0be4:
       (param_1->pos).z = fVar5 + fStack176.z * fVar7;
     }
     if (false) {//?
-      Vec3_sub(&param_1->pos,&param_1->pos,aim0);
-      Vec3_sub(A,A,aim0);
+      Vec3Sub(&param_1->pos,&param_1->pos,aim0);
+      Vec3Sub(A,A,aim0);
       FUN_800ab23c(&param_1->pos,A,(float)(int)param_4 * 0.0);//?
-      vec3_sum(&param_1->pos,&param_1->pos,aim0);
-      vec3_sum(A,A,aim0);
+      Vec3Sum(&param_1->pos,&param_1->pos,aim0);
+      Vec3Sum(A,A,aim0);
     }
     AdjustAim(&param_1->pos,A,16.0,param_4,fVar6);
     if (((short)param_1->unk80 < 2) && (param_5 != 0)) {
@@ -291,7 +291,7 @@ LAB_800b0be4:
   }
   else {
     if (param_1->holdCamera != 2) param_1->unk48 = 0.0;
-    copyVec3(param_2,&param_1->aimTarget);
+    Vec3Copy(param_2,&param_1->aimTarget);
     fVar5 = 0.25f;
     (param_1->aimTarget).y = (param_1->aimTarget).y + param_1->camHeight;
     AdjustAim(&param_1->aim,&param_1->aimTarget,16.0,param_4,fVar5);
@@ -327,33 +327,33 @@ void Camera::FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,short param_3,float 
     (CAM->posTarget).y = (CAM->pos).y;
     (CAM->posTarget).z = (CAM->pos).z;
   }
-  Vec3_sub(&fStack504,&CAM->pos,&CAM->aim);
+  Vec3Sub(&fStack504,&CAM->pos,&CAM->aim);
   fStack504.y = 0.0;
-  fVar4 = vec3_normalize(&fStack504);
+  fVar4 = Vec3Normalize(&fStack504);
   for(u16 i=0;i<param_3;i++){
       fVar4 = (fVar4 - (fVar4 - param_4) * (1.0/32));
     }
-  Vec3_sub(&fStack504,&CAM->posTarget,&CAM->aim);
-  setVec2(&fStack184,fStack504.x,fStack504.z);
-  vec2_normalize(&fStack184);
-  RotVec2(&fStack184,CAM->unk58);
-  multiVec2(&fStack184,fVar4);
-  setVec3(&CAM->pos,fStack184.x + (CAM->aim).x,(CAM->posTarget).y,fStack184.y + (CAM->aim).z);
+  Vec3Sub(&fStack504,&CAM->posTarget,&CAM->aim);
+  Vec2Set(&fStack184,fStack504.x,fStack504.z);
+  Vec2Normalize(&fStack184);
+  Vec2Rot(&fStack184,CAM->unk58);
+  Vec2Scale(&fStack184,fVar4);
+  Vec3Set(&CAM->pos,fStack184.x + (CAM->aim).x,(CAM->posTarget).y,fStack184.y + (CAM->aim).z);
   if (CheckCollision(CAM->borg_9,&CAM->aim,&CAM->pos,0.25,&afStack312,&afStack248,1)) {
-    multiVec3(&afStack248,-0.25);
-    vec3_sum(&afStack312,&afStack312,&afStack248);
-    Vec3_sub(&fStack504,&afStack312,&CAM->aim);
-    setVec2(&afStack120,fStack504.x,fStack504.z);
-    dVar3 = (double)(fVar4 - vec2Length(&afStack120)) * (1.0/8);
-    vec2_normalize(&fStack184);
-    multiVec2(&fStack184,(fVar4 - dVar3));
-    setVec3(&CAM->pos,fStack184.x + (CAM->aim).x,(CAM->posTarget).y,fStack184.y + (CAM->aim).z);
+    Vec3Scale(&afStack248,-0.25);
+    Vec3Sum(&afStack312,&afStack312,&afStack248);
+    Vec3Sub(&fStack504,&afStack312,&CAM->aim);
+    Vec2Set(&afStack120,fStack504.x,fStack504.z);
+    dVar3 = (double)(fVar4 - Vec2Length(&afStack120)) * (1.0/8);
+    Vec2Normalize(&fStack184);
+    Vec2Scale(&fStack184,(fVar4 - dVar3));
+    Vec3Set(&CAM->pos,fStack184.x + (CAM->aim).x,(CAM->posTarget).y,fStack184.y + (CAM->aim).z);
   }
-  setVec2(&fStack440,(CAM->aim).x,(CAM->aim).z);
-  setVec2(&afStack376,(CAM->pos).x,(CAM->pos).z);
-  Vec2_Sub(&fStack184,&afStack376,&fStack440);
-  if (vec2_normalize(&fStack184) < 0.5) {
-    setVec3(&CAM->pos,fStack440.x + fStack184.x * .5,
+  Vec2Set(&fStack440,(CAM->aim).x,(CAM->aim).z);
+  Vec2Set(&afStack376,(CAM->pos).x,(CAM->pos).z);
+  Vec2Sub(&fStack184,&afStack376,&fStack440);
+  if (Vec2Normalize(&fStack184) < 0.5) {
+    Vec3Set(&CAM->pos,fStack440.x + fStack184.x * .5,
          (CAM->pos).y,fStack440.y + fStack184.y * .5);
   }
   fVar5 = (CAM->pos).y + CAM->unk48 /10.0f;
@@ -428,16 +428,16 @@ float Camera::CreateFocusFromMultiple(vec3f *outV3,vec2f *outV2,vec3f **arr,s16 
   fVar12 = (param_5 - 8.0f) * 0.5f;
   if ((int)(fVar12 * 100.0f) == ((int)(fVar12 * 100.0f) / 9000) * 9000)
       fVar12+=1.0f;
-    setVec3(&tempV3,0.0,0.0,0.0);
-    for(i=0;i<numFoci;i++){vec3_sum(&tempV3,&tempV3,arr[i]);}
+    Vec3Set(&tempV3,0.0,0.0,0.0);
+    for(i=0;i<numFoci;i++){Vec3Sum(&tempV3,&tempV3,arr[i]);}
     iVar8 = 0;
     i = 0;
     fVar10 = 0.0;
     iVar4 = 0;
-    multiVec3(&tempV3,(float)(1.0 / numFoci));
+    Vec3Scale(&tempV3,(float)(1.0 / numFoci));
     fVar11 = 0.0;
     for(i=0,iVar5 = iVar4;i<numFoci;i++){
-      fVar9 = vec3_proximity(&tempV3,arr[i]);
+      fVar9 = Vec3Dist(&tempV3,arr[i]);
       iVar4 = iVar8;
       fVar1 = fVar9;
       if ((fVar9 <= fVar10) &&
@@ -450,15 +450,15 @@ float Camera::CreateFocusFromMultiple(vec3f *outV3,vec2f *outV2,vec3f **arr,s16 
         iVar8 = i;
         iVar5 = iVar4;
       }
-    vec3_sum(outV3,arr[iVar8],arr[iVar4]);
-    multiVec3(outV3,0.5);
-    Vec3_sub(&tempV3,outV3,arr[iVar8]);
+    Vec3Sum(outV3,arr[iVar8],arr[iVar4]);
+    Vec3Scale(outV3,0.5);
+    Vec3Sub(&tempV3,outV3,arr[iVar8]);
     if (0.0 < tempV3.z) tempV3.z = -tempV3.z;
     outV2->x = tempV3.z;
     if (tempV3.x <= 0.0) tempV3.x = -tempV3.x;
     outV2->y = tempV3.x;
-    vec2_normalize(outV2);
-    fVar10 = vec3_proximity(outV3,arr[iVar8]);
+    Vec2Normalize(outV2);
+    fVar10 = Vec3Dist(outV3,arr[iVar8]);
     fVar12*=dtor;
     fVar10+= 4.0f;
     return fVar10 / (__cosf(fVar12) / __sinf(fVar12));

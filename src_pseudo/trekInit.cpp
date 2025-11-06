@@ -32,8 +32,8 @@ void initGameTrek(void) {
   if (gGlobals.playerCharStruct.some_sound_var == 0) {
     Camera::SetPos(gGlobals.gameVars.PlayerHandler.camera,&gPlayer->collision.pos);
     Actor::CheckCollision(gPlayer,0.0,0,0);
-    copyVec3(&gPlayer->collision.pos,&gCamera.aimTarget);
-    copyVec3(&gPlayer->collision.pos,&gCamera.aim);
+    Vec3Copy(&gPlayer->collision.pos,&gCamera.aimTarget);
+    Vec3Copy(&gPlayer->collision.pos,&gCamera.aim);
     gCamera.unk80 = 1;
   }
   else {

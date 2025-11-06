@@ -59,7 +59,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   Scene::SetFlag8(sub->sceneDat);
   Scene::SetFlag10(sub->sceneDat);
   Scene::SetFlag4(sub->sceneDat);
-  Scene::SetModelTint(sub->sceneDat,0xff,0xff,0xff,0xff);
+  Scene::SetModelTint(sub->sceneDat,COLOR_WHITE);
   sub->backgroundImage = WigetB8Blank;
   sub->backgroundImage->SetColor(COLOR_WHITE);
   sub->backgroundImage->SetCoords(0,0);

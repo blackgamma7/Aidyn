@@ -31,7 +31,7 @@ void get_mapcellsize(u8 index,vec2f *out){
 void Actor::GetPosOnLoadedMap(playerData *param_1,vec3f *param_2){
   vec2f temp;
   
-  copyVec3(&(param_1->collision).pos,param_2);
+  Vec3Copy(&(param_1->collision).pos,param_2);
   get_mapcellsize(param_1->zoneDatByte,&temp);
   param_2->x+= temp.x;
   param_2->z+= temp.y;
@@ -41,7 +41,7 @@ void Actor::AddPosOnLoadedMap(u8 param_1,vec2f *param_2){
   vec2f temp;
   
   get_mapcellsize(param_1,&temp);
-  vec2_sum(param_2,param_2,&temp);
+  Vec2Sum(param_2,param_2,&temp);
 }
 
 void Actor::SubPosOnLoadedMap(u8 param_1,vec3f *param_2){
@@ -118,8 +118,8 @@ void Actor::Init(playerData *param_1,u16 id){
   MemsetController(&param_1->controller);
   ClearInputMoveFlags(param_1);
   UnsetFlag(param_1,ACTOR_2);
-  setVec3(&param_1->vec3_0x48,0.0,0.0,1.0);
-  copyVec3(&param_1->vec3_0x48,&param_1->vec3_0x3c);
+  Vec3Set(&param_1->vec3_0x48,0.0,0.0,1.0);
+  Vec3Copy(&param_1->vec3_0x48,&param_1->vec3_0x3c);
   set_collisionSphere(&param_1->collision,0.5,0.0,0.0,0.0,0.0,0.0,0.0);
   init_collisionTypeA(&param_1->colTypeA);
   set_CollisionTypeB(&param_1->colTypeB);
@@ -136,7 +136,7 @@ void Actor::Init(playerData *param_1,u16 id){
   param_1->Ent_index = EntInd_Alaron;
   param_1->voxelReach = 100.0f;
   param_1->ent_ID = IDEntInd(EntInd_Alaron);
-  setVec3(&param_1->CombatTint,1.0,1.0,1.0);
+  Vec3Set(&param_1->CombatTint,1.0,1.0,1.0);
   param_1->unk75c = 0.0;
   param_1->unk760 = 0.0;
   param_1->unk77c = false;
@@ -223,7 +223,7 @@ Gfx * Actor::CalculateShadow(playerData *param_1,Gfx *g,float param_3,u8 param_4
     fStack440.x = afStack184.x + fStack376.x * param_3;
     fStack440.y = fStack440.y + fStack376.y * param_3;
     fStack440.z = afStack184.z + fStack376.z * param_3;
-    fVar5 = (3.0f - (vec3_proximity(&afStack184,&fStack440) - param_1->scaleRad)) / 3.0f;
+    fVar5 = (3.0f - (Vec3Dist(&afStack184,&fStack440) - param_1->scaleRad)) / 3.0f;
     if (1.0f < fVar5) fVar5 = 1.0f;
     fVar4 = fVar5 * 160.0f;
     avStack_78[0].x = (param_1->scaleRad + param_1->scaleRad) * fVar5;
@@ -283,11 +283,11 @@ Gfx * renderPlayerShadows(PlayerHandler *param_1,Gfx *gfx){
         playerData* p = &param_1->playerDats[i];
         if (p->removeFlag) {
           Actor::GetPosOnLoadedMap(p,&afStack120);
-          float prox = vec3_proximity(&param_1->camera->aim,&afStack120);
+          float prox = Vec3Dist(&param_1->camera->aim,&afStack120);
           if (prox < param_1->shadowDist) {
             (p->shadow).borg1p = param_1->shadowTexture;
             if (!p->alaron_flag) {
-              float camProx = vec3_proximity(&(p->collision).pos,&param_1->camera->aim);
+              float camProx = Vec3Dist(&(p->collision).pos,&param_1->camera->aim);
               if (10.0f <= camProx) continue;
               alpha = PlayerShadowAlpha(param_1,p,prox,0x80) * (1.0f - camProx / 10.0f);
             }
@@ -463,8 +463,8 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
     strcpy(gGlobals.text,"Crash was not in ProcessCombatCamera");
     #endif
   }
-  setVec2(camPosV2p,gCamera.pos.x,gCamera.pos.z);
-  setVec2(camAimV2p,gCamera.aim.x,gCamera.aim.z);
+  Vec2Set(camPosV2p,gCamera.pos.x,gCamera.pos.z);
+  Vec2Set(camAimV2p,gCamera.aim.x,gCamera.aim.z);
   count = 0;
   gGlobals.gameVars.camPtrArraySize = 0;
   local_6c = &handler->camera->aim;
@@ -527,7 +527,7 @@ LAB_8001666c:
           (pDat->skyTint).x += ((pDat->CombatTint).x - (pDat->skyTint).x) * fVar35;
           (pDat->skyTint).y += ((pDat->CombatTint).y - (pDat->skyTint).y) * fVar35;
           (pDat->skyTint).z += ((pDat->CombatTint).z - (pDat->skyTint).z) * fVar35;
-          multiVec3(&pDat->skyTint,gGlobals.brightness);
+          Vec3Scale(&pDat->skyTint,gGlobals.brightness);
           CIEL((pDat->skyTint).x,1.0);
           CIEL((pDat->skyTint).y,1.0);
           CIEL((pDat->skyTint).z,1.0);
@@ -554,7 +554,7 @@ LAB_800168cc:
         if (pDat->removeFlag == 0) goto LAB_80017298;
         Actor::GetPosOnLoadedMap(pDat,&mapPos);
         map = GetCollisionZone(pDat->zoneDatByte);
-        fVar31 = vec3_proximity(local_6c,&mapPos);
+        fVar31 = Vec3Dist(local_6c,&mapPos);
         if (handler->float_0x68 < fVar31) {
           if (gGlobals.gameVars.gamemodeType != 1) {
             if (gExpPakFlag){
@@ -598,7 +598,7 @@ LAB_80016990:
         local_60 = coliide;
         if (pDat->alaron_flag){
           if (((pDat->collision).unk1e != 0)&&
-            (1.0f < vec3_proximity(&player_coords_A,&(pDat->collision).pos))) {
+            (1.0f < Vec3Dist(&player_coords_A,&(pDat->collision).pos))) {
             player_coords_b.x = player_coords_A.x;
             player_coords_b.y = player_coords_A.y;
             player_coords_b.z = player_coords_A.z;
@@ -632,7 +632,7 @@ LAB_80016b54:
 crash:
           CRASH("player.cpp","SETTING FACING FOR ALIGN\n");
         }
-        vec2_normalize(&pDat->facing);
+        Vec2Normalize(&pDat->facing);
         Scene::MatrixASetPos
                   (pDat->borg7P->sceneDat,mapPos.x,mapPos.y - (pDat->collision).radius,mapPos.z);
         Scene::MatrixAAlign
@@ -644,7 +644,7 @@ crash:
           (pDat->collision).vel.y =
                (float)((double)(pDat->collision).vel.y - 0.03);
         }
-        setVec2(&afStack432,(pDat->collision).pos.x,(pDat->collision).pos.z);
+        Vec2Set(&afStack432,(pDat->collision).pos.x,(pDat->collision).pos.z);
         three_vec2_proximities(camPosV2p,camAimV2p,&afStack432);
         if (((((pDat->ani_type == 0) && (pDat->unk1a == 0)) && (pDat->unk1c == 0)) &&
             ((13.0f <= fVar31 && (gGlobals.gameVars.gamemodeType == 1)))) ||
@@ -710,11 +710,11 @@ LAB_80016ed8:
                 }
                 if (((pDat->collision).vel.y<= -0.048)&&(pDat->alaron_flag)) {
                     // fell through world
-                  setVec3(&(pDat->collision).vel,0.0,(pDat->collision).vel.y,0.0);
+                  Vec3Set(&(pDat->collision).vel,0.0,(pDat->collision).vel.y,0.0);
                   if (-0.3 <= (double)(pDat->collision).vel.y) {
                     goto LAB_80017014;
                   }
-                  setVec3(&(pDat->collision).vel,0.0,0.0,0.0);
+                  Vec3Set(&(pDat->collision).vel,0.0,0.0,0.0);
                   (pDat->collision).pos.x = player_coords_b.x;
                   (pDat->collision).pos.y = player_coords_b.y;
                   (pDat->collision).pos.z = player_coords_b.z;
@@ -831,7 +831,7 @@ LAB_8001727c:
 }
 
 void FUN_80017330(playerData *param_1,float param_2,float r,float g,float b){
-  setVec3(&param_1->CombatTint,r,g,b);
+  Vec3Set(&param_1->CombatTint,r,g,b);
   param_1->unk760 = (float)(1.0 / (double)param_2);
 }
 
@@ -926,8 +926,8 @@ Gfx * renderPlayers(PlayerHandler *param_1,Gfx *g,short delta,short param_4,shor
   iStack_4c = (int)param_4;
   iStack_48 = (int)param_5;
   fVar8 = __cosf(0.7417525f);
-  setVec2(&camCoord,gCamera.pos.x,gCamera.pos.z);
-  setVec2(&CamAim,gCamera.aim.x,gCamera.aim.z);
+  Vec2Set(&camCoord,gCamera.pos.x,gCamera.pos.z);
+  Vec2Set(&CamAim,gCamera.aim.x,gCamera.aim.z);
 
   if (0 < param_1->max_player) {
     for(i=0;i< param_1->max_player;i++) {
@@ -943,13 +943,13 @@ render_player:
 #endif
           Actor::GetPosOnLoadedMap(pDat,&mapPos);
           mapPos.y -= (pDat->collision).radius;
-          setVec2(&mapPosXZ,mapPos.x,mapPos.z);
+          Vec2Set(&mapPosXZ,mapPos.x,mapPos.z);
           fVar9 = three_vec2_proximities(&camCoord,&CamAim,&mapPosXZ);
           if (((u16)(pDat->ani_type == pDat->unk1a) == pDat->unk1c) || (fVar8 < fVar9)) {
             fVar11 = 5.0f;
             if (pDat->borg7 == BORG7_ship) fVar11 = 100.0f;
-            if (((vec2_proximity(&mapPosXZ,&CamAim) <= fVar11) || (fVar8 < fVar9)) &&
-               (fVar9 = vec3_proximity(&param_1->camera->aim,&mapPos),
+            if (((Vec2Dist(&mapPosXZ,&CamAim) <= fVar11) || (fVar8 < fVar9)) &&
+               (fVar9 = Vec3Dist(&param_1->camera->aim,&mapPos),
                fVar9 < param_1->shadowDist)) {
               a = PlayerShadowAlpha(param_1,pDat,fVar9,0xff);
               if (iStack_4c == 0) {
@@ -1011,10 +1011,10 @@ LAB_80017d08:
                   if ((Scene::SceneGetLocatorPos(pDat->borg7P->sceneDat,&locPos,3)) &&
                      (Scene::SceneGetLocatorAlign(pDat->borg7P->sceneDat,&locRot,3))) {
                     to = &pDat->vec3_0x3c;
-                    copyVec3(&locRot,to);
+                    Vec3Copy(&locRot,to);
                     if (pDat->voxelReach < 100.0f) {
-                      Vec3_sub(to,&locPos,&pDat->voxelCoords);
-                      vec3_normalize(to);
+                      Vec3Sub(to,&locPos,&pDat->voxelCoords);
+                      Vec3Normalize(to);
                     }
                     FUN_800ab23c(&pDat->vec3_0x48,to,(float)(delta32 * 3) * dtor);
                     fVar9 = (pDat->vec3_0x48).y;
@@ -1048,9 +1048,9 @@ LAB_80017d08:
 
 void edit_playerdat_combat_pos(playerData *param_1,vec3f *param_2){
   vec3f delta;
-  Vec3_sub(&delta,&(param_1->collision).pos,param_2);
-  if (param_1->combatMoveSpeed <= vec3Length(&delta)) {
-    vec3_normalize(&delta);
+  Vec3Sub(&delta,&(param_1->collision).pos,param_2);
+  if (param_1->combatMoveSpeed <= Vec3Length(&delta)) {
+    Vec3Normalize(&delta);
     (param_1->collision).pos.x = (param_1->combat_vec3).x + delta.x * param_1->combatMoveSpeed;
     (param_1->collision).pos.z = (param_1->combat_vec3).z + delta.z * param_1->combatMoveSpeed;
   }
@@ -1123,7 +1123,7 @@ void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
       Scene::SetFlag40(param_1->SceneDat);
       Scene::SetFlag4(param_1->SceneDat);
       Scene::SetFogFlag(param_1->SceneDat);
-      Scene::SetModelTint(param_1->SceneDat,0xff,0xff,0xff,0xff);
+      Scene::SetModelTint(param_1->SceneDat,COLOR_WHITE);
       Scene::SetLightData(param_1->SceneDat);
       Scene::SceneSetMaxDynamicDirLights(param_1->SceneDat,4);
     }
@@ -1133,7 +1133,7 @@ void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
     Scene::SetFlag40(param_1->borg7P->sceneDat);
     Scene::SetFlag4(param_1->borg7P->sceneDat);
     Scene::SetFogFlag(param_1->borg7P->sceneDat);
-    Scene::SetModelTint(param_1->borg7P->sceneDat,0xff,0xff,0xff,0xff);
+    Scene::SetModelTint(param_1->borg7P->sceneDat,COLOR_WHITE);
     Scene::SetLightData(param_1->borg7P->sceneDat);
     Scene::SceneSetMaxDynamicDirLights(param_1->borg7P->sceneDat,4);
   }
@@ -1164,10 +1164,10 @@ void Ofunc_80018760(playerData *p,vec3f *v){
   vec3f afStack136;
   vec2f fStack72;
   
-  Vec3_sub(&afStack136,&(p->collision).pos,v);
+  Vec3Sub(&afStack136,&(p->collision).pos,v);
   fStack72.x = afStack136.x;
   fStack72.y = afStack136.z;
-  vec2_normalize(&fStack72);
+  Vec2Normalize(&fStack72);
   Actor::SetFacing(p,fStack72.x,fStack72.y);
   Actor::SetFlag(p,ACTOR_40);
 }

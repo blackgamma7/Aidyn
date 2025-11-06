@@ -178,8 +178,8 @@ int Sky::GenerateGradient(Color32 *c0,Color32 *c1,float vert,float param_4,float
           CIEL(colfloat.y,1.0f);
           CIEL(colfloat.z,1.0f);
         }
-        if (gGlobals.brightness < 1.0f) multiVec3(&colfloat,gGlobals.brightness);
-        if (gGlobals.sky.unk40 < fVar19) multiVec3(&colfloat,gGlobals.sky.unk40);
+        if (gGlobals.brightness < 1.0f) Vec3Scale(&colfloat,gGlobals.brightness);
+        if (gGlobals.sky.unk40 < fVar19) Vec3Scale(&colfloat,gGlobals.sky.unk40);
         V3ToRGB(pCVar17,colfloat);
         grad++;
         pCVar14++;
@@ -261,18 +261,18 @@ void Sky::SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32
   GenerateSky(col0,col1,param_3,gray,0x24,&sunColVec);
   dVar7 = mainColVec.x * 0.65 + 0.15;
   dVar2 = mainColVec.y * 0.65 + 0.15;
-  multiVec3(&mainColVec,gGlobals.brightness);
-  multiVec3(&skyColRes,gGlobals.brightness);
-  multiVec3(&fogColVec,gGlobals.brightness);
-  multiVec3(&cloudColVec,gGlobals.brightness);
-  multiVec3(&sunColVec,gGlobals.brightness);
+  Vec3Scale(&mainColVec,gGlobals.brightness);
+  Vec3Scale(&skyColRes,gGlobals.brightness);
+  Vec3Scale(&fogColVec,gGlobals.brightness);
+  Vec3Scale(&cloudColVec,gGlobals.brightness);
+  Vec3Scale(&sunColVec,gGlobals.brightness);
   fVar8 = (dVar7 + param_10) * gGlobals.brightness;
   fVar9 = (dVar2 + param_10) * gGlobals.brightness;
-  multiVec3(&mainColVec,gGlobals.sky.unk40);
-  multiVec3(&skyColRes,gGlobals.sky.unk40);
-  multiVec3(&fogColVec,gGlobals.sky.unk40);
-  multiVec3(&cloudColVec,gGlobals.sky.unk40);
-  multiVec3(&sunColVec,gGlobals.sky.unk40);
+  Vec3Scale(&mainColVec,gGlobals.sky.unk40);
+  Vec3Scale(&skyColRes,gGlobals.sky.unk40);
+  Vec3Scale(&fogColVec,gGlobals.sky.unk40);
+  Vec3Scale(&cloudColVec,gGlobals.sky.unk40);
+  Vec3Scale(&sunColVec,gGlobals.sky.unk40);
   fVar8 *= gGlobals.sky.unk40;
   fVar9 *= gGlobals.sky.unk40;
   fVar6 = (gGlobals.brightness * 0.2 * gGlobals.sky.unk40);
@@ -414,8 +414,8 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
       }
     }
     else{
-      Vec3_sub(&fStack128,&gCamera.pos,&gCamera.aim);
-      vec3_normalize(&fStack128);
+      Vec3Sub(&fStack128,&gCamera.pos,&gCamera.aim);
+      Vec3Normalize(&fStack128);
       SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
               gGlobals.sky.colors,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
               -gGlobals.sky.lensFlareVal * 0.5));

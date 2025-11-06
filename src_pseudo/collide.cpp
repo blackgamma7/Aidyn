@@ -7,7 +7,7 @@ void FUN_800adae0(Borg9Data *param_1,vec3f *position,vec3f *dist,float radius,s1
   
   local_68.x = dist->x;
   local_68.y = dist->z;
-  len = vec2Length(&local_68) + radius + 1.0f;
+  len = Vec2Length(&local_68) + radius + 1.0f;
   *param_5 = (((position->x - (param_1->floatsA).x) - len) / (param_1->floatsB).x);
   *param_6 = (((position->z - (param_1->floatsA).z) - len) / (param_1->floatsB).y);
   *param_7 = (((position->x - (param_1->floatsA).x) + len) / (param_1->floatsB).x);
@@ -30,7 +30,7 @@ void FUN_800adc44(Borg9Data *param_1,collisionSphere *param_2,short *param_3,sho
   
   avStack_60.x = (param_2->vel).x;
   avStack_60.y = (param_2->vel).z;
-  fVar2 = vec2Length(&avStack_60) + param_2->radius + 1.0f;
+  fVar2 = Vec2Length(&avStack_60) + param_2->radius + 1.0f;
   fVar4 = (param_1->floatsB).x;
   *param_3 = ((((param_2->pos).x - (param_1->floatsA).x) - fVar2) / fVar4);
   fVar3 = (param_1->floatsB).y;
@@ -90,7 +90,7 @@ bool Ofunc_800adeb0(Borg9Data *param_1,collisionSphere *s,vec3f *v){
   (s->vel).x = 0.0;
   (s->vel).y = 0.0;
   (s->vel).z = 0.0;
-  return NORMALIZE_MIN < vec3_proximity(v,&temp);
+  return NORMALIZE_MIN < Vec3Dist(v,&temp);
 }
 
 bool CheckCollision(Borg9Data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3f *outPos,
@@ -110,10 +110,10 @@ bool CheckCollision(Borg9Data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3
   int iStack_3c;
   
   iStack_3c = (int)param_7;
-  if (outPos) setVec3(outPos,0.0,0.0,0.0);
-  if (outRot) setVec3(outRot,0.0,0.0,0.0);
+  if (outPos) Vec3Set(outPos,0.0,0.0,0.0);
+  if (outRot) Vec3Set(outRot,0.0,0.0,0.0);
   if (borgDat) {
-    Vec3_sub(&dist,posB,posA);
+    Vec3Sub(&dist,posB,posA);
     FUN_800adae0(borgDat,posA,&dist,radius,sStack_48,sStack_48 + 1,sStack_48 + 2,sStack_48 + 3);
     s16 lVar9 = sStack_48[0];
     if (sStack_48[2] < lVar9) return false;
@@ -126,10 +126,10 @@ bool CheckCollision(Borg9Data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3
             for(s16 iVar5=0;iVar5 < pbVar2->collideCount;iVar5++) {
               pbVar7 = borgDat->phys_pointer + (u16)pbVar2->collideIndecies[iVar5];
               if ((iStack_3c == 0) || (!(pbVar7->flags & 0x200))) {
-                if (vec3_dot(&dist,&pbVar7->normal) <= 0.0) {
+                if (Vec3Dot(&dist,&pbVar7->normal) <= 0.0) {
                   if (FUN_800aec1c(posA,&dist,radius,pbVar7,&auStack_40,avStack_88)) {
-                    if (outPos) copyVec3(avStack_88,outPos);
-                    if (outRot) copyVec3(&pbVar7->normal,outRot);
+                    if (outPos) Vec3Copy(avStack_88,outPos);
+                    if (outRot) Vec3Copy(&pbVar7->normal,outRot);
                     return true;
                   }
                 }
@@ -168,9 +168,9 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
   uint uStack_38;
   uint uStack_34;
   
-  if (outpos) setVec3(outpos,0.0,0.0,0.0);
-  if (outNorm) setVec3(outNorm,0.0,0.0,0.0);
-  Vec3_sub(&len,playposMinY,playerPos);
+  if (outpos) Vec3Set(outpos,0.0,0.0,0.0);
+  if (outNorm) Vec3Set(outNorm,0.0,0.0,0.0);
+  Vec3Sub(&len,playposMinY,playerPos);
   FUN_800adae0(param_1,playerPos,&len,point5,&sStack_48,&sStack_46,&sStack_44,&sStack_42);
   lVar12 = sStack_48;
   if (lVar12 <= sStack_44) {
@@ -197,8 +197,8 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
                 uVar8 = uStack_38;
                 uVar9 = uStack_34;
                 if (FUN_800aec1c(playerPos,&len,point5,pbVar10,&auStack_40,&afStack136)) {
-                  if (outpos) copyVec3(&afStack136,outpos);
-                  if (outNorm) copyVec3(&pbVar10->normal,outNorm);
+                  if (outpos) Vec3Copy(&afStack136,outpos);
+                  if (outNorm) Vec3Copy(&pbVar10->normal,outNorm);
                   return true;
                 }
               }
@@ -266,7 +266,7 @@ void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,short delta)
           }
           if (coliide->unk1e) {
             dVar13 = delta * 0.006;
-            if ((vec3Length(&coliide->vel) < dVar13) &&(vec3_proximity(&fStack120,&coliide->pos) < dVar13)) {
+            if ((Vec3Length(&coliide->vel) < dVar13) &&(Vec3Dist(&fStack120,&coliide->pos) < dVar13)) {
               (coliide->vel).x = 0.0;
               (coliide->vel).y = 0.0;
               (coliide->vel).z = 0.0;

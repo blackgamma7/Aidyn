@@ -24,10 +24,10 @@ namespace CombatSpellMarker{
     vec3f posA,posB,outPos,scale,rotate;
   
     if (!gCombatSpellMarker) gCombatSpellMarker = load_borg_5_func(BORG5_SpellMarker);
-    setVec3(&posA,(gCombatP->SpellMarkerPos).x,50.0,(gCombatP->SpellMarkerPos).y);
-    setVec3(&posB,(gCombatP->SpellMarkerPos).x,-10.0,(gCombatP->SpellMarkerPos).y);
+    Vec3Set(&posA,(gCombatP->SpellMarkerPos).x,50.0,(gCombatP->SpellMarkerPos).y);
+    Vec3Set(&posB,(gCombatP->SpellMarkerPos).x,-10.0,(gCombatP->SpellMarkerPos).y);
     if (!CheckCollision(&(MAPCENTER.mapPointer)->dat,&posA,&posB,1.0,&outPos,NULL,0))
-      setVec3(&outPos,(gCombatP->SpellMarkerPos).x,CombatCurrentEnt_Y,(gCombatP->SpellMarkerPos).y);
+      Vec3Set(&outPos,(gCombatP->SpellMarkerPos).x,CombatCurrentEnt_Y,(gCombatP->SpellMarkerPos).y);
     CLEAR(&scale);
     scale.y = 2.0f;
     scale.x = range + 0.2f;

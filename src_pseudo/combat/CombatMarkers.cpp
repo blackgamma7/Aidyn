@@ -35,8 +35,8 @@ u8 CombatMarkers::SetMarker(Borg9Data *mapDat,vec3f *pos,float radius,u16 iter){
     fVar6 = (fVar6 + 1.0f) * 0.5f * fVar5;
     fVar4 = __cosf(fVar4);
     fVar5 = (fVar4 + 1.0f) * 0.5f * fVar5;
-    setVec3(&sMarkerTempV3A,pos->x + fVar6,sMarkerTempV3A.y,pos->z + fVar5);
-    setVec3(&sMarkerTempV3B,pos->x + fVar6,sMarkerTempV3B.y,pos->z + fVar5);
+    Vec3Set(&sMarkerTempV3A,pos->x + fVar6,sMarkerTempV3A.y,pos->z + fVar5);
+    Vec3Set(&sMarkerTempV3B,pos->x + fVar6,sMarkerTempV3B.y,pos->z + fVar5);
     ret = SetMarker(mapDat,pos,radius,iter + 1);
   }
   else ret = false;
@@ -87,11 +87,11 @@ void CombatMarkers::Create(CombatEntity *param_1){
       fStack136.x = param_1->GetCoord2X() + CombatMarkerVec2.x * fVar16;
       fStack136.z = param_1->GetCoord2Y() + CombatMarkerVec2.y * fVar16;
       if (SetMarker(mapmarker_borg9,&fStack136,0.5f,0)) {
-        setVec3(&gCombatMarkers[i].coords,fStack136.x,fStack136.y,fStack136.z);
+        Vec3Set(&gCombatMarkers[i].coords,fStack136.x,fStack136.y,fStack136.z);
         flag = CMarkSet;
       }
       else {
-        setVec3(&gCombatMarkers[i].coords,fStack136.x,(ppVar1->collision).pos.y,fStack136.z);
+        Vec3Set(&gCombatMarkers[i].coords,fStack136.x,(ppVar1->collision).pos.y,fStack136.z);
         flag = CMarkYAvg;
       }
       gCombatMarkers[i].alpha = 0;

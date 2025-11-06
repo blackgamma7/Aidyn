@@ -98,8 +98,8 @@ void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,usho
       fStack312.x = (ppVar8->facing).x;
       fStack312.y = (ppVar8->facing).y;
       camHeight-= ppVar8->scaleRad;
-      multiVec2(&fStack312,-0.15);
-      setVec3(&ppVar8->positionMirror,fStack312.x + (ppVar8->collision).pos.x,
+      Vec2Scale(&fStack312,-0.15);
+      Vec3Set(&ppVar8->positionMirror,fStack312.x + (ppVar8->collision).pos.x,
               (ppVar8->collision).pos.y,fStack312.y + (ppVar8->collision).pos.z);
       bVar3 = true;
       if (uStack376[i] == B13Com_CutToPOV) {
@@ -112,7 +112,7 @@ void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,usho
   if (!bVar3) {
     pAI = DialougGetActorAndID(param_1,param_2,param_1->Entid);
     if (pAI) ppVar8 = pAI->actor;
-    if (ppVar8) copyVec3(&(ppVar8->collision).pos,&ppVar8->positionMirror);
+    if (ppVar8) Vec3Copy(&(ppVar8->collision).pos,&ppVar8->positionMirror);
   }
   if (refpointID) {
     pVOR = get_map_referencepoint(gGlobals.gameVars.borg9DatPointer,refpointID);
@@ -157,10 +157,10 @@ LAB_800570e0:
     DialougCreateScriptCamera(uVar2,0,ppVar8,CamOBJ_TrackOn,camHeight);
     break;
   case B13Com_SetActorFacing:
-    setVec2(&afStack248,(ppVar8->collision).pos.x,(ppVar8->collision).pos.z);
-    setVec2(&avStack_b8,(pVOR->header).pos.x,(pVOR->header).pos.z);
-    Vec2_Sub(&fStack120,&afStack248,&avStack_b8);
-    vec2_normalize(&fStack120);
+    Vec2Set(&afStack248,(ppVar8->collision).pos.x,(ppVar8->collision).pos.z);
+    Vec2Set(&avStack_b8,(pVOR->header).pos.x,(pVOR->header).pos.z);
+    Vec2Sub(&fStack120,&afStack248,&avStack_b8);
+    Vec2Normalize(&fStack120);
     Actor::SetFacing(ppVar8,fStack120.x,fStack120.y);
     break;
   case B13Com_CreateActor:
@@ -447,17 +447,13 @@ void DialougInsertPlayerName(char *str){
   }
 }
 
-
-void some_string_func(char *str)
-
-{
+void some_string_func(char *str){
   byte bVar1;
   byte bVar2;
-  uint uVar3;
   char cVar4;
   char cVar5;
   
-  if ((str != NULL) && (uVar3 = strlen(str), uVar3 != 0)) {
+  if ((str != NULL) && (strlen(str))) {
     cVar4 = *str;
     while (cVar4) {
       if (cVar4 == '\\') {

@@ -92,8 +92,8 @@ void Random::GetVec2(vec2f *v,float multi){
   v->x = GetFloatRange(-1.0f,1.0f);
   v->y = GetFloatRange(-1.0f,1.0f);
   if (v->x == 0.0) v->x = NORMALIZE_MIN;
-  vec2_normalize(v);
-  multiVec2(v,multi);
+  Vec2Normalize(v);
+  Vec2Scale(v,multi);
 }
 //returns vec3 with values in range of 0 and multi
 void Random::GetVec3(vec3f *v,float multi){
@@ -101,8 +101,8 @@ void Random::GetVec3(vec3f *v,float multi){
   v->y = GetFloatRange(-1.0f,1.0f);
   v->z = GetFloatRange(-1.0f,1.0f);
   if (v->x == 0.0) v->x = NORMALIZE_MIN;
-  vec3_normalize(v);
-  multiVec3(v,multi);
+  Vec3Normalize(v);
+  Vec3Scale(v,multi);
 }
 //returns vec4 with values in range of 0 and multi
 void Random::GetVec4(vec4f *v,float multi){
@@ -111,6 +111,6 @@ void Random::GetVec4(vec4f *v,float multi){
   v->z = GetFloatRange(-1.0f,1.0f);
   v->w = GetFloatRange(-1.0f,1.0f);
   if (v->x == 0.0) v->x = NORMALIZE_MIN;
-  vec4_normalize(v);
-  multiVec4(v,multi);
+  Vec4Normalize(v);
+  Vec4Scale(v,multi);
 }

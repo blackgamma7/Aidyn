@@ -16,8 +16,8 @@ void World::init(TerrainStruct *ter){
   ter->windVelocity.x = 1.0f;
   ter->windVelocity.y = -0.1f;
   ter->windVelocity.z = 1.0f;
-  vec3_normalize(&ter->windVelocity);
-  multiVec3(&ter->windVelocity,(15.0f/648)); //0.02314815
+  Vec3Normalize(&ter->windVelocity);
+  Vec3Scale(&ter->windVelocity,(15.0f/648)); //0.02314815
 }
 //set terrain to (type)
 void World::SetTerrain(TerrainStruct *ter,u8 type){
@@ -105,12 +105,12 @@ void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float ma
   float x;
   float fVar1;
   
-  x = vec3_normalize(coords);
+  x = Vec3Normalize(coords);
   if (RAND.GetFloat0To1() <= dirCharge) {
     coords->x += RAND.GetFloatRange(-0.1f,0.1f);
     coords->y += RAND.GetFloatRange(-0.004,0.001);
     coords->z += RAND.GetFloatRange(-0.1f,0.1f);
-    vec3_normalize(coords);
+    Vec3Normalize(coords);
   }
   #define windRange (float)(1.0/432) //0.002314815
   if (RAND.GetFloat0To1() <= magChange) {
@@ -119,7 +119,7 @@ void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float ma
       x = 0.0;
     }
   }
-  multiVec3(coords,x);
+  Vec3Scale(coords,x);
 }
 
 void World::SetWithWeatherTemp(TerrainStruct *ter,WeatherTemp *w){

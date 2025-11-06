@@ -1333,17 +1333,17 @@ bool FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec
   vec2f fStack112;
   
   if ((param_1->x == param_3->x) && (param_1->y == param_3->y)) {
-    Vec2_Sub(param_5,param_4,param_3);
-    vec2_normalize(param_5);
-    multiVec2(param_5,param_2);
+    Vec2Sub(param_5,param_4,param_3);
+    Vec2Normalize(param_5);
+    Vec2Scale(param_5,param_2);
     a = param_5;
   }
   else {
-    Vec2_Sub(&fStack176,param_3,param_1);
-    Vec2_Sub(&fStack112,param_4,param_3);
-    fVar1 = vec2_dot(&fStack112,&fStack112);
-    fVar2 = vec2_dot(&fStack176,&fStack112);
-    fVar3 = vec2_dot(&fStack176,&fStack176);
+    Vec2Sub(&fStack176,param_3,param_1);
+    Vec2Sub(&fStack112,param_4,param_3);
+    fVar1 = Vec2Dot(&fStack112,&fStack112);
+    fVar2 = Vec2Dot(&fStack176,&fStack112);
+    fVar3 = Vec2Dot(&fStack176,&fStack176);
     fVar3 = SQ(fVar2) - fVar1 * (fVar3 - SQ(param_2)) * 4.0f;
     if (fVar3 < 0.0) {
       return false;
@@ -1362,10 +1362,10 @@ bool FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec
     else if (((0.0 <= fVar4) && (fVar4 <= 1.0f)) && (fVar4 <= fVar1)) {
       fVar1 = fVar4;
     }
-    multiVec2(&fStack112,fVar1);
+    Vec2Scale(&fStack112,fVar1);
     a = &fStack112;
   }
-  vec2_sum(param_5,a,param_3);
+  Vec2Sum(param_5,a,param_3);
   return true;
 }
 
@@ -1566,12 +1566,12 @@ bool FUN_80063258(CombatAI_s *param_1) {
         uVar10 = CombatEntity::GetCoord2YU8(param_1->combatEnt);
         uVar7 = sub_square_add_sqrt(uVar9,uVar10,bStack336[2],bStack336[3]);
         if ((ushort)param_1->combatEnt->moveRange < (uVar7 & 0xff)) {
-          setVec2(&afStack328,(float)bStack336[0],(float)bStack336[1]);
-          setVec2(&afStack264,(float)bStack336[2],(float)bStack336[3]);
+          Vec2Set(&afStack328,(float)bStack336[0],(float)bStack336[1]);
+          Vec2Set(&afStack264,(float)bStack336[2],(float)bStack336[3]);
           bVar2 = true;
           x = CombatEntity::GetCoord2X(param_1->combatEnt);
           y = CombatEntity::GetCoord2Y(param_1->combatEnt);
-          setVec2(&afStack200,x,y);
+          Vec2Set(&afStack200,x,y);
           if (!FUN_80062c04(&afStack200,(float)param_1->combatEnt->moveRange,&afStack328,
                                &afStack264,&fStack136)) break;
           if (0.0 < fStack136.x) {
@@ -1695,15 +1695,15 @@ void combat_ai_shadow(CombatAI_s*param_1) {
     pCVar1 = (&gCombatP->combatEnts)[(byte)gGlobals.ShadowIndex];
     x = CombatEntity::GetCoordX(pCVar1);
     y = CombatEntity::GetCoordY(pCVar1);
-    setVec2(&afStack176,x,y);
-    setVec2(&afStack304,(float)(int)(char)(&gCombatP->unk5320)[(char)param_1->unk12 * 2],
+    Vec2Set(&afStack176,x,y);
+    Vec2Set(&afStack304,(float)(int)(char)(&gCombatP->unk5320)[(char)param_1->unk12 * 2],
             (float)(int)(char)(&gCombatP->field_0x5321)[(char)param_1->unk12 * 2]);
     dVar2 = ConstFloats::0.5d;
     uVar6 = (int)(char)param_1->unk12 + 1;
     if (uVar6 < param_1->unk13) {
       iVar5 = uVar6 * 2;
       do {
-        setVec2(&afStack240,(float)(int)(char)(&gCombatP->unk5320)[iVar5],
+        Vec2Set(&afStack240,(float)(int)(char)(&gCombatP->unk5320)[iVar5],
                 (float)(int)(char)(&gCombatP->field_0x5321)[iVar5]);
         if (FUN_80062c04(&afStack176,10.0,&afStack304,&afStack240,&fStack112)) {
           param_1->unk13 = (char)uVar6 + 1;
@@ -1720,7 +1720,7 @@ void combat_ai_shadow(CombatAI_s*param_1) {
           (&gCombatP->field_0x5321)[iVar5] = (char)(int)((double)fStack112.y + dVar2);
           return;
         }
-        copyVec2(&afStack240,&afStack304);
+        Vec2Copy(&afStack240,&afStack304);
         iVar5 = iVar5 + 2;
         uVar6 = uVar6 + 1;
       } while (uVar6 < param_1->unk13);
@@ -1794,11 +1794,11 @@ void FUN_80063db0(CombatAI_s *ai,float x0,float y0,float x1,float y1,float param
   vec2f afStack176;
   vec2f afStack112;
 
-  setVec2(&afStack176,x0,y0);
-  setVec2(&afStack112,x1,y1);
-  Vec2_Sub(&fStack240,&afStack112,&afStack176);
-  multiVec2(&fStack240,param_6);
-  vec2_sum(&fStack240,&fStack240,&afStack176);
+  Vec2Set(&afStack176,x0,y0);
+  Vec2Set(&afStack112,x1,y1);
+  Vec2Sub(&fStack240,&afStack112,&afStack176);
+  Vec2Scale(&fStack240,param_6);
+  Vec2Sum(&fStack240,&fStack240,&afStack176);
   SetPlayerMoveToQueue(param_7,fStack240.x,fStack240.y,param_7->interactRadiusB,0);
   FUN_800714d0(&gCombatP->substruct,ai->combatEnt->GetCoordXU8(),ai->combatEnt->GetCoordXU8(),ai->combatEnt->unk23);
   ai->combatEnt->SetCoords(fStack240.x,fStack240.y);
@@ -1850,15 +1850,15 @@ referncepoint_obj * CombatAI::FindFleeingRefpoint(CombatAI_s *param_1,float *dis
   
   ret = NULL;
   *dist = 100000.0f;
-  setVec2(&afStack304,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY());
+  Vec2Set(&afStack304,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY());
   for(u32 i=0;i<8;i++) {
     sprintf(buff,ComString(FleeX),i);
     prVar2 = FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,false);
     if (prVar2) {
-      setVec2(&afStack112,(prVar2->header).pos.x,(prVar2->header).pos.z);
-      prox = vec2_proximity(&afStack112,&afStack304);
+      Vec2Set(&afStack112,(prVar2->header).pos.x,(prVar2->header).pos.z);
+      prox = Vec2Dist(&afStack112,&afStack304);
       if (prox <= *dist) {
-        copyVec2(&afStack112,&afStack240);
+        Vec2Copy(&afStack112,&afStack240);
         *dist = prox;
         ret = prVar2;
       }
@@ -1974,7 +1974,7 @@ void FUN_80064494(CombatAI_s *param_1){
   uStack24[1] = 0;
   if (!CombatAIInfo::IsAlly(param_1)) bVar2 = FUN_800642c4(param_1,uStack24,uStack24 + 1);
   else {
-    setVec2(&gCombatP->entity_XY,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY(param_1->combatEnt));
+    Vec2Set(&gCombatP->entity_XY,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY(param_1->combatEnt));
     bVar2 = FUN_800641b8(param_1,uStack24,uStack24 + 1);
   }
   if (((bVar2 == false) && (!FUN_80063f1c(param_1,uStack24[0],uStack24[1]))) &&
@@ -2014,8 +2014,8 @@ void FUN_800645b4(CombatAI_s*param_1){
       }
     }
     if (!bVar1) {
-      setVec2(&afStack96,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY(param_1->combatEnt));
-      if (vec2_proximity(&afStack96,&gCombatP->entity_XY) < 1.0f) {
+      Vec2Set(&afStack96,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY(param_1->combatEnt));
+      if (Vec2Dist(&afStack96,&gCombatP->entity_XY) < 1.0f) {
         combat_escape_func(param_1->combatEnt);
       }
     }

@@ -385,7 +385,7 @@ LAB_800950ec:
     pSVar9 = pSVar9 + (short)pSVar10->field7_0x2c;
     ppVar2 = pSVar9->playerDat;
     pSVar10->memNeeded = memNeeded;
-    copyVec3(&(ppVar2->collision).pos,&pSVar10->pos);
+    Vec3Copy(&(ppVar2->collision).pos,&pSVar10->pos);
     (pSVar10->pos).y -= (pSVar9->playerDat->collision).radius;
     if (lVar11 == 0) pSVar10->height = 0.0;
     else pSVar10->height = gEntityDB->GetHeight(pSVar9->playerDat->ent_ID);
@@ -464,7 +464,7 @@ void processSpellVisuals(uint param_1){
       pSVar9 = SpellVisuals.ptr2 + (short)ppBVar12->field7_0x2c;
       if (((pSVar9->flags ^ 1) & 1) != 0) CRASH("ProcessSpellVisuals","!(pPlayer->flags & SPELLVISUAL_ALLOCED)");
       if ((pSVar9->flags & 8) == 0) {
-        copyVec3(&(pSVar9->playerDat->collision).pos,&ppBVar12->pos);
+        Vec3Copy(&(pSVar9->playerDat->collision).pos,&ppBVar12->pos);
         (ppBVar12->pos).y =
              ((ppBVar12->pos).y - (pSVar9->playerDat->collision).radius) + ppBVar12->height;
         pBVar2 = pSVar9->playerDat->borg7P;

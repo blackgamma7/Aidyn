@@ -56,7 +56,7 @@ mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_
   //assumes 100x100 map chunks
   fVar9 = 0.0;
   if (param_5) fVar9 = 100000.0f;
-  setVec3(&globalPos,position->x + (float)(mapshortA * 100),position->y,
+  Vec3Set(&globalPos,position->x + (float)(mapshortA * 100),position->y,
           position->z + (float)(mapShortB * 100));
   iVar4 = 0;
   pmVar6 = NULL;
@@ -72,7 +72,7 @@ mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_
       fStack104.x = pvec3.x;
       fStack104.y = pvec3.y;
       fStack104.z = pvec3.z;
-      fVar8 = vec3_proximity(&globalPos,&pvec3);
+      fVar8 = Vec3Dist(&globalPos,&pvec3);
       bVar2 = fVar9 < fVar8;
       if (param_5 == 0) {
         bVar2 = fVar8 < fVar9;
@@ -258,7 +258,7 @@ void set_teleport_pointer(voxelObject *param_1){
 void set_teleport_obj_A(u16 mapA,u16 Short1,u16 Short2,vec3f *pos){
   gGlobals.gameVars.refObjPointer = &bss_tele_obj;
   gGlobals.gameVars.tpVec3 = &vec3_800f5210;
-  copyVec3(pos,&vec3_800f5210);
+  Vec3Copy(pos,&vec3_800f5210);
   CLEAR(&bss_tele_obj);
   bss_tele_obj.teleport.MapDatA = mapA;
   bss_tele_obj.teleport.MapShort1 = Short1;
@@ -275,7 +275,7 @@ void set_teleport_obj_loadgame(u16 mapA,u16 Short1,u16 Short2,vec3f *pos){
   loadgame_tp_obj.teleport.MapDatA = mapA;
   loadgame_tp_obj.teleport.MapShort1 = Short1;
   loadgame_tp_obj.teleport.MapShort2 = Short2;
-  copyVec3(pos,&loadgame_tp_obj.header.pos);
+  Vec3Copy(pos,&loadgame_tp_obj.header.pos);
 }
 extern s16 some_toggle;
 void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
@@ -806,25 +806,25 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
       fStack312.z = (pfVar8->header).pos.z;
     }
     if (uVar2 != 0) prStack_38 = FindReferncePoint(&(MAPCENTER.mapPointer)->dat,uVar2);
-    if (player) Vec3_sub(&fStack312,&fStack312,&(player->collision).pos);
+    if (player) Vec3Sub(&fStack312,&fStack312,&(player->collision).pos);
     fStack312.y = 0.0;
     if (pfVar8 != NULL) {
       pvVar9 = &(pfVar8->refpoint).position;
       (pfVar8->refpoint).position.y = 0.0;
-      vec3_normalize(pvVar9);
-      if (0.5 < vec3Length(pvVar9)) {
-        setVec2(&player->facing,-(pfVar8->refpoint).position.x,-(pfVar8->refpoint).position.z);
+      Vec3Normalize(pvVar9);
+      if (0.5 < Vec3Length(pvVar9)) {
+        Vec2Set(&player->facing,-(pfVar8->refpoint).position.x,-(pfVar8->refpoint).position.z);
       }
     }
   }
   else {
-    copyVec3(param_3,&fStack312);
+    Vec3Copy(param_3,&fStack312);
     bVar5 = true;
   }
   if (player) {
     ApplyZoneVelocity(&fStack312,player);
     pvVar9 = &(player->collision).pos;
-    copyVec3(pvVar9,&fStack312);
+    Vec3Copy(pvVar9,&fStack312);
     if (pfVar8 == NULL) {
       fVar10 = (player->collision).pos.y;
     }
@@ -860,7 +860,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
         Camera::SetAim(&gCamera,&fStack120);
         gCamera.rotationXZ.x = (player->facing).x;
         gCamera.rotationXZ.y = (player->facing).y;
-        multiVec2(&gCamera.rotationXZ,-1.0);
+        Vec2Scale(&gCamera.rotationXZ,-1.0);
         Camera::FUN_800b050c(&gCamera,&fStack120);
         Camera::SetPos(&gCamera,&fStack120);
       }
@@ -904,7 +904,7 @@ void ConfirmPlayerWithinZone(playerData *param_1,Borg9Data *param_2){
   if (param_1->alaron_flag == false) {
     if (((param_1->collision).pos.y < -50.0f) || ((param_1->collision).vel.y < -0.3)) {
       (param_1->collision).pos.y = 50.0f;
-      setVec3(&(param_1->collision).vel,0.0,0.0,0.0);
+      Vec3Set(&(param_1->collision).vel,0.0,0.0,0.0);
       if (!Actor::CheckCollision(param_1,0.0,0,0)) (param_1->collision).vel.y = -0.054f;
       N64PRINT("Where's the player??\n");
       return;
@@ -987,15 +987,15 @@ u8 get_scene_obj_proximity(vec2f *obj,vec2f *cam,vec2f *aim,float *outx,float *o
   
   *outy = 0.0;
   *outx = 0.0;
-  Vec2_Sub(&distA,aim,cam);
-  Vec2_Sub(&distB,obj,cam);
-  normA = vec2_normalize(&distB);
-  normB = vec2_normalize(&distA);
+  Vec2Sub(&distA,aim,cam);
+  Vec2Sub(&distB,obj,cam);
+  normA = Vec2Normalize(&distB);
+  normB = Vec2Normalize(&distA);
   if (normA <= normB) {
-    multiVec2(&distA,normA);
-    vec2_sum(&distB,cam,&distA);
-    *outx = vec2_proximity(&distB,obj);
-    *outy = vec2_proximity(&distB,aim);
+    Vec2Scale(&distA,normA);
+    Vec2Sum(&distB,cam,&distA);
+    *outx = Vec2Dist(&distB,obj);
+    *outy = Vec2Dist(&distB,aim);
   }
   return normA <= normB;
 }
@@ -1113,7 +1113,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
       if ((((SObj->header).type == VOXEL_Scene) && (((SObj->header).Bitfeild & VOXEL_Active)))
          && (pSVar10 = &SObj->scene, (SObj->header).timestamp < gGlobals.ticker)) {
         (SObj->header).timestamp = gGlobals.ticker;
-        prox = vec3_proximity(&pos,&SObj->header.pos);
+        prox = Vec3Dist(&pos,&SObj->header.pos);
         fVar19 = (SObj->header).size;
         if (fVar19 <= prox) {
           NoExpPak_ClearSceneVoxel(pSVar10);
@@ -1122,7 +1122,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
         local_6c = 0xff;
         if ((((SObj->scene).sceneflags & SceneObj_0004) == 0) ||
            (fVar19 * 0.5 < prox)) {
-          setVec2(Sobj_pos,(SObj->header).pos.x,(SObj->header).pos.z);
+          Vec2Set(Sobj_pos,(SObj->header).pos.x,(SObj->header).pos.z);
           local_b8[0].x -= cellX;
           local_b8[0].y -= cellZ;
           fVar19 = three_vec2_proximities(&camCoord,&CamAim,Sobj_pos);
@@ -1322,10 +1322,10 @@ u8  FUN_80010414(vec2f *param_1,vec2f *param_2,vec2f *param_3,vec2f *param_4,s16
     fStack88.y = param_4->x;
   }
   else {
-    copyVec2(param_1,&fStack280);
-    copyVec2(param_2,&fStack216);
-    copyVec2(param_3,&afStack152);
-    copyVec2(param_4,&fStack88);
+    Vec2Copy(param_1,&fStack280);
+    Vec2Copy(param_2,&fStack216);
+    Vec2Copy(param_3,&afStack152);
+    Vec2Copy(param_4,&fStack88);
   }
   fVar4 = fStack280.y - fStack88.y;
   fVar3 = fStack216.y - fStack88.y;
@@ -1376,15 +1376,15 @@ u8 FUN_80010598(short param_1,short param_2){
   fStack160.x = fStack176.x;
   fStack152.x = fStack168.x;
   fStack152.y = fStack160.y;
-  copyVec2(fStack104,&fStack104[1]);
-  RotVec2(&fStack104[1],-42.5f);
-  vec2_sum(&fStack104[1],&fStack112,&fStack104[1]);
-  copyVec2(fStack104,&fStack104[2]);
-  RotVec2(&fStack104[2],42.5f);
-  vec2_sum(&fStack104[2],&fStack112,&fStack104[2]);
-  vec2_sum(fStack104,fStack104,&fStack112);
-  vec2_sum(&fStack104[1],&fStack104[1],&fStack112);
-  vec2_sum(&fStack104[2],&fStack104[2],&fStack112);
+  Vec2Copy(fStack104,&fStack104[1]);
+  Vec2Rot(&fStack104[1],-42.5f);
+  Vec2Sum(&fStack104[1],&fStack112,&fStack104[1]);
+  Vec2Copy(fStack104,&fStack104[2]);
+  Vec2Rot(&fStack104[2],42.5f);
+  Vec2Sum(&fStack104[2],&fStack112,&fStack104[2]);
+  Vec2Sum(fStack104,fStack104,&fStack112);
+  Vec2Sum(&fStack104[1],&fStack104[1],&fStack112);
+  Vec2Sum(&fStack104[2],&fStack104[2],&fStack112);
   pvVar2 = fStack104;
   for(s16 i=1;i<=3;i++) {
     if (FUN_80010414(&fStack112,pvVar2,&fStack176,&fStack168,false))return false;
@@ -1779,8 +1779,8 @@ void SaveEngineZone(playerData *param_1,mapFloatDat *param_2){
     param_2->MapShort1 = gGlobals.gameVars.mapShort1;
     param_2->MapShort2 = gGlobals.gameVars.mapShort2;
     if (!param_1) {
-      setVec3(&param_2->playerVec3,0.0,0.0,0.0);
-      setVec2(&param_2->playerVec2,1.0,0.0);
+      Vec3Set(&param_2->playerVec3,0.0,0.0,0.0);
+      Vec2Set(&param_2->playerVec2,1.0,0.0);
     }
     else {
       (param_2->playerVec3).x = (param_1->collision).pos.x;
@@ -1991,7 +1991,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
       position = &(player->collision).pos;
       gGlobals.gameVars.unkTimer = 0x78;
       A = FUN_8000cae8(position,gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2,gGlobals.gameVars.mapDatA,1);
-      if ((A != NULL) &&(vec3_proximity(&A->playerVec3,position) < 10.0f)) {
+      if ((A != NULL) &&(Vec3Dist(&A->playerVec3,position) < 10.0f)) {
         bVar1 = false;
       }
       if (bVar1) {SaveEngineZone(player,(mapFloatDat *)
@@ -2003,7 +2003,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
     }
   }
   if (gGlobals.gameVars.gamemodeType != 2) ProcessScriptCamera(&gGlobals.scriptcamera,(float)delta);
-  if (vec3_proximity(&gCamera.pos,&gCamera.aim)< 0.05)
+  if (Vec3Dist(&gCamera.pos,&gCamera.aim)< 0.05)
     CRASH("SceneSetCameraLookAt","Focus, and Camera at same Spot!");
   DEBUGSprintf("SceneSetCameraLookAt\n");
   SceneSetCameraLookAt(MAPCENTER.sceneDat0x4,gCamera.pos.x,

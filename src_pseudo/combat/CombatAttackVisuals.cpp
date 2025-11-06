@@ -36,14 +36,14 @@ void Add(playerData *target,u32 param_2){
     AttackVisualStruct3 *pAVar7 = attackVisualVars.p + attackVisualVars.bytearray[attackVisualVars.iFreeVisual++];
     pAVar7->flag = 0;
     pAVar7->player = target;
-    copyVec3(&(target->collision).pos,&pAVar7->pos);
+    Vec3Copy(&(target->collision).pos,&pAVar7->pos);
     Borg7Header *pBVar5 = func_loading_borg7(borgIndex,&gGlobals.gameVars.particleEmmiter);
     playerData *ppVar1 = pAVar7->player;
     pAVar7->borg7 = pBVar5;
     if (ppVar1->borg7P == NULL)Actor::ChangeAppearance(ppVar1,ppVar1->borg7);
     Scene::SetFlag40(pAVar7->borg7->sceneDat);
     Scene::SetFlag4(pAVar7->borg7->sceneDat);
-    Scene::SetModelTint(pAVar7->borg7->sceneDat,0xff,0xff,0xff,0xff);
+    Scene::SetModelTint(pAVar7->borg7->sceneDat,COLOR_WHITE);
     pAVar7->borg7->sceneDat->particleHead = &gGlobals.gameVars.particleEmmiter;
     pAVar7->borg7->sceneDat->locatorScene2 = NULL;
     pAVar7->borg7->sceneDat->locatorScene1 = pAVar7->player->borg7P->sceneDat;
@@ -61,7 +61,7 @@ Gfx * Render(Gfx *g,uint delta){
     AttackVisualStruct3 *x = &attackVisualVars.p[i];
     if ((x->flag & 1)) {
       if (!(x->flag & 2)) {
-        if (x->player) copyVec3(&(x->player->collision).pos,&x->pos);
+        if (x->player) Vec3Copy(&(x->player->collision).pos,&x->pos);
         Borg7Header *pAVar1 = x->borg7;
         if (delta) {
           for(u32 j=0;j<delta;j++) {

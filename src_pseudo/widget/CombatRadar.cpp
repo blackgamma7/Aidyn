@@ -80,11 +80,11 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
           (posXF * -gCamera.rotationXZ.y + posYF * gCamera.rotationXZ.x) * 0.5f,
           (posXF * gCamera.rotationXZ.x - posYF * -gCamera.rotationXZ.y) * 0.5f
         };
-        if (20.0f < vec2Length(&avStack_70)) {
+        if (20.0f < Vec2Length(&avStack_70)) {
           this->col.R >>= 1;
           this->col.G >>= 1;
           this->col.B >>= 1;
-          vec2_normalize(&avStack_70);
+          Vec2Normalize(&avStack_70);
           avStack_70.x*= 20.0;
           avStack_70.y*= 20.0;
         }

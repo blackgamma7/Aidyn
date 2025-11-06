@@ -253,8 +253,8 @@ void monsterparty_wanderstruct(wander_substruct *param_1){
   ppVar2 = gPlayer;
   ppVar1->ani_type = 0;
   ppVar2->ani_type = 0;
-  Vec3_sub(&afStack80,&(ppVar1->collision).pos,&(ppVar2->collision).pos);
-  vec3_normalize(&afStack80);
+  Vec3Sub(&afStack80,&(ppVar1->collision).pos,&(ppVar2->collision).pos);
+  Vec3Normalize(&afStack80);
   Actor::SetFacing(ppVar1,afStack80.x,afStack80.z);
   Actor::SetFacing(ppVar2,-afStack80.x,-afStack80.z);
 }

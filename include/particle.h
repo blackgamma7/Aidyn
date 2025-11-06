@@ -29,6 +29,25 @@ struct Particle_s {
     Mtx alignMtx;
 };
 
+enum ParticleFlag{
+    PARTICLE_0001=1,
+    PARTICLE_0002=2,
+    PARTICLE_0004=4, //use object's align mtx instead of particle heads'
+    PARTICLE_0008=8,
+    PARTICLE_0010=0x10, //particle visibility?
+    PARTICLE_0020=0X20,
+    PARTICLE_0040=0X40, //use colorB(w) to scale change over time.
+    PARTICLE_0080=0X80, //use colorB(x,y,z) to change position over time.
+    PARTICLE_0100=0X100, //use colorB(x,y,z) to change velocity over time.
+    PARTICLE_0200=0X200, //use colorB(x,y,z,w) to change colorA over time.
+    PARTICLE_0400=0X400, //use colorB(x,y) to change scale over time.
+    PARTICLE_0800=0X800, //use colorB(x,y,z,w) to change colorB over time.
+    PARTICLE_1000=0X1000, //unused?
+    PARTICLE_2000=0X2000, //unused?
+    PARTICLE_4000=0X4000, //disable colorB's effects over time
+    PARTICLE_8000=0X8000, //active flag?
+};
+
 struct ParticleEmmiter {
     u16 ID;
     s16 lifespan;
@@ -38,7 +57,7 @@ struct ParticleEmmiter {
     undefined field4_0x7;
     u16 unk8;
     short texture;
-    u16 flags; /* 0x2000 = tangible */
+    u16 flags; //uses PartEmmiFlags
     float height;
     Particle_s *particles;
     undefined field12_0x18;
@@ -59,6 +78,25 @@ struct ParticleEmmiter {
     ParticleEmmiter *link;
     SceneData *sceneDat;
     collisionSphere collision;
+};
+
+enum PartEmmiFlags{
+    PARTEMMI_0001=1, //free after timeout
+    PARTEMMI_0002=2, //finite lifespan?
+    PARTEMMI_0004=4,
+    PARTEMMI_0008=8, //unused?
+    PARTEMMI_0010=0x10, //unused?
+    PARTEMMI_0020=0X20, //unused?
+    PARTEMMI_0040=0X40, //unused?
+    PARTEMMI_0080=0X80, //unused?
+    PARTEMMI_0100=0X100, //unused?
+    PARTEMMI_0200=0X200, //unused?
+    PARTEMMI_0400=0X400, //unused?
+    PARTEMMI_0800=0X800, //unused?
+    PARTEMMI_1000=0X1000,
+    PARTEMMI_2000=0X2000,  //use collision position
+    PARTEMMI_4000=0X4000, //particles have max height
+    PARTEMMI_8000=0X8000, //active?
 };
 
 struct ParticleHeadStruct {
@@ -115,7 +153,7 @@ namespace Particle{
     void UnsetEmmiterFlags(ParticleEmmiter*,u16);
     void SetEmmiterHeight(ParticleEmmiter *,float);
     void UnsetEmmiterFlag4000(ParticleEmmiter *);
-    Gfx * FUN_800b2d34(Gfx *,ParticleHeadStruct *,vec3f *,u16);
+    Gfx * FUN_800b2d34(Gfx *g,ParticleHeadStruct *param_2,vec3f *v,u16 buffChoice);
     Gfx * FUN_800b2f9c(Gfx *,u16);
     void RenderParticles(Gfx **,ParticleHeadStruct *,Particle_s *,Borg1Header *,u16);
     SceneData * GetLocatorScene(SceneData *,u16);

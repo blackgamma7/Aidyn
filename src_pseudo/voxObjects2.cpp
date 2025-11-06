@@ -35,16 +35,16 @@ u16 FUN_80005d60(wander_substruct **w) {
 float func_checking_monsterparty(voxelObject *v,vec3f *po) {
   if ((v->header).type == VOXEL_MonsterParty)
     return (gPlayer)->unk108;
-  return vec3_proximity(&v->header.pos,po);
+  return Vec3Dist(&v->header.pos,po);
 }
 
-void monsterparty_setvec2(voxelObject *v,vec2f *pos) {
+void Voxel_Get2DPos(voxelObject *v,vec2f *pos) {
   short sVar1;
   
-  setVec2(pos,(v->header).pos.x,(v->header).pos.z);
+  Vec2Set(pos,(v->header).pos.x,(v->header).pos.z);
   if ((((v->header).type == VOXEL_MonsterParty) && (gPlayer != NULL)) &&
-     (sVar1 = (gPlayer)->index, sVar1 != -1)) {
-    setVec2(pos,gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.x,
+     (sVar1 = gPlayer->index, sVar1 != -1)) {
+    Vec2Set(pos,gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.x,
             gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.z);
   }
 }
@@ -138,7 +138,7 @@ LAB_8000613c:
     }
     else {
       fVar18 = 0.0;
-      setVec2(&afStack288,pvStack_5c->x,pvStack_5c->z);
+      Vec2Set(&afStack288,pvStack_5c->x,pvStack_5c->z);
       for(i=0;i<uVar14;i++){
         pvVar11 = &pBVar4->voxelObjs[voxInds[i]];
         if ((pvVar11) &&
@@ -153,11 +153,11 @@ LAB_8000613c:
           v = &pBVar4->voxelObjs[voxInds[i]];
           if (v) {
             fVar16 = func_checking_monsterparty(v,pvStack_5c);
-            monsterparty_setvec2(v,&auStack160);
-            Vec2_Sub(&afStack224,&afStack288,&auStack160);
-            vec2_normalize(&afStack224);
+            Voxel_Get2DPos(v,&auStack160);
+            Vec2Sub(&afStack224,&afStack288,&auStack160);
+            Vec2Normalize(&afStack224);
             fVar16 = (fVar18 - fVar16) / fVar18 + 
-               (vec2_dot(&afStack224,&ppVar3->facing) + 1.0) * 0.5;
+               (Vec2Dot(&afStack224,&ppVar3->facing) + 1.0) * 0.5;
             if (fVar19 <= fVar16) {
               uStack_58 = voxInds[i];
               fVar19 = fVar16;

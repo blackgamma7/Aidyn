@@ -92,11 +92,11 @@ LAB_8002e068:
     fStack184.y = gLensFlarePos.y - (SCREEN_HEIGHT/2);
     fStack120.x = fStack184.x;
     fStack120.y = fStack184.y;
-    vec2_normalize(&fStack120);
+    Vec2Normalize(&fStack120);
     fVar9 = (float)(1.0 -
                    (255.0 - (double)gMainColor.R) / 255.0);
     fVar10 = (float)lensflare_bss * fVar9;
-    fVar8 = vec2Length(&fStack184);
+    fVar8 = Vec2Length(&fStack184);
     if (fVar8 <= 80.0f) {
       gGlobals.sky.lensFlareVal =
            (float)(((double)fVar9 * (1.0 - (double)(fVar8 / 80.0f)) *

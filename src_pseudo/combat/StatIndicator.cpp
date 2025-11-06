@@ -112,10 +112,10 @@ uint AddItem(playerData *param_1,int type,short num){
     (pcVar7->unk278).x = 0.5f;
     (pcVar7->unk278).y = 0.2f;
     (pcVar7->statStartPos).z = (param_1->collision).pos.z;
-    if (vec3_proximity(&pcVar7->statStartPos,&gCamera.pos) < 0.0)
-      fVar11 = -vec3_proximity(&pcVar7->statStartPos,&gCamera.pos);
+    if (Vec3Dist(&pcVar7->statStartPos,&gCamera.pos) < 0.0)
+      fVar11 = -Vec3Dist(&pcVar7->statStartPos,&gCamera.pos);
     else
-      fVar11 = vec3_proximity(&pcVar7->statStartPos,&gCamera.pos);
+      fVar11 = Vec3Dist(&pcVar7->statStartPos,&gCamera.pos);
     pcVar7->unk280 = fVar11 * 0.15f;
     pcVar7->statAlpha = 0xff;
     pcVar7->statAlphaDelta = 1;
@@ -140,10 +140,10 @@ uint AddItem(playerData *param_1,int type,short num){
     (pcVar7->unk278).x = 1.5;
     (pcVar7->unk278).y = 0.6;
     (pcVar7->statStartPos).z = (param_1->collision).pos.z;
-    if (vec3_proximity(pvVar8,&gCamera.pos) < 0.0)
-      fVar11 = -vec3_proximity(pvVar8,&gCamera.pos);
+    if (Vec3Dist(pvVar8,&gCamera.pos) < 0.0)
+      fVar11 = -Vec3Dist(pvVar8,&gCamera.pos);
     else 
-      fVar11 = vec3_proximity(pvVar8,&gCamera.pos);
+      fVar11 = Vec3Dist(pvVar8,&gCamera.pos);
     pcVar7->unk280 = fVar11 * 0.15;
     pcVar7->statAlpha = 0;
     pcVar7->statAlphaDelta = -1;

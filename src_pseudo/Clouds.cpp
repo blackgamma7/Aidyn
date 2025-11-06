@@ -146,11 +146,11 @@ Gfx * Clouds::Render(Gfx *g){
         v3Temp.y = 0.0;
         v3Temp.x = -gCloudData[i].v3.x;
         v3Temp.z = -gCloudData[i].v3.z;
-        fVar8 = vec3_normalize(&v3Temp);
+        fVar8 = Vec3Normalize(&v3Temp);
         v2Temp.x = v3Temp.x;
         v2Temp.y = v3Temp.z;
         fVar15 = 1.0f - fVar8 / 750.0f;
-        vec2_normalize(&v2Temp);
+        Vec2Normalize(&v2Temp);
         fVar12 = v2Temp.x * camRotZ;
         fVar10 = v2Temp.y * camRotX;
         fVar16 = (v2Temp.x * camRotX - v2Temp.y * camRotZ) * 300.0f + 160.0f;

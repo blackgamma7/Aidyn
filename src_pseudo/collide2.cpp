@@ -126,10 +126,10 @@ bool FUN_800aea44(vec3f *pos,vec3f *vel,float spd,borg9_phys *param_4,float *par
   fStack248.x = (pos->x - (param_4->normal).x * spd) + vel->x;
   fStack248.y = (pos->y - (param_4->normal).y * spd) + vel->y;
   fStack248.z = (pos->z - (param_4->normal).z * spd) + vel->z;
-  Vec3_sub(&fStack184,pos,param_4->verts[0]);
-  Vec3_sub(avStack_78,&fStack248,param_4->verts[0]);
-  fVar1 = vec3_dot(&fStack184,&param_4->normal);
-  fVar2 = vec3_dot(avStack_78,&param_4->normal);
+  Vec3Sub(&fStack184,pos,param_4->verts[0]);
+  Vec3Sub(avStack_78,&fStack248,param_4->verts[0]);
+  fVar1 = Vec3Dot(&fStack184,&param_4->normal);
+  fVar2 = Vec3Dot(avStack_78,&param_4->normal);
   *param_5 = fVar2;
   if (fVar1 < 0.0) {
     fVar3 = fVar1;
@@ -164,10 +164,10 @@ bool FUN_800aec1c(vec3f *param_1,vec3f *param_2,float param_3,borg9_phys *param_
   local_e8.x = local_128.x + param_2->x;
   local_e8.y = local_128.y + param_2->y;
   local_e8.z = local_128.z + param_2->z;
-  Vec3_sub(avStack_a8,&local_128,param_4->verts[0]);
-  Vec3_sub(avStack_68,&local_e8,param_4->verts[0]);
-  fVar2 = vec3_dot(avStack_a8,&param_4->normal);
-  fVar3 = vec3_dot(avStack_68,&param_4->normal);
+  Vec3Sub(avStack_a8,&local_128,param_4->verts[0]);
+  Vec3Sub(avStack_68,&local_e8,param_4->verts[0]);
+  fVar2 = Vec3Dot(avStack_a8,&param_4->normal);
+  fVar3 = Vec3Dot(avStack_68,&param_4->normal);
   *param_5 = fVar3;
   if ((fVar2 < 0.0) || (0.0 < fVar3)) return false;
   else {
@@ -198,22 +198,22 @@ bool FUN_800aede8(collisionSphere *param_1,float param_2,vec3f *param_3,vec3f *p
   vec3f fStack200;
   vec3f fStack136;
   
-  copyVec3(&param_1->vel,&afStack392);
-  vec3_normalize(&afStack392);
-  multiVec3(&afStack392,param_2);
-  vec3_sum(&afStack392,&afStack392,&param_1->pos);
-  Vec3_sub(&afStack328,param_3,&param_1->pos);
-  Vec3_sub(&afStack264,&afStack392,&param_1->pos);
-  Vec3_sub(&fStack200,param_4,param_3);
-  fVar2 = vec3_dot(&afStack264,&fStack200);
-  fVar3 = vec3_dot(&afStack264,&afStack264);
-  fVar4 = vec3_dot(&fStack200,&fStack200);
+  Vec3Copy(&param_1->vel,&afStack392);
+  Vec3Normalize(&afStack392);
+  Vec3Scale(&afStack392,param_2);
+  Vec3Sum(&afStack392,&afStack392,&param_1->pos);
+  Vec3Sub(&afStack328,param_3,&param_1->pos);
+  Vec3Sub(&afStack264,&afStack392,&param_1->pos);
+  Vec3Sub(&fStack200,param_4,param_3);
+  fVar2 = Vec3Dot(&afStack264,&fStack200);
+  fVar3 = Vec3Dot(&afStack264,&afStack264);
+  fVar4 = Vec3Dot(&fStack200,&fStack200);
   fVar4 = fVar4 * fVar3 - fVar2 * fVar2;
   if (fVar4 < 0.0) bVar1 = -fVar4 < NORMALIZE_MIN;
   else bVar1 = fVar4 < NORMALIZE_MIN;
   if (bVar1) return false;
-  fVar5 = vec3_dot(&afStack328,&afStack264);
-  fVar6 = vec3_dot(&afStack328,&fStack200);
+  fVar5 = Vec3Dot(&afStack328,&afStack264);
+  fVar6 = Vec3Dot(&afStack328,&fStack200);
   fVar4 = (fVar5 * fVar2 - fVar6 * fVar3) / fVar4;
   fVar3 = (fVar5 + fVar2 * fVar4) / fVar3;
   if (0.0 <= fVar4) {
@@ -223,8 +223,8 @@ bool FUN_800aede8(collisionSphere *param_1,float param_2,vec3f *param_3,vec3f *p
     fStack136.x = param_3->x + fVar3 * fStack200.x;
     fStack136.y = param_3->y + fVar3 * fStack200.y;
     fStack136.z = param_3->z + fVar3 * fStack200.z;
-    Vec3_sub(param_6,&fStack136,&param_1->pos);
-    fVar2 = vec3_normalize(param_6);
+    Vec3Sub(param_6,&fStack136,&param_1->pos);
+    fVar2 = Vec3Normalize(param_6);
     param_5->x = fVar2;
     if (fVar2 < param_2) return true;
   }
@@ -232,8 +232,8 @@ bool FUN_800aede8(collisionSphere *param_1,float param_2,vec3f *param_3,vec3f *p
 }
 
 bool FUN_800af050(collisionSphere *param_1,float param_2,vec3f *param_3,float param_4,float *length,vec3f *dist,vec3f *outVel){  
-  Vec3_sub(dist,param_3,&param_1->pos);
-  *length = vec3_normalize(dist) - param_4;
+  Vec3Sub(dist,param_3,&param_1->pos);
+  *length = Vec3Normalize(dist) - param_4;
   if (*length <= param_2) {
     outVel->x = (param_1->pos).x + dist->x * *length;
     outVel->y = (param_1->pos).y + dist->y * *length;
@@ -243,9 +243,9 @@ bool FUN_800af050(collisionSphere *param_1,float param_2,vec3f *param_3,float pa
 }
 
 bool FUN_800af120(collisionSphere *param_1,float param_2,vec3f *pos,float param_4,float *param_5,vec3f *param_6,vec3f *param_7){
-  Vec3_sub(param_6,pos,&param_1->pos);
+  Vec3Sub(param_6,pos,&param_1->pos);
   param_6->y = 0.0;
-  *param_5 = vec3_normalize(param_6) - param_4;
+  *param_5 = Vec3Normalize(param_6) - param_4;
   if (*param_5 <= param_2) {
     param_7->x = (param_1->pos).x + param_6->x * *param_5;
     param_7->y = (param_1->pos).y + param_6->y * *param_5;

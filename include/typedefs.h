@@ -25,6 +25,7 @@ typedef union Color32 {
 #define ASCIIRange 94 //('~'-' ')
 
 //common colors used by Color32
+
 #define COLOR_WHITE 0xff,0xff,0xff,0xff
 #define COLOR_OFFWHITE 0xe1,0xe1,0xe1,0xff
 #define COLOR_OFFWHITE2 0xe1,0xe1,0xe1,200
