@@ -472,7 +472,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       paVar10 = pBVar2->unk0x40;
       ppBVar11 = ppBVar11 + 1;
       for (j = pBVar2->dsplistcount; j != 0; j--) {
-        if ((*(u32*)paVar10->unk0 & 3) != 0) bVar4 = true;
+        if ((*(u32*)paVar10->flags & 3) != 0) bVar4 = true;
         paVar10++;
       }
       if (bVar4) {

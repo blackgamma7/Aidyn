@@ -85,8 +85,8 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
     break;
     case 1:
     borg12 = Menu_open;
-    gGlobals.scrollLocation[0] = 0xa0;
-    gGlobals.scrollLocation[1] = 0xa0;
+    gGlobals.scrollLocation[0] = (SCREEN_WIDTH/2);
+    gGlobals.scrollLocation[1] = (SCREEN_WIDTH/2);
     sub->scrollSpeed = 0.0;
     if (bVar4) {
       FUN_800a0090(sub->borg7,10);
@@ -104,7 +104,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
     }
     break;
     default:
-    CRASH("BigAssMenu()","Unknown starting menu type");
+      CRASH("BigAssMenu()","Unknown starting menu type");
   }
   FUN_800a0090(sub->borg7,0);
 LAB_80035e34:
@@ -148,7 +148,7 @@ void PauseWidget::bigAssOpenCallback_2(){
   pause_Substruct *sub = (pause_Substruct *)this->substruct;
   bVar2 = gGlobals.SomeCase == 5;
   sprintf(gGlobals.text,"isCombatLevelup = %d\n",bVar2);
-  N64Print::Print(gGlobals.text);
+  N64PRINT(gGlobals.text);
   switch(sub->PauseMenuSection){
     case 0:
     borg12 = Menu_Scroll;
@@ -301,3 +301,37 @@ u8 PauseWidget::Tick(){
   return TickChildren();
 }
 
+BaseWidget * PauseWidget::Control(controller_aidyn *cont) {
+  pause_Substruct *ppVar1;
+  BaseWidget *pBVar2;
+  BaseWidget *pBVar3;
+  WidgetOptionsSubstruct *pvVar2;
+  
+  ppVar1 = (pause_Substruct *)this->substruct;
+  pvVar2 = (WidgetOptionsSubstruct *)ppVar1->optionsMenu->substruct;
+  pBVar3 = pvVar2->contPakWidget;
+  if (pBVar3 == NULL) {
+    pBVar3 = this->BaseWidget::Control(cont);
+    if ((pBVar3 == NULL) && (pBVar3 = NULL, ppVar1->PauseMenuSection == 0)) {
+      if (((cont->input_2 & (ANA_LEFT|D_LEFT)) == 0) ||
+         (((pBVar3 = pvVar2->optionsConfig, pBVar3 == NULL ||
+           (((OptionsConfigSubstruct*)pBVar2->substruct)->renameOpen)) ||
+          (1 < ((OptionsConfigSubstruct*)pBVar2->substruct)->selected)))) {
+        pBVar3 = NULL;
+        if (((cont->input_2 & (ANA_RIGHT|D_RIGHT)) != 0) &&
+           (pBVar2 = pvVar2->optionsConfig, pBVar2 != NULL)) {
+          pBVar3 = NULL;
+          if ((!((OptionsConfigSubstruct*)pBVar2->substruct)->renameOpen) &&
+             (pBVar3 = NULL, ((OptionsConfigSubstruct*)pBVar2->substruct)->selected < 2)) {
+            pBVar3 = pvVar2->optionsConfig->RightFunc();
+          }
+        }
+      }
+      else pBVar3 = pvVar2->optionsConfig->LeftFunc();
+    }
+  }
+  else pBVar3 = pBVar3->Control(cont);
+  return pBVar3;
+}
+
+u32 PauseWidget::GetNumber(){return WidgetN_Other;}

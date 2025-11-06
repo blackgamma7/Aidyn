@@ -158,7 +158,7 @@ void Cinematic::FreeScene(void){
 
 s16 Cinematic::GetName(void){
   u16 uVar1;
-  char acStack272 [256];
+  char nameBuff [256];
   
   gGlobals.cinematic.Bstart = 1;
   Sky::SetBackgroundType(2,0,0.0);
@@ -167,46 +167,45 @@ s16 Cinematic::GetName(void){
     clear_music_values(1);
     gGlobals.gameVars.BGMIndex = uVar1;
   }
-  CLEAR(acStack272);
+  CLEAR(nameBuff);
   if ((PARTY) && ((PARTY)->Members[0])) {
-    strcpy(acStack272,(PARTY)->Members[0]->name);
+    strcpy(nameBuff,(PARTY)->Members[0]->name);
   }
   MemoryMaker::Unload();
-  CinematicText::Init(acStack272);
+  CinematicText::Init(nameBuff);
   return Controller::GetDelay(0);
 }
 
 
 u16 Cinematic::EndCase(void){
-  u32 uVar1;
-  u16 uVar2;
+  u16 ret;
   u16 i;
   
   CinematicText::Free();
   MemoryMaker::Reload();
-  for(i=0;gGlobals.cinematic.borg6enums[i] != 0;i++){}
+  for(i=0;gGlobals.cinematic.borg6enums[i] != 0;i++){/*get index of blank animation*/}
   setEventFlag(gGlobals.cinematic.SeqenceFlags[i],true);
   Sky::ResetColors();
   switch(gGlobals.cinematic.CSwitch) {
   case CSwitch_CineDat:
-    uVar2 = GetSomeDat();
+    ret = GetSomeDat();
     break;
   case CSwitch_WorldMap:
-    uVar2 = LoadMap();
+    ret = LoadMap();
     break;
   case CSwitch_Credits:
-    uVar2 = LoadCredits();
+    ret = LoadCredits();
     break;
   case CSwitch_TrueName:
-    uVar2 = TrueName();
+    ret = TrueName();
     break;
   case CSwitch_ToMenu:
-    uVar2 = ToMenu();
+    ret = ToMenu();
     break;
   default:
-    uVar2 = (u16)gGlobals.cinematic.some_cinematic_dat;
+    ret = (u16)gGlobals.cinematic.some_cinematic_dat;
   }
-  return uVar2;
+  return ret;
 }
 
 u16 Cinematic::Control(void){

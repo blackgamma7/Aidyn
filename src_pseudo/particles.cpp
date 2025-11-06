@@ -620,12 +620,12 @@ g++;
 SceneData * GetLocatorScene(SceneData *pRet,u16 param_2){
   switch(param_2){
     case 1:
-    pRet = pRet->link2a4;
+    pRet = pRet->locatorScene1;
     break;
     case 0:
     break;
     case 2:
-    pRet = pRet->link2a8;
+    pRet = pRet->locatorScene2;
     break;
     default:
     char acStack_110 [128];

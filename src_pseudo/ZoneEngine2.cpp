@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "skyObjects.h"
 #include "voxelChart.h"
+#include "vobjects.h"
 #include "combat/Visuals.h"
 #define FILENAME "./src/zoneengine.cpp"
 
@@ -425,38 +426,38 @@ void MakeGameZoneNames(u16 param_1,u16 param_2){
   u16 uVar1;
   u16 uVar2;
   s16 iVar3;
-  int iVar4;
+  int j;
   ZoneDat *dat;
   int iVar5;
-  s16 iVar6;
+  s16 i;
   int iVar7;
   
-  if ((param_1 < 0x17) && (iVar6 = 0, uVar1 = param_1, uVar2 = param_2, param_2 < 0x1f)) {
+  if ((param_1 < 23) && (i = 0, uVar1 = param_1, uVar2 = param_2, param_2 < 31)) {
     do {
       gGlobals.gameVars.mapShort2 = uVar2;
       gGlobals.gameVars.mapShort1 = uVar1;
-      iVar4 = 0;
+      j = 0;
       iVar5 = (short)param_2 + -1;
-      iVar3 = ((short)param_1 + iVar6 + -1);
+      iVar3 = ((short)param_1 + i + -1);
       iVar7 = 0x10000;
       do {
-        dat = &gGlobals.gameVars.ZoneDatMtx[iVar6][iVar4];
-        init_some_map_data(dat,(short)iVar6,(char)iVar4);
-        iVar4 = (int)(short)iVar5;
-        if ((iVar3 - 1U < 0x15) && (iVar4 - 1U < 0x1d)) {
-          dat->borg5_ID = gLoadedMapIndecies[iVar3][iVar4][0];
-          dat->borg9_id = gLoadedMapIndecies[iVar3][iVar4][1];
-          dat->unk0x10 = gLoadedMapIndecies[iVar3][iVar4][2];
+        dat = &gGlobals.gameVars.ZoneDatMtx[i][j];
+        init_some_map_data(dat,(short)i,(char)j);
+        j = (int)(short)iVar5;
+        if ((iVar3 - 1U < 0x15) && (j - 1U < 0x1d)) {
+          dat->borg5_ID = gLoadedMapIndecies[iVar3][j][0];
+          dat->borg9_id = gLoadedMapIndecies[iVar3][j][1];
+          dat->unk0x10 = gLoadedMapIndecies[iVar3][j][2];
           checkToggleZoneScene(dat);
         }
-        iVar4 = iVar7 >> 0x10;
+        j = iVar7 >> 0x10;
         iVar5 += 1;
         iVar7 = iVar7 + 0x10000;
-      } while (iVar4 < 3);
-      iVar6++;
+      } while (j < 3);
+      i++;
       uVar1 = gGlobals.gameVars.mapShort1;
       uVar2 = gGlobals.gameVars.mapShort2;
-    } while (iVar6 < 3);
+    } while (i < 3);
     return;
   }
   Gsprintf("Zone out of Range\nZone: (%d, %d)\nRange: (%d, %d)",param_1,param_2,22,30);
@@ -591,7 +592,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
       ppVar9 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
     }
     Gsprintf("Center scene not in Borg.\nPlayer Pos: (%3.4f, %3.4f)\nNew Grid: %d-%c%02d",
-      (ppVar9->collision).pos.x,(ppVar9->collision).pos.z,gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1 - 1 + 0x41,gGlobals.gameVars.mapShort2);
+      (ppVar9->collision).pos.x,(ppVar9->collision).pos.z,gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1 - 1 + 'A',gGlobals.gameVars.mapShort2);
     CRASH("LoadGameBorgScenes",gGlobals.text);
   }
   uVar22 = (uint)((MAPCENTER.mapPointer)->dat).byte0x1a;
@@ -654,13 +655,13 @@ if (((gGlobals.gameVars.gamemodeType == 0) && (MINIMAP.active == 0)) && (gGlobal
  set_map_event_flag(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
 }
 
-void ApplyZoneVelocity(vec3f *param_1,playerData *param_2){
-  (param_2->collision).pos.x += (*param_1).x;
-  (param_2->collision).pos.y += (*param_1).y;
-  (param_2->collision).pos.z += (*param_1).z;
+void ApplyZoneVelocity(vec3f *v,playerData *param_2){
+  (param_2->collision).pos.x += (*v).x;
+  (param_2->collision).pos.y += (*v).y;
+  (param_2->collision).pos.z += (*v).z;
   if (param_2->flags & ACTOR_ISPLAYER) GiveCameraToPlayer(param_2);
-  Camera::ApplyVelocity(&gCamera,param_1);
-  FUN_8001b888(&gGlobals.gameVars.particleEmmiter,param_1);
+  Camera::ApplyVelocity(&gCamera,v);
+  FUN_8001b888(&gGlobals.gameVars.particleEmmiter,v);
 }
 //get reference point map object by ID number
 voxelObject * FindReferncePoint(Borg9Data *param_1,u16 id){  
@@ -1416,7 +1417,7 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
   ZoneDat *iVar1;
   short *psVar13;
   short *psVar14;
-  int iVar15;
+  int i;
   float posz;
   float posx;
   u16 uStack80 [2];
@@ -1448,7 +1449,7 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
   if (iStack_48 == 0) {
     gOut = FUN_80010354(gOut,gGlobals.gameVars.ZoneDatMtx[1] + 1);
   }
-  iVar15 = 0;
+  i = 0;
   pauStack_34 = uStack144;
   puStack_30 = uStack144[0] + 1;
   ppGStack_2c = &gOut;
@@ -1565,13 +1566,13 @@ LAB_80010bfc:
         gOut = RenderVoxelScenes(gOut,&pZVar12->mapPointer->dat,pos,uVar10,uVar11,posx,posz);
       }
     }
-    iVar15 = (int)(short)((short)iVar15 + 1);
-    iVar2 = iVar15 << 2;
-    if (7 < iVar15) {
+    i = (int)(short)((short)i + 1);
+    iVar2 = i << 2;
+    if (7 < i) {
       if (iStack_48) {
         gOut = FUN_80010354(gOut,&MAPCENTER);
       }
-      Gsprintf("ParticleHead");
+      Gsprintf("ParticleHead\n");
       Particle::ProcessAndRenderParticleHead(ppGStack_2c,pPStack_38,uStack60,delta,Graphics::GetBufferChoice(),0);
       Gsprintf("Render Player Shadows\n");
       gOut = renderPlayerShadows(&gGlobals.gameVars.PlayerHandler,gOut);

@@ -45,8 +45,8 @@ void Add(playerData *target,u32 param_2){
     Scene::SetFlag4(pAVar7->borg7->sceneDat);
     Scene::SetModelTint(pAVar7->borg7->sceneDat,0xff,0xff,0xff,0xff);
     pAVar7->borg7->sceneDat->particleHead = &gGlobals.gameVars.particleEmmiter;
-    pAVar7->borg7->sceneDat->link2a8 = NULL;
-    pAVar7->borg7->sceneDat->link2a4 = pAVar7->player->borg7P->sceneDat;
+    pAVar7->borg7->sceneDat->locatorScene2 = NULL;
+    pAVar7->borg7->sceneDat->locatorScene1 = pAVar7->player->borg7P->sceneDat;
     FUN_800a0090(pAVar7->borg7,5);
     pAVar7->flag|= 1;
   }

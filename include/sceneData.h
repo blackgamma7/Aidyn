@@ -41,12 +41,31 @@ struct SceneData {
     uint maxDynamicLights; /* no more than 7 */
     uint currDynamicLights;
     ParticleHeadStruct *particleHead;
-    SceneData* link2a4;
-    SceneData* link2a8;
-    u8 unk2ac;
+    SceneData* locatorScene1;
+    SceneData* locatorScene2;
+    u8 sceneTicked;
     char borg5_char[4];
     u8 field27_0x2b1[3];
     u32 unk2b4;
+};
+
+enum SceneFlags{
+    SCENE_0001=1, //unused?
+    SCENE_0002=2, //unused?
+    SCENE_0004=4, //copies matrix to some_mtx, some_mtx is Identity otherwise
+    SCENE_0008=8, //skips a matrix calculation
+    SCENE_0010=0x10, //changes a matrix calculation
+    SCENE_0020=0x20, //skips a matrix calculation
+    SCENE_0040=0x40, //skip perspactive normalizing dlist
+    SCENE_0080=0x80, //related to lighting
+    SCENE_0100=0x100, //use fog
+    SCENE_0200=0x200, //can be set,unread?
+    SCENE_0400=0x400, //unused?
+    SCENE_0800=0x800, //unused?
+    SCENE_1000=0x1000, //unused?
+    SCENE_2000=0x2000, //unused?
+    SCENE_4000=0x4000, //skip perspective matrix copy(?)
+    SCENE_8000=0x8000, //related to lighting
 };
 
 namespace Scene{

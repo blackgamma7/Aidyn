@@ -691,7 +691,7 @@ void WidgetContPakData::LoadSliders(SaveDatPointers *param_2,u8 param_3){
   bounds[2] = bounds[0] + 0xdb;
   bounds[3] = bounds[1] + 0xc0;
   pCVar1 = new ControllerPakSliders(param_2,bounds,&this->col0);
-  ind = this->unk27c->AddChild10(pCVar1);
+  ind = this->unk27c->AddFileWidget(pCVar1);
   pCVar1->varU16 = (ushort)param_3;
   Utilities::SetAlpha(this,this->col.A);
   if (this->vmE0(pCVar1)) this->unk27c->m80033018(ind);
@@ -770,7 +770,7 @@ WidgetContPakDataSave::~WidgetContPakDataSave(){
 void WidgetContPakDataSave::unk(){}
 
 u32 WidgetContPakDataSave::ShowSaveFiles(){
-  WidgetChild6 *pWVar3;
+  WidgetBlankFile *pWVar3;
   ulong uVar4;
   u16 uStack136 [4];
   Color32 aCStack_48 [18];
@@ -782,10 +782,10 @@ u32 WidgetContPakDataSave::ShowSaveFiles(){
   aCStack_48[0].G = 0x46;
   aCStack_48[0].B = 0x3c;
   aCStack_48[0].A = 0xff;
-  pWVar3 = new WidgetChild6("Create New Save",&uStack136,aCStack_48,0,0x1c);
+  pWVar3 = new WidgetBlankFile("Create New Save",&uStack136,aCStack_48,0,0x1c);
   pWVar3->varU8 = 2;
   pWVar3->AButtonFunc = FUN_80086144;
-  this->unk27c->AddChild10(pWVar3);
+  this->unk27c->AddFileWidget(pWVar3);
   Utilities::SetAlpha(this,this->col.A);
   this->unk27c->m80032f0c();
   return this->vmF0();
@@ -920,7 +920,7 @@ u32 WidgetContPakDataLoad::ShowSaveFiles(){
     uStack_48[1] = this->unk294;
     uStack_48[2] = uStack_48[0] + 200;
     uStack_48[3] = uStack_48[1] + 0x78;
-    this->unk27c->AddChild10(new WidgetChild6("There are currently no games saved on this Controller Pak.",(u16 (*) [4])&uStack_48,
+    this->unk27c->AddFileWidget(new WidgetBlankFile("There are currently no games saved on this Controller Pak.",(u16 (*) [4])&uStack_48,
                         &this->col0,0,0x1c));
     Utilities::SetAlpha(this,this->col.A);
     this->unk27c->m80032f0c();

@@ -31,9 +31,7 @@ void set_refObj_flag(voxelObject *param_1){
 }
 
 
-void VoxelObjects_Activate(Borg9Data *dat,byte arg2)
-
-{
+void VoxelObjects_Activate(Borg9Data *dat,u8 index){
   bool visBool;
   u16 expFlag;
   voxelObject *a;
@@ -64,7 +62,7 @@ void VoxelObjects_Activate(Borg9Data *dat,byte arg2)
         if (expFlag) visBool = false;
         if (((a->header).type == VOXEL_Scene) &&
            (some_ref_obj_lookup_func(i,gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
-                                gGlobals.gameVars.mapShort2,arg2,0))) {
+                                gGlobals.gameVars.mapShort2,index,0))) {
           visBool = false;
         }
         set_voxel_visibility(a,visBool);

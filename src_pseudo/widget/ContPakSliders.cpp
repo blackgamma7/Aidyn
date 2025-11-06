@@ -2,7 +2,7 @@
 #include "globals.h"
 #define FILENAME "./src/controllerpaksliders.cpp"
 
-ControllerPakSliders::ControllerPakSliders(SaveDatPointers *dat,s16 *bounds,Color32 *color):WidgetChild10(){
+ControllerPakSliders::ControllerPakSliders(SaveDatPointers *dat,s16 *bounds,Color32 *color):WidgetSaveFile(){
 
   this->saveDat = dat;
   this->screenshotWidget = NULL;
@@ -51,13 +51,13 @@ void ControllerPakSliders::unk(){
   u32 BVar1;
   
   SetEntry();
-  if (this->unk80 == 0) {
-    if (this->unk7c != 0) {
+  if (this->next == 0) {
+    if (this->prev != 0) {
       SetArrow(0x3755,116,77);
     }
   }
   else {
-    if (this->unk7c == 0) BVar1 = 0x3757;
+    if (this->prev == 0) BVar1 = 0x3757;
     else BVar1 = 0x3756;
     SetArrow(BVar1,116,77);
   }
@@ -188,96 +188,96 @@ void ControllerPakSliders::SetArrow(u32 index,s16 x,s16 y){
   }
 }
 
-WidgetChild6::WidgetChild6(char *txt,u16 (*param_3) [4],Color32 *param_4,u16 param_5,u16 param_6):WidgetChild10(){
+WidgetBlankFile::WidgetBlankFile(char *txt,u16 (*param_3) [4],Color32 *param_4,u16 param_5,u16 param_6):WidgetSaveFile(){
 
-  this->unk84 = NULL;
+  this->clipTxt = NULL;
   this->str = txt;
-  this->newx = (*param_3)[0];
-  this->newy = (*param_3)[1];
-  this->field7_0x90 = (*param_3)[2];
-  this->field8_0x92 = (*param_3)[3];
+  this->newBoundX0 = (*param_3)[0];
+  this->newBoundY0 = (*param_3)[1];
+  this->newBoundX1 = (*param_3)[2];
+  this->newBoundY1 = (*param_3)[3];
   (this->col94).R = param_4->R;
   (this->col94).G = param_4->G;
   (this->col94).B = param_4->B;
   (this->col94).A = param_4->A;
   this->field10_0x98 = param_5;
   this->field11_0x9a = param_6;
-  this->field12_0x9c = 0;
-  SetWidgetBounds(this,this->newx,this->newy,this->field7_0x90,this->field8_0x92);
-  this->SetCoords(this->newx,this->newy);
+  this->arrows = 0;
+  SetWidgetBounds(this,this->newBoundX0,this->newBoundY0,this->newBoundX1,this->newBoundY1);
+  this->SetCoords(this->newBoundX0,this->newBoundY0);
 }
 
 
-WidgetChild6::~WidgetChild6(){
+WidgetBlankFile::~WidgetBlankFile(){
   Free();
   WidgetMenu::~WidgetMenu();
 }
 
-void WidgetChild6::unk(){
+void WidgetBlankFile::unk(){
   SetEntry();
-  if (this->unk80 == NULL) {
-    if (this->unk7c != NULL) SetArrow(0x3755);
+  if (this->next == NULL) {
+    if (this->prev != NULL) SetArrow(0x3755);
   }
-  else if (this->unk7c == NULL)
+  else if (this->prev == NULL)
     SetArrow(0x3757);
   else SetArrow(0x3756);
 }
 
-void WidgetChild6::unk2(){
-  if (this->unk80 == NULL) {
-    if (this->unk7c != NULL) SetArrow(0x3755);
+void WidgetBlankFile::unk2(){
+  if (this->next == NULL) {
+    if (this->prev != NULL) SetArrow(0x3755);
   }
-  else if (this->unk7c == NULL)
+  else if (this->prev == NULL)
     SetArrow(0x3757);
   else SetArrow(0x3756);
 }
 
-void WidgetChild6::SetEntry(){
-  if ((this->unk84 == NULL) && (this->str)) {
-    this->unk84 = Utilities::AddClipTextWidget(this,this->str,0,0,150,1000,strlen(this->str) + 1);;
-    this->unk84->SetColor(this->col94.R,this->col94.G,this->col94.B,this->col94.A);
-    this->unk84->Tick();
-    s16 uVar9 = this->unk84->GetHeight();
-    s16 uVar10 = this->unk84->GetWidth();
+void WidgetBlankFile::SetEntry(){
+  if ((this->clipTxt == NULL) && (this->str)) {
+    this->clipTxt = Utilities::AddClipTextWidget(this,this->str,0,0,150,1000,strlen(this->str) + 1);;
+    this->clipTxt->SetColor(this->col94.R,this->col94.G,this->col94.B,this->col94.A);
+    this->clipTxt->Tick();
+    s16 uVar9 = this->clipTxt->GetHeight();
+    s16 uVar10 = this->clipTxt->GetWidth();
     s16 sVar12 = this->boundY0;
     s16 sVar11 = (short)(((int)this->boundX1 - (int)this->boundX0) + 1 >> 1) -
              (short)((int)(uVar10 + 1) >> 1);
-    this->unk84->posX = this->field10_0x98 + this->boundX0 + sVar11;
-    this->unk84->boundX0 = this->unk84->posX;
+    this->clipTxt->posX = this->field10_0x98 + this->boundX0 + sVar11;
+    this->clipTxt->boundX0 = this->clipTxt->posX;
     sVar12 = this->field11_0x9a +
              this->boundY0 +
              ((short)(((int)this->boundY1 - (int)this->boundY0) + 1 >> 1) - (short)((int)(uVar9 + 1) >> 1));
-    this->unk84->posY = sVar12;
-    this->unk84->boundY0 = this->unk84->posY;
-    this->unk84->boundX1 -= sVar11;
-    Utilities::SetTextWidgetBoundsX(this->unk84,this->unk84->posX,this->unk84->boundX1);
+    this->clipTxt->posY = sVar12;
+    this->clipTxt->boundY0 = this->clipTxt->posY;
+    this->clipTxt->boundX1 -= sVar11;
+    Utilities::SetTextWidgetBoundsX(this->clipTxt,this->clipTxt->posX,this->clipTxt->boundX1);
   }
 
 }
 
-void WidgetChild6::Free(){
-  if (this->unk84){
-    this->Unlink(this->unk84);
-    if (this->unk84) this->unk84->~BaseWidget();
-    this->unk84 = NULL;
+void WidgetBlankFile::Free(){
+  if (this->clipTxt){
+    this->Unlink(this->clipTxt);
+    if (this->clipTxt) this->clipTxt->~BaseWidget();
+    this->clipTxt = NULL;
   }
-  if (this->field12_0x9c) {
-    this->Unlink(this->field12_0x9c);
-    free_borg8_widget(this->field12_0x9c);
-    if (this->field12_0x9c) this->field12_0x9c->~WidgetBorg8();
-    this->field12_0x9c = NULL;
+  if (this->arrows) {
+    this->Unlink(this->arrows);
+    free_borg8_widget(this->arrows);
+    if (this->arrows) this->arrows->~WidgetBorg8();
+    this->arrows = NULL;
   }
 }
 
-void WidgetChild6::SetArrow(u32 param_2){
-  if (this->field12_0x9c == NULL) {
-    this->field12_0x9c = Utilities::AddBorg8Widget(this,loadBorg8(param_2),0,0);
-    this->field12_0x9c->SetColor(this->col94.R,this->col94.G,this->col94.B,this->col94.A);
-    this->field12_0x9c->SetCoords(
-               (this->unk84->posX + (this->unk84->GetWidth() >> 1)) - (this->field12_0x9c->GetWidth() >> 1),
-               (this->unk84->posY - this->field12_0x9c->GetHeight()) + -2);
-    SetWidgetBounds(this->field12_0x9c,this->field12_0x9c->posX,this->field12_0x9c->posY,
-        this->field12_0x9c->posX + (short)this->field12_0x9c->GetWidth(),
-        this->field12_0x9c->posY + (short)this->field12_0x9c->GetHeight());
+void WidgetBlankFile::SetArrow(u32 param_2){
+  if (this->arrows == NULL) {
+    this->arrows = Utilities::AddBorg8Widget(this,loadBorg8(param_2),0,0);
+    this->arrows->SetColor(this->col94.R,this->col94.G,this->col94.B,this->col94.A);
+    this->arrows->SetCoords(
+               (this->clipTxt->posX + (this->clipTxt->GetWidth() >> 1)) - (this->arrows->GetWidth() >> 1),
+               (this->clipTxt->posY - this->arrows->GetHeight()) + -2);
+    SetWidgetBounds(this->arrows,this->arrows->posX,this->arrows->posY,
+        this->arrows->posX + (short)this->arrows->GetWidth(),
+        this->arrows->posY + (short)this->arrows->GetHeight());
   }
 }

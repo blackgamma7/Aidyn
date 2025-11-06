@@ -714,7 +714,7 @@ struct struct_45 {
 };
 
 struct astruct_3{
-    u16 unk0[2];
+    u16 flags[2];
     vec4f unk4;
 };
 

@@ -150,13 +150,13 @@ void Scene::MatrixBCopyTo(SceneData *param_1,MtxF *param_2){
 }
 
 //unused, redundant
-void Scene::SetFlag40_800a7af8(SceneData *param_1){param_1->flags|= 0x40;}
+void Scene::SetFlag40_800a7af8(SceneData *param_1){param_1->flags|= SCENE_0040;}
 //unused, redundant
-void Scene::UnsetFlag40_800a7b08(SceneData *param_1){param_1->flags&= ~0x40;}
+void Scene::UnsetFlag40_800a7b08(SceneData *param_1){param_1->flags&= ~SCENE_0040;}
 
-void Scene::SetFlag80(SceneData *param_1){param_1->flags|= 0x80;}
+void Scene::SetFlag80(SceneData *param_1){param_1->flags|= SCENE_0080;}
 
-void Scene::UnsetFlag80_800a7b2c(SceneData *param_1){param_1->flags&= ~0x80;}
+void Scene::UnsetFlag80_800a7b2c(SceneData *param_1){param_1->flags&= ~SCENE_0080;}
 
 borg5substruct * Ofunc_800a7b40(SceneData *param_1){
   if ((param_1->scene[0].borg5->dat).borg3P) 
@@ -288,33 +288,33 @@ void Ofunc_800a7f48(SceneData *param_1,float param_2){
     if (pBVar1) pBVar1->dat.unk10 = param_2;
 }
   
-void Scene::SetFlag4(SceneData *param_1){param_1->flags|=4;}
+void Scene::SetFlag4(SceneData *param_1){param_1->flags|=SCENE_0004;}
 
-void Scene::UnsetFlag4(SceneData *param_1){param_1->flags&=~4;}
+void Scene::UnsetFlag4(SceneData *param_1){param_1->flags&=~SCENE_0004;}
 
-void Scene::SetFlag8(SceneData *param_1){param_1->flags|=8;}
+void Scene::SetFlag8(SceneData *param_1){param_1->flags|=SCENE_0008;}
 
-void Scene::UnsetFlag8(SceneData *param_1){param_1->flags&=~8;}
+void Scene::UnsetFlag8(SceneData *param_1){param_1->flags&=~SCENE_0008;}
 
-void Scene::SetFlag10(SceneData *param_1){param_1->flags|=0x10;}
+void Scene::SetFlag10(SceneData *param_1){param_1->flags|=SCENE_0010;}
 
-void Scene::UnsetFlag10(SceneData *param_1){param_1->flags&=~0x10;}
+void Scene::UnsetFlag10(SceneData *param_1){param_1->flags&=~SCENE_0010;}
 
-void Scene::SetFlag20(SceneData *param_1){param_1->flags|=0x20;}
+void Scene::SetFlag20(SceneData *param_1){param_1->flags|=SCENE_0020;}
 
-void Scene::UnsetFlag20(SceneData *param_1){param_1->flags&=~0x20;}
+void Scene::UnsetFlag20(SceneData *param_1){param_1->flags&=~SCENE_0020;}
 
-void Scene::SetFlag40(SceneData *param_1){param_1->flags|=0x40;}
+void Scene::SetFlag40(SceneData *param_1){param_1->flags|=SCENE_0040;}
 
-void Scene::UnsetFlag40(SceneData *param_1){param_1->flags&=~0x40;}
+void Scene::UnsetFlag40(SceneData *param_1){param_1->flags&=~SCENE_0040;}
 
-void Scene::SetFlag80(SceneData *param_1){param_1->flags|=0x80;}
+void Scene::SetFlag80(SceneData *param_1){param_1->flags|=SCENE_0080;}
 
-void Scene::UnsetFlag80(SceneData *param_1){param_1->flags&=~0x80;}
+void Scene::UnsetFlag80(SceneData *param_1){param_1->flags&=~SCENE_0080;}
 
-void Scene::SetFlag200(SceneData *param_1){param_1->flags|=0x200;}
+void Scene::SetFlag200(SceneData *param_1){param_1->flags|=SCENE_0200;}
 
-void Scene::UnsetFlag200(SceneData *param_1){param_1->flags&=~0x200;}
+void Scene::UnsetFlag200(SceneData *param_1){param_1->flags&=~SCENE_0200;}
 
 void Ofunc_800a8060(SceneData *param_1,u8 b){param_1->perspNormIndex=b&1;}
 
@@ -350,9 +350,9 @@ void Ofunc_800a8104(SceneData *param_1,int param_2,float param_3){
   }
 }
 
-void Scene::SetFogFlag(SceneData *param_1){param_1->flags|= 0x100;}
+void Scene::SetFogFlag(SceneData *param_1){param_1->flags|= SCENE_0100;}
 
-void Scene::UnsetFogFlag(SceneData *param_1){param_1->flags&=~0x100;}
+void Scene::UnsetFogFlag(SceneData *param_1){param_1->flags&=~SCENE_0100;}
 
 void Scene::SetFogColor(SceneData *param_1,s32 R,s32 G,s32 B,s32 A){
   CLAMP(R,0,255);
@@ -391,9 +391,9 @@ void Ofunc_800a821c(SceneData *param_1,int param_2,int param_3,vec4f *param_4){
   else paVar1[param_3].unk4.w = 1.0;
 }
 
-void Scene::SetFlag4000(SceneData *param_1){param_1->flags|=0x4000;}
+void Scene::SetFlag4000(SceneData *param_1){param_1->flags|=SCENE_4000;}
 
-void Scene::UnsetFlag4000(SceneData *param_1){param_1->flags&=~0x4000;}
+void Scene::UnsetFlag4000(SceneData *param_1){param_1->flags&=~SCENE_4000;}
 
 void Scene::SetModelTint(SceneData *scene,u8 r,u8 g,u8 b,u8 a){
   (scene->colorFloats).r = (float)r / 255.0f;
@@ -417,7 +417,7 @@ void Scene::SetLightData(SceneData *param_1){
   (param_1->envLight.l).dir[1] = 0;
   (param_1->envLight.l).dir[2] = 0;
   (param_1->envLight.l).pad3 = 0;
-  param_1->flags = param_1->flags & ~0x80 | 0x8000;
+  param_1->flags = param_1->flags & ~SCENE_0080 | SCENE_8000;
 }
 
 void Scene::SceneSetMaxDynamicDirLights(SceneData *param_1,byte max){
@@ -656,9 +656,9 @@ void Scene::CopyMatrixA(SceneData *param_1,MtxF* param_2){COPY(param_1->matrixA,
 
 void Scene::SetParticleHead(SceneData *param_1,ParticleHeadStruct *param_2){param_1->particleHead = param_2;}
 
-void Ofunc_800a8e80(SceneData *param_1,SceneData *param_2){param_1->link2a4 = param_2;}
+void Ofunc_800a8e80(SceneData *param_1,SceneData *param_2){param_1->locatorScene1 = param_2;}
 
-void Ofunc_800a8e88(SceneData *param_1,SceneData *param_2){param_1->link2a8 = param_2;}
+void Ofunc_800a8e88(SceneData *param_1,SceneData *param_2){param_1->locatorScene2 = param_2;}
 
 bool Scene::Rotate(SceneData *param_1,vec3f *posOut,vec3f *aimOut,vec3f *param_4)
 

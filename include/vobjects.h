@@ -7,6 +7,7 @@
 void set_ranger_float(void);
 u8 FUN_8001b9bc(voxelObject *param_1,Borg9Data*map);
 void set_refObj_flag(voxelObject *param_1);
+void VoxelObjects_Activate(Borg9Data *dat,u8 index);
 void set_voxel_visibility(voxelObject *a,u8 b);
 
 //objectJumpTables.cpp

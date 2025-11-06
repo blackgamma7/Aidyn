@@ -420,8 +420,8 @@ void FUN_800952c8(short param_1,short param_2,short param_3){
       if (pBVar2 != NULL) pAVar3 = pBVar2->sceneDat;
     }
     pAVar1->particleHead = &gGlobals.gameVars.particleEmmiter;
-    pAVar1->link2a4 = pAVar4;
-    pAVar1->link2a8 = pAVar3;
+    pAVar1->locatorScene1 = pAVar4;
+    pAVar1->locatorScene2 = pAVar3;
   }
 }
 

@@ -421,7 +421,7 @@ Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3){
   uint lrt;
   
   if (!param_3) uVar14 = 0;
-  else uVar14 = param_3->unk0[1];
+  else uVar14 = param_3->flags[1];
   gDPPipeSync(gfx++);
   gDPTileSync(gfx++);
   u16 b1Flag = param_2->dat->flag;
@@ -861,15 +861,15 @@ void FUN_8009ee98(borg5substruct *param_1,MtxF *param_2){
 }
 
 void FUN_8009ef34(SceneData *param_1){
-  if ((param_1->flags & 4) == 0) {guMtxIdentF(&some_mtx);}
+  if (!(param_1->flags & SCENE_0004)) {guMtxIdentF(&some_mtx);}
   else {some_mtx=param_1->matrixA;}
   FUN_8009f060(param_1,&some_mtx);
-  param_1->unk2ac = 1;
+  param_1->sceneTicked = true;
 }
 
 
 void Ofunc_8009efd0(SceneData *param_1,MtxF *param_2){
-  if ((param_1->flags & 4) == 0) {unused_matrix=*param_2;}
+  if (!(param_1->flags & SCENE_0004)) {unused_matrix=*param_2;}
   else ofunc_sub_800abd94(&unused_matrix,param_2,&param_1->matrixA);
   FUN_8009f060(param_1,&unused_matrix);
 }
@@ -918,9 +918,9 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
   pbVar12 = pBStack_40->someSubstruct;
   iVar11 = pBStack_40->substructCount;
   if (pBStack_40->borg3P) {
-    if ((param_1->flags & 0x40) == 0) {
-      if ((param_1->flags & 8) == 0) {
-        if ((param_1->flags & 0x10) == 0) {
+    if ((param_1->flags & SCENE_0040) == 0) {
+      if ((param_1->flags & SCENE_0008) == 0) {
+        if ((param_1->flags & SCENE_0010) == 0) {
           Borg5Sub_ops(pbVar12,&mf2);
           some_matrix_func_1(&mf5,&mf0,&mf2);
         }
@@ -929,7 +929,7 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
           FUN_8009ee48(&param_1->matrixB,&mf5);
         }
       }
-      else if ((param_1->flags & 0x10) == 0) {
+      else if ((param_1->flags & SCENE_0010) == 0) {
         Borg5Sub_ops(pbVar12,&mf2);
         FUN_8009ee48(&param_1->matrixB,&mf1);
         some_matrix_func_1(&mf5,&mf2,&mf1);
@@ -993,7 +993,7 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
         pafVar5 = pafVar5 + 1;
       } while (pafVar7 != pafStack_3c);
       some_other_matrix_math(&mf3,&mf6,&param_1->matrixD);
-      if ((param_1->flags & 0x4000) == 0) guMtxF2L(&mf3,(pBVar4->dat).mtx_[param_1->perspNormIndex]);
+      if ((param_1->flags & SCENE_4000) == 0) guMtxF2L(&mf3,(pBVar4->dat).mtx_[param_1->perspNormIndex]);
       else guMtxF2L(&mf6,&(pBVar4->dat).mtx_[param_1->perspNormIndex]);
     }
     pbVar12++;
@@ -1003,7 +1003,7 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
   if ((pBStack_40->borg4Count != 0) && (iVar10 != 0)) {
     pbVar13 = pbVar12;
     do {
-      if ((param_1->flags & 0x20) == 0) {
+      if ((param_1->flags & SCENE_0020) == 0) {
         Borg5Sub_ops(pbVar13,&mf2);
         some_matrix_func_1(&mf3,&mf0,&mf2);
       }
@@ -1267,8 +1267,8 @@ SceneData * BorgAnimLoadScene(uint borg_5){
   
   ALLOC(ret,2759);
   CLEAR(ret);
-  ret->link2a4 = NULL;
-  ret->link2a8 = NULL;
+  ret->locatorScene1 = NULL;
+  ret->locatorScene2 = NULL;
   setBorgFlag();
   b5 = (Borg5Header *)getBorgItem(borg_5);
   ret->scene[0].borg5 = b5;
@@ -1276,7 +1276,7 @@ SceneData * BorgAnimLoadScene(uint borg_5){
     HFREE(ret,2779);
     CRASH("BorgAnimLoadScene","GetBorgItem failed");
   }
-  ret->unk2ac = 0;
+  ret->sceneTicked = false;
   ret->flags = 0;
   ret->perspNormIndex = 0;
   ret->aniTime = 1;
@@ -1674,7 +1674,7 @@ Gfx * BorgAnimDrawSceneLinked(Gfx *g,Borg7Header *param_2){
     FUN_800a80ac(param_2->sceneDat,&avStack_50,(param_2->dat).unk0);
     FUN_800a80d8(param_2->sceneDat,&vec3f_800f5580,(param_2->dat).unk0);
     FUN_8009ef34(param_2->sceneDat);
-    if (((param_2->sceneDat->flags & 0x40) == 0) && (((param_2->sceneDat->scene[0].borg5)->dat).borg3P)) {
+    if (((param_2->sceneDat->flags & SCENE_0040) == 0) && (((param_2->sceneDat->scene[0].borg5)->dat).borg3P)) {
       g = gsAnimationDataMtx(g,param_2->sceneDat);
     }
     g = BorgAnimDrawSceneRaw(g,param_2->sceneDat);
@@ -2020,7 +2020,7 @@ void Ofunc_800a0d30(Borg6Header *param_1,int param_2){
 }
 
 Gfx * BorgAnimDrawScene(Gfx *param_1,SceneData *param_2){
-  if (param_2->unk2ac == 0) {
+  if (!param_2->sceneTicked) {
     Scene::Tick(param_2);
     FUN_8009ef34(param_2);
   }
@@ -2028,7 +2028,7 @@ Gfx * BorgAnimDrawScene(Gfx *param_1,SceneData *param_2){
 }
 
 void FUN_800a0df4(SceneData *param_1){
-  if (param_1->unk2ac == 0) {
+  if (!param_1->sceneTicked) {
     Scene::Tick(param_1);
     FUN_8009ef34(param_1);
   }
@@ -2081,7 +2081,7 @@ Gfx * setStaticMode(Gfx *g){
   uint uVar6;
   if (!g) {CRASH("./src/borganim.cpp","SetStaticMode() !g");}
   u32 geoMode = G_SHADE;
-  u32 flag = *(u32 *)(unkAnimStructB.unk14)->unk0;
+  u32 flag = *(u32 *)(unkAnimStructB.unk14)->flags;
   if (!(flag & 0x200)) geoMode = G_SHADE|G_ZBUFFER;
   if ((flag & 0x10))geoMode |= G_SHADING_SMOOTH;
   if ((flag & 4)) geoMode |= G_CULL_BACK;
@@ -2154,7 +2154,7 @@ Gfx * FUN_800a1184(Gfx *gfx){
   }
   c1 = 0x1049d8;
 LAB_800a1428:
-  if (((unkAnimStructB.scene)->flags & 0x100)) {
+  if (((unkAnimStructB.scene)->flags & SCENE_0100)) {
     gSPSetGeometryMode(gfx++,G_FOG);
     gDPSetFogColor(gfx++,unkAnimStructB.scene->fogColor.R,unkAnimStructB.scene->fogColor.G,
       unkAnimStructB.scene->fogColor.B,unkAnimStructB.scene->fogColor.A);
@@ -2246,9 +2246,9 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   if ((pBVar1->dat).borg3P) pbVar23++;
   iVar22 = 0;
   unkAnimStructB.scene = param_2;
-  if ((param_2->flags & 0x8000) == 0) {
+  if ((param_2->flags & SCENE_8000) == 0) {
     i = (pBVar1->dat).borg4Count;
-    if (((param_2->flags & 0x80) == 0) && (i != 0)) {
+    if (((param_2->flags & SCENE_0080) == 0) && (i != 0)) {
       ppBVar19 = unkAnimStructB.unk1c;
       ppBVar15 = (pBVar1->dat).borg4p;
       iVar20 = uVar17 * 0x10;
@@ -2410,7 +2410,7 @@ switchD_800a1cc4_caseD_8:
   fVar30 = 1.0f;
   do {
     if (iVar22 == 0) {
-      param_2->unk2ac = 0;
+      param_2->sceneTicked = false;
       param_2->perspNormIndex^= 1;
       unkAnimStructB.b5 = NULL;
       return pGVar10;
@@ -2503,7 +2503,7 @@ switchD_800a1cc4_caseD_8:
         gSPDisplayList(pGVar10++,osVirtualToPhysical((unkAnimStructB.b2)->dlist[uVar18]));
         pGVar12 = FUN_800a1184(pGVar10);
         pGVar10 = pGVar12;
-        if ((*(uint *)(unkAnimStructB.unk14)->unk0 & 1) != 0) {
+        if ((*(uint *)(unkAnimStructB.unk14)->flags & 1) != 0) {
           guLookAtReflect(&auStack128,(unkAnimStructB.b2)->lookat[0] + uVar17,
                               param_2->matrixB[3][0],param_2->matrixB[3][1],param_2->matrixB[3][2],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][0],
