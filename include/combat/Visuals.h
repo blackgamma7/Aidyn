@@ -123,7 +123,7 @@ struct CombatTargetVisualsHandler {
 };
 
 namespace CombatTargetVisuals{
-    CombatTargetVisual *Init();
+    void Init();
     void Render(bool param_1,short param_2);
     void Free();
 }

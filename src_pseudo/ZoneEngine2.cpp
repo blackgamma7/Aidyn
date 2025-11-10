@@ -23,7 +23,7 @@ u8 FUN_8000c9e0(){
   if (DAT_800e8dbe) DAT_800e8dbe--;  
   ret = false;
   if ((!gExpPakFlag) && (!DAT_800e8dbe)) {
-    if (uVar3 < 0x29) return false;
+    if (uVar3 <= 40) return false;
     else if ((float)(40*0x1000) < dVar4) {
       if (dVar5 < (float)(24*0x1000)) {
         DAT_800e8dbe = 108;
@@ -1719,7 +1719,7 @@ void InitZoneEngine(u16 param_1,short param_2){
     gGlobals.gameVars.playerPos2d.y = (pmVar8->playerVec3).z;
   }
   InitPlayerHandler(&gCamera,sVar9,3);
-  InitParticleHead(&gGlobals.gameVars.particleEmmiter,gGlobals.gameVars.borg9DatPointer,partCount,0x11,
+  Particle::InitParticleHead(&gGlobals.gameVars.particleEmmiter,gGlobals.gameVars.borg9DatPointer,partCount,0x11,
                    aiStack_e8);
   FUN_8000d744();
   no_TP_vec3 = 1;

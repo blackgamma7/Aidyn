@@ -176,7 +176,7 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
   u8 uVar4;
   byte *pbVar5;
   float *pfVar6;
-  u8 uVar7;
+  u8 i;
   u8 uVar8;
   float fVar9;
   float fVar10;
@@ -226,7 +226,7 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
       uVar4 = 0;
       if (abStack_b0[uVar8] != 0) {
         do {
-          uVar7 = uVar4 + 1;
+          i = uVar4 + 1;
           if (uVar4 < abStack_b0[uVar8]) {
             pfVar6 = afStack_1b0[uVar8] + uVar4;
             pbVar5 = abStack_70[uVar8] + uVar4;
@@ -243,7 +243,7 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
               uVar4++;
             } while (uVar4 < abStack_b0[uVar8]);
           }
-          uVar4 = uVar7 & 0xff;
+          uVar4 = i & 0xff;
         } while (uVar4 < abStack_b0[uVar8]);
       }
       uVar8++;
@@ -253,7 +253,7 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
       if (abStack_b0[uVar8] != 0) {
         bVar1 = abStack_b0[uVar8];
         while( true ) {
-          uVar7 = uVar4 + 1;
+          i = uVar4 + 1;
           if (uVar4 < bVar1) {
             pfVar6 = afStack_1b0[uVar8] + uVar4;
             pbVar5 = abStack_70[uVar8] + uVar4;
@@ -271,42 +271,42 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
             } while (uVar4 < abStack_b0[uVar8]);
           }
           pbVar5 = abStack_b0 + uVar8;
-          uVar4 = uVar7 & 0xff;
+          uVar4 = i & 0xff;
           if (*pbVar5 <= uVar4) break;
           bVar1 = *pbVar5;
         }
       }
     }
     uVar4 = 0;
-    uVar7 = 0;
+    i = 0;
     uVar8 = uVar4;
     if (abStack_b0[0] != 0) {
       do {
         uVar4 = uVar8 + 1 & 0xff;
-        pbVar5 = abStack_70[0] + uVar7++;
+        pbVar5 = abStack_70[0] + i++;
         param_1->arrayC[uVar8] = *pbVar5;
         uVar8 = uVar4;
-      } while (uVar7 < abStack_b0[0]);
+      } while (i < abStack_b0[0]);
     }
-    uVar7 = 0;
+    i = 0;
     uVar8 = uVar4;
     if (abStack_b0[2] != 0) {
       do {
         uVar4 = uVar8 + 1 & 0xff;
-        pbVar5 = abStack_70[2] + uVar7++;
+        pbVar5 = abStack_70[2] + i++;
         param_1->arrayC[uVar8] = *pbVar5;
         uVar8 = uVar4;
-      } while (uVar7 < abStack_b0[2]);
+      } while (i < abStack_b0[2]);
     }
-    uVar7 = 0;
+    i = 0;
     uVar8 = uVar4;
     if (abStack_b0[3] != 0) {
       do {
         uVar4 = uVar8 + 1 & 0xff;
-        pbVar5 = abStack_70[3] + uVar7++;
+        pbVar5 = abStack_70[3] + i++;
         param_1->arrayC[uVar8] = *pbVar5;
         uVar8 = uVar4;
-      } while (uVar7 < abStack_b0[3]);
+      } while (i < abStack_b0[3]);
     }
     uVar8 = 0;
     if (abStack_b0[1] != 0) {
@@ -365,7 +365,7 @@ void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2)
   int iVar4;
   byte *pbVar5;
   u8 uVar6;
-  u8 uVar7;
+  u8 i;
   u8 uVar8;
   float fVar9;
   float fVar10;
@@ -378,51 +378,51 @@ void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2)
   if (ppVar2) {
     Vec2Set(avStack_128,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
     uVar8 = 0;
-    uVar7 = 0;
+    i = 0;
     if (gCombatP->EntCount != 0) {
       iVar4 = 0;
-      for(uVar7=0;uVar7 < gCombatP->EntCount;uVar7++) {
-        if (param_1->arrayA[uVar7]){
-          playerData* p= gGlobals.playerDataArray[uVar7];
+      for(i=0;i < gCombatP->EntCount;i++) {
+        if (param_1->arrayA[i]){
+          playerData* p= gGlobals.playerDataArray[i];
           if(p){
           Vec2Set(avStack_68,p->collision.pos.x,p->collision.pos.z);
           afStack_a8[uVar8] = Vec2Dist(avStack_68,avStack_128);
-          abStack_e8[uVar8++] = uVar7;
+          abStack_e8[uVar8++] = i;
         }
         }
       }
     }
-    uVar7 = 0;
+    i = 0;
     if (uVar8 != 0) {
       uVar3 = 1;
       do {
         uVar6 = uVar3 & 0xff;
          for(uVar6 = uVar3;uVar6 < uVar8;uVar6++) {
             fVar10 = afStack_a8[uVar6];
-            fVar9 = afStack_a8[uVar7];
+            fVar9 = afStack_a8[i];
             if (fVar10 <= fVar9) {
               bVar1 = abStack_e8[uVar6];
               afStack_a8[uVar6] = fVar9;
-              abStack_e8[uVar6] = abStack_e8[uVar7];
-              afStack_a8[uVar7] = fVar10;
-              abStack_e8[uVar7] = bVar1;
+              abStack_e8[uVar6] = abStack_e8[i];
+              afStack_a8[i] = fVar10;
+              abStack_e8[i] = bVar1;
             }
         }
-        uVar7 = uVar3 & 0xff;
-        uVar3 = uVar7 + 1;
-      } while (uVar7 < uVar8);
+        i = uVar3 & 0xff;
+        uVar3 = i + 1;
+      } while (i < uVar8);
     }
-    uVar7 = 0;
+    i = 0;
     if ((param_1->field6_0xa5 != 0) && (uVar8 != 0)) {
       pbVar5 = abStack_e8;
       do {
         bVar1 = *pbVar5;
-        param_1->arrayBCount = param_1->arrayBCount + 1;
-        param_1->arrayB[bVar1] = 1;
-        uVar7++;
-        if (param_1->field6_0xa5 <= uVar7) return;
-        pbVar5 = abStack_e8 + uVar7;
-      } while (uVar7 < uVar8);
+        param_1->arrayBCount++;
+        param_1->arrayB[bVar1] = true;
+        i++;
+        if (param_1->field6_0xa5 <= i) return;
+        pbVar5 = abStack_e8 + i;
+      } while (i < uVar8);
     }
   }
 }

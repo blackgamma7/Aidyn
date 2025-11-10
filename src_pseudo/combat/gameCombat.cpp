@@ -1,4 +1,5 @@
 #include "globals.h"
+#include "skyObjects.h"
 #include "combat/CombatStruct.h"
 #include "combat/CombatStat.h"
 #include "combat/SpellMarker.h"
@@ -368,10 +369,10 @@ u8 FUN_80028940(Gfx **GG,u16 delta){
         if (gGlobals.combatBytes[1] == 8) {
           FUN_800645b4(user->aiP);
         }
-        else if (gCombatP->substruct2[0].arrayB[uVar1] == 0) {
+        else if (!gCombatP->substruct2[0].arrayB[uVar1]) {
           if (user->charSheetP->spellVal < 0) {
             if ((user->aiP == NULL) ||
-               (gCombatP->substruct2[1].arrayB[uVar1] == 0)) {
+               (!gCombatP->substruct2[1].arrayB[uVar1])) {
               user->EndTurn();
             }
             else user->CalculateAttack(target,false);

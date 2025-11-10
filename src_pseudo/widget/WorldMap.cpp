@@ -133,4 +133,4 @@ WidgetMenuWorldMap::~WidgetMenuWorldMap(){
     WidgetMenu::~WidgetMenu();
 }
 
-u32 WidgetMenuWorldMap::GetNumber{return WidgetN_Other;}
+u32 WidgetMenuWorldMap::GetNumber(){return WidgetN_Other;}
