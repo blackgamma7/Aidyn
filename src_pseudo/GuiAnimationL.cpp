@@ -17,10 +17,10 @@ GuiAnimatorL::~GuiAnimatorL(){
 }
 
 
-void GuiAnimatorL::m80046ac4(){
+void GuiAnimatorL::FreeLinked(){
   if (this->w){
-    BaseWidget *pBVar2 = this->w->parent;
-    if (pBVar2 != NULL) pBVar2->Unlink(this->w);
+    BaseWidget *w0 = this->w->parent;
+    if (w0 != NULL) w0->Unlink(this->w);
     FREEQW(this->w);
     this->w = NULL;
   }
@@ -34,7 +34,7 @@ void GuiAnimatorL::m80046ac4(){
 void GuiAnimatorL::vMethA(s32 x){
   if (this->link->unk0 < this->link->spd)
     this->link->vMethA(x);
-  else m80046ac4();
+  else FreeLinked();
 }
 
 GuiAnimatorF::~GuiAnimatorF(){delete this;}

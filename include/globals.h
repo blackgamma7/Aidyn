@@ -44,10 +44,10 @@ struct GlobalsSub { /* 0x800e6988 in Debug version*/
     Camera_struct camera;
     vec3f *camPtrArray[16];
     u16 camPtrArraySize;
-    u16 mapShort1;
-    u16 mapShort2;
-    u16 mapShort1Copy;
-    u16 mapShort2Copy;
+    s16 mapShort1;
+    s16 mapShort2;
+    s16 mapShort1Copy;
+    s16 mapShort2Copy;
     vec2f mapCellSize; //size of each map chunk.
     vec2f playerPos2d;
     u16 mapDatA;

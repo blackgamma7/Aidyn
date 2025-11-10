@@ -21,8 +21,8 @@ DiaMenuSub::DiaMenuSub(WidgetHandler *handle,u8 a2,u8 a3){
     Utilities::SetBorg8Dims(this->PortraitBorder,SuperMenuClasses::Add(BORG8_PortraitHighlight),false);
     Utilities::SetBorg8Dims(this->Background,SuperMenuClasses::Add(BORG8_Pixel),false);
     Utilities::SetBorg8Dims(this->Gradient,SuperMenuClasses::Add(BORG8_GradientC),false);
-    this->Background->SetColor(0,0,0,0xff);
-    this->Gradient->SetColor(0,0,0,0xff);
+    this->Background->SetColor(COLOR_BLACK);
+    this->Gradient->SetColor(COLOR_BLACK);
     this->Gradient->SetHeight(10);
     this->PortraitBorder->SetCoords(0x14,0xb4);
     this->Portrait->SetCoords(0x1a,0xba);
@@ -103,20 +103,20 @@ void DiaMenuSub::Init24(u8 param_2){
     this->shadText = new WidgetShadowText(" ",0x200);
     SetWidgetBounds(this->shadText,64,30,256,205);
     Utilities::SetTextWidgetBoundsX(this->shadText,this->shadText->boundX0,this->shadText->boundX1);
-    this->shadText->SetColor(0x67,0x46,0x3c,0xff);
+    this->shadText->SetColor(COLOR_BROWN1);
     this->shadText->SetCoords(64,30);
     this->shadText->boundX0 = 64;
   }
   else {
     this->text = new WidgetText(" ",0x200);
-    this->text->SetColor(0x67,0x46,0x3c,0xff);
+    this->text->SetColor(COLOR_BROWN1);
     SetWidgetBounds(this->text,0x40,0x1e,0x100,0xcd);
     this->text->SetCoords(0x40,0x1e);
     this->text->boundX0 = 0x40;
     if (param_2 == 4) this->text->boundX1-=16;
     this->shadText = NULL;
   }
-  this->scrollMenu = Utilities::AddScrollMenu(NULL,9,0x4b,0x37,0x4b,0x37,0x100,0xcd,0x67,0x46,0x3c,0xff,0);
+  this->scrollMenu = Utilities::AddScrollMenu(NULL,9,0x4b,0x37,0x4b,0x37,0x100,0xcd,COLOR_BROWN1,0);
   this->PortraitBorder = NULL;
   this->Portrait = NULL;
   this->Gradient = NULL;
@@ -406,8 +406,8 @@ void DialougeClass::BigBGDialoug(u8 BG){
     break;
   case 1:
     Utilities::SetBorg8Dims(pvVar1->Background,SuperMenuClasses::Add(BORG8_BGBookLeaf),false);
-    pvVar1->text->SetColor(0x36,0x40,0,0xff);
-    pvVar1->scrollMenu->SetColor(0x36,0x40,0,0xff);
+    pvVar1->text->SetColor(COLOR_GREENDARK);
+    pvVar1->scrollMenu->SetColor(COLOR_GREENDARK);
     g1 = 99;
     r1 = 0xbd;
     b1 = 0xcd;
@@ -431,8 +431,8 @@ void DialougeClass::BigBGDialoug(u8 BG){
     break;
   case 10:
     Utilities::SetBorg8Dims(pvVar1->Background,SuperMenuClasses::Add(0x3602),false);//spotlight
-    pvVar1->shadText->SetColor(0x1e,0x1a,0,0xff);
-    pvVar1->scrollMenu->SetColor(0x1e,0x1a,0,0xff);
+    pvVar1->shadText->SetColor(COLOR_BLACK2);
+    pvVar1->scrollMenu->SetColor(COLOR_BLACK2);
     pvVar4 = (WSTSub *)pvVar1->shadText->substruct;
     pvVar4->XOff = 1;
     pvVar4->YOff = -1;
@@ -445,8 +445,8 @@ void DialougeClass::BigBGDialoug(u8 BG){
     goto LAB_8004f784;
   case 0xb:
     Utilities::SetBorg8Dims(pvVar1->Background,SuperMenuClasses::Add(BORG8_BGBluPlaque),false);
-    pvVar1->shadText->SetColor(0,0,0,0xff);
-    pvVar1->scrollMenu->SetColor(0,0,0,0xff);
+    pvVar1->shadText->SetColor(COLOR_BLACK);
+    pvVar1->scrollMenu->SetColor(COLOR_BLACK);
     pvVar3 = (WSTSub *)pvVar1->shadText->substruct;
     pvVar3->XOff = 1;
     pvVar3->YOff = 1;

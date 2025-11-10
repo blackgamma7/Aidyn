@@ -100,7 +100,7 @@ WidgetInvShop::WidgetInvShop(IInventory*inv,DollEquipmentMenu*doll)
   this->inventory=inv;
   this->dollMenu=doll;
   this->partyPicker=gPartyPicker;
-  this->SetColor(0x82,0x50,0x50,0xff);
+  this->SetColor(COLOR_RED1);
   if(this->inventory!=gGlobals.shopInv){
     if((!this->dollMenu)&&(gGlobals.Shopkeep!=Item_NONE))
       this->TitleWidget=WidgetB8(0xeb);

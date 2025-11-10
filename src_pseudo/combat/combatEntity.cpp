@@ -176,7 +176,7 @@ u8 CombatEntity::UnusedMovement(){
 
 void CombatEntity::NOOP_80068350(){}
 
-u8 CombatEntity::m80068358(){
+u8 CombatEntity::NotNearEnemy(){
   if (gCombatP->EntCount) {
     for(u32 i=0;i<gCombatP->EntCount;i++) {
       CombatEntity *CEnt = (&gCombatP->combatEnts)[i];
@@ -216,7 +216,7 @@ void CombatEntity::SetMovementRange(){
     }
   }
   UnsetFlag(COMBATENT_FLAG7);
-  if (!m80068358()) {
+  if (!NotNearEnemy()) {
     SetFlag(COMBATENT_FLAG7);
     FLOOR(this->moveRange,1);
     TroubadourStop;
@@ -317,7 +317,7 @@ void CombatEntity::m80068924(){
   ppVar1 = gGlobals.playerDataArray[this->index];
   if (ppVar1) {
     Vec2Set(&fStack144,this->coord.x,this->coord.y);
-    m80070234();
+    UpdatePosition();
     gCombatP->SpellMarkerPos.x = this->coord.x;
     gCombatP->SpellMarkerPos.y = this->coord.y;
     Vec2Copy(&this->facing,&fStack80);
@@ -344,18 +344,18 @@ void CombatEntity::SetCardinalFacing(s8 param_2){
   Vec2Normalize(&this->facing);
 }
 
-u8 CombatEntity::m80068b0c(u8 X,u8 Y){
-  float fVar1 = this->facing.x;
-  float fVar2 = this->facing.y;
+u8 CombatEntity::AdjustFacing(u8 X,u8 Y){
+  float fx = this->facing.x;
+  float fy = this->facing.y;
   this->facing.x = (float)X - this->coord.x;
   this->facing.y = (float)Y - this->coord.y;
   Vec2Normalize(&this->facing);
-  fVar1 = this->facing.x - fVar1;
-  if (fVar1 <= 0.0) fVar1 = -fVar1;
-  if ((double)fVar1 <= 1.0E-4) {
-    fVar2 = this->facing.y - fVar2;
-    if (fVar2 <= 0.0) fVar2 = -fVar2;
-    if ((double)fVar2 <= 1.0E-4) {return false;}
+  fx = this->facing.x - fx;
+  if (fx <= 0.0) fx = -fx;
+  if ((double)fx <= 1.0E-4) {
+    fy = this->facing.y - fy;
+    if (fy <= 0.0) fy = -fy;
+    if ((double)fy <= 1.0E-4) {return false;}
   }
   return true;
 }
@@ -554,7 +554,7 @@ LAB_8006927c:
   return uVar3;
 }
 
-u8 CombatEntity::m800692bc(CombatEntity *param_2){
+u8 CombatEntity::m800692bc(CombatEntity *target){
   playerData *ppVar1;
   playerData *ppVar2;
   u8 bVar3;
@@ -565,10 +565,10 @@ u8 CombatEntity::m800692bc(CombatEntity *param_2){
   ppVar1 = gGlobals.playerDataArray[this->index];
   bVar3 = false;
   if (ppVar1) {
-    ppVar2 = gGlobals.playerDataArray[param_2->index];
+    ppVar2 = gGlobals.playerDataArray[target->index];
     bVar3 = false;
     if (ppVar2) {
-      fVar4 = m80069554(param_2);
+      fVar4 = m80069554(target);
       fVar5 = ppVar1->scaleRad;
       if (fVar5 <= ppVar1->combatRadius) fVar5 = ppVar1->combatRadius;
       fVar6 = ppVar2->scaleRad;
@@ -594,7 +594,7 @@ u8 CombatEntity::m80069384(CombatEntity *param_2,s8 param_3,s8 param_4,s32 param
       if (this->charSheetP->weapons) {
         u32 uVar6 = Get2DProximity(param_2);
         if (this->AtkType != 2) return uVar6 <= this->charSheetP->weapons->range;
-        if (!m80068358()) return false;
+        if (!NotNearEnemy()) return false;
         if (2 < uVar6) return uVar6 <= this->charSheetP->weapons->range;
         return false;
       }
@@ -614,8 +614,8 @@ float CombatEntity::Get2DProximity(CombatEntity *other){
 }
 
 float CombatEntity::m80069554(CombatEntity *param_2){
-  param_2->m80070234();
-  this->m80070234();
+  param_2->UpdatePosition();
+  this->UpdatePosition();
   return this->Get2DProximity(param_2);}
 
 
@@ -3141,11 +3141,11 @@ void CombatEntity::ClearSpellEffects(){
   }
 }
 
-void CombatEntity::m80070234(){
-  playerData *ppVar1 = gGlobals.playerDataArray[this->index];
-  if (ppVar1) {
+void CombatEntity::UpdatePosition(){
+  playerData *pDat = gGlobals.playerDataArray[this->index];
+  if (pDat) {
     FUN_800714d0(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),this->unk23);
-    this->coord = {(ppVar1->collision).pos.x,(ppVar1->collision).pos.z};
+    this->coord = {(pDat->collision).pos.x,(pDat->collision).pos.z};
     FUN_800713fc(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),(u32)this->unk23);
   }
 }

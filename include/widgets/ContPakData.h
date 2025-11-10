@@ -16,7 +16,7 @@ class WidgetTimed: public WidgetMenu{
 class WidgetContPakData : public WidgetMenu{
     public:
     SaveDatPointers saveDatsP[16];
-    WidgetMenuChild *unk27c;
+    WidgetMenuChild *sliders;
     WidgetScrollMenu *field3_0x280;
     void (*funcA)(void);
     void (*funcB)(void);
@@ -48,7 +48,7 @@ class WidgetContPakData : public WidgetMenu{
     WidgetHandler wHandler;
     SaveDatStruct *dataBuffer;
     s32 filenum;
-    WidgetContPakData(u16,u16,void *,void *,u32,Color32*,Color32 *,Color32*);
+    WidgetContPakData(u16,u16,void (*)(),void (*)(),u32,Color32*,Color32 *,Color32*);
     ~WidgetContPakData();
     u8 Tick();
     Gfx* Render(Gfx*,u16,u16,u16,u16);
@@ -154,16 +154,14 @@ class ContPakWidget:public WidgetMenu{
     public:
     BaseWidget * field1_0x7c;
     WidgetScrollMenu *w80;
-    u8 field3_0x84;
+    u8 menuState;
     u8 pfserr;
     u8 fileNum;
     u8 windowLoaded;
     u32 BgShadow;
     WidgetHandler handler;
     u8 contStat;
-    undefined field10_0x95;
-    undefined field11_0x96;
-    undefined field12_0x97;
+    u8 unk95[3]; //align bytes?
     ContPakWidget(u32);
     u8 m80088f0c(BaseWidget *);
     void m80088f44();
@@ -201,9 +199,9 @@ class ContPakWidget:public WidgetMenu{
     void PrintFreeSpace();
     void PrintFile(u8 ,char *,char *,u16);
     void PrintBlankFile(u8);
-    void m8008a4e0();
-    void m8008a554();
-    void m8008a698(BaseWidget*);
+    void RunHandlerBFuncs();
+    void CheckContStatus2();
+    void RemoveWidget(BaseWidget*);
     void m8008a6dc();
 };
 BaseWidget * ContPak_DeleteMenu(BaseWidget *,BaseWidget *);

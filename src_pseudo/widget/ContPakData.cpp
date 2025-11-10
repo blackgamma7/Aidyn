@@ -146,8 +146,8 @@ WidgetClipText * FUN_800862f4(u8 param_1,u16 param_2,char *txt,BaseWidget * (*pa
 }
 
 
-WidgetContPakData::WidgetContPakData(u16 param_2,u16 param_3,void *param_4,
-          void *param_5,u32 b8,Color32 *col0,Color32 *col1,Color32 *col2):WidgetMenu(){
+WidgetContPakData::WidgetContPakData(u16 param_2,u16 param_3,void (*param_4)(),
+          void (*param_5)(),u32 b8,Color32 *col0,Color32 *col1,Color32 *col2):WidgetMenu(){
 
   (this->col0).R = col0->R;
   (this->col0).G = col0->G;
@@ -164,7 +164,7 @@ WidgetContPakData::WidgetContPakData(u16 param_2,u16 param_3,void *param_4,
   this->attemptedRepair = true;
   this->col.A = 0;
   CLEAR(&this->saveDatsP);
-  this->unk27c = NULL;
+  this->sliders = NULL;
   this->field3_0x280 = NULL;
   this->OtherState = 0;
   this->pfsErr = 0;
@@ -306,8 +306,8 @@ BaseWidget * WidgetContPakData::DownFunc(){
 }
 
 BaseWidget * WidgetContPakData::LeftFunc(){
-  if (this->unk27c) {
-    this->unk27c->m80032dc4();
+  if (this->sliders) {
+    this->sliders->ShiftLeft();
     this->vmF0();
     PlayAudioSound(&gGlobals.SFXStruct,0x73d,0,1.0,0x1e,0);
   }
@@ -317,8 +317,8 @@ BaseWidget * WidgetContPakData::LeftFunc(){
 
 BaseWidget * WidgetContPakData::RightFunc(){
   
-  if (this->unk27c) {
-    this->unk27c->m80032c98();
+  if (this->sliders) {
+    this->sliders->ShiftRight();
     this->vmF0();
     PlayAudioSound(&gGlobals.SFXStruct,0x73d,0,1.0,0x1e,0);
   }
@@ -329,8 +329,8 @@ BaseWidget * WidgetContPakData::RightFunc(){
 BaseWidget * WidgetContPakData::Control(controller_aidyn *param_2){
   BaseWidget *pBVar2;
   if (!this->wHandler.GetTail()) {
-    if (((this->unk27c == NULL) ||
-        (this->unk27c->m80032f00())) ||
+    if (((this->sliders == NULL) ||
+        (this->sliders->m80032f00())) ||
        (this->OtherState != 4)) {
       pBVar2 = NULL;
     }
@@ -369,7 +369,7 @@ void WidgetContPakData::m80086d30(){this->OtherState=6;}
 
 
 BaseWidget * WidgetContPakData::m80086d3c(){
-  BaseWidget *w = this->unk27c->m80032ef8();
+  BaseWidget *w = this->sliders->m80032ef8();
   if (w) w = w->AFunc();
   return w;
 }
@@ -682,24 +682,22 @@ void WidgetContPakData::RepairOK(){
 }
 
 void WidgetContPakData::LoadSliders(SaveDatPointers *param_2,u8 param_3){
-  ControllerPakSliders *pCVar1;
-  s32 ind;
   s16 bounds [4];
   
   bounds[0] = this->unk292;
   bounds[1] = this->unk294;
   bounds[2] = bounds[0] + 0xdb;
   bounds[3] = bounds[1] + 0xc0;
-  pCVar1 = new ControllerPakSliders(param_2,bounds,&this->col0);
-  ind = this->unk27c->AddFileWidget(pCVar1);
+  ControllerPakSliders *pCVar1 = new ControllerPakSliders(param_2,bounds,&this->col0);
+  s32 ind = this->sliders->AddFileWidget(pCVar1);
   pCVar1->varU16 = (ushort)param_3;
   Utilities::SetAlpha(this,this->col.A);
-  if (this->vmE0(pCVar1)) this->unk27c->m80033018(ind);
+  if (this->vmE0(pCVar1)) this->sliders->SetIndex(ind);
 }
 
 void WidgetContPakData::ClearScrollMenu(){
   if (this->unk291) {
-    this->unk27c->FreeMenu();
+    this->sliders->FreeMenu();
     Utilities::ClearScrollMenu2(this->field3_0x280);
   }
 }
@@ -713,8 +711,8 @@ void WidgetContPakData::m80087c40(){
 
 void WidgetContPakData::m80087c88(){
   this->field17_0x29c = Utilities::AddBorg8Widget(this,loadBorg8(this->borg8),this->unk292 + 0x41,this->unk294);
-  this->unk27c = new WidgetMenuChild(this->unk292,this->unk294,this->unk292 + 0xdb,this->unk294 + 0xc0);
-  this->Link(this->unk27c);
+  this->sliders = new WidgetMenuChild(this->unk292,this->unk294,this->unk292 + 0xdb,this->unk294 + 0xc0);
+  this->Link(this->sliders);
   this->field3_0x280 = Utilities::AddScrollMenu(this,4,this->unk292 + 0xaa,this->unk294 + 0x9c,FULL_SCREENSPACE,
                       (this->col0).R,(this->col0).G,(this->col0).B,(this->col0).A,0);
   this->field3_0x280->SetFlags(1);
@@ -785,9 +783,9 @@ u32 WidgetContPakDataSave::ShowSaveFiles(){
   pWVar3 = new WidgetBlankFile("Create New Save",&uStack136,aCStack_48,0,0x1c);
   pWVar3->varU8 = 2;
   pWVar3->AButtonFunc = FUN_80086144;
-  this->unk27c->AddFileWidget(pWVar3);
+  this->sliders->AddFileWidget(pWVar3);
   Utilities::SetAlpha(this,this->col.A);
-  this->unk27c->m80032f0c();
+  this->sliders->m80032f0c();
   return this->vmF0();
 }
 
@@ -863,7 +861,7 @@ void WidgetContPakDataSave::NewSaveFile(){
 }
 
 u32 WidgetContPakDataSave::vmF0(){
-  BaseWidget *pBVar2 = this->unk27c->m80032ef8();
+  BaseWidget *pBVar2 = this->sliders->m80032ef8();
   u8 bVar1 = pBVar2->varU8;
   Utilities::ClearScrollMenu2(this->field3_0x280);
   if ((bVar1 & 2))
@@ -920,14 +918,14 @@ u32 WidgetContPakDataLoad::ShowSaveFiles(){
     uStack_48[1] = this->unk294;
     uStack_48[2] = uStack_48[0] + 200;
     uStack_48[3] = uStack_48[1] + 0x78;
-    this->unk27c->AddFileWidget(new WidgetBlankFile("There are currently no games saved on this Controller Pak.",(u16 (*) [4])&uStack_48,
+    this->sliders->AddFileWidget(new WidgetBlankFile("There are currently no games saved on this Controller Pak.",(u16 (*) [4])&uStack_48,
                         &this->col0,0,0x1c));
     Utilities::SetAlpha(this,this->col.A);
-    this->unk27c->m80032f0c();
+    this->sliders->m80032f0c();
     return this->vmF0();
   }
   else {
-    this->unk27c->m80032f0c();
+    this->sliders->m80032f0c();
     return this->vmF0();
   }
 }
@@ -949,7 +947,7 @@ u32 WidgetContPakDataLoad::vmE0(BaseWidget *w){
     return 0;
 }
 u32 WidgetContPakDataLoad::vmF0(){
-  BaseWidget *pBVar2 = this->unk27c->m80032ef8();
+  BaseWidget *pBVar2 = this->sliders->m80032ef8();
   u8 bVar1 = pBVar2->varU8;
   Utilities::ClearScrollMenu2(this->field3_0x280);
   if ((bVar1 & 2) != 0)
@@ -982,21 +980,13 @@ WidgetChild8 * FUN_80088a78(u16 param_1,char *param_2){
 WidgetChild8 *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,ushort var){
   WidgetChild8 *pWVar1;
   u16 uVar2;
-  Color32 colA;
-  Color32 colB;
+  Color32 colA={COLOR_OFFWHITE};
+  Color32 colB={COLOR_OFFWHITE};
   
   uVar2 = 200;
-  colA.R = 0xe1;
-  colA.G = 0xe1;
-  colA.B = 0xe1;
-  colA.A = 0xff;
-  colB.R = 0xe1;
-  colB.G = 0xe1;
-  colB.B = 0xe1;
-  colB.A = 0xff;
   if (gGlobals.BigAssMenu) uVar2 = 150;
   WidgetChild8 *pWVar1 = new WidgetChild8(choices,title,uVar2,&colA,&colB,0,10,0);
-  if (gGlobals.BigAssMenu) Utilities::MoveWidget(pWVar1,0x19,0);
+  if (gGlobals.BigAssMenu) Utilities::MoveWidget(pWVar1,25,0);
   handler->AddWidget(pWVar1);
   freeWidgetFunc = func;
   pWVar1->varU16 = var;
@@ -1073,7 +1063,7 @@ void make_mempak_menu(short x,short y,u32 shadow){
 u32 FUN_80088e2c(void){return u32_800f1c84;}
 
 ContPakWidget::ContPakWidget(u32 shadow):WidgetMenu(){
-  this->field3_0x84 = 0;
+  this->menuState = 0;
   this->pfserr = 0;
   this->fileNum = 0;
   this->windowLoaded = false;
@@ -1096,7 +1086,7 @@ u8 ContPakWidget::m80088f0c(BaseWidget *w){
   return w == this;
 }
 
-void ContPakWidget::m80088f44(){this->field3_0x84 = 0;}
+void ContPakWidget::m80088f44(){this->menuState = 0;}
 
 BaseWidget * ContPakWidget::AFunc(){
   BaseWidget *w = NULL;
@@ -1122,7 +1112,7 @@ u8 ContPakWidget::Tick(){
   u8 bVar2;
   
   if (this->handler.GetTail() == NULL) {
-    switch(this->field3_0x84) {
+    switch(this->menuState) {
     case 0:
       GetPfsErr();
       break;
@@ -1181,18 +1171,18 @@ void ContPakWidget::ConfirmDelete(BaseWidget *w){
 }
 
 void ContPakWidget::ErasePakSave(BaseWidget *param_2){
-  this->field3_0x84 = 2;
+  this->menuState = 2;
   this->pfserr = Controller::ErasePakSave((u8)param_2->varU16,0);
   if (this->pfserr) {
     if (this->pfserr == PFS_ERR_BAD_DATA) {
       this->pfserr = Controller::ErasePakSave((u8)param_2->varU16,0);
       if (this->pfserr == 0) return;
     }
-    this->field3_0x84 = 1;
+    this->menuState = 1;
   }
 }
 
-void ContPakWidget::m8008937c(){this->field3_0x84=0;}
+void ContPakWidget::m8008937c(){this->menuState=0;}
 
 void ContPakWidget::m80089384(BaseWidget *w){
   if (Controller::RepairPak(0) == 0) m80089b0c((u8)w->varU16);
@@ -1201,14 +1191,14 @@ void ContPakWidget::m80089384(BaseWidget *w){
 
 void ContPakWidget::GetPfsErr(){
   this->pfserr = Controller::GetPFSERR(0);
-  this->field3_0x84 = 1;
+  this->menuState = 1;
   if (this->pfserr == PFS_ERR_BAD_DATA) {
     this->pfserr = Controller::GetPFSERR(0);
   }
 }
 
 void ContPakWidget::ErrSwitch(){
-  this->field3_0x84 = 4;
+  this->menuState = 4;
   switch(this->pfserr) {
   case 0:
     PfsOK();
@@ -1241,7 +1231,7 @@ void ContPakWidget::ErrSwitch(){
 
 void ContPakWidget::LoadWindowCheck(){
   this->fileNum = 0;
-  this->field3_0x84 = 3;
+  this->menuState = 3;
   if (!this->windowLoaded) LoadWindow();
   else Utilities::ClearScrollMenu2(this->w80);
 }
@@ -1260,32 +1250,32 @@ void ContPakWidget::PrintMemcardFiles(){
   else PrintFreeSpace();
 }
 
-void ContPakWidget::m800895d8(){m8008a554();}
+void ContPakWidget::m800895d8(){CheckContStatus2();}
 
 void ContPakWidget::m800895f4(){
   if (Controller::CheckStatus(0)) {
     BaseWidget*w=this->handler.GetTail();
-    if (!w) this->field3_0x84 = 0;
+    if (!w) this->menuState = 0;
     else if (w->varU16 == 2) {
       if (Controller::GetPFSERR(0) == 0) {
-        this->field3_0x84 = 4;
+        this->menuState = 4;
         return;
       }
-      this->field3_0x84 = 0;
+      this->menuState = 0;
     }
     else {
-      this->field3_0x84 = 0;
+      this->menuState = 0;
     }
-    m8008a4e0();
+    RunHandlerBFuncs();
   }
 }
 
 void ContPakWidget::m80089668(){
   BaseWidget *w = this->handler.GetTail();
-  if (((w) && (w->state != WidgetS_Closing)) && (w->state != WidgetS_Closed)) m8008a554();
+  if (((w) && (w->state != WidgetS_Closing)) && (w->state != WidgetS_Closed)) CheckContStatus2();
 }
 
-void ContPakWidget::PfsOK(){this->field3_0x84 = 2;}
+void ContPakWidget::PfsOK(){this->menuState = 2;}
 
 void ContPakWidget::PfsNoPak(){
   WidgetChild8 *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x195],this->pfserr);
@@ -1353,7 +1343,7 @@ void ContPakWidget::m80089b0c(u8 param_2){
   WidgetChild8 *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x197],(ushort)param_2);
   pWVar1->AppendScrollMenu(ContPakTextWidget2((ushort)param_2,gGlobals.CommonStrings[0x18c],ContPak_8008a768));
   pWVar1->Update();
-  this->field3_0x84 = 0;
+  this->menuState = 0;
 }
 
 void ContPakWidget::m80089b9c(u8 param_2){
@@ -1395,12 +1385,12 @@ void ContPakWidget::LoadWindow(){
             (this,pBVar4,sVar7 - uVar3,sVar9 + 0xd,uVar3 + sVar7,
              (pBVar4->dat).Height + sVar9 + 0xd);
   y = (pBVar4->dat).Height + this->posY + 0x16;
-  Utilities::AddTextWidget(this,Cstring(ContPakNote),this->posX + 10,y,0x67,0x46,0x3c,0xff);
-  Utilities::AddTextWidget(this,Cstring(ContPakName),this->posX + 0x26,y,0x67,0x46,0x3c,0xff);
-  Utilities::AddTextWidget(this,Cstring(ContPakExt),this->posX + 0x92,y,0x67,0x46,0x3c,0xff);
-  Utilities::AddTextWidget(this,Cstring(ContPakPages),this->posX + 0xa5,y,0x67,0x46,0x3c,0xff);
+  Utilities::AddTextWidget(this,Cstring(ContPakNote),this->posX + 10,y,COLOR_BROWN1);
+  Utilities::AddTextWidget(this,Cstring(ContPakName),this->posX + 0x26,y,COLOR_BROWN1);
+  Utilities::AddTextWidget(this,Cstring(ContPakExt),this->posX + 0x92,y,COLOR_BROWN1);
+  Utilities::AddTextWidget(this,Cstring(ContPakPages),this->posX + 0xa5,y,COLOR_BROWN1);
   sVar9 = sVar8 + -0x14;
-  pBVar5 = Utilities::AddTextWidget(this,Cstring(ContPakPagesFree),0,sVar9,0x67,0x46,0x3c,0xff);
+  pBVar5 = Utilities::AddTextWidget(this,Cstring(ContPakPagesFree),0,sVar9,COLOR_BROWN1);
   uVar6 = pBVar5->GetWidth();
   pBVar5->posX = (this->posX - (short)uVar6) + 0xb3;
   uVar6 = pBVar5->GetWidth();
@@ -1415,25 +1405,25 @@ void ContPakWidget::LoadWindow(){
   sVar9 = this->posX;
   x = sVar9 + 5;
   this->w80 = Utilities::AddScrollMenu(this,SaveFileMax,x,y + (short)uVar6 + 2,x,y + sVar7 + 2,sVar9 + 199,
-                      this->field1_0x7c->posY + -7,0x67,0x46,0x3c,0xff,0);
+                      this->field1_0x7c->posY + -7,COLOR_BROWN1,0);
   Utilities::SetScrollMenuColors(this->w80,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   sVar8 -=27;
   sVar9 = this->posX + 10;
   pBVar5 = Utilities::AddTextWidget(this,"{ ",sVar9,sVar8,0,0,0xa4,0xff);
-  Utilities::AddTextWidget(this," Delete",(short)pBVar5->GetWidth() + sVar9,sVar8,0x67,0x46,0x3c,0xff);
+  Utilities::AddTextWidget(this," Delete",(short)pBVar5->GetWidth() + sVar9,sVar8,COLOR_BROWN1);
   sVar8 = pBVar5->GetHeight() + sVar8;
   pBVar5 = Utilities::AddTextWidget(this,"} ",sVar9,sVar8,0,0xa4,0,0xff);
-  Utilities::AddTextWidget(this,"Exit",pBVar5->GetWidth() + sVar9,sVar8,0x67,0x46,0x3c,0xff);
+  Utilities::AddTextWidget(this,"Exit",pBVar5->GetWidth() + sVar9,sVar8,COLOR_BROWN1);
 }
 
 void ContPakWidget::PrintFreeSpace(){
   byte abStack_10 [16];
-  this->field3_0x84 = 4;
+  this->menuState = 4;
   this->fileNum = 0;
   abStack_10[0] = 0;
   Pfs2xCheck(this->pfserr,Controller::GetPakFreeBlocks8(abStack_10,0));
   if (this->pfserr == 0) sprintf(Utilities::GetWidgetText(this->field1_0x7c),"%d",(uint)abStack_10[0]);
-  else this->field3_0x84 = 1;
+  else this->menuState = 1;
 }
 
 void ContPakWidget::PrintFile(u8 fileno,char *param_3,char *param_4,ushort param_5){
@@ -1460,7 +1450,7 @@ void ContPakWidget::PrintBlankFile(u8 fileno){
 }
 
 
-void ContPakWidget::m8008a4e0(){
+void ContPakWidget::RunHandlerBFuncs(){
   BaseWidget *w;
   
   while (w = this->handler.RemoveWidget(), w != NULL) {
@@ -1468,13 +1458,13 @@ void ContPakWidget::m8008a4e0(){
     if (w) w->~BaseWidget();
   }
 }
-void ContPakWidget::m8008a554(){
+void ContPakWidget::CheckContStatus2(){
   u8 CVar1;
   u8 CVar2;
   bool bVar3;
   u8 PVar4;
   
-  if (this->field3_0x84 == 5) m800895f4();
+  if (this->menuState == 5) m800895f4();
   else {
     CVar1 = this->contStat;
     if (Controller::GetStatus(0,&this->contStat)) CVar2 = this->contStat;
@@ -1488,37 +1478,37 @@ void ContPakWidget::m8008a554(){
     if (((CVar2 != CONT_CARD_ON) || (CVar1 != CONT_CARD_ON)) && (CVar2 != CVar1)) {
       if ((CVar2 == (CONT_CARD_PULL|CONT_CARD_ON)) && (CVar1 == CONT_CARD_PULL)) {
         Pfs2xCheck(PVar4,Controller::GetPFSERR(0));
-        m8008a4e0();
+        RunHandlerBFuncs();
         if (PVar4 == PFS_ERR_NEW_PACK) {
           this->pfserr = PFS_ERR_NEW_PACK;
         }
         else {
           if (PVar4 != 0) {
             this->pfserr = PVar4;
-            this->field3_0x84 = 1;
+            this->menuState = 1;
             return;
           }
           this->pfserr = PFS_ERR_NEW_PACK;
         }
-        this->field3_0x84 = 1;
+        this->menuState = 1;
       }
       else if ((CVar2 == CONT_CARD_PULL) && ((CVar1 == CONT_CARD_ON || (CVar1 != CONT_CARD_PULL))))
       {
-        m8008a4e0();
-        this->field3_0x84 = 0;
+        RunHandlerBFuncs();
+        this->menuState = 0;
       }
     }
   }
 }
 
-void ContPakWidget::m8008a698(BaseWidget *w){
+void ContPakWidget::RemoveWidget(BaseWidget *w){
   this->handler.FreeWidget(w);
   if (w) w->~BaseWidget();
 }
 
 
 void ContPakWidget::m8008a6dc(){
-  this->field3_0x84 = 5;
+  this->menuState = 5;
 }
 
 BaseWidget * ContPak_DeleteMenu(BaseWidget *param_1,BaseWidget *w){
@@ -1564,7 +1554,7 @@ void FUN_8008a7b8(BaseWidget *param_1){
 
 
 void FUN_8008a848(BaseWidget *param_1){
-  if ((param_1) && (contpak_widget)) contpak_widget->m8008a698(param_1);
+  if ((param_1) && (contpak_widget)) contpak_widget->RemoveWidget(param_1);
 }
 
 BaseWidget * FUN_8008a87c(BaseWidget *param_1,BaseWidget *param_2){

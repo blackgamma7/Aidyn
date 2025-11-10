@@ -83,7 +83,7 @@ class MiniMap {
 
     //a few methods for special condition minimap sections
 
-    bool m800533bc(u16);
+    bool ShowingSpecialSection(u16);
     bool EhudI09(u16);
     bool EhudC11(u16);
     bool GwernWalls(u16);

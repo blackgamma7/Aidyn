@@ -134,12 +134,12 @@ LAB_80051504:
   this->widget24->SetCoords((this->mapX - this->mapScale * 8.0f),(this->mapY - this->mapScale * 8.0f));
   this->widget24->SetWidth((this->X90 - this->mapX) + this->mapScale * 16.0f);
   this->widget24->SetHeight((this->Y9C - this->mapY) + this->mapScale * 16.0f);
-  this->widget24->SetColor(0,0,0,0xff);
+  this->widget24->SetColor(COLOR_BLACK);
   this->widget28 = WidgetB8(0xf3);
   this->widget28->SetCoords(this->mapX,this->mapY);
   this->widget28->SetWidth((this->X90 - this->mapX) + 1.0f);
   this->widget28->SetHeight((this->Y9C - this->mapY) + 1.0f);
-  this->widget28->SetColor(0,0,0,0xff);
+  this->widget28->SetColor(COLOR_BLACK);
   this->mapdat = secDat;
   this->active = 1;
 }
@@ -599,7 +599,7 @@ void MiniMap::UpdateSection(short param_2,short param_3){
       iVar8 = 0;
 LAB_800529b4:
       if (((this->mapdat[i].mapshort1 == param_2) && (this->mapdat[i].mapshort2 == param_3)) || (pMVar13 == minimap_sec_Barrows)) {
-        if (m800533bc(i)) {
+        if (ShowingSpecialSection(i)) {
           pMVar13 = this->mapdat;
           sVar3 = this->mapdat[i].flagIndex;
           this->floatX = (float)this->mapdat[i].x;
@@ -875,34 +875,34 @@ void MiniMap::Toggle(byte x){
   this->field24_0x5c = (this->field22_0x54 - this->field20_0x4c) / 14.0f;
 }
 
-bool MiniMap::m800533bc(ushort param_2){
+bool MiniMap::ShowingSpecialSection(u16 index){
   int iVar2;
   
   if (this->mapdat == minimaps_gwen) {
     iVar2 = MapShorts32;
-    if (iVar2 == 0x90007) return GwernCourt(param_2);
-    if (iVar2 == 0x10001) return GwernWalls(param_2);
-    if (iVar2 == 0xf0009) return GwernTower(param_2);
+    if (iVar2 == 0x90007) return GwernCourt(index);
+    if (iVar2 == 0x10001) return GwernWalls(index);
+    if (iVar2 == 0xf0009) return GwernTower(index);
     this->field18_0x44 = 0;
   }
   else if (this->mapdat == MinimapSec_ehud) {
     iVar2 = MapShorts32;
-    if (iVar2 == 0xf0005) return EhudO05(param_2);
-    if (iVar2 == 0x3000b) return EhudC11(param_2);
-    if (iVar2 == 0x90009) return EhudI09(param_2);
+    if (iVar2 == 0xf0005) return EhudO05(index);
+    if (iVar2 == 0x3000b) return EhudC11(index);
+    if (iVar2 == 0x90009) return EhudI09(index);
     this->field18_0x44 = 0;
   }
   else if (this->mapdat == MinimapSec_dat_ARRAY_800ee508) {
-    if (MapShorts32 == 0xb0003) return m80053960(param_2);
+    if (MapShorts32 == 0xb0003) return m80053960(index);
     this->field18_0x44 = 0;
   }
   else if (this->mapdat == minimap_sec_mageschool) {
-    if (MapShorts32 == 0x10001) return MageschoolStairs(param_2);
+    if (MapShorts32 == 0x10001) return MageschoolStairs(index);
     this->field18_0x44 = 0;
   }
   else {
     if (this->mapdat == minimap_sec_Barrows) {
-      return m800539fc(param_2);
+      return m800539fc(index);
     }
     this->field18_0x44 = 0;
   }
@@ -967,7 +967,7 @@ bool MiniMap::GwernWalls(u16 param_2){
 }
 
 //minimap of castle courtyard
-bool MiniMap::GwernCourt(u16 param_2){
+bool MiniMap::GwernCourt(u16 index){
   short sVar1;
   short sVar2;
   bool bVar3;
@@ -975,15 +975,15 @@ bool MiniMap::GwernCourt(u16 param_2){
   uint uVar5;
   float fVar6;
   
-  uVar5 = (uint)param_2;
+  uVar5 = (uint)index;
   if (this->savedPlayerPos.y < 4.0f) {
     if (26.0f < this->savedPlayerPos.z) {
-      pMVar4 = this->mapdat + param_2;
+      pMVar4 = this->mapdat + index;
       sVar1 = *(short *)&pMVar4->borg8;
       sVar2 = 0x2a;
     }
     else {
-      pMVar4 = (MinimapSec_dat *)(((uint)param_2 * 8 - param_2) * 2 + (int)this->mapdat);
+      pMVar4 = (MinimapSec_dat *)(((uint)index * 8 - index) * 2 + (int)this->mapdat);
       sVar1 = *(short *)&pMVar4->borg8;
       sVar2 = 0x2b;
     }
@@ -994,19 +994,20 @@ bool MiniMap::GwernCourt(u16 param_2){
   }
   else if (this->savedPlayerPos.y < 8.0f) {
     bVar3 = false;
-    if (this->mapdat[param_2].borg8 == 0x37) {
+    if (this->mapdat[index].borg8 == 0x37) {
       return true;
     }
   }
   else {
     bVar3 = true;
-    if (this->mapdat[param_2].borg8 != 0x38) {
+    if (this->mapdat[index].borg8 != 0x38) {
       bVar3 = false;
     }
   }
   return bVar3;
 }
 
+//minimap for the tower lobby
 bool MiniMap::GwernTower(u16 param_2){
   bool bVar1;
   

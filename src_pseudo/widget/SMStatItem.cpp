@@ -15,13 +15,13 @@ SMStatItem::SMStatItem(CharStats_s *pStats,u16 statInd):BaseWidget() {
   this->unk92 = 0;
   if (pStats == NULL) CRASH("SMStatItem","pStats is NULL");
   this->statName = WClipTXTSafe(Stat_labels[statInd]);
-  this->statName->SetColor(0x82,0x50,0x50,0xff);
+  this->statName->SetColor(COLOR_RED1);
   this->Link(this->statName);
   u16 uVar3 = (u16)CharStats::GetBase2(this->stats,statInd);
   sprintf(buff,"%d",uVar3);
   this->baseLevel = WClipTXTSafe(buff);
   this->baseLevel->varU16 = (ushort)uVar3;
-  this->baseLevel->SetColor(0x82,0x50,0x50,0xff);
+  this->baseLevel->SetColor(COLOR_RED1);
   this->Link(this->baseLevel);
   u16 diff = CharStats::getBaseModDiff(this->stats,statInd);
   if (diff == 0) this->varU8 = statInd;

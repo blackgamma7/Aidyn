@@ -4,6 +4,8 @@
 #include "widgets/optionsMenu.h"
 #include "widgets/Calendar.h"
 
+u16 pause_menu_borg8[]={BORG8_PauseMenuA,BORG8_PauseMenuB,BORG8_PauseMenuC};
+float scroll_floats[]={27.0,0,-26.0,0};
 //Widget showing pause menu aka "BigAssMenu"
 class PauseWidget: public WidgetMenu{
     public:
@@ -42,7 +44,7 @@ struct pause_Substruct {
     vec3f camPos;
     float scrollfloat;
     u8 unk44[8];
-    u32 takeInput;
+    u32 isScrolling;
 };
 
 #define PauseSub ((pause_Substruct*)gGlobals.BigAssMenu->substruct)

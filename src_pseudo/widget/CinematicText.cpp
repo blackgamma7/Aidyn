@@ -1,4 +1,5 @@
 #include "cinematics.h"
+#include "ZoneEngine.h"
 
 WidgetCinematicText::WidgetCinematicText(u16 (*dims) [4],short param_3,short param_4,Color32 *txtCol,u32 param_6):WidgetMenu(){
   u16 uVar1;
@@ -22,18 +23,19 @@ WidgetCinematicText::WidgetCinematicText(u16 (*dims) [4],short param_3,short par
   uVar2 = (*dims)[3];
   this->resize = param_6;
   this->unk80 = WidgetBorg8At(this,BORG8_Pixel,0,(*dims)[1],SCREEN_WIDTH,(*dims)[3]);
-  this->unk80->SetColor(0,0,0,0xff);
+  this->unk80->SetColor(COLOR_BLACK);
   this->gradient = Utilities::AddBorg8Widget2(this,loadBorg8(BORG8_GradientC),0,(*dims)[1] - 0xb,SCREEN_WIDTH,(*dims)[1] - 1);
-  this->gradient->SetColor(0,0,0,0xff);
+  this->gradient->SetColor(COLOR_BLACK);
   uVar1 = (*dims)[0];
   uVar2 = (*dims)[1];
   uVar3 = (*dims)[2];
-  this->textW = new WidgetText(" ",256);
+  this->textW = new WidgetText(" ",0x100);
   SetWidgetBounds(this->textW,param_3 + uVar1,param_4 + uVar2,uVar3 - 5,(*dims)[3] - param_4);
   this->textW->SetCoords((*dims)[0] + param_3,(*dims)[1] + param_4);
   this->textW->SetColor(txtCol->R,txtCol->G,txtCol->B,txtCol->A);
   this->Link(this->textW);
 }
+
 WidgetCinematicText::~WidgetCinematicText(){
   free_borg8_widget(gradient);
   free_borg8_widget(unk80);

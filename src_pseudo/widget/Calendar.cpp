@@ -40,7 +40,7 @@ u32 WidgetCalendar::Init() {
   this->DayMarker = WidgetB8(BORG8_CurrDayMarker);
   this->monthTitle->SetCoords(0xa0,0x28);
   Utilities::SetTextWidgetBoundsX(this->monthTitle,0xa0,0x104);
-  this->monthTitle->SetColor(0x82,0x50,0x50,0xff);
+  this->monthTitle->SetColor(COLOR_RED1);
   this->Link(this->monthTitle);
   this->monthTitle->GetHeight();//?
   this->DayMarker->SetWidth(this->DayMarker->GetWidth() + 1);
@@ -74,11 +74,11 @@ LAB_80048224:
   this->Link(this->DayMarker);
   sub->campLabel = WidgetB8(BORG8_CampTitle);
   sub->campLabel->SetCoords(0xd7,0x9b);
-  sub->campLabel->SetColor(0x82,0x50,0x50,0xff);
+  sub->campLabel->SetColor(COLOR_RED1);
   this->Link(sub->campLabel);
   sub->journalLabel = WidgetB8(BORG8_TitleJournal);
   sub->journalLabel->SetCoords(0xc0,0xae);
-  sub->journalLabel->SetColor(0x82,0x50,0x50,0xff);
+  sub->journalLabel->SetColor(COLOR_RED1);
   this->Link(sub->journalLabel);
   this->map = new WidgetMenuWorldMap(); //constructor gets inlined here
   this->map->SetCoords(0,0);
@@ -165,7 +165,7 @@ BaseWidget* Calendar_RightFunc(BaseWidget* w0,BaseWidget* w1){return NULL;}
 BaseWidget* Calendar_UpFunc(BaseWidget* w0,BaseWidget* w1) {
   WCSub *piVar1 = (WCSub *)w1->substruct;
   if (piVar1->selected == piVar1->journalLabel) {
-    piVar1->selected->SetColor(0x82,0x50,0x50,0xff);
+    piVar1->selected->SetColor(COLOR_RED1);
     piVar1->selected = piVar1->campLabel;
   }
   return NULL;
@@ -174,7 +174,7 @@ BaseWidget* Calendar_UpFunc(BaseWidget* w0,BaseWidget* w1) {
 BaseWidget* Calendar_DownFunc(BaseWidget* w0,BaseWidget* w1) {
   WCSub *piVar1 = (WCSub *)w1->substruct;
   if (piVar1->selected == piVar1->campLabel) {
-    piVar1->selected->SetColor(0x82,0x50,0x50,0xff);
+    piVar1->selected->SetColor(COLOR_RED1);
     piVar1->selected = piVar1->journalLabel;
   }
   return NULL;

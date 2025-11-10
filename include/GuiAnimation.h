@@ -58,7 +58,7 @@ class GuiAnimatorL: public GuiAnimatorF{
   BaseWidget* w;
   GuiAnimatorL(GuiAnimator*,BaseWidget*);
   ~GuiAnimatorL();
-  void m80046ac4();
+  void FreeLinked();
   void vMethA(s32);
   virtual u32 vMethB(f32);
 };
@@ -74,35 +74,35 @@ struct GuiAnimatorStruct{
   f64 unk20;
   f64 unk28;
 };
-class GuiAnimatorU2:public GuiAnimator{
+class GuiAnimatorS16:public GuiAnimator{
   public:
   s16* val;
   GuiAnimatorStruct unk;
   f64 f64Array[2];
-  GuiAnimatorU2(s16*, s16*, s32, GuiAnimatorStruct*);
-  ~GuiAnimatorU2();
+  GuiAnimatorS16(s16*, s16*, s32, GuiAnimatorStruct*);
+  ~GuiAnimatorS16();
   virtual u32 vMethB(f32);
   virtual s16 vMethC(f32);
 };
 
-class GuiAnimatorU3:public GuiAnimator{
+class GuiAnimatorU8:public GuiAnimator{
   public:
   u8* val;
   GuiAnimatorStruct unk;
   f64 f64Array[2];
-  GuiAnimatorU3(u8*, u8*, s32, GuiAnimatorStruct*);
-  ~GuiAnimatorU3();
+  GuiAnimatorU8(u8*, u8*, s32, GuiAnimatorStruct*);
+  ~GuiAnimatorU8();
   virtual u32 vMethB(f32);
   virtual u8 vMethC(f32);
 };
 
-class GuiAnimatorU4:public GuiAnimator{
+class GuiAnimatorU16:public GuiAnimator{
   public:
   u16* val;
   GuiAnimatorStruct unk;
   f64 f64Array[2];
-  GuiAnimatorU4(u16*, u16*, s32, GuiAnimatorStruct*);
-  ~GuiAnimatorU4();
+  GuiAnimatorU16(u16*, u16*, s32, GuiAnimatorStruct*);
+  ~GuiAnimatorU16();
   virtual u32 vMethB(f32);
   virtual u16 vMethC(f32);
 };

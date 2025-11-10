@@ -2,6 +2,7 @@
 #include "widgets/WidgetTrainShop.h"
 
 class WidgetBarter: public WidgetMenu{
+    public:
     u8 partyPicker;
     WidgetInvShop *field5_0x80;
     WidgetTrainShop *field6_0x84;

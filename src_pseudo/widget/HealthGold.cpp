@@ -14,22 +14,22 @@ WidgetHealthGold::WidgetHealthGold(CharSheet *chara):WidgetMenu(){
   sprintf(buff,"%u",Entity::GetLevel(chara));
   this->LevelText = new WidgetClipText(buff,5);
   this->LevelText->SetCoords(0xdf,0x37);
-  this->LevelText->SetColor(0x82,0x50,0x50,0xff);
+  this->LevelText->SetColor(COLOR_RED1);
   this->Link(this->LevelText);
   sprintf(buff,"%ld",(gGlobals.party)->Gold);
   this->GoldText = new WidgetClipText(buff,10);
   this->GoldText->SetCoords(0xdf,0x45);
-  this->GoldText->SetColor(0x82,0x50,0x50,0xff);
+  this->GoldText->SetColor(COLOR_RED1);
   this->Link(this->GoldText);
   sprintf(buff,"%d",Entity::getHPCurrent(chara));
   this->CurrHPText = new WidgetClipText(buff,4);
   this->CurrHPText->SetCoords(0xdf,0x29);
-  this->CurrHPText->SetColor(0x82,0x50,0x50,0xff);
+  this->CurrHPText->SetColor(COLOR_RED1);
   this->Link(this->CurrHPText);
   sprintf(buff,"%d",Entity::getHPMax(chara));
   this->MaxHPText = new WidgetClipText(buff,4);
   this->MaxHPText->SetCoords(0xff,0x29);
-  this->MaxHPText->SetColor(0x82,0x50,0x50,0xff);
+  this->MaxHPText->SetColor(COLOR_RED1);
   this->Link(this->MaxHPText);
 }
 
@@ -50,7 +50,7 @@ void WidgetHealthGold::Update(CharSheet *param_2){;
   }
   asStack_80[0] =  Entity::getHPCurrent(param_2) / Entity::getHPMax(param_2) * this->HPBar->GetWidth();
   if (this->HpPercent != asStack_80[0]) {
-    this->unk90.AddItem(new GuiAnimatorU2(&this->HpPercent,asStack_80,0xf,&double_array_0));
+    this->unk90.AddItem(new GuiAnimatorS16(&this->HpPercent,asStack_80,0xf,&double_array_0));
   }
   sprintf(buff,"%u",Entity::GetLevel(param_2));
   this->LevelText = new WidgetClipText(buff,3);
@@ -58,39 +58,39 @@ void WidgetHealthGold::Update(CharSheet *param_2){;
   this->LevelText->posX+=this->posX;
   this->LevelText->boundX0 +=this->posX;
   this->LevelText->boundX1 +=this->posX;
-  this->LevelText->SetColor(0x82,0x50,0x50,0xff);
+  this->LevelText->SetColor(COLOR_RED1);
   (this->LevelText->col).A = 0;//why not use setter?
   abStack_38[0] = 0xff;
-  this->unk90.AddItem(new GuiAnimatorU3(&(this->LevelText->col).A,&abStack_38[0],0xf,&double_array_0));
+  this->unk90.AddItem(new GuiAnimatorU8(&(this->LevelText->col).A,&abStack_38[0],0xf,&double_array_0));
   this->Link(this->LevelText);
   abStack_38[1] = 0;
-  this->unk90.AddItem(new GuiAnimatorL(new GuiAnimatorU3(&(this->LevelText->col).A,&abStack_38[1],0xf,&double_array_0),this->LevelText));
+  this->unk90.AddItem(new GuiAnimatorL(new GuiAnimatorU8(&(this->LevelText->col).A,&abStack_38[1],0xf,&double_array_0),this->LevelText));
   sprintf(buff,"%u",Entity::getHPCurrent(param_2));
   this->CurrHPText = new WidgetClipText(buff,4);
   this->CurrHPText->SetCoords(0xdf,0x29);
   this->CurrHPText->posX+=this->posX;
   this->CurrHPText->boundX0+=this->posX;
   this->CurrHPText->boundX1+=this->posX;
-  this->CurrHPText->SetColor(0x82,0x50,0x50,0xff);
+  this->CurrHPText->SetColor(COLOR_RED1);
   (this->CurrHPText->col).A = 0;//why not use setter?
   abStack_38[2] = 0xff;
-  this->unk90.AddItem(new GuiAnimatorU3(&(this->CurrHPText->col).A,&abStack_38[2],0xf,&double_array_0));
+  this->unk90.AddItem(new GuiAnimatorU8(&(this->CurrHPText->col).A,&abStack_38[2],0xf,&double_array_0));
   this->Link(this->CurrHPText);
   abStack_38[3] = 0;
-  this->unk90.AddItem(new GuiAnimatorL(new GuiAnimatorU3(&(this->CurrHPText->col).A,&abStack_38[3],0xf,&double_array_0),this->CurrHPText));
+  this->unk90.AddItem(new GuiAnimatorL(new GuiAnimatorU8(&(this->CurrHPText->col).A,&abStack_38[3],0xf,&double_array_0),this->CurrHPText));
   sprintf(buff,"%u",Entity::getHPMax(param_2));
   this->MaxHPText = new WidgetClipText(buff,4);
   this->MaxHPText->SetCoords(0xff,0x29);
   this->MaxHPText->posX+= this->posX;//why not use setter?
   this->MaxHPText->boundX0+= this->posX;
   this->MaxHPText->boundX1+= this->posX;
-  this->MaxHPText->SetColor(0x82,0x50,0x50,0xff);
+  this->MaxHPText->SetColor(COLOR_RED1);
   this->MaxHPText->col.A = 0; // why not use setter?
   abStack_38[4] = 0xff;
-  this->unk90.AddItem(new GuiAnimatorU3(&(this->MaxHPText->col).A,&abStack_38[4],0xf,&double_array_0));
+  this->unk90.AddItem(new GuiAnimatorU8(&(this->MaxHPText->col).A,&abStack_38[4],0xf,&double_array_0));
   this->Link(this->MaxHPText);
   abStack_38[5] = 0;
-  this->unk90.AddItem(new GuiAnimatorL(new GuiAnimatorU3(&(this->MaxHPText->col).A,&abStack_38[5],0xf,&double_array_0),this->MaxHPText));
+  this->unk90.AddItem(new GuiAnimatorL(new GuiAnimatorU8(&(this->MaxHPText->col).A,&abStack_38[5],0xf,&double_array_0),this->MaxHPText));
 }
 
 u8 WidgetHealthGold::Tick(){
@@ -102,4 +102,4 @@ u8 WidgetHealthGold::Tick(){
 
 Gfx* WidgetHealthGold::Render(Gfx*g,u16 x0,u16 y0,u16 x1,u16 y1){RENDERCHILDREN();}
 
-u32 WidgetHealthGold::m80043c2c(){return this->unk90.present;}
+u32 WidgetHealthGold::GetAnimationCount(){return this->unk90.present;}

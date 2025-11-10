@@ -38,22 +38,22 @@ class WidgetMenuChild:public WidgetMenu {
     WidgetSaveFile * field1_0x7c=NULL;
     WidgetSaveFile *field2_0x80=NULL;
     WidgetSaveFile *field3_0x84=NULL;
-    GuiAnimationManager field4_0x88=GuiAnimationManager(6);
-    u32 field5_0x98;
+    GuiAnimationManager aniManage=GuiAnimationManager(6);
+    u32 currFileIndex;
     u32 field6_0x9c;
-    u32 field7_0xa0;
+    u32 canRender;
     WidgetMenuChild(u16 x0,u16 y0,u16 x1,u16 y1);
     ~WidgetMenuChild();
     Gfx * Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
     u8 Tick();
     s32 AddFileWidget(WidgetSaveFile *param_2);
     void FreeMenu();
-    void m80032c98();
-    void m80032dc4();
+    void ShiftRight();
+    void ShiftLeft();
     WidgetSaveFile* m80032ef8();
     bool m80032f00();
     void m80032f0c();
-    void m80033018(s32 param_2);
+    void SetIndex(s32 param_2);
     void m80033020();
 
 };

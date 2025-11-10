@@ -16,10 +16,10 @@ class DollMenuPortraits: public WidgetMenu{
     u16 Ws[4];
     WidgetBorg8* aspectIcon;
     WidgetBorg8* schoolIcon;
-    GuiAnimationManager unkb8=GuiAnimationManager(22);
+    GuiAnimationManager aniManage=GuiAnimationManager(22);
     DollMenuPortraits(Party *party,u8 size,u8 selected);
     ~DollMenuPortraits();
-    u32 m80042c04();
+    u32 AnimationCount();
     void SchoolAspectIcons(u8);
     Gfx* Render(Gfx*g,u16 x0,u16 y0,u16 x1,u16 y1);
     u8 Tick();
@@ -39,7 +39,7 @@ class WidgetHealthGold: public WidgetMenu{
     void Update(CharSheet* chara);
     u8 Tick();
     Gfx* Render(Gfx*g,u16 x0,u16 y0,u16 x1,u16 y1);
-    u32 m80043c2c();
+    u32 GetAnimationCount();
 };
 
 class DollEquipmentMenu: public WidgetMenu{
@@ -109,10 +109,17 @@ class WidgetMenuSpells: public WidgetMenu{
 
 class WidgetDollMenu: public WidgetMenu {
     public:
-    DollMenuPortraits* unk7c;
+    DollMenuPortraits* portraits;
     WidgetHealthGold* charStats_widget;
     DollEquipmentMenu* itemslots_widget;
     DollMenuLists* lists;
     WidgetMenuSpells* spells_widget;
+    WidgetBarter* barter_widget;
     WidgetDollMenu(u8,u8);
+    u32 InitMenu(u8 param_2,u8 param_3);
+    bool IsAnimated();
+    void CHorizontal(u8 dir);
+    Gfx* Render(Gfx*,u16,u16,u16,u16);
+    u8 Tick();
+    u32 GetNumber();
 };

@@ -38,7 +38,7 @@ u8 widget_left_side_fade_out(BaseWidget *w) {
 
 WidgetClipText * WidgetItemDetail::AddLeftText(char *txt) {
   WidgetClipText *w = WClipTXT(txt);
-  w->SetColor(0x82,0x50,0x50,0xff);
+  w->SetColor(COLOR_RED1);
   w->SetCoords(this->posX,this->bottom);
   this->Link(w);
   return w;
@@ -46,7 +46,7 @@ WidgetClipText * WidgetItemDetail::AddLeftText(char *txt) {
 
 WidgetClipText * WidgetItemDetail::AddRightText(char *txt) {
   WidgetClipText *w = WClipTXT(txt);
-  w->SetColor(0x82,0x50,0x50,0xff);
+  w->SetColor(COLOR_RED1);
   w->SetCoords(ItemDetailsWidth-w->GetWidth(),this->bottom);
   this->Link(w);
   return w;
@@ -207,7 +207,7 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
     pBVar9 = WClipTXT(acStack_b8);
     s16 uVar11=pBVar9->GetHeight();
     this->bottom = uVar11 + 187;
-    pBVar9->SetColor(0x82,0x50,0x50,0xff);
+    pBVar9->SetColor(COLOR_RED1);
     pBVar9->SetCoords(this->posX,this->bottom);
     this->Link(pBVar9);
     GetItemImage(IVar20,&aBStack_30);
@@ -218,7 +218,7 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
     pBVar12->SetHeight(sVar18);
     this->Link(pBVar12);
     pBVar9 = WClipTXT(gItemDBp->Gear[(s16)search_item_array(IVar20)].name);
-    pBVar9->SetColor(0x82,0x50,0x50,0xff);
+    pBVar9->SetColor(COLOR_RED1);
     pBVar9->SetCoords(pBVar12->posX + pBVar12->GetWidth() + 2,this->bottom);
     this->Link(pBVar9);
     this->bottom+=pBVar9->GetHeight();
@@ -303,7 +303,7 @@ void WidgetItemDetail::PrintNameIcon(char *txt) {
   this->bottom+= this->GetHeight()+2;
   WidgetClipText*wtxt = WClipTXTSafe(txt);
   wtxt->SetCoords(this->posX + wicon->GetWidth() + 2,this->bottom - wtxt->GetHeight());
-  wtxt->SetColor(0x82,0x50,0x50,0xff);
+  wtxt->SetColor(COLOR_RED1);
   this->Link(wtxt);
   this->bottom+=4;
 }
@@ -482,15 +482,15 @@ setColor1:
       uVar15 = 0;
       goto setColor1;
     }
-    pBVar10->SetColor(0x82,0x50,0x50,0xff);
+    pBVar10->SetColor(COLOR_RED1);
   }
   sprintf(acStack_128,"%ld",bVar12);
   pBVar10 = WClipTXT(acStack_128);
-  pBVar10->SetColor(0x82,0x50,0x50,0xff);
+  pBVar10->SetColor(COLOR_RED1);
   pBVar10->SetCoords(sVar5 - pBVar10->GetWidth(),this->bottom);
   this->Link(pBVar10);
   pBVar10 =  WClipTXT(gGlobals.CommonStrings[0x224]);
-  pBVar10->SetColor(0x82,0x50,0x50,0xff);
+  pBVar10->SetColor(COLOR_RED1);
   pBVar10->SetCoords(this->posX,this->bottom);
   this->Link(pBVar10);
   u8 lVar8 = Entity::GetArmorProtect(pCVar3,0);
@@ -513,15 +513,15 @@ setColor2:
       uVar15 = 0;
       goto setColor2;
     }
-    pBVar10->SetColor(0x82,0x50,0x50,0xff);
+    pBVar10->SetColor(COLOR_RED1);
   }
   sprintf(acStack_128,"%ld",lVar8);
   pBVar10 = WClipTXT(acStack_128);
-  pBVar10->SetColor(0x82,0x50,0x50,0xff);
+  pBVar10->SetColor(COLOR_RED1);
   pBVar10->SetCoords(sVar5 - (short)pBVar10->GetWidth(),this->bottom);
   this->Link(pBVar10);
   pBVar10 = WClipTXT(gGlobals.CommonStrings[0x225]);
-  pBVar10->SetColor(0x82,0x50,0x50,0xff);
+  pBVar10->SetColor(COLOR_RED1);
   pBVar10->SetCoords(this->posX,this->bottom);
   this->Link(pBVar10);
   }

@@ -61,7 +61,7 @@ u8 WidgetFastScrollMenu::Tick(){
     }
     BaseWidget*highlighted = sub->items[sub->highlight];
     if (highlighted->posX != this->posX)
-      m8002fd90();
+      AdjustItemsX();
     if ((highlighted->posY < this->boundY0) || (this->boundY1 <= highlighted->posY))
       m8002ff30();
     sub->blendB+=sub->blendSign;
@@ -78,7 +78,7 @@ u8 WidgetFastScrollMenu::Tick(){
   return BaseWidget::TickChildren();
 }
 
-void WidgetFastScrollMenu::m8002fd90(){
+void WidgetFastScrollMenu::AdjustItemsX(){
   WSMSub *sub = (WSMSub *)this->substruct;
   if ((sub->items) && (sub->currentCount)) {
     BaseWidget* w = *sub->items;

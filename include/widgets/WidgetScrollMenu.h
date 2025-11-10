@@ -36,7 +36,7 @@ class WidgetFastScrollMenu : public BaseWidget{
     ~WidgetFastScrollMenu();
     Gfx * Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
     u8 Tick();
-    void m8002fd90();
+    void AdjustItemsX();
     void m8002ff30();
     BaseWidget* UpFunc();
     BaseWidget* DownFunc();

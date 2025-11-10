@@ -21,7 +21,7 @@ void TheatreMenu::InitMenu() {
   Controller::GetDelay(0);
   s->scroll = new WidgetScrollMenu(10);
   Utilities::SetScrollMenuColors(s->scroll,0x67,0x40,0x40,0xff,0xc5,0xae,0xb0,0xff,0xf);
-  s->scroll->SetColor(0x67,0x46,0x3c,0xff);
+  s->scroll->SetColor(COLOR_BROWN1);
   WidgetBorg8* title = WidgetB8(BORG8_TitleTheater);
   title->SetCoords((SCREEN_WIDTH/2) - (title->GetWidth() >> 1),50);
   this->Link(title);

@@ -81,7 +81,7 @@ LAB_80038434:
     u16 uVar16 = (ushort)pBVar8->posY + pBVar8->GetHeight() + 4;
     Gsprintf(Cstring(EarnedExp),(gGlobals.expGained * 1.5f));
     pBVar8 = WClipTXT(gGlobals.text);
-    pBVar8->SetColor(0x82,0x50,0x50,0xff);
+    pBVar8->SetColor(COLOR_RED1);
     pBVar8->SetCoords(0x14,uVar16);
     Utilities::SetTextWidgetBoundsX(pBVar8,0x14,0x96);
     this->Link(pBVar8);
@@ -98,7 +98,7 @@ LAB_80038434:
           if (lvPre < lvPost) {
             Gsprintf(Cstring(LevelUp),(gGlobals.party)->Members[i]->name);
             pBVar8 = WClipTXT(gGlobals.text);
-            pBVar8->SetColor(0x82,0x50,0x50,0xff);
+            pBVar8->SetColor(COLOR_RED1);
             pBVar8->SetCoords(0x14,(short)uVar16);
             Utilities::SetTextWidgetBoundsX(pBVar8,0x14,0x9b);
             this->Link(pBVar8);
@@ -111,11 +111,11 @@ LAB_80038434:
     if (bVar3) PlayAudioSound(&gGlobals.SFXStruct,BORG12_LevelUp,0,gGlobals.VolSFX,300,0x3c);
     NormalFont;
     this->expCost = new WidgetClipText(NULL,20);
-    this->expCost->SetColor(0x82,0x50,0x50,0xff);
+    this->expCost->SetColor(COLOR_RED1);
     this->expCost->SetCoords(0x14,0xc5 - (short)this->expCost->GetHeight());
     this->Link(this->expCost);
     this->expRemain = new WidgetClipText(NULL,20);
-    this->expRemain->SetColor(0x82,0x50,0x50,0xff);
+    this->expRemain->SetColor(COLOR_RED1);
     this->expRemain->SetCoords(0x14,this->expCost->posY + this->expCost->GetHeight());
     this-Link(this->expRemain);
     ShowEXPCosts();
@@ -170,9 +170,9 @@ void DollMenuLists::LRToggle(u8 param_2){
     if (newIndex!= this->menuIndex) {
       WidgetTrainShop* w=this->menus[newIndex];
       w->posX = 0xa0 - sVar9;
-      this->unkb0.AddItem(new GuiAnimatorU2(&w->posX,&this->menus[this->menuIndex]->posX,0x14,&double_array_0));
+      this->unkb0.AddItem(new GuiAnimatorS16(&w->posX,&this->menus[this->menuIndex]->posX,0x14,&double_array_0));
       asStack_28[0] = sVar9 + this->menus[this->menuIndex]->posX;
-      this->unkb0.AddItem(new GuiAnimatorU2(&this->menus[this->menuIndex]->posX,asStack_28,0x14,&double_array_0));
+      this->unkb0.AddItem(new GuiAnimatorS16(&this->menus[this->menuIndex]->posX,asStack_28,0x14,&double_array_0));
       this->Link(w);
       pWVar3 = this->menus[this->menuIndex];
       this->menuIndex = (byte)newIndex;

@@ -42,12 +42,12 @@ WidgetSkillInfo::WidgetSkillInfo(CharSkills *sk,u16 subType,u8 type):BaseWidget(
     }
   }
   if(this->skillIcon) this->Link(this->skillIcon);
-  this->skillText->SetColor(0x82,0x50,0x50,0xff);
+  this->skillText->SetColor(COLOR_RED1);
   this->Link(this->skillText);
   sprintf(buff,"%d",baseLV);
   this->skillVal=WClipTXTSafe(buff);
   this->skillVal->varU16=baseLV;
-  this->skillVal->SetColor(0x82,0x50,0x50,0xff);
+  this->skillVal->SetColor(COLOR_RED1);
   this->Link(this->skillVal);
   if (mod) {
     u8 txtRed,txtGreen;

@@ -302,7 +302,7 @@ LAB_8002864c:
             return;
           }
           pCVar4 = (&gCombatP->combatEnts)[i];
-          pCVar2->m80068b0c(pCVar4->GetCoordXU8(),pCVar4->GetCoordYU8());
+          pCVar2->AdjustFacing(pCVar4->GetCoordXU8(),pCVar4->GetCoordYU8());
           pCVar2->m80068e38();
         }
         if (gCombatP->substruct2[1].arrayB[i]) {

@@ -62,11 +62,11 @@ DollMenuPortraits::DollMenuPortraits(Party *party,u8 size,u8 selected):WidgetMen
     }
 }
 DollMenuPortraits::~DollMenuPortraits(){
-    this->unkb8.~GuiAnimationManager();
+    this->aniManage.~GuiAnimationManager();
     WidgetMenu::~WidgetMenu();
 }
 
-u32 DollMenuPortraits::m80042c04(){return unkb8.present;}
+u32 DollMenuPortraits::AnimationCount(){return aniManage.present;}
 
 
 void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
@@ -89,7 +89,7 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
   byte *pbStack_34;
   byte *pbStack_30;
   
-  if ((!m80042c04()) && (1 < this->partySize)) {
+  if ((!AnimationCount()) && (1 < this->partySize)) {
     if (param_2 == 0) {
       puStack_40 = &uStack_50;
       iStack_3c = -1;
@@ -106,16 +106,16 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
     if (this->partySize != 0) {
         for(u8 i=0;i<this->partySize;i++) {
           u8 uVar16 = (int)(i + iStack_3c + (uint)this->partySize) % (int)(uint)this->partySize;
-          this->unkb8.AddItem(new GuiAnimatorU2(&this->portraits[i]->posX,&this->portraits[uVar16]->posX,0xf,&double_array_0));
-          this->unkb8.AddItem(new GuiAnimatorU2(&this->portraits[i]->posY,&this->portraits[uVar16]->posY,0xf,&double_array_0));
-          this->unkb8.AddItem(new GuiAnimatorU2(&this->Ws[i],&this->Ws[uVar16],0xf,&double_array_0));
-          this->unkb8.AddItem(new GuiAnimatorU2(&this->Hs[i],&this->Hs[uVar16],0xf,&double_array_0));
+          this->aniManage.AddItem(new GuiAnimatorS16(&this->portraits[i]->posX,&this->portraits[uVar16]->posX,15,&double_array_0));
+          this->aniManage.AddItem(new GuiAnimatorS16(&this->portraits[i]->posY,&this->portraits[uVar16]->posY,15,&double_array_0));
+          this->aniManage.AddItem(new GuiAnimatorS16(&this->Ws[i],&this->Ws[uVar16],15,&double_array_0));
+          this->aniManage.AddItem(new GuiAnimatorS16(&this->Hs[i],&this->Hs[uVar16],15,&double_array_0));
         }
       }
     abStack_4c[0] = 0;
-    this->unkb8.AddItem(new GuiAnimatorU3(&(this->names[this->selectedMember]->col).A,pbStack_34,0xf,&double_array_0));
+    this->aniManage.AddItem(new GuiAnimatorU8(&(this->names[this->selectedMember]->col).A,pbStack_34,0xf,&double_array_0));
     abStack_4c[1] = 0xff;
-    this->unkb8.AddItem(new GuiAnimatorU3(&(this->names[uStack_4e]->col).A,pbStack_30,0xf,&double_array_0));
+    this->aniManage.AddItem(new GuiAnimatorU8(&(this->names[uStack_4e]->col).A,pbStack_30,0xf,&double_array_0));
     if (this->partySize != 0) {
         for(u8 i=0;i<this->partySize;i++)  {
         if (i != *puStack_40) {
@@ -130,20 +130,20 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
     pBVar12 = this->aspectIcon;
     if (pBVar12->varU16 != AVar15){
       abStack_4c[2] = 0;
-      this->unkb8.AddItem(new GuiAnimatorL(new GuiAnimatorU3(&(pBVar12->col).A,abStack_4c + 2,0xf,&double_array_0),pBVar12));
+      this->aniManage.AddItem(new GuiAnimatorL(new GuiAnimatorU8(&(pBVar12->col).A,abStack_4c + 2,0xf,&double_array_0),pBVar12));
       getAspectIcon(AVar15,&BStack_48);
       this->aspectIcon = WidgetB8(BStack_48);
       this->aspectIcon->SetCoords(pBVar12->posX,pBVar12->posY);
       (this->aspectIcon->col).A = 0;
       this->aspectIcon->varU16 = AVar15;
       this->Link(this->aspectIcon);
-      this->unkb8.AddItem(new GuiAnimatorU3(&(this->aspectIcon->col).A,abStack_44,0xf,&double_array_0));
+      this->aniManage.AddItem(new GuiAnimatorU8(&(this->aspectIcon->col).A,abStack_44,0xf,&double_array_0));
     }
     pBVar12 = this->schoolIcon;
     u8 MVar2 = pCVar4->EXP->school;
     if (pBVar12) {
       if (pBVar12->varU16 == (ushort)MVar2) return;
-      this->unkb8.AddItem(new GuiAnimatorL(new GuiAnimatorU3(&(pBVar12->col).A,abStack_44 + 1,0xf,&double_array_0),pBVar12));
+      this->aniManage.AddItem(new GuiAnimatorL(new GuiAnimatorU8(&(pBVar12->col).A,abStack_44 + 1,0xf,&double_array_0),pBVar12));
     }
     getSchoolIcon(MVar2,&BStack_48);
     if (BStack_48 == 0) this->schoolIcon = NULL;
@@ -154,7 +154,7 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
       pBVar12->varU16 = (ushort)MVar2;
       this->Link(this->schoolIcon);
       abStack_44[2] = 0xff;
-      this->unkb8.AddItem(new GuiAnimatorU3(&(this->schoolIcon->col).A,abStack_44 + 2,0xf,&double_array_0));
+      this->aniManage.AddItem(new GuiAnimatorU8(&(this->schoolIcon->col).A,abStack_44 + 2,0xf,&double_array_0));
     }
   }
 }
@@ -168,7 +168,7 @@ Gfx * DollMenuPortraits::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 
 
 u8 DollMenuPortraits::Tick(){
-  unkb8.Tick(1);
+  aniManage.Tick(1);
   if (this->partySize != 0) {
     for(u8 i=0;i<this->partySize;i++) {
       this->portraits[i]->SetHeight(this->Hs[i]);

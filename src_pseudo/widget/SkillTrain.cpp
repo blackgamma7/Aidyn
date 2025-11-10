@@ -15,7 +15,7 @@ WidgetSkillTrain::WidgetSkillTrain(u8 istrainer):WidgetTrainShop() {
     this->TitleWidget->SetCoords(0x9e,0x51);
     this->Link(this->TitleWidget);
   }
-  this->SetColor(0x82,0x50,0x50,0xff);
+  this->SetColor(COLOR_RED1);
   this->scrollMenu = NULL;
   InitMenu();
 }

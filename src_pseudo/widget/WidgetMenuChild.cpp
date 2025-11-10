@@ -15,20 +15,20 @@ WidgetMenu(){
   this->boundX1 = x1;
   this->boundY0 = y0;
   this->boundX0 = x0;
-  this->field5_0x98 = 0;
+  this->currFileIndex = 0;
   this->field6_0x9c = 0;
-  this->field7_0xa0 = 0;
+  this->canRender = false;
   this->boundY1 = y1;
 }
 
 WidgetMenuChild::~WidgetMenuChild(){
   FreeMenu();
-  field4_0x88.~GuiAnimationManager();
+  aniManage.~GuiAnimationManager();
   WidgetMenu::~WidgetMenu();
 }
 
 Gfx * WidgetMenuChild::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  if (this->field7_0xa0) {
+  if (this->canRender) {
     u16 rx0 = this->boundX0;
     u16 ry0 = this->boundY0;
     u16 rx1 = this->boundX1;
@@ -45,8 +45,8 @@ Gfx * WidgetMenuChild::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 u8 WidgetMenuChild::Tick() {
   if(this->field2_0x80) this->field2_0x80->unk3();
   if (this->field3_0x84) this->field3_0x84->unk3();
-  this->field4_0x88.Tick(1);
-  if ((this->field3_0x84) && ((this->field4_0x88).present == 0)) {
+  this->aniManage.Tick(1);
+  if ((this->field3_0x84) && ((this->aniManage).present == 0)) {
     m80033020();
   }
   return WidgetMenu::Tick();
@@ -90,7 +90,7 @@ void WidgetMenuChild::FreeMenu() {
   WidgetSaveFile *pBVar5;
   
   if (this->field2_0x80) {
-    this->field4_0x88.Clear();
+    this->aniManage.Clear();
     m80033020();
     this->field2_0x80->unk2();
     pWVar2 = this->field2_0x80->next;
@@ -111,11 +111,11 @@ void WidgetMenuChild::FreeMenu() {
     this->field2_0x80 = NULL;
     this->field1_0x7c = NULL;
     this->field6_0x9c = 0;
-    this->field7_0xa0 = 0;
+    this->canRender = false;
   }
 }
 
-void WidgetMenuChild::m80032c98() {
+void WidgetMenuChild::ShiftRight() {
   WidgetSaveFile *pWVar3;
   WidgetSaveFile *pWVar4;
   short asStack_20 [1];
@@ -123,34 +123,31 @@ void WidgetMenuChild::m80032c98() {
   pWVar3 = this->field2_0x80;
   if ((pWVar3 != NULL) && (pWVar4 = pWVar3->next, pWVar4 != NULL)) {
     asStack_20[0] = this->field2_0x80->posX - (pWVar3->boundX1 - this->boundX0);
-    this->field4_0x88.AddItem(new GuiAnimatorU2(&this->field2_0x80->posX,asStack_20,60,&double_array_1));
+    this->aniManage.AddItem(new GuiAnimatorS16(&this->field2_0x80->posX,asStack_20,60,&double_array_1));
     this->field2_0x80 = pWVar4;
     this->field3_0x84 = this->field2_0x80;
     pWVar4->unk();
     this->Link(this->field2_0x80);
     Utilities::MoveWidget2(this->field2_0x80,this->boundX1,this->field2_0x80->posY);
-    this->field4_0x88.AddItem(new GuiAnimatorU2(&this->field2_0x80->posX,&this->boundX0,60,&double_array_1));
-    this->field5_0x98++;
+    this->aniManage.AddItem(new GuiAnimatorS16(&this->field2_0x80->posX,&this->boundX0,60,&double_array_1));
+    this->currFileIndex++;
   }
 }
 
-void WidgetMenuChild::m80032dc4() {
+void WidgetMenuChild::ShiftLeft() {
   WidgetSaveFile *pWVar3;
   
   if ((this->field2_0x80 != NULL) &&
      (pWVar3 = this->field2_0x80->prev, pWVar3 != NULL)) {
-    this->field4_0x88.AddItem(new GuiAnimatorU2(&this->field2_0x80->posX,&this->boundX1,0x3c,
-                        &double_array_1));
+    this->aniManage.AddItem(new GuiAnimatorS16(&this->field2_0x80->posX,&this->boundX1,60,&double_array_1));
     this->field2_0x80 = pWVar3;
     this->field3_0x84 = this->field2_0x80;
     pWVar3->unk();
     this->Link(this->field2_0x80);
     Utilities::MoveWidget2(this->field2_0x80,this->field2_0x80->posX * 2 - this->boundX1,this->field2_0x80->posY);
-    this->field4_0x88.AddItem(new GuiAnimatorU2(&this->field2_0x80->posX,&this->boundX0,60,
+    this->aniManage.AddItem(new GuiAnimatorS16(&this->field2_0x80->posX,&this->boundX0,60,
                         &double_array_1));
-    if (this->field5_0x98 != 0) {
-      this->field5_0x98--;
-    }
+    if (this->currFileIndex) this->currFileIndex--;
   }
 }
 
@@ -166,7 +163,7 @@ void WidgetMenuChild::m80032f0c() {
   int iVar4;
   
   iVar4 = 0;
-  if (this->field1_0x7c != NULL) {
+  if (this->field1_0x7c) {
     this->field2_0x80->unk2();
     this->Unlink(this->field2_0x80);
     sVar1 = this->boundX0;
@@ -174,23 +171,22 @@ void WidgetMenuChild::m80032f0c() {
     w = this->field1_0x7c;
     for (; (w->next != NULL &&
            (Utilities::MoveWidget2(w,sVar1 + (sVar1 - sVar2),w->posY),
-           iVar4 != this->field5_0x98)); iVar4++) {
+           iVar4 != this->currFileIndex)); iVar4++) {
       w = w->next;
     }
-    this->field5_0x98 = iVar4;
+    this->currFileIndex = iVar4;
     this->field2_0x80 = w;
     w->unk();
     this->Link(this->field2_0x80);
-    while( true ) {
+    do {
       Utilities::MoveWidget2(w,this->boundX0,w->posY);
       w = w->next;
-      if (w == NULL) break;
-    }
-    this->field7_0xa0 = 1;
+    }while (w);
+    this->canRender = true;
   }
 }
 
-void WidgetMenuChild::m80033018(s32 param_2) {this->field5_0x98 = param_2;}
+void WidgetMenuChild::SetIndex(s32 param_2) {this->currFileIndex = param_2;}
 
 
 void WidgetMenuChild::m80033020() {

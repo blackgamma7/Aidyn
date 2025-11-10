@@ -28,14 +28,14 @@ SMIItem::SMIItem(ItemInstance *pObject,u8 q,u8 user):BaseWidget(){
     this->userPortrait->varU16 = this->userIndex;
   }
   this->ItemName = WClipTXTSafe(this->item->name);
-  this->ItemName->SetColor(0x82,0x50,0x50,0xff);
+  this->ItemName->SetColor(COLOR_RED1);
   this->Link(this->ItemName);
   Utilities::SetTextWidgetBoundsX(this->ItemName,0,640);
   if (this->quantity) {
     sprintf(buff,"%d",this->quantity);
     this->QuantityText = WClipTXTSafe(buff);
     this->QuantityText->varU16 = this->quantity;
-    this->QuantityText->SetColor(0x82,0x50,0x50,0xff);
+    this->QuantityText->SetColor(COLOR_RED1);
     this->Link(this->QuantityText);
   }
   this->varU16 = this->item->id;

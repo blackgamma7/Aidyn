@@ -1,7 +1,6 @@
 #include "globals.h"
 
-u16 pause_menu_borg8[]={BORG8_PauseMenuA,BORG8_PauseMenuB,BORG8_PauseMenuC};
-float scroll_floats[]={27.0,0,-26.0,0};
+
 
 PauseWidget::PauseWidget(WidgetHandler *handle,u8 param_3):WidgetMenu(){
   BigAssMenu(handle,param_3);
@@ -20,7 +19,6 @@ PauseWidget::~PauseWidget(){
   this->Handler->FreeWidget(this);
   WidgetMenu::~WidgetMenu();
 }
-
 
 u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   bool bVar3;
@@ -48,7 +46,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   sub->optionsMenu = NULL;
   sub->dollmenu = NULL;
   sub->calendar = NULL;
-  sub->takeInput = 0;
+  sub->isScrolling = 0;
   pBVar7 = func_loading_borg7(BORG7_PauseMenu,&gGlobals.gameVars.particleEmmiter);
   (sub->camPos).x = 0.0;
   (sub->camPos).z = 0.0;
@@ -257,7 +255,7 @@ u8 PauseWidget::Tick(){
   sVar1 = sub->unk24;
   if (lVar5 == sVar1) {
     fVar8 = scroll_floats[sub->PauseMenuSection];
-    sub->takeInput = 0;
+    sub->isScrolling = 0;
   }
   else {
     varX = 0;

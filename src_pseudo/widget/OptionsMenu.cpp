@@ -128,7 +128,7 @@ void WidgetOptionsMenu::MakeScrollList(){
     sub->ScrollMenu->Link(pBVar2);
     pBVar5 = WidgetB8(0x3757);
     pBVar5->SetCoords(170,204);
-    pBVar5->SetColor(0x82,0x50,0x50,0xff);
+    pBVar5->SetColor(COLOR_RED1);
     sub->ScrollMenu->Link(pBVar5);
     if (gGlobals.screenFadeModeSwitch != 3) {
       txt = WClipTXT(Cstring(OptionsLoadGame));
@@ -162,7 +162,7 @@ void WidgetOptionsMenu::MakeScrollList(){
     sub->ScrollMenu->SetCoords(SCREEN_WIDTH/2,110);
     FUN_800bbfc8(sub->ScrollMenu,5);
     sub->ScrollMenu->SetFlags(4);
-    sub->ScrollMenu->SetColor(0x82,0x50,0x50,0xff);
+    sub->ScrollMenu->SetColor(COLOR_RED1);
     Utilities::SetScrollMenuColors(sub->ScrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
     sub->ScrollMenu->Tick();
     pBVar2->posY = (short)((int)(SCREEN_HEIGHT - (u16)(pBVar2->GetHeight() + sub->ScrollMenu->GetHeight() + 0x10)) / 2);
@@ -236,7 +236,7 @@ void WidgetOptionsMenu::ContPakLoad(){
   sub->unk14 = sub->unk10;
   this->Unlink(sub->unk10);
   if (!sub->contPakWidget) {
-    Color32 col0={0x82,0x50,0x50,0xff};
+    Color32 col0={COLOR_RED1};
     Color32 col1={0x44,0x22,0x2a,0xff};
     Color32 col2= {0x97,0xbf,0x8d,0xff};
     sub->contPakWidget = WContPakData_Load(0x43,0x18,FUN_80050868,FUN_800477a0,&col0,&col1,&col2);
@@ -263,7 +263,7 @@ void WidgetOptionsMenu::ContPakSave(){
   pvVar1->unk14 = pvVar1->unk10;
   this->Unlink(pvVar1->unk10);
   if (!pvVar1->contPakWidget) {
-    Color32 col0={0x82,0x50,0x50,0xff};
+    Color32 col0={COLOR_RED1};
     Color32 col1={0x44,0x22,0x2a,0xff};
     Color32 col2= {0x97,0xbf,0x8d,0xff};
     pvVar1->contPakWidget = WContPakData_Save(0x43,0x18,FUN_800477a0,&col0,&col1,&col2);

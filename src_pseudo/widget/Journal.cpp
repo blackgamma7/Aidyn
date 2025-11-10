@@ -79,7 +79,7 @@ void Journal::InitMenu(s16 newest) {
   this->arrowD = WidgetB8(0xd5);
   this->Arrows = new WidgetScrollArrows(this->scrollList,this->arrowU,this->arrowD,-1);
   this->Arrows->SetCoords(247,30);
-  this->Arrows->SetColor(0x82,0x50,0x50,0xff);
+  this->Arrows->SetColor(COLOR_RED1);
   ((WSA_Sub*)this->Arrows->substruct)->bottom = 30;
   this->Link(this->Arrows);
   this->fadeIn = Journal_FadeIn;

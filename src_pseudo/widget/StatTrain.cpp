@@ -12,7 +12,7 @@ WidgetStatTrain::WidgetStatTrain():WidgetTrainShop() {
   this->TitleWidget = WidgetB8(0xee);
   this->TitleWidget->SetCoords(0x9e,0x51);
   this->Link(this->TitleWidget);
-  this->SetColor(0x82,0x50,0x50,0xff);
+  this->SetColor(COLOR_RED1);
   this->scrollMenu = NULL;
   this->expToSpendT = WClipTXT(gGlobals.CommonStrings[0x1fa]);
   this->Link(this->expToSpendT);

@@ -18,14 +18,28 @@ struct MapEventFlag {
     uint MapShortB;
     uint flag;
 };
+extern WorldMapPiece WorldMapPieces[];
+extern MapEventFlag mapEventFlags[];
+
+void set_map_event_flag(s32 a,s32 b);
 
 class WidgetMenuWorldMap : public WidgetMenu{
+    public:
     Color32 col;
     Color32 col2;
-    u8 field3_0x84;
+    u8 unk84;
     u8 field4_0x85;
     u8 pieceAlpha;
     WidgetBorg8 *Marker;
     MapPieceWidget *mappiceptr;
     u16 mappieceCount;
+    void ShowMap();
+    bool Init();
+    bool FreePieces();
+    Gfx* Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
+    u8 Tick();
+    inline WidgetMenuWorldMap();
+    ~WidgetMenuWorldMap();
+    u32 GetNumber();
+
 };

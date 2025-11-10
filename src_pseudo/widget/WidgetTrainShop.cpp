@@ -30,7 +30,7 @@ BaseWidget* WidgetTrainShop::SetHighlight(u16 h){
   }
 LAB_80037dd4:
   if (!ret)
-    Utilities::SetScrollMenuColors(this->scrollMenu,0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+    Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_RED1,COLOR_RED1,1);
   else
     Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   return ret;

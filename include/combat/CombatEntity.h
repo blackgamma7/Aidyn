@@ -61,7 +61,7 @@ class CombatEntity {
     void ToggleFlag(u16);
     u8 UnusedMovement();
     void NOOP_80068350();
-    u8 m80068358();
+    u8 NotNearEnemy();
     void SetMovementRange();
     u8 DEXCheck();
     u8 GetProtection();
@@ -70,7 +70,7 @@ class CombatEntity {
     void Coord2IsCoord();
     void m80068924();
     void SetCardinalFacing(s8);
-    u8 m80068b0c(u8,u8);
+    u8 AdjustFacing(u8,u8);
     u8 CheckFacings(float,float);
     u8 CheckBackstab(CombatEntity *);
     void m80068dd8();
@@ -186,7 +186,7 @@ class CombatEntity {
     SceneData* GetWeaponScene();
     void GetWeaponRanges(float *,float *,float *);
     void ClearSpellEffects();
-    void m80070234();
+    void UpdatePosition();
     void CheckTargetIndex();
     void PrintDamage(s16);
     void PrintHealing(s16);

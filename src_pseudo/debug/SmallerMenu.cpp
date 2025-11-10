@@ -158,16 +158,16 @@ void smaller_debug_menu(void){
   WidgetScrollMenu* WSM = new WidgetScrollMenu(10);
   gGlobals.playerCharStruct.smallerDebugWindow->Link(WSM);
   WSM->SetCoords(120,65);
-  WSM->SetColor(0x96,0x96,0x96,0x96);
+  WSM->SetColor(150,150,150,150);
   WSMSub *pvVar1 = (WSMSub *)WSM->substruct;
-  pvVar1->reds[0] = 0x96;
-  pvVar1->reds[1] = 0xfa;
-  pvVar1->greens[0] = 0x96;
-  pvVar1->greens[1] = 0xfa;
-  pvVar1->blues[0] = 0x96;
-  pvVar1->blues[1] = 0xfa;
-  pvVar1->alphas[0] = 0x96;
-  pvVar1->alphas[1] = 0xfa;
+  pvVar1->reds[0] = 150;
+  pvVar1->reds[1] = 250;
+  pvVar1->greens[0] = 150;
+  pvVar1->greens[1] = 250;
+  pvVar1->blues[0] = 150;
+  pvVar1->blues[1] = 250;
+  pvVar1->alphas[0] = 150;
+  pvVar1->alphas[1] = 250;
   pvVar1->blendA = 10;
   WSM->Append(WText("Teleporter"));
   WSM->Append(WText("Actor"));
@@ -350,9 +350,9 @@ bool change_actor_menu(void){
     txt->varU16 = i;
     scrollMenu->Append(txt);
   }
-  scrollMenu->boundY0 = 0x4b;
+  scrollMenu->boundY0 = 75;
   scrollMenu->boundY1 = 200;
-  scrollMenu->SetColor(0x96,0x96,0x96,0x96);
+  scrollMenu->SetColor(150,150,150,150);
   ((WSMSub*)scrollMenu->substruct)->field0_0x0 = 20;
   scrollMenu->Tick();
   (gGlobals.playerCharStruct.debugMenuActor)->substruct = scrollMenu;
@@ -423,4 +423,4 @@ void debug_teleport(BaseWidget *param_1){
   }
 }
 
-#endif
+#endif //none of this script remains in retail version.

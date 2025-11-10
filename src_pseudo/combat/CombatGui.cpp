@@ -350,14 +350,14 @@ void FUN_80090174(u8 param_1,CombatPortrait *param_2){
   pCVar9->unk14 = 0;
 
   combat_gui_substruct->AddItem(new GuiAnimatorBlip(&param_2->basePortait->posX,&pCVar9->unk4,60));
-  combat_gui_substruct->AddItem(new GuiAnimatorU2(&param_2->basePortait->posY,&pCVar9->unk6,60,&double_array_1));
-  combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->basePortait->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
-  combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->basePortait->height,(u16 *)&pCVar9->unka,60,&double_array_0));
+  combat_gui_substruct->AddItem(new GuiAnimatorS16(&param_2->basePortait->posY,&pCVar9->unk6,60,&double_array_1));
+  combat_gui_substruct->AddItem(new GuiAnimatorU16(&param_2->basePortait->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
+  combat_gui_substruct->AddItem(new GuiAnimatorU16(&param_2->basePortait->height,(u16 *)&pCVar9->unka,60,&double_array_0));
   if (param_2->Overlay) {
     combat_gui_substruct->AddItem(new GuiAnimatorBlip(&param_2->Overlay->posX,&pCVar9->unk4,60));
-    combat_gui_substruct->AddItem(new GuiAnimatorU2(&param_2->Overlay->posY,&pCVar9->unk6,60,&double_array_1));
-    combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->Overlay->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
-    combat_gui_substruct->AddItem(new GuiAnimatorU4(&param_2->Overlay->height,(u16 *)&pCVar9->unka,60,&double_array_0));
+    combat_gui_substruct->AddItem(new GuiAnimatorS16(&param_2->Overlay->posY,&pCVar9->unk6,60,&double_array_1));
+    combat_gui_substruct->AddItem(new GuiAnimatorU16(&param_2->Overlay->width,(u16 *)&pCVar9->unk8,60,&double_array_0));
+    combat_gui_substruct->AddItem(new GuiAnimatorU16(&param_2->Overlay->height,(u16 *)&pCVar9->unka,60,&double_array_0));
   }
 }
 
@@ -413,7 +413,7 @@ void FUN_80090634(void){
         }
         else {
           if ((gGlobals.combatBytes[0] == 9) || (gGlobals.combatBytes[0] == 0x12)) {
-            pWVar1->SetColor(0,0xff,0,0xff);
+            pWVar1->SetColor(COLOR_GREEN0);
           }
         }   //???
         if (((*(int *)((int)(gCombatP->textboxes + -1) + (pCVar4->cEntIndex + 0x24) * 4) != 0) &&
