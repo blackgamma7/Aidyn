@@ -1,4 +1,5 @@
 #include "sceneData.h"
+#include "borgMaps.h"
 
 struct ZoneDat {
     int borg5_ID;

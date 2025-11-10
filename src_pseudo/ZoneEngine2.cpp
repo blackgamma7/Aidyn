@@ -5,7 +5,7 @@
 #include "combat/Visuals.h"
 #define FILENAME "./src/zoneengine.cpp"
 
-#ifdef DEBUGVER
+#ifdef DEBUGVER //some sprintf calls not found in retail version
 #define DEBUGSprintf(fmt,...) Gsprintf(fmt,__VA_ARGS__)
 #else
 #define DEBUGSprintf(fmt,...) ;
@@ -723,7 +723,7 @@ void set_playerdata_zoneDatByte(u16 param_1,u16 param_2){
   
   if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
     for(s16 i=0; i < gGlobals.gameVars.PlayerHandler.max_player; i++) {
-      playerData *p = gGlobals.gameVars.PlayerHandler.playerDats)[iVar3];
+      playerData *p = &gGlobals.gameVars.PlayerHandler.playerDats[i];
       if ((p->removeFlag) && (p->visible_flag == 0)) {
         p->zoneDatByte = get_zoneDatByte(param_1,param_2,p->zoneDatByte);
       }
