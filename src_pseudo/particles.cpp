@@ -162,7 +162,7 @@ void Particle::ApplyVelocity(ParticleHeadStruct *head,ParticleEmmiter *emmi,shor
   if ((emmi->flags & PARTEMMI_4000)&&(part->pos.y < emmi->height)) {
     part->pos.y -= part->vel.y;
     part->vel.x *=.6;
-    part->vel.y *=-6;
+    part->vel.y *=-.6;
     part->vel.z *=.6;
   }
   if (((part->flags & PARTICLE_8000) == 0)&&(part->unk4 != -1)) UpdateParticle(head,&part->colorB,part->flags,part->unk4,delta);
@@ -337,17 +337,15 @@ void Particle::FUN_800b266c(ParticleHeadStruct *param_1,Particle_s *param_2){
 
 Particle_s * Particle::FUN_800b26d8(ParticleHeadStruct *pHead,u16 lifespan){
   int iVar2;
-  Particle_s *pPVar3;
-  
   if (pHead->count1 == pHead->particleStructCount)
     iVar2 = (short)pHead->count1 * 0xd;
   else
     iVar2 = pHead->particleindecies[pHead->count1++];
-  pPVar3 = &pHead->particles[iVar2];
-  InitParticle(pPVar3,pPVar3->id);
-  pPVar3->flags = PARTICLE_0020|PARTICLE_0010|PARTICLE_0001;
-  pPVar3->lifespan = lifespan;
-  return pPVar3;
+  Particle_s *part = &pHead->particles[iVar2];
+  InitParticle(part,part->id);
+  part->flags = PARTICLE_0020|PARTICLE_0010|PARTICLE_0001;
+  part->lifespan = lifespan;
+  return part;
 }
 
 Particle_s * Particle::FUN_800b277c(ParticleHeadStruct *pHead,ParticleEmmiter *pEmmi,u16 lifespan){

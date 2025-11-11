@@ -1,12 +1,16 @@
 #include "typedefs.h"
 
-struct mapDataList {
+
+//data for each map "chunk".
+union mapDataList {
+    struct{
     u16 mapShortA;
     u16 MapShortB;
     u16 borg5;
     u16 borg5_2;
     u16 borg9;
-    u16 terrian;
+    u16 terrian;};
+    u16 arr[6]; //sometimes called as array.
 };
 //TODO: define lists. And give some better names.
 

@@ -16,7 +16,7 @@ void AlignParticle(Particle_s *part,vec3f *pos,vec3f *rot){
   Vec3Sum(&part->pos,&part->pos,&temp);
   Vec2Scale(&part->scale,3.0);
   Vec4Copy(&part->colorA,&part->colorB);
-  Vec4Scale(&part->colorB,-0.008333334);
+  Vec4Scale(&part->colorB,-(1.0f/120));
   part->lifespan = 120;
 }
 
@@ -74,29 +74,29 @@ void FUN_80022a24(ParticleHeadStruct *head,ParticleEmmiter *emmi){
 }
 
 
-void FUN_80022bf4(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
+void FUN_80022bf4(ParticleHeadStruct *pHead,ParticleEmmiter *pEmmi){
   short lifespan;
   Particle_s *p;
   vec3f afStack216;
-  vec3f fStack152;
-  vec2f fStack88;
+  vec3f collidePos;
+  vec2f randPos;
   vec3f *pfVar1;
   
-  lifespan = param_2->unk1a;
-  pfVar1 = (vec3f *)param_2->object;
-  p = Particle::FUN_800b277c(param_1,param_2,lifespan);
+  lifespan = pEmmi->unk1a;
+  pfVar1 = (vec3f *)pEmmi->object;
+  p = Particle::FUN_800b277c(pHead,pEmmi,lifespan);
   Particle::SetScale(p,0.25f,0.25f);
-  RAND.GetVec2(&fStack88,RAND.GetFloatRange(0.01,(param_2->field20_0x54).x));
-  Particle::SetPos(p,pfVar1->x + (param_2->vel).x + fStack88.x,pfVar1->y + (param_2->vel).y,
-                   pfVar1->z + (param_2->vel).z + fStack88.y);
-  Vec3Copy((vec3f *)&param_2->particles->colorB,&afStack216);
+  RAND.GetVec2(&randPos,RAND.GetFloatRange(0.01,(pEmmi->field20_0x54).x));
+  Particle::SetPos(p,pfVar1->x + (pEmmi->vel).x + randPos.x,pfVar1->y + (pEmmi->vel).y,
+                   pfVar1->z + (pEmmi->vel).z + randPos.y);
+  Vec3Copy((vec3f *)&pEmmi->particles->colorB,&afStack216);
   Vec3Scale(&afStack216,(float)(int)lifespan);
   Vec3Sum(&afStack216,&afStack216,&p->pos);
-  if (CheckCollision(gGlobals.gameVars.borg9DatPointer,&p->pos,&afStack216,0.1,&fStack152,NULL,1))
-    Vec4Set(&p->vec_0x4c,fStack152.x,fStack152.y,fStack152.z,100000.0f);
+  if (CheckCollision(gGlobals.gameVars.borg9DatPointer,&p->pos,&afStack216,0.1,&collidePos,NULL,1))
+    Vec4Set(&p->vec_0x4c,collidePos.x,collidePos.y,collidePos.z,100000.0f);
   else
     Vec4Set(&p->vec_0x4c,0.0,-1000.0,0.0,100000.0f);
-  Vec4Copy(&param_2->colvec4,&p->colorA);
+  Vec4Copy(&pEmmi->colvec4,&p->colorA);
   Particle::SetFlag(p,PARTICLE_0200);
   Vec4Copy(&p->colorA,&p->colorB);
   Vec4Scale(&p->colorB,(float)(-0.75 / lifespan));

@@ -140,44 +140,44 @@ void CopyEngineZone(mapFloatDat *param_1,u8 copy){
   }
 }
 
-void SaveToFile(SaveDatPointers *param_1,u8 param_2){
-  SavePartyPlaytime(param_1->savePartyHead);
-  CopyEngineZone(param_1->mapdata,param_2);
-  SaveGameState(gameStates,param_1->EventFlags);
-  Minimap_Save((u8 *)param_1->minimap);
-  Save(param_1->gamestate);
-  SaveVoxelChart(param_1->voxelChart);
+void SaveToFile(SaveDatPointers *p,u8 copy){
+  SavePartyPlaytime(p->savePartyHead);
+  CopyEngineZone(p->mapdata,copy);
+  SaveGameState(gameStates,p->EventFlags);
+  Minimap_Save((u8 *)p->minimap);
+  Save(p->gamestate);
+  SaveVoxelChart(p->voxelChart);
 }
 
-u8 InitSaveFile(SaveDatStruct *param_1){
-  SaveDatPointers apuStack_48;
+u8 InitSaveFile(SaveDatStruct *s){
+  SaveDatPointers p;
   
-  SetPointers(param_1,&apuStack_48);
-  CLEAR(param_1);
-  SaveToFile(&apuStack_48,true);
-  CopySnapshot(apuStack_48.screenshot);
-  CRC::SetChecksum(param_1,sizeof(*param_1));
+  SetPointers(s,&p);
+  CLEAR(s);
+  SaveToFile(&p,true);
+  CopySnapshot(p.screenshot);
+  CRC::SetChecksum(s,sizeof(*s));
 }
 
-void SetPointers(SaveDatStruct *param_1,SaveDatPointers *param_2){
-  param_2->mapdata = &param_1->mapDat;
-  param_2->EventFlags = param_1->flags;
-  param_2->screenshot = param_1->screenshot;
-  param_2->minimap = (u32 *)param_1->minimap;
-  param_2->gamestate = param_1->gameState;
-  param_2->datStart = param_1;
-  param_2->savePartyHead = &param_1->headerDat;
-  param_2->voxelChart = param_1->voxelChart;
+void SetPointers(SaveDatStruct *s,SaveDatPointers *p){
+  p->mapdata = &s->mapDat;
+  p->EventFlags = s->flags;
+  p->screenshot = s->screenshot;
+  p->minimap = (u32 *)s->minimap;
+  p->gamestate = s->gameState;
+  p->datStart = s;
+  p->savePartyHead = &s->headerDat;
+  p->voxelChart = s->voxelChart;
 }
 //Overload? uses "memory maker" triggered by Jumper Pak.
-void SetPointers(MemoryMakerStruct *param_1,SaveDatPointers *param_2){
-  param_2->mapdata = &param_1->mapData;
-  param_2->EventFlags = param_1->flags;
-  param_2->minimap = (u32 *)param_1->minimapDat;
-  param_2->gamestate = param_1->gameState;
-  param_2->datStart = (SaveDatStruct *)param_1;
-  param_2->savePartyHead = &param_1->header;
-  param_2->voxelChart = param_1->voxelChart;
+void SetPointers(MemoryMakerStruct *mm,SaveDatPointers *p){
+  p->mapdata = &mm->mapData;
+  p->EventFlags = mm->flags;
+  p->minimap = (u32 *)mm->minimapDat;
+  p->gamestate = mm->gameState;
+  p->datStart = (SaveDatStruct *)mm;
+  p->savePartyHead = &mm->header;
+  p->voxelChart = mm->voxelChart;
 }
 
 

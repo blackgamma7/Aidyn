@@ -1,6 +1,6 @@
 #include "globals.h"
 
-
+//Set index for sky gradient texture to use for area.
 void BorgMaps::GetMapTerrain(short a,short b) {
   mapDataList *pmVar1;
   u16 i = 0;
@@ -51,7 +51,7 @@ BGType4:
     gGlobals.gameVars.weather.skyBgdat = 2;
   }
 }
-
+//reset indecies of maps' borg5's and borg9's.
 void BorgMaps::ClearMapIndecies(void) {
   for(s16 i=0;i<22;i++){
     for(s16 j=0;j<30;j++){
@@ -61,7 +61,7 @@ void BorgMaps::ClearMapIndecies(void) {
     }
   }
 }
-
+//set indecies of maps' borg5's and borg9's.
 void BorgMaps::WriteMapIndecies(mapDataList *param_1) {
   MapDataList_pointer = param_1;
   ClearMapIndecies();
@@ -74,7 +74,7 @@ void BorgMaps::WriteMapIndecies(mapDataList *param_1) {
 }
 
 u16 BorgMaps::GetMapData(mapDataList *m,u16 shortA,u16 shortB,u16 offset,ushort map) {
-  ushort *puVar3 = &m->mapShortA + offset;///perhaps struct was actually array?
+  ushort *puVar3 = &m->arr[offset];
   for(s16 i=0;((m->mapShortA != shortA) && (m->MapShortB != shortB));i++){
     if((m->mapShortA == 0) && (m->MapShortB == 0)){
         char buff [296];
@@ -169,34 +169,20 @@ void BorgMaps::SetBGM(u16 *param_1,u16 param_2,u16 ExpPak,u16 NoExpPak) {
   }
 }
 
-
+//load map data and change music if needed
+//@param Map map world to load.
+//@param Portal if >-1. sets specific point to teleport player to (used by debug and gGlobals.gameVars.mapDatB)
+//@param param_3 unknown, unused(?) set by gGlobals.gameVars.mapDatC
+//@param param_4 skips resetting some values if true. Always false.
+//@returns index of center zone's Borg9 index
 u16 BorgMaps::LoadMap(s16 Map,s16 Portal,s16 param_3,bool param_4) {
-  ushort uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  bool bVar5;
-  mapDataList *pmVar6;
-  int B;
-  uint i;
-  ushort *puVar7;
-  ushort *puVar8;
-  ushort uVar9;
-  ushort uVar10;
-  mapDataList *pmVar11;
-  float spawnz;
-  float spawnx;
-  ushort BgmArr [6];
-  u16 auStack_80 [2];
-  undefined4 auStack_7c [15];
-  int iStack_40;
-  
-  uVar10 = 0;
-  uVar9 = 0;
-  bVar5 = false;
-  spawnz = 0.0;
-  iStack_40 = 0;
-  spawnx = 0.0;
+
+  u16 ShortA = 0;
+  u16 ShortB = 0;
+  bool debugTP = false; // Portal>-1 means debug teleport entry
+  float spawnz = 0.0;
+  s32 miniMapLoaded = false;
+  float spawnx = 0.0;
   if (!param_4) {
     gGlobals.gameVars.Borg12Next = 0xffff;
     gGlobals.gameVars.mapCellSize.y = 100.0f;
@@ -204,7 +190,7 @@ u16 BorgMaps::LoadMap(s16 Map,s16 Portal,s16 param_3,bool param_4) {
     gGlobals.gameVars.mapDatA = Map;
   }
   Gsprintf("map = %d, portal = %d",Map,Portal);
-  pmVar11 = NULL;
+  mapDataList *pmVar11 = NULL;
   switch(Map) {
   case MAPA_Overworld:
     pmVar11 = gMapDataListOverworld;
@@ -213,184 +199,184 @@ u16 BorgMaps::LoadMap(s16 Map,s16 Portal,s16 param_3,bool param_4) {
       gGlobals.gameVars.mapCellSize.x = 100.0f;
       gGlobals.gameVars.mapCellSize.y = 100.0f;
     }
-    bVar5 = true;
+    debugTP = true;
     switch((Portal + 1)) {
     case 0:
-      bVar5 = false;
+      debugTP = false;
       break;
     case 1:
-      uVar10 = 9;
-      uVar9 = 8;
+      ShortA = 9;
+      ShortB = 8;
       spawnz = 62.0f;
       spawnx = 16.0f;
       break;
     case 2:
-      uVar10 = 1;
-      uVar9 = 4;
+      ShortA = 1;
+      ShortB = 4;
       spawnz = 17.0f;
       spawnx = 39.0f;
       break;
     case 3:
-      uVar10 = 1;
-      uVar9 = 0xf;
+      ShortA = 1;
+      ShortB = 0xf;
       spawnz = 75.0f;
       spawnx = 21.0f;
       break;
     case 4:
-      uVar10 = 8;
-      uVar9 = 0xd;
+      ShortA = 8;
+      ShortB = 0xd;
       spawnz = 50.0f;
       spawnx = 50.0f;
       break;
     case 5:
-      uVar10 = 9;
-      uVar9 = 9;
+      ShortA = 9;
+      ShortB = 9;
       spawnz = 50.0f;
       spawnx = 50.0f;
       break;
     case 6:
-      uVar10 = 0x10;
-      uVar9 = 0x1a;
+      ShortA = 0x10;
+      ShortB = 0x1a;
       spawnz = 50.0f;
       spawnx = 50.0f;
       break;
     case 7:
-      uVar9 = 0x17;
+      ShortB = 0x17;
       spawnx = 26.0f;
       goto LAB_8002ce68;
     case 8:
-      uVar10 = 1;
+      ShortA = 1;
       goto LAB_8002cc40;
     case 9:
-      uVar10 = 2;
+      ShortA = 2;
 LAB_8002cc40:
-      uVar9 = 0x16;
+      ShortB = 0x16;
       spawnz = 50.0f;
       spawnx = 50.0f;
       break;
     case 10:
-      uVar10 = 0x11;
-      uVar9 = 0x15;
+      ShortA = 0x11;
+      ShortB = 0x15;
       spawnz = 50.0f;
       spawnx = 20.0f;
       break;
     case 0xb:
-      uVar10 = 3;
-      uVar9 = 8;
+      ShortA = 3;
+      ShortB = 8;
       spawnz = 45.0f;
       spawnx = 60.0f;
       break;
     case 0xc:
-      uVar10 = 3;
-      uVar9 = 0xf;
+      ShortA = 3;
+      ShortB = 0xf;
       spawnz = 60.0f;
       spawnx = 60.0f;
       break;
     case 0xd:
-      uVar10 = 9;
-      uVar9 = 0x12;
+      ShortA = 9;
+      ShortB = 0x12;
       spawnz = 50.0f;
       spawnx = 50.0f;
       break;
     case 0xe:
-      uVar10 = 0x11;
+      ShortA = 0x11;
       goto LAB_8002cdf4;
     case 0xf:
-      uVar10 = 0xd;
-      uVar9 = 8;
+      ShortA = 0xd;
+      ShortB = 8;
       spawnz = 50.0f;
       spawnx = 50.0f;
       break;
     case 0x10:
-      uVar10 = 0xd;
-      uVar9 = 0x14;
+      ShortA = 0xd;
+      ShortB = 0x14;
       spawnz = 80.0f;
       spawnx = 20.0f;
       break;
     case 0x11:
-      uVar10 = 0x13;
-      uVar9 = 0x1a;
+      ShortA = 0x13;
+      ShortB = 0x1a;
       spawnz = 60.0f;
       spawnx = 50.0f;
       break;
     case 0x12:
-      uVar10 = 0xd;
-      uVar9 = 6;
+      ShortA = 0xd;
+      ShortB = 6;
       spawnz = 67.0f;
       spawnx = 69.0f;
       break;
     case 0x13:
-      uVar10 = 0x14;
-      uVar9 = 0x1c;
+      ShortA = 0x14;
+      ShortB = 0x1c;
       spawnz = 50.0f;
       spawnx = 50.0f;
       break;
     case 0x14:
-      uVar10 = 5;
-      uVar9 = 0xe;
+      ShortA = 5;
+      ShortB = 0xe;
       spawnz = 50.0f;
       spawnx = 60.0f;
       break;
     case 0x15:
-      uVar10 = 7;
-      uVar9 = 0xc;
+      ShortA = 7;
+      ShortB = 0xc;
       spawnz = 90.0f;
       spawnx = 67.0f;
       break;
     case 0x16:
-      uVar10 = 3;
-      uVar9 = 9;
+      ShortA = 3;
+      ShortB = 9;
       spawnz = 68.0f;
       spawnx = 29.0f;
       break;
     case 0x17:
-      uVar10 = 0x10;
-      uVar9 = 0x1b;
+      ShortA = 0x10;
+      ShortB = 0x1b;
       spawnz = 82.0f;
       spawnx = 77.0f;
       break;
     case 0x18:
-      uVar10 = 0x10;
-      uVar9 = 0x11;
+      ShortA = 0x10;
+      ShortB = 0x11;
       spawnz = 48.0f;
       spawnx = 85.0f;
       break;
     case 0x19:
-      uVar10 = 0xf;
-      uVar9 = 0x19;
+      ShortA = 0xf;
+      ShortB = 0x19;
       spawnz = 53.0f;
       spawnx = 22.0f;
       break;
     case 0x1a:
-      uVar10 = 0x13;
+      ShortA = 0x13;
 LAB_8002cdf4:
-      uVar9 = 0x10;
+      ShortB = 0x10;
       spawnz = 50.0f;
       spawnx = 50.0f;
       break;
     case 0x1b:
-      uVar10 = 0x12;
-      uVar9 = 0x15;
+      ShortA = 0x12;
+      ShortB = 0x15;
       spawnz = 88.0f;
       spawnx = 12.0f;
       break;
     case 0x1c:
-      uVar10 = 0xc;
-      uVar9 = 0x10;
+      ShortA = 0xc;
+      ShortB = 0x10;
       spawnz = 36.0f;
       spawnx = 26.0f;
       break;
     case 0x1d:
-      uVar10 = 0xe;
-      uVar9 = 0x1b;
+      ShortA = 0xe;
+      ShortB = 0x1b;
       spawnz = 72.0f;
       spawnx = 72.0f;
       break;
     case 0x1e:
-      uVar9 = 8;
+      ShortB = 8;
       spawnx = 97.0f;
 LAB_8002ce68:
-      uVar10 = 6;
+      ShortA = 6;
       spawnz = 52.0f;
     }
     u16 BgmArr[]={0x10b5,0x10d1,0x10d4,0x10d7,0x10ee,0x10f1,0x10f4,0x10f8,0x1118,0x111b,
@@ -412,40 +398,40 @@ LAB_8002ce68:
     pmVar11 = mapDataList_3;
     goto LAB_8002d4e0;
   case MAPA_GwerniaCastle:
-    gGlobals.gameVars.Borg12Next = 0x5fd;
+    gGlobals.gameVars.Borg12Next = BORG12_GwerniaCastle;
     pmVar11 = map_data_list_gwen;
     if (param_4) goto LAB_8002d65c;
     WriteMapIndecies(map_data_list_gwen);
     MINIMAP.LoadData(minimaps_gwen);
-    iStack_40 = 1;
+    miniMapLoaded = true;
     break;
   case MAPA_GwerniaInterior:
     pmVar11 = mapDataList_5;
     goto LAB_8002d4e0;
   case MAPA_Interior:
     if (!param_4) {
-      iStack_40 = 1;
+      miniMapLoaded = true;
       gGlobals.gameVars.mapCellSize.y = 500.0f;
       gGlobals.gameVars.mapCellSize.x = 500.0f;
       WriteMapIndecies(mapDataList_6);
       MINIMAP.LoadData(MinimapSec_dat_ARRAY_800ee508);
     }
-    bVar5 = true;
+    debugTP = true;
     pmVar11 = mapDataList_6;
     if (Portal == 0) {
-      uVar10 = 5;
-      uVar9 = 3;
+      ShortA = 5;
+      ShortB = 3;
       spawnz = 3.0f;
       spawnx = 5.9f;
     }
     else if (Portal < 1) {
       if (Portal == -1) {
-        bVar5 = false;
+        debugTP = false;
       }
     }
     else if (Portal == 1) {
-      uVar10 = 1;
-      uVar9 = 1;
+      ShortA = 1;
+      ShortB = 1;
       spawnz = 5.0f;
       goto LAB_8002d5fc;
     }
@@ -454,22 +440,22 @@ LAB_8002ce68:
     gGlobals.gameVars.Borg12Next = 0x790;
     pmVar11 = mapDataList_7;
     if (!param_4) {
-      iStack_40 = 1;
+      miniMapLoaded = true;
       gGlobals.gameVars.mapCellSize.y = 30.0f;
       gGlobals.gameVars.mapCellSize.x = 30.0f;
       WriteMapIndecies(mapDataList_7);
       MINIMAP.LoadData(MinimapSec_erromon);
     }
-    bVar5 = true;
-    pmVar6 = pmVar11;
+    debugTP = true;
+    mapDataList *pmVar6 = pmVar11;
     if (Portal == -1) {
 LAB_8002d464:
       pmVar11 = pmVar6;
-      bVar5 = false;
+      debugTP = false;
     }
     else if (Portal == 0) {
-      uVar10 = 1;
-      uVar9 = 0xf;
+      ShortA = 1;
+      ShortB = 0xf;
       spawnz = 25.0f;
       spawnx = 13.0f;
     }
@@ -484,7 +470,7 @@ LAB_8002d464:
   case MAPA_Barrows:
     pmVar11 = mapDataList_9;
     if (!param_4) {
-      iStack_40 = 1;
+      miniMapLoaded = 1;
       gGlobals.gameVars.mapCellSize.y = 25.0f;
       gGlobals.gameVars.mapCellSize.x = 25.0f;
       WriteMapIndecies(mapDataList_9);
@@ -493,43 +479,36 @@ LAB_8002d464:
     pmVar6 = pmVar11;
     if (Portal == -1) goto LAB_8002d464;
     if (Portal == 0) {
-      uVar10 = 4;
-      uVar9 = 1;
+      ShortA = 4;
+      ShortB = 1;
       spawnz = 10.0f;
       goto LAB_8002d5fc;
     }
-    bVar5 = false;
+    debugTP = false;
     break;
   case MAPA_RoogCave:
     pmVar11 = mapDataList_10;
     if (param_4) goto LAB_8002d65c;
     WriteMapIndecies(mapDataList_10);
     MINIMAP.LoadData(MinimapSec_dat_ARRAY_800ee55c);
-    iStack_40 = 1;
+    miniMapLoaded = true;
     break;
   case MAPA_JundarInteriors:
     pmVar11 = mapDataList_mageSchool;
     if (!param_4) {
       WriteMapIndecies(mapDataList_mageSchool);
       MINIMAP.LoadData(minimap_sec_mageschool);
-      iStack_40 = 1;
+      miniMapLoaded = true;
     }
-    bVar5 = true;
-    if (Portal == -1) {
-      bVar5 = false;
-    }
+    debugTP = true;
+    if (Portal == -1) debugTP = false;
     else if (Portal == 0) {
-      uVar10 = 1;
-      uVar9 = 1;
+      ShortA = 1;
+      ShortB = 1;
       spawnz = 15.0f;
       spawnx = 16.0f;
     }
-    BgmArr[0] = USHORT_ARRAY_800da7d0[0];
-    BgmArr[1] = USHORT_ARRAY_800da7d0[1];
-    BgmArr[2] = USHORT_ARRAY_800da7d0[2];
-    BgmArr[3] = USHORT_ARRAY_800da7d0[3];
-    BgmArr[4] = USHORT_ARRAY_800da7d0[4];
-    BgmArr[5] = USHORT_ARRAY_800da7d0[5];
+    u16 BgmArr[]={0x188f,0x149d,0x14b3,0x14b6,0x1523,0x1537,0x153e,0};
     SetBGM(BgmArr,
            gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(short)gGlobals.gameVars.mapShort2][0],
            0x61c,0x61c);
@@ -542,30 +521,28 @@ LAB_8002d464:
     if (!param_4) {
       WriteMapIndecies(mapDataList_ehud);
       MINIMAP.LoadData(MinimapSec_ehud);
-      iStack_40 = 1;
+      miniMapLoaded = true;
     }
-    bVar5 = true;
+    debugTP = true;
     pmVar6 = pmVar11;
     if (Portal == -1) goto LAB_8002d464;
     if (Portal == 0) {
-      uVar10 = 0x11;
-      uVar9 = 1;
+      ShortA = 0x11;
+      ShortB = 1;
       spawnz = 5.0f;
       goto LAB_8002d5fc;
     }
     break;
   case MAPA_Ugairt:
-    pmVar11 = mapdatalist_13;
+    pmVar11 = mapDataList_13;
     gGlobals.gameVars.Borg12Next = 0x61b;
-    if (!param_4) {
-      WriteMapIndecies(mapdatalist_13);
-    }
-    bVar5 = true;
-    pmVar6 = mapdatalist_13;
+    if (!param_4) WriteMapIndecies(mapDataList_13);
+    debugTP = true;
+    pmVar6 = mapDataList_13;
     if (Portal == -1) goto LAB_8002d464;
     if (Portal == 0) {
-      uVar10 = 0xd;
-      uVar9 = 5;
+      ShortA = 0xd;
+      ShortB = 5;
       spawnz = 82.0f;
       spawnx = 10.0f;
     }
@@ -575,16 +552,11 @@ LAB_8002d464:
     if (param_4) goto LAB_8002d65c;
     WriteMapIndecies(mapDataList_14);
     MINIMAP.LoadData(MinimapSec_dat_ARRAY_800edf0c);
-    iStack_40 = 1;
+    miniMapLoaded = true;
     pmVar11 = mapDataList_14;
     break;
   case MAPA_ChoasIsle:
-    if ((gGlobals.gameVars.mapShort2 & 2) == 0) {
-      gGlobals.gameVars.Borg12Next = 0x5d7;
-    }
-    else {
-      gGlobals.gameVars.Borg12Next = 0x5d5;
-    }
+    gGlobals.gameVars.Borg12Next =(gGlobals.gameVars.mapShort2 & 2)? 0x5d5:0x5d7;
     pmVar11 = gMapDataListChaosIsle;
 LAB_8002d4e0:
     if (param_4) goto LAB_8002d65c;
@@ -593,10 +565,10 @@ LAB_8002d4e0:
   case MAPA_Battle:
     pmVar11 = gMapDataListBattle;
     if (!param_4) {
-        u16 battleBgm[5];
-      B = 5;
+      u16 battleBgm[5];
+      int range = 5;
       if (gExpPakFlag == 0) {
-        B = 4;
+        range = 4;
         battleBgm[0] = BORG12_Battle_NoExp1;
         battleBgm[1] = BORG12_Battle_NoExp2;
         battleBgm[2] = BORG12_Battle_NoExp3;
@@ -609,29 +581,29 @@ LAB_8002d4e0:
         battleBgm[3] = BORG12_Battle_Exp4;
         battleBgm[4] = BORG12_Battle_Exp5;
       }
-      gGlobals.gameVars.Borg12Next = battleBgm[RAND.MultiByB(B)];
+      gGlobals.gameVars.Borg12Next = battleBgm[RAND.MultiByB(range)];
       gGlobals.gameVars.mapCellSize.y = 150.0f;
       gGlobals.gameVars.mapCellSize.x = 150.0f;
       WriteMapIndecies(gMapDataListBattle);
     }
-    bVar5 = true;
+    debugTP = true;
     if (Portal != -1) {
-      uVar10 = gMapDataListBattle[Portal].mapShortA;
-      uVar9 = gMapDataListBattle[Portal].MapShortB;
+      ShortA = gMapDataListBattle[Portal].mapShortA;
+      ShortB = gMapDataListBattle[Portal].MapShortB;
       spawnz = 20.0f;
 LAB_8002d5fc:
-      bVar5 = true;
+      debugTP = true;
       spawnx = spawnz;
     }
   }
   if (!param_4) {
-    if (bVar5) {
-      gGlobals.gameVars.mapShort1 = uVar10;
-      gGlobals.gameVars.mapShort2 = uVar9;
+    if (debugTP) {
+      gGlobals.gameVars.mapShort1 = ShortA;
+      gGlobals.gameVars.mapShort2 = ShortB;
       gGlobals.gameVars.playerPos2d.x = spawnx;
       gGlobals.gameVars.playerPos2d.y = spawnz;
     }
-    if ((iStack_40 == 0) && (gGlobals.minimap.active)) {
+    if ((!miniMapLoaded) && (MINIMAP.active)) {
       MINIMAP.Free();
     }
     gGlobals.gameVars.mapShort2Copy = gGlobals.gameVars.mapShort2;
@@ -639,19 +611,19 @@ LAB_8002d5fc:
     return 0;
   }
 LAB_8002d65c:
-  if (!bVar5) {
-    uVar10 = gGlobals.gameVars.mapShort1;
-    uVar9 = gGlobals.gameVars.mapShort2;
+  if (!debugTP) {
+    ShortA = gGlobals.gameVars.mapShort1;
+    ShortB = gGlobals.gameVars.mapShort2;
   }
-  if (**(short **)pmVar11 != 0) {
-    i = 0;
+  if (pmVar11->arr[0]) {
+    u16 i = 0;
     do {
-      puVar7 = *(ushort **)(&pmVar11->mapShortA + i * 2);
-      i = i + 1 & 0xffff;
-      if ((*puVar7 == uVar10) && (puVar7[1] == uVar9)) {
+      u16* puVar7 =pmVar11[i].arr;
+      i++;
+      if ((*puVar7 == ShortA) && (puVar7[1] == ShortB)) {
         return puVar7[4];
       }
-    } while (**(short **)(&pmVar11->mapShortA + i * 2) != 0);
+    } while (pmVar11[i].arr[0]);
   }
   CRASH("borgmaps.cpp","Couldn't find a zone to load!!!!!");
 }

@@ -682,47 +682,39 @@ s32 print_element_resist(resist_float *param_1,char *param_2,char *param_3,u32 p
 }
 
 void senseAura(CombatEntity *target,u8 level){
-  CharSheet *pCVar1;
-  u32 len;
-  undefined8 uVar2;
-  s32 iVar4;
-  resist_float *prVar6;
-  u32 uVar7;
-  char acStack1064 [832];
-  char acStack232 [64];
-  Color32 col1;
-  Color32 col2;
-  
-  pCVar1 = target->charSheetP;
-  sprintf(acStack1064,"%s\n",pCVar1->name);
-  len = strlen(acStack1064);
+  char buffA [832];
+  char buffB [64];
+
+  CharSheet *chara = target->charSheetP;
+  sprintf(buffA,"%s\n",chara->name);
+  u32 len = strlen(buffA);
   if (level != 0) {
-    strcpy(acStack232,"Follower");
+    strcpy(buffB,"Follower");
     if ((target->index == gCombatP->leaderIndex) && (!gCombatP->leaderDead)) {
-      strcpy(acStack232,"Leader");}
-    len = AppendText(acStack1064,acStack232,len);
+      strcpy(buffB,"Leader");}
+    len = AppendText(buffA,buffB,len);
   }
   if (2 < level) {
-    sprintf(acStack232,"%d_Total_Hitpoints",Entity::getHPMax(pCVar1));
-    len = AppendText(acStack1064,acStack232,len);
+    sprintf(buffB,"%d_Total_Hitpoints",Entity::getHPMax(chara));
+    len = AppendText(buffA,buffB,len);
   }
   if (4 < level) {
-    sprintf(acStack232,"Level_%lu",CharStats::getBase(pCVar1->Stats,STAT_LV));
-    len = AppendText(acStack1064,acStack232,len);
+    sprintf(buffB,"Level_%lu",CharStats::getBase(chara->Stats,STAT_LV));
+    len = AppendText(buffA,buffB,len);
   }
   if (6 < level) {
-    prVar6 = target->resists;
-    for(uVar7 = 0;uVar7 < 2;uVar7++) {
-      len = print_element_resist(prVar6++,acStack1064,acStack232,len);
+    resist_float *prVar6 = target->resists;
+    for(u32 i = 0;i < 2;i++) {
+      len = print_element_resist(prVar6++,buffA,buffB,len);
     }
   }
   if (8 < level) {
-    sprintf(acStack232,"Total Armor Protection %d",target->GetSheildProtection(false));
-    len = AppendText(acStack1064,acStack232,len);
+    sprintf(buffB,"Total Armor Protection %d",target->GetSheildProtection(false));
+    len = AppendText(buffA,buffB,len);
   }
-  col1 = {COLOR_OFFWHITE};
-  col2 = {COLOR_DARKGRAY_T};
-  gCombatP->SenseAuraWidget = some_textbox_func(acStack1064,(s16)(len << 3) - (s16)len,&col1,&col2,1);
+  Color32 col1 = {COLOR_OFFWHITE};
+  Color32 col2 = {COLOR_DARKGRAY_T};
+  gCombatP->SenseAuraWidget = some_textbox_func(buffA,(s16)(len << 3) - (s16)len,&col1,&col2,true);
 }
 
 s32 Entity::FindFreeEffect(CharSheet *param_1){

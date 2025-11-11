@@ -377,7 +377,7 @@ void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
   if (!param_3) {
     param_1->borg5_ID = 0;
     param_1->borg9_id = 0;
-    param_1->unk0x10 = 0;
+    param_1->borg5_ID2 = 0;
   }
 }
 
@@ -420,7 +420,6 @@ void checkToggleZoneScene(ZoneDat *param_1){
   //replace model for Map 3 cell A5 (lighthouse Beacon?)
   else if ((param_1->borg5_ID == 0x11f9) && (getEventFlag(FLAG_LighthouseLit))) param_1->borg5_ID = 0x35af;
 }
-extern u16 gLoadedMapIndecies[22][30][3];
 
 void MakeGameZoneNames(u16 param_1,u16 param_2){
   u16 uVar1;
@@ -447,7 +446,7 @@ void MakeGameZoneNames(u16 param_1,u16 param_2){
         if ((iVar3 - 1U < 0x15) && (j - 1U < 0x1d)) {
           dat->borg5_ID = gLoadedMapIndecies[iVar3][j][0];
           dat->borg9_id = gLoadedMapIndecies[iVar3][j][1];
-          dat->unk0x10 = gLoadedMapIndecies[iVar3][j][2];
+          dat->borg5_ID2 = gLoadedMapIndecies[iVar3][j][2];
           checkToggleZoneScene(dat);
         }
         j = iVar7 >> 0x10;
@@ -621,12 +620,18 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
             AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->sceneDat0x4,0,z->borg5_ID,1,(char)uStack_30);
         }
       }
-      if ((z->unk0x10) && (z->SceneDat0x14 == NULL)) {
+      if ((z->borg5_ID2) && (z->SceneDat0x14 == NULL)) {
         if (z->index == ZoneCenter) {
           z->SceneDat0x14 = BorgAnimLoadScene(uVar21);
         }
-        else if ((gLoadOneZone == 0) && (NoExpPak_memCheck(4))) {
-          AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->SceneDat0x14,0,z->unk0x10,1,(char)uStack_30);
+        else 
+        #ifdef DEBUGVER
+        if ((gLoadOneZone == 0) && (NoExpPak_memCheck(4))) 
+        #else
+        if(NoExpPak_memCheck(4))
+        #endif
+        {
+          AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->SceneDat0x14,0,z->borg5_ID2,1,(char)uStack_30);
         }
       }
       loading_map_data(z);
@@ -1004,7 +1009,7 @@ u8 get_scene_obj_proximity(vec2f *obj,vec2f *cam,vec2f *aim,float *outx,float *o
 void SceneBoulders(Borg9Data *param_1){
   if (param_1->voxelObjCount) {
     for(u16 i=0;i < param_1->voxelObjCount;i++) {
-      if (param_1->voxelObjs[i].header.type == 0) {
+      if (param_1->voxelObjs[i].header.type == VOXEL_Scene) {
         param_1->voxelObjs[i].scene.sceneflags &= ~SceneObj_B7;
         if (param_1->voxelObjs[i].scene.BorgCount) {
           for(u16 j=0;j < param_1->voxelObjs[i].scene.BorgCount;j++) {
@@ -1483,7 +1488,7 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
                 AllocAllocQueueItem(&gGlobals.QueueB,(void**)&pZVar12->sceneDat0x4,0,pZVar12->borg5_ID,QueueType_Scene,0);
               }
             }
-            if (pZVar12->unk0x10){
+            if (pZVar12->borg5_ID2){
               if (pZVar12->SceneDat0x14 == NULL) {
                 if (NoExpPak_memCheck(4)) {
                   pZVar12->flag |= 2;

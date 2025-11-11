@@ -51,7 +51,7 @@ void ofunc_sub_8001ae04(ParticleHeadStruct *param_1,ParticleEmmiter *emmi) {
   
   pos = (vec3f *)emmi->object;
   if ((emmi->flags & PARTEMMI_2000)) pos = &(emmi->collision).pos;
-  p = Particle::FUN_800b277c(param_1,emmi,0x78);
+  p = Particle::FUN_800b277c(param_1,emmi,120);
   Particle::SetScale(p,0.25f,0.25f);
   Particle::SetPos(p,pos->x + (emmi->vel).x,pos->y + (emmi->vel).y,
                    pos->z + (emmi->vel).z);

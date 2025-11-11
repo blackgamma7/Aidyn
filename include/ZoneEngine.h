@@ -6,7 +6,7 @@ struct ZoneDat {
     SceneData *sceneDat0x4;
     u32 borg9_id;
     Borg9Header *mapPointer;
-    uint unk0x10;
+    uint borg5_ID2;
     SceneData *SceneDat0x14;
     uint MapTally;
     u8 alpha;

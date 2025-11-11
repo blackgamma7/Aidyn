@@ -239,7 +239,7 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
   undefined4 uVar10;
   u32 borg12;
   char *pcVar11;
-  undefined8 uVar12;
+  u32 errLine;
   char *cause;
   playerData *p;
   float fVar14;
@@ -324,9 +324,9 @@ play_sound:
     goto LAB_80057628;
   case B13Com_AddMember:
     if (!DialougeAddPartyMember(val)) {
-      cause = acStack_230;pcVar11 = "Couldn't add %d to the party. This usually means that the party is full. Line = %d";uVar12 = 1172;
+      cause = acStack_230;pcVar11 = "Couldn't add %d to the party. This usually means that the party is full. Line = %d";errLine = 1172;
 print_error_2:
-      sprintf(cause,pcVar11,val,uVar12);
+      sprintf(cause,pcVar11,val,errLine);
       CRASH("./src/dialogue.cpp",cause);
     }
     break;
@@ -340,7 +340,9 @@ print_error:
   case B13Com_RandDialog:
     pBVar5 = get_borg13(val);
     if (pBVar5 == NULL) {
-      cause = acStack_130;pcVar11 = "Couldn't load dialog with id = %d. Line = %d";uVar12 = 1321;
+      cause = acStack_130;
+      pcVar11 = "Couldn't load dialog with id = %d. Line = %d";
+      errLine = 1321;
       goto print_error_2;
     }
     fVar14 = rand_range(0,100) / 100.0f;
