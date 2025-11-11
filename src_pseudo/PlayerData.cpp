@@ -1276,7 +1276,7 @@ void FUN_80018bf0(playerData *param_1){
   }
 }
 
-void FUN_80018c38(){
+void FreeAllActors(){
   for(u16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++){
     FUN_80018bf0(&gGlobals.gameVars.PlayerHandler.playerDats[i]);
   }

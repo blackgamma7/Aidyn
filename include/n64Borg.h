@@ -84,6 +84,7 @@ typedef enum EnumMapDatA {
     MAPA_GwerniaInterior,
     MAPA_Interior,
     MAPA_Erromon,
+    MAPA_8,
     MAPA_Barrows,
     MAPA_RoogCave,
     MAPA_JundarInteriors,

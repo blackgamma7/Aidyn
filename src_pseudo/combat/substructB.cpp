@@ -12,29 +12,26 @@ void clear_ArrayA(CombatSubstructB *param_1){
 
 void clear_combat_substruc2(CombatSubstructB *param_1){
   param_1->entindex = 0;
-  param_1->field4_0xa3 = 0;
+  param_1->spellTargetMax = 0;
   param_1->arrayBCount = 0;
-  param_1->field6_0xa5 = 0;
+  param_1->spellTargetCount = 0;
   param_1->field8_0xa7 = 0;
   memset(param_1->arrayA,0,(uint)gCombatP->EntCount*sizeof(u32));
   memset(param_1->arrayB,0,(uint)gCombatP->EntCount*sizeof(u32));
   memset(param_1->arrayC,0,(uint)gCombatP->EntCount);
 }
 
-
-
 bool FUN_8007231c(CombatSubstructB *arg0,u8 param_2){
-  if (arg0->arrayBCount < arg0->field6_0xa5) {
+  if (arg0->arrayBCount < arg0->spellTargetCount) {
     if ((arg0->arrayA[param_2] != 0) && (arg0->arrayB[param_2] == 0)) {
       if (arg0->arrayBCount == 0) arg0->entindex = param_2;
-      arg0->arrayB[param_2] = 1;
-      arg0->arrayBCount = arg0->arrayBCount + 1;
+      arg0->arrayB[param_2] = true;
+      arg0->arrayBCount++;
       return true;
     }
   }
   return false;
 }
-
 
 bool clear_arrayB_entry(CombatSubstructB *param_1,u8 param_2){
   if (param_1->arrayB[param_2]) {
@@ -47,8 +44,8 @@ bool clear_arrayB_entry(CombatSubstructB *param_1,u8 param_2){
 
 
 void FUN_800723b8(CombatSubstructB *param_1){
-  if ((param_1->field4_0xa3 != 0)&&(gCombatP->EntCount)){
-  for(u8 i=0;((i < gCombatP->EntCount) &&(param_1->arrayBCount < param_1->field6_0xa5));i++){
+  if ((param_1->spellTargetMax)&&(gCombatP->EntCount)){
+  for(u8 i=0;((i < gCombatP->EntCount) &&(param_1->arrayBCount < param_1->spellTargetCount));i++){
       if (param_1->arrayA[i]) {
         param_1->arrayB[i] = 1;
         param_1->entindex = i;
@@ -77,26 +74,26 @@ void FUN_800724f4(CombatSubstructB *param_1,CombatEntity *param_2){
     for(u8 i=0;i<gCombatP->EntCount;i++) {
       if (param_2->CanBeTargeted(&gCombatP->combatEnts[i],0)) {
         param_1->arrayA[i] = 1;
-        param_1->field4_0xa3++;
+        param_1->spellTargetMax++;
       }
     }
   }
-  param_1->field6_0xa5 = 1;
+  param_1->spellTargetCount = 1;
 }
 
 void FUN_800725b4(CombatSubstructB *param_1,CombatEntity *param_2){
   if (gCombatP->EntCount) {
     for(u8 i=0;i<gCombatP->EntCount;i++) {
       if (param_2->AIShouldCastMagic(&gCombatP->combatEnts[i])) {
-        param_1->arrayA[i] = 1;
-        param_1->field4_0xa3++;
+        param_1->arrayA[i] = true;
+        param_1->spellTargetMax++;
       }
     }
   }
   u8 bVar2 = param_2->GetSpellTargetCount();
-  param_1->field6_0xa5 = bVar2;
+  param_1->spellTargetCount = bVar2;
   if (bVar2 == gCombatP->EntCount)
-    param_1->field6_0xa5 = param_1->field4_0xa3;
+    param_1->spellTargetCount = param_1->spellTargetMax;
 }
 
 
@@ -105,7 +102,7 @@ void FUN_80072698(CombatSubstructB *param_1,CombatEntity *param_2){
   u8 bVar1 = param_1->entindex;
   clear_combat_substruc2(param_1);
   FUN_800724f4(param_1,param_2);
-  if (param_1->field4_0xa3) {
+  if (param_1->spellTargetMax) {
     FUN_8007294c(param_1,param_2);
     if (FUN_8007319c(param_1,param_2->TargetIndex)) {
       giveCameratoThisPlayer(param_1->entindex);
@@ -121,7 +118,7 @@ void FUN_80072698(CombatSubstructB *param_1,CombatEntity *param_2){
 
 void FUN_8007272c(CombatSubstructB *param_1,CombatEntity *param_2){
   FUN_80072698(param_1,param_2);
-  if (param_1->field4_0xa3 != 0) {
+  if (param_1->spellTargetMax) {
     FUN_80072eb4(param_1,param_1->entindex);
   }
 }
@@ -130,12 +127,12 @@ void FUN_80072764(CombatSubstructB *param_1,CombatEntity *param_2){
   
   clear_combat_substruc2(param_1);
   FUN_800725b4(param_1,param_2);
-  if (param_1->field4_0xa3 != 0) {
+  if (param_1->spellTargetMax) {
     if (param_2->GetSpellTargetCount() < 2) {
       FUN_8007294c(param_1,param_2);
       FUN_8007319c(param_1,param_2->TargetIndex);
     }
-    else if (param_1->field4_0xa3 < param_1->field6_0xa5)
+    else if (param_1->spellTargetMax < param_1->spellTargetCount)
       FUN_800723b8(param_1);
     else FUN_80072f80(param_1,param_2);
   }
@@ -144,24 +141,24 @@ void FUN_80072764(CombatSubstructB *param_1,CombatEntity *param_2){
 void ofunc_NOOP(){}
 
 void FUN_80072810(CombatSubstructB *param_1,s8 param_2){
-  if ((param_1->field4_0xa3) && (gCombatP->current_Ent)) {
+  if ((param_1->spellTargetMax) && (gCombatP->current_Ent)) {
     FUN_80072ef0(param_1,param_2);
     giveCameratoThisPlayer(param_1->entindex);
   }
 }
 
 void FUN_80072864(CombatSubstructB *param_1,s8 param_2){
-  if (param_1->field4_0xa3) {
-    if (param_1->field4_0xa3 < 2) FUN_800723b8(param_1);
+  if (param_1->spellTargetMax) {
+    if (param_1->spellTargetMax < 2) FUN_800723b8(param_1);
     else FUN_80072ef0(param_1,param_2);
     FUN_80072eb4(param_1,param_1->entindex);
   }
 }
 
 void FUN_800728c4(CombatSubstructB *param_1,s8 param_2){
-  if ((((param_1->field4_0xa3) && (gCombatP->current_Ent)) &&
+  if ((((param_1->spellTargetMax) && (gCombatP->current_Ent)) &&
       (gCombatP->current_Ent->GetSpellTargetCount()<2)) &&
-     (param_1->field4_0xa3 != 1)) {
+     (param_1->spellTargetMax != 1)) {
     FUN_80072ef0(param_1,param_2);
     giveCameratoThisPlayer(param_1->entindex);
   }
@@ -187,15 +184,14 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
   byte abStack_b0 [64];
   byte abStack_70 [4] [14];
   
-  if (param_1->field4_0xa3 == 1) {
+  if (param_1->spellTargetMax == 1) {
     FUN_800723b8(param_1);
     giveCameratoThisPlayer(param_1->entindex);
   }
   else {
     ppVar2 = gGlobals.playerDataArray[param_2->index];
     Vec2Set(avStack_270,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
-    Vec2Set(avStack_230,avStack_270[0].x + (ppVar2->facing).x,avStack_270[0].y + (ppVar2->facing).y)
-    ;
+    Vec2Set(avStack_230,avStack_270[0].x + (ppVar2->facing).x,avStack_270[0].y + (ppVar2->facing).y);
     memset(abStack_b0,0,4);
     if (param_1->arrayA[param_2->index] != 0) {
       afStack_1b0[0][0] = 0.0;
@@ -338,13 +334,13 @@ bool FUN_80072ef0(CombatSubstructB *param_1,char param_2){
   int iVar3;
   
   bVar2 = true;
-  if (param_1->field4_0xa3 != 1) {
+  if (param_1->spellTargetMax != 1) {
     clear_arrayB_entry(param_1,param_1->entindex);
     iVar3 = (uint)param_1->field8_0xa7 + (int)param_2;
     if (iVar3 < 0) {
-      iVar3 = param_1->field4_0xa3 - 1;
+      iVar3 = param_1->spellTargetMax - 1;
     }
-    else if ((int)(uint)param_1->field4_0xa3 <= iVar3) {
+    else if ((int)(uint)param_1->spellTargetMax <= iVar3) {
       iVar3 = 0;
     }
     uVar1 = param_1->arrayC[iVar3];
@@ -356,9 +352,7 @@ bool FUN_80072ef0(CombatSubstructB *param_1,char param_2){
 }
 
 
-void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2)
-
-{
+void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2){
   byte bVar1;
   playerData *ppVar2;
   uint uVar3;
@@ -413,14 +407,14 @@ void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2)
       } while (i < uVar8);
     }
     i = 0;
-    if ((param_1->field6_0xa5 != 0) && (uVar8 != 0)) {
+    if ((param_1->spellTargetCount != 0) && (uVar8 != 0)) {
       pbVar5 = abStack_e8;
       do {
         bVar1 = *pbVar5;
         param_1->arrayBCount++;
         param_1->arrayB[bVar1] = true;
         i++;
-        if (param_1->field6_0xa5 <= i) return;
+        if (param_1->spellTargetCount <= i) return;
         pbVar5 = abStack_e8 + i;
       } while (i < uVar8);
     }
@@ -438,8 +432,8 @@ bool FUN_8007319c(CombatSubstructB *param_1,s32 index){
     if (param_1->arrayB[index] == 0) {
       clear_arrayB_entry(param_1,param_1->entindex);
       i = 0;
-      if ((param_1->field4_0xa3 != 0) && ((uint)param_1->arrayC[0] != index)) {
-        for (i = 1; (i < param_1->field4_0xa3 && ((uint)param_1->arrayC[i] != index)); i++) {
+      if ((param_1->spellTargetMax != 0) && ((uint)param_1->arrayC[0] != index)) {
+        for (i = 1; (i < param_1->spellTargetMax && ((uint)param_1->arrayC[i] != index)); i++) {
         }
       }
       param_1->field8_0xa7 = (byte)i;
@@ -453,14 +447,12 @@ bool FUN_8007319c(CombatSubstructB *param_1,s32 index){
 
 
 bool FUN_8007324c(CombatSubstructB *param_1,CombatEntity *param_2,s32 param_3){
-  bool bVar1 = param_1->field6_0xa5 < 2;
+  bool bVar1 = param_1->spellTargetCount < 2;
   if ((bVar1) && (!FUN_800732a0(param_1,param_2->TargetIndex))) {
     bVar1 = FUN_800732a0(param_1,param_3);
   }
   return bVar1;
 }
-
-
 
 bool FUN_800732a0(CombatSubstructB *param_1,s32 param_2){
   bool bVar1 = false;

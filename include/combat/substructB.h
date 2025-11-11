@@ -5,9 +5,9 @@ struct CombatSubstructB {
     int arrayB[18];
     u8 arrayC[18];
     char field3_0xa2;
-    u8 field4_0xa3;
+    u8 spellTargetMax;
     u8 arrayBCount;
-    u8 field6_0xa5;
+    u8 spellTargetCount;
     char entindex;
     u8 field8_0xa7;
 };

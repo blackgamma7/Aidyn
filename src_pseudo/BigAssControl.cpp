@@ -16,19 +16,19 @@ u8 bigAssOpenCallback_1(BaseWidget *w) {
     switch(sub->PauseMenuSection){
         case 0:
          uVar3 = 8;
-         iVar5 = 0x24;
-         iVar6 = 0x140;
-         iVar4 = 0x140;
+         iVar5 = 36;
+         iVar6 = SCREEN_WIDTH;
+         iVar4 = SCREEN_WIDTH;
          break;
         case 1:
-         uVar3 = 0x24;
-         iVar5 = 0x37;
-         iVar6 = 0xa0;
-         iVar4 = 0xa0;
+         uVar3 = 36;
+         iVar5 = 55;
+         iVar6 = (SCREEN_WIDTH/2);
+         iVar4 = (SCREEN_WIDTH/2);
         break;
         case 2:
          uVar3 = 6;
-         iVar5 = 0x23;
+         iVar5 = 35;
          iVar4 = -5;
          break;
         default:
@@ -41,7 +41,7 @@ u8 bigAssOpenCallback_1(BaseWidget *w) {
            (short)(int)(((float)-iVar6 / (float)(int)(iVar5 - uVar3)) * (float)(int)(uVar2 - uVar3))
       ;
       gGlobals.scrollLocation[1] +=
-           (int)(((float)(0x140 - iVar4) / (float)(int)(iVar5 - uVar3)) *
+           (int)(((float)(SCREEN_WIDTH - iVar4) / (float)(int)(iVar5 - uVar3)) *
                        (float)(int)(uVar2 - uVar3));
       if (sub->borg7->unk1c->b6->dat->aniLength <= (int)(uint)uVar2)
         w->state = 2;
@@ -59,7 +59,7 @@ u8 PauseMenuClose1(BaseWidget *param_1) {
   pause_Substruct *sub = (pause_Substruct *)param_1->substruct;
   if (!sub->isScrolling) {
     gGlobals.scrollLocation[0] = 0;
-    gGlobals.scrollLocation[1] = 0x140;
+    gGlobals.scrollLocation[1] = SCREEN_WIDTH;
     bVar4 = sub->dollmenu->lists->col.A;
     if (!DAT_800ed540) {
       if (bVar4 < 195) bVar4+=60;
@@ -100,31 +100,31 @@ byte bigAssOpenCallback(BaseWidget *param_1) {
         switch(sub->PauseMenuSection){
         case 0:
          uVar5 = 1;
-         iVar6 = 0x1f;
-         iVar8 = 0x140;
-         iVar7 = 0x140;
+         iVar6 = 31;
+         iVar8 = SCREEN_WIDTH;
+         iVar7 = SCREEN_WIDTH;
          break;
         case 1:
          uVar5 = 1;
-         iVar6 = 0xe;
-         iVar8 = 0xa0;
-        iVar7 = 0xa0;
+         iVar6 = 14;
+         iVar8 = (SCREEN_WIDTH/2);
+         iVar7 = (SCREEN_WIDTH/2);
         break;
         case 2:
          uVar5 = 2;
-         iVar6 = 0x20;
+         iVar6 = 32;
          break;
         default:
          CRASH("bigassOpenCallBack","unknown screen");
     }
     gGlobals.scrollLocation[0] = 0;
-    gGlobals.scrollLocation[1] = 0x140;
+    gGlobals.scrollLocation[1] = SCREEN_WIDTH;
     if (uVar5 < uVar2) {
       gGlobals.scrollLocation[0] =
            (short)(int)(((float)iVar8 / (float)(int)(iVar6 - uVar5)) * (float)(int)(uVar2 - uVar5));
       gGlobals.scrollLocation[1] =
-           (short)(int)(((float)(iVar7 + -0x140) / (float)(int)(iVar6 - uVar5)) *
-                       (float)(int)(uVar2 - uVar5)) + 0x140;
+           (short)(int)(((float)(iVar7 + -SCREEN_WIDTH) / (float)(int)(iVar6 - uVar5)) *
+                       (float)(int)(uVar2 - uVar5)) + SCREEN_WIDTH;
       if (sub->borg7->unk1c->b6->dat->aniLength <= (int)(uint)uVar2) {
         if (gGlobals.screenFadeModeSwitch - 6 < 2) {
           gGlobals.screenshotTint.B = 0xff;
@@ -186,15 +186,15 @@ BaseWidget * bigAssMenu_LZFunc(BaseWidget *param_1,BaseWidget *w1) {
       if ((sub->PauseMenuSection != 0) ||
          (piVar3 = (WidgetOptionsSubstruct *)sub->optionsMenu->substruct,
          piVar3->unk10 == piVar3->ScrollMenu)) {
-        sub->unk24 = 0x140;
+        sub->unk24 = SCREEN_WIDTH;
         sub->backgroundImage->SetBorg8(loadBorg8((uint)pause_menu_borg8[sub->PauseMenuSection--]),false);
-        sub->backgroundImage->SetCoords(-0x140,0);
+        sub->backgroundImage->SetCoords(-SCREEN_WIDTH,0);
         sub->scrollfloat =
              (scroll_floats[sub->PauseMenuSection] - sub->scrollSpeed) /
              (float)(((int)sub->unk24 - (int)sub->unk22) / (int)sub->unk26);
         sub->pauseMenuSections[sub->PauseMenuSection]->Tick();
         sub->isScrolling = true;
-        PLAYSFX(0x7d4,0,1.0,0x78,0);
+        PLAYSFX(0x7d4,0,1.0,120,0);
       }
     }
   }
@@ -224,9 +224,9 @@ BaseWidget* bigAssMenu_RFunc(BaseWidget* param_1,BaseWidget *w1) {
            (opSub = (WidgetOptionsSubstruct *)sub->optionsMenu->substruct,
          opSub->unk10 == opSub->ScrollMenu)) {
             sub->PauseMenuSection++;
-          sub->unk24 = -0x140;
+          sub->unk24 = -SCREEN_WIDTH;
           sub->backgroundImage->SetBorg8(loadBorg8((uint)pause_menu_borg8[sub->PauseMenuSection]),false);
-          sub->backgroundImage->SetCoords(0x140,0);
+          sub->backgroundImage->SetCoords(SCREEN_WIDTH,0);
           sub->scrollfloat =
                -(scroll_floats[sub->PauseMenuSection] - sub->scrollSpeed) /
                (float)(((int)sub->unk24 - (int)sub->unk22) / (int)sub->unk26);

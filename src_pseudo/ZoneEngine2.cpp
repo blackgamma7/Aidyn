@@ -29,7 +29,7 @@ u8 FUN_8000c9e0(){
         DAT_800e8dbe = 108;
         doubleGlobalTickerFlag = 2;
         noop_800969a4();
-        FUN_80018c38();
+        FreeAllActors();
         return true;
       }
       return  false;
@@ -541,7 +541,7 @@ void FreeZoneEngineMemory(){
     }
   }
   noop_800969a4();
-  FUN_80018c38();
+  FreeAllActors();
 }
 
 void loading_map_data(ZoneDat *param_1){

@@ -219,7 +219,7 @@ void combat_control_case_9(controller_aidyn *cont){
 void FUN_8008d9d4(CombatSubstructB *param_1,CombatEntity *param_2){
   CombatEntity *pCVar1;
   vec2f fStack88;
-  if ((param_1->field6_0xa5 < 2) &&
+  if ((param_1->spellTargetCount < 2) &&
      (pCVar1 = (&gCombatP->combatEnts)[param_1->entindex], pCVar1 != param_2)) {
     fStack88.x = param_2->GetCoordX() - pCVar1->GetCoordX();
     fStack88.y = param_2->GetCoordY() - pCVar1->GetCoordY();
@@ -370,7 +370,7 @@ void FUN_8008e0c4(CombatSubstructB *param_1){
           float fVar6=Vec2Dist(&playerPos,&markerPos);
           if ((fVar6 <= 1.0f) && (fVar6 <= proxMin)) {
           clear_substruct2_arrayB(param_1);
-          param_1->arrayB[i] = 1;
+          param_1->arrayB[i] = true;
           param_1->arrayBCount = 1;
           proxMin = fVar6;
         }
@@ -451,7 +451,7 @@ bool combat_control_case_1(controller_aidyn *cont){
       return false;
     }
     if (((cont->input & A_BUTTON) != 0) &&
-       (FUN_80072454(gCombatP->substruct2,Ent), gCombatP->substruct2[0].field4_0xa3 != 0)) {
+       (FUN_80072454(gCombatP->substruct2,Ent), gCombatP->substruct2[0].spellTargetMax != 0)) {
       gGlobals.combatBytes[0] = 9;
       if ((Ent->throwingFlag != 0) && (!Ent->Flag89())) {
         gGlobals.combatBytes[0] = 0x12;

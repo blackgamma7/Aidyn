@@ -1,14 +1,7 @@
 #include "globals.h"
 
 
-extern MinimapSec_dat minimaps_gwen[];//TODO: Fill in
-extern MinimapSec_dat MinimapSec_dat_ARRAY_800edf0c[];//TODO: Fill in
-extern MinimapSec_dat MinimapSec_erromon[];//TODO: Fill in
-extern MinimapSec_dat MinimapSec_ehud[];//TODO: Fill in
-extern MinimapSec_dat minimap_sec_mageschool[];//TODO: Fill in
-extern MinimapSec_dat MinimapSec_dat_ARRAY_800ee508[];//TODO: Fill in
-extern MinimapSec_dat MinimapSec_dat_ARRAY_800ee55c[];//TODO: Fill in
-extern MinimapSec_dat minimap_sec_Barrows[];//TODO: Fill in
+
 
 MinimapSec_dat* minimap_sec_pointers[]={
     minimaps_gwen,MinimapSec_dat_ARRAY_800edf0c,MinimapSec_erromon,MinimapSec_ehud,

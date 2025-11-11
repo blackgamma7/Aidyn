@@ -268,7 +268,7 @@ void FreeAttachmentFromPlayer(playerData *,u16);
 void ChangeAttachmentNode(playerData*,u16,u16,char*,u16);
 void FUN_80018b84(void);
 void FUN_80018bf0(playerData *);
-void FUN_80018c38(void);
+void FreeAllActors(void);
 void camera_control_update_(float,float,vec2f*,vec2f*);
 void setCombatCameraMode(u16);
 void SetPlayerMoveToQueue(playerData *,float,float,float,s16);
