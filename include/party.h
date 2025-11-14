@@ -45,7 +45,7 @@ class Party { /* holds party and inventory data */
     s32 DiplomatCheck();
     s32 LoremasterCheck();
     u32 UnusedLoremasterCheck();
-    u8 ArmorCraftCheck(s8);
+    u8 ArmorCraftCheck(u8);
     u32 UnusedMechanicCheck(u8);
     float Barter(u8,u8);
     u8 AmbushDamage();

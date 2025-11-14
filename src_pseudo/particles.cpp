@@ -76,7 +76,7 @@ void Particle::FreeTextures(ParticleHeadStruct *param_1){
 void Particle::InitParticleHead(ParticleHeadStruct *head,Borg9Data *borg9,s16 partCount,u16 textCount,s32 *textureP){
 
   ALLOCS(head->Emmiter,ParticleEmmiMAX*sizeof(ParticleEmmiter),218);
-  if (partCount >= ParticleMAX+1){
+  if (partCount > ParticleMAX){
     char acStack_98 [152];
     sprintf(acStack_98,"Too Many Particles!!\nCall: %d - Max: %d\n",partCount,ParticleMAX);
     CRASH("InitParticleHead",acStack_98);
@@ -154,7 +154,7 @@ void Particle::UpdateParticle(ParticleHeadStruct *head,vec4f *col,u32 flag,s16 i
   }
 }
 
-void Particle::ApplyVelocity(ParticleHeadStruct *head,ParticleEmmiter *emmi,short index,float delta){
+void Particle::ApplyVelocity(ParticleHeadStruct *head,ParticleEmmiter *emmi,s16 index,float delta){
   Particle_s *part = &head->particles[index];
   part->pos.x+=part->vel.x * delta;
   part->pos.y+=part->vel.y * delta;
@@ -213,8 +213,8 @@ LAB_800b2214:
         }
         if (iStack_30 == 0) {
           iStack_30 = 1;
-          pGStack_38 = FUN_800b2d34(pGStack_38,pPH,param_3,viBuff);
-          pGStack_38 = FUN_800b2f9c(pGStack_38,(u16)uStack_34);
+          pGStack_38 = GraphicsInit(pGStack_38,pPH,param_3,viBuff);
+          pGStack_38 = SetGeoMode(pGStack_38,(u16)uStack_34);
         }
         if (-1 < pE->lifespan) {
           if (pE->funcA) (*pE->funcA)(pPH,pE);
@@ -292,7 +292,7 @@ LAB_800b24c8:
                   FUN_800b282c(pPH,pPVar3);
                 }
               }
-              else if ((pPVar3->id != pE->particles->id) && (pE->funcC != NULL)) {
+              else if ((pPVar3->id != pE->particles->id) && (pE->funcC)) {
                 (*pE->funcC)(pPH,pE,pPVar3);
               }
             } while (lVar9 != -1);
@@ -325,13 +325,13 @@ bool Particle::FUN_800b25e0(ParticleHeadStruct *param_1,ParticleEmmiter *param_2
   return true;
 }
 
-void Particle::FUN_800b266c(ParticleHeadStruct *param_1,Particle_s *param_2){
-  if (param_2->unk6 != -1)
-    param_1->particles[param_2->unk6].unk8 =param_2->unk8;
-  if (param_2->unk8 != -1)
-    param_1->particles[param_2->unk8].unk6 =param_2->unk6;
-  param_2->unk6 = -1;
-  param_2->unk8 = -1;
+void Particle::FUN_800b266c(ParticleHeadStruct *pHead,Particle_s *part){
+  if (part->unk6 != -1)
+    pHead->particles[part->unk6].unk8 =part->unk8;
+  if (part->unk8 != -1)
+    pHead->particles[part->unk8].unk6 =part->unk6;
+  part->unk6 = -1;
+  part->unk8 = -1;
 }
 
 
@@ -378,22 +378,22 @@ bool Particle::FUN_800b2890(ParticleHeadStruct *head,ParticleEmmiter *emmi,Parti
 ParticleEmmiter *
 Particle::AllocParticleEmitter(ParticleHeadStruct *head,u16 lifespan,short texture,u16 param_4,
             ParticleFuncA func__,ParticleFuncB initFunc,ParticleFuncC tickFunc,void *object,ParticleEmmiter *link){
-  Particle_s *pPVar2;
-  ParticleEmmiter *paVar3;
+  Particle_s *part;
+  ParticleEmmiter *emmi;
   
   if ((head->count2 < ParticleEmmiMAX) &&
-     (pPVar2 = FUN_800b26d8(head,lifespan), pPVar2->id != head->particleStructCount)) {
-    paVar3 = &head->Emmiter[head->emmitterIndecies[head->count2++]];
-    InitEmmiter(paVar3,paVar3->ID);
-    paVar3->lifespan = lifespan;
-    paVar3->flags = (PARTEMMI_8000|PARTEMMI_0004|PARTEMMI_0002|PARTEMMI_0001);
-    paVar3->unk8 = param_4;
-    paVar3->funcA = func__;
-    paVar3->funcB = initFunc;
-    paVar3->funcC = tickFunc;
-    paVar3->object = object;
-    paVar3->texture = texture;
-    paVar3->link = link;
+     (part = FUN_800b26d8(head,lifespan), part->id != head->particleStructCount)) {
+    emmi = &head->Emmiter[head->emmitterIndecies[head->count2++]];
+    InitEmmiter(emmi,emmi->ID);
+    emmi->lifespan = lifespan;
+    emmi->flags = (PARTEMMI_8000|PARTEMMI_0004|PARTEMMI_0002|PARTEMMI_0001);
+    emmi->unk8 = param_4;
+    emmi->funcA = func__;
+    emmi->funcB = initFunc;
+    emmi->funcC = tickFunc;
+    emmi->object = object;
+    emmi->texture = texture;
+    emmi->link = link;
     if ((texture < 0) || (head->TextureCount <= texture)) {
       #ifdef DEBUGVER
       char errBuff [160];
@@ -403,11 +403,11 @@ Particle::AllocParticleEmitter(ParticleHeadStruct *head,u16 lifespan,short textu
       CRASH("","");
       #endif
     }
-    paVar3->particles = pPVar2;
-    pPVar2->flags = (PARTICLE_8000|PARTICLE_4000|PARTICLE_0008|PARTICLE_0002);
+    emmi->particles = part;
+    part->flags = (PARTICLE_8000|PARTICLE_4000|PARTICLE_0008|PARTICLE_0002);
   }
-  else paVar3 = NULL;
-  return paVar3;
+  else emmi = NULL;
+  return emmi;
 }
 
 void Particle::FreeParticleEmitter(ParticleHeadStruct *head,ParticleEmmiter *emmi){
@@ -504,8 +504,8 @@ void Particle::SetEmmiterHeight(ParticleEmmiter *emmi,float param_2){
 
 void Particle::UnsetEmmiterFlag4000(ParticleEmmiter *emmi){UnsetEmmiterFlags(emmi,PARTEMMI_4000);}
 
-Gfx * Particle::FUN_800b2d34(Gfx *g,ParticleHeadStruct *param_2,vec3f *v,u16 buffChoice){
-  guAlign(&param_2->alignMtx[buffChoice],0.0,v->x + NORMALIZE_MIN,v->y,v->z);
+Gfx * Particle::GraphicsInit(Gfx *g,ParticleHeadStruct *pHead,vec3f *v,u16 buffChoice){
+  guAlign(&pHead->alignMtx[buffChoice],0.0,v->x + NORMALIZE_MIN,v->y,v->z);
   gDPPipeSync(g++);
   gDPSetCycleType(g++,0);
   gDPPipelineMode(g++,0);
@@ -525,7 +525,7 @@ Gfx * Particle::FUN_800b2d34(Gfx *g,ParticleHeadStruct *param_2,vec3f *v,u16 buf
   return g;
 }
 
-Gfx * Particle::FUN_800b2f9c(Gfx *g,u16 zBuff){
+Gfx * Particle::SetGeoMode(Gfx *g,u16 zBuff){
   gSPSetGeometryMode(g++,0);
   if(zBuff){
     gSPLoadGeometryMode(g++,G_SHADING_SMOOTH|G_SHADE|G_ZBUFFER);
@@ -560,10 +560,10 @@ vec4f tempV4;
 Gfx *g = *gg;
 if (struct_unk_.vertsNeedSet) {
   struct_unk_.vertsNeedSet = false;
-  SetVtx(&gParticleVerts[0].v,-353.55f,353.55f,0.0,0,0,0x400,0xff,0xff,0xff,0xff);
-  SetVtx(&gParticleVerts[1].v,353.55f,353.55f,0.0,0,0x400,0x400,0xff,0xff,0xff,0xff);
-  SetVtx(&gParticleVerts[2].v,-353.55f,-353.55f,0.0,0,0,0,0xff,0xff,0xff,0xff);
-  SetVtx(&gParticleVerts[3].v,353.55f,-353.55f,0.0,0,0x400,0,0xff,0xff,0xff,0xff);
+  SetVtx(&gParticleVerts[0].v,-353.55f,353.55f,0.0,0,0,0x400,COLOR_WHITE);
+  SetVtx(&gParticleVerts[1].v,353.55f,353.55f,0.0,0,0x400,0x400,COLOR_WHITE);
+  SetVtx(&gParticleVerts[2].v,-353.55f,-353.55f,0.0,0,0,0,COLOR_WHITE);
+  SetVtx(&gParticleVerts[3].v,353.55f,-353.55f,0.0,0,0x400,0,COLOR_WHITE);
 }
 tempV4.x = (part->colorA).x;
 tempV4.y = (part->colorA).y;
@@ -644,13 +644,13 @@ void BorgParticleEmitterCallback(ParticleHeadStruct *head,ParticleEmmiter *emmi)
   scene = emmi->sceneDat;
   puVar2 = (Borg5_particle *)emmi->object;
   if (scene == NULL) CRASH("BorgParticleEmitterCallback","No Scene attached to emmiter!");
-  pSVar1 = GetLocatorScene(scene,(u16)(((ushort)puVar2->flag0 & 0x180) >> 7));
-  uVar4 = (ushort)puVar2->flag0 & 7;
+  pSVar1 = GetLocatorScene(scene,(u16)(((ushort)puVar2->locator0 & 0x180) >> 7));
+  uVar4 = (ushort)puVar2->locator0 & 7;
   if (Scene::SceneGetLocatorPos(pSVar1,&puVar2->pos,uVar4)) {
     if ((puVar2->flagE & B5PART_0010)) Scene::SceneGetLocatorNorm(pSVar1,&puVar2->norm,uVar4);
     if ((puVar2->flagE & B5PART_2000)) {
-      scene = GetLocatorScene(scene,(u16)(((ushort)puVar2->flag2 & 0x180) >> 7));
-      Scene::SceneGetLocatorPos(scene,&puVar2->pos2,(ushort)puVar2->flag2 & 7);
+      scene = GetLocatorScene(scene,(u16)(((ushort)puVar2->locator1 & 0x180) >> 7));
+      Scene::SceneGetLocatorPos(scene,&puVar2->pos2,(ushort)puVar2->locator1 & 7);
     }
   }
   else {
@@ -661,22 +661,22 @@ void BorgParticleEmitterCallback(ParticleHeadStruct *head,ParticleEmmiter *emmi)
   }
 }
 
-void BorgParticleEmitterB(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
+void BorgParticleEmitterB(ParticleHeadStruct *pHead,ParticleEmmiter *param_2){
   vec3f v3Temp;
   vec4f v4Temp;
   Borg5_particle *pvVar2 = (Borg5_particle *)param_2->object;
-  Particle_s *p = Particle::FUN_800b277c(param_1,param_2,pvVar2->field5_0xa);
+  Particle_s *p = Particle::FUN_800b277c(pHead,param_2,pvVar2->partLifespan2);
   if ((pvVar2->flagE & B5PART_0008))PartRand.GetVec3(&v3Temp,pvVar2->randRangeA);
   else PartRand.GetVec3(&v3Temp,PartRand.GetFloatRange(0,pvVar2->randRangeA));
   if ((pvVar2->flagE & B5PART_0200)) Vec3Sum(&p->pos,&(param_2->collision).pos,&v3Temp);
   else Vec3Sum(&p->pos,&pvVar2->pos,&v3Temp);
   PartRand.GetVec3(&p->vel,pvVar2->randRangeC);
-  v3Temp.x = (pvVar2->norm).x * pvVar2->unk90;
-  v3Temp.y = (pvVar2->norm).y * pvVar2->unk90;
-  v3Temp.z = (pvVar2->norm).z * pvVar2->unk90;
+  v3Temp.x = (pvVar2->norm).x * pvVar2->speed;
+  v3Temp.y = (pvVar2->norm).y * pvVar2->speed;
+  v3Temp.z = (pvVar2->norm).z * pvVar2->speed;
   Vec3Sum(&p->vel,&p->vel,&v3Temp);
   Vec3Scale(&p->vel,0.006);
-  float scale = PartRand.GetFloatRange(pvVar2->unk94,pvVar2->randRangeD);
+  float scale = PartRand.GetFloatRange(pvVar2->scaleRangeLo,pvVar2->scaleRangeHi);
   Particle::SetScale(p,scale,scale);
   (p->colorA).r = PartRand.GetFloatRange(((pvVar2->colRandLo).R / 255.0),((pvVar2->colRandHi).R / 255.0));
   (p->colorA).g = PartRand.GetFloatRange(((pvVar2->colRandLo).G / 255.0),((pvVar2->colRandHi).G / 255.0));
@@ -704,29 +704,29 @@ void BorgParticleEmitterB(ParticleHeadStruct *param_1,ParticleEmmiter *param_2){
 
 
 ParticleEmmiter *
-Particle::FUN_800b3c18(ParticleHeadStruct *param_1,SceneData *scene,Borg5_particle *dat){
+Particle::AllocBorg5Particle(ParticleHeadStruct *param_1,SceneData *scene,Borg5_particle *dat){
   u16 uVar1;
   ParticleEmmiter *pEmmi;
   Particle_s *pPVar2;
   vec3f *res;
   float fVar4;
   
-  if (dat->unk8 < 1) return NULL;
-  if ((short)dat->field5_0xa < 1) return NULL;
-  pEmmi = AllocParticleEmitter(param_1,dat->unk8,dat->texture,dat->unk14,
+  if (dat->partLifespan < 1) return NULL;
+  if (dat->partLifespan2 < 1) return NULL;
+  pEmmi = AllocParticleEmitter(param_1,dat->partLifespan,dat->texture,dat->unk14,
            BorgParticleEmitterCallback,NULL,NULL,dat,NULL);
   if (pEmmi == NULL) return NULL;
   pEmmi->sceneDat = scene;
   if (dat->unk14 != 0) {
     pEmmi->funcB = BorgParticleEmitterB;
   }
-  pEmmi->lifespanemmiter = dat->lifespan;
+  pEmmi->lifespanemmiter = dat->emmiLifespan;
   if ((dat->flagE & B5PART_0001))SetEmmiterHeight(pEmmi,0.0);
   SetFlag(pEmmi->particles,PARTICLE_0100|PARTICLE_0040);
   SetColorB(pEmmi->particles,(dat->colVA).x,(dat->colVA).y,(dat->colVA).z,(dat->colVA).w);
   Vec3Scale((vec3f *)&pEmmi->particles->colorB,0.006f);
   if ((dat->flagE & B5PART_1000)){
-    pPVar2 = FUN_800b277c(param_1,pEmmi,dat->unk8);
+    pPVar2 = FUN_800b277c(param_1,pEmmi,dat->partLifespan);
     if (pPVar2 == NULL) goto freeAndReturnNULL;
     SetFlag(pPVar2,PARTICLE_0800);
     UnsetFlag(pPVar2,PARTICLE_0010);
@@ -735,14 +735,14 @@ Particle::FUN_800b3c18(ParticleHeadStruct *param_1,SceneData *scene,Borg5_partic
     Vec3Scale((vec3f *)&pPVar2->colorB,0.006f);
   }
   if ((dat->flagE & B5PART_0800)) {
-    pPVar2 = FUN_800b27cc(param_1,pEmmi,dat->unk8);
+    pPVar2 = FUN_800b27cc(param_1,pEmmi,dat->partLifespan);
     if (pPVar2 == NULL) goto freeAndReturnNULL;
     uVar1 = pPVar2->id;
     SetFlag(pPVar2,PARTICLE_0100|PARTICLE_0040);
     SetColorB(pPVar2,(dat->colVC).x,(dat->colVC).y,(dat->colVC).z,(dat->colVC).w);
     Vec3Scale((vec3f *)&pPVar2->colorB,0.006f);
     if ((dat->flagE & B5PART_0400)){
-      pPVar2 = FUN_800b277c(param_1,pEmmi,dat->unk8);
+      pPVar2 = FUN_800b277c(param_1,pEmmi,dat->partLifespan);
       if (pPVar2 == NULL) goto freeAndReturnNULL;
       SetFlag(pPVar2,PARTICLE_0800);
       UnsetFlag(pPVar2,PARTICLE_0010);
@@ -752,14 +752,14 @@ Particle::FUN_800b3c18(ParticleHeadStruct *param_1,SceneData *scene,Borg5_partic
     }
   }
   if ((dat->flagE & B5PART_8000)) {
-    pPVar2 = FUN_800b27cc(param_1,pEmmi,dat->unk8);
+    pPVar2 = FUN_800b27cc(param_1,pEmmi,dat->partLifespan);
     if (pPVar2 == NULL) {
 freeAndReturnNULL:
       FreeParticleEmitter(param_1,pEmmi);
       return NULL;
     }
     SetFlag(pPVar2,PARTICLE_0400);
-    fVar4 = (dat->unk9c - dat->unk94) / (float)dat->field5_0xa;
+    fVar4 = (dat->scaleValC - dat->scaleRangeLo) / (float)dat->partLifespan2;
     SetColorB(pPVar2,fVar4,fVar4,fVar4,0.0);
   }
   if ((dat->flagE & B5PART_0200)) {
@@ -768,7 +768,7 @@ freeAndReturnNULL:
     res = &(pEmmi->collision).vel;
     Vec3Sub(res,&dat->pos,&dat->pos2);
     Vec3Normalize(res);
-    Vec3Scale(res,(float)((double)dat->unk10 * 0.006));
+    Vec3Scale(res,(dat->emmiSpeed * 0.006));
   }
   BorgParticleEmitterCallback(param_1,pEmmi);
   for(u16 i=0;i<dat->count;i++){
@@ -788,8 +788,7 @@ void Particle::UnsetSceneEmmiter(ParticleHeadStruct *param_1,SceneData *param_2)
   }
 }
 
-
-bool Particle::FUN_800b4030(ParticleHeadStruct *param_1,SceneData *param_2){
+bool Particle::SceneHasEmmiter(ParticleHeadStruct *param_1,SceneData *param_2){
   if ((param_1) && (param_2)) {
     ParticleEmmiter *pPVar1 = param_1->Emmiter;
     if (pPVar1) {

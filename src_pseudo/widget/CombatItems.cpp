@@ -40,7 +40,7 @@ WidgetChild8(32,120,gExpPakFlag?95:55,0,0){
   uint i;
   Color32 aCStack_68 [26];
   
-  wMax = 0x78;
+  wMax = 120;
   i = 0;
   pCVar1 = gCombatP->current_Ent;
   pCVar2 = pCVar1->charSheetP;

@@ -20,61 +20,61 @@ void AlignParticle(Particle_s *part,vec3f *pos,vec3f *rot){
   part->lifespan = 120;
 }
 
-void FUN_800228e8(ParticleHeadStruct *head,ParticleEmmiter *emmi,Particle_s *param_3){
+void PrecipParticleFuncC(ParticleHeadStruct *head,ParticleEmmiter *emmi,Particle_s *part){
   float fVar2;
   vec3f posA,posB,dist,rot;
   
-  Vec3Sub(&dist,&param_3->pos,(vec3f *)&param_3->vec_0x4c);
+  Vec3Sub(&dist,&part->pos,(vec3f *)&part->vec_0x4c);
   fVar2 = SQ(dist.x)+ SQ(dist.y) + SQ(dist.z);
-  if (fVar2 < (param_3->vec_0x4c).w)
-    (param_3->vec_0x4c).w = fVar2;
+  if (fVar2 < (part->vec_0x4c).w)
+    (part->vec_0x4c).w = fVar2;
   else {
-    posA.x = (param_3->pos).x;
-    posA.z = (param_3->pos).z;
-    posB.y = (param_3->pos).y - 5.0f;
-    posA.y = (param_3->pos).y + 5.0f;
+    posA.x = (part->pos).x;
+    posA.z = (part->pos).z;
+    posB.y = (part->pos).y - 5.0f;
+    posA.y = (part->pos).y + 5.0f;
     posB.x = posA.x;
     posB.z = posA.z;
     if ((CheckCollision(gGlobals.gameVars.borg9DatPointer,&posA,&posB,0.1,&dist,&rot,1))
-      && (Particle::FUN_800b2890(head,emmi->link,param_3)))
-      AlignParticle(param_3,&dist,&rot);
+      && (Particle::FUN_800b2890(head,emmi->link,part)))
+      AlignParticle(part,&dist,&rot);
   }
 }
 
-void FUN_80022a24(ParticleHeadStruct *head,ParticleEmmiter *emmi){
+void RainParticleFunc(ParticleHeadStruct *head,ParticleEmmiter *emmi){
   ParticleEmmiter *pPVar1;
   bool bVar2;
   Particle_s *p;
   float fVar3;
   vec3f posA;
   vec3f posB;
-  vec2f avStack_e0 [8];
-  vec3f pos [5];
-  vec3f rot [8];
+  vec2f randV2;
+  vec3f pos;
+  vec3f rot;
   vec3f *pfVar2;
   
   pPVar1 = emmi->link;
   pfVar2 = (vec3f *)pPVar1->object;
-  RAND.GetVec2(avStack_e0,RAND.GetFloatRange(0.01,(pPVar1->field20_0x54).x * 0.5f));
-  posA.x = pfVar2->x + (pPVar1->vel).x + avStack_e0[0].x;
-  posA.z = pfVar2->z + (pPVar1->vel).z + avStack_e0[0].y;
+  RAND.GetVec2(&randV2,RAND.GetFloatRange(0.01,(pPVar1->randVec).x * 0.5f));
+  posA.x = pfVar2->x + (pPVar1->vel).x + randV2.x;
+  posA.z = pfVar2->z + (pPVar1->vel).z + randV2.y;
   posA.y = pfVar2->y + (pPVar1->vel).y + 50.0f;
   posB.y = pfVar2->y + (pPVar1->vel).y - 50.0f;
   posB.x = posA.x;
   posB.z = posA.z;
-  if (CheckCollision(gGlobals.gameVars.borg9DatPointer,&posA,&posB,0.1,pos,rot,0)) {
-    Particle_s *p = Particle::FUN_800b277c(head,emmi,0x78);
+  if (CheckCollision(gGlobals.gameVars.borg9DatPointer,&posA,&posB,0.1,&pos,&rot,0)) {
+    Particle_s *p = Particle::FUN_800b277c(head,emmi,120);
     Particle::SetScale(p,0.25f,0.25f);
     Vec4Copy(&pPVar1->colvec4,&p->colorA);
     Particle::SetFlag(p,PARTICLE_0200);
     Vec4Copy(&p->colorA,&p->colorB);
     Vec4Scale(&p->colorB,(float)(-0.75 / pPVar1->unk1a));
-    AlignParticle(p,pos,rot);
+    AlignParticle(p,&pos,&rot);
   }
 }
 
 
-void FUN_80022bf4(ParticleHeadStruct *pHead,ParticleEmmiter *pEmmi){
+void PrecipParticleFuncB(ParticleHeadStruct *pHead,ParticleEmmiter *pEmmi){
   short lifespan;
   Particle_s *p;
   vec3f afStack216;
@@ -86,7 +86,7 @@ void FUN_80022bf4(ParticleHeadStruct *pHead,ParticleEmmiter *pEmmi){
   pfVar1 = (vec3f *)pEmmi->object;
   p = Particle::FUN_800b277c(pHead,pEmmi,lifespan);
   Particle::SetScale(p,0.25f,0.25f);
-  RAND.GetVec2(&randPos,RAND.GetFloatRange(0.01,(pEmmi->field20_0x54).x));
+  RAND.GetVec2(&randPos,RAND.GetFloatRange(0.01,(pEmmi->randVec).x));
   Particle::SetPos(p,pfVar1->x + (pEmmi->vel).x + randPos.x,pfVar1->y + (pEmmi->vel).y,
                    pfVar1->z + (pEmmi->vel).z + randPos.y);
   Vec3Copy((vec3f *)&pEmmi->particles->colorB,&afStack216);
@@ -106,12 +106,13 @@ ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,short par
   ParticleEmmiter *link;
   ParticleEmmiter *pPVar1;
   
-  link = Particle::AllocParticleEmitter(&gGlobals.gameVars.particleEmmiter,0x3c,param_5,0,NULL,param_6,NULL,NULL,NULL);
+  link = Particle::AllocParticleEmitter(&gGlobals.gameVars.particleEmmiter,60,param_5,0,NULL,param_6,NULL,NULL,NULL);
   pPVar1 = NULL;
   if (link) {
     Particle::SetColorB(link->particles,-(1.0f/120),-(1.0f/120),-(1.0f/120),0.0);
     Particle::SetFlag(link->particles,PARTICLE_0400);
-    pPVar1 = Particle::AllocParticleEmitter(&gGlobals.gameVars.particleEmmiter,60,param_4,0,NULL,FUN_80022bf4,FUN_800228e8,aim,link);
+    pPVar1 = Particle::AllocParticleEmitter(&gGlobals.gameVars.particleEmmiter,60,param_4,
+      0,NULL,PrecipParticleFuncB,PrecipParticleFuncC,aim,link);
     if (pPVar1 == NULL) {
       Particle::ResetEmmiter(&gGlobals.gameVars.particleEmmiter,link);
       pPVar1 = NULL;
@@ -188,7 +189,7 @@ void ProcessWeather(WeatherStruct *W,short delta){
           sVar9 = 4;
           uVar13 = 0x10;
           Sky::SetBackgroundType(gGlobals.sky.Type,2,600.0);
-          pcVar12 = FUN_80022a24;
+          pcVar12 = RainParticleFunc;
           precipCol={0.546875,0.7421875,0.8203125,0.8};
           break;
           case 2:
@@ -207,7 +208,7 @@ void ProcessWeather(WeatherStruct *W,short delta){
     }
 LAB_80023168:
 
-    (pPVar6->field20_0x54).x = 20.0f;
+    (pPVar6->randVec).x = 20.0f;
     (W->rainParticles->vel).x = gCamera.rotationXZ.x * 5.0f;
     (W->rainParticles->vel).z = gCamera.rotationXZ.y * 5.0f;
     pTVar5 = TerrainPointer;

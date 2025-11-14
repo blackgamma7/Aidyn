@@ -19,7 +19,7 @@ struct SpellVisualTypeB {
     vec3f pos; //position of effect
     vec3f loc3Pos; //position of Locator#3
     float height; //height of associated entity
-    u32 borg5Index;
+    u32 borgIndex;
     u32 memNeeded; //estimated memory required for effect
     u32 flags;
     u16 field7_0x2c;
@@ -92,12 +92,12 @@ void FUN_80096048(playerData *);
 void combatspellvisuals_free(void);
 
 u32 ret0_80096300(void);
-s32 FUN_80096308(u8,u32 *);
+s32 getSpellB7_2(u8,u32 *);
 bool some_spellEnum_bool(u8);
-s32 get_spell_borg7(u8 ,u32*);
-s32 FUN_80096640(u8 ,u32 *);
-s32 FUN_80096800(u8,u32 *);
-s32 FUN_800968c4(u8,u32 *);
+s32 getSpellBorg7(u8 ,u32*);
+s32 getSpellBorg5(u8 ,u32 *);
+s32 GetPotionB7(u8,u32 *);
+s32 getPotionB5(u8,u32 *);
 bool Ofunc_80096928(int);
 void noop_800969a4(void);
 

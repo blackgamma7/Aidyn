@@ -1,6 +1,6 @@
 #include "gamestateCheats.h"
 #include "eventFlag.h"
-#include "globals.h"
+#include "game.h"
 #include "inventory\GenericInventory.h"
 #include "vobjects.h"
 #include "voxelChart.h"
@@ -42,7 +42,7 @@ void open_explosive_chest(voxelObject* param_1,Borg9Data *param_2){
     alloc_explosion_light(param_1->header.pos,0.35,60,true);
   }
   vec4f particleCol={0.35,0.3,0.25,1.0};
-  chest_explode_particles(param_1,(param_1->header).pos.y,&particleCol,420,2,75,0.04f,0.06f,-0.00085714285,true);
+  chest_explode_particles(param_1,(param_1->header).pos.y,&particleCol,420,2,75,0.04f,0.06f,(float)(-0.006/7),true);
   (param_1->container).Gold = 0;
   (param_1->container).LootCat =0;
   replace_container_voxel(param_1,2,param_2);

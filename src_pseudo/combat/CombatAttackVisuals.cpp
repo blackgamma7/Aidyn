@@ -75,7 +75,7 @@ Gfx * Render(Gfx *g,uint delta){
           g = BorgAnimDrawSceneLinked(g,pAVar1);
         }
         else {
-          if (!Particle::FUN_800b4030(pAVar1->sceneDat->particleHead,pAVar1->sceneDat)) x->flag|= 2;
+          if (!Particle::SceneHasEmmiter(pAVar1->sceneDat->particleHead,pAVar1->sceneDat)) x->flag|= 2;
         }
       }
       else {

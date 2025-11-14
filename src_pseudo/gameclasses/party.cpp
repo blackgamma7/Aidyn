@@ -877,9 +877,9 @@ s32 Party::DiplomatCheck(){
   for(uVar4=0;uVar4<MAXPARTY;uVar4++){
     pCVar1 = this->Members[uVar4];
     if ((pCVar1) && (!Entity::isDead(pCVar1))) {
-      uVar2 = CharStats::GetModded(pCVar1->Stats,STAT_INT);
+      uVar2 = CharStats::getModded(pCVar1->Stats,STAT_INT);
       if (uVar3 < uVar2) uVar3 = uVar2;
-      uVar9 += CharSkills::getModdedSkill(pCVar1->Skills,SKILL_Diplomat);
+      uVar9 += pCVar1->Skills->getModdedSkill(SKILL_Diplomat);
     }
   }
   uVar3 = uVar3 * 3 + uVar9 * 10 + 50;
@@ -935,7 +935,7 @@ u32 Party::UnusedLoremasterCheck(){
   return 0;
 }
 
-u8 Party::ArmorCraftCheck(s8 param_2){//used in armor craft
+u8 Party::ArmorCraftCheck(u8 param_2){//used in armor craft
   CharSheet *pCVar1;
   char cVar5;
   s32 iVar2;
@@ -1357,7 +1357,7 @@ void healing_result_widget(char *txt){
   else {
     col1 = {COLOR_OFFWHITE};
     col2 = {COLOR_DARKGRAY_T};
-    PTR_800ed504 = some_textbox_func(txt,0x96,&col1,&col2,1);
+    PTR_800ed504 = some_textbox_func(txt,0x96,&col1,&col2,true);
     PTR_800ed504->AButtonFunc = healing_widget_AB_func;
     PTR_800ed504->BButtonFunc = healing_widget_AB_func;
     PTR_800ed504->CDownButtonFunc = NULL;

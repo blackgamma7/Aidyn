@@ -653,13 +653,13 @@ void borg6_func_a(Borg6Data *param_1){
   if (0 < (int)uVar3) {
     do {
       j = 0;
-      i += 1;
+      i++;
       uVar4 = pBVar6->subCount;
       pBVar7 = (Borg6SubSub *)((int)&param_1->borg5 + (int)&pBVar6->sub->unk0);
       pBVar6->sub = pBVar7;
       if (0 < (int)uVar4) {
         do {
-          j += 1;
+          j++;
           pfVar5 = (float *)((int)pBVar7->unk4 + (int)param_1);
           pBVar7->unk4 = pfVar5;
           sVar1 = *(short *)pfVar5;
@@ -673,7 +673,7 @@ void borg6_func_a(Borg6Data *param_1){
           }
         } while (j < (int)uVar4);
       }
-      pBVar6 = pBVar6 + 1;
+      pBVar6++;
     } while (i < (int)uVar3);
   }
 }

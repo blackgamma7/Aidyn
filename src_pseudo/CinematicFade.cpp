@@ -36,7 +36,7 @@ CinematicFade sCfadeCine1[]={
 CinematicFade sCfadeCine2[]={
   {1,CFade_None,0,0x1e,0},{1,CFade_White,0x1ca,0x0f,0},
   {2,CFade_None,0,0x0f,0},{2,CFade_White,0x3e5,0x1e,0},
-  {3,CFade_None,0,0x1e,0},{3,CFade_Black,0x1c2,0x2d,0x78},
+  {3,CFade_None,0,0x1e,0},{3,CFade_Black,0x1c2,0x2d,120},
   {0}
 };
 CinematicFade sCfadeCine3[]={

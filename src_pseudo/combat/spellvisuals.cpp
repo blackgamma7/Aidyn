@@ -297,7 +297,7 @@ void FUN_80094f40(short param_1){
 }
 
 
-short FUN_80094fdc(u16 param_1,u8 param_2,u8 param_3){
+short FUN_80094fdc(u16 param_1,u8 param_2,u8 type){
   SceneData *pAVar1;
   playerData *ppVar2;
   Borg7Header *pBVar3;
@@ -308,24 +308,24 @@ short FUN_80094fdc(u16 param_1,u8 param_2,u8 param_3){
   Borg7Header *pAVar6;
   short sVar7;
   SpellVisualTypeC *pSVar9;
-  SpellVisualTypeB *pSVar10;
+  SpellVisualTypeB *spellVisB;
   u32 lVar11;
   u32 memNeeded;
   
   memNeeded = 0;
-  switch(param_3) {
+  switch(type) {
   case 0:
-    BVar6 = FUN_80096308(param_2,&memNeeded);
+    BVar6 = getSpellB7_2(param_2,&memNeeded);
     uVar4 = ret0_80096300();
     lVar11 = uVar4;
     goto LAB_800950ec;
   case 1:
-    BVar6 = get_spell_borg7(param_2,&memNeeded);
+    BVar6 = getSpellBorg7(param_2,&memNeeded);
     bVar8 = some_spellEnum_bool(param_2);
     lVar11 = bVar8;
     goto LAB_800950ec;
   case 2:
-    BVar6 = FUN_80096800(param_2,&memNeeded);
+    BVar6 = GetPotionB7(param_2,&memNeeded);
     break;
   case 3:
     BVar6 = 0x1caa;
@@ -334,13 +334,13 @@ short FUN_80094fdc(u16 param_1,u8 param_2,u8 param_3){
     BVar6 = 0x37f1;
     break;
   case 5:
-    BVar6 = FUN_80096640(param_2,&memNeeded);
+    BVar6 = getSpellBorg5(param_2,&memNeeded);
     bVar8 = some_spellEnum_bool(param_2);
     lVar11 = bVar8;
     memNeeded = 0;
     goto LAB_800950ec;
   case 6:
-    BVar6 = FUN_800968c4(param_2,&memNeeded);
+    BVar6 = getPotionB5(param_2,&memNeeded);
     lVar11 = 0;
     memNeeded = 0;
     goto LAB_800950ec;
@@ -350,15 +350,15 @@ short FUN_80094fdc(u16 param_1,u8 param_2,u8 param_3){
   lVar11 = 0;
 LAB_800950ec:
   if (get_memFree_2() < memNeeded) {
-    if (param_3 == 5) {
-      BVar6 = FUN_80096640(param_2,&memNeeded);
+    if (type == 5) {
+      BVar6 = getSpellBorg5(param_2,&memNeeded);
       bVar8 = some_spellEnum_bool(param_2);
       lVar11 = bVar8;
     }
     else {
       BVar6 = -1;
-      if (param_3 == 6) {
-        BVar6 = FUN_800968c4(param_2,&memNeeded);
+      if (type == 6) {
+        BVar6 = getPotionB5(param_2,&memNeeded);
         lVar11 = 0;
       }
       else lVar11 = 0;
@@ -368,32 +368,32 @@ LAB_800950ec:
   if (BVar6 != -1) {
     sVar7 = SpellVisuals.indecies1[SpellVisuals.ptr1count];
     SpellVisuals.ptr1count += 1;
-    pSVar10 = SpellVisuals.ptr1 + sVar7;
-    pSVar10->flags = 0;
-    pSVar10->field7_0x2c = param_1;
-    if (param_3 - 5 < 2) pSVar10->b7 = NULL;
+    spellVisB = SpellVisuals.ptr1 + sVar7;
+    spellVisB->flags = 0;
+    spellVisB->field7_0x2c = param_1;
+    if (type - 5 < 2) spellVisB->b7 = NULL;
     else {
       pAVar6 = func_loading_borg7(BVar6,&gGlobals.gameVars.particleEmmiter);
       pAVar1 = pAVar6->sceneDat;
       Scene::SetFlag40(pAVar1);
       Scene::SetFlag4(pAVar1);
-      pSVar10->b7 = pAVar6;
-      pSVar10->flags|= 0x10;
+      spellVisB->b7 = pAVar6;
+      spellVisB->flags|= 0x10;
     }
     pSVar9 = SpellVisuals.ptr2;
-    pSVar10->borg5Index = BVar6;
-    pSVar9 = pSVar9 + (short)pSVar10->field7_0x2c;
+    spellVisB->borgIndex = BVar6;
+    pSVar9 = pSVar9 + (short)spellVisB->field7_0x2c;
     ppVar2 = pSVar9->playerDat;
-    pSVar10->memNeeded = memNeeded;
-    Vec3Copy(&(ppVar2->collision).pos,&pSVar10->pos);
-    (pSVar10->pos).y -= (pSVar9->playerDat->collision).radius;
-    if (lVar11 == 0) pSVar10->height = 0.0;
-    else pSVar10->height = gEntityDB->GetHeight(pSVar9->playerDat->ent_ID);
-    (pSVar10->pos).y += pSVar10->height;
+    spellVisB->memNeeded = memNeeded;
+    Vec3Copy(&(ppVar2->collision).pos,&spellVisB->pos);
+    (spellVisB->pos).y -= (pSVar9->playerDat->collision).radius;
+    if (lVar11 == 0) spellVisB->height = 0.0;
+    else spellVisB->height = gEntityDB->GetHeight(pSVar9->playerDat->ent_ID);
+    (spellVisB->pos).y += spellVisB->height;
     pBVar3 = pSVar9->playerDat->borg7P;
-    if (pBVar3) Scene::SceneGetLocatorPos(pBVar3->sceneDat,&pSVar10->loc3Pos,3);
-    pSVar10->spellID = param_3;
-    pSVar10->flags |= 1;
+    if (pBVar3) Scene::SceneGetLocatorPos(pBVar3->sceneDat,&spellVisB->loc3Pos,3);
+    spellVisB->spellID = type;
+    spellVisB->flags |= 1;
   }
   return sVar7;
 }
@@ -496,7 +496,7 @@ void processSpellVisuals(uint param_1){
             Scene::SetModelTint(pAVar7,gGlobals.brightness * 255,gGlobals.brightness * 255,gGlobals.brightness * 255,0xff);
           }
           else {
-            if (!Particle::FUN_800b4030(pAVar7->particleHead,pAVar7)) {
+            if (!Particle::SceneHasEmmiter(pAVar7->particleHead,pAVar7)) {
               uVar10 = ppBVar12->flags;
               goto LAB_800959d4;
             }
@@ -507,7 +507,7 @@ void processSpellVisuals(uint param_1){
           if ((ppBVar12->flags & 0x20)) {
             if (DAT_800f1d94 == '\0') {
               if ((int)ppBVar12->memNeeded < (int)get_memFree_2()) {
-                pAVar7 = BorgAnimLoadScene(ppBVar12->borg5Index);
+                pAVar7 = BorgAnimLoadScene(ppBVar12->borgIndex);
                 Scene::SetFlag40(pAVar7);
                 Scene::SetFlag4(pAVar7);
                 ppBVar12->SceneDat = pAVar7;
@@ -768,123 +768,122 @@ void combatspellvisuals_free(void){
 
 u32 ret0_80096300(){return 0;}
 
-s32 FUN_80096308(u8 param_1,u32 *param_2){
-  s32 sVar1;
-  undefined4 uVar2 = 0;
+s32 getSpellB7_2(u8 spellInd,u32 *memNeeded){
+  s32 ind;
+  u32 mem = 0;
   if (false) {
 switchD_80096328_caseD_0:
-    sVar1 = -1;
+    ind = -1;
     goto LAB_80096468;
   }
-  switch(param_1) {
+  switch(spellInd) {
   default:
     goto switchD_80096328_caseD_0;
   case SPELLIND_removePoison:
-    sVar1 = 0x1d7a;
+    ind = 0x1d7a;
     goto LAB_80096410;
   case SPELLIND_AirSheild:
-    sVar1 = 0x1ad9;
-    uVar2 = 0x4c00;
+    ind = 0x1ad9;
+    mem = 0x4c00;
     break;
   case SPELLIND_strength:
-    sVar1 = 0x1ab9;
+    ind = 0x1ab9;
     goto LAB_80096410;
   case SPELLIND_teleportation:
-    sVar1 = 0x1e50;
-    uVar2 = 0x3800;
+    ind = 0x1e50;
+    mem = 0x3800;
     break;
   case SPELLIND_brilliance:
-    sVar1 = 0x1b51;
+    ind = 0x1b51;
     goto LAB_80096410;
   case SPELLIND_banishing:
-    sVar1 = 0x1b37;
-    uVar2 = 0x4c00;
+    ind = 0x1b37;
+    mem = 0x4c00;
     break;
   case SPELLIND_endurance:
-    sVar1 = 0x1c8e;
+    ind = 0x1c8e;
     goto LAB_80096410;
   case SPELLIND_opening:
-    sVar1 = 0x1da1;
-    uVar2 = 0x8c00;
+    ind = 0x1da1;
+    mem = 0x8c00;
     break;
   case SPELLIND_senseAura:
-    sVar1 = 0x1dbd;
-    uVar2 = 0x3400;
+    ind = 0x1dbd;
+    mem = 0x3400;
     break;
   case SPELLIND_cheatDeath:
-    sVar1 = 0x1b68;
-    uVar2 = 0x4000;
+    ind = 0x1b68;
+    mem = 0x4000;
     break;
   case SPELLIND_auraOfDeath:
-    sVar1 = 0x1af8;
-    uVar2 = 0xc400;
+    ind = 0x1af8;
+    mem = 0xc400;
     break;
   case SPELLIND_wraithTouch:
-    sVar1 = 0x1ef7;
-    uVar2 = 0x1800;
+    ind = 0x1ef7;
+    mem = 0x1800;
     break;
   case SPELLIND_darkness:
-    sVar1 = 0x1bd8;
-    uVar2 = 0x17400;
+    ind = 0x1bd8;
+    mem = 0x17400;
     break;
   case SPELLIND_haste:
-    sVar1 = 0x1cf3;
-    uVar2 = 0x5800;
+    ind = 0x1cf3;
+    mem = 0x5800;
     break;
   case SPELLIND_stamina:
-    sVar1 = 0x1dfd;
-    uVar2 = 0x7c00;
+    ind = 0x1dfd;
+    mem = 0x7c00;
     break;
   case SPELLIND_spiritSheild:
-    sVar1 = 0x1de7;
-    uVar2 = 0x5800;
+    ind = 0x1de7;
+    mem = 0x5800;
     break;
   case SPELLIND_mirror:
-    sVar1 = 0x1d43;
-    uVar2 = 0xc800;
+    ind = 0x1d43;
+    mem = 0xc800;
     break;
   case SPELLIND_vsElemental:
-    sVar1 = 0x1e65;
-    uVar2 = 0x9000;
+    ind = 0x1e65;
+    mem = 0x9000;
     break;
   case SPELLIND_vsNaming:
-    sVar1 = 0x1e76;
-    uVar2 = 0x6800;
+    ind = 0x1e76;
+    mem = 0x6800;
     break;
   case SPELLIND_vsNecromancy:
-    sVar1 = 0x1e89;
-    uVar2 = 0x6800;
+    ind = 0x1e89;
+    mem = 0x6800;
     break;
   case SPELLIND_vsStar:
-    sVar1 = 0x1e9d;
-    uVar2 = 0x3400;
+    ind = 0x1e9d;
+    mem = 0x3400;
     break;
   case SPELLIND_photosynthesis:
-    sVar1 = 0x1db6;
-    uVar2 = 0x4800;
+    ind = 0x1db6;
+    mem = 0x4800;
     break;
   case SPELLIND_solarWraith:
-    sVar1 = 0x1b29;
-    uVar2 = 0x22800;
+    ind = 0x1b29;
+    mem = 0x22800;
     break;
   case SPELLIND_starlightSheild:
-    sVar1 = 0x1e0e;
-    uVar2 = 0x4800;
+    ind = 0x1e0e;
+    mem = 0x4800;
     break;
   case SPELLIND_dexterity:
-    sVar1 = 0x1a48;
+    ind = 0x1a48;
 LAB_80096410:
-    uVar2 = 0x11c00;
+    mem = 0x11c00;
     break;
   case SPELLIND_light:
-    sVar1 = 0x1d31;
-    uVar2 = 0xc400;
+    ind = 0x1d31;
+    mem = 0xc400;
   }
 LAB_80096468:
-  *param_2 = uVar2;
-  return sVar1;
+  *memNeeded = mem;
+  return ind;
 }
-
 
 bool some_spellEnum_bool(u8 param_1){
   if (true) {
@@ -906,7 +905,7 @@ bool some_spellEnum_bool(u8 param_1){
 }
 
 
-s32 get_spell_borg7(u8 param_1,undefined4 *param_2){
+s32 getSpellBorg7(u8 param_1,u32 *param_2){
   s32 BVar1;
   undefined4 uVar2;
   
@@ -1042,161 +1041,156 @@ switchD_800964c8_caseD_2:
 }
 
 
-s32 FUN_80096640(SpellEnum param_1,undefined4 *param_2)
-
-{
-  s32 sVar1;
-  undefined4 uVar2;
-  
-  uVar2 = 0;
+s32 getSpellBorg5(u8 param_1,u32 *memNeeded){
+  s32 ind;
+  u32 mem = 0;
   if (false) {
 switchD_80096660_caseD_1:
-    sVar1 = -1;
+    ind = -1;
   }
   else {
     switch(param_1) {
     case SPELLIND_Immolation:
-      sVar1 = 0x1d0f;
-      uVar2 = 0x2000;
+      ind = 0x1d0f;
+      mem = 0x2000;
       break;
     default:
       goto switchD_80096660_caseD_1;
     case SPELLIND_AirSheild:
-      sVar1 = 0x1acc;
-      uVar2 = 0x2000;
+      ind = 0x1acc;
+      mem = 0x2000;
       break;
     case SPELLIND_ControlElem:
-      sVar1 = 0x1ba4;
-      uVar2 = 0x2400;
+      ind = 0x1ba4;
+      mem = 0x2400;
       break;
     case SPELLIND_debilitation:
-      sVar1 = 0x1be7;
-      uVar2 = 0x2800;
+      ind = 0x1be7;
+      mem = 0x2800;
       break;
     case SPELLIND_strength:
-      sVar1 = 0x1e33;
-      uVar2 = 0x3c00;
+      ind = 0x1e33;
+      mem = 0x3c00;
       break;
     case SPELLIND_brilliance:
-      sVar1 = 0x1b47;
-      uVar2 = 0x3c00;
+      ind = 0x1b47;
+      mem = 0x3c00;
       break;
     case SPELLIND_stupidity:
-      sVar1 = 0x1d46;
-      uVar2 = 0x2800;
+      ind = 0x1d46;
+      mem = 0x2800;
       break;
     case SPELLIND_charming:
-      sVar1 = 0x1b6b;
-      uVar2 = 0x2400;
+      ind = 0x1b6b;
+      mem = 0x2400;
       break;
     case SPELLIND_controlMarquis:
-      sVar1 = 0x1ba5;
-      uVar2 = 0x2400;
+      ind = 0x1ba5;
+      mem = 0x2400;
       break;
     case SPELLIND_endurance:
-      sVar1 = 0x1c76;
-      uVar2 = 0x3c00;
+      ind = 0x1c76;
+      mem = 0x3c00;
       break;
     case SPELLIND_weakness:
-      sVar1 = 0x1ec3;
-      uVar2 = 0x2800;
+      ind = 0x1ec3;
+      mem = 0x2800;
       break;
     case SPELLIND_cheatDeath:
-      sVar1 = 0x1b56;
-      uVar2 = 0x2400;
+      ind = 0x1b56;
+      mem = 0x2400;
       break;
     case SPELLIND_AcidBolt:
-      sVar1 = 0x1ac7;
-      uVar2 = 0x2000;
+      ind = 0x1ac7;
+      mem = 0x2000;
       break;
     case SPELLIND_auraOfDeath:
-      sVar1 = 0x1add;
-      uVar2 = 0x2c00;
+      ind = 0x1add;
+      mem = 0x2c00;
       break;
     case SPELLIND_wraithTouch:
-      sVar1 = 0x1efc;
-      uVar2 = 0x2800;
+      ind = 0x1efc;
+      mem = 0x2800;
       break;
     case SPELLIND_controlZombies:
-      sVar1 = 0x1ba6;
-      uVar2 = 0x2400;
+      ind = 0x1ba6;
+      mem = 0x2400;
       break;
     case SPELLIND_haste:
-      sVar1 = 0x1ce3;
-      uVar2 = 0x3000;
+      ind = 0x1ce3;
+      mem = 0x3000;
       break;
     case SPELLIND_exhaustion:
-      sVar1 = 0x1dc7;
-      uVar2 = 0x3800;
+      ind = 0x1dc7;
+      mem = 0x3800;
       break;
     case SPELLIND_stamina:
-      sVar1 = 0x1dec;
-      uVar2 = 0x2400;
+      ind = 0x1dec;
+      mem = 0x2400;
       break;
     case SPELLIND_wallOfBones:
-      sVar1 = 0x1ea9;
-      uVar2 = 0x6400;
+      ind = 0x1ea9;
+      mem = 0x6400;
       break;
     case SPELLIND_spiritSheild:
-      sVar1 = 0x1ddb;
-      uVar2 = 0x2000;
+      ind = 0x1ddb;
+      mem = 0x2000;
       break;
     case SPELLIND_mirror:
-      sVar1 = 0x1d34;
-      uVar2 = 0x2000;
+      ind = 0x1d34;
+      mem = 0x2000;
       break;
     case SPELLIND_vsElemental:
-      sVar1 = 0x1e55;
-      uVar2 = 0x3400;
+      ind = 0x1e55;
+      mem = 0x3400;
       break;
     case SPELLIND_vsNaming:
-      sVar1 = 0x1e69;
-      uVar2 = 0x3c00;
+      ind = 0x1e69;
+      mem = 0x3c00;
       break;
     case SPELLIND_vsNecromancy:
-      sVar1 = 0x1e7a;
-      uVar2 = 0x3c00;
+      ind = 0x1e7a;
+      mem = 0x3c00;
       break;
     case SPELLIND_vsStar:
-      sVar1 = 0x1e8d;
-      uVar2 = 0x2400;
+      ind = 0x1e8d;
+      mem = 0x2400;
       break;
     case SPELLIND_photosynthesis:
-      sVar1 = 0x1da6;
-      uVar2 = 0x2000;
+      ind = 0x1da6;
+      mem = 0x2000;
       break;
     case SPELLIND_solarWraith:
-      sVar1 = 0x1b07;
-      uVar2 = 0x5c00;
+      ind = 0x1b07;
+      mem = 0x5c00;
       break;
     case SPELLIND_starlightSheild:
     case SPELLIND_webOfStarlight:
-      sVar1 = 0x1e02;
-      uVar2 = 0x2000;
+      ind = 0x1e02;
+      mem = 0x2000;
       break;
     case SPELLIND_dexterity:
-      sVar1 = 0x1bf4;
-      uVar2 = 0x3c00;
+      ind = 0x1bf4;
+      mem = 0x3c00;
       break;
     case SPELLIND_clumsiness:
-      sVar1 = 0x1cad;
-      uVar2 = 0x2800;
+      ind = 0x1cad;
+      mem = 0x2800;
       break;
     case SPELLIND_frozenDoom:
-      sVar1 = 0x1ccf;
-      uVar2 = 0x3400;
+      ind = 0x1ccf;
+      mem = 0x3400;
       break;
     case SPELLIND_stellarGravity:
-      sVar1 = 0x1e21;
-      uVar2 = 0x2800;
+      ind = 0x1e21;
+      mem = 0x2800;
     }
   }
-  *param_2 = uVar2;
-  return sVar1;
+  *memNeeded = mem;
+  return ind;
 }
 
-
-s32 FUN_80096800(u8 param_1,u32 *param_2){
+s32 GetPotionB7(u8 param_1,u32 *param_2){
   s32 sVar1;
   undefined4 uVar2;
   
@@ -1262,7 +1256,7 @@ LAB_800968bc:
   return sVar1;
 }
 
-s32 FUN_800968c4(u8 param_1,u32 *param_2){
+s32 getPotionB5(u8 param_1,u32 *param_2){
   s32 sVar1;
   undefined4 uVar2;
   
@@ -1312,3 +1306,5 @@ bool Ofunc_80096928(int param_1){
   }
   return false;
 }
+
+void noop_800969a4(){}

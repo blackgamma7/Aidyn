@@ -260,7 +260,7 @@ void WidgetChild8::Update(){
   uVar8 = this->scrollMenu->GetHeight();
   if (this->scrollMenu->boundY1 < uVar8)
     uVar8 = this->scrollMenu->boundY1;
-  uVar10 = 0x78 - (u16)((uVar8 + uVar7 + this->unka8 + (uint)this->unkaa * 2) >> 1);
+  uVar10 = 120 - (u16)((uVar8 + uVar7 + this->unka8 + (uint)this->unkaa * 2) >> 1);
   sVar6 = uVar10 - this->unkaa;
   if (this->TextWidget) {
     this->TextWidget->boundY1 = uVar10 + (short)uVar7;

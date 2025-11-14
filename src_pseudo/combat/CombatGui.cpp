@@ -228,7 +228,7 @@ void make_combat_portrait(CombatPortrait *portrait,ItemID id,u8 count,u32 param_
   
   img = NULL;
   if (id) img = loadBorg8(gEntityDB->GetPortrait(id));
-  WidgetBorg8Combat *pWVar2 = ConstructWidgetBorg8Combat(PTR_800ed504,img,0xa0,0x78,1);
+  WidgetBorg8Combat *pWVar2 = ConstructWidgetBorg8Combat(PTR_800ed504,img,0xa0,120,1);
   portrait->unkc = param_4;
   portrait->basePortait = pWVar2;
   portrait->Owner = id;

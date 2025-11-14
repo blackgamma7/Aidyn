@@ -97,7 +97,7 @@ void MiniMap::LoadData(MinimapSec_dat *secDat){
     fVar8 = fVar2;
   }
   else {
-    uVar6 = 0x78;
+    uVar6 = 120;
     if (this->B_buttonToggle) goto LAB_80051504;
     this->field43_0xa8 = 0xb1;
     sVar5 = 0x34;
@@ -848,8 +848,8 @@ void MiniMap::Toggle(byte x){
   }
   else {
     this->field43_0xa8 = 0xb1;
-    this->field45_0xac = 0x78;
-    this->field46_0xae = 0x78;
+    this->field45_0xac = 120;
+    this->field46_0xae = 120;
     this->field44_0xaa = 0x34;
     this->field21_0x50 = 177.0f;
     this->field22_0x54 = 52.0f;

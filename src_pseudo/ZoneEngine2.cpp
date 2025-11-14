@@ -1007,15 +1007,11 @@ u8 get_scene_obj_proximity(vec2f *obj,vec2f *cam,vec2f *aim,float *outx,float *o
 #ifdef DEBUGVER
 //replace scene object models with boulders
 void SceneBoulders(Borg9Data *param_1){
-  if (param_1->voxelObjCount) {
-    for(u16 i=0;i < param_1->voxelObjCount;i++) {
-      if (param_1->voxelObjs[i].header.type == VOXEL_Scene) {
-        param_1->voxelObjs[i].scene.sceneflags &= ~SceneObj_B7;
-        if (param_1->voxelObjs[i].scene.BorgCount) {
-          for(u16 j=0;j < param_1->voxelObjs[i].scene.BorgCount;j++) {
-            param_1->voxelObjs[i].scene.borgArray[j].borgIndex = BORG5_SceneBoulder;
-          }
-        }
+  for(u16 i=0;i < param_1->voxelObjCount;i++) {
+    if (param_1->voxelObjs[i].header.type == VOXEL_Scene) {
+      param_1->voxelObjs[i].scene.sceneflags &= ~SceneObj_B7;
+      for(u16 j=0;j < param_1->voxelObjs[i].scene.BorgCount;j++) {
+        param_1->voxelObjs[i].scene.borgArray[j].borgIndex = BORG5_SceneBoulder;
       }
     }
   }
@@ -1732,20 +1728,19 @@ void InitZoneEngine(u16 param_1,short param_2){
   if (param_2 == 0) {
     CLEAR(&afStack104);
     passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&afStack104,dat);
-    if ((gPlayer != NULL) &&
+    if ((gPlayer) &&
        ((gPlayer)->removeFlag == 0)) {
-      Camera::SetAim(&gCamera,&((gPlayer)->collision).pos);
+      Camera::SetAim(&gCamera,&gPlayer->collision.pos);
       Camera::FUN_800b050c(&gCamera,&afStack104);
       Camera::SetPos(&gCamera,&afStack104);
     }
   }
   else {
     passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&pmVar8->cameraVec3,dat);
-    ppVar4 = gPlayer;
-    if (gPlayer != NULL) {
-      ((gPlayer)->facing).x = (pmVar8->playerVec2).x;
-      (ppVar4->facing).y = (pmVar8->playerVec2).y;
-      Camera::SetAim(&gCamera,&((gPlayer)->collision).pos);
+    if (gPlayer) {
+      gPlayer->facing.x = (pmVar8->playerVec2).x;
+      gPlayer->facing.y = (pmVar8->playerVec2).y;
+      Camera::SetAim(&gCamera,&gPlayer->collision.pos);
     }
   }
   init_dynamic_light(&gGlobals.gameVars.DynamicLights);
@@ -1994,7 +1989,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
     if ((int)((uVar3 - iVar4) * 0x10000) < 1) {
       bVar1 = true;
       position = &(player->collision).pos;
-      gGlobals.gameVars.unkTimer = 0x78;
+      gGlobals.gameVars.unkTimer = 120;
       A = FUN_8000cae8(position,gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2,gGlobals.gameVars.mapDatA,1);
       if ((A != NULL) &&(Vec3Dist(&A->playerVec3,position) < 10.0f)) {
         bVar1 = false;

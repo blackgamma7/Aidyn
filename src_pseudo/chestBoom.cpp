@@ -14,14 +14,14 @@
 
 
 void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 param_4,short param_5,short count
-               ,float randHi,float randLo,float param_9,short addLight) {
+               ,float velLo,float velHi,float gravity,short addLight) {
   ParticleEmmiter *pEmmi = Particle::AllocParticleEmitter
                     (&gGlobals.gameVars.particleEmmiter,param_4,param_5,0,NULL,NULL,NULL,NULL,NULL);
   if (pEmmi) {
     Particle::SetEmmiterHeight(pEmmi,height);
     Particle_s *pPVar1 = pEmmi->particles;
     Particle::SetFlag(pPVar1,PARTICLE_0100);
-    Particle::SetColorB(pPVar1,0.0,param_9,0.0,1.0f);
+    Particle::SetColorB(pPVar1,0.0,gravity,0.0,1.0f);
     pPVar1 = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,pEmmi,param_4);
     Particle::SetFlag(pPVar1,PARTICLE_0200);
     Particle::SetColorB(pPVar1,color->x,color->y,color->z,color->w);
@@ -32,7 +32,7 @@ void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 pa
         Particle::SetScale(pPVar1,0.25,0.25);
         Particle::SetPos(pPVar1,(chest->header).pos.x,(chest->header).pos.y,(chest->header).pos.z);
         Particle::SetColorA(pPVar1,color->x,color->y,color->z,color->w);
-        RAND.GetVec3(&pPVar1->vel,RAND.GetFloatRange(randHi,randLo));
+        RAND.GetVec3(&pPVar1->vel,RAND.GetFloatRange(velLo,velHi));
     }
     if (addLight) {
       AllocDynamicLight(&gGlobals.gameVars.DynamicLights,120,&chest->header.pos,10.0,1,4.0f,BoomColRed0,0x0);
@@ -40,62 +40,52 @@ void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 pa
   }
 }
 
-//these two seem to be for an unused rising smoke plume?
 
-void ofunc_sub_8001ae04(ParticleHeadStruct *param_1,ParticleEmmiter *emmi) {
-  Particle_s *p;
-  vec3f *v3;
-  vec3f *pos;
-  float fVar1;
-  float fVar2;
-  
-  pos = (vec3f *)emmi->object;
+//Tick unused smoke particle. wind influences direction
+void SmokeUnusedPartFuncB(ParticleHeadStruct *pHead,ParticleEmmiter *emmi) {
+  vec3f*pos = &((voxelHeader *)emmi->object)->pos;
   if ((emmi->flags & PARTEMMI_2000)) pos = &(emmi->collision).pos;
-  p = Particle::FUN_800b277c(param_1,emmi,120);
-  Particle::SetScale(p,0.25f,0.25f);
-  Particle::SetPos(p,pos->x + (emmi->vel).x,pos->y + (emmi->vel).y,
+  Particle_s *part = Particle::FUN_800b277c(pHead,emmi,120);
+  Particle::SetScale(part,0.25f,0.25f);
+  Particle::SetPos(part,pos->x + (emmi->vel).x,pos->y + (emmi->vel).y,
                    pos->z + (emmi->vel).z);
-  Particle::SetColorA(p,(emmi->colvec4).x,(emmi->colvec4).y,(emmi->colvec4).z,
+  Particle::SetColorA(part,(emmi->colvec4).x,(emmi->colvec4).y,(emmi->colvec4).z,
                       (emmi->colvec4).w);
-  RAND.GetVec3(&p->vel,RAND.GetFloatRange(0.01,0.02));
-  Vec3Sum(&p->vel,&TerrainPointer->windVelocity,&p->vel);
-  fVar2 = pos->y + emmi->unk40;
-  fVar1 = emmi->height;
-  if (fVar2 <= emmi->height) fVar1 = fVar2;
-  emmi->height = fVar1;
+  RAND.GetVec3(&part->vel,RAND.GetFloatRange(0.01,0.02));
+  Vec3Sum(&part->vel,&TerrainPointer->windVelocity,&part->vel);
+  float heightMax = pos->y + emmi->unk40;
+  float height = emmi->height;
+  if (emmi->height >= heightMax) height = heightMax;
+  emmi->height = height;
 }
 
 
-void Ofunc_8001af40(container_Dat *param_1,vec3f *param_2,vec4f *param_3,float param_4,
-                   u16 param_5,short param_6,float param_7) {
+void SmokeUnusedPart(voxelHeader* vox,vec3f *vel,vec4f *color,float param_4,
+                   u16 param_5,short param_6,float velY) {
   
   ParticleEmmiter *emmi = Particle::AllocParticleEmitter
-                     (&gGlobals.gameVars.particleEmmiter,param_5,param_6,0,NULL,ofunc_sub_8001ae04,NULL,
-                      param_1,NULL);
+                     (&gGlobals.gameVars.particleEmmiter,param_5,param_6,0,NULL,
+                      SmokeUnusedPartFuncB,NULL,vox,NULL);
   if (emmi) {
-    Particle::SetEmmiterHeight(emmi,(param_1->chestSize - 0.5));
-    Vec4Copy(param_3,&emmi->colvec4);
-    Vec3Copy(param_2,&emmi->vel);
+    Particle::SetEmmiterHeight(emmi,(vox->pos.y - 0.5));
+    Vec4Copy(color,&emmi->colvec4);
+    Vec3Copy(vel,&emmi->vel);
     Particle_s *part = emmi->particles;
     emmi->unk40 = param_4;
     Particle::SetFlag(part,PARTICLE_0100);
-    Particle::SetColorB(part,0.0,param_7,0.0,1.0f);
+    Particle::SetColorB(part,0.0,velY,0.0,1.0f);
     part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,param_5);
     Particle::SetFlag(part,PARTICLE_0200);
-    Particle::SetColorB(part,param_3->x,param_3->y,param_3->z,param_3->w);
+    Particle::SetColorB(part,color->x,color->y,color->z,color->w);
     Vec4Scale(&part->colorB,(-1.0f/120));
   }
 }
 
 
 void FUN_8001b0a8(ParticleHeadStruct *head,ParticleEmmiter *emmi) {
-  Particle_s *p;
-  vec3f *pos;
-  vec4f v4;
-  vec2f v2;
-  voxelObject *obj;
-  
-  p = Particle::FUN_800b277c(head,emmi,emmi->unk1a);
+  vec4f randCol;
+  vec2f randVel;
+  Particle_s *p = Particle::FUN_800b277c(head,emmi,emmi->unk1a);
   Particle::SetScale(p,0.1f,0.1f);
   vec3f *pos = &emmi->pos;
   if ((emmi->flags & PARTEMMI_2000)) pos = &(emmi->collision).pos;
@@ -107,17 +97,17 @@ void FUN_8001b0a8(ParticleHeadStruct *head,ParticleEmmiter *emmi) {
     else Vec3Copy(pos,&obj->header.pos);
   }
   Vec3Copy(pos,&p->pos);
-  RAND.GetVec2(&v2,RAND.GetFloat0ToX((emmi->vel).x));
-  (p->pos).x += v2.x;
-  (p->pos).z += v2.y;
-  RAND.GetVec2(&v2,RAND.GetFloat0ToX((emmi->vel).z));
-  Particle::SetVel(p,v2.x,RAND.GetFloat0ToX((emmi->vel).y / (float)(int)emmi->unk1a),v2.y);
+  RAND.GetVec2(&randVel,RAND.GetFloat0ToX((emmi->vel).x));
+  (p->pos).x += randVel.x;
+  (p->pos).z += randVel.y;
+  RAND.GetVec2(&randVel,RAND.GetFloat0ToX((emmi->vel).z));
+  Particle::SetVel(p,randVel.x,RAND.GetFloat0ToX((emmi->vel).y / (float)(int)emmi->unk1a),randVel.y);
   Vec4Copy(&emmi->colvec4,&p->colorA);
-  v4.x = RAND.GetFloat0ToX((emmi->field20_0x54).x / (float)(int)emmi->unk1a);
-  v4.y = RAND.GetFloat0ToX((emmi->field20_0x54).y / (float)(int)emmi->unk1a);
-  v4.z = RAND.GetFloat0ToX((emmi->field20_0x54).z / (float)(int)emmi->unk1a);
-  v4.w = RAND.GetFloat0ToX((emmi->field20_0x54).w / (float)(int)emmi->unk1a);
-  Vec4Copy(&v4,&p->colorB);
+  randCol.x = RAND.GetFloat0ToX((emmi->randVec).x / (float)(int)emmi->unk1a);
+  randCol.y = RAND.GetFloat0ToX((emmi->randVec).y / (float)(int)emmi->unk1a);
+  randCol.z = RAND.GetFloat0ToX((emmi->randVec).z / (float)(int)emmi->unk1a);
+  randCol.w = RAND.GetFloat0ToX((emmi->randVec).w / (float)(int)emmi->unk1a);
+  Vec4Copy(&randCol,&p->colorB);
   p->unk4 = p->id;
   Particle::SetFlag(p,PARTICLE_0200);
 }
@@ -129,11 +119,11 @@ FUN_8001b29c(vec3f *pos,u16 param_2,short param_3,u16 param_4,short param_5,floa
 
   ParticleEmmiter *emmi = Particle::AllocParticleEmitter
                      (&gGlobals.gameVars.particleEmmiter,param_2,param_3,param_4,NULL,FUN_8001b0a8,NULL,NULL,NULL);
-  if (emmi == NULL) emmi = NULL;
+  if (!emmi) return NULL;
   else {
     Vec3Copy(pos,&emmi->pos);
     Vec4Copy(colA,&emmi->colvec4);
-    Vec4Copy(colB,&emmi->field20_0x54);
+    Vec4Copy(colB,&emmi->randVec);
     Vec3Copy(vel,&emmi->vel);
     Particle_s *part = emmi->particles;
     emmi->unk1a = param_5;
@@ -148,8 +138,8 @@ FUN_8001b29c(vec3f *pos,u16 param_2,short param_3,u16 param_4,short param_5,floa
     float dVar3 = -1.0 / param_5;
     Vec4Sub(&part->colorB,colA,colC);
     Vec4Scale(&part->colorB,dVar3);
+    return emmi;
   }
-  return emmi;
 }
 
 void alloc_explosion_light(vec3f *pos,float param_2,u16 param_3,bool moving) {
@@ -166,7 +156,7 @@ void alloc_explosion_light(vec3f *pos,float param_2,u16 param_3,bool moving) {
   Vec4Set(&afStack432,0.2,0.1,0.0,0.0);
   Vec3Set(&afStack304,0.05,0.4,0.0025);
   Vec3Set(&afStack368,0.25f,0.0,0.25f);
-  pPVar1 = FUN_8001b29c(pos,param_3,2,0xfffe,0x78,param_2,&afStack560,&afStack496,&afStack432,
+  pPVar1 = FUN_8001b29c(pos,param_3,2,0xfffe,120,param_2,&afStack560,&afStack496,&afStack432,
                         &afStack304);
   if (pPVar1) {
     if (moving) {

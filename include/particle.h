@@ -66,10 +66,10 @@ struct ParticleEmmiter {
     u64 unk1c;
     vec3f pos;
     vec3f vel;
-    u8 field18_0x3c[4];
+    u8 unk3c[4];//unused?
     float unk40;
     vec4f colvec4;
-    vec4f field20_0x54;
+    vec4f randVec;
     u8 unk0x64[340]; /* unused? */
     ParticleFuncA funcA;
     ParticleFuncB funcB;
@@ -106,8 +106,7 @@ struct ParticleHeadStruct {
     short emmitterIndecies[ParticleEmmiMAX];
     Borg1Header **ppTextures;
     short TextureCount;
-    undefined field6_0x332;
-    undefined field7_0x333;
+    u8 unk322[2]; //align bytes?S
     float gray;
     Borg9Data *borg9dat;
     u16 particleStructCount;
@@ -153,13 +152,13 @@ namespace Particle{
     void UnsetEmmiterFlags(ParticleEmmiter*,u16);
     void SetEmmiterHeight(ParticleEmmiter *,float);
     void UnsetEmmiterFlag4000(ParticleEmmiter *);
-    Gfx * FUN_800b2d34(Gfx *g,ParticleHeadStruct *param_2,vec3f *v,u16 buffChoice);
-    Gfx * FUN_800b2f9c(Gfx *,u16);
+    Gfx * GraphicsInit(Gfx *g,ParticleHeadStruct *pHead,vec3f *v,u16 buffChoice);
+    Gfx * SetGeoMode(Gfx *,u16);
     void RenderParticles(Gfx **,ParticleHeadStruct *,Particle_s *,Borg1Header *,u16);
     SceneData * GetLocatorScene(SceneData *,u16);
-    ParticleEmmiter * FUN_800b3c18(ParticleHeadStruct *,SceneData *,Borg5_particle *);
+    ParticleEmmiter * AllocBorg5Particle(ParticleHeadStruct *,SceneData *,Borg5_particle *);
     void UnsetSceneEmmiter(ParticleHeadStruct *,SceneData *);
-    bool FUN_800b4030(ParticleHeadStruct *,SceneData *);
+    bool SceneHasEmmiter(ParticleHeadStruct *,SceneData *);
 };
 
 //used by PlaneObj as well. sets vertex data

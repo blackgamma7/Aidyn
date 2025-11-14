@@ -775,7 +775,7 @@ u32 WidgetContPakDataSave::ShowSaveFiles(){
   uStack136[0] = this->unk292;
   uStack136[1] = this->unk294;
   uStack136[2] = uStack136[0] + 200;
-  uStack136[3] = uStack136[1] + 0x78;
+  uStack136[3] = uStack136[1] + 120;
   aCStack_48[0].R = 0x67;
   aCStack_48[0].G = 0x46;
   aCStack_48[0].B = 0x3c;
@@ -917,7 +917,7 @@ u32 WidgetContPakDataLoad::ShowSaveFiles(){
     uStack_48[0] = this->unk292;
     uStack_48[1] = this->unk294;
     uStack_48[2] = uStack_48[0] + 200;
-    uStack_48[3] = uStack_48[1] + 0x78;
+    uStack_48[3] = uStack_48[1] + 120;
     this->sliders->AddFileWidget(new WidgetBlankFile("There are currently no games saved on this Controller Pak.",(u16 (*) [4])&uStack_48,
                         &this->col0,0,0x1c));
     Utilities::SetAlpha(this,this->col.A);

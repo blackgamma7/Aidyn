@@ -73,8 +73,8 @@ void obj_ref_func(void);
 
 void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 param_4,short param_5,short count
                ,float randHi,float randLo,float param_9,short addLight);
-void ofunc_sub_8001ae04(ParticleHeadStruct *param_1,ParticleEmmiter *param_2);
-void Ofunc_8001af40(container_Dat *param_1,vec3f *param_2,vec4f *param_3,float param_4,
+void SmokeUnusedPartFuncB(ParticleHeadStruct *param_1,ParticleEmmiter *param_2);
+void SmokeUnusedPart(voxelHeader* param_1,vec3f *param_2,vec4f *param_3,float param_4,
                    u16 param_5,short param_6,float param_7);
 void FUN_8001b0a8(ParticleHeadStruct *param_1,ParticleEmmiter *param_2);
 ParticleEmmiter *

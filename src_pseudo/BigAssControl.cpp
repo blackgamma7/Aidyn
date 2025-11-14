@@ -233,7 +233,7 @@ BaseWidget* bigAssMenu_RFunc(BaseWidget* param_1,BaseWidget *w1) {
           sub->pauseMenuSections[sub->PauseMenuSection]->Tick();
           sub->calendar->map->pieceAlpha = 0;
           sub->isScrolling = true;
-          PLAYSFX(0x7d4,0,1.0,0x78,0);
+          PLAYSFX(0x7d4,0,1.0,120,0);
         }
       }
     }

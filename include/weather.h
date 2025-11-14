@@ -17,9 +17,9 @@ namespace Weather{
     void Init(WeatherStruct*);
     void Free(WeatherStruct*);
     void AlignParticle(Particle_s *,vec3f *,vec3f *);
-    void FUN_800228e8(ParticleHeadStruct *,ParticleEmmiter *,Particle_s *);
-    void FUN_80022a24(ParticleHeadStruct *,ParticleEmmiter *);
-    void FUN_80022bf4(ParticleHeadStruct *,ParticleEmmiter *);
+    void PrecipParticleFuncC(ParticleHeadStruct *,ParticleEmmiter *,Particle_s *);
+    void RainParticleFunc(ParticleHeadStruct *,ParticleEmmiter *);
+    void PrecipParticleFuncB(ParticleHeadStruct *,ParticleEmmiter *);
     ParticleEmmiter * AllocPrecipParticles(vec3f *,vec3f *,vec4f *,s16 ,s16 ,void*);
     void RemoveSFX(WeatherStruct *);
     void ProcessWeather(WeatherStruct *W ,s16 delta);
