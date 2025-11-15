@@ -230,7 +230,6 @@ void FUN_800477a0(void){
   }
 }
 
-extern void FUN_80050868();
 void WidgetOptionsMenu::ContPakLoad(){
   WidgetOptionsSubstruct *sub = (WidgetOptionsSubstruct *)this->substruct;
   sub->unk14 = sub->unk10;

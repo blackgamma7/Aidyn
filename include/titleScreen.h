@@ -31,8 +31,8 @@ class IntroMenu: public WidgetMenu{
     u8 blinkTimer;
     u8 alpha0;
     u8 alpha1;
-    BaseWidget *field5_0x80;
-    BaseWidget *field6_0x84;
+    BaseWidget *unk80;
+    BaseWidget *unk84;
     u8 pressStartVisible;
     IntroMenu();
     ~IntroMenu();
@@ -57,6 +57,13 @@ class IntroMenu: public WidgetMenu{
     BaseWidget* DownFunc();
     BaseWidget* BFunc();
 };
+BaseWidget* IntroMenu_LeftFunc(BaseWidget*,BaseWidget*);
+BaseWidget* IntroMenu_RightFunc(BaseWidget*,BaseWidget*);
+BaseWidget* IntroMenu_UpFunc(BaseWidget*,BaseWidget*);
+BaseWidget* IntroMenu_DownFunc(BaseWidget*,BaseWidget*);
+BaseWidget* IntroMenu_AFunc(BaseWidget*,BaseWidget*);
+BaseWidget* IntroMenu_BFunc(BaseWidget*,BaseWidget*);
+BaseWidget* IntroMenu_StartFunc(BaseWidget*,BaseWidget*);
 
 
 enum IntroMenuStates{
@@ -75,7 +82,7 @@ enum IntroMenuStates{
 };
 
 struct IntroMenuSub {
-    BaseWidget *StartGameMenu;
+    BaseWidget *StartMenu;
     u32 unk4;
     InputMenu *inputMenu;
     WidgetOptionsConfig* config;
