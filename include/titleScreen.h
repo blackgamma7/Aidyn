@@ -57,6 +57,9 @@ class IntroMenu: public WidgetMenu{
     BaseWidget* DownFunc();
     BaseWidget* BFunc();
 };
+
+BaseWidget * IntroMenu_ShadowBG(s16 x0,s16 y0,s16 x1,s16 y1);
+
 BaseWidget* IntroMenu_LeftFunc(BaseWidget*,BaseWidget*);
 BaseWidget* IntroMenu_RightFunc(BaseWidget*,BaseWidget*);
 BaseWidget* IntroMenu_UpFunc(BaseWidget*,BaseWidget*);

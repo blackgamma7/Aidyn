@@ -3,6 +3,27 @@
 
 #include "globals.h"
 
+#ifdef DEBUGVER
+void debug_placebo_toggle(void) {
+  PTR_800e61e4 = new WidgetDebugDummyToggle();
+  WHANDLE->AddWidget(PTR_800e61e4);
+  freeWidgetFunc = change_some_debug_settings;
+}
+
+
+void change_some_debug_settings(BaseWidget *w) {
+  if (w == PTR_800e61e4) {
+    freeWidgetFunc = NULL;
+    WHANDLE->FreeWidget(w);
+    if (PTR_800e61e4)
+      PTR_800e61e4->~WidgetDebugDummyToggle();
+    PTR_800e61e4 = NULL;
+  }
+  else {
+    unused_bitfeild = unused_bitfeild ^ 1 << (w->varU16 & 0x1f);
+  }
+}
+
 extern BaseWidget *FUN_8004ce14(BaseWidget *,short,short,short,u16,u8 r,u8 g,u8 b,u8 a);
 extern char** debug_switch_labels;
 WidgetDebugDummyToggle::WidgetDebugDummyToggle():WidgetMenu(){
@@ -41,3 +62,4 @@ u8 WidgetDebugDummyToggle::Tick(){
                 On_or_off_strings[(unused_bitfeild & 1 << (i & 0x1f)) == 0]);}
   return WidgetMenu::Tick();
 }
+#endif

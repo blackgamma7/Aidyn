@@ -1,5 +1,6 @@
 #include "globals.h"
 #include "debug.h"
+#include "widgets/DebugDummyToggle.h"
 #include "armordb.h"
 #include "chestdb.h"
 #include "weapondb.h"
@@ -10,7 +11,7 @@
 #ifdef DEBUGVER
 u32 gZoneEngineHide=0;
 WidgetDebugBig* WidgetDebugBigPointer=NULL;
-extern void(*debug_menu_funcs[])(void)={
+ void(*debug_menu_funcs[])(void)={
     debug_gamestatefunnel,
     NULL,
     gamestste_cheats,
@@ -122,7 +123,7 @@ BaseWidget * UnkWidget::DownFunc(){
     this->scrollMenu->DownFunc();
     return NULL;
 }
-
+extern BaseWidget *FUN_8004ce14(BaseWidget *,short,short,short,u16,u8 r,u8 g,u8 b,u8 a);
 WidgetItemDB::WidgetItemDB(){
     WidgetMenu();
     char* titles[]={"ARMOR","SHIELD","ITEM","WEAPON","POTION"};

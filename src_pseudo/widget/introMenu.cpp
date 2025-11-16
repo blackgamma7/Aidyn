@@ -203,7 +203,7 @@ void IntroMenu::BlinkTimer() {
   (pvVar1->PressStart->col).A *= this->pressStartVisible;
 }
 
-BaseWidget * IntroMenu_ShadowBG(short x0,short y0,short x1,short y1) {
+BaseWidget * IntroMenu_ShadowBG(s16 x0,s16 y0,s16 x1,s16 y1) {
   WidgetBorg8 *bg = WidgetB8(BORG8_Pixel);
   bg->SetCoords(x0,y0);
   s16 w = x1 - x0;

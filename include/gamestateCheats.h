@@ -27,7 +27,7 @@ u32 bitfeild_array[]={
     1<<21,1<<22,1<<23,1<<24,1<<25,1<<26,1<<27,1<<28,1<<29,1<<30,
     1<<31
 };
-
+void gamestste_cheats(void);
 u8 gamestate_cheat_check1(u8 param_1);
 u8 gamestate_cheat_check2(GameState_Cheat param_1);
 void FUN_8003316c(WidgetGameStateCheats *param_1);

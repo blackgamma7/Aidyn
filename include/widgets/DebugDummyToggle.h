@@ -2,7 +2,7 @@
 #include "widgets/WidgetScrollMenu.h"
 
 //May have controlled map objects by type, but does nothing in final debug.
-class WidgetDebugDummyToggle:WidgetMenu{
+class WidgetDebugDummyToggle:public WidgetMenu{
     public:
     WidgetScrollMenu* scrollMenu;
     WidgetDebugDummyToggle();
@@ -17,3 +17,6 @@ class WidgetDebugDummyToggle:WidgetMenu{
 u32 unused_bitfeild=0xFFFFFFAE;
 WidgetDebugDummyToggle* PTR_800e61e4=NULL;
 char* On_or_off_strings[2]={"On","Off"};
+
+void debug_placebo_toggle();
+uint change_some_debug_settings(BaseWidget *param_1);

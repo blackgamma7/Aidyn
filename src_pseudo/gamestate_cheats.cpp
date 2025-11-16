@@ -2,9 +2,11 @@
 #include "globals.h"
 #include "widgets/Utilities.h"
 
-WidgetGameStateCheats * gamestste_cheats(void){
+void gamestste_cheats(void){
     freeWidgetFunc = FUN_8003316c;
-    return new WidgetGameStateCheats();
+    //constructor adds object to handler,and destructor removes it.
+    //SHOULD be no need for return.
+    new WidgetGameStateCheats(); 
 }
 
 u8 gamestate_cheat_check1(u8 param_1){

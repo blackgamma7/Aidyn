@@ -46,6 +46,22 @@ void load_credits_instead();
 void debug_accessDB();
 void debug_freeDBMenu(BaseWidget *param_1);
 
+void debug_add_party_member();
+void FUN_8005eae4(BaseWidget *w);
+
+class WidgetDebugParty:public WidgetMenu{
+    public:
+    WidgetScrollMenu* scroll;
+    void AddEntName(u16);
+    WidgetDebugParty();
+    ~WidgetDebugParty();
+    BaseWidget* UpFunc();
+    BaseWidget* DownFunc();
+    BaseWidget* AFunc();
+    BaseWidget* BFunc();
+};
+
+
 //only vTable ,control methods and destructor remaining.
 class UnkWidget: public WidgetMenu{
     public:
