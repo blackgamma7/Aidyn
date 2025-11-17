@@ -88,7 +88,7 @@ LAB_8002e068:
     else lensflare_bss -= 10;
   }
   if (lensflare_bss != 0) {
-    fStack184.x = gLensFlarePos.x - (SCREEN_WIDTH/2);
+    fStack184.x = gLensFlarePos.x - SCREEN_CENTERW;
     fStack184.y = gLensFlarePos.y - (SCREEN_HEIGHT/2);
     fStack120.x = fStack184.x;
     fStack120.y = fStack184.y;
@@ -109,7 +109,7 @@ LAB_8002e068:
       fVar9 = gLensFlareData[i].f1 * fVar9;
       if (0.2 < fVar9) {
         g = Borg8_DrawSimple(g,gLensflare[i],
-                             ((f32)(SCREEN_WIDTH/2) + gLensFlareData[i].f0 * fStack184.x) -((gLensflare[i]->dat).Width >> 1) * fVar9,
+                             ((f32)SCREEN_CENTERW + gLensFlareData[i].f0 * fStack184.x) -((gLensflare[i]->dat).Width >> 1) * fVar9,
                              ((f32)(SCREEN_HEIGHT/2) + gLensFlareData[i].f0 * fStack184.y) -((gLensflare[i]->dat).Height >> 1) * fVar9,
                              fVar9,fVar9,
                              gLensFlareData[i].col.R,gLensFlareData[i].col.G,gLensFlareData[i].col.B,fVar10);

@@ -24,7 +24,6 @@ void change_some_debug_settings(BaseWidget *w) {
   }
 }
 
-extern BaseWidget *FUN_8004ce14(BaseWidget *,short,short,short,u16,u8 r,u8 g,u8 b,u8 a);
 extern char** debug_switch_labels;
 WidgetDebugDummyToggle::WidgetDebugDummyToggle():WidgetMenu(){
     FUN_8004ce14(this,FULL_SCREENSPACE,0,0,0,200);

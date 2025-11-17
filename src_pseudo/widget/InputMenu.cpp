@@ -29,7 +29,7 @@ void InputMenu::InitMenu(char *txt){
   this->BButtonFunc = InputMenu_BButton;
   this->StartButtonFunc = InputMenu_StartButton;
   WidgetBorg8* title = WidgetB8(BORG8_TitleEnterName);
-  title->SetCoords((SCREEN_WIDTH/2) - (title->GetWidth() >> 1),50);
+  title->SetCoords(SCREEN_CENTERW - (title->GetWidth() >> 1),50);
   this->Link(title);
   char uStack_60[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>|*_^\"'()!- ~`\\";
   sub->arrayMenu = new WidgetArrayMenu(strlen(uStack_60));
@@ -117,7 +117,7 @@ Gfx * InputMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   (piVar2->entries[piVar2->entryPos]->col).A = this->col.A;
   apGStackX_4[0] = g;
   iVar3 = Font::GetWidth(gGlobals.font,piVar1->entry);
-  iVar3 = (SCREEN_WIDTH/2) - Font::GetWidth(gGlobals.font,piVar1->entry) / 2;
+  iVar3 = SCREEN_CENTERW - Font::GetWidth(gGlobals.font,piVar1->entry) / 2;
   uVar7 = 0;
   do {
     iVar3 = iVar3;

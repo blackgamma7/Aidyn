@@ -378,22 +378,15 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
     }
     case 3:{
     fVar6 = World::get_timeofDay_float(TerrainPointer);
-    if (0.0 < TerrainPointer->ThunderFloat) {
-      fVar7 = RAND.GetFloatRange(0.0,1.0);
-    }
+    //Thunderclap chance
+    if (0.0 < TerrainPointer->ThunderFloat) fVar7 = RAND.GetFloatRange(0.0,1.0);
     if ((fVar7 < TerrainPointer->ThunderFloat * 0.25) &&(sky_flag_b == 0)) {
       gfx = DrawRectangle(gfx,FULL_SCREENSPACE,0xff,0xff,0xff,0);
       SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
                 &gMainColor,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
                 (-gGlobals.sky.lensFlareVal * 0.5));
-      gMainColor.A = 0xff;
-      gMainColor.B = 0xff;
-      gMainColor.G = 0xff;
-      gMainColor.R = 0xff;
-      gSkyColor.A = 0xff;
-      gSkyColor.B = 0xff;
-      gSkyColor.G = 0xff;
-      gSkyColor.R = 0xff;
+      gMainColor={COLOR_WHITE};
+      gSkyColor={COLOR_WHITE};
       switch(RAND.func(0,3)){
         case 0:{
           PLAYSFX(0x071c,0,gGlobals.VolSFX,320,0);

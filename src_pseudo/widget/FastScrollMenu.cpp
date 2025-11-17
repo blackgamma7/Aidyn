@@ -4,7 +4,7 @@
 
 WidgetFastScrollMenu::WidgetFastScrollMenu(u16 length):BaseWidget(){
   WSMSub* sub = new WSMSub;
-  sub->field11_0x12 = 0;
+  sub->unk12 = 0;
   sub->blendSign = 1;
   sub->highlight = 0;
   sub->maxCount = length;
@@ -123,11 +123,11 @@ void WidgetFastScrollMenu::m8002ff30(){
   if ((sub->items != NULL) && (sub->currentCount != 0)) {
     BaseWidget*w = sub->items[sub->highlight];
     u16 h = w->GetHeight();
-    s32 iVar4 = this->posY + sub->field11_0x12 + h * sub->highlight;
+    s32 iVar4 = this->posY + sub->unk12 + h * sub->highlight;
     if (this->boundY1 < (int)(iVar4 + h))
-      sub->field11_0x12 -= ((short)(iVar4 + h) - this->boundY1);
+      sub->unk12 -= ((short)(iVar4 + h) - this->boundY1);
     if (iVar4 < this->boundY0)
-      sub->field11_0x12 += (this->boundY0 - (short)iVar4);
+      sub->unk12 += (this->boundY0 - (short)iVar4);
     if (sub->currentCount) {
       for(u32 i=0,iVar4=0;i<sub->currentCount;i++) {
         w = sub->items[i];
@@ -135,7 +135,7 @@ void WidgetFastScrollMenu::m8002ff30(){
         w->boundX1 = this->boundX1;
         w->boundY0 = this->boundY0;
         w->boundY1 = this->boundY1;
-        w->SetCoords(this->posX,this->posY + sub->field11_0x12 + (short)iVar4);
+        w->SetCoords(this->posX,this->posY + sub->unk12 + (short)iVar4);
         if (i == sub->highlight) w->SetColor(sub->col.R,sub->col.G,sub->col.B,sub->col.A);
         else w->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
         iVar4+=h;

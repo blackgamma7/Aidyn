@@ -23,9 +23,9 @@ void TheatreMenu::InitMenu() {
   Utilities::SetScrollMenuColors(s->scroll,0x67,0x40,0x40,0xff,0xc5,0xae,0xb0,0xff,0xf);
   s->scroll->SetColor(COLOR_BROWN1);
   WidgetBorg8* title = WidgetB8(BORG8_TitleTheater);
-  title->SetCoords((SCREEN_WIDTH/2) - (title->GetWidth() >> 1),50);
+  title->SetCoords(SCREEN_CENTERW - (title->GetWidth() >> 1),50);
   this->Link(title);
-  s->scroll->SetCoords((SCREEN_WIDTH/2),90);
+  s->scroll->SetCoords(SCREEN_CENTERW,90);
   LoadOptionStrings();
   //If no entries, add one saying so.
   //(should not happen - unavaiilable entries marked as "----------------")

@@ -7,7 +7,7 @@ voxelObject* gCurrentTrapVoxel=NULL;
 bool TrapMenu::InitMenu(voxelObject *v){
   char *pcVar1;
   u16 *iVar2;
-  WidgetChild8 *pWVar2;
+  WidgetChoiceDia *pWVar2;
   uint uVar4;
   BaseWidget *iVar3;
   bool bVar5;
@@ -26,7 +26,7 @@ bool TrapMenu::InitMenu(voxelObject *v){
   acStack88.G = 0xff;
   acStack88.B = 0xe1;
   acStack88.A = 0xff;
-  pWVar2 = new WidgetChild8(2,gGlobals.text,180,&acStack88,&acStack88,1,10,0);
+  pWVar2 = new WidgetChoiceDia(2,gGlobals.text,180,&acStack88,&acStack88,1,10,0);
   iVar3 = WTextSafe(Cstring(TrapMenuDisarm));
   iVar3->AButtonFunc = AttemptDisarm;
   pWVar2->AppendScrollMenu(iVar3);
@@ -123,7 +123,7 @@ BaseWidget * TrapMenu::TakeDamage(short param_1,char *txtStart){
     txtWidth = Font::GetWidthScaled(gGlobals.font,abStack1080,1.0);
   }
   for(u32 i=0;i<4;i++) {
-    CharSheet *pCVar1 = gGlobals.party->Members[i];
+    CharSheet *pCVar1 = PARTY->Members[i];
     if ((pCVar1) && (!Entity::isDead(pCVar1))) {
       s16 dmg = MAX(param_1 * RollD(1,4),1); //Bug(?): causes 2 "rolls" - first checks, second sets.
       if (dmg < CharStats::getModded(pCVar1->Stats,STAT_END)) //endurance damage

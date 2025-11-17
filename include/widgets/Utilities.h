@@ -49,3 +49,9 @@ namespace Utilities{
 void FUN_800bbfc8(BaseWidget *,u16);
 void Ofunc_800bc064(BaseWidget *,u8 );
 void Ofunc_800bc300(BaseWidget *,u16);
+
+//helper funcs in seperate script.
+BaseWidget * ofunc_icon_or_portrait(BaseWidget *parent,ItemID ID,u16 H,u16 W,u8 type);
+BaseWidget * WidgetBorg8At(BaseWidget *parent,u16 Index,s16 X,s16 Y,s16 H,s16 W);
+BaseWidget * FUN_8004ce14(BaseWidget *parent,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a);
+void Ofunc_8004cec0(BaseWidget *w,Color32 *param_2,Color32 *param_3,u8 param_4);

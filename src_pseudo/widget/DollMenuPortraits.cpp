@@ -125,7 +125,7 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
       }
     }
     this->selectedMember = (byte)uStack_4e;
-    pCVar4 = (gGlobals.party)->Members[(byte)uStack_4e];
+    pCVar4 = PARTY->Members[(byte)uStack_4e];
     u8 AVar15 = pCVar4->EXP->GetAspect();
     pBVar12 = this->aspectIcon;
     if (pBVar12->varU16 != AVar15){

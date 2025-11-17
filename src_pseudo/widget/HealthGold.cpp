@@ -16,7 +16,7 @@ WidgetHealthGold::WidgetHealthGold(CharSheet *chara):WidgetMenu(){
   this->LevelText->SetCoords(0xdf,0x37);
   this->LevelText->SetColor(COLOR_RED1);
   this->Link(this->LevelText);
-  sprintf(buff,"%ld",(gGlobals.party)->Gold);
+  sprintf(buff,"%ld",PARTY->Gold);
   this->GoldText = new WidgetClipText(buff,10);
   this->GoldText->SetCoords(0xdf,0x45);
   this->GoldText->SetColor(COLOR_RED1);
@@ -38,7 +38,7 @@ WidgetHealthGold::~WidgetHealthGold(){
   WidgetMenu::~WidgetMenu();
 }
 
-void WidgetHealthGold::Update(CharSheet *param_2){;
+void WidgetHealthGold::Update(CharSheet *chara){;
   short asStack_80 [4];
   char buff [64];
   u8 abStack_38 [48];
@@ -48,11 +48,11 @@ void WidgetHealthGold::Update(CharSheet *param_2){;
     this->unk90.Tick(10);
     this->unk90.Tick(10);
   }
-  asStack_80[0] =  Entity::getHPCurrent(param_2) / Entity::getHPMax(param_2) * this->HPBar->GetWidth();
+  asStack_80[0] =  Entity::getHPCurrent(chara) / Entity::getHPMax(chara) * this->HPBar->GetWidth();
   if (this->HpPercent != asStack_80[0]) {
     this->unk90.AddItem(new GuiAnimatorS16(&this->HpPercent,asStack_80,0xf,&double_array_0));
   }
-  sprintf(buff,"%u",Entity::GetLevel(param_2));
+  sprintf(buff,"%u",Entity::GetLevel(chara));
   this->LevelText = new WidgetClipText(buff,3);
   this->LevelText->SetCoords(0xdf,0x37);
   this->LevelText->posX+=this->posX;
@@ -65,7 +65,7 @@ void WidgetHealthGold::Update(CharSheet *param_2){;
   this->Link(this->LevelText);
   abStack_38[1] = 0;
   this->unk90.AddItem(new GuiAnimatorL(new GuiAnimatorU8(&(this->LevelText->col).A,&abStack_38[1],0xf,&double_array_0),this->LevelText));
-  sprintf(buff,"%u",Entity::getHPCurrent(param_2));
+  sprintf(buff,"%u",Entity::getHPCurrent(chara));
   this->CurrHPText = new WidgetClipText(buff,4);
   this->CurrHPText->SetCoords(0xdf,0x29);
   this->CurrHPText->posX+=this->posX;
@@ -78,7 +78,7 @@ void WidgetHealthGold::Update(CharSheet *param_2){;
   this->Link(this->CurrHPText);
   abStack_38[3] = 0;
   this->unk90.AddItem(new GuiAnimatorL(new GuiAnimatorU8(&(this->CurrHPText->col).A,&abStack_38[3],0xf,&double_array_0),this->CurrHPText));
-  sprintf(buff,"%u",Entity::getHPMax(param_2));
+  sprintf(buff,"%u",Entity::getHPMax(chara));
   this->MaxHPText = new WidgetClipText(buff,4);
   this->MaxHPText->SetCoords(0xff,0x29);
   this->MaxHPText->posX+= this->posX;//why not use setter?

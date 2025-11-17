@@ -1,4 +1,3 @@
-#include "globals.h"
 #include "compass.h"
 #include "skyObjects.h"
 #include "vobjects.h"
@@ -231,7 +230,6 @@ bool GetDelta_TickTrek(Gfx **GG) {
   return true;
 }
 
-extern BaseWidget* PTR_800ed504;
 bool isPaused(void) {
   if ((((((gGlobals.playerCharStruct.smallerDebugWindow == NULL) &&
          (gGlobals.playerCharStruct.debugMenuTP == NULL)) &&

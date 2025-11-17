@@ -124,7 +124,7 @@ void WidgetOptionsMenu::MakeScrollList(){
   if (pBVar2 == NULL) {
     sub->ScrollMenu = new WidgetScrollMenu(6);
     pBVar2 = WidgetB8(BORG8_TitleMenui);
-    pBVar2->SetCoords((SCREEN_WIDTH/2)-(pBVar2->GetWidth()/2),0x46);
+    pBVar2->SetCoords(SCREEN_CENTERW-(pBVar2->GetWidth()/2),0x46);
     sub->ScrollMenu->Link(pBVar2);
     pBVar5 = WidgetB8(0x3757);
     pBVar5->SetCoords(170,204);
@@ -159,7 +159,7 @@ void WidgetOptionsMenu::MakeScrollList(){
       txt->varU16 = OptionN_Help;
       sub->ScrollMenu->Append(txt);
     }
-    sub->ScrollMenu->SetCoords(SCREEN_WIDTH/2,110);
+    sub->ScrollMenu->SetCoords(SCREEN_CENTERW,110);
     FUN_800bbfc8(sub->ScrollMenu,5);
     sub->ScrollMenu->SetFlags(4);
     sub->ScrollMenu->SetColor(COLOR_RED1);

@@ -51,7 +51,7 @@ void WidgetStatTrain::InitMenu() {
   bVar6 = gPartyPicker;
   uVar14 = 0;
   this->partyPicker = gPartyPicker;
-  pCVar4 = (gGlobals.party)->Members[gPartyPicker];
+  pCVar4 = PARTY->Members[gPartyPicker];
   pBVar7 = this->scrollMenu;
   CharStats_s *pStats = pCVar4->Stats;
   if (this->scrollMenu == NULL) {
@@ -62,13 +62,13 @@ void WidgetStatTrain::InitMenu() {
     pvVar14 = (WSMSub *)this->scrollMenu->substruct;
     uVar14 = pvVar14->highlight;
     uVar1 = pvVar14->unk10;
-    uVar2 = pvVar14->field11_0x12;
+    uVar2 = pvVar14->unk12;
     this->Unlink(this->scrollMenu);
     FREEQW(this->scrollMenu);
     this->scrollMenu = new WidgetFastScrollMenu(STAT_TOTAL);
     sub=(WSMSub *)this->scrollMenu->substruct;
     sub->unk10 = uVar1;
-    sub->field11_0x12 = uVar2;
+    sub->unk12 = uVar2;
   }
   this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   this->Link(this->scrollMenu);
@@ -173,10 +173,10 @@ void WidgetStatTrain::Purchase(u16 unk,u8 statInd){
 void WidgetStatTrain::Confirm(u16 x, u16 y) {
   CharSheet *pCVar3;
   CharStats_s *pCVar4;
-  WidgetChild8 *pWVar6;
+  WidgetChoiceDia *pWVar6;
   BaseWidget *pBVar7;
  
-  pCVar3 = (gGlobals.party)->Members[this->partyPicker];
+  pCVar3 = PARTY->Members[this->partyPicker];
   BaseWidget* w = this->scrollMenu->AFunc();
   if (w) {
     pCVar4 = pCVar3->Stats;
@@ -192,7 +192,7 @@ void WidgetStatTrain::Confirm(u16 x, u16 y) {
       Color32 col1={COLOR_WHITE};
       Color32 col2={200,180,100,0xff};
       Gsprintf(gGlobals.CommonStrings[0x200],stat_EXP_price);
-      pWVar6 = new WidgetChild8(2,gGlobals.text,0x96,col1,col2,0,0,0);
+      pWVar6 = new WidgetChoiceDia(2,gGlobals.text,0x96,col1,col2,0,0,0);
       pBVar7 = WClipTXT(gGlobals.CommonStrings[0x1f]);
       pBVar7->AButtonFunc = WST_AButtonFunc;
       pBVar7->varU8 = w->varU8;

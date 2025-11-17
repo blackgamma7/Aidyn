@@ -73,8 +73,8 @@ CinematicPointers gCinematicPointers[]{
 {sCinematic2Borg6,sCinematic2Flags,sCinematic2Borg12,sCinematic2Planes},
 {sCinematic3Borg6,sCinematic3Flags,sCinematic3Borg12,sCinematic3Planes},
 };
-u8 cinematic_init_flag=1;
-u8 cinematic_skip_flag=0;
+u8 cinematic_init_flag=true;
+u8 cinematic_skip_flag=false;
 
 
 void Cinematic::Load(u16 param_1,u16 param_2,s32 param_3){
@@ -100,42 +100,29 @@ u16 Cinematic::Tick(Gfx**GG){
   if (cinematic_init_flag) {
     noop_8005cfac();
     if (gGlobals.QueueA.items) return uVar4;
-    cinematic_init_flag = 0;
+    cinematic_init_flag = false;
     Cinematic::GetName();
   }
   iVar1 = Cinematic::Control();
-  if (gGlobals.cinematic.Bstart == 1) {
-    if (gGlobals.cinematic.scene_switch != 0) {
+  switch(gGlobals.cinematic.Bstart){
+    case 0:
+     FreeScene();
+     gGlobals.cinematic.Bstart = 2;
+     break;
+    case 1:
+     if (gGlobals.cinematic.scene_switch != 0) {
       gGlobals.cinematic.scene_switch = 0;
       iVar1 = 1;
       LoadNextScene();
-    }
-    if ((gGlobals.cinematic.Borg6) &&
-       (gGlobals.cinematic.sceneDat)) {
-      if (gGlobals.cinematic.sceneDat->aniTime + iVar1 < gGlobals.cinematic.Borg6->dat->aniLength + -1) {
-        g = Cinematic::Render(g,(s16)iVar1);
-        g = Cinematic::Fade(g,iVar1);
-      }
-      else {
-        FreeScene();
-        gGlobals.cinematic.scene_switch = 1;
-      }
-    }
+     }
+     break;
+    case 2:
+     cinematic_skip_flag = true;
+     break;
   }
-  else {
-    if (gGlobals.cinematic.Bstart < 2) {
-      if (gGlobals.cinematic.Bstart == 0) {
-        FreeScene();
-        gGlobals.cinematic.Bstart = 2;
-      }
-    }
-    else {
-      if (gGlobals.cinematic.Bstart == 2) {cinematic_skip_flag = 1;}
-    }
-  }
-  if (cinematic_skip_flag != 0) {
-    cinematic_init_flag = 1;
-    cinematic_skip_flag = 0;
+  if (cinematic_skip_flag) {
+    cinematic_init_flag = true;
+    cinematic_skip_flag = false;
     uVar4 = Cinematic::EndCase();
   }
   g = N64Print::Draw(g,(s16)iVar1);
@@ -175,7 +162,6 @@ s16 Cinematic::GetName(void){
   CinematicText::Init(nameBuff);
   return Controller::GetDelay(0);
 }
-
 
 u16 Cinematic::EndCase(void){
   u16 ret;
@@ -241,8 +227,6 @@ Gfx* Cinematic::Render(Gfx*param_1,s16 delta){
 }
 
 void Cinematic::LoadNextScene(void){
-  byte vol;
-
   if (gGlobals.cinematic.borg6enums[gGlobals.cinematic.tally] == 0) {
     gGlobals.cinematic.Bstart = 0;
   }
@@ -256,7 +240,7 @@ void Cinematic::LoadNextScene(void){
                &(gGlobals.cinematic.BGM)->dat->sub,0xff,0x80,1,-1,0);
       u8 fVar1 = gGlobals.VolBGM * 255.0f;
       u8 fVar2 = gGlobals.VolSFX * 255.0f;
-      vol = fVar2;
+      u8 vol = fVar2;
       if (fVar2 < fVar1) vol = fVar1;
       DCM::Start(gGlobals.cinematic.BGIndex,gGlobals.cinematic.BGId,vol);
     }
@@ -295,8 +279,8 @@ u16 Cinematic::LoadCredits(void){
   return 19;}
 
 u16 Cinematic::TrueName(void){
-  CharSheet *pCVar1 = PARTY->GetMemberById(gEntityDB->entities[EntInd_Alaron].ID);
-  if (pCVar1) {pCVar1->EXP->flags |= CHAR_TrueName;}
+  CharSheet *alaron = PARTY->GetMemberById(gEntityDB->entities[EntInd_Alaron].ID);
+  if (alaron) alaron->EXP->flags |= CHAR_TrueName;
   return 1;
 }
 

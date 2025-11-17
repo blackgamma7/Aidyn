@@ -18,7 +18,7 @@ u8 Options_RenameMenu(BaseWidget *w) {
     sub->nameEntry = new InputMenu(PARTY->Members[0]->name);
     Utilities::MoveWidget2(sub->nameEntry,w->posX,w->posY);
   }
-  else sub->nameEntry->SetCurrentName((gGlobals.party)->Members[0]->name);
+  else sub->nameEntry->SetCurrentName(PARTY->Members[0]->name);
   Utilities::SetAlpha(sub->nameEntry,0);
   return sub->nameEntry->Tick();
 }

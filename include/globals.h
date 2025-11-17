@@ -172,12 +172,14 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
 };
 
 extern void(*freeWidgetFunc)(BaseWidget*);
+extern BaseWidget* PTR_800ed504;
+
 
 extern u16 gDebugFlag;
 
 
 extern u16 gExpPakFlag; //set when OsMemSize>4MB.
- GlobalsAidyn gGlobals;
+GlobalsAidyn gGlobals;
 
 extern OSMesg* PTR_800e8f30=NULL;
 extern void* osSched_stack=NULL;

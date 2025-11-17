@@ -83,8 +83,8 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
     break;
     case 1:
     borg12 = Menu_open;
-    gGlobals.scrollLocation[0] = (SCREEN_WIDTH/2);
-    gGlobals.scrollLocation[1] = (SCREEN_WIDTH/2);
+    gGlobals.scrollLocation[0] = SCREEN_CENTERW;
+    gGlobals.scrollLocation[1] = SCREEN_CENTERW;
     sub->scrollSpeed = 0.0;
     if (bVar4) {
       FUN_800a0090(sub->borg7,10);

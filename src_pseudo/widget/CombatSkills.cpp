@@ -98,7 +98,7 @@ int FUN_80092270(u8 *param_1,CombatMenuSpell *param_2,CharSheet *param_3){
 
 
 WidgetCombatSkills::WidgetCombatSkills(u8 *spells,bool troub,bool hands,int herbs):
-WidgetChild8(62,120,gExpPakFlag?95:55,0,0){
+WidgetChoiceDia(62,120,gExpPakFlag?95:55,0,0){
   WidgetGroup *pWVar4;
   u16 wMax;
   uint ArraySize;
@@ -173,7 +173,7 @@ WidgetChild8(62,120,gExpPakFlag?95:55,0,0){
     if (lVar10 < lVar11) lVar11 = lVar10;
     s->highlight=lVar11;
     this->scrollMenu->Tick();
-    s->field11_0x12=s->field14_0x16;
+    s->unk12=s->unk16;
   }
 }
 
@@ -182,7 +182,7 @@ WidgetCombatSkills::~WidgetCombatSkills(){
   gCombatSkillSelections[find_char_in_party(gCombatP->current_Ent->charSheetP)] = (u8)((WSMSub*)this->scrollMenu->substruct)->highlight;
   this->varU8 = 0;
   this->scrollMenu->Unlink(this->arrows);
-  WidgetChild8::~WidgetChild8();
+  WidgetChoiceDia::~WidgetChoiceDia();
 }
 
 BaseWidget* WidgetCombatSkills::AFunc(){return NULL;}

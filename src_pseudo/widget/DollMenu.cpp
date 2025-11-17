@@ -32,16 +32,16 @@ u32 WidgetDollMenu::InitMenu(u8 param_2,u8 param_3) {
     this->barter_widget = new WidgetBarter(this->lists->invMenu,gGlobals.Shopkeep);
     this->Link(barter_widget);
     }
-    if (this->spells_widget) this->spells_widget->m80039b7c();
+    if (this->spells_widget) this->spells_widget->SetHighlight();
     if (gGlobals.SomeCase == 7) {
     pBVar10 = WidgetB8(0x3756);
-    pBVar10->SetColor(0x82,0x50,0x50,0xff);
+    pBVar10->SetColor(COLOR_RED1);
     pBVar10->SetCoords(0x7e,0xcf);
     this->Link(pBVar10);
     }
     else if (gGlobals.SomeCase == 3) {
     pBVar10 = WidgetB8(0x3755);
-    pBVar10->SetColor(0x82,0x50,0x50,0xff);
+    pBVar10->SetColor(COLOR_RED1);
     pBVar10->SetCoords(0x7e,0xcf);
     this->Link(pBVar10);
     }
@@ -66,7 +66,7 @@ bool WidgetDollMenu::IsAnimated() {
         return true;
       }
     }
-    if (((this->spells_widget == NULL) || (this->spells_widget->m800399fc() == 0)) &&
+    if (((this->spells_widget == NULL) || (this->spells_widget->isAnimating() == 0)) &&
        (this->lists->m80038bc0() == 0)) {
       return false;
     }
@@ -86,8 +86,8 @@ void WidgetDollMenu::CHorizontal(u8 dir) {
     if (this->itemslots_widget)
       this->itemslots_widget->GetSlotIcons(PARTY->Members[gPartyPicker]);
     if (this->spells_widget) {
-      this->spells_widget->m80039b7c();
-      this->spells_widget->m800396c8();
+      this->spells_widget->SetHighlight();
+      this->spells_widget->GetPrices();
     }
     this->lists->ShowEXPCosts();
     PlayAudioSound(&gGlobals.SFXStruct,0x739,0,1.0,0x3c,0);

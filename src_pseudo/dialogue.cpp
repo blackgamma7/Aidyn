@@ -210,11 +210,11 @@ s32 DialogEvalCallback(dialougmode_substruct *param_1,Borg13Data *param_2,u16 cm
     ret = PARTY->GetMemberStat(param_1->Entid,VAL);
     break;
   case B13Com_CheckPartySize:
-    ret = (gGlobals.party)->PartySize;
+    ret = PARTY->PartySize;
     break;
   case B13Com_CheckPartyGoldU16:
   //possible bug? could parse out money if >0xffff.
-    ret = (u16)(gGlobals.party)->Gold;
+    ret = (u16)PARTY->Gold;
     break;
   default:
     ret = 0;
@@ -274,18 +274,18 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
     return;
   case B13Com_AddGold:
     borg12 = BORG12_CoinJingle;
-    (gGlobals.party)->Gold+=val;
+    PARTY->Gold+=val;
     goto play_sound;
   case B13Com_TakeGold:
-    if ((gGlobals.party)->Gold < val) return;
+    if (PARTY->Gold < val) return;
     borg12 = BORG12_CoinJingle2;
-    (gGlobals.party)->Gold-=val;
+    PARTY->Gold-=val;
     goto play_sound;
   case B13Com_AddItem:
     PARTY->Inventory->AddItem(val,1);
     break;
   case B13Com_TakeItem:
-    if (!gGlobals.party->TakeItem(val)) {
+    if (!PARTY->TakeItem(val)) {
       auStack880.InitItem(val);
       pcVar11 = acStack_330;
       sprintf(pcVar11,"Party doesn't have that item in their inventory!\nTell someone to fix dialogue %d to check the party's inventory before taking trying to take the %s!",param_2->ID,
@@ -442,8 +442,8 @@ void DialougInsertPlayerName(char *str){
       iVar3 = 0;
       if (pcVar2 == NULL) break;
       str = pcVar2 + 0x14;
-      for (; uVar1 = strlen((gGlobals.party)->Members[0]->name), iVar3 < (int)uVar1; iVar3 += 1) {
-        pcVar2[iVar3] = (gGlobals.party)->Members[0]->name[iVar3];
+      for (; uVar1 = strlen(PARTY->Members[0]->name), iVar3 < (int)uVar1; iVar3 += 1) {
+        pcVar2[iVar3] = PARTY->Members[0]->name[iVar3];
       }
     }
   }

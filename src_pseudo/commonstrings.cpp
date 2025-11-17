@@ -1,26 +1,20 @@
 #include "globals.h"
 #include "romstring.h"
+#include "gameStateMod.h"
+#include "gameStateCheats.h"
 #include "combat/CombatStruct.h"
-//TODO: add the other pointers to their appropriate scripts
-extern char** spell_error_labels;
-extern char** debug_switch_labels;
-extern char** debug_switch_labels;
-extern char** cheatStatus_labels;
-extern char** task_failue_labels;
-extern char** on_off_labels;
-extern char**   debug_state_labels;
-extern char** boolean_labels;
-extern char** bool_labels;
 
-//load CommonString RomString
+
 char** commonstrings=NULL;
+extern void* common_string_array;
+//load CommonString RomString
 void CommonStrings::Init(void){
   gGlobals.CommonStrings  = RomString::Load(common_string_array,0x2830);
   commonstrings = gGlobals.CommonStrings;
   encounterType_labels = gGlobals.CommonStrings + 0xea;
   walking_labels = gGlobals.CommonStrings + 0xed;
-  element_labels = gGlobals.CommonStrings + 0xf1;
-  spell_error_labels = gGlobals.CommonStrings + 0x102;
+  element_labels =  &Cstring(ElementNone);
+  Spell_error_labels = gGlobals.CommonStrings + 0x102;
   skill_strings = gGlobals.CommonStrings + 0x10f;
   weapon_strings = gGlobals.CommonStrings + 0x11b;
   aspect_labels = gGlobals.CommonStrings + 0x126;
@@ -34,18 +28,18 @@ void CommonStrings::Init(void){
   terrain_labels = gGlobals.CommonStrings + 0x14f;
   precip_labels = gGlobals.CommonStrings + 0x157;
   ground_labels = gGlobals.CommonStrings + 0x15a;
-  price_strings = gGlobals.CommonStrings + 0x180;
+  price_strings = &Cstring(PriceAppraise0);
   #ifdef DEBUGVER
   debug_switch_labels = gGlobals.CommonStrings + 0x2f;
-  boolean_labels = gGlobals.CommonStrings + 0x1d;
+  boolean_labels = &Cstring(BoolFalse);
   cheatStatus_labels = gGlobals.CommonStrings + 0x26;
   #endif
-  task_failue_labels = gGlobals.CommonStrings + 0x58;
+  task_failure_labels = gGlobals.CommonStrings + 0x58;
   equip_error_labels = gGlobals.CommonStrings + 0x5f;
   #ifdef DEBUGVER
-  on_off_labels = gGlobals.CommonStrings + 0x77;
+  on_off_labels = &Cstring(Off);
   debug_state_labels = gGlobals.CommonStrings + 0x6b;
-  bool_labels = gGlobals.CommonStrings + 0x1d;
+  bool_labels = &Cstring(BoolFalse);
   #endif
 }
 //Free CommonString RomString

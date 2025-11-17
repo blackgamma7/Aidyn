@@ -46,13 +46,13 @@ void WidgetSkillTrain::InitMenu() {
     pvVar5 = (WSMSub *)this->scrollMenu->substruct;
     uVar11 = (uint)pvVar5->highlight;
     uVar8 = pvVar5->unk10;
-    uVar1 = pvVar5->field11_0x12;
+    uVar1 = pvVar5->unk12;
     this->Unlink(this->scrollMenu);
     FREEQW(this->scrollMenu);
     this->scrollMenu = new WidgetFastScrollMenu(24);
     pvVar11 = (WSMSub *)this->scrollMenu;
     pvVar11->unk10 = uVar8;
-    pvVar11->field11_0x12 = uVar1;
+    pvVar11->unk12 = uVar1;
   }
   this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   this->Link(this->scrollMenu);
@@ -74,8 +74,8 @@ void WidgetSkillTrain::InitMenu() {
       if (uVar11 != 0) {
         if ((int)(uVar2 - 1) < (int)uVar11) {
           pvVar11->highlight = 0;
-          pvVar11->field11_0x12 = 0;
-          pvVar11->field14_0x16 = 0;
+          pvVar11->unk12 = 0;
+          pvVar11->unk16 = 0;
         }
         else {
           pvVar11->highlight = (u16)uVar11;
@@ -168,7 +168,6 @@ BaseWidget * WST_AButtonFunc(BaseWidget *param_1,BaseWidget *param_2) {
   return NULL;
 }
 
-
 void WidgetSkillTrain::Purchase(u16 param_2,u8 v) {
   CharSheet *pCVar1;
   CharSkills *skills;
@@ -240,8 +239,8 @@ void WidgetSkillTrain::Purchase(u16 param_2,u8 v) {
   if (!ppVar5->dollmenu->spells_widget)
     ppVar5->dollmenu->lists->ShowEXPCosts();
   else {
-    ppVar5->dollmenu->spells_widget->m80039b7c();
-    ppVar5->dollmenu->spells_widget->m800396c8();
+    ppVar5->dollmenu->spells_widget->SetHighlight();
+    ppVar5->dollmenu->spells_widget->GetPrices();
   }
   sprintf(Utilities::GetWidgetText(ppVar5->dollmenu->charStats_widget->GoldText),"%ld",PARTY->Gold);
   ppVar5->dollmenu->charStats_widget->Update(pCVar1);
@@ -253,7 +252,7 @@ void WidgetSkillTrain::Confirm(u16 param_2,u16 param_3) {
   CharSkills *skills;
   ushort type;
   uint uVar6;
-  WidgetChild8 *pWVar7;
+  WidgetChoiceDia *pWVar7;
   BaseWidget *pBVar8;
   Color32 *txtCol;
   Color32 *bgCol;
@@ -317,7 +316,7 @@ LAB_8003fd14:
       else Gsprintf(gGlobals.CommonStrings[0x206],exp_train_price,gold_train_price);
       Color32 col1={COLOR_WHITE};
       Color32 col2={200,180,100,0xff};
-      pWVar7 = new WidgetChild8(2,gGlobals.text,0x96,&col1,&col2,0,0,0);
+      pWVar7 = new WidgetChoiceDia(2,gGlobals.text,0x96,&col1,&col2,0,0,0);
       pBVar8 = WClipTXT(gGlobals.CommonStrings[0x1f]);
       pBVar8->AButtonFunc = WST_AButtonFunc;
       pBVar8->varU16 = param_2;

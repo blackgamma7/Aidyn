@@ -1,6 +1,5 @@
 #include "globals.h"
 
-u32 DAT_800ed540=true;
 
 u8 bigAssOpenCallback_1(BaseWidget *w) {
   byte bVar1;
@@ -23,8 +22,8 @@ u8 bigAssOpenCallback_1(BaseWidget *w) {
         case 1:
          uVar3 = 36;
          iVar5 = 55;
-         iVar6 = (SCREEN_WIDTH/2);
-         iVar4 = (SCREEN_WIDTH/2);
+         iVar6 = SCREEN_CENTERW;
+         iVar4 = SCREEN_CENTERW;
         break;
         case 2:
          uVar3 = 6;
@@ -53,32 +52,33 @@ u8 bigAssOpenCallback_1(BaseWidget *w) {
   }
   return w->state;
 }
+u32 DAT_800ed540=true;
 
-u8 PauseMenuClose1(BaseWidget *param_1) {
-  byte bVar4;
-  pause_Substruct *sub = (pause_Substruct *)param_1->substruct;
+u8 PauseMenuClose1(BaseWidget *w) {
+  u8 alpha;
+  pause_Substruct *sub = (pause_Substruct *)w->substruct;
   if (!sub->isScrolling) {
     gGlobals.scrollLocation[0] = 0;
     gGlobals.scrollLocation[1] = SCREEN_WIDTH;
-    bVar4 = sub->dollmenu->lists->col.A;
+    alpha = sub->dollmenu->lists->col.A;
     if (!DAT_800ed540) {
-      if (bVar4 < 195) bVar4+=60;
+      if (alpha < 195) alpha+=60;
       else {
-        bVar4 = 0xff;
-        param_1->state = 2;
+        alpha = 0xff;
+        w->state = WidgetS_FadedIn;
         DAT_800ed540 = true;
       }
     }
     else {
-      bVar4 = 0;
+      alpha = 0;
       DAT_800ed540 = false;
     }
-    Utilities::SetAlpha(sub->dollmenu->lists,bVar4);
+    Utilities::SetAlpha(sub->dollmenu->lists,alpha);
     sub->dollmenu->lists->Tick();
-    Utilities::SetAlpha(sub->dollmenu->barter_widget,bVar4);
+    Utilities::SetAlpha(sub->dollmenu->barter_widget,alpha);
     sub->dollmenu->barter_widget->Tick();
   }
-  return param_1->state;
+  return w->state;
 }
 
 
@@ -107,8 +107,8 @@ byte bigAssOpenCallback(BaseWidget *param_1) {
         case 1:
          uVar5 = 1;
          iVar6 = 14;
-         iVar8 = (SCREEN_WIDTH/2);
-         iVar7 = (SCREEN_WIDTH/2);
+         iVar8 = SCREEN_CENTERW;
+         iVar7 = SCREEN_CENTERW;
         break;
         case 2:
          uVar5 = 2;

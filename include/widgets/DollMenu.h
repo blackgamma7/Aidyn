@@ -90,21 +90,57 @@ class DollMenuLists: public WidgetMenu{
     BaseWidget* AFunc();
     BaseWidget* CDownFunc();
 };
+class WidgetSpellEntry:public BaseWidget{
+    public:
+    SpellInstance* spell;
+    WidgetBorg8* aspectIcon;
+    WidgetBorg8* SchoolIcon;
+    WidgetBorg8* SpellIcon;
+    WidgetClipText* SpelllRank;
+    WidgetClipText* SpellName;
+    u16 unk94,unk96;
+    WidgetSpellEntry(SpellInstance*);
+    ~WidgetSpellEntry();
+    u8 Tick();
+    u16 GetWidth();
+    u16 GetHeight();
+    Gfx* Render(Gfx*,u16,u16,u16,u16);
+    BaseWidget* AFunc();
+    u32 GetNumber();
+};
 
 class WidgetMenuSpells: public WidgetMenu{
+    public:
     WidgetTrainShop* SpellSkills[2];
     u8 selected;
     u8 partyPicker;
     u8 count;
     WidgetTrainShop* spells;
     WidgetTrainShop* skills;
-    GuiAnimationManager unkGui;
+    GuiAnimationManager aniHandle=GuiAnimationManager(4);
     WidgetBorg8* background;
     WidgetClipText* goldCost;
     WidgetClipText* expCost;
     u32 unkac;
     WidgetClipText* expRemain;
     DollMenuLists* lists;
+    WidgetMenuSpells(DollMenuLists*,u8);
+    ~WidgetMenuSpells();
+    void InitMenu(DollMenuLists*,u8);
+    void GetPrices();
+    Gfx * Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
+    u8 Tick();
+    u32 isAnimating();
+    void setPartyPicker();
+    void DHorizontal(u8 dir);
+    void SetHighlight();
+    u32 GetNumber();
+    BaseWidget* UpFunc();
+    BaseWidget* DownFunc();
+    BaseWidget* LeftFunc();
+    BaseWidget* RightFunc();
+    BaseWidget* AFunc();
+    BaseWidget* BFunc();
 };
 
 class WidgetDollMenu: public WidgetMenu {

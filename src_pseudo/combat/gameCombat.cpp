@@ -696,7 +696,7 @@ void init_combat_struct(void){
     if (gGlobals.EncounterDat.EncounterID == FLAG_GoblinAmbush) {
       gGlobals.goblinAmbush = true;
       gGlobals.GoblinHitTally = 2;
-      CharSheet* pCVar2 = (gGlobals.party)->Members[0];
+      CharSheet* pCVar2 = PARTY->Members[0];
       Entity::addHP(pCVar2,Entity::getHPMax(pCVar2) - (short)Entity::getHPCurrent(pCVar2));
     }
     CombatSpellMarker::Init();

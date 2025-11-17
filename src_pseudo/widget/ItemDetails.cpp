@@ -459,7 +459,7 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   PrintMagicInfo((u8*)armor->enchantment);
   PrintEnchantment((armor->base).spellCharge);
   PrintResistance(armor->resist);
-  pCVar3 = (gGlobals.party)->Members[gPartyPicker];
+  pCVar3 = PARTY->Members[gPartyPicker];
   if (pCVar3){
   this->bottom = 0xd5;
   bVar12 = Entity::GetShieldDefence(pCVar3,(ItemID)0x0);

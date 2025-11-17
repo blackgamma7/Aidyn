@@ -171,10 +171,10 @@ void BorgMaps::SetBGM(u16 *param_1,u16 param_2,u16 ExpPak,u16 NoExpPak) {
 
 //load map data and change music if needed
 //@param Map map world to load.
-//@param Portal if >-1. sets specific point to teleport player to (used by debug and gGlobals.gameVars.mapDatB)
-//@param param_3 unknown, unused(?) set by gGlobals.gameVars.mapDatC
+//@param Portal if >-1, sets specific point to teleport player to (used by debug and gGlobals.gameVars.mapDatB)
+//@param param_3 unknown, unused. set by gGlobals.gameVars.mapDatC
 //@param param_4 skips resetting some values if true. Always false.
-//@returns index of center zone's Borg9 index
+//@returns center zone's Borg9 index
 u16 BorgMaps::LoadMap(s16 Map,s16 Portal,s16 param_3,bool param_4) {
 
   u16 ShortA = 0;

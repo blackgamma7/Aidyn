@@ -378,8 +378,8 @@ void IntroMenu::ShowContPakMenu() {
 WidgetScrollMenu * IntroMenu::StartGameMenu() {
   WidgetScrollMenu *scroll = new WidgetScrollMenu(7);
   WidgetBorg8 *title = WidgetB8(BORG8_TitleMenui);
-  title->SetCoords((SCREEN_WIDTH/2) - (title->GetWidth() >> 1),50);
-  scroll->SetCoords((SCREEN_WIDTH/2),90);
+  title->SetCoords(SCREEN_CENTERW - (title->GetWidth() >> 1),50);
+  scroll->SetCoords(SCREEN_CENTERW,90);
   scroll->Link(title);
   scroll->StartButtonFunc = scroll->AButtonFunc;
   scroll->Append(WText(gGlobals.CommonStrings[0x9f]));

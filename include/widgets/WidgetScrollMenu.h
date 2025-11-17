@@ -60,9 +60,9 @@ struct WSMSub {
     u8 blendB;
     Color32 col; //color used for highlighted item.
     u16 unk10; //unused?
-    u16 field11_0x12;
+    u16 unk12;
     u8 unk14[2]; //unused?
-    u16 field14_0x16;
+    u16 unk16;
     BaseWidget** items;
     u16 maxCount;
     u16 highlight;

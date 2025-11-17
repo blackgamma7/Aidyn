@@ -51,7 +51,7 @@ void WidgetOptionsConfig::InitMenu(u8 fromPause) {
   sub->nameEntry = NULL;
   (sub->renameOpen) = 0;
   sub->TitleImage = WidgetB8(BORG8_TitleOptions);
-  sub->TitleImage->SetCoords(0xa0 - (sub->TitleImage->GetWidth() >> 1),currY);
+  sub->TitleImage->SetCoords(SCREEN_CENTERW - (sub->TitleImage->GetWidth() >> 1),currY);
   this->Link(sub->TitleImage);
   this->SFXSlider = WidgetB8(BORG8_Spacer);
   this->BGMSlider = WidgetB8(BORG8_Spacer);

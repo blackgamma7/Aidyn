@@ -194,7 +194,7 @@ u16 Combat_CreatePartyMembers(u8 param_1){
   
   uVar7 = 0;
   for(u16 i=0;i<MAXPARTY;i++) {
-    charsheet = (gGlobals.party)->Members[i];
+    charsheet = PARTY->Members[i];
     if (charsheet) {
       if (Entity::isDead(charsheet)) {
         gCombatP->playerCount--;
@@ -382,7 +382,7 @@ void Combat_InitEncounter(CombatStruct *param_1,EncounterDat *param_2){
   
   param_1->encounter_dat = param_2;
   param_1->enemyCount = 0;
-  param_1->playerCount = gGlobals.party->PartySize;
+  param_1->playerCount = PARTY->PartySize;
   uVar8 = count_enemies(param_2);
   uVar6= 0;
   param_1->enemyCount = (byte)uVar8;
@@ -410,7 +410,7 @@ void Combat_InitEncounter(CombatStruct *param_1,EncounterDat *param_2){
   param_1->gold_pool = 0;
   init_combat_substruct(&param_1->substruct,param_1->encounter_dat->battlefield);
   if (param_2->collisionByte == 2) {
-    uVar10 = gGlobals.party->AmbushDamage();
+    uVar10 = PARTY->AmbushDamage();
   }
   uVar8 = Combat_CreatePartyMembers(uVar10);
   uVar7 = Combat_CreateAlly(uVar6,uVar8 & 0xff,uVar10);

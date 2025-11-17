@@ -38,8 +38,8 @@ u32 WidgetCalendar::Init() {
   this->dayofMonth = bVar17 - ((char)(bVar17 / 7 << 3) - (char)(bVar17 / 7));
   this->monthTitle = WClipTXTSafe(monthnames[this->monthVal]);
   this->DayMarker = WidgetB8(BORG8_CurrDayMarker);
-  this->monthTitle->SetCoords(0xa0,0x28);
-  Utilities::SetTextWidgetBoundsX(this->monthTitle,0xa0,0x104);
+  this->monthTitle->SetCoords(SCREEN_CENTERW,0x28);
+  Utilities::SetTextWidgetBoundsX(this->monthTitle,SCREEN_CENTERW,0x104);
   this->monthTitle->SetColor(COLOR_RED1);
   this->Link(this->monthTitle);
   this->monthTitle->GetHeight();//?

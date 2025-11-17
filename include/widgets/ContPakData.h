@@ -1,7 +1,7 @@
 #include "widgets/Utilities.h"
 #include "savefiles.h"
 #include "widgets/handler.h"
-#include "widgets/WidgetChild8.h"
+#include "widgets/WidgetChoiceDia.h"
 #include "widgets/WidgetChild6.h"
 
 class WidgetTimed: public WidgetMenu{
@@ -32,7 +32,7 @@ class WidgetContPakData : public WidgetMenu{
     undefined field15_0x297;
     u32 borg8;
     BaseWidget *field17_0x29c;
-    WidgetChild8 *unk2a0;
+    WidgetChoiceDia *unk2a0;
     u8 showingSaveFiles;
     Color32 col0;
     Color32 col1;
@@ -140,8 +140,8 @@ class WidgetContPakDataLoad: public WidgetContPakData{
 
 WidgetText * ContPakTextWidget(char *txt,BaseWidget *(*AFunc)(BaseWidget *,BaseWidget *),u16 length);
 WidgetText * ContPakTextWidget2(u16 param_1,char *txt,BaseWidget *(*AFunc)(BaseWidget *,BaseWidget *));
-WidgetChild8 * FUN_80088a78(u16 ,char *);
-WidgetChild8 *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,ushort var);
+WidgetChoiceDia * FUN_80088a78(u16 ,char *);
+WidgetChoiceDia *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,ushort var);
 void open_mempak_menu(u32 ,u32 ,u16 ,u16,u32);
 u32 appState_2(Gfx **);
 byte appState2_control(void);

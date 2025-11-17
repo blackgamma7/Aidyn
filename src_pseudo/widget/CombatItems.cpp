@@ -25,7 +25,7 @@ BaseWidget * FUN_80092894(BaseWidget *param_1,BaseWidget *param_2){
 }
 
 WidgetCombatItems::WidgetCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions):
-WidgetChild8(32,120,gExpPakFlag?95:55,0,0){
+WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   ushort iconSize;
   CombatEntity *pCVar1;
   CharSheet *pCVar2;
@@ -87,7 +87,7 @@ WidgetChild8(32,120,gExpPakFlag?95:55,0,0){
     if (lVar10 < lVar11) lVar11 = lVar10;
     s->highlight=lVar11;
     this->scrollMenu->Tick();
-    s->field11_0x12=s->field14_0x16;
+    s->unk12=s->unk16;
   }
 }
 
@@ -96,7 +96,7 @@ WidgetCombatItems::~WidgetCombatItems(){
   gCombatItemSelections[find_char_in_party(gCombatP->current_Ent->charSheetP)] = (u8)((WSMSub*)this->scrollMenu->substruct)->highlight;
   this->varU8 = 0;
   this->scrollMenu->Unlink(this->arrows);
-  WidgetChild8::~WidgetChild8();
+  WidgetChoiceDia::~WidgetChoiceDia();
 }
 
 BaseWidget* WidgetCombatItems::AFunc(){return NULL;}

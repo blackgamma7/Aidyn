@@ -35,7 +35,7 @@ void DollMenuLists::InitMenu(DollEquipmentMenu *menu,u8 sel){
 
   CLEAR(&this->menus);
   if (((gGlobals.SomeCase == 7) || (gGlobals.SomeCase == 3)) || (gGlobals.SomeCase == 6)) {
-    this->invMenu = new WidgetInvShop((gGlobals.party)->Inventory,menu);
+    this->invMenu = new WidgetInvShop(PARTY->Inventory,menu);
     this->menus[this->menuCount++] = this->invMenu;
     if (gGlobals.SomeCase == 6) goto LAB_80038434;
   }
@@ -56,8 +56,8 @@ LAB_80038434:
       WidgetTrainShop* w=this->menus[i];
       if(w){
         if(i!=this->menuIndex)w->SetCoords(20,0x65);
-        w->boundX0 = 0xa0;
-        w->boundX1 = 300;
+        w->boundX0 = SCREEN_CENTERW;
+        w->boundX1 = (SCREEN_WIDTH-20);
         w->boundY0 = 0x65;
         w->boundY1 = 0xcd;
         w->Tick();
@@ -88,15 +88,15 @@ LAB_80038434:
     uVar16 = pBVar8->GetHeight() + uVar16 + 4;
     SlimFont;
     u8 bVar3 = false;
-    if ((gGlobals.party)->PartySize) {
-      for(u8 i=0;i<(gGlobals.party)->PartySize;i++) {
-        if ((gGlobals.party)->Members[i]) {
-          Entity::ModExpTotal((gGlobals.party)->Members[i],-gGlobals.expGained);
-          u32 lvPre = Entity::GetLevel((gGlobals.party)->Members[i]);
-          Entity::ModExpTotal((gGlobals.party)->Members[i],gGlobals.expGained);
-          u32 lvPost = Entity::GetLevel((gGlobals.party)->Members[i]);
+    if (PARTY->PartySize) {
+      for(u8 i=0;i<PARTY->PartySize;i++) {
+        if (PARTY->Members[i]) {
+          Entity::ModExpTotal(PARTY->Members[i],-gGlobals.expGained);
+          u32 lvPre = Entity::GetLevel(PARTY->Members[i]);
+          Entity::ModExpTotal(PARTY->Members[i],gGlobals.expGained);
+          u32 lvPost = Entity::GetLevel(PARTY->Members[i]);
           if (lvPre < lvPost) {
-            Gsprintf(Cstring(LevelUp),(gGlobals.party)->Members[i]->name);
+            Gsprintf(Cstring(LevelUp),PARTY->Members[i]->name);
             pBVar8 = WClipTXT(gGlobals.text);
             pBVar8->SetColor(COLOR_RED1);
             pBVar8->SetCoords(0x14,(short)uVar16);
@@ -169,7 +169,7 @@ void DollMenuLists::LRToggle(u8 param_2){
     }
     if (newIndex!= this->menuIndex) {
       WidgetTrainShop* w=this->menus[newIndex];
-      w->posX = 0xa0 - sVar9;
+      w->posX = SCREEN_CENTERW - sVar9;
       this->unkb0.AddItem(new GuiAnimatorS16(&w->posX,&this->menus[this->menuIndex]->posX,0x14,&double_array_0));
       asStack_28[0] = sVar9 + this->menus[this->menuIndex]->posX;
       this->unkb0.AddItem(new GuiAnimatorS16(&this->menus[this->menuIndex]->posX,asStack_28,0x14,&double_array_0));
@@ -193,7 +193,7 @@ void DollMenuLists::ShowEXPCosts(){
       else sprintf(Utilities::GetWidgetText(this->expCost),Cstring(ExpCost),price);
     }
     this->partyPicker = gPartyPicker;
-    sprintf(Utilities::GetWidgetText(this->expRemain),Cstring(ExpRemain),(gGlobals.party)->Members[this->partyPicker]->EXP->spending);
+    sprintf(Utilities::GetWidgetText(this->expRemain),Cstring(ExpRemain),PARTY->Members[this->partyPicker]->EXP->spending);
   }
 }
 

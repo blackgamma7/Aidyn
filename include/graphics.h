@@ -7,6 +7,7 @@ struct GtaskMsg {
 
 
 #define SCREEN_WIDTH  320 //standard screen width
+#define SCREEN_CENTERW (SCREEN_WIDTH/2) //half of standard screen width
 #define SCREEN_WIDTH_HI  512 //"Hi-Resolution" screen width
 #define SCREEN_HEIGHT 240 //Height resolution is never changed.
 #define FBCOUNT 2 //for data with one for each framebuffer

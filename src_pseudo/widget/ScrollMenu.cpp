@@ -25,8 +25,8 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     puVar1->greens[1] = 0xff;
     puVar1->blues[1] = 0xff;
     puVar1->alphas[1] = 0xff;
-    puVar1->field11_0x12 = 0;
-    puVar1->field14_0x16 = 0;
+    puVar1->unk12 = 0;
+    puVar1->unk16 = 0;
     puVar1->blendB = 0;
     this->boundY1 = SCREEN_HEIGHT;
     this->boundX1 = SCREEN_WIDTH;
@@ -127,13 +127,13 @@ u8 WidgetScrollMenu::Tick(){
             sVar18 = this->posX - entry->GetWidth();
             goto LAB_800b9fb0;
           }
-          entry->SetCoords(this->posX - (short)(entry->GetWidth() >> 1),this->posY + (short)iVar21 + pvVar5->field11_0x12);
+          entry->SetCoords(this->posX - (short)(entry->GetWidth() >> 1),this->posY + (short)iVar21 + pvVar5->unk12);
         }
         else {
           sVar18 = this->posX;
           sVar9 = this->posY;
 LAB_800b9fb0:
-          entry->SetCoords(sVar18,sVar9 + (short)iVar21 + pvVar5->field11_0x12);
+          entry->SetCoords(sVar18,sVar9 + (short)iVar21 + pvVar5->unk12);
         }
         if ((entry->GetNumber() == WidgetN_ClipText)||(entry->GetNumber() == WidgetN_ShadText)) {
           Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
@@ -145,14 +145,14 @@ LAB_800b9fb0:
           sVar9 = entry->posY;
           if ((pvVar5->flag & 8) == 0) {
             if (this->boundY1 < (sVar9 + uVar13)) {
-              pvVar5->field11_0x12-= (sVar9 + uVar13) - this->boundY1;
+              pvVar5->unk12-= (sVar9 + uVar13) - this->boundY1;
             }
             if (sVar9 < this->boundY0) {
-              pvVar5->field11_0x12+= (this->boundY0 - sVar9);
+              pvVar5->unk12+= (this->boundY0 - sVar9);
             }
           }
           else {
-            pvVar5->field11_0x12+= (this->posY - (sVar9 + (uVar13 / 2)));
+            pvVar5->unk12+= (this->posY - (sVar9 + (uVar13 / 2)));
           }
           entry->SetColor((pvVar5->col).R,(pvVar5->col).G,(pvVar5->col).B,(pvVar5->col).A);
           if (entry->GetNumber() == WidgetN_ShadText) {

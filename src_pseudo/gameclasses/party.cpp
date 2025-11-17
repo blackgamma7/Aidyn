@@ -1316,7 +1316,7 @@ u8 Party::TroubadourCheck(){
   }
   return uVar4;
 }
-BaseWidget* PTR_800ed504=NULL;
+
 u8 Party::GetMemberWarriorIntStam(u8 param_2){
   CharSheet *pCVar1;
   s32 iVar2;

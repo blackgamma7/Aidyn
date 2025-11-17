@@ -514,6 +514,7 @@ enum ItemInd{
 };
 
 enum EntInd{
+    EntInd_Oriana=0x90,
     EntInd_Alaron=0x99,
     EndInd_Neilsen=162,
     EntInd_Sholeh=164,

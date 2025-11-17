@@ -139,21 +139,21 @@ void WidgetInvShop::InitMenu() {
   pGVar3 = gGlobals.shopInv;
   if (this->scrollMenu == NULL) {
     this->unk8c = 0;
-    this->scrollMenu = new WidgetFastScrollMenu(this->inventory->GetMaxQuantity() + (gGlobals.party)->PartySize * 0xf);
+    this->scrollMenu = new WidgetFastScrollMenu(this->inventory->GetMaxQuantity() + PARTY->PartySize * 0xf);
     this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
     this->Link(this->scrollMenu);
     SetArrows();
     if (this->inventory != gGlobals.shopInv){ //add party's equip to list
         for(u8 i=0;i< PARTY->PartySize;i++){
-          uVar13 = (this->partyPicker + i) % (uint)(gGlobals.party)->PartySize;
+          uVar13 = (this->partyPicker + i) % (uint)PARTY->PartySize;
           bVar11 = (byte)uVar13;
-          if ((gGlobals.party)->Members[uVar13]->weapons)
-            this->scrollMenu->Append(new SMIItem(&(gGlobals.party)->Members[uVar13]->weapons->base,1,bVar11));
-          if (gGlobals.party->Members[uVar13]->armor[0])
-            this->scrollMenu->Append(new SMIItem(&(gGlobals.party)->Members[uVar13]->armor[0]->base,1,bVar11));
-          if (gGlobals.party->Members[uVar13]->armor[1])
-            this->scrollMenu->Append(new SMIItem(&(gGlobals.party)->Members[uVar13]->armor[1]->base,1,bVar11));
-          pCVar4 = (gGlobals.party)->Members[uVar13]->pItemList;
+          if (PARTY->Members[uVar13]->weapons)
+            this->scrollMenu->Append(new SMIItem(&PARTY->Members[uVar13]->weapons->base,1,bVar11));
+          if (PARTY->Members[uVar13]->armor[0])
+            this->scrollMenu->Append(new SMIItem(&PARTY->Members[uVar13]->armor[0]->base,1,bVar11));
+          if (PARTY->Members[uVar13]->armor[1])
+            this->scrollMenu->Append(new SMIItem(&PARTY->Members[uVar13]->armor[1]->base,1,bVar11));
+          pCVar4 = PARTY->Members[uVar13]->pItemList;
           for(uVar13=0;uVar13<pCVar4->usedItems,uVar13<15;uVar13++){
             if(pCVar4->pItem[uVar13])
             SMIItem* entry =new SMIItem(&pCVar4->pItem[uVar13]->base,1,bVar11);
@@ -351,7 +351,7 @@ bool WidgetInvShop::AddItem(u16 param_2,u8 param_3,u8 param_4,char *script,u16 l
     }
   }
   else {
-    pIVar4 = Entity::HasItemEquipped((gGlobals.party)->Members[param_4],(ItemID)param_2);
+    pIVar4 = Entity::HasItemEquipped(PARTY->Members[param_4],(ItemID)param_2);
     Gsprintf("Failed to find %d\nCalled from %s - %d",param_2,script,line);
     if (pIVar4 == NULL) CRASH("SMI::AddItem",gGlobals.text);
   }

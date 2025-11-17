@@ -126,7 +126,7 @@ loop:
   while(1) {
     doubleGlobalTickerFlag = uVar8;
     osRecvMesg(&appManager.MesgQ2,(OSMesg*)ppsStack_3c,1);
-    if (*psStack_40 == 1) {
+    if (*psStack_40 == 1) { //TODO: make case-switch
       if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
         if (Graphics::ResolutionCheck()) {
           Gsprintf("StartGfxList()");
@@ -138,11 +138,11 @@ loop:
           #ifdef DEBUGVER //print detailed debug stats in Debug version
           gfx1 = display_debug_stats(gfx1);
           #else //print just player coords if Retail Version and !version cheat used
-          if ((version_flag != 0) && (gGlobals.playerChar.playerDat != NULL)) {
-            Gsprintf("%c%02d-(%2.1f,%2.1f)\n",gGlobals.gameVars.mapShortA + ('A'-1)
-                    ,gGlobals.gameVars.mapShortB,((gGlobals.playerChar.playerDat)->collision).position.x,
-                    ((gGlobals.playerChar.playerDat)->collision).position.z);
-            gfx1 = Graphics::DrawText(gfx1,gGlobals.text,0x12,0xd4,0x20,0x20,200,0xff);
+          if ((version_flag) && (gPlayer)) {
+            Gsprintf("%c%02d-(%2.1f,%2.1f)\n",gGlobals.gameVars.mapShort1 + ('A'-1)
+                    ,gGlobals.gameVars.mapShort2,gPlayer->collision.pos.x,
+                    gPlayer->collision.pos.z);
+            gfx1 = Graphics::DrawText(gfx1,gGlobals.text,18,(SCREEN_HEIGHT-28),0x20,0x20,200,0xff);
           }
           #endif
           void* x;
@@ -176,8 +176,10 @@ loop:
         sVar9 = sVar7;
         if ((0.0 < gLensFlarePos.x)&&(gLensFlarePos.x<SCREEN_WIDTH)&&
            (0.0<gLensFlarePos.y)&&(gLensFlarePos.y<SCREEN_HEIGHT)){
+          u16 lFlarex=gLensFlarePos.x * (Graphics::GetHRes() / SCREEN_WIDTH);
+          u16 lFlarey=gLensFlarePos.y * (Graphics::GetVRes() / SCREEN_HEIGHT);
           u16* zBuff = Graphics::GetDepthBuffer(); //Lens flare origin is at furthest z value?
-          if (zBuff[(u16)gLensFlarePos.y * (Graphics::GetVRes() / 240) * Graphics::GetHRes() + gLensFlarePos.x * (Graphics::GetHRes() / SCREEN_WIDTH)] == 0xfffc) {
+          if (zBuff[(lFlarey * Graphics::GetHRes() + lFlarex)] == 0xfffc) {
             gGlobals.lensFlareBool = true;
             uVar8 = doubleGlobalTickerFlag;
             goto loop;

@@ -1,7 +1,6 @@
 #include "widgets/CombatScrollMenu.h"
 #include "globals.h"
 
-extern void(*freeWidgetFunc)(BaseWidget*);
 extern void(*PTR_800ed504)(BaseWidget*);
 extern void(*PTR_800edb70)(BaseWidget*);
 
@@ -12,7 +11,7 @@ void FUN_8004cfd0(BaseWidget *w){
   }
 }
 
-WidgetChild8::WidgetChild8(u16 choices,char *msg,s16 *dims,u16 *dims2,short *dims3,Color32 *colA,Color32 *colB,u32 param_9)
+WidgetChoiceDia::WidgetChoiceDia(u16 choices,char *msg,s16 *dims,u16 *dims2,short *dims3,Color32 *colA,Color32 *colB,u32 param_9)
  :WidgetMenu(){
   PTR_800edb70 = freeWidgetFunc;
   freeWidgetFunc = FUN_8004cfd0;
@@ -22,7 +21,7 @@ WidgetChild8::WidgetChild8(u16 choices,char *msg,s16 *dims,u16 *dims2,short *dim
   this->unkac = param_9;
 }
 
-WidgetChild8::WidgetChild8(u16 choices,char *msg,u16 param_4,Color32 *colA,Color32 *colB,u32 param_7,u16 param_8,short param_9)
+WidgetChoiceDia::WidgetChoiceDia(u16 choices,char *msg,u16 param_4,Color32 *colA,Color32 *colB,u32 param_7,u16 param_8,short param_9)
 :WidgetMenu(){
     ushort uVar1;
     u16 x1;
@@ -32,8 +31,8 @@ WidgetChild8::WidgetChild8(u16 choices,char *msg,u16 param_4,Color32 *colA,Color
     
     PTR_800edb70 = freeWidgetFunc;
     uVar1 = param_4 >> 1;
-    x0 = -uVar1 + 0xa0;
-    x1 = uVar1 + 0xa0;
+    x0 = -uVar1 + SCREEN_CENTERW;
+    x1 = uVar1 + SCREEN_CENTERW;
     freeWidgetFunc = FUN_8004cfd0;
     uStack_68[0] = x0 - param_9;
     uStack_68[2] = x1 + param_9;
@@ -50,7 +49,7 @@ WidgetChild8::WidgetChild8(u16 choices,char *msg,u16 param_4,Color32 *colA,Color
 }
 
 
-WidgetChild8::WidgetChild8(u16 choices,u16 param_3,Color32 *colA,u32 param_5,u16 param_6)
+WidgetChoiceDia::WidgetChoiceDia(u16 choices,u16 param_3,Color32 *colA,u32 param_5,u16 param_6)
  :WidgetMenu(){
     ushort uVar1;
     BaseWidget *pBVar2;
@@ -59,8 +58,8 @@ WidgetChild8::WidgetChild8(u16 choices,u16 param_3,Color32 *colA,u32 param_5,u16
     PTR_800edb70 = freeWidgetFunc;
     uVar1 = param_3 >> 1;
     freeWidgetFunc = FUN_8004cfd0;
-    asStack_68[0] = (-uVar1 + 0xa0) - param_6;
-    asStack_68[2] = uVar1 + 0xa0 + param_6;
+    asStack_68[0] = (-uVar1 + SCREEN_CENTERW) - param_6;
+    asStack_68[2] = uVar1 + SCREEN_CENTERW + param_6;
     asStack_68[1] = 0;
     asStack_68[3] = SCREEN_HEIGHT;
     SetImages(asStack_68,0);
@@ -72,7 +71,7 @@ WidgetChild8::WidgetChild8(u16 choices,u16 param_3,Color32 *colA,u32 param_5,u16
     this->unka8 = 0;
 }
   
-WidgetChild8::WidgetChild8(u8 choices,u16 W,u16 H,u32 param_5,u16 param_6):WidgetMenu(){
+WidgetChoiceDia::WidgetChoiceDia(u8 choices,u16 W,u16 H,u32 param_5,u16 param_6):WidgetMenu(){
   short sVar1;
   short sx;
   short asStack_68 [4];
@@ -80,8 +79,8 @@ WidgetChild8::WidgetChild8(u8 choices,u16 W,u16 H,u32 param_5,u16 param_6):Widge
   PTR_800edb70 = freeWidgetFunc;
   sVar1 = (short)(W + 1 >> 1);
   freeWidgetFunc = FUN_8004cfd0;
-  asStack_68[0] = (-sVar1 + 0xa0) - param_6;
-  asStack_68[2] = sVar1 + 0xa0 + param_6;
+  asStack_68[0] = (-sVar1 + SCREEN_CENTERW) - param_6;
+  asStack_68[2] = sVar1 + SCREEN_CENTERW + param_6;
   asStack_68[1] = 0;
   asStack_68[3] = SCREEN_HEIGHT;
   SetImages(asStack_68,0);
@@ -99,7 +98,7 @@ WidgetChild8::WidgetChild8(u8 choices,u16 W,u16 H,u32 param_5,u16 param_6):Widge
 }
 
 
-WidgetChild8::~WidgetChild8(){
+WidgetChoiceDia::~WidgetChoiceDia(){
   BaseWidget *pBVar1;
   
   freeWidgetFunc = PTR_800edb70;
@@ -120,17 +119,17 @@ WidgetChild8::~WidgetChild8(){
   WidgetMenu::~WidgetMenu();
 }
 
-Gfx* WidgetChild8::Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1){
+Gfx* WidgetChoiceDia::Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1){
     RSPFUNC6(g);
     return WidgetMenu::Render(g,x0,y0,x1,y1);
 }
 
-BaseWidget* WidgetChild8::AFunc(){
+BaseWidget* WidgetChoiceDia::AFunc(){
     this->varU8=0xff;
     return this;
 }
 
-BaseWidget* WidgetChild8::BFunc(){
+BaseWidget* WidgetChoiceDia::BFunc(){
     if(this->unkac){
         this->varU8=0;
         return this;
@@ -138,22 +137,22 @@ BaseWidget* WidgetChild8::BFunc(){
     return NULL;
 }
 
-BaseWidget* WidgetChild8::UpFunc(){
+BaseWidget* WidgetChoiceDia::UpFunc(){
     this->scrollMenu->UpFunc();
     return NULL;
 }
 
-BaseWidget* WidgetChild8::DownFunc(){
+BaseWidget* WidgetChoiceDia::DownFunc(){
     this->scrollMenu->DownFunc();
     return NULL;
 }
 
-u8 WidgetChild8::AppendScrollMenu(BaseWidget* w){
+u8 WidgetChoiceDia::AppendScrollMenu(BaseWidget* w){
     return this->scrollMenu->Append(w);
 }
 
 
-void WidgetChild8::SetImages(s16 *bounds,u32 param_3){
+void WidgetChoiceDia::SetImages(s16 *bounds,u32 param_3){
   Borg8Header *pBVar1;
   WidgetBorg8 *pBVar2;
   short sVar3;
@@ -209,7 +208,7 @@ void WidgetChild8::SetImages(s16 *bounds,u32 param_3){
 
 }
 
-void WidgetChild8_moveX(BaseWidget *w,s16 x){
+void WidgetChoiceDia_moveX(BaseWidget *w,s16 x){
   w->SetWidth(w->GetWidth() + x);
   x >>= 1;
   w->boundX0-= x;
@@ -217,11 +216,11 @@ void WidgetChild8_moveX(BaseWidget *w,s16 x){
   w->boundX1+=x;
 }
 
-void WidgetChild8::MoveX(s16 posX){
-  WidgetChild8_moveX(this->scrollMenu,posX);
-  WidgetChild8_moveX(this->borg8WidgetC,posX);
-  WidgetChild8_moveX(this->borg8WidgetE,posX);
-  WidgetChild8_moveX(this->borg8WidgetA,posX);
+void WidgetChoiceDia::MoveX(s16 posX){
+  WidgetChoiceDia_moveX(this->scrollMenu,posX);
+  WidgetChoiceDia_moveX(this->borg8WidgetC,posX);
+  WidgetChoiceDia_moveX(this->borg8WidgetE,posX);
+  WidgetChoiceDia_moveX(this->borg8WidgetA,posX);
   s16 px = posX >> 1;
   Utilities::MoveWidget(this->borg8WidgetB,-px,0);
   Utilities::MoveWidget(this->borg8WidgetF,-px,0);
@@ -231,7 +230,7 @@ void WidgetChild8::MoveX(s16 posX){
   Utilities::MoveWidget(this->borg8WidgetH,px,0);
 }
 
-void WidgetChild8::SetHighlight(ushort h){
+void WidgetChoiceDia::SetHighlight(ushort h){
   WSMSub *sub = (WSMSub *)this->scrollMenu->substruct;
   if (sub) {
     if (h < sub->currentCount) sub->highlight = h;
@@ -240,7 +239,7 @@ void WidgetChild8::SetHighlight(ushort h){
 }
 
 
-void WidgetChild8::Update(){
+void WidgetChoiceDia::Update(){
   u16 uVar1;
   BaseWidget *pBVar2;
   BaseWidget *pBVar4;
@@ -310,6 +309,6 @@ void Ofunc_8004e048(BaseWidget *w,short x,short y){
   w->Tick();
 }
 
-void WidgetChild8::m8004e0b0(Color32 *c){
+void WidgetChoiceDia::m8004e0b0(Color32 *c){
     this->borg8WidgetA->SetColor(c->R,c->G,c->B,c->A);
 }

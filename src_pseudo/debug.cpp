@@ -123,7 +123,7 @@ BaseWidget * UnkWidget::DownFunc(){
     this->scrollMenu->DownFunc();
     return NULL;
 }
-extern BaseWidget *FUN_8004ce14(BaseWidget *,short,short,short,u16,u8 r,u8 g,u8 b,u8 a);
+
 WidgetItemDB::WidgetItemDB(){
     WidgetMenu();
     char* titles[]={"ARMOR","SHIELD","ITEM","WEAPON","POTION"};
