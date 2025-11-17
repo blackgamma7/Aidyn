@@ -26,13 +26,13 @@ void WidgetMenuWorldMap::ShowMap() {
 bool WidgetMenuWorldMap::Init() {
   (this->col2).R = 0xa5;
   (this->col2).G = 0x9e;
-  (this->col).A = 0xff;
+  (this->col1).A = 0xff;
   (this->col2).B = 0xff;
   (this->col2).A = 0xff;
   this->pieceAlpha = 0;
-  (this->col).R = 0;
-  (this->col).G = 0;
-  (this->col).B = 0;
+  (this->col1).R = 0;
+  (this->col1).G = 0;
+  (this->col1).B = 0;
   this->unk84 = 0;
   this->field4_0x85 = 1;
   ShowMap();
@@ -59,7 +59,6 @@ Gfx* WidgetMenuWorldMap::Render(Gfx*g, u16 x0, u16 y0, u16 x1, u16 y1){RENDERCHI
 
 
 u8 WidgetMenuWorldMap::Tick() {
-  byte bVar1;
   byte bVar2;
   byte bVar3;
   byte bVar4;
@@ -70,26 +69,18 @@ u8 WidgetMenuWorldMap::Tick() {
   byte bVar9;
   bool bVar10;
   MapPieceWidget *pMVar11;
-  int i;
   uint uVar12;
-  uint uVar13;
+  u8 markerAlpha;
   uint uVar14;
   uint uVar15;
   
-  if (gGlobals.BigAssMenu != NULL) {
-    bVar1 = (this->col2).R;
-    uVar15 = (uint)(this->col).R;
+  if (gGlobals.BigAssMenu) {
     bVar2 = this->unk84;
-    uVar13 = (uint)(this->col).A;
-    bVar3 = (this->col2).G;
-    uVar14 = (uint)(this->col).G;
-    bVar4 = (this->col2).B;
-    uVar12 = (uint)(this->col).B;
-    uVar13 = uVar13 + ((int)((this->col2).A - uVar13) / 10) * (uint)bVar2 & 0xff;
+    markerAlpha = (uint)(this->col1).A;
+    markerAlpha = markerAlpha + ((int)((this->col2).A - markerAlpha) / 10) * this->unk84;
     ppVar6 = PauseSub;
-    if ((gGlobals.sky.Type == 3) && (gGlobals.minimap.active == 0)) {
-    }
-    else uVar13 = 0;
+    //don't show marker if not on overworld
+    if ((gGlobals.sky.Type != 3) || (gGlobals.minimap.active)) markerAlpha = 0;
     if (!ppVar6->isScrolling) {
       bVar8 = this->unk84 + this->field4_0x85;
       this->unk84 = bVar8;
@@ -101,10 +92,11 @@ u8 WidgetMenuWorldMap::Tick() {
       this->pieceAlpha = bVar9;
     }
     this->Marker->SetColor(
-               uVar15 + ((int)(bVar1 - uVar15) / 10) * (uint)bVar2 & 0xff,
-               uVar14 + ((int)(bVar3 - uVar14) / 10) * (uint)bVar2 & 0xff,
-               uVar12 + ((int)(bVar4 - uVar12) / 10) * (uint)bVar2 & 0xff,uVar13);
-    for(i=0;i<this->mappieceCount;i++){
+               (this->col1).R + ((int)((this->col2).R - (this->col1).R) / 10) * bVar2,
+               (this->col1).G + ((int)((this->col2).G - (this->col1).G) / 10) * bVar2,
+               (this->col1).B + ((int)((this->col2).B - (this->col1).B) / 10) * bVar2,
+               markerAlpha);
+    for(s32 i=0;i<this->mappieceCount;i++){
         if (this->mappiceptr[i].img){
           ((this->mappiceptr[i].img)->col).A = this->pieceAlpha;
         }
@@ -117,7 +109,7 @@ void set_map_event_flag(s32 a,s32 b) {
   //TODO: declare mapEventFlags here (163 entries)
   //loop may also be inaccurate.
   MapEventFlag* entry = mapEventFlags;
-  while((entry->MapShortA!=0)&&(entry->MapShortB!=0)&&(entry->flag)!=0){
+  while((entry->MapShortA)&&(entry->MapShortB)&&(entry->flag)){
     if((entry->MapShortA==a)&&(entry->MapShortB==b)){
         setEventFlag(entry->flag,true);
         return;

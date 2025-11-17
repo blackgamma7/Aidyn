@@ -25,7 +25,7 @@ void set_map_event_flag(s32 a,s32 b);
 
 class WidgetMenuWorldMap : public WidgetMenu{
     public:
-    Color32 col;
+    Color32 col1;
     Color32 col2;
     u8 unk84;
     u8 field4_0x85;

@@ -41,37 +41,28 @@ Journal::~Journal(){WidgetMenu::~WidgetMenu();}
 
 
 void Journal::InitMenu(s16 newest) {
-  BaseWidget *pBVar2;
   BaseWidget *pBVar3;
-  ulong uVar5;
-  u32 uVar7;
-  u16 uVar8;
-  WSLSub *scrollSub;
-  
+
   this->col.A = 0;
   this->background = WidgetB8(BORG8_JournalBG);
   this->background->SetCoords(0,0);
   this->background->SetColor(0xff,0xff,0xff,0);
   this->Link(this->background);
   this->Load(newest);
-  scrollSub = (WSLSub *)this->scrollList->substruct;
+  WSLSub *scrollSub = (WSLSub *)this->scrollList->substruct;
   scrollSub->vSpace = 4;
   if (scrollSub->itemCount == 1) {
     pBVar3 = WClipTXT(gGlobals.CommonStrings[0x1f0]);
-    pBVar3->SetColor(0x62,0x46,0x3c,0xff);
+    pBVar3->SetColor(98,70,30,0xff);
     this->scrollList->AddEntry(pBVar3);
   }
   this->scrollList->AddEntry(WClipTXT("  "));
   this->scrollList->Tick();
-  if (newest == -1) {
-    scrollSub->itemHighlight = scrollSub->itemCount - 1;
-  }
-  else {
-    scrollSub->items[scrollSub->itemHighlight]->SetColor(0x82,0x50,0x8c,0xff);
-  }
-  pBVar2 = this->scrollList;
+  if (newest == -1) scrollSub->itemHighlight = scrollSub->itemCount - 1;
+  else scrollSub->items[scrollSub->itemHighlight]->SetColor(130,80,140,0xff);
+  pBVar3= scrollSub->items[scrollSub->itemHighlight];
   if (this->scrollList->boundY1 - this->scrollList->boundY0 <
-      ((pBVar3->posY + scrollSub->items[scrollSub->itemHighlight]->GetHeight()) - pBVar2->posY)) {
+      ((pBVar3->posY + pBVar3->GetHeight()) - this->scrollList->posY)) {
     scrollSub->yCurr=scrollSub->yTarget = 
       (this->scrollList->boundY1 - this->scrollList->boundY0) - this->scrollList->GetHeight();
   }
@@ -86,7 +77,6 @@ void Journal::InitMenu(s16 newest) {
   this->fadeOut = Journal_FadeOut;
   Controller::GetDelay(0);
 }
-
 
 u8 Journal::ShowTriggeredEntry(char *txt) {
   EventFlag flag;
@@ -104,7 +94,7 @@ u8 Journal::ShowTriggeredEntry(char *txt) {
   if (getEventFlag(flag)) {
     WidgetClipText *Entry = WClipTXT(pcVar5 + 1);
     Entry->varU16 = flag;
-    Entry->SetColor(0x62,0x46,0x3c,0xff);
+    Entry->SetColor(98,70,60,0xff);
     this->scrollList->AddEntry(Entry);
     ret = true;
   }
@@ -115,17 +105,13 @@ extern void* journal_ROM;
 #define JOURNALSIZE 0x2090
 void Journal::Load(s32 newest) {
   ushort uVar2;
-  char *pBuffer;
-  BaseWidget *pBVar3;
-  bool bVar4;
   char *pcVar5;
   char *pcVar6;
   int iVar8;
   uint uVar9;
   uint uVar11;
-  char acStack_2028 [0x2000];
   
-  pBuffer = (char *)HALLOC(JOURNALSIZE,0xe0);
+  char *pBuffer = (char *)HALLOC(JOURNALSIZE,0xe0);
   if (pBuffer == NULL) CRASH("Journal::Load()","Not enough memory for pBuffer");
   ROMCOPYS(pBuffer,journal_ROM,JOURNALSIZE,0xe9);
   this->scrollList = new WidgetScrollList(100);
@@ -180,15 +166,16 @@ LAB_8005b5a8:
       pcVar5 = pBuffer + uVar9;
       iVar8 = uVar9 + 1;
       uVar9+=2;
-      uVar2 = CONCAT11(*pcVar5,pBuffer[iVar8]);
-      memset(acStack_2028,0,0x2000);
+      uVar2 = (*pcVar5<<8|pBuffer[iVar8]);
+      char txtBuff[0x2000];
+      memset(txtBuff,0,0x2000);
       for(u16 uVar7 = 0;uVar7<uVar2;uVar7++){
-          pcVar6 = acStack_2028 + uVar7;
+          pcVar6 = txtBuff + uVar7;
           pcVar5 = pBuffer + uVar9++;
           *pcVar6 = *pcVar5;
         }
-      decrypt_string(acStack_2028,0,0,uVar2);
-      if ((ShowTriggeredEntry(acStack_2028)) && (newest != -1)) {
+      decrypt_string(txtBuff,0,0,uVar2);
+      if ((ShowTriggeredEntry(txtBuff)) && (newest != -1)) {
         if (uVar10 == newest) {
           pvVar3->itemHighlight = pvVar3->itemCount - 1;
           newestJournal = -1;
