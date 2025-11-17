@@ -13,17 +13,17 @@ class WidgetScrollList : public BaseWidget{
 };
 //substruct for WidgetScrollList
 struct WSLSub {
-    u8 unk0;
+    u8 scrollSpeed;
     u8 unk1; //set to 32, never read
-    u16 unk2;
-    u16 unk4;
-    u16 unk6;
-    u16 unk8;
+    s16 XCurr; //calculated, but unused on items' pos
+    s16 yCurr;
+    s16 XTarget; //read, but not set
+    s16 yTarget;
     BaseWidget** items;
     u8 itemMax;
     u8 itemHighlight;
     u8 itemCount;
-    u8 unk13;
+    u8 vSpace;
 };
 
 BaseWidget* WSL_UpFunc(BaseWidget*,BaseWidget*);

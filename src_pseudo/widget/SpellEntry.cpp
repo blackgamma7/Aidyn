@@ -27,12 +27,12 @@ WidgetSpellEntry::WidgetSpellEntry(SpellInstance *param_2):BaseWidget(){
     BaseWidget::Link(this->SchoolIcon);
   }
   this->SpellName = WClipTXTSafe((this->spell->base).name);
-  this->SpellName->SetColor(0x82,0x50,0x50,0xff);
+  this->SpellName->SetColor(COLOR_RED1);
   BaseWidget::Link(this->SpellName);
   char buff [64];
   sprintf(buff,"%d",this->spell->level);
   this->SpelllRank = WClipTXTSafe(buff);
-  this->SpelllRank->SetColor(0x82,0x50,0x50,0xff);
+  this->SpelllRank->SetColor(COLOR_RED1);
   this->SpelllRank->varU16 = (ushort)this->spell->level;
   BaseWidget::Link(this->SpelllRank);
 }

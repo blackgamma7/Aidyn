@@ -193,10 +193,10 @@ void WidgetInvShop::InitMenu() {
     if (pvVar2->currentCount != 0) {
       QSort(pvVar2->items,pvVar2->currentCount,FUN_8003c78c);
       this->Tick();
-      this->scrollMenu->m8002ff30();
+      this->scrollMenu->Update();
     }
   }
-  else this->scrollMenu->m8002ff30();
+  else this->scrollMenu->Update();
 }
 
 u32 WidgetInvShop::unk(){return 0;}
@@ -363,7 +363,7 @@ void WidgetInvShop::SortA() {
   if (this->unk98) {
     QSort(((WSMSub*)this->scrollMenu->substruct)->items,this->unk98,FUN_8003c69c);
     this->Tick();
-    this->scrollMenu->m8002ff30();
+    this->scrollMenu->Update();
   }
 }
 

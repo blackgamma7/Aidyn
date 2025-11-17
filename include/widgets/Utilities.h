@@ -15,9 +15,12 @@ namespace Utilities{
     void SetTextWidgetBoundsX0(BaseWidget *,u16);
     void SetTextWidgetBoundsX1(BaseWidget *,u16);
     void SetTextWidgetScale(BaseWidget *w,float x,float y);
+    void SetArrayVSpace(BaseWidget *,u16);
+    void SetScrollSpeed(BaseWidget *,u8 );
     BaseWidget * GetHighlightedEntry(BaseWidget *);
     u16 GetHighlightIndex(BaseWidget*);
     void SetScrollMenuColors(BaseWidget *,u8,u8,u8,u8,u8,u8,u8,u8,u8);
+    void RemoveScrollMenuEntry(BaseWidget *,u16);
     void ClearScrollMenu(BaseWidget *);
     void ClearScrollMenu2(BaseWidget *);
     void SetBorg8Dims(BaseWidget *,Borg8Header *,u8);
@@ -44,13 +47,8 @@ namespace Utilities{
     WidgetScrollMenu* AddScrollMenu(BaseWidget*,u16,s16,s16,u16,u16,u16,u16,u8,u8,u8,u8,s32);
 };
 
-//TODO: add below to namespace once better understood.
-
-void FUN_800bbfc8(BaseWidget *,u16);
-void Ofunc_800bc064(BaseWidget *,u8 );
-void Ofunc_800bc300(BaseWidget *,u16);
-
 //helper funcs in seperate script.
+
 BaseWidget * ofunc_icon_or_portrait(BaseWidget *parent,ItemID ID,u16 H,u16 W,u8 type);
 BaseWidget * WidgetBorg8At(BaseWidget *parent,u16 Index,s16 X,s16 Y,s16 H,s16 W);
 BaseWidget * FUN_8004ce14(BaseWidget *parent,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a);

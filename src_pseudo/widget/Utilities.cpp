@@ -133,28 +133,30 @@ void Utilities::SetTextWidgetScale(BaseWidget *w,float x,float y){
   sub->scale.y=y;
 }
 
-//something about a scrollmenu item's vertical spacing?
-void FUN_800bbfc8(BaseWidget *w,u16 param_2){
+//set vertical spacing for array/list widget
+//@param w array/list/scroll widget.
+//@param v new vertical spacing
+void Utilities::SetArrayVSpace(BaseWidget *w,u16 v){
   switch (w->GetNumber()){
     case WidgetN_ArrayMenu:
-    ((WAMSub*)w->substruct)->entryX=param_2;
+    ((WAMSub*)w->substruct)->vSpace=v;
     break;
     case WidgetN_ScrollMenu:
-    ((WSMSub*)w->substruct)->unk22 = (u8)param_2;
+    ((WSMSub*)w->substruct)->vSpace = (u8)v;
     break;
     case WidgetN_ScrollList:
-    ((WSLSub*)w->substruct)->unk13 = (u8)param_2;
+    ((WSLSub*)w->substruct)->vSpace = (u8)v;
     break;
   }
 }
 
-void Ofunc_800bc064(BaseWidget *w,u8 param_2){
-    switch (w->GetNumber()){
-        case WidgetN_ScrollMenu:
-        case WidgetN_ScrollList:
-        ((WSMSub*)w->substruct)->field0_0x0 = param_2;
-        break;
-      }
+void Utilities::SetScrollSpeed(BaseWidget *w,u8 param_2){
+  switch (w->GetNumber()){
+    case WidgetN_ScrollMenu:
+    case WidgetN_ScrollList:
+      ((WSMSub*)w->substruct)->scrollSpeed = param_2;
+      break;
+  }
 }
 //Get Highlighted entry of an array Widget
 //@param w: widget
@@ -217,13 +219,11 @@ void Utilities::SetScrollMenuColors(BaseWidget *w,u8 r0,u8 g0,u8 b0,u8 a0,u8 r1,
   }
 }
 
-void Ofunc_800bc300(BaseWidget *w,u16 param_2){
-  s16 sVar1;
+void Utilities::RemoveScrollMenuEntry(BaseWidget *w,u16 param_2){
   BaseWidget **ppBVar2;
   ulong uVar3;
   int iVar4;
   BaseWidget **ppBVar5;
-  u16 uVar6;
   u16 uVar7;
   WSMSub *sub;
   
@@ -239,12 +239,10 @@ void Ofunc_800bc300(BaseWidget *w,u16 param_2){
         *ppBVar5 = ppBVar5[1];
       } while ((int)uVar7 < iVar4);
     }
-    sVar1 = sub->currentCount;
-    uVar6 = sVar1 - 1;
     sub->items[uVar7] = NULL;
-    sub->currentCount = uVar6;
-    if (uVar6 <= (u16)sub->highlight) {
-      sub->highlight = sVar1 + -2;
+    sub->currentCount--;
+    if (sub->currentCount <= (u16)sub->highlight) {
+      sub->highlight--;
     }
   }
 }
@@ -305,24 +303,23 @@ void Utilities::SetWidgetBounds
 
 void Utilities::SetTextWidgetBoundsX02(BaseWidget *w,u16 param_2){
   if (w) {
-    BaseWidget *pBVar1 = w->child;
+    BaseWidget *w0 = w->child;
     w->boundX0 = param_2;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
-      SetTextWidgetBoundsX02(pBVar1,param_2);
+    for (; w0 != NULL; w0 = w0->siblingR) {
+      SetTextWidgetBoundsX02(w0,param_2);
     }
   }
 }
 
 void Utilities::SetTextWidgetBoundsX12(BaseWidget *w,u16 param_2){
   if (w) {
-    BaseWidget *pBVar1 = w->child;
+    BaseWidget *w0 = w->child;
     w->boundX1 = param_2;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
-      SetTextWidgetBoundsX12(pBVar1,param_2);
+    for (; w0 != NULL; w0 = w0->siblingR) {
+      SetTextWidgetBoundsX12(w0,param_2);
     }
   }
 }
-
 
 void Utilities::SetWidgetBoundsY02(BaseWidget *w,u16 param_2){
   if (w) {
@@ -334,13 +331,12 @@ void Utilities::SetWidgetBoundsY02(BaseWidget *w,u16 param_2){
   }
 }
 
-
 void Utilities::SetWidgetBoundsY12(BaseWidget *w,u16 param_2){  
   if (w) {
-    BaseWidget *pBVar1 = w->child;
+    BaseWidget *w0 = w->child;
     w->boundY1 = param_2;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
-      SetWidgetBoundsY12(pBVar1,param_2);
+    for (; w0 != NULL; w0 = w0->siblingR) {
+      SetWidgetBoundsY12(w0,param_2);
     }
   }
 }
@@ -358,49 +354,45 @@ void Utilities::SetWidgetColor(BaseWidget *w,u8 r,u8 g,u8 b,u8 a){
   }
 }
 
-
-
 void Utilities::SetRed(BaseWidget *w,u8 r){
   if (w) {
-    BaseWidget *pBVar1 = w->child;
+    BaseWidget *w0 = w->child;
     (w->col).R = r;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
-      SetRed(pBVar1,r);
-    }
-  }
-}
-void Utilities::SetGreen(BaseWidget *w,u8 g){
-  if (w) {
-    BaseWidget *pBVar1 = w->child;
-    (w->col).G = g;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
-      SetGreen(pBVar1,g);
+    for (; w0 != NULL; w0 = w0->siblingR) {
+      SetRed(w0,r);
     }
   }
 }
 
+void Utilities::SetGreen(BaseWidget *w,u8 g){
+  if (w) {
+    BaseWidget *w0 = w->child;
+    (w->col).G = g;
+    for (; w0 != NULL; w0 = w0->siblingR) {
+      SetGreen(w0,g);
+    }
+  }
+}
 
 void Utilities::SetBlue(BaseWidget *w,u8 b){
   if (w) {
-    BaseWidget *pBVar1 = w->child;
+    BaseWidget *w0 = w->child;
     (w->col).B = b;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
-      SetBlue(pBVar1,b);
+    for (; w0 != NULL; w0 = w0->siblingR) {
+      SetBlue(w0,b);
     }
   }
 }
-
 
 void Utilities::SetAlpha(BaseWidget *w,u8 a){
   if (w) {
-    BaseWidget *pBVar1 = w->child;
+    BaseWidget *w0 = w->child;
     (w->col).A = a;
-    for (; pBVar1 != NULL; pBVar1 = pBVar1->siblingR) {
-      SetAlpha(pBVar1,a);
+    for (; w0 != NULL; w0 = w0->siblingR) {
+      SetAlpha(w0,a);
     }
   }
 }
-
 
 void Utilities::MoveWidget(BaseWidget *w,s16 x,s16 y){
   if (!w) return;
@@ -436,52 +428,52 @@ WidgetDebugBG * Utilities::DebugBackground(BaseWidget *wP,s16 x,s16 y,u16 h,u16 
 }
 
 WidgetText * Utilities::AddTextWidget(BaseWidget *w,char *str,s16 x,s16 y,u8 r,u8 g,u8 b,u8 a){
-  WidgetText*pBVar1 = WText(str);
-  pBVar1->SetCoords(x,y);
-  pBVar1->SetColor(r,g,b,a);
-  if (w) w->Link(pBVar1);
-  return pBVar1;
+  WidgetText*ret = WText(str);
+  ret->SetCoords(x,y);
+  ret->SetColor(r,g,b,a);
+  if (w) w->Link(ret);
+  return ret;
 }
 
 WidgetText * Utilities::AddTextWidget2(BaseWidget *w,char *str,u16 x0,u16 y0,u16 x1,u16 y1){
-  WidgetText*pBVar1 = WText(str);
-  pBVar1->boundX0 = x0;
-  pBVar1->boundY0 = y0;
-  pBVar1->boundX1 = x1;
-  pBVar1->boundY1 = y1;
-  pBVar1->SetCoords(x0,y0);
-  if (w) w->Link(pBVar1);
-  return pBVar1;
+  WidgetText*ret = WText(str);
+  ret->boundX0 = x0;
+  ret->boundY0 = y0;
+  ret->boundX1 = x1;
+  ret->boundY1 = y1;
+  ret->SetCoords(x0,y0);
+  if (w) w->Link(ret);
+  return ret;
 }
 
 WidgetText * Utilities::AddTextWidget3(BaseWidget *w,char *str,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g, u8 b, u8 a){
-    WidgetText*pBVar1 = WText(str);
-    pBVar1->SetCoords(x0,y0);
-    pBVar1->boundX0 = x0;
-    pBVar1->boundY0 = y0;
-    pBVar1->boundX1 = x1;
-    pBVar1->boundY1 = y1;
-    pBVar1->SetColor(r,g,b,a);
-    if (w) w->Link(pBVar1);
-    return pBVar1;
+    WidgetText*ret = WText(str);
+    ret->SetCoords(x0,y0);
+    ret->boundX0 = x0;
+    ret->boundY0 = y0;
+    ret->boundX1 = x1;
+    ret->boundY1 = y1;
+    ret->SetColor(r,g,b,a);
+    if (w) w->Link(ret);
+    return ret;
 }
 
 WidgetClipText *
 Utilities::AddClipTextWidget(BaseWidget *w,char *txt,u16 bX0,u16 bY0,u16 bX1,u16 bY1,u16 len){
-  WidgetClipText* pBVar1 = new WidgetClipText(txt,len);
-  pBVar1->SetCoords(bX0,bY0);
-  pBVar1->boundX0 = bX0;
-  pBVar1->boundY0 = bY0;
-  pBVar1->boundX1 = bX1;
-  pBVar1->boundY1 = bY1;
-  SetTextWidgetBoundsX(pBVar1,bX0,bX1);
-  if (w) w->Link(pBVar1);
-  return pBVar1;
+  WidgetClipText* ret = new WidgetClipText(txt,len);
+  ret->SetCoords(bX0,bY0);
+  ret->boundX0 = bX0;
+  ret->boundY0 = bY0;
+  ret->boundX1 = bX1;
+  ret->boundY1 = bY1;
+  SetTextWidgetBoundsX(ret,bX0,bX1);
+  if (w) w->Link(ret);
+  return ret;
 }
 
-WidgetArrayMenu *Utilities::AddWidgetArrayMenu(BaseWidget *w,u16 len,u8 param_3,s16 x,s16 y,u16 x0,u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
+WidgetArrayMenu *Utilities::AddWidgetArrayMenu(BaseWidget *w,u16 len,u8 rowSize,s16 x,s16 y,u16 x0,u16 x1,u16 y0,u16 y1,u8 r,u8 g,u8 b,u8 a){
   WidgetArrayMenu *ret = new WidgetArrayMenu(len);
-  ((WAMSub*)ret->substruct)->entryY=param_3;
+  ((WAMSub*)ret->substruct)->rowSize=rowSize;
   ret->SetCoords(x,y);
   ret->boundX0 = x0;
   ret->boundX1 = y0;
@@ -538,7 +530,7 @@ WidgetBorg8 * Utilities::AddBorg8Widget2(BaseWidget *w,Borg8Header *b8,s16 x0,s1
 //@param b: blue
 //@param a: alpha
 //@param setColors: use colors for subtruct
-//@returns array menu
+//@returns scroll menu
 WidgetScrollMenu* Utilities::AddScrollMenu(BaseWidget *w,u16 length,s16 x,s16 y,u16 bx0,u16 by0,u16 bx1,u16 by1,u8 r,u8 g,u8 b,u8 a,s32 setColors){
 WidgetScrollMenu* ret = new WidgetScrollMenu(length);
 ret->SetCoords(x,y);

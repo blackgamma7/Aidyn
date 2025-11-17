@@ -156,7 +156,7 @@ WidgetChoiceDia(62,120,gExpPakFlag?95:55,0,0){
       }
     }
   }
-  FUN_800bbfc8(this->scrollMenu,3);
+  Utilities::SetArrayVSpace(this->scrollMenu,3);
   Update();
   iVar5 = find_char_in_party(local_2c);
   WidgetBorg8* pBVar6 = WidgetB8(0x38D0);
@@ -173,7 +173,7 @@ WidgetChoiceDia(62,120,gExpPakFlag?95:55,0,0){
     if (lVar10 < lVar11) lVar11 = lVar10;
     s->highlight=lVar11;
     this->scrollMenu->Tick();
-    s->unk12=s->unk16;
+    s->yOff=s->unk16;
   }
 }
 

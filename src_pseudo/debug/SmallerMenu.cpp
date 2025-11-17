@@ -249,7 +249,7 @@ bool create_enemy_list(){
   scrollMenu->boundY0 = 0x4b;
   scrollMenu->boundY1 = 200;
   scrollMenu->SetColor(0x96,0x96,0x96,0x96);
-  ((WSMSub*)scrollMenu->substruct)->field0_0x0 = 20;
+  ((WSMSub*)scrollMenu->substruct)->scrollSpeed = 20;
   (gGlobals.playerCharStruct.debugMenuEnemy)->substruct = scrollMenu;
   gGlobals.playerCharStruct.debugMenuEnemy->Link(scrollMenu);
   (gGlobals.playerCharStruct.debugMenuEnemy)->UpButtonFunc = SmallerDebugWidgetUpFunc;
@@ -306,7 +306,7 @@ bool DebugCombatSelectArena(){
   scrollMenu->boundY0 = 0x4b;
   scrollMenu->boundY1 = 200;
   scrollMenu->SetColor(0x96,0x96,0x96,0x96);
-  ((WSMSub*)scrollMenu->substruct)->field0_0x0 = 20;
+  ((WSMSub*)scrollMenu->substruct)->scrollSpeed = 20;
   (gGlobals.playerCharStruct.debugMenuArena)->substruct = scrollMenu;
   gGlobals.playerCharStruct.debugMenuArena->Link(scrollMenu);
   (gGlobals.playerCharStruct.debugMenuArena)->UpButtonFunc = SmallerDebugWidgetUpFunc;
@@ -353,7 +353,7 @@ bool change_actor_menu(void){
   scrollMenu->boundY0 = 75;
   scrollMenu->boundY1 = 200;
   scrollMenu->SetColor(150,150,150,150);
-  ((WSMSub*)scrollMenu->substruct)->field0_0x0 = 20;
+  ((WSMSub*)scrollMenu->substruct)->scrollSpeed = 20;
   scrollMenu->Tick();
   (gGlobals.playerCharStruct.debugMenuActor)->substruct = scrollMenu;
   (gGlobals.playerCharStruct.debugMenuActor)->Link(scrollMenu);

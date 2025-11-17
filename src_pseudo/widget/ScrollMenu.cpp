@@ -9,7 +9,7 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     this->posY = 0;
     this->width = 0;
     this->height = 0;
-    puVar1->field0_0x0 = 10;
+    puVar1->scrollSpeed = 10;
     puVar1->flag = 1;
     puVar1->blendSign = 1;
     puVar1->reds[0] = 100;
@@ -25,7 +25,7 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     puVar1->greens[1] = 0xff;
     puVar1->blues[1] = 0xff;
     puVar1->alphas[1] = 0xff;
-    puVar1->unk12 = 0;
+    puVar1->yOff = 0;
     puVar1->unk16 = 0;
     puVar1->blendB = 0;
     this->boundY1 = SCREEN_HEIGHT;
@@ -42,7 +42,7 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     puVar1->highlight = 0;
     puVar1->maxCount = length;
     puVar1->currentCount = 0;
-    puVar1->unk22 = 0;
+    puVar1->vSpace = 0;
     if (length == 0) puVar1->items = NULL;
     else {
       BaseWidget** ppBVar1= (BaseWidget**)HALLOC(length*sizeof(BaseWidget*),89);
@@ -97,80 +97,78 @@ u8 WidgetScrollMenu::Tick(){
   uint i;
   int iVar21;
   byte bVar23;
-  WSMSub *pvVar5 = (WSMSub *)this->substruct;
+  WSMSub *sub = (WSMSub *)this->substruct;
   iVar21 = 0;
   sVar18 = 0;
-  if (pvVar5->items) {
-    cVar15 = pvVar5->blendB + pvVar5->blendSign;
-    pvVar5->blendB = cVar15;
+  if (sub->items) {
+    cVar15 = sub->blendB + sub->blendSign;
+    sub->blendB = cVar15;
     if ((cVar15 == 0) ||
-       ((pvVar5->blendA - 1) <= pvVar5->blendB)) {
-      pvVar5->blendSign = -pvVar5->blendSign;
+       ((sub->blendA - 1) <= sub->blendB)) {
+      sub->blendSign = -sub->blendSign;
     }
-    bVar1 = pvVar5->blendA;
-    bVar4 = pvVar5->blendB;
-    (pvVar5->col).R = pvVar5->reds[0] + ((pvVar5->reds[1] - pvVar5->reds[0]) / bVar1) * bVar4;
-    (pvVar5->col).G = pvVar5->greens[0] + ((pvVar5->greens[1] - pvVar5->greens[0]) / bVar1) * bVar4;
-    (pvVar5->col).B = pvVar5->blues[0] + ((pvVar5->blues[1] - pvVar5->blues[0]) / bVar1) * bVar4;
-    (pvVar5->col).A = (s16)(((pvVar5->alphas[0] +(pvVar5->alphas[1] - pvVar5->alphas[0]) /bVar1) * bVar4)) *
+    bVar1 = sub->blendA;
+    bVar4 = sub->blendB;
+    (sub->col).R = sub->reds[0] + ((sub->reds[1] - sub->reds[0]) / bVar1) * bVar4;
+    (sub->col).G = sub->greens[0] + ((sub->greens[1] - sub->greens[0]) / bVar1) * bVar4;
+    (sub->col).B = sub->blues[0] + ((sub->blues[1] - sub->blues[0]) / bVar1) * bVar4;
+    (sub->col).A = (s16)(((sub->alphas[0] +(sub->alphas[1] - sub->alphas[0]) /bVar1) * bVar4)) *
     ((float)(this->col).A / 255.0f);
-    if (pvVar5->currentCount) {
-      for(i=0;i<pvVar5->currentCount;i++) {
-        entry = pvVar5->items[i];
+    if (sub->currentCount) {
+      for(i=0;i<sub->currentCount;i++) {
+        entry = sub->items[i];
         entry->boundX0 = this->boundX0;
         entry->boundX1 = this->boundX1;
         entry->boundY0 = this->boundY0;
         entry->boundY1 = this->boundY1;
-        if ((pvVar5->flag & 1) == 0) {
-          if ((pvVar5->flag & 2) != 0) {
+        if ((sub->flag & 1) == 0) {
+          if ((sub->flag & 2)) {
             sVar9 = this->posY;
             sVar18 = this->posX - entry->GetWidth();
             goto LAB_800b9fb0;
           }
-          entry->SetCoords(this->posX - (short)(entry->GetWidth() >> 1),this->posY + (short)iVar21 + pvVar5->unk12);
+          entry->SetCoords(this->posX - (short)(entry->GetWidth() >> 1),this->posY + (short)iVar21 + sub->yOff);
         }
         else {
           sVar18 = this->posX;
           sVar9 = this->posY;
 LAB_800b9fb0:
-          entry->SetCoords(sVar18,sVar9 + (short)iVar21 + pvVar5->unk12);
+          entry->SetCoords(sVar18,sVar9 + (short)iVar21 + sub->yOff);
         }
         if ((entry->GetNumber() == WidgetN_ClipText)||(entry->GetNumber() == WidgetN_ShadText)) {
           Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
         }
         uVar13= entry->GetHeight();
-        iVar21 += uVar13 + (byte)pvVar5->unk22;
+        iVar21 += uVar13 + (byte)sub->vSpace;
         sVar18 = (short)iVar21;
-        if (i == pvVar5->highlight) {
+        if (i == sub->highlight) {
           sVar9 = entry->posY;
-          if ((pvVar5->flag & 8) == 0) {
+          if ((sub->flag & 8) == 0) {
             if (this->boundY1 < (sVar9 + uVar13)) {
-              pvVar5->unk12-= (sVar9 + uVar13) - this->boundY1;
+              sub->yOff-= (sVar9 + uVar13) - this->boundY1;
             }
             if (sVar9 < this->boundY0) {
-              pvVar5->unk12+= (this->boundY0 - sVar9);
+              sub->yOff+= (this->boundY0 - sVar9);
             }
           }
           else {
-            pvVar5->unk12+= (this->posY - (sVar9 + (uVar13 / 2)));
+            sub->yOff+= (this->posY - (sVar9 + (uVar13 / 2)));
           }
-          entry->SetColor((pvVar5->col).R,(pvVar5->col).G,(pvVar5->col).B,(pvVar5->col).A);
-          if (entry->GetNumber() == WidgetN_ShadText) {
-            ((WSTSub*)entry->substruct)->unk1c=0;
-          }
+          entry->SetColor((sub->col).R,(sub->col).G,(sub->col).B,(sub->col).A);
+          if (entry->GetNumber() == WidgetN_ShadText)
+            ((WSTSub*)entry->substruct)->hasShadow=false;
           entry->Tick();
         }
         else {
           entry->SetColor((this->col).R,(this->col).G,(this->col).B,(this->col).A);
-          if (entry->GetNumber() == WidgetN_ShadText) {
-            ((WSTSub*)entry->substruct)->unk1c=1;
-          }
+          if (entry->GetNumber() == WidgetN_ShadText)
+            ((WSTSub*)entry->substruct)->hasShadow=true;
           entry->Tick();
         }
       }
     }
   }
-  SetHeight(sVar18 - (u16)(byte)pvVar5->unk22);
+  SetHeight(sVar18 - (u16)(byte)sub->vSpace);
   return TickChildren();
 }
 
@@ -221,7 +219,7 @@ LAB_800ba2e0:
 }
 
 
-u8 WidgetScrollMenu::SetFlags(u8 f){
+void WidgetScrollMenu::SetFlags(u8 f){
     ((WSMSub *)substruct)->flag=f;
 }
 

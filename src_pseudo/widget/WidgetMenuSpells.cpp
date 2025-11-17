@@ -46,7 +46,7 @@ void WidgetMenuSpells::InitMenu(DollMenuLists *list,u8 sel) {
       this->SpellSkills[i]->boundY0 = 88;
       this->SpellSkills[i]->boundY1 = 166;
       this->SpellSkills[i]->Tick();
-      this->SpellSkills[i]->scrollMenu->m8002ff30();
+      this->SpellSkills[i]->scrollMenu->Update();
   }
   this->expCost = new WidgetClipText(NULL,20);
   this->expCost->SetColor(COLOR_RED1);

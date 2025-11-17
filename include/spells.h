@@ -140,7 +140,7 @@ struct Spell_RAM {
     undefined field13_0x25;
 };
 
-
+//combine as class with SpellInstance?
 namespace TempSpell{
     void Init(SpellInstance *,ItemID ,u8);
     s32 GetExpPrice(SpellInstance *);

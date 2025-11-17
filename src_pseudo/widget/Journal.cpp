@@ -55,7 +55,7 @@ void Journal::InitMenu(s16 newest) {
   this->Link(this->background);
   this->Load(newest);
   scrollSub = (WSLSub *)this->scrollList->substruct;
-  scrollSub->unk13 = 4;
+  scrollSub->vSpace = 4;
   if (scrollSub->itemCount == 1) {
     pBVar3 = WClipTXT(gGlobals.CommonStrings[0x1f0]);
     pBVar3->SetColor(0x62,0x46,0x3c,0xff);
@@ -72,7 +72,7 @@ void Journal::InitMenu(s16 newest) {
   pBVar2 = this->scrollList;
   if (this->scrollList->boundY1 - this->scrollList->boundY0 <
       ((pBVar3->posY + scrollSub->items[scrollSub->itemHighlight]->GetHeight()) - pBVar2->posY)) {
-    scrollSub->unk4=scrollSub->unk8 = 
+    scrollSub->yCurr=scrollSub->yTarget = 
       (this->scrollList->boundY1 - this->scrollList->boundY0) - this->scrollList->GetHeight();
   }
   this->arrowU = WidgetB8(0xd6);

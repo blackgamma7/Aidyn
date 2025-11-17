@@ -45,14 +45,14 @@ void WidgetSkillTrain::InitMenu() {
   else {
     pvVar5 = (WSMSub *)this->scrollMenu->substruct;
     uVar11 = (uint)pvVar5->highlight;
-    uVar8 = pvVar5->unk10;
-    uVar1 = pvVar5->unk12;
+    uVar8 = pvVar5->XOff;
+    uVar1 = pvVar5->yOff;
     this->Unlink(this->scrollMenu);
     FREEQW(this->scrollMenu);
     this->scrollMenu = new WidgetFastScrollMenu(24);
     pvVar11 = (WSMSub *)this->scrollMenu;
-    pvVar11->unk10 = uVar8;
-    pvVar11->unk12 = uVar1;
+    pvVar11->XOff = uVar8;
+    pvVar11->yOff = uVar1;
   }
   this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   this->Link(this->scrollMenu);
@@ -74,7 +74,7 @@ void WidgetSkillTrain::InitMenu() {
       if (uVar11 != 0) {
         if ((int)(uVar2 - 1) < (int)uVar11) {
           pvVar11->highlight = 0;
-          pvVar11->unk12 = 0;
+          pvVar11->yOff = 0;
           pvVar11->unk16 = 0;
         }
         else {
@@ -82,7 +82,7 @@ void WidgetSkillTrain::InitMenu() {
         }
       }
       this->Tick();
-      this->scrollMenu->m8002ff30();
+      this->scrollMenu->Update();
     }
   }
 }

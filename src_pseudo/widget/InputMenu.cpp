@@ -31,20 +31,20 @@ void InputMenu::InitMenu(char *txt){
   WidgetBorg8* title = WidgetB8(BORG8_TitleEnterName);
   title->SetCoords(SCREEN_CENTERW - (title->GetWidth() >> 1),50);
   this->Link(title);
-  char uStack_60[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>|*_^\"'()!- ~`\\";
-  sub->arrayMenu = new WidgetArrayMenu(strlen(uStack_60));
+  char keys[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>|*_^\"'()!- ~`\\\0";
+  sub->arrayMenu = new WidgetArrayMenu(strlen(keys));
   sub->arrayMenu->SetCoords(60,110);
-  sub->arrayMenu->boundX0 = 0x3c;
-  sub->arrayMenu->boundX1 = 0x104;
+  sub->arrayMenu->boundX0 = 60;
+  sub->arrayMenu->boundX1 = 260;
   if (gGlobals.BigAssMenu == NULL) sub->arrayMenu->SetColor(0xe1,0xe1,0xe1,this->col.A);
   else sub->arrayMenu->SetColor(0x82,0x50,0x50,this->col.A);
-  ((WAMSub*)sub->arrayMenu->substruct)->entryY=13;
-  u8* pbVar13=(u8*)&uStack_60;
-  while (*pbVar13) {
-    sprintf(gGlobals.text,"%c",*pbVar13);
+  ((WAMSub*)sub->arrayMenu->substruct)->rowSize=13;
+  u8* keyP=(u8*)&keys;
+  while (*keyP) {
+    sprintf(gGlobals.text,"%c",*keyP);
     WidgetClipText* entry = WClipTXT(gGlobals.text);
-    u8 bVar1 = *pbVar13;
-    pbVar13++;
+    u8 bVar1 = *keyP;
+    keyP++;
     entry->varU16 = bVar1;
     sub->arrayMenu->AddEntry(entry);
   }

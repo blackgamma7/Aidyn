@@ -1418,7 +1418,7 @@ void herb_func(void){
   puVar1->SetHighlight(itemID_array[ItemInd_Herb],1,0xff);
   puVar1->SortB();
   puVar1->Tick();
-  puVar1->scrollMenu->m8002ff30();
+  puVar1->scrollMenu->Update();
 }
 
 char * Party::HerbHeal(u8 param_2,u8 param_3){
@@ -1562,7 +1562,7 @@ u32 Party::CraftPotion(u8 user,u8 item){
           pWVar2->AddItem(IDPotion(item),1,0xff,FILENAME,2763);
           pWVar2->SortB();
           pWVar2->Tick();
-          pWVar2->scrollMenu->m8002ff30();
+          pWVar2->scrollMenu->Update();
           return ret;
         }
       }
@@ -2179,7 +2179,7 @@ u8 Party::CraftArmor(char param_2,ItemID param_3,ItemID material,u8 stam){
     }
     pWVar1->SortB();
     pWVar1->Tick();
-    pWVar1->scrollMenu->m8002ff30();
+    pWVar1->scrollMenu->Update();
   }
   return bVar6;
 }

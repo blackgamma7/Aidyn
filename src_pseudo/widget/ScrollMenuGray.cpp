@@ -23,8 +23,8 @@ u8 WidgetScrollMenuGray::Tick(){
   return uVar3;
 }
 
-bool WidgetScrollMenuGray::Append(BaseWidget *w,byte val){
-  bool ret=WidgetScrollMenu::Append(w);
+u8 WidgetScrollMenuGray::Append(BaseWidget *w,u8 val){
+  u8 ret=WidgetScrollMenu::Append(w);
   if (ret) w->varU8 = val;
   return ret;
 }

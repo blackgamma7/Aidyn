@@ -7,7 +7,7 @@ WidgetShadowText::WidgetShadowText(char *TXT,u16 len):BaseWidget(){
   WSTSub *sub = new WSTSub;;
   sub->Y = SCREEN_WIDTH;
   (sub->col).A = 0xff;
-  sub->unk1c = 1;
+  sub->hasShadow = true;
   sub->X = 0;
   sub->XOff = 0;
   sub->YOff = 0;
@@ -16,7 +16,7 @@ WidgetShadowText::WidgetShadowText(char *TXT,u16 len):BaseWidget(){
   (sub->col).B = 0;
   (sub->scale).x = 1.0;
   (sub->scale).y = 1.0;
-  if ((len == 400) && (len = 0x14, TXT != NULL)) {
+  if ((len == 400) && (len = 20, TXT != NULL)) {
     len = strlen(TXT) + 1;
   }
   if (len < 2) len = 2;
@@ -35,7 +35,7 @@ WidgetShadowText::WidgetShadowText(char *TXT,u16 len):BaseWidget(){
 WidgetShadowText::~WidgetShadowText(){
   WSTSub *sub = (WSTSub *)substruct;
   if (sub) {
-    if (sub->txt) HFREE(sub->txt,0x5b);
+    if (sub->txt) HFREE(sub->txt,91);
     delete sub;
     substruct = NULL;
   }
@@ -68,8 +68,8 @@ Gfx * WidgetShadowText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     lVar7 = this->boundY1;
     if (y1 < this->boundY1) lVar7 = y1;
     sub = (WSTSub *)this->substruct;
-    uVar4 = 0;            //!?
-    if ((sub->unk1c) && (*(u32*)sub->XOff!= 0)) {
+    uVar4 = 0;            //simultaneously test for both offset vals?
+    if ((sub->hasShadow) && (*(u32*)sub->XOff!= 0)) {
       uVar4 = 0;
       if (0.0 < (float)(((sub->col).A * col.A) / 255) * fadeFloatMirror) {
         (font_pointer->col).R = sub->col.R*fadeFloatMirror;
@@ -140,10 +140,10 @@ u8 WidgetShadowText::ChangeText(char *txt,u8 replace){
   sub = (WSTSub *)substruct;
   if (sub->len < (strlen(txt) + 1)) {
     if (replace) {
-      HFREE(sub->txt,0xee);
+      HFREE(sub->txt,238);
       len = strlen(txt);
       sub->len = (u16)(len + 1);
-      ALLOCS(c1,len + 1,0xf1);
+      ALLOCS(c1,len + 1,241);
       sub->txt = c1;
       strcpy(c1,txt);
       bVar2 = true;

@@ -9,7 +9,7 @@ struct WSTSub {
     s16 XOff;
     s16 YOff;
     Color32 col;
-    u32 unk1c;
+    u32 hasShadow;
 };
 //Text Class used during dialoug scenes. has Drop shadow.
 class WidgetShadowText : public BaseWidget{

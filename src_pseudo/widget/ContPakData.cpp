@@ -94,7 +94,7 @@ BaseWidget * FUN_80086080(BaseWidget * w0,BaseWidget * w1){
 
 BaseWidget * FUN_800860cc(BaseWidget * w0,BaseWidget * w1){
   Controller::GetDelay(0);
-  contPakDat->m80087c40();
+  contPakDat->FreeWaitPrompt();
   return FUN_80086080(w0,w1);
 }
 
@@ -165,7 +165,7 @@ WidgetContPakData::WidgetContPakData(u16 param_2,u16 param_3,void (*param_4)(),
   this->col.A = 0;
   CLEAR(&this->saveDatsP);
   this->sliders = NULL;
-  this->field3_0x280 = NULL;
+  this->scroll = NULL;
   this->OtherState = 0;
   this->pfsErr = 0;
   this->saveSlot = 0;
@@ -176,10 +176,10 @@ WidgetContPakData::WidgetContPakData(u16 param_2,u16 param_3,void (*param_4)(),
   this->unk290 = 0;
   this->unk292 = param_2;
   this->unk294 = param_3;
-  this->borg8 = b8;
-  this->unk2a0 = NULL;
+  this->titleIndex = b8;
+  this->waitPrompt = NULL;
   this->showingSaveFiles = false;
-  this->field17_0x29c = NULL;
+  this->titleWidget = NULL;
   this->contStatus = 0;
   Controller::GetStatus(0,&this->contStatus);
   this->wHandler.Init(font_pointer);
@@ -192,9 +192,9 @@ WidgetContPakData::~WidgetContPakData(){
   for(u8 i=0;i<SaveFileMax;i++){
     FREEPTR(this->saveDatsP[i].datStart,513);
   }
-  this->m80087c40();
-  if ((this->field17_0x29c) && (this->field17_0x29c->borg8))
-     FREEQB8(this->field17_0x29c->borg8);
+  this->FreeWaitPrompt();
+  if ((this->titleWidget) && (this->titleWidget->borg8))
+     FREEQB8(this->titleWidget->borg8);
   ClearScrollMenu();
   this->wHandler.Free(2);
   WidgetMenu::~WidgetMenu();
@@ -252,22 +252,22 @@ u8 WidgetContPakData::Tick(){
   case 0xb:
     m8008759c();
   }
-  if (this->unk2a0) Utilities::SetAlpha(this->unk2a0,0xff);
+  if (this->waitPrompt) Utilities::SetAlpha(this->waitPrompt,0xff);
   return ret;
 }
 
 Gfx * WidgetContPakData::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y){
   if (!this->wHandler.GetTail()) {
-    if (this->unk2a0 == NULL) {
+    if (this->waitPrompt == NULL) {
       if (this->showingSaveFiles) {
         g = this->WidgetMenu::Render(g,x0,y0,x1,y);
       }
     }
-    else g = this->unk2a0->Render(g,x0,y0,x1,y);
+    else g = this->waitPrompt->Render(g,x0,y0,x1,y);
   }
   else {
-    if (this->field17_0x29c) {
-      g = this->field17_0x29c->Render(g,x0,y0,x1,y);
+    if (this->titleWidget) {
+      g = this->titleWidget->Render(g,x0,y0,x1,y);
     }
     g = this->wHandler.Render(g,x0,y0,x1,y);
   }
@@ -277,8 +277,8 @@ Gfx * WidgetContPakData::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y){
 BaseWidget * WidgetContPakData::AFunc(){
   BaseWidget *w;
   
-  if ((this->field3_0x280) &&
-     (w = Utilities::GetHighlightedEntry(this->field3_0x280), w != NULL)) {
+  if ((this->scroll) &&
+     (w = Utilities::GetHighlightedEntry(this->scroll), w != NULL)) {
     return w->AFunc();
   }
   return NULL;
@@ -290,17 +290,17 @@ BaseWidget * WidgetContPakData::BFunc(){
 }
 
 BaseWidget * WidgetContPakData::UpFunc(){
-  if (this->field3_0x280) {
+  if (this->scroll) {
     PlayAudioSound(&gGlobals.SFXStruct,0x73B,0,1.0,0x1e,0);
-    this->field3_0x280->UpFunc();
+    this->scroll->UpFunc();
   }
   return NULL;
 }
 
 BaseWidget * WidgetContPakData::DownFunc(){
-  if (this->field3_0x280) {
+  if (this->scroll) {
     PlayAudioSound(&gGlobals.SFXStruct,0x73B,0,1.0,0x1e,0);
-    this->field3_0x280->DownFunc();
+    this->scroll->DownFunc();
   }
   return NULL;
 }
@@ -330,7 +330,7 @@ BaseWidget * WidgetContPakData::Control(controller_aidyn *param_2){
   BaseWidget *pBVar2;
   if (!this->wHandler.GetTail()) {
     if (((this->sliders == NULL) ||
-        (this->sliders->m80032f00())) ||
+        (this->sliders->HasPrevFile())) ||
        (this->OtherState != 4)) {
       pBVar2 = NULL;
     }
@@ -369,7 +369,7 @@ void WidgetContPakData::m80086d30(){this->OtherState=6;}
 
 
 BaseWidget * WidgetContPakData::m80086d3c(){
-  BaseWidget *w = this->sliders->m80032ef8();
+  BaseWidget *w = this->sliders->getCurrFile();
   if (w) w = w->AFunc();
   return w;
 }
@@ -399,17 +399,17 @@ void WidgetContPakData::PfsErrAction(){
   this->OtherState = 4;
   switch(this->pfsErr) {
   case 0:
-    PfsErrOK();
+    this->PfsErrOK();
     break;
   case PFS_ERR_NOPACK:
-    PfsErrNoPak();
+    this->PfsErrNoPak();
     break;
   case PFS_ERR_NEW_PACK:
     this->NewContPak();
     break;
   case PFS_ERR_INCONSISTENT:
   case PFS_ERR_ID_FATAL:
-    PfsErrBadPak();
+    this->PfsErrBadPak();
     break;
   case PFS_ERR_CONTRFAIL:
   case PFS_ERR_INVALID:
@@ -417,13 +417,13 @@ void WidgetContPakData::PfsErrAction(){
   case PFS_DATA_FULL:
   case PFS_DIR_FULL:
   case PFS_ERR_EXIST:
-    PfsErrBadRead();
+    this->PfsErrBadRead();
     break;
   case PFS_ERR_DEVICE:
-    PfsErrDevice();
+    this->PfsErrDevice();
     break;
   default:
-    PfsErrBadRead();
+    this->PfsErrBadRead();
   }
 }
 
@@ -434,7 +434,7 @@ void WidgetContPakData::m80086F40(){
     this->saveSlot = 0;
     this->AidynSaveSlots = 0;
     this->OtherState = 3;
-    if (this->unk291 == 0) m80087c88();
+    if (!this->scrollInited) m80087c88();
     else ClearScrollMenu();
     Utilities::SetAlpha(this,this->col.A);
     this->unk();
@@ -442,7 +442,6 @@ void WidgetContPakData::m80086F40(){
 }
 
 void WidgetContPakData::ReadSaveFile(){
-  SaveDatStruct *buff;
   fileState_aidyn filestate;
   
   u8 index = this->saveSlot++;
@@ -460,7 +459,7 @@ void WidgetContPakData::ReadSaveFile(){
   if (this->pfsErr) return;
   if (filestate.comp_code != THQCompCode) return;
   if (filestate.game_code != AidynGameCode) return;
-  buff = this->saveDatsP[index].datStart;
+  SaveDatStruct *buff = this->saveDatsP[index].datStart;
   if (buff == NULL){
     ALLOC(buff,988);
     this->saveDatsP[index].datStart = buff;
@@ -489,7 +488,7 @@ LAB_80087164:
 }
 
 void WidgetContPakData::m800871c8(){
-  m80087c40();
+  FreeWaitPrompt();
   if (this->unk290 == 0) CheckContStatus();
   else {
     if (FUN_80088d80()) {
@@ -570,7 +569,7 @@ void WidgetContPakData::SavingPrompt(){
   Color32 aCStack_48;
   
   this->unk2b9 = 20;
-  m80087c40();
+  FreeWaitPrompt();
   aCStack_88.R = 0xe1;
   aCStack_88.G = 0xe1;
   aCStack_88.B = 0xe1;
@@ -579,11 +578,11 @@ void WidgetContPakData::SavingPrompt(){
   aCStack_48.G = 0;
   aCStack_48.B = 0;
   aCStack_48.A = 0;
-  this->unk2a0 = new WidgetChoiceDia(1,"Saving. Do not turn the power OFF until the save is complete.",
+  this->waitPrompt = new WidgetChoiceDia(1,"Saving. Do not turn the power OFF until the save is complete.",
                              100,&aCStack_88,&aCStack_48,1,0,0);
-  if (gGlobals.BigAssMenu) Utilities::MoveWidget(this->unk2a0,0x19,0);
-  this->unk2a0->AppendScrollMenu(new WidgetText("...",4));
-  this->unk2a0->Update();
+  if (gGlobals.BigAssMenu) Utilities::MoveWidget(this->waitPrompt,0x19,0);
+  this->waitPrompt->AppendScrollMenu(new WidgetText("...",4));
+  this->waitPrompt->Update();
   this->OtherState = 10;
 }
 
@@ -598,7 +597,7 @@ void WidgetContPakData::m80087548(){
 
 void WidgetContPakData::m8008759c(){
   if (!this->unk2b9) {
-    m80087c40();
+    FreeWaitPrompt();
     this->vm100();
   }
   else this->unk2b9--;
@@ -696,49 +695,40 @@ void WidgetContPakData::LoadSliders(SaveDatPointers *param_2,u8 param_3){
 }
 
 void WidgetContPakData::ClearScrollMenu(){
-  if (this->unk291) {
+  if (this->scrollInited) {
     this->sliders->FreeMenu();
-    Utilities::ClearScrollMenu2(this->field3_0x280);
+    Utilities::ClearScrollMenu2(this->scroll);
   }
 }
 
-void WidgetContPakData::m80087c40(){
-  if (this->unk2a0) {
-    this->unk2a0->~WidgetChoiceDia();
-    this->unk2a0 = NULL;
+void WidgetContPakData::FreeWaitPrompt(){
+  if (this->waitPrompt) {
+    this->waitPrompt->~WidgetChoiceDia();
+    this->waitPrompt = NULL;
   }
 }
 
 void WidgetContPakData::m80087c88(){
-  this->field17_0x29c = Utilities::AddBorg8Widget(this,loadBorg8(this->borg8),this->unk292 + 0x41,this->unk294);
+  this->titleWidget = Utilities::AddBorg8Widget(this,loadBorg8(this->borg8),this->unk292 + 0x41,this->unk294);
   this->sliders = new WidgetMenuChild(this->unk292,this->unk294,this->unk292 + 0xdb,this->unk294 + 0xc0);
   this->Link(this->sliders);
-  this->field3_0x280 = Utilities::AddScrollMenu(this,4,this->unk292 + 0xaa,this->unk294 + 0x9c,FULL_SCREENSPACE,
+  this->scroll = Utilities::AddScrollMenu(this,4,this->unk292 + 0xaa,this->unk294 + 0x9c,FULL_SCREENSPACE,
                       (this->col0).R,(this->col0).G,(this->col0).B,(this->col0).A,0);
-  this->field3_0x280->SetFlags(1);
-  Utilities::SetScrollMenuColors(this->field3_0x280,(this->col1).R,(this->col1).G,(this->col1).B,
+  this->scroll->SetFlags(1);
+  Utilities::SetScrollMenuColors(this->scroll,(this->col1).R,(this->col1).G,(this->col1).B,
              (this->col1).A,(this->col2).R,(this->col2).G,(this->col2).B,
              (this->col2).A,0xf);
-  this->unk291 = 1;
+  this->scrollInited = true;
 }
 
 void WidgetContPakData::ReadPakPrompt(){
-  Color32 acStack136;
-  Color32 acStack72;
-  
-  if (this->unk2a0 == NULL) {
-    acStack136.R = 0xe1;
-    acStack136.G = 0xe1;
-    acStack136.B = 0xe1;
-    acStack136.A = 0xff;
-    acStack72.R = 0;
-    acStack72.G = 0;
-    acStack72.B = 0;
-    acStack72.A = 0;
-    this->unk2a0 = new WidgetChoiceDia(1,"Reading from Controller Pak",100,&acStack136,&acStack72,1,0,0);
-    if (gGlobals.BigAssMenu) Utilities::MoveWidget(this->unk2a0,25,0);
-    this->unk2a0->AppendScrollMenu(new WidgetText("...",4));
-    this->unk2a0->Update();
+  if (this->waitPrompt == NULL) {
+    Color32 col0={COLOR_OFFWHITE};
+    Color32 col1={0,0,0,0};
+    this->waitPrompt = new WidgetChoiceDia(1,"Reading from Controller Pak",100,&col0,&col1,1,0,0);
+    if (gGlobals.BigAssMenu) Utilities::MoveWidget(this->waitPrompt,25,0);
+    this->waitPrompt->AppendScrollMenu(new WidgetText("...",4));
+    this->waitPrompt->Update();
   }
 }
 
@@ -861,14 +851,14 @@ void WidgetContPakDataSave::NewSaveFile(){
 }
 
 u32 WidgetContPakDataSave::vmF0(){
-  BaseWidget *pBVar2 = this->sliders->m80032ef8();
+  BaseWidget *pBVar2 = this->sliders->getCurrFile();
   u8 bVar1 = pBVar2->varU8;
-  Utilities::ClearScrollMenu2(this->field3_0x280);
+  Utilities::ClearScrollMenu2(this->scroll);
   if ((bVar1 & 2))
-    this->field3_0x280->Append(FUN_800862f4(0,pBVar2->varU16,gGlobals.CommonStrings[0x1a8],FUN_80086118));
+    this->scroll->Append(FUN_800862f4(0,pBVar2->varU16,gGlobals.CommonStrings[0x1a8],FUN_80086118));
   if ((bVar1 & 1))
-    this->field3_0x280->Append(FUN_800862f4(0,pBVar2->varU16,gGlobals.CommonStrings[0x1a9],FUN_80085e44));
-  return this->field3_0x280->Append(FUN_800862f4(0,0,gGlobals.CommonStrings[0x1aa],FUN_80086054));
+    this->scroll->Append(FUN_800862f4(0,pBVar2->varU16,gGlobals.CommonStrings[0x1a9],FUN_80085e44));
+  return this->scroll->Append(FUN_800862f4(0,0,gGlobals.CommonStrings[0x1aa],FUN_80086054));
 }
 
 u32 WidgetContPakDataSave::WriteSaveFile(u8 filenum){
@@ -947,14 +937,14 @@ u32 WidgetContPakDataLoad::vmE0(BaseWidget *w){
     return 0;
 }
 u32 WidgetContPakDataLoad::vmF0(){
-  BaseWidget *pBVar2 = this->sliders->m80032ef8();
+  BaseWidget *pBVar2 = this->sliders->getCurrFile();
   u8 bVar1 = pBVar2->varU8;
-  Utilities::ClearScrollMenu2(this->field3_0x280);
-  if ((bVar1 & 2) != 0)
-    this->field3_0x280->Append(FUN_800862f4(0,pBVar2->varU16,gGlobals.CommonStrings[0x1a7],FUN_80086118));
-  if ((bVar1 & 1) != 0)
-    this->field3_0x280->Append(FUN_800862f4(0,pBVar2->varU16,gGlobals.CommonStrings[0x1a9],FUN_80085e44));
-  return this->field3_0x280->Append(FUN_800862f4(0,0,gGlobals.CommonStrings[0x1aa],FUN_80086054));
+  Utilities::ClearScrollMenu2(this->scroll);
+  if ((bVar1 & 2))
+    this->scroll->Append(FUN_800862f4(0,pBVar2->varU16,gGlobals.CommonStrings[0x1a7],FUN_80086118));
+  if ((bVar1 & 1))
+    this->scroll->Append(FUN_800862f4(0,pBVar2->varU16,gGlobals.CommonStrings[0x1a9],FUN_80085e44));
+  return this->scroll->Append(FUN_800862f4(0,0,gGlobals.CommonStrings[0x1aa],FUN_80086054));
 }
 
 u32 WidgetContPakData::vmE8(){}
@@ -1391,14 +1381,9 @@ void ContPakWidget::LoadWindow(){
   Utilities::AddTextWidget(this,Cstring(ContPakPages),this->posX + 0xa5,y,COLOR_BROWN1);
   sVar9 = sVar8 + -0x14;
   pBVar5 = Utilities::AddTextWidget(this,Cstring(ContPakPagesFree),0,sVar9,COLOR_BROWN1);
-  uVar6 = pBVar5->GetWidth();
-  pBVar5->posX = (this->posX - (short)uVar6) + 0xb3;
-  uVar6 = pBVar5->GetWidth();
-  pBVar5 = Utilities::AddTextWidget
-                     (this,sContPakBlank,pBVar5->posX + (short)uVar6 + -5,sVar9,0x67,0x46,0x3c,
-                      0xff);
+  pBVar5->posX = (this->posX - (short)pBVar5->GetWidth()) + 0xb3;
   this->field1_0x7c = Utilities::AddTextWidget
-                     (this,sContPakBlank,pBVar5->posX + (short)uVar6 + -5,sVar9,0x67,0x46,0x3c,
+                     (this,sContPakBlank,pBVar5->posX + (short)pBVar5->GetWidth() + -5,sVar9,0x67,0x46,0x3c,
                       0xff);
   uVar6 = pBVar5->GetHeight();
   sVar7 = this->field1_0x7c->GetHeight();

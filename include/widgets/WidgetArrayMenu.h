@@ -5,12 +5,11 @@ struct WAMSub {
     BaseWidget **entries;
     u16 entryCap;
     u16 entryPos;
-    u16 entryX;
-    u16 entryY;
+    u16 vSpace;
+    u16 rowSize;
     u16 entryCount;
-    undefined field6_0xe;
-    undefined field7_0xf;
-    u16 unk10;
+    u8 unke[2];
+    u16 yOff; //vertical offset for menu. default 0.
 };
 
 //2d Array of items. used for name entry.

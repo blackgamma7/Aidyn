@@ -61,14 +61,14 @@ void WidgetStatTrain::InitMenu() {
   else {
     pvVar14 = (WSMSub *)this->scrollMenu->substruct;
     uVar14 = pvVar14->highlight;
-    uVar1 = pvVar14->unk10;
-    uVar2 = pvVar14->unk12;
+    uVar1 = pvVar14->XOff;
+    uVar2 = pvVar14->yOff;
     this->Unlink(this->scrollMenu);
     FREEQW(this->scrollMenu);
     this->scrollMenu = new WidgetFastScrollMenu(STAT_TOTAL);
     sub=(WSMSub *)this->scrollMenu->substruct;
-    sub->unk10 = uVar1;
-    sub->unk12 = uVar2;
+    sub->XOff = uVar1;
+    sub->yOff = uVar2;
   }
   this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   this->Link(this->scrollMenu);
@@ -92,7 +92,7 @@ void WidgetStatTrain::InitMenu() {
     else
       sprintf(Utilities::GetWidgetText(this->expPrice),"%ld",TNL - pCVar4->EXP->total);
     this->Tick();
-    this->scrollMenu->m8002ff30();
+    this->scrollMenu->Update();
   }
 }
 

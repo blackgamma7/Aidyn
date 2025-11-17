@@ -9,13 +9,13 @@ BaseWidget * WAM_UpFunc(BaseWidget *param_1,BaseWidget *param_2){
   WAMSub *piVar2 = (WAMSub *)param_2->substruct;
   if (!piVar2->entryCount) return NULL;
   uVar3 = piVar2->entryPos;
-  uVar1 = piVar2->entryY;
-  iVar2 = (uint)uVar3 - (uint)uVar1;
+  uVar1 = piVar2->rowSize;
+  iVar2 = uVar3 - uVar1;
   if (iVar2 < 0) {
-    if ((uint)uVar3 + (uint)uVar1 < (uint)piVar2->entryCount) {
+    if (uVar3 + uVar1 < piVar2->entryCount) {
       do {
         uVar3 += uVar1;
-      } while ((uint)uVar3 + (uint)uVar1 < (uint)piVar2->entryCount);
+      } while (uVar3 + uVar1 < piVar2->entryCount);
       piVar2->entryPos = uVar3;
     }
   }
@@ -32,13 +32,13 @@ BaseWidget * WAM_DownFunc(BaseWidget* param_1,BaseWidget *param_2){
   WAMSub *piVar2 = (WAMSub *)param_2->substruct;
   if (!piVar2->entryCount) return NULL;
     uVar3 = piVar2->entryPos;
-    uVar1 = piVar2->entryY;
-    uVar2 = (uint)uVar3 + (uint)uVar1;
+    uVar1 = piVar2->rowSize;
+    uVar2 = uVar3 + uVar1;
     if (uVar2 < piVar2->entryCount) {
       piVar2->entryPos = (u16)uVar2;
     }
-    else if (-1 < (int)((uint)uVar3 - (uint)uVar1)) {
-      for (uVar3 -= uVar1; -1 < (int)((uint)uVar3 - (uint)uVar1); uVar3 -= uVar1) {
+    else if (-1 < (int)(uVar3 - uVar1)) {
+      for (uVar3 -= uVar1; -1 < (int)(uVar3 - uVar1); uVar3 -= uVar1) {
       }
       piVar2->entryPos = uVar3;
     }
@@ -52,11 +52,11 @@ BaseWidget * WAM_LeftFunc(BaseWidget* param_1,BaseWidget *param_2){
   WAMSub *piVar3 = (WAMSub *)param_2->substruct;
   if (!piVar3->entryCount) return NULL;
     uVar1 = piVar3->entryPos;
-    uVar2 = piVar3->entryY;
+    uVar2 = piVar3->rowSize;
 
     uVar3 = uVar1 - 1;
-    if ((uint)uVar1 % (uint)uVar2 == 0) {
-      if ((int)((uint)uVar1 + (uint)uVar2 + -1) < (int)(uint)piVar3->entryCount) {
+    if (uVar1 % uVar2 == 0) {
+      if ((int)(uVar1 + uVar2 + -1) < (int)piVar3->entryCount) {
         uVar3 = uVar2 + (uVar1 - 1);
       }
       else {
@@ -75,10 +75,10 @@ BaseWidget * WAM_RightFunc(BaseWidget* param_1,BaseWidget *param_2){
   if (!piVar2->entryCount) return NULL;
     uVar1 = piVar2->entryPos;
     uVar2 = uVar1 + 1;
-    if ((int)(uint)uVar1 < (int)(piVar2->entryCount - 1)) {
-      uVar1 = piVar2->entryY;
+    if ((int)uVar1 < (int)(piVar2->entryCount - 1)) {
+      uVar1 = piVar2->rowSize;
       uVar3 = (u16)uVar2;
-      if (uVar2 % (uint)uVar1 == 0) {
+      if (uVar2 % uVar1 == 0) {
         piVar2->entryPos = uVar3 - uVar1;
       }
       else {
@@ -86,7 +86,7 @@ BaseWidget * WAM_RightFunc(BaseWidget* param_1,BaseWidget *param_2){
       }
     }
     else {
-      piVar2->entryPos = uVar1 - uVar1 % piVar2->entryY;
+      piVar2->entryPos = uVar1 - uVar1 % piVar2->rowSize;
     }
     return piVar2->entries[piVar2->entryPos];
 }
@@ -99,15 +99,15 @@ BaseWidget * WAM_AFunc(BaseWidget* param_1,BaseWidget *param_2){
 WidgetArrayMenu::WidgetArrayMenu(u16 len):BaseWidget(){
     u32 uVar2 =len;
     WAMSub* sub = new WAMSub;
-    sub->entryY = 2;
-    sub->entryX = 5;
+    sub->rowSize = 2;
+    sub->vSpace = 5;
     this->UpButtonFunc = WAM_UpFunc;
     this->DownButtonFunc = WAM_DownFunc;
     this->LeftButtonFunc = WAM_LeftFunc;
     sub->entryCount = 0;
     sub->entryCap = len;
     sub->entryPos = 0;
-    sub->unk10 = 0;
+    sub->yOff = 0;
     this->posX = 0;
     this->posY = 0;
     this->width = 0;
@@ -142,62 +142,39 @@ WidgetArrayMenu::~WidgetArrayMenu(){
 }
 
 Gfx * WidgetArrayMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-    WAMSub *sub = (WAMSub *)substruct;
-    if (sub->entryCap) {
-        for(u32 i=0;i<sub->entryCap;i++) {
-          BaseWidget* entry = sub->entries[i];
-          if (entry) {
-            g= entry->Render(g,x0,y0,x1,y1);
-          }
-        }
-      }
-      RENDERCHILDREN();
-}
-u8 WidgetArrayMenu::Tick() {
-u16 uVar1;
-u16 uVar2;
-u16 uVar3;
-u16 uVar4;
-BaseWidget *pBVar5;
-ulong uVar7;
-ulong uVar8;
-bool bVar9;
-BaseWidget **ppBVar10;
-u16 x;
-int iVar11;
-WAMSub *sub = (WAMSub *)this->substruct;
-uVar1 = this->boundX1;
-uVar2 = this->boundX0;
-uVar3 = sub->entryY;
-if (sub->entries) {
-  pBVar5 = *sub->entries;
-  iVar11 = 0;
-  uVar7 = pBVar5->GetHeight();
-  uVar4 = sub->entryX;
-  if (sub->entryCount) {
-    for(iVar11 = 0;iVar11<sub->entryCount;iVar11++) {
-      pBVar5 = sub->entries[iVar11];
-      pBVar5->boundX0 = this->boundX0;
-      pBVar5->boundX1 = this->boundX1;
-      pBVar5->boundY0 = this->boundY0;
-      pBVar5->boundY1 = this->boundY1;
-      pBVar5->SetColor(col.R,col.G,col.B,col.A);
-      if ((pBVar5->GetNumber() == 1)||(pBVar5->GetNumber() == 2))
-        Utilities::SetTextWidgetBoundsX(pBVar5,this->boundX0,this->boundX1);
-
-      pBVar5->SetCoords(this->posX + (short)(iVar11 % (int)(uint)uVar3) *
-                                  (short)(((int)(short)uVar1 - (int)(short)uVar2) /
-                                         (int)(uint)uVar3),
-                 this->posY + sub->unk10 +
-                 (short)(iVar11 / (int)(uint)uVar3) * (uVar4 + (short)uVar7));
-
-    }
+  WAMSub *sub = (WAMSub *)substruct;
+  for(u32 i=0;i<sub->entryCap;i++) {
+    BaseWidget* entry = sub->entries[i];
+    if (entry) g= entry->Render(g,x0,y0,x1,y1);
   }
-}
-return TickChildren();
+  RENDERCHILDREN();
 }
 
-u8 WidgetArrayMenu::AddEntry(BaseWidget *entry){;
+u8 WidgetArrayMenu::Tick() {
+WAMSub *sub = (WAMSub *)this->substruct;
+s16 bx1 = this->boundX1;
+s16 bx0 = this->boundX0;
+u16 cols = sub->rowSize;
+if (sub->entries) {
+  u16 entryH = sub->entries[0]->GetHeight(); //assumes identical item sizes
+  s16 vSpace = sub->vSpace;
+  for(s32 i = 0;i<sub->entryCount;i++) {
+    BaseWidget *entry = sub->entries[i];
+    entry->boundX0 = this->boundX0;
+    entry->boundX1 = this->boundX1;
+    entry->boundY0 = this->boundY0;
+    entry->boundY1 = this->boundY1;
+    entry->SetColor(col.R,col.G,col.B,col.A);
+    if ((entry->GetNumber() == WidgetN_ClipText)||(entry->GetNumber() == WidgetN_ShadText))
+        Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
+    entry->SetCoords(this->posX + (i % cols) *((bx1 - bx0) /cols),
+       this->posY + sub->yOff +(i / cols) * (vSpace + entryH));
+    }
+ }
+ return TickChildren();
+}
+
+u8 WidgetArrayMenu::AddEntry(BaseWidget *entry){
   WAMSub *sub = (WAMSub *)this->substruct;
   u8 bVar2 = sub->entryCount < sub->entryCap;
   if (bVar2) {
@@ -221,7 +198,7 @@ u8 WidgetArrayMenu::RemoveEntry(BaseWidget *entry){
   WAMSub *sub;
   
   sub = (WAMSub *)substruct;
-  uVar2 = (uint)sub->entryCount;
+  uVar2 = sub->entryCount;
   iVar5 = 0;
   if (uVar2 != 0) {
     ppBVar3 = sub->entries;

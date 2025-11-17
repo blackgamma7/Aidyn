@@ -160,7 +160,7 @@ void WidgetOptionsMenu::MakeScrollList(){
       sub->ScrollMenu->Append(txt);
     }
     sub->ScrollMenu->SetCoords(SCREEN_CENTERW,110);
-    FUN_800bbfc8(sub->ScrollMenu,5);
+    Utilities::SetArrayVSpace(sub->ScrollMenu,5);
     sub->ScrollMenu->SetFlags(4);
     sub->ScrollMenu->SetColor(COLOR_RED1);
     Utilities::SetScrollMenuColors(sub->ScrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);

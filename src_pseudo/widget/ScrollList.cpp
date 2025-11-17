@@ -6,43 +6,35 @@ BaseWidget * WSL_DownFunc(BaseWidget *w0,BaseWidget *w1) {
   s16 h;
   
   WSLSub *sub = (WSLSub *)w1->substruct;
-  if ((sub->unk4 == sub->unk8) &&(sub->itemHighlight < (sub->itemCount - 1))) {
-    u8 hl = sub->itemHighlight;
+  if ((sub->yCurr == sub->yTarget) &&(sub->itemHighlight < (sub->itemCount - 1))) {
     while( true ) {
-      sub->itemHighlight = hl + 1;
-      h = (sub->items[sub->itemHighlight]->posY + sub->items[(hl + 1)]->GetHeight());
+      sub->itemHighlight++;
+      h = (sub->items[sub->itemHighlight]->posY + sub->items[sub->itemHighlight]->GetHeight());
       if (w1->boundY1 < h ) break;
-      if ((sub->itemCount - 1) <= sub->itemHighlight) {
-        return NULL;
-      }
-      hl = sub->itemHighlight;
+      if ((sub->itemCount - 1) <= sub->itemHighlight) return NULL;
     }
-    sub->unk8-= (h - w1->boundY1);
+    sub->yTarget-= (h - w1->boundY1);
     h = ((w1->boundY1 - w1->boundY0) - w1->GetHeight());
-    if (sub->unk8 < h) sub->unk8 = h;
+    if (sub->yTarget < h) sub->yTarget = h;
   }
   return NULL;
 }
 
 
 BaseWidget * WSL_UpFunc(BaseWidget * w0,BaseWidget *w1) {
-  s16 iVar1;
-  u8 bVar3 ;
+  s16 h;
   WSLSub *sub = (WSLSub *)w1->substruct;
-  if (sub->unk4 != sub->unk8) return 0;
+  if (sub->yCurr != sub->yTarget) return 0;
   if (sub->itemHighlight != 0) {
-    u8 uVar2 = sub->itemHighlight;
     while( true ) {
-      bVar3 = uVar2 - 1;
-      sub->itemHighlight = bVar3;
-      if (sub->items[bVar3]->posY < w1->boundY0) break;
-      if (bVar3 == 0) return 0;
-      uVar2 = sub->itemHighlight;
+      sub->itemHighlight--;
+      if (sub->items[sub->itemHighlight]->posY < w1->boundY0) break;
+      if (sub->itemHighlight == 0) return 0;
     }
-    iVar1 = sub->unk8 +(w1->boundY0 - sub->items[bVar3]->posY);
-    sub->unk8 = (u16)iVar1;
-    if (iVar1 < 1) return 0;
-    sub->unk8 = 0;
+    h = sub->yTarget +(w1->boundY0 - sub->items[sub->itemHighlight]->posY);
+    sub->yTarget = (u16)h;
+    if (h < 1) return 0;
+    sub->yTarget = 0;
   }
   return 0;
 }
@@ -60,13 +52,13 @@ WidgetScrollList::WidgetScrollList(u8 len):BaseWidget() {
   this->posY = 0;
   this->width = 0;
   this->height = 0;
-  sub->unk0 = 5;
+  sub->scrollSpeed = 5;
   sub->unk1 = 0x20;
   this->UpButtonFunc = WSL_UpFunc;
   this->DownButtonFunc = WSL_DownFunc;
   this->AButtonFunc = WSL_AFunc;
-  sub->unk4 = 0;
-  sub->unk8 = 0;
+  sub->yCurr = 0;
+  sub->yTarget = 0;
   this->LeftButtonFunc = WSL_LeftFunc;
   this->RightButtonFunc = WSL_RightFunc;
   this->fadeIn = NULL;
@@ -74,7 +66,7 @@ WidgetScrollList::WidgetScrollList(u8 len):BaseWidget() {
   sub->itemHighlight = 0;
   sub->itemMax = len;
   sub->itemCount = 0;
-  sub->unk13 = 0;
+  sub->vSpace = 0;
   if (uVar2 == 0) sub->items = NULL;
   else {
     BaseWidget **wArr = (BaseWidget **)HALLOC(len << 2,134);
@@ -116,9 +108,6 @@ Gfx * WidgetScrollList::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
 
 
 u8 WidgetScrollList::Tick() {
-  u16 uVar1;
-  bool bVar5;
-  s16 lVar6;
   short sVar9;
   s16 iVar8;
   WSLSub *sub = (WSLSub *)this->substruct;
@@ -135,47 +124,33 @@ u8 WidgetScrollList::Tick() {
         Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
       else if (entry->GetNumber() == WidgetN_ShadText)
         Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
-      entry->SetCoords(this->posX,this->posY + (short)iVar8 + sub->unk4);
+      entry->SetCoords(this->posX,this->posY + (short)iVar8 + sub->yCurr);
       (entry->col).A = (this->col).A;
-      iVar8+= entry->GetHeight() + sub->unk13;
+      iVar8+= entry->GetHeight() + sub->vSpace;
       sVar9 = (short)iVar8;
     }
   }
-  this->SetHeight(sVar9 - (ushort)sub->unk13);
-  lVar6 = sub->unk6;
-  if (lVar6 < sub->unk2) {
-    iVar8 = (uint)sub->unk2 - (uint)sub->unk0;
-    sub->unk2 = (u16)iVar8;
-    bVar5 = iVar8 < lVar6;
-LAB_800bb374:
-    if (bVar5) {
-      sub->unk2 = sub->unk6;
-    }
-    uVar1 = sub->unk4;
+  this->SetHeight(sVar9 - (ushort)sub->vSpace);
+  if (sub->XTarget < sub->XCurr) {
+    sub->XCurr-=sub->scrollSpeed;
+    if (sub->XCurr < sub->XTarget) sub->XCurr = sub->XTarget;
   }
   else {
-    if ((short)sub->unk2 < lVar6) {
-      iVar8 = (uint)sub->unk2 + (uint)sub->unk0;
-      sub->unk2 = (u16)iVar8;
-      bVar5 = lVar6 < iVar8;
-      goto LAB_800bb374;
+    if (sub->XCurr < sub->XTarget) {
+      sub->XCurr+=sub->scrollSpeed;
+      if(sub->XTarget < sub->XCurr)sub->XCurr = sub->XTarget;
     }
-    uVar1 = sub->unk4;
   }
-  lVar6 = sub->unk8;
-  if (lVar6 < uVar1) {
-    iVar8 = (uint)sub->unk4 - (uint)sub->unk0;
-    sub->unk4 = (u16)iVar8;
-    bVar5 = iVar8 < lVar6;
+  if (sub->yTarget < sub->yCurr) {
+    sub->yCurr-=sub->scrollSpeed;
+    if (sub->yCurr < sub->yTarget) sub->yCurr = sub->yTarget;
   }
   else {
-    if (lVar6 <= (short)uVar1) goto LAB_800bb3dc;
-    iVar8 = (uint)sub->unk4 + (uint)sub->unk0;
-    sub->unk4 = (u16)iVar8;
-    bVar5 = lVar6 < iVar8;
+    if (sub->yTarget > sub->yCurr){
+    sub->yCurr+=sub->scrollSpeed;
+    if (sub->yTarget < sub->yCurr) sub->yCurr = sub->yTarget;
+    }
   }
-  if (bVar5) sub->unk4 = sub->unk8;
-LAB_800bb3dc:
   return TickChildren();
 }
 
@@ -192,7 +167,6 @@ u8 WidgetScrollList::AddEntry(BaseWidget *entry) {
   }
   return false;
 }
-
 
 u8 WidgetScrollList::RemoveEntry(BaseWidget *entry) {
   uint uVar1;

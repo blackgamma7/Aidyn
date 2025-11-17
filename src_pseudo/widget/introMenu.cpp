@@ -391,7 +391,7 @@ WidgetScrollMenu * IntroMenu::StartGameMenu() {
     scroll->Append(WText("Intermediate Game"));
   }
   #endif
-  ((WSMSub*)scroll->substruct)->unk22=8;
+  ((WSMSub*)scroll->substruct)->vSpace=8;
   scroll->SetFlags(4);
   return scroll;
 }

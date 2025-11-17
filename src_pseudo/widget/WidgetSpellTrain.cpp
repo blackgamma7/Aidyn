@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "widgets/ItemDetails.h"
 #include "widgets/textPopup.h"
+#include "widgets/menuPrompt.h"
 
 s32 exp_magic_price=0;
 s32 gold_magic_price=0;
@@ -11,10 +12,10 @@ WidgetSpellTrain::WidgetSpellTrain(u8 hideTitle):WidgetTrainShop() {
   if (hideTitle) this->TitleWidget = NULL;
   else {
     this->TitleWidget = WidgetB8(BORG8_TitleSpells);
-    this->TitleWidget->SetCoords(0x9e,0x51);
+    this->TitleWidget->SetCoords(158,81);
     this->Link(this->TitleWidget);
   }
-  BaseWidget::SetColor(0x82,0x50,0x50,0xff);
+  BaseWidget::SetColor(COLOR_RED1);
   this->scrollMenu = NULL;
   InitMenu();
 }
@@ -47,14 +48,14 @@ void WidgetSpellTrain::InitMenu() {
   else {
     pvVar8 = (WSMSub *)this->scrollMenu->substruct;
     uVar14 = (uint)pvVar8->highlight;
-    uVar1 = pvVar8->unk10;
-    uVar2 = pvVar8->unk12;
+    uVar1 = pvVar8->XOff;
+    uVar2 = pvVar8->yOff;
     this->Unlink(this->scrollMenu);
     FREEQW(this->scrollMenu);
     this->scrollMenu = new WidgetFastScrollMenu(count);
     pvVar13 = (WSMSub *)this->scrollMenu->substruct;
-    pvVar13->unk10 = uVar1;
-    pvVar13->unk12 = uVar2;
+    pvVar13->XOff = uVar1;
+    pvVar13->yOff = uVar2;
   }
   this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   this->Link(this->scrollMenu);
@@ -73,13 +74,13 @@ void WidgetSpellTrain::InitMenu() {
     if (uVar14 != 0) {
       if ((int)(uVar3 - 1) < (int)uVar14) {
         pvVar13->highlight = 0;
-        pvVar13->unk12 = 0;
+        pvVar13->yOff = 0;
         pvVar13->unk16 = 0;
       }
       else pvVar13->highlight = (u16)uVar14;
     }
     this->Tick();
-    this->scrollMenu->m8002ff30();
+    this->scrollMenu->Update();
   }
 }
 
@@ -136,13 +137,13 @@ s32 WidgetSpellTrain::GetExpPrice(ItemID param_2) {
   CharSheet *pCVar2 = PARTY->Members[this->partyPicker];
   float fVar7 = 0.8f;
   if (gGlobals.SomeCase == 5) fVar7 = 1.0f;
-  if (SpellBook::HaveSpell(pCVar2->spellbook,param_2,abStack_20)) {
+  if (gGlobals.ShopSpells->HaveSpell(param_2,abStack_20)) {
     pSVar3 = pCVar2->spellbook->spells[abStack_20[0]];
     price = TempSpell::GetExpPrice(pSVar3) * fVar7;
     if (TempSpell::IsMaxRank(pSVar3)) price = -1;
   }
   else {
-    SpellBook::HaveSpell(gGlobals.ShopSpells,param_2,abStack_20);
+    gGlobals.ShopSpells->HaveSpell(param_2,abStack_20);
     pSVar3 = (gGlobals.ShopSpells)->spells[abStack_20[0]];
     u8 bVar1 = pSVar3->level;
     pSVar3->level = 0;
@@ -201,7 +202,7 @@ void WidgetSpellTrain::Purchase(ItemID param_2,u8 x) {
   ppVar3->dollmenu->charStats_widget->Update(pCVar1);
   if ((newSpell) && (!getEventFlag(FLAG_LearnedFirstSpell))) {
     setEventFlag(FLAG_LearnedFirstSpell,true);
-    WHANDLE->AddWidget(new WidgetMenuPrompt(gGlobals.CommonStrings[0x1f1],0x17,0x46,0x82,0x50,0x50,0xff));
+    WHANDLE->AddWidget(new WidgetMenuPrompt(gGlobals.CommonStrings[0x1f1],23,70,COLOR_RED1));
   }
 }
 
@@ -242,7 +243,7 @@ void WidgetSpellTrain::Confirm(ItemID id,ushort lv) {
     exp_magic_price = (float)TempSpell::GetExpPrice(sp1)*discount;
   }
   else {
-    SpellBook::HaveSpell(gGlobals.ShopSpells,id,abStack_3c0);
+    gGlobals.ShopSpells->HaveSpell(id,abStack_3c0);
     SpellInstance *sp0 = (gGlobals.ShopSpells)->spells[abStack_3c0[0]];
     if (wiz < sp0->wizard) {
       ErrPopup(gGlobals.CommonStrings[500]);
@@ -286,7 +287,7 @@ confirmPurchase:
       WHANDLE->AddWidget(pWVar4);
       return;
     }
-    if (!notOriana) Gsprintf(gGlobals.CommonStrings[0x1f7]);
+    if (!notOriana) Gsprintf(gGlobals.CommonStrings[0x1f7],exp_magic_price);
     else Gsprintf(gGlobals.CommonStrings[0x1f6],exp_magic_price,gold_magic_price);
   }
   ErrPopup(gGlobals.text);

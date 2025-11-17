@@ -61,7 +61,7 @@ LAB_80038434:
         w->boundY0 = 0x65;
         w->boundY1 = 0xcd;
         w->Tick();
-        w->scrollMenu->m8002ff30();
+        w->scrollMenu->Update();
       }
     }
   }

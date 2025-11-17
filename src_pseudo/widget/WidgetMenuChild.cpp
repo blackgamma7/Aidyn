@@ -16,7 +16,7 @@ WidgetMenu(){
   this->boundY0 = y0;
   this->boundX0 = x0;
   this->currFileIndex = 0;
-  this->field6_0x9c = 0;
+  this->fileCount = 0;
   this->canRender = false;
   this->boundY1 = y1;
 }
@@ -43,11 +43,11 @@ Gfx * WidgetMenuChild::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 }
 
 u8 WidgetMenuChild::Tick() {
-  if(this->field2_0x80) this->field2_0x80->unk3();
-  if (this->field3_0x84) this->field3_0x84->unk3();
+  if(this->currFile) this->currFile->unk3();
+  if (this->prevFile) this->prevFile->unk3();
   this->aniManage.Tick(1);
-  if ((this->field3_0x84) && ((this->aniManage).present == 0)) {
-    m80033020();
+  if ((this->prevFile) && ((this->aniManage).present == 0)) {
+    RemovePrevFile();
   }
   return WidgetMenu::Tick();
 }
@@ -61,16 +61,16 @@ s32 WidgetMenuChild::AddFileWidget(WidgetSaveFile *c10) {
     iVar3 = 0;
   }
   else {
-    iVar3 = this->field6_0x9c;
-    pWVar1 = this->field2_0x80;
-    this->field6_0x9c++;
+    iVar3 = this->fileCount;
+    pWVar1 = this->currFile;
+    this->fileCount++;
     if (pWVar1 == NULL) {
       this->field1_0x7c = c10;
-      this->field2_0x80 = c10;
+      this->currFile = c10;
       c10->next = NULL;
       c10->prev = NULL;
-      this->Link(this->field2_0x80);
-      this->field2_0x80->unk();
+      this->Link(this->currFile);
+      this->currFile->unk();
     }
     else {
       for (; pWVar1->next != NULL; pWVar1 = pWVar1->next) {
@@ -89,28 +89,28 @@ void WidgetMenuChild::FreeMenu() {
   WidgetSaveFile *pBVar4;
   WidgetSaveFile *pBVar5;
   
-  if (this->field2_0x80) {
+  if (this->currFile) {
     this->aniManage.Clear();
-    m80033020();
-    this->field2_0x80->unk2();
-    pWVar2 = this->field2_0x80->next;
+    RemovePrevFile();
+    this->currFile->unk2();
+    pWVar2 = this->currFile->next;
     while (pBVar4 = pWVar2, pBVar4 != NULL) {
       pBVar4->prev = NULL;
       pWVar2 = pBVar4->next;
-      if (pBVar4) this->field2_0x80->~WidgetSaveFile();
+      if (pBVar4) this->currFile->~WidgetSaveFile();
     }
-    pBVar3 = this->field2_0x80->prev;
+    pBVar3 = this->currFile->prev;
     while (pBVar5 = pBVar3, pBVar5 != NULL) {
       pBVar5->next = NULL;
       pBVar3 = pBVar5->prev;
       if (pBVar5) pBVar5->~WidgetSaveFile();
     }
-    this->Unlink(this->field2_0x80);
-    pWVar2 = this->field2_0x80;
+    this->Unlink(this->currFile);
+    pWVar2 = this->currFile;
     if (pWVar2 != NULL)pWVar2->~WidgetSaveFile();
-    this->field2_0x80 = NULL;
+    this->currFile = NULL;
     this->field1_0x7c = NULL;
-    this->field6_0x9c = 0;
+    this->fileCount = 0;
     this->canRender = false;
   }
 }
@@ -120,16 +120,16 @@ void WidgetMenuChild::ShiftRight() {
   WidgetSaveFile *pWVar4;
   short asStack_20 [1];
   
-  pWVar3 = this->field2_0x80;
+  pWVar3 = this->currFile;
   if ((pWVar3 != NULL) && (pWVar4 = pWVar3->next, pWVar4 != NULL)) {
-    asStack_20[0] = this->field2_0x80->posX - (pWVar3->boundX1 - this->boundX0);
-    this->aniManage.AddItem(new GuiAnimatorS16(&this->field2_0x80->posX,asStack_20,60,&double_array_1));
-    this->field2_0x80 = pWVar4;
-    this->field3_0x84 = this->field2_0x80;
+    asStack_20[0] = this->currFile->posX - (pWVar3->boundX1 - this->boundX0);
+    this->aniManage.AddItem(new GuiAnimatorS16(&this->currFile->posX,asStack_20,60,&double_array_1));
+    this->currFile = pWVar4;
+    this->prevFile = this->currFile;
     pWVar4->unk();
-    this->Link(this->field2_0x80);
-    Utilities::MoveWidget2(this->field2_0x80,this->boundX1,this->field2_0x80->posY);
-    this->aniManage.AddItem(new GuiAnimatorS16(&this->field2_0x80->posX,&this->boundX0,60,&double_array_1));
+    this->Link(this->currFile);
+    Utilities::MoveWidget2(this->currFile,this->boundX1,this->currFile->posY);
+    this->aniManage.AddItem(new GuiAnimatorS16(&this->currFile->posX,&this->boundX0,60,&double_array_1));
     this->currFileIndex++;
   }
 }
@@ -137,23 +137,23 @@ void WidgetMenuChild::ShiftRight() {
 void WidgetMenuChild::ShiftLeft() {
   WidgetSaveFile *pWVar3;
   
-  if ((this->field2_0x80 != NULL) &&
-     (pWVar3 = this->field2_0x80->prev, pWVar3 != NULL)) {
-    this->aniManage.AddItem(new GuiAnimatorS16(&this->field2_0x80->posX,&this->boundX1,60,&double_array_1));
-    this->field2_0x80 = pWVar3;
-    this->field3_0x84 = this->field2_0x80;
+  if ((this->currFile != NULL) &&
+     (pWVar3 = this->currFile->prev, pWVar3 != NULL)) {
+    this->aniManage.AddItem(new GuiAnimatorS16(&this->currFile->posX,&this->boundX1,60,&double_array_1));
+    this->currFile = pWVar3;
+    this->prevFile = this->currFile;
     pWVar3->unk();
-    this->Link(this->field2_0x80);
-    Utilities::MoveWidget2(this->field2_0x80,this->field2_0x80->posX * 2 - this->boundX1,this->field2_0x80->posY);
-    this->aniManage.AddItem(new GuiAnimatorS16(&this->field2_0x80->posX,&this->boundX0,60,
+    this->Link(this->currFile);
+    Utilities::MoveWidget2(this->currFile,this->currFile->posX * 2 - this->boundX1,this->currFile->posY);
+    this->aniManage.AddItem(new GuiAnimatorS16(&this->currFile->posX,&this->boundX0,60,
                         &double_array_1));
     if (this->currFileIndex) this->currFileIndex--;
   }
 }
 
-WidgetSaveFile* WidgetMenuChild::m80032ef8(){return this->field2_0x80;}
+WidgetSaveFile* WidgetMenuChild::getCurrFile(){return this->currFile;}
 
-bool WidgetMenuChild::m80032f00(){return this->field3_0x84!=NULL;}
+bool WidgetMenuChild::HasPrevFile(){return this->prevFile!=NULL;}
 
 
 void WidgetMenuChild::m80032f0c() {
@@ -164,8 +164,8 @@ void WidgetMenuChild::m80032f0c() {
   
   iVar4 = 0;
   if (this->field1_0x7c) {
-    this->field2_0x80->unk2();
-    this->Unlink(this->field2_0x80);
+    this->currFile->unk2();
+    this->Unlink(this->currFile);
     sVar1 = this->boundX0;
     sVar2 = this->boundX1;
     w = this->field1_0x7c;
@@ -175,9 +175,9 @@ void WidgetMenuChild::m80032f0c() {
       w = w->next;
     }
     this->currFileIndex = iVar4;
-    this->field2_0x80 = w;
+    this->currFile = w;
     w->unk();
-    this->Link(this->field2_0x80);
+    this->Link(this->currFile);
     do {
       Utilities::MoveWidget2(w,this->boundX0,w->posY);
       w = w->next;
@@ -188,12 +188,11 @@ void WidgetMenuChild::m80032f0c() {
 
 void WidgetMenuChild::SetIndex(s32 param_2) {this->currFileIndex = param_2;}
 
-
-void WidgetMenuChild::m80033020() {
-  if (this->field3_0x84) {
-    this->field3_0x84->unk2();
-    this->Unlink(this->field3_0x84);
-    this->field3_0x84 = NULL;
+void WidgetMenuChild::RemovePrevFile() {
+  if (this->prevFile) {
+    this->prevFile->unk2();
+    this->Unlink(this->prevFile);
+    this->prevFile = NULL;
   }
 }
 

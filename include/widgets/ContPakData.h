@@ -17,7 +17,7 @@ class WidgetContPakData : public WidgetMenu{
     public:
     SaveDatPointers saveDatsP[16];
     WidgetMenuChild *sliders;
-    WidgetScrollMenu *field3_0x280;
+    WidgetScrollMenu *scroll;
     void (*funcA)(void);
     void (*funcB)(void);
     u8 OtherState;
@@ -25,14 +25,14 @@ class WidgetContPakData : public WidgetMenu{
     u8 saveSlot;
     u8 AidynSaveSlots;
     u8 unk290;
-    u8 unk291;
+    u8 scrollInited;
     u16 unk292;
     u16 unk294;
     undefined field14_0x296;
     undefined field15_0x297;
-    u32 borg8;
-    BaseWidget *field17_0x29c;
-    WidgetChoiceDia *unk2a0;
+    u32 titleIndex;
+    WidgetBorg8 *titleWidget;
+    WidgetChoiceDia *waitPrompt;
     u8 showingSaveFiles;
     Color32 col0;
     Color32 col1;
@@ -104,7 +104,7 @@ class WidgetContPakData : public WidgetMenu{
     void RepairOK();
     void LoadSliders(SaveDatPointers *,u8);
     void ClearScrollMenu();
-    void m80087c40();
+    void FreeWaitPrompt();
     void m80087c88();
     void ReadPakPrompt();
     void m80087ec0();

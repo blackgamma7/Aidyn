@@ -36,11 +36,11 @@ class WidgetBlankFile: public WidgetSaveFile {
 class WidgetMenuChild:public WidgetMenu {
     public:
     WidgetSaveFile * field1_0x7c=NULL;
-    WidgetSaveFile *field2_0x80=NULL;
-    WidgetSaveFile *field3_0x84=NULL;
+    WidgetSaveFile *currFile=NULL;
+    WidgetSaveFile *prevFile=NULL;
     GuiAnimationManager aniManage=GuiAnimationManager(6);
     u32 currFileIndex;
-    u32 field6_0x9c;
+    u32 fileCount;
     u32 canRender;
     WidgetMenuChild(u16 x0,u16 y0,u16 x1,u16 y1);
     ~WidgetMenuChild();
@@ -50,11 +50,11 @@ class WidgetMenuChild:public WidgetMenu {
     void FreeMenu();
     void ShiftRight();
     void ShiftLeft();
-    WidgetSaveFile* m80032ef8();
-    bool m80032f00();
+    WidgetSaveFile* getCurrFile();
+    bool HasPrevFile();
     void m80032f0c();
     void SetIndex(s32 param_2);
-    void m80033020();
+    void RemovePrevFile();
 
 };
 

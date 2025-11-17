@@ -36,7 +36,6 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   BaseWidget *pBVar7;
   BaseWidget *pBVar8;
   ulong uVar9;
-  WidgetScrollArrows *pWVar10;
   uint i;
   Color32 aCStack_68 [26];
   
@@ -48,12 +47,12 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   aCStack_68[0].G = 200;
   aCStack_68[0].B = 0;
   aCStack_68[0].A = 0xe1;
-  pBVar5 = loadBorg8(BORG8_IconItemPotion);
-  u16 iconSize = (pBVar5->dat).Width;
-  borg8_free(pBVar5);
-  for(i=0;i<POTION_STEALTH+1;i++){
+  pBVar5 = loadBorg8(BORG8_IconItemPotion);//loads the potion icon
+  u16 iconSize = (pBVar5->dat).Width;      //just to measure it
+  borg8_free(pBVar5);                      //and throws it away
+  for(i=0;i<MAXPOTIONS;i++){
     if (potions[i] != -1) {
-      w = char_func_icon(potion_names[i],FUN_80092894,(short)i + 0x1000,(char)potions[i],
+      w = char_func_icon(potion_names[i],FUN_80092894,IDPotion(i),(char)potions[i],
                          aCStack_68,BORG8_IconItemPotion,iconSize);
       wMax = MaxWidgetWidth(w,wMax);
       AppendScrollMenu(w);
@@ -70,7 +69,7 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
       wMax = AddItem(&pCVar2->pItemList->pItem[i]->base,FUN_800928f8,5,(char)i,wMax,iconSize);
     }
   }
-  FUN_800bbfc8(this->scrollMenu,3);
+  Utilities::SetArrayVSpace(this->scrollMenu,3);
   Update();
   iVar6 = find_char_in_party(pCVar2);
   WidgetBorg8* pBVar6 = WidgetB8(0x38D0);
@@ -87,7 +86,7 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
     if (lVar10 < lVar11) lVar11 = lVar10;
     s->highlight=lVar11;
     this->scrollMenu->Tick();
-    s->unk12=s->unk16;
+    s->yOff=s->unk16;
   }
 }
 

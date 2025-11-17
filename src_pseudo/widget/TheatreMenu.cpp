@@ -31,7 +31,7 @@ void TheatreMenu::InitMenu() {
   //(should not happen - unavaiilable entries marked as "----------------")
   if (((WSMSub*)s->scroll->substruct)->currentCount == 0)
     s->scroll->Append(WClipTXT(gGlobals.CommonStrings[0xac]));
-  FUN_800bbfc8(s->scroll,5);
+  Utilities::SetArrayVSpace(s->scroll,5);
   s->scroll->SetFlags(4);
   s->scroll->Tick();
   this->Link(s->scroll);
