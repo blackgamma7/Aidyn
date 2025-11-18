@@ -7,7 +7,7 @@ struct SkySubstruct {
 };
 
 struct SkyStruct {
-    u16 Type; /* no more than 5.  3=outside*/
+    u16 Type; //use enum SkyType
     SkySubstruct obj4;
     SkySubstruct obj10;
     Color32 *gradient;
@@ -18,6 +18,14 @@ struct SkyStruct {
     float unk40;
     float unk44;
     float unk48;
+};
+
+enum SkyType{
+  SkyType0,//unused?
+  SkyType1,
+  SkyType2,
+  SkyTypeOutdoor,
+  SkyType4,
 };
 
 u32 sky_flag_A;
@@ -39,7 +47,7 @@ namespace Sky{
   Gfx* RenderGradient(Gfx *g,Color32 *cols,u16 h);
   Gfx* RenderSky(Gfx *param_1,u16 delta);
   void Set2Floats(float,float);
-  void SetBackgroundType(s16,s16,float);
+  void SetBackgroundType(s16 type,s16 obj,float grayDelta);
   void ClearColors();
   void ResetColors();
 };

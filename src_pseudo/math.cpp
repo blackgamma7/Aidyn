@@ -355,7 +355,7 @@ LAB_800abb14:
       goto LAB_800abb14;
     }
   }
-  else if (((char)param_2 < '\x02') && (param_2 == 0)) {
+  else if (((char)param_2 < 2) && (param_2 == 0)) {
     if (param_3 == 1) {
       fVar3 = (*param_1)[1][1] * (*param_1)[1][2];
       fVar1 = (*param_1)[2][0];

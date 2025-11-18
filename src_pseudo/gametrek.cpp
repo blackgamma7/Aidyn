@@ -79,33 +79,33 @@ u8 screenFadeMode_1_9(Gfx **GG) {
   if (false) goto switchD_80024ecc_caseD_1;
   switch(gGlobals.playerCharStruct.unkState) {
   case 0:
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     uVar2 = 0;
     break;
   case 2:
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     uVar2 = 2;
     break;
   case 3:
     gDelta = 0;
     if (gGlobals.screenFadeModeSwitch == 9) {
-      while (bVar1 = Controller::GetInput(&pcStack_30,0), bVar1) {
+      while (Controller::GetInput(&pcStack_30,0)) {
         gDelta++;
       }
     }
     else {
-      while (bVar1 = Controller::GetInput(&pcStack_30,0), bVar1) {
+      while (Controller::GetInput(&pcStack_30,0)) {
         small_debug_menu_check(pcStack_30);
         gDelta++;
       }
     }
     if (gDelta < 1) gDelta = 1;
-    if (gDelta >= 6) gDelta = 6;
+    if (*(u8*)&gDelta >= 6) gDelta = 6;
     gGlobals.delta = (float)(u8)gDelta;
     gfxTemp[0] = tick_trek_features(gfxTemp[0],(u8)gDelta);
     break;
   case 4:
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     break;
   case 5:
   case 6:
@@ -137,21 +137,21 @@ u8 screenFadeMode_1_9(Gfx **GG) {
     DAT_800e9ab0 = 0;
     break;
   case 9:
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     uVar2 = 10;
     break;
   case 10:
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     uVar2 = 0xb;
     break;
   case 0xb:
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     uVar2 = 0xc;
     break;
   case 0xc:
     goto switchD_80024ecc_caseD_c;
   case 0xd:
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     goto switchD_80024ecc_caseD_c;
   case 0xe:
     gGlobals.playerCharStruct.unkState = 3;
@@ -159,11 +159,11 @@ u8 screenFadeMode_1_9(Gfx **GG) {
   case 0xf:
     gGlobals.playerCharStruct.unk10 = 0;
     gGlobals.playerCharStruct.some_sound_var = 1;
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     gMemMakerFlag = true;
     break;
   case 0x10:
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     uVar2 = 0x11;
     break;
   case 0x11:
@@ -178,7 +178,7 @@ u8 screenFadeMode_1_9(Gfx **GG) {
       gDelta++;
     }
     if (gDelta < 1) gDelta = 1;
-    if (gDelta >= 6) gDelta = 6;
+    if (*(u8*)&gDelta >= 6) gDelta = 6;
     gGlobals.delta = (float)(u8)gDelta;
     gfxTemp[0] = tick_trek_features(gfxTemp[0],(u8)gDelta);
     gGlobals.playerCharStruct.unkState = 7;
@@ -189,7 +189,7 @@ u8 screenFadeMode_1_9(Gfx **GG) {
     }
     goto LAB_80025208;
   case 0x17:
-    DAT_800e9aa7 = '\x01';
+    DAT_800e9aa7 = true;
     uVar2 = 0xe;
     break;
   case 0x19:
@@ -424,7 +424,7 @@ Gfx * draw_hud_elements(Gfx *gfx) {
                         ((gPlayer)->collision).pos.y,
                         ((gPlayer)->collision).pos.z),
        gGlobals.minimap.ShowMinimap == 0)) {
-      if (gGlobals.sky.Type == 3) {
+      if (gGlobals.sky.Type == SkyTypeOutdoor) {
         gfx = Compass::Draw(gfx,&gCamera.rotationXZ);
       }
     }

@@ -148,7 +148,7 @@ s16 Cinematic::GetName(void){
   char nameBuff [256];
   
   gGlobals.cinematic.Bstart = 1;
-  Sky::SetBackgroundType(2,0,0.0);
+  Sky::SetBackgroundType(SkyType2,0,0.0);
   uVar1 = gGlobals.gameVars.Borg12Next2;
   if (gGlobals.gameVars.BGM) {
     clear_music_values(1);

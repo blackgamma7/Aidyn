@@ -15,8 +15,7 @@
 
 void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 param_4,short param_5,short count
                ,float velLo,float velHi,float gravity,short addLight) {
-  ParticleEmmiter *pEmmi = Particle::AllocParticleEmitter
-                    (&gGlobals.gameVars.particleEmmiter,param_4,param_5,0,NULL,NULL,NULL,NULL,NULL);
+  ParticleEmmiter *pEmmi = NewParticleEmmiter(param_4,param_5,0,NULL,NULL,NULL,NULL,NULL);
   if (pEmmi) {
     Particle::SetEmmiterHeight(pEmmi,height);
     Particle_s *pPVar1 = pEmmi->particles;
@@ -61,11 +60,9 @@ void SmokeUnusedPartFuncB(ParticleHeadStruct *pHead,ParticleEmmiter *emmi) {
 
 
 void SmokeUnusedPart(voxelHeader* vox,vec3f *vel,vec4f *color,float param_4,
-                   u16 param_5,short param_6,float velY) {
+                   u16 lifespan,short param_6,float velY) {
   
-  ParticleEmmiter *emmi = Particle::AllocParticleEmitter
-                     (&gGlobals.gameVars.particleEmmiter,param_5,param_6,0,NULL,
-                      SmokeUnusedPartFuncB,NULL,vox,NULL);
+  ParticleEmmiter *emmi = NewParticleEmmiter(lifespan,param_6,0,NULL,SmokeUnusedPartFuncB,NULL,vox,NULL);
   if (emmi) {
     Particle::SetEmmiterHeight(emmi,(vox->pos.y - 0.5));
     Vec4Copy(color,&emmi->colvec4);
@@ -74,7 +71,7 @@ void SmokeUnusedPart(voxelHeader* vox,vec3f *vel,vec4f *color,float param_4,
     emmi->unk40 = param_4;
     Particle::SetFlag(part,PARTICLE_0100);
     Particle::SetColorB(part,0.0,velY,0.0,1.0f);
-    part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,param_5);
+    part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,lifespan);
     Particle::SetFlag(part,PARTICLE_0200);
     Particle::SetColorB(part,color->x,color->y,color->z,color->w);
     Vec4Scale(&part->colorB,(-1.0f/120));
@@ -114,11 +111,10 @@ void FUN_8001b0a8(ParticleHeadStruct *head,ParticleEmmiter *emmi) {
 
 
 ParticleEmmiter *
-FUN_8001b29c(vec3f *pos,u16 param_2,short param_3,u16 param_4,short param_5,float param_6
+FUN_8001b29c(vec3f *pos,u16 lifespan,short param_3,u16 param_4,short param_5,float param_6
             ,vec4f *colA,vec4f *colC,vec4f *colB,vec3f *vel) {
 
-  ParticleEmmiter *emmi = Particle::AllocParticleEmitter
-                     (&gGlobals.gameVars.particleEmmiter,param_2,param_3,param_4,NULL,FUN_8001b0a8,NULL,NULL,NULL);
+  ParticleEmmiter *emmi = NewParticleEmmiter(lifespan,param_3,param_4,NULL,FUN_8001b0a8,NULL,NULL,NULL);
   if (!emmi) return NULL;
   else {
     Vec3Copy(pos,&emmi->pos);
@@ -129,11 +125,11 @@ FUN_8001b29c(vec3f *pos,u16 param_2,short param_3,u16 param_4,short param_5,floa
     emmi->unk1a = param_5;
     Particle::SetFlag(part,PARTICLE_0100);
     Particle::SetColorB(part,0.0,6e-05f,0.0,1.0f);
-    part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,param_2);
+    part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,lifespan);
     Particle::SetFlag(part,PARTICLE_0400);
     float gray = param_6 / param_5;
     Particle::SetColorB(part,gray,gray,gray,0.0);
-    part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,param_2);
+    part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,lifespan);
     Particle::SetFlag(part,PARTICLE_0200);
     float dVar3 = -1.0 / param_5;
     Vec4Sub(&part->colorB,colA,colC);
@@ -202,7 +198,7 @@ void FUN_8001b888(ParticleHeadStruct *param_1,vec3f *param_2) {
       while (part) {
         Vec3Sum(&part->pos,&part->pos,param_2);
         if (gGlobals.gameVars.weather.rainParticles == emmi) {
-          Vec3Sum((vec3f *)&part->vec_0x4c,(vec3f *)&part->vec_0x4c,param_2);
+          Vec3Sum((vec3f *)&part->precipPos,(vec3f *)&part->precipPos,param_2);
         }
         if (part->unk6 == -1) part = NULL;
         else part = param_1->particles + part->unk6;

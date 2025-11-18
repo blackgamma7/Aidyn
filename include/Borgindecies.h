@@ -57,7 +57,7 @@
 #define BORG8_IconItemLeatherHood 0x35d9
 #define BORG8_IconItemHerb 0x35da
 #define BORG8_IconItemHide 0x35db
-#define BORG8_IconItemUnk 0x35dc
+#define BORG8_IconItemUnk 0x35dc //Question mark, default for iconless items
 #define BORG8_IconItemKey1 0x35dd
 #define BORG8_IconItemKey2 0x35de
 #define BORG8_IconItemKey3 0x35df //icon for the unused Blood/bone/skull/black keys
@@ -101,7 +101,30 @@
 #define BORG8_IconSlotStaff 0x3600
 #define BORG8_IconSlotSword 0x3601
 
-//TODO: process list as #deine's with hex values
+//world map pieces
+
+#define BORG8_MapPiece01 0x01c9 //Gwernia
+#define BORG8_MapPiece02 0x01ca //part of Erromon Region
+#define BORG8_MapPiece04 0x01cb //Erromon
+#define BORG8_MapPiece05 0x01cc //Talewok
+#define BORG8_MapPiece06 0x01cd //West of Talewok
+#define BORG8_MapPiece07 0x01ce //Port Saiid
+#define BORG8_MapPiece08 0x01cf //Choas Isle
+#define BORG8_MapPiece09 0x01d0 //Namer's Isle
+#define BORG8_MapPiece10 0x01d1 //Terminor Region
+#define BORG8_MapPiece11 0x01d2 //East of Terminor
+#define BORG8_MapPiece12 0x01d3 //Darkling Hills
+#define BORG8_MapPiece13 0x01d4 //Eastern Beach
+#define BORG8_MapPiece14 0x01d5 //Desert North of Ugarit
+#define BORG8_MapPiece15 0x01d6 //Barrow
+#define BORG8_MapPiece16 0x01d7 //Ugarit
+#define BORG8_MapPieceGob 0x01d8 //East of Ugarit
+#define BORG8_MapPiece17 0x01d9 //Hellhound Cave
+#define BORG8_MapPiece18 0x01da //Between Hellhound Cave and Barrow
+
+#define BORG8_WorldMapMarker 0x00F6
+
+//TODO: process list as #define's with hex values
 typedef enum Borg8Enum {
     BORG8_MapIconStart=30,
     //long down arrow=213,

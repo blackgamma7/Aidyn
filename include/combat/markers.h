@@ -17,8 +17,8 @@ Borg9Data* mapmarker_borg9=NULL;
 
 #define MARKERMAX 20
 
-#define CMarkSet 1
-#define CMarkYAvg 0x80
+#define CMarkSet 1  //marker is set
+#define CMarkYAvg 0x80 //marker fought with map collision
 
 namespace CombatMarkers{
     u8 SetMarker(Borg9Data *mapDat,vec3f *pos,float radius,u16 iter);

@@ -61,8 +61,8 @@ struct Borg8Data {
 };
 
 struct Borg8Header {
-    struct borgHeader head;
-    struct Borg8Data dat;
+    borgHeader head;
+    Borg8Data dat;
 };
 
 typedef enum VoxelFllags {
@@ -88,7 +88,6 @@ typedef enum EnumMapDatA {
     MAPA_Barrows,
     MAPA_RoogCave,
     MAPA_JundarInteriors,
-    MAPA_Talewok,
     MAPA_EhudUnder,
     MAPA_Ugairt,
     MAPA_Ugairt2,
@@ -1137,7 +1136,7 @@ u32 borgTotal=0;
 
 
 //macro used to adjust offsets in header
-#define SetPointer(x,f) x->f= decltype(x->f)((u32)&x+(u32)x->f)
+#define SetPointer(x,f) x->f= decltype(x->f)((size_t)&x+(size_t)x->f)
 //same as SetPointer(), but makes sure there is an offset
 #define CheckSetPointer(x,f) if(x->f) SetPointer(x,f)
 

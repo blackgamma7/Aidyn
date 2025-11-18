@@ -44,12 +44,12 @@ void Sky::Reset(void){
   gGlobals.sky.unk44 = 1.0f;
   ResetSubstruct(&gGlobals.sky.obj4);
   ResetSubstruct(&gGlobals.sky.obj10);
-  SetBackgroundType(2,0,0.0);
+  SetBackgroundType(SkyType2,0,0.0);
 }
 
 //unused, so not included in namespace.
 void Ofunc_8002088c(void){
-  Sky::SetBackgroundType(2,0,0.0);
+  Sky::SetBackgroundType(SkyType2,0,0.0);
   Sky::Free();
 }
 
@@ -351,32 +351,32 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   gFogColor.G = 0xff;
   gFogColor.R = 0xff;
   if (sky_flag_A != 0) {
-    if (gGlobals.sky.Type - 3 < 2) {
+    if (gGlobals.sky.Type - SkyTypeOutdoor < 2) {
       sky_flag_A = 0;
     }
     ClearColors();
   }
   switch(gGlobals.sky.Type){
-    case 1:{
+    case SkyType1:{
       break;
     }
-    case 2:{
-    gfx = DrawRectangle(gfx,FULL_SCREENSPACE,0,0,0,0);
-    gMainColor.A = 0x60;
-    gMainColor.B = 0x60;
-    gMainColor.G = 0x60;
-    gMainColor.R = 0x60;
-    gSkyColor.A = 0x60;
-    gSkyColor.B = 0x60;
-    gSkyColor.G = 0x60;
-    gSkyColor.R = 0x60;
-    gFogColor.A = 0;
-    gFogColor.B = 0;
-    gFogColor.G = 0;
-    gFogColor.R = 0;
+    case SkyType2:{
+     gfx = DrawRectangle(gfx,FULL_SCREENSPACE,0,0,0,0);
+     gMainColor.A = 0x60;
+     gMainColor.B = 0x60;
+     gMainColor.G = 0x60;
+     gMainColor.R = 0x60;
+     gSkyColor.A = 0x60;
+     gSkyColor.B = 0x60;
+     gSkyColor.G = 0x60;
+     gSkyColor.R = 0x60;
+     gFogColor.A = 0;
+     gFogColor.B = 0;
+     gFogColor.G = 0;
+     gFogColor.R = 0;
     break;
     }
-    case 3:{
+    case SkyTypeOutdoor:{
     fVar6 = World::get_timeofDay_float(TerrainPointer);
     //Thunderclap chance
     if (0.0 < TerrainPointer->ThunderFloat) fVar7 = RAND.GetFloatRange(0.0,1.0);
@@ -425,7 +425,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
     }
     break;
   }
-  case 4:{
+    case SkyType4:{
     SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,
       World::get_timeofDay_float(TerrainPointer),gGlobals.sky.gray,
               &gMainColor,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
@@ -475,36 +475,37 @@ void Sky::Set2Floats(float param_1,float param_2){
 }
 
 
-void Sky::SetBackgroundType(short param_1,short param_2,float param_3){
+void Sky::SetBackgroundType(s16 type,s16 obj,float grayDelta){
   gGlobals.sky.gray = 0.0;
   gGlobals.sky.grayDelta = 0.0;
-  if ((param_1 != gGlobals.sky.Type) || (param_2 != gGlobals.sky.obj4.type))
+  if ((type != gGlobals.sky.Type) || (obj != gGlobals.sky.obj4.type))
   {
-    if (3 < param_1 - 1U) {
-      Gsprintf("Invalid type: %d.  Range: (1-%d)",param_1,4);
+    if (3 < type - 1U) {
+      Gsprintf("Invalid type: %d.  Range: (1-%d)",type,SkyType4);
       CRASH("SetBackgroundType",gGlobals.text);
     }
-    if (param_1 < 1) {
+    if (type < 1) {
 LAB_800226a0:
       CRASH("SetBackgroundType","Invalid Sky Type");
     }
-    if (param_1 < 3) {
+    if (type < 3) {
       Sky::Free();
-      gGlobals.sky.Type = param_1;
+      gGlobals.sky.Type = type;
     }
     else {
-      if (4 < param_1) goto LAB_800226a0;
+      if (SkyType4 < type) goto LAB_800226a0;
       AllocGradient();
-      if ((((param_3 <= 0.0) || (gGlobals.sky.obj4.type == 0)) ||
-          ((param_1 == 4 && (gGlobals.sky.Type != 4)))) || ((param_1 == 3 && (gGlobals.sky.Type != 3)))){
-        loadDay(&gGlobals.sky.obj4,param_2);
+      if ((((grayDelta <= 0.0) || (gGlobals.sky.obj4.type == 0)) ||
+          ((type == SkyType4 && (gGlobals.sky.Type != SkyType4)))) 
+            || ((type == SkyTypeOutdoor && (gGlobals.sky.Type != SkyTypeOutdoor)))){
+        loadDay(&gGlobals.sky.obj4,obj);
         FreeSubstruct(&gGlobals.sky.obj10);
-        gGlobals.sky.Type = param_1;
+        gGlobals.sky.Type = type;
       }
       else {
-        loadDay(&gGlobals.sky.obj10,param_2);
-        gGlobals.sky.grayDelta = 1.0f / param_3;
-        gGlobals.sky.Type = param_1;
+        loadDay(&gGlobals.sky.obj10,obj);
+        gGlobals.sky.grayDelta = 1.0f / grayDelta;
+        gGlobals.sky.Type = type;
       }
     }
   }
@@ -514,4 +515,9 @@ void Sky::ClearColors(void){
   gMainColor.W = 0;
   gSkyColor.W = 0;
   gFogColor.W = 0;
+}
+
+void Sky::ResetColors(void) {
+  ClearColors();
+  sky_flag_A = true;
 }

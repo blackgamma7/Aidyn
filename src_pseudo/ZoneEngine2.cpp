@@ -90,10 +90,6 @@ mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_
 }
 
 u8 FUN_8000ccc0(){
-  u16 uVar3;
-  float fVar4;
-  float fVar6;
-  
   u16 uVar3 = get_obj_free();
   float fVar4 = (float)(u16)get_MemFree();
   float fVar6 = (float)get_memFree_2();
@@ -105,7 +101,7 @@ u8 FUN_8000ccc0(){
         ((double)(fVar4 / fVar6) < 0.5)) || (no_ExpPak_memcheck_flag)) {
       no_ExpPak_memcheck_flag = 0;
       no_TP_vec3 = 1;
-      DAT_800e8dc6 = 0xb4;
+      DAT_800e8dc6 = 180;
       doubleGlobalTickerFlag = 2;
       return true;
     }
@@ -565,7 +561,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   s16 sVar15 = no_TP_vec3;
   u16 uStack112[2][8]={{0,0,1,0,2,0,0,1},{2,1,0,2,1,2,2,2}};
   no_TP_vec3 = 0;
-  uStack_30 = (uint)(no_TP_vec3 == 0);
+  uStack_30 = (uint)(sVar15 == 0);
   Process_queue_B(&gGlobals.QueueB,1);
   for(s16 i=0;i<3;i++){
     for(s16 j=0;j<3;j++) {
@@ -635,28 +631,30 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
         }
       }
       loading_map_data(z);
+      s16 skyVar=gGlobals.sky.Type;
       if (z->index == ZoneCenter) {
         gGlobals.gameVars.borg9DatPointer = &z->mapPointer->dat;
         gGlobals.gameVars.particleEmmiter.borg9dat = gGlobals.gameVars.borg9DatPointer;
         BorgMaps::GetMapTerrain(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
-        if ((gGlobals.sky.Type == 3) && (gGlobals.sky.Type == 3)) {
-          if ((u32)gGlobals.gameVars.weather.rainShortA == 0) //both rainShortA andd rainShortB checked
-            Sky::SetBackgroundType(3,gGlobals.gameVars.weather.skyBgdat,600.0);
+        //double-ckeck sky?
+        if ((gGlobals.sky.Type == SkyTypeOutdoor) && (skyVar == SkyTypeOutdoor)) {
+          if (*(u32*)&gGlobals.gameVars.weather.rainShortA == 0) //both rainShortA andd rainShortB checked
+            Sky::SetBackgroundType(SkyTypeOutdoor,gGlobals.gameVars.weather.skyBgdat,600.0);
           else N64PRINT("Different Precip types, Don't set sky\n");
         }
         else {
-          sVar15 = gGlobals.gameVars.weather.skyBgdat;
-          if (((gGlobals.sky.Type == 3) && ((short)gGlobals.gameVars.weather.rainShortA < 3)) &&
+          skyVar = gGlobals.gameVars.weather.skyBgdat;
+          if (((gGlobals.sky.Type == SkyTypeOutdoor) && ((short)gGlobals.gameVars.weather.rainShortA < 3)) &&
              (0 < (short)gGlobals.gameVars.weather.rainShortA)) {
-            sVar15 = 2;
+            skyVar = 2;
           }
-          Sky::SetBackgroundType(gGlobals.sky.Type,sVar15,0.0);
+          Sky::SetBackgroundType(gGlobals.sky.Type,skyVar,0.0);
           gGlobals.gameVars.weather.fogTime = TerrainPointer->FogFloat;
         }
       }
     }
   }
-if (((gGlobals.gameVars.gamemodeType == 0) && (MINIMAP.active == 0)) && (gGlobals.sky.Type == 3))
+if (((gGlobals.gameVars.gamemodeType == 0) && (!MINIMAP.active)) && (gGlobals.sky.Type == SkyTypeOutdoor))
  set_map_event_flag(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
 }
 
@@ -791,10 +789,10 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   if (param_3 == NULL) no_TP_vec3 = 1;
   loadGameBorgScenes((tp->teleport).MapShort1,(tp->teleport).MapShort2);
   if (param_3 == NULL) {
-    if (gGlobals.sky.Type == 4) {
+    if (gGlobals.sky.Type == SkyType4) {
       Camera::SetMode(&gCamera,1);
     }
-    if (gGlobals.sky.Type == 3) {
+    if (gGlobals.sky.Type == SkyTypeOutdoor) {
       Camera::SetMode(&gCamera,0);
     }
     if (uVar1 == 0x7ff8) {
@@ -847,7 +845,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   }
   if (prStack_38 == NULL) {
     if ((player != NULL) && (param_3 == NULL)) {
-      if (gGlobals.sky.Type == 4) {
+      if (gGlobals.sky.Type == SkyType4) {
         fStack184.x = (player->collision).pos.x;
         fVar10 = (player->collision).pos.y;
         fStack184.z = (player->collision).pos.z;
@@ -881,7 +879,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
     }
   }
   if (iVar4 != gGlobals.sky.Type) {
-    if (gGlobals.sky.Type == 4) {
+    if (gGlobals.sky.Type == SkyType4) {
       Sundial::ToggleMoon(0);
       Sundial::ToggleSun(0);
     }
@@ -1202,7 +1200,7 @@ LAB_80010084:
                   }
                 }
                 local_64 = uVar12 & 0xffff;
-                if (((SObj->scene).sceneflags & SceneObj_B7) == 0) {
+                if (!((SObj->scene).sceneflags & SceneObj_B7)) {
                   uVar12 = local_6c;
                   if (uVar15 < local_6c) uVar12 = uVar15;
                   SetSceneColors(pAVar4,uVar12,1,col.W);
@@ -2010,7 +2008,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
              gCamera.pos.y,gCamera.pos.z,gCamera.aim.x,
              gCamera.aim.y,gCamera.aim.z);
   if (gGlobals.gameVars.gamemodeType != 2) G = Sky::RenderSky(G,delta);
-  if (gGlobals.sky.Type == 3) {
+  if (gGlobals.sky.Type == SkyTypeOutdoor) {
     DEBUGSprintf("RenderSkyObjects/RenderClouds");
     G = Skyobjects::Render(G);
     G = Clouds::Render(G);

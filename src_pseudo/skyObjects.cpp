@@ -265,7 +265,7 @@ Gfx * Skyobjects::Render(Gfx *g){
   int iStack_5c;
   byte bVar2;
   
-  if ((true) && (gGlobals.sky.Type == 3)) {
+  if ((true) && (gGlobals.sky.Type == SkyTypeOutdoor)) {
     i = 0;
     UpdateSunMoon();
     fVar17 = gCamera.rotation.z;

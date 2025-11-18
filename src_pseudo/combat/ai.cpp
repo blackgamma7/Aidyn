@@ -252,7 +252,7 @@ switchD_80060678_caseD_10:
           bVar4 = pCVar1->getNotAspectBonus();
           cVar8 = cVar11 + -1;
           if (pCVar1->getNotAspectBonus() == (pCVar1->Flag4() == param_1->combatEnt->Flag4())) {
-            cVar8 = cVar11 + '\x01';
+            cVar8 = cVar11 + 1;
           }
         }
         cVar11 = cVar8;
@@ -312,7 +312,7 @@ switchD_80060678_caseD_10:
             cVar11 = cVar8;
             if ((((iVar8 != NULL) && (iVar8->school == MVar12)) && (iVar8->timer != 0xffffffff)) &&
                (cVar11 = cVar8 + -1, iVar8->varB == (uint)(bVar4 == bVar5))) {
-              cVar11 = cVar8 + '\x01';
+              cVar11 = cVar8 + 1;
             }
             cVar8 = cVar11;
           }
@@ -1168,7 +1168,7 @@ void FUN_8006268c(CombatAI_s* param_1){
       if (param_1->combatEnt->AtkType == 1) {
         FUN_800609bc(param_1);
         FUN_8006193c(param_1);
-        param_1->unk0x7 = '\x01';
+        param_1->unk0x7 = 1;
       }
       else {
         FUN_80060db0(param_1);
@@ -1296,7 +1296,7 @@ void FUN_800628cc(CombatAI_s* param_1){
                       bVar13 = CombatEntity::Flag4(param_1->combatEnt);
                       cVar17 = (char)uVar18 + -1;
                       if (bVar12 != bVar13) {
-                        cVar17 = (char)uVar18 + '\x01';
+                        cVar17 = (char)uVar18 + 1;
                       }
                       uVar18 = (uint)cVar17;
                     }
@@ -1666,7 +1666,7 @@ u8 ai_should_swap_weapons(CombatAI_s* param_1){
   }
   LAB_80063828
   cVar4 = param_1->unk0x4;
-  if ((((cVar4 == '\x01') && (param_1->combatEnt->AtkType = 2, pTVar2)) &&
+  if ((((cVar4 == 1) && (param_1->combatEnt->AtkType = 2, pTVar2)) &&
       (pTVar2->range == 0)) &&
      ((param_1->weapon != NULL && (param_1->weapon->range != 0)))) {
     Ai_swap_weapons(param_1);

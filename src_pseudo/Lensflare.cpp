@@ -58,7 +58,7 @@ Gfx * Lensflare::Render(Gfx *g){
     gGlobals.sky.lensFlareVal = 0.0;
     return g;
   }
-  if (gGlobals.sky.Type != 3) { //not outside
+  if (gGlobals.sky.Type != SkyTypeOutdoor) {
     gGlobals.sky.lensFlareVal = 0.0;
     return g;
   }

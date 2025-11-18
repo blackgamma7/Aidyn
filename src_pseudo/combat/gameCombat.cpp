@@ -69,7 +69,7 @@ Gfx * FUN_80027aa8(Gfx *param_1){
     Scene::MatrixASetPos
               (SceneDataP,vec3f_800f5400.x,vec3f_800f5400.y + FLOAT_800e9b78 * fVar1,
                vec3f_800f5400.z);
-    SetSceneColors(SceneDataP,0xff,'\x01',0x0);
+    SetSceneColors(SceneDataP,0xff,1,0x0);
     fVar1 = gEntityDB->GetScale(gCombatP->current_Ent->charSheetP->ID);
     Scene::MatrixANormalizeScale(SceneDataP,fVar1,fVar1,fVar1);
     param_1 = BorgAnimDrawScene(param_1,SceneDataP);
@@ -664,7 +664,7 @@ void init_combat_struct(void){
       gGlobals.EncounterDat.BossShadow = 1;
     }
     for(u8 i=0;i<14;i++) {gGlobals.playerDataArray[i] = 0;}
-    gGlobals.gameVars.mapDatA = 0x10;
+    gGlobals.gameVars.mapDatA = MAPA_Battle;
     gGlobals.gameVars.mapDatC = 0;
     gGlobals.gameVars.mapDatB = (ushort)gGlobals.EncounterDat.battlefield;
     InitZoneEngine(1,0);
@@ -689,7 +689,7 @@ void init_combat_struct(void){
     CombatMarkers::Init();
     gGlobals.combatBytes[0] = 0x1f;
     gGlobals.screenFadeMode = 2;
-    gGlobals.goblinAmbush = 0;
+    gGlobals.goblinAmbush = false;
     gGlobals.brightness = 0.0;
     gGlobals.GoblinHitTally = 0;
     gGlobals.screenFadeSpeed = (1.0f/60);

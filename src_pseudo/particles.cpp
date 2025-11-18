@@ -233,18 +233,18 @@ LAB_800b23cc:
                 pE->unk6 -= delta;
               goto LAB_800b23cc;
             }
-            pE->unk6 = pE->unk8;
-            iVar2 = (int)(short)pE->unk8;
+            pE->unk6 = pE->count;
+            iVar2 = (int)(short)pE->count;
             if (iVar2 < 0) {
               if (iVar2 < 0) iVar2 = -iVar2;
               iVar6 = 0x10000;
               if (iVar2 < 1) goto LAB_800b23cc;
               do {
                 (*pE->funcB)(pPH,pE);
-                lVar9 = pE->unk8;
+                lVar9 = pE->count;
                 iVar2 = iVar6 >> 0x10;
                 if (lVar9 < 0) {
-                  lVar9 = -(int)(short)pE->unk8;
+                  lVar9 = -(int)(short)pE->count;
                 }
                 iVar6 += 0x10000;
               } while (iVar2 < lVar9);
@@ -376,7 +376,7 @@ bool Particle::FUN_800b2890(ParticleHeadStruct *head,ParticleEmmiter *emmi,Parti
 
 
 ParticleEmmiter *
-Particle::AllocParticleEmitter(ParticleHeadStruct *head,u16 lifespan,short texture,u16 param_4,
+Particle::AllocParticleEmitter(ParticleHeadStruct *head,s16 lifespan,s16 texture,u16 param_4,
             ParticleFuncA func__,ParticleFuncB initFunc,ParticleFuncC tickFunc,void *object,ParticleEmmiter *link){
   Particle_s *part;
   ParticleEmmiter *emmi;
@@ -387,7 +387,7 @@ Particle::AllocParticleEmitter(ParticleHeadStruct *head,u16 lifespan,short textu
     InitEmmiter(emmi,emmi->ID);
     emmi->lifespan = lifespan;
     emmi->flags = (PARTEMMI_8000|PARTEMMI_0004|PARTEMMI_0002|PARTEMMI_0001);
-    emmi->unk8 = param_4;
+    emmi->count = param_4;
     emmi->funcA = func__;
     emmi->funcB = initFunc;
     emmi->funcC = tickFunc;

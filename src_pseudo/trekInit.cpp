@@ -85,10 +85,10 @@ void clear_HUD_elements(u16 param_1) {
   bVar1 = gGlobals.playerCharStruct.unkState == 0xb;
   if (param_1) bVar1 = false;
   FreeZoneEngine(bVar1);
-  clear_sfx_entries(&gGlobals.SFXStruct,1);
+  clear_sfx_entries(&gGlobals.SFXStruct,true);
   FreeAllWanderers(&gGlobals.wander);
   FreeWanderHead(&gGlobals.wander);
-  Sky::SetBackgroundType(2,0,0.0);
+  Sky::SetBackgroundType(SkyType2,0,0.0);
   gPlayer = NULL; //again??
   gametrek_flag0 = 0;
 }

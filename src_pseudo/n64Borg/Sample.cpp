@@ -10,7 +10,6 @@ u8 borg11_func_b(Borg11Header *param_1,Borg11Data *param_2){
   return false;
 }
 
-
 void borg11_free(Borg11Header *param_1){
   u32 oldMem = get_memUsed();
   if (param_1->head.index == -1) HFREE(param_1->dat,125);
@@ -19,5 +18,12 @@ void borg11_free(Borg11Header *param_1){
   borg_mem[11] = borg_mem[11] - (oldMem - get_memUsed());
   borg_count[11]--;
 }
+
+Borg11Header * get_borg_11(int param_1) {
+  clearBorgFlag();
+  return (Borg11Header *)getBorgItem(param_1);
+}
+
+void passto_borg11_free(Borg11Header *param_1) {borg11_free(param_1);}
 
 

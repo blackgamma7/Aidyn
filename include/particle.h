@@ -22,7 +22,7 @@ struct Particle_s {
     vec2f scale;
     vec4f colorA;
     vec4f colorB;
-    vec4f vec_0x4c;
+    vec4f precipPos;
     u32 unk0x5c; /* unused? */
     Mtx scaleMtx[2];
     Mtx translateMtx[2];
@@ -55,7 +55,7 @@ struct ParticleEmmiter {
     s16 unk6;
     undefined field3_0x6;
     undefined field4_0x7;
-    u16 unk8;
+    u16 count;
     short texture;
     u16 flags; //uses PartEmmiFlags
     float height;
@@ -136,7 +136,8 @@ namespace Particle{
     Particle_s * FUN_800b27cc(ParticleHeadStruct *,ParticleEmmiter *,u16);
     void FUN_800b282c(ParticleHeadStruct *,Particle_s *);
     bool FUN_800b2890(ParticleHeadStruct *,ParticleEmmiter *,Particle_s *);
-    ParticleEmmiter * AllocParticleEmitter(ParticleHeadStruct *,u16,s16 ,u16,ParticleFuncA,ParticleFuncB,ParticleFuncC,void *,ParticleEmmiter *);
+    ParticleEmmiter * AllocParticleEmitter(ParticleHeadStruct *head,s16 lifespan,s16 texture,u16 count,
+            ParticleFuncA func__,ParticleFuncB initFunc,ParticleFuncC tickFunc,void *object,ParticleEmmiter *link);
     void FreeParticleEmitter(ParticleHeadStruct *,ParticleEmmiter *);
     void ResetEmmiter(ParticleHeadStruct *,ParticleEmmiter *);
     void FUN_800b2bc4(ParticleHeadStruct *);
@@ -160,6 +161,9 @@ namespace Particle{
     void UnsetSceneEmmiter(ParticleHeadStruct *,SceneData *);
     bool SceneHasEmmiter(ParticleHeadStruct *,SceneData *);
 };
+//shorthand for particle emmiter creatiom
+#define NewParticleEmmiter(lifespan,texture,count,func__,initFunc,tickFunc,object,link)\
+Particle::AllocParticleEmitter(&gGlobals.gameVars.particleEmmiter,lifespan,texture,param_4,func__,initFunc,tickFunc,object,link)
 
 //used by PlaneObj as well. sets vertex data
 void SetVtx(Vtx_t *v,float x,float y,float z,u16 flag,s16 U,s16 V,u8 R,u8 G,u8 B,u8 A);

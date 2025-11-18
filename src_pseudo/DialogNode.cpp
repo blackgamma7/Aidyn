@@ -87,7 +87,7 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
   bVar7 = check_command_bitmask(param_2,param_3);
   uVar8 = (uint)param_3;
   if (bVar7 != 1) {
-    if ((char)bVar7 < '\x02') {
+    if ((char)bVar7 < 2) {
       if (bVar7 != 0) {
         return 0;
       }
@@ -194,7 +194,7 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
     }
     else {
       pcVar3 = acStack_128;
-      if ('\x03' < (char)bVar7) {
+      if (3 < (char)bVar7) {
         return 0;
       }
       sprintf(pcVar3,"line = %d: Invalid node to evaluate",489);

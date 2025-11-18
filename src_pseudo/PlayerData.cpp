@@ -854,7 +854,7 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
   }
   #endif
   Scene::SetLightColors(param_2,(param_1->skyTint).x*255,(param_1->skyTint).y*255,(param_1->skyTint).z*255);
-  if (gGlobals.sky.Type == 3) {
+  if (gGlobals.sky.Type == SkyTypeOutdoor) {
     //add sun light source
     Scene::addDynamicLight(param_2,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
                gSunColor.R,gSunColor.G,gSunColor.B,light_count++);
@@ -885,7 +885,7 @@ void set_sun_light(SceneData *param_1,u16 flag,voxelObject *param_3,u8 alpha){
         gMainColor.R * gGlobals.brightness,
         gMainColor.G * gGlobals.brightness,
         gMainColor.B * gGlobals.brightness);
-    if (gGlobals.sky.Type == 3) {
+    if (gGlobals.sky.Type == SkyTypeOutdoor) {
       Scene::addDynamicLight
                 (param_1,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
                  gSunColor.R,gSunColor.G,gSunColor.B,light_count++);

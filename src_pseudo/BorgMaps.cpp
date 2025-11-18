@@ -14,10 +14,10 @@ void BorgMaps::GetMapTerrain(short a,short b) {
   }
   World::SetTerrain(TerrainPointer,(char)pmVar1->terrian);
   gGlobals.gameVars.weather.skyBgdat = 1;
-  gGlobals.sky.Type = 3;
+  gGlobals.sky.Type = SkyTypeOutdoor;
   if (false) { //?
     gGlobals.gameVars.weather.skyBgdat = 1;
-    gGlobals.sky.Type = 3;
+    gGlobals.sky.Type = SkyTypeOutdoor;
     return;
   }
   switch(MapDataList_pointer[i].terrian) {
@@ -470,7 +470,7 @@ LAB_8002d464:
   case MAPA_Barrows:
     pmVar11 = mapDataList_9;
     if (!param_4) {
-      miniMapLoaded = 1;
+      miniMapLoaded = true;
       gGlobals.gameVars.mapCellSize.y = 25.0f;
       gGlobals.gameVars.mapCellSize.x = 25.0f;
       WriteMapIndecies(mapDataList_9);

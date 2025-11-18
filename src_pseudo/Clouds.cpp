@@ -134,7 +134,7 @@ Gfx * Clouds::Render(Gfx *g){
   vec3f v3Temp;
   vec2f v2Temp;
   
-  if ((true) && (gGlobals.sky.Type == 3)) {
+  if ((true) && (gGlobals.sky.Type == SkyTypeOutdoor)) {
     CalcWind();
     camRotY = gCamera.rotation.y;
     camRotZ = gCamera.rotationXZ.y;

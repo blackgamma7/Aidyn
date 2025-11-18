@@ -32,7 +32,7 @@ void SetNewJounalEntry(s16);
 void NewJournalEntryPopup();
 
 void initGameTrek();
-void clear_HUD_elements(short );
+void clear_HUD_elements(u16 );
 
 Gfx* tick_and_render_widgets(Gfx*);
 
