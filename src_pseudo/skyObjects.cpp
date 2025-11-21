@@ -402,43 +402,32 @@ void Skyobjects::UpdateSun(void){
 
 
 
-void Skyobjects::UpdateMoon(void)
-
-{
+void Skyobjects::UpdateMoon(void){
   bool bVar1;
-  SkyobjectStruct *pSVar2;
   uint uVar3;
   u32 BVar5;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
+  float sinY;
+  float cosY;
+  float sinX;
+  float cosX;
   float fVar9;
   Calendar cal;
   
-  fVar5 = World::get_timeofDay_float(TerrainPointer);
-  pSVar2 = gMoonObjP;
-  fVar5 = fVar5 * 360.0f + 90.0f;
-  fVar5 = fVar5 + fVar5;
-  bVar1 = 360.0f < fVar5;
-  gMoonObjP->pos.x = fVar5;
-  if (360.0f < fVar5) {
-    do {
-      fVar5 = fVar5 - 360.0;
-    } while (360.0 < fVar5);
-    pSVar2->pos.x = fVar5;
+  gMoonObjP->pos.x = (World::get_timeofDay_float(TerrainPointer) * 360.0f + 90.0f)*2;
+  while (360.0f < gMoonObjP->pos.x) {
+    gMoonObjP->pos.x-= 360.0;
   }
   gGlobals.MoonPos.x = 0.0;
   gGlobals.MoonPos.y = 0.0;
   gGlobals.MoonPos.z = 1.0f;
-  fVar5 = __sinf(gMoonObjP->pos.y * dtor);
-  fVar6 = __cosf(gMoonObjP->pos.y * dtor);
-  fVar7 = __sinf(-gMoonObjP->pos.x * dtor);
-  fVar8 = __cosf(-gMoonObjP->pos.x * dtor);
-  fVar9 = fVar7 * 0.0 + fVar8;
-  gGlobals.MoonPos.y = fVar8 * 0.0 - fVar7;
-  gGlobals.MoonPos.x = fVar6 * 0.0 + fVar9 * fVar5;
-  gGlobals.MoonPos.z = fVar9 * fVar6 - fVar5 * 0.0;
+  sinY = __sinf(gMoonObjP->pos.y * dtor);
+  cosY = __cosf(gMoonObjP->pos.y * dtor);
+  sinX = __sinf(-gMoonObjP->pos.x * dtor);
+  cosX = __cosf(-gMoonObjP->pos.x * dtor);
+  fVar9 = sinX * 0.0 + cosX;
+  gGlobals.MoonPos.y = cosX * 0.0 - sinX;
+  gGlobals.MoonPos.x = cosY * 0.0 + fVar9 * sinY;
+  gGlobals.MoonPos.z = fVar9 * cosY - sinY * 0.0;
   if (moon_phase == TerrainPointer->moonPhases) return;
   FREEQB8(sSkyObjBss[1]);
     moon_phase = TerrainPointer->moonPhases;

@@ -240,27 +240,23 @@ void CombatEntity::SetMovementRange(){
 }
 
 u8 CombatEntity::DEXCheck(){
-  s32 iVar1;
-  s8 cVar3;
-  u8 bVar4;
-  
-  iVar1 = gCombatP->turn.unk4;
+  s32 iVar1 = gCombatP->turn.unk4;
   NOOP_80068350();
-  cVar3 = CharStats::getBase(this->charSheetP->Stats,STAT_DEX);
-  bVar4 = 0;
-  if ((0 < cVar3) && (bVar4 = 1, 18 < cVar3)) {
-    if (cVar3 < 25) {
-      bVar4 = 1;
-      if (iVar1 != 0) {bVar4 = 2;}
+  s8 dex = CharStats::getBase(this->charSheetP->Stats,STAT_DEX);
+  u8 ret = 0;
+  if ((0 < dex) && (ret = 1, 18 < dex)) {
+    if (dex < 25) {
+      ret = 1;
+      if (iVar1) ret = 2;
     }
     else {
-      bVar4 = 2;
-      if (((30 < cVar3) && (bVar4 = 3, cVar3 < 35)) && (bVar4 = 2, iVar1 != 0)) {
-        bVar4 = 3;
+      ret = 2;
+      if (((30 < dex) && (ret = 3, dex < 35)) && (ret = 2, iVar1 != 0)) {
+        ret = 3;
       }
     }
   }
-  return bVar4;
+  return ret;
 }
 
 u8 CombatEntity::GetProtection(){
@@ -659,17 +655,10 @@ LAB_800696f0:
 }
 
 u8 CombatEntity::CanBeTargeted(CombatEntity *target,s32 param_3){
-  u32 uVar4;
-  u32 uVar5;
-  float fVar8;
-  u8 bStack176 [2];
-  vec3f fStack168;
-  vec3f afStack104;
-  
   if (target->charSheetP->ID != IDEntInd(EntInd_Shadow)) {
     if (!Flag89()) {
-      if (gGlobals.combatBytes[0] == 0x19) {return target == this;}
-      if (!m8006963c(target)) {return false;}
+      if (gGlobals.combatBytes[0] == 0x19) return target == this;
+      if (!m8006963c(target)) return false;
     }
     else {
       if (Entity::isDead(target->charSheetP)) return false;
@@ -679,52 +668,36 @@ u8 CombatEntity::CanBeTargeted(CombatEntity *target,s32 param_3){
       if (!(this->flags & COMBATENT_MEDIC)) {if (target == this) {return true;}}
       else {if (target == this) return false;}
     }
-    bStack176[0] = 0;
-    bStack176[1] = 0;
-    target->GetCoordU8(bStack176,bStack176 + 1);
-    if (!m80069384(target,(u32)bStack176[0],(u32)bStack176[1],param_3)) {return false;}
-    if (FUN_8007105c(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),(u32)bStack176[0],bStack176[1])) {return true;}
+    u8 targetPos[2]={0,0};
+    target->GetCoordU8(targetPos,targetPos + 1);
+    if (!m80069384(target,(u32)targetPos[0],(u32)targetPos[1],param_3)) {return false;}
+    if (FUN_8007105c(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),(u32)targetPos[0],targetPos[1])) {return true;}
     playerData *p1 = gGlobals.playerDataArray[this->index];
     playerData *p2 = gGlobals.playerDataArray[target->index];
     if ((p1) && (p2)) {
-      Vec3Copy(&(p1->collision).pos,&fStack168);
-      Vec3Copy(&(p2->collision).pos,&afStack104);
-      fStack168.y += -p1->scaleRad + gEntityDB->GetHeight(this->charSheetP->ID);
-      fStack168.y += -p2->scaleRad + gEntityDB->GetHeight(target->charSheetP->ID);
-      return FUN_800716b4(&gCombatP->substruct,&fStack168,&afStack104,(u32)this->index,target->index);
-      
+      vec3f posA,posB;
+      Vec3Copy(&(p1->collision).pos,&posA);
+      Vec3Copy(&(p2->collision).pos,&posB);
+      posA.y += -p1->scaleRad + gEntityDB->GetHeight(this->charSheetP->ID);
+      posA.y += -p2->scaleRad + gEntityDB->GetHeight(target->charSheetP->ID); //bug? should also be posB?
+      return FUN_800716b4(&gCombatP->substruct,&posA,&posB,(u32)this->index,target->index);
     }
   }
   return false;
 }
 
-
-
 u32 CombatEntity::GetSpellTargetCount(){
-  SpellInstance *pSVar1;
-  uint ret;
-  int iVar3;
-  
-  pSVar1 = Entity::GetSpell(this->charSheetP);
-  if (!pSVar1) ret = 0;
-  else if (pSVar1->cast == MCAST_ALL) ret = (uint)gCombatP->EntCount;
-  else {
-    ret = 1;
-    if (pSVar1->cast == MCAST_RANK) {
-      ret = (u8)Entity::CheckSpellWizard(this->charSheetP,pSVar1) + 1 >> 1;
-    }
-  }
-  return ret;
+  SpellInstance *sp = Entity::GetSpell(this->charSheetP);
+  if (!sp) return 0;
+  if (sp->cast == MCAST_ALL) return gCombatP->EntCount;
+  if (sp->cast == MCAST_RANK) return Entity::CheckSpellWizard(this->charSheetP,sp) + 1 >> 1;
+  return 1;
 }
 
 u8 CombatEntity::canControl(SpellInstance *param_2){
-  ItemID x;
-  u8 bVar3;
-  bool bVar1;
   byte bVar2;
-  
-  bVar3 = GETINDEX((param_2->base).id);
-  x = this->charSheetP->ID;
+  u8 bVar3 = GETINDEX((param_2->base).id);
+  ItemID x = this->charSheetP->ID;
   if (true) {
     switch(bVar3) {
     case SPELLIND_ControlElem:
@@ -755,19 +728,12 @@ u8 CombatEntity::SpellEffectsTarget(CombatEntity *param_2,SpellInstance *param_3
   u8 bVar3;
   u8 MVar4;
   
-  if (param_3 == NULL) {
-RetFalse:
-    bVar1 = false;
-  }
+  if (param_3 == NULL) return false;
   else {
     if (param_2->Flag6()) return false;
     if (Entity::isDead(param_2->charSheetP)) return false;
-    if (param_3->target == MTarget_Party) {
-      if (param_2->Flag4() != Flag4()) return false;
-    }
-    if (param_3->target == MTarget_Enemy) {
-      if (param_2->Flag4() == Flag4()) goto RetFalse;
-    }
+    if ((param_3->target == MTarget_Party)&&(param_2->Flag4() != Flag4())) return false;
+    if ((param_3->target == MTarget_Enemy)&&(param_2->Flag4() == Flag4())) return false;
     bVar1 = false;
     if (!Entity::HasSpellEffect(param_2->charSheetP,GETINDEX(param_3->base.id))) {
       if (Entity::CheckSpellSpecial(param_2->charSheetP,param_3) == 0) bVar1 = param_2->canControl(param_3);
@@ -1044,7 +1010,7 @@ void CombatEntity::Escaped(){
     SetFlag(COMBATENT_FLED);
     gCombatP->EntsAlive--;
     if (Flag4()) gCombatP->EnemiesAlive--;
-    else gCombatP->playersAlive--;
+    else gCombatP->partyAlive--;
     ClearSpellEffects();
     Entity::ClearAllPotionEffects(this->charSheetP);
     FUN_80096048(gGlobals.playerDataArray[this->index]);
@@ -1468,7 +1434,7 @@ void CombatEntity::Death(){
     }
   }
   else {
-    gCombatP->playersAlive--;
+    gCombatP->partyAlive--;
     PARTY->CheckDeaths();
     TroubadourStop;
   }
@@ -1921,7 +1887,7 @@ u8 CombatEntity::m8006cbb4(CombatEntity *param_2,SpellInstance *param_3){
   
   if (gCombatP->enemy_index == 0xc) return true;
   else {
-    uVar3 = (u32)gCombatP->playerCount;
+    uVar3 = (u32)gCombatP->partyCount;
     uVar4 = 0;
     if (uVar3 < gCombatP->EntCount) {
       do {
@@ -2679,7 +2645,7 @@ u8 CombatEntity::CalculateAttack(CombatEntity *target,u8 param_3){
 
   Actor::UnsetFlag(ppVar2,ACTOR_2);
   sVar6 = GoblinAmbushAttack(target,uVar5);
-  TryCheatDeath(target,sVar6);
+  target->TryCheatDeath(sVar6);
   this->unk22 = 1;
   if (this->AtkType != 3) target->damage = (u8)sVar6;
   set_camera_playerdata_focus(ppVar2,ppVar3);
@@ -2712,10 +2678,9 @@ void CombatEntity::TroubadourUpChance(u8 param_2){
   if (RollD(1,100) <= (param_2 / 10)) {this->charSheetP->Skills->AddToBaseSkill(SKILL_Troubador,1);}}
 
 void CombatEntity::m8006f448(){
-  playerData *ppVar1;
   vec3f afStack80;
   
-  ppVar1 = gGlobals.playerDataArray[this->index];
+  playerData *ppVar1 = gGlobals.playerDataArray[this->index];
   if (ppVar1) {
     Vec3Set(&afStack80,this->coord.x,(ppVar1->collision).pos.y,this->coord.y);
     Actor::SetCombatMove(ppVar1,&afStack80,(float)this->moveRange);

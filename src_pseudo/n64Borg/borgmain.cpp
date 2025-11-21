@@ -703,7 +703,7 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
   param_1->dat = param_2;
   param_1->flag = 0;
   param_1->unk1c = 1.0;
-  pBVar6 = (Borg6Struct *)HALLOC(uVar1 * 0x18,2064);
+  pBVar6 = (Borg6Struct *)HALLOC(param_2->subCount * sizeof(Borg6Struct),2064);
   param_1->structDat = pBVar6;
   uVar1 = param_1->dat->subCount;
   pBVar3 = param_1->dat->sub;

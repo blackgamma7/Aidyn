@@ -376,7 +376,7 @@ bool Particle::FUN_800b2890(ParticleHeadStruct *head,ParticleEmmiter *emmi,Parti
 
 
 ParticleEmmiter *
-Particle::AllocParticleEmitter(ParticleHeadStruct *head,s16 lifespan,s16 texture,u16 param_4,
+Particle::AllocParticleEmitter(ParticleHeadStruct *head,s16 lifespan,s16 texture,u16 count,
             ParticleFuncA func__,ParticleFuncB initFunc,ParticleFuncC tickFunc,void *object,ParticleEmmiter *link){
   Particle_s *part;
   ParticleEmmiter *emmi;
@@ -387,7 +387,7 @@ Particle::AllocParticleEmitter(ParticleHeadStruct *head,s16 lifespan,s16 texture
     InitEmmiter(emmi,emmi->ID);
     emmi->lifespan = lifespan;
     emmi->flags = (PARTEMMI_8000|PARTEMMI_0004|PARTEMMI_0002|PARTEMMI_0001);
-    emmi->count = param_4;
+    emmi->count = count;
     emmi->funcA = func__;
     emmi->funcB = initFunc;
     emmi->funcC = tickFunc;
@@ -704,7 +704,7 @@ void BorgParticleEmitterB(ParticleHeadStruct *pHead,ParticleEmmiter *param_2){
 
 
 ParticleEmmiter *
-Particle::AllocBorg5Particle(ParticleHeadStruct *param_1,SceneData *scene,Borg5_particle *dat){
+Particle::AllocBorg5Particle(ParticleHeadStruct *pHead,SceneData *scene,Borg5_particle *dat){
   u16 uVar1;
   ParticleEmmiter *pEmmi;
   Particle_s *pPVar2;
@@ -713,7 +713,7 @@ Particle::AllocBorg5Particle(ParticleHeadStruct *param_1,SceneData *scene,Borg5_
   
   if (dat->partLifespan < 1) return NULL;
   if (dat->partLifespan2 < 1) return NULL;
-  pEmmi = AllocParticleEmitter(param_1,dat->partLifespan,dat->texture,dat->unk14,
+  pEmmi = AllocParticleEmitter(pHead,dat->partLifespan,dat->texture,dat->unk14,
            BorgParticleEmitterCallback,NULL,NULL,dat,NULL);
   if (pEmmi == NULL) return NULL;
   pEmmi->sceneDat = scene;
@@ -726,7 +726,7 @@ Particle::AllocBorg5Particle(ParticleHeadStruct *param_1,SceneData *scene,Borg5_
   SetColorB(pEmmi->particles,(dat->colVA).x,(dat->colVA).y,(dat->colVA).z,(dat->colVA).w);
   Vec3Scale((vec3f *)&pEmmi->particles->colorB,0.006f);
   if ((dat->flagE & B5PART_1000)){
-    pPVar2 = FUN_800b277c(param_1,pEmmi,dat->partLifespan);
+    pPVar2 = FUN_800b277c(pHead,pEmmi,dat->partLifespan);
     if (pPVar2 == NULL) goto freeAndReturnNULL;
     SetFlag(pPVar2,PARTICLE_0800);
     UnsetFlag(pPVar2,PARTICLE_0010);
@@ -735,14 +735,14 @@ Particle::AllocBorg5Particle(ParticleHeadStruct *param_1,SceneData *scene,Borg5_
     Vec3Scale((vec3f *)&pPVar2->colorB,0.006f);
   }
   if ((dat->flagE & B5PART_0800)) {
-    pPVar2 = FUN_800b27cc(param_1,pEmmi,dat->partLifespan);
+    pPVar2 = FUN_800b27cc(pHead,pEmmi,dat->partLifespan);
     if (pPVar2 == NULL) goto freeAndReturnNULL;
     uVar1 = pPVar2->id;
     SetFlag(pPVar2,PARTICLE_0100|PARTICLE_0040);
     SetColorB(pPVar2,(dat->colVC).x,(dat->colVC).y,(dat->colVC).z,(dat->colVC).w);
     Vec3Scale((vec3f *)&pPVar2->colorB,0.006f);
     if ((dat->flagE & B5PART_0400)){
-      pPVar2 = FUN_800b277c(param_1,pEmmi,dat->partLifespan);
+      pPVar2 = FUN_800b277c(pHead,pEmmi,dat->partLifespan);
       if (pPVar2 == NULL) goto freeAndReturnNULL;
       SetFlag(pPVar2,PARTICLE_0800);
       UnsetFlag(pPVar2,PARTICLE_0010);
@@ -752,10 +752,10 @@ Particle::AllocBorg5Particle(ParticleHeadStruct *param_1,SceneData *scene,Borg5_
     }
   }
   if ((dat->flagE & B5PART_8000)) {
-    pPVar2 = FUN_800b27cc(param_1,pEmmi,dat->partLifespan);
+    pPVar2 = FUN_800b27cc(pHead,pEmmi,dat->partLifespan);
     if (pPVar2 == NULL) {
 freeAndReturnNULL:
-      FreeParticleEmitter(param_1,pEmmi);
+      FreeParticleEmitter(pHead,pEmmi);
       return NULL;
     }
     SetFlag(pPVar2,PARTICLE_0400);
@@ -770,9 +770,9 @@ freeAndReturnNULL:
     Vec3Normalize(res);
     Vec3Scale(res,(dat->emmiSpeed * 0.006));
   }
-  BorgParticleEmitterCallback(param_1,pEmmi);
+  BorgParticleEmitterCallback(pHead,pEmmi);
   for(u16 i=0;i<dat->count;i++){
-    BorgParticleEmitterB(param_1,pEmmi);
+    BorgParticleEmitterB(pHead,pEmmi);
   }
   return pEmmi;
 }

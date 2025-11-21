@@ -1,9 +1,11 @@
 #include "combat/CombatStruct.h"
+#include "combat/CombatCamera.h"
 #include "combat/Visuals.h"
 #include "globals.h"
 #include "romstring.h"
 #include "widgets/WidgetCombatTextbox.h"
 #include "weapondb.h"
+#include "armordb.h"
 
 #define FILENAME "../combatengine/combat.cpp"
 
@@ -24,13 +26,13 @@ bool EntityCannotFight(ItemID id){
   return false;
 }
 
-
+extern void* combat_romstrings;
 void memset_combat_struct(CombatStruct *param_1){
   CLEAR(param_1);
   param_1->waitTimer = 0;
   param_1->SenseAuraWidget = NULL;
   param_1->loot_pool = NULL;
-  gCameraCombatStartFlag = 1;
+  gCameraCombatStartFlag = true;
   param_1->TroubadorLV = 0;
   param_1->textArray = RomString::Load(combat_romstrings,0x500);
   CLEAR(param_1->textboxes[0]);
@@ -103,7 +105,7 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
     pDat->removeFlag = 0;
   }
   ItemID x = C_Ent->charSheetP->ID;
-  init_combatgui_struct(x,index,param_1->playerCount <= index);
+  init_combatgui_struct(x,index,param_1->partyCount <= index);
   //are they Alaton or Shadow?
   if (GETINDEX(x) == EntInd_Shadow) set_shadow_index(index);
   if (GETINDEX(x) == EntInd_Alaron) set_alaron_index(index);
@@ -115,7 +117,7 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
   ppVar2->scaleRad = (ppVar2->collision).radius * fVar5;
   ppVar2->shadowAlpha = gEntityDB->BattleCheck(x);
   ppVar2->visible_flag = 1;
-  if (param_1->playerCount <= index) {
+  if (param_1->partyCount <= index) {
     ppVar2->visible_flag = 0;
     ppVar2->flags |= ACTOR_200;
   }
@@ -197,7 +199,7 @@ u16 Combat_CreatePartyMembers(u8 param_1){
     charsheet = PARTY->Members[i];
     if (charsheet) {
       if (Entity::isDead(charsheet)) {
-        gCombatP->playerCount--;
+        gCombatP->partyCount--;
         gCombatP->EntCount--;
       }
       else {
@@ -258,8 +260,8 @@ uint Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
                     // fireball
     if (pCVar2->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_fireball]),auStack_2d)) {
       iVar4 = Entity::CheckSpellWizard(pCVar2,pCVar2->spellbook->spells[auStack_2d[0]]);
-      if ((uint)gCombatP->flask_byte < (iVar4 << 1 & 0xffU)) {
-        gCombatP->flask_byte = (byte)(iVar4 << 1);
+      if ((uint)gCombatP->flask_byte < (u8)(iVar4 << 1)) {
+        gCombatP->flask_byte = (u8)(iVar4 << 1);
       }
     }
   }
@@ -283,9 +285,7 @@ void look_for_boss_shadow(ItemID param_1){
 }
 
 
-void Combat_CreateEnemies(u16 param_1,u8 param_2)
-
-{
+void Combat_CreateEnemies(u16 param_1,u8 param_2){
   ItemID IVar1;
   bool bVar8;
   ItemID *pIVar3;
@@ -370,7 +370,7 @@ void scoot_enemy_list(EncounterDat *param_1){
   } while (uVar5 < 0xc);
 }
 
-void Combat_InitEncounter(CombatStruct *param_1,EncounterDat *param_2){
+void Combat_InitEncounter(CombatStruct *cStruct,EncounterDat *param_2){
   CombatEntity *pCVar3;
   u16 uVar8;
   byte bVar9;
@@ -380,54 +380,51 @@ void Combat_InitEncounter(CombatStruct *param_1,EncounterDat *param_2){
   ItemID uVar6;
   float fVar12;
   
-  param_1->encounter_dat = param_2;
-  param_1->enemyCount = 0;
-  param_1->playerCount = PARTY->PartySize;
+  cStruct->encounter_dat = param_2;
+  cStruct->enemyCount = 0;
+  cStruct->partyCount = PARTY->PartySize;
   uVar8 = count_enemies(param_2);
   uVar6= 0;
-  param_1->enemyCount = (byte)uVar8;
-  bVar9 = find_sholeh(param_1->encounter_dat);
+  cStruct->enemyCount = (byte)uVar8;
+  bVar9 = find_sholeh(cStruct->encounter_dat);
   if (bVar9) {
-    pIVar11 = param_1->encounter_dat->enemy_entities + (bVar9 - 1);
-    param_1->enemyCount--;
+    pIVar11 = cStruct->encounter_dat->enemy_entities + (bVar9 - 1);
+    cStruct->enemyCount--;
     pIVar11= 0;
-    param_1->playerCount++;
+    cStruct->partyCount++;
     uVar6 = IDEntInd(EntInd_Sholeh);
   }
-  scoot_enemy_list(param_1->encounter_dat);
-  NOOP_800658a0(param_1->playerCount,param_1->enemyCount);
-  param_1->enemy_index = recount_enemy_party(param_1->encounter_dat,param_1->enemyCount - 1);
-  param_1->TroubadorLV = 0;
-  param_1->some_index = 0;
-  param_1->firstKill = 0;
-  param_1->leaderDead = 0;
-  param_1->EntCount = param_1->playerCount + param_1->enemyCount;
-  param_1->partOfDay = TerrainPointer->partOfDay;
-  bVar9 = look_for_flasks();
+  scoot_enemy_list(cStruct->encounter_dat);
+  NOOP_800658a0(cStruct->partyCount,cStruct->enemyCount);
+  cStruct->enemy_index = recount_enemy_party(cStruct->encounter_dat,cStruct->enemyCount - 1);
+  cStruct->TroubadorLV = 0;
+  cStruct->some_index = 0;
+  cStruct->firstKill = 0;
+  cStruct->leaderDead = 0;
+  cStruct->EntCount = cStruct->partyCount + cStruct->enemyCount;
+  cStruct->partOfDay = TerrainPointer->partOfDay;
   uVar10 = 0;
-  param_1->flask_byte = bVar9;
-  param_1->EXP_pool = 0;
-  param_1->gold_pool = 0;
-  init_combat_substruct(&param_1->substruct,param_1->encounter_dat->battlefield);
+  cStruct->flask_byte = look_for_flasks();
+  cStruct->EXP_pool = 0;
+  cStruct->gold_pool = 0;
+  init_combat_substruct(&cStruct->substruct,cStruct->encounter_dat->battlefield);
   if (param_2->collisionByte == 2) {
     uVar10 = PARTY->AmbushDamage();
   }
   uVar8 = Combat_CreatePartyMembers(uVar10);
   uVar7 = Combat_CreateAlly(uVar6,uVar8 & 0xff,uVar10);
-  param_1->leaderIndex = Combat_CreateAlly(uVar6,uVar8 & 0xff,uVar10);
+  cStruct->leaderIndex = Combat_CreateAlly(uVar6,uVar8 & 0xff,uVar10);
   Combat_CreateEnemies((ushort)uVar7 & 0xff,uVar10);
-  check_battlefeild_fleeing_refpoints(param_1);
-  (param_1->turn).unk4 = 0;
-  combatenine_turn_func(&param_1->turn);
-  (param_1->SpellMarkerPos).x = param_1->current_Ent->GetCoordX();
-  (param_1->SpellMarkerPos).y = param_1->current_Ent->GetCoordY();
-  encounter_id_check(param_1->encounter_dat->EncounterID);
+  check_battlefeild_fleeing_refpoints(cStruct);
+  (cStruct->turn).unk4 = 0;
+  CombatTurn::Init(&cStruct->turn);
+  (cStruct->SpellMarkerPos).x = cStruct->current_Ent->GetCoordX();
+  (cStruct->SpellMarkerPos).y = cStruct->current_Ent->GetCoordY();
+  encounter_id_check(cStruct->encounter_dat->EncounterID);
 }
 
 
-bool Ofunc_800664ac(CombatStruct *param_1)
-
-{
+bool Ofunc_800664ac(CombatStruct *param_1){
   byte bVar1;
   ItemID IVar2;
   bool bVar4;
@@ -548,9 +545,7 @@ void FUN_800668e4(CombatStruct *param_1,u8 *outX,u8 *outY,u8 *param_4,u8 param_5
 }
 
 
-void func_settting_leader_dead_flag(CombatStruct *param_1)
-
-{
+void func_settting_leader_dead_flag(CombatStruct *param_1){
   byte bVar1;
   ItemID IVar2;
   double dVar3;
@@ -568,7 +563,7 @@ void func_settting_leader_dead_flag(CombatStruct *param_1)
   undefined1 uStack_3f;
   undefined1 auStack_3e [46];
   
-  uVar9 = (uint)param_1->playerCount;
+  uVar9 = (uint)param_1->partyCount;
   uStack_40 = 0;
   uStack_3f = 0;
   auStack_3e[0] = 0;
@@ -577,7 +572,7 @@ void func_settting_leader_dead_flag(CombatStruct *param_1)
      (param_1->encounter_dat->enemy_entities[param_1->enemy_index] == (ItemID)0x0)) {
     return;
   }
-  ppCVar10 = &param_1->combatEnts + param_1->playerCount;
+  ppCVar10 = &param_1->combatEnts + param_1->partyCount;
   pCVar4 = *ppCVar10;
   do {
     if (!pCVar4) {
@@ -585,7 +580,7 @@ LAB_80066c04:
       IVar2 = param_1->encounter_dat->enemy_entities[param_1->enemy_index];
       CombatInitMacro1(IVar2,uVar13,uVar7);
       uVar8 = (u8)uVar9;
-      FUN_800668e4(param_1,&uStack_40,&uStack_3f,auStack_3e,uVar7,0,0,1,uVar8 - param_1->playerCount
+      FUN_800668e4(param_1,&uStack_40,&uStack_3f,auStack_3e,uVar7,0,0,1,uVar8 - param_1->partyCount
                    ,IVar2);
       ALLOC(pCVar4,1281);
       *ppCVar10 = pCVar4;
@@ -637,33 +632,31 @@ LAB_80066b7c:
   } while( true );
 }
 
-void get_gear_drop(CombatStruct *param_1,Entity_Ram *param_2,Loot_RAM *param_3)
-
-{
+void get_gear_drop(CombatStruct *cStruct,Entity_Ram *ent,Loot_RAM *loot){
   ItemID id;
-  if (param_2 == NULL) return;
-  id = param_2->Armor;
-  if ((param_3->armorDrop != 0) && (id != (ItemID)0xffff)) {
-    if (param_3->armorDrop >= RollD(1,100)) {
-      param_1->loot_pool->AddItem(id,1);
-      param_1->EXP_pool +=gArmorDBp->Armor[GETINDEX(id)].expBonus*25;//?
+  if (ent == NULL) return;
+  id = ent->Armor;
+  if ((loot->armorDrop != 0) && (id != (ItemID)0xffff)) {
+    if (loot->armorDrop >= RollD(1,100)) {
+      cStruct->loot_pool->AddItem(id,1);
+      cStruct->EXP_pool +=gArmorDBp->Armor[GETINDEX(id)].expBonus*25;//?
     }
   }
-  id = param_2->Sheild;
-  if (((param_3->sheildDrop != 0) && (id != (ItemID)0xffff)) &&
-     (RollD(1,100) <= param_3->sheildDrop)) {
-    param_1->loot_pool->AddItem(id,1);
-    param_1->EXP_pool += gArmorDBp->Armor[GETINDEX(id)].expBonus;
+  id = ent->Sheild;
+  if (((loot->sheildDrop != 0) && (id != (ItemID)0xffff)) &&
+     (RollD(1,100) <= loot->sheildDrop)) {
+    cStruct->loot_pool->AddItem(id,1);
+    cStruct->EXP_pool += gArmorDBp->Armor[GETINDEX(id)].expBonus;
   }
   for(u32 i=0;i>3;i++) {
-    id = param_2->weapon[i];
-    if (((param_3->weaponDrop[i] != 0) && (id != (ItemID)0xffff)) && (id != (ItemID)0x0)) {
+    id = ent->weapon[i];
+    if (((loot->weaponDrop[i] != 0) && (id != (ItemID)0xffff)) && (id != (ItemID)0x0)) {
       u8 index = GETINDEX(id);
       u8 isntMonsterWeapon[]={false,false,false,true,true,true,false,false,true,true,false};
       if ((isntMonsterWeapon[gWeaponsDB->weapons[index].wepClass]) &&
-         (RollD(1,100)<= param_3->weaponDrop[i])) {
-        param_1->loot_pool->AddItem(id,1);
-        param_1->EXP_pool += gWeaponsDB->weapons[index].EXPMod;
+         (RollD(1,100)<= loot->weaponDrop[i])) {
+        cStruct->loot_pool->AddItem(id,1);
+        cStruct->EXP_pool += gWeaponsDB->weapons[index].EXPMod;
       }
     }
   }
@@ -671,16 +664,13 @@ void get_gear_drop(CombatStruct *param_1,Entity_Ram *param_2,Loot_RAM *param_3)
 }
 
 
-void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,uint param_3)
-
-{ 
+void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,uint param_3){ 
   if (param_2->itemDropChances[param_3]) {
     if (param_2->itemDropChances[param_3] < RollD(1,100)) return;
     u8 uVar2 = 1;
     if (param_3 < 2) {
       uVar2 = rand_range(param_2->itemLo[param_3],param_2->itemHi[param_3]);
     }
-    //Short means messy bitshifting casting and AND casting. yeesh.
     s16 x = param_2->itemDrops[param_3];
     param_1->loot_pool->AddItem(x,uVar2);
     u16 uVar6;
@@ -713,10 +703,6 @@ void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,uint param_3)
   }
 }
 
-
-
-
-
 void calc_loot(CombatStruct *param_1,byte param_2,Entity_Ram *param_3){
   Loot_RAM *pLVar5 = &gChestDBp->lootCat[param_2];
   param_1->gold_pool+=rand_range(pLVar5->GoldLo,pLVar5->GoldHi);
@@ -729,52 +715,45 @@ void calc_loot(CombatStruct *param_1,byte param_2,Entity_Ram *param_3){
   for(u32 i=0;i<6;i++) {get_exp_mod(param_1,pLVar5,i);}
 }
 
-
-
 void add_globalLoot(CombatStruct *param_1,ItemID param_2){
   if (param_2 >> 8 == DB_CHEST) calc_loot(param_1,GETINDEX(param_2),(Entity_Ram *)NULL);
   else param_1->loot_pool->AddItem(param_2,1);
   return;
 }
 
-void calc_combat_loot(CombatStruct *param_1)
-
-{
-  byte bVar6;
-  int iVar5;
-  bool bVar7;
-  Entity_Ram *pEVar8;
+void calc_combat_loot(CombatStruct *cStruct){
   u8 i;
   
-  param_1->loot_pool = new GenericInventory();
-  param_1->gold_pool = 0;
-  param_1->EXP_pool = 0;
+  cStruct->loot_pool = new GenericInventory();
+  cStruct->gold_pool = 0;
+  cStruct->EXP_pool = 0;
   for(i = 0;i<12;i++){
-    if (param_1->encounter_dat->enemy_entities[i]) {
-      pEVar8 = gEntityDB->entities + (char)GETINDEX(param_1->encounter_dat->enemy_entities[i]);
-      param_1->EXP_pool+=pEVar8->EXP;
-      if (pEVar8->loot_Category) {
-        calc_loot(param_1,GETINDEX((ItemID)(pEVar8->loot_Category + 0x7ff)),pEVar8);
+    if (cStruct->encounter_dat->enemy_entities[i]) {
+      Entity_Ram *ent = gEntityDB->entities + (char)GETINDEX(cStruct->encounter_dat->enemy_entities[i]);
+      cStruct->EXP_pool+=ent->EXP;
+      if (ent->loot_Category) {
+        calc_loot(cStruct,GETINDEX((ItemID)(ent->loot_Category + 0x7ff)),ent);
       }
     }
   }
   if (gGlobals.EncounterDat.globalLoot) 
-    add_globalLoot(param_1,gGlobals.EncounterDat.globalLoot);
+    add_globalLoot(cStruct,gGlobals.EncounterDat.globalLoot);
   for(i=0;i<MAXPARTY;i++){
     CharSheet* pCVar1 = PARTY->Members[i];
     if ((pCVar1) && (!Entity::isDead(pCVar1))) {
-      Entity::AddExp(pCVar1,param_1->EXP_pool);
+      Entity::AddExp(pCVar1,cStruct->EXP_pool);
     }
   }
   //double money earned
-  param_1->gold_pool <<= 1;
+  cStruct->gold_pool <<= 1;
 }
-void FUN_800675b0(CombatStruct *param_1){
+
+void FUN_800675b0(CombatStruct *cStruct){
   uint uVar4,uVar5;
   
-  combat_turn_free(&param_1->turn);
+  CombatTurn::FreeArray(&cStruct->turn);
   uVar5 = 0;
-  if (param_1->EntCount) {
+  if (cStruct->EntCount) {
     do {
       CombatEntity *X = (&gCombatP->combatEnts)[uVar5++];
       if (X) {
@@ -796,80 +775,77 @@ void FUN_800675b0(CombatStruct *param_1){
         FREE(X,1668);
         (&gCombatP->combatEnts)[uVar5]=NULL;
       }
-    } while (uVar5 < param_1->EntCount);
+    } while (uVar5 < cStruct->EntCount);
   }
-  NOOP_80070c94(&param_1->substruct);
-  NOOP_80072228(param_1->substruct2);
-  NOOP_80072228(param_1->substruct2 + 1);
-  if (param_1->loot_pool) {
-    param_1->loot_pool->~GenericInventory();
-    param_1->loot_pool = NULL;
+  NOOP_80070c94(&cStruct->substruct);
+  NOOP_80072228(cStruct->substruct2);
+  NOOP_80072228(cStruct->substruct2 + 1);
+  if (cStruct->loot_pool) {
+    cStruct->loot_pool->~GenericInventory();
+    cStruct->loot_pool = NULL;
   }
-  if (param_1->textArray) {
-    RomString::Free(param_1->textArray);
-    param_1->textArray = NULL;
+  if (cStruct->textArray) {
+    RomString::Free(cStruct->textArray);
+    cStruct->textArray = NULL;
   }
 }
 
-
-void FUN_80067740(CombatStruct *param_1){
-  init_combat_substruct2(param_1->substruct2,0);
-  FUN_80072454(param_1->substruct2,param_1->current_Ent);
-  init_combat_substruct2(param_1->substruct2 + 1,1);
-  FUN_80072454(param_1->substruct2 + 1,param_1->current_Ent);
+void FUN_80067740(CombatStruct *cStruct){
+  init_combat_substruct2(cStruct->substruct2,0);
+  FUN_80072454(cStruct->substruct2,cStruct->current_Ent);
+  init_combat_substruct2(cStruct->substruct2 + 1,1);
+  FUN_80072454(cStruct->substruct2 + 1,cStruct->current_Ent);
 }
 
-
-void copy_string_to_combat_textbox(CombatStruct *param_1,char *param_2,uint param_3){
-  strcpy(param_1->textboxes[0],param_2);
-  param_1->TextboxFlag|= param_3;
+void copy_string_to_combat_textbox(CombatStruct *cStruct,char *param_2,uint param_3){
+  strcpy(cStruct->textboxes[0],param_2);
+  cStruct->TextboxFlag|= param_3;
   CombatTextboxWidget_SetText(param_2);
 }
 
 
-char * print_combat_textbox(CombatStruct *param_1,char *param_2,uint param_3){
-  char *pcVar1 = strcpy(param_1->textboxes[1],param_2);
-  param_1->TextboxFlag|= param_3;
-  return pcVar1;
+char * print_combat_textbox(CombatStruct *cStruct,char *param_2,uint param_3){
+  char *ret = strcpy(cStruct->textboxes[1],param_2);
+  cStruct->TextboxFlag|= param_3;
+  return ret;
 }
 
 char * copy_to_combat_textbox_2(CombatStruct *param_1,char *param_2,uint param_3){
-  char *pcVar1 = strcpy(param_1->textboxes[2],param_2);
+  char *ret = strcpy(param_1->textboxes[2],param_2);
   param_1->TextboxFlag |= param_3;
-  return pcVar1;
+  return ret;
 }
 
-void passto_combat_widget_print_func(CombatStruct *param_1){
-  CombatTextboxWidget_SetText(param_1->textboxes[0]);
+void passto_combat_widget_print_func(CombatStruct *cStruct){
+  CombatTextboxWidget_SetText(cStruct->textboxes[0]);
 }
 
 
-void copy_to_textbox_1(CombatStruct *param_1){
-  if ((param_1->TextboxFlag & 4)) {
-    strcpy(param_1->textboxes[1],param_1->textboxes[2]);
-    param_1->TextboxFlag&=~4;
+void copy_to_textbox_1(CombatStruct *cStruct){
+  if ((cStruct->TextboxFlag & 4)) {
+    strcpy(cStruct->textboxes[1],cStruct->textboxes[2]);
+    cStruct->TextboxFlag&=~4;
   }
-  copy_string_to_combat_textbox(param_1,param_1->textboxes[1],0);
+  copy_string_to_combat_textbox(cStruct,cStruct->textboxes[1],0);
 }
 
 
-void Ofunc_800678e8(CombatStruct *param_1){
-  copy_string_to_combat_textbox(param_1,param_1->textboxes[2],0);
+void Ofunc_800678e8(CombatStruct *cStruct){
+  copy_string_to_combat_textbox(cStruct,cStruct->textboxes[2],0);
 }
 
 
-void check_battlefeild_fleeing_refpoints(CombatStruct *param_1){
+void check_battlefeild_fleeing_refpoints(CombatStruct *cStruct){
   char buff [88];
   
-  param_1->hasFleeRefpoints = 0;
+  cStruct->hasFleeRefpoints = 0;
   for(u32 uVar2=0;uVar2<8;uVar2++) {
     sprintf(buff,gCombatP->textArray[COMBATSTRING_FleeX],uVar2);
-    voxelObject* prVar1 = FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,false);
-    if (prVar1) {
-      param_1->hasFleeRefpoints = true;
+    if (FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,false)) {
+      cStruct->hasFleeRefpoints = true;
       return;
     }
   }
 }
 
-bool renderTicker_GreaterThan3(CombatStruct *param_1){return 3 < (uint)param_1->renderTicker;}
+bool renderTicker_GreaterThan3(CombatStruct *cStruct){return 3 < (uint)cStruct->renderTicker;}

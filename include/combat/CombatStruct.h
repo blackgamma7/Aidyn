@@ -2,26 +2,18 @@
 #include "widgets/WidgetMenu.h"
 #include "combat/substructA.h"
 #include "combat/control.h"
-#include "combat/CombatEntity.h"
 #include "combat/encounterDat.h"
 #include "combat/CombatGui.h"
+#include "combat/turn.h"
 #include "chestdb.h"
 
-struct CombatTurn {
-    u8 unk0;
-    u8 unk1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    uint unk4;
-    u8 *arr;
-};
 
 struct CombatStruct { /* combat structure. needs more study */
     u8 partOfDay;
     u8 EntCount; //all entities at start of battle
     u8 EntsAlive; //all living entities
-    u8 playerCount; //all party members
-    u8 playersAlive; //remaining party members
+    u8 partyCount; //all party members
+    u8 partyAlive; //remaining party members
     u8 enemyCount; //enemies
     u8 EnemiesAlive; //remaining enemies
     u8 enemy_index;
@@ -37,7 +29,7 @@ struct CombatStruct { /* combat structure. needs more study */
     u32 EXP_pool; //experience earned
     EncounterDat *encounter_dat;
     CombatEntity *current_Ent; //entity currently taking turn.
-    CombatTurn turn;
+    CombatTurn_s turn;
     CombatSubstructA substruct;  //used for AI calculation
     CombatSubstructB substruct2[2];//used for AI calculation
     GenericInventory *loot_pool; //items earned

@@ -102,13 +102,13 @@ void PrecipParticleFuncB(ParticleHeadStruct *pHead,ParticleEmmiter *pEmmi){
   Vec4Scale(&p->colorB,(float)(-0.75 / lifespan));
 }
 
-ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,short param_4,short param_5,void *param_6){
-  ParticleEmmiter *emmi = NewParticleEmmiter(60,param_5,0,NULL,param_6,NULL,NULL,NULL);
+ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,short textureA,short textureB,void *param_6){
+  ParticleEmmiter *emmi = NewParticleEmmiter(60,textureB,0,NULL,param_6,NULL,NULL,NULL);
   ParticleEmmiter *ret = NULL;
   if (emmi) {
     Particle::SetColorB(emmi->particles,-(1.0f/120),-(1.0f/120),-(1.0f/120),0.0);
     Particle::SetFlag(emmi->particles,PARTICLE_0400);
-    ret = NewParticleEmmiter(60,param_4,0,NULL,PrecipParticleFuncB,PrecipParticleFuncC,aim,emmi);
+    ret = NewParticleEmmiter(60,textureA,0,NULL,PrecipParticleFuncB,PrecipParticleFuncC,aim,emmi);
     if (!ret) {
       Particle::ResetEmmiter(&gGlobals.gameVars.particleEmmiter,emmi);
       return NULL;

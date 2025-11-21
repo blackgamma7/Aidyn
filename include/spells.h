@@ -85,9 +85,9 @@ typedef enum MagicCastedEnum {
 } MagicCastedEnum;
 
 typedef enum MagicTargetEnum {
-    MTarget_Field,
-    MTarget_Party,
-    MTarget_Enemy,
+    MTarget_Field, //only useable outside battle
+    MTarget_Party, //only used on party members or charmed enemies
+    MTarget_Enemy, //only used on enemies
     MTarget_Area,
     MTarget_All
 } MagicTargetEnum;

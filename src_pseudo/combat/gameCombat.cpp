@@ -7,6 +7,7 @@
 #include "combat/markers.h"
 #include "combat/CombatCamera.h"
 #include "voxelChart.h"
+#include "vobjects.h"
 #include "memaker.h"
 #include "gameover.h"
 

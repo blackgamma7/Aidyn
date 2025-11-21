@@ -526,7 +526,7 @@ bool RZBA_end_combat(controller_aidyn *cont){
       case 8:
       case 0x13:
       case 0x18:
-        battle_complete(&gCombatP->turn);
+        CombatTurn::EnemiesDead(&gCombatP->turn);
         return true;
       }
     }

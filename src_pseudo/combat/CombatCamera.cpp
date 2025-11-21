@@ -185,13 +185,13 @@ void processCombatCamera(PlayerHandler *param_1) {
   
   cam = param_1->camera;
   Camera::SetMode(cam,4);
-  if (gCameraCombatStartFlag != 0) {
+  if (gCameraCombatStartFlag) {
     ppVar5 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
     if (ppVar5->visible_flag == 0) {
       ppVar5 = gGlobals.playerDataArray[gCombatP->combatEnts->index];
     }
     if (FUN_80096e58(param_1,ppVar5,avStack_238)) FUN_80096f4c(param_1,ppVar5,avStack_238,cam,1);
-    gCameraCombatStartFlag = 0;
+    gCameraCombatStartFlag = false;
     SHORT_800f1de4 = -1;
   }
   if (camera_PlayerData_flag == 0) {

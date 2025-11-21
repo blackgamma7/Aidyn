@@ -73,7 +73,7 @@ u8 CombatAI::JudgeAIMorale(CombatEntity *param_1,u8 param_2){
   }
   lVar7--;
 LAB_8006024c:
-  if (gCombatP->playersAlive < gCombatP->playerCount >> 1) lVar7+=2;//party bonus
+  if (gCombatP->partyAlive < gCombatP->partyCount >> 1) lVar7+=2;//party bonus
   if (!param_1->SpellEffectsPartyInArea()){
     if ((param_1->aiP->entIndex != -1) && ((&gCombatP->combatEnts)[param_1->aiP->entIndex])){
       if (!CharStats::getModded((&gCombatP->combatEnts)[param_1->aiP->entIndex]->charSheetP->Stats,STAT_STAM)) {
@@ -1958,9 +1958,6 @@ void CombatAIInfo::FaceTarget(CombatAI_s*param_1){
   param_1->combatEnt->FaceTarget((&gCombatP->combatEnts)[param_1->entIndex]);
 }
 
-
-
-
 void FUN_80064494(CombatAI_s *param_1){
   byte bVar1;
   u8 bVar2;
@@ -1968,7 +1965,7 @@ void FUN_80064494(CombatAI_s *param_1){
   float y;
   u8 uStack24 [2];
   
-  FUN_80070234(param_1->combatEnt);
+  param_1->combatEnt->UpdatePosition();
   param_1->combatEnt->Coord2IsCoord();
   uStack24[0] = 0;
   uStack24[1] = 0;
@@ -1996,7 +1993,7 @@ void FUN_800645b4(CombatAI_s*param_1){
   vec2f afStack96;
   float afStack_20 [6];
   
-  FUN_80070234(param_1->combatEnt);
+  param_1->combatEnt->UpdatePosition();
   if (!CombatAIInfo::IsAlly(param_1)) FUN_80064714(param_1);
   else {
     bVar1 = false;
@@ -2143,7 +2140,7 @@ u8 FUN_80064a78(CombatAI_s *param_1){
   u8 bVar1;
   u8 uVar2;
   
-  FUN_80070234(param_1->combatEnt);
+  param_1->combatEnt->UpdatePosition();
   FUN_80072454(gCombatP->substruct2,param_1->combatEnt);
   FUN_80072454(gCombatP->substruct2 + 1,param_1->combatEnt);
   if (param_1->unk1 == 2) {

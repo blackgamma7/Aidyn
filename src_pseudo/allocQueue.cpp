@@ -11,9 +11,13 @@ void AllocAllocQueueItem(QueueStructB *Q,void**p,void* param_3,int index,u16 typ
   QueueStructBItem *entry = Q->array + Q->items++;
   if (ALLOCQUEUE_QUEUESIZE <= Q->items) CRASH("AllocAllocQueueItem","Too Many Items!\nIncrease ALLOCQUEUE_QUEUESIZE\n");
   if(type>=9){
-    char acStack_120 [128];
-    sprintf(acStack_120,"Unknown Type: %d\n",type);
-    CRASH("AllocFreeQueueItem",acStack_120); //copy-paste oversight?
+    #ifdef DEBUGVER
+    char errBuff [128];
+    sprintf(errBuff,"Unknown Type: %d\n",type);
+    CRASH("AllocFreeQueueItem",errBuff); //copy-paste oversight?
+    #else
+    CRASH("","");
+    #endif
   }
   else{
     *p = NULL;
@@ -22,15 +26,17 @@ void AllocAllocQueueItem(QueueStructB *Q,void**p,void* param_3,int index,u16 typ
     entry->pBorg = p;
     entry->field1_0x4 = param_3;
     entry->BorgIndex = index;
-    if (0 < (int)(Q->items - 1)) {
-      for(u16 i = 0;i<(Q->items - 1);i++){
-        if (entry->pBorg == Q->array[i].pBorg){
-          char acStack_a0 [160];
-          sprintf(acStack_a0,"Alloc Item to same memory pointer.\n    Type: %d\nborgName: %d\n Pointer: %08x\n",
-                      entry->BorgSwitch,entry->BorgIndex,*entry->pBorg);
-          CRASH("AllocAllocQueueItem",acStack_a0);
+    for(u16 i = 0;i<(Q->items - 1);i++){
+      if (entry->pBorg == Q->array[i].pBorg){
+        #ifdef DEBUGVER
+        char errBuff [160];
+        sprintf(errBuff,"Alloc Item to same memory pointer.\n    Type: %d\nborgName: %d\n Pointer: %08x\n",
+                entry->BorgSwitch,entry->BorgIndex,*entry->pBorg);
+        CRASH("AllocAllocQueueItem",errBuff);
+        #else
+        CRASH("","");
+        #endif
         }
-      }
     }
   }
 }
@@ -59,9 +65,13 @@ void processAllocQueue(QueueStructBItem *param_1){
       p = get_borg13(param_1->BorgIndex);
       break;
     default:
-      char acStack_88 [136];
-      sprintf(acStack_88,"Unknown Item Type: %d",param_1->BorgSwitch);
-      CRASH("ProcessAllocQueue",acStack_88);
+    #ifdef DEBUGVER
+      char errBuff [136];
+      sprintf(errBuff,"Unknown Item Type: %d",param_1->BorgSwitch);
+      CRASH("ProcessAllocQueue",errBuff);
+    #else
+      CRASH("","");
+    #endif
     case QueueType_Other:
       CRASH("src/allocqueue.cpp","Generic allocations are not supported!");
       //y tho?

@@ -56,6 +56,5 @@ Borg12Header * load_borg_12(u32 param_1) {
 
 void free_borg_12(Borg12Header *param_1) {
   n64BorgDCMModule_free(param_1);
-  return;
 }
 
