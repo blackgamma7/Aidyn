@@ -183,7 +183,7 @@ void attachPhysicsProperties(Borg9Data *param_1){
   u16 uVar4;
   borg9_phys *puVar4;
   u16 i;
-  uint uVar6;
+  u32 uVar6;
   
   if (param_1->borghpys_count != 0) {
     for(i=0;i<param_1->borghpys_count;i++) {
@@ -316,7 +316,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
         dialouge_vobject_func(ptVar6,0,0xff);
         return;
       }
-      Gsprintf("Invalid Trigger Type: %d\n",(uint)VVar1);
+      Gsprintf("Invalid Trigger Type: %d\n",(u32)VVar1);
       N64PRINT(gGlobals.text);
     }
   }
@@ -557,11 +557,11 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
 
   u32 uVar21,uVar22,uVar11;
   ZoneDat aZStack432 [3] [3];
-  uint uStack_30;
+  u32 uStack_30;
   s16 sVar15 = no_TP_vec3;
   u16 uStack112[2][8]={{0,0,1,0,2,0,0,1},{2,1,0,2,1,2,2,2}};
   no_TP_vec3 = 0;
-  uStack_30 = (uint)(sVar15 == 0);
+  uStack_30 = (u32)(sVar15 == 0);
   Process_queue_B(&gGlobals.QueueB,1);
   for(s16 i=0;i<3;i++){
     for(s16 j=0;j<3;j++) {
@@ -590,7 +590,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
       (ppVar9->collision).pos.x,(ppVar9->collision).pos.z,gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1 - 1 + 'A',gGlobals.gameVars.mapShort2);
     CRASH("LoadGameBorgScenes",gGlobals.text);
   }
-  uVar22 = (uint)((MAPCENTER.mapPointer)->dat).byte0x1a;
+  uVar22 = (u32)((MAPCENTER.mapPointer)->dat).byte0x1a;
   uVar11 = uVar22 & 1;
   for(u16 i=0;i<8;i++) {
     if (uVar11 != 0) {
@@ -802,7 +802,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
     }
     else {
       pfVar8 = FindReferncePoint(&(MAPCENTER.mapPointer)->dat,uVar1);
-      Gsprintf("FindReferencePoint\nPoint Not Found: %d\n",(uint)uVar1);
+      Gsprintf("FindReferencePoint\nPoint Not Found: %d\n",(u32)uVar1);
       if (pfVar8 == NULL) CRASH("TeleportPlayer",gGlobals.text);
       fStack312.x = (pfVar8->header).pos.x;
       fStack312.y = (pfVar8->header).pos.y;
@@ -962,12 +962,12 @@ void SetSceneColors(SceneData *param_1,u8 alpha,u8 param_3,u32 col){
   Scene::SetFogPlane(param_1,996 - (short)(int)(fVar1 * 40.0f),1000);
   Scene::SetFogColor
             (param_1,gFogColor.R,gFogColor.G,gFogColor.B,
-             (uint)gFogColor.A);
+             (u32)gFogColor.A);
   if (param_3) {
     if (col) { //if porting, will need case for LE word
-      bStack216.R = (byte)((int)((uint)gMainColor.R + (col >> 0x18)) >> 1);
-      bStack216.G = (byte)((int)((uint)gMainColor.G + (col >> 0x10 & 0xff)) >> 1);
-      bStack216.B = (byte)((int)((uint)gMainColor.B + (col >> 8 & 0xff)) >> 1);
+      bStack216.R = (byte)((int)((u32)gMainColor.R + (col >> 0x18)) >> 1);
+      bStack216.G = (byte)((int)((u32)gMainColor.G + (col >> 0x10 & 0xff)) >> 1);
+      bStack216.B = (byte)((int)((u32)gMainColor.B + (col >> 8 & 0xff)) >> 1);
       tint_color_with_screenfade(&bStack216,gGlobals.brightness);
       Scene::SetModelTint(param_1,bStack216.R,bStack216.G,bStack216.B,alpha);
       return;
@@ -1052,7 +1052,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
   Borg7Header *pBVar3;
   SceneData *pAVar4;
   u16 uVar5;
-  uint uVar7;
+  u32 uVar7;
   short sVar8;
   int iVar9;
   Scene_obj_dat *pSVar10;
@@ -1062,7 +1062,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
   s16 uVar12;
   int iVar13;
   struct_A *psVar14;
-  uint uVar15;
+  u32 uVar15;
   float fVar17;
   float fVar18;
   float prox;
@@ -1078,9 +1078,9 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
   float local_78;
   float local_74;
   CollideSection *local_70;
-  uint local_6c;
+  u32 local_6c;
   vec2f *Sobj_pos;
-  uint local_64;
+  u32 local_64;
   int local_60;
   int local_5c;
   int local_58;
@@ -1268,7 +1268,7 @@ LAB_8000ffcc:
                 goto LAB_80010084;
               }
             }
-            uVar12 = (uint)sVar8;
+            uVar12 = (u32)sVar8;
           } while (-1 < (int)uVar12);
           sVar8 = (short)local_5c;
         }
@@ -1404,7 +1404,7 @@ u8 FUN_80010598(short param_1,short param_2){
 
 void RenderZones(Gfx **GG,vec3f *pos,short delta){
   int iVar2;
-  uint uVar3;
+  u32 uVar3;
   u16 uVar5;
   u16 uVar6;
   u16 uVar7;
@@ -1422,8 +1422,8 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
   u16 uStack80 [2];
   Gfx *gOut;
   int iStack_48;
-  uint uStack_44;
-  uint uStack_40;
+  u32 uStack_44;
+  u32 uStack_40;
   vec3f *uStack60;
   ParticleHeadStruct *pPStack_38;
   u16 (*pauStack_34) [2];
@@ -1455,7 +1455,7 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
   uStack_40 = 1;
   pPStack_38 = &gGlobals.gameVars.particleEmmiter;
   uStack60 = &gCamera.rotation;
-  uStack_44 = (uint)(gGlobals.gameVars.borg9DatPointer)->byte0x1b;
+  uStack_44 = (u32)(gGlobals.gameVars.borg9DatPointer)->byte0x1b;
   iVar2 = 0;
   do {
     uVar3 = uStack_40;
@@ -1857,7 +1857,7 @@ extern u16 enemyHostileFlag;
 
 void VoxelIndexPosition(short delta,playerData *param_2){
   Borg9Data *pBVar6;
-  uint uVar7;
+  u32 uVar7;
   voxelObject *pvVar10;
   pvVar10 = voxel_index_pointer;
   if (voxel_index) {
@@ -1876,12 +1876,12 @@ void VoxelIndexPosition(short delta,playerData *param_2){
       "VOBJECT_TRIGGER",
       "VOBJECT_SAVEPOINT",
       "VOBJECT_CODE"};
-    uVar7 = (uint)voxel_index_timer;
+    uVar7 = (u32)voxel_index_timer;
     voxel_index_timer = (u16)(uVar7 - (int)delta);
     pvVar10 = voxel_index_pointer;
     if ((int)((uVar7 - (int)delta) * 0x10000) < 1) {
       ClearVoxelFlags(pBVar6);
-      uVar7 = (voxel_index_number + 1) % (uint)pBVar6->voxelObjCount;
+      uVar7 = (voxel_index_number + 1) % (u32)pBVar6->voxelObjCount;
       enemyHostileFlag = 0;
       voxel_index_timer = 0xb4;
       voxel_index_number = (u16)uVar7;
@@ -1923,7 +1923,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   u8 bVar1;
   mapFloatDat *A;
   byte bVar2;
-  uint uVar3;
+  u32 uVar3;
   vec3f *position;
   int iVar4;
   float fVar5;
@@ -1973,7 +1973,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   }
   some_zoneDat_func();
   if ((gPlayerRenderTimer != 0) &&
-     (uVar3 = (uint)gPlayerRenderTimer, gPlayerRenderTimer = (u16)(uVar3 - iVar4),
+     (uVar3 = (u32)gPlayerRenderTimer, gPlayerRenderTimer = (u16)(uVar3 - iVar4),
      (int)((uVar3 - iVar4) * 0x10000) < 0)) gPlayerRenderTimer = 0;
   if (gGlobals.gameVars.gamemodeType != 2) {
     Gsprintf("ProcessPlayers");
@@ -1982,7 +1982,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
   }
   if ((player) && (gGlobals.gameVars.gamemodeType == 0)) {
     Gsprintf("SaveZoneEngine");
-    uVar3 = (uint)gGlobals.gameVars.unkTimer;
+    uVar3 = (u32)gGlobals.gameVars.unkTimer;
     gGlobals.gameVars.unkTimer = (u16)(uVar3 - iVar4);
     if ((int)((uVar3 - iVar4) * 0x10000) < 1) {
       bVar1 = true;
@@ -1994,7 +1994,7 @@ void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
       }
       if (bVar1) {SaveEngineZone(player,(mapFloatDat *)
                               ((int)&gGlobals +
-                              ((uint)gGlobals.gameVars.unkCounter * 0xc - (uint)gGlobals.gameVars.unkCounter)
+                              ((u32)gGlobals.gameVars.unkCounter * 0xc - (u32)gGlobals.gameVars.unkCounter)
                               * 4 + 0x1058));
         gGlobals.gameVars.unkCounter =(gGlobals.gameVars.unkCounter + 1) +((gGlobals.gameVars.unkCounter + 1) / 0xf) * -0xf;
       }

@@ -6,7 +6,7 @@
 
 void * ret_a0(void *X){return X;}
 
-int ofunc_sub_800a8ff8(void *x,uint y) {
+int ofunc_sub_800a8ff8(void *x,u32 y) {
   void *pvVar1 = ret_a0(x);
   return (((int)pvVar1 + (y - 1)) / y) * y - (int)pvVar1;
 }
@@ -16,7 +16,7 @@ bool IsNotZero(u32 X){return X!=0;}
 //value stored seperately in .rodata from next 2 funcs.
 char * Ofunc_get_1point06(){return "1.06";}
 
-uint Ofunc_get_0x1060(){return 0x1060;}
+u32 Ofunc_get_0x1060(){return 0x1060;}
 
 char * Ofunc_get_1point06_2(){return "1.06";}
 
@@ -26,9 +26,9 @@ char * Ofunc_get_1point06_3(){return "1.06";}
 
 char * ofunc_get_Nov_29_1999_1(){return "Nov 29 1999";}
 
-uint Ofunc_800a908c(uint param_1,byte *param_2,uint param_3) {
+u32 Ofunc_800a908c(u32 param_1,byte *param_2,u32 param_3) {
   byte bVar16;
-  uint uVar17;
+  u32 uVar17;
   int iVar18;
   int iVar19;
   int iVar20;
@@ -44,8 +44,8 @@ uint Ofunc_800a908c(uint param_1,byte *param_2,uint param_3) {
   int iVar30;
   int iVar31;
   int iVar32;
-  uint uVar33;
-  uint uVar34;
+  u32 uVar33;
+  u32 uVar34;
   
   uVar33 = param_1 & 0xffff;
   param_1 = param_1 >> 0x10;
@@ -79,7 +79,7 @@ uint Ofunc_800a908c(uint param_1,byte *param_2,uint param_3) {
           param_1+= iVar18 + iVar19 + iVar20 + iVar21 + iVar22 + iVar23 + iVar24 + iVar25
                     + iVar26 + iVar27 + iVar28 + iVar29 + iVar30 + iVar31 + iVar32 + uVar33;
         }
-        uVar34 = (uint)((ulonglong)uVar33 * 0x80078071 >> 0x20);
+        uVar34 = (u32)((ulonglong)uVar33 * 0x80078071 >> 0x20);
         if (uVar17 != 0) {
           do {
             bVar16 = *param_2;
@@ -88,7 +88,7 @@ uint Ofunc_800a908c(uint param_1,byte *param_2,uint param_3) {
             uVar33+= bVar16;
             param_1+= uVar33;
           } while (0 < (int)uVar17);
-          uVar34 = (uint)((ulonglong)uVar33 * 0x80078071 >> 0x20);
+          uVar34 = (u32)((ulonglong)uVar33 * 0x80078071 >> 0x20);
         }
         uVar33 = uVar33 + (uVar34 >> 0xf) * -0xfff1;
         param_1 = param_1 % 0xfff1;
@@ -263,7 +263,7 @@ bool ofunc_sub_800a9358(void) {
     if (bVar8 == true) {
       iVar5 = ofunc_sub_800a8ff8(aiStack_5f,4);
       piVar9 = (int *)((int)aiStack_5f + iVar5);
-      if (((uint)piVar9 & 3)) bVar8 = false;
+      if (((u32)piVar9 & 3)) bVar8 = false;
       if (iVar5 == -1) bVar8 = false;
       if (piVar9 < aiStack_5f) bVar8 = false;
       if (4 < iVar5 + 1U) bVar8 = false;
@@ -288,14 +288,14 @@ const u32 DAT_800e3650=2;
 const u32 DAT_800e3654=0;
 
 s32 ofunc_sub_800a95b0(void) {
-  uint uVar1;
+  u32 uVar1;
   u32 uVar3;
   u32 uVar4;
   s32 sVar5;
   undefined1 *puVar6;
   bool bVar7;
   int iVar8;
-  uint uVar9;
+  u32 uVar9;
   u32 **ppuVar10;
   ulonglong uVar11;
   undefined1 auStack_41 [65];
@@ -382,13 +382,13 @@ byte * ofunc_sub_800a981c(u8 *param_1,int param_2,u8 *param_3,u8 **param_4,int p
   char cVar2;
   byte bVar4;
   int iVar3;
-  uint uVar5;
+  u32 uVar5;
   byte *pbVar6;
   u8 *puVar7;
   byte *pbVar8;
   byte *pbVar9;
-  uint uVar10;
-  uint uVar11;
+  u32 uVar10;
+  u32 uVar11;
   u8 *puVar12;
   byte *pbVar13;
   
@@ -400,7 +400,7 @@ LAB_800a9a88:
   bVar4 = pbVar9[3];
   pbVar8 = pbVar9;
   do {
-    uVar11 = ((((uint)bVar4 << 6 ^ (uint)pbVar8[2]) << 5 ^ (uint)pbVar8[1]) << 5 ^ (uint)*pbVar8) *
+    uVar11 = ((((u32)bVar4 << 6 ^ (u32)pbVar8[2]) << 5 ^ (u32)pbVar8[1]) << 5 ^ (u32)*pbVar8) *
              0x21 >> 5;
     uVar5 = uVar11 & 0x3fff;
     pbVar6 = *(byte **)(uVar5 * 4 + param_5);
@@ -615,9 +615,9 @@ s32 decompress_LZ01(u8 *compDat,u32 compSize,u8 *OutDat,u32 *OutSize){
   byte *pbVar3;
   byte *pbVar4;
   byte *pbVar5;
-  uint uVar6;
+  u32 uVar6;
   int iVar7;
-  uint uVar8;
+  u32 uVar8;
   byte *pbVar9;
   
   *OutSize = 0;
@@ -639,12 +639,12 @@ s32 decompress_LZ01(u8 *compDat,u32 compSize,u8 *OutDat,u32 *OutSize){
   } while (uVar6 != 0);
   bVar1 = *compDat;
 LAB_800a9dcc:
-  uVar6 = (uint)bVar1;
+  uVar6 = (u32)bVar1;
   pbVar5 = compDat + 1;
   if (0xf < uVar6) goto LAB_800a9e0c;
   compDat = compDat + 2;
-  pbVar4 = pbVar9 + (uint)*pbVar5 * -4 + (-0x801 - (uint)(bVar1 >> 2)) + 1;
-  *pbVar9 = pbVar9[(uint)*pbVar5 * -4 + (-0x801 - (uint)(bVar1 >> 2))];
+  pbVar4 = pbVar9 + (u32)*pbVar5 * -4 + (-0x801 - (u32)(bVar1 >> 2)) + 1;
+  *pbVar9 = pbVar9[(u32)*pbVar5 * -4 + (-0x801 - (u32)(bVar1 >> 2))];
   bVar1 = *pbVar4;
   pbVar9 = pbVar9 + 1;
 LAB_800a9f30:
@@ -656,7 +656,7 @@ LAB_800a9f80:
   if ((compDat[-2] & 3) == 0) {
     bVar1 = *compDat;
 LAB_800a9d40:
-    uVar6 = (uint)bVar1;
+    uVar6 = (u32)bVar1;
     pbVar5 = compDat + 1;
     if (uVar6 < 0x10) goto code_r0x800a9d4c;
   }
@@ -668,7 +668,7 @@ LAB_800a9f90:
       *pbVar9++ = *pbVar5;
       compDat = pbVar5 + 1;
     } while (uVar6 != 0);
-    uVar6 = (uint)pbVar5[1];
+    uVar6 = (u32)pbVar5[1];
     pbVar5 = pbVar5 + 2;
   }
 LAB_800a9e0c:
@@ -690,10 +690,10 @@ LAB_800a9e0c:
           iVar7 = 0;
         }
         pbVar5 = pbVar5 + 1;
-        uVar8 = iVar7 + 7 + (uint)bVar1;
+        uVar8 = iVar7 + 7 + (u32)bVar1;
       }
       compDat = pbVar5 + 2;
-      if (pbVar9 + ((uVar6 & 8) * -0x800 - ((uint)(*pbVar5 >> 2) + (uint)pbVar5[1] * 0x40)) ==
+      if (pbVar9 + ((uVar6 & 8) * -0x800 - ((u32)(*pbVar5 >> 2) + (u32)pbVar5[1] * 0x40)) ==
           pbVar9) {
         *OutSize = (int)pbVar9 - (int)OutDat;
         if (compDat == pbVar3) {
@@ -707,7 +707,7 @@ LAB_800a9e0c:
         }
         return sVar2;
       }
-      pbVar5 = pbVar9 + ((uVar6 & 8) * -0x800 - ((uint)(*pbVar5 >> 2) + (uint)pbVar5[1] * 0x40)) +
+      pbVar5 = pbVar9 + ((uVar6 & 8) * -0x800 - ((u32)(*pbVar5 >> 2) + (u32)pbVar5[1] * 0x40)) +
                -0x4000;
     }
     else {
@@ -726,16 +726,16 @@ LAB_800a9e0c:
           iVar7 = 0;
         }
         pbVar5 = pbVar5 + 1;
-        uVar8 = iVar7 + 0x1f + (uint)bVar1;
+        uVar8 = iVar7 + 0x1f + (u32)bVar1;
       }
       compDat = pbVar5 + 2;
-      pbVar5 = pbVar9 + (-1 - ((uint)(*pbVar5 >> 2) + (uint)pbVar5[1] * 0x40));
+      pbVar5 = pbVar9 + (-1 - ((u32)(*pbVar5 >> 2) + (u32)pbVar5[1] * 0x40));
     }
   }
   else {
     compDat = pbVar5 + 1;
     uVar8 = (uVar6 >> 5) - 1;
-    pbVar5 = pbVar9 + (uint)*pbVar5 * -8 + (-1 - (uVar6 >> 2 & 7));
+    pbVar5 = pbVar9 + (u32)*pbVar5 * -8 + (-1 - (uVar6 >> 2 & 7));
   }
   *pbVar9 = *pbVar5;
   pbVar4 = pbVar5 + 2;
@@ -750,7 +750,7 @@ LAB_800a9e0c:
   } while (uVar8 != 0);
   goto LAB_800a9f80;
 LAB_800a9f14:
-  pbVar4 = pbVar9 + (uint)*pbVar5 * -4 + (-1 - (uVar6 >> 2));
+  pbVar4 = pbVar9 + (u32)*pbVar5 * -4 + (-1 - (uVar6 >> 2));
   bVar1 = *pbVar4;
   compDat = pbVar5 + 1;
   goto LAB_800a9f30;
@@ -769,7 +769,7 @@ code_r0x800a9d4c:
       iVar7 = 0;
     }
     pbVar5 = pbVar5 + 1;
-    uVar6 = iVar7 + 0xf + (uint)bVar1;
+    uVar6 = iVar7 + 0xf + (u32)bVar1;
     bVar1 = *pbVar5;
   }
   else {
@@ -799,9 +799,9 @@ s32 LZ01_func_2(byte *param_1,int param_2,byte *param_3,byte **param_4){
   byte *pbVar4;
   byte *pbVar5;
   byte *pbVar6;
-  uint uVar7;
+  u32 uVar7;
   int iVar8;
-  uint uVar9;
+  u32 uVar9;
   byte *pbVar10;
   
   pbVar1 = *param_4;
@@ -821,10 +821,10 @@ s32 LZ01_func_2(byte *param_1,int param_2,byte *param_3,byte **param_4){
   } while (uVar7 != 0);
   bVar2 = *pbVar6;
 LAB_800aa0c8:
-  uVar7 = (uint)bVar2;
+  uVar7 = (u32)bVar2;
   param_1 = pbVar6 + 1;
   if (0xf < uVar7) goto LAB_800aa138;
-  pbVar5 = pbVar10 + (uint)*param_1 * -4 + (-0x801 - (uint)(bVar2 >> 2));
+  pbVar5 = pbVar10 + (u32)*param_1 * -4 + (-0x801 - (u32)(bVar2 >> 2));
   param_1 = pbVar6 + 2;
   if (pbVar5 < param_3) {
 LAB_800aa374:
@@ -834,7 +834,7 @@ LAB_800aa378:
     return -6;
   }
   pbVar6 = pbVar10 + -(int)param_3;
-  if ((uint)((int)(param_3 + (int)pbVar1) - (int)pbVar10) < 3) {
+  if ((u32)((int)(param_3 + (int)pbVar1) - (int)pbVar10) < 3) {
 LAB_800aa368:
     *param_4 = pbVar6;
     return -5;
@@ -852,7 +852,7 @@ LAB_800aa318:
       *param_4 = pbVar10 + -(int)param_3;
       return -7;
     }
-    uVar7 = (uint)*param_1;
+    uVar7 = (u32)*param_1;
     param_1 = param_1 + 1;
     if (uVar7 < 0x10) goto code_r0x800aa044;
   }
@@ -865,7 +865,7 @@ LAB_800aa2e8:
       pbVar10 = pbVar10 + 1;
       pbVar6 = pbVar5 + 1;
     } while (uVar7 != 0);
-    uVar7 = (uint)pbVar5[1];
+    uVar7 = (u32)pbVar5[1];
     param_1 = pbVar5 + 2;
     if (pbVar4 <= param_1) goto LAB_800aa318;
   }
@@ -884,12 +884,12 @@ LAB_800aa138:
         }
         bVar2 = *param_1;
         param_1 = param_1 + 1;
-        uVar9 = iVar8 + 0x1f + (uint)bVar2;
+        uVar9 = iVar8 + 0x1f + (u32)bVar2;
       }
       bVar2 = *param_1;
       pbVar6 = param_1 + 1;
       param_1 = param_1 + 2;
-      pbVar6 = pbVar10 + (-1 - ((uint)(bVar2 >> 2) + (uint)*pbVar6 * 0x40));
+      pbVar6 = pbVar10 + (-1 - ((u32)(bVar2 >> 2) + (u32)*pbVar6 * 0x40));
       goto LAB_800aa294;
     }
     if (0xf < uVar7) {
@@ -905,12 +905,12 @@ LAB_800aa138:
         }
         bVar2 = *param_1;
         param_1 = param_1 + 1;
-        uVar9 = iVar8 + 7 + (uint)bVar2;
+        uVar9 = iVar8 + 7 + (u32)bVar2;
       }
       bVar2 = *param_1;
       pbVar6 = param_1 + 1;
       param_1 = param_1 + 2;
-      if (pbVar10 + ((uVar7 & 8) * -0x800 - ((uint)(bVar2 >> 2) + (uint)*pbVar6 * 0x40)) == pbVar10)
+      if (pbVar10 + ((uVar7 & 8) * -0x800 - ((u32)(bVar2 >> 2) + (u32)*pbVar6 * 0x40)) == pbVar10)
       {
         *param_4 = pbVar10 + -(int)param_3;
         if (param_1 == pbVar4) {
@@ -924,15 +924,15 @@ LAB_800aa138:
         }
         return sVar3;
       }
-      pbVar6 = pbVar10 + ((uVar7 & 8) * -0x800 - ((uint)(bVar2 >> 2) + (uint)*pbVar6 * 0x40)) +
+      pbVar6 = pbVar10 + ((uVar7 & 8) * -0x800 - ((u32)(bVar2 >> 2) + (u32)*pbVar6 * 0x40)) +
                -0x4000;
       goto LAB_800aa294;
     }
-    pbVar5 = pbVar10 + (uint)*param_1 * -4 + (-1 - (uVar7 >> 2));
+    pbVar5 = pbVar10 + (u32)*param_1 * -4 + (-1 - (uVar7 >> 2));
     param_1 = param_1 + 1;
     if (pbVar5 < param_3) goto LAB_800aa374;
     pbVar6 = pbVar10 + -(int)param_3;
-    if ((uint)((int)(param_3 + (int)pbVar1) - (int)pbVar10) < 2) goto LAB_800aa368;
+    if ((u32)((int)(param_3 + (int)pbVar1) - (int)pbVar10) < 2) goto LAB_800aa368;
     *pbVar10 = *pbVar5;
     pbVar10[1] = pbVar5[1];
     pbVar10 = pbVar10 + 2;
@@ -941,7 +941,7 @@ LAB_800aa138:
     bVar2 = *param_1;
     param_1 = param_1 + 1;
     uVar9 = (uVar7 >> 5) - 1;
-    pbVar6 = pbVar10 + (uint)bVar2 * -8 + (-1 - (uVar7 >> 2 & 7));
+    pbVar6 = pbVar10 + (u32)bVar2 * -8 + (-1 - (uVar7 >> 2 & 7));
 LAB_800aa294:
     pbVar5 = pbVar10 + -(int)param_3;
     if (pbVar6 < param_3) goto LAB_800aa378;
@@ -992,7 +992,7 @@ LAB_800aa080:
 code_r0x800aa06c:
   bVar2 = *param_1;
   param_1 = param_1 + 1;
-  uVar7 = iVar8 + 0xf + (uint)bVar2;
+  uVar7 = iVar8 + 0xf + (u32)bVar2;
   bVar2 = *param_1;
   goto LAB_800aa080;
 }

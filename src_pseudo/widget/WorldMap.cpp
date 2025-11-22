@@ -79,11 +79,11 @@ u8 WidgetMenuWorldMap::Tick() {
   BaseWidget *pBVar7;
   byte bVar8;
   byte bVar9;
-  uint uVar12;
+  u32 uVar12;
   
   if (gGlobals.BigAssMenu) { //? should parented to begin with.
     bVar2 = this->unk84;
-    u8 markerAlpha = (uint)(this->col1).A;
+    u8 markerAlpha = (u32)(this->col1).A;
     markerAlpha = markerAlpha + ((int)((this->col2).A - markerAlpha) / 10) * this->unk84;
     pause_Substruct *ppVar6 = PauseSub;
     //don't show marker if not on overworld

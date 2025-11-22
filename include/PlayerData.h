@@ -27,7 +27,7 @@ typedef enum PLAYERDATA_Flags {
 
 
 struct attachmentNode {
-    uint borg5;
+    u32 borg5;
     SceneData *sceneDat;
     u16 index;
 };

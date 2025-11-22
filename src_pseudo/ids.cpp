@@ -28,13 +28,13 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
   u8 *totalP;
   byte *entriesP;
   u8 total;
-  uint uVar3;
+  u32 uVar3;
   
   
   uVar3 = (ushort)x & 0xff;
   uVar1 = -1;
   if (false) goto switchD_80075e2c_caseD_4;
-  switch((uint)((ushort)x >> 8)) {
+  switch((u32)((ushort)x >> 8)) {
   case DB_ENTITY:
     entriesP = entityList;
     totalP = &gEntityDB->total;
@@ -122,7 +122,7 @@ u16 Weapon_borg5_lookup(u8 index){
       0x34CA,0x34E3,0x34A8,0x354B,0x34BD,0x34BD,0x3498,0x350F,0x34E8,0x34AA,0x348D,0x34D9,
       0x34DD,0x34E6,0x349C,0x34AE,0x34B0,0x34FE,0x354F,0x3551,0x34A2,0x34A0,0x34C2,0x3519,
       0x34B5,0x34BF,0x34CC,0x34D3,0x34F1,0x34DF,0x3547,0x34E5,0x349E,0x34A5,0x34DB,0x34CD,
-      0x34D1,0x354D,0x3500,0x350D,0x34F9,0x34C1,-1,0};
+      0x34D1,0x354D,BORG5_WeaponLightreaver,0x350D,BORG5_WeaponHockeyStick,0x34C1,-1,0};
     for(u16 i=0;weapons_with_borg5[i]!=0xFF;i++){
         if(weapons_with_borg5[i]==index)return weapon_borg5_ID[i];
     }
@@ -135,8 +135,8 @@ u16 GetWeaponBorg5(ItemID param_1){
 
 
 u16 GetArmorBorg5(ItemID param_1){
-  uint uVar1;
-  uint uVar2;
+  u32 uVar1;
+  u32 uVar2;
   
   uVar1 = gArmorDBp->GetBorg5(param_1);
   uVar2 = -1;

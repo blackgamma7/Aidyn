@@ -19,4 +19,4 @@ WidgetDebugDummyToggle* PTR_800e61e4=NULL;
 char* On_or_off_strings[2]={"On","Off"};
 
 void debug_placebo_toggle();
-uint change_some_debug_settings(BaseWidget *param_1);
+u32 change_some_debug_settings(BaseWidget *param_1);

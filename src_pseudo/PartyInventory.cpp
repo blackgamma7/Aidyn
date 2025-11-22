@@ -19,7 +19,7 @@ void PartyInventory::Clear(){
 }
 void PartyInventory::Load(SaveFile *sav){
   Inventory_item *pIVar2;
-  uint i;
+  u32 i;
   
   Clear();
   for(i=0;i<0x80;i++) {
@@ -58,7 +58,7 @@ void PartyInventory::Save(SaveFile *sav){
 s32 PartyInventory::AddItem(ItemID id,s32 quantity){
   s32 index;
   u8 bVar3;
-  uint slot;
+  u32 slot;
   //Turn "A" potions into Healing potions.
   if (id == Potion_Aspect) id = Potion_Healing;
   index = this->GetItemIndex(id);

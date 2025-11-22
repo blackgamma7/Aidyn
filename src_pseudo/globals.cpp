@@ -134,7 +134,7 @@ void get_battle_terrain(EncounterDat *param_1){
 }
 
 
-uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
+u32 get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
   u16 uVar1;
   byte bVar3;
   int iVar2;
@@ -145,7 +145,7 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
   monsterpartyEntry *pmVar9;
   float fVar10;
   float afStack_78 [16];
-  uint uStack_38;
+  u32 uStack_38;
   
   uVar4 = 0;
   printLine(600);
@@ -237,7 +237,7 @@ uint get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
 }
 
 
-uint add_to_enemy_encounters(EncounterDat *param_1,monsterparty_dat *param_2){
+u32 add_to_enemy_encounters(EncounterDat *param_1,monsterparty_dat *param_2){
   u16 n = 0;
   u32 i = 0;
   printLine(676);
@@ -261,8 +261,8 @@ uint add_to_enemy_encounters(EncounterDat *param_1,monsterparty_dat *param_2){
   return n;
 }
 
-uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
-  uint uVar3;
+u32 FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
+  u32 uVar3;
   u16 uVar4;
   u8 uVar5;
   monsterpartyEntry *pIVar6;
@@ -307,7 +307,7 @@ uint FUN_8000bed0(EncounterDat *param_1,monsterparty_dat *param_2){
     if (uVar4 < param_2->minsize) uVar4 = 0;
     else printLine(0x2e2);
   }
-  else uVar4 = (uint)param_2->maxsize;
+  else uVar4 = (u32)param_2->maxsize;
   return uVar4;
 }
 
@@ -419,7 +419,7 @@ u64 Ofunc_8000c730(void){
   OSTime OVar1;
   
   OVar1 = osGetTime();
-  return udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3)-ofunc_dat;
+  return udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (u32)OVar1 >> 0x1a,(u32)OVar1 << 6),3)-ofunc_dat;
 }
 
 void Ofunc_8000c788(char *param_1){
@@ -427,33 +427,33 @@ void Ofunc_8000c788(char *param_1){
   u64 uVar2;
   
   OVar1 = osGetTime();
-  uVar2 = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
+  uVar2 = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (u32)OVar1 >> 0x1a,(u32)OVar1 << 6),3);
   Gsprintf("%s : %llu\n",param_1,uVar2-ofunc_dat);
   N64PRINT(gGlobals.text);
   OVar1 = osGetTime();
-  ofunc_dat = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (uint)OVar1 >> 0x1a,(uint)OVar1 << 6),3);
+  ofunc_dat = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (u32)OVar1 >> 0x1a,(u32)OVar1 << 6),3);
 }
 
 void Ofunc_8000c850(float param_1){
   ulonglong uVar1;
   float fVar2;
   undefined4 in_v1_hi;
-  uint uVar3;
+  u32 uVar3;
   OSTime OVar4;
   u64 uVar5;
   u64 uVar6;
   
   param_1 = param_1 * 1000000.0f;
   OVar4 = osGetTime();
-  uVar5 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (uint)OVar4 >> 0x1a,(uint)OVar4 << 6),3000);
+  uVar5 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (u32)OVar4 >> 0x1a,(u32)OVar4 << 6),3000);
   uVar1 = CONCAT44(in_v1_hi,(int)uVar5);
   do {
     OVar4 = osGetTime();
-    uVar6 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (uint)OVar4 >> 0x1a,(uint)OVar4 << 6),3000)
+    uVar6 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (u32)OVar4 >> 0x1a,(u32)OVar4 << 6),3000)
     ;
   } while ((false) ||
-          (((uint)(uVar6 >> 0x20) == (uint)(CONCAT44(in_v1_hi,(int)uVar6) < uVar1) &&
-           ((uint)((int)uVar6 - (int)uVar5) < (int)param_1))));
+          (((u32)(uVar6 >> 0x20) == (u32)(CONCAT44(in_v1_hi,(int)uVar6) < uVar1) &&
+           ((u32)((int)uVar6 - (int)uVar5) < (int)param_1))));
 }
 
 #endif

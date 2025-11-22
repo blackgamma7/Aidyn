@@ -30,16 +30,16 @@ DollMenuPortraits::DollMenuPortraits(Party *party,u8 size,u8 selected):WidgetMen
     switch(this->partySize){ //uses fallthrough for party sizes?
         case 4:
         this->portraits[(this->selectedMember + 3) % 4]->SetCoords(123,37);
-        this->portraits[(this->selectedMember + 3) % (uint)this->partySize]->posX+=2;
-        this->portraits[(this->selectedMember + 3) % (uint)this->partySize]->posY+=2;
+        this->portraits[(this->selectedMember + 3) % (u32)this->partySize]->posX+=2;
+        this->portraits[(this->selectedMember + 3) % (u32)this->partySize]->posY+=2;
         case 3:
-        this->portraits[(this->selectedMember + 2) % (uint)this->partySize]->SetCoords(94,37);
-        this->portraits[(this->selectedMember + 2) % (uint)this->partySize]->posX+=2;
-        this->portraits[(this->selectedMember + 2) % (uint)this->partySize]->posY+=2;
+        this->portraits[(this->selectedMember + 2) % (u32)this->partySize]->SetCoords(94,37);
+        this->portraits[(this->selectedMember + 2) % (u32)this->partySize]->posX+=2;
+        this->portraits[(this->selectedMember + 2) % (u32)this->partySize]->posY+=2;
         case 2:
-        this->portraits[(this->selectedMember + 1) % (uint)this->partySize]->SetCoords(65,37);
-        this->portraits[(this->selectedMember + 1) % (uint)this->partySize]->posX+=2;
-        this->portraits[(this->selectedMember + 1) % (uint)this->partySize]->posY+=2;
+        this->portraits[(this->selectedMember + 1) % (u32)this->partySize]->SetCoords(65,37);
+        this->portraits[(this->selectedMember + 1) % (u32)this->partySize]->posX+=2;
+        this->portraits[(this->selectedMember + 1) % (u32)this->partySize]->posY+=2;
         case 1:
         this->portraits[this->selectedMember]->SetCoords(20,24);
         this->portraits[this->selectedMember]->posX +=2;
@@ -76,8 +76,8 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
   BaseWidget *pBVar10;
   BaseWidget *pBVar12;
   ulong uVar14;
-  uint uVar16;
-  uint uVar17;
+  u32 uVar16;
+  u32 uVar17;
   ushort uStack_50;
   u16 uStack_4e;
   byte abStack_4c [4];
@@ -93,19 +93,19 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
     if (param_2 == 0) {
       puStack_40 = &uStack_50;
       iStack_3c = -1;
-      uStack_4e = (ushort)(((uint)this->selectedMember + this->partySize + 1) % (uint)this->partySize);
+      uStack_4e = (ushort)(((u32)this->selectedMember + this->partySize + 1) % (u32)this->partySize);
       uStack_50 = (ushort)this->selectedMember;
     }
     else {
       puStack_40 = &uStack_4e;
       iStack_3c = 1;
-      uStack_4e = (ushort)((int)((uint)this->selectedMember + (this->partySize - 1)) % (int)(uint)this->partySize);
+      uStack_4e = (ushort)((int)((u32)this->selectedMember + (this->partySize - 1)) % (int)(u32)this->partySize);
     }
     pbStack_34 = abStack_4c;
     pbStack_30 = abStack_4c + 1;
     if (this->partySize != 0) {
         for(u8 i=0;i<this->partySize;i++) {
-          u8 uVar16 = (int)(i + iStack_3c + (uint)this->partySize) % (int)(uint)this->partySize;
+          u8 uVar16 = (int)(i + iStack_3c + (u32)this->partySize) % (int)(u32)this->partySize;
           this->aniManage.AddItem(new GuiAnimatorS16(&this->portraits[i]->posX,&this->portraits[uVar16]->posX,15,&double_array_0));
           this->aniManage.AddItem(new GuiAnimatorS16(&this->portraits[i]->posY,&this->portraits[uVar16]->posY,15,&double_array_0));
           this->aniManage.AddItem(new GuiAnimatorS16(&this->Ws[i],&this->Ws[uVar16],15,&double_array_0));

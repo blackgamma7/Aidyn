@@ -319,7 +319,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   u16 uVar4;
   u16 v;
   Gfx *gfx;
-  uint uVar2;
+  u32 uVar2;
   int iVar3;
   float fVar5;
   float fVar6;

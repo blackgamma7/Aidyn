@@ -558,7 +558,7 @@ void ofunc_sub_dialouge(DialougeClass *param_1,Borg13Data *param_2){param_1->bor
 void look_for_dialouge_v_Num(char *param_1){
   char cVar1;
   bool bVar2;
-  uint len;
+  u32 len;
   char *pcVar3;
   byte *pbVar4;
   int iVar5;

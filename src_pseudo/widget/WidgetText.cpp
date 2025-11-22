@@ -4,7 +4,7 @@
 #define FILENAME "./src/widgettext.cpp"
 
 WidgetText::WidgetText(char *str,u16 len):BaseWidget(){
-  uint size = (uint)len;
+  u32 size = (u32)len;
   widgetTextSubstruct *sub = new widgetTextSubstruct;
   sub->scale.x = 1.0f;
   sub->scale.y = 1.0f;
@@ -69,9 +69,9 @@ Gfx * WidgetText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 }
 
 u16 WidgetText::GetWidth(){
-  uint uVar1;
+  u32 uVar1;
   u16 uVar2;
-  uint uVar3;
+  u32 uVar3;
   widgetTextSubstruct *ppvVar1 = (widgetTextSubstruct *)substruct;
   uVar1 = Font::GetWidthScaled(font_pointer,ppvVar1->str,ppvVar1->scale.x);
   uVar2 = 0;

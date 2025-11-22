@@ -6,8 +6,8 @@
 u8 borg13_func_b(Borg13Header *param_1,Borg13Data *param_2){
   param_1->dat = param_2;
   if (param_2->ActorCount){
-    ALLOCS(param_1->unk8,(uint)param_2->ActorCount << 2,91);
-    memset(param_1->unk8,0,(uint)param_1->dat->ActorCount << 2);
+    ALLOCS(param_1->unk8,(u32)param_2->ActorCount << 2,91);
+    memset(param_1->unk8,0,(u32)param_1->dat->ActorCount << 2);
   }
   else param_1->unk8 = NULL;
   return 0;

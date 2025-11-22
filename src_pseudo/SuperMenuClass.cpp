@@ -36,7 +36,7 @@ namespace SuperMenuClasses{
         //TODO: Redo as While Loop
         if (supermenuclasses_pointer->img == NULL) {
       LAB_8004e258:
-          if (supermenuclasses_count <= (uint)((int)pSVar4 - (int)supermenuclasses_pointer >> 3))
+          if (supermenuclasses_count <= (u32)((int)pSVar4 - (int)supermenuclasses_pointer >> 3))
             CRASH(FILENAME,"Lookup table has overflowed!");
           pSVar4->index = ind;
           pBVar2 = loadBorg8(ind);

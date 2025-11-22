@@ -214,7 +214,7 @@ void borg1_func_a(Borg1Data *param_1){
 u8 InitBorgTexture(Borg1Header *header,Borg1Data *dat){
   u16 uVar1;
   Borg1Data *pBVar2;
-  uint size;
+  u32 size;
   u8 *puVar5;
   int bitDepth;
   
@@ -405,7 +405,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
   astruct_3 *paVar10;
   Borg2Header **ppBVar11;
   Vtx_t *puVar12;
-  uint uVar12;
+  u32 uVar12;
   u32 uVar13;
   borg5substruct **ppbVar14;
   Vtx_t *pVVar15;
@@ -433,7 +433,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       size += sizeof(Borg5Struct2);
       j++;
       ppbVar14 = pbVar21->links;
-      for (uVar12 = (uint)pbVar21->tier; uVar12 != 0; uVar12--) {
+      for (uVar12 = (u32)pbVar21->tier; uVar12 != 0; uVar12--) {
         *ppbVar14 = (param_1->dat).someSubstruct + (int)*ppbVar14;
         ppbVar14++;
       }
@@ -544,7 +544,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       i += -1;
       ppBVar18 = ppBVar11 + 1;
       if (pBVar2->unk0x3c != NULL) { //align 8?
-        pVVar23 = (Vtx_t *)((uint)((u32)p + 7) & 0xfffffff8);
+        pVVar23 = (Vtx_t *)((u32)((u32)p + 7) & 0xfffffff8);
         uVar22 = pBVar2->vertcount;
         pVVar15 = pBVar2->vertlist2;
         pBVar2->vertcount = (u32)pVVar23;
@@ -694,7 +694,7 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
   int iVar14;
   int iVar15;
   int iVar16;
-  uint size;
+  u32 size;
   undefined4 uVar17;
   
   size = 0;

@@ -4,10 +4,10 @@
 
 void borg12_func_a(Borg12Data *param_1) {
   Borg11Data *pBVar1;
-  uint uVar3;
+  u32 uVar3;
   Borg11Header *pBVar4;
-  uint i;
-  uint uVar6;
+  u32 i;
+  u32 uVar6;
   SetPointer(param_1,instrumentsI);
   SetPointer(param_1,sub.ptr0x18);
   SetPointer(param_1,sub.channelDat);
@@ -24,8 +24,8 @@ u8 borg12_func_b(Borg12Header *param_1,Borg12Data *param_2) {
 }
 
 void n64BorgDCMModule_free(Borg12Header *param_1) {
-  uint count;
-  uint i;
+  u32 count;
+  u32 i;
   
   int oldMem = get_memUsed();
   if ((param_1->head).index == -1) {

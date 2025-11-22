@@ -292,7 +292,7 @@ extern s16 some_toggle;
 void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
   short sVar1;
   int iVar2;
-  uint uVar3;
+  u32 uVar3;
   vec3f *arg0;
   vec3f afStack112;
   

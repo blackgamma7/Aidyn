@@ -156,7 +156,7 @@ void WidgetCredits::State2(){
   bVar2 = this->unk88 - 1;
   if (this->unk88 == 0) {
     pBVar3 = this->field5_0x80;
-    if ((int)((int)pBVar3->posY + (uint)pBVar3->varU16) < 0) {
+    if ((int)((int)pBVar3->posY + (u32)pBVar3->varU16) < 0) {
       this->field5_0x80 = pBVar3->siblingR;
       pBVar3 = this->field5_0x80;
     }
@@ -166,7 +166,7 @@ void WidgetCredits::State2(){
     }
     else {
       pBVar1 = pBVar3->siblingL;
-      if ((pBVar1 == NULL) || (bVar2 = 1, (int)((int)pBVar1->posY + (uint)pBVar1->varU16 + 0x20) < SCREEN_HEIGHT)
+      if ((pBVar1 == NULL) || (bVar2 = 1, (int)((int)pBVar1->posY + (u32)pBVar1->varU16 + 0x20) < SCREEN_HEIGHT)
          ) {
         do {
           bVar2 = this->unk8a;
@@ -177,7 +177,7 @@ void WidgetCredits::State2(){
             if (pBVar3 == NULL) goto LAB_800340fc;
             pBVar1 = pBVar3->siblingL;
             if (pBVar1 == NULL) break;
-            if (0xef < (int)((int)pBVar1->posY + (uint)pBVar1->varU16 + 0x20)) {
+            if (0xef < (int)((int)pBVar1->posY + (u32)pBVar1->varU16 + 0x20)) {
               bVar2 = 1;
               goto LAB_800340fc;
             }

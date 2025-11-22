@@ -12,7 +12,7 @@ u8 CombatAI::WillTheyFlee(ItemID id){
   u8 bVar4;
   char cVar5;
   int score;
-  uint uVar2;
+  u32 uVar2;
   u8 AVar6;
   s32 lVar7;
   
@@ -156,8 +156,8 @@ byte CombatAI::GetSpellPriority(CombatAI_s *param_1,u8 param_2){
   byte val;
   char cVar8;
   int iVar7;
-  uint uVar9;
-  uint uVar10;
+  u32 uVar9;
+  u32 uVar10;
   char cVar11;
   u8 MVar12;
   Temp_enchant *iVar8;
@@ -311,7 +311,7 @@ switchD_80060678_caseD_10:
             iVar8 = pCVar2->effects[uVar9];
             cVar11 = cVar8;
             if ((((iVar8 != NULL) && (iVar8->school == MVar12)) && (iVar8->timer != 0xffffffff)) &&
-               (cVar11 = cVar8 + -1, iVar8->varB == (uint)(bVar4 == bVar5))) {
+               (cVar11 = cVar8 + -1, iVar8->varB == (u32)(bVar4 == bVar5))) {
               cVar11 = cVar8 + 1;
             }
             cVar8 = cVar11;
@@ -367,13 +367,13 @@ void CombatAI::FUN_80060a88(CombatAI_s *param_1){
   CombatSubstructA *pcVar11;
   byte feildx;
   int iVar12;
-  uint uVar13;
-  uint uVar14;
-  uint uVar15;
+  u32 uVar13;
+  u32 uVar14;
+  u32 uVar15;
   int iVar16;
   u16 uVar17;
   CombatSubstructB *X_00;
-  uint uVar18;
+  u32 uVar18;
   float x;
   float y;
   
@@ -388,7 +388,7 @@ void CombatAI::FUN_80060a88(CombatAI_s *param_1){
   uVar2 = param_1->combatEnt->unk23;
   X_00 = gCombatP->substruct2;
   unk800714d0(param_1->combatEnt);
-  uVar18 = (uint)bVar1;
+  uVar18 = (u32)bVar1;
   iVar16 = (int)(((int)(char)Y - uVar18) * 0x1000000) >> 0x18;
   iVar9 = (int)(char)Y + uVar18;
   if (iVar16 <= iVar9) {
@@ -442,7 +442,7 @@ void CombatAI::FUN_80060db0(CombatAI_s *param_1){
   u8 bVar4;
   byte feildy;
   CombatStruct *pCVar5;
-  uint uVar7;
+  u32 uVar7;
   u8 X;
   u8 Y;
   u16 uVar8;
@@ -466,7 +466,7 @@ void CombatAI::FUN_80060db0(CombatAI_s *param_1){
   bVar3 = 0;
   bVar2 = 0;
   bVar11 = 0;
-  uVar7 = (uint)bVar10;
+  uVar7 = (u32)bVar10;
   CombatAI::ResetScore(SQ(bVar10) * 4);
   bVar10 = 0;
   x = param_1->combatEnt->GetCoordX();
@@ -545,7 +545,7 @@ int CombatAI::FireballCalc(CombatAI_s *param_1){
   u8 bVar5;
   u8 bVar6;
   int iVar7;
-  uint i;
+  u32 i;
   int iVar9;
   float yTotal;
   float targetCount;
@@ -602,7 +602,7 @@ CombatAi_command combatAI_commands[]={
 };
 
 
-uint other_func_checking_fireball(CombatAI_s *param_1){
+u32 other_func_checking_fireball(CombatAI_s *param_1){
   byte bVar1;
   u8 uVar2;
   byte bVar3;
@@ -612,7 +612,7 @@ uint other_func_checking_fireball(CombatAI_s *param_1){
   CombatStruct *pCVar7;
   u8 X;
   u8 Y;
-  uint uVar9;
+  u32 uVar9;
   SpellInstance *pSVar10;
   byte bVar14;
   int iVar11;
@@ -626,12 +626,12 @@ uint other_func_checking_fireball(CombatAI_s *param_1){
   int iVar17;
   byte feildx;
   int iVar18;
-  uint uVar19;
+  u32 uVar19;
   int iVar20;
   float x;
   float y;
-  uint uStack_74;
-  uint uStack_60;
+  u32 uStack_74;
+  u32 uStack_60;
   
   bVar1 = param_1->combatEnt->moveRange;
   if (bVar1 == 0) uStack_74 = ai_spell_stam(param_1);
@@ -659,7 +659,7 @@ uint other_func_checking_fireball(CombatAI_s *param_1){
         pSVar10 = Entity::GetSpell(pCVar5);
         bVar14 = Entity::CheckSpellWizard(pCVar5,pSVar10);
         if (uStack_74 == 0) uStack_74 = CharStats::getModded(pCVar5->Stats,STAT_STAM) < Entity::SpellStaminaSubtract(pSVar10,bVar14) ^ 1;
-        uVar19 = (uint)bVar1;
+        uVar19 = (u32)bVar1;
         iVar11 = (int)(char)Y - uVar19;
         iVar12 = (int)(char)Y + uVar19;
         if (iVar11 <= iVar12) {
@@ -716,7 +716,7 @@ u8 ai_spell_stam(CombatAI_s *param_1){
   s8 sVar10;
   char cVar11;
   SpellEnum SVar12;
-  uint i;
+  u32 i;
   SpellEnum *pSVar14;
   SpellEnum *pSVar15;
   
@@ -764,8 +764,8 @@ void FUN_8006193c(CombatAI_s *param_1){
   u16 uVar4;
   u16 uVar5;
   combat_aiscore *pcVar6;
-  uint uVar7;
-  uint uVar9;
+  u32 uVar7;
+  u32 uVar9;
   u8 Y;
   int iVar10;
   u16 uVar11;
@@ -776,12 +776,12 @@ void FUN_8006193c(CombatAI_s *param_1){
   int iVar15;
   CombatSubstructA *pcVar16;
   CombatSubstructB *pcVar17;
-  uint uVar18;
-  uint uVar19;
-  uint uVar20;
+  u32 uVar18;
+  u32 uVar19;
+  u32 uVar20;
   byte uStack80;
   byte bStack_4d;
-  uint uStack_4c;
+  u32 uStack_4c;
   byte uStack76;
   u8 X;
   
@@ -790,7 +790,7 @@ void FUN_8006193c(CombatAI_s *param_1){
   _uStack80 = 0;
   bStack_4d = 0;
   uVar5 = 0;
-  uVar9 = (uint)param_1->combatEnt->moveRange;
+  uVar9 = (u32)param_1->combatEnt->moveRange;
   X = param_1->combatEnt->GetCoordXU8();
   Y = param_1->combatEnt->GetCoordYU8();
   pcVar16 = &gCombatP->substruct;
@@ -833,7 +833,7 @@ LAB_80061b18:
           uVar18 = (int)((uVar18 + 1) * 0x1000000) >> 0x18;
         } while ((int)uVar18 <= iVar10);
       }
-      uVar20 = (uint)(char)(bVar3 + 1);
+      uVar20 = (u32)(char)(bVar3 + 1);
     } while ((int)uVar20 <= iVar15);
   }
   pcVar6 = combat_AiScores_pointer;
@@ -885,7 +885,7 @@ void FUN_80061dfc(combat_aiscore *param_1){
   WeaponInstance *pWVar7;
   u8 x;
   u8 y;
-  uint uVar9;
+  u32 uVar9;
   u8 x_00;
   u8 y_00;
   int iVar10;
@@ -896,11 +896,11 @@ void FUN_80061dfc(combat_aiscore *param_1){
   byte bVar14;
   CombatSubstructB *X;
   CombatSubstructA *pCVar15;
-  uint uVar16;
-  uint uVar17;
-  uint uVar18;
+  u32 uVar16;
+  u32 uVar17;
+  u32 uVar18;
   ulonglong uVar19;
-  uint uVar20;
+  u32 uVar20;
   combat_aiscore *pcVar21;
   float x_01;
   float y_01;
@@ -919,25 +919,25 @@ void FUN_80061dfc(combat_aiscore *param_1){
   pCVar15 = &gCombatP->substruct;
   bVar2 = param_1->combatEnt->unk23;
   X = gCombatP->substruct2;
-  uVar9 = (uint)bVar2;
+  uVar9 = (u32)bVar2;
   FUN_800714d0(pCVar15,x,y,bVar2);
   uVar18 = 0;
   if (combat_AiScore_tally != 0) {
     do {
       pcVar21 = combat_AiScores_pointer + uVar18;
       bVar3 = pcVar21->x;
-      uStack_68 = (uint)bVar3;
+      uStack_68 = (u32)bVar3;
       bVar14 = pcVar21->y;
       pCVar5 = pcVar21->combatEnt;
-      uStack_64 = (uint)bVar14;
+      uStack_64 = (u32)bVar14;
       x_00 = pCVar5->GetCoordXU8();
       y_00 = pCVar5->GetCoordYU8();
-      uVar16 = (uint)pCVar5->unk23;
+      uVar16 = (u32)pCVar5->unk23;
       uVar20 = (int)(((int)(char)y_00 - uVar9) * 0x1000000) >> 0x18;
       pCVar6 = pCVar5->charSheetP;
       bVar4 = pCVar5->index;
       pWVar7 = pCVar6->weapons;
-      if ((int)uVar20 <= (int)((int)(char)y_00 + (uint)pCVar5->unk23)) {
+      if ((int)uVar20 <= (int)((int)(char)y_00 + (u32)pCVar5->unk23)) {
         do {
           bVar3 = (byte)uVar20;
           uVar17 = (int)(((int)(char)x_00 - uVar9) * 0x1000000) >> 0x18;
@@ -980,10 +980,10 @@ void FUN_80061dfc(combat_aiscore *param_1){
                 }
               }
               uVar17 = iVar10 >> 0x18;
-            } while ((int)uVar17 <= (int)((int)(char)x_00 + (uint)pCVar5->unk23));
+            } while ((int)uVar17 <= (int)((int)(char)x_00 + (u32)pCVar5->unk23));
           }
-          uVar16 = (uint)pCVar5->unk23;
-          uVar20 = (uint)(char)(bVar3 + 1);
+          uVar16 = (u32)pCVar5->unk23;
+          uVar20 = (u32)(char)(bVar3 + 1);
           bVar3 = (byte)uStack_68;
           bVar14 = (byte)uStack_64;
         } while ((int)uVar20 <= (int)((int)(char)y_00 + uVar16));
@@ -1045,7 +1045,7 @@ void FUN_800622f8(CombatAI_s* param_1){
       combat_aiscores_free();
       FUN_800609bc(param_1);
     }
-    else {param_1->unk0x7 = param_1->combatEnt->AtkType == 1;}
+    else {param_1->unk7 = param_1->combatEnt->AtkType == 1;}
   }
   FUN_80061d10(param_1,1);
   combat_AiScores_quicksort(true);
@@ -1243,13 +1243,13 @@ void FUN_800628cc(CombatAI_s* param_1){
   byte X;
   uint uVar18;
   uint uVar19;
-  uint uVar20;
+  u32 uVar20;
   int iVar21;
   float fVar22;
   float fVar23;
-  uint uStack_54;
-  uint uStack_48;
-  uint uStack_44;
+  u32 uStack_54;
+  u32 uStack_48;
+  u32 uStack_44;
   
   pCVar4 = gCombatP;
   pCVar2 = gCombatP->substruct2;
@@ -1398,8 +1398,8 @@ u8      FUN_80062e14(u8 param_1,u8 param_2,byte *param_3,byte *param_4,undefined
   int iStack_34;
   int iStack_30;
   
-  uVar7 = (uint)param_1;
-  uVar9 = (uint)param_2;
+  uVar7 = (u32)param_1;
+  uVar9 = (u32)param_2;
   iVar8 = *param_3 - uVar7;
   iVar10 = *param_4 - uVar9;
   iVar5 = iVar8;
@@ -1944,7 +1944,7 @@ u8 FUN_80064398(CombatAI_s *param_1){
     }
   }
   else {
-    if (param_1->combatEnt->CanBeTargeted(target,0)) bVar2 = true;
+    if (param_1->combatEnt->CanBeTargeted(target,false)) bVar2 = true;
     else {
       bVar1 = param_1->combatEnt->AIShouldCastMagic(target);
       bVar2 = true;

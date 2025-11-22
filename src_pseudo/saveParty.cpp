@@ -51,7 +51,7 @@ Temp_enchant * SaveParty::LoadSpellEffect(SaveFile *sav){
 }
 
 void SaveParty::SaveStatMod(SaveFile *sav,StatMod *Mod){
-  SKIPCHECK(Mod,SaveBits_StatMod) SaveBits(sav,(int)Mod->mod + 0x32U & 0x7f | (uint)(byte)Mod->stat << 7,SaveBits_StatMod);
+  SKIPCHECK(Mod,SaveBits_StatMod) SaveBits(sav,(int)Mod->mod + 0x32U & 0x7f | (u32)(byte)Mod->stat << 7,SaveBits_StatMod);
 }
 
 StatMod * SaveParty::LoadStatMod(SaveFile *sav){
@@ -290,7 +290,7 @@ CharSheet * SaveParty::LoadCharSheetEffects(SaveFile *sav){
 
 void SaveParty::LoadShield(SaveFile *sav,CharSheet *param_2){
   u16 uVar2;
-  uint uVar3;
+  u32 uVar3;
   
   if (param_2->armor[1]) Entity::RemoveShield(param_2);
   uVar2 = LoadBits(sav,SaveBits_ItemID);
@@ -303,7 +303,7 @@ void SaveParty::LoadShield(SaveFile *sav,CharSheet *param_2){
 }
 
 void SaveParty::LoadWeapon(SaveFile *sav,CharSheet *chara){
-  uint uVar3;
+  u32 uVar3;
   
   if (chara->weapons) Entity::UnequipWeapons(chara);
   ItemID uVar2 = LoadBits(sav,SaveBits_ItemID);
@@ -317,7 +317,7 @@ void SaveParty::LoadWeapon(SaveFile *sav,CharSheet *chara){
 
 void SaveParty::LoadArmor(SaveFile *sav,CharSheet *chara){
   u16 uVar2;
-  uint uVar3;
+  u32 uVar3;
   
   if (chara->armor[0])Entity::RemoveArmor(chara);
   uVar2 = LoadBits(sav,SaveBits_ItemID);
@@ -330,7 +330,7 @@ void SaveParty::LoadArmor(SaveFile *sav,CharSheet *chara){
 
 void SaveParty::LoadGear(SaveFile *sav,CharSheet *chara){
   u16 uVar2;
-  uint uVar3;
+  u32 uVar3;
   u32 slot;
   
   uVar2 = LoadBits(sav,SaveBits_ItemID);

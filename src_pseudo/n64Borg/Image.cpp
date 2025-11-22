@@ -91,28 +91,28 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
   u16 iVar2;
   void *pvVar3;
   short sVar10;
-  uint uVar4;
+  u32 uVar4;
   int iVar5;
   int iVar6;
-  uint uVar7;
-  uint uVar8;
+  u32 uVar7;
+  u32 uVar8;
   int iVar9;
-  uint uVar12;
-  uint uVar13;
+  u32 uVar12;
+  u32 uVar13;
   int iVar14;
-  uint uVar15;
-  uint uVar16;
-  uint uVar17;
-  uint uVar18;
-  uint uVar19;
-  uint uVar20;
-  uint uVar21;
-  uint uVar22;
-  uint uVar23;
+  u32 uVar15;
+  u32 uVar16;
+  u32 uVar17;
+  u32 uVar18;
+  u32 uVar19;
+  u32 uVar20;
+  u32 uVar21;
+  u32 uVar22;
+  u32 uVar23;
   Gfx *pGVar24;
   Gfx *pGVar25;
-  uint uVar26;
-  uint uVar27;
+  u32 uVar26;
+  u32 uVar27;
   short sVar28;
   int iVar29;
   float fVar30;
@@ -125,7 +125,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
   float fVar37;
   float fVar38;
   float fVar39;
-  uint uStack_38;
+  u32 uStack_38;
   short sVar11;
   
   fVar37 = sImageVScale;
@@ -133,24 +133,24 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
   fVar38 = hScale * sImageHScale;
   pvVar3 = (borg8->dat).offset;
   fVar39 = vScale * sImageVScale;
-  uVar26 = (uint)h - (uint)param_5;
+  uVar26 = (u32)h - (u32)param_5;
   fVar36 = x * sImageHScale;
   uVar1 = (borg8->dat).Width;
   gDPPipeSync(g++);
   gDPSetPrimColor(g++,0,0,red,green,blue,alpha);
   fVar33 = 4.0f;
-  uVar17 = (uint)v - (uint)param_6;
+  uVar17 = (u32)v - (u32)param_6;
   fVar37 = y * fVar37 * fVar30;
   iVar29 = (int)((float)uVar26 * fVar38 * fVar30);
   iVar31 = (int)(fVar36 * fVar30);
   iVar32 = (int)(1024.0f / fVar38);
   iVar2 = (borg8->dat).format;
-  uStack_38 = (uint)(1024.0f / fVar39);
+  uStack_38 = (u32)(1024.0f / fVar39);
   pGVar24 = g;
   if (8 < (borg8->dat).format)CRASH("N64BorgImage.cpp N64BorgImageDraw","Image type was  not recognized.");
-  uVar15 = (uint)uVar1;
-  uVar21 = (uint)param_5;
-  uVar20 = (uint)param_5;
+  uVar15 = (u32)uVar1;
+  uVar21 = (u32)param_5;
+  uVar20 = (u32)param_5;
   sVar10 = (short)iVar32;
   sVar11 = (short)uStack_38;
   sVar28 = (short)iVar31;
@@ -182,7 +182,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
     dVar34 = (double)uVar17;
     gDPSetTextureLUT(g++,0);
     fVar33 = (float)dVar35 * fVar39 * fVar33;
-    uVar4 = (uint)sVar28;
+    uVar4 = (u32)sVar28;
     if (uVar13 != 0) {
       uVar8 = (uVar21 - 1) + uVar26;
       uVar12 = ((int)((uVar8 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
@@ -203,7 +203,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
       dVar34 = dVar34 + UINT_MAX_d;
     }
     (pGVar25->words).w0 = uVar15 - 1 & 0xfff | 0xfd180000;
-    (pGVar25->words).w1 = (uint)pvVar3;
+    (pGVar25->words).w1 = (u32)pvVar3;
     *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
     uVar13 = (uVar21 - 1) + uVar26;
     uVar15 = ((int)((uVar13 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
@@ -214,10 +214,10 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
     pGVar25[5].words.w0 = uVar15;
     *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
     pGVar25[6].words.w0 = uVar21 | uVar22 | 0xf2000000;
-    *(uint *)((int)pGVar25 + 0x34) = uVar20 | uVar16;
+    *(u32 *)((int)pGVar25 + 0x34) = uVar20 | uVar16;
     pGVar25[7].words.w0 = 0xf2000000;
-    *(uint *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (uint)(short)(iVar31 + iVar29);
+    *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
+    uVar17 = (u32)(short)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
     if ((int)uVar17 < 1) {
       uVar17 = 0xe4000000;
@@ -225,7 +225,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = (uint)(short)(int)(fVar37 + (float)dVar34 * fVar39 * fVar30);
+    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar34 * fVar39 * fVar30);
     if (0 < (int)uVar16) {
       uVar17 |= uVar16 & 0xfff;
     }
@@ -239,7 +239,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
     if (0 < (short)(int)fVar37) {
       uVar17 |= (int)(short)(int)fVar37 & 0xfffU;
     }
-    *(uint *)((int)pGVar25 + 0x44) = uVar17;
+    *(u32 *)((int)pGVar25 + 0x44) = uVar17;
     (pGVar24->words).w0 = 0xe1000000;
     pGVar25 = pGVar25 + 10;
     if ((int)uVar4 < 0) {
@@ -311,7 +311,7 @@ LAB_800a6620:
     uVar23 = 0;
     dVar35 = (double)uVar17;
     gDPSetColorDither(pGVar24,0);
-    uVar4 = (uint)sVar28;
+    uVar4 = (u32)sVar28;
     if (uVar13 != 0) {
       uVar8 = (uVar21 - 1) + uVar26;
       uVar18 = iVar5 << 0x15 | ((int)((uVar8 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
@@ -349,7 +349,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
       dVar35 = dVar35 + UINT_MAX_d;
     }
     (pGVar25->words).w0 = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd100000;
-    (pGVar25->words).w1 = (uint)pvVar3;
+    (pGVar25->words).w1 = (u32)pvVar3;
     uVar13 = (uVar16 & 0x3ff) << 2;
     *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
     uVar16 = ((uVar16 - 1) + uVar17) * 4 & 0xfff;
@@ -361,16 +361,16 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     uVar15 = (uVar15 & 0x3ff) << 0xe;
     uVar20 = (uVar21 << 2 & 0xfff) << 0xc;
     pGVar25[3].words.w0 = uVar20 | uVar13 | 0xf4000000;
-    *(uint *)((int)pGVar25 + 0x1c) = uVar15 | uVar16 | 0x7000000;
+    *(u32 *)((int)pGVar25 + 0x1c) = uVar15 | uVar16 | 0x7000000;
     pGVar25[4].words.w0 = 0xe7000000;
     *(undefined4 *)((int)pGVar25 + 0x24) = 0;
     pGVar25[5].words.w0 = uVar22;
     *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
     pGVar25[6].words.w0 = uVar20 | uVar13 | 0xf2000000;
-    *(uint *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
+    *(u32 *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
     pGVar25[7].words.w0 = 0xf2000000;
-    *(uint *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (uint)(short)(iVar31 + iVar29);
+    *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
+    uVar17 = (u32)(short)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
     if ((int)uVar17 < 1) {
       uVar17 = 0xe4000000;
@@ -378,7 +378,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = (uint)(short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
+    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
     if (0 < (int)uVar16) {
       uVar17 |= uVar16 & 0xfff;
     }
@@ -392,7 +392,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     if (0 < (short)(int)fVar37) {
       uVar17 |= (int)(short)(int)fVar37 & 0xfffU;
     }
-    *(uint *)((int)pGVar25 + 0x44) = uVar17;
+    *(u32 *)((int)pGVar25 + 0x44) = uVar17;
     (pGVar24->words).w0 = 0xe1000000;
     pGVar25 = pGVar25 + 10;
     if ((int)uVar4 < 0) {
@@ -463,7 +463,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     }
     uVar23 = 0;
     dVar35 = (double)uVar17;
-    uVar4 = (uint)sVar28;
+    uVar4 = (u32)sVar28;
     if (uVar13 != 0) {
       uVar8 = (uVar21 - 1) + uVar26;
       uVar18 = iVar5 << 0x15 | ((int)((uVar8 - uVar20) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
@@ -475,7 +475,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
       do {
         uVar16 = uVar8 + uVar22;
         (pGVar24->words).w0 = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd080000;
-        (pGVar24->words).w1 = (uint)pvVar3;
+        (pGVar24->words).w1 = (u32)pvVar3;
         uVar7 = uVar16 * 4 & 0xfff;
         *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
         pGVar24[1].words.w0 = uVar18;
@@ -483,22 +483,22 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         pGVar24[2].words.w0 = 0xe6000000;
         *(undefined4 *)((int)pGVar24 + 0x14) = 0;
         pGVar24[3].words.w0 = uVar27 | uVar8 | 0xf4000000;
-        *(uint *)((int)pGVar24 + 0x1c) = uVar19 | uVar7 | 0x7000000;
+        *(u32 *)((int)pGVar24 + 0x1c) = uVar19 | uVar7 | 0x7000000;
         pGVar24[4].words.w0 = 0xe7000000;
         *(undefined4 *)((int)pGVar24 + 0x24) = 0;
         *(undefined4 *)((int)pGVar24 + 0x2c) = 0x80200;
         pGVar24[5].words.w0 = uVar18;
         pGVar24[6].words.w0 = uVar27 | uVar8 | 0xf2000000;
-        *(uint *)((int)pGVar24 + 0x34) = uVar19 | uVar7;
+        *(u32 *)((int)pGVar24 + 0x34) = uVar19 | uVar7;
         pGVar24[7].words.w0 = 0xf2000000;
-        *(uint *)((int)pGVar24 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
+        *(u32 *)((int)pGVar24 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
         if ((int)uVar12 < 1) {
           uVar8 = 0xe4000000;
         }
         else {
           uVar8 = (uVar12 & 0xfff) << 0xc | 0xe4000000;
         }
-        uVar7 = (uint)(short)(int)(fVar37 + fVar30);
+        uVar7 = (u32)(short)(int)(fVar37 + fVar30);
         if (0 < (int)uVar7) {
           uVar8 |= uVar7 & 0xfff;
         }
@@ -512,7 +512,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         if (0 < (short)(int)fVar37) {
           uVar8 |= (int)(short)(int)fVar37 & 0xfffU;
         }
-        *(uint *)((int)pGVar24 + 0x44) = uVar8;
+        *(u32 *)((int)pGVar24 + 0x44) = uVar8;
         pGVar24[9].words.w0 = 0xe1000000;
         if ((int)uVar4 < 0) {
           iVar6 = (int)(uVar4 * (int)sVar10) >> 7;
@@ -548,9 +548,9 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         }
         pGVar25 = pGVar24 + 0xb;
         uVar23 += 1;
-        *(uint *)((int)pGVar24 + 0x4c) = uVar8;
+        *(u32 *)((int)pGVar24 + 0x4c) = uVar8;
         pGVar24[10].words.w0 = 0xf1000000;
-        *(uint *)((int)pGVar24 + 0x54) = iVar32 << 0x10 | uStack_38 & 0xffff;
+        *(u32 *)((int)pGVar24 + 0x54) = iVar32 << 0x10 | uStack_38 & 0xffff;
         fVar37 = fVar37 + fVar30;
         uVar8 = uVar16;
         pGVar24 = pGVar25;
@@ -561,7 +561,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
       dVar35 = dVar35 + UINT_MAX_d;
     }
     (pGVar25->words).w0 = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd080000;
-    (pGVar25->words).w1 = (uint)pvVar3;
+    (pGVar25->words).w1 = (u32)pvVar3;
     uVar13 = (uVar16 & 0x3ff) << 2;
     *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
     uVar16 = ((uVar16 - 1) + uVar17) * 4 & 0xfff;
@@ -573,16 +573,16 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     uVar15 = (uVar15 & 0x3ff) << 0xe;
     uVar20 = (uVar21 << 2 & 0xfff) << 0xc;
     pGVar25[3].words.w0 = uVar20 | uVar13 | 0xf4000000;
-    *(uint *)((int)pGVar25 + 0x1c) = uVar15 | uVar16 | 0x7000000;
+    *(u32 *)((int)pGVar25 + 0x1c) = uVar15 | uVar16 | 0x7000000;
     pGVar25[4].words.w0 = 0xe7000000;
     *(undefined4 *)((int)pGVar25 + 0x24) = 0;
     pGVar25[5].words.w0 = uVar22;
     *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
     pGVar25[6].words.w0 = uVar20 | uVar13 | 0xf2000000;
-    *(uint *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
+    *(u32 *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
     pGVar25[7].words.w0 = 0xf2000000;
-    *(uint *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (uint)(short)(iVar31 + iVar29);
+    *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
+    uVar17 = (u32)(short)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
     if ((int)uVar17 < 1) {
       uVar17 = 0xe4000000;
@@ -590,7 +590,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = (uint)(short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
+    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
     if (0 < (int)uVar16) {
       uVar17 |= uVar16 & 0xfff;
     }
@@ -604,7 +604,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     if (0 < (short)(int)fVar37) {
       uVar17 |= (int)(short)(int)fVar37 & 0xfffU;
     }
-    *(uint *)((int)pGVar25 + 0x44) = uVar17;
+    *(u32 *)((int)pGVar25 + 0x44) = uVar17;
     (pGVar24->words).w0 = 0xe1000000;
     pGVar25 = pGVar25 + 10;
     if ((int)uVar4 < 0) {
@@ -686,7 +686,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     uVar23 = 0;
     iVar6 = param_5 - 1;
     dVar35 = (double)uVar17;
-    uVar4 = (uint)sVar28;
+    uVar4 = (u32)sVar28;
     if (uVar13 != 0) {
       uVar19 = iVar5 << 0x15;
       uVar18 = iVar6 + uVar26;
@@ -697,7 +697,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
       do {
         uVar16 = uVar8 + uVar22;
         (pGVar24->words).w0 = uVar19 | ((int)uVar15 >> 1) - 1U & 0xfff | 0xfd080000;
-        (pGVar24->words).w1 = (uint)pvVar3;
+        (pGVar24->words).w1 = (u32)pvVar3;
         uVar7 = uVar16 * 4 & 0xfff;
         *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
         pGVar24[1].words.w0 = uVar19 | uVar12 | 0xf5080000;
@@ -705,22 +705,22 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         pGVar24[2].words.w0 = 0xe6000000;
         *(undefined4 *)((int)pGVar24 + 0x14) = 0;
         pGVar24[3].words.w0 = (uVar21 << 1 & 0xfff) << 0xc | uVar8 | 0xf4000000;
-        *(uint *)((int)pGVar24 + 0x1c) = (uVar18 & 0x7ff) << 0xd | uVar7 | 0x7000000;
+        *(u32 *)((int)pGVar24 + 0x1c) = (uVar18 & 0x7ff) << 0xd | uVar7 | 0x7000000;
         pGVar24[4].words.w0 = 0xe7000000;
         *(undefined4 *)((int)pGVar24 + 0x24) = 0;
         *(undefined4 *)((int)pGVar24 + 0x2c) = 0x80200;
         pGVar24[5].words.w0 = uVar19 | uVar12 | 0xf5000000;
         pGVar24[6].words.w0 = (uVar21 << 2 & 0xfff) << 0xc | uVar8 | 0xf2000000;
-        *(uint *)((int)pGVar24 + 0x34) = (uVar18 & 0x3ff) << 0xe | uVar7;
+        *(u32 *)((int)pGVar24 + 0x34) = (uVar18 & 0x3ff) << 0xe | uVar7;
         pGVar24[7].words.w0 = 0xf2000000;
-        *(uint *)((int)pGVar24 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
+        *(u32 *)((int)pGVar24 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
         if ((int)uVar27 < 1) {
           uVar8 = 0xe4000000;
         }
         else {
           uVar8 = (uVar27 & 0xfff) << 0xc | 0xe4000000;
         }
-        uVar7 = (uint)(short)(int)(fVar37 + fVar30);
+        uVar7 = (u32)(short)(int)(fVar37 + fVar30);
         if (0 < (int)uVar7) {
           uVar8 |= uVar7 & 0xfff;
         }
@@ -734,7 +734,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         if (0 < (short)(int)fVar37) {
           uVar8 |= (int)(short)(int)fVar37 & 0xfffU;
         }
-        *(uint *)((int)pGVar24 + 0x44) = uVar8;
+        *(u32 *)((int)pGVar24 + 0x44) = uVar8;
         pGVar24[9].words.w0 = 0xe1000000;
         if ((int)uVar4 < 0) {
           iVar9 = (int)(uVar4 * (int)sVar10) >> 7;
@@ -770,9 +770,9 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         }
         pGVar25 = pGVar24 + 0xb;
         uVar23 += 1;
-        *(uint *)((int)pGVar24 + 0x4c) = uVar8;
+        *(u32 *)((int)pGVar24 + 0x4c) = uVar8;
         pGVar24[10].words.w0 = 0xf1000000;
-        *(uint *)((int)pGVar24 + 0x54) = iVar32 << 0x10 | uStack_38 & 0xffff;
+        *(u32 *)((int)pGVar24 + 0x54) = iVar32 << 0x10 | uStack_38 & 0xffff;
         fVar37 = fVar37 + fVar30;
         uVar8 = uVar16;
         pGVar24 = pGVar25;
@@ -784,7 +784,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     }
     uVar22 = iVar5 << 0x15;
     (pGVar25->words).w0 = uVar22 | ((int)uVar15 >> 1) - 1U & 0xfff | 0xfd080000;
-    (pGVar25->words).w1 = (uint)pvVar3;
+    (pGVar25->words).w1 = (u32)pvVar3;
     *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
     uVar13 = iVar6 + uVar26;
     uVar15 = (((int)((uVar13 - uVar20) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
@@ -794,16 +794,16 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     uVar20 = (uVar16 & 0x3ff) << 2;
     pGVar25[3].words.w0 = (uVar21 << 1 & 0xfff) << 0xc | uVar20 | 0xf4000000;
     uVar16 = ((uVar16 - 1) + uVar17) * 4 & 0xfff;
-    *(uint *)((int)pGVar25 + 0x1c) = (uVar13 & 0x7ff) << 0xd | uVar16 | 0x7000000;
+    *(u32 *)((int)pGVar25 + 0x1c) = (uVar13 & 0x7ff) << 0xd | uVar16 | 0x7000000;
     pGVar25[4].words.w0 = 0xe7000000;
     *(undefined4 *)((int)pGVar25 + 0x24) = 0;
     pGVar25[5].words.w0 = uVar22 | uVar15 | 0xf5000000;
     *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
-    *(uint *)((int)pGVar25 + 0x34) = (uVar13 & 0x3ff) << 0xe | uVar16;
+    *(u32 *)((int)pGVar25 + 0x34) = (uVar13 & 0x3ff) << 0xe | uVar16;
     pGVar25[6].words.w0 = (uVar21 << 2 & 0xfff) << 0xc | uVar20 | 0xf2000000;
     pGVar25[7].words.w0 = 0xf2000000;
-    *(uint *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (uint)(short)(iVar31 + iVar29);
+    *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
+    uVar17 = (u32)(short)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
     if ((int)uVar17 < 1) {
       uVar17 = 0xe4000000;
@@ -811,7 +811,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = (uint)(short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
+    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
     if (0 < (int)uVar16) {
       uVar17 |= uVar16 & 0xfff;
     }
@@ -825,7 +825,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     if (0 < (short)(int)fVar37) {
       uVar17 |= (int)(short)(int)fVar37 & 0xfffU;
     }
-    *(uint *)((int)pGVar25 + 0x44) = uVar17;
+    *(u32 *)((int)pGVar25 + 0x44) = uVar17;
     (pGVar24->words).w0 = 0xe1000000;
     pGVar25 = pGVar25 + 10;
     if ((int)uVar4 < 0) {
@@ -899,7 +899,7 @@ Gfx * DrawRectangle(Gfx *gfx,u16 x,u16 y,u16 H,u16 V,u8 R,u8 G,u8 B,u8 A){
   int sicsV;
   int dsdx;
   int sicsX;
-  uint dtdy;
+  u32 dtdy;
   
 
   gDPLoadSync(gfx++);

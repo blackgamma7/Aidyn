@@ -65,7 +65,7 @@ void Graphics::initGfx(OSSched *sched){
       iVar4 = iVar5;
       for(k=0;k<8;k++) { //bit
         iVar5 = 0;
-        if (((int)(uint)bVar1 >> (8 - k & 0x1f) & 1U) != 0) {
+        if (((int)(u32)bVar1 >> (8 - k & 0x1f) & 1U) != 0) {
           iVar5 = 0xf;
         }
         if ((k & 1) == 0) {
@@ -150,9 +150,9 @@ Gfx * Graphics::StartGfxList(void){
 
   Gfx* g = gGfxManager.GfxLists[gGfxManager.bufferChoice];
   OVar2 = osGetTime();
-  gGfxManager.dListStartTime = (uint)udivdi3(CONCAT44((int)(OVar2 >> 0x20) << 6 | (uint)OVar2 >> 0x1a,(uint)OVar2 << 6),3000);
+  gGfxManager.dListStartTime = (u32)udivdi3(CONCAT44((int)(OVar2 >> 0x20) << 6 | (u32)OVar2 >> 0x1a,(u32)OVar2 << 6),3000);
   OVar2 = osGetTime();
-  gGfxManager.unkTime1 = (u32)udivdi3(CONCAT44((int)(OVar2 >> 0x20) << 6 | (uint)OVar2 >> 0x1a,(uint)OVar2 << 6),3000);
+  gGfxManager.unkTime1 = (u32)udivdi3(CONCAT44((int)(OVar2 >> 0x20) << 6 | (u32)OVar2 >> 0x1a,(u32)OVar2 << 6),3000);
   gSPSegment(g++,0,0); //?
   if (gGfxManager.colordepth[1] == 16) {gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_16b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
   else {gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_32b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
@@ -180,10 +180,10 @@ Gfx * Graphics::SomeOtherInit(Gfx *gfx,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 
 
 //draws colored Rectangle?
 Gfx * Ofunc_rspcode(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,u16 param_5,Color32 param_6){
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
+  u32 uVar5;
+  u32 uVar6;
+  u32 uVar7;
+  u32 uVar8;
 
   gDPPipeSync(gfx++);
   gDPPipeSync(gfx++);
@@ -251,7 +251,7 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
 //draws overscan "letterbox" and ends dlist
 Gfx * Graphics::EndList(Gfx *gfx){
   u16 uVar1;
-  uint uVar2;
+  u32 uVar2;
   
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);
@@ -330,7 +330,7 @@ GtaskMsg* Graphics::CreateTask(Gfx *glist,OSMesgQueue *param_2)
 }
 
 void Graphics::getTaskTime(GtaskMsg *t){
-  gGfxManager.taskTime = udivdi3(CONCAT44(*(int *)&t->task->totalTime << 6 | *(uint *)((int)&t->task->totalTime + 4) >> 0x1a,*(uint *)((int)&t->task->totalTime + 4) << 6),3000);
+  gGfxManager.taskTime = udivdi3(CONCAT44(*(int *)&t->task->totalTime << 6 | *(u32 *)((int)&t->task->totalTime + 4) >> 0x1a,*(u32 *)((int)&t->task->totalTime + 4) << 6),3000);
   gGfxManager.taskTicks--;
 }
 
@@ -648,11 +648,11 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   int iVar8;
   Gfx *pGVar9;
   Gfx *pGVar10;
-  uint uVar11;
-  uint uVar12;
-  uint uVar13;
+  u32 uVar11;
+  u32 uVar12;
+  u32 uVar13;
   u16 uVar15;
-  uint ntscPalVar; //5000000 / refersh rate
+  u32 ntscPalVar; //5000000 / refersh rate
   double dVar16;
   float fVar17;
   double dVar18;
@@ -674,11 +674,11 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   pGVar10 = gGfxManager.GfxLists[gGfxManager.bufferChoice];
   iVar8 = get_memUsed();
   OVar22 = osGetTime();
-  uVar23 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (uint)OVar22 >> 0x1a,(uint)OVar22 << 6),
+  uVar23 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (u32)OVar22 >> 0x1a,(u32)OVar22 << 6),
                    3000);
   gGfxManager.unkTime0 = (int)uVar23 - gGfxManager.unkTime0;
   OVar22 = osGetTime();
-  uVar23 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (uint)OVar22 >> 0x1a,(uint)OVar22 << 6),
+  uVar23 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (u32)OVar22 >> 0x1a,(u32)OVar22 << 6),
                    3000);
   gGfxManager.dListStartTime = (int)uVar23 - gGfxManager.dListStartTime;
   if ((osTvType == OS_TV_NTSC) || (osTvType == OS_TV_MPAL)) ntscPalVar = (5000000/60);
@@ -822,7 +822,7 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
     pGVar10 = DebugDrawRect(pGVar10,uVar15,28,uVar15 + 2,40,i * 51,~(i * 51),0,0xff);
   }
   OVar22 = osGetTime();
-  gGfxManager.unkTime0 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (uint)OVar22 >> 0x1a,(uint)OVar22 << 6),3000);
+  gGfxManager.unkTime0 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (u32)OVar22 >> 0x1a,(u32)OVar22 << 6),3000);
   return pGVar10;
 }
 

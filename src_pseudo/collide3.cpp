@@ -45,9 +45,9 @@ void set_collisionSphere(collisionSphere *dat,float r,float px,float py,float pz
 
 
 s16 GetVoxelOffset(Borg9Data *param_1,s16 param_2,s16 param_3){
-  if ((((-1 < param_2) && (-1 < param_3)) && (param_2 < (int)(uint)param_1->shortA)) &&
-     (param_3 < (int)(uint)param_1->shortB)) {
-    return (param_2 + param_3 * (uint)param_1->shortA);
+  if ((((-1 < param_2) && (-1 < param_3)) && (param_2 < (int)(u32)param_1->shortA)) &&
+     (param_3 < (int)(u32)param_1->shortB)) {
+    return (param_2 + param_3 * (u32)param_1->shortA);
   }
   CRASH("GetVoxelOffset","Invalid Zone");
 }

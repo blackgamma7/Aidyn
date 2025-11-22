@@ -94,7 +94,7 @@ u8 WidgetScrollMenu::Tick(){
   BaseWidget **ppBVar17;
   short sVar18;
   u16 uVar19;
-  uint i;
+  u32 i;
   int iVar21;
   byte bVar23;
   WSMSub *sub = (WSMSub *)this->substruct;
@@ -185,7 +185,7 @@ u8 WidgetScrollMenu::Append(BaseWidget *entry){
 
 u8 WidgetScrollMenu::Remove(BaseWidget *entry){
   short sVar1;
-  uint uVar2;
+  u32 uVar2;
   BaseWidget **ppBVar3;
   int iVar4;
   int iVar5;

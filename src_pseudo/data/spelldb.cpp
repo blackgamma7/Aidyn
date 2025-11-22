@@ -22,7 +22,7 @@ void SpellDB::Orphaned(){
     pbVar3 = this->Schools + i;
     *pbVar2 = bVar5;
     bVar5 += *pbVar3;
-    aiStack_30[0] += (uint)*pbVar3 * sizeof(Spell_ROM);
+    aiStack_30[0] += (u32)*pbVar3 * sizeof(Spell_ROM);
   }
 }
 

@@ -551,8 +551,8 @@ void NOOP_800ACB9C(void){}
 
 //please identify purpose of function.
 void Ofunc_800acba4(MtxF *param_1,Mtx_t *param_2){
-  uint uVar1;
-  uint uVar2;
+  u32 uVar1;
+  u32 uVar2;
   u8 bVar3;
   float fVar4;
   float *pfVar5;
@@ -567,7 +567,7 @@ void Ofunc_800acba4(MtxF *param_1,Mtx_t *param_2){
   for(iVar8=1;iVar8++;iVar8 < 4) {
     iVar7 = 1;
     do {
-      uVar1 = *(uint *)param_2;
+      uVar1 = *(u32 *)param_2;
       uVar2 = (*palVar6)[0];
       palVar6 = (long (*) [4])(*palVar6 + 1);
       param_2 = (Mtx_t *)((int)param_2 + 4);

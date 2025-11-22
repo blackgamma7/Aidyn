@@ -13,7 +13,7 @@ char ** Load(void *romAddr,size_t size){
   u8 *dest;
   char **ret;
   ushort *puVar3;
-  uint uVar4;
+  u32 uVar4;
   ushort auStack_68;
   u32 auStack_28;
   ROMCOPYS(&auStack_68,romAddr,8,54);

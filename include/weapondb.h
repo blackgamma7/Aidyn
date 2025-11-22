@@ -69,5 +69,9 @@ class WeaponDB {
     void Free();
 };
 
+void createTempWeapon(WeaponInstance *w,ItemID id);
+void passto_clear_weapon_effects(WeaponInstance *w);
+bool isBreathSpitOrSpikes(WeaponInstance *w);
+
 WeaponDB* gWeaponsDB=NULL;
 extern u8 weaponList[];

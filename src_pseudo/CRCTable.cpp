@@ -5,8 +5,8 @@
 
 namespace CRCTable{
 u32 addEntry(u32 index){
-  uint uVar1;
-  uint i;
+  u32 uVar1;
+  u32 i;
   
   uVar1 = index << 0x18;
   for(i=0;i<8;i++) {

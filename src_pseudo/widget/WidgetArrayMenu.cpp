@@ -27,7 +27,7 @@ BaseWidget * WAM_UpFunc(BaseWidget *param_1,BaseWidget *param_2){
 
 BaseWidget * WAM_DownFunc(BaseWidget* param_1,BaseWidget *param_2){
   u16 uVar1;
-  uint uVar2;
+  u32 uVar2;
   u16 uVar3;
   WAMSub *piVar2 = (WAMSub *)param_2->substruct;
   if (!piVar2->entryCount) return NULL;
@@ -69,7 +69,7 @@ BaseWidget * WAM_LeftFunc(BaseWidget* param_1,BaseWidget *param_2){
 
 BaseWidget * WAM_RightFunc(BaseWidget* param_1,BaseWidget *param_2){
   u16 uVar1;
-  uint uVar2;
+  u32 uVar2;
   u16 uVar3;
   WAMSub *piVar2 = (WAMSub *)param_2->substruct;
   if (!piVar2->entryCount) return NULL;
@@ -191,7 +191,7 @@ u8 WidgetArrayMenu::AddEntry(BaseWidget *entry){
 
 u8 WidgetArrayMenu::RemoveEntry(BaseWidget *entry){
   u16 uVar1;
-  uint uVar2;
+  u32 uVar2;
   BaseWidget **ppBVar3;
   int iVar4;
   int iVar5;

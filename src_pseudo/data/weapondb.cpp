@@ -27,7 +27,7 @@ void WeaponDB::Orphaned() {
 
 
 void WeaponDB::Load(u8 index,int *pos) {
-  uint uVar4;
+  u32 uVar4;
   weapon_ram *entry;
   Weapon_ROM fromROM;
   
@@ -43,7 +43,7 @@ void WeaponDB::Load(u8 index,int *pos) {
   entry->price = (u16)(fromROM.Price[0]|fromROM.Price[1]<<8);
   entry->SpellLV = fromROM.SpellLV;
   entry->Range = fromROM.Range;
-  uVar4 = ((uint)fromROM.Range * 5) / 3;
+  uVar4 = ((u32)fromROM.Range * 5) / 3;
   if (0xff < uVar4) uVar4 = 0xff;
   entry->Range = (byte)uVar4;
   entry->Animation = fromROM.Animation;
@@ -67,7 +67,7 @@ void WeaponDB::Load(u8 index,int *pos) {
 void WeaponDB::Init() {
   weapon_ram *pwVar1;
   byte bVar2;
-  uint uVar3;
+  u32 uVar3;
   u8 index;
   u32 auStack_30 = 0;
   load_db_array_size(&weapondb,&this->Total,&auStack_30);

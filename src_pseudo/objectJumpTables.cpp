@@ -308,7 +308,7 @@ u8 vobject_pause_check(void){
 
 void dialouge_vobject_func(voxelObject *v,u16 A,u16 B){
   if (vobject_pause_check()){
-    dialoug_func((uint)(v->dialoug).borg_13,(v->dialoug).RefPointID,(v->dialoug).MapDatA,
+    dialoug_func((u32)(v->dialoug).borg_13,(v->dialoug).RefPointID,(v->dialoug).MapDatA,
                  (v->dialoug).MapShortA,(v->dialoug).MapShortB,B);
   }
 }

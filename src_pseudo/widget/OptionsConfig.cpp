@@ -139,11 +139,11 @@ Gfx * WidgetOptionsConfig::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
   this->BGMSlider->SetColor((sub->red0),(sub->green0),(sub->blue0),this->col.A);
   g = this->BGMSlider->Render(g,x0,y0,x1,y1);
   this->BGMSlider->boundX1 = tempBX1;
-  this->col.R =(sub->red0) + (((uint)(sub->red1) - (uint)(sub->red0)) / (int)sub->unk33) *
+  this->col.R =(sub->red0) + (((u32)(sub->red1) - (u32)(sub->red0)) / (int)sub->unk33) *
                sub->unk31;
-  this->col.G =(sub->green0) + (((uint)(sub->green1) - (uint)(sub->green0)) / (int)sub->unk33) *
+  this->col.G =(sub->green0) + (((u32)(sub->green1) - (u32)(sub->green0)) / (int)sub->unk33) *
                sub->unk31;
-  this->col.B =(sub->blue0) + (((uint)(sub->blue1) - (uint)(sub->blue0)) / (int)sub->unk33) *
+  this->col.B =(sub->blue0) + (((u32)(sub->blue1) - (u32)(sub->blue0)) / (int)sub->unk33) *
                sub->unk31;
   bVar1 = sub->unk33;
   u32 uVar14 = (sub->alpha0);
@@ -154,7 +154,7 @@ Gfx * WidgetOptionsConfig::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
   if ((uVar13 == 0) || (uVar13 == bVar1)) {sub->unk32 = -sub->unk32;}
   sub->optionTitles[sub->selected]->SetColor(this->col.R,
              this->col.G,this->col.B,
-             (uVar14 + ((int)(sub->unk30 - uVar14) / (int)(uint)bVar1) * (uint)bVar2 & 0xff) *
+             (uVar14 + ((int)(sub->unk30 - uVar14) / (int)(u32)bVar1) * (u32)bVar2 & 0xff) *
              (this->col.A / 0xff));
   RENDERCHILDREN();
 }

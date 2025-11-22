@@ -11,7 +11,7 @@ struct Temp_enchant {
     u8 school;
     u8 varA;
     u32 varB;
-    uint timer;
+    u32 timer;
     u32 unkc; /* unused */
     u32 unk10; /* unused */
     u32 SpellVisualIndex;

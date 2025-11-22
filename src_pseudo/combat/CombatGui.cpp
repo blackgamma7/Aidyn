@@ -100,12 +100,12 @@ void init_combatgui_struct(ItemID param_1,u8 param_2,u8 param_3){
   byte bVar5;
   int iVar4;
   u8 uVar6;
-  uint uVar7;
+  u32 uVar7;
   CombatPortrait *pCVar8;
   CombatPortrait *pCVar9;
   
   for (i = 0;
-      (uVar7 = (uint)gCombatPortraitCount, pCVar9 = NULL, i < uVar7 &&
+      (uVar7 = (u32)gCombatPortraitCount, pCVar9 = NULL, i < uVar7 &&
       ((pCVar9 = gCombatPortraits + i, pCVar9->unkb != 0 || (pCVar9->Owner != param_1))));
       i++) {
   }
@@ -240,13 +240,13 @@ void make_combat_portrait(CombatPortrait *portrait,ItemID id,u8 count,u32 param_
 void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3)
 
 {
-  uint uVar1;
+  u32 uVar1;
   byte bVar4;
-  uint uVar2;
+  u32 uVar2;
   u8 uVar3;
   short sVar5;
   short sVar6;
-  uint uVar7;
+  u32 uVar7;
   
   sVar5 = 0x12;
   uVar7 = 0;
@@ -433,7 +433,7 @@ void three_combat_gui_funcs(void){
 
 extern void getHPColor(Color32*,CharSheet*);
 Gfx * CombatDrawHealthbar(Gfx *g,u32 param_2){
-  uint uVar6;
+  u32 uVar6;
   u16 uVar7;
   ushort V;
   u16 x;

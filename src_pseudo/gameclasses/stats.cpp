@@ -18,13 +18,13 @@ void CharStats::Init(CharStats_s *stats,ItemID ID){
 void Ofunc_NOOP_800845f4(void){}
 
 void CharStats::Save(CharStats_s *param_1,SaveFile *param_2){
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_STAM],SaveBits_StatStam);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_END],SaveBits_StatEndLV);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_LV],SaveBits_StatEndLV);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_WIL],SaveBits_StatOther);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_INT],SaveBits_StatOther);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_STR],SaveBits_StatOther);
-  SaveParty::SaveBits(param_2,(uint)param_1->Base[STAT_DEX],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(u32)param_1->Base[STAT_STAM],SaveBits_StatStam);
+  SaveParty::SaveBits(param_2,(u32)param_1->Base[STAT_END],SaveBits_StatEndLV);
+  SaveParty::SaveBits(param_2,(u32)param_1->Base[STAT_LV],SaveBits_StatEndLV);
+  SaveParty::SaveBits(param_2,(u32)param_1->Base[STAT_WIL],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(u32)param_1->Base[STAT_INT],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(u32)param_1->Base[STAT_STR],SaveBits_StatOther);
+  SaveParty::SaveBits(param_2,(u32)param_1->Base[STAT_DEX],SaveBits_StatOther);
   SaveParty::SaveBits(param_2,(int)param_1->health[STAT_STAM],SaveBits_StatStam);
   SaveParty::SaveBits(param_2,(int)param_1->health[STAT_END],SaveBits_StatEndLV);
   SaveParty::SaveBits(param_2,(int)param_1->health[STAT_LV],SaveBits_StatEndLV);

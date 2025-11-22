@@ -174,7 +174,7 @@ void SaveEntity::TransferSpells(CharSheet *param_1,CharSheet *param_2){
   SpellBook *pSVar1;
   SpellBook *pSVar2;
   SpellInstance *pSVar4;
-  uint uVar5;
+  u32 uVar5;
   SpellInstance *pIVar2;
   
   pSVar1 = param_1->spellbook;

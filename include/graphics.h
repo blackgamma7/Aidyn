@@ -31,10 +31,10 @@ struct gfxManager {
     OSScTask tasks[FBCOUNT];
     GtaskMsg taskMsgs[FBCOUNT];
     Vp viewport;
-    uint ram_size;
-    uint FramebufferSize[FBCOUNT];
-    uint dListSize;
-    uint dListStartTime;
+    u32 ram_size;
+    u32 FramebufferSize[FBCOUNT];
+    u32 dListSize;
+    u32 dListStartTime;
     u32 taskTime;
     u32 unkTime0;
     u32 unkTime1;

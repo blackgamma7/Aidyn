@@ -28,7 +28,7 @@ class CombatEntity {
     CharSheet *charSheetP;
     struct CombatAI_s *aiP; //used by enemies and Sholeh
     u8 unk48[60]; //unused?
-    u32 notboss; // set if not boss or Shadow
+    u32 bowHand; //Bandits, ogres, Becan and Keelin are left-handed archers
     u8 wepLocator;
     u8 shieldLocator;
     u8 throwingFlag;
@@ -81,7 +81,7 @@ class CombatEntity {
     u8 GetWeaponAnimation(u8);
     u32 m80069114();
     u8 m800692bc(CombatEntity *);
-    u8 m80069384(CombatEntity *,s8,s8,s32);
+    u8 IsTargetInRange(CombatEntity *,s8,s8,s32);
     float Get2DProximity(CombatEntity *);
     float m80069554(CombatEntity*);
     u8 CanUsePotion(u8);
@@ -95,7 +95,7 @@ class CombatEntity {
     u8 m80069d00(CombatEntity *,float,float);
     u8 AIShouldCastMagic(CombatEntity *);
     u8 SpellEffectsPartyInArea();
-    uint m8006a1dc();
+    u32 m8006a1dc();
     void m8006a274();
     void Ofunc_8006a2f0(u8);
     void m8006a394(u8,u8);
@@ -193,6 +193,13 @@ class CombatEntity {
     void SetAktRangeMulti(u8);
     void PrintEvade(CombatEntity *);
     void PrintSwingAndMiss(CombatEntity *);
+};
+enum AtkTypes{
+    ATKT_0,
+    ATKT_1,
+    ATKT_2,
+    ATKT_Potion,
+    ATKT_4,
 };
 
 struct combat_aiscore {

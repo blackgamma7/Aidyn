@@ -29,8 +29,8 @@ void WidgetSpellTrain::InitMenu() {
   BaseWidget *pBVar9;
   SpellInstance **ppSVar11;
   WSMSub *pvVar13;
-  uint count;
-  uint uVar14;
+  u32 count;
+  u32 uVar14;
   WSMSub *pvVar8;
   
   count = 0;
@@ -38,7 +38,7 @@ void WidgetSpellTrain::InitMenu() {
   SpellBook *spells = gGlobals.ShopSpells;
   if (!this->isTraining)
     spells = PARTY->Members[this->partyPicker]->spellbook;
-  if (spells) count = (uint)spells->count;
+  if (spells) count = (u32)spells->count;
   pBVar9 = this->scrollMenu;
   uVar14 = 0;
   if (this->scrollMenu == NULL) {
@@ -47,7 +47,7 @@ void WidgetSpellTrain::InitMenu() {
   }
   else {
     pvVar8 = (WSMSub *)this->scrollMenu->substruct;
-    uVar14 = (uint)pvVar8->highlight;
+    uVar14 = (u32)pvVar8->highlight;
     uVar1 = pvVar8->XOff;
     uVar2 = pvVar8->yOff;
     this->Unlink(this->scrollMenu);

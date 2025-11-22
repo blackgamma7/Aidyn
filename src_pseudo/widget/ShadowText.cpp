@@ -99,9 +99,9 @@ Gfx * WidgetShadowText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 }
 
 u16 WidgetShadowText::GetWidth(){
-  uint uVar1;
+  u32 uVar1;
   u16 uVar2;
-  uint uVar3;
+  u32 uVar3;
   WSTSub *sub = (WSTSub *)substruct;
   uVar1 = Font::GetWidthScaled(font_pointer,sub->txt,(sub->scale).x);
   uVar2 = 0;

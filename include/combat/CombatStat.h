@@ -14,7 +14,7 @@ CombatStatIndicatorHandler combatStatIndicatorDat;
 #define MAXSTATDIGITS 16
 namespace CombatStatIndicator{
 void Init(void);
-uint AddItem(playerData *param_1,int type,short num);
+u32 AddItem(playerData *param_1,int type,short num);
 Gfx * Tick(Gfx *g,int delta);
 void Free(void);
 };

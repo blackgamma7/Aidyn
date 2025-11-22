@@ -24,10 +24,10 @@ namespace CombatStatIndicator{
     for(u32 i=0;i<MAXSTATDIGITS;i++){combatStatIndicatorDat.array[i]=i;}
     }
 //parse damage/healing number for display
-uint AddItem(playerData *param_1,int type,short num){
+u32 AddItem(playerData *param_1,int type,short num){
   Borg1Data *pBVar1;
   u8 *puVar3;
-  uint uVar4;
+  u32 uVar4;
   int iVar5;
   int iVar6;
   vec3f *pvVar8;
@@ -36,10 +36,10 @@ uint AddItem(playerData *param_1,int type,short num){
   byte bVar10;
   float fVar11;
   u8* aiStack_70 [MAXSTATDIGITS];
-  uint index;
+  u32 index;
   Borg1Header *pBStack_2c;
   
-  index = (uint)combatStatIndicatorDat.array[combatStatIndicatorDat.index++];
+  index = (u32)combatStatIndicatorDat.array[combatStatIndicatorDat.index++];
   pcVar7 = &combatStatIndicatorDat.Indicators[index];
   if (num < 100) {
     iVar6 = (int)num;
@@ -154,12 +154,12 @@ uint AddItem(playerData *param_1,int type,short num){
 }
 //precess and draw damage/healing number
 Gfx * Tick(Gfx *g,int delta){
-  uint uVar1;
+  u32 uVar1;
   Borg1Data *pBVar2;
   Gfx *pGVar3;
   byte bVar4;
   PlaneObj *x;
-  uint i;
+  u32 i;
   int iVar6;
   float fVar7;
   float fVar8;
@@ -196,7 +196,7 @@ Gfx * Tick(Gfx *g,int delta){
       }
       else {
         pBVar2 = (x->Statborg1Head).dat;
-        memset(pBVar2->bmp,0,(uint)pBVar2->Width * (uint)pBVar2->Height);
+        memset(pBVar2->bmp,0,(u32)pBVar2->Width * (u32)pBVar2->Height);
         HFREE(((x->Statborg1Head).dat)->bmp,351);
         CLEAR(x);
         combatStatIndicatorDat.array[--combatStatIndicatorDat.index] = (u8)i;
@@ -209,13 +209,13 @@ Gfx * Tick(Gfx *g,int delta){
 void Free(void){
   Borg1Data *pBVar1;
   PlaneObj *pvVar2;
-  uint i;
+  u32 i;
   
   for(i=0;i<MAXSTATDIGITS;i++) {
     pvVar2 = &combatStatIndicatorDat.Indicators[i];
     if (pvVar2->statVisible) {
       pBVar1 = (pvVar2->Statborg1Head).dat;
-      memset(pBVar1->bmp,0,(uint)pBVar1->Width * (uint)pBVar1->Height);
+      memset(pBVar1->bmp,0,(u32)pBVar1->Width * (u32)pBVar1->Height);
       HFREE(((pvVar2->Statborg1Head).dat)->bmp,415);
       CLEAR(pvVar2);
     }

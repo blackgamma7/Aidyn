@@ -37,16 +37,16 @@ Gfx * Portraits::DrawParty(Gfx *g,u8 raise,Color32 *col){
   gfx = RSPFUNC6(g);
   BlendColors(col,&TempCol,gGlobals.brightness);
   Hscale = 0.8f;
-  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,84.0,(float)(uint)screen_bottom,
+  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,84.0,(float)(u32)screen_bottom,
                          0.8f,0.8f,TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   BlendColors(col + 1,&TempCol,gGlobals.brightness);
-  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,122.0,(float)(uint)screen_bottom,Hscale,Hscale,
+  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,122.0,(float)(u32)screen_bottom,Hscale,Hscale,
                          TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   BlendColors(col + 2,&TempCol,gGlobals.brightness);
-  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,160.0,(float)(uint)screen_bottom,Hscale,Hscale,
+  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,160.0,(float)(u32)screen_bottom,Hscale,Hscale,
                          TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   BlendColors(col + 3,&TempCol,gGlobals.brightness);
-  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,198.0,(float)(uint)screen_bottom,Hscale,Hscale,
+  gfx = Borg8_DrawSimple(gfx,gGlobals.portraitBorder,198.0,(float)(u32)screen_bottom,Hscale,Hscale,
                          TempCol.R,TempCol.G,TempCol.B,TempCol.A);
   TempCol.G = 0xff;
   TempCol.R = 0xff;

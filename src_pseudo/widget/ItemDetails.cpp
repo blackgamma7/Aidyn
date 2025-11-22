@@ -59,7 +59,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
   BaseWidget *pBVar13;
   ulong uVar14;
   u16 uVar16;
-  uint i;
+  u32 i;
   SlimFont;
   this->varU16 = param_2->id;
   SidePopup();
@@ -138,7 +138,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
 
 WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
 
-  uint i;
+  u32 i;
   ItemID IVar20;
   ItemID IStack_1b8;
   ushort uStack_1b6;
@@ -240,8 +240,8 @@ WidgetItemDetail::WidgetItemDetail(u16 stat):WidgetMenu() {
 
 WidgetItemDetail::WidgetItemDetail(CharSkills *sk,u16 type):WidgetMenu() {
   ushort uVar1;
-  uint uVar7;
-  uint index;
+  u32 uVar7;
+  u32 index;
   
   SlimFont;
   SidePopup();
@@ -538,7 +538,7 @@ WidgetItemDetail::WidgetItemDetail(GearInstance *gear):WidgetMenu() {
   PrintNameIcon((gear->base).name);
   PrintAspect((gear->base).aspect);
   AddLeftText(gGlobals.CommonStrings[0x226]);
-  sprintf(buff,"%u",(uint)gear->STR);
+  sprintf(buff,"%u",(u32)gear->STR);
   BaseWidget *pBVar6 = AddRightText(buff);
   this->bottom+=pBVar6->GetHeight();
   PrintStrReq(gear->INT);

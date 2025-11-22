@@ -118,10 +118,10 @@ void Skyobjects::Init(void){
   Borg8Header *pBVar3;
   Borg8Header *pBVar4;
   u32 BVar5;
-  uint uVar6;
-  uint uVar7;
+  u32 uVar6;
+  u32 uVar7;
   SkyobjectStruct *pSVar8;
-  uint uVar9;
+  u32 uVar9;
   SkyobjectStruct *pSVar10;
   int iVar11;
   Borg8Header **ppBVar12;
@@ -168,11 +168,11 @@ void Skyobjects::Init(void){
   ALLOCS(ppBVar12,gSkyobjectsCount*sizeof(Borg8Header*),0xf8);
   fVar2 = 0.19f;
   uVar7 = 0;
-  uVar6 = (uint)gSkyobjectsCount;
+  uVar6 = (u32)gSkyobjectsCount;
   skyobjects_borg8 = ppBVar12;
   if (uVar6 != 0) {
     pSVar8 = skyobjectStructs;
-    uVar9 = (uint)gSkyObjectMoonIndex;
+    uVar9 = (u32)gSkyObjectMoonIndex;
     do {
       pBVar4 = sSkyObjBss[2];
       pBVar3 = sSkyObjBss[1];
@@ -212,7 +212,7 @@ LAB_80030640:
 }
 
 void Skyobjects::Free(void){
-  uint uVar1;
+  u32 uVar1;
   Borg8Header **ppBVar2;
   int i;
   
@@ -224,7 +224,7 @@ void Skyobjects::Free(void){
     }
   }
   ppBVar2 = skyobjects_borg8;
-  for (uVar1 = (uint)gSkyobjectsCount; uVar1 != 0; uVar1--) {
+  for (uVar1 = (u32)gSkyobjectsCount; uVar1 != 0; uVar1--) {
     if (*ppBVar2) *ppBVar2 = NULL;
     ppBVar2++;
   }
@@ -241,13 +241,13 @@ Gfx * Skyobjects::Render(Gfx *g){
   float fVar6;
   byte bVar7;
   u8 SVar8;
-  uint uVar9;
+  u32 uVar9;
   u8 blue;
-  uint uVar10;
+  u32 uVar10;
   u8 green;
-  uint uVar11;
+  u32 uVar11;
   u8 red;
-  uint uVar12;
+  u32 uVar12;
   SkyobjectStruct *pSVar13;
   int i;
   float fVar17;
@@ -325,7 +325,7 @@ Gfx * Skyobjects::Render(Gfx *g){
           if ((fVar19 <= fVar20) && (fVar20 = fVar19, fVar19 < 0.0)) {
             fVar20 = 0.0;
           }
-          uVar12 = (uint)(skyobjectStructs[i].col).A - (u16)fVar20;
+          uVar12 = (u32)(skyobjectStructs[i].col).A - (u16)fVar20;
           if (skyobjectStructs[i].index == SkyObj_Star) {
             uVar12 = (u8)(float)uVar12 * __sinf(-gSunObjP->pos.x * dtor);
           }
@@ -340,9 +340,9 @@ Gfx * Skyobjects::Render(Gfx *g){
               bVar1 = gSunColor.G;
               bVar2 = gSunColor.B;
             }
-            uVar9 = (uint)bVar2;
-            uVar10 = (uint)bVar1;
-            uVar11 = (uint)bVar7;
+            uVar9 = (u32)bVar2;
+            uVar10 = (u32)bVar1;
+            uVar11 = (u32)bVar7;
             //add a twinkle to stars
             if (skyobjectStructs[i].index == SkyObj_Star) uVar11=uVar10=uVar9= rand_range(160,255);
             blue = (u8)uVar9;
@@ -404,7 +404,7 @@ void Skyobjects::UpdateSun(void){
 
 void Skyobjects::UpdateMoon(void){
   bool bVar1;
-  uint uVar3;
+  u32 uVar3;
   u32 BVar5;
   float sinY;
   float cosY;

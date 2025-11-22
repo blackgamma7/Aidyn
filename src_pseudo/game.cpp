@@ -116,7 +116,7 @@ void passto_clear_dbs(){clear_DBs();}
 u32 appState_1(Gfx **GG) {
   u32 uVar1;
   u32 uVar2;
-  uint uVar3;
+  u32 uVar3;
   
   if (initdb_flag) {
     some_init_func();
@@ -226,7 +226,7 @@ u8 func_loading_credits(Gfx **GG) {
   u8 uVar2;
   bool bVar3;
   Gfx *pGVar1;
-  uint delta;
+  u32 delta;
   ulonglong in_f2; //??
   ControllerFull *local_28 [10];
   

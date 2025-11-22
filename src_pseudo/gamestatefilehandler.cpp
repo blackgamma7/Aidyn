@@ -2,9 +2,9 @@
 #include "crash.h"
 #include "stringN64.h"
 
-void setBit(u8 *out,uint i,bool set,u8 *maskA,u8 *maskB){
+void setBit(u8 *out,u32 i,bool set,u8 *maskA,u8 *maskB){
   int iVar1;
-  uint uVar2;
+  u32 uVar2;
   
   uVar2 = i >> 3;
   iVar1 = i + uVar2 * -8;
@@ -12,7 +12,7 @@ void setBit(u8 *out,uint i,bool set,u8 *maskA,u8 *maskB){
   else  out[uVar2] &= maskB[iVar1];
 }
 
-bool getBit(u8 *stream,uint flag,u8 *mask){
+bool getBit(u8 *stream,u32 flag,u8 *mask){
   if (!stream) CRASH("Invalid stream passed to GetBit!","gamestatefilehandler.cpp");
   return (stream[flag >> 3] & mask[flag + (flag >> 3) * -8]) != 0;
 }

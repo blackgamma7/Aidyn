@@ -42,10 +42,10 @@ void WidgetStatTrain::InitMenu() {
   CharStats_s *pStats;
   byte bVar6;
   BaseWidget *pBVar7;
-  uint uVar12;
+  u32 uVar12;
   int i;
   WSMSub *sub;
-  uint uVar14;
+  u32 uVar14;
   WSMSub *pvVar14;
   
   bVar6 = gPartyPicker;

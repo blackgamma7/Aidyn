@@ -44,9 +44,9 @@ BaseWidget * WSL_RightFunc(BaseWidget * w0,BaseWidget *w1){return NULL;}
 BaseWidget * WSL_AFunc(BaseWidget * w0,BaseWidget *w1){return w1;}
 
 WidgetScrollList::WidgetScrollList(u8 len):BaseWidget() {
-  uint uVar2;
+  u32 uVar2;
   
-  uVar2 = (uint)len;
+  uVar2 = (u32)len;
   WSLSub *sub = new WSLSub;
   this->posX = 0;
   this->posY = 0;
@@ -169,11 +169,11 @@ u8 WidgetScrollList::AddEntry(BaseWidget *entry) {
 }
 
 u8 WidgetScrollList::RemoveEntry(BaseWidget *entry) {
-  uint uVar1;
+  u32 uVar1;
   BaseWidget **ppBVar2;
   int iVar3;
   WSLSub *sub = (WSLSub *)this->substruct;
-  uVar1 = (uint)sub->itemCount;
+  uVar1 = (u32)sub->itemCount;
   iVar3 = 0;
   if (uVar1 != 0) {
     ppBVar2 = sub->items;

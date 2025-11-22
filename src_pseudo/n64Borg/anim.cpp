@@ -87,8 +87,8 @@ int GetBitmapSize(int h,int w,s32 d){
   return w << 3;
 }
 
-uint half(int x){
-  uint ret = x >> 1;
+u32 half(int x){
+  u32 ret = x >> 1;
   if ((ret != 1) && ((ret & 1))) {
     ret -= 1;
   }
@@ -96,7 +96,7 @@ uint half(int x){
 }
 
 
-int getPow2(uint x){
+int getPow2(u32 x){
   int pow = -1;
   for(;x!=0;pow++){
     x = half(x);
@@ -109,20 +109,20 @@ s32 FUN_8009d3b0(s32 param_1,s32 param_2){return getPow2(param_1 / param_2);}
 Gfx * FUN_8009d3dc(Gfx *param_1,Borg1Header *b1,u8 bufferchoice){
   byte bVar1;
   u32 uVar3;
-  uint uVar5;
+  u32 uVar5;
   
   if ((b1->dat->flag & B1_Interlaced)) {
     bVar1 = b1->dat->iLace;
     if ((bVar1 & 0xf) == 0) {
       if ((bVar1 & 0xf0)) {
-        if (b1->dat->type < B1_CI8) deinterlace16(b1,(uint)(bVar1 >> 4));
-        else deinterlace32(b1,(uint)(bVar1 >> 4));
+        if (b1->dat->type < B1_CI8) deinterlace16(b1,(u32)(bVar1 >> 4));
+        else deinterlace32(b1,(u32)(bVar1 >> 4));
         FUN_8009d7b0(b1);
         goto LAB_8009d4c0;
       }
     }
     bVar1 = b1->dat->iLace;
-    uVar5 = (uint)(bVar1 >> 4);
+    uVar5 = (u32)(bVar1 >> 4);
     if (uVar5 == (bVar1 & 0xf)) {
       if (b1->dat->type < B1_CI8) deinterlace16(b1,uVar5);
       else deinterlace32(b1,uVar5);
@@ -142,16 +142,16 @@ void deinterlace32(Borg1Header *param_1,int param_2){
   byte bVar1;
   int iVar2;
   ushort uVar3;
-  uint uVar4;
+  u32 uVar4;
   int iVar5;
-  uint i;
-  uint uVar6;
+  u32 i;
+  u32 uVar6;
   int iVar7;
   int iVar8;
   Color32 *pCVar9;
-  uint uVar10;
+  u32 uVar10;
   Color32 *pCVar11;
-  uint uVar12;
+  u32 uVar12;
   Color32 *puVar14;
   
   pCVar11 = (Color32 *)param_1->bitmapA;
@@ -163,9 +163,9 @@ void deinterlace32(Borg1Header *param_1,int param_2){
     pCVar11 = (Color32 *)param_1->bitmapB;
   }
   i = 0;
-  uVar12 = (uint)param_1->dat->Height;
+  uVar12 = (u32)param_1->dat->Height;
   bVar1 = param_1->dat->Width;
-  uVar10 = (uint)bVar1;
+  uVar10 = (u32)bVar1;
   if (uVar12 != 0) {
     iVar2 = 0;
     do {
@@ -173,7 +173,7 @@ void deinterlace32(Borg1Header *param_1,int param_2){
       if ((i & 1) == 0) {
         if (uVar10 != 0) {
           pCVar9 = puVar14 + iVar2;
-          iVar5 = (uint)bVar1 + -param_2;
+          iVar5 = (u32)bVar1 + -param_2;
           iVar8 = 0x10000;
           do {
             uVar3 = (ushort)iVar5;
@@ -186,7 +186,7 @@ void deinterlace32(Borg1Header *param_1,int param_2){
         }
       }
       else if (uVar10 != 0) {
-        iVar5 = (uint)bVar1 + -param_2;
+        iVar5 = (u32)bVar1 + -param_2;
         iVar8 = 0x10000;
         do {
           uVar3 = (ushort)iVar5;
@@ -208,16 +208,16 @@ void deinterlace16(Borg1Header *param_1,int param_2){
   byte bVar1;
   int iVar2;
   ushort uVar3;
-  uint uVar4;
+  u32 uVar4;
   int iVar5;
-  uint i;
-  uint j;
+  u32 i;
+  u32 j;
   int iVar6;
   int iVar7;
   u16 *puVar8;
-  uint uVar9;
+  u32 uVar9;
   u16 *puVar12;
-  uint uVar10;
+  u32 uVar10;
   u16 *puVar11;
   
   puVar12 = (u16 *)param_1->bitmapA;
@@ -227,9 +227,9 @@ void deinterlace16(Borg1Header *param_1,int param_2){
     puVar12 = (u16 *)param_1->bitmapB;
   }
   i = 0;
-  uVar10 = (uint)param_1->dat->Height;
+  uVar10 = (u32)param_1->dat->Height;
   bVar1 = param_1->dat->Width;
-  uVar9 = (uint)bVar1;
+  uVar9 = (u32)bVar1;
   if (uVar10 != 0) {
     iVar2 = 0;
     do {
@@ -237,7 +237,7 @@ void deinterlace16(Borg1Header *param_1,int param_2){
       if ((i & 1) == 0) {
         if (uVar9 != 0) {
           puVar8 = puVar11 + iVar2;
-          iVar5 = (uint)bVar1 + -param_2;
+          iVar5 = (u32)bVar1 + -param_2;
           iVar7 = 0x10000;
           do {
             uVar3 = (ushort)iVar5;
@@ -250,7 +250,7 @@ void deinterlace16(Borg1Header *param_1,int param_2){
         }
       }
       else if (uVar9 != 0) {
-        iVar5 = (uint)bVar1 + -param_2;
+        iVar5 = (u32)bVar1 + -param_2;
         iVar7 = 0x10000;
         do {
           uVar3 = (ushort)iVar5;
@@ -278,8 +278,8 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   u32 uVar1;
   s8 sVar6;
   int iVar4;
-  uint h;
-  uint w;
+  u32 h;
+  u32 w;
   Gfx *pauVar9;
   int iVar10;
   s32 i;
@@ -294,8 +294,8 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   sVar6 = GetN64ImageDimension(param_2->dat->type);
   i = 0;
   pBVar2 = param_2->dat;
-  h = (uint)pBVar2->Width;
-  w = (uint)pBVar2->Height;
+  h = (u32)pBVar2->Width;
+  w = (u32)pBVar2->Height;
   if (-1 < pBVar2->lods) {
     do {
       iVar4 = GetBitmapSize(h,w,(int)sVar6);
@@ -347,7 +347,7 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
     }
     w = 0x7030000;
 LAB_8009dadc:
-    *(uint *)((int)gfx + 0x3c) = (h & 0xfff) << 0xc | 0x7000000;
+    *(u32 *)((int)gfx + 0x3c) = (h & 0xfff) << 0xc | 0x7000000;
     gfx[8].words.w0 = 0xe7000000;
     *(undefined4 *)((int)gfx + 0x44) = 0;
     *(undefined4 *)((int)gfx + 0x4c) = 0x8000;
@@ -361,7 +361,7 @@ LAB_8009dadc:
     gfx[0xd].words.w0 = 0xe6000000;
     *(undefined4 *)((int)gfx + 0x6c) = 0;
     gfx[0xe].words.w0 = 0xf0000000;
-    *(uint *)((int)gfx + 0x74) = w | 0xc000;
+    *(u32 *)((int)gfx + 0x74) = w | 0xc000;
     gfx[0xf].words.w0 = 0xe7000000;
     *(undefined4 *)((int)gfx + 0x7c) = 0;
     return gfx + 0x10;
@@ -388,7 +388,7 @@ LAB_8009db84:
   if (0x7ff < (int)w) {
     w = 0x7ff;
   }
-  *(uint *)((int)gfx + 0x3c) = (w & 0xfff) << 0xc | 0x7000000;
+  *(u32 *)((int)gfx + 0x3c) = (w & 0xfff) << 0xc | 0x7000000;
   gfx[8].words.w0 = 0xe7000000;
   *(undefined4 *)((int)gfx + 0x44) = 0;
   gfx[9].words.w0 = 0xe3001001;
@@ -401,24 +401,24 @@ Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3){
   byte bVar2;
   byte bVar3;
   Borg1Data *pBVar5;
-  uint masks;
-  uint maskt;
-  uint shifts;
-  uint shiftt;
+  u32 masks;
+  u32 maskt;
+  u32 shifts;
+  u32 shiftt;
   int iVar10;
-  uint uVar11;
+  u32 uVar11;
   u32 uVar12;
-  uint x;
-  uint uVar13;
+  u32 x;
+  u32 uVar13;
   u16 uVar14;
   Gfx *pGVar15;
   Gfx *pGVar16;
-  uint line;
-  uint cms;
-  uint i;
-  uint tmem;
-  uint cmt;
-  uint lrt;
+  u32 line;
+  u32 cms;
+  u32 i;
+  u32 tmem;
+  u32 cmt;
+  u32 lrt;
   
   if (!param_3) uVar14 = 0;
   else uVar14 = param_3->flags[1];
@@ -438,25 +438,25 @@ LAB_8009dd14:
   if (param_2->dat->lods <= 0) {gDPSetTextureLOD(gfx++,0);}
   else {gDPSetTextureLOD(gfx++,G_TL_LOD);}
   cmt = G_TX_CLAMP;
-  cms = (uint)((uVar14 & 0x1000) == 0) << 1;
+  cms = (u32)((uVar14 & 0x1000) == 0) << 1;
   if ((uVar14 & 0x4000)) cms |= G_TX_MIRROR;
   if ((uVar14 & 0x2000)) cmt = 0;
   if ((uVar14 & 0x8000)) cmt |= G_TX_MIRROR;
   pBVar5 = param_2->dat;
   bVar2 = pBVar5->Width;
-  x = (uint)bVar2;
+  x = (u32)bVar2;
   tmem = 0;
   bVar3 = pBVar5->Height;
   i = 0;
   sVar1 = pBVar5->lods;
-  lrt = (uint)bVar3;
+  lrt = (u32)bVar3;
   if (-1 < sVar1) {
     do { 
       u8 fmt,siz;//1st word of macro got cmd, size, and format optimised together for each case...
       masks = getPow2(x);
       maskt = getPow2(lrt);
-      shifts = FUN_8009d3b0((uint)bVar2,x);
-      shiftt = FUN_8009d3b0((uint)bVar3,lrt);
+      shifts = FUN_8009d3b0((u32)bVar2,x);
+      shiftt = FUN_8009d3b0((u32)bVar3,lrt);
       switch(param_2->dat->type) {
       case B1_RGBA16:
         if ((int)x < 4) iVar10 = 4 - x;
@@ -838,7 +838,7 @@ void FUN_8009ee48(MtxF *in,MtxF *out){
 
 void FUN_8009ee98(borg5substruct *param_1,MtxF *param_2){
   borg5substruct *pbVar1;
-  uint uVar2;
+  u32 uVar2;
   borg5substruct **ppbVar3;
   MtxF auStack80;
   
@@ -846,7 +846,7 @@ void FUN_8009ee98(borg5substruct *param_1,MtxF *param_2){
   some_matrix_func_1(&auStack80,param_2,&MtxF_800f54b0);
   FUN_8009ed9c(&auStack80,param_1->unkStruct->mfs + 1);
   ppbVar3 = param_1->links;
-  uVar2 = (uint)param_1->tier;
+  uVar2 = (u32)param_1->tier;
   param_1->flag = param_1->flag & ~2 | 0x10;
   if (uVar2 != 0) {
     pbVar1 = *ppbVar3;
@@ -1257,7 +1257,7 @@ void FUN_8009f9d0(SceneData *param_1,s16 *param_2){
   if (pBVar1) (pBVar1->dat).unk18 = param_2;
 }
 
-SceneData * BorgAnimLoadScene(uint borg_5){
+SceneData * BorgAnimLoadScene(u32 borg_5){
   Borg5Header *pBVar1;
   bool bVar2;
   SceneData *ret;
@@ -1394,7 +1394,7 @@ void takeBranch(Borg7Header *param_1,b7SubSub *param_2){
   u32 *puVar7;
   Borg6Header **ppBVar8;
   bool bVar9;
-  uint uVar10;
+  u32 uVar10;
   struct_45 *psVar11;
   
   if (3 < animChache) CRASH("TakeBranch","AnimCache out of range");
@@ -1490,7 +1490,7 @@ bool FUN_800a00d0(Borg7Header *param_1){
     bool bVar6 = false;
     for (s32 i = pBVar2->subSubCount; i != 0;i--,pbVar9++) {
       if ((param_1->currentAni == (ushort)pbVar9->ani)||(pbVar9->ani == 0xff)) {
-        rand -= (uint)pbVar9->unk1;
+        rand -= (u32)pbVar9->unk1;
         if (rand < 1) {
           bVar3 = true;
           takeBranch(param_1,pbVar9);
@@ -1573,7 +1573,7 @@ bool FUN_800a0304(Borg7Header *param_1,int delta){
         bVar4 = false;
         for (lVar5 =pBVar1->subSubCount; lVar5 != 0;lVar5--) {
           if ((param_1->currentAni == (ushort)pbVar6->ani) || (pbVar6->ani == 0xff)) {
-            rand -= (uint)pbVar6->unk1;
+            rand -= (u32)pbVar6->unk1;
             if (rand < 1) {
               bVar2 = true;
               takeBranch(param_1,pbVar6);
@@ -1604,7 +1604,7 @@ LAB_800a046c:
         while (lVar5 != 0) {
           lVar5--;
           if ((param_1->currentAni == (ushort)pbVar6->ani) && ((pbVar6->flag & 1) != 0)) {
-            rand -= (uint)pbVar6->unk1;
+            rand -= (u32)pbVar6->unk1;
             if (rand < 1) {
               bVar2 = true;
               takeBranch(param_1,pbVar6);
@@ -1653,7 +1653,7 @@ u16 Ofunc_800a058c(Borg7Header *param_1){return param_1->sceneDat->aniTime;}
 
 
 void Borg7_StartParticles(Borg7Header *param_1){
-  uint count = ((param_1->sceneDat->scene[0].borg5)->dat).ParticleCount;
+  u32 count = ((param_1->sceneDat->scene[0].borg5)->dat).ParticleCount;
   if (((count != 0) && (param_1->sceneDat->particleHead))) {
     for(u32 i=0;i<count;i++) {
       SceneData *scene = param_1->sceneDat;
@@ -1719,7 +1719,7 @@ void FUN_800a0764(SceneDatStruct *param_1,float param_2){
 //TODO: Redo once relevant data is better understood
 void FUN_800a07b0(SceneDatStruct *param_1,float param_2){
   void **ppvVar1;
-  uint uVar2;
+  u32 uVar2;
   void *pvVar3;
   float *pfVar4;
   SceneDatSubstruct *pSVar5;
@@ -1728,7 +1728,7 @@ void FUN_800a07b0(SceneDatStruct *param_1,float param_2){
   pvVar3 = param_1->borg5->aniTextures;
   pfVar4 = (float *)param_1->unk10;
   while (pvVar3 != NULL) {
-    uVar2 = (uint)pvVar3 & 1;
+    uVar2 = (u32)pvVar3 & 1;
     pvVar3 = (void *)((int)pvVar3 >> 1);
     if (uVar2 != 0) {
       ppvVar1 = &pSVar5->unk8;
@@ -1760,7 +1760,7 @@ void FUN_800a0800(SceneDatStruct *param_1,float param_2){
   pvVar3 = &pvVar2->unkStruct->unk164;
   do {
     iVar8 += -1;
-    if (((uint)pvVar6 & 1) != 0) {
+    if (((u32)pvVar6 & 1) != 0) {
       pfVar2 = (float *)pSVar7->unk8;
       pvVar5->x = pvVar5->x + *pfVar2 * param_2;
       pvVar4->x = pvVar4->x + pfVar2[1] * param_2;
@@ -1777,7 +1777,7 @@ void FUN_800a0800(SceneDatStruct *param_1,float param_2){
   pvVar3 = &pvVar2->unkStruct->unk14c;
   do {
     iVar8 += -1;
-    if (((uint)pvVar6 & 1) != 0) {
+    if (((u32)pvVar6 & 1) != 0) {
       pfVar2 = (float *)pSVar7->unk8;
       pvVar5->x += *pfVar2 * param_2;
       pvVar4->x += pfVar2[1] * param_2;
@@ -1792,7 +1792,7 @@ void FUN_800a0800(SceneDatStruct *param_1,float param_2){
   iVar8 = 3;
   do {
     iVar8 += -1;
-    if (((uint)pvVar6 & 1) != 0) {
+    if (((u32)pvVar6 & 1) != 0) {
       ppvVar1 = &pSVar7->unk8;
       pSVar7 = pSVar7 + 1;
       pvVar5->x = pvVar5->x + **ppvVar1 * param_2;
@@ -1806,7 +1806,7 @@ void FUN_800a0800(SceneDatStruct *param_1,float param_2){
 void FUN_800a0940(Borg6Struct *param_1){
   Borg6Sub *pBVar1;
   borg5substruct *puVar2;
-  uint uVar2;
+  u32 uVar2;
   Borg5Struct2 *iVar1;
   
   pBVar1 = param_1->sub;
@@ -1958,7 +1958,7 @@ void Scene::Tick(SceneData *param_1){
   Borg6Data *pBVar2;
   Borg6Struct *pBVar3;
   SceneDatStruct *pSVar4;
-  uint i;
+  u32 i;
   Borg6Header *pBVar5;
   u32 uVar6;
   float fVar7;
@@ -1971,7 +1971,7 @@ void Scene::Tick(SceneData *param_1){
       pBVar3 = pBVar5->structDat;
       while (uVar6 != 0) {
         uVar6--;
-        for (i = (uint)param_1->aniSpeed; i != 0; i--) {
+        for (i = (u32)param_1->aniSpeed; i != 0; i--) {
           FUN_800a0a74(pBVar3);
         }
         FUN_800a0940(pBVar3);
@@ -2078,7 +2078,7 @@ Gfx * FUN_800a0e60(Gfx *G){
 
 
 Gfx * setStaticMode(Gfx *g){
-  uint uVar6;
+  u32 uVar6;
   if (!g) {CRASH("./src/borganim.cpp","SetStaticMode() !g");}
   u32 geoMode = G_SHADE;
   u32 flag = *(u32 *)(unkAnimStructB.unk14)->flags;
@@ -2115,9 +2115,9 @@ Gfx * setStaticMode(Gfx *g){
 Gfx * FUN_800a1184(Gfx *gfx){
   u16 BVar1;
   int iVar2;
-  uint c1; //TODO: replace vals with proper #defines
+  u32 c1; //TODO: replace vals with proper #defines
   u8 r,g,b,a;
-  uint c0;//TODO: replace vals with proper #defines
+  u32 c0;//TODO: replace vals with proper #defines
   
   c0 = 0xc080000;
   if (unkAnimStructB.b1 == NULL) {
@@ -2175,7 +2175,7 @@ void Ofunc_800a1548(vec3f *param_1){
 Gfx * gsAnimationDataMtx(Gfx *G,SceneData *param_2){
   Borg5Header *pBVar1;
   Borg3Header *pBVar2;
-  uint uVar4;
+  u32 uVar4;
   
   pBVar1 = param_2->scene[0].borg5;
   uVar4 = param_2->perspNormIndex & 1;
@@ -2184,8 +2184,8 @@ Gfx * gsAnimationDataMtx(Gfx *G,SceneData *param_2){
     vec3f_800f3378.y = param_2->matrixB[3][1];
     vec3f_800f3378.z = param_2->matrixB[3][2];
     pBVar2 = (pBVar1->dat).borg3P;
-    gSPMatrix(G++,(uint)((pBVar2->dat).mtx_ + uVar4),G_MTX_PROJECTION|G_MTX_LOAD);
-    gSPPerspNormalize(G++,(uint)pBVar2->perspnorm[uVar4]);
+    gSPMatrix(G++,(u32)((pBVar2->dat).mtx_ + uVar4),G_MTX_PROJECTION|G_MTX_LOAD);
+    gSPPerspNormalize(G++,(u32)pBVar2->perspnorm[uVar4]);
   }
   return G;
 }
@@ -2199,7 +2199,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   Gfx *pGVar6;
   SceneData *pSVar7;
   Borg2Header *pBVar8;
-  uint uVar9;
+  u32 uVar9;
   Gfx *pGVar10;
   MtxF *paafVar11;
   Gfx *pGVar12;
@@ -2207,8 +2207,8 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   undefined1 *puVar14;
   Borg4Header **ppBVar15;
   float (*pafVar16) [4];
-  uint uVar17;
-  uint uVar18;
+  u32 uVar17;
+  u32 uVar18;
   Borg4Header **ppBVar19;
   int iVar20;
   int iVar21;
@@ -2371,14 +2371,14 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
       }
     }
     else {
-        gSPLight(pGVar10++,(uint)&gBlackLight,1);
-        gSPLight(pGVar10++,(uint)&gWhiteLight,2);
+        gSPLight(pGVar10++,(u32)&gBlackLight,1);
+        gSPLight(pGVar10++,(u32)&gWhiteLight,2);
         gSPNumLights(pGVar10++,1);
     }
   }
   else if (param_2->currDynamicLights == 0) {
-    gSPLight(g++,(uint)&gBlackLight,1);
-    gSPLight(g++,(uint)&(unkAnimStructB.scene)->envLight,2);
+    gSPLight(g++,(u32)&gBlackLight,1);
+    gSPLight(g++,(u32)&(unkAnimStructB.scene)->envLight,2);
     gSPNumLights(g++,1);
     pGVar10 = g;
   }
@@ -2417,7 +2417,7 @@ switchD_800a1cc4_caseD_8:
     }
     uVar18 = *puVar24 & 0xff;
     pGVar12 = pGVar10;
-    switch((int)((uint)*puVar24 << 0x10) >> 0x18) {
+    switch((int)((u32)*puVar24 << 0x10) >> 0x18) {
     case 1:
       if (uVar18 == 0xff) {
         pGVar12 = pGVar10 + 1;
@@ -2473,7 +2473,7 @@ switchD_800a1cc4_caseD_8:
         guMtxF2L(mf,&unkAnimStructB.b5Sub->unkStruct->mtxs[uVar17]);
         (unkAnimStructB.b5Sub)->flag |= 2;
       }
-      gSPMatrix(pGVar10,(uint)((unkAnimStructB.b5Sub)->unkStruct->mtxs + uVar17),G_MTX_LOAD);
+      gSPMatrix(pGVar10,(u32)((unkAnimStructB.b5Sub)->unkStruct->mtxs + uVar17),G_MTX_LOAD);
       break;
     case 3:
       CRASH("BorgAnimDrawSceneRaw()","We are not using animated textures on this project :)");
@@ -2503,7 +2503,7 @@ switchD_800a1cc4_caseD_8:
         gSPDisplayList(pGVar10++,osVirtualToPhysical((unkAnimStructB.b2)->dlist[uVar18]));
         pGVar12 = FUN_800a1184(pGVar10);
         pGVar10 = pGVar12;
-        if ((*(uint *)(unkAnimStructB.unk14)->flags & 1) != 0) {
+        if ((*(u32 *)(unkAnimStructB.unk14)->flags & 1) != 0) {
           guLookAtReflect(&auStack128,(unkAnimStructB.b2)->lookat[0] + uVar17,
                               param_2->matrixB[3][0],param_2->matrixB[3][1],param_2->matrixB[3][2],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][0],

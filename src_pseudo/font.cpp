@@ -23,9 +23,9 @@ bool Font::Init(FontStruct *fontP,u8 param_2){
   bool bVar3;
   FontSubstruct *puVar3;
   int iVar4;
-  uint uVar5;
+  u32 uVar5;
   
-  uVar5 = (uint)param_2;
+  uVar5 = (u32)param_2;
   ALLOCS(pFVar2,param_2 *sizeof(FontSubstruct),0x3f);
   fontP->substruct0 = pFVar2;
   if (pFVar2 == NULL) bVar3 = false;
@@ -240,12 +240,12 @@ int Font::PrintMain(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,short 
   int iStack_64;
   int iStack_60;
   int iStack_5c;
-  uint uStack_58;
-  uint uStack_54;
+  u32 uStack_58;
+  u32 uStack_54;
   int iStack_50;
   int iStack_4c;
-  uint uStack_48;
-  uint uStack_44;
+  u32 uStack_48;
+  u32 uStack_44;
   char *pcStack_40;
   int iStack_3c;
   
@@ -278,10 +278,10 @@ LAB_800b49c0:
             if (*pbVar13 != ' ') {
               uVar2 = font->charH;
               bVar10 = struct_unk_.textIndexies[*pbVar13 - ' '];
-              if ((param_9 < (posY + (uint)uVar2)) && (posY < param_11)) {
+              if ((param_9 < (posY + (u32)uVar2)) && (posY < param_11)) {
                 bVar1 = font->substruct0[font->fontIndex].rows;
-                uStack_48 = (uint)bVar10 / (uint)bVar1;
-                uStack_44 = (uint)bVar10 % (uint)bVar1;
+                uStack_48 = (u32)bVar10 / (u32)bVar1;
+                uStack_44 = (u32)bVar10 % (u32)bVar1;
 
                 iVar15 = 0;
                 iVar17 = 0;
@@ -292,13 +292,13 @@ LAB_800b49c0:
                   iVar11 = ((param_8 - posX) / scaleX);
                   uVar3 = puVar9[bVar10];
 LAB_800b4b54:
-                  if (param_10 < (posX + (uint)uVar3)) {
-                    iVar14 = (((posX + (uint)uVar3) - param_10) / scaleX);
+                  if (param_10 < (posX + (u32)uVar3)) {
+                    iVar14 = (((posX + (u32)uVar3) - param_10) / scaleX);
                   }
                 }
                 else {
                   puVar9 = font->kerning;
-                  if (param_10 < (posX + (uint)puVar9[bVar10])) {
+                  if (param_10 < (posX + (u32)puVar9[bVar10])) {
                     uVar3 = puVar9[bVar10];
                     goto LAB_800b4b54;
                   }
@@ -306,13 +306,13 @@ LAB_800b4b54:
                 if (posY < param_9) {
                   iVar15 = ((param_9 - posY) / scaleY);
 LAB_800b4bc4:
-                  iVar8 = posY + (uint)uVar2;
+                  iVar8 = posY + (u32)uVar2;
                   if (param_11 < iVar8) {
                     iVar17 = ((iVar8 - param_11) / scaleY);
                   }
                 }
-                else if (param_11 < (posY + (uint)uVar2)) goto LAB_800b4bc4;
-                if ((iVar11 < ((uint)puVar9[bVar10] - iVar14)) &&
+                else if (param_11 < (posY + (u32)uVar2)) goto LAB_800b4bc4;
+                if ((iVar11 < ((u32)puVar9[bVar10] - iVar14)) &&
                    (iVar15 < (uStack_54 - iVar17))) {
                   red = (font->col).R;
                   green = (font->col).G;
@@ -386,7 +386,7 @@ LAB_800b4d2c:
 }
 
 void Font::PrintCharaWapper
-               (FontStruct *param_1,Gfx **param_2,uint param_3,u32 param_4,int param_5,short param_6
+               (FontStruct *param_1,Gfx **param_2,u32 param_3,u32 param_4,int param_5,short param_6
                ,short param_7,short param_8,short param_9){
   PrintChara(param_1,param_2,(u8)param_3,param_4,param_5,param_6,param_7,param_8,param_9,
              param_1->scale,param_1->scale);
@@ -425,11 +425,11 @@ void Font::PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_
     iVar8 = ((param_7 - param_5) / param_11);
     uVar5 = fontP->charH;
 LAB_800b4ef8:
-    if (param_9 < (param_5 + (uint)uVar5)) {
-      iVar9 = (((param_5 + (uint)uVar5) - param_9) / param_11);
+    if (param_9 < (param_5 + (u32)uVar5)) {
+      iVar9 = (((param_5 + (u32)uVar5) - param_9) / param_11);
     }
   }
-  else if (param_9 < (param_5 + (uint)uVar4)) {
+  else if (param_9 < (param_5 + (u32)uVar4)) {
     uVar5 = fontP->charH;
     goto LAB_800b4ef8;
   }
@@ -438,16 +438,16 @@ LAB_800b4ef8:
     uVar5 = fontP->kerning[bVar1];
   }
   else {
-    if ((param_4 + (uint)fontP->kerning[bVar1]) <= param_8)
+    if ((param_4 + (u32)fontP->kerning[bVar1]) <= param_8)
     goto LAB_800b4f9c;
     uVar5 = fontP->kerning[bVar1];
   }
-  if (param_8 < (param_4 + (uint)uVar5)) {
-    iVar11 = (((param_4 + (uint)uVar5) - param_8) / param_10);
+  if (param_8 < (param_4 + (u32)uVar5)) {
+    iVar11 = (((param_4 + (u32)uVar5) - param_8) / param_10);
   }
 LAB_800b4f9c:
-  if ((iVar10 < ((uint)fontP->kerning[bVar1] - iVar11)) &&
-     (iVar8 < ((uint)uVar4 - iVar9))) {
+  if ((iVar10 < ((u32)fontP->kerning[bVar1] - iVar11)) &&
+     (iVar8 < ((u32)uVar4 - iVar9))) {
     col.R = (fontP->col).R;
     col.G = (fontP->col).G;
     col.B = (fontP->col).B;
@@ -583,14 +583,14 @@ LAB_800b5474:
 u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u16 cols){
   u8 uVar1;
   u16 uVar3;
-  uint charW;
-  uint charH;
+  u32 charW;
+  u32 charH;
   byte bVar7;
-  uint rows32_;
+  u32 rows32_;
   ushort uVar8;
   int iVar9;
-  uint rows32;
-  uint cols32;
+  u32 rows32;
+  u32 cols32;
   ushort *sizeOut;
   int iVar13;
   u16 uVar14;
@@ -598,16 +598,16 @@ u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u1
   byte bVar16;
   int iVar17;
   ushort uVar18;
-  uint uVar19;
+  u32 uVar19;
   
-  charW = (uint)(param_2->dat).Width / (uint)cols;
-  charH = (uint)(param_2->dat).Height / (uint)rows;
+  charW = (u32)(param_2->dat).Width / (u32)cols;
+  charH = (u32)(param_2->dat).Height / (u32)rows;
 
   if (8 < ((param_2->dat).format - 1)) return false;
-  cols32 = (uint)cols;
-  rows32_ = (uint)rows;
-  rows32 = (uint)rows;
-  uVar19 = (uint)(param_2->dat).Width;
+  cols32 = (u32)cols;
+  rows32_ = (u32)rows;
+  rows32 = (u32)rows;
+  uVar19 = (u32)(param_2->dat).Width;
   uVar18 = (ushort)charW;
   switch((param_2->dat).format) {
   case BORG8_RBGA32:
@@ -690,7 +690,7 @@ u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u1
   case 8:
   case 9:
   //4-bit image
-    i = (uint)rows * (uint)cols;
+    i = (u32)rows * (u32)cols;
     if (0 < i) {
       u8* p4 = (u8 *)(param_2->dat).offset;
       iVar9 = 0;
@@ -706,7 +706,7 @@ u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u1
           uVar8 = *sizeOut - 1;
           *sizeOut = uVar8;
           rows32_ = uVar8 - 1;
-          if ((p4[iVar9 + (uint)uVar8 + -1] >> 4 & 7) != bVar16) break;
+          if ((p4[iVar9 + (u32)uVar8 + -1] >> 4 & 7) != bVar16) break;
           *sizeOut = (u16)rows32_;
           bVar7 = p4[iVar9 + (u16)rows32_ + -1] >> 4 & 7;
         }

@@ -92,10 +92,10 @@ void Process_queue_B(QueueStructB *param_1,short param_2){
   QueueStructBItem *puVar5;
   QueueStructBItem *pQVar6;
   u16 i;
-  uint uVar7;
+  u32 uVar7;
   
   sVar5 = 0;
-  uVar7 = (uint)param_1->items;
+  uVar7 = (u32)param_1->items;
   if (queue_b_flag) queue_b_flag--;
   if (param_1->items != 0) {
     param_1->items = 0;

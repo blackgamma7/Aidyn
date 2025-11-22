@@ -181,7 +181,7 @@ void Ofunc_80055fc0(SFX_Struct *param_1){
   }
 }
 
-void audio_ref_objs(SFX_Struct *param_1,Borg9Data *param_2,uint tally,byte ZoneDat){
+void audio_ref_objs(SFX_Struct *param_1,Borg9Data *param_2,u32 tally,byte ZoneDat){
   audio_obj_dat *paVar2;
   SoundStructA *pSVar3;
   audio_obj_dat *paVar4;
@@ -319,7 +319,7 @@ void FUN_8005661c(vec3f *param_1,float param_2,Camera_struct *param_3,s8 *param_
 
 void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
   audio_obj_dat *paVar2;
-  uint uVar3;
+  u32 uVar3;
   SoundStructA *pSVar5;
   Borg12Header *pBVar6;
   SoundStructB *pSVar8;

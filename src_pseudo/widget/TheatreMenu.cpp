@@ -88,9 +88,9 @@ void TheatreMenu::LoadOptionStrings() {
   byte *dest;
   byte *pbVar2;
   byte *pbVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
+  u32 uVar4;
+  u32 uVar5;
+  u32 uVar6;
   char abStack288 [256];
   
   dest = (byte *)HALLOC(0x60,183);

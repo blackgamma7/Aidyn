@@ -34,8 +34,8 @@ void FUN_800946dc(int param_1){
   bool bVar3;
   bool bVar4;
   bool bVar5;
-  uint uVar6;
-  uint uVar7;
+  u32 uVar6;
+  u32 uVar7;
   SpellVisualTypeA *piVar8;
   int iVar8;
   
@@ -133,7 +133,7 @@ u16 FUN_800949fc(playerData *param_1){
   s16 sVar3;
   SpellVisualTypeC *pSVar4;
   SpellVisualTypeC *pSVar5;
-  uint uVar6;
+  u32 uVar6;
   
   bVar2 = false;
   uVar6 = 0;
@@ -153,7 +153,7 @@ u16 FUN_800949fc(playerData *param_1){
       if (param_1->borg7P == NULL) {
         Actor::ChangeAppearance(param_1,param_1->borg7);
       }
-      uVar6 = (uint)(u16)SpellVisuals.indecies2[SpellVisuals.prt2count++];
+      uVar6 = (u32)(u16)SpellVisuals.indecies2[SpellVisuals.prt2count++];
       pSVar4 = SpellVisuals.ptr2 + uVar6;
       CLEAR(pSVar4);
       pSVar4->flags = 1;
@@ -205,7 +205,7 @@ void FUN_80094c58(short param_1,short param_2){
   }
 }
 
-uint FUN_80094cd0(short param_1){
+u32 FUN_80094cd0(short param_1){
   bool bVar1;
   int iVar2;
   int iVar3;
@@ -302,7 +302,7 @@ short FUN_80094fdc(u16 param_1,u8 param_2,u8 type){
   playerData *ppVar2;
   Borg7Header *pBVar3;
   u32 uVar4;
-  uint uVar5;
+  u32 uVar5;
   bool bVar8;
   u32 BVar6;
   Borg7Header *pAVar6;
@@ -439,7 +439,7 @@ void FUN_800953a8(short param_1){
     SpellVisuals.lifeTime = 0;
   }
 }
-void processSpellVisuals(uint param_1){
+void processSpellVisuals(u32 param_1){
   byte bVar1;
   Borg7Header *pBVar2;
   struct_1 *psVar3;
@@ -448,9 +448,9 @@ void processSpellVisuals(uint param_1){
   bool bVar8;
   SceneData *pAVar7;
   SpellVisualTypeC *pSVar9;
-  uint uVar10;
+  u32 uVar10;
   SpellVisualTypeB *ppBVar12;
-  uint i;
+  u32 i;
   float fVar12;
   float fVar13;
   u8 uVar14;
@@ -696,7 +696,7 @@ void FUN_80096048(playerData *param_1){
   bool bVar1;
   SpellVisualTypeC *pSVar2;
   SpellVisualTypeC *pSVar3;
-  uint uVar4;
+  u32 uVar4;
   
   bVar1 = false;
   uVar4 = 0;
@@ -718,7 +718,7 @@ void FUN_80096048(playerData *param_1){
 }
 
 void combatspellvisuals_free(void){
-  uint uVar4;
+  u32 uVar4;
   for(uVar4=0;uVar4<SpellVisCountB;uVar4++) {
     SpellVisualTypeB *piVar2 = &SpellVisuals.ptr1[uVar4];
     if (((piVar2->flags & 1) != 0) && (piVar2->b7 != NULL)) {

@@ -3,15 +3,15 @@
 // abandoned code. towards start of decompression funcs. Related?
 
 void * ret_a0(void *X);
-int ofunc_sub_800a8ff8(void *x,uint y);
+int ofunc_sub_800a8ff8(void *x,u32 y);
 bool IsNotZero(u32 param_1);
 char * Ofunc_get_1point06(void);
-uint Ofunc_get_0x1060(void);
+u32 Ofunc_get_0x1060(void);
 char * Ofunc_get_1point06_2(void);
 char * ofunc_get_Nov_29_1999(void);
 char * Ofunc_get_1point06_3(void);
 char * ofunc_get_Nov_29_1999_1(void);
-uint Ofunc_800a908c(uint param_1,byte *param_2,uint param_3);
+u32 Ofunc_800a908c(u32 param_1,byte *param_2,u32 param_3);
 int ofunc_800a9250(byte *param_1,byte *param_2,int param_3);
 u8 * ofunc_800a9284(u8 *param_1,u8 *param_2,int param_3);
 u8 * Ofunc_800a92bc(u8 *param_1,u8 *param_2,int param_3);

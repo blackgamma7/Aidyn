@@ -9,7 +9,7 @@ void BorgMaps::GetMapTerrain(short a,short b) {
       CRASH("GetMapTerrain","ZoneNotFound");
     }
     pmVar1 = MapDataList_pointer + i;
-    if (((uint)pmVar1->mapShortA == (int)a) && ((uint)pmVar1->MapShortB == (int)b)) break;
+    if (((u32)pmVar1->mapShortA == (int)a) && ((u32)pmVar1->MapShortB == (int)b)) break;
     i++;
   }
   World::SetTerrain(TerrainPointer,(char)pmVar1->terrian);

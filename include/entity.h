@@ -141,8 +141,8 @@ class CharExp { /* data containing EXP, School, Aspect and more. */
     u8 school;
     u8 protection;
     u8 damage; //effected by equipment, unused in battle calculation?
-    uint total; /* for level up */
-    uint spending; /* for training */
+    u32 total; /* for level up */
+    u32 spending; /* for training */
     u8 flags; // true name, heavy, aspect
     void Init(ItemID);
     u8 GetAspect();
@@ -202,7 +202,7 @@ class EntityDB {
     u8 BattleCheck(ItemID);
     float GetFloatA(ItemID);
     float RetPoint4(ItemID);
-    u8 IsNotBoss(ItemID);
+    u8 IsRightHanded(ItemID);
     float GetCollideRadius(ItemID);
     float GetScale(ItemID);
 };
@@ -249,7 +249,7 @@ namespace Entity{
     u8 HasPotionEffect(CharSheet *param_1,u8 id);
     void ApplyPotionEffect(CharSheet *chara,u8 pot,u8 pow,u32 time);
     void ReversePotionEffect(CharSheet *param_1,u8 param_2);
-    u8 IncPotionEffect(CharSheet *param_1,u8 noCombat,uint delta);
+    u8 IncPotionEffect(CharSheet *param_1,u8 noCombat,u32 delta);
     void RemovePotion(CharSheet *ent,u8 slot);
     void StaminaPotion(CharSheet *param_1);
     u8 CanUsePotion(CharSheet *param_1,u8 param_2,char *param_3);
@@ -268,11 +268,11 @@ namespace Entity{
     u8 TestEquipStamina(CharSheet *param_1,s16 param_2);
     int EquipStamina(CharSheet *param_1,short stam,u8 param_3);
     s16 AddEquipStamina(CharSheet *param_1,ItemInstance *param_2,short param_3,u8 param_4);
-    void CampHeal(CharSheet *param_1,float healing,uint time);
+    void CampHeal(CharSheet *param_1,float healing,u32 time);
     u8 CheckSpellTimeOfDay(CharSheet *param_1,SpellInstance *param_2);
     byte CheckSpellSpecial(CharSheet *param_1,SpellInstance *param_2);
     void CheckDeathFromDoT(CharSheet *param_1,s16 param_2,s16 param_3,CombatEntity *param_4);
-    void IncEffects(CharSheet *Ent,CombatEntity *CEnt,uint Delta);
+    void IncEffects(CharSheet *Ent,CombatEntity *CEnt,u32 Delta);
     void AddExp(CharSheet *param_1,s32 param_2);
     void ModExpTotal(CharSheet *param_1,s32 param_2);
     u16 HealByPotion(CharSheet *param_1,u16 Hi,u16 Lo);

@@ -9,7 +9,7 @@ void EntityDB::OldInit(){
   Entity_Ram *pEVar1;
   byte *pbVar2;
   byte *pbVar3;
-  uint uVar4;
+  u32 uVar4;
   byte bVar5;
   int aiStack_30 [12];
   
@@ -17,14 +17,14 @@ void EntityDB::OldInit(){
   load_db_array_size(&entitydb,this,aiStack_30);
   bVar5 = 0;
   uVar4 = 0;
-  ALLOCS(this->entities,(uint)this->total*sizeof(Entity_Ram),669);
+  ALLOCS(this->entities,(u32)this->total*sizeof(Entity_Ram),669);
   for(u8 i=0;i<7;i++) {
     load_db_array_size(&entitydb,this->catSizes + i,aiStack_30);
     pbVar2 = this->unk + i;
     pbVar3 = this->catSizes + i;
     *pbVar2 = bVar5;
     bVar5 += *pbVar3;
-    aiStack_30[0] += (uint)*pbVar3 * 0x88;
+    aiStack_30[0] += (u32)*pbVar3 * 0x88;
   }
 }
 //change Litte-endian short value to Big-Endian
@@ -41,9 +41,9 @@ void EntityDB::Load(u8 id,s32 *param_3){
   u16 uVar4;
   char *pcVar5;
   u8 uVar6;
-  uint uVar7;
+  u32 uVar7;
   u8 uVar8;
-  uint uVar9;
+  u32 uVar9;
   Entity_Ram *EntRam;
   Entity_ROM EntROM;
   
@@ -244,8 +244,8 @@ char * EntityDB::GetEntityName(ItemID id){
   
   bVar2 = GETINDEX(id);
   switch(id >> 8){
-    case 2: return this->entities[bVar2].Name;
-    case DB_DIALOUGEENTITY: return gDialogEntityDBp->ents[bVar2].Name;
+    case DB_ENTITY: return this->entities[bVar2].Name;
+    case DB_DIALOUGEENTITY: return gDialogEntityDBp->ents[bVar2].name;
     default:CRASH("Invalid ID type in GetEntityName!",FILENAME);
   };
 }
@@ -326,7 +326,7 @@ u8 EntityDB::BattleCheck(ItemID id){
   return uVar3;
 }
 
-//not sure what this is for, used in "processPlayers"
+//not sure what this is for, used in "processPlayers" (aniimation speed?)
 float EntityDB::GetFloatA(ItemID id){
   byte bVar2;
   u16 uVar1;
@@ -355,22 +355,22 @@ float EntityDB::RetPoint4(ItemID id){
     return 0.4f;
 }
 
-//returns false if the ID index matches a boss's.
-u8 EntityDB::IsNotBoss(ItemID id){
+//returns false if the entity is a left-handed archer
+u8 EntityDB::IsRightHanded(ItemID id){
   
   if (id >> 8 == DB_DIALOUGEENTITY) return true;
   switch(GETINDEX(id)) {
-    case 0x57:
-    case 0x58:
-    case 0x59:
-    case 0x5c:
-    case 0x5d:
-    case 0x5e:
-    case 0x5f:
-    case 0x6c:
-    case 0x7a:
-    case 0x9c:
-    case 0xa1:
+    case 0x57: //"Night Boss III"
+    case 0x58: //"Night Boss II"
+    case 0x59: //"Night Boss I"
+    case 0x5c: //"Woodsman III"
+    case 0x5d: //"Woodsman II"
+    case 0x5e: //"Bandit Boss III"
+    case 0x5f: //"Bandit Boss II"
+    case 0x6c: //"Ogre Guard"
+    case 0x7a: //Human Bandit
+    case 0x9c: //Becan
+    case 0xa1: //Keelin
       return false;
     }
   return true;

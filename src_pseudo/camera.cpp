@@ -210,7 +210,7 @@ void Camera::Mode0(Camera_struct *param_1,vec3f *param_2,vec3f *param_3,short pa
   fStack112.y = (param_1->pos).y;
   fStack112.z = (param_1->pos).z;
   if (param_1->unk68) {
-    iVar2 = (uint)(u16)param_1->unk68 - (int)param_4;
+    iVar2 = (u32)(u16)param_1->unk68 - (int)param_4;
     param_1->unk68 = (short)iVar2;
     if (0 < iVar2 * 0x10000) {
       goto LAB_800b0be4;
@@ -253,7 +253,7 @@ LAB_800b0be4:
     if (((uVar3 != 0) &&
         (fVar6 = Vec3Dist(A,&afStack240), fVar5 = 5.0f,
         fVar6 < 0.5)) &&
-       (uVar3 = param_1->unk80 - 1, param_1->unk80 = uVar3, (int)((uint)uVar3 << 0x10) < 1)) {
+       (uVar3 = param_1->unk80 - 1, param_1->unk80 = uVar3, (int)((u32)uVar3 << 0x10) < 1)) {
       FUN_800b04ec(param_1);
     }
     fVar6 = 5.0f;

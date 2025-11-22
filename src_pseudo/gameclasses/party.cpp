@@ -69,7 +69,7 @@ void Party::CheckDeaths(){
 }
 
 u8 Party::AddMember(ItemID param_2){
-  uint uVar1;
+  u32 uVar1;
   CharSheet *pCVar2;
   
   if (this->PartySize == MAXPARTY) return false;
@@ -526,7 +526,7 @@ byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_
   ulong uVar8;
   bool bVar10;
   GearInstance **ppGVar11;
-  uint uVar12;
+  u32 uVar12;
   
   IVar2 = param_3->id;
   bVar9 = p->GetEquipError2(Entity::GearMinStatCheck(param_4,IVar2));
@@ -786,20 +786,14 @@ u8 Party::RemoveShieldFrom(u8 param_2){
 }
 
 u8 Party::RemoveWeaponsFrom(u8 param_2){
-  CharSheet *pCVar1;
-  CombatEntity *pCVar3;
-  ulong uVar4;
-  WeaponInstance *pTVar5;
-  undefined uVar6;
-  
-  pCVar1 = this->Members[param_2];
+  CharSheet *pCVar1 = this->Members[param_2];
   if (pCVar1) {
-    pTVar5 = pCVar1->weapons;
+    WeaponInstance *pTVar5 = pCVar1->weapons;
     if (pTVar5 == NULL) return false;
     //Can't move Archmage Staff
     if (IDWeapon(weaponList[66]) == pTVar5->base.id) return false;
     StatMod* X = CreateStatMod(pTVar5->base.statMod);
-    uVar6 = 0xff;
+    s8 uVar6 = 0xff;
     if (pTVar5->base.spellCharge) {uVar6 = pTVar5->base.spellCharge->Charges;}
     if (this->Inventory->AddItem((pTVar5->base).id,1) == 0) {
       if (X) {
@@ -815,7 +809,7 @@ u8 Party::RemoveWeaponsFrom(u8 param_2){
         if (gGlobals.combatBytes[0] != 0xe) {return false;}
         if (gCombatP) { //change visible weapon model
           if (&gCombatP->combatEnts == NULL) {return false;}
-          pCVar3 = (&gCombatP->combatEnts)[param_2];
+          CombatEntity *pCVar3 = (&gCombatP->combatEnts)[param_2];
           if (pCVar3 == NULL) {return false;}
           pCVar3->AtkType = 0;
           pCVar3->ShowWeaponSheild();
@@ -853,7 +847,7 @@ u8 Party::RemoveGearFrom(u8 param_2,u8 param_3){
     if (this->Inventory->AddItem((puVar2->base).id,1)) {
       pIVar5 = &this->Inventory->GetItemEntry(this->Inventory->GetItemIndex((puVar2->base).id))->base;
       UpdateItemStatCharges(pIVar5,X,bVar6);
-      Entity::UnequipGear(pCVar1,(uint)param_3);
+      Entity::UnequipGear(pCVar1,(u32)param_3);
       return false;
     }
     if (X) HFREE(X,0x625);
@@ -866,10 +860,10 @@ s32 Party::DiplomatCheck(){
   u8 bVar6;
   u8 uVar2;
   char cVar7;
-  uint uVar3;
-  uint uVar4;
+  u32 uVar3;
+  u32 uVar4;
   int iVar5;
-  uint uVar9;
+  u32 uVar9;
   u8 uVar8;
   
   uVar3 = 0;
@@ -899,7 +893,7 @@ s32 Party::LoremasterCheck(){
   u8 uVar2;
   s8 sVar6;
   u8 uVar7;
-  uint uVar8;
+  u32 uVar8;
   
   u8 bestInt = 0;
   u8 partySkill = 0;
@@ -1368,11 +1362,11 @@ void healing_result_widget(char *txt){
 
 char * Party::PrintHeal(u8 A,u8 B){
   char *pcVar1;
-  uint uVar2;
+  u32 uVar2;
   u16 uVar6;
   s8 sVar7;
   int iVar3;
-  uint uVar4;
+  u32 uVar4;
   char *pcVar5;
   char *pcVar9;
 
@@ -1427,12 +1421,12 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
   char *pcVar2;
   s8 sVar9;
   int skillMod;
-  uint uVar4;
+  u32 uVar4;
   u16 uVar8;
   ulong uVar5;
   int iVar6;
   u8 uVar10;
-  uint uVar7;
+  u32 uVar7;
   CharStats_s *pCVar11;
   char *pcVar12;
   
@@ -1595,7 +1589,7 @@ bool Party::Lockpicking(byte lock,char *text)
   }
   else {
     CharSheet *pCVar1 = Members[sVar6];
-    if ((uint)lok < 10) {
+    if ((u32)lok < 10) {
       iVar4 = 10;
       if (pCVar1->Skills->getModdedSkill(SKILL_Theif) < 10) {
         iVar4 = pCVar1->Skills->getModdedSkill(SKILL_Theif);
@@ -1924,7 +1918,7 @@ void Party::DecRitualTimers(u32 A,u32 time){}
 
 void Party::TickMoveCounters(s32 delta){
   //3 values in the party struct. seem useless.
-  int t = delta * (uint)TerrainPointer->daySpeed;
+  int t = delta * (u32)TerrainPointer->daySpeed;
   switch((gPlayer)->ani_type){
     case AniType_Run:
     this->TimeRunning = (this->TimeRunning + t) % MINUTES(5);
@@ -2226,7 +2220,7 @@ u8 Party::UnequipMemberItemOfID(s32 param_2,ItemID param_3){
 //forcible remove item from party. used in dialoug.
 u8 Party::TakeItem(ItemID param_2){
   bool bVar2;
-  uint uVar3;
+  u32 uVar3;
   
 
   if (this->Inventory->HasItem(param_2)) {
@@ -2271,17 +2265,17 @@ u8 Party::GetEquipError3(byte param_2,ItemInstance *param_3,CharSheet *param_4,b
   SpellCharges *pSVar2;
   int iVar4;
   byte bVar6;
-  uint uVar7;
+  u32 uVar7;
   GearInstance **ppGVar8;
-  uint uVar9;
-  uint uVar10;
+  u32 uVar9;
+  u32 uVar10;
   
   IVar1 = param_3->id;
   bVar6 = GetEquipError2(Entity::GearMinStatCheck(param_4,IVar1));
   if (bVar6) return bVar6;
   uVar10 = 0;
   uVar9 = 0;
-  uVar7 = (uint)param_4->pItemList->usedItems;
+  uVar7 = (u32)param_4->pItemList->usedItems;
   if (uVar7 != 0) {
     ppGVar8 = param_4->pItemList->pItem;
     do {

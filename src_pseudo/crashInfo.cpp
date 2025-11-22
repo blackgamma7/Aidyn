@@ -15,8 +15,8 @@ u16 crash_strlen(char *txt){
 }
 
 struct crash_DatString {
-    uint ANDMask;
-    uint Value;
+    u32 ANDMask;
+    u32 Value;
     char *String;
 };
 
@@ -47,7 +47,7 @@ crash_DatString CauseStrings[]={
 
 extern OSThread* __osGetCurrFaultedThread();//should already be defined?
 void crash_text(CrashSub *param_1,CrashBuff *param_2){
-  uint uVar1;
+  u32 uVar1;
   u16 uVar3;
   crash_DatString *pcVar4;
   char charBuff [160];
@@ -162,9 +162,9 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
   byte bVar8;
   int iVar4;
   int *piVar9;
-  uint uVar10;
+  u32 uVar10;
   crash_DatString *pcVar11;
-  uint uVar13;
+  u32 uVar13;
   int iVar14;
   char acStack_128 [128];
   u32* fb32 [2];
@@ -231,7 +231,7 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
     if ((s16)uVar7 != 0) {
       do {
         u16 uVar10 = 0;
-        uVar13 = (uint)uVar12;
+        uVar13 = (u32)uVar12;
         if ((int)(short)uVar6 != 0) {
           do {
             iVar4 = uVar13 * (int)(short)uVar6 + uVar10;
@@ -245,7 +245,7 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
               GPACK_RGBA5551(px32>>24,px32>>16,px32>>8,px32);     
             }
             uVar10+=2;
-          } while (uVar10 < (uint)(int)(short)uVar6);
+          } while (uVar10 < (u32)(int)(short)uVar6);
         }
         uVar12 +=2;
       } while (uVar12 < uVar7);
@@ -257,16 +257,16 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
 
 void Ofunc_8000729c(CrashBuff *param_1,u16 x_,u16 y,void *p1,void *p2,void *p3,void *p4,void *p5,
                    void *p6,void *p7,void *p8){
-  uint i;
+  u32 i;
   void *arr [8];
   char strBuff [64];
   u8 r;
   u8 g;
   u8 b;
   u8 a;
-  uint x;
+  u32 x;
   
-  x = (uint)x_;
+  x = (u32)x_;
   i = 0;
   arr[0] = p1;
   arr[1] = p2;
@@ -335,7 +335,7 @@ void stack_dump(CrashSub *param_1,CrashBuff *param_2){
   for(j=0;j<0x40;j++)  {
     if ((((bVar4) && (pvVar2 = *(void **)((int)&(pOVar5->context) + j * 4), pvVar2 != pvVar1)
          ) && ((void *)0x8000046f < pvVar2)) && (pvVar2 <= pvStack_3c)) {
-      sprintf(acStack_140,"%08x",(uint)pvVar2);
+      sprintf(acStack_140,"%08x",(u32)pvVar2);
       crash_print(param_2,acStack_140,((ushort)i & 3) * 0x50 + 0x19,
                   (short)(i >> 2) * 9 + 0x4f,0,0xc0,0xc0);
       i++;
@@ -349,7 +349,7 @@ void stack_dump(CrashSub *param_1,CrashBuff *param_2){
   for(j=0;j<0x800;j++) {
     if (((i < 0xc) && (pvVar1 = iStack_34[j], (void *)0x8000046f < pvVar1)) &&
        (pvVar1 <= pvStack_3c)) {
-      sprintf(acStack_140,"%08x",(uint)pvVar1);
+      sprintf(acStack_140,"%08x",(u32)pvVar1);
       crash_print(param_2,acStack_140,((ushort)i & 3) * 0x50 + 0x19,
                   (short)(i >> 2) * 9 + 0x4f,0,0xc0,0xc0);
       i++;
@@ -528,11 +528,11 @@ void crash_print(CrashBuff *buff,char *txt,u16 x,u16 y,u8 r,u8 g,u8 b){
   bool bVar3;
   char *pcVar4;
   int iVar5;
-  uint uVar6;
+  u32 uVar6;
   int iVar9;
   
-  u16 startX = (uint)x;
-  u16 currY = (uint)y;
+  u16 startX = (u32)x;
+  u16 currY = (u32)y;
   bVar3 = true;
   s32 charCount = 0;
   pcVar4 = txt;
@@ -559,7 +559,7 @@ void crash_print(CrashBuff *buff,char *txt,u16 x,u16 y,u8 r,u8 g,u8 b){
         bVar12++;
         bVar2 = gCrashFont[0][iVar5];
         while( true ) {
-          if (((int)(uint)bVar2 >> (8 - uVar6 & 0x1f) & 1U) != 0) {
+          if (((int)(u32)bVar2 >> (8 - uVar6 & 0x1f) & 1U) != 0) {
             (*buff)[0][iVar9 + uVar6] =GPACK_RGBA5551(r,g,b,1);
           }
           uVar6++;

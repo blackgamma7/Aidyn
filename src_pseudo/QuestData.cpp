@@ -33,12 +33,12 @@ void Save(u8 *data){
   SaveParty::SaveBits(&sav,(s32)fStack96.PrecipScale,SaveBits_Float);
   SaveParty::SaveBits(&sav,(s32)fStack96.FogFloat,SaveBits_Float);
   SaveParty::SaveBits(&sav,(s32)fStack96.ThunderFloat,SaveBits_Float);
-  SaveParty::SaveBits(&sav,(uint)fStack96.precip,SaveBits_Byte);
+  SaveParty::SaveBits(&sav,(u32)fStack96.precip,SaveBits_Byte);
   fVar5 = gGlobals.VolSFX * 1000.0f;
   fVar6 = gGlobals.VolBGM * 1000.0f;
   SaveParty::SaveBits(&sav,(s32)fVar5,SaveBits_Float);
   SaveParty::SaveBits(&sav,(s32)fVar6,SaveBits_Float);
-  SaveParty::SaveBits(&sav,(uint)gGlobals.ResolutionSelect,SaveBits_Bool);
+  SaveParty::SaveBits(&sav,(u32)gGlobals.ResolutionSelect,SaveBits_Bool);
 }
 
 void Load(u8 *data){
@@ -121,7 +121,7 @@ void SavePartyPlaytime(SavePartyHeader *param_1){
   char *c2;
   CharSheet *pCVar2;
   int iVar3;
-  uint uVar4;
+  u32 uVar4;
   
   uVar4 = 0;
   pCVar2 = PARTY->GetMemberById(gEntityDB->entities[EntInd_Alaron].ID);

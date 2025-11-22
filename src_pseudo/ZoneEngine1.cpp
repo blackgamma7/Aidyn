@@ -74,14 +74,14 @@ void campfire_func(void){
       iVar2 = 1;
       do {
         iVar3 = (int)(short)iVar2;
-        if ((int)(uint)(pBVar1->dat).voxelObjCount <= iVar3) goto LAB_80006610;
+        if ((int)(u32)(pBVar1->dat).voxelObjCount <= iVar3) goto LAB_80006610;
         iVar2 = iVar3 + 1;
       } while (pVVar1[iVar3].header.type != VOXEL_Dialouge);
       puVar4 = &pVVar1->dialoug;
     }
   }
 LAB_80006610:
-  dialoug_func((uint)puVar4->borg_13,puVar4->RefPointID,puVar4->MapDatA,puVar4->MapShortA,
+  dialoug_func((u32)puVar4->borg_13,puVar4->RefPointID,puVar4->MapDatA,puVar4->MapShortA,
                puVar4->MapShortB,0x7fff);
   remove_borg_9(pBVar1);
 }

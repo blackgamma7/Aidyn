@@ -528,7 +528,7 @@ void Controller::EncodeString(u8 *pfs,char *ascii,u8 len){
   u8 len_2;
   char *pcVar4;
   u8 uVar5;
-  uint i;
+  u32 i;
   u8 uVar6;
   
   len_2 = strlen(ascii);

@@ -101,10 +101,10 @@ WidgetCombatSkills::WidgetCombatSkills(u8 *spells,bool troub,bool hands,int herb
 WidgetChoiceDia(62,120,gExpPakFlag?95:55,0,0){
   WidgetGroup *pWVar4;
   u16 wMax;
-  uint ArraySize;
+  u32 ArraySize;
   int iVar5;
   u16 H;
-  uint i;
+  u32 i;
   CombatMenuSpell *ToSort;
   Color32 col1;
   Color32 col2;

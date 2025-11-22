@@ -155,13 +155,13 @@ char D_800f5490[16];
 char D_800f54a0[16];
 void print_mem_allocated(memPrint *printFunc,u16 *buff){
   u32 memMax;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
+  u32 uVar2;
+  u32 uVar3;
+  u32 uVar4;
+  u32 uVar5;
   HeapBlock *block;
-  uint count;
-  uint i;
+  u32 count;
+  u32 i;
   
   strcpy(D_800f5490,"FREE");
   strcpy(D_800f54a0,"ALLOCATED");
@@ -304,7 +304,7 @@ void FUN_8009882c(s32 param_1,u32 param_2){
 u32 get_heap_size(HeapBlock *param_1){return param_1->size;}
 
 s32  FUN_80098848(void **param_1) {
-  return *(s32 *)((int)param_1 + (((uint)*param_1 & ~1) - 4));
+  return *(s32 *)((int)param_1 + (((u32)*param_1 & ~1) - 4));
 }
 
 void FUN_80098864(void *param_1,s32 param_2){

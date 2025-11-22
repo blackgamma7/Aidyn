@@ -406,6 +406,11 @@ typedef enum Borg8Enum {
 #define BORG5_N64Logo           0x25a8
 #define BORG5_OrianaLight       0x374a
 
+#define BORG5_WeaponHockeyStick 0x34F9
+#define BORG5_WeaponLightreaver 0x3500
+
+#define BORG5_CombatPotion      0x34c5
+#define BORG5_CombatArrow       0x348f
 
 //Borg7: Animated model data
 

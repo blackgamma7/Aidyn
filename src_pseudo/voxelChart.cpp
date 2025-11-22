@@ -63,7 +63,7 @@ void memset_voxelChart_entries(void){
   for(s16 i=0;i<VCHARTCOUNT;i++){
     VoxelChartEntry *x= &voxelChart[i];
     if ((x->bool0x2) &&
-       (x->arg7--, (int)((uint)x->arg7 << 0x18) < 1)) {
+       (x->arg7--, (int)((u32)x->arg7 << 0x18) < 1)) {
       CLEAR(x);
       voxelChartIndecies[--voxelChartIndex] = i;
     }

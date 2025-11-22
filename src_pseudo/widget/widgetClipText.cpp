@@ -72,9 +72,9 @@ Gfx * WidgetClipText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 }
 
 u16 WidgetClipText::GetWidth(){
-  uint uVar1;
+  u32 uVar1;
   u16 uVar2;
-  uint uVar3;
+  u32 uVar3;
   WidgetSubstruct_ClipText *ppbVar1 = (WidgetSubstruct_ClipText *)substruct;
   uVar1 = Font::GetWidthScaled(font_pointer,ppbVar1->str,ppbVar1->scaleX);
   uVar2 = 0;

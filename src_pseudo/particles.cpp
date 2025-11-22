@@ -89,7 +89,7 @@ void Particle::InitParticleHead(ParticleHeadStruct *head,Borg9Data *borg9,s16 pa
   Particle::LoadTextures(head,textCount,textureP);
   head->borg9dat = borg9;
   OSTime OVar3 = osGetTime();
-  PartRand.SetSeed(udivdi3(CONCAT44((int)(OVar3 >> 0x20) << 6 | (uint)OVar3 >> 0x1a,(uint)OVar3 << 6),3000));
+  PartRand.SetSeed(udivdi3(CONCAT44((int)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6),3000));
 }
 
 void Particle::FreeEmmiters(ParticleHeadStruct *param_1){
@@ -182,12 +182,12 @@ void Particle::ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec
   int delta_;
   char acStack_78 [64];
   Gfx *pGStack_38;
-  uint uStack_34;
+  u32 uStack_34;
   int iStack_30;
   
   delta_ = (int)delta;
   iStack_30 = 0;
-  uStack_34 = (uint)param_6;
+  uStack_34 = (u32)param_6;
   pGStack_38 = *gg;
   iVar2 = 0;
   for(s16 i=0;i<ParticleEmmiMAX;i++) {
@@ -638,7 +638,7 @@ void BorgParticleEmitterCallback(ParticleHeadStruct *head,ParticleEmmiter *emmi)
 {
   SceneData *pSVar1;
   SceneData *scene;
-  uint uVar4;
+  u32 uVar4;
   Borg5_particle *puVar2;
   
   scene = emmi->sceneDat;

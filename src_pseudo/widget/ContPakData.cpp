@@ -451,9 +451,9 @@ void WidgetContPakData::ReadSaveFile(){
     this->OtherState = 4;
     return;
   }
-  this->pfsErr = Controller::GetPakSaveState(&filestate,(uint)index,0);
+  this->pfsErr = Controller::GetPakSaveState(&filestate,(u32)index,0);
   if (this->pfsErr == PFS_ERR_BAD_DATA) {
-    this->pfsErr = Controller::GetPakSaveState(&filestate,(uint)index,0);
+    this->pfsErr = Controller::GetPakSaveState(&filestate,(u32)index,0);
     if (this->pfsErr == PFS_ERR_BAD_DATA) goto LAB_80087164;
   }
   if (this->pfsErr) return;
@@ -800,7 +800,7 @@ void WidgetContPakDataSave::NewSaveFile(){
   u8 j;
   u8 i;
   int iVar4;
-  uint uVar5;
+  u32 uVar5;
   fileState_aidyn filestate [2];
   char acStack_b0 [64];
   char acStack_70 [64];
@@ -863,7 +863,7 @@ u32 WidgetContPakDataSave::vmF0(){
 
 u32 WidgetContPakDataSave::WriteSaveFile(u8 filenum){
   Pfs2xCheck(this->pfsErr,Controller::WritePakSave((u8 *)this->dataBuffer,filenum,0,sizeof(SaveDatStruct),0));
-  if (this->pfsErr == 0) this->filenum = (uint)filenum;
+  if (this->pfsErr == 0) this->filenum = (u32)filenum;
   else this->OtherState = 1;
   return true;
 }
@@ -1231,7 +1231,7 @@ void ContPakWidget::PrintMemcardFiles(){
   
   u8 fileno = this->fileNum++;
   if (this->fileNum <= SaveFileMax) {
-    Pfs2xCheck(this->pfserr,Controller::GetPakSaveState(afStack_50,(uint)fileno,0));
+    Pfs2xCheck(this->pfserr,Controller::GetPakSaveState(afStack_50,(u32)fileno,0));
     if (this->pfserr == 0) {
       PrintFile(fileno,afStack_50[0].game_name,afStack_50[0].ext_name,afStack_50[0].filesize);
     }
@@ -1407,7 +1407,7 @@ void ContPakWidget::PrintFreeSpace(){
   this->fileNum = 0;
   abStack_10[0] = 0;
   Pfs2xCheck(this->pfserr,Controller::GetPakFreeBlocks8(abStack_10,0));
-  if (this->pfserr == 0) sprintf(Utilities::GetWidgetText(this->field1_0x7c),"%d",(uint)abStack_10[0]);
+  if (this->pfserr == 0) sprintf(Utilities::GetWidgetText(this->field1_0x7c),"%d",(u32)abStack_10[0]);
   else this->menuState = 1;
 }
 
@@ -1417,7 +1417,7 @@ void ContPakWidget::PrintFile(u8 fileno,char *param_3,char *param_4,ushort param
   w->AddToGroup(WText(gGlobals.text),15,0,true);
   w->AddToGroup(WText(param_3),33,0,true);
   w->AddToGroup(WText(param_4),150,0,true);
-  Gsprintf("%d",(uint)(param_5 >> 8));
+  Gsprintf("%d",(u32)(param_5 >> 8));
   w->AddToGroup(WText(gGlobals.text),169,0,true);
   this->w80->Append(w);
   w->varU16 = (ushort)fileno;

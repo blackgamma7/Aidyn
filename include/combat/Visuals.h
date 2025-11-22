@@ -2,7 +2,7 @@
 
 struct SpellVisualTypeA {
     u32 SpellID;
-    uint flags;
+    u32 flags;
     u16 field2_0x8;
     u16 field3_0xa;
     u16 field4_0xc;
@@ -27,7 +27,7 @@ struct SpellVisualTypeB {
 };
 struct SpellVisualTypeC {
     playerData *playerDat;
-    uint flags;
+    u32 flags;
     s16 field2_0x8;
     s16 timer;
     short field4_0xc;
@@ -49,7 +49,7 @@ struct SpellVisuals_struct {
     short *indecies2; 
     float field6_0x18;
     int lifespan;
-    uint lifeTime;
+    u32 lifeTime;
     u16 field9_0x24;
     u16 field10_0x26;
     u16 ptr0Count;
@@ -74,14 +74,14 @@ void FUN_80094b24(short);
 void spellvisuals_petrify(short);
 void spellvisuals_petrify_2(short );
 void FUN_80094c58(short,short);
-uint FUN_80094cd0(short);
+u32 FUN_80094cd0(short);
 void FUN_80094e6c(short);
 void FUN_80094f40(short);
 short FUN_80094fdc(u16,u8,u8);
 void FUN_800952c8(short,short,short);
 void FUN_800953a8(short);
 void FUN_80095414(short);
-void processSpellVisuals(uint );
+void processSpellVisuals(u32 );
 Gfx * FUN_80095a24(Gfx *);
 void FUN_80095ad8(short);
 u16 FUN_80095c04(playerData *,playerData *,u8,s32);
@@ -133,13 +133,13 @@ struct AttackVisualStruct3 {
     playerData *player;
     vec3f pos;
     u32 unk14;
-    uint flag;
+    u32 flag;
 };
 //Attack visual effects. Initalized, freed, Render func called, but nothing calls Add() to use them. Essentialy unused.
 namespace CombatAttackVisuals{
     void Init();
     void Add(playerData *target,u32 param_2);
-    Gfx * Render(Gfx *g,uint delta);
+    Gfx * Render(Gfx *g,u32 delta);
     void FreePlayer(playerData *param_1);
     void Free();
     u32 GetAttackActor(u32 param_1);

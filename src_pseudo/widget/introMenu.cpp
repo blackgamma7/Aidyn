@@ -162,7 +162,7 @@ LAB_8004a4cc:
 u8 IntroMenu::Tick() {
   IntroMenuSub *sub = IntroSub;
   if((sub->unk1c)&&(this->alpha0!=0xff)) {
-    if (this->alpha0 < (0xff - (uint)this->alphaDelta))
+    if (this->alpha0 < (0xff - (u32)this->alphaDelta))
       this->alpha0+= this->alphaDelta;
     else this->alpha0 = 0xff;
     Utilities::SetAlpha(sub->unk1c,this->alpha0);

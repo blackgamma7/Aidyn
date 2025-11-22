@@ -29,8 +29,8 @@ extern MinimapSec_dat minimap_sec_Barrows[];//TODO: Fill in
 
 class MiniMap {
     public:
-    uint active;
-    uint ShowMinimap;
+    u32 active;
+    u32 ShowMinimap;
     u8 B_buttonToggle;
     u8 showAllVar;
     vec3f savedPlayerPos;

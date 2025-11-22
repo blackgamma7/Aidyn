@@ -62,7 +62,7 @@ void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,usho
   ActorAndID *pAI;
   u16 BVar7;
   playerData *ppVar8;
-  uint uVar9;
+  u32 uVar9;
   float camHeight;
   float fVar11;
 
@@ -432,7 +432,7 @@ char * DialougFindPlayerNameSpace(char *str){
 
 //replace "####################" with player name
 void DialougInsertPlayerName(char *str){
-  uint uVar1;
+  u32 uVar1;
   char *pcVar2;
   int iVar3;
   

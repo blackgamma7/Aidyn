@@ -13,7 +13,7 @@ void Event_flag_stat(u8 param_1){
   CharSheet *pCVar3;
   int iVar4;
   u8 uVar5;
-  uint uVar8;
+  u32 uVar8;
   s16 lVar9;
   
   if (gameStates) {
@@ -148,15 +148,15 @@ void Passto_State_typeA_branch(EventFlag param_1){
 
 void state_TypeA_LOG(Struct_State *param_1,u16 param_2){
   u8 bVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
+  u32 uVar2;
+  u32 uVar3;
+  u32 uVar4;
   u16 uVar5;
   u16 uVar6;
   
-  uVar3 = (uint)param_2;
+  uVar3 = (u32)param_2;
   uVar5 = 0;
-  uVar4 = (uint)param_1->length;
+  uVar4 = (u32)param_1->length;
   uVar6 = uVar5;
   switch(param_1->command) {
   case FLAG_AND:
@@ -184,7 +184,7 @@ LAB_8002483c:
     break;
   case FLAG_MSK:
     bVar1 = uVar3 == 0;
-    uVar3 = (uint)param_1->shortA;
+    uVar3 = (u32)param_1->shortA;
     uVar6 = (u16)bVar1;
   }
   if (uVar4) {

@@ -36,7 +36,7 @@ u32 Random::func(u32 a,u32 b){
 void Random::ofunc_shiftSeed(){seed = seed * 0x19660d + 0x3c6ef35f;}
 //used in AllocPlayerAudio
 u32 Random::randAudio(s32 arg1){
-  uint uVar1;
+  u32 uVar1;
   
   if (arg1 == 0) return 0;
   if (arg1 < 0) {

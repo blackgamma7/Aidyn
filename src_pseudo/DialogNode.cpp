@@ -50,23 +50,23 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
   char *pcVar3;
   u32 uVar4;
   int iVar5;
-  uint uVar8;
+  u32 uVar8;
   u8 uVar9;
   int iVar10;
-  uint uVar11;
+  u32 uVar11;
   int iVar12;
   char acStack_328 [256];
   char acStack_228 [256];
   char acStack_128 [296];
   
-  uVar11 = (uint)param_3;
+  uVar11 = (u32)param_3;
   if (FUN_800b59b8(param_1,param_2,param_3)) return 0;
   command_bitmask_6(param_2,param_3);
   if (param_1->unk10e != 0xffff) {
     pbVar1 = param_2->commands_pointer;
     uVar9 = pbVar1[param_3].index;
     iVar12 = 0;
-    while (uVar8 = (uint)uVar9, uVar8 != 0xff) {
+    while (uVar8 = (u32)uVar9, uVar8 != 0xff) {
       if (((pbVar1[uVar8].a <= param_1->unk10e) &&
           ((param_1->unk10e <= pbVar1[uVar8].b || (pbVar1[uVar8].b == 65000)))) &&
          ((!command_bitmask_7(param_2,uVar9) ||
@@ -85,16 +85,16 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
     }
   }
   bVar7 = check_command_bitmask(param_2,param_3);
-  uVar8 = (uint)param_3;
+  uVar8 = (u32)param_3;
   if (bVar7 != 1) {
     if ((char)bVar7 < 2) {
       if (bVar7 != 0) {
         return 0;
       }
-      uVar11 = (uint)*(byte *)((int)param_2->commands_pointer +
-                              ((uint)param_3 * 8 - uVar8) * 8 + 0x28);
+      uVar11 = (u32)*(byte *)((int)param_2->commands_pointer +
+                              ((u32)param_3 * 8 - uVar8) * 8 + 0x28);
       if ((uVar11 == 0xff) && (param_1->unk116 != 0xff)) {
-        uVar11 = (uint)param_1->unk116;
+        uVar11 = (u32)param_1->unk116;
       }
       uVar9 = (u8)uVar11;
       bVar7 = check_command_bitmask(param_2,uVar9);
@@ -151,7 +151,7 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
           bVar7 = pbVar1[uVar11].index;
           iVar12 = 0;
           while (bVar7 != 0xff) {
-            iVar5 = (uint)bVar7 * 8 - (uint)bVar7;
+            iVar5 = (u32)bVar7 * 8 - (u32)bVar7;
             if ((param_2->commands_pointer[uVar11].a <= (int)uVar4) &&
                ((uVar8 = param_2->commands_pointer[uVar11].b, (int)uVar4 <= (int)uVar8
                 || (uVar8 == 65000)))) {
@@ -168,12 +168,12 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
           uVar9 = pbVar1[uVar11].index;
           iVar12 = 0;
           do {
-            uVar8 = (uint)uVar9;
+            uVar8 = (u32)uVar9;
             if (uVar8 == 0xff) {
               return uVar9;
             }
-            if ((((int)(uint)pbVar1[uVar8].a <= (int)uVar4) &&
-                (((int)uVar4 <= (int)(uint)pbVar1[uVar8].b || (pbVar1[uVar8].b == 65000)))) &&
+            if ((((int)(u32)pbVar1[uVar8].a <= (int)uVar4) &&
+                (((int)uVar4 <= (int)(u32)pbVar1[uVar8].b || (pbVar1[uVar8].b == 65000)))) &&
                ((!command_bitmask_7(param_2,uVar9) ||
                 ((param_2->start_func == 2 || (param_2->start_func == 4)))))) {
               Dialoug_commands(param_1,param_2,uVar9);
@@ -223,7 +223,7 @@ u8 DialogNode_func(dialougmode_substruct *param_1,Borg13Data *param_2){
   u8 uVar8;
   u32 uVar5;
   int iVar6;
-  uint uVar9;
+  u32 uVar9;
   int iVar10;
 
   
@@ -271,7 +271,7 @@ LAB_800b65a8:
       uVar8 = pbVar1->index;
       iVar2 = 0;
       while (uVar8 != 0xff) {
-        iVar6 = (uint)uVar8 * 8 - (uint)uVar8;
+        iVar6 = (u32)uVar8 * 8 - (u32)uVar8;
         if ((param_2->commands_pointer[uVar8].a <= (int)uVar5) &&
            ((uVar5 <= (int)param_2->commands_pointer[uVar8].b ||
             (param_2->commands_pointer[uVar8].b == 65000)))) {
@@ -287,9 +287,9 @@ LAB_800b65a8:
         pbVar1 = param_2->commands_pointer;
         uVar8 = pbVar1->index;
         iVar2 = 0;
-        while (uVar9 = (uint)uVar8, uVar9 != 0xff) {
-          if ((((int)(uint)pbVar1[uVar9].a <= (int)uVar5) &&
-              (((int)uVar5 <= (int)(uint)pbVar1[uVar9].b || (pbVar1[uVar9].b == 65000)))) &&
+        while (uVar9 = (u32)uVar8, uVar9 != 0xff) {
+          if ((((int)(u32)pbVar1[uVar9].a <= (int)uVar5) &&
+              (((int)uVar5 <= (int)(u32)pbVar1[uVar9].b || (pbVar1[uVar9].b == 65000)))) &&
              ((command_bitmask_7(param_2,uVar8) == 0 ||
               ((param_2->start_func == 2 || (param_2->start_func == 4)))))) {
             Dialoug_commands(param_1,param_2,uVar8);
@@ -345,7 +345,7 @@ u32 dialoug_func_b_check(dialougmode_substruct *param_1,Borg13Data *param_2,u8 p
   u8 bVar1;
   bool bVar2;
   u32 uVar4;
-  uint i;
+  u32 i;
   
   bVar2 = false;
   uVar4 = 0;
@@ -368,7 +368,7 @@ void Dialoug_commands(dialougmode_substruct *param_1,Borg13Data *param_2,u8 para
   int iVar6;
   u8 uVar7;
   u8 i;
-  uint uVar9;
+  u32 uVar9;
   char acStack_130 [256];
   int iStack_30;
   
@@ -384,7 +384,7 @@ void Dialoug_commands(dialougmode_substruct *param_1,Borg13Data *param_2,u8 para
 LAB_800b6770:
     i = 0;
     do {
-      uVar9 = (uint)param_3;
+      uVar9 = (u32)param_3;
       if (false) goto switchD_800b67ac_caseD_1;
       switch(param_2->commands_pointer[param_3].ops[i].com){
       case 0:
@@ -493,7 +493,7 @@ void dialoug_func_c_check(dialougmode_substruct *param_1,Borg13Data *param_2,u8 
       case B13Com_ActorRun:
         param_1->unk110 = param_3;
         (*d_func_C_pointer)(param_1,param_2,param_2->commands_pointer[param_3].ops[i].com,
-                            param_2->commands_pointer[param_3].ops[i].val+ (uint)param_1->RefpointID);
+                            param_2->commands_pointer[param_3].ops[i].val+ (u32)param_1->RefpointID);
         bVar1 = true;
         break;
       case B13Com_ApplyStimulus:
@@ -553,7 +553,7 @@ void get_dialouge_actors(dialougmode_substruct *param_1,Borg13Data *param_2){
   ushort (*pauVar3) [4];
   ActorAndID *pAVar4;
   int iVar5;
-  uint uVar6;
+  u32 uVar6;
   
   iVar5 = 0;
   if (param_2->ActorCount != 0) {
@@ -567,9 +567,9 @@ void get_dialouge_actors(dialougmode_substruct *param_1,Borg13Data *param_2){
       pAVar4->id = puVar2[2];
       pAVar4->actor = ppVar1;
       pAVar4 = pAVar4 + 1;
-    } while (iVar5 < (int)(uint)param_2->ActorCount);
+    } while (iVar5 < (int)(u32)param_2->ActorCount);
   }
-  uVar6 = (uint)param_2->ActorCount;
+  uVar6 = (u32)param_2->ActorCount;
   if (uVar6 < 0x10) {
     pAVar4 = param_1->actors + param_2->ActorCount;
     do {
@@ -669,7 +669,7 @@ int Ofunc_800b6d38(Borg13Data *param_1,int param_2){
       } while (-1 < iVar6);
       iVar6 = iVar8 + 1;
       iVar3 = iVar8;
-    } while (iVar8 < (int)(uint)param_1->CmdCount);
+    } while (iVar8 < (int)(u32)param_1->CmdCount);
   }
   return iVar7;
 }
@@ -711,7 +711,7 @@ int Ofunc_800b6dbc(Borg13Data *param_1,int param_2,int param_3)
       } while (iVar6 < 4);
       iVar8 += 1;
       iVar7 += 7;
-    } while (iVar8 < (int)(uint)param_1->CmdCount);
+    } while (iVar8 < (int)(u32)param_1->CmdCount);
   }
   return iVar5;
 }

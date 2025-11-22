@@ -6,7 +6,7 @@ typedef enum event_flag_typeA {
     FLAG_VAL,
     FLAG_CNT,
     FLAG_BIT,
-    FLAG_INV
+    FLAG_INVA
 } event_flag_typeA;
 
 typedef enum Event_flag_typeB {
@@ -19,7 +19,7 @@ typedef enum Event_flag_typeB {
     FLAG_GRT,
     FLAG_LST,
     FLAG_NEQ,
-    FLAG_INV
+    FLAG_INVB
 } Event_flag_typeB;
 
 struct Struct_State {
@@ -103,8 +103,8 @@ u8 Get_eventFlagCheck(u16 flag);
 
 //gamestatefilehandler.cpp
 
-void setBit(u8 *out,uint i,bool set,u8 *maskA,u8 *maskB);
-bool getBit(u8 *stream,uint flag,u8 *mask);
+void setBit(u8 *out,u32 i,bool set,u8 *maskA,u8 *maskB);
+bool getBit(u8 *stream,u32 flag,u8 *mask);
 void LoadGameState(GameStateFunnel *param_1,u8 *param_2);
 void SaveGameState(GameStateFunnel *param_1,u8 *param_2);
 

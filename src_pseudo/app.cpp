@@ -31,9 +31,9 @@ Gfx * display_debug_stats(Gfx *gfx){
   playerData *ppVar1;
   u16 h;
   u16 v;
-  uint uVar2;
+  u32 uVar2;
   u32 uVar3;
-  uint uVar4;
+  u32 uVar4;
   Gfx *gfx_00;
   u32 uVar5;
   u32 uVar9;
@@ -109,7 +109,7 @@ void AppProc(void *x){
   short sVar7;
   u16 uVar8;
   short sVar9;
-  uint uVar10;
+  u32 uVar10;
   u32 gListSizeMax;
   short *psStack_40;
   short **ppsStack_3c;
@@ -151,8 +151,8 @@ loop:
           gfx1 = Graphics::EndList(gfx1);
           gListSizeMax = 0x3200;
           if (gExpPakFlag) gListSizeMax = 0x6400;
-          uVar10 = (uint)((int)gfx1 - (int)gfx0) /sizeof(Gfx);
-          if (gListSizeMax*sizeof(Gfx) < (uint)(gfx1 - (int)gfx0)) {
+          uVar10 = (u32)((int)gfx1 - (int)gfx0) /sizeof(Gfx);
+          if (gListSizeMax*sizeof(Gfx) < (u32)(gfx1 - (int)gfx0)) {
             Gsprintf("GLIST OVERWRITE!!\nCurrent: %lu\nAllocated: %lu\nOverwrite: %lu",uVar10,gListSizeMax,
                         uVar10 - gListSizeMax);
             CRASH("app.cpp::AppProc",gGlobals.text);

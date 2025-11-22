@@ -57,13 +57,13 @@ void obj_ref_func(void) {
   CollideSection *pbVar5;
   u16 uVar7;
   ushort uVar8;
-  uint uVar6;
+  u32 uVar6;
   short puVar7;
   Vobject VVar10;
   voxelObject *pvVar11;
   ushort *puVar12;
   voxelObject *v;
-  uint uVar13;
+  u32 uVar13;
   u16 i;
   u16 uVar14;
   float fVar15;
@@ -79,7 +79,7 @@ void obj_ref_func(void) {
   vec2f auStack160;
   wander_substruct *pwStack_60;
   vec3f *pvStack_5c;
-  uint uStack_58;
+  u32 uStack_58;
   
   if (gGlobals.screenFadeMode) return;
   pBVar4 = gGlobals.gameVars.borg9DatPointer;
@@ -114,7 +114,7 @@ LAB_8000613c:
       }
       else {
         uVar8 = pbVar5->lightIndecies[uVar13];
-        pvVar11 = (voxelObject *)((int)pBVar4->voxelObjs + ((uint)uVar8 * 0x1c - (uint)uVar8) * 4);
+        pvVar11 = (voxelObject *)((int)pBVar4->voxelObjs + ((u32)uVar8 * 0x1c - (u32)uVar8) * 4);
         VVar1 = (pvVar11->header).Bitfeild;
         if ((VVar1 & VOXEL_tangible) == 0) {
           if ((VVar1 & VOXEL_Active)){

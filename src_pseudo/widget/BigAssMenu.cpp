@@ -245,7 +245,7 @@ u8 PauseWidget::Tick(){
   bool bVar4;
   s16 lVar5;
   SceneData *pSVar6;
-  uint uVar7;
+  u32 uVar7;
   short varX;
   float fVar8;
   pause_Substruct *sub;

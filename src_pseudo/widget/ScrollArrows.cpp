@@ -80,7 +80,7 @@ u8 WidgetScrollArrows::Tick() {
       BaseWidget *pBVar6 = items[index - 1];
       if ((*items)->posY < this->scrollMenu->boundY0) {
         BaseWidget *pBVar5 = sub->arrowA;
-        if ((pBVar5->col).A < (int)(0xff - (uint)sub->bottom)) {
+        if ((pBVar5->col).A < (int)(0xff - (u32)sub->bottom)) {
           (pBVar5->col).A += sub->bottom;
         }
         else (pBVar5->col).A = 0xff;
@@ -93,7 +93,7 @@ u8 WidgetScrollArrows::Tick() {
       }
       if (this->scrollMenu->boundY1 < (pBVar6->posY + pBVar6->GetHeight())) {
         pBVar6 = sub->arrowB;
-        if ((pBVar6->col).A < (0xff - (uint)sub->bottom))
+        if ((pBVar6->col).A < (0xff - (u32)sub->bottom))
           (pBVar6->col).A += sub->bottom;
         else (pBVar6->col).A = 0xff;
       }
@@ -106,9 +106,9 @@ u8 WidgetScrollArrows::Tick() {
     }
   }
   sub->arrowA->SetColor(this->col.R,this->col.G,this->col.B,
-             ((float)((uint)(sub->arrowA->col).A * (this->col.A / 0xff)) * fadeFloatMirror));
+             ((float)((u32)(sub->arrowA->col).A * (this->col.A / 0xff)) * fadeFloatMirror));
   sub->arrowB->SetColor(this->col.R,this->col.G,this->col.B,
-             ((float)((uint)(sub->arrowB->col).A * (this->col.A / 0xff)) * fadeFloatMirror));
+             ((float)((u32)(sub->arrowB->col).A * (this->col.A / 0xff)) * fadeFloatMirror));
   return TickChildren();
 }
 

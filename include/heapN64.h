@@ -30,7 +30,7 @@ MemMon_struct gMemMonitor={0};
 void HeapInit(void *start,size_t size);
 void * HeapAlloc(size_t size,char *file,u32 line);
 void HeapFree(void *X,char *cpp,u32 line);
-uint Ofunc_80098200(void *param_1);
+u32 Ofunc_80098200(void *param_1);
 u32 Ofunc_get_MemFreeMax(void);
 u32 get_memUsed(void);
 u32 get_MemFree(void);

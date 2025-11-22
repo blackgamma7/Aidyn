@@ -103,7 +103,7 @@ s32 FUN_80005500(EventFlag *param_1,EventFlag *param_2){
   return -1;
 }
 
-void quicksort_gamestatemod(EventFlagPair **toSort,uint arraySize){
+void quicksort_gamestatemod(EventFlagPair **toSort,u32 arraySize){
     QSort(toSort,arraySize,FUN_80005500);}
 
 
@@ -116,7 +116,7 @@ void load_gamestatemod_dat(void){
     //seems redundant. Why not alloc once?
     ALLOCS(gamestatemod_pointer,GSMSize,624);
     memcpy(gamestatemod_pointer,PTR_800e61c0,GSMSize);
-    quicksort_gamestatemod((EventFlagPair**)gamestatemod_pointer,(uint)gameStates->flagTotal);
+    quicksort_gamestatemod((EventFlagPair**)gamestatemod_pointer,(u32)gameStates->flagTotal);
   }
 }
 
@@ -160,7 +160,7 @@ void GSMClass::vMethC(u16 i,char *str){
       pSVar5 = gameStates->States_pointer + gamestatemod_pointer[i][0];
       sVar1 = sprintf(str,"type: %s, command: %s, N: %d\n",
                           eventflag_types1 + pSVar5->type,eventflag_types2 + pSVar5->command,
-                          (uint)pSVar5->shortA);
+                          (u32)pSVar5->shortA);
       pcVar6 = str + sVar1;
       i = pSVar5->shortB;
       if (pSVar5->length != 0) {

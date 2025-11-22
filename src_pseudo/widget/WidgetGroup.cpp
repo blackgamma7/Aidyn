@@ -98,8 +98,8 @@ void WidgetGroup::AddToGroup(BaseWidget *w,u16 px,u16 py,u32 tint){
 
 void WidgetGroup::Remove(BaseWidget *w){
   BaseWidget *pBVar1;
-  uint uVar2;
-  uint uVar3;
+  u32 uVar2;
+  u32 uVar3;
   ushort uVar4;
   
   if (w) {

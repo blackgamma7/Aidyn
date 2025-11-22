@@ -536,7 +536,7 @@ LAB_8001666c:
           FLOOR((pDat->skyTint).z,0.0);
         }
         if ((pDat->deathTimer < 1) ||
-           (iVar12 = (uint)(u16)pDat->deathTimer - delta_, (pDat->flags & ACTOR_100) == 0)) {
+           (iVar12 = (u32)(u16)pDat->deathTimer - delta_, (pDat->flags & ACTOR_100) == 0)) {
 LAB_800168cc:
         }
         else {
@@ -658,7 +658,7 @@ LAB_80016cec:
             for(iVar12=0;iVar12<delta_;iVar12++) {
               if ((pDat->flags & ACTOR_100) == 0) {
                 FUN_800a0090(pDat->borg7P,pDat->ani_type);
-                bVar18 = (uint)(u16)pDat->borg7P->sceneDat->aniTime ==
+                bVar18 = (u32)(u16)pDat->borg7P->sceneDat->aniTime ==
                          pDat->borg7P->unk1c->b6->dat->aniLength - 1U;
                 u16 unk16;
                 if ((u16)pDat->unk18 - 0xe < 2) {
@@ -700,7 +700,7 @@ LAB_80016e90:
 LAB_80016ed8:
                   pDat->unk18 = sVar15;
                 }
-                else if (((uint)uVar2 == unk16) && (uVar3 - 0xc < 7)) {
+                else if (((u32)uVar2 == unk16) && (uVar3 - 0xc < 7)) {
                   sVar15 = pDat->ani_type;
                   goto LAB_80016ed8;
                 }
@@ -1189,7 +1189,7 @@ void Actor::EmptyHands(playerData *p){
     FUN_800187f4(&p->attachmentNodes[i]);
 }
 
-void AttachItemToPlayer(playerData *p,u16 pos,uint b5){
+void AttachItemToPlayer(playerData *p,u16 pos,u32 b5){
   #ifdef DEBUGVER
   if (2 < pos) CRASH("AttachItemToPlayer","Invalid Attachment Position");
   #endif

@@ -9,7 +9,7 @@ void ArmorDB::Orphaned(){
   load_db_array_size(&armorDB,&this->total,&pos);
   ALLOCS(this->Armor,this->total*sizeof(ArmorRam),52);
   load_db_array_size(&armorDB,this,&pos);
-  pos += (uint)this->armors * sizeof(ArmorRom);
+  pos += (u32)this->armors * sizeof(ArmorRom);
   load_db_array_size(&armorDB,&this->sheilds,&pos);
 }
 

@@ -83,16 +83,16 @@ Gfx * Cinematic::Fade(Gfx *g,u16 delta){
   u16 uVar4;
   Gfx *gfx;
   short sVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
+  u32 uVar6;
+  u32 uVar7;
+  u32 uVar8;
   float fVar9;
   
-  uVar8 = (uint)delta;
-  uVar7 = (uint)sCFadeRuntime;
+  uVar8 = (u32)delta;
+  uVar7 = (u32)sCFadeRuntime;
   sCFadeRuntime = delta + sCFadeRuntime;
   if (sCFadeP->index != sCFadeTally) goto LAB_8005d1d4;
-  uVar6 = (uint)sCFadeP->runtime * 2;
+  uVar6 = (u32)sCFadeP->runtime * 2;
   if ((sCFadeRuntime < uVar6) || (uVar6 < uVar7)) goto LAB_8005d1d4;
   uVar4 = sCFadeP->fadeTime * 2;
   sVar5 = sCFadeP->exitTime * 2;
@@ -102,7 +102,7 @@ Gfx * Cinematic::Fade(Gfx *g,u16 delta){
     sVar2 = sVar5;
     uVar3 = uVar4;
   }
-  uVar8 = (uint)delta + (uint)sCFadeRuntime + (uint)sCFadeP->runtime * -2 &
+  uVar8 = (u32)delta + (u32)sCFadeRuntime + (u32)sCFadeP->runtime * -2 &
           0xffff;
   sCFades16 = sVar2 + uVar3;
   sCFadeSpeed = (float)(1.0 / (double)uVar3);
@@ -132,7 +132,7 @@ Gfx * Cinematic::Fade(Gfx *g,u16 delta){
   sCFadeP++;
 LAB_8005d1d4:
   if (sCFades16 != 0) {
-    uVar7 = (uint)sCFades16;
+    uVar7 = (u32)sCFades16;
     sCFades16 = (s16)(uVar7 - uVar8);
     if ((s16)(uVar7 - uVar8) < 0) sCFades16 = 0;
     sCFadeFloat = sCFadeFloat + sCFadeSpeed * (float)uVar8;

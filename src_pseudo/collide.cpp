@@ -148,13 +148,13 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
                        vec3f *outpos,vec3f *outNorm){
   int iVar1;
   CollideSection *pbVar2;
-  uint uVar3;
+  u32 uVar3;
   bool bVar4;
   int iVar5;
   int iVar6;
   s16 lVar7;
-  uint uVar8;
-  uint uVar9;
+  u32 uVar8;
+  u32 uVar9;
   borg9_phys *pbVar10;
   int iVar11;
   s16 lVar12;
@@ -165,8 +165,8 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
   short sStack_44;
   short sStack_42;
   float auStack_40;
-  uint uStack_38;
-  uint uStack_34;
+  u32 uStack_38;
+  u32 uStack_34;
   
   if (outpos) Vec3Set(outpos,0.0,0.0,0.0);
   if (outNorm) Vec3Set(outNorm,0.0,0.0,0.0);
@@ -204,7 +204,7 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
               }
               iVar6 = iVar11 >> 0x10;
               iVar11 += 0x10000;
-            } while (iVar6 < (int)(uint)(u16)pbVar2->collideCount);
+            } while (iVar6 < (int)(u32)(u16)pbVar2->collideCount);
           }
           lVar7 = (iVar1 >> 0x10);
         } while (lVar7 <= sStack_42);

@@ -145,7 +145,7 @@ void WidgetInvShop::InitMenu() {
     SetArrows();
     if (this->inventory != gGlobals.shopInv){ //add party's equip to list
         for(u8 i=0;i< PARTY->PartySize;i++){
-          uVar13 = (this->partyPicker + i) % (uint)PARTY->PartySize;
+          uVar13 = (this->partyPicker + i) % (u32)PARTY->PartySize;
           bVar11 = (byte)uVar13;
           if (PARTY->Members[uVar13]->weapons)
             this->scrollMenu->Append(new SMIItem(&PARTY->Members[uVar13]->weapons->base,1,bVar11));
@@ -219,7 +219,7 @@ u32 WidgetInvShop::GetGoldPrice(u16 index) {
   bool shopMenu;
   BaseWidget *uVar5;
   ItemInstance *uVar6;
-  uint ret;
+  u32 ret;
   float fVar8;
   
   pBVar2 = this->scrollMenu;
@@ -288,7 +288,7 @@ bool WidgetInvShop::m8003d194(u8 param_2) {
     if (pBVar3->varU16 == 0) {
       if (apBStack_20[0]->AFunc()) this->unk98--;
       FREEQW(apBStack_20[0]);
-      uVar8 = (uint)pvVar2->highlight;
+      uVar8 = (u32)pvVar2->highlight;
       iVar6 = pvVar2->currentCount - 1;
       if ((int)uVar8 < iVar6) {
         ppBVar2 = pvVar2->items;

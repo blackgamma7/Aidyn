@@ -247,7 +247,7 @@ u8 * dmaProc(byte *param_1,s32 param_2,s32 param_3){
       } while (iVar3 != -1);
     }
     param_1 = gAudioManager.scaleBufferB;
-    gAudioManager.scaleBufferB = (byte *)(((uint)pbVar2 & 0xfffffff8) + 8);
+    gAudioManager.scaleBufferB = (byte *)(((u32)pbVar2 & 0xfffffff8) + 8);
   }
   return param_1;
 }
@@ -332,7 +332,7 @@ ALMicroTime soundVoiceHandler(void* p){
       v->flag &= ~VOICE_SETPITCH;
     }
     if ((v->flag & VOICE_SETVOL)){
-      uVar12 = (uint)v->vol << 6;
+      uVar12 = (u32)v->vol << 6;
       if ((v->vol == 0) || (vol = 0x7fff, uVar12 < 0x8000)) {
         vol = (short)uVar12;
       }

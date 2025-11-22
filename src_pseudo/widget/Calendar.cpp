@@ -47,7 +47,7 @@ u32 WidgetCalendar::Init() {
   this->DayMarker->SetHeight(this->DayMarker->GetHeight() + 1);
   s16 sVar18;
   if (true) {//?
-    switch((uint)this->weekofMonth * 7 + (uint)this->dayofMonth) {
+    switch((u32)this->weekofMonth * 7 + (u32)this->dayofMonth) {
     case 4:
     case 8:
     case 9:
@@ -145,11 +145,11 @@ u8 WidgetCalendar::Tick() {
     bVar8 = (this->col0).A;
     bVar10 = (this->col1).A;
     this->waveTint+=this->waveAmmount;
-    this->col.R = bVar2 + (char)((int)((uint)bVar1 - (uint)bVar2) / 0x14) * bVar5;
-    this->col.G = bVar4 + (char)((int)((uint)bVar3 - (uint)bVar4) / 0x14) * bVar5;
+    this->col.R = bVar2 + (char)((int)((u32)bVar1 - (u32)bVar2) / 0x14) * bVar5;
+    this->col.G = bVar4 + (char)((int)((u32)bVar3 - (u32)bVar4) / 0x14) * bVar5;
     puVar11 = (WCSub *)this->substruct;
-    this->col.B = bVar6 + (char)((int)((uint)bVar7 - (uint)bVar6) / 0x14) * bVar5;
-    this->col.A = bVar8 + (char)((int)((uint)bVar10 - (uint)bVar8) / 0x14) * bVar5;
+    this->col.B = bVar6 + (char)((int)((u32)bVar7 - (u32)bVar6) / 0x14) * bVar5;
+    this->col.A = bVar8 + (char)((int)((u32)bVar10 - (u32)bVar8) / 0x14) * bVar5;
     if ((bVar12 == 0) || (bVar12 == 20)) this->waveAmmount = -this->waveAmmount;
     puVar11->selected->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
     return TickChildren();

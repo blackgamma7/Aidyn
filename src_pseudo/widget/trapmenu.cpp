@@ -8,7 +8,7 @@ bool TrapMenu::InitMenu(voxelObject *v){
   char *pcVar1;
   u16 *iVar2;
   WidgetChoiceDia *pWVar2;
-  uint uVar4;
+  u32 uVar4;
   BaseWidget *iVar3;
   bool bVar5;
   Color32 acStack88;
@@ -100,9 +100,9 @@ void TrapMenu::TrapExploded(void){
 
 BaseWidget * TrapMenu::TakeDamage(short param_1,char *txtStart){
   CharSheet *pCVar1;
-  uint txtWidth;
+  u32 txtWidth;
   int iVar3;
-  uint txtWNew;
+  u32 txtWNew;
   BaseWidget *pBVar5;
   char abStack1080 [512];
   char acStack_238 [256];

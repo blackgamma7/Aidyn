@@ -9,10 +9,10 @@ void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapSho
 {
   bool bVar2;
   char *pcVar1;
-  uint uVar3;
+  u32 uVar3;
   ushort uVar4;
   int iVar5;
-  uint uVar6;
+  u32 uVar6;
   u16 uStack104 []={
     BORG13_GoblinAmbush,FLAG_GoblinAmbush,BORG13_LugashIntro,FLAG_LugashFight,-1,-1};
 
@@ -160,7 +160,7 @@ void run_dialougemode_funcs1(void){
 }
 
 u8 dialougSkillCheck(u8 param_1){
-  uint uVar1;
+  u32 uVar1;
   VoxelChartEntry *pVVar2;
   
   if (dialougemode_pointer->partySkillLvls[param_1] == 0xff) {
@@ -179,7 +179,7 @@ u8 dialougSkillCheck(u8 param_1){
                            (u8)dialougemode_pointer->mapDatA,
                            (u8)dialougemode_pointer->mapShort1,
                             (u8)dialougemode_pointer->mapShort2,0x11,param_1 + 0x49,10);
-        pVVar2->unk0x8 = (float)(uint)dialougemode_pointer->partySkillLvls[param_1];
+        pVVar2->unk0x8 = (float)(u32)dialougemode_pointer->partySkillLvls[param_1];
       }
       else {
         dialougemode_pointer->partySkillLvls[param_1] = *(u8 *)((int)&pVVar2->unk0x8 + 3);
@@ -219,8 +219,8 @@ void set_dialougemode_0x90(u32 param_1){
 
 void encounterDat_func(void){
   dialougemode_struct *pdVar1;
-  uint uVar2;
-  uint uVar3;
+  u32 uVar2;
+  u32 uVar3;
   
   pdVar1 = dialougemode_pointer;
   memset(&gGlobals.EncounterDat,0,0x18);
@@ -653,7 +653,7 @@ void load_one_of_two_cinematics(void){
             (((obj->header).Bitfeild & VOXEL_tangible))) &&
            (dialouge_trigger_check(obj,&gGlobals.gameVars.MapFloatDatEntry.playerVec3,true))) {
           DAT_800ee96c = 1;
-          dialoug_func((uint)(obj->dialoug).borg_13,(obj->dialoug).RefPointID,
+          dialoug_func((u32)(obj->dialoug).borg_13,(obj->dialoug).RefPointID,
                        (obj->dialoug).MapDatA,(obj->dialoug).MapShortA,
                        (obj->dialoug).MapShortB,i);
           DAT_800ee96c = 0;
@@ -708,7 +708,7 @@ void FUN_80059770(void){
 }
 
 void FUN_800597f8(void){
-  uint uVar1;
+  u32 uVar1;
   u16 lVar2;
   
   uVar1 = dialougemode_pointer->unk90;

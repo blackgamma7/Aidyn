@@ -41,7 +41,7 @@ extern u16 FUN_80090e68(playerData *);
 bool FUN_8005c0f0(playerData *param_1,audiokey_struct *param_2,audiokeyEntryA *entryA,u16 param_4,u16 param_5,u16 param_6,u8 vol,u8 param_8){
   u16 uVar1;
   bool bVar6;
-  uint uVar3;
+  u32 uVar3;
   u16 uVar2;
   DCMSub2 *pDVar5;
   audioKeyEntryB *EntryB;
@@ -100,7 +100,7 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,ushort amp){
   ushort uVar2;
   audiokeyEntryA *paVar3;
   u8 uVar7;
-  uint uVar8;
+  u32 uVar8;
   double dVar9;
   vec3f pos;
   s8 bStack_28;

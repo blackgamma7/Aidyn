@@ -30,7 +30,7 @@ void WidgetSkillTrain::InitMenu() {
   u16 uVar8;
   int i;
   WSMSub *pvVar11;
-  uint uVar11;
+  u32 uVar11;
   WSMSub *pvVar5;
   
   uVar3 = this->isTraining;
@@ -44,7 +44,7 @@ void WidgetSkillTrain::InitMenu() {
   }
   else {
     pvVar5 = (WSMSub *)this->scrollMenu->substruct;
-    uVar11 = (uint)pvVar5->highlight;
+    uVar11 = (u32)pvVar5->highlight;
     uVar8 = pvVar5->XOff;
     uVar1 = pvVar5->yOff;
     this->Unlink(this->scrollMenu);
@@ -251,26 +251,26 @@ void WidgetSkillTrain::Confirm(u16 param_2,u16 param_3) {
   CharSheet *pCVar1;
   CharSkills *skills;
   ushort type;
-  uint uVar6;
+  u32 uVar6;
   WidgetChoiceDia *pWVar7;
   BaseWidget *pBVar8;
   Color32 *txtCol;
   Color32 *bgCol;
   s8 skLv;
   float discount;
-  uint teacherLV;
+  u32 teacherLV;
   int notOriana;
-  uint afterBattle;
+  u32 afterBattle;
   
   discount = 0.8f;
   pCVar1 = PARTY->Members[this->partyPicker];
-  teacherLV = (uint)param_3;
+  teacherLV = (u32)param_3;
   skills = pCVar1->Skills;
   gold_train_price = 200;
   type = param_2 >> 8;
   exp_train_price = 0;
   notOriana = (int)shopkeepNotOriana();
-  afterBattle = (uint)(gGlobals.SomeCase == 5);
+  afterBattle = (u32)(gGlobals.SomeCase == 5);
   if (gGlobals.SomeCase == 5) discount = 1.0f;
   switch(type){
     case 0:{

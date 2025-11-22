@@ -14,9 +14,9 @@ struct WorldMapPiece {
 };
 
 struct MapEventFlag {
-    uint MapShortA;
-    uint MapShortB;
-    uint flag;
+    u32 MapShortA;
+    u32 MapShortB;
+    u32 flag;
 };
 extern MapEventFlag mapEventFlags[];
 

@@ -153,7 +153,7 @@ WidgetItemDB::~WidgetItemDB(){
       for(i=0;i<gArmorDBp->armors;i++){
                   IVar1 = gArmorDBp->Armor[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ulonglong)(ushort)IVar1,
-                      &gArmorDBp->Armor[i].name,i,(uint)((ushort)IVar1 >> 8),
+                      &gArmorDBp->Armor[i].name,i,(u32)((ushort)IVar1 >> 8),
                       (ushort)IVar1 & 0xff,ArmorList[i] + 0x500);
           pBVar4->Append(gGlobals.text,IVar1);
       }
@@ -163,7 +163,7 @@ WidgetItemDB::~WidgetItemDB(){
       for(i=gArmorDBp->armors;i<gArmorDBp->total;i++){
           IVar1 = gArmorDBp->Armor[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ushort)IVar1,
-                      &gArmorDBp->Armor[i].name,i,(uint)((ushort)IVar1 >> 8),
+                      &gArmorDBp->Armor[i].name,i,(u32)((ushort)IVar1 >> 8),
                       (ushort)IVar1 & 0xff,ArmorList[i] + 0x600);
           pBVar4->Append(gGlobals.text,IVar1);
       }

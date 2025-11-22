@@ -115,7 +115,7 @@ void NextLine(void){
     InsertPlayerName(acStack_210,gCinematicTextP->nextCaption,acStack_110,"Alaron");
     uppercase(acStack_110);
     InsertPlayerName(acStack_310,acStack_210,acStack_110,"ALARON");
-    SetText(acStack_310,(uint)gCinematicTextP->captionTime);
+    SetText(acStack_310,(u32)gCinematicTextP->captionTime);
     LoadNextLine();
   }
 }
@@ -129,7 +129,7 @@ void LoadNextLine(void){
   u16 uVar2;
   u16 (*pauVar3) [3];
   cinematictext_struct *pcVar4;
-  uint len;
+  u32 len;
   int len_00;
   u8 auStack_418 [512];
   short sStack_218;
@@ -185,7 +185,7 @@ void Sequence(u32 param_1){
   cinematictext_struct *pcVar2;
   u16 (*pauVar3) [3];
   u16 uVar4;
-  uint uVar5;
+  u32 uVar5;
   
   pcVar2 = gCinematicTextP;
   if ((param_1 != 0xffff) && (param_1 <= gCinematicTextP->field4_0x10)) {

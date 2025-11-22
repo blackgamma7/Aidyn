@@ -11,7 +11,7 @@ namespace Quicksort{
 int Move(void *ToSort,int low,int hi,int EntrySize,Sorter SortFunc);
 int Pick(void *ToSort,int low,int hi,int EntrySize,Sorter SortFunc);
 void Run(void** ToSort,int low,int hi,int EntrySize,Sorter SortFunc);
-void Sort(void** ToSort,uint ArraySize,uint EntrySize,Sorter SortFunc);
+void Sort(void** ToSort,u32 ArraySize,u32 EntrySize,Sorter SortFunc);
 };
 
 #define SWAP(A,B)\

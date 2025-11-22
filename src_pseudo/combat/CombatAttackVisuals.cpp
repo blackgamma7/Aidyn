@@ -53,7 +53,7 @@ void Add(playerData *target,u32 param_2){
 }
 
 
-Gfx * Render(Gfx *g,uint delta){
+Gfx * Render(Gfx *g,u32 delta){
   struct_1 *psVar3;
   Borg7Header *pAVar1;
   

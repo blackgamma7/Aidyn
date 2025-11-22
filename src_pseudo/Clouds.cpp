@@ -107,7 +107,7 @@ void Clouds::Free(void){
       gCloudBorg8Base[i] = NULL;
     }
   }
-  for (u32 i = (uint)gCloudCount; i != 0; i--) {
+  for (u32 i = (u32)gCloudCount; i != 0; i--) {
     if (gCloudBorg8[i]) gCloudBorg8[i]=NULL;
   }
   FREE(gCloudBorg8,0x119);

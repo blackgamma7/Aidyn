@@ -75,7 +75,7 @@ int PrintWapperUnused(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_
 int PrintMain(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_5,short param_6,
                        short param_7,int param_8,int param_9,int param_10,int param_11,
                        float param_12,float param_13);
-void PrintCharaWapper(FontStruct *font,Gfx **gg,uint param_3,u32 param_4,int param_5,
+void PrintCharaWapper(FontStruct *font,Gfx **gg,u32 param_3,u32 param_4,int param_5,
                  short param_6,short param_7,short param_8,short param_9);
 
 void PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_5,short param_6,

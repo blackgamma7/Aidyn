@@ -4,7 +4,7 @@
 u8 bigAssOpenCallback_1(BaseWidget *w) {
   byte bVar1;
   ushort uVar2;
-  uint uVar3;
+  u32 uVar3;
   int iVar4;
   int iVar5;
   int iVar6;
@@ -42,7 +42,7 @@ u8 bigAssOpenCallback_1(BaseWidget *w) {
       gGlobals.scrollLocation[1] +=
            (int)(((float)(SCREEN_WIDTH - iVar4) / (float)(int)(iVar5 - uVar3)) *
                        (float)(int)(uVar2 - uVar3));
-      if (sub->borg7->unk1c->b6->dat->aniLength <= (int)(uint)uVar2)
+      if (sub->borg7->unk1c->b6->dat->aniLength <= (int)(u32)uVar2)
         w->state = 2;
     }
     FUN_800a0304(sub->borg7,1);
@@ -87,7 +87,7 @@ byte bigAssOpenCallback(BaseWidget *param_1) {
   ushort uVar2;
   pause_Substruct *sub;
   bool bVar4;
-  uint uVar5;
+  u32 uVar5;
   int iVar6;
   int iVar7;
   int iVar8;
@@ -125,7 +125,7 @@ byte bigAssOpenCallback(BaseWidget *param_1) {
       gGlobals.scrollLocation[1] =
            (short)(int)(((float)(iVar7 + -SCREEN_WIDTH) / (float)(int)(iVar6 - uVar5)) *
                        (float)(int)(uVar2 - uVar5)) + SCREEN_WIDTH;
-      if (sub->borg7->unk1c->b6->dat->aniLength <= (int)(uint)uVar2) {
+      if (sub->borg7->unk1c->b6->dat->aniLength <= (int)(u32)uVar2) {
         if (gGlobals.screenFadeModeSwitch - 6 < 2) {
           gGlobals.screenshotTint.B = 0xff;
           gGlobals.screenshotTint.G = 0xff;
@@ -187,7 +187,7 @@ BaseWidget * bigAssMenu_LZFunc(BaseWidget *param_1,BaseWidget *w1) {
          (piVar3 = (WidgetOptionsSubstruct *)sub->optionsMenu->substruct,
          piVar3->unk10 == piVar3->ScrollMenu)) {
         sub->unk24 = SCREEN_WIDTH;
-        sub->backgroundImage->SetBorg8(loadBorg8((uint)pause_menu_borg8[sub->PauseMenuSection--]),false);
+        sub->backgroundImage->SetBorg8(loadBorg8((u32)pause_menu_borg8[sub->PauseMenuSection--]),false);
         sub->backgroundImage->SetCoords(-SCREEN_WIDTH,0);
         sub->scrollfloat =
              (scroll_floats[sub->PauseMenuSection] - sub->scrollSpeed) /
@@ -225,7 +225,7 @@ BaseWidget* bigAssMenu_RFunc(BaseWidget* param_1,BaseWidget *w1) {
          opSub->unk10 == opSub->ScrollMenu)) {
             sub->PauseMenuSection++;
           sub->unk24 = -SCREEN_WIDTH;
-          sub->backgroundImage->SetBorg8(loadBorg8((uint)pause_menu_borg8[sub->PauseMenuSection]),false);
+          sub->backgroundImage->SetBorg8(loadBorg8((u32)pause_menu_borg8[sub->PauseMenuSection]),false);
           sub->backgroundImage->SetCoords(SCREEN_WIDTH,0);
           sub->scrollfloat =
                -(scroll_floats[sub->PauseMenuSection] - sub->scrollSpeed) /

@@ -6,6 +6,7 @@
 #include "combat/Visuals.h"
 #include "globals.h"
 #include "armordb.h"
+#include "weapondb.h"
 
 void Ofunc_NOOP_80067c70(void){}
 void Ofunc_NOOP_(void){}
@@ -25,8 +26,8 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   CombatAI_s *pCVar6;
   int iVar7;
   float *pfVar10;
-  uint uVar11;
-  uint uVar12;
+  u32 uVar11;
+  u32 uVar12;
   resist_float *prVar13;
   float *pfVar14;
   float fVar15;
@@ -41,7 +42,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   this->unk14 = param_6;
   this->unk23 = param_7;
   SetCardinalFacing(param_6);
-  this->notboss = gEntityDB->IsNotBoss(charsheet->ID);
+  this->bowHand = gEntityDB->IsRightHanded(charsheet->ID);
   FUN_800713fc(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),this->unk23);
   pSVar2 = charsheet->spellbook;
   if (((pSVar2 != NULL) && (pSVar2->spells != NULL)) && (pSVar2->count != 0)) {
@@ -261,8 +262,8 @@ u8 CombatEntity::DEXCheck(){
 
 u8 CombatEntity::GetProtection(){
   byte bVar5;
-  uint uVar4;
-  uint uVar6;
+  u32 uVar4;
+  u32 uVar6;
   
   u8 acid = 0;
   u8 def = 0;
@@ -477,10 +478,10 @@ u32 CombatEntity::m80069114(){
   WeaponInstance *pTVar1;
   u32 uVar2;
   
-  if (this->AtkType == 3) return 400;
+  if (this->AtkType == ATKT_Potion) return 400;
   else {
     uVar2 = 0;
-    if (this->AtkType != 1) {
+    if (this->AtkType != ATKT_1) {
       if (this->charSheetP == NULL) return 0;
       else {
         pTVar1 = this->charSheetP->weapons;
@@ -576,30 +577,24 @@ u8 CombatEntity::m800692bc(CombatEntity *target){
   return bVar3;
 }
 
-u8 CombatEntity::m80069384(CombatEntity *param_2,s8 param_3,s8 param_4,s32 param_5){
-  if ((param_5 != 0) &&
-     (!CheckFacings((float)param_3,(float)param_4))) return false;
-  if (this->AtkType == 3) return true;
+u8 CombatEntity::IsTargetInRange(CombatEntity *target,s8 x,s8 y,s32 faceMe){
+  if ((faceMe) &&(!CheckFacings((float)x,(float)y))) return false;
+  if (this->AtkType == ATKT_Potion) return true;
   if (!Flag89()) {
-    if (this->AtkType == 1) {if (this->charSheetP->weapons) goto LAB_80069414;}
+    if ((this->AtkType == ATKT_1)&&(this->charSheetP->weapons)) return this->m800692bc(target);
     else {
-      if (this->AtkType == 2) ;
-      else {
-        if (this->AtkType != 4) {return false;}
-      }
+      if ((this->AtkType != ATKT_2)&&(this->AtkType != ATKT_4)) return false;
       if (this->charSheetP->weapons) {
-        u32 uVar6 = Get2DProximity(param_2);
-        if (this->AtkType != 2) return uVar6 <= this->charSheetP->weapons->range;
+        s32 prox = this->Get2DProximity(target);
+        if (this->AtkType != ATKT_2) return prox <= this->charSheetP->weapons->range;
         if (!NotNearEnemy()) return false;
-        if (2 < uVar6) return uVar6 <= this->charSheetP->weapons->range;
+        if (2 < prox) return prox <= this->charSheetP->weapons->range;
         return false;
       }
     }
-    this->AtkType = 0;
+    this->AtkType = ATKT_0;
     return false;
   }
-LAB_80069414:
-  return param_2->m800692bc();
 }
 
 float CombatEntity::Get2DProximity(CombatEntity *other){
@@ -620,7 +615,7 @@ u8 CombatEntity::CanUsePotion(u8 param_2){return Entity::CanUsePotion(this->char
 u8 CombatEntity::CanUseFlask(CombatEntity *param_2){
   u8 ret;
 
-  if (this->AtkType == 3) {
+  if (this->AtkType == ATKT_Potion) {
     if (this->item < POTION_HEALING) {ret = Flag4() != param_2->Flag4();}
     else {
       ret = false;
@@ -637,7 +632,7 @@ u8 CombatEntity::m8006963c(CombatEntity *param_2){
 
   if (param_2->Flag6()) return false;
   if (!Entity::isDead(param_2->charSheetP)) return false;
-  if ((this->AtkType == 3) || (Flag89())) {
+  if ((this->AtkType == ATKT_Potion) || (Flag89())) {
 LAB_800696b4:
     if (CombatEntity::CanUseFlask(param_2)) {return false;}
     if (Flag89()) {
@@ -670,7 +665,7 @@ u8 CombatEntity::CanBeTargeted(CombatEntity *target,s32 param_3){
     }
     u8 targetPos[2]={0,0};
     target->GetCoordU8(targetPos,targetPos + 1);
-    if (!m80069384(target,(u32)targetPos[0],(u32)targetPos[1],param_3)) {return false;}
+    if (!IsTargetInRange(target,targetPos[0],targetPos[1],param_3)) {return false;}
     if (FUN_8007105c(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),(u32)targetPos[0],targetPos[1])) {return true;}
     playerData *p1 = gGlobals.playerDataArray[this->index];
     playerData *p2 = gGlobals.playerDataArray[target->index];
@@ -710,7 +705,7 @@ u8 CombatEntity::canControl(SpellInstance *param_2){
       if (gEntityDB->entities[GETINDEX(x)].Category == ENTITY_CHAOS) return false;
       return true;
     case SPELLIND_controlMarquis:
-      bVar2 = entityList[EndInd_Marquis];
+      bVar2 = entityList[EntInd_Marquis];
       break;
     case SPELLIND_controlZombies:
       bVar2 = entityList[0xb6];
@@ -826,7 +821,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
       uStack_100[0] = 0;
       uStack_100[1] = 0;
       param_2->GetCoordU8(uStack_100,uStack_100+1);
-      iVar12 = iVar6 * (uint)bVar1;
+      iVar12 = iVar6 * (u32)bVar1;
       if ((spell->aspect_flag & 0x10)) {
         fVar11 = (gCombatP->SpellMarkerPos).x;
         fVar14 = (gCombatP->SpellMarkerPos).y;
@@ -879,29 +874,22 @@ u8 CombatEntity::SpellEffectsPartyInArea(){
 }
 
 
-uint CombatEntity::m8006a1dc(){
-  WeaponInstance *pWVar1;
-  uint uVar2;
-  uint auStack72 [5];
-  
-  if (this->AtkType < 5) {
-    auStack72[1] = 0;
-    pWVar1 = this->charSheetP->weapons;
-    auStack72[2] = 0;
-    if (pWVar1) {
-      auStack72[1] = (uint)isBreathSpitOrSpikes(pWVar1);
-      auStack72[2] = (uint)(this->charSheetP->weapons->range != 0);
+u32 CombatEntity::m8006a1dc(){
+  if (this->AtkType <= ATKT_4) {
+    u32 arr [5];
+    arr[1] = 0;
+    arr[2] = 0;
+    if (this->charSheetP->weapons) {
+      arr[1] = isBreathSpitOrSpikes(this->charSheetP->weapons);
+      arr[2] = (this->charSheetP->weapons->range != 0);
     }
-    auStack72[4] = 0;
-    auStack72[0] = 0;
-    auStack72[3] = 1;
-    if (auStack72[1]) {
-      auStack72[4] = (uint)(auStack72[2] != 0);
-    }
-    uVar2 = auStack72[this->AtkType];
+    arr[4] = 0;
+    arr[0] = 0;
+    arr[3] = true;
+    if (arr[1]) arr[4] = (arr[2] != 0);
+    return arr[this->AtkType];
   }
   else return 0;
-  return uVar2;
 }
 
 void CombatEntity::m8006a274(){
@@ -997,7 +985,7 @@ void CombatEntity::EndTurn(){
   Combat_SetHideMarkers(0);
   if ((!Entity::isDead(this->charSheetP)) && (!Flag6())) {gGlobals.playerDataArray[this->index]->ani_type = 0;}
   ShowWeaponFlask();
-  if (((this->AtkType == 3) && (this->item < POTION_HEALING)) &&
+  if (((this->AtkType == ATKT_Potion) && (this->item < POTION_HEALING)) &&
      (this->charSheetP->weapons)) PARTY->RemoveWeaponsFrom(this->index);
      CheckTargetIndex();
   FUN_80073e3c(&gCombatP->turn);
@@ -1406,7 +1394,7 @@ void CombatEntity::Death(){
   CharSheet *pCVar2;
   CombatEntity *pCVar3;
   bool bVar7;
-  uint uVar8;
+  u32 uVar8;
   u32 i;
   
   pCVar2 = this->charSheetP;
@@ -1578,7 +1566,7 @@ s16 CombatEntity::CalculateWeaponAttack(CombatEntity *target){
     rand = RollD(1,100);
     sVar4 =SkillCheckFloat(rand,sVar3,SKILL_Warrior);
     bVar5 = pCVar2->getModdedWeapon(pWVar1->weaponType);
-    if (bVar5 < 6) uVar6 = SQ((8 - (uint)bVar5));
+    if (bVar5 < 6) uVar6 = SQ((8 - (u32)bVar5));
     else uVar6 = 5;
     if (sVar4 < sVar3) {
       sVar3 = CombatEntity::STRTheifCheck(sVar3,(int)sVar4,target,1,(int)backstab);
@@ -1747,7 +1735,7 @@ u16 CombatEntity::WeaponAttack(CombatEntity *target){
   rand = RollD(1,100);
   sVar4 = SkillCheckFloat(rand,sVar3,SKILL_Warrior);
   bVar8 = pCVar2->getModdedWeapon(WVar1);
-  if (bVar8 < 6) uVar9 = SQ(8 - (uint)bVar8);
+  if (bVar8 < 6) uVar9 = SQ(8 - (u32)bVar8);
   else uVar9 = 5;
   if (sVar4 < sVar3) {
     dmg = STRTheifCheck(sVar3,(int)sVar4,target,0,0);
@@ -2042,7 +2030,7 @@ u8 CombatEntity::MagicCheck(SpellInstance *param_2,CombatEntity *param_3){
   
   bVar3 = GETINDEX(param_2->base.id);
   if ((bVar3 != SPELLIND_wallOfBones) ||
-     (bVar2 = false, param_3->charSheetP->ID != IDEntInd(EndInd_Marquis))) {
+     (bVar2 = false, param_3->charSheetP->ID != IDEntInd(EntInd_Marquis))) {
     bVar1 = isDispelMagic(bVar3);
     bVar2 = false;
     if (bVar1 == false) {
@@ -2224,7 +2212,7 @@ void CombatEntity::SubtractPotion(){
 void AddPotionVisualEffect(u8 playerDatIndex,u8 potion,CharSheet *ent){
   playerData *ppVar1;
   undefined4 uVar2;
-  uint uVar3;
+  u32 uVar3;
   PotionEffect *pPVar2;
   
   ppVar1 = gGlobals.playerDataArray[playerDatIndex];
@@ -2509,7 +2497,7 @@ u8 CombatEntity::SelectAttack(CombatEntity *param_2,playerData *param_3){
       else SetAni = false;
       goto SetAnimation;
     }
-    if (bVar1 == 3) {
+    if (bVar1 == ATKT_Potion) {
       bVar5 = PotionAttack(param_2);
       SetAni = false;
       goto SetAnimation;
@@ -2519,12 +2507,12 @@ u8 CombatEntity::SelectAttack(CombatEntity *param_2,playerData *param_3){
       goto SetAnimation;
     }
     this->AtkType = 1;
-    if (CanBeTargeted(param_2,0)) {
+    if (CanBeTargeted(param_2,false)) {
       bVar5 = CalculateWeaponAttack(param_2);
-      this->AtkType = 4;
+      this->AtkType = ATKT_4;
       goto SetAnimation;
     }
-    this->AtkType = 4;
+    this->AtkType = ATKT_4;
   }
   bVar5 = WeaponAttack(param_2);
 SetAnimation:
@@ -2544,7 +2532,7 @@ s16 CombatEntity::m8006edd0(CombatEntity *param_2,playerData *param_3,playerData
   u8 SVar6;
   undefined4 uVar3;
   bool bVar7;
-  uint uVar8;
+  u32 uVar8;
   s16 lVar9;
   s16 lVar10;
   
@@ -2647,7 +2635,7 @@ u8 CombatEntity::CalculateAttack(CombatEntity *target,u8 param_3){
   sVar6 = GoblinAmbushAttack(target,uVar5);
   target->TryCheatDeath(sVar6);
   this->unk22 = 1;
-  if (this->AtkType != 3) target->damage = (u8)sVar6;
+  if (this->AtkType != ATKT_Potion) target->damage = (u8)sVar6;
   set_camera_playerdata_focus(ppVar2,ppVar3);
   gGlobals.combatBytes[0] = 2;
   gGlobals.combatBytes[1] = 2;
@@ -2778,8 +2766,8 @@ void CombatEntity::m8006f8d8(ItemID param_2,u8 param_3){
   this->itemIndex = param_3;
   this->item = GETINDEX(param_2);
   bVar1 = this->AtkType;
-  if (bVar1 != 3) {
-    this->AtkType = 3;
+  if (bVar1 != ATKT_Potion) {
+    this->AtkType = ATKT_Potion;
     TroubadourStop;
     UnsetFlag(COMBATENT_MEDIC);
     UnsetFlag(COMBATENT_HERBS);
@@ -2795,9 +2783,9 @@ void CombatEntity::ShowWeaponFlask(){
     UnsetFlag(COMBATENT_HERBS);
   }
   else {
-    if (this->AtkType == 3) {
+    if (this->AtkType == ATKT_Potion) {
       if (this->item < POTION_HEALING) {
-        if (PARTY->Inventory->HasItem((ItemID)(this->item | 0x1000))) {
+        if (PARTY->Inventory->HasItem(IDPotion(this->item))) {
           this->AtkType = 0;
           ShowWeaponSheild();
         }
@@ -2882,7 +2870,7 @@ void CombatEntity::ThrowingEquipped(){
   u8 *pbVar4;
   
   this->throwingFlag = 0;
-  if (this->AtkType == 3) {if (this->item < POTION_HEALING) {this->throwingFlag = 1;}}
+  if (this->AtkType == ATKT_Potion) {if (this->item < POTION_HEALING) {this->throwingFlag = 1;}}
   else {
     if (this->charSheetP->weapons) {
       if (!BowEquipped()) {
@@ -2918,14 +2906,14 @@ void CombatEntity::ShowWeaponSheild(){
   this->shieldLocator = 2;
   borg5 = CombatEntity::GetShieldModel();
   if (this->AtkType != 0) {
-    if (this->AtkType == 3) borg5_00 = 0x34c5;
+    if (this->AtkType == ATKT_Potion) borg5_00 = BORG5_CombatPotion;
     else {
       if (this->charSheetP->weapons) {
-        borg5_00 = 0x348f;
+        borg5_00 = BORG5_CombatArrow;
         if (!BowEquipped()) {borg5_00 = GetWeaponModel();}
         else {
-          this->shieldLocator = this->notboss != 0;
-          this->wepLocator = this->notboss == 0;
+          this->shieldLocator = this->bowHand != 0;
+          this->wepLocator = this->bowHand == 0;
           borg5 = GetWeaponModel();
         }
       }
@@ -2969,8 +2957,8 @@ SceneData * CombatEntity::GetWeaponScene(){
   u32 uVar8;
   
   if (CannotShowWeapon(this->charSheetP->ID)) return NULL;
-  if (this->AtkType == 3) {
-    lVar7 = 0x34c5;
+  if (this->AtkType == ATKT_Potion) {
+    lVar7 = BORG5_CombatPotion;
 LAB_8006ff78:
     pAVar3 = BorgAnimLoadScene(lVar7);
   }
@@ -2981,7 +2969,7 @@ LAB_8006ff78:
       lVar7 = (s16)Weapon_borg5_lookup(bVar6);
       if (lVar7 != -1) {
         if (missle_ids[0] != 0xff) {
-          if (missle_ids[0] == bVar6) {lVar7 = 0x348f;}
+          if (missle_ids[0] == bVar6) lVar7 = BORG5_CombatArrow;
           else {
             uVar2 = 1;
             do {
@@ -2989,7 +2977,7 @@ LAB_8006ff78:
               if (missle_ids[uVar8] == 0xff) goto LAB_8006ff78;
               uVar2 = uVar8 + 1;
             } while (missle_ids[uVar8] != bVar6);
-            lVar7 = 0x348f;
+            lVar7 = BORG5_CombatArrow;
           }
         }
         goto LAB_8006ff78;
@@ -3149,7 +3137,7 @@ void CombatEntity::SetAktRangeMulti(u8 param_2){
     bVar3 = 1;
     if (pTVar1->range != 0) {
       bVar3 = 2;
-      if (isBreathSpitOrSpikes(pTVar1)) {bVar3 = 4;}
+      if (isBreathSpitOrSpikes(pTVar1)) {bVar3 = ATKT_4;}
     }
     this->AtkType = bVar3;
   }

@@ -390,10 +390,10 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *param_3,ve
   (fly->pos).y = (fly->posTarget).y;
   (fly->pos).x = fVar8 - fVar10;
   fVar8 = gGlobals.gameVars.mapCellSize.y;
-  iVar4+= (uint)uVar3;
+  iVar4+= (u32)uVar3;
   fly->shortA = (short)iVar4;
   fVar6 = (fly->posTarget).z;
-  iVar5+= (uint)(ushort)fly->ShortD;
+  iVar5+= (u32)(ushort)fly->ShortD;
   fly->shortB = (short)iVar5;
   (fly->pos).z = fVar6 - fVar9 * fVar8;
   if (((iVar4) != sVar1) ||
@@ -450,10 +450,10 @@ Gfx * zoneEngine_debug(Gfx *g,u8 delta) {
 
 void TickGameTime(byte delta) {  
   if (!isPaused()) {
-    World::IncGameTime(TerrainPointer,(uint)delta);
+    World::IncGameTime(TerrainPointer,(u32)delta);
     for(u16 i=0;i<MAXPARTY;i++) {
       CharSheet *Ent = PARTY->Members[i];
-      if (Ent) Entity::IncEffects(Ent,NULL,(uint)delta);
+      if (Ent) Entity::IncEffects(Ent,NULL,(u32)delta);
     }
     PARTY->DecRitualTimers(1,delta);
     PARTY->TickMoveCounters(delta);

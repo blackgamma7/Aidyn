@@ -2,7 +2,7 @@
 #include "globals.h"
 
 u8 TextPopup_FadeIn(BaseWidget *w){
-  bool bVar2 = (int)(textbox_alpha[0] - 90) <= (int)(uint)(w->col).A;
+  bool bVar2 = (int)(textbox_alpha[0] - 90) <= (int)(u32)(w->col).A;
   if (bVar2) {
     (w->col).A = textbox_alpha[0];
   }
@@ -29,8 +29,8 @@ BaseWidget * TextPopup_Close(BaseWidget * param_1,BaseWidget *param_2){
 BaseWidget * TextPopup_New(char *txt,u16 x,u16 y,u8 red0,u8 green0,u8 blue0,u8 alpha0,
       u8 alph1,u32 addToHandler){
   
-  s16 x0 = (short)((int)(SCREEN_WIDTH - (uint)x) / 2);
-  s16 y0 = (short)((int)(SCREEN_HEIGHT - (uint)y) / 2);
+  s16 x0 = (short)((int)(SCREEN_WIDTH - (u32)x) / 2);
+  s16 y0 = (short)((int)(SCREEN_HEIGHT - (u32)y) / 2);
   BaseWidget *popup =  new WidgetMenu();
   popup->fadeIn = TextPopup_FadeIn;
   popup->fadeOut = TextPopup_FadeOut;

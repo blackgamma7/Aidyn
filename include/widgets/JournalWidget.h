@@ -1,7 +1,7 @@
 #include "widgets/Utilities.h"
 #include "widgets/WidgetScrollArrows.h"
 
-int some_char_to_int_parsing(int base,uint y);
+int some_char_to_int_parsing(int base,u32 y);
 
 u16 StringToFlag(char*);
 

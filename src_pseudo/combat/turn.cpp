@@ -23,12 +23,12 @@ void CombatTurn::Init(CombatTurn_s *param_1) {
   u8 dexType0s = 0;
   u8 dexType2s = 0;
   u8 bVar1 = gCombatP->EntCount;
-  u32 uVar12 = (uint)bVar1;
+  u32 uVar12 = (u32)bVar1;
   u8 i = 0;
   gCombatP->EnemiesAlive = 0;
   gCombatP->partyAlive = 0;
   gCombatP->EntsAlive = 0;
-  u8 uVar9 = (uint)gCombatP->EntCount << 2;
+  u8 uVar9 = (u32)gCombatP->EntCount << 2;
   memset(dexType2A,0,uVar9);
   memset(dexType3A,0,uVar9);
   memset(dexType1A,0,uVar9);
@@ -135,7 +135,7 @@ bool CombatTurn::FUN_8007381c(CombatTurn_s *param_1) {
   bool bVar2;
   bool ret;
   int iVar1;
-  uint i;
+  u32 i;
   
   
   ret = true;
@@ -259,7 +259,7 @@ void CombatTurn::StartTurn(CombatTurn_s *param_1,CombatEntity *param_2,u8 param_
       return;
     }
   }
-  if (param_2->AtkType == 3) {
+  if (param_2->AtkType == ATKT_Potion) {
     uVar3 = PARTY->Inventory->GetItemIndex(IDPotion(param_2->item));
     if (uVar3 == -1) {
       param_2->AtkType = 0;

@@ -97,8 +97,8 @@ Gfx * InputMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   u8 uVar4;
   int iVar5;
   Gfx *pGVar6;
-  uint uVar7;
-  uint i;
+  u32 uVar7;
+  u32 i;
   float fVar9;
 
   float fVar14;

@@ -134,11 +134,11 @@ u8 combat_byte_func_0(Gfx **GG,u16 delta){
 bool FUN_80027eb0(Gfx **GG,u16 param_2){
   CombatEntity **ppCVar1;
   CombatStruct *pCVar2;
-  uint uVar3;
+  u32 uVar3;
   
   pCVar2 = gCombatP;
   ppCVar1 = &gCombatP->current_Ent;
-  uVar3 = gCombatP->AniTimer + (uint)param_2;
+  uVar3 = gCombatP->AniTimer + (u32)param_2;
   gCombatP->AniTimer = uVar3;
   if (((*ppCVar1 != NULL) && (gGlobals.playerDataArray[(*ppCVar1)->index] != NULL)) &&
      (gGlobals.playerDataArray[(*ppCVar1)->index]->unk18 == 0)) {
@@ -207,7 +207,7 @@ void FUN_80028180(void){
   CombatEntity *user = gCombatP->current_Ent;
   CombatEntity *target = (&gCombatP->combatEnts)[gCombatP->some_index];
   playerData *PDAT = gGlobals.playerDataArray[gCombatP->some_index];
-  if (user->AtkType == 3) user->FlaskAttack(target,(ushort)user->damage);
+  if (user->AtkType == ATKT_Potion) user->FlaskAttack(target,(ushort)user->damage);
   if (target->damage == 0) {
     if (user->Flag4() == target->Flag4()) {
       PDAT->ani_type = AniType_10;
@@ -279,7 +279,7 @@ void FUN_800284d4(void){
   ppVar3 = gGlobals.playerDataArray[bVar1];
   pCVar4 = (&gCombatP->combatEnts)[bVar1];
   if ((((cVar5 != '\0') && (ppVar3 != NULL)) && (ppVar3->unk18 == 0)) &&
-     (0x3b < (uint)gCombatP->AniTimer)) {
+     (0x3b < (u32)gCombatP->AniTimer)) {
     gCombatP->AniTimer = 0;
     Actor::UnsetFlag(ppVar3,ACTOR_800);
     if (Entity::isDead(pCVar4->charSheetP)) some_death_func_B(ppVar3,bVar1,pCVar4);
@@ -355,12 +355,12 @@ u8 FUN_80028778(Gfx **GG,u16 delta){
 u8 FUN_80028940(Gfx **GG,u16 delta){
   CombatEntity *user;
   CombatEntity *target;
-  uint uVar1;
+  u32 uVar1;
   Gfx *pGVar2;
   
   user = gCombatP->current_Ent;
   if (user != NULL) {
-    uVar1 = (uint)gCombatP->some_index;
+    uVar1 = (u32)gCombatP->some_index;
     target = (&gCombatP->combatEnts)[uVar1];
     if (gGlobals.playerDataArray[user->index] == NULL) user->EndTurn();
     else {
@@ -825,7 +825,7 @@ void gamecombat_weapon_func(){
   pCVar2 = gCombatP->current_Ent;
   ppVar3 = gGlobals.playerDataArray[pCVar2->index];
   if (ppVar3->borg7P != NULL) {
-    if (!Scene::HasLocator(ppVar3->borg7P->sceneDat,(uint)pCVar2->wepLocator)) {
+    if (!Scene::HasLocator(ppVar3->borg7P->sceneDat,(u32)pCVar2->wepLocator)) {
       char txtBuff [0x100];
       sprintf(txtBuff,"The actor for %s doesn't have a weapon locator (%d)!\nBorg ID = %s",pCVar2->charSheetP->name,
                   pCVar2->wepLocator,ppVar3->borg7P->sceneDat->borg5_char);
@@ -843,7 +843,7 @@ void gamecombat_weapon_func(){
     ppVar3 = gGlobals.playerDataArray[bVar1];
     if (ppVar3) {
       Vec3Copy(&(ppVar3->collision).pos,&fStack120);
-      if (pCVar2->AtkType != 3) {
+      if (pCVar2->AtkType != ATKT_Potion) {
         fStack120.y += (gEntityDB->GetHeight((&gCombatP->combatEnts)[bVar1]->charSheetP->ID) * 0.5f - (ppVar3->collision).radius);
       }
       fVar5 = 4.0f;
@@ -1014,14 +1014,13 @@ bool IsShadowNearAnyone(CombatEntity *shadow){
 }
 
 bool IsNearShadow(CombatEntity *param_1){
-  bool bVar1 = false;
   if (gGlobals.ShadowIndex != -1) {
     if ((&gCombatP->combatEnts)[(byte)gGlobals.ShadowIndex] == param_1) {
-      bVar1 = IsShadowNearAnyone(param_1);
+      return IsShadowNearAnyone(param_1);
     }
-    else bVar1 = IsCEntInRange(param_1,(&gCombatP->combatEnts)[(byte)gGlobals.ShadowIndex],10.0);
+    else return IsCEntInRange(param_1,(&gCombatP->combatEnts)[(byte)gGlobals.ShadowIndex],10.0);
   }
-  return bVar1;
+  return false;
 }
 
 void combat_func_if_alaron_dead(void){

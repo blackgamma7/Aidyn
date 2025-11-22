@@ -36,7 +36,7 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   BaseWidget *pBVar7;
   BaseWidget *pBVar8;
   ulong uVar9;
-  uint i;
+  u32 i;
   Color32 aCStack_68 [26];
   
   wMax = 120;

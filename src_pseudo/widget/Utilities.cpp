@@ -161,7 +161,7 @@ void Utilities::SetScrollSpeed(BaseWidget *w,u8 param_2){
 //Get Highlighted entry of an array Widget
 //@param w: widget
 BaseWidget * Utilities::GetHighlightedEntry(BaseWidget *w){
-  uint ind;
+  u32 ind;
   BaseWidget **wArr;
   
   if (w->GetNumber() == WidgetN_ArrayMenu){

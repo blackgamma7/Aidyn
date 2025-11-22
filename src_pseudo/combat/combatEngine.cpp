@@ -65,7 +65,7 @@ void Combat_GetSpawnPoint(CombatStruct *param_1,u8 *posx,u8 *posz,u8 *rand,u8 pa
   u8 uVar3;
   u8 uVar4;
   
-  uint uVar1 = 7;
+  u32 uVar1 = 7;
   if ((param_6 != 0) || (uVar4 = 5, param_1->encounter_dat->collisionByte != 0)) {
     uVar1 = 3;
     uVar4 = 1;
@@ -146,9 +146,9 @@ void NOOP_800658a0(u8 players,u8 enemies){}
 
 
 u8 recount_enemy_party(EncounterDat *param_1,u16 param_2){
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
+  u32 uVar1;
+  u32 uVar2;
+  u32 uVar3;
   
   uVar3 = param_2 + 1;
   do {
@@ -171,7 +171,7 @@ int look_for_flasks(void){
       if (PARTY->Inventory->HasItem(Potion_Sleep)) {
         iVar2 = 4;
       }
-      else iVar2 = (uint)PARTY->Inventory->HasItem(Potion_Acid) << 2;
+      else iVar2 = (u32)PARTY->Inventory->HasItem(Potion_Acid) << 2;
     }
   }
   return iVar2;
@@ -185,10 +185,10 @@ u16 Combat_CreatePartyMembers(u8 param_1){
   CombatEntity *pCVar3;
   int iVar4;
   u16 uVar7;
-  uint i;
+  u32 i;
   float fVar8;
   float fVar9;
-  uint uVar10;
+  u32 uVar10;
   u8 posx;
   u8 posz;
   u8 uStack_3e;
@@ -209,9 +209,9 @@ u16 Combat_CreatePartyMembers(u8 param_1){
         (&gCombatP->combatEnts)[uVar7] = pCVar3;
         gCombatP->combatEnts[uVar7++].Init(charsheet,0,posx,posz,uStack_3e,uVar6,0,(char)uVar7);
         auStack_3d[0] = 0;
-        if (charsheet->spellbook->HaveSpell(IDSpell(SpellList[8]),auStack_3d)) {
+        if (charsheet->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_fireball]),auStack_3d)) {
           iVar4 = Entity::CheckSpellWizard(charsheet,charsheet->spellbook->spells[auStack_3d[0]]);
-          if ((uint)gCombatP->flask_byte < (iVar4 << 1 & 0xffU)) {
+          if (gCombatP->flask_byte < (iVar4 << 1)) {
             gCombatP->flask_byte = (byte)(iVar4 << 1);
           }
         }
@@ -222,7 +222,7 @@ u16 Combat_CreatePartyMembers(u8 param_1){
 }
 
 
-uint Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
+u32 Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
 
 {
   undefined1 uVar5;
@@ -239,8 +239,8 @@ uint Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
   u8 uStack_2e;
   u8 auStack_2d [37];
   
-  uVar7 = (uint)param_2;
-  if (param_1 != (ItemID)0x0) {
+  uVar7 = (u32)param_2;
+  if (param_1) {
     if (0.0 < (gEntityDB->GetCollideRadius(param_1) * gEntityDB->GetScale(param_1))*2)
           uVar7 = ((gEntityDB->GetCollideRadius(param_1) * gEntityDB->GetScale(param_1))*2)+0.5;
         else uVar7 = -(0.5 - ((gEntityDB->GetCollideRadius(param_1) * gEntityDB->GetScale(param_1))*2));
@@ -257,10 +257,9 @@ uint Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
     uVar7 = param_2 + 1;
     auStack_2d[0] = 0;
     pCVar2 = pCVar1->charSheetP;
-                    // fireball
     if (pCVar2->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_fireball]),auStack_2d)) {
       iVar4 = Entity::CheckSpellWizard(pCVar2,pCVar2->spellbook->spells[auStack_2d[0]]);
-      if ((uint)gCombatP->flask_byte < (u8)(iVar4 << 1)) {
+      if ((u32)gCombatP->flask_byte < (u8)(iVar4 << 1)) {
         gCombatP->flask_byte = (u8)(iVar4 << 1);
       }
     }
@@ -298,7 +297,7 @@ void Combat_CreateEnemies(u16 param_1,u8 param_2){
   u16 i;
   float fVar12;
   float fVar13;
-  uint uVar14;
+  u32 uVar14;
   u8 uStack_40;
   u8 uStack_3f;
   u8 auStack_3e [46];
@@ -346,8 +345,8 @@ void scoot_enemy_list(EncounterDat *param_1){
   int iVar1;
   ItemID *pIVar2;
   ItemID *pIVar3;
-  uint uVar4;
-  uint uVar5;
+  u32 uVar4;
+  u32 uVar5;
   
   uVar4 = 0;
   do {
@@ -373,9 +372,8 @@ void scoot_enemy_list(EncounterDat *param_1){
 void Combat_InitEncounter(CombatStruct *cStruct,EncounterDat *param_2){
   CombatEntity *pCVar3;
   u16 uVar8;
-  byte bVar9;
   u8 uVar10;
-  uint uVar7;
+  u32 uVar7;
   ItemID *pIVar11;
   ItemID uVar6;
   float fVar12;
@@ -386,7 +384,7 @@ void Combat_InitEncounter(CombatStruct *cStruct,EncounterDat *param_2){
   uVar8 = count_enemies(param_2);
   uVar6= 0;
   cStruct->enemyCount = (byte)uVar8;
-  bVar9 = find_sholeh(cStruct->encounter_dat);
+  u8 bVar9 = find_sholeh(cStruct->encounter_dat);
   if (bVar9) {
     pIVar11 = cStruct->encounter_dat->enemy_entities + (bVar9 - 1);
     cStruct->enemyCount--;
@@ -429,23 +427,19 @@ bool Ofunc_800664ac(CombatStruct *param_1){
   ItemID IVar2;
   bool bVar4;
   
-  if (param_1->enemy_index < 0xc) {
+  if (param_1->enemy_index < 12) {
     while( true ) {
       IVar2 = param_1->encounter_dat->enemy_entities[param_1->enemy_index];
       if (!CombatAI::WillTheyFlee(IVar2)) break;
-      param_1->reinforcmentsWillFlee = 1;
+      param_1->reinforcmentsWillFlee = true;
       draw_dead_crossbones(IVar2);
       u8 uVar3 = recount_enemy_party(param_1->encounter_dat,param_1->enemy_index);
       param_1->enemy_index = uVar3;
-      if (0xb < uVar3) goto LAB_80066528;
+      if (11 < uVar3) return false;
     }
-    bVar4 = true;
+    return true;
   }
-  else {
-LAB_80066528:
-    bVar4 = false;
-  }
-  return bVar4;
+  return false;
 }
 //unused combatant death function.
 bool Ofunc_CombatLeaderDead(CombatStruct *param_1,s32 param_2){
@@ -491,7 +485,7 @@ bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y
 
 
 bool FUN_8006674c(CombatStruct *param_1,u32 param_2,u16 param_3,byte param_4,
-                 float *coordA,float *CoordB,uint param_7){
+                 float *coordA,float *CoordB,u32 param_7){
   float fVar6;
   double dVar5;
   byte x;
@@ -535,7 +529,7 @@ void FUN_800668e4(CombatStruct *param_1,u8 *outX,u8 *outY,u8 *param_4,u8 param_5
   if ((combat_substruct_lookup(&param_1->substruct,*outX,*outY,param_5)) ||
      (some_combat_proximity_check(param_1,id,fStack_30,afStack_2c))) {
     for(u32 i = 0;i < 5;i++) {
-      if (FUN_8006674c(param_1,i,id,param_5,&fStack_30,&afStack_2c,(uint)(param_6 != 0))){
+      if (FUN_8006674c(param_1,i,id,param_5,&fStack_30,&afStack_2c,(u32)(param_6 != 0))){
         *outX = fStack_30;
         *outY = afStack_2c;
         return;
@@ -548,109 +542,80 @@ void FUN_800668e4(CombatStruct *param_1,u8 *outX,u8 *outY,u8 *param_4,u8 param_5
 void func_settting_leader_dead_flag(CombatStruct *param_1){
   byte bVar1;
   ItemID IVar2;
-  double dVar3;
-  bool bVar6;
-  undefined1 uVar7;
-  CombatEntity *pCVar4;
+  u8 uVar7;
   CharSheet *pCVar5;
   u8 uVar8;
-  uint uVar9;
-  CombatEntity **ppCVar10;
-  float fVar11;
-  float fVar12;
-  uint uVar13;
-  u8 uStack_40;
-  undefined1 uStack_3f;
-  undefined1 auStack_3e [46];
+  u32 uVar9;
+  u32 uVar13;
   
-  uVar9 = (uint)param_1->partyCount;
-  uStack_40 = 0;
-  uStack_3f = 0;
-  auStack_3e[0] = 0;
+  uVar9 = (u32)param_1->partyCount;
+  u8 uStack_40[3]={0,0,0};
   param_1->reinforcmentsWillFlee = 0;
   if (((param_1->EntCount <= uVar9) || (0xb < param_1->enemy_index)) ||
      (param_1->encounter_dat->enemy_entities[param_1->enemy_index] == (ItemID)0x0)) {
     return;
   }
-  ppCVar10 = &param_1->combatEnts + param_1->partyCount;
-  pCVar4 = *ppCVar10;
-  do {
-    if (!pCVar4) {
+  CombatEntity **ppCVar10 = &param_1->combatEnts + param_1->partyCount;
+  CombatEntity *pCVar4 = *ppCVar10;
+  for(;uVar9<param_1->EntCount,param_1->enemy_index<12,param_1->encounter_dat->enemy_entities[param_1->enemy_index]!=0;
+  uVar9++,ppCVar10++,pCVar4 = *ppCVar10){
+
+    if (pCVar4) {
+      if ((Entity::isDead(pCVar4->charSheetP))||(pCVar4->Flag6())) {
+        IVar2 = param_1->encounter_dat->enemy_entities[param_1->enemy_index];
+        if (!CombatAI::WillTheyFlee(IVar2)) {
+          if ((param_1->leaderDead == 0) && (uVar9 == param_1->leaderIndex)) {
+            param_1->leaderDead = true;
+          }
+          Entity::Free(pCVar4->charSheetP);
+          HFREE(pCVar4->charSheetP,1262);
+          pCVar4->FreeAi();
+          HFREE(pCVar4,1266);
+          goto LAB_80066c04;
+        }
+        param_1->enemy_index = recount_enemy_party(param_1->encounter_dat,(ushort)param_1->enemy_index);
+        draw_dead_crossbones(IVar2);
+        param_1->reinforcmentsWillFlee = true;
+      }
+    }
+    else {
 LAB_80066c04:
       IVar2 = param_1->encounter_dat->enemy_entities[param_1->enemy_index];
       CombatInitMacro1(IVar2,uVar13,uVar7);
       uVar8 = (u8)uVar9;
-      FUN_800668e4(param_1,&uStack_40,&uStack_3f,auStack_3e,uVar7,0,0,1,uVar8 - param_1->partyCount
+      FUN_800668e4(param_1,&uStack_40[0],&uStack_40[1],&uStack_40[2],uVar7,0,0,1,uVar8 - param_1->partyCount
                    ,IVar2);
       ALLOC(pCVar4,1281);
       *ppCVar10 = pCVar4;
-      ALLOC(pCVar5,1284);
-      pCVar4->charSheetP = pCVar5;
-      Entity::Init(pCVar5,IVar2,1);
-      pCVar4->Init(pCVar4->charSheetP,-1,uStack_40,uStack_3f,auStack_3e[0],uVar7,1,uVar8);
+      ALLOC(pCVar4->charSheetP,1284);
+      Entity::Init(pCVar4->charSheetP,IVar2,1);
+      pCVar4->Init(pCVar4->charSheetP,-1,&uStack_40[0],&uStack_40[1],&uStack_40[2],uVar7,1,uVar8);
       combatEnt_setup(param_1,uVar8);
-      uVar8 = recount_enemy_party(param_1->encounter_dat,(ushort)param_1->enemy_index);
-      param_1->enemy_index = uVar8;
+      param_1->enemy_index = recount_enemy_party(param_1->encounter_dat,(ushort)param_1->enemy_index);
       pCVar4->flags |= COMBATENT_BENCH;
-LAB_80066da0:
-      bVar1 = param_1->EntCount;
     }
-    else {
-      if (Entity::isDead(pCVar4->charSheetP)) {
-LAB_80066b7c:
-        IVar2 = param_1->encounter_dat->enemy_entities[param_1->enemy_index];
-        if (!CombatAI::WillTheyFlee(IVar2)) {
-          if ((param_1->leaderDead == 0) && (uVar9 == param_1->leaderIndex)) {
-            param_1->leaderDead = 1;
-          }
-          Entity::Free(pCVar4->charSheetP);
-          HFREE(pCVar4->charSheetP,0x4ee);
-          pCVar4->FreeAi();
-          HFREE(pCVar4,0x4f2);
-          goto LAB_80066c04;
-        }
-        uVar8 = recount_enemy_party(param_1->encounter_dat,(ushort)param_1->enemy_index);
-        param_1->enemy_index = uVar8;
-        draw_dead_crossbones(IVar2);
-        param_1->reinforcmentsWillFlee = 1;
-        goto LAB_80066da0;
-      }
-      if (pCVar4->Flag6()) {
-        bVar1 = param_1->enemy_index;
-        goto LAB_80066b7c;
-      }
-      bVar1 = param_1->EntCount;
-    }
-    uVar9++;
-    ppCVar10++;
-    if (bVar1 <= uVar9) return;
-    if (0xb < param_1->enemy_index) return;
-    if (param_1->encounter_dat->enemy_entities[param_1->enemy_index] == (ItemID)0x0) {
-      return;
-    }
-    pCVar4 = *ppCVar10;
-  } while( true );
+  }
 }
 
 void get_gear_drop(CombatStruct *cStruct,Entity_Ram *ent,Loot_RAM *loot){
   ItemID id;
   if (ent == NULL) return;
   id = ent->Armor;
-  if ((loot->armorDrop != 0) && (id != (ItemID)0xffff)) {
+  if ((loot->armorDrop != 0) && (id != Item_NONE)) {
     if (loot->armorDrop >= RollD(1,100)) {
       cStruct->loot_pool->AddItem(id,1);
       cStruct->EXP_pool +=gArmorDBp->Armor[GETINDEX(id)].expBonus*25;//?
     }
   }
   id = ent->Sheild;
-  if (((loot->sheildDrop != 0) && (id != (ItemID)0xffff)) &&
+  if (((loot->sheildDrop != 0) && (id != Item_NONE)) &&
      (RollD(1,100) <= loot->sheildDrop)) {
     cStruct->loot_pool->AddItem(id,1);
     cStruct->EXP_pool += gArmorDBp->Armor[GETINDEX(id)].expBonus;
   }
   for(u32 i=0;i>3;i++) {
     id = ent->weapon[i];
-    if (((loot->weaponDrop[i] != 0) && (id != (ItemID)0xffff)) && (id != (ItemID)0x0)) {
+    if (((loot->weaponDrop[i] != 0) && (id != Item_NONE)) && (id != 0)) {
       u8 index = GETINDEX(id);
       u8 isntMonsterWeapon[]={false,false,false,true,true,true,false,false,true,true,false};
       if ((isntMonsterWeapon[gWeaponsDB->weapons[index].wepClass]) &&
@@ -664,7 +629,7 @@ void get_gear_drop(CombatStruct *cStruct,Entity_Ram *ent,Loot_RAM *loot){
 }
 
 
-void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,uint param_3){ 
+void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,u32 param_3){ 
   if (param_2->itemDropChances[param_3]) {
     if (param_2->itemDropChances[param_3] < RollD(1,100)) return;
     u8 uVar2 = 1;
@@ -687,7 +652,7 @@ void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,uint param_3){
       case 0x11:
       case 0x12:
       case 0x13:
-        uVar6 = (uint)gItemDBp->Gear[(u8)search_item_array(x)].exp_multi;
+        uVar6 = (u32)gItemDBp->Gear[(u8)search_item_array(x)].exp_multi;
         break;
       default:
         return;
@@ -710,7 +675,7 @@ void calc_loot(CombatStruct *param_1,byte param_2,Entity_Ram *param_3){
   if ((pLVar5->reagentchance) && (RollD(1,100) <= pLVar5->reagentchance)) {
     u8 uVar2 = rand_range(ItemInd_Spice,ItemInd_Gemstone);
     param_1->loot_pool->AddItem(itemID_array[uVar2],(u8)rand_range(pLVar5->reagentLlo,pLVar5->reagentHi));
-    param_1->EXP_pool += (uint)gItemDBp->Gear[uVar2].exp_multi;
+    param_1->EXP_pool += (u32)gItemDBp->Gear[uVar2].exp_multi;
   }
   for(u32 i=0;i<6;i++) {get_exp_mod(param_1,pLVar5,i);}
 }
@@ -749,7 +714,7 @@ void calc_combat_loot(CombatStruct *cStruct){
 }
 
 void FUN_800675b0(CombatStruct *cStruct){
-  uint uVar4,uVar5;
+  u32 uVar4,uVar5;
   
   CombatTurn::FreeArray(&cStruct->turn);
   uVar5 = 0;
@@ -797,20 +762,20 @@ void FUN_80067740(CombatStruct *cStruct){
   FUN_80072454(cStruct->substruct2 + 1,cStruct->current_Ent);
 }
 
-void copy_string_to_combat_textbox(CombatStruct *cStruct,char *param_2,uint param_3){
+void copy_string_to_combat_textbox(CombatStruct *cStruct,char *param_2,u32 param_3){
   strcpy(cStruct->textboxes[0],param_2);
   cStruct->TextboxFlag|= param_3;
   CombatTextboxWidget_SetText(param_2);
 }
 
 
-char * print_combat_textbox(CombatStruct *cStruct,char *param_2,uint param_3){
+char * print_combat_textbox(CombatStruct *cStruct,char *param_2,u32 param_3){
   char *ret = strcpy(cStruct->textboxes[1],param_2);
   cStruct->TextboxFlag|= param_3;
   return ret;
 }
 
-char * copy_to_combat_textbox_2(CombatStruct *param_1,char *param_2,uint param_3){
+char * copy_to_combat_textbox_2(CombatStruct *param_1,char *param_2,u32 param_3){
   char *ret = strcpy(param_1->textboxes[2],param_2);
   param_1->TextboxFlag |= param_3;
   return ret;
@@ -839,8 +804,8 @@ void check_battlefeild_fleeing_refpoints(CombatStruct *cStruct){
   char buff [88];
   
   cStruct->hasFleeRefpoints = 0;
-  for(u32 uVar2=0;uVar2<8;uVar2++) {
-    sprintf(buff,gCombatP->textArray[COMBATSTRING_FleeX],uVar2);
+  for(u32 i=0;i<8;i++) {
+    sprintf(buff,gCombatP->textArray[COMBATSTRING_FleeX],i);
     if (FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,false)) {
       cStruct->hasFleeRefpoints = true;
       return;
@@ -848,4 +813,4 @@ void check_battlefeild_fleeing_refpoints(CombatStruct *cStruct){
   }
 }
 
-bool renderTicker_GreaterThan3(CombatStruct *cStruct){return 3 < (uint)cStruct->renderTicker;}
+bool renderTicker_GreaterThan3(CombatStruct *cStruct){return 3 < (u32)cStruct->renderTicker;}

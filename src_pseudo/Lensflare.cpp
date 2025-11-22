@@ -45,7 +45,7 @@ void Lensflare::Free(void){
 }
 Gfx * Lensflare::Render(Gfx *g){
   bool bVar2;
-  uint uVar7;
+  u32 uVar7;
   float fVar8;
   float fVar9;
   float fVar10;
@@ -75,7 +75,7 @@ Gfx * Lensflare::Render(Gfx *g){
 LAB_8002e068:
   if (bVar2) {
     if ((lensflare_bss < 50) &&
-       (uVar7 = (uint)lensflare_bss, lensflare_bss += 10, (int)(50 - uVar7) < 10)) {
+       (uVar7 = (u32)lensflare_bss, lensflare_bss += 10, (int)(50 - uVar7) < 10)) {
       lensflare_bss = 50;
     }
   }

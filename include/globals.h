@@ -84,7 +84,7 @@ struct SpashVars{
     Borg8Header *thqBorg8;
     Borg8Header *h20Borg8;
     u8 align2c[8];
-    uint timer;
+    u32 timer;
     u8 UnkA; /* written, never read */
     u16 UnkB; /* written, never read */
     u16 UnkC; /* written, never read */
@@ -110,8 +110,8 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     s8 ShadowIndex;
     s8 AlaronIndex;
     u8 GoblinHitTally;
-    uint expGained;
-    uint combatByteMirror;
+    u32 expGained;
+    u32 combatByteMirror;
     SkyStruct sky;
     vec3f SunPos;
     u64 unk14a4;
@@ -133,7 +133,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     GenericInventory *shopInv;
     ItemID Shopkeep;
     u16 unk14f2;
-    uint moneypile;
+    u32 moneypile;
     u8 creditsByte;
     u32 unk14fc;
     u8 gameStartOption;
@@ -156,7 +156,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u8 appstateBool;
     u32 lensFlareBool;
     u8 DebugStatDisplay;
-    uint maptally;
+    u32 maptally;
     float brightness;
     float brightness2;
     float screenFadeSpeed;

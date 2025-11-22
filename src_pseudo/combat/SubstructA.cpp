@@ -32,8 +32,8 @@ int FUN_80070cc4(CombatSubstructA *param_1,u8 TargX,u8 TargY,u8 AtkX,byte AtkY){
     iVar1 = 0x7f;
     if (!FUN_80070ee4(param_1,AtkX,AtkY,1)) {
                   //??
-      iVar1 = (int)(((param_1->array1[0][(uint)AtkY + (((uint)AtkX * 2 + (uint)AtkX) * 8 + (uint)AtkX) * 4] & 0x7f) -
-                    (param_1->array1[0][(uint)TargY + (((uint)TargX * 2 + (uint)TargX) * 8 + (uint)TargX) * 4] & 0x7f)
+      iVar1 = (int)(((param_1->array1[0][(u32)AtkY + (((u32)AtkX * 2 + (u32)AtkX) * 8 + (u32)AtkX) * 4] & 0x7f) -
+                    (param_1->array1[0][(u32)TargY + (((u32)TargX * 2 + (u32)TargX) * 8 + (u32)TargX) * 4] & 0x7f)
                     ) * 0x1000000) >> 0x18;
     }
   }
@@ -45,13 +45,14 @@ bool FUN_80070dac(CombatSubstructA *param_1,u8 targX,u8 targY,u8 AtkX,u8 AtkY){
 }
 
 bool combat_substruct_lookup(CombatSubstructA *param_1,byte x,byte y,byte index){
-  for(u8 i=i<y+index;i++) {
+  for(u8 i=y<y+index;i++) {
     for (u8 j = x; j < x + index; j++) {
       if ((!FUN_80070ee4(param_1,j,i,1)) && ((param_1->array1[j][i] & 0x80))) {
         return true;
       }
     }
   }
+  return true;
 }
 
 
@@ -87,24 +88,24 @@ bool FUN_8007105c(CombatSubstructA *param_1,byte X,byte Y,u8 param_4,u8 param_5)
   bool bVar3;
   int iVar4;
   int iVar5;
-  uint uVar6;
-  uint uVar7;
+  u32 uVar6;
+  u32 uVar7;
   byte y;
   int iVar8;
-  uint uVar9;
-  uint uVar10;
-  uint uVar11;
-  uint uVar12;
-  uint uVar13;
-  uint uVar14;
+  u32 uVar9;
+  u32 uVar10;
+  u32 uVar11;
+  u32 uVar12;
+  u32 uVar13;
+  u32 uVar14;
   float fVar15;
   float fVar16;
   
-  uVar6 = (uint)X;
-  uVar7 = (uint)Y;
-  uVar14 = (uint)param_4;
-  iVar8 = (int)(((uint)X - (uint)param_4) * 0x1000000) >> 0x18;
-  iVar5 = (int)(((uint)Y - (uint)param_5) * 0x1000000) >> 0x18;
+  uVar6 = (u32)X;
+  uVar7 = (u32)Y;
+  uVar14 = (u32)param_4;
+  iVar8 = (int)(((u32)X - (u32)param_4) * 0x1000000) >> 0x18;
+  iVar5 = (int)(((u32)Y - (u32)param_5) * 0x1000000) >> 0x18;
   if ((iVar8 != 0) || (iVar5 != 0)) {
     iVar4 = iVar8;
     if (iVar8 < 0) {
@@ -148,7 +149,7 @@ bool FUN_8007105c(CombatSubstructA *param_1,byte X,byte Y,u8 param_4,u8 param_5)
       iVar4 = -1;
       if (iVar5 < 0) iVar4 = 1;
       uVar10 = (int)((uVar7 + iVar4) * 0x1000000) >> 0x18;
-      if ((int)uVar10 < (int)(uint)param_5) {
+      if ((int)uVar10 < (int)(u32)param_5) {
         uVar13 = uVar6;
         uVar9 = uVar7;
         iVar1 = (uVar10 + iVar4) * 0x1000000;
@@ -171,7 +172,7 @@ bool FUN_8007105c(CombatSubstructA *param_1,byte X,byte Y,u8 param_4,u8 param_5)
           uVar13 = uVar12;
           uVar9 = uVar11;
           iVar1 = iVar1 + iVar4 * 0x1000000;
-        } while ((int)uVar10 < (int)(uint)param_5);
+        } while ((int)uVar10 < (int)(u32)param_5);
       }
     }
   }

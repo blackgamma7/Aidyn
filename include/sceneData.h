@@ -28,7 +28,7 @@ struct SceneData {
     MtxF matrixE;
     vec3f scalar;
     int locators[MAX_LOCATORS+1];
-    uint flags;
+    u32 flags;
     u16 aniTime;
     u8 aniSpeed;
     u8 perspNormIndex;
@@ -38,8 +38,8 @@ struct SceneData {
     Color32 fogColor;
     Light DirLights[7]; //"pad" fields are also set (to 0) for some reason.
     Light envLight;
-    uint maxDynamicLights; /* no more than 7 */
-    uint currDynamicLights;
+    u32 maxDynamicLights; /* no more than 7 */
+    u32 currDynamicLights;
     ParticleHeadStruct *particleHead;
     SceneData* locatorScene1;
     SceneData* locatorScene2;

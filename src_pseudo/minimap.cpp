@@ -178,8 +178,8 @@ bool MiniMap::SpecialSections(float posX,float posY,float posZ){
   minimap_dat_2 *pmVar7;
   float fVar8;
   float fVar9;
-  uint uVar10;
-  uint uVar11;
+  u32 uVar10;
+  u32 uVar11;
   u32 cellCoord;
   
   pMVar1 = this->mapdat;
@@ -216,7 +216,7 @@ bool MiniMap::SpecialSections(float posX,float posY,float posZ){
     fVar8 = posZ / fVar8;
     if (fVar8 < INT_MAX_f) {
 LAB_80051e0c:
-      uVar11 = (uint)fVar8;
+      uVar11 = (u32)fVar8;
       goto LAB_80051e2c;
     }
     fVar8 = fVar8 - INT_MAX_f;
@@ -228,7 +228,7 @@ LAB_80051e0c:
       }
       fVar8 = this->savedPlayerPos.y * 0.25f;
       if (fVar8 < INT_MAX_f) {
-        uVar10 = (uint)fVar8;
+        uVar10 = (u32)fVar8;
       }
       else {
         uVar10 = (int)(fVar8 - INT_MAX_f) | 0x80000000;
@@ -241,7 +241,7 @@ LAB_80051c70:
         goto LAB_80051c80;
       }
 LAB_80051c60:
-      uVar11 = (uint)fVar8;
+      uVar11 = (u32)fVar8;
 LAB_80051c80:
       if (uVar10 != uVar11) {
         return true;
@@ -641,12 +641,12 @@ LAB_800529b4:
 LAB_80052cac:
               if (!this->B_buttonToggle) {
                 uVar11 = this->widget20->GetWidth();
-                iVar8 = (uint)this->field45_0xac << 0x10;
+                iVar8 = (u32)this->field45_0xac << 0x10;
                 this->field21_0x50 =
                      ((float)((int)this->field43_0xa8 + ((iVar8 >> 0x10) - (iVar8 >> 0x1f) >> 1))
                      - this->floatX) - (float)(uVar11 >> 1 & 0xffff);
                 uVar11 = this->widget20->GetHeight();
-                iVar8 = (uint)this->field46_0xae << 0x10;
+                iVar8 = (u32)this->field46_0xae << 0x10;
                 fVar16 = ((float)((int)this->field44_0xaa +
                                  ((iVar8 >> 0x10) - (iVar8 >> 0x1f) >> 1)) - this->floatY) -
                          (float)(uVar11 >> 1 & 0xffff);
@@ -684,12 +684,12 @@ LAB_80052a58:
 LAB_80052b30:
     if (!this->B_buttonToggle) {
       uVar11 = this->widget20->GetWidth();
-      iVar8 = (uint)this->field45_0xac << 0x10;
+      iVar8 = (u32)this->field45_0xac << 0x10;
       this->field21_0x50 =
            ((float)((int)this->field43_0xa8 + ((iVar8 >> 0x10) - (iVar8 >> 0x1f) >> 1)) -
            this->floatX) - (float)(uVar11 >> 1);
       uVar11 = this->widget20->GetHeight();
-      iVar8 = (uint)this->field46_0xae << 0x10;
+      iVar8 = (u32)this->field46_0xae << 0x10;
       this->field22_0x54 =
            ((float)((int)this->field44_0xaa + ((iVar8 >> 0x10) - (iVar8 >> 0x1f) >> 1)) -
            this->floatY) - (float)(uVar11 >> 1);
@@ -835,12 +835,12 @@ void MiniMap::Toggle(byte x){
     }
     else {
       uVar5 = pBVar1->GetWidth();
-      iVar7 = (uint)this->field45_0xac << 0x10;
+      iVar7 = (u32)this->field45_0xac << 0x10;
       this->field21_0x50 =
            ((float)((int)this->field43_0xa8 + ((iVar7 >> 0x10) - (iVar7 >> 0x1f) >> 1)) -
            this->floatX) - (float)(uVar5 >> 1);
       uVar5 = this->widget20->GetHeight();
-      iVar7 = (uint)this->field46_0xae << 0x10;
+      iVar7 = (u32)this->field46_0xae << 0x10;
       this->field22_0x54 =
            ((float)((int)this->field44_0xaa + ((iVar7 >> 0x10) - (iVar7 >> 0x1f) >> 1)) -
            this->floatY) - (float)(uVar5 >> 1);
@@ -965,10 +965,10 @@ bool MiniMap::GwernCourt(u16 index){
   short sVar2;
   bool bVar3;
   MinimapSec_dat *pMVar4;
-  uint uVar5;
+  u32 uVar5;
   float fVar6;
   
-  uVar5 = (uint)index;
+  uVar5 = (u32)index;
   if (this->savedPlayerPos.y < 4.0f) {
     if (26.0f < this->savedPlayerPos.z) {
       pMVar4 = this->mapdat + index;
@@ -976,7 +976,7 @@ bool MiniMap::GwernCourt(u16 index){
       sVar2 = 0x2a;
     }
     else {
-      pMVar4 = (MinimapSec_dat *)(((uint)index * 8 - index) * 2 + (int)this->mapdat);
+      pMVar4 = (MinimapSec_dat *)(((u32)index * 8 - index) * 2 + (int)this->mapdat);
       sVar1 = *(short *)&pMVar4->borg8;
       sVar2 = 0x2b;
     }

@@ -79,7 +79,7 @@ void Quicksort::Run(void **ToSort,int low,int hi,int EntrySize,Sorter Sortfunc){
   if (uVar1 == 1) {SWAP(r_00,r);}
 }
 
-void Quicksort::Sort(void** ToSort,uint ArraySize,uint EntrySize,Sorter SortFunc){
+void Quicksort::Sort(void** ToSort,u32 ArraySize,u32 EntrySize,Sorter SortFunc){
   ALLOCS(gQuicksortTempP,EntrySize,262);
   if (ArraySize) Run(ToSort,0,ArraySize - 1,EntrySize,SortFunc);
   HFREE(gQuicksortTempP,267);

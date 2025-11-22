@@ -423,16 +423,16 @@ void Scene::SetLightData(SceneData *param_1){
 void Scene::SceneSetMaxDynamicDirLights(SceneData *param_1,byte max){
   if (max > 7)
     CRASH("scenes.cpp, SceneSetMaxDynamicDirLights()","Max is larger than hardware limit of 7!"); 
-  param_1->maxDynamicLights = (uint)max;
+  param_1->maxDynamicLights = (u32)max;
 }
 
 int Scene::LengthSquared(byte A,byte B,byte C){
-  return SQ((uint)A)+SQ((uint)B)+SQ((uint)C);
+  return SQ((u32)A)+SQ((u32)B)+SQ((u32)C);
 }
 
 s16 Scene::addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z,u8 red,u8 green,u8 blue,s16 index){
-  uint uVar3;
-  uint uVar4;
+  u32 uVar3;
+  u32 uVar4;
   int iVar5;
   Light_t *pLVar6;
   s16 sVar7;
@@ -468,7 +468,7 @@ s16 Scene::addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z
     }
     sVar7 = (s16)lVar10;
     if (lVar10 < 0) return -1;
-    uVar3 = (uint)lVar10;
+    uVar3 = (u32)lVar10;
   }
   pLVar6 = &param_1->DirLights[uVar3].l;
   pLVar6->col[0] = 0;
@@ -550,19 +550,19 @@ bool Scene::SceneGetLocatorMtx(SceneData *ani,MtxF *mf,s32 i){
 CRASH("scene.cpp, SceneGetLocatorMtx()","Locator is greater than MAX_LOCATORS");
 }
 
-bool Scene::SceneGetLocatorPos(SceneData *param_1,vec3f *pos,s32 param_3){
+bool Scene::SceneGetLocatorPos(SceneData *pScene,vec3f *pos,s32 param_3){
   Borg2Data *pbVar2;
   float fVar3;
   float fVar4;
   char acStack_90 [144];
   
-  if (!param_1) CRASH("scene.cpp, SceneGetLocatorPos()","!pScene");
+  if (!pScene) CRASH("scene.cpp, SceneGetLocatorPos()","!pScene");
   if (MAX_LOCATORS < param_3) CRASH("scene.cpp, SceneGetLocatorPos()","Locator is greater than MAX_LOCATORS");
-  if (param_1->locators[param_3] == -1) { //if you force roog into a fight, it will crash here.
-    sprintf(acStack_90,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
+  if (pScene->locators[param_3] == -1) { //if you force roog into a fight, it will crash here.
+    sprintf(acStack_90,"Locator: %d is undefined for %s!\n",param_3,pScene->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorPos()",acStack_90);
   }
-  Borg2Header *pModel = ((param_1->scene[0].borg5)->dat).borg2p[param_1->locators[param_3]];
+  Borg2Header *pModel = ((pScene->scene[0].borg5)->dat).borg2p[pScene->locators[param_3]];
   if (!pModel) CRASH("scene.cpp, SceneGetLocatorPos()","!pModel");
   pbVar2 = pModel->dat;
   guMtxXFMF(&pModel->someMtx,(pbVar2->pos).x,(pbVar2->pos).y,(pbVar2->pos).z,&pos->x,&pos->y,&pos->z);

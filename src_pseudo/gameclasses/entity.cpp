@@ -293,7 +293,7 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   if (pcVar4->ReqSTR <= iVar1) {
     if (!param_1->Skills->getModdedWeapon(pcVar4->wepClass)) bVar2 = 1;
     else {
-      if (param_1->ID == IDEntInd(EndInd_Neilsen)) { //Niesen
+      if (param_1->ID == IDEntInd(EntInd_Neilsen)) { //Niesen
         bVar2 = 1;
         if (param_2 == IDWeapon(weaponList[66])) //archmage stafff
         bVar2 = 0;
@@ -481,7 +481,7 @@ u8 Entity::HasPotionEffect(CharSheet *param_1,u8 id){
 void Entity::ApplyPotionEffect(CharSheet *chara,u8 pot,u8 pow,u32 time){
   PotionEffect (*paPVar1) [7];
   PotionEffect *eff;
-  uint uVar2;
+  u32 uVar2;
   CharSkills *skills;
   u8 SVar3;
   u8 skill;
@@ -546,7 +546,7 @@ Lab_return:
   return;
 }
 
-u8 Entity::IncPotionEffect(CharSheet *param_1,u8 noCombat,uint delta){
+u8 Entity::IncPotionEffect(CharSheet *param_1,u8 noCombat,u32 delta){
   u16 mag;
   
   if (!isDead(param_1)) {
@@ -730,7 +730,7 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 po
   CombatAI_s *pCVar1;
   Temp_enchant **ppTVar2;
   bool bVar3;
-  uint uVar6;
+  u32 uVar6;
   bool bVar11;
   int iVar7;
   bool bVar12;
@@ -741,8 +741,8 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 po
   u8 SVar13;
   undefined uVar14;
   int iVar15;
-  uint Lv;
-  uint uVar16;
+  u32 Lv;
+  u32 uVar16;
   undefined4 UNK4;
   byte bVar10;
   undefined4 uVar17;
@@ -1046,14 +1046,14 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
     goto LAB_80079c10;
   case SPELLIND_strength:
     SVar3 = STAT_STR;
-    cVar4 = (char)(((uint)pTVar1->lv << 0x19) >> 0x18);
+    cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case SPELLIND_wind:
     TerrainPointer->windByte = WIND_FOG;
     break;
   case SPELLIND_brilliance:
     SVar3 = STAT_INT;
-    cVar4 = (char)(((uint)pTVar1->lv << 0x19) >> 0x18);
+    cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case SPELLIND_stupidity:
     bVar5 = pTVar1->lv;
@@ -1061,7 +1061,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
     goto LAB_80079c10;
   case SPELLIND_endurance:
     SVar3 = STAT_END;
-    cVar4 = (char)(((uint)pTVar1->lv << 0x19) >> 0x18);
+    cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case SPELLIND_weakness:
     bVar5 = pTVar1->lv;
@@ -1090,7 +1090,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
   //Bug: further removes stamina, assintally doubling debuff
   case SPELLIND_stamina:
     SVar3 = STAT_STAM;
-    cVar4 = (char)(((uint)pTVar1->lv << 0x19) >> 0x18);
+    cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case SPELLIND_wallOfBones:
   case SPELLIND_frozenDoom:
@@ -1107,7 +1107,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
     break;
   case SPELLIND_dexterity:
     SVar3 = STAT_DEX;
-    cVar4 = (char)(((uint)pTVar1->lv << 0x19) >> 0x18);
+    cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
   case SPELLIND_clumsiness:
     bVar5 = pTVar1->lv;
@@ -1128,12 +1128,12 @@ s32 Entity::IncEnchantments(CharSheet *chara,CombatEntity *cEnt,s32 delta){
   int iVar3;
   u8 uVar8;
   u16 uVar6;
-  uint uVar4;
-  uint uVar5;
+  u32 uVar4;
+  u32 uVar5;
   byte dice;
   u16 daySpeed;
   longlong lVar10;
-  uint i;
+  u32 i;
   int iVar11;
   int iVar12;
   
@@ -1151,7 +1151,7 @@ s32 Entity::IncEnchantments(CharSheet *chara,CombatEntity *cEnt,s32 delta){
         SVar1 = pTVar2->index;
         lVar10 = 0;
         if (SVar1 == SPELLIND_poison) {
-          uVar5 = (uint)(pTVar2->lv >> 1);
+          uVar5 = (u32)(pTVar2->lv >> 1);
           iVar3 = CharStats::getModded(chara->Stats,STAT_END);
           if (iVar3 < (int)uVar5) {
             uVar5 = CharStats::getModded(chara->Stats,STAT_END);
@@ -1320,7 +1320,7 @@ int Entity::EquipStamina(CharSheet *param_1,short stam,u8 param_3){
   s16 sVar3;
   u32 lVar1;
   int iVar2;
-  uint uVar5;
+  u32 uVar5;
   int iVar6;
   
   sVar3 = AddEquipStamina(param_1,&param_1->weapons->base,stam,param_3);
@@ -1369,7 +1369,7 @@ s16 Entity::AddEquipStamina(CharSheet *param_1,ItemInstance *param_2,short param
   return param_3;
 }
 
-void Entity::CampHeal(CharSheet *param_1,float healing,uint time){
+void Entity::CampHeal(CharSheet *param_1,float healing,u32 time){
   u16 uVar3;
   u16 uVar1;
   u16 uVar4;
@@ -1442,7 +1442,7 @@ void Entity::CheckDeathFromDoT(CharSheet *param_1,s16 param_2,s16 param_3,Combat
   }
 }
 
-void Entity::IncEffects(CharSheet *Ent,CombatEntity *CEnt,uint Delta){
+void Entity::IncEffects(CharSheet *Ent,CombatEntity *CEnt,u32 Delta){
   CheckDeathFromDoT(Ent,IncPotionEffect(Ent,CEnt == NULL,Delta) + IncEnchantments(Ent,CEnt,Delta),0,CEnt);
 }
 
@@ -1450,7 +1450,7 @@ void Entity::IncEffects(CharSheet *Ent,CombatEntity *CEnt,uint Delta){
 u8 Ofunc_8007a8cc(ItemID param_1,u8 param_2){
   byte bVar1 = GETINDEX(param_1);
   return gWeaponsDB->Types2[param_2] <= bVar1 &&
-         bVar1 <= gWeaponsDB->Types2[param_2] + (uint)gWeaponsDB->Types[param_2] + -1;
+         bVar1 <= gWeaponsDB->Types2[param_2] + (u32)gWeaponsDB->Types[param_2] + -1;
 }
 //add (x*1.5) exp to (chara)
 void Entity::AddExp(CharSheet *chara,s32 x){
@@ -1586,8 +1586,8 @@ void Entity::DarknessLightMagic(CharSheet *param_1,u8 param_2){
   Temp_enchant *pTVar2;
   u8 TVar3;
   int iVar4;
-  uint uVar5;
-  uint uVar6;
+  u32 uVar5;
+  u32 uVar6;
   u8 SVar7;
   CombatEntity *iVar3;
   
@@ -1647,7 +1647,7 @@ u8 Entity::DispelMagic(CharSheet *param_1,CombatEntity* param_2,u8 param_3,u8 pa
       uVar4 += (int)(char)pTVar1->varA;
     }
   }
-  if ((iVar5 == 0) || ((uint)param_4 * iVar5 < uVar4)) bVar2 = false;
+  if ((iVar5 == 0) || ((u32)param_4 * iVar5 < uVar4)) bVar2 = false;
   else {
     for(uVar6 = 0;uVar6 < 0xf;uVar6++) {
       if ((param_1->effects[uVar6]) && (param_1->effects[uVar6]->school == MVar7)) {
@@ -1726,7 +1726,7 @@ ItemInstance * Entity::HasItemEquipped(CharSheet *param_1,ItemID param_2){
   u16 uVar3;
   GearInstance **ppGVar4;
   ItemInstance *pWVar5;
-  uint uVar5;
+  u32 uVar5;
   
   uVar3 = (u16)param_2 >> 8;
   if (uVar3 == 6) {
@@ -1883,7 +1883,7 @@ u8 Entity::GetShieldDefence(CharSheet *param_1,ItemID param_2){
 
 int Entity::GetArmorProtect(CharSheet *param_1,ItemID param_2){
   byte bVar1;
-  uint uVar4;
+  u32 uVar4;
   int total;
   int iVar6;
   

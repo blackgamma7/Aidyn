@@ -27,9 +27,9 @@ bool DCM::Add(u8 *param_1,s32 *param_2,Borg12Sub *param_3,u8 vol,u8 pan,u8 param
 byte bVar1;
 u32 uVar2;
 bool bVar3;
-uint uVar4;
-uint uVar5;
-uint uVar6;
+u32 uVar4;
+u32 uVar5;
+u32 uVar6;
 DCM_struct *pDVar7;
 
     if (gDCMManager.index < DCMMax) {
@@ -73,7 +73,7 @@ DCM_struct *pDVar7;
 
 
 bool DCM::Start(u8 index,u32 id,byte vol){
-  uint uVar1;
+  u32 uVar1;
   bool bVar2;
   DCM_sub *pDVar3;
   u8 uVar4;
@@ -90,7 +90,7 @@ bool DCM::Start(u8 index,u32 id,byte vol){
         pDVar3 = pDVar5->ptr0;
         while( true ) {
           pDVar3 = pDVar3 + uVar4;
-          SetVoiceVol((uint)pDVar3->index,pDVar3->id,SQ((u32)pDVar3->vol)>>4);
+          SetVoiceVol((u32)pDVar3->index,pDVar3->id,SQ((u32)pDVar3->vol)>>4);
           uVar4++;
           if (uVar1 <= uVar4) break;
           pDVar3 = pDVar5->ptr0;
@@ -107,7 +107,7 @@ bool DCM::Start(u8 index,u32 id,byte vol){
 bool DCM::Pan(u8 param_1,u32 param_2,u8 param_3)
 
 {
-  uint uVar1;
+  u32 uVar1;
   char cVar2;
   bool bVar4;
   int iVar3;
@@ -115,7 +115,7 @@ bool DCM::Pan(u8 param_1,u32 param_2,u8 param_3)
   DCM_sub *pDVar6;
   int iVar7;
   DCM_sub *pabVar7;
-  uint uVar8;
+  u32 uVar8;
   DCM_struct *pDVar9;
   
   pDVar9 = gDCMManager.DCMStructPointer + param_1;
@@ -136,14 +136,14 @@ bool DCM::Pan(u8 param_1,u32 param_2,u8 param_3)
         pDVar6 = pDVar9->ptr0;
         while( true ) {
           pabVar7 = pDVar6 + uVar8;
-          cVar5 = (char)((uint)pabVar7->pan * (iVar3 >> 0x10) >> 8);
+          cVar5 = (char)((u32)pabVar7->pan * (iVar3 >> 0x10) >> 8);
           if (iVar7 < 0) {
             cVar5 = (param_3 + cVar2) - cVar5;
           }
           else {
             cVar5 += param_3 - cVar2;
           }
-          SetVoicePan((uint)pabVar7->index,pabVar7->id,cVar5);
+          SetVoicePan((u32)pabVar7->index,pabVar7->id,cVar5);
           uVar8 = uVar8 + 1 & 0xff;
           if (uVar1 <= uVar8) break;
           pDVar6 = pDVar9->ptr0;
@@ -191,7 +191,7 @@ bool DCM::Remove(byte index,u32 id){
     pDVar5->active = 0;
     if (pDVar5->borg12->channelCount) {
       for(u8 i = 0;i<pDVar5->borg12->channelCount;i++) {
-        StopVoice((uint)pDVar5->ptr0[i].index,pDVar5->ptr0[i].id);
+        StopVoice((u32)pDVar5->ptr0[i].index,pDVar5->ptr0[i].id);
       }
     }
     bVar2 = true;
@@ -248,8 +248,8 @@ LAB_8009a7f0:
                     pDVar7->pitch = pitchH & 0x3fff;
                     pDVar10->byteIndex+=2;
                     pDVar7->pitch =
-                         uStack104[pitchH >> 0xe][1] + (pDVar7->pitch << (uint)(pitchH >> 0xe));
-                    if (!newVoice) SetVoicePitch((uint)pDVar7->index,pDVar7->id,pDVar7->pitch);
+                         uStack104[pitchH >> 0xe][1] + (pDVar7->pitch << (u32)(pitchH >> 0xe));
+                    if (!newVoice) SetVoicePitch((u32)pDVar7->index,pDVar7->id,pDVar7->pitch);
                   }
                   if (cmd & DCMCMD_Vol){
                     pDVar7->vol = GetByte(pBVar2->channelDat + pDVar10->byteIndex++);
@@ -264,10 +264,10 @@ LAB_8009a7f0:
                     pDVar10->byteIndex++;
                     iVar8 = (0xff - iVar8) * 0x10000;
                     cVar3 = (char)(iVar8 >> 0x11);
-                    panByte = (char)((uint)pDVar7->pan * (iVar8 >> 0x10) >> 8);
+                    panByte = (char)((u32)pDVar7->pan * (iVar8 >> 0x10) >> 8);
                     if (iVar9 < 0) panByte = (pDVar10->pan + cVar3) - panByte;
                     else panByte += pDVar10->pan - cVar3;
-                    if (!newVoice) SetVoicePan((uint)pDVar7->index,pDVar7->id,panByte);
+                    if (!newVoice) SetVoicePan((u32)pDVar7->index,pDVar7->id,panByte);
                   }
                   if (cmd & DCMCMD_ChanIndex)
                     pDVar7->chanInd = GetByte(pBVar2->channelDat + pDVar10->byteIndex++);
@@ -279,25 +279,25 @@ LAB_8009a7f0:
                   else pDVar7->unk4 = 0;
                   if (cmd & DCMCMD_Stop){
                     cmd = GetByte(pBVar2->channelDat + pDVar10->byteIndex++);
-                    if (cmd & DCMCMD_Wait) StopVoice((uint)pDVar7->index,pDVar7->id);
+                    if (cmd & DCMCMD_Wait) StopVoice((u32)pDVar7->index,pDVar7->id);
                     if (cmd & DCMCMD_Pitch) {
                       pDVar10->unk19 = GetByte(pBVar2->channelDat + pDVar10->byteIndex++);
                       if (pDVar10->unk19) {
-                        iVar8 = (uint)pDVar10->unk19 * 24 + (uint)pDVar10->unk19;
-                        pDVar10->unk19 = (char)(125000 / (uint)(iVar8 * 2)) - 1;
+                        iVar8 = (u32)pDVar10->unk19 * 24 + (u32)pDVar10->unk19;
+                        pDVar10->unk19 = (char)(125000 / (u32)(iVar8 * 2)) - 1;
                       }
                     }
                     if (cmd & DCMCMD_Vol) pDVar10->byteIndex++;
                   }
                   if (newVoice){
-                    StopVoice((uint)pDVar7->index,pDVar7->id);
+                    StopVoice((u32)pDVar7->index,pDVar7->id);
                     iVar9 = pDVar10->pan - 0x80;
                     iVar8 = iVar9 * 2;
                     if (iVar8 < 0) iVar8 = iVar9 * -2;
                     iVar8 = (0xff - iVar8) * 0x10000;
                     dcmStruct2 *chanDat = pBVar2->ptr0x18 + pDVar7->chanInd;
                     cVar3 = (short)(iVar8 >> 0x11);
-                    panByte = ((uint)pDVar7->pan * (iVar8 >> 0x10) >> 8);
+                    panByte = ((u32)pDVar7->pan * (iVar8 >> 0x10) >> 8);
                     if (iVar9 < 0) panByte = (pDVar10->pan + cVar3) - panByte;
                     else panByte += pDVar10->pan - cVar3;
                     AddVoice(&pDVar7->index,&pDVar7->id,chanDat->instrumentDat,pDVar7->unk4,
@@ -321,7 +321,7 @@ LAB_8009a7f0:
               if (pBVar2->channelCount != 0) {
                 for(i=0;i<pBVar2->byteIndex;i++) {
                   pDVar7 = &pDVar10->ptr0[i];
-                  StopVoice((uint)pDVar7->index,pDVar7->id);
+                  StopVoice((u32)pDVar7->index,pDVar7->id);
                   pDVar7->timer = 0;
                 }
                 pDVar10->unk20 = 0;

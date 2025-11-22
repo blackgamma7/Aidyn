@@ -269,7 +269,7 @@ u16 Cinematic::LoadMap(void){
       }
     }
   }
-  dialoug_func((uint)dia->borg_13,dia->RefPointID,dia->MapDatA,dia->MapShortA,dia->MapShortB,0x7fff);
+  dialoug_func((u32)dia->borg_13,dia->RefPointID,dia->MapDatA,dia->MapShortA,dia->MapShortB,0x7fff);
   remove_borg_9(map);
   return 12;
 }

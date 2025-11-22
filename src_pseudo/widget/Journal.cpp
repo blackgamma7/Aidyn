@@ -4,9 +4,9 @@
 
 #define FILENAME "./menus/journal.cpp"
 
-int some_char_to_int_parsing(int base,uint param_2) {
+int some_char_to_int_parsing(int base,u32 param_2) {
   int iVar1;
-  uint uVar2;
+  u32 uVar2;
   int iVar3;
   
   iVar3 = 1;
@@ -108,8 +108,8 @@ void Journal::Load(s32 newest) {
   char *pcVar5;
   char *pcVar6;
   int iVar8;
-  uint uVar9;
-  uint uVar11;
+  u32 uVar9;
+  u32 uVar11;
   
   char *pBuffer = (char *)HALLOC(JOURNALSIZE,0xe0);
   if (pBuffer == NULL) CRASH("Journal::Load()","Not enough memory for pBuffer");

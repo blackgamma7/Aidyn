@@ -111,10 +111,10 @@ void WidgetMenuSpells::DHorizontal(u8 dir) {
   if (!isAnimating()) {
     s16 sVar6 = 140;
     if (dir == 0) {
-      uVar2 = ((uint)this->selected + (uint)this->count + 1) % (uint)this->count;
+      uVar2 = ((u32)this->selected + (u32)this->count + 1) % (u32)this->count;
     }
     else {
-      uVar2 = (int)((uint)this->selected + (uint)this->count + -1) % (int)(uint)this->count;
+      uVar2 = (int)((u32)this->selected + (u32)this->count + -1) % (int)(u32)this->count;
       sVar6 = -140;
     }
     this->SpellSkills[uVar2]->posX = 20 - sVar6;
