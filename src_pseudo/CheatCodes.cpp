@@ -16,46 +16,46 @@ u8 Cheats::Check(char *param_1){
   
   bVar8 = 0;
   cheatStrings_pointer = RomString::Load(CheatStrings,0xf0);
-  memset(cheatArray,0,8);
+  CLEAR(&cheatArray[0]);
   cheatArray[0].code = *cheatStrings_pointer; //!balloon
   cheatArray[0].cheat = _balloon;
-  memset(cheatArray + 1,0,8);
+  CLEAR(&cheatArray[1]);
   cheatArray[1].code = cheatStrings_pointer[1]; //!BigW
   cheatArray[1].cheat = _Bigw;
-  memset(cheatArray + 2,0,8);
+  CLEAR(&cheatArray[2]);
   cheatArray[2].code = cheatStrings_pointer[2]; //!flea
   cheatArray[2].cheat = _Flea;
-  memset(cheatArray + 3,0,8);
+  CLEAR(&cheatArray[3]);
   cheatArray[3].code = cheatStrings_pointer[3]; //!slashing
   cheatArray[3].cheat = _slashing;
-  memset(cheatArray + 4,0,8);
+  CLEAR(&cheatArray[4]);
   cheatArray[4].code = cheatStrings_pointer[4]; //!darkside
   cheatArray[4].cheat = _darkside;
-  memset(cheatArray + 5,0,8);
+  CLEAR(&cheatArray[5]);
   cheatArray[5].code = cheatStrings_pointer[5]; //!crawdaddy
   cheatArray[5].cheat = _crawdaddy;
-  memset(cheatArray + 6,0,8);
+  CLEAR(&cheatArray[6]);
   cheatArray[6].code = cheatStrings_pointer[6]; //!fatboy
   cheatArray[6].cheat = _fatboy;
-  memset(cheatArray + 7,0,8);
+  CLEAR(&cheatArray[7]);
   cheatArray[7].code = cheatStrings_pointer[7]; //Tweety
   cheatArray[7].cheat = _tweety;
-  memset(cheatArray + 8,0,8);
+  CLEAR(&cheatArray[8]);
   cheatArray[8].code = cheatStrings_pointer[8]; //!cheater
   cheatArray[8].cheat = _Cheater;
-  memset(cheatArray + 9,0,8);
+  CLEAR(&cheatArray[9]);
   cheatArray[9].code = cheatStrings_pointer[9]; //!bingo
   cheatArray[9].cheat = _bingo;
-  memset(cheatArray + 10,0,8);
+  CLEAR(&cheatArray[10]);
   cheatArray[10].code = cheatStrings_pointer[10]; //imadoofus
   cheatArray[10].cheat = imadoofus;
-  memset(cheatArray + 0xb,0,8);
+  CLEAR(&cheatArray[11]);
   cheatArray[11].code = cheatStrings_pointer[0xc]; //keepbusy
   cheatArray[11].cheat = keepbusy;
-  memset(cheatArray + 0xc,0,8);
+  CLEAR(&cheatArray[12]);
   cheatArray[12].code = cheatStrings_pointer[0x10]; //!version
   cheatArray[12].cheat = _version;
-  memset(cheatArray + 0xd,0,8);
+  CLEAR(&cheatArray[13]);
   //There were 2 more cheat phrases (!gene, !gotmilk) that were unimplimented
   uVar7 = 0;
   if (cheatArray) {
@@ -123,7 +123,7 @@ u8 Cheats::_Cheater(){
   setEventFlag(FLAG_Cheater,true);
   if ((PARTY)->PartySize) {
     for(u8 i=0;i < (PARTY)->PartySize;i++) {
-      if ((PARTY)->Members[i]) {Entity::AddExp((PARTY)->Members[i],500000);}
+      if ((PARTY)->Members[i]) Entity::AddExp((PARTY)->Members[i],500000);
     }
   }
   pause_Substruct *ppVar1 = PauseSub; //Pause menu update, crashes game if used on title screen
@@ -136,7 +136,6 @@ u8 Cheats::_Cheater(){
 }
  //+100000 gold
 u8 Cheats::_bingo(void){
-  BaseWidget *pwVar1;
   char *pcVar2;
   #ifndef DEBUGVER
   if(getEventFlag(FLAG_Bingo))return false; //no double-dipping in retail
@@ -151,11 +150,11 @@ u8 Cheats::_bingo(void){
 
 //asks you to enter "keepbusy"
 u8 Cheats::imadoofus(void){
-  TextPopup_New(cheatStrings_pointer[11],200,0x1e,COLOR_WHITE,0x96,1);
+  TextPopup_New(cheatStrings_pointer[11],200,0x1e,COLOR_WHITE,0x96,true);
   return true;}
 //asks you to enter "imadoofus"
 u8 Cheats::keepbusy(void){
-  TextPopup_New(cheatStrings_pointer[12],200,0x1e,COLOR_WHITE,0x96,1);
+  TextPopup_New(cheatStrings_pointer[12],200,0x1e,COLOR_WHITE,0x96,true);
   return true;}
 
 u8 Cheats::_version(void){
@@ -178,8 +177,8 @@ u8 Cheats::_version(void){
 
 
   #define FMT "Aidyn Chronicles\nVersion: " STR2(VERSIONNAME) "\nCompile: %s-%s\nCode: %lu"
-  Gsprintf(FMT,COMPILEDATE,COMPILETIME,0xffa50/*1MB-boot segment size */);
-  TextPopup_New(gGlobals.text,200,0x32,COLOR_WHITE,0x96,1);
+  Gsprintf(FMT,COMPILEDATE,COMPILETIME,CODESIZE);
+  TextPopup_New(gGlobals.text,200,0x32,COLOR_WHITE,0x96,true);
   #ifndef DEBUGVER
   version_flag=1; //activates coord print in retail during AppProc()
   #endif

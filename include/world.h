@@ -78,7 +78,7 @@ void ChangeWind(TerrainStruct *,vec3f *,float ,float );
 void SetWithWeatherTemp(TerrainStruct *,WeatherTemp *);
 void GetWeatherTemp(TerrainStruct *,WeatherTemp *);
 void set_moonPhase(TerrainStruct *,Calendar *);
-u8 set_timeofDay(TerrainStruct *,Calendar *);
+u8 UpdateTimeOfDay(TerrainStruct *,Calendar *);
 void set_weather(TerrainStruct *,Calendar *);
 void SeveralTimeFuncs(TerrainStruct *);
 void cap_ingame_time(TerrainStruct *);

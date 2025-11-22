@@ -3,7 +3,6 @@
 #include "romstring.h"
 
 
-
 #ifdef DEBUGVER
 #define BUILDVER "02.01d-PRERELEASE"
 #define COMPILEDATE "Feb  2 2001"
@@ -14,7 +13,7 @@ void TitleSplash::ShowVersion(Gfx**GG,u8 param_2){
   if ((sSplashVersionFlag) && (param_2)) {
     Gfx*g = *GG;
     Gsprintf("Aidyn Chronicles\nVersion: 02.01d-PRERELEASE\nCompile: %s-%s\nCode: %lu",
-     COMPILEDATE,COMPILETIME,(&clear_end - &romMain) + 0x400);
+     COMPILEDATE,COMPILETIME,CODESIZE);
     *GG = Graphics::DrawText(g,gGlobals.text,0x1e,0x1e,200,200,200,param_2);
   }
 }
@@ -68,13 +67,13 @@ void TitleSplash::Init(void){
   Scene::SetFlag8(SplashLogoModel);
   Scene::SetFlag10(SplashLogoModel);
   Scene::UnsetFlag4(SplashLogoModel);
-  Scene::SetModelTint(SplashLogoModel,0,0,0,0xff);
+  Scene::SetModelTint(SplashLogoModel,COLOR_BLACK);
   gGlobals.titleSplashVars.UnkC = 0;
   gGlobals.titleSplashVars.timer = 0;
   fadeFloatMirror = 1.0f;
   SplashLicence = WidgetB8(BORG8_LicencedByNintendo);
   SplashLicence->SetColor(0,0,0,0);
-  SplashLicence->SetCoords(160 -(SplashLicence->GetWidth()/2),190);
+  SplashLicence->SetCoords(SCREEN_CENTERW -(SplashLicence->GetWidth()/2),(SCREEN_HEIGHT-50));
 }
 
 void TitleSplash::N64Free(void){
@@ -97,6 +96,9 @@ void TitleSplash::Load(void){
   gGlobals.titleSplashVars.UnkD = 0;
   copyrightText = RomString::Load(copyrightStrings,0x180);
   Controller::GetDelay(0);
+  #ifdef DEBUGVER
+  if(CODESIZE>0x1000000)sCodeSizeError=true;
+  #endif
 }
 
 void TitleSplash::Free(void){
@@ -208,7 +210,7 @@ u8 TitleSplash::Copyright(Gfx **GG){
   ((gGlobals.font)->col).B = sSplashCopyrightGray;
   ((gGlobals.font)->col).A = sSplashCopyrightGray;
   #ifdef DEBUGVER
-  if (copyright_error == 0) {
+  if (!sCodeSizeError){
   #endif
     for(u16 i = 0;i < 0xc;i++) {
       Println(&g,&textY,copyrightText[i]);
@@ -217,16 +219,15 @@ u8 TitleSplash::Copyright(Gfx **GG){
     }
   #ifdef DEBUGVER
   }
-  else {
+  else{
     Gsprintf("Code Segment Too Big!\n");
+    u32 segsize=CODESIZE;
     Println(&g,&textY,gGlobals.text);
     Gsprintf("Max: 0x%08x - %d\n",0x100000,0x100000);
     Println(&g,&textY,gGlobals.text);
-    //reflects "boot" code size
-    Gsprintf("Current: 0x%08x - %d\n",0xffa50,0xffa50);
+    Gsprintf("Current: 0x%08x - %d\n",segsize,segsize);
     Println(&g,&textY,gGlobals.text);
-    //reflects "boot" code size minus 1 MB
-    Gsprintf("Over: 0x%08x - %d\n",-0x5b0,-0x5b0);
+    Gsprintf("Over: 0x%08x - %d\n",(segsize-0x100000),(segsize-0x100000));
     Println(&g,&textY,gGlobals.text);
     if (sSplashCopyrightState == 1) gGlobals.titleSplashVars.timer = 0;
   }
@@ -236,7 +237,6 @@ u8 TitleSplash::Copyright(Gfx **GG){
 }
 
 u8 TitleSplash::N64Logo(Gfx**GG){
-  Gfx*g;
   float fVar5;
   float fVar6;
   float fVar7;
@@ -249,7 +249,7 @@ u8 TitleSplash::N64Logo(Gfx**GG){
   #define ShowTime 120
   #endif
 
-  g = *GG;
+  Gfx*g = *GG;
   auStack64 = gGlobals.titleSplashVars.state;
   //yeah, sets value directly instead of using setter.
   (SplashLicence->col)={sSplashN64Alpha,sSplashN64Alpha,sSplashN64Alpha,sSplashN64Alpha};

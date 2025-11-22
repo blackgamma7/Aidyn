@@ -1,7 +1,7 @@
 #include "globals.h"
 #include "game.h"
 #include "compass.h"
-#include "sundail.h"
+#include "Sundial.h"
 #include "portraits.h"
 
 
@@ -15,7 +15,7 @@ void initGameTrek(void) {
   gGlobals.playerCharStruct.show_portaits = 1;
   MINIMAP.Toggle(1);
   Compass::Init();
-  Sundail::Init();
+  Sundial::Init();
   Portrait::InitBorder();
   Gsprintf("GameTrekInit WanderHead\n");
   WanderHead(&gGlobals.wander,0x27);

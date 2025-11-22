@@ -163,35 +163,17 @@ moonval1:
   return;
 }
 
-u8 World::set_timeofDay(TerrainStruct *param_1,Calendar *param_2){
-  u8 TVar1;
-  u8 TodNew;
-  byte hr;
-  
-  if (param_1->DayNightMagic) return false;
-  hr = param_2->hour;
-  TodNew = param_1->partOfDay;
-  if (hr < 6) {
-    TVar1 = TIME_NIGHT;
-  }
-  else {
-    if (hr < 9) {
-      param_1->partOfDay = TIME_MORNING;
-      goto LAB_800853c0;
-    }
-    TVar1 = TIME_MIDDAY;
-    if ((0xb < hr) && (TVar1 = TIME_AFTERNOON, 0x11 < hr)) {
-      if (hr < 0x15) {
-        TVar1 = TIME_EVENING;
-      }
-      else {
-        TVar1 = TIME_NIGHT;
-      }
-    }
-  }
-  param_1->partOfDay = TVar1;
-LAB_800853c0:
-  return param_1->partOfDay != TodNew;
+u8 World::UpdateTimeOfDay(TerrainStruct *ter,Calendar *cal){
+  if (ter->DayNightMagic) return false;
+  u8 hr = cal->hour;
+  u8 TodOld = ter->partOfDay;
+  if      (hr < 6) ter->partOfDay = TIME_NIGHT;
+  else if (hr < 9) ter->partOfDay = TIME_MORNING;
+  else if (hr <12) ter->partOfDay = TIME_MIDDAY;
+  else if (hr <17) ter->partOfDay = TIME_AFTERNOON;
+  else if (hr <21) ter->partOfDay = TIME_EVENING;
+  else             ter->partOfDay = TIME_NIGHT;
+  return ter->partOfDay != TodOld;
 }
 
 void World::set_weather(TerrainStruct *ter,Calendar *cal){
@@ -235,7 +217,7 @@ void World::SeveralTimeFuncs(TerrainStruct *ter){
 
   GetCalendarDate(ter,&CalTemp);
   set_moonPhase(ter,&CalTemp);
-  u8 change=set_timeofDay(ter,&CalTemp);
+  u8 change=UpdateTimeOfDay(ter,&CalTemp);
   #ifdef DEBUGVER
   if(!gDebugGameTime) return;
   #endif

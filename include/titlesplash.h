@@ -23,6 +23,7 @@ namespace TitleSplash{
 #define SplashNoop(cont) ;
 #endif
 
+
 //intromusic protos
 
 void load_intro_music();
@@ -31,7 +32,7 @@ void noop_intromusic();
 
 char** copyrightText=NULL;
 #ifdef DEBUGVER
-u16 copyright_error=0;
+u16 sCodeSizeError=0;
 #endif
 SceneData* SplashLogoModel=NULL;
 WidgetBorg8* SplashLicence=NULL;

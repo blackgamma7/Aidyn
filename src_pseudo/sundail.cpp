@@ -1,7 +1,7 @@
 #define FILENAME "./src/sundial.cpp"
 #include "globals.h"
 
-namespace Sundail{
+namespace Sundial{
 void Init(){
   ALLOC(gSundail,108);
   gSundail->Ring = loadBorg8(BORG8_compassRing);

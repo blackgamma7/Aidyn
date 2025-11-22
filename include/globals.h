@@ -13,7 +13,7 @@
 #include "sky.h"
 #include "SFX.h"
 #include "portraits.h"
-#include "sundail.h"
+#include "sundial.h"
 #include "commonstrings.h"
 #include "widgets/handler.h"
 #include "graphics.h"
@@ -33,6 +33,13 @@
 #include "heapN64.h"
 #include "romcopy.h"
 #include "eventFlag.h"
+
+extern void*romMain; //start of code
+extern void*clear_end;//end of .bss
+
+//used in measuring size of initial(only) segment code
+#define CODESIZE ((&clear_end - &romMain) + 0x400)
+
 
 struct GlobalsSub { /* 0x800e6988 in Debug version*/
     ZoneDat ZoneDatMtx[3][3];
@@ -168,7 +175,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     float VolBGM;
     float cloudsFloat;
     N64PrintStruct DebugQueue;
-    char text[512]; //text buffer used for sprintf's.
+    char text[0x200]; //text buffer used for sprintf's.
 };
 
 extern void(*freeWidgetFunc)(BaseWidget*);

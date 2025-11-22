@@ -415,6 +415,8 @@ typedef enum Borg8Enum {
 #define BORG5_N64Logo           0x25a8
 #define BORG5_OrianaLight       0x374a
 
+//weapon/sheild models
+
 #define BORG5_WeaponHockeyStick 0x34F9
 #define BORG5_WeaponLightreaver 0x3500
 
