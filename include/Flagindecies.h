@@ -79,6 +79,7 @@
 #define FLAG_KilledShatrevar 3737
 #define FLAG_KilledKsathra 3738
 #define FLAG_KilledAssim 3739
+#define FLAG_BestedShadow 458
 
 #define FLAG_JournalMetSholeh 523
 
