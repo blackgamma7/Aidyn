@@ -726,7 +726,7 @@ s32 Entity::FindFreeEffect(CharSheet *param_1){
 
 
 
-short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,CombatEntity *combatTarget){
+s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,CombatEntity *combatTarget){
   CombatAI_s *pCVar1;
   Temp_enchant **ppTVar2;
   bool bVar3;
@@ -735,7 +735,7 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 po
   int iVar7;
   bool bVar12;
   longlong lVar5;
-  short sVar9;
+  s16 sVar9;
   Temp_enchant *pTVar8;
   CharStats_s* stats;
   u8 SVar13;
@@ -755,7 +755,7 @@ short Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 po
   bVar10 = GETINDEX(param_1->ID);
   uVar6 = FindFreeEffect(param_1);
   if (!HasSpellEffect(param_1,id)) uVar16 = ~uVar6 >> 0x1f;
-  sVar9 = (short)uVar6;
+  sVar9 = (s16)uVar6;
   bVar11 = bVar3;
   if (false) goto switchD_800795bc_caseD_6;
   switch(id) {
@@ -1188,13 +1188,13 @@ LAB_80079da4:
         }
 LAB_80079e48:
         if ((lVar10 != 0) && (lVar10 <= getHPCurrent(chara))) {
-          DamageToLevel(chara,(short)lVar10,cEnt);
+          DamageToLevel(chara,(s16)lVar10,cEnt);
           iVar11 += (int)lVar10;
         }
       }
     }
   }
-  if (iVar12) CheckDeathFromDoT(chara,0,(short)iVar12,cEnt);
+  if (iVar12) CheckDeathFromDoT(chara,0,(s16)iVar12,cEnt);
   return iVar11;
 }
 
@@ -1316,7 +1316,7 @@ u8 Entity::TestEquipStamina(CharSheet *param_1,s16 param_2){
   if (iVar1 == 0) EquipStamina(param_1,param_2,1);
   return iVar1 == 0;}
 
-int Entity::EquipStamina(CharSheet *param_1,short stam,u8 param_3){
+int Entity::EquipStamina(CharSheet *param_1,s16 stam,u8 param_3){
   s16 sVar3;
   u32 lVar1;
   int iVar2;
@@ -1329,14 +1329,14 @@ int Entity::EquipStamina(CharSheet *param_1,short stam,u8 param_3){
   lVar1 = sVar3;
   if (param_1->pItemList->usedItems) {
     for(uVar5=0;uVar5 < param_1->pItemList->usedItems;uVar5++) {
-      sVar3 = AddEquipStamina(param_1,&param_1->pItemList->pItem[uVar5]->base,(short)lVar1,param_3);
+      sVar3 = AddEquipStamina(param_1,&param_1->pItemList->pItem[uVar5]->base,(s16)lVar1,param_3);
       lVar1 = sVar3;
     }
   }
   if (lVar1 < 1) iVar6 = 0;
   else {
     iVar2 = CharStats::getModded(param_1->Stats,STAT_STAM);
-    iVar6 = ((int)lVar1 - (int)(short)iVar2) * 0x10000 >> 0x10;
+    iVar6 = ((int)lVar1 - (int)(s16)iVar2) * 0x10000 >> 0x10;
     if (iVar6 < 0) {
       if (param_3) {
         CharStats::addModdedHealth(param_1->Stats,STAT_STAM,-(char)lVar1);
@@ -1352,7 +1352,7 @@ int Entity::EquipStamina(CharSheet *param_1,short stam,u8 param_3){
 
 
 
-s16 Entity::AddEquipStamina(CharSheet *param_1,ItemInstance *param_2,short param_3,u8 param_4){
+s16 Entity::AddEquipStamina(CharSheet *param_1,ItemInstance *param_2,s16 param_3,u8 param_4){
   StatMod *pSVar1;
   s16 iVar2;
   if (param_3 == 0) return 0;

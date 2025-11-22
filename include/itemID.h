@@ -6,7 +6,7 @@ extern ItemID itemID_array[];
 //ItemID endian swapped
 typedef struct{
     union {
-        u16 s; //often loaded as short
+        u16 s; //often loaded as s16
         struct{
             u8 id;
             u8 type; // from DB_TYPE

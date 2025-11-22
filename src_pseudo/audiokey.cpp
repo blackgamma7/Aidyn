@@ -95,9 +95,9 @@ bool FUN_8005c2f0(playerData *param_1,u16 param_2,u8 param_3,u8 param_4){
   }
 }
 
-void player_audiokey(playerData *pDat,u16 id1,u16 id2,ushort amp){
-  ushort uVar1;
-  ushort uVar2;
+void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp){
+  u16 uVar1;
+  u16 uVar2;
   audiokeyEntryA *paVar3;
   u8 uVar7;
   u32 uVar8;

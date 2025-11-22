@@ -118,7 +118,7 @@ struct voxelHeader {
     u32 timestamp; /* when was it called */
     u16 Bitfeild; /* Flags for rendering */
     u16 type; /* object type */
-    short LinkID[2]; //index of linked voxel(s) (usually -1 aka none)
+    s16 LinkID[2]; //index of linked voxel(s) (usually -1 aka none)
     u16 flagA; /* event flags */
     u16 flagB;
     u16 flagC;
@@ -141,7 +141,7 @@ struct container_Dat {
     float chestSize; /* seems identical to header.size */
     u16 openFlag;
     u16 explodeFlag;
-    short trap_lv;
+    s16 trap_lv;
     u16 unk0x14;
     ItemID LootCat; /* chestdb id */
     u16 LootType; // uses TreasureType
@@ -149,7 +149,7 @@ struct container_Dat {
     u16 Gold; /* money */
     ItemID item; /* static item */
     u16 unk1A; /* align? */
-    short lootCatDrop[6][2]; /* populated with chestdb items */
+    s16 lootCatDrop[6][2]; /* populated with chestdb items */
     u8 field13_0x34[16]; //align?
 };
 
@@ -158,7 +158,7 @@ struct teleport_dat {
     u16 MapShort1;
     u16 MapShort2;
     u16 refPoint_Pos;
-    short trap_value;
+    s16 trap_value;
     u16 trapBool16;
     u16 lock_lv;
     u16 refPoint_Cam;
@@ -242,8 +242,8 @@ struct dynaLightEntry{
 struct DynamicLightHead {
     voxelObject lights[16];
     dynaLightEntry shortsA[16];
-    short shortsB[16];
-    short dynamicLightCount;
+    s16 shortsB[16];
+    s16 dynamicLightCount;
     s16 initFlag;
 };
 
@@ -1069,7 +1069,7 @@ void takeBranch(Borg7Header *param_1,b7SubSub *param_2);
 void animate_borg7(Borg7Header *param_1);
 bool Borg7_AnimationExpired(Borg7Header *param_1);
 void FUN_800a0088();
-void FUN_800a0090(Borg7Header *param_1,ushort param_2);
+void FUN_800a0090(Borg7Header *param_1,u16 param_2);
 bool FUN_800a00d0(Borg7Header *param_1);
 bool FUN_800a0304(Borg7Header *param_1,int delta);
 u16 Ofunc_800a058c(Borg7Header *param_1);

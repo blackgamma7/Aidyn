@@ -658,7 +658,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
         acStack480.A = 0x96;
       }
       else {
-        bVar2 = pGVar6[(short)uVar10].spell;
+        bVar2 = pGVar6[(s16)uVar10].spell;
         pSVar7 = &gSpellDBp->spells[bVar2];
         if (wizLV < pSVar7->WizardREQ){
           pCVar14 = &acStack416;
@@ -1445,17 +1445,17 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
     uVar5 = this->Inventory->TakeItem(itemID_array[ItemInd_Herb],1);
     if (uVar5 != 0) {
       if (gCombatP == NULL) herb_func();
-      if ((short)skillMod <= CharStats::getModded(ent->Stats,STAT_STAM)) {
+      if ((s16)skillMod <= CharStats::getModded(ent->Stats,STAT_STAM)) {
         if ((gGlobals.screenFadeModeSwitch == 2) && (gGlobals.ShadowIndex != -1)) {
           return gGlobals.CommonStrings[0x1b5];
         }
-        Entity::DecreaseHP(ent,(short)skillMod);
+        Entity::DecreaseHP(ent,(s16)skillMod);
         skillMod = CharStats::getModded(ent->Stats,STAT_INT);
         skillMod = (skillMod * 4 + ((sVar9 * 2 + (int)sVar9) * 4 - (int)sVar9));
         uVar8 = RollD(1,100);
         Gsprintf(gGlobals.CommonStrings[0x1b6],ent->name);
-        if ((short)uVar8 < skillMod) {
-          Entity::addHP(pCVar1,some_skillcheck_calc((skillMod - (short)uVar8)));
+        if ((s16)uVar8 < skillMod) {
+          Entity::addHP(pCVar1,some_skillcheck_calc((skillMod - (s16)uVar8)));
           skillMod =(Entity::getHPCurrent(pCVar1) - uVar4);
           if (skillMod) {
             Gsprintf(Cstring(HealMenuHealBy),ent->name,pCVar1->name,skillMod)

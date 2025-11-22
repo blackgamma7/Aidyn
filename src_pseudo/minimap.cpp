@@ -77,8 +77,8 @@ bool MiniMap::Free2(){Free();return true;}
 
 void MiniMap::LoadData(MinimapSec_dat *secDat){
   float fVar2;
-  short sVar5;
-  ushort uVar6;
+  s16 sVar5;
+  u16 uVar6;
   float fVar7;
   float fVar8;
   float fVar9;
@@ -343,7 +343,7 @@ void MiniMap::Update(float posx,float posy,float posz){
   byte bVar1;
   byte bVar2;
   bool bVar4;
-  short sVar3;
+  s16 sVar3;
   u8 uVar6;
   BaseWidget *pBVar7;
   int iVar8;
@@ -566,17 +566,17 @@ Gfx * MiniMap::Render(Gfx *G){
   return G;
 }
 
-void MiniMap::UpdateSection(short param_2,short param_3){
+void MiniMap::UpdateSection(s16 param_2,s16 param_3){
   char cVar1;
-  short sVar3;
-  ushort uVar4;
+  s16 sVar3;
+  u16 uVar4;
   int iVar8;
   s32 lVar7;
   BaseWidget *pBVar9;
   Borg8Header *b8;
   BaseWidget *pBVar10;
   u16 uVar11;
-  ushort *puVar12;
+  u16 *puVar12;
   MinimapSec_dat *pMVar13;
   int iVar14;
   u16 i;
@@ -858,7 +858,7 @@ void MiniMap::Toggle(byte x){
   this->field32_0x7c = (float)(int)this->field43_0xa8;
   fVar9 = (float)(int)this->field44_0xaa;
   this->field35_0x88 = (float)(int)this->field44_0xaa;
-  fVar8 = (float)((int)this->field44_0xaa + (int)(short)this->field46_0xae);
+  fVar8 = (float)((int)this->field44_0xaa + (int)(s16)this->field46_0xae);
   this->field41_0xa0 = fVar8;
   this->field33_0x80 = ((float)(int)this->field43_0xa8 - this->mapX) / 14.0f;
   this->field36_0x8c = ((float)(int)this->field44_0xaa - this->mapY) / 14.0f;
@@ -923,7 +923,7 @@ bool MiniMap::EhudI09(u16 param_2){
 
 
 bool MiniMap::EhudC11(u16 param_2){
-  short sVar1;
+  s16 sVar1;
   
   if (this->savedPlayerPos.x < 48.0f) {
     sVar1 = 0x82;
@@ -942,7 +942,7 @@ bool MiniMap::EhudC11(u16 param_2){
 
 //minimap of castle rampart
 bool MiniMap::GwernWalls(u16 param_2){
-  short sVar1;
+  s16 sVar1;
   
   if (this->savedPlayerPos.x < 35.0f) {
     sVar1 = 0x3829;
@@ -961,8 +961,8 @@ bool MiniMap::GwernWalls(u16 param_2){
 
 //minimap of castle courtyard
 bool MiniMap::GwernCourt(u16 index){
-  short sVar1;
-  short sVar2;
+  s16 sVar1;
+  s16 sVar2;
   bool bVar3;
   MinimapSec_dat *pMVar4;
   u32 uVar5;
@@ -972,12 +972,12 @@ bool MiniMap::GwernCourt(u16 index){
   if (this->savedPlayerPos.y < 4.0f) {
     if (26.0f < this->savedPlayerPos.z) {
       pMVar4 = this->mapdat + index;
-      sVar1 = *(short *)&pMVar4->borg8;
+      sVar1 = *(s16 *)&pMVar4->borg8;
       sVar2 = 0x2a;
     }
     else {
       pMVar4 = (MinimapSec_dat *)(((u32)index * 8 - index) * 2 + (int)this->mapdat);
-      sVar1 = *(short *)&pMVar4->borg8;
+      sVar1 = *(s16 *)&pMVar4->borg8;
       sVar2 = 0x2b;
     }
     bVar3 = false;
@@ -1021,8 +1021,8 @@ bool MiniMap::GwernTower(u16 param_2){
 
 //change displayed minimap as you climb the stairs
 bool MiniMap::MageschoolStairs(u16 param_2){
-  short sVar1;
-  short sVar2;
+  s16 sVar1;
+  s16 sVar2;
   float fVar3;
   
   if (this->savedPlayerPos.y < 4.0f) {
@@ -1088,10 +1088,10 @@ bool MiniMap::m80053960(u16 param_2){
 
 
 bool MiniMap::m800539fc(u16 param_2){
-  ushort uVar1;
+  u16 uVar1;
   bool bVar2;
-  short sVar3;
-  short sVar4;
+  s16 sVar3;
+  s16 sVar4;
   
   uVar1 = this->mapshorts[0];
   if (uVar1 == 1) {

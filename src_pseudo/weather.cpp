@@ -21,13 +21,12 @@ void AlignParticle(Particle_s *part,vec3f *pos,vec3f *rot){
 }
 
 void PrecipParticleFuncC(ParticleHeadStruct *head,ParticleEmmiter *emmi,Particle_s *part){
-  float fVar2;
   vec3f posA,posB,dist,rot;
   
   Vec3Sub(&dist,&part->pos,(vec3f *)&part->precipPos);
-  fVar2 = SQ(dist.x)+ SQ(dist.y) + SQ(dist.z);
-  if (fVar2 < (part->precipPos).w)
-    (part->precipPos).w = fVar2;
+  float distSQ = SQ(dist.x)+ SQ(dist.y) + SQ(dist.z);
+  if (distSQ < (part->precipPos).w)
+    (part->precipPos).w = distSQ;
   else {
     posA.x = (part->pos).x;
     posA.z = (part->pos).z;
@@ -42,19 +41,12 @@ void PrecipParticleFuncC(ParticleHeadStruct *head,ParticleEmmiter *emmi,Particle
 }
 
 void RainParticleFunc(ParticleHeadStruct *head,ParticleEmmiter *emmi){
-  ParticleEmmiter *pPVar1;
-  bool bVar2;
-  Particle_s *p;
-  float fVar3;
-  vec3f posA;
-  vec3f posB;
+  vec3f posA,posB;
   vec2f randV2;
-  vec3f pos;
-  vec3f rot;
-  vec3f *pfVar2;
+  vec3f pos,rot;
   
-  pPVar1 = emmi->link;
-  pfVar2 = (vec3f *)pPVar1->object;
+  ParticleEmmiter *pPVar1 = emmi->link;
+  vec3f *pfVar2 = (vec3f *)pPVar1->object;
   RAND.GetVec2(&randV2,RAND.GetFloatRange(0.01,(pPVar1->randVec).x * 0.5f));
   posA.x = pfVar2->x + (pPVar1->vel).x + randV2.x;
   posA.z = pfVar2->z + (pPVar1->vel).z + randV2.y;
@@ -75,7 +67,7 @@ void RainParticleFunc(ParticleHeadStruct *head,ParticleEmmiter *emmi){
 
 
 void PrecipParticleFuncB(ParticleHeadStruct *pHead,ParticleEmmiter *pEmmi){
-  short lifespan;
+  s16 lifespan;
   Particle_s *p;
   vec3f afStack216;
   vec3f collidePos;
@@ -102,7 +94,7 @@ void PrecipParticleFuncB(ParticleHeadStruct *pHead,ParticleEmmiter *pEmmi){
   Vec4Scale(&p->colorB,(float)(-0.75 / lifespan));
 }
 
-ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,short textureA,short textureB,void *param_6){
+ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,s16 textureA,s16 textureB,void *param_6){
   ParticleEmmiter *emmi = NewParticleEmmiter(60,textureB,0,NULL,param_6,NULL,NULL,NULL);
   ParticleEmmiter *ret = NULL;
   if (emmi) {
@@ -130,11 +122,9 @@ void RemoveSFX(WeatherStruct *W){
   }
 }
 
-void ProcessWeather(WeatherStruct *W,short delta){
+void ProcessWeather(WeatherStruct *W,s16 delta){
   //TODO: clean up mess of GOTO's
-  ushort uVar8;
-  
-  void *pcVar12;
+  u16 uVar8;
   float fVar16;
 
   
@@ -154,19 +144,19 @@ void ProcessWeather(WeatherStruct *W,short delta){
   if ((W->rainShortB == W->rainShortA) && (W->rainShortB)) {
     if (W->rainParticles == NULL) {
       if (!sky4) {
-        pcVar12 = NULL;
+        void *pcVar12 = NULL;
         ProcessWeatherFlag = true;
         vec3f precipVel={0,0,7.0f};
         vec4f precipCol;
         u16 uVar13;
-        short sVar9;
+        s16 sVar9;
         switch(W->rainShortB){
           case PRECIP_RAIN:
            sVar9 = 4;
            uVar13 = 0x10;
            Sky::SetBackgroundType(gGlobals.sky.Type,2,600.0);
            pcVar12 = RainParticleFunc;
-           precipCol={0.546875,0.7421875,0.8203125,0.8};
+           precipCol={(140.0/256),(190.0/256),(210.0/256),0.8};
            break;
           case PRECIP_SNOW:
            sVar9 = 0;
@@ -192,8 +182,8 @@ LAB_80023168:
     if (W->rainShortB == PRECIP_RAIN) {
       (W->rainParticles->particles->colorB).y -=0.075;
       fVar16 = 6.0f - W->timer * 4.0f;
-      W->rainParticles->unk1a = SCREEN_HEIGHT;
-      sVar9 = (short)(int)fVar16;
+      W->rainParticles->unk1a = 240;
+      s16 sVar9 = (s16)(int)fVar16;
       W->rainParticles->count = sVar9;
       if (W->rainParticles->link) {
         W->rainParticles->link->count = sVar9 + -2;
@@ -202,9 +192,9 @@ LAB_80023308:
       goto LAB_8002330c;
     }
     if (W->rainShortB == PRECIP_SNOW) {
-      W->rainParticles->count = (short)(int)(6.0f - W->timer * 7.0f);
+      W->rainParticles->count = (s16)(int)(6.0f - W->timer * 7.0f);
       (W->rainParticles->particles->colorB).y -= ((W->timer * 0.02) + 0.03);
-      W->rainParticles->unk1a = (short)(int)(360.0f - W->timer * 60.0);
+      W->rainParticles->unk1a = (s16)(int)(360.0f - W->timer * 60.0);
       goto LAB_80023308;
     }
   }
@@ -235,7 +225,7 @@ LAB_8002343c:
   }
   else if (!W->Sfx) {
     if (W->rainShortB == PRECIP_RAIN) {
-      W->Sfx = load_borg_12(0x71B);
+      W->Sfx = load_borg_12(BORG12_RainAmbient);
       DCM::Add(&W->sfxIndex,&W->sfxID,&W->Sfx->dat->sub,0,0x80,1,-1,0);
     }
     goto LAB_8002343c;

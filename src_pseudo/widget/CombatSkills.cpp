@@ -14,7 +14,7 @@ char_func_icon(char *str,BaseWidget::buttonFunc AFunc,u16 param_3,u8 param_4,Col
   WidgetGroup *wg = new WidgetGroup(2);
   if (borg8) wg->AddToGroup(WidgetB8(borg8),0,0,false);
   WidgetText* wt = WTextSafe(str);
-  wg->AddToGroup(wt,height + 5,(height >> 1) - (short)(wt->GetHeight() >> 1),true);
+  wg->AddToGroup(wt,height + 5,(height >> 1) - (s16)(wt->GetHeight() >> 1),true);
   wg->SetColor(col->R,col->G,col->B,col->A);
   wg->AButtonFunc = AFunc;
   wg->varU8 = param_4;
@@ -22,7 +22,7 @@ char_func_icon(char *str,BaseWidget::buttonFunc AFunc,u16 param_3,u8 param_4,Col
   return wg;
 }
 
-u16 MaxWidgetWidth(BaseWidget *w,ushort wMax){
+u16 MaxWidgetWidth(BaseWidget *w,u16 wMax){
     if(wMax<=w->GetWidth())wMax=w->GetWidth();
     return wMax;
 }
@@ -161,7 +161,7 @@ WidgetChoiceDia(62,120,gExpPakFlag?95:55,0,0){
   iVar5 = find_char_in_party(local_2c);
   WidgetBorg8* pBVar6 = WidgetB8(0x38D0);
   WidgetBorg8* pBVar7 = WidgetB8(0x38CF);
-  pBVar6->SetCoords(this->scrollMenu->posX + -8,(this->scrollMenu->posY - (short)pBVar6->GetHeight()) -2);
+  pBVar6->SetCoords(this->scrollMenu->posX + -8,(this->scrollMenu->posY - (s16)pBVar6->GetHeight()) -2);
   pBVar7->SetCoords(this->scrollMenu->posX + -8,this->scrollMenu->boundY1 + 2);
   this->arrows =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7,0);
   this->arrows->SetColor(COLOR_WHITE);

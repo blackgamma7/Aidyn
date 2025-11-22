@@ -58,10 +58,9 @@ char** precip_labels=NULL;
 
 TerrainStruct* TerrainPointer=NULL;
 
-extern u8 weather_season_array[8]; // {2Bh, 30h, 21h, 19h, 24h, 28h, 0h, 0h}
-extern u8 weather_terrain_array[28];
-// {0h, 0h, 0h, 9Ch, 5h, 1Eh, 0h, Fh, 0h, 0h, 14h, 0h, 0h, 0h, 0h, 0h, 0h, 0h, 64h, 0h, 0h, 0h, 0h, 1Eh, Fh, 0h, 9Ch, 9Ch}
-extern float terrain_rand_array[28];
+extern u8 weather_season_array[];
+extern u8 weather_terrain_array[];
+extern float terrain_rand_array[];
 extern u8 timeofday_hours[5]; //debug only {6,9,12,18,21}
 
 

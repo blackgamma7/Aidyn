@@ -49,7 +49,7 @@ void DialougFreeActors(dialougmode_substruct *param_1,Borg13Data *param_2){
 }
 
 
-void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,ushort cmd,
+void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,u16 cmd,
                         s16 refpointID)
 
 {
@@ -227,14 +227,14 @@ void dialougemode_0x90_funcs3(undefined4 param_1){
   run_dialougemode_funcs3();
 }
 
-void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short command,u16 val){
+void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,s16 command,u16 val){
   ActorAndID *pAVar2;
   voxelObject *prVar3;
   s16 sVar8;
   CharSheet *pCVar4;
   bool bVar9;
   Borg13Header *pBVar5;
-  short *psVar6;
+  s16 *psVar6;
   u16 *puVar7;
   undefined4 uVar10;
   u32 borg12;
@@ -256,7 +256,7 @@ void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,short co
   pAVar2 = DialougGetActorAndID(param_1,param_2,param_1->Entid);
   if (pAVar2) p = pAVar2->actor;
   if (val) prVar3 = get_map_referencepoint(gGlobals.gameVars.borg9DatPointer,val);
-  if (0x1a < (ushort)(command - B13Com_SetFlag)) return; //not a vaild command for this function
+  if (0x1a < (u16)(command - B13Com_SetFlag)) return; //not a vaild command for this function
   switch(command) {
   case B13Com_SetFlag:
     setEventFlag(val,true);

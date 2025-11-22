@@ -275,7 +275,7 @@ bool adjust_camera_joystick(controller_aidyn *cont,vec2f *param_2){
   return ret;
 }
 
-bool FUN_8008dcfc(controller_aidyn *cont,ushort param_2){
+bool FUN_8008dcfc(controller_aidyn *cont,u16 param_2){
   CombatEntity *pCVar1;
   playerData *ppVar2;
   CombatStruct *pCVar3;
@@ -344,7 +344,7 @@ void combat_control_case_0xb(controller_aidyn *cont,s8 param_2){
       if (param_2 == 1) {
         CombatEntity *Ent = gCombatP->current_Ent;
         SpellInstance *pSVar1 = Entity::GetSpell(Ent->charSheetP);
-        if (FUN_8008dcfc(cont,(ushort)(u8)(pSVar1->range * Entity::CheckSpellWizard(Ent->charSheetP,pSVar1)))) {
+        if (FUN_8008dcfc(cont,(u16)(u8)(pSVar1->range * Entity::CheckSpellWizard(Ent->charSheetP,pSVar1)))) {
           FUN_80072454(gCombatP->substruct2 + 1,Ent);
         }
       }
@@ -394,7 +394,7 @@ void combat_control_case_0x12(controller_aidyn *cont,u8 param_2){
       if (!notCRight) FUN_80072864(gCombatP->substruct2,-1);
       if (notCRight && notCLeft) {
         if (param_2 == 1) {
-          if (FUN_8008dcfc(cont,(ushort)pCVar3->m80069114())) {
+          if (FUN_8008dcfc(cont,(u16)pCVar3->m80069114())) {
             FUN_8008e0c4(gCombatP->substruct2);
           }
         }

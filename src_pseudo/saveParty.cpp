@@ -296,7 +296,7 @@ void SaveParty::LoadShield(SaveFile *sav,CharSheet *param_2){
   uVar2 = LoadBits(sav,SaveBits_ItemID);
   SKIPCHECK(uVar2,SaveBits_ItemInstance-SaveBits_ItemID) {
     uVar3 = LoadBits(sav,SaveBits_SpellCharge);
-    Entity::EquipSheild(param_2,(short)uVar2,LoadStatMod(sav));
+    Entity::EquipSheild(param_2,(s16)uVar2,LoadStatMod(sav));
     if ((param_2->armor[1]->base).spellCharge)
       (param_2->armor[1]->base).spellCharge->Charges = uVar3;
   }

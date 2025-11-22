@@ -161,7 +161,7 @@ byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte p
             bVar7 = pbVar1[uVar11].c[iVar12++];
           }
           if (iVar10 < 2) {
-            param_1->unk10e = (ushort)uVar4;
+            param_1->unk10e = (u16)uVar4;
             return bVar7;
           }
           pbVar1 = param_2->commands_pointer;
@@ -281,7 +281,7 @@ LAB_800b65a8:
         uVar8 = pbVar1->c[iVar2++];
       }
       if (iVar10 < 2) {
-        param_1->unk10e = (ushort)uVar5;
+        param_1->unk10e = (u16)uVar5;
       }
       else {
         pbVar1 = param_2->commands_pointer;
@@ -549,8 +549,8 @@ void FUN_800b6b9c(dialougmode_substruct *param_1){
 
 void get_dialouge_actors(dialougmode_substruct *param_1,Borg13Data *param_2){
   playerData *ppVar1;
-  ushort *puVar2;
-  ushort (*pauVar3) [4];
+  u16 *puVar2;
+  u16 (*pauVar3) [4];
   ActorAndID *pAVar4;
   int iVar5;
   u32 uVar6;
@@ -582,11 +582,11 @@ void get_dialouge_actors(dialougmode_substruct *param_1,Borg13Data *param_2){
 }
 
 
-void FUN_800b6c38(dialougmode_substruct *param_1,ushort param_2)
+void FUN_800b6c38(dialougmode_substruct *param_1,u16 param_2)
 
 {
   char **ppcVar1;
-  ushort *puVar2;
+  u16 *puVar2;
   int iVar3;
   
   iVar3 = 0xb;
@@ -641,7 +641,7 @@ int Ofunc_800b6d38(Borg13Data *param_1,int param_2){
   u8 bVar1;
   borg13command *pbVar2;
   int iVar3;
-  ushort *puVar4;
+  u16 *puVar4;
   borg13command *pbVar5;
   int iVar6;
   int iVar7;
@@ -655,7 +655,7 @@ int Ofunc_800b6d38(Borg13Data *param_1,int param_2){
     do {
       iVar8 = iVar6;
       pbVar5 = pbVar2 + iVar3;
-      puVar4 = (ushort *)(iVar7 * 2 + param_2);
+      puVar4 = (u16 *)(iVar7 * 2 + param_2);
       iVar6 = 3;
       do {
         bVar1 = pbVar5->ops[0].com;
@@ -678,9 +678,9 @@ int Ofunc_800b6d38(Borg13Data *param_1,int param_2){
 int Ofunc_800b6dbc(Borg13Data *param_1,int param_2,int param_3)
 
 {
-  ushort uVar1;
+  u16 uVar1;
   borg13command *pbVar2;
-  ushort *puVar3;
+  u16 *puVar3;
   Borg13Op *pBVar4;
   int iVar5;
   int iVar6;
@@ -695,7 +695,7 @@ int Ofunc_800b6dbc(Borg13Data *param_1,int param_2,int param_3)
     do {
       iVar6 = 0;
       pBVar4 = pbVar2->ops + iVar7;
-      puVar3 = (ushort *)(iVar5 * 2 + param_2);
+      puVar3 = (u16 *)(iVar5 * 2 + param_2);
       do {
         if ((pBVar4->com < B13Com_ShowItem) && (B13Com_RemoveMember < pBVar4->com)) {
           if (param_3 < iVar5) {

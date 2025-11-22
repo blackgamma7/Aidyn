@@ -141,7 +141,7 @@ LAB_8009d4c0:
 void deinterlace32(Borg1Header *param_1,int param_2){
   byte bVar1;
   int iVar2;
-  ushort uVar3;
+  u16 uVar3;
   u32 uVar4;
   int iVar5;
   u32 i;
@@ -176,10 +176,10 @@ void deinterlace32(Borg1Header *param_1,int param_2){
           iVar5 = (u32)bVar1 + -param_2;
           iVar8 = 0x10000;
           do {
-            uVar3 = (ushort)iVar5;
+            uVar3 = (u16)iVar5;
             iVar5 += 1;
             iVar7 = iVar8 >> 0x10;
-            *pCVar9 = pCVar11[iVar2 + (short)(uVar3 & ~(ushort)bVar1)];
+            *pCVar9 = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)bVar1)];
             pCVar9 = pCVar9 + 1;
             iVar8 = iVar8 + 0x10000;
           } while (iVar7 < (int)uVar10);
@@ -189,11 +189,11 @@ void deinterlace32(Borg1Header *param_1,int param_2){
         iVar5 = (u32)bVar1 + -param_2;
         iVar8 = 0x10000;
         do {
-          uVar3 = (ushort)iVar5;
+          uVar3 = (u16)iVar5;
           iVar5 += 1;
           uVar4 = uVar6 ^ 2;
           uVar6 = iVar8 >> 0x10;
-          puVar14[iVar2 + uVar4] = pCVar11[iVar2 + (short)(uVar3 & ~(ushort)bVar1 ^ 2)];
+          puVar14[iVar2 + uVar4] = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)bVar1 ^ 2)];
           iVar8 = iVar8 + 0x10000;
         } while ((int)uVar6 < (int)uVar10);
       }
@@ -207,7 +207,7 @@ void deinterlace32(Borg1Header *param_1,int param_2){
 void deinterlace16(Borg1Header *param_1,int param_2){
   byte bVar1;
   int iVar2;
-  ushort uVar3;
+  u16 uVar3;
   u32 uVar4;
   int iVar5;
   u32 i;
@@ -240,10 +240,10 @@ void deinterlace16(Borg1Header *param_1,int param_2){
           iVar5 = (u32)bVar1 + -param_2;
           iVar7 = 0x10000;
           do {
-            uVar3 = (ushort)iVar5;
+            uVar3 = (u16)iVar5;
             iVar5 += 1;
             iVar6 = iVar7 >> 0x10;
-            *puVar8 = puVar12[iVar2 + (short)(uVar3 & ~(ushort)bVar1)];
+            *puVar8 = puVar12[iVar2 + (s16)(uVar3 & ~(u16)bVar1)];
             puVar8 = puVar8 + 1;
             iVar7 = iVar7 + 0x10000;
           } while (iVar6 < (int)uVar9);
@@ -253,11 +253,11 @@ void deinterlace16(Borg1Header *param_1,int param_2){
         iVar5 = (u32)bVar1 + -param_2;
         iVar7 = 0x10000;
         do {
-          uVar3 = (ushort)iVar5;
+          uVar3 = (u16)iVar5;
           iVar5 += 1;
           uVar4 = j ^ 2;
           j = iVar7 >> 0x10;
-          puVar11[iVar2 + uVar4] = puVar12[iVar2 + (short)(uVar3 & ~(ushort)bVar1 ^ 2)];
+          puVar11[iVar2 + uVar4] = puVar12[iVar2 + (s16)(uVar3 & ~(u16)bVar1 ^ 2)];
           iVar7 = iVar7 + 0x10000;
         } while ((int)j < (int)uVar9);
       }
@@ -1468,7 +1468,7 @@ bool Borg7_AnimationExpired(Borg7Header *param_1){
 
 void FUN_800a0088(){}
 
-void FUN_800a0090(Borg7Header *param_1,ushort param_2){
+void FUN_800a0090(Borg7Header *param_1,u16 param_2){
   Borg7Sub *pBVar1 = param_1->unk1c->sub;
   b7SubSub *pbVar2 = pBVar1->p;
   for(s32 i=pBVar1->subSubCount;param_2 != pbVar2->ani;i--,pbVar2++) {
@@ -1489,7 +1489,7 @@ bool FUN_800a00d0(Borg7Header *param_1){
     rand = gBorg7Rand.Range(0,99);
     bool bVar6 = false;
     for (s32 i = pBVar2->subSubCount; i != 0;i--,pbVar9++) {
-      if ((param_1->currentAni == (ushort)pbVar9->ani)||(pbVar9->ani == 0xff)) {
+      if ((param_1->currentAni == (u16)pbVar9->ani)||(pbVar9->ani == 0xff)) {
         rand -= (u32)pbVar9->unk1;
         if (rand < 1) {
           bVar3 = true;
@@ -1555,7 +1555,7 @@ bool FUN_800a0304(Borg7Header *param_1,int delta){
   bool bVar2;
   bool bVar4;
   int rand;
-  short sVar3;
+  s16 sVar3;
   s32 lVar5;
   b7SubSub *pbVar6;
   int i;
@@ -1572,7 +1572,7 @@ bool FUN_800a0304(Borg7Header *param_1,int delta){
         rand = gAniRandSeed.Range(0,99);
         bVar4 = false;
         for (lVar5 =pBVar1->subSubCount; lVar5 != 0;lVar5--) {
-          if ((param_1->currentAni == (ushort)pbVar6->ani) || (pbVar6->ani == 0xff)) {
+          if ((param_1->currentAni == (u16)pbVar6->ani) || (pbVar6->ani == 0xff)) {
             rand -= (u32)pbVar6->unk1;
             if (rand < 1) {
               bVar2 = true;
@@ -1603,7 +1603,7 @@ LAB_800a046c:
         lVar5 = pBVar1->subSubCount;
         while (lVar5 != 0) {
           lVar5--;
-          if ((param_1->currentAni == (ushort)pbVar6->ani) && ((pbVar6->flag & 1) != 0)) {
+          if ((param_1->currentAni == (u16)pbVar6->ani) && ((pbVar6->flag & 1) != 0)) {
             rand -= (u32)pbVar6->unk1;
             if (rand < 1) {
               bVar2 = true;
@@ -1695,7 +1695,7 @@ void FUN_800a0714(SceneDatSubstruct *param_1){
   param_1->unk4 = param_1->unk0->unk4;
   pfVar1 = param_1->unk0->unk4;
   param_1->unkc = 1;
-  uVar3 = *(short *)((int)pfVar1 + 2);
+  uVar3 = *(s16 *)((int)pfVar1 + 2);
   puVar4 = *(u32 *)pfVar1[1];
   while (uVar3 != 0) {
     uVar2 = uVar3 & 1;
@@ -1876,7 +1876,7 @@ void FUN_800a0a74(Borg6Struct *param_1){
   float *pfVar3;
   undefined4 *puVar4;
   undefined4 *puVar5;
-  ushort uVar6;
+  u16 uVar6;
   int iVar7;
   SceneDatSubstruct *pSVar8;
   u32 uVar9;
@@ -1891,11 +1891,11 @@ joined_r0x800a0a8c:
   pBVar1 = pSVar8->unk0;
   if (pSVar8->unkc != pBVar1->unk0) {
     pvVar2 = pSVar8->unk4;
-    if (*(short *)((int)pvVar2 + 8) == pSVar8->unkc) {
+    if (*(s16 *)((int)pvVar2 + 8) == pSVar8->unkc) {
       puVar4 = (undefined4 *)pSVar8->unk8;
       iVar7 = 4;
-      pSVar8->unk4 = (short *)((int)pvVar2 + 8);
-      uVar6 = *(ushort *)((int)pvVar2 + 10);
+      pSVar8->unk4 = (s16 *)((int)pvVar2 + 8);
+      uVar6 = *(u16 *)((int)pvVar2 + 10);
       puVar5 = *(undefined4 **)((int)pvVar2 + 0xc);
       do {
         if ((uVar6 & 1) != 0) {
@@ -1905,7 +1905,7 @@ joined_r0x800a0a8c:
         }
         puVar4 = puVar4 + 1;
         iVar7 += -1;
-        uVar6 = (short)uVar6 >> 1;
+        uVar6 = (s16)uVar6 >> 1;
       } while (iVar7 != 0);
     }
     goto LAB_800a0b68;
@@ -1933,13 +1933,13 @@ LAB_800a0b40:
     }
     puVar4 = puVar4 + 1;
     iVar7 += -1;
-    uVar6 = (short)uVar6 >> 1;
+    uVar6 = (s16)uVar6 >> 1;
   } while (iVar7 != 0);
 LAB_800a0b68:
   pvVar2 = pSVar8->unk4;
 LAB_800a0b6c:
   pfVar3 = (float *)pSVar8->unk8;
-  uVar6 = *(ushort *)((int)pvVar2 + 2);
+  uVar6 = *(u16 *)((int)pvVar2 + 2);
   if (((uVar6 & 2) != 0) && (*pfVar3 = *pfVar3 + pfVar3[1], (uVar6 & 4) != 0)) {
     pfVar3[1] = pfVar3[1] + pfVar3[2];
     if ((uVar6 & 8) != 0) {
@@ -1996,7 +1996,7 @@ void Scene::Tick(SceneData *param_1){
         if (pBVar5 == NULL) break;
       }
     }
-    param_1->aniTime+= (ushort)param_1->aniSpeed;
+    param_1->aniTime+= (u16)param_1->aniSpeed;
   }
 }
 
@@ -2216,7 +2216,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   int i;
   int iVar22;
   borg5substruct *pbVar23;
-  ushort *puVar24;
+  u16 *puVar24;
   float fVar25;
   float fVar26;
   float fVar27;

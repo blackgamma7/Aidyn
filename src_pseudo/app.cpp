@@ -102,17 +102,17 @@ void appInit(OSSched *sched,u8 pri,u8 id){
 
 
 void AppProc(void *x){
-  short sVar1;
+  s16 sVar1;
   Gfx *gfx0;
   Gfx *gfx1;
   int dat_size;
-  short sVar7;
+  s16 sVar7;
   u16 uVar8;
-  short sVar9;
+  s16 sVar9;
   u32 uVar10;
   u32 gListSizeMax;
-  short *psStack_40;
-  short **ppsStack_3c;
+  s16 *psStack_40;
+  s16 **ppsStack_3c;
   
   ALLOCS(appManager.Mesg,sizeof(OSMesg)*8,0x117);
   osCreateMesgQueue(&appManager.MesgQ2,appManager.Mesg,8);

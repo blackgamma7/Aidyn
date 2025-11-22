@@ -9,12 +9,12 @@ extern void some_string_func(char*);
 namespace  RomString{
 char ** Load(void *romAddr,size_t size){
   byte bVar1;
-  ushort *OutDat;
+  u16 *OutDat;
   u8 *dest;
   char **ret;
-  ushort *puVar3;
+  u16 *puVar3;
   u32 uVar4;
-  ushort auStack_68;
+  u16 auStack_68;
   u32 auStack_28;
   ROMCOPYS(&auStack_68,romAddr,8,54);
   ALLOCS(OutDat,auStack_68,60);
@@ -30,9 +30,9 @@ char ** Load(void *romAddr,size_t size){
     for(u16 i=0;i<auStack_28;i++) {
       bVar1 = *(byte *)puVar3;
       ret[i] = (char *)((int)puVar3 + 1);
-      decrypt_string((char *)((int)puVar3 + 1),0x10,0x103,(ushort)bVar1);
+      decrypt_string((char *)((int)puVar3 + 1),0x10,0x103,(u16)bVar1);
       some_string_func(ret[i]);
-      puVar3 = (ushort *)((int)puVar3 + bVar1 + 1);
+      puVar3 = (u16 *)((int)puVar3 + bVar1 + 1);
     }
   }
   return ret;

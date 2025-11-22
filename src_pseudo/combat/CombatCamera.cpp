@@ -164,7 +164,7 @@ void FUN_80096f4c(PlayerHandler *param_1,playerData *param_2,vec3f *param_3,Came
 
 
 void processCombatCamera(PlayerHandler *param_1) {
-  short sVar1;
+  s16 sVar1;
   Camera_struct *cam;
   playerData *ppVar2;
   bool bVar3;
@@ -201,7 +201,7 @@ void processCombatCamera(PlayerHandler *param_1) {
       if ((ppVar5 != NULL) && (bVar3 = ppVar5->visible_flag == 0, ppVar5->visible_flag != 0)) {
         if ((SHORT_800f1de4 == -1) ||
            (SHORT_800f1de4 != ppVar5->ID)) {
-          SHORT_800f1de4 = (short)ppVar5->ID;
+          SHORT_800f1de4 = (s16)ppVar5->ID;
           if (FUN_80096e58(param_1,ppVar5,avStack_1f8)) {
             FUN_80096f4c(param_1,ppVar5,avStack_1f8,cam,0);
           }

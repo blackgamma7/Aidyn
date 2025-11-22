@@ -23,7 +23,7 @@ WidgetSpellTrain::WidgetSpellTrain(u8 hideTitle):WidgetTrainShop() {
 void WidgetSpellTrain::InitMenu() {
   u16 uVar1;
   u16 uVar2;
-  ushort uVar3;
+  u16 uVar3;
   ItemID IVar4;
   u32 uVar5;
   BaseWidget *pBVar9;
@@ -207,7 +207,7 @@ void WidgetSpellTrain::Purchase(ItemID param_2,u8 x) {
 }
 
 
-void WidgetSpellTrain::Confirm(ItemID id,ushort lv) {
+void WidgetSpellTrain::Confirm(ItemID id,u16 lv) {
   CharSheet *pCVar2;
   bool bVar6;
   int iVar3;

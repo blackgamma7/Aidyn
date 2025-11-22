@@ -71,15 +71,15 @@ int printUnused(FontStruct *font,Gfx **gg,char *txt,int param_4,undefined4 param
 int PrintWapperA(FontStruct *fontP,Gfx **gg,char *txt,int posX,int posY,u16 param_6,int param_7
                       ,u16 param_8,int param_9,float param_10,float param_11);
 int PrintWapperUnused(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_5,
-                      short param_6,short param_7,int param_8,int param_9,int param_10,int param_11);                       
-int PrintMain(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_5,short param_6,
-                       short param_7,int param_8,int param_9,int param_10,int param_11,
+                      s16 param_6,s16 param_7,int param_8,int param_9,int param_10,int param_11);                       
+int PrintMain(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_5,s16 param_6,
+                       s16 param_7,int param_8,int param_9,int param_10,int param_11,
                        float param_12,float param_13);
 void PrintCharaWapper(FontStruct *font,Gfx **gg,u32 param_3,u32 param_4,int param_5,
-                 short param_6,short param_7,short param_8,short param_9);
+                 s16 param_6,s16 param_7,s16 param_8,s16 param_9);
 
-void PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_5,short param_6,
-                        short param_7,short param_8,short param_9,float param_10,float param_11);
+void PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_5,s16 param_6,
+                        s16 param_7,s16 param_8,s16 param_9,float param_10,float param_11);
 int GetWidth(FontStruct *font,char *str);
 int GetWidthScaled(FontStruct *font,char *str,float scale);
 u16 GetCharWidth(FontStruct *font,u8 param_2);

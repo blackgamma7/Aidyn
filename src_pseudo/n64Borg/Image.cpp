@@ -90,7 +90,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
   u16 uVar1;
   u16 iVar2;
   void *pvVar3;
-  short sVar10;
+  s16 sVar10;
   u32 uVar4;
   int iVar5;
   int iVar6;
@@ -113,7 +113,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
   Gfx *pGVar25;
   u32 uVar26;
   u32 uVar27;
-  short sVar28;
+  s16 sVar28;
   int iVar29;
   float fVar30;
   int iVar31;
@@ -126,7 +126,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
   float fVar38;
   float fVar39;
   u32 uStack_38;
-  short sVar11;
+  s16 sVar11;
   
   fVar37 = sImageVScale;
   fVar30 = 4.0f;
@@ -151,9 +151,9 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
   uVar15 = (u32)uVar1;
   uVar21 = (u32)param_5;
   uVar20 = (u32)param_5;
-  sVar10 = (short)iVar32;
-  sVar11 = (short)uStack_38;
-  sVar28 = (short)iVar31;
+  sVar10 = (s16)iVar32;
+  sVar11 = (s16)uStack_38;
+  sVar28 = (s16)iVar31;
   switch((borg8->dat).format) {
   case BORG8_RBGA32:
     if ((int)uVar26 < 2) {
@@ -217,7 +217,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
     *(u32 *)((int)pGVar25 + 0x34) = uVar20 | uVar16;
     pGVar25[7].words.w0 = 0xf2000000;
     *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (u32)(short)(iVar31 + iVar29);
+    uVar17 = (u32)(s16)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
     if ((int)uVar17 < 1) {
       uVar17 = 0xe4000000;
@@ -225,7 +225,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar34 * fVar39 * fVar30);
+    uVar16 = (u32)(s16)(int)(fVar37 + (float)dVar34 * fVar39 * fVar30);
     if (0 < (int)uVar16) {
       uVar17 |= uVar16 & 0xfff;
     }
@@ -236,8 +236,8 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 param_5,
     else {
       uVar17 = (uVar4 & 0xfff) << 0xc;
     }
-    if (0 < (short)(int)fVar37) {
-      uVar17 |= (int)(short)(int)fVar37 & 0xfffU;
+    if (0 < (s16)(int)fVar37) {
+      uVar17 |= (int)(s16)(int)fVar37 & 0xfffU;
     }
     *(u32 *)((int)pGVar25 + 0x44) = uVar17;
     (pGVar24->words).w0 = 0xe1000000;
@@ -370,7 +370,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     *(u32 *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
     pGVar25[7].words.w0 = 0xf2000000;
     *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (u32)(short)(iVar31 + iVar29);
+    uVar17 = (u32)(s16)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
     if ((int)uVar17 < 1) {
       uVar17 = 0xe4000000;
@@ -378,7 +378,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
+    uVar16 = (u32)(s16)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
     if (0 < (int)uVar16) {
       uVar17 |= uVar16 & 0xfff;
     }
@@ -389,8 +389,8 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     else {
       uVar17 = (uVar4 & 0xfff) << 0xc;
     }
-    if (0 < (short)(int)fVar37) {
-      uVar17 |= (int)(short)(int)fVar37 & 0xfffU;
+    if (0 < (s16)(int)fVar37) {
+      uVar17 |= (int)(s16)(int)fVar37 & 0xfffU;
     }
     *(u32 *)((int)pGVar25 + 0x44) = uVar17;
     (pGVar24->words).w0 = 0xe1000000;
@@ -498,7 +498,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         else {
           uVar8 = (uVar12 & 0xfff) << 0xc | 0xe4000000;
         }
-        uVar7 = (u32)(short)(int)(fVar37 + fVar30);
+        uVar7 = (u32)(s16)(int)(fVar37 + fVar30);
         if (0 < (int)uVar7) {
           uVar8 |= uVar7 & 0xfff;
         }
@@ -509,8 +509,8 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         else {
           uVar8 = (uVar4 & 0xfff) << 0xc;
         }
-        if (0 < (short)(int)fVar37) {
-          uVar8 |= (int)(short)(int)fVar37 & 0xfffU;
+        if (0 < (s16)(int)fVar37) {
+          uVar8 |= (int)(s16)(int)fVar37 & 0xfffU;
         }
         *(u32 *)((int)pGVar24 + 0x44) = uVar8;
         pGVar24[9].words.w0 = 0xe1000000;
@@ -531,7 +531,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         }
         if ((int)fVar37 < 0) {
           iVar9 = (int)sVar11;
-          iVar6 = (int)(short)(int)fVar37;
+          iVar6 = (int)(s16)(int)fVar37;
           if (iVar9 < 0) {
             iVar6 = iVar6 * iVar9 >> 7;
             if (iVar6 < 0) {
@@ -582,7 +582,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     *(u32 *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
     pGVar25[7].words.w0 = 0xf2000000;
     *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (u32)(short)(iVar31 + iVar29);
+    uVar17 = (u32)(s16)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
     if ((int)uVar17 < 1) {
       uVar17 = 0xe4000000;
@@ -590,7 +590,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
+    uVar16 = (u32)(s16)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
     if (0 < (int)uVar16) {
       uVar17 |= uVar16 & 0xfff;
     }
@@ -601,8 +601,8 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     else {
       uVar17 = (uVar4 & 0xfff) << 0xc;
     }
-    if (0 < (short)(int)fVar37) {
-      uVar17 |= (int)(short)(int)fVar37 & 0xfffU;
+    if (0 < (s16)(int)fVar37) {
+      uVar17 |= (int)(s16)(int)fVar37 & 0xfffU;
     }
     *(u32 *)((int)pGVar25 + 0x44) = uVar17;
     (pGVar24->words).w0 = 0xe1000000;
@@ -720,7 +720,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         else {
           uVar8 = (uVar27 & 0xfff) << 0xc | 0xe4000000;
         }
-        uVar7 = (u32)(short)(int)(fVar37 + fVar30);
+        uVar7 = (u32)(s16)(int)(fVar37 + fVar30);
         if (0 < (int)uVar7) {
           uVar8 |= uVar7 & 0xfff;
         }
@@ -731,8 +731,8 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         else {
           uVar8 = (uVar4 & 0xfff) << 0xc;
         }
-        if (0 < (short)(int)fVar37) {
-          uVar8 |= (int)(short)(int)fVar37 & 0xfffU;
+        if (0 < (s16)(int)fVar37) {
+          uVar8 |= (int)(s16)(int)fVar37 & 0xfffU;
         }
         *(u32 *)((int)pGVar24 + 0x44) = uVar8;
         pGVar24[9].words.w0 = 0xe1000000;
@@ -753,7 +753,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
         }
         if ((int)fVar37 < 0) {
           iVar14 = (int)sVar11;
-          iVar9 = (int)(short)(int)fVar37;
+          iVar9 = (int)(s16)(int)fVar37;
           if (iVar14 < 0) {
             iVar9 = iVar9 * iVar14 >> 7;
             if (iVar9 < 0) {
@@ -803,7 +803,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     pGVar25[6].words.w0 = (uVar21 << 2 & 0xfff) << 0xc | uVar20 | 0xf2000000;
     pGVar25[7].words.w0 = 0xf2000000;
     *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (u32)(short)(iVar31 + iVar29);
+    uVar17 = (u32)(s16)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
     if ((int)uVar17 < 1) {
       uVar17 = 0xe4000000;
@@ -811,7 +811,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     else {
       uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
     }
-    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
+    uVar16 = (u32)(s16)(int)(fVar37 + (float)dVar35 * fVar39 * fVar30);
     if (0 < (int)uVar16) {
       uVar17 |= uVar16 & 0xfff;
     }
@@ -822,8 +822,8 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     else {
       uVar17 = (uVar4 & 0xfff) << 0xc;
     }
-    if (0 < (short)(int)fVar37) {
-      uVar17 |= (int)(short)(int)fVar37 & 0xfffU;
+    if (0 < (s16)(int)fVar37) {
+      uVar17 |= (int)(s16)(int)fVar37 & 0xfffU;
     }
     *(u32 *)((int)pGVar25 + 0x44) = uVar17;
     (pGVar24->words).w0 = 0xe1000000;

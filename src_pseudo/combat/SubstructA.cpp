@@ -8,7 +8,7 @@ void init_combat_substruct(CombatSubstructA *param_1,u8 param_2){
   param_1->byteB = uVar1;
   param_1->byteD = uVar1 >> 1;
   param_1->byteC = param_1->byteA >> 1;
-  param_1->short1 = (ushort)param_1->byteA * (ushort)uVar1;
+  param_1->short1 = (u16)param_1->byteA * (u16)uVar1;
   param_1->byteE = _sqrtf(SQ(param_1->byteA) +SQ(param_1->byteB));
   for(u32 i=0;i<CStructALen;i++) {
     CLEAR(param_1->array1[i]);

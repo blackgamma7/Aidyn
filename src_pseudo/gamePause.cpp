@@ -83,11 +83,11 @@ Gfx * draw_screenshot_background(Gfx *g,u8 state) {
 
 
 u8 ScreenFadeMode_3(Gfx **GG) {
-  short delta;
+  s16 delta;
   Gfx *g;
   byte bVar6;
-  ushort uVar3;
-  ushort uVar4;
+  u16 uVar3;
+  u16 uVar4;
   vec3f *pos;
   byte bVar7;
   float fVar8;

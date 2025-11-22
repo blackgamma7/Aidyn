@@ -656,8 +656,8 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   double dVar16;
   float fVar17;
   double dVar18;
-  short sVar19;
-  short sVar20;
+  s16 sVar19;
+  s16 sVar20;
   double dVar21;
   OSTime OVar22;
   u64 uVar23;
@@ -708,7 +708,7 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   if (INT_MAX_f <= fVar17) {
     fVar17 = fVar17 - INT_MAX_f;
   }
-  x2 = uVar15 + (short)(int)fVar17;
+  x2 = uVar15 + (s16)(int)fVar17;
   pGVar9 = DebugDrawRect(pGVar9,uVar15,0x14,x2,0x16,0,0,0xff,0xff);
   dVar18 = (double)(uVar5 * 0x118);
   if ((int)(uVar5 * 0x118) < 0) {
@@ -720,10 +720,10 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   }
   fVar17 = (float)dVar18 / (float)dVar16 + 0.5f;
   if (fVar17 < INT_MAX_f) {
-    sVar19 = (short)(int)fVar17;
+    sVar19 = (s16)(int)fVar17;
   }
   else {
-    sVar19 = (short)(int)(fVar17 - INT_MAX_f);
+    sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
   }
   pGVar9 = DebugDrawRect(pGVar9,x2,0x14,x2 + sVar19,0x16,0,0,0,0xff);
   dVar18 = (double)(iVar7 * 280);
@@ -732,7 +732,7 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
     dVar16 = dVar21 + UINT_MAX_d;
   }
   fVar17 = (float)(iVar7 * 280) / (float)dVar16 + 0.5f;
-    sVar20 = (short)(int)(fVar17 - INT_MAX_f);
+    sVar20 = (s16)(int)(fVar17 - INT_MAX_f);
   //color rect red if using Expansion Pak memory
   if (uVar3 + iVar8 + 0x4b400/*Boot section size?*/ < 0x400000) {
     R = 0;
@@ -752,10 +752,10 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   }
   fVar17 = (float)dVar18 / (float)dVar21 + 0.5f;
   if (fVar17 < INT_MAX_f) {
-    sVar20 = (short)(int)fVar17;
+    sVar20 = (s16)(int)fVar17;
   }
   else {
-    sVar20 = (short)(int)(fVar17 - INT_MAX_f);
+    sVar20 = (s16)(int)(fVar17 - INT_MAX_f);
   }
   pGVar9 = DebugDrawRect(pGVar9,x2 + sVar19,0x14,x2 + sVar19 + sVar20,0x16,0,0,0xff,0xff);
   iVar7 = ((int)g - (int)pGVar10) * 0x118;
@@ -769,10 +769,10 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   }
   fVar17 = (float)dVar18 / (float)dVar16 + 0.5f;
   if (fVar17 < INT_MAX_f) {
-    sVar19 = (short)(int)fVar17;
+    sVar19 = (s16)(int)fVar17;
   }
   else {
-    sVar19 = (short)(int)(fVar17 - INT_MAX_f);
+    sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
   }
   pGVar10 = DebugDrawRect(pGVar9,0x14,0x18,sVar19 + 0x14U,0x1a,0,0xff,0,0xff);
   pGVar10 = DebugDrawRect(pGVar10,sVar19 + 0x14U,0x18,300,0x1a,0,0,0,0xff);
@@ -787,10 +787,10 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   }
   fVar17 = (float)dVar18 / (float)dVar16 + 0.5f;
   if (fVar17 < INT_MAX_f) {
-    sVar19 = (short)(int)fVar17;
+    sVar19 = (s16)(int)fVar17;
   }
   else {
-    sVar19 = (short)(int)(fVar17 - INT_MAX_f);
+    sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
   }
   pGVar10 = DebugDrawRect(pGVar10,0x14,0x1c,sVar19 + 0x14,0x1e,0xff,0xff,0,0xff);
   dVar18 = (double)(gGfxManager.taskTime * 0x118);
@@ -803,10 +803,10 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   }
   fVar17 = (float)dVar18 / (float)dVar16 + 0.5f;
   if (fVar17 < INT_MAX_f) {
-    sVar19 = (short)(int)fVar17;
+    sVar19 = (s16)(int)fVar17;
   }
   else {
-    sVar19 = (short)(int)(fVar17 - INT_MAX_f);
+    sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
   }
   pGVar10 = DebugDrawRect(pGVar10,0x14,0x20,sVar19 + 0x14,0x22,0,0xff,0xff,0xff);
   dVar18 = (double)(gGfxManager.dListStartTime * 0x118);

@@ -10,7 +10,7 @@ void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapSho
   bool bVar2;
   char *pcVar1;
   u32 uVar3;
-  ushort uVar4;
+  u16 uVar4;
   int iVar5;
   u32 uVar6;
   u16 uStack104 []={
@@ -79,7 +79,7 @@ void CreateNewDialouge_(u32 param_1){
   return;
 }
 
-Gfx * FUN_80057e78(Gfx *gfx,ushort delta){
+Gfx * FUN_80057e78(Gfx *gfx,u16 delta){
   Gfx *g = gfx;
   switch(dialougemode_pointer->borg13_dat->start_func){
     case 1:{
@@ -273,7 +273,7 @@ bool DialougeAddPartyMember(ItemID param_1){
   return bVar1;
 }
 
-void FUN_800585d0(ushort param_1){
+void FUN_800585d0(u16 param_1){
   if (dialougemode_pointer->borg13_dat->start_func == 0)
     ApplyStimulus(FUN_800591e4(),param_1);
   else ApplyStimulus(FUN_80059ae8(),param_1);
@@ -305,7 +305,7 @@ void init_skill_trainer(void){
   SpellInstance *pSVar4;
   ItemID *pIVar7;
   u16 i;
-  short spellCount;
+  s16 spellCount;
   u8 uVar9;
   
   IVar5 = set_shopkeep();
@@ -387,7 +387,7 @@ void FUN_80058ad4(void){
   }
 }
 
-void FUN_80058b30(ushort delta){
+void FUN_80058b30(u16 delta){
   if (dialougemode_pointer->timerFlag) {
     if (delta < dialougemode_pointer->timer9c) {
       dialougemode_pointer->timer9c-= delta;
@@ -418,7 +418,7 @@ void FUN_80058b88(Gfx **param_1,u16 delta){
 }
 
 
-void ApplyStimulus(playerData *param_1,ushort param_2){
+void ApplyStimulus(playerData *param_1,u16 param_2){
   if (param_1) {
     sprintf(gGlobals.text,"ApplyStimulus(%d)\n",param_2);
     N64Print::Print(gGlobals.text);
@@ -558,7 +558,7 @@ LAB_80059174:
 
 Gfx * FUN_800591a8(Gfx *g,u8 delta,bool param_3){
   if ((gGlobals.screenFadeMode == 0) || (param_3)) {
-    g = tick_and_render_widgets(N64Print::Draw(g,(ushort)delta));
+    g = tick_and_render_widgets(N64Print::Draw(g,(u16)delta));
   }
   return g;
 }
@@ -570,7 +570,7 @@ playerData * FUN_800591e4(void){
   
   x = (dialougemode_pointer->some_substruct).diags[0].ent_ID;
   ppVar1 = NULL;
-  if (((ushort)x >> 8 == 2) &&
+  if (((u16)x >> 8 == 2) &&
      (bVar2 = GETINDEX(x), ppVar1 = gPlayer,
      bVar2 != EntInd_Alaron)) {
     if (dialougemode_pointer->Wanderers == NULL) ppVar1 = NULL;

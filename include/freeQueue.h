@@ -2,8 +2,8 @@
 
 struct QueueStructAItem {
     void* BorgPointer;
-    short BorgSwitch;
-    short pri;
+    s16 BorgSwitch;
+    s16 pri;
 };
 #define FREEQUEUE_QUEUESIZE 0x100
 struct QueueStructA {

@@ -9,12 +9,12 @@ u8 debug_gamestatefunnel_sub(void){
   return true;
 }
 
-extern BaseWidget * WidgetBorg8At(BaseWidget *param_1,Borg8Enum Index,short X,short Y,short H,short W);
+extern BaseWidget * WidgetBorg8At(BaseWidget *param_1,Borg8Enum Index,s16 X,s16 Y,s16 H,s16 W);
 u8 ScreenFademode_10(Gfx **GG){
   char cVar2;
   Gfx *pGVar5;
   s16 uStack416 [2];
-  short asStack_160 [2];
+  s16 asStack_160 [2];
   s16 uStack348 [2];
   Color32 uStack288;
   Color32 uStack224;
@@ -72,7 +72,7 @@ u8 ScreenFademode_10(Gfx **GG){
       uStack96.G = 0;
       uStack96.B = 0;
       uStack96.A = 0;
-      gBufferedMenuP= new WBMGSM(gGSMClassP,0xe,gameStates->flagTotal,(ushort *)uStack416,
+      gBufferedMenuP= new WBMGSM(gGSMClassP,0xe,gameStates->flagTotal,(u16 *)uStack416,
                           asStack_160,&uStack288,&uStack224,&uStack160,&uStack96);
       WidgetBorg8At(gBufferedMenuP,BORG8_DebugBG,0x14,0x14,300,200);
       return 10;
@@ -175,8 +175,8 @@ void GSMClass::vMethC(u16 i,char *str){
   return;
 }
 
-WBMGSM::WBMGSM(GSMClass *obj,u16 param_3,u16 param_4,ushort *bounds,
-              short *titleBounds,Color32 *colA,Color32 *ColB,Color32 *colC,Color32 *colD)
+WBMGSM::WBMGSM(GSMClass *obj,u16 param_3,u16 param_4,u16 *bounds,
+              s16 *titleBounds,Color32 *colA,Color32 *ColB,Color32 *colC,Color32 *colD)
         :WidgetBufferedMenu(obj,param_3,param_4,bounds,titleBounds,colA,ColB,colC,colD){}
 
 

@@ -22,7 +22,7 @@ GuiAnimatorBlip::~GuiAnimatorBlip(){}
 GuiAnimatorCB::~GuiAnimatorCB(){}
 
 //gets unrolled when called
-inline GuiAnimatorBlip::GuiAnimatorBlip(s16 *param_2,short *param_3,f32 param_4){
+inline GuiAnimatorBlip::GuiAnimatorBlip(s16 *param_2,s16 *param_3,f32 param_4){
   this->unk0 = 0;
   this->spd = param_4;
   this->unkc = param_2;

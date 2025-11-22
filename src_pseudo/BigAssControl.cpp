@@ -3,7 +3,7 @@
 
 u8 bigAssOpenCallback_1(BaseWidget *w) {
   byte bVar1;
-  ushort uVar2;
+  u16 uVar2;
   u32 uVar3;
   int iVar4;
   int iVar5;
@@ -33,11 +33,11 @@ u8 bigAssOpenCallback_1(BaseWidget *w) {
         default:
          CRASH("bigassOpenCallBack","unknown screen");
     }
-    gGlobals.scrollLocation[0] = (short)iVar6;
-    gGlobals.scrollLocation[1] = (short)iVar4;
+    gGlobals.scrollLocation[0] = (s16)iVar6;
+    gGlobals.scrollLocation[1] = (s16)iVar4;
     if (uVar3 < uVar2) {
       gGlobals.scrollLocation[0] +=
-           (short)(int)(((float)-iVar6 / (float)(int)(iVar5 - uVar3)) * (float)(int)(uVar2 - uVar3))
+           (s16)(int)(((float)-iVar6 / (float)(int)(iVar5 - uVar3)) * (float)(int)(uVar2 - uVar3))
       ;
       gGlobals.scrollLocation[1] +=
            (int)(((float)(SCREEN_WIDTH - iVar4) / (float)(int)(iVar5 - uVar3)) *
@@ -84,7 +84,7 @@ u8 PauseMenuClose1(BaseWidget *w) {
 
 byte bigAssOpenCallback(BaseWidget *param_1) {
   byte bVar1;
-  ushort uVar2;
+  u16 uVar2;
   pause_Substruct *sub;
   bool bVar4;
   u32 uVar5;
@@ -121,9 +121,9 @@ byte bigAssOpenCallback(BaseWidget *param_1) {
     gGlobals.scrollLocation[1] = SCREEN_WIDTH;
     if (uVar5 < uVar2) {
       gGlobals.scrollLocation[0] =
-           (short)(int)(((float)iVar8 / (float)(int)(iVar6 - uVar5)) * (float)(int)(uVar2 - uVar5));
+           (s16)(int)(((float)iVar8 / (float)(int)(iVar6 - uVar5)) * (float)(int)(uVar2 - uVar5));
       gGlobals.scrollLocation[1] =
-           (short)(int)(((float)(iVar7 + -SCREEN_WIDTH) / (float)(int)(iVar6 - uVar5)) *
+           (s16)(int)(((float)(iVar7 + -SCREEN_WIDTH) / (float)(int)(iVar6 - uVar5)) *
                        (float)(int)(uVar2 - uVar5)) + SCREEN_WIDTH;
       if (sub->borg7->unk1c->b6->dat->aniLength <= (int)(u32)uVar2) {
         if (gGlobals.screenFadeModeSwitch - 6 < 2) {

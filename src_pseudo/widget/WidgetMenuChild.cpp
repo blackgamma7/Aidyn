@@ -118,7 +118,7 @@ void WidgetMenuChild::FreeMenu() {
 void WidgetMenuChild::ShiftRight() {
   WidgetSaveFile *pWVar3;
   WidgetSaveFile *pWVar4;
-  short asStack_20 [1];
+  s16 asStack_20 [1];
   
   pWVar3 = this->currFile;
   if ((pWVar3 != NULL) && (pWVar4 = pWVar3->next, pWVar4 != NULL)) {
@@ -157,8 +157,8 @@ bool WidgetMenuChild::HasPrevFile(){return this->prevFile!=NULL;}
 
 
 void WidgetMenuChild::m80032f0c() {
-  short sVar1;
-  short sVar2;
+  s16 sVar1;
+  s16 sVar2;
   WidgetSaveFile *w;
   int iVar4;
   

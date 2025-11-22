@@ -274,7 +274,7 @@ void IntroMenu::ShowStartGameMenu() {
 }
 
 void IntroMenu::InitOptionsMenu() {
-  short sVar1;
+  s16 sVar1;
   IntroMenuSub *pvVar1 = IntroSub;
   pvVar1->unk20 = pvVar1->unk1c;
   if (pvVar1->unk1c != NULL) {

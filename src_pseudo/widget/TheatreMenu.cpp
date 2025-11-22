@@ -127,7 +127,7 @@ void TheatreMenu::LoadOptionStrings() {
           uVar5++;
           *pbVar3 = *pbVar2;
       }
-      decrypt_string(abStack288,0,0,(ushort)bVar1);
+      decrypt_string(abStack288,0,0,(u16)bVar1);
       AddAvailableCinematics(abStack288);
       pbVar2 = dest + uVar5;
     } while (uVar5 < uVar6);

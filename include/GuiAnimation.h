@@ -24,7 +24,7 @@ class GuiAnimatorBlip : public GuiAnimatorU1{
   s16* unkc;
   f32 unk10;
   f32 unk14;
-  GuiAnimatorBlip(s16 *param_2,short *param_3,f32 param_4);
+  GuiAnimatorBlip(s16 *param_2,s16 *param_3,f32 param_4);
   ~GuiAnimatorBlip();
   virtual u32 vMethB(f32);
   virtual s16 vMethC(f32);

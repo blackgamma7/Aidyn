@@ -85,14 +85,14 @@ Gfx * WidgetScrollMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 u8 WidgetScrollMenu::Tick(){
   byte bVar1;
   byte bVar4;
-  short sVar9;
+  s16 sVar9;
   BaseWidget *entry;
   char cVar15;
   ulong uVar13;
   int iVar14;
   bool bVar16;
   BaseWidget **ppBVar17;
-  short sVar18;
+  s16 sVar18;
   u16 uVar19;
   u32 i;
   int iVar21;
@@ -127,20 +127,20 @@ u8 WidgetScrollMenu::Tick(){
             sVar18 = this->posX - entry->GetWidth();
             goto LAB_800b9fb0;
           }
-          entry->SetCoords(this->posX - (short)(entry->GetWidth() >> 1),this->posY + (short)iVar21 + sub->yOff);
+          entry->SetCoords(this->posX - (s16)(entry->GetWidth() >> 1),this->posY + (s16)iVar21 + sub->yOff);
         }
         else {
           sVar18 = this->posX;
           sVar9 = this->posY;
 LAB_800b9fb0:
-          entry->SetCoords(sVar18,sVar9 + (short)iVar21 + sub->yOff);
+          entry->SetCoords(sVar18,sVar9 + (s16)iVar21 + sub->yOff);
         }
         if ((entry->GetNumber() == WidgetN_ClipText)||(entry->GetNumber() == WidgetN_ShadText)) {
           Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
         }
         uVar13= entry->GetHeight();
         iVar21 += uVar13 + (byte)sub->vSpace;
-        sVar18 = (short)iVar21;
+        sVar18 = (s16)iVar21;
         if (i == sub->highlight) {
           sVar9 = entry->posY;
           if ((sub->flag & 8) == 0) {
@@ -184,7 +184,7 @@ u8 WidgetScrollMenu::Append(BaseWidget *entry){
 }
 
 u8 WidgetScrollMenu::Remove(BaseWidget *entry){
-  short sVar1;
+  s16 sVar1;
   u32 uVar2;
   BaseWidget **ppBVar3;
   int iVar4;

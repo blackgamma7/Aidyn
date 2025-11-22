@@ -71,14 +71,14 @@ float func_checking_monsterparty(voxelObject *v,vec3f *pos);
 void Voxel_Get2DPos(voxelObject *v,vec2f *pos);
 void obj_ref_func(void);
 
-void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 param_4,short param_5,short count
-               ,float randHi,float randLo,float param_9,short addLight);
+void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 param_4,s16 param_5,s16 count
+               ,float randHi,float randLo,float param_9,s16 addLight);
 void SmokeUnusedPartFuncB(ParticleHeadStruct *param_1,ParticleEmmiter *param_2);
 void SmokeUnusedPart(voxelHeader* param_1,vec3f *param_2,vec4f *param_3,float param_4,
-                   u16 param_5,short param_6,float param_7);
+                   u16 param_5,s16 param_6,float param_7);
 void FUN_8001b0a8(ParticleHeadStruct *param_1,ParticleEmmiter *param_2);
 ParticleEmmiter *
-FUN_8001b29c(vec3f *param_1,u16 param_2,short param_3,u16 param_4,short param_5,float param_6
+FUN_8001b29c(vec3f *param_1,u16 param_2,s16 param_3,u16 param_4,s16 param_5,float param_6
             ,vec4f *param_7,vec4f *param_8,vec4f *param_9,vec3f *param_10);
 void alloc_explosion_light(vec3f *pos,float param_2,u16 param_3,bool moving);
 void Ofunc_8001b688(vec3f *pos,vec2f *param_2,u16 param_3);

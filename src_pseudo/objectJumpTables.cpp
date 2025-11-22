@@ -121,7 +121,7 @@ void get_loot_reagent(voxelObject* v,container_Dat * cont){
   voxelObject *a = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene);
   if (a) set_voxel_visibility(a,false);
   if (exploding_container_check(v,gGlobals.gameVars.borg9DatPointer)) {
-    passto_WriteTo_VoxelChart((short)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) * 0x684bda13
+    passto_WriteTo_VoxelChart((s16)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) * 0x684bda13
                       >> 2),gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
                gGlobals.gameVars.mapShort2,ZoneCenter,*(u8 *)((int)&(v->header).type + 1),10);
   }
@@ -132,11 +132,11 @@ void get_loot_reagent(voxelObject* v,container_Dat * cont){
 }
 
 void loot_func(voxelObject *v,u16 A, u16 B){
-  short sVar1;
+  s16 sVar1;
   ItemID IVar2;
-  short sVar3;
+  s16 sVar3;
   float vol;
-  short *psVar4;
+  s16 *psVar4;
   u8 bVar7;
   u16 uVar6;
   voxelObject *a;
@@ -146,10 +146,10 @@ void loot_func(voxelObject *v,u16 A, u16 B){
   container_Dat *contP;
   u8 uVar10;
   u16 time;
-  short aIStack96 [6] [2];
+  s16 aIStack96 [6] [2];
   
   contP = &v->container;
-  psVar4 = some_ref_obj_lookup_func((short)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) *
+  psVar4 = some_ref_obj_lookup_func((s16)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) *
                               /*?!?*/0x684bda13 >> 2),(char)gGlobals.gameVars.mapDatA,
                       (u8)gGlobals.gameVars.mapShort1,(u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)v->header.type);
 
@@ -192,7 +192,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
       if ((v->container).LootCat) {
         get_chest_loot(loot_pointer,contP);
         for(uVar8 = 0;uVar8 < 7;uVar8++) {
-          s16* psVar4 = (short *)&contP->lootCatDrop[uVar8];
+          s16* psVar4 = (s16 *)&contP->lootCatDrop[uVar8];
           if ((*psVar4) && (psVar4[1])) {
             aIStack96[uVar10][0] = *psVar4;
             aIStack96[uVar10][1] = psVar4[1];
@@ -209,7 +209,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
         aIStack96[uVar10][1] = 1;
       }
       if ((!container_explode_check((v->container).explodeFlag)) && (!container_open_check((v->container).openFlag))) {
-        passto_WriteTo_VoxelChart((short)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) *
+        passto_WriteTo_VoxelChart((s16)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) *
                            /*?!?*/0x684bda13 >> 2),(char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
                    (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)v->header.type,10);
       }
@@ -342,7 +342,7 @@ u8 exploding_container_sub(voxelObject* v,Borg9Data *arg1){
   
   bVar2 = trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,0x80);
   if ((bVar2 == false) ||
-     (some_ref_obj_lookup_func((short)(((int)v - (int)arg1->voxelObjs)
+     (some_ref_obj_lookup_func((s16)(((int)v - (int)arg1->voxelObjs)
                             * 0x684bda13 >> 2),
                           gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
                           (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(v->header).type)))
@@ -352,10 +352,10 @@ u8 exploding_container_sub(voxelObject* v,Borg9Data *arg1){
 }
 
 u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
-  ushort uVar1;
+  u16 uVar1;
   voxelObject *a;
   u8 bVar3;
-  short *psVar2;
+  s16 *psVar2;
   
   voxelObject *a = GetVoxelFromObjectLink(param_2,param_1,VOXEL_Scene);
   checkCheat(appear);
@@ -364,7 +364,7 @@ u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
     if ((Treasure_Misc < uVar1) || (uVar1 < Treasure_Herb)) {
       set_voxel_visibility(a,true);
       set_voxel_visibility(param_1,true);
-      psVar2 = some_ref_obj_lookup_func((short)(((int)param_1 - (int)param_2->voxelObjs) * 0x684bda13 >> 2),
+      psVar2 = some_ref_obj_lookup_func((s16)(((int)param_1 - (int)param_2->voxelObjs) * 0x684bda13 >> 2),
                           (char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
                           (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(param_1->header).type);;
       if ((container_open_check((param_1->container).openFlag)) || (psVar2 != NULL)) {

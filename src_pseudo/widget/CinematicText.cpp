@@ -1,7 +1,7 @@
 #include "cinematics.h"
 #include "ZoneEngine.h"
 
-WidgetCinematicText::WidgetCinematicText(u16 (*dims) [4],short param_3,short param_4,Color32 *txtCol,u32 param_6):WidgetMenu(){
+WidgetCinematicText::WidgetCinematicText(u16 (*dims) [4],s16 param_3,s16 param_4,Color32 *txtCol,u32 param_6):WidgetMenu(){
   u16 uVar1;
   u16 uVar2;
   u16 uVar3;
@@ -53,7 +53,7 @@ void WidgetCinematicText::SetText(char *txt){
     u16 uVar3 = this->dimensions[2];
     u16 uVar4 = this->dimensions[3];
     u16 uVar7 = this->unk92 * 2 + uVar6;
-    if ((u16)(uVar1 - uVar2) < uVar7) uStack_4e = uVar4 - (short)uVar7;
+    if ((u16)(uVar1 - uVar2) < uVar7) uStack_4e = uVar4 - (s16)uVar7;
     this->unk80->SetCoords(x,uStack_4e);
     SetWidgetBounds(this->unk80,x,uStack_4e,uVar3,uVar4);
     this->unk80->SetWidth((uVar3 - x) + 1);

@@ -13,8 +13,8 @@
 #endif
 
 
-void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 lifespan,short texture,short count
-               ,float velLo,float velHi,float gravity,short addLight) {
+void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 lifespan,s16 texture,s16 count
+               ,float velLo,float velHi,float gravity,s16 addLight) {
   ParticleEmmiter *pEmmi = NewParticleEmmiter(lifespan,texture,0,NULL,NULL,NULL,NULL,NULL);
   if (pEmmi) {
     Particle::SetEmmiterHeight(pEmmi,height);
@@ -60,7 +60,7 @@ void SmokeUnusedPartFuncB(ParticleHeadStruct *pHead,ParticleEmmiter *emmi) {
 
 
 void SmokeUnusedPart(voxelHeader* vox,vec3f *vel,vec4f *color,float param_4,
-                   u16 lifespan,short param_6,float velY) {
+                   u16 lifespan,s16 param_6,float velY) {
   
   ParticleEmmiter *emmi = NewParticleEmmiter(lifespan,param_6,0,NULL,SmokeUnusedPartFuncB,NULL,vox,NULL);
   if (emmi) {
@@ -111,7 +111,7 @@ void FUN_8001b0a8(ParticleHeadStruct *head,ParticleEmmiter *emmi) {
 
 
 ParticleEmmiter *
-FUN_8001b29c(vec3f *pos,u16 lifespan,short texture,u16 count,short param_5,float param_6
+FUN_8001b29c(vec3f *pos,u16 lifespan,s16 texture,u16 count,s16 param_5,float param_6
             ,vec4f *colA,vec4f *colC,vec4f *colB,vec3f *vel) {
 
   ParticleEmmiter *emmi = NewParticleEmmiter(lifespan,texture,count,NULL,FUN_8001b0a8,NULL,NULL,NULL);

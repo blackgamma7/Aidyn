@@ -46,7 +46,7 @@ BaseWidget * InputMenu_BButton(BaseWidget *w0,BaseWidget *w1){
 
 
 BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
-  short sVar1;
+  s16 sVar1;
   char *pcVar3;
   WidgetDollMenu *pWVar4;
   BaseWidget *pBVar6;
@@ -134,7 +134,7 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
 
 BaseWidget * InputMenu_StartButton(BaseWidget *w0,BaseWidget *w1){
   byte bVar1;
-  short sVar2;
+  s16 sVar2;
   WidgetDollMenu *pWVar4;
   BaseWidget *pBVar6;
   u8 uVar12;

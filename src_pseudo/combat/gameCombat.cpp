@@ -45,7 +45,7 @@ void Set_keelover_aniType(playerData *param_1){
   }
 }
 
-void Print_damage_healing(playerData *PDAT,short DMG,short Healing,bool isdead,CharSheet *param_5){
+void Print_damage_healing(playerData *PDAT,s16 DMG,s16 Healing,bool isdead,CharSheet *param_5){
   if (DMG) {
     CombatStatIndicator::AddItem(PDAT,0,DMG);
     if (PDAT->borg7P) {
@@ -103,7 +103,7 @@ Gfx * FUN_80027bf0(Gfx *g,u16 delta,CharSheet *param_3){
 }
 
 
-Gfx * Combat_Render(Gfx *gfx,short delta){  
+Gfx * Combat_Render(Gfx *gfx,s16 delta){  
   CharSheet *pCVar1 = gCombatP->current_Ent->charSheetP;
   playerData *player = gGlobals.playerDataArray[gCombatP->current_Ent->index];
   Gfx *g = gfx;
@@ -178,7 +178,7 @@ u8 FUN_80027f1c(Gfx **GG,u16 delta){
       if (pCVar2->Flag4() == pCVar3->Flag4()) {
         pCVar4 = pCVar3->charSheetP;
         PDAT->ani_type = 10;
-        Print_damage_healing(PDAT,0,(ushort)pCVar3->Healing,Entity::isDead(pCVar4),pCVar3->charSheetP);
+        Print_damage_healing(PDAT,0,(u16)pCVar3->Healing,Entity::isDead(pCVar4),pCVar3->charSheetP);
       }
       else PDAT->ani_type = 8;
     }
@@ -207,11 +207,11 @@ void FUN_80028180(void){
   CombatEntity *user = gCombatP->current_Ent;
   CombatEntity *target = (&gCombatP->combatEnts)[gCombatP->some_index];
   playerData *PDAT = gGlobals.playerDataArray[gCombatP->some_index];
-  if (user->AtkType == ATKT_Potion) user->FlaskAttack(target,(ushort)user->damage);
+  if (user->AtkType == ATKT_Potion) user->FlaskAttack(target,(u16)user->damage);
   if (target->damage == 0) {
     if (user->Flag4() == target->Flag4()) {
       PDAT->ani_type = AniType_10;
-      Print_damage_healing(PDAT,0,(ushort)target->Healing,Entity::isDead(target->charSheetP),target->charSheetP);
+      Print_damage_healing(PDAT,0,(u16)target->Healing,Entity::isDead(target->charSheetP),target->charSheetP);
     }
     else PDAT->ani_type = AniType_8;
   }
@@ -667,7 +667,7 @@ void init_combat_struct(void){
     for(u8 i=0;i<14;i++) {gGlobals.playerDataArray[i] = 0;}
     gGlobals.gameVars.mapDatA = MAPA_Battle;
     gGlobals.gameVars.mapDatC = 0;
-    gGlobals.gameVars.mapDatB = (ushort)gGlobals.EncounterDat.battlefield;
+    gGlobals.gameVars.mapDatB = (u16)gGlobals.EncounterDat.battlefield;
     InitZoneEngine(1,0);
     Sky::ResetColors();
     Combat_InitEncounter(gCombatP,&gGlobals.EncounterDat);
@@ -698,7 +698,7 @@ void init_combat_struct(void){
       gGlobals.goblinAmbush = true;
       gGlobals.GoblinHitTally = 2;
       CharSheet* pCVar2 = PARTY->Members[0];
-      Entity::addHP(pCVar2,Entity::getHPMax(pCVar2) - (short)Entity::getHPCurrent(pCVar2));
+      Entity::addHP(pCVar2,Entity::getHPMax(pCVar2) - (s16)Entity::getHPCurrent(pCVar2));
     }
     CombatSpellMarker::Init();
     combat_start_turn_();

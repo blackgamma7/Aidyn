@@ -1493,7 +1493,7 @@ s16 CombatEntity::SkillCheckFloat(s16 rand,s16 param_3,u8 skill){
     fVar3 = (float)(int)param_3 * 0.2f;
   }
   if ((float)(int)rand <= fVar3) {
-    rand = (short)((rand - ((u8)RollD(1,100))));
+    rand = (s16)((rand - ((u8)RollD(1,100))));
   }
   return rand;
 }
@@ -1549,7 +1549,7 @@ s16 CombatEntity::CalculateWeaponAttack(CombatEntity *target){
   u8 x;
   u8 y;
   bool backstab;
-  short sVar3;
+  s16 sVar3;
   u16 rand;
   s16 sVar4;
   byte bVar5;
@@ -1719,7 +1719,7 @@ u16 CombatEntity::WeaponAttack(CombatEntity *target){
   u8 uVar5;
   u8 uVar6;
   bool bVar7;
-  short sVar3;
+  s16 sVar3;
   u16 rand;
   s16 sVar4;
   byte bVar8;
@@ -2299,7 +2299,7 @@ s16 CombatEntity::PotionAccuracy(CombatEntity *target,u8 prox){
   CharStats_s *stats_00;
   int iVar5;
   s16 sVar11;
-  short sVar12;
+  s16 sVar12;
   s16 uVar15;
   
   stats = this->charSheetP->Stats;
@@ -2413,7 +2413,7 @@ void CombatEntity::FlaskAttack(CombatEntity *target,s16 dmgBase){
 
 u8 CombatEntity::PotionAttack(CombatEntity *target){
   bool bVar4;
-  short sVar2;
+  s16 sVar2;
   u16 rand;
   s16 sVar3;
   byte bVar5;
@@ -2554,7 +2554,7 @@ s16 CombatEntity::m8006edd0(CombatEntity *param_2,playerData *param_3,playerData
     }
     param_3->ani_type = AniType_GetBuff;
     SVar6 = GETINDEX((pSVar2->base).id);
-    set_movement_spellUsed(param_3,param_3->ani_type,(short)(char)SVar6);
+    set_movement_spellUsed(param_3,param_3->ani_type,(s16)(char)SVar6);
     uVar3 = FUN_80095c04(param_3,param_4,SVar6,(s32)lVar10);
     if ((lVar9 != 0) || (sVar4 = 0, lVar10 == 0xfffd)) {
       sVar4 = (s16)lVar9;
@@ -3033,7 +3033,7 @@ switchD_80070018_caseD_3d:
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x3c: //short Bow
+  case 0x3c: //s16 Bow
     *param_2 = 5.0f;
     *param_3 = 0.0;
     break;

@@ -87,7 +87,7 @@ u16 WidgetText::GetWidth(){
 
 u16 WidgetText::GetHeight(){
   widgetTextSubstruct *ppcVar1 = (widgetTextSubstruct *)substruct;
-  height = (u16)Font::GetHeightScaled(font_pointer,ppcVar1->str,posX,(int)(short)boundX1,
+  height = (u16)Font::GetHeightScaled(font_pointer,ppcVar1->str,posX,(int)(s16)boundX1,
                          ppcVar1->scale.x,ppcVar1->scale.y);
   return height;
 }

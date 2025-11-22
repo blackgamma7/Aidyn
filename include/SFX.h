@@ -3,7 +3,7 @@
 
 struct SoundStructB {
     u16 index;
-    short timer;
+    s16 timer;
     u16 active;
     u16 unk6; //align bytes?
     voxelObject voxel;
@@ -162,7 +162,7 @@ void ClearAudioBubble(SoundStructA *);
 void init_sfx_struct(SFX_Struct *);
 void SoundStructA_remove(SFX_Struct *,SoundStructA *);
 SoundStructA * soundStructA_set(SFX_Struct *,voxelObject *,int ,u8);
-SoundStructB * PlayAudioSound(SFX_Struct *,u32 ,u32,float,short,u16);
+SoundStructB * PlayAudioSound(SFX_Struct *,u32 ,u32,float,s16,u16);
 void FreeAudioSound(SFX_Struct *,SoundStructB *);
 void clear_sfx_substruct_2(SFX_Struct *,s16);
 void play_sfx_before_delete(SFX_Struct *,SoundStructA *);

@@ -108,7 +108,7 @@ Gfx * WidgetScrollList::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
 
 
 u8 WidgetScrollList::Tick() {
-  short sVar9;
+  s16 sVar9;
   s16 iVar8;
   WSLSub *sub = (WSLSub *)this->substruct;
   iVar8 = 0;
@@ -124,13 +124,13 @@ u8 WidgetScrollList::Tick() {
         Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
       else if (entry->GetNumber() == WidgetN_ShadText)
         Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
-      entry->SetCoords(this->posX,this->posY + (short)iVar8 + sub->yCurr);
+      entry->SetCoords(this->posX,this->posY + (s16)iVar8 + sub->yCurr);
       (entry->col).A = (this->col).A;
       iVar8+= entry->GetHeight() + sub->vSpace;
-      sVar9 = (short)iVar8;
+      sVar9 = (s16)iVar8;
     }
   }
-  this->SetHeight(sVar9 - (ushort)sub->vSpace);
+  this->SetHeight(sVar9 - (u16)sub->vSpace);
   if (sub->XTarget < sub->XCurr) {
     sub->XCurr-=sub->scrollSpeed;
     if (sub->XCurr < sub->XTarget) sub->XCurr = sub->XTarget;

@@ -9,7 +9,7 @@ void InitFreeQueueHead(QueueStructA *q){
   CLEAR(q->array);
 }
 
-void AllocFreeQueueItem(QueueStructA *q,void **p,ushort type,ushort pri){
+void AllocFreeQueueItem(QueueStructA *q,void **p,u16 type,u16 pri){
   QueueStructAItem *entry = q->array + q->items++;
   if (FREEQUEUE_QUEUESIZE <= q->items) CRASH("AllocFreeQueueItem","Too Many Items!\nIncrease FREEQUEUE_QUEUESIZE\n");
   if(type>QueueType_Borg12){
@@ -28,7 +28,7 @@ void AllocFreeQueueItem(QueueStructA *q,void **p,ushort type,ushort pri){
 }
 
 void ProcessFreeQueue(QueueStructA *param_1){
-  short sVar1;
+  s16 sVar1;
   int iVar2;
   QueueStructAItem *next;
   QueueStructAItem *entry;
@@ -89,7 +89,7 @@ void ProcessFreeQueue(QueueStructA *param_1){
         }
       }
     }
-    param_1->items = (ushort)iVar5;
+    param_1->items = (u16)iVar5;
   }
 }
 

@@ -78,7 +78,7 @@ LAB_80038434:
     pBVar8 = WidgetB8(BORG8_TitleTrain);
     pBVar8->SetCoords(0x5a - (pBVar8->GetHeight() >> 1),0x58 - pBVar8->GetWidth());
     this->Link(pBVar8);
-    u16 uVar16 = (ushort)pBVar8->posY + pBVar8->GetHeight() + 4;
+    u16 uVar16 = (u16)pBVar8->posY + pBVar8->GetHeight() + 4;
     Gsprintf(Cstring(EarnedExp),(gGlobals.expGained * 1.5f));
     pBVar8 = WClipTXT(gGlobals.text);
     pBVar8->SetColor(COLOR_RED1);
@@ -99,7 +99,7 @@ LAB_80038434:
             Gsprintf(Cstring(LevelUp),PARTY->Members[i]->name);
             pBVar8 = WClipTXT(gGlobals.text);
             pBVar8->SetColor(COLOR_RED1);
-            pBVar8->SetCoords(0x14,(short)uVar16);
+            pBVar8->SetCoords(0x14,(s16)uVar16);
             Utilities::SetTextWidgetBoundsX(pBVar8,0x14,0x9b);
             this->Link(pBVar8);
             bVar3 = true;
@@ -112,7 +112,7 @@ LAB_80038434:
     NormalFont;
     this->expCost = new WidgetClipText(NULL,20);
     this->expCost->SetColor(COLOR_RED1);
-    this->expCost->SetCoords(0x14,0xc5 - (short)this->expCost->GetHeight());
+    this->expCost->SetCoords(0x14,0xc5 - (s16)this->expCost->GetHeight());
     this->Link(this->expCost);
     this->expRemain = new WidgetClipText(NULL,20);
     this->expRemain->SetColor(COLOR_RED1);
@@ -155,8 +155,8 @@ void DollMenuLists::UpdateMenus(u8 ind){
 void DollMenuLists::LRToggle(u8 param_2){
   WidgetTrainShop *pWVar3;
   u8 newIndex;
-  short sVar9;
-  short asStack_28 [20];
+  s16 sVar9;
+  s16 asStack_28 [20];
   
   if (!m80038bc0()) {
     sVar9 = 0x8c;

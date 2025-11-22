@@ -33,7 +33,7 @@ WidgetSpellEntry::WidgetSpellEntry(SpellInstance *param_2):BaseWidget(){
   sprintf(buff,"%d",this->spell->level);
   this->SpelllRank = WClipTXTSafe(buff);
   this->SpelllRank->SetColor(COLOR_RED1);
-  this->SpelllRank->varU16 = (ushort)this->spell->level;
+  this->SpelllRank->varU16 = (u16)this->spell->level;
   BaseWidget::Link(this->SpelllRank);
 }
 
@@ -42,9 +42,9 @@ WidgetSpellEntry::~WidgetSpellEntry(){BaseWidget::~BaseWidget();}
 Gfx * WidgetSpellEntry::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){RENDERCHILDREN();}
 
 u8 WidgetSpellEntry::Tick() {
-  short y;
-  short sVar1;
-  short x;
+  s16 y;
+  s16 sVar1;
+  s16 x;
   BaseWidget *pBVar4;
   
   if (this->SpellName) {

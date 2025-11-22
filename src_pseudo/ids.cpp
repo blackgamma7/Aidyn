@@ -31,10 +31,10 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
   u32 uVar3;
   
   
-  uVar3 = (ushort)x & 0xff;
+  uVar3 = (u16)x & 0xff;
   uVar1 = -1;
   if (false) goto switchD_80075e2c_caseD_4;
-  switch((u32)((ushort)x >> 8)) {
+  switch((u32)((u16)x >> 8)) {
   case DB_ENTITY:
     entriesP = entityList;
     totalP = &gEntityDB->total;

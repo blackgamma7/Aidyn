@@ -28,8 +28,8 @@ enum SkyType{
   SkyType4,
 };
 
-u32 sky_flag_A;
-s16 sky_flag_b;
+u32 sResetColorFlag;
+s16 sStormTimer;
 
 namespace Sky{
   void ResetSubstruct(SkySubstruct*);
@@ -39,7 +39,7 @@ namespace Sky{
   void Free();
   void Reset();
   int GenerateGradient(Color32 *,Color32 *,float,float,float,Color32 *,float);
-  void GenerateSky(Color32 *col,Color32 *transSky,float param_3,float gray,short param_5,vec3f *outVec);
+  void GenerateSky(Color32 *col,Color32 *transSky,float param_3,float gray,s16 param_5,vec3f *outVec);
   void SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32 *mainTint,
                    Color32 *skyTint,Color32 *fogTint,Color32 *cloudTint,Color32 *sunTint,
                    float param_10);

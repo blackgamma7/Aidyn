@@ -18,7 +18,7 @@ struct Camera_struct {
     float unk5c;
     float unk60;
     float unk64;
-    short unk68;
+    s16 unk68;
     u16 holdCamera;
     float camHeight;
     vec3f unk70; /* another aim target? */
@@ -35,10 +35,10 @@ struct Camera_struct {
 };
 
 struct ScriptCam {
-    short active;
-    short index;
+    s16 active;
+    s16 index;
     u16 timer;
-    short flag;
+    s16 flag;
     vec3f *aim;
     float height;
     voxelObject voxel;
@@ -46,11 +46,11 @@ struct ScriptCam {
 
 struct ScriptCamera_struct {
     ScriptCam *cameras; /* 0x7c size */
-    short cameraIndecies[8];
+    s16 cameraIndecies[8];
     u16 cameraCount; /* up to 8 */
-    short dataActive;
-    short counter0;
-    short counter1;
+    s16 dataActive;
+    s16 counter0;
+    s16 counter1;
 };
 
 namespace Camera{
@@ -68,8 +68,8 @@ namespace Camera{
                float arg5,s32 arg6,s32 arg7,float arg8,float arg9,
                float arg10,float arg11,float arg12,float arg13,s16 arg14,
                s16 arg15);
-    void Mode0(Camera_struct *cam,vec3f *param_2,vec3f *param_3,short param_4,short param_5);
-    void FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,short param_3,float param_4,float param_5,float param_6);
+    void Mode0(Camera_struct *cam,vec3f *param_2,vec3f *param_3,s16 param_4,s16 param_5);
+    void FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,s16 param_3,float param_4,float param_5,float param_6);
     void SetMode(Camera_struct *cam,u16 mode);
     void RevertMode(Camera_struct *cam);
     void ProcessGameCamera(Camera_struct *cam,vec3f *param_2,vec3f* param_3,s16 param_4,u16 param_5);
@@ -91,4 +91,4 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
 void InitScriptCameras(ScriptCamera_struct *param_1);
 void FreeScriptCameras(ScriptCamera_struct *param_1);
 
-#define gCamera gGlobals.gameVars.camera //shorthamd for camera object
+#define gCamera gGlobals.gameVars.camera //shorthand for camera object

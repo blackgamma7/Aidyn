@@ -117,8 +117,8 @@ Gfx * Clouds::Render(Gfx *g){
   float camRotX;
   float camRotZ;
   float camRotY;
-  ushort h;
-  ushort v;
+  u16 h;
+  u16 v;
   int iVar5;
   int i;
   float camLength;

@@ -71,8 +71,8 @@ class MiniMap {
     float Y9C;
     float field41_0xa0;
     float field42_0xa4;
-    short field43_0xa8;
-    short field44_0xaa;
+    s16 field43_0xa8;
+    s16 field44_0xaa;
     u16 field45_0xac;
     u16 field46_0xae;
     void Init();
@@ -84,7 +84,7 @@ class MiniMap {
     bool CaseBarrows(float param_2);
     void Update(float posx,float posy,float posz);
     Gfx * Render(Gfx *g);
-    void UpdateSection(short param_2,short param_3);
+    void UpdateSection(s16 param_2,s16 param_3);
     bool LoadSections();
     void ToggleShowAll();
     s32 ShowAll();

@@ -22,7 +22,7 @@ WidgetSkillTrain::WidgetSkillTrain(u8 istrainer):WidgetTrainShop() {
 
 void WidgetSkillTrain::InitMenu() {
   u16 uVar1;
-  ushort uVar2;
+  u16 uVar2;
   u32 uVar3;
   CharSkills *skills;
   byte bVar9;
@@ -173,15 +173,15 @@ void WidgetSkillTrain::Purchase(u16 param_2,u8 v) {
   CharSkills *skills;
 
   bool Shop;
-  ushort type;
+  u16 type;
   byte bVar14;
   byte bVar15;
-  short lvOld;
-  short lvNew;
+  s16 lvOld;
+  s16 lvNew;
   char *pcVar10;
 
   u8 i;
-  ushort subtype;
+  u16 subtype;
   
   type = param_2 >> 8;
   subtype = param_2 & 0xff;
@@ -250,7 +250,7 @@ void WidgetSkillTrain::Purchase(u16 param_2,u8 v) {
 void WidgetSkillTrain::Confirm(u16 param_2,u16 param_3) {
   CharSheet *pCVar1;
   CharSkills *skills;
-  ushort type;
+  u16 type;
   u32 uVar6;
   WidgetChoiceDia *pWVar7;
   BaseWidget *pBVar8;

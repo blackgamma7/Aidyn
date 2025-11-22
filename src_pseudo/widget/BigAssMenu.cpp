@@ -191,7 +191,7 @@ void PauseWidget::InitOptionsMenu(){
     sub->optionsMenu->InitMenu(2);
     gGlobals.cinematicReplay = 0;
   }
-  Utilities::MoveWidget(sub->optionsMenu,(ushort)(byte)sub->PauseMenuSection * -SCREEN_WIDTH,0);
+  Utilities::MoveWidget(sub->optionsMenu,(u16)(byte)sub->PauseMenuSection * -SCREEN_WIDTH,0);
   sub->optionsMenu->Tick();
   this->Link(sub->optionsMenu);
 }
@@ -201,7 +201,7 @@ void PauseWidget::BuildDollMenu(u8 param_2){;
   sub->dollmenu = new WidgetDollMenu(0,param_2);
   sub->dollmenu->varU8 = 1;
   sub->pauseMenuSections[1] = sub->dollmenu;
-  Utilities::MoveWidget(sub->dollmenu,(1 - (ushort)sub->PauseMenuSection) * SCREEN_WIDTH,0);
+  Utilities::MoveWidget(sub->dollmenu,(1 - (u16)sub->PauseMenuSection) * SCREEN_WIDTH,0);
   sub->dollmenu->Tick();
   this->Link(sub->dollmenu);
 }
@@ -211,7 +211,7 @@ void PauseWidget::BuildCalendarMenu(){
   sub->calendar = new WidgetCalendar();
   sub->calendar->varU8 = 2;
   sub->pauseMenuSections[2] = sub->calendar;
-  Utilities::MoveWidget(sub->calendar,(2 - (ushort)sub->PauseMenuSection) * SCREEN_WIDTH,0);
+  Utilities::MoveWidget(sub->calendar,(2 - (u16)sub->PauseMenuSection) * SCREEN_WIDTH,0);
   sub->calendar->Tick();
   this->Link(sub->calendar);
   return;
@@ -239,14 +239,14 @@ Gfx* PauseWidget::Render(Gfx* g, u16 x0,u16 y0, u16 x1, u16 y1){
 }
 
 u8 PauseWidget::Tick(){
-  short sVar1;
+  s16 sVar1;
   BaseWidget *pBVar2;
   int iVar3;
   bool bVar4;
   s16 lVar5;
   SceneData *pSVar6;
   u32 uVar7;
-  short varX;
+  s16 varX;
   float fVar8;
   pause_Substruct *sub;
   

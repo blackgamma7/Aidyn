@@ -636,8 +636,8 @@ void borg5_free(Borg5Header *param_1){
 
 //"borg6": animation/cinematic data
 void borg6_func_a(Borg6Data *param_1){
-  short sVar1;
-  short sVar2;
+  s16 sVar1;
+  s16 sVar2;
   u32 uVar3;
   u32 uVar4;
   float *pfVar5;
@@ -662,12 +662,12 @@ void borg6_func_a(Borg6Data *param_1){
           j++;
           pfVar5 = (float *)((int)pBVar7->unk4 + (int)param_1);
           pBVar7->unk4 = pfVar5;
-          sVar1 = *(short *)pfVar5;
+          sVar1 = *(s16 *)pfVar5;
           pfVar5[1] = (float)((int)&param_1->borg5 + (int)pfVar5[1]);
           sVar2 = pBVar7->unk0;
           pBVar7 = pBVar7 + 1;
           while (sVar1 != sVar2) {
-            sVar1 = *(short *)(pfVar5 + 2);
+            sVar1 = *(s16 *)(pfVar5 + 2);
             pfVar5[3] = (float)((int)&param_1->borg5 + (int)pfVar5[3]);
             pfVar5 = pfVar5 + 2;
           }
@@ -689,7 +689,7 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
   undefined4 *puVar9;
   u32 uVar10;
   undefined4 *puVar11;
-  ushort uVar12;
+  u16 uVar12;
   Borg6SubSub *pBVar13;
   int iVar14;
   int iVar15;
@@ -755,7 +755,7 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
           pfVar2 = pBVar13->unk4;
           puVar8 = puVar9 + 4;
           *(undefined4 **)((int)pvVar4 + 8) = puVar9;
-          uVar12 = *(ushort *)((int)pfVar2 + 2);
+          uVar12 = *(u16 *)((int)pfVar2 + 2);
           puVar11 = (undefined4 *)pfVar2[1];
           do {
             if ((uVar12 & 1) == 0) {
@@ -766,7 +766,7 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
               puVar11 = puVar11 + 1;
               *puVar9 = uVar17;
             }
-            uVar12 = (short)uVar12 >> 1;
+            uVar12 = (s16)uVar12 >> 1;
             iVar14 += -1;
             puVar9 = puVar9 + 1;
           } while (iVar14 != 0);

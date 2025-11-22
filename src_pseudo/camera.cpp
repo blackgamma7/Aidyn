@@ -192,8 +192,8 @@ void Camera::Mode1(Camera_struct *CAM,vec3f *arg1,vec3f *arg2,s16 arg3,float arg
 }
 
 
-void Camera::Mode0(Camera_struct *param_1,vec3f *param_2,vec3f *param_3,short param_4,short param_5){
-  short sVar1;
+void Camera::Mode0(Camera_struct *param_1,vec3f *param_2,vec3f *param_3,s16 param_4,s16 param_5){
+  s16 sVar1;
   int iVar2;
   u16 uVar3;
   bool bVar4;
@@ -211,7 +211,7 @@ void Camera::Mode0(Camera_struct *param_1,vec3f *param_2,vec3f *param_3,short pa
   fStack112.z = (param_1->pos).z;
   if (param_1->unk68) {
     iVar2 = (u32)(u16)param_1->unk68 - (int)param_4;
-    param_1->unk68 = (short)iVar2;
+    param_1->unk68 = (s16)iVar2;
     if (0 < iVar2 * 0x10000) {
       goto LAB_800b0be4;
     }
@@ -275,7 +275,7 @@ LAB_800b0be4:
       Vec3Sum(A,A,aim0);
     }
     AdjustAim(&param_1->pos,A,16.0,param_4,fVar6);
-    if (((short)param_1->unk80 < 2) && (param_5 != 0)) {
+    if (((s16)param_1->unk80 < 2) && (param_5 != 0)) {
       if (CheckCollision(param_1->borg_9,&param_1->pos,aim0,0.25,NULL,NULL,0)) {
         param_1->unk82 = 0;
       }
@@ -302,7 +302,7 @@ LAB_800b0be4:
 
 
 
-void Camera::FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,short param_3,float param_4,float param_5,float param_6){
+void Camera::FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,s16 param_3,float param_4,float param_5,float param_6){
   float fVar4;
   double dVar3;
   float fVar5;

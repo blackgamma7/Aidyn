@@ -27,7 +27,7 @@ void dialoug_ref_obj_func(void){
   return;
 }
 //same as BaseWidget::SetSomeBounds()
-void SetWidgetBounds(BaseWidget *w,ushort x0,ushort y0,ushort x1,ushort y1){
+void SetWidgetBounds(BaseWidget *w,u16 x0,u16 y0,u16 x1,u16 y1){
   w->boundX0 = x0;
   w->boundY0 = y0;
   w->boundX1 = x1;
@@ -73,7 +73,7 @@ void campfire_func(void){
     else {
       iVar2 = 1;
       do {
-        iVar3 = (int)(short)iVar2;
+        iVar3 = (int)(s16)iVar2;
         if ((int)(u32)(pBVar1->dat).voxelObjCount <= iVar3) goto LAB_80006610;
         iVar2 = iVar3 + 1;
       } while (pVVar1[iVar3].header.type != VOXEL_Dialouge);

@@ -9,7 +9,7 @@
 
 bool check_some_toggle(void) {return some_toggle != -1;}
 
-void FUN_80024c54(short param_1) {
+void FUN_80024c54(s16 param_1) {
   if (some_toggle == -1) {
     gGlobals.screenFadeMode = 1;
     gGlobals.screenFadeSpeed = (1.0f/30);
@@ -356,9 +356,9 @@ bool GetSnapshot_(void) {
 }
 
 void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *param_3,vec3f *param_4) {
-  short sVar1;
-  short sVar2;
-  ushort uVar3;
+  s16 sVar1;
+  s16 sVar2;
+  u16 uVar3;
   s16 iVar4;
   s16 iVar5;
   float fVar6;
@@ -391,10 +391,10 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *param_3,ve
   (fly->pos).x = fVar8 - fVar10;
   fVar8 = gGlobals.gameVars.mapCellSize.y;
   iVar4+= (u32)uVar3;
-  fly->shortA = (short)iVar4;
+  fly->shortA = (s16)iVar4;
   fVar6 = (fly->posTarget).z;
-  iVar5+= (u32)(ushort)fly->ShortD;
-  fly->shortB = (short)iVar5;
+  iVar5+= (u32)(u16)fly->ShortD;
+  fly->shortB = (s16)iVar5;
   (fly->pos).z = fVar6 - fVar9 * fVar8;
   if (((iVar4) != sVar1) ||
      ((iVar5) != sVar2)) {
@@ -474,9 +474,9 @@ Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
     fadeFloatMirror = gGlobals.brightness;
     gTemp = Lensflare::Render(gTemp);
     gTemp = draw_hud_elements(gTemp);
-    gTemp = N64Print::Draw(gTemp,(ushort)delta);
+    gTemp = N64Print::Draw(gTemp,(u16)delta);
     param_1 = tick_and_render_widgets(gTemp);
-    if (!isPaused()) WanderTick(&gGlobals.wander,(ushort)delta);
+    if (!isPaused()) WanderTick(&gGlobals.wander,(u16)delta);
     run_dialougemode_funcs1();
     TickGameTime(delta);
     func_calling_orphaned_dat(delta);

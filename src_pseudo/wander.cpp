@@ -41,7 +41,7 @@ void Ofunc_800124b4(playerData **param_1,vec3f *param_2){
   param_2->z+= temp.y;
 }
 
-void WanderHead(wander_struct *wander,short size){
+void WanderHead(wander_struct *wander,s16 size){
 
   wander->initalized = 1;
   wander->wanderersmax = size;
@@ -152,7 +152,7 @@ playerData * FUN_80012b44(wander_struct *param_1,wander_substruct *param_2){
   return ppVar1;
 }
 
-void WanderGetNextNode(wander_struct *param_1,wander_substruct *param_2,short param_3){
+void WanderGetNextNode(wander_struct *param_1,wander_substruct *param_2,s16 param_3){
   vec2f fStack80;
   Borg9Data *map = GetCollisionZone(param_2->playerDat->zoneDatByte);
   (param_2->start_position).x = map->voxelObjs[param_3].wander.startCoords.x;
@@ -199,7 +199,7 @@ void FUN_80012d44(wander_substruct *param_1){
 
 void WanderSubstruct_setFlag1(wander_substruct *param_1){param_1->flags |= 1;}
 
-void WanderTick(wander_struct *param_1,short delta){
+void WanderTick(wander_struct *param_1,s16 delta){
   byte bVar1;
   playerData *ppVar2;
   bool bVar3;
@@ -207,7 +207,7 @@ void WanderTick(wander_struct *param_1,short delta){
   bool bVar7;
   BaseWidget *pBVar5;
   Borg9Data *borgDat;
-  short sVar6;
+  s16 sVar6;
   wander_substruct *wanderer;
   vec3f *from;
   voxelObject *pmVar8;
@@ -345,7 +345,7 @@ LAB_80013318:
         if (!bVar3){
           if (wanderer->field19_0x3e == 0) {
             if (((wanderer->playerDat->flags & (ACTOR_CANMOVE|ACTOR_CANROTATE|ACTOR_40)) == 0) &&
-               ((short)wanderer->timer < 1)) {
+               ((s16)wanderer->timer < 1)) {
               if ((wanderer->homenode & 4) == 0) {
                 FUN_80012c58(param_1,wanderer);
                 FUN_80012d44(wanderer);

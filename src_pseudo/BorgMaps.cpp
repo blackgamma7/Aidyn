@@ -1,7 +1,7 @@
 #include "globals.h"
 
 //Set index for sky gradient texture to use for area.
-void BorgMaps::GetMapTerrain(short a,short b) {
+void BorgMaps::GetMapTerrain(s16 a,s16 b) {
   mapDataList *pmVar1;
   u16 i = 0;
   while( true ) {
@@ -12,7 +12,7 @@ void BorgMaps::GetMapTerrain(short a,short b) {
     if (((u32)pmVar1->mapShortA == (int)a) && ((u32)pmVar1->MapShortB == (int)b)) break;
     i++;
   }
-  World::SetTerrain(TerrainPointer,(char)pmVar1->terrian);
+  World::SetTerrain(TerrainPointer,pmVar1->terrian);
   gGlobals.gameVars.weather.skyBgdat = 1;
   gGlobals.sky.Type = SkyTypeOutdoor;
   if (false) { //?
@@ -73,8 +73,8 @@ void BorgMaps::WriteMapIndecies(mapDataList *param_1) {
   }
 }
 
-u16 BorgMaps::GetMapData(mapDataList *m,u16 shortA,u16 shortB,u16 offset,ushort map) {
-  ushort *puVar3 = &m->arr[offset];
+u16 BorgMaps::GetMapData(mapDataList *m,u16 shortA,u16 shortB,u16 offset,u16 map) {
+  u16 *puVar3 = &m->arr[offset];
   for(s16 i=0;((m->mapShortA != shortA) && (m->MapShortB != shortB));i++){
     if((m->mapShortA == 0) && (m->MapShortB == 0)){
         char buff [296];
@@ -383,9 +383,9 @@ LAB_8002ce68:
         0x111e,0x1122,0x114d,0,0x10dc,0x10e0,0x10e3,0x10fc,0x10fe,0x1102,0x1125,0x1128,
         0x112f,0x1150,0x1153,0x1156,0x1172,0x117b,0x117e,0x1181,0x1189,0x1192,0x1195,
         0x119b,0x11a4,0x11a8,0};
-    SetBGM(BgmArr,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(short)gGlobals.gameVars.mapShort2][0],
+    SetBGM(BgmArr,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
       0x62c,0x62d);
-    SetBGM(BgmArr,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(short)gGlobals.gameVars.mapShort2][0],
+    SetBGM(BgmArr,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
            0x5ea,0x5eb);
     break;
   case MAPA_GoblinCamp:
@@ -510,7 +510,7 @@ LAB_8002d464:
     }
     u16 BgmArr[]={0x188f,0x149d,0x14b3,0x14b6,0x1523,0x1537,0x153e,0};
     SetBGM(BgmArr,
-           gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(short)gGlobals.gameVars.mapShort2][0],
+           gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
            0x61c,0x61c);
     break;
   case MAPA_EhudUnder:

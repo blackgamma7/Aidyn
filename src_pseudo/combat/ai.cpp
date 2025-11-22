@@ -1406,12 +1406,12 @@ u8      FUN_80062e14(u8 param_1,u8 param_2,byte *param_3,byte *param_4,undefined
   if (iVar8 < 0) {
     iVar5 = -iVar8;
   }
-  iVar2 = (int)(short)iVar5;
+  iVar2 = (int)(s16)iVar5;
   iVar5 = iVar10;
   if (iVar10 < 0) {
     iVar5 = -iVar10;
   }
-  iVar5 = (int)(short)iVar5;
+  iVar5 = (int)(s16)iVar5;
   if (iVar8 < 0) {
     uStack68 = -1;
   }
@@ -1565,7 +1565,7 @@ bool FUN_80063258(CombatAI_s *param_1) {
         uVar9 = CombatEntity::GetCoord2XU8(param_1->combatEnt);
         uVar10 = CombatEntity::GetCoord2YU8(param_1->combatEnt);
         uVar7 = sub_square_add_sqrt(uVar9,uVar10,bStack336[2],bStack336[3]);
-        if ((ushort)param_1->combatEnt->moveRange < (uVar7 & 0xff)) {
+        if ((u16)param_1->combatEnt->moveRange < (uVar7 & 0xff)) {
           Vec2Set(&afStack328,(float)bStack336[0],(float)bStack336[1]);
           Vec2Set(&afStack264,(float)bStack336[2],(float)bStack336[3]);
           bVar2 = true;

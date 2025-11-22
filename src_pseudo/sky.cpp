@@ -324,15 +324,10 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   float fVar5;
   float fVar6;
   float fVar7;
-  u16 uVar8;
-  byte R;
-  byte G;
-  byte B;
-  byte A;
   vec3f fStack128;
   
   fVar7 = 0.0;
-  sky_flag_b = (sky_flag_b + 1) + ((sky_flag_b + 1) / 20) * -20;
+  sStormTimer = (sStormTimer + 1) + ((sStormTimer + 1) / 20) * -20;
   if (3 < gGlobals.sky.Type - 1) {
       Gsprintf("type: %d out of Range: (1 - %d)",gGlobals.sky.Type,5);
       CRASH("RenderSky",gGlobals.text);
@@ -350,9 +345,9 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   gFogColor.B = 0xff;
   gFogColor.G = 0xff;
   gFogColor.R = 0xff;
-  if (sky_flag_A != 0) {
+  if (sResetColorFlag) {
     if (gGlobals.sky.Type - SkyTypeOutdoor < 2) {
-      sky_flag_A = 0;
+      sResetColorFlag = false;
     }
     ClearColors();
   }
@@ -380,7 +375,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
     fVar6 = World::get_timeofDay_float(TerrainPointer);
     //Thunderclap chance
     if (0.0 < TerrainPointer->ThunderFloat) fVar7 = RAND.GetFloatRange(0.0,1.0);
-    if ((fVar7 < TerrainPointer->ThunderFloat * 0.25) &&(sky_flag_b == 0)) {
+    if ((fVar7 < TerrainPointer->ThunderFloat * 0.25) &&(sStormTimer == 0)) {
       gfx = DrawRectangle(gfx,FULL_SCREENSPACE,0xff,0xff,0xff,0);
       SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
                 &gMainColor,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
@@ -389,19 +384,19 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
       gSkyColor={COLOR_WHITE};
       switch(RAND.func(0,3)){
         case 0:{
-          PLAYSFX(0x071c,0,gGlobals.VolSFX,320,0);
+          PLAYSFX(BORG12_Thunder1,0,gGlobals.VolSFX,320,0);
           break;
         }
         case 1:{
-          PLAYSFX(0x071d,0,gGlobals.VolSFX,360,0);
+          PLAYSFX(BORG12_Thunder2,0,gGlobals.VolSFX,360,0);
           break;
         }
         case 2:{
-          PLAYSFX(0x071e,0,gGlobals.VolSFX,420,0);
+          PLAYSFX(BORG12_Thunder3,0,gGlobals.VolSFX,420,0);
           break;
         }
         case 3:{
-          PLAYSFX(0x071f,0,gGlobals.VolSFX,360,0);
+          PLAYSFX(BORG12_Thunder4,0,gGlobals.VolSFX,360,0);
           break;
         }
       }
@@ -417,11 +412,9 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
                              gGlobals.sky.gradient,gGlobals.sky.lensFlareVal);
       gfx = RenderGradient(gfx,gGlobals.sky.gradient,(u16)iVar3);
       if (iVar3 == 0) goto LAB_80022478;
-      R = gGlobals.sky.gradient[iVar3 + -1].R;
-      G = gGlobals.sky.gradient[iVar3 + -1].G;
-      B = gGlobals.sky.gradient[iVar3 + -1].B;
-      A = gGlobals.sky.gradient[iVar3 + -1].A;
-      gfx = DrawRectangle(gfx,0,(u16)(iVar3-1),SCREEN_WIDTH,SCREEN_HEIGHT,R,G,B,A);
+      gfx = DrawRectangle(gfx,0,(u16)(iVar3-1),SCREEN_WIDTH,SCREEN_HEIGHT,
+      gGlobals.sky.gradient[iVar3-1].R,gGlobals.sky.gradient[iVar3-1].G,
+      gGlobals.sky.gradient[iVar3-1].B,gGlobals.sky.gradient[iVar3-1].A);
     }
     break;
   }
@@ -431,12 +424,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
               &gMainColor,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
               -gGlobals.sky.lensFlareVal * 0.5);
 LAB_80022478:
-    uVar2 = 0;
-    R = 0;
-    G = 0;
-    B = 0;
-    A = 0;
-    gfx = DrawRectangle(gfx,0,uVar2,SCREEN_WIDTH,SCREEN_HEIGHT,R,G,B,A);
+    gfx = DrawRectangle(gfx,FULL_SCREENSPACE,0,0,0,0);
     break;
   }
   default:{
@@ -519,5 +507,5 @@ void Sky::ClearColors(void){
 
 void Sky::ResetColors(void) {
   ClearColors();
-  sky_flag_A = true;
+  sResetColorFlag = true;
 }

@@ -11,7 +11,7 @@ void Crash_SetFrame(CrashBuff *buff ,u16 col){
 }
 
 u16 crash_strlen(char *txt){
-  return (short)(strlen(txt) / 2) * -8 + 200;
+  return (s16)(strlen(txt) / 2) * -8 + 200;
 }
 
 struct crash_DatString {
@@ -232,20 +232,20 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
       do {
         u16 uVar10 = 0;
         uVar13 = (u32)uVar12;
-        if ((int)(short)uVar6 != 0) {
+        if ((int)(s16)uVar6 != 0) {
           do {
-            iVar4 = uVar13 * (int)(short)uVar6 + uVar10;
+            iVar4 = uVar13 * (int)(s16)uVar6 + uVar10;
             if (cDepth == 0x10) {
               *(u16 *)((int)(*param_2)[(uVar13 >> 1) + 0x96] + uVar10 + 0x50) =
                    fb16[(char)bVar8][iVar4];
             }
             else {
               u32 px32 = fb32[(char)bVar8][iVar4];
-              *(ushort *)((int)(*param_2)[(uVar13 >> 1) + 0x96] + uVar10 + 0x50) =
+              *(u16 *)((int)(*param_2)[(uVar13 >> 1) + 0x96] + uVar10 + 0x50) =
               GPACK_RGBA5551(px32>>24,px32>>16,px32>>8,px32);     
             }
             uVar10+=2;
-          } while (uVar10 < (u32)(int)(short)uVar6);
+          } while (uVar10 < (u32)(int)(s16)uVar6);
         }
         uVar12 +=2;
       } while (uVar12 < uVar7);
@@ -279,7 +279,7 @@ void Ofunc_8000729c(CrashBuff *param_1,u16 x_,u16 y,void *p1,void *p2,void *p3,v
   do {
     FUN_80006c6c(arr[i],&r,&g,&b);
     sprintf(strBuff,"%08x",arr[i]);
-    crash_print(param_1,strBuff,(u16)x,y + (short)i * 10,r,g,b);
+    crash_print(param_1,strBuff,(u16)x,y + (s16)i * 10,r,g,b);
     i++;
   } while (i < 8);
   return;
@@ -336,22 +336,22 @@ void stack_dump(CrashSub *param_1,CrashBuff *param_2){
     if ((((bVar4) && (pvVar2 = *(void **)((int)&(pOVar5->context) + j * 4), pvVar2 != pvVar1)
          ) && ((void *)0x8000046f < pvVar2)) && (pvVar2 <= pvStack_3c)) {
       sprintf(acStack_140,"%08x",(u32)pvVar2);
-      crash_print(param_2,acStack_140,((ushort)i & 3) * 0x50 + 0x19,
-                  (short)(i >> 2) * 9 + 0x4f,0,0xc0,0xc0);
+      crash_print(param_2,acStack_140,((u16)i & 3) * 0x50 + 0x19,
+                  (s16)(i >> 2) * 9 + 0x4f,0,0xc0,0xc0);
       i++;
     }
     bVar4 = i < 0xc;
   }
   sprintf(acStack_140,"%08x",pvVar1);
-  crash_print(param_2,acStack_140,((ushort)i & 3) * 0x50 + 0x19,(short)(i >> 2) * 9 + 0x4f,0
+  crash_print(param_2,acStack_140,((u16)i & 3) * 0x50 + 0x19,(s16)(i >> 2) * 9 + 0x4f,0
               ,0xc0,0xc0);
   i++;
   for(j=0;j<0x800;j++) {
     if (((i < 0xc) && (pvVar1 = iStack_34[j], (void *)0x8000046f < pvVar1)) &&
        (pvVar1 <= pvStack_3c)) {
       sprintf(acStack_140,"%08x",(u32)pvVar1);
-      crash_print(param_2,acStack_140,((ushort)i & 3) * 0x50 + 0x19,
-                  (short)(i >> 2) * 9 + 0x4f,0,0xc0,0xc0);
+      crash_print(param_2,acStack_140,((u16)i & 3) * 0x50 + 0x19,
+                  (s16)(i >> 2) * 9 + 0x4f,0,0xc0,0xc0);
       i++;
     }
   }
@@ -368,7 +368,7 @@ void stack_dump(CrashSub *param_1,CrashBuff *param_2){
     pvVar1 = iStack_34[i];
     sprintf(acStack_140,"%08x",pvVar1);
     FUN_80006c6c(pvVar1,puStack_30,&uStack_3f,auStack_3e);
-    crash_print(param_2,acStack_140,((ushort)i & 3) * 0x50 + 0x19,(short)(i >> 2) * 9 + 0x7c
+    crash_print(param_2,acStack_140,((u16)i & 3) * 0x50 + 0x19,(s16)(i >> 2) * 9 + 0x7c
                 ,uStack_40,uStack_3f,auStack_3e[0]);
   }
 }

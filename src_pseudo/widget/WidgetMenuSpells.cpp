@@ -29,7 +29,7 @@ void WidgetMenuSpells::InitMenu(DollMenuLists *list,u8 sel) {
   this->background->SetCoords(0,58);
   this->Link(this->background);
   pBVar3 = WidgetB8(BORG8_TitleTrain);
-  pBVar3->SetCoords(90 - (short)(pBVar3->GetWidth() >> 1),86 - (short)pBVar3->GetHeight());
+  pBVar3->SetCoords(90 - (s16)(pBVar3->GetWidth() >> 1),86 - (s16)pBVar3->GetHeight());
   this->Link(pBVar3);
   this->spells = new WidgetSpellTrain(true);
   this->SpellSkills[this->count++] = this->spells;

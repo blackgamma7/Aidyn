@@ -79,8 +79,8 @@ void Font::Free(FontStruct *fontP){
 
 
 u8 Font::LoadFace(FontStruct *fontP,u32 b8,u8 rows,u8 cols){
-  ushort uVar1;
-  ushort uVar2;
+  u16 uVar1;
+  u16 uVar2;
   u16 uVar3;
   byte bVar6;
   Borg8Header *pBVar4;
@@ -152,10 +152,10 @@ int Font::printSimple(FontStruct *fontP,Gfx **gg,char *txt,int x,int y,float sca
   byte bVar1;
   byte bVar2;
   byte bVar3;
-  short sVar4;
-  short sVar5;
-  short sVar6;
-  short sVar7;
+  s16 sVar4;
+  s16 sVar5;
+  s16 sVar6;
+  s16 sVar7;
   int iVar9;
   int xCurr;
   Color32 col;
@@ -177,8 +177,8 @@ int Font::printSimple(FontStruct *fontP,Gfx **gg,char *txt,int x,int y,float sca
         col.G = (fontP->col).G;
         col.B = (fontP->col).B;
         if ('~' < bVar1) GetButtonColor(bVar1 -0x7F,&col.R,&col.G,&col.B);
-        sVar6 = ((ushort)bVar2 / (ushort)bVar3) * sVar4;
-        sVar7 = ((ushort)bVar2 % (ushort)bVar3) * sVar5;
+        sVar6 = ((u16)bVar2 / (u16)bVar3) * sVar4;
+        sVar7 = ((u16)bVar2 % (u16)bVar3) * sVar5;
         *gg = N64BorgImageDraw(*gg,fontP->currFont,xCurr,y,sVar6,sVar7,
                                   fontP->kerning[bVar2] + sVar6,sVar7 + sVar5,scalex,scaley,col.R,
                                   col.G,col.B,(fontP->col).A);
@@ -206,23 +206,23 @@ int Font::PrintWapperA(FontStruct *fontP,Gfx **gg,char *txt,int posX,int posY,u1
 }
 
 int Font::PrintWapperUnused
-              (FontStruct *font,Gfx **gg,char *txt,int posX,int posY,short param_6,short param_7,
+              (FontStruct *font,Gfx **gg,char *txt,int posX,int posY,s16 param_6,s16 param_7,
               int param_8,int param_9,int param_10,int param_11){
   return PrintMain(font,gg,txt,posX,posY,param_6,param_7,param_8,param_9,param_10,param_11,
                     font->scale,font->scale);
 }
 
-int Font::PrintMain(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,short param_6,
-                   short param_7,int param_8,int param_9,int param_10,int param_11,float scaleX,
+int Font::PrintMain(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,s16 param_6,
+                   s16 param_7,int param_8,int param_9,int param_10,int param_11,float scaleX,
                    float scaleY)
 
 {
   byte bVar1;
-  ushort uVar2;
-  ushort uVar3;
+  u16 uVar2;
+  u16 uVar3;
   bool bVar4;
-  short sVar5;
-  short sVar6;
+  s16 sVar5;
+  s16 sVar6;
   Gfx *pGVar7;
   int iVar8;
   u16 *puVar9;
@@ -318,13 +318,13 @@ LAB_800b4bc4:
                   green = (font->col).G;
                   blue = (font->col).B;
                   if (0x7e < *pbVar13) GetButtonColor(*pbVar13 + 0x81,&red,&green,&blue);
-                  sVar5 = (short)uStack_48 * (short)uStack_58;
-                  sVar6 = (short)uStack_44 * (short)uStack_54;
+                  sVar5 = (s16)uStack_48 * (s16)uStack_58;
+                  sVar6 = (s16)uStack_44 * (s16)uStack_54;
                   pGVar7 = N64BorgImageDraw(*gg,font->currFont,(posX + iVar11),
-                                            (posY + iVar15),sVar5 + (short)iVar11,
-                                            sVar6 + (short)iVar15,
-                                            (font->kerning[bVar10] + sVar5) - (short)iVar14,
-                                            (sVar6 + (short)uStack_54) - (short)iVar17,scaleX,scaleY
+                                            (posY + iVar15),sVar5 + (s16)iVar11,
+                                            sVar6 + (s16)iVar15,
+                                            (font->kerning[bVar10] + sVar5) - (s16)iVar14,
+                                            (sVar6 + (s16)uStack_54) - (s16)iVar17,scaleX,scaleY
                                             ,red,green,blue,(font->col).A);
                   *gg = pGVar7;
                 }
@@ -386,22 +386,22 @@ LAB_800b4d2c:
 }
 
 void Font::PrintCharaWapper
-               (FontStruct *param_1,Gfx **param_2,u32 param_3,u32 param_4,int param_5,short param_6
-               ,short param_7,short param_8,short param_9){
+               (FontStruct *param_1,Gfx **param_2,u32 param_3,u32 param_4,int param_5,s16 param_6
+               ,s16 param_7,s16 param_8,s16 param_9){
   PrintChara(param_1,param_2,(u8)param_3,param_4,param_5,param_6,param_7,param_8,param_9,
              param_1->scale,param_1->scale);
 }
 
-void Font::PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_5,short param_6,
-                     short param_7,short param_8,short param_9,float param_10,float param_11)
+void Font::PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_5,s16 param_6,
+                     s16 param_7,s16 param_8,s16 param_9,float param_10,float param_11)
 
 {
   byte bVar1;
   byte bVar2;
-  short sVar3;
-  ushort uVar4;
-  ushort uVar5;
-  short sVar6;
+  s16 sVar3;
+  u16 uVar4;
+  u16 uVar5;
+  s16 sVar6;
   Gfx *pGVar7;
   int iVar8;
   int iVar9;
@@ -452,12 +452,12 @@ LAB_800b4f9c:
     col.G = (fontP->col).G;
     col.B = (fontP->col).B;
     if ('~' < chara) GetButtonColor(chara -0x7F,&col.R,&col.G,&col.B);
-    sVar3 = ((ushort)bVar1 / (ushort)bVar2) * sVar3;
-    sVar6 = ((ushort)bVar1 % (ushort)bVar2) * uVar4;
+    sVar3 = ((u16)bVar1 / (u16)bVar2) * sVar3;
+    sVar6 = ((u16)bVar1 % (u16)bVar2) * uVar4;
     pGVar7 = N64BorgImageDraw(*gg,fontP->currFont,(param_4 + iVar10),(param_5 + iVar8)
-                              ,sVar3 + (short)iVar10,sVar6 + (short)iVar8,
-                              (fontP->kerning[bVar1] + sVar3) - (short)iVar11,
-                              (sVar6 + uVar4) - (short)iVar9,param_10,param_11,col.R,col.G,col.B,
+                              ,sVar3 + (s16)iVar10,sVar6 + (s16)iVar8,
+                              (fontP->kerning[bVar1] + sVar3) - (s16)iVar11,
+                              (sVar6 + uVar4) - (s16)iVar9,param_10,param_11,col.R,col.G,col.B,
                               (fontP->col).A);
     *gg = pGVar7;
   }
@@ -522,7 +522,7 @@ int Font::GetHeightScaled(FontStruct *font,char *str,int h,int w,float scaleX,fl
   if ((font->currFont != NULL) && (str != NULL)) {
     if (w <= h) return 0;
     if (*str != '\0') {
-      iVar9 = ((ushort)font->charH * scaleY + 2.0f);
+      iVar9 = ((u16)font->charH * scaleY + 2.0f);
       bVar3 = *str;
       iVar7 = h;
       pbVar6 = (byte *)str;
@@ -587,17 +587,17 @@ u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u1
   u32 charH;
   byte bVar7;
   u32 rows32_;
-  ushort uVar8;
+  u16 uVar8;
   int iVar9;
   u32 rows32;
   u32 cols32;
-  ushort *sizeOut;
+  u16 *sizeOut;
   int iVar13;
   u16 uVar14;
   int i;
   byte bVar16;
   int iVar17;
-  ushort uVar18;
+  u16 uVar18;
   u32 uVar19;
   
   charW = (u32)(param_2->dat).Width / (u32)cols;
@@ -608,7 +608,7 @@ u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u1
   rows32_ = (u32)rows;
   rows32 = (u32)rows;
   uVar19 = (u32)(param_2->dat).Width;
-  uVar18 = (ushort)charW;
+  uVar18 = (u16)charW;
   switch((param_2->dat).format) {
   case BORG8_RBGA32:
   //32-bit image
@@ -627,7 +627,7 @@ u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u1
           do {
             uVar14--;
           } while (p32[iVar9 + uVar14 + -1].W == p32[iVar9 + charW].W);
-          *sizeOut = (ushort)uVar14;
+          *sizeOut = (u16)uVar14;
         }
         iVar9 = i / (int)rows32;
         uVar14 = i % (int)rows32_;

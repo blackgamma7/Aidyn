@@ -1,7 +1,7 @@
 #include "typedefs.h"
 
 struct VoxelChartEntry {
-    short arg0;
+    s16 arg0;
     u8 bool0x2;
     u8 arg7;
     u8 MapDatA;

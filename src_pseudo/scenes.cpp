@@ -451,7 +451,7 @@ s16 Scene::addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z
     uVar3 = LengthSquared(red,green,blue);
     iVar9 = (int)index;
     s16 i = iVar9;
-    if (i < (short)param_1->maxDynamicLights) {
+    if (i < (s16)param_1->maxDynamicLights) {
       pLVar6 = &param_1->DirLights[i].l;
       lVar11 = lVar10;
       for(;i<param_1->maxDynamicLights;i++){

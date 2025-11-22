@@ -32,7 +32,7 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     u16 *puVar2;
     bool bVar3;
     u32 BVar5;
-    short sVar6;
+    s16 sVar6;
     double dVar7;
     float fVar8;
     float fVar9;
@@ -250,7 +250,7 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
       iVar3 = uVar1 + 1;
       iVar2 = iVar3;
       if (false) iVar2 = uVar1 + 0x10;
-      param_1->moveQueueIndex = (short)iVar3 + (short)(iVar2 >> 4) * -0x10;
+      param_1->moveQueueIndex = (s16)iVar3 + (s16)(iVar2 >> 4) * -0x10;
       pMVar4->active = 1;
       (pMVar4->pos2d).x = x;
       (pMVar4->pos2d).y = y;
@@ -281,7 +281,7 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
       if (false) {
         iVar1 = param_1->moveQueueIndex2 + 0x10;
       }
-      param_1->moveQueueIndex2 = (short)iVar2 + (short)(iVar1 >> 4) * -0x10;
+      param_1->moveQueueIndex2 = (s16)iVar2 + (s16)(iVar1 >> 4) * -0x10;
       Actor::SetAiDest(param_1,(pabVar2->pos2d).x,(pabVar2->pos2d).y,pabVar2->rad,pabVar2->flag);
     }
   }

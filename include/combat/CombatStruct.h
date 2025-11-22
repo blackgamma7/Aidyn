@@ -124,10 +124,10 @@ bool renderTicker_GreaterThan3(CombatStruct *param_1);
 
 void Combat_SetHideMarkers(u32 param_1);
 void Set_keelover_aniType(playerData *param_1);
-void Print_damage_healing(playerData *PDAT,short DMG,short Healing,bool isdead,CharSheet *param_5);
+void Print_damage_healing(playerData *PDAT,s16 DMG,s16 Healing,bool isdead,CharSheet *param_5);
 Gfx * FUN_80027aa8(Gfx *param_1);
 Gfx * FUN_80027bf0(Gfx *g,u16 delta,CharSheet *param_3);
-Gfx * Combat_Render(Gfx *gfx,short delta);
+Gfx * Combat_Render(Gfx *gfx,s16 delta);
 u8 combat_byte_func_0(Gfx **GG,u16 delta);
 bool FUN_80027eb0(Gfx **GG,u16 param_2);
 u8 FUN_80027f1c(Gfx **GG,u16 delta);

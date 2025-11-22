@@ -27,7 +27,7 @@ void EntityDB::OldInit(){
     aiStack_30[0] += (u32)*pbVar3 * 0x88;
   }
 }
-//change Litte-endian short value to Big-Endian
+//change Litte-endian s16 value to Big-Endian
 u16 ItemDB_SwapEndian(u8 *x){
   u16 sVar1 = (x[1]<<8|x[0]);
   if (sVar1) return sVar1;
@@ -149,7 +149,7 @@ u32 EntityDB::GetPortrait(ItemID id){
       iVar4 = 0;
       uVar1 = entity_info_array[0].index;
       while (pdVar7 = (dialougeEntity_Info *)entity_info_array,
-            uVar1 != ((short)(char)bVar3 + 1U & 0xff)) {
+            uVar1 != ((s16)(char)bVar3 + 1U & 0xff)) {
         peVar6 = peVar6 + 1;
         uVar1 = peVar6->index;
         iVar4 += 0x1c;
@@ -169,7 +169,7 @@ u32 EntityDB::GetPortrait(ItemID id){
       iVar4 = 0;
       pdVar5 = pdVar7;
       uVar2 = dailougEnt_info_array[0].index;
-      while (uVar2 != ((short)(char)bVar3 + 1U & 0xff)) {
+      while (uVar2 != ((s16)(char)bVar3 + 1U & 0xff)) {
         pdVar5 = pdVar5 + 1;
         uVar2 = pdVar5->index;
         iVar4 += DB_DIALOUGEENTITY;
@@ -201,7 +201,7 @@ u32 EntityDB::GetBorg7(ItemID id){
       iVar4 = 0;
       uVar1 = entity_info_array[0].index;
       while (pdVar7 = (dialougeEntity_Info *)entity_info_array,
-            uVar1 != ((short)(char)bVar3 + 1U & 0xff)) {
+            uVar1 != ((s16)(char)bVar3 + 1U & 0xff)) {
         peVar6 = peVar6 + 1;
         uVar1 = peVar6->index;
         iVar4 += 0x1c;
@@ -221,7 +221,7 @@ u32 EntityDB::GetBorg7(ItemID id){
       iVar4 = 0;
       pdVar5 = pdVar7;
       uVar2 = dailougEnt_info_array[0].index;
-      while (uVar2 != ((short)(char)bVar3 + 1U & 0xff)) {
+      while (uVar2 != ((s16)(char)bVar3 + 1U & 0xff)) {
         pdVar5 = pdVar5 + 1;
         uVar2 = pdVar5->index;
         iVar4 += DB_DIALOUGEENTITY;
@@ -285,7 +285,7 @@ float EntityDB::GetHeight(ItemID id){
       entity_info *peVar5 = entity_info_array;
       uVar1 = entity_info_array[0].index;
       do {
-        if (uVar1 == ((short)(char)bVar3 + 1U & 0xff)) return peVar5->height*peVar5->scale;
+        if (uVar1 == ((s16)(char)bVar3 + 1U & 0xff)) return peVar5->height*peVar5->scale;
         peVar5++;
         uVar1 = peVar5->index;
       } while (uVar1 != 0);
@@ -295,7 +295,7 @@ float EntityDB::GetHeight(ItemID id){
     dialougeEntity_Info *pdVar6 = dailougEnt_info_array;
     uVar2 = dailougEnt_info_array[0].index;
     do {
-      if (uVar2 == ((short)(char)bVar3 + 1U & 0xff)) {
+      if (uVar2 == ((s16)(char)bVar3 + 1U & 0xff)) {
         return pdVar6->a *pdVar6->b;
       }
       pdVar6++;
@@ -339,7 +339,7 @@ float EntityDB::GetFloatA(ItemID id){
       peVar4 = entity_info_array;
       uVar1 = entity_info_array[0].index;
       do {
-        if (uVar1 == ((short)(char)bVar2 + 1U & 0xff)) {
+        if (uVar1 == ((s16)(char)bVar2 + 1U & 0xff)) {
           return peVar4->unk10;
         }
         peVar4++;
@@ -393,7 +393,7 @@ float EntityDB::GetCollideRadius(ItemID id){
       uVar1 = entity_info_array[0].index;
       do {
         peVar4 = peVar4 + 1;
-        if (uVar1 == ((short)(char)bVar2 + 1U & 0xff)) {
+        if (uVar1 == ((s16)(char)bVar2 + 1U & 0xff)) {
           return *(float *)((int)&entity_info_array[0].radius + iVar3);
         }
         uVar1 = peVar4->index;
@@ -419,7 +419,7 @@ float EntityDB::GetScale(ItemID param_2){
       iVar4 = 0;
       uVar1 = entity_info_array[0].index;
       do {
-        if (uVar1 == ((short)(char)bVar3 + 1U & 0xff)) {
+        if (uVar1 == ((s16)(char)bVar3 + 1U & 0xff)) {
           return *(float *)((int)&entity_info_array[0].scale + iVar4);
         }
         peVar5 = peVar5 + 1;
@@ -433,7 +433,7 @@ float EntityDB::GetScale(ItemID param_2){
     iVar4 = 0;
     uVar2 = dailougEnt_info_array[0].index;
     do {
-      if (uVar2 == ((short)(char)bVar3 + 1U & 0xff)) {
+      if (uVar2 == ((s16)(char)bVar3 + 1U & 0xff)) {
         return *(float *)((int)&dailougEnt_info_array[0].b + iVar4);
       }
       pdVar6 = pdVar6 + 1;

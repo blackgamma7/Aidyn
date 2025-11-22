@@ -53,8 +53,8 @@ Gfx * PlaneObj_GetTexture(Gfx *g,PlaneObj *plane){
 
 Gfx * PlaneObj_Render(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale){
   byte fb;
-  short V;
-  short U;
+  s16 V;
+  s16 U;
   float Vy;
   float Vx;
   

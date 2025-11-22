@@ -24,7 +24,7 @@ DollMenuPortraits::DollMenuPortraits(Party *party,u8 size,u8 selected):WidgetMen
         this->portraits[j]->SetHeight(this->Hs[j]);
         this->portraits[j]->SetWidth(this->Ws[j]);
         this->portraits[j]->varU8 = (byte)j;
-        this->portraits[j]->varU16 = (short)(char)GETINDEX(chara->ID);
+        this->portraits[j]->varU16 = (s16)(char)GETINDEX(chara->ID);
         this->Link(this->portraits[j]);
     }
     switch(this->partySize){ //uses fallthrough for party sizes?
@@ -56,8 +56,8 @@ DollMenuPortraits::DollMenuPortraits(Party *party,u8 size,u8 selected):WidgetMen
     getSchoolIcon(party->Members[this->selectedMember]->EXP->school,b8P);
     if (b8) {
       this->schoolIcon = WidgetB8(b8);
-      this->schoolIcon->SetCoords(this->aspectIcon->posX + (short)this->aspectIcon->GetWidth() + 2,this->aspectIcon->posY);
-      this->schoolIcon->varU16 = (ushort)party->Members[this->selectedMember]->EXP->school;
+      this->schoolIcon->SetCoords(this->aspectIcon->posX + (s16)this->aspectIcon->GetWidth() + 2,this->aspectIcon->posY);
+      this->schoolIcon->varU16 = (u16)party->Members[this->selectedMember]->EXP->school;
       this->Link(this->schoolIcon);
     }
 }
@@ -78,12 +78,12 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
   ulong uVar14;
   u32 uVar16;
   u32 uVar17;
-  ushort uStack_50;
+  u16 uStack_50;
   u16 uStack_4e;
   byte abStack_4c [4];
   u32 BStack_48;
   byte abStack_44 [4];
-  ushort *puStack_40;
+  u16 *puStack_40;
   int iStack_3c;
   BaseWidget **ppBStack_38;
   byte *pbStack_34;
@@ -93,13 +93,13 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
     if (param_2 == 0) {
       puStack_40 = &uStack_50;
       iStack_3c = -1;
-      uStack_4e = (ushort)(((u32)this->selectedMember + this->partySize + 1) % (u32)this->partySize);
-      uStack_50 = (ushort)this->selectedMember;
+      uStack_4e = (u16)(((u32)this->selectedMember + this->partySize + 1) % (u32)this->partySize);
+      uStack_50 = (u16)this->selectedMember;
     }
     else {
       puStack_40 = &uStack_4e;
       iStack_3c = 1;
-      uStack_4e = (ushort)((int)((u32)this->selectedMember + (this->partySize - 1)) % (int)(u32)this->partySize);
+      uStack_4e = (u16)((int)((u32)this->selectedMember + (this->partySize - 1)) % (int)(u32)this->partySize);
     }
     pbStack_34 = abStack_4c;
     pbStack_30 = abStack_4c + 1;
@@ -142,7 +142,7 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
     pBVar12 = this->schoolIcon;
     u8 MVar2 = pCVar4->EXP->school;
     if (pBVar12) {
-      if (pBVar12->varU16 == (ushort)MVar2) return;
+      if (pBVar12->varU16 == (u16)MVar2) return;
       this->aniManage.AddItem(new GuiAnimatorL(new GuiAnimatorU8(&(pBVar12->col).A,abStack_44 + 1,0xf,&double_array_0),pBVar12));
     }
     getSchoolIcon(MVar2,&BStack_48);
@@ -151,7 +151,7 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
       this->schoolIcon = WidgetB8(BStack_48);
       this->schoolIcon->SetCoords(this->aspectIcon->posX + this->aspectIcon->GetWidth() + 2,this->aspectIcon->posY);
       (this->schoolIcon->col).A = 0;
-      pBVar12->varU16 = (ushort)MVar2;
+      pBVar12->varU16 = (u16)MVar2;
       this->Link(this->schoolIcon);
       abStack_44[2] = 0xff;
       this->aniManage.AddItem(new GuiAnimatorU8(&(this->schoolIcon->col).A,abStack_44 + 2,0xf,&double_array_0));

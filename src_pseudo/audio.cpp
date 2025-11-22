@@ -143,7 +143,7 @@ u32 DCM::GetUnk0x38(u8 voice){return gAudioManager.voicesAidyn[voice].unk0x38;}
 
 void audioProc(void* p){
   Acmd *pAVar1;
-  short *msg;
+  s16 *msg;
   
   ALLOCS(gAudioManager.OsMsgPtr0x74,(sizeof(OSMesg)*4),449);
   osCreateMesgQueue(&gAudioManager.mesgQ,gAudioManager.OsMsgPtr0x74,4);
@@ -334,7 +334,7 @@ ALMicroTime soundVoiceHandler(void* p){
     if ((v->flag & VOICE_SETVOL)){
       uVar12 = (u32)v->vol << 6;
       if ((v->vol == 0) || (vol = 0x7fff, uVar12 < 0x8000)) {
-        vol = (short)uVar12;
+        vol = (s16)uVar12;
       }
       alSynSetVol(&gAudioManager.ALSYNTH,&v->voice,vol,MTIME);
       v->flag &= ~VOICE_SETVOL;

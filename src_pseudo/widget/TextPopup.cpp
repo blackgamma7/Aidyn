@@ -29,8 +29,8 @@ BaseWidget * TextPopup_Close(BaseWidget * param_1,BaseWidget *param_2){
 BaseWidget * TextPopup_New(char *txt,u16 x,u16 y,u8 red0,u8 green0,u8 blue0,u8 alpha0,
       u8 alph1,u32 addToHandler){
   
-  s16 x0 = (short)((int)(SCREEN_WIDTH - (u32)x) / 2);
-  s16 y0 = (short)((int)(SCREEN_HEIGHT - (u32)y) / 2);
+  s16 x0 = (s16)((int)(SCREEN_WIDTH - (u32)x) / 2);
+  s16 y0 = (s16)((int)(SCREEN_HEIGHT - (u32)y) / 2);
   BaseWidget *popup =  new WidgetMenu();
   popup->fadeIn = TextPopup_FadeIn;
   popup->fadeOut = TextPopup_FadeOut;
@@ -50,7 +50,7 @@ BaseWidget * TextPopup_New(char *txt,u16 x,u16 y,u8 red0,u8 green0,u8 blue0,u8 a
 }
 
 //open a centered text popup
-BaseWidget * some_textbox_func(char *txt,ushort lenMax,Color32 *txtCol,Color32 *bgCol,u32 addToHandler){  
+BaseWidget * some_textbox_func(char *txt,u16 lenMax,Color32 *txtCol,Color32 *bgCol,u32 addToHandler){  
   u16 w = Font::GetWidth(gGlobals.font,txt);
   u16 len = lenMax;
   if (w < lenMax) len = w;

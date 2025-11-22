@@ -26,7 +26,7 @@ BaseWidget * FUN_80092894(BaseWidget *param_1,BaseWidget *param_2){
 
 WidgetCombatItems::WidgetCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions):
 WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
-  ushort iconSize;
+  u16 iconSize;
   CombatEntity *pCVar1;
   CharSheet *pCVar2;
   Borg8Header *pBVar5;
@@ -74,7 +74,7 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   iVar6 = find_char_in_party(pCVar2);
   WidgetBorg8* pBVar6 = WidgetB8(0x38D0);
   WidgetBorg8* pBVar7 = WidgetB8(0x38CF);
-  pBVar6->SetCoords(this->scrollMenu->posX + -8,(this->scrollMenu->posY - (short)pBVar6->GetHeight()) -2);
+  pBVar6->SetCoords(this->scrollMenu->posX + -8,(this->scrollMenu->posY - (s16)pBVar6->GetHeight()) -2);
   pBVar7->SetCoords(this->scrollMenu->posX + -8,this->scrollMenu->boundY1 + 2);
   this->arrows =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7,0);
   this->arrows->SetColor(COLOR_WHITE);

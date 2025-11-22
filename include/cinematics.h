@@ -26,7 +26,7 @@ class WidgetCinematicText:public WidgetMenu{
     s16 unk90;
     s16 unk92;
     u32 resize; //bool?
-    WidgetCinematicText(u16 (*dims) [4],short param_3,short param_4,Color32 *txtCol,u32 param_6);
+    WidgetCinematicText(u16 (*dims) [4],s16 param_3,s16 param_4,Color32 *txtCol,u32 param_6);
     ~WidgetCinematicText();
     virtual void SetText(char*);
 };
@@ -43,7 +43,7 @@ struct CinematicFade {
     u8 fadeType; //use CinFadeType
     u16 runtime; /* div 2 */
     u16 fadeTime; /* div 2 */
-    short exitTime;
+    s16 exitTime;
 };
 //action to take once cinematic is stopped.
 typedef enum enum_cinematic_switch {

@@ -44,8 +44,8 @@ SMIItem::SMIItem(ItemInstance *pObject,u8 q,u8 user):BaseWidget(){
 SMIItem::~SMIItem(){BaseWidget::~BaseWidget();}
 
 Gfx * SMIItem::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  if ((this->posY < (short)this->boundY1) &&
-     ((short)this->boundY0 < (this->posY + 0x1c))) {
+  if ((this->posY < (s16)this->boundY1) &&
+     ((s16)this->boundY0 < (this->posY + 0x1c))) {
     g = this->RenderChildren(g,x0,y0,x1,y1);
   }
   return g;
@@ -53,7 +53,7 @@ Gfx * SMIItem::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 
 u8 SMIItem::Tick(){
   if (this->ItemName) {
-    if ((this->posY < (short)this->boundY1) &&((short)this->boundY0 < (this->posY + 0x1c))) {
+    if ((this->posY < (s16)this->boundY1) &&((s16)this->boundY0 < (this->posY + 0x1c))) {
       if(this->userPortrait) {
         this->userPortrait->SetCoords(this->posX,this->posY);
         this->userPortrait->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);

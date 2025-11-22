@@ -104,7 +104,7 @@ void WidgetFastScrollMenu::AdjustItemsX(){
 LAB_8002fe90:
     i = sub->highlight + 1;
     if (i < sub->currentCount) {
-      while (sub->items[i]->posY <= (short)this->boundY1) {
+      while (sub->items[i]->posY <= (s16)this->boundY1) {
         w = sub->items[i];
         w->posX = this->posX;
         w->boundX0 = this->boundX0;
@@ -125,9 +125,9 @@ void WidgetFastScrollMenu::Update(){
     u16 h = w->GetHeight();
     s32 iVar4 = this->posY + sub->yOff + h * sub->highlight;
     if (this->boundY1 < (int)(iVar4 + h))
-      sub->yOff -= ((short)(iVar4 + h) - this->boundY1);
+      sub->yOff -= ((s16)(iVar4 + h) - this->boundY1);
     if (iVar4 < this->boundY0)
-      sub->yOff += (this->boundY0 - (short)iVar4);
+      sub->yOff += (this->boundY0 - (s16)iVar4);
     if (sub->currentCount) {
       for(u32 i=0,iVar4=0;i<sub->currentCount;i++) {
         w = sub->items[i];
@@ -135,7 +135,7 @@ void WidgetFastScrollMenu::Update(){
         w->boundX1 = this->boundX1;
         w->boundY0 = this->boundY0;
         w->boundY1 = this->boundY1;
-        w->SetCoords(this->posX,this->posY + sub->yOff + (short)iVar4);
+        w->SetCoords(this->posX,this->posY + sub->yOff + (s16)iVar4);
         if (i == sub->highlight) w->SetColor(sub->col.R,sub->col.G,sub->col.B,sub->col.A);
         else w->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
         iVar4+=h;

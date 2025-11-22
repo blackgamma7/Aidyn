@@ -97,7 +97,7 @@ void toggle_enemies_hostile(void){enemyHostileFlag^= 1;}
 extern u32 only_TP_active;
 void toggle_only_tp_active(void){only_TP_active^= 1;}
 
-void bad_ref_obj_hunt(void){voxel_index = (ushort)(voxel_index == 0);}
+void bad_ref_obj_hunt(void){voxel_index = (u16)(voxel_index == 0);}
 
 void load_credits_instead(void){WHANDLE->AddWidget(new WidgetCredits());}
 
@@ -152,9 +152,9 @@ WidgetItemDB::~WidgetItemDB(){
       pBVar4 = new WidgetItemDBItem(gArmorDBp->armors);
       for(i=0;i<gArmorDBp->armors;i++){
                   IVar1 = gArmorDBp->Armor[i].ID;
-          sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ulonglong)(ushort)IVar1,
-                      &gArmorDBp->Armor[i].name,i,(u32)((ushort)IVar1 >> 8),
-                      (ushort)IVar1 & 0xff,ArmorList[i] + 0x500);
+          sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ulonglong)(u16)IVar1,
+                      &gArmorDBp->Armor[i].name,i,(u32)((u16)IVar1 >> 8),
+                      (u16)IVar1 & 0xff,ArmorList[i] + 0x500);
           pBVar4->Append(gGlobals.text,IVar1);
       }
       break;
@@ -162,9 +162,9 @@ WidgetItemDB::~WidgetItemDB(){
       pBVar4 = new WidgetItemDBItem(gArmorDBp->sheilds);
       for(i=gArmorDBp->armors;i<gArmorDBp->total;i++){
           IVar1 = gArmorDBp->Armor[i].ID;
-          sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ushort)IVar1,
-                      &gArmorDBp->Armor[i].name,i,(u32)((ushort)IVar1 >> 8),
-                      (ushort)IVar1 & 0xff,ArmorList[i] + 0x600);
+          sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(u16)IVar1,
+                      &gArmorDBp->Armor[i].name,i,(u32)((u16)IVar1 >> 8),
+                      (u16)IVar1 & 0xff,ArmorList[i] + 0x600);
           pBVar4->Append(gGlobals.text,IVar1);
       }
       break;
@@ -179,12 +179,12 @@ WidgetItemDB::~WidgetItemDB(){
       }
       break;
     case 3:
-      pBVar4 = new WidgetItemDBItem((ushort)gWeaponsDB->Total);
+      pBVar4 = new WidgetItemDBItem((u16)gWeaponsDB->Total);
       for(i=0;i<gWeaponsDB->Total;i++){
         IVar1 = gWeaponsDB->weapons[i].ID;
         sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",IVar1,
                       gWeaponsDB->weapons[i].name,pcVar7,
-                      ((ushort)IVar1 >> 8),(ushort)IVar1 & 0xff,
+                      ((u16)IVar1 >> 8),(u16)IVar1 & 0xff,
                       weaponList[i] + 0x700);
           pBVar4->Append(gGlobals.text,IVar1);
       }
@@ -223,7 +223,7 @@ BaseWidget* WidgetItemDBItem::AFunc(){
 
 BaseWidget* WidgetItemDBItem::BFunc(){return this;}
 
-void WidgetItemDBItem::Append(char *name,ushort id){
+void WidgetItemDBItem::Append(char *name,u16 id){
     WidgetText* w=new WidgetText(name,60);
     w->varU16=id;
     this->scrollMenu->Append(w);

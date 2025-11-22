@@ -5,7 +5,7 @@
 cinematictext_struct *gCinematicTextP=NULL;
 u32 cinematic_runtime=0;
 
-WidgetText *Ofunc_8005d330(char *txt,short len,u16 x,u16 y,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a){
+WidgetText *Ofunc_8005d330(char *txt,s16 len,u16 x,u16 y,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a){
     WidgetText* w =  new WidgetText(txt,len);
     w->SetCoords(x,y);
     w->SetSomeBounds(y,x,x1,y1);
@@ -132,8 +132,8 @@ void LoadNextLine(void){
   u32 len;
   int len_00;
   u8 auStack_418 [512];
-  short sStack_218;
-  short sStack_216;
+  s16 sStack_218;
+  s16 sStack_216;
   undefined1 auStack_214 [508];
   u32 auStack_18 [6];
   
@@ -150,7 +150,7 @@ void LoadNextLine(void){
     decompress_LZ01(auStack_418,len,(u8 *)&sStack_218,auStack_18);
     len_00 = (auStack_18[0] & 0xffff) - 4;
     memcpy(gCinematicTextP->nextCaption,auStack_214,len_00);
-    decrypt_string(gCinematicTextP->nextCaption,0x10,0x103,(short)len_00);
+    decrypt_string(gCinematicTextP->nextCaption,0x10,0x103,(s16)len_00);
     pcVar4 = gCinematicTextP;
     gCinematicTextP->runtime = sStack_218 << 1;
     pcVar4->captionTime = (sStack_216 - sStack_218) * 2;

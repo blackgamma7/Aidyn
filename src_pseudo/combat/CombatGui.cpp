@@ -244,8 +244,8 @@ void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3)
   byte bVar4;
   u32 uVar2;
   u8 uVar3;
-  short sVar5;
-  short sVar6;
+  s16 sVar5;
+  s16 sVar6;
   u32 uVar7;
   
   sVar5 = 0x12;
@@ -306,8 +306,8 @@ void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3)
   }
 }
 
-void draw_radar_blip(u16 param_1,BaseWidget *param_2,short param_3,short param_4,short param_5,
-                    u32 param_6,short param_7,short param_8,u32 param_9,short param_10,u32 param_11){
+void draw_radar_blip(u16 param_1,BaseWidget *param_2,s16 param_3,s16 param_4,s16 param_5,
+                    u32 param_6,s16 param_7,s16 param_8,u32 param_9,s16 param_10,u32 param_11){
   CombatRadarBlip *blip = gCombatRadarBlips + param_1;
   blip->unkc = 1;
   blip->unk4 = param_10 + param_3 + param_5;
@@ -321,7 +321,7 @@ void draw_radar_blip(u16 param_1,BaseWidget *param_2,short param_3,short param_4
 
 
 WidgetBorg8Combat *
-ConstructWidgetBorg8Combat(BaseWidget *parent,Borg8Header *img,short x,short y,u32 param_5){
+ConstructWidgetBorg8Combat(BaseWidget *parent,Borg8Header *img,s16 x,s16 y,u32 param_5){
     //constructor appears to be inline'd.
   WidgetBorg8Combat *pwVar1 = new WidgetBorg8Combat(img,param_5);
   if (pwVar1 == NULL) pwVar1 = NULL;
@@ -435,7 +435,7 @@ extern void getHPColor(Color32*,CharSheet*);
 Gfx * CombatDrawHealthbar(Gfx *g,u32 param_2){
   u32 uVar6;
   u16 uVar7;
-  ushort V;
+  u16 V;
   u16 x;
   float fVar8;
   s16 afStack_e8[2]={-4,24};

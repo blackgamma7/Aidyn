@@ -100,7 +100,7 @@ void WidgetGroup::Remove(BaseWidget *w){
   BaseWidget *pBVar1;
   u32 uVar2;
   u32 uVar3;
-  ushort uVar4;
+  u16 uVar4;
   
   if (w) {
     uVar2 = this->groupCount;
@@ -121,7 +121,7 @@ void WidgetGroup::Remove(BaseWidget *w){
           memcpy(this->group + uVar5,this->group + uVar5 + 1,sizeof(WidgetGroupItem));
         }
       }
-      memset(this->group + (ushort)this->groupCount,0,sizeof(WidgetGroupItem));
+      memset(this->group + (u16)this->groupCount,0,sizeof(WidgetGroupItem));
     }
   }
 }

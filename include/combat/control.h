@@ -20,7 +20,7 @@ void FUN_8008d9d4(CombatSubstructB *param_1,CombatEntity *param_2);
 void FUN_8008dac0(u32 button,CombatSubstructB *param_2,CombatEntity* param_3);
 void combat_control_case_0xa(controller_aidyn *cont);
 bool adjust_camera_joystick(controller_aidyn *cont,vec2f *param_2);
-bool FUN_8008dcfc(controller_aidyn *cont,ushort param_2);
+bool FUN_8008dcfc(controller_aidyn *cont,u16 param_2);
 void combat_control_case_0xb(controller_aidyn *cont,s8 param_2);
 void FUN_8008e0c4(CombatSubstructB *param_1);
 void combat_control_case_0x12(controller_aidyn *cont,u8 param_2);

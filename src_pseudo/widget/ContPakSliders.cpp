@@ -72,7 +72,7 @@ WidgetBorg8 * ControllerPakSliders::GetPortrait(int param_2){
   else {
     s16 bx0 = this->boundX0;
     s16 by0 = this->boundY0;
-    short portraitBounds [4] [4];
+    s16 portraitBounds [4] [4];
     portraitBounds[0][0] = bx0 + 6;
     portraitBounds[0][1] = by0 + 0x6d;
     portraitBounds[0][2] = bx0 + 0x2e;
@@ -240,13 +240,13 @@ void WidgetBlankFile::SetEntry(){
     s16 uVar9 = this->clipTxt->GetHeight();
     s16 uVar10 = this->clipTxt->GetWidth();
     s16 sVar12 = this->boundY0;
-    s16 sVar11 = (short)(((int)this->boundX1 - (int)this->boundX0) + 1 >> 1) -
-             (short)((int)(uVar10 + 1) >> 1);
+    s16 sVar11 = (s16)(((int)this->boundX1 - (int)this->boundX0) + 1 >> 1) -
+             (s16)((int)(uVar10 + 1) >> 1);
     this->clipTxt->posX = this->field10_0x98 + this->boundX0 + sVar11;
     this->clipTxt->boundX0 = this->clipTxt->posX;
     sVar12 = this->field11_0x9a +
              this->boundY0 +
-             ((short)(((int)this->boundY1 - (int)this->boundY0) + 1 >> 1) - (short)((int)(uVar9 + 1) >> 1));
+             ((s16)(((int)this->boundY1 - (int)this->boundY0) + 1 >> 1) - (s16)((int)(uVar9 + 1) >> 1));
     this->clipTxt->posY = sVar12;
     this->clipTxt->boundY0 = this->clipTxt->posY;
     this->clipTxt->boundX1 -= sVar11;
@@ -277,7 +277,7 @@ void WidgetBlankFile::SetArrow(u32 param_2){
                (this->clipTxt->posX + (this->clipTxt->GetWidth() >> 1)) - (this->arrows->GetWidth() >> 1),
                (this->clipTxt->posY - this->arrows->GetHeight()) + -2);
     SetWidgetBounds(this->arrows,this->arrows->posX,this->arrows->posY,
-        this->arrows->posX + (short)this->arrows->GetWidth(),
-        this->arrows->posY + (short)this->arrows->GetHeight());
+        this->arrows->posX + (s16)this->arrows->GetWidth(),
+        this->arrows->posY + (s16)this->arrows->GetHeight());
   }
 }

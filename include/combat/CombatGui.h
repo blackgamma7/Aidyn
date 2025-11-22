@@ -13,10 +13,10 @@ struct CombatPortrait {
 
 struct CombatRadarBlip {
     WidgetBorg8Combat *widget;
-    short unk4;
-    short unk6;
-    short unk8;
-    short unka;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unka;
     int unkc;
     u32 unk10;
     int unk14;
@@ -34,10 +34,10 @@ void FUN_8008fb3c(u8 delta);
 Gfx * FUN_8008fb64(Gfx *param_1,u8 param_2);
 void make_combat_portrait(CombatPortrait *portrait,ItemID id,u8 count,u32 param_4);
 void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3);
-void draw_radar_blip(u16 param_1,BaseWidget *param_2,short param_3,short param_4,short param_5,
-                    u32 param_6,short param_7,short param_8,u32 param_9,short param_10,u32 param_11);
+void draw_radar_blip(u16 param_1,BaseWidget *param_2,s16 param_3,s16 param_4,s16 param_5,
+                    u32 param_6,s16 param_7,s16 param_8,u32 param_9,s16 param_10,u32 param_11);
 WidgetBorg8Combat *
-ConstructWidgetBorg8Combat(BaseWidget *parent,Borg8Header *img,short x,short y,u32 param_5);
+ConstructWidgetBorg8Combat(BaseWidget *parent,Borg8Header *img,s16 x,s16 y,u32 param_5);
 u8 get_combat_gui_index_(int param_1);
 void FUN_80090174(u8 param_1,CombatPortrait *param_2);
 void FUN_80090404();

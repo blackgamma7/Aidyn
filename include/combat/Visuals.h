@@ -30,8 +30,8 @@ struct SpellVisualTypeC {
     u32 flags;
     s16 field2_0x8;
     s16 timer;
-    short field4_0xc;
-    short field5_0xe;
+    s16 field4_0xc;
+    s16 field5_0xe;
     s16 unk10;
     undefined field7_0x12;
     undefined field8_0x13;
@@ -44,9 +44,9 @@ struct SpellVisuals_struct {
     SpellVisualTypeA *ptr0; 
     SpellVisualTypeB *ptr1; 
     SpellVisualTypeC *ptr2; 
-    short *indecies0; 
-    short *indecies1; 
-    short *indecies2; 
+    s16 *indecies0; 
+    s16 *indecies1; 
+    s16 *indecies2; 
     float field6_0x18;
     int lifespan;
     u32 lifeTime;
@@ -70,20 +70,20 @@ void FUN_8009468c(void);
 void FUN_800946dc(int);
 void clear_SpellVisuals_ptr0_entry(s16);
 u16 FUN_800949fc(playerData *);
-void FUN_80094b24(short);
-void spellvisuals_petrify(short);
-void spellvisuals_petrify_2(short );
-void FUN_80094c58(short,short);
-u32 FUN_80094cd0(short);
-void FUN_80094e6c(short);
-void FUN_80094f40(short);
-short FUN_80094fdc(u16,u8,u8);
-void FUN_800952c8(short,short,short);
-void FUN_800953a8(short);
-void FUN_80095414(short);
+void FUN_80094b24(s16);
+void spellvisuals_petrify(s16);
+void spellvisuals_petrify_2(s16 );
+void FUN_80094c58(s16,s16);
+u32 FUN_80094cd0(s16);
+void FUN_80094e6c(s16);
+void FUN_80094f40(s16);
+s16 FUN_80094fdc(u16,u8,u8);
+void FUN_800952c8(s16,s16,s16);
+void FUN_800953a8(s16);
+void FUN_80095414(s16);
 void processSpellVisuals(u32 );
 Gfx * FUN_80095a24(Gfx *);
-void FUN_80095ad8(short);
+void FUN_80095ad8(s16);
 u16 FUN_80095c04(playerData *,playerData *,u8,s32);
 u16 SpellVisuals_InitEffect(playerData *,u32);
 Gfx * FUN_80095f1c(Gfx *,u16);
@@ -124,7 +124,7 @@ struct CombatTargetVisualsHandler {
 
 namespace CombatTargetVisuals{
     void Init();
-    void Render(bool param_1,short param_2);
+    void Render(bool param_1,s16 param_2);
     void Free();
 }
 

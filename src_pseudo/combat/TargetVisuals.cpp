@@ -22,7 +22,7 @@ void CombatTargetVisuals::Init(void) {
 }
 
 #define ThreeDegToRad 0.0523599f
-void CombatTargetVisuals::Render(bool param_1,short delta) {
+void CombatTargetVisuals::Render(bool param_1,s16 delta) {
   int *piVar7;
   float gray;
   

@@ -112,7 +112,7 @@ Gfx * WidgetOptionsConfig::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
   byte bVar1;
   byte bVar2;
   byte bVar3;
-  short sVar4;
+  s16 sVar4;
   s16 tempBX1;
   OptionsConfigSubstruct *sub;
   

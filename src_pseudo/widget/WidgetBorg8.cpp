@@ -12,8 +12,8 @@ WidgetBorg8::WidgetBorg8(Borg8Header* b8):BaseWidget(){
     }
     state = 1;
     substruct = NULL;
-    posX = (short)((int)(SCREEN_WIDTH - width) / 2);
-    posY = (short)((int)(SCREEN_HEIGHT - height) / 2);
+    posX = (s16)((int)(SCREEN_WIDTH - width) / 2);
+    posY = (s16)((int)(SCREEN_HEIGHT - height) / 2);
 }
 
 WidgetBorg8::~WidgetBorg8(){

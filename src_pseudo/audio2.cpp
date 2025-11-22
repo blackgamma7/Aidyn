@@ -88,7 +88,7 @@ SoundStructA * soundStructA_set(SFX_Struct *param_1,voxelObject *param_2,int tal
   return obj;
 }
 
-SoundStructB* PlayAudioSound(SFX_Struct *param_1,u32 borg12,s32 pan,float vol,short param_5,u16 time){
+SoundStructB* PlayAudioSound(SFX_Struct *param_1,u32 borg12,s32 pan,float vol,s16 param_5,u16 time){
 
   SoundStructB *obj;
   if (param_1->pointerBIndex < 16) {
@@ -128,7 +128,7 @@ void FreeAudioSound(SFX_Struct *param_1,SoundStructB *param_2){
 }
 
 
-void clear_sfx_substruct_2(SFX_Struct *param_1,short param_2){
+void clear_sfx_substruct_2(SFX_Struct *param_1,s16 param_2){
   for(s16 i=0;i<16;i++) {
     SoundStructB *pSVar1 = &param_1->pointerB[i];
     if (param_2 == 0) FreeAudioSound(param_1,pSVar1);
@@ -226,7 +226,7 @@ void audio_ref_objs(SFX_Struct *param_1,Borg9Data *param_2,u32 tally,byte ZoneDa
   }
 }
 
-void clear_sfx_entries(SFX_Struct *param_1,short param_2){  
+void clear_sfx_entries(SFX_Struct *param_1,s16 param_2){  
   clear_sfx_substruct_2(param_1,1);
   for(s16 i=0;i<SoundObjCount;i++){
     SoundStructA *pSVar2 = &param_1->pointerA[i];

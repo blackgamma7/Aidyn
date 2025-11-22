@@ -34,8 +34,8 @@ void DiaMenuSub::InitDefault(u8 param_2){
   BaseWidget *pBVar1;
   BaseWidget *pBVar2;
   ulong uVar4;
-  ushort uVar5;
-  ushort uVar6;
+  u16 uVar5;
+  u16 uVar6;
   
   if (true) {
     switch(param_2) {
@@ -52,7 +52,7 @@ void DiaMenuSub::InitDefault(u8 param_2){
   pBVar2->boundX0 = 0;
   uVar4 = this->PortraitBorder->GetHeight();
   pBVar1 = this->Background;
-  pBVar1->boundY1 = (short)uVar4 + 0xb4;
+  pBVar1->boundY1 = (s16)uVar4 + 0xb4;
   pBVar1->SetCoords(pBVar1->boundX0,pBVar1->boundY0);
   pBVar1 = this->Background;
   pBVar1->SetWidth(pBVar1->boundX1 - pBVar1->boundX0);
@@ -61,7 +61,7 @@ void DiaMenuSub::InitDefault(u8 param_2){
   uVar4 = this->PortraitBorder->GetWidth();
   pBVar1 = this->text;
   pBVar2 = this->Background;
-  uVar5 = (short)uVar4 + 0x1a;
+  uVar5 = (s16)uVar4 + 0x1a;
   pBVar1->boundX0 = uVar5;
   pBVar1->boundX1 = pBVar2->boundX1 - 0x1a;
   uVar6 = pBVar2->boundY0 + 4;
@@ -224,7 +224,7 @@ bool DialougeClass::Setup(){
   byte bVar1;
   dialougmode_substruct *pdVar2;
   bool bVar5;
-  short sVar6;
+  s16 sVar6;
   u32 ind;
   char *c1;
   Borg8Header *image;
@@ -234,7 +234,7 @@ bool DialougeClass::Setup(){
   int iVar9;
   u16 uVar10;
   int iVar11;
-  ushort uVar12;
+  u16 uVar12;
   DiaMenuSub *sub;
   
   bVar5 = false;
@@ -262,7 +262,7 @@ bool DialougeClass::Setup(){
     if (gGlobals.DebugStatDisplay == 0) {
       look_for_dialouge_v_Num(*cc);
     }
-    sub->text->varU16 = (ushort)this->dialouge_substruct->diags[1].next;
+    sub->text->varU16 = (u16)this->dialouge_substruct->diags[1].next;
   }
   else {
 LAB_8004edd4:
@@ -271,7 +271,7 @@ LAB_8004edd4:
   }
   Utilities::SetBorg8Dims(sub->Portrait,SuperMenuClasses::Add(ind),false);
   uVar7 = sub->PortraitBorder->GetHeight();
-  uVar12 = (short)uVar7 + 0xb4;
+  uVar12 = (s16)uVar7 + 0xb4;
   if (((this->dialouge_substruct->diags[2].next == 0xff) || (bVar5)) && (this->unk1C == 0)) {
 LAB_8004ef58:
     pBVar8 = sub->text;
@@ -293,7 +293,7 @@ LAB_8004ef58:
     uVar12 = sub->text->boundX0 + 10;
     pBVar8->posX = uVar12;
     pBVar8->boundX0 = uVar12;
-    uVar12 = (short)uVar7 + 0xb0;
+    uVar12 = (s16)uVar7 + 0xb0;
     for(iVar11 = 1;this->dialouge_substruct->diags[iVar11+1].next != 0xff,iVar11 < 9;iVar11++) {
         entry = WText(this->dialouge_substruct->diags[iVar11].txt);
         bVar1 = this->dialouge_substruct->diags[iVar11+1].next;
@@ -494,7 +494,7 @@ void DialougeClass::m8004f810(){
   WSTSub *pvVar4;
   WSTSub *pvVar3;
   DiaMenuSub *pvVar2;
-  short sVar6;
+  s16 sVar6;
   
   pvVar2 = (DiaMenuSub *)this->menu->substruct;
   if ((this->dialouge_substruct->diags[2].next != 0xff)) {
@@ -539,12 +539,12 @@ void DialougeClass::m8004f810(){
     #endif
   if (pvVar2->text == NULL) {
     pBVar2 = pvVar2->shadText;
-    pBVar2->varU16 = (ushort)this->dialouge_substruct->diags[1].next;
+    pBVar2->varU16 = (u16)this->dialouge_substruct->diags[1].next;
     sVar6 = pBVar2->GetHeight();
     pBVar2 = pvVar2->shadText;
   }
   else {
-    pBVar2->varU16 = (ushort)this->dialouge_substruct->diags[1].next;
+    pBVar2->varU16 = (u16)this->dialouge_substruct->diags[1].next;
     sVar6 = pBVar2->GetHeight();
     pBVar2 = pvVar2->text;
   }

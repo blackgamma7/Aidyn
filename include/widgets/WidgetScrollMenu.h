@@ -27,7 +27,7 @@ class WidgetScrollMenuGray: public WidgetScrollMenu{
 
 BaseWidget* WSMG_ScrollUp(BaseWidget*,BaseWidget*);
 BaseWidget* WSMG_ScrollDown(BaseWidget*,BaseWidget*);
-WidgetScrollMenuGray* WSMG_Init(BaseWidget *bw,u16 len,s16 x,s16 y,u16 bx0,u16 by0,u16 bx1,ushort by1,u8 r,u8 g,u8 b,u8 a,u32 setCols,Color32 *col);
+WidgetScrollMenuGray* WSMG_Init(BaseWidget *bw,u16 len,s16 x,s16 y,u16 bx0,u16 by0,u16 bx1,u16 by1,u8 r,u8 g,u8 b,u8 a,u32 setCols,Color32 *col);
 
 class WidgetFastScrollMenu : public BaseWidget{
     public:

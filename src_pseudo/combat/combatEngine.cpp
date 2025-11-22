@@ -412,7 +412,7 @@ void Combat_InitEncounter(CombatStruct *cStruct,EncounterDat *param_2){
   uVar8 = Combat_CreatePartyMembers(uVar10);
   uVar7 = Combat_CreateAlly(uVar6,uVar8 & 0xff,uVar10);
   cStruct->leaderIndex = Combat_CreateAlly(uVar6,uVar8 & 0xff,uVar10);
-  Combat_CreateEnemies((ushort)uVar7 & 0xff,uVar10);
+  Combat_CreateEnemies((u16)uVar7 & 0xff,uVar10);
   check_battlefeild_fleeing_refpoints(cStruct);
   (cStruct->turn).unk4 = 0;
   CombatTurn::Init(&cStruct->turn);
@@ -573,7 +573,7 @@ void func_settting_leader_dead_flag(CombatStruct *param_1){
           HFREE(pCVar4,1266);
           goto LAB_80066c04;
         }
-        param_1->enemy_index = recount_enemy_party(param_1->encounter_dat,(ushort)param_1->enemy_index);
+        param_1->enemy_index = recount_enemy_party(param_1->encounter_dat,(u16)param_1->enemy_index);
         draw_dead_crossbones(IVar2);
         param_1->reinforcmentsWillFlee = true;
       }
@@ -591,7 +591,7 @@ LAB_80066c04:
       Entity::Init(pCVar4->charSheetP,IVar2,1);
       pCVar4->Init(pCVar4->charSheetP,-1,&uStack_40[0],&uStack_40[1],&uStack_40[2],uVar7,1,uVar8);
       combatEnt_setup(param_1,uVar8);
-      param_1->enemy_index = recount_enemy_party(param_1->encounter_dat,(ushort)param_1->enemy_index);
+      param_1->enemy_index = recount_enemy_party(param_1->encounter_dat,(u16)param_1->enemy_index);
       pCVar4->flags |= COMBATENT_BENCH;
     }
   }

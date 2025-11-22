@@ -179,7 +179,7 @@ void TitleSplash::Println(Gfx**GG,s16 *HSpace,char *TXT){
 }
 u8 TitleSplash::Copyright(Gfx **GG){
   byte state;
-  short textY;
+  s16 textY;
   controller_aidyn *cont;
   Gfx *g;
   

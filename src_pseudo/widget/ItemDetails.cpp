@@ -64,7 +64,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
   this->varU16 = param_2->id;
   SidePopup();
   PrintNameIcon(param_2->name);
-  if ((ushort)param_2->id >> 8 == DB_POTION) {
+  if ((u16)param_2->id >> 8 == DB_POTION) {
     u16 potion_romstring_id[][2]={
      {Potion_Fire,0},{Potion_Inferno,1},{Potion_Sleep,2},
      {Potion_Acid,3},{Potion_Healing,4},{Potion_Stamina,5},
@@ -126,7 +126,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
     Utilities::SetTextWidgetBoundsX(pBVar13,this->posX,ItemDetailsWidth);
     this->bottom+=pBVar13->GetHeight();
     RomString::Free(ppcVar12);
-    if ((ushort)param_2->id >> 8 == 0x11) {
+    if ((u16)param_2->id >> 8 == 0x11) {
       this->bottom = 0xbb;
       bVar1 = gItemDBp->Gear[search_item_array(param_2->id)].spell;
       Gsprintf(gGlobals.CommonStrings[0x215],gSpellDBp->spells[bVar1].Name);
@@ -141,7 +141,7 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
   u32 i;
   ItemID IVar20;
   ItemID IStack_1b8;
-  ushort uStack_1b6;
+  u16 uStack_1b6;
   char acStack_b8 [128];
   u32 BStack_38;
   u32 BStack_34;
@@ -150,14 +150,14 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
   SlimFont;
   SidePopup();
   IVar20 = (param_2->base).id;
-  this->varU16 = (ushort)IVar20;
+  this->varU16 = (u16)IVar20;
   GetSpellIcons(IVar20,&BStack_38,&BStack_34,&aBStack_30);
   BaseWidget* pBVar9 =WidgetB8(aBStack_30);
   pBVar9->SetCoords(this->posX,this->bottom);
   this->Link(pBVar9);
-  this->bottom = (short)pBVar9->GetHeight() + this->bottom + 2;
+  this->bottom = (s16)pBVar9->GetHeight() + this->bottom + 2;
   BaseWidget* pBVar12 = AddLeftText((param_2->base).name);
-  pBVar12->SetCoords(this->posX + pBVar9->GetWidth() + 2,this->bottom - (short)pBVar12->GetHeight());
+  pBVar12->SetCoords(this->posX + pBVar9->GetWidth() + 2,this->bottom - (s16)pBVar12->GetHeight());
   this->bottom+= 4;
   u16 RomstringSpellIndecies[][2]={
    {0x0300, 0x0000},{0x0301, 0x0001},{0x0302, 0x0002},
@@ -239,7 +239,7 @@ WidgetItemDetail::WidgetItemDetail(u16 stat):WidgetMenu() {
 }
 
 WidgetItemDetail::WidgetItemDetail(CharSkills *sk,u16 type):WidgetMenu() {
-  ushort uVar1;
+  u16 uVar1;
   u32 uVar7;
   u32 index;
   
@@ -378,7 +378,7 @@ void WidgetItemDetail::PrintEnchantment(SpellCharges *charges) {
     this->bottom+=pBVar2->GetHeight();
     pBVar2 = AddLeftText(charges->Spell->base.name);
     pBVar2->SetCoords(this->posX + 0x10,this->bottom);
-    this->bottom+=(short)pBVar2->GetHeight();
+    this->bottom+=(s16)pBVar2->GetHeight();
   }
 }
 extern char** element_labels;
@@ -419,7 +419,7 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   char *pcVar1;
   StatMod *pSVar2;
   CharSheet *pCVar3;
-  short sVar5;
+  s16 sVar5;
   FontStruct *pFVar6;
   Borg8Enum BVar7;
   BaseWidget *pBVar10;
@@ -432,14 +432,14 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   SlimFont;
   SidePopup();
   pcVar1 = (armor->base).name;
-  this->varU16 = (ushort)(armor->base).id;
+  this->varU16 = (u16)(armor->base).id;
   PrintNameIcon(pcVar1);
   PrintAspect((armor->base).aspect);
   AddLeftText(gGlobals.CommonStrings[0x220]);
   sprintf(acStack_128,"%u",armor->Protect);
   pBVar10 = AddRightText(acStack_128);
   this->bottom+=pBVar10->GetHeight();
-  if ((ushort)(armor->base).id >> 8 == 6) {
+  if ((u16)(armor->base).id >> 8 == 6) {
     AddLeftText(gGlobals.CommonStrings[0x221]);
     sprintf(acStack_128,"%u",armor->DEF);
   pBVar10 = AddRightText(acStack_128);
@@ -467,7 +467,7 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   sprintf(acStack_128,"(%ld)",bVar13);
   pBVar10 = WClipTXT(acStack_128);
   this->bottom -= pBVar10->GetHeight();
-  sVar5 = ItemDetailsWidth - (short)pBVar10->GetWidth();
+  sVar5 = ItemDetailsWidth - (s16)pBVar10->GetWidth();
   pBVar10->SetCoords(sVar5,this->bottom);
   this->Link(pBVar10);
   uVar14 = 0;
@@ -518,7 +518,7 @@ setColor2:
   sprintf(acStack_128,"%ld",lVar8);
   pBVar10 = WClipTXT(acStack_128);
   pBVar10->SetColor(COLOR_RED1);
-  pBVar10->SetCoords(sVar5 - (short)pBVar10->GetWidth(),this->bottom);
+  pBVar10->SetCoords(sVar5 - (s16)pBVar10->GetWidth(),this->bottom);
   this->Link(pBVar10);
   pBVar10 = WClipTXT(gGlobals.CommonStrings[0x225]);
   pBVar10->SetColor(COLOR_RED1);
@@ -534,7 +534,7 @@ WidgetItemDetail::WidgetItemDetail(GearInstance *gear):WidgetMenu() {
   
   SlimFont;
   SidePopup();
-  this->varU16 = (ushort)(gear->base).id;
+  this->varU16 = (u16)(gear->base).id;
   PrintNameIcon((gear->base).name);
   PrintAspect((gear->base).aspect);
   AddLeftText(gGlobals.CommonStrings[0x226]);
@@ -554,7 +554,7 @@ WidgetItemDetail::WidgetItemDetail(GearInstance *gear):WidgetMenu() {
   PrintSkillInfo((StatMod *)gear->skillMod);
   PrintMagicInfo((u8*)gear->enchantment);
   PrintEnchantment((gear->base).spellCharge);
-  if ((ushort)(gear->base).id >> 8 == 0xd) {
+  if ((u16)(gear->base).id >> 8 == 0xd) {
     SpellCharges *pSVar3 = (gear->base).spellCharge;
     if (pSVar3){
       if (pSVar3->Charges) {

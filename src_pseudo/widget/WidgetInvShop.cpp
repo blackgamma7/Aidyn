@@ -7,15 +7,15 @@ u16 D_800ed560[]={DB_POTION,DB_WEAPON,DB_WAND,DB_AMULET,DB_RING,
     DB_HELMET,DB_CLOAK,DB_GLOVE,DB_BOOTS,DB_BELT,DB_ARMOR,DB_SHIELD,
     DB_KEYITEM,DB_MISC,0};
 s32 FUN_8003c590(ItemInstance *param_1,ItemInstance *param_2) {
-  ushort typeA;
-  ushort typeB;
+  u16 typeA;
+  u16 typeB;
   int iVar3;
   u16 i;
   u16 uVar5;
   u16 uVar6;
   
-  typeA = (ushort)param_1->id >> 8;
-  typeB = (ushort)param_2->id >> 8;
+  typeA = (u16)param_1->id >> 8;
+  typeB = (u16)param_2->id >> 8;
   uVar6 = 0xffff;
   if (typeA == typeB) { //sort alphabetically if same type.
     iVar3 = strcmp(param_1->name,param_2->name);
@@ -55,8 +55,8 @@ s32 FUN_8003c69c(BaseWidget **A,BaseWidget **B) {
   BaseWidget *uVar5;
   BaseWidget *uVar6;
   s32 sVar5;
-  ushort uVar7;
-  ushort uVar8;
+  u16 uVar7;
+  u16 uVar8;
   
   pIVar3 = (ItemInstance *)A[0]->ZFunc();
   pIVar4 = (ItemInstance *)B[0]->ZFunc();
@@ -214,7 +214,7 @@ s32 WidgetInvShop::GetExpPrice(u16 x){return 0;}
 extern float gBarterFloat;
 
 u32 WidgetInvShop::GetGoldPrice(u16 index) {
-  ushort uVar1;
+  u16 uVar1;
   BaseWidget *pBVar2;
   bool shopMenu;
   BaseWidget *uVar5;
@@ -270,7 +270,7 @@ bool WidgetInvShop::m8003d194(u8 param_2) {
   u16 uVar1;
   BaseWidget **ppBVar2;
   BaseWidget *pBVar3;
-  ushort uVar5;
+  u16 uVar5;
   ulong uVar4;
   int iVar6;
   BaseWidget **ppBVar7;
@@ -318,7 +318,7 @@ bool WidgetInvShop::AddItem(u16 param_2,u8 param_3,u8 param_4,char *script,u16 l
   s32 uVar3;
   ItemInstance *pIVar4;
   BaseWidget **ppBVar5;
-  ushort *puVar6;
+  u16 *puVar6;
   BaseWidget *pBVar7;
   int i;
   char acStack_68 [104];
@@ -340,7 +340,7 @@ bool WidgetInvShop::AddItem(u16 param_2,u8 param_3,u8 param_4,char *script,u16 l
             pBVar7 = pvVar1->items[i]->BFunc();
             sprintf(acStack_68,"%ld",uVar3);
             Utilities::ChangeWidgetText(pBVar7,acStack_68,true);
-            pBVar7->varU16 = (ushort)uVar3;
+            pBVar7->varU16 = (u16)uVar3;
             return true;
           }
           if (i + -1 < 0) break;
@@ -395,7 +395,7 @@ bool WidgetInvShop::m8003d674(u16 param_2,u8 param_3) {
   }
   else {
     for(i=0;i<this->unk98;i++){
-        if ((sub->items[i]->BFunc()->varU16 == (ushort)param_3) && (pBVar1->varU16 == param_2)) {
+        if ((sub->items[i]->BFunc()->varU16 == (u16)param_3) && (pBVar1->varU16 == param_2)) {
           sub->highlight = i;
           return true;
         }

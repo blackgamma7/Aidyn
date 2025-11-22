@@ -201,7 +201,7 @@ LAB_80030640:
       uVar7 += 1;
       pSVar8 = pSVar8 + 1;
     } while ((int)uVar7 < (int)uVar6);
-    gSkyObjectMoonIndex = (ushort)uVar9;
+    gSkyObjectMoonIndex = (u16)uVar9;
   }
   gGlobals.SunPos.z = 0.0;
   gGlobals.SunPos.y = 0.0;
@@ -334,8 +334,8 @@ Gfx * Skyobjects::Render(Gfx *g){
             bVar1 = (skyobjectStructs[i].col).G;
             bVar2 = (skyobjectStructs[i].col).B;
             if (skyobjectStructs[i].index == SkyObj_Sun) { //set lensflare pos and sun tint
-              gLensFlarePos.x = x + (float)((ushort)(skyobjects_borg8[i]->dat).Width >> 1) * scale;
-              gLensFlarePos.y = y + (float)((ushort)(skyobjects_borg8[i]->dat).Height >> 1) * scale;
+              gLensFlarePos.x = x + (float)((u16)(skyobjects_borg8[i]->dat).Width >> 1) * scale;
+              gLensFlarePos.y = y + (float)((u16)(skyobjects_borg8[i]->dat).Height >> 1) * scale;
               bVar7 = gSunColor.R;
               bVar1 = gSunColor.G;
               bVar2 = gSunColor.B;

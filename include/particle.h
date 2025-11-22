@@ -56,13 +56,13 @@ struct ParticleEmmiter {
     undefined field3_0x6;
     undefined field4_0x7;
     u16 count;
-    short texture;
+    s16 texture;
     u16 flags; //uses PartEmmiFlags
     float height;
     Particle_s *particles;
     undefined field12_0x18;
     undefined field13_0x19;
-    short unk1a;
+    s16 unk1a;
     u64 unk1c;
     vec3f pos;
     vec3f vel;
@@ -101,11 +101,11 @@ enum PartEmmiFlags{
 
 struct ParticleHeadStruct {
     Particle_s *particles;
-    short particleindecies[ParticleMAX+2];
+    s16 particleindecies[ParticleMAX+2];
     ParticleEmmiter *Emmiter;
-    short emmitterIndecies[ParticleEmmiMAX];
+    s16 emmitterIndecies[ParticleEmmiMAX];
     Borg1Header **ppTextures;
-    short TextureCount;
+    s16 TextureCount;
     u8 unk322[2]; //align bytes?S
     float gray;
     Borg9Data *borg9dat;

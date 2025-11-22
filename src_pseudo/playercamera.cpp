@@ -85,7 +85,7 @@ void Camera::CopyPosAim2(Camera_struct *param_1,u16 flags,vec3f *param_3){
 
 #define PI_f 3.141593f
 void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float delta){
-  short sVar1;
+  s16 sVar1;
   bool bVar2;
   bool bVar3;
   bool bVar4;
@@ -263,8 +263,8 @@ void freeScriptCameras(ScriptCamera_struct *param_1){
   FREE(param_1->cameras,0x259);
 }
 
-ScriptCam * AllocScriptCamera(ScriptCamera_struct *param_1,ushort param_2){
-  ScriptCam *x = param_1->cameras + (ushort)param_1->cameraIndecies[param_1->cameraCount++];
+ScriptCam * AllocScriptCamera(ScriptCamera_struct *param_1,u16 param_2){
+  ScriptCam *x = param_1->cameras + (u16)param_1->cameraIndecies[param_1->cameraCount++];
   if (7 < param_1->cameraCount) CRASH("AllocScriptCamera","No Free Cameras!\n");
   s16 tempInd = x->index;
   CLEAR(x);
@@ -290,7 +290,7 @@ void freeScriptCamera(ScriptCamera_struct *param_1,ScriptCam *param_2){
 }
 extern s16 some_toggle;
 void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
-  short sVar1;
+  s16 sVar1;
   int iVar2;
   u32 uVar3;
   vec3f *arg0;

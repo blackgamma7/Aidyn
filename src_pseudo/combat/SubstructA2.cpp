@@ -10,7 +10,7 @@ u8 get_borg9_floatB_X_ShortA(u8 bf) {
   float fVar2;
   
   fVar2 = ((MAPCENTER.mapPointer)->dat).floatsB.x *
-          (float)(int)(short)((MAPCENTER.mapPointer)->dat).shortA;
+          (float)(int)(s16)((MAPCENTER.mapPointer)->dat).shortA;
   dVar1 = (double)fVar2;
   if (fVar2 <= 0.0) {
     return -(u8)(int)(0.5 - dVar1);
@@ -23,7 +23,7 @@ u8 get_borg9_floatB_Y_ShortB(u8 bf) {
   float fVar2;
   
   fVar2 = ((MAPCENTER.mapPointer)->dat).floatsB.y *
-          (float)(int)(short)((MAPCENTER.mapPointer)->dat).shortB;
+          (float)(int)(s16)((MAPCENTER.mapPointer)->dat).shortB;
   dVar1 = (double)fVar2;
   if (fVar2 <= 0.0) {
     return -(u8)(int)(0.5 - dVar1);

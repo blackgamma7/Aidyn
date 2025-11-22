@@ -40,7 +40,7 @@ namespace BorgMaps{
     void GetMapTerrain(s16,s16);
     void ClearMapIndecies();
     void WriteMapIndecies(mapDataList *);
-    u16 GetMapData(mapDataList *m,u16 shortA,u16 shortB,u16 offset,ushort map);
+    u16 GetMapData(mapDataList *m,u16 shortA,u16 shortB,u16 offset,u16 map);
     u16 GetMapList(s16 map,s16 a,s16 b);
     void SetBGM(u16*,u16,u16,u16);
     u16 LoadMap(s16 Map_,s16 Portal_,s16 param_3,bool param_4);

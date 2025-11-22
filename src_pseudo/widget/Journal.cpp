@@ -104,7 +104,7 @@ u8 Journal::ShowTriggeredEntry(char *txt) {
 extern void* journal_ROM;
 #define JOURNALSIZE 0x2090
 void Journal::Load(s32 newest) {
-  ushort uVar2;
+  u16 uVar2;
   char *pcVar5;
   char *pcVar6;
   int iVar8;

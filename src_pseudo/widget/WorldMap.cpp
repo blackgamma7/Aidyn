@@ -74,7 +74,7 @@ u8 WidgetMenuWorldMap::Tick() {
   byte bVar2;
   byte bVar3;
   byte bVar4;
-  ushort uVar5;
+  u16 uVar5;
   pause_Substruct *ppVar6;
   BaseWidget *pBVar7;
   byte bVar8;

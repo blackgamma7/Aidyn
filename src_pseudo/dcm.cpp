@@ -296,7 +296,7 @@ LAB_8009a7f0:
                     if (iVar8 < 0) iVar8 = iVar9 * -2;
                     iVar8 = (0xff - iVar8) * 0x10000;
                     dcmStruct2 *chanDat = pBVar2->ptr0x18 + pDVar7->chanInd;
-                    cVar3 = (short)(iVar8 >> 0x11);
+                    cVar3 = (s16)(iVar8 >> 0x11);
                     panByte = ((u32)pDVar7->pan * (iVar8 >> 0x10) >> 8);
                     if (iVar9 < 0) panByte = (pDVar10->pan + cVar3) - panByte;
                     else panByte += pDVar10->pan - cVar3;

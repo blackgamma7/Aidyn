@@ -11,7 +11,7 @@
 u32 DAT_800ed510=0;
 extern void* romstring_credits;
 WidgetCredits::WidgetCredits():WidgetMenu(){
-  short sVar1;
+  s16 sVar1;
   ulong uVar8;
   BaseWidget *pBVar9;
   ulong uVar10;
@@ -19,7 +19,7 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
   u16 uVar12;
   u8 *puVar12;
   byte *pbVar13;
-  ushort posY;
+  u16 posY;
   u8 uVar14;
   float fVar15;
 
@@ -37,21 +37,21 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
     WidgetClipText* pBVar7 = WClipTXT(creditStrings[count]);
     this->Link(pBVar7);
     pBVar7->SetColor(0xe1,0xe1,0,0xff);
-    pBVar7->SetCoords((short)((int)(SCREEN_WIDTH - pBVar7->GetWidth()) / 2),SCREEN_HEIGHT);
+    pBVar7->SetCoords((s16)((int)(SCREEN_WIDTH - pBVar7->GetWidth()) / 2),SCREEN_HEIGHT);
     pBVar7->SetSomeBounds(pBVar7->posY,0,SCREEN_WIDTH,pBVar7->posY + pBVar7->GetHeight());
     uVar14++;
-    uVar12 = (ushort)pBVar7->posY + pBVar7->GetHeight();
-    posY = (ushort)uVar12;
+    uVar12 = (u16)pBVar7->posY + pBVar7->GetHeight();
+    posY = (u16)uVar12;
     if (count != credits_linebreaks[uVar14]) {
       do {
-        posY = (ushort)uVar12;
+        posY = (u16)uVar12;
         if (128 < count) break;
         pBVar9 = WClipTXT(creditStrings[count]);
         pBVar9->SetColor(0xe1,0xe1,0xe1,0xff);
         pBVar9->SetCoords(((SCREEN_WIDTH - pBVar9->GetWidth()) / 2),posY);
         pBVar7->Link(pBVar9);
         uVar12 += pBVar9->GetHeight();
-        posY = (ushort)uVar12;
+        posY = (u16)uVar12;
         count++;
         pBVar9->SetSomeBounds(pBVar9->posY,0,SCREEN_WIDTH,posY);
       } while (count != credits_linebreaks[uVar14]);
@@ -171,7 +171,7 @@ void WidgetCredits::State2(){
         do {
           bVar2 = this->unk8a;
           while( true ) {
-            Utilities::MoveWidget(pBVar3,0,-(ushort)bVar2);
+            Utilities::MoveWidget(pBVar3,0,-(u16)bVar2);
             pBVar3 = pBVar3->siblingR;
             bVar2 = 1;
             if (pBVar3 == NULL) goto LAB_800340fc;

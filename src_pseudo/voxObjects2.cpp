@@ -39,7 +39,7 @@ float func_checking_monsterparty(voxelObject *v,vec3f *po) {
 }
 
 void Voxel_Get2DPos(voxelObject *v,vec2f *pos) {
-  short sVar1;
+  s16 sVar1;
   
   Vec2Set(pos,(v->header).pos.x,(v->header).pos.z);
   if ((((v->header).type == VOXEL_MonsterParty) && (gPlayer != NULL)) &&
@@ -56,12 +56,12 @@ void obj_ref_func(void) {
   bool bVar9;
   CollideSection *pbVar5;
   u16 uVar7;
-  ushort uVar8;
+  u16 uVar8;
   u32 uVar6;
-  short puVar7;
+  s16 puVar7;
   Vobject VVar10;
   voxelObject *pvVar11;
-  ushort *puVar12;
+  u16 *puVar12;
   voxelObject *v;
   u32 uVar13;
   u16 i;

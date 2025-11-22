@@ -3,7 +3,7 @@
 
 
 WidgetSkillInfo::WidgetSkillInfo(CharSkills *sk,u16 subType,u8 type):BaseWidget() {
-  short mod;
+  s16 mod;
   u16 baseLV;
   char buff [64];
   u32 borgInd;
@@ -25,7 +25,7 @@ WidgetSkillInfo::WidgetSkillInfo(CharSkills *sk,u16 subType,u8 type):BaseWidget(
       this->skillIcon = WidgetB8(borgInd);
       this->skillText = WClipTXTSafe(skill_strings[subType]);
       baseLV=this->skills->capSkillBaseMax(subType);
-      mod = (short)this->skills->getModdedSkill(subType)-baseLV;
+      mod = (s16)this->skills->getModdedSkill(subType)-baseLV;
         break;
     }
     case 1:{

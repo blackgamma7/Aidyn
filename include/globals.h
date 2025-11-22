@@ -126,7 +126,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u16 BackgroundTypeCopy;
     Borg8Header *screenshot;
     Color32 screenshotTint;
-    short scrollLocation[2];
+    s16 scrollLocation[2];
     SpellBook *ShopSpells;
     void* shopUnused; //a trainer for stats or Rituals?
     CharSkills *shopSkills;

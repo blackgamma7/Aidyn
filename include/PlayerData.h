@@ -53,7 +53,7 @@ struct audioKeyEntryB {
 struct MoveQueueEntry {
     vec2f pos2d;
     float rad;
-    short active;
+    s16 active;
     s16 flag;
 };
 //enums for different animation states
@@ -88,14 +88,14 @@ enum AniTypes{
 //Main actor struct for entites moving in world
 struct playerData {
     u16 ID;
-    short removeFlag;
+    s16 removeFlag;
     Borg7Header *borg7P;
     SceneData *SceneDat;
     u32 borg7;
     u32 nextBorg7;
-    short ani_type;
+    s16 ani_type;
     u16 unk16;
-    short unk18;
+    s16 unk18;
     u16 unk1a;
     u16 unk1c;
     u16 flags;
@@ -124,10 +124,10 @@ struct playerData {
     ControllerFull controller;
     u32 buttonMask;
     MoveQueueEntry moveQueue[16];
-    short moveQueueIndex;
+    s16 moveQueueIndex;
     u16 moveQueueIndex2;
     float aiDestDist;
-    short aiTravelTime;
+    s16 aiTravelTime;
     undefined field48_0x25e;
     undefined field49_0x25f;
     vec2f aiDest;
@@ -146,7 +146,7 @@ struct playerData {
     u8 unk70ee;
     undefined field64_0x70f;
     DCMSub2 dcmDat[2];
-    short dcmDatIndex;
+    s16 dcmDatIndex;
     u16 movement_;
     u16 spellUsed;
     undefined field69_0x72e;
@@ -175,15 +175,15 @@ struct audiokey_struct {
 };
 
 struct PlayerHandler {
-    short max_player;
+    s16 max_player;
     u16 initFlag;
     Camera_struct *camera;
-    short cameraFocus;
+    s16 cameraFocus;
     undefined field4_0xa;
     undefined field5_0xb;
     playerData *playerDats;
     s16 unk10[PLAYER_ABS_MAXPLAYERS];
-    short playerCount;
+    s16 playerCount;
     u16 counter;
     float shadowDist;
     float float_0x68;
@@ -260,7 +260,7 @@ void FUN_80017330(playerData *,float,float,float,float);
 void FUN_80017388(playerData *,float);
 void some_player_render_sub(playerData *,SceneData *,vec3f*,u8,u16);
 void set_sun_light(SceneData *,u16,voxelObject*,u8);
-Gfx * renderPlayers(PlayerHandler *,Gfx *,short,short,short);
+Gfx * renderPlayers(PlayerHandler *,Gfx *,s16,s16,s16);
 void edit_playerdat_combat_pos(playerData *,vec3f *);
 void FUN_800187f4(attachmentNode *);
 void AttachItemToPlayer(playerData *,u16,u32);

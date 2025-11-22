@@ -13,7 +13,7 @@ u8 func_loading_credits(Gfx **GG);
 //gametrek.cpp
 
 bool check_some_toggle();
-void FUN_80024c54(short);
+void FUN_80024c54(s16);
 Gfx * ofunc_80024c90(Gfx *);
 u8 screenFadeMode_1_9(Gfx **);
 bool GetDelta_TickTrek(Gfx **);

@@ -59,7 +59,7 @@ void InputMenu::InitMenu(char *txt){
 
 
 void InputMenu::SetCurrentName(char *txt){
-  short sVar1;
+  s16 sVar1;
   BaseWidget *pBVar3;
   u16 i;
   InputWidgetSubStruct *sub;

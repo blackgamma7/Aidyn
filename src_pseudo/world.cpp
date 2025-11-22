@@ -3,7 +3,11 @@
 #include "stringN64.h"
 #include "crash.h"
 
-u8 weather_season_array[] = {0x2B, 0x30, 0x21, 0x19, 0x24, 0x28, 0, 0};
+u8 weather_season_array[] = {43,48,33,25,36,40,0,0};
+u8 weather_terrain_array[]={
+  0,0,0,156,5,30,0,15,0,0,20,0,0,0,0,0,0,0,100,0,0,0,0,30,15,0,156,156};
+float terrain_rand_array[]={
+  0.5,0.5,0.4,0,0.7,0.6,0.5,0.8,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.8,0.2,0.2,0.2,0.2,0.8,0.6,0.2,0,0};
 //initalize "TerrainStruct"
 void World::init(TerrainStruct *ter){
   CLEAR(ter);
@@ -24,7 +28,7 @@ void World::SetTerrain(TerrainStruct *ter,u8 type){
   u32 uVar1;
   u32 uVar2;
   
-  if (type < 0x1c) {
+  if (type < 28) {
     if (ter->terrain != type) {
       uVar2 = ter->partOfDay + 1 & 0xff;
       uVar1 = uVar2 / 5;
@@ -40,12 +44,7 @@ void World::SetTerrain(TerrainStruct *ter,u8 type){
 u8 World::getTerrain(TerrainStruct *ter){return ter->terrain;}
 //increment the time of day (morning, night, ect.)
 void World::IncTimeOfDay(TerrainStruct *param_1){
-  u32 uVar1;
-  u32 uVar2;
-  
-  uVar2 = param_1->partOfDay + 1;
-  uVar1 = uVar2 / 5;
-  param_1->partOfDay = (char)uVar2 - ((char)(uVar1 << 2) + (char)uVar1);
+  param_1->partOfDay = (param_1->partOfDay+1)%5;
   SeveralTimeFuncs(param_1);
 }
 
@@ -72,6 +71,8 @@ void World::GetCalendarDate(TerrainStruct *param_1,Calendar *cal){
   cal->second = GetSecond(param_1);
 }
 
+#ifdef DEBUGVER
+u8 timeofday_hours[]={6,9,12,18,21};
 void World::ShiftTimeOfDay(TerrainStruct *ter,s8 param_2){
   u32 uVar1;
   u32 uVar2;
@@ -100,6 +101,7 @@ void World::ShiftTimeOfDay(TerrainStruct *ter,s8 param_2){
   tempCal.second = 0;
   SetTimeFromCalendar(ter,&tempCal);
 }
+#endif
 
 void World::ChangeWind(TerrainStruct* ter,vec3f *coords,float dirCharge,float magChange){
   float x;
@@ -192,12 +194,9 @@ LAB_800853c0:
   return param_1->partOfDay != TodNew;
 }
 
-
-
 void World::set_weather(TerrainStruct *ter,Calendar *cal){
   u8 bVar1;
   u8 bVar2;
-  PRECIPITATION PVar3;
   float fVar5;
   
   if (75 < RollD(1,100)) {
@@ -205,9 +204,8 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
     ter->rainByte = PRECIP_CLEAR;
     ter->PrecipScale = 0.0;
     ter->FogFloat = 0.0;
-    bVar1 = weather_terrain_array[ter->terrain];
-    bVar2 = weather_season_array[cal->season];
-    if ((bVar2 + bVar1) >= RollD(1,100)) {  
+
+    if ((weather_terrain_array[ter->terrain] + weather_season_array[cal->season]) >= RollD(1,100)) {  
       if (RollD(1,100) < 70) {
         ter->rainByte = PRECIP_RAIN;
         ter->windByte = WIND_STORM;
@@ -237,13 +235,15 @@ void World::SeveralTimeFuncs(TerrainStruct *ter){
 
   GetCalendarDate(ter,&CalTemp);
   set_moonPhase(ter,&CalTemp);
-  if (gDebugGameTime) {
-    if (set_timeofDay(ter,&CalTemp)) set_weather(ter,&CalTemp);
-    ChangeWind(ter, &ter->windVelocity, 0.05f, 0.05f);
-    SetFlagArray_on_Time(ter->partOfDay,CalTemp.day,CalTemp.week,CalTemp.season);
-    set_weather_flags(ter->rainByte);
-    terrainStruct_floats(ter);
-  }
+  u8 change=set_timeofDay(ter,&CalTemp);
+  #ifdef DEBUGVER
+  if(!gDebugGameTime) return;
+  #endif
+  if (change) set_weather(ter,&CalTemp);
+  ChangeWind(ter, &ter->windVelocity, 0.05f, 0.05f);
+  SetFlagArray_on_Time(ter->partOfDay,CalTemp.day,CalTemp.week,CalTemp.season);
+  set_weather_flags(ter->rainByte);
+  terrainStruct_floats(ter);
 }
 //caps game time to one in-game year
 void World::cap_ingame_time(TerrainStruct *ter){

@@ -464,9 +464,9 @@ void WidgetContPakData::ReadSaveFile(){
     ALLOC(buff,988);
     this->saveDatsP[index].datStart = buff;
   }
-  this->pfsErr = Controller::ReadPakSave((u8 *)buff,(ushort)index,0,sizeof(SaveDatStruct),0);
+  this->pfsErr = Controller::ReadPakSave((u8 *)buff,(u16)index,0,sizeof(SaveDatStruct),0);
   if (this->pfsErr == PFS_ERR_BAD_DATA) {
-    this->pfsErr = Controller::ReadPakSave((u8 *)buff,(ushort)index,0,sizeof(SaveDatStruct),0);
+    this->pfsErr = Controller::ReadPakSave((u8 *)buff,(u16)index,0,sizeof(SaveDatStruct),0);
     this->OtherState = 4;
     CorruptSaveFile(index);
     return;
@@ -661,7 +661,7 @@ void WidgetContPakData::CorruptSaveFile(u8 param_2){
   Gsprintf(gGlobals.CommonStrings[0xbd],param_2 + 1);
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_80086290,&this->wHandler,2,gGlobals.text,0);
   BaseWidget *pBVar2 = ContPakTextWidget(gGlobals.CommonStrings[0xbe],FUN_80086018,0x80);
-  pBVar2->varU16 = (ushort)param_2;
+  pBVar2->varU16 = (u16)param_2;
   pWVar1->AppendScrollMenu(pBVar2);
   pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x19f],FUN_80086054,0x80));
   pWVar1->Update();
@@ -689,7 +689,7 @@ void WidgetContPakData::LoadSliders(SaveDatPointers *param_2,u8 param_3){
   bounds[3] = bounds[1] + 0xc0;
   ControllerPakSliders *pCVar1 = new ControllerPakSliders(param_2,bounds,&this->col0);
   s32 ind = this->sliders->AddFileWidget(pCVar1);
-  pCVar1->varU16 = (ushort)param_3;
+  pCVar1->varU16 = (u16)param_3;
   Utilities::SetAlpha(this,this->col.A);
   if (this->vmE0(pCVar1)) this->sliders->SetIndex(ind);
 }
@@ -967,7 +967,7 @@ WidgetChoiceDia * FUN_80088a78(u16 param_1,char *param_2){
   return FUN_80088aac(FUN_8004cfd0,gGlobals.widgetHandler,param_1,param_2,0);
 }
 
-WidgetChoiceDia *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,ushort var){
+WidgetChoiceDia *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,u16 var){
   WidgetChoiceDia *pWVar1;
   u16 uVar2;
   Color32 colA={COLOR_OFFWHITE};
@@ -1040,7 +1040,7 @@ void appState2_Tick(Gfx **GG,u8 delta){
 u32 FUN_80088d80(void){return DAT_800f1c78;}
 
 
-void make_mempak_menu(short x,short y,u32 shadow){
+void make_mempak_menu(s16 x,s16 y,u32 shadow){
   if (!contpak_widget) {
     contpak_widget = new ContPakWidget(shadow);
     contpak_widget->SetCoords(x,y);
@@ -1298,7 +1298,7 @@ void ContPakWidget::PfsErr(){
 
 void ContPakWidget::DeviceErr(){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x1e3],
-                        (ushort)this->pfserr);
+                        (u16)this->pfserr);
   pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x192],ContPak_8008a738,0x80));
   pWVar1->Update();
 }
@@ -1310,8 +1310,8 @@ void ContPakWidget::FatalErr(){
 
 
 void ContPakWidget::m80089978(char *param_2){
-  WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,2,param_2,(ushort)this->pfserr);
-  pWVar1->AppendScrollMenu(ContPakTextWidget2((ushort)this->pfserr,gGlobals.CommonStrings[399],ContPak_8008a790));
+  WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,2,param_2,(u16)this->pfserr);
+  pWVar1->AppendScrollMenu(ContPakTextWidget2((u16)this->pfserr,gGlobals.CommonStrings[399],ContPak_8008a790));
   pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x192],ContPak_8008a738,0x80));
   pWVar1->Update();
   return;
@@ -1322,38 +1322,38 @@ void ContPakWidget::m80089a1c(){m80089978(gGlobals.CommonStrings[0x18d]);}
 void ContPakWidget::m80089a40(){m80089978(gGlobals.CommonStrings[0x18e]);}
 
 void ContPakWidget::m80089a64(u8 param_2){
-  WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,2,gGlobals.CommonStrings[0x198],(ushort)param_2);
-  pWVar1->AppendScrollMenu(ContPakTextWidget2((ushort)param_2,gGlobals.CommonStrings[0x193],FUN_8008a8a4));
+  WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,2,gGlobals.CommonStrings[0x198],(u16)param_2);
+  pWVar1->AppendScrollMenu(ContPakTextWidget2((u16)param_2,gGlobals.CommonStrings[0x193],FUN_8008a8a4));
   pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x192],ContPak_8008a738,0x80));
   pWVar1->Update();
 }
 
 
 void ContPakWidget::m80089b0c(u8 param_2){
-  WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x197],(ushort)param_2);
-  pWVar1->AppendScrollMenu(ContPakTextWidget2((ushort)param_2,gGlobals.CommonStrings[0x18c],ContPak_8008a768));
+  WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x197],(u16)param_2);
+  pWVar1->AppendScrollMenu(ContPakTextWidget2((u16)param_2,gGlobals.CommonStrings[0x18c],ContPak_8008a768));
   pWVar1->Update();
   this->menuState = 0;
 }
 
 void ContPakWidget::m80089b9c(u8 param_2){
   WidgetTimed *pWVar1 = new WidgetTimed(60,ContPak_8008a790);
-  pWVar1->varU16 = (ushort)param_2;
+  pWVar1->varU16 = (u16)param_2;
   pWVar1->BButtonFunc = FUN_8008c1b0;
   this->handler.AddWidget(pWVar1);
 }
 
 void ContPakWidget::LoadWindow(){
   int iVar2;
-  ushort uVar3;
+  u16 uVar3;
   Borg8Header *pBVar4;
   BaseWidget *pBVar5;
   ulong uVar6;
-  short sVar7;
-  short x;
-  short sVar8;
-  short sVar9;
-  short y;
+  s16 sVar7;
+  s16 x;
+  s16 sVar8;
+  s16 sVar9;
+  s16 y;
   
   this->windowLoaded = true;
   if (this->BgShadow) {
@@ -1370,7 +1370,7 @@ void ContPakWidget::LoadWindow(){
   pBVar4 = loadBorg8(BORG8_CONTROLLER_PAK);
   sVar9 = this->posY;
   sVar7 = this->posX + 0x67;
-  uVar3 = (ushort)(pBVar4->dat).Width >> 1;
+  uVar3 = (u16)(pBVar4->dat).Width >> 1;
   Utilities::AddBorg8Widget2
             (this,pBVar4,sVar7 - uVar3,sVar9 + 0xd,uVar3 + sVar7,
              (pBVar4->dat).Height + sVar9 + 0xd);
@@ -1381,21 +1381,21 @@ void ContPakWidget::LoadWindow(){
   Utilities::AddTextWidget(this,Cstring(ContPakPages),this->posX + 0xa5,y,COLOR_BROWN1);
   sVar9 = sVar8 + -0x14;
   pBVar5 = Utilities::AddTextWidget(this,Cstring(ContPakPagesFree),0,sVar9,COLOR_BROWN1);
-  pBVar5->posX = (this->posX - (short)pBVar5->GetWidth()) + 0xb3;
+  pBVar5->posX = (this->posX - (s16)pBVar5->GetWidth()) + 0xb3;
   this->field1_0x7c = Utilities::AddTextWidget
-                     (this,sContPakBlank,pBVar5->posX + (short)pBVar5->GetWidth() + -5,sVar9,0x67,0x46,0x3c,
+                     (this,sContPakBlank,pBVar5->posX + (s16)pBVar5->GetWidth() + -5,sVar9,0x67,0x46,0x3c,
                       0xff);
   uVar6 = pBVar5->GetHeight();
   sVar7 = this->field1_0x7c->GetHeight();
   sVar9 = this->posX;
   x = sVar9 + 5;
-  this->w80 = Utilities::AddScrollMenu(this,SaveFileMax,x,y + (short)uVar6 + 2,x,y + sVar7 + 2,sVar9 + 199,
+  this->w80 = Utilities::AddScrollMenu(this,SaveFileMax,x,y + (s16)uVar6 + 2,x,y + sVar7 + 2,sVar9 + 199,
                       this->field1_0x7c->posY + -7,COLOR_BROWN1,0);
   Utilities::SetScrollMenuColors(this->w80,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   sVar8 -=27;
   sVar9 = this->posX + 10;
   pBVar5 = Utilities::AddTextWidget(this,"{ ",sVar9,sVar8,0,0,0xa4,0xff);
-  Utilities::AddTextWidget(this," Delete",(short)pBVar5->GetWidth() + sVar9,sVar8,COLOR_BROWN1);
+  Utilities::AddTextWidget(this," Delete",(s16)pBVar5->GetWidth() + sVar9,sVar8,COLOR_BROWN1);
   sVar8 = pBVar5->GetHeight() + sVar8;
   pBVar5 = Utilities::AddTextWidget(this,"} ",sVar9,sVar8,0,0xa4,0,0xff);
   Utilities::AddTextWidget(this,"Exit",pBVar5->GetWidth() + sVar9,sVar8,COLOR_BROWN1);
@@ -1411,7 +1411,7 @@ void ContPakWidget::PrintFreeSpace(){
   else this->menuState = 1;
 }
 
-void ContPakWidget::PrintFile(u8 fileno,char *param_3,char *param_4,ushort param_5){
+void ContPakWidget::PrintFile(u8 fileno,char *param_3,char *param_4,u16 param_5){
   WidgetGroup *w = new WidgetGroup(4);
   Gsprintf("%d",fileno + 1);
   w->AddToGroup(WText(gGlobals.text),15,0,true);
@@ -1420,7 +1420,7 @@ void ContPakWidget::PrintFile(u8 fileno,char *param_3,char *param_4,ushort param
   Gsprintf("%d",(u32)(param_5 >> 8));
   w->AddToGroup(WText(gGlobals.text),169,0,true);
   this->w80->Append(w);
-  w->varU16 = (ushort)fileno;
+  w->varU16 = (u16)fileno;
   w->AButtonFunc = ContPak_DeleteMenu;
 }
 void ContPakWidget::PrintBlankFile(u8 fileno){
@@ -1431,7 +1431,7 @@ void ContPakWidget::PrintBlankFile(u8 fileno){
   w->AddToGroup(WText(sContPakBlank),150,0,true);
   w->AddToGroup(WText(0),0xa9,0,true);
   this->w80->Append(w);
-  w->varU16 = (ushort)fileno;
+  w->varU16 = (u16)fileno;
 }
 
 

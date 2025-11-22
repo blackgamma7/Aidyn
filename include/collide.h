@@ -34,7 +34,7 @@ struct collisionSphere {
     vec3f pos;
     vec3f vel;
     u16 flags; /* 0x400 - ?,0x8000 remove */
-    short unk1e;
+    s16 unk1e;
     vec3f polyNormal;
     vec3f unk2c; /* another normal? set, but not read. */
     EnvProp *envProps;
@@ -76,10 +76,10 @@ void collisiondat_sub_velocity(collisionSphere *,vec3f *accel);
 void collision_velocity_func(vec3f *vel,vec3f *);
 void vec3A_plusBMulC(vec3f *A,vec3f *B,float c);
 bool FUN_800af578(collisionSphere *,EnvProp *,vec3f *);
-void PerformCallback(short type,collisionSphere *,borg9_phys *);
+void PerformCallback(s16 type,collisionSphere *,borg9_phys *);
 void Ofunc_800af7ac(collisionSphere *collide,void *callback);
 void Ofunc_800af7d0(collisionSphere *collide,void *callback);
 void Ofunc_800af7f4(collisionSphere *collide,void *callback);
-short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSection *,borg9_phys *);
+s16 CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSection *,borg9_phys *);
 bool Ofunc_800aff7c(collisionSphere *,collisionSphere *);
 bool FUN_800b003c(collisionSphere *,float ,collisionSphere *,float ,float *);

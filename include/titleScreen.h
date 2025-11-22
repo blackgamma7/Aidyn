@@ -19,10 +19,10 @@ struct flycamStruct {
     vec3f aimTarget;
     vec3f pos;
     vec3f aim;
-    short shortA;
-    short shortB;
-    short shortC;
-    short ShortD;
+    s16 shortA;
+    s16 shortB;
+    s16 shortC;
+    s16 ShortD;
 };
 
 class IntroMenu: public WidgetMenu{

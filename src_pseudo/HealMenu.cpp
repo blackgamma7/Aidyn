@@ -85,7 +85,7 @@ void WidgetMenuHealer::LayOnHands() {
   for(u32 i=0;i<MAXPARTY;i++) {
     CharSheet *chara = PARTY->Members[i];
     if (((chara) && (!Entity::isDead(chara))) && (i != this->partyIndex)) {
-      ShowHealedMember(chara,(ushort)i,WidgetMenuHealer_LayOnHands2);
+      ShowHealedMember(chara,(u16)i,WidgetMenuHealer_LayOnHands2);
     }
   }
 }
@@ -100,7 +100,7 @@ void WidgetMenuHealer::HealWithHerbs() {
   for(u32 i=0;i<MAXPARTY;i++) {
     CharSheet *chara = PARTY->Members[i];
     if ((chara) && (!Entity::isDead(chara))) {
-      ShowHealedMember(chara,(ushort)i,WidgetMenuHealer_AFuncHerbs2);
+      ShowHealedMember(chara,(u16)i,WidgetMenuHealer_AFuncHerbs2);
     }
   }
 }
@@ -115,7 +115,7 @@ void WidgetMenuHealer::Restore() {
   for(u32 i=0;i<MAXPARTY;i++) {
     CharSheet *chara = PARTY->Members[i];
     if ((chara) && (!Entity::isDead(chara))) {
-      ShowHealedMember(chara,(ushort)i,WidgetMenuHealer_Restore2);
+      ShowHealedMember(chara,(u16)i,WidgetMenuHealer_Restore2);
     }
   }
 }

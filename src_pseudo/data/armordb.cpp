@@ -36,7 +36,7 @@ void ArmorDB::Load(u8 index,u32 *pos){
   aRAM->dex = aRom.dex;
   aRAM->rom0x1d = aRom.unk0x1d;
   aRAM->stealth = aRom.stealth;
-  aRAM->price = (ushort)aRom.price[0] + (ushort)aRom.price[1] * 0x100;
+  aRAM->price = (u16)aRom.price[0] + (u16)aRom.price[1] * 0x100;
   aRAM->expBonus = aRom.expBonus;
   aRAM->aspect = aRom.aspect;
   aRAM->stat = aRom.stat;

@@ -353,10 +353,19 @@ typedef enum Borg8Enum {
 #define BORG12_Intro_Exp 0x632
 
 
+
+
 //SFX here
 
 #define BORG12_CricketA 0x57A
 #define BORG12_SeagullA 0x57C
+
+#define BORG12_RainAmbient 0x071B
+#define BORG12_Thunder1 0x071c
+#define BORG12_Thunder2 0x071d
+#define BORG12_Thunder3 0x071e
+#define BORG12_Thunder4 0x071f
+
 
 
 #define BORG12_ChimeScale 0x5e7

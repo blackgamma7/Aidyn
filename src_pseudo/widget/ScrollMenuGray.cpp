@@ -31,7 +31,7 @@ u8 WidgetScrollMenuGray::Append(BaseWidget *w,u8 val){
 
 void WidgetScrollMenuGray::SetHighlight(){
   WSMSub* sub = (WSMSub *)this->substruct;
-  if ((ushort)sub->currentCount != 0) {
+  if ((u16)sub->currentCount != 0) {
     for(u16 i=0;i<sub->currentCount;i++){
         if(sub->items[i]->varU8!=1){
             sub->highlight=i;
@@ -80,7 +80,7 @@ BaseWidget* WSMG_ScrollDown(BaseWidget* param_1,BaseWidget *w){
   return NULL;
 }
 
-WidgetScrollMenuGray* WSMG_Init(BaseWidget *bw,u16 len,s16 x,s16 y,u16 bx0,u16 by0,u16 bx1,ushort by1,u8 r,u8 g,u8 b,u8 a,u32 setCols,Color32 *col){
+WidgetScrollMenuGray* WSMG_Init(BaseWidget *bw,u16 len,s16 x,s16 y,u16 bx0,u16 by0,u16 bx1,u16 by1,u8 r,u8 g,u8 b,u8 a,u32 setCols,Color32 *col){
   WidgetScrollMenuGray *w = new WidgetScrollMenuGray(len,col);
   w->SetCoords(x,y);
   w->boundX0 = bx0;

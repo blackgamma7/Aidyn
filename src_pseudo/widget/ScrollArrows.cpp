@@ -51,7 +51,7 @@ u8 WidgetScrollArrows::Tick() {
   WSA_Sub *sub = (WSA_Sub *)this->substruct;
   if (this->height) {
     sub->arrowA->SetCoords(this->posX,this->posY);
-    sub->arrowB->SetCoords(this->posX,(this->posY + this->height) - (short)sub->arrowB->GetHeight());
+    sub->arrowB->SetCoords(this->posX,(this->posY + this->height) - (s16)sub->arrowB->GetHeight());
   }
   BaseWidget **items = NULL;
   u32 index = 0;

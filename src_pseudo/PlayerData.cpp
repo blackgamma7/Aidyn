@@ -52,7 +52,7 @@ void Actor::SubPosOnLoadedMap(u8 param_1,vec3f *param_2){
   param_2->z-= temp.y;
 }
 
-u8 Actor::CheckCollision(playerData *param_1,float posY,short param_3,u16 attempt){
+u8 Actor::CheckCollision(playerData *param_1,float posY,s16 param_3,u16 attempt){
   float fVar1;
   bool bVar2;
   float fVar4;
@@ -142,7 +142,7 @@ void Actor::Init(playerData *param_1,u16 id){
   param_1->unk77c = false;
 }
 
-void InitPlayerHandler(Camera_struct *cam,short maxPlayers,int shadIndex){
+void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
   int iVar2;
   s16 *psVar3;
   int iVar4;
@@ -341,7 +341,7 @@ DCMSub2 * AllocPlayerAudio(playerData *param_1,audioKeyEntryB *param_2,u16 type,
   }
   pBVar3 = load_borg_12(*pBVar4);
   uVar2 = (u16)param_1->dcmDatIndex + 1;
-  uVar6 = (short)uVar2 + (short)(uVar2 >> 1) * -2;
+  uVar6 = (s16)uVar2 + (s16)(uVar2 >> 1) * -2;
   param_1->dcmDatIndex = uVar6;
   playerdata_remove_dcm(param_1,uVar6);
   uVar1 = param_1->dcmDatIndex;
@@ -359,7 +359,7 @@ u8 FUN_8001620c(playerData *param_1){
 
 
 
-void ProcessPlayers(PlayerHandler *handler,short delta){
+void ProcessPlayers(PlayerHandler *handler,s16 delta){
   u16 uVar2;
   u16 uVar3;
   float fVar5;
@@ -369,11 +369,11 @@ void ProcessPlayers(PlayerHandler *handler,short delta){
   double dVar9;
   double dVar10;
   int iVar12;
-  short sVar15;
+  s16 sVar15;
   Borg9Data *map;
   Borg7Header *pBVar13;
   bool bVar18;
-  short sVar17;
+  s16 sVar17;
   bool bVar19;
   playerData *ppVar20;
   int iVar21;
@@ -540,7 +540,7 @@ LAB_8001666c:
 LAB_800168cc:
         }
         else {
-          pDat->deathTimer = (short)iVar12;
+          pDat->deathTimer = (s16)iVar12;
           if (iVar12 * 0x10000 < 1) {
             pDat->shadowAlpha = 0;
             pDat->flags = 0;
@@ -764,7 +764,7 @@ not_flying_borg7:
         if (0 < handler->max_player) {
           uVar23 = 0;
           do {
-            sVar15 = (short)uVar24;
+            sVar15 = (s16)uVar24;
             iVar12 = (int)uVar23;
             ppVar8 = handler->playerDats;
             ppVar20 = ppVar8 + iVar12;
@@ -803,7 +803,7 @@ LAB_8001727c:
                     sVar17 = sVar15 + 1;
                     if (local_70 < pDat->unk108) {
                       pDat->unk108 = local_70;
-                      pDat->index = (short)uVar23;
+                      pDat->index = (s16)uVar23;
                       goto LAB_8001727c;
                     }
                   }
@@ -893,12 +893,12 @@ void set_sun_light(SceneData *param_1,u16 flag,voxelObject *param_3,u8 alpha){
   }
 }
 
-Gfx * renderPlayers(PlayerHandler *param_1,Gfx *g,short delta,short param_4,short param_5){
+Gfx * renderPlayers(PlayerHandler *param_1,Gfx *g,s16 delta,s16 param_4,s16 param_5){
   Borg7Header *pBVar1;
   u8 a;
   SceneData *pAVar3;
   bool bVar5;
-  short j;
+  s16 j;
   playerData *pDat;
   vec3f *to;
   longlong i;
@@ -954,7 +954,7 @@ render_player:
               a = PlayerShadowAlpha(param_1,pDat,fVar9,0xff);
               if (iStack_4c == 0) {
 LAB_80017c98:
-                some_player_render_sub(pDat,pDat->borg7P->sceneDat,&mapPos,a,(short)delta32);
+                some_player_render_sub(pDat,pDat->borg7P->sceneDat,&mapPos,a,(s16)delta32);
                 Scene::MatrixANormalizeScale(pDat->borg7P->sceneDat,pDat->scale,pDat->scale,pDat->scale);
                 Scene::MatrixASetPos(pDat->borg7P->sceneDat,mapPos.x,mapPos.y,mapPos.z);
                 if (DAT_800ee974 == 0) {
@@ -1007,7 +1007,7 @@ LAB_80017d08:
                     pDat->scale = 1.0f;
                     pDat->scaleRad = (pDat->collision).radius;
                   }
-                  some_player_render_sub(pDat,pDat->SceneDat,&mapPos,a,(short)delta32);
+                  some_player_render_sub(pDat,pDat->SceneDat,&mapPos,a,(s16)delta32);
                   if ((Scene::SceneGetLocatorPos(pDat->borg7P->sceneDat,&locPos,3)) &&
                      (Scene::SceneGetLocatorAlign(pDat->borg7P->sceneDat,&locRot,3))) {
                     to = &pDat->vec3_0x3c;

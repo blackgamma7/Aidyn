@@ -83,12 +83,12 @@ void processAllocQueue(QueueStructBItem *param_1){
 }
 
 u16 queue_b_flag=0;
-void Process_queue_B(QueueStructB *param_1,short param_2){
-  ushort uVar1;
+void Process_queue_B(QueueStructB *param_1,s16 param_2){
+  u16 uVar1;
   byte bVar2;
   undefined1 uVar3;
   int iVar4;
-  short sVar5;
+  s16 sVar5;
   QueueStructBItem *puVar5;
   QueueStructBItem *pQVar6;
   u16 i;

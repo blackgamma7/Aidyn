@@ -276,12 +276,12 @@ void psf_err_contrfail(u8 err) {
   WidgetChoiceDia *pWVar2 = FUN_80088a78(2,controller_romstring[3]);
   BaseWidget *pBVar3 = ContPakTextWidget(controller_romstring[0],continue_without_saving_,0x80);
   pWVar2->AppendScrollMenu(pBVar3);
-  pBVar3->varU16 = (ushort)err;
+  pBVar3->varU16 = (u16)err;
   pBVar3 = ContPakTextWidget(controller_romstring[4],ret0_8008c1bc,0x80);
   pWVar2->AppendScrollMenu(pBVar3);
-  pBVar3->varU16 = (ushort)err;
+  pBVar3->varU16 = (u16)err;
   pWVar2->Update();
-  pWVar2->varU16 = (ushort)err;
+  pWVar2->varU16 = (u16)err;
 }
 
 
@@ -308,15 +308,15 @@ void FUN_8008c558(char *txt,u8 err) {
   pWVar2 = FUN_80088a78(3,txt);
   w = ContPakTextWidget(controller_romstring[4],ret0_8008c1bc,0x80);
   pWVar2->AppendScrollMenu(w);
-  w->varU16 = (ushort)err;
+  w->varU16 = (u16)err;
   w = ContPakTextWidget(controller_romstring[9],FUN_8008c15c,0x80);
   pWVar2->AppendScrollMenu(w);
-  w->varU16 = (ushort)err;
+  w->varU16 = (u16)err;
   w = ContPakTextWidget(controller_romstring[0],continue_without_saving_,0x80);
   pWVar2->AppendScrollMenu(w);
-  w->varU16 = (ushort)err;
+  w->varU16 = (u16)err;
   pWVar2->Update();
-  pWVar2->varU16 = (ushort)err;
+  pWVar2->varU16 = (u16)err;
 }
 
 void pfs_err_data_full(u8 err) {FUN_8008c558(controller_romstring[1],err);}
@@ -327,12 +327,12 @@ void FUN_8008c688(char *txt,u8 err) {
   WidgetChoiceDia *pWVar2 = FUN_80088a78(2,txt);
   BaseWidget *w = ContPakTextWidget(controller_romstring[0xf],FUN_8008c1c4,0x80);
   pWVar2->AppendScrollMenu(w);
-  w->varU16 = (ushort)err;
+  w->varU16 = (u16)err;
   w = ContPakTextWidget(controller_romstring[0],continue_without_saving_,0x80);
   pWVar2->AppendScrollMenu(w);
-  w->varU16 = (ushort)err;
+  w->varU16 = (u16)err;
   pWVar2->Update();
-  pWVar2->varU16 = (ushort)err;
+  pWVar2->varU16 = (u16)err;
 }
 
 void FUN_8008c73c(u8 err) {FUN_8008c688(controller_romstring[0xd],err);}
@@ -343,9 +343,9 @@ void contpakwidget_repairOk(u8 err) {
   WidgetChoiceDia *pWVar1 = FUN_80088a78(1,controller_romstring[0x10]);
   BaseWidget *pBVar2 = ContPakTextWidget(controller_romstring[0xb],ret0_8008c1bc,0x80);
   pWVar1->AppendScrollMenu(pBVar2);
-  pBVar2->varU16 = (ushort)err;
+  pBVar2->varU16 = (u16)err;
   pWVar1->Update();
-  pWVar1->varU16 = (ushort)err;
+  pWVar1->varU16 = (u16)err;
 }
 
 void FUN_8008c80c(u8 err) {
@@ -355,12 +355,12 @@ void FUN_8008c80c(u8 err) {
   pWVar2 = FUN_80088a78(2,controller_romstring[0x11]);
   w = ContPakTextWidget(controller_romstring[4],FUN_8008c228,0x80);
   pWVar2->AppendScrollMenu(w);
-  w->varU16 = (ushort)err;
+  w->varU16 = (u16)err;
   w = ContPakTextWidget(controller_romstring[0],continue_without_saving_,0x80);
   pWVar2->AppendScrollMenu(w);
-  w->varU16 = (ushort)err;
+  w->varU16 = (u16)err;
   pWVar2->Update();
-  pWVar2->varU16 = (ushort)err;
+  pWVar2->varU16 = (u16)err;
 }
 
 int appState_4(Gfx **gg) {

@@ -323,7 +323,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
   return;
 }
 
-void init_some_map_data(ZoneDat *dat,short i,char j){
+void init_some_map_data(ZoneDat *dat,s16 i,char j){
   CLEAR(dat);
   dat->flag = 7;
   dat->index = (char)((int)i << 4) + j;
@@ -332,12 +332,12 @@ void init_some_map_data(ZoneDat *dat,short i,char j){
 void FUN_8000d744(){
   for(s16 i = 0;i < 3;i++){
     for(s16 j = 0;j < 3;j++) {
-      init_some_map_data(&gGlobals.gameVars.ZoneDatMtx[i][j],(short)i,(char)j);
+      init_some_map_data(&gGlobals.gameVars.ZoneDatMtx[i][j],(s16)i,(char)j);
     }
   }
 }
 
-void Zonedat_clear(ZoneDat *param_1,short param_2,short param_3){
+void Zonedat_clear(ZoneDat *param_1,s16 param_2,s16 param_3){
   Borg9Header *pBVar2 = param_1->mapPointer;
   if ((param_1->sceneDat0x4) && (param_2)) {
     FREEQSCENE(param_1->sceneDat0x4);
@@ -432,13 +432,13 @@ void MakeGameZoneNames(u16 param_1,u16 param_2){
       gGlobals.gameVars.mapShort2 = uVar2;
       gGlobals.gameVars.mapShort1 = uVar1;
       j = 0;
-      iVar5 = (short)param_2 + -1;
-      iVar3 = ((short)param_1 + i + -1);
+      iVar5 = (s16)param_2 + -1;
+      iVar3 = ((s16)param_1 + i + -1);
       iVar7 = 0x10000;
       do {
         dat = &gGlobals.gameVars.ZoneDatMtx[i][j];
-        init_some_map_data(dat,(short)i,(char)j);
-        j = (int)(short)iVar5;
+        init_some_map_data(dat,(s16)i,(char)j);
+        j = (int)(s16)iVar5;
         if ((iVar3 - 1U < 0x15) && (j - 1U < 0x1d)) {
           dat->borg5_ID = gLoadedMapIndecies[iVar3][j][0];
           dat->borg9_id = gLoadedMapIndecies[iVar3][j][1];
@@ -644,8 +644,8 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
         }
         else {
           skyVar = gGlobals.gameVars.weather.skyBgdat;
-          if (((gGlobals.sky.Type == SkyTypeOutdoor) && ((short)gGlobals.gameVars.weather.rainShortA < 3)) &&
-             (0 < (short)gGlobals.gameVars.weather.rainShortA)) {
+          if (((gGlobals.sky.Type == SkyTypeOutdoor) && ((s16)gGlobals.gameVars.weather.rainShortA < 3)) &&
+             (0 < (s16)gGlobals.gameVars.weather.rainShortA)) {
             skyVar = 2;
           }
           Sky::SetBackgroundType(gGlobals.sky.Type,skyVar,0.0);
@@ -915,8 +915,8 @@ void ConfirmPlayerWithinZone(playerData *param_1,Borg9Data *param_2){
   }
   if (((((param_1->collision).pos.x < 0.0) || ((param_1->collision).pos.z < 0.0)) ||
       (gGlobals.gameVars.mapCellSize.x < (param_1->collision).pos.x)) || (gGlobals.gameVars.mapCellSize.y < (param_1->collision).pos.z)) {
-    iVar3 = (int)(short)gGlobals.gameVars.mapShort1;
-    iVar5 = (int)(short)gGlobals.gameVars.mapShort2;
+    iVar3 = (int)(s16)gGlobals.gameVars.mapShort1;
+    iVar5 = (int)(s16)gGlobals.gameVars.mapShort2;
     fStack80.z = 0.0;
     fStack80.y = 0.0;
     fStack80.x = 0.0;
@@ -959,7 +959,7 @@ void SetSceneColors(SceneData *param_1,u8 alpha,u8 param_3,u32 col){
   Scene::SetFlag40(param_1);
   fVar1 = gGlobals.gameVars.weather.fogTime;
   if (DAT_800ee974) fVar1 = 0.0;
-  Scene::SetFogPlane(param_1,996 - (short)(int)(fVar1 * 40.0f),1000);
+  Scene::SetFogPlane(param_1,996 - (s16)(int)(fVar1 * 40.0f),1000);
   Scene::SetFogColor
             (param_1,gFogColor.R,gFogColor.G,gFogColor.B,
              (u32)gFogColor.A);
@@ -1045,7 +1045,7 @@ struct struct_A {
 struct_A struct_a_ARRAY_800f5290[0x20];
 
 //Render the "scene" voxel objects
-Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,short param_5,float cellX,float cellZ){
+Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,s16 param_4,s16 param_5,float cellX,float cellZ){
   EventFlag EVar1;
   void *pvVar2;
   u8 bVar6;
@@ -1053,7 +1053,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
   SceneData *pAVar4;
   u16 uVar5;
   u32 uVar7;
-  short sVar8;
+  s16 sVar8;
   int iVar9;
   Scene_obj_dat *pSVar10;
   Borg7Header **ppBVar11;
@@ -1147,7 +1147,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
         local_64 = 0;
         local_5c = iVar13 + 1;
         uVar12 = ((SObj->scene).BorgCount - 1);
-        sVar8 = (short)local_5c;
+        sVar8 = (s16)local_5c;
         if (-1 < (int)uVar12) {
           do {
             fVar20 = 0.0;
@@ -1157,7 +1157,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,short param_4,
             if ((prox < fVar20 - 2.0f) || (fVar19 < prox)) {
               NoExpPak_ClearSceneVoxelIndex(pSVar10,(u16)uVar12);
 LAB_800102b4:
-              sVar8 = (short)local_60;
+              sVar8 = (s16)local_60;
             }
             else {
               uVar15 = 0xff;
@@ -1232,7 +1232,7 @@ LAB_80010084:
                 }
                 goto LAB_800102b4;
               }
-              sVar8 = (short)local_60;
+              sVar8 = (s16)local_60;
               if (NoExpPak_memCheck(0)) {
                 pBVar3 = func_loading_borg7((SObj->scene).borgArray[0].borgIndex,&gGlobals.gameVars.particleEmmiter);
                 (SObj->scene).borgArray[0].b7 = pBVar3;
@@ -1270,12 +1270,12 @@ LAB_8000ffcc:
             }
             uVar12 = (u32)sVar8;
           } while (-1 < (int)uVar12);
-          sVar8 = (short)local_5c;
+          sVar8 = (s16)local_5c;
         }
       }
       else {
 LAB_800102d8:
-        sVar8 = (short)local_5c;
+        sVar8 = (s16)local_5c;
       }
       iVar13 = (int)sVar8;
       iVar9 = iVar13 << 1;
@@ -1350,7 +1350,7 @@ u8  FUN_80010414(vec2f *param_1,vec2f *param_2,vec2f *param_3,vec2f *param_4,s16
   return bVar1;
 }
 
-u8 FUN_80010598(short param_1,short param_2){
+u8 FUN_80010598(s16 param_1,s16 param_2){
 
   vec2f *pvVar2;
   float fVar5;
@@ -1402,7 +1402,7 @@ u8 FUN_80010598(short param_1,short param_2){
 }
 
 
-void RenderZones(Gfx **GG,vec3f *pos,short delta){
+void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   int iVar2;
   u32 uVar3;
   u16 uVar5;
@@ -1414,8 +1414,8 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
   u16 uVar11;
   ZoneDat *pZVar12;
   ZoneDat *iVar1;
-  short *psVar13;
-  short *psVar14;
+  s16 *psVar13;
+  s16 *psVar14;
   int i;
   float posz;
   float posx;
@@ -1459,8 +1459,8 @@ void RenderZones(Gfx **GG,vec3f *pos,short delta){
   iVar2 = 0;
   do {
     uVar3 = uStack_40;
-    psVar13 = (short *)((int)*pauStack_34 + iVar2);
-    psVar14 = (short *)((int)puStack_30 + iVar2);
+    psVar13 = (s16 *)((int)*pauStack_34 + iVar2);
+    psVar14 = (s16 *)((int)puStack_30 + iVar2);
     uStack_40 = (uStack_40 & 0x7f) << 1;
     if ((FUN_80010598(*psVar13,*psVar14)) && ((uStack_44 & uVar3) == 0)) {
       if ((!gExpPakFlag) && (get_MemFree()< 0x18000)) {
@@ -1565,7 +1565,7 @@ LAB_80010bfc:
         gOut = RenderVoxelScenes(gOut,&pZVar12->mapPointer->dat,pos,uVar10,uVar11,posx,posz);
       }
     }
-    i = (int)(short)((short)i + 1);
+    i = (int)(s16)((s16)i + 1);
     iVar2 = i << 2;
     if (7 < i) {
       if (iStack_48) {
@@ -1637,7 +1637,7 @@ void mapFloatDat_copy(mapFloatDat *param_1){
   }
 }
 
-void InitZoneEngine(u16 param_1,short param_2){
+void InitZoneEngine(u16 param_1,s16 param_2){
   u8 Map_;
   int iVar1;
   int iVar2;
@@ -1647,8 +1647,8 @@ void InitZoneEngine(u16 param_1,short param_2){
   mapFloatDat *pmVar6;
   int *piVar7;
   mapFloatDat *pmVar8;
-  short sVar9;
-  short partCount;
+  s16 sVar9;
+  s16 partCount;
   u16 dat;
   int aiStack_e8 [32];
   vec3f afStack104;
@@ -1855,7 +1855,7 @@ void ClearVoxelFlags(Borg9Data *param_1){
 }
 extern u16 enemyHostileFlag;
 
-void VoxelIndexPosition(short delta,playerData *param_2){
+void VoxelIndexPosition(s16 delta,playerData *param_2){
   Borg9Data *pBVar6;
   u32 uVar7;
   voxelObject *pvVar10;
@@ -1919,7 +1919,7 @@ void VoxelIndexPosition(short delta,playerData *param_2){
 
 
 
-void handleZoneEngineFrame(Gfx **GG,short delta,playerData *player){
+void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   u8 bVar1;
   mapFloatDat *A;
   byte bVar2;

@@ -5,7 +5,7 @@
 struct N64PrintStruct {
     char *text;
     vec4f color; //0-1 RGBA
-    short ShortA;
+    s16 ShortA;
 };
 
 namespace N64Print{

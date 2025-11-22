@@ -86,7 +86,7 @@ Gfx * RenderFlycam(Gfx *gfx){
       no_TP_vec3 = 1;
       loadGameBorgScenes(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
     }
-    else handleZoneEngineFrame(apGStackX_0,(short)(int)gGlobals.delta,NULL);
+    else handleZoneEngineFrame(apGStackX_0,(s16)(int)gGlobals.delta,NULL);
     gfx = apGStackX_0[0];
     if ((gGlobals.screenFadeMode == 0) && (gGlobals.brightness == 1.0f)) {
       flycam_flag = false;

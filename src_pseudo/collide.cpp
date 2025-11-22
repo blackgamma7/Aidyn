@@ -1,7 +1,7 @@
 #include "globals.h"
 
 
-void FUN_800adae0(Borg9Data *param_1,vec3f *position,vec3f *dist,float radius,s16 *param_5,s16 *param_6,short *param_7,s16 *param_8){
+void FUN_800adae0(Borg9Data *param_1,vec3f *position,vec3f *dist,float radius,s16 *param_5,s16 *param_6,s16 *param_7,s16 *param_8){
   float len;
   vec2f local_68;
   
@@ -21,8 +21,8 @@ void FUN_800adae0(Borg9Data *param_1,vec3f *position,vec3f *dist,float radius,s1
 }
 
 
-void FUN_800adc44(Borg9Data *param_1,collisionSphere *param_2,short *param_3,short *param_4,
-                 short *param_5,short *param_6){
+void FUN_800adc44(Borg9Data *param_1,collisionSphere *param_2,s16 *param_3,s16 *param_4,
+                 s16 *param_5,s16 *param_6){
   float fVar2;
   float fVar3;
   float fVar4;
@@ -115,17 +115,17 @@ bool CheckCollision(Borg9Data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3
   if (borgDat) {
     Vec3Sub(&dist,posB,posA);
     FUN_800adae0(borgDat,posA,&dist,radius,sStack_48,sStack_48 + 1,sStack_48 + 2,sStack_48 + 3);
-    s16 lVar9 = sStack_48[0];
-    if (sStack_48[2] < lVar9) return false;
-    for(;lVar9 <= sStack_48[2];lVar9++) {
-      s16 lVar6=sStack_48[1];
-      if (lVar6 <= sStack_48[3]) {
-        for(;lVar6 <= sStack_48[3];lVar6++) {
-          pbVar2 = getCollideSection(borgDat,lVar9,lVar6);
+    s16 i = sStack_48[0];
+    if (sStack_48[2] < i) return false;
+    for(;i <= sStack_48[2];i++) {
+      s16 j=sStack_48[1];
+      if (j <= sStack_48[3]) {
+        for(;j <= sStack_48[3];j++) {
+          pbVar2 = getCollideSection(borgDat,i,j);
           if (pbVar2->collideCount) {
             for(s16 iVar5=0;iVar5 < pbVar2->collideCount;iVar5++) {
               pbVar7 = borgDat->phys_pointer + (u16)pbVar2->collideIndecies[iVar5];
-              if ((iStack_3c == 0) || (!(pbVar7->flags & 0x200))) {
+              if ((iStack_3c == 0) || (!(pbVar7->flags & B9Phys_0200))) {
                 if (Vec3Dot(&dist,&pbVar7->normal) <= 0.0) {
                   if (FUN_800aec1c(posA,&dist,radius,pbVar7,&auStack_40,avStack_88)) {
                     if (outPos) Vec3Copy(avStack_88,outPos);
@@ -160,10 +160,10 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
   s16 lVar12;
   vec3f len;
   vec3f afStack136;
-  short sStack_48;
-  short sStack_46;
-  short sStack_44;
-  short sStack_42;
+  s16 sStack_48;
+  s16 sStack_46;
+  s16 sStack_44;
+  s16 sStack_42;
   float auStack_40;
   u32 uStack_38;
   u32 uStack_34;
@@ -215,7 +215,7 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
   return false;
 }
 
-void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,short delta){
+void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,s16 delta){
   int iVar1;
   int iVar2;
   CollideSection *pbVar3;
@@ -223,10 +223,10 @@ void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,short delta)
   s16 lVar5;
   double dVar13;
   vec3f fStack120;
-  short sStack_38;
-  short sStack_36;
-  short sStack_34;
-  short asStack_32;
+  s16 sStack_38;
+  s16 sStack_36;
+  s16 sStack_34;
+  s16 asStack_32;
   
   if (!coliide->envProps->Speed) {CRASH("ProcessCollisionSphere","No Environment Properties Found on Sphere");}
   else {

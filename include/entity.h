@@ -256,7 +256,7 @@ namespace Entity{
     u8 UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4);
     u8 HasSpellEffect(CharSheet *param_1,u8 id);
     s32 FindFreeEffect(CharSheet *param_1);
-    short ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,CombatEntity *combatTarget);
+    s16 ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,CombatEntity *combatTarget);
     void ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatEnt);
     s32 IncEnchantments(CharSheet *param_1,CombatEntity *param_2,s32 param_3);
     SpellInstance* GetSpell(CharSheet *param_1);
@@ -266,8 +266,8 @@ namespace Entity{
     u8 CheckSpellWizard(CharSheet *param_1,SpellInstance *param_2);
     s32 SpellStaminaSubtract(CharSheet* param_1,SpellInstance *spell,u8 param_2);
     u8 TestEquipStamina(CharSheet *param_1,s16 param_2);
-    int EquipStamina(CharSheet *param_1,short stam,u8 param_3);
-    s16 AddEquipStamina(CharSheet *param_1,ItemInstance *param_2,short param_3,u8 param_4);
+    int EquipStamina(CharSheet *param_1,s16 stam,u8 param_3);
+    s16 AddEquipStamina(CharSheet *param_1,ItemInstance *param_2,s16 param_3,u8 param_4);
     void CampHeal(CharSheet *param_1,float healing,u32 time);
     u8 CheckSpellTimeOfDay(CharSheet *param_1,SpellInstance *param_2);
     byte CheckSpellSpecial(CharSheet *param_1,SpellInstance *param_2);

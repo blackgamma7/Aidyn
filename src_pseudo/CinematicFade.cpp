@@ -78,11 +78,11 @@ void Cinematic::NextFadeTally(void){
 }
 
 Gfx * Cinematic::Fade(Gfx *g,u16 delta){
-  short sVar2;
+  s16 sVar2;
   u16 uVar3;
   u16 uVar4;
   Gfx *gfx;
-  short sVar5;
+  s16 sVar5;
   u32 uVar6;
   u32 uVar7;
   u32 uVar8;

@@ -112,7 +112,7 @@ void SaveGameState(GameStateFunnel *param_1,u8 *param_2);
 
 void setGSF_pointers(GameStateFunnel*);
 u16  gameStateBitmask(GameStateFunnel *param_1,Struct_State *param_2);
-short gamestate_func_with_ANDgate(ushort param_1);
+s16 gamestate_func_with_ANDgate(u16 param_1);
 void GameStateCrash(char *txt);
 void ProcessGameStates(GameStateFunnel *param_1);
 void set_gamestateFunnel_f(GameStateFunnel *param_1);

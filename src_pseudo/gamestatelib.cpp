@@ -11,7 +11,7 @@ void GameStateCrash(char *param_1){
 void ProcessGameStates(GameStateFunnel *param_1){
   u8 eVar1;
   u8 EVar2;
-  short sVar3;
+  s16 sVar3;
   u8 bVar4;
   Struct_State *puVar6;
   u16 uVar5;

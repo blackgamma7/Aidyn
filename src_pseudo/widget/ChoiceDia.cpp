@@ -11,7 +11,7 @@ void FUN_8004cfd0(BaseWidget *w){
   }
 }
 
-WidgetChoiceDia::WidgetChoiceDia(u16 choices,char *msg,s16 *dims,u16 *dims2,short *dims3,Color32 *colA,Color32 *colB,u32 param_9)
+WidgetChoiceDia::WidgetChoiceDia(u16 choices,char *msg,s16 *dims,u16 *dims2,s16 *dims3,Color32 *colA,Color32 *colB,u32 param_9)
  :WidgetMenu(){
   PTR_800edb70 = freeWidgetFunc;
   freeWidgetFunc = FUN_8004cfd0;
@@ -21,9 +21,9 @@ WidgetChoiceDia::WidgetChoiceDia(u16 choices,char *msg,s16 *dims,u16 *dims2,shor
   this->unkac = param_9;
 }
 
-WidgetChoiceDia::WidgetChoiceDia(u16 choices,char *msg,u16 param_4,Color32 *colA,Color32 *colB,u32 param_7,u16 param_8,short param_9)
+WidgetChoiceDia::WidgetChoiceDia(u16 choices,char *msg,u16 param_4,Color32 *colA,Color32 *colB,u32 param_7,u16 param_8,s16 param_9)
 :WidgetMenu(){
-    ushort uVar1;
+    u16 uVar1;
     u16 x1;
     BaseWidget *pBVar2;
     u16 x0;
@@ -51,7 +51,7 @@ WidgetChoiceDia::WidgetChoiceDia(u16 choices,char *msg,u16 param_4,Color32 *colA
 
 WidgetChoiceDia::WidgetChoiceDia(u16 choices,u16 param_3,Color32 *colA,u32 param_5,u16 param_6)
  :WidgetMenu(){
-    ushort uVar1;
+    u16 uVar1;
     BaseWidget *pBVar2;
     s16 sx;
     s16 asStack_68 [4];
@@ -72,12 +72,12 @@ WidgetChoiceDia::WidgetChoiceDia(u16 choices,u16 param_3,Color32 *colA,u32 param
 }
   
 WidgetChoiceDia::WidgetChoiceDia(u8 choices,u16 W,u16 H,u32 param_5,u16 param_6):WidgetMenu(){
-  short sVar1;
-  short sx;
-  short asStack_68 [4];
+  s16 sVar1;
+  s16 sx;
+  s16 asStack_68 [4];
   
   PTR_800edb70 = freeWidgetFunc;
-  sVar1 = (short)(W + 1 >> 1);
+  sVar1 = (s16)(W + 1 >> 1);
   freeWidgetFunc = FUN_8004cfd0;
   asStack_68[0] = (-sVar1 + SCREEN_CENTERW) - param_6;
   asStack_68[2] = sVar1 + SCREEN_CENTERW + param_6;
@@ -155,8 +155,8 @@ u8 WidgetChoiceDia::AppendScrollMenu(BaseWidget* w){
 void WidgetChoiceDia::SetImages(s16 *bounds,u32 param_3){
   Borg8Header *pBVar1;
   WidgetBorg8 *pBVar2;
-  short sVar3;
-  ushort uVar4;
+  s16 sVar3;
+  u16 uVar4;
   
   this->borg8WidgetA = Utilities::AddBorg8Widget2(this,loadBorg8(BORG8_Pixel),*bounds,bounds[1],bounds[2],bounds[3]);
   pBVar1 = loadBorg8(BORG8_GradientC);
@@ -166,7 +166,7 @@ void WidgetChoiceDia::SetImages(s16 *bounds,u32 param_3){
   pBVar1 = loadBorg8(0x1c0);
   this->borg8WidgetB = Utilities::AddBorg8Widget2(this,pBVar1,(*bounds - (pBVar1->dat).Width) + -1,bounds[1],*bounds + -1,bounds[3]);
   pBVar1 = loadBorg8(0x1c1);
-  uVar4 = (ushort)(param_3 != 0);
+  uVar4 = (u16)(param_3 != 0);
   sVar3 = uVar4 + 1;
   pBVar2 = Utilities::AddBorg8Widget2
                      (this,pBVar1,bounds[2] + sVar3,bounds[1],
@@ -180,7 +180,7 @@ void WidgetChoiceDia::SetImages(s16 *bounds,u32 param_3){
                       bounds[1] - (pBVar1->dat).Height,*bounds + -1,bounds[1]);
   this->borg8WidgetF = pBVar2;
   pBVar1 = loadBorg8(0x1bd);
-  uVar4 = (ushort)(param_3 != 0);
+  uVar4 = (u16)(param_3 != 0);
   pBVar2 = Utilities::AddBorg8Widget2
                      (this,pBVar1,bounds[2] + sVar3,bounds[1] - (pBVar1->dat).Height,
                       bounds[2] + (pBVar1->dat).Width + 1 + uVar4,bounds[1]);
@@ -230,7 +230,7 @@ void WidgetChoiceDia::MoveX(s16 posX){
   Utilities::MoveWidget(this->borg8WidgetH,px,0);
 }
 
-void WidgetChoiceDia::SetHighlight(ushort h){
+void WidgetChoiceDia::SetHighlight(u16 h){
   WSMSub *sub = (WSMSub *)this->scrollMenu->substruct;
   if (sub) {
     if (h < sub->currentCount) sub->highlight = h;
@@ -243,11 +243,11 @@ void WidgetChoiceDia::Update(){
   u16 uVar1;
   BaseWidget *pBVar2;
   BaseWidget *pBVar4;
-  short sVar5;
-  short sVar6;
+  s16 sVar5;
+  s16 sVar6;
   u16 uVar7;
   u16 uVar8;
-  short sVar9;
+  s16 sVar9;
   u16 uVar10;
   
 
@@ -262,7 +262,7 @@ void WidgetChoiceDia::Update(){
   uVar10 = 120 - (u16)((uVar8 + uVar7 + this->unka8 + (u32)this->unkaa * 2) >> 1);
   sVar6 = uVar10 - this->unkaa;
   if (this->TextWidget) {
-    this->TextWidget->boundY1 = uVar10 + (short)uVar7;
+    this->TextWidget->boundY1 = uVar10 + (s16)uVar7;
     this->TextWidget->posY = uVar10;
     this->TextWidget->boundY0 = uVar10;
   }
@@ -275,7 +275,7 @@ void WidgetChoiceDia::Update(){
     this->TextWidget->boundY0 = uVar10;
   }
   pBVar2 = this->borg8WidgetA;
-  uVar10 = (short)uVar8 + this->scrollMenu->boundY0;
+  uVar10 = (s16)uVar8 + this->scrollMenu->boundY0;
   this->scrollMenu->boundY1 = uVar10;
   uVar1 = this->unkaa;
   this->borg8WidgetA->posY = sVar6;
@@ -287,24 +287,24 @@ void WidgetChoiceDia::Update(){
   this->borg8WidgetB->SetHeight(sVar9);
   uVar7 =this->borg8WidgetC->GetHeight();
   pBVar2 = this->borg8WidgetD;
-  this->borg8WidgetC->posY = sVar6 - (short)uVar7;
+  this->borg8WidgetC->posY = sVar6 - (s16)uVar7;
   pBVar2->posY = sVar6;
   this->borg8WidgetD->SetHeight(sVar9);
   pBVar2 = this->borg8WidgetF;
   this->borg8WidgetE->posY = sVar5;
   uVar7 = pBVar2->GetHeight();
   pBVar2 = this->borg8WidgetG;
-  this->borg8WidgetF->posY = sVar6 - (short)uVar7;
+  this->borg8WidgetF->posY = sVar6 - (s16)uVar7;
   uVar7 = pBVar2->GetHeight();
   pBVar2 = this->borg8WidgetH;
   pBVar4 = this->borg8WidgetI;
-  this->borg8WidgetG->posY = sVar6 - (short)uVar7;
+  this->borg8WidgetG->posY = sVar6 - (s16)uVar7;
   pBVar2->posY = sVar5;
   pBVar4->posY = sVar5;
   this->Tick();
 }
 
-void Ofunc_8004e048(BaseWidget *w,short x,short y){
+void Ofunc_8004e048(BaseWidget *w,s16 x,s16 y){
   Utilities::MoveWidget(w,x - w->posX,y - w->posY);
   w->Tick();
 }

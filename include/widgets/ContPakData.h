@@ -141,13 +141,13 @@ class WidgetContPakDataLoad: public WidgetContPakData{
 WidgetText * ContPakTextWidget(char *txt,BaseWidget *(*AFunc)(BaseWidget *,BaseWidget *),u16 length);
 WidgetText * ContPakTextWidget2(u16 param_1,char *txt,BaseWidget *(*AFunc)(BaseWidget *,BaseWidget *));
 WidgetChoiceDia * FUN_80088a78(u16 ,char *);
-WidgetChoiceDia *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,ushort var);
+WidgetChoiceDia *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,u16 var);
 void open_mempak_menu(u32 ,u32 ,u16 ,u16,u32);
 u32 appState_2(Gfx **);
 byte appState2_control(void);
 void appState2_Tick(Gfx **,u8);
 u32 FUN_80088d80();
-void make_mempak_menu(short ,short ,undefined4);
+void make_mempak_menu(s16 ,s16 ,undefined4);
 u32 FUN_80088e2c(void);
 
 class ContPakWidget:public WidgetMenu{
@@ -236,7 +236,7 @@ BaseWidget * repeated_space_warning(BaseWidget *w0,BaseWidget *w1);
 
 void FUN_80086290(BaseWidget *);
 u32 FUN_800862c8(void);
-BaseWidget * FUN_800862f4(u8 param_1,ushort param_2,char *txt,BaseWidget::buttonFunc param_4);
+BaseWidget * FUN_800862f4(u8 param_1,u16 param_2,char *txt,BaseWidget::buttonFunc param_4);
 
 
 WidgetContPakData* contPakDat=NULL;

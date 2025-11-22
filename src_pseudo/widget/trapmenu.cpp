@@ -98,7 +98,7 @@ void TrapMenu::TrapExploded(void){
   }
 }
 
-BaseWidget * TrapMenu::TakeDamage(short param_1,char *txtStart){
+BaseWidget * TrapMenu::TakeDamage(s16 param_1,char *txtStart){
   CharSheet *pCVar1;
   u32 txtWidth;
   int iVar3;
@@ -145,7 +145,7 @@ BaseWidget * TrapMenu::TakeDamage(short param_1,char *txtStart){
       txtLines++;
     }
   }
-  BaseWidget *pBVar5 = TextPopup_New(abStack1080,(short)txtWidth + 0x10,((short)txtHeight + 2) * (short)txtLines,
+  BaseWidget *pBVar5 = TextPopup_New(abStack1080,(s16)txtWidth + 0x10,((s16)txtHeight + 2) * (s16)txtLines,
                          COLOR_WHITE,0x96,true);
   gGlobals.playerCharStruct.text_window = pBVar5;
   pBVar5->CDownButtonFunc = NULL;
@@ -154,7 +154,7 @@ BaseWidget * TrapMenu::TakeDamage(short param_1,char *txtStart){
 }
 
 u16 * TrapMenu::GetTrapLV(voxelObject *param_1){
-  short *psVar2;
+  s16 *psVar2;
   
   switch((param_1->header).type){
     case VOXEL_Container:

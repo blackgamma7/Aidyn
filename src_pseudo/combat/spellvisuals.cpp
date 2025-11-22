@@ -29,7 +29,7 @@ void FUN_8009468c(void){
 
 
 void FUN_800946dc(int param_1){
-  short sVar1;
+  s16 sVar1;
   bool bVar2;
   bool bVar3;
   bool bVar4;
@@ -113,13 +113,13 @@ LAB_800948fc:
       if ((((bVar3) && (bVar4)) && (bVar5)) && (bVar2)) {
         FUN_80094f40(piVar8->field2_0x8);
         FUN_80094f40(piVar8->field3_0xa);
-        clear_SpellVisuals_ptr0_entry((short)uVar7);
+        clear_SpellVisuals_ptr0_entry((s16)uVar7);
       }
     }
   }
 }
 
-void clear_SpellVisuals_ptr0_entry(short param_1){
+void clear_SpellVisuals_ptr0_entry(s16 param_1){
   if ((SpellVisuals.ptr0[param_1].flags & 1)) {
     CLEAR(&SpellVisuals.ptr0[param_1]);
     SpellVisuals.indecies0[--SpellVisuals.ptr0Count] = param_1;
@@ -171,7 +171,7 @@ LAB_80094b00:
   goto LAB_80094b00;
 }
 
-void FUN_80094b24(short param_1){
+void FUN_80094b24(s16 param_1){
   SpellVisualTypeC *entry = SpellVisuals.ptr2 + param_1;
   if ((entry->flags & 1)) {
     entry->timer = 150;
@@ -182,7 +182,7 @@ void FUN_80094b24(short param_1){
 }
 
 
-void spellvisuals_petrify(short param_1){
+void spellvisuals_petrify(s16 param_1){
   SpellVisualTypeC *entry = SpellVisuals.ptr2 + param_1;
   if ((entry->flags & 1)) {
     entry->field4_0xc++;
@@ -190,14 +190,14 @@ void spellvisuals_petrify(short param_1){
   }
 }
 
-void spellvisuals_petrify_2(short param_1){
+void spellvisuals_petrify_2(s16 param_1){
   SpellVisualTypeC *pSVar2 = SpellVisuals.ptr2 + param_1;
   if (((pSVar2->flags & 1))&&(pSVar2->field4_0xc-- == 1)) {
     pSVar2->playerDat->unk70ee = 0;
   }
 }
 
-void FUN_80094c58(short param_1,short param_2){
+void FUN_80094c58(s16 param_1,s16 param_2){
   if (param_2 != -1) {
     SpellVisuals.field14_0x2e++;
     SpellVisuals.ptr2[param_1].field5_0xe++;
@@ -205,7 +205,7 @@ void FUN_80094c58(short param_1,short param_2){
   }
 }
 
-u32 FUN_80094cd0(short param_1){
+u32 FUN_80094cd0(s16 param_1){
   bool bVar1;
   int iVar2;
   int iVar3;
@@ -226,7 +226,7 @@ u32 FUN_80094cd0(short param_1){
       iVar2 = iVar2 * 4 + (int)lVar5;
       if ((((&(SpellVisuals.ptr2)->flags)[iVar2] & 1) == 0) ||
          ((&(SpellVisuals.ptr2)->field5_0xe)[iVar2 * 2] == 0)) {
-        iVar6 = (int)(short)((short)lVar5 + 1);
+        iVar6 = (int)(s16)((s16)lVar5 + 1);
         iVar2 = iVar6;
         if (iVar6 < 0) {
           iVar2 = iVar6 + 0xf;
@@ -250,13 +250,13 @@ u32 FUN_80094cd0(short param_1){
   bVar1 = false;
   do {
     if (uVar4 == (u16)SpellVisuals.ptr2[iVar6].unk10) {
-      SpellVisuals.ptr2[iVar6].unk10 = (short)uVar4;
+      SpellVisuals.ptr2[iVar6].unk10 = (s16)uVar4;
       return uVar4;
     }
     if ((((SpellVisuals.ptr1[uVar4].flags & 1) == 0) ||
-        ((short)SpellVisuals.ptr1[uVar4].field7_0x2c != lVar5)) ||
+        ((s16)SpellVisuals.ptr1[uVar4].field7_0x2c != lVar5)) ||
        (1 < SpellVisuals.ptr1[uVar4].spellID - 5)) {
-      iVar3 = (int)(short)((short)uVar4 + 1);
+      iVar3 = (int)(s16)((s16)uVar4 + 1);
       iVar2 = iVar3;
       if (iVar3 < 0) {
         iVar2 = iVar3 + 0x7f;
@@ -271,7 +271,7 @@ u32 FUN_80094cd0(short param_1){
   return uVar4;
 }
 
-void FUN_80094e6c(short param_1){
+void FUN_80094e6c(s16 param_1){
 
   for(u32 i=0;i<SpellVisCountC;i++) {
     SpellVisualTypeC *entry = &SpellVisuals.ptr2[i];
@@ -287,7 +287,7 @@ void FUN_80094e6c(short param_1){
   }
 }
 
-void FUN_80094f40(short param_1){
+void FUN_80094f40(s16 param_1){
   SpellVisualTypeC *entry = SpellVisuals.ptr2 + param_1;
   if (((entry->flags & 1) != 0) &&(--entry->field2_0x8 < 1)) {
     CLEAR(entry);
@@ -297,7 +297,7 @@ void FUN_80094f40(short param_1){
 }
 
 
-short FUN_80094fdc(u16 param_1,u8 param_2,u8 type){
+s16 FUN_80094fdc(u16 param_1,u8 param_2,u8 type){
   SceneData *pAVar1;
   playerData *ppVar2;
   Borg7Header *pBVar3;
@@ -306,7 +306,7 @@ short FUN_80094fdc(u16 param_1,u8 param_2,u8 type){
   bool bVar8;
   u32 BVar6;
   Borg7Header *pAVar6;
-  short sVar7;
+  s16 sVar7;
   SpellVisualTypeC *pSVar9;
   SpellVisualTypeB *spellVisB;
   u32 lVar11;
@@ -382,7 +382,7 @@ LAB_800950ec:
     }
     pSVar9 = SpellVisuals.ptr2;
     spellVisB->borgIndex = BVar6;
-    pSVar9 = pSVar9 + (short)spellVisB->field7_0x2c;
+    pSVar9 = pSVar9 + (s16)spellVisB->field7_0x2c;
     ppVar2 = pSVar9->playerDat;
     spellVisB->memNeeded = memNeeded;
     Vec3Copy(&(ppVar2->collision).pos,&spellVisB->pos);
@@ -399,7 +399,7 @@ LAB_800950ec:
 }
 
 
-void FUN_800952c8(short param_1,short param_2,short param_3){
+void FUN_800952c8(s16 param_1,s16 param_2,s16 param_3){
   SceneData *pAVar1;
   Borg7Header *pBVar2;
   SceneData *pAVar3;
@@ -425,14 +425,14 @@ void FUN_800952c8(short param_1,short param_2,short param_3){
   }
 }
 
-void FUN_800953a8(short param_1){
+void FUN_800953a8(s16 param_1){
   SpellVisualTypeB *pSVar1 = SpellVisuals.ptr1 + param_1;
   if ((((pSVar1->flags & 1)) && (pSVar1->spellID != 5)) && (pSVar1->spellID != 6)) {
     Particle::UnsetSceneEmmiter(&gGlobals.gameVars.particleEmmiter,pSVar1->b7->sceneDat);
   }
 }
 
- void FUN_80095414(short param_1){
+ void FUN_80095414(s16 param_1){
   if ((SpellVisuals.ptr1[param_1].flags & 1)) {
     SpellVisuals.ptr1[param_1].flags|= 0x20;
     SpellVisuals.lifespan = 125;
@@ -461,7 +461,7 @@ void processSpellVisuals(u32 param_1){
   for(i=0;i<SpellVisCountB;i++) {
     ppBVar12 = &SpellVisuals.ptr1[i];
     if ((ppBVar12->flags & 1) != 0) {
-      pSVar9 = SpellVisuals.ptr2 + (short)ppBVar12->field7_0x2c;
+      pSVar9 = SpellVisuals.ptr2 + (s16)ppBVar12->field7_0x2c;
       if (((pSVar9->flags ^ 1) & 1) != 0) CRASH("ProcessSpellVisuals","!(pPlayer->flags & SPELLVISUAL_ALLOCED)");
       if ((pSVar9->flags & 8) == 0) {
         Vec3Copy(&(pSVar9->playerDat->collision).pos,&ppBVar12->pos);
@@ -568,7 +568,7 @@ Gfx * FUN_80095a24(Gfx *param_1){
   return param_1;
 }
 
-void FUN_80095ad8(short param_1){
+void FUN_80095ad8(s16 param_1){
   Borg7Header *pBVar1;
   SpellVisualTypeB *x = SpellVisuals.ptr1 + param_1;
   if ((x->flags & 1) != 0) {
@@ -580,7 +580,7 @@ void FUN_80095ad8(short param_1){
       else if (x->spellID < 7) {
         SpellVisuals.field14_0x2e--;
         pBVar1 = x->b7;
-        SpellVisuals.ptr2[(short)x->field7_0x2c].field5_0xe--;
+        SpellVisuals.ptr2[(s16)x->field7_0x2c].field5_0xe--;
         if (pBVar1) {
           FREEQSCENE(x);
           x->b7 = NULL;
@@ -686,7 +686,7 @@ void FUN_80095f6c(int param_1){
       break;
     }
   }
-  short sVar1 = entry->field6_0x10;
+  s16 sVar1 = entry->field6_0x10;
   if ((sVar1 != -1) && ((SpellVisuals.ptr1[sVar1].flags & 1))) {
     SpellVisuals.ptr1[sVar1].flags |= 0x100;
   }

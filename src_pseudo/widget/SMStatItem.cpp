@@ -20,7 +20,7 @@ SMStatItem::SMStatItem(CharStats_s *pStats,u16 statInd):BaseWidget() {
   u16 uVar3 = (u16)CharStats::GetBase2(this->stats,statInd);
   sprintf(buff,"%d",uVar3);
   this->baseLevel = WClipTXTSafe(buff);
-  this->baseLevel->varU16 = (ushort)uVar3;
+  this->baseLevel->varU16 = (u16)uVar3;
   this->baseLevel->SetColor(COLOR_RED1);
   this->Link(this->baseLevel);
   u16 diff = CharStats::getBaseModDiff(this->stats,statInd);
@@ -28,7 +28,7 @@ SMStatItem::SMStatItem(CharStats_s *pStats,u16 statInd):BaseWidget() {
   else {
     u8 red,green;
     red = 0;
-    if ((short)diff < 0) {
+    if ((s16)diff < 0) {
       red = 0x80;
       green = 0;
       sprintf(buff,"(%d)",diff);

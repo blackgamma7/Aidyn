@@ -37,7 +37,7 @@ WidgetStatTrain::~WidgetStatTrain(){WidgetMenu::~WidgetMenu();}
 void WidgetStatTrain::InitMenu() {
   u16 uVar1;
   u16 uVar2;
-  ushort uVar3;
+  u16 uVar3;
   CharSheet *pCVar4;
   CharStats_s *pStats;
   byte bVar6;

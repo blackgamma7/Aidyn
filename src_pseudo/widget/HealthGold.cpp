@@ -39,7 +39,7 @@ WidgetHealthGold::~WidgetHealthGold(){
 }
 
 void WidgetHealthGold::Update(CharSheet *chara){;
-  short asStack_80 [4];
+  s16 asStack_80 [4];
   char buff [64];
   u8 abStack_38 [48];
   

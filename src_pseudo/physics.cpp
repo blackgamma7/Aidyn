@@ -81,7 +81,7 @@ bool FUN_800af578(collisionSphere *param_1,EnvProp *param_2,vec3f *param_3){
 }
 
 
-void PerformCallback(short type,collisionSphere *param_2,borg9_phys *param_3){
+void PerformCallback(s16 type,collisionSphere *param_2,borg9_phys *param_3){
   collideCallback cb;
   char acStack_48 [72];
   
@@ -123,13 +123,13 @@ void Ofunc_800af7f4(collisionSphere *collide,collideCallback callback){
   collide->envProps->colA->flag|=4;
 }
 
-short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSection *param_2,borg9_phys *param_3){
+s16 CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSection *param_2,borg9_phys *param_3){
   u16 uVar1;
   u16 uVar2;
   bool bVar3;
   bool bVar6;
   bool bVar7;
-  short sVar5;
+  s16 sVar5;
   vec3f *A;
   vec3f *vel;
   vec3f *B;
@@ -137,7 +137,7 @@ short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSect
   int iVar9;
   borg9_phys *pbVar10;
   borg9_phys *pbVar11;
-  short sVar12;
+  s16 sVar12;
   int iVar13;
   float fVar14;
   float fVar15;
@@ -152,16 +152,16 @@ short CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSect
   if (param_2->collideCount) {
     for(iVar13=0;iVar13<param_2->collideCount;iVar13++) {
       pbVar11 = param_3 + (u16)param_2->collideIndecies[iVar13];
-      if (((collider->flags & 0x200) == 0) || ((pbVar11->flags & 0x200) == 0)) {
+      if (((collider->flags & B9Phys_0200) == 0) || ((pbVar11->flags & B9Phys_0200) == 0)) {
         bVar3 = false;
-        bVar7 = (pbVar11->flags & 1);
-        if ((pbVar11->flags & 0x100)) {
+        bVar7 = (pbVar11->flags & B9Phys_0001);
+        if ((pbVar11->flags & B9Phys_0100)) {
           NormalizeTri(&pbVar11->normal,pbVar11->verts[0],pbVar11->verts[1],
                        pbVar11->verts[2]);
         }
         fVar15 = collider->radius;
         fVar14 = collider->envProps->colA->unk8 + pbVar11->envProperty->colA->unk8;
-        if ((pbVar11->flags & 0x2000)) {
+        if ((pbVar11->flags & B9Phys_2000)) {
           fVar14 = 0.0;
         }
         bVar6 = FUN_800aea44(&collider->pos,&collider->vel,fVar15 + fVar14,pbVar11,&fStack96,&fStack160);
