@@ -3,31 +3,6 @@
 #include "armordb.h"
 #define FILENAME "../gameclasses/generic.cpp"
 
-
-void CharExp::Init(ItemID id){
-  u8 bVar1;
-  u8 bVar3;
-  u8 bVar4;
-  Entity_Ram *pEVar5;
-  
-  bVar3 = GETINDEX(id);
-  pEVar5 = gEntityDB->entities + bVar3;
-  this->rom0x2b = pEVar5->rom0x2b; //seems unused
-  this->school = pEVar5->School;
-  this->protection = pEVar5->BaseProtect;
-  this->total = 0;
-  this->spending = 0;
-  this->damage = pEVar5->BaseDamage;
-  this->flags = pEVar5->flags;
-  if (pEVar5->aspect == ASPECT_SOLAR) this->flags |= CHAR_IsSolar;
-  //is alaron "Named" yet?
-  if ((bVar3 == EntInd_Alaron) && (getEventFlag(FLAG_Cinematic2))) this->flags |= CHAR_TrueName;
-}
-
-u8 CharExp::GetAspect(){return (flags & CHAR_IsSolar) ? ASPECT_SOLAR:ASPECT_LUNAR;}
-
-//file break - above is called "../gameclasses/entityInfo.cpp" in older builds
-
 void ItemInstance::InitItem(ItemID param_2){
   u16 uVar1 = (u16)param_2 >> 8;
   if ((uVar1 == DB_ARMOR) || (uVar1 == DB_SHIELD)) InitArmor(param_2);
@@ -36,47 +11,34 @@ void ItemInstance::InitItem(ItemID param_2){
   else InitGear(param_2);
 }
 
-
 void ItemInstance::RemoveStatSpell(){
   FREEPTR(this->statMod,110);
   FREEPTR(this->spellCharge,116);
 }
 
 void ItemInstance::InitArmor(ItemID param_2){
-  ArmorRam *paVar1;
-  u8 bVar4;
-  SpellInstance *pTVar3;
-  ArmorRam *pcVar5;
-  
   CLEAR(this);
-  bVar4 = GETINDEX(param_2);
+  u8 bVar4 = GETINDEX(param_2);
   this->id = param_2;
-  pcVar5 = gArmorDBp->Armor[bVar4];
+  ArmorRam *pcVar5 = &gArmorDBp->Armor[bVar4];
   this->name = pcVar5->name;
   this->aspect = pcVar5->aspect;
   this->price = pcVar5->price;
   if (pcVar5->stat != STAT_NONE) {
-    ALLOC(this->statMod,0x90);
+    ALLOC(this->statMod,144);
     SetStatMod(this->statMod,pcVar5->stat,pcVar5->statNum);
   }
   if (pcVar5->spell != SPELLIND_NONE) {
-    ALLOC(this->spellCharge,0x96);
-    malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellLV,pcVar5->rom0x2a);
+    ALLOC(this->spellCharge,150);
+    malloc_equip_spell(this->spellCharge,pcVar5->spell,pcVar5->spellLV,pcVar5->SpellCharge);
   }
-  return;
 }
 
 void ItemInstance::InitWeapon(ItemID param_2){
-  weapon_ram *pwVar1;
-  u8 bVar4;
-  u8 (*pabVar2) [2];
-  SpellInstance *pTVar3;
-  weapon_ram *pcVar5;
-  
   CLEAR(this);
-  bVar4 = GETINDEX(param_2);
+  u8 bVar4 = GETINDEX(param_2);
   this->id = param_2;
-  pcVar5 = &gWeaponsDB->weapons[bVar4];
+  weapon_ram *pcVar5 = &gWeaponsDB->weapons[bVar4];
   this->name = pcVar5->name;
   this->aspect = pcVar5->aspect;
   this->price = pcVar5->price;
@@ -85,11 +47,9 @@ void ItemInstance::InitWeapon(ItemID param_2){
     SetStatMod(this->statMod,pcVar5->stat,pcVar5->statMod);
   }
   if (pcVar5->spell != SPELLIND_NONE) {
-    pTVar3 = (SpellInstance *)HeapAlloc(8,FILENAME,0xb8);
-    this->spell = pTVar3;
-    malloc_equip_spell(pTVar3,pcVar5->spell,pcVar5->spellAmmount,pcVar5->SpellLV);
+    ALLOC(this->spellCharge,0xb8);
+    malloc_equip_spell(this->spellCharge,pcVar5->spell,pcVar5->spellAmmount,pcVar5->SpellLV);
   }
-  return;
 }
 
 u16 potion_prices[17]=
@@ -119,11 +79,11 @@ void ItemInstance::InitGear(ItemID param_2){
   this->aspect = pGVar4->aspect;
   this->price = pGVar4->price;
   if (pGVar4->stat) {
-    ALLOC(this->statMod,0xe8);
+    ALLOC(this->statMod,232);
     SetStatMod(this->statMod,pGVar4->stat,pGVar4->StatMod);
   }
   if (pGVar4->spell != 0xff) {
-    ALLOC(this->spellCharge,0xee);
+    ALLOC(this->spellCharge,238);
     malloc_equip_spell(this->spellCharge,pGVar4->spell,pGVar4->spellVal1,pGVar4->spellVal2);
   }
 }
@@ -133,15 +93,12 @@ u16 ItemInstance::GetPrice(){
   u32 uVar4;
   
   uVar4 = (u32)((u16)this->id >> 8);
-  if (uVar4 - 5 < 2) {
+  if (uVar4 - 5 < 2)
     uVar2 = gArmorDBp->Armor[GETINDEX(this->id)].price;
-  }
-  else if (uVar4 == DB_WEAPON) {
+  else if (uVar4 == DB_WEAPON)
     uVar2 = gWeaponsDB->weapons[GETINDEX(this->id)].price;
-    }
-  else if (uVar4 == DB_POTION) {
+  else if (uVar4 == DB_POTION)
     uVar2 = potion_prices[GETINDEX(this->id)];
-   }
   else {
     uVar2 = gItemDBp->Gear[search_item_array(this->id)].price;
     }

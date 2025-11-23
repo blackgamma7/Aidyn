@@ -6,7 +6,7 @@
 RomcopyManageStruct romcopyManage;
 namespace RomCopy{
 void Init(OSPri pri,u32 id){
-  romcopyManage.stack = (void *)HeapAlloc(0x248,FILENAME,0x79);
+  romcopyManage.stack = (void *)HALLOC(584,0x79);
   osCreateThread(&romcopyManage.Thread,id,RomCopy::proc,NULL,&romcopyManage.stack + 584,pri);
   osStartThread(&romcopyManage.Thread);
 }

@@ -138,7 +138,7 @@ u8 TempEnchant::IncTimer(Temp_enchant *param_1,u16 daySpeed,int delta){
 void malloc_equip_spell(SpellCharges *param_1,u8 param_2,u8 param_3,u8 param_4){
   SpellInstance *pTVar1;
   
-  ALLOC(pTVar1,0x138);
+  ALLOC(pTVar1,312);
   param_1->Spell = pTVar1;
   TempSpell::Init(pTVar1,IDSpell(SpellList[param_2]),param_4);
   param_1->Charges = param_3;
@@ -162,15 +162,13 @@ void SpellBook::Reset(u8 entries){
 }
 
 void SpellBook::NewSpell(ItemID id,u8 rank){
-  u32 uVar1;
   SpellInstance *pTVar2;
   u8 i;
-  u32 uVar4;
   u16 tSpells [46] [2];
   
-  uVar1 = this->count;
+  u32 uVar1 = this->count;
   if ((uVar1) && (uVar1)) { //yes it seems to check twice
-    for (i = 0;uVar4 < uVar1;i++) {
+    for (i = 0;i < uVar1;i++) {
       //save learned spells before clearing and expanding spellbook.
       tSpells[i][0] = this->spells[i]->base.id;
       tSpells[i][1] = this->spells[i]->level;
@@ -187,7 +185,7 @@ void SpellBook::NewSpell(ItemID id,u8 rank){
     }
   }
   ALLOCL(this->spells[i],413);
-  TempSpell::Init(pTVar2,id,rank);
+  TempSpell::Init(this->spells[i],id,rank);
 }
 
 u8 SpellBook::HaveSpell(ItemID ID,u8 *oIndex){
@@ -206,17 +204,13 @@ u8 SpellBook::HaveSpell(ItemID ID,u8 *oIndex){
 }
 
 void SpellBook::Clear(){
-  u32 uVar3 = 0;
   if (this->spells) {
-    if (this->count != 0) {
-      while( true ) {
-        if (this->spells[uVar3]){
-          this->spells[uVar3]->base.RemoveStatSpell(); //could be skipped, no applciable pointers
-          FREE(this->spells[uVar3],493);
-        }
-        if (this->count <= ++uVar3) break;
-      }
+   for(u32 i=0;i<this->count;i++){
+    if (this->spells[i]){
+      this->spells[i]->base.RemoveStatSpell(); //could be skipped, no applciable pointers
+      FREE(this->spells[i],493);
     }
-    FREE(this->spells,0x1f1);
+   }
+    FREE(this->spells,497);
   }
 }
