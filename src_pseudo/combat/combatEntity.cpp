@@ -28,7 +28,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   float *pfVar10;
   u32 uVar11;
   u32 uVar12;
-  resist_float *prVar13;
+  ElemResist *prVar13;
   float *pfVar14;
   float fVar15;
   

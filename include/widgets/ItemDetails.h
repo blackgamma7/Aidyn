@@ -28,8 +28,8 @@ class WidgetItemDetail :public WidgetMenu{
     void PrintSkillInfo(StatMod* mod);
     void PrintMagicInfo(u8* spell);
     void PrintEnchantment(SpellCharges* ench);
-    void PrintResistance(resist_float* resist);
-    void PrintResistance(resist_float* resist);
+    void PrintResistance(ElemResist* resist);
+    void PrintResistance(ElemResist* resist);
 
     Gfx* Render(Gfx*g,u16 x0,u16 y0,u16 x1,u16 y1);
     u8 Tick();

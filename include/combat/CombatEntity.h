@@ -24,7 +24,7 @@ class CombatEntity {
     u8 damage;
     u8 Healing;
     u16 flags; //uses "COMBATENT_*" flags, or getter/setter methods.
-    resist_float resists[2];
+    ElemResist resists[2];
     CharSheet *charSheetP;
     struct CombatAI_s *aiP; //used by enemies and Sholeh
     u8 unk48[60]; //unused?

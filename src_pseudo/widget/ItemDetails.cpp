@@ -382,7 +382,7 @@ void WidgetItemDetail::PrintEnchantment(SpellCharges *charges) {
   }
 }
 extern char** element_labels;
-void WidgetItemDetail::PrintResistance(resist_float *resist) {
+void WidgetItemDetail::PrintResistance(ElemResist *resist) {
   char buff [272];
   
   if ((resist) && (resist->element != ELEMENT_NONE)) {

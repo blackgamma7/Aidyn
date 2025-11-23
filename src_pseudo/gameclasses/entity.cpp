@@ -667,7 +667,7 @@ u8 Entity::HasSpellEffect(CharSheet *param_1,u8 id){
 //origially a control magic check, always returns true
 u8 ret1_800791c8(CharSheet* param_1, u8 id){return true;}
 
-s32 print_element_resist(resist_float *param_1,char *param_2,char *param_3,u32 param_4){
+s32 print_element_resist(ElemResist *param_1,char *param_2,char *param_3,u32 param_4){
   u32 uVar1= param_4;
   char *pcVar2;
   
@@ -703,7 +703,7 @@ void senseAura(CombatEntity *target,u8 level){
     len = AppendText(buffA,buffB,len);
   }
   if (6 < level) {
-    resist_float *prVar6 = target->resists;
+    ElemResist *prVar6 = target->resists;
     for(u32 i = 0;i < 2;i++) {
       len = print_element_resist(prVar6++,buffA,buffB,len);
     }

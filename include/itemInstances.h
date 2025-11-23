@@ -17,7 +17,7 @@ struct Temp_enchant {
     u32 SpellVisualIndex;
 };
 
-struct resist_float { /* resistance and element when loaded into temp item */
+struct ElemResist { /* resistance and element when loaded into temp item */
     u8 element;
     float percent;
 };
@@ -56,7 +56,7 @@ struct WeaponInstance {
     u8 reqStr;
     StatMod *SkillMod;
     Temp_enchant *enchantment;
-    resist_float *resist;
+    ElemResist *resist;
     u8 weaponType;
     u8 hit;
     u8 damage;
@@ -95,7 +95,7 @@ struct ArmorInstance {
     u8 rom0x1d;
     StatMod* skillmod;
     Temp_enchant *enchantment;
-    resist_float *resist;
+    ElemResist *resist;
     u8 DEF;
     u8 Protect;
     u8 dex;
@@ -109,8 +109,8 @@ struct GearInstance {
     u8 STR;
     u8 INT;
     StatMod* skillMod;
-    void *enchantment;
-    resist_float *resist;
+    Temp_enchant *enchantment;
+    ElemResist *resist;
 };
 
 union EquipInstance {

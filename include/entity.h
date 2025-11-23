@@ -66,9 +66,9 @@ struct Entity_ROM { /* Entity data stored in Rom */
     u8 protection;
     ItemID_ROM sheild;
     u8 SheildSkill;
-    enum ElementEnum ElementResist1;
+    u8 ElementResist1;
     u8 ResistAmmount1; /* 100-(25*x) */
-    enum ElementEnum ElementResist2;
+    u8 ElementResist2;
     u8 ResistAmmount2; /* 100-(25*x) */
     u8 unk0x7a[8];
     u8 unk0x82[4];
@@ -123,12 +123,6 @@ struct entity_info{
 };
 
 
-
-struct resist_float { /* resistance and element when loaded into temp item */
-    u8 element;
-    float percent;
-};
-
 typedef enum CharSheetFlags {
     CHAR_TrueName=1,
     CHAR_IsHeavy=2,
@@ -148,14 +142,20 @@ class CharExp { /* data containing EXP, School, Aspect and more. */
     u8 GetAspect();
 };
 
-
-
-
 #define GEARTOTAL 12
-struct CharGear {
+class CharGear {
+    public:
     GearInstance **pItem;
     u8 usedItems;
     u8 maxItems;
+    void Init(u8);
+    void Free();
+    bool AddItem(ItemID);
+    bool HasRoom();
+    s32 FindFreeSlot();
+    ItemID GetEquippedOfType(u8,s32);
+    void RemoveItem(u8);
+    u16 GetSlotByID(ItemID);
 };
 
 #define MAGIC_FXMAX 15
@@ -304,5 +304,5 @@ char** Spell_error_labels=NULL;
 extern u32 EXP_TNL[];
 //TODO: define in "Entity" namespace
 void FUN_80078874(CharSheet *param_1,WeaponInstance *param_2,u8 param_3);
-s32 print_element_resist(resist_float *param_1,char *param_2,char *param_3,u32 param_4);
+s32 print_element_resist(ElemResist *param_1,char *param_2,char *param_3,u32 param_4);
 void senseAura(CombatEntity *target,u8 level);

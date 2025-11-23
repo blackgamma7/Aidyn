@@ -575,8 +575,7 @@ byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_
 
 void FUN_8007f10c(Party* p,CharSheet *param_2,ItemID param_3,StatMod* param_4,u8 param_5){  
   Entity::EquipGear(param_2,param_3,param_4);
-  CharGear *pCVar1 = param_2->pItemList;
-  param_2->pItemList->pItem[CharGear::GetSlotByID(pCVar1,param_3)]->base.SetMagicCharges(param_5);
+  param_2->pItemList->pItem[param_2->pItemList->GetSlotByID(param_3)]->base.SetMagicCharges(param_5);
 }
 
 bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){

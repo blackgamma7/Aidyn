@@ -73,7 +73,6 @@ CombatEntity * DollGetCombatEntity(CharSheet *param_1){
   }
   return NULL;
 }
-ItemID CharGear::GetEquippedOfType(CharGear *,u8 ,int );
 
 ItemID DollEquipmentMenu::GetEntityItemId(CharSheet *chara,u8 slot){
     ItemID ret;
@@ -87,47 +86,47 @@ ItemID DollEquipmentMenu::GetEntityItemId(CharSheet *chara,u8 slot){
         }
         break;
         case 1:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_GLOVE,1);
+        ret=chara->pItemList->GetEquippedOfType(DB_GLOVE,1);
         break;
         case 2:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_RING,1);
+        ret=chara->pItemList->GetEquippedOfType(DB_RING,1);
         break;
         case 3:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_CLOAK,1);
+        ret=chara->pItemList->GetEquippedOfType(DB_CLOAK,1);
         break;
         case 4:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_AMULET,1);
+        ret=chara->pItemList->GetEquippedOfType(DB_AMULET,1);
         break;
         case 5:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_CLOAK,1);
+        ret=chara->pItemList->GetEquippedOfType(DB_CLOAK,1);
         break;
         case 6:
         if(chara->armor[0]) ret=chara->armor[0]->base.id;
         break;
         case 7:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_BELT,1);
+        ret=chara->pItemList->GetEquippedOfType(DB_BELT,1);
         break;
         case 8:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_BOOTS,1);
+        ret=chara->pItemList->GetEquippedOfType(DB_BOOTS,1);
         break;
         case 9:
         ret=0;
         if(chara->armor[1]) ret=chara->armor[1]->base.id;
         break;
         case 10:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_WAND,1);
+        ret=chara->pItemList->GetEquippedOfType(DB_WAND,1);
         break;        
         case 11:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_RING,2);
+        ret=chara->pItemList->GetEquippedOfType(DB_RING,2);
         break;
         case 12:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_SCROLL,1);
+        ret=chara->pItemList->GetEquippedOfType(DB_SCROLL,1);
         break;
         case 13:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_SCROLL,2);
+        ret=chara->pItemList->GetEquippedOfType(DB_SCROLL,2);
         break;
         case 14:
-        ret=CharGear::GetEquippedOfType(chara->pItemList,DB_SCROLL,3);
+        ret=chara->pItemList->GetEquippedOfType(DB_SCROLL,3);
         break;
         default: CRASH("DollEquipmentMenu::GetEntityItemId","Invalid Equipment Slot.");
     }
