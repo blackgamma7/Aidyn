@@ -241,7 +241,7 @@ void encounterDat_func(void){
   gGlobals.EncounterDat.BossShadow = dialougemode_pointer->func_index != 1;
 }
 
-void monsterparty_wanderstruct(wander_substruct *param_1){
+void monsterparty_wanderstruct(Wanderer *param_1){
   playerData *ppVar1;
   playerData *ppVar2;
   vec3f afStack80;
@@ -696,7 +696,7 @@ void DialogueModeInitPrescripted_set_map(EnumMapDatA mapdatA,u16 short1,u16 shor
 }
 
 void FUN_80059770(void){
-  wander_substruct *pwVar1 = dialougemode_pointer->Wanderers;
+  Wanderer *pwVar1 = dialougemode_pointer->Wanderers;
   if ((pwVar1) && (pwVar1->playerDat)) {
     Borg9Data *pBVar2 = GetCollisionZone(pwVar1->playerDat->zoneDatByte);
     gGlobals.playerCharStruct.unkState = 2;
@@ -779,7 +779,7 @@ void FUN_80059970(BaseWidget *param_1)
 }
 
 void FUN_800599f0(void){
-  wander_substruct *pwVar1;
+  Wanderer *pwVar1;
   playerData *ppVar2;
   Camera_struct *pCVar3;
   

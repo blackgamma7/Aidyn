@@ -66,7 +66,7 @@ void ref_obj_bitmask_flag(u16 param_1,u16 param_2,u16 param_3);
 u8 FUN_8001520c(voxelObject* param_1);
 void secret_door_func(voxelObject* param_1);
 
-u16 FUN_80005d60(wander_substruct **w);
+u16 FUN_80005d60(Wanderer **w);
 float func_checking_monsterparty(voxelObject *v,vec3f *pos);
 void Voxel_Get2DPos(voxelObject *v,vec2f *pos);
 void obj_ref_func(void);

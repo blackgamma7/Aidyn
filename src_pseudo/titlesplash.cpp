@@ -97,7 +97,7 @@ void TitleSplash::Load(void){
   copyrightText = RomString::Load(copyrightStrings,0x180);
   Controller::GetDelay(0);
   #ifdef DEBUGVER
-  if(CODESIZE>0x1000000)sCodeSizeError=true;
+  if(CODESIZE>0x100000)sCodeSizeError=true;
   #endif
 }
 

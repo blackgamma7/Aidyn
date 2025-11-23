@@ -9,12 +9,9 @@ struct StringCheat{
 
 char** cheatStrings_pointer=NULL;
 u8 Cheats::Check(char *param_1){
-  s32 iVar6;
-  u32 uVar7;
-  u8 bVar8;
   StringCheat cheatArray [14];
   
-  bVar8 = 0;
+  u8 ret = false;
   cheatStrings_pointer = RomString::Load(CheatStrings,0xf0);
   CLEAR(&cheatArray[0]);
   cheatArray[0].code = *cheatStrings_pointer; //!balloon
@@ -50,33 +47,30 @@ u8 Cheats::Check(char *param_1){
   cheatArray[10].code = cheatStrings_pointer[10]; //imadoofus
   cheatArray[10].cheat = imadoofus;
   CLEAR(&cheatArray[11]);
-  cheatArray[11].code = cheatStrings_pointer[0xc]; //keepbusy
+  cheatArray[11].code = cheatStrings_pointer[12]; //keepbusy
   cheatArray[11].cheat = keepbusy;
   CLEAR(&cheatArray[12]);
-  cheatArray[12].code = cheatStrings_pointer[0x10]; //!version
+  cheatArray[12].code = cheatStrings_pointer[16]; //!version
   cheatArray[12].cheat = _version;
   CLEAR(&cheatArray[13]);
   //There were 2 more cheat phrases (!gene, !gotmilk) that were unimplimented
-  uVar7 = 0;
-  if (cheatArray) {
-    do {
-      if (strcmp(cheatArray[uVar7].code,param_1) == 0) {
-        bVar8 = 1;
-        if (gGlobals.BigAssMenu) {
-          if (cheatArray[uVar7].cheat() == 0) {
-            PLAYSFX(BORG12_CheatFail,0,1.0,180,0);
-            bVar8 = 1;}
-          else {
-            PLAYSFX(BORG12_CheatCorrect,0,1.0,180,0);
-            bVar8 = 1;}
+  //there may be another array here that cheatArray gets copied into?
+  for(u16 i=0;cheatArray[i].code!=NULL;i++){
+    if (strcmp(cheatArray[i].code,param_1) == 0) {
+     ret = true;
+     if (gGlobals.BigAssMenu) {
+       if (cheatArray[i].cheat()) {
+        PLAYSFX(BORG12_CheatCorrect,0,1.0,180,0);
+        ret = true;}
+       else {
+        PLAYSFX(BORG12_CheatFail,0,1.0,180,0);
+        ret = true;}
         }
         break;
       }
-      uVar7++;
-    } while (cheatArray[uVar7].code);
   }
   RomString::Free(cheatStrings_pointer);
-  return bVar8;
+  return ret;
 }
 //inflates your head
 u8 Cheats::_balloon(void){ 
@@ -136,7 +130,6 @@ u8 Cheats::_Cheater(){
 }
  //+100000 gold
 u8 Cheats::_bingo(void){
-  char *pcVar2;
   #ifndef DEBUGVER
   if(getEventFlag(FLAG_Bingo))return false; //no double-dipping in retail
   #endif
@@ -150,11 +143,11 @@ u8 Cheats::_bingo(void){
 
 //asks you to enter "keepbusy"
 u8 Cheats::imadoofus(void){
-  TextPopup_New(cheatStrings_pointer[11],200,0x1e,COLOR_WHITE,0x96,true);
+  TextPopup_New(cheatStrings_pointer[11],200,30,COLOR_WHITE,150,true);
   return true;}
 //asks you to enter "imadoofus"
 u8 Cheats::keepbusy(void){
-  TextPopup_New(cheatStrings_pointer[12],200,0x1e,COLOR_WHITE,0x96,true);
+  TextPopup_New(cheatStrings_pointer[13],200,30,COLOR_WHITE,150,true);
   return true;}
 
 u8 Cheats::_version(void){

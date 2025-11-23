@@ -75,7 +75,7 @@ struct dialougemode_struct {
     void (*funcs3[5])(void);
     void (*funcs4[5])(void);
     void (*unk0x64[5])(void);
-    wander_substruct *Wanderers;
+    Wanderer *Wanderers;
     u16 Unk0x7C;
     u16 unk7e;
     u8 *partySkillLvls; /* one for each skill */
@@ -218,7 +218,7 @@ void FUN_80058370();
 void FUN_800583d0(u16);
 void set_dialougemode_0x90(u32);
 void encounterDat_func();
-void monsterparty_wanderstruct(wander_substruct *);
+void monsterparty_wanderstruct(Wanderer *);
 bool DialougeAddPartyMember(ItemID);
 void FUN_800585d0(u16);
 ItemID set_shopkeep();

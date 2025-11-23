@@ -433,6 +433,9 @@ typedef enum Borg8Enum {
 #define BORG7_pocho             0x32b0
 #define BORG7_Zombie            0x3489
 #define BORG7_Phelan            0x2808
+#define BORG7_ChaosTrooper      0x2e82
+#define BORG7_Gryphon           0x3094
+#define BORG7_Ogre              0x324d
 
 //borg6: Animation data
 

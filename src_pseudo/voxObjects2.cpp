@@ -2,7 +2,7 @@
 #include "game.h"
 
 
-u16 FUN_80005d60(wander_substruct **w) {
+u16 FUN_80005d60(Wanderer **w) {
   u16 ret;
   playerData *player = gPlayer;
   *w = NULL;
@@ -13,7 +13,7 @@ u16 FUN_80005d60(wander_substruct **w) {
     playerData *pDat = gGlobals.gameVars.PlayerHandler.playerDats + player->index;
     ret = -1;
     if (pDat->removeFlag) {
-      wander_substruct *wander = findWandererFromPlayerName(pDat->ID);
+      Wanderer *wander = findWandererFromPlayerName(pDat->ID);
       ret = -1;
       if (wander) {
         voxelObject *vox = &gGlobals.gameVars.borg9DatPointer->voxelObjs[wander->VoxelIndex];
@@ -77,7 +77,7 @@ void obj_ref_func(void) {
   vec2f afStack288;
   vec2f afStack224;
   vec2f auStack160;
-  wander_substruct *pwStack_60;
+  Wanderer *pwStack_60;
   vec3f *pvStack_5c;
   u32 uStack_58;
   

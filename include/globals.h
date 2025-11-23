@@ -106,7 +106,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     SpashVars titleSplashVars;
     u8 screenFadeModeSwitch;
     u8 align41[15];
-    wander_struct wander;
+    WanderManager wander;
     player_char_struct playerCharStruct;
     GlobalsSub gameVars;
     SFX_Struct SFXStruct;

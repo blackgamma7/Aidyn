@@ -1,7 +1,6 @@
 #include "globals.h"
 #include "game.h"
 #include "compass.h"
-#include "Sundial.h"
 #include "portraits.h"
 
 
@@ -16,10 +15,10 @@ void initGameTrek(void) {
   MINIMAP.Toggle(1);
   Compass::Init();
   Sundial::Init();
-  Portrait::InitBorder();
+  Portraits::InitBorder();
   Gsprintf("GameTrekInit WanderHead\n");
-  WanderHead(&gGlobals.wander,0x27);
-  ZoneEngine::InitZoneEngine(0,gGlobals.playerCharStruct.some_sound_var);
+  WanderHead(&gGlobals.wander,39);
+  InitZoneEngine(0,gGlobals.playerCharStruct.some_sound_var);
   gGlobals.playerCharStruct.unkState = 3;
   if (DAT_800ee978) {
     gGlobals.playerCharStruct.unkState = 7;
@@ -73,8 +72,6 @@ void initGameTrek(void) {
 }
 
 void clear_HUD_elements(u16 param_1) {
-  bool bVar1;
-  
   Process_queue_B(&gGlobals.QueueB,1);
   SaveEngineZone(gPlayer,&gGlobals.gameVars.MapFloatDatEntry);
   Compass::Free();
@@ -82,7 +79,7 @@ void clear_HUD_elements(u16 param_1) {
   Portraits::FreeBorder();
   Actor::FreePlayer(gPlayer);
   gPlayer = NULL;
-  bVar1 = gGlobals.playerCharStruct.unkState == 0xb;
+  bool bVar1 = gGlobals.playerCharStruct.unkState == 0xb;
   if (param_1) bVar1 = false;
   FreeZoneEngine(bVar1);
   clear_sfx_entries(&gGlobals.SFXStruct,true);
