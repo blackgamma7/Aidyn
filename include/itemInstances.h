@@ -78,7 +78,7 @@ struct SpellInstance{
     u8 special;
     u8 range;
     u8 cost;
-    u16 exp_modifyer;
+    u16 expMod;
     u8 aspect_flag;
 };
 
@@ -120,3 +120,17 @@ union EquipInstance {
     ArmorInstance A;
     SpellInstance S;
 };
+
+void make_temp_item(GearInstance *item,ItemID id);
+void clear_weapon_effects(WeaponInstance *param_1);
+void make_temp_armor_2(ArmorInstance *param_1);
+void make_temp_weapon_2(WeaponInstance *param_1);
+void make_GearInstance_2(GearInstance *param_1);
+void pass_to_make_temp_potion(ItemInstance *param_1);
+
+void make_temp_armor_3(ArmorInstance *param_1,ItemID param_2);
+void ArmorInstance_ClearEffect(ArmorInstance *param_1);
+
+void createTempWeapon(WeaponInstance *w,ItemID id);
+void passto_clear_weapon_effects(WeaponInstance *w);
+bool isBreathSpitOrSpikes(WeaponInstance *w);

@@ -296,7 +296,7 @@ ItemID set_shopkeep(void){
 }
 
 void init_skill_trainer(void){
-  Entity_Ram *pEVar1;
+  EntityRAM *pEVar1;
   ItemID IVar5;
   byte index;
   CharSkills *sk;

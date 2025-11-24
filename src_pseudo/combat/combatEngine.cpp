@@ -597,7 +597,7 @@ LAB_80066c04:
   }
 }
 
-void get_gear_drop(CombatStruct *cStruct,Entity_Ram *ent,Loot_RAM *loot){
+void get_gear_drop(CombatStruct *cStruct,EntityRAM *ent,Loot_RAM *loot){
   ItemID id;
   if (ent == NULL) return;
   id = ent->Armor;
@@ -668,7 +668,7 @@ void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,u32 param_3){
   }
 }
 
-void calc_loot(CombatStruct *param_1,byte param_2,Entity_Ram *param_3){
+void calc_loot(CombatStruct *param_1,byte param_2,EntityRAM *param_3){
   Loot_RAM *pLVar5 = &gChestDBp->lootCat[param_2];
   param_1->gold_pool+=rand_range(pLVar5->GoldLo,pLVar5->GoldHi);
   get_gear_drop(param_1,param_3,pLVar5);
@@ -681,7 +681,7 @@ void calc_loot(CombatStruct *param_1,byte param_2,Entity_Ram *param_3){
 }
 
 void add_globalLoot(CombatStruct *param_1,ItemID param_2){
-  if (param_2 >> 8 == DB_CHEST) calc_loot(param_1,GETINDEX(param_2),(Entity_Ram *)NULL);
+  if (param_2 >> 8 == DB_CHEST) calc_loot(param_1,GETINDEX(param_2),(EntityRAM *)NULL);
   else param_1->loot_pool->AddItem(param_2,1);
   return;
 }
@@ -694,7 +694,7 @@ void calc_combat_loot(CombatStruct *cStruct){
   cStruct->EXP_pool = 0;
   for(i = 0;i<12;i++){
     if (cStruct->encounter_dat->enemy_entities[i]) {
-      Entity_Ram *ent = gEntityDB->entities + (char)GETINDEX(cStruct->encounter_dat->enemy_entities[i]);
+      EntityRAM *ent = gEntityDB->entities + (char)GETINDEX(cStruct->encounter_dat->enemy_entities[i]);
       cStruct->EXP_pool+=ent->EXP;
       if (ent->loot_Category) {
         calc_loot(cStruct,GETINDEX((ItemID)(ent->loot_Category + 0x7ff)),ent);

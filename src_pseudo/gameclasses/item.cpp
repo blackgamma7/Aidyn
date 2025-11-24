@@ -56,7 +56,7 @@ void make_temp_armor_2(ArmorInstance *param_1) {
 
 void make_temp_weapon_2(WeaponInstance *param_1) {
   param_1->base.InitWeapon((param_1->base).id);
-  weapon_ram *wRam = &gWeaponsDB->weapons[GETINDEX((param_1->base).id)];
+  WeaponRam *wRam = &gWeaponsDB->weapons[GETINDEX((param_1->base).id)];
   if (wRam->Skill != SKILL_NONE) {
     ALLOC(param_1->SkillMod,0x9b);
     SetStatMod2(param_1->SkillMod,wRam->Skill,wRam->SkillMod);

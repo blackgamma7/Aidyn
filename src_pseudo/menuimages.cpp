@@ -434,7 +434,7 @@ u8 GetSpellIcons(ItemID param_1,u32 *param_2,u32 *param_3,u32 *param_4){
   cVar1 = gSpellDBp->spells[bVar2].Aspect;
   if (cVar1 == 3) *param_2 = BORG8_IconAsSolar;
   else if (cVar1 == 4) *param_2 = BORG8_IconAsLunar;
-  if (getSchoolIcon(gSpellDBp->spells[bVar2].School,param_3) == false) return false;
+  if (getSchoolIcon(gSpellDBp->spells[bVar2].school,param_3) == false) return false;
   else return GetSpellIcon(param_1,param_4) != false;
 }
 

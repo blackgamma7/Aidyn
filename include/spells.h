@@ -123,20 +123,20 @@ struct Spell_ROM { /* Spell Data in ROM */
 };
 #pragma pack(pop)
 
-struct Spell_RAM {
+struct SpellRAM {
     ItemID Id;
-    char Name[24];
-    u8 School;
-    u8 Damage;
+    char name[24];
+    u8 school;
+    u8 damage;
     u8 stamina;
     u8 CastedMagic;
-    u8 Target;
+    u8 target;
     u8 unk0x1f;
-    u8 WizardREQ;
+    u8 wizard;
     u8 Aspect;
-    u8 Range;
+    u8 range;
     u8 ingredient;
-    u8 EXP_Modifyer;
+    u8 expMod;
     undefined field13_0x25;
 };
 
@@ -175,7 +175,7 @@ class SpellDB {
     u8 Schools[6];
     u8 schools2[6];
     u8 field3_0xd[3];
-    Spell_RAM *spells;
+    SpellRAM *spells;
     void Orphaned();
     void Load(u8 index,u32 *pos);
     void Init();

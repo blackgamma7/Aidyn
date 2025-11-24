@@ -17,7 +17,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   ItemID IVar1;
   SpellBook *pSVar2;
   SpellInstance *pSVar3;
-  Entity_Ram *pEVar4;
+  EntityRAM *pEVar4;
   byte bVar8;
   u8 bVar9;
   u8 X;

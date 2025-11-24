@@ -38,7 +38,7 @@ void ItemInstance::InitWeapon(ItemID param_2){
   CLEAR(this);
   u8 bVar4 = GETINDEX(param_2);
   this->id = param_2;
-  weapon_ram *pcVar5 = &gWeaponsDB->weapons[bVar4];
+  WeaponRam *pcVar5 = &gWeaponsDB->weapons[bVar4];
   this->name = pcVar5->name;
   this->aspect = pcVar5->aspect;
   this->price = pcVar5->price;

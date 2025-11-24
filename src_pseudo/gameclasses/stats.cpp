@@ -4,7 +4,7 @@
 
 void CharStats::Init(CharStats_s *stats,ItemID ID){
   u8 index;
-  Entity_Ram *Entram;
+  EntityRAM *Entram;
   
   index = GETINDEX(ID);
   Entram = gEntityDB->entities;

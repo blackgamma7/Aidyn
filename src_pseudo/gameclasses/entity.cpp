@@ -17,9 +17,9 @@ u8 Entity::IsElemental(ItemID id){
   else return false;
 }
 
-typedef void (*CharINIT)(CharSheet*,Entity_Ram*);
+typedef void (*CharINIT)(CharSheet*,EntityRAM*);
 
-void Entity::EquipFunc0(CharSheet *ent,Entity_Ram *param_2){
+void Entity::EquipFunc0(CharSheet *ent,EntityRAM *param_2){
   u32 uVar1;
   Borg8Header *pBVar4;
   s32 iVar5;
@@ -31,35 +31,35 @@ void Entity::EquipFunc0(CharSheet *ent,Entity_Ram *param_2){
   memset(ent->potionEffects,0,sizeof(PotionEffect*)*POTION_FXMAX);
   ent->weapons = NULL;
   ent->EXP->total = EXP_TNL[CharStats::getBase(ent->Stats,STAT_LV)];
-  if (param_2->weapon[0] != 0xffff) {EquipWeapon(ent,param_2->weapon[0],0);}
-  if (param_2->weapon[1] != 0xffff) {
+  if (param_2->weapon[0] != Item_NONE) {EquipWeapon(ent,param_2->weapon[0],0);}
+  if (param_2->weapon[1] != Item_NONE) {
     if (ent->weapons == NULL) EquipWeapon(ent,param_2->weapon[1],0);
     else PARTY->Inventory->AddItem(param_2->weapon[1],1);
   }
-  if (param_2->weapon[2] != 0xffff) {
+  if (param_2->weapon[2] != Item_NONE) {
     if (ent->weapons == NULL) EquipWeapon(ent,param_2->weapon[2],0);
     else PARTY->Inventory->AddItem(param_2->weapon[2],1);
   }
 }
 
-void Entity::EquipFunc1(CharSheet *param_1,Entity_Ram *param_2){
+void Entity::EquipFunc1(CharSheet *param_1,EntityRAM *param_2){
   ALLOCS(param_1->potionEffects,sizeof(PotionEffect*)*POTION_FXMAX,216);
   memset(param_1->potionEffects,0,sizeof(PotionEffect*)*POTION_FXMAX);
   param_1->weapons = NULL;
-  if (param_2->weapon[2] != 0xffff) {EquipWeapon(param_1,param_2->weapon[2],0);}
-  if ((param_2->weapon[0] !=0xffff) && (param_1->weapons == NULL)) {
+  if (param_2->weapon[2] != Item_NONE) {EquipWeapon(param_1,param_2->weapon[2],0);}
+  if ((param_2->weapon[0] !=Item_NONE) && (param_1->weapons == NULL)) {
     EquipWeapon(param_1,param_2->weapon[0],0);
   }
 }
 
-void Entity::EquipFunc2(CharSheet *param_1,Entity_Ram *param_2){
+void Entity::EquipFunc2(CharSheet *param_1,EntityRAM *param_2){
   
   param_1->weapons = NULL;
-  if (param_2->weapon[0] != (ItemID)-1){EquipWeapon(param_1,param_2->weapon[0],0);}
-  if (param_2->weapon[1] != (ItemID)-1){
+  if (param_2->weapon[0] != Item_NONE){EquipWeapon(param_1,param_2->weapon[0],0);}
+  if (param_2->weapon[1] != Item_NONE){
     if (param_1->weapons == NULL) {EquipWeapon(param_1,param_2->weapon[1],0);}
   }
-  if ((param_2->weapon[2] != (ItemID)-1) && (param_1->weapons == NULL)) {
+  if ((param_2->weapon[2] != Item_NONE) && (param_1->weapons == NULL)) {
     EquipWeapon(param_1,param_2->weapon[2],0);
   }
 }
@@ -70,7 +70,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   CLEAR(param_1);
   u8 bVar7 = GETINDEX(param_2);
   param_1->ID = param_2;
-  Entity_Ram*  pEVar10 = &gEntityDB->entities[bVar7];
+  EntityRAM*  pEVar10 = &gEntityDB->entities[bVar7];
   strlen(pEVar10->Name);
   param_1->name = pEVar10->Name;
   ALLOC(param_1->Stats,257);
@@ -85,7 +85,7 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   if (pEVar10->Armor != 0xffff) EquipArmor(param_1,pEVar10->Armor,0);
   if (pEVar10->Sheild != 0xffff) EquipSheild(param_1,pEVar10->Sheild,NULL);
   ALLOC(param_1->pItemList,273);
-  CharGear::Init(param_1->pItemList,GEARTOTAL);
+  param_1->pItemList->Init(GEARTOTAL);
   ALLOC(param_1->spellbook,276);
   param_1->spellbook->Reset(5);
   for(u8 i=0;i < 5;i++) {
@@ -97,8 +97,8 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   }
   ALLOCS(param_1->effects,(MAGIC_FXMAX+sizeof(void*)),287);
   memset(param_1->effects,0,MAGIC_FXMAX+sizeof(void*));
-  CharINIT apcStack112[] = {EquipFunc0,EquipFunc1,NULL,EquipFunc2};
-  (*apcStack112[param_3])(param_1,pEVar10);
+  CharINIT initFuncs[] = {EquipFunc0,EquipFunc1,NULL,EquipFunc2};
+  (*initFuncs[param_3])(param_1,pEVar10);
   param_1->spellSwitch = 0;
   param_1->spellVal = -1;
 }
@@ -284,7 +284,7 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   u8 bVar2;
   s32 iVar1;
   char cVar3;
-  weapon_ram *pcVar4;
+  WeaponRam *pcVar4;
   
 
   pcVar4 = &gWeaponsDB->weapons[GETINDEX(param_2)];
@@ -308,7 +308,7 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
 s32 Entity::GearMinStatCheck(CharSheet *param_1,ItemID param_2){
   Gear_RAM *pGVar1;
   s32 iVar3 = 1;
-  if (CharGear::HasRoom(param_1->pItemList)) {
+  if (param_1->pItemList->HasRoom()) {
     iVar3 = search_item_array(param_2);
     pGVar1 = gItemDBp->Gear;
     if (CharStats::getBase(param_1->Stats,STAT_STR) < pGVar1[iVar3].STR) {iVar3 = 3;}
@@ -351,8 +351,8 @@ u32 Entity::EquipGear(CharSheet *chara,ItemID param_2,StatMod *mod){
   
   uVar2 = GearMinStatCheck(chara,param_2);
   if (uVar2 == 0) {
-    CharGear::AddItem(chara->pItemList,param_2);
-    pTVar2 = chara->pItemList->pItem[CharGear::GetSlotByID(chara->pItemList,param_2)];
+    chara->pItemList->AddItem(param_2);
+    pTVar2 = chara->pItemList->pItem[chara->pItemList->GetSlotByID(param_2)];
     ApplyEquipment(chara,(WeaponInstance *)pTVar2,mod,1);
     chara->EXP->protection += pTVar2->Protection;
     uVar2 = 0;
@@ -422,10 +422,9 @@ void Entity::UnequipGear(CharSheet *param_1,u8 slot){
     FUN_80078874(param_1,(WeaponInstance *)param_1->pItemList->pItem[slot],true);
     param_1->EXP->protection-= param_1->pItemList->pItem[slot]->Protection;
     param_1->EXP->damage-= param_1->pItemList->pItem[slot]->damage;
-    CharGear::RemoveItem(param_1->pItemList,slot);
+    param_1->pItemList->RemoveItem(slot);
   }
 }
-
 
 void FUN_80078874(CharSheet *param_1,WeaponInstance *param_2,u8 param_3){
   StatMod *skilmod = param_2->SkillMod;
@@ -457,16 +456,12 @@ void FUN_80078874(CharSheet *param_1,WeaponInstance *param_2,u8 param_3){
 }
 
 void Entity::UnequipAll(CharSheet *param_1){
-  u32 i;
-  
   UnequipWeapons(param_1);
   RemoveShield(param_1);
   RemoveArmor(param_1);
   
-  if (param_1->pItemList->usedItems) {
-    for(i = 0;i < param_1->pItemList->usedItems;i++;){
-      UnequipGear(param_1,i);
-    }
+  for(u32 i = 0;i < param_1->pItemList->usedItems;i++){
+    UnequipGear(param_1,i);
   }
 }
 
@@ -1905,7 +1900,7 @@ int Entity::GetArmorProtect(CharSheet *param_1,ItemID param_2){
     if (param_1->armor[iVar6]) {
       total -= param_1->armor[iVar6]->Protect;
     }
-    total += gArmorDBp->Armor[bVar1]->protection;
+    total += gArmorDBp->Armor[bVar1].protection;
   }
   return total;
 }

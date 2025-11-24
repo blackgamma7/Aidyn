@@ -29,7 +29,7 @@ struct Weapon_ROM {
 };
 #pragma pack(pop)
 
-struct weapon_ram { /* Weapon Data loaded into ram */
+struct WeaponRam { /* Weapon Data loaded into ram */
     ItemID ID;
     char name[22];
     u8 wepClass; /* Type of weapon (sword, breath, spit, etc.) */
@@ -62,16 +62,13 @@ class WeaponDB {
     u8 Types[11];
     u8 Types2[11];
     u8 pad;
-    weapon_ram *weapons;
+    WeaponRam *weapons;
     void Orphaned();
     void Load(u8 index,int *pos);
     void Init();
     void Free();
 };
 
-void createTempWeapon(WeaponInstance *w,ItemID id);
-void passto_clear_weapon_effects(WeaponInstance *w);
-bool isBreathSpitOrSpikes(WeaponInstance *w);
 
 WeaponDB* gWeaponsDB=NULL;
 extern u8 weaponList[];

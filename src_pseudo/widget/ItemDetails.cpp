@@ -129,7 +129,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
     if ((u16)param_2->id >> 8 == 0x11) {
       this->bottom = 0xbb;
       bVar1 = gItemDBp->Gear[search_item_array(param_2->id)].spell;
-      Gsprintf(gGlobals.CommonStrings[0x215],gSpellDBp->spells[bVar1].Name);
+      Gsprintf(gGlobals.CommonStrings[0x215],gSpellDBp->spells[bVar1].name);
       AddLeftText(gGlobals.text);
     }
   }

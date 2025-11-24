@@ -16,7 +16,7 @@ void FloorSkill(s8*skills,u32 len){
 
 void CharSkills::Init(ItemID id){
   u8 X;
-  Entity_Ram *EntRam;
+  EntityRAM *EntRam;
   
   EntRam = &gEntityDB->entities[GETINDEX(id)];
   COPY(this->SkillBase,EntRam->Skills);

@@ -5,7 +5,7 @@ void CharExp::Init(ItemID id){
   u8 bVar1;
   u8 bVar3;
   u8 bVar4;
-  Entity_Ram *pEVar5;
+  EntityRAM *pEVar5;
   
   bVar3 = GETINDEX(id);
   pEVar5 = gEntityDB->entities + bVar3;

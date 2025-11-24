@@ -20,7 +20,7 @@ struct Entity_ROM { /* Entity data stored in Rom */
     u8 category; /* only checks for Chaos type */
     ItemID_ROM id;
     u8 unk0x2b; /* passed to ram 0x19 */
-    enum AspectEnum Aspect;
+    u8 Aspect;
     u8 trueName;
     u8 Heavy;
     u8 Alchemist; /* base skill lv's */
@@ -70,14 +70,14 @@ struct Entity_ROM { /* Entity data stored in Rom */
     u8 ResistAmmount1; /* 100-(25*x) */
     u8 ElementResist2;
     u8 ResistAmmount2; /* 100-(25*x) */
-    u8 unk0x7a[8];
-    u8 unk0x82[4];
+    u8 ritualIDs[8];
+    u8 RiualLvs[4];
     u8 EXP_X75; /* x50, then 1.5 on EXP func */
     u8 LootCategory;
 };
 #pragma pack(pop)
 
-struct Entity_Ram { /* entity data in Ram */
+struct EntityRAM { /* entity data in Ram */
     ItemID ID;
     char Name[21];
     u8 Category;
@@ -112,7 +112,7 @@ struct Entity_Ram { /* entity data in Ram */
     u8 unk0x7f;
 };
 
-struct entity_info{
+struct enitityInfo{
 	u16 index;
 	u32 Model; //index of "borg7" file.
 	u32 portrait; //index of "borg8" file.
@@ -186,7 +186,7 @@ class EntityDB {
     u8 total;
     u8 catSizes[7];
     u8 unk[7];
-    struct Entity_Ram *entities;
+    struct EntityRAM *entities;
     void OldInit();
     void Load(u8,s32 *);
     void Init();
@@ -207,7 +207,7 @@ class EntityDB {
     float GetScale(ItemID);
 };
 
-extern entity_info entity_info_array[222]; //organized alphabetically for some reason.
+extern enitityInfo entity_info_array[222]; //organized alphabetically for some reason.
 extern dialougeEntity_Info dailougEnt_info_array[32]; //same with this.
 extern EntityDB* gEntityDB;
 extern u8 entityList[221];
@@ -216,9 +216,9 @@ extern class CombatEntity;
 
 namespace Entity{
     u8 IsElemental(ItemID param_1);
-    void EquipFunc0(CharSheet *param_1,Entity_Ram *param_2);
-    void EquipFunc1(CharSheet *param_1,Entity_Ram *param_2);
-    void EquipFunc2(CharSheet *param_1,Entity_Ram *param_2);
+    void EquipFunc0(CharSheet *param_1,EntityRAM *param_2);
+    void EquipFunc1(CharSheet *param_1,EntityRAM *param_2);
+    void EquipFunc2(CharSheet *param_1,EntityRAM *param_2);
     void Init(CharSheet *param_1,ItemID param_2,u8 param_3);
     void Free(CharSheet *param_1);
     u8 getHPMax(CharSheet *param_1);

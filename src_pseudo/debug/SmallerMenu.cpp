@@ -238,7 +238,7 @@ bool create_enemy_list(){
   scrollMenu->SetCoords(40,75);
   if (gEntityDB->total != 0) {
     for(s32 i=0;i<gEntityDB->total;i++) {
-      Entity_Ram *ent = gEntityDB->entities + i;
+      EntityRAM *ent = gEntityDB->entities + i;
       if (!EntityCannotFight(ent->ID)) {
         WidgetText* name = WText(ent->Name);
         name->varU16 = ent->ID;

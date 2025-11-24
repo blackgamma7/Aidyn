@@ -14,7 +14,7 @@ void WeaponDB::Orphaned() {
   u32 aiStack_30 = 0;
   load_db_array_size(&weapondb,&this->Total,&aiStack_30);
   bVar5 = 0;
-  ALLOCS(this->weapons,this->Total*sizeof(weapon_ram),0x34);
+  ALLOCS(this->weapons,this->Total*sizeof(WeaponRam),0x34);
   for(u8 i=0;i<11;i++) {
     load_db_array_size(&weapondb,this->Types + i,&aiStack_30);
     pbVar2 = this->Types2 + i;
@@ -28,7 +28,7 @@ void WeaponDB::Orphaned() {
 
 void WeaponDB::Load(u8 index,int *pos) {
   u32 uVar4;
-  weapon_ram *entry;
+  WeaponRam *entry;
   Weapon_ROM fromROM;
   
   entry = this->weapons + index;
@@ -65,7 +65,7 @@ void WeaponDB::Load(u8 index,int *pos) {
 }
 
 void WeaponDB::Init() {
-  weapon_ram *pwVar1;
+  WeaponRam *pwVar1;
   byte bVar2;
   u32 uVar3;
   u8 index;
@@ -73,7 +73,7 @@ void WeaponDB::Init() {
   load_db_array_size(&weapondb,&this->Total,&auStack_30);
   index = 0;
   uVar3 = 0;
-  ALLOCS(this->weapons,this->Total*sizeof(weapon_ram),378);
+  ALLOCS(this->weapons,this->Total*sizeof(WeaponRam),378);
   for(u8 i=0;i<11;i++) {
     load_db_array_size(&weapondb,this->Types + i,&auStack_30);
     this->Types2[i] = (byte)index;

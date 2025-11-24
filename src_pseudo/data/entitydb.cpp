@@ -6,7 +6,7 @@
 
 //unused inialization method.
 void EntityDB::OldInit(){
-  Entity_Ram *pEVar1;
+  EntityRAM *pEVar1;
   byte *pbVar2;
   byte *pbVar3;
   u32 uVar4;
@@ -17,7 +17,7 @@ void EntityDB::OldInit(){
   load_db_array_size(&entitydb,this,aiStack_30);
   bVar5 = 0;
   uVar4 = 0;
-  ALLOCS(this->entities,(u32)this->total*sizeof(Entity_Ram),669);
+  ALLOCS(this->entities,(u32)this->total*sizeof(EntityRAM),669);
   for(u8 i=0;i<7;i++) {
     load_db_array_size(&entitydb,this->catSizes + i,aiStack_30);
     pbVar2 = this->unk + i;
@@ -44,7 +44,7 @@ void EntityDB::Load(u8 id,s32 *param_3){
   u32 uVar7;
   u8 uVar8;
   u32 uVar9;
-  Entity_Ram *EntRam;
+  EntityRAM *EntRam;
   Entity_ROM EntROM;
   
   EntRam = this->entities + id;
@@ -117,7 +117,7 @@ void EntityDB::Init(){
   s32 asStack_30 = 0;
   load_db_array_size(&entitydb,this,&asStack_30);
   bVar4 = 0;
-  ALLOCS(this->entities,this->total*sizeof(Entity_Ram),1233);
+  ALLOCS(this->entities,this->total*sizeof(EntityRAM),1233);
   for(u8 uVar3=0;uVar3<7;uVar3++) {
     load_db_array_size(&entitydb,this->catSizes + uVar3,asStack_30);
     bVar2 = 0;
@@ -139,7 +139,7 @@ u32 EntityDB::GetPortrait(ItemID id){
   u16 uVar2;
   int iVar4;
   dialougeEntity_Info *pdVar5;
-  entity_info *peVar6;
+  enitityInfo *peVar6;
   dialougeEntity_Info *pdVar7;
   
   bVar3 = GETINDEX(id);
@@ -178,7 +178,7 @@ u32 EntityDB::GetPortrait(ItemID id){
         }
       }
 LAB_8007558c:
-      return *(u32 *)((int)&((entity_info *)pdVar7)->portrait + iVar4);
+      return *(u32 *)((int)&((enitityInfo *)pdVar7)->portrait + iVar4);
     }
   }
   return BORG8_PortraitNPCMale1;
@@ -191,7 +191,7 @@ u32 EntityDB::GetBorg7(ItemID id){
   u16 uVar2;
   int iVar4;
   dialougeEntity_Info *pdVar5;
-  entity_info *peVar6;
+  enitityInfo *peVar6;
   dialougeEntity_Info *pdVar7;
   
   bVar3 = GETINDEX(id);
@@ -230,7 +230,7 @@ u32 EntityDB::GetBorg7(ItemID id){
         }
       }
 LAB_80075674:
-      return *(u32 *)((int)&((entity_info *)pdVar7)->Model + iVar4);
+      return *(u32 *)((int)&((enitityInfo *)pdVar7)->Model + iVar4);
     }
   }
   return 0x2d4a;
@@ -239,7 +239,7 @@ LAB_80075674:
 //unused, names refernced elsewhere
 char * EntityDB::GetEntityName(ItemID id){
   byte bVar2;
-  Entity_Ram *pEVar1;
+  EntityRAM *pEVar1;
   int iVar3;
   
   bVar2 = GETINDEX(id);
@@ -282,7 +282,7 @@ float EntityDB::GetHeight(ItemID id){
   bVar3 = GETINDEX(id);
   if ((u16)id >> 8 == DB_ENTITY) {
     if (entity_info_array[0].index) {
-      entity_info *peVar5 = entity_info_array;
+      enitityInfo *peVar5 = entity_info_array;
       uVar1 = entity_info_array[0].index;
       do {
         if (uVar1 == ((s16)(char)bVar3 + 1U & 0xff)) return peVar5->height*peVar5->scale;
@@ -331,7 +331,7 @@ float EntityDB::GetFloatA(ItemID id){
   byte bVar2;
   u16 uVar1;
   int iVar3;
-  entity_info *peVar4;
+  enitityInfo *peVar4;
   
   if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
     bVar2 = GETINDEX(id);
@@ -380,7 +380,7 @@ float EntityDB::GetCollideRadius(ItemID id){
   byte bVar2;
   u16 uVar1;
   int iVar3;
-  entity_info *peVar4;
+  enitityInfo *peVar4;
   float fVar5;
   
   fVar5 = 0.55f;
@@ -409,7 +409,7 @@ float EntityDB::GetScale(ItemID param_2){
   u16 uVar1;
   u16 uVar2;
   int iVar4;
-  entity_info *peVar5;
+  enitityInfo *peVar5;
   dialougeEntity_Info *pdVar6;
   
   bVar3 = GETINDEX(param_2);

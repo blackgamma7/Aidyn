@@ -5,18 +5,18 @@
 void TempSpell::Init(SpellInstance *S,ItemID ID,u8 RANK){
   S->level = RANK;
   S->base.id = ID;
-  Spell_RAM *sRam = &gSpellDBp->spells[GETINDEX(ID)];
-  S->base.name = sRam->Name;
-  S->school = sRam->School;
-  S->damage = sRam->Damage;
+  SpellRAM *sRam = &gSpellDBp->spells[GETINDEX(ID)];
+  S->base.name = sRam->name;
+  S->school = sRam->school;
+  S->damage = sRam->damage;
   S->stamina = sRam->stamina;
   S->cast = sRam->CastedMagic;
-  S->target = sRam->Target;
-  S->wizard = sRam->WizardREQ;
+  S->target = sRam->target;
+  S->wizard = sRam->wizard;
   S->special = sRam->Aspect;
-  S->range = sRam->Range;
+  S->range = sRam->range;
   S->cost = sRam->ingredient;
-  S->exp_modifyer = sRam->EXP_Modifyer * 50;
+  S->expMod = sRam->expMod * 50;
   S->base.statMod = 0;
   S->base.spellCharge = 0;
   S->aspect_flag = sRam->unk0x1f;
@@ -24,7 +24,7 @@ void TempSpell::Init(SpellInstance *S,ItemID ID,u8 RANK){
 
 s32 TempSpell::GetExpPrice(SpellInstance *S){
   s32 i = S->level + 1;
-  return SQ(i) * (u32)S->exp_modifyer;
+  return SQ(i) * (u32)S->expMod;
   }
 
 s32 TempSpell::GetGoldPrice(SpellInstance *param_1){
@@ -107,7 +107,7 @@ void TempEnchant::Init(Temp_enchant *Ench,u8 Index,u8 LV,u32 Timer,u8 UNK3,
   Ench->varA = UNK3;
   Ench->varB = UNK4;
   Ench->SpellVisualIndex = 0xffff;
-  Ench->school = gSpellDBp->spells[Index].School;
+  Ench->school = gSpellDBp->spells[Index].school;
 }
 
 void TempEnchant::StopSpellVisual(Temp_enchant *param_1){

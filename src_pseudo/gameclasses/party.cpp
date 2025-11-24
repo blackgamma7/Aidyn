@@ -89,7 +89,7 @@ u8 Party::AddMember(ItemID param_2){
 
 
 u8 Party::isMemberUnequipped(u8 slot){
-  Entity_Ram *pEVar1;
+  EntityRAM *pEVar1;
   byte bVar3;
   WeaponInstance *pWVar2;
   u8 ret;
@@ -585,7 +585,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
   u8 MVar4;
   ItemID IVar5;
   Gear_RAM *pGVar6;
-  Spell_RAM *pSVar7;
+  SpellRAM *pSVar7;
   byte wizLV;
   u16 uVar10;
   bool bVar12;
@@ -659,7 +659,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
       else {
         bVar2 = pGVar6[(s16)uVar10].spell;
         pSVar7 = &gSpellDBp->spells[bVar2];
-        if (wizLV < pSVar7->WizardREQ){
+        if (wizLV < pSVar7->wizard){
           pCVar14 = &acStack416;
           acStack416.R = 0xe1;
           acStack416.G = 0xe1;
@@ -675,10 +675,10 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
         else {
           MVar3 = param_4->EXP->school;
           if (((MVar3 == SCHOOL_Chaos) ||
-              (MVar4 = pSVar7->School, MVar4 == SCHOOL_NONE))
+              (MVar4 = pSVar7->school, MVar4 == SCHOOL_NONE))
              || (MVar3 == MVar4)) {
             param_4->spellbook->NewSpell(IDSpell(bVar1),1);
-            Gsprintf(Cstring(LearnMagicLearned),param_4->name,pSVar7->Name);
+            Gsprintf(Cstring(LearnMagicLearned),param_4->name,pSVar7->name);
             ErrPopup(gGlobals.text);
             this->Inventory->TakeItem(IVar5,1);
             return false;
@@ -698,7 +698,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
       }
     }
   }
-  some_textbox_func(pcVar13,0x96,pCVar14,pCVar15,1);
+  some_textbox_func(pcVar13,0x96,pCVar14,pCVar15,true);
   return true;
 }
 
@@ -750,7 +750,7 @@ u8 Party::RemoveArmorFrom(u8 index){
   return true;
 }
 
-u8 Party::RemoveShieldFrom(u8 param_2){
+u8 Party::RemoveShieldFrom(u8 slot){
   CharSheet *pCVar1;
   ArmorInstance *pAVar2;
   SpellCharges *pSVar3;
@@ -758,7 +758,7 @@ u8 Party::RemoveShieldFrom(u8 param_2){
   ItemInstance *pIVar6;
   byte bVar7;
   
-  pCVar1 = this->Members[param_2];
+  pCVar1 = this->Members[slot];
   if (!pCVar1) return true;
   if (gGlobals.combatBytes[0] == 0xe) return true;
   pAVar2 = pCVar1->armor[1];
@@ -1826,7 +1826,7 @@ void Party::CampAmbush(void){load_camp_ambush();}
 
 u8 get_equip_stamMod(ItemID id){
   u8 bVar3;
-  weapon_ram *pwVar1;
+  WeaponRam *pwVar1;
   ItemID IVar4;
   
   bVar3 = 0;
@@ -1850,7 +1850,7 @@ u8 get_equip_stamMod(ItemID id){
   case 5:
   case 6:
     bVar3 = GETINDEX(IVar4);
-    pwVar1 = (weapon_ram *)gArmorDBp->Armor;
+    pwVar1 = (WeaponRam *)gArmorDBp->Armor;
     break;
   case 7:
     bVar3 = GETINDEX(IVar4);
