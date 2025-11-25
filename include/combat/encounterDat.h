@@ -13,7 +13,7 @@ struct EncounterDat { /* enemy encounter data */
     u8 collisionByte;
     u8 battlefield;
     u8 aniByte; //use EncountAni. based on animation state before encounter
-    u8 BossShadow; /* fighting a Boss or the Shadow */
+    u8 canFlee;
     u16 VoxelFlagA;
     u16 VoxelBitfield;
 };

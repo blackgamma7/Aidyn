@@ -18,7 +18,7 @@ u8 CombatAI::WillTheyFlee(ItemID id){
   
   if (gCombatP->hasFleeRefpoints == 0) return false;
   bVar3 = GETINDEX(id);
-  bVar1 = gEntityDB->entities[(char)bVar3].morale;
+  bVar1 = gEntityDB->entities[bVar3].morale;
   lVar7 = bVar1;
   if (0xb < lVar7) return false;
   AVar6 = ASPECT_SOLAR;
@@ -1256,7 +1256,7 @@ void FUN_800628cc(CombatAI_s* param_1){
   pCVar1 = param_1->combatEnt->charSheetP;
   pCVar14 = &gCombatP->substruct;
   pSVar6 = Entity::GetSpell(pCVar1);
-  if ((pSVar6 != NULL) && (bVar9 = GETINDEX((pSVar6->base).id), bVar9 == 8)) {
+  if ((pSVar6 != NULL) && (GETINDEX((pSVar6->base).id) == SPELLIND_fireball)) {
     iVar7 = Entity::CheckSpellWizard(pCVar1,pSVar6);
     uVar15 = (uint)pSVar6->range * iVar7 & 0xff;
     uVar10 = param_1->combatEnt->GetCoordXU8();
@@ -2039,7 +2039,7 @@ u8 CombatAIInfo::ElementalInCombat(void){
   if (gCombatP->EntCount) {
     do {
       if (((pcVar3->arrayA[0]) && ((&gCombatP->combatEnts)[uVar2])) &&
-         (IsElemental((&gCombatP->combatEnts)[uVar2]->charSheetP->ID))) return true;
+         (Entity::IsElemental((&gCombatP->combatEnts)[uVar2]->charSheetP->ID))) return true;
       uVar2 += 1;
       pcVar3 = (CombatSubstructB *)(pcVar3->arrayA + 1);
     } while (uVar2 < gCombatP->EntCount);
@@ -2061,8 +2061,8 @@ u8 CombatAIInfo::ZombieInCombat(void *param_1){
     ppCVar3 = &gCombatP->combatEnts;
     do {
       if (((pcVar2->arrayA[0]) && (*ppCVar3)) &&
-         ((IVar1 = (*ppCVar3)->charSheetP->ID, IVar1 == IDEntInd(190) ||
-          (IVar1 == IDEntInd(182))))) {
+         ((IVar1 = (*ppCVar3)->charSheetP->ID, IVar1 == IDEntInd(EntInd_Zombie) ||
+          (IVar1 == IDEntInd(EntInd_PlagueZombie))))) {
         return true;
       }
       ppCVar3 = ppCVar3 + 1;

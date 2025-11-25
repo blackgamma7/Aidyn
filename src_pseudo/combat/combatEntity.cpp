@@ -178,15 +178,13 @@ u8 CombatEntity::UnusedMovement(){
 void CombatEntity::NOOP_80068350(){}
 
 u8 CombatEntity::NotNearEnemy(){
-  if (gCombatP->EntCount) {
-    for(u32 i=0;i<gCombatP->EntCount;i++) {
-      CombatEntity *CEnt = (&gCombatP->combatEnts)[i];
-      if ((((CEnt) && (this != CEnt)) &&
-          (!Entity::isDead(CEnt->charSheetP))) && (CEnt->Flag1())) {
-        if ((CEnt->Flag4() != this->Flag4())&& (CEnt->m800692bc(CEnt))) return false;
+  for(u32 i=0;i<gCombatP->EntCount;i++) {
+    CombatEntity *CEnt = (&gCombatP->combatEnts)[i];
+    if ((((CEnt) && (this != CEnt)) &&
+       (!Entity::isDead(CEnt->charSheetP))) && (CEnt->Flag1())) {
+       if ((CEnt->Flag4() != this->Flag4())&& (CEnt->m800692bc(CEnt))) return false;
       }
     }
-  }
   return true;
 }
 //increments in Dexterity 
@@ -237,7 +235,7 @@ void CombatEntity::SetMovementRange(){
    }
    CIEL(this->moveRange,13);
                 /* pocho no move */
-  if (this->charSheetP->ID == IDEntInd(171)) this->moveRange = 0;
+  if (this->charSheetP->ID == IDEntInd(EntInd_Pochanargat)) this->moveRange = 0;
 }
 
 u8 CombatEntity::DEXCheck(){
@@ -708,8 +706,8 @@ u8 CombatEntity::canControl(SpellInstance *param_2){
       bVar2 = entityList[EntInd_Marquis];
       break;
     case SPELLIND_controlZombies:
-      bVar2 = entityList[0xb6];
-      if (x == IDEntInd(0xbe)) return true;
+      bVar2 = entityList[EntInd_PlagueZombie];
+      if (x == IDEntInd(EntInd_Zombie)) return true;
     }
     if (x != IDEnt(bVar2)) return false;
   }
@@ -2931,17 +2929,18 @@ u8 CannotShowWeapon(ItemID x){
   u8 bVar2;
   u8 *pbVar1;
   u32 uVar3;
-  /* ehud gorgon chaos.Lt. harpy marquis minotuar mino.lord neilsin */
-  u8 auStack72 []={0xAD,0x75,0xA6,0x76,0xAA,0x80,0xA5,0xA2,0xff};
+  u8 entlist []={
+    EntInd_Ehud,EntInd_Gorgon,EntInd_ChaosLt,EntInd_Harpy,EntInd_Marquis,EntInd_Minotuar,
+    EntInd_MinotuarLord,EntInd_Niesen,0xff};
   bVar2 = GETINDEX(x);
   uVar3 = 0;
-  pbVar1 = auStack72;
+  pbVar1 = entlist;
   while( true ) {
-    if (auStack72[0] == 0xff) {return false;}
+    if (entlist[0] == 0xff) {return false;}
     if (*pbVar1 == bVar2) break;
     uVar3++;
-    auStack72[0] = auStack72[uVar3];
-    pbVar1 = auStack72 + uVar3;
+    entlist[0] = entlist[uVar3];
+    pbVar1 = entlist + uVar3;
   }
   return true;
 }
@@ -3033,7 +3032,7 @@ switchD_80070018_caseD_3d:
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x3c: //s16 Bow
+  case 0x3c: //short Bow
     *param_2 = 5.0f;
     *param_3 = 0.0;
     break;

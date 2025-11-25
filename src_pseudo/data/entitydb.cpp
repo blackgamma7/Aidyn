@@ -139,16 +139,16 @@ u32 EntityDB::GetPortrait(ItemID id){
   u16 uVar2;
   int iVar4;
   dialougeEntity_Info *pdVar5;
-  enitityInfo *peVar6;
+  EntityExtra *peVar6;
   dialougeEntity_Info *pdVar7;
   
   bVar3 = GETINDEX(id);
   if (id >> 8 == DB_ENTITY) {
-    if (entity_info_array[0].index != 0) {
-      peVar6 = entity_info_array;
+    if (gEntityExtras[0].index != 0) {
+      peVar6 = gEntityExtras;
       iVar4 = 0;
-      uVar1 = entity_info_array[0].index;
-      while (pdVar7 = (dialougeEntity_Info *)entity_info_array,
+      uVar1 = gEntityExtras[0].index;
+      while (pdVar7 = (dialougeEntity_Info *)gEntityExtras,
             uVar1 != ((s16)(char)bVar3 + 1U & 0xff)) {
         peVar6 = peVar6 + 1;
         uVar1 = peVar6->index;
@@ -178,7 +178,7 @@ u32 EntityDB::GetPortrait(ItemID id){
         }
       }
 LAB_8007558c:
-      return *(u32 *)((int)&((enitityInfo *)pdVar7)->portrait + iVar4);
+      return *(u32 *)((int)&((EntityExtra *)pdVar7)->portrait + iVar4);
     }
   }
   return BORG8_PortraitNPCMale1;
@@ -191,16 +191,16 @@ u32 EntityDB::GetBorg7(ItemID id){
   u16 uVar2;
   int iVar4;
   dialougeEntity_Info *pdVar5;
-  enitityInfo *peVar6;
+  EntityExtra *peVar6;
   dialougeEntity_Info *pdVar7;
   
   bVar3 = GETINDEX(id);
   if ((u16)id >> 8 == DB_ENTITY) {
-    if (entity_info_array[0].index != 0) {
-      peVar6 = entity_info_array;
+    if (gEntityExtras[0].index != 0) {
+      peVar6 = gEntityExtras;
       iVar4 = 0;
-      uVar1 = entity_info_array[0].index;
-      while (pdVar7 = (dialougeEntity_Info *)entity_info_array,
+      uVar1 = gEntityExtras[0].index;
+      while (pdVar7 = (dialougeEntity_Info *)gEntityExtras,
             uVar1 != ((s16)(char)bVar3 + 1U & 0xff)) {
         peVar6 = peVar6 + 1;
         uVar1 = peVar6->index;
@@ -230,7 +230,7 @@ u32 EntityDB::GetBorg7(ItemID id){
         }
       }
 LAB_80075674:
-      return *(u32 *)((int)&((enitityInfo *)pdVar7)->Model + iVar4);
+      return *(u32 *)((int)&((EntityExtra *)pdVar7)->Model + iVar4);
     }
   }
   return 0x2d4a;
@@ -281,9 +281,9 @@ float EntityDB::GetHeight(ItemID id){
   
   bVar3 = GETINDEX(id);
   if ((u16)id >> 8 == DB_ENTITY) {
-    if (entity_info_array[0].index) {
-      enitityInfo *peVar5 = entity_info_array;
-      uVar1 = entity_info_array[0].index;
+    if (gEntityExtras[0].index) {
+      EntityExtra *peVar5 = gEntityExtras;
+      uVar1 = gEntityExtras[0].index;
       do {
         if (uVar1 == ((s16)(char)bVar3 + 1U & 0xff)) return peVar5->height*peVar5->scale;
         peVar5++;
@@ -331,13 +331,13 @@ float EntityDB::GetFloatA(ItemID id){
   byte bVar2;
   u16 uVar1;
   int iVar3;
-  enitityInfo *peVar4;
+  EntityExtra *peVar4;
   
   if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
     bVar2 = GETINDEX(id);
-    if (entity_info_array[0].index != 0) {
-      peVar4 = entity_info_array;
-      uVar1 = entity_info_array[0].index;
+    if (gEntityExtras[0].index != 0) {
+      peVar4 = gEntityExtras;
+      uVar1 = gEntityExtras[0].index;
       do {
         if (uVar1 == ((s16)(char)bVar2 + 1U & 0xff)) {
           return peVar4->unk10;
@@ -360,17 +360,17 @@ u8 EntityDB::IsRightHanded(ItemID id){
   
   if (id >> 8 == DB_DIALOUGEENTITY) return true;
   switch(GETINDEX(id)) {
-    case 0x57: //"Night Boss III"
-    case 0x58: //"Night Boss II"
-    case 0x59: //"Night Boss I"
-    case 0x5c: //"Woodsman III"
-    case 0x5d: //"Woodsman II"
-    case 0x5e: //"Bandit Boss III"
-    case 0x5f: //"Bandit Boss II"
-    case 0x6c: //"Ogre Guard"
-    case 0x7a: //Human Bandit
-    case 0x9c: //Becan
-    case 0xa1: //Keelin
+    case EntInd_NightBoss3:
+    case EntInd_NightBoss2:
+    case EntInd_NightBoss1:
+    case EntInd_Woodsman3:
+    case EntInd_Woodsman2:
+    case EntInd_BanditBoss3:
+    case EntInd_BanditBoss2:
+    case EntInd_OgreGuard:
+    case EntInd_BanditBoss:
+    case EntInd_Becan:
+    case EntInd_Keelin:
       return false;
     }
   return true;
@@ -380,21 +380,21 @@ float EntityDB::GetCollideRadius(ItemID id){
   byte bVar2;
   u16 uVar1;
   int iVar3;
-  enitityInfo *peVar4;
+  EntityExtra *peVar4;
   float fVar5;
   
   fVar5 = 0.55f;
   if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
     bVar2 = GETINDEX(id);
     fVar5 = 0.75f;
-    if (entity_info_array[0].index != 0) {
-      peVar4 = entity_info_array;
+    if (gEntityExtras[0].index != 0) {
+      peVar4 = gEntityExtras;
       iVar3 = 0;
-      uVar1 = entity_info_array[0].index;
+      uVar1 = gEntityExtras[0].index;
       do {
         peVar4 = peVar4 + 1;
         if (uVar1 == ((s16)(char)bVar2 + 1U & 0xff)) {
-          return *(float *)((int)&entity_info_array[0].radius + iVar3);
+          return *(float *)((int)&gEntityExtras[0].radius + iVar3);
         }
         uVar1 = peVar4->index;
         iVar3 += 0x1c;
@@ -409,18 +409,18 @@ float EntityDB::GetScale(ItemID param_2){
   u16 uVar1;
   u16 uVar2;
   int iVar4;
-  enitityInfo *peVar5;
+  EntityExtra *peVar5;
   dialougeEntity_Info *pdVar6;
   
   bVar3 = GETINDEX(param_2);
   if ((u16)param_2 >> 8 == DB_ENTITY) {
-    if (entity_info_array[0].index != 0) {
-      peVar5 = entity_info_array;
+    if (gEntityExtras[0].index != 0) {
+      peVar5 = gEntityExtras;
       iVar4 = 0;
-      uVar1 = entity_info_array[0].index;
+      uVar1 = gEntityExtras[0].index;
       do {
         if (uVar1 == ((s16)(char)bVar3 + 1U & 0xff)) {
-          return *(float *)((int)&entity_info_array[0].scale + iVar4);
+          return *(float *)((int)&gEntityExtras[0].scale + iVar4);
         }
         peVar5 = peVar5 + 1;
         uVar1 = peVar5->index;

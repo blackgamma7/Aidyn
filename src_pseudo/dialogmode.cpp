@@ -238,7 +238,7 @@ void encounterDat_func(void){
     gGlobals.EncounterDat.battlefield = 0;
   }
   gGlobals.combatBytes[2] = 1;
-  gGlobals.EncounterDat.BossShadow = dialougemode_pointer->func_index != 1;
+  gGlobals.EncounterDat.canFlee = dialougemode_pointer->func_index != 1;
 }
 
 void monsterparty_wanderstruct(Wanderer *param_1){

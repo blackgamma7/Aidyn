@@ -163,7 +163,7 @@ u32 get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
         printLine(0x263);
         bVar3 = GETINDEX(gGlobals.EncounterDat.enemy_entities[uVar7]);
         printLine(0x264);
-        uVar4 += gEntityDB->entities[(char)bVar3].Level;
+        uVar4 += gEntityDB->entities[bVar3].Level;
       }
     }
     printLine(0x268);
@@ -349,7 +349,7 @@ void battle_setup_func(voxelObject *param_1,u16 flag,u16 param_3){
   printLine(0x307);
   gGlobals.EncounterDat.EncounterID = flag;
   printLine(0x308);
-  gGlobals.EncounterDat.BossShadow = 1;
+  gGlobals.EncounterDat.canFlee = true;
   printLine(0x309);
   gGlobals.EncounterDat.VoxelIndex = param_3;
   printLine(0x30a);
@@ -380,7 +380,7 @@ void load_camp_ambush(void){
   gGlobals.EncounterDat.globalLoot = 0;
   gGlobals.EncounterDat.aniByte = 0;
   gGlobals.EncounterDat.EncounterID = 0;
-  gGlobals.EncounterDat.BossShadow = 0;
+  gGlobals.EncounterDat.canFlee = false;
   gGlobals.combatBytes[2] = 1;
   u8 ter = World::getTerrain(TerrainPointer);
   u32 lv = PARTY->GetAvgLevel();

@@ -659,10 +659,10 @@ void init_combat_struct(void){
       random_enemy_generator();
       gGlobals.EncounterDat.globalLoot= Loot_LizardBoss;
       gGlobals.EncounterDat.EncounterID = 0;
-      gGlobals.EncounterDat.battlefield = rand_range(0,0x1b);
+      gGlobals.EncounterDat.battlefield = rand_range(0,27);
       gGlobals.EncounterDat.collisionByte = rand_range(0,2);
       gGlobals.EncounterDat.aniByte = rand_range(0,EncountAni_Run);
-      gGlobals.EncounterDat.BossShadow = 1;
+      gGlobals.EncounterDat.canFlee = true;
     }
     for(u8 i=0;i<14;i++) {gGlobals.playerDataArray[i] = 0;}
     gGlobals.gameVars.mapDatA = MAPA_Battle;

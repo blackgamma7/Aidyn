@@ -76,7 +76,7 @@ void Load(u8 *data){
   aWStack_68.PrecipScale*=(1.0f/1000); 
   aWStack_68.FogFloat*=(1.0f/1000);
   aWStack_68.ThunderFloat*=(1.0f/1000);
-  aWStack_68.precip = SaveParty::LoadBits(&sav,8);
+  aWStack_68.precip = SaveParty::LoadBits(&sav,SaveBits_Byte);
   World::SetWithWeatherTemp(TerrainPointer,&aWStack_68);
   COPY(&gWeatherTemp,&aWStack_68);
   LoadedGameSaveFlag = 1;

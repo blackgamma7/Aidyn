@@ -14,13 +14,13 @@
 bool EntityCannotFight(ItemID id){
   u16 index = GETINDEX(id);
   if (id >> 8 != DB_ENTITY) return true;
-  if (index < 0x91) {
-    if (0x81 < index) return true;
-    if (0x56 < index) return false;
+  if (index < EntInd_Pandara) {
+    if (EntInd_Cadme <= index) return true;
+    if (EntInd_STAI03 < index) return false;
     if (0xFF < index) return true;
   }
-  else if (index < 0x97) {
-    if (0x91 < index) return true;
+  else if (index <= EntInd_Zurene) {
+    if (EntInd_Pandara < index) return true;
     return false;
   }
   return false;
@@ -268,14 +268,16 @@ u32 Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
 }
 
 void look_for_boss_shadow(ItemID param_1){
-  u8 ID = GETINDEX(param_1);
-  if (ID == EntInd_Shadow) gCombatP->encounter_dat->BossShadow = 1;
+  u8 index = GETINDEX(param_1);
+  if (index == EntInd_Shadow) gCombatP->encounter_dat->canFlee = true;
   else {
     u8 Boss_Ent_Indecies[]={
-        0xA8,0xAA,0xAB,0xAD,0xAE,0xB4,0xB3,0xB2,0xB1,0xB0,0xAF,0xB5,0xFF};
+        EntInd_Kitarak,EntInd_Marquis,EntInd_Pochanargat,EntInd_Ehud,EntInd_Sheridan,
+        EntInd_Behrooz,EntInd_Nasim,EntInd_Golnar,EntInd_Mehrdad,EntInd_Shatrevar,
+        EntInd_Ksathra,EntInd_Assim,0xFF};
     for(u8* p=Boss_Ent_Indecies;*p!=0xff;p++){
-      if (*p == ID) {
-        gCombatP->encounter_dat->BossShadow = 0;
+      if (*p == index) {
+        gCombatP->encounter_dat->canFlee = false;
         return;
       }
     }
@@ -298,9 +300,7 @@ void Combat_CreateEnemies(u16 param_1,u8 param_2){
   float fVar12;
   float fVar13;
   u32 uVar14;
-  u8 uStack_40;
-  u8 uStack_3f;
-  u8 auStack_3e [46];
+  u8 spawnX,spawnZ,spawnRand;
   
   j = param_1;
   for(u16 i=0;i<4;i++) {
@@ -310,13 +310,13 @@ void Combat_CreateEnemies(u16 param_1,u8 param_2){
         gCombatP->encounter_dat->enemy_entities[i]=0;
       else {
         CombatInitMacro1(param_1,uVar14,uVar9);
-        Combat_GetSpawnPoint(gCombatP,&uStack_40,&uStack_3f,auStack_3e,param_2,0,0,i);
+        Combat_GetSpawnPoint(gCombatP,&spawnX,&spawnZ,&spawnRand,param_2,0,0,i);
         ALLOC(pCVar4,709);
         (&gCombatP->combatEnts)[j] = pCVar4;
         ALLOC(pCVar5,713);
         pCVar4->charSheetP = pCVar5;
         Entity::Init(pCVar5,IVar1,1);
-        pCVar4->Init(pCVar4->charSheetP,-1,uStack_40,uStack_3f,auStack_3e[0],uVar9,1,j);
+        pCVar4->Init(pCVar4->charSheetP,-1,spawnX,spawnZ,spawnRand,uVar9,1,j);
         //highest INT determines leader
         if(CharStats::getBase(pCVar4->charSheetP->Stats,STAT_INT)>=
          CharStats::getBase((&gCombatP->combatEnts)[gCombatP->leaderIndex]->charSheetP->Stats,STAT_INT))
@@ -330,11 +330,12 @@ void Combat_CreateEnemies(u16 param_1,u8 param_2){
   gCombatP->leaderMorale = (&gCombatP->combatEnts)[gCombatP->leaderIndex]->aiP->morale;
 }
 
-void encounter_id_check(EventFlag param_1){
-  u16 encounterID_byte_dict[][2]={{0x3d2,0},{0x1482,1},{0xea5,1},{-1,-1}};
+void encounter_id_check(EventFlag flag){
+  u16 encounterID_byte_dict[][2]={
+    {FLAG_GoblinAmbush,false},{0x1482,true},{0xea5,true},{-1,-1}};
   for(u32 i=0;encounterID_byte_dict[i][0]!=-1;i++){
-    if(encounterID_byte_dict[i][0]==param_1){
-        gCombatP->encounter_dat->BossShadow=encounterID_byte_dict[i][1];
+    if(encounterID_byte_dict[i][0]==flag){
+        gCombatP->encounter_dat->canFlee=encounterID_byte_dict[i][1];
         return;
     }
   }

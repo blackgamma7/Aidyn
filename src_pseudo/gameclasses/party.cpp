@@ -18,24 +18,24 @@ void Party::Init(){
 
 void Party::Free(){
   if (this->Inventory) this->Inventory->~PartyInventory();
-  for(u32 i=0;i<3;i++) {
+  for(u32 i=0;i<MAXPARTY;i++) {
     if (this->Members[i]) {
       Entity::Free(this->Members[i]);
       FREE(this->Members[i],232);
       }
   }
 }
-void Party::CheckFlags(ItemID param_2,u8 alive,u8 state){
+void Party::CheckFlags(ItemID id,u8 alive,u8 state){
   u16 i;
   
-  u8 index = GETINDEX(param_2);
+  u8 index = GETINDEX(id);
   if (alive) {
     //TODO: replace with #define's and enums
     u16 party_eventflag_dict1[][3]={ //ID index, alive, left party
-      {0x97,0x1c7,0x1C8},{0x98,0x59,0x2AD},{0x9A,0xF7,0x2B1},{0x9B,0x17C,0x2B2},
-      {0x9C,0x177,0x2B9},{0x9D,0x5C,0},{0x9E,0x17E,0x2B3},{0x9F,0x23E,0x2B7},
-      {0xA0,0x5A,0x2AE},{0xA1,0x109,0x2B0},{0xA2,0x19C,0x2B4},{0xA3,0x5B,0x2AF},
-      {0xA4,0x20B,0x2BC},{-1,0,0}};
+      {EntInd_Farris,0x1c7,0x1C8},{EntInd_Abrecan,0x59,0x2AD},{EntInd_Arturo,0xF7,0x2B1},{EntInd_Baird,0x17C,0x2B2},
+      {EntInd_Becan,0x177,0x2B9},{EntInd_Brenna,0x5C,0},{EntInd_Donovan,0x17E,0x2B3},{EntInd_Dougal,0x23E,0x2B7},
+      {EntInd_Godric,0x5A,0x2AE},{EntInd_Keelin,0x109,0x2B0},{EntInd_Niesen,0x19C,0x2B4},{EntInd_Rheda,0x5B,0x2AF},
+      {EntInd_Sholeh,0x20B,0x2BC},{-1,0,0}};
     if (party_eventflag_dict1[0][0] != -1) {
       for(i=0;party_eventflag_dict1[i][0]!=-1;i++) {
         if (party_eventflag_dict1[i][0] == index) {
@@ -48,9 +48,10 @@ void Party::CheckFlags(ItemID param_2,u8 alive,u8 state){
   }
   else {
     u16 party_eventflag_dict2[]={ //ID index, Dead flag
-      0x97,0x1C2, 0x98,0x267, 0x9A,0x266, 0x9B,0x26F, 0x9C,0x26A,
-      0x9D,0x265, 0x9E,0x26C, 0x9F,0x246, 0xA0,0x268, 0xA1,0x26B,
-      0xA2,0x1C0, 0xA3,0x269, 0xA4,0x26E, -1,-1
+      EntInd_Farris,0x1C2, EntInd_Abrecan,0x267, EntInd_Arturo,0x266, EntInd_Baird,0x26F, 
+      EntInd_Becan,0x26A, EntInd_Brenna,0x265, EntInd_Donovan,0x26C, EntInd_Dougal,0x246,
+      EntInd_Godric,0x268, EntInd_Keelin,0x26B,EntInd_Niesen,0x1C0, EntInd_Rheda,0x269, 
+      EntInd_Sholeh,0x26E, -1,-1
       };
     for (i = 0; party_eventflag_dict2[i] != -1;i+=2) {
       if (index == party_eventflag_dict2[i]) {
@@ -349,10 +350,8 @@ u8 Party::CombatItemCheck1(CharSheet* param_2,u8 param_3,ItemID param_4){
     s32 uVar2 = this->Inventory->GetItemIndex(param_4);
     u8 bVar4 = GETINDEX(param_4);
     if ((&gCombatP->combatEnts)[param_3] == NULL) return true;
-    //Not Neisen
-    if (param_2->ID != IDEntInd(162)) {
+    if (param_2->ID != IDEntInd(EntInd_Niesen)) {
       gCombatP->combatEnts[param_3].m8006f8d8(param_4,uVar2);
-      //using flask
       if (bVar4 < POTION_HEALING) gGlobals.combatBytes[1] = 0x13;
       return false;
     }

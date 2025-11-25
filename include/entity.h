@@ -112,7 +112,7 @@ struct EntityRAM { /* entity data in Ram */
     u8 unk0x7f;
 };
 
-struct enitityInfo{
+struct EntityExtra{
 	u16 index; //+1 off from entity's usual index.
 	u32 Model; //index of "borg7" file.
 	u32 portrait; //index of "borg8" file.
@@ -207,7 +207,7 @@ class EntityDB {
     float GetScale(ItemID);
 };
 
-extern enitityInfo entity_info_array[222]; //organized alphabetically for some reason.
+extern EntityExtra gEntityExtras[222]; //organized alphabetically for some reason.
 extern dialougeEntity_Info dailougEnt_info_array[32]; //same with this.
 extern EntityDB* gEntityDB;
 extern u8 entityList[221];

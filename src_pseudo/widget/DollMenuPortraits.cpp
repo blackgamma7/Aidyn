@@ -13,8 +13,8 @@ DollMenuPortraits::DollMenuPortraits(Party *party,u8 size,u8 selected):WidgetMen
         j = ++i % this->partySize){
         CharSheet* chara=party->Members[j];
         this->names[j] = WClipTXTSafe(chara->name);
-        this->names[j]->SetCoords(0x45,0x1c);
-        this->names[j]->SetColor(0x82,0x50,0x50,0);
+        this->names[j]->SetCoords(69,28);
+        this->names[j]->SetColor(130,80,80,0);
         this->Link(this->names[j]);
         u16 uVar13 = 24;
         this->portraits[j] = WidgetB8Port(chara->ID);
@@ -23,8 +23,8 @@ DollMenuPortraits::DollMenuPortraits(Party *party,u8 size,u8 selected):WidgetMen
         this->Ws[j] = uVar13;
         this->portraits[j]->SetHeight(this->Hs[j]);
         this->portraits[j]->SetWidth(this->Ws[j]);
-        this->portraits[j]->varU8 = (byte)j;
-        this->portraits[j]->varU16 = (s16)(char)GETINDEX(chara->ID);
+        this->portraits[j]->varU8 = j;
+        this->portraits[j]->varU16 = GETINDEX(chara->ID);
         this->Link(this->portraits[j]);
     }
     switch(this->partySize){ //uses fallthrough for party sizes?

@@ -7,9 +7,7 @@ void SaveEntity::Init(void){
   memset(gSaveEntity,0,sizeof(CharSheet*)*SAVEENTSIZE);
 }
 
-
 void SaveEntity::Free(void){
-
   for(u8 i=0;i<SAVEENTSIZE;i++) {
     if (gSaveEntity[i]) {
       Entity::Free(gSaveEntity[i]);
@@ -20,12 +18,9 @@ void SaveEntity::Free(void){
 }
 
 void SaveEntity::BenchParty(Party *param_1){
-  CharSheet *pCVar1;
-  CharSheet *pCVar2;
-    
   IDK_NOOP();
   for(u8 iVar4=0;iVar4<4;iVar4++) {
-    pCVar1 = param_1->Members[iVar4];
+    CharSheet *pCVar1 = param_1->Members[iVar4];
     if (pCVar1 == NULL) {
       pCVar1 = gSaveEntity[iVar4];
       if (pCVar1) {
@@ -34,7 +29,7 @@ void SaveEntity::BenchParty(Party *param_1){
       }
     }
     else {
-      pCVar2 = gSaveEntity[iVar4];
+      CharSheet *pCVar2 = gSaveEntity[iVar4];
       if (pCVar2 == NULL) {gSaveEntity[iVar4] = InitEntity((pCVar1->ID);}
       else {
         if (pCVar2->ID != pCVar1->ID) {
@@ -150,14 +145,14 @@ void SaveEntity::TransferGear(CharSheet *param_1,CharSheet *param_2,u8 param_3){
   X = (WeaponInstance *)pCVar2->pItem[param_3];
   pGVar3 = param_1->pItemList->pItem[param_3];
   if (pCVar2->pItem[param_3]) {
-    clear_weapon_effects(pCVar2->pItem[param_3]);
+    clear_weapon_effects((WeaponInstance*)pCVar2->pItem[param_3]);
     FREE(X,389);
     pCVar2->usedItems--;
   }
   if (pGVar3) {
     ALLOC(pTVar5,400);
     pCVar2->pItem[param_3] = pTVar5;
-    make_temp_item((EquipInstance *)pTVar5,(pGVar3->base).id);
+    make_temp_item(pTVar5,(pGVar3->base).id);
     if ((pTVar5->base).statMod){
       (pTVar5->base).statMod->mod = ((pGVar3->base).statMod)->mod;
     }
@@ -224,28 +219,30 @@ void SaveEntity::BenchInSlot(CharSheet *param_1){
   }
 }
 
+//get saveEntity index for party member.
+//bug(?) no index for many party members
 u8 SaveEntity::GetSlot(ItemID param_1){
-  u8 bVar1;
+  u8 ret;
   switch(GETINDEX(param_1)) {
-  case 0x98:
-    bVar1 = 4;
+  case EntInd_Abrecan:
+    ret = 4;
+    break;
+  case EntInd_Arturo:
+    ret = 5;
+    break;
+  case EntInd_Becan:
+    ret = 6;
+    break;
+  case EntInd_Godric:
+    ret = 7;
+    break;
+  case EntInd_Keelin:
+    ret = 8;
     break;
   default:
-    bVar1 = 0;
-    break;
-  case 0x9a:
-    bVar1 = 5;
-    break;
-  case 0x9c:
-    bVar1 = 6;
-    break;
-  case 0xa0:
-    bVar1 = 7;
-    break;
-  case 0xa1:
-    bVar1 = 8;
+    ret = 0;
   }
-  return bVar1;
+  return ret;
 }
 
 void SaveEntity::IDK_NOOP(void){}

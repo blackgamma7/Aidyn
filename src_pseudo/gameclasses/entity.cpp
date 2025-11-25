@@ -8,11 +8,13 @@
 #include "widgets/textPopup.h"
 
 u8 Entity::IsElemental(ItemID id){
-  if (id >> 8 == 2) {
-    u8 index = GETINDEX(id);
-    //Air, Earth, Fire Water Elementals
-    if ((((index == 0xc2) || (index == 0xc4)) || (index == 0xc5)) || (index == 199)) return true;
-    else return (index == 0xbf); //firelord
+  if (id >> 8 == DB_ENTITY) {
+    u8 index = GETINDEX(id); 
+    if ((((index == EntInd_AirElemental) || 
+         (index == EntInd_EarthElemental)) 
+      || (index == EntInd_FireElemental)) 
+      || (index == EntInd_WaterElemental)) return true;
+    else return (index == EntInd_Firelord);
   }
   else return false;
 }
@@ -293,7 +295,7 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   if (pcVar4->ReqSTR <= iVar1) {
     if (!param_1->Skills->getModdedWeapon(pcVar4->wepClass)) bVar2 = 1;
     else {
-      if (param_1->ID == IDEntInd(EntInd_Neilsen)) { //Niesen
+      if (param_1->ID == IDEntInd(EntInd_Niesen)) {
         bVar2 = 1;
         if (param_2 == IDWeapon(weaponList[66])) //archmage stafff
         bVar2 = 0;
@@ -764,7 +766,7 @@ s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,
     bVar11 = false;
     if (combatTarget) {
       bVar11 = false;
-      if (gGlobals.EncounterDat.BossShadow) {
+      if (gGlobals.EncounterDat.canFlee) {
         combatTarget->Escaped();
         bVar11 = false;
       }

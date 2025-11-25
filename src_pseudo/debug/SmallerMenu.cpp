@@ -331,7 +331,7 @@ void set_debug_combat_battlefeild(BaseWidget *param_1){
       gGlobals.EncounterDat.collisionByte = rand_range(1,2);
       gGlobals.EncounterDat.aniByte = 0;
       gGlobals.EncounterDat.EncounterID = 0;
-      gGlobals.EncounterDat.BossShadow = 1;
+      gGlobals.EncounterDat.canFlee = true;
       gGlobals.combatBytes[2] = 1;
       FreeDebugMenu(gGlobals.playerCharStruct.debugMenuArena);
       gGlobals.playerCharStruct.unkState = 2;
@@ -393,7 +393,7 @@ bool DebugTeleportMenu(void){
     scrollMenu->Append(txt);
     txt->varU16=i;
   }
-  scrollMenu->boundY0 = 0x4b;
+  scrollMenu->boundY0 = 75;
   scrollMenu->boundY1 = 200;
   gGlobals.playerCharStruct.debugMenuTP->Link(scrollMenu);
   gGlobals.playerCharStruct.debugMenuTP->UpButtonFunc = SmallerDebugWidgetUpFunc;
