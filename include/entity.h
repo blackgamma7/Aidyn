@@ -113,11 +113,11 @@ struct EntityRAM { /* entity data in Ram */
 };
 
 struct enitityInfo{
-	u16 index;
+	u16 index; //+1 off from entity's usual index.
 	u32 Model; //index of "borg7" file.
 	u32 portrait; //index of "borg8" file.
-	float unk10;
-	float height;
+	float unk10; //used for animations?
+	float height; //estimated height of model at 1x scale
 	float radius; //radius of collision sphere
 	float scale; //scale of model
 };
@@ -178,7 +178,7 @@ struct CharSheet { /* Skills, stats and misc of Characters */
     u8 spellSwitch;
     u8 currSpell;
     u32 unk0x40;
-    Borg8Header *portrait;
+    struct Borg8Header *portrait;
 };
 
 class EntityDB {
