@@ -62,7 +62,7 @@ struct GlobalsSub { /* 0x800e6988 in Debug version*/
     u16 mapDatC;
     WeatherStruct weather;
     PlayerHandler PlayerHandler;
-    ParticleHeadStruct particleEmmiter;
+    ParticleHeadStruct particleHead;
     u8 unk718[128]; //unused?
     DynamicLightHead DynamicLights;
     voxelObject *refObjPointer;

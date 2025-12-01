@@ -102,7 +102,7 @@ ParticleEmmiter *AllocPrecipParticles(vec3f *aim,vec3f *vel,vec4f *col,s16 textu
     Particle::SetFlag(emmi->particles,PARTICLE_0400);
     ret = NewParticleEmmiter(60,textureA,0,NULL,PrecipParticleFuncB,PrecipParticleFuncC,aim,emmi);
     if (!ret) {
-      Particle::ResetEmmiter(&gGlobals.gameVars.particleEmmiter,emmi);
+      Particle::ResetEmmiter(&gGlobals.gameVars.particleHead,emmi);
       return NULL;
     }
     else {
@@ -247,10 +247,10 @@ LAB_80023514:
   if (sky4) {
     if (W->rainParticles) {
       if (W->rainParticles->link) {
-        Particle::ResetEmmiter(&gGlobals.gameVars.particleEmmiter,W->rainParticles->link);
+        Particle::ResetEmmiter(&gGlobals.gameVars.particleHead,W->rainParticles->link);
         W->rainParticles->link = NULL;
       }
-      Particle::ResetEmmiter(&gGlobals.gameVars.particleEmmiter,W->rainParticles);
+      Particle::ResetEmmiter(&gGlobals.gameVars.particleHead,W->rainParticles);
       W->rainParticles = NULL;
     }
     RemoveSFX(W);

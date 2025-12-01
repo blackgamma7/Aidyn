@@ -134,7 +134,7 @@ u8 FUN_80027f1c(Gfx **GG,u16 delta);
 void func_keel_over_after_ambush(CombatEntity *param_1,playerData *param_2);
 void FUN_80028180();
 u8 FUN_800282cc(Gfx **GG,u16 delta);
-void some_death_func_B(playerData *param_1,u8 param_2,CombatEntity *param_3);
+void Combat_ActorDeath(playerData *param_1,u8 param_2,CombatEntity *param_3);
 void FUN_800284d4();
 u8 FUN_800286d8(Gfx** GG,u16 delta);
 u8 FUN_80028778(Gfx **GG,u16 delta);

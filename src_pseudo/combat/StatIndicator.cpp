@@ -22,7 +22,7 @@ namespace CombatStatIndicator{
     memset(combatStatIndicatorDat.Indicators,0,MAXSTATDIGITS*sizeof(PlaneObj));
     ALLOCS(combatStatIndicatorDat.array,MAXSTATDIGITS,138);
     for(u32 i=0;i<MAXSTATDIGITS;i++){combatStatIndicatorDat.array[i]=i;}
-    }
+  }
 //parse damage/healing number for display
 u32 AddItem(playerData *param_1,int type,s16 num){
   Borg1Data *pBVar1;

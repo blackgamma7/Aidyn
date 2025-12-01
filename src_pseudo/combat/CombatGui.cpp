@@ -123,17 +123,11 @@ void init_combatgui_struct(ItemID param_1,u8 param_2,u8 param_3){
     else bVar5 = 2;
     pCVar9->unkb = bVar5;
     pCVar9->cEntIndex = param_2;
-    i = 0;
-    if (gCombatPortraitCount != 0) {
-      iVar4 = 0;
-      do {
-        if ((&gCombatRadarBlips->unk14)[(iVar4 + i) * 2] != 0) {
-          uVar6 = (u8)i;
-          goto LAB_8008f8f8;
-        }
-        i++;
-        iVar4 = i << 1;
-      } while (i < gCombatPortraitCount);
+    for(i=0;i<gCombatPortraitCount;i++){
+      if (gCombatRadarBlips[i].unk14) {
+        uVar6 = (u8)i;
+        goto LAB_8008f8f8;
+      }
     }
   }
   bVar5 = 3;

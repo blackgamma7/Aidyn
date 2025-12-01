@@ -25,36 +25,30 @@ void camera_collision_far(vec3f *a,vec3f *b) {
 }
 
 void combat_camera_func(Camera_struct *param_1,Borg9Data *param_2) {
-  bool bVar1;
-  float fVar2;
-  vec3f fStack208;
-  vec3f fStack144;
-  vec3f fStack80;
+  vec3f collidePos,posA,posB;
   
-  fStack144.x = (param_1->pos).x;
-  fStack144.z = (param_1->pos).z;
-  fStack144.y = (param_1->pos).y + 2.0f;
-  fStack80.y = (param_1->pos).y - 2.0f;
+  posA.x = (param_1->pos).x;
+  posA.z = (param_1->pos).z;
+  posA.y = (param_1->pos).y + 2.0f;
+  posB.y = (param_1->pos).y - 2.0f;
   if (combatCameraFlag2) combatCameraFlag2--;
-  fStack80.x = fStack144.x;
-  fStack80.z = fStack144.z;
-  bVar1 = CheckCollision(param_2,&fStack144,&fStack80,0.5,&fStack208,NULL,1);
-  if (!bVar1){
-    if (combatCameraFlag2 == 0) {
-      return;
-    }
-    if (!bVar1){
+  posB.x = posA.x;
+  posB.z = posA.z;
+  u16 collide = CheckCollision(param_2,&posA,&posB,0.5,&collidePos,NULL,true);
+  if (!collide){
+    if (combatCameraFlag2 == 0) return;
+    if (!collide){
       if (combatCameraFlag2 != 0) {
-        fStack208.y = FLOAT_800f1de0;
+        collidePos.y = FLOAT_800f1de0;
       }
     }
   }
-  if ((param_1->pos).y - fStack208.y < 1.0f) {
-    (param_1->pos).y = (param_1->posTarget).y = (fStack208.y +1.0f);
+  if ((param_1->pos).y - collidePos.y < 1.0f) {
+    (param_1->pos).y = (param_1->posTarget).y = (collidePos.y +1.0f);
   }
-  if (bVar1) {
+  if (collide) {
     combatCameraFlag2 = 10;
-    FLOAT_800f1de0 = fStack208.y;
+    FLOAT_800f1de0 = collidePos.y;
   }
   else combatCameraFlag2 = 0;
 }

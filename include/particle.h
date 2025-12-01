@@ -163,7 +163,7 @@ namespace Particle{
 };
 //shorthand for particle emmiter creatiom
 #define NewParticleEmmiter(lifespan,texture,count,func__,initFunc,tickFunc,object,link)\
-Particle::AllocParticleEmitter(&gGlobals.gameVars.particleEmmiter,lifespan,texture,count,func__,initFunc,tickFunc,object,link)
+Particle::AllocParticleEmitter(&gGlobals.gameVars.particleHead,lifespan,texture,count,func__,initFunc,tickFunc,object,link)
 
 //used by PlaneObj as well. sets vertex data
 void SetVtx(Vtx_t *v,float x,float y,float z,u16 flag,s16 U,s16 V,u8 R,u8 G,u8 B,u8 A);

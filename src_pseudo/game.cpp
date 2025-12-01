@@ -163,7 +163,7 @@ code_r0x80023c48:
   }
 LAB_80023c90:
   fadeFloatMirror = gGlobals.brightness;
-  gGlobals.gameVars.particleEmmiter.gray = gGlobals.brightness;
+  gGlobals.gameVars.particleHead.gray = gGlobals.brightness;
   if (true) {
     switch(gGlobals.screenFadeModeSwitch) {
     case 1:

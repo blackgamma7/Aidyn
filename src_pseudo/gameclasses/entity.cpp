@@ -1434,7 +1434,7 @@ void Entity::CheckDeathFromDoT(CharSheet *param_1,s16 param_2,s16 param_3,Combat
     Print_damage_healing(ppVar1,param_2,param_3,isDead(param_1),param_1);
     if (isDead(param_1)) {
       param_4->Death();
-      some_death_func_B(ppVar1,(u32)param_4->index,param_4);
+      Combat_ActorDeath(ppVar1,(u32)param_4->index,param_4);
     }
   }
 }

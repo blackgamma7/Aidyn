@@ -632,7 +632,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
       s16 skyVar=gGlobals.sky.Type;
       if (z->index == ZoneCenter) {
         gGlobals.gameVars.borg9DatPointer = &z->mapPointer->dat;
-        gGlobals.gameVars.particleEmmiter.borg9dat = gGlobals.gameVars.borg9DatPointer;
+        gGlobals.gameVars.particleHead.borg9dat = gGlobals.gameVars.borg9DatPointer;
         BorgMaps::GetMapTerrain(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
         //double-ckeck sky?
         if ((gGlobals.sky.Type == SkyTypeOutdoor) && (skyVar == SkyTypeOutdoor)) {
@@ -662,7 +662,7 @@ void ApplyZoneVelocity(vec3f *v,playerData *param_2){
   (param_2->collision).pos.z += (*v).z;
   if (param_2->flags & ACTOR_ISPLAYER) GiveCameraToPlayer(param_2);
   Camera::ApplyVelocity(&gCamera,v);
-  FUN_8001b888(&gGlobals.gameVars.particleEmmiter,v);
+  FUN_8001b888(&gGlobals.gameVars.particleHead,v);
 }
 //get reference point map object by ID number
 voxelObject * FindReferncePoint(Borg9Data *param_1,u16 id){  
@@ -835,7 +835,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
         Actor::CheckCollision(player,0.0,0,0);
       }
       gGlobals.gameVars.weather.rainParticles = NULL;
-      Particle::FUN_800b2bc4(&gGlobals.gameVars.particleEmmiter);
+      Particle::FUN_800b2bc4(&gGlobals.gameVars.particleHead);
     }
     Camera::SetFeild70(&gCamera, &(player->collision).pos);
   }
@@ -1230,7 +1230,7 @@ LAB_80010084:
               }
               sVar8 = (s16)local_60;
               if (NoExpPak_memCheck(0)) {
-                pBVar3 = func_loading_borg7((SObj->scene).borgArray[0].borgIndex,&gGlobals.gameVars.particleEmmiter);
+                pBVar3 = func_loading_borg7((SObj->scene).borgArray[0].borgIndex,&gGlobals.gameVars.particleHead);
                 (SObj->scene).borgArray[0].b7 = pBVar3;
                 pAVar4 = pBVar3->sceneDat;
                 Borg7_SetAnimation(pBVar3,0);
@@ -1449,7 +1449,7 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   puStack_30 = uStack144[0] + 1;
   ppGStack_2c = &gOut;
   uStack_40 = 1;
-  pPStack_38 = &gGlobals.gameVars.particleEmmiter;
+  pPStack_38 = &gGlobals.gameVars.particleHead;
   uStack60 = &gCamera.rotation;
   uStack_44 = (u32)(gGlobals.gameVars.borg9DatPointer)->byte0x1b;
   iVar2 = 0;
@@ -1714,7 +1714,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
     gGlobals.gameVars.playerPos2d.y = (pmVar8->playerVec3).z;
   }
   InitPlayerHandler(&gCamera,sVar9,3);
-  Particle::InitParticleHead(&gGlobals.gameVars.particleEmmiter,gGlobals.gameVars.borg9DatPointer,partCount,0x11,
+  Particle::InitParticleHead(&gGlobals.gameVars.particleHead,gGlobals.gameVars.borg9DatPointer,partCount,0x11,
                    aiStack_e8);
   FUN_8000d744();
   no_TP_vec3 = 1;
@@ -1831,7 +1831,7 @@ void FreeZoneEngine(s16 playMusic){
   if (gGlobals.gameVars.zoneEngineInit == 0) {CRASH("FreeZoneEngine","Zone Engine Not Initialized");}
   gGlobals.gameVars.zoneEngineInit = 0;
   if (!playMusic) clear_music_values(true);
-  Particle::FreeEmmiters(&gGlobals.gameVars.particleEmmiter);
+  Particle::FreeEmmiters(&gGlobals.gameVars.particleHead);
   Weather::Free(&gGlobals.gameVars.weather);
   zonedat_clear_all();
   FreeScriptCameras(&gGlobals.scriptcamera);
@@ -2022,7 +2022,7 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   DEBUGSprintf("ProcessAndRenderParticleHead");
   gGlobals.text[0] = '\0';
   if (gGlobals.gameVars.gamemodeType != 2) {
-    Particle::ProcessAndRenderParticleHead(&G,&gGlobals.gameVars.particleEmmiter,&gCamera.rotation,delta,
+    Particle::ProcessAndRenderParticleHead(&G,&gGlobals.gameVars.particleHead,&gCamera.rotation,delta,
                                  Graphics::GetBufferChoice(),1);
   }
   DEBUGSprintf("ProcessAudioBubbles");

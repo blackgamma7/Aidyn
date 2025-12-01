@@ -21,13 +21,13 @@ void chest_explode_particles(voxelObject *chest,float height,vec4f *color,u16 li
     Particle_s *pPVar1 = pEmmi->particles;
     Particle::SetFlag(pPVar1,PARTICLE_0100);
     Particle::SetColorB(pPVar1,0.0,gravity,0.0,1.0f);
-    pPVar1 = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,pEmmi,lifespan);
+    pPVar1 = Particle::FUN_800b27cc(&gGlobals.gameVars.particleHead,pEmmi,lifespan);
     Particle::SetFlag(pPVar1,PARTICLE_0200);
     Particle::SetColorB(pPVar1,color->x,color->y,color->z,color->w);
     Vec4Neg(&pPVar1->colorB);
     Vec4Scale(&pPVar1->colorB,Particle::OneOverLifespan(pPVar1));
     for(s16 i=0;i<count;i++){
-        pPVar1 = Particle::FUN_800b277c(&gGlobals.gameVars.particleEmmiter,pEmmi,lifespan);
+        pPVar1 = Particle::FUN_800b277c(&gGlobals.gameVars.particleHead,pEmmi,lifespan);
         Particle::SetScale(pPVar1,0.25,0.25);
         Particle::SetPos(pPVar1,(chest->header).pos.x,(chest->header).pos.y,(chest->header).pos.z);
         Particle::SetColorA(pPVar1,color->x,color->y,color->z,color->w);
@@ -71,7 +71,7 @@ void SmokeUnusedPart(voxelHeader* vox,vec3f *vel,vec4f *color,float param_4,
     emmi->unk40 = param_4;
     Particle::SetFlag(part,PARTICLE_0100);
     Particle::SetColorB(part,0.0,velY,0.0,1.0f);
-    part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,lifespan);
+    part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleHead,emmi,lifespan);
     Particle::SetFlag(part,PARTICLE_0200);
     Particle::SetColorB(part,color->x,color->y,color->z,color->w);
     Vec4Scale(&part->colorB,(-1.0f/120));
@@ -124,11 +124,11 @@ FUN_8001b29c(vec3f *pos,u16 lifespan,s16 texture,u16 count,s16 param_5,float par
   emmi->unk1a = param_5;
   Particle::SetFlag(part,PARTICLE_0100);
   Particle::SetColorB(part,0.0,6e-05f,0.0,1.0f);
-  part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,lifespan);
+  part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleHead,emmi,lifespan);
   Particle::SetFlag(part,PARTICLE_0400);
   float gray = param_6 / param_5;
   Particle::SetColorB(part,gray,gray,gray,0.0);
-  part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleEmmiter,emmi,lifespan);
+  part = Particle::FUN_800b27cc(&gGlobals.gameVars.particleHead,emmi,lifespan);
   Particle::SetFlag(part,PARTICLE_0200);
   float scale = -1.0 / param_5;
   Vec4Sub(&part->colorB,colA,colC);

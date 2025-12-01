@@ -1119,9 +1119,9 @@ void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
       Scene::SetLightData(param_1->SceneDat);
       Scene::SceneSetMaxDynamicDirLights(param_1->SceneDat,4);
     }
-    param_1->borg7P = func_loading_borg7(param_2,&gGlobals.gameVars.particleEmmiter);
+    param_1->borg7P = func_loading_borg7(param_2,&gGlobals.gameVars.particleHead);
     param_1->borg7 = param_2;
-    Scene::SetParticleHead(param_1->borg7P->sceneDat,&gGlobals.gameVars.particleEmmiter);
+    Scene::SetParticleHead(param_1->borg7P->sceneDat,&gGlobals.gameVars.particleHead);
     Scene::SetFlag40(param_1->borg7P->sceneDat);
     Scene::SetFlag4(param_1->borg7P->sceneDat);
     Scene::SetFogFlag(param_1->borg7P->sceneDat);
@@ -1137,7 +1137,7 @@ void Actor::FreePlayerActor(playerData *param_1){
     CRASH("FreePlayerActor","No Actor To Free!");
   CombatAttackVisuals::FreePlayer(param_1);
   if (param_1->borg7P) {
-    Particle::UnsetSceneEmmiter(&gGlobals.gameVars.particleEmmiter,param_1->borg7P->sceneDat);
+    Particle::UnsetSceneEmmiter(&gGlobals.gameVars.particleHead,param_1->borg7P->sceneDat);
     FREEQB7(param_1->borg7P);
   }
   if (param_1->SceneDat) FREEQSCENE(param_1->SceneDat);

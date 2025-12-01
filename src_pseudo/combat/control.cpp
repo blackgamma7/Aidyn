@@ -195,7 +195,7 @@ void FUN_8008d824(){
         bVar2=true;
     }
   }
-  SpellInstance *pSVar3 = Entity::GetSpell(pCVar1->charSheetP);   // Not teleport
+  SpellInstance *pSVar3 = Entity::GetSpell(pCVar1->charSheetP);
   if (((pSVar3 == NULL) || ((pSVar3->base).id != IDSpell(SpellList[SPELLIND_teleportation]))) ||
      (some_combat_proximity_check(gCombatP,pCVar1->charSheetP->ID,(gCombatP->SpellMarkerPos).x,
                          (gCombatP->SpellMarkerPos).y))) {

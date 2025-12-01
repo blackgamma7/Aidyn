@@ -247,7 +247,7 @@ u8 FUN_800282cc(Gfx **GG,u16 delta){
   return 2;
 }
 
-void some_death_func_B(playerData *param_1,u8 param_2,CombatEntity *param_3){
+void Combat_ActorDeath(playerData *param_1,u8 param_2,CombatEntity *param_3){
   if (param_1) {
     param_3->ClearSpellEffects();
     Entity::ClearAllPotionEffects(param_3->charSheetP);
@@ -282,7 +282,7 @@ void FUN_800284d4(void){
      (0x3b < (u32)gCombatP->AniTimer)) {
     gCombatP->AniTimer = 0;
     Actor::UnsetFlag(ppVar3,ACTOR_800);
-    if (Entity::isDead(pCVar4->charSheetP)) some_death_func_B(ppVar3,bVar1,pCVar4);
+    if (Entity::isDead(pCVar4->charSheetP)) Combat_ActorDeath(ppVar3,bVar1,pCVar4);
     ppVar3 = gGlobals.playerDataArray[pCVar2->index];
     if (ppVar3 == NULL) {
       ppVar3 = gGlobals.playerDataArray[bVar1];

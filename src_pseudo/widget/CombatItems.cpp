@@ -9,6 +9,12 @@ WidgetCombatItems * LoadCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,
   return new WidgetCombatItems(showWeapon,ShowArmor,showShield,gear,potions);
 }
 
+void init_combatItemValues(void) {
+  for(u32 i=0;i<4;i++){
+    gCombatItemSelections[i]=0xff;
+  }
+}
+
 BaseWidget * FUN_80092894(BaseWidget *param_1,BaseWidget *param_2){
   CombatEntity *pCVar1 = gCombatP->current_Ent;
   FUN_8006f8d8(pCVar1,param_2->varU16,param_2->varU8);
@@ -17,7 +23,7 @@ BaseWidget * FUN_80092894(BaseWidget *param_1,BaseWidget *param_2){
   return NULL;
 }
 
-BaseWidget * FUN_80092894(BaseWidget *param_1,BaseWidget *param_2){
+BaseWidget * FUN_800928f8(BaseWidget *param_1,BaseWidget *param_2){
     gCombatP->current_Ent->charSheetP->spellSwitch=param_2->varU16;
     gCombatP->current_Ent->charSheetP->currSpell=param_2->varU8;
     FUN_8008d56c();
@@ -37,23 +43,23 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   BaseWidget *pBVar8;
   ulong uVar9;
   u32 i;
-  Color32 aCStack_68 [26];
+  Color32 aCStack_68;
   
   wMax = 120;
   i = 0;
   pCVar1 = gCombatP->current_Ent;
   pCVar2 = pCVar1->charSheetP;
-  aCStack_68[0].R = 0;
-  aCStack_68[0].G = 200;
-  aCStack_68[0].B = 0;
-  aCStack_68[0].A = 0xe1;
+  aCStack_68.R = 0;
+  aCStack_68.G = 200;
+  aCStack_68.B = 0;
+  aCStack_68.A = 0xe1;
   pBVar5 = loadBorg8(BORG8_IconItemPotion);//loads the potion icon
   u16 iconSize = (pBVar5->dat).Width;      //just to measure it
   borg8_free(pBVar5);                      //and throws it away
   for(i=0;i<MAXPOTIONS;i++){
     if (potions[i] != -1) {
       w = char_func_icon(potion_names[i],FUN_80092894,IDPotion(i),(char)potions[i],
-                         aCStack_68,BORG8_IconItemPotion,iconSize);
+                         &aCStack_68,BORG8_IconItemPotion,iconSize);
       wMax = MaxWidgetWidth(w,wMax);
       AppendScrollMenu(w);
     }

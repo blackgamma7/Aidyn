@@ -100,16 +100,10 @@ LAB_800948d8:
           goto LAB_800948d8;
         }
       }
-      if (piVar8->SpellID ==  SPELLIND_darkness) {
-LAB_800948fc:
+      if ((piVar8->SpellID ==  SPELLIND_darkness)||(piVar8->SpellID ==  SPELLIND_light)) {
         bVar2 = (piVar8->flags & 0x200) != 0;
       }
-      else {
-        if (piVar8->SpellID == SPELLIND_light) {
-          goto LAB_800948fc;
-        }
-        bVar2 = true;
-      }
+      else bVar2 = true;
       if ((((bVar3) && (bVar4)) && (bVar5)) && (bVar2)) {
         FUN_80094f40(piVar8->field2_0x8);
         FUN_80094f40(piVar8->field3_0xa);
@@ -373,7 +367,7 @@ LAB_800950ec:
     spellVisB->field7_0x2c = param_1;
     if (type - 5 < 2) spellVisB->b7 = NULL;
     else {
-      pAVar6 = func_loading_borg7(BVar6,&gGlobals.gameVars.particleEmmiter);
+      pAVar6 = func_loading_borg7(BVar6,&gGlobals.gameVars.particleHead);
       pAVar1 = pAVar6->sceneDat;
       Scene::SetFlag40(pAVar1);
       Scene::SetFlag4(pAVar1);
@@ -419,7 +413,7 @@ void FUN_800952c8(s16 param_1,s16 param_2,s16 param_3){
       pAVar3 = NULL;
       if (pBVar2 != NULL) pAVar3 = pBVar2->sceneDat;
     }
-    pAVar1->particleHead = &gGlobals.gameVars.particleEmmiter;
+    pAVar1->particleHead = &gGlobals.gameVars.particleHead;
     pAVar1->locatorScene1 = pAVar4;
     pAVar1->locatorScene2 = pAVar3;
   }
@@ -428,7 +422,7 @@ void FUN_800952c8(s16 param_1,s16 param_2,s16 param_3){
 void FUN_800953a8(s16 param_1){
   SpellVisualTypeB *pSVar1 = SpellVisuals.ptr1 + param_1;
   if ((((pSVar1->flags & 1)) && (pSVar1->spellID != 5)) && (pSVar1->spellID != 6)) {
-    Particle::UnsetSceneEmmiter(&gGlobals.gameVars.particleEmmiter,pSVar1->b7->sceneDat);
+    Particle::UnsetSceneEmmiter(&gGlobals.gameVars.particleHead,pSVar1->b7->sceneDat);
   }
 }
 
@@ -907,7 +901,7 @@ bool some_spellEnum_bool(u8 param_1){
 
 s32 getSpellBorg7(u8 param_1,u32 *param_2){
   s32 BVar1;
-  undefined4 uVar2;
+  u32 uVar2;
   
   uVar2 = 0;
   if (false) {
@@ -1201,53 +1195,53 @@ switchD_80096820_caseD_b:
     goto LAB_800968bc;
   }
   switch(param_1) {
-  case 0:
+  case POTION_FIRE:
     sVar1 = 0x1a56;
     uVar2 = 0x3000;
     break;
-  case 1:
+  case POTION_INFERNO:
     sVar1 = 0x1a00;
     uVar2 = 0x6400;
     break;
-  case 2:
+  case POTION_SLEEP:
     sVar1 = 0x1a83;
     uVar2 = 0x3c00;
     break;
-  case 3:
+  case POTION_ACID:
     sVar1 = 0x19cb;
     uVar2 = 0x3c00;
     break;
-  case 4:
+  case POTION_HEALING:
     sVar1 = 0x1a65;
     uVar2 = 0x4000;
     break;
-  case 5:
+  case POTION_STAMINA:
     sVar1 = 0x1a91;
     uVar2 = 0x4800;
     break;
-  case 6:
+  case POTION_CURING:
     sVar1 = 0x1a10;
     uVar2 = 0x6400;
     break;
-  case 7:
+  case POTION_ANTIDOTE:
     sVar1 = 0x19db;
     uVar2 = 0x4400;
     break;
-  case 8:
+  case POTION_RESTORE:
     sVar1 = 0x1a74;
     uVar2 = 0x5000;
     break;
-  case 9:
+  case POTION_STRENGTH:
     sVar1 = 0x1ab9;
     goto LAB_80096840;
-  case 10:
+  case POTION_DEXTERITY:
     sVar1 = 0x1a48;
 LAB_80096840:
     uVar2 = 0x12000;
     break;
   default:
     goto switchD_80096820_caseD_b;
-  case 0xf:
+  case POTION_DEFENCE:
     sVar1 = 0x1a20;
     uVar2 = 0x5400;
   }

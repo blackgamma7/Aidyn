@@ -48,7 +48,7 @@ class WidgetFastScrollMenu : public BaseWidget{
 
 //scroll menu substruct used by WidgetScrollMenu and WidgetFastScrollMenu
 struct WSMSub {
-    u8 scrollSpeed; //set, but seemingly unread. named for WSLSub conterpart's use
+    u8 scrollSpeed; //only used by WidgetCombatScrollMenu
     u8 blendSign; //+/- 1
     u8 reds[2];
     u8 blues[2];
@@ -57,9 +57,9 @@ struct WSMSub {
     u8 blendA;
     u8 blendB;
     Color32 col; //color used for highlighted item.
-    u16 XOff; //unused?
+    u16 XOff;
     u16 yOff;
-    u8 unk14[2]; //unused?
+    u16 unk14; //unused?
     u16 unk16; //always 0
     BaseWidget** items;
     u16 maxCount;
