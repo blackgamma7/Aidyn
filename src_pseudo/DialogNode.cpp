@@ -225,9 +225,7 @@ u8 DialogNode_func(dialougeInstance *param_1,Borg13Data *param_2){
   int iVar6;
   u32 uVar9;
   int iVar10;
-
-  
-  
+ 
   param_1->borg13End = 0;
   command_bitmask_6(param_2,0);
   Dialoug_commands(param_1,param_2,0);
@@ -366,7 +364,6 @@ void Dialoug_commands(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
   bool bVar2;
   int iVar3;
   int iVar6;
-  u8 uVar7;
   u8 i;
   u32 uVar9;
   char acStack_130 [256];
@@ -394,9 +391,7 @@ LAB_800b6770:
         param_1->unk108 =param_2->commands_pointer[param_3].ops[i].val;
         break;
       case B13Com_LoadMonster:
-        uVar7 = 0;
-        bVar2 = false;
-        do {
+        for(u8 uVar7=0,bVar2 = false;!bVar2;uVar7++) {
           if (uVar7 == 0xc) {
             sprintf(acStack_130,"Dialog LoadMonster command: Too many monsters");
             CRASH("./src/dialog.cpp",acStack_130);
@@ -405,8 +400,7 @@ LAB_800b6770:
             bVar2 = true;
             param_1->encounterEnemies[uVar7] =param_2->commands_pointer[param_3].ops[i].val;
           }
-          uVar7++;
-        } while (!bVar2);
+        }
         goto LAB_800b68e0;
       case B13Com_SetCollideByte:
         param_1->collisionByte =param_2->commands_pointer[param_3].ops[i].val;
