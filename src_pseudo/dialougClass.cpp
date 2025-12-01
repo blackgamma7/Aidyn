@@ -129,28 +129,28 @@ DialougeClass::DialougeClass(WidgetHandler *h){
   this->handler = h;
   this->unk0 = 0;
   this->unk1C = 0;
-  this->dialouge_substruct = NULL;
+  this->inst = NULL;
   this->unk20 = 0;
   this->menu = NULL;
   this->unkC = 0;
   this->borg_13_dat = NULL;
 }
 
-bool DialougeClass::StartDialoug(Borg13Data *b13,dialougmode_substruct *param_3,byte param_4,u8 param_5){  
+bool DialougeClass::StartDialoug(Borg13Data *b13,dialougeInstance *param_3,u8 param_4,u8 param_5){  
   this->borg_13_dat = b13;
   this->unkC = 0;
   if (b13) {
     this->type = param_4;
     this->unk1C = 0;
     this->unk20 = 0;
-    this->dialouge_substruct = param_3;
+    this->inst = param_3;
     #ifdef DEBUGVER
     Gsprintf("StartDialog\n");
     N64Print::Print(gGlobals.text);
     #endif
-    FUN_800b6cb8(this->dialouge_substruct,this->borg_13_dat,0);
-    if (this->dialouge_substruct != NULL) {
-      if (this->dialouge_substruct->borg13End) return false;
+    FUN_800b6cb8(this->inst,this->borg_13_dat,0);
+    if (this->inst) {
+      if (this->inst->borg13End) return false;
       LoadMenuSubstruct(param_5);
       if (this->unk20 == 0) {
         if (this->unkC == 0) {
@@ -171,14 +171,14 @@ bool DialougeClass::m8004ea94(BaseWidget *w){
   
   if (this->unk20 == 0) {
     bVar2 = false;
-    if (this->dialouge_substruct) {
+    if (this->inst) {
       ClearScrollMenu();
       if (this->unk1C == 0) {
-        dialougmode_substruct *pdVar1 = this->dialouge_substruct;
+        dialougeInstance *pdVar1 = this->inst;
         if (pdVar1->unk110 == -1) FUN_800b6cb8(pdVar1,this->borg_13_dat,(char)w->varU16);
         else FUN_800b6cb8(pdVar1,this->borg_13_dat,pdVar1->unk110);
       }
-      if (this->dialouge_substruct == NULL) bVar2 = false;
+      if (this->inst == NULL) bVar2 = false;
       else {
         if ((this->unkC == 0) && (this->unk20 == 0)) {
           this->unkC = 1;
@@ -222,7 +222,7 @@ void DialougeClass::LoadMenuSubstruct(u8 param_2){
 
 bool DialougeClass::Setup(){
   byte bVar1;
-  dialougmode_substruct *pdVar2;
+  dialougeInstance *pdVar2;
   bool bVar5;
   s16 sVar6;
   u32 ind;
@@ -239,7 +239,7 @@ bool DialougeClass::Setup(){
   
   bVar5 = false;
   sub = (DiaMenuSub *)this->menu->substruct;
-  if (this->dialouge_substruct->diags[1].next == 0xff) return false;
+  if (this->inst->diags[1].next == 0xff) return false;
   sub->InitDefault(this->type);
   //case-switch? Needs untangled.
   if (this->type < 2) iVar11 = this->unk1C;
@@ -251,18 +251,18 @@ bool DialougeClass::Setup(){
     iVar11 = this->unk1C;
   }
   if (iVar11 == 0) {
-    pdVar2 = this->dialouge_substruct;
+    pdVar2 = this->inst;
     if ((pdVar2->diags[2].next != 0xff) && (pdVar2->diags[0].ent_ID == pdVar2->diags[1].ent_ID)) {
       bVar5 = true;
     }
     if (false) goto LAB_8004edd4; //??
-    ind = gEntityDB->GetPortrait(this->dialouge_substruct->diags[0].ent_ID);
+    ind = gEntityDB->GetPortrait(this->inst->diags[0].ent_ID);
     char** cc= (char**)sub->text->substruct; //dirty hack to get substruct text
-    strcpy(*cc,this->dialouge_substruct->diags[0].txt);
+    strcpy(*cc,this->inst->diags[0].txt);
     if (gGlobals.DebugStatDisplay == 0) {
       look_for_dialouge_v_Num(*cc);
     }
-    sub->text->varU16 = (u16)this->dialouge_substruct->diags[1].next;
+    sub->text->varU16 = (u16)this->inst->diags[1].next;
   }
   else {
 LAB_8004edd4:
@@ -272,7 +272,7 @@ LAB_8004edd4:
   Utilities::SetBorg8Dims(sub->Portrait,SuperMenuClasses::Add(ind),false);
   uVar7 = sub->PortraitBorder->GetHeight();
   uVar12 = (s16)uVar7 + 0xb4;
-  if (((this->dialouge_substruct->diags[2].next == 0xff) || (bVar5)) && (this->unk1C == 0)) {
+  if (((this->inst->diags[2].next == 0xff) || (bVar5)) && (this->unk1C == 0)) {
 LAB_8004ef58:
     pBVar8 = sub->text;
     pBVar8->boundY1 = uVar12 - 2;
@@ -289,14 +289,14 @@ LAB_8004ef58:
   }
   else {
     pBVar8 = sub->scrollMenu;
-    pdVar2 = this->dialouge_substruct;
+    pdVar2 = this->inst;
     uVar12 = sub->text->boundX0 + 10;
     pBVar8->posX = uVar12;
     pBVar8->boundX0 = uVar12;
     uVar12 = (s16)uVar7 + 0xb0;
-    for(iVar11 = 1;this->dialouge_substruct->diags[iVar11+1].next != 0xff,iVar11 < 9;iVar11++) {
-        entry = WText(this->dialouge_substruct->diags[iVar11].txt);
-        bVar1 = this->dialouge_substruct->diags[iVar11+1].next;
+    for(iVar11 = 1;this->inst->diags[iVar11+1].next != 0xff,iVar11 < 9;iVar11++) {
+        entry = WText(this->inst->diags[iVar11].txt);
+        bVar1 = this->inst->diags[iVar11+1].next;
         entry->varU8 = iVar11;
         entry->varU16 = bVar1;
         sub->scrollMenu->Append(entry);
@@ -349,37 +349,34 @@ void DialougeClass::FreeWidgets(){
     handler->FreeWidget(this->menu);
     if (this->menu) this->menu->~WidgetMenu();
     this->menu = NULL;
-    this->dialouge_substruct = NULL;
+    this->inst = NULL;
     this->unkC = 1;
   }
 }
 
-void DialougeClass::SetUnk20(){unk20=1;}
-
+void DialougeClass::SetUnk20(){unk20=true;}
 
 bool DialougeClass::m8004f264(){
-  dialougmode_substruct *pdVar1;
-  bool bVar2;
-  
-  bVar2 = false;
-  if ((((this->unk20 != 0) && (pdVar1 = this->dialouge_substruct, pdVar1 != NULL)) &&
-      (this->borg_13_dat != NULL)) && (bVar2 = false, pdVar1->borg13End == 0)) {
-    this->unk20 = 0;
-    bVar2 = false;
+  dialougeInstance *pdVar1;
+  bool ret = false;
+  if ((((this->unk20) && (pdVar1 = this->inst, pdVar1 != NULL)) &&
+      (this->borg_13_dat != NULL)) && (ret = false, pdVar1->borg13End == 0)) {
+    this->unk20 = false;
+    ret = false;
     if (pdVar1->unk110 != -1) {
       FUN_800b6cb8(pdVar1,this->borg_13_dat,pdVar1->unk110);
-      bVar2 = false;
-      if (((this->unk20 == 0) && (pdVar1 = this->dialouge_substruct, pdVar1 != NULL)) &&
-         (bVar2 = false, pdVar1->borg13End == 0)) {
+      ret = false;
+      if (((!this->unk20) && (pdVar1 = this->inst, pdVar1 != NULL)) &&
+         (ret = false, pdVar1->borg13End == 0)) {
         if ((this->unkC == 0) && (pdVar1->unk110 == -1)) {
           this->unkC = 1;
           handler->AddWidget(this->menu);
         }
-        bVar2 = Setup();
+        ret = Setup();
       }
     }
   }
-  return bVar2;
+  return ret;
 }
 
 
@@ -497,12 +494,12 @@ void DialougeClass::m8004f810(){
   s16 sVar6;
   
   pvVar2 = (DiaMenuSub *)this->menu->substruct;
-  if ((this->dialouge_substruct->diags[2].next != 0xff)) {
-    for(iVar8=1;(this->dialouge_substruct->diags[iVar8+2].next != 0xff) && (8 >= iVar8);iVar8++){
+  if ((this->inst->diags[2].next != 0xff)) {
+    for(iVar8=1;(this->inst->diags[iVar8+2].next != 0xff) && (8 >= iVar8);iVar8++){
       if (pvVar2->text == NULL) {
-        pBVar3 = new WidgetShadowText(this->dialouge_substruct->diags[iVar8].txt,400);
+        pBVar3 = new WidgetShadowText(this->inst->diags[iVar8].txt,400);
         pBVar3->varU8 = (byte)iVar8;
-        pBVar3->varU16 = this->dialouge_substruct->diags[iVar8+1].next;
+        pBVar3->varU16 = this->inst->diags[iVar8+1].next;
         pvVar2->scrollMenu->Append(pBVar3);
         pvVar3 = (WSTSub *)pvVar2->shadText->substruct;
         pvVar4 = (WSTSub *)pBVar3->substruct;
@@ -514,18 +511,18 @@ void DialougeClass::m8004f810(){
         (pvVar4->col).A = (pvVar3->col).A;
       }
       else {
-        pBVar3 = WText(this->dialouge_substruct->diags[iVar8].txt);
+        pBVar3 = WText(this->inst->diags[iVar8].txt);
         pBVar3->varU8 = iVar8;
-        pBVar3->varU16 = this->dialouge_substruct->diags[iVar8+1].next;
+        pBVar3->varU16 = this->inst->diags[iVar8+1].next;
         pvVar2->scrollMenu->Append(pBVar3);
       }
     }
   }
   if (pvVar2->text == NULL) {
-    strcpy(Utilities::GetWidgetText(pvVar2->shadText),this->dialouge_substruct->diags[0].txt);
+    strcpy(Utilities::GetWidgetText(pvVar2->shadText),this->inst->diags[0].txt);
   }
   else {
-    strcpy(Utilities::GetWidgetText(pvVar2->text),this->dialouge_substruct->diags[0].txt);
+    strcpy(Utilities::GetWidgetText(pvVar2->text),this->inst->diags[0].txt);
   }
   #ifdef DEBUGVER //can toggle if "V####" is shown at start of text
   if (gGlobals.DebugStatDisplay == 0) {
@@ -539,12 +536,12 @@ void DialougeClass::m8004f810(){
     #endif
   if (pvVar2->text == NULL) {
     pBVar2 = pvVar2->shadText;
-    pBVar2->varU16 = (u16)this->dialouge_substruct->diags[1].next;
+    pBVar2->varU16 = (u16)this->inst->diags[1].next;
     sVar6 = pBVar2->GetHeight();
     pBVar2 = pvVar2->shadText;
   }
   else {
-    pBVar2->varU16 = (u16)this->dialouge_substruct->diags[1].next;
+    pBVar2->varU16 = (u16)this->inst->diags[1].next;
     sVar6 = pBVar2->GetHeight();
     pBVar2 = pvVar2->text;
   }

@@ -41,7 +41,7 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     this->fadeOut = NULL;
     puVar1->highlight = 0;
     puVar1->maxCount = length;
-    puVar1->currentCount = 0;
+    puVar1->numChoices = 0;
     puVar1->vSpace = 0;
     if (length == 0) puVar1->items = NULL;
     else {
@@ -59,8 +59,8 @@ WidgetScrollMenu::~WidgetScrollMenu(){
   
   WSMSub *pvVar1 = (WSMSub *)this->substruct;
   if (pvVar1) {
-    if (pvVar1->currentCount) {
-      for(u32 i=0;i<pvVar1->currentCount;i++) {
+    if (pvVar1->numChoices) {
+      for(u32 i=0;i<pvVar1->numChoices;i++) {
         DestructWidget(pvVar1->items[i])
       }
     }
@@ -72,8 +72,8 @@ WidgetScrollMenu::~WidgetScrollMenu(){
 
 Gfx * WidgetScrollMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   WSMSub *pvVar1 = (WSMSub *)this->substruct;
-  if (pvVar1->currentCount) {
-    for(u32 i=0;i<pvVar1->currentCount;i++) {
+  if (pvVar1->numChoices) {
+    for(u32 i=0;i<pvVar1->numChoices;i++) {
       if (pvVar1->items[i]) {
         g=pvVar1->items[i]->Render(g,x0,y0,x1,y1);
       }
@@ -114,8 +114,8 @@ u8 WidgetScrollMenu::Tick(){
     (sub->col).B = sub->blues[0] + ((sub->blues[1] - sub->blues[0]) / bVar1) * bVar4;
     (sub->col).A = (s16)(((sub->alphas[0] +(sub->alphas[1] - sub->alphas[0]) /bVar1) * bVar4)) *
     ((float)(this->col).A / 255.0f);
-    if (sub->currentCount) {
-      for(i=0;i<sub->currentCount;i++) {
+    if (sub->numChoices) {
+      for(i=0;i<sub->numChoices;i++) {
         entry = sub->items[i];
         entry->boundX0 = this->boundX0;
         entry->boundX1 = this->boundX1;
@@ -179,7 +179,7 @@ u8 WidgetScrollMenu::Append(BaseWidget *entry){
   entry->boundY0 = this->boundY0;
   entry->boundY1 = this->boundY1;
   entry->Tick();
-  pvVar2->items[pvVar2->currentCount++] = entry;
+  pvVar2->items[pvVar2->numChoices++] = entry;
   return true;
 }
 
@@ -190,7 +190,7 @@ u8 WidgetScrollMenu::Remove(BaseWidget *entry){
   int iVar4;
   int iVar5;
   WSMSub *pvVar2 = (WSMSub *)this->substruct;
-  uVar2 = pvVar2->currentCount;
+  uVar2 = pvVar2->numChoices;
   iVar5 = 0;
   if (uVar2 != 0) {
     ppBVar3 = pvVar2->items;
@@ -200,12 +200,12 @@ LAB_800ba2e0:
         iVar4 = iVar5;
         if (iVar5 < (int)(uVar2 - 1)) {
           ppBVar3 = pvVar2->items + iVar5;
-          for(iVar5 = (pvVar2->currentCount - 1) - iVar5;iVar5!=0;iVar5--) {
+          for(iVar5 = (pvVar2->numChoices - 1) - iVar5;iVar5!=0;iVar5--) {
             *ppBVar3 = ppBVar3[1];
             ppBVar3++;
           }
         }
-        pvVar2->items[pvVar2->currentCount--] = NULL;
+        pvVar2->items[pvVar2->numChoices--] = NULL;
         return true;
       }
     }

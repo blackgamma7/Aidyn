@@ -77,7 +77,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
     gGlobals.scrollLocation[1] = SCREEN_WIDTH;
     sub->scrollSpeed = 27.0f;
     if (bVar4) {
-      FUN_800a0090(sub->borg7,0x16);
+      Borg7_SetAnimation(sub->borg7,0x16);
       goto LAB_80035e34;
     }
     break;
@@ -87,7 +87,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
     gGlobals.scrollLocation[1] = SCREEN_CENTERW;
     sub->scrollSpeed = 0.0;
     if (bVar4) {
-      FUN_800a0090(sub->borg7,10);
+      Borg7_SetAnimation(sub->borg7,10);
       goto LAB_80035e34;
     }
     break;
@@ -97,14 +97,14 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
     gGlobals.scrollLocation[1] = -5;
     sub->scrollSpeed = -26.0f;
     if (bVar4) {
-      FUN_800a0090(sub->borg7,0x16);
+      Borg7_SetAnimation(sub->borg7,0x16);
       goto LAB_80035e34;
     }
     break;
     default:
       CRASH("BigAssMenu()","Unknown starting menu type");
   }
-  FUN_800a0090(sub->borg7,0);
+  Borg7_SetAnimation(sub->borg7,0);
 LAB_80035e34:
   InitOptionsMenu();
   if (uVar6 == 0) {
@@ -152,14 +152,14 @@ void PauseWidget::bigAssOpenCallback_2(){
     borg12 = Menu_Scroll;
     if (!bVar2) {
 LAB_800360bc:
-      FUN_800a0090(sub->borg7,11);
+      Borg7_SetAnimation(sub->borg7,11);
       goto LAB_800360dc;
     }
     break;
     case 1:
         borg12 = Menu_Scroll;
     if (!bVar2) {
-      FUN_800a0090(sub->borg7,19);
+      Borg7_SetAnimation(sub->borg7,19);
       goto LAB_800360dc;
     }
     break;
@@ -168,13 +168,13 @@ LAB_800360bc:
     if (!bVar2) {
       goto LAB_800360bc;
     }
-    FUN_800a0090(sub->borg7,0);
+    Borg7_SetAnimation(sub->borg7,0);
     break;
     default:
     CRASH("bigassOpenCallBack","unknown screen");
   }
 LAB_800360dc:
-  FUN_800a0304(sub->borg7,1);
+  Borg7_TickAnimation(sub->borg7,1);
   PlayAudioSound(&gGlobals.SFXStruct,borg12,0,1.0,60,0);
   this->SetState(WidgetS_Closing);
 }
@@ -233,7 +233,7 @@ void PauseWidget::AddToHandler(){
 
 Gfx* PauseWidget::Render(Gfx* g, u16 x0,u16 y0, u16 x1, u16 y1){
     g=RenderChildren(g,gGlobals.scrollLocation[0],y0,gGlobals.scrollLocation[1],y1);
-    g=BorgAnimDrawSceneLinked(g,((pause_Substruct*)this->substruct)->borg7);
+    g=Borg7_Render(g,((pause_Substruct*)this->substruct)->borg7);
     RSPFUNC6(g);
     return g;
 }
@@ -293,7 +293,7 @@ u8 PauseWidget::Tick(){
     fVar8+= sub->scrollfloat;
   }
   sub->scrollSpeed = fVar8;
-  if (!gOptionsMenuContPak) FUN_800a0304(sub->borg7,1);
+  if (!gOptionsMenuContPak) Borg7_TickAnimation(sub->borg7,1);
   Scene::MatrixASetPos(sub->sceneDat,sub->scrollSpeed,0.0,0.0);
   Scene::LookAt(sub->sceneDat,(sub->camPos).x,(sub->camPos).y,(sub->camPos).z,0.0,-100.0f,0.0,0.0,0.0,-1.0f);
   return TickChildren();

@@ -3,22 +3,20 @@
 
 u16 gCombatFreeCamera=0;
 
-void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
-    float fVar1;
-    float fVar2;
-    vec2f fStack104;
-    
-    fStack104.x = 0.0;
-    fStack104.y = 1.0f;
-    fVar1 = Vec2Dot(&fStack104,param_3);
-    fStack104.x = 1.0;
-    fStack104.y = 0.0;
-    fVar2 = Vec2Dot(&fStack104,param_3);
-    param_4->x = -(fVar1 * x + fVar2 * y);
-    param_4->y = -(fVar1 * y - fVar2 * x);
+void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
+    vec2f norm;
+
+    norm.x = 0.0;
+    norm.y = 1.0f;
+    float dot1 = Vec2Dot(&norm,vecIn);
+    norm.x = 1.0;
+    norm.y = 0.0;
+    float dot2 = Vec2Dot(&norm,vecIn);
+    VecOut->x = -(dot1 * x + dot2 * y);
+    VecOut->y = -(dot1 * y - dot2 * x);
   }
   
-  u16 Ofunc_GetCombatCameraMode(void){return gCombatFreeCamera;}
+  u16 Ofunc_GetCombatCameraMode(){return gCombatFreeCamera;}
   
   void setCombatCameraMode(u16 param_1){
     #ifdef DEBUGVER
@@ -76,15 +74,15 @@ void camera_control_update_(float x,float y,vec2f *param_3,vec2f *param_4){
     }
     #endif
     if ((controller->input & B_BUTTON)) {
-    if (gGlobals.playerCharStruct.show_portaits == 0) {
+     if (gGlobals.playerCharStruct.show_portaits == 0) {
       gGlobals.playerCharStruct.show_portaits = 1;
       MINIMAP.Toggle(1);
-    }
-    else {
+     }
+     else {
       gGlobals.playerCharStruct.show_portaits = 0;
       MINIMAP.Toggle(0);
-    }
-}
+     }
+   }
     if (p->ani_type != AniType_Dying) p->ani_type = 0;
     if (gGlobals.gameVars.gamemodeType == 1) {
       if (gCombatFreeCamera != 0) {
@@ -307,7 +305,6 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
   void Ofunc_8001986c(playerData *param_1,BUTTON_aidyn param_2){
     Actor::ClearInput(param_1);
     (param_1->controller).contAidyn.input_2 = (param_1->controller).contAidyn.input_2 | param_2;}
-  extern u32 DAT_800ee974;
   void Actor::MoveTo(playerData *param_1){
       u32 BVar2;
       int iVar3;
@@ -413,7 +410,7 @@ void FUN_80019b08(playerData *param_1){
     }
 }
   
-void debug_sub_3(void){
+void debug_sub_3(){
     if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
       for(u16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
         playerData* p= &gGlobals.gameVars.PlayerHandler.playerDats[i];

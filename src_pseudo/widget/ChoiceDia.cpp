@@ -233,8 +233,8 @@ void WidgetChoiceDia::MoveX(s16 posX){
 void WidgetChoiceDia::SetHighlight(u16 h){
   WSMSub *sub = (WSMSub *)this->scrollMenu->substruct;
   if (sub) {
-    if (h < sub->currentCount) sub->highlight = h;
-    else sub->highlight = sub->currentCount - 1;
+    if (h < sub->numChoices) sub->highlight = h;
+    else sub->highlight = sub->numChoices - 1;
   }
 }
 

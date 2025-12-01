@@ -8,7 +8,7 @@ WidgetFastScrollMenu::WidgetFastScrollMenu(u16 length):BaseWidget(){
   sub->blendSign = 1;
   sub->highlight = 0;
   sub->maxCount = length;
-  sub->currentCount = 0;
+  sub->numChoices = 0;
   sub->vSpace = 0;
   if(length) {
     BaseWidget** list=(BaseWidget**)HALLOC(length*sizeof(BaseWidget*),42);
@@ -26,8 +26,8 @@ WidgetFastScrollMenu::WidgetFastScrollMenu(u16 length):BaseWidget(){
 WidgetFastScrollMenu::~WidgetFastScrollMenu(){
   WSMSub *sub = (WSMSub *)this->substruct;
   if (sub) {
-    if (sub->currentCount != 0) {
-        for(u32 i=0;i<sub->currentCount;i++){
+    if (sub->numChoices != 0) {
+        for(u32 i=0;i<sub->numChoices;i++){
           DestructWidget(sub->items[i])
         }
     }
@@ -40,8 +40,8 @@ WidgetFastScrollMenu::~WidgetFastScrollMenu(){
 
 Gfx * WidgetFastScrollMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   WSMSub *sub = (WSMSub *)this->substruct;
-  if (sub->currentCount != 0) {
-    for(u32 i=0;i<sub->currentCount;i++){
+  if (sub->numChoices != 0) {
+    for(u32 i=0;i<sub->numChoices;i++){
       if ((this->col).A != 0xff) {
         sub->items[i]->col.A=this->col.A;
         sub->items[i]->Tick();
@@ -55,9 +55,9 @@ Gfx * WidgetFastScrollMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 
 u8 WidgetFastScrollMenu::Tick(){
   WSMSub *sub = (WSMSub *)this->substruct;
-  if ((sub->items) && (sub->currentCount)) {
-    if (sub->highlight >= sub->currentCount) {
-      sub->highlight = sub->currentCount - 1;
+  if ((sub->items) && (sub->numChoices)) {
+    if (sub->highlight >= sub->numChoices) {
+      sub->highlight = sub->numChoices - 1;
     }
     BaseWidget*highlighted = sub->items[sub->highlight];
     if (highlighted->posX != this->posX)
@@ -80,7 +80,7 @@ u8 WidgetFastScrollMenu::Tick(){
 
 void WidgetFastScrollMenu::AdjustItemsX(){
   WSMSub *sub = (WSMSub *)this->substruct;
-  if ((sub->items) && (sub->currentCount)) {
+  if ((sub->items) && (sub->numChoices)) {
     BaseWidget* w = *sub->items;
     u16 h = w->GetHeight();
     u16 i;
@@ -103,14 +103,14 @@ void WidgetFastScrollMenu::AdjustItemsX(){
     w->Tick();
 LAB_8002fe90:
     i = sub->highlight + 1;
-    if (i < sub->currentCount) {
+    if (i < sub->numChoices) {
       while (sub->items[i]->posY <= (s16)this->boundY1) {
         w = sub->items[i];
         w->posX = this->posX;
         w->boundX0 = this->boundX0;
         w->Tick();
         i++;
-        if (sub->currentCount <= i) {
+        if (sub->numChoices <= i) {
           return;
         }
       }
@@ -120,7 +120,7 @@ LAB_8002fe90:
 
 void WidgetFastScrollMenu::Update(){
   WSMSub *sub = (WSMSub *)this->substruct;
-  if ((sub->items != NULL) && (sub->currentCount != 0)) {
+  if ((sub->items != NULL) && (sub->numChoices != 0)) {
     BaseWidget*w = sub->items[sub->highlight];
     u16 h = w->GetHeight();
     s32 iVar4 = this->posY + sub->yOff + h * sub->highlight;
@@ -128,8 +128,8 @@ void WidgetFastScrollMenu::Update(){
       sub->yOff -= ((s16)(iVar4 + h) - this->boundY1);
     if (iVar4 < this->boundY0)
       sub->yOff += (this->boundY0 - (s16)iVar4);
-    if (sub->currentCount) {
-      for(u32 i=0,iVar4=0;i<sub->currentCount;i++) {
+    if (sub->numChoices) {
+      for(u32 i=0,iVar4=0;i<sub->numChoices;i++) {
         w = sub->items[i];
         w->boundX0 = this->boundX0;
         w->boundX1 = this->boundX1;
@@ -147,17 +147,17 @@ void WidgetFastScrollMenu::Update(){
 
 u8 WidgetFastScrollMenu::Append(BaseWidget *w){
   WSMSub *sub = (WSMSub *)this->substruct;
-  sub->items[sub->currentCount++] = w;
+  sub->items[sub->numChoices++] = w;
   return true;
 }
 
 BaseWidget* WidgetFastScrollMenu::UpFunc(){
   WSMSub *sub = (WSMSub *)this->substruct;
-  if (sub->currentCount != 0) {
+  if (sub->numChoices != 0) {
     u16 uVar1 = sub->highlight;
     if (sub->items[sub->highlight]) {
       if (uVar1 == 0) {
-        uVar1 = sub->currentCount;
+        uVar1 = sub->numChoices;
       }
       sub->highlight = uVar1 - 1;
     }
@@ -168,10 +168,10 @@ BaseWidget* WidgetFastScrollMenu::UpFunc(){
 
 BaseWidget* WidgetFastScrollMenu::DownFunc(){
   WSMSub *sub = (WSMSub *)this->substruct;
-  if (sub->currentCount != 0) {
+  if (sub->numChoices != 0) {
     u16 uVar1 = sub->highlight + 1;
     if ((sub->items[sub->highlight] != NULL) &&
-       (sub->highlight = uVar1, sub->currentCount <= uVar1)) {
+       (sub->highlight = uVar1, sub->numChoices <= uVar1)) {
       sub->highlight = 0;
     }
     Update();
@@ -181,15 +181,15 @@ BaseWidget* WidgetFastScrollMenu::DownFunc(){
 
 BaseWidget * WidgetFastScrollMenu::AFunc(){
   WSMSub *sub = (WSMSub *)this->substruct;
-  if (sub->currentCount) return sub->items[sub->highlight];
+  if (sub->numChoices) return sub->items[sub->highlight];
   return NULL;
 }
 
 u16 WidgetFastScrollMenu::GetHeight(){
   WSMSub *sub = (WSMSub *)this->substruct;
   if (sub->items){
-    if (sub->currentCount == 0) return 0;
-    return sub->currentCount * sub->items[0]->GetHeight();
+    if (sub->numChoices == 0) return 0;
+    return sub->numChoices * sub->items[0]->GetHeight();
   }
   return 0;
 }

@@ -18,7 +18,39 @@
 #define BORG8_ContPakBGShad 0x00e5
 #define BORG8_LoadGameTitle 0x00f1
 #define BORG8_SaveGameTitle 0x00ff
-//0x106-0x181 are most the character portaits.
+
+//character portaits
+
+#define BORG8_PortraitAbrecan 0x0106
+#define BORG8_PortraitAirElem 0x0107
+#define BORG8_PortraitAlaron 0x0108
+#define BORG8_PortraitBat   0x0110
+#define BORG8_PortraitBear  0x0112
+#define BORG8_PortraitBecan  0x0113
+#define BORG8_PortraitBoar  0x0114
+#define BORG8_PortraitBowden 0x0115
+#define BORG8_PortraitBrenna 0x0116
+#define BORG8_PortraitChaosScout 284
+#define BORG8_PortraitChaosMage 0x011e
+#define BORG8_PortraitChaosTroop 0x011f
+#define BORG8_PortraitDonovan 0x012d
+#define BORG8_PortraitDougal 0x012e
+#define BORG8_PortraitDryadF 0x012f
+#define BORG8_PortraitDryadM 0x0130
+#define BORG8_PortraitWyvern 0x0178
+#define BORG8_PortraitWolf 0x0176
+#define BORG8_PortraitNPCMale1 293
+#define BORG8_PortraitGoblin 318
+#define BORG8_PortraitGodrik 320
+#define BORG8_PortraitKeelin 335
+#define BORG8_PortraitShadow 361
+#define BORG8_PortraitSheridan 362
+#define BORG8_PortraitCrossbone 365
+#define BORG8_PortraitTentacle 366
+#define BORG8_PortraitBanner 384
+#define BORG8_PortraitSignpost 385
+#define BORG8_PortraitLich 0x0175
+
 #define BORG8_EXPPakYes 0x3758
 #define BORG8_EXPPakNo 0x3759
 #define BORG8_ErrorRegion 0x37c3
@@ -165,21 +197,7 @@ typedef enum Borg8Enum {
     Borg8_TitleCard=259,
     Borg8_TitleCardShadow=260,
     //42 px box=261,
-    BORG8_PortraitAbrecan=262,
-    BORG8_PortraitAlaron=264,
-    BORG8_PortraitBat=272,
-    BORG8_PortraitBear=274,
-    BORG8_PortraitChaosScout=284,
-    BORG8_PortraitNPCMale1=293,
-    BORG8_PortraitGoblin=318,
-    BORG8_PortraitGodrik=320,
-    BORG8_PortraitKeelin=335,
-    BORG8_PortraitShadow=361,
-    BORG8_PortraitSheridan=362,
-    BORG8_PortraitCrossbone=365,
-    BORG8_PortraitTentacle=366,
-    BORG8_PortraitBanner=384,
-    BORG8_PortraitSignpost=385,
+
     BORG8_JournalBG=386,
     BORG8_IconSkAlchemist=387,
     BORG8_IconSkDiplomat=388,
@@ -428,12 +446,28 @@ typedef enum Borg8Enum {
 #define BORG7_PauseMenu         0x0e6b
 #define BORG7_ship              0x0dc3
 #define BORG7_Alaron            0x25f9
+#define BORG7_AirElem           0x2f66
+#define BORG7_Bat               0x2dfa
+#define BORG7_Boar              0x28df
+#define BORG7_Bear              0x2d70
+#define BORG7_Bowden            0x2729
+#define BORG7_Dougal            0x2894
+#define BORG7_Donovan           0x28ce
+#define BORG7_Brenna            0x29e3
 #define BORG7_Keelin            0x2b29
 #define BORG7_Chicken           0x2ef2
 #define BORG7_pocho             0x32b0
 #define BORG7_Zombie            0x3489
-#define BORG7_Phelan            0x2808
+#define BORG7_Lich              0x33db
+#define BORG7_Cradagwgh         0x2808
+#define BORG7_Cyclops           0x2f1e
 #define BORG7_ChaosTrooper      0x2e82
+#define BORG7_ChaosMage         0x2eb6
+#define BORG7_ChaosScout        0x2e36
+#define BORG7_Wolf              0x3402
+#define BORG7_Wyvern            0x3463
+#define BORG7_DryadF            0x28dc
+#define BORG7_DryadM            0x28e9
 #define BORG7_Gryphon           0x3094
 #define BORG7_Ogre              0x324d
 

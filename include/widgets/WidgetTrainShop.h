@@ -53,10 +53,10 @@ class SMIItem:public BaseWidget{
 
 class WidgetInvShop: public WidgetTrainShop{
     public:
-    ItemInstance* unk8c;
+    ItemInstance* pricedItem;
     IInventory* inventory;
     class DollEquipmentMenu* dollMenu;
-    u16 unk98;
+    u16 inventorySize;
     u16 unk9a;
     WidgetInvShop(IInventory*,class DollEquipmentMenu*);
     ~WidgetInvShop();
@@ -69,7 +69,7 @@ class WidgetInvShop: public WidgetTrainShop{
     s32 GetExpPrice(u16);
     u32 GetGoldPrice(u16);
     u8 SetHighlight(ItemID,u8,u8);
-    bool m8003d194(u8);
+    bool TakeItem(u8);
     bool NewItem(ItemInstance*,u8,u8);
     bool AddItem(u16,u8,u8,char*,u16);
     void SortA();

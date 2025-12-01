@@ -3,7 +3,7 @@
 //combine headers for lensflare, cloud and skyobjects scripts
 
 struct lensflare_data {
-    u8 dat0;
+    u8 imgIndex;
     float f0;
     float f1;
     Color32 col;

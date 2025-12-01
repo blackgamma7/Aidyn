@@ -24,7 +24,7 @@ struct Camera_struct {
     vec3f unk70; /* another aim target? */
     s16 unk7c;
     s16 unk7e; /* length check between aimTarget and unk70 */
-    u16 unk80;
+    s16 unk80;
     s16 unk82;
     u16 unk84;
     Borg9Data *borg_9; /* current map data */

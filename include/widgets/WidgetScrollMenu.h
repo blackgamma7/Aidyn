@@ -64,7 +64,7 @@ struct WSMSub {
     BaseWidget** items;
     u16 maxCount;
     u16 highlight;
-    u16 currentCount;
+    u16 numChoices;
     u8 vSpace;
     u8 flag;
 };

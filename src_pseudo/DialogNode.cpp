@@ -28,7 +28,7 @@ byte command_bitmask_6(Borg13Data *param_1,u8 param_2){
 
 byte command_bitmask_7(Borg13Data *param_1,u8 param_2){return param_1->commands_pointer[param_2].bitmask >> 7;}
 
-bool FUN_800b59b8(dialougmode_substruct *param_1,Borg13Data *param_2,u8 param_3){
+bool FUN_800b59b8(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
   if (param_1->unk110 == -1) {
     dialoug_func_c_check(param_1,param_2,param_3);
     if (param_1->unk110 != -1) return true;
@@ -43,7 +43,7 @@ void FUN_800b5a1c(Borg13Data *param_1){
   }
 }
 
-byte dialogNode_func_2(dialougmode_substruct *param_1,Borg13Data *param_2,byte param_3){
+byte dialogNode_func_2(dialougeInstance *param_1,Borg13Data *param_2,byte param_3){
   borg13command *pbVar1;
   bool bVar6;
   byte bVar7;
@@ -216,7 +216,7 @@ LAB_800b60a4:
   return (byte)uVar11;
 }
 
-u8 DialogNode_func(dialougmode_substruct *param_1,Borg13Data *param_2){
+u8 DialogNode_func(dialougeInstance *param_1,Borg13Data *param_2){
   borg13command *pbVar1;
   int iVar2;
   char *pcVar4;
@@ -341,7 +341,7 @@ LAB_800b65a8:
   return uVar8;
 }
 
-u32 dialoug_func_b_check(dialougmode_substruct *param_1,Borg13Data *param_2,u8 param_3){
+u32 dialoug_func_b_check(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
   u8 bVar1;
   bool bVar2;
   u32 uVar4;
@@ -361,7 +361,7 @@ u32 dialoug_func_b_check(dialougmode_substruct *param_1,Borg13Data *param_2,u8 p
 }
 
 
-void Dialoug_commands(dialougmode_substruct *param_1,Borg13Data *param_2,u8 param_3){
+void Dialoug_commands(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
   borg13command *pbVar1;
   bool bVar2;
   int iVar3;
@@ -457,7 +457,7 @@ LAB_800b69c4:
 }
 
 
-void dialoug_func_c_check(dialougmode_substruct *param_1,Borg13Data *param_2,u8 param_3){
+void dialoug_func_c_check(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
   bool bVar1;
   u8 i = 0;
   bVar1 = false;
@@ -513,10 +513,10 @@ switchD_800b6a84_caseD_1:
   return;
 }
 
-int FUN_800b6b54(dialougmode_substruct *param_1,byte param_2,char *param_3)
+int FUN_800b6b54(dialougeInstance *param_1,byte param_2,char *param_3)
 
 {
-  dialougmode_substruct *pdVar2;
+  dialougeInstance *pdVar2;
   int i;
   
   i = 0;
@@ -529,25 +529,21 @@ int FUN_800b6b54(dialougmode_substruct *param_1,byte param_2,char *param_3)
       return i;
     }
     i += 1;
-    pdVar2 = (dialougmode_substruct *)(pdVar2->diags + 1);
+    pdVar2 = (dialougeInstance *)(pdVar2->diags + 1);
   } while (i < 9);
   return -1;
 }
 
-void FUN_800b6b9c(dialougmode_substruct *param_1){
-  int iVar1;
-  
-  iVar1 = 8;
-  do {
-    param_1->diags[1].next = 0xff;
-    param_1->diags[0].txt = NULL;
-    param_1->diags[0].ent_ID=0;
-    iVar1--;
-    param_1 = (dialougmode_substruct *)(param_1->diags + 1);
-  } while (-1 < iVar1);
+void FUN_800b6b9c(dialougeInstance *param_1){
+  struct_3* x=param_1->diags;
+  for(s32 i = 8;-1 < i;i--,x++){
+    x[1].next = 0xff;
+    x[0].txt = NULL;
+    x[0].ent_ID=0;
+  }
 }
 
-void get_dialouge_actors(dialougmode_substruct *param_1,Borg13Data *param_2){
+void get_dialouge_actors(dialougeInstance *param_1,Borg13Data *param_2){
   playerData *ppVar1;
   u16 *puVar2;
   u16 (*pauVar3) [4];
@@ -562,27 +558,22 @@ void get_dialouge_actors(dialougmode_substruct *param_1,Borg13Data *param_2){
     do {
       puVar2 = *pauVar3;
       ppVar1 = *(playerData **)*pauVar3;
-      pauVar3 = pauVar3 + 1;
-      iVar5 += 1;
+      pauVar3++;
+      iVar5++;
       pAVar4->id = puVar2[2];
       pAVar4->actor = ppVar1;
-      pAVar4 = pAVar4 + 1;
+      pAVar4++;
     } while (iVar5 < (int)(u32)param_2->ActorCount);
   }
-  uVar6 = (u32)param_2->ActorCount;
-  if (uVar6 < 0x10) {
-    pAVar4 = param_1->actors + param_2->ActorCount;
-    do {
+  pAVar4 = param_1->actors + param_2->ActorCount;
+  for(uVar6 = (u32)param_2->ActorCount;uVar6<16;uVar6++,pAVar4++){
       pAVar4->id = 0;
       pAVar4->actor = NULL;
-      uVar6++;
-      pAVar4++;
-    } while ((int)uVar6 < 0x10);
   }
 }
 
 
-void FUN_800b6c38(dialougmode_substruct *param_1,u16 param_2)
+void FUN_800b6c38(dialougeInstance *param_1,u16 param_2)
 
 {
   char **ppcVar1;
@@ -597,7 +588,7 @@ void FUN_800b6c38(dialougmode_substruct *param_1,u16 param_2)
   param_1->unk116 = 0xff;
   param_1->Entid=0;
   param_1->borg13End = 0;
-  param_1->unk115 = 0;
+  param_1->actorsLoaded = false;
   param_1->battlefeild = 0;
   param_1->collisionByte = 0;
   param_1->aniByte = 0;
@@ -615,20 +606,20 @@ void FUN_800b6c38(dialougmode_substruct *param_1,u16 param_2)
     ppcVar1 = ppcVar1 + 3;
     param_1->diags[0].ent_ID = 0;
     iVar3 += -1;
-    param_1 = (dialougmode_substruct *)(param_1->diags + 1);
+    param_1 = (dialougeInstance *)(param_1->diags + 1);
   } while (-1 < iVar3);
   return;
 }
 
 
-byte FUN_800b6cb8(dialougmode_substruct *param_1,Borg13Data *param_2,byte param_3){
+byte FUN_800b6cb8(dialougeInstance *param_1,Borg13Data *param_2,byte param_3){
   byte bVar1;
   
   FUN_800b6b9c(param_1);
-  if (param_1->unk115 == 0) {
+  if (!param_1->actorsLoaded) {
     get_dialouge_actors(param_1,param_2);
     bVar1 = DialogNode_func(param_1,param_2);
-    param_1->unk115 = 1;
+    param_1->actorsLoaded = true;
   }
   else bVar1 = dialogNode_func_2(param_1,param_2,param_3);
   return bVar1;
@@ -717,7 +708,7 @@ int Ofunc_800b6dbc(Borg13Data *param_1,int param_2,int param_3)
 }
 
 
-bool FUN_800b6e4c(dialougmode_substruct *param_1,Borg13Data *param_2,float param_3){
+bool FUN_800b6e4c(dialougeInstance *param_1,Borg13Data *param_2,float param_3){
   u8 uVar3;
   if (0.0 <= param_3) {
     if (1.0f < param_3) return false;

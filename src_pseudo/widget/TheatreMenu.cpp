@@ -29,7 +29,7 @@ void TheatreMenu::InitMenu() {
   LoadOptionStrings();
   //If no entries, add one saying so.
   //(should not happen - unavaiilable entries marked as "----------------")
-  if (((WSMSub*)s->scroll->substruct)->currentCount == 0)
+  if (((WSMSub*)s->scroll->substruct)->numChoices == 0)
     s->scroll->Append(WClipTXT(gGlobals.CommonStrings[0xac]));
   Utilities::SetArrayVSpace(s->scroll,5);
   s->scroll->SetFlags(4);

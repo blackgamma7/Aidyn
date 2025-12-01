@@ -19,7 +19,7 @@ Borg8Header* gLensflare=NULL;
 void Lensflare::Init(void){
   ALLOCS(gLensflare,sizeof(Borg8Header)*ARRAY_COUNT(gLensFlareData),87);
   for(s32 i=0;i<ARRAY_COUNT(gLensFlareData);i++) {
-    switch(gLensFlareData[i].dat0){
+    switch(gLensFlareData[i].imgIndex){
         case 0:
         gLensflare[i]=loadBorg8(Borg8_LensflareFilled);
         break;

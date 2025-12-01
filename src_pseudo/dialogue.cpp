@@ -17,7 +17,7 @@ void DialougCreateScriptCamera(u16 param_1,s16 id,playerData *player,u16 flags,f
 
 }
 
-ActorAndID * DialougGetActorAndID(dialougmode_substruct *param_1,Borg13Data *param_2,ItemID id){
+ActorAndID * DialougGetActorAndID(dialougeInstance *param_1,Borg13Data *param_2,ItemID id){
   if (param_2->ActorCount != 0) {
     for(u8 i=0;i<param_2->ActorCount;i++){
       if (param_1->actors[i].id == id)
@@ -34,7 +34,7 @@ CharSheet * DialougGetPartyMemberName(ItemID param_1){
   return NULL;
 }
 
-void DialougFreeActors(dialougmode_substruct *param_1,Borg13Data *param_2){
+void DialougFreeActors(dialougeInstance *param_1,Borg13Data *param_2){
   if (param_2->ActorCount != 0) {
     for(u16 i=0;i<param_2->ActorCount;i++){
       playerData * pDat=param_1->actors[i].actor;
@@ -49,7 +49,7 @@ void DialougFreeActors(dialougmode_substruct *param_1,Borg13Data *param_2){
 }
 
 
-void DialoguePreCallback(dialougmode_substruct *param_1,Borg13Data *param_2,u16 cmd,
+void DialoguePreCallback(dialougeInstance *param_1,Borg13Data *param_2,u16 cmd,
                         s16 refpointID)
 
 {
@@ -182,7 +182,7 @@ LAB_800570e0:
   return;
 }
 
-s32 DialogEvalCallback(dialougmode_substruct *param_1,Borg13Data *param_2,u16 cmd,u16 VAL){
+s32 DialogEvalCallback(dialougeInstance *param_1,Borg13Data *param_2,u16 cmd,u16 VAL){
   s32 ret;
   
   switch(cmd) {
@@ -227,7 +227,7 @@ void dialougemode_0x90_funcs3(undefined4 param_1){
   run_dialougemode_funcs3();
 }
 
-void DialogCallbackC(dialougmode_substruct *param_1,Borg13Data *param_2,s16 command,u16 val){
+void DialogCallbackC(dialougeInstance *param_1,Borg13Data *param_2,s16 command,u16 val){
   ActorAndID *pAVar2;
   voxelObject *prVar3;
   s16 sVar8;

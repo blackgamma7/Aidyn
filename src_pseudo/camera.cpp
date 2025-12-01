@@ -31,7 +31,7 @@ void Camera::Init(Camera_struct *param_1,Borg9Data *map,vec3f *pos,u16 mode){
   (param_1->rotation).z = 0.0;
   (param_1->rotation).y = 0.0;
   param_1->unk50 = 0.0;
-  param_1->unk82 = 1;
+  param_1->unk82 = true;
   param_1->unk84 = 0;
   param_1->camera_mode_prev = mode;
   param_1->camera_mode = mode;
@@ -244,28 +244,23 @@ LAB_800b0be4:
       if (fVar5 < 16.0f) {
         fVar5 = 16.0f;
       }
-      uVar3 = param_1->unk80;
     }
     else {
-      uVar3 = param_1->unk80;
       fVar5 = 16.0f;
     }
-    if (((uVar3 != 0) &&
+    if (((param_1->unk80) &&
         (fVar6 = Vec3Dist(A,&afStack240), fVar5 = 5.0f,
         fVar6 < 0.5)) &&
-       (uVar3 = param_1->unk80 - 1, param_1->unk80 = uVar3, (int)((u32)uVar3 << 0x10) < 1)) {
+       (--param_1->unk80 < 1)) {
       FUN_800b04ec(param_1);
     }
     fVar6 = 5.0f;
     AdjustAim(A,&afStack240,fVar5,param_4,5.0f);
     Vec3Sub(&fStack176,&param_1->pos,aim0);
     fStack176.y = 0.0;
-    fVar5 = Vec3Normalize(&fStack176);
-    fVar7 = param_1->unk64;
-    if (fVar5 < fVar7) {
-      fVar5 = (param_1->aim).z;
-      (param_1->pos).x = (param_1->aim).x + fStack176.x * fVar7;
-      (param_1->pos).z = fVar5 + fStack176.z * fVar7;
+    if (Vec3Normalize(&fStack176) < param_1->unk64) {
+      (param_1->pos).x = (param_1->aim).x + fStack176.x * param_1->unk64;
+      (param_1->pos).z = (param_1->aim).z + fStack176.z * param_1->unk64;
     }
     if (false) {//?
       Vec3Sub(&param_1->pos,&param_1->pos,aim0);
@@ -275,16 +270,13 @@ LAB_800b0be4:
       Vec3Sum(A,A,aim0);
     }
     AdjustAim(&param_1->pos,A,16.0,param_4,fVar6);
-    if (((s16)param_1->unk80 < 2) && (param_5 != 0)) {
-      if (CheckCollision(param_1->borg_9,&param_1->pos,aim0,0.25,NULL,NULL,0)) {
-        param_1->unk82 = 0;
-      }
-      else {
-        param_1->unk82 = 1;
-      }
+    if ((param_1->unk80 < 2) && (param_5 != 0)) {
+      if (CheckCollision(param_1->borg_9,&param_1->pos,aim0,0.25,NULL,NULL,0))
+        param_1->unk82 = false;
+      else param_1->unk82 = true;
     }
     if (((CheckCollision(param_1->borg_9,&fStack112,&param_1->pos,0.25,NULL,NULL,1)) && (param_1->unk80 == 1)) 
-       && (param_1->unk82 != 0)) {
+       && (param_1->unk82)) {
       FUN_800b04ec(param_1);
     }
     Orient(param_1);

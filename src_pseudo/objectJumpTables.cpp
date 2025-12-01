@@ -274,8 +274,8 @@ void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
     set_refObj_flag(v);
     break;
   case VTrigger_ChangeAni:
-    Borg7Header *pBVar1 = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene)->scene.borgArray[0].b7;
-    if (pBVar1) FUN_800a0090(pBVar1,(v->trigger).flagA);
+    Borg7Header *b7 = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene)->scene.borgArray[0].b7;
+    if (b7) Borg7_SetAnimation(b7,(v->trigger).flagA);
     break;
   case VTrigger_3: break;
   case VTrigger_BorgPhys:

@@ -43,7 +43,7 @@ void GenericInventory::Load(SaveFile*){}
 
 s32 GenericInventory::AddItem(ItemID id,s32 q){
   // don't add cyclops club
-  if((weaponList[0x20] | 0x700) == id) return false;
+  if(IDWeapon(weaponList[0x20]) == id) return false;
   // don't add aspect potions, make them healing instead.
   if (id == Potion_Aspect) id = Potion_Healing;
   s32 index =this->GetItemIndex(id);

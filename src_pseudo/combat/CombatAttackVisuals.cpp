@@ -47,7 +47,7 @@ void Add(playerData *target,u32 param_2){
     pAVar7->borg7->sceneDat->particleHead = &gGlobals.gameVars.particleEmmiter;
     pAVar7->borg7->sceneDat->locatorScene2 = NULL;
     pAVar7->borg7->sceneDat->locatorScene1 = pAVar7->player->borg7P->sceneDat;
-    FUN_800a0090(pAVar7->borg7,5);
+    Borg7_SetAnimation(pAVar7->borg7,5);
     pAVar7->flag|= 1;
   }
 }
@@ -72,7 +72,7 @@ Gfx * Render(Gfx *g,u32 delta){
         }
         if (pAVar1->sceneDat->aniTime < pAVar1->unk1c->b6->dat->aniLength) {
           Scene::MatrixASetPos(pAVar1->sceneDat,(x->pos).x,(x->pos).y,(x->pos).z);
-          g = BorgAnimDrawSceneLinked(g,pAVar1);
+          g = Borg7_Render(g,pAVar1);
         }
         else {
           if (!Particle::SceneHasEmmiter(pAVar1->sceneDat->particleHead,pAVar1->sceneDat)) x->flag|= 2;

@@ -477,7 +477,7 @@ void processSpellVisuals(u32 param_1){
           pBVar2 = ppBVar12->b7;
           pAVar7 = pBVar2->sceneDat;
           if ((ppBVar12->flags & 0x10)) {
-            FUN_800a0090(pBVar2,5);
+            Borg7_SetAnimation(pBVar2,5);
             ppBVar12->flags &=~0x10;
           }
           uVar10 = 0;
@@ -557,7 +557,7 @@ Gfx * FUN_80095a24(Gfx *param_1){
     if ((entry->flags & 1) != 0) {
       if (true) {
         if (entry->spellID < 5) {
-          param_1 = BorgAnimDrawSceneLinked(param_1,entry->b7);
+          param_1 = Borg7_Render(param_1,entry->b7);
         }
         else if (((entry->spellID < 7) && ((entry->flags & 0x40))) &&(entry->SceneDat)) {
           param_1 = BorgAnimDrawScene(param_1,entry->SceneDat);

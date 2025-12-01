@@ -50,28 +50,22 @@ s32 FUN_8003c640(BaseWidget **A,BaseWidget **B){
 
 
 s32 FUN_8003c69c(BaseWidget **A,BaseWidget **B) {
-  ItemInstance *pIVar3;
-  ItemInstance *pIVar4;
-  BaseWidget *uVar5;
-  BaseWidget *uVar6;
-  s32 sVar5;
-  u16 uVar7;
-  u16 uVar8;
+  s32 ret;
   
-  pIVar3 = (ItemInstance *)A[0]->ZFunc();
-  pIVar4 = (ItemInstance *)B[0]->ZFunc();
-  uVar5 = A[0]->AFunc();
-  uVar6 = B[0]->AFunc();
-  uVar8 = uVar5->varU16;
-  uVar7 = uVar6->varU16;
-  if (uVar8 == uVar7) sVar5 = FUN_8003c590(pIVar3,pIVar4);
+  ItemInstance *pIVar3 = (ItemInstance *)A[0]->ZFunc();
+  ItemInstance *pIVar4 = (ItemInstance *)B[0]->ZFunc();
+  BaseWidget* uVar5 = A[0]->AFunc();
+  BaseWidget* uVar6 = B[0]->AFunc();
+  u16 uVar8 = uVar5->varU16;
+  u16 uVar7 = uVar6->varU16;
+  if (uVar8 == uVar7) ret = FUN_8003c590(pIVar3,pIVar4);
   else {
-    if (uVar8 < gPartyPicker) uVar8 = uVar8 + 4;
-    if (uVar7 < gPartyPicker) uVar7 = uVar7 + 4;
-    sVar5 = -1;
-    if (uVar7 <= uVar8) sVar5 = 1;
+    if (uVar8 < gPartyPicker) uVar8+=4;
+    if (uVar7 < gPartyPicker) uVar7+=4;
+    ret = -1;
+    if (uVar7 <= uVar8) ret = 1;
   }
-  return sVar5;
+  return ret;
 }
 
 
@@ -105,7 +99,7 @@ WidgetInvShop::WidgetInvShop(IInventory*inv,DollEquipmentMenu*doll)
     if((!this->dollMenu)&&(gGlobals.Shopkeep!=Item_NONE))
       this->TitleWidget=WidgetB8(0xeb);
     else this->TitleWidget=WidgetB8(BORG8_TitleInventory);
-    this->TitleWidget->SetCoords(0x9e,0x51);
+    this->TitleWidget->SetCoords(158,81);
     this->Link(this->TitleWidget);
   }
   this->scrollMenu=NULL;
@@ -117,81 +111,65 @@ WidgetInvShop::~WidgetInvShop(){WidgetMenu::~WidgetMenu();}
 
 
 void WidgetInvShop::InitMenu() {
-  GenericInventory *pGVar3;
-  CharGear *pCVar4;
-  GearInstance *pObject;
   bool bVar5;
-  BaseWidget *pBVar6;
-  ulong uVar7;
   u16 *tempList;
-  ulong uVar8;
-  ItemInstance *pObject_00;
-  SMIItem *pSVar9;
-  GearInstance **ppGVar10;
   byte bVar11;
   int iVar12;
-  u16 uVar13;
+  u16 count;
   u16 i;
-  WSMSub *pvVar2;
   
-  pBVar6 = this->scrollMenu;
   this->partyPicker = gPartyPicker;
-  pGVar3 = gGlobals.shopInv;
   if (this->scrollMenu == NULL) {
-    this->unk8c = 0;
+    this->pricedItem = 0;
     this->scrollMenu = new WidgetFastScrollMenu(this->inventory->GetMaxQuantity() + PARTY->PartySize * 0xf);
+    WSMSub *scrollSub=(WSMSub*)this->scrollMenu->substruct;
     this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
     this->Link(this->scrollMenu);
     SetArrows();
     if (this->inventory != gGlobals.shopInv){ //add party's equip to list
         for(u8 i=0;i< PARTY->PartySize;i++){
-          uVar13 = (this->partyPicker + i) % (u32)PARTY->PartySize;
-          bVar11 = (byte)uVar13;
-          if (PARTY->Members[uVar13]->weapons)
-            this->scrollMenu->Append(new SMIItem(&PARTY->Members[uVar13]->weapons->base,1,bVar11));
-          if (PARTY->Members[uVar13]->armor[0])
-            this->scrollMenu->Append(new SMIItem(&PARTY->Members[uVar13]->armor[0]->base,1,bVar11));
-          if (PARTY->Members[uVar13]->armor[1])
-            this->scrollMenu->Append(new SMIItem(&PARTY->Members[uVar13]->armor[1]->base,1,bVar11));
-          pCVar4 = PARTY->Members[uVar13]->pItemList;
-          for(uVar13=0;uVar13<pCVar4->usedItems,uVar13<15;uVar13++){
-            if(pCVar4->pItem[uVar13])
-            SMIItem* entry =new SMIItem(&pCVar4->pItem[uVar13]->base,1,bVar11);
+          count = (this->partyPicker + i) % (u32)PARTY->PartySize;
+          bVar11 = (byte)count;
+          if (PARTY->Members[count]->weapons)
+            this->scrollMenu->Append(new SMIItem(&PARTY->Members[count]->weapons->base,1,bVar11));
+          if (PARTY->Members[count]->armor[0])
+            this->scrollMenu->Append(new SMIItem(&PARTY->Members[count]->armor[0]->base,1,bVar11));
+          if (PARTY->Members[count]->armor[1])
+            this->scrollMenu->Append(new SMIItem(&PARTY->Members[count]->armor[1]->base,1,bVar11));
+          CharGear *pCVar4 = PARTY->Members[count]->pItemList;
+          for(count=0;count<pCVar4->usedItems,count<15;count++){
+            if(pCVar4->pItem[count]){
+            SMIItem* entry =new SMIItem(&pCVar4->pItem[count]->base,1,bVar11);
             this->scrollMenu->Append(entry);
-            entry->var5C=uVar13;
+            entry->varU16=count;
+            }
           }
         }
     }
-    this->unk98 = pvVar2->currentCount;
-    ALLOCS(tempList, this->inventory->GetQuantity()<<1,0x155);
-    i = 0;
-    uVar13 = 0;
-    uVar7 = this->inventory->GetMaxQuantity();
-    if (uVar7){
-      while( true ) {
-        if (this->inventory->GetItemEntry(i))
-          tempList[uVar13++]=i;
-        i++;
-        if (uVar7 <= i) break;
+    this->inventorySize = scrollSub->numChoices;
+    ALLOCS(tempList, this->inventory->GetQuantity()*sizeof(u16),341);
+    s32 max;
+    for(i=0,count=0,max=this->inventory->GetMaxQuantity();i<max;i++){
+      if (this->inventory->GetItemEntry(i))
+          tempList[count++]=i;
       }
-    }
-    if (uVar13 != this->inventory->GetQuantity())
+    if (count != this->inventory->GetQuantity())
         CRASH("Numbers don't match","SMInventory.cpp");
-    for(i=0;i<uVar13;uVar13++){
-        pObject_00 = &this->inventory->GetItemEntry(tempList[i])->base;
-        if (pObject_00) {
+    for(i=0;i<count;i++){
+        ItemInstance *item = &this->inventory->GetItemEntry(tempList[i])->base;
+        if (item) {
           bVar11 =this->inventory->GetItemQuantity(tempList[i]);
           if ((bVar5) && (gGlobals.Shopkeep != (ItemID)0xffff)) {
             bVar11 = 0;
           }
-          pSVar9 = new SMIItem(pObject_00,bVar11,0xff);
+          SMIItem *pSVar9 = new SMIItem(item,bVar11,0xff);
           this->scrollMenu->Append(pSVar9);
           pSVar9->varU8 = tempList[i];
         }
     }
     HFREE(tempList,395);
-    if (pvVar2->currentCount != 0) {
-      QSort(pvVar2->items,pvVar2->currentCount,FUN_8003c78c);
+    if (scrollSub->numChoices) {
+      QSort(scrollSub->items,scrollSub->numChoices,FUN_8003c78c);
       this->Tick();
       this->scrollMenu->Update();
     }
@@ -217,17 +195,15 @@ u32 WidgetInvShop::GetGoldPrice(u16 index) {
   u16 uVar1;
   BaseWidget *pBVar2;
   bool shopMenu;
-  BaseWidget *uVar5;
-  ItemInstance *uVar6;
   u32 ret;
   float fVar8;
   
   pBVar2 = this->scrollMenu;
-  uVar5 = this->scrollMenu->AFunc();
+  BaseWidget *uVar5 = this->scrollMenu->AFunc();
   shopMenu = this->inventory == gGlobals.shopInv;
   if (uVar5 == NULL) return 0;
   else {
-    uVar6=(ItemInstance *)uVar5->ZFunc();
+    ItemInstance *uVar6=(ItemInstance *)uVar5->ZFunc();
     uVar1 = uVar6->price;
     if (shopMenu) {
       fVar8 = gBarterFloat * (uVar1*2);
@@ -236,7 +212,7 @@ u32 WidgetInvShop::GetGoldPrice(u16 index) {
       fVar8 = (float)uVar1 * (1.0f - gBarterFloat) * 0.5f;
     }
     ret = (u16)fVar8;
-    this->unk8c = uVar6;
+    this->pricedItem = uVar6;
   }
   return ret;
 }
@@ -245,64 +221,52 @@ u8 WidgetInvShop::SetHighlight(ItemID param_2,u8 param_3,u8 param_4) {
   u16 i;
   WSMSub *sub = (WSMSub *)(this->scrollMenu)->substruct;
   if (param_4 == 0xff) {
-    if (this->unk98 < sub->currentCount) {
-        for(i=this->unk98;i<sub->currentCount;i++){
+    if (this->inventorySize < sub->numChoices) {
+        for(i=this->inventorySize;i<sub->numChoices;i++){
          if ((ItemID)sub->items[i]->varU16 == param_2) {
           sub->highlight = (u16)i;
-          return m8003d194(param_3);
+          return TakeItem(param_3);
          }
         }
     }
   }
   else {
-    for(i=0;i<this->unk98;i++){
+    for(i=0;i<this->inventorySize;i++){
         BaseWidget * uVar2 = sub->items[i]->AFunc();
         if ((uVar2->varU16 == param_4) && (sub->items[i]->varU16 == param_2)) {
           sub->highlight = (u16)i;
-          return m8003d194(param_3);
+          return TakeItem(param_3);
         }
     }
   }
   return false;
 }
 
-bool WidgetInvShop::m8003d194(u8 param_2) {
-  u16 uVar1;
+bool WidgetInvShop::TakeItem(u8 quant) {
   BaseWidget **ppBVar2;
-  BaseWidget *pBVar3;
-  u16 uVar5;
-  ulong uVar4;
-  int iVar6;
   BaseWidget **ppBVar7;
-  u16 uVar8;
-  char acStack_60 [64];
-  BaseWidget *apBStack_20 [8];
-  WSMSub *pvVar2;
+  BaseWidget *apBStack_20;
   
-  if (param_2) {
-    pvVar2 = (WSMSub *)(this->scrollMenu)->substruct;
-    apBStack_20[0] = pvVar2->items[pvVar2->highlight];
-    pBVar3 = apBStack_20[0]->BFunc();
-    if (pBVar3->varU16 < param_2) pBVar3->varU16 = param_2;
-    pBVar3->varU16-=param_2;
+  if (quant) {
+    WSMSub *pvVar2 = (WSMSub *)(this->scrollMenu)->substruct;
+    apBStack_20 = pvVar2->items[pvVar2->highlight];
+    BaseWidget *pBVar3 = apBStack_20->BFunc();
+    if (pBVar3->varU16 < quant) pBVar3->varU16 = quant;
+    pBVar3->varU16-=quant;
     if (pBVar3->varU16 == 0) {
-      if (apBStack_20[0]->AFunc()) this->unk98--;
-      FREEQW(apBStack_20[0]);
-      uVar8 = (u32)pvVar2->highlight;
-      iVar6 = pvVar2->currentCount - 1;
-      if ((int)uVar8 < iVar6) {
-        ppBVar2 = pvVar2->items;
-        do {
-          ppBVar7 = ppBVar2 + uVar8;
-          uVar8++;
-          *ppBVar7 = ppBVar7[1];
-        } while ((int)uVar8 < iVar6);
+      if (apBStack_20->AFunc()) this->inventorySize--;
+      FREEQW(apBStack_20);
+      u16 i = pvVar2->highlight;
+      s32 max = pvVar2->numChoices - 1;
+      for(;i < max;i++){
+        ppBVar2[i]=ppBVar2[i+1];
       }
-      pvVar2->currentCount--;
+      pvVar2->numChoices--;
     }
     else {
-      sprintf(acStack_60,"%d",pBVar3->varU16);
-      Utilities::ChangeWidgetText(pBVar3,acStack_60,true);
+      char buff [64];
+      sprintf(buff,"%d",pBVar3->varU16);
+      Utilities::ChangeWidgetText(pBVar3,buff,true);
     }
   }
   return true;
@@ -310,92 +274,72 @@ bool WidgetInvShop::m8003d194(u8 param_2) {
 
 bool WidgetInvShop::NewItem(ItemInstance *param_2,u8 param_3,u8 param_4) {
   this->scrollMenu->Append(new SMIItem(param_2,param_3,param_4));
-  if (param_4 != 0xff) this->unk98++;
+  if (param_4 != 0xff) this->inventorySize++;
   return true;
 }
 
 bool WidgetInvShop::AddItem(u16 param_2,u8 param_3,u8 param_4,char *script,u16 line){
-  s32 uVar3;
-  ItemInstance *pIVar4;
-  BaseWidget **ppBVar5;
-  u16 *puVar6;
-  BaseWidget *pBVar7;
-  int i;
-  char acStack_68 [104];
-  WSMSub *pvVar1 = (WSMSub *)this->scrollMenu->substruct;
+  ItemInstance *pObject;
+  WSMSub *scrollSub = (WSMSub *)this->scrollMenu->substruct;
   if (param_4 == 0xff) {
-    uVar3 = this->inventory->GetItemIndex(param_2);
+    s32 uVar3 = this->inventory->GetItemIndex(param_2);
     if (uVar3 == -1) CRASH("SMI::AddItem","Couldn't find inventory index");
-    pIVar4 = &this->inventory->GetItemEntry(uVar3)->base;
-    if (pIVar4 == NULL) CRASH("SMI::AddItem","pObject == NULL");
+    pObject = &this->inventory->GetItemEntry(uVar3)->base;
+    if (pObject == NULL) CRASH("SMI::AddItem","pObject == NULL");
     uVar3 = this->inventory->GetItemQuantity(uVar3);
     if (1 < uVar3) {
-      i = pvVar1->currentCount - 1;
-      if (pvVar1->currentCount == 0) CRASH("SMI::AddItem","numChoices == 0 when it shouldn't be.");
-      if (-1 < i) {
-        ppBVar5 = pvVar1->items;
-        while( true ) {
-            ItemInstance * x=(ItemInstance*)ppBVar5[i]->ZFunc();
+      if (scrollSub->numChoices == 0) CRASH("SMI::AddItem","numChoices == 0 when it shouldn't be.");
+      for(s32 i = scrollSub->numChoices - 1;i-1>=0;i--){
+            ItemInstance * x=(ItemInstance*)scrollSub->items[i]->ZFunc();
           if (x->id == param_2) {
-            pBVar7 = pvVar1->items[i]->BFunc();
+            char acStack_68 [104];
+            BaseWidget *pBVar7 = scrollSub->items[i]->BFunc();
             sprintf(acStack_68,"%ld",uVar3);
             Utilities::ChangeWidgetText(pBVar7,acStack_68,true);
             pBVar7->varU16 = (u16)uVar3;
             return true;
           }
-          if (i + -1 < 0) break;
-          ppBVar5 = pvVar1->items;
-          i--;
         }
-      }
     }
   }
   else {
-    pIVar4 = Entity::HasItemEquipped(PARTY->Members[param_4],(ItemID)param_2);
+    pObject = Entity::HasItemEquipped(PARTY->Members[param_4],(ItemID)param_2);
     Gsprintf("Failed to find %d\nCalled from %s - %d",param_2,script,line);
-    if (pIVar4 == NULL) CRASH("SMI::AddItem",gGlobals.text);
+    if (pObject == NULL) CRASH("SMI::AddItem",gGlobals.text);
   }
-  NewItem(pIVar4,param_3,param_4);
+  NewItem(pObject,param_3,param_4);
   return true;
 }
 
 void WidgetInvShop::SortA() {
-  if (this->unk98) {
-    QSort(((WSMSub*)this->scrollMenu->substruct)->items,this->unk98,FUN_8003c69c);
+  if (this->inventorySize) {
+    QSort(((WSMSub*)this->scrollMenu->substruct)->items,this->inventorySize,FUN_8003c69c);
     this->Tick();
     this->scrollMenu->Update();
   }
 }
 
 void WidgetInvShop::SortB(){
-    QSort(((WSMSub*)this->scrollMenu->substruct)->items,this->unk98,FUN_8003c78c);
+    QSort(((WSMSub*)this->scrollMenu->substruct)->items,this->inventorySize,FUN_8003c78c);
 }
 
-
 bool WidgetInvShop::m8003d674(u16 param_2,u8 param_3) {
-  BaseWidget *pBVar1;
-  ulong uVar2;
-  BaseWidget **ppBVar3;
   u16 i;
-  WSMSub *sub;
-  
-  sub = (WSMSub *)this->scrollMenu->substruct;
+  WSMSub *sub = (WSMSub *)this->scrollMenu->substruct;
   if (param_3 == 0xff) {
-    if (this->unk98 < sub->currentCount) {
-      i = this->unk98;
-      do {
+    if (this->inventorySize < sub->numChoices) {
+      for(i = this->inventorySize;i < sub->numChoices;i++){
         if (sub->items[i]->varU16 == param_2) {
           sub->highlight = i;
           return true;
         }
-        i++;
-      } while (i < sub->currentCount);
+      }
       return false;
     }
   }
   else {
-    for(i=0;i<this->unk98;i++){
-        if ((sub->items[i]->BFunc()->varU16 == (u16)param_3) && (pBVar1->varU16 == param_2)) {
+    for(i=0;i<this->inventorySize;i++){
+        if ((sub->items[i]->BFunc()->varU16 == (u16)param_3) && (sub->items[i]->varU16 == param_2)) {
           sub->highlight = i;
           return true;
         }

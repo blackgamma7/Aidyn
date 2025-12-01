@@ -19,8 +19,8 @@ char * Utilities::GetWidgetText(BaseWidget *w){
 //replace the text in a text Widget. Could be optimized.
 //@param w widget to replace text
 //@param txt new text
-//@param realloc if the memory for the text should be reallocated.
-void Utilities::ChangeWidgetText(BaseWidget *w,char *txt,u8 realloc){
+//@param reallocate if the memory for the text should be reallocated.
+void Utilities::ChangeWidgetText(BaseWidget *w,char *txt,u8 reallocate){
   WSTSub* sub; //enoungh similarites to structs to allow it.
   u16 len;  
   if ((w->GetNumber() != WidgetN_Text)&&
@@ -29,7 +29,7 @@ void Utilities::ChangeWidgetText(BaseWidget *w,char *txt,u8 realloc){
     return;
   if (w->GetNumber() == WidgetN_Text) {
     sub = (WSTSub *)w->substruct;
-    if (realloc){
+    if (reallocate){
     HFREE(sub->txt,159);
     len = strlen(txt)+1;
     sub->len=len;
@@ -39,7 +39,7 @@ void Utilities::ChangeWidgetText(BaseWidget *w,char *txt,u8 realloc){
   }
   else if (w->GetNumber() == WidgetN_ClipText){
     sub = (WSTSub *)w->substruct;
-    if (realloc){
+    if (reallocate){
     HFREE(sub->txt,174);
     len = strlen(txt)+1;
     sub->len = len;
@@ -49,7 +49,7 @@ void Utilities::ChangeWidgetText(BaseWidget *w,char *txt,u8 realloc){
   }
   else if (w->GetNumber() == WidgetN_ShadText){
     sub = (WSTSub *)w->substruct;
-    if (realloc){
+    if (reallocate){
     HFREE(sub->txt,189);
     len = strlen(txt)+1;
     sub->len = len;
@@ -228,9 +228,9 @@ void Utilities::RemoveScrollMenuEntry(BaseWidget *w,u16 param_2){
   WSMSub *sub;
   
   uVar7 = param_2;
-  if ((w->GetNumber() == WidgetN_ScrollMenu) && (sub = (WSMSub *)w->substruct, uVar7 < (u16)sub->currentCount))
+  if ((w->GetNumber() == WidgetN_ScrollMenu) && (sub = (WSMSub *)w->substruct, uVar7 < (u16)sub->numChoices))
   {
-    iVar4 = (u16)sub->currentCount - 1;
+    iVar4 = (u16)sub->numChoices - 1;
     if ((int)uVar7 < iVar4) {
       ppBVar2 = sub->items;
       do {
@@ -240,8 +240,8 @@ void Utilities::RemoveScrollMenuEntry(BaseWidget *w,u16 param_2){
       } while ((int)uVar7 < iVar4);
     }
     sub->items[uVar7] = NULL;
-    sub->currentCount--;
-    if (sub->currentCount <= (u16)sub->highlight) {
+    sub->numChoices--;
+    if (sub->numChoices <= (u16)sub->highlight) {
       sub->highlight--;
     }
   }
@@ -251,13 +251,13 @@ void Utilities::RemoveScrollMenuEntry(BaseWidget *w,u16 param_2){
 void Utilities::ClearScrollMenu(BaseWidget *w){
   u16 uVar1;
   WSMSub *pvVar2 = (WSMSub *)w->substruct;
-  uVar1 = pvVar2->currentCount;
+  uVar1 = pvVar2->numChoices;
   if (uVar1) {
     for(u16 i=0;i<uVar1;i++) {
       pvVar2->items[i] = NULL;
     }
   }
-  pvVar2->currentCount = 0;
+  pvVar2->numChoices = 0;
   pvVar2->highlight = 0;
 }
 
@@ -265,12 +265,12 @@ void Utilities::ClearScrollMenu(BaseWidget *w){
 //@param w Scroll Menu Widget
 void Utilities::ClearScrollMenu2(BaseWidget *w){
   WSMSub *sub = (WSMSub *)w->substruct;
-  if (sub->currentCount != 0) {
-    for(u16 i=0;i<sub->currentCount;i++){
+  if (sub->numChoices != 0) {
+    for(u16 i=0;i<sub->numChoices;i++){
       DestructWidget(sub->items[i])
     }
   }
-  sub->currentCount = 0;
+  sub->numChoices = 0;
   sub->highlight = 0;
 }
 //add or or replace image in widget and size widget to image

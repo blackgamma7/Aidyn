@@ -25,7 +25,7 @@ struct collisionTypeA {
 struct EnvProp {
     SpeedProperty *Speed;
     collisionTypeA *colA;
-    u32 unk;
+    u32 unk;//unused
 };
 
 //Hitbox for actors and particle emmiters

@@ -14,7 +14,7 @@ enum DB_TYPE{
     DB_CLOAK, //shoulder gear
     DB_GLOVE, //hand gear
     DB_RING,  //finger gear
-    DB_WAND,  
+    DB_WAND,  //rope and banner also use this slot
     DB_BELT,  //waist gear
     DB_BOOTS, //foot gear
     DB_POTION, //flasks and potions
@@ -820,7 +820,7 @@ enum EntInd{
     EntInd_Ardra,
     EntInd_Bowden,
     EntInd_Cradagwgh,
-    EntInd_Lloyd,
+    EntInd_Lloyd,  //aka Phelan
     EntInd_Gabrion,
     EntInd_Gechina,
     EntInd_Gotzone,

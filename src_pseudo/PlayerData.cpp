@@ -177,7 +177,7 @@ void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
   gGlobals.gameVars.PlayerHandler.audiokey = load_audiokey();
 }
 
-void FreePlayerHandler(void){
+void FreePlayerHandler(){
   if (gGlobals.gameVars.PlayerHandler.initFlag == 0)
     CRASH("FreePlayerHandler","Player Handler Not Initialized!");
   gGlobals.gameVars.PlayerHandler.initFlag = 0;
@@ -193,7 +193,7 @@ void FreePlayerHandler(void){
 }
 
 
-Gfx * Actor::CalculateShadow(playerData *param_1,Gfx *g,float param_3,u8 param_4){
+Gfx * Actor::CalculateShadow(playerData *pDat,Gfx *g,float param_3,u8 param_4){
   Borg9Data *borgDat;
   Gfx *pGVar2;
   vec3f *pos;
@@ -201,62 +201,61 @@ Gfx * Actor::CalculateShadow(playerData *param_1,Gfx *g,float param_3,u8 param_4
   float fVar4;
   float fVar5;
   byte bVar6;
-  float fVar7;
-  vec2f *pvVar8;
-  vec3f fStack440;
+  vec2f *outScale;
+  vec3f collidePos;
   vec3f fStack376;
-  vec3f fStack312;
-  vec3f fStack248;
-  vec3f afStack184;
-  vec2f avStack_78 [12];
+  vec3f posA;
+  vec3f posB;
+  vec3f mapPos;
+  vec2f scale;
   
-  fStack312.y = (float)((double)(param_1->collision).pos.y + 0.05);
-  fStack312.x = (param_1->collision).pos.x;
-  fStack312.z = (param_1->collision).pos.z;
-  fStack248.y = fStack312.y - 3.0f;
-  fStack248.x = fStack312.x;
-  fStack248.z = fStack312.z;
-  GetPosOnLoadedMap(param_1,&afStack184);
-  borgDat = GetCollisionZone(param_1->zoneDatByte);
+  posA.y = ((pDat->collision).pos.y + 0.05);
+  posA.x = (pDat->collision).pos.x;
+  posA.z = (pDat->collision).pos.z;
+  posB.y = posA.y - 3.0f;
+  posB.x = posA.x;
+  posB.z = posA.z;
+  GetPosOnLoadedMap(pDat,&mapPos);
+  borgDat = GetCollisionZone(pDat->zoneDatByte);
   outRot = &fStack376;
-  if (::CheckCollision(borgDat,&fStack312,&fStack248,0.5f,&fStack440,outRot,1)) {
-    fStack440.x = afStack184.x + fStack376.x * param_3;
-    fStack440.y = fStack440.y + fStack376.y * param_3;
-    fStack440.z = afStack184.z + fStack376.z * param_3;
-    fVar5 = (3.0f - (Vec3Dist(&afStack184,&fStack440) - param_1->scaleRad)) / 3.0f;
+  if (::CheckCollision(borgDat,&posA,&posB,0.5f,&collidePos,outRot,1)) {
+    collidePos.x = mapPos.x + fStack376.x * param_3;
+    collidePos.y = collidePos.y + fStack376.y * param_3;
+    collidePos.z = mapPos.z + fStack376.z * param_3;
+    fVar5 = (3.0f - (Vec3Dist(&mapPos,&collidePos) - pDat->scaleRad)) / 3.0f;
     if (1.0f < fVar5) fVar5 = 1.0f;
     fVar4 = fVar5 * 160.0f;
-    avStack_78[0].x = (param_1->scaleRad + param_1->scaleRad) * fVar5;
-    (param_1->shadow).vertCols[3].R = 0;
-    (param_1->shadow).vertCols[2].R = 0;
-    (param_1->shadow).vertCols[1].R = 0;
-    (param_1->shadow).vertCols[0].R = 0;
-    (param_1->shadow).vertCols[3].G = 0;
-    (param_1->shadow).vertCols[2].G = 0;
-    (param_1->shadow).vertCols[1].G = 0;
-    (param_1->shadow).vertCols[0].G = 0;
-    (param_1->shadow).vertCols[3].B = 0;
-    (param_1->shadow).vertCols[2].B = 0;
-    (param_1->shadow).vertCols[1].B = 0;
-    (param_1->shadow).vertCols[0].B = 0;
+    scale.x = (pDat->scaleRad*2) * fVar5;
+    (pDat->shadow).vertCols[3].R = 0;
+    (pDat->shadow).vertCols[2].R = 0;
+    (pDat->shadow).vertCols[1].R = 0;
+    (pDat->shadow).vertCols[0].R = 0;
+    (pDat->shadow).vertCols[3].G = 0;
+    (pDat->shadow).vertCols[2].G = 0;
+    (pDat->shadow).vertCols[1].G = 0;
+    (pDat->shadow).vertCols[0].G = 0;
+    (pDat->shadow).vertCols[3].B = 0;
+    (pDat->shadow).vertCols[2].B = 0;
+    (pDat->shadow).vertCols[1].B = 0;
+    (pDat->shadow).vertCols[0].B = 0;
     bVar6 = fVar4 * (float)((double)param_4 / 255.0);
-    pos = &fStack440;
-    (param_1->shadow).vertCols[3].A = bVar6;
-    (param_1->shadow).vertCols[2].A = bVar6;
-    (param_1->shadow).vertCols[1].A = bVar6;
-    (param_1->shadow).vertCols[0].A = bVar6;
-    pvVar8 = avStack_78;
-    (param_1->shadow).UScale = 1;
-    avStack_78[0].y = avStack_78[0].x;
+    pos = &collidePos;
+    (pDat->shadow).vertCols[3].A = bVar6;
+    (pDat->shadow).vertCols[2].A = bVar6;
+    (pDat->shadow).vertCols[1].A = bVar6;
+    (pDat->shadow).vertCols[0].A = bVar6;
+    outScale = &scale;
+    (pDat->shadow).UScale = 1;
+    scale.y = scale.x;
   }
   else {
-    pos = &(param_1->shadow).pos;
-    outRot = &(param_1->shadow).rot;
-    pvVar8 = &(param_1->shadow).scale;
-    (param_1->shadow).pos.x = afStack184.x;
-    (param_1->shadow).pos.z = afStack184.z;
+    pos = &(pDat->shadow).pos;
+    outRot = &(pDat->shadow).rot;
+    outScale = &(pDat->shadow).scale;
+    (pDat->shadow).pos.x = mapPos.x;
+    (pDat->shadow).pos.z = mapPos.z;
   }
-  return PlaneObj_Render(g,&param_1->shadow,pos,outRot,pvVar8);
+  return PlaneObj_Render(g,&pDat->shadow,pos,outRot,outScale);
 }
 
 u8 PlayerShadowAlpha(PlayerHandler *param_1,playerData *pDat,float dist,u8 param_4){
@@ -349,15 +348,12 @@ DCMSub2 * AllocPlayerAudio(playerData *param_1,audioKeyEntryB *param_2,u16 type,
   return param_1->dcmDat + uVar1;
 }
 
-
 u8 FUN_8001620c(playerData *param_1){
   if (param_1->unk70ee == 0) return false;
   if (param_1->ani_type == 0)
     return param_1->unk16 == 0;
   return false;
 }
-
-
 
 void ProcessPlayers(PlayerHandler *handler,s16 delta){
   u16 uVar2;
@@ -476,7 +472,7 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
       fVar27 = (pDat->collision).pos.x;
       fVar5 = (pDat->collision).pos.y;
       fVar6 = (pDat->collision).pos.z;
-      if (pDat->borg7 == BORG7_Phelan) {//?
+      if (pDat->borg7 == BORG7_Cradagwgh) {//?
         Gsprintf("Scale: %3.2f\nScaleRad: %3.2f\nSphere Rad: %3.2f",pDat->scale,pDat->scaleRad,pDat->collision.radius);
         N64PRINT(gGlobals.text);
       }
@@ -657,7 +653,7 @@ LAB_80016cec:
           if (0 < delta_) {
             for(iVar12=0;iVar12<delta_;iVar12++) {
               if ((pDat->flags & ACTOR_100) == 0) {
-                FUN_800a0090(pDat->borg7P,pDat->ani_type);
+                Borg7_SetAnimation(pDat->borg7P,pDat->ani_type);
                 bVar18 = (u32)(u16)pDat->borg7P->sceneDat->aniTime ==
                          pDat->borg7P->unk1c->b6->dat->aniLength - 1U;
                 u16 unk16;
@@ -957,12 +953,8 @@ LAB_80017c98:
                 some_player_render_sub(pDat,pDat->borg7P->sceneDat,&mapPos,a,(s16)delta32);
                 Scene::MatrixANormalizeScale(pDat->borg7P->sceneDat,pDat->scale,pDat->scale,pDat->scale);
                 Scene::MatrixASetPos(pDat->borg7P->sceneDat,mapPos.x,mapPos.y,mapPos.z);
-                if (DAT_800ee974 == 0) {
-LAB_80017d08:
-                  g = BorgAnimDrawSceneLinked(g,pDat->borg7P);
-                }
-                else if ((pDat->flags & ACTOR_2000) == 0) {
-                  goto LAB_80017d08;
+                if ((!DAT_800ee974)||(!(pDat->flags & ACTOR_2000))) {
+                  g = Borg7_Render(g,pDat->borg7P);
                 }
                 for(j=0;j<3;j++) { //render equipped models
                     attachmentNode *node =&pDat->attachmentNodes[j];
@@ -1099,7 +1091,7 @@ void Actor::FreePlayer(playerData *param_1){
 }
 
 
-void remove_flagged_playerdata(void){
+void remove_flagged_playerdata(){
   if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
     for(s16 i=0; i < gGlobals.gameVars.PlayerHandler.max_player;i++) {
       playerData *ppVar2 = &gGlobals.gameVars.PlayerHandler.playerDats[i];
@@ -1259,7 +1251,7 @@ void Ofunc_80018b34(playerData *param_1,float param_2){
 }
 
 
-void FUN_80018b84(void){
+void FUN_80018b84(){
   if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
     for(u16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
       Actor::UnsetFlag(&gGlobals.gameVars.PlayerHandler.playerDats[i],ACTOR_2000);

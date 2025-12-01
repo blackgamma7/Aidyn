@@ -138,7 +138,7 @@ void WidgetMenuSpells::SetHighlight() {
     w->SetColor(COLOR_RED1);
     w->Tick();
   }
-  if (sub->currentCount == 0) h = -1;
+  if (sub->numChoices == 0) h = -1;
   else h = sub->items[sub->highlight]->varU16;
   this->lists->menus[this->lists->menuIndex]->SetHighlight(h);
 }

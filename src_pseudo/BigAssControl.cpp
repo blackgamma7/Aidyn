@@ -45,7 +45,7 @@ u8 bigAssOpenCallback_1(BaseWidget *w) {
       if (sub->borg7->unk1c->b6->dat->aniLength <= (int)(u32)uVar2)
         w->state = 2;
     }
-    FUN_800a0304(sub->borg7,1);
+    Borg7_TickAnimation(sub->borg7,1);
     Scene::MatrixASetPos(sub->sceneDat,sub->scrollSpeed,0.0,0.0);
     Scene::LookAt(sub->sceneDat,(sub->camPos).x,(sub->camPos).y,(sub->camPos).z,0.0,
                   -100.0f,0.0,0.0,0.0,-1.0f);
@@ -144,7 +144,7 @@ byte bigAssOpenCallback(BaseWidget *param_1) {
         goto LAB_80036d24;
       }
     }
-    FUN_800a0304(sub->borg7,1);
+    Borg7_TickAnimation(sub->borg7,1);
     Scene::MatrixASetPos(sub->sceneDat,sub->scrollSpeed,0.0,0.0);
     Scene::LookAt(sub->sceneDat,(sub->camPos).x,(sub->camPos).y,(sub->camPos).z,0.0,
                   -100.0f,0.0,0.0,0.0,-1.0f);

@@ -123,7 +123,6 @@ void Skyobjects::Init(void){
   SkyobjectStruct *pSVar8;
   u32 uVar9;
   SkyobjectStruct *pSVar10;
-  int iVar11;
   Borg8Header **ppBVar12;
   Calendar cal;
   
@@ -132,8 +131,8 @@ void Skyobjects::Init(void){
     gSkyobjectsCount = 1;
     while (skyobjectStructs[gSkyobjectsCount].index != SkyObjEND)gSkyobjectsCount++;
   }
-  for(iVar11=0;iVar11<3;iVar11++) {
-    switch(iVar11){
+  for(s32 i=0;i<3;i++) {
+    switch(i){
         case SkyObj_Sun:
         sSkyObjBss[0] = loadBorg8(BORG8_SkyObjSun);break;
         case SkyObj_Moon:
@@ -162,7 +161,7 @@ void Skyobjects::Init(void){
         sSkyObjBss[2] = loadBorg8(BORG8_SkyObjStar);
         break;
         default:
-        sSkyObjBss[iVar11]=NULL;
+        sSkyObjBss[i]=NULL;
     }
   }
   ALLOCS(ppBVar12,gSkyobjectsCount*sizeof(Borg8Header*),0xf8);
@@ -300,13 +299,12 @@ Gfx * Skyobjects::Render(Gfx *g){
           }
           fVar21 = __cosf(fVar22 * dtor);
           fVar22 = __sinf(fVar22 * dtor);
-          x = (fVar21 * fVar5 - fVar22 * fVar6) * 300.0f + 160.0f;
-          fVar18 = __sinf(skyobjectStructs[i].pos.x * dtor);
-          fVar23 = -(fVar18 * 90.0f) * dtor;
+          x = (fVar21 * fVar5 - fVar22 * fVar6) * 300.0f + (float)(SCREEN_WIDTH/2);
+          fVar23 = -(__sinf(skyobjectStructs[i].pos.x * dtor) * 90.0f) * dtor;
           fVar18 = __cosf(fVar23);
           fVar23 = __sinf(fVar23);
           scale = skyobjectStructs[i].f0;
-          y = (fVar18 * fVar4 + fVar23 * fVar17) * 300.0f + 120.0f;
+          y = (fVar18 * fVar4 + fVar23 * fVar17) * 300.0f + (float)(SCREEN_HEIGHT/2);
           switch(skyobjectStructs[i].index){
             case SkyObj_Sun:{
               fVar19 = (skyobjectStructs[i].col.A*gGlobals.gameVars.weather.fogTime);
@@ -344,7 +342,9 @@ Gfx * Skyobjects::Render(Gfx *g){
             uVar10 = (u32)bVar1;
             uVar11 = (u32)bVar7;
             //add a twinkle to stars
-            if (skyobjectStructs[i].index == SkyObj_Star) uVar11=uVar10=uVar9= rand_range(160,255);
+            if (skyobjectStructs[i].index == SkyObj_Star) {
+              uVar11=uVar10=uVar9= rand_range(160,255);
+            }
             blue = (u8)uVar9;
             green = (u8)uVar10;
             red = (u8)uVar11;

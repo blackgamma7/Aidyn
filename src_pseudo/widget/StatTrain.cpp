@@ -75,7 +75,7 @@ void WidgetStatTrain::InitMenu() {
   for(i=0;i<STAT_TOTAL;i++) {
     if (i != STAT_LV) this->scrollMenu->Append(new SMStatItem(pStats,i));
   }
-  uVar3 = sub->currentCount;
+  uVar3 = sub->numChoices;
   uVar12 = uVar3;
   if (uVar3 != 0) {
     if (uVar14 != 0) {

@@ -621,11 +621,11 @@ SceneData * GetLocatorScene(SceneData *pRet,u16 param_2){
   }
   if(!pRet){
     #ifdef DEBUGVER
-  char acStack_90 [144];
-  sprintf(acStack_90,"GetLocatorScene:\npRet == NULL locatorScene: %d",param_2);
-  CRASH(FILENAME,acStack_90);
+    char acStack_90 [144];
+    sprintf(acStack_90,"GetLocatorScene:\npRet == NULL locatorScene: %d",param_2);
+    CRASH(FILENAME,acStack_90);
   #else
-  CRASH("","");
+    CRASH("","");
   #endif
   }
 return pRet;
@@ -633,30 +633,24 @@ return pRet;
 
 
 
-void BorgParticleEmitterCallback(ParticleHeadStruct *head,ParticleEmmiter *emmi)
-
-{
-  SceneData *pSVar1;
-  SceneData *scene;
-  u32 uVar4;
-  Borg5_particle *puVar2;
+void BorgParticleEmitterCallback(ParticleHeadStruct *head,ParticleEmmiter *emmi){
   
-  scene = emmi->sceneDat;
-  puVar2 = (Borg5_particle *)emmi->object;
+  SceneData *scene = emmi->sceneDat;
+  Borg5_particle *b5Part = (Borg5_particle *)emmi->object;
   if (scene == NULL) CRASH("BorgParticleEmitterCallback","No Scene attached to emmiter!");
-  pSVar1 = GetLocatorScene(scene,(u16)(((u16)puVar2->locator0 & 0x180) >> 7));
-  uVar4 = (u16)puVar2->locator0 & 7;
-  if (Scene::SceneGetLocatorPos(pSVar1,&puVar2->pos,uVar4)) {
-    if ((puVar2->flagE & B5PART_0010)) Scene::SceneGetLocatorNorm(pSVar1,&puVar2->norm,uVar4);
-    if ((puVar2->flagE & B5PART_2000)) {
-      scene = GetLocatorScene(scene,(u16)(((u16)puVar2->locator1 & 0x180) >> 7));
-      Scene::SceneGetLocatorPos(scene,&puVar2->pos2,(u16)puVar2->locator1 & 7);
+  SceneData *pSVar1 = GetLocatorScene(scene,((b5Part->locator0 & 0x180) >> 7));
+  u32 uVar4 = b5Part->locator0 & 7;
+  if (Scene::SceneGetLocatorPos(pSVar1,&b5Part->pos,uVar4)) {
+    if ((b5Part->flagE & B5PART_0010)) Scene::SceneGetLocatorNorm(pSVar1,&b5Part->norm,uVar4);
+    if ((b5Part->flagE & B5PART_2000)) {
+      scene = GetLocatorScene(scene,((b5Part->locator1 & 0x180) >> 7));
+      Scene::SceneGetLocatorPos(scene,&b5Part->pos2,b5Part->locator1 & 7);
     }
   }
   else {
-    Vec3Set(&puVar2->pos,0.0,0.0,0.0);
-    Vec3Set(&puVar2->norm,0.0,1.0f,0.0);
-    Vec3Set(&puVar2->pos2,1.0,1.0,1.0);
+    Vec3Set(&b5Part->pos,0.0,0.0,0.0);
+    Vec3Set(&b5Part->norm,0.0,1.0f,0.0);
+    Vec3Set(&b5Part->pos2,1.0,1.0,1.0);
     emmi->lifespan = 0;
   }
 }
@@ -778,12 +772,12 @@ freeAndReturnNULL:
 }
 
 
-void Particle::UnsetSceneEmmiter(ParticleHeadStruct *param_1,SceneData *param_2){
-  if (((param_1) && (param_2)) && (param_1->Emmiter)) {
+void Particle::UnsetSceneEmmiter(ParticleHeadStruct *pHead,SceneData *scene){
+  if (((pHead) && (scene)) && (pHead->Emmiter)) {
     for(u16 i=0;i<ParticleEmmiMAX;i++) {
-        ParticleEmmiter *pPVar2 =&param_1->Emmiter[i];
-      if (((pPVar2->flags & PARTEMMI_8000)) && (param_2 == pPVar2->sceneDat))
-        ResetEmmiter(param_1,pPVar2);
+        ParticleEmmiter *pPVar2 =&pHead->Emmiter[i];
+      if (((pPVar2->flags & PARTEMMI_8000)) && (scene == pPVar2->sceneDat))
+        ResetEmmiter(pHead,pPVar2);
     }
   }
 }

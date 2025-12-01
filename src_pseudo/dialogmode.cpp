@@ -59,7 +59,7 @@ void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapSho
   return;
 }
 
-void run_dialougemode_funcs3(void){
+void run_dialougemode_funcs3(){
   freeWidgetFunc = NULL;
   if (dialougemode_pointer) {
     (*dialougemode_pointer->funcs3[dialougemode_pointer->func_index])();
@@ -75,7 +75,7 @@ void CreateNewDialouge_(u32 param_1){
   ofunc_sub_dialouge(gGlobals.diaClass,borg_13_pointer->dat);
   sprintf(gGlobals.text,"CreateNewDialogue\n");
   N64Print::Print(gGlobals.text);
-  FUN_800b6cb8(&dialougemode_pointer->some_substruct,dialougemode_pointer->borg13_dat,0);
+  FUN_800b6cb8(&dialougemode_pointer->inst,dialougemode_pointer->borg13_dat,0);
   return;
 }
 
@@ -114,7 +114,7 @@ int ScreenFadeMode_12(Gfx **GG){
   delta = 0;
   switch(dialougemode_pointer->unkab){
     case 0:{
-      DAT_800ee974 = 1;
+      DAT_800ee974 = true;
       dialougemode_pointer->unkab = 1;
       run_dialougemode_funcs4();
       return 0xc;
@@ -139,12 +139,12 @@ int ScreenFadeMode_12(Gfx **GG){
       DAT_800ee970 = dialougemode_pointer->unk90;
       run_dialougemode_funcs5();
       if (DAT_800ee970 != 7) {
-        DAT_800ee974 = 0;
+        DAT_800ee974 = false;
         return DAT_800ee970;
       }
       DAT_800ee970 = 1;
-      DAT_800ee974 = 0;
-      DAT_800ee978 = 1;
+      DAT_800ee974 = false;
+      DAT_800ee978 = true;
       return 1;
   }
   }
@@ -152,7 +152,7 @@ int ScreenFadeMode_12(Gfx **GG){
   return 0xc;
 }
 
-void run_dialougemode_funcs1(void){
+void run_dialougemode_funcs1(){
   if ((borg_13_pointer) && (dialougemode_pointer)) {
     (*dialougemode_pointer->funcs1[dialougemode_pointer->func_index])();
     dialougemode_pointer->unkac = 0;
@@ -190,7 +190,7 @@ u8 dialougSkillCheck(u8 param_1){
   return dialougemode_pointer->partySkillLvls[param_1];
 }
 
-void FUN_8005831c(void){
+void FUN_8005831c(){
   if ((((dialougemode_pointer != NULL) && (dialougemode_pointer->controlLock)) &&
       (dialougemode_pointer->timerFlag == 0)) && (gGlobals.scriptcamera.counter1 == 0)) {
     dialougemode_pointer->controlLock = 0;
@@ -198,7 +198,7 @@ void FUN_8005831c(void){
   }
 }
 
-void FUN_80058370(void){ 
+void FUN_80058370(){ 
   if (!dialougemode_pointer->controlLock) {
     dialougemode_pointer->controlLock = true;
     WHANDLE->FreeWidget((gGlobals.diaClass)->menu);
@@ -217,7 +217,7 @@ void set_dialougemode_0x90(u32 param_1){
   dialougemode_pointer->unk90 = param_1;
 }
 
-void encounterDat_func(void){
+void encounterDat_func(){
   dialougemode_struct *pdVar1;
   u32 uVar2;
   u32 uVar3;
@@ -228,12 +228,12 @@ void encounterDat_func(void){
   do {
     uVar3 = uVar2 + 1 & 0xff;
     gGlobals.EncounterDat.enemy_entities[uVar2] =
-         *(ItemID *)((pdVar1->some_substruct).encounterEnemies + uVar2);
+         *(ItemID *)((pdVar1->inst).encounterEnemies + uVar2);
     uVar2 = uVar3;
   } while (uVar3 < 0xc);
-  gGlobals.EncounterDat.battlefield = (pdVar1->some_substruct).battlefeild;
-  gGlobals.EncounterDat.collisionByte = (pdVar1->some_substruct).collisionByte;
-  gGlobals.EncounterDat.aniByte = (pdVar1->some_substruct).aniByte;
+  gGlobals.EncounterDat.battlefield = (pdVar1->inst).battlefeild;
+  gGlobals.EncounterDat.collisionByte = (pdVar1->inst).collisionByte;
+  gGlobals.EncounterDat.aniByte = (pdVar1->inst).aniByte;
   if (0x1b < gGlobals.EncounterDat.battlefield) {
     gGlobals.EncounterDat.battlefield = 0;
   }
@@ -279,15 +279,15 @@ void FUN_800585d0(u16 param_1){
   else ApplyStimulus(FUN_80059ae8(),param_1);
 }
 
-void some_debug_func_3(void){
+void some_debug_func_3(){
   if (dialougemode_pointer->borg13_dat->start_func == 1)
     debug_sub_3();
 }
 
-ItemID set_shopkeep(void){
+ItemID set_shopkeep(){
   playerData *ppVar1;
   
-  gGlobals.playerCharStruct.current_shopkeep = (dialougemode_pointer->some_substruct).Entid;
+  gGlobals.playerCharStruct.current_shopkeep = (dialougemode_pointer->inst).Entid;
   if (((dialougemode_pointer->func_index == 0) && (dialougemode_pointer->Wanderers != NULL)) &&
      (ppVar1 = dialougemode_pointer->Wanderers->playerDat, ppVar1 != NULL)) {
     gGlobals.playerCharStruct.current_shopkeep = ppVar1->ent_ID;
@@ -295,7 +295,7 @@ ItemID set_shopkeep(void){
   return gGlobals.playerCharStruct.current_shopkeep;
 }
 
-void init_skill_trainer(void){
+void init_skill_trainer(){
   EntityRAM *pEVar1;
   ItemID IVar5;
   byte index;
@@ -339,7 +339,7 @@ void init_skill_trainer(void){
   }
 }
 
-void shop_func(void){
+void shop_func(){
   ItemID keep = set_shopkeep();
   if (keep) {
     GenericInventory *inv = new GenericInventory();
@@ -368,14 +368,14 @@ void shop_func(void){
 }
 
 
-void set_some_borg13_flag(void){
+void set_some_borg13_flag(){
   if (borg13_flag == 0) {
     borg13_flag = 1;
     FUN_80058370();
   }
 }
 
-void FUN_80058ad4(void){
+void FUN_80058ad4(){
   Borg7Header *pBVar1;
   
   if (dialougemode_pointer->unkad != 0) {
@@ -429,7 +429,7 @@ void ApplyStimulus(playerData *param_1,u16 param_2){
   }
 }
 
-void get_dialougemode_funcs(void)
+void get_dialougemode_funcs()
 
 {
   dialougemode_struct *pdVar1;
@@ -468,7 +468,7 @@ void get_dialougemode_funcs(void)
   return;
 }
 
-void NOOP_80058dc8(void){}
+void NOOP_80058dc8(){}
 
 void get_some_borg13(u32 param_1){
   borg_13_pointer = get_borg13(param_1);
@@ -491,13 +491,13 @@ bool dialougmode_struct_init(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA
   dialougemode_pointer->Unk0x7C = param_6;
   ALLOCS(dialougemode_pointer->partySkillLvls,12,946);
   memset(dialougemode_pointer->partySkillLvls,0xff,0xc);
-  FUN_800b6c38(&dialougemode_pointer->some_substruct,dialougemode_pointer->RefPointID);
+  FUN_800b6c38(&dialougemode_pointer->inst,dialougemode_pointer->RefPointID);
   dialougemode_pointer->func_index = dialougemode_pointer->borg13_dat->start_func;
   get_dialougemode_funcs();
   return true;
 }
 
-void clear_borg13_pointer(void){
+void clear_borg13_pointer(){
   if (borg_13_pointer) {
     FREEQB13(borg_13_pointer);
     borg_13_pointer = NULL;
@@ -505,7 +505,7 @@ void clear_borg13_pointer(void){
 }
 
 
-void dialougmode_free(void){
+void dialougmode_free(){
   if (dialougemode_pointer) {
     if (dialougemode_pointer->camp_flag)
       World::Lapse8Hours(TerrainPointer);
@@ -516,7 +516,7 @@ void dialougmode_free(void){
   return;
 }
 
-byte cutScene_control_func(void)
+byte cutScene_control_func()
 
 {
   BaseWidget *pBVar1;
@@ -543,7 +543,7 @@ byte cutScene_control_func(void)
     if ((((buttons & R_BUTTON) != 0) && (buttons != 0)) &&
        (((buttons & (A_BUTTON|Z_BUTTON)) == (A_BUTTON|Z_BUTTON) &&
         ((acStack32->input & B_BUTTON) != 0)))) {
-      DialogCallbackC((gGlobals.diaClass)->dialouge_substruct,borg_13_pointer->dat,B13Com_EndDialoug,0);
+      DialogCallbackC((gGlobals.diaClass)->inst,borg_13_pointer->dat,B13Com_EndDialoug,0);
     }
     N64Print::Toggle(&gGlobals.DebugQueue,acStack32);
   } while (((dialougemode_pointer->controlLock) || (dialougemode_pointer->timerFlag)) ||
@@ -563,12 +563,12 @@ Gfx * FUN_800591a8(Gfx *g,u8 delta,bool param_3){
   return g;
 }
 
-playerData * FUN_800591e4(void){
+playerData * FUN_800591e4(){
   ItemID x;
   byte bVar2;
   playerData *ppVar1;
   
-  x = (dialougemode_pointer->some_substruct).diags[0].ent_ID;
+  x = (dialougemode_pointer->inst).diags[0].ent_ID;
   ppVar1 = NULL;
   if (((u16)x >> 8 == 2) &&
      (bVar2 = GETINDEX(x), ppVar1 = gPlayer,
@@ -579,17 +579,17 @@ playerData * FUN_800591e4(void){
   return ppVar1;
 }
 
-void run_dialougemode_funcs4(void){
+void run_dialougemode_funcs4(){
   if (dialougemode_pointer)
     (*dialougemode_pointer->funcs4[dialougemode_pointer->func_index])();
 }
 
-void run_dialougemode_funcs5(void){
+void run_dialougemode_funcs5(){
   if (dialougemode_pointer)
     (*dialougemode_pointer->unk0x64[dialougemode_pointer->func_index])();
 }
 
-void DialogueModeInitPrescripted(void){
+void DialogueModeInitPrescripted(){
   vec3f afStack80;
   
   N64Print::Print("DialogueModeInitPrescripted\n");
@@ -604,17 +604,17 @@ void DialogueModeInitPrescripted(void){
   afStack80.x += 100.0f;
   Camera::SetAim(gGlobals.gameVars.PlayerHandler.camera,&afStack80);
   gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
-             &dialougemode_pointer->some_substruct,dialougemode_pointer->func_index,
+             &dialougemode_pointer->inst,dialougemode_pointer->func_index,
              dialougemode_pointer->borg13_dat->libraryType);
   gGlobals.screenFadeMode = 2;
   gGlobals.brightness = 0.0;
   gGlobals.screenFadeSpeed = (1.0/60);
 }
 
-void load_one_of_two_cinematics(void){
+void load_one_of_two_cinematics(){
 
 
-  DialougFreeActors(&dialougemode_pointer->some_substruct,dialougemode_pointer->borg13_dat);
+  DialougFreeActors(&dialougemode_pointer->inst,dialougemode_pointer->borg13_dat);
   Process_queue_B(&gGlobals.QueueB,1);
   FreeZoneEngine(true);
   clear_sfx_entries(&gGlobals.SFXStruct,1);
@@ -667,14 +667,14 @@ void load_one_of_two_cinematics(void){
   return;
 }
 
-bool FUN_80059628(void){
+bool FUN_80059628(){
   freeWidgetFunc = run_dialougemode_funcs2;
   Borg13Data *pBVar1 = dialougemode_pointer->borg13_dat;
-  return gGlobals.diaClass->StartDialoug(pBVar1,&dialougemode_pointer->some_substruct,
+  return gGlobals.diaClass->StartDialoug(pBVar1,&dialougemode_pointer->inst,
                      pBVar1->start_func,pBVar1->libraryType);
 }
 
-void FUN_80059674(void){
+void FUN_80059674(){
   gGlobals.diaClass->FreeWidgets();
   dialougmode_free();
   clear_borg13_pointer();
@@ -695,7 +695,7 @@ void DialogueModeInitPrescripted_set_map(EnumMapDatA mapdatA,u16 short1,u16 shor
   gCamera.unk80 = 5;
 }
 
-void FUN_80059770(void){
+void FUN_80059770(){
   Wanderer *pwVar1 = dialougemode_pointer->Wanderers;
   if ((pwVar1) && (pwVar1->playerDat)) {
     Borg9Data *pBVar2 = GetCollisionZone(pwVar1->playerDat->zoneDatByte);
@@ -707,7 +707,7 @@ void FUN_80059770(void){
   }
 }
 
-void FUN_800597f8(void){
+void FUN_800597f8(){
   u32 uVar1;
   u16 lVar2;
   
@@ -723,17 +723,17 @@ void FUN_800597f8(void){
   }
 }
 
-void FUN_80059888(void){
+void FUN_80059888(){
   playerData *ppVar1 = gPlayer;
   (gPlayer)->ani_type = 0;
   Actor::SetFlag(ppVar1,ACTOR_800);
   gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
-             &dialougemode_pointer->some_substruct,0,0);
+             &dialougemode_pointer->inst,0,0);
   clear_some_playerHandler_field();
   Camera::SetFeild70(gGlobals.gameVars.PlayerHandler.camera,&(ppVar1->collision).pos);
 }
 
-void FUN_800598fc(void){
+void FUN_800598fc(){
   playerData *ppVar1;
   playerData *ppVar2;
   
@@ -778,7 +778,7 @@ void FUN_80059970(BaseWidget *param_1)
   return;
 }
 
-void FUN_800599f0(void){
+void FUN_800599f0(){
   Wanderer *pwVar1;
   playerData *ppVar2;
   Camera_struct *pCVar3;
@@ -809,24 +809,24 @@ void FUN_800599f0(void){
   clear_borg13_pointer();
 }
 
-playerData * FUN_80059ae8(void){
-  ActorAndID* pAVar1 = DialougGetActorAndID(&dialougemode_pointer->some_substruct,borg_13_pointer->dat,
-                       (dialougemode_pointer->some_substruct).Entid);
+playerData * FUN_80059ae8(){
+  ActorAndID* pAVar1 = DialougGetActorAndID(&dialougemode_pointer->inst,borg_13_pointer->dat,
+                       (dialougemode_pointer->inst).Entid);
   if (pAVar1 == NULL) return NULL;
   else return pAVar1->actor;
 }
 
 
-void FUN_80059b28(void){
+void FUN_80059b28(){
   if (DAT_800ee96c == 0)
     FUN_80024c54(0xb);
 }
 
 
-void FUN_80059b50(void){
+void FUN_80059b50(){
   if (dialougemode_pointer->borg13_dat->ActorCount != 0) {
     for(u8 i=0;i<dialougemode_pointer->borg13_dat->ActorCount;i++){
-      playerData *ppVar2 = dialougemode_pointer->some_substruct.actors[i].actor;
+      playerData *ppVar2 = dialougemode_pointer->inst.actors[i].actor;
       if (ppVar2) {
         if (dialougemode_pointer->unkac == 0) ppVar2->ani_type = 0;
         else if (ppVar2 != dialougemode_pointer->playerDat) ppVar2->ani_type = 0;
@@ -851,7 +851,7 @@ void FUN_80059bf8(BaseWidget *param_1){
 }
 
 
-void FUN_80059c70(void){
+void FUN_80059c70(){
   setEventFlag(dialougemode_pointer->borg13_dat->flag,true);
   gGlobals.screenFadeSpeed = (1.0/60);
   dialougemode_pointer->unkab = 2;
@@ -862,35 +862,35 @@ void FUN_80059c70(void){
   }
 }
 
-void SetUnkState11(void){
+void SetUnkState11(){
   gGlobals.playerCharStruct.unkState = 0xb;
 }
 
-void NOOP_80059D08(void){}
+void NOOP_80059D08(){}
 
-bool FUN_80059d10(BaseWidget *param_1){
-  return gGlobals.diaClass->m8004ea94(param_1);
+void FUN_80059d10(BaseWidget *param_1){
+  gGlobals.diaClass->m8004ea94(param_1);
 }
 
 
-bool FUN_80059d38(void){
-  (gPlayer)->ani_type = 0;
-  return gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,&dialougemode_pointer->some_substruct,3,0);
+void FUN_80059d38(){
+  gPlayer->ani_type = 0;
+  gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,&dialougemode_pointer->inst,3,0);
 }
 
-void NOOP_80059d7c(void){}
+void NOOP_80059d7c(){}
 
-bool FUN_80059d84(BaseWidget *param_1){
-  return gGlobals.diaClass->m8004ea94(param_1);
+void FUN_80059d84(BaseWidget *param_1){
+  gGlobals.diaClass->m8004ea94(param_1);
 }
 
-void FUN_80059dac(void){
+void FUN_80059dac(){
   gGlobals.diaClass->FreeWidgets();
   dialougmode_free();
   clear_borg13_pointer();
 }
 
-bool isDialougeMode(void){
+bool isDialougeMode(){
   if (gGlobals.screenFadeModeSwitch == 0xc)
     return true;
   return dialougemode_pointer != NULL;

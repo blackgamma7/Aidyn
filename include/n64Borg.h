@@ -689,8 +689,7 @@ struct Borg6SubSub{
     s16 unk0;
     s16 unk2;
     float*unk4;
-    s16 unk8;
-    s16 unka;
+    s32 unk8;
     float*unkc;
 };
 struct Borg6Sub{
@@ -1069,12 +1068,12 @@ void takeBranch(Borg7Header *param_1,b7SubSub *param_2);
 void animate_borg7(Borg7Header *param_1);
 bool Borg7_AnimationExpired(Borg7Header *param_1);
 void FUN_800a0088();
-void FUN_800a0090(Borg7Header *param_1,u16 param_2);
+void Borg7_SetAnimation(Borg7Header *param_1,u16 param_2);
 bool FUN_800a00d0(Borg7Header *param_1);
-bool FUN_800a0304(Borg7Header *param_1,int delta);
-u16 Ofunc_800a058c(Borg7Header *param_1);
+bool Borg7_TickAnimation(Borg7Header *param_1,int delta);
+u16 Borg7_GetAniTime(Borg7Header *param_1);
 void Borg7_StartParticles(Borg7Header *param_1);
-Gfx * BorgAnimDrawSceneLinked(Gfx *g,Borg7Header *param_2);
+Gfx * Borg7_Render(Gfx *g,Borg7Header *param_2);
 void FUN_800a0714(struct SceneDatSubstruct *param_1);
 void FUN_800a0764(struct SceneDatStruct *param_1,float param_2);
 void FUN_800a07b0(struct SceneDatStruct *param_1,float param_2);

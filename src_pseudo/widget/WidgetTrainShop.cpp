@@ -13,7 +13,7 @@ BaseWidget* WidgetTrainShop::SetHighlight(u16 h){
   BaseWidget *ret;
   WSMSub *sub = (WSMSub *)this->scrollMenu->substruct;
   BaseWidget *ret = NULL;
-  if (sub->currentCount != 0) {
+  if (sub->numChoices != 0) {
     ret = *sub->items;
     if (ret->varU16 == h) sub->highlight = 0;
     else {
@@ -22,7 +22,7 @@ BaseWidget* WidgetTrainShop::SetHighlight(u16 h){
         uVar1 = uVar2;
         uVar2 = uVar1;
         ret = NULL;
-        if (sub->currentCount <= uVar2) goto LAB_80037dd4;
+        if (sub->numChoices <= uVar2) goto LAB_80037dd4;
         ret = sub->items[uVar2++];
       } while (ret->varU16 != h);
       sub->highlight = (u16)uVar1;

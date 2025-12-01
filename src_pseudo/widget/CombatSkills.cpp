@@ -169,7 +169,7 @@ WidgetChoiceDia(62,120,gExpPakFlag?95:55,0,0){
   s8 lVar11 = gCombatSkillSelections[iVar5];
   if (lVar11 != -1) {
     WSMSub* s = (WSMSub*)this->scrollMenu->substruct;
-    s8 lVar10 = s->currentCount-1;
+    s8 lVar10 = s->numChoices-1;
     if (lVar10 < lVar11) lVar11 = lVar10;
     s->highlight=lVar11;
     this->scrollMenu->Tick();

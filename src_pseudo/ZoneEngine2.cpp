@@ -1,8 +1,8 @@
-#include "globals.h"
+#include "game.h"
 #include "skyObjects.h"
 #include "voxelChart.h"
 #include "vobjects.h"
-#include "combat/Visuals.h"
+#include "combat/CombatStruct.h"
 #define FILENAME "./src/zoneengine.cpp"
 
 #ifdef DEBUGVER //some sprintf calls not found in retail version
@@ -273,7 +273,7 @@ void set_teleport_obj_loadgame(u16 mapA,u16 Short1,u16 Short2,vec3f *pos){
   loadgame_tp_obj.teleport.MapShort2 = Short2;
   Vec3Copy(pos,&loadgame_tp_obj.header.pos);
 }
-extern s16 some_toggle;
+
 void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
   u16 VVar1;
   playerData *ppVar2;
@@ -299,28 +299,26 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
      ((some_toggle == -1 &&
       (ptVar6 = (gGlobals.gameVars.borg9DatPointer)->voxelObjs + (param_2->GroundType >> 5 & 0x7f),
       ((ptVar6->header).Bitfeild & VOXEL_Active) != 0)))) {
-    //todo: redo as case-switch
-    VVar1 = (ptVar6->header).type;
-    if (VVar1 == VOXEL_Camera) {
-      set_camera_voxel_pointer(ptVar6,&param_1->pos);
-    }
-    else {
-      if (VVar1 < VOXEL_Dialouge) {
-        if (VVar1 == VOXEL_Teleporter) {
-          set_teleport_pointer(ptVar6);
-          return;
-        }
+    switch((ptVar6->header).type){
+      case VOXEL_Camera:{
+        set_camera_voxel_pointer(ptVar6,&param_1->pos);
+        break;
       }
-      else if (VVar1 == VOXEL_Dialouge) {
+      case VOXEL_Teleporter:{
+        set_teleport_pointer(ptVar6);
+        return;
+      }
+      case VOXEL_Dialouge:{
         if (!dialoug_obj_func(ptVar6,ppVar5)) return;
         dialouge_vobject_func(ptVar6,0,0xff);
         return;
       }
+      default:{
       Gsprintf("Invalid Trigger Type: %d\n",(u32)VVar1);
       N64PRINT(gGlobals.text);
+      }
     }
   }
-  return;
 }
 
 void init_some_map_data(ZoneDat *dat,s16 i,char j){
@@ -458,20 +456,20 @@ void MakeGameZoneNames(u16 param_1,u16 param_2){
   Gsprintf("Zone out of Range\nZone: (%d, %d)\nRange: (%d, %d)",param_1,param_2,22,30);
   CRASH("MakeGameZoneNames",gGlobals.text);
 }
-//Move mad model relative to BCD'd index
-void ZoneMoveSceneDat(SceneData *param_1,u8 index){
+//Move map model relative to BCD'd index
+void ZoneMoveSceneDat(SceneData *scene,u8 index){
   float x;
   float y;
   
-  if (!param_1) return;
-  param_1->flags = 0;
-  guMtxIdentF(&param_1->matrixA);
-  guMtxIdentF(&param_1->matrixB);
-  Scene::SetFlag10(param_1);
-  Scene::SetFogFlag(param_1);
-  Scene::SetFlag8(param_1);
-  if (index == ZoneCenter) Scene::UnsetFlag4(param_1);
-  else Scene::SetFlag4(param_1);
+  if (!scene) return;
+  scene->flags = 0;
+  guMtxIdentF(&scene->matrixA);
+  guMtxIdentF(&scene->matrixB);
+  Scene::SetFlag10(scene);
+  Scene::SetFogFlag(scene);
+  Scene::SetFlag8(scene);
+  if (index == ZoneCenter) Scene::UnsetFlag4(scene);
+  else Scene::SetFlag4(scene);
   if (false) return;
   y = gGlobals.gameVars.mapCellSize.y;
   switch(index) {
@@ -504,13 +502,13 @@ void ZoneMoveSceneDat(SceneData *param_1,u8 index){
   case 0x21:
     y = gGlobals.gameVars.mapCellSize.x;
 LAB_8000df9c:
-    Scene::MatrixASetPos(param_1,y,0.0,0.0);
+    Scene::MatrixASetPos(scene,y,0.0,0.0);
     return;
   case 0x22:
-    Scene::MatrixASetPos(param_1,gGlobals.gameVars.mapCellSize.x,0.0,gGlobals.gameVars.mapCellSize.y);
+    Scene::MatrixASetPos(scene,gGlobals.gameVars.mapCellSize.x,0.0,gGlobals.gameVars.mapCellSize.y);
     return;
   }
-  Scene::MatrixASetPos(param_1,x,0.0,y);
+  Scene::MatrixASetPos(scene,x,0.0,y);
 }
 //clear all loaded map chunks.
 void zonedat_clear_all(){
@@ -812,10 +810,9 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
     if (player) Vec3Sub(&fStack312,&fStack312,&(player->collision).pos);
     fStack312.y = 0.0;
     if (pfVar8 != NULL) {
-      pvVar9 = &(pfVar8->refpoint).position;
       (pfVar8->refpoint).position.y = 0.0;
-      Vec3Normalize(pvVar9);
-      if (0.5 < Vec3Length(pvVar9)) {
+      Vec3Normalize(&(pfVar8->refpoint).position);
+      if (0.5 < Vec3Length(&(pfVar8->refpoint).position)) {
         Vec2Set(&player->facing,-(pfVar8->refpoint).position.x,-(pfVar8->refpoint).position.z);
       }
     }
@@ -826,8 +823,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
   }
   if (player) {
     ApplyZoneVelocity(&fStack312,player);
-    pvVar9 = &(player->collision).pos;
-    Vec3Copy(pvVar9,&fStack312);
+    Vec3Copy( &(player->collision).pos,&fStack312);
     if (pfVar8 == NULL) {
       fVar10 = (player->collision).pos.y;
     }
@@ -841,7 +837,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
       gGlobals.gameVars.weather.rainParticles = NULL;
       Particle::FUN_800b2bc4(&gGlobals.gameVars.particleEmmiter);
     }
-    Camera::SetFeild70(&gCamera,pvVar9);
+    Camera::SetFeild70(&gCamera, &(player->collision).pos);
   }
   if (prStack_38 == NULL) {
     if ((player != NULL) && (param_3 == NULL)) {
@@ -1208,14 +1204,14 @@ LAB_80010084:
                   else psVar14->SceneDat = pAVar4;
                 }
                 else {
-                  FUN_800a0304((SObj->scene).borgArray[0].b7,gGlobals.delta);
+                  Borg7_TickAnimation((SObj->scene).borgArray[0].b7,gGlobals.delta);
                   uVar12 = local_6c;
                   if (uVar15 < local_6c) uVar12 = uVar15;
                   set_sun_light(pAVar4,(SObj->scene).sceneflags,SObj,uVar12);
                   passto_InitLight_2(&gGlobals.gameVars.DynamicLights,pAVar4,SObj,gGlobals.delta);
                   passto_initLight(pAVar4,borg9,SObj,gGlobals.delta);
                   if (psVar14 == NULL) {
-                    local_res0 = BorgAnimDrawSceneLinked(local_res0,(SObj->scene).borgArray[0].b7);
+                    local_res0 = Borg7_Render(local_res0,(SObj->scene).borgArray[0].b7);
                   }
                   else {
                     psVar14->b7 = (SObj->scene).borgArray[0].b7;
@@ -1237,7 +1233,7 @@ LAB_80010084:
                 pBVar3 = func_loading_borg7((SObj->scene).borgArray[0].borgIndex,&gGlobals.gameVars.particleEmmiter);
                 (SObj->scene).borgArray[0].b7 = pBVar3;
                 pAVar4 = pBVar3->sceneDat;
-                FUN_800a0090(pBVar3,0);
+                Borg7_SetAnimation(pBVar3,0);
                 EVar1 = (SObj->header).flagB;
                 if ((SObj->header).flagB != 0) {
                   if ((getEventFlag((SObj->header).flagB)) && (((SObj->header).Bitfeild & VOXEL_Used) == 0)) {
@@ -1245,8 +1241,8 @@ LAB_80010084:
                   else {
                     if ((getEventFlag((SObj->header).flagB)) || (((SObj->header).Bitfeild & VOXEL_Used) == 0)) goto LAB_8000ffcc;
                   }
-                  FUN_800a0090((SObj->scene).borgArray[0].b7,1);
-                  FUN_800a0304((SObj->scene).borgArray[0].b7,2);
+                  Borg7_SetAnimation((SObj->scene).borgArray[0].b7,1);
+                  Borg7_TickAnimation((SObj->scene).borgArray[0].b7,2);
                 }
 LAB_8000ffcc:
                 guMtxIdentF(&pAVar4->matrixA);
@@ -1600,7 +1596,7 @@ void RenderTransZones__(Gfx **param_1){
   if (voxel_counter) {
     for(u16 i=0; i < voxel_counter; i++) {
       if (!(struct_a_ARRAY_800f5290[i].flags & SceneObj_B7)) g = BorgAnimDrawScene(g,struct_a_ARRAY_800f5290[i].SceneDat);
-      else g = BorgAnimDrawSceneLinked(g,struct_a_ARRAY_800f5290[i].b7);
+      else g = Borg7_Render(g,struct_a_ARRAY_800f5290[i].b7);
     }
   }
   *param_1 = g;

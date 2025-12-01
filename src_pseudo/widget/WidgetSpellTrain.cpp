@@ -69,7 +69,7 @@ void WidgetSpellTrain::InitMenu() {
     entry->varU16 = (spell->base).id;
    }
   }
-  uVar3 = pvVar13->currentCount;
+  uVar3 = pvVar13->numChoices;
   if (uVar3 != 0) {
     if (uVar14 != 0) {
       if ((int)(uVar3 - 1) < (int)uVar14) {

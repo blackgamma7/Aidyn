@@ -69,7 +69,7 @@ void WidgetSkillTrain::InitMenu() {
     if (skills->capSheildBaseMax() > 0){
       this->scrollMenu->Append(new WidgetSkillInfo(skills,skills->capSheildBaseMax(),2));
     }
-    uVar2 = pvVar11->currentCount;
+    uVar2 = pvVar11->numChoices;
     if (uVar2 != 0) {
       if (uVar11 != 0) {
         if ((int)(uVar2 - 1) < (int)uVar11) {

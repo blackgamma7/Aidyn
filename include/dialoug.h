@@ -7,65 +7,65 @@
 #include "PlayerData.h"
 
 struct SuperMenuClass{
-    Borg8Header* img;
-    u32 index;
+  Borg8Header* img;
+  u32 index;
 };
 
 namespace SuperMenuClasses{
-void Init(s32);
-void Set();
-void Free();
-Borg8Header* Add(u32);
+  void Init(s32);
+  void Set();
+  void Free();
+  Borg8Header* Add(u32);
 };
 
 class DiaMenuSub{
-    public:
-    WidgetBorg8* PortraitBorder;
-    BaseWidget* unk4; //unused?
-    WidgetBorg8* Portrait;
-    WidgetBorg8* Background;
-    u32 unk10;
-    u32 unk14;
-    WidgetBorg8* Gradient;
-    u32 unk1c;
-    WidgetText* text;
-    WidgetShadowText* shadText;
-    WidgetScrollMenu* scrollMenu;
-    DiaMenuSub(WidgetHandler*,u8,u8);
-    ~DiaMenuSub();
-    void InitDefault(u8);
-    void Init24(u8);
-    void NOOP_8004e97c();
+  public:
+  WidgetBorg8* PortraitBorder;
+  BaseWidget* unk4; //unused?
+  WidgetBorg8* Portrait;
+  WidgetBorg8* Background;
+  u32 unk10;
+  u32 unk14;
+  WidgetBorg8* Gradient;
+  u32 unk1c;
+  WidgetText* text;
+  WidgetShadowText* shadText;
+  WidgetScrollMenu* scrollMenu;
+  DiaMenuSub(WidgetHandler*,u8,u8);
+  ~DiaMenuSub();
+  void InitDefault(u8);
+  void Init24(u8);
+  void NOOP_8004e97c();
 };
 
 struct struct_3{
-u8 next;
-u8 unk1[3];//align?
-ItemID ent_ID;
-char* txt;
+  u8 next;
+  u8 unk1[3];//align?
+  ItemID ent_ID;
+  char* txt;
 };
 
 struct ActorAndID{
-    playerData* actor;
-    u16 id;
+  playerData* actor;
+  u16 id;
 };
 
-struct dialougmode_substruct {
-    struct_3 diags[9];
-    u32 unk6C;
-    ActorAndID actors[16];
-    u16 encounterEnemies[12];
-    u16 unk108;
-    ItemID Entid;
-    u16 RefpointID;
-    u16 unk10e;
-    char unk110;
-    u8 borg13End; //set by commands ending borg13
-    u8 collisionByte;
-    u8 aniByte;
-    u8 battlefeild;
-    u8 unk115;
-    u8 unk116;
+struct dialougeInstance {
+  struct_3 diags[9];
+  u32 unk6C;
+  ActorAndID actors[16];
+  u16 encounterEnemies[12];
+  u16 unk108;
+  ItemID Entid;
+  u16 RefpointID;
+  u16 unk10e;
+  char unk110;
+  u8 borg13End; //set by commands ending borg13
+  u8 collisionByte;
+  u8 aniByte;
+  u8 battlefeild;
+  u8 actorsLoaded;
+  u8 unk116;
 };
 
 struct dialougemode_struct {
@@ -98,14 +98,14 @@ struct dialougemode_struct {
     u8 unkad;
     u16 unkae;
     int camp_flag;
-    dialougmode_substruct some_substruct;
+    dialougeInstance inst;
 };
 
 class DialougeClass{
     public:
-    u8 unk0;
+    u8 unk0; //set to 0. unused?
     WidgetMenu* menu; //uses DiaMenuSub as substruct
-    dialougmode_substruct* dialouge_substruct;
+    dialougeInstance* inst;
     u32 unkC; //some boolean?
     WidgetHandler* handler;
     Borg13Data* borg_13_dat;
@@ -115,7 +115,7 @@ class DialougeClass{
     u8 type;
     DialougeClass(WidgetHandler*);
     ~DialougeClass();
-    bool StartDialoug(Borg13Data *,dialougmode_substruct *,u8,u8);
+    bool StartDialoug(Borg13Data *,dialougeInstance *,u8,u8);
     bool m8004ea94(BaseWidget*);
     void LoadMenuSubstruct(u8);
     bool Setup();
@@ -165,8 +165,8 @@ BaseWidget* Dialoug_AButton(BaseWidget*,BaseWidget*);
 BaseWidget* Dialoug_DebugEnd(BaseWidget*,BaseWidget*);
 BaseWidget* Dialoug_BButton(BaseWidget*,BaseWidget*);
 
-typedef void (*DialogCallback)(dialougmode_substruct*,Borg13Data *,u16,s16);
-typedef s32 (*DialogCallback2)(dialougmode_substruct*,Borg13Data *,u16,u16);
+typedef void (*DialogCallback)(dialougeInstance*,Borg13Data *,u16,s16);
+typedef s32 (*DialogCallback2)(dialougeInstance*,Borg13Data *,u16,u16);
 
 void set_dialougprecallback(DialogCallback);
 void set_dialoug_func_b(DialogCallback2);
@@ -175,30 +175,30 @@ u8 check_command_bitmask(Borg13Data *,u8);
 char * get_borg_13_text(Borg13Data *,u8 );
 u8 command_bitmask_6(Borg13Data *,u8);
 u8 command_bitmask_7(Borg13Data *,u8);
-bool FUN_800b59b8(dialougmode_substruct *,Borg13Data *,u8);
+bool FUN_800b59b8(dialougeInstance *,Borg13Data *,u8);
 void FUN_800b5a1c(Borg13Data *);
-u8 dialogNode_func_2(dialougmode_substruct *,Borg13Data *,u8);
-u8 DialogNode_func(dialougmode_substruct *,Borg13Data *);
-u8 dialoug_func_b_check(dialougmode_substruct *,Borg13Data *,u8);
-void Dialoug_commands(dialougmode_substruct *,Borg13Data *,u8);
-void dialoug_func_c_check(dialougmode_substruct *,Borg13Data *,u8);
-int FUN_800b6b54(dialougmode_substruct *,u8 ,char *);
-void FUN_800b6b9c(dialougmode_substruct *);
-void get_dialouge_actors(dialougmode_substruct *,Borg13Data *);
-void FUN_800b6c38(dialougmode_substruct *,u16);
-u8 FUN_800b6cb8(dialougmode_substruct *,Borg13Data *,u8);
-bool FUN_800b6e4c(dialougmode_substruct *,Borg13Data *,float);
+u8 dialogNode_func_2(dialougeInstance *,Borg13Data *,u8);
+u8 DialogNode_func(dialougeInstance *,Borg13Data *);
+u8 dialoug_func_b_check(dialougeInstance *,Borg13Data *,u8);
+void Dialoug_commands(dialougeInstance *,Borg13Data *,u8);
+void dialoug_func_c_check(dialougeInstance *,Borg13Data *,u8);
+int FUN_800b6b54(dialougeInstance *,u8 ,char *);
+void FUN_800b6b9c(dialougeInstance *);
+void get_dialouge_actors(dialougeInstance *,Borg13Data *);
+void FUN_800b6c38(dialougeInstance *,u16);
+u8 FUN_800b6cb8(dialougeInstance *,Borg13Data *,u8);
+bool FUN_800b6e4c(dialougeInstance *,Borg13Data *,float);
 
 //dialogue.cpp
 
 void DialougCreateScriptCamera(u16 ,s16 ,playerData *,u16 ,float);
-ActorAndID * DialougGetActorAndID(dialougmode_substruct *,Borg13Data *,ItemID);
+ActorAndID * DialougGetActorAndID(dialougeInstance *,Borg13Data *,ItemID);
 CharSheet * DialougGetPartyMemberName(ItemID);
-void DialougFreeActors(dialougmode_substruct *,Borg13Data *);
-void DialoguePreCallback(dialougmode_substruct *,Borg13Data *,u16,s16);
-s32 DialogEvalCallback(dialougmode_substruct *,Borg13Data *,u16,u16);
+void DialougFreeActors(dialougeInstance *,Borg13Data *);
+void DialoguePreCallback(dialougeInstance *,Borg13Data *,u16,s16);
+s32 DialogEvalCallback(dialougeInstance *,Borg13Data *,u16,u16);
 void dialougemode_0x90_funcs3(u32);
-void DialogCallbackC(dialougmode_substruct *,Borg13Data *,u16,s16);
+void DialogCallbackC(dialougeInstance *,Borg13Data *,u16,s16);
 char * DialougFindPlayerNameSpace(char *);
 void DialougInsertPlayerName(char *);
 void some_string_func(char *);
@@ -221,6 +221,7 @@ void encounterDat_func();
 void monsterparty_wanderstruct(Wanderer *);
 bool DialougeAddPartyMember(ItemID);
 void FUN_800585d0(u16);
+void some_debug_func_3();
 ItemID set_shopkeep();
 void init_skill_trainer();
 void shop_func();
@@ -255,9 +256,9 @@ void FUN_80059bf8(BaseWidget *);
 void FUN_80059c70();
 void unkState11();
 void NOOP_80059D08();
-bool FUN_80059d10(BaseWidget *);
-bool FUN_80059d38();
+void FUN_80059d10(BaseWidget *);
+void FUN_80059d38();
 void NOOP_80059d7c();
-bool FUN_80059d84(BaseWidget *);
+void FUN_80059d84(BaseWidget *);
 void FUN_80059dac();
 bool isDialougeMode();

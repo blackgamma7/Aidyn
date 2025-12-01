@@ -13,10 +13,10 @@ u8 WidgetScrollMenuGray::Tick(){
   this->height = this->boundY1 - this->boundY0;
   u8 uVar3 = WidgetScrollMenu::Tick();
   WSMSub* sub = (WSMSub *)this->substruct;
-  if ((sub->items == NULL) || (sub->currentCount == 0)) {
+  if ((sub->items == NULL) || (sub->numChoices == 0)) {
     return uVar3;
   }
-  for(u16 i=0;i<sub->currentCount;i++){
+  for(u16 i=0;i<sub->numChoices;i++){
     BaseWidget* w =sub->items[i];
     if(w->varU8==1)w->SetColor(unk80.R,unk80.G,unk80.B,unk80.A);
   }
@@ -31,8 +31,8 @@ u8 WidgetScrollMenuGray::Append(BaseWidget *w,u8 val){
 
 void WidgetScrollMenuGray::SetHighlight(){
   WSMSub* sub = (WSMSub *)this->substruct;
-  if ((u16)sub->currentCount != 0) {
-    for(u16 i=0;i<sub->currentCount;i++){
+  if ((u16)sub->numChoices != 0) {
+    for(u16 i=0;i<sub->numChoices;i++){
         if(sub->items[i]->varU8!=1){
             sub->highlight=i;
             return;
@@ -44,15 +44,15 @@ void WidgetScrollMenuGray::SetHighlight(){
 
 void WidgetScrollMenuGray::SetChoice(u16 param_2){
   WSMSub *sub = (WSMSub *)this->substruct;
-  if (sub->currentCount != 0) {
+  if (sub->numChoices != 0) {
     if (sub->items[sub->highlight]) {
       BaseWidget* w = sub->items[sub->highlight];
       w->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
       s16 iVar9 = sub->highlight;
       do {
         iVar9+=param_2;
-        if (iVar9 < 0) iVar9 = sub->currentCount - 1;
-        if (sub->currentCount <= iVar9) iVar9 = 0;
+        if (iVar9 < 0) iVar9 = sub->numChoices - 1;
+        if (sub->numChoices <= iVar9) iVar9 = 0;
         if (sub->items[iVar9] == NULL) {
           CRASH("NULL choice found in widgetscrollmenugray",
                              "./menus/widgetscrollmenugray.cpp");

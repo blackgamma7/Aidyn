@@ -186,19 +186,19 @@ u32 ret1_800A9350(){return 1;}
 bool ofunc_sub_800a9358(void) {
   u8 *puVar1;
   int iVar2;
-  int *piVar3;
-  undefined4 *puVar4;
+  s32 *piVar3;
+  s32 **puVar4;
   int iVar5;
-  int *piVar6;
+  s32 *piVar6;
   u8 *puVar7;
   bool bVar8;
-  int *piVar9;
-  int iStack_a0;
+  s32 *piVar9;
+  s32 iStack_a0;
   u8 auStack_9c [32];
-  undefined4 auStack_7c [7];
-  int aiStack_5f [3];
-  undefined1 auStack_51 [49];
-  int aiStack_20 [8];
+  s32 auStack_7c [7];
+  s32 aiStack_5f [3];
+  u8 auStack_51 [49];
+  s32 aiStack_20 [8];
   
   iVar5 = 0xf;
   puVar1 = auStack_51;
@@ -208,7 +208,7 @@ bool ofunc_sub_800a9358(void) {
     puVar1--;
   } while (-1 < iVar5);
   iVar5 = ofunc_sub_800a8ff8(&iStack_a0,4);
-  piVar9 = (int *)((int)&iStack_a0 + iVar5);
+  piVar9 = (s32 *)((int)&iStack_a0 + iVar5);
   iVar2 = (int)piVar9 - (int)&iStack_a0;
   bVar8 = true;
   if (iVar2 < 0) bVar8 = false;
@@ -238,14 +238,14 @@ bool ofunc_sub_800a9358(void) {
   }
   if (bVar8 == true) {
     iVar2 = 9;
-    puVar4 = (undefined4 *)((int)auStack_7c + iVar5);
+    puVar4 = (s32 **)((int)auStack_7c + iVar5);
     do {
       *puVar4 = piVar9;
       iVar2 = iVar2 + -1;
       puVar4 = puVar4 + -1;
     } while (-1 < iVar2);
     memset_unused(auStack_9c + iVar5,0,32);
-    if ((int *)*piVar9 != piVar9) {
+    if (*piVar9 != (s32)piVar9) {
       bVar8 = false;
     }
     puVar7 = auStack_9c + iVar5;
@@ -257,12 +257,12 @@ bool ofunc_sub_800a9358(void) {
       iVar2 = iVar2 + -1;
       puVar7 = puVar7 + 4;
     } while (-1 < iVar2);
-    if (*(int **)((int)auStack_7c + iVar5) != piVar9) {
+    if (*(s32 **)((int)auStack_7c + iVar5) != piVar9) {
       bVar8 = false;
     }
     if (bVar8 == true) {
       iVar5 = ofunc_sub_800a8ff8(aiStack_5f,4);
-      piVar9 = (int *)((int)aiStack_5f + iVar5);
+      piVar9 = (s32 *)((int)aiStack_5f + iVar5);
       if (((u32)piVar9 & 3)) bVar8 = false;
       if (iVar5 == -1) bVar8 = false;
       if (piVar9 < aiStack_5f) bVar8 = false;
@@ -607,7 +607,6 @@ LAB_800a9ca8:
 }
 
 //the above could be cut out for ports and recomps.
-
 
 s32 decompress_LZ01(u8 *compDat,u32 compSize,u8 *OutDat,u32 *OutSize){
   byte bVar1;
