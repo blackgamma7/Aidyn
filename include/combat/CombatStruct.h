@@ -185,3 +185,9 @@ void combat_func_if_alaron_dead();
 void combat_byte_0xd();
 void combat_byte_0x1a();
 void set_combat_byte_to_0x1c();
+
+s8 FUN_80090cd0(playerData *param_1);
+ItemID get_some_weapon_id(playerData *param_1);
+ItemID Ofunc_80090da0(playerData *param_1);
+ItemID Ofunc_80090e04(playerData *param_1);
+u16 FUN_80090e68(playerData *param_1);

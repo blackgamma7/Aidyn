@@ -27,3 +27,4 @@ struct dialougeEntity_Info { /* extended data of Dialouge entities in RAM */
     float b;
 };
 DialogEntityDB* gDialogEntityDBp;
+extern u8 DialougEntList[];

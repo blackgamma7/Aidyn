@@ -1,4 +1,5 @@
 #include "combat/CombatStruct.h"
+#include "widgets/WidgetCombatTextbox.h"
 #include "widgets/CombatRadar.h"
 #include "globals.h"
 
@@ -48,10 +49,9 @@ void combat_gui_init(void){
   bVar9 = 0;
   do {
     make_combat_portrait
-              (gCombatPortraits + combat_gui_incrementer,(ItemID)0x0,combat_gui_incrementer,1);
+              (gCombatPortraits + combat_gui_incrementer,0,combat_gui_incrementer,1);
     bVar9++;
-    gCombatPortraits[combat_gui_incrementer].unkb = 5;
-    combat_gui_incrementer++;
+    gCombatPortraits[combat_gui_incrementer++].unkb = 5;
   } while (bVar9 < 2);
   for(i=0;i<12;i++) {
     IVar1 = gCombatP->encounter_dat->enemy_entities[i];
@@ -66,7 +66,7 @@ void combat_gui_init(void){
   combat_gui_flag = 1;
 }
 
-extern void free_borg8_widget(Borg8Header*);
+
 void combatgui_free(void){
   if (combat_gui_substruct) {
     combat_gui_substruct->~GuiAnimationManager();
@@ -74,7 +74,7 @@ void combatgui_free(void){
   }
   CombatTextboxWidget_Free();
   for(u8 i=0;i<gCombatPortraitCount;i++){
-      free_borg8_widget(gCombatPortraits[i].basePortait->borg8);
+      free_borg8_widget(gCombatPortraits[i].basePortait);
     }
   FREEPTR(gCombatPortraits,315);
   FREEPTR(gCombatRadarBlips,332);
@@ -115,13 +115,11 @@ void init_combatgui_struct(ItemID param_1,u8 param_2,u8 param_3){
       do {
         if (uVar7 <= i) break;
         pCVar9 = gCombatPortraits + i;
-        i += 1;
+        i++;
       } while (pCVar9->unkb != 5);
     }
     pCVar9->basePortait->borg8 = loadBorg8(gEntityDB->GetPortrait(param_1));
-    if (param_3) bVar5 = 3;
-    else bVar5 = 2;
-    pCVar9->unkb = bVar5;
+    pCVar9->unkb = (param_3!=0)?3:2;
     pCVar9->cEntIndex = param_2;
     for(i=0;i<gCombatPortraitCount;i++){
       if (gCombatRadarBlips[i].unk14) {
@@ -130,11 +128,9 @@ void init_combatgui_struct(ItemID param_1,u8 param_2,u8 param_3){
       }
     }
   }
-  bVar5 = 3;
-  if (!param_3) bVar5 = 2;
-  pCVar9->unkb = bVar5;
+  pCVar9->unkb = (param_3!=0)?3:2;
   pCVar9->cEntIndex = param_2;
-  uVar6 = get_combat_gui_index_((int)param_3);
+  uVar6 = get_combat_gui_index_(param_3);
   if (uVar6 == 0xff) {
     if (param_3) {
       pCVar8 = NULL;
@@ -234,13 +230,13 @@ void make_combat_portrait(CombatPortrait *portrait,ItemID id,u8 count,u32 param_
 void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3)
 
 {
-  u32 uVar1;
+  u16 uVar1;
   byte bVar4;
-  u32 uVar2;
+  u16 uVar2;
   u8 uVar3;
   s16 sVar5;
   s16 sVar6;
-  u32 uVar7;
+  u16 uVar7;
   
   sVar5 = 0x12;
   uVar7 = 0;
@@ -251,7 +247,7 @@ void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3)
   if (param_3 != 0) {
     uVar1 = 0;
     do {
-      uVar7 = uVar1 + 1 & 0xffff;
+      uVar7 = uVar1 + 1;
       draw_radar_blip((u16)uVar1,param_1,0x10e,sVar5,2,0x1c6,0x17,0x17,0,2,1);
       sVar5 += 0x1c;
       bVar4 += 1;
@@ -260,10 +256,10 @@ void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3)
   }
   bVar4 = 0;
   do {
-    uVar1 = uVar7 + 1 & 0xffff;
+    uVar1 = uVar7 + 1;
     draw_radar_blip((u16)uVar7,param_1,0x10e,sVar5,2,0x1c6,0x17,0x17,0,2,0);
-    sVar5 += 0x1c;
-    bVar4 += 1;
+    sVar5 += 28;
+    bVar4++;
     gCombatRadarBlips[uVar1 - 1].unk14 = 1;
     uVar7 = uVar1;
   } while (bVar4 < 2);
@@ -271,32 +267,32 @@ void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3)
   uVar2 = 0;
   if (param_2 != 0) {
     do {
-      uVar1 = uVar7 + 1 & 0xffff;
+      uVar1 = uVar7 + 1;
       draw_radar_blip((u16)uVar7,param_1,0x15,sVar5,2,0x1c6,0x17,0x17,1,0,1);
-      sVar5 += 0x1c;
+      sVar5 += 28;
       uVar2++;
       if (param_2 <= uVar2) break;
       uVar7 = uVar1;
     } while (uVar2 < 4);
   }
   uVar3 = 0;
-  uVar2 = param_2 - uVar2 & 0xffff;
+  uVar2 = param_2 - uVar2;
   sVar6 = sVar5;
   uVar7 = uVar1;
   if (uVar2 != 0) {
     do {
-      uVar7 = uVar1 + 1 & 0xffff;
+      uVar7 = uVar1 + 1;
       draw_radar_blip((u16)uVar1,param_1,0x15,sVar6,1,0x1c7,0xb,10,1,0,1);
       uVar3++;
       if (uVar2 <= uVar3) break;
       uVar1 = uVar7;
-      sVar6 = sVar6 + 0xc;
+      sVar6 += 12;
     } while (uVar3 < 4);
   }
   for (; uVar3 < uVar2; uVar3++) {
     draw_radar_blip((u16)uVar7,param_1,0x23,sVar5,1,0x1c7,0xb,10,1,0,1);
-    sVar5 += 0xc;
-    uVar7 = uVar7 + 1 & 0xffff;
+    sVar5 += 12;
+    uVar7++;
   }
 }
 
@@ -402,16 +398,14 @@ void FUN_80090634(void){
           pWVar1->SetColor(0,200,0,0x96);
         if (gCombatP->substruct2[1].arrayA[pCVar4->cEntIndex])
           pWVar1->SetColor(200,0,0,0x96);
-        if ((gCombatP->substruct2[0].arrayB[pCVar4->cEntIndex] == 0) ||
-           (gCombatP->substruct2[0].arrayA[pCVar4->cEntIndex] == 0)) {
-        }
-        else {
+        if ((gCombatP->substruct2[0].arrayB[pCVar4->cEntIndex]) &&
+           (gCombatP->substruct2[0].arrayA[pCVar4->cEntIndex])){
           if ((gGlobals.combatBytes[0] == 9) || (gGlobals.combatBytes[0] == 0x12)) {
             pWVar1->SetColor(COLOR_GREEN0);
           }
-        }   //???
-        if (((*(int *)((int)(gCombatP->textboxes + -1) + (pCVar4->cEntIndex + 0x24) * 4) != 0) &&
-            (gCombatP->substruct2[1].arrayA[pCVar4->cEntIndex] != 0)) && (gGlobals.combatBytes[0] - 10 < 2)) {
+        }
+        if (((gCombatP->substruct2[1].arrayB[pCVar4->cEntIndex]) &&
+            (gCombatP->substruct2[1].arrayA[pCVar4->cEntIndex])) && (gGlobals.combatBytes[0] - 10 < 2)) {
           pWVar1->SetColor(0xff,0,0,0xff);
         }
       }

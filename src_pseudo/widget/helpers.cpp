@@ -61,3 +61,14 @@ void Ofunc_8004cec0(BaseWidget *w,Color32 *param_2,Color32 *param_3,u8 param_4) 
   }
 }
 
+void free_borg8_widget(BaseWidget *w) {
+  if ((w) && (w->borg8)) FREEQB8(w->borg8);
+}
+
+void FUN_8004cfd0(BaseWidget *w) {
+  if (w) {
+    WHANDLE->FreeWidget(w);
+    w->~BaseWidget();
+  }
+}
+

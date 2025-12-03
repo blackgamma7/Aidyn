@@ -172,7 +172,7 @@ u32 EntityDB::GetPortrait(ItemID id){
       while (uVar2 != ((s16)(char)bVar3 + 1U & 0xff)) {
         pdVar5 = pdVar5 + 1;
         uVar2 = pdVar5->index;
-        iVar4 += DB_DIALOUGEENTITY;
+        iVar4 += 20;
         if (uVar2 == 0) {
           return BORG8_PortraitNPCMale1;
         }
@@ -224,7 +224,7 @@ u32 EntityDB::GetBorg7(ItemID id){
       while (uVar2 != ((s16)(char)bVar3 + 1U & 0xff)) {
         pdVar5 = pdVar5 + 1;
         uVar2 = pdVar5->index;
-        iVar4 += DB_DIALOUGEENTITY;
+        iVar4 += 20;
         if (uVar2 == 0) {
           return 0x2d4a;
         }

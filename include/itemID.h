@@ -48,6 +48,8 @@ u16 GetArmorBorg5(ItemID param_1);
 u16 ItemBorg5Search(ItemID param_1);
 u16 get_item_borg5(ItemID param_1);
 
+extern u8 weapons_with_borg5[];
+
 //a leftover from older builds - two of the args were filename and line called.
 //both were 0 by the final debug build. 
 #define GETINDEX(x) GetIDIndex(x,NULL,0)

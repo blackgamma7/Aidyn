@@ -96,7 +96,6 @@ int FUN_80092270(u8 *param_1,CombatMenuSpell *param_2,CharSheet *param_3){
   return iVar5;
 }
 
-
 WidgetCombatSkills::WidgetCombatSkills(u8 *spells,bool troub,bool hands,int herbs):
 WidgetChoiceDia(62,120,gExpPakFlag?95:55,0,0){
   WidgetGroup *pWVar4;

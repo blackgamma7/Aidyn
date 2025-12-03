@@ -24,7 +24,7 @@ void FUN_8005bf10(playerData *pDat,audioKeyEntryB *UAS,u16 id1,u16 id2,u16 amp,b
       audioKeyEntryB *puVar4 = UAS + arr[i];
       bool bVar1 = false;
       if (id1 == puVar4->id1) {
-        u16 uVar2 = ((float)puVar4->unk0 / (float)0xFFFF) * (float)amp;
+        u16 uVar2 = ((float)puVar4->unk0 / 65500.0f) * (float)amp;
         if (uVar2 == 0) uVar2 = 1;
         bVar1 = false;
         if (uVar2 == id2) bVar1 = true;
@@ -55,7 +55,7 @@ bool FUN_8005c0f0(playerData *param_1,audiokey_struct *param_2,audiokeyEntryA *e
         EntryB = param_2->b + param_2->c[entryA->unk4 + i];
         bVar6 = false;
         if (param_4 == EntryB->id1) {
-          u16 uVar3 = ((float)EntryB->unk0 / (float)0xFFFF) * (float)param_6;
+          u16 uVar3 = ((float)EntryB->unk0 / 65500.0f) * (float)param_6;
           if (uVar3 == 0) uVar3 = 1;
           bVar6 = false;
           if (uVar3 == param_5) bVar6 = true;
@@ -107,7 +107,7 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp){
   u8 auStack_27 [1];
   
   paVar3 = (gGlobals.gameVars.PlayerHandler.audiokey)->a;
-  if ((2 < pDat->Ground_type) || (false)) {
+  if ((2 < pDat->Ground_type) || (false)/*??*/) {
     pDat->Ground_Type_New = pDat->Ground_type;
   }
   Actor::GetPosOnLoadedMap(pDat,&pos);

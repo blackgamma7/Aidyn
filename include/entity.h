@@ -306,3 +306,6 @@ extern u32 EXP_TNL[];
 void FUN_80078874(CharSheet *param_1,WeaponInstance *param_2,u8 param_3);
 s32 print_element_resist(ElemResist *param_1,char *param_2,char *param_3,u32 param_4);
 void senseAura(CombatEntity *target,u8 level);
+
+void getHPColor(Color32*,CharSheet*);
+void Ofunc_8008f298(Color32 *param_1,u8 r,u8 g,u8 b,u8 a);

@@ -49,20 +49,15 @@ Gfx * Combat_RenderCVertMenu(Gfx *G,u16 delta){
 }
 
 bool combat_C_Up_Down(controller_aidyn *cont){
-  bool ret;
-  
-  if ((cont->input & C_UP) == 0) {
-    ret = false;
-    if ((cont->input & C_DOWN)) {
-      combat_menu_C_down();
-      ret = true;
-    }
-  }
-  else {
+  if ((cont->input & C_UP)){
     Combat_menu_C_Up();
-    ret = true;
+    return true;
   }
-  return ret;
+  if ((cont->input & C_DOWN)) {
+    combat_menu_C_down();
+    return true;
+  }
+  return false;
 }
 
 
