@@ -1265,8 +1265,8 @@ SceneData * BorgAnimLoadScene(u32 borg_5){
   CLEAR(&ret->DirLights);
   CLEAR(&ret->envLight);
   pBVar1 = ret->scene[0].borg5;
-  ret->maxDynamicLights = 0;
-  ret->currDynamicLights = 0;
+  ret->maxLights = 0;
+  ret->currLights = 0;
   for(u8 i=0;i<7;i++){
     bVar2 = false;
     j = 0;
@@ -1813,34 +1813,33 @@ void FUN_800a0940(Borg6Struct *param_1){
   return;
 }
 
-void FUN_800a09c0(SceneData *param_1){
-  SceneDatSubstruct *pSVar2 = param_1->scene[0].sub;
-  for (s32 i = ((param_1->scene[0].borg5)->dat).substructCount; i != 0; i--,pSVar2++) {
+void FUN_800a09c0(Borg6Struct *param_1) {
+  SceneDatSubstruct *pSVar2 = param_1->unkc;
+  for (u32 uVar1 = param_1->sub->subCount; uVar1 != 0; uVar1--) {
     FUN_800a0714(pSVar2);
+    pSVar2++;
   }
 }
 
-void FUN_800a0a08(SceneData *param_1){
-  Borg6Data *pBVar1;
+void FUN_800a0a08(SceneData *param_1) {
   u32 uVar2;
-  SceneData *pSVar3;
+  Borg6Struct *pBVar3;
   Borg6Header *pBVar4;
   
   pBVar4 = param_1->scene[0].borg6;
   param_1->aniTime = 1;
-  if (pBVar4 != NULL) {
-    pBVar1 = pBVar4->dat;
+  if (pBVar4) {
     while( true ) {
-      pSVar3 = (SceneData *)pBVar4->structDat;
-      for (uVar2 = pBVar1->subCount; uVar2 != 0; uVar2 -= 1) {
-        FUN_800a09c0(pSVar3);
-        pSVar3 = (SceneData *)(pSVar3->scene + 1);
+      pBVar3 = pBVar4->structDat;
+      for (uVar2 = pBVar4->dat->subCount; uVar2 != 0; uVar2--) {
+        FUN_800a09c0(pBVar3);
+        pBVar3++;
       }
       pBVar4 = pBVar4->link2;
       if (pBVar4 == NULL) break;
-      pBVar1 = pBVar4->dat;
     }
   }
+  return;
 }
 
 //TODO: Redo once relevant data is better understood.
@@ -2349,7 +2348,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
         gSPNumLights(pGVar10++,1);
     }
   }
-  else if (param_2->currDynamicLights == 0) {
+  else if (param_2->currLights == 0) {
     gSPLight(g++,(u32)&gBlackLight,1);
     gSPLight(g++,(u32)&(unkAnimStructB.scene)->envLight,2);
     gSPNumLights(g++,1);
@@ -2358,14 +2357,14 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   else {
     i = 0;
     s32 aiStack512[]={1,2,3,4,5,6,7};
-    if (0 < (int)param_2->currDynamicLights) {
+    if (0 < (int)param_2->currLights) {
       do {
         gSPLight(g++,&(unkAnimStructB.scene)->DirLights[i],i+1);
-      } while (i < (int)(unkAnimStructB.scene)->currDynamicLights);
+      } while (i < (int)(unkAnimStructB.scene)->currLights);
     }
     gSPLight(g++,&(unkAnimStructB.scene)->envLight,i+1);
     gSPNumLights(g++,aiStack512[i + -1]);
-    (unkAnimStructB.scene)->currDynamicLights = 0;
+    (unkAnimStructB.scene)->currLights = 0;
     pGVar10 = g;
   }
 switchD_800a1cc4_caseD_8:

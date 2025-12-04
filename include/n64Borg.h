@@ -1079,7 +1079,7 @@ void FUN_800a0764(struct SceneDatStruct *param_1,float param_2);
 void FUN_800a07b0(struct SceneDatStruct *param_1,float param_2);
 void FUN_800a0800(struct SceneDatStruct *param_1,float param_2);
 void FUN_800a0940(Borg6Struct *param_1);
-void FUN_800a09c0(SceneData *param_1);
+void FUN_800a09c0(Borg6Struct *param_1);
 void FUN_800a0a08(SceneData *param_1);
 void FUN_800a0a74(Borg6Struct *param_1);
 void Ofunc_800a0d30(Borg6Header *param_1,int param_2);

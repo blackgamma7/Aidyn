@@ -107,7 +107,7 @@ void dynamic_lights_free_all(DynamicLightHead *param_1);
 voxelObject*  AllocDynamicLight(DynamicLightHead *param_1,u16 param_2,vec3f *pos,float size,u16 type,
                  float f1,u32 colb,u32 colc);
 void FreeDynamicLight(DynamicLightHead *param_1,s16 param_2);
-void FUN_800556f4(DynamicLightHead *param_1,s16 delta);
+void DymanicLightTimers(DynamicLightHead *param_1,s16 delta);
 
 
 typedef void (*VoxelUse)(voxelObject*,u16,u16);

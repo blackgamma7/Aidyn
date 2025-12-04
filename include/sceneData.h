@@ -38,15 +38,13 @@ struct SceneData {
     Color32 fogColor;
     Light DirLights[7]; //"pad" fields are also set (to 0) for some reason.
     Light envLight;
-    u32 maxDynamicLights; /* no more than 7 */
-    u32 currDynamicLights;
+    u32 maxLights; /* no more than 7 */
+    u32 currLights;
     ParticleHeadStruct *particleHead;
     SceneData* locatorScene1;
     SceneData* locatorScene2;
     u8 sceneTicked;
-    char borg5_char[4];
-    u8 field27_0x2b1[3];
-    u32 unk2b4;
+    char borg5_char[11]; //only 5 chars used, rest may be align/unused bytes
 };
 
 enum SceneFlags{
@@ -130,7 +128,7 @@ void SetModelTint(SceneData *,u8,u8,u8,u8);
 void SetLightData(SceneData *);
 void SceneSetMaxDynamicDirLights(SceneData *,u8);
 int LengthSquared(byte,byte,byte);
-s16 addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z,u8 red,u8 green,u8 blue,s16 index);
+s16 addLight(SceneData *param_1,u8 param_2,float X,float Y,float Z,u8 red,u8 green,u8 blue,s16 index);
 void SetLightColors(SceneData *,u8 ,u8 ,u8);
 bool HasLocator(SceneData *,s32);
 bool SceneGetLocatorMtx(SceneData *,MtxF *,s32);

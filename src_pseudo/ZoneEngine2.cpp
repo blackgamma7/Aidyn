@@ -1508,50 +1508,50 @@ LAB_80010bfc:
         uVar10 = 0;
         uVar11 = 0;
         if (true) {
-          switch(pZVar12->index) {
-          case 0:
+          switch(pZVar12->index) { //add offset from center zone
+          case 0x00: //NW corner
             posz = gGlobals.gameVars.mapCellSize.y;
             posx = gGlobals.gameVars.mapCellSize.x;
             uVar10 = uVar6;
             uVar11 = uVar7;
             break;
-          case 1:
+          case 0x01://Center-North
             posz = 0.0;
             posx = gGlobals.gameVars.mapCellSize.x;
             uVar10 = uVar6;
             uVar11 = uStack80[1];
             break;
-          case 2:
+          case 0x02: //NE corner
             posz = -gGlobals.gameVars.mapCellSize.y;
             posx = gGlobals.gameVars.mapCellSize.x;
             uVar10 = uVar6;
             uVar11 = 0;
             break;
-          case 0x10:
+          case 0x10: //Center-West
             posz = gGlobals.gameVars.mapCellSize.y;
             posx = 0.0;
             uVar10 = uStack80[0];
             uVar11 = uVar7;
             break;
-          case 0x12:
+          case 0x12: //Center-East
             posz = -gGlobals.gameVars.mapCellSize.y;
             posx = 0.0;
             uVar10 = uStack80[0];
             uVar11 = 0;
             break;
-          case 0x20:
+          case 0x20: //SW Corner
             posz = gGlobals.gameVars.mapCellSize.y;
             posx = -gGlobals.gameVars.mapCellSize.x;
             uVar10 = 0;
             uVar11 = uVar7;
             break;
-          case 0x21:
+          case 0x21: //Center-South
             posz = 0.0;
             posx = -gGlobals.gameVars.mapCellSize.x;
             uVar10 = 0;
             uVar11 = uStack80[1];
             break;
-          case 0x22:
+          case 0x22: //SE Corner
             posz = -gGlobals.gameVars.mapCellSize.y;
             posx = -gGlobals.gameVars.mapCellSize.x;
             uVar10 = 0;
@@ -2029,7 +2029,7 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   if (player) ProcessAudioBubbles(&gGlobals.SFXStruct,&(player->collision).pos,delta);
   DEBUGSprintf("ProcessWeather");
   Weather::ProcessWeather(&gGlobals.gameVars.weather,delta);
-  FUN_800556f4(&gGlobals.gameVars.DynamicLights,delta);
+  DymanicLightTimers(&gGlobals.gameVars.DynamicLights,delta);
   Gsprintf("End Zone Engine Frame");
   *GG = G;
 }

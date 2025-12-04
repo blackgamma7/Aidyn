@@ -227,9 +227,7 @@ void make_combat_portrait(CombatPortrait *portrait,ItemID id,u8 count,u32 param_
 }
 
 
-void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3)
-
-{
+void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3){
   u16 uVar1;
   byte bVar4;
   u16 uVar2;
@@ -240,29 +238,24 @@ void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3)
   
   sVar5 = 0x12;
   uVar7 = 0;
-  uVar1 = (param_2 + param_3) * sizeof(CombatRadarBlip);
+  uVar1 = (param_2 + param_3 + 2) * sizeof(CombatRadarBlip);
   ALLOCS(gCombatRadarBlips,uVar1,652);
   memset(gCombatRadarBlips,0,uVar1);
-  bVar4 = 0;
-  if (param_3 != 0) {
-    uVar1 = 0;
-    do {
+  for(bVar4=0,uVar1 = 0;bVar4<param_3;bVar4++){
       uVar7 = uVar1 + 1;
       draw_radar_blip((u16)uVar1,param_1,0x10e,sVar5,2,0x1c6,0x17,0x17,0,2,1);
       sVar5 += 0x1c;
-      bVar4 += 1;
+      bVar4++;
       uVar1 = uVar7;
-    } while (bVar4 < param_3);
   }
-  bVar4 = 0;
-  do {
+  for(bVar4 = 0;bVar4<2;bVar4++) {
     uVar1 = uVar7 + 1;
     draw_radar_blip((u16)uVar7,param_1,0x10e,sVar5,2,0x1c6,0x17,0x17,0,2,0);
     sVar5 += 28;
     bVar4++;
     gCombatRadarBlips[uVar1 - 1].unk14 = 1;
     uVar7 = uVar1;
-  } while (bVar4 < 2);
+  }
   sVar5 = 0x12;
   uVar2 = 0;
   if (param_2 != 0) {
@@ -419,7 +412,7 @@ void three_combat_gui_funcs(void){
   FUN_80090634();
 }
 
-extern void getHPColor(Color32*,CharSheet*);
+
 Gfx * CombatDrawHealthbar(Gfx *g,u32 param_2){
   u32 uVar6;
   u16 uVar7;

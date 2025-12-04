@@ -125,7 +125,6 @@ void Scene::MatrixBRotate(SceneData *param_1,float pitch,float roll,float yaw){
     param_1->matrixB[2][2] = temp[2][2];
 }
 
-
 void Scene::MatrixBCopyTo(SceneData *param_1,MtxF *param_2){
   float fVar1;
   float fVar2;
@@ -179,7 +178,7 @@ guNormalize(&v3_0.x,&v3_0.y,&v3_0.z);
 v3_1.x = cy * v3_0.z - cz * v3_0.y;
 v3_1.y = cz * v3_0.x - cx * v3_0.z;
 v3_1.z = cx * v3_0.y - cy * v3_0.x;
-length = _sqrtf(v3_1.x * v3_1.x + v3_1.y * v3_1.y + v3_1.z * v3_1.z);
+length = _sqrtf(SQ(v3_1.x) + SQ(v3_1.y) + SQ(v3_1.z));
 if (0.000001 <= length) {
   length = (float)(1.0 / (double)length);
   gAnimationLookatVec.y = v3_1.y * length;
@@ -403,14 +402,14 @@ void Scene::SetModelTint(SceneData *scene,u8 r,u8 g,u8 b,u8 a){
 }
 
 void Scene::SetLightData(SceneData *param_1){
-  param_1->maxDynamicLights = 7;
+  param_1->maxLights = 7;
   (param_1->envLight.l).col[0] = 0xff;
   (param_1->envLight.l).col[1] = 0xff;
   (param_1->envLight.l).col[2] = 0xff;
   (param_1->envLight.l).colc[0] = 0xff;
   (param_1->envLight.l).colc[1] = 0xff;
   (param_1->envLight.l).colc[2] = 0xff;
-  param_1->currDynamicLights = 0;
+  param_1->currLights = 0;
   (param_1->envLight.l).pad1 = 0;
   (param_1->envLight.l).pad2 = 0;
   (param_1->envLight.l).dir[0] = 0;
@@ -423,27 +422,27 @@ void Scene::SetLightData(SceneData *param_1){
 void Scene::SceneSetMaxDynamicDirLights(SceneData *param_1,byte max){
   if (max > 7)
     CRASH("scenes.cpp, SceneSetMaxDynamicDirLights()","Max is larger than hardware limit of 7!"); 
-  param_1->maxDynamicLights = (u32)max;
+  param_1->maxLights = (u32)max;
 }
 
 int Scene::LengthSquared(byte A,byte B,byte C){
   return SQ((u32)A)+SQ((u32)B)+SQ((u32)C);
 }
 
-s16 Scene::addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z,u8 red,u8 green,u8 blue,s16 index){
+s16 Scene::addLight(SceneData *scene,u8 param_2,float X,float Y,float Z,u8 red,u8 green,u8 blue,s16 index){
   u32 uVar3;
   u32 uVar4;
   int iVar5;
-  Light_t *pLVar6;
+  Light *pLVar6;
   s16 sVar7;
   s32 lVar10;
   s32 lVar11;
   s8 sVar14;
   int iVar9;
   
-  uVar3 = param_1->currDynamicLights;
-  if (param_1->currDynamicLights < param_1->maxDynamicLights) {
-    sVar7 = (s16)param_1->currDynamicLights++;
+  uVar3 = scene->currLights;
+  if (scene->currLights < scene->maxLights) {
+    sVar7 = (s16)scene->currLights++;
   }
   else {
     //messy for-loop decomp. replace the furthest light object with the newest.
@@ -451,11 +450,11 @@ s16 Scene::addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z
     uVar3 = LengthSquared(red,green,blue);
     iVar9 = (int)index;
     s16 i = iVar9;
-    if (i < (s16)param_1->maxDynamicLights) {
-      pLVar6 = &param_1->DirLights[i].l;
+    if (i < (s16)scene->maxLights) {
+      pLVar6 = &scene->DirLights[i];
       lVar11 = lVar10;
-      for(;i<param_1->maxDynamicLights;i++){
-        uVar4 = LengthSquared(pLVar6->colc[0],pLVar6->colc[1],pLVar6->colc[2]);
+      for(;i<scene->maxLights;i++){
+        uVar4 = LengthSquared(pLVar6->l.colc[0],pLVar6->l.colc[1],pLVar6->l.colc[2]);
         lVar10 = i;
         if (uVar3 <= uVar4) {
           lVar10 = lVar11;
@@ -470,19 +469,19 @@ s16 Scene::addDynamicLight(SceneData *param_1,s8 param_2,float X,float Y,float Z
     if (lVar10 < 0) return -1;
     uVar3 = (u32)lVar10;
   }
-  pLVar6 = &param_1->DirLights[uVar3].l;
-  pLVar6->col[0] = 0;
-  pLVar6->col[1] = 0;
-  pLVar6->col[2] = 0;
-  pLVar6->pad1 = 0;
-  pLVar6->colc[0] = red;
-  pLVar6->colc[1] = green;
-  pLVar6->pad2 = 0;
-  pLVar6->colc[2] = blue;
-  pLVar6->dir[0] = X*120.0;
-  pLVar6->dir[1] = Y*120.0;
-  pLVar6->dir[1] = Z*120.0;
-  pLVar6->pad3 = 0;
+  pLVar6 = &scene->DirLights[uVar3];
+  pLVar6->l.col[0] = 0;
+  pLVar6->l.col[1] = 0;
+  pLVar6->l.col[2] = 0;
+  pLVar6->l.pad1 = 0;
+  pLVar6->l.colc[0] = red;
+  pLVar6->l.colc[1] = green;
+  pLVar6->l.pad2 = 0;
+  pLVar6->l.colc[2] = blue;
+  pLVar6->l.dir[0] = X*120.0;
+  pLVar6->l.dir[1] = Y*120.0;
+  pLVar6->l.dir[1] = Z*120.0;
+  pLVar6->l.pad3 = 0;
   return sVar7;
 }
 
@@ -506,19 +505,23 @@ bool Scene::HasLocator(SceneData *param_1,s32 param_2){
   return false;
 }
 
-bool Scene::SceneGetLocatorMtx(SceneData *ani,MtxF *mf,s32 i){
+bool Scene::SceneGetLocatorMtx(SceneData *scene,MtxF *mf,s32 i){
   MtxF afStack344;
   MtxF afStack280;
   MtxF afStack216;
   
   if (MAX_LOCATORS >= i){
-  if (ani->locators[i] == -1){
+  if (scene->locators[i] == -1){
+    #ifdef DEBUGVER
     char errBuff [152];
-    sprintf(errBuff,"Locator: %d is undefined for %s!\n",i,ani->borg5_char);
+    sprintf(errBuff,"Locator: %d is undefined for %s!\n",i,scene->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorMtx()",errBuff);
+    #else
+    CRASH("","");
+    #endif
   }
   else {
-    Borg2Header *pbVar1 = ((ani->scene[0].borg5)->dat).borg2p[ani->locators[i]];
+    Borg2Header *pbVar1 = ((scene->scene[0].borg5)->dat).borg2p[scene->locators[i]];
     guMtxIdentF(&afStack344);
     Borg2Data *pbVar2 = pbVar1->dat;
     guRotateRPYF(&afStack344,(pbVar2->rot).x * RadInDeg_f,
@@ -554,13 +557,18 @@ bool Scene::SceneGetLocatorPos(SceneData *pScene,vec3f *pos,s32 param_3){
   Borg2Data *pbVar2;
   float fVar3;
   float fVar4;
-  char acStack_90 [144];
+  
   
   if (!pScene) CRASH("scene.cpp, SceneGetLocatorPos()","!pScene");
   if (MAX_LOCATORS < param_3) CRASH("scene.cpp, SceneGetLocatorPos()","Locator is greater than MAX_LOCATORS");
   if (pScene->locators[param_3] == -1) { //if you force roog into a fight, it will crash here.
+    #ifdef DEBUGVER
+    char acStack_90 [144];
     sprintf(acStack_90,"Locator: %d is undefined for %s!\n",param_3,pScene->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorPos()",acStack_90);
+    #else
+    CRASH("","");
+    #endif
   }
   Borg2Header *pModel = ((pScene->scene[0].borg5)->dat).borg2p[pScene->locators[param_3]];
   if (!pModel) CRASH("scene.cpp, SceneGetLocatorPos()","!pModel");
@@ -580,9 +588,13 @@ bool Scene::SceneGetLocatorNorm(SceneData *param_1,vec3f *out,s32 param_3){
   
   if (MAX_LOCATORS < param_3) CRASH("scene.cpp, SceneGetLocatorNorm()","Locator is greater than MAX_LOCATORS");
   if (param_1->locators[param_3] == -1) {
+    #ifdef DEBUGVER
     char errBuff [144];
     sprintf(errBuff,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorNorm()",errBuff);
+    #else
+    CRASH("","");
+    #endif
   }
   Borg2Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_1->locators[param_3]];
   guMtxIdentF(&tempA);
@@ -611,9 +623,7 @@ bool Scene::SceneGetLocatorNorm(SceneData *param_1,vec3f *out,s32 param_3){
   return true;
 }
 
-bool Scene::SceneGetLocatorAlign(SceneData *param_1,vec3f *out,u32 param_3)
-
-{
+bool Scene::SceneGetLocatorAlign(SceneData *param_1,vec3f *out,u32 param_3){
   Borg2Header *pBVar1;
   Borg2Data *pbVar2;
   float fVar3;
@@ -623,9 +633,13 @@ bool Scene::SceneGetLocatorAlign(SceneData *param_1,vec3f *out,u32 param_3)
   if (MAX_LOCATORS < (int)param_3)// oops, copy-paste oversight
          CRASH("scene.cpp, SceneGetLocatorNorm()","Locator is greater than MAX_LOCATORS");
   if (param_1->locators[param_3] == -1) {
+    #ifdef DEBUGVER
     char errrBuff [144];
     sprintf(errrBuff,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorAlign()",errrBuff);
+    #else
+    CRASH("","");
+    #endif
   }
   pBVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_1->locators[param_3]];
   guMtxIdentF(&mtxA);
@@ -660,9 +674,7 @@ void Ofunc_800a8e80(SceneData *param_1,SceneData *param_2){param_1->locatorScene
 
 void Ofunc_800a8e88(SceneData *param_1,SceneData *param_2){param_1->locatorScene2 = param_2;}
 
-bool Scene::Rotate(SceneData *param_1,vec3f *posOut,vec3f *aimOut,vec3f *param_4)
-
-{
+bool Scene::Rotate(SceneData *param_1,vec3f *posOut,vec3f *aimOut,vec3f *param_4){
   borg5substruct *pbVar1;
   MtxF mf;
   vec3f v3A,v3b;

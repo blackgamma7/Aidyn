@@ -366,7 +366,7 @@ void Dialoug_commands(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
   int iVar6;
   u8 i;
   u32 uVar9;
-  char acStack_130 [256];
+  
   int iStack_30;
   
   iStack_30 = 0;
@@ -393,6 +393,7 @@ LAB_800b6770:
       case B13Com_LoadMonster:
         for(u8 uVar7=0,bVar2 = false;!bVar2;uVar7++) {
           if (uVar7 == 0xc) {
+            char acStack_130 [256];
             sprintf(acStack_130,"Dialog LoadMonster command: Too many monsters");
             CRASH("./src/dialog.cpp",acStack_130);
           }
@@ -507,24 +508,15 @@ switchD_800b6a84_caseD_1:
   return;
 }
 
-int FUN_800b6b54(dialougeInstance *param_1,byte param_2,char *param_3)
-
-{
-  dialougeInstance *pdVar2;
-  int i;
-  
-  i = 0;
-  pdVar2 = param_1;
-  do {
-    if (pdVar2->diags[1].next == 0xff) {
-      pdVar2->diags[1].next = param_2;
-      pdVar2->diags[0].txt = param_3;
-      pdVar2->diags[0].ent_ID = param_1->Entid;
+int FUN_800b6b54(dialougeInstance *param_1,byte param_2,char *txt){
+  for(s32 i=0;i<9;i++){
+    if (param_1->diags[i+1].next == 0xff) {
+      param_1->diags[i+1].next = param_2;
+      param_1->diags[i].txt = txt;
+      param_1->diags[i].ent_ID = param_1->Entid;
       return i;
     }
-    i += 1;
-    pdVar2 = (dialougeInstance *)(pdVar2->diags + 1);
-  } while (i < 9);
+  }
   return -1;
 }
 
@@ -555,27 +547,20 @@ void get_dialouge_actors(dialougeInstance *param_1,Borg13Data *param_2){
       pauVar3++;
       iVar5++;
       pAVar4->id = puVar2[2];
-      pAVar4->actor = ppVar1;
+      pAVar4->pPlayer = ppVar1;
       pAVar4++;
     } while (iVar5 < (int)(u32)param_2->ActorCount);
   }
   pAVar4 = param_1->actors + param_2->ActorCount;
   for(uVar6 = (u32)param_2->ActorCount;uVar6<16;uVar6++,pAVar4++){
       pAVar4->id = 0;
-      pAVar4->actor = NULL;
+      pAVar4->pPlayer = NULL;
   }
 }
 
 
-void FUN_800b6c38(dialougeInstance *param_1,u16 param_2)
-
-{
-  char **ppcVar1;
-  u16 *puVar2;
-  int iVar3;
-  
-  iVar3 = 0xb;
-  puVar2 = param_1->encounterEnemies + 0xb;
+void FUN_800b6c38(dialougeInstance *param_1,u16 param_2){
+  int i;
   param_1->unk108 = 60;
   param_1->RefpointID = param_2;
   param_1->unk110 = -1;
@@ -587,22 +572,15 @@ void FUN_800b6c38(dialougeInstance *param_1,u16 param_2)
   param_1->collisionByte = 0;
   param_1->aniByte = 0;
   param_1->unk10e = 0xffff;
-  do {
-    *puVar2 = 0;
-    iVar3--;
-    puVar2--;
-  } while (-1 < iVar3);
-  ppcVar1 = &param_1->diags[0].txt;
-  iVar3 = 8;
-  do {
-    param_1->diags[1].next = 0xff;
-    *ppcVar1 = NULL;
-    ppcVar1 = ppcVar1 + 3;
-    param_1->diags[0].ent_ID = 0;
-    iVar3 += -1;
-    param_1 = (dialougeInstance *)(param_1->diags + 1);
-  } while (-1 < iVar3);
-  return;
+  for(i=11;i>-1;i--) {
+    param_1->encounterEnemies[i]=0;
+  }
+  struct_3* x=param_1->diags;
+  for(i=8;i>-1;i--,x++) {
+    x[1].next=0xff;
+    x->txt=NULL;
+    x->ent_ID=0;
+  }
 }
 
 
@@ -660,9 +638,7 @@ int Ofunc_800b6d38(Borg13Data *param_1,int param_2){
 }
 
 
-int Ofunc_800b6dbc(Borg13Data *param_1,int param_2,int param_3)
-
-{
+int Ofunc_800b6dbc(Borg13Data *param_1,int param_2,int param_3){
   u16 uVar1;
   borg13command *pbVar2;
   u16 *puVar3;

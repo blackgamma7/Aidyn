@@ -602,10 +602,10 @@ g++;
 
 SceneData * GetLocatorScene(SceneData *pRet,u16 param_2){
   switch(param_2){
+    case 0: //assume "pRet" itself is the locator scene
+    break;
     case 1:
     pRet = pRet->locatorScene1;
-    break;
-    case 0:
     break;
     case 2:
     pRet = pRet->locatorScene2;

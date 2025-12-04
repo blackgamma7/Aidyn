@@ -221,3 +221,5 @@ void get_battle_terrain(EncounterDat *param_1);
 void battle_setup_func(voxelObject *param_1,u16 flag,u16 param_3);
 void load_camp_ambush(void);
 u32 AppendText(char *str1,char *str2,u8 len);
+
+Gfx* tick_and_render_widgets(Gfx*);

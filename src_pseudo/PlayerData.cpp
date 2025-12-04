@@ -852,11 +852,11 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
   Scene::SetLightColors(param_2,(param_1->skyTint).x*255,(param_1->skyTint).y*255,(param_1->skyTint).z*255);
   if (gGlobals.sky.Type == SkyTypeOutdoor) {
     //add sun light source
-    Scene::addDynamicLight(param_2,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
+    Scene::addLight(param_2,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
                gSunColor.R,gSunColor.G,gSunColor.B,light_count++);
     if (0.0 < gGlobals.MoonPos.y) {
       //add moon light source
-      Scene::addDynamicLight(param_2,-1,gGlobals.MoonPos.x,gGlobals.MoonPos.y,gGlobals.MoonPos.z,0,
+      Scene::addLight(param_2,-1,gGlobals.MoonPos.x,gGlobals.MoonPos.y,gGlobals.MoonPos.z,0,
                 gGlobals.MoonPos.y * 200.0f * gGlobals.brightness * param_1->unk75c,
                  gGlobals.MoonPos.y * 200.0f * gGlobals.brightness * param_1->unk75c,light_count++);
     }
@@ -882,8 +882,7 @@ void set_sun_light(SceneData *param_1,u16 flag,voxelObject *param_3,u8 alpha){
         gMainColor.G * gGlobals.brightness,
         gMainColor.B * gGlobals.brightness);
     if (gGlobals.sky.Type == SkyTypeOutdoor) {
-      Scene::addDynamicLight
-                (param_1,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
+      Scene::addLight(param_1,-1,gGlobals.SunPos.x,gGlobals.SunPos.y,gGlobals.SunPos.z,
                  gSunColor.R,gSunColor.G,gSunColor.B,light_count++);
     }
   }

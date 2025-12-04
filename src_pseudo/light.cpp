@@ -144,7 +144,7 @@ LAB_800550e8:
           else Vec3Sub(&v3Dist,&gCamera.pos,pos);
           Vec3Normalize(&v3Dist);
           tint_color_with_screenfade((lightObj->light).cols,gGlobals.brightness);
-          Scene::addDynamicLight(scene,size * 250.0f,v3Dist.x,v3Dist.y,v3Dist.z,
+          Scene::addLight(scene,size * 250.0f,v3Dist.x,v3Dist.y,v3Dist.z,
                      (lightObj->light).cols[0].R,(lightObj->light).cols[0].G,(lightObj->light).cols[0].B,
                      light_count);
         }
@@ -181,7 +181,7 @@ void passto_InitLight_2(DynamicLightHead *param_1,SceneData *param_2,voxelObject
 void init_dynamic_light(DynamicLightHead *param_1){
   CLEAR(param_1);
   param_1->initFlag = 1;
-  for(s16 i=0;i < 0x10;i++) {
+  for(s16 i=0;i < 16;i++) {
     dynaLightEntry* p=&param_1->shortsA[i];
     param_1->lights[i].header.ptr0x24=(void*)p;
     p->index=i;
@@ -221,22 +221,20 @@ void FreeDynamicLight(DynamicLightHead *param_1,s16 param_2){
   param_1->shortsB[--param_1->dynamicLightCount] = param_2;
 }
 
-void FUN_800556f4(DynamicLightHead *param_1,s16 delta){
+void DymanicLightTimers(DynamicLightHead *param_1,s16 delta){
   
   for(s16 i=0;i<16;i++) {
     dynaLightEntry* p=(dynaLightEntry*)param_1->lights[i].header.ptr0x24;
     if (p->active) {
       if (p->timer < 1) {
-        if ((0 < p->lifespan) &&
-           (i = p->lifespan - delta, p->lifespan = (s16)i,
-           i< 1)) {
-          FreeDynamicLight(param_1,p->index);
+        if (0 < p->lifespan){
+          p->lifespan-=delta;
+          if(p->lifespan<1) FreeDynamicLight(param_1,p->index);
         }
       }
       else {
-        i = (u32)(u16)p->timer - (s32)delta;
-        p->timer = (s16)i;
-        if (i < 0) {p->timer = 0;}
+        p->timer-=delta;
+        FLOOR(p->timer,0);
       }
     }
   }

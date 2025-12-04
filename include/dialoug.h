@@ -46,7 +46,7 @@ struct struct_3{
 };
 
 struct ActorAndID{
-  playerData* actor;
+  playerData* pPlayer;
   u16 id;
 };
 
@@ -166,7 +166,7 @@ BaseWidget* Dialoug_DebugEnd(BaseWidget*,BaseWidget*);
 BaseWidget* Dialoug_BButton(BaseWidget*,BaseWidget*);
 
 typedef void (*DialogCallback)(dialougeInstance*,Borg13Data *,u16,s16);
-typedef s32 (*DialogCallback2)(dialougeInstance*,Borg13Data *,u16,u16);
+typedef u16 (*DialogCallback2)(dialougeInstance*,Borg13Data *,u16,u16);
 
 void set_dialougprecallback(DialogCallback);
 void set_dialoug_func_b(DialogCallback2);
@@ -196,7 +196,7 @@ ActorAndID * DialougGetActorAndID(dialougeInstance *,Borg13Data *,ItemID);
 CharSheet * DialougGetPartyMemberName(ItemID);
 void DialougFreeActors(dialougeInstance *,Borg13Data *);
 void DialoguePreCallback(dialougeInstance *,Borg13Data *,u16,s16);
-s32 DialogEvalCallback(dialougeInstance *,Borg13Data *,u16,u16);
+u16 DialogEvalCallback(dialougeInstance *,Borg13Data *,u16,u16);
 void dialougemode_0x90_funcs3(u32);
 void DialogCallbackC(dialougeInstance *,Borg13Data *,u16,s16);
 char * DialougFindPlayerNameSpace(char *);

@@ -813,7 +813,7 @@ playerData * FUN_80059ae8(){
   ActorAndID* pAVar1 = DialougGetActorAndID(&dialougemode_pointer->inst,borg_13_pointer->dat,
                        (dialougemode_pointer->inst).Entid);
   if (pAVar1 == NULL) return NULL;
-  else return pAVar1->actor;
+  else return pAVar1->pPlayer;
 }
 
 
@@ -826,7 +826,7 @@ void FUN_80059b28(){
 void FUN_80059b50(){
   if (dialougemode_pointer->borg13_dat->ActorCount != 0) {
     for(u8 i=0;i<dialougemode_pointer->borg13_dat->ActorCount;i++){
-      playerData *ppVar2 = dialougemode_pointer->inst.actors[i].actor;
+      playerData *ppVar2 = dialougemode_pointer->inst.actors[i].pPlayer;
       if (ppVar2) {
         if (dialougemode_pointer->unkac == 0) ppVar2->ani_type = 0;
         else if (ppVar2 != dialougemode_pointer->playerDat) ppVar2->ani_type = 0;

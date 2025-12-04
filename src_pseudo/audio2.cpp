@@ -127,7 +127,6 @@ void FreeAudioSound(SFX_Struct *param_1,SoundStructB *param_2){
   }
 }
 
-
 void clear_sfx_substruct_2(SFX_Struct *param_1,s16 param_2){
   for(s16 i=0;i<16;i++) {
     SoundStructB *pSVar1 = &param_1->pointerB[i];
@@ -139,8 +138,6 @@ void clear_sfx_substruct_2(SFX_Struct *param_1,s16 param_2){
     }
   }
 }
-
-
 
 void play_sfx_before_delete(SFX_Struct *param_1,SoundStructA *param_2){
   audio_obj_dat* a = param_2->voxelDat;
@@ -241,9 +238,9 @@ void sfx_struct_free(SFX_Struct *param_1){
   param_1->active = 0;
   clear_sfx_substruct_2(param_1,0);
   clear_sfx_entries(param_1,0);
-  FREE(param_1->pointerA,0x20f);
+  FREE(param_1->pointerA,527);
   param_1->pointerAIndex = 0;
-  FREE(param_1->pointerB,0x213);
+  FREE(param_1->pointerB,531);
   param_1->pointerBIndex = 0;
 }
 
@@ -310,11 +307,11 @@ float FUN_800565a8(vec3f *param_1,float param_2,Camera_struct *cam){
   return -big_vec2_math_func(&tempv2A,&tempv2B,&tempv2C) * (1.0f - param_2);
 }
 
-void FUN_8005661c(vec3f *param_1,float param_2,Camera_struct *param_3,s8 *param_4,s8 *param_5){
-  float prox=Sound_Volume_proximity(param_1,param_2,param_3);
-  *param_4 = (prox * 255.0);
-  *param_5 = ((FUN_800565a8(param_1,prox,param_3) + 1.0f) * 0.5f) * 255.0;
-
+void FUN_8005661c(vec3f *pos,float vol,Camera_struct *cam,s8 *proxOut,s8 *out){
+  float prox=Sound_Volume_proximity(pos,vol,cam);
+  float x=((FUN_800565a8(pos,prox,cam) + 1.0f) * 0.5f) * 255.0;
+  *proxOut = (prox * 255.0);
+  *out = x;
 }
 
 void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
@@ -376,15 +373,17 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
       }
     }
   }
-  for(s16 j=0;j<16;j++){
-      pSVar8 = &sfx->pointerB[j];
+  for(i=0;i<16;i++){
+      pSVar8 = &sfx->pointerB[i];
       if (pSVar8->active) {
-         if (pSVar8->timer < -2) pSVar8->timer-= delta;
+         if (pSVar8->timer < (0x8000-2)) pSVar8->timer-= delta;
          if (pSVar8->timer < 1) {
           pSVar8->soundStruct->mapTally = 0;
           FreeAudioSound(sfx,pSVar8);
          }
       }
   }
+  #ifdef DEBUGVER
   Gsprintf("Finished ProcessAudioBubbles");
+  #endif
 }
