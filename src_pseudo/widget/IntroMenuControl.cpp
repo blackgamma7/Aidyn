@@ -27,7 +27,7 @@ BaseWidget * IntroMenu_BFunc(BaseWidget * w0,BaseWidget *w1) {
   switch(sub->menuState) {
   case IntroM_processIntoMenu:
     break;
-  case ItroM_State2:
+  case IntroM_NameEntry:
     if (w == NULL) return w1;
   case IntroM_StartGameMenu:
     gGlobals.titleScreen->ShowStartGameMenu();
@@ -36,8 +36,8 @@ BaseWidget * IntroMenu_BFunc(BaseWidget * w0,BaseWidget *w1) {
     gGlobals.titleScreen->ShowStartGameMenu();
     w1 = w;
     break;
-  case ItroM_State4:
-    gGlobals.titleScreen->m8004b6ac(w);
+  case IntroM_ConfigMenu:
+    gGlobals.titleScreen->CloseConfig(w);
     break;
   default:
     w1 = NULL;
@@ -57,16 +57,16 @@ switchD_8004bb7c_caseD_3:
     case 0:
       gGlobals.titleScreen->ShowStartGameMenu();
       break;
-    case 1:
+    case IntroM_processIntoMenu:
       gGlobals.titleScreen->ProcessIntroMenu(w);
       break;
-    case 2:
-      gGlobals.titleScreen->m8004b668(w);
+    case IntroM_NameEntry:
+      gGlobals.titleScreen->ConfirmName(w);
       break;
     default:
       goto switchD_8004bb7c_caseD_3;
-    case 4:
-      gGlobals.titleScreen->m8004b6ac(w);
+    case IntroM_ConfigMenu:
+      gGlobals.titleScreen->CloseConfig(w);
     }
     PLAYSFX(0x740,0,1.0,60,0);
   }
@@ -81,17 +81,17 @@ BaseWidget * IntroMenu_AFunc(BaseWidget * w0,BaseWidget *w1) {
   case 0:
     gGlobals.titleScreen->ShowStartGameMenu();
     break;
-  case 1:
+  case IntroM_processIntoMenu:
     gGlobals.titleScreen->ProcessIntroMenu(w);
     break;
-  case 2:
-    gGlobals.titleScreen->m8004b668(w);
+  case IntroM_NameEntry:
+    gGlobals.titleScreen->ConfirmName(w);
     break;
-  case 3:
-    sub->menuState = ItroM_State10;
+  case IntroM_ContPakMenu:
+    sub->menuState = IntroM_State10;
     return w;
-  case 4:
-    gGlobals.titleScreen->m8004b6ac(w);
+  case IntroM_ConfigMenu:
+    gGlobals.titleScreen->CloseConfig(w);
     break;
   default:
     return NULL;

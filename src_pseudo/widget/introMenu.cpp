@@ -73,7 +73,7 @@ Gfx * IntroMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
   IntroMenuSub *sub;
   
   sub = IntroSub;
-  if (sub->menuState == ItroM_State4) {
+  if (sub->menuState == IntroM_ConfigMenu) {
       OptionsConfigSubstruct *  configSub = (OptionsConfigSubstruct *)sub->config->substruct;
     if (configSub->renameOpen == false) {
       pBVar4 = this->unk80;
@@ -243,6 +243,50 @@ BaseWidget * IntroMenu_ShadowBG(s16 x0,s16 y0,s16 x1,s16 y1) {
 }
 
 
+void IntroMenu::InitTitleCard() {
+  BaseWidget *pBVar2;
+  IntroMenuSub *sub = (IntroMenuSub *)this->substruct;
+  sub->unk20 = sub->unk1c;
+  if (sub->unk1c) {
+    this->Unlink(sub->unk1c);
+    sub->unk1c = NULL;
+  }
+  if (sub->titleShadow == NULL) {
+    sub->titleShadow = WidgetB8(Borg8_TitleCardShadow);
+    sub->titleShadow->SetCoords((SCREEN_CENTERW-14) - (sub->titleShadow->GetWidth() >> 1),
+        110 - (sub->titleShadow->GetHeight() >> 1));
+    (sub->titleShadow->col).A = 0;
+    pBVar2 = WidgetB8(Borg8_TitleCard);
+    pBVar2->SetCoords(SCREEN_CENTERW - (short)(sub->titleShadow->GetWidth() >> 1),
+       110 - (sub->titleShadow->GetHeight() >> 1));
+    (pBVar2->col).A = 0;
+    sub->titleShadow->Link(pBVar2);
+  }
+  if (sub->PressStart == NULL) {
+    sub->PressStart = WidgetB8(BORG8_TitlePressStart);
+    sub->PressStart->SetCoords(SCREEN_CENTERW - (sub->titleShadow->GetWidth() >> 1),
+               sub->titleShadow->posY + sub->titleShadow->GetHeight() + 5);
+    (sub->PressStart->col).A = 0;
+    sub->titleShadow->Link(sub->PressStart);
+  }
+  sub->menuState = 0;
+  sub->unk1c = sub->titleShadow;
+  this->Link(sub->titleShadow);
+  this->alpha0 = 0;
+  Utilities::SetAlpha(sub->unk1c,0);
+  this->alpha1 = 0;
+  if (sub->unk20){
+    Utilities::SetAlpha(sub->unk20,0);
+  }
+  if(this->unk80) {
+    this->Unlink(this->unk80);
+    FREEQW(this->unk80);
+    pBVar2 = this->unk84;
+  }
+  this->unk80 = this->unk84;
+  this->Unlink(this->unk84);
+}
+
 void IntroMenu::ShowStartGameMenu() {
   BaseWidget *pBVar4;
   BaseWidget *pBVar5;
@@ -292,7 +336,7 @@ void IntroMenu::InitOptionsMenu() {
   pBVar5 = IntroMenu_ShadowBG(sVar1 + -0x10,pBVar5->posY + -0x28,sVar1 + 0xc0,
                               piVar3->optionTitles[2]->posY + 0x14);
   this->unk84 = pBVar5;
-  pvVar1->menuState = ItroM_State4;
+  pvVar1->menuState = IntroM_ConfigMenu;
   pvVar1->unk1c = pvVar1->config;
   this->Link(pvVar1->config);
   this->alpha0 = 0;
@@ -305,35 +349,28 @@ void IntroMenu::InitOptionsMenu() {
 }
 
 void IntroMenu::NamePlayer() {
-  InputMenu *pIVar2;
-  BaseWidget *pBVar3;
-  IntroMenuSub *pvVar1;
-  
-  pvVar1 = IntroSub;
-  pvVar1->unk20 = pvVar1->unk1c;
-  if (pvVar1->unk1c) {
-    this->Unlink(pvVar1->unk1c);
-    pvVar1->unk1c=NULL;
+  IntroMenuSub *sub = IntroSub;
+  sub->unk20 = sub->unk1c;
+  if (sub->unk1c) {
+    this->Unlink(sub->unk1c);
+    sub->unk1c=NULL;
   }
-  if (pvVar1->inputMenu == NULL) {
-    pvVar1->inputMenu = new InputMenu(PARTY->Members[0]->name);
+  if (sub->inputMenu == NULL) {
+    sub->inputMenu = new InputMenu(PARTY->Members[0]->name);
   }
-  else pvVar1->inputMenu->SetCurrentName(PARTY->Members[0]->name);
-  BaseWidget *iVar2 = ((InputWidgetSubStruct*)pvVar1->inputMenu->substruct)->arrayMenu;
+  else sub->inputMenu->SetCurrentName(PARTY->Members[0]->name);
+  BaseWidget *iVar2 = ((InputWidgetSubStruct*)sub->inputMenu->substruct)->arrayMenu;
   this->unk80 = this->unk84;
-  pBVar3 = IntroMenu_ShadowBG(iVar2->posX + -8,43,
-                              (int)((float)(iVar2->posX + -8) +
-                            (float)(((int)iVar2->boundX1 - (int)iVar2->boundX0) + 8)),179);
-  pIVar2 = pvVar1->inputMenu;
-  this->unk84 = pBVar3;
-  pvVar1->menuState = ItroM_State2;
-  pvVar1->unk1c = pIVar2;
-  this->Link(pvVar1->inputMenu);
+  this->unk84 = IntroMenu_ShadowBG(iVar2->posX + -8,43,
+                              ((float)(iVar2->posX + -8) +(float)(((int)iVar2->boundX1 - (int)iVar2->boundX0) + 8)),179);
+  sub->menuState = IntroM_NameEntry;
+  sub->unk1c = sub->inputMenu;
+  this->Link(sub->inputMenu);
   this->alpha0 = 0;
-  Utilities::SetAlpha(pvVar1->unk1c,0);
+  Utilities::SetAlpha(sub->unk1c,0);
   this->alpha1 = 0xff;
-  if (pvVar1->unk20 != NULL) {
-    Utilities::SetAlpha(pvVar1->unk20,0xff);
+  if (sub->unk20 != NULL) {
+    Utilities::SetAlpha(sub->unk20,0xff);
   }
 }
 
@@ -412,7 +449,7 @@ void IntroMenu::ProcessIntroMenu(BaseWidget *txt) {
 }
 
 
-void IntroMenu::m8004b668(BaseWidget *param_2) {
+void IntroMenu::ConfirmName(BaseWidget *param_2) {
   if (param_2) {
     if (param_2->varU8 == 0) ShowStartGameMenu();
     else (IntroSub)->menuState=IntroM_NewGame;
@@ -422,13 +459,13 @@ void IntroMenu::m8004b668(BaseWidget *param_2) {
 void Ofunc_NOOP_8004b6a4(){}
 
 
-void IntroMenu::m8004b6ac(BaseWidget *w) {
+void IntroMenu::CloseConfig(BaseWidget *w) {
   if (w == NULL) {
     OptionsConfigSubstruct *piVar1 = (OptionsConfigSubstruct*)IntroSub->config->substruct;
     this->unk80 = this->unk84;
     s16 x0,y0,sVar3,y1;
     y0 = 0x2b;
-    if (piVar1->renameOpen == false) {
+    if (!piVar1->renameOpen) {
       sVar3 = piVar1->AudioTitle->posX;
       x0 = sVar3 + -0x10;
       y0 = piVar1->AudioTitle->posY + -0x28;
@@ -465,7 +502,7 @@ BaseWidget * IntroMenu::Control(controller_aidyn *param_2) {
     if (pvVar2->pakDat) return pvVar2->pakDat->Control(param_2);
     pBVar5 = BaseWidget::Control(param_2);
     if (pBVar5 != NULL) return pBVar5;
-    if (pvVar2->menuState != ItroM_State4) return NULL;
+    if (pvVar2->menuState != IntroM_ConfigMenu) return NULL;
     if (((((param_2->input_2 & (ANA_LEFT|D_LEFT)) != 0) && (pWVar4 = pvVar2->config, pWVar4 != NULL)
          ) && (pvVar5 = (OptionsConfigSubstruct *)pWVar4->substruct,
               pvVar5->renameOpen == false)) && (pvVar5->selected < 2)) {

@@ -47,8 +47,8 @@ class IntroMenu: public WidgetMenu{
     void ShowContPakMenu();
     WidgetScrollMenu* StartGameMenu();
     void ProcessIntroMenu(BaseWidget*);
-    void m8004b668(BaseWidget*);
-    void m8004b6ac(BaseWidget*);
+    void ConfirmName(BaseWidget*);
+    void CloseConfig(BaseWidget*);
     BaseWidget* Control(controller_aidyn*);
     u32 GetNumber();
     BaseWidget* LeftFunc();
@@ -72,15 +72,15 @@ BaseWidget* IntroMenu_StartFunc(BaseWidget*,BaseWidget*);
 enum IntroMenuStates{
     IntroM_StartGameMenu,
     IntroM_processIntoMenu,
-    ItroM_State2,
+    IntroM_NameEntry,
     IntroM_ContPakMenu,
-    ItroM_State4,
-    ItroM_State5,
+    IntroM_ConfigMenu,
+    IntroM_State5,
     IntroM_NewGame,
     IntroM_IntermediateGame, //debug only, start in Erromon
     IntroM_AdvancedGame, //Earlier Debug, start outside Goblin camp
     IntroM_StartGame, //debug only, start in forest, skip cinematics.
-    ItroM_State10,
+    IntroM_State10,
     IntroM_LoadGame,
 };
 

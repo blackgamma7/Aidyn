@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "game.h"
 #include "graphics.h"
 
 u8 flycam_flag=false;
@@ -49,9 +49,7 @@ void set_title_screen(void){
 Gfx * RenderFlycam(Gfx *gfx){
   bool bVar1;
   Gfx *apGStackX_0 [4];
-  vec3f afStack216;
-  vec3f afStack152;
-  vec3f afStack88;
+  vec3f pos,rotXY,rotZ;
   
   apGStackX_0[0] = gfx;
   if (!gFlycamSceneP) {
@@ -79,8 +77,8 @@ Gfx * RenderFlycam(Gfx *gfx){
       gGlobals.screenFadeMode = 1;
       gGlobals.screenFadeSpeed = 0.01f;
     }
-    Scene::Rotate(gFlycamSceneP,&afStack216,&afStack152,&afStack88);
-    some_flycam_dat_func(&gGlobals.gameVars.flycamDat,&gCamera,&afStack216,&afStack152);
+    Scene::Rotate(gFlycamSceneP,&pos,&rotXY,&rotZ);
+    some_flycam_dat_func(&gGlobals.gameVars.flycamDat,&gCamera,&pos,&rotXY);
     if (FUN_8000ccc0()) {
       FreeZoneEngineMemory();
       no_TP_vec3 = 1;
@@ -151,8 +149,8 @@ u8 gameStart(Gfx**GG){
   }
   fStack104={0};
   if (gPlayer) pos = &((gPlayer)->collision).pos;
-  if (gGlobals.introMusic) {
-    DCM::Start((u8)gGlobals.introMusicDatA,gGlobals.introMusicDatB,gGlobals.VolBGM * 255.0);
+  if (gGlobals.titleSplashVars.introMusic) {
+    DCM::Start((u8)gGlobals.titleSplashVars.introMusicDatA,gGlobals.titleSplashVars.introMusicDatB,gGlobals.VolBGM * 255.0);
   }
   Gsprintf("ProcessAudioBubbles - Intro menu handler\n");
   ProcessAudioBubbles(&gGlobals.SFXStruct,pos,1);
@@ -251,6 +249,6 @@ void start_intermediate_game(void){
   gGlobals.playerCharStruct.player_form=BORG7_Alaron;
   gGlobals.playerCharStruct.collisionRadius = 0.5f
   #endif
-  DCM::Remove((byte)gGlobals.introMusicDatA,gGlobals.introMusicDatB);
-  FREEQB12(gGlobals.introMusic);
+  DCM::Remove((byte)gGlobals.titleSplashVars.introMusicDatA,gGlobals.titleSplashVars.introMusicDatB);
+  FREEQB12(gGlobals.titleSplashVars.introMusic);
 }

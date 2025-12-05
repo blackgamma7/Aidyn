@@ -355,7 +355,7 @@ bool GetSnapshot_(void) {
   return true;
 }
 
-void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *param_3,vec3f *param_4) {
+void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *pos,vec3f *rotXY) {
   s16 sVar1;
   s16 sVar2;
   u16 uVar3;
@@ -371,8 +371,8 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *param_3,ve
   
   sVar1 = fly->shortA;
   sVar2 = fly->shortB;
-  Vec3Copy(param_3,&fly->posTarget);
-  Vec3Copy(param_4,&fly->aimTarget);
+  Vec3Copy(pos,&fly->posTarget);
+  Vec3Copy(rotXY,&fly->aimTarget);
   fVar8 = gGlobals.gameVars.mapCellSize.y;
   fVar9 = (fly->aimTarget).x;
   iVar4 = (fVar9 / gGlobals.gameVars.mapCellSize.x);
@@ -392,10 +392,9 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *param_3,ve
   fVar8 = gGlobals.gameVars.mapCellSize.y;
   iVar4+= (u32)uVar3;
   fly->shortA = (s16)iVar4;
-  fVar6 = (fly->posTarget).z;
   iVar5+= (u32)(u16)fly->ShortD;
   fly->shortB = (s16)iVar5;
-  (fly->pos).z = fVar6 - fVar9 * fVar8;
+  (fly->pos).z = (fly->posTarget).z - fVar9 * fVar8;
   if (((iVar4) != sVar1) ||
      ((iVar5) != sVar2)) {
     CLEAR(&fStack96);
