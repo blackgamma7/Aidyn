@@ -674,7 +674,7 @@ void Ofunc_800a8e80(SceneData *param_1,SceneData *param_2){param_1->locatorScene
 
 void Ofunc_800a8e88(SceneData *param_1,SceneData *param_2){param_1->locatorScene2 = param_2;}
 
-bool Scene::Rotate(SceneData *param_1,vec3f *posOut,vec3f *aimOut,vec3f *param_4){
+bool Scene::GetRotate(SceneData *param_1,vec3f *posOut,vec3f *aimOut,vec3f *param_4){
   borg5substruct *pbVar1;
   MtxF mf;
   vec3f v3A,v3b;

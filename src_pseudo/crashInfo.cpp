@@ -9,9 +9,9 @@ void Crash_SetFrame(CrashBuff *buff ,u16 col){
         }
     }
 }
-
+//find H-center for 8px monospace text in 400-wide screen space
 u16 crash_strlen(char *txt){
-  return (s16)(strlen(txt) / 2) * -8 + 200;
+  return (strlen(txt) / 2) * -8 + 200 & ~7;
 }
 
 struct crash_DatString {
@@ -45,18 +45,40 @@ crash_DatString CauseStrings[]={
     {0,0,"Unknown"}
 };
 
+//likely derived from preprocess macro on compile
+#ifdef DEBUGVER
+#define CRASHVER "CRASH - 02.01d-PRERELEASE"
+#elif VERNA10
+#define CRASHVER "CRASH - 02.02a-LOT-CHECK RELEASE"
+#elif VERNA11
+#define CRASHVER "CRASH - 02.16a-LOT-CHECK RELEASE"
+#elif EUVER 
+#define CRASHVER "CRASH - 04.27a-LC-PAL RELEASE"
+#endif
+
 extern OSThread* __osGetCurrFaultedThread();//should already be defined?
 void crash_text(CrashSub *param_1,CrashBuff *param_2){
-  u32 uVar1;
-  u16 uVar3;
-  crash_DatString *pcVar4;
   char charBuff [160];
   
   OSThread *t = __osGetCurrFaultedThread();
   Crash_SetFrame(param_2,0x843);
-  sprintf(charBuff,"CRASH - 02.01d-PRERELEASE");
+  sprintf(charBuff,CRASHVER);
   crash_print(param_2,charBuff,crash_strlen(charBuff),0x14,0xff,0xff,0);
-  if (!param_1->IsManualCrash) {
+  u16 y;
+  if (param_1->IsManualCrash) {
+    sprintf(charBuff,"Manual Crash");
+    crash_print(param_2,charBuff,crash_strlen(charBuff),0x1d,0xff,0xff,0);
+    #ifdef DEBUGVER
+    crash_print(param_2,"Position:",0x14,0x2f,0xff,0xff,0);
+    crash_print(param_2,param_1->position,0x1e,0x38,0,0xff,0);
+    crash_print(param_2,"Cause:",0x14,0x5c,0xff,0xff,0);
+    crash_print(param_2,param_1->Cause,0x1e,0x65,0,0xff,0);
+    y=146;
+    #else
+    y=47;
+    #endif
+  }
+  else {
     crash_print(param_2,"Thread:",0x14,0x26,0xff,0xff,0);
     sprintf(charBuff,"%ld",t->id);
     crash_print(param_2,charBuff,0x1e,0x2f,0,0xff,0);
@@ -67,26 +89,17 @@ void crash_text(CrashSub *param_1,CrashBuff *param_2){
     sprintf(charBuff,"%08x",(int)(t->context).ra);
     crash_print(param_2,charBuff,0x1e,0x65,0,0xff,0);
     crash_print(param_2,"Cause:",0x14,0x77,0xff,0xff,0);
-    pcVar4 = CauseStrings;
+    crash_DatString *pcVar4 = CauseStrings;
     while (pcVar4->ANDMask) {
         if (((t->context).cause & pcVar4->ANDMask) == pcVar4->Value)
           sprintf(charBuff,"%s",pcVar4->String);
         pcVar4++;
     }
     crash_print(param_2,charBuff,0x1e,0x80,0,0xff,0);
+    y=146;
   }
-  else {
-    sprintf(charBuff,"Manual Crash");
-    crash_print(param_2,charBuff,crash_strlen(charBuff),0x1d,0xff,0xff,0);
-    #ifdef DEBUGVER
-    crash_print(param_2,"Position:",0x14,0x2f,0xff,0xff,0);
-    crash_print(param_2,param_1->position,0x1e,0x38,0,0xff,0);
-    crash_print(param_2,"Cause:",0x14,0x5c,0xff,0xff,0);
-    crash_print(param_2,param_1->Cause,0x1e,0x65,0,0xff,0);
-    #endif
-  }
-  crash_print(param_2,"Last gGlobals.text:",0x14,0x92,0xff,0xff,0);
-  crash_print(param_2,gGlobals.text,0x1e,0x9b,0,0xff,0);
+  crash_print(param_2,"Last gGlobals.text:",20,y,0xff,0xff,0);
+  crash_print(param_2,gGlobals.text,30,y+9,0,0xff,0);
   return;
 }
 #ifdef DEBUGVER
@@ -112,9 +125,10 @@ void Ofunc_80006a4c(CrashBuff *param_1,OSThread *param_2){
     puVar4 = (u32 *)((int)puVar4 + -4);
   }
 }
-
+#endif
 int strlenX8(char *txt){return (strlen(txt) & 0x1fff) << 3;}
-
+//dunno why this gets stranded in retail ver's.
+#ifdef DEBUGVER
 void crash_print_2(CrashBuff *buff,char *txt,u32 val,u16 x,u16 y){
   char txtBuff [96];
   
@@ -172,9 +186,8 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
   
   pOVar3 = __osGetCurrFaultedThread();
   Crash_SetFrame(param_2,0x843);
-  sprintf(acStack_128,"CRASH - 02.01d-PRERELEASE");
-  uVar5 = crash_strlen(acStack_128);
-  crash_print(param_2,acStack_128,uVar5,0xf,0xff,0xff,0);
+  sprintf(acStack_128,CRASHVER);
+  crash_print(param_2,acStack_128,crash_strlen(acStack_128),0xf,0xff,0xff,0);
   iVar14 = 0;
   piVar9 = (int *)appStack_mirror;
   while (*piVar9 == APPSTACKMASK) {
@@ -417,10 +430,12 @@ void crash_handler(CrashSub *arg){
   crash_text_2(arg,&crash_framebuffer);
   osWritebackDCacheAll();
   osViSwapBuffer(crash_framebuffer);
+  #ifndef DEBUGVER
+  while(1){;}
+  #else
   u8 uVar6 = 0;
   BVar7 = 0;
   while(1){
-    #ifdef DEBUGVER
     do {
       osContStartReadData(aOStack_b8);
       while (osRecvMesg(aOStack_b8,NULL,0)){;}
@@ -467,8 +482,8 @@ void crash_handler(CrashSub *arg){
         osViSwapBuffer(crash_framebuffer);
       }
     }
-  #endif  
   }
+#endif  
 }
 #ifdef DEBUGVER
 void heap_error(CrashBuff* param_1,char* param_2,s32 param_3,int param_4,int param_5,int ramUsed,int param_7,

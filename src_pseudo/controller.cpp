@@ -32,6 +32,9 @@ u16 Z_hold[MAXCONTROLLERS]={0};
 u16 L_hold[MAXCONTROLLERS]={0};
 u16 R_hold[MAXCONTROLLERS]={0};
 ContManageStruct gContManager={0};
+#ifdef EUVER
+u8 gContPalVar=false;
+#endif
 
 //init controller thread.
 void Controller::Init(OSSched *sc,u8 ports,u8 pri,u8 id){
@@ -45,18 +48,38 @@ void Controller::Init(OSSched *sc,u8 ports,u8 pri,u8 id){
 void Controller::proc(void* x){
   s16 *msg;
   
-  Controller::InitBuffer();
+  #ifdef EUVER
+  u8 gContPalVar=false;
+  ALLOCS(gContManager.osmesgPointer,8*sizeof(OSMesg),0);
+  osScAddClient(gContManager.ossched,&gContManager.client,&gContManager.mesgClient);
+  #endif
+  
+  InitBuffer();
   while(1) {
+    #ifndef EUVER
     do {
       osRecvMesg(&gContManager.mesgClient,(OSMesg*)&msg,1);
     } while (*msg != 1);
-    Controller::ReadInput();
+    #else
+    while( true ) {
+      while (osRecvMesg(&gContManager.mesgClient,(OSMesg*)&msg,1), __osShutdown != 0) {
+        gContPalVar = true;
+      }
+      if (*msg != 4) break;
+      gContPalVar = true;
+    }
+    if ((!gContPalVar) && (*msg == 1)) {
+    #endif
+    ReadInput();
     if (osTvType == OS_TV_PAL) {
       gContManager.Timer = (gContManager.Timer + 1) % 5;
-      if (gContManager.Timer == 0) Controller::ReadInput();
+      if (gContManager.Timer == 0) ReadInput();
     }
     else gContManager.Timer = (gContManager.Timer + 1) % 6;
   }
+  #ifdef EUVER
+}
+#endif
 }
 
 //initalize controller events
@@ -65,30 +88,31 @@ void Controller::InitBuffer(void){
   controllerBuffer *pcVar3;
   OSContStatus contStat [4];
   u8 auStack40 [4];
-  
+  #ifndef EUVER
   ALLOCS(gContManager.osmesgPointer,8*sizeof(OSMesg),258);
+  #endif
   osCreateMesgQueue(&gContManager.mesgClient,gContManager.osmesgPointer,8);
   osCreateMesgQueue(&gContManager.SIMesgQ,&gContManager.mesg0,1);
   osSetEventMesg(OS_EVENT_SI,&gContManager.SIMesgQ,(OSMesg)1);
   osCreateMesgQueue(&gContManager.contMesgQ,&gContManager.mesg1,1);
   ALLOCS(gContManager.BufferPointer,gContManager.ports*sizeof(controllerBuffer),267);
-  if (gContManager.ports) {
-    for(u8 i=0;i < gContManager.ports;i++) {
-      ALLOCS(buffP,128*sizeof(ControllerFull),273);
-      gContManager.BufferPointer[i].latest = 0;
-      gContManager.BufferPointer[i].inputlog = buffP;
-      gContManager.BufferPointer[i].hori = 0.1f;
-      gContManager.BufferPointer[i].vert = 0.1f;
-      gContManager.BufferPointer[i].next = 0x7f;
-      gContManager.BufferPointer[i].ContGet = 0;
-      gContManager.BufferPointer[i].ContRead = false;
-    }
+  for(u8 i=0;i < gContManager.ports;i++) {
+    ALLOCS(buffP,128*sizeof(ControllerFull),273);
+    gContManager.BufferPointer[i].latest = 0;
+    gContManager.BufferPointer[i].inputlog = buffP;
+    gContManager.BufferPointer[i].hori = 0.1f;
+    gContManager.BufferPointer[i].vert = 0.1f;
+    gContManager.BufferPointer[i].next = 0x7f;
+    gContManager.BufferPointer[i].ContGet = 0;
+    gContManager.BufferPointer[i].ContRead = false;
   }
   osSendMesg(&gContManager.contMesgQ,NULL,1);
   osContSetCh(gContManager.ports);
   osContInit(&gContManager.SIMesgQ,auStack40,contStat);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
+  #ifndef EUVER
   osScAddClient(gContManager.ossched,&gContManager.client,&gContManager.mesgClient);
+  #endif
   gContManager.Timer = 0;
 }
 //reads the input of all controller ports.
@@ -242,15 +266,13 @@ u8 Controller::GetQuerey(u8 port){
 
 u8 Controller::CheckStatus(u8 port){
   OSContStatus stats [4];
-  u8 CErr;
-  u16 CType;
-  
+
   osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
   osContStartQuery(&gContManager.SIMesgQ);
   osRecvMesg(&gContManager.SIMesgQ,NULL,OS_MESG_BLOCK);
   osContGetQuery(stats);
-  CErr = stats[port].errno;
-  CType = stats[port].type;
+  u8 CErr = stats[port].errno;
+  u16 CType = stats[port].type;
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
   return (CType & CONT_TYPE_MASK) == CONT_TYPE_NORMAL &&
          ((CErr & CONT_OVERRUN_ERROR) == 0 && (CErr & CONT_NO_RESPONSE_ERROR) == 0);
@@ -277,7 +299,7 @@ u8 Controller::InitPak(u8 port){
 
 //init Rumble Pak and return status
 u8 Controller::InitRumble(u8 port){
-  u8 PVar1;
+  s32 PVar1;
   
   osSendMesg(&gContManager.contMesgQ,NULL,1);
   PVar1 = osMotorInit(&gContManager.SIMesgQ,&gContManager.BufferPointer[port].pfs,port);
@@ -355,8 +377,8 @@ u8 Controller::NewPakSave(u8 *fileno,char *filename,char *filecode,u16 compCode,
   s32 filenum;
   
   osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
-  Controller::EncodeString(name,filename,16);
-  Controller::EncodeString(code,filecode,4);
+  EncodeString(name,filename,16);
+  EncodeString(code,filecode,4);
   PVar2 = osPfsAllocateFile(&gContManager.BufferPointer[port].pfs,compCode,GameCode,name,code,(u32)EXTName,&filenum);
   if (PVar2 == 0) *fileno = (u8)filenum;
   else *fileno = 0;
@@ -382,11 +404,10 @@ u8 Controller::GetPakSave(u8 *fileno,char* filename,char* filecode,u16 compCode,
 
 
 u8 Controller::GetPakSaveState(fileState_aidyn *FS,u8 file_no,u8 port){
-  s32 PVar1;
   OSPfsState state;
   
   osSendMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
-  PVar1 = osPfsFileState(&gContManager.BufferPointer[port].pfs,file_no,&state);
+  s32 PVar1 = osPfsFileState(&gContManager.BufferPointer[port].pfs,file_no,&state);
   if (PVar1 == 0) {
     Controller::DecodeString(FS->game_name,(u8*)state.game_name,0x10);
     Controller::DecodeString(FS->ext_name,(u8*)state.ext_name,4);
@@ -401,33 +422,27 @@ u8 Controller::GetPakSaveState(fileState_aidyn *FS,u8 file_no,u8 port){
 }
 
 u8 Controller::WritePakSave(u8 *buff,u8 filenum,u16 offset,u16 size,u8 port){
-  s32 PVar1;
-  
   osSendMesg(&gContManager.contMesgQ,NULL,1);
-  PVar1 = osPfsReadWriteFile(&gContManager.BufferPointer[port].pfs,filenum,PFS_WRITE,offset,size,buff);
+  s32 PVar1 = osPfsReadWriteFile(&gContManager.BufferPointer[port].pfs,filenum,PFS_WRITE,offset,size,buff);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
   return (u8)PVar1;
 }
 
 
 u8 Controller::ReadPakSave(u8 *buff,s16 filenum,u16 offset,u16 size,u8 port){
-  s32 PVar1;
-  
   osSendMesg(&gContManager.contMesgQ,NULL,1);
-  PVar1 = osPfsReadWriteFile(&gContManager.BufferPointer[port].pfs,filenum,PFS_READ,offset,size,buff);
+  s32 PVar1 = osPfsReadWriteFile(&gContManager.BufferPointer[port].pfs,filenum,PFS_READ,offset,size,buff);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
   return (u8)PVar1;
 }
 
 
 u8 Controller::ErasePakSave(u8 fileno,u8 port){
-  controllerBuffer *pcVar1;
-  s32 PVar2;
   OSPfsState state;
   
   osSendMesg(&gContManager.contMesgQ,NULL,1);
-  pcVar1 = &gContManager.BufferPointer[port];
-  PVar2 = osPfsFileState(&pcVar1->pfs,fileno,&state);
+  controllerBuffer *pcVar1 = &gContManager.BufferPointer[port];
+  s32 PVar2 = osPfsFileState(&pcVar1->pfs,fileno,&state);
   if (PVar2 == 0)
     PVar2 = osPfsDeleteFile(&pcVar1->pfs,state.company_code,state.game_code,
                      (u8*)(state.game_name),(u8*)(state.ext_name));
@@ -572,7 +587,3 @@ u16 Controller::GetDelay(u8 port){
   while (GetInput(&temp,port)) {x++;}
   return x;
 }
-
-
-
-

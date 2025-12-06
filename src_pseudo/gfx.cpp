@@ -34,11 +34,11 @@ void Graphics::initGfx(OSSched *sched){
   if (osTvType == OS_TV_NTSC) src = osViModeTable + OS_VI_NTSC_LAN1;
   else if (osTvType == OS_TV_MPAL) src = osViModeTable + OS_VI_MPAL_LAN1;
   else if (osTvType == OS_TV_PAL) 
-  #ifdef VER_NA11
-  {COPY(&gGfxManager.osvimodeCustom,osViModeTable + OS_VI_PAL_LAN1);
-    gfx_struct.osvimodeCustom.fldRegs[0].vScale = 0x280270;
-    gfx_struct.osvimodeCustom.fldRegs[0].yScale = 0x346;
-    COPY(&gfx_struct.osVimodeBuffer,&gfx_struct.osvimodeCustom);
+  #if VER_NA11||EUVER
+  {COPY(&gGfxManager.osvimodeBuffer,osViModeTable + OS_VI_PAL_LAN1);
+    gfx_struct.osvimodeBuffer.fldRegs[0].vScale = 0x280270;
+    gfx_struct.osvimodeBuffer.fldRegs[0].yScale = 0x346;
+    COPY(&gfx_struct.osVimodeBuffer,&gfx_struct.osvimodeBuffer);
     goto v11skip;
   }
   #else
@@ -86,8 +86,12 @@ void Graphics::initGfx(OSSched *sched){
 
 void Graphics::initGfx_2(void){
   osSpTaskYield();
+  #ifndef EUVER
   SetGfxMode(SCREEN_WIDTH,SCREEN_HEIGHT,0x10);
   video_settings();
+  #else
+  osViSetYScale(1.0f);
+  #endif
   osViBlack(true);
   gGfxManager.taskTicks = -1;}
 
@@ -111,26 +115,22 @@ void Graphics::video_settings(void){
   osViSwapBuffer(gGfxManager.FrameBuffers[0]);
   if (gGfxManager.Hres[0] == SCREEN_WIDTH) {
     if (gGfxManager.colordepth[0] == 0x10) {
-      if (osTvType == OS_TV_NTSC) osViSetMode(osViModeTable + 2);
-      else if (osTvType == OS_TV_MPAL) osViSetMode(osViModeTable + 0x1e);
+      if (osTvType == OS_TV_NTSC) osViSetMode(osViModeTable + OS_VI_NTSC_LAN1);
+      else if (osTvType == OS_TV_MPAL) osViSetMode(osViModeTable + OS_VI_MPAL_LAN1);
       else if (osTvType == OS_TV_PAL)
       #ifdef VER_NA11
-        osViSetMode(&gGfxManager.osvimodeCustom);
+        osViSetMode(&gGfxManager.osvimodeBuffer);
       #else
-        osViSetMode(osViModeTable + 0x10);
+        osViSetMode(osViModeTable + OS_VI_PAL_LAN1);
       #endif
       }
     else {
-      if (osTvType == OS_TV_NTSC) osViSetMode(osViModeTable + 6);
-      else if (osTvType == OS_TV_MPAL) osViSetMode(osViModeTable + 0x22);
-      else if (osTvType == OS_TV_PAL) osViSetMode(osViModeTable + 0x14);
+      if (osTvType == OS_TV_NTSC) osViSetMode(osViModeTable + OS_VI_NTSC_LAN2);
+      else if (osTvType == OS_TV_MPAL) osViSetMode(osViModeTable + OS_VI_MPAL_LAN2);
+      else if (osTvType == OS_TV_PAL) osViSetMode(osViModeTable + OS_VI_PAL_LAN2);
     }
   }
-  #ifdef VER_NA11
-  else osViSetMode(&gGfxManager.osVimodeBuffer); // use second ViMode for HiRes mode
-  #else
   else osViSetMode(&gGfxManager.osvimodeCustom);
-  #endif
   osViSetSpecialFeatures(OS_VI_GAMMA_OFF|OS_VI_DIVOT_OFF|OS_VI_DITHER_FILTER_ON);
   gGfxManager.viewport.vp.vscale[0] = gGfxManager.Hres[0] << 1;
   gGfxManager.viewport.vp.vscale[1] = gGfxManager.Vres[0] << 1;
@@ -185,7 +185,6 @@ Gfx * Ofunc_rspcode(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,u16 param_5,Col
   u32 uVar7;
   u32 uVar8;
 
-  gDPPipeSync(gfx++);
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);
   gDPSetRenderMode(gfx++,0,0);
@@ -252,7 +251,7 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
 Gfx * Graphics::EndList(Gfx *gfx){
   u16 uVar1;
   u32 uVar2;
-  
+  #ifndef EUVER
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);
   gDPSetRenderMode(gfx++,0,0);
@@ -269,6 +268,13 @@ Gfx * Graphics::EndList(Gfx *gfx){
     gDPFillRectangle(gfx++,gGfxManager.Hres[1]-1,gGfxManager.Vres[1]-1,gGfxManager.Hres[1]-20,0);
   }
   gDPFillRectangle(gfx++,gGfxManager.Hres[1]-1,gGfxManager.Vres[1]-1,0,gGfxManager.Vres[1]-12);
+  #else //later versions used more ucode to draw overscan border
+  gfx=borg8DlistInit(gfx,6,gGfxManager.Hres[1],gGfxManager.Vres[1]);
+  gfx = DrawRectangle(gfx,0,0,18,SCREEN_HEIGHT,COLOR_BLACK);
+  gfx = DrawRectangle(gfx,0,0,SCREEN_WIDTH,12,COLOR_BLACK);
+  gfx = DrawRectangle(gfx,(SCREEN_WIDTH-18),0,SCREEN_WIDTH,SCREEN_HEIGHT,COLOR_BLACK);
+  gfx = DrawRectangle(gfx,0,(SCREEN_HEIGHT-12),SCREEN_WIDTH,SCREEN_HEIGHT,COLOR_BLACK);
+  #endif
   gDPFullSync(gfx++);
   gSPEndDisplayList(gfx++);
   gGfxManager.unk0x19c = 0;
@@ -725,7 +731,7 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   else {
     sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
   }
-  pGVar9 = DebugDrawRect(pGVar9,x2,0x14,x2 + sVar19,0x16,0,0,0,0xff);
+  pGVar9 = DebugDrawRect(pGVar9,x2,0x14,x2 + sVar19,0x16,COLOR_BLACK);
   dVar18 = (double)(iVar7 * 280);
   dVar16 = dVar21;
   if ((int)uVar1 < 0) {
@@ -775,7 +781,7 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
     sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
   }
   pGVar10 = DebugDrawRect(pGVar9,0x14,0x18,sVar19 + 0x14U,0x1a,0,0xff,0,0xff);
-  pGVar10 = DebugDrawRect(pGVar10,sVar19 + 0x14U,0x18,300,0x1a,0,0,0,0xff);
+  pGVar10 = DebugDrawRect(pGVar10,sVar19 + 0x14U,0x18,300,0x1a,COLOR_BLACK);
   dVar18 = (double)(gGfxManager.unkTime0 * 0x118);
   if ((int)(gGfxManager.unkTime0 * 0x118) < 0) {
     dVar18 = dVar18 + UINT_MAX_d;

@@ -426,8 +426,7 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
       if (gGlobals.gameVars.camPtrArraySize) {
         fVar27 = Camera::CreateFocusFromMultiple(&afStack304,&fStack240,gGlobals.gameVars.camPtrArray,
                          gGlobals.gameVars.camPtrArraySize,75.0f);
-        handler->camera->unk5c = fVar27;
-        if (fVar27 < 5.0f) handler->camera->unk5c = 5.0f;
+        handler->camera->unk5c = fVar27<5.0f?5.0f:fVar27;
         facingV3.y = 0.0;
         facingV3.x = fStack240.x;
         facingV3.z = fStack240.y;

@@ -27,9 +27,17 @@ void InitProc(void* p){
   ALLOCS(PTR_800e8f30,sizeof(OSMesg)*8,173);
   osCreatePiManager(OS_PRIORITY_PIMGR,&gPIManagerQueue,PTR_800e8f30,8);
   ALLOCS(osSched_stack,0x2000,177);
-  if (osTvType == OS_TV_NTSC) osCreateScheduler(&gSched,(void *)((int)osSched_stack + 0x2000),0xc,2,1);
-  if (osTvType == OS_TV_PAL) osCreateScheduler(&gSched,(void *)((int)osSched_stack + 0x2000),0xc,0x10,1);
-  if (osTvType == OS_TV_MPAL) osCreateScheduler(&gSched,(void *)((int)osSched_stack + 0x2000),0xc,0x1e,1);
+  switch(osTvType){
+    case OS_TV_PAL:
+      osCreateScheduler(&gSched,(void *)((int)osSched_stack + 0x2000),0xc,OS_VI_PAL_LAN1,1);
+      break;
+    case OS_TV_NTSC:
+      osCreateScheduler(&gSched,(void *)((int)osSched_stack + 0x2000),0xc,OS_VI_NTSC_LAN1,1);
+      break;
+    case OS_TV_MPAL:
+      osCreateScheduler(&gSched,(void *)((int)osSched_stack + 0x2000),0xc,OS_VI_MPAL_LAN1,1);
+      break;
+  }
   Graphics::initGfx(&gSched);
   DCM::StartThread(&gSched,44100,11,5);
   DCM::Init();
