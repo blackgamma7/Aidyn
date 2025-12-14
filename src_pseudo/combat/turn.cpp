@@ -248,12 +248,12 @@ void CombatTurn::StartTurn(CombatTurn_s *param_1,CombatEntity *param_2,u8 param_
   if (param_2->aiP){
     if ((param_2->aiP->flags & 8)) {
       if (gCombatP->leaderDead)
-        CombatAIInfo::DebateFleeing(param_2,true);
+        CombatAI::DebateFleeing(param_2,true);
       else
-        CombatAIInfo::DebateFleeing(param_2,param_3 != gCombatP->leaderIndex);
+        CombatAI::DebateFleeing(param_2,param_3 != gCombatP->leaderIndex);
       gGlobals.combatBytes[0] = 8;
       gGlobals.combatBytes[1] = 8;
-      if (CombatAIInfo::IsAlly(param_2->aiP)) return;
+      if (CombatAI::IsAlly(param_2->aiP)) return;
       FUN_80072454(gCombatP->substruct2,param_2);
       FUN_80072454(gCombatP->substruct2 + 1,param_2);
       return;

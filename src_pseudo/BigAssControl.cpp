@@ -82,7 +82,7 @@ u8 PauseMenuClose1(BaseWidget *w) {
 }
 
 
-byte bigAssOpenCallback(BaseWidget *param_1) {
+byte bigAssOpenCallback(BaseWidget *w) {
   byte bVar1;
   u16 uVar2;
   pause_Substruct *sub;
@@ -92,7 +92,7 @@ byte bigAssOpenCallback(BaseWidget *param_1) {
   int iVar7;
   int iVar8;
   
-  sub = (pause_Substruct *)param_1->substruct;
+  sub = (pause_Substruct *)w->substruct;
   if (!sub->isScrolling) {
     iVar8 = 0;
     iVar7 = 0;
@@ -132,7 +132,7 @@ byte bigAssOpenCallback(BaseWidget *param_1) {
           gGlobals.screenshotTint.R = 0xff;
         }
         bVar4 = 0xf4 < gGlobals.screenshotTint.R;
-        if (gGlobals.screenshotTint.R == 0xff) param_1->state = 6;
+        if (gGlobals.screenshotTint.R == 0xff) w->state = WidgetS_Closed;
         else {
           gGlobals.screenshotTint.R = gGlobals.screenshotTint.R + 10;
           if (bVar4) {
@@ -150,7 +150,7 @@ byte bigAssOpenCallback(BaseWidget *param_1) {
                   -100.0f,0.0,0.0,0.0,-1.0f);
   }
 LAB_80036d24:
-  return param_1->state;
+  return w->state;
 }
 
 u8 PauseMenuClose2(BaseWidget *param_1) {
@@ -169,7 +169,7 @@ u8 PauseMenuClose2(BaseWidget *param_1) {
   return param_1->state;
 }
 
-BaseWidget * bigAssMenu_LZFunc(BaseWidget *param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_LZFunc(BaseWidget *w0,BaseWidget *w1) {
   u8 uVar1;
   pause_Substruct *sub;
   WidgetOptionsSubstruct * piVar3;
@@ -201,7 +201,7 @@ BaseWidget * bigAssMenu_LZFunc(BaseWidget *param_1,BaseWidget *w1) {
   return NULL;
 }
 
-BaseWidget* bigAssMenu_RFunc(BaseWidget* param_1,BaseWidget *w1) {
+BaseWidget* bigAssMenu_RFunc(BaseWidget* w0,BaseWidget *w1) {
   u8 uVar1;
   pause_Substruct *sub;
   BaseWidget *pBVar4;
@@ -225,7 +225,7 @@ BaseWidget* bigAssMenu_RFunc(BaseWidget* param_1,BaseWidget *w1) {
          opSub->unk10 == opSub->ScrollMenu)) {
             sub->PauseMenuSection++;
           sub->unk24 = -SCREEN_WIDTH;
-          sub->backgroundImage->SetBorg8(loadBorg8((u32)pause_menu_borg8[sub->PauseMenuSection]),false);
+          sub->backgroundImage->SetBorg8(loadBorg8(pause_menu_borg8[sub->PauseMenuSection]),false);
           sub->backgroundImage->SetCoords(SCREEN_WIDTH,0);
           sub->scrollfloat =
                -(scroll_floats[sub->PauseMenuSection] - sub->scrollSpeed) /
@@ -241,7 +241,7 @@ BaseWidget* bigAssMenu_RFunc(BaseWidget* param_1,BaseWidget *w1) {
   return 0;
 }
 
-BaseWidget * bigAssMenu_LeftFunc(BaseWidget *param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_LeftFunc(BaseWidget *w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   if (!sub->isScrolling) {
     if (sub->PauseMenuSection == 1) {
@@ -252,7 +252,7 @@ BaseWidget * bigAssMenu_LeftFunc(BaseWidget *param_1,BaseWidget *w1) {
   return NULL;
 }
 
-BaseWidget * bigAssMenu_RightFunc(BaseWidget *param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_RightFunc(BaseWidget *w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   if (!sub->isScrolling) {
     if (sub->PauseMenuSection == 1) {
@@ -263,7 +263,7 @@ BaseWidget * bigAssMenu_RightFunc(BaseWidget *param_1,BaseWidget *w1) {
   return NULL;
 }
 
-BaseWidget * bigAssMenu_UpFunc(BaseWidget *param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_UpFunc(BaseWidget *w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   if (!sub->isScrolling) {
     if (sub->PauseMenuSection == 1) {
@@ -275,7 +275,7 @@ BaseWidget * bigAssMenu_UpFunc(BaseWidget *param_1,BaseWidget *w1) {
   return NULL;
 }
 
-BaseWidget * bigAssMenu_DownFunc(BaseWidget *param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_DownFunc(BaseWidget *w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   if (!sub->isScrolling) {
     if (sub->PauseMenuSection == 1) {
@@ -287,35 +287,35 @@ BaseWidget * bigAssMenu_DownFunc(BaseWidget *param_1,BaseWidget *w1) {
   return NULL;
 }
 
-BaseWidget * bigAssMenu_CLeftFunc(BaseWidget *param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_CLeftFunc(BaseWidget *w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   if (!sub->isScrolling) 
     sub->pauseMenuSections[sub->PauseMenuSection]->CLeftFunc();
   return NULL;
 }
 
-BaseWidget * bigAssMenu_CRightFunc(BaseWidget *param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_CRightFunc(BaseWidget *w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   if (!sub->isScrolling) 
     sub->pauseMenuSections[sub->PauseMenuSection]->CRightFunc();
   return NULL;
 }
 
-BaseWidget * bigAssMenu_CUpFunc(BaseWidget *param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_CUpFunc(BaseWidget *w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   if (!sub->isScrolling) 
     sub->pauseMenuSections[sub->PauseMenuSection]->CUpFunc();
   return NULL;
 }
 
-BaseWidget * bigAssMenu_CDownFunc(BaseWidget *param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_CDownFunc(BaseWidget *w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   if (!sub->isScrolling) 
     sub->pauseMenuSections[sub->PauseMenuSection]->CDownFunc();
   return NULL;
 }
 
-BaseWidget * bigAssMenu_BFunc(BaseWidget * param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_BFunc(BaseWidget * w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   BaseWidget *ret = NULL;
   if ((!sub->isScrolling) && (ret = NULL, sub->borg7->currentAni == 0)) {
@@ -326,7 +326,7 @@ BaseWidget * bigAssMenu_BFunc(BaseWidget * param_1,BaseWidget *w1) {
   return ret;
 }
 
-BaseWidget * bigAssMenu_AFunc(BaseWidget * param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_AFunc(BaseWidget * w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   BaseWidget *ret = NULL;
   if ((!sub->isScrolling) && (ret = NULL, sub->borg7->currentAni == 0)) {
@@ -336,7 +336,7 @@ BaseWidget * bigAssMenu_AFunc(BaseWidget * param_1,BaseWidget *w1) {
   return ret;
 }
 
-BaseWidget * bigAssMenu_StartFunc(BaseWidget * param_1,BaseWidget *w1) {
+BaseWidget * bigAssMenu_StartFunc(BaseWidget * w0,BaseWidget *w1) {
   pause_Substruct *sub = (pause_Substruct *)w1->substruct;
   BaseWidget *ret = NULL;
   if ((!sub->isScrolling) && (ret = NULL, sub->borg7->currentAni == 0)) {

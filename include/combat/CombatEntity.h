@@ -26,7 +26,7 @@ class CombatEntity {
     u16 flags; //uses "COMBATENT_*" flags, or getter/setter methods.
     ElemResist resists[2];
     CharSheet *charSheetP;
-    struct CombatAI_s *aiP; //used by enemies and Sholeh
+    struct CombatAIInfo *aiP; //used by enemies and Sholeh
     u8 unk48[60]; //unused?
     u32 bowHand; //Bandits, ogres, Becan and Keelin are left-handed archers
     u8 wepLocator;
@@ -217,7 +217,7 @@ struct combat_aiscore {
 #define AIFlag_20 0x20
 #define AIFlag_40 0x40
 #define AIFlag_80 0x80
-struct CombatAI_s {
+struct CombatAIInfo {
     WeaponInstance *weapon;
     char unk1;
     char entIndex;
@@ -236,19 +236,42 @@ namespace CombatAI{
     u8 JudgeAIMorale(CombatEntity *param_1,u8 param_2);
     u8 IsTiredOrLonely(CombatEntity *param_1);
     void DebateFleeing(CombatEntity *param_1,u8 param_2);
-    u8 IsNotDeadNorAlly(CombatAI_s *param_1,CombatEntity *param_2);
-    u8 CanMoveToTarget(CombatAI_s *param_1);
-    byte GetSpellPriority(CombatAI_s *param_1,u8 param_2);
-    void FUN_800609bc(CombatAI_s *param_1);
-    void FUN_80060a88(CombatAI_s *param_1);
-    void FUN_80060db0(CombatAI_s *param_1);
-    int FireballCalc(CombatAI_s *param_1);
-    
-    
-    s32 SortScoreFuncB(combat_aiscore *param_1,combat_aiscore *param_2);
-    void ResetScore(u8);
-    void SetScoreEntry(u8 feildx,u8 feildy,u8 feild3,u8 feild0,CombatEntity *cEnt);
+    u8 IsNotDeadNorAlly(CombatAIInfo *param_1,CombatEntity *param_2);
+    u8 CanMoveToTarget(CombatAIInfo *param_1);
+    byte GetSpellPriority(CombatAIInfo *param_1,u8 param_2);
+    void FUN_800609bc(CombatAIInfo *param_1);
+    void FUN_80060a88(CombatAIInfo *param_1);
+    void FUN_80060db0(CombatAIInfo *param_1);
+    int FireballCalc(CombatAIInfo *param_1);
+    u32 FireballFunc2(CombatAIInfo *);
+    u8 SpellStamina(CombatAIInfo *);
+
+    void SwapWeapons(CombatAIInfo* param_1);
+    u8 ShouldSwapWeapons(CombatAIInfo*);
+
+    voxelObject * FindFleeingRefpoint(CombatAIInfo *param_1,float *dist);
+    u8 GetFleePointCoords(CombatAIInfo *param_1,u8 x,u8 y,s8 *outX,s8 *outY,float *param_6);
+    void FaceTarget(CombatAIInfo*);
+
+    u8 ElementalInCombat();
+    u8 ZombieInCombat(void *);
+    u8 IsSomeonePoisoned(void);
+
+    void ClearEntIndex(CombatAIInfo *);
+    u8 IsAlly(CombatAIInfo *param_1);
+    void LookToFlee(CombatAIInfo *param_1);
 };
+
+namespace CombatAIScore{
+    s32 SortFuncA(combat_aiscore *A,combat_aiscore *B);
+    s32 SortFuncB(combat_aiscore *A,combat_aiscore *B);
+    void Reset(u16);
+    void SetEntry(u8 feildx,u8 feildy,u8 feild3,u8 feild0,CombatEntity *cEnt);
+    void Free();
+    void Sort(bool);
+    void MoveEntry();
+}
+
 u16 aiscores_move=0;
 u16 combat_AiScore_tally=0;
 combat_aiscore* combat_AiScores_pointer;

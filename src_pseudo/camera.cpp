@@ -291,9 +291,6 @@ LAB_800b0be4:
   }
 }
 
-
-
-
 void Camera::FUN_800b0fac(Camera_struct *CAM,vec3f* param_2,s16 param_3,float param_4,float param_5,float param_6){
   float fVar4;
   double dVar3;

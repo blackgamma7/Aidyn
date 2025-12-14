@@ -40,6 +40,7 @@ int FUN_80071974(CombatSubstructA *,s8,s8,s16,u8*);
 bool FUN_80071d2c(CombatSubstructA *,u8,u8,u8,u8,s16*,u8);
 u32 FUN_80071e84(CombatSubstructA *,u16*);
 u32 FUN_80071ec4(CombatSubstructA *,u8,u8,u8,u8,u8,u8(*) [2]);
+u32 FUN_800720f8(CombatSubstructA *param_1,u8 x0,u8 y0,u8 x1,u8 y1);
 void Ofunc_8007216c(CombatSubstructA *,u8*,u8*,u8,u8);
 
 u8 get_borg9_floatB_X_ShortA(u8);

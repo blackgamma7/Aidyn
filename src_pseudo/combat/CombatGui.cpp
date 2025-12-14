@@ -382,9 +382,9 @@ void FUN_80090634(void){
          ((bVar6 != 5 && (pCVar4->blipIndex != 0xff)))) {
         WidgetBorg8Combat *pWVar1 = gCombatRadarBlips[pCVar4->blipIndex].widget;
         if ((&gCombatP->combatEnts)[pCVar4->cEntIndex]){
-          CombatAI_s *pCVar2 = (&gCombatP->combatEnts)[pCVar4->cEntIndex]->aiP;
+          CombatAIInfo *pCVar2 = (&gCombatP->combatEnts)[pCVar4->cEntIndex]->aiP;
           if (pCVar2) {
-            if (CombatAIInfo::IsAlly(pCVar2)) pWVar1->SetColor(200,164,0,0xff);
+            if (CombatAI::IsAlly(pCVar2)) pWVar1->SetColor(200,164,0,0xff);
           }
         }
         if (gCombatP->substruct2[0].arrayA[pCVar4->cEntIndex])

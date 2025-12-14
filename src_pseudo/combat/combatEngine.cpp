@@ -253,7 +253,7 @@ u32 Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
     Entity::Init(pCVar2,param_1,1);
     pCVar1->Init(pCVar1->charSheetP,0,uStack_30,uStack_2f,uStack_2e,uVar5,0,(char)param_2);
     ALLOC(pCVar1->aiP,618);
-    CombatAIInfo::Init(pCVar3,param_1,pCVar1);
+    CombatAI::Init(pCVar3,param_1,pCVar1);
     uVar7 = param_2 + 1;
     auStack_2d[0] = 0;
     pCVar2 = pCVar1->charSheetP;

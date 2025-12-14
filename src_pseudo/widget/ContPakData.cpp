@@ -36,7 +36,7 @@ BaseWidget * FUN_80085da0(BaseWidget *wo,BaseWidget *w1){
 
 BaseWidget * FUN_80085dcc(BaseWidget *wo,BaseWidget *w1){
   Controller::GetDelay(0);
-  contPakDat->TryRepair();
+  contPakDat->TryRepair(w1->varU8);
   return 0;
 }
 
@@ -353,7 +353,7 @@ void WidgetContPakData::GetPFSErr(){
   this->OtherState = 0;
 }
 
-void WidgetContPakData::TryRepair(){  
+void WidgetContPakData::TryRepair(u8 x){  
   this->attemptedRepair = true;
   if (Controller::RepairPak(0) == 0) RepairOK();
   else RepairFail();

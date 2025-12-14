@@ -8,7 +8,7 @@ u32 DAT_800edb94=0;
 u8 some_screenfade_flag=true;
 u8 u8_800edb99=0;
 
-void FUN_8004fe00(void) {
+void InitPauseMenu(void) {
   u8 bVar2;
   
   if (false) {
@@ -38,7 +38,7 @@ switchD_8004fe44_caseD_4:
     }
   }
   if (gGlobals.unk14fc) bVar2 = 0;
-  gGlobals.BigAssMenu = new PauseWidget(gGlobals.widgetHandler,bVar2);
+  gGlobals.BigAssMenu = new PauseWidget(WHANDLE,bVar2);
 }
 
 bool set_screenshot_tint() {
@@ -96,7 +96,7 @@ u8 ScreenFadeMode_3(Gfx **GG) {
   bVar7 = gGlobals.screenFadeModeSwitch;
   g = *GG;
   if ((some_screenfade_flag) && (set_screenshot_tint())) {
-    FUN_8004fe00();
+    InitPauseMenu();
     some_screenfade_flag = false;
   }
   s16 delta = FUN_800505f4();
@@ -152,7 +152,7 @@ u8 ScreenFadeMode_3(Gfx **GG) {
         gGlobals.playerCharStruct.unkState = u8_800edb91;
         if (u8_800edb90 == 6) {
           bVar7 = 6;
-          gGlobals.BigAssMenu = new PauseWidget(gGlobals.widgetHandler,1);
+          gGlobals.BigAssMenu = new PauseWidget(WHANDLE,1);
           WHANDLE->Tick(1);
           g = draw_screenshot_background(g,bVar6);
           RSPFUNC6(g);

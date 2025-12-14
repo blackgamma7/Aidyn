@@ -68,7 +68,7 @@ BaseWidget * bigAssMenu_BFunc(BaseWidget *,BaseWidget *);
 BaseWidget * bigAssMenu_AFunc(BaseWidget *,BaseWidget *);
 BaseWidget * bigAssMenu_StartFunc(BaseWidget *,BaseWidget *);
 
-void FUN_8004fe00(void);
+void InitPauseMenu(void);
 bool set_screenshot_tint(void);
 Gfx * draw_screenshot_background(Gfx *g,u8 state);
 u8 ScreenFadeMode_3(Gfx **GG);

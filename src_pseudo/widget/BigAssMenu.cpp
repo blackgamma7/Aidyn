@@ -214,7 +214,6 @@ void PauseWidget::BuildCalendarMenu(){
   Utilities::MoveWidget(sub->calendar,(2 - (u16)sub->PauseMenuSection) * SCREEN_WIDTH,0);
   sub->calendar->Tick();
   this->Link(sub->calendar);
-  return;
 }
 
 void PauseWidget::FreeFromHandler(){
@@ -309,7 +308,7 @@ BaseWidget * PauseWidget::Control(controller_aidyn *cont) {
   pvVar2 = (WidgetOptionsSubstruct *)ppVar1->optionsMenu->substruct;
   pBVar3 = pvVar2->contPakWidget;
   if (pBVar3 == NULL) {
-    pBVar3 = this->BaseWidget::Control(cont);
+    pBVar3 = BaseWidget::Control(cont);
     if ((pBVar3 == NULL) && (pBVar3 = NULL, ppVar1->PauseMenuSection == 0)) {
       if (((cont->input_2 & (ANA_LEFT|D_LEFT)) == 0) ||
          (((pBVar3 = pvVar2->optionsConfig, pBVar3 == NULL ||

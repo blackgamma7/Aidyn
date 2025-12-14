@@ -7,21 +7,21 @@ WidgetOptionsMenu::WidgetOptionsMenu():WidgetMenu(){}
 WidgetOptionsMenu::~WidgetOptionsMenu(){
   WidgetOptionsSubstruct *sub = (WidgetOptionsSubstruct *)this->substruct;
   if (sub->ScrollMenu) {
-    this->Unlink(sub->ScrollMenu);
+    BaseWidget::Unlink(sub->ScrollMenu);
     if (sub->ScrollMenu)sub->ScrollMenu->~WidgetScrollMenu();
     sub->ScrollMenu = NULL;
   }
   if (sub->theatreMenu){
-    this->Unlink(sub->theatreMenu);
+    BaseWidget::Unlink(sub->theatreMenu);
     if (sub->theatreMenu) sub->theatreMenu->~BaseWidget();
     sub->theatreMenu = NULL;
   }
   if(sub->optionsConfig) {
-    this->Unlink(sub->optionsConfig);
+    BaseWidget::Unlink(sub->optionsConfig);
     if (sub->optionsConfig) sub->optionsConfig->~WidgetOptionsConfig();
   }
   if (sub->contPakWidget) {
-    this->Unlink(sub->contPakWidget);
+    BaseWidget::Unlink(sub->contPakWidget);
     if (sub->contPakWidget) sub->contPakWidget->~BaseWidget();
     sub->contPakWidget = NULL;;
   }

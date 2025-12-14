@@ -724,7 +724,7 @@ s32 Entity::FindFreeEffect(CharSheet *param_1){
 
 
 s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,CombatEntity *combatTarget){
-  CombatAI_s *pCVar1;
+  CombatAIInfo *pCVar1;
   Temp_enchant **ppTVar2;
   bool bVar3;
   u32 uVar6;
@@ -1020,7 +1020,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
   u8 SVar3;
   char cVar4;
   byte bVar5;
-  CombatAI_s *iVar2;
+  CombatAIInfo *iVar2;
   
   pTVar1 = target->effects[index];
   if (pTVar1 == NULL) return;

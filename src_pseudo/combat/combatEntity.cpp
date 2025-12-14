@@ -23,7 +23,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   u8 X;
   u8 Y;
   u8 *pEVar5;
-  CombatAI_s *pCVar6;
+  CombatAIInfo *pCVar6;
   int iVar7;
   float *pfVar10;
   u32 uVar11;
@@ -79,7 +79,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   this->index = index;
   if (isAI) {
     ALLOC(this->aiP,204);
-    CombatAIInfo::Init(this->aiP,this->charSheetP->ID,this);
+    CombatAI::Init(this->aiP,this->charSheetP->ID,this);
   }
   this->shieldLocator = 2;
   this->TargetIndex = -1;
@@ -93,7 +93,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
 
 void CombatEntity::FreeAi(){
   if (this->aiP) {
-    CombatAIInfo::Free(this->aiP);
+    CombatAI::Free(this->aiP);
     FREE(this->aiP,240);
   }
 }
@@ -962,11 +962,11 @@ void CombatEntity::EndTurn(){
   u16 uVar2;
   u8 bVar3;
   GearInstance *puVar2;
-  CombatAI_s* pTVar1;
+  CombatAIInfo* pTVar1;
   
   clear_camera_playerdata_focus();
   pTVar1 = this->aiP;
-  if ((pTVar1) && ((pTVar1->flags & AIFlag_08))) CombatAIInfo::ClearEntIndex(pTVar1);
+  if ((pTVar1) && ((pTVar1->flags & AIFlag_08))) CombatAI::ClearEntIndex(pTVar1);
   this->charSheetP->spellVal = 0xff;
   UnsetFlag(COMBATENT_CASTING);
   pCVar1 = this->charSheetP;
@@ -1037,85 +1037,85 @@ u8 CombatEntity::IsAspectBonus(){
 }
 
 
-u8 CombatEntity::m8006a830(CombatEntity *param_2,u8 param_3,u8 param_4){
-  u8 uVar1;
-  u8 uVar2;
+u8 CombatEntity::m8006a830(CombatEntity *target,u8 x,u8 y){
+  u8 myX;
+  u8 myY;
   s8 sVar4;
   u8 uVar5;
   s8 sVar6;
-  u8 uVar7;
-  u8 uVar8;
+  u8 Y_;
+  u8 X_;
   char cVar3;
   
-  uVar8 = param_3;
-  uVar7 = param_4;
-  uVar1 = GetCoordXU8();
-  uVar2 = GetCoordYU8();
-  switch(param_2->unk14) {
+  X_ = x;
+  Y_ = y;
+  myX = GetCoordXU8();
+  myY = GetCoordYU8();
+  switch(target->unk14) {
   case 0:
-    if (((uVar1 < uVar8) && (uVar7 < uVar2)) && (this->unk14 == 1)) {return 1;}
-    if (((uVar1 != uVar8) || (uVar2 <= uVar7)) || (this->unk14 != 0)) {
-      if (uVar1 <= uVar8) {return 0;}
+    if (((myX < X_) && (Y_ < myY)) && (this->unk14 == 1)) {return 1;}
+    if (((myX != X_) || (myY <= Y_)) || (this->unk14 != 0)) {
+      if (myX <= X_) {return 0;}
       sVar4 = 7;
-      if (uVar2 <= uVar7) {return 0;}
+      if (myY <= Y_) {return 0;}
       sVar6 = this->unk14;
       goto LAB_8006ab00;
     }
     goto LAB_8006ab08;
   case 1:
-    if (uVar1 < uVar8) {
-      if ((uVar2 == uVar7) && (this->unk14 == 2)) goto LAB_8006ab08;
-      if ((uVar7 < uVar2) && (this->unk14 == 1)) {return 1;}
+    if (myX < X_) {
+      if ((myY == Y_) && (this->unk14 == 2)) goto LAB_8006ab08;
+      if ((Y_ < myY) && (this->unk14 == 1)) {return 1;}
     }
     uVar5 = 0;
-    if (((uVar1 == uVar8) && (uVar5 = 0, uVar7 < uVar2)) && (uVar5 = 0, this->unk14 == 0)) {uVar5 = 1;}
+    if (((myX == X_) && (uVar5 = 0, Y_ < myY)) && (uVar5 = 0, this->unk14 == 0)) {uVar5 = 1;}
     break;
   case 2:
     uVar5 = 0;
-    if (uVar1 < uVar8) {
-      if ((uVar2 < uVar7) && (this->unk14 == 3)) {uVar5 = 1;}
+    if (myX < X_) {
+      if ((myY < Y_) && (this->unk14 == 3)) {uVar5 = 1;}
       else {
-        if ((uVar2 == uVar7) && (this->unk14 == 2)) {uVar5 = 1;}
+        if ((myY == Y_) && (this->unk14 == 2)) {uVar5 = 1;}
         else {
           uVar5 = 0;
-          if ((uVar7 < uVar2) && (uVar5 = 0, this->unk14 == 1)) {uVar5 = 1;}
+          if ((Y_ < myY) && (uVar5 = 0, this->unk14 == 1)) {uVar5 = 1;}
         }
       }
     }
     break;
   case 3:
-    if (((uVar1 < uVar8) && (uVar2 < uVar7)) && (this->unk14 == 3)) {return 1;}
-    if (((uVar1 == uVar8) && (uVar2 < uVar7)) && (this->unk14 == 4)) {return 1;}
-    if (uVar1 >= uVar8) {return 0;}
-    if (uVar2 != uVar7) {return 0;}
+    if (((myX < X_) && (myY < Y_)) && (this->unk14 == 3)) {return 1;}
+    if (((myX == X_) && (myY < Y_)) && (this->unk14 == 4)) {return 1;}
+    if (myX >= X_) {return 0;}
+    if (myY != Y_) {return 0;}
     sVar4 = this->unk14;
     sVar6 = 2;
     goto LAB_8006ab6c;
   case 4:
-    if (((uVar1 < uVar8) && (uVar2 < uVar7)) && (this->unk14 == 3)) {return 1;}
-    if (((uVar1 == uVar8) && (uVar2 < uVar7)) && (this->unk14 == 4)) {return 1;}
-    if (uVar1 <= uVar8) {return 0;}
+    if (((myX < X_) && (myY < Y_)) && (this->unk14 == 3)) {return 1;}
+    if (((myX == X_) && (myY < Y_)) && (this->unk14 == 4)) {return 1;}
+    if (myX <= X_) {return 0;}
     goto LAB_8006aaf4;
   case 5:
-    if (uVar8 < uVar1) {
-      if ((uVar2 == uVar7) && (this->unk14 == 6)) goto LAB_8006ab08;
-      if ((uVar2 < uVar7) && (this->unk14 == 5)) {
+    if (X_ < myX) {
+      if ((myY == Y_) && (this->unk14 == 6)) goto LAB_8006ab08;
+      if ((myY < Y_) && (this->unk14 == 5)) {
         return 1;
       }
     }
-    if (uVar1 != uVar8) {return 0;}
+    if (myX != X_) {return 0;}
     sVar4 = 4;
-    if (uVar7 <= uVar2) {return 0;}
+    if (Y_ <= myY) {return 0;}
     sVar6 = this->unk14;
     goto LAB_8006ab00;
   case 6:
-    if (uVar1 <= uVar8) {return 0;}
-    if ((uVar7 < uVar2) && (this->unk14 == 7)) {return 1;}
-    if ((uVar2 == uVar7) && (this->unk14 == 6)) goto LAB_8006ab08;
+    if (myX <= X_) {return 0;}
+    if ((Y_ < myY) && (this->unk14 == 7)) {return 1;}
+    if ((myY == Y_) && (this->unk14 == 6)) goto LAB_8006ab08;
 LAB_8006aaf4:
     uVar5 = 0;
     sVar4 = 5;
-    if (uVar2 < uVar7) {
+    if (myY < Y_) {
       sVar6 = this->unk14;
 LAB_8006ab00:
       uVar5 = 0;
@@ -1126,10 +1126,10 @@ LAB_8006ab08:
     }
     break;
   case 7:
-    if (((uVar8 < uVar1) && (uVar7 < uVar2)) && (this->unk14 == 7)) {return 1;}
-    if (((uVar1 == uVar8) && (uVar7 < uVar2)) && (this->unk14 == 0)) {return 1;}
-    if (uVar8 >= uVar1) {return 0;}
-    if (uVar2 != uVar7) {return 0;}
+    if (((X_ < myX) && (Y_ < myY)) && (this->unk14 == 7)) {return 1;}
+    if (((myX == X_) && (Y_ < myY)) && (this->unk14 == 0)) {return 1;}
+    if (X_ >= myX) {return 0;}
+    if (myY != Y_) {return 0;}
     sVar4 = this->unk14;
     sVar6 = 6;
 LAB_8006ab6c:
@@ -1502,7 +1502,7 @@ void CombatEntity::WeaponSkillUpChance(u8 chance,u8 weapon){
 }
 
 s16 CombatEntity::CalcAttackResist(CombatEntity *param_2,s16 param_3,u8 param_4){
-  CombatAI_s* pcVar1;
+  CombatAIInfo* pcVar1;
   float afStack32;
   
   afStack32 = 0.0;
@@ -2186,7 +2186,7 @@ s16 CombatEntity::MagicDamageResistCalc(CombatEntity *param_2,SpellInstance *par
 }
 
 s16 CombatEntity::CalcMagicResist(s16 param_2,SpellInstance *param_3){
-  CombatAI_s* pcVar1;
+  CombatAIInfo* pcVar1;
   float afStack32 = 0.0;
 
   if (CombatEntity::MagicResistChecks(param_3,&afStack32)) {
