@@ -1,4 +1,3 @@
-//#include "GhidraDump.h"
 #include "entity.h"
 #include "mathN64.h"
 
@@ -231,6 +230,7 @@ struct CombatAIInfo {
     CombatEntity *combatEnt;
     int unk18;
 };
+extern struct voxelObject;
 namespace CombatAI{
     u8 WillTheyFlee(ItemID id);
     u8 JudgeAIMorale(CombatEntity *param_1,u8 param_2);
@@ -249,7 +249,7 @@ namespace CombatAI{
     void SwapWeapons(CombatAIInfo* param_1);
     u8 ShouldSwapWeapons(CombatAIInfo*);
 
-    voxelObject * FindFleeingRefpoint(CombatAIInfo *param_1,float *dist);
+    struct voxelObject * FindFleeingRefpoint(CombatAIInfo *param_1,float *dist);
     u8 GetFleePointCoords(CombatAIInfo *param_1,u8 x,u8 y,s8 *outX,s8 *outY,float *param_6);
     void FaceTarget(CombatAIInfo*);
 

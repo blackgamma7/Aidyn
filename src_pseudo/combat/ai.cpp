@@ -1254,8 +1254,8 @@ void FUN_800628cc(CombatAIInfo* param_1){
           iVar21 = uVar3 + 1;
           if (!bVar12) {
             if (sub_square_add_sqrt(uVar10,uVar11,X,bVar9) <= uVar15) {
-              (gCombatP->SpellMarkerPos).x = (float)(int)uVar3;
-              (gCombatP->SpellMarkerPos).y = (float)(int)uVar20;
+              (gCombatP->SpellMarkerPos).x = uVar3;
+              (gCombatP->SpellMarkerPos).y = uVar20;
               FUN_80072454(pCVar2 + 1,param_1->combatEnt);
               if (gCombatP->substruct2[1].arrayBCount != 0) {
                 uVar19 = 0;
@@ -1665,8 +1665,7 @@ u8 FUN_80063bbc(CombatAIInfo *param_1){
   playerData *ppVar1;
   voxelObject *prVar2;
   u8 bVar3;
-  float x0;
-  float y0;
+
   float afStack_20;
   
   afStack_20 = 0.0;
@@ -1730,19 +1729,17 @@ u8 FUN_80063c94(CombatAIInfo *param_1){
 
 
 
-void FUN_80063db0(CombatAIInfo *ai,float x0,float y0,float x1,float y1,float param_6,playerData *param_7){
-  vec2f fStack240;
-  vec2f afStack176;
-  vec2f afStack112;
+void FUN_80063db0(CombatAIInfo *ai,float x0,float y0,float x1,float y1,float scale,playerData *pDat){
+  vec2f vecRes,vecA,vecB;
 
-  Vec2Set(&afStack176,x0,y0);
-  Vec2Set(&afStack112,x1,y1);
-  Vec2Sub(&fStack240,&afStack112,&afStack176);
-  Vec2Scale(&fStack240,param_6);
-  Vec2Sum(&fStack240,&fStack240,&afStack176);
-  SetPlayerMoveToQueue(param_7,fStack240.x,fStack240.y,param_7->scaleRad,0);
+  Vec2Set(&vecA,x0,y0);
+  Vec2Set(&vecB,x1,y1);
+  Vec2Sub(&vecRes,&vecB,&vecA);
+  Vec2Scale(&vecRes,scale);
+  Vec2Sum(&vecRes,&vecRes,&vecA);
+  SetPlayerMoveToQueue(pDat,vecRes.x,vecRes.y,pDat->scaleRad,0);
   FUN_800714d0(&gCombatP->substruct,ai->combatEnt->GetCoordXU8(),ai->combatEnt->GetCoordXU8(),ai->combatEnt->unk23);
-  ai->combatEnt->SetCoords(fStack240.x,fStack240.y);
+  ai->combatEnt->SetCoords(vecRes.x,vecRes.y);
   FUN_800713fc(&gCombatP->substruct,ai->combatEnt->GetCoordXU8(),ai->combatEnt->GetCoordXU8(),ai->combatEnt->unk23);
   gGlobals.combatBytes[1] = gGlobals.combatBytes[0];
   gGlobals.combatBytes[0] = 5;
@@ -1910,7 +1907,7 @@ void FUN_80064494(CombatAIInfo *param_1){
   uStack24[1] = 0;
   if (!CombatAI::IsAlly(param_1)) bVar2 = FUN_800642c4(param_1,uStack24,uStack24 + 1);
   else {
-    Vec2Set(&gCombatP->entity_XY,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY(param_1->combatEnt));
+    Vec2Set(&gCombatP->entity_XY,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY());
     bVar2 = FUN_800641b8(param_1,uStack24,uStack24 + 1);
   }
   if (((bVar2 == false) && (!FUN_80063f1c(param_1,uStack24[0],uStack24[1]))) &&
@@ -1930,7 +1927,7 @@ void FUN_800645b4(CombatAIInfo*param_1){
   u8 bVar1;
   u8 uStack104 [2];
   vec2f afStack96;
-  float afStack_20 [6];
+  float afStack_20;
   
   param_1->combatEnt->UpdatePosition();
   if (!CombatAI::IsAlly(param_1)) FUN_80064714(param_1);
@@ -1941,16 +1938,16 @@ void FUN_800645b4(CombatAIInfo*param_1){
       param_1->combatEnt->Escaped();
     }
     else {
-      afStack_20[0] = 0.0;
+      afStack_20 = 0.0;
       uStack104[0] = 0;
       uStack104[1] = 0;
-      if ((CombatAI::GetFleePointCoords(param_1,param_1->combatEnt->GetCoordXU8(),param_1->combatEnt->GetCoordYU8(param_1->combatEnt),uStack104,uStack104 + 1,afStack_20)) && (afStack_20[0] <= 1.5f)) {
+      if ((CombatAI::GetFleePointCoords(param_1,param_1->combatEnt->GetCoordXU8(),param_1->combatEnt->GetCoordYU8(),uStack104,uStack104 + 1,&afStack_20)) && (afStack_20 <= 1.5f)) {
         bVar1 = true;
         param_1->combatEnt->Escaped();
       }
     }
     if (!bVar1) {
-      Vec2Set(&afStack96,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY(param_1->combatEnt));
+      Vec2Set(&afStack96,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY());
       if (Vec2Dist(&afStack96,&gCombatP->entity_XY) < 1.0f) {
         param_1->combatEnt->Escaped();
       }
@@ -1967,49 +1964,28 @@ void FUN_80064714(CombatAIInfo* param_1){
   }
 }
 
-
 u8 CombatAI::ElementalInCombat(void){
-  u8 bVar1;
-  uint uVar2;
-  CombatSubstructB *pcVar3;
-  
-  uVar2 = 0;
-  pcVar3 = gCombatP->substruct2 + 1;
-  if (gCombatP->EntCount) {
-    do {
-      if (((pcVar3->arrayA[0]) && ((&gCombatP->combatEnts)[uVar2])) &&
-         (Entity::IsElemental((&gCombatP->combatEnts)[uVar2]->charSheetP->ID))) return true;
-      uVar2 += 1;
-      pcVar3 = (CombatSubstructB *)(pcVar3->arrayA + 1);
-    } while (uVar2 < gCombatP->EntCount);
+    for(u32 i=0;i<gCombatP->EntCount;i++){
+    if (((gCombatP->substruct2[1].arrayA[i]) && (&gCombatP->combatEnts[i]!=NULL)) &&
+         (Entity::IsElemental((&gCombatP->combatEnts)[i]->charSheetP->ID))) {
+        return true;
+      }
   }
   return false;
 }
 
 u8 CombatAI::ZombieInCombat(void *param_1){
   ItemID IVar1;
-  CombatSubstructB *pcVar2;
-  CombatEntity **ppCVar3;
-  uint uVar4;
   
-  uVar4 = 0;
-  pcVar2 = gCombatP->substruct2 + 1;
-  if (gCombatP->EntCount != 0) {
-    ppCVar3 = &gCombatP->combatEnts;
-    do {
-      if (((pcVar2->arrayA[0]) && (*ppCVar3)) &&
-         ((IVar1 = (*ppCVar3)->charSheetP->ID, IVar1 == IDEntInd(EntInd_Zombie) ||
+  for(u32 i=0;i<gCombatP->EntCount;i++){
+    if (((gCombatP->substruct2[1].arrayA[i]) && (&gCombatP->combatEnts[i]!=NULL)) &&
+         ((IVar1 = gCombatP->combatEnts[i].charSheetP->ID, IVar1 == IDEntInd(EntInd_Zombie) ||
           (IVar1 == IDEntInd(EntInd_PlagueZombie))))) {
         return true;
       }
-      ppCVar3 = ppCVar3 + 1;
-      uVar4 += 1;
-      pcVar2 = (CombatSubstructB *)(pcVar2->arrayA + 1);
-    } while (uVar4 < gCombatP->EntCount);
   }
   return false;
 }
-
 
 u8 CombatAI::IsSomeonePoisoned(void){
   Temp_enchant **ppTVar1;
@@ -2094,7 +2070,6 @@ void CombatAI::ClearEntIndex(CombatAIInfo *param_1){
   param_1->unk12 = 0xff;
   param_1->unk13 = 0;
 }
-
 
 u8 CombatAI::IsAlly(CombatAIInfo *param_1){  
   if (param_1->combatEnt->Flag4()) return param_1->flags & 1;
