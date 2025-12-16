@@ -753,7 +753,6 @@ u8 CombatAI::SpellStamina(CombatAIInfo *param_1){
   return bVar4;
 }
 
-
 void FUN_8006193c(CombatAIInfo *param_1) {
   byte bVar1;
   CombatEntity *pCVar2;
@@ -1100,7 +1099,6 @@ void FUN_8006252c(CombatAIInfo* param_1){
       param_1->unk7 = 0;
     }
   }
-  return;
 }
 
 void FUN_800625a4(CombatAIInfo* param_1){
@@ -1472,7 +1470,6 @@ void FUN_800631c8(CombatAIInfo* param_1){
 
 void ofunc_NOOP(void){}
 
-
 bool FUN_80063258(CombatAIInfo *param_1) {
   playerData *ppVar1;
   bool bVar2;
@@ -1659,8 +1656,6 @@ void combat_ai_shadow(CombatAIInfo*param_1) {
   }
 }
 
-
-
 u8 FUN_80063bbc(CombatAIInfo *param_1){
   playerData *ppVar1;
   voxelObject *prVar2;
@@ -1683,7 +1678,6 @@ u8 FUN_80063bbc(CombatAIInfo *param_1){
   }
   return bVar3;
 }
-
 
 bool FUN_80063af4(CombatAIInfo *param_1,undefined1 param_2,undefined1 param_3) {
   param_1->unk13 = FUN_80071ec4(&gCombatP->substruct,param_1->combatEnt->GetCoordXU8(),param_1->combatEnt->GetCoordYU8(),
@@ -1727,8 +1721,6 @@ u8 FUN_80063c94(CombatAIInfo *param_1){
   return false;
 }
 
-
-
 void FUN_80063db0(CombatAIInfo *ai,float x0,float y0,float x1,float y1,float scale,playerData *pDat){
   vec2f vecRes,vecA,vecB;
 
@@ -1745,8 +1737,6 @@ void FUN_80063db0(CombatAIInfo *ai,float x0,float y0,float x1,float y1,float sca
   gGlobals.combatBytes[0] = 5;
   gCombatP->waitTimer = 240;
 }
-
-
 
 u8 FUN_80063f1c(CombatAIInfo *param_1,undefined1 param_2,undefined param_3){
   u8 bVar1;
@@ -1802,8 +1792,6 @@ voxelObject * CombatAI::FindFleeingRefpoint(CombatAIInfo *param_1,float *dist){
   }
   return ret;
 }
-
-
 
 u8 CombatAI::GetFleePointCoords(CombatAIInfo *param_1,u8 x,u8 y,s8 *outX,s8 *outY,float *param_6){
   voxelObject *vox = FindFleeingRefpoint(param_1,param_6);

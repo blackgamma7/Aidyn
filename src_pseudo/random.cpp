@@ -1,7 +1,6 @@
 #include "randClass.h"
 //most the RNG funcs in the game, save for 2 in globals.cpp
 
-#define UINT_MAX_D 4.294967296E9
 
 //set seed for RNG object
 void Random::SetSeed(u32 num){
@@ -20,6 +19,9 @@ u32 Random::MultiByB(s32 B){
  else return udivdi3((B * ShiftSeed()),0x100000000);
 }
 
+
+//gives number between and including (a) and (b)
+//identical to Random::Range()
 u32 Random::func(u32 a,u32 b){
   u32 uVar2;
   
@@ -50,7 +52,8 @@ u32 Random::randAudio(s32 arg1){
     return udivdi3((arg1 * uVar1),0x100000000);
   }
 }
-//returns random int in range of a and b
+//gives number between and including (a) and (b)
+//identical to Random::func()
 s32 Random::Range(s32 a,s32 b){
   s32 iVar2;
 

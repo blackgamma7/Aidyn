@@ -28,7 +28,7 @@ s32 Ofunc_get_MemUsed_difference_2(void){
 
 //gGlobals.rngSeed.func() with a compare. should return an int between and including A and B.
 u32 rand_range(u32 A,u32 B){
-  if (A != B) A = RAND.func(A,B);
+  if (A != B) A = RAND.func(A,B); //reduncant check? also in Random::func()
   return A;
   }
 
