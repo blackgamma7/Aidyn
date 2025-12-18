@@ -105,7 +105,7 @@ void TitleSplash::Free(void){
   FREEQB8(gGlobals.titleSplashVars.h20Borg8);
   FREEQB8(gGlobals.titleSplashVars.thqBorg8);
   FREEQB8(sSplashExpPak);
-  Font::SetFace(gGlobals.font,0x1c);
+  Font::SetFace(gGlobals.font,BORG8_MainFont);
   RomString::Free(copyrightText);
   TitleSplash::N64Free();
 }

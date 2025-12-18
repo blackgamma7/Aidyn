@@ -88,6 +88,7 @@
 #define FLAG_JournalKilledDougal 582
 
 #define FLAG_LearnedFirstSpell 3611
+#define FLAG_GotFirstItems 3612
 
 #define FLAG_GoblinAmbush 978 //ID of goblin poisoner group at start of game.
 #define FLAG_LugashFight 5250

@@ -10,8 +10,8 @@ WidgetClipText::WidgetClipText(char *str,u16 len):BaseWidget(){
   WidgetSubstruct_ClipText *sub = new WidgetSubstruct_ClipText;
   sub->unk12 = SCREEN_WIDTH;
   sub->unk10 = 0;
-  sub->scaleX = 1;
-  sub->scaleY = 1;
+  sub->scale.x = 1;
+  sub->scale.y = 1;
   if ((len == 400) && (len = 20, str != NULL)) {len = strlen(str)+1;}
   if (len < 2) len = 2;
   ALLOCS(sub->str,len,50);
@@ -64,7 +64,7 @@ Gfx * WidgetClipText::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     if (0.0 < (float)(this->col).A * fadeFloatMirror) {
       iVar2 = Font::PrintMain(font_pointer,&GStackX_4,ppcVar1->str,this->posX,this->posY,
                                   ppcVar1->unk10,ppcVar1->unk12,lVar4,lVar7,lVar6,
-                                  lVar5,ppcVar1->scaleX,ppcVar1->scaleY);
+                                  lVar5,ppcVar1->scale.x,ppcVar1->scale.y);
     }
     SetHeight(iVar2);
     RENDERCHILDREN();
@@ -76,7 +76,7 @@ u16 WidgetClipText::GetWidth(){
   u16 uVar2;
   u32 uVar3;
   WidgetSubstruct_ClipText *ppbVar1 = (WidgetSubstruct_ClipText *)substruct;
-  uVar1 = Font::GetWidthScaled(font_pointer,ppbVar1->str,ppbVar1->scaleX);
+  uVar1 = Font::GetWidthScaled(font_pointer,ppbVar1->str,ppbVar1->scale.x);
   uVar2 = 0;
   if (ppbVar1->unk12 < ppbVar1->unk10) this->width = 0;
   else {
@@ -90,7 +90,7 @@ u16 WidgetClipText::GetWidth(){
 
 u16 WidgetClipText::GetHeight(){
   WidgetSubstruct_ClipText *ppbVar1 = (WidgetSubstruct_ClipText *)this->substruct;
-  u16 h = Font::GetHeightScaled(font_pointer,ppbVar1->str,ppbVar1->unk10,ppbVar1->unk12,ppbVar1->scaleX,ppbVar1->scaleY);
+  u16 h = Font::GetHeightScaled(font_pointer,ppbVar1->str,ppbVar1->unk10,ppbVar1->unk12,ppbVar1->scale.x,ppbVar1->scale.y);
   this->height = h;
   return h;
 }

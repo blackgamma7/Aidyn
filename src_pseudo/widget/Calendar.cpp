@@ -154,7 +154,7 @@ u8 WidgetCalendar::Tick() {
     puVar11->selected->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
     return TickChildren();
   }
-  else return 3;
+  else return WidgetS_Running;
 }
 
 u32 WidgetCalendar::GetNumber(){return WidgetN_Other;}

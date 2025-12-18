@@ -86,17 +86,17 @@ void WidgetMenuSpells::GetPrices() {
 }
 
 Gfx * WidgetMenuSpells::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
-  Font::SetFace(gGlobals.font,font_face[1].borg8);
-  g = BaseWidget::RenderChildren(g,x0,y0,x1,y1);
-  Font::SetFace(gGlobals.font,font_face[0].borg8);
+  SlimFont;
+  g = RenderChildren(g,x0,y0,x1,y1);
+  NormalFont;
   return g;
 }
 
 u8 WidgetMenuSpells::Tick() {
-  Font::SetFace(gGlobals.font,font_face[1].borg8);
+  SlimFont;
   this->aniHandle.Tick(1);
   u8 bVar1 = TickChildren();
-  Font::SetFace(gGlobals.font,font_face[0].borg8);
+  NormalFont;
   return bVar1;
 }
 

@@ -5,11 +5,11 @@
 FontStruct* PTR_800f36e0=NULL;
 QueueStructA*queue_struct_pointer=NULL;
 
-u8 WidgetHandler::Init(FontStruct *param_2){
-  PTR_800f36e0 = param_2;
+u8 WidgetHandler::Init(FontStruct *font){
+  PTR_800f36e0 = font;
   head = NULL;
   tail = NULL;
-  font_pointer = param_2;
+  font_pointer = font;
   return true;
 }
 
@@ -40,7 +40,7 @@ u8 WidgetHandler::Tick(u8 delta){
   if (delta == 0) return 0;
 joined_r0x800b7018:
   while (pBStack_20 = pBVar1, pBStack_20 == NULL) {
-    if (bVar4 == 6) return 6;
+    if (bVar4 == WidgetS_Closed) return WidgetS_Closed;
     bVar5++;
     pBVar1 = pBStack_20;
     if (delta <= bVar5) return bVar4;
@@ -132,8 +132,7 @@ BaseWidget * WidgetHandler::RemoveWidget(){
   return NULL;
 }
 
-BaseWidget * WidgetHandler::GetTail(){return tail;}
-
+BaseWidget * WidgetHandler::GetTail(){return this->tail;}
 
 u8 WidgetHandler::FreeWidget(BaseWidget *param_2){
   BaseWidget *pBVar1 = this->head;
@@ -150,13 +149,10 @@ u8 WidgetHandler::FreeWidget(BaseWidget *param_2){
 }
 
 Gfx * WidgetHandler::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  BaseWidget *pBVar2 = this->head;
-  if ((pBVar2) && (pBVar2->state != WidgetS_Closed)) {
-    while( true ) {
-      g = pBVar2->Render(g,x0,y0,x1,y1);
-      pBVar2 = pBVar2->siblingR;
-      if ((!pBVar2) || (pBVar2->state == WidgetS_Closed)) break;
+  BaseWidget *w = this->head;
+  while((w) && (w->state != WidgetS_Closed)){
+      g = w->Render(g,x0,y0,x1,y1);
+      w = w->siblingR;
     }
-  }
   return g;
 }

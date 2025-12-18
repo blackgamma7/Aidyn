@@ -12,7 +12,7 @@ WidgetCombatRadar::WidgetCombatRadar():BaseWidget(){
   this->compass->posX = this->posX - (this->compass->GetWidth()/2) + 1;
   this->compass->posY = this->posY - (this->compass->GetHeight()/2) + 1;
   this->compass->col.A = col.A;
-  this->Link(this->compass);
+  BaseWidget::Link(this->compass);
 }
 
 WidgetCombatRadar::~WidgetCombatRadar(){

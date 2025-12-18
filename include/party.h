@@ -47,7 +47,7 @@ class Party { /* holds party and inventory data */
     u32 UnusedLoremasterCheck();
     u8 ArmorCraftCheck(u8);
     u32 UnusedMechanicCheck(u8);
-    float Barter(u8,u8);
+    float Barter(u8 merchInt,u8 merchSk);
     u8 AmbushDamage();
     u32 UnusedRangerCheck();
     u8 UnusedRangerCheck3();

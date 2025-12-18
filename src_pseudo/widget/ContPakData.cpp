@@ -642,13 +642,13 @@ void WidgetContPakData::DamagedPak(){ConfirmOverwrite(gGlobals.CommonStrings[0x1
 void WidgetContPakData::ConfirmOverwrite(char *txt){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_80086290,&this->wHandler,2,txt,0);
   pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x19e],FUN_80085dcc,0x80));
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x19f],FUN_80085dcc,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave02),FUN_80085dcc,0x80));
   pWVar1->Update();
 }
 
 void WidgetContPakData::PfsErrBadRead(){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_80086290,&this->wHandler,1,gGlobals.CommonStrings[0x1a1],0);
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x19f],FUN_80086054,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave02),FUN_80086054,0x80));
   pWVar1->Update();
 }
 
@@ -663,14 +663,14 @@ void WidgetContPakData::CorruptSaveFile(u8 param_2){
   BaseWidget *pBVar2 = ContPakTextWidget(gGlobals.CommonStrings[0xbe],FUN_80086018,0x80);
   pBVar2->varU16 = (u16)param_2;
   pWVar1->AppendScrollMenu(pBVar2);
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x19f],FUN_80086054,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave02),FUN_80086054,0x80));
   pWVar1->Update();
 }
 
 void WidgetContPakData::RepairFail(){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_80086290,&this->wHandler,2,gGlobals.CommonStrings[0x1a2],0);
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x1a4],FUN_80085e08,0x80));
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x19f],FUN_80086054,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakRetry03),FUN_80085e08,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave02),FUN_80086054,0x80));
   pWVar1->Update();
 }
 
@@ -827,19 +827,18 @@ void WidgetContPakDataSave::NewSaveFile(){
       FullWarning();
       return;
     }
-    i = 0;
     if (freespace < (sizeof(SaveDatStruct)/(PFS_ONE_PAGE * BLOCKSIZE))) {
       LowSpaceWarn();
       return;
     }
-    do {
+    for(i=0;<SaveFileMax;i++){
       sprintf(acStack_70,"%c",i + 'A');
       for (j = 0; j < uVar5; j++) {
         if (!strcmp(acStack_b0 + j * 4,acStack_70)) break;
       }
-    } while ((j != uVar5) && (i++, i < SaveFileMax));
+    }
 
-    this->pfsErr = Controller::NewPakSave(auStack_2f,"CHRONICLES",acStack_70,THQCompCode,AidynGameCode,sizeof(SaveDatStruct),0);;
+    this->pfsErr = Controller::NewPakSave(auStack_2f,"CHRONICLES",acStack_70,THQCompCode,AidynGameCode,sizeof(SaveDatStruct),0);
     if (this->pfsErr == 0) {
       this->OtherState = 9;
       this->unk2ba = auStack_2f[0];
@@ -1269,7 +1268,7 @@ void ContPakWidget::PfsOK(){this->menuState = 2;}
 
 void ContPakWidget::PfsNoPak(){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x195],this->pfserr);
-  pWVar1->AppendScrollMenu(pWVar1,ContPakTextWidget(gGlobals.CommonStrings[0x192],ContPak_8008a738,0x80));
+  pWVar1->AppendScrollMenu(pWVar1,ContPakTextWidget(Cstring(ContPakNoSave01),ContPak_8008a738,0x80));
   pWVar1->Update();
   pWVar1->SetHighlight(1);
 }
@@ -1279,7 +1278,7 @@ void ContPakWidget::PfsNewPak(){
   Pfs2xCheck(PVar3,Controller::GetPFSERR(0));
   if (PVar3 == 0) {
     WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x18b],this->pfserr);
-    pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x18c],ContPak_8008a768,0x80));
+    pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakContinue01),ContPak_8008a768,0x80));
     pWVar1->Update();
   }
   else {
@@ -1290,16 +1289,15 @@ void ContPakWidget::PfsNewPak(){
 
 void ContPakWidget::PfsErr(){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,2,gGlobals.CommonStrings[0x191],this->pfserr);
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x192],ContPak_8008a738,0x80));
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x194],ContPak_8008a768,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave01),ContPak_8008a738,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakTryNewPak01),ContPak_8008a768,0x80));
   pWVar1->Update();
-  return;
 }
 
 void ContPakWidget::DeviceErr(){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x1e3],
                         (u16)this->pfserr);
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x192],ContPak_8008a738,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave01),ContPak_8008a738,0x80));
   pWVar1->Update();
 }
 
@@ -1311,27 +1309,27 @@ void ContPakWidget::FatalErr(){
 
 void ContPakWidget::m80089978(char *param_2){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,2,param_2,(u16)this->pfserr);
-  pWVar1->AppendScrollMenu(ContPakTextWidget2((u16)this->pfserr,gGlobals.CommonStrings[399],ContPak_8008a790));
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x192],ContPak_8008a738,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget2((u16)this->pfserr,Cstring(ContPakRepair),ContPak_8008a790));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave01),ContPak_8008a738,0x80));
   pWVar1->Update();
   return;
 }
 
-void ContPakWidget::m80089a1c(){m80089978(gGlobals.CommonStrings[0x18d]);}
+void ContPakWidget::m80089a1c(){m80089978(Cstring(ContPakCorrupt));}
 
-void ContPakWidget::m80089a40(){m80089978(gGlobals.CommonStrings[0x18e]);}
+void ContPakWidget::m80089a40(){m80089978(Cstring(ContPakDamaged));}
 
 void ContPakWidget::m80089a64(u8 param_2){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,2,gGlobals.CommonStrings[0x198],(u16)param_2);
-  pWVar1->AppendScrollMenu(ContPakTextWidget2((u16)param_2,gGlobals.CommonStrings[0x193],FUN_8008a8a4));
-  pWVar1->AppendScrollMenu(ContPakTextWidget(gGlobals.CommonStrings[0x192],ContPak_8008a738,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget2((u16)param_2,Cstring(ContPakRetry01),FUN_8008a8a4));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave01),ContPak_8008a738,0x80));
   pWVar1->Update();
 }
 
 
 void ContPakWidget::m80089b0c(u8 param_2){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x197],(u16)param_2);
-  pWVar1->AppendScrollMenu(ContPakTextWidget2((u16)param_2,gGlobals.CommonStrings[0x18c],ContPak_8008a768));
+  pWVar1->AppendScrollMenu(ContPakTextWidget2((u16)param_2,Cstring(ContPakContinue01),ContPak_8008a768));
   pWVar1->Update();
   this->menuState = 0;
 }
@@ -1427,9 +1425,9 @@ void ContPakWidget::PrintBlankFile(u8 fileno){
   WidgetGroup *w = new WidgetGroup(4);
   Gsprintf("%d",fileno + 1);
   w->AddToGroup(WText(gGlobals.text),15,0,true);
-  w->AddToGroup(WTextSafe(gGlobals.CommonStrings[0x199]),33,0,true);
+  w->AddToGroup(WTextSafe(Cstring(ContPakEmpty)),33,0,true);
   w->AddToGroup(WText(sContPakBlank),150,0,true);
-  w->AddToGroup(WText(0),0xa9,0,true);
+  w->AddToGroup(WText(0),169,0,true);
   this->w80->Append(w);
   w->varU16 = (u16)fileno;
 }
@@ -1491,7 +1489,6 @@ void ContPakWidget::RemoveWidget(BaseWidget *w){
   if (w) w->~BaseWidget();
 }
 
-
 void ContPakWidget::m8008a6dc(){
   this->menuState = 5;
 }
@@ -1536,7 +1533,6 @@ void FUN_8008a7b8(BaseWidget *param_1){
     DAT_800f1c78 = DAT_800f1c74;
   }
 }
-
 
 void FUN_8008a848(BaseWidget *param_1){
   if ((param_1) && (contpak_widget)) contpak_widget->RemoveWidget(param_1);

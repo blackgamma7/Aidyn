@@ -13,12 +13,11 @@ public:
 };
 
 typedef struct WidgetSubstruct_ClipText {
-char* str;
-u16 maxLen;
-f32 scaleX;
-f32 scaleY;
-u16 unk10;
-u16 unk12;
+  char* str;
+  u16 maxLen;
+  vec2f scale;
+  u16 unk10;
+  u16 unk12;
 };
 //New widgetClipText with default length
 #define WClipTXT(txt) new WidgetClipText(txt,400)

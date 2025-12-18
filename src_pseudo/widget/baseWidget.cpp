@@ -180,7 +180,7 @@ u32 BaseWidget::RunFadeInChildren(){
 
 u32 BaseWidget::RunFadeOut(){
   if (this->state - 5 < 2) {
-    if ((fadeOut == NULL) || (this->state != 5)) this->state = 6;
+    if ((fadeOut == NULL) || (this->state != WidgetS_Closing)) this->state = WidgetS_Closed;
     else (*fadeOut)(this);
   }
   return RunFadeOutChildren();
@@ -189,7 +189,7 @@ u32 BaseWidget::RunFadeOut(){
 u32 BaseWidget::RunFadeOutChildren(){
     u32 ret = this->state;
     for (BaseWidget *w = this->child; w != NULL; w = w->siblingR) {
-        if(w->RunFadeOut()==5)ret=5;
+        if(w->RunFadeOut()==WidgetS_Closing)ret=WidgetS_Closing;
         }
     return ret;
 }

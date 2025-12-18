@@ -189,8 +189,6 @@ void WidgetInvShop::Confirm(u16 a, u16 b){}
 
 s32 WidgetInvShop::GetExpPrice(u16 x){return 0;}
 
-extern float gBarterFloat;
-
 u32 WidgetInvShop::GetGoldPrice(u16 index) {
   u16 uVar1;
   BaseWidget *pBVar2;

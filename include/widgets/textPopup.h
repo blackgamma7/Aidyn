@@ -8,7 +8,7 @@ BaseWidget *TextPopup_New(char *txt,u16 x,u16 y,u8 red0,u8 green0,u8 blue0,u8 al
 BaseWidget * some_textbox_func(char *txt,u16 lenMax,Color32 *txtCol,Color32 *bgCol,u32 addToHandler);
 
 
-#define ErrPopup(str)\
+#define ErrPopup(str){\
 Color32 col1={COLOR_OFFWHITE};\
 Color32 col2={COLOR_DARKGRAY_T};\
-some_textbox_func(str,150,&col1,&col2,true)
+some_textbox_func(str,150,&col1,&col2,true);}

@@ -36,17 +36,16 @@ vec3f vec3f_800f3384={1.0,0,0.0};
 u32 UINT_800f3390=false;
 u32 UINT_800f3394=false;
 Gfx sEndDL=gsSPEndDisplayList();
-u8 D_800f33a0[48]={0};//far too big to be file break. Unknown.
+u8 D_800f33a0[0x30]={0};//far too big to be file break. Unknown.
 
 MtxF MtxF_800f54b0,some_mtx,unused_matrix;
 Random gBorg7Rand,gAniRandSeed;
-
 
 void Ofunc_8009d250(){PTR_800f32b4 = NULL;}
 
 void Ofunc_8009d25c(void* p){DAT_800f32b0 = p;}
 
-//returns bit depth based on enum.
+//returns byte depth based on enum. (-1 for 4-bit)
 s8 GetN64ImageDimension(u16 X){
   s8 ret;
   
@@ -73,7 +72,6 @@ s8 GetN64ImageDimension(u16 X){
   }
   return ret;
 }
-
 
 int GetBitmapSize(int h,int w,s32 d){
   if (d == -1) {

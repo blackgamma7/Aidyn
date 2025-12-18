@@ -1476,8 +1476,6 @@ bool FUN_80063258(CombatAIInfo *param_1) {
   bool bVar3;
   double dVar4;
   CombatStruct *iVar4;
-  longlong lVar5;
-  bool bVar8;
   u8 uVar9;
   u8 uVar10;
   u16 uVar7;
@@ -1513,16 +1511,13 @@ bool FUN_80063258(CombatAIInfo *param_1) {
         bStack336[3] = gCombatP->unk5320[0][iVar12 + 1];
         if (!FUN_80070fa0(pCVar13,bStack336[2],bStack336[3],param_1->combatEnt->unk23)) {
           bVar2 = true;
-          bVar8 = FUN_80062e14(bStack336[0],bStack336[1],bStack336 + 2,bStack336 + 3,
-                               param_1->combatEnt->unk23);
-          if (!bVar8) break;
+          if (!FUN_80062e14(bStack336[0],bStack336[1],bStack336 + 2,bStack336 + 3,
+                               param_1->combatEnt->unk23)) break;
         }
-        bVar8 = FUN_8007102c(pCVar13,bStack336[0],bStack336[1],bStack336[2],bStack336[3]);
-        if (!bVar8) {
+        if (!FUN_8007102c(pCVar13,bStack336[0],bStack336[1],bStack336[2],bStack336[3])) {
           bVar2 = true;
-          bVar8 = FUN_80062e14(bStack336[0],bStack336[1],bStack336 + 2,bStack336 + 3,
-                               param_1->combatEnt->unk23);
-          if (!bVar8) break;
+          if (!FUN_80062e14(bStack336[0],bStack336[1],bStack336 + 2,bStack336 + 3,
+                               param_1->combatEnt->unk23)) break;
         }
         uVar7 = sub_square_add_sqrt(param_1->combatEnt->GetCoord2XU8(),param_1->combatEnt->GetCoord2YU8(),bStack336[2],bStack336[3]);
         if ((ushort)param_1->combatEnt->moveRange < (uVar7 & 0xff)) {
@@ -1530,9 +1525,8 @@ bool FUN_80063258(CombatAIInfo *param_1) {
           Vec2Set(&afStack264,(float)bStack336[2],(float)bStack336[3]);
           bVar2 = true;
           Vec2Set(&afStack200,param_1->combatEnt->GetCoord2X(),param_1->combatEnt->GetCoord2Y());
-          bVar8 = FUN_80062c04(&afStack200,(float)param_1->combatEnt->moveRange,&afStack328,
-                               &afStack264,&fStack136);
-          if (!bVar8) break;
+          if (!FUN_80062c04(&afStack200,(float)param_1->combatEnt->moveRange,&afStack328,
+                               &afStack264,&fStack136)) break;
           if (0.0 < fStack136.x) {
             bStack336[2] = (byte)(int)((double)fStack136.x + dVar4);
           }

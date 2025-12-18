@@ -48,13 +48,13 @@ void TheatreMenu::InitMenu() {
 
 Gfx * TheatreMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
   if (gOptionsMenuContPak == 0)
-    g = BaseWidget::RenderChildren(g,x0,y0,x1,y1);
+    g = RenderChildren(g,x0,y0,x1,y1);
   return g;
 }
 
 u8 TheatreMenu::Tick() {
   if (gOptionsMenuContPak == 0) return this->TickChildren();
-  return 3;//?
+  return WidgetS_Running;
 }
 
 extern EventFlag StringToFlag(char*);

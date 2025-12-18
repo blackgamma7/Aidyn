@@ -55,7 +55,7 @@ Gfx * WidgetDollMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
 
 u8 WidgetDollMenu::Tick() {
   if (gOptionsMenuContPak == 0) return TickChildren();
-  else return 3;
+  else return WidgetS_Running;
 }
 
 

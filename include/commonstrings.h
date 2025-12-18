@@ -83,7 +83,7 @@ COMMONSTRING_ContPakInsert,    // Please insert a Controller Pak and press A.
 COMMONSTRING_ContPakRemoved,    // The Controller Memory Pak has been removed. Please replace it and Press A
 COMMONSTRING_ContPakDamaged,    // The Controller Pak is damaged. Would you like to repair it?
 COMMONSTRING_ContPakNew,    // A new Controller Pak has been detected. Continue?
-COMMONSTRING_ContPakEmpty,    // There are no games on the currently installed Controller Pak!
+COMMONSTRING_ContPakNoGames,    // There are no games on the currently installed Controller Pak!
 COMMONSTRING_ContPakOverwrite,    // Are you sure you'd like to save over that game?
 COMMONSTRING_ContPakLoading,    // Loading data from the Controller Pak.
 COMMONSTRING_LockpickWho,    // Select a party member to perform the task
@@ -401,35 +401,34 @@ COMMONSTRING_ContPakContinue01,    // Continue
 COMMONSTRING_ContPakCorrupt,    // Controller Pak is corrupt.\nInsert a new Controller Pak or:
 COMMONSTRING_ContPakDamaged,    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
 COMMONSTRING_ContPakRepair,    // Repair (Data may be lost)
-    // Insert new Controller Pak (Retry)
-    // Error while reading from the Controller Pak. Please ensure that the Controller and the Controller Pak are inserted correctly.
-    // Continue without saving
-    // Retry
-    // Insert new Controller Pak
-    // No Controller Pak detected.\nInsert a Controller Pak or:
-    // Retry (insert a Controller Pak)
-    // Repair Successful
-    // Repair Failed
-    // Insert a new Controller Pak or:
-    // Empty
-    // Are you sure you would like to save over that game?
-    // Overwrite
-    // Controller Pak is corrupt.\nInsert a new Controller Pak or:
-    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
-    // Repair (data may be lost)
-    // Continue without saving
-    // Insert new Controller Pak (Retry)
-    // Error while reading from the Controller Pak. Please ensure that the Controller and the Controller Pak are inserted correctly or:
-    // Repair Failed\nInsert new Controller Pak or:
-    // Repair Successful
-    // Retry
-    // Insert new Controller Pak
-    // Game successfully saved.
-    // Load
-    // Save
-    // Delete
-    // Exit
-COMMONSTRING_TrapMenuExit=427,    // Exit
+COMMONSTRING_ContPakNewRetry,    // Insert new Controller Pak (Retry)
+COMMONSTRING_ContPakError02,    // Error while reading from the Controller Pak. Please ensure that the Controller and the Controller Pak are inserted correctly.
+COMMONSTRING_ContPakNoSave01,    // Continue without saving
+COMMONSTRING_ContPakRetry01,    // Retry
+COMMONSTRING_ContPakTryNewPak01,    // Insert new Controller Pak
+COMMONSTRING_ContPakNoDetect,    // No Controller Pak detected.\nInsert a Controller Pak or:
+COMMONSTRING_ContPakRetryAdd,    // Retry (insert a Controller Pak)
+COMMONSTRING_ContPakRepairOK01,    // Repair Successful
+COMMONSTRING_ContPakRepairFail01,    // Repair Failed\n#Insert a new Controller Pak or:
+COMMONSTRING_ContPakEmpty,    // Empty
+COMMONSTRING_ContPakOverwriteOK,    // Are you sure you would like to save over that game?
+COMMONSTRING_ContPakOverwrite,    // Overwrite
+COMMONSTRING_ContPakCorrupt02,    // Controller Pak is corrupt.\nInsert a new Controller Pak or:
+COMMONSTRING_ContPakDamaged02,    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
+COMMONSTRING_ContPakRepair02,    // Repair (data may be lost)
+COMMONSTRING_ContPakNoSave02,    // Continue without saving
+COMMONSTRING_ContPakRetry02,    // Insert new Controller Pak (Retry)
+COMMONSTRING_ContPakError04,    // Error while reading from the Controller Pak. Please ensure that the Controller and the Controller Pak are inserted correctly or:
+COMMONSTRING_ContPakRepairFail02,    // Repair Failed\nInsert new Controller Pak or:
+COMMONSTRING_ContPakRepairOK02,    // Repair Successful
+COMMONSTRING_ContPakRetry03,    // Retry
+COMMONSTRING_ContPakTryNewPak03,    // Insert new Controller Pak
+COMMONSTRING_ContPakSaveOK,    // Game successfully saved.
+COMMONSTRING_ContPakLoad,    // Load
+COMMONSTRING_ContPakSave,    // Save
+COMMONSTRING_ContPakDelete,    // Delete
+COMMONSTRING_ContPakExit,    // Exit
+COMMONSTRING_TrapMenuExit,    // Exit
 COMMONSTRING_TrapMenuDisarm,    // Disarm
 COMMONSTRING_TrapMenuSuccess,    // Trap sucessfully disarmed
 COMMONSTRING_TrapMenuLevel0,    // slightly

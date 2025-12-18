@@ -41,7 +41,7 @@ u8 audiokey_unk4[][3]={
   {0,44,48},{0,44,48},{0,44,48},{0,44,48},{0,44,48},{0,44,48},{0,44,48},
 };
 
-//array of borg12 indicies
+//arrays of borg12 indicies
 
 u32 u32_ARRAY_800eec98[]={
  0x659,0x65A,0x671,0x67E,0x67F,0x680,0x681,0x6A8,0x649,0x64A,0x64B,0x64C,

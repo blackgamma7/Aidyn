@@ -1,8 +1,6 @@
 #define FILENAME "../gameclasses/party.cpp"
 
 #include "globals.h"
-#include "stringN64.h"
-#include "heapN64.h"
 #include "SaveEntity.h"
 #include "weapondb.h"
 #include "combat/CombatStruct.h"
@@ -991,42 +989,41 @@ u32 Party::UnusedMechanicCheck(u8 param_2){
   return uVar7;
 }
 
-float Party::Barter(u8 MInt,u8 MStam){
+float Party::Barter(u8 merchInt,u8 merchSk){
   CharSheet *pCVar1;
-  s16 iVar3;
+  s16 dmg;
   u8 bVar5;
-  u32 lVar2;
+  u32 thisMerch;
   s32 iVar4;
-  u32 uVar7;
-  s32 lVar8;
+  s32 bestMerch;
   s32 lVar9;
   u32 uVar10;
-  u32 uVar11;
+  u32 bestInd;
   
-  uVar11 = 4;
-  lVar8 = 0;
-  iVar3 = 0;
-  for(uVar7=0;uVar7 < MAXPARTY;uVar7++) {
-    pCVar1 = this->Members[uVar7];
+  bestInd = 4;
+  bestMerch = 0;
+  dmg = 0;
+  for(u8 i=0;i < MAXPARTY;i++) {
+    pCVar1 = this->Members[i];
     if ((pCVar1) && (!Entity::isDead(pCVar1))) {
-      lVar2 = pCVar1->Skills->getModdedSkill(SKILL_Merchant);
-      lVar9 = lVar8;
-      uVar10 = uVar11;
-      if ((lVar2 == 0) || (lVar9 = lVar2, uVar10 = uVar7, lVar8 <= lVar2)) {
-        lVar8 = lVar9;
-        uVar11 = uVar10;
+      thisMerch = pCVar1->Skills->getModdedSkill(SKILL_Merchant);
+      lVar9 = bestMerch;
+      uVar10 = bestInd;
+      if ((thisMerch == 0) || (lVar9 = thisMerch, uVar10 = i, bestMerch <= thisMerch)) {
+        bestMerch = lVar9;
+        bestInd = uVar10;
       }
     }
   }
-  if (uVar11 != 4) {
-    pCVar1 = this->Members[uVar11];
-    iVar3 = 15 - (s32)lVar8;
-    if (iVar3 <= CharStats::getModded(pCVar1->Stats,STAT_STAM)) {
-      Entity::DecreaseHP(pCVar1,iVar3);
-      MStam-= (s32)lVar8;
+  if (bestInd != 4) {
+    pCVar1 = this->Members[bestInd];
+    dmg = 15 - (s32)bestMerch;
+    if (dmg <= CharStats::getModded(pCVar1->Stats,STAT_STAM)) {
+      Entity::DecreaseHP(pCVar1,dmg);
+      merchSk-= (s32)bestMerch;
     }
   }
-  return (float)MStam * 0.05;
+  return (float)merchSk * 0.05;
 }
 
 u8 Party::AmbushDamage(){
