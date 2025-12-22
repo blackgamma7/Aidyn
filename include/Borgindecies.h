@@ -51,6 +51,16 @@
 #define BORG8_PortraitSignpost 385
 #define BORG8_PortraitLich 0x0175
 
+#define BORG8_SundailMoon1 0x01b3
+#define BORG8_SundailMoon2 0x01b4
+#define BORG8_SundailMoon5 0x01b5
+#define BORG8_SundailMoon3 0x01b6
+#define BORG8_SundailMoon4 0x01b7
+#define BORG8_SundailMoon0 0x01b8
+#define BORG8_SundailSunSmall 0x01b9
+#define BORG8_SundailCross 0x01ba
+#define BORG8_SundailSunBig 0x01bb
+
 #define BORG8_EXPPakYes 0x3758
 #define BORG8_EXPPakNo 0x3759
 #define BORG8_ErrorRegion 0x37c3

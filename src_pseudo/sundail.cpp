@@ -4,24 +4,22 @@
 namespace Sundial{
 void Init(){
   ALLOC(gSundail,108);
-  gSundail->Ring = loadBorg8(BORG8_compassRing);
-  gSundail->Cross = loadBorg8(0x1ba);
-  gSundail->MoonPhase0 = loadBorg8(0x1b8);
-  gSundail->MoonPhase1 = loadBorg8(0x1b3);
-  gSundail->MoonPhase2 = loadBorg8(0x1b4);
-  gSundail->MoonPhase3 = loadBorg8(0x1b6);
-  gSundail->MoonPhase4 = loadBorg8(0x1b7);
-  gSundail->MoonPhase5 = loadBorg8(0x1b5);
-  gSundail->SunBig = loadBorg8(0x1bb);
+  gSundail->Ring = loadBorg8(BORG8_CompassRing);
+  gSundail->Cross = loadBorg8(BORG8_SundailCross);
+  gSundail->MoonPhase0 = loadBorg8(BORG8_SundailMoon0);
+  gSundail->MoonPhase1 = loadBorg8(BORG8_SundailMoon1);
+  gSundail->MoonPhase2 = loadBorg8(BORG8_SundailMoon2);
+  gSundail->MoonPhase3 = loadBorg8(BORG8_SundailMoon3);
+  gSundail->MoonPhase4 = loadBorg8(BORG8_SundailMoon4);
+  gSundail->MoonPhase5 = loadBorg8(BORG8_SundailMoon5);
+  gSundail->SunBig = loadBorg8(BORG8_SundailSunBig);
   gSundail->moon = 0;
-  gSundail->SunSmall = loadBorg8(0x1b9);
+  gSundail->SunSmall = loadBorg8(BORG8_SundailSunSmall);
   gSundail->sun = 0;
 }
 
 Gfx * Draw(Gfx *param_1){
-  byte bVar1;
-  u16 h;
-  u16 v;
+
   Gfx *pGVar2;
   u32 uVar3;
   Borg8Header *borg8;
@@ -51,39 +49,29 @@ Gfx * Draw(Gfx *param_1){
     blue = gGlobals.brightness * 220.0f;
     World::GetCalendarDate(TerrainPointer,&aCStack144);
     uVar3 = (aCStack144.week & 3) >> 1;
-    bVar1 = TerrainPointer->moonPhases;
     borg8 = NULL;
-    if (bVar1 == 1) {
-      if (uVar3 == 0) {
-        borg8 = gSundail->MoonPhase1;
-      }
-      else {
-        borg8 = gSundail->MoonPhase2;
-      }
-    }
-    else if (bVar1 < 2) {
-      if (bVar1 == 0) {
+    switch (TerrainPointer->moonPhases){
+      case 0:
         borg8 = gSundail->MoonPhase0;
-      }
-    }
-    else if (bVar1 == 2) {
-      if (uVar3 == 0) {
-        borg8 = gSundail->MoonPhase3;
-      }
-      else {
-        borg8 = gSundail->MoonPhase4;
-      }
-    }
-    else if (bVar1 == 3) {
-      borg8 = gSundail->MoonPhase5;
+        break;
+      case 1:
+        if (uVar3 == 0) borg8 = gSundail->MoonPhase1;
+        else borg8 = gSundail->MoonPhase2;
+        break;
+      case 2:
+        if (uVar3 == 0) borg8 = gSundail->MoonPhase3;
+        else borg8 = gSundail->MoonPhase4;
+        break;
+      case 3:
+        borg8 = gSundail->MoonPhase5;
+        break;
     }
     pGVar2 = Borg8_DrawSimple(pGVar2,borg8,39.0,189.0,1.0f,1.0f,red,green,
                               blue,gGlobals.brightness * 160.0f);
   }
-  fVar4 = World::get_timeofDay_float(TerrainPointer);
-  fVar10 = (float)((int)(fVar4 * 720.0f) % 720);
+  fVar10 = (float)((int)(World::get_timeofDay_float(TerrainPointer) * 720.0f) % 720);
   fVar11 = fVar10 / 30.0f;
-  fVar10 = fVar10 * dtor;
+  fVar10 *= dtor;
   fVar4 = 0.0;
   fVar5 = __sinf(fVar10);
   fVar6 = __cosf(fVar10);
@@ -98,7 +86,7 @@ Gfx * Draw(Gfx *param_1){
     }
     else {
       if ((fVar11 < 5.0f) || (7.0f < fVar11)) {
-        if ((fVar11 < 21.0f) || (23.0f < fVar11)) goto LAB_8002ba60;
+        if ((fVar11 < 21.0f) || (23.0f < fVar11)) goto drawCross;
         fVar7 = 255.0f - (fVar11 - 21.0f) * 67.5f;
         fVar8 = 190.0f - (fVar11 - 21.0f) * 45.0f;
         fVar9 = (fVar11 - 21.0f) * 20.0f + 150.0f;
@@ -124,18 +112,18 @@ Gfx * Draw(Gfx *param_1){
     fVar4 = 0.0;
     fVar10 = 160.0f;
   }
-LAB_8002ba60:
+drawCross:
   pGVar2 = Borg8_DrawSimple(pGVar2,gSundail->Cross,24.0,174.0,1.0f,1.0f,
                             red,green,blue,(u8)(int)gGlobals.brightness * 80.0f);
   if (gSundail->moon == 0) {
-    fVar10 = fVar10 * gGlobals.brightness;
+    fVar10 *= gGlobals.brightness;
     fVar11 = (fVar5 * 25.0f + 49.0f) - 10.0f;
     fVar5 = (199.0f - fVar6 * 25.0f) - 10.0f;
     if (((u8)fVar10)) {
       pGVar2 = Borg8_DrawSimple(pGVar2,gSundail->SunBig,fVar11,fVar5,1.0f,
                                 1.0f,red,green,blue,(u8)fVar10);
     }
-    fVar4 = fVar4 * gGlobals.brightness;
+    fVar4 *= gGlobals.brightness;
     if (((u8)fVar4)) {
       pGVar2 = Borg8_DrawSimple(pGVar2,gSundail->SunSmall,fVar11,fVar5,1.0f,
                                 1.0f,red,green,blue,(u8)fVar4);

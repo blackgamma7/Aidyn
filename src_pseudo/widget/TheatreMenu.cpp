@@ -57,7 +57,6 @@ u8 TheatreMenu::Tick() {
   return WidgetS_Running;
 }
 
-extern EventFlag StringToFlag(char*);
 
 void TheatreMenu::AddAvailableCinematics(char *str) {
   BaseWidget *pBVar1;
@@ -174,7 +173,7 @@ BaseWidget * choose_cinematic(BaseWidget *param_1,BaseWidget *param_2) {
   for(u16 i=0;gTheatreFlags[i].flag!=0;i++){
     if(gTheatreFlags[i].flag==param_2->varU16){
         gGlobals.cinematicReplay = 1;
-        Cinematic::Load(gTheatreFlags[i].cinematic,get_CinematicDat,9);
+        Cinematic::Load(gTheatreFlags[i].cinematic,CSwitch_CineDat,9);
         DAT_800e8dbc = 1;
         return param_2;
     }
