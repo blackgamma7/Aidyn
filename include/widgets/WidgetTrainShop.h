@@ -125,7 +125,7 @@ BaseWidget* WST_AButtonFunc(BaseWidget*,BaseWidget*);
 class WidgetSpellTrain: public WidgetTrainShop{
     public:
     u32 isTraining;
-    WidgetSpellTrain(u8);
+    WidgetSpellTrain(bool);
     ~WidgetSpellTrain();
     void InitMenu();
     u32 unk();

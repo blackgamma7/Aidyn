@@ -560,21 +560,6 @@ Gfx * Graphics::DrawBlock(Gfx *gfx,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8
   gDPSetPrimColor(gfx++,0,0,r,g,b,a);
   gDPSetTextureLUT(gfx++,G_TT_NONE);
   gDPLoadTextureBlock(gfx++,gGfxManager.unkBlock,G_IM_FMT_IA,G_IM_SIZ_8b,8,8,0,2,2,0,0,0,0);
-  /*
-  gfx[0x10].words.w0 = 0xfd680007;
-  gfx[0x10].words.w1 = (u32)&gGfxManager.unkBlock;
-  gfx[0x11].words.w0 = 0xf5680800;
-  gfx[0x11].words.w1 = 0x7080200;
-  gfx[0x12].words.w0 = 0xe6000000;
-  gfx[0x12].words.w1 = 0;
-  gfx[0x13].words.w0 = 0xf4000000;
-  gfx[0x13].words.w1 = 0x7070070;
-  gfx[0x14].words.w0 = 0xe7000000;
-  gfx[0x14].words.w1 = 0;
-  gfx[0x15].words.w0 = 0xf5680800;
-  gfx[0x15].words.w1 = 0x80200;
-  gfx[0x16].words.w0 = 0xf2000000;
-  gfx[0x16].words.w1 = 0x70070;*/
   s32 iVar8 = ((float)x0 * ((float)gGfxManager.Hres[1] / SCREEN_WIDTH));
   s32 iVar6 = ((float)y0 * ((float)gGfxManager.Vres[1] / SCREEN_HEIGHT));
   s32 iVar3 = ((float)x1 * ((float)gGfxManager.Hres[1] / SCREEN_WIDTH));

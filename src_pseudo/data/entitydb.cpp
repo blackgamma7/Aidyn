@@ -250,7 +250,7 @@ char * EntityDB::GetEntityName(ItemID id){
   };
 }
 
-//no clue what is was meant for. unused
+// in older builds, used as part of CombatInitMacro1(), instead of GetCollideRadius()
 float Ofunc_8007573c(EntityDB *param_1,ItemID id){
   return param_1->GetCollideRadius(id)+.25;
 }

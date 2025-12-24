@@ -413,7 +413,7 @@ segments:
       - [0xD6900, asm,"other/allocqueue"]
       - [0xD6D30, asm,"other/freeQueue"]
       - [0xD6FF0, asm,other/GuiAnimationManager]
-      - [0xD7260, asm,"other/doubleMalloc"]
+      - [0xD7260, asm,"passtonew"]
       - [0xD7280, asm]
       - [0xD7540, asm]
       #.rodata

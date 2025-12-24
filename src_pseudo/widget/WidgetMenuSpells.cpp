@@ -105,25 +105,24 @@ u32 WidgetMenuSpells::isAnimating() {return this->aniHandle.present;}
 void WidgetMenuSpells::setPartyPicker() {this->partyPicker = gPartyPicker;}
 
 void WidgetMenuSpells::DHorizontal(u8 dir) {
-  u8 uVar2;
-  s16 asStack_28 [20];
-  
+  u8 next;
+
   if (!isAnimating()) {
     s16 sVar6 = 140;
     if (dir == 0) {
-      uVar2 = ((u32)this->selected + (u32)this->count + 1) % (u32)this->count;
+      next = ((u32)this->selected + (u32)this->count + 1) % (u32)this->count;
     }
     else {
-      uVar2 = (int)((u32)this->selected + (u32)this->count + -1) % (int)(u32)this->count;
+      next = (int)((u32)this->selected + (u32)this->count + -1) % (int)(u32)this->count;
       sVar6 = -140;
     }
-    this->SpellSkills[uVar2]->posX = 20 - sVar6;
-    this->aniHandle.AddItem(new GuiAnimatorS16(&this->SpellSkills[uVar2]->posX,
+    this->SpellSkills[next]->posX = 20 - sVar6;
+    this->aniHandle.AddItem(new GuiAnimatorS16(&this->SpellSkills[next]->posX,
                         &this->SpellSkills[this->selected]->posX,20,
                         &double_array_0));
-    asStack_28[0] = sVar6 + this->SpellSkills[this->selected]->posX;
-    this->aniHandle.AddItem(new GuiAnimatorS16(&this->SpellSkills[this->selected]->posX,asStack_28,20,&double_array_0));
-    this->selected = (byte)uVar2;
+    s16 target = sVar6 + this->SpellSkills[this->selected]->posX;
+    this->aniHandle.AddItem(new GuiAnimatorS16(&this->SpellSkills[this->selected]->posX,&target,20,&double_array_0));
+    this->selected = next;
     GetPrices();
     SetHighlight();
   }

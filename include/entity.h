@@ -275,7 +275,7 @@ namespace Entity{
     void IncEffects(CharSheet *Ent,CombatEntity *CEnt,u32 Delta);
     void AddExp(CharSheet *param_1,s32 param_2);
     void ModExpTotal(CharSheet *param_1,s32 param_2);
-    u16 HealByPotion(CharSheet *param_1,u16 Hi,u16 Lo);
+    u16 HealByPotion(CharSheet *param_1,u16 low,u16 hi);
     void RemoveAllEffects(CharSheet *param_1);
     void ClearAllPotionEffects(CharSheet *param_1);
     u32 GetLevel(CharSheet *param_1);

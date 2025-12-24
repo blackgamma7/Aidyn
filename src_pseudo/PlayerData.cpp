@@ -166,14 +166,15 @@ void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
   gGlobals.gameVars.PlayerHandler.float_0x68 = 50.0f;
   gGlobals.gameVars.PlayerHandler.shadowDist = 50.0f;
   gGlobals.gameVars.PlayerHandler.camera = cam;
-  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
-    for(s16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
-      gGlobals.gameVars.PlayerHandler.unk10[i] = i;
-      Actor::Init(&gGlobals.gameVars.PlayerHandler.playerDats[i],i);
-    }
+  for(s16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
+    gGlobals.gameVars.PlayerHandler.unk10[i] = i;
+    Actor::Init(&gGlobals.gameVars.PlayerHandler.playerDats[i],i);
   }
   if (shadIndex)
     gGlobals.gameVars.PlayerHandler.shadowTexture = (Borg1Header *)getBorgItem(shadIndex);
+  #if 0 //field at 0x70 was init'd in older builds, would load a 32x32 IA8 bordered circle.
+  gGlobals.gameVars.PlayerHandler.unk70=(Borg1Header*)getBorgItem(0x2dde);//out-of-date index
+  #endif
   gGlobals.gameVars.PlayerHandler.audiokey = load_audiokey();
 }
 

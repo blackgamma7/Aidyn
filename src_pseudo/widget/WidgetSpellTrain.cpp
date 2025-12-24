@@ -6,8 +6,8 @@
 s32 exp_magic_price=0;
 s32 gold_magic_price=0;
 
-WidgetSpellTrain::WidgetSpellTrain(u8 hideTitle):WidgetTrainShop() {
-  this->isTraining = (int)hideTitle;
+WidgetSpellTrain::WidgetSpellTrain(bool hideTitle):WidgetTrainShop() {
+  this->isTraining = hideTitle;
   this->partyPicker = gPartyPicker;
   if (hideTitle) this->TitleWidget = NULL;
   else {
@@ -18,6 +18,10 @@ WidgetSpellTrain::WidgetSpellTrain(u8 hideTitle):WidgetTrainShop() {
   BaseWidget::SetColor(COLOR_RED1);
   this->scrollMenu = NULL;
   InitMenu();
+}
+
+WidgetSpellTrain::~WidgetSpellTrain(){
+  WidgetMenu::~WidgetMenu();
 }
 
 void WidgetSpellTrain::InitMenu() {
@@ -88,6 +92,11 @@ u32 WidgetSpellTrain::unk(){return 0;}
 
 Gfx* WidgetSpellTrain::Render(Gfx* g, u16 x0,u16 y0, u16 x1, u16 y1){RENDERCHILDREN();}
 
+u8 WidgetSpellTrain::Tick(){
+  WidgetTrainShop::Tick();
+  return TickChildren();
+}
+
 BaseWidget* WidgetSpellTrain::AFunc(){
     this->scrollMenu->AFunc();
     return NULL;
@@ -116,20 +125,20 @@ BaseWidget* WidgetSpellTrain::CDownFunc() {
 }
 
 
-u32 WidgetSpellTrain::GetGoldPrice(ItemID param_2) {
+u32 WidgetSpellTrain::GetGoldPrice(u16 id) {
   CharSheet *pCVar1;
   u32 uVar2;
   byte abStack_10 [16];
   
   pCVar1 = PARTY->Members[this->partyPicker];
-  if (pCVar1->spellbook->HaveSpell(param_2,abStack_10)) {
+  if (pCVar1->spellbook->HaveSpell(id,abStack_10)) {
     uVar2 = TempSpell::GetGoldPrice(pCVar1->spellbook->spells[abStack_10[0]]);
   }
   else uVar2 = 200;
   return uVar2;
 }
 
-s32 WidgetSpellTrain::GetExpPrice(ItemID param_2) {
+s32 WidgetSpellTrain::GetExpPrice(u16 id) {
   SpellInstance *pSVar3;
   s32 price;
   byte abStack_20 [24];
@@ -137,13 +146,13 @@ s32 WidgetSpellTrain::GetExpPrice(ItemID param_2) {
   CharSheet *pCVar2 = PARTY->Members[this->partyPicker];
   float fVar7 = 0.8f;
   if (gGlobals.SomeCase == 5) fVar7 = 1.0f;
-  if (gGlobals.ShopSpells->HaveSpell(param_2,abStack_20)) {
+  if (gGlobals.ShopSpells->HaveSpell(id,abStack_20)) {
     pSVar3 = pCVar2->spellbook->spells[abStack_20[0]];
     price = TempSpell::GetExpPrice(pSVar3) * fVar7;
     if (TempSpell::IsMaxRank(pSVar3)) price = -1;
   }
   else {
-    gGlobals.ShopSpells->HaveSpell(param_2,abStack_20);
+    gGlobals.ShopSpells->HaveSpell(id,abStack_20);
     pSVar3 = (gGlobals.ShopSpells)->spells[abStack_20[0]];
     u8 bVar1 = pSVar3->level;
     pSVar3->level = 0;

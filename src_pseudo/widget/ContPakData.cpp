@@ -709,7 +709,7 @@ void WidgetContPakData::FreeWaitPrompt(){
 }
 
 void WidgetContPakData::m80087c88(){
-  this->titleWidget = Utilities::AddBorg8Widget(this,loadBorg8(this->borg8),this->unk292 + 0x41,this->unk294);
+  this->titleWidget = Utilities::AddBorg8Widget(this,loadBorg8(this->titleIndex),this->unk292 + 0x41,this->unk294);
   this->sliders = new WidgetMenuChild(this->unk292,this->unk294,this->unk292 + 0xdb,this->unk294 + 0xc0);
   this->Link(this->sliders);
   this->scroll = Utilities::AddScrollMenu(this,4,this->unk292 + 0xaa,this->unk294 + 0x9c,FULL_SCREENSPACE,

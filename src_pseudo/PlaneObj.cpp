@@ -6,7 +6,8 @@ Gfx gPlaneObjDlist[]={
     gsDPPipeSync(),
     gsDPSetCycleType(0),
     gsDPPipelineMode(0),
-    gsDPSetCombine(0x121824,0xff33ffffff), // redo as gsDPSetCombineLERP()?
+    gsDPSetCombine(0x121824,0xff33ffffff),
+    //gsDPSetCombineMode(G_CC_MODULATEIA,G_CC_MODULATEIA),
     gsDPSetCombineKey(0),
     gsDPSetColorDither(G_CD_NOISE),
     gsDPSetAlphaCompare(0),

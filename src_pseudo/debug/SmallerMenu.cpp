@@ -52,7 +52,7 @@ BaseWidget * SmallerDebugWidgetDownFunc(BaseWidget *param_1,BaseWidget *param_2)
 
 
 BaseWidget * SmallerDebugWidgetRightFunc(BaseWidget *param_1,BaseWidget *param_2){
-    for(u32 i=4;i>=0;i++){
+    for(u32 i=4;i>=0;i--){
         ((BaseWidget*)param_2->substruct)->DownFunc();
     }
     return NULL;
@@ -182,8 +182,6 @@ void smaller_debug_menu(void){
   gGlobals.playerCharStruct.smallerDebugWindow->substruct = WSM;
   WHANDLE->AddWidget(gGlobals.playerCharStruct.smallerDebugWindow);
 }
-
-
 
 void debug_combat_options(BaseWidget *param_1){
   if (param_1->GetNumber() == WidgetN_Text) {

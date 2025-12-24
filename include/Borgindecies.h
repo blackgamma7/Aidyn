@@ -37,6 +37,7 @@
 #define BORG8_PortraitDougal 0x012e
 #define BORG8_PortraitDryadF 0x012f
 #define BORG8_PortraitDryadM 0x0130
+#define BORG8_PortraitEarthElem 0x0132
 #define BORG8_PortraitWyvern 0x0178
 #define BORG8_PortraitWolf 0x0176
 #define BORG8_PortraitNPCMale1 293
@@ -457,6 +458,7 @@ typedef enum Borg8Enum {
 #define BORG7_ship              0x0dc3
 #define BORG7_Alaron            0x25f9
 #define BORG7_AirElem           0x2f66
+#define BORG7_EarthElem         0x2f8d
 #define BORG7_Bat               0x2dfa
 #define BORG7_Boar              0x28df
 #define BORG7_Bear              0x2d70

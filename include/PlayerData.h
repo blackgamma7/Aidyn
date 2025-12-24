@@ -144,13 +144,12 @@ struct playerData {
     u8 shadowAlpha; //used for alpha
     u8 zoneDatByte;
     u8 unk70ee;
-    undefined field64_0x70f;
+    u8 field64_0x70f;
     DCMSub2 dcmDat[2];
     s16 dcmDatIndex;
     u16 movement_;
     u16 spellUsed;
-    undefined field69_0x72e;
-    undefined field70_0x72f;
+    u8 field69_0x72e[2];
     attachmentNode attachmentNodes[3];
     u16 rangerWarrior;
     ItemID ent_ID;
@@ -179,8 +178,6 @@ struct PlayerHandler {
     u16 initFlag;
     Camera_struct *camera;
     s16 cameraFocus;
-    undefined field4_0xa;
-    undefined field5_0xb;
     playerData *playerDats;
     s16 unk10[PLAYER_ABS_MAXPLAYERS];
     s16 playerCount;
@@ -188,7 +185,7 @@ struct PlayerHandler {
     float shadowDist;
     float float_0x68;
     Borg1Header *shadowTexture;
-    Borg1Header * unk70; //unused? queded for freeing.
+    Borg1Header * unk70; //older versiona would have as IA8 32x32 bordered circle
     audiokey_struct *audiokey;
 };
 
@@ -204,10 +201,10 @@ struct player_char_struct {
     WidgetMenu *smallerDebugWindow;
     WidgetMenu *debugMenuTP;
     WidgetMenu *debugMenuActor;
-    u32 debugMenuUnused0;
+    void* debugMenuUnused0;
     WidgetMenu *debugMenuEnemy;
     WidgetMenu *debugMenuArena;
-    u32 debugMenuUnused1;
+    void* debugMenuUnused1;
     BaseWidget *text_window;
     u8 unkState;
     undefined field17_0x35;

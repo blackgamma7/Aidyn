@@ -68,7 +68,6 @@ s32 FUN_8003c69c(BaseWidget **A,BaseWidget **B) {
   return ret;
 }
 
-
 s32 FUN_8003c78c(BaseWidget **param_1,BaseWidget **param_2) {
   BaseWidget * uVar3;
   BaseWidget * uVar4;
@@ -108,7 +107,6 @@ WidgetInvShop::WidgetInvShop(IInventory*inv,DollEquipmentMenu*doll)
 }
 
 WidgetInvShop::~WidgetInvShop(){WidgetMenu::~WidgetMenu();}
-
 
 void WidgetInvShop::InitMenu() {
   bool bVar5;
@@ -201,16 +199,12 @@ u32 WidgetInvShop::GetGoldPrice(u16 index) {
   shopMenu = this->inventory == gGlobals.shopInv;
   if (uVar5 == NULL) return 0;
   else {
-    ItemInstance *uVar6=(ItemInstance *)uVar5->ZFunc();
-    uVar1 = uVar6->price;
-    if (shopMenu) {
-      fVar8 = gBarterFloat * (uVar1*2);
-    }
-    else {
-      fVar8 = (float)uVar1 * (1.0f - gBarterFloat) * 0.5f;
-    }
+    ItemInstance *item=(ItemInstance *)uVar5->ZFunc();
+    uVar1 = item->price;
+    if (shopMenu) fVar8 = gBarterFloat * (uVar1*2);
+    else fVar8 = (float)uVar1 * (1.0f - gBarterFloat) * 0.5f;
     ret = (u16)fVar8;
-    this->pricedItem = uVar6;
+    this->pricedItem = item;
   }
   return ret;
 }

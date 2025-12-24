@@ -5,7 +5,7 @@ s32 decompress_LZB(u8 *compDat,u32 CompSize,u8 *OutDat,u32 *outSize){
   u8 *pbVar1;
   u32 uVar2;
   u32 uVar3;
-  s32 uVar4;
+  s32 errOut;
   u32 uVar5 = 0;
   u32 uVar6 = 0;
   s32 iVar7 = 1;
@@ -17,7 +17,6 @@ s32 decompress_LZB(u8 *compDat,u32 CompSize,u8 *OutDat,u32 *outSize){
       uVar5 <<= 1;
       if ((uVar5 & 0xff) == 0) break;
       if ((uVar5 >> 8 & 1) == 0) {
-        iVar7 = 1;
         goto LAB_800aa428;
       }
 LAB_800aa3e8:
@@ -31,11 +30,11 @@ LAB_800aa3e8:
     uVar5 = (u32)*pbVar1 * 2 + 1;
     uVar6++;
     if ((u32)*pbVar1 * 2 >> 8 != 0) goto LAB_800aa3e8;
-    iVar7 = 1;
 LAB_800aa428:
+    iVar7 = 1;
     do {
       while( true ) {
-        uVar5 = uVar5 << 1;
+        uVar5<<= 1;
         if ((uVar5 & 0xff) == 0) {
           pbVar1 = compDat + uVar6;
           uVar6++;
@@ -61,19 +60,19 @@ LAB_800aa478:
       if (iVar7 == -1) {
         *outSize = iVar9;
         if (uVar6 == CompSize) {
-          uVar4 = 0;
+          errOut = 0;
         }
         else {
-          uVar4 = -0xc9;
+          errOut = -0xc9;
           if (uVar6 < CompSize) {
-            uVar4 = -0xcd;
+            errOut = -0xcd;
           }
         }
-        return uVar4;
+        return errOut;
       }
       uVar8 = iVar7 + 1;
     }
-    uVar5 = uVar5 << 1;
+    uVar5 <<= 1;
     if ((uVar5 & 0xff) == 0) {
       pbVar1 = compDat + uVar6;
       uVar6++;
@@ -94,7 +93,7 @@ LAB_800aa478:
       iVar7 = 1;
       do {
         while( true ) {
-          uVar5 = uVar5 << 1;
+          uVar5 <<= 1;
           if ((uVar5 & 0xff) == 0) {
             pbVar1 = compDat + uVar6;
             uVar6++;
@@ -103,7 +102,7 @@ LAB_800aa478:
           }
           else {uVar3 = uVar5 >> 8 & 1;}
           iVar7 = iVar7 * 2 + uVar3;
-          uVar5 = uVar5 << 1;
+          uVar5 <<= 1;
           if ((uVar5 & 0xff) == 0) break;
           if ((uVar5 >> 8 & 1) != 0) goto LAB_800aa598;
         }

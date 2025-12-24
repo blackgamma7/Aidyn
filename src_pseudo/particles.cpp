@@ -511,6 +511,7 @@ Gfx * Particle::GraphicsInit(Gfx *g,ParticleHeadStruct *pHead,vec3f *v,u16 buffC
   gDPPipelineMode(g++,0);
   gDPSetRenderMode(g++,0x504a50,0);
   gDPSetCombine(g++,0x121824,0xff33ffff);
+  //gDPSetCombineMode(g++,G_CC_MODULATEIA,G_CC_MODULATEIA)
   gDPSetCombineKey(g++,0);
   gDPSetColorDither(g++,G_CD_NOISE);
   gDPSetAlphaCompare(g++,0);

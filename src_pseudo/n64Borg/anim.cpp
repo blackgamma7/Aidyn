@@ -7,8 +7,8 @@
 
 void* DAT_800f32b0=NULL;
 Borg1Header* PTR_800f32b4=NULL;
-Light gWhiteLight={{{255,255,255},0,{255,255,255},0,{0},0}};
-Light gBlackLight={{{0,0,0},0,{0,0,0},0,{0},0}};
+Light gWhiteLight=gDefAmbient(0xff,0xff,0xff);
+Light gBlackLight=gDefAmbient(0,0,0);
 Gfx gDlist800f32d8[]={
     gsDPPipeSync(),
     gsDPSetTextureDetail(G_TD_SHARPEN),
@@ -257,7 +257,6 @@ void FUN_8009d7b0(Borg1Header *param_1){
   else param_1->dat->bmp = (u8*)param_1->bitmapA;
 }
 
-
 Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   u32 uVar1;
   s8 sVar6;
@@ -394,7 +393,7 @@ Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3){
   u32 uVar12;
   u32 x;
   u32 uVar13;
-  u16 uVar14;
+  u16 flag;
   Gfx *pGVar15;
   Gfx *pGVar16;
   u32 line;
@@ -404,8 +403,8 @@ Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3){
   u32 cmt;
   u32 lrt;
   
-  if (!param_3) uVar14 = 0;
-  else uVar14 = param_3->flags[1];
+  if (!param_3) flag = 0;
+  else flag = param_3->flags[1];
   gDPPipeSync(gfx++);
   gDPTileSync(gfx++);
   u16 b1Flag = param_2->dat->flag;
@@ -422,10 +421,10 @@ LAB_8009dd14:
   if (param_2->dat->lods <= 0) {gDPSetTextureLOD(gfx++,0);}
   else {gDPSetTextureLOD(gfx++,G_TL_LOD);}
   cmt = G_TX_CLAMP;
-  cms = (u32)((uVar14 & 0x1000) == 0) << 1;
-  if ((uVar14 & 0x4000)) cms |= G_TX_MIRROR;
-  if ((uVar14 & 0x2000)) cmt = 0;
-  if ((uVar14 & 0x8000)) cmt |= G_TX_MIRROR;
+  cms = (u32)((flag & B1_Wrap) == 0) << 1;
+  if ((flag & B1_XMirror)) cms |= G_TX_MIRROR;
+  if ((flag & B1_YNoMirror)) cmt |= G_TX_NOMIRROR;
+  if ((flag & B1_YMirror)) cmt |= G_TX_MIRROR;
   pBVar5 = param_2->dat;
   bVar2 = pBVar5->Width;
   x = (u32)bVar2;
@@ -1840,6 +1839,7 @@ void FUN_800a0a08(SceneData *param_1) {
   return;
 }
 
+//progress animation 1/60 second tick
 //TODO: Redo once relevant data is better understood.
 void FUN_800a0a74(Borg6Struct *param_1){
   Borg6SubSub *pBVar1;
@@ -2087,9 +2087,9 @@ Gfx * FUN_800a1184(Gfx *gfx){
   int iVar2;
   u32 c1; //TODO: replace vals with proper #defines
   u8 r,g,b,a;
-  u32 c0;//TODO: replace vals with proper #defines
+  u32 c0;
   
-  c0 = 0xc080000;
+  c0 = G_RM_PASS;
   if (unkAnimStructB.b1 == NULL) {
     r = (int)(((unkAnimStructB.scene)->colorFloats).r * ((unkAnimStructB.unk14)->unk4).r *
              255.0f) ;
@@ -2110,7 +2110,7 @@ Gfx * FUN_800a1184(Gfx *gfx){
     a = ((unkAnimStructB.scene)->colorFloats).a *
             (1.0f - ((unkAnimStructB.unk14)->unk4).a) *
             (1.0f - (unkAnimStructB.b2)->dat->alpha) * 255.0f;
-    if (0xfe < a) {
+    if (a>=0xff) {
       if (((unkAnimStructB.b1)->dat->flag & B1_Flag20) == 0) {
         c1 = 0x112078;
         goto LAB_800a1428;
@@ -2129,7 +2129,7 @@ LAB_800a1428:
     gDPSetFogColor(gfx++,unkAnimStructB.scene->fogColor.R,unkAnimStructB.scene->fogColor.G,
       unkAnimStructB.scene->fogColor.B,unkAnimStructB.scene->fogColor.A);
     gSPFogPosition(gfx++,unkAnimStructB.scene->fogMin,unkAnimStructB.scene->fogMax);
-    c0 = 0xc8000000;
+    c0 = G_RM_FOG_SHADE_A;
   }
   gDPSetRenderMode(gfx++,c0,c1);
   gDPSetPrimColor(gfx++,0,0,r,g,b,a);

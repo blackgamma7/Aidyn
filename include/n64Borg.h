@@ -404,8 +404,10 @@ enum Borg1Flag{
     B1_TDSharpen=0x80,
     B1_Procedural=0x100,
     B1_Interlaced=0x200,
-    B1_Flag4000=0x4000,
-    B1_Flag4000=0x8000
+    B1_Wrap=0x1000,
+    B1_YNoMirror=0x2000,
+    B1_XMirror=0x4000,
+    B1_YMirror=0x8000
 };
 
 struct Borg1Data {
@@ -432,7 +434,7 @@ struct Borg1Header {
     Borg1Data *dat;
 };
 
-//contains perspective data. Only 5 items, with the only 3 distince changes being the clipping planes.
+//contains perspective data. Only 5 items, with the only 3 distinct changes being the clipping planes.
 struct Borg3Data{
     float unk0; //unused(?) apart from an orphaned getter/setter. always 0
     float fovy; //always 45
