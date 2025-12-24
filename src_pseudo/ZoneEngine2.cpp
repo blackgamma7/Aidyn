@@ -577,7 +577,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
       Zonedat_clear(&aZStack432[i][j],1,0);
     }
   }
-  loading_map_data(gGlobals.gameVars.ZoneDatMtx[1] + 1);
+  loading_map_data(&MAPCENTER);
   if ((MAPCENTER.borg5_ID == 0) ||
      (uVar21 = 1, MAPCENTER.borg9_id == 0)) {
     playerData* ppVar9 = gPlayer;
@@ -652,7 +652,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
       }
     }
   }
-if (((gGlobals.gameVars.gamemodeType == 0) && (!MINIMAP.active)) && (gGlobals.sky.Type == SkyTypeOutdoor))
+if (((gGlobals.gameVars.gamemodeType == GameMode_Trek) && (!MINIMAP.active)) && (gGlobals.sky.Type == SkyTypeOutdoor))
  set_map_event_flag(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
 }
 
@@ -722,9 +722,9 @@ u32 get_zoneDatByte(s16 param_1,s16 param_2,u32 param_3){
 
 void set_playerdata_zoneDatByte(u16 param_1,u16 param_2){
   
-  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
-    for(s16 i=0; i < gGlobals.gameVars.PlayerHandler.max_player; i++) {
-      playerData *p = &gGlobals.gameVars.PlayerHandler.playerDats[i];
+  if (0 < PHANDLE.max_player) {
+    for(s16 i=0; i < PHANDLE.max_player; i++) {
+      playerData *p = &PHANDLE.playerDats[i];
       if ((p->removeFlag) && (p->visible_flag == 0)) {
         p->zoneDatByte = get_zoneDatByte(param_1,param_2,p->zoneDatByte);
       }
@@ -1435,7 +1435,7 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   else Scene::SetNearFarPlanes(MAPCENTER.sceneDat0x4,1.0,180.0);
   FUN_800a0df4(MAPCENTER.sceneDat0x4);
   gOut = gsAnimationDataMtx(gOut,MAPCENTER.sceneDat0x4);
-  if (gPlayerRenderTimer) gOut = renderPlayers(&gGlobals.gameVars.PlayerHandler,gOut,delta,1,0);
+  if (gPlayerRenderTimer) gOut = renderPlayers(&PHANDLE,gOut,delta,1,0);
   if ((((gCamera.pos.x < 0.0) || (gCamera.pos.z < 0.0)) ||
       (gGlobals.gameVars.mapCellSize.x < gCamera.pos.x)) ||
      (gGlobals.gameVars.mapCellSize.y < gCamera.pos.z)) {
@@ -1570,10 +1570,10 @@ LAB_80010bfc:
       Gsprintf("ParticleHead\n");
       Particle::ProcessAndRenderParticleHead(ppGStack_2c,pPStack_38,uStack60,delta,Graphics::GetBufferChoice(),0);
       Gsprintf("Render Player Shadows\n");
-      gOut = renderPlayerShadows(&gGlobals.gameVars.PlayerHandler,gOut);
+      gOut = renderPlayerShadows(&PHANDLE,gOut);
       Gsprintf("Render Players (Water)\n");
       if (gPlayerRenderTimer == 0) {
-        gOut = renderPlayers(&gGlobals.gameVars.PlayerHandler,gOut,delta,1,0);
+        gOut = renderPlayers(&PHANDLE,gOut,delta,1,0);
       }
       Gsprintf("RenderVoxelScenesInZone[1][1]\n");
       getZonePositionShorts(&(MAPCENTER.mapPointer)->dat,pos,(s16 *)uStack80,
@@ -1581,7 +1581,7 @@ LAB_80010bfc:
       gOut = RenderVoxelScenes(gOut,&(MAPCENTER.mapPointer)->dat,pos,uStack80[0]
                                ,uStack80[1],0.0,0.0);
       Gsprintf("Render Players(trans)\n");
-      gOut = renderPlayers(&gGlobals.gameVars.PlayerHandler,gOut,delta,1,1);
+      gOut = renderPlayers(&PHANDLE,gOut,delta,1,1);
       Gsprintf("Finished Render Zones\n");
       *GG = gOut;
       return;
@@ -1643,15 +1643,13 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   mapFloatDat *pmVar6;
   int *piVar7;
   mapFloatDat *pmVar8;
-  s16 sVar9;
+  s16 maxActors;
   s16 partCount;
   u16 dat;
-  int aiStack_e8 [32];
   vec3f afStack104;
   
-  piVar7 = aiStack232;
-  piVar5 = {3,0,1,-1,2,-1,4,5,6,7,8,9,10,11,-1};
-  sVar9 = 0;
+  s32 aiStack_e8[] = {3,0,1,-1,2,-1,4,5,6,7,8,9,10,11,-1};
+  maxActors = 0;
   dat = 0;
   partCount = ParticleMAX;
   DAT_800e9c14 = 0;
@@ -1667,18 +1665,18 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   Weather::Init(&gGlobals.gameVars.weather);
   InitScriptCameras(&gGlobals.scriptcamera);
   switch(gGlobals.gameVars.gamemodeType){
-    case 0: {
-        sVar9=0x28;
+    case GameMode_Trek: {
+        maxActors=PLAYER_ABS_MAXPLAYERS;
         if(!gExpPakFlag) partCount= ParticleJ0;
         break;
       }
-    case 1: {
-      sVar9 = 0xe;
+    case GameMode_Combat: {
+      maxActors = 14;
       if (!gExpPakFlag) partCount = ParticleJ1;
       break;
     }
-    case 2:{
-      sVar9 = 0;
+    case GameMode_Title:{
+      maxActors = 0;
       dat = 3;
       if (!gExpPakFlag) partCount = ParticleJ2;
       break;
@@ -1713,7 +1711,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
     gGlobals.gameVars.playerPos2d.x = (pmVar8->playerVec3).x;
     gGlobals.gameVars.playerPos2d.y = (pmVar8->playerVec3).z;
   }
-  InitPlayerHandler(&gCamera,sVar9,3);
+  InitPlayerHandler(&gCamera,maxActors,3);
   Particle::InitParticleHead(&gGlobals.gameVars.particleHead,gGlobals.gameVars.borg9DatPointer,partCount,0x11,
                    aiStack_e8);
   FUN_8000d744();
@@ -1722,8 +1720,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   if (param_2 == 0) {
     CLEAR(&afStack104);
     passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&afStack104,dat);
-    if ((gPlayer) &&
-       ((gPlayer)->removeFlag == 0)) {
+    if ((gPlayer) && ((gPlayer)->removeFlag == 0)) {
       Camera::SetAim(&gCamera,&gPlayer->collision.pos);
       Camera::FUN_800b050c(&gCamera,&afStack104);
       Camera::SetPos(&gCamera,&afStack104);
@@ -1739,17 +1736,17 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   }
   init_dynamic_light(&gGlobals.gameVars.DynamicLights);
   switch (param_1){
-  case 0:
-    gGlobals.gameVars.PlayerHandler.float_0x68 = 30.0f;
-    gGlobals.gameVars.PlayerHandler.shadowDist = 20.0f;
+  case GameMode_Trek:
+    PHANDLE.float_0x68 = 30.0f;
+    PHANDLE.shadowDist = 20.0f;
     break;
-  case 1:
-    gGlobals.gameVars.PlayerHandler.float_0x68 = 128.0f;
-    gGlobals.gameVars.PlayerHandler.shadowDist = 128.0f;
+  case GameMode_Combat:
+    PHANDLE.float_0x68 = 128.0f;
+    PHANDLE.shadowDist = 128.0f;
     break;
-  case 2:
-    gGlobals.gameVars.PlayerHandler.float_0x68 = 0.0;
-    gGlobals.gameVars.PlayerHandler.shadowDist = 0.0;
+  case GameMode_Title:
+    PHANDLE.float_0x68 = 0.0;
+    PHANDLE.shadowDist = 0.0;
     break;
   default:
     CRASH("ZoneEngineInit","Unknown Engine Mode");
@@ -1913,8 +1910,6 @@ void VoxelIndexPosition(s16 delta,playerData *param_2){
 }
 #endif
 
-
-
 void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   u8 bVar1;
   mapFloatDat *A;
@@ -1973,10 +1968,10 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
      (int)((uVar3 - iVar4) * 0x10000) < 0)) gPlayerRenderTimer = 0;
   if (gGlobals.gameVars.gamemodeType != 2) {
     Gsprintf("ProcessPlayers");
-    ProcessPlayers(&gGlobals.gameVars.PlayerHandler,delta);
+    ProcessPlayers(&PHANDLE,delta);
     Gsprintf("The crash was not in ProcessPlayers");
   }
-  if ((player) && (gGlobals.gameVars.gamemodeType == 0)) {
+  if ((player) && (gGlobals.gameVars.gamemodeType == GameMode_Trek)) {
     Gsprintf("SaveZoneEngine");
     uVar3 = (u32)gGlobals.gameVars.unkTimer;
     gGlobals.gameVars.unkTimer = (u16)(uVar3 - iVar4);
@@ -1996,14 +1991,15 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
       }
     }
   }
-  if (gGlobals.gameVars.gamemodeType != 2) ProcessScriptCamera(&gGlobals.scriptcamera,(float)delta);
+  if (gGlobals.gameVars.gamemodeType != GameMode_Title)
+    ProcessScriptCamera(&gGlobals.scriptcamera,(float)delta);
   if (Vec3Dist(&gCamera.pos,&gCamera.aim)< 0.05)
     CRASH("SceneSetCameraLookAt","Focus, and Camera at same Spot!");
   DEBUGSprintf("SceneSetCameraLookAt\n");
   SceneSetCameraLookAt(MAPCENTER.sceneDat0x4,gCamera.pos.x,
              gCamera.pos.y,gCamera.pos.z,gCamera.aim.x,
              gCamera.aim.y,gCamera.aim.z);
-  if (gGlobals.gameVars.gamemodeType != 2) G = Sky::RenderSky(G,delta);
+  if (gGlobals.gameVars.gamemodeType != GameMode_Title) G = Sky::RenderSky(G,delta);
   if (gGlobals.sky.Type == SkyTypeOutdoor) {
     DEBUGSprintf("RenderSkyObjects/RenderClouds");
     G = Skyobjects::Render(G);
@@ -2012,16 +2008,16 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   Gsprintf("RenderZones");
   if (!player) RenderZones(&G,&gCamera.aim,delta);
   else RenderZones(&G,&(player->collision).pos,delta);
-  if (gGlobals.gameVars.gamemodeType != 2) {
+  if (gGlobals.gameVars.gamemodeType != GameMode_Title) {
     DEBUGSprintf("RenderPlayers");
-    G = renderPlayers(&gGlobals.gameVars.PlayerHandler,G,delta,0,0);
+    G = renderPlayers(&PHANDLE,G,delta,0,0);
   }
   Gsprintf("RenderTransZones");
   renderTransZones_(&G);
   RenderTransZones__(&G);
   DEBUGSprintf("ProcessAndRenderParticleHead");
   gGlobals.text[0] = '\0';
-  if (gGlobals.gameVars.gamemodeType != 2) {
+  if (gGlobals.gameVars.gamemodeType != GameMode_Title) {
     Particle::ProcessAndRenderParticleHead(&G,&gGlobals.gameVars.particleHead,&gCamera.rotation,delta,
                                  Graphics::GetBufferChoice(),1);
   }

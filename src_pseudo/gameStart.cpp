@@ -25,7 +25,7 @@ void flycam_func(void){
   gGlobals.gameVars.mapDatB = 0xffff;
   gGlobals.gameVars.playerPos2d.x = 0.0;
   gGlobals.gameVars.playerPos2d.y = 0.0;
-  InitZoneEngine(2,0);
+  InitZoneEngine(GameMode_Title,0);
   gGlobals.brightness = 0.0;
   gGlobals.screenFadeMode = 2;
   gGlobals.screenFadeSpeed = (2.0/30);
@@ -113,7 +113,7 @@ u8 gameStart(Gfx**GG){
   TitleScreenInput();
   gfx = Sky::RenderSky(gfx,gGlobals.delta);
   gfx = Graphics::StartDisplay(gfx,FULL_SCREENSPACE);
-  if (gGlobals.gameVars.gamemodeType == 2) {
+  if (gGlobals.gameVars.gamemodeType == GameMode_Title) {
     w.precip = PRECIP_CLEAR;
     w.PrecipScale = 0.0;
     w.FogFloat = 0.0;

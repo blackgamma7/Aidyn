@@ -40,7 +40,11 @@ extern void*clear_end;//end of .bss
 //used in measuring size of initial(only) segment code
 #define CODESIZE ((&clear_end - &romMain) + 0x400)
 
-
+enum GameModeType{
+    GameMode_Trek, //roaming the world
+    GameMode_Combat, //in-battle
+    GameMode_Title //attract mode/flycam
+};
 struct GlobalsSub { /* 0x800e6988 in Debug version*/
     ZoneDat ZoneDatMtx[3][3];
     Borg9Data *borg9DatPointer;
@@ -112,7 +116,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     SFX_Struct SFXStruct;
     u8 combatBytes[4];
     EncounterDat EncounterDat;
-    playerData *playerDataArray[14];
+    playerData *playerDataArray[14]; //combat actors 
     vec3f combatCursorPos;
     s8 ShadowIndex;
     s8 AlaronIndex;

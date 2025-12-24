@@ -24,27 +24,27 @@ void passto_camera_init(Camera_struct *cam,Borg9Data *map,vec3f *pos,u16 dat){
 }
 
 void clear_some_playerHandler_field(void){
-  gGlobals.gameVars.PlayerHandler.cameraFocus = -1;
+  PHANDLE.cameraFocus = -1;
 }
 
 void FUN_80019ccc(playerData *param_1){
   if ((param_1->flags & ACTOR_ISPLAYER) != 0) {
     Actor::UnsetFlag(param_1,ACTOR_ISPLAYER);
-    gGlobals.gameVars.PlayerHandler.cameraFocus = -1;
+    PHANDLE.cameraFocus = -1;
     clear_some_playerHandler_field();
   }
 }
 
 void GiveCameraToPlayer(playerData *param_1){
   if (param_1 == NULL) CRASH("GiveCameraToPlayer","Player Pointer is NULL!")
-  if (gGlobals.gameVars.PlayerHandler.cameraFocus != -1) {
-    FUN_80019ccc(gGlobals.gameVars.PlayerHandler.playerDats + gGlobals.gameVars.PlayerHandler.cameraFocus);
+  if (PHANDLE.cameraFocus != -1) {
+    FUN_80019ccc(PHANDLE.playerDats + PHANDLE.cameraFocus);
   }
   gCamera.borg_9 = GetCollisionZone(param_1->zoneDatByte);
   gCamera.unk58 = 0.0;
   gCamera.unk48 = gCamera.unk4c;
   Actor::SetFlag(param_1,ACTOR_ISPLAYER);
-  gGlobals.gameVars.PlayerHandler.cameraFocus = param_1->ID;
+  PHANDLE.cameraFocus = param_1->ID;
   return;
 }
 

@@ -155,7 +155,7 @@ void BorgMaps::SetBGM(u16 *param_1,u16 param_2,u16 ExpPak,u16 NoExpPak) {
   u16 uVar1;
   u16 *puVar2;
   
-  if (gGlobals.gameVars.gamemodeType != 2) {
+  if (gGlobals.gameVars.gamemodeType != GameMode_Title) {
     uVar1 = *param_1;
     puVar2 = param_1 + 1;
     while (uVar1 != 0) {

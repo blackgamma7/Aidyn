@@ -590,19 +590,19 @@ void run_dialougemode_funcs5(){
 }
 
 void DialogueModeInitPrescripted(){
-  vec3f afStack80;
+  vec3f v;
   
   N64Print::Print("DialogueModeInitPrescripted\n");
   freeWidgetFunc = run_dialougemode_funcs2;
   WanderHead(&gGlobals.wander,8);
-  InitZoneEngine(0,0);
+  InitZoneEngine(GameMode_Trek,0);
   DialogueModeInitPrescripted_set_map
             (dialougemode_pointer->mapDatA,dialougemode_pointer->mapShort1,
              dialougemode_pointer->mapShort2);
-  memset(&afStack80,0,0xc);
-  Camera::SetPos(gGlobals.gameVars.PlayerHandler.camera,&afStack80);
-  afStack80.x += 100.0f;
-  Camera::SetAim(gGlobals.gameVars.PlayerHandler.camera,&afStack80);
+  CLEAR(&v);
+  Camera::SetPos(PHANDLE.camera,&v); //set camera at{0,0,0}?
+  v.x += 100.0f;
+  Camera::SetAim(PHANDLE.camera,&v);//point camera at{100,0,0}?
   gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
              &dialougemode_pointer->inst,dialougemode_pointer->func_index,
              dialougemode_pointer->borg13_dat->libraryType);
@@ -612,8 +612,6 @@ void DialogueModeInitPrescripted(){
 }
 
 void load_one_of_two_cinematics(){
-
-
   DialougFreeActors(&dialougemode_pointer->inst,dialougemode_pointer->borg13_dat);
   Process_queue_B(&gGlobals.QueueB,1);
   FreeZoneEngine(true);
@@ -730,7 +728,7 @@ void FUN_80059888(){
   gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
              &dialougemode_pointer->inst,0,0);
   clear_some_playerHandler_field();
-  Camera::SetFeild70(gGlobals.gameVars.PlayerHandler.camera,&(ppVar1->collision).pos);
+  Camera::SetFeild70(PHANDLE.camera,&(ppVar1->collision).pos);
 }
 
 void FUN_800598fc(){
@@ -786,11 +784,11 @@ void FUN_800599f0(){
   gGlobals.diaClass->FreeWidgets();
   pwVar1 = dialougemode_pointer->Wanderers;
   FUN_800597f8();
-  pCVar3 = gGlobals.gameVars.PlayerHandler.camera;
+  pCVar3 = PHANDLE.camera;
   ppVar2 = gPlayer;
-  if ((gPlayer != NULL) && (gGlobals.gameVars.PlayerHandler.camera != NULL))
+  if ((gPlayer != NULL) && (PHANDLE.camera != NULL))
   {
-    Camera::SetFeild70(gGlobals.gameVars.PlayerHandler.camera,&((gPlayer)->collision).pos);
+    Camera::SetFeild70(PHANDLE.camera,&((gPlayer)->collision).pos);
     pCVar3->unk80 = 5;
   }
   if (pwVar1) {

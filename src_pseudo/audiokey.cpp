@@ -106,7 +106,7 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp){
   s8 bStack_28;
   u8 auStack_27 [1];
   
-  paVar3 = (gGlobals.gameVars.PlayerHandler.audiokey)->a;
+  paVar3 = (PHANDLE.audiokey)->a;
   if ((2 < pDat->Ground_type) || (false)/*??*/) {
     pDat->Ground_Type_New = pDat->Ground_type;
   }
@@ -146,6 +146,6 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp){
    default:
    }
   }
-  FUN_8005c0f0(pDat,gGlobals.gameVars.PlayerHandler.audiokey,paVar3 + pDat->Ent_index,id1,id2,amp,bStack_28,auStack_27[0]);
+  FUN_8005c0f0(pDat,PHANDLE.audiokey,paVar3 + pDat->Ent_index,id1,id2,amp,bStack_28,auStack_27[0]);
   FUN_8005c2f0(pDat,id1,bStack_28,auStack_27[0]);
 }

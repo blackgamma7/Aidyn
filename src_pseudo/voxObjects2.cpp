@@ -10,7 +10,7 @@ u16 FUN_80005d60(Wanderer **w) {
     ret = -1;
   }
   else {
-    playerData *pDat = gGlobals.gameVars.PlayerHandler.playerDats + player->index;
+    playerData *pDat = PHANDLE.playerDats + player->index;
     ret = -1;
     if (pDat->removeFlag) {
       Wanderer *wander = findWandererFromPlayerName(pDat->ID);
@@ -44,8 +44,8 @@ void Voxel_Get2DPos(voxelObject *v,vec2f *pos) {
   Vec2Set(pos,(v->header).pos.x,(v->header).pos.z);
   if ((((v->header).type == VOXEL_MonsterParty) && (gPlayer != NULL)) &&
      (sVar1 = gPlayer->index, sVar1 != -1)) {
-    Vec2Set(pos,gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.x,
-            gGlobals.gameVars.PlayerHandler.playerDats[sVar1].collision.pos.z);
+    Vec2Set(pos,PHANDLE.playerDats[sVar1].collision.pos.x,
+            PHANDLE.playerDats[sVar1].collision.pos.z);
   }
 }
 

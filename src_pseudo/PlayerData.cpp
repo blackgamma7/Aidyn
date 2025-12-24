@@ -137,8 +137,8 @@ void Actor::Init(playerData *param_1,u16 id){
   param_1->voxelReach = 100.0f;
   param_1->ent_ID = IDEntInd(EntInd_Alaron);
   Vec3Set(&param_1->CombatTint,1.0,1.0,1.0);
-  param_1->unk75c = 0.0;
-  param_1->unk760 = 0.0;
+  param_1->tintScale = 0.0;
+  param_1->tintScaleMod = 0.0;
   param_1->unk77c = false;
 }
 
@@ -148,49 +148,49 @@ void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
   int iVar4;
   
   iVar2 = (int)maxPlayers;
-  if (gGlobals.gameVars.PlayerHandler.initFlag)
+  if (PHANDLE.initFlag)
     CRASH("InitPlayerHandler","Player Handler is already Initialized.");
   if (PLAYER_ABS_MAXPLAYERS < iVar2)
     CRASH("InitPlayerHandler","Too Many Players..\nover PLAYER_ABS_MAXPLAYERS");
-  CLEAR(&gGlobals.gameVars.PlayerHandler);
-  gGlobals.gameVars.PlayerHandler.initFlag = 1;
-  gGlobals.gameVars.PlayerHandler.max_player = maxPlayers;
+  CLEAR(&PHANDLE);
+  PHANDLE.initFlag = true;
+  PHANDLE.max_player = maxPlayers;
   if (maxPlayers == 0)
-    gGlobals.gameVars.PlayerHandler.playerDats = NULL;
+    PHANDLE.playerDats = NULL;
   else {
-    ALLOCS(gGlobals.gameVars.PlayerHandler.playerDats,iVar2 * sizeof(playerData),351);
-    memset(gGlobals.gameVars.PlayerHandler.playerDats,0,gGlobals.gameVars.PlayerHandler.max_player * sizeof(playerData));
+    ALLOCS(PHANDLE.playerDats,iVar2 * sizeof(playerData),351);
+    memset(PHANDLE.playerDats,0,PHANDLE.max_player * sizeof(playerData));
   }
-  gGlobals.gameVars.PlayerHandler.cameraFocus = -1;
-  gGlobals.gameVars.PlayerHandler.playerCount = 0;
-  gGlobals.gameVars.PlayerHandler.float_0x68 = 50.0f;
-  gGlobals.gameVars.PlayerHandler.shadowDist = 50.0f;
-  gGlobals.gameVars.PlayerHandler.camera = cam;
-  for(s16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
-    gGlobals.gameVars.PlayerHandler.unk10[i] = i;
-    Actor::Init(&gGlobals.gameVars.PlayerHandler.playerDats[i],i);
+  PHANDLE.cameraFocus = -1;
+  PHANDLE.playerCount = 0;
+  PHANDLE.float_0x68 = 50.0f;
+  PHANDLE.shadowDist = 50.0f;
+  PHANDLE.camera = cam;
+  for(s16 i=0;i<PHANDLE.max_player;i++) {
+    PHANDLE.unk10[i] = i;
+    Actor::Init(&PHANDLE.playerDats[i],i);
   }
   if (shadIndex)
-    gGlobals.gameVars.PlayerHandler.shadowTexture = (Borg1Header *)getBorgItem(shadIndex);
+    PHANDLE.shadowTexture = (Borg1Header *)getBorgItem(shadIndex);
   #if 0 //field at 0x70 was init'd in older builds, would load a 32x32 IA8 bordered circle.
-  gGlobals.gameVars.PlayerHandler.unk70=(Borg1Header*)getBorgItem(0x2dde);//out-of-date index
+  PHANDLE.unk70=(Borg1Header*)getBorgItem(0x2dde);//out-of-date index
   #endif
-  gGlobals.gameVars.PlayerHandler.audiokey = load_audiokey();
+  PHANDLE.audiokey = load_audiokey();
 }
 
 void FreePlayerHandler(){
-  if (gGlobals.gameVars.PlayerHandler.initFlag == 0)
+  if (PHANDLE.initFlag == 0)
     CRASH("FreePlayerHandler","Player Handler Not Initialized!");
-  gGlobals.gameVars.PlayerHandler.initFlag = 0;
+  PHANDLE.initFlag = 0;
   Actor::remove_flagged_playerdata();
-  if (gGlobals.gameVars.PlayerHandler.shadowTexture)
-    FREEQB1(gGlobals.gameVars.PlayerHandler.shadowTexture);
-  if (gGlobals.gameVars.PlayerHandler.unk70)
-    FREEQB1(gGlobals.gameVars.PlayerHandler.unk70);
-  Audiokey_free(gGlobals.gameVars.PlayerHandler.audiokey);
-  gGlobals.gameVars.PlayerHandler.audiokey = NULL;
-  if (gGlobals.gameVars.PlayerHandler.playerDats)
-    HFREE(gGlobals.gameVars.PlayerHandler.playerDats,415);
+  if (PHANDLE.shadowTexture)
+    FREEQB1(PHANDLE.shadowTexture);
+  if (PHANDLE.unk70)
+    FREEQB1(PHANDLE.unk70);
+  Audiokey_free(PHANDLE.audiokey);
+  PHANDLE.audiokey = NULL;
+  if (PHANDLE.playerDats)
+    HFREE(PHANDLE.playerDats,415);
 }
 
 
@@ -350,7 +350,7 @@ DCMSub2 * AllocPlayerAudio(playerData *param_1,audioKeyEntryB *param_2,u16 type,
 }
 
 u8 FUN_8001620c(playerData *param_1){
-  if (param_1->unk70ee == 0) return false;
+  if (!param_1->petrified) return false;
   if (param_1->ani_type == 0)
     return param_1->unk16 == 0;
   return false;
@@ -421,7 +421,7 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
         Camera::AddPosToList(&handler->playerDats[i].collision.pos);
     }
   }
-  if (gGlobals.gameVars.gamemodeType == 0) {
+  if (gGlobals.gameVars.gamemodeType == GameMode_Trek) {
     sVar15 = handler->cameraFocus;
     if (sVar15 == -1) {
       if (gGlobals.gameVars.camPtrArraySize) {
@@ -450,7 +450,7 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
                         &facingV3,delta,1);
     }
   }
-  else if (gGlobals.gameVars.gamemodeType == 1) {
+  else if (gGlobals.gameVars.gamemodeType == GameMode_Combat) {
     #ifdef DEBUGVER
     strcpy(gGlobals.text,"ProcessCombatCamera");
     #endif
@@ -483,7 +483,7 @@ LAB_8001729c:
       }
       else {
         Gsprintf("Process Player: %d\n",pDat->ID);
-        fVar31 = pDat->unk5c;
+        fVar31 = pDat->scaleChange;
         if (fVar31 != 0.0) {
           fVar29 = pDat->scale + fVar31 * (float)delta_;
           ProcessPlayersTally++;
@@ -492,13 +492,13 @@ LAB_8001729c:
             if (fVar31 < 0.0) {
               fVar28 = (float)pDat->unk54;
               if (fVar29 <= fVar28) {
-                pDat->unk5c = 0.0;
+                pDat->scaleChange = 0.0;
                 goto LAB_8001666c;
               }
             }
           }
           else {
-            pDat->unk5c = 0.0;
+            pDat->scaleChange = 0.0;
 LAB_8001666c:
             pDat->scale = fVar28;
           }
@@ -508,18 +508,18 @@ LAB_8001666c:
         (pDat->skyTint).y = (float)((float)gSkyColor.G / 255.0f) * 0.5;
         (pDat->skyTint).z = (float)((float)gSkyColor.B / 255.0f) * 0.5;
         fVar31 = 1.0f;
-        if ((pDat->unk760 == 0.0) && (pDat->unk75c == 0.0)) {}
+        if ((pDat->tintScaleMod == 0.0) && (pDat->tintScale == 0.0)) {}
         else {
-          pDat->unk75c += pDat->unk760 * (float)delta_;
-          if (1.0f<pDat->unk75c) {
-            pDat->unk75c = 1.0;
-            pDat->unk760 = 0.0;
+          pDat->tintScale += pDat->tintScaleMod * (float)delta_;
+          if (1.0f<pDat->tintScale) {
+            pDat->tintScale = 1.0;
+            pDat->tintScaleMod = 0.0;
           }
-          if (pDat->unk75c < 0.0) {
-            pDat->unk75c = 0.0;
-            pDat->unk760 = 0.0;
+          if (pDat->tintScale < 0.0) {
+            pDat->tintScale = 0.0;
+            pDat->tintScaleMod = 0.0;
           }
-          fVar35 = pDat->unk75c;
+          fVar35 = pDat->tintScale;
           (pDat->skyTint).x += ((pDat->CombatTint).x - (pDat->skyTint).x) * fVar35;
           (pDat->skyTint).y += ((pDat->CombatTint).y - (pDat->skyTint).y) * fVar35;
           (pDat->skyTint).z += ((pDat->CombatTint).z - (pDat->skyTint).z) * fVar35;
@@ -552,7 +552,7 @@ LAB_800168cc:
         map = GetCollisionZone(pDat->zoneDatByte);
         fVar31 = Vec3Dist(local_6c,&mapPos);
         if (handler->float_0x68 < fVar31) {
-          if (gGlobals.gameVars.gamemodeType != 1) {
+          if (gGlobals.gameVars.gamemodeType != GameMode_Combat) {
             if (gExpPakFlag){
               if (fVar31 <= handler->float_0x68 * 3.0f) {
                 fVar29 = handler->float_0x68;
@@ -643,10 +643,10 @@ crash:
         Vec2Set(&afStack432,(pDat->collision).pos.x,(pDat->collision).pos.z);
         three_vec2_proximities(camPosV2p,camAimV2p,&afStack432);
         if (((((pDat->ani_type == 0) && (pDat->unk1a == 0)) && (pDat->unk1c == 0)) &&
-            ((13.0f <= fVar31 && (gGlobals.gameVars.gamemodeType == 1)))) ||
+            ((13.0f <= fVar31 && (gGlobals.gameVars.gamemodeType == GameMode_Combat)))) ||
            (FUN_8001620c(pDat))) {
           if (!Actor::IsFlyingModel(pDat)) goto not_flying_borg7;
-          if (pDat->unk70ee == 0) goto LAB_80016cec;
+          if (!pDat->petrified) goto LAB_80016cec;
         }
         else {
 LAB_80016cec:
@@ -740,7 +740,7 @@ LAB_80017014:
           }
 not_flying_borg7:
         }
-        if (pDat->visible_flag == 0) {
+        if (pDat->visible_flag == 0) { //keep them 0.05 units from chunk's edges
           FLOOR((pDat->collision).pos.x,0.05);
           FLOOR((pDat->collision).pos.z,0.05);
           CIEL((pDat->collision).pos.x,(gGlobals.gameVars.mapCellSize.x - 0.05));
@@ -828,11 +828,11 @@ LAB_8001727c:
 
 void FUN_80017330(playerData *param_1,float param_2,float r,float g,float b){
   Vec3Set(&param_1->CombatTint,r,g,b);
-  param_1->unk760 = (float)(1.0 / (double)param_2);
+  param_1->tintScaleMod = (float)(1.0 / (double)param_2);
 }
 
 void FUN_80017388(playerData *param_1,float param_2){
-  param_1->unk760 = (float)-(1.0 / (double)param_2);
+  param_1->tintScaleMod = (float)-(1.0 / (double)param_2);
 }
 
 extern u16 light_count;
@@ -857,8 +857,8 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
     if (0.0 < gGlobals.MoonPos.y) {
       //add moon light source
       Scene::addLight(param_2,-1,gGlobals.MoonPos.x,gGlobals.MoonPos.y,gGlobals.MoonPos.z,0,
-                gGlobals.MoonPos.y * 200.0f * gGlobals.brightness * param_1->unk75c,
-                 gGlobals.MoonPos.y * 200.0f * gGlobals.brightness * param_1->unk75c,light_count++);
+                gGlobals.MoonPos.y * 200.0f * gGlobals.brightness * param_1->tintScale,
+                 gGlobals.MoonPos.y * 200.0f * gGlobals.brightness * param_1->tintScale,light_count++);
     }
   }
   passto_InitLight_2(&gGlobals.gameVars.DynamicLights,param_2,&(param_1->collision).pos,param_5);
@@ -1050,9 +1050,9 @@ void edit_playerdat_combat_pos(playerData *param_1,vec3f *param_2){
 playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
   float fVar2;
   
-  if (gGlobals.gameVars.PlayerHandler.max_player <= gGlobals.gameVars.PlayerHandler.playerCount)
+  if (PHANDLE.max_player <= PHANDLE.playerCount)
     CRASH("AllocPlayer","Too Many Players");
-  playerData *ppVar1 = &gGlobals.gameVars.PlayerHandler.playerDats[gGlobals.gameVars.PlayerHandler.unk10[gGlobals.gameVars.PlayerHandler.playerCount++]];
+  playerData *ppVar1 = &PHANDLE.playerDats[PHANDLE.unk10[PHANDLE.playerCount++]];
 
   Init(ppVar1,ppVar1->ID);
   fVar2 = ppVar1->scale;
@@ -1080,9 +1080,9 @@ playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
 }
 
 void Actor::FreePlayer(playerData *param_1){
-  if (gGlobals.gameVars.PlayerHandler.playerCount < 1)
+  if (PHANDLE.playerCount < 1)
     CRASH("FreePlayer","Invalid Free");
-  gGlobals.gameVars.PlayerHandler.unk10[--gGlobals.gameVars.PlayerHandler.playerCount] = param_1->ID;
+  PHANDLE.unk10[--PHANDLE.playerCount] = param_1->ID;
   FreePlayerActor(param_1);
   playerdata_remove_both_dcm(param_1);
   param_1->removeFlag = 0;
@@ -1091,9 +1091,9 @@ void Actor::FreePlayer(playerData *param_1){
 
 
 void remove_flagged_playerdata(){
-  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
-    for(s16 i=0; i < gGlobals.gameVars.PlayerHandler.max_player;i++) {
-      playerData *ppVar2 = &gGlobals.gameVars.PlayerHandler.playerDats[i];
+  if (0 < PHANDLE.max_player) {
+    for(s16 i=0; i < PHANDLE.max_player;i++) {
+      playerData *ppVar2 = &PHANDLE.playerDats[i];
       if (ppVar2->removeFlag) Actor::FreePlayer(ppVar2);
     }
   }
@@ -1226,34 +1226,34 @@ void Ofunc_80018a9c(playerData *param_1){
 
 
 void Ofunc_80018ac4(playerData *param_1,float param_2,float param_3){
-  if (param_1->unk60 == 0) {
-    if (param_1->unk5c == 0.0) {
-      param_1->unk58 = param_1->scale;
+  if (!param_1->canScale) {
+    if (param_1->scaleChange == 0.0) {
+      param_1->targetScale = param_1->scale;
     }
   }
-  param_1->unk5c = 0.0;
-  param_1->unk60 = 1;
+  param_1->scaleChange = 0.0;
+  param_1->canScale = true;
   param_1->unk54 = param_2;
-  if (param_1->unk5c < param_3)
-    param_1->unk5c = (param_2 - param_1->scale) / param_3;
+  if (param_1->scaleChange < param_3)
+    param_1->scaleChange = (param_2 - param_1->scale) / param_3;
   else param_1->scale = param_2;
 }
 
 void Ofunc_80018b34(playerData *param_1,float param_2){
-  if (param_1->unk60) {
-    param_1->unk5c = 0.0;
-    param_1->unk60 = 0;
-    param_1->unk54 = param_1->unk58;
-    if (param_2 <= param_1->unk5c) param_1->scale = param_1->unk58;
-    else param_1->unk5c = (param_1->unk58 - param_1->scale) / param_2;
+  if (param_1->canScale) {
+    param_1->scaleChange = 0.0;
+    param_1->canScale = false;
+    param_1->unk54 = param_1->targetScale;
+    if (param_2 <= param_1->scaleChange) param_1->scale = param_1->targetScale;
+    else param_1->scaleChange = (param_1->targetScale - param_1->scale) / param_2;
   }
 }
 
 
 void FUN_80018b84(){
-  if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
-    for(u16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
-      Actor::UnsetFlag(&gGlobals.gameVars.PlayerHandler.playerDats[i],ACTOR_2000);
+  if (0 < PHANDLE.max_player) {
+    for(u16 i=0;i<PHANDLE.max_player;i++) {
+      Actor::UnsetFlag(&PHANDLE.playerDats[i],ACTOR_2000);
     }
   }
 }
@@ -1268,7 +1268,7 @@ void FUN_80018bf0(playerData *param_1){
 }
 
 void FreeAllActors(){
-  for(u16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++){
-    FUN_80018bf0(&gGlobals.gameVars.PlayerHandler.playerDats[i]);
+  for(u16 i=0;i<PHANDLE.max_player;i++){
+    FUN_80018bf0(&PHANDLE.playerDats[i]);
   }
 }

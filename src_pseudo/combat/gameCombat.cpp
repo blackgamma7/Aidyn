@@ -668,7 +668,7 @@ void init_combat_struct(void){
     gGlobals.gameVars.mapDatA = MAPA_Battle;
     gGlobals.gameVars.mapDatC = 0;
     gGlobals.gameVars.mapDatB = (u16)gGlobals.EncounterDat.battlefield;
-    InitZoneEngine(1,0);
+    InitZoneEngine(GameMode_Combat,0);
     Sky::ResetColors();
     Combat_InitEncounter(gCombatP,&gGlobals.EncounterDat);
     combat_gui_init();
@@ -678,7 +678,7 @@ void init_combat_struct(void){
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
     playerData* ppVar1 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
     if (ppVar1) {
-      Camera::SetPos(gGlobals.gameVars.PlayerHandler.camera,&(ppVar1->collision).pos);
+      Camera::SetPos(PHANDLE.camera,&(ppVar1->collision).pos);
       GiveCameraToPlayer(ppVar1);
     }
     clear_camera_playerdata_focus();
@@ -697,8 +697,8 @@ void init_combat_struct(void){
     if (gGlobals.EncounterDat.EncounterID == FLAG_GoblinAmbush) {
       gGlobals.goblinAmbush = true;
       gGlobals.GoblinHitTally = 2;
-      CharSheet* pCVar2 = PARTY->Members[0];
-      Entity::addHP(pCVar2,Entity::getHPMax(pCVar2) - (s16)Entity::getHPCurrent(pCVar2));
+      CharSheet* alaron = PARTY->Members[0];
+      Entity::addHP(alaron,Entity::getHPMax(alaron) - (s16)Entity::getHPCurrent(alaron));
     }
     CombatSpellMarker::Init();
     combat_start_turn_();

@@ -18,7 +18,7 @@ void initGameTrek(void) {
   Portraits::InitBorder();
   Gsprintf("GameTrekInit WanderHead\n");
   WanderHead(&gGlobals.wander,39);
-  InitZoneEngine(0,gGlobals.playerCharStruct.some_sound_var);
+  InitZoneEngine(GameMode_Trek,gGlobals.playerCharStruct.some_sound_var);
   gGlobals.playerCharStruct.unkState = 3;
   if (DAT_800ee978) {
     gGlobals.playerCharStruct.unkState = 7;
@@ -29,7 +29,7 @@ void initGameTrek(void) {
                           10.0,gGlobals.gameVars.playerPos2d.y,gGlobals.playerCharStruct.player_form);
   (gPlayer)->visible_flag = 1;
   if (gGlobals.playerCharStruct.some_sound_var == 0) {
-    Camera::SetPos(gGlobals.gameVars.PlayerHandler.camera,&gPlayer->collision.pos);
+    Camera::SetPos(PHANDLE.camera,&gPlayer->collision.pos);
     Actor::CheckCollision(gPlayer,0.0,0,0);
     Vec3Copy(&gPlayer->collision.pos,&gCamera.aimTarget);
     Vec3Copy(&gPlayer->collision.pos,&gCamera.aim);

@@ -107,9 +107,9 @@ struct playerData {
     vec3f vec3_0x3c;
     vec3f vec3_0x48;
     u32 unk54;
-    float unk58;
-    float unk5c;
-    u16 unk60;
+    float targetScale;
+    float scaleChange;
+    u16 canScale;
     collisionSphere collision;
     vec3f positionMirror;
     EnvProp envprop;
@@ -128,8 +128,7 @@ struct playerData {
     u16 moveQueueIndex2;
     float aiDestDist;
     s16 aiTravelTime;
-    undefined field48_0x25e;
-    undefined field49_0x25f;
+    u8 unk25e[2];
     vec2f aiDest;
     float wanderRadius;
     vec2f unk26c;
@@ -143,8 +142,8 @@ struct playerData {
     u8 alaron_flag; //set if Alaron's model
     u8 shadowAlpha; //used for alpha
     u8 zoneDatByte;
-    u8 unk70ee;
-    u8 field64_0x70f;
+    u8 petrified; //affected by petrify magic
+    u8 field64_0x70f; //align byte?
     DCMSub2 dcmDat[2];
     s16 dcmDatIndex;
     u16 movement_;
@@ -154,8 +153,8 @@ struct playerData {
     u16 rangerWarrior;
     ItemID ent_ID;
     u16 Ent_index;
-    float unk75c;
-    float unk760;
+    float tintScale;
+    float tintScaleMod;
     vec3f CombatTint; /* tint by combat effect */
     vec3f skyTint; /* tint from environmental light */
     char unk77c;
@@ -176,7 +175,7 @@ struct audiokey_struct {
 struct PlayerHandler {
     s16 max_player;
     u16 initFlag;
-    Camera_struct *camera;
+    Camera_struct *camera; //set to &gGlobals.gameVars.camera
     s16 cameraFocus;
     playerData *playerDats;
     s16 unk10[PLAYER_ABS_MAXPLAYERS];
@@ -188,6 +187,9 @@ struct PlayerHandler {
     Borg1Header * unk70; //older versiona would have as IA8 32x32 bordered circle
     audiokey_struct *audiokey;
 };
+
+//shorthand for player handler object
+#define PHANDLE gGlobals.gameVars.PlayerHandler
 
 struct player_char_struct {
     playerData *playerDat;

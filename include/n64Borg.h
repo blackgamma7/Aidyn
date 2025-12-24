@@ -55,7 +55,7 @@ struct Borg8Data {
     u16 format;
     u16 Width;
     u16 Height;
-    u16 PALSize;
+    u16 unk06;
     u16* palette; //for CI8/4
     void* offset; //offset to bitmap
 };
@@ -248,11 +248,11 @@ struct DynamicLightHead {
 };
 
 enum VoxAudioFlags{
-    VoxAudio_0001=1,
-    VoxAudio_0002=2,
-    VoxAudio_0004=4,
-    VoxAudio_0008=8,
-    VoxAudio_BGM=0x10,
+    VoxAudio_0001=1, //repeat sound?
+    VoxAudio_0002=2, //if set, repeat sound for between (randA) and (randB) seconds
+    VoxAudio_0004=4, //don't fade volume based on delta
+    VoxAudio_0008=8, //don't pan sound based on camera
+    VoxAudio_BGM=0x10, //treat as BGM, use applicable volume setting
 };
 
 struct audio_obj_dat {
@@ -365,7 +365,6 @@ struct Trigger_dat {
     u16 flagA;
     u16 flagB;
     u16 flagC;
-    u8 align[58];
 };
 
 struct voxelObject {

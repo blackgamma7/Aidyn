@@ -340,7 +340,7 @@ bool GetSnapshot_(void) {
      gGlobals.screenshot->dat.Height = SCREEN_HEIGHT;
      gGlobals.screenshot->dat.Width = SCREEN_WIDTH;
      gGlobals.screenshot->dat.palette = NULL;
-     gGlobals.screenshot->dat.PALSize = 0;
+     gGlobals.screenshot->dat.unk06 = 0;
      gGlobals.screenshot->dat.format = BORG8_RGBA16;
      gGlobals.screenshot->dat.offset = HALLOC((SCREEN_HEIGHT*SCREEN_WIDTH*2),986);
     }

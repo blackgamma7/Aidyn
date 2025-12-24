@@ -44,9 +44,9 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
       return;
     }
     if ((gGlobals.scriptcamera.counter1 != 0) &&
-       (sVar6 = (gGlobals.gameVars.PlayerHandler.camera)->holdCamera,
+       (sVar6 = (PHANDLE.camera)->holdCamera,
        controller->input_2 = controller->input_2 & ~R_BUTTON, sVar6 != 0)) {
-      gGlobals.gameVars.PlayerHandler.camera->holdCamera = 3;
+      PHANDLE.camera->holdCamera = 3;
     }
                       // Flea Jump
     if ((((_flea_flag != 0) && (p->alaron_flag)) &&
@@ -60,15 +60,15 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
     #ifdef DEBUGVER
     if (gDebugFlag) {
       if ((controller->input_2 & L_BUTTON)&&(controller->input & D_LEFT)){
-          gLoadOneZone ^= 1;
+          gLoadOneZone ^= 1; //load data only for center map chunk.
           N64PRINT("Multiple Zones Load Toggled\n");
         }
       if ((controller->input_2 & R_BUTTON) && (controller->input & D_RIGHT)) {
-        gSceneBoulder ^= 1;
+        gSceneBoulder ^= 1; //replace next loaded "scene" voxels with boulders.
         N64PRINT("Reference Objects Toggled\n");
       }
       if ((gDebugFlag) && (controller->input & C_UP)) {
-        gGlobals.DebugStatDisplay =
+        gGlobals.DebugStatDisplay = //cycle through displayed performance stats.
              (char)(gGlobals.DebugStatDisplay + 1) + (char)((gGlobals.DebugStatDisplay + 1) / 6) * -6;
       }
     }
@@ -84,25 +84,21 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
      }
    }
     if (p->ani_type != AniType_Dying) p->ani_type = 0;
-    if (gGlobals.gameVars.gamemodeType == 1) {
-      if (gCombatFreeCamera != 0) {
+    if (gGlobals.gameVars.gamemodeType == GameMode_Combat) {
+      if (gCombatFreeCamera) {
         if (gCombatFreeCamera == 1) {
           gCombatFreeCamera = 2;
-          (gGlobals.gameVars.PlayerHandler.camera)->unk48 = 4.0f;
+          (PHANDLE.camera)->unk48 = 4.0f;
         }
         if ((controller->input_2 & R_BUTTON)) {
-          (gGlobals.gameVars.PlayerHandler.camera)->unk58 = -controller->joy_x * 8.0f;
-          gGlobals.gameVars.PlayerHandler.camera->unk48 += (controller->joy_y * 0.5);
+          (PHANDLE.camera)->unk58 = -controller->joy_x * 8.0f;
+          PHANDLE.camera->unk48 += (controller->joy_y * 0.5);
           return;
         }
-        camera_control_update_(controller->joy_x,-controller->joy_y,&(gGlobals.gameVars.PlayerHandler.camera)->rotationXZ,&fStack184);
-        ((gGlobals.gameVars.PlayerHandler.camera)->aimTarget).x =
-             (float)((double)((gGlobals.gameVars.PlayerHandler.camera)->aimTarget).x +
-                    (double)fStack184.x * 0.25);
-        ((gGlobals.gameVars.PlayerHandler.camera)->aimTarget).z =
-             (float)((double)((gGlobals.gameVars.PlayerHandler.camera)->aimTarget).z +
-                    (double)fStack184.y * 0.25);
-        (gGlobals.gameVars.PlayerHandler.camera)->unk58 = 0.0;
+        camera_control_update_(controller->joy_x,-controller->joy_y,&(PHANDLE.camera)->rotationXZ,&fStack184);
+        PHANDLE.camera->aimTarget.x =(PHANDLE.camera->aimTarget.x +fStack184.x * 0.25);
+        PHANDLE.camera->aimTarget.z =(PHANDLE.camera->aimTarget.z +fStack184.y * 0.25);
+        (PHANDLE.camera)->unk58 = 0.0;
         return;
       }
     }
@@ -115,29 +111,26 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
     if ((controller->input_2 & R_BUTTON) != 0) {
       if ((p->flags & ACTOR_ISPLAYER) == 0) return;
       if (gGlobals.screenFadeMode != 0) return;
-      if ((gGlobals.gameVars.PlayerHandler.camera)->holdCamera == 0) {
-        (gGlobals.gameVars.PlayerHandler.camera)->holdCamera = 1;
+      if (PHANDLE.camera->holdCamera == 0) {
+        PHANDLE.camera->holdCamera = 1;
       }
-      Camera::SetFeild70(gGlobals.gameVars.PlayerHandler.camera,&(p->collision).pos);
-      (gGlobals.gameVars.PlayerHandler.camera)->unk58 -= controller->joy_x * 3.0f;
-      gGlobals.gameVars.PlayerHandler.camera->unk48 += controller->joy_y;
+      Camera::SetFeild70(PHANDLE.camera,&(p->collision).pos);
+      PHANDLE.camera->unk58 -= controller->joy_x * 3.0f;
+      PHANDLE.camera->unk48 += controller->joy_y;
       return;
     }
     if ((p->flags & ACTOR_ISPLAYER)){
-      if ((gGlobals.gameVars.PlayerHandler.camera)->holdCamera != 0) {
-        (gGlobals.gameVars.PlayerHandler.camera)->holdCamera = 3;
-      }
-      puVar2 = &(gGlobals.gameVars.PlayerHandler.camera)->camera_mode;
-      (gGlobals.gameVars.PlayerHandler.camera)->unk58 = 0.0;
-      if (*puVar2 == 0) gGlobals.gameVars.PlayerHandler.camera->unk48 = gGlobals.gameVars.PlayerHandler.camera->unk4c;
-      else gGlobals.gameVars.PlayerHandler.camera->unk48 = 0.0;
+      if (PHANDLE.camera->holdCamera) PHANDLE.camera->holdCamera = 3;
+      PHANDLE.camera->unk58 = 0.0;
+      if (PHANDLE.camera->camera_mode == 0) PHANDLE.camera->unk48 = PHANDLE.camera->unk4c;
+      else PHANDLE.camera->unk48 = 0.0;
     }
     fVar9 = -controller->joy_x;
     y = controller->joy_y;
     fVar8 = _sqrtf(SQ(fVar9) + SQ(y));
     if (fVar8 <= 0.05) {
       if ((p->flags & ACTOR_ISPLAYER)){
-        Camera::SetFeild70(gGlobals.gameVars.PlayerHandler.camera,&(p->collision).pos);
+        Camera::SetFeild70(PHANDLE.camera,&p->collision.pos);
       }
     }
     else{
@@ -150,7 +143,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
         if (0.8 <= fVar8) p->ani_type = AniType_Run;
       }
       else p->ani_type = AniType_Sneak;
-      camera_control_update_(fVar9,y,&(gGlobals.gameVars.PlayerHandler.camera)->rotationXZ,&p->facingMirror);
+      camera_control_update_(fVar9,y,&(PHANDLE.camera)->rotationXZ,&p->facingMirror);
       if (p->visible_flag == 0) fVar9 = 0.34906;
       else fVar9 = 0.17453;
       some_trig_func_2(&p->facing,&p->facingMirror,fVar9);
@@ -184,8 +177,8 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
   void Actor::setMoveBasedOnCamera(vec2f *out,vec2f *in){
     vec2f v2,rot;
     
-    rot.x = ((gGlobals.gameVars.PlayerHandler.camera)->rotationXZ).x;
-    rot.y = ((gGlobals.gameVars.PlayerHandler.camera)->rotationXZ).y;
+    rot.x = ((PHANDLE.camera)->rotationXZ).x;
+    rot.y = ((PHANDLE.camera)->rotationXZ).y;
     v2.x = 0.0;
     v2.y = 1.0f;
     Vec2Normalize(&v2);
@@ -411,9 +404,9 @@ void FUN_80019b08(playerData *param_1){
 }
   
 void debug_sub_3(){
-    if (0 < gGlobals.gameVars.PlayerHandler.max_player) {
-      for(u16 i=0;i<gGlobals.gameVars.PlayerHandler.max_player;i++) {
-        playerData* p= &gGlobals.gameVars.PlayerHandler.playerDats[i];
+    if (0 < PHANDLE.max_player) {
+      for(u16 i=0;i<PHANDLE.max_player;i++) {
+        playerData* p= &PHANDLE.playerDats[i];
         if (p->removeFlag != 0) FUN_80019b08(p);
       }
     }

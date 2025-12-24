@@ -5,9 +5,9 @@ typedef void(*ParticleFuncB)(ParticleHeadStruct*,ParticleEmmiter*);
 typedef void(*ParticleFuncC)(ParticleHeadStruct*,ParticleEmmiter*,Particle_s*);
 
 #define ParticleMAX 0x180 //max particles when expansion pack used
-#define ParticleJ1 0x60 //max particles with jumper pak and gamemodeType 1
-#define ParticleJ0 0x40 //max particles with jumper pak and gamemodeType 0
-#define ParticleJ2 0x10 //max particles with jumper pak and gamemodeType 2
+#define ParticleJ0 0x40 //max particles with jumper pak and GameMode_Trek
+#define ParticleJ1 0x60 //max particles with jumper pak and GameMode_Combat
+#define ParticleJ2 0x10 //max particles with jumper pak and GameMode_Title
 #define ParticleEmmiMAX 0x10 //max particle emmiters
 
 struct Particle_s {

@@ -544,7 +544,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       i += -1;
       ppBVar18 = ppBVar11 + 1;
       if (pBVar2->unk0x3c != NULL) { //align 8?
-        pVVar23 = (Vtx_t *)((u32)((u32)p + 7) & 0xfffffff8);
+        pVVar23 = (Vtx_t *)((u32)((u32)p + 7) & ~7);
         uVar22 = pBVar2->vertcount;
         pVVar15 = pBVar2->vertlist2;
         pBVar2->vertcount = (u32)pVVar23;
@@ -572,7 +572,6 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
   }
   return false;
 }
-
 
 void borg5_free(Borg5Header *param_1){
   int memOld;

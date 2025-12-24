@@ -262,8 +262,8 @@ bool adjust_camera_joystick(controller_aidyn *cont,vec2f *param_2){
   if ((x != 0.0) || (y != 0.0)) {
     CLEAR(&fStack160);
     CLEAR(&fStack_60);
-    fStack160.x = ((gGlobals.gameVars.PlayerHandler.camera)->rotationXZ).x;
-    fStack160.y = ((gGlobals.gameVars.PlayerHandler.camera)->rotationXZ).y;
+    fStack160.x = ((PHANDLE.camera)->rotationXZ).x;
+    fStack160.y = ((PHANDLE.camera)->rotationXZ).y;
     Vec2Normalize(&fStack160);
     fStack_60.y = -fStack160.x;
     fStack_60.x = fStack160.y;

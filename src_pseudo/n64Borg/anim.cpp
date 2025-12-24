@@ -13,7 +13,7 @@ Gfx gDlist800f32d8[]={
     gsDPPipeSync(),
     gsDPSetTextureDetail(G_TD_SHARPEN),
     gsDPSetTextureLUT(G_TT_NONE),
-    gsDPSetRenderMode(0x442038,0x112038), //TODO: decypher properly
+    gsDPSetRenderMode(0x442038,G_RM_RA_ZB_OPA_SURF2), //TODO: decypher properly
     gsDPSetPrimColor(0,0,0,0,0,0),
     gsDPSetCombine(0xffffff,0xfe793c),//TODO: decypher properly
     gsDPSetAlphaCompare(0),
@@ -2038,7 +2038,7 @@ Gfx * FUN_800a0e60(Gfx *G){
   unkAnimStructB.unk48.A = 0;
   unkAnimStructB.unk4c = 0;
   unkAnimStructB.unk50 = 0x442038;
-  unkAnimStructB.unk54 = 0x112038;
+  unkAnimStructB.unk54 = G_RM_RA_ZB_OPA_SURF2;
   unkAnimStructB.b1 = NULL;
   unkAnimStructB.unk44 = 0x2000;
   gSPDisplayList(G++,gDlist800f32d8);

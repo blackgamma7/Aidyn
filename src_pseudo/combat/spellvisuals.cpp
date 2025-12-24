@@ -180,14 +180,14 @@ void spellvisuals_petrify(s16 param_1){
   SpellVisualTypeC *entry = SpellVisuals.ptr2 + param_1;
   if ((entry->flags & 1)) {
     entry->field4_0xc++;
-    entry->playerDat->unk70ee = 1;
+    entry->playerDat->petrified = true;
   }
 }
 
 void spellvisuals_petrify_2(s16 param_1){
-  SpellVisualTypeC *pSVar2 = SpellVisuals.ptr2 + param_1;
-  if (((pSVar2->flags & 1))&&(pSVar2->field4_0xc-- == 1)) {
-    pSVar2->playerDat->unk70ee = 0;
+  SpellVisualTypeC *entry = SpellVisuals.ptr2 + param_1;
+  if (((entry->flags & 1))&&(entry->field4_0xc-- == 1)) {
+    entry->playerDat->petrified = false;
   }
 }
 
@@ -733,7 +733,7 @@ void combatspellvisuals_free(void){
       FUN_80017388(piVar3->playerDat,30.0);
       Borg7Header* pBVar1= piVar3->playerDat->borg7P;
       if (pBVar1) Scene::SetFogFlag(pBVar1->sceneDat);
-      piVar3->playerDat->unk70ee = 0;
+      piVar3->playerDat->petrified = false;
     }
   }
   HFREE(SpellVisuals.ptr2,1871);

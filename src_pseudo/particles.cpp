@@ -697,7 +697,6 @@ void BorgParticleEmitterB(ParticleHeadStruct *pHead,ParticleEmmiter *param_2){
   }
 }
 
-
 ParticleEmmiter *
 Particle::AllocBorg5Particle(ParticleHeadStruct *pHead,SceneData *scene,Borg5_particle *dat){
   u16 uVar1;

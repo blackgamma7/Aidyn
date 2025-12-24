@@ -194,7 +194,7 @@ void audio_ref_objs(SFX_Struct *param_1,Borg9Data *param_2,u32 tally,byte ZoneDa
     for(s16 iVar9=0;iVar9<param_2->voxelObjCount;iVar9++) {
       obj = &param_2->voxelObjs[iVar9];
       if ((obj->header).type == VOXEL_Audio) {
-        if (gGlobals.gameVars.gamemodeType == 2) {
+        if (gGlobals.gameVars.gamemodeType == GameMode_Title) {
           if ((((obj->audio).soundFlag & VoxAudio_BGM)) || (!gExpPakFlag)) continue;
         }
         if (((((obj->header).Bitfeild & VOXEL_EXPPak) == 0) || (gExpPakFlag)) &&
