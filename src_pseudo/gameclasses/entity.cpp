@@ -1209,7 +1209,7 @@ SpellInstance * Entity::GetSpell(CharSheet *param_1){
     #ifdef DEBUGVER
     if (param_1->armor == NULL) {CRASH("No armor (Entity::GetSpell())",FILENAME);}
     if (param_1->armor[0] == NULL) {CRASH("No pArmor[0] (Entity::GetSpell())",FILENAME);}
-    if ((*param_1->armor[0])->spell == NULL) {CRASH("No pArmor[0]->pSpell (Entity::GetSpell())",FILENAME);}
+    if (param_1->armor[0]->base.spellCharge == NULL) {CRASH("No pArmor[0]->pSpell (Entity::GetSpell())",FILENAME);}
     #endif
     temp = &param_1->armor[0]->base;
     break;
@@ -1278,7 +1278,7 @@ void Entity::DecSpellCharge(CharSheet *param_1){
   if (param_1->spellSwitch == 5) {
     ptVar1 = param_1->pItemList->pItem[param_1->currSpell];
     uVar3 = (u16)ptVar1->base.id >> 8;
-    if ((uVar3 == 0x11) || (uVar3 == 0xd)) ptVar1->base.spellCharge->Charges--;
+    if ((uVar3 == DB_SCROLL) || (uVar3 == DB_WAND)) ptVar1->base.spellCharge->Charges--;
   }
 }
 

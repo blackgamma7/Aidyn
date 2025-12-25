@@ -439,13 +439,11 @@ void CombatEntity::FaceTarget(CombatEntity *param_2){
 }
 
 void CombatEntity::TeleportMovePlayer(){
-  playerData *ppVar1;
-  
-  ppVar1 = gGlobals.playerDataArray[this->index];
-  if (ppVar1) {
-    (ppVar1->collision).pos.x = this->coord.x + ppVar1->scaleRad;
-    (ppVar1->collision).pos.z = this->coord.y + ppVar1->scaleRad;
-    Actor::CheckCollision(ppVar1,0,0,0);
+  playerData *pDat = gGlobals.playerDataArray[this->index];
+  if (pDat) {
+    (pDat->collision).pos.x = this->coord.x + pDat->scaleRad;
+    (pDat->collision).pos.z = this->coord.y + pDat->scaleRad;
+    Actor::CheckCollision(pDat,0,0,0);
   }
 }
 

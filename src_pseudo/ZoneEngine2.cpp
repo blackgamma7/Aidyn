@@ -1648,7 +1648,9 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   u16 dat;
   vec3f afStack104;
   
-  s32 aiStack_e8[] = {3,0,1,-1,2,-1,4,5,6,7,8,9,10,11,-1};
+  s32 partTextInds[] = {BORG1_PlayerShadow,Borg1_Particle0,Borg1_Particle1,-1,Borg1_Particle2,
+    -1,Borg1_Particle4,Borg1_Particle5,Borg1_Particle6,Borg1_Particle7,Borg1_Particle8,
+    Borg1_Particle9,Borg1_Particle10,Borg1_Particle11,-1,-1,Borg1_Particle12};
   maxActors = 0;
   dat = 0;
   partCount = ParticleMAX;
@@ -1711,9 +1713,9 @@ void InitZoneEngine(u16 param_1,s16 param_2){
     gGlobals.gameVars.playerPos2d.x = (pmVar8->playerVec3).x;
     gGlobals.gameVars.playerPos2d.y = (pmVar8->playerVec3).z;
   }
-  InitPlayerHandler(&gCamera,maxActors,3);
-  Particle::InitParticleHead(&gGlobals.gameVars.particleHead,gGlobals.gameVars.borg9DatPointer,partCount,0x11,
-                   aiStack_e8);
+  InitPlayerHandler(&gCamera,maxActors,BORG1_PlayerShadow);
+  Particle::InitParticleHead(&gGlobals.gameVars.particleHead,gGlobals.gameVars.borg9DatPointer,partCount,17,
+                   partTextInds);
   FUN_8000d744();
   no_TP_vec3 = 1;
   loadGameBorgScenes(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);

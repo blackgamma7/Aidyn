@@ -8,16 +8,16 @@ namespace CombatStatIndicator{
   //clear combatStatIndicatorDat, load digit textures
   void Init(){
     CLEAR(&combatStatIndicatorDat);
-    combatStatIndicatorDat.borg1Digits[0] = (Borg1Header *)getBorgItem(0x16);
-    combatStatIndicatorDat.borg1Digits[1] = (Borg1Header *)getBorgItem(0x11);
-    combatStatIndicatorDat.borg1Digits[2] = (Borg1Header *)getBorgItem(0x15);
-    combatStatIndicatorDat.borg1Digits[3] = (Borg1Header *)getBorgItem(0x14);
-    combatStatIndicatorDat.borg1Digits[4] = (Borg1Header *)getBorgItem(0xf);
-    combatStatIndicatorDat.borg1Digits[5] = (Borg1Header *)getBorgItem(0xe);
-    combatStatIndicatorDat.borg1Digits[6] = (Borg1Header *)getBorgItem(0x13);
-    combatStatIndicatorDat.borg1Digits[7] = (Borg1Header *)getBorgItem(0x12);
-    combatStatIndicatorDat.borg1Digits[8] = (Borg1Header *)getBorgItem(0xd);
-    combatStatIndicatorDat.borg1Digits[9] = (Borg1Header *)getBorgItem(0x10);
+    combatStatIndicatorDat.borg1Digits[0] = (Borg1Header *)getBorgItem(BORG1_StatNum0);
+    combatStatIndicatorDat.borg1Digits[1] = (Borg1Header *)getBorgItem(BORG1_StatNum1);
+    combatStatIndicatorDat.borg1Digits[2] = (Borg1Header *)getBorgItem(BORG1_StatNum2);
+    combatStatIndicatorDat.borg1Digits[3] = (Borg1Header *)getBorgItem(BORG1_StatNum3);
+    combatStatIndicatorDat.borg1Digits[4] = (Borg1Header *)getBorgItem(BORG1_StatNum4);
+    combatStatIndicatorDat.borg1Digits[5] = (Borg1Header *)getBorgItem(BORG1_StatNum5);
+    combatStatIndicatorDat.borg1Digits[6] = (Borg1Header *)getBorgItem(BORG1_StatNum6);
+    combatStatIndicatorDat.borg1Digits[7] = (Borg1Header *)getBorgItem(BORG1_StatNum7);
+    combatStatIndicatorDat.borg1Digits[8] = (Borg1Header *)getBorgItem(BORG1_StatNum8);
+    combatStatIndicatorDat.borg1Digits[9] = (Borg1Header *)getBorgItem(BORG1_StatNum9);
     ALLOCS(combatStatIndicatorDat.Indicators,MAXSTATDIGITS*sizeof(PlaneObj),135);
     memset(combatStatIndicatorDat.Indicators,0,MAXSTATDIGITS*sizeof(PlaneObj));
     ALLOCS(combatStatIndicatorDat.array,MAXSTATDIGITS,138);
@@ -225,7 +225,7 @@ void Free(void){
   memset(combatStatIndicatorDat.array,0,MAXSTATDIGITS);
   HFREE(combatStatIndicatorDat.array,425);
   for(i=0;i<10;i++) {
-    FREEQB1(&combatStatIndicatorDat.borg1Digits[i]);
+    FREEQB1(combatStatIndicatorDat.borg1Digits[i]);
   }
   CLEAR(&combatStatIndicatorDat);
 }

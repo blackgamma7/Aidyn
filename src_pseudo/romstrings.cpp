@@ -2,9 +2,8 @@
 #include "romcopy.h"
 #include "decompress.h"
 #include "heapN64.h"
+#include "dialoug.h"
 #define FILENAME "./src/romstrings.cpp"
-
-extern void some_string_func(char*);
 
 namespace  RomString{
 char ** Load(void *romAddr,size_t size){

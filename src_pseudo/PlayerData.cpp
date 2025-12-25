@@ -193,7 +193,6 @@ void FreePlayerHandler(){
     HFREE(PHANDLE.playerDats,415);
 }
 
-
 Gfx * Actor::CalculateShadow(playerData *pDat,Gfx *g,float param_3,u8 param_4){
   Borg9Data *borgDat;
   Gfx *pGVar2;

@@ -1,4 +1,33 @@
 //a list of id'd indicies used internally for the "n64Borg" art assets
+
+//Borg1: textures
+//NOTE: only listing textures here not attached to model.
+
+#define Borg1_Particle0 0x0000
+#define Borg1_Particle1 0x0001
+#define Borg1_Particle2 0x0002
+#define BORG1_PlayerShadow 0x0003 //used for player shadow and one of the particle textures
+#define Borg1_Particle4 0x0004
+#define Borg1_Particle5 0x0005
+#define Borg1_Particle6 0x0006
+#define Borg1_Particle7 0x0007
+#define Borg1_Particle8 0x0008
+#define Borg1_Particle9 0x0009
+#define Borg1_Particle10 0x000a
+#define Borg1_Particle11 0x000b
+#define Borg1_Particle12 0x000c
+
+#define BORG1_StatNum0 0x0016
+#define BORG1_StatNum1 0x0011
+#define BORG1_StatNum2 0x0015
+#define BORG1_StatNum3 0x0014
+#define BORG1_StatNum4 0x000f
+#define BORG1_StatNum5 0x000e
+#define BORG1_StatNum6 0x0013
+#define BORG1_StatNum7 0x0012
+#define BORG1_StatNum8 0x000d
+#define BORG1_StatNum9 0x0010
+
 //Borg8: UI images
 
 #define BORG8_CompassWest 0X0017

@@ -419,6 +419,7 @@ struct Borg1Data {
     Gfx *dList;
     u8 *bmp;
     u16 * pallette;
+    u32 unk14; //unused, always 0. bmp offset always past it.
 };
 
 struct Borg1Header {
