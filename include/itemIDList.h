@@ -383,6 +383,7 @@ enum ItemIDS{
     Armor_exp24,
     Armor_unk3c,
     Armor_ChaosRobes,
+    Armor_unk3e,
     Armor_Sheridan,
     Armor_unk40,
     Armor_Irondrake,

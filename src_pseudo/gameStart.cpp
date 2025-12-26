@@ -65,8 +65,8 @@ Gfx * RenderFlycam(Gfx *gfx){
     Scene::Tick(gFlycamSceneP);
     if (((flycam_flag != false) ||
         (gFlycamSceneP->aniTime <
-         ((gFlycamSceneP->scene[0].borg6)->dat->aniLength - 100.0) -
-         gGlobals.delta)) || (gGlobals.brightness != 1.0)) {
+         (gFlycamSceneP->borg6->dat->aniLength - 100.0) -gGlobals.delta)) || 
+         (gGlobals.brightness != 1.0)) {
       if ((gGlobals.screenFadeMode == 0) && (gGlobals.brightness == 0.0)) {
         FlyCamClear();
         return apGStackX_0[0];

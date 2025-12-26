@@ -2,25 +2,19 @@
 #include "n64Borg.h"
 
 struct SceneDatSubstruct {
-    Borg6SubSub *unk0;
-    void *unk4;
+    Borg6Struct2 *unk0;
+    Borg6Struct3 *unk4;
     void * unk8;
     u16 unkc;
 };
 
-struct SceneDatStruct {
-    Borg5Header *borg5;
-    Borg6Header *borg6;
-    SceneData* link;
-    SceneDatSubstruct *sub;
-    void *unk10;
-    u32 unk14;
-};
-
 #define MAX_LOCATORS 7
 struct SceneData {
-    SceneDatStruct scene[5];
-    u8 unk78[16];
+    Borg5Header *borg5;
+    Borg6Header *borg6;
+    u8 unk8[0x50];
+    void* unk58; //referenced in orphaned func. not sure original use
+    u8 unk5c[0x2c];
     MtxF matrixA;
     MtxF matrixB;
     MtxF matrixC;

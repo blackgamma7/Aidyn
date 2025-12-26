@@ -573,7 +573,7 @@ struct Borg5Data {
         s32* borg1i;
         Borg1Header **borg1p;
     };
-    void * aniTextures; //not used, but pointers still set (0x18 byte struct.) 
+    Borg5AniTexture * aniTextures; //not used, but pointers still set (0x18 byte struct.) 
     u16 *borg1lookup;
     Borg5_particle **ParticleDat;
     u32 ParticleCount;
@@ -622,7 +622,7 @@ struct Borg9Header {
 
 //PCM mono 44.1KHz sound samples
 struct Borg11Data {
-    u32 flag;
+    u32 flag; //uses Borg11_* #defines.
     u32 len;
     u32 samples;
     u8 *wav;
@@ -646,7 +646,7 @@ enum Borg2StructFlags{
     B2S_NoZBuff=0x200, //if unset, set GeometryMode G_SHADE|G_ZBUFFER
     B2S_0400=0x400, //unused?
     B2S_0800=0x800, //unused?
-    B2S_Wrap=0x1000, //unused?
+    B2S_ClampY=0x1000, //Clamp Y axis UV if set, wrap if unset
     B2S_YNoMirror=0x2000, //don't mirror UV on Y axis
     B2S_XMirror=0x4000, //mirror UV on X axis
     B2S_YMirror=0x8000 //mirror UV on Y axis
@@ -708,29 +708,36 @@ struct Borg12Header {
     borgHeader head;
     Borg12Data *dat;
 };
-struct Borg6SubSub{
+
+
+struct Borg6Struct3{
+    u16 unk0,unk2;
+    float* unk4;
+};
+
+struct Borg6Struct2{
     s16 unk0;
     s16 unk2;
-    float*unk4;
+    Borg6Struct3*unk4;
     s32 unk8;
-    float*unkc;
+    u32 unkc;
 };
-struct Borg6Sub{
+struct Borg6Struct1{
     u32 borg5;
     u32 unk4;
     void* unk8;
     u32 unkc;
     u32 subCount;
-    Borg6SubSub* sub;
+    Borg6Struct2* sub;
 };
 struct Borg6Data{
     u32 borg5;
     s32 subCount;
-    Borg6Sub* sub;
+    Borg6Struct1* sub;
     s32 aniLength;
 };
-struct Borg6Struct{
-    Borg6Sub* sub;
+struct Borg6Struct4{
+    Borg6Struct1* sub;
     u32 unk4;
     u32 unk8;
     void* unkc;
@@ -742,7 +749,7 @@ struct Borg6Header {
     SceneData* unk8;
     Borg6Header *link;
     Borg6Header * link2;
-    Borg6Struct *structDat;
+    Borg6Struct4 *structDat;
     u32 flag;
     float unk1c; //always 1.0(?)
     Borg6Data *dat;
@@ -1095,13 +1102,13 @@ u16 Borg7_GetAniTime(Borg7Header *param_1);
 void Borg7_StartParticles(Borg7Header *param_1);
 Gfx * Borg7_Render(Gfx *g,Borg7Header *param_2);
 void FUN_800a0714(struct SceneDatSubstruct *param_1);
-void FUN_800a0764(struct SceneDatStruct *param_1,float param_2);
-void FUN_800a07b0(struct SceneDatStruct *param_1,float param_2);
-void FUN_800a0800(struct SceneDatStruct *param_1,float param_2);
-void FUN_800a0940(Borg6Struct *param_1);
-void FUN_800a09c0(Borg6Struct *param_1);
+void FUN_800a0764(Borg6Struct4 *param_1,float param_2);
+void FUN_800a07b0(Borg6Struct4 *param_1,float param_2);
+void FUN_800a0800(Borg6Struct4 *param_1,float param_2);
+void FUN_800a0940(Borg6Struct4 *param_1);
+void FUN_800a09c0(Borg6Struct4 *param_1);
 void FUN_800a0a08(SceneData *param_1);
-void FUN_800a0a74(Borg6Struct *param_1);
+void FUN_800a0a74(Borg6Struct4 *param_1);
 void Ofunc_800a0d30(Borg6Header *param_1,int param_2);
 Gfx * BorgAnimDrawScene(Gfx *g,SceneData *scene);
 void FUN_800a0df4(SceneData *param_1);

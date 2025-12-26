@@ -616,11 +616,11 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
       }
       if ((z->borg5_ID2) && (z->SceneDat0x14 == NULL)) {
         if (z->index == ZoneCenter) {
-          z->SceneDat0x14 = BorgAnimLoadScene(uVar21);
+          z->SceneDat0x14 = BorgAnimLoadScene(z->borg5_ID2);
         }
         else 
         #ifdef DEBUGVER
-        if ((gLoadOneZone == 0) && (NoExpPak_memCheck(4))) 
+        if ((!gLoadOneZone) && (NoExpPak_memCheck(4))) 
         #else
         if(NoExpPak_memCheck(4))
         #endif

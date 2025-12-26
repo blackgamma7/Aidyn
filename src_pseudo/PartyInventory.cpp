@@ -198,8 +198,9 @@ s32 PartyInventory::AddKeyItem2(ItemID id,s32 q){
     return(slot!=-1);
 }
 ItemID D_800F19F0[]={
-    0x0541, 0x0640, 0x0734, 0x0757, Helm_SpiritDrake,
-    Cloak_Nightdrake, Glove_Stormdrake, Ring_Magedrake, Wand_HornKynon, 
+    Armor_Irondrake, Shield_Stardrake, Weapon_SwordLodin, 
+    Weapon_ChaosSythe, Helm_SpiritDrake, Cloak_Nightdrake, 
+    Glove_Stormdrake, Ring_Magedrake, Wand_HornKynon, 
     Wand_Banner, Wand_Stormbreaker, Amulet_Pandara, Glove_Plate};
 
 s32 PartyInventory::AddKeyEquipment(ItemID id,s32 q){

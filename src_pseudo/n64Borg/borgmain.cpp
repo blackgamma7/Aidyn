@@ -379,7 +379,7 @@ void borg5_func_a(Borg5Header *b5){
   if ((b5->dat).borg4i) (b5->dat).borg4i = (s32 *)((int)((b5->dat).borg4i + 4) + (int)b5);
   if ((b5->dat).borg2i) (b5->dat).borg2i = (s32 *)((int)((b5->dat).borg2i + 4) + (int)b5);
   if ((b5->dat).borg1i)(b5->dat).borg1i = (s32 *)((int)((b5->dat).borg1i + 4) + (int)b5);
-  if (b5->dat.aniTextures)b5->dat.aniTextures = (void *)((int)b5->dat.aniTextures + (int)&b5->dat);
+  if (b5->dat.aniTextures)b5->dat.aniTextures = (Borg5AniTexture *)((int)b5->dat.aniTextures + (int)&b5->dat);
   i = (b5->dat).aniTextureCount;
   if (0 < i) {
     Borg5AniTexture* ani = (Borg5AniTexture*)(b5->dat).aniTextures;
@@ -640,21 +640,21 @@ void borg6_func_a(Borg6Data *param_1){
   u32 uVar3;
   u32 uVar4;
   float *pfVar5;
-  Borg6Sub *pBVar6;
-  Borg6SubSub *pBVar7;
+  Borg6Struct1 *pBVar6;
+  Borg6Struct2 *pBVar7;
   int j;
   int i;
   
   i = 0;
   uVar3 = param_1->subCount;
-  pBVar6 = (Borg6Sub *)((int)&param_1->borg5 + (int)&param_1->sub->borg5);
+  pBVar6 = (Borg6Struct1 *)((int)&param_1->borg5 + (int)&param_1->sub->borg5);
   param_1->sub = pBVar6;
   if (0 < (int)uVar3) {
     do {
       j = 0;
       i++;
       uVar4 = pBVar6->subCount;
-      pBVar7 = (Borg6SubSub *)((int)&param_1->borg5 + (int)&pBVar6->sub->unk0);
+      pBVar7 = (Borg6Struct2 *)((int)&param_1->borg5 + (int)&pBVar6->sub->unk0);
       pBVar6->sub = pBVar7;
       if (0 < (int)uVar4) {
         do {
@@ -680,16 +680,16 @@ void borg6_func_a(Borg6Data *param_1){
 u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
   u32 uVar1;
   float *pfVar2;
-  Borg6Sub *pBVar3;
+  Borg6Struct1 *pBVar3;
   void *pvVar4;
-  Borg6Struct *pBVar6;
+  Borg6Struct4 *pBVar6;
   int *piVar7;
   undefined4 *puVar8;
   undefined4 *puVar9;
   u32 uVar10;
   undefined4 *puVar11;
   u16 uVar12;
-  Borg6SubSub *pBVar13;
+  Borg6Struct2 *pBVar13;
   int iVar14;
   int iVar15;
   int iVar16;
@@ -702,7 +702,7 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
   param_1->dat = param_2;
   param_1->flag = 0;
   param_1->unk1c = 1.0;
-  pBVar6 = (Borg6Struct *)HALLOC(param_2->subCount * sizeof(Borg6Struct),2064);
+  pBVar6 = (Borg6Struct4 *)HALLOC(param_2->subCount * sizeof(Borg6Struct4),2064);
   param_1->structDat = pBVar6;
   uVar1 = param_1->dat->subCount;
   pBVar3 = param_1->dat->sub;

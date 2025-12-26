@@ -1,138 +1,138 @@
 #include "globals.h"
 
 
-void Scene::MatrixASetPos(SceneData *param_1,float x,float y,float z){
-  param_1->matrixA[3][0] = x;
-  param_1->matrixA[3][1] = y;
-  param_1->matrixA[3][2] = z;
+void Scene::MatrixASetPos(SceneData *scene,float x,float y,float z){
+  scene->matrixA[3][0] = x;
+  scene->matrixA[3][1] = y;
+  scene->matrixA[3][2] = z;
 }
 
-void Scene::MatrixATranslate(SceneData *param_1,float x,float y,float z){
-    param_1->matrixA[3][0] += x;
-    param_1->matrixA[3][1] += y;
-    param_1->matrixA[3][2] += z;
+void Scene::MatrixATranslate(SceneData *scene,float x,float y,float z){
+    scene->matrixA[3][0] += x;
+    scene->matrixA[3][1] += y;
+    scene->matrixA[3][2] += z;
 }
 
-void Ofunc_800a7554(SceneData *param_1,float x,float y,float z){
-  param_1->matrixA[3][0] = param_1->matrixA[3][0] +
-       param_1->matrixA[0][0] * x + param_1->matrixA[1][0] * y + param_1->matrixA[2][0] * z;
-  param_1->matrixA[3][1] = param_1->matrixA[3][1] +
-       param_1->matrixA[0][1] * x + param_1->matrixA[1][1] * y + param_1->matrixA[2][1] * z;
-  param_1->matrixA[3][2] = param_1->matrixA[3][2] +
-      param_1->matrixA[0][2] * x + param_1->matrixA[1][2] * y + param_1->matrixA[2][2] * z;
+void Ofunc_800a7554(SceneData *scene,float x,float y,float z){
+  scene->matrixA[3][0] = scene->matrixA[3][0] +
+       scene->matrixA[0][0] * x + scene->matrixA[1][0] * y + scene->matrixA[2][0] * z;
+  scene->matrixA[3][1] = scene->matrixA[3][1] +
+       scene->matrixA[0][1] * x + scene->matrixA[1][1] * y + scene->matrixA[2][1] * z;
+  scene->matrixA[3][2] = scene->matrixA[3][2] +
+      scene->matrixA[0][2] * x + scene->matrixA[1][2] * y + scene->matrixA[2][2] * z;
 }
 
-void Scene::MatrixARotate(SceneData *param_1,float pitch,float roll,float yaw){
+void Scene::MatrixARotate(SceneData *scene,float pitch,float roll,float yaw){
   MtxF temp;
   
   guRotateRPYF(&temp,roll,pitch,yaw);
-  param_1->matrixA[0][0] = temp[0][0];
-  param_1->matrixA[1][0] = temp[1][0];
-  param_1->matrixA[2][0] = temp[2][0];
-  param_1->matrixA[0][1] = temp[0][1];
-  param_1->matrixA[1][1] = temp[1][1];
-  param_1->matrixA[2][1] = temp[2][1];
-  param_1->matrixA[0][2] = temp[0][2];
-  param_1->matrixA[1][2] = temp[1][2];
-  param_1->matrixA[2][2] = temp[2][2];
+  scene->matrixA[0][0] = temp[0][0];
+  scene->matrixA[1][0] = temp[1][0];
+  scene->matrixA[2][0] = temp[2][0];
+  scene->matrixA[0][1] = temp[0][1];
+  scene->matrixA[1][1] = temp[1][1];
+  scene->matrixA[2][1] = temp[2][1];
+  scene->matrixA[0][2] = temp[0][2];
+  scene->matrixA[1][2] = temp[1][2];
+  scene->matrixA[2][2] = temp[2][2];
 }
 
 
-void Ofunc_800a7674(SceneData *param_1,float param_2,float param_3,float param_4){
+void Ofunc_800a7674(SceneData *scene,float param_2,float param_3,float param_4){
   MtxF tempA;
   
   guRotateRPYF(&tempA,param_3,param_2,param_4);
-  MtxF tempB = param_1->matrixA;
-  some_other_matrix_math(&param_1->matrixA,&tempA,&tempB);
+  MtxF tempB = scene->matrixA;
+  some_other_matrix_math(&scene->matrixA,&tempA,&tempB);
 }
 
-void Ofunc_800a76f0(SceneData *param_1,vec3f *param_2,float param_3){
-  ofunc_sub_800acc40(&param_1->matrixA,param_2,param_3);
+void Ofunc_800a76f0(SceneData *scene,vec3f *param_2,float param_3){
+  ofunc_sub_800acc40(&scene->matrixA,param_2,param_3);
 }
 
-void Ofunc_800a770c(SceneData *param_1,vec3f *param_2,undefined4 param_3){
+void Ofunc_800a770c(SceneData *scene,vec3f *param_2,undefined4 param_3){
   MtxF tempA,tempB;
   ofunc_sub_800acc40(&tempA,param_2,param_3);
-  tempB = param_1->matrixA;
-  FUN_800ac2e8(&param_1->matrixA,&tempA,&tempB);
+  tempB = scene->matrixA;
+  FUN_800ac2e8(&scene->matrixA,&tempA,&tempB);
 }
 
-void Scene::MatrixANormalizeScale(SceneData *param_1,float x,float y,float z){
-  (param_1->scalar).x = x;
-  (param_1->scalar).y = y;
-  (param_1->scalar).z = z;
-  guNormalize(&param_1->matrixA[0][0],&param_1->matrixA[0][1],&param_1->matrixA[0][2]);
-  guNormalize(&param_1->matrixA[1][0],&param_1->matrixA[1][1],&param_1->matrixA[1][2]);
-  guNormalize(&param_1->matrixA[2][0],&param_1->matrixA[2][1],&param_1->matrixA[2][2]);
-  matrix_scale(&param_1->matrixA,x,y,z);
+void Scene::MatrixANormalizeScale(SceneData *scene,float x,float y,float z){
+  (scene->scalar).x = x;
+  (scene->scalar).y = y;
+  (scene->scalar).z = z;
+  guNormalize(&scene->matrixA[0][0],&scene->matrixA[0][1],&scene->matrixA[0][2]);
+  guNormalize(&scene->matrixA[1][0],&scene->matrixA[1][1],&scene->matrixA[1][2]);
+  guNormalize(&scene->matrixA[2][0],&scene->matrixA[2][1],&scene->matrixA[2][2]);
+  matrix_scale(&scene->matrixA,x,y,z);
 }
 
-void Scene::ScaleBodyPart(SceneData *param_1,float x,float y,float z){
-  (param_1->scalar).x = x;
-  (param_1->scalar).y = y;
-  (param_1->scalar).z = z;
-  matrix_scale(&param_1->matrixA,x,y,z);
+void Scene::ScaleBodyPart(SceneData *scene,float x,float y,float z){
+  (scene->scalar).x = x;
+  (scene->scalar).y = y;
+  (scene->scalar).z = z;
+  matrix_scale(&scene->matrixA,x,y,z);
 }
 
-void Scene::MatrixAAlign(SceneData *param_1,float x,float y,float z,float angle){
+void Scene::MatrixAAlign(SceneData *scene,float x,float y,float z,float angle){
   MtxF temp;
   
   guAlignF(&temp,angle,x,y,z);
-  param_1->matrixA[0][0] = temp[0][0];
-  param_1->matrixA[1][0] = temp[1][0];
-  param_1->matrixA[2][0] = temp[2][0];
-  param_1->matrixA[0][1] = temp[0][1];
-  param_1->matrixA[1][1] = temp[1][1];
-  param_1->matrixA[2][1] = temp[2][1];
-  param_1->matrixA[0][2] = temp[0][2];
-  param_1->matrixA[1][2] = temp[1][2];
-  param_1->matrixA[2][2] = temp[2][2];
+  scene->matrixA[0][0] = temp[0][0];
+  scene->matrixA[1][0] = temp[1][0];
+  scene->matrixA[2][0] = temp[2][0];
+  scene->matrixA[0][1] = temp[0][1];
+  scene->matrixA[1][1] = temp[1][1];
+  scene->matrixA[2][1] = temp[2][1];
+  scene->matrixA[0][2] = temp[0][2];
+  scene->matrixA[1][2] = temp[1][2];
+  scene->matrixA[2][2] = temp[2][2];
 }
 
-void Scene::MatrixBPos(SceneData *param_1,float x,float y,float z){
-  param_1->matrixB[3][0] = x;
-  param_1->matrixB[3][1] = y;
-  param_1->matrixB[3][2] = z;
+void Scene::MatrixBPos(SceneData *scene,float x,float y,float z){
+  scene->matrixB[3][0] = x;
+  scene->matrixB[3][1] = y;
+  scene->matrixB[3][2] = z;
 }
 
-void Scene::MatrixBTranslate(SceneData *param_1,float x,float y,float z){
-    param_1->matrixB[3][0] += x;
-    param_1->matrixB[3][1] += y;
-    param_1->matrixB[3][2] += z;
+void Scene::MatrixBTranslate(SceneData *scene,float x,float y,float z){
+    scene->matrixB[3][0] += x;
+    scene->matrixB[3][1] += y;
+    scene->matrixB[3][2] += z;
 }
 
-void Ofunc_800a7920(SceneData *param_1,float x,float y,float z){
-    param_1->matrixB[3][0] = param_1->matrixB[3][0] +
-         param_1->matrixB[0][0] * x + param_1->matrixB[1][0] * y + param_1->matrixB[2][0] * z;
-    param_1->matrixB[3][1] = param_1->matrixB[3][1] +
-         param_1->matrixB[0][1] * x + param_1->matrixB[1][1] * y + param_1->matrixB[2][1] * z;
-    param_1->matrixB[3][2] = param_1->matrixB[3][2] +
-        param_1->matrixB[0][2] * x + param_1->matrixB[1][2] * y + param_1->matrixB[2][2] * z;
+void Ofunc_800a7920(SceneData *scene,float x,float y,float z){
+    scene->matrixB[3][0] = scene->matrixB[3][0] +
+         scene->matrixB[0][0] * x + scene->matrixB[1][0] * y + scene->matrixB[2][0] * z;
+    scene->matrixB[3][1] = scene->matrixB[3][1] +
+         scene->matrixB[0][1] * x + scene->matrixB[1][1] * y + scene->matrixB[2][1] * z;
+    scene->matrixB[3][2] = scene->matrixB[3][2] +
+        scene->matrixB[0][2] * x + scene->matrixB[1][2] * y + scene->matrixB[2][2] * z;
 }
 
-void Scene::MatrixBRotate(SceneData *param_1,float pitch,float roll,float yaw){
+void Scene::MatrixBRotate(SceneData *scene,float pitch,float roll,float yaw){
     MtxF temp;
     
     guRotateRPYF(&temp,roll,pitch,yaw);
-    param_1->matrixB[0][0] = temp[0][0];
-    param_1->matrixB[1][0] = temp[1][0];
-    param_1->matrixB[2][0] = temp[2][0];
-    param_1->matrixB[0][1] = temp[0][1];
-    param_1->matrixB[1][1] = temp[1][1];
-    param_1->matrixB[2][1] = temp[2][1];
-    param_1->matrixB[0][2] = temp[0][2];
-    param_1->matrixB[1][2] = temp[1][2];
-    param_1->matrixB[2][2] = temp[2][2];
+    scene->matrixB[0][0] = temp[0][0];
+    scene->matrixB[1][0] = temp[1][0];
+    scene->matrixB[2][0] = temp[2][0];
+    scene->matrixB[0][1] = temp[0][1];
+    scene->matrixB[1][1] = temp[1][1];
+    scene->matrixB[2][1] = temp[2][1];
+    scene->matrixB[0][2] = temp[0][2];
+    scene->matrixB[1][2] = temp[1][2];
+    scene->matrixB[2][2] = temp[2][2];
 }
 
-void Scene::MatrixBCopyTo(SceneData *param_1,MtxF *param_2){
+void Scene::MatrixBCopyTo(SceneData *scene,MtxF *param_2){
   float fVar1;
   float fVar2;
   float fVar3;
   float (*pafVar4) [4];
   float (*pafVar5) [4];
   
-  pafVar5 = param_1->matrixB;
+  pafVar5 = scene->matrixB;
   
   pafVar4 = param_2[1];
   do {
@@ -149,17 +149,17 @@ void Scene::MatrixBCopyTo(SceneData *param_1,MtxF *param_2){
 }
 
 //unused, redundant
-void Scene::SetFlag40_800a7af8(SceneData *param_1){param_1->flags|= SCENE_0040;}
+void Scene::SetFlag40_800a7af8(SceneData *scene){scene->flags|= SCENE_0040;}
 //unused, redundant
-void Scene::UnsetFlag40_800a7b08(SceneData *param_1){param_1->flags&= ~SCENE_0040;}
+void Scene::UnsetFlag40_800a7b08(SceneData *scene){scene->flags&= ~SCENE_0040;}
 
-void Scene::SetFlag80(SceneData *param_1){param_1->flags|= SCENE_0080;}
+void Scene::SetFlag80(SceneData *scene){scene->flags|= SCENE_0080;}
 
-void Scene::UnsetFlag80_800a7b2c(SceneData *param_1){param_1->flags&= ~SCENE_0080;}
+void Scene::UnsetFlag80_800a7b2c(SceneData *scene){scene->flags&= ~SCENE_0080;}
 
-borg5substruct * Ofunc_800a7b40(SceneData *param_1){
-  if ((param_1->scene[0].borg5->dat).borg3P) 
-    return (param_1->scene[0].borg5->dat).someSubstruct;
+borg5substruct * Ofunc_800a7b40(SceneData *scene){
+  if (scene->borg5->dat.borg3P) 
+    return scene->borg5->dat.someSubstruct;
   return NULL;
 }
 
@@ -211,68 +211,68 @@ void SceneSetCameraLookAt(SceneData *ani,float posx,float posy,float posz,float 
   Scene::LookAt(ani,posx,posy,posz,aimx,aimy,aimz,0.0,1.0,0.0);
 }
 
-void Scene::SetFOV(SceneData *param_1,float param_2){
-  Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+void Scene::SetFOV(SceneData *scene,float param_2){
+  Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
   if (pBVar1) pBVar1->dat.fovy = param_2;
 }
 
-float Scene::GetFOV(SceneData *param_1){
-  Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+float Scene::GetFOV(SceneData *scene){
+  Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
   float ret  = 75.0f;
   if (pBVar1) ret = pBVar1->dat.fovy;
   return ret;
 }
 
 
-void Scene::SetNearFarPlanes(SceneData *param_1,float near,float far){
-  Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+void Scene::SetNearFarPlanes(SceneData *scene,float near,float far){
+  Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
   if (pBVar1) {
     pBVar1->dat.nearplane = near;
     pBVar1->dat.farplane = far;
   }
 }
 
-float Scene::GetFarplane(SceneData *param_1){
-  Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+float Scene::GetFarplane(SceneData *scene){
+  Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
   float ret = 16000.0f;
   if (pBVar1) ret = pBVar1->dat.farplane;
   return ret;
 }
 
-float Scene::GetNearplane(SceneData *param_1){
-    Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+float Scene::GetNearplane(SceneData *scene){
+    Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
     float ret = 16.0f;
     if (pBVar1) ret = pBVar1->dat.nearplane;
     return ret;
 }
 
 
-void Ofunc_800a7e4c(SceneData *param_1,float param_2){
-    Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+void Ofunc_800a7e4c(SceneData *scene,float param_2){
+    Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
     if (pBVar1) pBVar1->dat.unk10 = param_2;
   }
   
-float Ofunc_800a7e68(SceneData *param_1){
-    Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+float Ofunc_800a7e68(SceneData *scene){
+    Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
     float ret = 0.0f;
     if (pBVar1) ret = pBVar1->dat.unk10;
     return ret;
 }
 
-void Scene::SetAspectRatio(SceneData *param_1,float param_2){
-    Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+void Scene::SetAspectRatio(SceneData *scene,float param_2){
+    Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
     if (pBVar1) pBVar1->dat.aspect = param_2;
   }
 
-float Scene::GetAspectRatio(SceneData *param_1){
-    Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+float Scene::GetAspectRatio(SceneData *scene){
+    Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
     float ret = 1.3f;
     if (pBVar1) ret = pBVar1->dat.aspect;
     return ret;
 }
 
-void Ofunc_800a7ec0(SceneData *param_1,float param_2,float param_3,float param_4,float param_5){
-  Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+void Ofunc_800a7ec0(SceneData *scene,float param_2,float param_3,float param_4,float param_5){
+  Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
   if (pBVar1) {
     s16* psVar2 = pBVar1->dat.unk18;
     psVar2[4] = (s16)(int)(param_2 + param_4 + param_2 + param_4);
@@ -282,105 +282,105 @@ void Ofunc_800a7ec0(SceneData *param_1,float param_2,float param_3,float param_4
   }
 }
 
-void Ofunc_800a7f48(SceneData *param_1,float param_2){
-    Borg3Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg3P;
+void Ofunc_800a7f48(SceneData *scene,float param_2){
+    Borg3Header *pBVar1 = scene->borg5->dat.borg3P;
     if (pBVar1) pBVar1->dat.unk10 = param_2;
 }
   
-void Scene::SetFlag4(SceneData *param_1){param_1->flags|=SCENE_0004;}
+void Scene::SetFlag4(SceneData *scene){scene->flags|=SCENE_0004;}
 
-void Scene::UnsetFlag4(SceneData *param_1){param_1->flags&=~SCENE_0004;}
+void Scene::UnsetFlag4(SceneData *scene){scene->flags&=~SCENE_0004;}
 
-void Scene::SetFlag8(SceneData *param_1){param_1->flags|=SCENE_0008;}
+void Scene::SetFlag8(SceneData *scene){scene->flags|=SCENE_0008;}
 
-void Scene::UnsetFlag8(SceneData *param_1){param_1->flags&=~SCENE_0008;}
+void Scene::UnsetFlag8(SceneData *scene){scene->flags&=~SCENE_0008;}
 
-void Scene::SetFlag10(SceneData *param_1){param_1->flags|=SCENE_0010;}
+void Scene::SetFlag10(SceneData *scene){scene->flags|=SCENE_0010;}
 
-void Scene::UnsetFlag10(SceneData *param_1){param_1->flags&=~SCENE_0010;}
+void Scene::UnsetFlag10(SceneData *scene){scene->flags&=~SCENE_0010;}
 
-void Scene::SetFlag20(SceneData *param_1){param_1->flags|=SCENE_0020;}
+void Scene::SetFlag20(SceneData *scene){scene->flags|=SCENE_0020;}
 
-void Scene::UnsetFlag20(SceneData *param_1){param_1->flags&=~SCENE_0020;}
+void Scene::UnsetFlag20(SceneData *scene){scene->flags&=~SCENE_0020;}
 
-void Scene::SetFlag40(SceneData *param_1){param_1->flags|=SCENE_0040;}
+void Scene::SetFlag40(SceneData *scene){scene->flags|=SCENE_0040;}
 
-void Scene::UnsetFlag40(SceneData *param_1){param_1->flags&=~SCENE_0040;}
+void Scene::UnsetFlag40(SceneData *scene){scene->flags&=~SCENE_0040;}
 
-void Scene::SetFlag80(SceneData *param_1){param_1->flags|=SCENE_0080;}
+void Scene::SetFlag80(SceneData *scene){scene->flags|=SCENE_0080;}
 
-void Scene::UnsetFlag80(SceneData *param_1){param_1->flags&=~SCENE_0080;}
+void Scene::UnsetFlag80(SceneData *scene){scene->flags&=~SCENE_0080;}
 
-void Scene::SetFlag200(SceneData *param_1){param_1->flags|=SCENE_0200;}
+void Scene::SetFlag200(SceneData *scene){scene->flags|=SCENE_0200;}
 
-void Scene::UnsetFlag200(SceneData *param_1){param_1->flags&=~SCENE_0200;}
+void Scene::UnsetFlag200(SceneData *scene){scene->flags&=~SCENE_0200;}
 
-void Ofunc_800a8060(SceneData *param_1,u8 b){param_1->perspNormIndex=b&1;}
+void Ofunc_800a8060(SceneData *scene,u8 b){scene->perspNormIndex=b&1;}
 
-void Scene::SetSpeed(SceneData *param_1,u8 spd){param_1->aniSpeed = spd;}
+void Scene::SetSpeed(SceneData *scene,u8 spd){scene->aniSpeed = spd;}
 
-borg5substruct * Scene::Ofunc_800a8098(SceneData *param_1,s32 param_2){
-  return ((param_1->scene[0].borg5)->dat).someSubstruct + param_2;
+borg5substruct * Scene::Ofunc_800a8098(SceneData *scene,s32 param_2){
+  return scene->borg5->dat.someSubstruct + param_2;
 }
 
 
-void FUN_800a80ac(SceneData *ani,vec3f *out,int i){
-  borg5substruct *pbVar1 = ((ani->scene[0].borg5)->dat).someSubstruct;
+void FUN_800a80ac(SceneData *scene,vec3f *out,int i){
+  borg5substruct *pbVar1 = scene->borg5->dat.someSubstruct;
   out->x = pbVar1[i].pos.x;
   out->y = pbVar1[i].pos.y;
   out->z = pbVar1[i].pos.z;
 }
 
 
-void FUN_800a80d8(SceneData *param_1,vec3f *param_2,int param_3){
-  borg5substruct *pbVar1 = ((param_1->scene[0].borg5)->dat).someSubstruct;
+void FUN_800a80d8(SceneData *scene,vec3f *param_2,s32 param_3){
+  borg5substruct *pbVar1 = scene->borg5->dat.someSubstruct;
   pbVar1[param_3].pos.x = param_2->x;
   pbVar1[param_3].pos.y = param_2->y;
   pbVar1[param_3].pos.z = param_2->z;
 }
 
-void Ofunc_800a8104(SceneData *param_1,int param_2,float param_3){
+void Ofunc_800a8104(SceneData *scene,int param_2,float param_3){
   if (-1 < param_2) {
-    Borg5Header *pBVar1 = param_1->scene[0].borg5;
-    if (param_2 < (pBVar1->dat).borg2Count) {
-      (pBVar1->dat).borg2p[param_2]->dat->alpha = param_3;
+    Borg5Header *pBVar1 = scene->borg5;
+    if (param_2 < pBVar1->dat.borg2Count) {
+      pBVar1->dat.borg2p[param_2]->dat->alpha = param_3;
     }
   }
 }
 
-void Scene::SetFogFlag(SceneData *param_1){param_1->flags|= SCENE_0100;}
+void Scene::SetFogFlag(SceneData *scene){scene->flags|= SCENE_0100;}
 
-void Scene::UnsetFogFlag(SceneData *param_1){param_1->flags&=~SCENE_0100;}
+void Scene::UnsetFogFlag(SceneData *scene){scene->flags&=~SCENE_0100;}
 
-void Scene::SetFogColor(SceneData *param_1,s32 R,s32 G,s32 B,s32 A){
+void Scene::SetFogColor(SceneData *scene,s32 R,s32 G,s32 B,s32 A){
   CLAMP(R,0,255);
   CLAMP(G,0,255);
   CLAMP(B,0,255);
   CLAMP(A,0,255);
-  (param_1->fogColor).R = R;
-  (param_1->fogColor).G = G;
-  (param_1->fogColor).B = B;
-  (param_1->fogColor).A = A;
+  (scene->fogColor).R = R;
+  (scene->fogColor).G = G;
+  (scene->fogColor).B = B;
+  (scene->fogColor).A = A;
 }
 
-void Scene::SetFogPlane(SceneData *param_1,s32 fog,s32 farplane){
+void Scene::SetFogPlane(SceneData *scene,s32 fog,s32 farplane){
   CLAMP(fog,0,1000);
   CLAMP(farplane,0,1000);
   s32 iVar1 = farplane; // redo as dec?
   if (fog == farplane) {
     if (farplane - 1 < 0) {
       iVar1 = farplane + 1;
-      param_1->fogMin = farplane;
+      scene->fogMin = farplane;
     }
-    else param_1->fogMin = farplane - 1;
+    else scene->fogMin = farplane - 1;
   }
-  else param_1->fogMin = fog;
-  param_1->fogMax = iVar1;
+  else scene->fogMin = fog;
+  scene->fogMax = iVar1;
 }
 
 
-void Ofunc_800a821c(SceneData *param_1,int param_2,int param_3,vec4f *param_4){
-  Borg2Struct *paVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_2]->dat->unk0x40;
+void Ofunc_800a821c(SceneData *scene,int param_2,int param_3,vec4f *param_4){
+  Borg2Struct *paVar1 = scene->borg5->dat.borg2p[param_2]->dat->unk0x40;
   paVar1[param_3].tint.r = param_4->r;
   paVar1[param_3].tint.g = param_4->g;
   paVar1[param_3].tint.b = param_4->b;
@@ -389,9 +389,9 @@ void Ofunc_800a821c(SceneData *param_1,int param_2,int param_3,vec4f *param_4){
   else paVar1[param_3].tint.a = 1.0;
 }
 
-void Scene::SetFlag4000(SceneData *param_1){param_1->flags|=SCENE_4000;}
+void Scene::SetFlag4000(SceneData *scene){scene->flags|=SCENE_4000;}
 
-void Scene::UnsetFlag4000(SceneData *param_1){param_1->flags&=~SCENE_4000;}
+void Scene::UnsetFlag4000(SceneData *scene){scene->flags&=~SCENE_4000;}
 
 void Scene::SetModelTint(SceneData *scene,u8 r,u8 g,u8 b,u8 a){
   (scene->colorFloats).r = (float)r / 255.0f;
@@ -400,28 +400,28 @@ void Scene::SetModelTint(SceneData *scene,u8 r,u8 g,u8 b,u8 a){
   (scene->colorFloats).a = (float)a / 255.0f;
 }
 
-void Scene::SetLightData(SceneData *param_1){
-  param_1->maxLights = 7;
-  (param_1->envLight.l).col[0] = 0xff;
-  (param_1->envLight.l).col[1] = 0xff;
-  (param_1->envLight.l).col[2] = 0xff;
-  (param_1->envLight.l).colc[0] = 0xff;
-  (param_1->envLight.l).colc[1] = 0xff;
-  (param_1->envLight.l).colc[2] = 0xff;
-  param_1->currLights = 0;
-  (param_1->envLight.l).pad1 = 0;
-  (param_1->envLight.l).pad2 = 0;
-  (param_1->envLight.l).dir[0] = 0;
-  (param_1->envLight.l).dir[1] = 0;
-  (param_1->envLight.l).dir[2] = 0;
-  (param_1->envLight.l).pad3 = 0;
-  param_1->flags = param_1->flags & ~SCENE_0080 | SCENE_8000;
+void Scene::SetLightData(SceneData *scene){
+  scene->maxLights = 7;
+  (scene->envLight.l).col[0] = 0xff;
+  (scene->envLight.l).col[1] = 0xff;
+  (scene->envLight.l).col[2] = 0xff;
+  (scene->envLight.l).colc[0] = 0xff;
+  (scene->envLight.l).colc[1] = 0xff;
+  (scene->envLight.l).colc[2] = 0xff;
+  scene->currLights = 0;
+  (scene->envLight.l).pad1 = 0;
+  (scene->envLight.l).pad2 = 0;
+  (scene->envLight.l).dir[0] = 0;
+  (scene->envLight.l).dir[1] = 0;
+  (scene->envLight.l).dir[2] = 0;
+  (scene->envLight.l).pad3 = 0;
+  scene->flags = scene->flags & ~SCENE_0080 | SCENE_8000;
 }
 
-void Scene::SceneSetMaxDynamicDirLights(SceneData *param_1,byte max){
+void Scene::SceneSetMaxDynamicDirLights(SceneData *scene,byte max){
   if (max > 7)
     CRASH("scenes.cpp, SceneSetMaxDynamicDirLights()","Max is larger than hardware limit of 7!"); 
-  param_1->maxLights = (u32)max;
+  scene->maxLights = (u32)max;
 }
 
 int Scene::LengthSquared(byte A,byte B,byte C){
@@ -484,23 +484,23 @@ s16 Scene::addLight(SceneData *scene,u8 param_2,float X,float Y,float Z,u8 red,u
   return sVar7;
 }
 
-void Scene::SetLightColors(SceneData *param_1,u8 r,u8 g,u8 b){
-  (param_1->envLight.l).col[0] = r;
-  (param_1->envLight.l).col[1] = g;
-  (param_1->envLight.l).col[2] = b;
-  (param_1->envLight.l).pad1 = 0;
-  (param_1->envLight.l).colc[0] = r;
-  (param_1->envLight.l).colc[1] = g;
-  (param_1->envLight.l).colc[2] = b;
-  (param_1->envLight.l).pad2 = 0;
-  (param_1->envLight.l).dir[0] = 0;
-  (param_1->envLight.l).dir[1] = 0;
-  (param_1->envLight.l).dir[2] = 0;
-  (param_1->envLight.l).pad3 = 0;
+void Scene::SetLightColors(SceneData *scene,u8 r,u8 g,u8 b){
+  (scene->envLight.l).col[0] = r;
+  (scene->envLight.l).col[1] = g;
+  (scene->envLight.l).col[2] = b;
+  (scene->envLight.l).pad1 = 0;
+  (scene->envLight.l).colc[0] = r;
+  (scene->envLight.l).colc[1] = g;
+  (scene->envLight.l).colc[2] = b;
+  (scene->envLight.l).pad2 = 0;
+  (scene->envLight.l).dir[0] = 0;
+  (scene->envLight.l).dir[1] = 0;
+  (scene->envLight.l).dir[2] = 0;
+  (scene->envLight.l).pad3 = 0;
 }
 
-bool Scene::HasLocator(SceneData *param_1,s32 param_2){
-  if (param_2 < 8) return param_1->locators[param_2] != -1;
+bool Scene::HasLocator(SceneData *scene,s32 param_2){
+  if (param_2 < 8) return scene->locators[param_2] != -1;
   return false;
 }
 
@@ -520,7 +520,7 @@ bool Scene::SceneGetLocatorMtx(SceneData *scene,MtxF *mf,s32 i){
     #endif
   }
   else {
-    Borg2Header *pbVar1 = ((scene->scene[0].borg5)->dat).borg2p[scene->locators[i]];
+    Borg2Header *pbVar1 = ((scene->borg5)->dat).borg2p[scene->locators[i]];
     guMtxIdentF(&afStack344);
     Borg2Data *pbVar2 = pbVar1->dat;
     guRotateRPYF(&afStack344,(pbVar2->rot).x * RadInDeg_f,
@@ -569,7 +569,7 @@ bool Scene::SceneGetLocatorPos(SceneData *pScene,vec3f *pos,s32 param_3){
     CRASH("","");
     #endif
   }
-  Borg2Header *pModel = ((pScene->scene[0].borg5)->dat).borg2p[pScene->locators[param_3]];
+  Borg2Header *pModel = ((pScene->borg5)->dat).borg2p[pScene->locators[param_3]];
   if (!pModel) CRASH("scene.cpp, SceneGetLocatorPos()","!pModel");
   pbVar2 = pModel->dat;
   guMtxXFMF(&pModel->someMtx,(pbVar2->pos).x,(pbVar2->pos).y,(pbVar2->pos).z,&pos->x,&pos->y,&pos->z);
@@ -579,23 +579,23 @@ bool Scene::SceneGetLocatorPos(SceneData *pScene,vec3f *pos,s32 param_3){
   return true;
 }
 
-bool Scene::SceneGetLocatorNorm(SceneData *param_1,vec3f *out,s32 param_3){
+bool Scene::SceneGetLocatorNorm(SceneData *scene,vec3f *out,s32 param_3){
   Borg2Header *pBVar1;
   Borg2Data *pbVar2;
   MtxF tempA,tempB;
 
   
   if (MAX_LOCATORS < param_3) CRASH("scene.cpp, SceneGetLocatorNorm()","Locator is greater than MAX_LOCATORS");
-  if (param_1->locators[param_3] == -1) {
+  if (scene->locators[param_3] == -1) {
     #ifdef DEBUGVER
     char errBuff [144];
-    sprintf(errBuff,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
+    sprintf(errBuff,"Locator: %d is undefined for %s!\n",param_3,scene->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorNorm()",errBuff);
     #else
     CRASH("","");
     #endif
   }
-  Borg2Header *pBVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_1->locators[param_3]];
+  Borg2Header *pBVar1 = scene->borg5->dat.borg2p[scene->locators[param_3]];
   guMtxIdentF(&tempA);
   pbVar2 = pBVar1->dat;
   guRotateRPYF(&tempA,(pbVar2->rot).x * RadInDeg_f,
@@ -622,7 +622,7 @@ bool Scene::SceneGetLocatorNorm(SceneData *param_1,vec3f *out,s32 param_3){
   return true;
 }
 
-bool Scene::SceneGetLocatorAlign(SceneData *param_1,vec3f *out,u32 param_3){
+bool Scene::SceneGetLocatorAlign(SceneData *scene,vec3f *out,u32 param_3){
   Borg2Header *pBVar1;
   Borg2Data *pbVar2;
   float fVar3;
@@ -631,16 +631,16 @@ bool Scene::SceneGetLocatorAlign(SceneData *param_1,vec3f *out,u32 param_3){
   
   if (MAX_LOCATORS < (int)param_3)// oops, copy-paste oversight
          CRASH("scene.cpp, SceneGetLocatorNorm()","Locator is greater than MAX_LOCATORS");
-  if (param_1->locators[param_3] == -1) {
+  if (scene->locators[param_3] == -1) {
     #ifdef DEBUGVER
     char errrBuff [144];
-    sprintf(errrBuff,"Locator: %d is undefined for %s!\n",param_3,param_1->borg5_char);
+    sprintf(errrBuff,"Locator: %d is undefined for %s!\n",param_3,scene->borg5_char);
     CRASH("scene.cpp, SceneGetLocatorAlign()",errrBuff);
     #else
     CRASH("","");
     #endif
   }
-  pBVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_1->locators[param_3]];
+  pBVar1 = scene->borg5->dat.borg2p[scene->locators[param_3]];
   guMtxIdentF(&mtxA);
   pbVar2 = pBVar1->dat;
   guRotateRPYF(&mtxA,(pbVar2->rot).x * RadInDeg_f,(pbVar2->rot).y * RadInDeg_f,(pbVar2->rot).z * RadInDeg_f);
@@ -665,20 +665,20 @@ bool Scene::SceneGetLocatorAlign(SceneData *param_1,vec3f *out,u32 param_3){
   return true;
 }
 
-void Scene::CopyMatrixA(SceneData *param_1,MtxF* param_2){COPY(param_1->matrixA,param_2);}
+void Scene::CopyMatrixA(SceneData *scene,MtxF* param_2){COPY(scene->matrixA,param_2);}
 
-void Scene::SetParticleHead(SceneData *param_1,ParticleHeadStruct *param_2){param_1->particleHead = param_2;}
+void Scene::SetParticleHead(SceneData *scene,ParticleHeadStruct *param_2){scene->particleHead = param_2;}
 
-void Ofunc_800a8e80(SceneData *param_1,SceneData *param_2){param_1->locatorScene1 = param_2;}
+void Ofunc_800a8e80(SceneData *scene,SceneData *param_2){scene->locatorScene1 = param_2;}
 
-void Ofunc_800a8e88(SceneData *param_1,SceneData *param_2){param_1->locatorScene2 = param_2;}
+void Ofunc_800a8e88(SceneData *scene,SceneData *param_2){scene->locatorScene2 = param_2;}
 
-bool Scene::GetRotate(SceneData *param_1,vec3f *posOut,vec3f *aimOut,vec3f *param_4){
+bool Scene::GetRotate(SceneData *scene,vec3f *posOut,vec3f *aimOut,vec3f *param_4){
   borg5substruct *pbVar1;
   MtxF mf;
   vec3f v3A,v3b;
   
-  pbVar1 = ((param_1->scene[0].borg5)->dat).someSubstruct;
+  pbVar1 = scene->borg5->dat.someSubstruct;
   if (pbVar1) {
     posOut->x = (pbVar1->pos).x;
     posOut->y = (pbVar1->pos).y;
