@@ -3,6 +3,7 @@
 
 extern s32 osAfterPreNMI(void); //not in libreultra
 
+
 typedef unsigned char   undefined;
 typedef unsigned char    byte;
 typedef unsigned int    dword;
@@ -16,6 +17,8 @@ typedef unsigned char    undefined1;
 typedef unsigned long undefined4;
 typedef unsigned long long    undefined8;
 typedef unsigned short    ushort;
+
+typedef unsigned long uintptr_t;
 
 typedef union Color32 {
     struct {u8 R, G, B, A;};

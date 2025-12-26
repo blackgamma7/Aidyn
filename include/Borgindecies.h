@@ -108,7 +108,7 @@
 #define BORG8_IconItemChestArmor4 0x35c4
 #define BORG8_IconItemAxe 0x35c5
 #define BORG8_IconItemSythe 0x35c6
-#define BORG8_IconItemCirclet 0x35c7
+#define BORG8_IconItemBelt 0x35c7
 #define BORG8_IconItemRemains 0x35c8
 #define BORG8_IconItemBoot 0x35c9
 #define BORG8_IconItemBowArrow 0x35ca

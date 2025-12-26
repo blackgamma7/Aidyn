@@ -93,7 +93,6 @@ u32 half(int x){
   return ret;
 }
 
-
 int getPow2(u32 x){
   int pow = -1;
   for(;x!=0;pow++){
@@ -379,7 +378,7 @@ LAB_8009db84:
   return gfx + 10;
 }
 
-Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3){
+Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,Borg2Struct *param_3){
   s8 sVar1;
   byte bVar2;
   byte bVar3;
@@ -404,7 +403,7 @@ Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3){
   u32 lrt;
   
   if (!param_3) flag = 0;
-  else flag = param_3->flags[1];
+  else flag = param_3->flags;
   gDPPipeSync(gfx++);
   gDPTileSync(gfx++);
   u16 b1Flag = param_2->dat->flag;
@@ -418,13 +417,13 @@ Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3){
   else uVar12 = G_TD_DETAIL;
   gDPSetTextureDetail(gfx++,uVar12);
 LAB_8009dd14:
-  if (param_2->dat->lods <= 0) {gDPSetTextureLOD(gfx++,0);}
+  if (param_2->dat->lods <= 0) {gDPSetTextureLOD(gfx++,G_TL_TILE);}
   else {gDPSetTextureLOD(gfx++,G_TL_LOD);}
   cmt = G_TX_CLAMP;
-  cms = (u32)((flag & B1_Wrap) == 0) << 1;
-  if ((flag & B1_XMirror)) cms |= G_TX_MIRROR;
-  if ((flag & B1_YNoMirror)) cmt |= G_TX_NOMIRROR;
-  if ((flag & B1_YMirror)) cmt |= G_TX_MIRROR;
+  cms = (u32)((flag & B2S_Wrap) == 0) << 1;
+  if ((flag & B2S_XMirror)) cms |= G_TX_MIRROR;
+  if ((flag & B2S_YNoMirror)) cmt |= G_TX_NOMIRROR;
+  if ((flag & B2S_YMirror)) cmt |= G_TX_MIRROR;
   pBVar5 = param_2->dat;
   bVar2 = pBVar5->Width;
   x = (u32)bVar2;
@@ -2017,7 +2016,7 @@ struct unkAnimStruct{
     borg5substruct*b5Sub;
     Borg2Header*b2;
     Borg1Header*b1;
-    astruct_3*unk14;
+    Borg2Struct*unk14;
     Borg4Header* unk1c[8];
     //repeated settings for gDlist800f32d8?
     u32 unk3c,unk40,unk44; 
@@ -2051,14 +2050,14 @@ Gfx * setStaticMode(Gfx *g){
   u32 uVar6;
   if (!g) {CRASH("./src/borganim.cpp","SetStaticMode() !g");}
   u32 geoMode = G_SHADE;
-  u32 flag = *(u32 *)(unkAnimStructB.unk14)->flags;
-  if (!(flag & 0x200)) geoMode = G_SHADE|G_ZBUFFER;
-  if ((flag & 0x10))geoMode |= G_SHADING_SMOOTH;
-  if ((flag & 4)) geoMode |= G_CULL_BACK;
-  if (!(flag & 8)) geoMode |= G_LIGHTING;
+  u32 flag = (unkAnimStructB.unk14)->flags;
+  if (!(flag & B2S_NoZBuff)) geoMode = G_SHADE|G_ZBUFFER;
+  if ((flag & B2S_SmoothShade))geoMode |= G_SHADING_SMOOTH;
+  if ((flag & B2S_CullBack)) geoMode |= G_CULL_BACK;
+  if (!(flag & B2S_Lighting)) geoMode |= G_LIGHTING;
   if (!unkAnimStructB.b1) {gDPSetCombine(g++,0xfffe03,0xff0e79ff);}
   else {
-    if ((flag & 1) == 0) {
+    if ((flag & B2S_0001) == 0) {
       if (((unkAnimStructB.b1)->dat->flag & B1_TDDetail) == 0) {
         uVar6 = (unkAnimStructB.b1)->dat->lods;
       }
@@ -2066,11 +2065,11 @@ Gfx * setStaticMode(Gfx *g){
       gSPTexture(g++,0x8000,0x8000,uVar6,0,2);
     }
     else {
-      geoMode|=((flag & 2) != 0)?G_TEXTURE_GEN|G_TEXTURE_GEN_LINEAR:G_TEXTURE_GEN;
+      geoMode|=((flag & B2S_LinText) != 0)?G_TEXTURE_GEN|G_TEXTURE_GEN_LINEAR:G_TEXTURE_GEN;
       gSPTexture(g++,(unkAnimStructB.b1)->dat->Width<<6,(unkAnimStructB.b1)->dat->Height<<6,
-        (unkAnimStructB.b1->dat->lods ),0,2);
-    }                         //should still equal G_TF_AVERAGE or G_TF_POINT
-    gDPSetTextureFilter(g++,((flag & 0x80) == 0) << (G_MDSFT_TEXTFILT+1));
+        unkAnimStructB.b1->dat->lods,0,G_ON);
+    }                         //should still equal G_TF_BILERP or G_TF_POINT
+    gDPSetTextureFilter(g++,((flag & B2S_TextFilt) == 0) << (G_MDSFT_TEXTFILT+1));
     gDPSetCombine(g++,0x127e03,0xff0ff3ff);
     g = loadTextureImage(g,unkAnimStructB.b1,unkAnimStructB.unk14);
   }
@@ -2091,14 +2090,14 @@ Gfx * FUN_800a1184(Gfx *gfx){
   
   c0 = G_RM_PASS;
   if (unkAnimStructB.b1 == NULL) {
-    r = (int)(((unkAnimStructB.scene)->colorFloats).r * ((unkAnimStructB.unk14)->unk4).r *
+    r = (int)(((unkAnimStructB.scene)->colorFloats).r * ((unkAnimStructB.unk14)->tint).r *
              255.0f) ;
-    g = (int)(((unkAnimStructB.scene)->colorFloats).g * ((unkAnimStructB.unk14)->unk4).g *
+    g = (int)(((unkAnimStructB.scene)->colorFloats).g * ((unkAnimStructB.unk14)->tint).g *
              255.0f);
-    b = (int)(((unkAnimStructB.scene)->colorFloats).b * ((unkAnimStructB.unk14)->unk4).b *
+    b = (int)(((unkAnimStructB.scene)->colorFloats).b * ((unkAnimStructB.unk14)->tint).b *
              255.0f);
     a = (int)(((unkAnimStructB.scene)->colorFloats).a *
-              (1.0f - ((unkAnimStructB.unk14)->unk4).a) *
+              (1.0f - ((unkAnimStructB.unk14)->tint).a) *
               (1.0f - (unkAnimStructB.b2)->dat->alpha) * 255.0f);
     c1 = 0x112078;
     if (255 <= a) goto LAB_800a1428;
@@ -2108,7 +2107,7 @@ Gfx * FUN_800a1184(Gfx *gfx){
     g = ((unkAnimStructB.scene)->colorFloats).g * 255.0f;
     b = ((unkAnimStructB.scene)->colorFloats).b * 255.0f;
     a = ((unkAnimStructB.scene)->colorFloats).a *
-            (1.0f - ((unkAnimStructB.unk14)->unk4).a) *
+            (1.0f - ((unkAnimStructB.unk14)->tint).a) *
             (1.0f - (unkAnimStructB.b2)->dat->alpha) * 255.0f;
     if (a>=0xff) {
       if (((unkAnimStructB.b1)->dat->flag & B1_Flag20) == 0) {
@@ -2460,7 +2459,7 @@ switchD_800a1cc4_caseD_8:
           ((((pGVar6->words).w0 != sEndDL.words.w0 || ((pGVar6->words).w1 != sEndDL.words.w1)) &&
            (((pBVar5->unk0x28 ^ 1) & 1))))) &&
          (((unkAnimStructB.unk14 = pBVar5->unk0x40 + uVar18, unkAnimStructB.unk14 != NULL &&
-           (pBVar5->alpha < fVar30)) && (((unkAnimStructB.unk14)->unk4).a < fVar30)))) {
+           (pBVar5->alpha < fVar30)) && (((unkAnimStructB.unk14)->tint).a < fVar30)))) {
         if (pBVar5->dsplistcount <= (int)uVar18) {
           sprintf(errBuff,"INVALID BORG SCENE\nop >= n op: %i n: %i",pBVar5->dsplistcount,uVar18);
           CRASH("./src/borganim.cpp",errBuff);
@@ -2473,7 +2472,7 @@ switchD_800a1cc4_caseD_8:
         gSPDisplayList(pGVar10++,osVirtualToPhysical((unkAnimStructB.b2)->dlist[uVar18]));
         pGVar12 = FUN_800a1184(pGVar10);
         pGVar10 = pGVar12;
-        if ((*(u32 *)(unkAnimStructB.unk14)->flags & 1) != 0) {
+        if (unkAnimStructB.unk14->flags & 1) {
           guLookAtReflect(&auStack128,(unkAnimStructB.b2)->lookat[0] + uVar17,
                               param_2->matrixB[3][0],param_2->matrixB[3][1],param_2->matrixB[3][2],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][0],

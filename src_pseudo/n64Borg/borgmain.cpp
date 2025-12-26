@@ -402,7 +402,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
   Borg2Header *pBVar7;
   Borg1Header *pBVar8;
   LookAt *pLVar9;
-  astruct_3 *paVar10;
+  Borg2Struct *paVar10;
   Borg2Header **ppBVar11;
   Vtx_t *puVar12;
   u32 uVar12;
@@ -472,7 +472,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       paVar10 = pBVar2->unk0x40;
       ppBVar11 = ppBVar11 + 1;
       for (j = pBVar2->dsplistcount; j != 0; j--) {
-        if ((*(u32*)paVar10->flags & 3) != 0) bVar4 = true;
+        if ((paVar10->flags & B2S_0001|B2S_LinText)) bVar4 = true;
         paVar10++;
       }
       if (bVar4) {
@@ -514,7 +514,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       pbVar21->unkStruct->unk164.x = 0;
       pbVar21->unkStruct->unk164.y = 0;
       pbVar21->unkStruct->unk164.z = 0;
-      p = (void *)((u32)p + sizeof(Borg5Struct2));
+      p = (void *)((uintptr_t)p + sizeof(Borg5Struct2));
       i--;
       guMtxIdent(pbVar21->unkStruct->mtxs);
       guMtxIdent(pbVar21->unkStruct->mtxs + 1);
@@ -525,7 +525,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
   }
   if (param_1->dat.borg3P){
     param_1->dat.borg3P->dat.mtx_ = (Mtx *)p;
-    p = (void *)((int)p + sizeof(Mtx)*2);
+    p = (void *)((uintptr_t)p + sizeof(Mtx)*2);
   }
   ppBVar19 = (param_1->dat).borg4p;
   if (ppBVar19){
@@ -533,7 +533,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       pBVar6 = *ppBVar19;
       ppBVar19++;
       pBVar6->dat->l = (Light *)p;
-      p = (void *)((int)p + sizeof(Light)*2);
+      p = (void *)((uintptr_t)p + sizeof(Light)*2);
     }
   }
   ppBVar11 = (param_1->dat).borg2p;
@@ -544,7 +544,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       i += -1;
       ppBVar18 = ppBVar11 + 1;
       if (pBVar2->unk0x3c != NULL) { //align 8?
-        pVVar23 = (Vtx_t *)((u32)((u32)p + 7) & ~7);
+        pVVar23 = (Vtx_t *)((uintptr_t)((uintptr_t)p + 7) & ~7);
         uVar22 = pBVar2->vertcount;
         pVVar15 = pBVar2->vertlist2;
         pBVar2->vertcount = (u32)pVVar23;
@@ -559,14 +559,14 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       pBVar7 = *ppBVar11;
       if (pBVar7->lookat[0]){
         pBVar7->lookat[0] = (LookAt *)p;
-        p = (void *)((int)p + sizeof(LookAt)*2);
+        p = (void *)((uintptr_t)p + sizeof(LookAt)*2);
         pBVar7 = *ppBVar11;
       }
       pLVar9 = pBVar7->lookat[1];
       ppBVar11 = ppBVar18;
       if (pBVar7->lookat[1]) {
         pBVar7->lookat[1] = (LookAt *)p;
-        p = (void *)((int)p + sizeof(LookAt));
+        p = (void *)((uintptr_t)p + sizeof(LookAt));
       }
     }
   }

@@ -339,7 +339,6 @@ void FUN_800a80d8(SceneData *param_1,vec3f *param_2,int param_3){
   pbVar1[param_3].pos.z = param_2->z;
 }
 
-
 void Ofunc_800a8104(SceneData *param_1,int param_2,float param_3){
   if (-1 < param_2) {
     Borg5Header *pBVar1 = param_1->scene[0].borg5;
@@ -381,13 +380,13 @@ void Scene::SetFogPlane(SceneData *param_1,s32 fog,s32 farplane){
 
 
 void Ofunc_800a821c(SceneData *param_1,int param_2,int param_3,vec4f *param_4){
-  astruct_3 *paVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_2]->dat->unk0x40;
-  paVar1[param_3].unk4.x = param_4->x;
-  paVar1[param_3].unk4.y = param_4->y;
-  paVar1[param_3].unk4.z = param_4->z;
-  if ((double)param_4->w != (double)0)
-    paVar1[param_3].unk4.w = (float)(1.0 - (double)param_4->w);
-  else paVar1[param_3].unk4.w = 1.0;
+  Borg2Struct *paVar1 = ((param_1->scene[0].borg5)->dat).borg2p[param_2]->dat->unk0x40;
+  paVar1[param_3].tint.r = param_4->r;
+  paVar1[param_3].tint.g = param_4->g;
+  paVar1[param_3].tint.b = param_4->b;
+  if (param_4->a != 0)
+    paVar1[param_3].tint.a = (float)(1.0 - param_4->a);
+  else paVar1[param_3].tint.a = 1.0;
 }
 
 void Scene::SetFlag4000(SceneData *param_1){param_1->flags|=SCENE_4000;}

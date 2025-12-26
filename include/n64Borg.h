@@ -403,10 +403,6 @@ enum Borg1Flag{
     B1_TDSharpen=0x80,
     B1_Procedural=0x100,
     B1_Interlaced=0x200,
-    B1_Wrap=0x1000,
-    B1_YNoMirror=0x2000,
-    B1_XMirror=0x4000,
-    B1_YMirror=0x8000
 };
 
 struct Borg1Data {
@@ -637,6 +633,31 @@ struct Borg11Header {
     Borg11Data *dat;
 };
 
+enum Borg2StructFlags{
+    B2S_0001=1,
+    B2S_LinText=2, //set GeometryMode G_TEXTURE_GEN_LINEAR
+    B2S_CullBack=4, //set GeometryMode G_CULL_BACK
+    B2S_Lighting=8, //set GeometryMode G_LIGHTING
+    B2S_SmoothShade=0x10, //set GeometryMode G_SHADING_SMOOTH
+    B2S_0020=0x20, //unused?
+    B2S_0040=0x40, //unused?
+    B2S_TextFilt=0x80, //set GeometryMode G_TF_BILERP(unset) or G_TF_POINT(set)
+    B2S_0100=0x100, //unused?
+    B2S_NoZBuff=0x200, //if unset, set GeometryMode G_SHADE|G_ZBUFFER
+    B2S_0400=0x400, //unused?
+    B2S_0800=0x800, //unused?
+    B2S_Wrap=0x1000, //unused?
+    B2S_YNoMirror=0x2000, //don't mirror UV on Y axis
+    B2S_XMirror=0x4000, //mirror UV on X axis
+    B2S_YMirror=0x8000 //mirror UV on Y axis
+};
+
+//Struct that determines properties of Borg2's Borg1's
+struct Borg2Struct{
+    u32 flags;
+    vec4f tint;
+};
+
 struct Borg2Data {
     float alpha; //inverted - 0=opaque, 1=transparent.
     int dsplistcount;
@@ -650,7 +671,7 @@ struct Borg2Data {
     Vtx_t *vertlist2;
     u32 vertcount;
     int *unk0x3c;
-    astruct_3 *unk0x40;
+    Borg2Struct *unk0x40;
     u32 unk0x44;
     u32 unk0x48;
     u32 unk0x4c;
@@ -732,10 +753,7 @@ struct struct_45 {
     u32 indecies[3];
 };
 
-struct astruct_3{
-    u16 flags[2];
-    vec4f unk4;
-};
+
 
 struct Borg5Header {
     borgHeader head;
@@ -1034,7 +1052,7 @@ void deinterlace32(Borg1Header *param_1,int param_2);
 void deinterlace16(Borg1Header *param_1,int param_2);
 void FUN_8009d7b0(Borg1Header *param_1);
 Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2);
-Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,astruct_3 *param_3);
+Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,Borg2Struct *param_3);
 Gfx * Ofunc_8009e228(Gfx *param_1,SceneData *param_2,int param_3);
 void Borg5Sub_op0(borg5substruct *param_1,MtxF *mf);
 void Borg5Sub_op1(borg5substruct *param_1,MtxF *mf);
