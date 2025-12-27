@@ -932,7 +932,7 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
         (*paafVar9)[0][3] = fVar15;
         paafVar6 = (MtxF *)(*paafVar6 + 1);
         paafVar9 = (MtxF *)(*paafVar9 + 1);
-      } while ((Mtx *)paafVar6 != &pBVar3->unk100);
+      } while ((void *)paafVar6 != (void *)&pBVar3->unk100);
       pBVar3 = pbVar12->unkStruct;
       paafVar6 = pBVar3->mfs;
       do {
@@ -1313,23 +1313,10 @@ Borg7Header * func_loading_borg7(u32 index,ParticleHeadStruct *param_2){
 }
 
 void FUN_8009fca8(Borg7Header *param_1){
-  int iVar2;
-  int iVar3;
-  u16 *puVar4;
-  
-  if (param_1->sceneDat){
+  if (param_1->sceneDat)
     Particle::UnsetSceneEmmiter(param_1->sceneDat->particleHead,param_1->sceneDat);
-  }
-  iVar3 = 0;
-  if (0 < (param_1->dat).subCount) {
-    puVar4 = &(param_1->dat).sub[0].flag;
-    do {
-      if ((*puVar4 & 2) != 0) {
-        unlinkBorg6(param_1->unk18[iVar3].b6);
-      }
-      iVar3 += 1;
-      puVar4 = puVar4 + 6;
-    } while (iVar3 < (param_1->dat).subCount);
+  for(s32 i=0;i<param_1->dat.subCount;i++){
+    if(param_1->dat.sub[i].flag&2) unlinkBorg6(param_1->unk18[i].b6);
   }
   borganim_free(param_1->sceneDat);
   borg7_free(param_1);
@@ -1618,7 +1605,6 @@ LAB_800a053c:
 }
 
 u16 Borg7_GetAniTime(Borg7Header *param_1){return param_1->sceneDat->aniTime;}
-
 
 void Borg7_StartParticles(Borg7Header *param_1){
   u32 count = ((param_1->sceneDat->borg5)->dat).ParticleCount;
@@ -2166,7 +2152,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   undefined1 *puVar14;
   Borg4Header **ppBVar15;
   float (*pafVar16) [4];
-  u32 uVar17;
+  u32 normInd;
   u32 uVar18;
   Borg4Header **ppBVar19;
   int iVar20;
@@ -2201,7 +2187,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   unkAnimStructB.unk14 = NULL;
   unkAnimStructB.b5 = &pBVar1->dat;
   pbVar23 = (pBVar1->dat).someSubstruct;
-  uVar17 = param_2->perspNormIndex & 1;
+  normInd = param_2->perspNormIndex & 1;
   if ((pBVar1->dat).borg3P) pbVar23++;
   iVar22 = 0;
   unkAnimStructB.scene = param_2;
@@ -2210,7 +2196,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
     if (((param_2->flags & SCENE_0080) == 0) && (i != 0)) {
       ppBVar19 = unkAnimStructB.unk1c;
       ppBVar15 = (pBVar1->dat).borg4p;
-      iVar20 = uVar17 * 0x10;
+      iVar20 = normInd * 0x10;
       do {
         iVar21 = iVar22;
         pBVar2 = pbVar23->unkStruct;
@@ -2265,12 +2251,12 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
         }
         else fVar28 = 0.0;
         pLVar4 = &pBVar3->dat->l->l;
-        pLVar4[uVar17].dir[0]=pBVar2->mfs[1][2][0] *90.0f;
-        pLVar4[uVar17].dir[1]=pBVar2->mfs[1][2][1] *90.0f;
-        pLVar4[uVar17].dir[2]=pBVar2->mfs[1][2][2] *90.0f;
-        pLVar4[uVar17].col[0]=pLVar4[uVar17].colc[0]=fVar26*255.0f;
-        pLVar4[uVar17].col[1]=pLVar4[uVar17].colc[1]=fVar27*255.0f;
-        pLVar4[uVar17].col[2]=pLVar4[uVar17].colc[2]=fVar28*255.0f;
+        pLVar4[normInd].dir[0]=pBVar2->mfs[1][2][0] *90.0f;
+        pLVar4[normInd].dir[1]=pBVar2->mfs[1][2][1] *90.0f;
+        pLVar4[normInd].dir[2]=pBVar2->mfs[1][2][2] *90.0f;
+        pLVar4[normInd].col[0]=pLVar4[normInd].colc[0]=fVar26*255.0f;
+        pLVar4[normInd].col[1]=pLVar4[normInd].colc[1]=fVar27*255.0f;
+        pLVar4[normInd].col[2]=pLVar4[normInd].colc[2]=fVar28*255.0f;
         pBVar3 = *ppBVar15;
         ppBVar15++;
         pbVar23++;
@@ -2280,7 +2266,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
       } while (i != 0);
       i = (unkAnimStructB.b5)->borg4Count;
       if (i == 1) {
-        gSPLight(g++,(u32)&pLVar4[uVar17],2);
+        gSPLight(g++,(u32)&pLVar4[normInd],2);
         gSPLight(g++,(u32)&gBlackLight,1);
         pGVar12 = g;
       }
@@ -2291,7 +2277,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
           u8 ind=1;
           do {
             pBVar3=*ppBVar15;
-            gSPLight(g++,(u32)&pBVar3->dat->l[uVar17],ind);
+            gSPLight(g++,(u32)&pBVar3->dat->l[normInd],ind);
             i--;
             ind++;
             ppBVar15++;
@@ -2385,7 +2371,7 @@ switchD_800a1cc4_caseD_8:
       }
       else {
         unkAnimStructB.b1 = (unkAnimStructB.b5)->borg1p[uVar18];
-        pGVar12 = FUN_8009d3dc(pGVar10,unkAnimStructB.b1,(u8)uVar17);
+        pGVar12 = FUN_8009d3dc(pGVar10,unkAnimStructB.b1,(u8)normInd);
       }
       break;
     case 2:
@@ -2429,15 +2415,15 @@ switchD_800a1cc4_caseD_8:
         pBVar2->mfs[0][1][2] *= (unkAnimStructB.b2)->dat->scale;
         pBVar2->mfs[0][2][2] *= (unkAnimStructB.b2)->dat->scale;
         memcpy(pBVar8->someMtx,mf,0x40);
-        guMtxF2L(mf,&unkAnimStructB.b5Sub->unkStruct->mtxs[uVar17]);
+        guMtxF2L(mf,&unkAnimStructB.b5Sub->unkStruct->mtxs[normInd]);
         (unkAnimStructB.b5Sub)->flag |= 2;
       }
-      gSPMatrix(pGVar10,(u32)((unkAnimStructB.b5Sub)->unkStruct->mtxs + uVar17),G_MTX_LOAD);
+      gSPMatrix(pGVar10,(u32)((unkAnimStructB.b5Sub)->unkStruct->mtxs + normInd),G_MTX_LOAD);
       break;
     case 3:
       CRASH("BorgAnimDrawSceneRaw()","We are not using animated textures on this project :)");
     case 4:
-      unkAnimStructB.b2 = (unkAnimStructB.b5)->borg2p[uVar18];
+      unkAnimStructB.b2 = unkAnimStructB.b5->borg2p[uVar18];
       gSPSegment(pGVar10++,10,osVirtualToPhysical((unkAnimStructB.b2)->dat->vertlist2));
       gSPSegment(pGVar10++,14,osVirtualToPhysical((unkAnimStructB.b2)->dat->vertlist));
       pGVar12 = pGVar10;
@@ -2455,20 +2441,19 @@ switchD_800a1cc4_caseD_8:
           CRASH("./src/borganim.cpp",errBuff);
         }
         if ((unkAnimStructB.b2)->dlistSet[uVar18]) {
-          pGVar12 = setStaticMode((unkAnimStructB.b2)->dlist[uVar18]);
-          gSPEndDisplayList(pGVar12++);
+          gSPEndDisplayList(setStaticMode((unkAnimStructB.b2)->dlist[uVar18]));
           (unkAnimStructB.b2)->dlistSet[uVar18] = 0;
         }
         gSPDisplayList(pGVar10++,osVirtualToPhysical((unkAnimStructB.b2)->dlist[uVar18]));
         pGVar12 = FUN_800a1184(pGVar10);
         pGVar10 = pGVar12;
         if (unkAnimStructB.unk14->flags & 1) {
-          guLookAtReflect(&auStack128,(unkAnimStructB.b2)->lookat[0] + uVar17,
+          guLookAtReflect(&auStack128,(unkAnimStructB.b2)->lookat[0] + normInd,
                               param_2->matrixB[3][0],param_2->matrixB[3][1],param_2->matrixB[3][2],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][0],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][1],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][2],0.0,fVar30,0.0);
-          gSPLookAt(pGVar12++,(unkAnimStructB.b2)->lookat[uVar17]);
+          gSPLookAt(pGVar12++,(unkAnimStructB.b2)->lookat[normInd]);
           pGVar10 = pGVar12;
         }
         pGVar12 = pGVar10 + 1;
@@ -2476,7 +2461,7 @@ switchD_800a1cc4_caseD_8:
       }
     }
     iVar22--;
-    puVar24 = puVar24 + 1;
+    puVar24++;
     pGVar10 = pGVar12;
     fVar30 = 1.0f;
   } while( true );

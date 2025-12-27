@@ -546,7 +546,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       if (pBVar2->unk0x3c != NULL) { //align 8?
         pVVar23 = (Vtx_t *)((uintptr_t)((uintptr_t)p + 7) & ~7);
         uVar22 = pBVar2->vertcount;
-        pVVar15 = pBVar2->vertlist2;
+        pVVar15 = &pBVar2->vertlist2->v;
         pBVar2->vertcount = (u32)pVVar23;
         puVar12 = pVVar23;
         for (uVar13 = uVar22; uVar13 != 0; uVar13--) {

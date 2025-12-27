@@ -667,8 +667,8 @@ struct Borg2Data {
     Color32 unk0x24; //might not be color, only "alpha" read as scene index.
     u32 unk0x28; /* ^1&1? */
     Gfx **dsplists;
-    Vtx_t *vertlist;
-    Vtx_t *vertlist2;
+    Vtx *vertlist;
+    Vtx *vertlist2;
     u32 vertcount;
     int *unk0x3c;
     Borg2Struct *unk0x40;

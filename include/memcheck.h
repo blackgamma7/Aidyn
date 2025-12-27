@@ -2,7 +2,7 @@
 
 struct MemCheck_struct {
     u32 ramstartVal;
-    s16 *DepthBuffer;
+    u16 *DepthBuffer;
     void *heapStart;
     void *FreameBuffers[2];
     u32 RamSize;

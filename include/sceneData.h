@@ -79,7 +79,7 @@ void Ofunc_800a7a40(SceneData*,float ,float ,float );
 void MatrixBCopyTo(SceneData*,MtxF *);
 void SetFlag40_800a7af8(SceneData*);
 void UnsetFlag40_800a7b08(SceneData*);
-void SetFlag80(SceneData*);
+void SetFlag80_800a7b1c(SceneData*);
 void UnsetFlag80_800a7b2c(SceneData*);
 borg5substruct * Ofunc_800a7b40(SceneData*);
 void LookAt(SceneData*,float,float,float,float,float,float,float,float,float);

@@ -20,7 +20,7 @@ void Graphics::initGfx(OSSched *sched){
   //double dlist alloc if expansion pak detected
   if (0x400000 < gMemCheckStruct.RamSize) k = 0x6400*sizeof(Gfx);
   CLEAR(&gGfxManager);
-  gGfxManager.DepthBuffer = (s16 *)gMemCheckStruct.DepthBuffer;
+  gGfxManager.DepthBuffer = gMemCheckStruct.DepthBuffer;
   gGfxManager.FrameBuffers[0] = gMemCheckStruct.FreameBuffers[0];
   gGfxManager.FrameBuffers[1] = gMemCheckStruct.FreameBuffers[1];
   gGfxManager.sched = sched;
@@ -361,180 +361,149 @@ u32 Graphics::GetVRes(void){return gGfxManager.Vres[1];}
 u32 Graphics::GetColorDepth(void){return gGfxManager.colordepth[1];}
 
 //copies the FB for pause BG and savegame screenshot
-void Graphics::getGfxLastFrame(void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres){
+
+void Graphics::getGfxLastFrame
+               (void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres) {
   u16 uVar1;
-  void *fb;
-  u32 uVar3;
-  s32 iVar4;
-  float fVar5;
-  u8 bVar6;
-  float fVar7;
+  void *pvVar2;
+  uint uVar3;
+  int iVar4;
+  int iVar5;
+  float fVar6;
+  byte bVar7;
   float fVar8;
-  u16 uVar9;
-  u8 bVar10;
-  u32 uVar11;
-  undefined uVar12;
-  u8 bVar13;
-  ulonglong uVar14;
-  s32 iVar15;
-  u8 bVar16;
-  ulonglong uVar17;
-  u32 uVar18;
-  u8 bVar19;
-  Color32 *puVar20;
-  u16 *puVar21;
-  undefined *puVar22;
-  u32 uVar23;
-  ulonglong H_;
-  u32 uVar24;
-  u32 uVar25;
-  ulonglong V_;
+  float fVar9;
+  u16 uVar10;
+  byte bVar11;
+  uint uVar12;
+  u8 uVar13;
+  byte i;
+  byte *pbVar14;
+  uint uVar16;
+  byte bVar17;
+  uint k;
+  byte bVar19;
+  uint *dest32;
+  u16 *dest16;
+  u8 *dest8;
+  uint uVar23;
+  uint j;
+  float fVar25;
   float fVar26;
   float fVar27;
   float fVar28;
-  float fVar29;
   
-  bVar10 = gGfxManager.colordepth[1];
-  uVar9 = gGfxManager.Hres[1];
-  uVar11 = 0;
-  H_ = (s16)H;
-  V_ = (s16)V;
-  if ((pDest == NULL) ||
-     ((((depth != 32 && (depth != 16)) && (depth != 8)) && (depth != 4)))) {
-    CRASH("gfx.cpp, GetGfxLastFrame()","pDest_ == NULL || depth_ != 32 || depth_ != 16 || depth_ != 8 || depth_ != 4");}
-  fb = gGfxManager.FrameBuffers[gGfxManager.bufferChoice];
-  if ((depth == 8) || (depth == 4)) {
-    bVar6 = 2;
-    uVar11 = 0xff;
+  bVar11 = gGfxManager.colordepth[1];
+  uVar10 = gGfxManager.Hres[1];
+  uVar12 = 0;
+  if ((pDest == NULL) || ((((depth != 0x20 && (depth != 0x10)) && (depth != 8)) && (depth != 4)))) {
+    CRASH("gfx.cpp, GetGfxLastFrame()",
+        "pDest_ == NULL || depth_ != 32 || depth_ != 16 || depth_ != 8 || depth_ != 4");
   }
-  else {bVar6 = 1;}
-  uVar25 = 0;
+  pvVar2 = gGfxManager.FrameBuffers[gGfxManager.bufferChoice];
+  if ((depth == 8) || (depth == 4)) {
+    bVar7 = 2;
+    uVar12 = 0xff;
+  }
+  else bVar7 = 1;
+  uVar23 = 0;
   bVar19 = 0;
-  if (bVar6 != 0) {
+  if (bVar7) {
     do {
-      uVar14 = 0;
-      bVar13 = bVar19 + 1;
-      if (V_ != 0) {
-        uVar24 = (u32)H_;
-        fVar29 = (float)(u32)param_6;
+      i = bVar19 + 1;
+      if (V != 0) {
+        fVar28 = (float)param_6;
+        uVar16 = 0;
         do {
-          fVar8 = 31.0f;
-          fVar7 = 255.0f;
-          fVar28 = (float)(u32)param_5;
-          uVar17 = 0;
-          fVar27 = (float)(u32)Hres - fVar28;
-          iVar15 = (s32)uVar14;
-          uVar14 = SEXT48(iVar15 + 1);
-          if (H_ != 0) {
-            iVar4 = iVar15 * uVar24;
-            puVar22 = pDest + iVar4;
-            iVar15 = iVar15 * (uVar24 >> 1);
-            puVar21 = (u16 *)(pDest + iVar4 * 2);
-            puVar20 = (Color32 *)(pDest + iVar4 * 4);
-            uVar23 = uVar11;
+          fVar9 = 31.0f;
+          fVar8 = 255.0f;
+          fVar27 = (float)param_5;
+          k = 0;
+          fVar26 = (float)Hres - fVar27;
+          j = uVar16 + 1;
+          if (H != 0) {
+            iVar4 = uVar16 * H;
+            dest8 = (u8 *)(iVar4 + (int)pDest);
+            iVar5 = uVar16 * (H >> 1);
+            dest16 = (u16 *)(iVar4 * 2 + (int)pDest);
+            dest32 = (uint *)(iVar4 * 4 + (int)pDest);
+            uVar16 = uVar12;
             do {
-              uVar18 = (u32)uVar17;
-              uVar11 = uVar23;
-              if (bVar10 == 0x20) {
-                fVar26 = fVar29;
-                if (INT_MAX_f <= fVar29) {fVar26 = fVar29 - INT_MAX_f;}
-                fVar5 = fVar28;
-                if (INT_MAX_f <= fVar28) {fVar5 = fVar28 - INT_MAX_f;}
-                uVar3 = *(u32 *)(((s32)fVar26 * (u32)uVar9 + (s32)fVar5) * 4 + (s32)fb);
-                if (depth == 0x20) {*puVar20.W = uVar3 | 0xff;}
-                else {
-                  if (depth == 0x10) {
-                    *puVar21 = (u16)((uVar3 >> 0x1b) << 0xb) | (u16)(uVar3 >> 0xd) & 0x7c0 |
-                               (u16)(uVar3 >> 10) & 0x3e | 1;
+              uVar12 = uVar16;
+              if (bVar11 == 0x20) {
+                uVar3 = *(uint *)(((int)fVar28 * (uint)uVar10 + (int)fVar27) * 4 + (int)pvVar2);
+                if (depth == 0x20) {
+                  *dest32 = uVar3 | 0xff;
+                }
+                else if (depth == 0x10) {
+                  *dest16 = (u16)((uVar3 >> 0x1b) << 0xb) | (u16)(uVar3 >> 0xd) & 0x7c0 |
+                             (u16)(uVar3 >> 10) & 0x3e | 1;
+                }
+                else if (depth == 8) {
+                  uVar12 = ((uVar3 >> 0x18) + (uVar3 >> 0x10) + (uVar3 >> 8) & 0xff) / 3;
+                  if (bVar19 == 0) {
+LAB_80009c10:
+                    if (uVar23 < uVar12) uVar23 = uVar12;
+                    if (uVar16 <= uVar12) uVar12 = uVar16;
                   }
                   else {
-                    if (depth == 8) {
-                      uVar11 = ((uVar3 >> 0x18) + (uVar3 >> 0x10) + (uVar3 >> 8) & 0xff) / 3;
-                      if (bVar19 == 0) {
-LAB_80009c10:
-                        if (uVar25 < uVar11) {uVar25 = uVar11;}
-                        if (uVar23 <= uVar11) {uVar11 = uVar23;}
-                      }
-                      else {
-                        fVar26 = ((float)(uVar11 - uVar23) / (float)(uVar25 - uVar23)) * fVar7;
-                        if (fVar26 < INT_MAX_f) {
-                          *puVar22 = (char)(s32)fVar26;
-                          uVar11 = uVar23;
-                        }
-                        else {
-                          *puVar22 = (char)(s32)(fVar26 - INT_MAX_f);
-                          uVar11 = uVar23;
-                        }
-                      }
-                    }
-                    else {
-                      uVar11 = ((uVar3 >> 0x18) + (uVar3 >> 0x10) + (uVar3 >> 8) & 0xff) / 3;
-                      if (bVar19 == 0) goto LAB_80009c10;
-                      fVar26 = ((float)(uVar11 - uVar23) / (float)(uVar25 - uVar23)) * fVar7;
-                      if (INT_MAX_f <= fVar26) {fVar26-= INT_MAX_f;}
-                      uVar11 = ((s32)fVar26 & 0xffU) >> 4;
-                      bVar16 = (u8)uVar11;
-                      if ((uVar17 & 1) != 0) goto LAB_80009c94;
-LAB_80009cb4:
-                      pDest[iVar15 + (uVar18 >> 1)] = (char)(uVar11 << 4);
-                      uVar11 = uVar23;
-                    }
+                    *dest8 = (u8)((float)(int)(uVar12 - uVar16) / (float)(int)(uVar23 - uVar16)) * fVar8;
+                    uVar12 = uVar16;
                   }
+                }
+                else {
+                  uVar12 = (u8)((uVar3 >> 0x18) + (uVar3 >> 0x10) + (uVar3 >> 8)) / 3;
+                  if (bVar19 == 0) goto LAB_80009c10;
+                  uVar12 = (u8)((uVar12 - uVar16) / (uVar23 - uVar16) * fVar8) >> 4;
+                  bVar17 = (byte)uVar12;
+                  if ((k & 1) != 0) goto LAB_80009c94;
+LAB_80009cb4:
+                  *(char *)((int)pDest + iVar5 + (k >> 1)) = (char)(uVar12 << 4);
+                  uVar12 = uVar16;
                 }
               }
               else {
-                fVar26 = fVar29;
-                if (INT_MAX_f <= fVar29) {fVar26 = fVar29 - INT_MAX_f;}
-                fVar5 = fVar28;
-                if (INT_MAX_f <= fVar28) {fVar5 = fVar28 - INT_MAX_f;}
-                uVar1 = *(u16 *)(((s32)fVar26 * (u32)uVar9 + (s32)fVar5) * 2 + (s32)fb);
-                if (depth == 32) {
-                  *puVar20->W = (u32)(uVar1 >> 0xb) << 0x1b | (uVar1 >> 6 & 0x1f) << 0x13 |
+                uVar1 = *(u16 *)(((int)fVar28 * (uint)uVar10 + (int)fVar27) * 2 + (int)pvVar2);
+                if (depth == 0x20) {
+                  *dest32 = (uint)(uVar1 >> 0xb) << 0x1b | (uVar1 >> 6 & 0x1f) << 0x13 |
                              (uVar1 & 0x3e) << 10 | 0xff;
                 }
+                else if (depth == 0x10) {
+                  *dest16 = uVar1 | 1;
+                }
+                else if (depth == 8) {
+                  uVar12 = ((uint)(uVar1 >> 0xb) + (uVar1 >> 6 & 0x1f) + (uVar1 >> 1 & 0x1f)) / 3;
+                  if (bVar19 == 0) goto LAB_80009c10;
+                  *dest8 = ((uVar12 - uVar16) / (uVar23 - uVar16)) * fVar9;
+                  uVar12 = uVar16;
+                }
                 else {
-                  if (depth == 16) {*puVar21 = uVar1 | 1;}
-                  else {
-                    if (depth == 8) {
-                      uVar11 = ((u32)(uVar1 >> 0xb) + (uVar1 >> 6 & 0x1f) + (uVar1 >> 1 & 0x1f)) /
-                               3;
-                      if (bVar19 == 0) goto LAB_80009c10;
-                      fVar26 = ((float)(uVar11 - uVar23) / (float)(uVar25 - uVar23)) * fVar8;
-                      if (fVar26 < INT_MAX_f) {uVar12 = (undefined)((s32)fVar26 << 3);}
-                      else {uVar12 = (undefined)((s32)(fVar26 - INT_MAX_f) << 3);}
-                      *puVar22 = uVar12;
-                      uVar11 = uVar23;
-                    }
-                    else {
-                      uVar11 = ((u32)(uVar1 >> 0xb) + (uVar1 >> 6 & 0x1f) + (uVar1 >> 1 & 0x1f)) / 3;
-                      if (bVar19 == 0) goto LAB_80009c10;
-                      fVar26 = ((float)(uVar11 - uVar23) / (float)(uVar25 - uVar23)) * fVar8;
-                      if (INT_MAX_f <= fVar26) {fVar26-= INT_MAX_f;}
-                      uVar11 = ((s32)fVar26 & 0xffU) >> 1;
-                      bVar16 = (u8)uVar11;
-                      if ((uVar17 & 1) == 0) goto LAB_80009cb4;
+                  uVar12 = ((uint)(uVar1 >> 0xb) + (uVar1 >> 6 & 0x1f) + (uVar1 >> 1 & 0x1f)) / 3;
+                  if (bVar19 == 0) goto LAB_80009c10;
+                  uVar12 = (u8)(((uVar12 - uVar16) / (uVar23 - uVar16)) * fVar9) >> 1;
+                  bVar17 = (byte)uVar12;
+                  if ((k & 1) == 0) goto LAB_80009cb4;
 LAB_80009c94:
-                      pDest[iVar15 + (uVar18 >> 1)] = bVar16 | pDest[iVar15 + (uVar18 >> 1)];
-                      uVar11 = uVar23;
-                    }
-                  }
+                  pbVar14 = (byte *)((int)pDest + iVar5 + (k >> 1));
+                  *pbVar14 = bVar17 | *pbVar14;
+                  uVar12 = uVar16;
                 }
               }
-              puVar22++;
-              puVar21++;
-              puVar20++;
-              uVar17 = SEXT48((s32)(uVar18 + 1));
-              fVar28 = fVar28 + fVar27 / (float)uVar24;
-              uVar23 = uVar11;
-            } while (uVar17 < H_);
+              dest8 = dest8 + 1;
+              dest16 = dest16 + 1;
+              dest32 = dest32 + 1;
+              k = k + 1;
+              fVar27 = fVar27 + fVar26 / (float)H;
+              uVar16 = uVar12;
+            } while (k < H);
           }
-          fVar29 += ((float)(u32)Vres - (float)(u32)param_6) / (float)(s32)V_;
-        } while (uVar14 < V_);
+          fVar28 = fVar28 + ((float)Vres - (float)param_6) / (float)V;
+          uVar16 = j;
+        } while (j < V);
       }
-      bVar19 = bVar13;
-    } while (bVar13 < bVar6);
+      bVar19 = i;
+    } while (i < bVar7);
   }
-  return;
 }
 
 void Graphics::passto_GetGfxLastFrame(void *iOut,u16 w,u16 h,u8 d){
@@ -685,45 +654,13 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   gGfxManager.taskTime = uVar12;
   gGfxManager.unkTime0 = uVar11;
   pGVar9 = GsSetOtherMode_SysMon(g);
-  uVar15 = ((float)(gMemCheckStruct.ramVal0 * 0x118) / (float)gMemCheckStruct.RamSize + 0.5f) + 20;
+  uVar15 = ((float)(gMemCheckStruct.ramVal0 * 280) / (float)gMemCheckStruct.RamSize + 0.5f) + 20;
   pGVar9 = DebugDrawRect(pGVar9,0x14,0x14,uVar15,0x16,0,0,0xff,0xff);
-  dVar18 = (double)(uVar4 * 0x118);
-  if ((int)(uVar4 * 0x118) < 0) {
-    dVar18 = dVar18 + UINT_MAX_d;
-  }
-  dVar16 = dVar21;
-  if ((int)uVar1 < 0) {
-    dVar16 = dVar21 + UINT_MAX_d;
-  }
-  fVar17 = (float)dVar18 / (float)dVar16 + 0.5f;
-  if (INT_MAX_f <= fVar17) {
-    fVar17 = fVar17 - INT_MAX_f;
-  }
-  x2 = uVar15 + (s16)(int)fVar17;
+  x2 = uVar15 + (s16)((double)(uVar4 * 280)/uVar1);
   pGVar9 = DebugDrawRect(pGVar9,uVar15,0x14,x2,0x16,0,0,0xff,0xff);
-  dVar18 = (double)(uVar5 * 0x118);
-  if ((int)(uVar5 * 0x118) < 0) {
-    dVar18 = dVar18 + UINT_MAX_d;
-  }
-  dVar16 = dVar21;
-  if ((int)uVar1 < 0) {
-    dVar16 = dVar21 + UINT_MAX_d;
-  }
-  fVar17 = (float)dVar18 / (float)dVar16 + 0.5f;
-  if (fVar17 < INT_MAX_f) {
-    sVar19 = (s16)(int)fVar17;
-  }
-  else {
-    sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
-  }
+  sVar19 = (double)(uVar5 * 280)/uVar1;
   pGVar9 = DebugDrawRect(pGVar9,x2,0x14,x2 + sVar19,0x16,COLOR_BLACK);
-  dVar18 = (double)(iVar7 * 280);
-  dVar16 = dVar21;
-  if ((int)uVar1 < 0) {
-    dVar16 = dVar21 + UINT_MAX_d;
-  }
-  fVar17 = (float)(iVar7 * 280) / (float)dVar16 + 0.5f;
-    sVar20 = (s16)(int)(fVar17 - INT_MAX_f);
+  sVar20 = ((float)(iVar7 * 280) / (float)uVar1);
   //color rect red if using Expansion Pak memory
   if (uVar3 + iVar8 + 0x4b400/*Boot section size?*/ < 0x400000) {
     R = 0;
@@ -734,80 +671,16 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
     G = 0;
   }
   pGVar9 = DebugDrawRect(pGVar9,x2,0x14,x2 + sVar20,0x16,R,G,0,0xff);
-  dVar18 = (double)(uVar6 * 0x118);
-  if ((int)(uVar6 * 0x118) < 0) {
-    dVar18 = dVar18 + UINT_MAX_d;
-  }
-  if ((int)uVar1 < 0) {
-    dVar21 = dVar21 + UINT_MAX_d;
-  }
-  fVar17 = (float)dVar18 / (float)dVar21 + 0.5f;
-  if (fVar17 < INT_MAX_f) {
-    sVar20 = (s16)(int)fVar17;
-  }
-  else {
-    sVar20 = (s16)(int)(fVar17 - INT_MAX_f);
-  }
+  sVar20=((double)(uVar6 * 280)/(double)uVar1);
   pGVar9 = DebugDrawRect(pGVar9,x2 + sVar19,0x14,x2 + sVar19 + sVar20,0x16,0,0,0xff,0xff);
-  iVar7 = ((int)g - (int)pGVar10) * 0x118;
-  dVar18 = (double)iVar7;
-  if (iVar7 < 0) {
-    dVar18 = dVar18 + UINT_MAX_d;
-  }
-  dVar16 = (double)gGfxManager.dListSize;
-  if ((int)gGfxManager.dListSize < 0) {
-    dVar16 = dVar16 + UINT_MAX_d;
-  }
-  fVar17 = (float)dVar18 / (float)dVar16 + 0.5f;
-  if (fVar17 < INT_MAX_f) {
-    sVar19 = (s16)(int)fVar17;
-  }
-  else {
-    sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
-  }
+  sVar19=(float)(((uintptr_t)g - (uintptr_t)pGVar10) * 280)/(float)gGfxManager.dListSize;
   pGVar10 = DebugDrawRect(pGVar9,0x14,0x18,sVar19 + 0x14U,0x1a,0,0xff,0,0xff);
   pGVar10 = DebugDrawRect(pGVar10,sVar19 + 0x14U,0x18,300,0x1a,COLOR_BLACK);
-  dVar18 = (double)(gGfxManager.unkTime0 * 0x118);
-  if ((int)(gGfxManager.unkTime0 * 0x118) < 0) {
-    dVar18 = dVar18 + UINT_MAX_d;
-  }
-  dVar21 = (double)ntscPalVar;
-  dVar16 = dVar21;
-  if (false) {
-    dVar16 = dVar21 + UINT_MAX_d;
-  }
-  fVar17 = (float)dVar18 / (float)dVar16 + 0.5f;
-  if (fVar17 < INT_MAX_f) {
-    sVar19 = (s16)(int)fVar17;
-  }
-  else {
-    sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
-  }
+  sVar19 = (float)(gGfxManager.unkTime0 * 280) / (float)ntscPalVar + 0.5f;
   pGVar10 = DebugDrawRect(pGVar10,0x14,0x1c,sVar19 + 0x14,0x1e,0xff,0xff,0,0xff);
-  dVar18 = (double)(gGfxManager.taskTime * 0x118);
-  if ((int)(gGfxManager.taskTime * 0x118) < 0) {
-    dVar18 = dVar18 + UINT_MAX_d;
-  }
-  dVar16 = dVar21;
-  if (false) {
-    dVar16 = dVar21 + UINT_MAX_d;
-  }
-  fVar17 = (float)dVar18 / (float)dVar16 + 0.5f;
-  if (fVar17 < INT_MAX_f) {
-    sVar19 = (s16)(int)fVar17;
-  }
-  else {
-    sVar19 = (s16)(int)(fVar17 - INT_MAX_f);
-  }
+  sVar19 = (float)(gGfxManager.taskTime * 280) / (float)ntscPalVar + 0.5f;
   pGVar10 = DebugDrawRect(pGVar10,0x14,0x20,sVar19 + 0x14,0x22,0,0xff,0xff,0xff);
-  dVar18 = (double)(gGfxManager.dListStartTime * 0x118);
-  if ((int)(gGfxManager.dListStartTime * 0x118) < 0) {
-    dVar18 = dVar18 + UINT_MAX_d;
-  }
-  if (false) {
-    dVar21 = dVar21 + UINT_MAX_d;
-  }
-  sVar19 = (float)(gGfxManager.dListStartTime * 0x118) / (float)ntscPalVar + 0.5f;
+  sVar19 = (float)(gGfxManager.dListStartTime * 280) / (float)ntscPalVar + 0.5f;
   pGVar10 = DebugDrawRect(pGVar10,0x14,0x24,sVar19 + 20,0x26,0xff,0,0xff,0xff);
   for(u8 i=0,uVar15 = 20;i<6;uVar15 += 56,i++) {
     pGVar10 = DebugDrawRect(pGVar10,uVar15,28,uVar15 + 2,40,i * 51,~(i * 51),0,0xff);
