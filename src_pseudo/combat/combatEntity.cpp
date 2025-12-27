@@ -1402,7 +1402,7 @@ void CombatEntity::Death(){
   }
   unk800714d0(this);
   gCombatP->EntsAlive--;
-  if (IDEntInd(EntInd_Sholeh) == this->charSheetP->ID) setEventFlag(0x26e,true);
+  if (IDEntInd(EntInd_Sholeh) == this->charSheetP->ID) setEventFlag(FLAG_PartySholehDeath,true);
   if (Flag5()) {
     gCombatP->EnemiesAlive--;
     if (gCombatP->firstKill == 0) {

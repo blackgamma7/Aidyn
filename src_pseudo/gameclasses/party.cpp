@@ -28,12 +28,13 @@ void Party::CheckFlags(ItemID id,u8 alive,u8 state){
   
   u8 index = GETINDEX(id);
   if (alive) {
-    //TODO: replace with #define's and enums
+    #define MemberStayLeave(n) EntInd_##n,FLAG_Party##n##Join,FLAG_Party##n##Leave
     u16 party_eventflag_dict1[][3]={ //ID index, alive, left party
-      {EntInd_Farris,0x1c7,0x1C8},{EntInd_Abrecan,0x59,0x2AD},{EntInd_Arturo,0xF7,0x2B1},{EntInd_Baird,0x17C,0x2B2},
-      {EntInd_Becan,0x177,0x2B9},{EntInd_Brenna,0x5C,0},{EntInd_Donovan,0x17E,0x2B3},{EntInd_Dougal,0x23E,0x2B7},
-      {EntInd_Godric,0x5A,0x2AE},{EntInd_Keelin,0x109,0x2B0},{EntInd_Niesen,0x19C,0x2B4},{EntInd_Rheda,0x5B,0x2AF},
-      {EntInd_Sholeh,0x20B,0x2BC},{-1,0,0}};
+      {MemberStayLeave(Farris)},{MemberStayLeave(Abrecan)},{MemberStayLeave(Arturo)},
+      {MemberStayLeave(Baird)},{MemberStayLeave(Becan)},{MemberStayLeave(Brenna)},
+      {MemberStayLeave(Donovan)},{MemberStayLeave(Dougal)},{MemberStayLeave(Godric)},
+      {MemberStayLeave(Keelin)},{MemberStayLeave(Niesen)},{MemberStayLeave(Rheda)},
+      {MemberStayLeave(Sholeh)},{-1,0,0}};
     if (party_eventflag_dict1[0][0] != -1) {
       for(i=0;party_eventflag_dict1[i][0]!=-1;i++) {
         if (party_eventflag_dict1[i][0] == index) {
@@ -45,11 +46,12 @@ void Party::CheckFlags(ItemID id,u8 alive,u8 state){
     }
   }
   else {
+    #define MemberDead(n) EntInd_##n,FLAG_Party##n##Death
     u16 party_eventflag_dict2[]={ //ID index, Dead flag
-      EntInd_Farris,0x1C2, EntInd_Abrecan,0x267, EntInd_Arturo,0x266, EntInd_Baird,0x26F, 
-      EntInd_Becan,0x26A, EntInd_Brenna,0x265, EntInd_Donovan,0x26C, EntInd_Dougal,0x246,
-      EntInd_Godric,0x268, EntInd_Keelin,0x26B,EntInd_Niesen,0x1C0, EntInd_Rheda,0x269, 
-      EntInd_Sholeh,0x26E, -1,-1
+      MemberDead(Farris), MemberDead(Abrecan), MemberDead(Arturo), MemberDead(Baird), 
+      MemberDead(Becan), MemberDead(Brenna), MemberDead(Donovan), MemberDead(Dougal),
+      MemberDead(Godric), MemberDead(Keelin),MemberDead(Niesen), MemberDead(Rheda), 
+      MemberDead(Sholeh), -1,-1
       };
     for (i = 0; party_eventflag_dict2[i] != -1;i+=2) {
       if (index == party_eventflag_dict2[i]) {

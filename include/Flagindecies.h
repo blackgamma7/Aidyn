@@ -26,7 +26,7 @@
 #define FLAG_JournalGwerniaCamp 58
 #define FLAG_JournalOrianaNecro 101
 #define FLAG_JournalEnteredErromon 122
-#define FLAG_JournalMetBecan 375
+
 #define FLAG_NewJournalEntry 3617
 #define FLAG_JournalFlag 5556 //added to journal flags to trigger "new entry" flag
 
@@ -81,11 +81,63 @@
 #define FLAG_KilledAssim 3739
 #define FLAG_BestedShadow 458
 
-#define FLAG_JournalMetSholeh 523
+//party join/death/leave flags
+
+
+#define FLAG_PartyAbrecanJoin 89
+#define FLAG_PartyAbrecanDeath 615
+#define FLAG_PartyAbrecanLeave 685
+
+#define FLAG_PartyArturoJoin 247
+#define FLAG_PartyArturoDeath 615
+#define FLAG_PartyArturoLeave 689
+
+#define FLAG_PartyBairdJoin 380
+#define FLAG_PartyBairdDeath 623
+#define FLAG_PartyBairdLeave 690
+
+#define FLAG_PartyBecanJoin 375
+#define FLAG_PartyBecanDeath 618
+#define FLAG_PartyBecanLeave 697
+
+#define FLAG_PartyBrennaJoin 92
+#define FLAG_PartyBrennaDeath 613
+#define FLAG_PartyBrennaLeave 0 //ride or die?
+
+#define FLAG_PartyDonovanJoin 382
+#define FLAG_PartyDonovanDeath 620
+#define FLAG_PartyDonovanLeave 691
+
+#define FLAG_PartyFarrisJoin 455
+#define FLAG_PartyFarrisDeath 450
+#define FLAG_PartyFarrisLeave 456
+
+#define FLAG_PartyGodricJoin 90
+#define FLAG_PartyGodricDeath 616
+#define FLAG_PartyGodricLeave 686
+
+#define FLAG_PartyKeelinJoin 265
+#define FLAG_PartyKeelinDeath 619
+#define FLAG_PartyKeelinLeave 688
+
+#define FLAG_PartyNiesenJoin 412
+#define FLAG_PartyNiesenDeath 448
+#define FLAG_PartyNiesenLeave 692
+
+#define FLAG_PartyRhedaJoin 91
+#define FLAG_PartyRhedaDeath 617
+#define FLAG_PartyRhedaLeave 687
+
+#define FLAG_PartySholehJoin 523
+#define FLAG_PartySholehDeath 622
+#define FLAG_PartySholehLeave 700
+
+#define FLAG_PartyDougalJoin 574
+#define FLAG_PartyDougalDeath 582
+#define FLAG_PartyDougalLeave 695
 
 #define FLAG_ShadowMerge 566
-#define FLAG_JournalMetDougal 574
-#define FLAG_JournalKilledDougal 582
+
 
 #define FLAG_LearnedFirstSpell 3611
 #define FLAG_GotFirstItems 3612

@@ -1162,7 +1162,7 @@ u32 borgTotal=0;
 
 
 //macro used to adjust offsets in header
-#define SetPointer(x,f) x->f= decltype(x->f)((size_t)&x+(size_t)x->f)
+#define SetPointer(x,f) x->f= decltype(x->f)((uintptr_t)&x+(uintptr_t)x->f)
 //same as SetPointer(), but makes sure there is an offset
 #define CheckSetPointer(x,f) if(x->f) SetPointer(x,f)
 
