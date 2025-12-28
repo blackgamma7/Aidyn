@@ -735,7 +735,7 @@ void clear_combat_func(){
       Vec3Set(&gGlobals.gameVars.MapFloatDatEntry.playerVec3,5.9f,0.5f,3.0f);
       Vec2Set(&gGlobals.gameVars.MapFloatDatEntry.playerVec2,1.0f,0.0f);
       Vec3Copy(&gGlobals.gameVars.MapFloatDatEntry.playerVec3,&gGlobals.gameVars.MapFloatDatEntry.cameraVec3);
-      CharSheet *alaron = PARTY->GetMemberById(IDEntInd(EntInd_Alaron));
+      CharSheet *alaron = PARTY->GetMemberById(IDEntInd(Alaron));
       if (alaron) {
         Entity::addHP(alaron,Entity::getHPMax(alaron) - (s16)Entity::getHPCurrent(alaron));
       }

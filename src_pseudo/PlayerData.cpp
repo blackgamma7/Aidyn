@@ -135,7 +135,7 @@ void Actor::Init(playerData *param_1,u16 id){
   (param_1->collision).link = param_1;
   param_1->Ent_index = EntInd_Alaron;
   param_1->voxelReach = 100.0f;
-  param_1->ent_ID = IDEntInd(EntInd_Alaron);
+  param_1->ent_ID = IDEntInd(Alaron);
   Vec3Set(&param_1->CombatTint,1.0,1.0,1.0);
   param_1->tintScale = 0.0;
   param_1->tintScaleMod = 0.0;

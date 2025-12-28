@@ -1951,8 +1951,8 @@ u8 CombatAI::ZombieInCombat(void *param_1){
   
   for(u32 i=0;i<gCombatP->EntCount;i++){
     if (((gCombatP->substruct2[1].arrayA[i]) && (&gCombatP->combatEnts[i]!=NULL)) &&
-         ((IVar1 = gCombatP->combatEnts[i].charSheetP->ID, IVar1 == IDEntInd(EntInd_Zombie) ||
-          (IVar1 == IDEntInd(EntInd_PlagueZombie))))) {
+         ((IVar1 = gCombatP->combatEnts[i].charSheetP->ID, IVar1 == IDEntInd(Zombie) ||
+          (IVar1 == IDEntInd(PlagueZombie))))) {
         return true;
       }
   }

@@ -138,7 +138,7 @@ u16 count_enemies(EncounterDat *param_1){
 
 byte find_sholeh(EncounterDat *param_1){
     for(u16 i=0;i<4;i++) {
-    if (param_1->enemy_entities[i]==IDEntInd(EntInd_Sholeh))return i;
+    if (param_1->enemy_entities[i]==IDEntInd(Sholeh))return i;
   }
 }
 
@@ -391,7 +391,7 @@ void Combat_InitEncounter(CombatStruct *cStruct,EncounterDat *param_2){
     cStruct->enemyCount--;
     pIVar11= 0;
     cStruct->partyCount++;
-    uVar6 = IDEntInd(EntInd_Sholeh);
+    uVar6 = IDEntInd(Sholeh);
   }
   scoot_enemy_list(cStruct->encounter_dat);
   NOOP_800658a0(cStruct->partyCount,cStruct->enemyCount);

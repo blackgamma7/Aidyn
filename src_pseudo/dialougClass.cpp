@@ -242,15 +242,14 @@ bool DialougeClass::Setup(){
   if (this->inst->diags[1].next == 0xff) return false;
   sub->InitDefault(this->type);
   //case-switch? Needs untangled.
-  if (this->type < 2) iVar11 = this->unk1C;
+  if (this->type < 2) ;
   else {
     if (this->type != 3) {
       m8004f810();
       goto LAB_8004f0bc;
     }
-    iVar11 = this->unk1C;
   }
-  if (iVar11 == 0) {
+  if (this->unk1C == 0) {
     pdVar2 = this->inst;
     if ((pdVar2->diags[2].next != 0xff) && (pdVar2->diags[0].ent_ID == pdVar2->diags[1].ent_ID)) {
       bVar5 = true;
@@ -266,7 +265,7 @@ bool DialougeClass::Setup(){
   }
   else {
 LAB_8004edd4:
-    ind = gEntityDB->GetPortrait(IDEntInd(EntInd_Alaron));
+    ind = gEntityDB->GetPortrait(IDEntInd(Alaron));
     strcpy(Utilities::GetWidgetText(sub->text)," ");
   }
   Utilities::SetBorg8Dims(sub->Portrait,SuperMenuClasses::Add(ind),false);

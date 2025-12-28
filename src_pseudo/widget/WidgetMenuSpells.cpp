@@ -77,7 +77,7 @@ void WidgetMenuSpells::GetPrices() {
       sprintf(Utilities::GetWidgetText(this->expCost),gGlobals.CommonStrings[0x1ed]);
     else
       sprintf(Utilities::GetWidgetText(this->expCost),gGlobals.CommonStrings[0x1ee],exp);
-    if (gGlobals.playerCharStruct.current_shopkeep == IDEntInd(EntInd_Oriana))
+    if (gGlobals.playerCharStruct.current_shopkeep == IDEntInd(Oriana))
       sprintf(Utilities::GetWidgetText(this->goldCost)," ");
     else sprintf(Utilities::GetWidgetText(this->goldCost),gGlobals.CommonStrings[0x208],gold);
   }

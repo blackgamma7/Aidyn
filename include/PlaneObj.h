@@ -16,7 +16,6 @@ struct PlaneObj { /* used for damage numbers and shadows */
     u32 unk23c; /* unused? */
     Borg1Header Statborg1Head;
     Borg1Data datStatBorg1Data;
-    u32 field15_0x268;
     vec3f statStartPos;
     vec2f unk278;
     float unk280;
@@ -24,6 +23,7 @@ struct PlaneObj { /* used for damage numbers and shadows */
     s8 statAlphaDelta;
     u8 statAlpha;
     u8 statVisible;
+    u8 unk28b;
     u32 unk28c; /* unused */
 };
 

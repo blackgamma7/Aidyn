@@ -350,7 +350,7 @@ u8 Party::CombatItemCheck1(CharSheet* param_2,u8 param_3,ItemID param_4){
     s32 uVar2 = this->Inventory->GetItemIndex(param_4);
     u8 bVar4 = GETINDEX(param_4);
     if ((&gCombatP->combatEnts)[param_3] == NULL) return true;
-    if (param_2->ID != IDEntInd(EntInd_Niesen)) {
+    if (param_2->ID != IDEntInd(Niesen)) {
       gCombatP->combatEnts[param_3].m8006f8d8(param_4,uVar2);
       if (bVar4 < POTION_HEALING) gGlobals.combatBytes[1] = 0x13;
       return false;

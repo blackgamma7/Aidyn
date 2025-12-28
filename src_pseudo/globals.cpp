@@ -325,7 +325,7 @@ void Emergency_skeleton_func(monsterparty_dat *param_1){
   printLine(0x2f3);
   if (uVar1 == 0) {
     uVar1 = 1;                                 
-    gGlobals.EncounterDat.enemy_entities[0] = IDEntInd(EntInd_Skeleton);
+    gGlobals.EncounterDat.enemy_entities[0] = IDEntInd(Skeleton);
   }
   printLine(0x2f7);
   if (uVar1 < 0xc)

@@ -45,7 +45,7 @@ void init_DBs(void) {
   ALLOC(PARTY,144);
   PARTY->Init();
   SaveEntity::Init();
-  PARTY->AddMember(IDEntInd(EntInd_Alaron));
+  PARTY->AddMember(IDEntInd(Alaron));
   PARTY->Gold=1;
   ALLOC(TerrainPointer,156);
   World::init(TerrainPointer);

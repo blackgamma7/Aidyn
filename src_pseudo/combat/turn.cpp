@@ -172,7 +172,7 @@ void CombatTurn::PartyDead(CombatTurn_s *param_1) {
      (copy_string_to_combat_textbox(gCombatP,ComString(PartyKO),0),
      gGlobals.goblinAmbush)) {
     CombatTextboxWidget_SetText(ComString(PlotPoison));
-    CombatTextboxWidget_Lock(IDEntInd(EntInd_Alaron));
+    CombatTextboxWidget_Lock(IDEntInd(Alaron));
   }
 }
 

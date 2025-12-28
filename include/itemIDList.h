@@ -46,7 +46,7 @@ enum DB_TYPE{
 #define IDMedal(n) IDSet(AMULET,n) 
 #define IDDEnt(n) IDSet(DIALOUGEENTITY,n) 
 
-#define IDEntInd(n) IDEnt(entityList[n])
+#define IDEntInd(n) IDEnt(entityList[EntInd_##n##])
 
 enum ItemIDS{
     //misc items

@@ -295,7 +295,7 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   if (pcVar4->ReqSTR <= iVar1) {
     if (!param_1->Skills->getModdedWeapon(pcVar4->wepClass)) bVar2 = 1;
     else {
-      if (param_1->ID == IDEntInd(EntInd_Niesen)) {
+      if (param_1->ID == IDEntInd(Niesen)) {
         bVar2 = 1;
         if (param_2 == IDWeapon(weaponList[66])) //archmage stafff
         bVar2 = 0;

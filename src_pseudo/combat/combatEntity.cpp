@@ -83,7 +83,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   }
   this->shieldLocator = 2;
   this->TargetIndex = -1;
-  if ((IDEntInd(EntInd_Shadow) == this->charSheetP->ID) &&(HasHornOfKynon())) {
+  if ((IDEntInd(Shadow) == this->charSheetP->ID) &&(HasHornOfKynon())) {
     iVar7 = CharStats::getBase(this->charSheetP->Stats,STAT_DEX);
     if (0 < 30 - iVar7) {
       CharStats::AddBase(this->charSheetP->Stats,STAT_DEX,30 - iVar7);
@@ -235,7 +235,7 @@ void CombatEntity::SetMovementRange(){
    }
    CIEL(this->moveRange,13);
                 /* pocho no move */
-  if (this->charSheetP->ID == IDEntInd(EntInd_Pochanargat)) this->moveRange = 0;
+  if (this->charSheetP->ID == IDEntInd(Pochanargat)) this->moveRange = 0;
 }
 
 u8 CombatEntity::DEXCheck(){
@@ -646,7 +646,7 @@ LAB_800696f0:
 }
 
 u8 CombatEntity::CanBeTargeted(CombatEntity *target,s32 param_3){
-  if (target->charSheetP->ID != IDEntInd(EntInd_Shadow)) {
+  if (target->charSheetP->ID != IDEntInd(Shadow)) {
     if (!Flag89()) {
       if (gGlobals.combatBytes[0] == 0x19) return target == this;
       if (!m8006963c(target)) return false;
@@ -705,7 +705,7 @@ u8 CombatEntity::canControl(SpellInstance *param_2){
       break;
     case SPELLIND_controlZombies:
       bVar2 = entityList[EntInd_PlagueZombie];
-      if (x == IDEntInd(EntInd_Zombie)) return true;
+      if (x == IDEntInd(Zombie)) return true;
     }
     if (x != IDEnt(bVar2)) return false;
   }
@@ -1402,7 +1402,7 @@ void CombatEntity::Death(){
   }
   unk800714d0(this);
   gCombatP->EntsAlive--;
-  if (IDEntInd(EntInd_Sholeh) == this->charSheetP->ID) setEventFlag(FLAG_PartySholehDeath,true);
+  if (IDEntInd(Sholeh) == this->charSheetP->ID) setEventFlag(FLAG_PartySholehDeath,true);
   if (Flag5()) {
     gCombatP->EnemiesAlive--;
     if (gCombatP->firstKill == 0) {
@@ -2025,7 +2025,7 @@ u8 CombatEntity::MagicCheck(SpellInstance *param_2,CombatEntity *param_3){
   
   bVar3 = GETINDEX(param_2->base.id);
   if ((bVar3 != SPELLIND_wallOfBones) ||
-     (bVar2 = false, param_3->charSheetP->ID != IDEntInd(EntInd_Marquis))) {
+     (bVar2 = false, param_3->charSheetP->ID != IDEntInd(Marquis))) {
     bVar1 = isDispelMagic(bVar3);
     bVar2 = false;
     if (bVar1 == false) {
@@ -2569,7 +2569,7 @@ s16 CombatEntity::GoblinAmbushAttack(CombatEntity *target,s16 dmg){
   if(dmg){
     CharSheet *pCVar1 = target->charSheetP;
     ret = dmg;
-    if((pCVar1->ID == IDEntInd(EntInd_Alaron))&&
+    if((pCVar1->ID == IDEntInd(Alaron))&&
       (gCombatP->encounter_dat->EncounterID == FLAG_GoblinAmbush)){
       target->PrintDamage(1);
       gGlobals.GoblinHitTally--;

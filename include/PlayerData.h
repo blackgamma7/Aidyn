@@ -30,6 +30,7 @@ struct attachmentNode {
     u32 borg5;
     SceneData *sceneDat;
     u16 index;
+    u8 align[2];
 };
 struct DCMSub2 {
     Borg12Header *borg12;
@@ -110,6 +111,7 @@ struct playerData {
     float targetScale;
     float scaleChange;
     u16 canScale;
+    u8 unk62[2];
     collisionSphere collision;
     vec3f positionMirror;
     EnvProp envprop;
@@ -118,6 +120,7 @@ struct playerData {
     u16 Ground_type;
     u16 Ground_Type_New;
     s16 index; //index in gGlobals.gameVars.PlayerHandler.playerDats[]
+    u8 unk106[2];
     float unk108;
     float voxelReach; /* 100f default */
     vec3f voxelCoords;
@@ -157,7 +160,8 @@ struct playerData {
     float tintScaleMod;
     vec3f CombatTint; /* tint by combat effect */
     vec3f skyTint; /* tint from environmental light */
-    char unk77c;
+    u8 unk77c;
+    u8 unk77d[3];
 };
 
 struct audiokey_struct {

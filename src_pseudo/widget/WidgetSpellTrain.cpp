@@ -164,7 +164,7 @@ s32 WidgetSpellTrain::GetExpPrice(u16 id) {
 
 
 bool shopkeepNotOriana(void) {
-  return gGlobals.playerCharStruct.current_shopkeep != IDEntInd(EntInd_Oriana);}
+  return gGlobals.playerCharStruct.current_shopkeep != IDEntInd(Oriana);}
 
 
 void WidgetSpellTrain::Purchase(ItemID param_2,u8 x) {

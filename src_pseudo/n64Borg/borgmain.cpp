@@ -178,7 +178,20 @@ borgHeader * getBorgItem(s32 index){
   }
 }
 
-void FUN_800a2de0(void){}
+//based on older builds, would originally print out memory used by category of Borg
+void FUN_800a2de0(void){
+#if 0
+  extern void DummiedPrintf(char*,...);
+  char abrevs[][4]={
+    "GEN","TEX","MDL","CAM","LGT","SCN","ANI","ACT","IMG","CZN","CZM","SMP","DCM","DLG","GMS"};
+  DummiedPrintf("============================\n");
+  for(u32 i=0;i<15;i++){
+    DummiedPrintf("%s: %i, %i\n",abrevs[i],borg_count[i],borg_mem[i]);
+  }
+  DummiedPrintf("============================\n");
+#endif
+}
+
 u8 get_borg_index_count(s32 param_1){return gBorgBytes[param_1];}
 
 void dec_borg_count(s32 index){
@@ -224,7 +237,7 @@ u8 InitBorgTexture(Borg1Header *header,Borg1Data *dat){
   }
   else {
     bitDepth = 2;
-    if (B1_IA16 < dat->type) {
+    if (B1_RGBA16 <= dat->type) {
       if (dat->type == B1_RGBA32) bitDepth=4;
       else CRASH("n64Borg.cpp,_InitBorgTexture()",
           "Procedural flag on a texture type other than 32B_RGBA,16B_RGBA/IA!");
