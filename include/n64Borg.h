@@ -402,7 +402,7 @@ enum Borg1Flag{
     B1_TDDetail=0x40,
     B1_TDSharpen=0x80,
     B1_Procedural=0x100,
-    B1_Interlaced=0x200,
+    B1_Moving=0x200,
 };
 
 struct Borg1Data {
@@ -411,7 +411,7 @@ struct Borg1Data {
     u8 Width;
     u8 Height;
     u8 lods;
-    u8 iLace; //paramater for deinterlacing textures?
+    u8 move; //each nibble indicates x or y axis movement
     Gfx *dList;
     u8 *bmp;
     u16 * pallette;
@@ -1055,8 +1055,8 @@ u32 half(int x);
 int getPow2(u32);
 s32 FUN_8009d3b0(s32 param_1,s32 param_2);
 Gfx * FUN_8009d3dc(Gfx *param_1,Borg1Header *b1,u8 bufferchoice);
-void deinterlace32(Borg1Header *param_1,int param_2);
-void deinterlace16(Borg1Header *param_1,int param_2);
+void moveBitmap32(Borg1Header *param_1,int param_2);
+void moveBitmap16(Borg1Header *param_1,int param_2);
 void FUN_8009d7b0(Borg1Header *param_1);
 Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2);
 Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,Borg2Struct *param_3);

@@ -1806,8 +1806,8 @@ s32 FUN_8007b6bc(CharSheet *param_1,u8 param_2,char param_3){
     SVar3 = STAT_END;
   }
   iVar1 = CharStats::getModded(param_1->Stats,SVar3);
-  if ((s32)(char)iVar1 <= -iVar4) {
-    iVar4 = (1 - (char)iVar1) * 0x1000000 >> 0x18;
+  if (iVar1 <= -iVar4) {
+    iVar4 = (1 - iVar1) * 0x1000000 >> 0x18;
   }
   return iVar4;
 }

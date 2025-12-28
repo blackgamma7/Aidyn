@@ -146,18 +146,11 @@ bool CheckCollision(Borg9Data *borgDat,vec3f *posA,vec3f *posB,float radius,vec3
 
 bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,float point5,
                        vec3f *outpos,vec3f *outNorm){
-  int iVar1;
   CollideSection *pbVar2;
   u32 uVar3;
-  bool bVar4;
-  int iVar5;
-  int iVar6;
-  s16 lVar7;
   u32 uVar8;
   u32 uVar9;
   borg9_phys *pbVar10;
-  int iVar11;
-  s16 lVar12;
   vec3f len;
   vec3f afStack136;
   s16 sStack_48;
@@ -172,24 +165,15 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
   if (outNorm) Vec3Set(outNorm,0.0,0.0,0.0);
   Vec3Sub(&len,playposMinY,playerPos);
   FUN_800adae0(param_1,playerPos,&len,point5,&sStack_48,&sStack_46,&sStack_44,&sStack_42);
-  lVar12 = sStack_48;
-  if (lVar12 <= sStack_44) {
-    iVar5 = sStack_48 * 0x10000;
-    do {
-      iVar5 += 0x10000;
-      lVar7 = sStack_46;
-      if (lVar7 <= sStack_42) {
-        iVar1 = sStack_46 * 0x10000;
-        do {
-          iVar1 += 0x10000;
-          pbVar2 = getCollideSection(param_1,lVar12,lVar7);
-          iVar6 = 0;
+    for(s16 i = sStack_48;i<sStack_44;i++) {
+      for(s16 j = sStack_46;j<sStack_42;j++) {
+          pbVar2 = getCollideSection(param_1,i,j);
+          s16 k = 0;
           if (pbVar2->collideCount != 0) {
             uVar9 = 1;
             uVar8 = 2;
-            iVar11 = 0x10000;
-            do {
-              pbVar10 = param_1->phys_pointer + (u16)pbVar2->collideIndecies[iVar6];
+            for(;k<pbVar2->collideCount;k++) {
+              pbVar10 = param_1->phys_pointer + (u16)pbVar2->collideIndecies[k];
               uVar3 = pbVar10->GroundType & 0x1f;
               if ((uVar3 != uVar9) && (uVar3 != uVar8)) {
                 uStack_38 = uVar8;
@@ -202,16 +186,10 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
                   return true;
                 }
               }
-              iVar6 = iVar11 >> 0x10;
-              iVar11 += 0x10000;
-            } while (iVar6 < (int)(u32)(u16)pbVar2->collideCount);
+            }
           }
-          lVar7 = (iVar1 >> 0x10);
-        } while (lVar7 <= sStack_42);
-      }
-      lVar12 = (iVar5 >> 0x10);
-    } while (lVar12 <= sStack_44);
-  }
+        }
+    }
   return false;
 }
 

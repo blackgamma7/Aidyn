@@ -1349,24 +1349,24 @@ u8 CombatEntity::MagicResistChecks(SpellInstance *spell,float *resistMulti){
   return ret;
 }
 
-u16 CombatEntity::CheckVSMagic(SpellInstance *param_2){
-  byte (*pabVar2) [2];
+u16 CombatEntity::CheckVSMagic(SpellInstance *casted){
+  u8 (*spellNSchoolP) [2];
   
-  u8 uStack64 [5] [2]={
+  u8 spellNSchool [5] [2]={
     {SPELLIND_vsElemental,SCHOOL_Elemental},{SPELLIND_vsNaming,SCHOOL_Naming},
     {SPELLIND_vsNecromancy,SCHOOL_Necromancy},{SPELLIND_vsStar,SCHOOL_Star},
     {0xff,0xff}};
   for(u32 i=0;i<MAGIC_FXMAX;i++) {
-    Temp_enchant *pTVar1 = charSheetP->effects[i];
-    if ((pTVar1) && (uStack64[0][0] != 0xff)) {
-      pabVar2 = uStack64;
+    Temp_enchant *effect = charSheetP->effects[i];
+    if ((effect) && (spellNSchool[0][0] != SPELLIND_NONE)) {
+      spellNSchoolP = spellNSchool;
       do {
-        if (((*pabVar2)[0] == pTVar1->index) &&
-           ((*pabVar2)[1] == param_2->school)) {
-          return pTVar1->lv * 6 & 0xfe;
+        if (((*spellNSchoolP)[0] == effect->index) &&
+           ((*spellNSchoolP)[1] == casted->school)) {
+          return effect->lv * 6 & 0xfe;
         }
-        pabVar2++;
-      } while ((*pabVar2)[0] != SPELLIND_NONE);
+        spellNSchoolP++;
+      } while ((*spellNSchoolP)[0] != SPELLIND_NONE);
     }
   }
   return 0;
@@ -1673,7 +1673,7 @@ s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *target,s8 param_3,s8 par
   s16 sVar10;
   u32 uVar15;
   u16 uVar16;
-  float prox;
+  u8 prox;
   
   pCVar3 = this->charSheetP;
   Atkstats = this->charSheetP->Stats;
@@ -1686,13 +1686,12 @@ s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *target,s8 param_3,s8 par
   iVar9 = CharStats::getBase(Atkstats,STAT_LV);
   cVar11 = pCVar5->getModdedWeapon(pTVar4->weaponType);
   cVar12 = pCVar5->getModdedSkill(SKILL_Warrior);
-  //(INT+STAT_DEX+LV)+(WepHit+WepSkill*6+Warrior*2)
-  uVar15 = (s32)((((iVar7 + iVar8 + iVar9) * 0x10000 >> 0x10) + (u32)pTVar4->hit + cVar11 * 6 + cVar12 * 2) * 0x10000) >> 0x10;
-  if (6 < (s32)prox) {uVar15 = (s32)(uVar15 - ((s32)prox - 5) * 0x10000) >> 0x10;}
-  iVar7 = (uVar15 - CharStats::getBase(DefStats,STAT_LV)) * 0x10000;
-  uVar16 = (u16)((u32)iVar7 >> 0x10);
+  //             (INT+STAT_DEX+LV)        +       (WepHit+WepSkill*6+Warrior*2)
+  uVar15 = ((s16)(iVar7 + iVar8 + iVar9)) + (s16)(pTVar4->hit + cVar11 * 6 + cVar12 * 2);
+  if (5 <= prox) uVar15 -= prox - 5;
+  uVar16 = (s16)(uVar15 - CharStats::getBase(DefStats,STAT_LV));
   if (!target->HasPetrifyEffect()) {
-    uVar16 = (u16)((u32)(((((iVar7 >> 0x10) + CharStats::getModded(DefStats,STAT_DEX) * -2) * 0x10000 >> 0x10) - target->GetBlock()) * 0x10000) >> 0x10);
+    uVar16 = (s16)(uVar15 - CharStats::getBase(DefStats,STAT_LV)) + CharStats::getModded(DefStats,STAT_DEX) * -2) - target->GetBlock());
   }
   iVar7 = TheifBackstabMod(uVar16,backstab,0,0x14);
   if (target->unk22 == 0) iVar7 *= 1.2f;
@@ -2044,9 +2043,8 @@ u8 CombatEntity::MagicCheck(SpellInstance *param_2,CombatEntity *param_3){
   return bVar2;
 }
 
-u8 CombatEntity::VSMagic(SpellInstance *param_2,CombatEntity *param_3,char *param_4){
+u8 CombatEntity::VSMagic(SpellInstance *casted,CombatEntity *target,s8 *param_4){
   u8 bVar1;
-  CharStats_s* stats;
   s32 lVar2;
   s16 iVar3;
   u16 uVar6;
@@ -2055,40 +2053,36 @@ u8 CombatEntity::VSMagic(SpellInstance *param_2,CombatEntity *param_3,char *para
   float fVar11;
   
 // no TP with Shadow present
-  if ((param_2->base.id == IDSpell(SpellList[SPELLIND_teleportation])) && (gGlobals.ShadowIndex != -1)) {
+  if ((casted->base.id == IDSpell(SpellList[SPELLIND_teleportation])) && (gGlobals.ShadowIndex != -1)) {
     PrintSpellFail();
     return false;
   }
-  if (!MagicCheck(param_2,param_3)) return true;
-  stats = param_3->charSheetP->Stats;
-  iVar3 = (CharStats::getModded(stats,STAT_WIL) * 3 + CharStats::getModded(stats,STAT_END) + CharStats::getBase(stats,STAT_LV)) * 0x10000 >> 0x10;
-  uVar6 = param_3->CheckVSMagic(param_2);
+  if (!MagicCheck(casted,target)) return true;
+  CharStats_s* tStats = target->charSheetP->Stats;
+  iVar3 = (CharStats::getModded(tStats,STAT_WIL) * 3 + CharStats::getModded(tStats,STAT_END) + CharStats::getBase(tStats,STAT_LV));
+  uVar6 = target->CheckVSMagic(casted);
   if (uVar6) iVar3 = (s16)(uVar6 + iVar3);
-  if ((param_2->aspect_flag & 2) == 0) {if ((param_2->aspect_flag & 1) == 0) goto LAB_8006d5ac;}
+  if ((casted->aspect_flag & 2) == 0) {if ((casted->aspect_flag & 1) == 0) goto LAB_8006d5ac;}
   fVar11 = 0.75f;
-  if (param_3->charSheetP->EXP->GetAspect() != this->charSheetP->EXP->GetAspect()) {fVar11 = 1.25f;}
+  if (target->charSheetP->EXP->GetAspect() != this->charSheetP->EXP->GetAspect()) {fVar11 = 1.25f;}
   iVar3 *= fVar11;
 LAB_8006d5ac:
   uVar6 = RollD(1,100);
   bVar9 = true;
   if ((s16)uVar6 <= iVar3) {
     lVar2 = some_skillcheck_calc((iVar3 - uVar6));
-    pCVar10 = this->charSheetP;
-    if (lVar2 < pCVar10->spellVal) {
-      if (param_3->mirrorVal) {
-        iVar3 = (pCVar10->spellVal - lVar2);
-        if (iVar3 < param_3->mirrorVal) {param_3->mirrorVal-= (char)((u32)iVar3 >> 0x10);}
-        else {param_3->mirrorVal = 0;}
+    if (lVar2 < this->charSheetP->spellVal) {
+      if (target->mirrorVal) {
+        iVar3 = (this->charSheetP->spellVal - lVar2);
+        if (iVar3 < target->mirrorVal) target->mirrorVal-= iVar3;
+        else target->mirrorVal = 0;
         lVar2 = this->charSheetP->spellVal;
-        pCVar10 = this->charSheetP;
       }
-      bVar1 = pCVar10->spellVal;
     }
-    else {bVar1 = pCVar10->spellVal;}
     bVar9 = true;
-    if (lVar2 < (char)bVar1) {*param_4 -= (char)lVar2;}
+    if (lVar2 < this->charSheetP->spellVal) *param_4 -= lVar2;
     else {
-      CombatEntity::PrintSpellResist(param_3,param_2);
+      CombatEntity::PrintSpellResist(target,casted);
       bVar9 = false;
     }
   }

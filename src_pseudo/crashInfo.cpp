@@ -574,7 +574,7 @@ void crash_print(CrashBuff *buff,char *txt,u16 x,u16 y,u8 r,u8 g,u8 b){
         bVar12++;
         bVar2 = gCrashFont[0][iVar5];
         while( true ) {
-          if (((int)(u32)bVar2 >> (8 - uVar6 & 0x1f) & 1U) != 0) {
+          if (((u32)bVar2 >> (8 - uVar6 & 0x1f) & 1U)) {
             (*buff)[0][iVar9 + uVar6] =GPACK_RGBA5551(r,g,b,1);
           }
           uVar6++;

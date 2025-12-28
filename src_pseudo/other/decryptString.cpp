@@ -75,18 +75,17 @@ void decrypt_func_b(u8 *arg0,u8 *arg1,s32 arg2){
   u8 bVar1;
   s32 iVar2;
   s32 iVar3;
-  s32 iVar4;
+  s16 iVar4;
   u8 *pbVar5;
   u8 bVar6;
-  s32 iVar7;
+  s16 iVar7;
   u8 *pbVar8;
   
   iVar4 = arg2 * 0x10000 + -0x10000 >> 0x10;
   iVar7 = 0;
   if (iVar4 != -1) {
-    iVar4 = iVar4 * 0x10000;
     do {
-      iVar4 = iVar4 + -0x10000;
+      iVar4--;
       iVar3 = iVar7 + 2;
       bVar1 = *arg0;
       iVar2 = iVar3;
@@ -108,13 +107,13 @@ void decrypt_func_b(u8 *arg0,u8 *arg1,s32 arg2){
       if (iVar7 < 0) {
         iVar2 = iVar7 + 0xf;
       }
-      *arg0 = bVar6 - arg1[(iVar7 + (iVar2 >> 4) * -0x10) * 0x10000 >> 0x10];
+      *arg0 = bVar6 - arg1[(iVar7 + (iVar2 >> 4) * -0x10) ];
       arg0++;
       *pbVar5 = bVar1 ^ *pbVar5;
       bVar1 = (u8)iVar7;
-      iVar7 = iVar3 * 0x10000 >> 0x10;
+      iVar7 = iVar3 ;
       *pbVar8 = *pbVar8 ^ bVar1;
-    } while (iVar4 >> 0x10 != -1);
+    } while (iVar4 != -1);
   }
   return;
 }

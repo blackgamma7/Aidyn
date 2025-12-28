@@ -108,25 +108,25 @@ Gfx * FUN_8009d3dc(Gfx *g,Borg1Header *b1,u8 bufferchoice){
   u32 uVar3;
   u32 uVar5;
   
-  if ((b1->dat->flag & B1_Interlaced)) {
-    bVar1 = b1->dat->iLace;
+  if ((b1->dat->flag & B1_Moving)) {
+    bVar1 = b1->dat->move;
     if ((bVar1 & 0xf) == 0) {
       if ((bVar1 & 0xf0)) {
-        if (b1->dat->type < B1_CI8) deinterlace16(b1,(u32)(bVar1 >> 4));
-        else deinterlace32(b1,(u32)(bVar1 >> 4));
+        if (b1->dat->type < B1_CI8) moveBitmap16(b1,(u32)(bVar1 >> 4));
+        else moveBitmap32(b1,(u32)(bVar1 >> 4));
         FUN_8009d7b0(b1);
         goto LAB_8009d4c0;
       }
     }
-    bVar1 = b1->dat->iLace;
+    bVar1 = b1->dat->move;
     uVar5 = (u32)(bVar1 >> 4);
     if (uVar5 == (bVar1 & 0xf)) {
-      if (b1->dat->type < B1_CI8) deinterlace16(b1,uVar5);
-      else deinterlace32(b1,uVar5);
+      if (b1->dat->type < B1_CI8) moveBitmap16(b1,uVar5);
+      else moveBitmap32(b1,uVar5);
       FUN_8009d7b0(b1);
-      b1->dat->iLace&= 0xf;
+      b1->dat->move&= 0xf;
     }
-    else b1->dat->iLace+= 0x10;
+    else b1->dat->move+= 0x10;
   }
 LAB_8009d4c0:
   if (b1->dat->dList == NULL) g = borganim_LoadTextureImage(g,b1);
@@ -135,29 +135,28 @@ LAB_8009d4c0:
   return g;
 }
 
-void deinterlace32(Borg1Header *param_1,int param_2){
+void moveBitmap32(Borg1Header *param_1,int param_2){
   byte bVar1;
   int iVar2;
   u16 uVar3;
   u32 uVar4;
   int iVar5;
-  u32 i;
-  u32 uVar6;
-  int iVar7;
+  s16 i;
+  u32 j;
   int iVar8;
-  Color32 *pCVar9;
+  u32 *pCVar9;
   u32 uVar10;
-  Color32 *pCVar11;
+  u32 *pCVar11;
   u32 uVar12;
-  Color32 *puVar14;
+  u32 *puVar14;
   
-  pCVar11 = (Color32 *)param_1->bitmapA;
-  if ((Color32 *)param_1->dat->bmp == pCVar11) {
-    puVar14 = (Color32 *)param_1->bitmapB;
+  pCVar11 = (u32 *)param_1->bitmapA;
+  if ((u32 *)param_1->dat->bmp == pCVar11) {
+    puVar14 = (u32 *)param_1->bitmapB;
   }
   else {
     puVar14 = pCVar11;
-    pCVar11 = (Color32 *)param_1->bitmapB;
+    pCVar11 = (u32 *)param_1->bitmapB;
   }
   i = 0;
   uVar12 = (u32)param_1->dat->Height;
@@ -166,42 +165,35 @@ void deinterlace32(Borg1Header *param_1,int param_2){
   if (uVar12 != 0) {
     iVar2 = 0;
     do {
-      uVar6 = 0;
+      j = 0;
       if ((i & 1) == 0) {
         if (uVar10 != 0) {
           pCVar9 = puVar14 + iVar2;
           iVar5 = (u32)bVar1 + -param_2;
-          iVar8 = 0x10000;
-          do {
+          for(s16 k=0;k<uVar10;k++,pCVar9++) {
             uVar3 = (u16)iVar5;
             iVar5 += 1;
-            iVar7 = iVar8 >> 0x10;
             *pCVar9 = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)bVar1)];
-            pCVar9 = pCVar9 + 1;
-            iVar8 = iVar8 + 0x10000;
-          } while (iVar7 < (int)uVar10);
+          }
         }
       }
-      else if (uVar10 != 0) {
+      else if (uVar10 != 0) { 
         iVar5 = (u32)bVar1 + -param_2;
-        iVar8 = 0x10000;
-        do {
+        for(s16 j=0;j<uVar10;j++){
           uVar3 = (u16)iVar5;
-          iVar5 += 1;
-          uVar4 = uVar6 ^ 2;
-          uVar6 = iVar8 >> 0x10;
+          iVar5++;
+          uVar4 = j ^ 2;
           puVar14[iVar2 + uVar4] = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)bVar1 ^ 2)];
-          iVar8 = iVar8 + 0x10000;
-        } while ((int)uVar6 < (int)uVar10);
+        }
       }
-      i = (int)((i + 1) * 0x10000) >> 0x10;
+      i++;
       iVar2 = i * bVar1;
-    } while ((int)i < (int)uVar12);
+    } while (i < uVar12);
   }
   return;
 }
 
-void deinterlace16(Borg1Header *param_1,int param_2){
+void moveBitmap16(Borg1Header *param_1,int param_2){
   byte bVar1;
   int iVar2;
   u16 uVar3;
@@ -225,20 +217,17 @@ void deinterlace16(Borg1Header *param_1,int param_2){
   uVar10 = (u32)param_1->dat->Height;
   bVar1 = param_1->dat->Width;
   uVar9 = (u32)bVar1;
-  for(s16 i=0;i<i < uVar10;i++){
-    iVar2 = 0;
-      j = 0;
+  for(s16 i=0,iVar2 = 0;i<i < uVar10;i++){
       if ((i & 1) == 0) {
         puVar8 = puVar11 + iVar2;
         iVar5 = (u32)bVar1 + -param_2;
         for(s16 j=0;j<uVar9;j++) {
-          
             uVar3 = (u16)iVar5++;
             *puVar8 = puVar12[iVar2 + (s16)(uVar3 & ~(u16)bVar1)];
             puVar8++;
         }
       }
-      else if (uVar9 != 0) {
+      else if (uVar9 != 0) { //compensate for odd rows' interleaving
         iVar5 = (u32)bVar1 + -param_2;
         for(s16 j=0;j<uVar9;j++) {
           uVar3 = (u16)iVar5++;

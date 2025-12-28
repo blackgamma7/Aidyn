@@ -144,7 +144,7 @@ class CombatEntity {
     u8 CheckSpellWizard(CombatEntity*,SpellInstance *,u8);
     u8 UseSpellCharge(CombatEntity*,SpellInstance *,u8);
     u8 MagicCheck(SpellInstance *,CombatEntity *);
-    u8 VSMagic(SpellInstance *,CombatEntity *,char *);
+    u8 VSMagic(SpellInstance *,CombatEntity *,s8 *);
     u8 Banish(CombatEntity *,SpellInstance *);
     s32 DispelMagic(CombatEntity *,SpellInstance *,u8,u8);
     s32 EnchantAlly(CombatEntity *,SpellInstance *,u8,u8,u8);

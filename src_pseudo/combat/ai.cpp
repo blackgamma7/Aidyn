@@ -1344,9 +1344,9 @@ u8 FUN_80062e14(u8 param_1,u8 param_2,byte *param_3,byte *param_4,u8 param_5){
   int iVar5;
   CombatSubstructA *pCVar6;
   uint uVar7;
-  int iVar8;
+  s16 iVar8;
   uint uVar9;
-  int iVar10;
+  s16 iVar10;
   u8 uVar11;
   uint uVar12;
   uint uVar13;
@@ -1358,8 +1358,8 @@ u8 FUN_80062e14(u8 param_1,u8 param_2,byte *param_3,byte *param_4,u8 param_5){
   int uStack68;
   int uStack64;
   int iStack_38;
-  int iStack_34;
-  int iStack_30;
+  s16 iStack_34;
+  s16 iStack_30;
   
   uVar7 = (u32)param_1;
   uVar9 = (u32)param_2;
@@ -1371,22 +1371,12 @@ u8 FUN_80062e14(u8 param_1,u8 param_2,byte *param_3,byte *param_4,u8 param_5){
   }
   iVar2 = (int)(s16)iVar5;
   iVar5 = iVar10;
-  if (iVar10 < 0) {
-    iVar5 = -iVar10;
-  }
+  if (iVar10 < 0) iVar5 = -iVar10;
   iVar5 = (int)(s16)iVar5;
-  if (iVar8 < 0) {
-    uStack68 = -1;
-  }
-  else {
-    uStack68 = (int)(0 < iVar8);
-  }
-  if (iVar10 < 0) {
-    uStack64 = -1;
-  }
-  else {
-    uStack64 = (int)(0 < iVar10);
-  }
+  if (iVar8 < 0) uStack68 = -1;
+  else uStack68 = (int)(0 < iVar8);
+  if (iVar10 < 0) uStack64 = -1;
+  else uStack64 = (int)(0 < iVar10);
   iVar8 = iVar2 >> 1;
   pCVar6 = &gCombatP->substruct;
   iVar10 = iVar5 >> 1;
@@ -1395,20 +1385,20 @@ u8 FUN_80062e14(u8 param_1,u8 param_2,byte *param_3,byte *param_4,u8 param_5){
   if (iVar2 < iVar5) {
     if (0 < iVar5) {
       iStack_38 = 0x10000;
-      iStack_30 = (uVar7 + uStack68) * 0x10000;
+      iStack_30 = (uVar7 + uStack68);
       uVar15 = uVar7;
       uVar13 = uVar9;
-      iStack_34 = (uVar9 + uStack64) * 0x10000;
+      iStack_34 = (uVar9 + uStack64);
       do {
-        iVar10 = (iVar10 + iVar2) * 0x10000 >> 0x10;
+        iVar10 += iVar2;
         uVar14 = uVar15;
         if (iVar5 <= iVar10) {
-          iVar10 = (iVar10 - iVar5) * 0x10000 >> 0x10;
+          iVar10 -= iVar5;
           uVar14 = iStack_30 >> 0x10;
-          iStack_30 = iStack_30 + uStack68 * 0x10000;
+          iStack_30+= uStack68;
         }
-        uVar12 = iStack_34 >> 0x10;
-        bVar18 = (byte)((uint)iStack_34 >> 0x10);
+        uVar12 = iStack_34;
+        bVar18 = iStack_34;
         uVar11 = (u8)uVar14;
         bVar4 = FUN_8007102c(pCVar6,(u8)uVar15,(u8)uVar13,uVar11,bVar18);
         if ((!bVar4) || (lVar1 = FUN_80070fa0(pCVar6,uVar11,bVar18,param_5), lVar1 == 0)) {
@@ -1433,10 +1423,10 @@ u8 FUN_80062e14(u8 param_1,u8 param_2,byte *param_3,byte *param_4,u8 param_5){
     uVar13 = uVar9;
     iVar10 = 0x10000;
     do {
-      iVar8 = (iVar8 + iVar5) * 0x10000 >> 0x10;
+      iVar8 += iVar5;
       uVar12 = uVar13;
       if (iVar2 <= iVar8) {
-        iVar8 = (iVar8 - iVar2) * 0x10000 >> 0x10;
+        iVar8 -= iVar2;
         uVar12 = iVar16 >> 0x10;
         iVar16 += uStack64 * 0x10000;
       }

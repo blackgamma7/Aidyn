@@ -102,18 +102,13 @@ u32 Ofunc_800a908c(u32 param_1,byte *param_2,u32 param_3) {
 
 //strncmp?
 int ofunc_800a9250(byte *param_1,byte *param_2,int param_3) {
-  byte bVar1;
-  
-  if (param_3 != 0) {
-    do {
-      bVar1 = *param_1;
-      param_1++;
-      if (bVar1 - *param_2 != 0) {
-        return bVar1 - *param_2;
-      }
-      param_3--;
-      param_2++;
-    } while (param_3 != 0);
+
+  while (param_3 != 0) {
+    u8 bVar1 = *param_1;
+    param_1++;
+    if (bVar1 - *param_2 != 0) return bVar1 - *param_2;
+    param_3--;
+    param_2++;
   }
   return 0;
 }

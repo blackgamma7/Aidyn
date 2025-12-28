@@ -171,7 +171,7 @@ void Particle::ApplyVelocity(ParticleHeadStruct *head,ParticleEmmiter *emmi,s16 
 
 
 void Particle::ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec3f *param_3,s16 delta,u16 viBuff,u16 param_6){
-  int iVar2;
+  s16 iVar2;
   s16 sVar4;
   Particle_s *pPVar3;
   u16 uVar5;
@@ -189,21 +189,17 @@ void Particle::ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec
   iStack_30 = 0;
   uStack_34 = (u32)param_6;
   pGStack_38 = *gg;
-  iVar2 = 0;
   for(s16 i=0;i<ParticleEmmiMAX;i++) {
     pE = &pPH->Emmiter[i];
     if ((pE->flags & PARTEMMI_8000) == 0) {
 LAB_800b2590:
-      iVar2 = (i + 1) * 0x10000;
     }
     else if (uStack_34 == 0) {
-      iVar2 = (i + 1) * 0x10000;
       if ((pE->flags & PARTEMMI_1000)) {
         goto LAB_800b2214;
       }
     }
     else {
-      iVar2 = (i + 1) * 0x10000;
       if ((pE->flags & PARTEMMI_1000) == 0) {
 LAB_800b2214:
         if (0 < pE->lifespanemmiter) {
@@ -297,7 +293,6 @@ LAB_800b24c8:
               }
             } while (lVar9 != -1);
           }
-          iVar2 = (i + 1) * 0x10000;
           if (0 < pE->lifespan) continue;
         }
         if ((pE->flags & PARTEMMI_0002)) pE->lifespan = 0;
