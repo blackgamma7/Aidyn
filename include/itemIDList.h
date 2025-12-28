@@ -321,9 +321,9 @@ enum ItemIDS{
     
     Rite_Fog=IDRite(0), //Conjuring Fog
     Rite_Conjoining, // Conjoining
-    Rite_Amulet,// Amulet Creation
+    Rite_Amulet,// Amulet Creation / Create Haste Amulet
     Rite_EnchantingShield,// Enchanting Shield
-    Rite_04,// unknown, omitted in earlest available build.
+    Rite_RuneThrown,// Rune Thrown Weapon
     Rite_STGem,// Create ST Gem
     Rite_Hammer,// Rune Hammer
     Rite_Armor,// Enchanting Armor
@@ -333,6 +333,9 @@ enum ItemIDS{
     Rite_Wolf,// Summon Wolf
     Rite_Bear,// Summon Bear
     Rite_Elemental,// Summon Elemental
+    Rite_ShieldAmulet,// Create Shield Amulet
+    Rite_Rain,// Conjuring Rain
+    Rite_Restoration,// Restoration
 
     //Armor
 
