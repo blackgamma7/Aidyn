@@ -43,7 +43,8 @@ typedef enum Borg8Format {
     BORG8_RGBA16=2,
     BORG8_CI8=4,
     BORG8_IA8=5,
-    BORG8_CI4=7
+    BORG8_CI4=7,
+    BORG8_IA4=9,
 } Borg8Format;
 
 struct borgHeader {
