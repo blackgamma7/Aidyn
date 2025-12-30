@@ -2,6 +2,19 @@
 
 #define FILENAME "./maps/worldmap.cpp"
 
+struct MapEventFlag {
+    u32 MapShortA;
+    u32 MapShortB;
+    u32 flag;
+};
+
+struct WorldMapPiece {
+    u16 eventFlag;
+    u16 mapBorg8;
+    u16 x;
+    u16 y;
+};
+
 WorldMapPiece WorldMapPieces[]={
   {FLAG_Map1,BORG8_MapPiece01,58,29},{FLAG_Map2,BORG8_MapPiece02,35,29},
   {FLAG_Map4,BORG8_MapPiece04,35,29},{FLAG_Map5,BORG8_MapPiece05,43,58},
@@ -113,8 +126,42 @@ u8 WidgetMenuWorldMap::Tick() {
 }
 
 void set_map_event_flag(s32 a,s32 b) {
-  //TODO: declare mapEventFlags here (163 entries)
-  //loop may also be inaccurate.
+  MapEventFlag mapEventFlags[]={
+    /*  0*/{1,4,FLAG_Map4},{1,5,FLAG_Map4},{1,6,FLAG_Map4},{1,15,FLAG_Map7},{1,22,FLAG_Map9},
+    /*  5*/{2,4,FLAG_Map4},{2,5,FLAG_Map4},{2,6,FLAG_Map4},{2,7,FLAG_Map4},{2,8,FLAG_Map2},
+    /* 10*/{2,9,FLAG_Map2},{2,14,FLAG_Map7},{2,15,FLAG_Map7},{2,22,FLAG_Map9},{3,7,FLAG_Map4},
+    /* 15*/{3,8,FLAG_Map2},{3,9,FLAG_Map2},{3,10,FLAG_Map2},{3,14,FLAG_Map7},{3,15,FLAG_Map7},
+    /* 20*/{3,16,FLAG_Map7},{4,8,FLAG_Map2},{4,9,FLAG_Map2},{4,10,FLAG_Map2},{4,13,FLAG_Map7},
+    /* 25*/{4,14,FLAG_Map7},{4,15,FLAG_Map7},{4,22,FLAG_Map8},{4,23,FLAG_Map8},{5,8,FLAG_Map2},
+    /* 30*/{5,9,FLAG_Map2},{5,13,FLAG_Map7},{5,14,FLAG_Map7},{5,15,FLAG_Map7},{5,22,FLAG_Map8},
+    /* 35*/{5,23,FLAG_Map8},{6,8,FLAG_Map2},{6,9,FLAG_Map2},{6,13,FLAG_Map7},{6,14,FLAG_Map7},
+    /* 40*/{6,15,FLAG_Map7},{6,23,FLAG_Map8},{7,8,FLAG_Map2},{7,9,FLAG_Map2},{6,10,FLAG_Map5},
+    /* 45*/{7,12,FLAG_Map6},{7,13,FLAG_Map6},{7,14,FLAG_Map7},{7,15,FLAG_Map7},{7,18,FLAG_Map10},
+    /* 50*/{7,19,FLAG_Map10},{8,8,FLAG_Map1},{8,9,FLAG_Map1},{8,10,FLAG_Map5},{8,11,FLAG_Map5},
+    /* 55*/{8,12,FLAG_Map5},{8,13,FLAG_Map5},{8,14,FLAG_Map10},{8,15,FLAG_Map10},{8,18,FLAG_Map10},
+    /* 60*/{8,19,FLAG_Map10},{9,8,FLAG_Map1},{9,9,FLAG_Map1},{9,10,FLAG_Map5},{9,11,FLAG_Map5},
+    /* 65*/{9,12,FLAG_Map5},{9,13,FLAG_Map5},{9,14,FLAG_Map10},{9,15,FLAG_Map10},{9,18,FLAG_Map10},
+    /* 70*/{9,19,FLAG_Map10},{10,8,FLAG_Map1},{10,9,FLAG_Map1},{10,11,FLAG_Map5},{10,12,FLAG_Map5},
+    /* 75*/{10,13,FLAG_Map5},{10,14,FLAG_Map10},{10,15,FLAG_Map10},{10,16,FLAG_Map10},{10,17,FLAG_Map10},
+    /* 80*/{10,18,FLAG_Map10},{10,19,FLAG_Map10},{11,8,FLAG_Map1},{11,9,FLAG_Map1},{11,15,FLAG_Map10},
+    /* 85*/{11,16,FLAG_Map10},{11,17,FLAG_Map10},{11,18,FLAG_Map10},{11,19,FLAG_Map10},{11,20,FLAG_Map10},
+    /* 90*/{12,7,FLAG_Map1},{12,8,FLAG_Map1},{12,16,FLAG_Map11},{12,17,FLAG_Map11},{12,19,FLAG_Map15},
+    /* 95*/{12,20,FLAG_Map15},{13,6,FLAG_Map1},{13,7,FLAG_Map1},{13,8,FLAG_Map1},{13,16,FLAG_Map11},
+    /*100*/{13,17,FLAG_Map11},{13,20,FLAG_Map11},{13,21,FLAG_Map15},{13,22,FLAG_Map15},{13,23,FLAG_Map15},
+    /*105*/{14,6,FLAG_Map1},{14,8,FLAG_Map1},{14,16,FLAG_Map11},{14,17,FLAG_Map11},{14,21,FLAG_Map15},
+    /*110*/{14,22,FLAG_Map15},{14,23,FLAG_Map15},{14,25,FLAG_Map17},{14,26,FLAG_Map17},{14,27,FLAG_Map17},
+    /*115*/{14,28,FLAG_Map17},{15,16,FLAG_Map11},{15,17,FLAG_Map11},{15,22,FLAG_Map14},{15,23,FLAG_Map14},
+    /*120*/{15,24,FLAG_Map14},{15,25,FLAG_Map18},{15,26,FLAG_Map17},{15,27,FLAG_MapGoblin},{15,28,FLAG_Map17},
+    /*125*/{16,16,FLAG_Map12},{16,17,FLAG_Map12},{16,18,FLAG_Map13},{16,19,FLAG_Map13},{16,21,FLAG_Map14},
+    /*130*/{16,22,FLAG_Map14},{16,23,FLAG_Map14},{16,24,FLAG_Map14},{16,25,FLAG_Map17},{16,26,FLAG_Map17},
+    /*135*/{16,27,FLAG_Map17},{17,16,FLAG_Map12},{17,17,FLAG_Map12},{17,18,FLAG_Map13},{17,19,FLAG_Map13},
+    /*140*/{17,20,FLAG_Map13},{17,21,FLAG_Map14},{17,25,FLAG_Map16},{17,26,FLAG_Map16},{17,27,FLAG_Map14},
+    /*145*/{18,16,FLAG_Map13},{18,17,FLAG_Map13},{18,18,FLAG_Map13},{18,19,FLAG_Map13},{18,20,FLAG_Map14},
+    /*150*/{18,21,FLAG_Map14},{18,25,FLAG_Map16},{18,26,FLAG_Map16},{18,27,FLAG_Map16},{18,28,FLAG_Map16},
+    /*155*/{19,16,FLAG_Map13},{19,25,FLAG_MapGoblin},{19,26,FLAG_MapGoblin},{19,27,FLAG_MapGoblin},{20,26,FLAG_MapGoblin},
+    /*160*/{20,27,FLAG_MapGoblin},{20,28,FLAG_MapGoblin},{0}
+  };
+  //loop may be inaccurate.
   MapEventFlag* entry = mapEventFlags;
   while((entry->MapShortA)&&(entry->MapShortB)&&(entry->flag)){
     if((entry->MapShortA==a)&&(entry->MapShortB==b)){

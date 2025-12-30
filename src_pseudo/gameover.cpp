@@ -9,8 +9,8 @@ void Gameover_func(void){
   Borg9Header *pBVar5;
   s16 iVar8;
   dialoug_dat *pvVar9;
-  //borg13 indecies of Alarorn death scenes
-  u32 GameOverScenes[]={0x512,0x513,0x514};
+  //borg13 indecies of Alaron death scenes
+  u32 GameOverScenes[]={BORG13_AlaronDies1,BORG13_AlaronDies2,BORG13_AlaronDies3};
   //...but only one is used.
   bVar4 = GameOverScenes[0];
   pvVar9 = NULL;
@@ -21,7 +21,7 @@ void Gameover_func(void){
   do {
     if ((pBVar5->dat).voxelObjCount <= iVar8) {
 LAB_8002411c:
-      pCVar3 = (PARTY)->Members[0];
+      pCVar3 = PARTY->Members[0];
       #ifdef DEBUGVER
       if (!pCVar3) CRASH("NO ALARON! EVIL!!!!","./src/gameover.cpp");
       #endif

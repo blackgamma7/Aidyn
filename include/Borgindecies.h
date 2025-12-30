@@ -91,7 +91,7 @@
 #define BORG8_SundailCross 0x01ba
 #define BORG8_SundailSunBig 0x01bb
 
-// 12x37 gradients used to determine the sky's color
+// 12x37 RGBA32 gradients used to determine the sky's color
 
 #define BORG8_SkyGradient3 0x0199
 #define BORG8_SkyGradient2 0x019A

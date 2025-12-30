@@ -6,19 +6,6 @@ typedef struct MapPieceWidget{
     WidgetBorg8* img;
     u16 x,y;
 };
-struct WorldMapPiece {
-    u16 eventFlag;
-    u16 mapBorg8;
-    u16 x;
-    u16 y;
-};
-
-struct MapEventFlag {
-    u32 MapShortA;
-    u32 MapShortB;
-    u32 flag;
-};
-extern MapEventFlag mapEventFlags[];
 
 void set_map_event_flag(s32 a,s32 b);
 

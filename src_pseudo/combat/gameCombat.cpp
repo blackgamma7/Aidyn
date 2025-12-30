@@ -903,15 +903,14 @@ void clear_alaron_shadow_indices(){
   gGlobals.AlaronIndex = -1;
 }
 
-
 void alaron_shadow_merge_attempt(){
   if ((((gGlobals.combatBytes[0] != 0x11) && (gGlobals.combatBytes[0] != 0x1d)) &&
       (gGlobals.combatBytes[0] != 0x1e)) &&
      ((gGlobals.ShadowIndex != -1 && (gGlobals.AlaronIndex != -1)))) {
-    playerData *shadow = gGlobals.playerDataArray[(&gCombatP->combatEnts)[(byte)gGlobals.ShadowIndex]->index];
-    if (shadow != NULL) {
-      playerData *alaron = gGlobals.playerDataArray[(&gCombatP->combatEnts)[(byte)gGlobals.AlaronIndex]->index];
-      if ((alaron != NULL) &&
+    playerData *shadow = gGlobals.playerDataArray[(&gCombatP->combatEnts)[gGlobals.ShadowIndex]->index];
+    if (shadow) {
+      playerData *alaron = gGlobals.playerDataArray[(&gCombatP->combatEnts)[gGlobals.AlaronIndex]->index];
+      if ((alaron) &&
          ((shadow->scaleRad + alaron->scaleRad + 0.5f)>
          Vec3Dist(&(shadow->collision).pos,&(alaron->collision).pos))){
         if (HasHornOfKynon()) shadow_merge_cinematic();
