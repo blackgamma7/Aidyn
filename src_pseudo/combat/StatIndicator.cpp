@@ -174,7 +174,7 @@ Gfx * Tick(Gfx *g,int delta){
     x = &combatStatIndicatorDat.Indicators[i];
     if (x->statVisible) {
       if (x->statTime < 120) {
-        fVar8 = __sinf((x->statTime / 120.0f) * 1.5708f) * x->statAlphaDelta;
+        fVar8 = __sinf((x->statTime / 120.0f) * (90.0f*dtor)) * x->statAlphaDelta;
         cVar10 = fVar8 * 255.0f;
         pos.x = (x->statStartPos).x;
         fVar9 = fVar8 * 0.5f;

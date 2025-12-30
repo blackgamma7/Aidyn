@@ -9,7 +9,7 @@
 #define BORG1_PlayerShadow 0x0003 //used for player shadow and one of the particle textures
 #define Borg1_Particle4 0x0004
 #define Borg1_Particle5 0x0005
-#define Borg1_Particle6 0x0006
+#define Borg1_Particle6 0x0006 //Gray leaf
 #define Borg1_Particle7 0x0007
 #define Borg1_Particle8 0x0008
 #define Borg1_Particle9 0x0009
@@ -91,6 +91,17 @@
 #define BORG8_SundailCross 0x01ba
 #define BORG8_SundailSunBig 0x01bb
 
+// 12x37 gradients used to determine the sky's color
+
+#define BORG8_SkyGradient3 0x0199
+#define BORG8_SkyGradient2 0x019A
+#define BORG8_SkyGradient6 0x019b
+#define BORG8_SkyGradient7 0x019c
+#define BORG8_SkyGradient5 0x019d
+#define BORG8_SkyGradient1 0x019e
+#define BORG8_SkyGradient0 0x019f
+#define BORG8_SkyGradient4 0x01A0
+
 #define BORG8_EXPPakYes 0x3758
 #define BORG8_EXPPakNo 0x3759
 #define BORG8_ErrorRegion 0x37c3
@@ -159,7 +170,7 @@
 
 #define BORG8_IconSlotAmulet 0x35f3
 #define BORG8_IconSlotChest 0x35f4
-#define BORG8_IconSlotCirclet 0x35f5
+#define BORG8_IconSlotBelt 0x35f5
 #define BORG8_IconSlotBoot 0x35f6
 #define BORG8_IconSlotCloak 0x35f7
 #define BORG8_IconSlotGlove 0x35f8

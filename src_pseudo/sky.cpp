@@ -15,7 +15,9 @@ void Sky::FreeSubstruct(SkySubstruct *param_1){
 
 //Loads 37*12 RGBA32 texture
 void Sky::loadDay(SkySubstruct *sub,u16 type){
-  u32 sky_borg8s []={0,0x19f,0x19E,0x19A,0x0199,0x1A0,0x19D,0x19B,0x19C};
+  u32 sky_borg8s []={
+    0,BORG8_SkyGradient0,BORG8_SkyGradient1,BORG8_SkyGradient2,BORG8_SkyGradient3,
+    BORG8_SkyGradient4,BORG8_SkyGradient5,BORG8_SkyGradient6,BORG8_SkyGradient7};
   if (type != sub->type) {
     FreeSubstruct(sub);
     sub->type = type;
@@ -327,7 +329,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   vec3f fStack128;
   
   fVar7 = 0.0;
-  sStormTimer = (sStormTimer + 1) + ((sStormTimer + 1) / 20) * -20;
+  sStormTimer = (sStormTimer + 1) % 20;
   if (3 < gGlobals.sky.Type - 1) {
       Gsprintf("type: %d out of Range: (1 - %d)",gGlobals.sky.Type,5);
       CRASH("RenderSky",gGlobals.text);

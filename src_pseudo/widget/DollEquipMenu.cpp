@@ -6,7 +6,7 @@
 u32 gItemSlotBorg8Indecies[]={
     BORG8_IconSlotSword,BORG8_IconSlotGlove,BORG8_IconSlotRing1,
     BORG8_IconSlotHelmet,BORG8_IconSlotAmulet,BORG8_IconSlotCloak,
-    BORG8_IconSlotChest,BORG8_IconSlotCirclet,BORG8_IconSlotBoot,
+    BORG8_IconSlotChest,BORG8_IconSlotBelt,BORG8_IconSlotBoot,
     BORG8_IconSlotShield,BORG8_IconSlotStaff,BORG8_IconSlotRing2,
     BORG8_IconSlotScroll1,BORG8_IconSlotScroll2,BORG8_IconSlotScroll3};
 

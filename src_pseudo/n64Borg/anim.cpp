@@ -1,7 +1,7 @@
 #include "n64Borg.h"
 #include "globals.h"
 
-// script for models texturews and animations of Borg 1/2/5/6/7
+// script for models textures and animations of Borg 1/2/5/6/7
 
 #define FILENAME "./src/borganim.cpp"
 
@@ -254,7 +254,6 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   Gfx *pauVar9;
   int iVar10;
   s32 i;
-  u8 BVar1;
   Borg1Data *pBVar2;
   
   gDPPipeSync(gfx++);
@@ -267,13 +266,10 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   h = (u32)pBVar2->Width;
   w = (u32)pBVar2->Height;
   for(i=0;i<=pBVar2->lods;i++){
-      iVar4 = GetBitmapSize(h,w,(int)sVar6);
-      iVar10 += iVar4;
+      iVar10 += GetBitmapSize(h,w,(int)sVar6);
       h = half(h);
       w = half(w);
-      i++;
   }
-  BVar1 = param_2->dat->type;
   if (B1_RGBA32 < param_2->dat->type) {
     CRASH("borganim.cpp:LoadTextureImage","TEXTURE TYPE NOT SUPPORTED");
   }

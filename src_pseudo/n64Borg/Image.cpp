@@ -61,10 +61,8 @@ Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
   gDPSetCombineKey(gfx++,0);
   gSPClearGeometryMode(gfx++,0);
   gSPTexture(gfx++,0,0,0,0,0);
-  //gDPSetRenderMode()
-  if ((flag & 2) == 0) word1 =0xf0a4000;
-  else word1 = (G_RM_XLU_SURF2|0x400000);
-  gDPSetRenderMode(gfx++,word1,0);
+  if (flag & 2){gDPSetRenderMode(gfx++,G_RM_XLU_SURF2,(G_BL_CLR_MEM<<22));}
+  else {gDPSetRenderMode(gfx++,G_RM_OPA_SURF2,G_RM_PASS);}
   //Set combine (solid or alpha. Most times alpha)
   if ((flag & 4) == 0) {
     //gDPSetCombineLERP();
@@ -634,7 +632,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     break;
   case BORG8_CI4:
   case 8:
-  case 9:
+  case BORG8_IA4:
     if ((int)uVar26 < 0x10) {
       iVar5 = 0x10 - uVar26;
     }
