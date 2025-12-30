@@ -197,38 +197,37 @@ void attachPhysicsProperties(Borg9Data *param_1){
       }
       #endif
       uVar3 = pbVar2[i].GroundType;
-      uVar4 = uVar3 & 0xf000;
-      if (uVar4 == 0x1000) {
-        uVar3 = (u16)((uVar3 + 1 & 0x7f) << 5) | 0x1000 | uVar1 & 0x1f;
-LAB_8000d2c4:
-        pbVar2[i].GroundType = uVar3;
-        pbVar2[i].flags |= B9Phys_1000;
-      }
-      else {
-        if (uVar4 < 0x1001) {
-          if ((uVar3 & 0xf000) != 0) {
-            uVar1 = pbVar2[i].GroundType;
-LAB_8000d25c:
-            Gsprintf("Unknown attach: %04x\n",uVar1);
-            CRASH("AttachPhysicsProperties",gGlobals.text);
+      switch(uVar3 & 0xf000){
+        case 0:{
+          pbVar2[i].GroundType = uVar1 | 0x3000;
+          pbVar2[i].flags |= B9Phys_1000;
+          break;
+        }
+        case 0x1000:{
+          pbVar2[i].GroundType = (u16)((uVar3 + 1 & 0x7f) << 5) | 0x1000 | uVar1 & 0x1f;
+          pbVar2[i].flags |= B9Phys_1000;
+          break;
+        }
+        case 0x2000:{
+          pbVar2[i].GroundType = (u16)((uVar3 & 0x7f) << 5) | 0x2000 | uVar1 & 0x1f;
+          pbVar2[i].flags |= B9Phys_1000;
+          break;
+        }
+        case 0x4000:{
+          if (gExpPakFlag){
+            pbVar2[i].GroundType = uVar3 | 0x3000;
+            pbVar2[i].flags |= B9Phys_1000;
           }
-LAB_8000d2bc:
-          uVar4 = pbVar2[i].flags;
-          uVar3 = uVar1 | 0x3000;
-          goto LAB_8000d2c4;
+          else{
+            pbVar2[i].flags = B9Phys_0001;
+            pbVar2[i].GroundType = 0;
+          }
+          break;
         }
-        if (uVar4 == B9Phys_2000) {
-          uVar4 = pbVar2[i].flags;
-          uVar3 = (u16)((uVar3 & 0x7f) << 5) | 0x2000 | uVar1 & 0x1f;
-          goto LAB_8000d2c4;
+        default:{
+          Gsprintf("Unknown attach: %04x\n",pbVar2[i].GroundType);
+          CRASH("AttachPhysicsProperties",gGlobals.text);
         }
-        if (uVar4 != 0x4000) {
-          uVar1 = pbVar2[i].GroundType;
-          goto LAB_8000d25c;
-        }
-        if (gExpPakFlag) goto LAB_8000d2bc;
-        pbVar2[i].flags = B9Phys_0001;
-        pbVar2[i].GroundType = 0;
       }
       pbVar2[i].envProperty = gGlobals.gameVars.EnvProps + uVar1;
     }
@@ -294,7 +293,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
       }
     }
   }
-  if (((((param_2->GroundType & 0xf000) == 0x2000) && ((param_1->flags & 0x400) == 0)) &&
+  if (((((param_2->GroundType & 0xf000) == 0x2000) && ((param_1->flags & CSPHERE_0400) == 0)) &&
       (gGlobals.playerCharStruct.unkState == 3)) &&
      ((some_toggle == -1 &&
       (ptVar6 = (gGlobals.gameVars.borg9DatPointer)->voxelObjs + (param_2->GroundType >> 5 & 0x7f),
@@ -725,7 +724,7 @@ void set_playerdata_zoneDatByte(u16 param_1,u16 param_2){
   if (0 < PHANDLE.max_player) {
     for(s16 i=0; i < PHANDLE.max_player; i++) {
       playerData *p = &PHANDLE.playerDats[i];
-      if ((p->removeFlag) && (p->visible_flag == 0)) {
+      if ((p->state) && (!p->isVisible)) {
         p->zoneDatByte = get_zoneDatByte(param_1,param_2,p->zoneDatByte);
       }
     }
@@ -1288,7 +1287,6 @@ Gfx* FUN_80010354(Gfx*g,ZoneDat *param_2){
   return g;
 }
 
-
 Gfx* FUN_800103b0(Gfx*g,ZoneDat *param_2){
   if ((param_2->SceneDat0x14) && (param_2->sceneDat0x4)){
     SetSceneColors(param_2->SceneDat0x14,param_2->alpha,1,0);
@@ -1412,7 +1410,6 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   ZoneDat *iVar1;
   s16 *psVar13;
   s16 *psVar14;
-  int i;
   float posz;
   float posx;
   u16 uStack80 [2];
@@ -1420,13 +1417,13 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   int iStack_48;
   u32 uStack_44;
   u32 uStack_40;
-  vec3f *uStack60;
-  ParticleHeadStruct *pPStack_38;
+  vec3f *camRot;
+  ParticleHeadStruct *partHead;
   u16 (*pauStack_34) [2];
   u16 *puStack_30;
   Gfx **ppGStack_2c;
   
-  iStack_48 = 1;
+  iStack_48 = true;
   gOut = *GG;
   u16 uStack144[][2]={{0,0},{2,0},{0,2},{2,2},{1,0},{1,2},{0,1},{2,1}};
   Scene::UnsetFlag40(MAPCENTER.sceneDat0x4);
@@ -1439,24 +1436,22 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   if ((((gCamera.pos.x < 0.0) || (gCamera.pos.z < 0.0)) ||
       (gGlobals.gameVars.mapCellSize.x < gCamera.pos.x)) ||
      (gGlobals.gameVars.mapCellSize.y < gCamera.pos.z)) {
-    iStack_48 = 0;
+    iStack_48 = false;
   }
-  if (iStack_48 == 0) {
-    gOut = FUN_80010354(gOut,gGlobals.gameVars.ZoneDatMtx[1] + 1);
-  }
-  i = 0;
+  if (!iStack_48) gOut = FUN_80010354(gOut,gGlobals.gameVars.ZoneDatMtx[1] + 1);
+  s16 i = 0;
   pauStack_34 = uStack144;
   puStack_30 = uStack144[0] + 1;
   ppGStack_2c = &gOut;
   uStack_40 = 1;
-  pPStack_38 = &gGlobals.gameVars.particleHead;
-  uStack60 = &gCamera.rotation;
+  partHead = &gGlobals.gameVars.particleHead;
+  camRot = &gCamera.rotation;
   uStack_44 = (u32)(gGlobals.gameVars.borg9DatPointer)->byte0x1b;
   iVar2 = 0;
-  do {
+  for(;i<8;i++) {
     uVar3 = uStack_40;
-    psVar13 = (s16 *)((int)*pauStack_34 + iVar2);
-    psVar14 = (s16 *)((int)puStack_30 + iVar2);
+    psVar13 = (s16*)&pauStack_34[i];
+    psVar14 = (s16*)&puStack_30[i];
     uStack_40 = (uStack_40 & 0x7f) << 1;
     if ((FUN_80010598(*psVar13,*psVar14)) && ((uStack_44 & uVar3) == 0)) {
       if ((!gExpPakFlag) && (get_MemFree()< 0x18000)) {
@@ -1561,32 +1556,23 @@ LAB_80010bfc:
         gOut = RenderVoxelScenes(gOut,&pZVar12->mapPointer->dat,pos,uVar10,uVar11,posx,posz);
       }
     }
-    i = (int)(s16)((s16)i + 1);
-    iVar2 = i << 2;
-    if (7 < i) {
-      if (iStack_48) {
-        gOut = FUN_80010354(gOut,&MAPCENTER);
-      }
-      Gsprintf("ParticleHead\n");
-      Particle::ProcessAndRenderParticleHead(ppGStack_2c,pPStack_38,uStack60,delta,Graphics::GetBufferChoice(),0);
-      Gsprintf("Render Player Shadows\n");
-      gOut = renderPlayerShadows(&PHANDLE,gOut);
-      Gsprintf("Render Players (Water)\n");
-      if (gPlayerRenderTimer == 0) {
-        gOut = renderPlayers(&PHANDLE,gOut,delta,1,0);
-      }
-      Gsprintf("RenderVoxelScenesInZone[1][1]\n");
-      getZonePositionShorts(&(MAPCENTER.mapPointer)->dat,pos,(s16 *)uStack80,
+  }
+  if (iStack_48)  gOut = FUN_80010354(gOut,&MAPCENTER);
+  Gsprintf("ParticleHead\n");
+  Particle::ProcessAndRenderParticleHead(ppGStack_2c,partHead,camRot,delta,Graphics::GetBufferChoice(),false);
+  Gsprintf("Render Player Shadows\n");
+  gOut = renderPlayerShadows(&PHANDLE,gOut);
+  Gsprintf("Render Players (Water)\n");
+  if (gPlayerRenderTimer == 0) gOut = renderPlayers(&PHANDLE,gOut,delta,1,0);
+  Gsprintf("RenderVoxelScenesInZone[1][1]\n");
+  getZonePositionShorts(&(MAPCENTER.mapPointer)->dat,pos,(s16 *)uStack80,
                  (s16 *)(uStack80 + 1));
-      gOut = RenderVoxelScenes(gOut,&(MAPCENTER.mapPointer)->dat,pos,uStack80[0]
+  gOut = RenderVoxelScenes(gOut,&(MAPCENTER.mapPointer)->dat,pos,uStack80[0]
                                ,uStack80[1],0.0,0.0);
-      Gsprintf("Render Players(trans)\n");
-      gOut = renderPlayers(&PHANDLE,gOut,delta,1,1);
-      Gsprintf("Finished Render Zones\n");
-      *GG = gOut;
-      return;
-    }
-  } while( true );
+  Gsprintf("Render Players(trans)\n");
+  gOut = renderPlayers(&PHANDLE,gOut,delta,1,1);
+  Gsprintf("Finished Render Zones\n");
+  *GG = gOut;
 }
 
 void RenderTransZones__(Gfx **param_1){
@@ -1626,8 +1612,8 @@ void renderTransZones_(Gfx**GG){
 void mapFloatDat_copy(mapFloatDat *param_1){
 
   gGlobals.gameVars.unk120e = 0;
-  gGlobals.gameVars.unkCounter = 0;
-  gGlobals.gameVars.unkTimer = 0;
+  gGlobals.gameVars.mapDatFloatInd = 0;
+  gGlobals.gameVars.savePosTimer = 0;
   for(u16 i=0;i<15;i++){
     COPY(&gGlobals.gameVars.MapFloatDats[i],param_1);
   }
@@ -1722,7 +1708,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   if (param_2 == 0) {
     CLEAR(&afStack104);
     passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&afStack104,dat);
-    if ((gPlayer) && ((gPlayer)->removeFlag == 0)) {
+    if ((gPlayer) && ((gPlayer)->state == 0)) {
       Camera::SetAim(&gCamera,&gPlayer->collision.pos);
       Camera::FUN_800b050c(&gCamera,&afStack104);
       Camera::SetPos(&gCamera,&afStack104);
@@ -1918,12 +1904,12 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   byte bVar2;
   u32 uVar3;
   vec3f *position;
-  int iVar4;
+  int iDelta;
   float fVar5;
   Gfx *G;
   
   G = *GG;
-  iVar4 = (int)delta;
+  iDelta = (int)delta;
   Gsprintf("Handle Zone Engine Frame");
   #ifdef DEBUGVER
   VoxelIndexPosition(delta,player);
@@ -1944,13 +1930,13 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
     #endif
     if (gGlobals.gameVars.tpVec3 == NULL) {
       gGlobals.screenFadeMode = 2;
-      gGlobals.screenFadeSpeed = 0.06666667f;
+      gGlobals.screenFadeSpeed = (1.0f/15);
     }
     #ifndef DEBUGVER
     if (gGlobals.gameVars.mapDatA == 0) bVar1 = (gGlobals.gameVars.refObjPointer->teleport.MapDatA == 0);
-    Gsprintf("pZ->map: %d\npT->map: %d\ndoReset: %d - %d\n"(int)gGlobals.gameVars.mapDatA,
-                (uint)((gGlobals.gameVars.refObjPointer)->teleport).MapDatA,uVar3,0);
-    N64PRINT();
+    Gsprintf("pZ->map: %d\npT->map: %d\ndoReset: %d - %d\n",gGlobals.gameVars.mapDatA,
+                gGlobals.gameVars.refObjPointer->teleport.MapDatA,bVar1,0);
+    N64PRINT(gGlobals.text);
     #endif
     TeleportPlayer(player,gGlobals.gameVars.refObjPointer,gGlobals.gameVars.tpVec3);
     gGlobals.gameVars.refObjPointer = NULL;
@@ -1965,31 +1951,26 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
     #endif
   }
   some_zoneDat_func();
-  if ((gPlayerRenderTimer != 0) &&
-     (uVar3 = (u32)gPlayerRenderTimer, gPlayerRenderTimer = (u16)(uVar3 - iVar4),
-     (int)((uVar3 - iVar4) * 0x10000) < 0)) gPlayerRenderTimer = 0;
-  if (gGlobals.gameVars.gamemodeType != 2) {
-    Gsprintf("ProcessPlayers");
+  if (gPlayerRenderTimer){
+    gPlayerRenderTimer-=iDelta;
+    FLOOR(gPlayerRenderTimer,0);
+  }
+  if (gGlobals.gameVars.gamemodeType != GameMode_Title) {
+    DEBUGSprintf("ProcessPlayers");
     ProcessPlayers(&PHANDLE,delta);
-    Gsprintf("The crash was not in ProcessPlayers");
+    DEBUGSprintf("The crash was not in ProcessPlayers");
   }
   if ((player) && (gGlobals.gameVars.gamemodeType == GameMode_Trek)) {
-    Gsprintf("SaveZoneEngine");
-    uVar3 = (u32)gGlobals.gameVars.unkTimer;
-    gGlobals.gameVars.unkTimer = (u16)(uVar3 - iVar4);
-    if ((int)((uVar3 - iVar4) * 0x10000) < 1) {
+    DEBUGSprintf("SaveZoneEngine");
+    gGlobals.gameVars.savePosTimer-=iDelta;
+    if (gGlobals.gameVars.savePosTimer <= 0) {
       bVar1 = true;
       position = &(player->collision).pos;
-      gGlobals.gameVars.unkTimer = 120;
+      gGlobals.gameVars.savePosTimer = 120;
       A = FUN_8000cae8(position,gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2,gGlobals.gameVars.mapDatA,1);
-      if ((A != NULL) &&(Vec3Dist(&A->playerVec3,position) < 10.0f)) {
-        bVar1 = false;
-      }
-      if (bVar1) {SaveEngineZone(player,(mapFloatDat *)
-                              ((int)&gGlobals +
-                              ((u32)gGlobals.gameVars.unkCounter * 0xc - (u32)gGlobals.gameVars.unkCounter)
-                              * 4 + 0x1058));
-        gGlobals.gameVars.unkCounter =(gGlobals.gameVars.unkCounter + 1) +((gGlobals.gameVars.unkCounter + 1) / 0xf) * -0xf;
+      if ((A != NULL) &&(Vec3Dist(&A->playerVec3,position) < 10.0f)) bVar1 = false;
+      if (bVar1) {SaveEngineZone(player,&gGlobals.gameVars.MapFloatDats[gGlobals.gameVars.mapDatFloatInd]);
+        gGlobals.gameVars.mapDatFloatInd = (gGlobals.gameVars.mapDatFloatInd + 1) % 15;
       }
     }
   }
@@ -2021,7 +2002,7 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   gGlobals.text[0] = '\0';
   if (gGlobals.gameVars.gamemodeType != GameMode_Title) {
     Particle::ProcessAndRenderParticleHead(&G,&gGlobals.gameVars.particleHead,&gCamera.rotation,delta,
-                                 Graphics::GetBufferChoice(),1);
+                                 Graphics::GetBufferChoice(),true);
   }
   DEBUGSprintf("ProcessAudioBubbles");
   if (player) ProcessAudioBubbles(&gGlobals.SFXStruct,&(player->collision).pos,delta);

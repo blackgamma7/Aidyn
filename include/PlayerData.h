@@ -89,7 +89,7 @@ enum AniTypes{
 //Main actor struct for entites moving in world
 struct playerData {
     u16 ID;
-    s16 removeFlag;
+    s16 state;
     Borg7Header *borg7P;
     SceneData *SceneDat;
     u32 borg7;
@@ -138,10 +138,10 @@ struct playerData {
     vec3f combat_vec3;
     float combatMoveSpeed;
     u32 unk284; /* unused? */
-    PlaneObj shadow;
+    PlaneObj shadowObj;
     u8 unused518[496];
     s16 deathTimer;
-    u8 visible_flag;
+    u8 isVisible;
     u8 alaron_flag; //set if Alaron's model
     u8 shadowAlpha; //used for alpha
     u8 zoneDatByte;

@@ -134,7 +134,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
       }
     }
     else{
-      if (p->visible_flag) {
+      if (p->isVisible) {
         gGlobals.playerCharStruct.show_portaits = 0;
         MINIMAP.Toggle(0);
       }
@@ -144,9 +144,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
       }
       else p->ani_type = AniType_Sneak;
       camera_control_update_(fVar9,y,&(PHANDLE.camera)->rotationXZ,&p->facingMirror);
-      if (p->visible_flag == 0) fVar9 = 0.34906;
-      else fVar9 = 0.17453;
-      some_trig_func_2(&p->facing,&p->facingMirror,fVar9);
+      some_trig_func_2(&p->facing,&p->facingMirror,p->isVisible?(1.0f*dtor):(2.0f*dtor));
       if (0.0 < (p->facing).x) {
         if ((p->facing).x < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
       }
@@ -407,7 +405,7 @@ void debug_sub_3(){
     if (0 < PHANDLE.max_player) {
       for(u16 i=0;i<PHANDLE.max_player;i++) {
         playerData* p= &PHANDLE.playerDats[i];
-        if (p->removeFlag != 0) FUN_80019b08(p);
+        if (p->state != 0) FUN_80019b08(p);
       }
     }
   }

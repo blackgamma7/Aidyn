@@ -226,36 +226,36 @@ Gfx * Actor::CalculateShadow(playerData *pDat,Gfx *g,float param_3,u8 param_4){
     if (1.0f < fVar5) fVar5 = 1.0f;
     fVar4 = fVar5 * 160.0f;
     scale.x = (pDat->scaleRad*2) * fVar5;
-    (pDat->shadow).vertCols[3].R = 0;
-    (pDat->shadow).vertCols[2].R = 0;
-    (pDat->shadow).vertCols[1].R = 0;
-    (pDat->shadow).vertCols[0].R = 0;
-    (pDat->shadow).vertCols[3].G = 0;
-    (pDat->shadow).vertCols[2].G = 0;
-    (pDat->shadow).vertCols[1].G = 0;
-    (pDat->shadow).vertCols[0].G = 0;
-    (pDat->shadow).vertCols[3].B = 0;
-    (pDat->shadow).vertCols[2].B = 0;
-    (pDat->shadow).vertCols[1].B = 0;
-    (pDat->shadow).vertCols[0].B = 0;
+    (pDat->shadowObj).vertCols[3].R = 0;
+    (pDat->shadowObj).vertCols[2].R = 0;
+    (pDat->shadowObj).vertCols[1].R = 0;
+    (pDat->shadowObj).vertCols[0].R = 0;
+    (pDat->shadowObj).vertCols[3].G = 0;
+    (pDat->shadowObj).vertCols[2].G = 0;
+    (pDat->shadowObj).vertCols[1].G = 0;
+    (pDat->shadowObj).vertCols[0].G = 0;
+    (pDat->shadowObj).vertCols[3].B = 0;
+    (pDat->shadowObj).vertCols[2].B = 0;
+    (pDat->shadowObj).vertCols[1].B = 0;
+    (pDat->shadowObj).vertCols[0].B = 0;
     bVar6 = fVar4 * (float)((double)param_4 / 255.0);
     pos = &collidePos;
-    (pDat->shadow).vertCols[3].A = bVar6;
-    (pDat->shadow).vertCols[2].A = bVar6;
-    (pDat->shadow).vertCols[1].A = bVar6;
-    (pDat->shadow).vertCols[0].A = bVar6;
+    (pDat->shadowObj).vertCols[3].A = bVar6;
+    (pDat->shadowObj).vertCols[2].A = bVar6;
+    (pDat->shadowObj).vertCols[1].A = bVar6;
+    (pDat->shadowObj).vertCols[0].A = bVar6;
     outScale = &scale;
-    (pDat->shadow).UScale = 1;
+    (pDat->shadowObj).UScale = 1;
     scale.y = scale.x;
   }
   else {
-    pos = &(pDat->shadow).pos;
-    outRot = &(pDat->shadow).rot;
-    outScale = &(pDat->shadow).scale;
-    (pDat->shadow).pos.x = mapPos.x;
-    (pDat->shadow).pos.z = mapPos.z;
+    pos = &(pDat->shadowObj).pos;
+    outRot = &(pDat->shadowObj).rot;
+    outScale = &(pDat->shadowObj).scale;
+    (pDat->shadowObj).pos.x = mapPos.x;
+    (pDat->shadowObj).pos.z = mapPos.z;
   }
-  return PlaneObj_Render(g,&pDat->shadow,pos,outRot,outScale);
+  return PlaneObj_Render(g,&pDat->shadowObj,pos,outRot,outScale);
 }
 
 u8 PlayerShadowAlpha(PlayerHandler *param_1,playerData *pDat,float dist,u8 param_4){
@@ -280,11 +280,11 @@ Gfx * renderPlayerShadows(PlayerHandler *param_1,Gfx *gfx){
     if (0 < param_1->max_player) {
       for(s16 i=0;i<param_1->max_player;i++) {
         playerData* p = &param_1->playerDats[i];
-        if (p->removeFlag) {
+        if (p->state) {
           Actor::GetPosOnLoadedMap(p,&afStack120);
           float prox = Vec3Dist(&param_1->camera->aim,&afStack120);
           if (prox < param_1->shadowDist) {
-            (p->shadow).borg1p = param_1->shadowTexture;
+            (p->shadowObj).borg1p = param_1->shadowTexture;
             if (!p->alaron_flag) {
               float camProx = Vec3Dist(&(p->collision).pos,&param_1->camera->aim);
               if (10.0f <= camProx) continue;
@@ -416,7 +416,7 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
   camAimV2p = &camAimV2;
   if (0 < handler->max_player) {
     for(s16 i=0;i<handler->max_player;i++) {
-      if ((handler->playerDats[i].removeFlag) && (handler->playerDats[i].flags&ACTOR_800))
+      if ((handler->playerDats[i].state) && (handler->playerDats[i].flags&ACTOR_800))
         Camera::AddPosToList(&handler->playerDats[i].collision.pos);
     }
   }
@@ -475,7 +475,7 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
         Gsprintf("Scale: %3.2f\nScaleRad: %3.2f\nSphere Rad: %3.2f",pDat->scale,pDat->scaleRad,pDat->collision.radius);
         N64PRINT(gGlobals.text);
       }
-      if ((pDat->removeFlag == 0) && ((pDat->flags & ACTOR_100) == 0)) {
+      if ((pDat->state == 0) && ((pDat->flags & ACTOR_100) == 0)) {
 LAB_80017298:
         iVar12 = (iVar21 + 1) * 0x10000;
 LAB_8001729c:
@@ -546,7 +546,7 @@ LAB_800168cc:
             goto LAB_800168cc;
           }
         }
-        if (pDat->removeFlag == 0) goto LAB_80017298;
+        if (pDat->state == 0) goto LAB_80017298;
         Actor::GetPosOnLoadedMap(pDat,&mapPos);
         map = GetCollisionZone(pDat->zoneDatByte);
         fVar31 = Vec3Dist(local_6c,&mapPos);
@@ -704,7 +704,7 @@ LAB_80016ed8:
                   pDat->unk1a = pDat->ani_type;
                 }
                 if (((pDat->collision).vel.y<= -0.048)&&(pDat->alaron_flag)) {
-                    // fell through world
+                    // Alaron fell through world
                   Vec3Set(&(pDat->collision).vel,0.0,(pDat->collision).vel.y,0.0);
                   if (-0.3 <= (double)(pDat->collision).vel.y) {
                     goto LAB_80017014;
@@ -739,7 +739,7 @@ LAB_80017014:
           }
 not_flying_borg7:
         }
-        if (pDat->visible_flag == 0) { //keep them 0.05 units from chunk's edges
+        if (pDat->isVisible == 0) { //keep them 0.05 units from chunk's edges
           FLOOR((pDat->collision).pos.x,0.05);
           FLOOR((pDat->collision).pos.z,0.05);
           CIEL((pDat->collision).pos.x,(gGlobals.gameVars.mapCellSize.x - 0.05));
@@ -763,7 +763,7 @@ not_flying_borg7:
             iVar12 = (int)uVar23;
             ppVar8 = handler->playerDats;
             ppVar20 = ppVar8 + iVar12;
-            if (ppVar20->removeFlag == 0) {
+            if (ppVar20->state == 0) {
 LAB_8001727c:
               sVar17 = sVar15 + 1;
             }
@@ -926,11 +926,11 @@ Gfx * renderPlayers(PlayerHandler *param_1,Gfx *g,s16 delta,s16 param_4,s16 para
   if (0 < param_1->max_player) {
     for(i=0;i< param_1->max_player;i++) {
       pDat = &param_1->playerDats[i];
-      if ((pDat->removeFlag) && (pDat->borg7P)) {
+      if ((pDat->state) && (pDat->borg7P)) {
         if (iStack_4c == 0) {
-          if (pDat->visible_flag == 0) goto render_player;
+          if (!pDat->isVisible) goto render_player;
         }
-        else if (pDat->visible_flag != 0) {
+        else if (pDat->isVisible) {
 render_player:
 #ifdef DEBUGVER
           sprintf(gGlobals.text,"RENDERING PLAYER (%ld)",pDat->borg7);
@@ -1055,7 +1055,7 @@ playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
 
   Init(ppVar1,ppVar1->ID);
   fVar2 = ppVar1->scale;
-  ppVar1->removeFlag = 1;
+  ppVar1->state = 1;
   (ppVar1->collision).radius = radius;
   ppVar1->combatRadius = radius;
   (ppVar1->collision).pos.x = x;
@@ -1084,8 +1084,8 @@ void Actor::FreePlayer(playerData *param_1){
   PHANDLE.unk10[--PHANDLE.playerCount] = param_1->ID;
   FreePlayerActor(param_1);
   playerdata_remove_both_dcm(param_1);
-  param_1->removeFlag = 0;
-  (param_1->collision).flags |= 0x8000;
+  param_1->state = 0;
+  (param_1->collision).flags |= CSPHERE_8000;
 }
 
 
@@ -1093,7 +1093,7 @@ void remove_flagged_playerdata(){
   if (0 < PHANDLE.max_player) {
     for(s16 i=0; i < PHANDLE.max_player;i++) {
       playerData *ppVar2 = &PHANDLE.playerDats[i];
-      if (ppVar2->removeFlag) Actor::FreePlayer(ppVar2);
+      if (ppVar2->state) Actor::FreePlayer(ppVar2);
     }
   }
 }
@@ -1149,7 +1149,6 @@ void Actor::UnsetFlag(playerData *p,u16 f){p->flags &= ~f;}
 
 void Ofunc_80018744(playerData *p){Actor::UnsetFlag(p,ACTOR_40);}
 
-
 void Ofunc_80018760(playerData *p,vec3f *v){
   vec3f afStack136;
   vec2f fStack72;
@@ -1162,12 +1161,10 @@ void Ofunc_80018760(playerData *p,vec3f *v){
   Actor::SetFlag(p,ACTOR_40);
 }
 
-
 void Actor::DeathFlag(playerData *p){
   SetFlag(p,ACTOR_100);
   p->deathTimer = 120;
 }
-
 
 void FUN_800187f4(attachmentNode *node){
   if ((node->borg5) && (node->sceneDat))//priorty is set a little lower
@@ -1258,7 +1255,7 @@ void FUN_80018b84(){
 }
 
 void FUN_80018bf0(playerData *param_1){
-  if (param_1->removeFlag != 0) {
+  if (param_1->state != 0) {
     u32 BVar1 = param_1->borg7;
     Actor::FreePlayerActor(param_1);
     param_1->borg7 = BVar1;

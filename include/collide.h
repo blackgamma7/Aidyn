@@ -27,13 +27,30 @@ struct EnvProp {
     collisionTypeA *colA;
     u32 unk;//unused
 };
-
+enum CollideSphereFlags{
+    CSPHERE_0001=1,
+    CSPHERE_0002=2,
+    CSPHERE_0004=4,
+    CSPHERE_0008=8,
+    CSPHERE_0010=0x10,
+    CSPHERE_0020=0x20,
+    CSPHERE_0040=0x40,
+    CSPHERE_0080=0x80,
+    CSPHERE_0100=0x100,
+    CSPHERE_0200=0x200,
+    CSPHERE_0400=0x400,
+    CSPHERE_0800=0x800,
+    CSPHERE_1000=0x1000,
+    CSPHERE_2000=0x2000,
+    CSPHERE_4000=0x4000,
+    CSPHERE_8000=0x8000,
+};
 //Hitbox for actors and particle emmiters
 struct collisionSphere {
     float radius;
     vec3f pos;
     vec3f vel;
-    u16 flags; /* 0x400 - ?,0x8000 remove */
+    u16 flags; //uses CollideSphereFlags
     s16 unk1e;
     vec3f polyNormal;
     vec3f unk2c; /* another normal? set, but not read. */

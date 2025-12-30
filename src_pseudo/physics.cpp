@@ -85,7 +85,7 @@ void PerformCallback(s16 type,collisionSphere *param_2,borg9_phys *param_3){
   collideCallback cb;
   char acStack_48 [72];
   
-  if ((param_2->flags & 0x1000) == 0) {
+  if (!(param_2->flags & CSPHERE_1000)) {
     switch(type){
         case 2:
           cb = param_2->envProps->colA->callbackB;
@@ -152,7 +152,7 @@ s16 CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSectio
   if (param_2->collideCount) {
     for(iVar13=0;iVar13<param_2->collideCount;iVar13++) {
       pbVar11 = param_3 + (u16)param_2->collideIndecies[iVar13];
-      if (((collider->flags & B9Phys_0200) == 0) || ((pbVar11->flags & B9Phys_0200) == 0)) {
+      if (((collider->flags & CSPHERE_0200) == 0) || ((pbVar11->flags & B9Phys_0200) == 0)) {
         bVar3 = false;
         bVar7 = (pbVar11->flags & B9Phys_0001);
         if ((pbVar11->flags & B9Phys_0100)) {
@@ -329,8 +329,8 @@ bool Ofunc_800aff7c(collisionSphere *param_1,collisionSphere *param_2){
   float afStack_18;
   
   bVar2 = false;
-  if (((FUN_800af050(param_1,param_1->radius,&param_2->pos,param_2->radius,&afStack_18,&afStack152,&avStack_58)) && (bVar2 = true, (param_1->flags & 1) == 0)) &&
-     (bVar2 = true, (param_2->flags & 1) == 0)) {
+  if (((FUN_800af050(param_1,param_1->radius,&param_2->pos,param_2->radius,&afStack_18,&afStack152,&avStack_58)) && (bVar2 = true, (param_1->flags & CSPHERE_0001) == 0)) &&
+     (bVar2 = true, (param_2->flags & CSPHERE_0001) == 0)) {
     collision_velocity_func(&param_1->vel,&afStack152);
     vec3A_plusBMulC(&param_1->pos,&afStack152,afStack_18 - param_1->radius);
     FUN_800af578(param_1,param_2->envProps,&afStack152);
@@ -346,8 +346,8 @@ bool FUN_800b003c(collisionSphere *param_1,float param_2,collisionSphere *param_
   float afStack_30;
   
   if (FUN_800af120(param_1,param_1->radius * param_2,&param_3->pos,param_3->radius * param_4,&afStack_30,&afStack176,&avStack_70)) {
-    if ((param_1->flags & 1)) return true;
-    if ((param_3->flags & 1)) return true;
+    if ((param_1->flags & CSPHERE_0001)) return true;
+    if ((param_3->flags & CSPHERE_0001)) return true;
     collision_velocity_func(&param_1->vel,&afStack176);
     vec3A_plusBMulC(&param_1->pos,&afStack176,afStack_30 - param_1->radius * param_2);
     FUN_800af578(param_1,param_3->envProps,&afStack176);

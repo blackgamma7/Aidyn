@@ -5,13 +5,15 @@
 #include "decompress.h"
 
 u32 borgFlag;
+
 //borg_funcs_a: first step in initalization
 //borg_funcs_b: second step, sometimes appends the header
 
-
-void setBorgFlag(void){borgFlag = 1;}
-void clearBorgFlag(void){borgFlag = 0;}
-u32 Ofunc_getBorgTotal(void){return borgTotal;}
+//treat loaded Borg as unique instance
+void setBorgFlag(){borgFlag = true;}
+//reuse loaded Borg Data if available
+void clearBorgFlag(){borgFlag = false;}
+u32 Ofunc_getBorgTotal(){return borgTotal;}
 
 void SetBorgListing(void *listing,void *files){
   u32 fileCount ;
@@ -77,7 +79,7 @@ s16 GetBorgItemInfo(BorgListing *itemInfo,s32 param_2){ //orphaned, low priority
     sVar1 = -1;
   }
   else {
-    ROMCOPYS(itemInfo,(void *)((s32)BorgListingPointer + param_2 * 0x10 + 8),0x10,0x1e8);
+    ROMCOPYS(itemInfo,(void *)((s32)BorgListingPointer + param_2 * 0x10 + 8),0x10,488);
     sVar1 = itemInfo->Type;
   }
   return sVar1;

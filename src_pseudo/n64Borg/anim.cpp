@@ -263,18 +263,15 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   gSPSegment(gfx++,12,osVirtualToPhysical(param_2->dat->pallette));
   iVar10 = 0;
   sVar6 = GetN64ImageDimension(param_2->dat->type);
-  i = 0;
   pBVar2 = param_2->dat;
   h = (u32)pBVar2->Width;
   w = (u32)pBVar2->Height;
-  if (-1 < pBVar2->lods) {
-    do {
+  for(i=0;i<=pBVar2->lods;i++){
       iVar4 = GetBitmapSize(h,w,(int)sVar6);
       iVar10 += iVar4;
       h = half(h);
       w = half(w);
       i++;
-    } while (i <= param_2->dat->lods);
   }
   BVar1 = param_2->dat->type;
   if (B1_RGBA32 < param_2->dat->type) {
@@ -2407,14 +2404,14 @@ switchD_800a1cc4_caseD_8:
         guMtxF2L(mf,&unkAnimStructB.b5Sub->unkStruct->mtxs[normInd]);
         (unkAnimStructB.b5Sub)->flag |= 2;
       }
-      gSPMatrix(pGVar10,(u32)((unkAnimStructB.b5Sub)->unkStruct->mtxs + normInd),G_MTX_LOAD);
+      gSPMatrix(pGVar10,unkAnimStructB.b5Sub->unkStruct->mtxs + normInd,G_MTX_LOAD);
       break;
     case 3:
       CRASH("BorgAnimDrawSceneRaw()","We are not using animated textures on this project :)");
     case 4:
       unkAnimStructB.b2 = unkAnimStructB.b5->borg2p[uVar18];
-      gSPSegment(pGVar10++,10,osVirtualToPhysical((unkAnimStructB.b2)->dat->vertlist2));
-      gSPSegment(pGVar10++,14,osVirtualToPhysical((unkAnimStructB.b2)->dat->vertlist));
+      gSPSegment(pGVar10++,10,osVirtualToPhysical(unkAnimStructB.b2->dat->vertlist2));
+      gSPSegment(pGVar10++,14,osVirtualToPhysical(unkAnimStructB.b2->dat->vertlist));
       pGVar12 = pGVar10;
       break;
     case 5:
@@ -2436,7 +2433,7 @@ switchD_800a1cc4_caseD_8:
         gSPDisplayList(pGVar10++,osVirtualToPhysical((unkAnimStructB.b2)->dlist[uVar18]));
         pGVar12 = FUN_800a1184(pGVar10);
         pGVar10 = pGVar12;
-        if (unkAnimStructB.unk14->flags & 1) {
+        if (unkAnimStructB.unk14->flags & B2S_0001) {
           guLookAtReflect(&auStack128,(unkAnimStructB.b2)->lookat[0] + normInd,
                               param_2->matrixB[3][0],param_2->matrixB[3][1],param_2->matrixB[3][2],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][0],

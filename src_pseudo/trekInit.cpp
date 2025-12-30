@@ -27,7 +27,7 @@ void initGameTrek(void) {
   gPlayer =
        Actor::AllocPlayer(gGlobals.playerCharStruct.collisionRadius,gGlobals.gameVars.playerPos2d.x,
                           10.0,gGlobals.gameVars.playerPos2d.y,gGlobals.playerCharStruct.player_form);
-  (gPlayer)->visible_flag = 1;
+  gPlayer->isVisible = true;
   if (gGlobals.playerCharStruct.some_sound_var == 0) {
     Camera::SetPos(PHANDLE.camera,&gPlayer->collision.pos);
     Actor::CheckCollision(gPlayer,0.0,0,0);

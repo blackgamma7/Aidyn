@@ -208,14 +208,14 @@ void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,s16 delta){
   
   if (!coliide->envProps->Speed) {CRASH("ProcessCollisionSphere","No Environment Properties Found on Sphere");}
   else {
-    if (!(coliide->flags & 0x8000)) {
+    if (!(coliide->flags & CSPHERE_8000)) {
       fStack120.x = (coliide->pos).x;
       if (((((1000.0f <= fStack120.x) || (fStack120.x <= -1000.0f)) ||
            (fStack120.y = (coliide->pos).y, 1000.0f <= fStack120.y)) ||
           ((fStack120.y <= -1000.0f ||
            (fStack120.z = (coliide->pos).z, 1000.0f <= fStack120.z)))) ||
          (fStack120.z <= -1000.0f)) {
-        coliide->flags|= 0x8000;
+        coliide->flags|= CSPHERE_8000;
       }
       else {
         for(s16 i=0;i<delta;i++) {
@@ -228,7 +228,7 @@ void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,s16 delta){
             (coliide->pos).y += (coliide->vel).y;
             (coliide->pos).z += (coliide->vel).z;
         }
-        if (!(coliide->flags & 0x4000)) {
+        if (!(coliide->flags & CSPHERE_4000)) {
           FUN_800adc44(map,coliide,&sStack_38,&sStack_36,&sStack_34,&asStack_32);
           lVar5 = sStack_38;
           coliide->unk1e = 0;

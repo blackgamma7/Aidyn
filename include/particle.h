@@ -128,7 +128,7 @@ namespace Particle{
     void FreeEmmiters(ParticleHeadStruct *);
     void UpdateParticle(ParticleHeadStruct *param_1,vec4f *col,u32 flag,s16 index,float delta);
     void ApplyVelocity(ParticleHeadStruct *,ParticleEmmiter *,s16,float);
-    void ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec3f *param_3,s16 delta,u16 viBuff,u16 param_6);
+    void ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec3f *param_3,s16 delta,u16 viBuff,u16 zBuff);
     bool FUN_800b25e0(ParticleHeadStruct *,ParticleEmmiter *,Particle_s *);
     void FUN_800b266c(ParticleHeadStruct *,Particle_s *);
     Particle_s * FUN_800b26d8(ParticleHeadStruct *,u16);

@@ -44,7 +44,7 @@ void n64BorgDCMModule_free(Borg12Header *param_1) {
     }
     dec_borg_count((param_1->head).index);
   }
-  HFREE(param_1,0xb9);
+  HFREE(param_1,185);
   borg_mem[0xc]-= (oldMem - get_memUsed());
   borg_count[0xc]--;
 }

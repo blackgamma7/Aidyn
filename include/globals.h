@@ -80,9 +80,9 @@ struct GlobalsSub { /* 0x800e6988 in Debug version*/
     u16 gamemodeType;
     flycamStruct flycamDat; //used for title screen flycam
     mapFloatDat MapFloatDats[15];
-    u16 unkCounter;
+    u16 mapDatFloatInd;
     u16 unk120e;
-    u16 unkTimer;
+    s16 savePosTimer; //every 2 seconds, try to save player position
     u8 unk1212[6];
 };
 

@@ -90,5 +90,9 @@ void GiveCameraToPlayer(playerData *param_1);
 void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float delta);
 void InitScriptCameras(ScriptCamera_struct *param_1);
 void FreeScriptCameras(ScriptCamera_struct *param_1);
+ScriptCam * AllocScriptCamera(ScriptCamera_struct *param_1,u16 param_2);
+void freeScriptCamera(ScriptCamera_struct *param_1,ScriptCam *param_2);
+void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta);
+
 
 #define gCamera gGlobals.gameVars.camera //shorthand for camera object

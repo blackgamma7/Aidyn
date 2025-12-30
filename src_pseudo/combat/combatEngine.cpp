@@ -102,7 +102,7 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
     FUN_80096048(pDat);
     Actor::FreePlayer(pDat);
     pDat->ID = 0;
-    pDat->removeFlag = 0;
+    pDat->state = 0;
   }
   ItemID x = C_Ent->charSheetP->ID;
   init_combatgui_struct(x,index,param_1->partyCount <= index);
@@ -116,9 +116,9 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
   ppVar2->scale = fVar5;
   ppVar2->scaleRad = (ppVar2->collision).radius * fVar5;
   ppVar2->shadowAlpha = gEntityDB->BattleCheck(x);
-  ppVar2->visible_flag = 1;
+  ppVar2->isVisible = true;
   if (param_1->partyCount <= index) {
-    ppVar2->visible_flag = 0;
+    ppVar2->isVisible = false;
     ppVar2->flags |= ACTOR_200;
   }
   Actor::CheckCollision(ppVar2,0.0,0,0);

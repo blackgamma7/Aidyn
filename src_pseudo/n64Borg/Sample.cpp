@@ -15,7 +15,7 @@ void borg11_free(Borg11Header *param_1){
   if (param_1->head.index == -1) HFREE(param_1->dat,125);
   else dec_borg_count(param_1->head.index);
   HFREE(param_1,132);
-  borg_mem[11] = borg_mem[11] - (oldMem - get_memUsed());
+  borg_mem[11] -= (oldMem - get_memUsed());
   borg_count[11]--;
 }
 

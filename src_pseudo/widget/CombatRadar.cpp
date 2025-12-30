@@ -45,12 +45,12 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   if (0 < PHANDLE.max_player) {
     for(u16 i=0;i<PHANDLE.max_player;i++) {
       playerData *pDat = &PHANDLE.playerDats[i];
-      if ((pDat) && (pDat->removeFlag)) {
+      if ((pDat) && (pDat->state)) {
         if (i == PHANDLE.cameraFocus) {
           this->col.R = 150;
           this->col.G = 150;
         }
-        else if (pDat->visible_flag == 0) {
+        else if (!pDat->isVisible) {
           this->col.R = 150;
           this->col.G = 0;
         }

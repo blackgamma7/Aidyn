@@ -18,7 +18,9 @@ typedef unsigned long undefined4;
 typedef unsigned long long    undefined8;
 typedef unsigned short    ushort;
 
+#ifndef uintptr_t
 typedef unsigned long uintptr_t;
+#endif
 
 typedef union Color32 {
     struct {u8 R, G, B, A;};
@@ -56,7 +58,5 @@ typedef union Color32 {
 //turn a Vec3f or vec4f(v) into 32-bit RGB values for Color32*(c).
 #define V3ToRGB(c,v) c->R=v.x*255; c->G=v.y*255; c->B=v.z*255
 
-
-#define CONCAT11(x,y) (u16)((x)<<8|y)
-//Ghidra concatonating 2 32-bit values into 2 "lo" registers
+//Ghidra concatonating 2 32-bit values into 2 "lo" registers as a 64-bit value
 #define CONCAT44(x,y) (u64)((x)<<32|y)

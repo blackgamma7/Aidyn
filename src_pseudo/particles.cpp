@@ -170,7 +170,7 @@ void Particle::ApplyVelocity(ParticleHeadStruct *head,ParticleEmmiter *emmi,s16 
 }
 
 
-void Particle::ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec3f *param_3,s16 delta,u16 viBuff,u16 param_6){
+void Particle::ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec3f *param_3,s16 delta,u16 viBuff,u16 zbuff){
   s16 iVar2;
   s16 sVar4;
   Particle_s *pPVar3;
@@ -181,20 +181,20 @@ void Particle::ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec
   s16 lVar9;
   int delta_;
   char acStack_78 [64];
-  Gfx *pGStack_38;
-  u32 uStack_34;
+  Gfx *g;
+  u32 useZbuffer;
   int iStack_30;
   
   delta_ = (int)delta;
   iStack_30 = 0;
-  uStack_34 = (u32)param_6;
-  pGStack_38 = *gg;
+  useZbuffer = (u32)zbuff;
+  g = *gg;
   for(s16 i=0;i<ParticleEmmiMAX;i++) {
     pE = &pPH->Emmiter[i];
     if ((pE->flags & PARTEMMI_8000) == 0) {
 LAB_800b2590:
     }
-    else if (uStack_34 == 0) {
+    else if (useZbuffer == 0) {
       if ((pE->flags & PARTEMMI_1000)) {
         goto LAB_800b2214;
       }
@@ -209,8 +209,8 @@ LAB_800b2214:
         }
         if (iStack_30 == 0) {
           iStack_30 = 1;
-          pGStack_38 = GraphicsInit(pGStack_38,pPH,param_3,viBuff);
-          pGStack_38 = SetGeoMode(pGStack_38,(u16)uStack_34);
+          g = GraphicsInit(g,pPH,param_3,viBuff);
+          g = SetGeoMode(g,(u16)useZbuffer);
         }
         if (-1 < pE->lifespan) {
           if (pE->funcA) (*pE->funcA)(pPH,pE);
@@ -218,8 +218,8 @@ LAB_800b2214:
             ProcessCollisionSphere(pPH->borg9dat,&pE->collision,delta);
           if (!pPH->ppTextures[pE->texture])
             CRASH("../src/Particles.cpp","pPH->ppTextures[pE->texture] == NULL\nParticle emitter tried to use an discarded texture!");
-          pGStack_38 = FUN_8009d3dc(pGStack_38,pPH->ppTextures[pE->texture],0);
-          pGStack_38 = loadTextureImage(pGStack_38,pPH->ppTextures[pE->texture],NULL);
+          g = FUN_8009d3dc(g,pPH->ppTextures[pE->texture],0);
+          g = loadTextureImage(g,pPH->ppTextures[pE->texture],NULL);
           pE->lifespan -=delta_;
           if (pE->funcB == NULL) {
 LAB_800b23cc:
@@ -272,7 +272,7 @@ LAB_800b24c4:
                       UnsetFlag(pPVar3,PARTICLE_0020);
                       goto LAB_800b24c8;
                     }
-                    RenderParticles(&pGStack_38,pPH,pPVar3,pPH->ppTextures[pE->texture],viBuff);
+                    RenderParticles(&g,pPH,pPVar3,pPH->ppTextures[pE->texture],viBuff);
                   }
                   goto LAB_800b24c4;
                 }
@@ -301,7 +301,7 @@ LAB_800b24c8:
       }
     }
   }
-  *gg = pGStack_38;
+  *gg = g;
 }
 
 bool Particle::FUN_800b25e0(ParticleHeadStruct *param_1,ParticleEmmiter *param_2,Particle_s *param_3){

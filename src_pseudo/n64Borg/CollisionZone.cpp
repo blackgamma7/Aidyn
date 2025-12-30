@@ -5,7 +5,7 @@
 u8 borg9_func_b(void*,void*){return false;}
 
 void * set_pointer_offset(void *A,void *B){
- return (void *)((u32)A + (u32)B);
+ return (void *)((uintptr_t)A + (uintptr_t)B);
 }
 //Macro to replace SetPointer() used elsewhere.
 #define Borg9SetPointer(x,f) x.f=decltype(x.f)(set_pointer_offset(&x,x.f));
@@ -40,7 +40,7 @@ void borg9_func_a(Borg9Header *param_1){
 
 void n64BorgCollisionZone_free(Borg9Header *param_1){
   int mOld = get_memUsed();
-  if (param_1->head.index == -1) HFREE(param_1,0xf0);
+  if (param_1->head.index == -1) HFREE(param_1,240);
   else dec_borg_count(param_1->head.index);
   borg_mem[9]-= (mOld - get_memUsed());
   borg_count[9]--;

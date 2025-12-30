@@ -12,7 +12,7 @@ u16 FUN_80005d60(Wanderer **w) {
   else {
     playerData *pDat = PHANDLE.playerDats + player->index;
     ret = -1;
-    if (pDat->removeFlag) {
+    if (pDat->state) {
       Wanderer *wander = findWandererFromPlayerName(pDat->ID);
       ret = -1;
       if (wander) {
