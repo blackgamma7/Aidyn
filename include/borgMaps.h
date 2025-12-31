@@ -18,7 +18,7 @@ extern mapDataList gMapDataListOverworld[];
 extern mapDataList gMapDataListGoblinCamp[];
 extern mapDataList mapDataList_2[];
 extern mapDataList mapDataList_3[];
-extern mapDataList map_data_list_gwen[];
+extern mapDataList map_data_list_Gwernia[];
 extern mapDataList mapDataList_5[];
 extern mapDataList mapDataList_6[];
 extern mapDataList mapDataList_7[];

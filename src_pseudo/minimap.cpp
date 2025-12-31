@@ -4,7 +4,7 @@
 
 
 MinimapSec_dat* minimap_sec_pointers[]={
-    minimaps_gwen,MinimapSec_dat_ARRAY_800edf0c,MinimapSec_erromon,MinimapSec_ehud,
+    minimaps_Gwernia,MinimapSec_dat_ARRAY_800edf0c,MinimapSec_erromon,MinimapSec_ehud,
     minimap_sec_mageschool,MinimapSec_dat_ARRAY_800ee508,MinimapSec_dat_ARRAY_800ee55c,
     minimap_sec_Barrows,NULL
 };
@@ -184,7 +184,7 @@ bool MiniMap::SpecialSections(float posX,float posY,float posZ){
   
   pMVar1 = this->mapdat;
   //another case-switch?
-  if (pMVar1 == minimaps_gwen) {
+  if (pMVar1 == minimaps_Gwernia) {
     cellCoord = MapShorts32;
     //messy case-switch optimization. cleanup later.
     if (cellCoord == 0x90007) {
@@ -871,7 +871,7 @@ void MiniMap::Toggle(byte x){
 bool MiniMap::ShowingSpecialSection(u16 index){
   int iVar2;
   
-  if (this->mapdat == minimaps_gwen) {
+  if (this->mapdat == minimaps_Gwernia) {
     iVar2 = MapShorts32;
     if (iVar2 == 0x90007) return GwernCourt(index);
     if (iVar2 == 0x10001) return GwernWalls(index);

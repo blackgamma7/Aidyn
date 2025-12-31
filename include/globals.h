@@ -125,9 +125,9 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u32 combatByteMirror;
     SkyStruct sky;
     vec3f SunPos;
-    u64 unk14a4;
+    u8 unk14a4[8];
     vec3f MoonPos;
-    u64 unk14b8;
+    u8 unk14b8[8];
     Borg8Header *portraitBorder;
     u8 SomeCase;
     BaseWidget *barterMenu;

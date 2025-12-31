@@ -18,7 +18,7 @@ struct MinimapSec_dat {
     u16 y;
 };
 
-extern MinimapSec_dat minimaps_gwen[];//TODO: Fill in
+extern MinimapSec_dat minimaps_Gwernia[];//TODO: Fill in
 extern MinimapSec_dat MinimapSec_dat_ARRAY_800edf0c[];//TODO: Fill in
 extern MinimapSec_dat MinimapSec_erromon[];//TODO: Fill in
 extern MinimapSec_dat MinimapSec_ehud[];//TODO: Fill in

@@ -106,7 +106,7 @@ u16 BorgMaps::GetMapList(s16 map,s16 a,s16 b) {
     m = mapDataList_3;
     break;
   case 4:
-    m = map_data_list_gwen;
+    m = map_data_list_Gwernia;
     break;
   case 5:
     m = mapDataList_5;
@@ -399,10 +399,10 @@ LAB_8002ce68:
     goto LAB_8002d4e0;
   case MAPA_GwerniaCastle:
     gGlobals.gameVars.Borg12Next = BORG12_GwerniaCastle;
-    pmVar11 = map_data_list_gwen;
+    pmVar11 = map_data_list_Gwernia;
     if (param_4) goto LAB_8002d65c;
-    WriteMapIndecies(map_data_list_gwen);
-    MINIMAP.LoadData(minimaps_gwen);
+    WriteMapIndecies(map_data_list_Gwernia);
+    MINIMAP.LoadData(minimaps_Gwernia);
     miniMapLoaded = true;
     break;
   case MAPA_GwerniaInterior:
