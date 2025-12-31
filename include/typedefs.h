@@ -58,5 +58,17 @@ typedef union Color32 {
 //turn a Vec3f or vec4f(v) into 32-bit RGB values for Color32*(c).
 #define V3ToRGB(c,v) c->R=v.x*255; c->G=v.y*255; c->B=v.z*255
 
+#undef OS_CYCLES_TO_USEC
+// dirty workaround to use "udivdi3" func instead
+// should be the same formula, just simplified.
+#define OS_CYCLES_TO_USEC(c) udivdi3(c>>6,3000)
+#define TIME_USEC OS_CYCLES_TO_USEC(osGetTime()) //clock time in microseconds
+
+#undef OS_CYCLES_TO_NSEC
+// dirty workaround to use "udivdi3" func instead
+// should be the same formula, just simplified.
+#define OS_CYCLES_TO_NSEC(c) udivdi3(c>>6,3)
+#define TIME_NSEC OS_CYCLES_TO_NSEC(osGetTime()) //clock time in nanoseconds
+
 //Ghidra concatonating 2 32-bit values into 2 "lo" registers as a 64-bit value
 #define CONCAT44(x,y) (u64)((x)<<32|y)

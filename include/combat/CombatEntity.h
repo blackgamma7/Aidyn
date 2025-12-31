@@ -261,6 +261,47 @@ namespace CombatAI{
     u8 IsAlly(CombatAIInfo *param_1);
     void LookToFlee(CombatAIInfo *param_1);
 };
+//TODO: add these to above namespace once better understood.
+
+void FUN_8006193c(CombatAIInfo *param_1);
+u8 FUN_80061bc8(CombatAIInfo *param_1,u8 param_2,u8 param_3,u8 param_4,int param_5,u8 param_6);
+void FUN_80061d10(CombatAIInfo* param_1,s32 param_2);
+void FUN_80061dfc(CombatAIInfo *param_1);
+u8 FUN_80062230(CombatAIInfo* param_1);
+void FUN_8006228c(CombatAIInfo* param_1);
+void FUN_800622c4(CombatAIInfo* param_1);
+void FUN_800622f8(CombatAIInfo* param_1);
+void FUN_800623bc(CombatAIInfo* param_1);
+void FUN_800624bc(CombatAIInfo* param_1);
+void FUN_800624f0(CombatAIInfo* param_1);
+void FUN_8006252c(CombatAIInfo* param_1);
+void FUN_800625a4(CombatAIInfo* param_1);
+void FUN_800625e0(CombatAIInfo* param_1);
+void FUN_8006261c(CombatAIInfo* param_1);
+void FUN_8006268c(CombatAIInfo* param_1);
+void combatAI_run_cmd(CombatAIInfo* param_1,u8 *param_2,u8 *param_3);
+void FUN_800628cc(CombatAIInfo* param_1);
+bool FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec2f *param_5);
+u8 FUN_80062e14(u8 param_1,u8 param_2,byte *param_3,byte *param_4,u8 param_5);
+void FUN_800631c8(CombatAIInfo* param_1);
+bool FUN_80063258(CombatAIInfo *param_1);
+void combat_ai_shadow(CombatAIInfo*param_1);
+u8 FUN_80063bbc(CombatAIInfo *param_1);
+bool FUN_80063af4(CombatAIInfo *param_1,u8 param_2,u8 param_3);
+u8 FUN_80063c94(CombatAIInfo *param_1);
+void FUN_80063db0(CombatAIInfo *ai,float x0,float y0,float x1,float y1,float scale,playerData *pDat);
+u8 FUN_80063f1c(CombatAIInfo *param_1,u8 param_2,u8 param_3);
+u8 FUN_800641b8(CombatAIInfo *param_1,u8* param_2,u8* param_3);
+u8 FUN_800642c4(CombatAIInfo *param_1,u8 *xOut,u8 *yOut);
+u8 FUN_80064358(CombatAIInfo* param_1);
+u8 FUN_80064398(CombatAIInfo *param_1);
+void FUN_80064494(CombatAIInfo *param_1);
+void FUN_800645b4(CombatAIInfo*param_1);
+void FUN_80064714(CombatAIInfo* param_1);
+u8 FUN_80064948(CombatAIInfo *param_1);
+u8 FUN_800649f8(CombatAIInfo *param_1);
+u8 FUN_80064a78(CombatAIInfo *param_1);
+
 
 namespace CombatAIScore{
     s32 SortFuncA(combat_aiscore *A,combat_aiscore *B);

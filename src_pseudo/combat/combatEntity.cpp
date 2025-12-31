@@ -1,8 +1,9 @@
 #define FILENAME "../combatengine/combatEntity.cpp"
 
 
-#include "combat/CombatEntity.h"
 #include "combat/CombatStruct.h"
+#include "combat/CombatCamera.h"
+#include "combat/turn.h"
 #include "combat/Visuals.h"
 #include "globals.h"
 #include "armordb.h"
@@ -984,7 +985,7 @@ void CombatEntity::EndTurn(){
   if (((this->AtkType == ATKT_Potion) && (this->item < POTION_HEALING)) &&
      (this->charSheetP->weapons)) PARTY->RemoveWeaponsFrom(this->index);
      CheckTargetIndex();
-  FUN_80073e3c(&gCombatP->turn);
+  CombatTurn::FUN_80073e3c(&gCombatP->turn);
 }
 
 

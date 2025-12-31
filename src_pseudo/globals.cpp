@@ -411,53 +411,35 @@ u32 AppendText(char *str1,char *str2,u8 len){
 }
 
 #ifdef DEBUGVER
+// a few time-measuring funcs left out of retail.
+
 void FUN_8000c6e8(void){
-  ofunc_dat = udivdi3(osGetTime()<<6,3);}
-//a lot more orphaned funcs using "ofunc_dat" between these 2
-//Ghidra struggled with them, but.. here it goes.
+  ofunc_dat = TIME_NSEC;
+}
+
+//get delta from call of FUN_8000c6e8
 u64 Ofunc_8000c730(void){
-  OSTime OVar1;
-  
-  OVar1 = osGetTime();
-  return udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (u32)OVar1 >> 0x1a,(u32)OVar1 << 6),3)-ofunc_dat;
+  return TIME_NSEC-ofunc_dat;
 }
-
-void Ofunc_8000c788(char *param_1){
-  OSTime OVar1;
-  u64 uVar2;
-  
-  OVar1 = osGetTime();
-  uVar2 = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (u32)OVar1 >> 0x1a,(u32)OVar1 << 6),3);
-  Gsprintf("%s : %llu\n",param_1,uVar2-ofunc_dat);
+//print (txt) with delta from last call of this func
+void Ofunc_8000c788(char *txt){
+  Gsprintf("%s : %llu\n",txt,TIME_NSEC-ofunc_dat);
   N64PRINT(gGlobals.text);
-  OVar1 = osGetTime();
-  ofunc_dat = udivdi3(CONCAT44((int)(OVar1 >> 0x20) << 6 | (u32)OVar1 >> 0x1a,(u32)OVar1 << 6),3);
+  ofunc_dat = TIME_NSEC;
 }
 
-void Ofunc_8000c850(float param_1){
-  ulonglong uVar1;
-  float fVar2;
-  undefined4 in_v1_hi;
-  u32 uVar3;
-  OSTime OVar4;
-  u64 uVar5;
-  u64 uVar6;
-  
-  param_1 = param_1 * 1000000.0f;
-  OVar4 = osGetTime();
-  uVar5 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (u32)OVar4 >> 0x1a,(u32)OVar4 << 6),3000);
-  uVar1 = CONCAT44(in_v1_hi,(int)uVar5);
+//hold for (t) seconds
+void Ofunc_8000c850(float t){
+  u64 t1,t2;
+  t *= 1000000.0f;
+  t1 = TIME_USEC;
   do {
-    OVar4 = osGetTime();
-    uVar6 = udivdi3(CONCAT44((int)(OVar4 >> 0x20) << 6 | (u32)OVar4 >> 0x1a,(u32)OVar4 << 6),3000)
-    ;
-  } while ((false) ||
-          (((u32)(uVar6 >> 0x20) == (u32)(CONCAT44(in_v1_hi,(int)uVar6) < uVar1) &&
-           ((u32)((int)uVar6 - (int)uVar5) < (int)param_1))));
+    t2 = TIME_USEC;
+  } while ((t2-t1)<(u32)t);
 }
 
 #endif
-//now, to more sensible programming.
+
 void minimap_struct_init_or_free(u8 param_1,s16 param_2){
   if (param_2 == -1) {
     if (param_1 == false) MINIMAP.Init();

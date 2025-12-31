@@ -832,8 +832,7 @@ LAB_80061b18:
 }
 
 
-byte FUN_80061bc8(CombatAIInfo *param_1,byte param_2,byte param_3,byte param_4,int param_5,
-                 byte param_6) {
+u8 FUN_80061bc8(CombatAIInfo *param_1,u8 param_2,u8 param_3,u8 param_4,int param_5,u8 param_6) {
   CombatEntity *pCVar1;
   u16 uVar3;
 
@@ -1663,7 +1662,7 @@ u8 FUN_80063bbc(CombatAIInfo *param_1){
   return bVar3;
 }
 
-bool FUN_80063af4(CombatAIInfo *param_1,undefined1 param_2,undefined1 param_3) {
+bool FUN_80063af4(CombatAIInfo *param_1,u8 param_2,u8 param_3) {
   param_1->unk13 = FUN_80071ec4(&gCombatP->substruct,param_1->combatEnt->GetCoordXU8(),param_1->combatEnt->GetCoordYU8(),
                     param_2,param_3,param_1->combatEnt->unk23,gCombatP->unk5320);
   u8 uVar1 = get_byte_E(&gCombatP->substruct);
@@ -1722,12 +1721,9 @@ void FUN_80063db0(CombatAIInfo *ai,float x0,float y0,float x1,float y1,float sca
   gCombatP->waitTimer = 240;
 }
 
-u8 FUN_80063f1c(CombatAIInfo *param_1,undefined1 param_2,undefined param_3){
-  u8 bVar1;
-  u8 bVar2;
-  
-  bVar1 = FUN_80063af4(param_1,param_2,param_3);
-  bVar2 = false;
+u8 FUN_80063f1c(CombatAIInfo *param_1,u8 param_2,u8 param_3){
+  u8 bVar1 = FUN_80063af4(param_1,param_2,param_3);
+  u8 bVar2 = false;
   if (!bVar1) {
     if (!CombatAI::IsAlly(param_1)) {
       bVar1 = FUN_80063c94(param_1);
@@ -1808,20 +1804,15 @@ u8 FUN_800641b8(CombatAIInfo *param_1,u8* param_2,u8* param_3){
   return uVar4;
 }
 
-u8 FUN_800642c4(CombatAIInfo *param_1,u8 *param_2,u8 *param_3){
-  u8 uVar1;
-  u8 uVar2;
-  u8 bVar3;
-  
-  uVar1 = param_1->combatEnt->GetCoordXU8();
-  uVar2 = param_1->combatEnt->GetCoordYU8();
-  combatAI_run_cmd(param_1,param_2,param_3);
-  bVar3 = false;
-  if ((uVar1 == *param_2) && (uVar2 == *param_3)) {
+u8 FUN_800642c4(CombatAIInfo *param_1,u8 *xOut,u8 *yOut){
+  u8 x = param_1->combatEnt->GetCoordXU8();
+  u8 y = param_1->combatEnt->GetCoordYU8();
+  combatAI_run_cmd(param_1,xOut,yOut);
+  if ((x == *xOut) && (y == *yOut)) {
     FUN_80064714(param_1);
-    bVar3 = true;
+    return true;
   }
-  return bVar3;
+  return false;
 }
 
 u8 FUN_80064358(CombatAIInfo* param_1){
@@ -1832,7 +1823,6 @@ u8 FUN_80064358(CombatAIInfo* param_1){
   if (!bVar1) FUN_80029ba8();
   return !bVar1;
 }
-
 
 u8 FUN_80064398(CombatAIInfo *param_1){
   CombatEntity *target;

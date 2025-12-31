@@ -27,23 +27,13 @@ struct EnvProp {
     collisionTypeA *colA;
     u32 unk;//unused
 };
+//flags confirmed set/read for collision sphere
 enum CollideSphereFlags{
-    CSPHERE_0001=1,
-    CSPHERE_0002=2,
-    CSPHERE_0004=4,
-    CSPHERE_0008=8,
-    CSPHERE_0010=0x10,
-    CSPHERE_0020=0x20,
-    CSPHERE_0040=0x40,
-    CSPHERE_0080=0x80,
-    CSPHERE_0100=0x100,
-    CSPHERE_0200=0x200,
-    CSPHERE_0400=0x400,
-    CSPHERE_0800=0x800,
-    CSPHERE_1000=0x1000,
-    CSPHERE_2000=0x2000,
-    CSPHERE_4000=0x4000,
-    CSPHERE_8000=0x8000,
+    CSPHERE_0001=1, //inactive?
+    CSPHERE_NoTriggers=0x400, //intangible to triggers?
+    CSPHERE_NoCallback=0x1000, //no collsion callback?
+    CSPHERE_NoVoxels=0x4000, //intangible to voxels?
+    CSPHERE_Intangible=0x8000, //intangible to world?
 };
 //Hitbox for actors and particle emmiters
 struct collisionSphere {

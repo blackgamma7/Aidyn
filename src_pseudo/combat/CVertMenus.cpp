@@ -39,6 +39,12 @@ void combat_control_case_0x17(controller_aidyn *cont){
   if (((cont->input_2 | cont->input) & C_UP) == 0) Combat_CloseCVertMenu();
 }
 
+void FUN_80091528(u16 delta) {
+  if (((gCombatCVertMenu) &&(!FUN_80091dfc(gGlobals.widgetHandler,gCombatCVertMenu)))) {
+    for(u16 i=0;i<delta;i++) {gCombatCVertMenu->Tick();}
+  }
+}
+
 Gfx * Combat_RenderCVertMenu(Gfx *G,u16 delta){
   if ((gCombatCVertMenu) &&
      (!FUN_80091dfc(gGlobals.widgetHandler,gCombatCVertMenu))) {

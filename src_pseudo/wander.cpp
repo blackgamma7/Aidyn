@@ -1,5 +1,6 @@
 #define FILENAME "./src/wander.cpp"
 #include "game.h"
+#include "voxelChart.h"
 
 u16 enemyHostileFlag=true; //enemies will not start battle is set false.
 
@@ -96,7 +97,7 @@ void AllocWanderer(WanderManager *param_1,s16 param_2,s32 param_3,u8 param_4){
   gEntityDB->GetBorg7((vox->monster).entityID));
   wEntry->playerDat->zoneDatByte = param_4;
   wEntry->playerDat->ent_ID = (vox->monster).entityID;
-  (wEntry->playerDat->collision).flags |= CSPHERE_0400;
+  (wEntry->playerDat->collision).flags |= CSPHERE_NoTriggers;
   float scale = gEntityDB->GetScale((vox->monster).entityID);
   wEntry->playerDat->scale = scale;
   wEntry->playerDat->scaleRad = scale * (wEntry->playerDat->collision).radius;

@@ -88,8 +88,7 @@ void Particle::InitParticleHead(ParticleHeadStruct *head,Borg9Data *borg9,s16 pa
   Particle::InitParticles(head);
   Particle::LoadTextures(head,textCount,textureP);
   head->borg9dat = borg9;
-  OSTime OVar3 = osGetTime();
-  PartRand.SetSeed(udivdi3(CONCAT44((int)(OVar3 >> 0x20) << 6 | (u32)OVar3 >> 0x1a,(u32)OVar3 << 6),3000));
+  PartRand.SetSeed(TIME_USEC);
 }
 
 void Particle::FreeEmmiters(ParticleHeadStruct *param_1){

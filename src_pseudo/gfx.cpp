@@ -21,8 +21,8 @@ void Graphics::initGfx(OSSched *sched){
   if (0x400000 < gMemCheckStruct.RamSize) k = 0x6400*sizeof(Gfx);
   CLEAR(&gGfxManager);
   gGfxManager.DepthBuffer = gMemCheckStruct.DepthBuffer;
-  gGfxManager.FrameBuffers[0] = gMemCheckStruct.FreameBuffers[0];
-  gGfxManager.FrameBuffers[1] = gMemCheckStruct.FreameBuffers[1];
+  gGfxManager.FrameBuffers[0] = gMemCheckStruct.frameBuffers[0];
+  gGfxManager.FrameBuffers[1] = gMemCheckStruct.frameBuffers[1];
   gGfxManager.sched = sched;
   gGfxManager.GfxLists[0] = (Gfx *)HALLOC(k,0xdc);
   gGfxManager.GfxLists[1] = (Gfx *)HALLOC(k,0xdd);
@@ -53,8 +53,8 @@ void Graphics::initGfx(OSSched *sched){
   gGfxManager.taskMsgs[0].unkShort = 2;
   gGfxManager.taskMsgs[1].unkShort = 2;
   gGfxManager.ram_size = gMemCheckStruct.RamSize;
-  gGfxManager.FramebufferSize[0] = gMemCheckStruct.MaxResolution1;
-  gGfxManager.FramebufferSize[1] = gMemCheckStruct.MaxResolution0;
+  gGfxManager.FramebufferSize[0] = gMemCheckStruct.frameBufferSize1;
+  gGfxManager.FramebufferSize[1] = gMemCheckStruct.frameBufferSize0;
   iVar3 = 0;
   gGfxManager.dListSize = k;
   //make 1-bit font 4-bit
@@ -149,10 +149,8 @@ Gfx * Graphics::StartGfxList(void){
   OSTime OVar2;
 
   Gfx* g = gGfxManager.GfxLists[gGfxManager.bufferChoice];
-  OVar2 = osGetTime();
-  gGfxManager.dListStartTime = (u32)udivdi3(CONCAT44((int)(OVar2 >> 0x20) << 6 | (u32)OVar2 >> 0x1a,(u32)OVar2 << 6),3000);
-  OVar2 = osGetTime();
-  gGfxManager.unkTime1 = (u32)udivdi3(CONCAT44((int)(OVar2 >> 0x20) << 6 | (u32)OVar2 >> 0x1a,(u32)OVar2 << 6),3000);
+  gGfxManager.dListStartTime = TIME_USEC;
+  gGfxManager.unkTime1 = TIME_USEC;
   gSPSegment(g++,0,0); //?
   if (gGfxManager.colordepth[1] == 16) {gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_16b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
   else {gDPSetColorImage(g++,G_IM_FMT_RGBA,G_IM_SIZ_32b,gGfxManager.Hres[1],gGfxManager.FrameBuffers[gGfxManager.bufferChoice]);}
@@ -336,12 +334,11 @@ GtaskMsg* Graphics::CreateTask(Gfx *glist,OSMesgQueue *param_2)
 }
 
 void Graphics::getTaskTime(GtaskMsg *t){
-  gGfxManager.taskTime = udivdi3(CONCAT44(*(int *)&t->task->totalTime << 6 | *(u32 *)((int)&t->task->totalTime + 4) >> 0x1a,*(u32 *)((int)&t->task->totalTime + 4) << 6),3000);
+  gGfxManager.taskTime = OS_CYCLES_TO_USEC(t->task->totalTime);
   gGfxManager.taskTicks--;
 }
 
 u8 Graphics::GetBufferChoice(void){return gGfxManager.bufferChoice;}
-
 
 void * Graphics::pickBuffer(void *A,void *B){
   if (gGfxManager.bufferChoice == 0) B = A;
@@ -618,29 +615,21 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   double dVar18;
   s16 sVar19;
   s16 sVar20;
-  double dVar21;
-  OSTime OVar22;
   u64 uVar23;
   u8 R;
   u8 G;
   
   uVar5 = gMemCheckStruct.mem_free_allocated;
-  uVar4 = gMemCheckStruct.MaxResolution0;
+  uVar4 = gMemCheckStruct.frameBufferSize0;
   uVar2 = gMemCheckStruct.ramVal0;
   uVar1 = gMemCheckStruct.RamSize;
   iVar7 = get_memUsed();
-  uVar6 = gMemCheckStruct.MaxResolution1;
+  uVar6 = gMemCheckStruct.frameBufferSize1;
   uVar3 = gMemCheckStruct.ramVal0;
   pGVar10 = gGfxManager.GfxLists[gGfxManager.bufferChoice];
   iVar8 = get_memUsed();
-  OVar22 = osGetTime();
-  uVar23 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (u32)OVar22 >> 0x1a,(u32)OVar22 << 6),
-                   3000);
-  gGfxManager.unkTime0 = (int)uVar23 - gGfxManager.unkTime0;
-  OVar22 = osGetTime();
-  uVar23 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (u32)OVar22 >> 0x1a,(u32)OVar22 << 6),
-                   3000);
-  gGfxManager.dListStartTime = (int)uVar23 - gGfxManager.dListStartTime;
+  gGfxManager.unkTime0 = (int)TIME_USEC - gGfxManager.unkTime0;
+  gGfxManager.dListStartTime = (int)TIME_USEC - gGfxManager.dListStartTime;
   if ((osTvType == OS_TV_NTSC) || (osTvType == OS_TV_MPAL)) ntscPalVar = (5000000/60);
   else if (osTvType == OS_TV_PAL) ntscPalVar = (5000000/50);
   else CRASH("gfx.cpp, DisplaySystemMonitor()","Unknown osTvType");
@@ -685,8 +674,7 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   for(u8 i=0,uVar15 = 20;i<6;uVar15 += 56,i++) {
     pGVar10 = DebugDrawRect(pGVar10,uVar15,28,uVar15 + 2,40,i * 51,~(i * 51),0,0xff);
   }
-  OVar22 = osGetTime();
-  gGfxManager.unkTime0 = udivdi3(CONCAT44((int)(OVar22 >> 0x20) << 6 | (u32)OVar22 >> 0x1a,(u32)OVar22 << 6),3000);
+  gGfxManager.unkTime0 = TIME_USEC;
   return pGVar10;
 }
 

@@ -85,7 +85,7 @@ void PerformCallback(s16 type,collisionSphere *param_2,borg9_phys *param_3){
   collideCallback cb;
   char acStack_48 [72];
   
-  if (!(param_2->flags & CSPHERE_1000)) {
+  if (!(param_2->flags & CSPHERE_NoCallback)) {
     switch(type){
         case 2:
           cb = param_2->envProps->colA->callbackB;

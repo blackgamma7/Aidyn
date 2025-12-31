@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "game.h"
 #include "skyObjects.h"
 #include "combat/CombatStruct.h"
 #include "combat/CombatStat.h"
@@ -6,6 +6,7 @@
 #include "combat/Visuals.h"
 #include "combat/markers.h"
 #include "combat/CombatCamera.h"
+#include "widgets/WidgetCombatTextbox.h"
 #include "voxelChart.h"
 #include "vobjects.h"
 #include "memaker.h"
@@ -367,9 +368,7 @@ u8 FUN_80028940(Gfx **GG,u16 delta){
       if ((gGlobals.playerDataArray[user->index]->flags & ACTOR_CANROTATE) == 0) {
         user->SetPlayerRotate();
         gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
-        if (gGlobals.combatBytes[1] == 8) {
-          FUN_800645b4(user->aiP);
-        }
+        if (gGlobals.combatBytes[1] == 8) FUN_800645b4(user->aiP);
         else if (!gCombatP->substruct2[0].arrayB[uVar1]) {
           if (user->charSheetP->spellVal < 0) {
             if ((user->aiP == NULL) ||

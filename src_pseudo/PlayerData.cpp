@@ -1085,7 +1085,7 @@ void Actor::FreePlayer(playerData *param_1){
   FreePlayerActor(param_1);
   playerdata_remove_both_dcm(param_1);
   param_1->state = 0;
-  (param_1->collision).flags |= CSPHERE_8000;
+  (param_1->collision).flags |= CSPHERE_Intangible;
 }
 
 

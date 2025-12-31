@@ -520,6 +520,8 @@ typedef enum Borg8Enum {
 #define BORG7_Wyvern            0x3463
 #define BORG7_DryadF            0x28dc
 #define BORG7_DryadM            0x28e9
+#define BORG7_Goblin            0x3019
+#define BORG7_Goblin2           0x302a
 #define BORG7_Gryphon           0x3094
 #define BORG7_Ogre              0x324d
 

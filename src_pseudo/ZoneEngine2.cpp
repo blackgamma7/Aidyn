@@ -293,7 +293,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
       }
     }
   }
-  if (((((param_2->GroundType & 0xf000) == 0x2000) && ((param_1->flags & CSPHERE_0400) == 0)) &&
+  if (((((param_2->GroundType & 0xf000) == 0x2000) && ((param_1->flags & CSPHERE_NoTriggers) == 0)) &&
       (gGlobals.playerCharStruct.unkState == 3)) &&
      ((some_toggle == -1 &&
       (ptVar6 = (gGlobals.gameVars.borg9DatPointer)->voxelObjs + (param_2->GroundType >> 5 & 0x7f),

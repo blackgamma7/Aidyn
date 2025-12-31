@@ -2,10 +2,10 @@
 #include "combat/CombatStruct.h"
 
 
-void ShadowMergeBoost(int param_1){
+void ShadowMergeBoost(int shadInd){
  
   CharSheet *alaron = PARTY->Members[0];
-  CharSheet *shadow = gCombatP->combatEnts[param_1].charSheetP;
+  CharSheet *shadow = gCombatP->combatEnts[shadInd].charSheetP;
   CharStats::AddBase(alaron->Stats,STAT_STR,6);
   CharStats::AddBase(alaron->Stats,STAT_INT,3);
   CharStats::AddBase(alaron->Stats,STAT_WIL,3);

@@ -39,6 +39,7 @@ void NOOP_80091404();
 bool can_Combat_C_vert(controller_aidyn *cont);
 void combat_control_case_0x16(controller_aidyn *cont);
 void combat_control_case_0x17(controller_aidyn *cont);
+void FUN_80091528(u16 delta);
 Gfx * Combat_RenderCVertMenu(Gfx *G,u16 delta);
 bool combat_C_Up_Down(controller_aidyn *cont);
 void Combat_menu_C_Up();

@@ -114,6 +114,7 @@ void FUN_800675b0(CombatStruct *param_1);
 void FUN_80067740(CombatStruct *param_1);
 void copy_string_to_combat_textbox(CombatStruct *param_1,char *txt,u32 param_3);
 char * print_combat_textbox(CombatStruct *param_1,char *param_2,u32 param_3);
+char * copy_to_combat_textbox_2(CombatStruct *param_1,char *param_2,u32 param_3);
 void passto_combat_widget_print_func(CombatStruct *param_1);
 void copy_to_textbox_1(CombatStruct *param_1);
 void Ofunc_800678e8(CombatStruct *param_1);
@@ -185,6 +186,8 @@ void combat_func_if_alaron_dead();
 void combat_byte_0xd();
 void combat_byte_0x1a();
 void set_combat_byte_to_0x1c();
+
+void ShadowMergeBoost(int shadInd);
 
 s8 FUN_80090cd0(playerData *param_1);
 ItemID get_some_weapon_id(playerData *param_1);

@@ -19,10 +19,13 @@ void bootproc(void){
   osStartThread(&gInitThread);
 }
 
+extern void*borg_listings;
+extern void*borg_files;
+
 void InitProc(void* p){
   CLEAR(&gGlobals);
-  Crash::InitProc(crash_handler,0,0x32,6);
-  MemoryCheck((s32)romMain,&clear_end - &romMain);
+  Crash::InitProc(crash_handler,NULL,50,6);
+  MemoryCheck((uintptr_t)romMain,(uintptr_t)(&clear_end - &romMain));
   HeapInit(gMemCheckStruct.heapStart,gMemCheckStruct.mem_free_allocated);
   ALLOCS(PTR_800e8f30,sizeof(OSMesg)*8,173);
   osCreatePiManager(OS_PRIORITY_PIMGR,&gPIManagerQueue,PTR_800e8f30,8);
@@ -44,8 +47,7 @@ void InitProc(void* p){
   Controller::Init(&gSched,1,10,4);
   RomCopy::Init(9,3);
   SetBorgListing(&borg_listings,borg_files);
-  OSTime time = osGetTime(); //sems redundant - set to fixed value in appProc_init later.
-  RAND.SetSeed(udivdi3(CONCAT44((time >> 0x20) << 6 | time >> 0x1a,time << 6),3000));
+  RAND.SetSeed(TIME_USEC);//sems redundant - set to fixed value in appProc_init later.
   appInit(&gSched,8,2);
   osSetThreadPri(&gInitThread,OS_PRIORITY_IDLE);
   while(1){}

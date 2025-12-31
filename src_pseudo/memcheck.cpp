@@ -1,25 +1,26 @@
 #include "memcheck.h"
 
-void MemoryCheck(s32 ramstart,s32 arg1){
+void MemoryCheck(uintptr_t ramstart,uintptr_t arg1){
   u32 mem = osGetMemSize();
-  if (mem <= 0x400000) {
-    gMemCheckStruct.MaxResolution0 = (320)*(240)*2;
-    gMemCheckStruct.MaxResolution1 = (320)*(240)*2;
-  }
-  else {
-    gMemCheckStruct.MaxResolution0 = (320)*(240)*4;
-    gMemCheckStruct.MaxResolution1 = (320)*(240)*4;
-  }
-  gExpPakFlag = (u16)(mem > 0x400000);
-  gMemCheckStruct.DepthBuffer = (s16 *)((ramstart + arg1 & ~0x3f) + 0x40);
-  gMemCheckStruct.FreameBuffers[0] =
-       (void *)((u32)mem - (gMemCheckStruct.MaxResolution1 * 2 + -0x80000000));
-  gMemCheckStruct.heapStart = gMemCheckStruct.DepthBuffer + gMemCheckStruct.MaxResolution0;
-  gMemCheckStruct.ramstartVal = ramstart;
-  gMemCheckStruct.FreameBuffers[1] =
-       (void *)((s32)gMemCheckStruct.FreameBuffers[0] + gMemCheckStruct.MaxResolution1);
   gMemCheckStruct.RamSize = mem;
   gMemCheckStruct.ramVal0 = arg1;
+  if (mem > 0x400000) {
+    gMemCheckStruct.frameBufferSize0 = (320)*(240)*4;
+    gMemCheckStruct.frameBufferSize1 = (320)*(240)*4;
+    gExpPakFlag=true;
+  }
+  else {
+    gMemCheckStruct.frameBufferSize0 = (320)*(240)*2;
+    gMemCheckStruct.frameBufferSize1 = (320)*(240)*2;
+    gExpPakFlag=false;
+  }
+  gMemCheckStruct.DepthBuffer = (u16 *)((ramstart + arg1 & ~0x3f) + 0x40);
+  gMemCheckStruct.frameBuffers[0] =
+       (void *)((uintptr_t)mem - (gMemCheckStruct.frameBufferSize1 * 2 + -0x80000000));
+  gMemCheckStruct.heapStart = gMemCheckStruct.DepthBuffer + gMemCheckStruct.frameBufferSize0;
+  gMemCheckStruct.ramstartVal = ramstart;
+  gMemCheckStruct.frameBuffers[1] =
+       (void *)((uintptr_t)gMemCheckStruct.frameBuffers[0] + gMemCheckStruct.frameBufferSize1);
   gMemCheckStruct.mem_free_allocated =
-       (u32)((s32)gMemCheckStruct.FreameBuffers[0] - (s32)gMemCheckStruct.heapStart);
+       (u32)((uintptr_t)gMemCheckStruct.frameBuffers[0] - (uintptr_t)gMemCheckStruct.heapStart);
 }
