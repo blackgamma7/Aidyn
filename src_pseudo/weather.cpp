@@ -127,7 +127,6 @@ void ProcessWeather(WeatherStruct *W,s16 delta){
   u16 uVar8;
   float fVar16;
 
-  
   bool sky4 = gGlobals.sky.Type == SkyType4;
   W->rainShortA = TerrainPointer->rainByte;
   if (W->rainShortB != TerrainPointer->rainByte) W->rainParticles = NULL;
@@ -146,7 +145,7 @@ void ProcessWeather(WeatherStruct *W,s16 delta){
       if (!sky4) {
         void *pcVar12 = NULL;
         ProcessWeatherFlag = true;
-        vec3f precipVel={0,0,7.0f};
+        vec3f precipVel={0,7.0f,0};
         vec4f precipCol;
         u16 uVar13;
         s16 sVar9;
@@ -156,7 +155,7 @@ void ProcessWeather(WeatherStruct *W,s16 delta){
            uVar13 = 0x10;
            Sky::SetBackgroundType(gGlobals.sky.Type,2,600.0);
            pcVar12 = RainParticleFunc;
-           precipCol={(140.0/256),(190.0/256),(210.0/256),0.8};
+           precipCol={(140.0f/256),(190.0f/256),(210.0f/256),0.8};
            break;
           case PRECIP_SNOW:
            sVar9 = 0;

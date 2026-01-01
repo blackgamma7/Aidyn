@@ -514,10 +514,8 @@ bool Scene::SceneGetLocatorMtx(SceneData *scene,MtxF *mf,s32 i){
     #ifdef DEBUGVER
     char errBuff [152];
     sprintf(errBuff,"Locator: %d is undefined for %s!\n",i,scene->borg5_char);
-    CRASH("scene.cpp, SceneGetLocatorMtx()",errBuff);
-    #else
-    CRASH("","");
     #endif
+    CRASH("scene.cpp, SceneGetLocatorMtx()",errBuff);
   }
   else {
     Borg2Header *pbVar1 = ((scene->borg5)->dat).borg2p[scene->locators[i]];
@@ -564,10 +562,8 @@ bool Scene::SceneGetLocatorPos(SceneData *pScene,vec3f *pos,s32 param_3){
     #ifdef DEBUGVER
     char acStack_90 [144];
     sprintf(acStack_90,"Locator: %d is undefined for %s!\n",param_3,pScene->borg5_char);
-    CRASH("scene.cpp, SceneGetLocatorPos()",acStack_90);
-    #else
-    CRASH("","");
     #endif
+    CRASH("scene.cpp, SceneGetLocatorPos()",acStack_90);
   }
   Borg2Header *pModel = ((pScene->borg5)->dat).borg2p[pScene->locators[param_3]];
   if (!pModel) CRASH("scene.cpp, SceneGetLocatorPos()","!pModel");
@@ -590,10 +586,8 @@ bool Scene::SceneGetLocatorNorm(SceneData *scene,vec3f *out,s32 param_3){
     #ifdef DEBUGVER
     char errBuff [144];
     sprintf(errBuff,"Locator: %d is undefined for %s!\n",param_3,scene->borg5_char);
-    CRASH("scene.cpp, SceneGetLocatorNorm()",errBuff);
-    #else
-    CRASH("","");
     #endif
+    CRASH("scene.cpp, SceneGetLocatorNorm()",errBuff);
   }
   Borg2Header *pBVar1 = scene->borg5->dat.borg2p[scene->locators[param_3]];
   guMtxIdentF(&tempA);
@@ -635,10 +629,8 @@ bool Scene::SceneGetLocatorAlign(SceneData *scene,vec3f *out,u32 param_3){
     #ifdef DEBUGVER
     char errrBuff [144];
     sprintf(errrBuff,"Locator: %d is undefined for %s!\n",param_3,scene->borg5_char);
-    CRASH("scene.cpp, SceneGetLocatorAlign()",errrBuff);
-    #else
-    CRASH("","");
     #endif
+    CRASH("scene.cpp, SceneGetLocatorAlign()",errrBuff);
   }
   pBVar1 = scene->borg5->dat.borg2p[scene->locators[param_3]];
   guMtxIdentF(&mtxA);

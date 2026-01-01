@@ -91,9 +91,9 @@ Gfx * PlaneObj_Render(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale)
   SetVtx(&plane->verts[fb][3].v,(Vx * CosPIOver4),(Vy * -CosPIOver4),0.0,0,U,0,
          plane->vertCols[2].R * gGlobals.brightness,plane->vertCols[2].G * gGlobals.brightness,
          plane->vertCols[2].B * gGlobals.brightness,plane->vertCols[2].A * gGlobals.brightness);
-  gSPMatrix(g++,&plane->transMtx[fb],G_MTX_PROJECTION);
-  gSPMatrix(g++,&plane->alignMtx[fb],0);
-  gSPMatrix(g++,&plane->ScaleMtx[fb],0);
+  gSPMatrix(g++,&plane->transMtx[fb],G_MTX_MODELVIEW|G_MTX_LOAD|G_MTX_NOPUSH);
+  gSPMatrix(g++,&plane->alignMtx[fb],G_MTX_MODELVIEW|G_MTX_MUL|G_MTX_NOPUSH);
+  gSPMatrix(g++,&plane->ScaleMtx[fb],G_MTX_MODELVIEW|G_MTX_MUL|G_MTX_NOPUSH);
   gSPVertex(g++,&plane->verts[fb],4,0);
   gSP1Triangle(g++,0,1,2,0);
   gSP1Triangle(g++,2,1,3,0);

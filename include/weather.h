@@ -9,7 +9,7 @@ struct WeatherStruct {
     u16 skyBgdat;
     ParticleEmmiter *rainParticles;
     Borg12Header *Sfx;
-    u32 sfxID;
+    s32 sfxID;
     u8 sfxIndex;
 };
 

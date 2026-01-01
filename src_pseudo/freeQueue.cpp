@@ -16,10 +16,8 @@ void AllocFreeQueueItem(QueueStructA *q,void **p,u16 type,u16 pri){
     #ifdef DEBUGVER
     char errBuff [152];
     sprintf(errBuff,"Unknown Type: %d\n",type);
-    CRASH("AllocFreeQueueItem",errBuff);
-    #else
-    CRASH("","");
     #endif
+    CRASH("AllocFreeQueueItem",errBuff);
   }
     entry->pri = pri;
     entry->BorgSwitch = type;
@@ -73,10 +71,8 @@ void ProcessFreeQueue(QueueStructA *param_1){
           #ifdef DEBUGVER
            char errBuff[144];
             sprintf(errBuff,"Unknown Item Type: %d",entry->BorgSwitch);
-            CRASH("ProcessFreeQueue",errBuff);
-            #else
-            CRASH("","");
             #endif
+            CRASH("ProcessFreeQueue",errBuff);
           }
         }
         else {

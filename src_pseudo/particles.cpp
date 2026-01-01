@@ -99,7 +99,6 @@ void Particle::FreeEmmiters(ParticleHeadStruct *param_1){
   FreeTextures(param_1);
 }
 
-
 void Particle::UpdateParticle(ParticleHeadStruct *head,vec4f *col,u32 flag,s16 index,float delta){
 
   s32 iVar5 = index;
@@ -167,7 +166,6 @@ void Particle::ApplyVelocity(ParticleHeadStruct *head,ParticleEmmiter *emmi,s16 
   if (((part->flags & PARTICLE_8000) == 0)&&(part->unk4 != -1)) UpdateParticle(head,&part->colorB,part->flags,part->unk4,delta);
   else UpdateParticle(head,&part->colorB,part->flags,emmi->particles->id,delta);
 }
-
 
 void Particle::ProcessAndRenderParticleHead(Gfx **gg,ParticleHeadStruct *pPH,vec3f *param_3,s16 delta,u16 viBuff,u16 zbuff){
   s16 iVar2;
@@ -328,7 +326,6 @@ void Particle::FUN_800b266c(ParticleHeadStruct *pHead,Particle_s *part){
   part->unk8 = -1;
 }
 
-
 Particle_s * Particle::FUN_800b26d8(ParticleHeadStruct *pHead,u16 lifespan){
   int iVar2;
   if (pHead->count1 == pHead->particleStructCount)
@@ -392,10 +389,8 @@ Particle::AllocParticleEmitter(ParticleHeadStruct *head,s16 lifespan,s16 texture
       #ifdef DEBUGVER
       char errBuff [160];
       sprintf(errBuff,"Invalid Texture: %d\nRange: 0 - %d\n",texture,head->TextureCount - 1);
-      CRASH("AllocParticleEmitter",errBuff);
-      #else
-      CRASH("","");
       #endif
+      CRASH("AllocParticleEmitter",errBuff);
     }
     emmi->particles = part;
     part->flags = (PARTICLE_8000|PARTICLE_4000|PARTICLE_0008|PARTICLE_0002);
@@ -474,7 +469,6 @@ void Particle::SetScale(Particle_s *p,float x,float y){
   (p->scale).x = x;
   (p->scale).y = y;
 }
-
 
 void Particle::SetColorB(Particle_s *param_1,float r,float g,float b,float a){
   (param_1->colorB).x = r;
@@ -572,11 +566,11 @@ color.A = tempV4.a * 255.0f;
 
 guScale(&part->scaleMtx[framebuff],((part->scale).x * 0.001),((part->scale).y * 0.001),0.0);
 guTranslate(part->translateMtx + framebuff,(part->pos).x * 16.0f,(part->pos).y * 16.0f,(part->pos).z * 16.0f);
-gSPMatrix(g++,(part->translateMtx + framebuff),G_MTX_PUSH);
+gSPMatrix(g++,(part->translateMtx + framebuff),G_MTX_LOAD|G_MTX_NOPUSH);
 if ((part->flags & PARTICLE_0004) == 0) pMVar2 = phead->alignMtx + framebuff;
 else pMVar2 = &part->alignMtx;
-gSPMatrix(g++,pMVar2,G_MTX_LOAD|G_MTX_PUSH);
-gSPMatrix(g++,(part->scaleMtx + framebuff),G_MTX_LOAD|G_MTX_PUSH);
+gSPMatrix(g++,pMVar2,G_MTX_MUL|G_MTX_NOPUSH);
+gSPMatrix(g++,(part->scaleMtx + framebuff),G_MTX_MUL|G_MTX_NOPUSH);
 if (texture == NULL) CRASH("../src/Particles.cpp","Particle without texture!");
 gSPVertex(g++,gParticleVerts,4,8);
 //uses F3dEX macros(?) why not use SetVtx()?
@@ -609,19 +603,15 @@ SceneData * GetLocatorScene(SceneData *pRet,u16 param_2){
     #ifdef DEBUGVER
     char acStack_110 [128];
     sprintf(acStack_110,"GetLocatorScene:\nInvalid locatorScene: %d",param_2);
-    CRASH(FILENAME,acStack_110);
-    #else
-    CRASH("","");
     #endif
+    CRASH(FILENAME,acStack_110);
   }
   if(!pRet){
     #ifdef DEBUGVER
     char acStack_90 [144];
     sprintf(acStack_90,"GetLocatorScene:\npRet == NULL locatorScene: %d",param_2);
+    #endif
     CRASH(FILENAME,acStack_90);
-  #else
-    CRASH("","");
-  #endif
   }
 return pRet;
 }

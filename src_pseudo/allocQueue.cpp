@@ -14,10 +14,8 @@ void AllocAllocQueueItem(QueueStructB *Q,void**p,void* param_3,int index,u16 typ
     #ifdef DEBUGVER
     char errBuff [128];
     sprintf(errBuff,"Unknown Type: %d\n",type);
-    CRASH("AllocFreeQueueItem",errBuff); //copy-paste oversight?
-    #else
-    CRASH("","");
     #endif
+    CRASH("AllocFreeQueueItem",errBuff); //copy-paste oversight?
   }
   else{
     *p = NULL;
@@ -32,15 +30,12 @@ void AllocAllocQueueItem(QueueStructB *Q,void**p,void* param_3,int index,u16 typ
         char errBuff [160];
         sprintf(errBuff,"Alloc Item to same memory pointer.\n    Type: %d\nborgName: %d\n Pointer: %08x\n",
                 entry->BorgSwitch,entry->BorgIndex,*entry->pBorg);
-        CRASH("AllocAllocQueueItem",errBuff);
-        #else
-        CRASH("","");
         #endif
+        CRASH("AllocAllocQueueItem",errBuff);
         }
     }
   }
 }
-
 
 void processAllocQueue(QueueStructBItem *param_1){
   void* p;
@@ -68,10 +63,8 @@ void processAllocQueue(QueueStructBItem *param_1){
     #ifdef DEBUGVER
       char errBuff [136];
       sprintf(errBuff,"Unknown Item Type: %d",param_1->BorgSwitch);
+      #endif
       CRASH("ProcessAllocQueue",errBuff);
-    #else
-      CRASH("","");
-    #endif
     case QueueType_Other:
       CRASH("src/allocqueue.cpp","Generic allocations are not supported!");
       //y tho?
@@ -85,8 +78,6 @@ void processAllocQueue(QueueStructBItem *param_1){
 u16 queue_b_flag=0;
 void Process_queue_B(QueueStructB *param_1,s16 param_2){
   u16 uVar1;
-  byte bVar2;
-  undefined1 uVar3;
   int iVar4;
   s16 sVar5;
   QueueStructBItem *puVar5;
