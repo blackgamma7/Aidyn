@@ -401,7 +401,7 @@ void borg5_func_a(Borg5Header *b5){
       ani++;
     }
   }
-  (b5->dat).borg1lookup = (u16 *)((int)((b5->dat).borg1lookup + 8) + (int)b5);
+  (b5->dat).instructions = (u16 *)((int)((b5->dat).instructions + 8) + (int)b5);
   (b5->dat).ParticleDat = (Borg5_particle *)((int)(b5->dat).ParticleDat->unk10 + (int)(b5->dat).ParticleDat);
 }
 //These need re-decompiled once the header format is understood.

@@ -48,7 +48,7 @@ enum SceneFlags{
     SCENE_0008=8, //skips a matrix calculation
     SCENE_0010=0x10, //changes a matrix calculation
     SCENE_0020=0x20, //skips a matrix calculation
-    SCENE_0040=0x40, //skip perspactive normalizing dlist
+    SCENE_0040=0x40, //skip perspective normalizing dlist
     SCENE_0080=0x80, //related to lighting
     SCENE_0100=0x100, //use fog
     SCENE_0200=0x200, //can be set,unread?

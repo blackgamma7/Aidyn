@@ -360,8 +360,7 @@ gSPScisTextureRectangle(pGVar24++,uVar4,fVar37,uVar12,(fVar37 + fVar30),0,0,0,iV
     uVar20 = (uVar21 << 2 & 0xfff) << 0xc;
     pGVar25[3].words.w0 = uVar20 | uVar13 | 0xf4000000;
     *(u32 *)((int)pGVar25 + 0x1c) = uVar15 | uVar16 | 0x7000000;
-    pGVar25[4].words.w0 = 0xe7000000;
-    *(undefined4 *)((int)pGVar25 + 0x24) = 0;
+    gDPPipeSync(&pGVar25[4]);
     pGVar25[5].words.w0 = uVar22;
     *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
     pGVar25[6].words.w0 = uVar20 | uVar13 | 0xf2000000;

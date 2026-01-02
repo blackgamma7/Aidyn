@@ -601,14 +601,21 @@ enum Borg5PartFlag{
     B5PART_4000=0x4000, //use colBlend to set particles' colorA
     B5PART_8000=0x8000, //use (scaleValC - scaleRangeLo) / partLifespan2 to mod particles' scale.
 };
-
+enum Borg5Instruction{
+    B5INST_ZERO,//likely unused
+    B5INST_LOADTEXTURE,//load texture index by value (or don't if value is 0xff)
+    B5INST_MATRIX,//calulate matrix using someSubstruct[value]
+    B5INST_ANITEXTURE, //not implemmented. crashes with a warning.
+    B5INST_LOADVERTS, //set current borg2 to borg2p[value] and load verticies
+    B5INST_B2DLIST //load dlist of borg2p[B5INST_LOADVERTS<<8|value].dsplists[value]
+};
 struct Borg5Data {
     s32 substructCount;
     s32 borg4Count;
     s32 borg2Count;
     u32 borg1Count;
     s32 aniTextureCount;
-    u32 unk0x14;
+    u32 instructionCount;
     borg5substruct *someSubstruct;
     u32 unused1c; //at least, unused according to Ghidra.
     void* unused20; //pointer to unused data?
@@ -629,7 +636,7 @@ struct Borg5Data {
         Borg1Header **borg1p;
     };
     Borg5AniTexture * aniTextures; //not used, but pointers still set (0x18 byte struct.) 
-    u16 *borg1lookup;
+    u16 *instructions;
     Borg5_particle **ParticleDat;
     u32 ParticleCount;
 };

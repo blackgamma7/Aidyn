@@ -245,117 +245,78 @@ void FUN_8009d7b0(Borg1Header *param_1){
 
 Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   u32 uVar1;
-  s8 sVar6;
+  s8 depth;
   int iVar4;
   u32 h;
   u32 w;
-  Gfx *pauVar9;
-  int totalBmpSize;
   s32 i;
   Borg1Data *pBVar2;
   
   gDPPipeSync(gfx++);
   gDPTileSync(gfx++);
-  gSPSegment(gfx++,11,osVirtualToPhysical(param_2->dat->bmp));
-  gSPSegment(gfx++,12,osVirtualToPhysical(param_2->dat->pallette));
+  gSPSegment(gfx++,0xb,osVirtualToPhysical(param_2->dat->bmp));
+  gSPSegment(gfx++,0xc,osVirtualToPhysical(param_2->dat->pallette));
   u32 totalBmpSize = 0;//total size of all LOD's bitmaps
-  sVar6 = GetN64ImageDimension(param_2->dat->type);
+  depth = GetN64ImageDimension(param_2->dat->type);
   pBVar2 = param_2->dat;
   h = (u32)pBVar2->Width;
   w = (u32)pBVar2->Height;
   for(i=0;i<=pBVar2->lods;i++){
-      totalBmpSize += GetBitmapSize(h,w,(int)sVar6);
+      totalBmpSize += GetBitmapSize(h,w,depth);
       h = half(h);
       w = half(w);
   }
-  if (B1_RGBA32 < param_2->dat->type) {
-    CRASH("borganim.cpp:LoadTextureImage","TEXTURE TYPE NOT SUPPORTED");
-  }
+  if (B1_RGBA32 < param_2->dat->type) CRASH("borganim.cpp:LoadTextureImage","TEXTURE TYPE NOT SUPPORTED");
   iVar4 = totalBmpSize >> 1;
   switch(param_2->dat->type) {
+  //seems the "gDPLoadTextureBlock*"and "gDPLoadTLUT_pal*" macro's got optimized together...
   case B1_RGBA16:
     break;
   case B1_IA16:
     break;
   case B1_CI8:
     h = iVar4 - 1;
-    (pauVar9->words).w0 = 0xfd100000;
-    *(undefined4 *)((int)gfx + 0x24) = 0xb000000;
-    gfx[5].words.w0 = 0xf5100000;
-    *(undefined4 *)((int)gfx + 0x2c) = 0x7000000;
-    gfx[6].words.w0 = 0xe6000000;
-    *(undefined4 *)((int)gfx + 0x34) = 0;
-    gfx[7].words.w0 = 0xf3000000;
-    if (0x7ff < (int)h) {
-      h = 0x7ff;
-    }
-    w = 0x73f0000;
-    goto LAB_8009dadc;
+    gDPSetTextureImage(gfx++,G_IM_FMT_CI,G_IM_SIZ_8b,1,SEGMENT_ADDR(0xb,0));
+    gDPSetTile(gfx++, G_IM_FMT_CI, 0, 0, 0, G_TX_LOADTILE, 0, 0,0, 0, 0, 0, 0);
+    gDPLoadSync(gfx++);
+    gDPLoadBlock(gfx++,G_TX_LOADTILE,0,0,h,0);
+    gDPPipeSync(gfx++);
+    gSPSetOtherMode(gfx++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
+    gDPLoadTLUT_pal256(gfx++,SEGMENT_ADDR(0xc,0));
+    return gfx;
   case B1_IA8:
     break;
   case B1_I8:
     break;
   case B1_CI4:
+    
     h = ((totalBmpSize << 1) >> 2) - 1;
-    (pauVar9->words).w0 = 0xfd100000;
-    *(undefined4 *)((int)gfx + 0x24) = 0xb000000;
-    gfx[5].words.w0 = 0xf5100000;
-    *(undefined4 *)((int)gfx + 0x2c) = 0x7000000;
-    gfx[6].words.w0 = 0xe6000000;
-    *(undefined4 *)((int)gfx + 0x34) = 0;
-    gfx[7].words.w0 = 0xf3000000;
-    if (0x7ff < (int)h) {
-      h = 0x7ff;
-    }
-    w = 0x7030000;
-LAB_8009dadc:
-    *(u32 *)((int)gfx + 0x3c) = (h & 0xfff) << 0xc | 0x7000000;
-    gfx[8].words.w0 = 0xe7000000;
-    *(undefined4 *)((int)gfx + 0x44) = 0;
-    *(undefined4 *)((int)gfx + 0x4c) = 0x8000;
-    gfx[9].words.w0 = 0xe3001001;
-    gfx[10].words.w0 = 0xfd100000;
-    *(undefined4 *)((int)gfx + 0x54) = 0xc000000;
-    gfx[0xb].words.w0 = 0xe8000000;
-    *(undefined4 *)((int)gfx + 0x5c) = 0;
-    gfx[0xc].words.w0 = 0xf5000100;
-    *(undefined4 *)((int)gfx + 100) = 0x7000000;
-    gfx[0xd].words.w0 = 0xe6000000;
-    *(undefined4 *)((int)gfx + 0x6c) = 0;
-    gfx[0xe].words.w0 = 0xf0000000;
-    *(u32 *)((int)gfx + 0x74) = w | 0xc000;
-    gfx[0xf].words.w0 = 0xe7000000;
-    *(undefined4 *)((int)gfx + 0x7c) = 0;
-    return gfx + 0x10;
+    gDPSetTextureImage(gfx++,G_IM_FMT_CI,G_IM_SIZ_4b,1,SEGMENT_ADDR(0xb,0));
+    gDPSetTile(gfx++, G_IM_FMT_CI, 0, 0, 0, G_TX_LOADTILE, 0, 0,0, 0, 0, 0, 0);
+    gDPLoadSync(gfx++);
+    gDPLoadBlock(gfx++,G_TX_LOADTILE,0,0,h,0);
+    gDPPipeSync(gfx++);
+    gSPSetOtherMode(gfx++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
+    gDPLoadTLUT_pal16(gfx++,0,SEGMENT_ADDR(0xc,0));
+    return gfx;
   default:
     iVar4 = (totalBmpSize << 1) >> 2;
     break;
   case B1_RGBA32:
     iVar4 = totalBmpSize >> 2;
-    (pauVar9->words).w0 = 0xfd180000;
-    h = 0xf5180000;
+    gDPSetTextureImage(gfx++,G_IM_FMT_RGBA,G_IM_SIZ_32b,1,SEGMENT_ADDR(0xb,0));
+    gDPSetTile(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0, G_TX_LOADTILE, 0, 0,0, 0, 0, 0, 0);
     goto LAB_8009db84;
   }
-  (pauVar9->words).w0 = 0xfd100000;
-  h = 0xf5100000;
+  gDPSetTextureImage(gfx++,G_IM_FMT_RGBA,G_IM_SIZ_16b,1,SEGMENT_ADDR(0xb,0));
+  gDPSetTile(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, 0,0, 0, 0, 0, 0);
 LAB_8009db84:
   w = iVar4 - 1;
-  *(undefined4 *)((int)gfx + 0x24) = 0xb000000;
-  gfx[5].words.w0 = h;
-  *(undefined4 *)((int)gfx + 0x2c) = 0x7000000;
-  gfx[6].words.w0 = 0xe6000000;
-  *(undefined4 *)((int)gfx + 0x34) = 0;
-                    // gDPLoadBlock
-  gfx[7].words.w0 = 0xf3000000;
-  if (0x7ff < (int)w) {
-    w = 0x7ff;
-  }
-  *(u32 *)((int)gfx + 0x3c) = (w & 0xfff) << 0xc | 0x7000000;
-  gfx[8].words.w0 = 0xe7000000;
-  *(undefined4 *)((int)gfx + 0x44) = 0;
-  gfx[9].words.w0 = 0xe3001001;
-  *(undefined4 *)((int)gfx + 0x4c) = 0;
-  return gfx + 10;
+  gDPLoadSync(gfx++);
+  gDPLoadBlock(gfx++,G_TX_LOADTILE,0,0,w,0);
+  gDPPipeSync(gfx++);
+  gSPSetOtherMode(gfx++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
+  return gfx;
 }
 
 Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,Borg2Struct *param_3){
@@ -531,31 +492,27 @@ LAB_8009dd14:
 }
 
 //TODO: Redo once relevant data is better understood
-Gfx * Ofunc_8009e228(Gfx *param_1,SceneData *param_2,int param_3){
+Gfx * Ofunc_8009e228(Gfx *g,SceneData *param_2,int param_3){
   Gfx *pGVar1;
   u32 uVar2;
   void *pvVar3;
   int iVar4;
-  undefined4 *puVar5;
+  u32 *puVar5;
   
   if (*(int *)((int)param_2->unk58 + 0x3c) == 0) {
-    (param_1->words).w0 = 0xdb060028;
-    pvVar3 = param_2->unk58;
+    gSPSegment(g++,0xA,osVirtualToPhysical(*(void **)((int)param_2->unk58 + 0x34)));
   }
   else {
-    (param_1->words).w0 = 0xdb060028;
-    pvVar3 = (void *)((int)param_2->unk58 + param_3 * 4);
+    gSPSegment(g++,0xA,osVirtualToPhysical(*(void **)((int)(void *)((int)param_2->unk58 + param_3 * 4) + 0x34)));
   }
-  (param_1->words).w1 = osVirtualToPhysical(*(void **)((int)pvVar3 + 0x34));
   pvVar3 = param_2->unk58;
-  puVar5 = *(undefined4 **)((int)pvVar3 + 0x2c);
-  pGVar1 = param_1 + 1;
+  puVar5 = *(u32 **)((int)pvVar3 + 0x2c);
   for (iVar4 = *(int *)((int)pvVar3 + 4); iVar4 != 0; iVar4 += -1) {
-    gSPDisplayList(pGVar1++,osVirtualToPhysical((void *)*puVar5));
+    gSPDisplayList(g++,osVirtualToPhysical((void *)*puVar5));
     pvVar3 = (void *)*puVar5;
     puVar5++;
   }
-  return pGVar1;
+  return g;
 }
 
 #define DtoR_f 0.017453292f //a few more decimals used for these funcs.
@@ -984,12 +941,12 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
         paafVar9 = (MtxF *)(*paafVar9 + 1);
         paafVar6 = (MtxF *)(*paafVar6 + 1);
       } while (paafVar9 != paafVar8);
-      pbVar13->flag = pbVar13->flag | 2;
+      pbVar13->flag |= 2;
       pbVar13 = pbVar12;
     } while (iVar10 != 0);
   }
   for (; iVar11 != 0; iVar11--,pbVar12++) {
-    if ((pbVar12->flag & 0x100) != 0) FUN_8009ee98(pbVar12,&mf0);
+    if ((pbVar12->flag & 0x100)) FUN_8009ee98(pbVar12,&mf0);
   }
 }
 
@@ -2133,34 +2090,27 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   Borg4Header **ppBVar15;
   float (*pafVar16) [4];
   u32 normInd;
-  u32 uVar18;
+  u32 val;
   Borg4Header **ppBVar19;
   int iVar20;
   int iVar21;
   float (*mf) [4] [4];
-  int i;
-  int iVar22;
+  int i,j;
   borg5substruct *pbVar23;
-  u16 *puVar24;
+  u16 *instructs;
   float fVar25;
   float fVar26;
   float fVar27;
   float fVar28;
-  undefined1 uVar32;
-  float fVar30;
-  float fVar33;
   float fVar34;
   float fVar35;
   float fVar36;
-  float fVar37;
   float fStack_1c0;
   float fStack_1bc;
   vec3f fStack384;
   float afStack320 [4] [4];
-  char errBuff [128];
   Mtx_t auStack128;
   
-  fVar30 = 1.0f;
   pBVar1 = param_2->borg5;
   unkAnimStructB.b2 = NULL;
   unkAnimStructB.b1 = NULL;
@@ -2169,20 +2119,20 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   pbVar23 = (pBVar1->dat).someSubstruct;
   normInd = param_2->perspNormIndex & 1;
   if ((pBVar1->dat).borg3P) pbVar23++;
-  iVar22 = 0;
+  i = 0;
   unkAnimStructB.scene = param_2;
   if ((param_2->flags & SCENE_8000) == 0) {
-    i = (pBVar1->dat).borg4Count;
+    j = (pBVar1->dat).borg4Count;
     if (((param_2->flags & SCENE_0080) == 0) && (i != 0)) {
       ppBVar19 = unkAnimStructB.unk1c;
       ppBVar15 = (pBVar1->dat).borg4p;
       iVar20 = normInd * 0x10;
       do {
-        iVar21 = iVar22;
+        iVar21 = j;
         pBVar2 = pbVar23->unkStruct;
         fStack_1c0 = (pbVar23->scale).x;
-        if ((fVar30 < fStack_1c0) || (0.0 <= fStack_1c0)) {
-          if (fVar30 < fStack_1c0) {
+        if ((1.0f < fStack_1c0) || (0.0 <= fStack_1c0)) {
+          if (1.0f < fStack_1c0) {
             fStack_1c0 = 1.0f;
           }
         }
@@ -2240,12 +2190,12 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
         pBVar3 = *ppBVar15;
         ppBVar15++;
         pbVar23++;
-        iVar22 = iVar21 + 1;
+        i = iVar21 + 1;
         *ppBVar19 = pBVar3;
         ppBVar19 = ppBVar19 + 1;
-      } while (i != 0);
-      i = (unkAnimStructB.b5)->borg4Count;
-      if (i == 1) {
+      } while (j != 0);
+      j = (unkAnimStructB.b5)->borg4Count;
+      if (j == 1) {
         gSPLight(g++,(u32)&pLVar4[normInd],2);
         gSPLight(g++,(u32)&gBlackLight,1);
         pGVar12 = g;
@@ -2253,16 +2203,16 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
       else {
         ppBVar15 = (unkAnimStructB.b5)->borg4p;
         pGVar12 = g;
-        if (i != 0) {
+        if (j != 0) {
           u8 ind=1;
           do {
             pBVar3=*ppBVar15;
             gSPLight(g++,(u32)&pBVar3->dat->l[normInd],ind);
-            i--;
+            j--;
             ind++;
             ppBVar15++;
             g = pGVar12;
-          } while (i != 0);
+          } while (j != 0);
         }
       }
       pGVar10 = pGVar12;
@@ -2308,54 +2258,47 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
     pGVar10 = g;
   }
   else {
-    i = 0;
+    j = 0;
     s32 aiStack512[]={1,2,3,4,5,6,7};
     if (0 < (int)param_2->currLights) {
       do {
-        gSPLight(g++,&(unkAnimStructB.scene)->DirLights[i],i+1);
-      } while (i < (int)(unkAnimStructB.scene)->currLights);
+        gSPLight(g++,&(unkAnimStructB.scene)->DirLights[i],j+1);
+        j++;
+      } while (j < (int)(unkAnimStructB.scene)->currLights);
     }
-    gSPLight(g++,&(unkAnimStructB.scene)->envLight,i+1);
-    gSPNumLights(g++,aiStack512[i + -1]);
+    gSPLight(g++,&(unkAnimStructB.scene)->envLight,j+1);
+    gSPNumLights(g++,aiStack512[j + -1]);
     (unkAnimStructB.scene)->currLights = 0;
     pGVar10 = g;
   }
 switchD_800a1cc4_caseD_8:
-  if (iVar22 < 8) {
-    ppBVar15 = unkAnimStructB.unk1c + iVar22;
+  if (i < 8) {
+    ppBVar15 = unkAnimStructB.unk1c + i;
     do {
       *ppBVar15 = NULL;
-      iVar22++;
+      i++;
       ppBVar15++;
-    } while (iVar22 < 8);
+    } while (i < 8);
   }
   pGVar10 = FUN_800a0e60(pGVar10);
-  iVar22 = (unkAnimStructB.b5)->unk0x14;
-  puVar24 = (unkAnimStructB.b5)->borg1lookup;
-  fVar30 = 1.0f;
-  do {
-    if (iVar22 == 0) {
-      param_2->sceneTicked = false;
-      param_2->perspNormIndex^= 1;
-      unkAnimStructB.b5 = NULL;
-      return pGVar10;
-    }
-    uVar18 = *puVar24 & 0xff;
+  for(i=(unkAnimStructB.b5)->instructionCount,instructs = (unkAnimStructB.b5)->instructions;,
+     i!=0;i--,instructs++,pGVar10 = pGVar12){
+    val = *instructs & 0xff;
     pGVar12 = pGVar10;
-    switch((int)((u32)*puVar24 << 0x10) >> 0x18) {
-    case 1:
-      if (uVar18 == 0xff) {
+    switch((int)((u32)*instructs << 0x10) >> 0x18) {
+    case B5INST_LOADTEXTURE:
+      if (val == 0xff) {
         pGVar12 = pGVar10 + 1;
         unkAnimStructB.b1 = NULL;
         gSPTexture(pGVar10++,0,0,0,0,0);
       }
       else {
-        unkAnimStructB.b1 = (unkAnimStructB.b5)->borg1p[uVar18];
+        unkAnimStructB.b1 = (unkAnimStructB.b5)->borg1p[val];
         pGVar12 = FUN_8009d3dc(pGVar10,unkAnimStructB.b1,(u8)normInd);
       }
       break;
-    case 2:
-      pbVar23 = (unkAnimStructB.b5)->someSubstruct + uVar18;
+    case B5INST_MATRIX:
+      pbVar23 = (unkAnimStructB.b5)->someSubstruct + val;
       pGVar12 = pGVar10 + 1;
       unkAnimStructB.b5Sub = pbVar23;
       if ((pbVar23->flag & 2) == 0) {
@@ -2400,31 +2343,34 @@ switchD_800a1cc4_caseD_8:
       }
       gSPMatrix(pGVar10,unkAnimStructB.b5Sub->unkStruct->mtxs + normInd,G_MTX_LOAD);
       break;
-    case 3:
+    case B5INST_ANITEXTURE:
       CRASH("BorgAnimDrawSceneRaw()","We are not using animated textures on this project :)");
-    case 4:
-      unkAnimStructB.b2 = unkAnimStructB.b5->borg2p[uVar18];
-      gSPSegment(pGVar10++,10,osVirtualToPhysical(unkAnimStructB.b2->dat->vertlist2));
-      gSPSegment(pGVar10++,14,osVirtualToPhysical(unkAnimStructB.b2->dat->vertlist));
+    case B5INST_LOADVERTS:
+      unkAnimStructB.b2 = unkAnimStructB.b5->borg2p[val];
+      gSPSegment(pGVar10++,0xa,osVirtualToPhysical(unkAnimStructB.b2->dat->vertlist2));
+      gSPSegment(pGVar10++,0xe,osVirtualToPhysical(unkAnimStructB.b2->dat->vertlist));
       pGVar12 = pGVar10;
       break;
-    case 5:
+    case B5INST_B2DLIST:
       pBVar5 = (unkAnimStructB.b2)->dat;
-      pGVar6 = pBVar5->dsplists[uVar18];
+      pGVar6 = pBVar5->dsplists[val];
       if (((pGVar6) &&
           ((((pGVar6->words).w0 != sEndDL.words.w0 || ((pGVar6->words).w1 != sEndDL.words.w1)) &&
            (((pBVar5->unk0x28 ^ 1) & 1))))) &&
-         (((unkAnimStructB.unk14 = pBVar5->unk0x40 + uVar18, unkAnimStructB.unk14 != NULL &&
-           (pBVar5->alpha < fVar30)) && (((unkAnimStructB.unk14)->tint).a < fVar30)))) {
-        if (pBVar5->dsplistcount <= (int)uVar18) {
-          sprintf(errBuff,"INVALID BORG SCENE\nop >= n op: %i n: %i",pBVar5->dsplistcount,uVar18);
+         (((unkAnimStructB.unk14 = pBVar5->unk0x40 + val, unkAnimStructB.unk14 != NULL &&
+           (pBVar5->alpha < 1.0f)) && (((unkAnimStructB.unk14)->tint).a < 1.0f)))) {
+        if (pBVar5->dsplistcount <= (int)val) {
+          #ifdef DEBUGVER
+          char errBuff [128];
+          sprintf(errBuff,"INVALID BORG SCENE\nop >= n op: %i n: %i",pBVar5->dsplistcount,val);
+          #endif
           CRASH("./src/borganim.cpp",errBuff);
         }
-        if ((unkAnimStructB.b2)->dlistSet[uVar18]) {
-          gSPEndDisplayList(setStaticMode((unkAnimStructB.b2)->dlist[uVar18]));
-          (unkAnimStructB.b2)->dlistSet[uVar18] = 0;
+        if ((unkAnimStructB.b2)->dlistSet[val]) {
+          gSPEndDisplayList(setStaticMode((unkAnimStructB.b2)->dlist[val]));
+          (unkAnimStructB.b2)->dlistSet[val] = 0;
         }
-        gSPDisplayList(pGVar10++,osVirtualToPhysical((unkAnimStructB.b2)->dlist[uVar18]));
+        gSPDisplayList(pGVar10++,osVirtualToPhysical((unkAnimStructB.b2)->dlist[val]));
         pGVar12 = FUN_800a1184(pGVar10);
         pGVar10 = pGVar12;
         if (unkAnimStructB.unk14->flags & B2S_0001) {
@@ -2432,7 +2378,7 @@ switchD_800a1cc4_caseD_8:
                               param_2->matrixB[3][0],param_2->matrixB[3][1],param_2->matrixB[3][2],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][0],
                               (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][1],
-                              (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][2],0.0,fVar30,0.0);
+                              (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][2],0.0,1.0f,0.0);
           gSPLookAt(pGVar12++,(unkAnimStructB.b2)->lookat[normInd]);
           pGVar10 = pGVar12;
         }
@@ -2440,11 +2386,11 @@ switchD_800a1cc4_caseD_8:
         gSPDisplayList(pGVar10++,osVirtualToPhysical(pGVar6));
       }
     }
-    iVar22--;
-    puVar24++;
-    pGVar10 = pGVar12;
-    fVar30 = 1.0f;
-  } while( true );
+  }
+  param_2->sceneTicked = false;
+  param_2->perspNormIndex^= 1;
+  unkAnimStructB.b5 = NULL;
+  return pGVar10;
 }
 
 void NOOP_800a2448(void *x){}

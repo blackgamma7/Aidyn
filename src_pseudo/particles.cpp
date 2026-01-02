@@ -508,7 +508,7 @@ Gfx * Particle::GraphicsInit(Gfx *g,ParticleHeadStruct *pHead,vec3f *v,u16 buffC
   gDPSetTextureLUT(g++,0);
   gDPSetTextureConvert(g++,G_TC_FILT);
   gDPSetTextureFilter(g++,G_TF_BILERP);
-  gDPSetTextureLUT(g++,G_TT_RGBA16);
+  gDPSetTexturePersp(g++,G_TP_PERSP);
   gDPSetTextureDetail(g++,0);
   gSPTexture(g++,0x8000,0x8000,0,G_TX_RENDERTILE,G_ON);
   return g;
