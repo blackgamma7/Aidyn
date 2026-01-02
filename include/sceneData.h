@@ -133,7 +133,7 @@ void CopyMatrixA(SceneData *,MtxF*);
 void SetParticleHead(SceneData *,ParticleHeadStruct *);
 void Ofunc_800a8e80(SceneData *,SceneData *);
 void Ofunc_800a8e88(SceneData *,SceneData *);
-bool GetRotate(SceneData *,vec3f *,vec3f *,vec3f *);
+bool GetRotate(SceneData *scene,vec3f *posOut,vec3f *aimOut,vec3f *param_4);
 void Tick(SceneData*);
 };
 void SceneSetCameraLookAt(SceneData*,float,float,float,float,float,float);

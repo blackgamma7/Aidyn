@@ -10,8 +10,6 @@ OSThread gInitThread={0};
 OSSched gSched={0};
 OSMesgQueue gPIManagerQueue={0};
 
-
-
 void bootproc(void){
   osInitialize();
   osUnmapTLBAll();
@@ -32,13 +30,13 @@ void InitProc(void* p){
   ALLOCS(osSched_stack,0x2000,177);
   switch(osTvType){
     case OS_TV_PAL:
-      osCreateScheduler(&gSched,(void *)((int)osSched_stack + 0x2000),0xc,OS_VI_PAL_LAN1,1);
+      osCreateScheduler(&gSched,(void *)((uintptr_t)osSched_stack + 0x2000),0xc,OS_VI_PAL_LAN1,1);
       break;
     case OS_TV_NTSC:
-      osCreateScheduler(&gSched,(void *)((int)osSched_stack + 0x2000),0xc,OS_VI_NTSC_LAN1,1);
+      osCreateScheduler(&gSched,(void *)((uintptr_t)osSched_stack + 0x2000),0xc,OS_VI_NTSC_LAN1,1);
       break;
     case OS_TV_MPAL:
-      osCreateScheduler(&gSched,(void *)((int)osSched_stack + 0x2000),0xc,OS_VI_MPAL_LAN1,1);
+      osCreateScheduler(&gSched,(void *)((uintptr_t)osSched_stack + 0x2000),0xc,OS_VI_MPAL_LAN1,1);
       break;
   }
   Graphics::initGfx(&gSched);

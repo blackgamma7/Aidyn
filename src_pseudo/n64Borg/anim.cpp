@@ -72,7 +72,7 @@ s8 GetN64ImageDimension(u16 X){
   }
   return ret;
 }
-
+//get size of bitmap based on height(h) width(w) and depth(d) (if d=-1, treat as 4-bit)
 int GetBitmapSize(int h,int w,s32 d){
   if (d == -1) {
     if (7 < h / 2) {
@@ -84,15 +84,13 @@ int GetBitmapSize(int h,int w,s32 d){
   }
   return w << 3;
 }
-
+//halve the value to the nearest even number
 u32 half(int x){
   u32 ret = x >> 1;
-  if ((ret != 1) && ((ret & 1))) {
-    ret -= 1;
-  }
+  if ((ret != 1) && ((ret & 1))) ret--;
   return ret;
 }
-
+//get power of two by repeatedly halving number to 0.
 int getPow2(u32 x){
   int pow = -1;
   for(;x!=0;pow++){
@@ -100,8 +98,8 @@ int getPow2(u32 x){
   }
   return pow;
 }
-
-s32 FUN_8009d3b0(s32 param_1,s32 param_2){return getPow2(param_1 / param_2);}
+//get power of two by repeatedly halving (x/y) number to 0.
+s32 FUN_8009d3b0(s32 x,s32 y){return getPow2(x / y);}
 
 Gfx * FUN_8009d3dc(Gfx *g,Borg1Header *b1,u8 bufferchoice){
   byte bVar1;
@@ -136,7 +134,7 @@ LAB_8009d4c0:
 }
 
 void moveBitmap32(Borg1Header *param_1,int param_2){
-  byte bVar1;
+  byte w;
   int iVar2;
   u16 uVar3;
   u32 uVar4;
@@ -145,9 +143,9 @@ void moveBitmap32(Borg1Header *param_1,int param_2){
   u32 j;
   int iVar8;
   u32 *pCVar9;
-  u32 uVar10;
+  u32 w_;
   u32 *pCVar11;
-  u32 uVar12;
+  u32 h;
   u32 *puVar14;
   
   pCVar11 = (u32 *)param_1->bitmapA;
@@ -159,36 +157,36 @@ void moveBitmap32(Borg1Header *param_1,int param_2){
     pCVar11 = (u32 *)param_1->bitmapB;
   }
   i = 0;
-  uVar12 = (u32)param_1->dat->Height;
-  bVar1 = param_1->dat->Width;
-  uVar10 = (u32)bVar1;
-  if (uVar12 != 0) {
+  h = (u32)param_1->dat->Height;
+  w = param_1->dat->Width;
+  w_ = (u32)w;
+  if (h != 0) {
     iVar2 = 0;
     do {
       j = 0;
       if ((i & 1) == 0) {
-        if (uVar10 != 0) {
+        if (w_ != 0) {
           pCVar9 = puVar14 + iVar2;
-          iVar5 = (u32)bVar1 + -param_2;
-          for(s16 k=0;k<uVar10;k++,pCVar9++) {
+          iVar5 = (u32)w + -param_2;
+          for(s16 k=0;k<w_;k++,pCVar9++) {
             uVar3 = (u16)iVar5;
             iVar5 += 1;
-            *pCVar9 = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)bVar1)];
+            *pCVar9 = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)w)];
           }
         }
       }
-      else if (uVar10 != 0) { 
-        iVar5 = (u32)bVar1 + -param_2;
-        for(s16 j=0;j<uVar10;j++){
+      else if (w_ != 0) { 
+        iVar5 = (u32)w + -param_2;
+        for(s16 j=0;j<w_;j++){
           uVar3 = (u16)iVar5;
           iVar5++;
           uVar4 = j ^ 2;
-          puVar14[iVar2 + uVar4] = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)bVar1 ^ 2)];
+          puVar14[iVar2 + uVar4] = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)w ^ 2)];
         }
       }
       i++;
-      iVar2 = i * bVar1;
-    } while (i < uVar12);
+      iVar2 = i * w;
+    } while (i < h);
   }
   return;
 }
@@ -252,7 +250,7 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   u32 h;
   u32 w;
   Gfx *pauVar9;
-  int iVar10;
+  int totalBmpSize;
   s32 i;
   Borg1Data *pBVar2;
   
@@ -260,20 +258,20 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   gDPTileSync(gfx++);
   gSPSegment(gfx++,11,osVirtualToPhysical(param_2->dat->bmp));
   gSPSegment(gfx++,12,osVirtualToPhysical(param_2->dat->pallette));
-  iVar10 = 0;
+  u32 totalBmpSize = 0;//total size of all LOD's bitmaps
   sVar6 = GetN64ImageDimension(param_2->dat->type);
   pBVar2 = param_2->dat;
   h = (u32)pBVar2->Width;
   w = (u32)pBVar2->Height;
   for(i=0;i<=pBVar2->lods;i++){
-      iVar10 += GetBitmapSize(h,w,(int)sVar6);
+      totalBmpSize += GetBitmapSize(h,w,(int)sVar6);
       h = half(h);
       w = half(w);
   }
   if (B1_RGBA32 < param_2->dat->type) {
     CRASH("borganim.cpp:LoadTextureImage","TEXTURE TYPE NOT SUPPORTED");
   }
-  iVar4 = iVar10 >> 1;
+  iVar4 = totalBmpSize >> 1;
   switch(param_2->dat->type) {
   case B1_RGBA16:
     break;
@@ -298,7 +296,7 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   case B1_I8:
     break;
   case B1_CI4:
-    h = ((iVar10 << 1) >> 2) - 1;
+    h = ((totalBmpSize << 1) >> 2) - 1;
     (pauVar9->words).w0 = 0xfd100000;
     *(undefined4 *)((int)gfx + 0x24) = 0xb000000;
     gfx[5].words.w0 = 0xf5100000;
@@ -330,10 +328,10 @@ LAB_8009dadc:
     *(undefined4 *)((int)gfx + 0x7c) = 0;
     return gfx + 0x10;
   default:
-    iVar4 = (iVar10 << 1) >> 2;
+    iVar4 = (totalBmpSize << 1) >> 2;
     break;
   case B1_RGBA32:
-    iVar4 = iVar10 >> 2;
+    iVar4 = totalBmpSize >> 2;
     (pauVar9->words).w0 = 0xfd180000;
     h = 0xf5180000;
     goto LAB_8009db84;

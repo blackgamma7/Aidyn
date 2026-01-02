@@ -247,7 +247,7 @@ u8 * dmaProc(byte *param_1,s32 param_2,s32 param_3){
       } while (iVar3 != -1);
     }
     param_1 = gAudioManager.scaleBufferB;
-    gAudioManager.scaleBufferB = (byte *)(((u32)pbVar2 & 0xfffffff8) + 8);
+    gAudioManager.scaleBufferB = (byte *)(((u32)pbVar2 & ~7) + 8);
   }
   return param_1;
 }
@@ -369,8 +369,7 @@ Acmd * CreateAudioList(void){
   pAVar3 = alAudioFrame(gAudioManager.ACMDList,&gAudioManager.AudiolistCount,gAudioManager.buffer_pointers[gAudioManager.audio_tally],(u32)gAudioManager.audioLength);
   bVar1 = gAudioManager.audio_tally;
   if (ACMDSize <= gAudioManager.AudiolistCount) CRASH("audio.cpp, CreateAudioList()","Audio list overrun!");
-  uVar2 = (gAudioManager.audio_tally + 1) / 3;
-  gAudioManager.audio_tally = (gAudioManager.audio_tally + 1) - ((char)(uVar2 << 1) + (char)uVar2);
+  gAudioManager.audio_tally = (gAudioManager.audio_tally + 1) %3;
   gAudioManager.buffer_choice = bVar1;
   return pAVar3;
 }

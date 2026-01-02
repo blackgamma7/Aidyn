@@ -661,9 +661,9 @@ void Scene::CopyMatrixA(SceneData *scene,MtxF* param_2){COPY(scene->matrixA,para
 
 void Scene::SetParticleHead(SceneData *scene,ParticleHeadStruct *param_2){scene->particleHead = param_2;}
 
-void Ofunc_800a8e80(SceneData *scene,SceneData *param_2){scene->locatorScene1 = param_2;}
+void Scene::Ofunc_800a8e80(SceneData *scene,SceneData *param_2){scene->locatorScene1 = param_2;}
 
-void Ofunc_800a8e88(SceneData *scene,SceneData *param_2){scene->locatorScene2 = param_2;}
+void Scene::Ofunc_800a8e88(SceneData *scene,SceneData *param_2){scene->locatorScene2 = param_2;}
 
 bool Scene::GetRotate(SceneData *scene,vec3f *posOut,vec3f *aimOut,vec3f *param_4){
   borg5substruct *pbVar1;

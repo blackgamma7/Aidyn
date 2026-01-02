@@ -43,11 +43,11 @@ Gfx * PlaneObj_SetupGfx(Gfx *g,byte flags){
 }
 
 Gfx * PlaneObj_GetTexture(Gfx *g,PlaneObj *plane){
-  Borg2Struct aaStack_50;
+  Borg2Struct temp;
   
-  aaStack_50.flags = B2S_ClampY;
+  temp.flags = B2S_ClampY;
   if (plane->borg1p) {
-    g = loadTextureImage(FUN_8009d3dc(g,plane->borg1p,Graphics::GetBufferChoice()),plane->borg1p,&aaStack_50);
+    g = loadTextureImage(FUN_8009d3dc(g,plane->borg1p,Graphics::GetBufferChoice()),plane->borg1p,&temp);
   }
   return g;
 }
