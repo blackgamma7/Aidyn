@@ -46,8 +46,7 @@ struct CombatStruct { /* combat structure. needs more study */
     u8 unk52dc[60]; /* unused */
     vec2f entity_XY;
     u8 unk5320[12][2];
-    u8 unk5338[256]; /* unused? */
-    u32 field100_0x5438; //unused?
+    u8 unk5338[260]; /* unused? */
     s32 reinforcmentsWillFlee;
     u32 hasFleeRefpoints;
     u8 potionPos[4];

@@ -12,7 +12,6 @@
 void Ofunc_NOOP_80067c70(void){}
 void Ofunc_NOOP_(void){}
 
-
 void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
                        u8 starty,s8 param_6,u8 param_7,int isAI,u8 index){
   ItemID IVar1;
@@ -2919,23 +2918,14 @@ void CombatEntity::ShowWeaponSheild(){
 u8 cannotSheild(ItemID x){return gEntityDB->entities[GETINDEX(x)].sheildStat == -1;}
 
 u8 CannotShowWeapon(ItemID x){
-  u8 bVar2;
-  u8 *pbVar1;
-  u32 uVar3;
   u8 entlist []={
     EntInd_Ehud,EntInd_Gorgon,EntInd_ChaosLt,EntInd_Harpy,EntInd_Marquis,EntInd_Minotuar,
     EntInd_MinotuarLord,EntInd_Niesen,0xff};
-  bVar2 = GETINDEX(x);
-  uVar3 = 0;
-  pbVar1 = entlist;
-  while( true ) {
-    if (entlist[0] == 0xff) {return false;}
-    if (*pbVar1 == bVar2) break;
-    uVar3++;
-    entlist[0] = entlist[uVar3];
-    pbVar1 = entlist + uVar3;
+  u8 ind = GETINDEX(x);
+  for(u32 i=0;entlist[i]!=0xff;i++){
+    if(entlist[i]==ind) return true;
   }
-  return true;
+  return false;
 }
 
 SceneData * CombatEntity::GetWeaponScene(){
@@ -2944,21 +2934,16 @@ SceneData * CombatEntity::GetWeaponScene(){
   u8 bVar6;
   u16 uVar4;
   u32 uVar2;
-  SceneData *pAVar3;
   s16 lVar7;
   u32 uVar8;
   
   if (CannotShowWeapon(this->charSheetP->ID)) return NULL;
-  if (this->AtkType == ATKT_Potion) {
-    lVar7 = BORG5_CombatPotion;
-LAB_8006ff78:
-    pAVar3 = BorgAnimLoadScene(lVar7);
-  }
+  if (this->AtkType == ATKT_Potion) return BorgAnimLoadScene(BORG5_CombatPotion);
   else {
     pTVar1 = this->charSheetP->weapons;
     if (pTVar1) {
       bVar6 = GETINDEX(pTVar1->base.id);
-      lVar7 = (s16)Weapon_borg5_lookup(bVar6);
+      lVar7 = Weapon_borg5_lookup(bVar6);
       if (lVar7 != -1) {
         if (missle_ids[0] != 0xff) {
           if (missle_ids[0] == bVar6) lVar7 = BORG5_CombatArrow;
@@ -2966,18 +2951,17 @@ LAB_8006ff78:
             uVar2 = 1;
             do {
               uVar8 = uVar2 & 0xffff;
-              if (missle_ids[uVar8] == 0xff) goto LAB_8006ff78;
+              if (missle_ids[uVar8] == 0xff) BorgAnimLoadScene(lVar7);
               uVar2 = uVar8 + 1;
             } while (missle_ids[uVar8] != bVar6);
             lVar7 = BORG5_CombatArrow;
           }
         }
-        goto LAB_8006ff78;
+        return BorgAnimLoadScene(lVar7);
       }
     }
-    pAVar3 = NULL;
   }
-  return pAVar3;
+  return NULL;
 }
 
 void CombatEntity::GetWeaponRanges(float *param_2,float *param_3,float *param_4){

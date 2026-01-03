@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "game.h"
 #include "weapondb.h"
 #include "widgets/credits.h"
 #include "gameStateMod.h"
@@ -11,7 +11,6 @@
 #include "SaveEntity.h"
 #include "voxelChart.h"
 #include "combat/CombatStruct.h"
-#include "game.h"
 
 #define FILENAME "./src/game.cpp"
 
@@ -105,9 +104,9 @@ void some_init_func(void) {
   gGlobals.screenFadeSpeed = 0.0;
   gGlobals.brightness = 0.0;
   gGlobals.brightness2 = 0.0;
-  set_dialougprecallback(DialoguePreCallback);
-  set_dialoug_func_b(DialogEvalCallback);
-  set_dialoug_func_c(DialogCallbackC);
+  set_dialougprecallback((DialogCallback)DialoguePreCallback);
+  set_dialoug_func_b((DialogCallback2)DialogEvalCallback);
+  set_dialoug_func_c((DialogCallback)DialogCallbackC);
 }
 
 void passto_clear_dbs(){clear_DBs();}
@@ -124,18 +123,9 @@ u32 appState_1(Gfx **GG) {
   }
   uVar2 = 1;
   FLOOR(gGlobals.delta,1.0f);
-  //TODO: refactor as Case-switch
-  if (gGlobals.screenFadeMode == 2) {
-    gGlobals.brightness+= gGlobals.screenFadeSpeed * gGlobals.delta;
-code_r0x80023c48:
-    if (1.0f <= gGlobals.brightness) {
-      gGlobals.brightness = 1.0f;
-      gGlobals.screenFadeMode = 0;
-    }
-  }
-  else {
-    if (gGlobals.screenFadeMode < 3) {
-      if (gGlobals.screenFadeMode == 1) {
+  switch (gGlobals.screenFadeMode){
+  case 0: break;
+  case 1:{
         gGlobals.brightness-= gGlobals.screenFadeSpeed * gGlobals.delta;
         if (gGlobals.brightness <= 0.0) {
           gGlobals.brightness = 0.0;
@@ -145,23 +135,29 @@ code_r0x80023c48:
             gGlobals.screenFadeMode = 0;
           }
         }
-        goto LAB_80023c90;
+        break;
       }
+  case 2:{
+        gGlobals.brightness+= gGlobals.screenFadeSpeed * gGlobals.delta;
+code_r0x80023c48:
+    if (1.0f <= gGlobals.brightness) {
+      gGlobals.brightness = 1.0f;
+      gGlobals.screenFadeMode = 0;
     }
-    else if (gGlobals.screenFadeMode == 3) {
-      gGlobals.brightness+= gGlobals.screenFadeSpeed * gGlobals.delta;
+    break;
+  }
+  case 3:{
+      gGlobals.brightness2+= gGlobals.screenFadeSpeed * gGlobals.delta;
       gGlobals.brightness = gGlobals.brightness2;
       if (gGlobals.brightness2 <= 0.0) {
         gGlobals.brightness = -gGlobals.brightness2;
       }
       goto code_r0x80023c48;
     }
-    if (gGlobals.screenFadeMode) {
-      Gsprintf("screenFadeMode is unknown: %d\n",gGlobals.screenFadeMode);
-      CRASH("game.cpp",gGlobals.text);
-    }
+  default:
+    Gsprintf("screenFadeMode is unknown: %d\n",gGlobals.screenFadeMode);
+    CRASH("game.cpp",gGlobals.text);
   }
-LAB_80023c90:
   fadeFloatMirror = gGlobals.brightness;
   gGlobals.gameVars.particleHead.gray = gGlobals.brightness;
   if (true) {
@@ -207,9 +203,7 @@ LAB_80023c90:
     }
   }
 LAB_80023d98:
-  if (TerrainPointer) {
-    World::AddPlayTime(TerrainPointer,gGlobals.delta);
-  }
+  if (TerrainPointer) World::AddPlayTime(TerrainPointer,gGlobals.delta);  
   if (gGlobals.screenFadeModeSwitch == 0) {
     cleardb_flag = true;
     uVar2 = 0;
