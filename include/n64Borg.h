@@ -636,7 +636,7 @@ struct Borg5Data {
         Borg1Header **borg1p;
     };
     Borg5AniTexture * aniTextures; //not used, but pointers still set (0x18 byte struct.) 
-    u16 *instructions;
+    u16 *instructions; //first byte uses Borg5Instruction, second is described "value"
     Borg5_particle **ParticleDat;
     u32 ParticleCount;
 };

@@ -223,15 +223,12 @@ LAB_80023d98:
 }
 
 u8 func_loading_credits(Gfx **GG) {
-  u8 uVar2;
-  bool bVar3;
-  Gfx *pGVar1;
+  u8 ret;
   u32 delta;
-  ulonglong in_f2; //??
-  ControllerFull *local_28 [10];
+  ControllerFull *local_28;
   
   if (DAT_800e9933) {
-    if (((double)(in_f2 & 0xffffffff00000000) < (double)gGlobals.brightness) &&
+    if ((0.0 < (double)gGlobals.brightness) &&
        (gGlobals.screenFadeMode == 0)) {
       gGlobals.screenFadeMode = 1;
       return 0x13;
@@ -242,33 +239,33 @@ u8 func_loading_credits(Gfx **GG) {
     DAT_800e9933 = false;
   }
   if (gCreditsWidget == NULL) {
-    uVar2 = 0x13;
+    ret = 0x13;
   }
   else {
     delta = 0;
     while (Controller::GetInput((controller_aidyn **)local_28,0)) {
       delta++;
-      WHANDLE->Control(local_28[0]);
+      WHANDLE->Control(local_28);
     }
     DeltaCap(delta);
     gGlobals.delta = delta;
     *GG = DrawRectangle(*GG,FULL_SCREENSPACE,0,0,0,0);
     *GG = Graphics::StartDisplay(*GG,FULL_SCREENSPACE);
     *GG = tick_and_render_widgets(*GG);
-    uVar2 = 0x13;
+    ret = 0x13;
     if (gCreditsWidget->creditState == 4) {
       gCreditsWidget->SetState(WidgetS_Closing);
       DAT_800e9933 = 1;
-      if (gGlobals.creditsByte == 1) uVar2 = 9;
+      if (gGlobals.creditsByte == 1) ret = 9;
       else {
-        uVar2 = 0;
+        ret = 0;
         if ((gGlobals.creditsByte < 2) && (gGlobals.creditsByte == 0)) {
-          uVar2 = 0xf;
+          ret = 0xf;
         }
       }
       gCreditsWidget = NULL;
     }
   }
-  return uVar2;
+  return ret;
 }
 

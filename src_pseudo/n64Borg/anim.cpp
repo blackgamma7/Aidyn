@@ -250,7 +250,6 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   u32 h;
   u32 w;
   s32 i;
-  Borg1Data *pBVar2;
   
   gDPPipeSync(gfx++);
   gDPTileSync(gfx++);
@@ -258,10 +257,9 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   gSPSegment(gfx++,0xc,osVirtualToPhysical(param_2->dat->pallette));
   u32 totalBmpSize = 0;//total size of all LOD's bitmaps
   depth = GetN64ImageDimension(param_2->dat->type);
-  pBVar2 = param_2->dat;
-  h = (u32)pBVar2->Width;
-  w = (u32)pBVar2->Height;
-  for(i=0;i<=pBVar2->lods;i++){
+  h = (u32)param_2->dat->Width;
+  w = (u32)param_2->dat->Height;
+  for(i=0;i<=param_2->dat->lods;i++){
       totalBmpSize += GetBitmapSize(h,w,depth);
       h = half(h);
       w = half(w);
@@ -1144,7 +1142,7 @@ void unlinkBorg6(Borg6Header *param_1){
 void Ofunc_8009f938(Borg5Header *param_1,s32 param_2,int param_3,s32 param_4,int param_5){
   int iVar2;
   
-  Borg3Header *pBVar1 = (param_1->dat).borg3P;
+  Borg3Header *pBVar1 = param_1->dat.borg3P;
   if (pBVar1) {
     (pBVar1->dat).unk18[4] = (s16)((param_2 + param_4) / 2);
     (pBVar1->dat).unk18[5] = (s16)((param_3 + param_5) / 2);
@@ -1158,7 +1156,7 @@ void Ofunc_8009f938(Borg5Header *param_1,s32 param_2,int param_3,s32 param_4,int
 }
 
 void FUN_8009f9d0(SceneData *param_1,s16 *param_2){
-  Borg3Header *pBVar1 = ((param_1->borg5)->dat).borg3P;
+  Borg3Header *pBVar1 = param_1->borg5->dat.borg3P;
   if (pBVar1) (pBVar1->dat).unk18 = param_2;
 }
 
@@ -1565,7 +1563,7 @@ Gfx * Borg7_Render(Gfx *g,Borg7Header *param_2){
     FUN_800a80ac(param_2->sceneDat,&avStack_50,(param_2->dat).unk0);
     FUN_800a80d8(param_2->sceneDat,&vec3f_800f5580,(param_2->dat).unk0);
     FUN_8009ef34(param_2->sceneDat);
-    if (((param_2->sceneDat->flags & SCENE_0040) == 0) && (((param_2->sceneDat->borg5)->dat).borg3P)) {
+    if (((param_2->sceneDat->flags & SCENE_0040) == 0) && (param_2->sceneDat->borg5->dat.borg3P)) {
       g = gsAnimationDataMtx(g,param_2->sceneDat);
     }
     g = BorgAnimDrawSceneRaw(g,param_2->sceneDat);
@@ -1825,13 +1823,13 @@ LAB_800a0b6c:
   if (((uVar6 & 2) != 0) && (*pfVar3 = *pfVar3 + pfVar3[1], (uVar6 & 4) != 0)) {
     pfVar3[1] = pfVar3[1] + pfVar3[2];
     if ((uVar6 & 8) != 0) {
-      pfVar3[2] = pfVar3[2] + pfVar3[3];
+      pfVar3[2]+= pfVar3[3];
     }
   }
-  pSVar8->unkc = pSVar8->unkc + 1;
+  pSVar8->unkc++;
 LAB_800a0bd8:
-  pSVar8 = pSVar8 + 1;
-  uVar9 -= 1;
+  pSVar8++;
+  uVar9--;
   goto joined_r0x800a0a8c;
 }
 
@@ -1839,12 +1837,9 @@ void Scene::Tick(SceneData *param_1){
   byte bVar1;
   Borg6Data *pBVar2;
   Borg6Struct4 *pBVar3;
-  SceneDatStruct *pSVar4;
   u32 i;
   Borg6Header *pBVar5;
   u32 uVar6;
-  float fVar7;
-  ulonglong unaff_f22;
   
   if ((param_1->aniSpeed != 0) && (pBVar5 = param_1->borg6, pBVar5 != NULL)) {
     pBVar2 = pBVar5->dat;
@@ -1865,10 +1860,9 @@ void Scene::Tick(SceneData *param_1){
     }
     pBVar5 = param_1->borg6;
     if (pBVar5){
-      fVar7 = pBVar5->unk1c;
       while( true ) {
-        if ((double)fVar7 != (double)(unaff_f22 & 0xffffffff00000000)){//?
-          pSVar4 = (SceneDatStruct *)pBVar5->structDat;
+        if (pBVar5->unk1c != 0.0){
+          Borg6Struct4 *pSVar4 = pBVar5->structDat;
           for (uVar6 = pBVar5->dat->subCount; uVar6 != 0; uVar6--) {
             FUN_800a0764(pSVar4,pBVar5->unk1c);
             pSVar4++;
@@ -1878,25 +1872,25 @@ void Scene::Tick(SceneData *param_1){
         if (pBVar5 == NULL) break;
       }
     }
-    param_1->aniTime+= (u16)param_1->aniSpeed;
+    param_1->aniTime+= param_1->aniSpeed;
   }
 }
 
 void Ofunc_800a0d30(Borg6Header *param_1,int param_2){
   Borg6Struct4 *pBVar1;
-  int iVar2;
-  u32 uVar3;
+  int j;
+  u32 i;
   
-  uVar3 = param_1->dat->subCount;
+  i = param_1->dat->subCount;
   pBVar1 = param_1->structDat;
-  while (uVar3 != 0) {
-    uVar3 -= 1;
-    iVar2 = param_2;
+  while (i != 0) {
+    i--;
+    j = param_2;
     if (param_2 != 0) {
       do {
         FUN_800a0a74(pBVar1);
-        iVar2 += -1;
-      } while (iVar2 != 0);
+        j--;
+      } while (j != 0);
     }
   }
 }
@@ -2048,26 +2042,22 @@ LAB_800a1428:
   return gfx;
 }
 
-void Ofunc_800a1548(vec3f *param_1){
-  vec3f_800f3378.x = param_1->x;
-  vec3f_800f3378.y = param_1->y;
-  vec3f_800f3378.z = param_1->z;
+void Ofunc_800a1548(vec3f *v){
+  vec3f_800f3378.x = v->x;
+  vec3f_800f3378.y = v->y;
+  vec3f_800f3378.z = v->z;
 }
 
 Gfx * gsAnimationDataMtx(Gfx *G,SceneData *param_2){
-  Borg5Header *pBVar1;
-  Borg3Header *pBVar2;
-  u32 uVar4;
-  
-  pBVar1 = param_2->borg5;
-  uVar4 = param_2->perspNormIndex & 1;
-  if ((pBVar1->dat).borg3P) {
+
+  u32 ind = param_2->perspNormIndex & 1;
+  if (param_2->borg5->dat.borg3P) {
     vec3f_800f3378.x = param_2->matrixB[3][0];
     vec3f_800f3378.y = param_2->matrixB[3][1];
     vec3f_800f3378.z = param_2->matrixB[3][2];
-    pBVar2 = (pBVar1->dat).borg3P;
-    gSPMatrix(G++,(u32)((pBVar2->dat).mtx_ + uVar4),G_MTX_PROJECTION|G_MTX_LOAD);
-    gSPPerspNormalize(G++,(u32)pBVar2->perspnorm[uVar4]);
+    Borg3Header *b3 = param_2->borg5->dat.borg3P;
+    gSPMatrix(G++,(b3->dat.mtx_ + ind),G_MTX_PROJECTION|G_MTX_LOAD|G_MTX_NOPUSH);
+    gSPPerspNormalize(G++,b3->perspnorm[ind]);
   }
   return G;
 }
@@ -2102,9 +2092,6 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   float fVar26;
   float fVar27;
   float fVar28;
-  float fVar34;
-  float fVar35;
-  float fVar36;
   float fStack_1c0;
   float fStack_1bc;
   vec3f fStack384;
@@ -2118,7 +2105,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   unkAnimStructB.b5 = &pBVar1->dat;
   pbVar23 = (pBVar1->dat).someSubstruct;
   normInd = param_2->perspNormIndex & 1;
-  if ((pBVar1->dat).borg3P) pbVar23++;
+  if (pBVar1->dat.borg3P) pbVar23++;
   i = 0;
   unkAnimStructB.scene = param_2;
   if ((param_2->flags & SCENE_8000) == 0) {
@@ -2337,7 +2324,7 @@ switchD_800a1cc4_caseD_8:
         pBVar2->mfs[0][0][2] *= (unkAnimStructB.b2)->dat->scale;
         pBVar2->mfs[0][1][2] *= (unkAnimStructB.b2)->dat->scale;
         pBVar2->mfs[0][2][2] *= (unkAnimStructB.b2)->dat->scale;
-        memcpy(pBVar8->someMtx,mf,0x40);
+        COPY(pBVar8->someMtx,mf);
         guMtxF2L(mf,&unkAnimStructB.b5Sub->unkStruct->mtxs[normInd]);
         (unkAnimStructB.b5Sub)->flag |= 2;
       }
