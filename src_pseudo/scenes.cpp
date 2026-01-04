@@ -274,11 +274,11 @@ float Scene::GetAspectRatio(SceneData *scene){
 void Ofunc_800a7ec0(SceneData *scene,float param_2,float param_3,float param_4,float param_5){
   Borg3Header *b3 = scene->borg5->dat.borg3P;
   if (b3) {
-    s16* psVar2 = b3->dat.unk18;
-    psVar2[4] = (s16)(int)(param_2 + param_4 + param_2 + param_4);
-    psVar2[5] = (s16)(int)(param_3 + param_5 + param_3 + param_5);
-    *psVar2 = (s16)(int)((param_4 - param_2) + (param_4 - param_2));
-    psVar2[1] = (s16)(int)((param_5 - param_3) + (param_5 - param_3));
+    Vp_t* viewport = &b3->dat.viewportP->vp;
+    viewport->vtrans[0] = (s16)(int)(param_2 + param_4 + param_2 + param_4);
+    viewport->vtrans[1] = (s16)(int)(param_3 + param_5 + param_3 + param_5);
+    viewport->vscale[0] = (s16)(int)((param_4 - param_2) + (param_4 - param_2));
+    viewport->vscale[1] = (s16)(int)((param_5 - param_3) + (param_5 - param_3));
   }
 }
 

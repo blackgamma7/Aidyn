@@ -360,7 +360,7 @@ void Borg4_free(borgHeader *param_1){
 //"borg3": only 5 in the game. Seem to be camera perpective configs.
 void borg3_func_a(Borg3Header *param_1){
   param_1->dat.mtx_ = NULL;
-  param_1->dat.unk18 = (s16 *)((int)(param_1->dat.unk18 + 8) + (int)param_1);
+  param_1->dat.viewportP = (Vp *)((int)(param_1->dat.viewportP + 8) + (int)param_1);
 }
 u8 borg3_func_b(void* x, void* y){return false;}
 

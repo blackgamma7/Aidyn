@@ -491,9 +491,10 @@ struct Borg3Data{
     float nearplane;
     float farplane;
     float unk10; //unused(?) apart from an orphaned getter/setter. always 1
-    float aspect; // always 1.3333334 (4/3)
-    s16 *unk18; //unused(?) apart from an orphaned setter
+    float aspect; // always 1.3333334 (4:3)
+    Vp *viewportP; //unused(?) apart from an orphaned setter
     Mtx *mtx_;
+    Vp viewport;
 };
 
 //Headered perspective data
@@ -1092,7 +1093,7 @@ void FUN_8009f6b4(SceneData *param_1,Borg6Header *param_2);
 void Scene_SetBorg6(SceneData *scene,Borg6Header *b6);
 void unlinkBorg6(Borg6Header *param_1);
 void Ofunc_8009f938(Borg5Header *param_1,s32 param_2,int param_3,s32 param_4,int param_5);
-void FUN_8009f9d0(SceneData *param_1,s16 *param_2);
+void FUN_8009f9d0(SceneData *param_1,Vp *param_2);
 SceneData * BorgAnimLoadScene(u32 borg_5);
 void borganim_free(SceneData *param_1);
 Borg6Header * get_borg_6(int index);

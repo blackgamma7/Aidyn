@@ -1142,22 +1142,22 @@ void unlinkBorg6(Borg6Header *param_1){
 void Ofunc_8009f938(Borg5Header *param_1,s32 param_2,int param_3,s32 param_4,int param_5){
   int iVar2;
   
-  Borg3Header *pBVar1 = param_1->dat.borg3P;
-  if (pBVar1) {
-    (pBVar1->dat).unk18[4] = (s16)((param_2 + param_4) / 2);
-    (pBVar1->dat).unk18[5] = (s16)((param_3 + param_5) / 2);
+  Borg3Header *b3 = param_1->dat.borg3P;
+  if (b3) {
+    (b3->dat).viewportP->vp.vtrans[0] = ((param_2 + param_4) / 2);
+    (b3->dat).viewportP->vp.vtrans[1] = ((param_3 + param_5) / 2);
     if (param_2 < param_4) iVar2 = param_4 - param_2;
     else iVar2 = param_2 - param_4;
-    *(pBVar1->dat).unk18 = (s16)(iVar2 / 2);
+    (b3->dat).viewportP->vp.vscale[0] = (iVar2 / 2);
     if (param_3 < param_5) iVar2 = param_5 - param_3;
     else iVar2 = param_3 - param_5;
-    (pBVar1->dat).unk18[1] = (s16)(iVar2 / 2);
+    (b3->dat).viewportP->vp.vscale[1] = (iVar2 / 2);
   }
 }
 
-void FUN_8009f9d0(SceneData *param_1,s16 *param_2){
-  Borg3Header *pBVar1 = param_1->borg5->dat.borg3P;
-  if (pBVar1) (pBVar1->dat).unk18 = param_2;
+void FUN_8009f9d0(SceneData *param_1,Vp *param_2){
+  Borg3Header *b3 = param_1->borg5->dat.borg3P;
+  if (b3) (b3->dat).viewportP = param_2;
 }
 
 SceneData * BorgAnimLoadScene(u32 borg_5){
