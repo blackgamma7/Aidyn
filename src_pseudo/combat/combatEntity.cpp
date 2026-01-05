@@ -39,7 +39,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   (this->coord).x = startx;
   (this->coord2).y = starty;
   (this->coord).y = starty;
-  this->unk14 = param_6;
+  this->facingInd = param_6;
   this->unk23 = param_7;
   SetCardinalFacing(param_6);
   this->bowHand = gEntityDB->IsRightHanded(charsheet->ID);
@@ -182,7 +182,7 @@ u8 CombatEntity::NotNearEnemy(){
     CombatEntity *CEnt = (&gCombatP->combatEnts)[i];
     if ((((CEnt) && (this != CEnt)) &&
        (!Entity::isDead(CEnt->charSheetP))) && (CEnt->Flag1())) {
-       if ((CEnt->Flag4() != this->Flag4())&& (CEnt->m800692bc(CEnt))) return false;
+       if ((CEnt->Flag4() != this->Flag4())&& (CEnt->IsInMeleeRange(CEnt))) return false;
       }
     }
   return true;
@@ -302,27 +302,18 @@ void CombatEntity::Coord2IsCoord(){
   this->coord2.y = this->coord.y;}
 
 void CombatEntity::m80068924(){
-  playerData *ppVar1;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  vec2f fStack144;
-  vec2f fStack80;
-  
-  ppVar1 = gGlobals.playerDataArray[this->index];
-  if (ppVar1) {
-    Vec2Set(&fStack144,this->coord.x,this->coord.y);
+  playerData *pDat = gGlobals.playerDataArray[this->index];
+  if (pDat) {
+    vec2f pos,face;
+    Vec2Set(&pos,this->coord.x,this->coord.y);
     UpdatePosition();
     gCombatP->SpellMarkerPos.x = this->coord.x;
     gCombatP->SpellMarkerPos.y = this->coord.y;
-    Vec2Copy(&this->facing,&fStack80);
-    fVar3 = ppVar1->facing.x;
-    this->facing.x = -fVar3;
-    fVar4 = this->coord.x;
-    fVar5 = ppVar1->facing.y;
-    this->facing.y = -fVar5;
-    if ((((fStack144.x != fVar4) || (fStack144.y != this->coord.y)) || (fStack80.x != -fVar3)) || (fStack80.y != -fVar5)) {
-      if (this->unk22 < 3) this->unk22++;
+    Vec2Copy(&this->facing,&face);
+    this->facing.x = -pDat->facing.x;
+    this->facing.y = -pDat->facing.y;
+    if ((((pos.x != this->coord.x) || (pos.y != this->coord.y)) || (face.x != -pDat->facing.x)) || (face.y != -pDat->facing.y)) {
+      if (this->numMoves < 3) this->numMoves++;
       else SetFlag(COMBATENT_FLAG3);
       FUN_80072454(gCombatP->substruct2,this);
       FUN_80072454(gCombatP->substruct2 + 1,this);
@@ -387,6 +378,7 @@ u8 CombatEntity::CheckBackstab(CombatEntity *param_2){
   
   
   if (!CheckFacings(param_2->coord.x,param_2->coord.y)) return false;
+  //dot product * 1000000?
   fVar4 = (this->facing.x * param_2->facing.x +
             this->facing.y * param_2->facing.y) * 1000000.0f;
   dVar3 = (double)fVar4;
@@ -502,7 +494,7 @@ u32 Ofunc_8006916c(CombatEntity* cEnt,u8 param_2,u8 param_3){
   s32 uVar6 = cEnt->GetCoordXU8() - (param_2);
   s32 uVar5 = cEnt->GetCoordYU8() - (param_3);
   if ((!uVar6)&&(!uVar5)) return 1;
-  switch(cEnt->unk14) {
+  switch(cEnt->facingInd) {
   case 0:
     uVar3 = 0;
     if (uVar6 == 0) {uVar3 = (u32)(0 < (s32)uVar5);}
@@ -547,7 +539,7 @@ LAB_8006927c:
   return uVar3;
 }
 
-u8 CombatEntity::m800692bc(CombatEntity *target){
+u8 CombatEntity::IsInMeleeRange(CombatEntity *target){
   playerData *ppVar1;
   playerData *ppVar2;
   u8 bVar3;
@@ -577,7 +569,7 @@ u8 CombatEntity::IsTargetInRange(CombatEntity *target,s8 x,s8 y,s32 faceMe){
   if ((faceMe) &&(!CheckFacings((float)x,(float)y))) return false;
   if (this->AtkType == ATKT_Potion) return true;
   if (!Flag89()) {
-    if ((this->AtkType == ATKT_1)&&(this->charSheetP->weapons)) return this->m800692bc(target);
+    if ((this->AtkType == ATKT_1)&&(this->charSheetP->weapons)) return this->IsInMeleeRange(target);
     else {
       if ((this->AtkType != ATKT_2)&&(this->AtkType != ATKT_4)) return false;
       if (this->charSheetP->weapons) {
@@ -893,7 +885,7 @@ void CombatEntity::m8006a274(){
   UnsetFlag(COMBATENT_MEDIC);
   UnsetFlag(COMBATENT_HERBS);
   SetAktRangeMulti(true);
-  this->unk22 = 1;
+  this->numMoves = 1;
   if (gGlobals.SomeCase == 3) gGlobals.combatBytes[1] = 0x13;
 }
 
@@ -933,7 +925,7 @@ void CombatEntity::m8006a394(u8 x,u8 y){
       if (iVar4 < 1) {
         sVar3 = 4;
         if (iVar1 < 0) {
-          this->unk14 = 0;
+          this->facingInd = 0;
           return;
         }
       }
@@ -942,13 +934,13 @@ void CombatEntity::m8006a394(u8 x,u8 y){
         if ((-1 < iVar1) && (sVar3 = 3, iVar1 < 1)) {sVar3 = 2;}
       }
     }
-    this->unk14 = sVar3;
+    this->facingInd = sVar3;
   }
 }
 
 
 void CombatEntity::Ofunc_8006a450(s8 param_2){
-  this->unk14 = param_2;
+  this->facingInd = param_2;
   SetCardinalFacing(param_2);
   FUN_80072454(gCombatP->substruct2,this);
   FUN_80072454(gCombatP->substruct2 + 1,this);
@@ -1049,72 +1041,72 @@ u8 CombatEntity::m8006a830(CombatEntity *target,u8 x,u8 y){
   Y_ = y;
   myX = GetCoordXU8();
   myY = GetCoordYU8();
-  switch(target->unk14) {
+  switch(target->facingInd) {
   case 0:
-    if (((myX < X_) && (Y_ < myY)) && (this->unk14 == 1)) {return 1;}
-    if (((myX != X_) || (myY <= Y_)) || (this->unk14 != 0)) {
+    if (((myX < X_) && (Y_ < myY)) && (this->facingInd == 1)) {return 1;}
+    if (((myX != X_) || (myY <= Y_)) || (this->facingInd != 0)) {
       if (myX <= X_) {return 0;}
       sVar4 = 7;
       if (myY <= Y_) {return 0;}
-      sVar6 = this->unk14;
+      sVar6 = this->facingInd;
       goto LAB_8006ab00;
     }
     goto LAB_8006ab08;
   case 1:
     if (myX < X_) {
-      if ((myY == Y_) && (this->unk14 == 2)) goto LAB_8006ab08;
-      if ((Y_ < myY) && (this->unk14 == 1)) {return 1;}
+      if ((myY == Y_) && (this->facingInd == 2)) goto LAB_8006ab08;
+      if ((Y_ < myY) && (this->facingInd == 1)) {return 1;}
     }
     uVar5 = 0;
-    if (((myX == X_) && (uVar5 = 0, Y_ < myY)) && (uVar5 = 0, this->unk14 == 0)) {uVar5 = 1;}
+    if (((myX == X_) && (uVar5 = 0, Y_ < myY)) && (uVar5 = 0, this->facingInd == 0)) {uVar5 = 1;}
     break;
   case 2:
     uVar5 = 0;
     if (myX < X_) {
-      if ((myY < Y_) && (this->unk14 == 3)) {uVar5 = 1;}
+      if ((myY < Y_) && (this->facingInd == 3)) {uVar5 = 1;}
       else {
-        if ((myY == Y_) && (this->unk14 == 2)) {uVar5 = 1;}
+        if ((myY == Y_) && (this->facingInd == 2)) {uVar5 = 1;}
         else {
           uVar5 = 0;
-          if ((Y_ < myY) && (uVar5 = 0, this->unk14 == 1)) {uVar5 = 1;}
+          if ((Y_ < myY) && (uVar5 = 0, this->facingInd == 1)) {uVar5 = 1;}
         }
       }
     }
     break;
   case 3:
-    if (((myX < X_) && (myY < Y_)) && (this->unk14 == 3)) {return 1;}
-    if (((myX == X_) && (myY < Y_)) && (this->unk14 == 4)) {return 1;}
+    if (((myX < X_) && (myY < Y_)) && (this->facingInd == 3)) {return 1;}
+    if (((myX == X_) && (myY < Y_)) && (this->facingInd == 4)) {return 1;}
     if (myX >= X_) {return 0;}
     if (myY != Y_) {return 0;}
-    sVar4 = this->unk14;
+    sVar4 = this->facingInd;
     sVar6 = 2;
     goto LAB_8006ab6c;
   case 4:
-    if (((myX < X_) && (myY < Y_)) && (this->unk14 == 3)) {return 1;}
-    if (((myX == X_) && (myY < Y_)) && (this->unk14 == 4)) {return 1;}
+    if (((myX < X_) && (myY < Y_)) && (this->facingInd == 3)) {return 1;}
+    if (((myX == X_) && (myY < Y_)) && (this->facingInd == 4)) {return 1;}
     if (myX <= X_) {return 0;}
     goto LAB_8006aaf4;
   case 5:
     if (X_ < myX) {
-      if ((myY == Y_) && (this->unk14 == 6)) goto LAB_8006ab08;
-      if ((myY < Y_) && (this->unk14 == 5)) {
+      if ((myY == Y_) && (this->facingInd == 6)) goto LAB_8006ab08;
+      if ((myY < Y_) && (this->facingInd == 5)) {
         return 1;
       }
     }
     if (myX != X_) {return 0;}
     sVar4 = 4;
     if (Y_ <= myY) {return 0;}
-    sVar6 = this->unk14;
+    sVar6 = this->facingInd;
     goto LAB_8006ab00;
   case 6:
     if (myX <= X_) {return 0;}
-    if ((Y_ < myY) && (this->unk14 == 7)) {return 1;}
-    if ((myY == Y_) && (this->unk14 == 6)) goto LAB_8006ab08;
+    if ((Y_ < myY) && (this->facingInd == 7)) {return 1;}
+    if ((myY == Y_) && (this->facingInd == 6)) goto LAB_8006ab08;
 LAB_8006aaf4:
     uVar5 = 0;
     sVar4 = 5;
     if (myY < Y_) {
-      sVar6 = this->unk14;
+      sVar6 = this->facingInd;
 LAB_8006ab00:
       uVar5 = 0;
       if (sVar6 == sVar4) {
@@ -1124,11 +1116,11 @@ LAB_8006ab08:
     }
     break;
   case 7:
-    if (((X_ < myX) && (Y_ < myY)) && (this->unk14 == 7)) {return 1;}
-    if (((myX == X_) && (Y_ < myY)) && (this->unk14 == 0)) {return 1;}
+    if (((X_ < myX) && (Y_ < myY)) && (this->facingInd == 7)) {return 1;}
+    if (((myX == X_) && (Y_ < myY)) && (this->facingInd == 0)) {return 1;}
     if (X_ >= myX) {return 0;}
     if (myY != Y_) {return 0;}
-    sVar4 = this->unk14;
+    sVar4 = this->facingInd;
     sVar6 = 6;
 LAB_8006ab6c:
     uVar5 = 0;
@@ -1694,14 +1686,14 @@ s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *target,s8 param_3,s8 par
     uVar16 = (s16)(uVar15 - CharStats::getBase(DefStats,STAT_LV)) + CharStats::getModded(DefStats,STAT_DEX) * -2) - target->GetBlock());
   }
   iVar7 = TheifBackstabMod(uVar16,backstab,0,0x14);
-  if (target->unk22 == 0) iVar7 *= 1.2f;
+  if (target->numMoves == 0) iVar7 *= 1.2f;
   if (CharStats::getModded(DefStats,STAT_STAM) == 0) iVar7 *= 1.15f;
   iVar8 = FUN_80070cc4(&gCombatP->substruct,param_3,param_4,GetCoordXU8(),GetCoordYU8());
   iVar8 *= (iVar7 * 0.05f + 1.0f);
   if (CharStats::getModded(Atkstats,STAT_STAM) == 0) iVar8 *= 0.9f;
   iVar7 = iVar8 *(1.0f - TerrainPointer->PrecipScale * 0.3f);
   if (TerrainPointer->partOfDay == TIME_NIGHT) iVar7 *= 0.7f;
-  if (target->unk22 != 0) iVar7 *= 0.8f;
+  if (target->numMoves != 0) iVar7 *= 0.8f;
   sVar10 = TroubadorMod(CombatEntity::AspectMulti(iVar7));
   if (sVar10 < 5) sVar10 = 5;
   return sVar10;
@@ -2301,7 +2293,7 @@ s16 CombatEntity::PotionAccuracy(CombatEntity *target,u8 prox){
   sVar11 = TheifBackstabMod(uVar15,CheckBackstab(target),0,20);
   iVar5 = sVar11;
   if (CharStats::getModded(stats_00,STAT_STAM) == 0) iVar5 = sVar11 + 10;
-  if (target->unk22) iVar5 -=20;
+  if (target->numMoves) iVar5 -=20;
   sVar12 = iVar5;
   if (this->Flag3()) sVar12 -=25;
   sVar12 = TroubadorMod(AspectMulti(NightCheck(sVar12,20,10,0x1e,(u16)prox)));
@@ -2330,70 +2322,61 @@ u16 CombatEntity::GetFlaskDamage(){
 }
 
 void CombatEntity::FlaskAttack(CombatEntity *target,s16 dmgBase){
-  u8 A;
-  u8 B;
-  CombatEntity *pCVar1;
-  playerData *ppVar2;
-  u8 bVar9;
   u16 uVar7;
   s16 sVar8;
   s32 iVar4;
   u32 uVar6;
-  u8 uVar10;
-  u8 uVar11;
-  u8 bStack48[2];
+  u8 targetPos[2];
   
-  uVar11 = 0;
-  A = gCombatP->potionPos[0];
-  B = gCombatP->potionPos[1];
-  if (this->item == POTION_ACID) uVar11 = RollD(2,6);
-  if (gCombatP->EntCount) {
-    for(u32 i=0;i<gCombatP->EntCount;i++) {
-      pCVar1 = (&gCombatP->combatEnts)[i];
-      if ((pCVar1) && (!Entity::isDead(pCVar1->charSheetP))) {
-        bStack48[0] = 0;
-        bStack48[1] = 0;
-        pCVar1->GetCoordU8(&bStack48[0],&bStack48[1]);
-        uVar7 = sub_square_add_(A,B,bStack48[0],bStack48[1]);
-        uVar10 = 1;
-        if (1 < (uVar7)) {uVar10 = sub_square_add_(A,B,bStack48[0],bStack48[1]);}
-        if ((this->item == POTION_ACID) && (uVar10 <= uVar11)) {
-          Entity::ApplyPotionEffect(pCVar1->charSheetP,POTION_ACID,(char)(uVar11 / uVar10),HOURS(3));
-          AddPotionVisualEffect((u32)pCVar1->index,this->item,pCVar1->charSheetP);
-        }
-        else {
-          if (uVar10 <= dmgBase) {
-            s16 iVar5 = dmgBase / uVar10;
-            if (pCVar1 == target) pCVar1->PrintDamage((s16)iVar5);
-            if (this->item == POTION_SLEEP) {
-              if ((pCVar1 != target) &&
-                 (CharStats::getModded(pCVar1->charSheetP->Stats,STAT_STAM) <= iVar5)) {
-                iVar5 = CharStats::getModded(pCVar1->charSheetP->Stats,STAT_STAM)-1;
+  u8 acidRoll = 0;
+  u8 potX = gCombatP->potionPos[0];
+  u8 potY = gCombatP->potionPos[1];
+  if (this->item == POTION_ACID) acidRoll = RollD(2,6);
+  for(u32 i=0;i<gCombatP->EntCount;i++) {
+    CombatEntity *pCVar1 = (&gCombatP->combatEnts)[i];
+    if ((pCVar1) && (!Entity::isDead(pCVar1->charSheetP))) {
+      targetPos[0] = 0;
+      targetPos[1] = 0;
+      pCVar1->GetCoordU8(&targetPos[0],&targetPos[1]);
+      uVar7 = sub_square_add_(potX,potY,targetPos[0],targetPos[1]);
+      u8 dist = 1;
+      if (1 < (uVar7)) dist = sub_square_add_(potX,potY,targetPos[0],targetPos[1]);
+      if ((this->item == POTION_ACID) && (dist <= acidRoll)) {
+        Entity::ApplyPotionEffect(pCVar1->charSheetP,POTION_ACID,(char)(acidRoll / dist),HOURS(3));
+        AddPotionVisualEffect((u32)pCVar1->index,this->item,pCVar1->charSheetP);
+      }
+      else {
+        if (dist <= dmgBase) {
+          s16 splash = dmgBase / dist;
+          if (pCVar1 == target) pCVar1->PrintDamage(splash);
+          if (this->item == POTION_SLEEP) {
+            if ((pCVar1 != target) &&
+                (CharStats::getModded(pCVar1->charSheetP->Stats,STAT_STAM) <= splash)) {
+              splash = CharStats::getModded(pCVar1->charSheetP->Stats,STAT_STAM)-1;
               }
-              if (iVar5 < 1) pCVar1->damage = (u8)iVar5;
-              else {
-                Entity::DecreaseHP(pCVar1->charSheetP,(s16)iVar5);
-                AddPotionVisualEffect((u32)pCVar1->index,this->item,pCVar1->charSheetP);
-                pCVar1->damage = (u8)iVar5;
-              }
-            }
+            if (splash < 1) pCVar1->damage = (u8)splash;
             else {
-              if ((pCVar1 != target) &&
-                 (Entity::getHPCurrent(pCVar1->charSheetP) <= iVar5)) {
-                iVar5 = (Entity::getHPCurrent(pCVar1->charSheetP) - 1);
-              }
-              if (0 < iVar5) {
-                Entity::DamageToLevel(pCVar1->charSheetP,iVar5,pCVar1);
-                AddPotionVisualEffect((u32)pCVar1->index,this->item,pCVar1->charSheetP);
-              }
-              pCVar1->damage = (u8)iVar5;
+              Entity::DecreaseHP(pCVar1->charSheetP,(s16)splash);
+              AddPotionVisualEffect((u32)pCVar1->index,this->item,pCVar1->charSheetP);
+              pCVar1->damage = (u8)splash;
             }
-            if (pCVar1 == target) {pCVar1->TryCheatDeath((s16)iVar5);}
-            ppVar2 = gGlobals.playerDataArray[pCVar1->index];
-            if ((ppVar2) && (ppVar2->ani_type = AniType_Hit, pCVar1 != target)) {
-              Print_damage_healing(ppVar2,(u16)pCVar1->damage,0,false,pCVar1->charSheetP);
-              pCVar1->damage = 0;
+          }
+          else {
+            if ((pCVar1 != target) &&
+                (Entity::getHPCurrent(pCVar1->charSheetP) <= splash)) {
+              splash = (Entity::getHPCurrent(pCVar1->charSheetP) - 1);
             }
+            if (0 < splash) {
+              Entity::DamageToLevel(pCVar1->charSheetP,splash,pCVar1);
+              AddPotionVisualEffect((u32)pCVar1->index,this->item,pCVar1->charSheetP);
+            }
+            pCVar1->damage = (u8)splash;
+          }
+          if (pCVar1 == target) {pCVar1->TryCheatDeath((s16)splash);}
+          playerData *pDat = gGlobals.playerDataArray[pCVar1->index];
+          if ((pDat) && (pDat->ani_type = AniType_Hit, pCVar1 != target)) {
+            Print_damage_healing(pDat,(u16)pCVar1->damage,0,false,pCVar1->charSheetP);
+            pCVar1->damage = 0;
           }
         }
       }
@@ -2624,7 +2607,7 @@ u8 CombatEntity::CalculateAttack(CombatEntity *target,u8 param_3){
   Actor::UnsetFlag(ppVar2,ACTOR_2);
   sVar6 = GoblinAmbushAttack(target,uVar5);
   target->TryCheatDeath(sVar6);
-  this->unk22 = 1;
+  this->numMoves = 1;
   if (this->AtkType != ATKT_Potion) target->damage = (u8)sVar6;
   set_camera_playerdata_focus(ppVar2,ppVar3);
   gGlobals.combatBytes[0] = 2;

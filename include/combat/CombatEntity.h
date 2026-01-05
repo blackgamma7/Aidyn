@@ -9,11 +9,11 @@ class CombatEntity {
     vec2f coord;
     vec2f coord2;
     s32 TargetIndex;
-    s8 unk14;
+    s8 facingInd; //index of facing
     vec2f facing;
     u8 index; //index of associated PlayerData Object
     u8 moveRange; // steps of range during turn/
-    u8 unk22;
+    u8 numMoves;
     u8 unk23;
     u8 AtkTypeOther;
     u8 AtkType;
@@ -79,7 +79,7 @@ class CombatEntity {
     void SetPlayerRotate();
     u8 GetWeaponAnimation(u8);
     u32 m80069114();
-    u8 m800692bc(CombatEntity *);
+    u8 IsInMeleeRange(CombatEntity *);
     u8 IsTargetInRange(CombatEntity *,s8,s8,s32);
     float Get2DProximity(CombatEntity *);
     float m80069554(CombatEntity*);

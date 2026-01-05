@@ -223,7 +223,6 @@ float Scene::GetFOV(SceneData *scene){
   return ret;
 }
 
-
 void Scene::SetNearFarPlanes(SceneData *scene,float near,float far){
   Borg3Header *b3 = scene->borg5->dat.borg3P;
   if (b3) {
@@ -298,17 +297,17 @@ void Scene::UnsetFlag8(SceneData *scene){scene->flags&=~SCENE_0008;}
 void Scene::SetFlag10(SceneData *scene){scene->flags|=SCENE_0010;}
 
 void Scene::UnsetFlag10(SceneData *scene){scene->flags&=~SCENE_0010;}
-
+//set flag related to matrix calculation
 void Scene::SetFlag20(SceneData *scene){scene->flags|=SCENE_0020;}
-
+//unset flag related to matrix calculation
 void Scene::UnsetFlag20(SceneData *scene){scene->flags&=~SCENE_0020;}
-
+//set flag related to normalizing distance
 void Scene::SetFlag40(SceneData *scene){scene->flags|=SCENE_0040;}
-
+//unset flag related to normalizing distance
 void Scene::UnsetFlag40(SceneData *scene){scene->flags&=~SCENE_0040;}
-
+//set flag related to lighting
 void Scene::SetFlag80(SceneData *scene){scene->flags|=SCENE_0080;}
-
+//unset flag related to lighting
 void Scene::UnsetFlag80(SceneData *scene){scene->flags&=~SCENE_0080;}
 
 void Scene::SetFlag200(SceneData *scene){scene->flags|=SCENE_0200;}

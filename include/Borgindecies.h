@@ -508,7 +508,7 @@ typedef enum Borg8Enum {
 #define BORG7_Brenna            0x29e3
 #define BORG7_Keelin            0x2b29
 #define BORG7_Chicken           0x2ef2
-#define BORG7_pocho             0x32b0
+#define BORG7_Pochanargat       0x32b0
 #define BORG7_Zombie            0x3489
 #define BORG7_Lich              0x33db
 #define BORG7_Cradagwgh         0x2808

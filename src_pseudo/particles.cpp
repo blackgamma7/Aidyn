@@ -628,8 +628,7 @@ void BorgParticleEmitterCallback(ParticleHeadStruct *head,ParticleEmmiter *emmi)
   if (Scene::SceneGetLocatorPos(pSVar1,&b5Part->pos,uVar4)) {
     if ((b5Part->flagE & B5PART_0010)) Scene::SceneGetLocatorNorm(pSVar1,&b5Part->norm,uVar4);
     if ((b5Part->flagE & B5PART_2000)) {
-      scene = GetLocatorScene(scene,((b5Part->locator1 & 0x180) >> 7));
-      Scene::SceneGetLocatorPos(scene,&b5Part->pos2,b5Part->locator1 & 7);
+      Scene::SceneGetLocatorPos(GetLocatorScene(scene,((b5Part->locator1 & 0x180) >> 7)),&b5Part->pos2,b5Part->locator1 & 7);
     }
   }
   else {
@@ -695,9 +694,7 @@ Particle::AllocBorg5Particle(ParticleHeadStruct *pHead,SceneData *scene,Borg5_pa
            BorgParticleEmitterCallback,NULL,NULL,dat,NULL);
   if (pEmmi == NULL) return NULL;
   pEmmi->sceneDat = scene;
-  if (dat->unk14 != 0) {
-    pEmmi->funcB = BorgParticleEmitterB;
-  }
+  if (dat->unk14) pEmmi->funcB = BorgParticleEmitterB;
   pEmmi->lifespanemmiter = dat->emmiLifespan;
   if ((dat->flagE & B5PART_0001))SetEmmiterHeight(pEmmi,0.0);
   SetFlag(pEmmi->particles,PARTICLE_0100|PARTICLE_0040);

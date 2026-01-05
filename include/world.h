@@ -17,7 +17,7 @@ struct TerrainStruct {
     u8 partOfDay; /* 21-6 night, 6-9 morning, 9-12 midday, 12-17 afternoon, 17-21 evening */
     u8 moonPhases; /* ranges from 0-3 */
     u8 windByte;
-    char DayNightMagic;
+    u8 DayNightMagic;
     u8 rainByte; /* clear, rain, snow */
     float PrecipScale;
     float FogFloat;
@@ -31,13 +31,13 @@ struct TerrainStruct {
     int PlayTime;
 };
 
-struct Calendar { // TerrainStruct->IngameTime as x
-   u8 season; // x / 0x114db000
-   u8 week; // (x % 0x114db000)/0x229b600
-   u8 day; // (x % 0x229b600) / 0x4f1a00
-   u8 hour; // (x % 0x4f1a00 >> 6) / 0xd2f
-   u8 minute; // (x + ((x >> 6) / 0xd2f) * -0x34bc0) / 3600
-   u8 second; // (x % 3600) / 60
+struct Calendar { // TerrainStruct->IngameTime modulo'd and div'd
+   u8 season;
+   u8 week;
+   u8 day;
+   u8 hour;
+   u8 minute;
+   u8 second;
 };
 
 struct WeatherTemp {
@@ -105,5 +105,6 @@ void spellvisuals_2(TerrainStruct *,float );
 #define MINUTES(x) (SECONDS(60)*x) // in-game minutes
 #define HOURS(x) (MINUTES(60)*x) // in-game hours
 #define DAYS(x) (HOURS(24)*x) // in-game days
+#define SEASONS(x) (DAYS(56)*x) // in-game seaons (each season lasts 2 months)
 //based on cap_ingame_time()
-#define YEAR DAYS(336)
+#define YEAR SEASONS(6)

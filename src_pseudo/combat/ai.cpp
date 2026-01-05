@@ -1454,7 +1454,7 @@ void FUN_800631c8(CombatAIInfo* param_1){
   s8 sVar3 = FUN_800720f8(&gCombatP->substruct,param_1->combatEnt->GetCoordXU8(),param_1->combatEnt->GetCoordYU8(),
                   gCombatP->unk5320[param_1->unk12][1],gCombatP->unk5320[param_1->unk12][1]);
   param_1->combatEnt->SetCardinalFacing(sVar3);
-  param_1->combatEnt->unk14 = sVar3;
+  param_1->combatEnt->facingInd = sVar3;
 }
 
 void ofunc_NOOP(void){}
@@ -1533,7 +1533,7 @@ bool FUN_80063258(CombatAIInfo *param_1) {
                              bStack336[3]);
         param_1->combatEnt->SetCardinalFacing((s8)uVar6);
         bVar3 = true;
-        param_1->combatEnt->unk14 = (s8)uVar6;
+        param_1->combatEnt->facingInd = (s8)uVar6;
         bStack336[0] = bStack336[2];
         bStack336[1] = bStack336[3];
         SetPlayerMoveToQueue(ppVar1,(float)bStack336[2],(float)bStack336[3],ppVar1->scaleRad,0);

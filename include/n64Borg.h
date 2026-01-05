@@ -550,6 +550,7 @@ struct borg5substruct {
     vec3f scale;
     vec3f pivot; //used for mtxOp 1
 };
+
 struct Borg5_particle{
     u16 locator0;
     u16 locator1;
@@ -771,8 +772,6 @@ struct struct_45 {
     struct Borg6Header *anis[3];
     u32 indecies[3];
 };
-
-
 
 struct Borg5Header {
     borgHeader head;

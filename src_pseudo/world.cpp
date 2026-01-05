@@ -30,9 +30,7 @@ void World::SetTerrain(TerrainStruct *ter,u8 type){
   
   if (type < 28) {
     if (ter->terrain != type) {
-      uVar2 = ter->partOfDay + 1 & 0xff;
-      uVar1 = uVar2 / 5;
-      ter->partOfDay = (char)uVar2 - ((char)(uVar1 << 2) + (char)uVar1);
+      ter->partOfDay = (ter->partOfDay+1) %5;
     }
     ter->terrain = type;
     SeveralTimeFuncs(ter);
@@ -54,9 +52,9 @@ void World::dec_dayNightMagic(TerrainStruct *X){if (X->DayNightMagic != 0) {X->D
 //Parse Claendar struct into in-game time
 void World::SetTimeFromCalendar(TerrainStruct *param_1,Calendar *param_2){
   param_1->InGameTime =
-       (u32)param_2->season * (DAYS(56)) + (u32)param_2->week * (DAYS(7)) +
-       (u32)param_2->day * (DAYS(1)) + ((u32)param_2->hour * 0xe0 + (u32)param_2->hour) * 0x3c0 +
-       ((u32)param_2->minute * 0xe0 + (u32)param_2->minute) * 0x10 + (u32)param_2->second * SECONDS(1);
+       (u32)param_2->season * (DAYS(56)) + (u32)param_2->week * (DAYS(7)) + 
+       (u32)param_2->day * DAYS(1) + (u32)param_2->hour * HOURS(1) +
+       (u32)param_2->minute * MINUTES(1) + (u32)param_2->second * SECONDS(1);
   SeveralTimeFuncs(param_1);
   SetFlagArray_on_Time(param_1->partOfDay,param_2->day,param_2->week,param_2->season);
 
@@ -253,15 +251,15 @@ u32 World::GetTime(TerrainStruct *param_1){return param_1->InGameTime;}
 
 void World::SetTime(TerrainStruct *param_1,u32 param_2){param_1->InGameTime = param_2;}
 
-u8 World::GetSeason(TerrainStruct *param_1){return param_1->InGameTime / DAYS(56);}
+u8 World::GetSeason(TerrainStruct *param_1){return param_1->InGameTime / SEASONS(1);}
 
-u8 World::GetWeek(TerrainStruct *param_1){return (param_1->InGameTime % DAYS(56)) / DAYS(7);}
+u8 World::GetWeek(TerrainStruct *param_1){return (param_1->InGameTime % SEASONS(1)) / DAYS(7);}
 
 u8 World::GetDay(TerrainStruct *param_1){return (param_1->InGameTime % DAYS(7)) / DAYS(1);}
 
-u8 World::GetHour(TerrainStruct *param_1){return (param_1->InGameTime % DAYS(1) >> 6) / 0xd2f;}
+u8 World::GetHour(TerrainStruct *param_1){return (param_1->InGameTime % DAYS(1)) / HOURS(1);}
 
-u8 World::GetMinute(TerrainStruct *param_1){return (param_1->InGameTime + ((param_1->InGameTime >> 6) / 0xd2f) * -HOURS(1)) / SECONDS(60);}
+u8 World::GetMinute(TerrainStruct *param_1){return (param_1->InGameTime % HOURS(1)) / SECONDS(60);}
 
 u8 World::GetSecond(TerrainStruct *param_1){return (param_1->InGameTime % SECONDS(60)) / SECONDS(1);}
 

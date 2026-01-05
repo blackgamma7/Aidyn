@@ -150,7 +150,7 @@ bool CombatTurn::FUN_8007381c(CombatTurn_s *param_1) {
               cEnt->TroubadourEnd();
             else CharStats::addModdedHealth(cEnt->charSheetP->Stats,STAT_STAM,-1);
           }
-          cEnt->unk22 = 0;
+          cEnt->numMoves = 0;
           cEnt->UnsetFlag(COMBATENT_FLAG3);
           Entity::IncEffects(Ent,cEnt,1);
         }

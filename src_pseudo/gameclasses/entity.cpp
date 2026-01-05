@@ -306,7 +306,6 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
   return bVar2;
 }
 
-
 s32 Entity::GearMinStatCheck(CharSheet *param_1,ItemID param_2){
   Gear_RAM *pGVar1;
   s32 iVar3 = 1;
@@ -320,7 +319,6 @@ s32 Entity::GearMinStatCheck(CharSheet *param_1,ItemID param_2){
   }
   return iVar3;
 }
-
 
 void Entity::EquipArmor(CharSheet *param_1,u16 param_2,StatMod* param_3){
   EquipArmorOrShield(param_1,param_2,param_3,false);}
@@ -405,7 +403,7 @@ void Entity::RemoveArmorOrShield(CharSheet *param_1,int param_2){
     FUN_80078874(param_1,(WeaponInstance *)param_1->armor[param_2],true);
     CharStats::SubModded(param_1->Stats,STAT_DEX,param_1->armor[param_2]->dex);
     param_1->Skills->ModdedSkillAdd(SKILL_Stealth,-param_1->armor[param_2]->stealth);
-    ArmorInstance_ClearEffect((EquipInstance *)param_1->armor[param_2]);
+    ArmorInstance_ClearEffect(param_1->armor[param_2]);
     FREE(param_1->armor[param_2],1053);
   }
 }
@@ -576,11 +574,11 @@ void Entity::StaminaPotion(CharSheet *param_1){
   addStamina(param_1,false);
 }
 
-u8 Entity::CanUsePotion(CharSheet *param_1,u8 param_2,char *errTxt){
+u8 Entity::CanUsePotion(CharSheet *param_1,u8 potInd,char *errTxt){
 
   u32 i;
   
-    switch(param_2) {
+    switch(potInd) {
     case POTION_HEALING:
     case POTION_CURING:
       if (errTxt) strcpy(errTxt,"That potion cannot be used right now.");
@@ -612,15 +610,26 @@ u8 Entity::CanUsePotion(CharSheet *param_1,u8 param_2,char *errTxt){
     case POTION_DEFENCE:
     case POTION_STEALTH:
       if (errTxt) strcpy(errTxt,"That potion cannot be used right now.");
-      return !HasPotionEffect(param_1,param_2);
+      return !HasPotionEffect(param_1,potInd);
       break;
     default:
        if (errTxt) strcpy(errTxt,"That potion cannot be used right now.");
       return false;
     }
+}
+
+bool Entity::ClearDebuffSpells(CharSheet *param_1) {
+  bool ret;
+  
+  ret = false;
+  for(u32 i=0;i<13;i++){
+    if (IsDebuffSpell(param_1,param_1->effects[i])) {
+      ClearSpellEffect(param_1,(u8)i,NULL);
+      ret = true;
+    }
   }
-
-
+  return ret;
+}
 
 u8 Entity::UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4){
   if (!CanUsePotion(param_1,param_3,param_4)) return false;
@@ -651,7 +660,7 @@ u8 Entity::UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4){
     }
     PARTY->Inventory->IncItemQuantity(param_2,-1);
     return true;
-  }
+}
 
 u8 Entity::HasSpellEffect(CharSheet *param_1,u8 id){
     for(u32 i=0;i<MAGIC_FXMAX;i++){
@@ -721,8 +730,6 @@ s32 Entity::FindFreeEffect(CharSheet *param_1){
   return -1;
 }
 
-
-
 s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,CombatEntity *combatTarget){
   CombatAIInfo *pCVar1;
   Temp_enchant **ppTVar2;
@@ -736,7 +743,7 @@ s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,
   Temp_enchant *pTVar8;
   CharStats_s* stats;
   u8 SVar13;
-  undefined uVar14;
+  u8 uVar14;
   int iVar15;
   u32 Lv;
   u32 uVar16;
@@ -794,7 +801,7 @@ s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,
       uVar17 = 1;
       SVar13 = STAT_STR;
 lower_stat:
-      uVar14 = (undefined)(Lv * -0x2000000 >> 0x18);
+      uVar14 = (u8)(Lv * -0x2000000 >> 0x18);
       UNK4 = uVar17;
 mod_stat:
       EffectModStats(param_1,SVar13,uVar14);
@@ -805,7 +812,7 @@ mod_stat:
   case SPELLIND_strength:
     if (uVar16 != 0) {
       SVar13 = STAT_STR;
-      uVar14 = (undefined)((Lv << 0x19) >> 0x18);
+      uVar14 = (u8)((Lv << 0x19) >> 0x18);
       UNK4 = uVar17;
       goto mod_stat;
     }
@@ -817,7 +824,7 @@ mod_stat:
   case SPELLIND_brilliance:
     if (uVar16 != 0) {
       SVar13 = STAT_INT;
-      uVar14 = (undefined)((Lv << 0x19) >> 0x18);
+      uVar14 = (u8)((Lv << 0x19) >> 0x18);
       UNK4 = uVar17;
       goto mod_stat;
     }
@@ -857,7 +864,7 @@ LAB_800798b0:
   case SPELLIND_endurance:
     if (uVar16 != 0) {
       SVar13 = STAT_END;
-      uVar14 = (undefined)((Lv << 0x19) >> 0x18);
+      uVar14 = (u8)((Lv << 0x19) >> 0x18);
       UNK4 = uVar17;
       goto mod_stat;
     }
@@ -884,7 +891,7 @@ LAB_800798b0:
        (pCVar1 = combatTarget->aiP, pCVar1 == NULL)) goto LAB_80079984;
     uVar16 = 1;
     bVar10 = pCVar1->morale;
-    if (bVar10 < Lv) Level._3_1_ = bVar10;
+    if (bVar10 < Lv) Level = bVar10;
     pCVar1->morale = bVar10 - (byte)Level;
     combatTarget->aiP->flags|= 2;
     uVar17 = 1;
@@ -981,7 +988,7 @@ LAB_800798b0:
   case SPELLIND_dexterity:
     if (uVar16) {
       SVar13 = STAT_DEX;
-      uVar14 = (undefined)((Lv << 0x19) >> 0x18);
+      uVar14 = (u8)((Lv << 0x19) >> 0x18);
       UNK4 = uVar17;
       goto mod_stat;
     }
@@ -1084,7 +1091,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
     bVar5 = pTVar1->lv;
     SVar3 = STAT_STAM;
     goto LAB_80079c10;
-  //Bug: further removes stamina, assintally doubling debuff
+  //Bug: further removes stamina, essentally doubling debuff
   case SPELLIND_stamina:
     SVar3 = STAT_STAM;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
@@ -1097,7 +1104,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
       return;
     }
     break;
-  //Bug: only remocvves half of protection buff
+  //Bug: only removes half of protection buff
   case SPELLIND_spiritSheild:
   case SPELLIND_starlightSheild:
     target->EXP->protection-= pTVar1->lv;
@@ -1321,7 +1328,7 @@ int Entity::EquipStamina(CharSheet *param_1,s16 stam,u8 param_3){
   int iVar6;
   
   sVar3 = AddEquipStamina(param_1,&param_1->weapons->base,stam,param_3);
-  sVar3 = AddEquipStamina(param_1,&(*param_1->armor)->base,sVar3,param_3);
+  sVar3 = AddEquipStamina(param_1,&param_1->armor[0]->base,sVar3,param_3);
   sVar3 = AddEquipStamina(param_1,&param_1->armor[1]->base,sVar3,param_3);
   lVar1 = sVar3;
   if (param_1->pItemList->usedItems) {
@@ -1382,11 +1389,8 @@ void Entity::CampHeal(CharSheet *param_1,float healing,u32 time){
   ItemCampStamina(&param_1->weapons->base,healing);
   ItemCampStamina(&param_1->armor[0]->base,healing);
   ItemCampStamina(&param_1->armor[1]->base,healing);
-  uVar1 = 0;
-  if (param_1->pItemList->usedItems != 0) {
-    for(uVar1;uVar1<param_1->pItemList->usedItems;uVar1++) {
-      ItemCampStamina(&param_1->pItemList->pItem[uVar1]->base,healing);
-    }
+  for(uVar1=0;uVar1<param_1->pItemList->usedItems;uVar1++) {
+    ItemCampStamina(&param_1->pItemList->pItem[uVar1]->base,healing);
   }
 }
 
@@ -1557,7 +1561,6 @@ void Entity::Teleport(CharSheet* ch,CombatEntity *cEnt){
   }
 }
 
-
 void Entity::RemovePoison(CharSheet *charSheet,CombatEntity *ent,u8 pow){
   for(u32 i =0;i<MAGIC_FXMAX;i++) {
     Temp_enchant *pTVar1 = charSheet->effects[i];
@@ -1568,14 +1571,14 @@ void Entity::RemovePoison(CharSheet *charSheet,CombatEntity *ent,u8 pow){
   return;
 }
 
-void Entity::WraithTouch(CharSheet *param_1,CombatEntity* cEnt,u8 num,u8 slot){
+void Entity::WraithTouch(CharSheet *target,CombatEntity* cEnt,u8 num,u8 slot){
   u8 wraithTouch_stats []={STAT_INT,STAT_WIL,STAT_DEX,STAT_STR};
   //Possible bug? looks like 1d4 is one off from array range. may lead to incorrect index.
   u8 stat=wraithTouch_stats[(u8)RollD(1,4)];
   u16 pow=RollD(2,6);
-  CharStats::AddModdedMagic(param_1->Stats,stat,-pow);
-  ALLOCL(param_1->effects[slot],3308);
-  TempEnchant::Init(param_1->effects[slot],SPELLIND_wraithTouch,pow,-1,stat,1);
+  CharStats::AddModdedMagic(target->Stats,stat,-pow);
+  ALLOCL(target->effects[slot],3308);
+  TempEnchant::Init(target->effects[slot],SPELLIND_wraithTouch,pow,-1,stat,1);
 }
 
 void Entity::DarknessLightMagic(CharSheet *param_1,u8 param_2){
@@ -1628,26 +1631,25 @@ u8 Entity::DispelMagic(CharSheet *param_1,CombatEntity* param_2,u8 param_3,u8 pa
   u32 uVar4;
   s32 iVar5;
   u32 uVar6;
-  u8 MVar7;
   
-  MVar7 = SCHOOL_Chaos;
-  if (param_3 == SPELLIND_dispelNaming) MVar7 = SCHOOL_Naming;
-  else if (param_3 == SPELLIND_dispelElemental) MVar7 = SCHOOL_Elemental;
-  else if (param_3 == SPELLIND_dispelNecro) MVar7 = SCHOOL_Necromancy;
-  else if (param_3 == SPELLIND_dispelStar) MVar7 = SCHOOL_Star;
+  u8 school = SCHOOL_Chaos;
+  if (param_3 == SPELLIND_dispelNaming) school = SCHOOL_Naming;
+  else if (param_3 == SPELLIND_dispelElemental) school = SCHOOL_Elemental;
+  else if (param_3 == SPELLIND_dispelNecro) school = SCHOOL_Necromancy;
+  else if (param_3 == SPELLIND_dispelStar) school = SCHOOL_Star;
   iVar5 = 0;
   uVar4 = 0;
   for(uVar6 = 0;uVar6 < 0xf;uVar6++) {
     pTVar1 = param_1->effects[uVar6];
-    if ((pTVar1) && (pTVar1->school == MVar7)) {
+    if ((pTVar1) && (pTVar1->school == school)) {
       iVar5++;
-      uVar4 += (int)(char)pTVar1->varA;
+      uVar4 += pTVar1->varA;
     }
   }
   if ((iVar5 == 0) || ((u32)param_4 * iVar5 < uVar4)) bVar2 = false;
   else {
     for(uVar6 = 0;uVar6 < 0xf;uVar6++) {
-      if ((param_1->effects[uVar6]) && (param_1->effects[uVar6]->school == MVar7)) {
+      if ((param_1->effects[uVar6]) && (param_1->effects[uVar6]->school == school)) {
         ClearSpellEffect(param_1,(u8)uVar6,param_2);
       }
     }
@@ -1856,15 +1858,13 @@ void Entity::ClearSpellEffect(CharSheet *param_1,u8 index,CombatEntity *param_3)
   }
 }
 
-u8 Entity::IsDebuffSpell(CharSheet* c,SpellEnum spell){
+u8 Entity::IsDebuffSpell(CharSheet* c,Temp_enchant* spell){
   u8 debuffSpells[] =
   {SPELLIND_wraithTouch,SPELLIND_debilitation,SPELLIND_weakness,SPELLIND_exhaustion,SPELLIND_stupidity,SPELLIND_clumsiness,SPELLIND_NONE};
   
   if (spell) {
-    if (debuffSpells[0] != SPELLIND_NONE) {
-      for(u32 i=0;debuffSpells[i] != SPELLIND_NONE;i++) {
-        if (spell == debuffSpells[i]) return true;
-      }
+    for(u32 i=0;debuffSpells[i] != SPELLIND_NONE;i++) {
+      if (spell->index == debuffSpells[i]) return true;
     }
   }
   return false;
@@ -1873,7 +1873,7 @@ u8 Entity::IsDebuffSpell(CharSheet* c,SpellEnum spell){
 u8 Entity::GetShieldDefence(CharSheet *param_1,ItemID param_2){
   u8 bVar2 = 0;
   if (param_1->armor[1]) {bVar2 = param_1->armor[1]->DEF;}
-  if (((param_2) && (param_2 >> 8 == 6)) && (!NoSheildSkill(param_1))) {
+  if (((param_2) && (param_2 >> 8 == DB_SHIELD)) && (!NoSheildSkill(param_1))) {
     bVar2 = gArmorDBp->Armor[GETINDEX(param_2)].defence;}
   return bVar2;
 }

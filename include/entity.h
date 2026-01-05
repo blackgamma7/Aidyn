@@ -253,6 +253,7 @@ namespace Entity{
     void RemovePotion(CharSheet *ent,u8 slot);
     void StaminaPotion(CharSheet *param_1);
     u8 CanUsePotion(CharSheet *param_1,u8 param_2,char *param_3);
+    bool ClearDebuffSpells(CharSheet *param_1);
     u8 UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4);
     u8 HasSpellEffect(CharSheet *param_1,u8 id);
     s32 FindFreeEffect(CharSheet *param_1);
@@ -296,7 +297,7 @@ namespace Entity{
     void EffectModStats(CharSheet *param_1,u8 param_2,u8 param_3);
     void RemoveStatBuff(CharSheet *param_1,u8 param_2,u8 param_3);
     void ClearSpellEffect(CharSheet *param_1,u8 index,CombatEntity *param_3);
-    u8 IsDebuffSpell(CharSheet* c,SpellEnum spell);
+    u8 IsDebuffSpell(CharSheet* c,Temp_enchant* spell);
     u8 GetShieldDefence(CharSheet *param_1,ItemID param_2);
     int GetArmorProtect(CharSheet *param_1,ItemID param_2);
 };
