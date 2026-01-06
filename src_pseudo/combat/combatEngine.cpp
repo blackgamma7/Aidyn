@@ -13,7 +13,7 @@
 // check if ID is for non-fighting entity (or not an entity at all.)
 bool EntityCannotFight(ItemID id){
   u16 index = GETINDEX(id);
-  if (id >> 8 != DB_ENTITY) return true;
+  if (ITEMIDTYPE(id) != DB_ENTITY) return true;
   if (index < EntInd_Pandara) {
     if (EntInd_Cadme <= index) return true;
     if (EntInd_STAI03 < index) return false;
@@ -641,27 +641,27 @@ void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,u32 param_3){
     param_1->loot_pool->AddItem(x,uVar2);
     u16 uVar6;
     if (true) {
-      switch(x>>8) {
-      case 1:
-      case 9:
-      case 10:
-      case 0xb:
-      case 0xc:
-      case 0xd:
-      case 0xe:
-      case 0xf:
-      case 0x11:
-      case 0x12:
-      case 0x13:
+      switch(ITEMIDTYPE(x)) {
+      case DB_MISC:
+      case DB_HELMET:
+      case DB_CLOAK:
+      case DB_GLOVE:
+      case DB_RING:
+      case DB_WAND:
+      case DB_BELT:
+      case DB_BOOTS:
+      case DB_SCROLL:
+      case DB_KEYITEM:
+      case DB_AMULET:
         uVar6 = (u32)gItemDBp->Gear[(u8)search_item_array(x)].exp_multi;
         break;
       default:
         return;
-      case 5:
-      case 6:
+      case DB_ARMOR:
+      case DB_SHIELD:
         uVar6 = gArmorDBp->Armor[GETINDEX(x)].expBonus;
         break;
-      case 7:
+      case DB_WEAPON:
         uVar6 = gWeaponsDB->weapons[GETINDEX(x)].EXPMod;
       }
       param_1->EXP_pool += uVar2 * uVar6;
@@ -682,7 +682,7 @@ void calc_loot(CombatStruct *param_1,byte param_2,EntityRAM *param_3){
 }
 
 void add_globalLoot(CombatStruct *param_1,ItemID param_2){
-  if (param_2 >> 8 == DB_CHEST) calc_loot(param_1,GETINDEX(param_2),(EntityRAM *)NULL);
+  if (ITEMIDTYPE(param_2) == DB_CHEST) calc_loot(param_1,GETINDEX(param_2),(EntityRAM *)NULL);
   else param_1->loot_pool->AddItem(param_2,1);
   return;
 }
@@ -698,7 +698,7 @@ void calc_combat_loot(CombatStruct *cStruct){
       EntityRAM *ent = gEntityDB->entities + (char)GETINDEX(cStruct->encounter_dat->enemy_entities[i]);
       cStruct->EXP_pool+=ent->EXP;
       if (ent->loot_Category) {
-        calc_loot(cStruct,GETINDEX((ItemID)(ent->loot_Category + 0x7ff)),ent);
+        calc_loot(cStruct,GETINDEX((ItemID)(ent->loot_Category + ((DB_CHEST<<8)-1)/*?*/)),ent);
       }
     }
   }

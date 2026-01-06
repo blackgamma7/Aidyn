@@ -7,7 +7,9 @@
 void make_temp_item(GearInstance *item,ItemID id) {
   CLEAR(item); //sizeof fits gear instance
   (item->base).id = id;
-  u16 type = (ushort)id >> 8;
+  u16 type = (ushort)ITEMIDTYPE(id);
+
+  //case-switch?
   if (type == 7) {
     make_temp_weapon_2((WeaponInstance*)item);
   }
@@ -148,7 +150,7 @@ s32 CharGear::FindFreeSlot() {
 ItemID CharGear::GetEquippedOfType(u8 param_2,s32 param_3) {
   if (!this->usedItems) return 0;
   for(u32 i=0;i<this->maxItems;i++){
-    if((this->pItem[i])&&(this->pItem[i]->base.id>>8==param_2)){
+    if((this->pItem[i])&&(ITEMIDTYPE(this->pItem[i]->base.id)==param_2)){
         if(!--param_3)return this->pItem[i]->base.id;
     }
   }

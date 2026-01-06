@@ -570,7 +570,7 @@ playerData * FUN_800591e4(){
   
   x = (dialougemode_pointer->inst).diags[0].ent_ID;
   ppVar1 = NULL;
-  if (((u16)x >> 8 == 2) &&
+  if (((u16)ITEMIDTYPE(x) == DB_ENTITY) &&
      (bVar2 = GETINDEX(x), ppVar1 = gPlayer,
      bVar2 != EntInd_Alaron)) {
     if (dialougemode_pointer->Wanderers == NULL) ppVar1 = NULL;
@@ -592,7 +592,7 @@ void run_dialougemode_funcs5(){
 void DialogueModeInitPrescripted(){
   vec3f v;
   
-  N64Print::Print("DialogueModeInitPrescripted\n");
+  N64PRINT("DialogueModeInitPrescripted\n");
   freeWidgetFunc = run_dialougemode_funcs2;
   WanderHead(&gGlobals.wander,8);
   InitZoneEngine(GameMode_Trek,0);

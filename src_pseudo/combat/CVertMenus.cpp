@@ -130,8 +130,8 @@ bool hasUsablePotions(s32 *list){
   for(i=0;i<quant;i++){
     Inventory_item* pIVar4 = PARTY->Inventory->GetItemEntry(i);
     u8 index;
-    if ((((pIVar4) && (pIVar4->base.id >> 8 == DB_POTION)) &&
-        (index = GETINDEX(pIVar4->base.id), 3 < index)) && (index != POTION_STEALTH)) {
+    if ((((pIVar4) && (ITEMIDTYPE(pIVar4->base.id) == DB_POTION)) &&
+        (index = GETINDEX(pIVar4->base.id), POTION_HEALING <= index)) && (index != POTION_STEALTH)) {
       if (gCombatP->current_Ent->CanUsePotion(index)) {
         ret = true;
         list[index] = i;

@@ -8,7 +8,7 @@
 #include "widgets/textPopup.h"
 
 u8 Entity::IsElemental(ItemID id){
-  if (id >> 8 == DB_ENTITY) {
+  if (ITEMIDTYPE(id) == DB_ENTITY) {
     u8 index = GETINDEX(id); 
     if ((((index == EntInd_AirElemental) || 
          (index == EntInd_EarthElemental)) 
@@ -1873,7 +1873,7 @@ u8 Entity::IsDebuffSpell(CharSheet* c,Temp_enchant* spell){
 u8 Entity::GetShieldDefence(CharSheet *param_1,ItemID param_2){
   u8 bVar2 = 0;
   if (param_1->armor[1]) {bVar2 = param_1->armor[1]->DEF;}
-  if (((param_2) && (param_2 >> 8 == DB_SHIELD)) && (!NoSheildSkill(param_1))) {
+  if (((param_2) && (ITEMIDTYPE(param_2) == DB_SHIELD)) && (!NoSheildSkill(param_1))) {
     bVar2 = gArmorDBp->Armor[GETINDEX(param_2)].defence;}
   return bVar2;
 }
@@ -1891,11 +1891,11 @@ int Entity::GetArmorProtect(CharSheet *param_1,ItemID param_2){
   if (param_2) {
     bVar1 = GETINDEX(param_2);
     iVar6 = 0;
-    if (param_2 >> 8 == DB_ARMOR) {
+    if (ITEMIDTYPE(param_2) == DB_ARMOR) {
       if (ret0(param_1)) return total;
     }
     else {
-      if (param_2 >> 8 != DB_SHIELD) return total;
+      if (ITEMIDTYPE(param_2) != DB_SHIELD) return total;
       if (NoSheildSkill(param_1)) return total;
       iVar6 = 1;
     }

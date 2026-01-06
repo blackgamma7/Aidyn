@@ -143,7 +143,7 @@ u32 EntityDB::GetPortrait(ItemID id){
   dialougeEntity_Info *pdVar7;
   
   bVar3 = GETINDEX(id);
-  if (id >> 8 == DB_ENTITY) {
+  if (ITEMIDTYPE(id) == DB_ENTITY) {
     if (gEntityExtras[0].index != 0) {
       peVar6 = gEntityExtras;
       iVar4 = 0;
@@ -161,7 +161,7 @@ u32 EntityDB::GetPortrait(ItemID id){
     }
   }
   else {
-    if (id >> 8 != DB_DIALOUGEENTITY) {
+    if (ITEMIDTYPE(id) != DB_DIALOUGEENTITY) {
       return BORG8_PortraitNPCMale1;
     }
     if (dailougEnt_info_array[0].index != 0) {
@@ -195,7 +195,7 @@ u32 EntityDB::GetBorg7(ItemID id){
   dialougeEntity_Info *pdVar7;
   
   bVar3 = GETINDEX(id);
-  if ((u16)id >> 8 == DB_ENTITY) {
+  if ((u16)ITEMIDTYPE(id) == DB_ENTITY) {
     if (gEntityExtras[0].index != 0) {
       peVar6 = gEntityExtras;
       iVar4 = 0;
@@ -213,7 +213,7 @@ u32 EntityDB::GetBorg7(ItemID id){
     }
   }
   else {
-    if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
+    if ((u16)ITEMIDTYPE(id) != DB_DIALOUGEENTITY) {
       return 0x2d4a;
     }
     if (dailougEnt_info_array[0].index != 0) {
@@ -243,7 +243,7 @@ char * EntityDB::GetEntityName(ItemID id){
   int iVar3;
   
   bVar2 = GETINDEX(id);
-  switch(id >> 8){
+  switch(ITEMIDTYPE(id)){
     case DB_ENTITY: return this->entities[bVar2].Name;
     case DB_DIALOUGEENTITY: return gDialogEntityDBp->ents[bVar2].name;
     default:CRASH("Invalid ID type in GetEntityName!",FILENAME);
@@ -258,7 +258,7 @@ float Ofunc_8007573c(EntityDB *param_1,ItemID id){
 //sems to load "perception" value checked for sneaking. almost always 10.
 float EntityDB::GetPerception(ItemID id){
   float fVar2 = 10.0f;
-  if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
+  if ((u16)ITEMIDTYPE(id) != DB_DIALOUGEENTITY) {
     fVar2 = (float)entities[GETINDEX(id)].unk0x20;
   }
   return fVar2;
@@ -267,7 +267,7 @@ float EntityDB::GetPerception(ItemID id){
 //unknown what is was meant for.
 float EntityDB::GetVal_21h(ItemID id){
   float fVar2 = 2.0;
-  if ((u16)id >> 8 != DB_DIALOUGEENTITY) 
+  if ((u16)ITEMIDTYPE(id) != DB_DIALOUGEENTITY) 
     fVar2 = (float)entities[GETINDEX(id)].unk0x21;
   return fVar2;
 }
@@ -280,7 +280,7 @@ float EntityDB::GetHeight(ItemID id){
   dialougeEntity_Info *pdVar6;
   
   bVar3 = GETINDEX(id);
-  if ((u16)id >> 8 == DB_ENTITY) {
+  if ((u16)ITEMIDTYPE(id) == DB_ENTITY) {
     if (gEntityExtras[0].index) {
       EntityExtra *peVar5 = gEntityExtras;
       uVar1 = gEntityExtras[0].index;
@@ -291,7 +291,7 @@ float EntityDB::GetHeight(ItemID id){
       } while (uVar1 != 0);
     }
   }
-  else if (((u16)id >> 8 == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
+  else if (((u16)ITEMIDTYPE(id) == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
     dialougeEntity_Info *pdVar6 = dailougEnt_info_array;
     uVar2 = dailougEnt_info_array[0].index;
     do {
@@ -315,7 +315,7 @@ u8 EntityDB::BattleCheck(ItemID id){
   u8 uVar3;
   byte bVar2;
   
-  if (id >> 8 == DB_DIALOUGEENTITY) uVar3 = 0xff;
+  if (ITEMIDTYPE(id) == DB_DIALOUGEENTITY) uVar3 = 0xff;
   else {
     bVar2 = GETINDEX(id);
     uVar3 = 0xff;
@@ -333,7 +333,7 @@ float EntityDB::GetFloatA(ItemID id){
   int iVar3;
   EntityExtra *peVar4;
   
-  if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
+  if ((u16)ITEMIDTYPE(id) != DB_DIALOUGEENTITY) {
     bVar2 = GETINDEX(id);
     if (gEntityExtras[0].index != 0) {
       peVar4 = gEntityExtras;
@@ -351,14 +351,14 @@ float EntityDB::GetFloatA(ItemID id){
 }
 //not sure what this is for, used in "processPlayers" always returns 0.4
 float EntityDB::RetPoint4(ItemID id){
-    if ((u16)id >> 8 != DB_DIALOUGEENTITY)GETINDEX(id);
+    if ((u16)ITEMIDTYPE(id) != DB_DIALOUGEENTITY)GETINDEX(id);
     return 0.4f;
 }
 
 //returns false if the entity is a left-handed archer
 u8 EntityDB::IsRightHanded(ItemID id){
   
-  if (id >> 8 == DB_DIALOUGEENTITY) return true;
+  if (ITEMIDTYPE(id) == DB_DIALOUGEENTITY) return true;
   switch(GETINDEX(id)) {
     case EntInd_NightBoss3:
     case EntInd_NightBoss2:
@@ -384,7 +384,7 @@ float EntityDB::GetCollideRadius(ItemID id){
   float fVar5;
   
   fVar5 = 0.55f;
-  if ((u16)id >> 8 != DB_DIALOUGEENTITY) {
+  if ((u16)ITEMIDTYPE(id) != DB_DIALOUGEENTITY) {
     bVar2 = GETINDEX(id);
     fVar5 = 0.75f;
     if (gEntityExtras[0].index != 0) {
@@ -404,22 +404,22 @@ float EntityDB::GetCollideRadius(ItemID id){
   return fVar5;
 }
 //get scale modifier for model
-float EntityDB::GetScale(ItemID param_2){
-  byte bVar3;
+float EntityDB::GetScale(ItemID id){
+  byte ind;
   u16 uVar1;
   u16 uVar2;
   int iVar4;
   EntityExtra *peVar5;
   dialougeEntity_Info *pdVar6;
   
-  bVar3 = GETINDEX(param_2);
-  if ((u16)param_2 >> 8 == DB_ENTITY) {
+  ind = GETINDEX(id);
+  if ((u16)ITEMIDTYPE(id) == DB_ENTITY) {
     if (gEntityExtras[0].index != 0) {
       peVar5 = gEntityExtras;
       iVar4 = 0;
       uVar1 = gEntityExtras[0].index;
       do {
-        if (uVar1 == ((s16)(char)bVar3 + 1U & 0xff)) {
+        if (uVar1 == ((s16)(char)ind + 1U & 0xff)) {
           return *(float *)((int)&gEntityExtras[0].scale + iVar4);
         }
         peVar5 = peVar5 + 1;
@@ -428,12 +428,12 @@ float EntityDB::GetScale(ItemID param_2){
       } while (uVar1 != 0);
     }
   }
-  else if (((u16)param_2 >> 8 == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
+  else if ((ITEMIDTYPE(id) == DB_DIALOUGEENTITY) && (dailougEnt_info_array[0].index != 0)) {
     pdVar6 = dailougEnt_info_array;
     iVar4 = 0;
     uVar2 = dailougEnt_info_array[0].index;
     do {
-      if (uVar2 == ((s16)(char)bVar3 + 1U & 0xff)) {
+      if (uVar2 == ((s16)(char)ind + 1U & 0xff)) {
         return *(float *)((int)&dailougEnt_info_array[0].b + iVar4);
       }
       pdVar6 = pdVar6 + 1;

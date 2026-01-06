@@ -7,7 +7,7 @@
 #include "dialougEnt.h"
 
 u8 ItemIsMap(ItemID id){
-    if(id>>8==1){
+    if(ITEMIDTYPE(id)==DB_MISC){
         u16 MapItemIds[]={5,6,7,8,9,10,11,12,13,14,15,20,21,23,32,0};
         for(u8 i=0;MapItemIds[i]!=0;i++){
             if((id&0xFF)==MapItemIds[i]) return true;
@@ -35,7 +35,7 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
   uVar3 = (u16)x & 0xff;
   uVar1 = -1;
   if (false) goto switchD_80075e2c_caseD_4;
-  switch((u32)((u16)x >> 8)) {
+  switch(ITEMIDTYPE(x)) {
   case DB_ENTITY:
     entriesP = entityList;
     totalP = &gEntityDB->total;
@@ -78,13 +78,13 @@ switchD_80075e2c_caseD_4:
   if (uVar1 != -1) return (byte)uVar1;
   char txtBuff [144];
   sprintf(txtBuff,"Invalid id %d (%d)\nMay need to re-compile\nType = %d\n",
-           x,uVar3,(x >> 8));
+           x,uVar3,ITEMIDTYPE(x));
   CRASH("GetIdIndex (ids.cpp)",txtBuff);
 }
 
 u16 search_item_array(ItemID param_1){ 
   if (true) {
-    switch(param_1 >> 8) {
+    switch(ITEMIDTYPE(param_1)) {
     case DB_MISC:
     case DB_HELMET:
     case DB_CLOAK:
@@ -156,13 +156,13 @@ u16 ItemBorg5Search(ItemID param_1){
 }
 
 u16 get_item_borg5(ItemID param_1){
-  if(param_1>>8<=DB_DIALOUGEENTITY){
+  if(ITEMIDTYPE(param_1)<=DB_DIALOUGEENTITY){
     u16(*modelGetters[])(ItemID)={
       NULL,ItemBorg5Search,NULL,NULL,NULL,GetArmorBorg5,GetArmorBorg5,
       GetWeaponBorg5,NULL,ItemBorg5Search,ItemBorg5Search,ItemBorg5Search,ItemBorg5Search,
       ItemBorg5Search,ItemBorg5Search,ItemBorg5Search,NULL,ItemBorg5Search,ItemBorg5Search,
       ItemBorg5Search,NULL};
-      if(modelGetters[param_1>>8])return modelGetters[param_1>>8](param_1);
+      if(modelGetters[ITEMIDTYPE(param_1)])return modelGetters[ITEMIDTYPE(param_1)](param_1);
   };
   return -1;
 }

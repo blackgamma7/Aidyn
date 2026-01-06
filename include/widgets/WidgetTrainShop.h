@@ -76,6 +76,8 @@ class WidgetInvShop: public WidgetTrainShop{
     void SortB();
     bool m8003d674(u16,u8);
     u32 GetNumber();
+    BaseWidget* AFunc();
+    BaseWidget* CDownFunc();
 };
 u32 UINT_800ed580=false;
 

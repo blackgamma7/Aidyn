@@ -305,7 +305,7 @@ StatMod * CreateStatMod(StatMod *st){
   return pSVar1;
 }
 
-void Party::m8007e6a4(ItemID param_2,StatMod *param_3,byte param_4){
+void Party::MoveEquipToInventory(ItemID param_2,StatMod *param_3,byte param_4){
   StatMod *X;
   SpellCharges *pSVar2;
   Inventory_item *uVar2;
@@ -324,8 +324,6 @@ void Party::m8007e6a4(ItemID param_2,StatMod *param_3,byte param_4){
     if (pSVar2) pSVar2->Charges = param_4;
   }
 }
-
-
 
 u8 Party::GetEquipError2(u8 param_2){
   u32 uVar1;
@@ -401,8 +399,8 @@ u8 itemtype_armor(Party* p, u8 param_2,ItemInstance *param_3,CharSheet *param_4,
       bVar4 = 1;
     }
     else {
-      if ((param_5 != (ItemID *)0x0) && (*param_4->armor)) {
-        *param_5 = (*param_4->armor)->base.id;
+      if ((param_5 != (ItemID *)0x0) && param_4->armor[0]) {
+        *param_5 = param_4->armor[0]->base.id;
       }
       bVar4 = p->RemoveArmorFrom(param_2);
       if (!bVar4) {
@@ -410,9 +408,7 @@ u8 itemtype_armor(Party* p, u8 param_2,ItemInstance *param_3,CharSheet *param_4,
         param_4->armor[0]->base.SetMagicCharges(bVar5);
         bVar4 = 0;
       }
-      else {
-        p->m8007e6a4(IVar1,X,bVar5);
-      }
+      else p->MoveEquipToInventory(IVar1,X,bVar5);
     }
   }
   return bVar4;
@@ -444,9 +440,7 @@ u8 itemtype_sheild(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
         *param_5 = (param_4->armor[1]->base).id;
       }
       bVar5 = p->RemoveShieldFrom(param_2);
-      if (bVar5) {
-        p->m8007e6a4(IVar1,X,bVar6);
-      }
+      if (bVar5) p->MoveEquipToInventory(IVar1,X,bVar6);
       else {
         Entity::EquipSheild(param_4,IVar1,X);
         param_4->armor[1]->base.SetMagicCharges(bVar6);
@@ -472,8 +466,7 @@ byte itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_
     pSVar2 = param_3->spellCharge;
     bVar5 = 0xff;
     if (pSVar2) bVar5 = pSVar2->Charges;
-    uVar4 = p->Inventory->TakeItem(IVar1,1);
-    if (uVar4 == 0) {
+    if (p->Inventory->TakeItem(IVar1,1) == 0) {
       if (X) HFREE(X,0x3ed);
       bVar6 = 1;
     }
@@ -482,7 +475,7 @@ byte itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_
         *param_5 = (param_4->weapons->base).id;
       }
       bVar6 = p->RemoveWeaponsFrom(param_2);
-      if (bVar6) p->m8007e6a4(IVar1,X,bVar5);
+      if (bVar6) p->MoveEquipToInventory(IVar1,X,bVar5);
       else {
         Entity::EquipWeapon(param_4,IVar1,X);
         param_4->weapons->base.SetMagicCharges(bVar5);
@@ -553,7 +546,7 @@ byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_
               if (param_5) *param_5 = IVar3;
               bVar10 = p->RemoveGearFrom(param_2,(byte)uVar12);
               if (bVar10) {
-                p->m8007e6a4(IVar2,X,bVar9);
+                p->MoveEquipToInventory(IVar2,X,bVar9);
                 return bVar10;
               }
               break;
@@ -1828,29 +1821,29 @@ u8 get_equip_stamMod(ItemID id){
   ItemID IVar4;
   
   bVar3 = 0;
-  switch(id >> 8) {
-  case 1:
-  case 9:
-  case 10:
-  case 0xb:
-  case 0xc:
-  case 0xd:
-  case 0xe:
-  case 0xf:
-  case 0x11:
-  case 0x12:
-  case 0x13:
+  switch(ITEMIDTYPE(id)) {
+  case DB_MISC:
+  case DB_HELMET:
+  case DB_CLOAK:
+  case DB_GLOVE:
+  case DB_RING:
+  case DB_WAND:
+  case DB_BELT:
+  case DB_BOOTS:
+  case DB_SCROLL:
+  case DB_KEYITEM:
+  case DB_AMULET:
     u16 iVar2 = search_item_array(IVar4);
     if (gItemDBp->Gear[iVar2].stat != STAT_STAM) {return 0;}
     return gItemDBp->Gear[iVar2].StatMod;
   default:
     goto LAB_80081f64;
-  case 5:
-  case 6:
+  case DB_ARMOR:
+  case DB_SHIELD:
     bVar3 = GETINDEX(IVar4);
     pwVar1 = (WeaponRam *)gArmorDBp->Armor;
     break;
-  case 7:
+  case DB_WEAPON:
     bVar3 = GETINDEX(IVar4);
     pwVar1 = gWeaponsDB->weapons;
   }

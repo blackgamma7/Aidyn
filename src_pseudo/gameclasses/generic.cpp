@@ -4,10 +4,10 @@
 #define FILENAME "../gameclasses/generic.cpp"
 
 void ItemInstance::InitItem(ItemID param_2){
-  u16 uVar1 = (u16)param_2 >> 8;
-  if ((uVar1 == DB_ARMOR) || (uVar1 == DB_SHIELD)) InitArmor(param_2);
-  else if (uVar1 == DB_WEAPON) InitWeapon(param_2);
-  else if (uVar1 == DB_POTION) InitPotion(param_2);
+  u16 type = ITEMIDTYPE(param_2);
+  if ((type == DB_ARMOR) || (type == DB_SHIELD)) InitArmor(param_2);
+  else if (type == DB_WEAPON) InitWeapon(param_2);
+  else if (type == DB_POTION) InitPotion(param_2);
   else InitGear(param_2);
 }
 
@@ -89,20 +89,18 @@ void ItemInstance::InitGear(ItemID param_2){
 }
 
 u16 ItemInstance::GetPrice(){
-  u16 uVar2;
-  u32 uVar4;
+  u16 ret;
+  u32 type;
   
-  uVar4 = (u32)((u16)this->id >> 8);
-  if (uVar4 - 5 < 2)
-    uVar2 = gArmorDBp->Armor[GETINDEX(this->id)].price;
-  else if (uVar4 == DB_WEAPON)
-    uVar2 = gWeaponsDB->weapons[GETINDEX(this->id)].price;
-  else if (uVar4 == DB_POTION)
-    uVar2 = potion_prices[GETINDEX(this->id)];
-  else {
-    uVar2 = gItemDBp->Gear[search_item_array(this->id)].price;
-    }
-  return uVar2;
+  type = (u32)(ITEMIDTYPE(this->id));
+  if (type - DB_ARMOR < 2)
+    ret = gArmorDBp->Armor[GETINDEX(this->id)].price;
+  else if (type == DB_WEAPON)
+    ret = gWeaponsDB->weapons[GETINDEX(this->id)].price;
+  else if (type == DB_POTION)
+    ret = potion_prices[GETINDEX(this->id)];
+  else ret = gItemDBp->Gear[search_item_array(this->id)].price;
+  return ret;
 }
 
 void  ItemInstance::SetMagicCharges(s8 param_2){

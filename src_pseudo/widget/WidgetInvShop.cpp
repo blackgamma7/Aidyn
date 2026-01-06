@@ -14,8 +14,8 @@ s32 FUN_8003c590(ItemInstance *param_1,ItemInstance *param_2) {
   u16 uVar5;
   u16 uVar6;
   
-  typeA = (u16)param_1->id >> 8;
-  typeB = (u16)param_2->id >> 8;
+  typeA = (u16)ITEMIDTYPE(param_1->id);
+  typeB = (u16)ITEMIDTYPE(param_2->id);
   uVar6 = 0xffff;
   if (typeA == typeB) { //sort alphabetically if same type.
     iVar3 = strcmp(param_1->name,param_2->name);

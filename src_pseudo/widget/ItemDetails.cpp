@@ -64,7 +64,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
   this->varU16 = param_2->id;
   SidePopup();
   PrintNameIcon(param_2->name);
-  if ((u16)param_2->id >> 8 == DB_POTION) {
+  if (ITEMIDTYPE(param_2->id) == DB_POTION) {
     u16 potion_romstring_id[][2]={
      {Potion_Fire,0},{Potion_Inferno,1},{Potion_Sleep,2},
      {Potion_Acid,3},{Potion_Healing,4},{Potion_Stamina,5},
@@ -87,34 +87,34 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
   }
   else {
     u16 item_romstring_id[][2]={
-      {0x0100, 0x0000},{0x0101, 0x0001},{0x0102, 0x0002},
-      {0x0103, 0x0003},{0x0104, 0x0004},{0x010e, 0x0005},
-      {0x0111, 0x0006},{0x0112, 0x0007},{0x0113, 0x0008},
-      {0x0119, 0x0009},{0x011e, 0x000a},{0x0121, 0x000b},
-      {0x0122, 0x000c},{0x0123, 0x000d},{0x0124, 0x000e},
-      {0x1100, 0x000f},{0x1101, 0x0010},{0x1102, 0x0011},
-      {0x1103, 0x0012},{0x1104, 0x0013},{0x1105, 0x0014},
-      {0x1107, 0x0015},{0x1108, 0x0016},{0x1109, 0x0017},
-      {0x110a, 0x0018},{0x110c, 0x0019},{0x110d, 0x001a},
-      {0x110e, 0x001b},{0x110f, 0x001c},{0x1110, 0x001d},
-      {0x1111, 0x001e},{0x112e, 0x001f},{0x1132, 0x0020},
-      {0x1133, 0x0021},{0x1134, 0x0022},{0x1135, 0x0023},
-      {0x1136, 0x0024},{0x1137, 0x0025},{0x1138, 0x0026},
-      {0x1139, 0x0027},{0x113b, 0x0028},{0x113c, 0x0029},
-      {0x113d, 0x002a},{0x113e, 0x002b},{0x113f, 0x002c},
-      {0x1140, 0x002d},{0x1143, 0x002e},{0x1144, 0x002f},
-      {0x1145, 0x0030},{0x1146, 0x0031},{0x1147, 0x0032},
-      {0x1148, 0x0033},{0x1149, 0x0034},{0x114a, 0x0035},
-      {0x114c, 0x0036},{0x114d, 0x0037},{0x114e, 0x0038},
-      {0x1150, 0x0039},{0x1151, 0x003a},{0x1152, 0x003b},
-      {0x1153, 0x003c},{0x1154, 0x003d},{0x1155, 0x003e},
-      {0x1156, 0x003f},{0x1157, 0x0040},{0x1158, 0x0041},
-      {0x1159, 0x0042},{0x115a, 0x0043},{0x115b, 0x0044},
-      {0x115c, 0x0045},{0x115d, 0x0046},{0x115e, 0x0047},
-      {0x115f, 0x0048},{0x1307, 0x0049},{0x1300, 0x004a},
-      {0x1301, 0x004b},{0x1302, 0x004c},{0x1303, 0x004d},
-      {0x1304, 0x004e},{0x1305, 0x004f},{0x1306, 0x0050},
-      {0x1309, 0x0051},{0}};
+      {Item_TxominLetter, 0x0000},{Item_Amaranth, 0x0001},{Item_OrianaLetter, 0x0002},
+      {Item_KitarakLetter, 0x0003},{Item_RabisatAsp, 0x0004},{Item_Sapphire, 0x0005},
+      {Item_Spice, 0x0006},{Item_Herb, 0x0007},{Item_Gemstone, 0x0008},
+      {Item_CradawghBody, 0x0009},{Item_GoblinMap, 0x000a},{Item_HellhoundHide, 0x000b},
+      {Item_DarkenbatHide, 0x000c},{Item_BeastHide, 0x000d},{Item_Chitlin, 0x000e},
+      {Scroll_SenseAura, 0x000f},{Scroll_Oriana, 0x0010},{Scroll_Wind, 0x0011},
+      {Scroll_Endurance, 0x0012},{Scroll_Weakness, 0x0013},{Scroll_Teleport, 0x0014},
+      {Scroll_Strength, 0x0015},{Scroll_RemovePoison, 0x0016},{Scroll_Lightning, 0x0017},
+      {Scroll_Immolation, 0x0018},{Scroll_Escape, 0x0019},{Scroll_EarthSmite, 0x001a},
+      {Scroll_DragonFlames, 0x001b},{Scroll_Debilitation, 0x001c},{Scroll_ControlElem, 0x001d},
+      {Scroll_AirShield, 0x001e},{Scroll_Lighthouse, 0x001f},{Scroll_Fireball, 0x0020},
+      {Scroll_AcidBolt, 0x0021},{Scroll_AuraOfDeath, 0x0022},{Scroll_SolarWrath, 0x0023},
+      {Scroll_Banishing, 0x0024},{Scroll_Brilliance, 0x0025},{Scroll_Charming, 0x0026},
+      {Scroll_CheatDeath, 0x0027},{Scroll_ControlMarquis, 0x0028},{Scroll_ControlZombie, 0x0029},
+      {Scroll_CrushingDeath, 0x002a},{Scroll_Darkness, 0x002b},{Scroll_DetectMoonPhase, 0x002c},
+      {Scroll_DetectSunPhase, 0x002d},{Scroll_Dexterity, 0x002e},{Scroll_DispelElemental, 0x002f},
+      {Scroll_DispelNaming, 0x0030},{Scroll_DispelNecro, 0x0031},{Scroll_DispelStar, 0x0032},
+      {Scroll_Clumsiness, 0x0033},{Scroll_FrozenDoom, 0x0034},{Scroll_Haste, 0x0035},
+      {Scroll_Light, 0x0036},{Scroll_Mirror, 0x0037},{Scroll_Stupidity, 0x0038},
+      {Scroll_Photosynth, 0x0039},{Scroll_ShieldStarlight, 0x003a},{Scroll_Exhaustion, 0x003b},
+      {Scroll_ShieldSpirit, 0x003c},{Scroll_Stamina, 0x003d},{Scroll_Stealth, 0x003e},
+      {Scroll_StellarGrav, 0x003f},{Scroll_TapStamina, 0x0040},{Scroll_Teleportation, 0x0041},
+      {Scroll_VsElemental, 0x0042},{Scroll_VsNaming, 0x0043},{Scroll_VsNecro, 0x0044},
+      {Scroll_VsStar, 0x0045},{Scroll_WallOfBones, 0x0046},{Scroll_WebOfStarlight, 0x0047},
+      {Scroll_Whitefire, 0x0048},{Amulet_Pork, 0x0049},{Amulet_Pandara, 0x004a},
+      {Amulet_Elisheva, 0x004b},{Amulet_Shamsuk, 0x004c},{Amulet_STGem, 0x004d},
+      {Amulet_Haste, 0x004e},{Amulet_Shield, 0x004f},{Amulet_Mirror, 0x0050},
+      {Amulet_Marquis, 0x0051},{0}};
     for(i=0;item_romstring_id[i][0]!=param_2->id;i++){
         if(item_romstring_id[i][0]==0){
             Gsprintf("item %u not found.",param_2->id);
@@ -126,7 +126,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
     Utilities::SetTextWidgetBoundsX(pBVar13,this->posX,ItemDetailsWidth);
     this->bottom+=pBVar13->GetHeight();
     RomString::Free(ppcVar12);
-    if ((u16)param_2->id >> 8 == 0x11) {
+    if ((u16)ITEMIDTYPE(param_2->id) == DB_SCROLL) {
       this->bottom = 0xbb;
       bVar1 = gItemDBp->Gear[search_item_array(param_2->id)].spell;
       Gsprintf(gGlobals.CommonStrings[0x215],gSpellDBp->spells[bVar1].name);
@@ -386,13 +386,10 @@ void WidgetItemDetail::PrintResistance(ElemResist *resist) {
   char buff [272];
   
   if ((resist) && (resist->element != ELEMENT_NONE)) {
-    BaseWidget *pBVar1 = AddLeftText(gGlobals.CommonStrings[0x21f]);
-    this->bottom+=pBVar1->GetHeight();
-    pBVar1 = AddLeftText(element_labels[resist->element]);
-    pBVar1->SetCoords(this->posX + 0x10,this->bottom);
+    this->bottom+=AddLeftText(gGlobals.CommonStrings[0x21f])->GetHeight();
+    AddLeftText(element_labels[resist->element])->SetCoords(this->posX + 0x10,this->bottom);
     sprintf(buff,"%.0f",(1.0f - resist->percent) *100.0f);
-    pBVar1 = AddRightText(buff);
-    this->bottom+=pBVar1->GetHeight();
+    this->bottom+=AddRightText(buff)->GetHeight();
   }
 }
 
@@ -428,7 +425,7 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   byte bVar13;
   u8 uVar14;
   u8 uVar15;
-  char acStack_128 [296];
+  char buff [296];
   SlimFont;
   SidePopup();
   pcVar1 = (armor->base).name;
@@ -436,24 +433,19 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   PrintNameIcon(pcVar1);
   PrintAspect((armor->base).aspect);
   AddLeftText(gGlobals.CommonStrings[0x220]);
-  sprintf(acStack_128,"%u",armor->Protect);
-  pBVar10 = AddRightText(acStack_128);
-  this->bottom+=pBVar10->GetHeight();
-  if ((u16)(armor->base).id >> 8 == 6) {
+  sprintf(buff,"%u",armor->Protect);
+  this->bottom+=AddRightText(buff)->GetHeight();
+  if ((u16)ITEMIDTYPE((armor->base).id) == DB_SHIELD) {
     AddLeftText(gGlobals.CommonStrings[0x221]);
-    sprintf(acStack_128,"%u",armor->DEF);
-  pBVar10 = AddRightText(acStack_128);
-  this->bottom+=pBVar10->GetHeight();
+    sprintf(buff,"%u",armor->DEF);
+  this->bottom+=AddRightText(buff)->GetHeight();
   }
   AddLeftText(gGlobals.CommonStrings[0x222]);
-  PrintPlus(armor->dex,acStack_128);
-  pBVar10 = AddRightText(acStack_128);
-  pBVar10 = AddRightText(acStack_128);
-  this->bottom+=pBVar10->GetHeight();
+  PrintPlus(armor->dex,buff);
+  this->bottom+=AddRightText(buff)->GetHeight();
   AddLeftText(pcVar1);
-  PrintPlus(armor->stealth,acStack_128);
-  pBVar10 = AddRightText(acStack_128);
-  this->bottom+=pBVar10->GetHeight();
+  PrintPlus(armor->stealth,buff);
+  this->bottom+=AddRightText(buff)->GetHeight();
   PrintStatMod((armor->base).statMod);
   PrintSkillInfo((StatMod *)armor->skillmod);
   PrintMagicInfo((u8*)armor->enchantment);
@@ -464,8 +456,8 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   this->bottom = 0xd5;
   bVar12 = Entity::GetShieldDefence(pCVar3,(ItemID)0x0);
   bVar13 = Entity::GetShieldDefence(pCVar3,(ItemID)this->varU16);
-  sprintf(acStack_128,"(%ld)",bVar13);
-  pBVar10 = WClipTXT(acStack_128);
+  sprintf(buff,"(%ld)",bVar13);
+  pBVar10 = WClipTXT(buff);
   this->bottom -= pBVar10->GetHeight();
   sVar5 = ItemDetailsWidth - (s16)pBVar10->GetWidth();
   pBVar10->SetCoords(sVar5,this->bottom);
@@ -484,8 +476,8 @@ setColor1:
     }
     pBVar10->SetColor(COLOR_RED1);
   }
-  sprintf(acStack_128,"%ld",bVar12);
-  pBVar10 = WClipTXT(acStack_128);
+  sprintf(buff,"%ld",bVar12);
+  pBVar10 = WClipTXT(buff);
   pBVar10->SetColor(COLOR_RED1);
   pBVar10->SetCoords(sVar5 - pBVar10->GetWidth(),this->bottom);
   this->Link(pBVar10);
@@ -495,8 +487,8 @@ setColor1:
   this->Link(pBVar10);
   u8 lVar8 = Entity::GetArmorProtect(pCVar3,0);
   u8 lVar9 = Entity::GetArmorProtect(pCVar3,this->varU16);
-  sprintf(acStack_128,"(%ld)",lVar9);
-  pBVar10 = WClipTXT(acStack_128);
+  sprintf(buff,"(%ld)",lVar9);
+  pBVar10 = WClipTXT(buff);
   this->bottom-=pBVar10->GetHeight();
   sVar5 = ItemDetailsWidth -pBVar10->GetWidth();
   pBVar10->SetCoords(sVar5,this->bottom);
@@ -515,8 +507,8 @@ setColor2:
     }
     pBVar10->SetColor(COLOR_RED1);
   }
-  sprintf(acStack_128,"%ld",lVar8);
-  pBVar10 = WClipTXT(acStack_128);
+  sprintf(buff,"%ld",lVar8);
+  pBVar10 = WClipTXT(buff);
   pBVar10->SetColor(COLOR_RED1);
   pBVar10->SetCoords(sVar5 - (s16)pBVar10->GetWidth(),this->bottom);
   this->Link(pBVar10);
@@ -529,7 +521,6 @@ setColor2:
 }
 
 WidgetItemDetail::WidgetItemDetail(GearInstance *gear):WidgetMenu() {
-  BaseWidget *pBVar6;
   char buff [280];
   
   SlimFont;
@@ -539,29 +530,25 @@ WidgetItemDetail::WidgetItemDetail(GearInstance *gear):WidgetMenu() {
   PrintAspect((gear->base).aspect);
   AddLeftText(gGlobals.CommonStrings[0x226]);
   sprintf(buff,"%u",(u32)gear->STR);
-  BaseWidget *pBVar6 = AddRightText(buff);
-  this->bottom+=pBVar6->GetHeight();
+  this->bottom+=AddRightText(buff)->GetHeight();
   PrintStrReq(gear->INT);
   AddLeftText(gGlobals.CommonStrings[0x21b]);
   PrintPlus2(gear->damage,buff);
-  pBVar6 = AddRightText(buff);
-  this->bottom+=pBVar6->GetHeight();
+  this->bottom+=AddRightText(buff)->GetHeight();
   AddLeftText(gGlobals.CommonStrings[0x220]);
   PrintPlus2(gear->Protection,buff);
-  pBVar6 = AddRightText(buff);
-  this->bottom +=pBVar6->GetHeight();
+  this->bottom +=AddRightText(buff)->GetHeight();
   PrintStatMod((gear->base).statMod);
   PrintSkillInfo((StatMod *)gear->skillMod);
   PrintMagicInfo((u8*)gear->enchantment);
   PrintEnchantment((gear->base).spellCharge);
-  if ((u16)(gear->base).id >> 8 == 0xd) {
+  if ((u16)ITEMIDTYPE(gear->base.id) == DB_WAND) {
     SpellCharges *pSVar3 = (gear->base).spellCharge;
     if (pSVar3){
       if (pSVar3->Charges) {
         AddLeftText(gGlobals.CommonStrings[0x227]);
         sprintf(buff,"%d",gear->base.spellCharge->Charges);
-        pBVar6 = AddRightText(buff);
-        this->bottom+=pBVar6->GetHeight();
+        this->bottom+=AddRightText(buff)->GetHeight();
       }
     }
   }

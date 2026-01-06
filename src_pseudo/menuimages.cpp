@@ -340,7 +340,7 @@ u32 iconDictSpellSymbolCount=ARRAY_COUNT(iconDictSpellSymbol);
 u8 GetItemImage(ItemID id,u32 *index){
   u32 indexOut;
 
-  switch(id >> 8) {
+  switch(ITEMIDTYPE(id)) {
   case DB_MISC:
   case DB_ARMOR:
   case DB_SHIELD:
@@ -355,13 +355,11 @@ u8 GetItemImage(ItemID id,u32 *index){
   case DB_SCROLL:
   case DB_KEYITEM:
   case DB_AMULET:
-    if (ItemIconCount) {
-      for(u32 i = 0;i < ItemIconCount;i++) {
-        if (ItemIcons[i].key == id) {
-          *index = ItemIcons[i].value;
-          return true;
-        } 
-      }
+    for(u32 i = 0;i < ItemIconCount;i++) {
+      if (ItemIcons[i].key == id) {
+       *index = ItemIcons[i].value;
+       return true;
+      } 
     }
     Gsprintf("Using default image for %d\n",id);
     N64PRINT(gGlobals.text);
@@ -373,7 +371,7 @@ u8 GetItemImage(ItemID id,u32 *index){
   #ifdef DEBUGVER
   default:
   char err[144];
-    sprintf(err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",id,id >> 8,id&0xFF);
+    sprintf(err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",id,ITEMIDTYPE(id),id&0xFF);
     CRASH("menuimages.cpp",err);
   #endif
   }
@@ -412,13 +410,11 @@ u8 GetSpellIcon(ItemID param_1,u32 *param_2){
   u32 i;
   
   bVar1=0;
-  if (param_1 >> 8 == DB_SPELL) bVar1 = gSpellDBp->GetIcon(param_1);
-  if (iconDictSpellSymbolCount) {
-    for(i=0;i<iconDictSpellSymbolCount;i++) {
-      if (bVar1 == iconDictSpellSymbol[i].key) {
-        *param_2 = (u32)iconDictSpellSymbol[i].value;
-        return true;
-      }
+  if (ITEMIDTYPE(param_1) == DB_SPELL) bVar1 = gSpellDBp->GetIcon(param_1);
+  for(i=0;i<iconDictSpellSymbolCount;i++) {
+    if (bVar1 == iconDictSpellSymbol[i].key) {
+      *param_2 = (u32)iconDictSpellSymbol[i].value;
+      return true;
     }
   }
   return false;
@@ -438,12 +434,10 @@ u8 GetSpellIcons(ItemID param_1,u32 *param_2,u32 *param_3,u32 *param_4){
 }
 
 u8 GetSkillIcons(ItemID param_1,u32 *param_2){
-  if (SkillIconCount) {
-    for(u16 i=0;i < SkillIconCount;i++) {
-      if (param_1 == SkillIcons[i].key) {
-        *param_2 = SkillIcons[i].value;
-        return true;
-      }
+  for(u16 i=0;i < SkillIconCount;i++) {
+    if (param_1 == SkillIcons[i].key) {
+      *param_2 = SkillIcons[i].value;
+      return true;
     }
   }
   return false;

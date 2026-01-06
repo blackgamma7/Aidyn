@@ -129,6 +129,7 @@ LAB_800aa598:
 }
 
 //two unused funcs below (16/32 bit versions?)
+
 s32 LZB_func_2(u8 *param_1,u32 param_2,u8 *param_3,s32 *param_4){
   u8 bVar1;
   s32 uVar2;

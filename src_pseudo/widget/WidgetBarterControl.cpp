@@ -130,7 +130,7 @@ BaseWidget* WidgetBarter::AFunc() {
           this->itemWidget->Tick();
           this->itemWidget->scrollMenu->Update();
         }
-        if ((*pIVar7 >> 8 == DB_POTION) && (!getEventFlag(FLAG_GotFirstItems))) {
+        if ((ITEMIDTYPE(*pIVar7) == DB_POTION) && (!getEventFlag(FLAG_GotFirstItems))) {
           setEventFlag(FLAG_GotFirstItems,true);
           WHANDLE->AddWidget(new WidgetMenuPrompt(Cstring(PotionFirstPrompt),0x17,0x46,130,80,80,0xff))
         }

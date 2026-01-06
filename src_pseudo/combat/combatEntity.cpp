@@ -461,7 +461,6 @@ u8 CombatEntity::GetWeaponAnimation(u8 param_2){
   return AniType_Atk6;
 }
 
-
 u32 CombatEntity::m80069114(){
   WeaponInstance *pTVar1;
   u32 uVar2;
@@ -483,7 +482,6 @@ u32 CombatEntity::m80069114(){
   }
   return uVar2;
 }
-
 
 u32 Ofunc_8006916c(CombatEntity* cEnt,u8 param_2,u8 param_3){
   s8 sVar1;
@@ -948,25 +946,22 @@ void CombatEntity::Ofunc_8006a450(s8 param_2){
 }
 
 void CombatEntity::EndTurn(){
-  CharSheet *pCVar1;
-  u16 uVar2;
-  u8 bVar3;
-  GearInstance *puVar2;
-  CombatAIInfo* pTVar1;
-  
+
   clear_camera_playerdata_focus();
-  pTVar1 = this->aiP;
-  if ((pTVar1) && ((pTVar1->flags & AIFlag_08))) CombatAI::ClearEntIndex(pTVar1);
+  CombatAIInfo* ai = this->aiP;
+  if ((ai) && ((ai->flags & AIFlag_08))) CombatAI::ClearEntIndex(ai);
   this->charSheetP->spellVal = 0xff;
   UnsetFlag(COMBATENT_CASTING);
-  pCVar1 = this->charSheetP;
-  if (pCVar1->spellSwitch == 5) {
-    puVar2 = pCVar1->pItemList->pItem[pCVar1->currSpell];
-    if ((puVar2->base.spellCharge->Charges == 0) &&
-       ((uVar2 = (u16)puVar2->base.id >> 8, uVar2 == 0x11 || (uVar2 == 0xd)))) { //scroll or wand
-      //dispose of drained acc.
-      Entity::UnequipGear(pCVar1,(u32)pCVar1->currSpell);
-      this->charSheetP->spellSwitch = 0;
+  CharSheet *chara_ = this->charSheetP;
+  if (chara_->spellSwitch == 5) {
+    GearInstance *gear = chara_->pItemList->pItem[chara_->currSpell];
+    if (gear->base.spellCharge->Charges == 0){
+      u16 type=ITEMIDTYPE(gear->base.id);
+      if((type==DB_SCROLL)||(type==DB_WAND)){
+        //dispose of drained acc.
+        Entity::UnequipGear(chara_,chara_->currSpell);
+        this->charSheetP->spellSwitch = 0;
+      }
     }
   }
   gGlobals.combatBytes[0] = 1;

@@ -52,7 +52,7 @@ class WidgetMenuChild:public WidgetMenu {
     void ShiftLeft();
     WidgetSaveFile* getCurrFile();
     bool HasPrevFile();
-    void m80032f0c();
+    void MoveWidgets();
     void SetIndex(s32 param_2);
     void RemovePrevFile();
 

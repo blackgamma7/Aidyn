@@ -155,8 +155,7 @@ WidgetSaveFile* WidgetMenuChild::getCurrFile(){return this->currFile;}
 
 bool WidgetMenuChild::HasPrevFile(){return this->prevFile!=NULL;}
 
-
-void WidgetMenuChild::m80032f0c() {
+void WidgetMenuChild::MoveWidgets() {
   s16 sVar1;
   s16 sVar2;
   WidgetSaveFile *w;

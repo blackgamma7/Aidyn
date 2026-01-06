@@ -775,7 +775,7 @@ u32 WidgetContPakDataSave::ShowSaveFiles(){
   pWVar3->AButtonFunc = FUN_80086144;
   this->sliders->AddFileWidget(pWVar3);
   Utilities::SetAlpha(this,this->col.A);
-  this->sliders->m80032f0c();
+  this->sliders->MoveWidgets();
   return this->vmF0();
 }
 
@@ -910,11 +910,11 @@ u32 WidgetContPakDataLoad::ShowSaveFiles(){
     this->sliders->AddFileWidget(new WidgetBlankFile("There are currently no games saved on this Controller Pak.",(u16 (*) [4])&uStack_48,
                         &this->col0,0,0x1c));
     Utilities::SetAlpha(this,this->col.A);
-    this->sliders->m80032f0c();
+    this->sliders->MoveWidgets();
     return this->vmF0();
   }
   else {
-    this->sliders->m80032f0c();
+    this->sliders->MoveWidgets();
     return this->vmF0();
   }
 }

@@ -117,7 +117,6 @@ BaseWidget * WidgetSkillTrain::CDownFunc() {
   return NULL;
 }
 
-
 u32 WidgetSkillTrain::GetGoldPrice(u16 param_2) {
   CharSkills *skills;
   u16 type;
@@ -137,7 +136,7 @@ u32 WidgetSkillTrain::GetGoldPrice(u16 param_2) {
 s32 WidgetSkillTrain::GetExpPrice(u16 param_2) {
   s32 price;
   
-  u16 type = param_2 >> 8;
+  u16 type = ITEMIDTYPE(param_2);
   CharSkills *skills = PARTY->Members[this->partyPicker]->Skills;
   float discount=gGlobals.SomeCase==5?1.0f:0.8f;
   switch(type){

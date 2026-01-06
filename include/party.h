@@ -32,7 +32,7 @@ class Party { /* holds party and inventory data */
     void RemoveMember(u8,u8);
     u8 HasEntity(CharSheet*);
     u32 GetAvgLevel();
-    void m8007e6a4(ItemID param_2,StatMod *param_3,byte param_4);
+    void MoveEquipToInventory(ItemID param_2,StatMod *param_3,byte param_4);
     void ClearInventory();
     u8 GetEquipError2(u8);
     u8 CombatItemCheck1(CharSheet*,u8,ItemID);

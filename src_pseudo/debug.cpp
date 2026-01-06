@@ -153,7 +153,7 @@ WidgetItemDB::~WidgetItemDB(){
       for(i=0;i<gArmorDBp->armors;i++){
                   IVar1 = gArmorDBp->Armor[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ulonglong)(u16)IVar1,
-                      &gArmorDBp->Armor[i].name,i,(u32)((u16)IVar1 >> 8),
+                      &gArmorDBp->Armor[i].name,i,(u32)((u16)ITEMIDTYPE(IVar1)),
                       (u16)IVar1 & 0xff,ArmorList[i] + 0x500);
           pBVar4->Append(gGlobals.text,IVar1);
       }
@@ -163,7 +163,7 @@ WidgetItemDB::~WidgetItemDB(){
       for(i=gArmorDBp->armors;i<gArmorDBp->total;i++){
           IVar1 = gArmorDBp->Armor[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(u16)IVar1,
-                      &gArmorDBp->Armor[i].name,i,(u32)((u16)IVar1 >> 8),
+                      &gArmorDBp->Armor[i].name,i,(u32)((u16)ITEMIDTYPE(IVar1)),
                       (u16)IVar1 & 0xff,ArmorList[i] + 0x600);
           pBVar4->Append(gGlobals.text,IVar1);
       }
@@ -173,7 +173,7 @@ WidgetItemDB::~WidgetItemDB(){
       for(i=0;i<gItemDBp->total;i++){
                   IVar1 = gItemDBp->Gear[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",IVar1,
-                      gItemDBp->Gear[i].name,i,IVar1 >> 8,
+                      gItemDBp->Gear[i].name,i,ITEMIDTYPE(IVar1),
                       IVar1 & 0xff,itemID_array[i]);
           pBVar4->Append(gGlobals.text,IVar1);
       }
@@ -184,7 +184,7 @@ WidgetItemDB::~WidgetItemDB(){
         IVar1 = gWeaponsDB->weapons[i].ID;
         sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",IVar1,
                       gWeaponsDB->weapons[i].name,pcVar7,
-                      ((u16)IVar1 >> 8),(u16)IVar1 & 0xff,
+                      ((u16)ITEMIDTYPE(IVar1)),(u16)IVar1 & 0xff,
                       weaponList[i] + 0x700);
           pBVar4->Append(gGlobals.text,IVar1);
       }
@@ -192,9 +192,9 @@ WidgetItemDB::~WidgetItemDB(){
     case 4:
       pBVar4 = new WidgetItemDBItem(17);
       for(i=0;i<17;i++) {
-        ItemID uVar5 = i + 0x1000;
+        ItemID uVar5 = IDPotion(i);
         sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",uVar5,potion_names[i],
-                    i,(uVar5 & 0xffff) >> 8,uVar5 & 0xff,uVar5);
+                    i,ITEMIDTYPE((u16)uVar5),uVar5 & 0xff,uVar5);
         pBVar4->Append(gGlobals.text,uVar5);
       }
     }
