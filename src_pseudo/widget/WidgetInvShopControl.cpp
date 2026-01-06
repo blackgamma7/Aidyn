@@ -10,69 +10,60 @@
 BaseWidget * WidgetInvShop::AFunc() {
   ItemID IVar1;
   BaseWidget *pBVar2;
-  CharSheet *pCVar3;
-  CharSheet *pCVar4;
-  pause_Substruct *ppVar8;
-  BaseWidget *uVar8;
-  BaseWidget* uVar9;
-  ItemID *pIVar10;
-  bool bVar12;
-  short sVar11;
   byte bVar13;
   u16 line;
-  ushort uVar15;
+  u16 uVar15;
   ItemID aIStack_a8 [4];
   
-  uVar8 = this->scrollMenu->AFunc();
+  BaseWidget *uVar8 = this->scrollMenu->AFunc();
   if (uVar8 == NULL) return NULL;
   if (UINT_800ed580) return NULL;
   UINT_800ed580 = 1;
-  uVar9 = uVar8->AFunc();
-  pCVar3 = (gGlobals.party)->Members[this->partyPicker];
+  BaseWidget* uVar9 = uVar8->AFunc();
+  CharSheet *pCVar3 = (gGlobals.party)->Members[this->partyPicker];
   if (gGlobals.SomeCase == 3) {
     uVar15 = (ushort)gCombatP->current_Ent->index;
     if (uVar9 == 0) {
       if (gPartyPicker != uVar15) {
-        ErrPopup(gGlobals.CommonStrings[0x1e9]);
+        ErrPopup(Cstring(CombatEquipPrompt));
         return NULL;
       }
     }
     else if (uVar9->varU16 != uVar15) {
-      ErrPopup(gGlobals.CommonStrings[0x1ea]);
+      ErrPopup(Cstring(CombatUnequipPrompt));
       return NULL;
     }
   }
-  pIVar10 = (ItemID *)uVar8->ZFunc();
+  ItemID *pIVar10 = (ItemID *)uVar8->ZFunc();
   IVar1 = (ItemID)uVar8->varU16;
-  if (uVar9 != 0) {
-    uVar15 = (ushort)*pIVar10 >> 8;
-    if (uVar15 == 7) {
-      pCVar4 = (gGlobals.party)->Members[uVar9->varU16];
+  if (uVar9) {
+    uVar15 = ITEMIDTYPE(*pIVar10);
+    if (uVar15 == DB_WEAPON) {
+      CharSheet *pCVar4 = (gGlobals.party)->Members[uVar9->varU16];
       if ((pCVar4) && (IDEntInd(Niesen) == pCVar4->ID)) {
-        Gsprintf(gGlobals.CommonStrings[0x22a],(char *)&gWeaponsDB->weapons[0x42].name,pCVar4->name);
+        Gsprintf(Cstring(XPowerfulMagic),&gWeaponsDB->weapons[0x42].name,pCVar4->name);
         ErrPopup(gGlobals.text);
         return NULL;
       }
-      if (PARTY->RemoveWeaponsFrom(uVar9->varU8)) {
+      if (PARTY->RemoveWeaponsFrom(uVar9->varU16)) {
         goto LAB_8003de94;
       }
       line = 0x7b;
     }
     else if (uVar15 == DB_ARMOR) {
-      if (PARTY->RemoveArmorFrom(uVar9->varU8)) {
+      if (PARTY->RemoveArmorFrom(uVar9->varU16)) {
         goto LAB_8003de94;
       }
       line = 0x85;
     }
     else if (uVar15 == DB_SHIELD) {
-      if (PARTY->RemoveShieldFrom(uVar9->varU8)) {
+      if (PARTY->RemoveShieldFrom(uVar9->varU16)) {
         goto LAB_8003de94;
       }
       line = 0x8f;
     }
     else {
-      sVar11 = PARTY->Members[uVar9->varU16]->pItemList->GetSlotByID(IVar1);
-      if (PARTY->RemoveGearFrom(uVar9->varU8,sVar11)) {
+      if (PARTY->RemoveGearFrom(uVar9->varU8,PARTY->Members[uVar9->varU16]->pItemList->GetSlotByID(IVar1))) {
         goto LAB_8003de94;
       }
       line = 0x9f;
@@ -117,8 +108,8 @@ LAB_8003de8c:
     }
   }
   else {
-    if ((ushort)*pIVar10 >> 8 != 0x10) {
-      if (((ushort)*pIVar10 >> 8 == 0x11) && (gGlobals.combatBytes[0] != 0xe)) {
+    if (ITEMIDTYPE(*pIVar10) != DB_POTION) {
+      if ((ITEMIDTYPE(*pIVar10) == DB_SCROLL) && (gGlobals.combatBytes[0] != 0xe)) {
         bVar13 = PARTY->GetEquipError(this->partyPicker,bVar13,NULL);
         if (bVar13 != 0) {
           goto LAB_8003de94;
@@ -137,11 +128,11 @@ LAB_8003dd28:
       goto LAB_8003de94;
     }
     if (3 < GETINDEX(*pIVar10)) {
-      TextPopup_New(gGlobals.CommonStrings[0x1e8],200,0x40,0xff,0xff,0xff,0xff,0x96,1);
+      TextPopup_New(Cstring(CombatPotionPrompt),200,0x40,0xff,0xff,0xff,0xff,0x96,1);
       return NULL;
     }
     bVar13 = this->partyPicker;
-    bVar12= PARTY->CombatItemCheck1(PARTY->Members[bVar13],bVar13,*pIVar10);
+    u8 bVar12= PARTY->CombatItemCheck1(PARTY->Members[bVar13],bVar13,*pIVar10);
     if (bVar12) {
       ErrPopup(equip_error_labels[bVar12]);
       return NULL;
@@ -151,70 +142,64 @@ LAB_8003de94:
   this->Tick();
   this->scrollMenu->Update();
   this->dollMenu->GetSlotIcons(pCVar3);
-  ppVar8 = PauseSub;
-  ppVar8->dollmenu->charStats_widget->Update(pCVar3);
-  ppVar8->dollmenu->lists->UpdateMenus(this->partyPicker);
+  pause_Substruct *pSub = PauseSub;
+  pSub->dollmenu->charStats_widget->Update(pCVar3);
+  pSub->dollmenu->lists->UpdateMenus(this->partyPicker);
   return NULL;
 }
 
 BaseWidget * WidgetInvShop::CDownFunc() {
-  BaseWidget *pBVar1;
   ItemInstance *pIVar2;
-  bool bVar4;
-  uint uVar5;
   WidgetItemDetail* pwVar3;
-  WeaponInstance WStack_d0;
-  ArmorInstance AStack_90;
-  WeaponInstance WStack_50;
-  WSMSub *pvVar1;
+  WeaponInstance wep;
+  ArmorInstance arm;
+  GearInstance gear;
   
-  pvVar1 = (WSMSub *)this->scrollMenu->substruct;
-  pBVar1 = pvVar1->items[pvVar1->highlight];
-  if (((pBVar1 != NULL) &&
+  WSMSub *pvVar1 = (WSMSub *)this->scrollMenu->substruct;
+  BaseWidget *pBVar1 = pvVar1->items[pvVar1->highlight];
+  if (((pBVar1) &&
       (pIVar2 = (ItemInstance *)pBVar1->ZFunc(),
-      (ushort)pIVar2->id >> 8 != 0x12)) && (bVar4 = ItemIsMap(pIVar2->id), !bVar4)) {
-    uVar5 = (uint)((ushort)pIVar2->id >> 8);
-    if (uVar5 == 7) {
-      createTempWeapon(&WStack_d0,pIVar2->id);
-      if (WStack_d0.base.statMod != NULL) {
-        HFREE(WStack_d0.base.statMod,0x134);
-        WStack_d0.base.statMod = pIVar2->statMod;
+      ITEMIDTYPE(pIVar2->id) != DB_KEYITEM)) && (!ItemIsMap(pIVar2->id))) {
+    u32 itemType = ITEMIDTYPE(pIVar2->id);
+    if (itemType == DB_WEAPON) {
+      createTempWeapon(&wep,pIVar2->id);
+      if (wep.base.statMod) {
+        HFREE(wep.base.statMod,0x134);
+        wep.base.statMod = pIVar2->statMod;
       }
-      if (WStack_d0.base.spellCharge != NULL) {
-        (WStack_d0.base.spellCharge)->Charges = pIVar2->spellCharge->Charges;
+      if (wep.base.spellCharge) {
+        (wep.base.spellCharge)->Charges = pIVar2->spellCharge->Charges;
       }
-      pwVar3 = new WidgetItemDetail(&WStack_d0);
-      WStack_d0.base.statMod = NULL;
-      passto_clear_weapon_effects(&WStack_d0);
+      pwVar3 = new WidgetItemDetail(&wep);
+      wep.base.statMod = NULL;
+      passto_clear_weapon_effects(&wep);
     }
-    else if (uVar5 - 5 < 2) {
-      make_temp_armor_3(&AStack_90,pIVar2->id);
-      if (AStack_90.base.statMod != NULL) {
-        HFREE(AStack_90.base.statMod,0x149);
+    else if (itemType - 5 < 2) {
+      make_temp_armor_3(&arm,pIVar2->id);
+      if (arm.base.statMod) HFREE(arm.base.statMod,0x149);
+      arm.base.statMod = pIVar2->statMod;
+      if (arm.base.spellCharge) {
+        (arm.base.spellCharge)->Charges = pIVar2->spellCharge->Charges;
       }
-      AStack_90.base.statMod = pIVar2->statMod;
-      if (AStack_90.base.spellCharge != NULL) {
-        (AStack_90.base.spellCharge)->Charges = pIVar2->spellCharge->Charges;
-      }
-      pwVar3 = new WidgetItemDetail(&AStack_90);
-      AStack_90.base.statMod = NULL;
-      ArmorInstance_ClearEffect(&AStack_90);
+      pwVar3 = new WidgetItemDetail(&arm);
+      arm.base.statMod = NULL;
+      ArmorInstance_ClearEffect(&arm);
     }
-    else if (((uVar5 - 0x10 < 2) || (uVar5 == 1)) || (uVar5 == 0x12)) {
+    else if (((itemType - 0x10 < 2) || (itemType == DB_MISC)) || (itemType == DB_KEYITEM)) {
       pwVar3 = new WidgetItemDetail(pIVar2);
     }
     else {
-      make_temp_item((GearInstance *)&WStack_50,pIVar2->id);
-      if (WStack_50.base.statMod != NULL) {
-        HFREE(WStack_50.base.statMod,0x167);
-        WStack_50.base.statMod = pIVar2->statMod;
+      make_temp_item(&gear,pIVar2->id);
+      if (gear.base.statMod != NULL) {
+        HFREE(gear.base.statMod,0x167);
+        gear.base.statMod = pIVar2->statMod;
       }
-      if (WStack_50.base.spellCharge != NULL) {
-        (WStack_50.base.spellCharge)->Charges = pIVar2->spellCharge->Charges;
+      if (gear.base.spellCharge != NULL) {
+        (gear.base.spellCharge)->Charges = pIVar2->spellCharge->Charges;
       }
-      pwVar3 = new WidgetItemDetail((GearInstance *)&WStack_50);
-      WStack_50.base.statMod = NULL;
-      clear_weapon_effects(&WStack_50);
+      pwVar3 = new WidgetItemDetail(&gear);
+      gear.base.statMod = NULL;
+      clear_weapon_effects((WeaponInstance*)&gear);
     }
     if (pwVar3) WHANDLE->AddWidget(pwVar3);
   }

@@ -328,7 +328,7 @@ COMMONSTRING_StormStorm,    // Storm
 COMMONSTRING_StormEarth,    // Earth
 COMMONSTRING_StormFire,    // Fire
 COMMONSTRING_StormLight,    // Light
-COMMONSTRING_StormLight,    // Water
+COMMONSTRING_StormWater,    // Water
 COMMONSTRING_DayMon,    // Moonday
 COMMONSTRING_DayTues,    // Tunesday
 COMMONSTRING_DayWeds,    // Weirdday

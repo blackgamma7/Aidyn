@@ -52,7 +52,7 @@ void World::dec_dayNightMagic(TerrainStruct *X){if (X->DayNightMagic != 0) {X->D
 //Parse Claendar struct into in-game time
 void World::SetTimeFromCalendar(TerrainStruct *param_1,Calendar *param_2){
   param_1->InGameTime =
-       (u32)param_2->season * (DAYS(56)) + (u32)param_2->week * (DAYS(7)) + 
+       (u32)param_2->season * (SEASONS(1)) + (u32)param_2->week * (DAYS(7)) + 
        (u32)param_2->day * DAYS(1) + (u32)param_2->hour * HOURS(1) +
        (u32)param_2->minute * MINUTES(1) + (u32)param_2->second * SECONDS(1);
   SeveralTimeFuncs(param_1);
