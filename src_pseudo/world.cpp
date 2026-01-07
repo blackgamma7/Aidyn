@@ -3,10 +3,11 @@
 #include "stringN64.h"
 #include "crash.h"
 
-u8 weather_season_array[] = {43,48,33,25,36,40,0,0};
-u8 weather_terrain_array[]={
+//likelyhood of precipitation per season (least likely during fall and winter)
+u8 sSeasonPrecipChance[] = {43,48,33,25,36,40,0,0};
+u8 sTerrainPrecipChance[]={//likelyhood of precipitation per terrain type
   0,0,0,156,5,30,0,15,0,0,20,0,0,0,0,0,0,0,100,0,0,0,0,30,15,0,156,156};
-float terrain_rand_array[]={
+float sTerrainPrecipScale[]={ //scale of precipitation per terrain type +/- 0.15
   0.5,0.5,0.4,0,0.7,0.6,0.5,0.8,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.8,0.2,0.2,0.2,0.2,0.8,0.6,0.2,0,0};
 //initalize "TerrainStruct"
 void World::init(TerrainStruct *ter){
@@ -41,32 +42,32 @@ void World::SetTerrain(TerrainStruct *ter,u8 type){
 
 u8 World::getTerrain(TerrainStruct *ter){return ter->terrain;}
 //increment the time of day (morning, night, ect.)
-void World::IncTimeOfDay(TerrainStruct *param_1){
-  param_1->partOfDay = (param_1->partOfDay+1)%5;
-  SeveralTimeFuncs(param_1);
+void World::IncTimeOfDay(TerrainStruct *ter){
+  ter->partOfDay = (ter->partOfDay+1)%5;
+  SeveralTimeFuncs(ter);
 }
 
 void World::inc_dayNightMagic(TerrainStruct *X){X->DayNightMagic++;}
 
 void World::dec_dayNightMagic(TerrainStruct *X){if (X->DayNightMagic != 0) {X->DayNightMagic--;}}
 //Parse Claendar struct into in-game time
-void World::SetTimeFromCalendar(TerrainStruct *param_1,Calendar *param_2){
-  param_1->InGameTime =
+void World::SetTimeFromCalendar(TerrainStruct *ter,Calendar *param_2){
+  ter->InGameTime =
        (u32)param_2->season * (SEASONS(1)) + (u32)param_2->week * (DAYS(7)) + 
        (u32)param_2->day * DAYS(1) + (u32)param_2->hour * HOURS(1) +
        (u32)param_2->minute * MINUTES(1) + (u32)param_2->second * SECONDS(1);
-  SeveralTimeFuncs(param_1);
-  SetFlagArray_on_Time(param_1->partOfDay,param_2->day,param_2->week,param_2->season);
+  SeveralTimeFuncs(ter);
+  SetFlagArray_on_Time(ter->partOfDay,param_2->day,param_2->week,param_2->season);
 
 }
 //Parse in-game time into Claendar struct
-void World::GetCalendarDate(TerrainStruct *param_1,Calendar *cal){
-  cal->season = GetSeason(param_1);
-  cal->week = GetWeek(param_1);
-  cal->day = GetDay(param_1);
-  cal->hour = GetHour(param_1);
-  cal->minute = GetMinute(param_1);
-  cal->second = GetSecond(param_1);
+void World::GetCalendarDate(TerrainStruct *ter,Calendar *cal){
+  cal->season = GetSeason(ter);
+  cal->week = GetWeek(ter);
+  cal->day = GetDay(ter);
+  cal->hour = GetHour(ter);
+  cal->minute = GetMinute(ter);
+  cal->second = GetSecond(ter);
 }
 
 #ifdef DEBUGVER
@@ -174,10 +175,9 @@ u8 World::UpdateTimeOfDay(TerrainStruct *ter,Calendar *cal){
   return ter->partOfDay != TodOld;
 }
 
-void World::set_weather(TerrainStruct *ter,Calendar *cal){
-  u8 bVar1;
-  u8 bVar2;
-  float fVar5;
+//"roll" for a change in weather for each shift in the time of day.
+void World::SetWeather(TerrainStruct *ter,Calendar *cal){
+  float fogHi;
   
   if (75 < RollD(1,100)) {
     ter->windByte = WIND_CLEAR;
@@ -185,24 +185,24 @@ void World::set_weather(TerrainStruct *ter,Calendar *cal){
     ter->PrecipScale = 0.0;
     ter->FogFloat = 0.0;
 
-    if ((weather_terrain_array[ter->terrain] + weather_season_array[cal->season]) >= RollD(1,100)) {  
+    if ((s16)(sTerrainPrecipChance[ter->terrain] + sSeasonPrecipChance[cal->season]) >= RollD(1,100)) {  
       if (RollD(1,100) < 70) {
         ter->rainByte = PRECIP_RAIN;
         ter->windByte = WIND_STORM;
         //set to snow where applicable
         if (ter->terrain == 5) ter->rainByte = PRECIP_SNOW;
-        ter->PrecipScale = RAND.GetFloatRange(terrain_rand_array[ter->terrain] - 0.15f,
-                           terrain_rand_array[ter->terrain] + 0.15f);
+        ter->PrecipScale = RAND.GetFloatRange(sTerrainPrecipScale[ter->terrain] - 0.15f,
+                           sTerrainPrecipScale[ter->terrain] + 0.15f);
         FLOOR(ter->PrecipScale,0.0);
-        fVar5 = 0.35;
+        fogHi = 0.35;
       }
       else {
-        fVar5 = 0.75;
+        fogHi = 0.75;
         ter->windByte = WIND_FOG;
         ter->rainByte = PRECIP_CLEAR;
         ter->PrecipScale = 0.0;
       }
-      ter->FogFloat = RAND.GetFloatRange(0.1,fVar5);
+      ter->FogFloat = RAND.GetFloatRange(0.1,fogHi);
     }
     ter->ThunderFloat = 0.0;
     if (ter->rainByte == PRECIP_RAIN)
@@ -219,7 +219,7 @@ void World::SeveralTimeFuncs(TerrainStruct *ter){
   #ifdef DEBUGVER
   if(!gDebugGameTime) return;
   #endif
-  if (change) set_weather(ter,&CalTemp);
+  if (change) SetWeather(ter,&CalTemp);
   ChangeWind(ter, &ter->windVelocity, 0.05f, 0.05f);
   SetFlagArray_on_Time(ter->partOfDay,CalTemp.day,CalTemp.week,CalTemp.season);
   set_weather_flags(ter->rainByte);
@@ -235,112 +235,112 @@ void World::Lapse10Seconds(TerrainStruct *ter){
   cap_ingame_time(ter);
   SeveralTimeFuncs(ter);}
 // passes in-game time by (delta*TerrainStruct->daySpeed) ticks
-void World::IncGameTime(TerrainStruct *param_1,s32 delta){
-  param_1->InGameTime += (delta * param_1->daySpeed);
-  cap_ingame_time(param_1);
-  SeveralTimeFuncs(param_1);}
+void World::IncGameTime(TerrainStruct *ter,s32 delta){
+  ter->InGameTime += (delta * ter->daySpeed);
+  cap_ingame_time(ter);
+  SeveralTimeFuncs(ter);}
 //8 hours pass
 void World::Lapse8Hours(TerrainStruct *ter){
   ter->InGameTime += HOURS(8);
   cap_ingame_time(ter);
   SeveralTimeFuncs(ter);}
 
-void World::AddPlayTime(TerrainStruct *param_1,s32 x){param_1->PlayTime += x;}
+void World::AddPlayTime(TerrainStruct *ter,s32 x){ter->PlayTime += x;}
 
-u32 World::GetTime(TerrainStruct *param_1){return param_1->InGameTime;}
+u32 World::GetTime(TerrainStruct *ter){return ter->InGameTime;}
 
-void World::SetTime(TerrainStruct *param_1,u32 param_2){param_1->InGameTime = param_2;}
+void World::SetTime(TerrainStruct *ter,u32 param_2){ter->InGameTime = param_2;}
 
-u8 World::GetSeason(TerrainStruct *param_1){return param_1->InGameTime / SEASONS(1);}
+u8 World::GetSeason(TerrainStruct *ter){return ter->InGameTime / SEASONS(1);}
 
-u8 World::GetWeek(TerrainStruct *param_1){return (param_1->InGameTime % SEASONS(1)) / DAYS(7);}
+u8 World::GetWeek(TerrainStruct *ter){return (ter->InGameTime % SEASONS(1)) / DAYS(7);}
 
-u8 World::GetDay(TerrainStruct *param_1){return (param_1->InGameTime % DAYS(7)) / DAYS(1);}
+u8 World::GetDay(TerrainStruct *ter){return (ter->InGameTime % DAYS(7)) / DAYS(1);}
 
-u8 World::GetHour(TerrainStruct *param_1){return (param_1->InGameTime % DAYS(1)) / HOURS(1);}
+u8 World::GetHour(TerrainStruct *ter){return (ter->InGameTime % DAYS(1)) / HOURS(1);}
 
-u8 World::GetMinute(TerrainStruct *param_1){return (param_1->InGameTime % HOURS(1)) / SECONDS(60);}
+u8 World::GetMinute(TerrainStruct *ter){return (ter->InGameTime % HOURS(1)) / SECONDS(60);}
 
-u8 World::GetSecond(TerrainStruct *param_1){return (param_1->InGameTime % SECONDS(60)) / SECONDS(1);}
+u8 World::GetSecond(TerrainStruct *ter){return (ter->InGameTime % SECONDS(60)) / SECONDS(1);}
 
-float World::get_timeofDay_float(TerrainStruct *param_1){
-  float fVar1 = (float)(param_1->InGameTime % DAYS(1)) / (float)(DAYS(1)) + param_1->TimeOfDayFloat;
+float World::get_timeofDay_float(TerrainStruct *ter){
+  float fVar1 = (float)(ter->InGameTime % DAYS(1)) / (float)(DAYS(1)) + ter->TimeOfDayFloat;
   while (fVar1 < 0.0) {fVar1 = (float)((double)fVar1 + 1.0);}
   while (1.0f <= fVar1) {fVar1 = (float)((double)fVar1 - 1.0);}
   return fVar1;
 }
 
-void World::terrainStruct_floats(TerrainStruct *param_1){
+void World::terrainStruct_floats(TerrainStruct *ter){
   float fVar1;
   float fVar2;
   float fVar3;
   
-  if (param_1->spellVisValB != 0.0) {
-    fVar1 = param_1->spellVisValA;
-    fVar3 = fVar1 - param_1->TimeOfDayFloat;
+  if (ter->spellVisValB != 0.0) {
+    fVar1 = ter->spellVisValA;
+    fVar3 = fVar1 - ter->TimeOfDayFloat;
     if (fVar3 <= 0.0) {
       fVar3 = -fVar3;
     }
-    fVar2 = param_1->spellVisValB * gGlobals.delta;
+    fVar2 = ter->spellVisValB * gGlobals.delta;
     if (0.0 < fVar2) {
       if (fVar2 < fVar3) {
-        fVar1 = param_1->spellVisValB;
+        fVar1 = ter->spellVisValB;
         goto LAB_80085a64;
       }
-      param_1->TimeOfDayFloat = fVar1;
+      ter->TimeOfDayFloat = fVar1;
     }
     else {
       if (-fVar2 < fVar3) {
-        fVar1 = param_1->spellVisValB;
+        fVar1 = ter->spellVisValB;
 LAB_80085a64:
-        param_1->TimeOfDayFloat = param_1->TimeOfDayFloat + fVar1 * gGlobals.delta;
+        ter->TimeOfDayFloat = ter->TimeOfDayFloat + fVar1 * gGlobals.delta;
         return;
       }
-      param_1->TimeOfDayFloat = fVar1;
+      ter->TimeOfDayFloat = fVar1;
     }
-    param_1->spellVisValB = 0.0;
+    ter->spellVisValB = 0.0;
   }
   return;
 }
 
-void World::spellvisuals_1(TerrainStruct *param_1,float param_2,float param_3,s16 param_4){
+void World::spellvisuals_1(TerrainStruct *ter,float param_2,float param_3,s16 param_4){
   float fVar1;
   float fVar2;
   
-  fVar2 = param_1->TimeOfDayFloat;
-  param_1->TimeOfDayFloat = 0.0;
-  fVar1 = get_timeofDay_float(param_1);
-  param_1->TimeOfDayFloat = fVar2;
+  fVar2 = ter->TimeOfDayFloat;
+  ter->TimeOfDayFloat = 0.0;
+  fVar1 = get_timeofDay_float(ter);
+  ter->TimeOfDayFloat = fVar2;
   if (param_4 == 0) {
     if (0.0 < param_2) {fVar1 = param_2 - fVar1;}
     else {fVar1 = -param_2 - fVar1;}
   }
   else {
     if (param_2 <= 0.0) {param_2 = -param_2;}
-    param_1->spellVisValA = param_2 - fVar1;
-    fVar1 = param_1->spellVisValA;
+    ter->spellVisValA = param_2 - fVar1;
+    fVar1 = ter->spellVisValA;
     if (fVar1 < 0.0) {
       do {fVar1 = (float)((double)fVar1 + 1.0);} while (fVar1 < 0.0);
-      param_1->spellVisValA = fVar1;
-      fVar1 = param_1->spellVisValA;
+      ter->spellVisValA = fVar1;
+      fVar1 = ter->spellVisValA;
     }
     if (1.0f <= fVar1) {
       do {fVar1 = (float)((double)fVar1 - 1.0);} while (1.0f <= fVar1);
-      param_1->spellVisValA = fVar1;
+      ter->spellVisValA = fVar1;
     }
-    fVar1 = param_1->spellVisValA;
+    fVar1 = ter->spellVisValA;
     if (param_4 != 2) goto LAB_80085bb8;
     fVar1 = (float)((double)fVar1 - 1.0);
   }
-  param_1->spellVisValA = fVar1;
-  fVar1 = param_1->spellVisValA;
+  ter->spellVisValA = fVar1;
+  fVar1 = ter->spellVisValA;
 LAB_80085bb8:
-  param_1->spellVisValB = (fVar1 - param_1->TimeOfDayFloat) / param_3;
+  ter->spellVisValB = (fVar1 - ter->TimeOfDayFloat) / param_3;
 }
 
-void World::spellvisuals_2(TerrainStruct *param_1,float param_2){
+void World::spellvisuals_2(TerrainStruct *ter,float param_2){
   float fVar1 = 1.0f;
   if (0.0 < param_2) fVar1 = param_2;
-  param_1->spellVisValA = 0.0;
-  param_1->spellVisValB = (0.0 - param_1->TimeOfDayFloat) / fVar1;
+  ter->spellVisValA = 0.0;
+  ter->spellVisValB = (0.0 - ter->TimeOfDayFloat) / fVar1;
 }

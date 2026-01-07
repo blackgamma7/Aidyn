@@ -58,9 +58,9 @@ char** precip_labels=NULL;
 
 TerrainStruct* TerrainPointer=NULL;
 
-extern u8 weather_season_array[];
-extern u8 weather_terrain_array[];
-extern float terrain_rand_array[];
+extern u8 sSeasonPrecipChance[];
+extern u8 sTerrainPrecipChance[];
+extern float sTerrainPrecipScale[];
 extern u8 timeofday_hours[5]; //debug only {6,9,12,18,21}
 
 
@@ -79,7 +79,7 @@ void SetWithWeatherTemp(TerrainStruct *,WeatherTemp *);
 void GetWeatherTemp(TerrainStruct *,WeatherTemp *);
 void set_moonPhase(TerrainStruct *,Calendar *);
 u8 UpdateTimeOfDay(TerrainStruct *,Calendar *);
-void set_weather(TerrainStruct *,Calendar *);
+void SetWeather(TerrainStruct *,Calendar *);
 void SeveralTimeFuncs(TerrainStruct *);
 void cap_ingame_time(TerrainStruct *);
 void Lapse10Seconds(TerrainStruct *);

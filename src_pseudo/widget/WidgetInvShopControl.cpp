@@ -9,7 +9,6 @@
 
 BaseWidget * WidgetInvShop::AFunc() {
   ItemID IVar1;
-  BaseWidget *pBVar2;
   byte bVar13;
   u16 line;
   u16 uVar15;
@@ -18,7 +17,7 @@ BaseWidget * WidgetInvShop::AFunc() {
   BaseWidget *uVar8 = this->scrollMenu->AFunc();
   if (uVar8 == NULL) return NULL;
   if (UINT_800ed580) return NULL;
-  UINT_800ed580 = 1;
+  UINT_800ed580 = true;
   BaseWidget* uVar9 = uVar8->AFunc();
   CharSheet *pCVar3 = (gGlobals.party)->Members[this->partyPicker];
   if (gGlobals.SomeCase == 3) {
@@ -79,7 +78,7 @@ LAB_8003dd40:
     aIStack_a8[0]=0;
     WSMSub* pvVar6 = (WSMSub *)this->scrollMenu->substruct;
     bVar13 = PARTY->GetEquipError(this->partyPicker,bVar13,aIStack_a8);
-    if (bVar13 != 0) {
+    if (bVar13) {
       ErrPopup(equip_error_labels[bVar13]);
       return NULL;
     }

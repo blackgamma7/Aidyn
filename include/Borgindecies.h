@@ -69,7 +69,12 @@
 #define BORG8_PortraitEarthElem 0x0132
 #define BORG8_PortraitWyvern 0x0178
 #define BORG8_PortraitWolf 0x0176
-#define BORG8_PortraitNPCMale1 293
+#define BORG8_PortraitNPCFemale1 0x0122
+#define BORG8_PortraitNPCFemale2 0x0123
+#define BORG8_PortraitNPCFemale3 0x0124
+#define BORG8_PortraitNPCMale1 0x0125
+#define BORG8_PortraitNPCMale2 0x0126
+#define BORG8_PortraitNPCMale3 0x0127
 #define BORG8_PortraitGoblin 318
 #define BORG8_PortraitGodrik 320
 #define BORG8_PortraitKeelin 335
@@ -79,6 +84,9 @@
 #define BORG8_PortraitTentacle 366
 #define BORG8_PortraitBanner 384
 #define BORG8_PortraitSignpost 385
+#define Borg8_PortraitJundarF 0x014c
+#define Borg8_PortraitJundarM 0x014e
+#define BORG8_PortraitRat 0x0163
 #define BORG8_PortraitLich 0x0175
 
 #define BORG8_SundailMoon1 0x01b3
@@ -370,6 +378,7 @@ typedef enum Borg8Enum {
 #define BORG12_Battle_Exp3 0x5b4
 #define BORG12_Battle_Exp4 0x5b9
 #define BORG12_Battle_Exp5 0x5C3
+
 //Otherwise
 
 #define BORG12_Battle_NoExp1 0x38de
@@ -420,8 +429,6 @@ typedef enum Borg8Enum {
 #define BORG12_ErromonCaves 0x790
 #define BORG12_Intro_NoExp 0x5d9 //aka Credits
 #define BORG12_Intro_Exp 0x632
-
-
 
 
 //SFX here
@@ -503,10 +510,21 @@ typedef enum Borg8Enum {
 #define BORG7_Boar              0x28df
 #define BORG7_Bear              0x2d70
 #define BORG7_Bowden            0x2729
-#define BORG7_Dougal            0x2894
-#define BORG7_Donovan           0x28ce
+#define BORG7_NPCFemale1        0x2772
+#define BORG7_NPCFemale2        0x2787
+#define BORG7_NPCFemale3        0x279c
+#define BORG7_NPCMale1          0x27b0
+#define BORG7_NPCMale2          0x27c4
+#define BORG7_NPCMale3          0x27e6
+#define BORG7_Dougal            0x28ce
+#define BORG7_Donovan           0x2894
 #define BORG7_Brenna            0x29e3
+#define BORG7_JundarFemale      0x2ab9
+#define BORG7_JundarMale        0x2aec
 #define BORG7_Keelin            0x2b29
+#define BORG7_Rheda             0x2bff
+#define BORG7_MirariFemale      0x2ca3
+#define BORG7_MirariMale        0x2cc0
 #define BORG7_Chicken           0x2ef2
 #define BORG7_Pochanargat       0x32b0
 #define BORG7_Zombie            0x3489
@@ -523,6 +541,9 @@ typedef enum Borg8Enum {
 #define BORG7_Goblin            0x3019
 #define BORG7_Goblin2           0x302a
 #define BORG7_Gryphon           0x3094
+#define BORG7_Hobgoblin         0x3120
+#define BORG7_Horse             0x3148 //also used by "Cow", "Fish" and "Flock" dialouge ents
+#define BORG7_Rat               0x32cc
 #define BORG7_Ogre              0x324d
 
 //borg6: Animation data

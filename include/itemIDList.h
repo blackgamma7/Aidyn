@@ -93,6 +93,11 @@ enum ItemIDS{
     Item_Chitlin,
 
     //Entites (using internal names as base)
+    
+    //NOTE: Shopkeeps/skill trainers use abbreviated names:
+    //"ST*" designates them as shopkeep/Skill Trainer
+    //the second pair of letters is the town from which they operate
+    //after that is the identifiying numbers
 
     Ent_Charisa=IDEnt(0),
     Ent_Edur,
@@ -765,10 +770,10 @@ enum ItemIDS{
     DEnt_Amann=IDDEnt(0),
     DEnt_Balfin,
     DEnt_Swagma,
-    DEnt_Pillar,
+    DEnt_Pillar,//unlisted in appearance getters
     DEnt_Cadme,
     DEnt_Cedric,
-    DEnt_Pochanargat,
+    DEnt_Pochanargat,//unlisted in appearance getters
     DEnt_Damek,
     DEnt_Darmath,
     DEnt_Devlin,
@@ -786,24 +791,24 @@ enum ItemIDS{
     DEnt_21,//Unknown.
     DEnt_Niala,
     DEnt_23, //unknown.
-    DEnt_Tamberlain,
+    DEnt_Tamberlain,//unlisted in appearance getters
     DEnt_Xibid,
     DEnt_Batrin,
-    DEnt_Cow,
+    DEnt_Cow,  //shown as a horse, for some reason.
     DEnt_Chicken,
     DEnt_Nurse,
     DEnt_Kolokos,
     DEnt_Gillek,
     DEnt_Jundargate,
     DEnt_Baldrik,
-    DEnt_Bodecia,
+    DEnt_Bodecia,//unlisted in appearance getters
     DEnt_KingdomSign,
     DEnt_MirariSign,
     DEnt_TerminorSign,
     DEnt_JundarSign,
     DEnt_Exponto,
-    DEnt_Fish,
-    DEnt_Flock,
+    DEnt_Fish, //shown as a horse, for some reason.
+    DEnt_Flock,//shown as a horse, for some reason.
 
     Item_NONE=-1 //item was not parsed correctly or desn't exist
 };
@@ -941,7 +946,7 @@ enum EntInd{
     EntInd_STAI02,
     EntInd_STAI01,
     EntInd_Jundarguard,
-    EntInd_Mirarifemale,
+    EntInd_MirariFemale,
     EntInd_MirariMale,
     EntInd_Female3,
     EntInd_Female2,
@@ -1089,4 +1094,44 @@ enum EntInd{
     EntInd_SandWorm,
     EntInd_Wolf,
     EntInd_Dracovern,
+};
+
+enum DiaEntInd{
+    DiaEntInd_Pochanargat,//unlisted in appearance getters
+    DiaEntInd_Pillar,//unlisted in appearance getters
+    DiaEntInd_Flock,//shown as a horse, for some reason.
+    DiaEntInd_Fish,//shown as a horse, for some reason.
+    DiaEntInd_Exponto,
+    DiaEntInd_JundarSign,
+    DiaEntInd_TerminorSign,
+    DiaEntInd_MirariSign,
+    DiaEntInd_KingdomSign,
+    DiaEntInd_Bodecia,//unlisted in appearance getters
+    DiaEntInd_Baldric,
+    DiaEntInd_Jundargate,
+    DiaEntInd_Gillek,
+    DiaEntInd_Swagma,
+    DiaEntInd_Kolokos,
+    DiaEntInd_Horse,
+    DiaEntInd_Chicken,
+    DiaEntInd_Cow,//shown as a horse, for some reason.
+    DiaEntInd_Batrin,
+    DiaEntInd_Xibid,
+    DiaEntInd_Tamberlain,//unlisted in appearance getters
+    DiaEntInd_Niala,
+    DiaEntInd_Meriona,
+    DiaEntInd_Mago,
+    DiaEntInd_Lycea,
+    DiaEntInd_Herne,
+    DiaEntInd_Honza,
+    DiaEntInd_Gavinn,
+    DiaEntInd_Fyrsil,
+    DiaEntInd_Esmerelda,
+    DiaEntInd_Devlin,
+    DiaEntInd_Darmath,
+    DiaEntInd_Damek,
+    DiaEntInd_Cedric,
+    DiaEntInd_Cadme,
+    DiaEntInd_Balfin,
+    DiaEntInd_Amann,
 };
