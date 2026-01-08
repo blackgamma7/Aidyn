@@ -7,7 +7,8 @@
 u8 Actor::IsFlyingModel(playerData* p){
    //list of Borg7 indecies of models for flying creatures.
     u16 flyingB7s[]={
-0x2d4A,0x3463,0x30c5,0x28dc,0x28e9,0x2be3,0x3094,0x31fe,0x3347,0
+BORG7_Bat,BORG7_Wyvern,BORG7_Harpy,BORG7_DryadF,BORG7_DryadM,
+  BORG7_Pandara,BORG7_Gryphon,BORG7_Manticore,BORG7_Scorpion,0
    }; 
    for(u32 i=0;flyingB7s[i]!=0;i++){
     if(p->borg7==flyingB7s[i]) return true;
@@ -941,7 +942,7 @@ render_player:
           fVar9 = three_vec2_proximities(&camCoord,&CamAim,&mapPosXZ);
           if (((u16)(pDat->ani_type == pDat->unk1a) == pDat->unk1c) || (fVar8 < fVar9)) {
             fVar11 = 5.0f;
-            if (pDat->borg7 == BORG7_ship) fVar11 = 100.0f;
+            if (pDat->borg7 == BORG7_Exponto) fVar11 = 100.0f;
             if (((Vec2Dist(&mapPosXZ,&CamAim) <= fVar11) || (fVar8 < fVar9)) &&
                (fVar9 = Vec3Dist(&param_1->camera->aim,&mapPos),
                fVar9 < param_1->shadowDist)) {

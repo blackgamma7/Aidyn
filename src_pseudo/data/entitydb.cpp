@@ -2,6 +2,7 @@
 #include "heapN64.h"
 #include "romcopy.h"
 #include "dialougEnt.h"
+#include "Borgindecies.h"
 #define FILENAME "../data/entitydb.cpp"
 
 //unused inialization method.
@@ -206,7 +207,7 @@ u32 EntityDB::GetBorg7(ItemID id){
         uVar1 = peVar6->index;
         iVar4 += 0x1c;
         if (uVar1 == 0) {
-          return 0x2d4a;
+          return BORG7_Bat;
         }
       }
       goto LAB_80075674;
@@ -214,7 +215,7 @@ u32 EntityDB::GetBorg7(ItemID id){
   }
   else {
     if ((u16)ITEMIDTYPE(id) != DB_DIALOUGEENTITY) {
-      return 0x2d4a;
+      return BORG7_Bat;
     }
     if (dailougEnt_info_array[0].index != 0) {
       pdVar7 = dailougEnt_info_array;
@@ -226,14 +227,14 @@ u32 EntityDB::GetBorg7(ItemID id){
         uVar2 = pdVar5->index;
         iVar4 += 20;
         if (uVar2 == 0) {
-          return 0x2d4a;
+          return BORG7_Bat;
         }
       }
 LAB_80075674:
       return *(u32 *)((int)&((EntityExtra *)pdVar7)->Model + iVar4);
     }
   }
-  return 0x2d4a;
+  return BORG7_Bat;
 }
 
 //unused, names refernced elsewhere

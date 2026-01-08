@@ -75,7 +75,9 @@
 #define BORG8_PortraitNPCMale1 0x0125
 #define BORG8_PortraitNPCMale2 0x0126
 #define BORG8_PortraitNPCMale3 0x0127
-#define BORG8_PortraitGoblin 318
+#define BORG8_PortraitGoblin1 0x013e
+#define BORG8_PortraitGoblin2 0x013f
+
 #define BORG8_PortraitGodrik 320
 #define BORG8_PortraitKeelin 335
 #define BORG8_PortraitShadow 361
@@ -84,8 +86,10 @@
 #define BORG8_PortraitTentacle 366
 #define BORG8_PortraitBanner 384
 #define BORG8_PortraitSignpost 385
-#define Borg8_PortraitJundarF 0x014c
-#define Borg8_PortraitJundarM 0x014e
+#define BORG8_PortraitJundarF 0x014c
+#define BORG8_PortraitJundarM 0x014e
+#define BORG8_PortraitMirariF 0x015a
+#define BORG8_PortraitMirariM 0x015b
 #define BORG8_PortraitRat 0x0163
 #define BORG8_PortraitLich 0x0175
 
@@ -502,49 +506,113 @@ typedef enum Borg8Enum {
 //Borg7: Animated model data
 
 #define BORG7_PauseMenu         0x0e6b
-#define BORG7_ship              0x0dc3
+
+//used by entities
+
+#define BORG7_JundarGate        0x0d76
+#define BORG7_Exponto           0x0dc3
+#define BORG7_Rooughah          0x1243 //locator issue prevents combat use
+#define BORG7_Abrecan           0x25c8
 #define BORG7_Alaron            0x25f9
-#define BORG7_AirElem           0x2f66
-#define BORG7_EarthElem         0x2f8d
-#define BORG7_Bat               0x2dfa
-#define BORG7_Boar              0x28df
-#define BORG7_Bear              0x2d70
+#define BORG7_Ardua             0x2607
+#define BORG7_Arturo            0x263d
+#define BORG7_Bandit1           0x26ac
+#define BORG7_Bandit2           0x26e4
+#define BORG7_Becan             0x271b
 #define BORG7_Bowden            0x2729
+#define BORG7_Farris            0x275d
 #define BORG7_NPCFemale1        0x2772
 #define BORG7_NPCFemale2        0x2787
 #define BORG7_NPCFemale3        0x279c
 #define BORG7_NPCMale1          0x27b0
 #define BORG7_NPCMale2          0x27c4
 #define BORG7_NPCMale3          0x27e6
-#define BORG7_Dougal            0x28ce
-#define BORG7_Donovan           0x2894
-#define BORG7_Brenna            0x29e3
-#define BORG7_JundarFemale      0x2ab9
-#define BORG7_JundarMale        0x2aec
-#define BORG7_Keelin            0x2b29
-#define BORG7_Rheda             0x2bff
-#define BORG7_MirariFemale      0x2ca3
-#define BORG7_MirariMale        0x2cc0
-#define BORG7_Chicken           0x2ef2
-#define BORG7_Pochanargat       0x32b0
-#define BORG7_Zombie            0x3489
-#define BORG7_Lich              0x33db
 #define BORG7_Cradagwgh         0x2808
-#define BORG7_Cyclops           0x2f1e
-#define BORG7_ChaosTrooper      0x2e82
-#define BORG7_ChaosMage         0x2eb6
-#define BORG7_ChaosScout        0x2e36
-#define BORG7_Wolf              0x3402
-#define BORG7_Wyvern            0x3463
+#define BORG7_Damek             0x2831
+#define BORG7_Delvin            0x2859
+#define BORG7_Darmath           0x284e
+#define BORG7_Donovan           0x2894
+#define BORG7_Dougal            0x28ce
 #define BORG7_DryadF            0x28dc
 #define BORG7_DryadM            0x28e9
+#define BORG7_Boar              0x28df
+#define BORG7_Phelan            0x2918
+#define BORG7_Ehud              0x294a
+#define BORG7_Gabrion           0x2978
+#define BORG7_Fyrsil            0x296d
+#define BORG7_Gechina           0x29a8
+#define BORG7_Brenna            0x29e3
+#define BORG7_Godric            0x2a1f
+#define BORG7_Gotzone           0x2a43
+#define BORG7_Guard1            0x2a58
+#define BORG7_Guard2            0x2a82
+#define BORG7_Guard3            0x2aae
+#define BORG7_JundarFemale      0x2ab9
+#define BORG7_JundarGuard       0x2ad3
+#define BORG7_JundarMale        0x2aec
+#define BORG7_Keelin            0x2b29
+#define BORG7_Mago              0x2b41
+#define BORG7_Marquis           0x2b75
+#define BORG7_Niesen            0x2bb3
+#define BORG7_Oriana            0x2bd7
+#define BORG7_Rheda             0x2bff
+#define BORG7_Shadow            0x2c17 //the character Shadow/Norala
+#define BORG7_Sheridan          0x2c31
+#define BORG7_Sholeh            0x2c6a
+#define BORG7_Trahern           0x2c77
+#define BORG7_Txomin            0x2c83
+#define BORG7_MirariFemale      0x2ca3
+#define BORG7_MirariMale        0x2cc0
+#define BORG7_Yeraza            0x2ccd
+#define BORG7_Pandara           0x2be3
+#define BORG7_Zeratas           0x2d03
+#define BORG7_Zurene            0x2d27
+#define BORG7_Bat               0x2d4a
+#define BORG7_Bear              0x2d70
+#define BORG7_Lugash            0x2db7
+#define BORG7_ChaosLt           0x2de0
+#define BORG7_ChaosMjr          0x2e09
+#define BORG7_ChaosScout        0x2e36
+#define BORG7_ChaosWarrior      0x2e5b
+#define BORG7_ChaosTrooper      0x2e82
+#define BORG7_ChaosMage         0x2eb6
+#define BORG7_ChaosSlayer       0x2ee1
+#define BORG7_Chicken           0x2ef2
+#define BORG7_Cyclops           0x2f1e
+#define BORG7_AirElem           0x2f66
+#define BORG7_EarthElem         0x2f8d
+#define BORG7_FireElem          0x2fba
+#define BORG7_WaterElem         0x2fe1
+#define BORG7_Golem             0x3009
 #define BORG7_Goblin            0x3019
 #define BORG7_Goblin2           0x302a
+#define BORG7_Gorgon            0x3066
+#define BORG7_Harpy             0x30c5
 #define BORG7_Gryphon           0x3094
+#define BORG7_HellHound         0x30f1
 #define BORG7_Hobgoblin         0x3120
 #define BORG7_Horse             0x3148 //also used by "Cow", "Fish" and "Flock" dialouge ents
+#define BORG7_LizardMan         0x3176
+#define BORG7_LizardManBoss     0x31a2
+#define BORG7_LizardManSgt      0x31a2
+#define BORG7_Manticore         0x31fe
+#define BORG7_Minotuar          0x3224
+#define BORG7_OrgeBoss          0x3276
+#define BORG7_Baird             0x327b
+#define BORG7_Pochanargat       0x32b0
 #define BORG7_Rat               0x32cc
 #define BORG7_Ogre              0x324d
+#define BORG7_Salamander        0x32f8
+#define BORG7_SandWorm          0x3316
+#define BORG7_Scorpion          0x3347
+#define BORG7_Skeleton          0x336a
+#define BORG7_Tentacle          0x337a
+#define BORG7_Troll             0x33AD
+#define BORG7_Lich              0x33db
+#define BORG7_Wolf              0x3402
+#define BORG7_Wraith            0x3434
+#define BORG7_Wyvern            0x3463
+#define BORG7_Zombie            0x3489
 
 //borg6: Animation data
 
@@ -594,6 +662,7 @@ typedef enum Borg8Enum {
 #define BORG9_Campsite          0x185c
 
 //Borg13: Dialouge
+
 #define BORG13_OpeningDialog    0x0362
 #define BORG13_GoblinAmbush     0x0365
 #define BORG13_LugashIntro      0x04D1
