@@ -31,4 +31,4 @@ potionRecipie potionRecipies[15]={
 void makePotionMenu(u32 partyInd);
 potionRecipie* get_potion_recipie(u8 ind);
 bool check_potion_ingredient(u8 q, u16 ind);
-bool check_potion_ingredient(potionRecipie* rec);
+bool check_potion_ingredients(potionRecipie* rec);

@@ -614,6 +614,22 @@ typedef enum Borg8Enum {
 #define BORG7_Wyvern            0x3463
 #define BORG7_Zombie            0x3489
 
+//potion combat effects
+
+#define BORG7_PotionFXAcid      0x19cb
+#define BORG7_PotionFXAntidote  0x19db
+#define BORG7_PotionFXInferno   0x1a00
+#define BORG7_PotionFXCuring    0x1a10
+#define BORG7_PotionFXDefence   0x1a20
+#define BORG7_PotionFXDexterity 0x1a48
+#define BORG7_PotionFXFire      0x1a56
+#define BORG7_PotionFXHealing   0x1a65
+#define BORG7_PotionFXRestore   0x1a74
+#define BORG7_PotionFXSleep     0x1a83
+#define BORG7_PotionFXStamina   0x1a91
+#define BORG7_PotionFXStrength  0x1ab9
+
+
 //borg6: Animation data
 
 //used for the titlescreen flycam

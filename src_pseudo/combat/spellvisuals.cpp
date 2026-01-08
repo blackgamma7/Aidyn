@@ -1184,70 +1184,68 @@ switchD_80096660_caseD_1:
   return ind;
 }
 
-s32 GetPotionB7(u8 param_1,u32 *param_2){
-  s32 sVar1;
-  undefined4 uVar2;
-  
-  uVar2 = 0;
+s32 GetPotionB7(u8 param_1,u32 *oSize){
+  s32 ind;
+  u32 size = 0;
   if (false) {
 switchD_80096820_caseD_b:
-    sVar1 = -1;
+    ind = -1;
     goto LAB_800968bc;
   }
   switch(param_1) {
   case POTION_FIRE:
-    sVar1 = 0x1a56;
-    uVar2 = 0x3000;
+    ind = BORG7_PotionFXFire;
+    size = 0x3000;
     break;
   case POTION_INFERNO:
-    sVar1 = 0x1a00;
-    uVar2 = 0x6400;
+    ind = BORG7_PotionFXInferno;
+    size = 0x6400;
     break;
   case POTION_SLEEP:
-    sVar1 = 0x1a83;
-    uVar2 = 0x3c00;
+    ind = BORG7_PotionFXSleep;
+    size = 0x3c00;
     break;
   case POTION_ACID:
-    sVar1 = 0x19cb;
-    uVar2 = 0x3c00;
+    ind = BORG7_PotionFXAcid;
+    size = 0x3c00;
     break;
   case POTION_HEALING:
-    sVar1 = 0x1a65;
-    uVar2 = 0x4000;
+    ind = BORG7_PotionFXHealing;
+    size = 0x4000;
     break;
   case POTION_STAMINA:
-    sVar1 = 0x1a91;
-    uVar2 = 0x4800;
+    ind = BORG7_PotionFXStamina;
+    size = 0x4800;
     break;
   case POTION_CURING:
-    sVar1 = 0x1a10;
-    uVar2 = 0x6400;
+    ind = BORG7_PotionFXCuring;
+    size = 0x6400;
     break;
   case POTION_ANTIDOTE:
-    sVar1 = 0x19db;
-    uVar2 = 0x4400;
+    ind = BORG7_PotionFXAntidote;
+    size = 0x4400;
     break;
   case POTION_RESTORE:
-    sVar1 = 0x1a74;
-    uVar2 = 0x5000;
+    ind = BORG7_PotionFXRestore;
+    size = 0x5000;
     break;
   case POTION_STRENGTH:
-    sVar1 = 0x1ab9;
+    ind = BORG7_PotionFXStrength;
     goto LAB_80096840;
   case POTION_DEXTERITY:
-    sVar1 = 0x1a48;
+    ind = BORG7_PotionFXDexterity;
 LAB_80096840:
-    uVar2 = 0x12000;
+    size = 0x12000;
     break;
   default:
     goto switchD_80096820_caseD_b;
   case POTION_DEFENCE:
-    sVar1 = 0x1a20;
-    uVar2 = 0x5400;
+    ind = BORG7_PotionFXDefence;
+    size = 0x5400;
   }
 LAB_800968bc:
-  *param_2 = uVar2;
-  return sVar1;
+  *oSize = size;
+  return ind;
 }
 
 s32 getPotionB5(u8 param_1,u32 *param_2){
