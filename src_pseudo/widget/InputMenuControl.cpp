@@ -130,7 +130,6 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
   return NULL;
 }
 
-
 BaseWidget * InputMenu_StartButton(BaseWidget *w0,BaseWidget *w1){
   byte bVar1;
   s16 sVar2;
