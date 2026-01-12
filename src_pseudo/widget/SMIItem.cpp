@@ -81,6 +81,7 @@ u16 SMIItem::GetWidth(){return (boundX1-boundX0);}
 u16 SMIItem::GetHeight(){return 13;}
 BaseWidget * SMIItem::AFunc(){return userPortrait;}
 BaseWidget * SMIItem::BFunc(){return QuantityText;}
+//used to call ItemInstance instead when added to WidgetInvShop->scrollmenu
 BaseWidget * SMIItem::ZFunc(){return (BaseWidget*)item;}
 u32 SMIItem::GetNumber(){return WidgetN_Other;}
 

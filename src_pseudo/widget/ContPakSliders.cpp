@@ -120,7 +120,7 @@ void ControllerPakSliders::SetEntry(){
                         this->boundX0 + 116,this->boundY0 + 87,this->boundX1,this->boundY1,256);
     this->PlayerName->SetColor((this->childCol).R,(this->childCol).G,(this->childCol).B,(this->childCol).A);
     u32 time = this->saveDat->savePartyHead->time;
-    sprintf(gGlobals.text,gGlobals.CommonStrings[0x1e1],time / (HOURS(1)),
+    Gsprintf(Cstring(HoursXYZ),time / (HOURS(1)),
                 (time % (HOURS(1))) / MINUTES(1),(time % MINUTES(1)) / SECONDS(1));
     this->TimePlayed = Utilities::AddClipTextWidget(this,gGlobals.text,this->boundX0 + 116,
                         this->boundY0 + 98,this->boundX1,this->boundY1,256);

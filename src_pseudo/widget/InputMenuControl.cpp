@@ -44,7 +44,6 @@ BaseWidget * InputMenu_BButton(BaseWidget *w0,BaseWidget *w1){
     return w1;
 }
 
-
 BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
   s16 sVar1;
   char *pcVar3;
@@ -68,7 +67,7 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
     piVar2->entry[piVar2->entryIndex] = (char)uVar10->varU16;
   }
   else {
-    if (uVar14 == '`') {//"X"
+    if (uVar14 == '`') {//"X"/Cancel
       w1->varU8 = 0;
       return w1;
     }

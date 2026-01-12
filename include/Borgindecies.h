@@ -48,6 +48,11 @@
 #define BORG8_LoadGameTitle 0x00f1
 #define BORG8_SaveGameTitle 0x00ff
 
+#define BORG8_BarterBG 0x00E2
+#define BORG8_BarterBGShadow 0x00E4
+#define BORG8_TitleBuy 0x00E7
+#define BORG8_TitleTreasure 0x00F0
+
 //character portaits
 
 #define BORG8_PortraitAbrecan 0x0106

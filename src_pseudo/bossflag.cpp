@@ -9,11 +9,11 @@ void set_boss_flag(){
     case EntInd_Kitarak:
       setEventFlag(FLAG_KilledKitarak,true);
       break;
-    case EntInd_Ehud:
-      setEventFlag(FLAG_KilledEhud,true);
+    case EntInd_Pochanargat:
+      setEventFlag(FLAG_KilledPochanargat,true);
       break;
-    case EntInd_Shadow:
-      setEventFlag(FLAG_BestedShadow,true);
+    case EntInd_Ehud:
+      setEventFlag(FLAG_KilledShamsuk,true);
       break;
     case EntInd_Ksathra:
       setEventFlag(FLAG_KilledKsathra,true);

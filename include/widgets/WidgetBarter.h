@@ -39,9 +39,9 @@ class DollBarterConfirm: public WidgetMenu {
     WidgetInvShop* currShop;
     BaseWidget* bg;
     WidgetScrollMenu *scroll;
-    int unk88;
+    int salePrice;
     u8 quant;
-    DollBarterConfirm(WidgetInvShop *,u32);
+    DollBarterConfirm(WidgetInvShop *shop,u32 sellPrice);
     ~DollBarterConfirm();
     Gfx* Render(Gfx*, u16, u16, u16, u16);
     u8 Tick();

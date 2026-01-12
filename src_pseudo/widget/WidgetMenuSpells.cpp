@@ -74,15 +74,15 @@ void WidgetMenuSpells::GetPrices() {
     s32 exp = this->lists->menus[this->lists->menuIndex]->GetExpPrice(uVar3->varU16);
     s32 gold = this->lists->menus[this->lists->menuIndex]->GetGoldPrice(uVar3->varU16);
     if (exp == -1)
-      sprintf(Utilities::GetWidgetText(this->expCost),gGlobals.CommonStrings[0x1ed]);
+      sprintf(Utilities::GetWidgetText(this->expCost),Cstring(ExpCostMax));
     else
-      sprintf(Utilities::GetWidgetText(this->expCost),gGlobals.CommonStrings[0x1ee],exp);
+      sprintf(Utilities::GetWidgetText(this->expCost),Cstring(ExpCost),exp);
     if (gGlobals.playerCharStruct.current_shopkeep == IDEntInd(Oriana))
       sprintf(Utilities::GetWidgetText(this->goldCost)," ");
-    else sprintf(Utilities::GetWidgetText(this->goldCost),gGlobals.CommonStrings[0x208],gold);
+    else sprintf(Utilities::GetWidgetText(this->goldCost),Cstring(GoldCost),gold);
   }
-  sprintf(Utilities::GetWidgetText(this->expRemain),gGlobals.CommonStrings[0x1ef],
-              PARTY->Members[this->partyPicker]->EXP->spending);
+  sprintf(Utilities::GetWidgetText(this->expRemain),Cstring(ExpRemain),
+          PARTY->Members[this->partyPicker]->EXP->spending);
 }
 
 Gfx * WidgetMenuSpells::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {

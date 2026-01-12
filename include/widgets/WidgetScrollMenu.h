@@ -41,7 +41,7 @@ class WidgetFastScrollMenu : public BaseWidget{
     BaseWidget* DownFunc();
     BaseWidget* AFunc();
     u16 GetHeight();
-    void SetSubstructColors(u8 r,u8 g,u8 b,u8 a,u8 r1,u8 g1,u8 b1,u8 a1,u8 param_10);
+    void SetColors(u8 r,u8 g,u8 b,u8 a,u8 r1,u8 g1,u8 b1,u8 a1,u8 blend);
     u8 Append(BaseWidget* entry);
     u32 GetNumber();
 };

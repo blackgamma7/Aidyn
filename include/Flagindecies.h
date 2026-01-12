@@ -71,7 +71,7 @@
 #define FLAG_KilledKitarak 154
 #define FLAG_KilledShamsuk 458
 #define FLAG_KilledLugash 533
-#define FLAG_KilledEhud 3204
+#define FLAG_KilledPochanargat 3204
 #define FLAG_KilledBehrooz 3733
 #define FLAG_KilledNasim 3734
 #define FLAG_KilledGolnar 3735
@@ -79,7 +79,6 @@
 #define FLAG_KilledShatrevar 3737
 #define FLAG_KilledKsathra 3738
 #define FLAG_KilledAssim 3739
-#define FLAG_BestedShadow 458
 
 //party join/death/leave flags
 
@@ -140,7 +139,7 @@
 
 
 #define FLAG_LearnedFirstSpell 3611
-#define FLAG_GotFirstItems 3612
+#define FLAG_GotFirstPotion 3612
 
 #define FLAG_GoblinAmbush 978 //ID of goblin poisoner group at start of game.
 #define FLAG_LugashFight 5250

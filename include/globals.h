@@ -120,7 +120,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     vec3f combatCursorPos;
     s8 ShadowIndex;
     s8 AlaronIndex;
-    u8 GoblinHitTally;
+    u8 GoblinHitTally; //counts ambush hits Alaron can take before KO
     u32 expGained;
     u32 combatByteMirror;
     SkyStruct sky;
@@ -174,7 +174,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u16 screenFadeMode;
     u16 field92_0x204a;
     char** CommonStrings;
-    u8 goblinAmbush;
+    u8 goblinAmbush; //set true if combat enconter is goblin ambus at start
     float VolSFX;
     float VolBGM;
     float cloudsFloat;

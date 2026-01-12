@@ -70,7 +70,7 @@ void WidgetStatTrain::InitMenu() {
     sub->XOff = uVar1;
     sub->yOff = uVar2;
   }
-  this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  this->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   this->Link(this->scrollMenu);
   for(i=0;i<STAT_TOTAL;i++) {
     if (i != STAT_LV) this->scrollMenu->Append(new SMStatItem(pStats,i));

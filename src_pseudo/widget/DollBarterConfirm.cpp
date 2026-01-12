@@ -2,7 +2,7 @@
 
 DollBarterConfirm::~DollBarterConfirm(){WidgetMenu::~WidgetMenu();}
 
-DollBarterConfirm::DollBarterConfirm(WidgetInvShop *param_2,u32 param_3):WidgetMenu() {
+DollBarterConfirm::DollBarterConfirm(WidgetInvShop *shop,u32 sellPrice):WidgetMenu() {
     ushort uVar1;
   PartyInventory *pPVar3;
   bool bVar5;
@@ -18,9 +18,9 @@ DollBarterConfirm::DollBarterConfirm(WidgetInvShop *param_2,u32 param_3):WidgetM
   byte bVar14;
   char buff [256];
   
-  this->currShop = param_2;
-  this->unk88 = param_3;
-  uVar8 = param_2->scrollMenu->AFunc();
+  this->currShop = shop;
+  this->salePrice = sellPrice;
+  uVar8 = shop->scrollMenu->AFunc();
   if (uVar8->AFunc()) CRASH("dollbarterconfirm.cpp","Tried to sell/drop an equipped item!");
   ItemInstance* item = (ItemInstance*)uVar8->ZFunc();
   if (item == NULL) CRASH("No Item!","DollBarterConfirm");
@@ -28,19 +28,19 @@ DollBarterConfirm::DollBarterConfirm(WidgetInvShop *param_2,u32 param_3):WidgetM
   this->varU16 = uVar1;
   this->varU8 = PARTY->Inventory->GetItemIndex(uVar1);
   this->quant = PARTY->Inventory->GetItemQuantity(this->varU8);
-  if (this->unk88 == 0) sprintf(buff,gGlobals.CommonStrings[0x1d8],item->name);
-  else sprintf(buff,gGlobals.CommonStrings[0x1d7],this->unk88,item->name);
+  if (!this->salePrice) sprintf(buff,Cstring(DropXConfirm),item->name);
+  else sprintf(buff,Cstring(SellYForX),this->salePrice,item->name);
   pBVar9 = WClipTXT(buff);
   Utilities::SetTextWidgetBoundsX(pBVar9,0x50,0xf0);
   this->scroll = new WidgetScrollMenu(6);
   this->scroll->SetColor(200,0xb4,100,0xff);
-  if (this->unk88 == 0) sprintf(buff,gGlobals.CommonStrings[0x1da]);
+  if (!this->salePrice) sprintf(buff,gGlobals.CommonStrings[0x1da]);
   else sprintf(buff,gGlobals.CommonStrings[0x1d9]);
   pBVar10 = WClipTXT(buff);
   this->scroll->Append(pBVar10);
   pBVar10->varU8 = 0;
   if (this->quant == 1) {
-    if (this->unk88 == 0) strcpy(buff,gGlobals.CommonStrings[0x1dc]);
+    if (!this->salePrice) strcpy(buff,gGlobals.CommonStrings[0x1dc]);
     else strcpy(buff,gGlobals.CommonStrings[0x1db]);
     pBVar10 = WClipTXT(buff);
     this->scroll->Append(pBVar10);
@@ -49,18 +49,14 @@ DollBarterConfirm::DollBarterConfirm(WidgetInvShop *param_2,u32 param_3):WidgetM
   else {
     u8 bundles[]={1,5,10,20,0};
     for(u8 i=0; bundles[i]!=0 && bundles[i]<this->quant ; i++){
-        if (this->unk88) sprintf(buff,Cstring(SellXMany),bundles[i]);
+        if (this->salePrice) sprintf(buff,Cstring(SellXMany),bundles[i]);
         else sprintf(buff,Cstring(DropXMany),bundles[i]);
         WidgetClipText* cTxt=WClipTXT(buff);
         this->scroll->Append(cTxt);
         cTxt->varU8=bundles[i];
     }
-    if (this->unk88 == 0) {
-      strcpy(buff,gGlobals.CommonStrings[0x1e0]);
-    }
-    else {
-      strcpy(buff,gGlobals.CommonStrings[0x1df]);
-    }
+    if (!this->salePrice) strcpy(buff,Cstring(DropAll));
+    else strcpy(buff,Cstring(SellAll));
     pBVar10 = WClipTXT(buff);
     this->scroll->Append(pBVar10);
     bVar14 = this->quant;
@@ -94,7 +90,7 @@ BaseWidget* DollBarterConfirm::AFunc() {
   if (w->varU8){
     PARTY->Inventory->TakeItem(this->varU16,w->varU8);
     ItemID id = (ItemID)this->varU16;
-    (gGlobals.party)->Gold += this->unk88 * (uint)w->varU8;
+    (gGlobals.party)->Gold += this->salePrice * (uint)w->varU8;
     pSub->dollmenu->lists->invMenu->SetHighlight(id,w->varU8,0xff);
     pSub->dollmenu->lists->invMenu->Tick();
     pSub->dollmenu->lists->invMenu->scrollMenu->Update();

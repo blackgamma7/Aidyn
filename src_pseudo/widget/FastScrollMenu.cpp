@@ -75,7 +75,7 @@ u8 WidgetFastScrollMenu::Tick(){
     highlighted->SetColor((sub->col).R,(sub->col).G,(sub->col).B,(sub->col).A);
     highlighted->Tick();
   }
-  return BaseWidget::TickChildren();
+  return TickChildren();
 }
 
 void WidgetFastScrollMenu::AdjustItemsX(){
@@ -194,7 +194,17 @@ u16 WidgetFastScrollMenu::GetHeight(){
   return 0;
 }
 
-void WidgetFastScrollMenu::SetSubstructColors(u8 r,u8 g,u8 b,u8 a,u8 r1,u8 g1,u8 b1,u8 a1,u8 param_10){
+//set colors for items and highlight
+//@param r: items' red color
+//@param g: items' green color
+//@param b: items' blue color
+//@param a: items' alpha color
+//@param r1: highlighted red color
+//@param g1: highlighted green color
+//@param b1: highlighted blue color
+//@param a1: highlighted alpha color
+//@param blend: speed for hightlight color blend
+void WidgetFastScrollMenu::SetColors(u8 r,u8 g,u8 b,u8 a,u8 r1,u8 g1,u8 b1,u8 a1,u8 blend){
   WSMSub *sub = (WSMSub *)this->substruct;
   sub->blendSign = 1;
   (sub->col).R = r;
@@ -209,7 +219,7 @@ void WidgetFastScrollMenu::SetSubstructColors(u8 r,u8 g,u8 b,u8 a,u8 r1,u8 g1,u8
   sub->greens[1] = g1;
   sub->blues[1] = b1;
   sub->alphas[1] = a1;
-  sub->blendA = param_10;
+  sub->blendA = blend;
   sub->blendB = 0;
 }
 

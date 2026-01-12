@@ -61,7 +61,7 @@ void WidgetSpellTrain::InitMenu() {
     pvVar13->XOff = uVar1;
     pvVar13->yOff = uVar2;
   }
-  this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  this->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
   this->Link(this->scrollMenu);
   WidgetTrainShop::SetArrows();
   for(u32 i=0;i<count;i++){
@@ -162,12 +162,10 @@ s32 WidgetSpellTrain::GetExpPrice(u16 id) {
   return price;
 }
 
-
 bool shopkeepNotOriana(void) {
   return gGlobals.playerCharStruct.current_shopkeep != IDEntInd(Oriana);}
 
-
-void WidgetSpellTrain::Purchase(ItemID param_2,u8 x) {
+void WidgetSpellTrain::Purchase(u16 param_2,u8 x) {
   CharSheet *pCVar1;
   SpellBook *spellbook;
   SpellInstance *pSVar2;
@@ -187,7 +185,7 @@ void WidgetSpellTrain::Purchase(ItemID param_2,u8 x) {
   if (pCVar1->spellbook->HaveSpell(param_2,auStack_b0)) {
     pSVar2 = spellbook->spells[auStack_b0[0]];
     if (TempSpell::IsMaxRank(pSVar2)) {
-      ErrPopup(gGlobals.CommonStrings[0x228]);
+      ErrPopup(gGlobals.CommonStrings[552]);
       return;
     }
     pSVar2->level++;
@@ -211,12 +209,11 @@ void WidgetSpellTrain::Purchase(ItemID param_2,u8 x) {
   ppVar3->dollmenu->charStats_widget->Update(pCVar1);
   if ((newSpell) && (!getEventFlag(FLAG_LearnedFirstSpell))) {
     setEventFlag(FLAG_LearnedFirstSpell,true);
-    WHANDLE->AddWidget(new WidgetMenuPrompt(gGlobals.CommonStrings[0x1f1],23,70,COLOR_RED1));
+    WHANDLE->AddWidget(new WidgetMenuPrompt(gGlobals.CommonStrings[497],23,70,COLOR_RED1));
   }
 }
 
-
-void WidgetSpellTrain::Confirm(ItemID id,u16 lv) {
+void WidgetSpellTrain::Confirm(u16 id,u16 lv) {
   CharSheet *pCVar2;
   bool bVar6;
   int iVar3;
@@ -232,7 +229,7 @@ void WidgetSpellTrain::Confirm(ItemID id,u16 lv) {
   notOriana = shopkeepNotOriana();
   s8 wiz = pCVar2->Skills->capSkillBaseMax(SKILL_Wizard);
   if (wiz == -1) {
-    ErrPopup(gGlobals.CommonStrings[0x1f2]);
+    ErrPopup(gGlobals.CommonStrings[498]);
     return;
   }
   bool afterBattle=gGlobals.SomeCase == 5;
@@ -286,18 +283,18 @@ confirmPurchase:
       Color32 aCStack_78={200,180,100,0xff};
       Color32 aCStack_b8={COLOR_WHITE};
       WidgetChoiceDia *pWVar4 = new WidgetChoiceDia(2,gGlobals.text,150,&aCStack_b8,&aCStack_78,0,0,0);
-      WidgetClipText* pBVar5 = WClipTXT(gGlobals.CommonStrings[0x1f]);
+      WidgetClipText* pBVar5 = WClipTXT(gGlobals.CommonStrings[31]);
       pBVar5->AButtonFunc = WST_AButtonFunc;
       pBVar5->varU16 = (u16)id;
       pBVar5->varU8 = abStack_3c0[0];
       pWVar4->AppendScrollMenu(pBVar5);
-      pWVar4->AppendScrollMenu(WClipTXT(gGlobals.CommonStrings[0x20]));
+      pWVar4->AppendScrollMenu(WClipTXT(gGlobals.CommonStrings[32]));
       pWVar4->Update();
       WHANDLE->AddWidget(pWVar4);
       return;
     }
-    if (!notOriana) Gsprintf(gGlobals.CommonStrings[0x1f7],exp_magic_price);
-    else Gsprintf(gGlobals.CommonStrings[0x1f6],exp_magic_price,gold_magic_price);
+    if (!notOriana) Gsprintf(Cstring(SpellExpGCost),exp_magic_price);
+    else Gsprintf(Cstring(SpellExpGCost),exp_magic_price,gold_magic_price);
   }
   ErrPopup(gGlobals.text);
 }

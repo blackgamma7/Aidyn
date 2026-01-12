@@ -14,14 +14,11 @@ WidgetCalendar::~WidgetCalendar() {
   WidgetMenu::~WidgetMenu();
 }
 
-
 u32 WidgetCalendar::Init() {
   WCSub* sub = new WCSub;
   char* monthnames[]={ //why not just offset from the first?
-  gGlobals.CommonStrings[0x93],gGlobals.CommonStrings[0x94],gGlobals.CommonStrings[0x95],
-  gGlobals.CommonStrings[0x96],gGlobals.CommonStrings[0x97],gGlobals.CommonStrings[0x98],
-  gGlobals.CommonStrings[0x99],gGlobals.CommonStrings[0x9a],gGlobals.CommonStrings[0x9b],
-  gGlobals.CommonStrings[0x9c],gGlobals.CommonStrings[0x9d],gGlobals.CommonStrings[0x9e]
+    Cstring(Month00),Cstring(Month01),Cstring(Month02),Cstring(Month03),Cstring(Month04),Cstring(Month05),
+    Cstring(Month06),Cstring(Month07),Cstring(Month08),Cstring(Month09),Cstring(Month10),Cstring(Month11),
   };
   this->substruct = sub;
   Calendar cal;

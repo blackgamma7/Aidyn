@@ -1362,12 +1362,12 @@ char * Party::PrintHeal(u8 A,u8 B){
 
   CharSheet* user = this->Members[A];
   CharSheet* target = this->Members[B];
-  if ((!user) || (!target)) return gGlobals.CommonStrings[0x1b4];
+  if ((!user) || (!target)) return Cstring(InvalidMember);
   else {
     uVar2 = Entity::getHPCurrent(target);
     if (uVar2 == Entity::getHPMax(target)) {
       pcVar1 = target->name;
-      pcVar9 = gGlobals.CommonStrings[0x1b7];
+      pcVar9 = Cstring(HealMenuMaxHP);
     }
     else {
       if (gGlobals.screenFadeModeSwitch == 2) {

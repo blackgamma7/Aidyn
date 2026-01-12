@@ -17,8 +17,8 @@ BaseWidget * WidgetBarter::DownFunc() {
 BaseWidget * WidgetBarter::LeftFunc() {
   if(this->itemWidget->scrollMenu->AFunc()){
     this->description=this->itemWidget;
-    this->itemWidget->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
-    this->unk84->scrollMenu->SetSubstructColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+    this->itemWidget->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+    this->unk84->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
     UpdateGoldText();
   }
   return NULL;
@@ -26,8 +26,8 @@ BaseWidget * WidgetBarter::LeftFunc() {
 
 BaseWidget * WidgetBarter::RightFunc() {
   this->description=this->itemWidget;
-  this->description->scrollMenu->SetSubstructColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
-  this->unk84->scrollMenu->SetSubstructColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+  this->description->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+  this->unk84->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
   UpdateGoldText();
   return NULL;
 }
@@ -44,17 +44,15 @@ BaseWidget * WidgetBarter::BFunc() {
         Color32 colA={COLOR_WHITE};
         Color32 colB={200,180,100,0xff};
         strcpy(gGlobals.text,Cstring(LeaveItemsConfirm));
-        WidgetChoiceDia *pWVar2 =  new WidgetChoiceDia(2,gGlobals.text,0x96,&colA,&colB,0,0,0);
+        WidgetChoiceDia *pWVar2 =  new WidgetChoiceDia(2,gGlobals.text,150,&colA,&colB,0,0,0);
         WidgetClipText* pBVar3 = WClipTXT(Cstring(LeaveItemsYes));
         pBVar3->AButtonFunc = WidgetBarter_ACallback;
         pWVar2->AppendScrollMenu(pBVar3);
         pWVar2->AppendScrollMenu(WClipTXT(Cstring(LeaveItemsNo)));
         pWVar2->Update();
         WHANDLE->AddWidget(pWVar2);
-      }
-      else {
-        TextPopup_New(Cstring(GetKeyItem),0x9b,0x28,0xff,0xff,0xff,0xff,0x96,1);
-      }
+      }   //don't let them leave w/o getting key item.
+      else TextPopup_New(Cstring(GetKeyItem),155,40,COLOR_WHITE,150,true);
     }
   }
   return NULL;
@@ -84,7 +82,7 @@ BaseWidget* WidgetBarter::AFunc() {
         }
       }
       else {
-        if (uVar7->AFunc() == 0) {
+        if (uVar7->AFunc() == NULL) {
           if (!isShop) price = 0;
           WHANDLE->AddWidget(new DollBarterConfirm(this->unk84,price));
           return 0;
@@ -130,9 +128,9 @@ BaseWidget* WidgetBarter::AFunc() {
           this->itemWidget->Tick();
           this->itemWidget->scrollMenu->Update();
         }
-        if ((ITEMIDTYPE(*pIVar7) == DB_POTION) && (!getEventFlag(FLAG_GotFirstItems))) {
-          setEventFlag(FLAG_GotFirstItems,true);
-          WHANDLE->AddWidget(new WidgetMenuPrompt(Cstring(PotionFirstPrompt),0x17,0x46,130,80,80,0xff))
+        if ((ITEMIDTYPE(*pIVar7) == DB_POTION) && (!getEventFlag(FLAG_GotFirstPotion))) {
+          setEventFlag(FLAG_GotFirstPotion,true);
+          WHANDLE->AddWidget(new WidgetMenuPrompt(Cstring(PotionFirstPrompt),0x17,0x46,130,80,80,0xff));
         }
         m80044a94();
         UpdateGoldText();

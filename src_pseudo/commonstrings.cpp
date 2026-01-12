@@ -11,34 +11,34 @@ extern void* common_string_array;
 void CommonStrings::Init(void){
   gGlobals.CommonStrings  = RomString::Load(common_string_array,0x2830);
   commonstrings = gGlobals.CommonStrings;
-  encounterType_labels = gGlobals.CommonStrings + 0xea;
-  walking_labels = gGlobals.CommonStrings + 0xed;
+  encounterType_labels = &Cstring(EncounterRand);
+  walking_labels = &Cstring(AniStop);
   element_labels =  &Cstring(ElementNone);
-  Spell_error_labels = gGlobals.CommonStrings + 0x102;
-  skill_strings = gGlobals.CommonStrings + 0x10f;
-  weapon_strings = gGlobals.CommonStrings + 0x11b;
-  aspect_labels = gGlobals.CommonStrings + 0x126;
-  magic_school_labels = gGlobals.CommonStrings + 0x129;
-  Stat_labels = gGlobals.CommonStrings + 0x12f;
-  humidity_labels = gGlobals.CommonStrings + 0x136;
-  timeofday_labels = gGlobals.CommonStrings + 0x139;
-  moon_phase_labels = gGlobals.CommonStrings + 0x13e;
-  dark_storm_labels = gGlobals.CommonStrings + 0x142;
-  weekday_labels = gGlobals.CommonStrings + 0x148;
+  Spell_error_labels = &Cstring(Ok05);
+  skill_strings = &Cstring(SkillAlchemist);
+  weapon_strings = &Cstring(WeaponBite);
+  aspect_labels = &Cstring(AspectNone);
+  magic_school_labels = &Cstring(SchoolChaos);
+  Stat_labels = &Cstring(StatINT);
+  humidity_labels = &Cstring(HumidNone);
+  timeofday_labels = &Cstring(TimeOfDayDawn);
+  moon_phase_labels = &Cstring(MoonPhaseDark);
+  dark_storm_labels = &Cstring(StormDark);
+  weekday_labels = &Cstring(DayMon);
   terrain_labels = gGlobals.CommonStrings + 0x14f;
-  precip_labels = gGlobals.CommonStrings + 0x157;
-  ground_labels = gGlobals.CommonStrings + 0x15a;
+  precip_labels = &Cstring(PrecipClear);
+  ground_labels = &Cstring(Collide00);
   price_strings = &Cstring(PriceAppraise0);
   #ifdef DEBUGVER
-  debug_switch_labels = gGlobals.CommonStrings + 0x2f;
+  debug_switch_labels = &Cstring(VoxelType0);
   boolean_labels = &Cstring(BoolFalse);
-  cheatStatus_labels = gGlobals.CommonStrings + 0x26;
+  cheatStatus_labels = &Cstring(CheatOption0);
   #endif
   task_failure_labels = gGlobals.CommonStrings + 0x58;
   equip_error_labels = gGlobals.CommonStrings + 0x5f;
   #ifdef DEBUGVER
   on_off_labels = &Cstring(Off);
-  debug_state_labels = gGlobals.CommonStrings + 0x6b;
+  debug_state_labels = &Cstring(DebugStates0);
   bool_labels = &Cstring(BoolFalse);
   #endif
 }

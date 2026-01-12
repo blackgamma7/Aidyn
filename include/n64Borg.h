@@ -48,7 +48,7 @@ typedef enum Borg8Format {
 } Borg8Format;
 
 struct borgHeader {
-    int index;
+    s32 index;
     u32 unk;
 };
 

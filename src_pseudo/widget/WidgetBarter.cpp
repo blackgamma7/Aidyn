@@ -26,15 +26,15 @@ WidgetBarter::WidgetBarter(WidgetTrainShop *shop,ItemID merchantID):WidgetMenu()
     gBarterFloat = PARTY->Barter(gEntityDB->entities[bVar7].stats[STAT_INT],
                                  gEntityDB->entities[bVar7].Skills[SKILL_Merchant]);
   }
-  BaseWidget *pBVar2 = WidgetB8(0xE4);
+  WidgetBorg8 *pBVar2 = WidgetB8(BORG8_BarterBGShadow);
   pBVar2->SetCoords(20,62);
   pBVar2->SetCoords(5,60); //?!? this negates the first(?)
   BaseWidget::Link(pBVar2);
-  this->background = WidgetB8(0xE2);
+  this->background = WidgetB8(BORG8_BarterBG);
   this->background->SetCoords(20,62);
   this->background->SetCoords(0,58);//?!? this negates the first(?)
   BaseWidget::Link(this->background);
-  pBVar2 = WidgetB8(this->invType==1?0xF0:0xE7);
+  pBVar2 = WidgetB8(this->invType==1?BORG8_TitleTreasure:BORG8_TitleBuy);
   pBVar2->SetCoords(90 - (pBVar2->GetWidth() >> 1),0x55 - pBVar2->GetHeight());
   BaseWidget::Link(pBVar2);
   this->itemWidget = new WidgetInvShop(gGlobals.shopInv,NULL);
@@ -50,13 +50,13 @@ WidgetBarter::WidgetBarter(WidgetTrainShop *shop,ItemID merchantID):WidgetMenu()
   this->itemWidget->boundY1 = 0xa6;
   if (this->itemWidget->scrollMenu->AFunc() == 0) {
     this->description = this->unk84;
-    this->itemWidget->scrollMenu->SetSubstructColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
-    this->unk84->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+    this->itemWidget->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+    this->unk84->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,20);
   }
   else {
     this->description = this->itemWidget;
-    this->itemWidget->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
-    this->unk84->scrollMenu->SetSubstructColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+    this->itemWidget->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,20);
+    this->unk84->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
   }
   if ((this->invType == 1) && (gGlobals.moneypile))
     PlayAudioSound(&gGlobals.SFXStruct,BORG12_CoinJingle,0,gGlobals.VolSFX,300,0x3c);
@@ -108,12 +108,12 @@ void WidgetBarter::m80044a94() {
   }
   this->unk84->InitMenu();
   if (this->description == this->itemWidget) {
-    this->itemWidget->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
-    this->unk84->scrollMenu->SetSubstructColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+    this->itemWidget->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,20);
+    this->unk84->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
   }
   else {
-    this->itemWidget->scrollMenu->SetSubstructColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
-    this->unk84->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+    this->itemWidget->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+    this->unk84->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,20);
   }
 }
 

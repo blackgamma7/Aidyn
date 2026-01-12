@@ -52,7 +52,7 @@ void Journal::InitMenu(s16 newest) {
   WSLSub *scrollSub = (WSLSub *)this->scrollList->substruct;
   scrollSub->vSpace = 4;
   if (scrollSub->itemCount == 1) {
-    pBVar3 = WClipTXT(gGlobals.CommonStrings[0x1f0]);
+    pBVar3 = WClipTXT(Cstring(JournalEmpty));
     pBVar3->SetColor(98,70,30,0xff);
     this->scrollList->AddEntry(pBVar3);
   }
@@ -111,16 +111,16 @@ void Journal::Load(s32 newest) {
   u32 uVar9;
   u32 uVar11;
   
-  char *pBuffer = (char *)HALLOC(JOURNALSIZE,0xe0);
+  char *pBuffer = (char *)HALLOC(JOURNALSIZE,224);
   if (pBuffer == NULL) CRASH("Journal::Load()","Not enough memory for pBuffer");
-  ROMCOPYS(pBuffer,journal_ROM,JOURNALSIZE,0xe9);
+  ROMCOPYS(pBuffer,journal_ROM,JOURNALSIZE,233);
   this->scrollList = new WidgetScrollList(100);
   this->scrollList->SetCoords(64,30);
   uVar11 = 0;
-  this->scrollList->boundX1 = 0xf5;
+  this->scrollList->boundX1 = 245;
   this->scrollList->boundX0 = 64;
   this->scrollList->boundY0 = 30;
-  this->scrollList->boundY1 = 0xdc;
+  this->scrollList->boundY1 = 220;
   this->Link(this->scrollList);
   this->scrollList->AddEntry(WClipTXT("  "));
   WSLSub *pvVar3 = (WSLSub *)this->scrollList->substruct;
@@ -182,7 +182,7 @@ LAB_8005b5a8:
         }
         #ifdef DEBUGVER
         Gsprintf("Entry found = %d\n",uVar10);
-        N64Print::Print(gGlobals.text);
+        N64PRINT(gGlobals.text);
         #endif
       }
   }

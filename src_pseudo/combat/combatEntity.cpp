@@ -2507,8 +2507,7 @@ s16 CombatEntity::m8006edd0(CombatEntity *param_2,playerData *param_3,playerData
   pSVar2 = Entity::GetSpellSafe(this->charSheetP,0x13cb,u32_800f5440);
   if (!pSVar2) return 0;
   else {
-    sVar5 = MagicDamageResistCalc(param_2,pSVar2,false);
-    lVar10 = sVar5;
+    lVar10 = MagicDamageResistCalc(param_2,pSVar2,false);
     if (lVar10 == 0) param_2->PrintSpellResist(param_2,pSVar2);
     lVar9 = lVar10;
     if (lVar10 == -3) lVar9 = 0;

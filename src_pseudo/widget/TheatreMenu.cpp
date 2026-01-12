@@ -30,7 +30,7 @@ void TheatreMenu::InitMenu() {
   //If no entries, add one saying so.
   //(should not happen - unavaiilable entries marked as "----------------")
   if (((WSMSub*)s->scroll->substruct)->numChoices == 0)
-    s->scroll->Append(WClipTXT(gGlobals.CommonStrings[0xac]));
+    s->scroll->Append(WClipTXT(Cstring(NoCutscenes)));
   Utilities::SetArrayVSpace(s->scroll,5);
   s->scroll->SetFlags(4);
   s->scroll->Tick();

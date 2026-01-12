@@ -172,7 +172,7 @@ COMMONSTRING_OptionsGraphics1,    // High Resolution
 COMMONSTRING_OptionsGraphics2,    // 32 Bit Color
 COMMONSTRING_OptionsGame,    // GAME
 COMMONSTRING_OptionsRename,    // RENAME CHARACTER
-COMMONSTRING_NoCutscens,    // No cinematics yet.
+COMMONSTRING_NoCutscenes,    // No cinematics yet.
 COMMONSTRING_OptionsHelp,    // Help
     // New Controller Pak detected
     // Retry (insert  the old Controller Pak)
@@ -233,16 +233,16 @@ COMMONSTRING_DebugDBArmor,    // ARMOR
 COMMONSTRING_DebugDBShield,    // SHIELD
 COMMONSTRING_DebugDBItem,    // ITEM
 COMMONSTRING_DebugDBWeapon,    // WEAPON
-    // Resting
-    // Press Start
-    // Random
-    // Sneak
-    // Ambush
-    // Stop
-    // Sneak
-    // Walk
-    // Run
-COMMONSTRING_ElementNone=241,    // None
+COMMONSTRING_232,    // Resting
+COMMONSTRING_233,    // Press Start
+COMMONSTRING_EncounterRand,    // Random
+COMMONSTRING_EncounterSneak,    // Sneak
+COMMONSTRING_EncounterAmbush,    // Ambush
+COMMONSTRING_AniStop,    // Stop
+COMMONSTRING_AniSneak,    // Sneak
+COMMONSTRING_AniWalk,    // Walk
+COMMONSTRING_AniRun,    // Run
+COMMONSTRING_ElementNone,    // None
 COMMONSTRING_ElementEarth,    // Earth
 COMMONSTRING_ElementSolar,    // Solar
 COMMONSTRING_ElementPhys,    // Physical
@@ -344,10 +344,10 @@ COMMONSTRING_DaySun,    // Sunday
     // Mountains
     // Barrow
     // Sea
-    // None
-    // Rain
-    // Snow
-COMMONSTRING_Collide00=346,    // Default
+COMMONSTRING_PrecipClear=343,    // None
+COMMONSTRING_PrecipRain,    // Rain
+COMMONSTRING_PrecipSnow,    // Snow
+COMMONSTRING_Collide00,    // Default
 COMMONSTRING_Collide01,    // Collision Player And Camera
 COMMONSTRING_Collide02,    // Collision Player
 COMMONSTRING_Collide03,    // Snow

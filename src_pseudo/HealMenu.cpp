@@ -45,18 +45,18 @@ BaseWidget * WidgetMenuHealer_HealingFunc2(BaseWidget *w0,BaseWidget *w1) {
 }
 
 WidgetMenuHealer::WidgetMenuHealer(u32 partyInd):WidgetCrafting(partyInd){
-  this->textBox = Utilities::AddTextWidget(this, gGlobals.CommonStrings[0x1d1],0x17,0x46,COLOR_RED1);
+  this->textBox = Utilities::AddTextWidget(this, Cstring(HealTaskMain),0x17,0x46,COLOR_RED1);
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,3,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);
   Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
-  WidgetText* pBVar2 = WTextSafe(gGlobals.CommonStrings[0x1d2]);
+  WidgetText* pBVar2 = WTextSafe(Cstring(HealTaskHands));
   this->scrollMenu->Append(pBVar2);
   pBVar2->AButtonFunc = WidgetMenuHealer_LayOnHands;
-  pBVar2 = WTextSafe(gGlobals.CommonStrings[0x1d3]);
+  pBVar2 = WTextSafe(Cstring(HealTaskHerbs));
   this->scrollMenu->Append(pBVar2);
   pBVar2->AButtonFunc = WidgetMenuHealer_AFuncHerbs;
-  pBVar2 = WTextSafe(gGlobals.CommonStrings[0x1d4]);
+  pBVar2 = WTextSafe(Cstring(HealTaskRestore));
   this->scrollMenu->Append(pBVar2);
   pBVar2->AButtonFunc = WidgetMenuHealer_Restore;
 }
@@ -77,7 +77,7 @@ BaseWidget* WidgetMenuHealer::BFunc(){
 
 void WidgetMenuHealer::LayOnHands() {
   ClearText();
-  this->textBox = Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x1d2],0x17,0x46,COLOR_RED1);
+  this->textBox = Utilities::AddTextWidget(this,Cstring(HealTaskHands),0x17,0x46,COLOR_RED1);
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);;
@@ -92,7 +92,7 @@ void WidgetMenuHealer::LayOnHands() {
 
 void WidgetMenuHealer::HealWithHerbs() {
   ClearText();
-  this->textBox = Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x1d3],0x17,0x46,COLOR_RED1);
+  this->textBox = Utilities::AddTextWidget(this,Cstring(HealTaskHerbs),0x17,0x46,COLOR_RED1);
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);;
@@ -107,7 +107,7 @@ void WidgetMenuHealer::HealWithHerbs() {
 
 void WidgetMenuHealer::Restore() {
   ClearText();
-  this->textBox = Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x1d4],0x17,0x46,COLOR_RED1);
+  this->textBox = Utilities::AddTextWidget(this,Cstring(HealTaskRestore),0x17,0x46,COLOR_RED1);
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);;
@@ -130,7 +130,7 @@ void WidgetMenuHealer::ShowHealedMember(CharSheet* chara,u16 var,buttonFunc func
     group->AddToGroup(portrait,0,0,false);
     WidgetText* name=WTextSafe(chara->name);
     group->AddToGroup(name,portrait->GetWidth()+2,0,1);
-    sprintf(buff,gGlobals.CommonStrings[0x1d5],Entity::getHPCurrent(chara),Entity::getHPMax(chara));
+    sprintf(buff,Cstring(HealTaskHP),Entity::getHPCurrent(chara),Entity::getHPMax(chara));
     WidgetText* hp=WTextSafe(buff);
     group->AddToGroup(hp,portrait->GetWidth(),name->GetHeight()+5,1);
     group->SetColor(COLOR_RED1);
@@ -150,7 +150,7 @@ void WidgetMenuHealer::PrintHerbHealing(u8 val){
 
 void WidgetMenuHealer::PrintRestore(u8 val) {
   ClearText();
-  this->textBox=Utilities::AddTextWidget(this,gGlobals.CommonStrings[0x1d4],0x17,0x46,COLOR_RED1);
+  this->textBox=Utilities::AddTextWidget(this,Cstring(HealTaskRestore),0x17,0x46,COLOR_RED1);
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,7,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);

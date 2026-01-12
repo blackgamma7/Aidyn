@@ -121,7 +121,7 @@ void WidgetInvShop::InitMenu() {
     this->pricedItem = 0;
     this->scrollMenu = new WidgetFastScrollMenu(this->inventory->GetMaxQuantity() + PARTY->PartySize * 0xf);
     WSMSub *scrollSub=(WSMSub*)this->scrollMenu->substruct;
-    this->scrollMenu->SetSubstructColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+    this->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
     this->Link(this->scrollMenu);
     SetArrows();
     if (this->inventory != gGlobals.shopInv){ //add party's equip to list
@@ -184,6 +184,8 @@ u8 WidgetInvShop::Tick(){
     return TickChildren();}
 
 void WidgetInvShop::Confirm(u16 a, u16 b){}
+
+void WidgetInvShop::Purchase(u16 a, u8 b){}
 
 s32 WidgetInvShop::GetExpPrice(u16 x){return 0;}
 

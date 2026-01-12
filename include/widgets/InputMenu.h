@@ -34,5 +34,5 @@ BaseWidget* InputMenu_StartButton(BaseWidget*,BaseWidget*);
 
 #define UpdateCursorPos(IMSub,AMSub)\
   IMSub->cursor->SetCoords(\
-  (AMSub->entries[AMSub->entryPos]->x + (AMSub->entries[AMSub->entryPos]->GetWidth() >> 1) - (IMSub->cursor->GetWidth() >> 1)),\
-  (AMSub->entries[AMSub->entryPos]->y + (AMSub->entries[AMSub->entryPos]->GetHeight() >> 1) - (IMSub->cursor->GetHeight() >> 1)))
+  (AMSub->entries[AMSub->entryPos]->posX + (AMSub->entries[AMSub->entryPos]->GetWidth() >> 1) - (IMSub->cursor->GetWidth() >> 1)),\
+  (AMSub->entries[AMSub->entryPos]->posY + (AMSub->entries[AMSub->entryPos]->GetHeight() >> 1) - (IMSub->cursor->GetHeight() >> 1)))
