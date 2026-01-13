@@ -94,55 +94,55 @@ u16 BorgMaps::GetMapList(s16 map,s16 a,s16 b) {
   
   switch(map) {
   case 0:
-    m = gMapDataListOverworld;
+    m = mapDataList_Overworld;
     break;
   case 1:
-    m = gMapDataListGoblinCamp;
+    m = mapDataList_GoblinCamp;
     break;
   case 2:
-    m = mapDataList_2;
+    m = mapDataList_PortSaiid;
     break;
   case 3:
-    m = mapDataList_3;
+    m = mapDataList_Lighthouse;
     break;
   case 4:
-    m = map_data_list_Gwernia;
+    m = mapDataList_GwerniaCastle;
     break;
   case 5:
-    m = mapDataList_5;
+    m = mapDataList_GwerniaInteriors;
     break;
   case 6:
-    m = mapDataList_6;
+    m = mapDataList_MiscInteriors;
     break;
   case 7:
-    m = mapDataList_7;
+    m = mapDataList_Erromon;
     break;
   case 8:
-    m = mapDataList_8;
+    m = mapDataList_Terminor;
     break;
   case 9:
-    m = mapDataList_9;
+    m = mapDataList_Barrow;
     break;
   case 10:
-    m = mapDataList_10;
+    m = mapDataList_RoogsCave;
     break;
   case 0xb:
-    m = mapDataList_mageSchool;
+    m = mapDataList_JundarInteriors;
     break;
   case 0xc:
-    m = mapDataList_ehud;
+    m = mapDataList_EhudTower;
     break;
   case 0xd:
-    m = mapDataList_13;
+    m = mapDataList_Ugarit;
     break;
   case 0xe:
-    m = mapDataList_14;
+    m = mapDataList_Ugarit2;
     break;
   case 0xf:
-    m = gMapDataListChaosIsle;
+    m = mapDataList_ChaosIsle;
     break;
   case 0x10:
-    m = gMapDataListBattle;
+    m = mapDataList_Battlefeild;
     break;
   default:
     CRASH("borgmaps.cpp","Invalid Map!");
@@ -193,9 +193,9 @@ u16 BorgMaps::LoadMap(s16 Map,s16 Portal,s16 param_3,bool param_4) {
   mapDataList *pmVar11 = NULL;
   switch(Map) {
   case MAPA_Overworld:
-    pmVar11 = gMapDataListOverworld;
+    pmVar11 = mapDataList_Overworld;
     if (!param_4) {
-      WriteMapIndecies(gMapDataListOverworld);
+      WriteMapIndecies(mapDataList_Overworld);
       gGlobals.gameVars.mapCellSize.x = 100.0f;
       gGlobals.gameVars.mapCellSize.y = 100.0f;
     }
@@ -389,35 +389,35 @@ LAB_8002ce68:
            0x5ea,0x5eb);
     break;
   case MAPA_GoblinCamp:
-    pmVar11 = gMapDataListGoblinCamp;
+    pmVar11 = mapDataList_GoblinCamp;
     goto LAB_8002d4e0;
   case MAPA_PortSaiid:
-    pmVar11 = mapDataList_2;
+    pmVar11 = mapDataList_PortSaiid;
     goto LAB_8002d4e0;
   case MAPA_Lighthouse:
-    pmVar11 = mapDataList_3;
+    pmVar11 = mapDataList_Lighthouse;
     goto LAB_8002d4e0;
   case MAPA_GwerniaCastle:
     gGlobals.gameVars.Borg12Next = BORG12_GwerniaCastle;
-    pmVar11 = map_data_list_Gwernia;
+    pmVar11 = mapDataList_GwerniaCastle;
     if (param_4) goto LAB_8002d65c;
-    WriteMapIndecies(map_data_list_Gwernia);
+    WriteMapIndecies(mapDataList_GwerniaCastle);
     MINIMAP.LoadData(minimaps_Gwernia);
     miniMapLoaded = true;
     break;
   case MAPA_GwerniaInterior:
-    pmVar11 = mapDataList_5;
+    pmVar11 = mapDataList_GwerniaInteriors;
     goto LAB_8002d4e0;
   case MAPA_Interior:
     if (!param_4) {
       miniMapLoaded = true;
       gGlobals.gameVars.mapCellSize.y = 500.0f;
       gGlobals.gameVars.mapCellSize.x = 500.0f;
-      WriteMapIndecies(mapDataList_6);
+      WriteMapIndecies(mapDataList_MiscInteriors);
       MINIMAP.LoadData(MinimapSec_dat_ARRAY_800ee508);
     }
     debugTP = true;
-    pmVar11 = mapDataList_6;
+    pmVar11 = mapDataList_MiscInteriors;
     if (Portal == 0) {
       ShortA = 5;
       ShortB = 3;
@@ -438,12 +438,12 @@ LAB_8002ce68:
     break;
   case MAPA_Erromon:
     gGlobals.gameVars.Borg12Next = 0x790;
-    pmVar11 = mapDataList_7;
+    pmVar11 = mapDataList_Erromon;
     if (!param_4) {
       miniMapLoaded = true;
       gGlobals.gameVars.mapCellSize.y = 30.0f;
       gGlobals.gameVars.mapCellSize.x = 30.0f;
-      WriteMapIndecies(mapDataList_7);
+      WriteMapIndecies(mapDataList_Erromon);
       MINIMAP.LoadData(MinimapSec_erromon);
     }
     debugTP = true;
@@ -460,20 +460,20 @@ LAB_8002d464:
       spawnx = 13.0f;
     }
     break;
-  case MAPA_8:
-    pmVar11 = mapDataList_8;
+  case MAPA_Terminor:
+    pmVar11 = mapDataList_Terminor;
     if (param_4) goto LAB_8002d65c;
     gGlobals.gameVars.mapCellSize.y = 200.0f;
     gGlobals.gameVars.mapCellSize.x = 200.0f;
-    WriteMapIndecies(mapDataList_8);
+    WriteMapIndecies(mapDataList_Terminor);
     break;
   case MAPA_Barrows:
-    pmVar11 = mapDataList_9;
+    pmVar11 = mapDataList_Barrow;
     if (!param_4) {
       miniMapLoaded = true;
       gGlobals.gameVars.mapCellSize.y = 25.0f;
       gGlobals.gameVars.mapCellSize.x = 25.0f;
-      WriteMapIndecies(mapDataList_9);
+      WriteMapIndecies(mapDataList_Barrow);
       MINIMAP.LoadData(minimap_sec_Barrows);
     }
     pmVar6 = pmVar11;
@@ -487,16 +487,16 @@ LAB_8002d464:
     debugTP = false;
     break;
   case MAPA_RoogCave:
-    pmVar11 = mapDataList_10;
+    pmVar11 = mapDataList_RoogsCave;
     if (param_4) goto LAB_8002d65c;
-    WriteMapIndecies(mapDataList_10);
+    WriteMapIndecies(mapDataList_RoogsCave);
     MINIMAP.LoadData(MinimapSec_dat_ARRAY_800ee55c);
     miniMapLoaded = true;
     break;
   case MAPA_JundarInteriors:
-    pmVar11 = mapDataList_mageSchool;
+    pmVar11 = mapDataList_JundarInteriors;
     if (!param_4) {
-      WriteMapIndecies(mapDataList_mageSchool);
+      WriteMapIndecies(mapDataList_JundarInteriors);
       MINIMAP.LoadData(minimap_sec_mageschool);
       miniMapLoaded = true;
     }
@@ -514,12 +514,12 @@ LAB_8002d464:
            0x61c,0x61c);
     break;
   case MAPA_EhudUnder:
-    pmVar11 = mapDataList_ehud;
+    pmVar11 = mapDataList_EhudTower;
     gGlobals.gameVars.Borg12Next = 0x5df;
     gGlobals.gameVars.mapCellSize.y = 1000.0f;
     gGlobals.gameVars.mapCellSize.x = 1000.0f;
     if (!param_4) {
-      WriteMapIndecies(mapDataList_ehud);
+      WriteMapIndecies(mapDataList_EhudTower);
       MINIMAP.LoadData(MinimapSec_ehud);
       miniMapLoaded = true;
     }
@@ -534,11 +534,11 @@ LAB_8002d464:
     }
     break;
   case MAPA_Ugairt:
-    pmVar11 = mapDataList_13;
+    pmVar11 = mapDataList_Ugarit;
     gGlobals.gameVars.Borg12Next = 0x61b;
-    if (!param_4) WriteMapIndecies(mapDataList_13);
+    if (!param_4) WriteMapIndecies(mapDataList_Ugarit);
     debugTP = true;
-    pmVar6 = mapDataList_13;
+    pmVar6 = mapDataList_Ugarit;
     if (Portal == -1) goto LAB_8002d464;
     if (Portal == 0) {
       ShortA = 0xd;
@@ -548,22 +548,22 @@ LAB_8002d464:
     }
     break;
   case MAPA_Ugairt2:
-    pmVar11 = mapDataList_14;
+    pmVar11 = mapDataList_Ugarit2;
     if (param_4) goto LAB_8002d65c;
-    WriteMapIndecies(mapDataList_14);
+    WriteMapIndecies(mapDataList_Ugarit2);
     MINIMAP.LoadData(MinimapSec_dat_ARRAY_800edf0c);
     miniMapLoaded = true;
-    pmVar11 = mapDataList_14;
+    pmVar11 = mapDataList_Ugarit2;
     break;
   case MAPA_ChoasIsle:
     gGlobals.gameVars.Borg12Next =(gGlobals.gameVars.mapShort2 & 2)? 0x5d5:0x5d7;
-    pmVar11 = gMapDataListChaosIsle;
+    pmVar11 = mapDataList_ChaosIsle;
 LAB_8002d4e0:
     if (param_4) goto LAB_8002d65c;
     WriteMapIndecies(pmVar11);
     break;
   case MAPA_Battle:
-    pmVar11 = gMapDataListBattle;
+    pmVar11 = mapDataList_Battlefeild;
     if (!param_4) {
       u16 battleBgm[5];
       int range = 5;
@@ -584,12 +584,12 @@ LAB_8002d4e0:
       gGlobals.gameVars.Borg12Next = battleBgm[RAND.MultiByB(range)];
       gGlobals.gameVars.mapCellSize.y = 150.0f;
       gGlobals.gameVars.mapCellSize.x = 150.0f;
-      WriteMapIndecies(gMapDataListBattle);
+      WriteMapIndecies(mapDataList_Battlefeild);
     }
     debugTP = true;
     if (Portal != -1) {
-      ShortA = gMapDataListBattle[Portal].mapShortA;
-      ShortB = gMapDataListBattle[Portal].MapShortB;
+      ShortA = mapDataList_Battlefeild[Portal].mapShortA;
+      ShortB = mapDataList_Battlefeild[Portal].MapShortB;
       spawnz = 20.0f;
 LAB_8002d5fc:
       debugTP = true;

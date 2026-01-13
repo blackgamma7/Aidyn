@@ -14,23 +14,23 @@ union mapDataList {
 };
 //TODO: define lists. And give some better names.
 
-extern mapDataList gMapDataListOverworld[];
-extern mapDataList gMapDataListGoblinCamp[];
-extern mapDataList mapDataList_2[];
-extern mapDataList mapDataList_3[];
-extern mapDataList map_data_list_Gwernia[];
-extern mapDataList mapDataList_5[];
-extern mapDataList mapDataList_6[];
-extern mapDataList mapDataList_7[];
-extern mapDataList mapDataList_8[];
-extern mapDataList mapDataList_9[];
-extern mapDataList mapDataList_10[];
-extern mapDataList mapDataList_mageSchool[];
-extern mapDataList mapDataList_ehud[];
-extern mapDataList mapDataList_13[];
-extern mapDataList mapDataList_14[];
-extern mapDataList gMapDataListChaosIsle[];
-extern mapDataList gMapDataListBattle[];
+extern mapDataList mapDataList_Overworld[];
+extern mapDataList mapDataList_GoblinCamp[];
+extern mapDataList mapDataList_PortSaiid[];
+extern mapDataList mapDataList_Lighthouse[];
+extern mapDataList mapDataList_GwerniaCastle[];
+extern mapDataList mapDataList_GwerniaInteriors[];
+extern mapDataList mapDataList_MiscInteriors[];
+extern mapDataList mapDataList_Erromon[];
+extern mapDataList mapDataList_Terminor[];
+extern mapDataList mapDataList_Barrow[];
+extern mapDataList mapDataList_RoogsCave[];
+extern mapDataList mapDataList_JundarInteriors[];
+extern mapDataList mapDataList_EhudTower[];
+extern mapDataList mapDataList_Ugarit[];
+extern mapDataList mapDataList_Ugarit2[];
+extern mapDataList mapDataList_ChaosIsle[];
+extern mapDataList mapDataList_Battlefeild[];
 
 
 extern u16 gLoadedMapIndecies[22][30][3];

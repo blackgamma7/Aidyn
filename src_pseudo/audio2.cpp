@@ -191,16 +191,17 @@ void audio_ref_objs(SFX_Struct *param_1,Borg9Data *param_2,u32 tally,byte ZoneDa
   undefined4 uVar11;
   
   if (param_2->voxelObjCount) {
-    for(s16 iVar9=0;iVar9<param_2->voxelObjCount;iVar9++) {
-      obj = &param_2->voxelObjs[iVar9];
+    for(s16 i=0;i<param_2->voxelObjCount;i++) {
+      obj = &param_2->voxelObjs[i];
       if ((obj->header).type == VOXEL_Audio) {
         if (gGlobals.gameVars.gamemodeType == GameMode_Title) {
-          if ((((obj->audio).soundFlag & VoxAudio_BGM)) || (!gExpPakFlag)) continue;
+          //don't play music (nor SFX if no exp pak) objects during flycam
+          if (((obj->audio.soundFlag & VoxAudio_BGM)) || (!gExpPakFlag)) continue;
         }
-        if (((((obj->header).Bitfeild & VOXEL_EXPPak) == 0) || (gExpPakFlag)) &&
-           ((((obj->header).Bitfeild & VOXEL_JumperPak) == 0 || (!gExpPakFlag)))) {
+        if (((!(obj->header.Bitfeild & VOXEL_EXPPak)) || (gExpPakFlag)) &&
+           (((obj->header.Bitfeild & VOXEL_JumperPak) == 0 || (!gExpPakFlag)))) {
           pSVar6 = soundStructA_set(param_1,obj,tally,ZoneDat);
-          pSVar7 = get_audio_substruct_2_by_index(param_1,*(u16 *)((int)(&param_2->voxelObjs->header + 1) + iVar9 + 2));
+          pSVar7 = get_audio_substruct_2_by_index(param_1,param_2->voxelObjs[i].audio.borg12Index);
           if (pSVar7) {
             paVar2 = pSVar7->soundStruct->voxelDat;
             pSVar6->borg12 = pSVar7->soundStruct->borg12;

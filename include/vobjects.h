@@ -61,7 +61,7 @@ u8 Teleport_lock_check(u16 param_1);
 u8 teleport_trap_check(u16 param_1);
 u8 teleport_secret_check(u16 param_1);
 u8 FUN_80015128(u16 param_1,u32 param_2);
-u8 trigger_event_flag_check(u16 param_1,u16 param_2,u16 param_3);
+u8 trigger_event_flag_check(u16 eFlag,u16 vFlag,u16 mask);
 void ref_obj_bitmask_flag(u16 param_1,u16 param_2,u16 param_3);
 u8 FUN_8001520c(voxelObject* param_1);
 void secret_door_func(voxelObject* param_1);

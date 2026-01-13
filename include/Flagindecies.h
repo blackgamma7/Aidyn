@@ -82,7 +82,6 @@
 
 //party join/death/leave flags
 
-
 #define FLAG_PartyAbrecanJoin 89
 #define FLAG_PartyAbrecanDeath 615
 #define FLAG_PartyAbrecanLeave 685
@@ -134,6 +133,8 @@
 #define FLAG_PartyDougalJoin 574
 #define FLAG_PartyDougalDeath 582
 #define FLAG_PartyDougalLeave 695
+
+#define FLAG_Gwetnia2MembersNoBrenna 5004 //2 out of Godic, Rheda and Abrecan chosen 
 
 #define FLAG_ShadowMerge 566
 

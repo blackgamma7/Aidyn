@@ -340,7 +340,7 @@ u8 exploding_container_sub(voxelObject* v,Borg9Data *arg1){
   s16 *psVar1;
   u8 uVar3;
   
-  bVar2 = trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,0x80);
+  bVar2 = trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,VOXEL_CheckFlagC);
   if ((bVar2 == false) ||
      (some_ref_obj_lookup_func((s16)(((int)v - (int)arg1->voxelObjs)
                             * 0x684bda13 >> 2),
@@ -394,7 +394,7 @@ u8 TP_lock_secret_check(voxelObject* v,Borg9Data*map){
   checkCheat(appear);
 
     uVar3 = false;
-    if (trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,0x80)) {
+    if (trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,VOXEL_CheckFlagC)) {
       if ((v->teleport).secretDoorVal){
         if (teleport_secret_check((v->teleport).secrect_door_flag) == false) {
           if (PARTY->SecretLock() < (v->teleport).secretDoorVal) {return false;}
@@ -427,7 +427,7 @@ u8 some_monster_check(voxelObject *v){
 u8 some_trigger_check(voxelObject *v){
   checkCheat(appear);
   checkCheat(dialougeTrigger);
-  return trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,0x80);}
+  return trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,VOXEL_CheckFlagC);}
 
 u8 some_dialouge_trigger_check(voxelObject *v,Borg9Data*map){
   checkCheat(appear);
@@ -576,18 +576,14 @@ u8 FUN_80015128(u16 param_1,u32 param_2){
   
   bVar3 = (u8)(param_2 >> 8) & 1;
   bVar2 = bVar3;
-  if ((param_1 != 0) && (bVar2 = bVar3 ^ 1, param_1 != 1)) {bVar2 = getEventFlag(param_1); ^ bVar3;}
+  if ((param_1 != 0) && (bVar2 = bVar3 ^ 1, param_1 != 1)) {bVar2 = getEventFlag(param_1) ^ bVar3;}
   return bVar2;}
 
 
-u8 trigger_event_flag_check(u16 param_1,u16 param_2,u16 param_3){
-  u8 bVar1;
-  u8 uVar2;
-  
-  bVar1 = (param_3 & param_2) != 0;
-  uVar2 = bVar1;
-  if ((param_1 != 0) && (bVar1 = !bVar1, param_1 != 1)) {
-    bVar1 = 0 < getEventFlag(param_1) ^ uVar2);}
+u8 trigger_event_flag_check(u16 eFlag,u16 vFlag,u16 mask){
+  u8 bVar1 = (mask & vFlag) != 0;
+  if ((eFlag != 0) && (bVar1 = !bVar1, eFlag != 1)) {
+    bVar1 = getEventFlag(eFlag) != bVar1;}
   return bVar1;}
 
 void ref_obj_bitmask_flag(u16 param_1,u16 param_2,u16 param_3){

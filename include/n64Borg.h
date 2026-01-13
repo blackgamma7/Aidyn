@@ -69,7 +69,7 @@ typedef struct Borg8Header {
 typedef enum VoxelFllags {
     VOXEL_JumperPak=0x20, //activate if no Expansion Pak
     VOXEL_EXPPak=0x40, //activate if Expansion Pak
-    VOXEL_FlagC=0x80,
+    VOXEL_CheckFlagC=1<<7, //header.FlagC state ^ this bit
     VOXEL_Used=0x200,
     VOXEL_FlagB=0x1000,
     VOXEL_tangible=0x2000,
@@ -85,7 +85,7 @@ typedef enum EnumMapDatA {
     MAPA_GwerniaInterior,
     MAPA_Interior,
     MAPA_Erromon,
-    MAPA_8,
+    MAPA_Terminor,
     MAPA_Barrows,
     MAPA_RoogCave,
     MAPA_JundarInteriors,

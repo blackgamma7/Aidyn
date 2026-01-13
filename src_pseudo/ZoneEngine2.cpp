@@ -409,9 +409,11 @@ void move_zonedat(ZoneDat *param_1[3][3],ZoneDat *param_2){
 void checkToggleZoneScene(ZoneDat *param_1){
   if(param_1->sceneDat0x4) CRASH("CheckToggleZoneScene","Scene already loaded!!\n");
   //replace model for overworld cell A15 (lighthouse exterior)
-  if ((param_1->borg5_ID == 0xea9)&&(getEventFlag(FLAG_LighthouseLit))) param_1->borg5_ID = 0x35ba;
-  //replace model for Map 3 cell A5 (lighthouse Beacon?)
-  else if ((param_1->borg5_ID == 0x11f9) && (getEventFlag(FLAG_LighthouseLit))) param_1->borg5_ID = 0x35af;
+  if ((param_1->borg5_ID == BORG5_Overworld_A15)&&(getEventFlag(FLAG_LighthouseLit)))
+     param_1->borg5_ID = BORG5_Overworld_A15_Lit;
+  //replace model for Map 3 cell A5 (lighthouse Beacon)
+  else if ((param_1->borg5_ID == BORG5_Lighthouse_A05) && (getEventFlag(FLAG_LighthouseLit)))
+     param_1->borg5_ID = BORG5_Lighthouse_A05_Lit;
 }
 
 void MakeGameZoneNames(u16 param_1,u16 param_2){
