@@ -197,25 +197,25 @@ void attachPhysicsProperties(Borg9Data *param_1){
       }
       #endif
       uVar3 = pbVar2[i].GroundType;
-      switch(uVar3 & 0xf000){
+      switch(uVar3 & B9Ground_mf000){
         case 0:{
-          pbVar2[i].GroundType = uVar1 | 0x3000;
+          pbVar2[i].GroundType = uVar1 | (B9Ground_1000|B9Ground_2000);
           pbVar2[i].flags |= B9Phys_1000;
           break;
         }
-        case 0x1000:{
-          pbVar2[i].GroundType = (u16)((uVar3 + 1 & 0x7f) << 5) | 0x1000 | uVar1 & 0x1f;
+        case B9Ground_1000:{
+          pbVar2[i].GroundType = (u16)((uVar3 + 1 & 0x7f) << 5) | B9Ground_1000 | uVar1 & 0x1f;
           pbVar2[i].flags |= B9Phys_1000;
           break;
         }
-        case 0x2000:{
-          pbVar2[i].GroundType = (u16)((uVar3 & 0x7f) << 5) | 0x2000 | uVar1 & 0x1f;
+        case B9Ground_2000:{
+          pbVar2[i].GroundType = (u16)((uVar3 & 0x7f) << 5) | B9Ground_2000 | uVar1 & 0x1f;
           pbVar2[i].flags |= B9Phys_1000;
           break;
         }
-        case 0x4000:{
+        case B9Ground_ExpPak:{
           if (gExpPakFlag){
-            pbVar2[i].GroundType = uVar3 | 0x3000;
+            pbVar2[i].GroundType = uVar3 | (B9Ground_1000|B9Ground_2000);
             pbVar2[i].flags |= B9Phys_1000;
           }
           else{
@@ -293,7 +293,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
       }
     }
   }
-  if (((((param_2->GroundType & 0xf000) == 0x2000) && ((param_1->flags & CSPHERE_NoTriggers) == 0)) &&
+  if (((((param_2->GroundType & B9Ground_mf000) == B9Ground_2000) && ((param_1->flags & CSPHERE_NoTriggers) == 0)) &&
       (gGlobals.playerCharStruct.unkState == 3)) &&
      ((some_toggle == -1 &&
       (ptVar6 = (gGlobals.gameVars.borg9DatPointer)->voxelObjs + (param_2->GroundType >> 5 & 0x7f),

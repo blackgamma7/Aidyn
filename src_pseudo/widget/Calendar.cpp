@@ -35,41 +35,39 @@ u32 WidgetCalendar::Init() {
   this->dayofMonth = bVar17 - ((char)(bVar17 / 7 << 3) - (char)(bVar17 / 7));
   this->monthTitle = WClipTXTSafe(monthnames[this->monthVal]);
   this->DayMarker = WidgetB8(BORG8_CurrDayMarker);
-  this->monthTitle->SetCoords(SCREEN_CENTERW,0x28);
-  Utilities::SetTextWidgetBoundsX(this->monthTitle,SCREEN_CENTERW,0x104);
+  this->monthTitle->SetCoords(SCREEN_CENTERW,40);
+  Utilities::SetTextWidgetBoundsX(this->monthTitle,SCREEN_CENTERW,260);
   this->monthTitle->SetColor(COLOR_RED1);
   this->Link(this->monthTitle);
   this->monthTitle->GetHeight();//?
   this->DayMarker->SetWidth(this->DayMarker->GetWidth() + 1);
   this->DayMarker->SetHeight(this->DayMarker->GetHeight() + 1);
-  s16 sVar18;
-  if (true) {//?
-    switch((u32)this->weekofMonth * 7 + (u32)this->dayofMonth) {
+  s16 xOff;//seems bo be a pixel miasalignment on certain days in calendar?
+  switch((u32)this->weekofMonth * 7 + (u32)this->dayofMonth) {
     case 4:
     case 8:
     case 9:
-    case 0xb:
-    case 0xc:
-    case 0xd:
-    case 0xe:
-    case 0xf:
-    case 0x10:
-    case 0x11:
-    case 0x12:
-    case 0x15:
-    case 0x17:
-    case 0x1a:
-    case 0x1c:
-    case 0x1d:
-      sVar18 = -1;
-      goto LAB_80048224;
-    }
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+    case 21:
+    case 23:
+    case 26:
+    case 28:
+    case 29:
+      xOff = -1;
+      break;
+    default:
+     xOff = -2;
   }
-  sVar18 = -2;
-LAB_80048224:
-  this->DayMarker->SetCoords(this->dayofMonth * 0xe + sVar18 + 0xa0,this->weekofMonth * 0xe + 0x41);
+  this->DayMarker->SetCoords(this->dayofMonth * 0xe + xOff + SCREEN_CENTERW,this->weekofMonth * 0xe + 65);
   this->Link(this->DayMarker);
-  sub->campLabel = WidgetB8(BORG8_CampTitle);
+  sub->campLabel = WidgetB8(BORG8_TitleCamp);
   sub->campLabel->SetCoords(0xd7,0x9b);
   sub->campLabel->SetColor(COLOR_RED1);
   this->Link(sub->campLabel);
@@ -81,8 +79,10 @@ LAB_80048224:
   this->map->SetCoords(0,0);
   this->Link(this->map);
   CityMarker cityMarkers[]={
-    {0x37bc,27,60},{0x37bc,116,41},{0x37bc,23,99},{0x37bf,64,86},{0x37c0,41,128},
-    {0x37c1,125,178},{0},{0}
+    {BORG8_CityMarkerErromon,27,60},{BORG8_CityMarkerGwernia,116,41},
+    {BORG8_CityMarkerSaiid,23,99},{BORG8_CityMarkerTalewok,64,86},
+    {BORG8_CityMarkerTerminor,41,128},{BORG8_CityMarkerUgairt,125,178},
+    {0},{0}
   };
   for(u8 i=0;cityMarkers[i].borg!=0;i++){
     WidgetBorg8* marker=WidgetB8(cityMarkers[i].borg);
@@ -192,3 +192,5 @@ BaseWidget* campMenuController(BaseWidget* w0,BaseWidget* w1){
     else WHANDLE->AddWidget(new Journal(newestJournal));
 
 }
+
+BaseWidget* Calendar_StartFunc(BaseWidget* w0,BaseWidget* w1){return w1->BFunc();}

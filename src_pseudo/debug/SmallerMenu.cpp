@@ -18,7 +18,7 @@ DebugMapLabel debugMapLabels[]={
     {0}
 };
 DebugCharChanger debugCharacters[]={
-    {BORG7_Alaron,0.5,"Alaron"},{BORG7_Chicken,0.25,"Chicken"},{0x2a58,0.5,"Guard"},{0}
+    {BORG7_Alaron,0.5,"Alaron"},{BORG7_Chicken,0.25,"Chicken"},{BORG7_Guard1,0.5,"Guard"},{0}
 };
 
 #define  FreeDebugMenu(w) WHANDLE->FreeWidget(w);\

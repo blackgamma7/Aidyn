@@ -389,7 +389,7 @@ void load_camp_ambush(void){
   else if(lv>10) lvTeir=2;
   else if(lv>5)  lvTeir=1;
   else           lvTeir=0;
-  RomCopy::RomCopy(&fromROM,globals_rom[0] + lvTeir + (ter * 5 & 0xfffU) * 2,8,1,sGlobalsFilename,840);
+  RomCopy::RomCopy(&fromROM,(void*)((uintptr_t)globals_rom + lvTeir + (ter * 5 & 0xfffU) * 2),8,1,sGlobalsFilename,840);
   CLEAR(&toRAM);
   toRAM.minsize = (u16)fromROM.entries[0].min + (u16)fromROM.entries[1].min;
   toRAM.maxsize = (u16)fromROM.entries[0].max + (u16)fromROM.entries[1].max;

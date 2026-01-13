@@ -174,7 +174,7 @@ bool processPlayers_sub(Borg9Data *param_1,vec3f *playerPos,vec3f *playposMinY,f
             uVar8 = 2;
             for(;k<pbVar2->collideCount;k++) {
               pbVar10 = param_1->phys_pointer + (u16)pbVar2->collideIndecies[k];
-              uVar3 = pbVar10->GroundType & 0x1f;
+              uVar3 = pbVar10->GroundType & B9Ground_m001f;
               if ((uVar3 != uVar9) && (uVar3 != uVar8)) {
                 uStack_38 = uVar8;
                 uStack_34 = uVar9;

@@ -224,34 +224,36 @@
 
 #define BORG8_WorldMapMarker 0x00F6
 
+#define BORG8_CityMarkerErromon  0x37bc
+#define BORG8_CityMarkerGwernia  0x37bd
+#define BORG8_CityMarkerSaiid  0x37be
+#define BORG8_CityMarkerTalewok  0x37bf
+#define BORG8_CityMarkerTerminor  0x37c0
+#define BORG8_CityMarkerUgairt  0x37c1
+
 //TODO: process list as #define's with hex values
 typedef enum Borg8Enum {
     BORG8_MapIconStart=30,
-    //long down arrow=213,
-    //BORG8_Spacer=215,
+
+
     BORG8_PauseBGOptions=216,
     BORG8_PauseBGStats=217,
     BORG8_PauseBGMap=218,
     BORG8_CurrDayMarker=220,
-    BORG8_CampTitle=221,
+    BORG8_TitleCamp=221,
     BORG8_LogoH2O=222,
     BORG8_PortraitHighlight=223,
-    //Parchment background=226,
-   // Parchment Background_2=227,
-    //Parchment shadow=228,
-    //Parchment Window 2=229,
+
     BORG8_TitleJournal=230,
     BORG8_TitleInventory=233,
     BORG8_TitleSkills=236,
     BORG8_TitleSpells=237,
     BORG8_TitleTrain=239,
     BORG8_TitleMenui=242,
-    //square highlight=243,
-    //66 px highligh 2=244,
-    //66 px highlight=245,
-    //map marker=246,
+
+
     BORG8_CONTROLLER_PAK=247,
-    //blank space?=248,
+
     BORG8_TitleEnterName=249,
     BORG8_TitleLicence=250,
     BORG8_WarningNoController=251,
@@ -289,8 +291,6 @@ typedef enum Borg8Enum {
     BORG8_MoonQuarter=406,
     BORG8_MoonGibb=407,
     BORG8_MoonFull=408,
-    pillar=409,
-    //Sun texture?=418,
     BORG8_IconAsLunar=419,
     BORG8_IconAsSolar=420,
     BORG8_IconSpell0=421,
@@ -314,15 +314,13 @@ typedef enum Borg8Enum {
     BORG8_Pixel=452,
     BORG8_DebugBG=0x01c5,
 
-    
-    //Spotlight?=13826,
     BORG8_BGBook2=13827,
     BORG8_BGPlaque=13828,
     BORG8_BGParchment=13829,
     BORG8_BGBookLeaf=13830,
     BORG8_BGBluPlaque=13831,
     BORG8_BGParchment2=13832,
-    //2 horizontal arrows=14166,
+
     BORG8_RitualTitle=0x375B, //leftover of "Rituals" mechanic
     //crecent moon=14239,
     //half moon=14240,

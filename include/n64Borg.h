@@ -821,7 +821,26 @@ struct Borg7Header {
     struct_45 unk38;
     Borg7Data dat;
 };
-
+enum Borg9GroundFlags{
+    B9Ground_0001=1,
+    B9Ground_0002=2,
+    B9Ground_0004=4,
+    B9Ground_0008=8,
+    B9Ground_0010=0x10,
+    B9Ground_m001f=(B9Ground_0010|B9Ground_0008|B9Ground_0004|B9Ground_0002|B9Ground_0001),
+    B9Ground_0020=0x20,
+    B9Ground_0040=0x40,
+    B9Ground_0080=0x80,
+    B9Ground_0100=0x100,
+    B9Ground_0200=0x200,
+    B9Ground_0400=0x400,
+    B9Ground_0800=0x800,
+    B9Ground_1000=0x1000,
+    B9Ground_2000=0x2000,
+    B9Ground_ExpPak=0x4000,
+    B9Ground_8000=0x8000,
+    B9Ground_mf000=(B9Ground_8000|B9Ground_ExpPak|B9Ground_2000|B9Ground_1000)
+};
 enum Borg9PhysFlags{
     B9Phys_0001=1,
     B9Phys_0002=2,

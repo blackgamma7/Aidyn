@@ -1481,9 +1481,10 @@ s16 CombatEntity::SkillCheckFloat(s16 rand,s16 param_3,u8 skill){
   return rand;
 }
 
-
+//a VERY small chance to level up weapon skill from practice.
+//(((8-curr skill level)^2)/10)% chance. "capped" at level 4.
 void CombatEntity::WeaponSkillUpChance(u8 chance,u8 weapon){
-  if (RollD(1,100) <= (u8)(chance * 0.1f)) this->charSheetP->Skills->AddToBaseWeapon(weapon,1);
+  if ((u8)(chance * 0.1f)>=RollD(1,100)) this->charSheetP->Skills->AddToBaseWeapon(weapon,1);
 }
 
 s16 CombatEntity::CalcAttackResist(CombatEntity *param_2,s16 param_3,u8 param_4){
@@ -1555,7 +1556,7 @@ s16 CombatEntity::CalculateWeaponAttack(CombatEntity *target){
       sVar3 = CombatEntity::STRTheifCheck(sVar3,(int)sVar4,target,1,(int)backstab);
       WeaponSkillUpChance(uVar6,pWVar1->weaponType);
       if (rand == sVar4)
-        CSprintf(XHitsY,this->charSheetP->name,target->charSheetP->name);
+        CSprintf(XAttacksY,this->charSheetP->name,target->charSheetP->name);
       else
         CSprintf(XCritsY,this->charSheetP->name,target->charSheetP->name);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
@@ -1722,7 +1723,7 @@ u16 CombatEntity::WeaponAttack(CombatEntity *target){
   if (sVar4 < sVar3) {
     dmg = STRTheifCheck(sVar3,(int)sVar4,target,0,0);
     if (rand == sVar4) 
-      CSprintf(XHitsY,this->charSheetP->name,target->charSheetP->name);
+      CSprintf(XAttacksY,this->charSheetP->name,target->charSheetP->name);
     else
       CSprintf(XCritsY,this->charSheetP->name,target->charSheetP->name);
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
@@ -2629,8 +2630,10 @@ void CombatEntity::UpdateMoveFlag(){
   else {SetFlag(COMBATENT_CANMOVE);}
 }
 
+//a VERY small chance to level up Troubadour skill from practice.
+//(((8-curr skill level)^2)/10)% chance. "capped" at level 4.
 void CombatEntity::TroubadourUpChance(u8 param_2){
-  if (RollD(1,100) <= (param_2 / 10)) {this->charSheetP->Skills->AddToBaseSkill(SKILL_Troubador,1);}}
+  if (RollD(1,100) <= (u8)(param_2 / 10)) {this->charSheetP->Skills->AddToBaseSkill(SKILL_Troubador,1);}}
 
 void CombatEntity::m8006f448(){
   vec3f afStack80;

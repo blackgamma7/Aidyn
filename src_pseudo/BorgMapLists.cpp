@@ -174,6 +174,7 @@ mapDataList mapDataList_Overworld[]={
   {20, 26, BORG5_Overworld_T26, BORG5_Overworld_T26_ALT, BORG9_Overworld_T26, 3},
   {20, 27, BORG5_Overworld_T27, BORG5_Overworld_T27_ALT, BORG9_Overworld_T27, 3},
   {20, 28, BORG5_Overworld_T28, BORG5_Overworld_T28_ALT, BORG9_Overworld_T28, 3},
+  {0}
 };
 mapDataList mapDataList_GoblinCamp[]={
   {1, 1, BORG5_GoblinCamp_A01, 0, BORG9_GoblinCamp_A01, 16},
@@ -195,6 +196,7 @@ mapDataList mapDataList_GoblinCamp[]={
   {7, 5, BORG5_GoblinCamp_G05, 0, BORG9_GoblinCamp_G05, 16},
   {7, 7, BORG5_GoblinCamp_G07, 0, BORG9_GoblinCamp_G07, 8},
   {7, 9, BORG5_GoblinCamp_G09, 0, BORG9_GoblinCamp_G09, 8},
+  {0}
 };
 mapDataList mapDataList_PortSaiid[]={
   {1, 1, BORG5_PortSaiid_A01, 0, BORG9_PortSaiid_A01, 16},
@@ -218,12 +220,14 @@ mapDataList mapDataList_PortSaiid[]={
   {7, 7, BORG5_PortSaiid_G07, 0, BORG9_PortSaiid_G07, 16},
   {7, 9, BORG5_PortSaiid_G09, 0, BORG9_PortSaiid_G09, 16},
   {9, 1, BORG5_PortSaiid_I01, 0, BORG9_PortSaiid_I01, 16},
+  {0}
 };
 mapDataList mapDataList_Lighthouse[]={
   {1, 1, BORG5_Lighthouse_A01, 0, BORG9_Lighthouse_A01, 13},
   {1, 3, BORG5_Lighthouse_A03, 0, BORG9_Lighthouse_A03, 14},
   {1, 5, BORG5_Lighthouse_A05, 0, BORG9_Lighthouse_A05, 14},
   {1, 7, BORG5_Lighthouse_A07, 0, BORG9_Lighthouse_A07, 8},
+  {0}
 };
 mapDataList mapDataList_GwerniaCastle[]={
   {1, 1, BORG5_GwerniaCastle_A01, 0, BORG9_GwerniaCastle_A01, 12},
@@ -268,6 +272,7 @@ mapDataList mapDataList_GwerniaCastle[]={
   {15, 9, BORG5_GwerniaCastle_O09, 0, BORG9_GwerniaCastle_O09, 15},
   {17, 1, BORG5_GwerniaCastle_Q01, 0, BORG9_GwerniaCastle_Q01, 15},
   {17, 3, BORG5_GwerniaCastle_Q03, 0, BORG9_GwerniaCastle_Q03, 8},
+  {0}
 };
 mapDataList mapDataList_GwerniaInteriors[]={
   {1, 1, BORG5_GwerniaInteriors_A01, 0, BORG9_GwerniaInteriors_A01, 16},
@@ -281,6 +286,7 @@ mapDataList mapDataList_GwerniaInteriors[]={
   {3, 7, BORG5_GwerniaInteriors_C07, 0, BORG9_GwerniaInteriors_C07, 16},
   {3, 9, BORG5_GwerniaInteriors_C09, 0, BORG9_GwerniaInteriors_C09, 16},
   {5, 1, BORG5_GwerniaInteriors_E01, 0, BORG9_GwerniaInteriors_E01, 8},
+  {0}
 };
 mapDataList mapDataList_MiscInteriors[]={
   {1, 1, BORG5_MiscInteriors_A01, 0, BORG9_MiscInteriors_A01, 16},
@@ -308,6 +314,7 @@ mapDataList mapDataList_MiscInteriors[]={
   {11, 1, BORG5_MiscInteriors_K01, 0, BORG9_MiscInteriors_K01, 8},
   {11, 3, BORG5_MiscInteriors_K03, 0, BORG9_MiscInteriors_K03, 8},
   {11, 5, BORG5_MiscInteriors_K05, 0, BORG9_MiscInteriors_K05, 13},
+  {0}
 };
 mapDataList mapDataList_Erromon[]={
   {1, 1, BORG5_Erromon_A01, 0, BORG9_Erromon_A01, 8},
@@ -338,6 +345,7 @@ mapDataList mapDataList_Erromon[]={
   {1, 15, BORG5_Erromon_A15, 0, BORG9_Erromon_A15, 8},
   {2, 15, BORG5_Erromon_B15, 0, BORG9_Erromon_B15, 8},
   {3, 15, BORG5_Erromon_C15, 0, BORG9_Erromon_C15, 8},
+  {0}
 };
 mapDataList mapDataList_Terminor[]={
   {1, 1, BORG5_Terminor_A01, 0, BORG9_Terminor_A01, 16},
@@ -374,6 +382,7 @@ mapDataList mapDataList_Terminor[]={
   {13, 3, BORG5_Terminor_M03, 0, BORG9_Terminor_M03, 16},
   {13, 5, BORG5_Terminor_M05, 0, BORG9_Terminor_M05, 16},
   {13, 7, BORG5_Terminor_M07, 0, BORG9_Terminor_M07, 16},
+  {0}
 };
 mapDataList mapDataList_Barrow[]={
   {1, 1, BORG5_Barrow_A01, 0, BORG9_Barrow_A01, 13},
@@ -392,6 +401,7 @@ mapDataList mapDataList_Barrow[]={
   {8, 2, BORG5_Barrow_H02, 0, BORG9_Barrow_H02, 13},
   {7, 3, BORG5_Barrow_G03, 0, BORG9_Barrow_G03, 13},
   {8, 3, BORG5_Barrow_H03, 0, BORG9_Barrow_H03, 13},
+  {0}
 };
 mapDataList mapDataList_RoogsCave[]={
   {1, 1, BORG5_RoogsCave_A01, 0, BORG9_RoogsCave_A01, 8},
@@ -399,6 +409,7 @@ mapDataList mapDataList_RoogsCave[]={
   {3, 1, BORG5_RoogsCave_C01, 0, BORG9_RoogsCave_C01, 8},
   {4, 1, BORG5_RoogsCave_D01, 0, BORG9_RoogsCave_D01, 8},
   {1, 3, BORG5_RoogsCave_A03, 0, BORG9_RoogsCave_A03, 8},
+  {0}
 };
 mapDataList mapDataList_JundarInteriors[]={
   {1, 1, BORG5_JundarInteriors_A01, 0, BORG9_JundarInteriors_A01, 16},
@@ -427,6 +438,7 @@ mapDataList mapDataList_JundarInteriors[]={
   {11, 7, BORG5_JundarInteriors_K07, 0, BORG9_JundarInteriors_K07, 25},
   {11, 9, BORG5_JundarInteriors_K09, 0, BORG9_JundarInteriors_K09, 16},
   {13, 1, BORG5_JundarInteriors_M01, 0, BORG9_JundarInteriors_M01, 8},
+  {0}
 };
 mapDataList mapDataList_EhudTower[]={
   {1, 3, BORG5_EhudTower_A03, 0, BORG9_EhudTower_A03, 11},
@@ -492,6 +504,7 @@ mapDataList mapDataList_EhudTower[]={
   {7, 13, BORG5_EhudTower_G13, 0, BORG9_EhudTower_G13, 11},
   {7, 15, BORG5_EhudTower_G15, 0, BORG9_EhudTower_G15, 11},
   {7, 17, BORG5_EhudTower_G17, 0, BORG9_EhudTower_G17, 11},
+  {0}
 };
 mapDataList mapDataList_Ugarit[]={
   {1, 1, BORG5_Ugarit_A01, 0, BORG9_Ugarit_A01, 13},
@@ -530,6 +543,7 @@ mapDataList mapDataList_Ugarit[]={
   {13, 10, BORG5_Ugarit_M10, BORG5_Ugarit_M10_ALT, BORG9_Ugarit_M10, 26},
   {15, 1, BORG5_Ugarit_O01, 0, BORG9_Ugarit_O01, 8},
   {15, 3, BORG5_Ugarit_O03, 0, BORG9_Ugarit_O03, 13},
+  {0}
 };
 mapDataList mapDataList_Ugarit2[]={
   {1, 1, BORG5_Ugarit2_A01, 0, BORG9_Ugarit2_A01, 14},
@@ -539,6 +553,7 @@ mapDataList mapDataList_Ugarit2[]={
   {1, 9, BORG5_Ugarit2_A09, 0, BORG9_Ugarit2_A09, 14},
   {3, 1, BORG5_Ugarit2_C01, 0, BORG9_Ugarit2_C01, 14},
   {3, 3, BORG5_Ugarit2_C03, 0, BORG9_Ugarit2_C03, 14},
+  {0}
 };
 mapDataList mapDataList_ChaosIsle[]={
   {1, 1, BORG5_ChaosIsle_A01, 0, BORG9_ChaosIsle_A01, 9},
@@ -547,6 +562,7 @@ mapDataList mapDataList_ChaosIsle[]={
   {1, 7, BORG5_ChaosIsle_A07, 0, BORG9_ChaosIsle_A07, 9},
   {1, 9, BORG5_ChaosIsle_A09, 0, BORG9_ChaosIsle_A09, 9},
   {3, 1, BORG5_ChaosIsle_C01, 0, BORG9_ChaosIsle_C01, 8},
+  {0}
 };
 mapDataList mapDataList_Battlefeild[]={
   {1, 1, BORG5_Battlefeild_A01, 0, BORG9_Battlefeild_A01, 2},
@@ -577,4 +593,5 @@ mapDataList mapDataList_Battlefeild[]={
   {13, 17, BORG5_Battlefeild_E11, 0, BORG9_Battlefeild_E11, 15},
   {13, 19, BORG5_Battlefeild_M19, 0, BORG9_Battlefeild_M19, 16},
   {13, 21, BORG5_Battlefeild_M15, 0, BORG9_Battlefeild_M15, 13},
+  {0}
 };
