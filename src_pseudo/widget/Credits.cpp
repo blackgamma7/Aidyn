@@ -8,25 +8,25 @@
 #define CreditsSpeed 2
 #endif
 
-u32 DAT_800ed510=0;
+u32 DAT_800ed510=false;
 extern void* romstring_credits;
 WidgetCredits::WidgetCredits():WidgetMenu(){
   s16 sVar1;
-  ulong uVar8;
-  BaseWidget *pBVar9;
-  ulong uVar10;
-  Borg12Header *pBVar11;
   u16 uVar12;
   u8 *puVar12;
   byte *pbVar13;
-  u16 posY;
+  u16 yOff;
   u8 uVar14;
   float fVar15;
 
-  this->unk8a = 5;
+  #ifdef DEBUGVER
+  this->scrollSpeed = 5;
+  #else
+  this->scrollSpeed = 1;
+  #endif
   this->creditState = 0;
-  this->clipText = NULL;
-  this->unk88 = 1;
+  this->THEEND = NULL;
+  this->timer = 1;
 
   uVar14 = 0;
   u8 credits_linebreaks[]={
@@ -41,48 +41,47 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
     pBVar7->SetSomeBounds(pBVar7->posY,0,SCREEN_WIDTH,pBVar7->posY + pBVar7->GetHeight());
     uVar14++;
     uVar12 = (u16)pBVar7->posY + pBVar7->GetHeight();
-    posY = (u16)uVar12;
+    yOff = (u16)uVar12;
     if (count != credits_linebreaks[uVar14]) {
       do {
-        posY = (u16)uVar12;
+        yOff = (u16)uVar12;
         if (128 < count) break;
-        pBVar9 = WClipTXT(creditStrings[count]);
-        pBVar9->SetColor(0xe1,0xe1,0xe1,0xff);
-        pBVar9->SetCoords(((SCREEN_WIDTH - pBVar9->GetWidth()) / 2),posY);
-        pBVar7->Link(pBVar9);
-        uVar12 += pBVar9->GetHeight();
-        posY = (u16)uVar12;
+        WidgetClipText*w = WClipTXT(creditStrings[count]);
+        w->SetColor(0xe1,0xe1,0xe1,0xff);
+        w->SetCoords(((SCREEN_WIDTH - w->GetWidth()) / 2),yOff);
+        pBVar7->Link(w);
+        uVar12 += w->GetHeight();
+        yOff = (u16)uVar12;
         count++;
-        pBVar9->SetSomeBounds(pBVar9->posY,0,SCREEN_WIDTH,posY);
+        w->SetSomeBounds(w->posY,0,SCREEN_WIDTH,yOff);
       } while (count != credits_linebreaks[uVar14]);
     }
     pBVar7->varU8 = (byte)count;
-    pBVar7->varU16 = posY - pBVar7->posY;
+    pBVar7->varU16 = yOff - pBVar7->posY;
 }
- this->clipText = WClipTXT(creditStrings[0x81]);
- this->clipText->SetColor(0xff,0xff,0xff,0);
- this->clipText->SetCoords((SCREEN_WIDTH - this->clipText->GetWidth()) / 2,((SCREEN_HEIGHT - this->clipText->GetHeight()) / 2));
+ this->THEEND = WClipTXT(creditStrings[0x81]);
+ this->THEEND->SetColor(0xff,0xff,0xff,0);
+ this->THEEND->SetCoords((SCREEN_WIDTH - this->THEEND->GetWidth()) / 2,((SCREEN_HEIGHT - this->THEEND->GetHeight()) / 2));
  RomString::Free(creditStrings);
- pBVar11 = gGlobals.gameVars.BGM;
  this->BGMVol = gGlobals.VolBGM;
- this->field5_0x80 = this->child;
+ this->currChild = this->child;
  this->SFXVol = gGlobals.VolSFX;
  gGlobals.VolBGM = 0.0;
  gGlobals.VolSFX = 0.0;
  if (gGlobals.gameVars.BGM) DCM::Start(gGlobals.gameVars.BGMIndex,gGlobals.gameVars.BGMID,0);
  this->bgm = load_borg_12(BORG12_Intro_NoExp);
- DCM::Add((byte *)&this->indecies0,(s32 *)&this->indecies1,&this->bgm->dat->sub,this->BGMVol * 255.0f,0x80,1,-1,0);
+ DCM::Add(&this->bgmIndex,&this->bgmID,&this->bgm->dat->sub,this->BGMVol * 255.0f,0x80,1,-1,0);
 }
 
 WidgetCredits::~WidgetCredits(){
   gGlobals.VolBGM = this->BGMVol;
   gGlobals.VolSFX = this->SFXVol;
   if (gGlobals.gameVars.BGM) DCM::Start(gGlobals.gameVars.BGMIndex,gGlobals.gameVars.BGMID,gGlobals.VolBGM * 255.0f);
-  if (this->clipText){
-    this->Unlink(this->clipText);
-    if (this->clipText) this->clipText->~BaseWidget();
+  if (this->THEEND){
+    this->Unlink(this->THEEND);
+    if (this->THEEND) this->THEEND->~BaseWidget();
   }
-  DCM::Remove(*this->indecies0,*this->indecies1);
+  DCM::Remove(this->bgmIndex,this->bgmID);
   free_borg_12(this->bgm);
   WidgetMenu::~WidgetMenu();
 }
@@ -97,7 +96,7 @@ u8 WidgetCredits::Tick(){
     case 3: State3();break;
   }
   if (gPlayer) {
-    ProcessAudioBubbles(&gGlobals.SFXStruct,&((gPlayer)->collision).pos,gGlobals.delta);
+    ProcessAudioBubbles(&gGlobals.SFXStruct,&gPlayer->collision.pos,gGlobals.delta);
   }
   return TickChildren();
 }
@@ -109,9 +108,9 @@ void WidgetCredits::State1(){
   float fVar3;
   char cVar4;
   
-  pBVar2 = this->field5_0x80;
-  this->col.A = (this->field5_0x80->col).A;
-  if (this->field5_0x80->posY < SCREEN_HEIGHT) {
+  pBVar2 = this->currChild;
+  this->col.A = (this->currChild->col).A;
+  if (this->currChild->posY < SCREEN_HEIGHT) {
     if (this->unk89 == 0) {
       if ((u8)(gGlobals.delta * CreditsSpeed) << 1 < this->col.A) {
         this->col.A+= gGlobals.delta * CreditsSpeed * -2;
@@ -124,25 +123,29 @@ void WidgetCredits::State1(){
       }
       else {
         this->col.A = 0xff;
-        if (this->unk88 == 0) this->unk89 = 0;
-        else this->unk88--;
+        if (this->timer == 0) this->unk89 = 0;
+        else this->timer--;
       }
     }
   }
   else {
-    Utilities::MoveWidget(this->field5_0x80,0,((this->field5_0x80->varU16 + SCREEN_HEIGHT) >> 1));
+    Utilities::MoveWidget(this->currChild,0,((this->currChild->varU16 + SCREEN_HEIGHT) >> 1));
     this->col.A = 0;
     this->unk89 = 1;
-    this->unk88 = 10.0f / gGlobals.delta;
+    #ifdef DEBUGVER
+    this->timer = 10.0f / gGlobals.delta;
+    #else
+    this->timer = 120.0f / gGlobals.delta;
+    #endif
   }
-  Utilities::SetAlpha(this->field5_0x80,this->col.A);
+  Utilities::SetAlpha(this->currChild,this->col.A);
   if (this->col.A == 0) {
     if (this->unk89 == 0) {
-      this->field5_0x80 = this->field5_0x80->siblingR;
+      this->currChild = this->currChild->siblingR;
     }
   }
-  if (this->field5_0x80->varU8 == 0x1d) {
-    this->unk88 = 1;
+  if (this->currChild->varU8 == 0x1d) {
+    this->timer = 1;
     this->creditState++;
   }
 
@@ -153,12 +156,12 @@ void WidgetCredits::State2(){
   byte bVar2;
   BaseWidget *pBVar3;
   
-  bVar2 = this->unk88 - 1;
-  if (this->unk88 == 0) {
-    pBVar3 = this->field5_0x80;
+  bVar2 = this->timer - 1;
+  if (this->timer == 0) {
+    pBVar3 = this->currChild;
     if ((int)((int)pBVar3->posY + (u32)pBVar3->varU16) < 0) {
-      this->field5_0x80 = pBVar3->siblingR;
-      pBVar3 = this->field5_0x80;
+      this->currChild = pBVar3->siblingR;
+      pBVar3 = this->currChild;
     }
     if (pBVar3 == NULL) {
       this->creditState++;
@@ -169,9 +172,8 @@ void WidgetCredits::State2(){
       if ((pBVar1 == NULL) || (bVar2 = 1, (int)((int)pBVar1->posY + (u32)pBVar1->varU16 + 0x20) < SCREEN_HEIGHT)
          ) {
         do {
-          bVar2 = this->unk8a;
           while( true ) {
-            Utilities::MoveWidget(pBVar3,0,-(u16)bVar2);
+            Utilities::MoveWidget(pBVar3,0,-this->scrollSpeed);
             pBVar3 = pBVar3->siblingR;
             bVar2 = 1;
             if (pBVar3 == NULL) goto LAB_800340fc;
@@ -181,14 +183,13 @@ void WidgetCredits::State2(){
               bVar2 = 1;
               goto LAB_800340fc;
             }
-            bVar2 = this->unk8a;
           }
         } while( true );
       }
     }
   }
 LAB_800340fc:
-  this->unk88 = bVar2;
+  this->timer = bVar2;
   return;
 }
 
@@ -201,31 +202,31 @@ void WidgetCredits::State3(){
   char cVar6;
   
   if (gGlobals.creditsByte == 2) {
-    if (DAT_800ed510 == 0) {
-      this->Link(this->clipText);
-      this->unk88 = SCREEN_HEIGHT;
+    if (!DAT_800ed510) {
+      this->Link(this->THEEND);
+      this->timer = 240;
       this->unk89 = 1;
-      DAT_800ed510 = 1;
+      DAT_800ed510 = true;
     }
     if (this->unk89 == 0) {
-      if (this->unk88 == 0) {
-        if ((u8)(gGlobals.delta * CreditsSpeed) < (this->clipText->col).A)
-          (this->clipText->col).A -= gGlobals.delta * CreditsSpeed;
+      if (this->timer == 0) {
+        if ((u8)(gGlobals.delta * CreditsSpeed) < (this->THEEND->col).A)
+          (this->THEEND->col).A -= gGlobals.delta * CreditsSpeed;
         else {
-          (this->clipText->col).A = 0;
+          (this->THEEND->col).A = 0;
           this->creditState++;
           Sky::ResetColors();
-          DAT_800ed510 = 0;
+          DAT_800ed510 = false;
         }
       }
-      else this->unk88--;
+      else this->timer--;
     }
     else {
-      if ((this->clipText->col).A < (0xff - (u8)(gGlobals.delta * CreditsSpeed))) {
-        (this->clipText->col).A+= gGlobals.delta * CreditsSpeed;
+      if ((this->THEEND->col).A < (0xff - (u8)(gGlobals.delta * CreditsSpeed))) {
+        (this->THEEND->col).A+= gGlobals.delta * CreditsSpeed;
       }
       else {
-        (this->clipText->col).A = 0xff;
+        (this->THEEND->col).A = 0xff;
         this->unk89 = 0;
       }
     }

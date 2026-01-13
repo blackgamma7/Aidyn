@@ -4,15 +4,15 @@ class WidgetCredits: public WidgetMenu {
     public:
     u8 creditState;
     u8 field2_0x7d[3];
-    BaseWidget *field5_0x80;
-    BaseWidget *clipText;
-    u8 unk88;
+    BaseWidget *currChild;
+    BaseWidget *THEEND;
+    u8 timer;
     u8 unk89;
-    u8 unk8a;
+    u8 scrollSpeed;
     u8 unk8b;
     Borg12Header *bgm;
-    u8 *indecies0;
-    u8 *indecies1;
+    u8 bgmIndex;
+    s32 bgmID;
     float BGMVol;
     float SFXVol;
     WidgetCredits();

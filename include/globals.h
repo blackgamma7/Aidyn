@@ -145,7 +145,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     ItemID Shopkeep;
     u16 unk14f2;
     u32 moneypile;
-    u8 creditsByte;
+    u8 creditsByte; //1= from menu, 2=from end of game.
     u32 unk14fc;
     u8 gameStartOption;
     IntroMenu *titleScreen;
