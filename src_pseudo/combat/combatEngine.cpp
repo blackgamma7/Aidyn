@@ -181,7 +181,7 @@ int look_for_flasks(void){
 u16 Combat_CreatePartyMembers(u8 param_1){
   CharSheet *charsheet;
   bool bVar5;
-  undefined1 uVar6;
+  u8 uVar6;
   CombatEntity *pCVar3;
   int iVar4;
   u16 uVar7;
@@ -225,7 +225,7 @@ u16 Combat_CreatePartyMembers(u8 param_1){
 u32 Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
 
 {
-  undefined1 uVar5;
+  u8 uVar5;
   CombatEntity *pCVar1;
   CharSheet *pCVar2;
   CombatAIInfo *pCVar3;
@@ -290,7 +290,7 @@ void Combat_CreateEnemies(u16 param_1,u8 param_2){
   ItemID IVar1;
   bool bVar8;
   ItemID *pIVar3;
-  undefined1 uVar9;
+  u8 uVar9;
   CombatEntity *pCVar4;
   CharSheet *pCVar5;
   int iVar6;

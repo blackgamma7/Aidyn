@@ -773,8 +773,8 @@ void FUN_8006193c(CombatAIInfo *param_1) {
   uint uVar18;
   uint uVar19;
   uint uVar20;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
+  u32 uStack_50;
+  u32 uStack_4c;
   u8 x;
   
   uStack_4c = 0;
@@ -897,7 +897,7 @@ void FUN_80061dfc(CombatAIInfo *param_1){
   float x_01;
   float y_01;
   float fVar22;
-  undefined4 uStack_68,uStack_64;
+  u32 uStack_68,uStack_64;
   
   bVar1 = 0;
   if (gCombatP->leaderDead == 0) {

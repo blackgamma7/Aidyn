@@ -7,7 +7,7 @@ DollBarterConfirm::DollBarterConfirm(WidgetInvShop *shop,u32 sellPrice):WidgetMe
   PartyInventory *pPVar3;
   bool bVar5;
   short y;
-  undefined4 uVar6;
+  u32 uVar6;
   BaseWidget *uVar8;
   ulong uVar7;
   WidgetClipText *pBVar9;

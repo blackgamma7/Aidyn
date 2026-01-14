@@ -41,7 +41,7 @@ struct FontStruct {
     u8 fontIndex;
     u8 fontsLoaded;
     u8 fontTotal;
-    undefined field5_0xb;
+    u8 field5_0xb;
     u16 charW;
     u16 charH;
     u16 BorgW;
@@ -66,12 +66,12 @@ u8 LoadFace(FontStruct *font,u32 b8,u8 rows,u8 cols);
 void SetFace(FontStruct *font,u32 param_2);
 void print800b44dc(FontStruct *font,Gfx **gg,char *txt,s32 x,s32 y);
 int printSimple(FontStruct *font,Gfx **gg,char *txt,int x,int y,float scalex,float scaley);
-int printUnused(FontStruct *font,Gfx **gg,char *txt,int param_4,undefined4 param_5,
-                  undefined4 param_6,undefined4 param_7,undefined4 param_8,undefined4 param_9);
+int printUnused(FontStruct *fontP,Gfx **GG,char *txt,int param_4,u32 param_5
+                     ,u32 param_6,u32 param_7,u32 param_8,u32 param_9);
 int PrintWapperA(FontStruct *fontP,Gfx **gg,char *txt,int posX,int posY,u16 param_6,int param_7
                       ,u16 param_8,int param_9,float param_10,float param_11);
-int PrintWapperUnused(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_5,
-                      s16 param_6,s16 param_7,int param_8,int param_9,int param_10,int param_11);                       
+int PrintWapperUnused(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,s16 param_6,s16 param_7,
+              int param_8,int param_9,int param_10,int param_11);                       
 int PrintMain(FontStruct *font,Gfx **gg,char *txt,int param_4,int param_5,s16 param_6,
                        s16 param_7,int param_8,int param_9,int param_10,int param_11,
                        float param_12,float param_13);
@@ -79,7 +79,7 @@ void PrintCharaWapper(FontStruct *font,Gfx **gg,u32 param_3,u32 param_4,int para
                  s16 param_6,s16 param_7,s16 param_8,s16 param_9);
 
 void PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_5,s16 param_6,
-                        s16 param_7,s16 param_8,s16 param_9,float param_10,float param_11);
+                     s16 param_7,s16 param_8,s16 param_9,float param_10,float param_11);
 int GetWidth(FontStruct *font,char *str);
 int GetWidthScaled(FontStruct *font,char *str,float scale);
 u16 GetCharWidth(FontStruct *font,u8 param_2);

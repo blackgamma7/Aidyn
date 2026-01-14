@@ -101,8 +101,8 @@ class WidgetCameraDebug: public WidgetMenu {
     BaseWidget *scrollMenu;
     u16 currRefpoint;
     WidgetCameraDebugSub Arr[14];
-    undefined field75_0xd6;
-    undefined field76_0xd7;
+    u8 field75_0xd6;
+    u8 field76_0xd7;
     WidgetCameraDebug();
     ~WidgetCameraDebug();
     BaseWidget* AFunc();

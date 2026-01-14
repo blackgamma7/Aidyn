@@ -114,7 +114,7 @@ LAB_8000613c:
       }
       else {
         uVar8 = pbVar5->lightIndecies[uVar13];
-        pvVar11 = (voxelObject *)((int)pBVar4->voxelObjs + ((u32)uVar8 * 0x1c - (u32)uVar8) * 4);
+        pvVar11 = &pBVar4->voxelObjs[uVar8];
         VVar1 = (pvVar11->header).Bitfeild;
         if ((VVar1 & VOXEL_tangible) == 0) {
           if ((VVar1 & VOXEL_Active)){

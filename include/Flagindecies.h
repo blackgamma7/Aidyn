@@ -14,6 +14,11 @@
 
 #define FLAG_MeetOriana 47
 
+#define FLAG_EnteredYorwood 54
+
+#define FLAG_GwerniaChaosCamp 58
+
+
 //journal flags
 
 #define FLAG_MeetShadow 9

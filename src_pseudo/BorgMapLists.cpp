@@ -408,6 +408,9 @@ mapDataList mapDataList_RoogsCave[]={
   {2, 1, BORG5_RoogsCave_B01, 0, BORG9_RoogsCave_B01, 8},
   {3, 1, BORG5_RoogsCave_C01, 0, BORG9_RoogsCave_C01, 8},
   {4, 1, BORG5_RoogsCave_D01, 0, BORG9_RoogsCave_D01, 8},
+  /*"Mushroom Boss" obstructing narrow passage:
+    scene vox 12 {11.23444,-0.1129395,-22.554259}
+    verts 701-708 physPolys 926-933*/
   {1, 3, BORG5_RoogsCave_A03, 0, BORG9_RoogsCave_A03, 8},
   {0}
 };

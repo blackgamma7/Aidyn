@@ -1,5 +1,5 @@
 #include "widgets/BaseWidget.h"
-
+#include "allocQueue.h"
 
 class WidgetHandler{
     public:
@@ -16,5 +16,5 @@ class WidgetHandler{
     u8 FreeWidget(BaseWidget *);
     Gfx* Render(Gfx*,u16,u16,u16,u16);
 };
-
+extern QueueStructA*queue_struct_pointer;
 #define WHANDLE gGlobals.widgetHandler

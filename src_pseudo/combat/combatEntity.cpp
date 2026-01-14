@@ -1657,7 +1657,7 @@ s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *target,s8 param_3,s8 par
   char cVar11;
   char cVar12;
   u8 bVar13;
-  undefined uVar14;
+  u8 uVar14;
   s16 sVar10;
   u32 uVar15;
   u16 uVar16;
@@ -2189,7 +2189,7 @@ void CombatEntity::SubtractPotion(){
 
 void AddPotionVisualEffect(u8 playerDatIndex,u8 potion,CharSheet *ent){
   playerData *ppVar1;
-  undefined4 uVar2;
+  u32 uVar2;
   u32 uVar3;
   PotionEffect *pPVar2;
   
@@ -2499,7 +2499,7 @@ s16 CombatEntity::m8006edd0(CombatEntity *param_2,playerData *param_3,playerData
   s16 sVar4;
   s16 sVar5;
   u8 SVar6;
-  undefined4 uVar3;
+  u32 uVar3;
   bool bVar7;
   u32 uVar8;
   s16 lVar9;

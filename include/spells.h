@@ -137,7 +137,7 @@ struct SpellRAM {
     u8 range;
     u8 ingredient;
     u8 expMod;
-    undefined field13_0x25;
+    u8 field13_0x25;
 };
 
 //combine as class with SpellInstance?

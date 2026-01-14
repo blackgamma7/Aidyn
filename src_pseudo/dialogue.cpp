@@ -54,7 +54,7 @@ void DialoguePreCallback(dialougeInstance *param_1,Borg13Data *param_2,u16 cmd,s
   u16 uVar2;
   bool bVar3;
   bool bVar4;
-  undefined4 uVar5;
+  u32 uVar5;
   byte *pbVar6;
   ActorAndID *pAI;
   u16 BVar7;
@@ -227,7 +227,7 @@ u16 DialogEvalCallback(dialougeInstance *param_1,Borg13Data *param_2,u16 cmd,u16
   return ret;
 }
 
-void dialougemode_0x90_funcs3(undefined4 param_1){
+void dialougemode_0x90_funcs3(u32 param_1){
   set_dialougemode_0x90(param_1);
   run_dialougemode_funcs3();
 }
@@ -241,7 +241,7 @@ void DialogCallbackC(dialougeInstance *param_1,Borg13Data *param_2,s16 command,u
   Borg13Header *pBVar5;
   s16 *psVar6;
   u16 *puVar7;
-  undefined4 uVar10;
+  u32 uVar10;
   u32 borg12;
   char *pcVar11;
   u32 errLine;

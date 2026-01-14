@@ -96,7 +96,6 @@ BaseWidget * WidgetHandler::Control(ControllerFull *cont){
   return pBVar1;
 }
 
-
 u8 WidgetHandler::AddWidget(BaseWidget *w){
   BaseWidget *pBVar1;
   
@@ -114,7 +113,6 @@ u8 WidgetHandler::AddWidget(BaseWidget *w){
   }
   return true;
 }
-
 
 BaseWidget * WidgetHandler::RemoveWidget(){
   BaseWidget *pBVar1;

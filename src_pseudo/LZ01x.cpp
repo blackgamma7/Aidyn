@@ -287,13 +287,13 @@ s32 ofunc_sub_800a95b0(void) {
   u32 uVar3;
   u32 uVar4;
   s32 sVar5;
-  undefined1 *puVar6;
+  u8 *puVar6;
   bool bVar7;
   int iVar8;
   u32 uVar9;
   u32 **ppuVar10;
   ulonglong uVar11;
-  undefined1 auStack_41 [65];
+  u8 auStack_41 [65];
   
   uVar3 = ret1();
   uVar4 = ret1_800A9350();
@@ -546,7 +546,7 @@ LAB_800a9b9c:
   goto LAB_800a9a88;
 }
 
-u32 Ofunc_800a9bb8(byte *param_1,byte *param_2,byte *param_3,byte **param_4,undefined4 param_5) {
+u32 Ofunc_800a9bb8(byte *param_1,byte *param_2,byte *param_3,byte **param_4,u32 param_5) {
   byte bVar1;
   byte *pbVar2;
   byte *pbVar3;

@@ -124,7 +124,7 @@ IconDict ItemIcons[]={
   {Weapon_IceStiletto,BORG8_IconItemSword2},
   {Weapon_StaffLugash,BORG8_IconItemStaff2},
   {Weapon_JesterMace,BORG8_IconItemMace},
-  {Weapon_CyclopsHurlstar,BORG8_IconSlotHurlstar},
+  {Weapon_CyclopsHurlstar,BORG8_IconItemHurlstar},
   {Weapon_CyclopsClub,BORG8_IconItemClub},
   {Weapon_StealthBlade,BORG8_IconItemSword},
   {Weapon_Sheridan,BORG8_IconItemSword2},

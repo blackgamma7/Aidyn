@@ -70,9 +70,13 @@ typedef enum VoxelFllags {
     VOXEL_JumperPak=0x20, //activate if no Expansion Pak
     VOXEL_EXPPak=0x40, //activate if Expansion Pak
     VOXEL_CheckFlagC=1<<7, //header.FlagC state ^ this bit
+    VOXEL_Flag100=0x1000,
     VOXEL_Used=0x200,
-    VOXEL_FlagB=0x1000,
-    VOXEL_tangible=0x2000,
+    VOXEL_Flag400=0x400,
+    VOXEL_Flag800=0x800,
+    VOXEL_Flag1000=0x1000,
+    VOXEL_tangible=0x2000, //touching voxel activates it(?)
+    VOXEL_Flag4000=0x4000, //unknown
     VOXEL_Active=0x8000 //map object is active/visible
 } VoxelFllags;
 
@@ -836,10 +840,10 @@ enum Borg9GroundFlags{
     B9Ground_0400=0x400,
     B9Ground_0800=0x800,
     B9Ground_1000=0x1000,
-    B9Ground_2000=0x2000,
-    B9Ground_ExpPak=0x4000,
-    B9Ground_8000=0x8000,
-    B9Ground_mf000=(B9Ground_8000|B9Ground_ExpPak|B9Ground_2000|B9Ground_1000)
+    B9Ground_VoxTrigger=0x2000, //triggers a teleport, camera or dialouge voxel
+    B9Ground_ExpPak=0x4000, //collision flag for Expansion-Pak-Only props
+    B9Ground_8000=0x8000, //unused apart from mask?
+    B9Ground_mf000=(B9Ground_8000|B9Ground_ExpPak|B9Ground_VoxTrigger|B9Ground_1000)
 };
 enum Borg9PhysFlags{
     B9Phys_0001=1,
@@ -865,9 +869,12 @@ enum Borg9PhysFlags{
 struct borg9_phys {
     vec3f *verts[3];
     vec3f normal;
-    struct EnvProp *envProperty;
+    union{
+      u32 physProp;
+      struct EnvProp *envProperty;
+    };
     u16 flags; // use Borg9PhysFlags
-    u16 GroundType;
+    u16 GroundType; //uses Borg9GroundFlags
 };
 
 enum B13_Commands{
@@ -941,15 +948,15 @@ struct Borg13Op{
 struct borg13command {
     Borg13Op ops[4];
     s16 text_marker;
-    undefined field32_0x22;
-    undefined field33_0x23;
+    u8 field32_0x22;
+    u8 field33_0x23;
     u16 a;
     u16 b;
     u8 index;
     u8 c[8];
     u8 bitmask;
-    undefined field46_0x32;
-    undefined field47_0x33;
+    u8 field46_0x32;
+    u8 field47_0x33;
     u32 unk34;
 };
 

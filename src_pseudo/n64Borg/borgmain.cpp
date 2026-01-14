@@ -697,17 +697,17 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
   void *pvVar4;
   Borg6Struct4 *pBVar6;
   int *piVar7;
-  undefined4 *puVar8;
-  undefined4 *puVar9;
+  u32 *puVar8;
+  u32 *puVar9;
   u32 uVar10;
-  undefined4 *puVar11;
+  u32 *puVar11;
   u16 uVar12;
   Borg6Struct2 *pBVar13;
   int iVar14;
   int iVar15;
   int iVar16;
   u32 size;
-  undefined4 uVar17;
+  u32 uVar17;
   
   size = 0;
   iVar16 = 0;
@@ -747,7 +747,7 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
       pBVar3 = pBVar3 + 1;
     } while (iVar16 < (int)uVar1);
   }
-  puVar8 = (undefined4 *)HALLOC(size,0x87d);
+  puVar8 = (u32 *)HALLOC(size,0x87d);
   iVar16 = 0;
   uVar1 = param_1->dat->subCount;
   pBVar3 = param_1->dat->sub;
@@ -766,9 +766,9 @@ u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
           iVar15 += 1;
           pfVar2 = pBVar13->unk4;
           puVar8 = puVar9 + 4;
-          *(undefined4 **)((int)pvVar4 + 8) = puVar9;
+          *(u32 **)((int)pvVar4 + 8) = puVar9;
           uVar12 = *(u16 *)((int)pfVar2 + 2);
-          puVar11 = (undefined4 *)pfVar2[1];
+          puVar11 = (u32 *)pfVar2[1];
           do {
             if ((uVar12 & 1) == 0) {
               *puVar9 = 0;

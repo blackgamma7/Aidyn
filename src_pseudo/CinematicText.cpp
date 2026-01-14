@@ -134,7 +134,7 @@ void LoadNextLine(void){
   u8 auStack_418 [512];
   s16 sStack_218;
   s16 sStack_216;
-  undefined1 auStack_214 [508];
+  u8 auStack_214 [508];
   u32 auStack_18 [6];
   
   pcVar4 = gCinematicTextP;

@@ -87,7 +87,7 @@
 #define BORG8_PortraitKeelin 335
 #define BORG8_PortraitShadow 361
 #define BORG8_PortraitSheridan 362
-#define BORG8_PortraitCrossbone 365
+#define BORG8_PortraitCrossbone 0x016d
 #define BORG8_PortraitTentacle 366
 #define BORG8_PortraitBanner 384
 #define BORG8_PortraitSignpost 385
@@ -181,7 +181,7 @@
 #define BORG8_IconItemWand 0x35f1
 #define BORG8_IconItemStormbreaker 0x35f2
 #define BORG8_IconItemAsp 0x37e1
-#define BORG8_IconSlotHurlstar 0x3856
+#define BORG8_IconItemHurlstar 0x3856
 #define BORG8_IconItemHockeyStick 0x38d4
 #define BORG8_IconItemLightreaver 0x38d5
 
@@ -1655,7 +1655,7 @@ typedef enum Borg8Enum {
 #define BORG9_RoogsCave_A01  0x1211
 #define BORG9_RoogsCave_B01  0x120C
 #define BORG9_RoogsCave_C01  0x1209
-#define BORG9_RoogsCave_D01  0x1205
+#define BORG9_RoogsCave_D01  0x1205 //the one w/ the infamous "mushroom boss"
 #define BORG9_RoogsCave_A03  0x124B
 #define BORG9_JundarInteriors_A01  0x1890
 #define BORG9_JundarInteriors_A09  0x1535
@@ -1824,6 +1824,8 @@ typedef enum Borg8Enum {
 #define BORG13_AlaronDies3      0x0514
 
 #define BORG13_HelpMenu         0x054b
+
+#define BORG13_DougalBetrayal  0x04ef
 
 #define BORG13_BrennaForceJoin   0x03AD //Brenna joins your party even if you don't select her
 

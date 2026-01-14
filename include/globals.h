@@ -17,7 +17,6 @@
 #include "commonstrings.h"
 #include "widgets/handler.h"
 #include "graphics.h"
-#include "allocQueue.h"
 #include "spells.h"
 #include "weather.h"
 #include "cinematics.h"
@@ -69,7 +68,7 @@ struct GlobalsSub { /* 0x800e6988 in Debug version*/
     ParticleHeadStruct particleHead;
     u8 unk718[128]; //unused?
     DynamicLightHead DynamicLights;
-    voxelObject *refObjPointer;
+    voxelObject *teleVox;
     vec3f *tpVec3;
     mapFloatDat MapFloatDatEntry;
     Borg12Header *BGM;

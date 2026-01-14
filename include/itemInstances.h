@@ -63,8 +63,8 @@ struct WeaponInstance {
     u8 range;
     u8 animation;
     u8 element;
-    undefined field14_0x2a;
-    undefined field15_0x2b;
+    u8 field14_0x2a;
+    u8 field15_0x2b;
 };
 struct SpellInstance{
     ItemInstance base;
@@ -91,7 +91,7 @@ struct ArmorInstance {
     ItemInstance base;
     u8 unk14;
     u8 unk15;
-    undefined field3_0x16;
+    u8 field3_0x16;
     u8 rom0x1d;
     StatMod* skillmod;
     Temp_enchant *enchantment;

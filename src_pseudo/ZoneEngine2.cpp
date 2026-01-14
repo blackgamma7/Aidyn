@@ -188,8 +188,7 @@ void attachPhysicsProperties(Borg9Data *param_1){
   if (param_1->borghpys_count != 0) {
     for(i=0;i<param_1->borghpys_count;i++) {
       pbVar2 = param_1->phys_pointer;
-      //union?
-      uVar1 = *(u16 *)((int)&pbVar2[i].envProperty + 2);
+      uVar1 = pbVar2[i].physProp;
       #ifdef DEBUGVER
       if (25 < uVar1) {
         Gsprintf("Invalid Physics Property: %d\n",uVar1);
@@ -199,7 +198,7 @@ void attachPhysicsProperties(Borg9Data *param_1){
       uVar3 = pbVar2[i].GroundType;
       switch(uVar3 & B9Ground_mf000){
         case 0:{
-          pbVar2[i].GroundType = uVar1 | (B9Ground_1000|B9Ground_2000);
+          pbVar2[i].GroundType = uVar1 | (B9Ground_1000|B9Ground_VoxTrigger);
           pbVar2[i].flags |= B9Phys_1000;
           break;
         }
@@ -208,14 +207,14 @@ void attachPhysicsProperties(Borg9Data *param_1){
           pbVar2[i].flags |= B9Phys_1000;
           break;
         }
-        case B9Ground_2000:{
-          pbVar2[i].GroundType = (u16)((uVar3 & 0x7f) << 5) | B9Ground_2000 | uVar1 & 0x1f;
+        case B9Ground_VoxTrigger:{
+          pbVar2[i].GroundType = (u16)((uVar3 & 0x7f) << 5) | B9Ground_VoxTrigger | uVar1 & 0x1f;
           pbVar2[i].flags |= B9Phys_1000;
           break;
         }
         case B9Ground_ExpPak:{
           if (gExpPakFlag){
-            pbVar2[i].GroundType = uVar3 | (B9Ground_1000|B9Ground_2000);
+            pbVar2[i].GroundType = uVar3 | (B9Ground_1000|B9Ground_VoxTrigger);
             pbVar2[i].flags |= B9Phys_1000;
           }
           else{
@@ -241,7 +240,7 @@ Borg9Data * GetCollisionZone(u8 x){
 }
 
 void set_teleport_pointer(voxelObject *param_1){
-  gGlobals.gameVars.refObjPointer = param_1;
+  gGlobals.gameVars.teleVox = param_1;
   gGlobals.gameVars.tpVec3 = NULL;
   if (((gGlobals.screenFadeMode == 0) && (0.0 < gGlobals.brightness)) ||
      (gGlobals.ticker - initZoneTimestamp < 3)) {
@@ -251,7 +250,7 @@ void set_teleport_pointer(voxelObject *param_1){
 }
 
 void set_teleport_obj_A(u16 mapA,u16 Short1,u16 Short2,vec3f *pos){
-  gGlobals.gameVars.refObjPointer = &bss_tele_obj;
+  gGlobals.gameVars.teleVox = &bss_tele_obj;
   gGlobals.gameVars.tpVec3 = &vec3_800f5210;
   Vec3Copy(pos,&vec3_800f5210);
   CLEAR(&bss_tele_obj);
@@ -262,7 +261,7 @@ void set_teleport_obj_A(u16 mapA,u16 Short1,u16 Short2,vec3f *pos){
 }
 
 void set_teleport_obj_loadgame(u16 mapA,u16 Short1,u16 Short2,vec3f *pos){
-  gGlobals.gameVars.refObjPointer = &loadgame_tp_obj;
+  gGlobals.gameVars.teleVox = &loadgame_tp_obj;
   gGlobals.gameVars.tpVec3 = NULL;
   CLEAR(&loadgame_tp_obj);
   loadgame_tp_obj.header.type = VOXEL_Teleporter;
@@ -274,7 +273,6 @@ void set_teleport_obj_loadgame(u16 mapA,u16 Short1,u16 Short2,vec3f *pos){
 }
 
 void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
-  u16 VVar1;
   playerData *ppVar2;
   u16 uVar3;
   u8 bVar4;
@@ -293,7 +291,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
       }
     }
   }
-  if (((((param_2->GroundType & B9Ground_mf000) == B9Ground_2000) && ((param_1->flags & CSPHERE_NoTriggers) == 0)) &&
+  if (((((param_2->GroundType & B9Ground_mf000) == B9Ground_VoxTrigger) && ((param_1->flags & CSPHERE_NoTriggers) == 0)) &&
       (gGlobals.playerCharStruct.unkState == 3)) &&
      ((some_toggle == -1 &&
       (ptVar6 = (gGlobals.gameVars.borg9DatPointer)->voxelObjs + (param_2->GroundType >> 5 & 0x7f),
@@ -313,7 +311,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
         return;
       }
       default:{
-      Gsprintf("Invalid Trigger Type: %d\n",(u32)VVar1);
+      Gsprintf("Invalid Trigger Type: %d\n",(ptVar6->header).type);
       N64PRINT(gGlobals.text);
       }
     }
@@ -1650,7 +1648,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   gGlobals.gameVars.gamemodeType = param_1;
   InitEnvProps();
   set_checktrigger_pointer(check_trigger);
-  gGlobals.gameVars.refObjPointer = NULL;
+  gGlobals.gameVars.teleVox = NULL;
   gGlobals.gameVars.tpVec3 = NULL;
   Weather::Init(&gGlobals.gameVars.weather);
   InitScriptCameras(&gGlobals.scriptcamera);
@@ -1926,7 +1924,7 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   DEBUGSprintf("ConfirmPlayerWithinZone");
   if (player) ConfirmPlayerWithinZone(player,gGlobals.gameVars.borg9DatPointer);
   if (gGlobals.screenFadeMode == 0) update_BGM_();
-  if ((gGlobals.gameVars.refObjPointer != NULL) && (gGlobals.screenFadeMode == 0)) {
+  if ((gGlobals.gameVars.teleVox != NULL) && (gGlobals.screenFadeMode == 0)) {
     #ifndef DEBUGVER
     bVar1=false;
     #endif
@@ -1935,13 +1933,13 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
       gGlobals.screenFadeSpeed = (1.0f/15);
     }
     #ifndef DEBUGVER
-    if (gGlobals.gameVars.mapDatA == 0) bVar1 = (gGlobals.gameVars.refObjPointer->teleport.MapDatA == 0);
+    if (gGlobals.gameVars.mapDatA == 0) bVar1 = (gGlobals.gameVars.teleVox->teleport.MapDatA == 0);
     Gsprintf("pZ->map: %d\npT->map: %d\ndoReset: %d - %d\n",gGlobals.gameVars.mapDatA,
-                gGlobals.gameVars.refObjPointer->teleport.MapDatA,bVar1,0);
+                gGlobals.gameVars.teleVox->teleport.MapDatA,bVar1,0);
     N64PRINT(gGlobals.text);
     #endif
-    TeleportPlayer(player,gGlobals.gameVars.refObjPointer,gGlobals.gameVars.tpVec3);
-    gGlobals.gameVars.refObjPointer = NULL;
+    TeleportPlayer(player,gGlobals.gameVars.teleVox,gGlobals.gameVars.tpVec3);
+    gGlobals.gameVars.teleVox = NULL;
     gGlobals.gameVars.tpVec3 = NULL;
     #ifndef DEBUGVER
     if (((!gExpPakFlag) && (bVar1)) && (retailTpFlag)) {

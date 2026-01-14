@@ -59,7 +59,7 @@ u32 AddItem(playerData *param_1,int type,s16 num){
     aiStack_70[0] = combatStatIndicatorDat.borg1Digits[(int)num / 100]->dat->bmp;
     aiStack_70[1] = combatStatIndicatorDat.borg1Digits[iVar6]->dat->bmp;
     aiStack_70[2] =
-         *(undefined4 *)
+         *(u32 *)
           (*(int *)(*(int *)((int)&combatStatIndicatorDat + iVar5 * 4 + iVar6 * -0x28) + 0x10) + 0xc
           );
     uVar4 = 3;

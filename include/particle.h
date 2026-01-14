@@ -53,15 +53,15 @@ struct ParticleEmmiter {
     s16 lifespan;
     u16 lifespanemmiter;
     s16 unk6;
-    undefined field3_0x6;
-    undefined field4_0x7;
+    u8 field3_0x6;
+    u8 field4_0x7;
     u16 count;
     s16 texture;
     u16 flags; //uses PartEmmiFlags
     float height;
     Particle_s *particles;
-    undefined field12_0x18;
-    undefined field13_0x19;
+    u8 field12_0x18;
+    u8 field13_0x19;
     s16 unk1a;
     u64 unk1c;
     vec3f pos;

@@ -589,7 +589,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
   Color32 acStack744;
   Color32 acStack680;
   Color32 acStack616;
-  undefined auStack_228 [8];
+  u8 auStack_228 [8];
   Color32 acStack544;
   Color32 acStack480;
   Color32 acStack416;
@@ -926,7 +926,7 @@ u8 Party::ArmorCraftCheck(u8 param_2){//used in armor craft
   s32 iVar2;
   s32 iVar3;
   u16 uVar4;
-  undefined uVar6;
+  u8 uVar6;
   u8 uVar7;
   u32 uVar8;
   
@@ -1027,7 +1027,7 @@ u8 Party::AmbushDamage(){
   char cVar6;
   u32 uVar3;
   u32 uVar4;
-  undefined uVar7;
+  u8 uVar7;
   u16 uVar5;
   u32 uVar8;
   CharSheet *piVar8;
@@ -1223,8 +1223,8 @@ u8 Party::DisarmDamage(u8 param_2){
   char cVar4;
   s32 iVar2;
   s32 uVar3;
-  undefined uVar5;
-  undefined uVar6;
+  u8 uVar5;
+  u8 uVar6;
   u32 uVar7;
   //yes, the same func as above, but actually used.
   pCVar1 = this->Members[param_2];

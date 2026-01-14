@@ -747,9 +747,9 @@ s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,
   int iVar15;
   u32 Lv;
   u32 uVar16;
-  undefined4 UNK4;
+  u32 UNK4;
   byte bVar10;
-  undefined4 uVar17;
+  u32 uVar17;
   
   Lv = Level;
   uVar17 = 0;

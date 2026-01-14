@@ -50,7 +50,7 @@ void Ofunc_800a76f0(SceneData *scene,vec3f *param_2,float param_3){
   ofunc_sub_800acc40(&scene->matrixA,param_2,param_3);
 }
 
-void Ofunc_800a770c(SceneData *scene,vec3f *param_2,undefined4 param_3){
+void Ofunc_800a770c(SceneData *scene,vec3f *param_2,u32 param_3){
   MtxF tempA,tempB;
   ofunc_sub_800acc40(&tempA,param_2,param_3);
   tempB = scene->matrixA;

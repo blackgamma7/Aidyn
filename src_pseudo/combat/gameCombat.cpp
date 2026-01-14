@@ -712,7 +712,7 @@ void clear_combat_func(){
   u16 uVar7;
   u8 i;
   bool bVar8;
-  undefined4 *puVar9;
+  u32 *puVar9;
   
   if (clear_combatstruct_flag) {
     load_combatstruct_flag = 1;

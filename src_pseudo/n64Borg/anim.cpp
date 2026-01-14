@@ -1755,13 +1755,13 @@ void FUN_800a0a74(Borg6Struct4 *param_1){
   Borg6Struct2 *pBVar1;
   void *pvVar2;
   float *pfVar3;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
+  u32 *puVar4;
+  u32 *puVar5;
   u16 uVar6;
   int iVar7;
   SceneDatSubstruct *pSVar8;
   u32 uVar9;
-  undefined4 uVar10;
+  u32 uVar10;
   
   uVar9 = param_1->sub->subCount;
   pSVar8 = (SceneDatSubstruct *)param_1->unkc;
@@ -1773,11 +1773,11 @@ joined_r0x800a0a8c:
   if (pSVar8->unkc != pBVar1->unk0) {
     pvVar2 = pSVar8->unk4;
     if (*(s16 *)((int)pvVar2 + 8) == pSVar8->unkc) {
-      puVar4 = (undefined4 *)pSVar8->unk8;
+      puVar4 = (u32 *)pSVar8->unk8;
       iVar7 = 4;
       pSVar8->unk4 = (s16 *)((int)pvVar2 + 8);
       uVar6 = *(u16 *)((int)pvVar2 + 10);
-      puVar5 = *(undefined4 **)((int)pvVar2 + 0xc);
+      puVar5 = *(u32 **)((int)pvVar2 + 0xc);
       do {
         if ((uVar6 & 1) != 0) {
           if (iVar7 != 0) goto LAB_800a0b40;
@@ -2076,7 +2076,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   MtxF *paafVar11;
   Gfx *pGVar12;
   u32 uVar13;
-  undefined1 *puVar14;
+  u8 *puVar14;
   Borg4Header **ppBVar15;
   float (*pafVar16) [4];
   u32 normInd;

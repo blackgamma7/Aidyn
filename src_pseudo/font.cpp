@@ -11,7 +11,7 @@ u8 extraFontColors[][3]={{0,0,164},{0,164,0},
 };
 
 //for the chars between 0x80 and 0x8A. used to color the button icons.
-void Font::GetButtonColor(byte x,byte *r,byte *g,byte *b){
+void Font::GetButtonColor(u8 x,u8 *r,u8 *g,u8 *b){
   *r = extraFontColors[x][0];
   *g = extraFontColors[x][1];
   *b = extraFontColors[x][2];

@@ -46,7 +46,7 @@ struct Gear_RAM {
     u8 magic;
     u8 magicAmmount;
     u8 elementResist;
-    undefined field21_0x2b;
+    u8 field21_0x2b;
     float ResistPercent;
 };
 

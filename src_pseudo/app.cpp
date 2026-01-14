@@ -12,8 +12,8 @@ u16 doubleGlobalTickerFlag=0;
 #ifndef DEBUGVER
 u16 version_flag=0;
 #endif
-Borg8Header* PAL_Warning_image=NULL;
-u8 PAL_warning_flag=true;
+Borg8Header* sRegionWarningImage=NULL;
+u8 sRegionWarningFlag=true;
 
 struct App_manager{
 OSSched* sched;
@@ -29,8 +29,6 @@ App_manager appManager;
 #ifdef DEBUGVER
 Gfx * display_debug_stats(Gfx *gfx){
   playerData *ppVar1;
-  u16 h;
-  u16 v;
   u32 uVar2;
   u32 uVar3;
   u32 uVar4;
@@ -60,9 +58,9 @@ Gfx * display_debug_stats(Gfx *gfx){
         gfx_00 = DrawRectangle(gfx,18,196,0x114,0xde,0,0,0,0x80);
         if (ppVar1 == NULL) {
           //print just memory usage, current map chunk and FPS if no Alaron
-          fVar12 = fVar14 * (float)(1.0f/1024);
+          fVar12 = fVar14 * (float)(1.0f/0x400);
           dVar11 = (double)((fVar15 / fVar14) * 100.0f);
-          fVar15 *= (float)(1.0f/1024);
+          fVar15 *= (float)(1.0f/0x400);
           Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %2.0ffps\n",(u16)uVar2,
                       uVar9,dVar11,(int)fVar12,(int)fVar15,
                       gGlobals.gameVars.mapShort1 + ('A'-1),gGlobals.gameVars.mapShort2,
@@ -73,9 +71,9 @@ Gfx * display_debug_stats(Gfx *gfx){
           Gsprintf("%2d - %s",ppVar1->Ground_type,ground_labels[ppVar1->Ground_type]);
           uVar5 = 0xc4;
           gfx_00 = Graphics::DrawText(gfx_00,gGlobals.text,0x12,0xc4,0,200,200,0xff);
-          fVar12 = fVar14 * (float)(1.0f/1024);
+          fVar12 = fVar14 * (float)(1.0f/0x400);
           dVar11 = (double)((fVar15 / fVar14) * 100.0f);
-          fVar15 = fVar15 * (float)(1.0f/1024);
+          fVar15 = fVar15 * (float)(1.0f/0x400);
           Gsprintf("%d - %%%1.1f - (%d/%d)\n%c%02d - %d-(%3.2f,%3.2f,%3.2f) - %2.0f\n",
                    (u16)uVar2,uVar5,dVar11,(int)fVar12,(int)fVar15,
                    gGlobals.gameVars.mapShort1 + ('A'-1),gGlobals.gameVars.mapShort2,gGlobals.gameVars.mapDatA,
@@ -120,14 +118,12 @@ void AppProc(void *x){
   appProc_init();
   osScAddClient(appManager.sched,&appManager.client,&appManager.MesgQ2);
   ppsStack_3c = &psStack_40;
-  uVar8 = doubleGlobalTickerFlag;
   sVar9 = 0;
-loop:
   while(1) {
-    doubleGlobalTickerFlag = uVar8;
     osRecvMesg(&appManager.MesgQ2,(OSMesg*)ppsStack_3c,1);
-    if (*psStack_40 == 1) { //TODO: make case-switch
-      if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
+    switch(*psStack_40){
+      case 1:{
+        if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
         if (Graphics::ResolutionCheck()) {
           Gsprintf("StartGfxList()");
           gfx0 = Graphics::StartGfxList();
@@ -157,23 +153,19 @@ loop:
                         uVar10 - gListSizeMax);
             CRASH("app.cpp::AppProc",gGlobals.text);
           }
-          uVar8 = doubleGlobalTickerFlag - 1;
-          if (doubleGlobalTickerFlag == 0) {
+          if (doubleGlobalTickerFlag)doubleGlobalTickerFlag--;
+          else {
             osSendMesg(appManager.MesgQ,Graphics::CreateTask(gfx1,&appManager.MesgQ2),1);
             sVar9++;
-            uVar8 = doubleGlobalTickerFlag;
           }
         }
-        goto loop;
       }
-    }
-    if (*psStack_40 != 4) {
-      sVar7 = sVar9 + -1;
-      uVar8 = doubleGlobalTickerFlag;
-      if (*psStack_40 == 2) {
+      break;
+      }
+      case 2:{
         Graphics::getTaskTime((GtaskMsg*)psStack_40);
         gGlobals.ticker++;
-        sVar9 = sVar7;
+        sVar9--;
         if ((0.0 < gLensFlarePos.x)&&(gLensFlarePos.x<SCREEN_WIDTH)&&
            (0.0<gLensFlarePos.y)&&(gLensFlarePos.y<SCREEN_HEIGHT)){
           u16 lFlarex=gLensFlarePos.x * (Graphics::GetHRes() / SCREEN_WIDTH);
@@ -181,17 +173,17 @@ loop:
           u16* zBuff = Graphics::GetDepthBuffer(); //Lens flare origin is at furthest z value?
           if (zBuff[(lFlarey * Graphics::GetHRes() + lFlarex)] == 0xfffc) {
             gGlobals.lensFlareBool = true;
-            uVar8 = doubleGlobalTickerFlag;
-            goto loop;
+            break;
           }
         }
         gGlobals.lensFlareBool = false;
-        uVar8 = doubleGlobalTickerFlag;
+        break;
       }
-      goto loop;
+      case 4:{
+        clear_audio_video();
+        break;
+      }
     }
-    clear_audio_video();
-    uVar8 = doubleGlobalTickerFlag;
   } 
 }
 
@@ -264,17 +256,21 @@ void clear_audio_video(void){
 
 int appState_RegionControllerCheck(Gfx **gg){
   int ret;
-  
-  if (osTvType == OS_TV_PAL) {
-    if (PAL_warning_flag) {
-      PAL_Warning_image = loadBorg8(BORG8_ErrorRegion);
-      PAL_warning_flag = 0;
+  #ifdef EUVER
+  if (osTvType != OS_TV_PAL) 
+  #else
+  if (osTvType == OS_TV_PAL) 
+  #endif
+  {
+    if (sRegionWarningFlag) {
+      sRegionWarningImage = loadBorg8(BORG8_ErrorRegion);
+      sRegionWarningFlag = 0;
     }
     Gfx* g = *gg;
     RSPFUNC6(g);
-    g = Borg8_DrawSimple(g,PAL_Warning_image, //center image in screen.
-             (Graphics::GetHRes() * 0.5f) - ((PAL_Warning_image->dat).Width * 0.5f),
-             (Graphics::GetVRes() * 0.5f) - ((PAL_Warning_image->dat).Height * 0.5f),
+    g = Borg8_DrawSimple(g,sRegionWarningImage, //center image in screen.
+             (Graphics::GetHRes() * 0.5f) - ((sRegionWarningImage->dat).Width * 0.5f),
+             (Graphics::GetVRes() * 0.5f) - ((sRegionWarningImage->dat).Height * 0.5f),
             1.0f,1.0f,COLOR_WHITE);
     ret = 5;
     *gg = g;

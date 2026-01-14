@@ -8,8 +8,8 @@ struct SpellVisualTypeA {
     u16 field4_0xc;
     u16 field5_0xe;
     u16 field6_0x10;
-    undefined field7_0x12;
-    undefined field8_0x13;
+    u8 field7_0x12;
+    u8 field8_0x13;
 };
 struct SpellVisualTypeB {
     union{
@@ -33,8 +33,8 @@ struct SpellVisualTypeC {
     s16 field4_0xc;
     s16 field5_0xe;
     s16 unk10;
-    undefined field7_0x12;
-    undefined field8_0x13;
+    u8 field7_0x12;
+    u8 field8_0x13;
 };
 
 #define SpellVisCountA 64
@@ -56,7 +56,7 @@ struct SpellVisuals_struct {
     u16 ptr1count;
     u16 prt2count;
     u16 field14_0x2e;
-    undefined1 field15_0x30;
+    u8 field15_0x30;
 };
 
 s32 s32_800f1d90=0;

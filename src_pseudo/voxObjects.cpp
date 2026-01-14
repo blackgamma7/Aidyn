@@ -47,7 +47,7 @@ void VoxelObjects_Activate(Borg9Data *dat,u8 index){
         else
           expFlag = (a->header).Bitfeild & VOXEL_JumperPak;
         if (expFlag) visBool = false;
-        set_voxel_visibility(a,visBool);
+        SetVoxelActive(a,visBool);
       }
       else if (!only_TP_active)
       #else
@@ -65,18 +65,18 @@ void VoxelObjects_Activate(Borg9Data *dat,u8 index){
                                 gGlobals.gameVars.mapShort2,index,0))) {
           visBool = false;
         }
-        set_voxel_visibility(a,visBool);
+        SetVoxelActive(a,visBool);
       }
       else if ((a->header).type == VOXEL_Teleporter)
-        set_voxel_visibility(a,true);
-      else set_voxel_visibility(a,false);
+        SetVoxelActive(a,true);
+      else SetVoxelActive(a,false);
     }
   for(u16 i=0;i<dat->voxelObjCount;i++){
       render_container(&dat->voxelObjs[i],dat);
   }
 }
 
-void set_voxel_visibility(voxelObject *a,u8 b){
+void SetVoxelActive(voxelObject *a,u8 b){
   if(b) (a->header).Bitfeild |= VOXEL_Active;
   else  (a->header).Bitfeild &= ~VOXEL_Active;
 }

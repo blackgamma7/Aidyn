@@ -202,8 +202,8 @@ struct player_char_struct {
     u16 show_portaits;
     u16 some_sound_var;
     u16 unk10;
-    undefined field6_0x12;
-    undefined field7_0x13;
+    u8 field6_0x12;
+    u8 field7_0x13;
     WidgetMenu *smallerDebugWindow;
     WidgetMenu *debugMenuTP;
     WidgetMenu *debugMenuActor;
@@ -213,7 +213,7 @@ struct player_char_struct {
     void* debugMenuUnused1;
     BaseWidget *text_window;
     u8 unkState;
-    undefined field17_0x35;
+    u8 field17_0x35;
     ItemID current_shopkeep;
 };
 

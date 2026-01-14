@@ -385,7 +385,7 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
   int delta_;
   float fVar27;
   float fVar28;
-  undefined4 in_f1;
+  u32 in_f1;
   float fVar29;
   float fVar30;
   float fVar31;

@@ -76,7 +76,7 @@ void InitLight(SceneData *scene,Borg9Data *borg9,vec3f *pos,voxelObject *lightOb
   for(s16 i=0;i<count;i++,lightObj++){
     if(((lightObj->header.type == VOXEL_Light) && (lightObj->header.Bitfeild & VOXEL_Active))){
      if(((lightObj->header).ptr0x24 == NULL || ((dynaLightEntry*)lightObj->header.ptr0x24)->timer < 1)){
-      if(((lightObj->header).Bitfeild & VOXEL_FlagB) == 0 ||(!CheckCollision(borg9,&lightObj->header.pos,pos,(float)0.25,NULL,NULL,1))){
+      if(((lightObj->header).Bitfeild & VOXEL_Flag1000) == 0 ||(!CheckCollision(borg9,&lightObj->header.pos,pos,(float)0.25,NULL,NULL,1))){
        float prox=Vec3Dist(pos,&lightObj->header.pos);
        float size=lightObj->header.size;
        if(prox<size){

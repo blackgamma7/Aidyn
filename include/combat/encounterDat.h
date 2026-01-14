@@ -5,7 +5,7 @@ struct EncounterDat { /* enemy encounter data */
     ItemID globalLoot; /* chestdb of guarunteed loot */
     u16 EncounterID;
     u8 field3_0x1c;
-    undefined field4_0x1d;
+    u8 field4_0x1d;
     u16 VoxelIndex;
     u16 mapDatA;
     u16 MapSAhortA;

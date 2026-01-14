@@ -8,9 +8,9 @@ class WidgetBarter: public WidgetMenu{
     WidgetInvShop *unk84;
     WidgetInvShop *description;
     u8 invType;
-    undefined field9_0x8d;
-    undefined field10_0x8e;
-    undefined field11_0x8f;
+    u8 field9_0x8d;
+    u8 field10_0x8e;
+    u8 field11_0x8f;
     BaseWidget *background;
     WidgetClipText *goldText;
     u32 unk98;

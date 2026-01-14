@@ -49,7 +49,7 @@ void open_explosive_chest(voxelObject* param_1,Borg9Data *param_2){
   setEventFlag((param_1->container).explodeFlag,true);
   UnkVoxelFlagCheck;
   PLAYSFX(chestExplodeSFX[RAND.Range(0,3)],0,gGlobals.VolSFX,240,0);
-  set_voxel_visibility(param_1,false);
+  SetVoxelActive(param_1,false);
 }
 
 void NOOP_tp(void){}
@@ -117,9 +117,9 @@ void get_loot_reagent(voxelObject* v,container_Dat * cont){
   //array of reagents by container type
   u16 LootReagentIDs[]={0,0,0,0,ItemInd_Spice,ItemInd_Herb,ItemInd_Gemstone,0};
   ref_obj_bitmask_flag((v->header).flagB,(v->header).Bitfeild,VOXEL_Used);
-  set_voxel_visibility(v,false);
+  SetVoxelActive(v,false);
   voxelObject *a = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene);
-  if (a) set_voxel_visibility(a,false);
+  if (a) SetVoxelActive(a,false);
   if (exploding_container_check(v,gGlobals.gameVars.borg9DatPointer)) {
     passto_WriteTo_VoxelChart((s16)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) * 0x684bda13
                       >> 2),gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
@@ -155,7 +155,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
 
   if (((container_open_check((v->container).openFlag)) || (psVar4)) ||
      (container_explode_check((v->container).explodeFlag))) {
-    set_voxel_visibility(v,false);
+    SetVoxelActive(v,false);
   }
   else {
     if ((v->container).LootType >= Treasure_Herb){
@@ -166,7 +166,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
       }
       //represented by a misc. model
       if ((v->container).LootType == Treasure_Misc) {
-        set_voxel_visibility(v,false);
+        SetVoxelActive(v,false);
         ref_obj_bitmask_flag((v->header).flagB,(v->header).Bitfeild,VOXEL_Used);
       }
     }
@@ -182,7 +182,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
       UnkVoxelFlagCheck;
       set_refObj_flag(v);
       if ((v->container).LootType == Treasure_Misc) {
-        set_voxel_visibility(GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene),false);
+        SetVoxelActive(GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene),false);
       }
       else {
         time = 60;
@@ -200,7 +200,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
           }
         }
       }
-      set_voxel_visibility(v,false);
+      SetVoxelActive(v,false);
       IVar2 = (v->container).item;
       uVar8 = uVar10;
       if (IVar2) {
@@ -362,8 +362,8 @@ u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
   else {
     uVar1 = (param_1->container).LootType;
     if ((Treasure_Misc < uVar1) || (uVar1 < Treasure_Herb)) {
-      set_voxel_visibility(a,true);
-      set_voxel_visibility(param_1,true);
+      SetVoxelActive(a,true);
+      SetVoxelActive(param_1,true);
       psVar2 = some_ref_obj_lookup_func((s16)(((int)param_1 - (int)param_2->voxelObjs) * 0x684bda13 >> 2),
                           (char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
                           (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(param_1->header).type);;
@@ -377,13 +377,13 @@ u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
         if (!container_explode_check((param_1->container).explodeFlag)) return true;
         replace_container_voxel(param_1,2,param_2);
       }
-      set_voxel_visibility(param_1,false);
+      SetVoxelActive(param_1,false);
       return false;
     }
     bVar3 = exploding_container_sub(param_1,param_2);
   }
-  set_voxel_visibility(a,bVar3 != false);
-  set_voxel_visibility(param_1,bVar3 != false);
+  SetVoxelActive(a,bVar3 != false);
+  SetVoxelActive(param_1,bVar3 != false);
   return bVar3;
 }
 
@@ -524,7 +524,7 @@ void set_container_obj_visible(voxelObject* param_1,Borg9Data *param_2){
   if ((uVar1 <= Treasure_Misc) && (Treasure_Herb <= uVar1)) {
     b = (param_1->header).Bitfeild >> 0xf;
   }
-  set_voxel_visibility(a,b);}
+  SetVoxelActive(a,b);}
 
 BaseWidget* textbox_func_AB(BaseWidget* param_1,BaseWidget *param_2){
   param_2->SetState(WidgetS_Closing);

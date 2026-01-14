@@ -1250,7 +1250,7 @@ LAB_800968bc:
 
 s32 getPotionB5(u8 param_1,u32 *param_2){
   s32 sVar1;
-  undefined4 uVar2;
+  u32 uVar2;
   
   uVar2 = 0;
   if (false) {

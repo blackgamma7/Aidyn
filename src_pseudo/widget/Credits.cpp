@@ -11,13 +11,9 @@
 u32 DAT_800ed510=false;
 extern void* romstring_credits;
 WidgetCredits::WidgetCredits():WidgetMenu(){
-  s16 sVar1;
   u16 uVar12;
-  u8 *puVar12;
-  byte *pbVar13;
   u16 yOff;
   u8 uVar14;
-  float fVar15;
 
   #ifdef DEBUGVER
   this->scrollSpeed = 5;
@@ -104,11 +100,7 @@ u8 WidgetCredits::Tick(){
 void WidgetCredits::State0(){this->creditState++;}
 
 void WidgetCredits::State1(){
-  BaseWidget *pBVar2;
-  float fVar3;
-  char cVar4;
-  
-  pBVar2 = this->currChild;
+  BaseWidget *pBVar2 = this->currChild;
   this->col.A = (this->currChild->col).A;
   if (this->currChild->posY < SCREEN_HEIGHT) {
     if (this->unk89 == 0) {

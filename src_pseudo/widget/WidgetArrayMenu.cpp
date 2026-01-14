@@ -97,7 +97,7 @@ BaseWidget * WAM_AFunc(BaseWidget* param_1,BaseWidget *param_2){
 }
 
 WidgetArrayMenu::WidgetArrayMenu(u16 len):BaseWidget(){
-    u32 uVar2 =len;
+    u32 i =len;
     WAMSub* sub = new WAMSub;
     sub->rowSize = 2;
     sub->vSpace = 5;
@@ -114,12 +114,12 @@ WidgetArrayMenu::WidgetArrayMenu(u16 len):BaseWidget(){
     this->height = 0;
     this->RightButtonFunc = WAM_RightFunc;
     this->AButtonFunc = WAM_AFunc;
-    if (uVar2 == 0) sub->entries = NULL;
+    if (i == 0) sub->entries = NULL;
     else {
-      BaseWidget** ppBVar1 = (BaseWidget **)HALLOC(len*sizeof(BaseWidget*),179);
-      for (sub->entries = ppBVar1; uVar2 != 0; uVar2--) {
-        *ppBVar1 = NULL;
-        ppBVar1++;
+      BaseWidget** ww = (BaseWidget **)HALLOC(len*sizeof(BaseWidget*),179);
+      for (sub->entries = ww; i != 0; i--) {
+        *ww = NULL;
+        ww++;
       }
     }
     this->substruct = sub;

@@ -188,7 +188,7 @@ void audio_ref_objs(SFX_Struct *param_1,Borg9Data *param_2,u32 tally,byte ZoneDa
   int iVar8;
   voxelObject *obj;
   int iVar10;
-  undefined4 uVar11;
+  u32 uVar11;
   
   if (param_2->voxelObjCount) {
     for(s16 i=0;i<param_2->voxelObjCount;i++) {
