@@ -149,7 +149,7 @@ void Skyobjects::Init(void){
               break;
               case 2: //first/third quarter
               BVar5 = BORG8_MoonQuarter;
-              if (uVar6 == 0) BVar5 = BORG8_SkyObjMoonHalf;
+              if (uVar6 == 0) BVar5 = BORG8_SkyObjMoonQuart;
               break;
               case 3: //full moon
               BVar5 = BORG8_MoonFull;break;
@@ -196,9 +196,9 @@ LAB_80030640:
         pSVar10 = gSunObjP;
         goto LAB_80030640;
       }
-      ppBVar12 = ppBVar12 + 1;
-      uVar7 += 1;
-      pSVar8 = pSVar8 + 1;
+      ppBVar12++;
+      uVar7++;
+      pSVar8++;
     } while ((int)uVar7 < (int)uVar6);
     gSkyObjectMoonIndex = (u16)uVar9;
   }
@@ -230,7 +230,6 @@ void Skyobjects::Free(void){
   FREE(skyobjects_borg8,0x12f);
   gMoonBorg8 = NULL;
 }
-
 
 Gfx * Skyobjects::Render(Gfx *g){
   byte bVar1;
@@ -264,7 +263,7 @@ Gfx * Skyobjects::Render(Gfx *g){
   int iStack_5c;
   byte bVar2;
   
-  if ((true) && (gGlobals.sky.Type == SkyTypeOutdoor)) {
+  if ((true)/*?*/ && (gGlobals.sky.Type == SkyTypeOutdoor)) {
     i = 0;
     UpdateSunMoon();
     fVar17 = gCamera.rotation.z;
@@ -442,7 +441,7 @@ void Skyobjects::UpdateMoon(void){
       break;
       case 2: //first/third quarter
       BVar5 = BORG8_MoonQuarter;
-      if (uVar6 == 0) BVar5 = BORG8_SkyObjMoonHalf;
+      if (uVar6 == 0) BVar5 = BORG8_SkyObjMoonQuart;
       break;
       case 3: //full moon
       BVar5 = BORG8_MoonFull;break;

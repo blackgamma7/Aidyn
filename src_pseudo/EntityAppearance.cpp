@@ -82,9 +82,9 @@ EntityExtra gEntityExtras[]={
  {(EntInd_HellHound+1),         BORG7_HellHound,    0x0148,                  0.35f, 1.1f,  0.9f,  1.0f},    //74
  {(EntInd_Hobgoblin+1),         BORG7_Hobgoblin,    0x014a,                  0.67f, 2.26f, 1.2f,  1.0f},    //75
  {(EntInd_Hobgoblin2+1),        BORG7_Hobgoblin,    0x014a,                  0.67f, 2.26f, 1.2f,  1.2f},    //76
- {(EntInd_HumanBandit+1),       BORG7_Bandit1,      0x014b,           0.38f, 1.93f, 0.7f,  0.993f},  //77
- {(EntInd_HumanBandit2+1),      BORG7_Bandit1,      0x014b,           0.38f, 1.93f, 0.7f,  1.0263f}, //78
- {(EntInd_HumanBandit3+1),      BORG7_Bandit1,      0x014b,           0.38f, 1.93f, 0.7f,  1.1196f}, //79
+ {(EntInd_HumanBandit+1),       BORG7_Bandit1,      0x014b,                  0.38f, 1.93f, 0.7f,  0.993f},  //77
+ {(EntInd_HumanBandit2+1),      BORG7_Bandit1,      0x014b,                  0.38f, 1.93f, 0.7f,  1.0263f}, //78
+ {(EntInd_HumanBandit3+1),      BORG7_Bandit1,      0x014b,                  0.38f, 1.93f, 0.7f,  1.1196f}, //79
  {(EntInd_HumanWoodsman+1),     BORG7_Bandit2,      0x010f,                  0.38f, 1.93f, 0.75f, 0.84f},   //80
  {(EntInd_JundarFemale+1),      BORG7_JundarFemale, BORG8_PortraitJundarF,   0.4f,  1.9f,  0.35f, 1.053f},  //81
  {(EntInd_JundarMale+1),        BORG7_JundarMale,   BORG8_PortraitJundarM,   0.4f,  2.0f,  0.4f,  1.05f},   //82

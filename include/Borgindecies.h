@@ -108,6 +108,22 @@
 #define BORG8_SundailCross 0x01ba
 #define BORG8_SundailSunBig 0x01bb
 
+
+#define BORG8_CloudA 0x018f
+#define BORG8_CloudB 0x0190
+#define BORG8_CloudC 0x0191
+#define Borg8_LensflareFilled 0x0192
+#define Borg8_LensflareRing 0x0193
+#define BORG8_MoonNew 0x0194
+#define BORG8_MoonCresent 0x0195
+#define BORG8_MoonQuarter 0x0196
+#define BORG8_MoonGibb 0x0197
+#define BORG8_MoonFull 0x0198
+#define BORG8_SkyObjMoonCrest 0x379f
+#define BORG8_SkyObjMoonQuart 0x37A0
+#define BORG8_SkyObjStar 0x01a1
+#define BORG8_SkyObjSun 0x01a2
+
 // 12x37 RGBA32 gradients used to determine the sky's color
 
 #define BORG8_SkyGradient3 0x0199
@@ -281,16 +297,7 @@ typedef enum Borg8Enum {
     BORG8_IconSkTroubador=396,
     BORG8_IconSkWarrior=397,
     BORG8_IconSkWizard=398,
-    BORG8_CloudA=399,
-    BORG8_CloudB=400,
-    BORG8_CloudC=401,
-    Borg8_LensflareFilled=402,
-    Borg8_LensflareRing=403,
-    BORG8_MoonNew=404,
-    BORG8_MoonCresent=405,
-    BORG8_MoonQuarter=406,
-    BORG8_MoonGibb=407,
-    BORG8_MoonFull=408,
+ 
     BORG8_IconAsLunar=419,
     BORG8_IconAsSolar=420,
     BORG8_IconSpell0=421,
