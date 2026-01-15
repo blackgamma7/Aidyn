@@ -9,17 +9,17 @@ extern struct SceneData;
 
 /*"Borg" files are the art/level/cutscene assets of the game, in 15 different categories:
 0-Unused, therefore, unknown. init/free code still ingame. earliest known name an abreviation of "GEN"
-1-Textures. use some compression method.
+1-Textures. Raw data has bitmap "interleaved" every even row.
 2-Geometry data. contains verts and ucode (primariliy G_TRI1)
 3-Scene perspective data (fov,clipping planes, ect.)
-4-seems to be light object data
+4-light object data
 5-Model data. uses the aformentioned types.
 6-animation data.
 7-Actor models.
 8-Images. used for UI, primarily. Easily viewable in Texture64 when extracted.
 9-Map data. contains collision and object data
 10-unused. refered internally in Debug as "CollisionMaterial"
-11-DCM instrument for SFX and BGM
+11-DCM instrument for SFX and BGM. 44.1KHz mono PCM
 12-Sound/music.
 13-Dialogue/cutscenes.
 14-unused. refered internally in Debug as "GameState"*/
@@ -38,6 +38,11 @@ struct BorgListing {
     s32 Offset; /* index in in ROM DB */
 };
 
+struct borgHeader {
+    s32 index;
+    u32 unk;
+};
+
 typedef enum Borg8Format {
     BORG8_RBGA32=1,
     BORG8_RGBA16=2,
@@ -46,11 +51,6 @@ typedef enum Borg8Format {
     BORG8_CI4=7,
     BORG8_IA4=9,
 } Borg8Format;
-
-struct borgHeader {
-    s32 index;
-    u32 unk;
-};
 
 struct Borg8Data {
     u16 format;
@@ -98,7 +98,6 @@ typedef enum EnumMapDatA {
     MAPA_Ugairt2,
     MAPA_ChoasIsle,
     MAPA_Battle,
-    MAPA_Misc,
 } EnumMapDatA;
 
 typedef enum Vobject {
@@ -127,7 +126,7 @@ struct voxelHeader {
     u16 flagA; /* event flags */
     u16 flagB;
     u16 flagC;
-    void *ptr0x24;
+    void *ptr0x24;//may be dynaLightEntry*. used exclusively by dynamic lights
 };
 
 enum TreasureType{

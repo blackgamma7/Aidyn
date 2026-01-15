@@ -144,12 +144,12 @@ void Skyobjects::Init(void){
               case 0: //new moon
               BVar5 = BORG8_MoonNew;break;
               case 1: //waxing/waning cresent
-              BVar5 = BORG8_MoonCresent;
-              if (uVar6 == 0) BVar5 = BORG8_SkyObjMoonCrest;
+              BVar5 = BORG8_MoonWanCrest;
+              if (uVar6 == 0) BVar5 = BORG8_MoonWaxCrest;
               break;
               case 2: //first/third quarter
-              BVar5 = BORG8_MoonQuarter;
-              if (uVar6 == 0) BVar5 = BORG8_SkyObjMoonQuart;
+              BVar5 = BORG8_MoonQuarter3;
+              if (uVar6 == 0) BVar5 = BORG8_MoonQuarter1;
               break;
               case 3: //full moon
               BVar5 = BORG8_MoonFull;break;
@@ -266,9 +266,7 @@ Gfx * Skyobjects::Render(Gfx *g){
   if ((true)/*?*/ && (gGlobals.sky.Type == SkyTypeOutdoor)) {
     i = 0;
     UpdateSunMoon();
-    fVar17 = gCamera.rotation.z;
     fVar4 = gCamera.rotation.y;
-    fVar3 = gCamera.rotation.x;
     fStack240.y = 0.0;
     fStack240.x = gCamera.rotation.x;
     fStack240.z = gCamera.rotation.z;
@@ -399,18 +397,7 @@ void Skyobjects::UpdateSun(void){
   gGlobals.SunPos.z = fVar7 * fVar4 - fVar3 * 0.0;
 }
 
-
-
 void Skyobjects::UpdateMoon(void){
-  bool bVar1;
-  u32 uVar3;
-  u32 BVar5;
-  float sinY;
-  float cosY;
-  float sinX;
-  float cosX;
-  float fVar9;
-  Calendar cal;
   
   gMoonObjP->pos.x = (World::get_timeofDay_float(TerrainPointer) * 360.0f + 90.0f)*2;
   while (360.0f < gMoonObjP->pos.x) {
@@ -419,33 +406,35 @@ void Skyobjects::UpdateMoon(void){
   gGlobals.MoonPos.x = 0.0;
   gGlobals.MoonPos.y = 0.0;
   gGlobals.MoonPos.z = 1.0f;
-  sinY = __sinf(gMoonObjP->pos.y * dtor);
-  cosY = __cosf(gMoonObjP->pos.y * dtor);
-  sinX = __sinf(-gMoonObjP->pos.x * dtor);
-  cosX = __cosf(-gMoonObjP->pos.x * dtor);
-  fVar9 = sinX * 0.0 + cosX;
+  float sinY = __sinf(gMoonObjP->pos.y * dtor);
+  float cosY = __cosf(gMoonObjP->pos.y * dtor);
+  float sinX = __sinf(-gMoonObjP->pos.x * dtor);
+  float cosX = __cosf(-gMoonObjP->pos.x * dtor);
+  float fVar9 = sinX * 0.0 + cosX;
   gGlobals.MoonPos.y = cosX * 0.0 - sinX;
   gGlobals.MoonPos.x = cosY * 0.0 + fVar9 * sinY;
   gGlobals.MoonPos.z = fVar9 * cosY - sinY * 0.0;
   if (moon_phase == TerrainPointer->moonPhases) return;
   FREEQB8(sSkyObjBss[1]);
-    moon_phase = TerrainPointer->moonPhases;
-    World::GetCalendarDate(TerrainPointer,&cal);
-    u32 uVar6 = (cal.week & 3) >> 1; //waxing or waning?
-    switch(moon_phase){
-      case 0: //new moon
-      BVar5 = BORG8_MoonNew;break;
-      case 1: //waxing/waning cresent
-      BVar5 = BORG8_MoonCresent;
-      if (uVar6 == 0) BVar5 = BORG8_SkyObjMoonCrest;
-      break;
-      case 2: //first/third quarter
-      BVar5 = BORG8_MoonQuarter;
-      if (uVar6 == 0) BVar5 = BORG8_SkyObjMoonQuart;
-      break;
-      case 3: //full moon
-      BVar5 = BORG8_MoonFull;break;
-    };
+  moon_phase = TerrainPointer->moonPhases;
+  Calendar cal;
+  u32 BVar5;
+  World::GetCalendarDate(TerrainPointer,&cal);
+  u32 uVar6 = (cal.week & 3) >> 1; //waxing or waning?
+  switch(moon_phase){
+    case 0: //new moon
+    BVar5 = BORG8_MoonNew;break;
+    case 1: //waxing/waning cresent
+    BVar5 = BORG8_MoonWanCrest;
+    if (uVar6 == 0) BVar5 = BORG8_MoonWaxCrest;
+    break;
+    case 2: //first/third quarter
+    BVar5 = BORG8_MoonQuarter3;
+    if (uVar6 == 0) BVar5 = BORG8_MoonQuarter1;
+    break;
+    case 3: //full moon
+    BVar5 = BORG8_MoonFull;break;
+  };
   sSkyObjBss[1] = loadBorg8(BVar5);
   gMoonBorg8 = sSkyObjBss[1];
   skyobjects_borg8[gSkyObjectMoonIndex] = sSkyObjBss[1];

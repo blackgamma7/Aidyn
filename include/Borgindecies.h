@@ -115,12 +115,12 @@
 #define Borg8_LensflareFilled 0x0192
 #define Borg8_LensflareRing 0x0193
 #define BORG8_MoonNew 0x0194
-#define BORG8_MoonCresent 0x0195
-#define BORG8_MoonQuarter 0x0196
-#define BORG8_MoonGibb 0x0197
+#define BORG8_MoonWanCrest 0x0195
+#define BORG8_MoonQuarter3 0x0196
+#define BORG8_MoonGibb 0x0197 //Waning Gibbious moon. unused(?)
 #define BORG8_MoonFull 0x0198
-#define BORG8_SkyObjMoonCrest 0x379f
-#define BORG8_SkyObjMoonQuart 0x37A0
+#define BORG8_MoonWaxCrest 0x379f
+#define BORG8_MoonQuarter1 0x37A0
 #define BORG8_SkyObjStar 0x01a1
 #define BORG8_SkyObjSun 0x01a2
 
@@ -137,7 +137,7 @@
 
 #define BORG8_EXPPakYes 0x3758
 #define BORG8_EXPPakNo 0x3759
-#define BORG8_ErrorRegion 0x37c3
+#define BORG8_ErrorRegion 0x37c3 //"THIS GAME IS NOT DESIGNED FOR USE ON THIS SYSTEM"
 
 //item Icons
 
@@ -282,7 +282,7 @@ typedef enum Borg8Enum {
     BORG8_TitlePressStart=258,
     Borg8_TitleCard=259,
     Borg8_TitleCardShadow=260,
-    //42 px box=261,
+
 
     BORG8_JournalBG=386,
     BORG8_IconSkAlchemist=387,
@@ -329,14 +329,10 @@ typedef enum Borg8Enum {
     BORG8_BGParchment2=13832,
 
     BORG8_RitualTitle=0x375B, //leftover of "Rituals" mechanic
-    //crecent moon=14239,
-    //half moon=14240,
-    BORG8_CityMarkerPortSaid=14270,
-    //Terminor Marker=14272,
-    //Ugarit Marker=14273,
+
     BORG8_PortraitMinotuar=14406,
     BORG8_PortraitHorse=14423,
-    //up arrow=14544
+
 } Borg8Enum;
 
 
