@@ -71,7 +71,7 @@ u8 WidgetTrainShop::Tick(){
 
 void WidgetTrainShop::SetArrows(){
   if(this->scrollMenu){
-    this->arrows=new WidgetScrollArrows(this->scrollMenu,WidgetB8(0x38D0),WidgetB8(0x38D1),0);
+    this->arrows=new WidgetScrollArrows(this->scrollMenu,WidgetB8(0x38D0),WidgetB8(0x38cf),0);
     this->arrows->SetColor(COLOR_OFFWHITE);
     this->scrollMenu->Link(this->arrows);
   }
