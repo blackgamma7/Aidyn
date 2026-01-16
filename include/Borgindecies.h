@@ -1207,7 +1207,7 @@ typedef enum Borg8Enum {
 #define BORG7_Horse             0x3148 //also used by "Cow", "Fish" and "Flock" dialouge ents
 #define BORG7_LizardMan         0x3176
 #define BORG7_LizardManBoss     0x31a2
-#define BORG7_LizardManSgt      0x31a2
+#define BORG7_LizardManSgt      0x31C8
 #define BORG7_Manticore         0x31fe
 #define BORG7_Minotuar          0x3224
 #define BORG7_OrgeBoss          0x3276
