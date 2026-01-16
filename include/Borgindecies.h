@@ -1118,6 +1118,8 @@ typedef enum Borg8Enum {
 
 #define BORG7_PauseMenu         0x0e6b
 
+#define BORG7_LighthouseBeacon  0x0de0
+
 //used by entities
 
 #define BORG7_JundarGate        0x0d76

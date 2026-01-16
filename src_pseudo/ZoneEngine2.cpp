@@ -418,38 +418,25 @@ void MakeGameZoneNames(u16 param_1,u16 param_2){
   u16 uVar1;
   u16 uVar2;
   s16 iVar3;
-  int j;
-  ZoneDat *dat;
   int iVar5;
-  s16 i;
-  int iVar7;
   
-  if ((param_1 < 23) && (i = 0, uVar1 = param_1, uVar2 = param_2, param_2 < 31)) {
-    do {
+  if ((param_1 <= 22) && (param_2 <= 30)) {
+    for(s16 i = 0, uVar1 = param_1, uVar2 = param_2;i<3;i++) {
       gGlobals.gameVars.mapShort2 = uVar2;
       gGlobals.gameVars.mapShort1 = uVar1;
-      j = 0;
-      iVar5 = (s16)param_2 + -1;
-      iVar3 = ((s16)param_1 + i + -1);
-      iVar7 = 0x10000;
-      do {
-        dat = &gGlobals.gameVars.ZoneDatMtx[i][j];
+      for(s16 j = 0,iVar5 = (s16)param_2 + -1,iVar3 = ((s16)param_1 + i + -1);j<3;j++,iVar5++) {
+        ZoneDat *dat = &gGlobals.gameVars.ZoneDatMtx[i][j];
         init_some_map_data(dat,(s16)i,(char)j);
-        j = (int)(s16)iVar5;
-        if ((iVar3 - 1U < 0x15) && (j - 1U < 0x1d)) {
-          dat->borg5_ID = gLoadedMapIndecies[iVar3][j][0];
-          dat->borg9_id = gLoadedMapIndecies[iVar3][j][1];
-          dat->borg5_ID2 = gLoadedMapIndecies[iVar3][j][2];
+        if ((iVar3 - 1U < 21) && (iVar5 - 1U < 29)) {
+          dat->borg5_ID = gLoadedMapIndecies[iVar3][iVar5][0];
+          dat->borg9_id = gLoadedMapIndecies[iVar3][iVar5][1];
+          dat->borg5_ID2 = gLoadedMapIndecies[iVar3][iVar5][2];
           checkToggleZoneScene(dat);
         }
-        j = iVar7 >> 0x10;
-        iVar5 += 1;
-        iVar7 = iVar7 + 0x10000;
-      } while (j < 3);
-      i++;
+      }
       uVar1 = gGlobals.gameVars.mapShort1;
       uVar2 = gGlobals.gameVars.mapShort2;
-    } while (i < 3);
+    }
     return;
   }
   Gsprintf("Zone out of Range\nZone: (%d, %d)\nRange: (%d, %d)",param_1,param_2,22,30);
