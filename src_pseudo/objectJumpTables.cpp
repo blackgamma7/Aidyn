@@ -503,7 +503,7 @@ u8 dialouge_trigger_check(voxelObject *v,vec3f *arg1,u8 getProx){
 
 u8 dialoug_obj_func(voxelObject *v,playerData *arg1){return dialouge_trigger_check(v,&(arg1->collision).pos,true);}
 
-void dialoug_obj_check(voxelObject* v,playerData *arg1){dialoug_obj_func(v,arg1);}
+u8 dialoug_obj_check(voxelObject* v,playerData *arg1){return dialoug_obj_func(v,arg1);}
 
 u8 savepoint_prox_check(voxelObject *v,playerData *arg1){return Vec3Dist(&v->header.pos,&(arg1->collision).pos) <= (v->header).size;}
 
@@ -538,10 +538,10 @@ BaseWidget* secretdoor_widget_AB(BaseWidget* param_1,BaseWidget *param_2){
   return 0;
 }
 
-BaseWidget * TrekTextPopup(char *param_1){
+BaseWidget * TrekTextPopup(char *txt){
   Color32 col1={COLOR_OFFWHITE};
   Color32 col2={COLOR_DARKGRAY};
-  gGlobals.playerCharStruct.text_window = some_textbox_func(param_1,0x96,&col1,&col2,1);
+  gGlobals.playerCharStruct.text_window = some_textbox_func(txt,0x96,&col1,&col2,1);
   (gGlobals.playerCharStruct.text_window)->AButtonFunc = textbox_func_AB;
   (gGlobals.playerCharStruct.text_window)->BButtonFunc = textbox_func_AB;
   (gGlobals.playerCharStruct.text_window)->CDownButtonFunc = NULL;

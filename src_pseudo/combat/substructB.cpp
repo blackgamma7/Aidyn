@@ -6,6 +6,11 @@ void giveCameratoThisPlayer(u8 X){
     GiveCameraToPlayer(gGlobals.playerDataArray[X]);
 }
 
+void init_combat_substruct2(CombatSubstructB *X,s8 N) {
+  X->field3_0xa2 = N;
+  clear_combat_substruc2(X);
+}
+
 void clear_ArrayA(CombatSubstructB *param_1){
   memset(param_1->arrayA,0,gCombatP->EntCount*sizeof(u32));
 }
