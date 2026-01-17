@@ -22,10 +22,10 @@ void WidgetMenuSpells::InitMenu(DollMenuLists *list,u8 sel) {
   this->selected = sel;
   this->count = 0;
   this->partyPicker = gPartyPicker;
-  WidgetBorg8* pBVar3 = WidgetB8(0xe4);
+  WidgetBorg8* pBVar3 = WidgetB8(BORG8_BarterBGShadow);
   pBVar3->SetCoords(5,0x3c);
   this->Link(pBVar3);
-  this->background = WidgetB8(0xe2);
+  this->background = WidgetB8(BORG8_BarterBG);
   this->background->SetCoords(0,58);
   this->Link(this->background);
   pBVar3 = WidgetB8(BORG8_TitleTrain);

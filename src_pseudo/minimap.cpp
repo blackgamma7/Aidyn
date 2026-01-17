@@ -123,12 +123,12 @@ LAB_80051504:
   this->mapY = this->field44_0xaa;
   this->field35_0x88 = this->field44_0xaa;
   fVar9 = this->mapScale * 8.0f;
-  this->widget24 = WidgetB8(0xf5);
+  this->widget24 = WidgetB8(BORG8_WhiteBorderGraySquare);
   this->widget24->SetCoords((this->mapX - this->mapScale * 8.0f),(this->mapY - this->mapScale * 8.0f));
   this->widget24->SetWidth((this->X90 - this->mapX) + this->mapScale * 16.0f);
   this->widget24->SetHeight((this->Y9C - this->mapY) + this->mapScale * 16.0f);
   this->widget24->SetColor(COLOR_BLACK);
-  this->widget28 = WidgetB8(0xf3);
+  this->widget28 = WidgetB8(BORG8_WhiteBorderAlphaSquare);
   this->widget28->SetCoords(this->mapX,this->mapY);
   this->widget28->SetWidth((this->X90 - this->mapX) + 1.0f);
   this->widget28->SetHeight((this->Y9C - this->mapY) + 1.0f);

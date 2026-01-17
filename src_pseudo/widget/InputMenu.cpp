@@ -50,7 +50,7 @@ void InputMenu::InitMenu(char *txt){
   }
   sub->arrayMenu->Tick();
   ALLOCS(sub->entry,IMNameLength+1,0x77);
-  sub->cursor = WidgetB8(0xF8);
+  sub->cursor = WidgetB8(BORG8_WhiteSquare15px);
   SetCurrentName(txt);
   this->Link(sub->cursor);
   this->Link(sub->arrayMenu);

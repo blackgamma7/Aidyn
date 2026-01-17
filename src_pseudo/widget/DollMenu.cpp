@@ -34,13 +34,13 @@ u32 WidgetDollMenu::InitMenu(u8 param_2,u8 param_3) {
     }
     if (this->spells_widget) this->spells_widget->SetHighlight();
     if (gGlobals.SomeCase == 7) {
-    pBVar10 = WidgetB8(0x3756);
+    pBVar10 = WidgetB8(BORG8_SliderArrowLR);
     pBVar10->SetColor(COLOR_RED1);
     pBVar10->SetCoords(0x7e,0xcf);
     this->Link(pBVar10);
     }
     else if (gGlobals.SomeCase == 3) {
-    pBVar10 = WidgetB8(0x3755);
+    pBVar10 = WidgetB8(BORG8_SliderArrowL);
     pBVar10->SetColor(COLOR_RED1);
     pBVar10->SetCoords(0x7e,0xcf);
     this->Link(pBVar10);

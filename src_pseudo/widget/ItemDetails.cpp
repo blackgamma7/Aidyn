@@ -276,10 +276,10 @@ void WidgetMenuPopup(BaseWidget *w) {
   (w->col).A = 0;
   w->posX = 23;
   w->posY = 70;
-  WidgetBorg8* w0=WidgetB8(228);
+  WidgetBorg8* w0=WidgetB8(BORG8_BarterBGShadow);
   w0->SetCoords(5,60);
   w->Link(w0);
-  WidgetBorg8* w0=WidgetB8(226);
+  WidgetBorg8* w0=WidgetB8(BORG8_BarterBG);
   w0->SetCoords(0,58);
   w->Link(w0);
   w->SetWidth(140);

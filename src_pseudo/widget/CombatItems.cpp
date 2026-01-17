@@ -78,8 +78,8 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   Utilities::SetArrayVSpace(this->scrollMenu,3);
   Update();
   iVar6 = find_char_in_party(pCVar2);
-  WidgetBorg8* pBVar6 = WidgetB8(0x38D0);
-  WidgetBorg8* pBVar7 = WidgetB8(0x38CF);
+  WidgetBorg8* pBVar6 = WidgetB8(BORG8_ScrollBarArrowUp);
+  WidgetBorg8* pBVar7 = WidgetB8(BORG8_ScrollBarArrowDown);
   pBVar6->SetCoords(this->scrollMenu->posX + -8,(this->scrollMenu->posY - (s16)pBVar6->GetHeight()) -2);
   pBVar7->SetCoords(this->scrollMenu->posX + -8,this->scrollMenu->boundY1 + 2);
   this->arrows =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7,0);

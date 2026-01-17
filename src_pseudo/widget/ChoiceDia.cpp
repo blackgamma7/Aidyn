@@ -163,35 +163,35 @@ void WidgetChoiceDia::SetImages(s16 *bounds,u32 param_3){
   this->borg8WidgetC = Utilities::AddBorg8Widget2(this,pBVar1,*bounds,bounds[1] - (pBVar1->dat).Height,bounds[2],bounds[1]);
   pBVar1 = loadBorg8(BORG8_GradientB);
   this->borg8WidgetE = Utilities::AddBorg8Widget2(this,pBVar1,*bounds,bounds[3],bounds[2],bounds[3] + (pBVar1->dat).Height);
-  pBVar1 = loadBorg8(0x1c0);
+  pBVar1 = loadBorg8(BORG8_GradientA);
   this->borg8WidgetB = Utilities::AddBorg8Widget2(this,pBVar1,(*bounds - (pBVar1->dat).Width) + -1,bounds[1],*bounds + -1,bounds[3]);
-  pBVar1 = loadBorg8(0x1c1);
+  pBVar1 = loadBorg8(BORG8_GradientD);
   uVar4 = (u16)(param_3 != 0);
   sVar3 = uVar4 + 1;
   pBVar2 = Utilities::AddBorg8Widget2
                      (this,pBVar1,bounds[2] + sVar3,bounds[1],
                       bounds[2] + (pBVar1->dat).Width + 1 + uVar4,bounds[3]);
   this->borg8WidgetD = pBVar2;
-  pBVar1 = loadBorg8(0x1bc);
+  pBVar1 = loadBorg8(BORG8_GradientRoundA);
   this->posX = (*bounds - (pBVar1->dat).Width) + -1;
   this->posY = bounds[1] - (pBVar1->dat).Height;
   pBVar2 = Utilities::AddBorg8Widget2
                      (this,pBVar1,(*bounds - (pBVar1->dat).Width) + -1,
                       bounds[1] - (pBVar1->dat).Height,*bounds + -1,bounds[1]);
   this->borg8WidgetF = pBVar2;
-  pBVar1 = loadBorg8(0x1bd);
+  pBVar1 = loadBorg8(BORG8_GradientRoundB);
   uVar4 = (u16)(param_3 != 0);
   pBVar2 = Utilities::AddBorg8Widget2
                      (this,pBVar1,bounds[2] + sVar3,bounds[1] - (pBVar1->dat).Height,
                       bounds[2] + (pBVar1->dat).Width + 1 + uVar4,bounds[1]);
   this->borg8WidgetG = pBVar2;
-  pBVar1 = loadBorg8(0x1be);
+  pBVar1 = loadBorg8(BORG8_GradientRoundC);
   pBVar2 = Utilities::AddBorg8Widget2
                      (this,pBVar1,bounds[2] + sVar3,bounds[3],
                       bounds[2] + (pBVar1->dat).Width + 1 + uVar4,bounds[3] + (pBVar1->dat).Height
                      );
   this->borg8WidgetH = pBVar2;
-  pBVar1 = loadBorg8(BORG8_GradientA);
+  pBVar1 = loadBorg8(BORG8_GradientRoundD);
   pBVar2 = Utilities::AddBorg8Widget2
                      (this,pBVar1,(*bounds - (pBVar1->dat).Width) + -1,bounds[3],
                       *bounds + -1,bounds[3] + (pBVar1->dat).Height);

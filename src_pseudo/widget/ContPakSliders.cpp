@@ -53,12 +53,12 @@ void ControllerPakSliders::unk(){
   SetEntry();
   if (this->next == 0) {
     if (this->prev != 0) {
-      SetArrow(0x3755,116,77);
+      SetArrow(BORG8_SliderArrowL,116,77);
     }
   }
   else {
-    if (this->prev == 0) BVar1 = 0x3757;
-    else BVar1 = 0x3756;
+    if (this->prev == 0) BVar1 = BORG8_SliderArrowR;
+    else BVar1 = BORG8_SliderArrowLR;
     SetArrow(BVar1,116,77);
   }
 }
@@ -216,20 +216,20 @@ WidgetBlankFile::~WidgetBlankFile(){
 void WidgetBlankFile::unk(){
   SetEntry();
   if (this->next == NULL) {
-    if (this->prev != NULL) SetArrow(0x3755);
+    if (this->prev != NULL) SetArrow(BORG8_SliderArrowL);
   }
   else if (this->prev == NULL)
-    SetArrow(0x3757);
-  else SetArrow(0x3756);
+    SetArrow(BORG8_SliderArrowR);
+  else SetArrow(BORG8_SliderArrowLR);
 }
 
 void WidgetBlankFile::unk2(){
   if (this->next == NULL) {
-    if (this->prev != NULL) SetArrow(0x3755);
+    if (this->prev != NULL) SetArrow(BORG8_SliderArrowL);
   }
   else if (this->prev == NULL)
-    SetArrow(0x3757);
-  else SetArrow(0x3756);
+    SetArrow(BORG8_SliderArrowR);
+  else SetArrow(BORG8_SliderArrowLR);
 }
 
 void WidgetBlankFile::SetEntry(){

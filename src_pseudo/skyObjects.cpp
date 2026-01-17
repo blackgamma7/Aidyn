@@ -164,7 +164,7 @@ void Skyobjects::Init(void){
         sSkyObjBss[i]=NULL;
     }
   }
-  ALLOCS(ppBVar12,gSkyobjectsCount*sizeof(Borg8Header*),0xf8);
+  ALLOCS(ppBVar12,gSkyobjectsCount*sizeof(Borg8Header*),BORG8_WhiteSquare15px);
   fVar2 = 0.19f;
   uVar7 = 0;
   uVar6 = (u32)gSkyobjectsCount;

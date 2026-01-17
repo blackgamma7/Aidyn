@@ -6,7 +6,7 @@ WidgetHealthGold::WidgetHealthGold(CharSheet *chara):WidgetMenu(){
   char buff [88];
   this->HpPercent = 0;
   this->HpPercent = Entity::getHPCurrent(chara)/Entity::getHPMax(chara) *80.0f;
-  this->HPBar = WidgetB8(0xe0); //health bar
+  this->HPBar = WidgetB8(BORG8_HealthBar);
   this->HPBar->SetWidth(0x50);
   this->HPBar->SetHeight(10);
   this->HPBar->SetCoords(0xdc,0x1b);
