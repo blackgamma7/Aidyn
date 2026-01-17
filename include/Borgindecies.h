@@ -38,65 +38,195 @@
 #define BORG8_MainFont 0x001C //main font, contains Controler button characters
 #define BORG8_SlimFont 0x001D //text is a few pixels smaller, no Controler button characters
 //0x1e - 0xa1 are minimap sections.
-#define BORG8_longDownArrow 0x00d5
+#define BORG8_MapIconStart 0x001e
+#define BORG8_LongDownArrow 0x00d5
+#define BORG8_LongUpArrow 0x00d6
 #define BORG8_Spacer 0x00d7
-#define BORG8_PauseMenuA 0x00d8
-#define BORG8_PauseMenuB 0x00d9
-#define BORG8_PauseMenuC 0x00da
-#define BORG8_ContPakBG 0x00e3
-#define BORG8_ContPakBGShad 0x00e5
-#define BORG8_LoadGameTitle 0x00f1
-#define BORG8_SaveGameTitle 0x00ff
-
+#define BORG8_PauseBGOptions 0x00d8
+#define BORG8_PauseBGStats 0x00d9
+#define BORG8_PauseBGMap 0x00da
+#define BORG8_CurrDayMarker 0x00dc
+#define BORG8_TitleCamp 0x00dd
+#define BORG8_LogoH2O 0x00de
+#define BORG8_PortraitHighlight 0x00df
+#define BORG8_HealthBar 0x00e0
 #define BORG8_BarterBG 0x00E2
+#define BORG8_ContPakBG 0x00e3
 #define BORG8_BarterBGShadow 0x00E4
+#define BORG8_ContPakBGShad 0x00e5
+#define BORG8_TitleJournal 0x00e6
 #define BORG8_TitleBuy 0x00E7
+#define BORG8_TitleInventory 0x00e9
+#define BORG8_TitleSell 0x00eb
+#define BORG8_TitleSkills 0x00ec
+#define BORG8_TitleSpells 0x00ed
+#define BORG8_TitleStats 0x00ee
+#define BORG8_TitleTrain 0x00ef
 #define BORG8_TitleTreasure 0x00F0
+#define BORG8_LoadGameTitle 0x00f1
+#define BORG8_TitleMenui 0x00f2
+#define BORG8_WhiteBorderAlphaSquare 0x00f3
+#define BORG8_WhiteBorderGraySquare 0x00f5
+#define BORG8_CONTROLLER_PAK 0x00f7
+#define BORG8_WhiteSquare15px 0x00f8
+#define BORG8_TitleEnterName 0x00f9
+#define BORG8_TitleLicence 0x00fa
+#define BORG8_WarningNoController 0x00fb
+#define BORG8_WarningNoControllerPak 0x00fc
+#define BORG8_TitleOptions 0x00fd
+#define BORG8_TitlePause 0x00fe
+#define BORG8_SaveGameTitle 0x00ff
+#define BORG8_TitleTheater 0x0100
+#define BORG8_LogoTHQ 0x0101
+#define BORG8_TitlePressStart 0x0102
+#define BORG8_TitleCard 0x0103
+#define BORG8_TitleCardShadow 0x0104
+#define BORG8_ScrollBarArrowUp 0x38d0
+#define BORG8_ScrollBarArrowDown 0x38cf
+#define BORG8_SliderArrowL 0x3755
+#define BORG8_SliderArrowLR 0x3756
+#define BORG8_SliderArrowR 0x3757
 
 //character portaits
 
 #define BORG8_PortraitAbrecan 0x0106
 #define BORG8_PortraitAirElem 0x0107
 #define BORG8_PortraitAlaron 0x0108
+#define BORG8_PortraitAmann 0x0109
+#define BORG8_PortraitArdra 0x010a
+#define BORG8_PortraitArturo 0x010b
+#define BORG8_PortraitBaird 0x010c
+#define BORG8_PortraitBaldric 0x010d
+#define BORG8_PortraitBalfin 0x010e
+#define BORG8_PortraitBanditBoss 0x010f
 #define BORG8_PortraitBat   0x0110
+#define BORG8_PortraitBatrin 0x0111
 #define BORG8_PortraitBear  0x0112
 #define BORG8_PortraitBecan  0x0113
 #define BORG8_PortraitBoar  0x0114
 #define BORG8_PortraitBowden 0x0115
 #define BORG8_PortraitBrenna 0x0116
-#define BORG8_PortraitChaosScout 284
+#define BORG8_PortraitCadme 0x0118
+#define BORG8_PortraitCedric 0x0119
+#define BORG8_PortraitChaosLt 0x011a
+#define BORG8_PortraitChaosMjr 0x011b
+#define BORG8_PortraitChaosScout 0x011c
+#define BORG8_PortraitChaosMauler 0x011d
 #define BORG8_PortraitChaosMage 0x011e
 #define BORG8_PortraitChaosTroop 0x011f
-#define BORG8_PortraitDonovan 0x012d
-#define BORG8_PortraitDougal 0x012e
-#define BORG8_PortraitDryadF 0x012f
-#define BORG8_PortraitDryadM 0x0130
-#define BORG8_PortraitEarthElem 0x0132
-#define BORG8_PortraitWyvern 0x0178
-#define BORG8_PortraitWolf 0x0176
+#define BORG8_PortraitChaosWarrior 0x0120
+#define BORG8_PortraitCharisa 0x0121
 #define BORG8_PortraitNPCFemale1 0x0122
 #define BORG8_PortraitNPCFemale2 0x0123
 #define BORG8_PortraitNPCFemale3 0x0124
 #define BORG8_PortraitNPCMale1 0x0125
 #define BORG8_PortraitNPCMale2 0x0126
 #define BORG8_PortraitNPCMale3 0x0127
+#define BORG8_PortraitCradagwgh 0x0128
+#define BORG8_PortraitCyclops 0x0129
+#define BORG8_PortraitDamek 0x012a
+#define BORG8_PortraitDarmath 0x012b
+#define BORG8_PortraitDevlin 0x012c
+#define BORG8_PortraitDonovan 0x012d
+#define BORG8_PortraitDougal 0x012e
+#define BORG8_PortraitDryadF 0x012f
+#define BORG8_PortraitDryadM 0x0130
+#define BORG8_PortraitLloyd 0x0131
+#define BORG8_PortraitEarthElem 0x0132
+#define BORG8_PortraitEdur 0x0133
+#define BORG8_PortraitEhud 0x0134
+#define BORG8_PortraitFarris 0x0135
+#define BORG8_PortraitFireElem 0x0136
+#define BORG8_PortraitFyrsil 0x0137
+#define BORG8_PortraitGabrion 0x0138
+#define BORG8_PortraitGolem 0x0139
+#define BORG8_PortraitJundargate 0x013a
+#define BORG8_PortraitGavinn 0x013b
+#define BORG8_PortraitGechina 0x013c
+#define BORG8_PortraitGillek 0x013d
 #define BORG8_PortraitGoblin1 0x013e
 #define BORG8_PortraitGoblin2 0x013f
-
-#define BORG8_PortraitGodrik 320
-#define BORG8_PortraitKeelin 335
-#define BORG8_PortraitShadow 361
-#define BORG8_PortraitSheridan 362
-#define BORG8_PortraitCrossbone 0x016d
-#define BORG8_PortraitTentacle 366
-#define BORG8_PortraitBanner 384
-#define BORG8_PortraitSignpost 385
+#define BORG8_PortraitGodrik 0x0140
+#define BORG8_PortraitGorgon 0x0141
+#define BORG8_PortraitGotzone 0x0142
+#define BORG8_PortraitGryphon 0x0143
+#define BORG8_PortraitGuard1 0x0144
+#define BORG8_PortraitGuard2 0x0145
+#define BORG8_PortraitGuard3 0x0146
+#define BORG8_PortraitHarpy 0x0147
+#define BORG8_PortraitHellHound 0x0148
+#define BORG8_PortraitHerne 0x0149
+#define BORG8_PortraitHobgoblin 0x014a
+#define BORG8_PortraitHumanBandit 0x014b
 #define BORG8_PortraitJundarF 0x014c
+#define BORG8_PortraitJundarGuard 0x014d
 #define BORG8_PortraitJundarM 0x014e
+#define BORG8_PortraitKeelin 0x014f
+#define BORG8_PortraitKolokos 0x0150
+#define BORG8_PortraitLizardMan 0x0151
+#define BORG8_PortraitLizardManBoss 0x0152
+#define BORG8_PortraitLizardManSgt 0x0153
+#define BORG8_PortraitLycea 0x0154
+#define BORG8_PortraitMago 0x0155
+#define BORG8_PortraitManticore 0x0156
+#define BORG8_PortraitMarquis 0x0157
+#define BORG8_PortraitMeriona 0x0158
+#define BORG8_PortraitMinotuarLord 0x0159
 #define BORG8_PortraitMirariF 0x015a
 #define BORG8_PortraitMirariM 0x015b
+#define BORG8_PortraitNiala 0x015c
+#define BORG8_PortraitNiesen 0x015d
+#define BORG8_PortraitOgre 0x015e
+#define BORG8_PortraitOgreBoss 0x015f
+#define BORG8_PortraitOriana 0x0160
+#define BORG8_PortraitPandara 0x0161
+#define BORG8_PortraitPochanargat 0x0162
 #define BORG8_PortraitRat 0x0163
+#define BORG8_PortraitRheda 0x0164
+#define BORG8_PortraitRooughah 0x0165
+#define BORG8_PortraitSalamander 0x0166
+#define BORG8_PortraitSandWorm 0x0167
+#define BORG8_PortraitScorpion 0x0168
+#define BORG8_PortraitShadow 0x0169
+#define BORG8_PortraitSheridan 0x016a
+#define BORG8_PortraitSholeh 0x016b
+#define BORG8_PortraitSkeleton 0x016c
+#define BORG8_PortraitCrossbone 0x016d
+#define BORG8_PortraitTentacle 0x016e
+#define BORG8_PortraitSwagma 0x016f
+#define BORG8_PortraitTrahern 0x0171
+#define BORG8_PortraitTroll 0x0172
+#define BORG8_PortraitTxomin 0x0173
+#define BORG8_PortraitWaterElem 0x0174
 #define BORG8_PortraitLich 0x0175
+#define BORG8_PortraitWolf 0x0176
+#define BORG8_PortraitWraith 0x0177
+#define BORG8_PortraitWyvern 0x0178
+#define BORG8_PortraitXibid 0x0179
+#define BORG8_PortraitYeraza 0x017a
+#define BORG8_PortraitYuli 0x017b
+#define BORG8_PortraitZaratas 0x017c
+#define BORG8_PortraitZombie 0x017d
+#define BORG8_PortraitZurene 0x017e
+#define BORG8_PortraitKingdomSign 0x017f
+#define BORG8_PortraitBanner 0x0180
+#define BORG8_PortraitSignpost 0x0181
+#define BORG8_PortraitMinotuar 0x3846
+#define BORG8_PortraitHorse 0x3857
+
+#define BORG8_JournalBG 0x0182
+#define BORG8_IconSkAlchemist 0x0183
+#define BORG8_IconSkDiplomat 0x0184
+#define BORG8_IconSkHealer 0x0185
+#define BORG8_IconSkLoremaster 0x0186
+#define BORG8_IconSkMechanic 0x0187
+#define BORG8_IconSkMerchant 0x0188
+#define BORG8_IconSkRanger 0x0189
+#define BORG8_IconSkStealth 0x018a
+#define BORG8_IconSkTheif 0x018b
+#define BORG8_IconSkTroubador 0x018c
+#define BORG8_IconSkWarrior 0x018d
+#define BORG8_IconSkWizard 0x018e
 
 #define BORG8_SundailMoon1 0x01b3
 #define BORG8_SundailMoon2 0x01b4
@@ -107,7 +237,6 @@
 #define BORG8_SundailSunSmall 0x01b9
 #define BORG8_SundailCross 0x01ba
 #define BORG8_SundailSunBig 0x01bb
-
 
 #define BORG8_CloudA 0x018f
 #define BORG8_CloudB 0x0190
@@ -123,6 +252,20 @@
 #define BORG8_MoonQuarter1 0x37A0
 #define BORG8_SkyObjStar 0x01a1
 #define BORG8_SkyObjSun 0x01a2
+#define BORG8_IconAsLunar 0x01a3
+#define BORG8_IconAsSolar 0x01a4
+#define BORG8_IconSpell0 0x01a5
+#define BORG8_IconSpell1 0x01a6
+#define BORG8_IconSpell2 0x01a7
+#define BORG8_IconSpell3 0x01a8
+#define BORG8_IconSpell4 0x01a9
+#define BORG8_IconSpell5 0x01aa
+#define BORG8_IconSpell6 0x01ab
+#define BORG8_IconSpell7 0x01ac
+#define BORG8_IconSpell8 0x01ad
+#define BORG8_IconSpell9 0x01ae
+#define BORG8_IconSpell10 0x01af
+#define BORG8_IconSpell11 0x01b2
 
 // 12x37 RGBA32 gradients used to determine the sky's color
 
@@ -134,6 +277,16 @@
 #define BORG8_SkyGradient1 0x019e
 #define BORG8_SkyGradient0 0x019f
 #define BORG8_SkyGradient4 0x01A0
+#define BORG8_GradientRoundA 0x01bc
+#define BORG8_GradientRoundB 0x01bd
+#define BORG8_GradientRoundC 0x01be
+#define BORG8_GradientRoundD 0x01bf
+#define BORG8_GradientA 0x01c0
+#define BORG8_GradientB 0x01c1
+#define BORG8_GradientC 0x01c2
+#define BORG8_GradientD 0x01c3
+#define BORG8_Pixel 0x01c4
+#define BORG8_DebugBG 0x01c5
 
 #define BORG8_EXPPakYes 0x3758
 #define BORG8_EXPPakNo 0x3759
@@ -216,6 +369,12 @@
 #define BORG8_IconSlotShield 0x35ff
 #define BORG8_IconSlotStaff 0x3600
 #define BORG8_IconSlotSword 0x3601
+#define BORG8_BGBook2 0x3603
+#define BORG8_BGPlaque 0x3604
+#define BORG8_BGParchment 0x3605
+#define BORG8_BGBookLeaf 0x3606
+#define BORG8_BGBluPlaque 0x3607
+#define BORG8_BGParchment2 0x3608
 
 //world map pieces
 
@@ -246,96 +405,7 @@
 #define BORG8_CityMarkerTalewok  0x37bf
 #define BORG8_CityMarkerTerminor  0x37c0
 #define BORG8_CityMarkerUgairt  0x37c1
-
-//TODO: process list as #define's with hex values
-typedef enum Borg8Enum {
-    BORG8_MapIconStart=30,
-
-
-    BORG8_PauseBGOptions=216,
-    BORG8_PauseBGStats=217,
-    BORG8_PauseBGMap=218,
-    BORG8_CurrDayMarker=220,
-    BORG8_TitleCamp=221,
-    BORG8_LogoH2O=222,
-    BORG8_PortraitHighlight=223,
-
-    BORG8_TitleJournal=230,
-    BORG8_TitleInventory=233,
-    BORG8_TitleSkills=236,
-    BORG8_TitleSpells=237,
-    BORG8_TitleTrain=239,
-    BORG8_TitleMenui=242,
-
-
-    BORG8_CONTROLLER_PAK=247,
-
-    BORG8_TitleEnterName=249,
-    BORG8_TitleLicence=250,
-    BORG8_WarningNoController=251,
-    BORG8_WarningNoControllerPak=252,
-    BORG8_TitleOptions=253,
-    BORG8_TitlePause=254,
-    BORG8_TitleSaveGame=255,
-    BORG8_TitleTheater=256,
-    BORG8_LogoTHQ=257,
-    BORG8_TitlePressStart=258,
-    Borg8_TitleCard=259,
-    Borg8_TitleCardShadow=260,
-
-
-    BORG8_JournalBG=386,
-    BORG8_IconSkAlchemist=387,
-    BORG8_IconSkDiplomat=388,
-    BORG8_IconSkHealer=389,
-    BORG8_IconSkLoremaster=390,
-    BORG8_IconSkMechanic=391,
-    BORG8_IconSkMerchant=392,
-    BORG8_IconSkRanger=393,
-    BORG8_IconSkStealth=394,
-    BORG8_IconSkTheif=395,
-    BORG8_IconSkTroubador=396,
-    BORG8_IconSkWarrior=397,
-    BORG8_IconSkWizard=398,
- 
-    BORG8_IconAsLunar=419,
-    BORG8_IconAsSolar=420,
-    BORG8_IconSpell0=421,
-    BORG8_IconSpell1=422,
-    BORG8_IconSpell2=423,
-    BORG8_IconSpell3=424,
-    BORG8_IconSpell4=425,
-    BORG8_IconSpell5=426,
-    BORG8_IconSpell6=427,
-    BORG8_IconSpell7=428,
-    BORG8_IconSpell8=429,
-    BORG8_IconSpell9=430,
-    BORG8_IconSpell10=431,
-    BORG8_IconSpell11=434,
-    BORG8_SundailMoonA=436,
-    BORG8_SundailMoonB=440,
-    BORG8_SundaiCross=442,
-    BORG8_GradientA=447,
-    BORG8_GradientB=450,
-    BORG8_GradientC=451,
-    BORG8_Pixel=452,
-    BORG8_DebugBG=0x01c5,
-
-    BORG8_BGBook2=13827,
-    BORG8_BGPlaque=13828,
-    BORG8_BGParchment=13829,
-    BORG8_BGBookLeaf=13830,
-    BORG8_BGBluPlaque=13831,
-    BORG8_BGParchment2=13832,
-
-    BORG8_RitualTitle=0x375B, //leftover of "Rituals" mechanic
-
-    BORG8_PortraitMinotuar=14406,
-    BORG8_PortraitHorse=14423,
-
-} Borg8Enum;
-
-
+#define BORG8_RitualTitle 0x375B //leftover of "Rituals" mechanic
 
 //borg11: Sound samples
 

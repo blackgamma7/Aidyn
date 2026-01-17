@@ -66,8 +66,8 @@ void Journal::InitMenu(s16 newest) {
     scrollSub->yCurr=scrollSub->yTarget = 
       (this->scrollList->boundY1 - this->scrollList->boundY0) - this->scrollList->GetHeight();
   }
-  this->arrowU = WidgetB8(0xd6);
-  this->arrowD = WidgetB8(0xd5);
+  this->arrowU = WidgetB8(BORG8_LongUpArrow);
+  this->arrowD = WidgetB8(BORG8_LongDownArrow);
   this->Arrows = new WidgetScrollArrows(this->scrollList,this->arrowU,this->arrowD,-1);
   this->Arrows->SetCoords(247,30);
   this->Arrows->SetColor(COLOR_RED1);

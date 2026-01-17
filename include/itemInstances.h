@@ -1,9 +1,5 @@
-
-#include "itemId.h"
+#include "itemID.h"
 //for use in the "generic/" scripts
-
-
-
 
 struct Temp_enchant {
     u8 index;
@@ -26,7 +22,7 @@ struct StatMod {
     s8 stat;
     s8 mod;
 };
-void SetStatMod(StatMod *param_1,u8 stat,s8 mod);
+void SetStatMod(StatMod *param_1, u8 stat, s8 mod);
 
 class ItemInstance {
     public:

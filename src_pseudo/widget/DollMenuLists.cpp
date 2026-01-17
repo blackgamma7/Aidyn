@@ -69,10 +69,10 @@ LAB_80038434:
   this->expCost = NULL;
   this->expRemain = NULL;
   if (gGlobals.SomeCase == 5) {
-    BaseWidget* pBVar8 =WidgetB8(0xe4);
+    BaseWidget* pBVar8 =WidgetB8(BORG8_BarterBGShadow);
     pBVar8->SetCoords(5,0x3c);
     this->Link(pBVar8);
-    this->background = WidgetB8(0xe2);
+    this->background = WidgetB8(BORG8_BarterBG);
     this->background->SetCoords(0,0x3a);
     this->Link(this->background);
     pBVar8 = WidgetB8(BORG8_TitleTrain);

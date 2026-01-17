@@ -96,7 +96,7 @@ WidgetInvShop::WidgetInvShop(IInventory*inv,DollEquipmentMenu*doll)
   this->SetColor(COLOR_RED1);
   if(this->inventory!=gGlobals.shopInv){
     if((!this->dollMenu)&&(gGlobals.Shopkeep!=Item_NONE))
-      this->TitleWidget=WidgetB8(0xeb);
+      this->TitleWidget=WidgetB8(BORG8_TitleSell);
     else this->TitleWidget=WidgetB8(BORG8_TitleInventory);
     this->TitleWidget->SetCoords(158,81);
     this->Link(this->TitleWidget);

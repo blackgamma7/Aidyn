@@ -126,7 +126,7 @@ void WidgetOptionsMenu::MakeScrollList(){
     pBVar2 = WidgetB8(BORG8_TitleMenui);
     pBVar2->SetCoords(SCREEN_CENTERW-(pBVar2->GetWidth()/2),0x46);
     sub->ScrollMenu->Link(pBVar2);
-    pBVar5 = WidgetB8(0x3757);
+    pBVar5 = WidgetB8(BORG8_SliderArrowR);
     pBVar5->SetCoords(170,204);
     pBVar5->SetColor(COLOR_RED1);
     sub->ScrollMenu->Link(pBVar5);

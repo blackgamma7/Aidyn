@@ -9,7 +9,7 @@ WidgetStatTrain::WidgetStatTrain():WidgetTrainShop() {
   BaseWidget *pBVar1;
 
   this->partyPicker = gPartyPicker;
-  this->TitleWidget = WidgetB8(0xee);
+  this->TitleWidget = WidgetB8(BORG8_TitleStats);
   this->TitleWidget->SetCoords(0x9e,0x51);
   this->Link(this->TitleWidget);
   this->SetColor(COLOR_RED1);
