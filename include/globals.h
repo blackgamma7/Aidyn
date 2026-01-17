@@ -6,7 +6,7 @@
 #include "stringN64.h"
 #include "randClass.h"
 #include "N64Print.h"
-#include "inventory\GenericInventory.h"
+#include "inventory/GenericInventory.h"
 #include "PlayerData.h"
 #include "n64Borg.h"
 #include "world.h"

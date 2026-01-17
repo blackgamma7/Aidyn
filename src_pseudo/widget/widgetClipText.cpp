@@ -1,6 +1,6 @@
 #define FILENAME "./src/widgetcliptext.cpp"
 
-#include "widgets\WidgetClipText.h"
+#include "widgets/WidgetClipText.h"
 #include "stringN64.h"
 #include "heapN64.h"
 #include "crash.h"

@@ -1,5 +1,5 @@
 #include "mathN64.h"
-#include "widgets\BaseWidget.h"
+#include "widgets/BaseWidget.h"
 
 
 

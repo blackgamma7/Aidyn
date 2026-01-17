@@ -1,4 +1,4 @@
-#include "widgets\BaseWidget.h"
+#include "widgets/BaseWidget.h"
 
 //WidgetArrayMenu's substruct
 struct WAMSub {

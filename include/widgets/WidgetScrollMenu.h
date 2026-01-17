@@ -1,4 +1,4 @@
-#include "widgets\WidgetMenu.h"
+#include "widgets/WidgetMenu.h"
 
 
 class WidgetScrollMenu : public BaseWidget{

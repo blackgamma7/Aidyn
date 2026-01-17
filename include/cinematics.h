@@ -1,6 +1,5 @@
 #include "n64Borg.h"
-#include "widgets\Utilities.h"
-
+#include "widgets/Utilities.h"
 
 struct CinematicPointers {
     u32  *borg6;
