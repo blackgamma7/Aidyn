@@ -1,7 +1,7 @@
-#include "widgets\WidgetMenu.h"
-#include "widgets\WidgetScrollArrows.h"
-#include "widgets\WidgetClipText.h"
-#include "widgets\WidgetScrollMenu.h"
+#include "widgets/WidgetMenu.h"
+#include "widgets/WidgetScrollArrows.h"
+#include "widgets/WidgetClipText.h"
+#include "widgets/WidgetScrollMenu.h"
 #include "entity.h"
 
 

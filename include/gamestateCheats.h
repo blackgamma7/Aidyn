@@ -1,6 +1,6 @@
-#include "widgets\WidgetMenu.h"
-#include "widgets\WidgetText.h"
-#include "widgets\WidgetScrollMenu.h"
+#include "widgets/WidgetMenu.h"
+#include "widgets/WidgetText.h"
+#include "widgets/WidgetScrollMenu.h"
 
 class WidgetGameStateCheats : public WidgetMenu {
     public:

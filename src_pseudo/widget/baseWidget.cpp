@@ -1,4 +1,4 @@
-#include "widgets\BaseWidget.h"
+#include "widgets/BaseWidget.h"
 
 BaseWidget::BaseWidget(){
   this->col={COLOR_WHITE};
