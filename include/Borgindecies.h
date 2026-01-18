@@ -215,6 +215,7 @@
 #define BORG8_PortraitHorse 0x3857
 
 #define BORG8_JournalBG 0x0182
+
 #define BORG8_IconSkAlchemist 0x0183
 #define BORG8_IconSkDiplomat 0x0184
 #define BORG8_IconSkHealer 0x0185
@@ -252,20 +253,25 @@
 #define BORG8_MoonQuarter1 0x37A0
 #define BORG8_SkyObjStar 0x01a1
 #define BORG8_SkyObjSun 0x01a2
+
 #define BORG8_IconAsLunar 0x01a3
 #define BORG8_IconAsSolar 0x01a4
-#define BORG8_IconSpell0 0x01a5
-#define BORG8_IconSpell1 0x01a6
-#define BORG8_IconSpell2 0x01a7
-#define BORG8_IconSpell3 0x01a8
-#define BORG8_IconSpell4 0x01a9
-#define BORG8_IconSpell5 0x01aa
-#define BORG8_IconSpell6 0x01ab
-#define BORG8_IconSpell7 0x01ac
-#define BORG8_IconSpell8 0x01ad
-#define BORG8_IconSpell9 0x01ae
-#define BORG8_IconSpell10 0x01af
-#define BORG8_IconSpell11 0x01b2
+
+#define BORG8_IconSchoolElem 0x01a5
+#define BORG8_IconSchoolName 0x01a6
+#define BORG8_IconSchoolNecro 0x01a7
+#define BORG8_IconSchoolStar 0x01a8
+#define BORG8_IconSchoolChaos 0x01a9
+
+#define BORG8_IconSpell0 0x01aa
+#define BORG8_IconSpell1 0x01ab
+#define BORG8_IconSpell2 0x01ac
+#define BORG8_IconSpell3 0x01ad
+#define BORG8_IconSpell4 0x01ae
+#define BORG8_IconSpell5 0x01af
+#define BORG8_IconSpell6 0x01b0
+#define BORG8_IconSpell7 0x01b1
+#define BORG8_IconSpell8 0x01b2
 
 // 12x37 RGBA32 gradients used to determine the sky's color
 
@@ -407,6 +413,7 @@
 #define BORG8_CityMarkerTalewok  0x37bf
 #define BORG8_CityMarkerTerminor  0x37c0
 #define BORG8_CityMarkerUgairt  0x37c1
+#define BORG8_RestTitleOLD 0x375A //unused "REST" button/title
 #define BORG8_RitualTitle 0x375B //leftover of "Rituals" mechanic
 
 //borg11: Sound samples
@@ -455,62 +462,62 @@
 //borg12: Music/SFX
 //battle tracks if using ExpPak
 
-#define BORG12_Battle_Exp1 0x5a5
-#define BORG12_Battle_Exp2 0x5aB
-#define BORG12_Battle_Exp3 0x5b4
-#define BORG12_Battle_Exp4 0x5b9
-#define BORG12_Battle_Exp5 0x5C3
+#define BORG12_Battle_Exp1 0x05a5
+#define BORG12_Battle_Exp2 0x05aB
+#define BORG12_Battle_Exp3 0x05b4
+#define BORG12_Battle_Exp4 0x05b9
+#define BORG12_Battle_Exp5 0x05C3
 
 //Otherwise
 
 #define BORG12_Battle_NoExp1 0x38de
 #define BORG12_Battle_NoExp2 0x38df
-#define BORG12_Battle_NoExp3 0x3b8
-#define BORG12_Battle_NoExp4 0x3bd
+#define BORG12_Battle_NoExp3 0x03b8
+#define BORG12_Battle_NoExp4 0x03bd
 
 //Cinematic music
 
-#define BORG12_Cinematic0_1 0x601
-#define BORG12_Cinematic0_2 0x608
-#define BORG12_Cinematic0_3 0x60b
-#define BORG12_Cinematic0_4 0x60c
-#define BORG12_Cinematic0_5 0x60e
-#define BORG12_Cinematic0_6 0x610
-#define BORG12_Cinematic0_7 0x612
-#define BORG12_Cinematic0_8 0x613
-#define BORG12_Cinematic0_9 0x615
-#define BORG12_Cinematic0_10 0x616
-#define BORG12_Cinematic0_11 0x617
-#define BORG12_Cinematic0_12 0x619
-#define BORG12_Cinematic0_13 0x61a
+#define BORG12_Cinematic0_1 0x0601
+#define BORG12_Cinematic0_2 0x0608
+#define BORG12_Cinematic0_3 0x060b
+#define BORG12_Cinematic0_4 0x060c
+#define BORG12_Cinematic0_5 0x060e
+#define BORG12_Cinematic0_6 0x0610
+#define BORG12_Cinematic0_7 0x0612
+#define BORG12_Cinematic0_8 0x0613
+#define BORG12_Cinematic0_9 0x0615
+#define BORG12_Cinematic0_10 0x0616
+#define BORG12_Cinematic0_11 0x0617
+#define BORG12_Cinematic0_12 0x0619
+#define BORG12_Cinematic0_13 0x061a
 
-#define BORG12_Cinematic1_1 0x61d
-#define BORG12_Cinematic1_2 0x61e
-#define BORG12_Cinematic1_3 0x621
-#define BORG12_Cinematic1_4 0x622
+#define BORG12_Cinematic1_1 0x061d
+#define BORG12_Cinematic1_2 0x061e
+#define BORG12_Cinematic1_3 0x0621
+#define BORG12_Cinematic1_4 0x0622
 
-#define BORG12_Cinematic2_1 0x5da
-#define BORG12_Cinematic2_2 0x5db
-#define BORG12_Cinematic2_3 0x5dc
+#define BORG12_Cinematic2_1 0x05da
+#define BORG12_Cinematic2_2 0x05db
+#define BORG12_Cinematic2_3 0x05dc
 
-#define BORG12_Cinematic3_1 0x5ed
-#define BORG12_Cinematic3_2 0x5ee
-#define BORG12_Cinematic3_3 0x5ef
-#define BORG12_Cinematic3_4 0x5f0
-#define BORG12_Cinematic3_5 0x5f1
-#define BORG12_Cinematic3_6 0x5f2
+#define BORG12_Cinematic3_1 0x05ed
+#define BORG12_Cinematic3_2 0x05ee
+#define BORG12_Cinematic3_3 0x05ef
+#define BORG12_Cinematic3_4 0x05f0
+#define BORG12_Cinematic3_5 0x05f1
+#define BORG12_Cinematic3_6 0x05f2
 
 #define BORG12_05ea_Exp 0x05ea
 #define BORG12_05eb_NoExp 0x05eb
 #define BORG12_05DD 0x05dd
-#define BORG12_Ehud 0x5df
-#define BORG12_GwerniaCastle 0x5fd
+#define BORG12_Ehud 0x05df
+#define BORG12_GwerniaCastle 0x05fd
 #define BORG12_Ugairt 0x61b
-#define BORG12_629 0x789
-#define BORG12_789 0x789
-#define BORG12_ErromonCaves 0x790
-#define BORG12_Intro_NoExp 0x5d9 //aka Credits
-#define BORG12_Intro_Exp 0x632
+#define BORG12_629 0x0629
+#define BORG12_789 0x0789
+#define BORG12_ErromonCaves 0x0790
+#define BORG12_Intro_NoExp 0x05d9 //aka Credits
+#define BORG12_Intro_Exp 0x0632
 
 
 //SFX here
@@ -916,7 +923,7 @@
 #define BORG5_MiscInteriors_A05  0x11FF
 #define BORG5_MiscInteriors_A09  0x1497
 #define BORG5_MiscInteriors_C03  0x0D5E
-#define BORG5_MiscInteriors_C05  0x11DE
+#define BORG5_Campsite  0x11DE
 #define BORG5_MiscInteriors_C07  0x1557
 #define BORG5_MiscInteriors_E01  0x124F
 #define BORG5_MiscInteriors_E03  0x1491

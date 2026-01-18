@@ -199,49 +199,23 @@ bool MiniMap::SpecialSections(float posX,float posY,float posZ){
           return false;
         }
         uVar10 = this->savedPlayerPos.y * 0.25f;
-        fVar8 = posY * 0.25f;
-        if (INT_MAX_f <= fVar8) {
-          fVar8 = fVar8 - INT_MAX_f;
-          goto LAB_80051c70;
-        }
-        goto LAB_80051c60;
+        uVar11 = posY * 0.25f;
+        goto LAB_80051c80;
       }
       if ((u32)this->savedPlayerPos.x / 35.0f != (u32)posX / 35.0f) {
         return true;
       }
-      fVar9 = this->savedPlayerPos.z / 25.0f;
-      fVar8 = 25.0f;
-      uVar10=fVar9;
+      uVar10=this->savedPlayerPos.z / 25.0f;
     }
-    fVar8 = posZ / fVar8;
-    if (fVar8 < INT_MAX_f) {
-LAB_80051e0c:
-      uVar11 = (u32)fVar8;
-      goto LAB_80051e2c;
-    }
-    fVar8 = fVar8 - INT_MAX_f;
+    uVar11 = posZ / 25.0f;
   }
   else {
     if (pMVar1 == minimap_sec_mageschool) {
       if (MapShorts32 != 0x10001) {
         return false;
       }
-      fVar8 = this->savedPlayerPos.y * 0.25f;
-      if (fVar8 < INT_MAX_f) {
-        uVar10 = (u32)fVar8;
-      }
-      else {
-        uVar10 = (int)(fVar8 - INT_MAX_f) | 0x80000000;
-      }
-      fVar8 = posY * 0.25f;
-      if (INT_MAX_f <= fVar8) {
-        fVar8 = fVar8 - INT_MAX_f;
-LAB_80051c70:
-        uVar11 = (int)fVar8 | 0x80000000;
-        goto LAB_80051c80;
-      }
-LAB_80051c60:
-      uVar11 = (u32)fVar8;
+      uVar10 =this->savedPlayerPos.y * 0.25f;
+      uVar11 = posY * 0.25f;
 LAB_80051c80:
       if (uVar10 != uVar11) {
         return true;
@@ -297,11 +271,8 @@ LAB_80051cd8:
     }
     if ((u32)(this->savedPlayerPos.x / 48.0f) != (u32)(posX / 48.0f)) return true;
     uVar10 = this->savedPlayerPos.z / 48.0f;
-    fVar8 = posZ / 48.0f;
-    if (fVar8 < INT_MAX_f) goto LAB_80051e0c;
-    fVar8 = fVar8 - INT_MAX_f;
+    uVar11 = posZ / 48.0f;
   }
-  uVar11 = (int)fVar8 | 0x80000000;
 LAB_80051e2c:
   if (uVar10 == uVar11) return false;
   return true;

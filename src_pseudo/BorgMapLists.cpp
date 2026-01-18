@@ -294,7 +294,7 @@ mapDataList mapDataList_MiscInteriors[]={
   {1, 5, BORG5_MiscInteriors_A05, 0, BORG9_MiscInteriors_A05, 8},
   {1, 9, BORG5_MiscInteriors_A09, 0, BORG9_MiscInteriors_A09, 8},
   {3, 3, BORG5_MiscInteriors_C03, 0, BORG9_MiscInteriors_C03, 8},
-  {3, 5, BORG5_MiscInteriors_C05, 0, BORG9_Campsite, 8},
+  {3, 5, BORG5_Campsite, 0, BORG9_Campsite, 8},
   {3, 7, BORG5_MiscInteriors_C07, 0, BORG9_MiscInteriors_C07, 16},
   {5, 1, BORG5_MiscInteriors_E01, 0, BORG9_MiscInteriors_E01, 18},
   {5, 3, BORG5_MiscInteriors_E03, 0, BORG9_MiscInteriors_E03, 16},

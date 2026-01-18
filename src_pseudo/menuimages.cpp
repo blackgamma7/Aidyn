@@ -316,24 +316,24 @@ IconDict aspectIcons[]={
 };
 u32 aspectIconCount=ARRAY_COUNT(aspectIcons);
 IconDict SchoolIcons[]={
-  {SCHOOL_Chaos,     BORG8_IconSpell4},
-  {SCHOOL_Elemental, BORG8_IconSpell0},
-  {SCHOOL_Naming,    BORG8_IconSpell1},
-  {SCHOOL_Necromancy,BORG8_IconSpell2},
+  {SCHOOL_Chaos,     BORG8_IconSchoolChaos},
+  {SCHOOL_Elemental, BORG8_IconSchoolElem},
+  {SCHOOL_Naming,    BORG8_IconSchoolName},
+  {SCHOOL_Necromancy,BORG8_IconSchoolNecro},
   {SCHOOL_NONE,      0},
-  {SCHOOL_Star,      BORG8_IconSpell3},
+  {SCHOOL_Star,      BORG8_IconSchoolStar},
 };
 u32 SchoolIconCount=ARRAY_COUNT(SchoolIcons);
 IconDict iconDictSpellSymbol[]={
-  {0,0x1b1},
-  {1,0x1ab},
-  {2,0x1ae},
-  {3,0x1ac},
-  {4,0x1aa},
-  {5,0x1ad},
-  {6,0x1af},
-  {7,0x1b0},
-  {8,0x1b2},
+  {0,BORG8_IconSpell7},
+  {1,BORG8_IconSpell1},
+  {2,BORG8_IconSpell4},
+  {3,BORG8_IconSpell2},
+  {4,BORG8_IconSpell0},
+  {5,BORG8_IconSpell3},
+  {6,BORG8_IconSpell5},
+  {7,BORG8_IconSpell6},
+  {8,BORG8_IconSpell8},
 };
 u32 iconDictSpellSymbolCount=ARRAY_COUNT(iconDictSpellSymbol);
 
@@ -420,17 +420,14 @@ u8 GetSpellIcon(ItemID param_1,u32 *param_2){
   return false;
 }
 
-u8 GetSpellIcons(ItemID param_1,u32 *param_2,u32 *param_3,u32 *param_4){
-  u8 bVar2;
-  u32 BVar1;
-  u8 cVar1;
-  
-  bVar2 = GETINDEX(param_1);
-  cVar1 = gSpellDBp->spells[bVar2].Aspect;
-  if (cVar1 == 3) *param_2 = BORG8_IconAsSolar;
-  else if (cVar1 == 4) *param_2 = BORG8_IconAsLunar;
-  if (getSchoolIcon(gSpellDBp->spells[bVar2].school,param_3) == false) return false;
-  else return GetSpellIcon(param_1,param_4) != false;
+u8 GetSpellIcons(ItemID ID,u32 *aspect,u32 *school,u32 *type){
+
+  u8 ind = GETINDEX(ID);
+  u8 special = gSpellDBp->spells[ind].Aspect;
+  if (special == 3) *aspect = BORG8_IconAsSolar;
+  else if (special == 4) *aspect = BORG8_IconAsLunar;
+  if (getSchoolIcon(gSpellDBp->spells[ind].school,school) == false) return false;
+  else return GetSpellIcon(ID,type) != false;
 }
 
 u8 GetSkillIcons(ItemID param_1,u32 *param_2){
