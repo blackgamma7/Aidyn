@@ -1,5 +1,5 @@
-#include "combat\CombatStruct.h"
-#include "combat\SpellMarker.h"
+#include "combat/CombatStruct.h"
+#include "combat/SpellMarker.h"
 #include "globals.h"
 
 namespace CombatSpellMarker{

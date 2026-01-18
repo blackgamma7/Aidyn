@@ -2,7 +2,7 @@
 #include "heapN64.h"
 #include "unkStructs.h"
 #include "crash.h"
-#include "sceneData.h"
+#include "SceneData.h"
 
 #define FILENAME "../src/Particles.cpp"
 

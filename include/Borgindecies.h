@@ -98,7 +98,7 @@
 #define BORG8_PortraitBaird 0x010c
 #define BORG8_PortraitBaldric 0x010d
 #define BORG8_PortraitBalfin 0x010e
-#define BORG8_PortraitBanditBoss 0x010f
+#define BORG8_PortraitBandit2 0x010f
 #define BORG8_PortraitBat   0x0110
 #define BORG8_PortraitBatrin 0x0111
 #define BORG8_PortraitBear  0x0112
@@ -111,7 +111,7 @@
 #define BORG8_PortraitChaosLt 0x011a
 #define BORG8_PortraitChaosMjr 0x011b
 #define BORG8_PortraitChaosScout 0x011c
-#define BORG8_PortraitChaosMauler 0x011d
+#define BORG8_PortraitChaosSlayer 0x011d
 #define BORG8_PortraitChaosMage 0x011e
 #define BORG8_PortraitChaosTroop 0x011f
 #define BORG8_PortraitChaosWarrior 0x0120
@@ -157,21 +157,21 @@
 #define BORG8_PortraitHellHound 0x0148
 #define BORG8_PortraitHerne 0x0149
 #define BORG8_PortraitHobgoblin 0x014a
-#define BORG8_PortraitHumanBandit 0x014b
+#define BORG8_PortraitBandit1 0x014b
 #define BORG8_PortraitJundarF 0x014c
 #define BORG8_PortraitJundarGuard 0x014d
 #define BORG8_PortraitJundarM 0x014e
 #define BORG8_PortraitKeelin 0x014f
 #define BORG8_PortraitKolokos 0x0150
 #define BORG8_PortraitLizardMan 0x0151
-#define BORG8_PortraitLizardManBoss 0x0152
-#define BORG8_PortraitLizardManSgt 0x0153
+#define BORG8_PortraitLizardBoss 0x0152
+#define BORG8_PortraitLizardSgt 0x0153
 #define BORG8_PortraitLycea 0x0154
 #define BORG8_PortraitMago 0x0155
 #define BORG8_PortraitManticore 0x0156
 #define BORG8_PortraitMarquis 0x0157
 #define BORG8_PortraitMeriona 0x0158
-#define BORG8_PortraitMinotuarLord 0x0159
+#define BORG8_PortraitMinoLord 0x0159
 #define BORG8_PortraitMirariF 0x015a
 #define BORG8_PortraitMirariM 0x015b
 #define BORG8_PortraitNiala 0x015c
@@ -277,6 +277,8 @@
 #define BORG8_SkyGradient1 0x019e
 #define BORG8_SkyGradient0 0x019f
 #define BORG8_SkyGradient4 0x01A0
+
+
 #define BORG8_GradientRoundA 0x01bc
 #define BORG8_GradientRoundB 0x01bd
 #define BORG8_GradientRoundC 0x01be

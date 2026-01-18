@@ -227,7 +227,7 @@ void AudioProcInit(void){
 
 void * _amDmaNew(void){return dmaProc;}
 
-u8 * dmaProc(byte *param_1,s32 param_2,s32 param_3){
+u8 * dmaProc(u8 *param_1,s32 param_2,s32 param_3){
   byte bVar1;
   byte *pbVar2;
   int iVar3;
@@ -393,7 +393,7 @@ void AudioSetTask(Acmd *param_1){
   gAudioManager.Task.flags = OS_SC_NEEDS_RSP;
   gAudioManager.Task.msg = &gAudioManager.taskMsg;
   gAudioManager.Task.list.t.data_ptr = (u64 *)&(gAudioManager.ACMDList)->adpcm;
-  gAudioManager.Task.list.t.data_size = (int)param_1 - (int)gAudioManager.ACMDList;
+  gAudioManager.Task.list.t.data_size = (uintptr_t)param_1 - (uintptr_t)gAudioManager.ACMDList;
 }
 
 u16 Ofunc_8009a0fc(void){return gAudioManager.audioLength;}

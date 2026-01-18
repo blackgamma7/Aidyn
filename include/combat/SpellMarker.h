@@ -1,4 +1,4 @@
-#include "sceneData.h"
+#include "SceneData.h"
 
 SceneData* gCombatSpellMarker=NULL;
 float CombatCurrentEnt_Y=0.0;

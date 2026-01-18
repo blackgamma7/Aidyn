@@ -283,7 +283,7 @@ void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
       borg9_phys *pbVar2 = (gGlobals.gameVars.borg9DatPointer)->phys_pointer;
       for(u16 i=0;i<(gGlobals.gameVars.borg9DatPointer)->borghpys_count;i++){
         u16 gFlag = pbVar2[i].GroundType;
-        if (((gFlag & 0xf000) == 0x1000) && ((gFlag >> 5 & 0x7f) == (v->trigger).flagA))
+        if (((gFlag & B9Ground_mf000) == B9Ground_1000) && ((gFlag >> 5 & 0x7f) == (v->trigger).flagA))
           pbVar2[i].flags=pbVar2[i].flags&(v->trigger).flagB|(v->trigger).flagC;
       }
     }
@@ -336,19 +336,14 @@ u8 scene_object_check(voxelObject *v,Borg9Data* map){
   return check_reference_object(v,map);}
 
 u8 exploding_container_sub(voxelObject* v,Borg9Data *arg1){
-  u8 bVar2;
-  s16 *psVar1;
-  u8 uVar3;
   
-  bVar2 = trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,VOXEL_CheckFlagC);
-  if ((bVar2 == false) ||
+  if (!(trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,VOXEL_CheckFlagC)) ||
      (some_ref_obj_lookup_func((s16)(((int)v - (int)arg1->voxelObjs)
-                            * 0x684bda13 >> 2),
+                            * 0x684bda13 >> 2),/*?!?*/
                           gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
                           (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(v->header).type)))
-    {uVar3 = false;}
-  else {uVar3 = trigger_event_flag_check((v->header).flagA,(v->header).Bitfeild,0x100);}
-  return uVar3;
+    return false;
+  else return trigger_event_flag_check((v->header).flagA,(v->header).Bitfeild,VOXEL_Flag100);
 }
 
 u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){

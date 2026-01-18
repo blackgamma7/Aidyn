@@ -105,7 +105,6 @@ bool combat_control_press_start(controller_aidyn *cont){
   return false;
 }
 
-
 bool FUN_8008d4d0(controller_aidyn *cont){
   bool bVar2 = false;
   if (gCombatP->SenseAuraWidget) {

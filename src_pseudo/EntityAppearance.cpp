@@ -12,9 +12,9 @@ EntityExtra gEntityExtras[]={
  {(EntInd_Arturo+1),            BORG7_Arturo,       BORG8_PortraitArturo,    0.5f,  2.01f, 0.8f,  0.952f},  //4
  {(EntInd_Assim+1),             BORG7_Lich,         BORG8_PortraitLich,      0.2f,  2.2f , 0.62f, 1.296f},  //5
  {(EntInd_Baird+1),             BORG7_Baird,        BORG8_PortraitBaird,     0.53f, 2.09f, 0.85f, 1.00f},   //6
- {(EntInd_BanditBoss+1),        BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.38f, 1.90f, 0.72f, 0.974f},  //7
- {(EntInd_BanditBoss2+1),       BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.38f, 1.90f, 0.72f, 1.0227f}, //8
- {(EntInd_BanditBoss3+1),       BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.38f, 1.90f, 0.72f, 1.1201f}, //9
+ {(EntInd_BanditBoss+1),        BORG7_Bandit2,      BORG8_PortraitBandit2,   0.38f, 1.90f, 0.72f, 0.974f},  //7
+ {(EntInd_BanditBoss2+1),       BORG7_Bandit2,      BORG8_PortraitBandit2,   0.38f, 1.90f, 0.72f, 1.0227f}, //8
+ {(EntInd_BanditBoss3+1),       BORG7_Bandit2,      BORG8_PortraitBandit2,   0.38f, 1.90f, 0.72f, 1.1201f}, //9
  {(EntInd_Bear+1),              BORG7_Bear,         BORG8_PortraitBear,      0.59f, 1.22f, 1.0f,  1.107f},  //10
  {(EntInd_Becan+1),             BORG7_Becan,        BORG8_PortraitBecan,     0.48f, 2.04f, 0.7f,  0.907f},  //11
  {(EntInd_Behrooz+1),           BORG7_Lich,         BORG8_PortraitLich,      0.2f,  2.2f,  0.62f, 0.9936f}, //12
@@ -25,10 +25,10 @@ EntityExtra gEntityExtras[]={
  {(EntInd_CaveBear+1),          BORG7_Bear,         BORG8_PortraitBear,      0.59f, 1.22f, 1.0f,  1.5498f}, //17
  {(EntInd_ChaosLt+1),           BORG7_ChaosLt,      BORG8_PortraitChaosLt,   0.21f, 1.9f,  0.9f,  1.132f},  //18
  {(EntInd_ChaosMjr+1),          BORG7_ChaosMjr,     BORG8_PortraitChaosMjr,  0.52f, 4.35f, 1.5f,  0.621f},  //19
- {(EntInd_ChaosMauler+1),       BORG7_ChaosSlayer,  BORG8_PortraitChaosMauler,0.49f, 2.43f, 1.0f,  1.25f},   //20
+ {(EntInd_ChaosMauler+1),       BORG7_ChaosSlayer,  BORG8_PortraitChaosSlayer,0.49f, 2.43f, 1.0f,  1.25f},   //20
  {(EntInd_ChaosScout+1),        BORG7_ChaosScout,   BORG8_PortraitChaosScout,0.52f, 1.7f,  1.0f,  0.647f},  //21
  {(EntInd_ChaosShocktrooper+1), BORG7_ChaosTrooper, BORG8_PortraitChaosTroop,0.38f, 1.8f,  1.2f,  1.25f},   //22
- {(EntInd_ChaosSlayer+1),       BORG7_ChaosSlayer,  BORG8_PortraitChaosMauler,0.49f, 2.43f, 1.0f,  1.0f},    //23
+ {(EntInd_ChaosSlayer+1),       BORG7_ChaosSlayer,  BORG8_PortraitChaosSlayer,0.49f, 2.43f, 1.0f,  1.0f},    //23
  {(EntInd_ChaosSorceror+1),     BORG7_ChaosMage,    BORG8_PortraitChaosMage, 0.51f, 1.75f, 0.6f,  1.029f},  //24
  {(EntInd_ChaosSpellweaver+1),  BORG7_ChaosMage,    BORG8_PortraitChaosMage, 0.49f, 2.43f, 1.0f,  1.25f},   //25
  {(EntInd_ChaosStormtrooper+1), BORG7_ChaosTrooper, BORG8_PortraitChaosTroop,0.38f, 1.8f,  1.2f,  1.375f},  //26
@@ -82,10 +82,10 @@ EntityExtra gEntityExtras[]={
  {(EntInd_HellHound+1),         BORG7_HellHound,    BORG8_PortraitHellHound, 0.35f, 1.1f,  0.9f,  1.0f},    //74
  {(EntInd_Hobgoblin+1),         BORG7_Hobgoblin,    BORG8_PortraitHobgoblin, 0.67f, 2.26f, 1.2f,  1.0f},    //75
  {(EntInd_Hobgoblin2+1),        BORG7_Hobgoblin,    BORG8_PortraitHobgoblin, 0.67f, 2.26f, 1.2f,  1.2f},    //76
- {(EntInd_HumanBandit+1),       BORG7_Bandit1,      BORG8_PortraitHumanBandit,0.38f, 1.93f, 0.7f,  0.993f},  //77
- {(EntInd_HumanBandit2+1),      BORG7_Bandit1,      BORG8_PortraitHumanBandit,0.38f, 1.93f, 0.7f,  1.0263f}, //78
- {(EntInd_HumanBandit3+1),      BORG7_Bandit1,      BORG8_PortraitHumanBandit,0.38f, 1.93f, 0.7f,  1.1196f}, //79
- {(EntInd_HumanWoodsman+1),     BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.38f, 1.93f, 0.75f, 0.84f},   //80
+ {(EntInd_HumanBandit+1),       BORG7_Bandit1,      BORG8_PortraitBandit1,   0.38f, 1.93f, 0.7f,  0.993f},  //77
+ {(EntInd_HumanBandit2+1),      BORG7_Bandit1,      BORG8_PortraitBandit1,   0.38f, 1.93f, 0.7f,  1.0263f}, //78
+ {(EntInd_HumanBandit3+1),      BORG7_Bandit1,      BORG8_PortraitBandit1,   0.38f, 1.93f, 0.7f,  1.1196f}, //79
+ {(EntInd_HumanWoodsman+1),     BORG7_Bandit2,      BORG8_PortraitBandit2,   0.38f, 1.93f, 0.75f, 0.84f},   //80
  {(EntInd_JundarFemale+1),      BORG7_JundarFemale, BORG8_PortraitJundarF,   0.4f,  1.9f,  0.35f, 1.053f},  //81
  {(EntInd_JundarMale+1),        BORG7_JundarMale,   BORG8_PortraitJundarM,   0.4f,  2.0f,  0.4f,  1.05f},   //82
  {(EntInd_Jundarguard+1),       BORG7_JundarGuard,  BORG8_PortraitJundarGuard,0.4f,  2.1f,  0.45f, 1.048f},  //83
@@ -95,8 +95,8 @@ EntityExtra gEntityExtras[]={
  {(EntInd_LargeScorpion+1),     BORG7_Scorpion,     BORG8_PortraitScorpion,  0.49f, 0.33f, 0.3f,  2.424f},  //87
  {(EntInd_LavaHound+1),         BORG7_HellHound,    BORG8_PortraitHellHound, 0.35f, 1.1f,  0.9f,  1.4f},    //88
  {(EntInd_LizardMan+1),         BORG7_LizardMan,    BORG8_PortraitLizardMan, 0.47f, 2.2f,  0.9f,  1.0f},    //89
- {(EntInd_LizardManBoss+1),     BORG7_LizardManBoss,BORG8_PortraitLizardManBoss,0.4f,  2.74f, 1.0f,  1.0f},    //90
- {(EntInd_LizardManSgt+1),      BORG7_LizardManSgt, BORG8_PortraitLizardManSgt,0.26f, 2.34f, 0.9f,  1.0f},    //91
+ {(EntInd_LizardManBoss+1),     BORG7_LizardManBoss,BORG8_PortraitLizardBoss,0.4f,  2.74f, 1.0f,  1.0f},    //90
+ {(EntInd_LizardManSgt+1),      BORG7_LizardManSgt, BORG8_PortraitLizardSgt, 0.26f, 2.34f, 0.9f,  1.0f},    //91
  {(EntInd_Lloyd+1),             BORG7_Phelan,       BORG8_PortraitLloyd,     0.4f,  1.9f,  0.6f,  0.947f},  //92
  {(EntInd_Lugash+1),            BORG7_Lugash,       BORG8_PortraitCrossbone, 0.57f, 2.59f, 0.75f, 1.0f},    //93
  {(EntInd_Male1+1),             BORG7_NPCMale1,     BORG8_PortraitNPCMale1,  0.4f,  1.85f, 0.5f,  0.946f},  //94
@@ -106,14 +106,14 @@ EntityExtra gEntityExtras[]={
  {(EntInd_Marquis+1),           BORG7_Marquis,      BORG8_PortraitMarquis,   0.6f,  2.19f, 0.65f, 0.89f},   //98
  {(EntInd_Mehrdad+1),           BORG7_Lich,         BORG8_PortraitLich,      0.2f,  2.2f,  0.62f, 1.2528f}, //99
  {(EntInd_Minotuar+1),          BORG7_Minotuar,     BORG8_PortraitMinotuar,  0.25f, 1.9f,  0.75f, 1.079f},  //100
- {(EntInd_MinotuarLord+1),      BORG7_Minotuar,     BORG8_PortraitMinotuarLord,0.25f, 1.9f,  0.75f, 1.4027f}, //101
+ {(EntInd_MinotuarLord+1),      BORG7_Minotuar,     BORG8_PortraitMinoLord,  0.25f, 1.9f,  0.75f, 1.4027f}, //101
  {(EntInd_MirariFemale+1),      BORG7_MirariFemale, BORG8_PortraitMirariF,   0.4f,  1.18f, 0.4f,  1.0f},    //102
  {(EntInd_MirariMale+1),        BORG7_MirariMale,   BORG8_PortraitMirariM,   0.4f,  1.3f,  0.4f,  1.0f},    //103
  {(EntInd_Nasim+1),             BORG7_Lich,         BORG8_PortraitLich,      0.2f,  2.2f,  0.62f, 0.9504f}, //104
  {(EntInd_Niesen+1),            BORG7_Niesen,       BORG8_PortraitNiesen,    0.53f, 1.82f, 0.6f,  0.934f},  //105
- {(EntInd_NightBoss1+1),        BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.38f, 1.9f,  0.75f, 0.974f},  //106
- {(EntInd_NightBoss2+1),        BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.38f, 1.9f,  0.75f, 1.0714f}, //107
- {(EntInd_NightBoss3+1),        BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.38f, 1.9f,  0.75f, 1.1688f}, //108
+ {(EntInd_NightBoss1+1),        BORG7_Bandit2,      BORG8_PortraitBandit2,   0.38f, 1.9f,  0.75f, 0.974f},  //106
+ {(EntInd_NightBoss2+1),        BORG7_Bandit2,      BORG8_PortraitBandit2,   0.38f, 1.9f,  0.75f, 1.0714f}, //107
+ {(EntInd_NightBoss3+1),        BORG7_Bandit2,      BORG8_PortraitBandit2,   0.38f, 1.9f,  0.75f, 1.1688f}, //108
  {(EntInd_Ogre+1),              BORG7_Ogre,         BORG8_PortraitOgre,      0.5f,  2.62f, 1.4f,  1.0f},    //109
  {(EntInd_OrgeBoss+1),          BORG7_OrgeBoss,     BORG8_PortraitOgreBoss,  0.55f, 2.96f, 1.5f,  1.0f},    //110
  {(EntInd_OgreGuard+1),         BORG7_Ogre,         BORG8_PortraitOgre,      0.5f,  2.62f, 1.4f,  1.2f},    //111
@@ -164,7 +164,7 @@ EntityExtra gEntityExtras[]={
  {(EntInd_STPS05+1),            BORG7_NPCFemale2,   BORG8_PortraitNPCFemale2,0.4f,  1.7f,  0.5f,  1.0f},    //156
  {(EntInd_STPS06+1),            BORG7_NPCMale2,     BORG8_PortraitNPCMale2,  0.4f,  1.85f, 0.5f,  0.946f},  //157
  {(EntInd_STPS07+1),            BORG7_NPCFemale2,   BORG8_PortraitNPCFemale2,0.4f,  1.7f,  0.5f,  1.0f},    //158
- {(EntInd_STPS08+1),            BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.4f,  1.85f, 0.72f, 0.956f},  //159
+ {(EntInd_STPS08+1),            BORG7_Bandit2,      BORG8_PortraitBandit2,   0.4f,  1.85f, 0.72f, 0.956f},  //159
  {(EntInd_STPS09+1),            BORG7_NPCFemale2,   BORG8_PortraitNPCFemale2,0.4f,  1.7f,  0.5f,  1.0f},    //160
  {(EntInd_STPS10+1),            BORG7_NPCMale2,     BORG8_PortraitNPCMale2,  0.4f,  1.85f, 0.5f,  0.946f},  //161
  {(EntInd_STTA01+1),            BORG7_NPCFemale1,   BORG8_PortraitNPCFemale1,0.4f,  1.7f,  0.5f,  1.0f},    //162
@@ -216,8 +216,8 @@ EntityExtra gEntityExtras[]={
  {(EntInd_WaterElemental+1),    BORG7_WaterElem,    BORG8_PortraitWaterElem, 0.61f, 2.69f, 1.1f,  1.0f},    //208
  {(EntInd_Wight+1),             BORG7_Lich,         BORG8_PortraitLich,      0.2f,  2.2f,  0.62f, 0.864f},  //209
  {(EntInd_Wolf+1),              BORG7_Wolf,         BORG8_PortraitWolf,      0.41f, 0.9f,  0.65f, 1.0f},    //210
- {(EntInd_Woodsman2+1),         BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.38f, 1.93f, 0.72f, 0.933f},  //211
- {(EntInd_Woodsman3+1),         BORG7_Bandit2,      BORG8_PortraitBanditBoss,0.38f, 1.93f, 0.72f, 1.0263f}, //212
+ {(EntInd_Woodsman2+1),         BORG7_Bandit2,      BORG8_PortraitBandit2,   0.38f, 1.93f, 0.72f, 0.933f},  //211
+ {(EntInd_Woodsman3+1),         BORG7_Bandit2,      BORG8_PortraitBandit2,   0.38f, 1.93f, 0.72f, 1.0263f}, //212
  {(EntInd_Wraith+1),            BORG7_Wraith,       BORG8_PortraitWraith,    0.45f, 1.86f, 0.65f, 1.21f},   //213
  {(EntInd_Wyvern+1),            BORG7_Wyvern,       BORG8_PortraitWyvern,    0.4f,  2.4f,  1.8f,  0.8f},    //214
  {(EntInd_Xibid+1),             BORG7_MirariMale,   BORG8_PortraitXibid,     0.45f, 1.86f, 0.65f, 1.21f},   //215

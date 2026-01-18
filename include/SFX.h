@@ -24,7 +24,6 @@ struct SoundStructA {
 };
 
 
-
 //retail has 2 more sound obj entries.
 #ifdef DEBUGVER
 #define SoundObjCount 80
@@ -94,6 +93,7 @@ struct Audio_manager {
     s8 buffer_choice;
     u8 AudioListBool;
 };
+
 typedef enum VoiceFlag {
     VOICE_STOP=2,
     VOICE_FLAG4=4, //play? loop?
@@ -130,7 +130,6 @@ struct DCM_struct {
     u8 unk1e;
     u8 field13_0x1f;
 };
-
 
 struct DCMManager {
     ALPlayer ALplayer;
@@ -190,7 +189,6 @@ void ProcessAudioBubbles(SFX_Struct *,vec3f *,s16);
 #define DCMCMD_NewVoice 0x02
 #define DCMCMD_Stop 0x01
 
-
 namespace DCM{
 
     //dcm.cpp
@@ -222,6 +220,7 @@ namespace DCM{
     u32 GetVoiceID(u8 voice);
     u32 GetUnk0x38(u8 voice);
 };
+
 void AudioProcInit(void);
 void * _amDmaNew(void);
 u8 * dmaProc(u8 *param_1,s32 param_2,s32 param_3);

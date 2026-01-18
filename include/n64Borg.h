@@ -70,7 +70,7 @@ typedef enum VoxelFllags {
     VOXEL_JumperPak=0x20, //activate if no Expansion Pak
     VOXEL_EXPPak=0x40, //activate if Expansion Pak
     VOXEL_CheckFlagC=1<<7, //header.FlagC state ^ this bit
-    VOXEL_Flag100=0x1000,
+    VOXEL_Flag100=1<<8,
     VOXEL_Used=0x200,
     VOXEL_Flag400=0x400,
     VOXEL_Flag800=0x800,
