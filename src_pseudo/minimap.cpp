@@ -782,7 +782,7 @@ s32 MiniMap::ShowAll(){
 }
 
 //0=unset,1=set,2=toggle
-void MiniMap::Toggle(byte x){
+void MiniMap::Toggle(u8 x){
   BaseWidget *pBVar1;
   float fVar3;
   float fVar4;
