@@ -9,7 +9,7 @@ void adjust_soundstruct_vec3(SoundStructA *param_1){
   vec2f temp;
   
   Vec3Copy(&param_1->voxel->header.pos,&param_1->worldPos);
-  get_mapcellsize(param_1->zoneDatByte,&temp);
+  MapCellOffset(param_1->zoneDatByte,&temp);
   (param_1->worldPos).x += temp.x;
   (param_1->worldPos).z += temp.y;
 }

@@ -106,7 +106,7 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
   }
   ItemID x = C_Ent->charSheetP->ID;
   init_combatgui_struct(x,index,param_1->partyCount <= index);
-  //are they Alaton or Shadow?
+  //are they Alaron or Shadow?
   if (GETINDEX(x) == EntInd_Shadow) set_shadow_index(index);
   if (GETINDEX(x) == EntInd_Alaron) set_alaron_index(index);
   playerData *ppVar2 = Actor::AllocPlayer(gEntityDB->GetCollideRadius(x),C_Ent->GetCoordX(),1.0,C_Ent->GetCoordY(),gEntityDB->GetBorg7(x));
@@ -116,9 +116,9 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
   ppVar2->scale = fVar5;
   ppVar2->scaleRad = (ppVar2->collision).radius * fVar5;
   ppVar2->shadowAlpha = gEntityDB->BattleCheck(x);
-  ppVar2->isVisible = true;
+  ppVar2->combatAlly = true;
   if (param_1->partyCount <= index) {
-    ppVar2->isVisible = false;
+    ppVar2->combatAlly = false;
     ppVar2->flags |= ACTOR_200;
   }
   Actor::CheckCollision(ppVar2,0.0,0,0);

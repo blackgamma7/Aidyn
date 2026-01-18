@@ -236,9 +236,8 @@ LAB_8009a7f0:
                   if (cmd & DCMCMD_ChanIndex)
                     pDVar7->chanInd = GetByte(pBVar2->channelDat + pDVar10->byteIndex++);
                   if (cmd & DCMCMD_Unk4) {
-                    pDVar7->unk4 = GetByte(pBVar2->channelDat + pDVar10->byteIndex);
-                    pDVar10->byteIndex++;
-                    pDVar7->unk4 = pDVar7->unk4 << 8;
+                    pDVar7->unk4 = GetByte(pBVar2->channelDat + pDVar10->byteIndex++);
+                    pDVar7->unk4 <<= 8;
                   }
                   else pDVar7->unk4 = 0;
                   if (cmd & DCMCMD_Stop){

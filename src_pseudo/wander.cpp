@@ -35,7 +35,7 @@ Wanderer * findWandererFromPlayerName(s16 arg0){
 void Ofunc_800124b4(playerData **param_1,vec3f *param_2){
   vec2f temp;
   Vec3Copy(&((*param_1)->collision).pos,param_2);
-  get_mapcellsize((*param_1)->zoneDatByte,&temp);
+  MapCellOffset((*param_1)->zoneDatByte,&temp);
   param_2->x+= temp.x;
   param_2->z+= temp.y;
 }

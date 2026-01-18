@@ -197,14 +197,8 @@ void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,s16 delta){
   int iVar1;
   int iVar2;
   CollideSection *pbVar3;
-  s16 lVar4;
-  s16 lVar5;
-  double dVar13;
   vec3f fStack120;
-  s16 sStack_38;
-  s16 sStack_36;
-  s16 sStack_34;
-  s16 asStack_32;
+  s16 sStack_38,sStack_36,sStack_34,asStack_32;
   
   if (!coliide->envProps->Speed) {CRASH("ProcessCollisionSphere","No Environment Properties Found on Sphere");}
   else {
@@ -230,20 +224,14 @@ void ProcessCollisionSphere(Borg9Data *map,collisionSphere *coliide,s16 delta){
         }
         if (!(coliide->flags & CSPHERE_NoVoxels)) {
           FUN_800adc44(map,coliide,&sStack_38,&sStack_36,&sStack_34,&asStack_32);
-          lVar5 = sStack_38;
-          coliide->unk1e = 0;
-          if (lVar5 <= sStack_34) {
-            for(;lVar5 <= sStack_34;lVar5++) {
-              lVar4 = sStack_36;
-              if (lVar4 <= asStack_32) {
-                for(;lVar4 <= asStack_32;lVar4++) {
-                  CollideCollisionSphereWithVoxelPolys(coliide,getCollideSection(map,lVar5,lVar4),map->phys_pointer);
-                }
-              }
+          coliide->hits = 0;
+          for(s16 i = sStack_38;i <= sStack_34;i++) {
+            for(s16 j = sStack_36;j <= asStack_32;j++) {
+              CollideCollisionSphereWithVoxelPolys(coliide,getCollideSection(map,i,j),map->phys_pointer);
             }
           }
-          if (coliide->unk1e) {
-            dVar13 = delta * 0.006;
+          if (coliide->hits) {
+            double dVar13 = delta * 0.006;
             if ((Vec3Length(&coliide->vel) < dVar13) &&(Vec3Dist(&fStack120,&coliide->pos) < dVar13)) {
               (coliide->vel).x = 0.0;
               (coliide->vel).y = 0.0;

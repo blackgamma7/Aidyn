@@ -683,13 +683,13 @@ struct Borg9Header {
     Borg9Data dat;
 };
 
-#define Borg11_Set 0x10 //always set
-#define Borg11_8bit 0x4 //8-bit sound sample
-#define Borg11_16BE 0x8 //16-bit BE sound sample
+#define BORG11_Set 0x10 //always set
+#define BORG11_8bit 0x4 //8-bit sound sample
+#define BORG11_16BE 0x8 //16-bit BE sound sample
 
 //PCM mono 44.1KHz sound samples
 struct Borg11Data {
-    u32 flag; //uses Borg11_* #defines.
+    u32 flag; //uses BORG11_* #defines.
     u32 len;
     u32 samples;
     u8 *wav;

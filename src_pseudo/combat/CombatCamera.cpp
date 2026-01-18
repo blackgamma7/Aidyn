@@ -122,7 +122,7 @@ u32 FUN_80096e58(PlayerHandler *param_1,playerData *param_2,vec3f *pos) {
   float min=10000.0f;
   for(u16 i=0;i<param_1->max_player;i++){
     playerData* pDat=&param_1->playerDats[i];
-    if((pDat->state)&&(!pDat->isVisible)){
+    if((pDat->state)&&(!pDat->combatAlly)){
         float dist=Vec3Dist(&param_2->collision.pos,&pDat->collision.pos);
         if(dist<min){
             pos->x=pDat->collision.pos.x;
@@ -181,7 +181,7 @@ void processCombatCamera(PlayerHandler *param_1) {
   Camera::SetMode(cam,4);
   if (gCameraCombatStartFlag) {
     ppVar5 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
-    if (ppVar5->isVisible == 0) {
+    if (ppVar5->combatAlly == 0) {
       ppVar5 = gGlobals.playerDataArray[gCombatP->combatEnts->index];
     }
     if (FUN_80096e58(param_1,ppVar5,avStack_238)) FUN_80096f4c(param_1,ppVar5,avStack_238,cam,1);
@@ -192,7 +192,7 @@ void processCombatCamera(PlayerHandler *param_1) {
     if (param_1->cameraFocus != -1) {
       bVar3 = false;
       ppVar5 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
-      if ((ppVar5 != NULL) && (bVar3 = ppVar5->isVisible == 0, ppVar5->isVisible != 0)) {
+      if ((ppVar5 != NULL) && (bVar3 = ppVar5->combatAlly == 0, ppVar5->combatAlly != 0)) {
         if ((SHORT_800f1de4 == -1) ||
            (SHORT_800f1de4 != ppVar5->ID)) {
           SHORT_800f1de4 = (s16)ppVar5->ID;

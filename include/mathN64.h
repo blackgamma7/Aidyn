@@ -46,7 +46,7 @@ float Vec3Normalize(vec3f *X);
 float Vec4Normalize(vec4f *X);
 float NormalizeTri(vec3f *norm,vec3f *X,vec3f *y,vec3f *z);
 int some_trig_func_2(vec2f *A,vec2f *B,float C);
-void FUN_800ab23c(vec3f *A,vec3f *B,float C);
+void FUN_800ab23c(vec3f *A,vec3f *B,float rad);
 void Vec2Rot(vec2f *v,float a);
 void some_vec2Math(vec2f *v2,float x,float y);
 void Ofunc_800ab3cc(vec3f *X,float Y);

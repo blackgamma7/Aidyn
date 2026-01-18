@@ -1,5 +1,6 @@
 #include "globals.h"
 #include "vobjects.h"
+#include "combat/CombatStruct.h"
 
 u16 gCombatFreeCamera=0;
 
@@ -49,8 +50,8 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
       PHANDLE.camera->holdCamera = 3;
     }
                       // Flea Jump
-    if ((((_flea_flag != 0) && (p->alaron_flag)) &&
-        ((controller->input & A_BUTTON) != 0)) && ((p->collision).unk1e != 0)) {
+    if ((((_flea_flag) && (p->alaron_flag)) &&
+        ((controller->input & A_BUTTON) != 0)) && ((p->collision).hits)) {
       vec2f fleaVec = {(p->facing).x,(p->facing).y};
       Vec2Scale(&fleaVec,-0.06);
       (p->collision).vel.x += fleaVec.x;
@@ -68,8 +69,8 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
         N64PRINT("Reference Objects Toggled\n");
       }
       if ((gDebugFlag) && (controller->input & C_UP)) {
-        gGlobals.DebugStatDisplay = //cycle through displayed performance stats.
-             (char)(gGlobals.DebugStatDisplay + 1) + (char)((gGlobals.DebugStatDisplay + 1) / 6) * -6;
+         //cycle through displayed performance stats.
+        gGlobals.DebugStatDisplay=(gGlobals.DebugStatDisplay + 1)%6;
       }
     }
     #endif
@@ -134,7 +135,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
       }
     }
     else{
-      if (p->isVisible) {
+      if (p->combatAlly) {
         gGlobals.playerCharStruct.show_portaits = 0;
         MINIMAP.Toggle(0);
       }
@@ -144,7 +145,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
       }
       else p->ani_type = AniType_Sneak;
       camera_control_update_(fVar9,y,&(PHANDLE.camera)->rotationXZ,&p->facingMirror);
-      some_trig_func_2(&p->facing,&p->facingMirror,p->isVisible?(1.0f*dtor):(2.0f*dtor));
+      some_trig_func_2(&p->facing,&p->facingMirror,p->combatAlly?(1.0f*dtor):(2.0f*dtor));
       if (0.0 < (p->facing).x) {
         if ((p->facing).x < NORMALIZE_MIN) (p->facing).x = NORMALIZE_MIN;
       }

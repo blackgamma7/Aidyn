@@ -114,8 +114,7 @@ int some_trig_func_2(vec2f *A,vec2f *B,float C){
   float fVar4;
   float fVar5;
   float fVar6;
-  vec2f fStack192;
-  vec2f fStack128;
+  vec2f fStack192,fStack128;
   float fVar2 = __sinf(C);
   if (Vec2Dist(A,B) <= fVar2) {
     Vec2Copy(B,A);
@@ -146,7 +145,7 @@ int some_trig_func_2(vec2f *A,vec2f *B,float C){
   }
 }
 //please identify purpose of function.
-void FUN_800ab23c(vec3f *A,vec3f *B,float C){
+void FUN_800ab23c(vec3f *A,vec3f *B,float rad){
   vec2f V2D;
   vec2f v2A;
   vec2f v2C;
@@ -162,7 +161,7 @@ void FUN_800ab23c(vec3f *A,vec3f *B,float C){
   v2C.y = B->z;
   v2B.x = v2C.x;
   v2B.y = v2C.y;
-  some_trig_func_2(&V2D,&v2C,C);
+  some_trig_func_2(&V2D,&v2C,rad);
   A->x = V2D.x;
   A->z = V2D.y;}
 //rotate Vec2 A by B degrees

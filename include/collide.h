@@ -30,6 +30,7 @@ struct EnvProp {
 //flags confirmed set/read for collision sphere
 enum CollideSphereFlags{
     CSPHERE_0001=1, //inactive?
+    CSPHERE_0200=0x200,
     CSPHERE_NoTriggers=0x400, //intangible to triggers?
     CSPHERE_NoCallback=0x1000, //no collsion callback?
     CSPHERE_NoVoxels=0x4000, //intangible to voxels?
@@ -41,7 +42,7 @@ struct collisionSphere {
     vec3f pos;
     vec3f vel;
     u16 flags; //uses CollideSphereFlags
-    s16 unk1e;
+    s16 hits; //non-zero if contacting physics poly
     vec3f polyNormal;
     vec3f unk2c; /* another normal? set, but not read. */
     EnvProp *envProps;
@@ -63,7 +64,7 @@ void ProcessCollisionSphere(Borg9Data *,collisionSphere *,s16);
 bool FUN_800ae760(vec3f *,borg9_phys *);
 bool FUN_800aea44(vec3f *pos,vec3f *vel,float spd,borg9_phys *,float *,vec3f *);
 bool FUN_800aec1c(vec3f *,vec3f *,float ,borg9_phys *,float *,vec3f *);
-bool FUN_800aede8(collisionSphere *,float ,vec3f *,vec3f *,vec3f *,vec3f *);
+bool FUN_800aede8(collisionSphere *,float ,vec3f *,vec3f *,float *,vec3f *);
 bool FUN_800af050(collisionSphere *,float ,vec3f *,float ,float *length,vec3f *dist,vec3f *outVel);
 bool FUN_800af120(collisionSphere *,float ,vec3f *pos,float ,float *,vec3f *,vec3f *);
 

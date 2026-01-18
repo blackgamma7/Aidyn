@@ -291,7 +291,8 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
       }
     }
   }
-  if (((((param_2->GroundType & B9Ground_mf000) == B9Ground_VoxTrigger) && ((param_1->flags & CSPHERE_NoTriggers) == 0)) &&
+  if (((((param_2->GroundType & B9Ground_mf000) == B9Ground_VoxTrigger) && 
+      ((param_1->flags & CSPHERE_NoTriggers) == 0)) &&
       (gGlobals.playerCharStruct.unkState == 3)) &&
      ((some_toggle == -1 &&
       (ptVar6 = (gGlobals.gameVars.borg9DatPointer)->voxelObjs + (param_2->GroundType >> 5 & 0x7f),
@@ -711,7 +712,7 @@ void set_playerdata_zoneDatByte(u16 param_1,u16 param_2){
   if (0 < PHANDLE.max_player) {
     for(s16 i=0; i < PHANDLE.max_player; i++) {
       playerData *p = &PHANDLE.playerDats[i];
-      if ((p->state) && (!p->isVisible)) {
+      if ((p->state) && (!p->combatAlly)) {
         p->zoneDatByte = get_zoneDatByte(param_1,param_2,p->zoneDatByte);
       }
     }
@@ -1419,7 +1420,7 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   else Scene::SetNearFarPlanes(MAPCENTER.sceneDat0x4,1.0,180.0);
   FUN_800a0df4(MAPCENTER.sceneDat0x4);
   gOut = gsAnimationDataMtx(gOut,MAPCENTER.sceneDat0x4);
-  if (gPlayerRenderTimer) gOut = renderPlayers(&PHANDLE,gOut,delta,1,0);
+  if (gPlayerRenderTimer) gOut = renderPlayers(&PHANDLE,gOut,delta,true,false);
   if ((((gCamera.pos.x < 0.0) || (gCamera.pos.z < 0.0)) ||
       (gGlobals.gameVars.mapCellSize.x < gCamera.pos.x)) ||
      (gGlobals.gameVars.mapCellSize.y < gCamera.pos.z)) {
@@ -1550,14 +1551,14 @@ LAB_80010bfc:
   Gsprintf("Render Player Shadows\n");
   gOut = renderPlayerShadows(&PHANDLE,gOut);
   Gsprintf("Render Players (Water)\n");
-  if (gPlayerRenderTimer == 0) gOut = renderPlayers(&PHANDLE,gOut,delta,1,0);
+  if (gPlayerRenderTimer == 0) gOut = renderPlayers(&PHANDLE,gOut,delta,true,false);
   Gsprintf("RenderVoxelScenesInZone[1][1]\n");
   getZonePositionShorts(&(MAPCENTER.mapPointer)->dat,pos,(s16 *)uStack80,
                  (s16 *)(uStack80 + 1));
   gOut = RenderVoxelScenes(gOut,&(MAPCENTER.mapPointer)->dat,pos,uStack80[0]
                                ,uStack80[1],0.0,0.0);
   Gsprintf("Render Players(trans)\n");
-  gOut = renderPlayers(&PHANDLE,gOut,delta,1,1);
+  gOut = renderPlayers(&PHANDLE,gOut,delta,true,true);
   Gsprintf("Finished Render Zones\n");
   *GG = gOut;
 }
@@ -1980,7 +1981,7 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   else RenderZones(&G,&(player->collision).pos,delta);
   if (gGlobals.gameVars.gamemodeType != GameMode_Title) {
     DEBUGSprintf("RenderPlayers");
-    G = renderPlayers(&PHANDLE,G,delta,0,0);
+    G = renderPlayers(&PHANDLE,G,delta,false,false);
   }
   Gsprintf("RenderTransZones");
   renderTransZones_(&G);

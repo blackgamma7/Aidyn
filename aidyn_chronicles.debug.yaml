@@ -506,11 +506,11 @@ segments:
       #- [0x0E6DA0,.data,HealerMenu]
       #- [0x0E6DB0,.data,gamestatemod]
       #- [0x0E6DF0,.data,commonStrings]
-      #- [0x0E6E00,.data,ZoneEngine1]
+      #- [0x0E6E00,.data,Camp]
       #- [0x0E6E40,.data,crash]
       #- [0x0E72D0,.data,gfx]
       #- [0x0E74A0,.data,globals]
-      #- [0x0E99A0,.data,zoneEngine2]
+      #- [0x0E99A0,.data,ZoneEngine]
       #- [0x0E9A10,.data,wander]
       #- [0x0E9AC0,.data,player]
       #.data libultra

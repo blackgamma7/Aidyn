@@ -58,7 +58,7 @@ u32 DCM::AddVoice(u8 *oIndex,u32 *oID,Borg11Data *istDat,u32 param_4,u32 start,u
   if (uVar8) {
     gAudioManager.voicesAidyn[ind].loopCount = loops;
     gAudioManager.voicesAidyn[ind].instrumentData = istDat;
-    gAudioManager.voicesAidyn[ind].unk0x38 = param_4;
+    gAudioManager.voicesAidyn[ind].sampleCount = param_4;
     gAudioManager.voicesAidyn[ind].loopStart = start;
     gAudioManager.voicesAidyn[ind].loopEnd = end;
     gAudioManager.voicesAidyn[ind].vol = vol;
@@ -139,7 +139,7 @@ u32 DCM::StopVoice(u8 voice,u32 id){
 
 u8 DCM::IsVoiceActive(u8 voice){return gAudioManager.voicesAidyn[voice].isActive;}
 u32 DCM::GetVoiceID(u8 voice){return gAudioManager.voicesAidyn[voice].id;}
-u32 DCM::GetUnk0x38(u8 voice){return gAudioManager.voicesAidyn[voice].unk0x38;}
+u32 DCM::GetUnk0x38(u8 voice){return gAudioManager.voicesAidyn[voice].sampleCount;}
 
 void audioProc(void* p){
   Acmd *pAVar1;
@@ -273,16 +273,16 @@ ALMicroTime soundVoiceHandler(void* p){
     Voice_Aidyn *v = &gAudioManager.voicesAidyn[i];
     if ((v->isActive == 1) && !(v->flag & VOICE_FLAG4)) {
       PVoice_s* pPVar2 = (v->voice).pvoice;
-      uVar9 = *(u32 *)((pPVar2->decoder).state + 0xe);
-      v->unk0x38 = uVar9;
-      bVar8 = *(byte *)((int)(pPVar2->decoder).state + 0xb);
+      uVar9 = *(u32 *)(pPVar2->decoder.state + 0xe);
+      v->sampleCount = uVar9;
+      bVar8 = *(byte *)((uintptr_t)pPVar2->decoder.state + 0xb);
       v->loopCount = bVar8;
       if (bVar8 == 0) {
         if (uVar9 >= v->instrumentData->samples) {
           gAudioManager.indecies[--gAudioManager.VoicesUsed] = i;
           v->flag = VOICE_STOP;
           v->isActive = 0;
-          v->unk0x38 = v->instrumentData->samples;
+          v->sampleCount = v->instrumentData->samples;
         }
       }
     }
@@ -291,15 +291,15 @@ ALMicroTime soundVoiceHandler(void* p){
       v->flag &= ~VOICE_STOP;
     }
     if(v->flag & VOICE_FLAG4) {
-      *(u32 *)((((v->voice).pvoice)->decoder).state[0] + 0xe) = v->unk0x38; //?
-      if ((v->instrumentData->flag & Borg11_8bit)) (v->wavetable).type = 2;
-      else (v->wavetable).type = 1;
-      (v->wavetable).len = v->instrumentData->len;
-      (v->wavetable).waveInfo.adpcmWave.loop->start = v->loopStart;
-      (v->wavetable).waveInfo.adpcmWave.loop->end = v->loopEnd;
-      (v->wavetable).base = v->instrumentData->wav;
-      (v->wavetable).flags = 1;
-      (v->wavetable).waveInfo.adpcmWave.loop->count = v->loopCount;
+      *(u32 *)(v->voice.pvoice->decoder.state[0] + 0xe) = v->sampleCount; //?
+      if ((v->instrumentData->flag & BORG11_8bit)) v->wavetable.type = AL_RAW8_WAVE;
+      else v->wavetable.type = AL_RAW16_WAVE;
+      v->wavetable.len = v->instrumentData->len;
+      v->wavetable.waveInfo.adpcmWave.loop->start = v->loopStart;
+      v->wavetable.waveInfo.adpcmWave.loop->end = v->loopEnd;
+      v->wavetable.base = v->instrumentData->wav;
+      v->wavetable.flags = 1;
+      v->wavetable.waveInfo.adpcmWave.loop->count = v->loopCount;
       f32 fVar15 = (float)v->pitch / (float)gAudioManager.ALSYNTH.outputRate;
       fVar14 = 0.0;
       f32 fVar16 = fVar14;

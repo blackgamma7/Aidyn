@@ -50,7 +50,7 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
           this->col.R = 150;
           this->col.G = 150;
         }
-        else if (!pDat->isVisible) {
+        else if (!pDat->combatAlly) {
           this->col.R = 150;
           this->col.G = 0;
         }

@@ -1,6 +1,10 @@
 #include "n64Borg.h"
 #include "Camera.h"
 
+#ifndef AL_RAW8_WAVE
+#define AL_RAW8_WAVE 2 //not in libreultra, 8-bit PCM sample type
+#endif
+
 struct SoundStructB {
     u16 index;
     s16 timer;
@@ -46,7 +50,7 @@ struct Voice_Aidyn {
     ALWaveTable wavetable;
     Borg11Data *instrumentData;
     u32 id;
-    u32 unk0x38;
+    u32 sampleCount;
     u32 loopStart;
     u32 loopEnd;
     u16 pitch;

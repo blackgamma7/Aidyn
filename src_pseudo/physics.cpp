@@ -1,5 +1,5 @@
-#include "globals.h"
 #include "unkStructs.h"
+#include "crash.h"
 
 
 void set_checktrigger_pointer(collideCallback param_1){
@@ -61,7 +61,7 @@ bool FUN_800af578(collisionSphere *param_1,EnvProp *param_2,vec3f *param_3){
   fVar4 = fVar5 * (param_1->polyNormal).x + param_3->y * (param_1->polyNormal).y +
           param_3->z * (param_1->polyNormal).z;
   if (fVar4 <= 0.0) fVar4 = -fVar4;
-  if ((param_1->unk1e == 0) || (fVar4 < 0.9397)) {
+  if ((param_1->hits == 0) || (fVar4 < 0.9397)) {
     fVar4 = 1.0f - param_2->colA->unk0 * param_1->envProps->colA->unk0;
     if (fVar5 <= 0.0) fVar5 = -fVar5;
     (param_1->vel).x = (param_1->vel).x * (1.0f - fVar5 * fVar4);
@@ -178,7 +178,7 @@ s16 CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSectio
           }
           else {
             B = &pbVar11->normal;
-            fStack96 = fStack96 + fVar14;
+            fStack96+= fVar14;
             collision_velocity_func(vel,B);
             vec3A_plusBMulC(A,B,-fStack96);
             bVar7 = FUN_800af578(collider,pbVar11->envProperty,B);
@@ -197,10 +197,10 @@ s16 CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSectio
 LAB_800afe60:
           if (bVar3) {
 LAB_800afe6c:
-            if ((pbVar11->flags & 2)){
+            if ((pbVar11->flags & B9Phys_0002)){
               collider->envProps->Speed = pbVar11->envProperty->Speed;
             }
-            if ((pbVar11->flags & 0x1000)) {
+            if ((pbVar11->flags & B9Phys_1000)) {
               PerformCallback(8,collider,pbVar11);
             }
           }
@@ -211,7 +211,7 @@ LAB_800afe6c:
             fVar15 = -fVar15;
           }
           if ((double)fVar15 < 0.005) {
-            if (collider->unk1e) {
+            if (collider->hits) {
               sVar12 = 1;
             }
           }
@@ -251,7 +251,7 @@ LAB_800afe6c:
                 if (fVar14 <= 0.0) {
                   fVar14 = -fVar14;
                 }
-                if (((double)fVar14 < 0.005) && (collider->unk1e)) {
+                if (((double)fVar14 < 0.005) && (collider->hits)) {
                   sVar12 = 1;
                 }
               }
@@ -294,7 +294,7 @@ LAB_800afe6c:
                   }
                   fVar14 = fStack96 - fVar15;
                   if (fVar14 <= 0.0) fVar14 = -fVar14;
-                  if ((fVar14 < 0.005) && (collider->unk1e)) {
+                  if ((fVar14 < 0.005) && (collider->hits)) {
                     sVar12 = 1;
                   }
                 }
@@ -307,18 +307,18 @@ LAB_800afe6c:
       }
     }
   }
-  sVar5 = collider->unk1e;
+  sVar5 = collider->hits;
   if (sVar12) {
-    if ((collider->unk1e) && ((collider->envProps->colA->flag & 2))) {
+    if ((collider->hits) && ((collider->envProps->colA->flag & 2))) {
       PerformCallback(2,collider,NULL);
     }
     if (sVar12) goto LAB_800aff30;
   }
-  if ((collider->unk1e) && ((collider->envProps->colA->flag & 4))) {
+  if ((collider->hits) && ((collider->envProps->colA->flag & 4))) {
     PerformCallback(4,collider,NULL);
   }
 LAB_800aff30:
-  collider->unk1e+= sVar12;
+  collider->hits+= sVar12;
   return sVar12;
 }
 

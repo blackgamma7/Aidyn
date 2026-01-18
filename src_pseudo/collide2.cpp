@@ -1,5 +1,4 @@
-#include "globals.h"
-
+#include "collide.h"
 
 bool FUN_800ae760(vec3f *param_1,borg9_phys *param_2){
   vec3f *pvVar1;
@@ -148,7 +147,6 @@ bool FUN_800aea44(vec3f *pos,vec3f *vel,float spd,borg9_phys *param_4,float *par
   return uVar2;
 }
 
-
 bool FUN_800aec1c(vec3f *param_1,vec3f *param_2,float param_3,borg9_phys *param_4,float *param_5,vec3f *param_6){
   bool bVar1;
   float fVar2;
@@ -184,8 +182,7 @@ bool FUN_800aec1c(vec3f *param_1,vec3f *param_2,float param_3,borg9_phys *param_
   }
 }
 
-
-bool FUN_800aede8(collisionSphere *param_1,float param_2,vec3f *param_3,vec3f *param_4,vec3f *param_5,vec3f *param_6){
+bool FUN_800aede8(collisionSphere *param_1,float param_2,vec3f *param_3,vec3f *param_4,float *param_5,vec3f *param_6){
   bool bVar1;
   float fVar2;
   float fVar3;
@@ -225,7 +222,7 @@ bool FUN_800aede8(collisionSphere *param_1,float param_2,vec3f *param_3,vec3f *p
     fStack136.z = param_3->z + fVar3 * fStack200.z;
     Vec3Sub(param_6,&fStack136,&param_1->pos);
     fVar2 = Vec3Normalize(param_6);
-    param_5->x = fVar2;
+    *param_5 = fVar2;
     if (fVar2 < param_2) return true;
   }
   return false;

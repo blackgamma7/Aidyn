@@ -29,7 +29,7 @@ void set_collisionSphere(collisionSphere *dat,float r,float px,float py,float pz
   dat->radius = r;
   (dat->pos).x = px;
   (dat->pos).y = py;
-  dat->unk1e = 0;
+  dat->hits = 0;
   dat->flags = 0;
   (dat->pos).z = pz;
   (dat->vel).x = vx;

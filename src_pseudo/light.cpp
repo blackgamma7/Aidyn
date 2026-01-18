@@ -161,7 +161,7 @@ void light_init_func(playerData *param_1,SceneData *param_2,s16 param_3){
     vec3f* pos = &(param_1->collision).pos;
     getZonePositionShorts(b9C,pos,&x,&y);
     CollideSection *b9S = getCollideSection(b9C,x,y);
-    if ((param_1->isVisible) && (b9S->voxelSceneCount)) {
+    if (param_1->combatAlly) {
       for(s16 i=0;i<b9S->voxelSceneCount;i++){
         voxelObject* light = &b9C->voxelObjs[b9S->lightIndecies[i]];
         if ((light->header).type == VOXEL_Light) {

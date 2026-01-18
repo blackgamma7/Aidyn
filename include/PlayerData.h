@@ -141,7 +141,7 @@ struct playerData {
     PlaneObj shadowObj;
     u8 unused518[496];
     s16 deathTimer;
-    u8 isVisible;
+    u8 combatAlly;
     u8 alaron_flag; //set if Alaron's model
     u8 shadowAlpha; //used for alpha
     u8 zoneDatByte;
@@ -251,7 +251,7 @@ namespace Actor{
 
 //TODO: Rename some of the following to use Actor namespace
 
-void get_mapcellsize(u8 ,vec2f *);
+void MapCellOffset(u8 ,vec2f *);
 void InitPlayerHandler(Camera_struct *,s16,s32);
 void FreePlayerHandler(void);
 u8 PlayerShadowAlpha(PlayerHandler *,playerData *,float,u8);
@@ -263,7 +263,7 @@ void FUN_80017330(playerData *,float,float,float,float);
 void FUN_80017388(playerData *,float);
 void some_player_render_sub(playerData *,SceneData *,vec3f*,u8,u16);
 void set_sun_light(SceneData *,u16,voxelObject*,u8);
-Gfx * renderPlayers(PlayerHandler *,Gfx *,s16,s16,s16);
+Gfx * renderPlayers(PlayerHandler *handler,Gfx *g,s16 delta,s16 water,s16 trans);
 void edit_playerdat_combat_pos(playerData *,vec3f *);
 void FUN_800187f4(attachmentNode *);
 void AttachItemToPlayer(playerData *,u16,u32);
