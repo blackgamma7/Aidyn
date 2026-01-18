@@ -56,12 +56,12 @@ segments:
       - [0x4DC0, asm,"HealerMenu"]
       - [0x5DC0, asm,"gamestatemod"] # Omitted from retail
       - [0x6960, asm]
-      - [0x6F70, asm,"ZoneEngine1"]
+      - [0x6F70, asm,"Camp"]
       - [0x7250, asm,"crash"]
       - [0x8D20, asm,"memcheck"]
       - [0x8e00, asm,"gfx"]
       - [0xBF40, asm,"globals"]
-      - [0xD5E0, asm,"zoneEngine2"]
+      - [0xD5E0, asm,"ZoneEngine"]
       - [0x12F60, asm,"wander"]
       - [0x15EB0, asm,"player"]
       - [0x1A850, asm,"PlayerCamera"]
@@ -427,7 +427,7 @@ segments:
       #- [0x0D8450,.rodata,crash]
       #- [0x0D8870,.rodata,gfx]
       #- [0x0D8B30,.rodata,globals] #gametrekdebug, too?
-      #- [0x0D8EA0,.rodata,zoneEngine2]
+      #- [0x0D8EA0,.rodata,zoneEngine]
       #- [0x0D9920,.rodata,wander]
       #- [0x0D9AC0,.rodata,player]
       #- [0x0DA100,.rodata,PlayerCamera]

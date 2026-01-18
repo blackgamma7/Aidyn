@@ -100,8 +100,8 @@ class MiniMap {
     bool GwernTower(u16);
     bool MageschoolStairs(u16);
     bool EhudO05(u16);
-    bool m80053960(u16);
-    bool m800539fc(u16);
+    bool RoogEntrance(u16);
+    bool BarrowsFlags(u16);
 };
 
 void Minimap_Save(u8*);

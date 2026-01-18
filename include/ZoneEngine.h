@@ -52,7 +52,7 @@ vec3f vec3_800f5210;
 voxelObject loadgame_tp_obj;
 
 
-//seperate script? seem to just be checking for Campifire scenes (apart from the redundant widget func.)
+//Camp.cpp
 
 void checking_camping_safety();
 void dialoug_ref_obj_func();
@@ -61,7 +61,7 @@ u8 isCampfireScene(u32 b13ID);
 u8 some_dialoug_short_lookup(u16 flag);
 void campfire_func();
 
-//ZoneEngine2.cpp (may be REAL ZoneEngine.cpp)
+//ZoneEngine.cpp 
 
 u8 FUN_8000c9e0();
 mapFloatDat* FUN_8000cae8(vec3f *position,s16 mapshortA,s16 mapShortB,s16 param_4,s16 param_5);

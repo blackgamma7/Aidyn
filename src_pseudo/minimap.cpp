@@ -857,7 +857,7 @@ bool MiniMap::ShowingSpecialSection(u16 index){
     this->field18_0x44 = 0;
   }
   else if (this->mapdat == MinimapSec_dat_ARRAY_800ee508) {
-    if (MapShorts32 == 0xb0003) return m80053960(index);
+    if (MapShorts32 == 0xb0003) return RoogEntrance(index);
     this->field18_0x44 = 0;
   }
   else if (this->mapdat == minimap_sec_mageschool) {
@@ -866,13 +866,12 @@ bool MiniMap::ShowingSpecialSection(u16 index){
   }
   else {
     if (this->mapdat == minimap_sec_Barrows) {
-      return m800539fc(index);
+      return BarrowsFlags(index);
     }
     this->field18_0x44 = 0;
   }
   return true;
 }
-
 
 bool MiniMap::EhudI09(u16 param_2){
   bool bVar1;
@@ -1030,13 +1029,13 @@ bool MiniMap::EhudO05(u16 param_2){
         return true;
       }
       pmVar1 = pmVar3 + 1;
-      pmVar3 = pmVar3 + 1;
+      pmVar3++;
     } while (pmVar1->borg8 != 0);
   }
   return false;
 }
 
-bool MiniMap::m80053960(u16 param_2){
+bool MiniMap::RoogEntrance(u16 param_2){
   minimap_dat_2 *pmVar1;
   minimap_dat_2 *pmVar3;
   
@@ -1057,10 +1056,8 @@ bool MiniMap::m80053960(u16 param_2){
   return false;
 }
 
-
-bool MiniMap::m800539fc(u16 param_2){
+bool MiniMap::BarrowsFlags(u16 param_2){
   u16 uVar1;
-  bool bVar2;
   s16 sVar3;
   s16 sVar4;
   
@@ -1112,8 +1109,7 @@ bool MiniMap::m800539fc(u16 param_2){
     if (uVar1 == 7) {
       uVar1 = this->mapshorts[1];
       if (uVar1 == 1) {
-        bVar2 = getEventFlag(0x10be);
-        if (bVar2) {
+        if (getEventFlag(0x10be)) {
           return this->mapdat[param_2].borg8 == 0xcc;
         }
       }
@@ -1128,8 +1124,7 @@ bool MiniMap::m800539fc(u16 param_2){
         }
         goto LAB_80053d50;
       }
-      bVar2 = getEventFlag(0x10bf);
-      if (bVar2) {
+      if (getEventFlag(0x10bf)) {
         return this->mapdat[param_2].borg8 == 0xcd;
       }
     }
@@ -1138,7 +1133,7 @@ bool MiniMap::m800539fc(u16 param_2){
     }
   }
 LAB_80053d50:
-  bVar2 = false;
+  bool bVar2 = false;
   if ((this->mapdat[param_2].mapshort1 == this->mapshorts[0]) &&
      (bVar2 = true,
      this->mapdat[param_2].mapshort2 != this->mapshorts[1])) {
