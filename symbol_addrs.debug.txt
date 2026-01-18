@@ -4025,7 +4025,6 @@ FreeZoneEngineTimestamp = 0x800e8da4; // type:u32 size:0x4 rom:0xe99a4
 mapEventFlags = 0x800ddbcc; //  size:0x7a4 rom:0xde7cc
 minimaps_Gwernia = 0x800edc40; //  size:0x2ca rom:0xee840
 mapDataList_GwerniaCastle = 0x800ea6a0; //  size:0x204 rom:0xeb2a0
-minimap_dats_2 = 0x800ee728; //  size:0xe0 rom:0xef328
 combatAI_commands = 0x800ef6f4; //  size:0x58 rom:0xf02f4
 gspF3DEX2_fifoDataStart = 0x800e5c90; //  size:0x420 rom:0xe6890
 WidgetText::vTable = 0x800e4340; //  size:0xd0 rom:0xe4f40

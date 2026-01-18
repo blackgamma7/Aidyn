@@ -55,7 +55,7 @@ struct SaveDatPointers {
     u8 *EventFlags;
     u8 *gamestate;
     void *screenshot;
-    u32 *minimap;
+    u8 *minimap;
     u8 *voxelChart;
 };
 

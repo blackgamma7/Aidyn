@@ -2,11 +2,6 @@
 #include "widgets/WidgetBorg8.h"
 
 
-struct minimap_dat_2 {
-    u16 unk0x0;
-    u16 flag;
-    u32 borg8;
-};
 
 struct MinimapSec_dat {
     u16 mapshort1;

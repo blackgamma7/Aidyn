@@ -163,7 +163,7 @@ void SetPointers(SaveDatStruct *s,SaveDatPointers *p){
   p->mapdata = &s->mapDat;
   p->EventFlags = s->flags;
   p->screenshot = s->screenshot;
-  p->minimap = (u32 *)s->minimap;
+  p->minimap = s->minimap;
   p->gamestate = s->gameState;
   p->datStart = s;
   p->savePartyHead = &s->headerDat;
@@ -173,7 +173,7 @@ void SetPointers(SaveDatStruct *s,SaveDatPointers *p){
 void SetPointers(MemoryMakerStruct *mm,SaveDatPointers *p){
   p->mapdata = &mm->mapData;
   p->EventFlags = mm->flags;
-  p->minimap = (u32 *)mm->minimapDat;
+  p->minimap = mm->minimapDat;
   p->gamestate = mm->gameState;
   p->datStart = (SaveDatStruct *)mm;
   p->savePartyHead = &mm->header;
@@ -186,7 +186,7 @@ void LoadFile(SaveDatPointers *param_1,u8 param_2){
   LoadGameState(gameStates,param_1->EventFlags);
   setEventFlag(FLAG_NewJournalEntry,false);
   Teleport(param_1->mapdata,param_2);
-  Minimap_Load((u8*)param_1->minimap);
+  Minimap_Load(param_1->minimap);
   Load(param_1->gamestate);
   LoadVoxelChart(param_1->voxelChart);
   TerrainPointer->PlayTime = param_1->savePartyHead->time;

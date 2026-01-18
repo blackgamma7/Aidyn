@@ -8,7 +8,24 @@ MinimapSec_dat* minimap_sec_pointers[]={
     minimap_sec_mageschool,MinimapSec_dat_ARRAY_800ee508,MinimapSec_dat_ARRAY_800ee55c,
     minimap_sec_Barrows,NULL
 };
-extern minimap_dat_2 minimap_dats_2[]; //TODO: Fill in
+
+struct minimap_dat_2 {
+    u32 flag,borg8;
+};
+
+minimap_dat_2 minimap_dats_2_Ehud[]={
+  {0x107e,0x0068},{0x107f,0x0069},{0x1080,0x006a},{0x1081,0x006b},{0x1082,0x006c},
+  {0x1083,0x006d},{0x1084,0x006e},{0x1085,0x006f},{0x1086,0x0070},{0x1087,0x0071},
+  {0x1088,0x0072},{0}
+};
+minimap_dat_2 minimap_dats_2_Roog[]={
+  {0x1089,0x001e},{0x108a,0x0020},{0x108b,0x0021},{0x108c,0x001f},{0x108d,0x0022},
+  {0}
+};
+minimap_dat_2 minimap_dats_2_Barrows[]={
+  {0x10c4,0x00c2},{0x10c5,0x00c4},{0x10c6,0x00c5},{0x10c3,0x00c9},{0x10be,0x00cc},
+  {0x10bf,0x00cd},{0x10c0,0x00d0},{0x10c1,0x00d4},{0x10c2,0x00d3},{0}
+};
 
 //an unused array of strings. Likely important Zone coords
 char gMinimapUnkCoords[][2]={
@@ -230,8 +247,9 @@ LAB_80051c80:
       if (MapShorts32 != 0xb0003) {
         return false;
       }
-      pmVar7 = minimap_dats_2 + 0xc;
-      if (minimap_dats_2[0xc].borg8 == 0) return false;
+      
+      pmVar7 = minimap_dats_2_Roog;
+      if (minimap_dats_2_Roog[0].borg8 == 0) return false;
       while (!getEventFlag(pmVar7->flag)) {
         pmVar4 = pmVar7 + 1;
         pmVar7 = pmVar7 + 1;
@@ -239,17 +257,16 @@ LAB_80051c80:
       }
       uVar5 = this->field18_0x44;
 LAB_80051cd8:
-      uVar3 = *(u32*)pmVar7->unk0x0;
-      if (uVar5 != uVar3) {
-        this->field18_0x44 = uVar3;
+      if (uVar5 != pmVar7->flag) {
+        this->field18_0x44 = pmVar7->flag;
         return true;
       }
       return false;
     }
     iVar2 = MapShorts32;
     if (iVar2 == 0xf0005) {
-      pmVar7 = minimap_dats_2;
-      if (minimap_dats_2[0].borg8 == 0) {
+      pmVar7 = minimap_dats_2_Ehud;
+      if (minimap_dats_2_Ehud[0].borg8 == 0) {
         return false;
       }
       while (!getEventFlag(pmVar7->flag)) {
@@ -279,23 +296,16 @@ LAB_80051e2c:
 }
 
 bool MiniMap::CaseBarrows(float param_2){
-  minimap_dat_2 *pmVar2;
   bool bVar3;
-  minimap_dat_2 *pmVar4;
   
-  pmVar4 = minimap_dats_2 + 0x12;
-  if (minimap_dats_2[0x12].borg8 != 0) {
-    do {
-      if (getEventFlag(pmVar4->flag)) {
-        if (this->field18_0x44 == (u32)pmVar4->unk0x0) {
+    for(minimap_dat_2* m=minimap_dats_2_Barrows;m->borg8!=0;m++){
+    if (getEventFlag(m->flag)) {
+        if (this->field18_0x44 != m->flag) {
           return false;
         }
-        this->field18_0x44 = (u32)pmVar4->unk0x0;
+        this->field18_0x44 = m->flag;
         return true;
       }
-      pmVar2 = pmVar4 + 1;
-      pmVar4 = pmVar4 + 1;
-    } while (pmVar2->borg8 != 0);
   }
   bVar3 = true;
   if (this->field18_0x44 == 0) {
@@ -737,7 +747,7 @@ void MiniMap::ToggleShowAll(){
 }
 
 s32 MiniMap::ShowAll(){
-  BaseWidget *pBVar1;
+  WidgetBorg8 *pBVar1;
   BaseWidget *pBVar2;
   bool bVar4;
   s32 uVar3;
@@ -942,16 +952,14 @@ bool MiniMap::GwernCourt(u16 index){
   if (this->savedPlayerPos.y < 4.0f) {
     if (26.0f < this->savedPlayerPos.z) {
       pMVar4 = this->mapdat + index;
-      sVar1 = *(s16 *)&pMVar4->borg8;
       sVar2 = 0x2a;
     }
     else {
-      pMVar4 = (MinimapSec_dat *)(((u32)index * 8 - index) * 2 + (int)this->mapdat);
-      sVar1 = *(s16 *)&pMVar4->borg8;
+      pMVar4 = this->mapdat + index;
       sVar2 = 0x2b;
     }
     bVar3 = false;
-    if ((sVar1 == sVar2) && (bVar3 = false, pMVar4->flagIndex == 8)) {
+    if ((pMVar4->borg8 == sVar2) && (bVar3 = false, pMVar4->flagIndex == 8)) {
       return true;
     }
   }
@@ -1015,43 +1023,27 @@ bool MiniMap::MageschoolStairs(u16 param_2){
 
 
 bool MiniMap::EhudO05(u16 param_2){
-  minimap_dat_2 *pmVar1;
-  minimap_dat_2 *pmVar3;
-  
-  if (minimap_dats_2[0].borg8 != 0) {
-    pmVar3 = minimap_dats_2;
-    do {
-      if (getEventFlag(pmVar3->flag)) {
-        if (this->mapdat[param_2].borg8 != pmVar3->borg8) {
+  for(minimap_dat_2* m=minimap_dats_2_Ehud;m->borg8!=0;m++){
+    if (getEventFlag(m->flag)) {
+        if (this->mapdat[param_2].borg8 != m->borg8) {
           return false;
         }
-        this->field18_0x44 = *(u32 *)pmVar3;
+        this->field18_0x44 = m->flag;
         return true;
       }
-      pmVar1 = pmVar3 + 1;
-      pmVar3++;
-    } while (pmVar1->borg8 != 0);
   }
   return false;
 }
 
 bool MiniMap::RoogEntrance(u16 param_2){
-  minimap_dat_2 *pmVar1;
-  minimap_dat_2 *pmVar3;
-  
-  if (minimap_dats_2[0xc].borg8 != 0) {
-    pmVar3 = minimap_dats_2 + 0xc;
-    do {
-      if (getEventFlag(pmVar3->flag)) {
-        if (this->mapdat[param_2].borg8 != pmVar3->borg8) {
+  for(minimap_dat_2* m=minimap_dats_2_Roog;m->borg8!=0;m++){
+    if (getEventFlag(m->flag)) {
+        if (this->mapdat[param_2].borg8 != m->borg8) {
           return false;
         }
-        this->field18_0x44 = *(u32 *)pmVar3;
+        this->field18_0x44 = m->flag;
         return true;
       }
-      pmVar1 = pmVar3 + 1;
-      pmVar3 = pmVar3 + 1;
-    } while (pmVar1->borg8 != 0);
   }
   return false;
 }
