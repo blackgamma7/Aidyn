@@ -196,7 +196,7 @@ enum CombatStates{
   CombatState_10,
   CombatState_11,
   CombatState_12,
-  CombatState_13,
+  CombatState_13, // Start Game Over sequence or wake up in Oriana's hut if Goblin Ambush.
   CombatState_14,
   CombatState_15,
   CombatState_16,
@@ -214,7 +214,7 @@ enum CombatStates{
   CombatState_28,
   CombatState_29,
   CombatState_30,
-  CombatState_31,
+  CombatState_31, //Combat initalized
 };
 
 extern void(*freeWidgetFunc)(BaseWidget*);

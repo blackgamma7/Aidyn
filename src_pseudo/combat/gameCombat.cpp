@@ -28,12 +28,13 @@ SceneData* SceneDataP=NULL;
 u32 gCombatHideMarkers=false;
 u16 gCombatEndWaitTimer=0;
 u8 (*combat_byte_funcs[])(Gfx**,u16)=
-    {combat_byte_func_0,FUN_80028ff0,FUN_80027f1c,FUN_800282cc,FUN_800286d8,FUN_80028778,
-    FUN_80028940,FUN_80028aec,FUN_80028b88,FUN_80028ff0,FUN_80028ff0,FUN_80028ff0,combat_byte_func_12,
-    Goblin_ambush_check,combat_byte_func_14,FUN_80028ff0,combat_byte_func_16,pass_to_alaron_boost,
-    FUN_80028ebc,combat_byte_func_19,combat_byte_func_20,combat_byte_func_21,FUN_80028f78,FUN_80028fd4,
-    FUN_80029028,FUN_80028ff0,FUN_80029088,combat_byte_func_27,FUN_80029128,FUN_80029168,combat_byte_func_30,
-    combat_byte_func_31};
+    {CombatStateFunc_0,CombatStateFunc_1,CombatStateFunc_2,CombatStateFunc_3,CombatStateFunc_4,
+     CombatStateFunc_5,CombatStateFunc_6,CombatStateFunc_7,CombatStateFunc_8,CombatStateFunc_1,
+     CombatStateFunc_1,CombatStateFunc_1,CombatStateFunc_12,CombatStateFunc_13,CombatStateFunc_14,
+     CombatStateFunc_1,CombatStateFunc_16,CombatStateFunc_17,CombatStateFunc_18,CombatStateFunc_19,
+     CombatStateFunc_20,CombatStateFunc_21,CombatStateFunc_22,CombatStateFunc_23,CombatStateFunc_24,
+     CombatStateFunc_1,CombatStateFunc_26,CombatStateFunc_27,CombatStateFunc_28,CombatStateFunc_29,
+     CombatStateFunc_30,CombatStateFunc_31};
 u16 DAT_800e9c14=0;
 vec3f combatVec3A,combatVec3B,vec3f_800f53f0,vec3f_800f5400;
 
@@ -127,7 +128,7 @@ Gfx * Combat_Render(Gfx *gfx,s16 delta){
   return g;
 }
 
-u8 combat_byte_func_0(Gfx **GG,u16 delta){
+u8 CombatStateFunc_0(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
   return 0;
 }
@@ -152,7 +153,7 @@ bool FUN_80027eb0(Gfx **GG,u16 param_2){
   return false;
 }
 
-u8 FUN_80027f1c(Gfx **GG,u16 delta){
+u8 CombatStateFunc_2(Gfx **GG,u16 delta){
   byte bVar1;
   CombatEntity *pCVar2;
   CombatEntity *pCVar3;
@@ -225,7 +226,7 @@ void FUN_80028180(void){
 }
 
 
-u8 FUN_800282cc(Gfx **GG,u16 delta){
+u8 CombatStateFunc_3(Gfx **GG,u16 delta){
   gCombatP->AniTimer +=delta;
   if (SceneDataP == NULL) {
     if (30 <= gCombatP->AniTimer) FUN_80028180();
@@ -317,7 +318,7 @@ LAB_8002864c:
   }
 }
 
-u8 FUN_800286d8(Gfx** GG,u16 delta){
+u8 CombatStateFunc_4(Gfx** GG,u16 delta){
   gCombatP->AniTimer+=delta;
   FUN_800284d4();
   if ((byte)(gCombatP->substruct2[0].arrayBCount + gCombatP->substruct2[1].arrayBCount) == 0) {
@@ -328,7 +329,7 @@ LAB_8002874c:
   return 2;
 }
 
-u8 FUN_80028778(Gfx **GG,u16 delta){
+u8 CombatStateFunc_5(Gfx **GG,u16 delta){
   CombatEntity *pCVar2 = gCombatP->current_Ent;
   playerData *ppVar3 = gGlobals.playerDataArray[pCVar2->index];
   Vec3Copy(&(ppVar3->collision).pos,&combatVec3B);
@@ -353,7 +354,7 @@ u8 FUN_80028778(Gfx **GG,u16 delta){
 }
 
 
-u8 FUN_80028940(Gfx **GG,u16 delta){
+u8 CombatStateFunc_6(Gfx **GG,u16 delta){
   CombatEntity *user;
   CombatEntity *target;
   u32 uVar1;
@@ -387,7 +388,7 @@ u8 FUN_80028940(Gfx **GG,u16 delta){
   return 2;
 }
 
-u8 FUN_80028aec(Gfx **GG,u16 delta){
+u8 CombatStateFunc_7(Gfx **GG,u16 delta){
   if ((gGlobals.playerDataArray[gCombatP->current_Ent->index]->flags & ACTOR_CANROTATE) == 0) {
     gCombatP->current_Ent->SetPlayerRotate();
     gCombatP->current_Ent->m80068dd8();
@@ -397,13 +398,13 @@ u8 FUN_80028aec(Gfx **GG,u16 delta){
   return 2;
 }
 
-u8 FUN_80028b88(Gfx **GG,u16 delta){
+u8 CombatStateFunc_8(Gfx **GG,u16 delta){
   FUN_80064494(gCombatP->current_Ent->aiP);
   *GG = Combat_Render(*GG,delta);
   return 2;
 }
 
-u8 combat_byte_func_12(Gfx **GG,u16 delta){
+u8 CombatStateFunc_12(Gfx **GG,u16 delta){
   if (gGlobals.screenFadeMode == 0) {
     clear_combatstruct_flag = 1;
     if (gGlobals.EncounterDat.field3_0x1c) {
@@ -432,7 +433,8 @@ u8 combat_byte_func_12(Gfx **GG,u16 delta){
   }
 }
 
-u8 Goblin_ambush_check(Gfx **GG,u16 delta){
+// Start Game Over sequence or wake up in Oriana's hut if Goblin Ambush.
+u8 CombatStateFunc_13(Gfx **GG,u16 delta){
   u8 ret;
   if (gGlobals.screenFadeMode == 0) {
     if (gGlobals.goblinAmbush){
@@ -458,11 +460,11 @@ u8 Goblin_ambush_check(Gfx **GG,u16 delta){
       ret = 2;
     }
   }
-  else return FUN_80028ff0(GG,delta);
+  else return CombatStateFunc_1(GG,delta);
   return ret;
 }
 
-u8 combat_byte_func_14(Gfx **GG,u16 delta){
+u8 CombatStateFunc_14(Gfx **GG,u16 delta){
   if (DAT_800e9b6c < 2) return 2;
   else {
     FreeZoneEngineMemory();
@@ -474,60 +476,61 @@ u8 combat_byte_func_14(Gfx **GG,u16 delta){
   }
 }
 
-u8 combat_byte_func_16(Gfx **GG,u16 delta){
+u8 CombatStateFunc_16(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
   return 1;
 }
 
-u8 pass_to_alaron_boost(Gfx **GG,u16 delta){
+u8 CombatStateFunc_17(Gfx **GG,u16 delta){
   ShadowMergeBoost(gGlobals.ShadowIndex);
   clear_combatstruct_flag = 1;
   return 0xe;
 }
 
-u8 FUN_80028ebc(Gfx **GG,u16 delta){
+u8 CombatStateFunc_18(Gfx **GG,u16 delta){
   *GG = Combat_Render(*GG,delta);
   return 2;
 }
 
-u8 combat_byte_func_19(Gfx **GG,u16 delta){ 
+u8 CombatStateFunc_19(Gfx **GG,u16 delta){ 
   gCombatP->current_Ent->EndTurn();
   *GG = Combat_Render(*GG,delta);
   return 2;
 }
 
-u8 combat_byte_func_20(Gfx **GG,u16 delta){
+u8 CombatStateFunc_20(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
   gGlobals.gameVars.unk120e = 1;
   return 1;
 }
 
-u8 combat_byte_func_21(Gfx **GG,u16 delta){
+u8 CombatStateFunc_21(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
   return 0xc;
 }
 
-u8 FUN_80028f78(Gfx **GG,u16 delta){
+u8 CombatStateFunc_22(Gfx **GG,u16 delta){
   *GG = Combat_Render(*GG,delta);
   *GG = Combat_RenderCVertMenu(*GG,delta);
   FUN_80091528(delta);
   return 2;
 }
 
-u8 FUN_80028fd4(Gfx **GG,u16 delta){return FUN_80028f78(GG,delta);}
+u8 CombatStateFunc_23(Gfx **GG,u16 delta){return CombatStateFunc_22(GG,delta);}
 
-u8 FUN_80028ff0(Gfx **GG,u16 delta){
+//also used in states 9,10,11,15,25
+u8 CombatStateFunc_1(Gfx **GG,u16 delta){
   *GG = Combat_Render(*GG,delta);
   return 2;
 }
 
-byte FUN_80029028(Gfx **param_1,u16 delta){
+byte CombatStateFunc_24(Gfx **param_1,u16 delta){
   gCombatEndWaitTimer-=delta;
   if ((s16)gCombatEndWaitTimer < 1) gCombatP->current_Ent->EndTurn();
-  return FUN_80028ff0(param_1,delta);
+  return CombatStateFunc_1(param_1,delta);
 }
 
-u8 FUN_80029088(Gfx **GG,u16 delta){return FUN_80029028(GG,delta);}
+u8 CombatStateFunc_26(Gfx **GG,u16 delta){return CombatStateFunc_24(GG,delta);}
 
 void FUN_800290a4(){
   u8 b = gGlobals.combatBytes[0];
@@ -535,7 +538,7 @@ void FUN_800290a4(){
   gGlobals.combatByteMirror = b;
 }
 
-u8 combat_byte_func_27(Gfx **GG,u16 delta){
+u8 CombatStateFunc_27(Gfx **GG,u16 delta){
   u8 uVar1;
   
   if (DAT_800e9b6c < 2) uVar1 = 2;
@@ -549,9 +552,9 @@ u8 combat_byte_func_27(Gfx **GG,u16 delta){
   return uVar1;
 }
 
-u8 FUN_80029128(Gfx **GG,u16 delta){
+u8 CombatStateFunc_28(Gfx **GG,u16 delta){
   u8 bVar1;
-  if (DAT_800e9b6c < 120) bVar1 = FUN_80028ff0(GG,delta);
+  if (DAT_800e9b6c < 120) bVar1 = CombatStateFunc_1(GG,delta);
   else {
     combat_byte_0xd();
     bVar1 = 2;
@@ -559,8 +562,8 @@ u8 FUN_80029128(Gfx **GG,u16 delta){
   return bVar1;
 }
 
-u8 FUN_80029168(Gfx **GG,u16 delta){
-  u8 bVar2 = FUN_80028ff0(GG,delta);
+u8 CombatStateFunc_29(Gfx **GG,u16 delta){
+  u8 bVar2 = CombatStateFunc_1(GG,delta);
   if (60 <= ++gCombatP->TurnCount) {
     gCombatP->TurnCount = 0;
     gGlobals.screenFadeMode = 1;
@@ -570,7 +573,7 @@ u8 FUN_80029168(Gfx **GG,u16 delta){
 }
 
 
-u8 combat_byte_func_30(Gfx **GG,u16 delta){
+u8 CombatStateFunc_30(Gfx **GG,u16 delta){
   u8 bVar1;
   
   if (gGlobals.screenFadeMode == 0) {
@@ -578,12 +581,12 @@ u8 combat_byte_func_30(Gfx **GG,u16 delta){
     clear_combatstruct_flag = 1;
     gGlobals.screenFadeMode = 2;
   }
-  else bVar1 = FUN_80028ff0(GG,delta);
+  else bVar1 = CombatStateFunc_1(GG,delta);
   return bVar1;
 }
 
-u8 combat_byte_func_31(Gfx **GG,u16 delta){
-  u8 bVar1 = FUN_80028ff0(GG,delta);
+u8 CombatStateFunc_31(Gfx **GG,u16 delta){
+  u8 bVar1 = CombatStateFunc_1(GG,delta);
   if (gGlobals.screenFadeMode == 0) {
     u8 bStack_45 [] [4]={{0,0,0,CombatState_1},{0,0,0,CombatState_8}}; //? u32[2] cast to u8[2][4]?
     gGlobals.combatBytes[0] = bStack_45[gCombatP->current_Ent->aiP != NULL][3];
@@ -620,7 +623,7 @@ u8 ScreenFadeMode_2(Gfx **GG){
     int delta = combat_controls();
     gGlobals.delta = (float)delta;
 
-    if (fleeing_reinforcements_func()) uVar3 = FUN_80028ff0(GG,(u16)delta);
+    if (fleeing_reinforcements_func()) uVar3 = CombatStateFunc_1(GG,(u16)delta);
     else {
       uVar3 = (*combat_byte_funcs[gGlobals.combatBytes[0]])(GG,(u16)delta);
       clear_combat_func();
@@ -1022,8 +1025,8 @@ bool IsNearShadow(CombatEntity *param_1){
 }
 
 void combat_func_if_alaron_dead(void){
-  if (!gGlobals.goblinAmbush) combat_byte_0xd();
-  else set_combat_byte_to_0x1c();
+  if (gGlobals.goblinAmbush) set_combat_byte_to_0x1c();
+  else  combat_byte_0xd();
 }
 
 void combat_byte_0xd(void){
