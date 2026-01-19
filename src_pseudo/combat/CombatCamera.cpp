@@ -136,23 +136,23 @@ u32 FUN_80096e58(PlayerHandler *param_1,playerData *param_2,vec3f *pos) {
   return ret;
 }
 
-void FUN_80096f4c(PlayerHandler *param_1,playerData *param_2,vec3f *param_3,Camera_struct *param_4,s16 param_5) {
-  vec3f avStack_d8;
-  vec2f avStack_98;
-  vec3f avStack_58;
+void FUN_80096f4c(PlayerHandler *param_1,playerData *param_2,vec3f *pos,Camera_struct *cam,s16 now) {
+  vec3f dist3d;
+  vec2f dist2d;
+  vec3f camPos;
   
-  if (param_5) Camera::SetAim(param_4,&param_1->playerDats[param_1->cameraFocus].collision.pos);
-  Vec3Sub(&avStack_d8,&(param_2->collision).pos,param_3);
-  Vec2Set(&avStack_98,avStack_d8.x,avStack_d8.z);
-  Vec2Normalize(&avStack_98);
-  avStack_58.x = (param_2->collision).pos.x + avStack_98.x * 8.0f;
-  avStack_58.y = (param_2->collision).pos.y + 1.5;
-  avStack_58.z = (param_2->collision).pos.z + avStack_98.y * 8.0f;
-  if(param_5) Camera::SetPos(param_4,&avStack_58);
+  if (now) Camera::SetAim(cam,&param_1->playerDats[param_1->cameraFocus].collision.pos);
+  Vec3Sub(&dist3d,&(param_2->collision).pos,pos);
+  Vec2Set(&dist2d,dist3d.x,dist3d.z);
+  Vec2Normalize(&dist2d);
+  camPos.x = (param_2->collision).pos.x + dist2d.x * 8.0f;
+  camPos.y = (param_2->collision).pos.y + 1.5;
+  camPos.z = (param_2->collision).pos.z + dist2d.y * 8.0f;
+  if(now) Camera::SetPos(cam,&camPos);
   else{
-    (param_4->posTarget).x = avStack_58.x;
-    (param_4->posTarget).y = avStack_58.y;
-    (param_4->posTarget).z = avStack_58.z;
+    (cam->posTarget).x = camPos.x;
+    (cam->posTarget).y = camPos.y;
+    (cam->posTarget).z = camPos.z;
   }
 }
 
@@ -237,8 +237,7 @@ void processCombatCamera(PlayerHandler *param_1) {
         Vec2Set(&afStack184,(cam->aim).x,(cam->aim).z);
         Vec2Set(&fStack120,avStack_178[0].x,avStack_178[0].z);
         Vec2Sub(&afStack248,&fStack120,&afStack184);
-        fVar7 = Vec2Normalize(&afStack248);
-        if (fVar7 < 4.0f) {
+        if (Vec2Normalize(&afStack248) < 4.0f) {
           Vec2Scale(&afStack248,4.0f);
           Vec2Sum(&fStack120,&afStack184,&afStack248);
           Vec3Set(avStack_178,fStack120.x,avStack_178[0].y,fStack120.y);

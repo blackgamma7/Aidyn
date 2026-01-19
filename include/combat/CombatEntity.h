@@ -208,14 +208,12 @@ struct combat_aiscore {
     u8 unk0x3;
     CombatEntity *combatEnt;
 };
-#define AIFlag_01 1
-#define AIFlag_02 2
-#define AIFlag_04 4
-#define AIFlag_08 8
-#define AIFlag_10 0x10 //"Panic" flag?
-#define AIFlag_20 0x20
-#define AIFlag_40 0x40
-#define AIFlag_80 0x80
+#define AIFlag_01 1 //trying to flee?
+#define AIFlag_02 2 //
+#define AIFlag_04 4 //read but not set. -2 morale
+#define AIFlag_08 8 //always set
+#define AIFlag_10 0x10 //set when hit. -2 morale
+
 struct CombatAIInfo {
     WeaponInstance *weapon;
     char unk1;

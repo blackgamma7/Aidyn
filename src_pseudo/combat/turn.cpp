@@ -214,39 +214,27 @@ bool CombatTurn::IsBattleOver(CombatTurn_s *param_1) {
   return ret;
 }
 
-
 void CombatTurn::StartTurn(CombatTurn_s *param_1,CombatEntity *param_2,u8 param_3) {
-  playerData *ppVar1;
-  bool bVar4;
-  byte bVar5;
-  ulong uVar3;
-  u8 uVar6;
-  
-  ppVar1 = gGlobals.playerDataArray[param_2->index];
-  if (ppVar1) {
-    GiveCameraToPlayer(ppVar1);
-    Camera::SetFeild70(&gGlobals.gameVars.camera,&(ppVar1->collision).pos);
+
+  playerData *pDat = gGlobals.playerDataArray[param_2->index];
+  if (pDat) {
+    GiveCameraToPlayer(pDat);
+    Camera::SetFeild70(&gGlobals.gameVars.camera,&(pDat->collision).pos);
   }
                     
-  if (!(param_2->flags & COMBATENT_BENCH)) {
-                    // (Character) Joins the battle
-    Gsprintf(*gCombatP->textArray,param_2->charSheetP->name);
-  }
-  else {// (character) begins action
-    Gsprintf(gCombatP->textArray[0x1f],param_2->charSheetP->name);
+  if ((param_2->flags & COMBATENT_BENCH)) {
+    CSprintf(XJoins,param_2->charSheetP->name);
     param_2->UnsetFlag(COMBATENT_BENCH);
   }
-                    // (character) continues to perform
-  if (param_2->Flag2()) {
-    Gsprintf(gCombatP->textArray[0x34],param_2->charSheetP->name);
-  }
+  else CSprintf(XsTurn,param_2->charSheetP->name);
+  if (param_2->Flag2()) CSprintf(TroubContinue,param_2->charSheetP->name);
   copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
   param_2->UpdatePosition();
   param_2->Coord2IsCoord();
   CombatMarkers::Create(param_2);
   param_2->m8006f448();
   if (param_2->aiP){
-    if ((param_2->aiP->flags & 8)) {
+    if ((param_2->aiP->flags & AIFlag_08)) {
       if (gCombatP->leaderDead)
         CombatAI::DebateFleeing(param_2,true);
       else
@@ -260,15 +248,15 @@ void CombatTurn::StartTurn(CombatTurn_s *param_1,CombatEntity *param_2,u8 param_
     }
   }
   if (param_2->AtkType == ATKT_Potion) {
-    uVar3 = PARTY->Inventory->GetItemIndex(IDPotion(param_2->item));
-    if (uVar3 == -1) {
+    s32 ind = PARTY->Inventory->GetItemIndex(IDPotion(param_2->item));
+    if (ind == -1) {
       param_2->AtkType = 0;
       param_2->itemIndex = 0;
-      uVar6 = PARTY->GetMemberIndex(param_2->charSheetP->ID);
+      u8 uVar6 = PARTY->GetMemberIndex(param_2->charSheetP->ID);
       if (uVar6 != 0xff) PARTY->RemoveWeaponsFrom(uVar6);
       param_2->ShowWeaponSheild();
     }
-    param_2->itemIndex=uVar3;
+    param_2->itemIndex=ind;
   }
   FUN_80072454(gCombatP->substruct2,param_2);
   FUN_80072454(gCombatP->substruct2 + 1,param_2);
@@ -326,7 +314,7 @@ void CombatTurn::FUN_80073e3c(CombatTurn_s *param_1) {
       StartTurn(param_1,gCombatP->current_Ent,param_1->unk1);
       World::Lapse10Seconds(TerrainPointer);
       if (gCombatP->reinforcmentsWillFlee) {
-        CombatTextboxWidget_SetText(gCombatP->textArray[0x3b]);
+        CombatTextboxWidget_SetText(ComString(ReinforceFlee));
       }
     }
   }

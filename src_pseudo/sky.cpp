@@ -335,18 +335,9 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
       CRASH("RenderSky",gGlobals.text);
   }
   RSPFUNC5(gfx);
-  gMainColor.A = 0xff;
-  gMainColor.B = 0xff;
-  gMainColor.G = 0xff;
-  gMainColor.R = 0xff;
-  gSkyColor.A = 0xff;
-  gSkyColor.B = 0xff;
-  gSkyColor.G = 0xff;
-  gSkyColor.R = 0xff;
-  gFogColor.A = 0xff;
-  gFogColor.B = 0xff;
-  gFogColor.G = 0xff;
-  gFogColor.R = 0xff;
+  gMainColor={COLOR_WHITE};
+  gSkyColor={COLOR_WHITE};
+  gFogColor={COLOR_WHITE};
   if (sResetColorFlag) {
     if (gGlobals.sky.Type - SkyTypeOutdoor < 2) {
       sResetColorFlag = false;
@@ -359,18 +350,9 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
     }
     case SkyType2:{
      gfx = DrawRectangle(gfx,FULL_SCREENSPACE,0,0,0,0);
-     gMainColor.A = 0x60;
-     gMainColor.B = 0x60;
-     gMainColor.G = 0x60;
-     gMainColor.R = 0x60;
-     gSkyColor.A = 0x60;
-     gSkyColor.B = 0x60;
-     gSkyColor.G = 0x60;
-     gSkyColor.R = 0x60;
-     gFogColor.A = 0;
-     gFogColor.B = 0;
-     gFogColor.G = 0;
-     gFogColor.R = 0;
+     gMainColor={0x60,0x60,0x60,0x60};
+     gSkyColor={0x60,0x60,0x60,0x60};
+     gFogColor={0,0,0,0};
     break;
     }
     case SkyTypeOutdoor:{

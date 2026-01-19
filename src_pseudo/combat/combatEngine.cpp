@@ -48,16 +48,14 @@ void memset_combat_struct(CombatStruct *param_1){
 }
 
 voxelObject * get_refpoint_by_name(u32 param_1,u8 param_2,bool GOrE){
-  char *local_c8 [16];
+  char *local_c8 [2];
   char *local_88 [2];
-  char acStack_48 [72];
+  char buff [72];
   
-  local_88[0] = gCombatP->textArray[COMBATSTRING_RefPoint1];
-  local_88[1] = gCombatP->textArray[COMBATSTRING_RefPoint0];
-  local_c8[0] = local_88[0];
-  local_c8[1] = local_88[1];
-  sprintf(acStack_48,gCombatP->textArray[COMBATSTRING_SUC],local_c8[GOrE],param_1,param_2 + 'a');
-  return FindReferncePointName(gGlobals.gameVars.borg9DatPointer,acStack_48,true);
+  local_c8[0]=local_88[0] = ComString(RefPoint1);
+  local_c8[1]=local_88[1] = ComString(RefPoint0);
+  sprintf(buff,ComString(SUC),local_c8[GOrE],param_1,param_2 + 'a');
+  return FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,true);
 }
 
 char* sFilenameCombatEngine=FILENAME;
@@ -177,26 +175,18 @@ int look_for_flasks(void){
   return iVar2;
 }
 
-
 u16 Combat_CreatePartyMembers(u8 param_1){
-  CharSheet *charsheet;
-  bool bVar5;
   u8 uVar6;
   CombatEntity *pCVar3;
   int iVar4;
   u16 uVar7;
   u32 i;
-  float fVar8;
-  float fVar9;
   u32 uVar10;
-  u8 posx;
-  u8 posz;
-  u8 uStack_3e;
-  u8 auStack_3d [45];
+  u8 posx,posz,uStack_3e,spellInd;
   
   uVar7 = 0;
   for(u16 i=0;i<MAXPARTY;i++) {
-    charsheet = PARTY->Members[i];
+    CharSheet *charsheet = PARTY->Members[i];
     if (charsheet) {
       if (Entity::isDead(charsheet)) {
         gCombatP->partyCount--;
@@ -205,12 +195,12 @@ u16 Combat_CreatePartyMembers(u8 param_1){
       else {
         CombatInitMacro1(charsheet->ID,uVar10,uVar6);
         Combat_GetSpawnPoint(gCombatP,&posx,&posz,&uStack_3e,param_1,1,0,(char)uVar7);
-        ALLOC(pCVar3,0x23a);
+        ALLOC(pCVar3,570);
         (&gCombatP->combatEnts)[uVar7] = pCVar3;
         gCombatP->combatEnts[uVar7++].Init(charsheet,0,posx,posz,uStack_3e,uVar6,0,(char)uVar7);
-        auStack_3d[0] = 0;
-        if (charsheet->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_fireball]),auStack_3d)) {
-          iVar4 = Entity::CheckSpellWizard(charsheet,charsheet->spellbook->spells[auStack_3d[0]]);
+        spellInd = 0;
+        if (charsheet->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_fireball]),&spellInd)) {
+          iVar4 = Entity::CheckSpellWizard(charsheet,charsheet->spellbook->spells[spellInd]);
           if (gCombatP->flask_byte < (iVar4 << 1)) {
             gCombatP->flask_byte = (byte)(iVar4 << 1);
           }
@@ -221,10 +211,7 @@ u16 Combat_CreatePartyMembers(u8 param_1){
   return uVar7;
 }
 
-
-u32 Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3)
-
-{
+u32 Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3){
   u8 uVar5;
   CombatEntity *pCVar1;
   CharSheet *pCVar2;
@@ -282,9 +269,7 @@ void look_for_boss_shadow(ItemID param_1){
       }
     }
   }
-  return;
 }
-
 
 void Combat_CreateEnemies(u16 param_1,u8 param_2){
   ItemID IVar1;
@@ -340,7 +325,6 @@ void encounter_id_check(EventFlag flag){
     }
   }
 }
-
 
 void scoot_enemy_list(EncounterDat *param_1){
   int iVar1;
@@ -421,7 +405,6 @@ void Combat_InitEncounter(CombatStruct *cStruct,EncounterDat *param_2){
   (cStruct->SpellMarkerPos).y = cStruct->current_Ent->GetCoordY();
   encounter_id_check(cStruct->encounter_dat->EncounterID);
 }
-
 
 bool Ofunc_800664ac(CombatStruct *param_1){
   byte bVar1;
@@ -539,7 +522,6 @@ void FUN_800668e4(CombatStruct *param_1,u8 *outX,u8 *outY,u8 *param_4,u8 param_5
   }
 }
 
-
 void func_settting_leader_dead_flag(CombatStruct *param_1){
   byte bVar1;
   ItemID IVar2;
@@ -626,9 +608,7 @@ void get_gear_drop(CombatStruct *cStruct,EntityRAM *ent,Loot_RAM *loot){
       }
     }
   }
-
 }
-
 
 void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,u32 param_3){ 
   if (param_2->itemDropChances[param_3]) {
@@ -806,7 +786,7 @@ void check_battlefeild_fleeing_refpoints(CombatStruct *cStruct){
   
   cStruct->hasFleeRefpoints = 0;
   for(u32 i=0;i<8;i++) {
-    sprintf(buff,gCombatP->textArray[COMBATSTRING_FleeX],i);
+    sprintf(buff,ComString(FleeX),i);
     if (FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,false)) {
       cStruct->hasFleeRefpoints = true;
       return;

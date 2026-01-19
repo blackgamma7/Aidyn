@@ -1394,14 +1394,12 @@ void CombatEntity::Death(){
     gCombatP->EnemiesAlive--;
     if (gCombatP->firstKill == 0) {
       gCombatP->firstKill = 1;
-      if (gCombatP->EntCount) {
-        for(i=0;i < gCombatP->EntCount;i++) {
-          pCVar3 = (&gCombatP->combatEnts)[i];
-            if ((pCVar3) && (pCVar3 == this)) {
-              if (pCVar3->Flag4()&&(pCVar3->aiP)) pCVar3->aiP->flags|= AIFlag_02;
-            }
+      for(i=0;i < gCombatP->EntCount;i++) {
+        pCVar3 = (&gCombatP->combatEnts)[i];
+        if ((pCVar3) && (pCVar3 == this)) {
+         if (pCVar3->Flag4()&&(pCVar3->aiP)) pCVar3->aiP->flags|= AIFlag_02;
+         }
         }
-      }
     }
   }
   else {
@@ -1497,7 +1495,7 @@ s16 CombatEntity::CalcAttackResist(CombatEntity *param_2,s16 param_3,u8 param_4)
     if ((afStack32 != 0.0) && (param_3 < 1)) param_3 = 1;
     if (((1.0f < afStack32) &&
         (pcVar1 = param_2->aiP, pcVar1)) &&
-       ((pcVar1->flags & 8) != 0)) pcVar1->flags |= 0x12;
+       ((pcVar1->flags & AIFlag_08))) pcVar1->flags |= (AIFlag_10|AIFlag_02);
   }
   return param_3;
 }
@@ -2174,7 +2172,7 @@ s16 CombatEntity::CalcMagicResist(s16 param_2,SpellInstance *param_3){
     if ((afStack32 != 0.0) && (param_2 < 1)) {param_2 = 1;}
     if (((1.0f < afStack32) &&
         (pcVar1 = this->aiP, pcVar1)) &&
-       ((pcVar1->flags & 8) != 0)) {pcVar1->flags |= 0x12;}
+       ((pcVar1->flags & AIFlag_08))) {pcVar1->flags |= (AIFlag_10|AIFlag_02);}
   }
   return param_2;
 }

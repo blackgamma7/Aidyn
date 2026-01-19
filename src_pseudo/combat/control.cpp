@@ -491,6 +491,7 @@ void combat_control_case_6(controller_aidyn *cont,u8 x){
 }
 
 bool RZBA_end_combat(controller_aidyn *cont){
+  #ifdef DEBUGVER
   u32 BVar1 = cont->input_2;
   if (((BVar1 & R_BUTTON) != 0) && (BVar1 != 0)) {
     if ((BVar1 & (A_BUTTON|Z_BUTTON)) != (A_BUTTON|Z_BUTTON)) {
@@ -530,6 +531,7 @@ bool RZBA_end_combat(controller_aidyn *cont){
       }
     }
   }
+  #endif
   return false;
 }
 
@@ -545,9 +547,8 @@ bool combat_controls_caseSwitch(controller_aidyn *cont,u8 param_2){
   CombatPlayerTurnFlag = 1;
   if (RZBA_end_combat(cont)) return false;
   if ((cont->input & C_LEFT) != 0) gCombatGuiUnusedToggle ^= 1;
-  if (gCombatP->reinforcmentsWillFlee != 0) goto switchD_8008e894_caseD_0;
+  if (gCombatP->reinforcmentsWillFlee != 0) return false;
   if (FUN_8008d4d0(cont)) return false;
-  if (false) goto switchD_8008e894_caseD_0;
   switch(gGlobals.combatBytes[0]) {
   case 1:
     return combat_control_case_1(cont);
@@ -590,7 +591,6 @@ bool combat_controls_caseSwitch(controller_aidyn *cont,u8 param_2){
   case 0x19:
     combat_control_case_0x19(cont);
   default:
-switchD_8008e894_caseD_0:
   }
   return false;
 }

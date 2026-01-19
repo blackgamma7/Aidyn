@@ -1746,27 +1746,23 @@ u8 FUN_80063f1c(CombatAIInfo *param_1,u8 param_2,u8 param_3){
 }
 
 voxelObject * CombatAI::FindFleeingRefpoint(CombatAIInfo *param_1,float *dist){
-  voxelObject *ret;
-  voxelObject *prVar2;
-  float prox;
-  vec2f afStack304;
-  vec2f afStack240;
+  vec2f entPos,closest;
   char buff [16];
-  vec2f afStack112;
+  vec2f vObjPos;
   
-  ret = NULL;
+  voxelObject *ret = NULL;
   *dist = 100000.0f;
-  Vec2Set(&afStack304,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY());
+  Vec2Set(&entPos,param_1->combatEnt->GetCoordX(),param_1->combatEnt->GetCoordY());
   for(u32 i=0;i<8;i++) {
     sprintf(buff,ComString(FleeX),i);
-    prVar2 = FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,false);
-    if (prVar2) {
-      Vec2Set(&afStack112,(prVar2->header).pos.x,(prVar2->header).pos.z);
-      prox = Vec2Dist(&afStack112,&afStack304);
+    voxelObject *vObj = FindReferncePointName(gGlobals.gameVars.borg9DatPointer,buff,false);
+    if (vObj) {
+      Vec2Set(&vObjPos,(vObj->header).pos.x,(vObj->header).pos.z);
+      float prox = Vec2Dist(&vObjPos,&entPos);
       if (prox <= *dist) {
-        Vec2Copy(&afStack112,&afStack240);
+        Vec2Copy(&vObjPos,&closest);
         *dist = prox;
-        ret = prVar2;
+        ret = vObj;
       }
     }
   }
@@ -1798,7 +1794,7 @@ u8 FUN_800641b8(CombatAIInfo *param_1,u8* param_2,u8* param_3){
     }
   }
   else {
-    param_1->flags &= ~2;
+    param_1->flags &= ~AIFlag_02;
     uVar4 = FUN_800642c4(param_1,param_2,param_3);
   }
   return uVar4;
@@ -2034,13 +2030,13 @@ void CombatAI::ClearEntIndex(CombatAIInfo *param_1){
 }
 
 u8 CombatAI::IsAlly(CombatAIInfo *param_1){  
-  if (param_1->combatEnt->Flag4()) return param_1->flags & 1;
+  if (param_1->combatEnt->Flag4()) return param_1->flags & AIFlag_01;
   return 0;
 }
 
 void CombatAI::LookToFlee(CombatAIInfo *param_1){
   if ((!param_1->combatEnt->Flag7()) && (gCombatP->hasFleeRefpoints)) {
     param_1->unk18 = 4;
-    param_1->flags |= 1;
+    param_1->flags |= AIFlag_01;
   }
 }

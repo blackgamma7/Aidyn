@@ -129,7 +129,7 @@ void CombatAI::Init(CombatAIInfo *info,ItemID id,CombatEntity *cEnt) {
   }
 LAB_80064ec0:
   info->combatEnt = cEnt;
-  info->flags = 8;
+  info->flags = AIFlag_08;
   info->unk12 = 0xff;
   info->unk13 = 0;
   info->unk7 = info->unk1;

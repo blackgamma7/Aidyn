@@ -893,7 +893,7 @@ LAB_800798b0:
     bVar10 = pCVar1->morale;
     if (bVar10 < Lv) Level = bVar10;
     pCVar1->morale = bVar10 - (byte)Level;
-    combatTarget->aiP->flags|= 2;
+    combatTarget->aiP->flags|= AIFlag_02;
     uVar17 = 1;
     bVar11 = bVar3;
     break;
