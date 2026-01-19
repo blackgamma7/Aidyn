@@ -17,12 +17,12 @@ void NOOP_80091404(){}
 bool can_Combat_C_vert(controller_aidyn *cont){
   if (true) {//?
     switch(gGlobals.combatBytes[0]) {
-    case 1:
-    case 9:
-    case 10:
-    case 0xb:
-    case 0x12:
-    case 0x19:
+    case CombatState_1:
+    case CombatState_9:
+    case CombatState_10:
+    case CombatState_11:
+    case CombatState_18:
+    case CombatState_25:
       return combat_C_Up_Down(cont);
     }
   }
@@ -77,7 +77,7 @@ void Combat_menu_C_Up(){
   
   bVar2 = false;
   FUN_8008d2cc();
-  gGlobals.combatBytes[0] = 0x17;
+  gGlobals.combatBytes[0] = CombatState_23;
   if ((hasUsablePotions(asStack_e8)) || (gear_has_spell(&iStack_28,&iStack_24,aiStack_20,abStack_68))) {
     bVar2 = true;
   }
@@ -100,7 +100,7 @@ void combat_menu_C_down(){
   s32 hands = 0;
   s32 herbs = 0;
   FUN_8008d2cc();
-  gGlobals.combatBytes[0] = 0x16;
+  gGlobals.combatBytes[0] = CombatState_22;
   bVar4 = can_perform_or_heal(&troub,&hands,&herbs);
   lVar3 = can_use_spell(spells);
   if (bVar4) bVar2 = true;
@@ -116,7 +116,7 @@ void combat_menu_C_down(){
 }
 
 void Combat_CloseCVertMenu(){
-  gGlobals.combatBytes[0] = 1;
+  gGlobals.combatBytes[0] = CombatState_1;
   if (FUN_80091dfc(gGlobals.widgetHandler,gCombatCVertMenu)) gCombatCVertMenu->SetState(WidgetS_Closing);
   else if (gCombatCVertMenu) gCombatCVertMenu->~BaseWidget();
   gCombatCVertMenu = NULL;

@@ -31,15 +31,15 @@ u8 combat_controls(){
     Ent = gCombatP->current_Ent;
     CombatPlayerTurnFlag = 0;
     if (Ent->aiP == NULL) {
-      if (gGlobals.combatBytes[0] == 9) {
+      if (gGlobals.combatBytes[0] == CombatState_9) {
         CombatPlayerTurnFlag = 0;
         return 1;
       }
-      if (gGlobals.combatBytes[0] == 0x12) {
+      if (gGlobals.combatBytes[0] == CombatState_18) {
         CombatPlayerTurnFlag = 0;
         return 1;
       }
-      if (gGlobals.combatBytes[0] == 10) {
+      if (gGlobals.combatBytes[0] == CombatState_10) {
         CombatPlayerTurnFlag = 0;
         return 1;
       }
@@ -51,14 +51,14 @@ u8 combat_controls(){
 }
 
 void FUN_8008d2cc(){
-  bool bVar1 = gGlobals.combatBytes[0] == 9;
+  bool bVar1 = gGlobals.combatBytes[0] == CombatState_9;
   cancel_combat_action();
   if (bVar1) gCombatP->current_Ent->ShowWeaponFlask();
 }
 
 void cancel_combat_action(){
-  if (gGlobals.combatBytes[0] != 1) {
-    gGlobals.combatBytes[0] = 1;
+  if (gGlobals.combatBytes[0] != CombatState_1) {
+    gGlobals.combatBytes[0] = CombatState_1;
     gCombatP->current_Ent->UnsetFlag(COMBATENT_MEDIC);
     gCombatP->current_Ent->UnsetFlag(COMBATENT_HERBS);
     (gCombatP->SpellMarkerPos).x = gCombatP->current_Ent->GetCoordX();
@@ -87,8 +87,8 @@ bool LZBStart_to_cancel_Turn(controller_aidyn *cont){
     setCombatCameraMode(0);
     if (gCombatP->current_Ent) giveCameratoThisPlayer(gCombatP->current_Ent->index);
     bVar1 = true;
-    gGlobals.combatBytes[0] = 0xe;
-    gGlobals.combatBytes[1] = 1;
+    gGlobals.combatBytes[0] = CombatState_15;
+    gGlobals.combatBytes[1] = CombatState_1;
     gGlobals.unk14fc = false;
   }
   return bVar1;
@@ -96,8 +96,7 @@ bool LZBStart_to_cancel_Turn(controller_aidyn *cont){
 
 
 bool combat_control_press_start(controller_aidyn *cont){
-  if (((cont->input & START_BUTTON)) && (renderTicker_GreaterThan3(gCombatP))
-     ) {
+  if ((cont->input & START_BUTTON) && (renderTicker_GreaterThan3(gCombatP))) {
     gCombatP->renderTicker = 0;
     FUN_800290a4();
     return true;
@@ -132,10 +131,10 @@ void FUN_8008d56c(void){
   if (((!pCVar1->aiP) && (pCVar1->charSheetP)) &&
      (pSVar2 = Entity::GetSpell(pCVar1->charSheetP), pSVar2 != NULL)) {
     if ((pSVar2->aspect_flag & 0x10) == 0) {
-      gGlobals.combatBytes[0] = 10;
+      gGlobals.combatBytes[0] = CombatState_10;
       FUN_80072764(gCombatP->substruct2 + 1,pCVar1);
     }
-    else gGlobals.combatBytes[0] = 0xb;
+    else gGlobals.combatBytes[0] = CombatState_11;
   }
 }
 
@@ -155,7 +154,8 @@ void FUN_8008d5f8(void){
       GiveCameraToPlayer(gGlobals.playerDataArray[pCVar1->index]);
     }
     pCVar1->charSheetP->spellVal = 0;
-    if (gCombatP->some_index == pCVar1->index) gGlobals.combatBytes[0] = 6;
+    if (gCombatP->some_index == pCVar1->index)
+      gGlobals.combatBytes[0] = CombatState_6;
     else {
       pCVar1->FaceTarget((&gCombatP->combatEnts)[gCombatP->some_index]);
     }
@@ -178,7 +178,8 @@ void FUN_8008d718(void){
     if (gGlobals.playerDataArray[pCVar1->index] != NULL) {
       GiveCameraToPlayer(gGlobals.playerDataArray[pCVar1->index]);
     }
-    if (gCombatP->some_index == pCVar1->index) gGlobals.combatBytes[0] = 6;
+    if (gCombatP->some_index == pCVar1->index)
+      gGlobals.combatBytes[0] = CombatState_6;
     else pCVar1->FaceTarget((&gCombatP->combatEnts)[gCombatP->some_index]);
   }
 }
@@ -200,7 +201,8 @@ void FUN_8008d824(){
                          (gCombatP->SpellMarkerPos).y))) {
     if (bVar2) {
       pCVar1->charSheetP->spellVal = 0;
-      if (gCombatP->some_index == pCVar1->index) gGlobals.combatBytes[0] = 6;
+      if (gCombatP->some_index == pCVar1->index)
+        gGlobals.combatBytes[0] = CombatState_6;
       else pCVar1->FaceTarget((&gCombatP->combatEnts)[gCombatP->some_index]);
     }
     else cancel_combat_action();
@@ -235,7 +237,6 @@ void FUN_8008dac0(u32 button,CombatSubstructB *cont,CombatEntity* param_3){
   bool right = (button & (ANA_RIGHT|D_RIGHT)) != 0;
   if (right) FUN_80072810(gCombatP->substruct2,-1);
   if (right || left) FUN_8008d9d4(cont,param_3);
-  return;
 }
 
 void combat_control_case_0xa(controller_aidyn *cont){
@@ -436,7 +437,7 @@ bool combat_control_case_1(controller_aidyn *cont){
   if (((cont->input & START_BUTTON)) && (renderTicker_GreaterThan3(gCombatP))) {
     gCombatP->renderTicker = 0;
     setCombatCameraMode(0);
-    gGlobals.combatBytes[0] = 0xe;
+    gGlobals.combatBytes[0] = CombatState_14;
     return true;
   }
   Ent = gCombatP->current_Ent;
@@ -451,9 +452,9 @@ bool combat_control_case_1(controller_aidyn *cont){
     }
     if (((cont->input & A_BUTTON) != 0) &&
        (FUN_80072454(gCombatP->substruct2,Ent), gCombatP->substruct2[0].spellTargetMax != 0)) {
-      gGlobals.combatBytes[0] = 9;
+      gGlobals.combatBytes[0] = CombatState_9;
       if ((Ent->throwingFlag != 0) && (!Ent->Flag89())) {
-        gGlobals.combatBytes[0] = 0x12;
+        gGlobals.combatBytes[0] = CombatState_18;
         FUN_8007272c(gCombatP->substruct2,Ent);
         return false;
       }
@@ -469,7 +470,7 @@ bool combat_control_case_1(controller_aidyn *cont){
     }
     FUN_8008d530();
   }
-  else gGlobals.combatBytes[0] = 8;
+  else gGlobals.combatBytes[0] = CombatState_8;
   return false;
 }
 
@@ -493,39 +494,39 @@ void combat_control_case_6(controller_aidyn *cont,u8 x){
 bool RZBA_end_combat(controller_aidyn *cont){
   #ifdef DEBUGVER
   u32 BVar1 = cont->input_2;
-  if (((BVar1 & R_BUTTON) != 0) && (BVar1 != 0)) {
+  if (((BVar1 & R_BUTTON)) && (BVar1 != 0)) {
     if ((BVar1 & (A_BUTTON|Z_BUTTON)) != (A_BUTTON|Z_BUTTON)) {
       return false;
     }
-    if (((cont->input & B_BUTTON) != 0) && (true)) {
+    if (((cont->input & B_BUTTON)) && (true)) {
       switch(gGlobals.combatBytes[0]) {
-      case 0:
-      case 9:
-      case 10:
-      case 0xb:
-      case 0xc:
-      case 0xd:
-      case 0xe:
-      case 0xf:
-      case 0x10:
-      case 0x11:
-      case 0x12:
-      case 0x14:
-      case 0x15:
-      case 0x16:
-      case 0x17:
-      case 0x1f:
+      case CombatState_0:
+      case CombatState_9:
+      case CombatState_10:
+      case CombatState_11:
+      case CombatState_12:
+      case CombatState_13:
+      case CombatState_14:
+      case CombatState_15:
+      case CombatState_16:
+      case CombatState_17:
+      case CombatState_18:
+      case CombatState_20:
+      case CombatState_21:
+      case CombatState_22:
+      case CombatState_23:
+      case CombatState_31:
         return true;
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-      case 7:
-      case 8:
-      case 0x13:
-      case 0x18:
+      case CombatState_1:
+      case CombatState_2:
+      case CombatState_3:
+      case CombatState_4:
+      case CombatState_5:
+      case CombatState_6:
+      case CombatState_7:
+      case CombatState_8:
+      case CombatState_19:
+      case CombatState_24:
         CombatTurn::EnemiesDead(&gCombatP->turn);
         return true;
       }
@@ -550,45 +551,45 @@ bool combat_controls_caseSwitch(controller_aidyn *cont,u8 param_2){
   if (gCombatP->reinforcmentsWillFlee != 0) return false;
   if (FUN_8008d4d0(cont)) return false;
   switch(gGlobals.combatBytes[0]) {
-  case 1:
+  case CombatState_1:
     return combat_control_case_1(cont);
-  case 2:
-  case 3:
-  case 4:
-  case 7:
-  case 8:
-  case 0x18:
-  case 0x1a:
+  case CombatState_2:
+  case CombatState_3:
+  case CombatState_4:
+  case CombatState_7:
+  case CombatState_8:
+  case CombatState_24:
+  case CombatState_26:
     if ((((!combat_control_press_start(cont)) && (pCVar1 = gCombatP->current_Ent, pCVar1 != NULL)) && (pCVar1->aiP != NULL)) &&
        (((cont->input_2 & R_BUTTON) != 0 && ((cont->input & A_BUTTON) != 0)))) {
       pCVar1->EndTurn();
     }
     break;
-  case 5:
+  case CombatState_5:
     combat_control_case_5(cont);
     break;
-  case 6:
+  case CombatState_6:
     combat_control_case_6(cont,param_2);
     break;
-  case 9:
+  case CombatState_9:
     combat_control_case_9(cont);
     break;
-  case 10:
+  case CombatState_10:
     combat_control_case_0xa(cont);
     break;
-  case 0xb:
+  case CombatState_11:
     combat_control_case_0xb(cont,param_2);
     break;
-  case 0x12:
+  case CombatState_18:
     combat_control_case_0x12(cont,param_2);
     break;
-  case 0x16:
+  case CombatState_22:
     combat_control_case_0x16(cont);
     break;
-  case 0x17:
+  case CombatState_23:
     combat_control_case_0x17(cont);
     break;
-  case 0x19:
+  case CombatState_25:
     combat_control_case_0x19(cont);
   default:
   }

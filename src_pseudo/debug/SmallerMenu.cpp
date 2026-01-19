@@ -330,7 +330,7 @@ void set_debug_combat_battlefeild(BaseWidget *param_1){
       gGlobals.EncounterDat.aniByte = 0;
       gGlobals.EncounterDat.EncounterID = 0;
       gGlobals.EncounterDat.canFlee = true;
-      gGlobals.combatBytes[2] = 1;
+      gGlobals.combatBytes[2] = true;
       FreeDebugMenu(gGlobals.playerCharStruct.debugMenuArena);
       gGlobals.playerCharStruct.unkState = 2;
     }

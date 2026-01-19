@@ -210,15 +210,15 @@ void processCombatCamera(PlayerHandler *param_1) {
       avStack_178[0].y = (cam->posTarget).y;
       avStack_178[0].z = (cam->posTarget).z;
       uVar6 = 1;
-      if ((gGlobals.combatBytes[0] == 0x12) ||
-         (fVar7 = 4.0f, fVar9 = 10.0f, gGlobals.combatBytes[0] == 0xb)) {
+      if ((gGlobals.combatBytes[0] == CombatState_18) ||
+         (fVar7 = 4.0f, fVar9 = 10.0f, gGlobals.combatBytes[0] == CombatState_11)) {
         fStack440.x = (gCombatP->SpellMarkerPos).x;
         fStack440.z = (gCombatP->SpellMarkerPos).y;
         bVar3 = false;
         fVar7 = 8.0f;
         fVar9 = 16.0f;
       }
-      if ((gGlobals.combatBytes[0] == 9) &&
+      if ((gGlobals.combatBytes[0] == CombatState_9) &&
          (Vec3Dist(&fStack440,&(ppVar5->collision).pos)>=5.0f)) {
         uVar6 = 0;
         bVar3 = false;

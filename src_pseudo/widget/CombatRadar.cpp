@@ -59,8 +59,8 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
           this->col.G = 150;
         }
         this->col.B = 0;
-        if (((gGlobals.combatBytes[0] == 0x12) || (gGlobals.combatBytes[0] == 10)) ||
-           (gGlobals.combatBytes[0] == 0xb)) {
+        if (((gGlobals.combatBytes[0] == CombatState_18) || (gGlobals.combatBytes[0] == CombatState_10)) ||
+           (gGlobals.combatBytes[0] == CombatState_11)) {
           if (!FUN_80097674(pDat)) {
             this->col.R >>= 1;
             this->col.G >>= 1;

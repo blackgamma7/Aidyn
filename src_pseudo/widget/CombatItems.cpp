@@ -18,7 +18,7 @@ void init_combatItemValues(void) {
 BaseWidget * FUN_80092894(BaseWidget *param_1,BaseWidget *param_2){
   CombatEntity *pCVar1 = gCombatP->current_Ent;
   FUN_8006f8d8(pCVar1,param_2->varU16,param_2->varU8);
-  gGlobals.combatBytes[0] = 9;
+  gGlobals.combatBytes[0] = CombatState_9;
   FUN_8007272c(gCombatP->substruct2,pCVar1);
   return NULL;
 }

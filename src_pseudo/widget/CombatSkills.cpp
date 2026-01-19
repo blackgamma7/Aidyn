@@ -51,7 +51,7 @@ BaseWidget * FUN_800920d8(BaseWidget *param_1,BaseWidget *param_2){
 }
 
 BaseWidget * Troubador_perform(BaseWidget *param_1,BaseWidget *param_2){
-  gGlobals.combatBytes[0] = 0x19;
+  gGlobals.combatBytes[0] = CombatState_25;
   FUN_80072454(gCombatP->substruct2,gCombatP->current_Ent);
   return NULL;
 }
@@ -61,7 +61,7 @@ BaseWidget * combat_layOnHands(BaseWidget *w0,BaseWidget *w1){
   ent->UnsetFlag(COMBATENT_MEDIC);
   ent->UnsetFlag(COMBATENT_HERBS);
   ent->m8006f8a0();
-  gGlobals.combatBytes[0] = 9;
+  gGlobals.combatBytes[0] = CombatState_9;
   FUN_80072698(gCombatP->substruct2,ent);
   return NULL;
 }
@@ -71,7 +71,7 @@ BaseWidget * combat_healWithHerbs(BaseWidget *w0,BaseWidget *w1){
   ent->UnsetFlag(COMBATENT_MEDIC);
   ent->UnsetFlag(COMBATENT_HERBS);
   ent->m8006f8bc();
-  gGlobals.combatBytes[0] = 9;
+  gGlobals.combatBytes[0] = CombatState_9;
   FUN_80072698(gCombatP->substruct2,ent);
   return NULL;
 }

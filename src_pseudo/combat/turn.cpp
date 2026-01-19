@@ -166,7 +166,7 @@ bool CombatTurn::FUN_8007381c(CombatTurn_s *param_1) {
 }
 
 void CombatTurn::PartyDead(CombatTurn_s *param_1) {
-  gGlobals.combatBytes[0] = 0xd;
+  gGlobals.combatBytes[0] = CombatState_13;
   combat_func_if_alaron_dead();
   if ((gCombatP->current_Ent) &&
      (copy_string_to_combat_textbox(gCombatP,ComString(PartyKO),0),
@@ -179,7 +179,7 @@ void CombatTurn::PartyDead(CombatTurn_s *param_1) {
 void CombatTurn::EnemiesDead(CombatTurn_s *param_1) {
   set_boss_flag();
   calc_combat_loot(gCombatP);
-  gGlobals.combatBytes[0] = 0xc;
+  gGlobals.combatBytes[0] = CombatState_12;
   gGlobals.screenFadeMode = 1;
   if ((gCombatP->current_Ent) &&
     (gCombatP->encounter_dat->EncounterID != FLAG_GoblinAmbush))
@@ -239,8 +239,8 @@ void CombatTurn::StartTurn(CombatTurn_s *param_1,CombatEntity *param_2,u8 param_
         CombatAI::DebateFleeing(param_2,true);
       else
         CombatAI::DebateFleeing(param_2,param_3 != gCombatP->leaderIndex);
-      gGlobals.combatBytes[0] = 8;
-      gGlobals.combatBytes[1] = 8;
+      gGlobals.combatBytes[0] = CombatState_8;
+      gGlobals.combatBytes[1] = CombatState_8;
       if (CombatAI::IsAlly(param_2->aiP)) return;
       FUN_80072454(gCombatP->substruct2,param_2);
       FUN_80072454(gCombatP->substruct2 + 1,param_2);
@@ -260,8 +260,8 @@ void CombatTurn::StartTurn(CombatTurn_s *param_1,CombatEntity *param_2,u8 param_
   }
   FUN_80072454(gCombatP->substruct2,param_2);
   FUN_80072454(gCombatP->substruct2 + 1,param_2);
-  gGlobals.combatBytes[1] = 1;
-  gGlobals.combatBytes[0] = 1;
+  gGlobals.combatBytes[1] = CombatState_1;
+  gGlobals.combatBytes[0] = CombatState_1;
 }
 
 
@@ -273,7 +273,7 @@ void CombatTurn::FUN_80073e3c(CombatTurn_s *param_1) {
   float fVar5;
   
   clear_camera_playerdata_focus();
-  if (1 < gGlobals.combatBytes[0] - 0xc) {
+  if (1 < gGlobals.combatBytes[0] - CombatState_12) {
     if (Entity::isDead((gGlobals.party)->Members[0]))
       combat_func_if_alaron_dead();
     else {

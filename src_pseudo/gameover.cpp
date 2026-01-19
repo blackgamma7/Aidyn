@@ -28,7 +28,7 @@ LAB_8002411c:
       Entity::addHP(pCVar3,Entity::getHPMax(pCVar3) - Entity::getHPCurrent(pCVar3));
       if (pvVar9) {
         if (gGlobals.screenFadeModeSwitch == 2) {
-          gGlobals.combatBytes[0] = 0x15;
+          gGlobals.combatBytes[0] = CombatState_21;
         }
         dialoug_func(pvVar9->borg_13,pvVar9->RefPointID,pvVar9->MapDatA,pvVar9->MapShortA,
                      pvVar9->MapShortB,0x7fff);

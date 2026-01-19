@@ -84,20 +84,20 @@ Gfx * FUN_80027bf0(Gfx *g,u16 delta,CharSheet *param_3){
   u8 range;
   
   SpellInstance* spell = Entity::GetSpell(param_3);
-  if (gGlobals.combatBytes[0] == 0xb) {
+  if (gGlobals.combatBytes[0] == CombatState_11) {
     if (spell != NULL) {
       range = Entity::CheckSpellWizard(param_3,spell);
       if (GETINDEX((spell->base).id) == SPELLIND_teleportation) range = 1;
       g = CombatSpellMarker::Tick(g,(u8)delta,range,0xff0000ff);
     }
   }
-  else if (gGlobals.combatBytes[0] == 10) {
+  else if (gGlobals.combatBytes[0] == CombatState_10) {
     if (spell != NULL) {
       g = CombatSpellMarker::Tick(g,(u8)delta,
          spell->range * Entity::CheckSpellWizard(param_3,spell),0xff0000ff);
     }
   }
-  else if (gGlobals.combatBytes[0] == 0x12) {
+  else if (gGlobals.combatBytes[0] == CombatState_18) {
     g = CombatSpellMarker::Tick(g,(u8)delta,1,0x00ff00ff);
   }
   return g;
@@ -109,7 +109,7 @@ Gfx * Combat_Render(Gfx *gfx,s16 delta){
   playerData *player = gGlobals.playerDataArray[gCombatP->current_Ent->index];
   Gfx *g = gfx;
   g = Graphics::StartDisplay(gfx,FULL_SCREENSPACE);
-  if (gGlobals.combatBytes[0] - 10 < 2) CombatTargetVisuals::Render(true,delta);
+  if (gGlobals.combatBytes[0] - CombatState_10 < 2) CombatTargetVisuals::Render(true,delta);
   else CombatTargetVisuals::Render(false,delta);
   g = Lensflare::Render(g);
   handleZoneEngineFrame(&g,delta,player);
@@ -167,9 +167,9 @@ u8 FUN_80027f1c(Gfx **GG,u16 delta){
     if (PDAT == NULL) return 2;
     if ((pCVar2->throwingFlag) && (gCombatP->substruct2[0].arrayBCount)){
       bVar1 = pCVar2->AtkType;
-      if (((bVar1 == 2) || (bVar1 == 4)) || (bVar1 == 3)) {
+      if (((bVar1 == ATKT_2) || (bVar1 == ATKT_4)) || (bVar1 == ATKT_Potion)) {
         gamecombat_weapon_func();
-        gGlobals.combatBytes[0] = 3;
+        gGlobals.combatBytes[0] = CombatState_3;
         (gCombatP->SpellMarkerPos).x = pCVar2->GetCoordX();
         (gCombatP->SpellMarkerPos).y = pCVar2->GetCoordY();
         return 2;
@@ -185,7 +185,7 @@ u8 FUN_80027f1c(Gfx **GG,u16 delta){
     }
     else func_keel_over_after_ambush(pCVar3,PDAT);
     if (Entity::isDead(pCVar3->charSheetP)) Set_keelover_aniType(PDAT);
-    gGlobals.combatBytes[0] = 4;
+    gGlobals.combatBytes[0] = CombatState_4;
     copy_to_textbox_1(gCombatP);
   }
   *GG = Combat_Render(*GG,delta);
@@ -221,7 +221,7 @@ void FUN_80028180(void){
   FREEQSCENE(SceneDataP);
   user->ShowWeaponSheild();
   copy_to_textbox_1(gCombatP);
-  gGlobals.combatBytes[0] = 4;
+  gGlobals.combatBytes[0] = CombatState_4;
 }
 
 
@@ -301,7 +301,7 @@ void FUN_800284d4(void){
           gCombatP->some_index = i;
 LAB_8002864c:
           if (i == pCVar2->index) {
-            gGlobals.combatBytes[0] = 6;
+            gGlobals.combatBytes[0] = CombatState_6;
             return;
           }
           pCVar4 = (&gCombatP->combatEnts)[i];
@@ -337,9 +337,9 @@ u8 FUN_80028778(Gfx **GG,u16 delta){
   }
   if ((ppVar3->flags & ACTOR_CANMOVE) == 0) {
     gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
-    if (gGlobals.combatBytes[1] == 8) {
+    if (gGlobals.combatBytes[1] == CombatState_8) {
       pCVar2->m80068e38();
-      gGlobals.combatBytes[0] = 6;
+      gGlobals.combatBytes[0] = CombatState_6;
     }
     else pCVar2->EndTurn();
   }
@@ -368,7 +368,7 @@ u8 FUN_80028940(Gfx **GG,u16 delta){
       if ((gGlobals.playerDataArray[user->index]->flags & ACTOR_CANROTATE) == 0) {
         user->SetPlayerRotate();
         gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
-        if (gGlobals.combatBytes[1] == 8) FUN_800645b4(user->aiP);
+        if (gGlobals.combatBytes[1] == CombatState_8) FUN_800645b4(user->aiP);
         else if (!gCombatP->substruct2[0].arrayB[uVar1]) {
           if (user->charSheetP->spellVal < 0) {
             if ((user->aiP == NULL) ||
@@ -391,7 +391,7 @@ u8 FUN_80028aec(Gfx **GG,u16 delta){
   if ((gGlobals.playerDataArray[gCombatP->current_Ent->index]->flags & ACTOR_CANROTATE) == 0) {
     gCombatP->current_Ent->SetPlayerRotate();
     gCombatP->current_Ent->m80068dd8();
-    gGlobals.combatBytes[0] = 5;
+    gGlobals.combatBytes[0] = CombatState_5;
   }
   *GG = Combat_Render(*GG,delta);
   return 2;
@@ -416,12 +416,12 @@ u8 combat_byte_func_12(Gfx **GG,u16 delta){
     }
     set_boss_flag();
     gGlobals.screenFadeMode = 2;
-    gGlobals.combatBytes[1] = 0xf;
+    gGlobals.combatBytes[1] = CombatState_15;
     DAT_800e9b6c = 0;
     passto_getSnapshot();
     build_loot_menu(gCombatP->loot_pool,gCombatP->gold_pool,-1);
     gCombatP->loot_pool = NULL;
-    gGlobals.combatBytes[1] = 0x10;
+    gGlobals.combatBytes[1] = CombatState_16;
     gGlobals.expGained = gCombatP->EXP_pool;
     return 6;
   }
@@ -466,7 +466,7 @@ u8 combat_byte_func_14(Gfx **GG,u16 delta){
   if (DAT_800e9b6c < 2) return 2;
   else {
     FreeZoneEngineMemory();
-    gGlobals.combatBytes[1] = 1;
+    gGlobals.combatBytes[1] = CombatState_1;
     GetSnapshot_();
     gGlobals.BackgroundTypeCopy = gGlobals.sky.Type;
     gPartyPicker = gCombatP->current_Ent->index;
@@ -530,9 +530,9 @@ byte FUN_80029028(Gfx **param_1,u16 delta){
 u8 FUN_80029088(Gfx **GG,u16 delta){return FUN_80029028(GG,delta);}
 
 void FUN_800290a4(){
-  byte bVar1 = gGlobals.combatBytes[0];
-  gGlobals.combatBytes[0] = 0x1b;
-  gGlobals.combatByteMirror = bVar1;
+  u8 b = gGlobals.combatBytes[0];
+  gGlobals.combatBytes[0] = CombatState_27;
+  gGlobals.combatByteMirror = b;
 }
 
 u8 combat_byte_func_27(Gfx **GG,u16 delta){
@@ -540,7 +540,7 @@ u8 combat_byte_func_27(Gfx **GG,u16 delta){
   
   if (DAT_800e9b6c < 2) uVar1 = 2;
   else {
-    if (gExpPakFlag == 0) FreeZoneEngineMemory();
+    if (!gExpPakFlag) FreeZoneEngineMemory();
     GetSnapshot_();
     uVar1 = 3;
     gGlobals.unk14fc = true;
@@ -564,7 +564,7 @@ u8 FUN_80029168(Gfx **GG,u16 delta){
   if (60 <= ++gCombatP->TurnCount) {
     gCombatP->TurnCount = 0;
     gGlobals.screenFadeMode = 1;
-    gGlobals.combatBytes[0] = 0x1e;
+    gGlobals.combatBytes[0] = CombatState_30;
   }
   return bVar2;
 }
@@ -585,7 +585,7 @@ u8 combat_byte_func_30(Gfx **GG,u16 delta){
 u8 combat_byte_func_31(Gfx **GG,u16 delta){
   u8 bVar1 = FUN_80028ff0(GG,delta);
   if (gGlobals.screenFadeMode == 0) {
-    u8 bStack_45 [] [4]={{0,0,0,1},{0,0,0,8}}; //? u32[2] cast to u8[2][4]?
+    u8 bStack_45 [] [4]={{0,0,0,CombatState_1},{0,0,0,CombatState_8}}; //? u32[2] cast to u8[2][4]?
     gGlobals.combatBytes[0] = bStack_45[gCombatP->current_Ent->aiP != NULL][3];
   }
   return bVar1;
@@ -612,8 +612,8 @@ u8 ScreenFadeMode_2(Gfx **GG){
   init_combat_struct();
   uVar3 = 2;
   if (!FUN_8000c9e0()) {
-    if ((((gGlobals.combatBytes[0] - 0xe < 2) || (gGlobals.combatBytes[0] == 0xc)) ||
-        (gGlobals.combatBytes[0] == 0x1b)) || (gGlobals.combatBytes[0] == 0x1c)) {
+    if ((((gGlobals.combatBytes[0] - CombatState_14 < 2) || (gGlobals.combatBytes[0] == CombatState_12)) ||
+        (gGlobals.combatBytes[0] == CombatState_27)) || (gGlobals.combatBytes[0] == CombatState_28)) {
       DAT_800e9b6c++;
     }
     else DAT_800e9b6c = 0;
@@ -654,7 +654,7 @@ void init_combat_struct(void){
     ALLOC(gCombatP,1745);
     memset_combat_struct(gCombatP);
     //ganerate random encounter if something went wrong.
-    if (gGlobals.combatBytes[2] == 0) {
+    if (!gGlobals.combatBytes[2]) {
       random_enemy_generator();
       gGlobals.EncounterDat.globalLoot= Loot_LizardBoss;
       gGlobals.EncounterDat.EncounterID = 0;
@@ -687,7 +687,7 @@ void init_combat_struct(void){
     NOOP_800941E0();
     InitSpellVisuals();
     CombatMarkers::Init();
-    gGlobals.combatBytes[0] = 0x1f;
+    gGlobals.combatBytes[0] = CombatState_31;
     gGlobals.screenFadeMode = 2;
     gGlobals.goblinAmbush = false;
     gGlobals.brightness = 0.0;
@@ -702,7 +702,7 @@ void init_combat_struct(void){
     CombatSpellMarker::Init();
     combat_start_turn_();
     init_combatSkill_itemValues();
-    gGlobals.combatByteMirror = 0;
+    gGlobals.combatByteMirror = CombatState_0;
   }
 }
 
@@ -715,10 +715,10 @@ void clear_combat_func(){
   u32 *puVar9;
   
   if (clear_combatstruct_flag) {
-    load_combatstruct_flag = 1;
-    clear_combatstruct_flag = 0;
+    load_combatstruct_flag = true;
+    clear_combatstruct_flag = false;
     gGlobals.EncounterDat.field3_0x1c = 0;
-    gGlobals.combatBytes[2] = 0;
+    gGlobals.combatBytes[2] = false;
     setCombatCameraMode(0);
     NOOP_80091404();
     if (gGlobals.EncounterDat.EncounterID == FLAG_GoblinAmbush) {
@@ -806,7 +806,7 @@ void refersh_terrain_check_anidat_alaronMerge(){
 
 
 void FUN_80029ba8(void){
-  gGlobals.combatBytes[0] = 0x18;
+  gGlobals.combatBytes[0] = CombatState_24;
   gCombatEndWaitTimer = 120;
 }
 
@@ -896,15 +896,15 @@ void random_enemy_generator(){
   for (; i < 0xc; i++) gGlobals.EncounterDat.enemy_entities[i]=0;
 }
 
-
 void clear_alaron_shadow_indices(){
   gGlobals.ShadowIndex = -1;
   gGlobals.AlaronIndex = -1;
 }
 
 void alaron_shadow_merge_attempt(){
-  if ((((gGlobals.combatBytes[0] != 0x11) && (gGlobals.combatBytes[0] != 0x1d)) &&
-      (gGlobals.combatBytes[0] != 0x1e)) &&
+  if ((((gGlobals.combatBytes[0] != CombatState_17) && 
+      (gGlobals.combatBytes[0] != CombatState_29)) &&
+      (gGlobals.combatBytes[0] != CombatState_30)) &&
      ((gGlobals.ShadowIndex != -1 && (gGlobals.AlaronIndex != -1)))) {
     playerData *shadow = gGlobals.playerDataArray[(&gCombatP->combatEnts)[gGlobals.ShadowIndex]->index];
     if (shadow) {
@@ -920,14 +920,14 @@ void alaron_shadow_merge_attempt(){
 }
 
 void shadow_merge_cinematic(void){
-  gGlobals.combatBytes[0] = 0x11;
+  gGlobals.combatBytes[0] = CombatState_17;
   Cinematic::Load(Cinematic_Shadow,CSwitch_ToMenu,1);
 }
 
 void merge_no_horn(){
   if (HasHornOfKynon()) shadow_merge_cinematic();
   else {
-    gGlobals.combatBytes[0] = 0x1d;
+    gGlobals.combatBytes[0] = CombatState_29;
     copy_string_to_combat_textbox(gCombatP,ComString(ShadowVanish),0);
     for(u32 i=0;i<gCombatP->EntCount;i++){
         if((&gCombatP->combatEnts[i])&&(gGlobals.playerDataArray[gCombatP->combatEnts[i].index])){
@@ -1027,13 +1027,13 @@ void combat_func_if_alaron_dead(void){
 }
 
 void combat_byte_0xd(void){
-  gGlobals.combatBytes[0] = 0xd;
+  gGlobals.combatBytes[0] = CombatState_13;
   gGlobals.screenFadeMode = 1;
 }
 
 void combat_byte_0x1a(void){
   FUN_80029ba8();
-  gGlobals.combatBytes[0] = 0x1a;
+  gGlobals.combatBytes[0] = CombatState_26;
 }
 
-void set_combat_byte_to_0x1c(){gGlobals.combatBytes[0] = 0x1c;}
+void set_combat_byte_to_0x1c(){gGlobals.combatBytes[0] = CombatState_28;}

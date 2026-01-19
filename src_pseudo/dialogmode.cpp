@@ -237,7 +237,7 @@ void encounterDat_func(){
   if (0x1b < gGlobals.EncounterDat.battlefield) {
     gGlobals.EncounterDat.battlefield = 0;
   }
-  gGlobals.combatBytes[2] = 1;
+  gGlobals.combatBytes[2] = true;
   gGlobals.EncounterDat.canFlee = dialougemode_pointer->func_index != 1;
 }
 

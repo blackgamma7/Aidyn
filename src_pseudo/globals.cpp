@@ -357,7 +357,7 @@ void battle_setup_func(voxelObject *param_1,u16 flag,u16 param_3){
   printLine(0x30b);
   gGlobals.EncounterDat.VoxelBitfield = (param_1->header).Bitfeild;
   printLine(0x30e);
-  gGlobals.combatBytes[2] = 1;
+  gGlobals.combatBytes[2] = true;
   printLine(0x311);
   get_battle_terrain(&gGlobals.EncounterDat);
   printLine(0x314);
@@ -381,7 +381,7 @@ void load_camp_ambush(void){
   gGlobals.EncounterDat.aniByte = 0;
   gGlobals.EncounterDat.EncounterID = 0;
   gGlobals.EncounterDat.canFlee = false;
-  gGlobals.combatBytes[2] = 1;
+  gGlobals.combatBytes[2] = true;
   u8 ter = World::getTerrain(TerrainPointer);
   u32 lv = PARTY->GetAvgLevel();
   if(lv>20)      lvTeir=4;

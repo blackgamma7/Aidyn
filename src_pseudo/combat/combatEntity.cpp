@@ -404,7 +404,7 @@ void CombatEntity::m80068e38(){
       Actor::SetFacing(gGlobals.playerDataArray[this->index],-this->facing.x,-this->facing.y);
     }
     gGlobals.combatBytes[1] = gGlobals.combatBytes[0];
-    gGlobals.combatBytes[0] = 6;
+    gGlobals.combatBytes[0] = CombatState_6;
   }
   return;
 }
@@ -414,8 +414,8 @@ void CombatEntity::FaceTarget(CombatEntity *param_2){
   playerData *ppVar2;
   float fVar3;
   
-  gGlobals.combatBytes[0] = 6;
-  gGlobals.combatBytes[1] = 6;
+  gGlobals.combatBytes[0] = CombatState_6;
+  gGlobals.combatBytes[1] = CombatState_6;
   if (param_2 != this) {
     ppVar1 = gGlobals.playerDataArray[this->index];
     ppVar2 = gGlobals.playerDataArray[param_2->index];
@@ -638,7 +638,7 @@ LAB_800696f0:
 u8 CombatEntity::CanBeTargeted(CombatEntity *target,s32 param_3){
   if (target->charSheetP->ID != IDEntInd(Shadow)) {
     if (!Flag89()) {
-      if (gGlobals.combatBytes[0] == 0x19) return target == this;
+      if (gGlobals.combatBytes[0] == CombatState_25) return target == this;
       if (!m8006963c(target)) return false;
     }
     else {
@@ -884,7 +884,7 @@ void CombatEntity::m8006a274(){
   UnsetFlag(COMBATENT_HERBS);
   SetAktRangeMulti(true);
   this->numMoves = 1;
-  if (gGlobals.SomeCase == 3) gGlobals.combatBytes[1] = 0x13;
+  if (gGlobals.SomeCase == 3) gGlobals.combatBytes[1] = CombatState_19;
 }
 
 
@@ -964,7 +964,7 @@ void CombatEntity::EndTurn(){
       }
     }
   }
-  gGlobals.combatBytes[0] = 1;
+  gGlobals.combatBytes[0] = CombatState_1;
   Combat_SetHideMarkers(0);
   if ((!Entity::isDead(this->charSheetP)) && (!Flag6())) {gGlobals.playerDataArray[this->index]->ani_type = 0;}
   ShowWeaponFlask();
@@ -2603,8 +2603,8 @@ u8 CombatEntity::CalculateAttack(CombatEntity *target,u8 param_3){
   this->numMoves = 1;
   if (this->AtkType != ATKT_Potion) target->damage = (u8)sVar6;
   set_camera_playerdata_focus(ppVar2,ppVar3);
-  gGlobals.combatBytes[0] = 2;
-  gGlobals.combatBytes[1] = 2;
+  gGlobals.combatBytes[0] = CombatState_2;
+  gGlobals.combatBytes[1] = CombatState_2;
   Combat_SetHideMarkers(1);
   return sVar6 != 0;
 }
@@ -2661,14 +2661,14 @@ void CombatEntity::Troubadour(){
     }
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
     print_combat_textbox(gCombatP,gGlobals.text,0);
-    gGlobals.combatBytes[0] = 1;
+    gGlobals.combatBytes[0] = CombatState_1;
   }
   else {
     if (CharStats::getModded(this->charSheetP->Stats,STAT_STAM) == 0) {
       CSprintf(TroubTired,this->charSheetP->name);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);
-      gGlobals.combatBytes[0] = 1;
+      gGlobals.combatBytes[0] = CombatState_1;
     }
     else {
       iVar3 = this->charSheetP->Skills->getModdedSkill(SKILL_Troubador) * 5 + CharStats::getModded(this->charSheetP->Stats,STAT_INT)*2;

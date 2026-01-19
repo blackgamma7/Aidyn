@@ -99,7 +99,7 @@ void some_init_func(void) {
   CLEAR(&gGlobals.gameVars);
   init_DBs();
   gGlobals.screenFadeModeSwitch = 0xf;
-  gGlobals.combatBytes[2] = 0;
+  gGlobals.combatBytes[2] = false;
   gGlobals.screenFadeMode = 2;
   gGlobals.screenFadeSpeed = 0.0;
   gGlobals.brightness = 0.0;
@@ -174,7 +174,7 @@ code_r0x80023c48:
       if (gGlobals.screenFadeModeSwitch != 2) {
         if (gGlobals.screenFadeModeSwitch != 1) break;
         gGlobals.screenFadeModeSwitch = 2;
-        gGlobals.combatBytes[0] = 0x10;
+        gGlobals.combatBytes[0] = CombatState_16;
       }
       break;
     case 5:

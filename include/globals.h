@@ -173,12 +173,48 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u16 screenFadeMode;
     u16 field92_0x204a;
     char** CommonStrings;
-    u8 goblinAmbush; //set true if combat enconter is goblin ambus at start
+    u8 goblinAmbush; //set true if combat enconter is goblin ambush at start
     float VolSFX;
     float VolBGM;
     float cloudsFloat;
     N64PrintStruct DebugQueue;
     char text[0x200]; //text buffer used for sprintf's.
+};
+
+//state indecies used by gGlobals.combatBytes[0:1] 
+enum CombatStates{
+  CombatState_0,
+  CombatState_1,
+  CombatState_2,
+  CombatState_3,
+  CombatState_4,
+  CombatState_5,
+  CombatState_6,
+  CombatState_7,
+  CombatState_8,
+  CombatState_9,
+  CombatState_10,
+  CombatState_11,
+  CombatState_12,
+  CombatState_13,
+  CombatState_14,
+  CombatState_15,
+  CombatState_16,
+  CombatState_17,
+  CombatState_18,
+  CombatState_19,
+  CombatState_20,
+  CombatState_21,
+  CombatState_22,
+  CombatState_23,
+  CombatState_24,
+  CombatState_25,
+  CombatState_26,
+  CombatState_27,
+  CombatState_28,
+  CombatState_29,
+  CombatState_30,
+  CombatState_31,
 };
 
 extern void(*freeWidgetFunc)(BaseWidget*);

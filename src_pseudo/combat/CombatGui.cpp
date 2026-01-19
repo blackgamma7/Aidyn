@@ -370,7 +370,6 @@ void FUN_80090568(void){
     }
 }
 
-
 void FUN_80090634(void){
   WidgetBorg8Combat *pWVar1;
   int iVar5;
@@ -393,12 +392,13 @@ void FUN_80090634(void){
           pWVar1->SetColor(200,0,0,0x96);
         if ((gCombatP->substruct2[0].arrayB[pCVar4->cEntIndex]) &&
            (gCombatP->substruct2[0].arrayA[pCVar4->cEntIndex])){
-          if ((gGlobals.combatBytes[0] == 9) || (gGlobals.combatBytes[0] == 0x12)) {
+          if ((gGlobals.combatBytes[0] == CombatState_9) || (gGlobals.combatBytes[0] == CombatState_18)) {
             pWVar1->SetColor(COLOR_GREEN0);
           }
         }
         if (((gCombatP->substruct2[1].arrayB[pCVar4->cEntIndex]) &&
-            (gCombatP->substruct2[1].arrayA[pCVar4->cEntIndex])) && (gGlobals.combatBytes[0] - 10 < 2)) {
+            (gCombatP->substruct2[1].arrayA[pCVar4->cEntIndex])) && 
+            (gGlobals.combatBytes[0] - CombatState_10 < 2)) {
           pWVar1->SetColor(0xff,0,0,0xff);
         }
       }

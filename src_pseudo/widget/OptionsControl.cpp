@@ -73,7 +73,7 @@ BaseWidget * PauseMenuSelectCallback(BaseWidget *w0,BaseWidget *w1) {
             break;
         }
         case OptionN_Flee:{
-            gGlobals.combatBytes[1] = 0x14;
+            gGlobals.combatBytes[1] = CombatState_20;
             break;
         }
         case OptionN_Help:{

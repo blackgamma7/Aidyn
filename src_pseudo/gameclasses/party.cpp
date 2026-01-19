@@ -350,7 +350,7 @@ u8 Party::CombatItemCheck1(CharSheet* param_2,u8 param_3,ItemID param_4){
     if ((&gCombatP->combatEnts)[param_3] == NULL) return true;
     if (param_2->ID != IDEntInd(Niesen)) {
       gCombatP->combatEnts[param_3].m8006f8d8(param_4,uVar2);
-      if (bVar4 < POTION_HEALING) gGlobals.combatBytes[1] = 0x13;
+      if (bVar4 < POTION_HEALING) gGlobals.combatBytes[1] = CombatState_19;
       return false;
     }
   }
@@ -480,7 +480,7 @@ byte itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_
         Entity::EquipWeapon(param_4,IVar1,X);
         param_4->weapons->base.SetMagicCharges(bVar5);
         bVar6 = 0;
-        if (gGlobals.combatBytes[0] == 0xe) {
+        if (gGlobals.combatBytes[0] == CombatState_14) {
           gCombatP->combatEnts[param_2].m8006a274();
           bVar6 = 0;
         }
@@ -713,7 +713,7 @@ u8 Party::RemoveArmorFrom(u8 index){
   int line;
   byte bVar7;
   
-  if (gGlobals.combatBytes[0] == 0xe) return true;
+  if (gGlobals.combatBytes[0] == CombatState_14) return true;
   pCVar1 = this->Members[index];
   if (!pCVar1) return true;
   pAVar2 = pCVar1->armor[0];
@@ -725,7 +725,7 @@ u8 Party::RemoveArmorFrom(u8 index){
   uVar5 = this->Inventory->AddItem((pAVar2->base).id,1);
   if (uVar5 == 0) {
     if (X == NULL) return true;
-    line = 0x572;
+    line = 1394;
   }
   else {
     uVar5= this->Inventory->GetItemIndex((pAVar2->base).id);
@@ -736,7 +736,7 @@ u8 Party::RemoveArmorFrom(u8 index){
       return false;
     }
     if (X == NULL) return true;
-    line = 0x57d;
+    line = 1405;
   }
   HFREE(X,line);
   return true;
@@ -752,7 +752,7 @@ u8 Party::RemoveShieldFrom(u8 slot){
   
   pCVar1 = this->Members[slot];
   if (!pCVar1) return true;
-  if (gGlobals.combatBytes[0] == 0xe) return true;
+  if (gGlobals.combatBytes[0] == CombatState_14) return true;
   pAVar2 = pCVar1->armor[1];
   if (!pAVar2) return false;
   X = CreateStatMod((pAVar2->base).statMod);
@@ -788,7 +788,7 @@ u8 Party::RemoveWeaponsFrom(u8 param_2){
     if (pTVar5->base.spellCharge) {uVar6 = pTVar5->base.spellCharge->Charges;}
     if (this->Inventory->AddItem((pTVar5->base).id,1) == 0) {
       if (X) {
-        HFREE(X,0x5dd);
+        HFREE(X,1501);
         return true;
       }
     }
@@ -797,18 +797,18 @@ u8 Party::RemoveWeaponsFrom(u8 param_2){
       if (II) {
         UpdateItemStatCharges(II,X,uVar6);
         Entity::UnequipWeapons(pCVar1);
-        if (gGlobals.combatBytes[0] != 0xe) {return false;}
+        if (gGlobals.combatBytes[0] != CombatState_14) return false;
         if (gCombatP) { //change visible weapon model
-          if (&gCombatP->combatEnts == NULL) {return false;}
+          if (&gCombatP->combatEnts == NULL) return false;
           CombatEntity *pCVar3 = (&gCombatP->combatEnts)[param_2];
-          if (pCVar3 == NULL) {return false;}
+          if (pCVar3 == NULL) return false;
           pCVar3->AtkType = 0;
           pCVar3->ShowWeaponSheild();
         }
         return false;
       }
       if (X) {
-        HFREE(X,0x5e9);
+        HFREE(X,1513);
         return true;
       }
     }
@@ -1893,7 +1893,7 @@ void Party::CampHeal(u8 halfHeal){
     }
   }
   DecRitualTimers(1,uVar9);
-  gGlobals.combatBytes[2] = 0;
+  gGlobals.combatBytes[2] = false;
 }
 
 u8 Party::CampAmbushCheck(){

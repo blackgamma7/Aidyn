@@ -142,7 +142,7 @@ void WidgetOptionsMenu::MakeScrollList(){
     txt->varU16 = OptionN_Config;
     sub->ScrollMenu->Append(txt);
     if (gGlobals.screenFadeModeSwitch == 3) {
-      if ((gGlobals.EncounterDat.canFlee) && (gGlobals.combatBytes[0] == 0xe)) {
+      if ((gGlobals.EncounterDat.canFlee) && (gGlobals.combatBytes[0] == CombatState_14)) {
         txt = WClipTXT(Cstring(OptionsFlee));
         txt->varU16 = OptionN_Flee;
         sub->ScrollMenu->Append(txt);

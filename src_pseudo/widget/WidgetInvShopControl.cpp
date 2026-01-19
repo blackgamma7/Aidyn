@@ -108,7 +108,7 @@ LAB_8003de8c:
   }
   else {
     if (ITEMIDTYPE(*pIVar10) != DB_POTION) {
-      if ((ITEMIDTYPE(*pIVar10) == DB_SCROLL) && (gGlobals.combatBytes[0] != 0xe)) {
+      if ((ITEMIDTYPE(*pIVar10) == DB_SCROLL) && (gGlobals.combatBytes[0] != CombatState_14)) {
         bVar13 = PARTY->GetEquipError(this->partyPicker,bVar13,NULL);
         if (bVar13 != 0) {
           goto LAB_8003de94;
@@ -117,7 +117,7 @@ LAB_8003de8c:
       }
       goto LAB_8003dd40;
     }
-    if (gGlobals.combatBytes[0] != 0xe) {
+    if (gGlobals.combatBytes[0] != CombatState_14) {
       if (!Entity::UsePotion(pCVar3,bVar13,*pIVar10,gGlobals.text)) {
         ErrPopup(gGlobals.text);
         return NULL;

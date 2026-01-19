@@ -1547,7 +1547,7 @@ bool FUN_80063258(CombatAIInfo *param_1) {
     if (bVar3) {
       param_1->combatEnt->SetCoords((float)bStack336[0],(float)bStack336[1]);
       gGlobals.combatBytes[1] = gGlobals.combatBytes[0];
-      gGlobals.combatBytes[0] = 5;
+      gGlobals.combatBytes[0] = CombatState_5;
       gCombatP->waitTimer = 240;
       return true;
     }
@@ -1717,7 +1717,7 @@ void FUN_80063db0(CombatAIInfo *ai,float x0,float y0,float x1,float y1,float sca
   ai->combatEnt->SetCoords(vecRes.x,vecRes.y);
   FUN_800713fc(&gCombatP->substruct,ai->combatEnt->GetCoordXU8(),ai->combatEnt->GetCoordXU8(),ai->combatEnt->unk23);
   gGlobals.combatBytes[1] = gGlobals.combatBytes[0];
-  gGlobals.combatBytes[0] = 5;
+  gGlobals.combatBytes[0] = CombatState_5;
   gCombatP->waitTimer = 240;
 }
 

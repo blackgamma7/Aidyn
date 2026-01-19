@@ -125,7 +125,6 @@ void combatEnt_setup(CombatStruct *param_1,u8 index){
   C_Ent->SetAktRangeMulti(false);
 }
 
-
 u16 count_enemies(EncounterDat *param_1){
     u16 c=0;
   for(u16 i=0;i<4;i++) {
@@ -141,7 +140,6 @@ byte find_sholeh(EncounterDat *param_1){
 }
 
 void NOOP_800658a0(u8 players,u8 enemies){}
-
 
 u8 recount_enemy_party(EncounterDat *param_1,u16 param_2){
   u32 uVar1;
@@ -749,7 +747,6 @@ void copy_string_to_combat_textbox(CombatStruct *cStruct,char *param_2,u32 param
   CombatTextboxWidget_SetText(param_2);
 }
 
-
 char * print_combat_textbox(CombatStruct *cStruct,char *param_2,u32 param_3){
   char *ret = strcpy(cStruct->textboxes[1],param_2);
   cStruct->TextboxFlag|= param_3;
@@ -766,7 +763,6 @@ void passto_combat_widget_print_func(CombatStruct *cStruct){
   CombatTextboxWidget_SetText(cStruct->textboxes[0]);
 }
 
-
 void copy_to_textbox_1(CombatStruct *cStruct){
   if ((cStruct->TextboxFlag & 4)) {
     strcpy(cStruct->textboxes[1],cStruct->textboxes[2]);
@@ -775,11 +771,9 @@ void copy_to_textbox_1(CombatStruct *cStruct){
   copy_string_to_combat_textbox(cStruct,cStruct->textboxes[1],0);
 }
 
-
 void Ofunc_800678e8(CombatStruct *cStruct){
   copy_string_to_combat_textbox(cStruct,cStruct->textboxes[2],0);
 }
-
 
 void check_battlefeild_fleeing_refpoints(CombatStruct *cStruct){
   char buff [88];

@@ -36,7 +36,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   this->Handler = param_2;
   uVar6 = gGlobals.unk14fc;
   bVar3 = gGlobals.screenFadeModeSwitch == 6;
-  bVar4 = gGlobals.combatBytes[0] != 0xf;
+  bVar4 = gGlobals.combatBytes[0] != CombatState_15;
   sub = new pause_Substruct;
   this->substruct = sub;
   sub->unk22 = 0;

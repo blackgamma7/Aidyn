@@ -127,7 +127,7 @@ u8 ScreenFadeMode_3(Gfx **GG) {
       u8_800edb99 = 1;
       gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
       if (gGlobals.unk14fc) {
-        if (gGlobals.combatBytes[1] != 0x14) {
+        if (gGlobals.combatBytes[1] != CombatState_20) {
           gGlobals.combatBytes[0] = (byte)gGlobals.combatByteMirror;
         }
         goto LAB_800504ac;
@@ -136,7 +136,7 @@ u8 ScreenFadeMode_3(Gfx **GG) {
     case 10:
       bVar7 = 1;
       u8_800edb99 = 1;
-      gGlobals.combatBytes[0] = 1;
+      gGlobals.combatBytes[0] = CombatState_1;
       break;
     case 0xc:
       BaseWidget* pPVar2= WHANDLE->GetTail();
@@ -237,7 +237,7 @@ LAB_80050770:
       case 5:
         u8_800edb90 = 6;
         gGlobals.BigAssMenu->bigAssOpenCallback_2();
-        gGlobals.combatBytes[0] = 0xf;
+        gGlobals.combatBytes[0] = CombatState_15;
         gGlobals.screenFadeModeSwitch = 7;
         break;
       case 6:
