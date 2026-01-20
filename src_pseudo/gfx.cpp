@@ -299,11 +299,9 @@ u8 Graphics::ResolutionCheck(void){
 }
 
 // sets OSSCTask paramaters
-GtaskMsg* Graphics::CreateTask(Gfx *glist,OSMesgQueue *param_2)
-//ghidra did NOT like this function, for some reason.
-{
-  GtaskMsg *pOVar5 =&gGfxManager.taskMsgs[gGfxManager.bufferChoice];
-  gGfxManager.tasks[gGfxManager.bufferChoice] = *pOVar5->task;
+OSScTask* Graphics::CreateTask(Gfx *glist,OSMesgQueue *param_2){
+  OSScTask *pOVar5 =&gGfxManager.tasks[gGfxManager.bufferChoice];
+  gGfxManager.taskMsgs[gGfxManager.bufferChoice].task = pOVar5;
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.type = M_GFXTASK;
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.flags = 0;
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.data_ptr=(u64*)gGfxManager.GfxLists[gGfxManager.bufferChoice];
@@ -316,7 +314,7 @@ GtaskMsg* Graphics::CreateTask(Gfx *glist,OSMesgQueue *param_2)
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.data_size = (s32)&glist - (s32)gGfxManager.GfxLists[gGfxManager.bufferChoice];
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.dram_stack_size = 0x400;
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.dram_stack = (u64*)gGfxManager.outputBuff;
-  pOVar5->task = NULL;
+  pOVar5->next = NULL;
   gGfxManager.tasks[gGfxManager.bufferChoice].state = 0;
   gGfxManager.tasks[gGfxManager.bufferChoice].msgQ = param_2;
   gGfxManager.tasks[gGfxManager.bufferChoice].list.t.output_buff = (u64*)gGfxManager.yieldData;

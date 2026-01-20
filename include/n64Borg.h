@@ -846,7 +846,7 @@ enum Borg9GroundFlags{
 };
 enum Borg9PhysFlags{
     B9Phys_0001=1,
-    B9Phys_0002=2,
+    B9Phys_SpeedProperty=2,
     B9Phys_EdgeA=4,
     B9Phys_EdgeB=8,
     B9Phys_EdgeC=0x10,
@@ -855,14 +855,14 @@ enum Borg9PhysFlags{
     B9Phys_VertB=0x40,
     B9Phys_VertC=0x80,
     B9Phys_VertMask=B9Phys_VertA|B9Phys_VertB|B9Phys_VertC,
-    B9Phys_0100=0x100,
+    B9Phys_NormalizeTri=0x100,
     B9Phys_0200=0x200,
-    B9Phys_0400=0x400,
-    B9Phys_0800=0x800,
-    B9Phys_1000=0x1000, //has default callback of struct_unk_.check_trigger_func
-    B9Phys_2000=0x2000,
-    B9Phys_4000=0x4000,
-    B9Phys_8000=0x8000,
+    B9Phys_0400=0x400, //not read?
+    B9Phys_0800=0x800, //not read?
+    B9Phys_DefaultCallback=0x1000, //has default callback of struct_unk_.check_trigger_func
+    B9Phys_NegateColA=0x2000,
+    B9Phys_4000=0x4000, //not read?
+    B9Phys_8000=0x8000, //not read?
 };
 
 struct borg9_phys {

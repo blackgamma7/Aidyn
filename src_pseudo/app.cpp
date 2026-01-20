@@ -109,8 +109,8 @@ void AppProc(void *x){
   s16 sVar9;
   u32 uVar10;
   u32 gListSizeMax;
-  s16 *psStack_40;
-  s16 **ppsStack_3c;
+  GtaskMsg *psStack_40;
+  GtaskMsg **ppsStack_3c;
   
   ALLOCS(appManager.Mesg,sizeof(OSMesg)*8,0x117);
   osCreateMesgQueue(&appManager.MesgQ2,appManager.Mesg,8);
@@ -121,7 +121,7 @@ void AppProc(void *x){
   sVar9 = 0;
   while(1) {
     osRecvMesg(&appManager.MesgQ2,(OSMesg*)ppsStack_3c,1);
-    switch(*psStack_40){
+    switch(psStack_40->unkShort){
       case 1:{
         if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
         if (Graphics::ResolutionCheck()) {
@@ -163,7 +163,7 @@ void AppProc(void *x){
       break;
       }
       case 2:{
-        Graphics::getTaskTime((GtaskMsg*)psStack_40);
+        Graphics::getTaskTime(psStack_40);
         gGlobals.ticker++;
         sVar9--;
         if ((0.0 < gLensFlarePos.x)&&(gLensFlarePos.x<SCREEN_WIDTH)&&
@@ -216,7 +216,7 @@ void appProc_init(void){
   gGlobals.diaClass = new DialougeClass(WHANDLE);
   HresMirror = Graphics::GetHRes();
   VresMirror = Graphics::GetVRes();
-  gGlobals.appstateBool = 1;
+  gGlobals.appstateBool = true;
   gGlobals.VolSFX = 1.0f;
   gGlobals.VolBGM = 0.65f;
 }

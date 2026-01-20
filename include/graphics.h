@@ -63,7 +63,7 @@ Gfx* DebugDrawRect(Gfx *,u16 ,u16 ,u16 ,u16 ,u8 ,u8 ,u8 ,u8 );
 Gfx* StartDisplay(Gfx *,u16 ,u16 ,u16 ,u16 );
 Gfx* EndList(Gfx *);
 u8 ResolutionCheck();
-GtaskMsg* CreateTask(Gfx *,OSMesgQueue *);
+OSScTask* CreateTask(Gfx *,OSMesgQueue *);
 void getTaskTime(GtaskMsg *);
 u8 GetBufferChoice();
 void* pickBuffer(void *,void *);

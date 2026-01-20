@@ -199,23 +199,23 @@ void attachPhysicsProperties(Borg9Data *param_1){
       switch(uVar3 & B9Ground_mf000){
         case 0:{
           pbVar2[i].GroundType = uVar1 | (B9Ground_CanToggle|B9Ground_VoxTrigger);
-          pbVar2[i].flags |= B9Phys_1000;
+          pbVar2[i].flags |= B9Phys_DefaultCallback;
           break;
         }
         case B9Ground_CanToggle:{
           pbVar2[i].GroundType = (u16)((uVar3 + 1 & 0x7f) << 5) | B9Ground_CanToggle | uVar1 & 0x1f;
-          pbVar2[i].flags |= B9Phys_1000;
+          pbVar2[i].flags |= B9Phys_DefaultCallback;
           break;
         }
         case B9Ground_VoxTrigger:{
           pbVar2[i].GroundType = (u16)((uVar3 & 0x7f) << 5) | B9Ground_VoxTrigger | uVar1 & 0x1f;
-          pbVar2[i].flags |= B9Phys_1000;
+          pbVar2[i].flags |= B9Phys_DefaultCallback;
           break;
         }
         case B9Ground_ExpPak:{
           if (gExpPakFlag){
             pbVar2[i].GroundType = uVar3 | (B9Ground_CanToggle|B9Ground_VoxTrigger);
-            pbVar2[i].flags |= B9Phys_1000;
+            pbVar2[i].flags |= B9Phys_DefaultCallback;
           }
           else{
             pbVar2[i].flags = B9Phys_0001;

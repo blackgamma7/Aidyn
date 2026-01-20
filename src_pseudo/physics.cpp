@@ -149,19 +149,18 @@ s16 CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSectio
   sStack94 = 0.0;
   sStack90 = 0.0;
   sVar12 = 0;
-  if (param_2->collideCount) {
-    for(iVar13=0;iVar13<param_2->collideCount;iVar13++) {
+  for(iVar13=0;iVar13<param_2->collideCount;iVar13++) {
       pbVar11 = param_3 + (u16)param_2->collideIndecies[iVar13];
       if (((collider->flags & CSPHERE_0200) == 0) || ((pbVar11->flags & B9Phys_0200) == 0)) {
         bVar3 = false;
         bVar7 = (pbVar11->flags & B9Phys_0001);
-        if ((pbVar11->flags & B9Phys_0100)) {
+        if ((pbVar11->flags & B9Phys_NormalizeTri)) {
           NormalizeTri(&pbVar11->normal,pbVar11->verts[0],pbVar11->verts[1],
                        pbVar11->verts[2]);
         }
         fVar15 = collider->radius;
         fVar14 = collider->envProps->colA->unk8 + pbVar11->envProperty->colA->unk8;
-        if ((pbVar11->flags & B9Phys_2000)) {
+        if ((pbVar11->flags & B9Phys_NegateColA)) {
           fVar14 = 0.0;
         }
         bVar6 = FUN_800aea44(&collider->pos,&collider->vel,fVar15 + fVar14,pbVar11,&fStack96,&fStack160);
@@ -197,10 +196,10 @@ s16 CollideCollisionSphereWithVoxelPolys(collisionSphere *collider,CollideSectio
 LAB_800afe60:
           if (bVar3) {
 LAB_800afe6c:
-            if ((pbVar11->flags & B9Phys_0002)){
+            if ((pbVar11->flags & B9Phys_SpeedProperty)){
               collider->envProps->Speed = pbVar11->envProperty->Speed;
             }
-            if ((pbVar11->flags & B9Phys_1000)) {
+            if ((pbVar11->flags & B9Phys_DefaultCallback)) {
               PerformCallback(8,collider,pbVar11);
             }
           }
@@ -305,7 +304,6 @@ LAB_800afe6c:
           goto LAB_800afe6c;
         }
       }
-    }
   }
   sVar5 = collider->hits;
   if (sVar12) {
