@@ -157,9 +157,9 @@ void Scene::SetFlag80_800a7b1c(SceneData *scene){scene->flags|= SCENE_0080;}
 //unused, redundant
 void Scene::UnsetFlag80_800a7b2c(SceneData *scene){scene->flags&= ~SCENE_0080;}
 
-borg5substruct * Ofunc_800a7b40(SceneData *scene){
+Borg5Transform * Ofunc_800a7b40(SceneData *scene){
   if (scene->borg5->dat.borg3P) 
-    return scene->borg5->dat.someSubstruct;
+    return scene->borg5->dat.transforms;
   return NULL;
 }
 
@@ -318,13 +318,13 @@ void Ofunc_800a8060(SceneData *scene,u8 b){scene->perspNormIndex=b&1;}
 
 void Scene::SetSpeed(SceneData *scene,u8 spd){scene->aniSpeed = spd;}
 
-borg5substruct * Scene::Ofunc_800a8098(SceneData *scene,s32 param_2){
-  return scene->borg5->dat.someSubstruct + param_2;
+Borg5Transform * Scene::Ofunc_800a8098(SceneData *scene,s32 param_2){
+  return scene->borg5->dat.transforms + param_2;
 }
 
 
 void FUN_800a80ac(SceneData *scene,vec3f *out,int i){
-  borg5substruct *pbVar1 = scene->borg5->dat.someSubstruct;
+  Borg5Transform *pbVar1 = scene->borg5->dat.transforms;
   out->x = pbVar1[i].pos.x;
   out->y = pbVar1[i].pos.y;
   out->z = pbVar1[i].pos.z;
@@ -332,7 +332,7 @@ void FUN_800a80ac(SceneData *scene,vec3f *out,int i){
 
 
 void FUN_800a80d8(SceneData *scene,vec3f *param_2,s32 param_3){
-  borg5substruct *pbVar1 = scene->borg5->dat.someSubstruct;
+  Borg5Transform *pbVar1 = scene->borg5->dat.transforms;
   pbVar1[param_3].pos.x = param_2->x;
   pbVar1[param_3].pos.y = param_2->y;
   pbVar1[param_3].pos.z = param_2->z;
@@ -665,11 +665,11 @@ void Scene::Ofunc_800a8e80(SceneData *scene,SceneData *param_2){scene->locatorSc
 void Scene::Ofunc_800a8e88(SceneData *scene,SceneData *param_2){scene->locatorScene2 = param_2;}
 
 bool Scene::GetRotate(SceneData *scene,vec3f *posOut,vec3f *aimOut,vec3f *param_4){
-  borg5substruct *pbVar1;
+  Borg5Transform *pbVar1;
   MtxF mf;
   vec3f v3A,v3b;
   
-  pbVar1 = scene->borg5->dat.someSubstruct;
+  pbVar1 = scene->borg5->dat.transforms;
   if (pbVar1) {
     posOut->x = (pbVar1->pos).x;
     posOut->y = (pbVar1->pos).y;

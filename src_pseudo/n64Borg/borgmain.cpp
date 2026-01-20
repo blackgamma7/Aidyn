@@ -375,16 +375,16 @@ void borg3_free(Borg3Header *param_1){
 void borg5_func_a(Borg5Header *b5){
   u32 *puVar1;
   u16 *puVar4;
-  borg5substruct *pbVar6;
+  Borg5Transform *pbVar6;
   int i;
   
-  pbVar6 = (b5->dat).someSubstruct;
+  pbVar6 = (b5->dat).transforms;
   if (pbVar6 != NULL) {
-    pbVar6 = (borg5substruct *)((int)&b5 + (int)&pbVar6);
-    i = (b5->dat).substructCount;
-    (b5->dat).someSubstruct = pbVar6;
+    pbVar6 = (Borg5Transform *)((int)&b5 + (int)&pbVar6);
+    i = (b5->dat).transformCount;
+    (b5->dat).transforms = pbVar6;
     for (; i != 0; i--) {
-      pbVar6->links = (borg5substruct **)((int)(pbVar6->links + 4) + (int)b5);
+      pbVar6->links = (Borg5Transform **)((int)(pbVar6->links + 4) + (int)b5);
       pbVar6++;
     }
   }
@@ -420,14 +420,14 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
   Vtx_t *puVar12;
   u32 uVar12;
   u32 uVar13;
-  borg5substruct **ppbVar14;
+  Borg5Transform **ppbVar14;
   Vtx_t *pVVar15;
   int j;
   int i;
   Borg2Header **ppBVar18;
   Borg4Header **ppBVar19;
   Borg1Header **ppBVar20;
-  borg5substruct *pbVar21;
+  Borg5Transform *pbVar21;
   u32 uVar22;
   Vtx_t *pVVar23;
   
@@ -439,15 +439,15 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
   }
   u32 size = 0;//calculate size for needed structs and use in one alloc
   j = 0;
-  i = (param_1->dat).substructCount;
-  pbVar21 = (param_1->dat).someSubstruct;
+  i = (param_1->dat).transformCount;
+  pbVar21 = (param_1->dat).transforms;
   if (0 < i) {
     do {
       size += sizeof(Borg5Struct2);
       j++;
       ppbVar14 = pbVar21->links;
       for (uVar12 = (u32)pbVar21->tier; uVar12 != 0; uVar12--) {
-        *ppbVar14 = (param_1->dat).someSubstruct + (int)*ppbVar14;
+        *ppbVar14 = (param_1->dat).transforms + (int)*ppbVar14;
         ppbVar14++;
       }
       pbVar21++;
@@ -509,8 +509,8 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
     }
   }
   void* p = HALLOC(size,1727);
-  pbVar21 = (param_1->dat).someSubstruct;
-  i = (param_1->dat).substructCount;
+  pbVar21 = (param_1->dat).transforms;
+  i = (param_1->dat).transformCount;
   param_1->allocedDat = p;
   if (i != 0) {
     pbVar21->unkStruct = (Borg5Struct2 *)p;

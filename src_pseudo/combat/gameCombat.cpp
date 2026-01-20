@@ -17,7 +17,7 @@
 u32 some_combat_flag_ =false;
 u32 load_combatstruct_flag=true;
 u32 clear_combatstruct_flag=false;
-u16 DAT_800e9b6c=0;
+u16 CombatStateTimer=0;
 float FLOAT_800e9b70=0;
 float FLOAT_800e9b74=0;
 float FLOAT_800e9b78=0;
@@ -417,9 +417,9 @@ u8 CombatStateFunc_12(Gfx **GG,u16 delta){
     }
     set_boss_flag();
     gGlobals.screenFadeMode = 2;
-    gGlobals.combatBytes[1] = CombatState_15;
-    DAT_800e9b6c = 0;
-    passto_getSnapshot();
+    gGlobals.combatBytes[1] = CombatState_15; //overwritten several lines later
+    CombatStateTimer = 0;
+    passto_getSnapshot(); //also in build_loot_menu()
     build_loot_menu(gCombatP->loot_pool,gCombatP->gold_pool,-1);
     gCombatP->loot_pool = NULL;
     gGlobals.combatBytes[1] = CombatState_16;
@@ -465,7 +465,7 @@ u8 CombatStateFunc_13(Gfx **GG,u16 delta){
 }
 
 u8 CombatStateFunc_14(Gfx **GG,u16 delta){
-  if (DAT_800e9b6c < 2) return 2;
+  if (CombatStateTimer < 2) return 2;
   else {
     FreeZoneEngineMemory();
     gGlobals.combatBytes[1] = CombatState_1;
@@ -500,7 +500,7 @@ u8 CombatStateFunc_19(Gfx **GG,u16 delta){
 
 u8 CombatStateFunc_20(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
-  gGlobals.gameVars.unk120e = 1;
+  gGlobals.gameVars.combatFlee = true;
   return 1;
 }
 
@@ -537,11 +537,11 @@ void FUN_800290a4(){
   gGlobals.combatBytes[0] = CombatState_27;
   gGlobals.combatByteMirror = b;
 }
-
+// take screenshot for pause menu.
 u8 CombatStateFunc_27(Gfx **GG,u16 delta){
   u8 uVar1;
   
-  if (DAT_800e9b6c < 2) uVar1 = 2;
+  if (CombatStateTimer < 2) uVar1 = 2;
   else {
     if (!gExpPakFlag) FreeZoneEngineMemory();
     GetSnapshot_();
@@ -554,7 +554,7 @@ u8 CombatStateFunc_27(Gfx **GG,u16 delta){
 
 u8 CombatStateFunc_28(Gfx **GG,u16 delta){
   u8 bVar1;
-  if (DAT_800e9b6c < 120) bVar1 = CombatStateFunc_1(GG,delta);
+  if (CombatStateTimer < 120) bVar1 = CombatStateFunc_1(GG,delta);
   else {
     combat_byte_0xd();
     bVar1 = 2;
@@ -617,9 +617,9 @@ u8 ScreenFadeMode_2(Gfx **GG){
   if (!FUN_8000c9e0()) {
     if ((((gGlobals.combatBytes[0] - CombatState_14 < 2) || (gGlobals.combatBytes[0] == CombatState_12)) ||
         (gGlobals.combatBytes[0] == CombatState_27)) || (gGlobals.combatBytes[0] == CombatState_28)) {
-      DAT_800e9b6c++;
+      CombatStateTimer++;
     }
-    else DAT_800e9b6c = 0;
+    else CombatStateTimer = 0;
     int delta = combat_controls();
     gGlobals.delta = (float)delta;
 

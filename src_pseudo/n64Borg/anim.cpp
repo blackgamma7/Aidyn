@@ -515,7 +515,7 @@ Gfx * Ofunc_8009e228(Gfx *g,SceneData *param_2,int param_3){
 
 #define DtoR_f 0.017453292f //a few more decimals used for these funcs.
 
-void Borg5Sub_op0(borg5substruct *param_1,MtxF *mf){
+void Borg5Transform_op0(Borg5Transform *param_1,MtxF *mf){
   float sinx;
   float siny;
   float sinz;
@@ -551,7 +551,7 @@ void Borg5Sub_op0(borg5substruct *param_1,MtxF *mf){
   (*mf)[3][3] = 1.0f;
 }
 
-void Borg5Sub_op1(borg5substruct *param_1,MtxF *mf){
+void Borg5Transform_op1(Borg5Transform *param_1,MtxF *mf){
   float sinx = __sinf((param_1->rot).x * DtoR_f);
   float cosx = __cosf((param_1->rot).x * DtoR_f);
   float siny = __sinf((param_1->rot).y * DtoR_f);
@@ -585,7 +585,7 @@ void Borg5Sub_op1(borg5substruct *param_1,MtxF *mf){
 }
 
 
-void Borg5Sub_op2(borg5substruct *param_1,MtxF *param_2){  
+void Borg5Transform_op2(Borg5Transform *param_1,MtxF *param_2){  
   float sinx = __sinf(-(param_1->rot).x * DtoR_f);
   float cosx = __cosf(-(param_1->rot).x * DtoR_f);
   float siny = __sinf(-(param_1->rot).y * DtoR_f);
@@ -653,7 +653,7 @@ void some_matrix_func(MtxF *param_1,float posX,float posY,float posZ,float param
   (*param_1)[3][3] = 1.0f;
 }
 
-void Borg5Sub_op3(borg5substruct *param_1,MtxF *param_2){
+void Borg5Transform_op3(Borg5Transform *param_1,MtxF *param_2){
   vec3f outV;
   vec3f inV;
   MtxF rotMtx;
@@ -682,7 +682,7 @@ void Borg5Sub_op3(borg5substruct *param_1,MtxF *param_2){
 }
 
 
-void Borg5Sub_op4(borg5substruct *param_1,MtxF *param_2){
+void Borg5Transform_op4(Borg5Transform *param_1,MtxF *param_2){
   float fVar1;
   float fVar2;
   float fVar3;
@@ -708,18 +708,18 @@ void Borg5Sub_op4(borg5substruct *param_1,MtxF *param_2){
 }
 
 
-void Borg5Sub_ops(borg5substruct *param_1,MtxF *param_2){
+void Borg5Transform_ops(Borg5Transform *param_1,MtxF *param_2){
   switch(param_1->mtxOp) {
   case 0:
-    Borg5Sub_op0(param_1,param_2);break;
+    Borg5Transform_op0(param_1,param_2);break;
   case 1:
-    Borg5Sub_op1(param_1,param_2);break;
+    Borg5Transform_op1(param_1,param_2);break;
   case 2:
-    Borg5Sub_op2(param_1,param_2);break;
+    Borg5Transform_op2(param_1,param_2);break;
   case 3:
-    Borg5Sub_op3(param_1,param_2);break;
+    Borg5Transform_op3(param_1,param_2);break;
   case 4:
-    Borg5Sub_op4(param_1,param_2);
+    Borg5Transform_op4(param_1,param_2);
   }
 }
 
@@ -752,13 +752,13 @@ void FUN_8009ee48(MtxF *in,MtxF *out){
 }
 
 
-void FUN_8009ee98(borg5substruct *param_1,MtxF *param_2){
-  borg5substruct *pbVar1;
+void FUN_8009ee98(Borg5Transform *param_1,MtxF *param_2){
+  Borg5Transform *pbVar1;
   u32 uVar2;
-  borg5substruct **ppbVar3;
+  Borg5Transform **ppbVar3;
   MtxF auStack80;
   
-  Borg5Sub_ops(param_1,&MtxF_800f54b0);
+  Borg5Transform_ops(param_1,&MtxF_800f54b0);
   some_matrix_func_1(&auStack80,param_2,&MtxF_800f54b0);
   FUN_8009ed9c(&auStack80,param_1->unkStruct->mfs + 1);
   ppbVar3 = param_1->links;
@@ -798,8 +798,8 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
   MtxF *paafVar9;
   int iVar10;
   int iVar11;
-  borg5substruct *pbVar12;
-  borg5substruct *pbVar13;
+  Borg5Transform *pbVar12;
+  Borg5Transform *pbVar13;
   float fVar14;
   float fVar15;
   float fVar16;
@@ -828,22 +828,22 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
     pafVar5 = pafVar5 + 1;
   } while (param_2 != (MtxF *)pafVar7);
   FUN_8009ee48(&mf0,&mf0);
-  pbVar12 = pBStack_40->someSubstruct;
-  iVar11 = pBStack_40->substructCount;
+  pbVar12 = pBStack_40->transforms;
+  iVar11 = pBStack_40->transformCount;
   if (pBStack_40->borg3P) {
     if ((param_1->flags & SCENE_0040) == 0) {
       if ((param_1->flags & SCENE_0008) == 0) {
         if ((param_1->flags & SCENE_0010) == 0) {
-          Borg5Sub_ops(pbVar12,&mf2);
+          Borg5Transform_ops(pbVar12,&mf2);
           some_matrix_func_1(&mf5,&mf0,&mf2);
         }
         else {
-          Borg5Sub_ops(pbVar12,&param_1->matrixB);
+          Borg5Transform_ops(pbVar12,&param_1->matrixB);
           FUN_8009ee48(&param_1->matrixB,&mf5);
         }
       }
       else if ((param_1->flags & SCENE_0010) == 0) {
-        Borg5Sub_ops(pbVar12,&mf2);
+        Borg5Transform_ops(pbVar12,&mf2);
         FUN_8009ee48(&param_1->matrixB,&mf1);
         some_matrix_func_1(&mf5,&mf2,&mf1);
       }
@@ -917,10 +917,10 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
     pbVar13 = pbVar12;
     do {
       if ((param_1->flags & SCENE_0020) == 0) {
-        Borg5Sub_ops(pbVar13,&mf2);
+        Borg5Transform_ops(pbVar13,&mf2);
         some_matrix_func_1(&mf3,&mf0,&mf2);
       }
-      else Borg5Sub_ops(pbVar13,&mf3);
+      else Borg5Transform_ops(pbVar13,&mf3);
       pbVar12++;
       iVar11--;
       FUN_8009ed9c(&mf3,pbVar13->unkStruct->mfs);
@@ -951,12 +951,12 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
 
 void Ofunc_8009f4e0(SceneData *param_1){
   Borg5Header *pBVar2;
-  borg5substruct *pbVar3;
+  Borg5Transform *pbVar3;
   int iVar4;
   
   pBVar2 = param_1->borg5;
-  pbVar3 = (pBVar2->dat).someSubstruct;
-  iVar4 = (pBVar2->dat).substructCount;
+  pbVar3 = (pBVar2->dat).transforms;
+  iVar4 = (pBVar2->dat).transformCount;
   if (0 < iVar4) {
     do {
       if ((pbVar3->flag & 2)) {
@@ -970,11 +970,11 @@ void Ofunc_8009f4e0(SceneData *param_1){
 void Ofunc_8009f554(SceneData *param_1,vec3f *param_2){
   Borg5Header *pBVar1;
   Borg5Struct2 *pBVar2;
-  borg5substruct *pbVar4;
+  Borg5Transform *pbVar4;
   int iVar5;  
   pBVar1 = param_1->borg5;
-  pbVar4 = (pBVar1->dat).someSubstruct;
-  iVar5 = (pBVar1->dat).substructCount;
+  pbVar4 = (pBVar1->dat).transforms;
+  iVar5 = (pBVar1->dat).transformCount;
   if (0 < iVar5) {
     do {
       iVar5--;
@@ -995,8 +995,8 @@ void Ofunc_8009f554(SceneData *param_1,vec3f *param_2){
 
 void Ofunc_8009f608(SceneData *param_1){
   Borg5Header *pBVar1 = param_1->borg5;
-  borg5substruct *pbVar4 = (pBVar1->dat).someSubstruct;
-  for (s32 i = (pBVar1->dat).substructCount; i != 0; i--,pbVar4++) {
+  Borg5Transform *pbVar4 = (pBVar1->dat).transforms;
+  for (s32 i = (pBVar1->dat).transformCount; i != 0; i--,pbVar4++) {
     Borg5Struct2 *pBVar2 = pbVar4->unkStruct;
     (pBVar2->unk17c).x = pBVar2->mfs[1][3][0] - (pBVar2->unk170).x;
     (pBVar2->unk17c).y = pBVar2->mfs[1][3][1] - (pBVar2->unk170).y;
@@ -1005,8 +1005,8 @@ void Ofunc_8009f608(SceneData *param_1){
 }
 
 void Ofunc_8009f664(SceneData *param_1){
-  borg5substruct *pbVar4 = (param_1->borg5->dat).someSubstruct;
-  for (s32 i = (param_1->borg5->dat).substructCount; i != 0; i--) {
+  Borg5Transform *pbVar4 = (param_1->borg5->dat).transforms;
+  for (s32 i = (param_1->borg5->dat).transformCount; i != 0; i--) {
     (pbVar4->unkStruct->unk17c).x = 0.0;
     (pbVar4->unkStruct->unk17c).y = 0.0;
     (pbVar4->unkStruct->unk17c).z = 0.0;
@@ -1025,7 +1025,7 @@ void FUN_8009f6b4(SceneData *param_1,Borg6Header *param_2){
   int iVar5;
   Borg5Header *pbVar6;
   void *bDat;
-  borg5substruct *pbVar7;
+  Borg5Transform *pbVar7;
   Borg6Struct4 *pBVar8;
   int iVar9;
   
@@ -1038,7 +1038,7 @@ void FUN_8009f6b4(SceneData *param_1,Borg6Header *param_2){
         pbVar6 = (Borg5Header *)getLoadedBorg(pBVar2->borg5);
         uVar3 = pBVar2->unk4;
         if (uVar3 == 1) {
-          pbVar7 = ((param_1->borg5)->dat).someSubstruct + (int)pBVar8->unk10;
+          pbVar7 = ((param_1->borg5)->dat).transforms + (int)pBVar8->unk10;
           pBVar8->unk10 = pbVar7;
           pBVar2->borg5 = (u32)pbVar7;
         }
@@ -1636,10 +1636,10 @@ void FUN_800a0800(Borg6Struct4 *param_1,float param_2) {
   u32 uVar6;
   SceneDatSubstruct *pSVar7;
   int iVar8;
-  borg5substruct *pvVar2;
+  Borg5Transform *pvVar2;
   
   iVar8 = 3;
-  pvVar2 = (borg5substruct *)param_1->unk10;
+  pvVar2 = (Borg5Transform *)param_1->unk10;
   pSVar7 = param_1->unkc;
   pvVar5 = &pvVar2->rot;
   uVar6 = param_1->sub->unkc;
@@ -1691,15 +1691,15 @@ void FUN_800a0800(Borg6Struct4 *param_1,float param_2) {
 //TODO: Redo once relevant data is better understood
 void FUN_800a0940(Borg6Struct4 *param_1){
   Borg6Struct1 *pBVar1;
-  borg5substruct *puVar2;
+  Borg5Transform *puVar2;
   u32 uVar2;
   Borg5Struct2 *iVar1;
   
   pBVar1 = param_1->sub;
-  puVar2 = (borg5substruct *)param_1->unk10;
+  puVar2 = (Borg5Transform *)param_1->unk10;
   if (pBVar1->unk4 == 1) {
     iVar1 = puVar2->unkStruct;
-    puVar2 = (borg5substruct *)&puVar2->rot;
+    puVar2 = (Borg5Transform *)&puVar2->rot;
     iVar1->unk140.x = 0;
     iVar1->unk140.y = 0;
     iVar1->unk140.z = 0;
@@ -1720,7 +1720,7 @@ void FUN_800a0940(Borg6Struct4 *param_1){
       puVar2->mtxOp = 0;
       puVar2->tier = 0;
     }
-    puVar2 = (borg5substruct *)&puVar2->links;
+    puVar2 = (Borg5Transform *)&puVar2->links;
   }
   return;
 }
@@ -1920,7 +1920,7 @@ void Ofunc_800a0e30(void){
 struct unkAnimStruct{
     SceneData* scene;
     Borg5Data* b5;
-    borg5substruct*b5Sub;
+    Borg5Transform*b5Sub;
     Borg2Header*b2;
     Borg1Header*b1;
     Borg2Struct*unk14;
@@ -2086,7 +2086,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   int iVar21;
   float (*mf) [4] [4];
   int i,j;
-  borg5substruct *pbVar23;
+  Borg5Transform *pbVar23;
   u16 *instructs;
   float fVar25;
   float fVar26;
@@ -2103,7 +2103,7 @@ Gfx * BorgAnimDrawSceneRaw(Gfx *g,SceneData *param_2){
   unkAnimStructB.b1 = NULL;
   unkAnimStructB.unk14 = NULL;
   unkAnimStructB.b5 = &pBVar1->dat;
-  pbVar23 = (pBVar1->dat).someSubstruct;
+  pbVar23 = (pBVar1->dat).transforms;
   normInd = param_2->perspNormIndex & 1;
   if (pBVar1->dat.borg3P) pbVar23++;
   i = 0;
@@ -2285,7 +2285,7 @@ switchD_800a1cc4_caseD_8:
       }
       break;
     case B5INST_MATRIX:
-      pbVar23 = (unkAnimStructB.b5)->someSubstruct + val;
+      pbVar23 = (unkAnimStructB.b5)->transforms + val;
       pGVar12 = pGVar10 + 1;
       unkAnimStructB.b5Sub = pbVar23;
       if ((pbVar23->flag & 2) == 0) {

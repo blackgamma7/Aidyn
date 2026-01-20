@@ -283,7 +283,7 @@ void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
       borg9_phys *pbVar2 = (gGlobals.gameVars.borg9DatPointer)->phys_pointer;
       for(u16 i=0;i<(gGlobals.gameVars.borg9DatPointer)->borghpys_count;i++){
         u16 gFlag = pbVar2[i].GroundType;
-        if (((gFlag & B9Ground_mf000) == B9Ground_1000) && ((gFlag >> 5 & 0x7f) == (v->trigger).flagA))
+        if (((gFlag & B9Ground_mf000) == B9Ground_CanToggle) && ((gFlag >> 5 & 0x7f) == (v->trigger).flagA))
           pbVar2[i].flags=pbVar2[i].flags&(v->trigger).flagB|(v->trigger).flagC;
       }
     }

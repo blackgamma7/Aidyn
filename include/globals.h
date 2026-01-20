@@ -80,7 +80,7 @@ struct GlobalsSub { /* 0x800e6988 in Debug version*/
     flycamStruct flycamDat; //used for title screen flycam
     mapFloatDat MapFloatDats[15];
     u16 mapDatFloatInd;
-    u16 unk120e;
+    u16 combatFlee;
     s16 savePosTimer; //every 2 seconds, try to save player position
     u8 unk1212[6];
 };
@@ -184,7 +184,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
 //state indecies used by gGlobals.combatBytes[0:1] 
 enum CombatStates{
   CombatState_0,
-  CombatState_1,
+  CombatState_1, //just render scene
   CombatState_2,
   CombatState_3,
   CombatState_4,
@@ -195,23 +195,23 @@ enum CombatStates{
   CombatState_9,
   CombatState_10,
   CombatState_11,
-  CombatState_12,
-  CombatState_13, // Start Game Over sequence or wake up in Oriana's hut if Goblin Ambush.
-  CombatState_14,
+  CombatState_12, //calculate loot pool
+  CombatState_13, //Start Game Over sequence or wake up in Oriana's hut if Goblin Ambush.
+  CombatState_14, //open pause menu
   CombatState_15,
   CombatState_16,
-  CombatState_17,
+  CombatState_17, //Alaron merging with Shadow
   CombatState_18,
   CombatState_19,
-  CombatState_20,
-  CombatState_21,
-  CombatState_22,
-  CombatState_23,
+  CombatState_20, //party fleeing
+  CombatState_21, //playing game over scene
+  CombatState_22, //magic and skills menu opened
+  CombatState_23, //potion and item magic menu opened.
   CombatState_24,
   CombatState_25,
   CombatState_26,
-  CombatState_27,
-  CombatState_28,
+  CombatState_27, //pause menu open
+  CombatState_28, //wait 120 ticks after Goblin Ambush KO before going to state 14
   CombatState_29,
   CombatState_30,
   CombatState_31, //Combat initalized

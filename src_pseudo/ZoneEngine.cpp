@@ -198,12 +198,12 @@ void attachPhysicsProperties(Borg9Data *param_1){
       uVar3 = pbVar2[i].GroundType;
       switch(uVar3 & B9Ground_mf000){
         case 0:{
-          pbVar2[i].GroundType = uVar1 | (B9Ground_1000|B9Ground_VoxTrigger);
+          pbVar2[i].GroundType = uVar1 | (B9Ground_CanToggle|B9Ground_VoxTrigger);
           pbVar2[i].flags |= B9Phys_1000;
           break;
         }
-        case B9Ground_1000:{
-          pbVar2[i].GroundType = (u16)((uVar3 + 1 & 0x7f) << 5) | B9Ground_1000 | uVar1 & 0x1f;
+        case B9Ground_CanToggle:{
+          pbVar2[i].GroundType = (u16)((uVar3 + 1 & 0x7f) << 5) | B9Ground_CanToggle | uVar1 & 0x1f;
           pbVar2[i].flags |= B9Phys_1000;
           break;
         }
@@ -214,7 +214,7 @@ void attachPhysicsProperties(Borg9Data *param_1){
         }
         case B9Ground_ExpPak:{
           if (gExpPakFlag){
-            pbVar2[i].GroundType = uVar3 | (B9Ground_1000|B9Ground_VoxTrigger);
+            pbVar2[i].GroundType = uVar3 | (B9Ground_CanToggle|B9Ground_VoxTrigger);
             pbVar2[i].flags |= B9Phys_1000;
           }
           else{
@@ -1599,7 +1599,7 @@ void renderTransZones_(Gfx**GG){
 
 void mapFloatDat_copy(mapFloatDat *param_1){
 
-  gGlobals.gameVars.unk120e = 0;
+  gGlobals.gameVars.combatFlee = false;
   gGlobals.gameVars.mapDatFloatInd = 0;
   gGlobals.gameVars.savePosTimer = 0;
   for(u16 i=0;i<15;i++){
@@ -1667,7 +1667,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   else {
     Map_ = gGlobals.gameVars.MapFloatDatEntry.mapDatA;
     pmVar8 = pmVar6;
-    if ((gGlobals.gameVars.unk120e != 0) &&
+    if ((gGlobals.gameVars.combatFlee) &&
        (pmVar6 = FUN_8000cae8(&gGlobals.gameVars.MapFloatDatEntry.playerVec3,
                               gGlobals.gameVars.MapFloatDatEntry.MapShort1,
                               gGlobals.gameVars.MapFloatDatEntry.MapShort2,

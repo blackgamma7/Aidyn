@@ -541,11 +541,11 @@ struct Borg5AniTexture{
     void* p;
     u8 unk14[4];
 };
-struct borg5substruct {
+struct Borg5Transform {
     u16 flag;
     u8 mtxOp;
     u8 tier;
-    borg5substruct **links;
+    Borg5Transform **links;
     u32 unk0x8;
     Borg5Struct2* unkStruct;
     vec3f rot;
@@ -609,19 +609,19 @@ enum Borg5PartFlag{
 enum Borg5Instruction{
     B5INST_ZERO,//likely unused
     B5INST_LOADTEXTURE,//load texture index by value (or don't if value is 0xff)
-    B5INST_MATRIX,//calulate matrix using someSubstruct[value]
+    B5INST_MATRIX,//calulate matrix using transforms[value]
     B5INST_ANITEXTURE, //not implemmented. crashes with a warning.
     B5INST_LOADVERTS, //set current borg2 to borg2p[value] and load verticies
     B5INST_B2DLIST //load dlist of borg2p[B5INST_LOADVERTS<<8|value].dsplists[value]
 };
 struct Borg5Data {
-    s32 substructCount;
+    s32 transformCount;
     s32 borg4Count;
     s32 borg2Count;
     u32 borg1Count;
     s32 aniTextureCount;
     u32 instructionCount;
-    borg5substruct *someSubstruct;
+    Borg5Transform *transforms;
     u32 unused1c; //at least, unused according to Ghidra.
     void* unused20; //pointer to unused data?
     union{
@@ -838,11 +838,11 @@ enum Borg9GroundFlags{
     B9Ground_0200=0x200,
     B9Ground_0400=0x400,
     B9Ground_0800=0x800,
-    B9Ground_1000=0x1000,
+    B9Ground_CanToggle=0x1000, //Can be changed by activating a trigger "voxel" in the map chunk
     B9Ground_VoxTrigger=0x2000, //triggers a teleport, camera or dialouge voxel
     B9Ground_ExpPak=0x4000, //collision flag for Expansion-Pak-Only props
     B9Ground_8000=0x8000, //unused apart from mask?
-    B9Ground_mf000=(B9Ground_8000|B9Ground_ExpPak|B9Ground_VoxTrigger|B9Ground_1000)
+    B9Ground_mf000=(B9Ground_8000|B9Ground_ExpPak|B9Ground_VoxTrigger|B9Ground_CanToggle)
 };
 enum Borg9PhysFlags{
     B9Phys_0001=1,
@@ -859,7 +859,7 @@ enum Borg9PhysFlags{
     B9Phys_0200=0x200,
     B9Phys_0400=0x400,
     B9Phys_0800=0x800,
-    B9Phys_1000=0x1000,
+    B9Phys_1000=0x1000, //has default callback of struct_unk_.check_trigger_func
     B9Phys_2000=0x2000,
     B9Phys_4000=0x4000,
     B9Phys_8000=0x8000,
@@ -1097,15 +1097,15 @@ void FUN_8009d7b0(Borg1Header *param_1);
 Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2);
 Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,Borg2Struct *param_3);
 Gfx * Ofunc_8009e228(Gfx *param_1,SceneData *param_2,int param_3);
-void Borg5Sub_op0(borg5substruct *param_1,MtxF *mf);
-void Borg5Sub_op1(borg5substruct *param_1,MtxF *mf);
-void Borg5Sub_op2(borg5substruct *param_1,MtxF *mf);
-void Borg5Sub_op3(borg5substruct *param_1,MtxF *mf);
-void Borg5Sub_op4(borg5substruct *param_1,MtxF *mf);
-void Borg5Sub_ops(borg5substruct *param_1,MtxF *mf);
+void Borg5Transform_op0(Borg5Transform *param_1,MtxF *mf);
+void Borg5Transform_op1(Borg5Transform *param_1,MtxF *mf);
+void Borg5Transform_op2(Borg5Transform *param_1,MtxF *mf);
+void Borg5Transform_op3(Borg5Transform *param_1,MtxF *mf);
+void Borg5Transform_op4(Borg5Transform *param_1,MtxF *mf);
+void Borg5Transform_ops(Borg5Transform *param_1,MtxF *mf);
 void FUN_8009ed9c(MtxF *in,MtxF *out);
 void FUN_8009ee48(MtxF *in,MtxF *out);
-void FUN_8009ee98(borg5substruct *param_1,MtxF *param_2);
+void FUN_8009ee98(Borg5Transform *param_1,MtxF *param_2);
 void FUN_8009ef34(SceneData *param_1);
 void Ofunc_8009efd0(SceneData *param_1,MtxF *param_2);
 void FUN_8009f060(SceneData *param_1,MtxF *param_2);
