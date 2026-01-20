@@ -571,7 +571,7 @@ u8 WidgetItemDetail::Tick() {
 }
 
 BaseWidget* WidgetItemDetail::Control(controller_aidyn*cont){
-  if((cont->input_2&C_DOWN)==0){
+  if((cont->held&C_DOWN)==0){
     PlayAudioSound(&gGlobals.SFXStruct,0x74e,0,1.0,0x3c,0);
     this->state = WidgetS_Closing;
   }

@@ -118,75 +118,62 @@ void Controller::InitBuffer(void){
 //reads the input of all controller ports.
 //also saves several arrays for button hold times.
 void Controller::ReadInput(void){
-  s8 sVar1;
-  s8 sVar2;
-  u32 BVar3;
 
-  s32 iVar7;
-  u8 bVar8;
-  ControllerFull *contEntry;
-  u32 buttons;
-  controllerBuffer *buffer;
-  u8 port;
-  float fVar10;
-  float fVar11;
-  float fVar12;
+  u32 BVar3,buttons;
+  float stickY,stickX;
   OSContPad contPad [4];
   
   osSendMesg(&gContManager.contMesgQ,NULL,1);
   osContStartReadData(&gContManager.SIMesgQ);
   osRecvMesg(&gContManager.SIMesgQ,NULL,1);
   osContGetReadData(contPad);
-  if (gContManager.ports) {
-    iVar7 = 0;
-    for(port=0;port<gContManager.ports;port++){
-      buffer = (controllerBuffer *)((s32)gContManager.BufferPointer + (iVar7 - port) * 8); //needs cleanup
+  for(u8 port=0;port<gContManager.ports;port++){
+      controllerBuffer *buffer = &gContManager.BufferPointer[port];
       if (-1 < buffer->ContGet) {
-        bVar8 = buffer->next + 1 & 0x7f;
-        buffer->next = bVar8;
-        contEntry = (ControllerFull *)(&(&buffer->inputlog->contAidyn)[(u32)bVar8 * 3].joy_x + bVar8); //this, too
+        buffer->next = buffer->next + 1 & 0x7f;
+        ControllerFull *contEntry = &buffer->inputlog[buffer->next];
         if (!(contPad[port].errno & CONT_NO_RESPONSE_ERROR)) {
           buttons = contPad[port].button;
           buffer->ContRead = true;
-          fVar12 = (float)(s32)contPad[port].stick_x / 80.0;
-          fVar11 = (float)(s32)contPad[port].stick_y / 80.0;
+          stickX = (float)(s32)contPad[port].stick_x / 80.0;
+          stickY = (float)(s32)contPad[port].stick_y / 80.0;
         }
         else {
-          fVar11 = 0.0;
+          stickY = 0.0;
           buttons = 0;
           buffer->ContRead = false;
-          fVar12 = 0.0;
+          stickX = 0.0;
         }
-        if (fVar12 <= 1.0f) {
-          if (fVar12 < -1.0f) (contEntry->contAidyn).joy_x = -1.0f;
+        if (stickX <= 1.0f) {
+          if (stickX < -1.0f) (contEntry->contAidyn).joy_x = -1.0f;
           else {
-            if (fVar12 <= buffer->hori) {
-              if (fVar12 < -buffer->hori) (contEntry->contAidyn).joy_x = fVar12;
+            if (stickX <= buffer->hori) {
+              if (stickX < -buffer->hori) (contEntry->contAidyn).joy_x = stickX;
               else (contEntry->contAidyn).joy_x = 0.0;
             }
-            else (contEntry->contAidyn).joy_x = fVar12;
+            else (contEntry->contAidyn).joy_x = stickX;
           }
         }
         else (contEntry->contAidyn).joy_x = 1.0f;
-        if (fVar11 <= 1.0) {
-          if (fVar11 < -1.0f) (contEntry->contAidyn).joy_y = -1.0f;
+        if (stickY <= 1.0) {
+          if (stickY < -1.0f) (contEntry->contAidyn).joy_y = -1.0f;
           else {
-            if (fVar11 <= buffer->vert) {
-              if (fVar11 < -buffer->vert) {(contEntry->contAidyn).joy_y = fVar11;}
+            if (stickY <= buffer->vert) {
+              if (stickY < -buffer->vert) {(contEntry->contAidyn).joy_y = stickY;}
               else {(contEntry->contAidyn).joy_y = 0.0;}
             }
-            else {(contEntry->contAidyn).joy_y = fVar11;}
+            else {(contEntry->contAidyn).joy_y = stickY;}
           }
         }
         else (contEntry->contAidyn).joy_y = 1.0;
-        if (0.7f <= fVar12) buttons |= ANA_RIGHT;
-        else if (fVar12 <= -0.7f) buttons |= ANA_LEFT;
-        if (0.7f <= fVar11) buttons |= ANA_UP;
-        else if (fVar11 <= -0.7f) buttons |= ANA_DOWN; 
+        if (0.7f <= stickX) buttons |= ANA_RIGHT;
+        else if (stickX <= -0.7f) buttons |= ANA_LEFT;
+        if (0.7f <= stickY) buttons |= ANA_UP;
+        else if (stickY <= -0.7f) buttons |= ANA_DOWN; 
 
         BVar3 = button_mirror[port];
-        (contEntry->contAidyn).input_2 = buttons;
-        (contEntry->contAidyn).input = buttons & BVar3 ^ buttons;
+        (contEntry->contAidyn).held = buttons;
+        (contEntry->contAidyn).pressed = buttons & BVar3 ^ buttons;
         //tracks hold times of each button. results unused.
         if ((buttons & START_BUTTON) == 0) Start_hold[port] = 0;
         else Start_hold[port]++;
@@ -246,9 +233,7 @@ void Controller::ReadInput(void){
         buffer->ContGet++;
         button_mirror[port] = buttons;
       }
-      iVar7 = port << 4;
     }
-  }
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
 }
 

@@ -199,12 +199,12 @@ u16 Cinematic::Control(void){
   controller_aidyn *cont;
   
   for(delta = 0,cont = NULL;!Controller::GetInput(&cont,0);delta++) {
-    if ((cont->input & (START_BUTTON|B_BUTTON))) {
+    if ((cont->pressed & (START_BUTTON|B_BUTTON))) {
       gGlobals.cinematic.Bstart = 0;
     }
     #ifdef DEBUGVER //may not be for loop, increment above here.
-    if ((cont->input_2 & A_BUTTON)) delta = 12; //Fast Forward
-    if ((cont->input_2 & B_BUTTON)) delta = 1;
+    if ((cont->held & A_BUTTON)) delta = 12; //Fast Forward
+    if ((cont->held & B_BUTTON)) delta = 1;
     #endif
   }
   if (delta == 0) delta = 1;

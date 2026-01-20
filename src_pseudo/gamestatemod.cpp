@@ -79,7 +79,7 @@ u8 ScreenFademode_10(Gfx **GG){
     }
     pGVar5 = *GG;
     while ( Controller::GetInput(&cont,0)) {
-      if ((cont->input_2 & L_BUTTON) != 0) cont->input|= L_BUTTON;
+      if ((cont->held & L_BUTTON) != 0) cont->pressed|= L_BUTTON;
       if (gBufferedMenuP->Control(cont)) {
         gamestatemod_byte = 2;
         DAT_800e61cc = 6;

@@ -74,10 +74,10 @@ void cancel_combat_action(){
 bool LZBStart_to_cancel_Turn(controller_aidyn *cont){
   bool bVar1;
 
-  if (((cont->input & START_BUTTON) == 0) ||
+  if (((cont->pressed & START_BUTTON) == 0) ||
      (bVar1 = renderTicker_GreaterThan3(gCombatP), !bVar1)) {
     bVar1 = false;
-    if ((cont->input & (B_BUTTON|Z_BUTTON|L_BUTTON))) {
+    if ((cont->pressed & (B_BUTTON|Z_BUTTON|L_BUTTON))) {
       cancel_combat_action();
       bVar1 = true;
     }
@@ -96,7 +96,7 @@ bool LZBStart_to_cancel_Turn(controller_aidyn *cont){
 
 
 bool combat_control_press_start(controller_aidyn *cont){
-  if ((cont->input & START_BUTTON) && (renderTicker_GreaterThan3(gCombatP))) {
+  if ((cont->pressed & START_BUTTON) && (renderTicker_GreaterThan3(gCombatP))) {
     gCombatP->renderTicker = 0;
     FUN_800290a4();
     return true;
@@ -107,7 +107,7 @@ bool combat_control_press_start(controller_aidyn *cont){
 bool FUN_8008d4d0(controller_aidyn *cont){
   bool bVar2 = false;
   if (gCombatP->SenseAuraWidget) {
-    if (cont->input == 0) bVar2 = false;
+    if (cont->pressed == 0) bVar2 = false;
     else {
       gCombatP->SenseAuraWidget->SetState(WidgetS_Closing);
       gCombatP->SenseAuraWidget = NULL;
@@ -211,8 +211,8 @@ void FUN_8008d824(){
 
 void combat_control_case_9(controller_aidyn *cont){
   if (LZBStart_to_cancel_Turn(cont)) gCombatP->current_Ent->ShowWeaponFlask();
-  else if ((cont->input & A_BUTTON) == 0) {
-    FUN_8008dac0(cont->input,gCombatP->substruct2,gCombatP->current_Ent);
+  else if ((cont->pressed & A_BUTTON) == 0) {
+    FUN_8008dac0(cont->pressed,gCombatP->substruct2,gCombatP->current_Ent);
   }
   else FUN_8008d718();
 }
@@ -241,11 +241,11 @@ void FUN_8008dac0(u32 button,CombatSubstructB *cont,CombatEntity* param_3){
 
 void combat_control_case_0xa(controller_aidyn *cont){
   if (!LZBStart_to_cancel_Turn(cont)) {
-    if ((cont->input & A_BUTTON)) FUN_8008d5f8();
+    if ((cont->pressed & A_BUTTON)) FUN_8008d5f8();
     else {
-      bool left = (cont->input & (ANA_LEFT|D_LEFT)) != 0;
+      bool left = (cont->pressed & (ANA_LEFT|D_LEFT)) != 0;
       if (left) FUN_800728c4(gCombatP->substruct2 + 1,1);
-      bool right = (cont->input & (ANA_RIGHT|D_RIGHT)) != 0;
+      bool right = (cont->pressed & (ANA_RIGHT|D_RIGHT)) != 0;
       if (right) FUN_800728c4(gCombatP->substruct2 + 1,-1);
       if (right || left) FUN_8008d9d4(gCombatP->substruct2 + 1,gCombatP->current_Ent);
     }
@@ -339,7 +339,7 @@ bool FUN_8008dcfc(controller_aidyn *cont,u16 param_2){
 
 void combat_control_case_0xb(controller_aidyn *cont,s8 param_2){
   if (!LZBStart_to_cancel_Turn(cont)) {
-    if ((cont->input & A_BUTTON))FUN_8008d824();
+    if ((cont->pressed & A_BUTTON))FUN_8008d824();
     else {
       if (param_2 == 1) {
         CombatEntity *Ent = gCombatP->current_Ent;
@@ -385,7 +385,7 @@ void combat_control_case_0x12(controller_aidyn *cont,u8 param_2){
   playerData *ppVar4;
   
   if (!LZBStart_to_cancel_Turn(cont)) {
-    u32 button = cont->input;
+    u32 button = cont->pressed;
     if ((button & A_BUTTON) == 0) {
       bool notCLeft = (button & C_LEFT) == 0;
       pCVar3 = gCombatP->current_Ent;
@@ -414,19 +414,16 @@ void combat_control_case_0x12(controller_aidyn *cont,u8 param_2){
 }
 
 void movement_checking_shadow(CombatEntity *param_1,playerData *param_2){
-  bool bVar1;
-  float fVar2;
-  float fVar3;
-  
+
   if (((param_1->moveRange != 1) && (gGlobals.ShadowIndex != -1)) &&
      (IsNearShadow(param_1))) {
     param_1->SetMovementRange();
     Actor::SetCombatMove(param_2,&(param_2->collision).pos,(float)param_1->moveRange);
-    fVar2 = param_1->GetCoord2X();
-    fVar3 = param_1->GetCoord2Y();
+    float x2 = param_1->GetCoord2X();
+    float y2 = param_1->GetCoord2Y();
     param_1->SetCoords2((param_2->collision).pos.x,(param_2->collision).pos.z);
     CombatMarkers::Create(param_1);
-    param_1->SetCoords2(fVar2,fVar3);
+    param_1->SetCoords2(x2,y2);
   }
 }
 
@@ -434,7 +431,7 @@ bool combat_control_case_1(controller_aidyn *cont){
   CombatEntity *Ent;
   playerData *p;
   
-  if (((cont->input & START_BUTTON)) && (renderTicker_GreaterThan3(gCombatP))) {
+  if (((cont->pressed & START_BUTTON)) && (renderTicker_GreaterThan3(gCombatP))) {
     gCombatP->renderTicker = 0;
     setCombatCameraMode(0);
     gGlobals.combatBytes[0] = CombatState_14;
@@ -443,14 +440,14 @@ bool combat_control_case_1(controller_aidyn *cont){
   Ent = gCombatP->current_Ent;
   if (Ent->aiP == NULL) {
     p = gGlobals.playerDataArray[Ent->index];
-    if (((cont->input & C_UP) == 0) && (p != NULL)) Actor::Move(p,cont);
+    if (((cont->pressed & C_UP) == 0) && (p != NULL)) Actor::Move(p,cont);
     Ent->m80068924();
-    if ((cont->input_2 & R_BUTTON)) return false;
+    if ((cont->held & R_BUTTON)) return false;
     if ((cont->joy_x != 0.0) || (cont->joy_y != 0.0)) {
       movement_checking_shadow(Ent,p);
       return false;
     }
-    if (((cont->input & A_BUTTON) != 0) &&
+    if (((cont->pressed & A_BUTTON) != 0) &&
        (FUN_80072454(gCombatP->substruct2,Ent), gCombatP->substruct2[0].spellTargetMax != 0)) {
       gGlobals.combatBytes[0] = CombatState_9;
       if ((Ent->throwingFlag != 0) && (!Ent->Flag89())) {
@@ -465,7 +462,7 @@ bool combat_control_case_1(controller_aidyn *cont){
       GiveCameraToPlayer(gGlobals.playerDataArray[(u8)gCombatP->substruct2[0].entindex]);
       return false;
     }
-    if ((cont->input & (Z_BUTTON|L_BUTTON)) == 0) {
+    if ((cont->pressed & (Z_BUTTON|L_BUTTON)) == 0) {
       return false;
     }
     FUN_8008d530();
@@ -476,7 +473,7 @@ bool combat_control_case_1(controller_aidyn *cont){
 
 void combat_control_case_5(controller_aidyn *cont){
   playerData *ppVar1;
-  if ((((!combat_control_press_start(cont)) && ((cont->input & A_BUTTON))) && (gCombatP->current_Ent)) &&
+  if ((((!combat_control_press_start(cont)) && ((cont->pressed & A_BUTTON))) && (gCombatP->current_Ent)) &&
      ((ppVar1 = gGlobals.playerDataArray[gCombatP->current_Ent->index], ppVar1 != NULL &&
       ((ppVar1->flags & ACTOR_CANMOVE) != 0)))) {
     FUN_80019b08(ppVar1);
@@ -493,12 +490,12 @@ void combat_control_case_6(controller_aidyn *cont,u8 x){
 
 bool RZBA_end_combat(controller_aidyn *cont){
   #ifdef DEBUGVER
-  u32 BVar1 = cont->input_2;
+  u32 BVar1 = cont->held;
   if (((BVar1 & R_BUTTON)) && (BVar1 != 0)) {
     if ((BVar1 & (A_BUTTON|Z_BUTTON)) != (A_BUTTON|Z_BUTTON)) {
       return false;
     }
-    if (((cont->input & B_BUTTON)) && (true)) {
+    if (((cont->pressed & B_BUTTON)) && (true)) {
       switch(gGlobals.combatBytes[0]) {
       case CombatState_0:
       case CombatState_9:
@@ -537,7 +534,7 @@ bool RZBA_end_combat(controller_aidyn *cont){
 }
 
 void combat_control_case_0x19(controller_aidyn *cont){
-  if ((!LZBStart_to_cancel_Turn(cont)) && ((cont->input & A_BUTTON))) {
+  if ((!LZBStart_to_cancel_Turn(cont)) && ((cont->pressed & A_BUTTON))) {
     gCombatP->current_Ent->Troubadour();
   }
 }
@@ -547,7 +544,7 @@ bool combat_controls_caseSwitch(controller_aidyn *cont,u8 param_2){
   
   CombatPlayerTurnFlag = 1;
   if (RZBA_end_combat(cont)) return false;
-  if ((cont->input & C_LEFT) != 0) gCombatGuiUnusedToggle ^= 1;
+  if ((cont->pressed & C_LEFT) != 0) gCombatGuiUnusedToggle ^= 1;
   if (gCombatP->reinforcmentsWillFlee != 0) return false;
   if (FUN_8008d4d0(cont)) return false;
   switch(gGlobals.combatBytes[0]) {
@@ -561,7 +558,7 @@ bool combat_controls_caseSwitch(controller_aidyn *cont,u8 param_2){
   case CombatState_24:
   case CombatState_26:
     if ((((!combat_control_press_start(cont)) && (pCVar1 = gCombatP->current_Ent, pCVar1 != NULL)) && (pCVar1->aiP != NULL)) &&
-       (((cont->input_2 & R_BUTTON) != 0 && ((cont->input & A_BUTTON) != 0)))) {
+       (((cont->held & R_BUTTON) != 0 && ((cont->pressed & A_BUTTON) != 0)))) {
       pCVar1->EndTurn();
     }
     break;

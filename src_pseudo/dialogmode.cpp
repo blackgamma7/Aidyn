@@ -533,16 +533,16 @@ byte cutScene_control_func()
       if (!Controller::GetInput(&acStack32,0)) goto LAB_80059174;
       delta = bVar3;
     } while (gGlobals.screenFadeMode != 0);
-    if ((acStack32->input & B_BUTTON) != 0) unusedDialougToggle ^= 1;
+    if ((acStack32->pressed & B_BUTTON) != 0) unusedDialougToggle ^= 1;
     #ifdef DEBUGVER
     if (((gDebugFlag != 0) && (dialougemode_pointer->controlLock == 0)) &&
-       ((acStack32->input & START_BUTTON) != 0))
+       ((acStack32->pressed & START_BUTTON) != 0))
       build_camera_debug(dialougemode_pointer->RefPointID);
     #endif
-    u32 buttons = acStack32->input_2;
+    u32 buttons = acStack32->held;
     if ((((buttons & R_BUTTON) != 0) && (buttons != 0)) &&
        (((buttons & (A_BUTTON|Z_BUTTON)) == (A_BUTTON|Z_BUTTON) &&
-        ((acStack32->input & B_BUTTON) != 0)))) {
+        ((acStack32->pressed & B_BUTTON) != 0)))) {
       DialogCallbackC((gGlobals.diaClass)->inst,borg_13_pointer->dat,B13Com_EndDialoug,0);
     }
     N64Print::Toggle(&gGlobals.DebugQueue,acStack32);

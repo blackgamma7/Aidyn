@@ -18,7 +18,7 @@ namespace TitleSplash{
     u8 H2OLogo(Gfx**GG);
 };
 #ifdef DEBUGVER
-#define SplashNoop(cont) Noop(cont->input_2,cont->input) //not present in retail, would control something?
+#define SplashNoop(cont) Noop(cont->held,cont->pressed) //not present in retail, would control something?
 #else
 #define SplashNoop(cont) ;
 #endif

@@ -24,8 +24,8 @@ enum BUTTON_aidyn{ //same as standard enum, but with 4 extra bits for analog joy
 struct controller_aidyn { /* Controller input used by game */
     float joy_x;
     float joy_y;
-    u32 input;
-    u32 input_2;
+    u32 pressed;
+    u32 held;
 };
 
 struct ControllerFull { /* Add held button times */

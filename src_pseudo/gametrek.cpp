@@ -258,7 +258,7 @@ void player_control_func(controller_aidyn *cont) {
   if (gGlobals.playerCharStruct.unkState != 3) return;
   if (gGlobals.screenFadeMode != 0) return;
 #ifdef DEBUGVER
-  if ((((cont->input_2 & R_BUTTON)) && ((cont->input & A_BUTTON))) &&
+  if ((((cont->held & R_BUTTON)) && ((cont->pressed & A_BUTTON))) &&
      (gGlobals.minimap.active != 0)) {
     gGlobals.minimap.ToggleShowAll();
     return;
@@ -268,18 +268,18 @@ void player_control_func(controller_aidyn *cont) {
   N64Print::Toggle(&gGlobals.DebugQueue,cont);
 #ifdef DEBUGVER
   if(gDebugFlag) {
-    if((cont->input & START_BUTTON)&&(cont->input_2 & L_BUTTON)){
+    if((cont->pressed & START_BUTTON)&&(cont->held & L_BUTTON)){
       init_big_debug_menu();
-      cont->input&= ~START_BUTTON;
+      cont->pressed&= ~START_BUTTON;
     }
   }
 #endif  
-  if ((cont->input & START_BUTTON)){
+  if ((cont->pressed & START_BUTTON)){
     if (gGlobals.playerCharStruct.smallerDebugWindow == NULL) {
       if (gPlayer) {
         (gPlayer)->ani_type = 0;
       }
-      if ((cont->input_2 & Z_BUTTON) == 0) {
+      if ((cont->held & Z_BUTTON) == 0) {
         if (some_ticker < 2) return;
       }
 #ifdef DEBUGVER
@@ -292,7 +292,7 @@ void player_control_func(controller_aidyn *cont) {
       return;
     }
   }
-  if (cont->input&A_BUTTON) obj_ref_func();
+  if (cont->pressed&A_BUTTON) obj_ref_func();
 }
 
 void small_debug_menu_check(controller_aidyn *param_1) {

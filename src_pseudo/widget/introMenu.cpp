@@ -503,12 +503,12 @@ BaseWidget * IntroMenu::Control(controller_aidyn *param_2) {
     pBVar5 = BaseWidget::Control(param_2);
     if (pBVar5 != NULL) return pBVar5;
     if (pvVar2->menuState != IntroM_ConfigMenu) return NULL;
-    if (((((param_2->input_2 & (ANA_LEFT|D_LEFT)) != 0) && (pWVar4 = pvVar2->config, pWVar4 != NULL)
+    if (((((param_2->held & (ANA_LEFT|D_LEFT)) != 0) && (pWVar4 = pvVar2->config, pWVar4 != NULL)
          ) && (pvVar5 = (OptionsConfigSubstruct *)pWVar4->substruct,
               pvVar5->renameOpen == false)) && (pvVar5->selected < 2)) {
       return pWVar4->LeftFunc();
     }
-    if ((param_2->input_2 & (ANA_RIGHT|D_RIGHT)) != 0) {
+    if ((param_2->held & (ANA_RIGHT|D_RIGHT)) != 0) {
       pWVar4 = pvVar2->config;
       if (pWVar4 == NULL) return NULL;
       pvVar6 = (OptionsConfigSubstruct *)pWVar4->substruct;

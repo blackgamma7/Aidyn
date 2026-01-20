@@ -310,12 +310,12 @@ BaseWidget * PauseWidget::Control(controller_aidyn *cont) {
   if (pBVar3 == NULL) {
     pBVar3 = BaseWidget::Control(cont);
     if ((pBVar3 == NULL) && (pBVar3 = NULL, ppVar1->PauseMenuSection == 0)) {
-      if (((cont->input_2 & (ANA_LEFT|D_LEFT)) == 0) ||
+      if (((cont->held & (ANA_LEFT|D_LEFT)) == 0) ||
          (((pBVar3 = pvVar2->optionsConfig, pBVar3 == NULL ||
            (((OptionsConfigSubstruct*)pBVar2->substruct)->renameOpen)) ||
           (1 < ((OptionsConfigSubstruct*)pBVar2->substruct)->selected)))) {
         pBVar3 = NULL;
-        if (((cont->input_2 & (ANA_RIGHT|D_RIGHT)) != 0) &&
+        if (((cont->held & (ANA_RIGHT|D_RIGHT)) != 0) &&
            (pBVar2 = pvVar2->optionsConfig, pBVar2 != NULL)) {
           pBVar3 = NULL;
           if ((!((OptionsConfigSubstruct*)pBVar2->substruct)->renameOpen) &&

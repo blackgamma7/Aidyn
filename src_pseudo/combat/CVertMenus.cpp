@@ -31,12 +31,12 @@ bool can_Combat_C_vert(controller_aidyn *cont){
 
 void combat_control_case_0x16(controller_aidyn *cont){
   gCombatCVertMenu->Control(cont);
-  if (((cont->input_2 | cont->input) & C_DOWN) == 0) Combat_CloseCVertMenu();
+  if (((cont->held | cont->pressed) & C_DOWN) == 0) Combat_CloseCVertMenu();
 }
 
 void combat_control_case_0x17(controller_aidyn *cont){
   gCombatCVertMenu->Control(cont);
-  if (((cont->input_2 | cont->input) & C_UP) == 0) Combat_CloseCVertMenu();
+  if (((cont->held | cont->pressed) & C_UP) == 0) Combat_CloseCVertMenu();
 }
 
 void FUN_80091528(u16 delta) {
@@ -55,11 +55,11 @@ Gfx * Combat_RenderCVertMenu(Gfx *G,u16 delta){
 }
 
 bool combat_C_Up_Down(controller_aidyn *cont){
-  if ((cont->input & C_UP)){
+  if ((cont->pressed & C_UP)){
     Combat_menu_C_Up();
     return true;
   }
-  if ((cont->input & C_DOWN)) {
+  if ((cont->pressed & C_DOWN)) {
     combat_menu_C_down();
     return true;
   }

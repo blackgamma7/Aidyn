@@ -12,12 +12,12 @@ void N64Print::UnkB(void){show_debug_queue = ofunc_value;}
 
 void N64Print::Toggle(N64PrintStruct *param_1,controller_aidyn *param_2){
 #ifdef DEBUGVER
-  if ((param_2->input & L_BUTTON)){
+  if ((param_2->pressed & L_BUTTON)){
     if (param_1->color.a <= 0.0) {param_1->color.a = 60.0f;}
     else {param_1->color.a = 1.0f;}
   }
-  if (((param_2->input_2 & R_BUTTON)) && ((param_2->input & START_BUTTON))) {
-    param_2->input &= ~START_BUTTON;
+  if (((param_2->held & R_BUTTON)) && ((param_2->pressed & START_BUTTON))) {
+    param_2->pressed &= ~START_BUTTON;
     show_debug_queue ^= 1;
   }
 #endif

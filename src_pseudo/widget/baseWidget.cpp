@@ -91,12 +91,12 @@ BaseWidget * BaseWidget::Control(controller_aidyn *input){
   int iVar6;
   u32 buttons;
   
-  buttons = input->input;
+  buttons = input->pressed;
   if (widget_control_dat == 0) {
-    widget_control_buttons = input->input_2;
+    widget_control_buttons = input->held;
     widget_control_dat = 1;
   }
-  BVar1 = input->input_2;
+  BVar1 = input->held;
   if ((BVar1 & ~(C_DOWN|C_UP|D_RIGHT|D_LEFT|D_DOWN|D_UP|ANA_LEFT|ANA_RIGHT|ANA_DOWN|ANA_UP)) == 0) {
     cVar2 = 30;
     BVar3 = BVar1;

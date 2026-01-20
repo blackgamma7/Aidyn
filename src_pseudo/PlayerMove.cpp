@@ -46,12 +46,12 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
     }
     if ((gGlobals.scriptcamera.counter1 != 0) &&
        (sVar6 = (PHANDLE.camera)->holdCamera,
-       controller->input_2 = controller->input_2 & ~R_BUTTON, sVar6 != 0)) {
+       controller->held = controller->held & ~R_BUTTON, sVar6 != 0)) {
       PHANDLE.camera->holdCamera = 3;
     }
                       // Flea Jump
     if ((((_flea_flag) && (p->alaron_flag)) &&
-        ((controller->input & A_BUTTON) != 0)) && ((p->collision).hits)) {
+        ((controller->pressed & A_BUTTON) != 0)) && ((p->collision).hits)) {
       vec2f fleaVec = {(p->facing).x,(p->facing).y};
       Vec2Scale(&fleaVec,-0.06);
       (p->collision).vel.x += fleaVec.x;
@@ -60,21 +60,21 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
     }
     #ifdef DEBUGVER
     if (gDebugFlag) {
-      if ((controller->input_2 & L_BUTTON)&&(controller->input & D_LEFT)){
+      if ((controller->held & L_BUTTON)&&(controller->pressed & D_LEFT)){
           gLoadOneZone ^= 1; //load data only for center map chunk.
           N64PRINT("Multiple Zones Load Toggled\n");
         }
-      if ((controller->input_2 & R_BUTTON) && (controller->input & D_RIGHT)) {
+      if ((controller->held & R_BUTTON) && (controller->pressed & D_RIGHT)) {
         gSceneBoulder ^= 1; //replace next loaded "scene" voxels with boulders.
         N64PRINT("Reference Objects Toggled\n");
       }
-      if ((gDebugFlag) && (controller->input & C_UP)) {
+      if ((gDebugFlag) && (controller->pressed & C_UP)) {
          //cycle through displayed performance stats.
         gGlobals.DebugStatDisplay=(gGlobals.DebugStatDisplay + 1)%6;
       }
     }
     #endif
-    if ((controller->input & B_BUTTON)) {
+    if ((controller->pressed & B_BUTTON)) {
      if (gGlobals.playerCharStruct.show_portaits == 0) {
       gGlobals.playerCharStruct.show_portaits = 1;
       MINIMAP.Toggle(1);
@@ -91,7 +91,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
           gCombatFreeCamera = 2;
           (PHANDLE.camera)->unk48 = 4.0f;
         }
-        if ((controller->input_2 & R_BUTTON)) {
+        if ((controller->held & R_BUTTON)) {
           (PHANDLE.camera)->unk58 = -controller->joy_x * 8.0f;
           PHANDLE.camera->unk48 += (controller->joy_y * 0.5);
           return;
@@ -109,7 +109,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
         CRASH("./src/playerMove.cpp","gCombatFreeCamera Set\nWe are _NOT_ in COMBAT mode!");
     }
     #endif
-    if ((controller->input_2 & R_BUTTON) != 0) {
+    if ((controller->held & R_BUTTON) != 0) {
       if ((p->flags & ACTOR_ISPLAYER) == 0) return;
       if (gGlobals.screenFadeMode != 0) return;
       if (PHANDLE.camera->holdCamera == 0) {
@@ -139,7 +139,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
         gGlobals.playerCharStruct.show_portaits = 0;
         MINIMAP.Toggle(0);
       }
-      if ((controller->input_2 & Z_BUTTON) == 0) {
+      if ((controller->held & Z_BUTTON) == 0) {
         p->ani_type = AniType_Walk;
         if (0.8 <= fVar8) p->ani_type = AniType_Run;
       }
@@ -164,8 +164,8 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
   
   void Actor::ClearInput(playerData *param_1){
     if ((param_1->flags & ACTOR_2) == 0) {
-      (param_1->controller).contAidyn.input_2 = 0;
-      (param_1->controller).contAidyn.input = 0;
+      (param_1->controller).contAidyn.held = 0;
+      (param_1->controller).contAidyn.pressed = 0;
       (param_1->controller).contAidyn.joy_x = 0.0;
       (param_1->controller).contAidyn.joy_y = 0.0;
       param_1->buttonMask = 0;
@@ -296,7 +296,7 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
   
   void Ofunc_8001986c(playerData *param_1,BUTTON_aidyn param_2){
     Actor::ClearInput(param_1);
-    (param_1->controller).contAidyn.input_2 = (param_1->controller).contAidyn.input_2 | param_2;}
+    (param_1->controller).contAidyn.held = (param_1->controller).contAidyn.held | param_2;}
   void Actor::MoveTo(playerData *param_1){
       u32 BVar2;
       int iVar3;
@@ -349,9 +349,9 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
           UnsetFlag(param_1,ACTOR_CANROTATE);
         }
       }
-      BVar2 = (param_1->controller).contAidyn.input_2;
+      BVar2 = (param_1->controller).contAidyn.held;
       BVar4 = BVar2 & param_1->buttonMask ^ BVar2;
-      (param_1->controller).contAidyn.input = BVar4;
+      (param_1->controller).contAidyn.pressed = BVar4;
       param_1->buttonMask = BVar2;
       if ((BVar2) || (BVar4))iVar7++;
       if (iVar7 == 0) {

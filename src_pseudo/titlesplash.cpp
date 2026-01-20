@@ -196,7 +196,7 @@ u8 TitleSplash::Copyright(Gfx **GG){
   textY = (Graphics::GetVRes()/2) + -7 + (gGlobals.font)->charH * -6;
   while (Controller::GetInput(&cont,0)) {
     #ifdef DEBUGVER
-    if ((cont->input_2 & (R_BUTTON|L_BUTTON)) == (R_BUTTON|L_BUTTON)) {
+    if ((cont->held & (R_BUTTON|L_BUTTON)) == (R_BUTTON|L_BUTTON)) {
       sSplashVersionFlag = 1;
     }
     #endif

@@ -36,7 +36,7 @@ Gfx * Start_opens_mempak_menu(Gfx *g) {
   apcStack_20 = NULL;
   contCheckSwitch = 2;
   while (Controller::GetInput(&apcStack_20,0)) {
-    if (((apcStack_20->input | apcStack_20->input_2) & START_BUTTON)) {
+    if (((apcStack_20->pressed | apcStack_20->held) & START_BUTTON)) {
       bVar1 = true;
     }
   }

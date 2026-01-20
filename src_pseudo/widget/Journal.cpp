@@ -199,9 +199,9 @@ u8 Journal::Tick() {
 BaseWidget * Journal::Control(controller_aidyn *cont) {
   BaseWidget *w = BaseWidget::Control(cont);
   if(w) return w;
-  if ((cont->input_2 & (ANA_UP|D_UP)))
+  if ((cont->held & (ANA_UP|D_UP)))
       return this->UpFunc();
-  if ((cont->input_2 & (ANA_DOWN|D_DOWN)))
+  if ((cont->held & (ANA_DOWN|D_DOWN)))
       return this->DownFunc();
   return NULL;
 }

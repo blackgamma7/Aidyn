@@ -580,7 +580,7 @@ LAB_80016990:
           local_68++;
           Actor::MoveTo(pDat);
           Actor::Move(pDat,&(pDat->controller).contAidyn);
-          (pDat->controller).contAidyn.input = 0;
+          (pDat->controller).contAidyn.pressed = 0;
         }
         if (pDat->nextBorg7 != -1) {
           Actor::ChangeAppearance(pDat,pDat->nextBorg7);
