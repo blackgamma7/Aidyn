@@ -46,7 +46,9 @@ enum DB_TYPE{
 #define IDMedal(n) IDSet(AMULET,n) 
 #define IDDEnt(n) IDSet(DIALOUGEENTITY,n) 
 
-#define IDEntInd(n) IDEnt(entityList[EntInd_##n##])
+#define IDInd(x) x&0xFF //get the lower byte of the Item ID
+
+#define IDEntInd(n) IDEnt(entityList[EntInd_##n##]) //common macro for getting entity ID
 
 enum ItemIDS{
     //misc items
@@ -527,6 +529,23 @@ enum ItemIDS{
     Weapon_Lightreaver,
     Weapon_HockeyStick,
 
+    //loot pools (internally referred as "chests")
+
+    Loot_Poor=IDChest(0),
+    Loot_TypicalWarrior,
+    Loot_LowWizard,
+    Loot_HighWizard,
+    Loot_ChoasDude,
+    Loot_DropAll,
+    Loot_MiddleClass,
+    Loot_FairWealth,
+    Loot_RichDude,
+    Loot_HealthPak,
+    Loot_Ehud,
+    Loot_Kitarak,
+    Loot_LizardBoss, //also used in enemy randomizer "failsafe"
+    //TODO: Finish
+
     //headgear
 
     Helm_Kendal=IDHelm(0),
@@ -749,22 +768,7 @@ enum ItemIDS{
     Amulet_08, //Unknown
     Amulet_Marquis,
 
-    //loot pools (internally referred as "chests")
 
-    Loot_Poor=IDChest(0),
-    Loot_TypicalWarrior,
-    Loot_LowWizard,
-    Loot_HighWizard,
-    Loot_ChoasDude,
-    Loot_DropAll,
-    Loot_MiddleClass,
-    Loot_FairWealth,
-    Loot_RichDude,
-    Loot_HealthPak,
-    Loot_Ehud,
-    Loot_Kitarak,
-    Loot_LizardBoss,
-    //TODO: Finish
 
     //Dialouge Entities
     DEnt_Amann=IDDEnt(0),

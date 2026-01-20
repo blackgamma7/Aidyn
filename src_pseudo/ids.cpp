@@ -32,7 +32,7 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
   u32 uVar3;
   
   
-  uVar3 = (u16)x & 0xff;
+  uVar3 = (u16)IDInd(x);
   uVar1 = -1;
   if (false) goto switchD_80075e2c_caseD_4;
   switch(ITEMIDTYPE(x)) {
@@ -73,7 +73,7 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
   }
   total = *totalP;
 LAB_80075eb0:
-  uVar1 = getIDIndex_sub(entriesP,total,x&0xFF);
+  uVar1 = getIDIndex_sub(entriesP,total,IDInd(x));
 switchD_80075e2c_caseD_4:
   if (uVar1 != -1) return (byte)uVar1;
   char txtBuff [144];
