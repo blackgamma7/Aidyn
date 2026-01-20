@@ -2778,7 +2778,7 @@ u32 CombatEntity::GetShieldModel(){
     else {
       uVar3 = gArmorDBp->GetBorg5(ptVar1->base.id);
       uVar4 = 0xffffffff;
-      if (uVar3 != 0x38f9) {uVar4 = uVar3;}
+      if (uVar3 != BORG5_ShieldNONE) {uVar4 = uVar3;}
     }
   }
   return uVar4;

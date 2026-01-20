@@ -1190,6 +1190,26 @@
 #define BORG5_WeaponHockeyStick 0x34F9
 #define BORG5_WeaponLightreaver 0x3500
 
+#define BORG5_ShieldNONE        0x38f9//max index- no sheild model available
+
+#define BORG5_ShieldSheridan    0x351b
+#define BORG5_ShieldStardrake   0x351d
+#define BORG5_ShieldBronze      0x351f
+#define BORG5_ShieldBuckler     0x3521
+#define BORG5_ShieldChaos       0x3523
+#define BORG5_ShieldScorpion    0x3526
+#define BORG5_ShieldHeater      0x3528
+#define BORG5_ShieldHoplite     0x352a
+#define BORG5_ShieldKite        0x352f
+#define BORG5_ShieldLarge       0x3532
+#define BORG5_ShieldSmall       0x3534
+#define BORG5_ShieldSpirit      0x3537
+#define BORG5_ShieldTower       0x353a
+#define BORG5_ShieldTurtle      0x353c
+#define BORG5_ShieldJundar      0x353e
+#define BORG5_ShieldMoon        0x3540
+#define BORG5_ShieldSun         0x3542
+
 #define BORG5_CombatPotion      0x34c5
 #define BORG5_CombatArrow       0x348f
 

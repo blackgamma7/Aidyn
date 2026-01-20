@@ -2,6 +2,7 @@
 #include "heapN64.h"
 #include "romcopy.h"
 #include "spells.h"
+#include "BorgIndecies.h"
 #define FILENAME "../data/armordb.cpp"
 
 void ArmorDB::Orphaned(){
@@ -83,63 +84,63 @@ void ArmorDB::Init(){
 
 void ArmorDB::Free(){HFREE(this->Armor,455);}
 
-
-u32 ArmorDB::GetBorg5(ItemID param_2){
+//return index for shield model. (or 0x38f9 if none available.)
+u32 ArmorDB::GetBorg5(ItemID ID){
   u32 uVar1;
-  switch(GETINDEX(param_2)) {
-  case 0x33:
-    uVar1 = 0x351b;
+  switch(GETINDEX(ID)) {
+  case ArmorInd_ShieldSheridan:
+    uVar1 = BORG5_ShieldSheridan;
     break;
-  case 0x34:
-    uVar1 = 0x351d;
+  case ArmorInd_ShieldStardrake:
+    uVar1 = BORG5_ShieldStardrake;
     break;
-  case 0x35:
-    uVar1 = 0x353c;
+  case ArmorInd_ShieldTurtle:
+    uVar1 = BORG5_ShieldTurtle;
     break;
-  case 0x36:
-    uVar1 = 0x3540;
+  case ArmorInd_ShieldMoon:
+    uVar1 = BORG5_ShieldMoon;
     break;
-  case 0x37:
-    uVar1 = 0x3542;
+  case ArmorInd_ShieldSun:
+    uVar1 = BORG5_ShieldSun;
     break;
-  case 0x38:
-    uVar1 = 0x3526;
+  case ArmorInd_ShieldScorpion:
+    uVar1 = BORG5_ShieldScorpion;
     break;
-  case 0x39:
-    uVar1 = 0x3521;
+  case ArmorInd_ShieldBuckler:
+    uVar1 = BORG5_ShieldBuckler;
     break;
-  case 0x3a:
-    uVar1 = 0x3534;
+  case ArmorInd_ShieldSmall:
+    uVar1 = BORG5_ShieldSmall;
     break;
-  case 0x3b:
-    uVar1 = 0x3532;
+  case ArmorInd_ShieldLarge:
+    uVar1 = BORG5_ShieldLarge;
     break;
-  case 0x3c:
-    uVar1 = 0x352f;
+  case ArmorInd_ShieldKite:
+    uVar1 = BORG5_ShieldKite;
     break;
-  case 0x3d:
-    uVar1 = 0x353a;
+  case ArmorInd_ShieldTower:
+    uVar1 = BORG5_ShieldTower;
     break;
-  case 0x3e:
-    uVar1 = 0x3528;
+  case ArmorInd_ShieldHeater:
+    uVar1 = BORG5_ShieldHeater;
     break;
-  case 0x3f:
-    uVar1 = 0x351f;
+  case ArmorInd_ShieldBronze:
+    uVar1 = BORG5_ShieldBronze;
     break;
-  case 0x40:
-    uVar1 = 0x353e;
+  case ArmorInd_ShieldJundar:
+    uVar1 = BORG5_ShieldJundar;
     break;
-  case 0x41:
-    uVar1 = 0x3537;
+  case ArmorInd_ShieldSpirit:
+    uVar1 = BORG5_ShieldSpirit;
     break;
-  case 0x42:
-    uVar1 = 0x352a;
+  case ArmorInd_ShieldHoplite:
+    uVar1 = BORG5_ShieldHoplite;
     break;
-  case 0x43:
-    uVar1 = 0x3523;
+  case ArmorInd_ShieldChaos:
+    uVar1 = BORG5_ShieldChaos;
     break;
-  default:
-    uVar1 = 0x38f9;
+  default: //Crab, Wight and Dryad shields have no model?
+    uVar1 = BORG5_ShieldNONE;
   }
   return uVar1;
 }

@@ -141,7 +141,7 @@ u16 GetArmorBorg5(ItemID param_1){
   
   uVar1 = gArmorDBp->GetBorg5(param_1);
   uVar2 = -1;
-  if (uVar1 != 0x38f9) uVar2 = uVar1;
+  if (uVar1 != BORG5_ShieldNONE) uVar2 = uVar1;
   return uVar2;
 }
 
