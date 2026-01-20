@@ -198,10 +198,10 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
   }
   u8 MVar1 = param_2->cost;
   if (MVar1 != SPELLUSE_NONE) {
-    IVar20 = itemID_array[0x1f];
+    IVar20 = itemID_array[ItemInd_Herb];
     if ((MVar1 != SPELLUSE_Herb) &&
-       ((SPELLUSE_Herb < MVar1 || (IVar20 = itemID_array[0x1e], MVar1 != SPELLUSE_Spice)))) {
-      IVar20 = itemID_array[0x20];
+       ((SPELLUSE_Herb < MVar1 || (IVar20 = itemID_array[ItemInd_Spice], MVar1 != SPELLUSE_Spice)))) {
+      IVar20 = itemID_array[ItemInd_Gemstone];
     }
     strcpy(acStack_b8,gGlobals.CommonStrings[0x216]);
     pBVar9 = WClipTXT(acStack_b8);

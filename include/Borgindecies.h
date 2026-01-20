@@ -1185,6 +1185,14 @@
 #define BORG5_Battlefeild_M15  0x3671
 #define BORG5_Battlefeild_M19  0x3677
 
+
+#define BORG5_LetterTxomin      0x0cce
+#define BORG5_GwerniaBannerItem 0x09D0
+#define BORG5_HornKynon         0x34FB
+#define BORG5_HatKendall        0x3502
+#define BORG5_HasteAmulet       0x3517
+#define BORG5_Stormbreaker      0x3553
+
 //weapon/sheild models
 
 #define BORG5_WeaponHockeyStick 0x34F9

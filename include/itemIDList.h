@@ -871,9 +871,56 @@ enum ItemInd{
     ItemInd_CloakPhantom,
     ItemInd_CloakMirari,
 
+    ItemInd_GlovePlate,
+    ItemInd_GloveBard,
+    ItemInd_GloveTinker,
+    ItemInd_GloveHealing,
+    ItemInd_GloveStormdrake,
+    ItemInd_GloveJundar,
+    
+    ItemInd_RingHealing,
+    ItemInd_RingMagedrake,
+    ItemInd_RingNamer,
+    ItemInd_RingLunar,
+    ItemInd_RingWitch,
+    ItemInd_RingEther,
 
+    ItemInd_Rope,
+    ItemInd_GemAspect,
+    ItemInd_GemSensing,
 
-    ItemInd_HornKynon=89,
+    ItemInd_WandRevival,
+    ItemInd_WandBanishing,
+    ItemInd_WandImmolation,
+    ItemInd_WandAcid,
+    ItemInd_WandLighning,
+    ItemInd_WandWraithTouch,
+    ItemInd_WandStarfire,
+    ItemInd_WandWebOfStarlight,
+    ItemInd_WandCrushingDeath,
+    ItemInd_WandFrozenDoom,
+    ItemInd_WandDarkness,
+    ItemInd_WandLight,
+    ItemInd_WandShielding,
+    ItemInd_WandPersuasion,
+    ItemInd_WandGravity,
+    ItemInd_WandFireball,
+    ItemInd_WandTapStamina,
+    ItemInd_WandVsElement,
+    ItemInd_WandVsNaming,
+    ItemInd_WandVsNecro,
+    ItemInd_WandVsStar,
+    ItemInd_WandWallOfBones,
+    
+    ItemInd_Banner,
+    ItemInd_MoonGem,
+    ItemInd_Stormbreaker,
+    ItemInd_Wand11,
+
+    ItemInd_HornKynon,
+    ItemInd_HarpIgnore,
+
+    ItemInd_AmuletHaste=192,
 };
 
 enum EntInd{

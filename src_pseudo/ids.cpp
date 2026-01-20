@@ -145,12 +145,16 @@ u16 GetArmorBorg5(ItemID param_1){
   return uVar2;
 }
 
-u16 D_800f14d4[]={0x16,0x55,0x59,0x29,0x57,0xc2,-1};
+u16 D_800f14d4[]={
+  ItemInd_LetterTxomin,ItemInd_Banner,ItemInd_HornKynon,
+  ItemInd_HelmKendal,ItemInd_Stormbreaker,ItemInd_AmuletHaste,-1};
 u16 ItemBorg5Search(ItemID param_1){  
   u16 uVar1 = search_item_array(param_1);
-  u16 uStack72[]={0xcce,0x9D0,0x34FB,0x3502,0x3553,0x3517,-1};
-  for(u16 i=0;D_800f14d4[i]!=0xffff;i++){
-    if(D_800f14d4[i]==uVar1) return uStack72[i];
+  u16 itemBorgs[]={
+    BORG5_LetterTxomin,BORG5_GwerniaBannerItem,BORG5_HornKynon,
+    BORG5_HatKendall,BORG5_Stormbreaker,BORG5_HasteAmulet,-1};
+  for(u16 i=0;D_800f14d4[i]!=-1;i++){
+    if(D_800f14d4[i]==uVar1) return itemBorgs[i];
   }
   return -1;
 }
