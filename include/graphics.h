@@ -58,6 +58,7 @@ void SetGfxMode(u16 ,u16 ,u8 );
 void video_settings();
 Gfx* StartGfxList();
 Gfx* SomeOtherInit(Gfx *,u16 ,u16 ,u16 ,u16 ,u8 ,u8 ,u8 ,u8 );
+Gfx* SetToFill(Gfx*);
 Gfx* DebugDrawRect(Gfx *,u16 ,u16 ,u16 ,u16 ,u8 ,u8 ,u8 ,u8 );
 Gfx* StartDisplay(Gfx *,u16 ,u16 ,u16 ,u16 );
 Gfx* EndList(Gfx *);

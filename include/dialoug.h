@@ -254,7 +254,7 @@ void FUN_80059b28();
 void FUN_80059b50();
 void FUN_80059bf8(BaseWidget *);
 void FUN_80059c70();
-void unkState11();
+void SetUnkState11();
 void NOOP_80059D08();
 void FUN_80059d10(BaseWidget *);
 void FUN_80059d38();

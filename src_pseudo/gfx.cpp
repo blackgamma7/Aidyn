@@ -195,7 +195,7 @@ Gfx * Ofunc_rspcode(Gfx *gfx,u16 param_2,u16 param_3,u16 param_4,u16 param_5,Col
   return gfx;
 }
 
-Gfx * GsSetOtherMode_SysMon(Gfx *gfx){
+Gfx * Graphics::SetToFill(Gfx *gfx){
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);
   gDPSetRenderMode(gfx++,0,0);
@@ -642,7 +642,7 @@ Gfx * Graphics::DisplaySystemMonitor(Gfx *g){
   gGfxManager.dListStartTime = uVar13;
   gGfxManager.taskTime = uVar12;
   gGfxManager.unkTime0 = uVar11;
-  pGVar9 = GsSetOtherMode_SysMon(g);
+  pGVar9 = Graphics::SetToFill(g);
   uVar15 = ((float)(gMemCheckStruct.ramVal0 * 280) / (float)gMemCheckStruct.RamSize + 0.5f) + 20;
   pGVar9 = DebugDrawRect(pGVar9,0x14,0x14,uVar15,0x16,0,0,0xff,0xff);
   x2 = uVar15 + (s16)((double)(uVar4 * 280)/uVar1);
