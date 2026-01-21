@@ -2947,7 +2947,7 @@ void CombatEntity::GetWeaponRanges(float *param_2,float *param_3,float *param_4)
   float fVar8;
   
   bVar7 = this->AtkType;
-  if (bVar7 == 3) {
+  if (bVar7 == ATKT_Potion) {
 switchD_80070018_caseD_3d:
     fVar8 = 8.0f;
     *param_2 = 4.0f;
@@ -2959,78 +2959,78 @@ switchD_80070018_caseD_3d:
   }
   fVar8 = 6.0f;
   switch(GETINDEX(this->charSheetP->weapons->base.id)) {
-  case 0x35: //Bow of Accuracy
+  case WeaponInd_AccuracyBow:
     *param_2 = 9.9f;
     *param_3 = 0.0;
     break;
-  case 0x36: //Bow of Shielding
+  case WeaponInd_ShieldBow:
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x37: //Bow of Thunder
+  case WeaponInd_ThunderBow:
     *param_2 = 9.0f;
     *param_3 = 0.0;
     break;
-  case 0x38: //Heartseeker
+  case WeaponInd_HeartseekerBow:
     *param_2 = 9.0f;
     *param_3 = 0.0;
     break;
-  case 0x39: //Great Bow
+  case WeaponInd_GreatBow:
     *param_2 = 9.0f;
     *param_3 = 0.0;
     break;
-  case 0x3a: //Hunter's bow
+  case WeaponInd_HunterBow:
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x3b: //Long bow
+  case WeaponInd_LongBow:
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x3c: //short Bow
+  case WeaponInd_ShortBow:
     *param_2 = 5.0f;
     *param_3 = 0.0;
     break;
   default:
     goto switchD_80070018_caseD_3d;
-  case 0x46: //venom spit
+  case WeaponInd_SpitVenom:
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 0x5e: //Dragon Fang
+  case WeaponInd_DragonFang:
     *param_2 = 8.0f;
     goto LAB_800701bc;
-  case 0x5f: //Throwing Iron
+  case WeaponInd_ThrowingIron:
     *param_2 = 8.0f;
     fVar8 = 20.0f;
     goto LAB_800701bc;
-  case 0x60: //Throwing Knife
+  case WeaponInd_ThrowingKnife:
     *param_2 = 5.0f;
     fVar8 = 12.0f;
     goto LAB_800701bc;
-  case 0x61: //Cyclops Hurlstar
+  case WeaponInd_CyclopsHurlstar:
     *param_2 = 5.0f;
     fVar8 = 12.0f;
     goto LAB_800701bc;
-  case 0x62: //Dart of Distance
+  case WeaponInd_DartDistance:
     *param_2 = 8.0f;
     *param_3 = 0.0;
     break;
-  case 99: //poison Dart
+  case WeaponInd_PoisonDart:
     *param_2 = 5.0f;
     *param_3 = 0.0;
     break;
-  case 100: //spikes
+  case WeaponInd_Spikes:
     *param_2 = 5.0f;
     *param_3 = 0.0;
     break;
-  case 0x65: //hatchet
+  case WeaponInd_Hatchet:
     *param_2 = 5.0f;
     fVar8 = 6.0f;
 LAB_800701bc:
     *param_3 = fVar8;
     break;
-  case 0x66: //Javelin
+  case WeaponInd_Javelin:
     *param_2 = 5.0f;
     *param_3 = 0.0;
     *param_4 = 90.0f;

@@ -6,8 +6,11 @@ u32 IInventory::HasItem(ItemID id){
     return this->GetItemIndex(id)!=-1;
 }
 ItemID key_item_ids[]={
-    0x0100,0x0101,0x0119,0x0541,0x0640,0x0734,0x0757,0x0926,0x0a28,0x0b29,0x0c27,0x0d03,0x0d02,
-  0x112e,0x1201,0x1202,0x1202,0x1203,0x1204,0x1205,0x1207};
+    Item_TxominLetter,Item_Amaranth,Item_CradawghBody,Armor_Irondrake,
+    Shield_Stardrake,Weapon_SwordLodin,Weapon_FiredrakeFang,Helm_SpiritDrake,
+    Cloak_Nightdrake,Glove_Stormdrake,Ring_Magedrake,Wand_HornKynon,Wand_Stormbreaker,
+    Scroll_Lighthouse,Key_Black,Key_Skull,Key_Blood,
+    Key_Bone,Key_Lighthouse,Key_lodin,Key_Dragon};
 u32 IInventory::HasNoKeyItem(){
     for(u32 i=0;i<ARRAY_COUNT(key_item_ids);i++){
         if(this->GetItemIndex(key_item_ids[i])!=-1)return false;

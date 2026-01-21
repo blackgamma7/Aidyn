@@ -1198,7 +1198,11 @@
 #define BORG5_WeaponHockeyStick 0x34F9
 #define BORG5_WeaponLightreaver 0x3500
 
-#define BORG5_ShieldNONE        0x38f9//max index- no sheild model available
+#ifndef EURVER
+#define BORG5_ShieldNONE        0x38f9//max index+1- no sheild model available
+#else //European version has extra borg9 that changes max index
+#define BORG5_ShieldNONE        0x38fa//max index+1- no sheild model available
+#endif
 
 #define BORG5_ShieldSheridan    0x351b
 #define BORG5_ShieldStardrake   0x351d
@@ -1923,7 +1927,7 @@
 #define BORG9_Battlefeild_M15  0x3672
 #define BORG9_Battlefeild_M19  0x3678
 
-
+#define BORG9_EURExclusive     0x38f9 //extra map in european version
 
 
 //Borg13: Dialouge

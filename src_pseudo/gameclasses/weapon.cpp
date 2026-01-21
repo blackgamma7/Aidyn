@@ -22,7 +22,7 @@ bool isBreathSpitOrSpikes(WeaponInstance *w) {
   u8 bVar1 = GETINDEX((w->base).id);
   bool ret = false;
   if ((((w->range == 0) || (w->weaponType == WEAPON_Breath)) ||
-      (w->weaponType == WEAPON_Spit)) || (bVar1 == 100)) {
+      (w->weaponType == WEAPON_Spit)) || (bVar1 == WeaponInd_Spikes)) {
     ret = true;
   }
   return ret;
