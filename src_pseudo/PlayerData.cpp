@@ -470,7 +470,7 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
       fVar27 = pDat->collision.pos.x;
       fVar5 = pDat->collision.pos.y;
       fVar6 = pDat->collision.pos.z;
-      if (pDat->borg7 == BORG7_Cradagwgh) {//?
+      if (pDat->borg7 == BORG7_Cradawgh) {//?
         Gsprintf("Scale: %3.2f\nScaleRad: %3.2f\nSphere Rad: %3.2f",pDat->scale,pDat->scaleRad,pDat->collision.radius);
         N64PRINT(gGlobals.text);
       }

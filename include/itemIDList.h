@@ -113,12 +113,12 @@ enum ItemIDS{
     Ent_Male3,
     Ent_DougalSuper,
     Ent_Yuli,
-    Ent_ChoasLt,
-    Ent_ChoasMjr,
+    Ent_ChaosLt,
+    Ent_ChaosMjr,
     Ent_Female1,
     Ent_ChaosScout,
     Ent_ChaosWarrior,
-    Ent_ChaosShocktropper,
+    Ent_ChaosShocktrooper,
     Ent_ChaosMauler,
     Ent_Ehud, //aka Shamsuk
     Ent_Tamberlain,
@@ -127,13 +127,13 @@ enum ItemIDS{
     Ent_Gorgon,
     Ent_Harpy,
     Ent_Cyclops,
-    Ent_Hobgooblin,
+    Ent_Hobgoblin,
     Ent_HumanBandit,
     Ent_BanditBoss,
     Ent_Kitarak,
     Ent_LizardMan,
-    Ent_LizardBoss,
-    Ent_LizardSgt,
+    Ent_LizardManBoss,
+    Ent_LizardManSgt,
     Ent_Marquis,
     Ent_Ogre,
     Ent_OgreBoss,
@@ -160,7 +160,7 @@ enum ItemIDS{
     Ent_Sheridan,
     Ent_Trahern,
     Ent_Txomin,
-    Ent_Yerzara,
+    Ent_Yeraza,
     Ent_Zaratas,
     Ent_Zurene,
     Ent_Abrecan,
@@ -768,9 +768,8 @@ enum ItemIDS{
     Amulet_08, //Unknown
     Amulet_Marquis,
 
-
-
     //Dialouge Entities
+
     DEnt_Amann=IDDEnt(0),
     DEnt_Balfin,
     DEnt_Swagma,
@@ -800,11 +799,12 @@ enum ItemIDS{
     DEnt_Batrin,
     DEnt_Cow,  //shown as a horse, for some reason.
     DEnt_Chicken,
+    DEnt_Horse,
     DEnt_Nurse,
     DEnt_Kolokos,
     DEnt_Gillek,
     DEnt_Jundargate,
-    DEnt_Baldrik,
+    DEnt_Baldric,
     DEnt_Bodecia,//unlisted in appearance getters
     DEnt_KingdomSign,
     DEnt_MirariSign,
@@ -1050,7 +1050,7 @@ enum EntInd{
     EntInd_LizardMan,
     EntInd_LizardManSgt,
     EntInd_Ogre,
-    EntInd_OrgeBoss,
+    EntInd_OgreBoss,
     EntInd_Troll,
     EntInd_Minotuar,
     EntInd_DougalSuper,
@@ -1063,7 +1063,7 @@ enum EntInd{
     EntInd_Edur,
     EntInd_Ardra,
     EntInd_Bowden,
-    EntInd_Cradagwgh,
+    EntInd_Cradawgh,
     EntInd_Lloyd,  //aka Phelan
     EntInd_Gabrion,
     EntInd_Gechina,
@@ -1109,7 +1109,7 @@ enum EntInd{
     EntInd_PlagueZombie,
     EntInd_GiantSkeleton,
     EntInd_SkeletonUnarmed,
-    EntInd_GiantArcher,
+    EntInd_SkeletonArcher,
     EntInd_Lugash,
     EntInd_Skeleton,
     EntInd_Wight,
