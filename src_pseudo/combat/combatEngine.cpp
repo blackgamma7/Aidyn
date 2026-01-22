@@ -197,7 +197,7 @@ u16 Combat_CreatePartyMembers(u8 param_1){
         (&gCombatP->combatEnts)[uVar7] = pCVar3;
         gCombatP->combatEnts[uVar7++].Init(charsheet,0,posx,posz,uStack_3e,uVar6,0,(char)uVar7);
         spellInd = 0;
-        if (charsheet->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_fireball]),&spellInd)) {
+        if (charsheet->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_Fireball]),&spellInd)) {
           iVar4 = Entity::CheckSpellWizard(charsheet,charsheet->spellbook->spells[spellInd]);
           if (gCombatP->flask_byte < (iVar4 << 1)) {
             gCombatP->flask_byte = (byte)(iVar4 << 1);
@@ -242,7 +242,7 @@ u32 Combat_CreateAlly(ItemID param_1,u16 param_2,u8 param_3){
     uVar7 = param_2 + 1;
     auStack_2d[0] = 0;
     pCVar2 = pCVar1->charSheetP;
-    if (pCVar2->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_fireball]),auStack_2d)) {
+    if (pCVar2->spellbook->HaveSpell(IDSpell(SpellList[SPELLIND_Fireball]),auStack_2d)) {
       iVar4 = Entity::CheckSpellWizard(pCVar2,pCVar2->spellbook->spells[auStack_2d[0]]);
       if ((u32)gCombatP->flask_byte < (u8)(iVar4 << 1)) {
         gCombatP->flask_byte = (u8)(iVar4 << 1);

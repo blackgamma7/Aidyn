@@ -187,7 +187,7 @@ u8 can_use_spell(u8 *param_1){
     if(sp){
       if((sp->cost==SPELLUSE_NONE)||(PARTY->Inventory->HasItem(TempSpell::GetIngredient(sp)))){
         if ((TerrainPointer->partOfDay == TIME_NIGHT) &&
-          (GETINDEX((sp->base).id) == SPELLIND_photosynthesis)) continue;
+          (GETINDEX((sp->base).id) == SPELLIND_Photosynthesis)) continue;
         ret = true;
         param_1[i] = true;
       }

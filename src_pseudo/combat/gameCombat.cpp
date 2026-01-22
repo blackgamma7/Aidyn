@@ -88,7 +88,7 @@ Gfx * FUN_80027bf0(Gfx *g,u16 delta,CharSheet *param_3){
   if (gGlobals.combatBytes[0] == CombatState_11) {
     if (spell != NULL) {
       range = Entity::CheckSpellWizard(param_3,spell);
-      if (GETINDEX((spell->base).id) == SPELLIND_teleportation) range = 1;
+      if (GETINDEX((spell->base).id) == SPELLIND_Teleportation) range = 1;
       g = CombatSpellMarker::Tick(g,(u8)delta,range,0xff0000ff);
     }
   }

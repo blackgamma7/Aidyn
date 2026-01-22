@@ -47,45 +47,45 @@ u8 TempSpell::IsBattleSpell(SpellInstance *param_1){
   if (true) {
     switch(GETINDEX((param_1->base).id))
     case SPELLIND_Immolation:
-    case SPELLIND_escape:
-    case SPELLIND_AirSheild:
+    case SPELLIND_Escape:
+    case SPELLIND_AirShield:
     case SPELLIND_ControlElem:
     case SPELLIND_debilitation:
-    case SPELLIND_strength:
-    case SPELLIND_teleportation:
-    case SPELLIND_brilliance:
-    case SPELLIND_stupidity:
-    case SPELLIND_charming:
-    case SPELLIND_controlMarquis:
-    case SPELLIND_endurance:
-    case SPELLIND_weakness:
-    case SPELLIND_cheatDeath:
+    case SPELLIND_Strength:
+    case SPELLIND_Teleportation:
+    case SPELLIND_Brilliance:
+    case SPELLIND_Stupidity:
+    case SPELLIND_Charming:
+    case SPELLIND_ControlMarquis:
+    case SPELLIND_Endurance:
+    case SPELLIND_Weakness:
+    case SPELLIND_CheatDeath:
     case SPELLIND_AcidBolt:
-    case SPELLIND_auraOfDeath:
-    case SPELLIND_wraithTouch:
-    case SPELLIND_controlZombies:
-    case SPELLIND_darkness:
-    case SPELLIND_haste:
-    case SPELLIND_exhaustion:
-    case SPELLIND_stamina:
+    case SPELLIND_AuraOfDeath:
+    case SPELLIND_WraithTouch:
+    case SPELLIND_ControlZombies:
+    case SPELLIND_Darkness:
+    case SPELLIND_Haste:
+    case SPELLIND_Exhaustion:
+    case SPELLIND_Stamina:
     case SPELLIND_tapStamina:
-    case SPELLIND_wallOfBones:
-    case SPELLIND_spiritSheild:
-    case SPELLIND_poison:
-    case SPELLIND_mirror:
-    case SPELLIND_vsElemental:
-    case SPELLIND_vsNaming:
-    case SPELLIND_vsNecromancy:
-    case SPELLIND_vsStar:
-    case SPELLIND_photosynthesis:
-    case SPELLIND_solarWraith:
-    case SPELLIND_starlightSheild:
-    case SPELLIND_dexterity:
-    case SPELLIND_clumsiness:
-    case SPELLIND_frozenDoom:
-    case SPELLIND_light:
-    case SPELLIND_stellarGravity:
-    case SPELLIND_webOfStarlight:
+    case SPELLIND_WallOfBones:
+    case SPELLIND_SpiritShield:
+    case SPELLIND_Poison:
+    case SPELLIND_Mirror:
+    case SPELLIND_VsElemental:
+    case SPELLIND_VsNaming:
+    case SPELLIND_VsNecromancy:
+    case SPELLIND_VsStar:
+    case SPELLIND_Photosynthesis:
+    case SPELLIND_SolarWrath:
+    case SPELLIND_StarlightShield:
+    case SPELLIND_Dexterity:
+    case SPELLIND_Clumsiness:
+    case SPELLIND_FrozenDoom:
+    case SPELLIND_Light:
+    case SPELLIND_StellarGravity:
+    case SPELLIND_WebOfStarlight:
       return true;
   }
   return false;

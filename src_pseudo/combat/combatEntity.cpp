@@ -201,14 +201,14 @@ void CombatEntity::SetMovementRange(){
   for(u8 i=0;i<MAGIC_FXMAX;i++) {
     Temp_enchant *pTVar1 = this->charSheetP->effects[i];
     if (pTVar1) {
-      if (pTVar1->index == SPELLIND_stellarGravity) {
+      if (pTVar1->index == SPELLIND_StellarGravity) {
         u8 bVar4 = this->moveRange - pTVar1->lv;
         if (pTVar1->lv < this->moveRange)
           this->moveRange = bVar4;
         else this->moveRange = 1;
       }
       else {
-        if (pTVar1->index == SPELLIND_haste) {
+        if (pTVar1->index == SPELLIND_Haste) {
           this->moveRange += pTVar1->lv;
         }
       }
@@ -682,18 +682,18 @@ u8 CombatEntity::canControl(SpellInstance *param_2){
   if (true) {
     switch(bVar3) {
     case SPELLIND_ControlElem:
-    case SPELLIND_banishing:
+    case SPELLIND_Banishing:
       if (!Entity::IsElemental(x)) return false;
       return true;
     default:
       goto LAB_80069b1c;
-    case SPELLIND_charming:
+    case SPELLIND_Charming:
       if (gEntityDB->entities[GETINDEX(x)].Category == ENTITY_CHAOS) return false;
       return true;
-    case SPELLIND_controlMarquis:
+    case SPELLIND_ControlMarquis:
       bVar2 = entityList[EntInd_Marquis];
       break;
-    case SPELLIND_controlZombies:
+    case SPELLIND_ControlZombies:
       bVar2 = entityList[EntInd_PlagueZombie];
       if (x == IDEntInd(Zombie)) return true;
     }
@@ -827,7 +827,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
         uVar5 = iVar12 & 0xff;
         iVar12 = iVar6;
       }
-      if (bVar8 != SPELLIND_senseAura) {
+      if (bVar8 != SPELLIND_SenseAura) {
         if (!m80069d00(param_2,(float)iVar12,fVar11)) return false;
       }
       if (FUN_8007105c(&gCombatP->substruct,(byte)uVar4,(byte)uVar5,uStack_100[0],uStack_100[1])) return true;
@@ -1250,7 +1250,7 @@ u8 CombatEntity::CanResistSpell(SpellInstance *spel_,u8 Elem){
     break;
   case ELEMENT_FIRE:
     if (spellID != SPELLIND_DragonFlames) {
-      SVar2 = SPELLIND_fireball;
+      SVar2 = SPELLIND_Fireball;
 CheckOtherSpell:
       if (spellID != SVar2) return false;
     }
@@ -1262,8 +1262,8 @@ CheckOtherSpell:
     bVar1 = spel_->school == SCHOOL_Naming;
     break;
   case ELEMENT_WATER:
-    if (spellID != SPELLIND_lightning) {
-      SVar2 = SPELLIND_frozenDoom;
+    if (spellID != SPELLIND_Lightning) {
+      SVar2 = SPELLIND_FrozenDoom;
       goto CheckOtherSpell;
     }
 ReturnTrue:
@@ -1273,7 +1273,7 @@ ReturnTrue:
     bVar1 = true;
     break;
   case ELEMENT_AIR:
-    bVar1 = spellID == SPELLIND_wind;
+    bVar1 = spellID == SPELLIND_Wind;
     break;
   case ELEMENT_STAR:
     bVar1 = spel_->school == SCHOOL_Star;
@@ -1340,8 +1340,8 @@ u16 CombatEntity::CheckVSMagic(SpellInstance *casted){
   u8 (*spellNSchoolP) [2];
   
   u8 spellNSchool [5] [2]={
-    {SPELLIND_vsElemental,SCHOOL_Elemental},{SPELLIND_vsNaming,SCHOOL_Naming},
-    {SPELLIND_vsNecromancy,SCHOOL_Necromancy},{SPELLIND_vsStar,SCHOOL_Star},
+    {SPELLIND_VsElemental,SCHOOL_Elemental},{SPELLIND_VsNaming,SCHOOL_Naming},
+    {SPELLIND_VsNecromancy,SCHOOL_Necromancy},{SPELLIND_VsStar,SCHOOL_Star},
     {0xff,0xff}};
   for(u32 i=0;i<MAGIC_FXMAX;i++) {
     Temp_enchant *effect = charSheetP->effects[i];
@@ -1816,8 +1816,8 @@ void CombatEntity::PrintSpellError(CombatEntity* param_2,s32 param_3,u8 param_4)
 u8 CombatEntity::IsControlMagic(u8 x){
   u8 *pbVar1;
   u8 uStack64 []={
-    SPELLIND_ControlElem,SPELLIND_charming,
-    SPELLIND_controlMarquis,SPELLIND_controlZombies,255};
+    SPELLIND_ControlElem,SPELLIND_Charming,
+    SPELLIND_ControlMarquis,SPELLIND_ControlZombies,255};
   
   pbVar1 = uStack64;
   while( true ) {
@@ -1829,7 +1829,7 @@ u8 CombatEntity::IsControlMagic(u8 x){
   return true;
 }
 
-u8 petrify_spells[4]={SPELLIND_wallOfBones,SPELLIND_frozenDoom,SPELLIND_webOfStarlight,255};
+u8 petrify_spells[4]={SPELLIND_WallOfBones,SPELLIND_FrozenDoom,SPELLIND_WebOfStarlight,255};
 
 u8 CombatEntity::isPetrify(u8 enum_spell){
 
@@ -2010,17 +2010,17 @@ u8 CombatEntity::MagicCheck(SpellInstance *param_2,CombatEntity *param_3){
   u8 bVar2;
   
   bVar3 = GETINDEX(param_2->base.id);
-  if ((bVar3 != SPELLIND_wallOfBones) ||
+  if ((bVar3 != SPELLIND_WallOfBones) ||
      (bVar2 = false, param_3->charSheetP->ID != IDEntInd(Marquis))) {
     bVar1 = isDispelMagic(bVar3);
     bVar2 = false;
     if (bVar1 == false) {
-      if (bVar3 == SPELLIND_teleportation) bVar2 = false;
+      if (bVar3 == SPELLIND_Teleportation) bVar2 = false;
       else {
         bVar2 = true;
         if ((param_2->target != MTarget_Enemy) && (bVar2 = true, (param_2->aspect_flag & 0x10) == 0)
            ) {
-          if (bVar3 == SPELLIND_wind) {bVar2 = param_3->Flag4() != this->Flag4();}
+          if (bVar3 == SPELLIND_Wind) {bVar2 = param_3->Flag4() != this->Flag4();}
           else bVar2 = false;
         }
       }
@@ -2039,7 +2039,7 @@ u8 CombatEntity::VSMagic(SpellInstance *casted,CombatEntity *target,s8 *param_4)
   float fVar11;
   
 // no TP with Shadow present
-  if ((casted->base.id == IDSpell(SpellList[SPELLIND_teleportation])) && (gGlobals.ShadowIndex != -1)) {
+  if ((casted->base.id == IDSpell(SpellList[SPELLIND_Teleportation])) && (gGlobals.ShadowIndex != -1)) {
     PrintSpellFail();
     return false;
   }
@@ -2107,7 +2107,7 @@ s32 CombatEntity::EnchantAlly(CombatEntity *param_2,SpellInstance *param_3,u8 pa
 
 s16 CombatEntity::CalcSpellDamage(SpellInstance *param_2,CombatEntity *param_3,u32 Level,u8 param_5){
   u8 spellInd = GETINDEX(param_2->base.id);
-  if (spellInd == SPELLIND_banishing) return Banish(param_3,param_2);
+  if (spellInd == SPELLIND_Banishing) return Banish(param_3,param_2);
   if (isDispelMagic(spellInd))return DispelMagic(param_3,param_2,spellInd,param_5);
   else {
       if ((!ControlPetrifyCheck(param_3,param_2,spellInd)) ||
@@ -2125,7 +2125,7 @@ s16 CombatEntity::CalcSpellDamage(SpellInstance *param_2,CombatEntity *param_3,u
         PrintSpellCast(param_3,param_2);
         return Level;
       }
-      if (spellInd != SPELLIND_wind) {
+      if (spellInd != SPELLIND_Wind) {
         PrintSpellCast(param_3,param_2);
         return (s32)param_2->damage;
       }
@@ -2243,7 +2243,7 @@ u8 CombatEntity::UsePotion(CombatEntity *param_2){
       return true;
     }
     if (PVar1 == POTION_ANTIDOTE) {
-      Entity::ApplySpellEffect(this->charSheetP,SPELLIND_removePoison,0,0,0xff,this);
+      Entity::ApplySpellEffect(this->charSheetP,SPELLIND_RemovePoison,0,0,0xff,this);
       CSprintf(XPotioned,this->charSheetP->name);
       copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
       print_combat_textbox(gCombatP,gGlobals.text,0);

@@ -170,14 +170,14 @@ byte CombatAI::GetSpellPriority(CombatAIInfo *param_1,u8 param_2){
     break;
   default:
     goto switchD_80060678_caseD_1;
-  case SPELLIND_removePoison:
+  case SPELLIND_RemovePoison:
     if (!CombatAI::IsSomeonePoisoned()) return 0;
-  case SPELLIND_photosynthesis:
+  case SPELLIND_Photosynthesis:
     val = 0x53;
     break;
-  case SPELLIND_AirSheild:
-  case SPELLIND_spiritSheild:
-  case SPELLIND_starlightSheild:
+  case SPELLIND_AirShield:
+  case SPELLIND_SpiritShield:
+  case SPELLIND_StarlightShield:
     val = 0x3d;
     break;
   case SPELLIND_ControlElem:
@@ -187,46 +187,46 @@ byte CombatAI::GetSpellPriority(CombatAIInfo *param_1,u8 param_2){
     val = 0x1f;
     break;
   case SPELLIND_DragonFlames:
-  case SPELLIND_wind:
+  case SPELLIND_Wind:
     val = 0xc;
     break;
   case SPELLIND_EarthSmite:
-  case SPELLIND_crushingDeath:
-  case SPELLIND_whitefire:
+  case SPELLIND_CrushingDeath:
+  case SPELLIND_Whitefire:
     val = 0xd;
     break;
-  case SPELLIND_fireball:
+  case SPELLIND_Fireball:
     val = 0xe;
     break;
-  case SPELLIND_lightning:
+  case SPELLIND_Lightning:
     val = 0xb;
     break;
-  case SPELLIND_strength:
+  case SPELLIND_Strength:
     val = 0x33;
     break;
-  case SPELLIND_brilliance:
+  case SPELLIND_Brilliance:
     val = 0x35;
     break;
-  case SPELLIND_stupidity:
+  case SPELLIND_Stupidity:
     val = 0x21;
     break;
-  case SPELLIND_banishing:
+  case SPELLIND_Banishing:
     if (!CombatAI::ElementalInCombat()) return 0;
-  case SPELLIND_cheatDeath:
+  case SPELLIND_CheatDeath:
     val = 0x52;
     break;
-  case SPELLIND_charming:
+  case SPELLIND_Charming:
     goto switchD_80060678_caseD_10;
-  case SPELLIND_endurance:
+  case SPELLIND_Endurance:
     val = 0x34;
     break;
-  case SPELLIND_weakness:
+  case SPELLIND_Weakness:
     val = 0x20;
     break;
-  case SPELLIND_wraithTouch:
+  case SPELLIND_WraithTouch:
     val = 0x24;
     break;
-  case SPELLIND_controlZombies:
+  case SPELLIND_ControlZombies:
     bVar4 =CombatAI:: ZombieInCombat(param_1);
 LAB_8006078c:
     val = 0;
@@ -235,10 +235,10 @@ switchD_80060678_caseD_10:
       val = 0x54;
     }
     break;
-  case SPELLIND_darkness:
-  case SPELLIND_light:
-    if ((param_2 != SPELLIND_darkness) || (TerrainPointer->partOfDay == TIME_NIGHT)) {
-      if (param_2 != SPELLIND_light) return 0;
+  case SPELLIND_Darkness:
+  case SPELLIND_Light:
+    if ((param_2 != SPELLIND_Darkness) || (TerrainPointer->partOfDay == TIME_NIGHT)) {
+      if (param_2 != SPELLIND_Light) return 0;
       if (TerrainPointer->partOfDay != TIME_NIGHT) return 0;
     }
     cVar11 = cVar8;
@@ -258,43 +258,43 @@ switchD_80060678_caseD_10:
     }
     val = 0x55;
     goto joined_r0x800608b4;
-  case SPELLIND_haste:
+  case SPELLIND_Haste:
     val = 0x49;
     break;
-  case SPELLIND_exhaustion:
+  case SPELLIND_Exhaustion:
     val = 0x22;
     break;
-  case SPELLIND_stamina:
+  case SPELLIND_Stamina:
     val = 0x36;
     break;
   case SPELLIND_tapStamina:
     val = 0x37;
     break;
-  case SPELLIND_wallOfBones:
-  case SPELLIND_frozenDoom:
+  case SPELLIND_WallOfBones:
+  case SPELLIND_FrozenDoom:
     val = 0x2a;
     break;
-  case SPELLIND_poison:
+  case SPELLIND_Poison:
     val = 0x15;
     break;
-  case SPELLIND_mirror:
+  case SPELLIND_Mirror:
     val = 0x48;
     break;
-  case SPELLIND_vsElemental:
-  case SPELLIND_vsNaming:
-  case SPELLIND_vsNecromancy:
-  case SPELLIND_vsStar:
+  case SPELLIND_VsElemental:
+  case SPELLIND_VsNaming:
+  case SPELLIND_VsNecromancy:
+  case SPELLIND_VsStar:
     val = 0x47;
     break;
-  case SPELLIND_dispelElemental:
-  case SPELLIND_dispelNaming:
-  case SPELLIND_dispelNecro:
-  case SPELLIND_dispelStar:
-    if (param_2 == SPELLIND_dispelElemental) MVar12 = SCHOOL_Elemental;
+  case SPELLIND_DispelElemental:
+  case SPELLIND_DispelNaming:
+  case SPELLIND_DispelNecro:
+  case SPELLIND_DispelStar:
+    if (param_2 == SPELLIND_DispelElemental) MVar12 = SCHOOL_Elemental;
     else {
       MVar12 = SCHOOL_Naming;
-      if ((param_2 != SPELLIND_dispelNaming) &&
-         (MVar12 = SCHOOL_Star, param_2 == SPELLIND_dispelNecro)) {
+      if ((param_2 != SPELLIND_DispelNaming) &&
+         (MVar12 = SCHOOL_Star, param_2 == SPELLIND_DispelNecro)) {
         MVar12 = SCHOOL_Necromancy;
       }
     }
@@ -324,16 +324,16 @@ switchD_80060678_caseD_1:
       val = 0;
     }
     break;
-  case SPELLIND_dexterity:
+  case SPELLIND_Dexterity:
     val = 0x38;
     break;
-  case SPELLIND_clumsiness:
+  case SPELLIND_Clumsiness:
     val = 0x23;
     break;
-  case SPELLIND_stellarGravity:
+  case SPELLIND_StellarGravity:
     val = 0x29;
     break;
-  case SPELLIND_webOfStarlight:
+  case SPELLIND_WebOfStarlight:
     val = 0x2b;
   }
   return val;
@@ -671,7 +671,7 @@ u32 CombatAI::FireballFunc2(CombatAIInfo *param_1){
                 if ((sub_square_add_sqrt(feildx,bVar14,X,Y) <= bVar1) &&
                    (FUN_80070fa0(pcVar16,feildx,bVar14,uVar2))) {
                     param_1->combatEnt->SetCoords(iVar18,iVar11);
-                  if (param_1->spells[uStack_60] == SPELLIND_fireball) cVar19 = CombatAI::FireballCalc(param_1);
+                  if (param_1->spells[uStack_60] == SPELLIND_Fireball) cVar19 = CombatAI::FireballCalc(param_1);
                   else cVar19 = some_prioirty_getter(param_1);
                   if ((pCVar7->substruct2[1].arrayBCount != 0) &&
                      (spellPri = CombatAI::GetSpellPriority(param_1,param_1->spells[uStack_60]),
@@ -735,7 +735,7 @@ u8 CombatAI::SpellStamina(CombatAIInfo *param_1){
       if (!bVar4) {
         bVar4= CharStats::getModded(pCVar3->Stats,STAT_STAM)>Entity::SpellStaminaSubtract(pSVar7,bVar9);
       }
-      if (param_1->spells[i] == SPELLIND_fireball) cVar11 = CombatAI::FireballCalc(param_1);
+      if (param_1->spells[i] == SPELLIND_Fireball) cVar11 = CombatAI::FireballCalc(param_1);
       else cVar11 = some_prioirty_getter(param_1);
       if (pCVar6->substruct2[1].arrayBCount != 0) {
         bVar9 = CombatAI::GetSpellPriority(param_1,param_1->spells[i]);
@@ -1230,7 +1230,7 @@ void FUN_800628cc(CombatAIInfo* param_1){
   pCVar1 = param_1->combatEnt->charSheetP;
   pCVar14 = &gCombatP->substruct;
   pSVar6 = Entity::GetSpell(pCVar1);
-  if ((pSVar6 != NULL) && (GETINDEX((pSVar6->base).id) == SPELLIND_fireball)) {
+  if ((pSVar6 != NULL) && (GETINDEX((pSVar6->base).id) == SPELLIND_Fireball)) {
     uVar15 = (uint)pSVar6->range * Entity::CheckSpellWizard(pCVar1,pSVar6);
     uVar10 = param_1->combatEnt->GetCoordXU8();
     uVar11 = param_1->combatEnt->GetCoordYU8();
@@ -1962,7 +1962,7 @@ u8 CombatAI::IsSomeonePoisoned(void){
         ppTVar1 = (*ppCVar4)->charSheetP->effects;
         do {
           uVar2 += 1;
-          if ((*ppTVar1) && ((*ppTVar1)->index == SPELLIND_poison)) {
+          if ((*ppTVar1) && ((*ppTVar1)->index == SPELLIND_Poison)) {
             return true;
           }
           ppTVar1 = ppTVar1 + 1;
