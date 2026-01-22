@@ -234,7 +234,9 @@ minimap_dat_2 minimap_dats_2_Ehud[]={
   {0x1088,0x0072},{0}
 };
 minimap_dat_2 minimap_dats_2_Roog[]={
-  {0x1089,0x001e},{0x108a,0x0020},{0x108b,0x0021},{0x108c,0x001f},{0x108d,0x0022},
+  {0x1089,BORG8_MiniMapRoogEnterA},{0x108a,BORG8_MiniMapRoogEnterC},
+  {0x108b,BORG8_MiniMapRoogEnterD},{0x108c,BORG8_MiniMapRoogEnterB},
+  {0x108d,BORG8_MiniMapRoogEnterE},
   {0}
 };
 minimap_dat_2 minimap_dats_2_Barrows[]={
