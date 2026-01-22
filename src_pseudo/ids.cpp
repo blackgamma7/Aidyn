@@ -111,23 +111,47 @@ ItemID Ofunc_80075f9c(u8 index){
     return -1;
 }
 u8 weapons_with_borg5[]={
-    0x21,0x28,0x26,0x2a,0x22,0x30,0x23,0x2e,0x24,0x25,0x27,0x2c,0x32,0x29,0x2b,0x2f,0x2d,
-    0x31,0x35,0x37,0x3b,0x36,0x3a,0x38,0x39,0x3c,0x5f,0x5e,0x3e,0x33,0x3f,0x40,0x45,0x41,
-    0x42,0x43,0x34,0x44,0x4c,0x4f,0x50,0x51,0x52,0x53,0x54,0x4d,0x56,0x4e,0x55,0x57,0x58,
-    0x59,0x5a,0x5b,0x5d,0x5c,0x61,0x62,0x63,0x65,0x66,0x60,0x3d,0x4b,0x1f,0x20,0xff,0};
+    WeaponInd_SpellbreakerAxe, WeaponInd_GiantAxe,       WeaponInd_LizardKingAxe,   WeaponInd_BloodAxe,
+    WeaponInd_GloryMace,       WeaponInd_MorningStar,    WeaponInd_JesterMace,      WeaponInd_Mace,
+    WeaponInd_ChaosFlameblade, WeaponInd_ChaosMaul,      WeaponInd_ElishevaSythe,   WeaponInd_Sythe,
+    WeaponInd_ChaosSythe,      WeaponInd_BattleAxe,      WeaponInd_Club,            WeaponInd_Maul,
+    WeaponInd_GreatAxe,        WeaponInd_Warhammer,      WeaponInd_AccuracyBow,     WeaponInd_ThunderBow,
+    WeaponInd_LongBow,         WeaponInd_ShieldBow,      WeaponInd_HunterBow,       WeaponInd_HeartseekerBow,
+    WeaponInd_GreatBow,        WeaponInd_ShortBow,       WeaponInd_ThrowingIron,    WeaponInd_DragonFang,
+    WeaponInd_ChaosStaff,      WeaponInd_ChaosDeathwing, WeaponInd_BreklorFirestaff,WeaponInd_LugashStaff,
+    WeaponInd_Staff,           WeaponInd_EhudStaff,      WeaponInd_ArchmageStaff,   WeaponInd_Pike,
+    WeaponInd_Poleaxe,         WeaponInd_Spear,          WeaponInd_SwordMight,      WeaponInd_EnchBlade,
+    WeaponInd_FiredrakeFang,   WeaponInd_IceStiletto,    WeaponInd_SwordTrahern,    WeaponInd_Warfang,
+    WeaponInd_SwordLodin,      WeaponInd_StealthBlade,   WeaponInd_Dagger,          WeaponInd_Sheridan,
+    WeaponInd_Broadsword,      WeaponInd_ChaosSword,     WeaponInd_Greatsword,      WeaponInd_Longsword,
+    WeaponInd_Gladius,         WeaponInd_Sabre,          WeaponInd_Tanto,           WeaponInd_ShortSword,
+    WeaponInd_CyclopsHurlstar, WeaponInd_DartDistance,   WeaponInd_PoisonDart,      WeaponInd_Hatchet,
+    WeaponInd_Javelin,         WeaponInd_ThrowingKnife,  WeaponInd_IronwoodStaff,   WeaponInd_Lightreaver,
+    WeaponInd_HockeyStick,     WeaponInd_CyclopsClub,    0xff,                      0};
+
 u16 Weapon_borg5_lookup(u8 index){
-    //TODO: ID borg5 indecies and replace here.
-    u16 weapon_borg5_ID[]={
-      0x3545,0x34C7,0x34EC,0x34B6,0x3513,0x34D7,0x3504,0x34D4,0x349A,0x34B8,0x34AC,0x34E1,
-      0x34BB,0x34B4,0x34C1,0x34D6,0x34C9,0x34EF,0x3491,0x3496,0x34D2,0x3494,0x34CF,0x34F4,
-      0x34CA,0x34E3,0x34A8,0x354B,0x34BD,0x34BD,0x3498,0x350F,0x34E8,0x34AA,0x348D,0x34D9,
-      0x34DD,0x34E6,0x349C,0x34AE,0x34B0,0x34FE,0x354F,0x3551,0x34A2,0x34A0,0x34C2,0x3519,
-      0x34B5,0x34BF,0x34CC,0x34D3,0x34F1,0x34DF,0x3547,0x34E5,0x349E,0x34A5,0x34DB,0x34CD,
-      0x34D1,0x354D,BORG5_WeaponLightreaver,0x350D,BORG5_WeaponHockeyStick,0x34C1,-1,0};
-    for(u16 i=0;weapons_with_borg5[i]!=0xFF;i++){
-        if(weapons_with_borg5[i]==index)return weapon_borg5_ID[i];
-    }
-    return-1;
+  u16 weapon_borg5_ID[]={
+    BORG5_WeaponSpellbreakerAxe, BORG5_WeaponGiantAxe,       BORG5_WeaponLizardKingAxe,   BORG5_WeaponBloodAxe,
+    BORG5_WeaponGloryMace,       BORG5_WeaponMorningStar,    BORG5_WeaponJesterMace,      BORG5_WeaponMace,
+    BORG5_WeaponChaosFlameblade, BORG5_WeaponChaosMaul,      BORG5_WeaponElishevaSythe,   BORG5_WeaponSythe,
+    BORG5_WeaponChaosSythe,      BORG5_WeaponBattleAxe,      BORG5_WeaponClub,            BORG5_WeaponMaul,
+    BORG5_WeaponGreatAxe,        BORG5_WeaponWarhammer,      BORG5_WeaponAccuracyBow,     BORG5_WeaponThunderBow,
+    BORG5_WeaponLongBow,         BORG5_WeaponShieldBow,      BORG5_WeaponHunterBow,       BORG5_WeaponHeartseekerBow,
+    BORG5_WeaponGreatBow,        BORG5_WeaponShortBow,       BORG5_WeaponThrowingIron,    BORG5_WeaponDragonFang,
+    BORG5_WeaponChaosStaff,      BORG5_WeaponChaosStaff,     BORG5_WeaponBreklorFirestaff,BORG5_WeaponLugashStaff,
+    BORG5_WeaponStaff,           BORG5_WeaponEhudStaff,      BORG5_WeaponArchmageStaff,   BORG5_WeaponPike,
+    BORG5_WeaponPoleaxe,         BORG5_WeaponSpear,          BORG5_WeaponSwordMight,      BORG5_WeaponEnchBlade,
+    BORG5_WeaponFiredrakeFang,   BORG5_WeaponIceStiletto,    BORG5_WeaponSwordTrahern,    BORG5_WeaponWarfang,
+    BORG5_WeaponSwordLodin,      BORG5_WeaponStealthBlade,   BORG5_WeaponDagger,          BORG5_WeaponSheridan,
+    BORG5_WeaponBroadsword,      BORG5_WeaponChaosSword,     BORG5_WeaponGreatsword,      BORG5_WeaponLongsword,
+    BORG5_WeaponGladius,         BORG5_WeaponSabre,          BORG5_WeaponTanto,           BORG5_WeaponShortSword,
+    BORG5_WeaponCyclopsHurlstar, BORG5_WeaponDartDistance,   BORG5_WeaponPoisonDart,      BORG5_WeaponHatchet,
+    BORG5_WeaponJavelin,         BORG5_WeaponThrowingKnife,  BORG5_WeaponIronWoodStaff,   BORG5_WeaponLightreaver,
+    BORG5_WeaponHockeyStick,     BORG5_WeaponCyclopsCulb,    -1,                          0};
+  for(u16 i=0;weapons_with_borg5[i]!=0xFF;i++){
+    if(weapons_with_borg5[i]==index)return weapon_borg5_ID[i];
+  }
+ return -1;
 }
 
 u16 GetWeaponBorg5(ItemID param_1){

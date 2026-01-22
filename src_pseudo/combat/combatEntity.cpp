@@ -2771,13 +2771,13 @@ u32 CombatEntity::GetShieldModel(){
   u32 uVar3;
   u32 uVar4;
   
-  uVar4 = 0xffffffff;
+  uVar4 = -1;
   if (!cannotSheild(this->charSheetP->ID)) {
     ptVar1 = this->charSheetP->armor[1];
-    if (ptVar1 == NULL) {uVar4 = 0xffffffff;}
+    if (ptVar1 == NULL) {uVar4 = -1;}
     else {
       uVar3 = gArmorDBp->GetBorg5(ptVar1->base.id);
-      uVar4 = 0xffffffff;
+      uVar4 = -1;
       if (uVar3 != BORG5_ShieldNONE) {uVar4 = uVar3;}
     }
   }
@@ -2798,21 +2798,17 @@ u16 CombatEntity::GetWeaponModel(){
   return uVar3;
 }
 
-u8 missle_ids[]={53,55,56,54,58,56,57,60,255};
+u8 missle_ids[]={
+  WeaponInd_AccuracyBow,WeaponInd_ThunderBow,WeaponInd_LongBow,
+  WeaponInd_ShieldBow,WeaponInd_HunterBow,WeaponInd_HeartseekerBow,
+  WeaponInd_GreatBow,WeaponInd_ShortBow,0xff};
 
 u8 CombatEntity::BowEquipped(){
-  WeaponInstance *pTVar2;
-  u8 bVar3;
-  u8 *pbVar4;
-
-  pTVar2 = this->charSheetP->weapons;
-  if (pTVar2) {
-    bVar3 = GETINDEX(pTVar2->base.id);
-    if (missle_ids[0] != 0xff) {
-      pbVar4 = missle_ids;
-      do {
-        if (*pbVar4++ == bVar3) {return true;}
-      } while (*pbVar4 != 0xff);
+  WeaponInstance *wep = this->charSheetP->weapons;
+  if (wep) {
+    u8 ind = GETINDEX(wep->base.id);
+    for(u32 i=0;missle_ids[i]!=0xff;i++){
+      if(missle_ids[i]==ind) return true;
     }
   }
   return false;
@@ -2830,7 +2826,10 @@ void CombatEntity::AttachWeaponShieldModel(u16 param_2,s32 param_3,s32 borg5){
   }
 }
 
-u8 throwing_ids[]={0x63,0x62,0x61,0x65,0x66,0x60,0x5e,0x5f,0xFF};
+u8 throwing_ids[]={
+  WeaponInd_PoisonDart,WeaponInd_DartDistance,WeaponInd_CyclopsHurlstar,
+  WeaponInd_Hatchet,WeaponInd_Javelin,WeaponInd_ThrowingKnife,
+  WeaponInd_DragonFang,WeaponInd_ThrowingIron,0xFF};
 
 void CombatEntity::ThrowingEquipped(){
   u8 bVar1;

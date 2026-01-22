@@ -1195,8 +1195,72 @@
 
 //weapon/sheild models
 
-#define BORG5_WeaponHockeyStick 0x34F9
-#define BORG5_WeaponLightreaver 0x3500
+
+#define BORG5_WeaponSpellbreakerAxe 0x3545
+#define BORG5_WeaponGiantAxe        0x34c7
+#define BORG5_WeaponLizardKingAxe   0x34EC
+#define BORG5_WeaponBloodAxe        0x34B6
+#define BORG5_WeaponGloryMace       0x3513
+#define BORG5_WeaponMorningStar     0x34D7
+#define BORG5_WeaponJesterMace      0x3504
+#define BORG5_WeaponMace            0x34D4
+#define BORG5_WeaponChaosFlameblade 0x349A
+#define BORG5_WeaponChaosMaul       0x34B8
+#define BORG5_WeaponElishevaSythe   0x34AC
+#define BORG5_WeaponSythe           0x34E1
+#define BORG5_WeaponChaosSythe      0x34BB
+#define BORG5_WeaponBattleAxe       0x34B4
+#define BORG5_WeaponClub            0x34C1
+#define BORG5_WeaponMaul            0x34D6
+#define BORG5_WeaponGreatAxe        0x34C9
+#define BORG5_WeaponWarhammer       0x34EF
+#define BORG5_WeaponAccuracyBow     0x3491
+#define BORG5_WeaponThunderBow      0x3496
+#define BORG5_WeaponLongBow         0x34D2
+#define BORG5_WeaponShieldBow       0x3494
+#define BORG5_WeaponHunterBow       0x34CF
+#define BORG5_WeaponHeartseekerBow  0x34F4
+#define BORG5_WeaponGreatBow        0x34CA
+#define BORG5_WeaponShortBow        0x34E3
+#define BORG5_WeaponThrowingIron    0x34A8
+#define BORG5_WeaponDragonFang      0x354B
+#define BORG5_WeaponChaosStaff      0x34DB //also used by Chaos Deathwing(?)
+#define BORG5_WeaponBreklorFirestaff 0x3498
+#define BORG5_WeaponLugashStaff     0x350F
+#define BORG5_WeaponStaff           0x34E8
+#define BORG5_WeaponEhudStaff       0x34AA
+#define BORG5_WeaponArchmageStaff   0x348D
+#define BORG5_WeaponPike            0x34D9
+#define BORG5_WeaponPoleaxe         0x34DD
+#define BORG5_WeaponSpear           0x34E6
+#define BORG5_WeaponSwordMight      0x349C
+#define BORG5_WeaponEnchBlade       0x34AE
+#define BORG5_WeaponFiredrakeFang   0x34A2
+#define BORG5_WeaponIceStiletto     0x34FE
+#define BORG5_WeaponSwordTrahern    0x354F
+#define BORG5_WeaponWarfang         0x3551
+#define BORG5_WeaponSwordLodin      0x34A2
+#define BORG5_WeaponStealthBlade    0x34A0
+#define BORG5_WeaponDagger          0x34C2
+#define BORG5_WeaponSheridan        0x3519
+#define BORG5_WeaponBroadsword      0x34B5
+#define BORG5_WeaponChaosSword      0x34BF
+#define BORG5_WeaponGreatsword      0x34CC
+#define BORG5_WeaponLongsword       0x34D3
+#define BORG5_WeaponGladius         0x34f1
+#define BORG5_WeaponSabre           0x34Df
+#define BORG5_WeaponTanto           0x3547
+#define BORG5_WeaponShortSword      0x34E5
+#define BORG5_WeaponCyclopsHurlstar 0x349E
+#define BORG5_WeaponDartDistance    0x34A5
+#define BORG5_WeaponPoisonDart      0x34DB
+#define BORG5_WeaponHatchet         0x34CD
+#define BORG5_WeaponJavelin         0x34D1
+#define BORG5_WeaponThrowingKnife   0x354D
+#define BORG5_WeaponHockeyStick     0x34F9
+#define BORG5_WeaponCyclopsCulb     0x34c1
+#define BORG5_WeaponIronWoodStaff   0x3500
+#define BORG5_WeaponLightreaver     0x350D
 
 #ifndef EURVER
 #define BORG5_ShieldNONE        0x38f9//max index+1- no sheild model available
