@@ -46,6 +46,8 @@ enum DB_TYPE{
 #define IDMedal(n) IDSet(AMULET,n) 
 #define IDDEnt(n) IDSet(DIALOUGEENTITY,n) 
 
+
+#define ITEMIDTYPE(x) (x >> 8) get upper byte of the Item ID
 #define IDInd(x) x&0xFF //get the lower byte of the Item ID
 
 #define IDEntInd(n) IDEnt(entityList[EntInd_##n##]) //common macro for getting entity ID

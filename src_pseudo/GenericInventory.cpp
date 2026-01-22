@@ -1,6 +1,7 @@
 #include "inventory/GenericInventory.h"
+#include "weapondb.h"
 #include "crash.h"
-extern u8 weaponList[];
+
 
 u32 IInventory::HasItem(ItemID id){
     return this->GetItemIndex(id)!=-1;
@@ -43,10 +44,9 @@ void GenericInventory::Save(SaveFile*){}
 
 void GenericInventory::Load(SaveFile*){}
 
-
 s32 GenericInventory::AddItem(ItemID id,s32 q){
   // don't add cyclops club
-  if(IDWeapon(weaponList[0x20]) == id) return false;
+  if(IDWeapon(weaponList[WeaponInd_CyclopsClub]) == id) return false;
   // don't add aspect potions, make them healing instead.
   if (id == Potion_Aspect) id = Potion_Healing;
   s32 index =this->GetItemIndex(id);

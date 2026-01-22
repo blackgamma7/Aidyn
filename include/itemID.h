@@ -34,7 +34,6 @@ typedef enum AspectEnum {
     ASPECT_SOLAR
 } AspectEnum;
 
-#define ITEMIDTYPE(x) x >> 8
 
 
 u8 ItemIsMap(ItemID param_1);

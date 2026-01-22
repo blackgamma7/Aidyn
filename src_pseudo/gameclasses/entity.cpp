@@ -297,7 +297,7 @@ u8 Entity::canEquipWeapon(CharSheet *param_1,ItemID param_2){
     else {
       if (param_1->ID == IDEntInd(Niesen)) {
         bVar2 = 1;
-        if (param_2 == IDWeapon(weaponList[66])) //archmage stafff
+        if (param_2 == IDWeapon(weaponList[WeaponInd_ArchmageStaff]))
         bVar2 = 0;
       }
       else bVar2 = 0;

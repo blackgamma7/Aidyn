@@ -128,7 +128,7 @@ CharSheet* Party::GetMemberById2(ItemID id,u8 *oIndex){
   else return this->Members[*oIndex];
 }
 
-//move chaaracter to empty space? unused.
+//move character to empty space? unused.
 void Party::MoveCharSheet(){
   s32 iVar1;
   CharSheet *piVar2;
@@ -358,10 +358,12 @@ u8 Party::CombatItemCheck1(CharSheet* param_2,u8 param_3,ItemID param_4){
 }
 
 itemtype_func itemtype_funcs[]={
-{5,0xFFFF,itemtype_armor},{6,0xFFFF,itemtype_sheild},{7,0xFFFF,itemtype_weapon},
-{9,0xFFFF,itemtype_gear},{10,0xFFFF,itemtype_gear},{11,0xFFFF,itemtype_gear},
-{13,0xFFFF,itemtype_gear},{14,0xFFFF,itemtype_gear},{15,0xFFFF,itemtype_gear},
-{19,0xFFFF,itemtype_gear},{17,0xFFFF,itemtype_scroll},{12,0xFFFF,itemtype_ring},
+{DB_ARMOR,0xFFFF,itemtype_armor},{DB_SHIELD,0xFFFF,itemtype_sheild},
+{DB_WEAPON,0xFFFF,itemtype_weapon},{DB_HELMET,0xFFFF,itemtype_gear},
+{DB_CLOAK,0xFFFF,itemtype_gear},{DB_GLOVE,0xFFFF,itemtype_gear},
+{DB_WAND,0xFFFF,itemtype_gear},{DB_BELT,0xFFFF,itemtype_gear},
+{DB_BOOTS,0xFFFF,itemtype_gear},{DB_AMULET,0xFFFF,itemtype_gear},
+{DB_SCROLL,0xFFFF,itemtype_scroll},{DB_RING,0xFFFF,itemtype_ring},
 {0xFF,0,NULL}
 };
 
@@ -373,7 +375,7 @@ u8 Party::GetEquipError(u8 param_2,char param_3,ItemID*oId){
   if ((pCVar1) &&(puVar4 = &this->Inventory->GetItemEntry(param_3)->base,puVar4)) {
     if ((puVar4->aspect != ASPECT_NONE) &&(puVar4->aspect != pCVar1->EXP->GetAspect())) return 2;
     for (u16 uVar6 = 0;itemtype_funcs[uVar6].type != 0xff;uVar6++){
-        if (itemtype_funcs[uVar6].type== puVar4->id >> 8) {
+        if (itemtype_funcs[uVar6].type== ITEMIDTYPE(puVar4->id)) {
           return itemtype_funcs[uVar6].func(this,param_2,puVar4,pCVar1,oId);
         }
       }
@@ -395,7 +397,7 @@ u8 itemtype_armor(Party* p, u8 param_2,ItemInstance *param_3,CharSheet *param_4,
     if (param_3->spellCharge) bVar5 = param_3->spellCharge->Charges;
     uVar3 = p->Inventory->TakeItem(IVar1,1);
     if (uVar3 == 0) {
-      if (X) HFREE(X,0x377);
+      if (X) HFREE(X,887);
       bVar4 = 1;
     }
     else {
@@ -432,7 +434,7 @@ u8 itemtype_sheild(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
     if (pSVar2) bVar6 = pSVar2->Charges;
     uVar4 = p->Inventory->TakeItem(IVar1,1);
     if (uVar4 == 0) {
-      if (X != NULL) HFREE(X,0x3b2);
+      if (X != NULL) HFREE(X,946);
       bVar5 = true;
     }
     else {
@@ -467,7 +469,7 @@ byte itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_
     bVar5 = 0xff;
     if (pSVar2) bVar5 = pSVar2->Charges;
     if (p->Inventory->TakeItem(IVar1,1) == 0) {
-      if (X) HFREE(X,0x3ed);
+      if (X) HFREE(X,1005);
       bVar6 = 1;
     }
     else {
@@ -528,7 +530,7 @@ byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_
     bVar9 = 0xff;
     if (pSVar4) bVar9 = pSVar4->Charges;
     if (p->Inventory->TakeItem(IVar2,1) == 0) {
-      if (X) HFREE(X,0x457);
+      if (X) HFREE(X,1111);
       bVar9 = 1;
     }
     else {
@@ -694,14 +696,11 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
   return true;
 }
 
-
-
 void UpdateItemStatCharges(ItemInstance *I,StatMod *param_2,byte param_3){
   if (I->statMod) HFREE(I->statMod,1362);
   I->statMod = param_2;
   if (param_3 != -1) I->spellCharge->Charges = param_3;
 }
-
 
 u8 Party::RemoveArmorFrom(u8 index){
   CharSheet *pCVar1;
@@ -782,7 +781,7 @@ u8 Party::RemoveWeaponsFrom(u8 param_2){
     WeaponInstance *pTVar5 = pCVar1->weapons;
     if (pTVar5 == NULL) return false;
     //Can't move Archmage Staff
-    if (IDWeapon(weaponList[66]) == pTVar5->base.id) return false;
+    if (IDWeapon(weaponList[WeaponInd_ArchmageStaff]) == pTVar5->base.id) return false;
     StatMod* X = CreateStatMod(pTVar5->base.statMod);
     s8 uVar6 = 0xff;
     if (pTVar5->base.spellCharge) {uVar6 = pTVar5->base.spellCharge->Charges;}

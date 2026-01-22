@@ -154,7 +154,7 @@ WidgetItemDB::~WidgetItemDB(){
                   IVar1 = gArmorDBp->Armor[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ulonglong)(u16)IVar1,
                       &gArmorDBp->Armor[i].name,i,(u32)((u16)ITEMIDTYPE(IVar1)),
-                      (u16)IVar1 & 0xff,ArmorList[i] + 0x500);
+                      (u16)IDInd(IVar1),IDArmor(ArmorList[i]));
           pBVar4->Append(gGlobals.text,IVar1);
       }
       break;
@@ -164,7 +164,7 @@ WidgetItemDB::~WidgetItemDB(){
           IVar1 = gArmorDBp->Armor[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(u16)IVar1,
                       &gArmorDBp->Armor[i].name,i,(u32)((u16)ITEMIDTYPE(IVar1)),
-                      (u16)IVar1 & 0xff,ArmorList[i] + 0x600);
+                      (u16)IDInd(IVar1),IDShield(ArmorList[i]));
           pBVar4->Append(gGlobals.text,IVar1);
       }
       break;
@@ -174,7 +174,7 @@ WidgetItemDB::~WidgetItemDB(){
                   IVar1 = gItemDBp->Gear[i].ID;
           sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",IVar1,
                       gItemDBp->Gear[i].name,i,ITEMIDTYPE(IVar1),
-                      IVar1 & 0xff,itemID_array[i]);
+                      IDInd(IVar1),itemID_array[i]);
           pBVar4->Append(gGlobals.text,IVar1);
       }
       break;
@@ -184,8 +184,8 @@ WidgetItemDB::~WidgetItemDB(){
         IVar1 = gWeaponsDB->weapons[i].ID;
         sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",IVar1,
                       gWeaponsDB->weapons[i].name,pcVar7,
-                      ((u16)ITEMIDTYPE(IVar1)),(u16)IVar1 & 0xff,
-                      weaponList[i] + 0x700);
+                      ((u16)ITEMIDTYPE(IVar1)),(u16)IDInd(IVar1),
+                      IDWeapon(weaponList[i]));
           pBVar4->Append(gGlobals.text,IVar1);
       }
       break;
@@ -194,7 +194,7 @@ WidgetItemDB::~WidgetItemDB(){
       for(i=0;i<17;i++) {
         ItemID uVar5 = IDPotion(i);
         sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",uVar5,potion_names[i],
-                    i,ITEMIDTYPE((u16)uVar5),uVar5 & 0xff,uVar5);
+                    i,ITEMIDTYPE((u16)uVar5),IDInd(uVar5),uVar5);
         pBVar4->Append(gGlobals.text,uVar5);
       }
     }

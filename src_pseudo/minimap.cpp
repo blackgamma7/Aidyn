@@ -1,7 +1,222 @@
 #include "globals.h"
 
+MinimapSec_dat minimaps_Gwernia[]={
+{9,9,6,0,BORG8_MiniMapGwerniaI09,55,16},
+{11,1,6,0,BORG8_MiniMapGwerniaK01,47,16},
+{1,1,6,0,BORG8_MiniMapGwerniaA01A,10,16},
+{1,1,6,0,BORG8_MiniMapGwerniaA01B,76,16},
+{1,1,6,0,BORG8_MiniMapGwerniaA01C,10,52},
+{1,1,6,0,BORG8_MiniMapGwerniaA01D,60,52},
+{9,7,7,0,BORG8_MiniMapGwerniaI07A,65,57},
+{9,7,7,0,BORG8_MiniMapGwerniaI07B,23,57},
+{9,7,7,0,BORG8_MiniMapGwerniaI07C,23,47},
+{1,3,7,0,BORG8_MiniMapGwerniaA03,8,80},
+{1,5,7,0,BORG8_MiniMapGwerniaA05,46,36},
+{1,7,7,0,BORG8_MiniMapGwerniaA07,77,26},
+{1,9,7,0,BORG8_MiniMapGwerniaA09,90,11},
+{3,1,7,0,BORG8_MiniMapGwerniaC01,17,11},
+{3,3,7,0,BORG8_MiniMapGwerniaC03,23,26},
+{3,5,7,0,BORG8_MiniMapGwerniaC05,17,25},
+{3,7,7,0,BORG8_MiniMapGwerniaC07,82,11},
+{3,9,7,0,BORG8_MiniMapGwerniaC09,89,79},
+{5,1,7,0,BORG8_MiniMapGwerniaE01,45,10},
+{9,7,8,0,BORG8_MiniMapGwerniaI07A,23,47},
+{9,7,8,0,BORG8_MiniMapGwerniaI07B,61,47},
+{5,3,8,0,BORG8_MiniMapGwerniaE03,89,79},
+{5,5,8,0,BORG8_MiniMapGwerniaE05,71,34},
+{5,7,8,0,BORG8_MiniMapGwerniaE07,8,80},
+{5,9,8,0,BORG8_MiniMapGwerniaE09,40,73},
+{7,1,8,0,BORG8_MiniMapGwerniaG01,23,13},
+{7,3,8,0,BORG8_MiniMapGwerniaG03,82,11},
+{7,5,8,0,BORG8_MiniMapGwerniaG05,17,11},
+{7,7,8,0,BORG8_MiniMapGwerniaG07,17,11},
+{7,9,8,0,BORG8_MiniMapGwerniaG09,90,11},
+{9,1,8,0,BORG8_MiniMapGwerniaI01,52,10},
+{9,3,8,0,BORG8_MiniMapGwerniaI03,23,58},
+{9,5,8,0,BORG8_MiniMapGwerniaI05,65,72},
+{17,1,8,0,BORG8_MiniMapGwerniaQ01,23,76},
+{11,3,5,0,BORG8_MiniMapGwerniaK03,65,66},
+{11,5,5,0,BORG8_MiniMapGwerniaK05,65,30},
+{11,7,5,0,BORG8_MiniMapGwerniaK07,58,44},
+{11,9,5,0,BORG8_MiniMapGwerniaK09,77,44},
+{15,7,5,0,BORG8_MiniMapGwerniaO07,37,30},
+{15,9,4,0,BORG8_MiniMapGwerniaO09,51,44},
+{13,1,4,0,BORG8_MiniMapGwerniaM01,37,30},
+{13,3,4,0,BORG8_MiniMapGwerniaM03,37,61},
+{13,5,4,0,BORG8_MiniMapGwerniaM05,10,49},
+{13,7,4,0,BORG8_MiniMapGwerniaM07,68,60},
+{13,9,4,0,BORG8_MiniMapGwerniaM09,68,31},
+{15,9,3,0,BORG8_MiniMapGwerniaO09,37,30},
+{15,1,2,0,BORG8_MiniMapGwerniaO01,51,44},
+{15,3,2,0,BORG8_MiniMapGwerniaO03,37,30},
+{15,5,1,0,BORG8_MiniMapGwerniaO05,50,43},
+{17,3,13,0,BORG8_MiniMapGwerniaQ03,37,36},
+{0} 
+};
 
+MinimapSec_dat MinimapSec_dat_ARRAY_800edf0c[]={
+{1,1,8,0,BORG8_MiniMapUgairt2A01,42,47},
+{1,3,8,0,BORG8_MiniMapUgairt2A03,35,47},
+{1,5,8,0,BORG8_MiniMapUgairt2A05,56,20},
+{1,7,8,0,BORG8_MiniMapUgairt2A07,42,83},
+{1,9,8,0,BORG8_MiniMapUgairt2A09,64,47},
+{3,1,8,0,BORG8_MiniMapUgairt2C01,78,47},
+{3,3,8,0,BORG8_MiniMapUgairt2C03,45,55},
+{0}
+};
 
+MinimapSec_dat MinimapSec_erromon[]={
+{1,11,8,0,BORG8_MiniMapErromonA11,30,0},
+{2,11,8,0,BORG8_MiniMapErromonB11,46,1},
+{1,12,8,0,BORG8_MiniMapErromonA12,30,15},
+{2,12,8,0,BORG8_MiniMapErromonB12,49,18},
+{3,12,8,0,BORG8_MiniMapErromonC12,71,22},
+{1,13,8,0,BORG8_MiniMapErromonA13,31,41},
+{1,14,8,0,BORG8_MiniMapErromonA14,31,64},
+{2,14,8,0,BORG8_MiniMapErromonB14,51,74},
+{3,14,8,0,BORG8_MiniMapErromonC14,75,78},
+{1,15,8,0,BORG8_MiniMapErromonA15,30,85},
+{2,15,8,0,BORG8_MiniMapErromonB15,53,86},
+{3,15,8,0,BORG8_MiniMapErromonC15,69,81},
+{0}
+};
+
+MinimapSec_dat MinimapSec_ehud[]={
+{3,1,7,0,BORG8_MiniMapEhudC01,10,26},
+{3,3,7,0,BORG8_MiniMapEhudC03,23,29},
+{3,5,7,0,BORG8_MiniMapEhudC05,33,32},
+{3,7,7,0,BORG8_MiniMapEhudC07,41,32},
+{1,3,8,0,BORG8_MiniMapEhudA03,31,31},
+{1,5,8,0,BORG8_MiniMapEhudA05,30,52},
+{1,7,8,0,BORG8_MiniMapEhudA07,60,60},
+{1,9,8,0,BORG8_MiniMapEhudA09,52,30},
+{5,1,9,0,BORG8_MiniMapEhudE01,30,57},
+{5,3,9,0,BORG8_MiniMapEhudE03,30,47},
+{5,5,9,0,BORG8_MiniMapEhudE05,33,32},
+{5,7,9,0,BORG8_MiniMapEhudE07,49,30},
+{5,9,9,0,BORG8_MiniMapEhudE09,64,42},
+{7,1,9,0,BORG8_MiniMapEhudG01,72,49},
+{7,3,9,0,BORG8_MiniMapEhudG03,62,60},
+{7,5,9,0,BORG8_MiniMapEhudG05,54,64},
+{7,7,9,0,BORG8_MiniMapEhudG07,48,58},
+{7,9,10,0,BORG8_MiniMapEhudG09,40,15},
+{9,1,10,0,BORG8_MiniMapEhudI01,33,27},
+{9,3,10,0,BORG8_MiniMapEhudI03,23,37},
+{9,5,10,0,BORG8_MiniMapEhudI05,13,47},
+{9,7,10,0,BORG8_MiniMapEhudI07,0,55},
+{9,9,10,0,BORG8_MiniMapEhudI09A,3,59},
+{9,9,10,0,BORG8_MiniMapEhudI09B,33,25},
+{11,1,10,0,BORG8_MiniMapEhudK01,48,44},
+{11,3,10,0,BORG8_MiniMapEhudK03,64,21},
+{11,5,10,0,BORG8_MiniMapEhudK05,24,57},
+{11,7,10,0,BORG8_MiniMapEhudK07,13,81},
+{11,9,10,0,BORG8_MiniMapEhudK09,37,76},
+{13,1,10,0,BORG8_MiniMapEhudM01,36,87},
+{13,3,10,0,BORG8_MiniMapEhudM03,51,65},
+{13,5,10,0,BORG8_MiniMapEhudM05,64,65},
+{13,7,10,0,BORG8_MiniMapEhudM07,91,72},
+{13,9,10,0,BORG8_MiniMapEhudM09,90,88},
+{15,1,10,0,BORG8_MiniMapEhudO01,105,87},
+{15,3,10,0,BORG8_MiniMapEhudO03,77,43},
+{15,5,11,0,BORG8_MiniMapEhudO05A,56,15},
+{15,5,11,0,BORG8_MiniMapEhudO05B,55,28},
+{15,5,11,0,BORG8_MiniMapEhudO05C,56,36},
+{15,5,11,0,BORG8_MiniMapEhudO05D,67,32},
+{15,5,11,0,BORG8_MiniMapEhudO05E,66,42},
+{15,5,11,0,BORG8_MiniMapEhudO05F,77,15},
+{15,5,11,0,BORG8_MiniMapEhudO05G,81,42},
+{15,5,11,0,BORG8_MiniMapEhudO05H,87,28},
+{15,5,11,0,BORG8_MiniMapEhudO05I,87,15},
+{15,5,11,0,BORG8_MiniMapEhudO05J,100,15},
+{15,5,11,0,BORG8_MiniMapEhudO05K,99,31},
+{15,7,11,0,BORG8_MiniMapEhudO07,10,24},
+{15,9,11,0,BORG8_MiniMapEhudO09,44,33},
+{17,1,11,0,BORG8_MiniMapEhudQ01,73,51},
+{17,3,11,0,BORG8_MiniMapEhudQ03,71,70},
+{17,5,11,0,BORG8_MiniMapEhudQ05,57,72},
+{17,7,11,0,BORG8_MiniMapEhudQ07,20,55},
+{17,9,11,0,BORG8_MiniMapEhudQ09,0,26},
+{1,11,11,0,BORG8_MiniMapEhudA11,0,68},
+{1,13,11,0,BORG8_MiniMapEhudA13,17,90},
+{1,15,12,0,BORG8_MiniMapEhudA15,7,88},
+{1,17,12,0,BORG8_MiniMapEhudA17,10,100},
+{1,19,12,0,BORG8_MiniMapEhudA19,17,80},
+{3,11,12,0,BORG8_MiniMapEhudC11A,27,15},
+{3,11,12,0,BORG8_MiniMapEhudC11B,72,15},
+{3,11,12,0,BORG8_MiniMapEhudC11C,27,73},
+{3,11,12,0,BORG8_MiniMapEhudC11D,73,60},
+{3,13,12,0,BORG8_MiniMapEhudC13,42,73},
+{3,15,12,0,BORG8_MiniMapEhudC15,86,74},
+{3,17,12,0,BORG8_MiniMapEhudC17,86,30},
+{3,19,12,0,BORG8_MiniMapEhudC19,42,30},
+{5,11,12,0,BORG8_MiniMapEhudE11,49,37},
+{5,13,12,0,BORG8_MiniMapEhudE13,57,57},
+{5,15,12,0,BORG8_MiniMapEhudE15,69,68},
+{5,17,12,0,BORG8_MiniMapEhudE17,80,57},
+{5,19,12,0,BORG8_MiniMapEhudE19,69,45},
+{7,11,12,0,BORG8_MiniMapEhudG11,64,52},
+{7,13,12,0,BORG8_MiniMapEhudG13,1,17},
+{7,15,12,0,BORG8_MiniMapEhudG15,0,61},
+{7,17,13,0,BORG8_MiniMapEhudG17,30,30},
+{0}
+};
+
+MinimapSec_dat minimap_sec_mageschool[]={
+{1,1,8,0,BORG8_MiniMapMageSchoolA01A,40,33},
+{9,7,8,0,BORG8_MiniMapMageSchoolI07,77,64},
+{9,9,8,0,BORG8_MiniMapMageSchoolI09,77,30},
+{11,3,8,0,BORG8_MiniMapMageSchoolK03,15,64},
+{11,5,8,0,BORG8_MiniMapMageSchoolK05,15,37},
+{1,1,7,0,BORG8_MiniMapMageSchoolA01B,39,32},
+{11,1,7,0,BORG8_MiniMapMageSchoolK01,77,30},
+{11,9,7,0,BORG8_MiniMapMageSchoolK09,77,64},
+{1,1,6,0,BORG8_MiniMapMageSchoolA01C,39,32},
+{13,1,9,0,BORG8_MiniMapMageSchoolM01,25,32},
+{0}
+};
+MinimapSec_dat MinimapSec_dat_ARRAY_800ee508[]={
+{11,3,8,0,BORG8_MiniMapRoogEnterA,30,0},
+{11,3,8,0,BORG8_MiniMapRoogEnterB,30,27},
+{11,3,9,0,BORG8_MiniMapRoogEnterC,30,19},
+{11,3,9,0,BORG8_MiniMapRoogEnterD,47,12},
+{11,3,8,0,BORG8_MiniMapRoogEnterE,41,24},
+{0}
+};
+MinimapSec_dat MinimapSec_dat_ARRAY_800ee55c[]={
+{1,1,9,0,BORG8_MiniMapRoogCaveA01,20,0},
+{1,2,9,0,BORG8_MiniMapRoogCaveA02,20,40},
+{1,3,9,0,BORG8_MiniMapRoogCaveA03,47,79},
+{2,1,9,0,BORG8_MiniMapRoogCaveB01A,60,0},
+{2,1,9,0,BORG8_MiniMapRoogCaveB01B,68,40},
+{2,2,9,0,BORG8_MiniMapRoogCaveB02A,61,40},
+{2,2,9,0,BORG8_MiniMapRoogCaveB02B,87,60},
+{2,3,9,0,BORG8_MiniMapRoogCaveB03A,60,81},
+{2,3,9,0,BORG8_MiniMapRoogCaveB03B,86,81},
+{4,1,10,0,BORG8_MiniMapRoogCaveD01,30,35},
+{4,2,10,0,BORG8_MiniMapRoogCaveD02,30,65},
+{5,1,10,0,BORG8_MiniMapRoogCaveE01,65,35},
+{5,2,10,0,BORG8_MiniMapRoogCaveE02,65,53},
+{7,1,11,0,BORG8_MiniMapRoogCaveG01A,20,0},
+{7,1,11,0,BORG8_MiniMapRoogCaveG01B,39,17},
+{7,1,11,0,BORG8_MiniMapRoogCaveG01C,20,30},
+{7,2,11,0,BORG8_MiniMapRoogCaveG02,20,40},
+{7,3,11,0,BORG8_MiniMapRoogCaveG03A,34,80},
+{7,3,11,0,BORG8_MiniMapRoogCaveG03B,20,80},
+{7,3,11,0,BORG8_MiniMapRoogCaveG03C,40,109},
+{8,1,11,0,BORG8_MiniMapRoogCaveH01,60,0},
+{8,2,11,0,BORG8_MiniMapRoogCaveH02,60,40},
+{8,3,11,0,BORG8_MiniMapRoogCaveH03A,60,80},
+{8,3,11,0,BORG8_MiniMapRoogCaveH03B,73,86},
+{0}
+};
+
+MinimapSec_dat minimap_sec_Barrows[]={
+{1,1,7,0,BORG8_MiniMapBarrowsA01,10,33},
+{2,1,7,0,BORG8_MiniMapBarrowsB01,36,39},
+{3,1,8,0,BORG8_MiniMapBarrowsC01,5,34},
+{4,1,8,0,BORG8_MiniMapBarrowsD01,60,30},
+{0}
+};
 
 MinimapSec_dat* minimap_sec_pointers[]={
     minimaps_Gwernia,MinimapSec_dat_ARRAY_800edf0c,MinimapSec_erromon,MinimapSec_ehud,
@@ -888,13 +1103,13 @@ bool MiniMap::EhudI09(u16 param_2){
   
   if (this->savedPlayerPos.x < 16.0f) {
     bVar1 = false;
-    if (this->mapdat[param_2].borg8 == 0x5a) {
+    if (this->mapdat[param_2].borg8 == BORG8_MiniMapEhudI09A) {
       return true;
     }
   }
   else {
     bVar1 = true;
-    if (this->mapdat[param_2].borg8 != 0x5b) {
+    if (this->mapdat[param_2].borg8 != BORG8_MiniMapEhudI09B) {
       bVar1 = false;
     }
   }

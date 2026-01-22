@@ -5,6 +5,8 @@
 #include "BorgIndecies.h"
 #define FILENAME "../data/armordb.cpp"
 
+extern u8 armorDB[];
+
 void ArmorDB::Orphaned(){
   int pos = 0;
   load_db_array_size(&armorDB,&this->total,&pos);
@@ -84,7 +86,7 @@ void ArmorDB::Init(){
 
 void ArmorDB::Free(){HFREE(this->Armor,455);}
 
-//return index for shield model. (or 0x38f9 if none available.)
+//return index for shield model. (or 0x38f9/0x38fa if none available.)
 u32 ArmorDB::GetBorg5(ItemID ID){
   u32 uVar1;
   switch(GETINDEX(ID)) {
