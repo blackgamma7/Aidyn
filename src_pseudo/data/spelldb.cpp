@@ -69,11 +69,68 @@ void SpellDB::Init(){
 
 void SpellDB::Free(){HFREE(this->spells,285);}
 
-extern u8 SpellIconIDs[110]; //TODO- fill out in relevant func.
-byte SpellDB::GetIcon(ItemID param_2){
 
-  u8 index = GETINDEX(param_2);
-  for(u16 i=0; SpellIconIDs[i]!=0xff;i+=2){
+byte SpellDB::GetIcon(ItemID id){
+
+  u8 index = GETINDEX(id);
+  u8 SpellIconIDs[]={
+    SPELLIND_Immolation,0,
+    SPELLIND_escape,7,
+    SPELLIND_removePoison,4,
+    SPELLIND_AirSheild,1,
+    SPELLIND_ControlElem,6,
+    SPELLIND_debilitation,3,
+    SPELLIND_DragonFlames,0,
+    SPELLIND_EarthSmite,0,
+    SPELLIND_fireball,0,
+    SPELLIND_lightning,5,
+    SPELLIND_strength,7,
+    SPELLIND_wind,5,
+    SPELLIND_teleportation,3,
+    SPELLIND_brilliance,6,
+    SPELLIND_stupidity,6,
+    SPELLIND_banishing,6,
+    SPELLIND_charming,6,
+    SPELLIND_controlMarquis,6,
+    SPELLIND_endurance,5,
+    SPELLIND_senseAura,6,
+    SPELLIND_weakness,3,
+    SPELLIND_cheatDeath,5,
+    SPELLIND_AcidBolt,0,
+    SPELLIND_auraOfDeath,2,
+    SPELLIND_controlZombies,6,
+    SPELLIND_crushingDeath,0,
+    SPELLIND_darkness,2,
+    SPELLIND_haste,5,
+    SPELLIND_exhaustion,5,
+    SPELLIND_stamina,3,
+    SPELLIND_tapStamina,3,
+    SPELLIND_wallOfBones,8,
+    SPELLIND_spiritSheild,1,
+    SPELLIND_mirror,4,
+    SPELLIND_vsElemental,4,
+    SPELLIND_vsNaming,4,
+    SPELLIND_vsNecromancy,4,
+    SPELLIND_vsStar,4,
+    SPELLIND_dispelElemental,4,
+    SPELLIND_dispelNaming,4,
+    SPELLIND_dispelNecro,4,
+    SPELLIND_dispelStar,4,
+    SPELLIND_photosynthesis,5,
+    SPELLIND_solarWraith,2,
+    SPELLIND_starlightSheild,1,
+    SPELLIND_dexterity,5,
+    SPELLIND_clumsiness,3,
+    SPELLIND_frozenDoom,8,
+    SPELLIND_light,2,
+    SPELLIND_stellarGravity,3,
+    SPELLIND_webOfStarlight,8,
+    SPELLIND_whitefire,0,
+    SPELLIND_wraithTouch,3,
+    SPELLIND_poison,0,
+    SPELLIND_NONE,-1
+};
+  for(u16 i=0; SpellIconIDs[i]!=SPELLIND_NONE;i+=2){
     if(SpellIconIDs[i]==index) return SpellIconIDs[i+1];
   }
   return 0;

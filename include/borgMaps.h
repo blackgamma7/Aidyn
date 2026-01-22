@@ -12,7 +12,6 @@ union mapDataList {
     u16 terrian;};
     u16 arr[6]; //sometimes called as array.
 };
-//TODO: define lists. And give some better names.
 
 extern mapDataList mapDataList_Overworld[];
 extern mapDataList mapDataList_GoblinCamp[];
