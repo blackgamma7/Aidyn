@@ -45,7 +45,7 @@ void make_temp_armor_2(ArmorInstance *param_1) {
     ALLOC(param_1->skillmod,116);
     SetStatMod2(param_1->skillmod,aRam->skill,aRam->skillNum);
   }
-  if (aRam->magic != SPELLIND_NONE) {
+  if (aRam->magic != SpellInd_NONE) {
     ALLOC(param_1->enchantment,123);
     TempEnchant::Init(param_1->enchantment,aRam->magic,aRam->magicLV,-1,aRam->magicLV,0);
   }
@@ -63,7 +63,7 @@ void make_temp_weapon_2(WeaponInstance *param_1) {
     ALLOC(param_1->SkillMod,0x9b);
     SetStatMod2(param_1->SkillMod,wRam->Skill,wRam->SkillMod);
   }
-  if (wRam->spell2 != SPELLIND_NONE) {
+  if (wRam->spell2 != SpellInd_NONE) {
     ALLOC(param_1->enchantment,162);
     TempEnchant::Init(param_1->enchantment,wRam->spell2,wRam->Spell2Ammount,-1,wRam->Spell2Ammount,0);
   }

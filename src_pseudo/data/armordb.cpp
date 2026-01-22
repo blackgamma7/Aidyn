@@ -15,11 +15,11 @@ void ArmorDB::Orphaned(){
 }
 
 u8 getRomEquipSpell(ItemID id){
-  if (!id)return SPELLIND_NONE;
+  if (!id)return SpellInd_NONE;
   for(u16 i=0;i<gSpellDBp->Total;i++){
     if (gSpellDBp->spells[i].Id == id) return (u8)i;
   }
-  return SPELLIND_NONE;
+  return SpellInd_NONE;
 }
 
 void ArmorDB::Load(u8 index,u32 *pos){

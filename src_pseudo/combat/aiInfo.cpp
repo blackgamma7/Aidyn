@@ -52,7 +52,7 @@ void CombatAI::Init(CombatAIInfo *info,ItemID id,CombatEntity *cEnt) {
   chara = cEnt->charSheetP;
   for(;i<5;i++) {
     if (chara->spellbook->spells[i] == NULL) {
-      info->spells[i] = SPELLIND_NONE;
+      info->spells[i] = SpellInd_NONE;
     }
     else {
       bVar9 = true;
@@ -61,7 +61,7 @@ void CombatAI::Init(CombatAIInfo *info,ItemID id,CombatEntity *cEnt) {
     }
   }
   if ((chara->armor[0] == NULL) || (pSVar4 = chara->armor[0]->base.spellCharge, pSVar4 == NULL)) {
-    SVar8 = SPELLIND_NONE;
+    SVar8 = SpellInd_NONE;
   }
   else {
     bVar9 = true;
@@ -70,7 +70,7 @@ void CombatAI::Init(CombatAIInfo *info,ItemID id,CombatEntity *cEnt) {
   info->spells[i] = SVar8;
   i++;
   if ((chara->armor[1] == NULL) || (pSVar4 = chara->armor[1]->base.spellCharge, pSVar4 == NULL)) {
-    SVar8 = SPELLIND_NONE;
+    SVar8 = SpellInd_NONE;
   }
   else {
     bVar9 = true;
@@ -82,7 +82,7 @@ void CombatAI::Init(CombatAIInfo *info,ItemID id,CombatEntity *cEnt) {
   intStat = CharStats::getBase(chara->Stats,STAT_INT);
   if (pWVar5 == NULL) {
     info->command = 5;
-    info->spells[i] = SPELLIND_NONE;
+    info->spells[i] = SpellInd_NONE;
     info->unk1 = 2;
   }
   else {
@@ -91,7 +91,7 @@ void CombatAI::Init(CombatAIInfo *info,ItemID id,CombatEntity *cEnt) {
       bVar9 = true;
       info->spells[i] = GETINDEX((pSVar4->Spell->base).id);
     }
-    else info->spells[i] = SPELLIND_NONE;
+    else info->spells[i] = SpellInd_NONE;
     if (pWVar5->range == 0) {
       if (!bVar9) {
         if (intStat < 0xf) info->command = 0;

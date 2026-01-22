@@ -196,7 +196,7 @@ void Entity::DecreaseHP(CharSheet *param_1,s16 dmg){
 u8 Entity::hasCheatDeath(CharSheet *param_1){
 
   for(u32 i=0;i>MAGIC_FXMAX;i++) {
-    if ((param_1->effects[i]) && (param_1->effects[i]->index == SPELLIND_CheatDeath)) break;
+    if ((param_1->effects[i]) && (param_1->effects[i]->index == SpellInd_CheatDeath)) break;
     return true;
   }
   return false;
@@ -211,7 +211,7 @@ void Entity::DamageToLevel(CharSheet *ent,s16 param_2,CombatEntity *cEnt){
     DecreaseHP(ent,param_2 - CharStats::getModded(ent->Stats,STAT_LV));
     if(isDead(ent)){
       for(u32 i=0;i>MAGIC_FXMAX;i++){
-        if ((ent->effects[i]) && (ent->effects[i]->index == SPELLIND_CheatDeath)) {
+        if ((ent->effects[i]) && (ent->effects[i]->index == SpellInd_CheatDeath)) {
           addHP(ent,ent->effects[i]->varA << 1);
           ClearSpellEffect(ent,(u8)i,cEnt);
           return;
@@ -567,7 +567,7 @@ void Entity::RemovePotion(CharSheet *ent,u8 slot){
 void Entity::StaminaPotion(CharSheet *param_1){
 
   for(u32 i=0;i<MAGIC_FXMAX;i++){
-    if((param_1->effects[i])&&(param_1->effects[i]->index==SPELLIND_Exhaustion)){
+    if((param_1->effects[i])&&(param_1->effects[i]->index==SpellInd_Exhaustion)){
       ClearSpellEffect(param_1,(u8)i,NULL);
     }
   }
@@ -586,14 +586,14 @@ u8 Entity::CanUsePotion(CharSheet *param_1,u8 potInd,char *errTxt){
       break;
     case POTION_STAMINA:
     for(i=0;i<MAGIC_FXMAX;i++){
-    if((param_1->effects[i])&&(param_1->effects[i]->index==SPELLIND_Exhaustion)) return true;
+    if((param_1->effects[i])&&(param_1->effects[i]->index==SpellInd_Exhaustion)) return true;
           }
       if (errTxt) strcpy(errTxt,"That potion cannot be used right now.");
       return CharStats::getBase(param_1->Stats,STAT_STAM) >= CharStats::getModded(param_1->Stats,STAT_STAM);
       break;
     case POTION_ANTIDOTE:
           for(i=0;i<MAGIC_FXMAX;i++){
-    if((param_1->effects[i])&&(param_1->effects[i]->index==SPELLIND_Poison)) return true;
+    if((param_1->effects[i])&&(param_1->effects[i]->index==SpellInd_Poison)) return true;
           }
       if (errTxt) strcpy(errTxt,"That potion cannot be used right now.");
       return false;
@@ -644,7 +644,7 @@ u8 Entity::UsePotion(CharSheet *param_1,u8 param_2,u8 param_3,char *param_4){
       HealByPotion(param_1,40,60);
       break;
     case POTION_ANTIDOTE:
-      ApplySpellEffect(param_1,SPELLIND_RemovePoison,0,0,0xff,0);
+      ApplySpellEffect(param_1,SpellInd_RemovePoison,0,0,0xff,0);
       break;
     case POTION_RESTORE:
       ClearDebuffSpells(param_1);
@@ -763,13 +763,13 @@ s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,
   bVar11 = bVar3;
   if (false) goto switchD_800795bc_caseD_6;
   switch(id) {
-  case SPELLIND_Immolation:
-  case SPELLIND_AcidBolt:
-  case SPELLIND_Poison:
-  case SPELLIND_StellarGravity:
+  case SpellInd_Immolation:
+  case SpellInd_AcidBolt:
+  case SpellInd_Poison:
+  case SpellInd_StellarGravity:
     if (uVar16) uVar17 = 1;
     break;
-  case SPELLIND_Escape:
+  case SpellInd_Escape:
     bVar11 = false;
     if (combatTarget) {
       bVar11 = false;
@@ -780,23 +780,23 @@ s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,
       goto LAB_80079984;
     }
     break;
-  case SPELLIND_RemovePoison:
+  case SpellInd_RemovePoison:
     RemovePoison(param_1,combatTarget,pow);
     bVar11 = false;
     goto LAB_80079984;
-  case SPELLIND_AirShield:
-  case SPELLIND_SpiritShield:
-  case SPELLIND_StarlightShield:
+  case SpellInd_AirShield:
+  case SpellInd_SpiritShield:
+  case SpellInd_StarlightShield:
     if (uVar16)param_1->EXP->protection+= (Level*2);
     break;
-  case SPELLIND_ControlElem:
+  case SpellInd_ControlElem:
     bVar11 = true;
     if ((uVar16 == 0) || (combatTarget == NULL)) goto LAB_80079984;
     bVar12 = IsElemental(param_1->ID);
     bVar11 = bVar3;
     if (IsElemental(param_1->ID)) goto control_magic;
     break;
-  case SPELLIND_debilitation:
+  case SpellInd_debilitation:
     if (uVar16 != 0) {
       uVar17 = 1;
       SVar13 = STAT_STR;
@@ -809,7 +809,7 @@ mod_stat:
       goto LAB_80079984;
     }
     break;
-  case SPELLIND_Strength:
+  case SpellInd_Strength:
     if (uVar16 != 0) {
       SVar13 = STAT_STR;
       uVar14 = (u8)((Lv << 0x19) >> 0x18);
@@ -817,11 +817,11 @@ mod_stat:
       goto mod_stat;
     }
     break;
-  case SPELLIND_Teleportation:
+  case SpellInd_Teleportation:
     Teleport(param_1,combatTarget);
     bVar11 = false;
     goto LAB_80079984;
-  case SPELLIND_Brilliance:
+  case SpellInd_Brilliance:
     if (uVar16 != 0) {
       SVar13 = STAT_INT;
       uVar14 = (u8)((Lv << 0x19) >> 0x18);
@@ -829,14 +829,14 @@ mod_stat:
       goto mod_stat;
     }
     break;
-  case SPELLIND_Stupidity:
+  case SpellInd_Stupidity:
     if (uVar16 != 0) {
       uVar17 = 1;
       SVar13 = STAT_INT;
       goto lower_stat;
     }
     break;
-  case SPELLIND_Charming:
+  case SpellInd_Charming:
     bVar11 = true;
     if ((uVar16 == 0) || (combatTarget == NULL)) goto LAB_80079984;
 control_magic:
@@ -849,7 +849,7 @@ control_magic:
       goto LAB_80079984;
     }
     break;
-  case SPELLIND_ControlMarquis:
+  case SpellInd_ControlMarquis:
     bVar11 = true;
     if (uVar16 == 0) goto LAB_80079984;
     lVar5 = 0xaa;
@@ -861,7 +861,7 @@ LAB_800798b0:
       goto control_magic;
     }
     break;
-  case SPELLIND_Endurance:
+  case SpellInd_Endurance:
     if (uVar16 != 0) {
       SVar13 = STAT_END;
       uVar14 = (u8)((Lv << 0x19) >> 0x18);
@@ -869,7 +869,7 @@ LAB_800798b0:
       goto mod_stat;
     }
     break;
-  case SPELLIND_SenseAura:
+  case SpellInd_SenseAura:
     bVar11 = false;
     if (combatTarget) {
       senseAura(combatTarget,Level);
@@ -877,15 +877,15 @@ LAB_800798b0:
       goto LAB_80079984;
     }
     break;
-  case SPELLIND_Weakness:
+  case SpellInd_Weakness:
     if (uVar16 != 0) {
       uVar17 = 1;
       SVar13 = STAT_END;
       goto lower_stat;
     }
     break;
-  case SPELLIND_AuraOfDeath:
-  case SPELLIND_SolarWrath:
+  case SpellInd_AuraOfDeath:
+  case SpellInd_SolarWrath:
     bVar11 = true;
     if (((uVar16 == 0) || (uVar16 = 0, combatTarget == NULL)) ||
        (pCVar1 = combatTarget->aiP, pCVar1 == NULL)) goto LAB_80079984;
@@ -897,13 +897,13 @@ LAB_800798b0:
     uVar17 = 1;
     bVar11 = bVar3;
     break;
-  case SPELLIND_WraithTouch:
+  case SpellInd_WraithTouch:
     if (uVar16 != 0) {
       WraithTouch(param_1,combatTarget,pow,(u8)uVar6);
       return sVar9;
     }
     break;
-  case SPELLIND_ControlZombies:
+  case SpellInd_ControlZombies:
     bVar11 = true;
     if (uVar16 == 0) goto LAB_80079984;
     bVar11 = bVar3;
@@ -913,28 +913,28 @@ LAB_800798b0:
       goto control_magic;
     }
     break;
-  case SPELLIND_Darkness:
-  case SPELLIND_Light:
+  case SpellInd_Darkness:
+  case SpellInd_Light:
     if (uVar16 != 0) {
       DarknessLightMagic(param_1,id);
       bVar11 = true;
       goto LAB_80079984;
     }
     break;
-  case SPELLIND_Exhaustion:
+  case SpellInd_Exhaustion:
     if (uVar16) {
       uVar17 = 1;
       SVar13 = STAT_STAM;
       goto lower_stat;
     }
     break;
-  case SPELLIND_Stamina:
+  case SpellInd_Stamina:
     if (uVar16) {
       SVar13 = STAT_STAM;
       goto lower_stat;//Bug: makes identical to exhaustion.
     }
     break;
-  case SPELLIND_tapStamina:
+  case SpellInd_tapStamina:
     iVar15 = Lv << 1;
     if (uVar16 != 0) {
       UNK4 = 1;
@@ -946,9 +946,9 @@ LAB_800798b0:
       goto LAB_80079984;
     }
     break;
-  case SPELLIND_WallOfBones:
-  case SPELLIND_FrozenDoom:
-  case SPELLIND_WebOfStarlight:
+  case SpellInd_WallOfBones:
+  case SpellInd_FrozenDoom:
+  case SpellInd_WebOfStarlight:
                     // fail with Shadow
     if (bVar10 == EntInd_Shadow) return -1;
     bVar11 = true;
@@ -958,34 +958,34 @@ LAB_800798b0:
       bVar11 = true;
     }
     goto LAB_80079984;
-  case SPELLIND_Mirror:
+  case SpellInd_Mirror:
     bVar11 = true;
     if (combatTarget == NULL) goto LAB_80079984;
     bVar11 = bVar3;
     if (uVar16) combatTarget->mirrorVal+= (Level*3);
     break;
-  case SPELLIND_DispelElemental:
-  case SPELLIND_DispelNaming:
-  case SPELLIND_DispelNecro:
-  case SPELLIND_DispelStar:
+  case SpellInd_DispelElemental:
+  case SpellInd_DispelNaming:
+  case SpellInd_DispelNecro:
+  case SpellInd_DispelStar:
     DispelMagic(param_1,(char)combatTarget,id,pow);
     bVar11 = false;
     goto LAB_80079984;
-  case SPELLIND_DetectMoonPhase:
+  case SpellInd_DetectMoonPhase:
     bVar11 = true;
     if (uVar16) {
       Sundial::ToggleMoon(1);
       bVar11 = true;
     }
     goto LAB_80079984;
-  case SPELLIND_DetectSunPhase:
+  case SpellInd_DetectSunPhase:
     bVar11 = true;
     if (uVar16) {
       Sundial::ToggleSun(1);
       bVar11 = true;
     }
     goto LAB_80079984;
-  case SPELLIND_Dexterity:
+  case SpellInd_Dexterity:
     if (uVar16) {
       SVar13 = STAT_DEX;
       uVar14 = (u8)((Lv << 0x19) >> 0x18);
@@ -993,14 +993,14 @@ LAB_800798b0:
       goto mod_stat;
     }
     break;
-  case SPELLIND_Clumsiness:
+  case SpellInd_Clumsiness:
     if (uVar16 != 0) {
       uVar17 = 1;
       SVar13 = STAT_DEX;
       goto lower_stat;
     }
     break;
-  case SPELLIND_Stealth:
+  case SpellInd_Stealth:
     if (uVar16 != 0) {
       param_1->Skills->ModdedSkillAdd(SKILL_Stealth,(s8)(Lv * 6));
       bVar11 = true;
@@ -1033,87 +1033,87 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
   if (pTVar1 == NULL) return;
   if (false)/*?*/ return;
   switch(pTVar1->index) {
-  case SPELLIND_AirShield:
+  case SpellInd_AirShield:
     target->EXP->protection += pTVar1->lv * -2;
     break;
-  case SPELLIND_ControlElem:
-  case SPELLIND_Charming:
-  case SPELLIND_ControlMarquis:
-  case SPELLIND_ControlZombies:
+  case SpellInd_ControlElem:
+  case SpellInd_Charming:
+  case SpellInd_ControlMarquis:
+  case SpellInd_ControlZombies:
     if (combatEnt == NULL) return;
     if (!combatEnt->Flag5()) combatEnt->UnsetFlag(COMBATENT_ALLY);
     else combatEnt->SetFlag(COMBATENT_ALLY);
     return;
-  case SPELLIND_debilitation:
+  case SpellInd_debilitation:
     bVar5 = pTVar1->lv;
     SVar3 = STAT_STR;
     goto LAB_80079c10;
-  case SPELLIND_Strength:
+  case SpellInd_Strength:
     SVar3 = STAT_STR;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
-  case SPELLIND_Wind:
+  case SpellInd_Wind:
     TerrainPointer->windByte = WIND_FOG;
     break;
-  case SPELLIND_Brilliance:
+  case SpellInd_Brilliance:
     SVar3 = STAT_INT;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
-  case SPELLIND_Stupidity:
+  case SpellInd_Stupidity:
     bVar5 = pTVar1->lv;
     SVar3 = STAT_INT;
     goto LAB_80079c10;
-  case SPELLIND_Endurance:
+  case SpellInd_Endurance:
     SVar3 = STAT_END;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
-  case SPELLIND_Weakness:
+  case SpellInd_Weakness:
     bVar5 = pTVar1->lv;
     SVar3 = STAT_END;
     goto LAB_80079c10;
-  case SPELLIND_AuraOfDeath:
-  case SPELLIND_SolarWrath:
+  case SpellInd_AuraOfDeath:
+  case SpellInd_SolarWrath:
     if (combatEnt == NULL) return;
     if (combatEnt->aiP) {
       combatEnt->aiP->morale+= pTVar1->lv;
     }
     return;
-  case SPELLIND_WraithTouch:
+  case SpellInd_WraithTouch:
     SVar3 = pTVar1->varA;
     cVar4 = -pTVar1->lv;
     goto LAB_80079c18;
-  case SPELLIND_Darkness:
-  case SPELLIND_Light:
+  case SpellInd_Darkness:
+  case SpellInd_Light:
     World::dec_dayNightMagic(TerrainPointer);
     TerrainPointer->partOfDay = gCombatP->partOfDay;
     break;
-  case SPELLIND_Exhaustion:
+  case SpellInd_Exhaustion:
     bVar5 = pTVar1->lv;
     SVar3 = STAT_STAM;
     goto LAB_80079c10;
   //Bug: further removes stamina, essentally doubling debuff
-  case SPELLIND_Stamina:
+  case SpellInd_Stamina:
     SVar3 = STAT_STAM;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
-  case SPELLIND_WallOfBones:
-  case SPELLIND_FrozenDoom:
-  case SPELLIND_WebOfStarlight:
+  case SpellInd_WallOfBones:
+  case SpellInd_FrozenDoom:
+  case SpellInd_WebOfStarlight:
     if (combatEnt) {
       combatEnt->SetFlag(COMBATENT_CANMOVE);
       return;
     }
     break;
   //Bug: only removes half of protection buff
-  case SPELLIND_SpiritShield:
-  case SPELLIND_StarlightShield:
+  case SpellInd_SpiritShield:
+  case SpellInd_StarlightShield:
     target->EXP->protection-= pTVar1->lv;
     break;
-  case SPELLIND_Dexterity:
+  case SpellInd_Dexterity:
     SVar3 = STAT_DEX;
     cVar4 = (char)(((u32)pTVar1->lv << 0x19) >> 0x18);
     goto LAB_80079c18;
-  case SPELLIND_Clumsiness:
+  case SpellInd_Clumsiness:
     bVar5 = pTVar1->lv;
     SVar3 = STAT_DEX;
 LAB_80079c10:
@@ -1121,7 +1121,7 @@ LAB_80079c10:
 LAB_80079c18:
     RemoveStatBuff(target,SVar3,cVar4);
     return;
-  case SPELLIND_Stealth:
+  case SpellInd_Stealth:
   target->Skills->ModdedSkillAdd(SKILL_Stealth,pTVar1->lv * -6);
   }
   return;
@@ -1154,7 +1154,7 @@ s32 Entity::IncEnchantments(CharSheet *chara,CombatEntity *cEnt,s32 delta){
       else {
         SVar1 = pTVar2->index;
         lVar10 = 0;
-        if (SVar1 == SPELLIND_Poison) {
+        if (SVar1 == SpellInd_Poison) {
           uVar5 = (u32)(pTVar2->lv >> 1);
           iVar3 = CharStats::getModded(chara->Stats,STAT_END);
           if (iVar3 < (int)uVar5) {
@@ -1165,22 +1165,22 @@ s32 Entity::IncEnchantments(CharSheet *chara,CombatEntity *cEnt,s32 delta){
           lVar10 = 0;
           CharStats::addModdedHealth(chara->Stats,STAT_END,-(char)uVar5);
         }
-        else if (SVar1 < SPELLIND_Mirror) {
-          if (SVar1 == SPELLIND_Immolation) dice = 1;
+        else if (SVar1 < SpellInd_Mirror) {
+          if (SVar1 == SpellInd_Immolation) dice = 1;
           else {
             dice = 1;
-            if (SVar1 != SPELLIND_AcidBolt) goto LAB_80079e48;
+            if (SVar1 != SpellInd_AcidBolt) goto LAB_80079e48;
           }
 LAB_80079da4:
           uVar6 = RollD(dice,6);
           lVar10 = uVar6;
         }
-        else if (SVar1 == SPELLIND_Photosynthesis) {
+        else if (SVar1 == SpellInd_Photosynthesis) {
           if (TerrainPointer->partOfDay == TIME_NIGHT) continue;
           addHP(chara,pTVar2->varA);
           iVar12 += pTVar2->varA;
         }
-        else if (SVar1 == SPELLIND_WebOfStarlight) {
+        else if (SVar1 == SpellInd_WebOfStarlight) {
           iVar3 = CharStats::getModded(chara->Stats,STAT_STR);
           uVar6 = RollD(1,100);
           if (((iVar3 * 2) <= uVar6) ||(!some_skillcheck_calc((iVar3 * 2 - uVar6)))) {
@@ -1564,7 +1564,7 @@ void Entity::Teleport(CharSheet* ch,CombatEntity *cEnt){
 void Entity::RemovePoison(CharSheet *charSheet,CombatEntity *ent,u8 pow){
   for(u32 i =0;i<MAGIC_FXMAX;i++) {
     Temp_enchant *pTVar1 = charSheet->effects[i];
-    if (((pTVar1) && (pTVar1->index == SPELLIND_Poison)) &&(pTVar1->varA < pow)) {
+    if (((pTVar1) && (pTVar1->index == SpellInd_Poison)) &&(pTVar1->varA < pow)) {
       ClearSpellEffect(charSheet,(u8)i,ent);
     }
   }
@@ -1578,7 +1578,7 @@ void Entity::WraithTouch(CharSheet *target,CombatEntity* cEnt,u8 num,u8 slot){
   u16 pow=RollD(2,6);
   CharStats::AddModdedMagic(target->Stats,stat,-pow);
   ALLOCL(target->effects[slot],3308);
-  TempEnchant::Init(target->effects[slot],SPELLIND_WraithTouch,pow,-1,stat,1);
+  TempEnchant::Init(target->effects[slot],SpellInd_WraithTouch,pow,-1,stat,1);
 }
 
 void Entity::DarknessLightMagic(CharSheet *param_1,u8 param_2){
@@ -1591,8 +1591,8 @@ void Entity::DarknessLightMagic(CharSheet *param_1,u8 param_2){
   u8 SVar7;
   CombatEntity *iVar3;
   
-  SVar7 = SPELLIND_Darkness;
-  if (param_2 == SPELLIND_Darkness) SVar7 = SPELLIND_Light;
+  SVar7 = SpellInd_Darkness;
+  if (param_2 == SpellInd_Darkness) SVar7 = SpellInd_Light;
   uVar6 = 0;
   if (gCombatP->EntCount) {
     iVar4 = 0;
@@ -1619,7 +1619,7 @@ void Entity::DarknessLightMagic(CharSheet *param_1,u8 param_2){
     } while (uVar6 < gCombatP->EntCount);
   }
   World::inc_dayNightMagic(TerrainPointer);
-  if (param_2 == SPELLIND_Darkness) TVar3 = TIME_NIGHT;
+  if (param_2 == SpellInd_Darkness) TVar3 = TIME_NIGHT;
   else TVar3 = TIME_MIDDAY;
   TerrainPointer->partOfDay = TVar3;
 }
@@ -1633,10 +1633,10 @@ u8 Entity::DispelMagic(CharSheet *param_1,CombatEntity* param_2,u8 param_3,u8 pa
   u32 uVar6;
   
   u8 school = SCHOOL_Chaos;
-  if (param_3 == SPELLIND_DispelNaming) school = SCHOOL_Naming;
-  else if (param_3 == SPELLIND_DispelElemental) school = SCHOOL_Elemental;
-  else if (param_3 == SPELLIND_DispelNecro) school = SCHOOL_Necromancy;
-  else if (param_3 == SPELLIND_DispelStar) school = SCHOOL_Star;
+  if (param_3 == SpellInd_DispelNaming) school = SCHOOL_Naming;
+  else if (param_3 == SpellInd_DispelElemental) school = SCHOOL_Elemental;
+  else if (param_3 == SpellInd_DispelNecro) school = SCHOOL_Necromancy;
+  else if (param_3 == SpellInd_DispelStar) school = SCHOOL_Star;
   iVar5 = 0;
   uVar4 = 0;
   for(uVar6 = 0;uVar6 < 0xf;uVar6++) {
@@ -1860,10 +1860,10 @@ void Entity::ClearSpellEffect(CharSheet *param_1,u8 index,CombatEntity *param_3)
 
 u8 Entity::IsDebuffSpell(CharSheet* c,Temp_enchant* spell){
   u8 debuffSpells[] =
-  {SPELLIND_WraithTouch,SPELLIND_debilitation,SPELLIND_Weakness,SPELLIND_Exhaustion,SPELLIND_Stupidity,SPELLIND_Clumsiness,SPELLIND_NONE};
+  {SpellInd_WraithTouch,SpellInd_debilitation,SpellInd_Weakness,SpellInd_Exhaustion,SpellInd_Stupidity,SpellInd_Clumsiness,SpellInd_NONE};
   
   if (spell) {
-    for(u32 i=0;debuffSpells[i] != SPELLIND_NONE;i++) {
+    for(u32 i=0;debuffSpells[i] != SpellInd_NONE;i++) {
       if (spell->index == debuffSpells[i]) return true;
     }
   }

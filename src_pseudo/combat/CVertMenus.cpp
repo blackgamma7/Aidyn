@@ -178,7 +178,7 @@ bool can_perform_or_heal(s32 *troub,s32 *hands,s32 *herb){
 }
 
 u8 can_use_spell(u8 *param_1){ 
-  memset(param_1,0,SPELLIND_TOTAL);
+  memset(param_1,0,SpellInd_TOTAL);
   SpellBook *book = gCombatP->current_Ent->charSheetP->spellbook;
   u8 ret = false;
   if ((book == NULL) || (book->count == 0)) return false;
@@ -187,7 +187,7 @@ u8 can_use_spell(u8 *param_1){
     if(sp){
       if((sp->cost==SPELLUSE_NONE)||(PARTY->Inventory->HasItem(TempSpell::GetIngredient(sp)))){
         if ((TerrainPointer->partOfDay == TIME_NIGHT) &&
-          (GETINDEX((sp->base).id) == SPELLIND_Photosynthesis)) continue;
+          (GETINDEX((sp->base).id) == SpellInd_Photosynthesis)) continue;
         ret = true;
         param_1[i] = true;
       }

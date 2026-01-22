@@ -28,7 +28,7 @@ void ItemInstance::InitArmor(ItemID param_2){
     ALLOC(this->statMod,144);
     SetStatMod(this->statMod,pcVar5->stat,pcVar5->statNum);
   }
-  if (pcVar5->spell != SPELLIND_NONE) {
+  if (pcVar5->spell != SpellInd_NONE) {
     ALLOC(this->spellCharge,150);
     malloc_equip_spell(this->spellCharge,pcVar5->spell,pcVar5->spellLV,pcVar5->SpellCharge);
   }
@@ -46,7 +46,7 @@ void ItemInstance::InitWeapon(ItemID param_2){
     ALLOC(this->statMod,0xb2);
     SetStatMod(this->statMod,pcVar5->stat,pcVar5->statMod);
   }
-  if (pcVar5->spell != SPELLIND_NONE) {
+  if (pcVar5->spell != SpellInd_NONE) {
     ALLOC(this->spellCharge,0xb8);
     malloc_equip_spell(this->spellCharge,pcVar5->spell,pcVar5->spellAmmount,pcVar5->SpellLV);
   }

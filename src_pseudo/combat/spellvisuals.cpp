@@ -100,7 +100,7 @@ LAB_800948d8:
           goto LAB_800948d8;
         }
       }
-      if ((piVar8->SpellID ==  SPELLIND_Darkness)||(piVar8->SpellID ==  SPELLIND_Light)) {
+      if ((piVar8->SpellID ==  SpellInd_Darkness)||(piVar8->SpellID ==  SpellInd_Light)) {
         bVar2 = (piVar8->flags & 0x200) != 0;
       }
       else bVar2 = true;
@@ -622,15 +622,15 @@ u16 FUN_80095c04(playerData *param_1,playerData *param_2,u8 spell,s32 param_4){
   FUN_80094b24(entry->field3_0xa);
   if (false) goto switchD_80095dac_caseD_1e;
   switch(entry->SpellID) {
-  case SPELLIND_Darkness:
+  case SpellInd_Darkness:
     World::spellvisuals_1(TerrainPointer,1.0,60.0,0);
     break;
-  case SPELLIND_WallOfBones:
-  case SPELLIND_FrozenDoom:
-  case SPELLIND_WebOfStarlight:
+  case SpellInd_WallOfBones:
+  case SpellInd_FrozenDoom:
+  case SpellInd_WebOfStarlight:
     spellvisuals_petrify(entry->field3_0xa);
     break;
-  case SPELLIND_Light:
+  case SpellInd_Light:
     World::spellvisuals_1(TerrainPointer,0.5,60.0,0);
   default:
 switchD_80095dac_caseD_1e:
@@ -668,14 +668,14 @@ void FUN_80095f6c(int param_1){
   if ((entry->flags & 1) == 0) return;
   if (true) {
     switch(entry->SpellID) {
-    case SPELLIND_Darkness:
-    case SPELLIND_Light:
+    case SpellInd_Darkness:
+    case SpellInd_Light:
       entry->flags|= 0x200;
       World::spellvisuals_2(TerrainPointer,60.0);
       break;
-    case SPELLIND_WallOfBones:
-    case SPELLIND_FrozenDoom:
-    case SPELLIND_WebOfStarlight:
+    case SpellInd_WallOfBones:
+    case SpellInd_FrozenDoom:
+    case SpellInd_WebOfStarlight:
       spellvisuals_petrify_2(entry->field3_0xa);
       break;
     }
@@ -743,13 +743,13 @@ void combatspellvisuals_free(void){
     if ((pSVar3->flags & 1) != 0) {
       if (true) {
         switch(pSVar3->SpellID) {
-        case SPELLIND_Darkness:
-        case SPELLIND_Light:
+        case SpellInd_Darkness:
+        case SpellInd_Light:
           World::spellvisuals_2(TerrainPointer,1.0);
           break;
-        case SPELLIND_WallOfBones:
-        case SPELLIND_FrozenDoom:
-        case SPELLIND_WebOfStarlight:
+        case SpellInd_WallOfBones:
+        case SpellInd_FrozenDoom:
+        case SpellInd_WebOfStarlight:
           spellvisuals_petrify_2(pSVar3->field3_0xa);
           break;
         }
@@ -773,104 +773,104 @@ switchD_80096328_caseD_0:
   switch(spellInd) {
   default:
     goto switchD_80096328_caseD_0;
-  case SPELLIND_RemovePoison:
+  case SpellInd_RemovePoison:
     ind = 0x1d7a;
     goto LAB_80096410;
-  case SPELLIND_AirShield:
+  case SpellInd_AirShield:
     ind = 0x1ad9;
     mem = 0x4c00;
     break;
-  case SPELLIND_Strength:
+  case SpellInd_Strength:
     ind = 0x1ab9;
     goto LAB_80096410;
-  case SPELLIND_Teleportation:
+  case SpellInd_Teleportation:
     ind = 0x1e50;
     mem = 0x3800;
     break;
-  case SPELLIND_Brilliance:
+  case SpellInd_Brilliance:
     ind = 0x1b51;
     goto LAB_80096410;
-  case SPELLIND_Banishing:
+  case SpellInd_Banishing:
     ind = 0x1b37;
     mem = 0x4c00;
     break;
-  case SPELLIND_Endurance:
+  case SpellInd_Endurance:
     ind = 0x1c8e;
     goto LAB_80096410;
-  case SPELLIND_Opening:
+  case SpellInd_Opening:
     ind = 0x1da1;
     mem = 0x8c00;
     break;
-  case SPELLIND_SenseAura:
+  case SpellInd_SenseAura:
     ind = 0x1dbd;
     mem = 0x3400;
     break;
-  case SPELLIND_CheatDeath:
+  case SpellInd_CheatDeath:
     ind = 0x1b68;
     mem = 0x4000;
     break;
-  case SPELLIND_AuraOfDeath:
+  case SpellInd_AuraOfDeath:
     ind = 0x1af8;
     mem = 0xc400;
     break;
-  case SPELLIND_WraithTouch:
+  case SpellInd_WraithTouch:
     ind = 0x1ef7;
     mem = 0x1800;
     break;
-  case SPELLIND_Darkness:
+  case SpellInd_Darkness:
     ind = 0x1bd8;
     mem = 0x17400;
     break;
-  case SPELLIND_Haste:
+  case SpellInd_Haste:
     ind = 0x1cf3;
     mem = 0x5800;
     break;
-  case SPELLIND_Stamina:
+  case SpellInd_Stamina:
     ind = 0x1dfd;
     mem = 0x7c00;
     break;
-  case SPELLIND_SpiritShield:
+  case SpellInd_SpiritShield:
     ind = 0x1de7;
     mem = 0x5800;
     break;
-  case SPELLIND_Mirror:
+  case SpellInd_Mirror:
     ind = 0x1d43;
     mem = 0xc800;
     break;
-  case SPELLIND_VsElemental:
+  case SpellInd_VsElemental:
     ind = 0x1e65;
     mem = 0x9000;
     break;
-  case SPELLIND_VsNaming:
+  case SpellInd_VsNaming:
     ind = 0x1e76;
     mem = 0x6800;
     break;
-  case SPELLIND_VsNecromancy:
+  case SpellInd_VsNecromancy:
     ind = 0x1e89;
     mem = 0x6800;
     break;
-  case SPELLIND_VsStar:
+  case SpellInd_VsStar:
     ind = 0x1e9d;
     mem = 0x3400;
     break;
-  case SPELLIND_Photosynthesis:
+  case SpellInd_Photosynthesis:
     ind = 0x1db6;
     mem = 0x4800;
     break;
-  case SPELLIND_SolarWrath:
+  case SpellInd_SolarWrath:
     ind = 0x1b29;
     mem = 0x22800;
     break;
-  case SPELLIND_StarlightShield:
+  case SpellInd_StarlightShield:
     ind = 0x1e0e;
     mem = 0x4800;
     break;
-  case SPELLIND_Dexterity:
+  case SpellInd_Dexterity:
     ind = 0x1a48;
 LAB_80096410:
     mem = 0x11c00;
     break;
-  case SPELLIND_Light:
+  case SpellInd_Light:
     ind = 0x1d31;
     mem = 0xc400;
   }
@@ -882,16 +882,16 @@ LAB_80096468:
 bool some_spellEnum_bool(u8 param_1){
   if (true) {
     switch(param_1) {
-    case SPELLIND_ControlElem:
-    case SPELLIND_debilitation:
-    case SPELLIND_Stupidity:
-    case SPELLIND_Charming:
-    case SPELLIND_ControlMarquis:
-    case SPELLIND_Weakness:
-    case SPELLIND_ControlZombies:
-    case SPELLIND_CrushingDeath:
-    case SPELLIND_Exhaustion:
-    case SPELLIND_Clumsiness:
+    case SpellInd_ControlElem:
+    case SpellInd_debilitation:
+    case SpellInd_Stupidity:
+    case SpellInd_Charming:
+    case SpellInd_ControlMarquis:
+    case SpellInd_Weakness:
+    case SpellInd_ControlZombies:
+    case SpellInd_CrushingDeath:
+    case SpellInd_Exhaustion:
+    case SpellInd_Clumsiness:
       return true;
     }
   }
@@ -910,122 +910,122 @@ switchD_800964c8_caseD_2:
   }
   else {
     switch(param_1) {
-    case SPELLIND_Immolation:
+    case SpellInd_Immolation:
       BVar1 = 0x1d0d;
       uVar2 = 0x6000;
       break;
-    case SPELLIND_Escape:
-    case SPELLIND_Banishing:
+    case SpellInd_Escape:
+    case SpellInd_Banishing:
       BVar1 = 0x1c9f;
       uVar2 = 0x4800;
       break;
     default:
       goto switchD_800964c8_caseD_2;
-    case SPELLIND_ControlElem:
+    case SpellInd_ControlElem:
       BVar1 = 0x1b87;
       uVar2 = 0x5000;
       break;
-    case SPELLIND_debilitation:
+    case SpellInd_debilitation:
       BVar1 = 0x1bf3;
       uVar2 = 0x2c00;
       break;
-    case SPELLIND_DragonFlames:
+    case SpellInd_DragonFlames:
       BVar1 = 0x1c55;
       uVar2 = 0x4c00;
       break;
-    case SPELLIND_EarthSmite:
+    case SpellInd_EarthSmite:
       BVar1 = 0x1c66;
       uVar2 = 0x8000;
       break;
-    case SPELLIND_Fireball:
+    case SpellInd_Fireball:
       BVar1 = 0x1cc9;
       uVar2 = 0x5000;
       break;
-    case SPELLIND_Lightning:
+    case SpellInd_Lightning:
       BVar1 = 0x1d21;
       uVar2 = 0x8000;
       break;
-    case SPELLIND_Wind:
+    case SpellInd_Wind:
       BVar1 = 0x1eec;
       uVar2 = 0xa400;
       break;
-    case SPELLIND_Stupidity:
+    case SpellInd_Stupidity:
       BVar1 = 0x1d52;
       uVar2 = 0x2800;
       break;
-    case SPELLIND_Charming:
+    case SpellInd_Charming:
       BVar1 = 0x1b79;
       uVar2 = 0x4000;
       break;
-    case SPELLIND_ControlMarquis:
+    case SpellInd_ControlMarquis:
       BVar1 = 0x1b95;
       uVar2 = 0x5000;
       break;
-    case SPELLIND_SenseAura:
+    case SpellInd_SenseAura:
       BVar1 = 0x1dc4;
       uVar2 = 0x1c00;
       break;
-    case SPELLIND_Weakness:
+    case SpellInd_Weakness:
       BVar1 = 0x1ecd;
       uVar2 = 0x2800;
       break;
-    case SPELLIND_AcidBolt:
+    case SpellInd_AcidBolt:
       BVar1 = 0x1ac6;
       uVar2 = 0x5000;
       break;
-    case SPELLIND_ControlZombies:
+    case SpellInd_ControlZombies:
       BVar1 = 0x1ba3;
       uVar2 = 0x5000;
       break;
-    case SPELLIND_CrushingDeath:
+    case SpellInd_CrushingDeath:
       BVar1 = 0x1bbc;
       uVar2 = 0xc400;
       break;
-    case SPELLIND_Exhaustion:
+    case SpellInd_Exhaustion:
       BVar1 = 0x1dd6;
       uVar2 = 0x5000;
       break;
-    case SPELLIND_tapStamina:
+    case SpellInd_tapStamina:
       BVar1 = 0x1e42;
       uVar2 = 0x5400;
       break;
-    case SPELLIND_WallOfBones:
+    case SpellInd_WallOfBones:
       BVar1 = 0x1ec0;
       uVar2 = 0xc800;
       break;
-    case SPELLIND_DispelElemental:
+    case SpellInd_DispelElemental:
       BVar1 = 0x1c07;
       uVar2 = 0x1fc00;
       break;
-    case SPELLIND_DispelNaming:
+    case SpellInd_DispelNaming:
       BVar1 = 0x1c18;
       uVar2 = 0x6000;
       break;
-    case SPELLIND_DispelNecro:
+    case SpellInd_DispelNecro:
       BVar1 = 0x1c30;
       uVar2 = 0x1cc00;
       break;
-    case SPELLIND_DispelStar:
+    case SpellInd_DispelStar:
       BVar1 = 0x1c44;
       uVar2 = 0xf800;
       break;
-    case SPELLIND_Clumsiness:
+    case SpellInd_Clumsiness:
       BVar1 = 0x1cb9;
       uVar2 = 0x2400;
       break;
-    case SPELLIND_FrozenDoom:
+    case SpellInd_FrozenDoom:
       BVar1 = 0x1cdb;
       uVar2 = 0x7800;
       break;
-    case SPELLIND_StellarGravity:
+    case SpellInd_StellarGravity:
       BVar1 = 0x1e32;
       uVar2 = 0x7800;
       break;
-    case SPELLIND_WebOfStarlight:
+    case SpellInd_WebOfStarlight:
       BVar1 = 0x1e1c;
       uVar2 = 0x3800;
       break;
-    case SPELLIND_Whitefire:
+    case SpellInd_Whitefire:
       BVar1 = 0x1edf;
       uVar2 = 0x8400;
     }
@@ -1044,138 +1044,138 @@ switchD_80096660_caseD_1:
   }
   else {
     switch(param_1) {
-    case SPELLIND_Immolation:
+    case SpellInd_Immolation:
       ind = 0x1d0f;
       mem = 0x2000;
       break;
     default:
       goto switchD_80096660_caseD_1;
-    case SPELLIND_AirShield:
+    case SpellInd_AirShield:
       ind = 0x1acc;
       mem = 0x2000;
       break;
-    case SPELLIND_ControlElem:
+    case SpellInd_ControlElem:
       ind = 0x1ba4;
       mem = 0x2400;
       break;
-    case SPELLIND_debilitation:
+    case SpellInd_debilitation:
       ind = 0x1be7;
       mem = 0x2800;
       break;
-    case SPELLIND_Strength:
+    case SpellInd_Strength:
       ind = 0x1e33;
       mem = 0x3c00;
       break;
-    case SPELLIND_Brilliance:
+    case SpellInd_Brilliance:
       ind = 0x1b47;
       mem = 0x3c00;
       break;
-    case SPELLIND_Stupidity:
+    case SpellInd_Stupidity:
       ind = 0x1d46;
       mem = 0x2800;
       break;
-    case SPELLIND_Charming:
+    case SpellInd_Charming:
       ind = 0x1b6b;
       mem = 0x2400;
       break;
-    case SPELLIND_ControlMarquis:
+    case SpellInd_ControlMarquis:
       ind = 0x1ba5;
       mem = 0x2400;
       break;
-    case SPELLIND_Endurance:
+    case SpellInd_Endurance:
       ind = 0x1c76;
       mem = 0x3c00;
       break;
-    case SPELLIND_Weakness:
+    case SpellInd_Weakness:
       ind = 0x1ec3;
       mem = 0x2800;
       break;
-    case SPELLIND_CheatDeath:
+    case SpellInd_CheatDeath:
       ind = 0x1b56;
       mem = 0x2400;
       break;
-    case SPELLIND_AcidBolt:
+    case SpellInd_AcidBolt:
       ind = 0x1ac7;
       mem = 0x2000;
       break;
-    case SPELLIND_AuraOfDeath:
+    case SpellInd_AuraOfDeath:
       ind = 0x1add;
       mem = 0x2c00;
       break;
-    case SPELLIND_WraithTouch:
+    case SpellInd_WraithTouch:
       ind = 0x1efc;
       mem = 0x2800;
       break;
-    case SPELLIND_ControlZombies:
+    case SpellInd_ControlZombies:
       ind = 0x1ba6;
       mem = 0x2400;
       break;
-    case SPELLIND_Haste:
+    case SpellInd_Haste:
       ind = 0x1ce3;
       mem = 0x3000;
       break;
-    case SPELLIND_Exhaustion:
+    case SpellInd_Exhaustion:
       ind = 0x1dc7;
       mem = 0x3800;
       break;
-    case SPELLIND_Stamina:
+    case SpellInd_Stamina:
       ind = 0x1dec;
       mem = 0x2400;
       break;
-    case SPELLIND_WallOfBones:
+    case SpellInd_WallOfBones:
       ind = 0x1ea9;
       mem = 0x6400;
       break;
-    case SPELLIND_SpiritShield:
+    case SpellInd_SpiritShield:
       ind = 0x1ddb;
       mem = 0x2000;
       break;
-    case SPELLIND_Mirror:
+    case SpellInd_Mirror:
       ind = 0x1d34;
       mem = 0x2000;
       break;
-    case SPELLIND_VsElemental:
+    case SpellInd_VsElemental:
       ind = 0x1e55;
       mem = 0x3400;
       break;
-    case SPELLIND_VsNaming:
+    case SpellInd_VsNaming:
       ind = 0x1e69;
       mem = 0x3c00;
       break;
-    case SPELLIND_VsNecromancy:
+    case SpellInd_VsNecromancy:
       ind = 0x1e7a;
       mem = 0x3c00;
       break;
-    case SPELLIND_VsStar:
+    case SpellInd_VsStar:
       ind = 0x1e8d;
       mem = 0x2400;
       break;
-    case SPELLIND_Photosynthesis:
+    case SpellInd_Photosynthesis:
       ind = 0x1da6;
       mem = 0x2000;
       break;
-    case SPELLIND_SolarWrath:
+    case SpellInd_SolarWrath:
       ind = 0x1b07;
       mem = 0x5c00;
       break;
-    case SPELLIND_StarlightShield:
-    case SPELLIND_WebOfStarlight:
+    case SpellInd_StarlightShield:
+    case SpellInd_WebOfStarlight:
       ind = 0x1e02;
       mem = 0x2000;
       break;
-    case SPELLIND_Dexterity:
+    case SpellInd_Dexterity:
       ind = 0x1bf4;
       mem = 0x3c00;
       break;
-    case SPELLIND_Clumsiness:
+    case SpellInd_Clumsiness:
       ind = 0x1cad;
       mem = 0x2800;
       break;
-    case SPELLIND_FrozenDoom:
+    case SpellInd_FrozenDoom:
       ind = 0x1ccf;
       mem = 0x3400;
       break;
-    case SPELLIND_StellarGravity:
+    case SpellInd_StellarGravity:
       ind = 0x1e21;
       mem = 0x2800;
     }
