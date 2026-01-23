@@ -154,7 +154,7 @@
 #define FLAG_Map5 791 //Talewok
 #define FLAG_Map6 792 //West of Talewok
 #define FLAG_Map7 793 //Port Saiid
-#define FLAG_Map8 794 //Choas Isle
+#define FLAG_Map8 794 //Chaos Isle
 #define FLAG_Map9 795 //Namer's Isle
 #define FLAG_Map10 796 //Terminor Region
 #define FLAG_Map11 797 //East of Terminor

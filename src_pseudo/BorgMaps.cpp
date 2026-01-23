@@ -555,7 +555,7 @@ LAB_8002d464:
     miniMapLoaded = true;
     pmVar11 = mapDataList_Ugarit2;
     break;
-  case MAPA_ChoasIsle:
+  case MAPA_ChaosIsle:
     gGlobals.gameVars.Borg12Next =(gGlobals.gameVars.mapShort2 & 2)? 0x5d5:0x5d7;
     pmVar11 = mapDataList_ChaosIsle;
 LAB_8002d4e0:

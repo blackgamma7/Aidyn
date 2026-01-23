@@ -584,7 +584,7 @@
 #define BORG8_MapPiece05 0x01cc //Talewok
 #define BORG8_MapPiece06 0x01cd //West of Talewok
 #define BORG8_MapPiece07 0x01ce //Port Saiid
-#define BORG8_MapPiece08 0x01cf //Choas Isle
+#define BORG8_MapPiece08 0x01cf //Chaos Isle
 #define BORG8_MapPiece09 0x01d0 //Namer's Isle
 #define BORG8_MapPiece10 0x01d1 //Terminor Region
 #define BORG8_MapPiece11 0x01d2 //East of Terminor

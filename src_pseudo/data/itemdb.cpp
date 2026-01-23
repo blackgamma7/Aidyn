@@ -28,7 +28,7 @@ void ItemDB::LoadItem(u8 index,int *pos){
   Gear_Rom gRom;
   
   Gear_RAM *gRam = this->Gear + index;
-  ROMCOPYS(&gRom,itemDB.unk + *pos + -1,sizeof(Gear_Rom),79);
+  ROMCOPYS(&gRom,itemDB + *pos,sizeof(Gear_Rom),79);
   memcpy(gRam->name,&gRom,20);
   gRam->name[20] = '\0';
   //TODO: macro endian swapping instead to making them u8[2]'s

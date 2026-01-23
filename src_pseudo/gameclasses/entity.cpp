@@ -7,6 +7,24 @@
 #include "armordb.h"
 #include "widgets/textPopup.h"
 
+#ifdef DEBUGVER
+char* sFilename= FILENAME;
+#endif
+
+u32 EXP_TNL[]={
+  0,        500,     2500,     7000,
+  15000,    27500,   45500,    70000,
+  102000,   142500,  192500,   253000,
+  325000,   409500,  507500,   620000,
+  748000,   892500,  1054500,  1235000,
+  1435000,  1655500, 1897500, 2162000,
+  2450000,  2762500, 3100500, 3465000,
+  3857000,  4277500, 4727500, 5208000,
+  5720000,  6264500, 6842500, 7455000,
+  8103000,  8787500, 9509500, 10270000,
+  11070000, 0
+};
+
 u8 Entity::IsElemental(ItemID id){
   if (ITEMIDTYPE(id) == DB_ENTITY) {
     u8 index = GETINDEX(id); 
@@ -66,7 +84,6 @@ void Entity::EquipFunc2(CharSheet *param_1,EntityRAM *param_2){
   }
 }
 
-
 void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   
   CLEAR(param_1);
@@ -84,16 +101,16 @@ void Entity::Init(CharSheet *param_1,ItemID param_2,u8 param_3){
   ALLOCS(param_1->armor,2*sizeof(ArmorInstance*),266);
   param_1->armor[0] = NULL;
   param_1->armor[1] = NULL;
-  if (pEVar10->Armor != 0xffff) EquipArmor(param_1,pEVar10->Armor,0);
-  if (pEVar10->Sheild != 0xffff) EquipSheild(param_1,pEVar10->Sheild,NULL);
+  if (pEVar10->Armor != Item_NONE) EquipArmor(param_1,pEVar10->Armor,0);
+  if (pEVar10->Sheild != Item_NONE) EquipSheild(param_1,pEVar10->Sheild,NULL);
   ALLOC(param_1->pItemList,273);
   param_1->pItemList->Init(GEARTOTAL);
   ALLOC(param_1->spellbook,276);
   param_1->spellbook->Reset(5);
   for(u8 i=0;i < 5;i++) {
-    if (pEVar10->spells[i] != 0xffff) {
+    if (pEVar10->spells[i] != Item_NONE) {
       ALLOCL(param_1->spellbook->spells[i],282);
-      TempSpell::Init(param_1->spellbook->spells[i],ID,pEVar10->Spell_levels[i]);
+      TempSpell::Init(param_1->spellbook->spells[i],pEVar10->spells[i],pEVar10->Spell_levels[i]);
       param_1->spellbook->count++;
     }
   }
@@ -1013,7 +1030,7 @@ LAB_80079984:
   if (bVar11) {
     if (uVar16 == 0) sVar9 = -1;
     else {
-      ALLOCL(param_1->effects[uVar6],0x809);
+      ALLOCL(param_1->effects[uVar6],2057);
       TempEnchant::Init(param_1->effects[uVar6],id,(byte)Level,timer,pow,UNK4);
     }
   }
@@ -1208,38 +1225,38 @@ SpellInstance * Entity::GetSpell(CharSheet *param_1){
   switch(param_1->spellSwitch) {
   case 1:
     #ifdef DEBUGVER
-    if (param_1->spellbook == NULL) {CRASH("No spell list (Entity::GetSpell())",FILENAME);}
-    if (param_1->spellbook->spells == NULL) {CRASH("No pSpellList->pSpell[] (Entity::GetSpell())",FILENAME);}
+    if (param_1->spellbook == NULL) {CRASH("No spell list (Entity::GetSpell())",sFilename);}
+    if (param_1->spellbook->spells == NULL) {CRASH("No pSpellList->pSpell[] (Entity::GetSpell())",sFilename);}
     #endif
     return param_1->spellbook->spells[param_1->currSpell];
   case 2:
     #ifdef DEBUGVER
-    if (param_1->armor == NULL) {CRASH("No armor (Entity::GetSpell())",FILENAME);}
-    if (param_1->armor[0] == NULL) {CRASH("No pArmor[0] (Entity::GetSpell())",FILENAME);}
-    if (param_1->armor[0]->base.spellCharge == NULL) {CRASH("No pArmor[0]->pSpell (Entity::GetSpell())",FILENAME);}
+    if (param_1->armor == NULL) {CRASH("No armor (Entity::GetSpell())",sFilename);}
+    if (param_1->armor[0] == NULL) {CRASH("No pArmor[0] (Entity::GetSpell())",sFilename);}
+    if (param_1->armor[0]->base.spellCharge == NULL) {CRASH("No pArmor[0]->pSpell (Entity::GetSpell())",sFilename);}
     #endif
     temp = &param_1->armor[0]->base;
     break;
   case 3:
     #ifdef DEBUGVER
-    if (param_1->armor == NULL) {CRASH("No armor (Entity::GetSpell())",FILENAME);}
-    if (param_1->armor[1] == NULL) {CRASH("No pArmor[1] (Entity::GetSpell())",FILENAME);}
-    if (param_1->armor[1]->base.spellCharge == NULL) {CRASH("No pArmor[1]->pSpell (Entity::GetSpell())",FILENAME);}
+    if (param_1->armor == NULL) {CRASH("No armor (Entity::GetSpell())",sFilename);}
+    if (param_1->armor[1] == NULL) {CRASH("No pArmor[1] (Entity::GetSpell())",sFilename);}
+    if (param_1->armor[1]->base.spellCharge == NULL) {CRASH("No pArmor[1]->pSpell (Entity::GetSpell())",sFilename);}
     #endif
     temp = &param_1->armor[1]->base;
     break;
   case 4:
     #ifdef DEBUGVER
-    if (param_1->weapons == NULL) {CRASH("No weapon (Entity::GetSpell())",FILENAME);}
-    if (param_1->weapons->base.spellCharge == NULL) {CRASH("No pWeapon->pSpell (Entity::GetSpell())",FILENAME);}
+    if (param_1->weapons == NULL) {CRASH("No weapon (Entity::GetSpell())",sFilename);}
+    if (param_1->weapons->base.spellCharge == NULL) {CRASH("No pWeapon->pSpell (Entity::GetSpell())",sFilename);}
     #endif
     temp = &param_1->weapons->base;
     break;
   case 5:
     #ifdef DEBUGVER
-    if (param_1->pItemList == NULL) {CRASH("No pItemList (Entity::GetSpell())",FILENAME);}
-    if (param_1->pItemList->pItem == NULL) {CRASH("No pItemList->pItem[] (Entity::GetSpell())",FILENAME);}
-    if (param_1->pItemList->pItem[param_1->currSpell]->base.spellCharge == NULL) {CRASH("No pItemList->pItem[currSpell]->pSpell (Entity::GetSpell())",FILENAME);}
+    if (param_1->pItemList == NULL) {CRASH("No pItemList (Entity::GetSpell())",sFilename);}
+    if (param_1->pItemList->pItem == NULL) {CRASH("No pItemList->pItem[] (Entity::GetSpell())",sFilename);}
+    if (param_1->pItemList->pItem[param_1->currSpell]->base.spellCharge == NULL) {CRASH("No pItemList->pItem[currSpell]->pSpell (Entity::GetSpell())",sFilename);}
     #endif
     temp = &param_1->pItemList->pItem[param_1->currSpell]->base;
     break;
@@ -1691,7 +1708,7 @@ u8 Entity::HealHerbsCheck(CharSheet *param_1){
   cVar2 = param_1->Skills->getModdedSkill(SKILL_Healer);
   bVar3 = false;
   if (cVar2) {
-    if (!(PARTY)->Inventory->HasItem(itemID_array[31])) bVar3 = false;
+    if (!(PARTY)->Inventory->HasItem(itemID_array[ItemInd_Herb])) bVar3 = false;
     else {
       iVar1 = CharStats::getModded(param_1->Stats,STAT_STAM);
       iVar4 = 5 - cVar2;

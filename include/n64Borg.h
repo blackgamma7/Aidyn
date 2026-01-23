@@ -96,7 +96,7 @@ typedef enum EnumMapDatA {
     MAPA_EhudUnder,
     MAPA_Ugairt,
     MAPA_Ugairt2,
-    MAPA_ChoasIsle,
+    MAPA_ChaosIsle,
     MAPA_Battle,
 } EnumMapDatA;
 

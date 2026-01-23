@@ -159,7 +159,7 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
   BaseWidget* pBVar12 = AddLeftText((param_2->base).name);
   pBVar12->SetCoords(this->posX + pBVar9->GetWidth() + 2,this->bottom - (s16)pBVar12->GetHeight());
   this->bottom+= 4;
-  u16 RomstringSpellIndecies[][2]={
+  u16 RomstringSpellIndecies[][2]={ //TODO: replace with proper Item ID's
    {0x0300, 0x0000},{0x0301, 0x0001},{0x0302, 0x0002},
    {0x0303, 0x0003},{0x0304, 0x0004},{0x0305, 0x0005},
    {0x0306, 0x0006},{0x0308, 0x0007},{0x0309, 0x0008},

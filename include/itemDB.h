@@ -62,4 +62,3 @@ class ItemDB {
     void Free();
 };
 ItemDB* gItemDBp=NULL;
-extern u8 itemID_array[];

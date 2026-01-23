@@ -489,7 +489,7 @@ LAB_8009dd14:
   return gfx;
 }
 
-//TODO: Redo once relevant data is better understood
+//TODO: Redo once relevant data is better understood(?)
 Gfx * Ofunc_8009e228(Gfx *g,SceneData *param_2,int param_3){
   Gfx *pGVar1;
   u32 uVar2;
