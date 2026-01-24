@@ -660,7 +660,7 @@ void borg6_func_a(Borg6Data *param_1){
   
   i = 0;
   uVar3 = param_1->subCount;
-  pBVar6 = (Borg6Struct1 *)((int)&param_1->borg5 + (int)&param_1->sub->borg5);
+  pBVar6 = (Borg6Struct1 *)((int)&param_1->borg5 + (int)&param_1->sub->borgInd);
   param_1->sub = pBVar6;
   if (0 < (int)uVar3) {
     do {

@@ -739,8 +739,8 @@ struct Borg6Struct2{
     u32 unkc;
 };
 struct Borg6Struct1{
-    u32 borg5;
-    u32 unk4;
+    u32 borgInd;
+    u32 type;//1= Borg5, 2=?,3=?
     void* unk8;
     u32 unkc;
     u32 subCount;

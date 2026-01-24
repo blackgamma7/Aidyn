@@ -570,18 +570,6 @@ Gfx * Graphics::DrawText(Gfx *gfx,char *txt,u16 X,u16 Y,u8 red,u8 green,u8 blue,
       }
       gDPLoadTextureBlock(gfx++,gGfxManager.textfont[(c - ' ')],G_IM_FMT_IA,G_IM_SIZ_4b,8,8,0,
         2,2,0,0,0,0);
-        /*in case I'm wrong...
-      gDPSetTextureImage(pGVar2++,G_IM_FMT_IA,G_IM_SIZ_4b,4,gGfxManager.textfont[(cVar1 - ' ')]);
-      pGVar2[1].words.w0 = 0xf5680400;
-      pGVar2[1].words.w1 = 0x7080200;
-      gDPLoadSync(pGVar2[2]);
-      pGVar2[3].words.w0 = 0xf4000000;
-      pGVar2[3].words.w1 = 0x7038070;
-      gDPPipeSync(pGVar2[4]);
-      pGVar2[5].words.w0 = 0xf5600400;
-      pGVar2[5].words.w1 = 0x80200;
-      pGVar2[6].words.w0 = 0xf2000000;
-      pGVar2[6].words.w1 = 0x70070;*/
       gSPScisTextureRectangle(gfx++,xOff,yOff,(xOff + 8),(yOff + 8),0,0,0,0x400,0x400);
       xOff+=8;
     }

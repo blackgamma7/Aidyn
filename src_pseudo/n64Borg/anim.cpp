@@ -1020,70 +1020,69 @@ void Ofunc_8009f664(SceneData *param_1){
 void FUN_8009f6b4(SceneData *param_1,Borg6Header *param_2){
   u32 uVar1;
   Borg6Struct1 *pBVar2;
-  u32 uVar3;
   void *pvVar4;
   int iVar5;
   Borg5Header *pbVar6;
   void *bDat;
   Borg5Transform *pbVar7;
   Borg6Struct4 *pBVar8;
-  int iVar9;
   
-  if ((param_2 != NULL) && ((param_2->flag & 1) == 0)) {
+  if ((param_2) && ((param_2->flag & 1) == 0)) {
     pBVar8 = param_2->structDat;
     uVar1 = param_2->dat->subCount;
     param_2->unk8 = param_1;
-    for(iVar9 = 0;iVar9<uVar1;iVar9++,pBVar8++){
+    for(s32 i = 0;i<uVar1;i++,pBVar8++){
         pBVar2 = pBVar8->sub;
-        pbVar6 = (Borg5Header *)getLoadedBorg(pBVar2->borg5);
-        uVar3 = pBVar2->unk4;
-        if (uVar3 == 1) {
-          pbVar7 = ((param_1->borg5)->dat).transforms + (int)pBVar8->unk10;
-          pBVar8->unk10 = pbVar7;
-          pBVar2->borg5 = (u32)pbVar7;
-        }
-        else {
-          if (1 < (int)uVar3) {
-            if (uVar3 == 2) {
-              pvVar4 = pBVar8->unk10;
-              iVar5 = pbVar6[1].head.unk;
-              pBVar2->borg5 = (u32)pbVar6;
-              pBVar8->unk10 = (void *)(*(int *)(iVar5 + 0x40) + (int)pvVar4 * 0x14 + 4);
+        pbVar6 = (Borg5Header *)getLoadedBorg(pBVar2->borgInd);
+        switch(pBVar2->type){
+          case 0:{
+            switch(get_borg_listing_type(pBVar2->borgInd)) {
+            case 0:
+              bDat = (void *)((int)pBVar8->unk10 + sizeof(borgHeader));
+              break;
+            case 1:
+              bDat = ((Borg1Header*)pBVar8->unk10)->dat;
+              break;
+            case 2:
+              bDat = ((Borg2Header*)pBVar8->unk10)->dat;
+              break;
+            case 3:
+              bDat = &((Borg3Header*)pBVar8->unk10)->dat;
+              break;
+            case 4:
+              bDat = &((Borg4Header*)pBVar8->unk10)->dat;
+              break;
+            case 5:
+              bDat = &((Borg5Header*)pBVar8->unk10)->dat;
+              break;
+            case 6:
+              bDat = ((Borg6Header*)pBVar8->unk10)->dat;
+              break;
+            default:
+              goto switchD_8009f784_caseD_7;
             }
-            else if (uVar3 == 3) {
-              pBVar2->borg5 = (u32)pbVar6;
-            }
-            continue;
-          }
-          if (uVar3) continue;
-          switch(get_borg_listing_type(pBVar2->borg5)) {
-          case 0:
-            bDat = (void *)((int)pBVar8->unk10 + sizeof(borgHeader));
-            break;
-          case 1:
-            bDat = ((Borg1Header*)pBVar8->unk10)->dat;
-            break;
-          case 2:
-            bDat = ((Borg2Header*)pBVar8->unk10)->dat;
-            break;
-          case 3:
-            bDat = &((Borg3Header*)pBVar8->unk10)->dat;
-            break;
-          case 4:
-            bDat = &((Borg4Header*)pBVar8->unk10)->dat;
-            break;
-          case 5:
-            bDat = &((Borg5Header*)pBVar8->unk10)->dat;
-            break;
-          case 6:
-            bDat = ((Borg6Header*)pBVar8->unk10)->dat;
-            break;
-          default:
-            goto switchD_8009f784_caseD_7;
-          }
-          pBVar8->unk10 = (void *)((int)bDat + (int)pbVar6);
+            pBVar8->unk10 = (void *)((int)bDat + (int)pbVar6);
 switchD_8009f784_caseD_7:
-          pBVar2->borg5 = (u32)pbVar6;
+            pBVar2->borgInd = (u32)pbVar6;
+            break;
+          }
+          case 1:{
+            pbVar7 = ((param_1->borg5)->dat).transforms + (int)pBVar8->unk10;
+            pBVar8->unk10 = pbVar7;
+            pBVar2->borgInd = (u32)pbVar7;
+            break;
+          }
+          case 2:{
+            pvVar4 = pBVar8->unk10;
+            iVar5 = pbVar6[1].head.unk; //???
+            pBVar2->borgInd = (u32)pbVar6;
+            pBVar8->unk10 = (void *)(*(int *)(iVar5 + 0x40) + (int)pvVar4 * 0x14 + 4);
+            break;
+          }
+          case 3:{
+            pBVar2->borgInd = (u32)pbVar6;
+            break;
+          }
         }
       }
     param_2->flag |= 1;
@@ -1599,7 +1598,7 @@ void FUN_800a0714(SceneDatSubstruct *param_1){
 }
 
 void FUN_800a0764(Borg6Struct4 *param_1,float param_2) {
-  if (param_1->sub->unk4 == 1) FUN_800a0800(param_1,param_2);
+  if (param_1->sub->type == 1) FUN_800a0800(param_1,param_2);
   else FUN_800a07b0(param_1,param_2);
 }
 
@@ -1697,7 +1696,7 @@ void FUN_800a0940(Borg6Struct4 *param_1){
   
   pBVar1 = param_1->sub;
   puVar2 = (Borg5Transform *)param_1->unk10;
-  if (pBVar1->unk4 == 1) {
+  if (pBVar1->type == 1) {
     iVar1 = puVar2->unkStruct;
     puVar2 = (Borg5Transform *)&puVar2->rot;
     iVar1->unk140.x = 0;
