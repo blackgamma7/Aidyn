@@ -35,7 +35,6 @@ void flycam_func(void){
   Scene::SetFlag10(gFlycamSceneP);
 }
 
-
 void set_title_screen(void){
   Controller::GetDelay(0);
   flycam_flag = 0;

@@ -287,7 +287,6 @@ Gfx * borganim_LoadTextureImage(Gfx *gfx,Borg1Header *param_2){
   case B1_I8:
     break;
   case B1_CI4:
-    
     h = ((totalBmpSize << 1) >> 2) - 1;
     gDPSetTextureImage(gfx++,G_IM_FMT_CI,G_IM_SIZ_4b,1,SEGMENT_ADDR(0xb,0));
     gDPSetTile(gfx++, G_IM_FMT_CI, 0, 0, 0, G_TX_LOADTILE, 0, 0,0, 0, 0, 0, 0);
@@ -1272,8 +1271,8 @@ void FUN_8009fd98(Borg7Header *param_1){
 
 void FUN_8009fdec(Borg7Header *param_1){FUN_800a0a08(param_1->sceneDat);}
 
-void takeBranch(Borg7Header *param_1,b7SubSub *param_2){
-  Borg7Sub *pBVar1;
+void takeBranch(Borg7Header *param_1,Borg7Struct2 *param_2){
+  Borg7Struct1 *pBVar1;
   u32 index;
   struct_1 *psVar2;
   u32 bVar3;
@@ -1284,7 +1283,7 @@ void takeBranch(Borg7Header *param_1,b7SubSub *param_2){
   Borg6Header **ppBVar8;
   bool bVar9;
   u32 uVar10;
-  struct_45 *psVar11;
+  Borg7AnimChache *psVar11;
   
   if (3 < animChache) CRASH("TakeBranch","AnimCache out of range");
   FUN_8009fd98(param_1);
@@ -1358,23 +1357,24 @@ bool Borg7_AnimationExpired(Borg7Header *param_1){
 void FUN_800a0088(){}
 
 void Borg7_SetAnimation(Borg7Header *param_1,u16 param_2){
-  Borg7Sub *pBVar1 = param_1->unk1c->sub;
-  b7SubSub *pbVar2 = pBVar1->p;
+  Borg7Struct1 *pBVar1 = param_1->unk1c->sub;
+  Borg7Struct2 *pbVar2 = pBVar1->p;
   for(s32 i=pBVar1->subSubCount;param_2 != pbVar2->ani;i--,pbVar2++) {
     if(!i) return; //animation was not in range.
   }
   param_1->currentAni = param_2;
 }
 
+//Advance Borg7's animation by 1 tick
 bool FUN_800a00d0(Borg7Header *param_1){
   int rand;
   vec3f scenePos;
   
   if (!UINT_800f3390) UINT_800f3390 = true; //?
   bool bVar3 = false;
-  Borg7Sub *pBVar2 = param_1->unk1c->sub;
+  Borg7Struct1 *pBVar2 = param_1->unk1c->sub;
   if (Borg7_AnimationExpired(param_1)) {
-    b7SubSub *pbVar9 = pBVar2->p;
+    Borg7Struct2 *pbVar9 = pBVar2->p;
     rand = gBorg7Rand.Range(0,99);
     bool bVar6 = false;
     for (s32 i = pBVar2->subSubCount; i != 0;i--,pbVar9++) {
@@ -1400,7 +1400,7 @@ LAB_800a0220:
     Scene::Tick(param_1->sceneDat);
   }
   else {
-    b7SubSub *pbVar10 = pBVar2->p;
+    Borg7Struct2 *pbVar10 = pBVar2->p;
     rand = gBorg7Rand.Range(0,99);
     for(s16 i=pBVar2->subSubCount;i!=0;i--,pbVar10++){
       if (param_1->currentAni == pbVar10->ani) {
@@ -1438,15 +1438,15 @@ LAB_800a0220:
   return bVar3;
 }
 
+//Advance Borg7's animation by (delta) ticks
 bool Borg7_TickAnimation(Borg7Header *param_1,int delta){
-  Borg7Sub *pBVar1;
+  Borg7Struct1 *pBVar1;
   u32 i_00;
   bool bVar2;
   bool bVar4;
   int rand;
-  s16 sVar3;
   s32 lVar5;
-  b7SubSub *pbVar6;
+  Borg7Struct2 *pbVar6;
   int i;
   vec3f local_60;
   
@@ -1492,18 +1492,15 @@ LAB_800a046c:
         lVar5 = pBVar1->subSubCount;
         while (lVar5 != 0) {
           lVar5--;
-          if ((param_1->currentAni == (u16)pbVar6->ani) && ((pbVar6->flag & 1) != 0)) {
+          if ((param_1->currentAni == (u16)pbVar6->ani) && ((pbVar6->flag & 1))) {
             rand -= (u32)pbVar6->unk1;
             if (rand < 1) {
               bVar2 = true;
               takeBranch(param_1,pbVar6);
               goto LAB_800a046c;
             }
-            pbVar6++;
           }
-          else {
-            pbVar6++;
-          }
+          pbVar6++;
         }
       }
       i++;
@@ -1521,15 +1518,8 @@ LAB_800a046c:
         (param_1->unk2c).y = 0.0;
         (param_1->unk2c).z = 0.0;
       }
-      sVar3 = 2;
-      if (bVar2) {
-LAB_800a053c:
-        param_1->unk12 = sVar3;
-      }
-      else if (param_1->unk12 != 0) {
-        sVar3 = param_1->unk12 + -1;
-        goto LAB_800a053c;
-      }
+      if (bVar2) param_1->unk12 = 2;
+      else if (param_1->unk12) param_1->unk12--;
       (param_1->unk20).x = local_60.x;
       (param_1->unk20).y = local_60.y;
       (param_1->unk20).z = local_60.z;

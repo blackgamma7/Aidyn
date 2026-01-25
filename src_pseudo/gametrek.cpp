@@ -362,8 +362,6 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *pos,vec3f 
   s16 iVar4;
   s16 iVar5;
   float fVar6;
-  float fVar7;
-  float fVar8;
   float fVar9;
   float fVar10;
   vec3f fStack160;
@@ -373,28 +371,22 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *pos,vec3f 
   sVar2 = fly->shortB;
   Vec3Copy(pos,&fly->posTarget);
   Vec3Copy(rotXY,&fly->aimTarget);
-  fVar8 = gGlobals.gameVars.mapCellSize.y;
-  fVar9 = (fly->aimTarget).x;
-  iVar4 = (fVar9 / gGlobals.gameVars.mapCellSize.x);
+  iVar4 = (fly->aimTarget.x / gGlobals.gameVars.mapCellSize.x);
   fVar10 = (float)iVar4;
   fVar6 = fVar10 * gGlobals.gameVars.mapCellSize.x;
-  fVar7 = (fly->aimTarget).z;
   (fly->aim).y = (fly->aimTarget).y;
-  (fly->aim).x = fVar9 - fVar6;
-  iVar5 = (fVar7 / fVar8);
+  (fly->aim).x = fly->aimTarget.x - fVar6;
+  iVar5 = ((fly->aimTarget).z / gGlobals.gameVars.mapCellSize.y);
   fVar9 = (float)iVar5;
-  (fly->aim).z = fVar7 - fVar9 * gGlobals.gameVars.mapCellSize.y;
+  (fly->aim).z = (fly->aimTarget).z - fVar9 * gGlobals.gameVars.mapCellSize.y;
   fVar10 = fVar10 * gGlobals.gameVars.mapCellSize.x;
-  uVar3 = fly->shortC;
-  fVar8 = (fly->posTarget).x;
   (fly->pos).y = (fly->posTarget).y;
-  (fly->pos).x = fVar8 - fVar10;
-  fVar8 = gGlobals.gameVars.mapCellSize.y;
-  iVar4+= (u32)uVar3;
+  (fly->pos).x = (fly->posTarget).x - fVar10;
+  iVar4+= (u32)fly->shortC;
   fly->shortA = (s16)iVar4;
   iVar5+= (u32)(u16)fly->ShortD;
   fly->shortB = (s16)iVar5;
-  (fly->pos).z = (fly->posTarget).z - fVar9 * fVar8;
+  (fly->pos).z = (fly->posTarget).z - fVar9 * gGlobals.gameVars.mapCellSize.y;
   if (((iVar4) != sVar1) ||
      ((iVar5) != sVar2)) {
     CLEAR(&fStack96);
@@ -419,9 +411,7 @@ Gfx * draw_hud_elements(Gfx *gfx) {
   if ((gGlobals.diaClass)->menu == NULL) {
     gfx = Portraits::Draw(Sundial::Draw(gfx),gGlobals.playerCharStruct.show_portaits);
     if ((gGlobals.minimap.active == 0) ||
-       (gGlobals.minimap.Update(((gPlayer)->collision).pos.x,
-                        ((gPlayer)->collision).pos.y,
-                        ((gPlayer)->collision).pos.z),
+       (gGlobals.minimap.Update(gPlayer->collision.pos.x,gPlayer->collision.pos.y,gPlayer->collision.pos.z),
        gGlobals.minimap.ShowMinimap == 0)) {
       if (gGlobals.sky.Type == SkyTypeOutdoor) {
         gfx = Compass::Draw(gfx,&gCamera.rotationXZ);

@@ -771,7 +771,7 @@ struct Borg6Header {
     Borg6Data *dat;
 };
 
-struct struct_45 {
+struct Borg7AnimChache {
     struct Borg6Header *anis[3];
     u32 indecies[3];
 };
@@ -783,29 +783,29 @@ struct Borg5Header {
     Borg5Data dat;
 };
 
-struct b7SubSub{
+struct Borg7Struct2{
     u8 ani;
     u8 unk1;
     u8 flag;
     u8 unk3;
 };
 
-struct Borg7Sub{
+struct Borg7Struct1{
     u32 borg6;
     u16 flag;
     u16 subSubCount;
-    b7SubSub* p;
+    Borg7Struct2* p;
 };
 
 struct Borg7Data {
     u32 unk0;
     int subCount;
     int unk8;
-    Borg7Sub sub[1]; //acually Borg7Sub[subCount]
+    Borg7Struct1 sub[1]; //acually Borg7Struct1[subCount]
 };
 
 struct struct_1 {
-    Borg7Sub *sub;
+    Borg7Struct1 *sub;
     Borg6Header *b6;
 };
 
@@ -821,7 +821,7 @@ struct Borg7Header {
     struct_1 *unk1c;
     vec3f unk20;
     vec3f unk2c; //z axis used for moving playerData based on 2d normal and scale
-    struct_45 unk38;
+    Borg7AnimChache unk38;
     Borg7Data dat;
 };
 enum Borg9GroundFlags{
@@ -1127,7 +1127,7 @@ void FUN_8009fca8(Borg7Header *param_1);
 void FUN_8009fd40(Borg7Header *param_1);
 void FUN_8009fd98(Borg7Header *param_1);
 void FUN_8009fdec(Borg7Header *param_1);
-void takeBranch(Borg7Header *param_1,b7SubSub *param_2);
+void takeBranch(Borg7Header *param_1,Borg7Struct2 *param_2);
 void animate_borg7(Borg7Header *param_1);
 bool Borg7_AnimationExpired(Borg7Header *param_1);
 void FUN_800a0088();

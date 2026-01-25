@@ -174,9 +174,8 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
     pGVar25 = g + 3;
     uVar23 = 0;
     dVar34 = (double)(int)uVar17;
-    (pGVar24->words).w0 = 0xe3001001;
+    gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     fVar33 = (float)dVar35 * imgYScale * fVar33;
-    *(undefined4 *)((int)g + 0x14) = 0;
     uVar4 = (u32)sVar28;
     if (uVar13 != 0) {
       uVar8 = (uVar21 - 1) + uVar26;
@@ -354,7 +353,7 @@ LAB_800a6620:
     uVar16 = -iVar29;
     break;
   case BORG8_RGBA16:
-  case BORG8_RGBA16|BORG8_RBGA32:
+  case 3:
     if ((int)uVar26 < 4) {
       iVar5 = 4 - uVar26;
     }
@@ -381,7 +380,7 @@ LAB_800a6620:
     pGVar25 = g + 3;
     uVar23 = 0;
     dVar35 = (double)(int)uVar17;
-    (pGVar24->words).w0 = 0xe3001001;
+    gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     *(undefined4 *)((int)g + 0x14) = 0;
     uVar4 = (u32)sVar28;
     if (uVar13 != 0) {
@@ -572,8 +571,7 @@ LAB_800a6620:
     fVar30 = fVar30 * imgYScale * 4.0f;
     if ((borg8->dat).format == BORG8_CI8) {
       iVar5 = 2;
-      (pGVar24->words).w0 = 0xe3001001;
-      *(undefined4 *)((int)g + 0x14) = 0x8000;
+      gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
       pGVar25 = g + 10;
       g[3].words.w0 = 0xfd100000;
       *(void **)((int)g + 0x1c) = (borg8->dat).palette;
@@ -596,8 +594,7 @@ LAB_800a6620:
         iVar5 = 3;
       }
       pGVar25 = g + 3;
-      (pGVar24->words).w0 = 0xe3001001;
-      *(undefined4 *)((int)g + 0x14) = 0;
+      gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     }
     uVar23 = 0;
     dVar35 = (double)(int)uVar17;
@@ -797,8 +794,7 @@ LAB_800a6620:
     fVar30 = fVar30 * imgYScale * 4.0f;
     if ((borg8->dat).format == BORG8_CI4) {
       iVar5 = 2;
-      (pGVar24->words).w0 = 0xe3001001;
-      *(undefined4 *)((int)g + 0x14) = 0x8000;
+      gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
       pGVar25 = g + 10;
       g[3].words.w0 = 0xfd100000;
       *(void **)((int)g + 0x1c) = (borg8->dat).palette;
@@ -821,8 +817,7 @@ LAB_800a6620:
         iVar5 = 3;
       }
       pGVar25 = g + 3;
-      (pGVar24->words).w0 = 0xe3001001;
-      *(undefined4 *)((int)g + 0x14) = 0;
+      gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     }
     uVar23 = 0;
     iVar6 = xOff - 1;

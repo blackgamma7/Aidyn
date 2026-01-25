@@ -817,9 +817,9 @@ void borg_6_free(Borg6Header *param_1){
 void borg7_func_a(Borg7Header *param_1){
   Borg7Data *pBVar1 = &param_1->dat;
   if (0 < (param_1->dat).subCount) {
-    Borg7Sub* sub= &pBVar1->sub[0];
+    Borg7Struct1* sub= &pBVar1->sub[0];
     for(s32 iVar2 = (param_1->dat).subCount;iVar2 != 0;iVar2--) {
-      sub->p =(b7SubSub*)((u32)sub->p + (u32)&param_1->dat);
+      sub->p =(Borg7Struct2*)((u32)sub->p + (u32)&param_1->dat);
       sub++;
     }
   }
@@ -834,7 +834,7 @@ u8 borg7_func_b(Borg7Header *param_1,Borg7Data *param_2){
   ALLOCS(psVar2,iVar5 *sizeof(struct_1),2350);
   param_1->unk18 = psVar2;
   if (0 < iVar5) {
-    Borg7Sub *pBVar4 = (param_1->dat).sub;
+    Borg7Struct1 *pBVar4 = (param_1->dat).sub;
     for(;iVar5!=0;iVar5--,psVar2++) {
       psVar2->sub = pBVar4;
       pBVar4++;
