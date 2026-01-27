@@ -355,7 +355,7 @@ bool GetSnapshot_(void) {
   return true;
 }
 
-void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *pos,vec3f *rotXY) {
+void Flycam_UpdateCamera(flycamStruct *fly,Camera_struct *cam,vec3f *pos,vec3f *rotXY) {
   s16 sVar1;
   s16 sVar2;
   u16 uVar3;
@@ -364,8 +364,8 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *pos,vec3f 
   float fVar6;
   float fVar9;
   float fVar10;
-  vec3f fStack160;
-  vec3f fStack96;
+  vec3f newpos;
+  vec3f v2;
   
   sVar1 = fly->shortA;
   sVar2 = fly->shortB;
@@ -389,13 +389,13 @@ void some_flycam_dat_func(flycamStruct *fly,Camera_struct *cam,vec3f *pos,vec3f 
   (fly->pos).z = (fly->posTarget).z - fVar9 * gGlobals.gameVars.mapCellSize.y;
   if (((iVar4) != sVar1) ||
      ((iVar5) != sVar2)) {
-    CLEAR(&fStack96);
-    fStack160.x = (float)((int)sVar1 - (int)fly->shortA) * gGlobals.gameVars.mapCellSize.x;
-    fStack160.z = (float)((int)sVar2 - (int)fly->shortB) * gGlobals.gameVars.mapCellSize.y;
-    fStack160.y = fStack96.y;
-    fStack96.x = fStack160.x;
-    fStack96.z = fStack160.z;
-    set_teleport_obj_A(gGlobals.gameVars.mapDatA,fly->shortA,fly->shortB,&fStack160);
+    CLEAR(&v2);
+    newpos.x = (float)((int)sVar1 - (int)fly->shortA) * gGlobals.gameVars.mapCellSize.x;
+    newpos.z = (float)((int)sVar2 - (int)fly->shortB) * gGlobals.gameVars.mapCellSize.y;
+    newpos.y = v2.y;//? y pos of 0?
+    v2.x = newpos.x;
+    v2.z = newpos.z;
+    set_teleport_obj_A(gGlobals.gameVars.mapDatA,fly->shortA,fly->shortB,&newpos);
   }
   if (cam) {
     Camera::SetAim(cam,&fly->aim);

@@ -36,7 +36,7 @@ BaseWidget * WidgetBorg8At(BaseWidget *parent,u16 Index,s16 X,s16 Y,s16 H,s16 W)
 
 BaseWidget * FUN_8004ce14(BaseWidget *parent,u16 x0,u16 y0,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a) {
   BaseWidget *ret = Utilities::DebugBackground(parent,x0,y0,x1 - x0,y1 - y0,r,g,b,a);
-  ret->SetSomeBounds(y0,x0,x1,y1);
+  ret->SetBounds(y0,x0,x1,y1);
   return ret;
 }
 

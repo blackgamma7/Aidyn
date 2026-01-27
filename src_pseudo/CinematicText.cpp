@@ -8,7 +8,7 @@ u32 cinematic_runtime=0;
 WidgetText *Ofunc_8005d330(char *txt,s16 len,u16 x,u16 y,u16 x1,u16 y1,u8 r,u8 g,u8 b,u8 a){
     WidgetText* w =  new WidgetText(txt,len);
     w->SetCoords(x,y);
-    w->SetSomeBounds(y,x,x1,y1);
+    w->SetBounds(y,x,x1,y1);
     w->SetColor(r,g,b,a);
     return w;
   }

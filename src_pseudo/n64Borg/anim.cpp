@@ -1291,11 +1291,11 @@ void takeBranch(Borg7Header *param_1,Borg7Struct2 *param_2){
   uVar10 = 0;
   param_1->unk1c->b6 = NULL;
   pBVar1 = param_1->unk18[param_2->unk3].sub;
-  psVar11 = &param_1->unk38;
+  psVar11 = &param_1->aniChache;
   param_1->unk1c = param_1->unk18 + param_2->unk3;
   index = pBVar1->borg6;
   if (animChache != 0) {
-    puVar7 = (param_1->unk38).indecies;
+    puVar7 = (param_1->aniChache).indecies;
     bVar3 = *puVar7;
     while( true ) {
       if (bVar3 == index) bVar9 = true;
@@ -1337,7 +1337,7 @@ LAB_8009ffd4:
     psVar11->anis[0] = (Borg6Header *)getBorgItem(index);
     iVar5 = get_memUsed();
     psVar2 = param_1->unk1c;
-    (param_1->unk38).indecies[0] = index;
+    (param_1->aniChache).indecies[0] = index;
     borg_mem[7] += iVar5 - iVar4;
     psVar2->b6 = psVar11->anis[0];
   }

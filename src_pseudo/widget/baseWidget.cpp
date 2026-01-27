@@ -69,14 +69,14 @@ void BaseWidget::SetBorg8(Borg8Header *b8,u8 fit){
   }
 }
 
-void BaseWidget::SetSomeBounds(u16 Y0,u16 X0, u16 X1, u16 Y1){
+void BaseWidget::SetBounds(u16 Y0,u16 X0, u16 X1, u16 Y1){
   this->boundY0 = Y0;
   this->boundX0 = X0;
   this->boundX1 = X1;
   this->boundY1 = Y1;
 }
 
-void BaseWidget::GetSomeBounds(s32* Y0,s32* X0, s32* X1, s32* Y1){
+void BaseWidget::GetBounds(s32* Y0,s32* X0, s32* X1, s32* Y1){
   *Y0 = boundY0;
   *X0 = boundX0;
   *X1 = boundX1;
@@ -235,7 +235,7 @@ u8 BaseWidget::Unlink(BaseWidget *other){
 }
 
 #define buttonMacro(name)\
-        if(##name##ButtonFunc) return (##name##ButtonFunc)(parent,this);\
+        if(this->##name##ButtonFunc) return (this->##name##ButtonFunc)(this->parent,this);\
         return (BaseWidget*)NULL;\
 
 BaseWidget* BaseWidget::UpFunc(){buttonMacro(Up)}

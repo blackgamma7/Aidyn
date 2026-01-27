@@ -34,7 +34,7 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
     this->Link(pBVar7);
     pBVar7->SetColor(0xe1,0xe1,0,0xff);
     pBVar7->SetCoords((s16)((int)(SCREEN_WIDTH - pBVar7->GetWidth()) / 2),SCREEN_HEIGHT);
-    pBVar7->SetSomeBounds(pBVar7->posY,0,SCREEN_WIDTH,pBVar7->posY + pBVar7->GetHeight());
+    pBVar7->SetBounds(pBVar7->posY,0,SCREEN_WIDTH,pBVar7->posY + pBVar7->GetHeight());
     uVar14++;
     uVar12 = (u16)pBVar7->posY + pBVar7->GetHeight();
     yOff = (u16)uVar12;
@@ -49,7 +49,7 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
         uVar12 += w->GetHeight();
         yOff = (u16)uVar12;
         count++;
-        w->SetSomeBounds(w->posY,0,SCREEN_WIDTH,yOff);
+        w->SetBounds(w->posY,0,SCREEN_WIDTH,yOff);
       } while (count != credits_linebreaks[uVar14]);
     }
     pBVar7->varU8 = (byte)count;

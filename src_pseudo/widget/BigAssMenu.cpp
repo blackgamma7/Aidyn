@@ -22,7 +22,7 @@ PauseWidget::~PauseWidget(){
 
 u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   bool bVar3;
-  bool bVar4;
+  bool notCombat;
   float fVar5;
   u32 uVar6;
   pause_Substruct *sub;
@@ -36,7 +36,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   this->Handler = param_2;
   uVar6 = gGlobals.unk14fc;
   bVar3 = gGlobals.screenFadeModeSwitch == 6;
-  bVar4 = gGlobals.combatBytes[0] != CombatState_15;
+  notCombat = gGlobals.combatBytes[0] != CombatState_15;
   sub = new pause_Substruct;
   this->substruct = sub;
   sub->unk22 = 0;
@@ -72,31 +72,31 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   this->Link(sub->backgroundImage);
   switch(menu_section){
     case 0:
-    borg12 = Menu_open;
+    borg12 = 0x074d;
     gGlobals.scrollLocation[0] = SCREEN_WIDTH;
     gGlobals.scrollLocation[1] = SCREEN_WIDTH;
     sub->scrollSpeed = 27.0f;
-    if (bVar4) {
+    if (notCombat) {
       Borg7_SetAnimation(sub->borg7,0x16);
       goto LAB_80035e34;
     }
     break;
     case 1:
-    borg12 = Menu_open;
+    borg12 = 0x074d;
     gGlobals.scrollLocation[0] = SCREEN_CENTERW;
     gGlobals.scrollLocation[1] = SCREEN_CENTERW;
     sub->scrollSpeed = 0.0;
-    if (bVar4) {
+    if (notCombat) {
       Borg7_SetAnimation(sub->borg7,10);
       goto LAB_80035e34;
     }
     break;
     case 2:
-    borg12 = Menu_Scroll;
+    borg12 = 0x074e;
     gGlobals.scrollLocation[0] = 0;
     gGlobals.scrollLocation[1] = -5;
     sub->scrollSpeed = -26.0f;
-    if (bVar4) {
+    if (notCombat) {
       Borg7_SetAnimation(sub->borg7,0x16);
       goto LAB_80035e34;
     }
@@ -132,7 +132,7 @@ LAB_80035e34:
   this->fadeOut = bigAssOpenCallback_1;
   this->fadeIn = bigAssOpenCallback;
   if (bVar3) this->fadeOut = PauseMenuClose2;
-  else if (!bVar4) this->fadeIn = PauseMenuClose1;
+  else if (!notCombat) this->fadeIn = PauseMenuClose1;
   PlayAudioSound(&gGlobals.SFXStruct,borg12,0,1.0,0x3c,0);
   return Controller::GetDelay(0);
 }
@@ -149,7 +149,7 @@ void PauseWidget::bigAssOpenCallback_2(){
   N64PRINT(gGlobals.text);
   switch(sub->PauseMenuSection){
     case 0:
-    borg12 = Menu_Scroll;
+    borg12 = 0x074e;
     if (!bVar2) {
 LAB_800360bc:
       Borg7_SetAnimation(sub->borg7,11);
@@ -157,14 +157,14 @@ LAB_800360bc:
     }
     break;
     case 1:
-        borg12 = Menu_Scroll;
+        borg12 = 0x074e;
     if (!bVar2) {
       Borg7_SetAnimation(sub->borg7,19);
       goto LAB_800360dc;
     }
     break;
     case 2:
-        borg12 = Menu_open;
+        borg12 = 0x074d;
     if (!bVar2) {
       goto LAB_800360bc;
     }

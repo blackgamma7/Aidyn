@@ -318,7 +318,7 @@ play_sound:
     PlayAudioSound(&gGlobals.SFXStruct,borg12,0,gGlobals.VolSFX,300,0);
     break;
   case B13Com_Shop:
-    shop_func();
+    InitShop();
     uVar10 = 7;
     goto LAB_80057628;
   case B13Com_Battle:

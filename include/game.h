@@ -22,7 +22,7 @@ void player_control_func(controller_aidyn *);
 void small_debug_menu_check(controller_aidyn *);
 void Ofunc_80025724(void (*param_1)(u32),u32 param_2);
 bool GetSnapshot_();
-void some_flycam_dat_func(flycamStruct *,Camera_struct *,vec3f *,vec3f *);
+void Flycam_UpdateCamera(flycamStruct *,Camera_struct *,vec3f *,vec3f *);
 Gfx * draw_hud_elements(Gfx *);
 Gfx * zoneEngine_debug(Gfx *,u8);
 void TickGameTime(byte );

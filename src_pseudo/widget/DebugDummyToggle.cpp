@@ -4,14 +4,18 @@
 #include "globals.h"
 
 #ifdef DEBUGVER
-void debug_placebo_toggle(void) {
+u32 unused_bitfeild=0xFFFFFFAE;
+WidgetDebugDummyToggle* PTR_800e61e4=NULL;
+char* sDummyToggleStrings[2]={"On","Off"};
+
+void OpenUnusedDebugToggle(void) {
   PTR_800e61e4 = new WidgetDebugDummyToggle();
   WHANDLE->AddWidget(PTR_800e61e4);
-  freeWidgetFunc = change_some_debug_settings;
+  freeWidgetFunc = SetUnusedDebugToggle;
 }
 
 
-void change_some_debug_settings(BaseWidget *w) {
+void SetUnusedDebugToggle(BaseWidget *w) {
   if (w == PTR_800e61e4) {
     freeWidgetFunc = NULL;
     WHANDLE->FreeWidget(w);
@@ -30,7 +34,7 @@ WidgetDebugDummyToggle::WidgetDebugDummyToggle():WidgetMenu(){
     scrollMenu = Utilities::AddScrollMenu(this,0xd,0x14,0x14,0x14,0x14,SCREEN_WIDTH,SCREEN_HEIGHT,0xe1,0xe1,0xe1,0xff,0);
     for(u8 i=0;i<13;i++) {
       Gsprintf("%s - %s",debug_switch_labels[i],
-                  On_or_off_strings[(unused_bitfeild & 1 << (i & 0x1f)) == 0]);
+                  sDummyToggleStrings[(unused_bitfeild & 1 << (i & 0x1f)) == 0]);
       WidgetText* entry = new WidgetText(gGlobals.text,30);
       entry->varU16 = i;
       scrollMenu->Append(entry);
@@ -58,7 +62,7 @@ u8 WidgetDebugDummyToggle::Tick(){
   WSMSub *sub = (WSMSub*)scrollMenu->substruct;
   for (u8 i=0;i<13;i++) {
     sprintf(Utilities::GetWidgetText(sub->items[i]),"%s - %s",debug_switch_labels[i],
-                On_or_off_strings[(unused_bitfeild & 1 << (i & 0x1f)) == 0]);}
+                sDummyToggleStrings[(unused_bitfeild & 1 << (i & 0x1f)) == 0]);}
   return WidgetMenu::Tick();
 }
 #endif

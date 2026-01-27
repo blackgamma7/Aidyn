@@ -41,7 +41,7 @@ u8 EnvPropBools[][2]={{0,0},{1,0},{1,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0
    {0,0},{0,0},{0,0},{0,0},{0,1},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
 #ifdef DEBUGVER
 u16 voxel_index_number=0;
-u16 voxel_index_timer=0;
+s16 voxel_index_timer=0;
 voxelObject* voxel_index_pointer=NULL;
 #else
 u16 retailTpFlag=0;
@@ -58,7 +58,7 @@ void checking_camping_safety();
 void dialoug_ref_obj_func();
 void SetWidgetBounds(BaseWidget *w,u16 x0,u16 y0,u16 x1,u16 y1);
 u8 isCampfireScene(u32 b13ID);
-u8 some_dialoug_short_lookup(u16 flag);
+u8 Camp_CheckDialougFlags(u16 flag);
 void campfire_func();
 
 //ZoneEngine.cpp 
@@ -75,7 +75,7 @@ void set_teleport_pointer(voxelObject *param_1);
 void set_teleport_obj_A(u16 mapA,u16 Short1,u16 Short2,vec3f *pos);
 void set_teleport_obj_loadgame(u16 mapA,u16 Short1,u16 Short2,vec3f *pos);
 void check_trigger(collisionSphere *param_1,borg9_phys *param_2);
-void init_some_map_data(ZoneDat *dat,s16 i,char j);
+void SetZoneDatIndex(ZoneDat *dat,s16 i,char j);
 void FUN_8000d744();
 void Zonedat_clear(ZoneDat *param_1,s16 param_2,s16 param_3);
 void ofunc_zoneengine_free();

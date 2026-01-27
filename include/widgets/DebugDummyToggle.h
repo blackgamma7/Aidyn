@@ -14,9 +14,4 @@ class WidgetDebugDummyToggle:public WidgetMenu{
     u8 Tick();
 };
 
-u32 unused_bitfeild=0xFFFFFFAE;
-WidgetDebugDummyToggle* PTR_800e61e4=NULL;
-char* On_or_off_strings[2]={"On","Off"};
-
-void debug_placebo_toggle();
-u32 change_some_debug_settings(BaseWidget *param_1);
+void OpenUnusedDebugToggle();

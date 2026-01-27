@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "game.h"
 #include "vobjects.h"
 #include "voxelChart.h"
 #include "shopdb.h"
@@ -17,7 +17,7 @@ void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapSho
     BORG13_GoblinAmbush,FLAG_GoblinAmbush,BORG13_LugashIntro,FLAG_LugashFight,-1,-1};
 
   if (dialougemode_pointer == NULL) {
-    get_some_borg13(BorgID);
+    LoadDialougBorg(BorgID);
     for (iVar5 = 0; uStack104[iVar5] != 0xffff; iVar5 += 2) {
       if (BorgID == uStack104[iVar5]) {
         gGlobals.EncounterDat.EncounterID = uStack104[iVar5 + 1];
@@ -25,13 +25,9 @@ void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapSho
       }
     }
     if (dialougmode_struct_init(BorgID,RefPointID,MapDatA,MapShortA,MapShortB,param_6)) {
-      uVar4 = 0;
-      if (borg_13_pointer->dat->CmdCount != 0) {
-        do {
-          DialougInsertPlayerName(get_borg_13_text(borg_13_pointer->dat,(u8)uVar4));          
-          some_string_func(get_borg_13_text(borg_13_pointer->dat,(u8)uVar4));
-          uVar4 += 1;
-        } while (uVar4 < borg_13_pointer->dat->CmdCount);
+      for(uVar4 = 0;uVar4<borg_13_pointer->dat->CmdCount;uVar4++){
+        DialougInsertPlayerName(get_borg_13_text(borg_13_pointer->dat,(u8)uVar4));          
+        some_string_func(get_borg_13_text(borg_13_pointer->dat,(u8)uVar4));
       }
       (*dialougemode_pointer->funcs0[dialougemode_pointer->func_index])();
       sprintf(gGlobals.text,"Dialog #%d\n",dialougemode_pointer->borg13_dat->ID);
@@ -339,7 +335,7 @@ void init_skill_trainer(){
   }
 }
 
-void shop_func(){
+void InitShop(){
   ItemID keep = set_shopkeep();
   if (keep) {
     GenericInventory *inv = new GenericInventory();
@@ -470,7 +466,7 @@ void get_dialougemode_funcs()
 
 void NOOP_80058dc8(){}
 
-void get_some_borg13(u32 param_1){
+void LoadDialougBorg(u32 param_1){
   borg_13_pointer = get_borg13(param_1);
   if (borg_13_pointer == NULL)
     gGlobals.EncounterDat.EncounterID = 0;
@@ -727,7 +723,7 @@ void FUN_80059888(){
   Actor::SetFlag(ppVar1,ACTOR_800);
   gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
              &dialougemode_pointer->inst,0,0);
-  clear_some_playerHandler_field();
+  ClearPlayerCamFocus();
   Camera::SetFeild70(PHANDLE.camera,&(ppVar1->collision).pos);
 }
 
@@ -800,7 +796,7 @@ void FUN_800599f0(){
   }
   if (ppVar2) {
     Actor::UnsetFlag(ppVar2,ACTOR_800);
-    clear_some_playerHandler_field();
+    ClearPlayerCamFocus();
     GiveCameraToPlayer(ppVar2);
   }
   dialougmode_free();

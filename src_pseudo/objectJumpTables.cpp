@@ -9,6 +9,8 @@
 //keeps coming up, return value unused. could be removed?
 #define UnkVoxelFlagCheck getEventFlag(FLAG_VoxelCheckUNK)
 
+#define VoxelIndex(v) (u16)(((uintptr_t)v - (uintptr_t)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) /sizeof(voxelObject))
+
 
 extern voxelObject* GetVoxelFromObjectLink(Borg9Data*,voxelObject*,u16);
 
@@ -29,7 +31,7 @@ void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9Data *param_3
 void play_countainer_sound(voxelObject* param_1,Borg9Data *param_2){
                            //chest,bag, box, barrel, herb, spice, gem, misc
   u32 containerSounds [8]={0x729,0x72A,0x72B,0x72C,0x729,0x729,0x729,0x729};
-  PLAYSFX(containerSounds[(param_1->container).LootType],0,gGlobals.VolSFX,0xb4,0);
+  PLAYSFX(containerSounds[(param_1->container).LootType],0,gGlobals.VolSFX,180,0);
   replace_container_voxel(param_1,1,param_2);
 }
 
@@ -121,9 +123,8 @@ void get_loot_reagent(voxelObject* v,container_Dat * cont){
   voxelObject *a = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene);
   if (a) SetVoxelActive(a,false);
   if (exploding_container_check(v,gGlobals.gameVars.borg9DatPointer)) {
-    passto_WriteTo_VoxelChart((s16)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) * 0x684bda13
-                      >> 2),gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
-               gGlobals.gameVars.mapShort2,ZoneCenter,*(u8 *)((int)&(v->header).type + 1),10);
+    passto_WriteTo_VoxelChart(VoxelIndex(v),gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
+               gGlobals.gameVars.mapShort2,ZoneCenter,(v->header).type,10);
   }
   GenericInventory * pGVar1 = new GenericInventory();
   pGVar1->AddItem(gItemDBp->Gear[LootReagentIDs[cont->LootType]].ID,quant);
@@ -149,8 +150,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
   s16 aIStack96 [6] [2];
   
   contP = &v->container;
-  psVar4 = some_ref_obj_lookup_func((s16)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) *
-                              /*?!?*/0x684bda13 >> 2),(char)gGlobals.gameVars.mapDatA,
+  psVar4 = some_ref_obj_lookup_func(VoxelIndex(v),(char)gGlobals.gameVars.mapDatA,
                       (u8)gGlobals.gameVars.mapShort1,(u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)v->header.type);
 
   if (((container_open_check((v->container).openFlag)) || (psVar4)) ||
@@ -209,8 +209,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
         aIStack96[uVar10][1] = 1;
       }
       if ((!container_explode_check((v->container).explodeFlag)) && (!container_open_check((v->container).openFlag))) {
-        passto_WriteTo_VoxelChart((s16)(((int)v - (int)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) *
-                           /*?!?*/0x684bda13 >> 2),(char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
+        passto_WriteTo_VoxelChart(VoxelIndex(v),(char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
                    (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)v->header.type,10);
       }
       if (!uVar8) { //no items, just money.
@@ -338,8 +337,7 @@ u8 scene_object_check(voxelObject *v,Borg9Data* map){
 u8 exploding_container_sub(voxelObject* v,Borg9Data *arg1){
   
   if (!(trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,VOXEL_CheckFlagC)) ||
-     (some_ref_obj_lookup_func((s16)(((int)v - (int)arg1->voxelObjs)
-                            * 0x684bda13 >> 2),/*?!?*/
+     (some_ref_obj_lookup_func((u16)(((int)v - (int)arg1->voxelObjs)/ sizeof(voxelObject)),
                           gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
                           (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(v->header).type)))
     return false;
@@ -359,9 +357,9 @@ u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
     if ((Treasure_Misc < uVar1) || (uVar1 < Treasure_Herb)) {
       SetVoxelActive(a,true);
       SetVoxelActive(param_1,true);
-      psVar2 = some_ref_obj_lookup_func((s16)(((int)param_1 - (int)param_2->voxelObjs) * 0x684bda13 >> 2),
+      psVar2 = some_ref_obj_lookup_func((u16)(((uintptr_t)param_1 - (uintptr_t)param_2->voxelObjs) /sizeof(voxelObject)),
                           (char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
-                          (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(param_1->header).type);;
+                          (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(param_1->header).type);
       if ((container_open_check((param_1->container).openFlag)) || (psVar2 != NULL)) {
         replace_container_voxel(param_1,1,param_2);
         *(u16 *)(param_1->container).LockLV = 0;
@@ -455,21 +453,19 @@ u8 container_obj_check(voxelObject* v,playerData *arg1){
   return ret;}
 
 u8 Ofunc_80014ba0(voxelObject *v,vec3f *arg1){
-  u8 uVar1;
-  
-  uVar1 = 0;
+  u8 uVar1 = 0;
   if (Vec3Dist(&v->header.pos,arg1) <= (v->header).size) {
     uVar1 = trigger_event_flag_check((v->header).flagA,(v->header).Bitfeild,0x100);
   }
   return uVar1;}
 
-u8 some_gamestate_check_B(voxelObject* v,playerData *arg1,u8 istrue){
-  if ((istrue) &&(Vec3Dist(&v->header.pos,&(arg1->collision).pos) >(v->header).size)) {return false;}
+u8 Teleporter_DistCheck(voxelObject* v,playerData *arg1,u8 checkDist){
+  if ((checkDist) &&(Vec3Dist(&v->header.pos,&(arg1->collision).pos) >(v->header).size)) return false;
   checkCheat(check);
   return trigger_event_flag_check((v->header).flagA,(v->header).Bitfeild,0x100) != false;
 }
 
-u8 teleporter_obj_check(voxelObject* v,playerData *arg1){return some_gamestate_check_B(v,arg1,true);}
+u8 teleporter_obj_check(voxelObject* v,playerData *arg1){return Teleporter_DistCheck(v,arg1,true);}
 
 u8 monsterparty_obj_check(voxelObject* v){
   checkCheat(check);
@@ -536,7 +532,7 @@ BaseWidget* secretdoor_widget_AB(BaseWidget* param_1,BaseWidget *param_2){
 BaseWidget * TrekTextPopup(char *txt){
   Color32 col1={COLOR_OFFWHITE};
   Color32 col2={COLOR_DARKGRAY};
-  gGlobals.playerCharStruct.text_window = some_textbox_func(txt,0x96,&col1,&col2,1);
+  gGlobals.playerCharStruct.text_window = TextBox_Centered(txt,0x96,&col1,&col2,1);
   (gGlobals.playerCharStruct.text_window)->AButtonFunc = textbox_func_AB;
   (gGlobals.playerCharStruct.text_window)->BButtonFunc = textbox_func_AB;
   (gGlobals.playerCharStruct.text_window)->CDownButtonFunc = NULL;

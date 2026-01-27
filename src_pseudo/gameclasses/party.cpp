@@ -692,7 +692,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
       }
     }
   }
-  some_textbox_func(pcVar13,0x96,pCVar14,pCVar15,true);
+  TextBox_Centered(pcVar13,0x96,pCVar14,pCVar15,true);
   return true;
 }
 
@@ -869,7 +869,7 @@ s32 Party::DiplomatCheck(){
   uVar3 = uVar3 * 3 + uVar9 * 10 + 50;
   uVar4 = RollD(1,100);
   if (uVar4 < uVar3) {
-    uVar8 = some_skillcheck_calc(uVar3 - uVar4);
+    uVar8 = SkillCheck(uVar3 - uVar4);
     iVar5 = (int)(char)uVar8;
   }
   else iVar5 = 0;
@@ -897,7 +897,7 @@ s32 Party::LoremasterCheck(){
   }
   s32 total = bestInt * 3 + partySkill * 6;
   u16 rand = RollD(1,100);
-  if (rand < total) return some_skillcheck_calc((total - rand));
+  if (rand < total) return SkillCheck((total - rand));
   else return 0;
 }
 
@@ -914,7 +914,7 @@ u32 Party::UnusedLoremasterCheck(){
     if (!pCVar1) return 0;
     uVar5 = ((pCVar1->Skills->getModdedSkill(SKILL_Loremaster)) * 3 + CharStats::getModded(pCVar1->Stats,STAT_INT) & 0x7fff) * 2;
     uVar3 = RollD(1,100);
-    if (uVar3 < uVar5) return some_skillcheck_calc((uVar5 - uVar3));
+    if (uVar3 < uVar5) return SkillCheck((uVar5 - uVar3));
   }
   return 0;
 }
@@ -938,7 +938,7 @@ u8 Party::ArmorCraftCheck(u8 param_2){//used in armor craft
     uVar8 = (cVar5 * 5 + iVar2 + iVar3 & 0x7fffU) * 2;
     uVar4 = RollD(1,100);
     if (uVar4 < uVar8) {
-      uVar6 = some_skillcheck_calc((uVar8 - uVar4));
+      uVar6 = SkillCheck((uVar8 - uVar4));
       uVar4 = 5 - (s32)cVar5;
       FLOOR(uVar4,1);
       if (uVar4 <= CharStats::getModded(pCVar1->Stats,STAT_STAM)) {
@@ -970,7 +970,7 @@ u32 Party::UnusedMechanicCheck(u8 param_2){
     uVar8 = (cVar5 * 5 + iVar2 + iVar3 & 0x7fffU) * 2;
     uVar4 = RollD(1,100);
     if (uVar4 < uVar8) {
-      uVar6 = some_skillcheck_calc((uVar8 - uVar4));
+      uVar6 = SkillCheck((uVar8 - uVar4));
       uVar4 = 0xfU - (s32)cVar5 & 0xffff;
       uVar7 = 0;
       if ((s32)uVar4 <= CharStats::getModded(pCVar1->Stats,STAT_STAM)) {
@@ -1056,7 +1056,7 @@ u8 Party::AmbushDamage(){
       uVar9 = iVar2 * 3 + uVar5 * 10;
       uVar4 = RollD(1,100);
       if (uVar4 < uVar9) {
-        uVar7 = some_skillcheck_calc((uVar9 - uVar4));
+        uVar7 = SkillCheck((uVar9 - uVar4));
         uVar5 = 5 - uVar5;
         if ((s32)uVar5 < 1) uVar5 = 1;
         iVar2 = CharStats::getModded(pCVar1->Stats,STAT_STAM);
@@ -1102,7 +1102,7 @@ u32 Party::UnusedRangerCheck(){
     uVar7 = iVar2 * 3 + uVar7 * 10 & 0xffff;
     uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
-      return some_skillcheck_calc((uVar7 - uVar3));
+      return SkillCheck((uVar7 - uVar3));
     }
   }
   return 0;
@@ -1139,7 +1139,7 @@ u8 Party::UnusedRangerCheck3(){
     uVar7 = CharStats::getModded(this->Members[uVar3]->Stats,STAT_INT) * 3 + uVar7 * 10;
     uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
-      return some_skillcheck_calc((uVar7 - uVar3));
+      return SkillCheck((uVar7 - uVar3));
     }
   }
   return 0;
@@ -1159,7 +1159,7 @@ u8 Party::GetMemberRangerIntStam(u8 param_2){
     u16 uVar7 = CharStats::getModded(pCVar1->Stats,STAT_INT) * 3 + pCVar1->Skills->getModdedSkill(SKILL_Ranger) * 10 + CharStats::getModded(pCVar1->Stats,STAT_STAM);
     uVar4 = RollD(1,100);
     if (uVar4 < uVar7) {
-      uVar6 = some_skillcheck_calc((uVar7 - uVar4));
+      uVar6 = SkillCheck((uVar7 - uVar4));
     }
     else uVar6 = 0;
   }
@@ -1182,7 +1182,7 @@ s32 l=0;
   }
   i = RollD(1,100);
   if ((s32)i < l) 
-    ret = some_skillcheck_calc((l - i));
+    ret = SkillCheck((l - i));
   else ret = 0;
   return ret;
 }
@@ -1204,7 +1204,7 @@ u8 Party::DisarmDamageUnused(u32 param_2){
     uVar7 = iVar2 * 4 + cVar4 * 10;
     uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
-      uVar5 = some_skillcheck_calc((uVar7 - uVar3));
+      uVar5 = SkillCheck((uVar7 - uVar3));
       uVar3 = 10 - (s32)cVar4;
       FLOOR(uVar3,1);
       if ((s32)(uVar3) <= CharStats::getModded(pCVar1->Stats,STAT_STAM)) {
@@ -1233,7 +1233,7 @@ u8 Party::DisarmDamage(u8 param_2){
     uVar7 = CharStats::getModded(pCVar1->Stats,STAT_INT) * 4 + cVar4 * 10;
     uVar3 = RollD(1,100);
     if (uVar3 < uVar7) {
-      uVar5 = some_skillcheck_calc((uVar7 - uVar3));
+      uVar5 = SkillCheck((uVar7 - uVar3));
       uVar3 = 10 - (s32)cVar4;
       FLOOR(uVar3,1);
       uVar6 = 0;
@@ -1263,7 +1263,7 @@ s32 best=0;
   }
   i = RollD(1,100);
   if (i < best) 
-    ret = some_skillcheck_calc((best - i));
+    ret = SkillCheck((best - i));
   else ret = 0;
   return ret;
 }
@@ -1292,7 +1292,7 @@ u8 Party::TroubadourCheck(){
       uVar6 = uVar2 + CharStats::getModded(this->Members[uVar7]->Stats,STAT_DEX) * 3;
       uVar2 = RollD(1,100);
       if (uVar2 < uVar6) {
-        uVar4 = some_skillcheck_calc((uVar6 - uVar2));
+        uVar4 = SkillCheck((uVar6 - uVar2));
       }
       else uVar4 = 0;
     }
@@ -1317,7 +1317,7 @@ u8 Party::GetMemberWarriorIntStam(u8 param_2){
     iVar3 = CharStats::getModded(pCVar1->Stats,STAT_STAM);
     uVar7 = iVar2 + cVar5 * 7 + iVar3;
     uVar4 = RollD(1,100);
-    if (uVar4 < uVar7) uVar6 = some_skillcheck_calc((uVar7 - uVar4));
+    if (uVar4 < uVar7) uVar6 = SkillCheck((uVar7 - uVar4));
     else uVar6 = 0;
   }
   return uVar6;
@@ -1340,7 +1340,7 @@ void healing_result_widget(char *txt){
   else {
     col1 = {COLOR_OFFWHITE};
     col2 = {COLOR_DARKGRAY_T};
-    PTR_800ed504 = some_textbox_func(txt,0x96,&col1,&col2,true);
+    PTR_800ed504 = TextBox_Centered(txt,0x96,&col1,&col2,true);
     PTR_800ed504->AButtonFunc = healing_widget_AB_func;
     PTR_800ed504->BButtonFunc = healing_widget_AB_func;
     PTR_800ed504->CDownButtonFunc = NULL;
@@ -1444,7 +1444,7 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
         uVar8 = RollD(1,100);
         Gsprintf(gGlobals.CommonStrings[0x1b6],ent->name);
         if ((s16)uVar8 < skillMod) {
-          Entity::addHP(pCVar1,some_skillcheck_calc((skillMod - (s16)uVar8)));
+          Entity::addHP(pCVar1,SkillCheck((skillMod - (s16)uVar8)));
           skillMod =(Entity::getHPCurrent(pCVar1) - uVar4);
           if (skillMod) {
             Gsprintf(Cstring(HealMenuHealBy),ent->name,pCVar1->name,skillMod)
@@ -1493,7 +1493,7 @@ char * Party::HealingFunc2(u8 param_2,u8 param_3,u8 param_4){
         uVar8 = RollD(1,100);
         Gsprintf(gGlobals.CommonStrings[0x1b6],pCVar1->name);
         if ((s32)uVar8 < iVar5) {
-          iVar5 = some_skillcheck_calc(iVar5 - uVar8);
+          iVar5 = SkillCheck(iVar5 - uVar8);
           iVar10 = iVar5*2;
           iVar5 = CharStats::getModded(pCVar2->Stats,arg1);
           if (CharStats::getBase(pCVar2->Stats,arg1) < iVar5 + iVar10) {
@@ -1538,7 +1538,7 @@ u32 Party::CraftPotion(u8 user,u8 item){
     s16 roll = RollD(1,100);
     if (roll < vsRoll) {
       //"unk2" is 0 for all recipies
-      if (recepie->unk2 <= some_skillcheck_calc(vsRoll - roll)) {
+      if (recepie->unk2 <= SkillCheck(vsRoll - roll)) {
         u32 ret =this->Inventory->AddItem(IDPotion(item),1);
         if(!ret) return 0;
         else {
@@ -1640,7 +1640,7 @@ u8 Party::UnusedMechanic4(u8 param_2){
   uVar8 = (CharStats::getModded(pCVar1->Stats,STAT_STR) + CharStats::getModded(pCVar1->Stats,STAT_DEX)) * 2 + 10 + cVar5 * 6;
   uVar4 = RollD(1,100);
   if (uVar4 < uVar8) {
-    uVar6 = some_skillcheck_calc((uVar8 - uVar4));
+    uVar6 = SkillCheck((uVar8 - uVar4));
     uVar4 = cVar5 * -2 + 0x19;
     if ((s32)uVar4 < 1) {uVar4 = 1;}
     iVar2 = CharStats::getModded(pCVar1->Stats,STAT_STAM);
@@ -2012,7 +2012,7 @@ u32 Party::AlchemistCheck(){
     pCVar1 = this->Members[cVar4];
     iVar2 = CharStats::getModded(pCVar1->Stats,STAT_INT);
     cVar4 = pCVar1->Skills->getModdedSkill(SKILL_Alchemist);
-    return some_skillcheck_calc((s32)((RollD(1,100) - (iVar2 * 3 + cVar4 * 6)) * 0x10000) >> 0x10);
+    return SkillCheck((s32)((RollD(1,100) - (iVar2 * 3 + cVar4 * 6)) * 0x10000) >> 0x10);
   }
 }
 
@@ -2024,7 +2024,7 @@ u32 Party::HealerCheck(){
   if (cVar4 == -1)  return 0;
   else {
     pCVar1 = this->Members[cVar4];
-    return some_skillcheck_calc(RollD(1,100) - 
+    return SkillCheck(RollD(1,100) - 
       (CharStats::getModded(pCVar1->Stats,STAT_INT) * 3 + pCVar1->Skills->getModdedSkill(SKILL_Healer) * 10));
   }
 }
@@ -2037,7 +2037,7 @@ u32 Party::MechanicCheck(){
     s8 iVar2 = CharStats::getModded(pCVar1->Stats,STAT_INT);
     s8 iVar3 = CharStats::getModded(pCVar1->Stats,STAT_DEX);
     s8 cVar4 = pCVar1->Skills->getModdedSkill(SKILL_Mechanic);
-    return some_skillcheck_calc(((RollD(1,100) - (cVar4 * 5 + iVar2 + iVar3 & 0x7fffU) * -2)));
+    return SkillCheck(((RollD(1,100) - (cVar4 * 5 + iVar2 + iVar3 & 0x7fffU) * -2)));
   }
 }
 
@@ -2059,7 +2059,7 @@ u32 Party::MerchantCheck(){
   i = 0;
   if (cVar4 != -1)
     i = this->Members[cVar4]->Skills->getModdedSkill(SKILL_Merchant);
-  return some_skillcheck_calc((RollD(1,100) - (uVar3 * 3 + i * 10)));
+  return SkillCheck((RollD(1,100) - (uVar3 * 3 + i * 10)));
 }
 
 //dialouge Ranger Skill Check
@@ -2071,7 +2071,7 @@ u32 Party::RangerCheck(){
   r = 0;
   if (sVar2 != -1)
     r = this->Members[sVar2]->Skills->getModdedSkill(SKILL_Ranger);
-  return  some_skillcheck_calc(RollD(1,100) - (r * 10 + 0x50));
+  return  SkillCheck(RollD(1,100) - (r * 10 + 0x50));
 }
 
 
@@ -2091,7 +2091,7 @@ u32 Party::ThiefCheck(){
     pCVar1 = this->Members[cVar4];
     iVar2 = CharStats::getModded(pCVar1->Stats,STAT_INT);
     cVar4 = pCVar1->Skills->getModdedSkill(SKILL_Theif);
-    return some_skillcheck_calc(RollD(1,100) - (iVar2 * 4 + cVar4 * 10));
+    return SkillCheck(RollD(1,100) - (iVar2 * 4 + cVar4 * 10));
   }
 }
 
@@ -2104,7 +2104,7 @@ u32 Party::WarriorCheck(){
   cVar5 = GetMostSkilledMember(SKILL_Warrior);
   if (cVar5 == -1) return 0;
     pCVar1 = this->Members[cVar5];
-    return some_skillcheck_calc(RollD(1,100) - 
+    return SkillCheck(RollD(1,100) - 
     (CharStats::getModded(pCVar1->Stats,STAT_INT) + pCVar1->Skills->getModdedSkill(SKILL_Warrior) * 7 + CharStats::getModded(pCVar1->Stats,STAT_STAM)));
 }
 
@@ -2114,7 +2114,7 @@ u32 Party::WizardCheck(){
   
   cVar4 = GetMostSkilledMember(SKILL_Wizard);
   if (cVar4 == -1) return 0;
-  return some_skillcheck_calc((RollD(1,100) + 
+  return SkillCheck((RollD(1,100) + 
   (pCVar1->Skills->getModdedSkill(SKILL_Wizard) * 5 + CharStats::getModded(pCVar1->Stats,STAT_INT) & 0x7fffU) * -2));
 }
 

@@ -40,7 +40,7 @@ u8 some_dialouge_trigger_check(voxelObject *v,Borg9Data*map);
 u8 savepoint_appear_check(voxelObject *v,Borg9Data*map);
 u8 container_obj_check(voxelObject* v,playerData *arg1);
 u8 Ofunc_80014ba0(voxelObject *v,vec3f *arg1);
-u8 some_gamestate_check_B(voxelObject* v,playerData *arg1,u8 istrue);
+u8 Teleporter_DistCheck(voxelObject* v,playerData *arg1,u8 istrue);
 u8 teleporter_obj_check(voxelObject* v,playerData *arg1);
 u8 monsterparty_obj_check(voxelObject* v,playerData *arg1);
 u8 trigger_obj_check_prox(voxelObject *v,playerData *arg1,u8 param_3);

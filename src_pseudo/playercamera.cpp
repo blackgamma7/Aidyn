@@ -23,7 +23,7 @@ void passto_camera_init(Camera_struct *cam,Borg9Data *map,vec3f *pos,u16 dat){
   gGlobals.gameVars.camPtrArraySize = 0;
 }
 
-void clear_some_playerHandler_field(void){
+void ClearPlayerCamFocus(void){
   PHANDLE.cameraFocus = -1;
 }
 
@@ -31,7 +31,7 @@ void FUN_80019ccc(playerData *param_1){
   if ((param_1->flags & ACTOR_ISPLAYER) != 0) {
     Actor::UnsetFlag(param_1,ACTOR_ISPLAYER);
     PHANDLE.cameraFocus = -1;
-    clear_some_playerHandler_field();
+    ClearPlayerCamFocus(); //redundant?
   }
 }
 
@@ -280,11 +280,11 @@ ScriptCam * AllocScriptCamera(ScriptCamera_struct *param_1,u16 param_2){
 
 void freeScriptCamera(ScriptCamera_struct *param_1,ScriptCam *param_2){
   if (param_2->active) {
-    if ((param_2->flag & 1)) clear_some_playerHandler_field();
+    if ((param_2->flag & 1)) ClearPlayerCamFocus();
     param_1->cameraIndecies[--param_1->cameraCount] = param_2->index;
     param_2->active = false;
     if (((param_2->flag & 2)) && (param_1->cameraCount == 0)) {
-      clear_some_playerHandler_field();
+      ClearPlayerCamFocus();
     }
   }
 }

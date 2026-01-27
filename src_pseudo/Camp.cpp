@@ -13,7 +13,7 @@ void dialoug_ref_obj_func(void){
     for(s16 i=0;i<(gGlobals.gameVars.borg9DatPointer)->voxelObjCount;i++){
       voxelObject* vObj = &(gGlobals.gameVars.borg9DatPointer)->voxelObjs[i];
       if ((((vObj->header).type == VOXEL_Dialouge) &&
-          (some_dialoug_short_lookup((vObj->header).flagA))) &&
+          (Camp_CheckDialougFlags((vObj->header).flagA))) &&
          (dialouge_trigger_check(vObj,&gPlayer->collision.pos,false))) {
         dialoug_func((vObj->dialoug).borg_13,(vObj->dialoug).RefPointID,(vObj->dialoug).MapDatA,
                      (vObj->dialoug).MapShortA,(vObj->dialoug).MapShortB,0x7fff);
@@ -26,7 +26,7 @@ void dialoug_ref_obj_func(void){
   setEventFlag(0x1090,false);
   return;
 }
-//same as BaseWidget::SetSomeBounds()
+//same as BaseWidget::SetBounds()
 void SetWidgetBounds(BaseWidget *w,u16 x0,u16 y0,u16 x1,u16 y1){
   w->boundX0 = x0;
   w->boundY0 = y0;
@@ -47,7 +47,7 @@ u8 isCampfireScene(u32 b13ID){
 }
 u16 dialoug_voxel_flagAs[9]={0x13c0,0x141e,0x141f,0x1422,0x1423,0x142b,0x1447,0x1393,-1};
 
-u8 some_dialoug_short_lookup(u16 flag){
+u8 Camp_CheckDialougFlags(u16 flag){
   u16* x= dialoug_voxel_flagAs;
   while(*x!=-1){
     if(*x==flag) return true;

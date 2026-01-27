@@ -53,16 +53,16 @@ u8 SMStatItem::Tick() {
   if (this->statName) {
     if(this->unk80) {
       this->unk80->SetCoords(this->posX,this->posY);
-      this->unk80->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+      this->unk80->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       this->unk80->col.A = this->col.A;
     }
     if(this->modDiff){
       this->modDiff->SetCoords(this->posX + 100,this->posY);
-      this->modDiff->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+      this->modDiff->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       this->modDiff->col.A = this->col.A;
     }
     this->baseLevel->SetCoords(this->posX + 0x4f,this->posY);
-    this->baseLevel->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+    this->baseLevel->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
     this->baseLevel->col.A = this->col.A;
     this->unk92 = this->posX + 0x8c;
     this->unk90 = this->posX;
@@ -70,7 +70,7 @@ u8 SMStatItem::Tick() {
     //this seems redundant - overwritten 2 lines later.
     Utilities::SetTextWidgetBoundsX(this->statName,this->unk90,this->unk92);
     this->statName->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
-    this->statName->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+    this->statName->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
   }
   return TickChildren();
 }

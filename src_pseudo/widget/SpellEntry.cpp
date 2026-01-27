@@ -50,22 +50,22 @@ u8 WidgetSpellEntry::Tick() {
   if (this->SpellName) {
     if (this->aspectIcon){
       this->aspectIcon->SetCoords(this->posX,this->posY);
-      this->aspectIcon->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+      this->aspectIcon->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       (this->aspectIcon->col).A = this->col.A;
     }
     if (this->SchoolIcon){
       this->SchoolIcon->SetCoords(this->posX + 0xc,this->posY);
-      this->SchoolIcon->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,
+      this->SchoolIcon->SetBounds(this->boundY0,this->boundX0,this->boundX1,
                  this->boundY1);
       (this->SchoolIcon->col).A = this->col.A;
     }
     if (this->SpellIcon){
       this->SpellIcon->SetCoords(this->posX + 0x18,this->posY);
-      this->SpellIcon->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+      this->SpellIcon->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       (this->SpellIcon->col).A = this->col.A;
     }
     this->SpelllRank->SetCoords(this->posX + 0x24,this->posY);
-    this->SpelllRank->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+    this->SpelllRank->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
     (this->SpelllRank->col).A = this->col.A;
     sVar1 = this->posX;
     y = this->posY;
@@ -75,7 +75,7 @@ u8 WidgetSpellEntry::Tick() {
     this->SpellName->SetCoords(x,y);
     Utilities::SetTextWidgetBoundsX(this->SpellName,this->unk94,this->unk96);
     this->SpellName->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
-    this->SpellName->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+    this->SpellName->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
   }
   return TickChildren();
 }

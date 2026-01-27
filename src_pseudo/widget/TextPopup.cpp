@@ -50,7 +50,7 @@ BaseWidget * TextPopup_New(char *txt,u16 x,u16 y,u8 red0,u8 green0,u8 blue0,u8 a
 }
 
 //open a centered text popup
-BaseWidget * some_textbox_func(char *txt,u16 lenMax,Color32 *txtCol,Color32 *bgCol,u32 addToHandler){  
+BaseWidget * TextBox_Centered(char *txt,u16 lenMax,Color32 *txtCol,Color32 *bgCol,u32 addToHandler){  
   u16 w = Font::GetWidth(gGlobals.font,txt);
   u16 len = lenMax;
   if (w < lenMax) len = w;

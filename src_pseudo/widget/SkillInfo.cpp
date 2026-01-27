@@ -77,23 +77,23 @@ u8 WidgetSkillInfo::Tick() {
   if (this->skillText) {
     if(this->skillIcon) {
       this->skillIcon->SetCoords(this->posX,this->posY);
-      this->skillIcon->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+      this->skillIcon->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       (this->skillIcon->col).A = this->col.A;
     }
     if(this->skillMod) {
       this->skillMod->SetCoords(this->posX + 95,this->posY);
-      this->skillMod->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+      this->skillMod->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       (this->skillMod->col).A = this->col.A;
     }
     this->skillVal->SetCoords(this->posX + 79,this->posY);
-    this->skillVal->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+    this->skillVal->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
     (this->skillVal->col).A = this->col.A;
     this->unk92 = this->posX + 140;
     this->unk90 = this->posX+12;
     this->skillText->SetCoords(this->posX+12,this->posY);
     Utilities::SetTextWidgetBoundsX(this->skillText,this->unk90,this->unk92);
     this->skillText->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
-    this->skillText->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+    this->skillText->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
   }
   return TickChildren();
 }

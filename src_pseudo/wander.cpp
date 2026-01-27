@@ -93,8 +93,8 @@ void AllocWanderer(WanderManager *param_1,s16 param_2,s32 param_3,u8 param_4){
   if ((vox->monster).borg_13) wEntry->NoBorg13 = 0;
   wEntry->MapTally = param_3;
   wEntry->playerDat = Actor::AllocPlayer(gEntityDB->GetCollideRadius((vox->monster).entityID),
-    (wEntry->start_position).x,0.0,(wEntry->start_position).y,
-  gEntityDB->GetBorg7((vox->monster).entityID));
+    wEntry->start_position.x,0.0,wEntry->start_position.y,
+    gEntityDB->GetBorg7((vox->monster).entityID));
   wEntry->playerDat->zoneDatByte = param_4;
   wEntry->playerDat->ent_ID = (vox->monster).entityID;
   (wEntry->playerDat->collision).flags |= CSPHERE_NoTriggers;

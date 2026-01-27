@@ -255,7 +255,7 @@ s32 Ofunc_get_MemUsed_difference(void);
 s32 Ofunc_get_MemUsed_difference_2(void);
 u32 rand_range(u32 A,u32 B);
 u16 RollD(u8 dice,u8 sides);
-u32 some_skillcheck_calc(s16);
+u32 SkillCheck(s16);
 void get_battle_terrain(EncounterDat *param_1);
 void battle_setup_func(voxelObject *param_1,u16 flag,u16 param_3);
 void load_camp_ambush(void);

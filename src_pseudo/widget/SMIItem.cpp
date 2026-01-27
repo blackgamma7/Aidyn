@@ -56,13 +56,13 @@ u8 SMIItem::Tick(){
     if ((this->posY < (s16)this->boundY1) &&((s16)this->boundY0 < (this->posY + 0x1c))) {
       if(this->userPortrait) {
         this->userPortrait->SetCoords(this->posX,this->posY);
-        this->userPortrait->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+        this->userPortrait->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       }
       this->ItemIcon->SetCoords(this->posX + 0xd,this->posY);
-      this->ItemIcon->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+      this->ItemIcon->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       if(this->QuantityText) {
         this->QuantityText->SetCoords(this->posX + 0x1a,this->posY);
-        this->QuantityText->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+        this->QuantityText->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       }
       s16 nx=this->posX;
       this->unkX = this->posX + 130;
@@ -71,7 +71,7 @@ u8 SMIItem::Tick(){
       this->nameX = nx;
       this->ItemName->SetCoords(this->nameX,this->posY);
       this->ItemName->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);
-      this->ItemName->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+      this->ItemName->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
     }
   }
   return TickChildren();

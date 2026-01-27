@@ -737,7 +737,7 @@ void senseAura(CombatEntity *target,u8 level){
   }
   Color32 col1 = {COLOR_OFFWHITE};
   Color32 col2 = {COLOR_DARKGRAY_T};
-  gCombatP->SenseAuraWidget = some_textbox_func(buffA,(s16)(len << 3) - (s16)len,&col1,&col2,true);
+  gCombatP->SenseAuraWidget = TextBox_Centered(buffA,(s16)(len << 3) - (s16)len,&col1,&col2,true);
 }
 
 s32 Entity::FindFreeEffect(CharSheet *param_1){
@@ -1200,7 +1200,7 @@ LAB_80079da4:
         else if (SVar1 == SpellInd_WebOfStarlight) {
           iVar3 = CharStats::getModded(chara->Stats,STAT_STR);
           uVar6 = RollD(1,100);
-          if (((iVar3 * 2) <= uVar6) ||(!some_skillcheck_calc((iVar3 * 2 - uVar6)))) {
+          if (((iVar3 * 2) <= uVar6) ||(!SkillCheck((iVar3 * 2 - uVar6)))) {
             dice = 2;
             goto LAB_80079da4;
           }

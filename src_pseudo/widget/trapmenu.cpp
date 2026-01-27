@@ -62,7 +62,7 @@ BaseWidget* TrapMenu::AttemptDisarm(BaseWidget* A,BaseWidget* B){
 void TrapMenu::TrapDisarmed(void){
   Color32 uStack144={COLOR_OFFWHITE};
   Color32 uStack80={COLOR_BLACK};
-  gGlobals.playerCharStruct.text_window =some_textbox_func(Cstring(TrapMenuSuccess),120,&uStack144,&uStack80,1);
+  gGlobals.playerCharStruct.text_window =TextBox_Centered(Cstring(TrapMenuSuccess),120,&uStack144,&uStack80,1);
   (gGlobals.playerCharStruct.text_window)->AButtonFunc = CloseMenu;
   (gGlobals.playerCharStruct.text_window)->BButtonFunc = CloseMenu;
   (gGlobals.playerCharStruct.text_window)->CDownButtonFunc = NULL;

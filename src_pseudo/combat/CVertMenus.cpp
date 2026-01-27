@@ -204,7 +204,7 @@ bool equip_has_spell(ItemInstance *item){
 BaseWidget * combat_text_No_use(char *param_1){
   Color32 colA={COLOR_OFFWHITE};
   Color32 colB={50,50,50,150};
-  BaseWidget *w = some_textbox_func(param_1,0x96,&colA,&colB,true);
+  BaseWidget *w = TextBox_Centered(param_1,0x96,&colA,&colB,true);
   w->AButtonFunc = NULL;
   w->BButtonFunc = NULL;
   w->CDownButtonFunc = NULL;

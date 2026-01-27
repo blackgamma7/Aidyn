@@ -1579,7 +1579,7 @@ s16 CombatEntity::STRTheifCheck(s16 param_2,s32 param_3,CombatEntity *target,u8 
   
   pCVar3 = this->charSheetP;
   DMG = RollD(pCVar3->weapons->damage + GetSTRSteps() * diceMulti,6);
-  iVar6 = some_skillcheck_calc(((s32)param_2 - (s32)(s16)param_3));
+  iVar6 = SkillCheck(((s32)param_2 - (s32)(s16)param_3));
   iVar6 = (DMG + ((iVar6 + CharStats::getBase(pCVar3->Stats,STAT_LV)) - target->GetSheildProtection(backStab)) +
           pCVar3->Skills->getModdedSkill(SKILL_Theif) * 2 * backStab);
   if (iVar6 < 1) iVar6 = 1;
@@ -1935,7 +1935,7 @@ u8 CombatEntity::SpellIngredientCheck(SpellInstance *param_2,s16 param_3,s16 par
   }
   else uVar5 = 3;
   if (param_3 < param_4) {
-    bVar7 = some_skillcheck_calc((param_4 - param_3));
+    bVar7 = SkillCheck((param_4 - param_3));
     bVar9 = true;
   }
   else {
@@ -1998,7 +1998,7 @@ u8 CombatEntity::UseSpellCharge(CombatEntity*x,SpellInstance *param_2,u8 param_3
     }
     Entity::DecSpellCharge(this->charSheetP);
   }
-  this->charSheetP->spellVal = some_skillcheck_calc((s16)RollD(1,100));
+  this->charSheetP->spellVal = SkillCheck((s16)RollD(1,100));
 LAB_8006d340:
   SetFlag(COMBATENT_CASTING);
   return true;
@@ -2056,7 +2056,7 @@ LAB_8006d5ac:
   uVar6 = RollD(1,100);
   bVar9 = true;
   if ((s16)uVar6 <= iVar3) {
-    lVar2 = some_skillcheck_calc((iVar3 - uVar6));
+    lVar2 = SkillCheck((iVar3 - uVar6));
     if (lVar2 < this->charSheetP->spellVal) {
       if (target->mirrorVal) {
         iVar3 = (this->charSheetP->spellVal - lVar2);
@@ -2686,8 +2686,8 @@ void CombatEntity::Troubadour(){
       else {
         s16 sVar7 = (iVar3 - uVar8);
         //(troub*5+INT*2)-rand(1,100)
-        if (some_skillcheck_calc(sVar7) < 2) bVar6 = 1;
-        else bVar6 = (u8)some_skillcheck_calc(sVar7);
+        if (SkillCheck(sVar7) < 2) bVar6 = 1;
+        else bVar6 = (u8)SkillCheck(sVar7);
         SetFlag(COMBATENT_BARD);
         UnsetFlag(COMBATENT_MEDIC);
         UnsetFlag(COMBATENT_HERBS);

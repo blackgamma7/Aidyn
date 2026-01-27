@@ -821,7 +821,7 @@ struct Borg7Header {
     struct_1 *unk1c;
     vec3f unk20;
     vec3f unk2c; //z axis used for moving playerData based on 2d normal and scale
-    Borg7AnimChache unk38;
+    Borg7AnimChache aniChache;
     Borg7Data dat;
 };
 enum Borg9GroundFlags{

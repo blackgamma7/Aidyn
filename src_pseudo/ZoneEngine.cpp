@@ -319,7 +319,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
   }
 }
 
-void init_some_map_data(ZoneDat *dat,s16 i,char j){
+void SetZoneDatIndex(ZoneDat *dat,s16 i,char j){
   CLEAR(dat);
   dat->flag = 7;
   dat->index = (char)((int)i << 4) + j;
@@ -328,7 +328,7 @@ void init_some_map_data(ZoneDat *dat,s16 i,char j){
 void FUN_8000d744(){
   for(s16 i = 0;i < 3;i++){
     for(s16 j = 0;j < 3;j++) {
-      init_some_map_data(&gGlobals.gameVars.ZoneDatMtx[i][j],(s16)i,(char)j);
+      SetZoneDatIndex(&gGlobals.gameVars.ZoneDatMtx[i][j],(s16)i,(char)j);
     }
   }
 }
@@ -427,7 +427,7 @@ void MakeGameZoneNames(u16 param_1,u16 param_2){
       gGlobals.gameVars.mapShort1 = uVar1;
       for(s16 j = 0,iVar5 = (s16)param_2 + -1,iVar3 = ((s16)param_1 + i + -1);j<3;j++,iVar5++) {
         ZoneDat *dat = &gGlobals.gameVars.ZoneDatMtx[i][j];
-        init_some_map_data(dat,(s16)i,(char)j);
+        SetZoneDatIndex(dat,(s16)i,(char)j);
         if ((iVar3 - 1U < 21) && (iVar5 - 1U < 29)) {
           dat->borg5_ID = gLoadedMapIndecies[iVar3][iVar5][0];
           dat->borg9_id = gLoadedMapIndecies[iVar3][iVar5][1];
@@ -1808,7 +1808,7 @@ void FreeZoneEngine(s16 playMusic){
   Weather::Free(&gGlobals.gameVars.weather);
   zonedat_clear_all();
   FreeScriptCameras(&gGlobals.scriptcamera);
-  clear_some_playerHandler_field();
+  ClearPlayerCamFocus();
   FreePlayerHandler();
   dynamic_lights_free_all(&gGlobals.gameVars.DynamicLights);
   FreeEnvProps();
@@ -1845,14 +1845,13 @@ void VoxelIndexPosition(s16 delta,playerData *param_2){
       "VOBJECT_TRIGGER",
       "VOBJECT_SAVEPOINT",
       "VOBJECT_CODE"};
-    uVar7 = (u32)voxel_index_timer;
-    voxel_index_timer = (u16)(uVar7 - (int)delta);
+    voxel_index_timer -= delta;
     pvVar10 = voxel_index_pointer;
-    if ((int)((uVar7 - (int)delta) * 0x10000) < 1) {
+    if (voxel_index_timer < 1) {
       ClearVoxelFlags(pBVar6);
       uVar7 = (voxel_index_number + 1) % (u32)pBVar6->voxelObjCount;
       enemyHostileFlag = 0;
-      voxel_index_timer = 0xb4;
+      voxel_index_timer = 180;
       voxel_index_number = (u16)uVar7;
       pvVar10 = pBVar6->voxelObjs + uVar7;
       Gsprintf("\n\n\nGOING to Voxel Index: %d\nType: %s\nPosition: (%3.2f, %3.2f, %3.2f)\n"

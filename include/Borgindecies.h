@@ -1507,7 +1507,7 @@
 #define BORG7_NPCMale1          0x27b0
 #define BORG7_NPCMale2          0x27c4
 #define BORG7_NPCMale3          0x27e6
-#define BORG7_Cradawgh         0x2808
+#define BORG7_Cradawgh          0x2808
 #define BORG7_Damek             0x2831
 #define BORG7_Delvin            0x2859
 #define BORG7_Darmath           0x284e

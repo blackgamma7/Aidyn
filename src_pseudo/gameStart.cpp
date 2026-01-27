@@ -77,7 +77,7 @@ Gfx * RenderFlycam(Gfx *gfx){
       gGlobals.screenFadeSpeed = 0.01f;
     }
     Scene::GetRotate(gFlycamSceneP,&pos,&rotXY,&rotZ);
-    some_flycam_dat_func(&gGlobals.gameVars.flycamDat,&gCamera,&pos,&rotXY);
+    Flycam_UpdateCamera(&gGlobals.gameVars.flycamDat,&gCamera,&pos,&rotXY);
     if (FUN_8000ccc0()) {
       FreeZoneEngineMemory();
       no_TP_vec3 = 1;

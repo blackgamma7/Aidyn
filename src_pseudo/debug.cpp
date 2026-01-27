@@ -28,7 +28,7 @@ WidgetDebugBig* WidgetDebugBigPointer=NULL;
     NULL,
     debug_clear_inventory,
     load_credits_instead,
-    debug_placebo_toggle,
+    OpenUnusedDebugToggle,
     toggle_enemies_hostile,
     toggle_only_tp_active,
     debug_accessDB,

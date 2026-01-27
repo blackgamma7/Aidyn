@@ -842,12 +842,12 @@ u8 borg7_func_b(Borg7Header *param_1,Borg7Data *param_2){
       psVar2++;
     }
   }
-  CLEAR(&param_1->unk38);
+  CLEAR(&param_1->aniChache);
   clearBorgFlag();
   Borg6Header *pBVar3 = (Borg6Header *)getBorgItem((param_1->dat).sub[0].borg6);
   bVar1 = (param_1->dat).sub[0].borg6;
   psVar2 = param_1->unk18;
-  (param_1->unk38).anis[0] = pBVar3;
+  (param_1->aniChache).anis[0] = pBVar3;
   param_1->sceneDat = NULL;
   param_1->currentAni = 0;
   param_1->prevAni = 0;
@@ -861,13 +861,13 @@ u8 borg7_func_b(Borg7Header *param_1,Borg7Data *param_2){
   (param_1->unk2c).z = 0.0;
   iVar5 = (param_1->dat).unk8;
   param_1->unk12 = 1;
-  (param_1->unk38).indecies[0] = bVar1;
+  (param_1->aniChache).indecies[0] = bVar1;
   param_1->unk1c = psVar2 + iVar5;
   return true;
 }
 void borg7_free(Borg7Header *param_1){
   for(s32 i=2;i>-1;i++) {
-    if (param_1->unk38.anis[i]) borg_6_free(param_1->unk38.anis[i]);
+    if (param_1->aniChache.anis[i]) borg_6_free(param_1->aniChache.anis[i]);
   }
   s32 memOld = get_memUsed();
   if (param_1->head.index == -1) {

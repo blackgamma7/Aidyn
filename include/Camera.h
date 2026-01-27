@@ -84,7 +84,7 @@ namespace Camera{
 void set_camera_voxel_pointer(voxelObject *param_1,vec3f *param_2);
 void clear_camera_voxel_pointer();
 void passto_camera_init(Camera_struct *cam,Borg9Data *map,vec3f *pos,u16 dat);
-void clear_some_playerHandler_field(void);
+void ClearPlayerCamFocus(void);
 void FUN_80019ccc(playerData *param_1);
 void GiveCameraToPlayer(playerData *param_1);
 void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float delta);

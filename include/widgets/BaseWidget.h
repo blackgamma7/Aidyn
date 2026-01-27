@@ -70,8 +70,8 @@ public:
     void SetWidth(u16 w);
     void SetHeight(u16 h);
     void SetBorg8(Borg8Header* b8,u8 fit);
-    void SetSomeBounds(u16 Y0,u16 X0, u16 X1, u16 Y1);
-    void GetSomeBounds(s32* Y0,s32* X0, s32* X1, s32* Y1);
+    void SetBounds(u16 Y0,u16 X0, u16 X1, u16 Y1);
+    void GetBounds(s32* Y0,s32* X0, s32* X1, s32* Y1);
     Gfx* RenderChildren(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1);
     void FreeChildren();
     u8 TickChildren();

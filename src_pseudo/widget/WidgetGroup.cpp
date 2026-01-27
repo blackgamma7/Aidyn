@@ -36,7 +36,7 @@ u8 WidgetGroup::Tick(){
     for(u16 i=0;i<this->groupCount;i++) {
         WidgetGroupItem* gi=&this->group[i];
 
-      gi->w->SetSomeBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
+      gi->w->SetBounds(this->boundY0,this->boundX0,this->boundX1,this->boundY1);
       gi->w->SetCoords(this->posX + gi->w->posX,this->posY + gi->w->posY);
       if (gi->tint){
         gi->w->SetColor(this->col.R,this->col.G,this->col.B,this->col.A);

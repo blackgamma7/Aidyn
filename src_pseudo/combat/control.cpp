@@ -74,8 +74,7 @@ void cancel_combat_action(){
 bool LZBStart_to_cancel_Turn(controller_aidyn *cont){
   bool bVar1;
 
-  if (((cont->pressed & START_BUTTON) == 0) ||
-     (bVar1 = renderTicker_GreaterThan3(gCombatP), !bVar1)) {
+  if (((cont->pressed & START_BUTTON) == 0) || (!renderTicker_GreaterThan3(gCombatP))) {
     bVar1 = false;
     if ((cont->pressed & (B_BUTTON|Z_BUTTON|L_BUTTON))) {
       cancel_combat_action();
