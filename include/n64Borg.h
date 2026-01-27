@@ -75,7 +75,7 @@ typedef enum VoxelFllags {
     VOXEL_Flag400=0x400,
     VOXEL_Flag800=0x800,
     VOXEL_Flag1000=0x1000,
-    VOXEL_tangible=0x2000, //touching voxel activates it(?)
+    VOXEL_tangible=0x2000, //touching voxel activates it
     VOXEL_Flag4000=0x4000, //unknown
     VOXEL_Active=0x8000 //map object is active/visible
 } VoxelFllags;
@@ -650,7 +650,7 @@ struct Borg5Data {
 struct CollideSection {
     u16 *collideIndecies;
     void* unk4; //offset calculated, unused(?)
-    u16 *lightIndecies;
+    u16 *voxelIndecies;
     u16 collideCount;
     u16 field4_0xe; //unused?
     u16 voxelSceneCount;

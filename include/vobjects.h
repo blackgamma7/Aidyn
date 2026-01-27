@@ -109,6 +109,8 @@ voxelObject*  AllocDynamicLight(DynamicLightHead *param_1,u16 param_2,vec3f *pos
 void FreeDynamicLight(DynamicLightHead *param_1,s16 param_2);
 void DymanicLightTimers(DynamicLightHead *param_1,s16 delta);
 
+voxelObject* GetVoxelFromObjectLink(Borg9Data*,voxelObject*,u16);
+void ProcessVoxelObjects(playerData*);
 
 typedef void (*VoxelUse)(voxelObject*,u16,u16);
 typedef u8 (*VoxelProx)(voxelObject*,playerData*);

@@ -257,7 +257,7 @@ void Cinematic::LoadNextScene(void){
 }
 
 u16 Cinematic::LoadMap(void){
-  Borg9Header *map = loadBorg9(0x0fdb); //load map chunk player starts at
+  Borg9Header *map = loadBorg9(BORG9_Overworld_I08); //load map chunk player starts at
   u32 c = (u32)(map->dat).voxelObjCount;
   dialoug_dat *dia = NULL;
   

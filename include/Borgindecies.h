@@ -1114,18 +1114,18 @@
 #define BORG5_MiscInteriors_A03  0x1560
 #define BORG5_MiscInteriors_A05  0x11FF
 #define BORG5_MiscInteriors_A09  0x1497
-#define BORG5_MiscInteriors_C03  0x0D5E
-#define BORG5_Campsite  0x11DE
+#define BORG5_Dreamscape         0x0D5E
+#define BORG5_Campsite           0x11DE
 #define BORG5_MiscInteriors_C07  0x1557
-#define BORG5_MiscInteriors_E01  0x124F
-#define BORG5_MiscInteriors_E03  0x1491
+#define BORG5_ExpontoMap         0x124F
+#define BORG5_OrianaHutMap       0x1491
 #define BORG5_MiscInteriors_E05  0x1678
 #define BORG5_MiscInteriors_E07  0x1572
 #define BORG5_MiscInteriors_E09  0x13A5
 #define BORG5_MiscInteriors_G01  0x13AC
 #define BORG5_MiscInteriors_G03  0x1554
 #define BORG5_MiscInteriors_G05  0x165C
-#define BORG5_MiscInteriors_G07  0x1565
+#define BORG5_MiscInteriors_G07  0x1565 //"K17Cave"
 #define BORG5_MiscInteriors_G09  0x1568
 #define BORG5_MiscInteriors_I01  0x156B
 #define BORG5_MiscInteriors_I03  0x156E
@@ -1716,7 +1716,7 @@
 #define BORG9_Overworld_H18  0x0FD0
 #define BORG9_Overworld_H19  0x0FD5
 #define BORG9_Overworld_H20  0x0FD8
-#define BORG9_Overworld_I08  0x0FDB
+#define BORG9_Overworld_I08  0x0FDB //player starts here.
 #define BORG9_Overworld_I09  0x0FDF
 #define BORG9_Overworld_I10  0x0FE3
 #define BORG9_Overworld_I11  0x0FE7
@@ -1925,18 +1925,18 @@
 #define BORG9_MiscInteriors_A03  0x1561
 #define BORG9_MiscInteriors_A05  0x1200
 #define BORG9_MiscInteriors_A09  0x1498
-#define BORG9_MiscInteriors_C03  0x0D5F
+#define BORG9_Dreamscape         0x0D5F //also used in Game Over sequence.
 #define BORG9_Campsite           0x185c
 #define BORG9_MiscInteriors_C07  0x1558
-#define BORG9_MiscInteriors_E01  0x1250
-#define BORG9_MiscInteriors_E03  0x1492
+#define BORG9_ExpontoMap         0x1250
+#define BORG9_OrianaHutMap       0x1492
 #define BORG9_MiscInteriors_E05  0x1679
 #define BORG9_MiscInteriors_E07  0x1573
 #define BORG9_MiscInteriors_E09  0x185D
 #define BORG9_MiscInteriors_G01  0x13AD
 #define BORG9_MiscInteriors_G03  0x1555
 #define BORG9_MiscInteriors_G05  0x165D
-#define BORG9_MiscInteriors_G07  0x1566
+#define BORG9_MiscInteriors_G07  0x1566 //"K17Cave"
 #define BORG9_MiscInteriors_G09  0x1569
 #define BORG9_MiscInteriors_I01  0x156C
 #define BORG9_MiscInteriors_I03  0x156F

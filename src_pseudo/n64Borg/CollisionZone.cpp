@@ -33,7 +33,7 @@ void borg9_func_a(Borg9Header *param_1){
       CollideSection* p = (param_1->dat).collideSections + i;
       p->collideIndecies = (u16*)set_pointer_offset(p->collideIndecies,(param_1->dat).collideCount);
       p->unk4 = set_pointer_offset(p->unk4,(param_1->dat).someint);
-      p->lightIndecies = (u16*)set_pointer_offset(p->lightIndecies,(param_1->dat).lightCount);
+      p->voxelIndecies = (u16*)set_pointer_offset(p->voxelIndecies,(param_1->dat).lightCount);
     }
   }
 }

@@ -1084,7 +1084,7 @@ Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,s16 param_4,s1
     Sobj_pos = local_b8;
     iVar9 = 0;
     do {
-      uVar5 = local_70->lightIndecies[iVar9];
+      uVar5 = local_70->voxelIndecies[iVar9];
       SObj = &borg9->voxelObjs[uVar5];
       local_5c = iVar13 + 1;
       Gsprintf("RenderVoxelScenes\nIndex: %d\ntype: %d\nScenes: (%d, %d, %d)\nAddress: %08x",
@@ -1176,7 +1176,7 @@ LAB_80010084:
                   if (uVar12 == 0) {
                     if (local_64 == 0) {
                       (SObj->header).Bitfeild &= ~VOXEL_Active;
-                      passto_WriteTo_VoxelChart(local_70->lightIndecies[local_58],
+                      passto_WriteTo_VoxelChart(local_70->voxelIndecies[local_58],
                                  gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
                                  gGlobals.gameVars.mapShort2,0x11,VOXEL_Scene,0x10);
                     }

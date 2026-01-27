@@ -113,7 +113,7 @@ LAB_800060a0:
 LAB_8000613c:
       }
       else {
-        uVar8 = pbVar5->lightIndecies[uVar13];
+        uVar8 = pbVar5->voxelIndecies[uVar13];
         pvVar11 = &pBVar4->voxelObjs[uVar8];
         VVar1 = (pvVar11->header).Bitfeild;
         if ((VVar1 & VOXEL_tangible) == 0) {

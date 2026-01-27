@@ -347,7 +347,7 @@ LAB_8003fd14:
     aCStack_140={COLOR_OFFWHITE};
     aCStack_100={COLOR_DARKGRAY_T};
   }
-  TextBox_Centered(gGlobals.text,0x96,txtCol,bgCol,true);
+  TextBox_Centered(gGlobals.text,150,txtCol,bgCol,true);
 }
 
 u32 WidgetSkillTrain::GetNumber(){return WidgetN_Other;}

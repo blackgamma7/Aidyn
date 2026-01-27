@@ -994,13 +994,12 @@ LAB_80017c98:
                   some_player_render_sub(pDat,pDat->SceneDat,&mapPos,a,(s16)delta32);
                   if ((Scene::SceneGetLocatorPos(pDat->borg7P->sceneDat,&locPos,3)) &&
                      (Scene::SceneGetLocatorAlign(pDat->borg7P->sceneDat,&locRot,3))) {
-                    to = &pDat->vec3_0x3c;
-                    Vec3Copy(&locRot,to);
+                    Vec3Copy(&locRot,&pDat->vec3_0x3c);
                     if (pDat->voxelReach < 100.0f) {
-                      Vec3Sub(to,&locPos,&pDat->voxelCoords);
-                      Vec3Normalize(to);
+                      Vec3Sub(&pDat->vec3_0x3c,&locPos,&pDat->voxelCoords);
+                      Vec3Normalize(&pDat->vec3_0x3c);
                     }
-                    FUN_800ab23c(&pDat->vec3_0x48,to,(float)(delta32 * 3) * dtor);
+                    FUN_800ab23c(&pDat->vec3_0x48,&pDat->vec3_0x3c,(float)(delta32 * 3) * dtor);
                     fVar9 = (pDat->vec3_0x48).y;
                     (pDat->vec3_0x48).y =
                          fVar9 + ((pDat->vec3_0x3c).y - fVar9) / 10.0f;

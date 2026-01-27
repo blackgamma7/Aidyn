@@ -12,8 +12,6 @@
 #define VoxelIndex(v) (u16)(((uintptr_t)v - (uintptr_t)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) /sizeof(voxelObject))
 
 
-extern voxelObject* GetVoxelFromObjectLink(Borg9Data*,voxelObject*,u16);
-
 //used by scene object tied to "containers" - changes appearance based on if loot is collected or trap triggered
 void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9Data *param_3){
   

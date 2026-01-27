@@ -7,19 +7,18 @@ void Gameover_func(void){
   CharSheet *pCVar3;
   u32 bVar4;
   Borg9Header *pBVar5;
-  s16 iVar8;
+  s16 i;
   dialoug_dat *pvVar9;
   //borg13 indecies of Alaron death scenes
   u32 GameOverScenes[]={BORG13_AlaronDies1,BORG13_AlaronDies2,BORG13_AlaronDies3};
   //...but only one is used.
   bVar4 = GameOverScenes[0];
   pvVar9 = NULL;
-  //load up dream sequence map
-  pBVar5 = loadBorg9(0xd5f);
+  pBVar5 = loadBorg9(BORG9_Dreamscape);
   //TODO: cleanup mangled for-loop 
-  iVar8 = 0;
+  i = 0;
   do {
-    if ((pBVar5->dat).voxelObjCount <= iVar8) {
+    if ((pBVar5->dat).voxelObjCount <= i) {
 LAB_8002411c:
       pCVar3 = PARTY->Members[0];
       #ifdef DEBUGVER
@@ -40,11 +39,11 @@ LAB_8002411c:
       #endif
     }
     pvVar2 = (pBVar5->dat).voxelObjs;
-    if ((pvVar2[iVar8].header.type == VOXEL_Dialouge) &&
-       (pvVar2[iVar8].dialoug.borg_13 == bVar4)) {
-      pvVar9 = &pvVar2[iVar8].dialoug;
+    if ((pvVar2[i].header.type == VOXEL_Dialouge) &&
+       (pvVar2[i].dialoug.borg_13 == bVar4)) {
+      pvVar9 = &pvVar2[i].dialoug;
       goto LAB_8002411c;
     }
-    iVar8++;
+    i++;
   } while( true );
 }
