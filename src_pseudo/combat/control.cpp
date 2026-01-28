@@ -17,7 +17,7 @@ u8 combat_controls(){
   while(Controller::GetInput(apcStack_20,0)) {
     bVar3 = delta + 1;
     delta = bVar3;
-    if (((gGlobals.screenFadeMode == 0) && (!can_Combat_C_vert(apcStack_20[0]))) &&
+    if (((gGlobals.screenFadeMode == ScreenFade_None) && (!can_Combat_C_vert(apcStack_20[0]))) &&
        (bVar1 == false)) {
       bVar1 = combat_controls_caseSwitch(apcStack_20[0],bVar3);
       N64Print::Toggle(&gGlobals.DebugQueue,apcStack_20[0]);

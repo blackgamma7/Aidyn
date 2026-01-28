@@ -64,7 +64,7 @@ void FreeWanderHead(WanderManager *param_1){
 
 
 void look_for_monsterparties(WanderManager *param_1,Borg9Data *param_2,s32 param_3,byte param_4){
-  if (((gGlobals.screenFadeModeSwitch != 0xc) && (gGlobals.gameVars.gamemodeType != GameMode_Title)) &&
+  if (((gGlobals.gameStateA != 0xc) && (gGlobals.gameVars.gamemodeType != GameMode_Title)) &&
      (param_2->voxelObjCount != 0)) {
     for (s16 i=0;i < param_2->voxelObjCount;i++) {
       if ((param_2->voxelObjs[i].header.type == VOXEL_MonsterParty) &&
@@ -220,8 +220,8 @@ void WanderTick(WanderManager *param_1,s16 delta){
   playerData *playerDat_ = gPlayer;
   sneakval = sneak_value(0.8f);
   bVar3 = false;
-  if ((((gGlobals.screenFadeMode == 0) && (!isPaused())) &&
-      (gGlobals.playerCharStruct.unkState == 3)) &&
+  if ((((gGlobals.screenFadeMode == ScreenFade_None) && (!isPaused())) &&
+      (gGlobals.playerCharStruct.gameStateB == 3)) &&
      ((!WHANDLE->GetTail() && (0 < param_1->wanderersmax)))) {
     for(s16 i = 0;i<param_1->wanderersmax;i++) {
       Wanderer *wanderer = &param_1->wanderSubstructs[i];

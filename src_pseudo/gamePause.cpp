@@ -17,7 +17,7 @@ switchD_8004fe44_caseD_4:
     bVar2 = gGlobals.pauseMenuSection;
   }
   else {
-    switch(gGlobals.screenFadeModeSwitch) {
+    switch(gGlobals.gameStateA) {
     case 3:
       bVar2 = 1;
       gGlobals.SomeCase = 3;
@@ -82,7 +82,7 @@ Gfx * draw_screenshot_background(Gfx *g,u8 state) {
 }
 
 
-u8 ScreenFadeMode_3(Gfx **GG) {
+u8 GameStateA_3(Gfx **GG) {
   s16 delta;
   Gfx *g;
   byte bVar6;
@@ -93,7 +93,7 @@ u8 ScreenFadeMode_3(Gfx **GG) {
   float fVar8;
   vec3f zeroPos;
   
-  bVar7 = gGlobals.screenFadeModeSwitch;
+  bVar7 = gGlobals.gameStateA;
   g = *GG;
   if ((some_screenfade_flag) && (set_screenshot_tint())) {
     InitPauseMenu();
@@ -147,9 +147,9 @@ u8 ScreenFadeMode_3(Gfx **GG) {
       }
       else {
         gGlobals.BigAssMenu = NULL;
-        gGlobals.screenFadeModeSwitch = 7;
+        gGlobals.gameStateA = 7;
         gGlobals.SomeCase = u8_800edb90;
-        gGlobals.playerCharStruct.unkState = u8_800edb91;
+        gGlobals.playerCharStruct.gameStateB = u8_800edb91;
         if (u8_800edb90 == 6) {
           bVar7 = 6;
           gGlobals.BigAssMenu = new PauseWidget(WHANDLE,1);
@@ -223,7 +223,7 @@ LAB_80050770:
       delta++;
     }
     if (freeWidgetFunc == NULL) {
-      u8_800edb91 = gGlobals.playerCharStruct.unkState;
+      u8_800edb91 = gGlobals.playerCharStruct.gameStateB;
       switch(gGlobals.SomeCase) {
       case 3:
         u8_800edb90 = 9;
@@ -238,7 +238,7 @@ LAB_80050770:
         u8_800edb90 = 6;
         gGlobals.BigAssMenu->bigAssOpenCallback_2();
         gGlobals.combatBytes[0] = CombatState_15;
-        gGlobals.screenFadeModeSwitch = 7;
+        gGlobals.gameStateA = 7;
         break;
       case 6:
         setGlobalsPointer(w);

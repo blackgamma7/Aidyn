@@ -130,7 +130,7 @@ void WidgetOptionsMenu::MakeScrollList(){
     pBVar5->SetCoords(170,204);
     pBVar5->SetColor(COLOR_RED1);
     sub->ScrollMenu->Link(pBVar5);
-    if (gGlobals.screenFadeModeSwitch != 3) {
+    if (gGlobals.gameStateA != 3) {
       txt = WClipTXT(Cstring(OptionsLoadGame));
       txt->varU16 = OptionN_LoadGame;
       sub->ScrollMenu->Append(txt);
@@ -141,7 +141,7 @@ void WidgetOptionsMenu::MakeScrollList(){
     txt = WClipTXT(Cstring(OptionsOptions));
     txt->varU16 = OptionN_Config;
     sub->ScrollMenu->Append(txt);
-    if (gGlobals.screenFadeModeSwitch == 3) {
+    if (gGlobals.gameStateA == 3) {
       if ((gGlobals.EncounterDat.canFlee) && (gGlobals.combatBytes[0] == CombatState_14)) {
         txt = WClipTXT(Cstring(OptionsFlee));
         txt->varU16 = OptionN_Flee;

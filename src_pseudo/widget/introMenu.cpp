@@ -376,7 +376,7 @@ void IntroMenu::NamePlayer() {
 
 void FUN_8004b1f8(void) {
   gGlobals.gameStartOption = 2;
-  gGlobals.screenFadeMode = 1;
+  gGlobals.screenFadeMode = ScreenFade_Out;
   gGlobals.screenFadeSpeed = (1.0f/20);
 }
 

@@ -101,13 +101,20 @@ struct SpashVars{
     u16 UnkD; /* written, never read */
 };
 
+enum ScreenFadeType{
+    ScreenFade_None,
+    ScreenFade_Out,
+    ScreenFade_In,
+    ScreenFade_3
+};
+
 struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     Random rngSeed; /* used for most rand funcs */
     int appstate;
     u32 ticker;
     float delta; //defined as (x/60) second, 1>=x<=6
     SpashVars titleSplashVars;
-    u8 screenFadeModeSwitch;
+    u8 gameStateA;
     u8 align41[15];
     WanderManager wander;
     player_char_struct playerCharStruct;
@@ -170,7 +177,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     float brightness;
     float brightness2;
     float screenFadeSpeed;
-    u16 screenFadeMode;
+    u16 screenFadeMode; //uses "ScreenFadeType"
     u16 field92_0x204a;
     char** CommonStrings;
     u8 goblinAmbush; //set true if combat enconter is goblin ambush at start

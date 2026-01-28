@@ -27,7 +27,7 @@ void flycam_func(void){
   gGlobals.gameVars.playerPos2d.y = 0.0;
   InitZoneEngine(GameMode_Title,0);
   gGlobals.brightness = 0.0;
-  gGlobals.screenFadeMode = 2;
+  gGlobals.screenFadeMode = ScreenFade_In;
   gGlobals.screenFadeSpeed = (2.0/30);
   gFlycamBorg6P = get_borg_6(gFlycamSequences[flycam_counter].borg6);
   gFlycamSceneP = BorgAnimLoadScene(gFlycamBorg6P->dat->borg5);
@@ -54,7 +54,7 @@ Gfx * RenderFlycam(Gfx *gfx){
   if (!gFlycamSceneP) {
     if ((gGlobals.QueueA.items == 0) && (gGlobals.brightness == 0.0)) {
       flycam_func();
-      gGlobals.screenFadeMode = 2;
+      gGlobals.screenFadeMode = ScreenFade_In;
       gGlobals.screenFadeSpeed = 0.01f;
       gfx = apGStackX_0[0];
     }
@@ -66,14 +66,14 @@ Gfx * RenderFlycam(Gfx *gfx){
         (gFlycamSceneP->aniTime <
          (gFlycamSceneP->borg6->dat->aniLength - 100.0) -gGlobals.delta)) || 
          (gGlobals.brightness != 1.0)) {
-      if ((gGlobals.screenFadeMode == 0) && (gGlobals.brightness == 0.0)) {
+      if ((gGlobals.screenFadeMode == ScreenFade_None) && (gGlobals.brightness == 0.0)) {
         FlyCamClear();
         return apGStackX_0[0];
       }
     }
     else {
       flycam_flag = true;
-      gGlobals.screenFadeMode = 1;
+      gGlobals.screenFadeMode = ScreenFade_Out;
       gGlobals.screenFadeSpeed = 0.01f;
     }
     Scene::GetRotate(gFlycamSceneP,&pos,&rotXY,&rotZ);
@@ -85,7 +85,7 @@ Gfx * RenderFlycam(Gfx *gfx){
     }
     else handleZoneEngineFrame(apGStackX_0,(s16)(int)gGlobals.delta,NULL);
     gfx = apGStackX_0[0];
-    if ((gGlobals.screenFadeMode == 0) && (gGlobals.brightness == 1.0f)) {
+    if ((gGlobals.screenFadeMode == ScreenFade_None) && (gGlobals.brightness == 1.0f)) {
       flycam_flag = false;
     }
   }
@@ -103,7 +103,7 @@ u8 gameStart(Gfx**GG){
   WeatherTemp w;
   vec3f fStack104;
   
-  bVar3 = gGlobals.screenFadeModeSwitch;
+  bVar3 = gGlobals.gameStateA;
   gfx = *GG;
   if (titleSceen_load_flag) {
     set_title_screen();
@@ -121,7 +121,7 @@ u8 gameStart(Gfx**GG){
   }
   if (((gGlobals.gameStartOption == 0) ||
       ((gGlobals.gameStartOption == 1 && (0.0 < gGlobals.brightness)))) ||
-     ((gGlobals.gameStartOption == 2 && (gGlobals.screenFadeMode != 0)))) {
+     ((gGlobals.gameStartOption == 2 && (gGlobals.screenFadeMode != ScreenFade_None)))) {
     gfx = RenderFlycam(gfx);
     if (flycam_flag) fadeFloatMirror = 1.0f;
     RSPFUNC6(gfx);
@@ -140,13 +140,13 @@ u8 gameStart(Gfx**GG){
   }
   else {
     if (((1 < gGlobals.gameStartOption) && (gGlobals.gameStartOption == 2)) &&
-       (gGlobals.screenFadeMode == 0)) {
+       (gGlobals.screenFadeMode == ScreenFade_None)) {
       some_gamestart_flag = true;
       bVar3 = 1;
     }
   }
   fStack104={0};
-  if (gPlayer) pos = &((gPlayer)->collision).pos;
+  if (gPlayer) pos = &gPlayer->collision.pos;
   if (gGlobals.titleSplashVars.introMusic) {
     DCM::Start((u8)gGlobals.titleSplashVars.introMusicDatA,gGlobals.titleSplashVars.introMusicDatB,gGlobals.VolBGM * 255.0);
   }
@@ -176,7 +176,7 @@ void TitleScreenInput(void){
         if (true) {//?
           switch(((IntroMenuSub*)gGlobals.titleScreen->substruct)->menuState) {
           case IntroM_NewGame:
-            gGlobals.screenFadeMode = 1;
+            gGlobals.screenFadeMode = ScreenFade_Out;
             gGlobals.gameStartOption = 1;
             gGlobals.screenFadeSpeed = 0.05f;
             break;
@@ -185,7 +185,7 @@ void TitleScreenInput(void){
           case IntroM_AdvancedGame:
           #endif
           case IntroM_StartGame:
-            gGlobals.screenFadeMode = 1;
+            gGlobals.screenFadeMode = ScreenFade_Out;
             gGlobals.gameStartOption = 2;
             gGlobals.screenFadeSpeed = 0.05f;
             break;
@@ -228,13 +228,12 @@ void start_intermediate_game(void){
     #endif
   }
   else { //Start game - skip intro cinematic.
-    #ifdef DEBUGVER
     gGlobals.gameVars.MapFloatDatEntry.mapDatB = 0xffff;
+    #ifdef DEBUGVER
     gGlobals.gameVars.mapDatA = debugMapLabels[0].a;
     gGlobals.gameVars.mapDatB = debugMapLabels[0].b;
     gGlobals.gameVars.mapDatC = debugMapLabels[0].c;
     #else
-    gGlobals.gameVars.MapFloatDatEntry.mapDatB = 0xffff;
     gGlobals.gameVars.mapDatB =0;
     #endif
   }

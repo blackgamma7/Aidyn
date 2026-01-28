@@ -10,7 +10,7 @@ u8 debug_gamestatefunnel_sub(void){
 }
 
 extern BaseWidget * WidgetBorg8At(BaseWidget *param_1,Borg8Enum Index,s16 X,s16 Y,s16 H,s16 W);
-u8 ScreenFademode_10(Gfx **GG){
+u8 GameStateA_10(Gfx **GG){
   char cVar2;
   Gfx *pGVar5;
   s16 uStack416 [2];

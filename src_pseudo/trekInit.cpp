@@ -19,9 +19,9 @@ void initGameTrek(void) {
   Gsprintf("GameTrekInit WanderHead\n");
   WanderHead(&gGlobals.wander,39);
   InitZoneEngine(GameMode_Trek,gGlobals.playerCharStruct.some_sound_var);
-  gGlobals.playerCharStruct.unkState = 3;
+  gGlobals.playerCharStruct.gameStateB = 3;
   if (DAT_800ee978) {
-    gGlobals.playerCharStruct.unkState = 7;
+    gGlobals.playerCharStruct.gameStateB = 7;
     DAT_800ee978 = 0;
   }
   gPlayer =
@@ -66,7 +66,7 @@ void initGameTrek(void) {
     gGlobals.brightness = 0.0;
   }
   gGlobals.playerCharStruct.unk10 = 1;
-  gGlobals.screenFadeMode = 2;
+  gGlobals.screenFadeMode = ScreenFade_In;
   gGlobals.screenFadeSpeed = (1.0f/30);
   N64PRINT("InitGameTrek() completed.\n");
 }
@@ -79,7 +79,7 @@ void clear_HUD_elements(u16 param_1) {
   Portraits::FreeBorder();
   Actor::FreePlayer(gPlayer);
   gPlayer = NULL;
-  bool bVar1 = gGlobals.playerCharStruct.unkState == 0xb;
+  bool bVar1 = gGlobals.playerCharStruct.gameStateB == 0xb;
   if (param_1) bVar1 = false;
   FreeZoneEngine(bVar1);
   clear_sfx_entries(&gGlobals.SFXStruct,true);

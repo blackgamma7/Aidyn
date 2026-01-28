@@ -271,7 +271,7 @@ void DialogCallbackC(dialougeInstance *param_1,Borg13Data *param_2,s16 command,u
   case B13Com_Fade35:
     gGlobals.brightness2 = -1.0f;
     gGlobals.screenFadeSpeed = (1.0f/60);
-    gGlobals.screenFadeMode = 3;
+    gGlobals.screenFadeMode = ScreenFade_3;
     return;
   case B13Com_AddGold:
     borg12 = BORG12_CoinJingle;
@@ -404,7 +404,7 @@ print_error:
     dialougemode_pointer->camp_flag = 1;
     uVar10 = 1;
     if (param_2->start_func == 0) {
-      gGlobals.screenFadeMode = 2;
+      gGlobals.screenFadeMode = ScreenFade_In;
       gGlobals.brightness = 0.0;
       gGlobals.screenFadeSpeed = (1.0f/60);
     }

@@ -242,9 +242,9 @@ Borg9Data * GetCollisionZone(u8 x){
 void set_teleport_pointer(voxelObject *param_1){
   gGlobals.gameVars.teleVox = param_1;
   gGlobals.gameVars.tpVec3 = NULL;
-  if (((gGlobals.screenFadeMode == 0) && (0.0 < gGlobals.brightness)) ||
+  if (((gGlobals.screenFadeMode == ScreenFade_None) && (0.0 < gGlobals.brightness)) ||
      (gGlobals.ticker - initZoneTimestamp < 3)) {
-    gGlobals.screenFadeMode = 1;
+    gGlobals.screenFadeMode = ScreenFade_Out;
     gGlobals.screenFadeSpeed = (2.0/3);
   }
 }
@@ -293,7 +293,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
   }
   if (((((param_2->GroundType & B9Ground_mf000) == B9Ground_VoxTrigger) && 
       ((param_1->flags & CSPHERE_NoTriggers) == 0)) &&
-      (gGlobals.playerCharStruct.unkState == 3)) &&
+      (gGlobals.playerCharStruct.gameStateB == 3)) &&
      ((some_toggle == -1 &&
       (ptVar6 = (gGlobals.gameVars.borg9DatPointer)->voxelObjs + (param_2->GroundType >> 5 & 0x7f),
       ((ptVar6->header).Bitfeild & VOXEL_Active) != 0)))) {
@@ -568,7 +568,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   if ((MAPCENTER.borg5_ID == 0) ||
      (uVar21 = 1, MAPCENTER.borg9_id == 0)) {
     playerData* ppVar9 = gPlayer;
-    if (gGlobals.screenFadeModeSwitch == 2) {
+    if (gGlobals.gameStateA == 2) {
       ppVar9 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
     }
     Gsprintf("Center scene not in Borg.\nPlayer Pos: (%3.4f, %3.4f)\nNew Grid: %d-%c%02d",
@@ -1415,7 +1415,7 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   gOut = *GG;
   u16 uStack144[][2]={{0,0},{2,0},{0,2},{2,2},{1,0},{1,2},{0,1},{2,1}};
   Scene::UnsetFlag40(MAPCENTER.sceneDat0x4);
-  if (gGlobals.screenFadeModeSwitch == 0xc)
+  if (gGlobals.gameStateA == 0xc)
     Scene::SetNearFarPlanes(MAPCENTER.sceneDat0x4,0.1,125.0);
   else Scene::SetNearFarPlanes(MAPCENTER.sceneDat0x4,1.0,180.0);
   FUN_800a0df4(MAPCENTER.sceneDat0x4);
@@ -1910,13 +1910,13 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   handeZoneEngineTimestamp = gGlobals.ticker;
   DEBUGSprintf("ConfirmPlayerWithinZone");
   if (player) ConfirmPlayerWithinZone(player,gGlobals.gameVars.borg9DatPointer);
-  if (gGlobals.screenFadeMode == 0) update_BGM_();
-  if ((gGlobals.gameVars.teleVox != NULL) && (gGlobals.screenFadeMode == 0)) {
+  if (gGlobals.screenFadeMode == ScreenFade_None) update_BGM_();
+  if ((gGlobals.gameVars.teleVox != NULL) && (gGlobals.screenFadeMode == ScreenFade_None)) {
     #ifndef DEBUGVER
     bVar1=false;
     #endif
     if (gGlobals.gameVars.tpVec3 == NULL) {
-      gGlobals.screenFadeMode = 2;
+      gGlobals.screenFadeMode = ScreenFade_In;
       gGlobals.screenFadeSpeed = (1.0f/15);
     }
     #ifndef DEBUGVER

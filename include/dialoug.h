@@ -209,7 +209,7 @@ void dialoug_func(u32,u16,u16,u16,u16,u16);
 void run_dialougemode_funcs3();
 void CreateNewDialouge_(u32);
 Gfx * FUN_80057e78(Gfx *,u16);
-int ScreenFadeMode_12(Gfx **);
+int GameStateA_12(Gfx **);
 void run_dialougemode_funcs1();
 void run_dialougemode_funcs2();
 u8 dialougSkillCheck(u8);

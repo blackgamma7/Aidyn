@@ -86,7 +86,7 @@ void WidgetDebugBig::ExecOption(BaseWidget *param_2){
 }
 
 void debug_gamestatefunnel(void){
-  if (debug_gamestatefunnel_sub()) gGlobals.playerCharStruct.unkState = 9;
+  if (debug_gamestatefunnel_sub()) gGlobals.playerCharStruct.gameStateB = 9;
 }
 
 void debug_clear_inventory(void){PARTY->ClearInventory();}

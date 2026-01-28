@@ -95,7 +95,7 @@ u16 Cinematic::Tick(Gfx**GG){
   u8 uVar3;
   u16 uVar4;
   
-  uVar4 = (u16)gGlobals.screenFadeModeSwitch;
+  uVar4 = (u16)gGlobals.gameStateA;
   Gfx* g = *GG;
   if (cinematic_init_flag) {
     noop_8005cfac();

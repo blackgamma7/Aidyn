@@ -160,7 +160,7 @@ u8 CombatStateFunc_27(Gfx **GG,u16 delta);
 u8 CombatStateFunc_28(Gfx **GG,u16 delta);
 u8 CombatStateFunc_31(Gfx **GG,u16 delta);
 bool fleeing_reinforcements_func();
-u8 ScreenFadeMode_2(Gfx **GG);
+u8 GameStateA_2(Gfx **GG);
 void combat_start_turn_();
 void init_combat_struct();
 void clear_combat_func();

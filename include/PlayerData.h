@@ -212,7 +212,7 @@ struct player_char_struct {
     WidgetMenu *debugMenuArena;
     void* debugMenuUnused1;
     BaseWidget *text_window;
-    u8 unkState;
+    u8 gameStateB;
     u8 field17_0x35;
     ItemID current_shopkeep;
 };

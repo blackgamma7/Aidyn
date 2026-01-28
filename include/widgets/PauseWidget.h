@@ -71,7 +71,7 @@ BaseWidget * bigAssMenu_StartFunc(BaseWidget *,BaseWidget *);
 void InitPauseMenu(void);
 bool set_screenshot_tint(void);
 Gfx * draw_screenshot_background(Gfx *g,u8 state);
-u8 ScreenFadeMode_3(Gfx **GG);
+u8 GameStateA_3(Gfx **GG);
 int FUN_800505f4();
 void func_clearing_shopkeep(void);
 void FUN_80050868(void);

@@ -405,7 +405,7 @@ u8 CombatStateFunc_8(Gfx **GG,u16 delta){
 }
 
 u8 CombatStateFunc_12(Gfx **GG,u16 delta){
-  if (gGlobals.screenFadeMode == 0) {
+  if (gGlobals.screenFadeMode == ScreenFade_None) {
     clear_combatstruct_flag = 1;
     if (gGlobals.EncounterDat.field3_0x1c) {
       setEventFlag(gGlobals.EncounterDat.EncounterID,true);
@@ -416,7 +416,7 @@ u8 CombatStateFunc_12(Gfx **GG,u16 delta){
       }
     }
     set_boss_flag();
-    gGlobals.screenFadeMode = 2;
+    gGlobals.screenFadeMode = ScreenFade_In;
     gGlobals.combatBytes[1] = CombatState_15; //overwritten several lines later
     CombatStateTimer = 0;
     passto_getSnapshot(); //also in build_loot_menu()
@@ -436,7 +436,7 @@ u8 CombatStateFunc_12(Gfx **GG,u16 delta){
 // Start Game Over sequence or wake up in Oriana's hut if Goblin Ambush.
 u8 CombatStateFunc_13(Gfx **GG,u16 delta){
   u8 ret;
-  if (gGlobals.screenFadeMode == 0) {
+  if (gGlobals.screenFadeMode == ScreenFade_None) {
     if (gGlobals.goblinAmbush){
       setEventFlag(gGlobals.EncounterDat.EncounterID,true);
       if (gGlobals.EncounterDat.field3_0x1c) {
@@ -566,7 +566,7 @@ u8 CombatStateFunc_29(Gfx **GG,u16 delta){
   u8 bVar2 = CombatStateFunc_1(GG,delta);
   if (60 <= ++gCombatP->TurnCount) {
     gCombatP->TurnCount = 0;
-    gGlobals.screenFadeMode = 1;
+    gGlobals.screenFadeMode = ScreenFade_Out;
     gGlobals.combatBytes[0] = CombatState_30;
   }
   return bVar2;
@@ -576,10 +576,10 @@ u8 CombatStateFunc_29(Gfx **GG,u16 delta){
 u8 CombatStateFunc_30(Gfx **GG,u16 delta){
   u8 bVar1;
   
-  if (gGlobals.screenFadeMode == 0) {
+  if (gGlobals.screenFadeMode == ScreenFade_None) {
     bVar1 = 1;
     clear_combatstruct_flag = 1;
-    gGlobals.screenFadeMode = 2;
+    gGlobals.screenFadeMode = ScreenFade_In;
   }
   else bVar1 = CombatStateFunc_1(GG,delta);
   return bVar1;
@@ -587,7 +587,7 @@ u8 CombatStateFunc_30(Gfx **GG,u16 delta){
 
 u8 CombatStateFunc_31(Gfx **GG,u16 delta){
   u8 bVar1 = CombatStateFunc_1(GG,delta);
-  if (gGlobals.screenFadeMode == 0) {
+  if (gGlobals.screenFadeMode == ScreenFade_None) {
     u8 bStack_45 [] [4]={{0,0,0,CombatState_1},{0,0,0,CombatState_8}}; //? u32[2] cast to u8[2][4]?
     gGlobals.combatBytes[0] = bStack_45[gCombatP->current_Ent->aiP != NULL][3];
   }
@@ -609,7 +609,7 @@ bool fleeing_reinforcements_func(void){
   return bVar3;
 }
 
-u8 ScreenFadeMode_2(Gfx **GG){
+u8 GameStateA_2(Gfx **GG){
   u8 uVar3;
   
   init_combat_struct();
@@ -691,7 +691,7 @@ void init_combat_struct(void){
     InitSpellVisuals();
     CombatMarkers::Init();
     gGlobals.combatBytes[0] = CombatState_31;
-    gGlobals.screenFadeMode = 2;
+    gGlobals.screenFadeMode = ScreenFade_In;
     gGlobals.goblinAmbush = false;
     gGlobals.brightness = 0.0;
     gGlobals.GoblinHitTally = 0;
@@ -1031,7 +1031,7 @@ void combat_func_if_alaron_dead(void){
 
 void combat_byte_0xd(void){
   gGlobals.combatBytes[0] = CombatState_13;
-  gGlobals.screenFadeMode = 1;
+  gGlobals.screenFadeMode = ScreenFade_Out;
 }
 
 void combat_byte_0x1a(void){

@@ -180,7 +180,7 @@ void CombatTurn::EnemiesDead(CombatTurn_s *param_1) {
   set_boss_flag();
   calc_combat_loot(gCombatP);
   gGlobals.combatBytes[0] = CombatState_12;
-  gGlobals.screenFadeMode = 1;
+  gGlobals.screenFadeMode = ScreenFade_Out;
   if ((gCombatP->current_Ent) &&
     (gCombatP->encounter_dat->EncounterID != FLAG_GoblinAmbush))
     copy_string_to_combat_textbox(gCombatP,ComString(PartyWins),0);

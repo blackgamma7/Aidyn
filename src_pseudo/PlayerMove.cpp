@@ -39,7 +39,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
     vec2f fStack184;
     
     if (p->borg7 == -1) return;
-    if (gGlobals.screenFadeMode != 0) {
+    if (gGlobals.screenFadeMode != ScreenFade_None) {
       if (p->ani_type == AniType_Dying) return;
       p->ani_type = 0;
       return;
@@ -111,7 +111,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
     #endif
     if ((controller->held & R_BUTTON) != 0) {
       if ((p->flags & ACTOR_ISPLAYER) == 0) return;
-      if (gGlobals.screenFadeMode != 0) return;
+      if (gGlobals.screenFadeMode != ScreenFade_None) return;
       if (PHANDLE.camera->holdCamera == 0) {
         PHANDLE.camera->holdCamera = 1;
       }
@@ -323,7 +323,7 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
             SetControllerRun(&param_1->controller,&fStack88);
           else SetControllerWalk(&param_1->controller,&fStack88);
         }
-        else if (gGlobals.playerCharStruct.unkState != 3) {
+        else if (gGlobals.playerCharStruct.gameStateB != 3) {
           iVar6 = 30;
           if (DAT_800ee974) iVar6 = 300;
           param_1->aiTravelTime += gGlobals.delta;

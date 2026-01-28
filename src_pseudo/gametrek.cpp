@@ -11,7 +11,7 @@ bool check_some_toggle(void) {return some_toggle != -1;}
 
 void FUN_80024c54(s16 param_1) {
   if (some_toggle == -1) {
-    gGlobals.screenFadeMode = 1;
+    gGlobals.screenFadeMode = ScreenFade_Out;
     gGlobals.screenFadeSpeed = (1.0f/30);
     some_toggle = param_1;
   }
@@ -31,7 +31,7 @@ Gfx * ofunc_80024c90(Gfx *param_1) {
   return tick_trek_features(param_1,(u8)iVar3);
 }
 
-u8 screenFadeMode_1_9(Gfx **GG) {
+u8 GameStateA_1_9(Gfx **GG) {
   bool bVar1;
   u8 uVar2;
   controller_aidyn *pcStack_30;
@@ -55,29 +55,29 @@ u8 screenFadeMode_1_9(Gfx **GG) {
     some_toggle = -1;
     QuestData::SetWeather();
   }
-  if ((((gGlobals.playerCharStruct.unkState == 3) && (!check_some_toggle())) &&
-      (gGlobals.screenFadeMode == 0)) && (FUN_8000ccc0())) {
-    gGlobals.playerCharStruct.unkState = 0xf;
+  if ((((gGlobals.playerCharStruct.gameStateB == 3) && (!check_some_toggle())) &&
+      (gGlobals.screenFadeMode == ScreenFade_None)) && (FUN_8000ccc0())) {
+    gGlobals.playerCharStruct.gameStateB = 0xf;
   }
-  if (gGlobals.screenFadeModeSwitch == 9) {
+  if (gGlobals.gameStateA == 9) {
     if (DAT_800e9aac != 0) {
       gGlobals.brightness = 0.0;
       DAT_800e9aac = 0;
-      gGlobals.screenFadeMode = 2;
+      gGlobals.screenFadeMode = ScreenFade_In;
       gGlobals.screenFadeSpeed = (1.0f/30);
       Sky::SetBackgroundType(gGlobals.BackgroundTypeCopy,gGlobals.gameVars.weather.skyBgdat,0.0);
     }
-    if (gGlobals.screenFadeMode == 0) {
-      gGlobals.playerCharStruct.unkState = 8;
+    if (gGlobals.screenFadeMode == ScreenFade_None) {
+      gGlobals.playerCharStruct.gameStateB = 8;
       DAT_800e9aac = 1;
     }
     else {
       uVar2 = 9;
-      gGlobals.playerCharStruct.unkState = 3;
+      gGlobals.playerCharStruct.gameStateB = 3;
     }
   }
   if (false) goto switchD_80024ecc_caseD_1;
-  switch(gGlobals.playerCharStruct.unkState) {
+  switch(gGlobals.playerCharStruct.gameStateB) {
   case 0:
     DAT_800e9aa7 = true;
     uVar2 = 0;
@@ -88,7 +88,7 @@ u8 screenFadeMode_1_9(Gfx **GG) {
     break;
   case 3:
     gDelta = 0;
-    if (gGlobals.screenFadeModeSwitch == 9) {
+    if (gGlobals.gameStateA == 9) {
       while (Controller::GetInput(&pcStack_30,0)) {
         gDelta++;
       }
@@ -118,18 +118,18 @@ u8 screenFadeMode_1_9(Gfx **GG) {
     if (gGlobals.QueueA.items != 0) goto LAB_80025208;
     GetSnapshot_();
     gGlobals.BackgroundTypeCopy = gGlobals.sky.Type;
-    if (gGlobals.playerCharStruct.unkState == 6) {
+    if (gGlobals.playerCharStruct.gameStateB == 6) {
       uVar2 = 6;
     }
-    else if (gGlobals.playerCharStruct.unkState < 7) {
+    else if (gGlobals.playerCharStruct.gameStateB < 7) {
       uVar2 = 8;
-      if (gGlobals.playerCharStruct.unkState == 5) {
+      if (gGlobals.playerCharStruct.gameStateB == 5) {
         uVar2 = 5;
       }
     }
     else {
       uVar2 = 8;
-      if (gGlobals.playerCharStruct.unkState == 7) {
+      if (gGlobals.playerCharStruct.gameStateB == 7) {
         uVar2 = 7;
       }
     }
@@ -154,7 +154,7 @@ u8 screenFadeMode_1_9(Gfx **GG) {
     DAT_800e9aa7 = true;
     goto switchD_80024ecc_caseD_c;
   case 0xe:
-    gGlobals.playerCharStruct.unkState = 3;
+    gGlobals.playerCharStruct.gameStateB = 3;
     break;
   case 0xf:
     gGlobals.playerCharStruct.unk10 = 0;
@@ -181,11 +181,11 @@ u8 screenFadeMode_1_9(Gfx **GG) {
     if (*(u8*)&gDelta >= 6) gDelta = 6;
     gGlobals.delta = (float)(u8)gDelta;
     gfxTemp[0] = tick_trek_features(gfxTemp[0],(u8)gDelta);
-    gGlobals.playerCharStruct.unkState = 7;
+    gGlobals.playerCharStruct.gameStateB = 7;
     break;
   case 0x16:
     if (!GetDelta_TickTrek(gfxTemp)) {
-      gGlobals.playerCharStruct.unkState = 0x17;
+      gGlobals.playerCharStruct.gameStateB = 0x17;
     }
     goto LAB_80025208;
   case 0x17:
@@ -198,7 +198,7 @@ u8 screenFadeMode_1_9(Gfx **GG) {
 switchD_80024ecc_caseD_1:
 LAB_80025208:
   if ((some_toggle != -1) && (gGlobals.screenFadeMode == 0)) {
-    gGlobals.playerCharStruct.unkState = (u8)some_toggle;
+    gGlobals.playerCharStruct.gameStateB = (u8)some_toggle;
     some_toggle = -1;
   }
   if (DAT_800e9aa7) {
@@ -255,8 +255,8 @@ void func_calling_orphaned_dat(byte param_1) {
 void player_control_func(controller_aidyn *cont) {
   u32 BVar1;
   
-  if (gGlobals.playerCharStruct.unkState != 3) return;
-  if (gGlobals.screenFadeMode != 0) return;
+  if (gGlobals.playerCharStruct.gameStateB != 3) return;
+  if (gGlobals.screenFadeMode != ScreenFade_None) return;
 #ifdef DEBUGVER
   if ((((cont->held & R_BUTTON)) && ((cont->pressed & A_BUTTON))) &&
      (gGlobals.minimap.active != 0)) {
@@ -288,7 +288,7 @@ void player_control_func(controller_aidyn *cont) {
         return;
       }
 #endif
-      gGlobals.playerCharStruct.unkState = 8;
+      gGlobals.playerCharStruct.gameStateB = 8;
       return;
     }
   }
@@ -296,7 +296,7 @@ void player_control_func(controller_aidyn *cont) {
 }
 
 void small_debug_menu_check(controller_aidyn *param_1) {
-  if ((gGlobals.screenFadeMode == 0) && (!check_some_toggle())) {
+  if ((gGlobals.screenFadeMode == ScreenFade_None) && (!check_some_toggle())) {
     bool bVar2 = isPaused();
     BaseWidget *w = WHANDLE->Control((ControllerFull *)param_1);
     bool bVar3 = isPaused();
@@ -452,8 +452,8 @@ void TickGameTime(byte delta) {
 Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
   Gfx *gTemp;
 
-  if (((gGlobals.playerCharStruct.unkState != 5) && (gGlobals.playerCharStruct.unkState != 7)) &&
-     (gGlobals.playerCharStruct.unkState != 2)) {
+  if (((gGlobals.playerCharStruct.gameStateB != 5) && (gGlobals.playerCharStruct.gameStateB != 7)) &&
+     (gGlobals.playerCharStruct.gameStateB != 2)) {
     gTemp = Graphics::StartDisplay(param_1,FULL_SCREENSPACE);
     #ifdef DEBUGVER
     gTemp = zoneEngine_debug(gTemp,delta);
@@ -477,8 +477,8 @@ Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
 void SetNewJounalEntry(s16 param_1) {newestJournal = param_1;}
 
 void NewJournalEntryPopup(void) {
-  if ((((gGlobals.screenFadeMode == 0) && (some_toggle == -1))
-      && (!isPaused())) &&((gGlobals.playerCharStruct.unkState == 3 &&
+  if ((((gGlobals.screenFadeMode == ScreenFade_None) && (some_toggle == -1))
+      && (!isPaused())) &&((gGlobals.playerCharStruct.gameStateB == 3 &&
       #ifdef DEBUGVER //yeah, no clue why this discrepancy...
       (Get_eventFlagCheck(FLAG_NewJournalEntry)))))
       #else

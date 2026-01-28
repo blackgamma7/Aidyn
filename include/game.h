@@ -15,7 +15,7 @@ u8 func_loading_credits(Gfx **GG);
 bool check_some_toggle();
 void FUN_80024c54(s16);
 Gfx * ofunc_80024c90(Gfx *);
-u8 screenFadeMode_1_9(Gfx **);
+u8 GameStateA_1_9(Gfx **);
 bool GetDelta_TickTrek(Gfx **);
 bool isPaused();
 void player_control_func(controller_aidyn *);

@@ -98,9 +98,9 @@ void some_init_func(void) {
   CLEAR(&gGlobals.playerCharStruct);
   CLEAR(&gGlobals.gameVars);
   init_DBs();
-  gGlobals.screenFadeModeSwitch = 0xf;
+  gGlobals.gameStateA = 0xf;
   gGlobals.combatBytes[2] = false;
-  gGlobals.screenFadeMode = 2;
+  gGlobals.screenFadeMode = ScreenFade_In;
   gGlobals.screenFadeSpeed = 0.0;
   gGlobals.brightness = 0.0;
   gGlobals.brightness2 = 0.0;
@@ -124,29 +124,29 @@ u32 appState_1(Gfx **GG) {
   uVar2 = 1;
   FLOOR(gGlobals.delta,1.0f);
   switch (gGlobals.screenFadeMode){
-  case 0: break;
-  case 1:{
+  case ScreenFade_None: break;
+  case ScreenFade_Out:{
         gGlobals.brightness-= gGlobals.screenFadeSpeed * gGlobals.delta;
         if (gGlobals.brightness <= 0.0) {
           gGlobals.brightness = 0.0;
           DAT_800e9932 = DAT_800e9932 + 1;
           if (2 < DAT_800e9932) {
             DAT_800e9932 = 0;
-            gGlobals.screenFadeMode = 0;
+            gGlobals.screenFadeMode = ScreenFade_None;
           }
         }
         break;
       }
-  case 2:{
+  case ScreenFade_In:{
         gGlobals.brightness+= gGlobals.screenFadeSpeed * gGlobals.delta;
 code_r0x80023c48:
     if (1.0f <= gGlobals.brightness) {
       gGlobals.brightness = 1.0f;
-      gGlobals.screenFadeMode = 0;
+      gGlobals.screenFadeMode = ScreenFade_None;
     }
     break;
   }
-  case 3:{
+  case ScreenFade_3:{
       gGlobals.brightness2+= gGlobals.screenFadeSpeed * gGlobals.delta;
       gGlobals.brightness = gGlobals.brightness2;
       if (gGlobals.brightness2 <= 0.0) {
@@ -161,19 +161,19 @@ code_r0x80023c48:
   fadeFloatMirror = gGlobals.brightness;
   gGlobals.gameVars.particleHead.gray = gGlobals.brightness;
   if (true) {
-    switch(gGlobals.screenFadeModeSwitch) {
+    switch(gGlobals.gameStateA) {
     case 1:
     case 9:
-      gGlobals.screenFadeModeSwitch = screenFadeMode_1_9(GG);
+      gGlobals.gameStateA = GameStateA_1_9(GG);
       break;
     case 2:
-      gGlobals.screenFadeModeSwitch = ScreenFadeMode_2(GG);
+      gGlobals.gameStateA = GameStateA_2(GG);
       break;
     case 3:
-      gGlobals.screenFadeModeSwitch = ScreenFadeMode_3(GG);
-      if (gGlobals.screenFadeModeSwitch != 2) {
-        if (gGlobals.screenFadeModeSwitch != 1) break;
-        gGlobals.screenFadeModeSwitch = 2;
+      gGlobals.gameStateA = GameStateA_3(GG);
+      if (gGlobals.gameStateA != 2) {
+        if (gGlobals.gameStateA != 1) break;
+        gGlobals.gameStateA = 2;
         gGlobals.combatBytes[0] = CombatState_16;
       }
       break;
@@ -181,30 +181,30 @@ code_r0x80023c48:
     case 6:
     case 7:
     case 8:
-      gGlobals.screenFadeModeSwitch = ScreenFadeMode_3(GG);
+      gGlobals.gameStateA = GameStateA_3(GG);
       break;
     case 10:
-      gGlobals.screenFadeModeSwitch = ScreenFademode_10(GG);
+      gGlobals.gameStateA = GameStateA_10(GG);
       break;
     case 0xc:
-      gGlobals.screenFadeModeSwitch = ScreenFadeMode_12(GG);
+      gGlobals.gameStateA = GameStateA_12(GG);
       break;
     case 0xe:
-      gGlobals.screenFadeModeSwitch = Cinematic::Tick(GG);
+      gGlobals.gameStateA = Cinematic::Tick(GG);
       break;
     case 0xf:
-      gGlobals.screenFadeModeSwitch = gameStart(GG);
+      gGlobals.gameStateA = gameStart(GG);
       break;
     case 0x11:
-      gGlobals.screenFadeModeSwitch = appState_2(GG);
+      gGlobals.gameStateA = appState_2(GG);
       break;
     case 0x13:
-      gGlobals.screenFadeModeSwitch = func_loading_credits(GG);
+      gGlobals.gameStateA = func_loading_credits(GG);
     }
   }
 LAB_80023d98:
   if (TerrainPointer) World::AddPlayTime(TerrainPointer,gGlobals.delta);  
-  if (gGlobals.screenFadeModeSwitch == 0) {
+  if (gGlobals.gameStateA == 0) {
     cleardb_flag = true;
     uVar2 = 0;
   }
@@ -223,11 +223,11 @@ u8 func_loading_credits(Gfx **GG) {
   
   if (DAT_800e9933) {
     if ((0.0 < (double)gGlobals.brightness) &&
-       (gGlobals.screenFadeMode == 0)) {
-      gGlobals.screenFadeMode = 1;
+       (gGlobals.screenFadeMode == ScreenFade_None)) {
+      gGlobals.screenFadeMode = ScreenFade_Out;
       return 0x13;
     }
-    gGlobals.screenFadeMode = 2;
+    gGlobals.screenFadeMode = ScreenFade_In;
     gCreditsWidget = new WidgetCredits();
     WHANDLE->AddWidget(gCreditsWidget);
     DAT_800e9933 = false;

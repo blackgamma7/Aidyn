@@ -10,7 +10,7 @@ void PotionEffect::Init(u8 ID_,u8 pow,u32 t){
 }
 
 void PotionEffect::RemoveSpellVisual(){
-  if ((SpellVisualIndex != -1) && (gGlobals.screenFadeModeSwitch == 2)) {
+  if ((SpellVisualIndex != -1) && (gGlobals.gameStateA == 2)) {
     FUN_8009420c(SpellVisualIndex);
   }
 }

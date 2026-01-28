@@ -126,7 +126,7 @@ byte bigAssOpenCallback(BaseWidget *w) {
            (s16)(int)(((float)(iVar7 + -SCREEN_WIDTH) / (float)(int)(iVar6 - uVar5)) *
                        (float)(int)(uVar2 - uVar5)) + SCREEN_WIDTH;
       if (sub->borg7->unk1c->b6->dat->aniLength <= (int)(u32)uVar2) {
-        if (gGlobals.screenFadeModeSwitch - 6 < 2) {
+        if (gGlobals.gameStateA - 6 < 2) {
           gGlobals.screenshotTint.B = 0xff;
           gGlobals.screenshotTint.G = 0xff;
           gGlobals.screenshotTint.R = 0xff;

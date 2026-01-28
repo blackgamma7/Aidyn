@@ -1334,7 +1334,7 @@ void healing_result_widget(char *txt){
   Color32 col1;
   Color32 col2;
   
-  if (gGlobals.screenFadeModeSwitch == 2) {
+  if (gGlobals.gameStateA == 2) {
     if (gCombatP) {copy_string_to_combat_textbox(gCombatP,txt,0);}
   }
   else {
@@ -1369,7 +1369,7 @@ char * Party::PrintHeal(u8 A,u8 B){
       pcVar9 = Cstring(HealMenuMaxHP);
     }
     else {
-      if (gGlobals.screenFadeModeSwitch == 2) {
+      if (gGlobals.gameStateA == 2) {
         if (gGlobals.ShadowIndex != -1) {
           return gGlobals.CommonStrings[0x1b5];
         }
@@ -1435,7 +1435,7 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
     if (uVar5 != 0) {
       if (gCombatP == NULL) herb_func();
       if ((s16)skillMod <= CharStats::getModded(ent->Stats,STAT_STAM)) {
-        if ((gGlobals.screenFadeModeSwitch == 2) && (gGlobals.ShadowIndex != -1)) {
+        if ((gGlobals.gameStateA == 2) && (gGlobals.ShadowIndex != -1)) {
           return gGlobals.CommonStrings[0x1b5];
         }
         Entity::DecreaseHP(ent,(s16)skillMod);

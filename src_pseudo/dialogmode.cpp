@@ -97,7 +97,7 @@ Gfx * FUN_80057e78(Gfx *gfx,u16 delta){
   return g;
 }
 
-int ScreenFadeMode_12(Gfx **GG){
+int GameStateA_12(Gfx **GG){
   byte bVar1;
   int iVar2;
   bool bVar4;
@@ -512,9 +512,7 @@ void dialougmode_free(){
   return;
 }
 
-byte cutScene_control_func()
-
-{
+byte cutScene_control_func(){
   BaseWidget *pBVar1;
   bool bVar2;
   byte bVar3;
@@ -528,7 +526,7 @@ byte cutScene_control_func()
       bVar3 = delta + 1;
       if (!Controller::GetInput(&acStack32,0)) goto LAB_80059174;
       delta = bVar3;
-    } while (gGlobals.screenFadeMode != 0);
+    } while (gGlobals.screenFadeMode != ScreenFade_None);
     if ((acStack32->pressed & B_BUTTON) != 0) unusedDialougToggle ^= 1;
     #ifdef DEBUGVER
     if (((gDebugFlag != 0) && (dialougemode_pointer->controlLock == 0)) &&
@@ -602,7 +600,7 @@ void DialogueModeInitPrescripted(){
   gGlobals.diaClass->StartDialoug(dialougemode_pointer->borg13_dat,
              &dialougemode_pointer->inst,dialougemode_pointer->func_index,
              dialougemode_pointer->borg13_dat->libraryType);
-  gGlobals.screenFadeMode = 2;
+  gGlobals.screenFadeMode = ScreenFade_In;
   gGlobals.brightness = 0.0;
   gGlobals.screenFadeSpeed = (1.0/60);
 }
@@ -693,7 +691,7 @@ void FUN_80059770(){
   Wanderer *pwVar1 = dialougemode_pointer->Wanderers;
   if ((pwVar1) && (pwVar1->playerDat)) {
     Borg9Data *pBVar2 = GetCollisionZone(pwVar1->playerDat->zoneDatByte);
-    gGlobals.playerCharStruct.unkState = 2;
+    gGlobals.playerCharStruct.gameStateB = 2;
     gGlobals.EncounterDat.collisionByte = 0;
     gGlobals.EncounterDat.aniByte = 0;
     voxelObject* pmVar3 = &pBVar2->voxelObjs[pwVar1->VoxelIndex];
@@ -713,7 +711,7 @@ void FUN_800597f8(){
   }
   else if (uVar1 == 7) lVar2 = 7;
   if (lVar2 != 0xffff) {
-    gGlobals.playerCharStruct.unkState = (u8)lVar2;
+    gGlobals.playerCharStruct.gameStateB = (u8)lVar2;
   }
 }
 
@@ -850,14 +848,14 @@ void FUN_80059c70(){
   gGlobals.screenFadeSpeed = (1.0/60);
   dialougemode_pointer->unkab = 2;
   dialougemode_pointer->unka8 = 1;
-  gGlobals.screenFadeMode = 1;
+  gGlobals.screenFadeMode = ScreenFade_Out;
   if (dialougemode_pointer->borg13_dat->start_func == 2) {
     gGlobals.screenFadeSpeed = (1.0/30);
   }
 }
 
 void SetUnkState11(){
-  gGlobals.playerCharStruct.unkState = 0xb;
+  gGlobals.playerCharStruct.gameStateB = 0xb;
 }
 
 void NOOP_80059D08(){}
@@ -885,7 +883,7 @@ void FUN_80059dac(){
 }
 
 bool isDialougeMode(){
-  if (gGlobals.screenFadeModeSwitch == 0xc)
+  if (gGlobals.gameStateA == 0xc)
     return true;
   return dialougemode_pointer != NULL;
 }

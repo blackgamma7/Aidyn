@@ -127,7 +127,7 @@ void get_loot_reagent(voxelObject* v,container_Dat * cont){
   GenericInventory * pGVar1 = new GenericInventory();
   pGVar1->AddItem(gItemDBp->Gear[LootReagentIDs[cont->LootType]].ID,quant);
   build_loot_menu(pGVar1,0,-1);
-  gGlobals.playerCharStruct.unkState = 7;
+  gGlobals.playerCharStruct.gameStateB = 7;
 }
 
 void loot_func(voxelObject *v,u16 A, u16 B){
@@ -224,8 +224,8 @@ void loot_func(voxelObject *v,u16 A, u16 B){
           }
         }
         build_loot_menu(loot,(v->container).Gold,-1);
-        gGlobals.playerCharStruct.unkState = 0x13;
-        if ((v->container).LootType == Treasure_Misc) gGlobals.playerCharStruct.unkState = 7;
+        gGlobals.playerCharStruct.gameStateB = 0x13;
+        if ((v->container).LootType == Treasure_Misc) gGlobals.playerCharStruct.gameStateB = 7;
       }
     }
     else lockpicking_check(v);
@@ -256,7 +256,7 @@ void monsterpary_func(voxelObject *v,u16 A,u16 B){
     gGlobals.EncounterDat.collisionByte = x <= Vec3Normalize(&temp);
     gGlobals.EncounterDat.aniByte = 0;
     battle_setup_func(v,(v->header).flagB,gGlobals.wander.wanderSubstructs[(v->monster).wandererIndex].VoxelIndex);
-    gGlobals.playerCharStruct.unkState = 2;
+    gGlobals.playerCharStruct.gameStateB = 2;
   }
 }
 
@@ -293,11 +293,11 @@ void savepoint_func(voxelObject *v,u16 A,u16 B){}
 
 u8 vobject_pause_check(void){
   u8 bVar2 = true;
-  if (gGlobals.screenFadeModeSwitch == 1) {
+  if (gGlobals.gameStateA == 1) {
     bVar2 = false;
     if (!isPaused()) {
       if (check_some_toggle()) bVar2 = false;
-      else bVar2 = gGlobals.playerCharStruct.unkState == 3;
+      else bVar2 = gGlobals.playerCharStruct.gameStateB == 3;
     }
   }
   return bVar2;
