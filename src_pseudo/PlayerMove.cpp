@@ -323,7 +323,7 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
             SetControllerRun(&param_1->controller,&fStack88);
           else SetControllerWalk(&param_1->controller,&fStack88);
         }
-        else if (gGlobals.playerCharStruct.gameStateB != 3) {
+        else if (gGlobals.playerCharStruct.gameStateB != GameStateB_3) {
           iVar6 = 30;
           if (DAT_800ee974) iVar6 = 300;
           param_1->aiTravelTime += gGlobals.delta;
@@ -343,9 +343,9 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
           FUN_80019770(param_1);
         }
       }
-      if ((param_1->flags & ACTOR_CANROTATE) != 0) {
+      if ((param_1->flags & ACTOR_CANROTATE)) {
         iVar7++;
-        if (some_trig_func_2(&param_1->facing,&param_1->unk26c,0.17453)) {
+        if (some_trig_func_2(&param_1->facing,&param_1->unk26c,(10*dtor))) {
           UnsetFlag(param_1,ACTOR_CANROTATE);
         }
       }

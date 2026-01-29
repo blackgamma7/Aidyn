@@ -689,7 +689,7 @@ void FUN_80059770(){
   Wanderer *pwVar1 = dialougemode_pointer->Wanderers;
   if ((pwVar1) && (pwVar1->playerDat)) {
     Borg9Data *pBVar2 = GetCollisionZone(pwVar1->playerDat->zoneDatByte);
-    gGlobals.playerCharStruct.gameStateB = 2;
+    gGlobals.playerCharStruct.gameStateB = GameStateB_2;
     gGlobals.EncounterDat.collisionByte = 0;
     gGlobals.EncounterDat.aniByte = 0;
     voxelObject* pmVar3 = &pBVar2->voxelObjs[pwVar1->VoxelIndex];
@@ -703,11 +703,11 @@ void FUN_800597f8(){
   
   uVar1 = dialougemode_pointer->nextGameState;
   lVar2 = 0xffff;
-  if (uVar1 == 5) lVar2 = 5;
+  if (uVar1 == 5) lVar2 = GameStateB_5;
   else if (uVar1 < 6) {
     if (uVar1 == 2) FUN_80059770();
   }
-  else if (uVar1 == 7) lVar2 = 7;
+  else if (uVar1 == 7) lVar2 = GameStateB_7;
   if (lVar2 != 0xffff) {
     gGlobals.playerCharStruct.gameStateB = (u8)lVar2;
   }
@@ -809,7 +809,7 @@ playerData * FUN_80059ae8(){
 
 void FUN_80059b28(){
   if (DAT_800ee96c == 0)
-    FUN_80024c54(0xb);
+    FUN_80024c54(GameStateB_11);
 }
 
 
@@ -853,7 +853,7 @@ void FUN_80059c70(){
 }
 
 void SetUnkState11(){
-  gGlobals.playerCharStruct.gameStateB = 0xb;
+  gGlobals.playerCharStruct.gameStateB = GameStateB_11;
 }
 
 void NOOP_80059D08(){}

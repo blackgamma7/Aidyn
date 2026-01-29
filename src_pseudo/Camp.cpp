@@ -2,9 +2,9 @@
 #include "vobjects.h"
 
 void checking_camping_safety(void){
-  gGlobals.playerCharStruct.gameStateB = 3;
+  gGlobals.playerCharStruct.gameStateB = GameStateB_3;
   if (!PARTY->CampAmbushCheck()) dialoug_ref_obj_func();
-  else gGlobals.playerCharStruct.gameStateB = 2;
+  else gGlobals.playerCharStruct.gameStateB = GameStateB_2;
 }
 
 void dialoug_ref_obj_func(void){

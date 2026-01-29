@@ -195,6 +195,35 @@ struct PlayerHandler {
 //shorthand for player handler object
 #define PHANDLE gGlobals.gameVars.PlayerHandler
 
+enum GameStateB{
+    GameStateB_0,//set gameStateA to 0
+    GameStateB_1, //unknown/unused?
+    GameStateB_2, //set to combat state
+    GameStateB_3,
+    GameStateB_4, //set when changine appearance or TP'ing
+    GameStateB_5, //trainer state?
+    GameStateB_6, //check but not set(?). Ritual state?
+    GameStateB_7, //shop/loot state?
+    GameStateB_8,
+    GameStateB_9, //"GamrStateMod" state
+    GameStateB_10,
+    GameStateB_11,
+    GameStateB_12,
+    GameStateB_13,
+    GameStateB_14,
+    GameStateB_15,
+    GameStateB_16, //controller pak state?
+    GameStateB_17, //camping
+    GameStateB_18, //open help menu
+    GameStateB_19, //start loot menu.
+    GameStateB_20, //unknown/unused?
+    GameStateB_21, //unknown/unused
+    GameStateB_22, //wait to start cinematic
+    GameStateB_23, //start cinematic
+    GameStateB_24, //unknown/unused?
+    GameStateB_25 //start credits
+};
+
 struct player_char_struct {
     playerData *playerDat;
     u32 player_form;

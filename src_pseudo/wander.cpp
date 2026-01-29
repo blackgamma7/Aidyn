@@ -220,7 +220,7 @@ void WanderTick(WanderManager *param_1,s16 delta){
   sneakval = sneak_value(0.8f);
   bVar3 = false;
   if ((((gGlobals.screenFadeMode == ScreenFade_None) && (!isPaused())) &&
-      (gGlobals.playerCharStruct.gameStateB == 3)) &&
+      (gGlobals.playerCharStruct.gameStateB == GameStateB_3)) &&
      ((!WHANDLE->GetTail() && (0 < param_1->wanderersmax)))) {
     for(s16 i = 0;i<param_1->wanderersmax;i++) {
       Wanderer *wanderer = &param_1->wanderSubstructs[i];
@@ -363,7 +363,7 @@ LAB_80013318:
                 gGlobals.EncounterDat.collisionByte = 2;
                 battle_setup_func(pmVar8,(pmVar8->header).flagB,wanderer->VoxelIndex);
                 wanderer->NoBorg13 = 0;
-                FUN_80024c54(2);
+                FUN_80024c54(GameStateB_2);
               }
             }
           }

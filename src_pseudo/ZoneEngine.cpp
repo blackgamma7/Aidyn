@@ -293,7 +293,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
   }
   if (((((param_2->GroundType & B9Ground_mf000) == B9Ground_VoxTrigger) && 
       ((param_1->flags & CSPHERE_NoTriggers) == 0)) &&
-      (gGlobals.playerCharStruct.gameStateB == 3)) &&
+      (gGlobals.playerCharStruct.gameStateB == GameStateB_3)) &&
      ((some_toggle == -1 &&
       (ptVar6 = (gGlobals.gameVars.borg9DatPointer)->voxelObjs + (param_2->GroundType >> 5 & 0x7f),
       ((ptVar6->header).Bitfeild & VOXEL_Active) != 0)))) {

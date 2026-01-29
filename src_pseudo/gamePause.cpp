@@ -3,7 +3,7 @@
 #include "QuestData.h"
 
 u8 u8_800edb90=0;
-u8 u8_800edb91=0;
+u8 u8_800edb91=GameStateB_0;
 u32 DAT_800edb94=0;
 u8 some_screenfade_flag=true;
 u8 u8_800edb99=0;
@@ -228,7 +228,7 @@ LAB_80050770:
         gGlobals.BigAssMenu->bigAssOpenCallback_2();
         break;
       case 4:
-        u8_800edb91 = 3;
+        u8_800edb91 = GameStateB_3;
         u8_800edb90 = 10;
         gGlobals.BigAssMenu->bigAssOpenCallback_2();
         break;
@@ -267,34 +267,34 @@ void func_clearing_shopkeep(void) {
 
 void FUN_80050868(void) {
   DAT_800edb94 = true;
-  PlayAudioSound(&gGlobals.SFXStruct,0x740,0,1.0,60,0);
+  PlayAudioSound(&gGlobals.SFXStruct,0x0740,0,1.0,60,0);
   Sky::ResetColors();
 }
 
 void FUN_800508b4(u16 param_1) {
   switch(param_1) {
   case 1:
-    u8_800edb91 = 0x11;
+    u8_800edb91 = GameStateB_17;
     u8_800edb90 = 8;
     break;
   case 2:
-    u8_800edb91 = 0x16;
+    u8_800edb91 = GameStateB_22;
     u8_800edb90 = 10;
     break;
   case 3:
-    u8_800edb91 = 0x12;
+    u8_800edb91 = GameStateB_18;
     u8_800edb90 = 0xb;
     break;
   case 4:
-    u8_800edb91 = 4;
+    u8_800edb91 = GameStateB_4;
     u8_800edb90 = 10;
     break;
   case 5:
-    u8_800edb91 = 0x19;
+    u8_800edb91 = GameStateB_25;
     u8_800edb90 = 10;
     break;
   default:
-    u8_800edb91 = 3;
+    u8_800edb91 = GameStateB_3;
     u8_800edb90 = 10;
     break;
   }
@@ -303,7 +303,7 @@ void FUN_800508b4(u16 param_1) {
 }
 
 void setGlobalsPointer(BaseWidget *param_1) {
-  u8_800edb91 = 3;
+  u8_800edb91 = GameStateB_3;
   u8_800edb90 = 10;
   gGlobals.BigAssMenu->bigAssOpenCallback_2();
   gGlobals.barterMenu = param_1;

@@ -188,7 +188,7 @@ void debug_combat_options(BaseWidget *param_1){
     char** txt = (char **)param_1->substruct;
     if(strcmp(*txt,"Combat")==0){
         FreeSmallDebug;
-        gGlobals.playerCharStruct.gameStateB = 2;
+        gGlobals.playerCharStruct.gameStateB = GameStateB_2;
         return;
     }
     if (strcmp(*txt,"Combat Arena Random Test") == 0) {
@@ -332,7 +332,7 @@ void set_debug_combat_battlefeild(BaseWidget *param_1){
       gGlobals.EncounterDat.canFlee = true;
       gGlobals.combatBytes[2] = true;
       FreeDebugMenu(gGlobals.playerCharStruct.debugMenuArena);
-      gGlobals.playerCharStruct.gameStateB = 2;
+      gGlobals.playerCharStruct.gameStateB = GameStateB_2;
     }
   }
 }
@@ -375,7 +375,7 @@ void debug_change_form(BaseWidget *param_1){
     gGlobals.playerCharStruct.player_form = debugCharacters[param_1->varU16].borg7;
     gGlobals.playerCharStruct.collisionRadius = debugCharacters[param_1->varU16].f;
     FreeDebugMenu(gGlobals.playerCharStruct.debugMenuActor);
-    gGlobals.playerCharStruct.gameStateB = 4;
+    gGlobals.playerCharStruct.gameStateB = GameStateB_4;
   }
 }
 
@@ -417,7 +417,7 @@ void debug_teleport(BaseWidget *param_1){
     gGlobals.gameVars.mapDatC = debugMapLabels[param_1->varU16].c;
     gGlobals.playerCharStruct.mapLoadBool = 0;
     FreeDebugMenu(gGlobals.playerCharStruct.debugMenuTP);
-    gGlobals.playerCharStruct.gameStateB = 4;
+    gGlobals.playerCharStruct.gameStateB = GameStateB_4;
   }
 }
 

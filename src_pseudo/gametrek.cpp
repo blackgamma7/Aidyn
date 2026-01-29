@@ -55,9 +55,9 @@ u8 Trek_GameState(Gfx **GG) {
     some_toggle = -1;
     QuestData::SetWeather();
   }
-  if ((((gGlobals.playerCharStruct.gameStateB == 3) && (!check_some_toggle())) &&
+  if ((((gGlobals.playerCharStruct.gameStateB == GameStateB_3) && (!check_some_toggle())) &&
       (gGlobals.screenFadeMode == ScreenFade_None)) && (FUN_8000ccc0())) {
-    gGlobals.playerCharStruct.gameStateB = 0xf;
+    gGlobals.playerCharStruct.gameStateB = GameStateB_15;
   }
   if (gGlobals.gameStateA == GameStateA_9) {
     if (DAT_800e9aac) {
@@ -68,25 +68,25 @@ u8 Trek_GameState(Gfx **GG) {
       Sky::SetBackgroundType(gGlobals.BackgroundTypeCopy,gGlobals.gameVars.weather.skyBgdat,0.0);
     }
     if (gGlobals.screenFadeMode == ScreenFade_None) {
-      gGlobals.playerCharStruct.gameStateB = 8;
+      gGlobals.playerCharStruct.gameStateB = GameStateB_8;
       DAT_800e9aac = true;
     }
     else {
       ret = GameStateA_9;
-      gGlobals.playerCharStruct.gameStateB = 3;
+      gGlobals.playerCharStruct.gameStateB = GameStateB_3;
     }
   }
   if (false) goto switchD_80024ecc_caseD_1;
   switch(gGlobals.playerCharStruct.gameStateB) {
-  case 0:
+  case GameStateB_0:
     DAT_800e9aa7 = true;
     ret = GameStateA_0;
     break;
-  case 2:
+  case GameStateB_2:
     DAT_800e9aa7 = true;
     ret = GameStateA_Combat;
     break;
-  case 3:
+  case GameStateB_3:
     gDelta = 0;
     if (gGlobals.gameStateA == GameStateA_9) {
       while (Controller::GetInput(&pcStack_30,0)) {
@@ -104,13 +104,13 @@ u8 Trek_GameState(Gfx **GG) {
     gGlobals.delta = (float)(u8)gDelta;
     gfxTemp[0] = tick_trek_features(gfxTemp[0],(u8)gDelta);
     break;
-  case 4:
+  case GameStateB_4:
     DAT_800e9aa7 = true;
     break;
-  case 5:
-  case 6:
-  case 7:
-  case 8:
+  case GameStateB_5:
+  case GameStateB_6:
+  case GameStateB_7:
+  case GameStateB_8:
     if (DAT_800e9ab0 == 0) {
       FreeZoneEngineMemory();
       DAT_800e9ab0 = 1;
@@ -118,85 +118,85 @@ u8 Trek_GameState(Gfx **GG) {
     if (gGlobals.QueueA.items) break;
     GetSnapshot_();
     gGlobals.BackgroundTypeCopy = gGlobals.sky.Type;
-    if (gGlobals.playerCharStruct.gameStateB == 6) {
+    if (gGlobals.playerCharStruct.gameStateB == GameStateB_6) {
       ret = GameStateA_6;
     }
-    else if (gGlobals.playerCharStruct.gameStateB < 7) {
+    else if (gGlobals.playerCharStruct.gameStateB < GameStateB_7) {
       ret = GameStateA_8;
-      if (gGlobals.playerCharStruct.gameStateB == 5) {
+      if (gGlobals.playerCharStruct.gameStateB == GameStateB_5) {
         ret = GameStateA_5;
       }
     }
     else {
       ret = GameStateA_8;
-      if (gGlobals.playerCharStruct.gameStateB == 7) {
+      if (gGlobals.playerCharStruct.gameStateB == GameStateB_7) {
         ret = GameStateA_7;
       }
     }
     some_ticker = 0;
     DAT_800e9ab0 = 0;
     break;
-  case 9:
+  case GameStateB_9:
     DAT_800e9aa7 = true;
     ret = GameStateA_GSM;
     break;
-  case 10:
+  case GameStateB_10:
     DAT_800e9aa7 = true;
     ret = GameStateA_11;
     break;
-  case 0xb:
+  case GameStateB_11:
     DAT_800e9aa7 = true;
     ret = GameStateA_Dialog;
     break;
-  case 0xc:
+  case GameStateB_12:
     ret = GameStateA_13;
     break;
-  case 0xd:
+  case GameStateB_13:
     DAT_800e9aa7 = true;
     ret = GameStateA_13;
     break;
-  case 0xe:
-    gGlobals.playerCharStruct.gameStateB = 3;
+  case GameStateB_14:
+    gGlobals.playerCharStruct.gameStateB = GameStateB_3;
     break;
-  case 0xf:
+  case GameStateB_15:
     gGlobals.playerCharStruct.unk10 = 0;
     gGlobals.playerCharStruct.mapLoadBool = 1;
     DAT_800e9aa7 = true;
     gMemMakerFlag = true;
     break;
-  case 0x10:
+  case GameStateB_16:
     DAT_800e9aa7 = true;
     ret = GameStateA_ContPak;
     break;
-  case 0x11:
+  case GameStateB_17:
     checking_camping_safety();
     break;
-  case 0x12:
+  case GameStateB_18:
     dialoug_func(BORG13_HelpMenu,0,0,0,0,0x7fff);// load help menu
     break;
-  case 0x13:
+  case GameStateB_19:
     gDelta = 0;
     while (Controller::GetInput(&pcStack_30,0)) {gDelta++;}
     if (gDelta < 1) gDelta = 1;
     if (*(u8*)&gDelta >= 6) gDelta = 6;
     gGlobals.delta = (float)(u8)gDelta;
     gfxTemp[0] = tick_trek_features(gfxTemp[0],(u8)gDelta);
-    gGlobals.playerCharStruct.gameStateB = 7;
+    gGlobals.playerCharStruct.gameStateB = GameStateB_7;
     break;
-  case 0x16:
+  case GameStateB_22:
     if (!GetDelta_TickTrek(gfxTemp)) {
-      gGlobals.playerCharStruct.gameStateB = 23;
+      gGlobals.playerCharStruct.gameStateB = GameStateB_23;
     }
     break;
-  case 0x17:
+  case GameStateB_23:
     DAT_800e9aa7 = true;
     ret = GameStateA_Cinematic;
     break;
-  case 0x19:
+  case GameStateB_25:
     ret = GameStateA_Credits;
   }
 switchD_80024ecc_caseD_1:
-  if ((some_toggle != -1) && (gGlobals.screenFadeMode == 0)) {
+  if ((some_toggle != -1) && (gGlobals.screenFadeMode == ScreenFade_None)) {
     gGlobals.playerCharStruct.gameStateB = (u8)some_toggle;
     some_toggle = -1;
   }
@@ -251,7 +251,7 @@ void func_calling_orphaned_dat(byte param_1) {
 void player_control_func(controller_aidyn *cont) {
   u32 BVar1;
   
-  if (gGlobals.playerCharStruct.gameStateB != 3) return;
+  if (gGlobals.playerCharStruct.gameStateB != GameStateB_3) return;
   if (gGlobals.screenFadeMode != ScreenFade_None) return;
 #ifdef DEBUGVER
   if ((((cont->held & R_BUTTON)) && ((cont->pressed & A_BUTTON))) &&
@@ -284,7 +284,7 @@ void player_control_func(controller_aidyn *cont) {
         return;
       }
 #endif
-      gGlobals.playerCharStruct.gameStateB = 8;
+      gGlobals.playerCharStruct.gameStateB = GameStateB_8;
       return;
     }
   }
@@ -446,11 +446,11 @@ void TickGameTime(byte delta) {
 }
 
 Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
-  Gfx *gTemp;
+  ;
 
-  if (((gGlobals.playerCharStruct.gameStateB != 5) && (gGlobals.playerCharStruct.gameStateB != 7)) &&
-     (gGlobals.playerCharStruct.gameStateB != 2)) {
-    gTemp = Graphics::StartDisplay(param_1,FULL_SCREENSPACE);
+  if (((gGlobals.playerCharStruct.gameStateB != GameStateB_5) && (gGlobals.playerCharStruct.gameStateB != GameStateB_7)) &&
+     (gGlobals.playerCharStruct.gameStateB != GameStateB_2)) {
+    Gfx *gTemp = Graphics::StartDisplay(param_1,FULL_SCREENSPACE);
     #ifdef DEBUGVER
     gTemp = zoneEngine_debug(gTemp,delta);
     #else
@@ -474,7 +474,7 @@ void SetNewJounalEntry(s16 param_1) {newestJournal = param_1;}
 
 void NewJournalEntryPopup(void) {
   if ((((gGlobals.screenFadeMode == ScreenFade_None) && (some_toggle == -1))
-      && (!isPaused())) &&((gGlobals.playerCharStruct.gameStateB == 3 &&
+      && (!isPaused())) &&((gGlobals.playerCharStruct.gameStateB == GameStateB_3 &&
       #ifdef DEBUGVER //yeah, no clue why this discrepancy...
       (Get_eventFlagCheck(FLAG_NewJournalEntry)))))
       #else
