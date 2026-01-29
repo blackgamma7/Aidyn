@@ -160,7 +160,7 @@ u8 CombatStateFunc_27(Gfx **GG,u16 delta);
 u8 CombatStateFunc_28(Gfx **GG,u16 delta);
 u8 CombatStateFunc_31(Gfx **GG,u16 delta);
 bool fleeing_reinforcements_func();
-u8 GameStateA_2(Gfx **GG);
+u8 Combat_GameState(Gfx **GG);
 void combat_start_turn_();
 void init_combat_struct();
 void clear_combat_func();
@@ -181,10 +181,10 @@ bool shadow_combat_func();
 bool IsCEntInRange(CombatEntity *entA,CombatEntity *entB,float f);
 bool IsShadowNearAnyone(CombatEntity *shadow);
 bool IsNearShadow(CombatEntity *param_1);
-void combat_func_if_alaron_dead();
-void combat_byte_0xd();
+void Combat_AlaronDown();
+void Combat_InitGameOver();
 void combat_byte_0x1a();
-void set_combat_byte_to_0x1c();
+void Combat_GoblinAmbushKO();
 
 void ShadowMergeBoost(int shadInd);
 

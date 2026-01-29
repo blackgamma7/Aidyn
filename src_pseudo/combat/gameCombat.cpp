@@ -130,7 +130,7 @@ Gfx * Combat_Render(Gfx *gfx,s16 delta){
 
 u8 CombatStateFunc_0(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
-  return 0;
+  return GameStateA_0;
 }
 
 bool FUN_80027eb0(Gfx **GG,u16 param_2){
@@ -190,7 +190,7 @@ u8 CombatStateFunc_2(Gfx **GG,u16 delta){
     copy_to_textbox_1(gCombatP);
   }
   *GG = Combat_Render(*GG,delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 void func_keel_over_after_ambush(CombatEntity *param_1,playerData *param_2){
@@ -246,7 +246,7 @@ u8 CombatStateFunc_3(Gfx **GG,u16 delta){
     }
   }
   *GG = Combat_Render(*GG,delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 void Combat_ActorDeath(playerData *param_1,u8 param_2,CombatEntity *param_3){
@@ -324,9 +324,8 @@ u8 CombatStateFunc_4(Gfx** GG,u16 delta){
   if ((byte)(gCombatP->substruct2[0].arrayBCount + gCombatP->substruct2[1].arrayBCount) == 0) {
     if (!gCombatP->SenseAuraWidget) gCombatP->current_Ent->EndTurn();
   }
-LAB_8002874c:
   *GG=Combat_Render(*GG,delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 u8 CombatStateFunc_5(Gfx **GG,u16 delta){
@@ -350,7 +349,7 @@ u8 CombatStateFunc_5(Gfx **GG,u16 delta){
   }
   Vec3Copy(&combatVec3B,&combatVec3A);
   *GG = Combat_Render(*GG,delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 
@@ -385,7 +384,7 @@ u8 CombatStateFunc_6(Gfx **GG,u16 delta){
       *GG = Combat_Render(*GG,delta);
     }
   }
-  return 2;
+  return GameStateA_Combat;
 }
 
 u8 CombatStateFunc_7(Gfx **GG,u16 delta){
@@ -395,13 +394,13 @@ u8 CombatStateFunc_7(Gfx **GG,u16 delta){
     gGlobals.combatBytes[0] = CombatState_5;
   }
   *GG = Combat_Render(*GG,delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 u8 CombatStateFunc_8(Gfx **GG,u16 delta){
   FUN_80064494(gCombatP->current_Ent->aiP);
   *GG = Combat_Render(*GG,delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 u8 CombatStateFunc_12(Gfx **GG,u16 delta){
@@ -424,12 +423,12 @@ u8 CombatStateFunc_12(Gfx **GG,u16 delta){
     gCombatP->loot_pool = NULL;
     gGlobals.combatBytes[1] = CombatState_16;
     gGlobals.expGained = gCombatP->EXP_pool;
-    return 6;
+    return GameStateA_6;
   }
   else {
     gCombatHideMarkers = true;
     *GG = Combat_Render(*GG,delta);
-    return 2;
+    return GameStateA_Combat;
   }
 }
 
@@ -452,12 +451,12 @@ u8 CombatStateFunc_13(Gfx **GG,u16 delta){
       temp.second = 0;
       temp.day++;
       World::SetTimeFromCalendar(TerrainPointer,&temp);
-      ret = 1;
+      ret = GameStateA_1;
       clear_combatstruct_flag = true;
     }
     else {
       Gameover_func();
-      ret = 2;
+      ret = GameStateA_Combat;
     }
   }
   else return CombatStateFunc_1(GG,delta);
@@ -472,48 +471,48 @@ u8 CombatStateFunc_14(Gfx **GG,u16 delta){
     GetSnapshot_();
     gGlobals.BackgroundTypeCopy = gGlobals.sky.Type;
     gPartyPicker = gCombatP->current_Ent->index;
-    return 3;
+    return GameStateA_Pause;
   }
 }
 
 u8 CombatStateFunc_16(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
-  return 1;
+  return GameStateA_1;
 }
 
 u8 CombatStateFunc_17(Gfx **GG,u16 delta){
   ShadowMergeBoost(gGlobals.ShadowIndex);
   clear_combatstruct_flag = 1;
-  return 0xe;
+  return GameStateA_Cinematic;
 }
 
 u8 CombatStateFunc_18(Gfx **GG,u16 delta){
   *GG = Combat_Render(*GG,delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 u8 CombatStateFunc_19(Gfx **GG,u16 delta){ 
   gCombatP->current_Ent->EndTurn();
   *GG = Combat_Render(*GG,delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 u8 CombatStateFunc_20(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
   gGlobals.gameVars.combatFlee = true;
-  return 1;
+  return GameStateA_1;
 }
 
 u8 CombatStateFunc_21(Gfx **GG,u16 delta){
   clear_combatstruct_flag = 1;
-  return 0xc;
+  return GameStateA_Dialog;
 }
 
 u8 CombatStateFunc_22(Gfx **GG,u16 delta){
   *GG = Combat_Render(*GG,delta);
   *GG = Combat_RenderCVertMenu(*GG,delta);
   FUN_80091528(delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 u8 CombatStateFunc_23(Gfx **GG,u16 delta){return CombatStateFunc_22(GG,delta);}
@@ -521,7 +520,7 @@ u8 CombatStateFunc_23(Gfx **GG,u16 delta){return CombatStateFunc_22(GG,delta);}
 //also used in states 9,10,11,15,25
 u8 CombatStateFunc_1(Gfx **GG,u16 delta){
   *GG = Combat_Render(*GG,delta);
-  return 2;
+  return GameStateA_Combat;
 }
 
 byte CombatStateFunc_24(Gfx **param_1,u16 delta){
@@ -541,11 +540,11 @@ void FUN_800290a4(){
 u8 CombatStateFunc_27(Gfx **GG,u16 delta){
   u8 uVar1;
   
-  if (CombatStateTimer < 2) uVar1 = 2;
+  if (CombatStateTimer < 2) uVar1 = GameStateA_Combat;
   else {
     if (!gExpPakFlag) FreeZoneEngineMemory();
     GetSnapshot_();
-    uVar1 = 3;
+    uVar1 = GameStateA_Pause;
     gGlobals.unk14fc = true;
     gGlobals.BackgroundTypeCopy = gGlobals.sky.Type;
   }
@@ -556,20 +555,20 @@ u8 CombatStateFunc_28(Gfx **GG,u16 delta){
   u8 bVar1;
   if (CombatStateTimer < 120) bVar1 = CombatStateFunc_1(GG,delta);
   else {
-    combat_byte_0xd();
-    bVar1 = 2;
+    Combat_InitGameOver();
+    bVar1 = GameStateA_Combat;
   }
   return bVar1;
 }
 
 u8 CombatStateFunc_29(Gfx **GG,u16 delta){
-  u8 bVar2 = CombatStateFunc_1(GG,delta);
+  u8 ret = CombatStateFunc_1(GG,delta);
   if (60 <= ++gCombatP->TurnCount) {
     gCombatP->TurnCount = 0;
     gGlobals.screenFadeMode = ScreenFade_Out;
     gGlobals.combatBytes[0] = CombatState_30;
   }
-  return bVar2;
+  return ret;
 }
 
 
@@ -577,7 +576,7 @@ u8 CombatStateFunc_30(Gfx **GG,u16 delta){
   u8 bVar1;
   
   if (gGlobals.screenFadeMode == ScreenFade_None) {
-    bVar1 = 1;
+    bVar1 = GameStateA_1;
     clear_combatstruct_flag = 1;
     gGlobals.screenFadeMode = ScreenFade_In;
   }
@@ -609,11 +608,9 @@ bool fleeing_reinforcements_func(void){
   return bVar3;
 }
 
-u8 GameStateA_2(Gfx **GG){
-  u8 uVar3;
-  
+u8 Combat_GameState(Gfx **GG){
   init_combat_struct();
-  uVar3 = 2;
+  u8 ret = GameStateA_Combat;
   if (!FUN_8000c9e0()) {
     if ((((gGlobals.combatBytes[0] - CombatState_14 < 2) || (gGlobals.combatBytes[0] == CombatState_12)) ||
         (gGlobals.combatBytes[0] == CombatState_27)) || (gGlobals.combatBytes[0] == CombatState_28)) {
@@ -623,13 +620,13 @@ u8 GameStateA_2(Gfx **GG){
     int delta = combat_controls();
     gGlobals.delta = (float)delta;
 
-    if (fleeing_reinforcements_func()) uVar3 = CombatStateFunc_1(GG,(u16)delta);
+    if (fleeing_reinforcements_func()) ret = CombatStateFunc_1(GG,(u16)delta);
     else {
-      uVar3 = (*combat_byte_funcs[gGlobals.combatBytes[0]])(GG,(u16)delta);
+      ret = (*combat_byte_funcs[gGlobals.combatBytes[0]])(GG,(u16)delta);
       clear_combat_func();
     }
   }
-  return uVar3;
+  return ret;
 }
 
 void combat_start_turn_(void){
@@ -647,7 +644,7 @@ void init_combat_struct(void){
     //unload data just to reload it? why?
     MemoryMaker::Unload();
     MemoryMaker::Reload();
-    if (gExpPakFlag == 0) set_AnimCache(1);
+    if (!gExpPakFlag) set_AnimCache(1);
     gCombatHideMarkers = 0;
     load_combatstruct_flag = 0;
     Vec3Set(&combatVec3A,0.0,0.0,0.0);
@@ -776,7 +773,7 @@ void clear_combat_func(){
     CombatSpellMarker::Free();
     some_combat_flag_ = 0;
     PARTY->BringOutYourDead();
-    if (gExpPakFlag == 0) set_AnimCache(3);
+    if (!gExpPakFlag) set_AnimCache(3);
   }
 }
 
@@ -924,7 +921,7 @@ void alaron_shadow_merge_attempt(){
 
 void shadow_merge_cinematic(void){
   gGlobals.combatBytes[0] = CombatState_17;
-  Cinematic::Load(Cinematic_Shadow,CSwitch_ToMenu,1);
+  Cinematic::Load(Cinematic_Shadow,CSwitch_ToMenu,GameStateA_1);
 }
 
 void merge_no_horn(){
@@ -1024,12 +1021,12 @@ bool IsNearShadow(CombatEntity *param_1){
   return false;
 }
 
-void combat_func_if_alaron_dead(void){
-  if (gGlobals.goblinAmbush) set_combat_byte_to_0x1c();
-  else  combat_byte_0xd();
+void Combat_AlaronDown(void){
+  if (gGlobals.goblinAmbush) Combat_GoblinAmbushKO();
+  else  Combat_InitGameOver();
 }
 
-void combat_byte_0xd(void){
+void Combat_InitGameOver(void){
   gGlobals.combatBytes[0] = CombatState_13;
   gGlobals.screenFadeMode = ScreenFade_Out;
 }
@@ -1039,4 +1036,4 @@ void combat_byte_0x1a(void){
   gGlobals.combatBytes[0] = CombatState_26;
 }
 
-void set_combat_byte_to_0x1c(){gGlobals.combatBytes[0] = CombatState_28;}
+void Combat_GoblinAmbushKO(){gGlobals.combatBytes[0] = CombatState_28;}

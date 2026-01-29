@@ -4,9 +4,7 @@
 #include "shopdb.h"
 #define FILENAME "./src/dialogmode.cpp"
 
-void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapShortB,u16 param_6)
-
-{
+void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapShortB,u16 param_6){
   bool bVar2;
   char *pcVar1;
   u32 uVar3;
@@ -97,7 +95,7 @@ Gfx * FUN_80057e78(Gfx *gfx,u16 delta){
   return g;
 }
 
-int GameStateA_12(Gfx **GG){
+int Dialog_GameState(Gfx **GG){
   byte bVar1;
   int iVar2;
   bool bVar4;
@@ -132,20 +130,20 @@ int GameStateA_12(Gfx **GG){
     break;
   }
   case 3:{
-      DAT_800ee970 = dialougemode_pointer->unk90;
+      DAT_800ee970 = dialougemode_pointer->nextGameState;
       run_dialougemode_funcs5();
-      if (DAT_800ee970 != 7) {
+      if (DAT_800ee970 != GameStateA_7) {
         DAT_800ee974 = false;
         return DAT_800ee970;
       }
       DAT_800ee970 = 1;
       DAT_800ee974 = false;
       DAT_800ee978 = true;
-      return 1;
+      return GameStateA_1;
   }
   }
   *GG = pGVar3;
-  return 0xc;
+  return GameStateA_Dialog;
 }
 
 void run_dialougemode_funcs1(){
@@ -209,8 +207,8 @@ void FUN_800583d0(u16 t){
   FUN_80058370();
 }
 
-void set_dialougemode_0x90(u32 param_1){
-  dialougemode_pointer->unk90 = param_1;
+void Dialog_NextGameState(u32 param_1){
+  dialougemode_pointer->nextGameState = param_1;
 }
 
 void encounterDat_func(){
@@ -482,7 +480,7 @@ bool dialougmode_struct_init(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA
   dialougemode_pointer->mapShort1 = MapShortA;
   dialougemode_pointer->mapShort2 = MapShortB;
   dialougemode_pointer->RefPointID = RefPointID;
-  dialougemode_pointer->unk90 = 1;
+  dialougemode_pointer->nextGameState = GameStateA_1;
   dialougemode_pointer->borg13_dat = borg_13_pointer->dat;
   dialougemode_pointer->Unk0x7C = param_6;
   ALLOCS(dialougemode_pointer->partySkillLvls,12,946);
@@ -618,7 +616,7 @@ void load_one_of_two_cinematics(){
   clear_borg13_pointer();
   switch (whoDied_short){
     case 1:{
-      Cinematic::Load(Cinematic_End,CSwitch_Credits,0);
+      Cinematic::Load(Cinematic_End,CSwitch_Credits,GameStateA_0);
       DAT_800ee970 = 0xe;
       return;
     }
@@ -628,7 +626,7 @@ void load_one_of_two_cinematics(){
     }
     case 3:{
     if (getEventFlag(3442)) {
-      Cinematic::Load(Cinematic_Roog,CSwitch_TrueName,1);
+      Cinematic::Load(Cinematic_Roog,CSwitch_TrueName,GameStateA_1);
       DAT_800ee970 = 0xe;
       return;
     }
@@ -703,7 +701,7 @@ void FUN_800597f8(){
   u32 uVar1;
   u16 lVar2;
   
-  uVar1 = dialougemode_pointer->unk90;
+  uVar1 = dialougemode_pointer->nextGameState;
   lVar2 = 0xffff;
   if (uVar1 == 5) lVar2 = 5;
   else if (uVar1 < 6) {
@@ -883,7 +881,7 @@ void FUN_80059dac(){
 }
 
 bool isDialougeMode(){
-  if (gGlobals.gameStateA == 0xc)
+  if (gGlobals.gameStateA == GameStateA_Dialog)
     return true;
   return dialougemode_pointer != NULL;
 }

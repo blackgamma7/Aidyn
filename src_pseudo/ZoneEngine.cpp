@@ -568,7 +568,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   if ((MAPCENTER.borg5_ID == 0) ||
      (uVar21 = 1, MAPCENTER.borg9_id == 0)) {
     playerData* ppVar9 = gPlayer;
-    if (gGlobals.gameStateA == 2) {
+    if (gGlobals.gameStateA == GameStateA_Combat) {
       ppVar9 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
     }
     Gsprintf("Center scene not in Borg.\nPlayer Pos: (%3.4f, %3.4f)\nNew Grid: %d-%c%02d",
@@ -1415,7 +1415,7 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   gOut = *GG;
   u16 uStack144[][2]={{0,0},{2,0},{0,2},{2,2},{1,0},{1,2},{0,1},{2,1}};
   Scene::UnsetFlag40(MAPCENTER.sceneDat0x4);
-  if (gGlobals.gameStateA == 0xc)
+  if (gGlobals.gameStateA == GameStateA_Dialog)
     Scene::SetNearFarPlanes(MAPCENTER.sceneDat0x4,0.1,125.0);
   else Scene::SetNearFarPlanes(MAPCENTER.sceneDat0x4,1.0,180.0);
   FUN_800a0df4(MAPCENTER.sceneDat0x4);

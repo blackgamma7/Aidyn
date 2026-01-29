@@ -224,7 +224,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
           }
         }
         build_loot_menu(loot,(v->container).Gold,-1);
-        gGlobals.playerCharStruct.gameStateB = 0x13;
+        gGlobals.playerCharStruct.gameStateB = 19;
         if ((v->container).LootType == Treasure_Misc) gGlobals.playerCharStruct.gameStateB = 7;
       }
     }
@@ -293,7 +293,7 @@ void savepoint_func(voxelObject *v,u16 A,u16 B){}
 
 u8 vobject_pause_check(void){
   u8 bVar2 = true;
-  if (gGlobals.gameStateA == 1) {
+  if (gGlobals.gameStateA == GameStateA_1) {
     bVar2 = false;
     if (!isPaused()) {
       if (check_some_toggle()) bVar2 = false;

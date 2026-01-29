@@ -8,7 +8,7 @@ void checking_camping_safety(void){
 }
 
 void dialoug_ref_obj_func(void){
-  setEventFlag(0x1090,true);
+  setEventFlag(FLAG_CampCheck,true);
   if ((gGlobals.gameVars.borg9DatPointer)->voxelObjCount) {
     for(s16 i=0;i<(gGlobals.gameVars.borg9DatPointer)->voxelObjCount;i++){
       voxelObject* vObj = &(gGlobals.gameVars.borg9DatPointer)->voxelObjs[i];
@@ -17,14 +17,13 @@ void dialoug_ref_obj_func(void){
          (dialouge_trigger_check(vObj,&gPlayer->collision.pos,false))) {
         dialoug_func((vObj->dialoug).borg_13,(vObj->dialoug).RefPointID,(vObj->dialoug).MapDatA,
                      (vObj->dialoug).MapShortA,(vObj->dialoug).MapShortB,0x7fff);
-        setEventFlag(0x1090,false);
+        setEventFlag(FLAG_CampCheck,false);
         return;
       }
     }
   }
   campfire_func();
-  setEventFlag(0x1090,false);
-  return;
+  setEventFlag(FLAG_CampCheck,false);
 }
 //same as BaseWidget::SetBounds()
 void SetWidgetBounds(BaseWidget *w,u16 x0,u16 y0,u16 x1,u16 y1){

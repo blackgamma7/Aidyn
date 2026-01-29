@@ -1334,7 +1334,7 @@ void healing_result_widget(char *txt){
   Color32 col1;
   Color32 col2;
   
-  if (gGlobals.gameStateA == 2) {
+  if (gGlobals.gameStateA == GameStateA_Combat) {
     if (gCombatP) {copy_string_to_combat_textbox(gCombatP,txt,0);}
   }
   else {
@@ -1369,7 +1369,7 @@ char * Party::PrintHeal(u8 A,u8 B){
       pcVar9 = Cstring(HealMenuMaxHP);
     }
     else {
-      if (gGlobals.gameStateA == 2) {
+      if (gGlobals.gameStateA == GameStateA_Combat) {
         if (gGlobals.ShadowIndex != -1) {
           return gGlobals.CommonStrings[0x1b5];
         }
@@ -1435,7 +1435,7 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
     if (uVar5 != 0) {
       if (gCombatP == NULL) herb_func();
       if ((s16)skillMod <= CharStats::getModded(ent->Stats,STAT_STAM)) {
-        if ((gGlobals.gameStateA == 2) && (gGlobals.ShadowIndex != -1)) {
+        if ((gGlobals.gameStateA == GameStateA_Combat) && (gGlobals.ShadowIndex != -1)) {
           return gGlobals.CommonStrings[0x1b5];
         }
         Entity::DecreaseHP(ent,(s16)skillMod);
@@ -1446,10 +1446,7 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
         if ((s16)uVar8 < skillMod) {
           Entity::addHP(pCVar1,SkillCheck((skillMod - (s16)uVar8)));
           skillMod =(Entity::getHPCurrent(pCVar1) - uVar4);
-          if (skillMod) {
-            Gsprintf(Cstring(HealMenuHealBy),ent->name,pCVar1->name,skillMod)
-            ;
-          }
+          if (skillMod) Gsprintf(Cstring(HealMenuHealBy),ent->name,pCVar1->name,skillMod);
         }
         goto LAB_80081018;
       }
@@ -1465,52 +1462,43 @@ LAB_80081018:
 void Party::DoHerbHeal(u8 param_2,u8 param_3){
   healing_result_widget(HerbHeal(param_2,param_3));}
 
-char * Party::HealingFunc2(u8 param_2,u8 param_3,u8 param_4){
-  CharSheet *pCVar1;
-  CharSheet *pCVar2;
-  char cVar9;
-  s16 iVar5;
-  ulong uVar6;
-  s32 iVar7;
-  u32 uVar8;
-  u8 arg1;
-  s32 iVar10;
+char * Party::HealingFunc2(u8 user,u8 target,u8 stat){
+  CharSheet *targetChara;
   
-  pCVar1 = this->Members[param_2];
-  if ((pCVar1 == NULL) ||(pCVar2 = this->Members[param_3], pCVar2 == NULL)) {
-    return gGlobals.CommonStrings[0x1b4];}  
-  if (!CharStats::someStatCheck(pCVar2->Stats,param_4))
-   {Gsprintf(Cstring(HealTaskMaxed),pCVar2->name,Stat_labels[param_4]);}
+  CharSheet *UserChara = this->Members[user];
+  if ((UserChara == NULL) ||(targetChara = this->Members[target], targetChara == NULL))
+    return gGlobals.CommonStrings[0x1b4];
+  if (!CharStats::someStatCheck(targetChara->Stats,stat))
+   Gsprintf(Cstring(HealTaskMaxed),targetChara->name,Stat_labels[stat]);
   else {
-    cVar9 = pCVar1->Skills->getModdedSkill(SKILL_Healer);
-    iVar5 = 0xf - cVar9;
-    if (iVar5 < 0) {iVar5 = 0;}
-    if (this->Inventory->TakeItem(itemID_array[31],1)) {
+    s8 hSkill = UserChara->Skills->getModdedSkill(SKILL_Healer);
+    s16 iVar5 = 15 - hSkill;
+    FLOOR(iVar5,0);
+    if (this->Inventory->TakeItem(itemID_array[ItemInd_Herb],1)) {
       herb_func();
-      if ((s16)iVar5 <= CharStats::getModded(pCVar1->Stats,STAT_STAM)) {
-        Entity::DecreaseHP(pCVar1,(s16)iVar5);
-        iVar5 = (CharStats::getModded(pCVar1->Stats,STAT_INT) * 2 + cVar9 * 4 + (s32)cVar9);
-        uVar8 = RollD(1,100);
-        Gsprintf(gGlobals.CommonStrings[0x1b6],pCVar1->name);
-        if ((s32)uVar8 < iVar5) {
-          iVar5 = SkillCheck(iVar5 - uVar8);
-          iVar10 = iVar5*2;
-          iVar5 = CharStats::getModded(pCVar2->Stats,arg1);
-          if (CharStats::getBase(pCVar2->Stats,arg1) < iVar5 + iVar10) {
-            iVar10 = (CharStats::getBase(pCVar2->Stats,arg1) - iVar5);
+      if (iVar5 <= CharStats::getModded(UserChara->Stats,STAT_STAM)) {
+        Entity::DecreaseHP(UserChara,iVar5);
+        iVar5 = (CharStats::getModded(UserChara->Stats,STAT_INT) * 2 + hSkill * 4 + (s32)hSkill);
+        s32 rand = RollD(1,100);
+        Gsprintf(gGlobals.CommonStrings[0x1b6],UserChara->name);
+        if (rand < iVar5) {
+          iVar5 = SkillCheck(iVar5 - rand);
+          s32 iVar10 = iVar5*2;
+          iVar5 = CharStats::getModded(targetChara->Stats,stat);
+          if (CharStats::getBase(targetChara->Stats,stat) < iVar5 + iVar10) {
+            iVar10 = (CharStats::getBase(targetChara->Stats,stat) - iVar5);
           }
-          CharStats::addModdedHealth(pCVar2->Stats,arg1,(char)iVar10);
-          if (0 < CharStats::getModded(pCVar2->Stats,arg1) - iVar5) {
-            Gsprintf(gGlobals.CommonStrings[0x1be],pCVar2->name,
-                        Stat_labels[param_4]);
+          CharStats::addModdedHealth(targetChara->Stats,stat,(char)iVar10);
+          if (0 < CharStats::getModded(targetChara->Stats,stat) - iVar5) {
+            Gsprintf(gGlobals.CommonStrings[0x1be],targetChara->name,
+                        Stat_labels[stat]);
           }
         }
-        goto LAB_800812c8;
+        return gGlobals.text;
       }
     }
-    Gsprintf(Cstring(HealMenuFail),pCVar1->name);
+    Gsprintf(Cstring(HealMenuFail),UserChara->name);
   }
-LAB_800812c8:
   return gGlobals.text;
 }
 

@@ -1484,10 +1484,9 @@ void Entity::ModExpTotal(CharSheet *chara,s32 x){chara->EXP->total+= (s32)((floa
 u16 Entity::HealByPotion(CharSheet *param_1,u16 low,u16 High){
 
   u16 uVar3;
-  float fVar4;
   
-  if ((gGlobals.gameStateA != 2) || (uVar3 = 0, gGlobals.ShadowIndex == -1)) {
-    fVar4 = (float)rand_range(low,High) / 100.0f;
+  if ((gGlobals.gameStateA != GameStateA_Combat) || (uVar3 = 0, gGlobals.ShadowIndex == -1)) {
+    float fVar4 = (float)rand_range(low,High) / 100.0f;
     fVar4 *= (float)getHPMax(param_1);
     uVar3 = (u16)fVar4;
     addHP(param_1,uVar3);

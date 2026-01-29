@@ -96,14 +96,14 @@ u8 gameStart(Gfx**GG){
   Gfx*gfx;
   u32 uVar2;
   vec3f *pos;
-  u8 bVar3;
+  u8 ret;
   float fVar4;
   u32 uVar5;
   u8 V;
   WeatherTemp w;
   vec3f fStack104;
   
-  bVar3 = gGlobals.gameStateA;
+  ret = gGlobals.gameStateA;
   gfx = *GG;
   if (titleSceen_load_flag) {
     set_title_screen();
@@ -134,15 +134,15 @@ u8 gameStart(Gfx**GG){
   if (gGlobals.gameStartOption == 1) {
     if (gGlobals.brightness == 0.0) {
       some_gamestart_flag = true;
-      bVar3 = 0xe;
-      Cinematic::Load(Cinematic_opening,CSwitch_WorldMap,1);
+      ret = GameStateA_Cinematic;
+      Cinematic::Load(Cinematic_opening,CSwitch_WorldMap,GameStateA_1);
     }
   }
   else {
     if (((1 < gGlobals.gameStartOption) && (gGlobals.gameStartOption == 2)) &&
        (gGlobals.screenFadeMode == ScreenFade_None)) {
       some_gamestart_flag = true;
-      bVar3 = 1;
+      ret = GameStateA_1;
     }
   }
   fStack104={0};
@@ -158,7 +158,7 @@ u8 gameStart(Gfx**GG){
     titleSceen_load_flag = true;
   }
   *GG = gfx;
-  return bVar3;
+  return ret;
 }
 
 void TitleScreenInput(void){

@@ -200,7 +200,7 @@ struct player_char_struct {
     u32 player_form;
     float collisionRadius;
     u16 show_portaits;
-    u16 some_sound_var;
+    u16 mapLoadBool;
     u16 unk10;
     u8 field6_0x12;
     u8 field7_0x13;

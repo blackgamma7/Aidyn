@@ -1,6 +1,7 @@
 #include "gameStateMod.h"
 #include "quicksort.h"
 #include "romcopy.h"
+#include "widgets/Utilities.h"
 
 #define FILENAME "./src/gamestatemod.cpp"
 
@@ -9,8 +10,7 @@ u8 debug_gamestatefunnel_sub(void){
   return true;
 }
 
-extern BaseWidget * WidgetBorg8At(BaseWidget *param_1,Borg8Enum Index,s16 X,s16 Y,s16 H,s16 W);
-u8 GameStateA_10(Gfx **GG){
+u8 GSM_GameState(Gfx **GG){
   char cVar2;
   Gfx *pGVar5;
   s16 uStack416 [2];
@@ -24,7 +24,7 @@ u8 GameStateA_10(Gfx **GG){
   
   if (gamestatemod_byte == 2) {
     cVar2 = DAT_800e61cc + -1;
-    if (DAT_800e61cc == '\0') {
+    if (!DAT_800e61cc) {
       gamestatemod_byte = 1;
       cVar2 = DAT_800e61cc;
     }
@@ -95,7 +95,6 @@ u8 GameStateA_10(Gfx **GG){
   return 10;
 }
 
-
 s32 FUN_80005500(EventFlag *param_1,EventFlag *param_2){
   if (param_2[1] <= param_1[1]) {
     return (s32)(param_1[1] != param_2[1]);
@@ -119,7 +118,6 @@ void load_gamestatemod_dat(void){
     quicksort_gamestatemod((EventFlagPair**)gamestatemod_pointer,(u32)gameStates->flagTotal);
   }
 }
-
 
 void FUN_80005610(void){
   load_gamestatemod_dat();

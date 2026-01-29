@@ -66,7 +66,7 @@ struct CinematicStruct {
     u16 Bstart;
     u16 CSwitch;
     u32 BGId;
-    u32 some_cinematic_dat;
+    u32 nextGameState;
     u8 BGIndex;
 };
 

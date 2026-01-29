@@ -108,6 +108,29 @@ enum ScreenFadeType{
     ScreenFade_3
 };
 
+enum GameStateA{
+    GameStateA_0,
+    GameStateA_1,
+    GameStateA_Combat,
+    GameStateA_Pause,
+    GameStateA_4, //unknown/unused?
+    GameStateA_5, //trainer state?
+    GameStateA_6,
+    GameStateA_7, //shopping state?
+    GameStateA_8,
+    GameStateA_9,
+    GameStateA_GSM,//"GameStateMod" state
+    GameStateA_11,
+    GameStateA_Dialog,
+    GameStateA_13,
+    GameStateA_Cinematic,
+    GameStateA_Initalize,
+    GameStateA_16, //unknown/unused?
+    GameStateA_ContPak,
+    GameStateA_18, //unknown/unused?
+    GameStateA_Credits
+};
+
 struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     Random rngSeed; /* used for most rand funcs */
     int appstate;

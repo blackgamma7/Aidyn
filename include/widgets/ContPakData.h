@@ -143,8 +143,8 @@ WidgetText * ContPakTextWidget2(u16 param_1,char *txt,BaseWidget *(*AFunc)(BaseW
 WidgetChoiceDia * FUN_80088a78(u16 ,char *);
 WidgetChoiceDia *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,u16 var);
 void open_mempak_menu(u32 ,u32 ,u16 ,u16,u32);
-u32 appState_2(Gfx **);
-byte appState2_control(void);
+u32 ContPak_GameState(Gfx **);
+byte ContPakState_Control(void);
 void appState2_Tick(Gfx **,u8);
 u32 FUN_80088d80();
 void make_mempak_menu(s16 ,s16 ,undefined4);

@@ -232,7 +232,7 @@ Gfx* appProc_caseSwitch(Gfx* gg){
     case 1:
       gGlobals.appstate = appState_1(&g); break;
     case 2:
-      gGlobals.appstate = appState_2(&g); break;
+      gGlobals.appstate = ContPak_GameState(&g); break;
     case 3:
       gGlobals.appstate = appState_ContPakCheck(&g); break;
     case 4:

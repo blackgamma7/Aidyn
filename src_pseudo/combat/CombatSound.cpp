@@ -2,7 +2,7 @@
 #include "combat/CombatStruct.h"
 
 s8 FUN_80090cd0(playerData *param_1) {
-  if (gGlobals.gameStateA != 2) return -1;
+  if (gGlobals.gameStateA != GameStateA_Combat) return -1;
   for(u16 i=0;i<gCombatP->EntCount;i++){
     if(param_1==gGlobals.playerDataArray[i]) return i;
   }

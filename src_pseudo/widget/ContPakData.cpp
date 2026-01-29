@@ -343,7 +343,7 @@ BaseWidget * WidgetContPakData::Control(controller_aidyn *param_2){
 }
 
 void WidgetContPakData::m80086bd0(){
-  open_mempak_menu(1,0,0x57,0x17,true);
+  open_mempak_menu(GameStateA_1,GameStateA_0,0x57,0x17,true);
   this->unk290 = 1;
   this->OtherState = 4;
 }
@@ -985,8 +985,8 @@ WidgetChoiceDia *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u
 //file break?
 
 char* sContPakBlank=" ";
-u32 DAT_800f1c74=1;
-u32 DAT_800f1c78=0;
+u32 DAT_800f1c74=GameStateA_1;
+u32 DAT_800f1c78=GameStateA_0;
 void(*DAT_800f1c7c)(BaseWidget*)=NULL;
 ContPakWidget* contpak_widget=NULL;
 u32 u32_800f1c84=0;
@@ -997,33 +997,28 @@ void open_mempak_menu(u32 param_1,u32 param_2,u16 param_3,u16 param_4,u32 shadow
   make_mempak_menu(param_3,param_4,shadow);
 }
 
-u32 appState_2(Gfx **param_1){
-  appState2_Tick(param_1,appState2_control());
+u32 ContPak_GameState(Gfx **param_1){
+  appState2_Tick(param_1,ContPakState_Control());
   return DAT_800f1c78;
 }
 
-byte appState2_control(void){
-  BaseWidget *pBVar1;
-  bool bVar2;
-  byte bVar3;
-  byte bVar4;
+byte ContPakState_Control(void){
+  BaseWidget *pBVar1;;
+  u8 delta;
   ControllerFull *apCStack_18 [6];
   
   apCStack_18[0] = NULL;
-  bVar4 = 0;
-  while( true ) {
-    bVar2 = Controller::GetInput((controller_aidyn **)apCStack_18,0);
-    bVar3 = bVar4 + 1;
-    if (!bVar2) break;
+  delta = 0;
+  while(Controller::GetInput((controller_aidyn **)apCStack_18,0)) {
     N64Print::Toggle(&gGlobals.DebugQueue,&apCStack_18[0]->contAidyn);
     pBVar1 = WHANDLE->Control(apCStack_18[0]);
-    bVar4 = bVar3;
-    if ((pBVar1 != NULL) && (freeWidgetFunc != NULL)) {
+    delta++;
+    if ((pBVar1) && (freeWidgetFunc)) {
       (*freeWidgetFunc)(pBVar1);
     }
   }
-  DeltaCap(bVar4);
-  return bVar4;
+  DeltaCap(delta);
+  return delta;
 }
 
 void appState2_Tick(Gfx **GG,u8 delta){
@@ -1094,7 +1089,6 @@ BaseWidget * ContPakWidget::DownFunc(){
   if (this->windowLoaded) this->w80->DownFunc();
   return NULL;
 }
-
 
 u8 ContPakWidget::Tick(){
 

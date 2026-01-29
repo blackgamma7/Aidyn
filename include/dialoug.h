@@ -82,7 +82,7 @@ struct dialougemode_struct {
     Borg13Data *borg13_dat;
     playerData *playerDat;
     u32 borg13;
-    u32 unk90;
+    u32 nextGameState;
     u16 RefPointID;
     u16 mapDatA;
     u16 mapShort1;
@@ -197,7 +197,7 @@ CharSheet * DialougGetPartyMemberName(ItemID);
 void DialougFreeActors(dialougeInstance *,Borg13Data *);
 void DialoguePreCallback(dialougeInstance *,Borg13Data *,u16,s16);
 u16 DialogEvalCallback(dialougeInstance *,Borg13Data *,u16,u16);
-void dialougemode_0x90_funcs3(u32);
+void Dialog_NextGameStateFunc3(u32);
 void DialogCallbackC(dialougeInstance *,Borg13Data *,u16,s16);
 char * DialougFindPlayerNameSpace(char *);
 void DialougInsertPlayerName(char *);
@@ -205,18 +205,18 @@ void some_string_func(char *);
 
 //dialogmode.cpp
 
-void dialoug_func(u32,u16,u16,u16,u16,u16);
+void  dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapShortB,u16 param_6);
 void run_dialougemode_funcs3();
 void CreateNewDialouge_(u32);
 Gfx * FUN_80057e78(Gfx *,u16);
-int GameStateA_12(Gfx **);
+int Dialog_GameState(Gfx **);
 void run_dialougemode_funcs1();
 void run_dialougemode_funcs2();
 u8 dialougSkillCheck(u8);
 void FUN_8005831c();
 void FUN_80058370();
 void FUN_800583d0(u16);
-void set_dialougemode_0x90(u32);
+void Dialog_NextGameState(u32);
 void encounterDat_func();
 void monsterparty_wanderstruct(Wanderer *);
 bool DialougeAddPartyMember(ItemID);

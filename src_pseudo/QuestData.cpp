@@ -192,7 +192,7 @@ void LoadFile(SaveDatPointers *param_1,u8 param_2){
   TerrainPointer->PlayTime = param_1->savePartyHead->time;
   if (param_2) {
     engineZone_flag = 0;
-    gGlobals.playerCharStruct.some_sound_var = 1;
+    gGlobals.playerCharStruct.mapLoadBool = 1;
     param_1->mapdata->mapDatB = 0xffff;
     gGlobals.gameVars.mapDatB = 0xffff;
     gGlobals.gameVars.MapFloatDatEntry.mapDatB = 0xffff;
@@ -225,7 +225,7 @@ void FreeSnapshot(void){
 void Teleport(mapFloatDat *param_1,u8 param_2){
   if (param_2) {
     COPY(&gGlobals.gameVars.MapFloatDatEntry,param_1);
-    gGlobals.playerCharStruct.some_sound_var = 1;
+    gGlobals.playerCharStruct.mapLoadBool = 1;
     if (gPlayer) set_teleport_obj_loadgame(param_1->mapDatA,param_1->MapShort1,param_1->MapShort2,param_1);
   }
 }

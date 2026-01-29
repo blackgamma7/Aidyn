@@ -98,7 +98,7 @@ void some_init_func(void) {
   CLEAR(&gGlobals.playerCharStruct);
   CLEAR(&gGlobals.gameVars);
   init_DBs();
-  gGlobals.gameStateA = 0xf;
+  gGlobals.gameStateA = GameStateA_Initalize;
   gGlobals.combatBytes[2] = false;
   gGlobals.screenFadeMode = ScreenFade_In;
   gGlobals.screenFadeSpeed = 0.0;
@@ -110,7 +110,6 @@ void some_init_func(void) {
 }
 
 void passto_clear_dbs(){clear_DBs();}
-
 
 u32 appState_1(Gfx **GG) {
   u32 uVar1;
@@ -160,51 +159,48 @@ code_r0x80023c48:
   }
   fadeFloatMirror = gGlobals.brightness;
   gGlobals.gameVars.particleHead.gray = gGlobals.brightness;
-  if (true) {
-    switch(gGlobals.gameStateA) {
-    case 1:
-    case 9:
-      gGlobals.gameStateA = GameStateA_1_9(GG);
-      break;
-    case 2:
-      gGlobals.gameStateA = GameStateA_2(GG);
-      break;
-    case 3:
-      gGlobals.gameStateA = GameStateA_3(GG);
-      if (gGlobals.gameStateA != 2) {
-        if (gGlobals.gameStateA != 1) break;
-        gGlobals.gameStateA = 2;
-        gGlobals.combatBytes[0] = CombatState_16;
-      }
-      break;
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-      gGlobals.gameStateA = GameStateA_3(GG);
-      break;
-    case 10:
-      gGlobals.gameStateA = GameStateA_10(GG);
-      break;
-    case 0xc:
-      gGlobals.gameStateA = GameStateA_12(GG);
-      break;
-    case 0xe:
-      gGlobals.gameStateA = Cinematic::Tick(GG);
-      break;
-    case 0xf:
-      gGlobals.gameStateA = gameStart(GG);
-      break;
-    case 0x11:
-      gGlobals.gameStateA = appState_2(GG);
-      break;
-    case 0x13:
-      gGlobals.gameStateA = func_loading_credits(GG);
+  switch(gGlobals.gameStateA) {
+  case GameStateA_1:
+  case GameStateA_9:
+    gGlobals.gameStateA = Trek_GameState(GG);
+    break;
+  case GameStateA_Combat:
+    gGlobals.gameStateA = Combat_GameState(GG);
+    break;
+  case GameStateA_Pause:
+    gGlobals.gameStateA = Pause_GameState(GG);
+    if (gGlobals.gameStateA != GameStateA_Combat) {
+      if (gGlobals.gameStateA != GameStateA_1) break;
+      gGlobals.gameStateA = GameStateA_Combat;
+      gGlobals.combatBytes[0] = CombatState_16;
     }
+    break;
+  case GameStateA_5:
+  case GameStateA_6:
+  case GameStateA_7:
+  case GameStateA_8:
+    gGlobals.gameStateA = Pause_GameState(GG);
+    break;
+  case GameStateA_GSM:
+    gGlobals.gameStateA = GSM_GameState(GG);
+    break;
+  case GameStateA_Dialog:
+    gGlobals.gameStateA = Dialog_GameState(GG);
+    break;
+  case GameStateA_Cinematic:
+    gGlobals.gameStateA = Cinematic::Tick(GG);
+    break;
+  case GameStateA_Initalize:
+    gGlobals.gameStateA = gameStart(GG);
+    break;
+  case GameStateA_ContPak:
+    gGlobals.gameStateA = ContPak_GameState(GG);
+    break;
+  case GameStateA_Credits:
+    gGlobals.gameStateA = Credits_GameState(GG);
   }
-LAB_80023d98:
   if (TerrainPointer) World::AddPlayTime(TerrainPointer,gGlobals.delta);  
-  if (gGlobals.gameStateA == 0) {
+  if (gGlobals.gameStateA == GameStateA_0) {
     cleardb_flag = true;
     uVar2 = 0;
   }
@@ -216,7 +212,7 @@ LAB_80023d98:
   return uVar2;
 }
 
-u8 func_loading_credits(Gfx **GG) {
+u8 Credits_GameState(Gfx **GG) {
   u8 ret;
   u32 delta;
   ControllerFull *local_28;
@@ -225,7 +221,7 @@ u8 func_loading_credits(Gfx **GG) {
     if ((0.0 < (double)gGlobals.brightness) &&
        (gGlobals.screenFadeMode == ScreenFade_None)) {
       gGlobals.screenFadeMode = ScreenFade_Out;
-      return 0x13;
+      return GameStateA_Credits;
     }
     gGlobals.screenFadeMode = ScreenFade_In;
     gCreditsWidget = new WidgetCredits();
@@ -233,7 +229,7 @@ u8 func_loading_credits(Gfx **GG) {
     DAT_800e9933 = false;
   }
   if (gCreditsWidget == NULL) {
-    ret = 0x13;
+    ret = GameStateA_Credits;
   }
   else {
     delta = 0;
@@ -246,16 +242,14 @@ u8 func_loading_credits(Gfx **GG) {
     *GG = DrawRectangle(*GG,FULL_SCREENSPACE,0,0,0,0);
     *GG = Graphics::StartDisplay(*GG,FULL_SCREENSPACE);
     *GG = tick_and_render_widgets(*GG);
-    ret = 0x13;
+    ret = GameStateA_Credits;
     if (gCreditsWidget->creditState == 4) {
       gCreditsWidget->SetState(WidgetS_Closing);
-      DAT_800e9933 = 1;
-      if (gGlobals.creditsByte == 1) ret = 9;
-      else {
-        ret = 0;
-        if ((gGlobals.creditsByte < 2) && (gGlobals.creditsByte == 0)) {
-          ret = 0xf;
-        }
+      DAT_800e9933 = true;
+      switch(gGlobals.creditsByte){
+        case 0: ret = GameStateA_Initalize; break;
+        case 1: ret = GameStateA_9; break;
+        case 2: ret = GameStateA_0; break;
       }
       gCreditsWidget = NULL;
     }

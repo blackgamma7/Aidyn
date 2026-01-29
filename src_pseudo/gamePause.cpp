@@ -18,21 +18,21 @@ switchD_8004fe44_caseD_4:
   }
   else {
     switch(gGlobals.gameStateA) {
-    case 3:
+    case GameStateA_Pause:
       bVar2 = 1;
       gGlobals.SomeCase = 3;
       break;
     default:
       goto switchD_8004fe44_caseD_4;
-    case 5:
+    case GameStateA_5:
       bVar2 = 1;
       gGlobals.SomeCase = 4;
       break;
-    case 6:
+    case GameStateA_6:
       bVar2 = 1;
       gGlobals.SomeCase = 5;
       break;
-    case 7:
+    case GameStateA_7:
       bVar2 = 1;
       gGlobals.SomeCase = 6;
     }
@@ -82,18 +82,16 @@ Gfx * draw_screenshot_background(Gfx *g,u8 state) {
 }
 
 
-u8 GameStateA_3(Gfx **GG) {
+u8 Pause_GameState(Gfx **GG) {
   s16 delta;
   Gfx *g;
   byte bVar6;
   u16 uVar3;
   u16 uVar4;
   vec3f *pos;
-  byte bVar7;
-  float fVar8;
   vec3f zeroPos;
   
-  bVar7 = gGlobals.gameStateA;
+  u8 ret = gGlobals.gameStateA;
   g = *GG;
   if ((some_screenfade_flag) && (set_screenshot_tint())) {
     InitPauseMenu();
@@ -106,7 +104,7 @@ u8 GameStateA_3(Gfx **GG) {
     switch(gGlobals.SomeCase) {
     case 0:
       u8_800edb99 = 1;
-      bVar7 = 0;
+      ret = GameStateA_0;
       break;
     case 3:
     case 4:
@@ -120,10 +118,10 @@ u8 GameStateA_3(Gfx **GG) {
     case 8:
     case 0xb:
       u8_800edb99 = 1;
-      bVar7 = 1;
+      ret = GameStateA_1;
       break;
     case 9:
-      bVar7 = 2;
+      ret = GameStateA_Combat;
       u8_800edb99 = 1;
       gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
       if (gGlobals.unk14fc) {
@@ -134,7 +132,7 @@ u8 GameStateA_3(Gfx **GG) {
       }
       break;
     case 10:
-      bVar7 = 1;
+      ret = GameStateA_1;
       u8_800edb99 = 1;
       gGlobals.combatBytes[0] = CombatState_1;
       break;
@@ -147,11 +145,11 @@ u8 GameStateA_3(Gfx **GG) {
       }
       else {
         gGlobals.BigAssMenu = NULL;
-        gGlobals.gameStateA = 7;
+        gGlobals.gameStateA = GameStateA_7;
         gGlobals.SomeCase = u8_800edb90;
         gGlobals.playerCharStruct.gameStateB = u8_800edb91;
         if (u8_800edb90 == 6) {
-          bVar7 = 6;
+          ret = 6;
           gGlobals.BigAssMenu = new PauseWidget(WHANDLE,1);
           WHANDLE->Tick(1);
           g = draw_screenshot_background(g,bVar6);
@@ -162,7 +160,7 @@ u8 GameStateA_3(Gfx **GG) {
       break;
     case 0xd:
       u8_800edb99 = 1;
-      bVar7 = 0xe;
+      ret = GameStateA_Cinematic;
       break;
     case 0xe:
       g = draw_screenshot_background(g,bVar6);
@@ -188,7 +186,7 @@ LAB_800504ac:
     u8_800edb99 = 0;
   }
   *GG = g;
-  return bVar7;
+  return ret;
 }
 
 
@@ -238,7 +236,7 @@ LAB_80050770:
         u8_800edb90 = 6;
         gGlobals.BigAssMenu->bigAssOpenCallback_2();
         gGlobals.combatBytes[0] = CombatState_15;
-        gGlobals.gameStateA = 7;
+        gGlobals.gameStateA = GameStateA_7;
         break;
       case 6:
         setGlobalsPointer(w);

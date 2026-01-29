@@ -1,4 +1,5 @@
 #include "combat/CombatStruct.h"
+#include "combat/CombatCamera.h"
 #include "globals.h"
 #include "widgets/WidgetCombatTextbox.h"
 #include "combat/markers.h"
@@ -167,7 +168,7 @@ bool CombatTurn::FUN_8007381c(CombatTurn_s *param_1) {
 
 void CombatTurn::PartyDead(CombatTurn_s *param_1) {
   gGlobals.combatBytes[0] = CombatState_13;
-  combat_func_if_alaron_dead();
+  Combat_AlaronDown();
   if ((gCombatP->current_Ent) &&
      (copy_string_to_combat_textbox(gCombatP,ComString(PartyKO),0),
      gGlobals.goblinAmbush)) {
@@ -197,7 +198,7 @@ void CombatTurn::CountFighters(CombatTurn_s *param_1) {
       }
   }
 }
-
+//return true if enemies or party are defeated.
 bool CombatTurn::IsBattleOver(CombatTurn_s *param_1) {
   bool ret;
   if (gCombatP->partyAlive == 0) {
@@ -266,48 +267,35 @@ void CombatTurn::StartTurn(CombatTurn_s *param_1,CombatEntity *param_2,u8 param_
 
 
 void CombatTurn::FUN_80073e3c(CombatTurn_s *param_1) {
-  CombatEntity *pCVar1;
-  bool bVar2;
-  byte bVar3;
-  bool bVar4;
-  float fVar5;
   
   clear_camera_playerdata_focus();
   if (1 < gGlobals.combatBytes[0] - CombatState_12) {
     if (Entity::isDead((gGlobals.party)->Members[0]))
-      combat_func_if_alaron_dead();
+      Combat_AlaronDown();
     else {
       FUN_800737b4(gCombatP->current_Ent);
-      while( true ) {
-        while( true ) {
-          while( true ) {
-            if ((++param_1->unk1>=param_1->unk0) && (FUN_8007381c(param_1))) {
-              return;
-            }
-            CountFighters(param_1);
-            bVar2 = false;
-            if (gCombatP->enemy_index < 0xc) {
-              bVar2 = gCombatP->encounter_dat->enemy_entities[gCombatP->enemy_index] != (ItemID)0x0;
-            }
-            if (bVar2) {
-              gCombatP->EntsAlive++;
-              gCombatP->EnemiesAlive++;
-            }
-            if (IsBattleOver(param_1)) return;
-            if (bVar2) {
-              gCombatP->EntsAlive--;
-              gCombatP->EnemiesAlive--;
-            }
-            gCombatP->current_Ent = (&gCombatP->combatEnts)[param_1->arr[param_1->unk1]];
-            gCombatP->current_Ent->SetMovementRange();
-            gCombatP->current_Ent->Coord2IsCoord();
-            gCombatP->current_Ent->UpdateMoveFlag();
-            if (!Entity::isDead(pCVar1->charSheetP)) break;
-          }
-          if (gCombatP->current_Ent->Flag1()) break;
+      do {
+        if ((++param_1->unk1>=param_1->unk0) && (FUN_8007381c(param_1))) return;
+        CountFighters(param_1);
+        bool bVar2 = false;
+        if (gCombatP->enemy_index < 0xc) {
+          bVar2 = gCombatP->encounter_dat->enemy_entities[gCombatP->enemy_index] != (ItemID)0x0;
         }
-        if (!gCombatP->current_Ent->Flag6()) break;
-      }
+        if (bVar2) {
+            gCombatP->EntsAlive++;
+            gCombatP->EnemiesAlive++;
+        }
+        if (IsBattleOver(param_1)) return;
+        if (bVar2) {//? inc them just to dec them again?
+            gCombatP->EntsAlive--;
+            gCombatP->EnemiesAlive--;
+        }
+        gCombatP->current_Ent = (&gCombatP->combatEnts)[param_1->arr[param_1->unk1]];
+        gCombatP->current_Ent->SetMovementRange();
+        gCombatP->current_Ent->Coord2IsCoord();
+        gCombatP->current_Ent->UpdateMoveFlag();
+      }while((Entity::isDead(gCombatP->current_Ent->charSheetP))&&
+            (!gCombatP->current_Ent->Flag1())&&gCombatP->current_Ent->Flag6());
       (gCombatP->SpellMarkerPos).x = gCombatP->current_Ent->GetCoordX();
       (gCombatP->SpellMarkerPos).y = gCombatP->current_Ent->GetCoordY();
       FUN_80074054(param_1);

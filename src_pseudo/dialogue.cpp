@@ -227,8 +227,8 @@ u16 DialogEvalCallback(dialougeInstance *param_1,Borg13Data *param_2,u16 cmd,u16
   return ret;
 }
 
-void dialougemode_0x90_funcs3(u32 param_1){
-  set_dialougemode_0x90(param_1);
+void Dialog_NextGameStateFunc3(u32 param_1){
+  Dialog_NextGameState(param_1);
   run_dialougemode_funcs3();
 }
 
@@ -266,7 +266,7 @@ void DialogCallbackC(dialougeInstance *param_1,Borg13Data *param_2,s16 command,u
     setEventFlag(val,false);
     break;
   case B13Com_EndDialoug:
-    uVar10 = 1;
+    uVar10 = GameStateA_1;
     goto LAB_80057628;
   case B13Com_Fade35:
     gGlobals.brightness2 = -1.0f;
@@ -288,12 +288,12 @@ void DialogCallbackC(dialougeInstance *param_1,Borg13Data *param_2,s16 command,u
   case B13Com_TakeItem:
   #ifdef DEBUGVER
     if (!PARTY->TakeItem(val)) {
-      ItemInstance auStack880;
-      char acStack_330 [256];
-      auStack880.InitItem(val);
-      pcVar11 = acStack_330;
+      ItemInstance iInst;
+      char errBuff [0x100];
+      iInst.InitItem(val);
+      pcVar11 = errBuff;
       sprintf(pcVar11,"Party doesn't have that item in their inventory!\nTell someone to fix dialogue %d to check the party's inventory before taking trying to take the %s!",param_2->ID,
-                  auStack880.name);
+                  iInst.name);
       goto print_error;
     }
   #else
@@ -319,21 +319,21 @@ play_sound:
     break;
   case B13Com_Shop:
     InitShop();
-    uVar10 = 7;
+    uVar10 = GameStateA_7;
     goto LAB_80057628;
   case B13Com_Battle:
     encounterDat_func();
-    uVar10 = 2;
+    uVar10 = GameStateA_Combat;
     goto LAB_80057628;
   case B13Com_Train:
     init_skill_trainer();
-    uVar10 = 5;
+    uVar10 = GameStateA_5;
     goto LAB_80057628;
   case B13Com_AddMember:
   #ifdef DEBUGVER
     if (!DialougeAddPartyMember(val)) {
-      char acStack_230 [256];
-      cause = acStack_230;
+      char errBuff [0x100];
+      cause = errBuff;
       pcVar11 = "Couldn't add %d to the party. This usually means that the party is full. Line = %d";
       errLine = 1172;
 print_error_2:
@@ -380,7 +380,7 @@ print_error:
     }
     #ifdef DEBUGVER
     else {
-      char acStack_130 [256];
+      char acStack_130 [0x100];
       cause = acStack_130;
       pcVar11 = "Couldn't load dialog with id = %d. Line = %d";
       errLine = 1321;
@@ -402,14 +402,14 @@ print_error:
   case B13Com_CampHeal:
     PARTY->CampHeal(false);
     dialougemode_pointer->camp_flag = 1;
-    uVar10 = 1;
+    uVar10 = GameStateA_1;
     if (param_2->start_func == 0) {
       gGlobals.screenFadeMode = ScreenFade_In;
       gGlobals.brightness = 0.0;
       gGlobals.screenFadeSpeed = (1.0f/60);
     }
 LAB_80057628:
-    dialougemode_0x90_funcs3(uVar10);
+    Dialog_NextGameStateFunc3(uVar10);
     break;
   case B13Com_AddExp:
     pCVar4 = PARTY->GetMemberById(param_1->Entid);
@@ -419,10 +419,10 @@ LAB_80057628:
     }
     #ifdef DEBUGVER
     else {
-      char acStack_470 [256];
-      sprintf(acStack_470,"Trying to get a party member that isn't in the party (id = %d)\nLine = %d",
+      char errBuff [0x100];
+      sprintf(errBuff,"Trying to get a party member that isn't in the party (id = %d)\nLine = %d",
                   param_1->Entid,1093);
-      pcVar11 = acStack_470;
+      pcVar11 = errBuff;
       goto print_error;
     }
     #endif

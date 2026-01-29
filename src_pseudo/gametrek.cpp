@@ -31,13 +31,13 @@ Gfx * ofunc_80024c90(Gfx *param_1) {
   return tick_trek_features(param_1,(u8)iVar3);
 }
 
-u8 GameStateA_1_9(Gfx **GG) {
+u8 Trek_GameState(Gfx **GG) {
   bool bVar1;
-  u8 uVar2;
+  u8 ret;
   controller_aidyn *pcStack_30;
   Gfx *gfxTemp [11];
   
-  uVar2 = 1;
+  ret = GameStateA_1;
   gfxTemp[0] = *GG;
   if (gTrekUninitted) {
     some_ticker = 0;
@@ -59,20 +59,20 @@ u8 GameStateA_1_9(Gfx **GG) {
       (gGlobals.screenFadeMode == ScreenFade_None)) && (FUN_8000ccc0())) {
     gGlobals.playerCharStruct.gameStateB = 0xf;
   }
-  if (gGlobals.gameStateA == 9) {
-    if (DAT_800e9aac != 0) {
+  if (gGlobals.gameStateA == GameStateA_9) {
+    if (DAT_800e9aac) {
       gGlobals.brightness = 0.0;
-      DAT_800e9aac = 0;
+      DAT_800e9aac = false;
       gGlobals.screenFadeMode = ScreenFade_In;
       gGlobals.screenFadeSpeed = (1.0f/30);
       Sky::SetBackgroundType(gGlobals.BackgroundTypeCopy,gGlobals.gameVars.weather.skyBgdat,0.0);
     }
     if (gGlobals.screenFadeMode == ScreenFade_None) {
       gGlobals.playerCharStruct.gameStateB = 8;
-      DAT_800e9aac = 1;
+      DAT_800e9aac = true;
     }
     else {
-      uVar2 = 9;
+      ret = GameStateA_9;
       gGlobals.playerCharStruct.gameStateB = 3;
     }
   }
@@ -80,15 +80,15 @@ u8 GameStateA_1_9(Gfx **GG) {
   switch(gGlobals.playerCharStruct.gameStateB) {
   case 0:
     DAT_800e9aa7 = true;
-    uVar2 = 0;
+    ret = GameStateA_0;
     break;
   case 2:
     DAT_800e9aa7 = true;
-    uVar2 = 2;
+    ret = GameStateA_Combat;
     break;
   case 3:
     gDelta = 0;
-    if (gGlobals.gameStateA == 9) {
+    if (gGlobals.gameStateA == GameStateA_9) {
       while (Controller::GetInput(&pcStack_30,0)) {
         gDelta++;
       }
@@ -115,22 +115,22 @@ u8 GameStateA_1_9(Gfx **GG) {
       FreeZoneEngineMemory();
       DAT_800e9ab0 = 1;
     }
-    if (gGlobals.QueueA.items != 0) goto LAB_80025208;
+    if (gGlobals.QueueA.items) break;
     GetSnapshot_();
     gGlobals.BackgroundTypeCopy = gGlobals.sky.Type;
     if (gGlobals.playerCharStruct.gameStateB == 6) {
-      uVar2 = 6;
+      ret = GameStateA_6;
     }
     else if (gGlobals.playerCharStruct.gameStateB < 7) {
-      uVar2 = 8;
+      ret = GameStateA_8;
       if (gGlobals.playerCharStruct.gameStateB == 5) {
-        uVar2 = 5;
+        ret = GameStateA_5;
       }
     }
     else {
-      uVar2 = 8;
+      ret = GameStateA_8;
       if (gGlobals.playerCharStruct.gameStateB == 7) {
-        uVar2 = 7;
+        ret = GameStateA_7;
       }
     }
     some_ticker = 0;
@@ -138,45 +138,45 @@ u8 GameStateA_1_9(Gfx **GG) {
     break;
   case 9:
     DAT_800e9aa7 = true;
-    uVar2 = 10;
+    ret = GameStateA_GSM;
     break;
   case 10:
     DAT_800e9aa7 = true;
-    uVar2 = 0xb;
+    ret = GameStateA_11;
     break;
   case 0xb:
     DAT_800e9aa7 = true;
-    uVar2 = 0xc;
+    ret = GameStateA_Dialog;
     break;
   case 0xc:
-    goto switchD_80024ecc_caseD_c;
+    ret = GameStateA_13;
+    break;
   case 0xd:
     DAT_800e9aa7 = true;
-    goto switchD_80024ecc_caseD_c;
+    ret = GameStateA_13;
+    break;
   case 0xe:
     gGlobals.playerCharStruct.gameStateB = 3;
     break;
   case 0xf:
     gGlobals.playerCharStruct.unk10 = 0;
-    gGlobals.playerCharStruct.some_sound_var = 1;
+    gGlobals.playerCharStruct.mapLoadBool = 1;
     DAT_800e9aa7 = true;
     gMemMakerFlag = true;
     break;
   case 0x10:
     DAT_800e9aa7 = true;
-    uVar2 = 0x11;
+    ret = GameStateA_ContPak;
     break;
   case 0x11:
     checking_camping_safety();
-    goto LAB_80025208;
+    break;
   case 0x12:
     dialoug_func(BORG13_HelpMenu,0,0,0,0,0x7fff);// load help menu
-    goto LAB_80025208;
+    break;
   case 0x13:
     gDelta = 0;
-    while (bVar1 = Controller::GetInput(&pcStack_30,0), bVar1) {
-      gDelta++;
-    }
+    while (Controller::GetInput(&pcStack_30,0)) {gDelta++;}
     if (gDelta < 1) gDelta = 1;
     if (*(u8*)&gDelta >= 6) gDelta = 6;
     gGlobals.delta = (float)(u8)gDelta;
@@ -185,18 +185,17 @@ u8 GameStateA_1_9(Gfx **GG) {
     break;
   case 0x16:
     if (!GetDelta_TickTrek(gfxTemp)) {
-      gGlobals.playerCharStruct.gameStateB = 0x17;
+      gGlobals.playerCharStruct.gameStateB = 23;
     }
-    goto LAB_80025208;
+    break;
   case 0x17:
     DAT_800e9aa7 = true;
-    uVar2 = 0xe;
+    ret = GameStateA_Cinematic;
     break;
   case 0x19:
-    uVar2 = 0x13;
+    ret = GameStateA_Credits;
   }
 switchD_80024ecc_caseD_1:
-LAB_80025208:
   if ((some_toggle != -1) && (gGlobals.screenFadeMode == 0)) {
     gGlobals.playerCharStruct.gameStateB = (u8)some_toggle;
     some_toggle = -1;
@@ -209,10 +208,7 @@ LAB_80025208:
   }
   *GG = gfxTemp[0];
   some_ticker++;
-  return uVar2;
-switchD_80024ecc_caseD_c:
-  uVar2 = 0xd;
-  goto switchD_80024ecc_caseD_1;
+  return ret;
 }
 
 bool GetDelta_TickTrek(Gfx **GG) {

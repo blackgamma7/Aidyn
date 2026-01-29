@@ -31,7 +31,7 @@
 
 #define FLAG_NewJournalEntry 3617
 #define FLAG_JournalFlag 5556 //added to journal flags to trigger "new entry" flag
-
+#define FLAG_CampCheck 4240 //set then unset during camping check.
 //Calendar flags
 
 #define FLAG_CalendarMoonA 2299

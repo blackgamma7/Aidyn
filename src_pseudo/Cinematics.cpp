@@ -85,7 +85,7 @@ void Cinematic::Load(u16 param_1,u16 param_2,s32 param_3){
   gGlobals.cinematic.clippingPlanes = gCinematicPointers[param_1].planes;
   gGlobals.cinematic.scene_switch = 1;
   gGlobals.cinematic.CSwitch = param_2;
-  gGlobals.cinematic.some_cinematic_dat = param_3;
+  gGlobals.cinematic.nextGameState = param_3;
   clear_sfx_entries(&gGlobals.SFXStruct,1);
   InitFade(param_1);
 }
@@ -189,7 +189,7 @@ u16 Cinematic::EndCase(void){
     ret = ToMenu();
     break;
   default:
-    ret = (u16)gGlobals.cinematic.some_cinematic_dat;
+    ret = (u16)gGlobals.cinematic.nextGameState;
   }
   return ret;
 }
@@ -271,22 +271,22 @@ u16 Cinematic::LoadMap(void){
   }
   dialoug_func((u32)dia->borg_13,dia->RefPointID,dia->MapDatA,dia->MapShortA,dia->MapShortB,0x7fff);
   remove_borg_9(map);
-  return 12;
+  return GameStateA_Dialog;
 }
 
 u16 Cinematic::LoadCredits(void){
   gGlobals.creditsByte = 2;
-  return 19;}
+  return GameStateA_Credits;}
 
 u16 Cinematic::TrueName(void){
   CharSheet *alaron = PARTY->GetMemberById(gEntityDB->entities[EntInd_Alaron].ID);
   if (alaron) alaron->EXP->flags |= CHAR_TrueName;
-  return 1;
+  return GameStateA_1;
 }
 
-u16 Cinematic::ToMenu(void){return (u16)gGlobals.cinematic.some_cinematic_dat;}
+u16 Cinematic::ToMenu(void){return (u16)gGlobals.cinematic.nextGameState;}
 
 void noop_8005cfac(void){}
 
-u16 Cinematic::GetSomeDat(void){return (u16)gGlobals.cinematic.some_cinematic_dat;}
+u16 Cinematic::GetSomeDat(void){return (u16)gGlobals.cinematic.nextGameState;}
 

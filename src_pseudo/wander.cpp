@@ -64,8 +64,7 @@ void FreeWanderHead(WanderManager *param_1){
 
 
 void look_for_monsterparties(WanderManager *param_1,Borg9Data *param_2,s32 param_3,byte param_4){
-  if (((gGlobals.gameStateA != 0xc) && (gGlobals.gameVars.gamemodeType != GameMode_Title)) &&
-     (param_2->voxelObjCount != 0)) {
+  if (((gGlobals.gameStateA != GameStateA_Dialog) && (gGlobals.gameVars.gamemodeType != GameMode_Title))) {
     for (s16 i=0;i < param_2->voxelObjCount;i++) {
       if ((param_2->voxelObjs[i].header.type == VOXEL_MonsterParty) &&
          ((param_2->voxelObjs[i].header.Bitfeild & VOXEL_Active))) {

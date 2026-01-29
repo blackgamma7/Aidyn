@@ -415,7 +415,7 @@ void debug_teleport(BaseWidget *param_1){
     gGlobals.gameVars.mapDatA = debugMapLabels[param_1->varU16].a;
     gGlobals.gameVars.mapDatB = debugMapLabels[param_1->varU16].b;
     gGlobals.gameVars.mapDatC = debugMapLabels[param_1->varU16].c;
-    gGlobals.playerCharStruct.some_sound_var = 0;
+    gGlobals.playerCharStruct.mapLoadBool = 0;
     FreeDebugMenu(gGlobals.playerCharStruct.debugMenuTP);
     gGlobals.playerCharStruct.gameStateB = 4;
   }

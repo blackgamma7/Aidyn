@@ -41,7 +41,7 @@ Gfx * Start_opens_mempak_menu(Gfx *g) {
     }
   }
   if (bVar1) {
-    open_mempak_menu(3,2,0x39,0x17,0);
+    open_mempak_menu(GameStateA_Pause,GameStateA_Combat,57,23,0);
     init_controller_data = 2;
     contCheckSwitch = 5;
   }
@@ -217,7 +217,7 @@ BaseWidget* continue_without_saving_(BaseWidget*w0,BaseWidget*w1){
 
 BaseWidget * FUN_8008c15c(BaseWidget*w0,BaseWidget*w1) {
   contCheckSwitch = 0;
-  open_mempak_menu(3,2,0x39,0x17,0);
+  open_mempak_menu(GameStateA_Pause,GameStateA_Combat,0x39,0x17,0);
   contCheckSwitch = 5;
   init_controller_data = 2;
   return NULL;

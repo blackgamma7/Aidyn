@@ -173,7 +173,7 @@ BaseWidget * choose_cinematic(BaseWidget *param_1,BaseWidget *param_2) {
   for(u16 i=0;gTheatreFlags[i].flag!=0;i++){
     if(gTheatreFlags[i].flag==param_2->varU16){
         gGlobals.cinematicReplay = 1;
-        Cinematic::Load(gTheatreFlags[i].cinematic,CSwitch_CineDat,9);
+        Cinematic::Load(gTheatreFlags[i].cinematic,CSwitch_CineDat,GameStateA_9);
         DAT_800e8dbc = 1;
         return param_2;
     }

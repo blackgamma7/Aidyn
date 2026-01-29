@@ -7,7 +7,7 @@ void clear_DBs();
 void some_init_func();
 void passto_clear_dbs();
 u32 appState_1(Gfx **GG);
-u8 func_loading_credits(Gfx **GG);
+u8 Credits_GameState(Gfx **GG);
 
 
 //gametrek.cpp
@@ -15,7 +15,7 @@ u8 func_loading_credits(Gfx **GG);
 bool check_some_toggle();
 void FUN_80024c54(s16);
 Gfx * ofunc_80024c90(Gfx *);
-u8 GameStateA_1_9(Gfx **);
+u8 Trek_GameState(Gfx **);
 bool GetDelta_TickTrek(Gfx **);
 bool isPaused();
 void player_control_func(controller_aidyn *);

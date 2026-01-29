@@ -111,7 +111,7 @@ void TempEnchant::Init(Temp_enchant *Ench,u8 Index,u8 LV,u32 Timer,u8 UNK3,
 }
 
 void TempEnchant::StopSpellVisual(Temp_enchant *param_1){
-  if ((param_1->SpellVisualIndex != 0xffff) && (gGlobals.gameStateA == 2))
+  if ((param_1->SpellVisualIndex != 0xffff) && (gGlobals.gameStateA == GameStateA_Combat))
     FUN_80095f6c(param_1->SpellVisualIndex);
 }
 

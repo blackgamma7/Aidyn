@@ -103,7 +103,7 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
   if (((((vox->header).type == VOXEL_Camera) && ((vox->header).timestamp < gGlobals.ticker)) &&
       (((vox->header).Bitfeild & VOXEL_Active) != 0)) &&
      (Vec3Dist(arg0,&vox->header.pos) <= (vox->header).size)) {
-    if (gGlobals.gameStateA == 0xc) {
+    if (gGlobals.gameStateA == GameStateA_Dialog) {
       if (((vox->camera).CameraFlags & CamObj_M001f)){
         gGlobals.scriptcamera.counter0++;
       }
@@ -304,7 +304,7 @@ void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
     for(s16 i=0;i<8;i++){
       ScriptCam *sCam = &param_1->cameras[i];
       if (sCam->active != 0) {
-        if (gGlobals.gameStateA == 0xc) param_1->counter0++;
+        if (gGlobals.gameStateA == GameStateA_Dialog) param_1->counter0++;
         if (sCam->aim) {
           Vec3Set(&afStack112,sCam->aim->x,sCam->aim->y + sCam->height,sCam->aim->z);
           sCam->aim = &afStack112;
