@@ -80,7 +80,7 @@ ItemID DollEquipmentMenu::GetEntityItemId(CharSheet *chara,u8 slot){
         case 0:
         ret=0;
         if(chara->weapons) ret=chara->weapons->base.id;
-        if(gGlobals.SomeCase==3){
+        if(CombatPauseState){
             CombatEntity* cEnt=DollGetCombatEntity(chara);
             if((cEnt)&&(cEnt->AtkType==ATKT_Potion))ret=Potion_Fire;
         }

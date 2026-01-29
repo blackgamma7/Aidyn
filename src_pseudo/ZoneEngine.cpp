@@ -296,7 +296,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
       (gGlobals.playerCharStruct.gameStateB == GameStateB_3)) &&
      ((some_toggle == -1 &&
       (ptVar6 = (gGlobals.gameVars.borg9DatPointer)->voxelObjs + (param_2->GroundType >> 5 & 0x7f),
-      ((ptVar6->header).Bitfeild & VOXEL_Active) != 0)))) {
+      ((ptVar6->header).Bitfeild & VOXEL_Active))))) {
     switch((ptVar6->header).type){
       case VOXEL_Camera:{
         set_camera_voxel_pointer(ptVar6,&param_1->pos);

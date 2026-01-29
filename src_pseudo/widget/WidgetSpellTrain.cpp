@@ -145,7 +145,7 @@ s32 WidgetSpellTrain::GetExpPrice(u16 id) {
   
   CharSheet *pCVar2 = PARTY->Members[this->partyPicker];
   float fVar7 = 0.8f;
-  if (gGlobals.SomeCase == 5) fVar7 = 1.0f;
+  if (BattleResultsState) fVar7 = 1.0f;
   if (gGlobals.ShopSpells->HaveSpell(id,abStack_20)) {
     pSVar3 = pCVar2->spellbook->spells[abStack_20[0]];
     price = TempSpell::GetExpPrice(pSVar3) * fVar7;
@@ -181,7 +181,7 @@ void WidgetSpellTrain::Purchase(u16 param_2,u8 x) {
   pCVar1 = PARTY->Members[this->partyPicker];
   spellbook = pCVar1->spellbook;
   auStack_b0[0] = 0;
-  bVar10 = gGlobals.SomeCase != 5;
+  bVar10 = gGlobals.pauseMenuState != PauseMenuState_AfterBattle;
   if (pCVar1->spellbook->HaveSpell(param_2,auStack_b0)) {
     pSVar2 = spellbook->spells[auStack_b0[0]];
     if (TempSpell::IsMaxRank(pSVar2)) {
@@ -232,7 +232,7 @@ void WidgetSpellTrain::Confirm(u16 id,u16 lv) {
     ErrPopup(gGlobals.CommonStrings[498]);
     return;
   }
-  bool afterBattle=gGlobals.SomeCase == 5;
+  bool afterBattle=BattleResultsState;
   float discount = 0.8f;
   if (afterBattle) discount = 1.0f;
   if (pCVar2->spellbook->HaveSpell(id,abStack_3c0)) {

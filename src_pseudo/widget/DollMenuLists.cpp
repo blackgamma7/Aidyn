@@ -34,16 +34,16 @@ void DollMenuLists::InitMenu(DollEquipmentMenu *menu,u8 sel){
   this->partyPicker = bVar14;
 
   CLEAR(&this->menus);
-  if (((gGlobals.SomeCase == 7) || (gGlobals.SomeCase == 3)) || (gGlobals.SomeCase == 6)) {
+  if ((DefaultPauseState || CombatPauseState) || BarterPauseState) {
     this->invMenu = new WidgetInvShop(PARTY->Inventory,menu);
     this->menus[this->menuCount++] = this->invMenu;
-    if (gGlobals.SomeCase == 6) goto LAB_80038434;
+    if (BarterPauseState) goto LAB_80038434;
   }
   this->spellMenu = new WidgetSpellTrain();
   this->menus[this->menuCount++] = this->spellMenu;
   this->skillMenu = new WidgetSkillTrain(false);
   this->menus[this->menuCount++] = this->skillMenu;
-  if (gGlobals.SomeCase != 4){
+  if (gGlobals.pauseMenuState != PauseMenuState_Train){
     this->statMenu = new WidgetStatTrain();
     this->menus[this->menuCount++] = this->statMenu;
   }
@@ -58,8 +58,8 @@ LAB_80038434:
         if(i!=this->menuIndex)w->SetCoords(20,0x65);
         w->boundX0 = SCREEN_CENTERW;
         w->boundX1 = (SCREEN_WIDTH-20);
-        w->boundY0 = 0x65;
-        w->boundY1 = 0xcd;
+        w->boundY0 = 101;
+        w->boundY1 = 205;
         w->Tick();
         w->scrollMenu->Update();
       }
@@ -68,22 +68,22 @@ LAB_80038434:
   this->background = NULL;
   this->expCost = NULL;
   this->expRemain = NULL;
-  if (gGlobals.SomeCase == 5) {
+  if (BattleResultsState) {
     BaseWidget* pBVar8 =WidgetB8(BORG8_BarterBGShadow);
-    pBVar8->SetCoords(5,0x3c);
+    pBVar8->SetCoords(5,60);
     this->Link(pBVar8);
     this->background = WidgetB8(BORG8_BarterBG);
-    this->background->SetCoords(0,0x3a);
+    this->background->SetCoords(0,58);
     this->Link(this->background);
     pBVar8 = WidgetB8(BORG8_TitleTrain);
-    pBVar8->SetCoords(0x5a - (pBVar8->GetHeight() >> 1),0x58 - pBVar8->GetWidth());
+    pBVar8->SetCoords(0x5a - (pBVar8->GetHeight() >> 1),88 - pBVar8->GetWidth());
     this->Link(pBVar8);
     u16 uVar16 = (u16)pBVar8->posY + pBVar8->GetHeight() + 4;
     Gsprintf(Cstring(EarnedExp),(gGlobals.expGained * 1.5f));
     pBVar8 = WClipTXT(gGlobals.text);
     pBVar8->SetColor(COLOR_RED1);
     pBVar8->SetCoords(0x14,uVar16);
-    Utilities::SetTextWidgetBoundsX(pBVar8,0x14,0x96);
+    Utilities::SetTextWidgetBoundsX(pBVar8,20,150);
     this->Link(pBVar8);
     uVar16 = pBVar8->GetHeight() + uVar16 + 4;
     SlimFont;
@@ -100,7 +100,7 @@ LAB_80038434:
             pBVar8 = WClipTXT(gGlobals.text);
             pBVar8->SetColor(COLOR_RED1);
             pBVar8->SetCoords(0x14,(s16)uVar16);
-            Utilities::SetTextWidgetBoundsX(pBVar8,0x14,0x9b);
+            Utilities::SetTextWidgetBoundsX(pBVar8,20,155);
             this->Link(pBVar8);
             bVar3 = true;
             uVar16+=pBVar8->GetHeight();
@@ -112,11 +112,11 @@ LAB_80038434:
     NormalFont;
     this->expCost = new WidgetClipText(NULL,20);
     this->expCost->SetColor(COLOR_RED1);
-    this->expCost->SetCoords(0x14,0xc5 - (s16)this->expCost->GetHeight());
+    this->expCost->SetCoords(20,197 - (s16)this->expCost->GetHeight());
     this->Link(this->expCost);
     this->expRemain = new WidgetClipText(NULL,20);
     this->expRemain->SetColor(COLOR_RED1);
-    this->expRemain->SetCoords(0x14,this->expCost->posY + this->expCost->GetHeight());
+    this->expRemain->SetCoords(20,this->expCost->posY + this->expCost->GetHeight());
     this-Link(this->expRemain);
     ShowEXPCosts();
   }
@@ -184,7 +184,7 @@ void DollMenuLists::LRToggle(u8 param_2){
 }
 
 void DollMenuLists::ShowEXPCosts(){
-  if (gGlobals.SomeCase == 5) {
+  if (BattleResultsState) {
     BaseWidget* w = this->menus[this->menuIndex]->AFunc();
     if (!w) strcpy(Utilities::GetWidgetText(this->expCost)," ");
     else {

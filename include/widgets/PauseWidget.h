@@ -4,8 +4,37 @@
 #include "widgets/optionsMenu.h"
 #include "widgets/Calendar.h"
 
-u16 pause_menu_borg8[]={BORG8_PauseMenuA,BORG8_PauseMenuB,BORG8_PauseMenuC};
+u16 pause_menu_borg8[]={BORG8_PauseBGOptions,BORG8_PauseBGStats,BORG8_PauseBGMap};
 float scroll_floats[]={27.0,0,-26.0,0};
+
+
+enum PauseMenuState{
+ PauseMenuState_0,
+ PauseMenuState_1, //unknown/unused?
+ PauseMenuState_2, //unknown/unused?
+ PauseMenuState_Combat,
+ PauseMenuState_Train, //skill trainer
+ PauseMenuState_AfterBattle,
+ PauseMenuState_Barter,
+ PauseMenuState_DefaultOpen,
+ PauseMenuState_8,
+ PauseMenuState_9,
+ PauseMenuState_10,
+ PauseMenuState_11,
+ PauseMenuState_12,
+ PauseMenuState_13, //start cinematic?
+ PauseMenuState_14, //take FB screenshot and start tint for BG
+};
+
+//Pause menu state of battle results. aka "isCombatLevelup"
+#define BattleResultsState (gGlobals.pauseMenuState==PauseMenuState_AfterBattle)
+//Pause menu opened from "Trek"
+#define DefaultPauseState (gGlobals.pauseMenuState==PauseMenuState_DefaultOpen)
+//Pause menu opened during combat
+#define CombatPauseState (gGlobals.pauseMenuState==PauseMenuState_Combat)
+//Pause menu opened during shopping
+#define BarterPauseState (gGlobals.pauseMenuState==PauseMenuState_Barter)
+
 //Widget showing pause menu aka "BigAssMenu"
 class PauseWidget: public WidgetMenu{
     public:

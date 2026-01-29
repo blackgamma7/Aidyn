@@ -13,28 +13,28 @@ void InitPauseMenu(void) {
   
   if (false) {
 switchD_8004fe44_caseD_4:
-    gGlobals.SomeCase = 7;
+    gGlobals.pauseMenuState = PauseMenuState_DefaultOpen;
     bVar2 = gGlobals.pauseMenuSection;
   }
   else {
     switch(gGlobals.gameStateA) {
     case GameStateA_Pause:
       bVar2 = 1;
-      gGlobals.SomeCase = 3;
+      gGlobals.pauseMenuState = PauseMenuState_Combat;
       break;
     default:
       goto switchD_8004fe44_caseD_4;
     case GameStateA_5:
       bVar2 = 1;
-      gGlobals.SomeCase = 4;
+      gGlobals.pauseMenuState = PauseMenuState_Train;
       break;
     case GameStateA_6:
       bVar2 = 1;
-      gGlobals.SomeCase = 5;
+      gGlobals.pauseMenuState = PauseMenuState_AfterBattle;
       break;
     case GameStateA_7:
       bVar2 = 1;
-      gGlobals.SomeCase = 6;
+      gGlobals.pauseMenuState = PauseMenuState_Barter;
     }
   }
   if (gGlobals.unk14fc) bVar2 = 0;
@@ -42,7 +42,7 @@ switchD_8004fe44_caseD_4:
 }
 
 bool set_screenshot_tint() {
-  gGlobals.SomeCase = 0xe;
+  gGlobals.pauseMenuState = PauseMenuState_14;
   if (0x80 < gGlobals.screenshotTint.R) {
     gGlobals.screenshotTint.G = 0x80;
     if (0x8a < gGlobals.screenshotTint.R) {
@@ -101,26 +101,26 @@ u8 Pause_GameState(Gfx **GG) {
   g = Graphics::StartDisplay(g,FULL_SCREENSPACE);
   bVar6 = WHANDLE->Tick(delta);
   if (true) {
-    switch(gGlobals.SomeCase) {
-    case 0:
+    switch(gGlobals.pauseMenuState) {
+    case PauseMenuState_0:
       u8_800edb99 = 1;
       ret = GameStateA_0;
       break;
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
+    case PauseMenuState_Combat:
+    case PauseMenuState_Train:
+    case PauseMenuState_AfterBattle:
+    case PauseMenuState_Barter:
+    case PauseMenuState_DefaultOpen:
       g = draw_screenshot_background(g,bVar6);
       RSPFUNC6(g);
       g = WHANDLE->Render(g,FULL_SCREENSPACE);
       break;
-    case 8:
-    case 0xb:
+    case PauseMenuState_8:
+    case PauseMenuState_11:
       u8_800edb99 = 1;
       ret = GameStateA_1;
       break;
-    case 9:
+    case PauseMenuState_9:
       ret = GameStateA_Combat;
       u8_800edb99 = 1;
       gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
@@ -131,12 +131,12 @@ u8 Pause_GameState(Gfx **GG) {
         goto LAB_800504ac;
       }
       break;
-    case 10:
+    case PauseMenuState_10:
       ret = GameStateA_1;
       u8_800edb99 = 1;
       gGlobals.combatBytes[0] = CombatState_1;
       break;
-    case 0xc:
+    case PauseMenuState_12:
       BaseWidget* pPVar2= WHANDLE->GetTail();
       if ((pPVar2 == gGlobals.BigAssMenu) && (pPVar2)) {
         g = draw_screenshot_background(g,bVar6);
@@ -146,10 +146,10 @@ u8 Pause_GameState(Gfx **GG) {
       else {
         gGlobals.BigAssMenu = NULL;
         gGlobals.gameStateA = GameStateA_7;
-        gGlobals.SomeCase = u8_800edb90;
+        gGlobals.pauseMenuState = u8_800edb90;
         gGlobals.playerCharStruct.gameStateB = u8_800edb91;
-        if (u8_800edb90 == 6) {
-          ret = 6;
+        if (u8_800edb90 == PauseMenuState_Barter) {
+          ret = GameStateA_6;
           gGlobals.BigAssMenu = new PauseWidget(WHANDLE,1);
           WHANDLE->Tick(1);
           g = draw_screenshot_background(g,bVar6);
@@ -158,11 +158,11 @@ u8 Pause_GameState(Gfx **GG) {
         }
       }
       break;
-    case 0xd:
+    case PauseMenuState_13:
       u8_800edb99 = 1;
       ret = GameStateA_Cinematic;
       break;
-    case 0xe:
+    case PauseMenuState_14:
       g = draw_screenshot_background(g,bVar6);
     }
   }
@@ -200,10 +200,10 @@ int FUN_800505f4(void) {
   if (DAT_800edb94) {
     FUN_800508b4(4);
     DAT_800edb94 = 0;
-    gGlobals.SomeCase = 0xc;
+    gGlobals.pauseMenuState = PauseMenuState_12;
     gGlobals.barterMenu = gGlobals.BigAssMenu;
   }
-  if (gGlobals.SomeCase == 0xc) {
+  if (gGlobals.pauseMenuState == PauseMenuState_12) {
     return 1;
   }
   UINT_800ed580 = false;
@@ -222,29 +222,29 @@ LAB_80050770:
     }
     if (freeWidgetFunc == NULL) {
       u8_800edb91 = gGlobals.playerCharStruct.gameStateB;
-      switch(gGlobals.SomeCase) {
-      case 3:
-        u8_800edb90 = 9;
+      switch(gGlobals.pauseMenuState) {
+      case PauseMenuState_Combat:
+        u8_800edb90 = PauseMenuState_9;
         gGlobals.BigAssMenu->bigAssOpenCallback_2();
         break;
-      case 4:
+      case PauseMenuState_Train:
         u8_800edb91 = GameStateB_3;
-        u8_800edb90 = 10;
+        u8_800edb90 = PauseMenuState_10;
         gGlobals.BigAssMenu->bigAssOpenCallback_2();
         break;
-      case 5:
-        u8_800edb90 = 6;
+      case PauseMenuState_AfterBattle:
+        u8_800edb90 = PauseMenuState_Barter;
         gGlobals.BigAssMenu->bigAssOpenCallback_2();
         gGlobals.combatBytes[0] = CombatState_15;
         gGlobals.gameStateA = GameStateA_7;
         break;
-      case 6:
+      case PauseMenuState_Barter:
         setGlobalsPointer(w);
         break;
-      case 7:
+      case PauseMenuState_DefaultOpen:
         FUN_800508b4(w->varU16);
       }
-      gGlobals.SomeCase = 0xc;
+      gGlobals.pauseMenuState = PauseMenuState_12;
       gGlobals.barterMenu = w;
       goto LAB_80050770;
     }
@@ -275,27 +275,27 @@ void FUN_800508b4(u16 param_1) {
   switch(param_1) {
   case 1:
     u8_800edb91 = GameStateB_17;
-    u8_800edb90 = 8;
+    u8_800edb90 = PauseMenuState_8;
     break;
   case 2:
     u8_800edb91 = GameStateB_22;
-    u8_800edb90 = 10;
+    u8_800edb90 = PauseMenuState_10;
     break;
   case 3:
     u8_800edb91 = GameStateB_18;
-    u8_800edb90 = 0xb;
+    u8_800edb90 = PauseMenuState_11;
     break;
   case 4:
     u8_800edb91 = GameStateB_4;
-    u8_800edb90 = 10;
+    u8_800edb90 = PauseMenuState_10;
     break;
   case 5:
     u8_800edb91 = GameStateB_25;
-    u8_800edb90 = 10;
+    u8_800edb90 = PauseMenuState_10;
     break;
   default:
     u8_800edb91 = GameStateB_3;
-    u8_800edb90 = 10;
+    u8_800edb90 = PauseMenuState_10;
     break;
   }
 
@@ -307,7 +307,7 @@ void setGlobalsPointer(BaseWidget *param_1) {
   u8_800edb90 = 10;
   gGlobals.BigAssMenu->bigAssOpenCallback_2();
   gGlobals.barterMenu = param_1;
-  gGlobals.SomeCase = 0xc;
+  gGlobals.pauseMenuState = PauseMenuState_12;
 }
 
 void passto_getSnapshot(){GetSnapshot_();}

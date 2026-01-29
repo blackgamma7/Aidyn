@@ -5,7 +5,6 @@ WidgetDollMenu::WidgetDollMenu(u8 param_2,u8 param_3):WidgetMenu() {
 
 
 u32 WidgetDollMenu::InitMenu(u8 param_2,u8 param_3) {
-  BaseWidget *pBVar10;
 
   this->spells_widget = NULL;
   this->itemslots_widget = NULL;
@@ -18,32 +17,32 @@ u32 WidgetDollMenu::InitMenu(u8 param_2,u8 param_3) {
     this->Link(this->portraits);
     this->charStats_widget = new WidgetHealthGold(PARTY->Members[gPartyPicker]);
     this->Link(portraits);
-    if ((gGlobals.SomeCase == 7) || (gGlobals.SomeCase == 3)) {
-    this->itemslots_widget = new DollEquipmentMenu(PARTY->Members[gPartyPicker]);
-    this->Link(this->itemslots_widget);
+    if (DefaultPauseState || CombatPauseState) {
+      this->itemslots_widget = new DollEquipmentMenu(PARTY->Members[gPartyPicker]);
+      this->Link(this->itemslots_widget);
     }
     this->lists = new DollMenuLists(this->itemslots_widget,param_3);
     this->Link(this->lists);
-    if (gGlobals.SomeCase == 4) {
-    this->spells_widget = new WidgetMenuSpells(this->lists,1);
-    this->Link(spells_widget);
+    if (gGlobals.pauseMenuState == PauseMenuState_Train) {
+      this->spells_widget = new WidgetMenuSpells(this->lists,1);
+      this->Link(spells_widget);
     }
-    if (gGlobals.SomeCase == 6) {
-    this->barter_widget = new WidgetBarter(this->lists->invMenu,gGlobals.Shopkeep);
-    this->Link(barter_widget);
+    if (BarterPauseState) {
+      this->barter_widget = new WidgetBarter(this->lists->invMenu,gGlobals.Shopkeep);
+      this->Link(barter_widget);
     }
     if (this->spells_widget) this->spells_widget->SetHighlight();
-    if (gGlobals.SomeCase == 7) {
-    pBVar10 = WidgetB8(BORG8_SliderArrowLR);
-    pBVar10->SetColor(COLOR_RED1);
-    pBVar10->SetCoords(0x7e,0xcf);
-    this->Link(pBVar10);
+    if (DefaultPauseState) {
+      WidgetBorg8 *w = WidgetB8(BORG8_SliderArrowLR);
+      w->SetColor(COLOR_RED1);
+      w->SetCoords(126,207);
+      this->Link(w);
     }
-    else if (gGlobals.SomeCase == 3) {
-    pBVar10 = WidgetB8(BORG8_SliderArrowL);
-    pBVar10->SetColor(COLOR_RED1);
-    pBVar10->SetCoords(0x7e,0xcf);
-    this->Link(pBVar10);
+    else if (CombatPauseState) {
+      WidgetBorg8 *w = WidgetB8(BORG8_SliderArrowL);
+      w->SetColor(COLOR_RED1);
+      w->SetCoords(126,207);
+      this->Link(w);
     }
   return Controller::GetDelay(0);
 }

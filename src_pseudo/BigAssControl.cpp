@@ -177,7 +177,7 @@ BaseWidget * bigAssMenu_LZFunc(BaseWidget *w0,BaseWidget *w1) {
   bool bVar6;
   Borg8Header *b8;
   
-  if ((gGlobals.SomeCase == 7) || (gGlobals.SomeCase == 3)) {
+  if (DefaultPauseState || CombatPauseState) {
     sub = (pause_Substruct *)w1->substruct;
     if ((sub->PauseMenuSection != 0) && (!sub->isScrolling)) {
       if (sub->PauseMenuSection == 1) {
@@ -210,10 +210,10 @@ BaseWidget* bigAssMenu_RFunc(BaseWidget* w0,BaseWidget *w1) {
   bool bVar7;
   Borg8Header *b8;
   
-  if (((gGlobals.SomeCase == 7) || (gGlobals.SomeCase == 3)) && (gGlobals.unk14fc == 0)) {
+  if ((DefaultPauseState || CombatPauseState) && (gGlobals.unk14fc == 0)) {
     sub = (pause_Substruct *)w1->substruct;
     if (sub->PauseMenuSection != 2) {
-      if (gGlobals.SomeCase == 3) {
+      if (CombatPauseState) {
         if (sub->PauseMenuSection == 1) return 0;
       }
       if (!sub->isScrolling) {

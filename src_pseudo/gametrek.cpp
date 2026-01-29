@@ -212,13 +212,13 @@ switchD_80024ecc_caseD_1:
 }
 
 bool GetDelta_TickTrek(Gfx **GG) {
-  u32 delay = 0;
+  u32 delta = 0;
   controller_aidyn *cont = NULL;
   DAT_800e9ab4++;
-  while (Controller::GetInput(&cont,0)) {delay++;}
-  DeltaCap(delay);
-  gGlobals.delta = (float)delay;
-  *GG = tick_trek_features(*GG,(u8)delay);
+  while (Controller::GetInput(&cont,0)) {delta++;}
+  DeltaCap(delta);
+  gGlobals.delta = (float)delta;
+  *GG = tick_trek_features(*GG,(u8)delta);
   if (DAT_800e9ab4 < 10) {
     DAT_800e9ab4 = 0;
     return false;

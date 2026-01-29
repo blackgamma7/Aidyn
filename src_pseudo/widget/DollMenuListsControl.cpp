@@ -26,7 +26,7 @@ BaseWidget* DollMenuLists::RightFunc(){
 
 BaseWidget* DollMenuLists::AFunc(){
     BaseWidget*w =this->menus[this->menuIndex]->AFunc();
-    if((w)&&(gGlobals.SomeCase == 5))
+    if((w)&&(BattleResultsState))
     this->menus[this->menuIndex]->Confirm(w->varU16,0xff);
     return NULL;
 }

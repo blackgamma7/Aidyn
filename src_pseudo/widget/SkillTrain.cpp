@@ -101,7 +101,7 @@ void WidgetSkillTrain::InitMenu() {
  
 BaseWidget * WidgetSkillTrain::AFunc() {
 
-  if (gGlobals.SomeCase == 7) {
+  if (DefaultPauseState) {
     BaseWidget *w =  this->scrollMenu->AFunc();
     if (w) w->AFunc();
     return NULL;
@@ -138,7 +138,7 @@ s32 WidgetSkillTrain::GetExpPrice(u16 param_2) {
   
   u16 type = ITEMIDTYPE(param_2);
   CharSkills *skills = PARTY->Members[this->partyPicker]->Skills;
-  float discount=gGlobals.SomeCase==5?1.0f:0.8f;
+  float discount=gGlobals.pauseMenuState==PauseMenuState_AfterBattle?1.0f:0.8f;
   switch(type){
     case 0:{
         if(skills->isSkillCapped(param_2 & 0xff)) return -1;
@@ -185,7 +185,7 @@ void WidgetSkillTrain::Purchase(u16 param_2,u8 v) {
   type = param_2 >> 8;
   subtype = param_2 & 0xff;
   pCVar1 = PARTY->Members[this->partyPicker];
-  Shop = gGlobals.SomeCase != 5;
+  Shop = gGlobals.pauseMenuState != 5;
   skills = pCVar1->Skills;
   switch(type){
     case 0:{
@@ -269,26 +269,26 @@ void WidgetSkillTrain::Confirm(u16 param_2,u16 param_3) {
   type = param_2 >> 8;
   exp_train_price = 0;
   notOriana = (int)shopkeepNotOriana();
-  afterBattle = (u32)(gGlobals.SomeCase == 5);
-  if (gGlobals.SomeCase == 5) discount = 1.0f;
+  afterBattle = (u32)BattleResultsState;
+  if (BattleResultsState) discount = 1.0f;
   switch(type){
     case 0:{
-        skLv=skills->capSkillBaseMax(param_2 & 0xff);
-       if(0<skLv) gold_train_price = skills->GetGoldTrainPrice(param_2 & 0xff);
-        exp_train_price=skills->GetSkillXpMod(param_2 & 0xff)*discount;
-        break;
+     skLv=skills->capSkillBaseMax(param_2 & 0xff);
+     if(0<skLv) gold_train_price = skills->GetGoldTrainPrice(param_2 & 0xff);
+     exp_train_price=skills->GetSkillXpMod(param_2 & 0xff)*discount;
+     break;
     }
     case 1:{
-        skLv=skills->capWeaponBaseMax(param_2 & 0xff);
-        if(0<skLv) gold_train_price = skills->GetWeaponGoldTrainPrice(param_2 & 0xff);
-        exp_train_price=skills->GetWeaponXpMod(param_2 & 0xff)*discount;
-        break;
+     skLv=skills->capWeaponBaseMax(param_2 & 0xff);
+     if(0<skLv) gold_train_price = skills->GetWeaponGoldTrainPrice(param_2 & 0xff);
+     exp_train_price=skills->GetWeaponXpMod(param_2 & 0xff)*discount;
+     break;
     }
     case 2:{
-        skLv=skills->capSheildBaseMax();
-        if(0<skLv) gold_train_price = skills->GetShieldGoldTrainPrice();
-        exp_train_price=skills->GetShieldXpPrice()*discount;
-        break;
+     skLv=skills->capSheildBaseMax();
+     if(0<skLv) gold_train_price = skills->GetShieldGoldTrainPrice();
+     exp_train_price=skills->GetShieldXpPrice()*discount;
+     break;
     }
    default:{
     gold_train_price = 200;

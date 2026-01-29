@@ -106,7 +106,7 @@ u16 WidgetSkillInfo::GetWidth() {
 u16 WidgetSkillInfo::GetHeight(){return 13;}
 
 BaseWidget * WidgetSkillInfo::AFunc() {
-  if (gGlobals.SomeCase == 7) { //run the crafting menu if available
+  if (DefaultPauseState) { //run the crafting menu if available
     this->skillVal->AFunc();
     return NULL;
   }

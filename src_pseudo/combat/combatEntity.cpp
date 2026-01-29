@@ -884,9 +884,8 @@ void CombatEntity::m8006a274(){
   UnsetFlag(COMBATENT_HERBS);
   SetAktRangeMulti(true);
   this->numMoves = 1;
-  if (gGlobals.SomeCase == 3) gGlobals.combatBytes[1] = CombatState_19;
+  if (CombatPauseState) gGlobals.combatBytes[1] = CombatState_19;
 }
-
 
 void CombatEntity::Ofunc_8006a2f0(u8 param_2){
   u8 bVar1;

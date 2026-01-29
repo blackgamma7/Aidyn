@@ -20,7 +20,7 @@ BaseWidget * WidgetInvShop::AFunc() {
   UINT_800ed580 = true;
   BaseWidget* uVar9 = uVar8->AFunc();
   CharSheet *pCVar3 = (gGlobals.party)->Members[this->partyPicker];
-  if (gGlobals.SomeCase == 3) {
+  if (CombatPauseState) {
     uVar15 = (ushort)gCombatP->current_Ent->index;
     if (uVar9 == 0) {
       if (gPartyPicker != uVar15) {
@@ -40,7 +40,7 @@ BaseWidget * WidgetInvShop::AFunc() {
     if (uVar15 == DB_WEAPON) {
       CharSheet *pCVar4 = (gGlobals.party)->Members[uVar9->varU16];
       if ((pCVar4) && (IDEntInd(Niesen) == pCVar4->ID)) {
-        Gsprintf(Cstring(XPowerfulMagic),&gWeaponsDB->weapons[0x42].name,pCVar4->name);
+        Gsprintf(Cstring(XPowerfulMagic),&gWeaponsDB->weapons[WeaponInd_ArchmageStaff].name,pCVar4->name);
         ErrPopup(gGlobals.text);
         return NULL;
       }

@@ -244,9 +244,9 @@ bool create_enemy_list(){
       }
     }
   }
-  scrollMenu->boundY0 = 0x4b;
+  scrollMenu->boundY0 = 75;
   scrollMenu->boundY1 = 200;
-  scrollMenu->SetColor(0x96,0x96,0x96,0x96);
+  scrollMenu->SetColor(150,150,150,150);
   ((WSMSub*)scrollMenu->substruct)->scrollSpeed = 20;
   (gGlobals.playerCharStruct.debugMenuEnemy)->substruct = scrollMenu;
   gGlobals.playerCharStruct.debugMenuEnemy->Link(scrollMenu);

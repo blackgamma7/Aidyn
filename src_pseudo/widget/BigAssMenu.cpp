@@ -20,7 +20,7 @@ PauseWidget::~PauseWidget(){
   WidgetMenu::~WidgetMenu();
 }
 
-u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
+u32 PauseWidget::BigAssMenu(WidgetHandler *handle,u8 menu_section){
   bool bVar3;
   bool notCombat;
   float fVar5;
@@ -33,7 +33,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
   WidgetHandler *pWVar10;
   u32 borg12;
   
-  this->Handler = param_2;
+  this->Handler = handle;
   uVar6 = gGlobals.unk14fc;
   bVar3 = gGlobals.gameStateA == 6;
   notCombat = gGlobals.combatBytes[0] != CombatState_15;
@@ -108,7 +108,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *param_2,byte menu_section){
 LAB_80035e34:
   InitOptionsMenu();
   if (uVar6 == 0) {
-    if ((gGlobals.SomeCase == 7) || (gGlobals.SomeCase == 3))
+    if (DefaultPauseState || CombatPauseState)
       BuildDollMenu(0);
     else BuildDollMenu(2);
     BuildCalendarMenu();
@@ -144,7 +144,7 @@ void PauseWidget::bigAssOpenCallback_2(){
   Borg7Header *pBVar3;
   u32 borg12;
   pause_Substruct *sub = (pause_Substruct *)this->substruct;
-  bVar2 = gGlobals.SomeCase == 5;
+  bVar2 = BattleResultsState;
   sprintf(gGlobals.text,"isCombatLevelup = %d\n",bVar2);
   N64PRINT(gGlobals.text);
   switch(sub->PauseMenuSection){

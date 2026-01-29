@@ -31,7 +31,7 @@ void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapSho
       sprintf(gGlobals.text,"Dialog #%d\n",dialougemode_pointer->borg13_dat->ID);
       N64Print::Print(gGlobals.text);
       whoDied_short = 0;
-      if ((borg_short_list[0].borg_13 != 0xffffffff) &&
+      if ((borg_short_list[0].borg_13 != -1) &&
          (uVar3 = 2, whoDied_short = borg_short_list[0].some_num,
          BorgID != borg_short_list[0].borg_13)) {
         do {
@@ -698,16 +698,14 @@ void FUN_80059770(){
 }
 
 void FUN_800597f8(){
-  u32 uVar1;
   u16 lVar2;
   
-  uVar1 = dialougemode_pointer->nextGameState;
   lVar2 = 0xffff;
-  if (uVar1 == 5) lVar2 = GameStateB_5;
-  else if (uVar1 < 6) {
-    if (uVar1 == 2) FUN_80059770();
+  switch(dialougemode_pointer->nextGameState){
+    case GameStateA_Combat:FUN_80059770();break;
+    case GameStateA_5:lVar2 = GameStateB_5;break;
+    case GameStateA_7:lVar2 = GameStateB_7;break;
   }
-  else if (uVar1 == 7) lVar2 = GameStateB_7;
   if (lVar2 != 0xffff) {
     gGlobals.playerCharStruct.gameStateB = (u8)lVar2;
   }
