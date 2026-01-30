@@ -316,11 +316,7 @@ LAB_8009db84:
   return gfx;
 }
 
-Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,Borg2Struct *param_3){
-  s8 sVar1;
-  byte bVar2;
-  byte bVar3;
-  Borg1Data *pBVar5;
+Gfx * loadTextureImage(Gfx *gfx,Borg1Header *b1,Borg2Struct *param_3){
   u32 masks;
   u32 maskt;
   u32 shifts;
@@ -344,7 +340,7 @@ Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,Borg2Struct *param_3){
   else flag = param_3->flags;
   gDPPipeSync(gfx++);
   gDPTileSync(gfx++);
-  u16 b1Flag = param_2->dat->flag;
+  u16 b1Flag = b1->dat->flag;
   if ((b1Flag & B1_TDDetail) == 0) {
     if ((b1Flag & B1_TDSharpen) == 0) {
         gDPSetTextureDetail(gfx++,G_TD_CLAMP);
@@ -355,135 +351,126 @@ Gfx * loadTextureImage(Gfx *gfx,Borg1Header *param_2,Borg2Struct *param_3){
   else uVar12 = G_TD_DETAIL;
   gDPSetTextureDetail(gfx++,uVar12);
 LAB_8009dd14:
-  if (param_2->dat->lods <= 0) {gDPSetTextureLOD(gfx++,G_TL_TILE);}
+  if (b1->dat->lods <= 0) {gDPSetTextureLOD(gfx++,G_TL_TILE);}
   else {gDPSetTextureLOD(gfx++,G_TL_LOD);}
   cmt = G_TX_CLAMP;
   cms = (u32)((flag & B2S_ClampY) == 0) << 1;
   if ((flag & B2S_XMirror)) cms |= G_TX_MIRROR;
   if ((flag & B2S_YNoMirror)) cmt |= G_TX_NOMIRROR;
   if ((flag & B2S_YMirror)) cmt |= G_TX_MIRROR;
-  pBVar5 = param_2->dat;
-  bVar2 = pBVar5->Width;
-  x = (u32)bVar2;
+  Borg1Data *b1Dat = b1->dat;
+  x = (u32)b1Dat->Width;
   tmem = 0;
-  bVar3 = pBVar5->Height;
-  i = 0;
-  sVar1 = pBVar5->lods;
-  lrt = (u32)bVar3;
-  if (-1 < sVar1) {
-    do { 
-      u8 fmt,siz;//1st word of macro got cmd, size, and format optimised together for each case...
-      masks = getPow2(x);
-      maskt = getPow2(lrt);
-      shifts = FUN_8009d3b0((u32)bVar2,x);
-      shiftt = FUN_8009d3b0((u32)bVar3,lrt);
-      switch(param_2->dat->type) {
-      case B1_RGBA16:
-        if ((int)x < 4) iVar10 = 4 - x;
-        else {
-          iVar10 = 4 - (x & 3);
-          if ((x & 3) == 0) iVar10 = 0;
-        }
-        line = (int)(x + iVar10) >> 2;
-        fmt=G_IM_FMT_RGBA;
-        siz=G_IM_SIZ_16b;
-        break;
-      case B1_IA16:
-        if ((int)x < 4) {
-          iVar10 = 4 - x;
-        }
-        else {
-          iVar10 = 4 - (x & 3);
-          if ((x & 3) == 0) iVar10 = 0;
-        }
-        line = (int)(x + iVar10) >> 2;
-        fmt=G_IM_FMT_IA;
-        siz=G_IM_SIZ_16b;
-        break;
-      case B1_CI8:
-        if ((int)x < 8) {
-          iVar10 = 8 - x;
-        }
-        else {
-          iVar10 = 8 - (x & 7);
-          if ((x & 7) == 0) iVar10 = 0;
-        }
-        line = (int)(x + iVar10) >> 3;
-        fmt=G_IM_FMT_CI;
-        siz=G_IM_SIZ_8b;
-        break;
-      case B1_IA8:
-        if ((int)x < 8) iVar10 = 8 - x;
-        else {
-          iVar10 = 8 - (x & 7);
-          if ((x & 7) == 0) iVar10 = 0;
-        }
-        line = (int)(x + iVar10) >> 3;
-        fmt=G_IM_FMT_IA;
-        siz=G_IM_SIZ_8b;
-        break;
-      case B1_I8:
-        if ((int)x < 8) iVar10 = 8 - x;
-        else {
-          iVar10 = 8 - (x & 7);
-          if ((x & 7) == 0) iVar10 = 0;
-        }
-        line = (int)(x + iVar10) >> 3;
-        fmt=G_IM_FMT_I;
-        siz=G_IM_SIZ_8b;
-        break;
-      case B1_CI4:
-        if ((int)x < 0x10) iVar10 = 0x10 - x;
-        else {
-          iVar10 = 0x10 - (x & 0xf);
-          if ((x & 0xf) == 0) iVar10 = 0;
-        }
-        line = (int)(x + iVar10) >> 4;
-        fmt=G_IM_FMT_CI;
-        siz=G_IM_SIZ_4b;
-        break;
-      case B1_IA4:
-        if ((int)x < 0x10) iVar10 = 0x10 - x;
-        else {
-          iVar10 = 0x10 - (x & 0xf);
-          if ((x & 0xf) == 0) iVar10 = 0;
-        }
-        line = (int)(x + iVar10) >> 4;
-        fmt=G_IM_FMT_IA;
-        siz=G_IM_SIZ_4b;
-        break;
-      case B1_I4:
-        if ((int)x < 0x10) iVar10 = 0x10 - x;
-        else {
-          iVar10 = 0x10 - (x & 0xf);
-          if ((x & 0xf) == 0) iVar10 = 0;
-        }
-        line = (int)(x + iVar10) >> 4;
-        fmt=G_IM_FMT_I;
-        siz=G_IM_SIZ_4b;
-        break;
-      case B1_RGBA32:
-        if ((int)x < 2) iVar10 = 2 - x;
-        else {
-          iVar10 = 2 - (x & 1);
-          if ((x & 1) == 0) {
-            iVar10 = 0;
-          }
-        }
-        line = (int)(x + iVar10) >> 2;
-        fmt=G_IM_FMT_RGBA;
-        siz=G_IM_SIZ_32b;
-        break;
-      default: //yeah, I'm not sure which function is which.
-        CRASH("borganim.cpp:LoadTextureImage","TEXTURE TYPE NOT SUPPORTED");
+  lrt = (u32)b1Dat->Height;
+  for(i=0;i<b1Dat->lods;i++){
+    u8 fmt,siz;//1st word of macro got cmd, size, and format optimised together for each case...
+    masks = getPow2(x);
+    maskt = getPow2(lrt);
+    shifts = FUN_8009d3b0((u32)b1Dat->Width,x);
+    shiftt = FUN_8009d3b0((u32)b1Dat->Height,lrt);
+    switch(b1->dat->type) {
+    case B1_RGBA16:
+      if ((int)x < 4) iVar10 = 4 - x;
+      else {
+        iVar10 = 4 - (x & 3);
+        if ((x & 3) == 0) iVar10 = 0;
       }
-      gDPSetTile(gfx++,fmt,siz,line,tmem,i,0,cmt,maskt,shiftt,cms,masks,shifts);
-      gDPSetTileSize(gfx++,i,0,0,x-1,(lrt-1)*4);
-      tmem += line * lrt;
-      x = half(x);
-      lrt = half(lrt);
-      i++;
-    } while ((int)i <= (int)sVar1);
+      line = (int)(x + iVar10) >> 2;
+      fmt=G_IM_FMT_RGBA;
+      siz=G_IM_SIZ_16b;
+      break;
+    case B1_IA16:
+      if ((int)x < 4) {
+        iVar10 = 4 - x;
+      }
+      else {
+        iVar10 = 4 - (x & 3);
+        if ((x & 3) == 0) iVar10 = 0;
+      }
+      line = (int)(x + iVar10) >> 2;
+      fmt=G_IM_FMT_IA;
+      siz=G_IM_SIZ_16b;
+      break;
+    case B1_CI8:
+      if ((int)x < 8) {
+        iVar10 = 8 - x;
+      }
+      else {
+        iVar10 = 8 - (x & 7);
+        if ((x & 7) == 0) iVar10 = 0;
+      }
+      line = (int)(x + iVar10) >> 3;
+      fmt=G_IM_FMT_CI;
+      siz=G_IM_SIZ_8b;
+      break;
+    case B1_IA8:
+      if ((int)x < 8) iVar10 = 8 - x;
+      else {
+        iVar10 = 8 - (x & 7);
+        if ((x & 7) == 0) iVar10 = 0;
+      }
+      line = (int)(x + iVar10) >> 3;
+      fmt=G_IM_FMT_IA;
+      siz=G_IM_SIZ_8b;
+      break;
+    case B1_I8:
+      if ((int)x < 8) iVar10 = 8 - x;
+      else {
+        iVar10 = 8 - (x & 7);
+        if ((x & 7) == 0) iVar10 = 0;
+      }
+      line = (int)(x + iVar10) >> 3;
+      fmt=G_IM_FMT_I;
+      siz=G_IM_SIZ_8b;
+      break;
+    case B1_CI4:
+      if ((int)x < 0x10) iVar10 = 0x10 - x;
+      else {
+        iVar10 = 0x10 - (x & 0xf);
+        if ((x & 0xf) == 0) iVar10 = 0;
+      }
+      line = (int)(x + iVar10) >> 4;
+      fmt=G_IM_FMT_CI;
+      siz=G_IM_SIZ_4b;
+      break;
+    case B1_IA4:
+      if ((int)x < 0x10) iVar10 = 0x10 - x;
+      else {
+        iVar10 = 0x10 - (x & 0xf);
+        if ((x & 0xf) == 0) iVar10 = 0;
+      }
+      line = (int)(x + iVar10) >> 4;
+      fmt=G_IM_FMT_IA;
+      siz=G_IM_SIZ_4b;
+      break;
+    case B1_I4:
+      if ((int)x < 0x10) iVar10 = 0x10 - x;
+      else {
+        iVar10 = 0x10 - (x & 0xf);
+        if ((x & 0xf) == 0) iVar10 = 0;
+      }
+      line = (int)(x + iVar10) >> 4;
+      fmt=G_IM_FMT_I;
+      siz=G_IM_SIZ_4b;
+      break;
+    case B1_RGBA32:
+      if ((int)x < 2) iVar10 = 2 - x;
+      else {
+        iVar10 = 2 - (x & 1);
+        if ((x & 1) == 0) iVar10 = 0;
+      }
+      line = (int)(x + iVar10) >> 2;
+      fmt=G_IM_FMT_RGBA;
+      siz=G_IM_SIZ_32b;
+      break;
+    default: //yeah, I'm not sure which function is which.
+      CRASH("borganim.cpp:LoadTextureImage","TEXTURE TYPE NOT SUPPORTED");
+    }
+    gDPSetTile(gfx++,fmt,siz,line,tmem,i,0,cmt,maskt,shiftt,cms,masks,shifts);
+    gDPSetTileSize(gfx++,i,0,0,x-1,(lrt-1)*4);
+    tmem += line * lrt;
+    x = half(x);
+    lrt = half(lrt);
   }
   return gfx;
 }
@@ -514,7 +501,7 @@ Gfx * Ofunc_8009e228(Gfx *g,SceneData *param_2,int param_3){
 
 #define DtoR_f 0.017453292f //a few more decimals used for these funcs.
 
-void Borg5Transform_op0(Borg5Transform *param_1,MtxF *mf){
+void Borg5Transform_op0(Borg5Transform *t,MtxF *mf){
   float sinx;
   float siny;
   float sinz;
@@ -523,60 +510,60 @@ void Borg5Transform_op0(Borg5Transform *param_1,MtxF *mf){
   float cosy;
   float cosz;
   
-  cosy = (param_1->rot).x * DtoR_f;
-  cosx = (param_1->rot).y * DtoR_f;
-  cosz = (param_1->rot).z * DtoR_f;
+  cosy = (t->rot).x * DtoR_f;
+  cosx = (t->rot).y * DtoR_f;
+  cosz = (t->rot).z * DtoR_f;
   sinx = __sinf(cosx);
   cosx = __cosf(cosx);
   siny = __sinf(cosy);
   cosy = __cosf(cosy);
   sinz = __sinf(cosz);
   cosz = __cosf(cosz);
-  (*mf)[2][1] = -sinx * (param_1->scale).z;
-  (*mf)[0][0] = (cosy * cosz + siny * sinx * sinz) * (param_1->scale).x;
-  (*mf)[1][0] = (-cosy * sinz + siny * sinx * cosz) * (param_1->scale).y;
-  (*mf)[1][2] = (siny * sinz + cosy * sinx * cosz) * (param_1->scale).y;
-  (*mf)[2][0] = siny * cosx * (param_1->scale).z;
-  (*mf)[0][1] = cosx * sinz * (param_1->scale).x;
-  (*mf)[1][1] = cosx * cosz * (param_1->scale).y;
-  (*mf)[0][2] = (-siny * cosz + cosy * sinx * sinz) * (param_1->scale).x;
-  (*mf)[2][2] = cosy * cosx * (param_1->scale).z;
-  (*mf)[3][0] = (param_1->pos).x;
-  (*mf)[3][1] = (param_1->pos).y;
-  (*mf)[3][2] = (param_1->pos).z;
+  (*mf)[2][1] = -sinx * (t->scale).z;
+  (*mf)[0][0] = (cosy * cosz + siny * sinx * sinz) * (t->scale).x;
+  (*mf)[1][0] = (-cosy * sinz + siny * sinx * cosz) * (t->scale).y;
+  (*mf)[1][2] = (siny * sinz + cosy * sinx * cosz) * (t->scale).y;
+  (*mf)[2][0] = siny * cosx * (t->scale).z;
+  (*mf)[0][1] = cosx * sinz * (t->scale).x;
+  (*mf)[1][1] = cosx * cosz * (t->scale).y;
+  (*mf)[0][2] = (-siny * cosz + cosy * sinx * sinz) * (t->scale).x;
+  (*mf)[2][2] = cosy * cosx * (t->scale).z;
+  (*mf)[3][0] = (t->pos).x;
+  (*mf)[3][1] = (t->pos).y;
+  (*mf)[3][2] = (t->pos).z;
   (*mf)[0][3] = 1.0f;
   (*mf)[1][3] = 1.0f;
   (*mf)[2][3] = 1.0f;
   (*mf)[3][3] = 1.0f;
 }
 
-void Borg5Transform_op1(Borg5Transform *param_1,MtxF *mf){
-  float sinx = __sinf((param_1->rot).x * DtoR_f);
-  float cosx = __cosf((param_1->rot).x * DtoR_f);
-  float siny = __sinf((param_1->rot).y * DtoR_f);
-  float cosy = __cosf((param_1->rot).y * DtoR_f);
-  float sinz = __sinf((param_1->rot).z * DtoR_f);
-  float cosz = __cosf((param_1->rot).z * DtoR_f);
-  float fVar8 = cosz * cosy * (param_1->scale).x;
-  float fVar5 = sinz * cosy * (param_1->scale).x;
-  float fVar4 = (-sinz * cosx + cosz * siny * sinx) * (param_1->scale).y;
-  float fVar6 = (sinz * sinx + cosz * siny * cosx) * (param_1->scale).z;
-  float fVar15 = cosy * sinx * (param_1->scale).y;
-  float fVar13 = cosy * cosx * (param_1->scale).z;
-  float fVar7 = (cosz * cosx + sinz * siny * sinx) * (param_1->scale).y;
-  (*mf)[0][2] = -siny * (param_1->scale).x;
+void Borg5Transform_op1(Borg5Transform *t,MtxF *mf){
+  float sinx = __sinf((t->rot).x * DtoR_f);
+  float cosx = __cosf((t->rot).x * DtoR_f);
+  float siny = __sinf((t->rot).y * DtoR_f);
+  float cosy = __cosf((t->rot).y * DtoR_f);
+  float sinz = __sinf((t->rot).z * DtoR_f);
+  float cosz = __cosf((t->rot).z * DtoR_f);
+  float fVar8 = cosz * cosy * (t->scale).x;
+  float fVar5 = sinz * cosy * (t->scale).x;
+  float fVar4 = (-sinz * cosx + cosz * siny * sinx) * (t->scale).y;
+  float fVar6 = (sinz * sinx + cosz * siny * cosx) * (t->scale).z;
+  float fVar15 = cosy * sinx * (t->scale).y;
+  float fVar13 = cosy * cosx * (t->scale).z;
+  float fVar7 = (cosz * cosx + sinz * siny * sinx) * (t->scale).y;
+  (*mf)[0][2] = -siny * (t->scale).x;
   (*mf)[0][0] = fVar8;
   (*mf)[0][1] = fVar5;
   (*mf)[1][0] = fVar4;
-  float fVar9 = (-cosz * sinx + sinz * siny * cosx) * (param_1->scale).z;
+  float fVar9 = (-cosz * sinx + sinz * siny * cosx) * (t->scale).z;
   (*mf)[2][0] = fVar6;
   (*mf)[1][2] = fVar15;
   (*mf)[2][2] = fVar13;
   (*mf)[1][1] = fVar7;
   (*mf)[2][1] = fVar9;
-  (*mf)[3][0] = (param_1->pos).x - (fVar8 * (param_1->pivot).x + fVar4 * (param_1->pivot).y + fVar6 * (param_1->pivot).z);
-  (*mf)[3][1] = (param_1->pos).y - (fVar5 * (param_1->pivot).x + fVar7 * (param_1->pivot).y + fVar9 * (param_1->pivot).z);
-  (*mf)[3][2] = (param_1->pos).z - (-siny * (param_1->scale).x * (param_1->pivot).x + fVar15 * (param_1->pivot).y + fVar13 * (param_1->pivot).z);
+  (*mf)[3][0] = (t->pos).x - (fVar8 * (t->pivot).x + fVar4 * (t->pivot).y + fVar6 * (t->pivot).z);
+  (*mf)[3][1] = (t->pos).y - (fVar5 * (t->pivot).x + fVar7 * (t->pivot).y + fVar9 * (t->pivot).z);
+  (*mf)[3][2] = (t->pos).z - (-siny * (t->scale).x * (t->pivot).x + fVar15 * (t->pivot).y + fVar13 * (t->pivot).z);
   (*mf)[0][3] = 1.0;
   (*mf)[1][3] = 1.0;
   (*mf)[2][3] = 1.0;
@@ -584,45 +571,43 @@ void Borg5Transform_op1(Borg5Transform *param_1,MtxF *mf){
 }
 
 
-void Borg5Transform_op2(Borg5Transform *param_1,MtxF *param_2){  
-  float sinx = __sinf(-(param_1->rot).x * DtoR_f);
-  float cosx = __cosf(-(param_1->rot).x * DtoR_f);
-  float siny = __sinf(-(param_1->rot).y * DtoR_f);
-  float cosy = __cosf(-(param_1->rot).y * DtoR_f);
-  float sinz = __sinf(-(param_1->rot).z * DtoR_f);
-  float cosz = __cosf(-(param_1->rot).z * DtoR_f);
-  (*param_2)[0][2] = sinx;
-  (*param_2)[2][2] = cosx * cosy;
-  (*param_2)[0][0] = cosz * cosx;
-  (*param_2)[0][1] = -sinz * cosx;
-  (*param_2)[1][2] = -cosx * siny;
-  (*param_2)[1][0] = sinz * cosy + cosz * sinx * siny;
-  (*param_2)[2][0] = sinz * siny - cosz * sinx * cosy;
-  (*param_2)[1][1] = cosz * cosy - sinz * sinx * siny;
-  (*param_2)[2][1] = cosz * siny + sinz * sinx * cosy;
-  (*param_2)[3][0] = (param_1->pos).x;
-  (*param_2)[3][1] = (param_1->pos).y;
-  (*param_2)[3][2] = (param_1->pos).z;
-  (*param_2)[0][3] = (param_1->scale).x;
-  (*param_2)[1][3] = (param_1->scale).y;
-  (*param_2)[2][3] = (param_1->scale).z;
-  (*param_2)[3][3] = 1.0f;
+void Borg5Transform_op2(Borg5Transform *t,MtxF *mf){  
+  float sinx = __sinf(-(t->rot).x * DtoR_f);
+  float cosx = __cosf(-(t->rot).x * DtoR_f);
+  float siny = __sinf(-(t->rot).y * DtoR_f);
+  float cosy = __cosf(-(t->rot).y * DtoR_f);
+  float sinz = __sinf(-(t->rot).z * DtoR_f);
+  float cosz = __cosf(-(t->rot).z * DtoR_f);
+  (*mf)[0][2] = sinx;
+  (*mf)[2][2] = cosx * cosy;
+  (*mf)[0][0] = cosz * cosx;
+  (*mf)[0][1] = -sinz * cosx;
+  (*mf)[1][2] = -cosx * siny;
+  (*mf)[1][0] = sinz * cosy + cosz * sinx * siny;
+  (*mf)[2][0] = sinz * siny - cosz * sinx * cosy;
+  (*mf)[1][1] = cosz * cosy - sinz * sinx * siny;
+  (*mf)[2][1] = cosz * siny + sinz * sinx * cosy;
+  (*mf)[3][0] = (t->pos).x;
+  (*mf)[3][1] = (t->pos).y;
+  (*mf)[3][2] = (t->pos).z;
+  (*mf)[0][3] = (t->scale).x;
+  (*mf)[1][3] = (t->scale).y;
+  (*mf)[2][3] = (t->scale).z;
+  (*mf)[3][3] = 1.0f;
 }
 
-void some_matrix_func(MtxF *param_1,float posX,float posY,float posZ,float param_5,float param_6,
-                     float param_7,float param_8,float param_9,float param_10){
+void some_matrix_func(MtxF *mf,float posX,float posY,float posZ,float posX2,float posY2,
+                     float posZ2,float param_8,float param_9,float param_10){
   float fVar1;
-  vec3f fStack248;
-  vec3f fStack184;
-  vec3f fStack120;
+  vec3f distNorm,fStack184,crossProd;
   
-  fStack248.x = posX - param_5;
-  fStack248.y = posY - param_6;
-  fStack248.z = posZ - param_7;
-  guNormalize(&fStack248.x,&fStack248.y,&fStack248.z);
-  fStack184.x = param_9 * fStack248.z - param_10 * fStack248.y;
-  fStack184.y = param_10 * fStack248.x - param_8 * fStack248.z;
-  fStack184.z = param_8 * fStack248.y - param_9 * fStack248.x;
+  distNorm.x = posX - posX2;
+  distNorm.y = posY - posY2;
+  distNorm.z = posZ - posZ2;
+  guNormalize(&distNorm.x,&distNorm.y,&distNorm.z);
+  fStack184.x = param_9 * distNorm.z - param_10 * distNorm.y;
+  fStack184.y = param_10 * distNorm.x - param_8 * distNorm.z;
+  fStack184.z = param_8 * distNorm.y - param_9 * distNorm.x;
   fVar1 = _sqrtf(SQ(fStack184.x) + SQ(fStack184.y)+SQ(fStack184.z));
   if (0.000001 <= fVar1) {
     fVar1 = 1.0 / fVar1;
@@ -633,34 +618,33 @@ void some_matrix_func(MtxF *param_1,float posX,float posY,float posZ,float param
   fStack184.x = vec3f_800f3384.x;
   fStack184.y = vec3f_800f3384.y;
   fStack184.z = vec3f_800f3384.z;
-  Vec3Cross(&fStack120,&fStack248,&fStack184);
-  (*param_1)[3][0] = posX;
-  (*param_1)[3][1] = posY;
-  (*param_1)[3][2] = posZ;
-  (*param_1)[0][3] = 0.0;
-  (*param_1)[1][3] = 0.0;
-  (*param_1)[2][3] = 0.0;
-  (*param_1)[0][0] = fStack184.x;
-  (*param_1)[0][1] = fStack184.y;
-  (*param_1)[0][2] = fStack184.z;
-  (*param_1)[1][0] = fStack120.x;
-  (*param_1)[1][1] = fStack120.y;
-  (*param_1)[1][2] = fStack120.z;
-  (*param_1)[2][0] = fStack248.x;
-  (*param_1)[2][1] = fStack248.y;
-  (*param_1)[2][2] = fStack248.z;
-  (*param_1)[3][3] = 1.0f;
+  Vec3Cross(&crossProd,&distNorm,&fStack184);
+  (*mf)[3][0] = posX;
+  (*mf)[3][1] = posY;
+  (*mf)[3][2] = posZ;
+  (*mf)[0][3] = 0.0;
+  (*mf)[1][3] = 0.0;
+  (*mf)[2][3] = 0.0;
+  (*mf)[0][0] = fStack184.x;
+  (*mf)[0][1] = fStack184.y;
+  (*mf)[0][2] = fStack184.z;
+  (*mf)[1][0] = crossProd.x;
+  (*mf)[1][1] = crossProd.y;
+  (*mf)[1][2] = crossProd.z;
+  (*mf)[2][0] = distNorm.x;
+  (*mf)[2][1] = distNorm.y;
+  (*mf)[2][2] = distNorm.z;
+  (*mf)[3][3] = 1.0f;
 }
 
-void Borg5Transform_op3(Borg5Transform *param_1,MtxF *param_2){
-  vec3f outV;
-  vec3f inV;
+void Borg5Transform_op3(Borg5Transform *t,MtxF *param_2){
+  vec3f outV,inV;
   MtxF rotMtx;
   
   inV.x = 0.0;
   inV.y = 0.0;
   inV.z = 1.0f;
-  guRotateRPYF(&rotMtx,(param_1->rot).y,(param_1->rot).x,0.0);
+  guRotateRPYF(&rotMtx,(t->rot).y,(t->rot).x,0.0);
   MtxXFMF(&outV,&rotMtx,&inV);
   (*param_2)[0][3] = 1.0f;
   (*param_2)[1][3] = 1.0f;
@@ -681,7 +665,7 @@ void Borg5Transform_op3(Borg5Transform *param_1,MtxF *param_2){
 }
 
 
-void Borg5Transform_op4(Borg5Transform *param_1,MtxF *param_2){
+void Borg5Transform_op4(Borg5Transform *t,MtxF *param_2){
   float fVar1;
   float fVar2;
   float fVar3;
@@ -692,33 +676,33 @@ void Borg5Transform_op4(Borg5Transform *param_1,MtxF *param_2){
   fStack232.x = 0.0;
   fStack232.y = 0.0;
   fStack232.z = 1.0f;
-  guRotateRPYF(&afStack104,(param_1->rot).y,(param_1->rot).x,0.0);
+  guRotateRPYF(&afStack104,(t->rot).y,(t->rot).x,0.0);
   MtxXFMF(&fStack168,&afStack104,&fStack232);
   fStack232.x = 0.0;
-  fVar3 = (param_1->pos).x - fStack168.x;
+  fVar3 = (t->pos).x - fStack168.x;
   fStack232.y = 1.0f;
   fStack232.z = 0.0;
-  fVar2 = (param_1->pos).y - fStack168.y;
-  fVar1 = (param_1->pos).z - fStack168.z;
-  guRotateRPYF(&afStack104,0.0,0.0,(param_1->rot).z);
+  fVar2 = (t->pos).y - fStack168.y;
+  fVar1 = (t->pos).z - fStack168.z;
+  guRotateRPYF(&afStack104,0.0,0.0,(t->rot).z);
   MtxXFMF(&fStack168,&afStack104,&fStack232);
-  some_matrix_func(param_2,(param_1->pos).x,(param_1->pos).y,(param_1->pos).z,
+  some_matrix_func(param_2,(t->pos).x,(t->pos).y,(t->pos).z,
     fVar3,fVar2,fVar1,fStack168.x,fStack168.y,fStack168.z);
 }
 
 
-void Borg5Transform_ops(Borg5Transform *param_1,MtxF *param_2){
-  switch(param_1->mtxOp) {
+void Borg5Transform_ops(Borg5Transform *t,MtxF *param_2){
+  switch(t->mtxOp) {
   case 0:
-    Borg5Transform_op0(param_1,param_2);break;
+    Borg5Transform_op0(t,param_2);break;
   case 1:
-    Borg5Transform_op1(param_1,param_2);break;
+    Borg5Transform_op1(t,param_2);break;
   case 2:
-    Borg5Transform_op2(param_1,param_2);break;
+    Borg5Transform_op2(t,param_2);break;
   case 3:
-    Borg5Transform_op3(param_1,param_2);break;
+    Borg5Transform_op3(t,param_2);break;
   case 4:
-    Borg5Transform_op4(param_1,param_2);
+    Borg5Transform_op4(t,param_2);
   }
 }
 
@@ -744,25 +728,25 @@ void FUN_8009ed9c(MtxF *in,MtxF *out){
 }
 //copy mtxf(if different) and set pos to {1,1,1}
 void FUN_8009ee48(MtxF *in,MtxF *out){
-  if (out != in) {*out=*in;} //copy mtxf
+  if (out != in) {MTXCPY(*out,*in);}
   (*out)[0][3] = 1.0f;
   (*out)[1][3] = 1.0f;
   (*out)[2][3] = 1.0f;
 }
 
 
-void FUN_8009ee98(Borg5Transform *param_1,MtxF *param_2){
+void FUN_8009ee98(Borg5Transform *t,MtxF *param_2){
   Borg5Transform *pbVar1;
   u32 uVar2;
   Borg5Transform **ppbVar3;
   MtxF auStack80;
   
-  Borg5Transform_ops(param_1,&MtxF_800f54b0);
+  Borg5Transform_ops(t,&MtxF_800f54b0);
   some_matrix_func_1(&auStack80,param_2,&MtxF_800f54b0);
-  FUN_8009ed9c(&auStack80,param_1->unkStruct->mfs + 1);
-  ppbVar3 = param_1->links;
-  uVar2 = (u32)param_1->tier;
-  param_1->flag = param_1->flag & ~2 | 0x10;
+  FUN_8009ed9c(&auStack80,t->unkStruct->mfs + 1);
+  ppbVar3 = t->links;
+  uVar2 = (u32)t->tier;
+  t->flag = t->flag & ~2 | 0x10;
   pbVar1 = *ppbVar3;
   while(uVar2){
       uVar2--;
@@ -774,14 +758,14 @@ void FUN_8009ee98(Borg5Transform *param_1,MtxF *param_2){
 
 void FUN_8009ef34(SceneData *param_1){
   if (!(param_1->flags & SCENE_0004)) {guMtxIdentF(&some_mtx);}
-  else {some_mtx=param_1->matrixA;}
+  else {MTXCPY(some_mtx,param_1->matrixA);}
   FUN_8009f060(param_1,&some_mtx);
   param_1->sceneTicked = true;
 }
 
 
 void Ofunc_8009efd0(SceneData *param_1,MtxF *param_2){
-  if (!(param_1->flags & SCENE_0004)) {unused_matrix=*param_2;}
+  if (!(param_1->flags & SCENE_0004)) {MTXCPY(unused_matrix,*param_2);}
   else ofunc_sub_800abd94(&unused_matrix,param_2,&param_1->matrixA);
   FUN_8009f060(param_1,&unused_matrix);
 }
@@ -789,7 +773,7 @@ void Ofunc_8009efd0(SceneData *param_1,MtxF *param_2){
 void FUN_8009f060(SceneData *param_1,MtxF *param_2){
   float fVar1;
   Borg5Struct2 *pBVar3;
-  Borg3Header *pBVar4;
+  ;
   float (*pafVar5) [4];
   MtxF *paafVar6;
   float (*pafVar7) [4];
@@ -799,33 +783,17 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
   int iVar11;
   Borg5Transform *pbVar12;
   Borg5Transform *pbVar13;
-  float fVar14;
-  float fVar15;
-  float fVar16;
   MtxF mf0;
   MtxF mf1;
   MtxF mf2;
   MtxF mf3;
   MtxF mf5;
   MtxF mf6;
-  Borg5Data *pBStack_40;
-  float (*pafStack_3c) [4];
-  float (*pafStack_38) [4];
   
   pafVar5 = mf0;
   pafVar7 = param_2[1];
-  pBStack_40 = &(param_1->borg5)->dat;
-  do {
-    fVar1 = (*(float (*) [4])(*param_2)[0])[1];
-    fVar14 = (*(float (*) [4])(*param_2)[0])[2];
-    fVar15 = (*(float (*) [4])(*param_2)[0])[3];
-    (*pafVar5)[0] = (*(float (*) [4])(*param_2)[0])[0];
-    (*pafVar5)[1] = fVar1;
-    (*pafVar5)[2] = fVar14;
-    (*pafVar5)[3] = fVar15;
-    param_2 = (MtxF *)((int)param_2 + 0x10);
-    pafVar5 = pafVar5 + 1;
-  } while (param_2 != (MtxF *)pafVar7);
+  Borg5Data *pBStack_40 = &(param_1->borg5)->dat;
+  MTXCPY(mf0,*param_2);
   FUN_8009ee48(&mf0,&mf0);
   pbVar12 = pBStack_40->transforms;
   iVar11 = pBStack_40->transformCount;
@@ -849,64 +817,23 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
       else {
         FUN_8009ee48(&param_1->matrixB,&mf5);
       }
-      pafVar5 = param_1->matrixB;
       FUN_8009ed9c(&mf5,pbVar12->unkStruct->mfs + 1);
-      pafStack_38 = param_1->matrixE;
-      pafStack_3c = (float (*) [4])&pBStack_40;
-      pBVar3 = pbVar12->unkStruct;
-      paafVar9 = pBVar3->mfs;
-      paafVar6 = pBVar3->mfs + 1;
-      do {
-        fVar1 = (*paafVar6)[0][1];
-        fVar14 = (*paafVar6)[0][2];
-        fVar15 = (*paafVar6)[0][3];
-        (*paafVar9)[0][0] = (*paafVar6)[0][0];
-        (*paafVar9)[0][1] = fVar1;
-        (*paafVar9)[0][2] = fVar14;
-        (*paafVar9)[0][3] = fVar15;
-        paafVar6 = (MtxF *)(*paafVar6 + 1);
-        paafVar9 = (MtxF *)(*paafVar9 + 1);
-      } while ((void *)paafVar6 != (void *)&pBVar3->unk100);
-      pBVar3 = pbVar12->unkStruct;
-      paafVar6 = pBVar3->mfs;
-      do {
-        fVar1 = (*paafVar6)[0][1];
-        fVar14 = (*paafVar6)[0][2];
-        fVar15 = (*paafVar6)[0][3];
-        (*pafVar5)[0] = (*paafVar6)[0][0];
-        (*pafVar5)[1] = fVar1;
-        (*pafVar5)[2] = fVar14;
-        (*pafVar5)[3] = fVar15;
-        paafVar6 = (MtxF *)(*paafVar6 + 1);
-        pafVar5 = pafVar5 + 1;
-      } while (paafVar6 != pBVar3->mfs + 1);
+      MTXCPY(pbVar12->unkStruct->mfs[0],pbVar12->unkStruct->mfs[1]);
+      MTXCPY(param_1->matrixB,pbVar12->unkStruct->mfs[0]);
       FUN_800ab880(pbVar12->unkStruct->mfs + 1,&param_1->matrixC);
       pBVar3 = pbVar12->unkStruct;
-      pBVar3->mfs[0][3][0] = pBVar3->mfs[0][3][0] * 16.0f;
-      pBVar3->mfs[0][3][1] = pBVar3->mfs[0][3][1] * 16.0f;
-      pBVar3->mfs[0][3][2] = pBVar3->mfs[0][3][2] * 16.0f;
+      pBVar3->mfs[0][3][0] *= 16.0f;
+      pBVar3->mfs[0][3][1] *= 16.0f;
+      pBVar3->mfs[0][3][2] *= 16.0f;
       FUN_800ab880(pBVar3->mfs,&param_1->matrixD);
-      pBVar4 = pBStack_40->borg3P;
+      Borg3Header *b3 = pBStack_40->borg3P;
       pbVar12->flag |= 2;
-      guPerspectiveF(&mf6,pBVar4->perspnorm + param_1->perspNormIndex,(pBVar4->dat).fovy,
-                    (pBVar4->dat).aspect,
-                    (pBVar4->dat).nearplane * 16.0f,(pBVar4->dat).farplane * 16.0f,2.0);
-      pafVar5 = pafStack_38;
-      pafVar7 = mf6;
-      do {
-        fVar1 = (*(float (*) [4])*pafVar7)[1];
-        fVar14 = (*(float (*) [4])*pafVar7)[2];
-        fVar15 = (*(float (*) [4])*pafVar7)[3];
-        (*pafVar5)[0] = (*(float (*) [4])*pafVar7)[0];
-        (*pafVar5)[1] = fVar1;
-        (*pafVar5)[2] = fVar14;
-        (*pafVar5)[3] = fVar15;
-        pafVar7 = pafVar7 + 1;
-        pafVar5 = pafVar5 + 1;
-      } while (pafVar7 != pafStack_3c);
+      guPerspectiveF(&mf6,b3->perspnorm + param_1->perspNormIndex,b3->dat.fovy,
+                      b3->dat.aspect,b3->dat.nearplane * 16.0f,b3->dat.farplane * 16.0f,2.0);
+      MTXCPY(param_1->matrixE,mf6);
       some_other_matrix_math(&mf3,&mf6,&param_1->matrixD);
-      if ((param_1->flags & SCENE_4000) == 0) guMtxF2L(&mf3,(pBVar4->dat).mtx_[param_1->perspNormIndex]);
-      else guMtxF2L(&mf6,&(pBVar4->dat).mtx_[param_1->perspNormIndex]);
+      if ((param_1->flags & SCENE_4000) == 0) guMtxF2L(&mf3,(b3->dat).mtx_[param_1->perspNormIndex]);
+      else guMtxF2L(&mf6,&(b3->dat).mtx_[param_1->perspNormIndex]);
     }
     pbVar12++;
     iVar11--;
@@ -924,20 +851,7 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
       iVar11--;
       FUN_8009ed9c(&mf3,pbVar13->unkStruct->mfs);
       iVar10--;
-      paafVar8 = pbVar13->unkStruct->mfs + 1;
-      paafVar9 = pbVar13->unkStruct->mfs;
-      paafVar6 = paafVar8;
-      do {
-        fVar1 = (*paafVar9)[0][1];
-        fVar14 = (*paafVar9)[0][2];
-        fVar15 = (*paafVar9)[0][3];
-        (*paafVar6)[0][0] = (*paafVar9)[0][0];
-        (*paafVar6)[0][1] = fVar1;
-        (*paafVar6)[0][2] = fVar14;
-        (*paafVar6)[0][3] = fVar15;
-        paafVar9 = (MtxF *)(*paafVar9 + 1);
-        paafVar6 = (MtxF *)(*paafVar6 + 1);
-      } while (paafVar9 != paafVar8);
+      MTXCPY(pbVar13->unkStruct->mfs[1],pbVar13->unkStruct->mfs[0]);
       pbVar13->flag |= 2;
       pbVar13 = pbVar12;
     } while (iVar10 != 0);
@@ -951,19 +865,19 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
 void Ofunc_8009f4e0(SceneData *param_1){
   Borg5Header *pBVar2;
   Borg5Transform *pbVar3;
-  int iVar4;
+  int i;
   
   pBVar2 = param_1->borg5;
   pbVar3 = (pBVar2->dat).transforms;
-  iVar4 = (pBVar2->dat).transformCount;
-  if (0 < iVar4) {
+  i = (pBVar2->dat).transformCount;
+  if (0 < i) {
     do {
       if ((pbVar3->flag & 2)) {
         guMtxF2L(pbVar3->unkStruct->mfs,&pbVar3->unkStruct->mtxs[param_1->perspNormIndex]);
       }
-      iVar4--;
+      i--;
       pbVar3++;
-    } while (iVar4 != 0);
+    } while (i != 0);
   }
 }
 void Ofunc_8009f554(SceneData *param_1,vec3f *param_2){
@@ -1909,7 +1823,7 @@ void Ofunc_800a0e30(void){
 struct unkAnimStruct{
     SceneData* scene;
     Borg5Data* b5;
-    Borg5Transform*b5Sub;
+    Borg5Transform*b5Trans;
     Borg2Header*b2;
     Borg1Header*b1;
     Borg2Struct*unk14;
@@ -2257,7 +2171,7 @@ switchD_800a1cc4_caseD_8:
     } while (i < 8);
   }
   pGVar10 = FUN_800a0e60(pGVar10);
-  for(i=(unkAnimStructB.b5)->instructionCount,instructs = (unkAnimStructB.b5)->instructions;,
+  for(i=(unkAnimStructB.b5)->instructionCount,instructs = (unkAnimStructB.b5)->instructions;
      i!=0;i--,instructs++,pGVar10 = pGVar12){
     val = *instructs & 0xff;
     pGVar12 = pGVar10;
@@ -2276,12 +2190,12 @@ switchD_800a1cc4_caseD_8:
     case B5INST_MATRIX:
       pbVar23 = (unkAnimStructB.b5)->transforms + val;
       pGVar12 = pGVar10 + 1;
-      unkAnimStructB.b5Sub = pbVar23;
+      unkAnimStructB.b5Trans = pbVar23;
       if ((pbVar23->flag & 2) == 0) {
         pBVar2 = pbVar23->unkStruct;
         mf = pBVar2->mfs;
         if ((pbVar23->flag & 0x200) == 0) {
-          *pBVar2->mfs=*pBVar2->mfs + 1;
+          MTXCPY(pBVar2->mfs[0],pBVar2->mfs[1]);
         }
         else {
           fStack384.x = pBVar2->mfs[1][3][0] - vec3f_800f3378.x;
@@ -2314,13 +2228,14 @@ switchD_800a1cc4_caseD_8:
         pBVar2->mfs[0][1][2] *= (unkAnimStructB.b2)->dat->scale;
         pBVar2->mfs[0][2][2] *= (unkAnimStructB.b2)->dat->scale;
         COPY(pBVar8->someMtx,mf);
-        guMtxF2L(mf,&unkAnimStructB.b5Sub->unkStruct->mtxs[normInd]);
-        (unkAnimStructB.b5Sub)->flag |= 2;
+        guMtxF2L(mf,&unkAnimStructB.b5Trans->unkStruct->mtxs[normInd]);
+        (unkAnimStructB.b5Trans)->flag |= 2;
       }
-      gSPMatrix(pGVar10,unkAnimStructB.b5Sub->unkStruct->mtxs + normInd,G_MTX_LOAD);
+      gSPMatrix(pGVar10,unkAnimStructB.b5Trans->unkStruct->mtxs + normInd,G_MTX_LOAD);
       break;
     case B5INST_ANITEXTURE:
       CRASH("BorgAnimDrawSceneRaw()","We are not using animated textures on this project :)");
+      break;
     case B5INST_LOADVERTS:
       unkAnimStructB.b2 = unkAnimStructB.b5->borg2p[val];
       gSPSegment(pGVar10++,0xa,osVirtualToPhysical(unkAnimStructB.b2->dat->vertlist2));
@@ -2350,12 +2265,12 @@ switchD_800a1cc4_caseD_8:
         pGVar12 = FUN_800a1184(pGVar10);
         pGVar10 = pGVar12;
         if (unkAnimStructB.unk14->flags & B2S_0001) {
-          guLookAtReflect(&auStack128,(unkAnimStructB.b2)->lookat[0] + normInd,
+          guLookAtReflect(&auStack128,unkAnimStructB.b2->lookat[normInd],
                               param_2->matrixB[3][0],param_2->matrixB[3][1],param_2->matrixB[3][2],
-                              (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][0],
-                              (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][1],
-                              (unkAnimStructB.b5Sub)->unkStruct->mfs[1][3][2],0.0,1.0f,0.0);
-          gSPLookAt(pGVar12++,(unkAnimStructB.b2)->lookat[normInd]);
+                              unkAnimStructB.b5Trans->unkStruct->mfs[1][3][0],
+                              unkAnimStructB.b5Trans->unkStruct->mfs[1][3][1],
+                              unkAnimStructB.b5Trans->unkStruct->mfs[1][3][2],0.0,1.0f,0.0);
+          gSPLookAt(pGVar12++,unkAnimStructB.b2->lookat[normInd]);
           pGVar10 = pGVar12;
         }
         pGVar12 = pGVar10 + 1;

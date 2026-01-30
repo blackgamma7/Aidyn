@@ -1231,10 +1231,10 @@ switchD_80096820_caseD_b:
     break;
   case POTION_STRENGTH:
     ind = BORG7_PotionFXStrength;
-    goto LAB_80096840;
+    size = 0x12000;
+    break;
   case POTION_DEXTERITY:
     ind = BORG7_PotionFXDexterity;
-LAB_80096840:
     size = 0x12000;
     break;
   default:

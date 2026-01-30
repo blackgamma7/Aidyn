@@ -47,6 +47,8 @@ typedef union Color32 {
 #define IABS(x) if(x<0) x=-x
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
+//memcpy Mtx(F)
+#define MTXCPY(dst,src) *(Mtx*)dst=*(Mtx*)src
 
 #define FLOOR(x,lo) if(x<lo) x=lo
 #define CIEL(x,hi) if(x>hi) x=hi
