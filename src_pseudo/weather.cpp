@@ -224,7 +224,7 @@ LAB_8002343c:
   }
   else if (!W->Sfx) {
     if (W->rainShortB == PRECIP_RAIN) {
-      W->Sfx = load_borg_12(BORG12_RainAmbient);
+      W->Sfx = loadBorg12(BORG12_RainAmbient);
       DCM::Add(&W->sfxIndex,&W->sfxID,&W->Sfx->dat->sub,0,0x80,1,-1,0);
     }
     goto LAB_8002343c;

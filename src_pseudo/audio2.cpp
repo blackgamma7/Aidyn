@@ -25,7 +25,7 @@ void set_SFX_ZoneDatByte(SFX_Struct *param_1,s16 param_2,s16 param_3){
 
 void SoundStructA_get_borg12(SoundStructA *param_1){  
   if (!param_1->borg12) {
-    param_1->borg12 = load_borg_12(param_1->voxelDat->borg12Index);
+    param_1->borg12 = loadBorg12(param_1->voxelDat->borg12Index);
   }
 }
 

@@ -12,7 +12,7 @@ void load_intro_music(){
   gGlobals.titleSplashVars.flag = 1;
   BVar1 = BORG12_Intro_NoExp;
   if (gExpPakFlag) BVar1 = BORG12_Intro_Exp;
-  gGlobals.titleSplashVars.introMusic = load_borg_12(BVar1);
+  gGlobals.titleSplashVars.introMusic = loadBorg12(BVar1);
   DCM::Add(&abStack_18,&aiStack_14,&(gGlobals.titleSplashVars.introMusic)->dat->sub,0xa5,0x80,1,-1,0);
   gGlobals.titleSplashVars.introMusicDatA = abStack_18;
   gGlobals.titleSplashVars.introMusicDatB = aiStack_14;

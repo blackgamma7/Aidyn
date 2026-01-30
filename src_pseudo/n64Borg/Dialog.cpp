@@ -29,7 +29,7 @@ void borg13_free(Borg13Header *param_1){
   borg_count[13]--;
 }
 
-Borg13Header * get_borg13(u32 param_1){
+Borg13Header * loadBorg13(u32 param_1){
   clearBorgFlag();
   return (Borg13Header *)getBorgItem(param_1);
 }

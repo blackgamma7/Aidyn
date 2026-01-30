@@ -1141,14 +1141,14 @@ void borganim_free(SceneData *param_1){
   HFREE(param_1,2870);
 }
 
-Borg6Header * get_borg_6(int param_1){
+Borg6Header * loadBorg6(int param_1){
   clearBorgFlag();
   return (Borg6Header *)getBorgItem(param_1);
 }
 
 void passto_borg_6_free(Borg6Header *param_1){borg_6_free(param_1);}
 
-Borg7Header * func_loading_borg7(u32 index,ParticleHeadStruct *param_2){
+Borg7Header * loadBorg7(u32 index,ParticleHeadStruct *param_2){
   setBorgFlag();
   Borg7Header *ret = (Borg7Header *)getBorgItem(index);
   if ((ret->dat).subCount){

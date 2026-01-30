@@ -37,7 +37,7 @@ void Add(playerData *target,u32 param_2){
     pAVar7->flag = 0;
     pAVar7->player = target;
     Vec3Copy(&(target->collision).pos,&pAVar7->pos);
-    Borg7Header *pBVar5 = func_loading_borg7(borgIndex,&gGlobals.gameVars.particleHead);
+    Borg7Header *pBVar5 = loadBorg7(borgIndex,&gGlobals.gameVars.particleHead);
     playerData *ppVar1 = pAVar7->player;
     pAVar7->borg7 = pBVar5;
     if (ppVar1->borg7P == NULL)Actor::ChangeAppearance(ppVar1,ppVar1->borg7);

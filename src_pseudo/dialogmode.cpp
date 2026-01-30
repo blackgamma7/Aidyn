@@ -64,7 +64,7 @@ void CreateNewDialouge_(u32 param_1){
   Borg13Data *pBVar1;
   
   FREEQB13(borg_13_pointer);
-  borg_13_pointer = get_borg13(param_1);
+  borg_13_pointer = loadBorg13(param_1);
   dialougemode_pointer->borg13_dat = borg_13_pointer->dat;
   ofunc_sub_dialouge(gGlobals.diaClass,borg_13_pointer->dat);
   sprintf(gGlobals.text,"CreateNewDialogue\n");
@@ -465,7 +465,7 @@ void get_dialougemode_funcs()
 void NOOP_80058dc8(){}
 
 void LoadDialougBorg(u32 param_1){
-  borg_13_pointer = get_borg13(param_1);
+  borg_13_pointer = loadBorg13(param_1);
   if (borg_13_pointer == NULL)
     gGlobals.EncounterDat.EncounterID = 0;
 }

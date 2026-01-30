@@ -42,13 +42,13 @@ void processAllocQueue(QueueStructBItem *param_1){
   if (param_1->BorgIndex) {
     switch(param_1->BorgSwitch) {
     case QueueType_Borg7:
-      p = func_loading_borg7(param_1->BorgIndex,(ParticleHeadStruct *)param_1->field1_0x4);
+      p = loadBorg7(param_1->BorgIndex,(ParticleHeadStruct *)param_1->field1_0x4);
       break;
     case QueueType_Scene:
       p = BorgAnimLoadScene(param_1->BorgIndex);
       break;
     case QueueType_Borg6:
-      p = get_borg_6(param_1->BorgIndex);
+      p = loadBorg6(param_1->BorgIndex);
       break;
     case QueueType_Borg1:
       p = getBorgItem(param_1->BorgIndex);
@@ -57,7 +57,7 @@ void processAllocQueue(QueueStructBItem *param_1){
       p = loadBorg8(param_1->BorgIndex);
       break;
     case QueueType_Borg13:
-      p = get_borg13(param_1->BorgIndex);
+      p = loadBorg13(param_1->BorgIndex);
       break;
     default:
     #if DEBUGVER
@@ -69,7 +69,7 @@ void processAllocQueue(QueueStructBItem *param_1){
       CRASH("src/allocqueue.cpp","Generic allocations are not supported!");
       //y tho?
     case QueueType_Borg12:
-      p = load_borg_12(param_1->BorgIndex);
+      p = loadBorg12(param_1->BorgIndex);
     }
     *param_1->pBorg = p;
   }

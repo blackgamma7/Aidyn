@@ -1055,7 +1055,7 @@ void remove_borg_9(Borg9Header *);
 void borg12_func_a(Borg12Data *);
 u8 borg12_func_b(Borg12Header *,Borg12Data *);
 void n64BorgDCMModule_free(Borg12Header *);
-Borg12Header * load_borg_12(u32 index);
+Borg12Header * loadBorg12(u32 index);
 void free_borg_12(Borg12Header *p);
 
 //n64borg/CollisionMaterial.cpp
@@ -1071,7 +1071,7 @@ void passto_borg_10_free(s32 *arg0);
 void borg11_func_a(Borg11Data *);
 u8 borg11_func_b(Borg11Header *,Borg11Data *);
 void borg11_free(Borg11Header *);
-Borg11Header * get_borg_11(u32);
+Borg11Header * loadBorg11(u32);
 void passto_borg11_free(Borg11Header *);
 
 //n64borg/Dialog.cpp
@@ -1079,7 +1079,7 @@ void passto_borg11_free(Borg11Header *);
 u8 borg13_func_b(Borg13Header *,Borg13Data *);
 void borg13_func_a(Borg13Data *);
 void borg13_free(Borg13Header *);
-Borg13Header * get_borg13(u32);
+Borg13Header * loadBorg13(u32);
 void passto_borg13_free(Borg13Header *);
 
 //n64borg/GameStates.cpp
@@ -1129,9 +1129,9 @@ void Ofunc_8009f938(Borg5Header *param_1,s32 param_2,int param_3,s32 param_4,int
 void FUN_8009f9d0(SceneData *param_1,Vp *param_2);
 SceneData * BorgAnimLoadScene(u32 borg_5);
 void borganim_free(SceneData *param_1);
-Borg6Header * get_borg_6(int index);
+Borg6Header * loadBorg6(int index);
 void passto_borg_6_free(Borg6Header *param_1);
-Borg7Header * func_loading_borg7(u32 index,struct ParticleHeadStruct *pHead);
+Borg7Header * loadBorg7(u32 index,struct ParticleHeadStruct *pHead);
 void FUN_8009fca8(Borg7Header *param_1);
 void FUN_8009fd40(Borg7Header *param_1);
 void FUN_8009fd98(Borg7Header *param_1);

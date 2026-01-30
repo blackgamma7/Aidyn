@@ -354,7 +354,7 @@ print_error_2:
 print_error:
     CRASH(pcVar11,"./src/dialogue.cpp");
   case B13Com_RandDialog:
-    pBVar5 = get_borg13(val);
+    pBVar5 = loadBorg13(val);
     if(pBVar5){
       fVar14 = rand_range(0,100) / 100.0f;
       if (dialougemode_pointer->Unk0x7C != 0x7fff) {

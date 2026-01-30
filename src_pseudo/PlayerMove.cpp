@@ -50,7 +50,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
       PHANDLE.camera->holdCamera = 3;
     }
                       // Flea Jump
-    if ((((_flea_flag) && (p->alaron_flag)) &&
+    if ((((_flea_flag) && (p->isAlaron)) &&
         ((controller->pressed & A_BUTTON) != 0)) && ((p->collision).hits)) {
       vec2f fleaVec = {(p->facing).x,(p->facing).y};
       Vec2Scale(&fleaVec,-0.06);

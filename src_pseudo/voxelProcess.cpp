@@ -27,7 +27,7 @@ void ProcessVoxelObjects(playerData *playerchar) {
   if (pbVar4->voxelSceneCount == 0) return;
   for(u16 i=0;i<pbVar4->voxelSceneCount;i++){
     voxelObject *vox =&pBVar3->voxelObjs[pbVar4->voxelIndecies[i]];
-    if((playerchar->alaron_flag)&&(vox->header.Bitfeild&VOXEL_Flag400)){
+    if((playerchar->isAlaron)&&(vox->header.Bitfeild&VOXEL_Flag400)){
       float dist = Vec3Dist(&(playerchar->collision).pos,&vox->header.pos);
       if ((dist < (vox->header).size) && (dist < playerchar->voxelReach)) {
           playerchar->voxelReach = dist;

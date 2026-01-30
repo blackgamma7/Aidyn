@@ -4,7 +4,6 @@
 
 void borg11_func_a(Borg11Data *param_1){SetPointer(param_1,wav);}
 
-
 u8 borg11_func_b(Borg11Header *param_1,Borg11Data *param_2){
   param_1->dat = param_2;
   return false;
@@ -19,7 +18,7 @@ void borg11_free(Borg11Header *param_1){
   borg_count[11]--;
 }
 
-Borg11Header * get_borg_11(int param_1) {
+Borg11Header * loadBorg11(int param_1) {
   clearBorgFlag();
   return (Borg11Header *)getBorgItem(param_1);
 }

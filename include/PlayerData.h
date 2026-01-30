@@ -142,7 +142,7 @@ struct playerData {
     u8 unused518[496];
     s16 deathTimer;
     u8 combatAlly;
-    u8 alaron_flag; //set if Alaron's model
+    u8 isAlaron; //set if Alaron's model
     u8 shadowAlpha; //used for alpha
     u8 zoneDatByte;
     u8 petrified; //affected by petrify magic

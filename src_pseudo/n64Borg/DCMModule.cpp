@@ -7,7 +7,7 @@ void borg12_func_a(Borg12Data *param_1) {
   SetPointer(param_1,sub.ptr0x18);
   SetPointer(param_1,sub.channelDat);
   for(u32 i=0;i<(param_1->sub).instrument_count;i++){
-    Borg11Header *pBVar4 = get_borg_11(param_1->instrumentsI[i]);
+    Borg11Header *pBVar4 = loadBorg11(param_1->instrumentsI[i]);
     param_1->intrumentsP[i] = pBVar4;
     (param_1->sub).ptr0x18[i].instrumentDat = pBVar4->dat;
   }
@@ -28,7 +28,7 @@ void n64BorgDCMModule_free(Borg12Header *param_1) {
       for(i=0;i<count;i++){
         passto_borg11_free(param_1->dat->intrumentsP[i]);
       }
-    HFREE(param_1->dat,0xa6);
+    HFREE(param_1->dat,166);
   }
   else {
     if (get_borg_index_count((param_1->head).index) == 1) {
@@ -40,11 +40,11 @@ void n64BorgDCMModule_free(Borg12Header *param_1) {
     dec_borg_count((param_1->head).index);
   }
   HFREE(param_1,185);
-  borg_mem[0xc]-= (oldMem - get_memUsed());
-  borg_count[0xc]--;
+  borg_mem[12]-= (oldMem - get_memUsed());
+  borg_count[12]--;
 }
 
-Borg12Header * load_borg_12(u32 param_1) {
+Borg12Header * loadBorg12(u32 param_1) {
   clearBorgFlag();
   return (Borg12Header *)getBorgItem(param_1);
 }

@@ -29,7 +29,7 @@ void flycam_func(void){
   gGlobals.brightness = 0.0;
   gGlobals.screenFadeMode = ScreenFade_In;
   gGlobals.screenFadeSpeed = (2.0/30);
-  gFlycamBorg6P = get_borg_6(gFlycamSequences[flycam_counter].borg6);
+  gFlycamBorg6P = loadBorg6(gFlycamSequences[flycam_counter].borg6);
   gFlycamSceneP = BorgAnimLoadScene(gFlycamBorg6P->dat->borg5);
   Scene_SetBorg6(gFlycamSceneP,gFlycamBorg6P);
   Scene::SetFlag10(gFlycamSceneP);

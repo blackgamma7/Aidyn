@@ -65,7 +65,7 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
  gGlobals.VolBGM = 0.0;
  gGlobals.VolSFX = 0.0;
  if (gGlobals.gameVars.BGM) DCM::Start(gGlobals.gameVars.BGMIndex,gGlobals.gameVars.BGMID,0);
- this->bgm = load_borg_12(BORG12_Intro_NoExp);
+ this->bgm = loadBorg12(BORG12_Intro_NoExp);
  DCM::Add(&this->bgmIndex,&this->bgmID,&this->bgm->dat->sub,this->BGMVol * 255.0f,0x80,1,-1,0);
 }
 

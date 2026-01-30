@@ -235,7 +235,7 @@ void Cinematic::LoadNextScene(void){
     Cinematic::NextFadeTally();
     if (gGlobals.cinematic.borg12enums[gGlobals.cinematic.tally] != -1) {
       gGlobals.cinematic.BGM =
-           load_borg_12(gGlobals.cinematic.borg12enums[gGlobals.cinematic.tally]);
+           loadBorg12(gGlobals.cinematic.borg12enums[gGlobals.cinematic.tally]);
       DCM::Add(&gGlobals.cinematic.BGIndex,&gGlobals.cinematic.BGId,
                &(gGlobals.cinematic.BGM)->dat->sub,0xff,0x80,1,-1,0);
       u8 fVar1 = gGlobals.VolBGM * 255.0f;
@@ -244,7 +244,7 @@ void Cinematic::LoadNextScene(void){
       if (fVar2 < fVar1) vol = fVar1;
       DCM::Start(gGlobals.cinematic.BGIndex,gGlobals.cinematic.BGId,vol);
     }
-    gGlobals.cinematic.Borg6 = get_borg_6(gGlobals.cinematic.borg6enums[gGlobals.cinematic.tally]);
+    gGlobals.cinematic.Borg6 = loadBorg6(gGlobals.cinematic.borg6enums[gGlobals.cinematic.tally]);
     gGlobals.cinematic.sceneDat = BorgAnimLoadScene((gGlobals.cinematic.Borg6)->dat->borg5);
     Scene_SetBorg6(gGlobals.cinematic.sceneDat,gGlobals.cinematic.Borg6);
     Scene::SetFlag10(gGlobals.cinematic.sceneDat);

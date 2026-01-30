@@ -288,7 +288,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
     ppVar5 = ppVar2;
     if (uVar3 < 0x1a) {
       if (uVar3 >= 0xe) {
-      if (ppVar2->alaron_flag) gPlayerRenderTimer = 0x14;
+      if (ppVar2->isAlaron) gPlayerRenderTimer = 0x14;
       }
     }
   }
@@ -888,7 +888,7 @@ void ConfirmPlayerWithinZone(playerData *param_1,Borg9Data *param_2){
   u16 uVar6;
   vec3f fStack80;
   
-  if (param_1->alaron_flag == false) {
+  if (param_1->isAlaron == false) {
     if (((param_1->collision).pos.y < -50.0f) || ((param_1->collision).vel.y < -0.3)) {
       (param_1->collision).pos.y = 50.0f;
       Vec3Set(&(param_1->collision).vel,0.0,0.0,0.0);
@@ -1218,7 +1218,7 @@ LAB_80010084:
               }
               sVar8 = (s16)local_60;
               if (NoExpPak_memCheck(0)) {
-                pBVar3 = func_loading_borg7((SObj->scene).borgArray[0].borgIndex,&gGlobals.gameVars.particleHead);
+                pBVar3 = loadBorg7((SObj->scene).borgArray[0].borgIndex,&gGlobals.gameVars.particleHead);
                 (SObj->scene).borgArray[0].b7 = pBVar3;
                 pAVar4 = pBVar3->sceneDat;
                 Borg7_SetAnimation(pBVar3,0);
@@ -1789,7 +1789,7 @@ void update_BGM_(){
     if (gGlobals.gameVars.Borg12Next != gGlobals.gameVars.Borg12Next2) {
       clear_music_values(0);
       if (0 < gGlobals.gameVars.Borg12Next) {
-        gGlobals.gameVars.BGM = load_borg_12(gGlobals.gameVars.Borg12Next);
+        gGlobals.gameVars.BGM = loadBorg12(gGlobals.gameVars.Borg12Next);
         DCM::Add(&gGlobals.gameVars.BGMIndex,&gGlobals.gameVars.BGMID,
              &(gGlobals.gameVars.BGM)->dat->sub,gGlobals.VolBGM * 255.0f,0x80,1,-1,0);
       }

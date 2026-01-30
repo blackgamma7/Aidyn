@@ -286,7 +286,7 @@ Gfx * renderPlayerShadows(PlayerHandler *param_1,Gfx *gfx){
           float prox = Vec3Dist(&param_1->camera->aim,&afStack120);
           if (prox < param_1->shadowDist) {
             (p->shadowObj).borg1p = param_1->shadowTexture;
-            if (!p->alaron_flag) {
+            if (!p->isAlaron) {
               float camProx = Vec3Dist(&(p->collision).pos,&param_1->camera->aim);
               if (10.0f <= camProx) continue;
               alpha = PlayerShadowAlpha(param_1,p,prox,0x80) * (1.0f - camProx / 10.0f);
@@ -339,7 +339,7 @@ DCMSub2 * AllocPlayerAudio(playerData *param_1,audioKeyEntryB *param_2,u16 type,
     default:
     CRASH("AllocPlayerAudio","Invalid Audio Type");
   }
-  pBVar3 = load_borg_12(*pBVar4);
+  pBVar3 = loadBorg12(*pBVar4);
   uVar2 = (u16)param_1->dcmDatIndex + 1;
   uVar6 = (s16)uVar2 + (s16)(uVar2 >> 1) * -2;
   param_1->dcmDatIndex = uVar6;
@@ -590,7 +590,7 @@ LAB_80016990:
         fVar29 = pDat->collision.pos.y;
         ProcessCollisionSphere(map,coliide,delta);
         local_60 = coliide;
-        if (pDat->alaron_flag){
+        if (pDat->isAlaron){
           if ((pDat->collision.hits)&&
             (1.0f < Vec3Dist(&player_coords_A,&pDat->collision.pos))) {
             player_coords_b.x = player_coords_A.x;
@@ -604,7 +604,7 @@ LAB_80016990:
             map_shorts_A[0] = gGlobals.gameVars.mapShort1;
             map_shorts_A[1] = gGlobals.gameVars.mapShort2;
           }
-          if (pDat->alaron_flag) {
+          if (pDat->isAlaron) {
             if (pDat->Ground_type - 1 < 2) {
               fStack176.x = pDat->collision.pos.x;
               fStack176.z = pDat->collision.pos.z;
@@ -665,10 +665,10 @@ LAB_80016cec:
                 uVar2 = pDat->borg7P->sceneDat->aniTime;
                 uVar3 = pDat->unk18;
                 bVar19 = bVar18;
-                if (((pDat->ani_type == AniType_Dying) && (uVar3 != 9)) && (bVar18)) {
+                if (((pDat->ani_type == AniType_Dying) && (uVar3 != AniType_Dying)) && (bVar18)) {
                   bVar19 = false;
                 }
-                if (uVar3 == 9) {
+                if (uVar3 == AniType_Dying) {
                   if (pDat->ani_type != AniType_Dying) {
                     pDat->unk77c = 1;
                     goto LAB_80016e74;
@@ -699,8 +699,8 @@ LAB_80016ed8:
                   pDat->unk1c = pDat->unk1a;
                   pDat->unk1a = pDat->ani_type;
                 }
-                if ((pDat->collision.vel.y<= -0.048)&&(pDat->alaron_flag)) {
-                    // Alaron fell through world
+                if ((pDat->collision.vel.y<= -0.048)&&(pDat->isAlaron)) {
+                    // Alaron is falling too fast
                   Vec3Set(&pDat->collision.vel,0.0,pDat->collision.vel.y,0.0);
                   if (-0.3 <= (double)pDat->collision.vel.y) {
                     goto LAB_80017014;
@@ -982,7 +982,7 @@ LAB_80017c98:
                     #endif
                   }
                 }
-                if ((pDat->SceneDat) && (pDat->alaron_flag)) {
+                if ((pDat->SceneDat) && (pDat->isAlaron)) {
                   if(_flea_flag){ //scale down for "!flea" cheat
                     pDat->scale = 0.25f;
                     pDat->scaleRad = pDat->collision.radius*.25;
@@ -1080,12 +1080,10 @@ void Actor::FreePlayer(playerData *param_1){
 
 
 void remove_flagged_playerdata(){
-  if (0 < PHANDLE.max_player) {
-    for(s16 i=0; i < PHANDLE.max_player;i++) {
-      playerData *ppVar2 = &PHANDLE.playerDats[i];
-      if (ppVar2->state) Actor::FreePlayer(ppVar2);
-    }
-  }
+  for(s16 i=0; i < PHANDLE.max_player;i++) {
+    playerData *ppVar2 = &PHANDLE.playerDats[i];
+    if (ppVar2->state) Actor::FreePlayer(ppVar2);
+   }
 }
 
 void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
@@ -1094,11 +1092,11 @@ void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
   
   if (((param_2 != param_1->borg7) || (param_1->borg7P == NULL)) &&
      (NoExpPak_memCheck(0))) {
-    if (param_2 == BORG7_Alaron) param_1->alaron_flag = true;
-    else param_1->alaron_flag = false;
+    if (param_2 == BORG7_Alaron) param_1->isAlaron = true;
+    else param_1->isAlaron = false;
     if ((param_1->borg7 != -1)&&(param_1->borg7P))
       FREEQB7(param_1->borg7P);
-    if ((param_1->SceneDat == NULL) && (param_1->alaron_flag)) {
+    if ((param_1->SceneDat == NULL) && (param_1->isAlaron)) {
       param_1->SceneDat = BorgAnimLoadScene(some_borg5);
       Scene::SetFlag40(param_1->SceneDat);
       Scene::SetFlag4(param_1->SceneDat);
@@ -1107,7 +1105,7 @@ void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
       Scene::SetLightData(param_1->SceneDat);
       Scene::SceneSetMaxDynamicDirLights(param_1->SceneDat,4);
     }
-    param_1->borg7P = func_loading_borg7(param_2,&gGlobals.gameVars.particleHead);
+    param_1->borg7P = loadBorg7(param_2,&gGlobals.gameVars.particleHead);
     param_1->borg7 = param_2;
     Scene::SetParticleHead(param_1->borg7P->sceneDat,&gGlobals.gameVars.particleHead);
     Scene::SetFlag40(param_1->borg7P->sceneDat);
@@ -1139,14 +1137,14 @@ void Actor::UnsetFlag(playerData *p,u16 f){p->flags &= ~f;}
 void Ofunc_80018744(playerData *p){Actor::UnsetFlag(p,ACTOR_40);}
 
 void Ofunc_80018760(playerData *p,vec3f *v){
-  vec3f afStack136;
-  vec2f fStack72;
+  vec3f dist;
+  vec2f v2;
   
-  Vec3Sub(&afStack136,&(p->collision).pos,v);
-  fStack72.x = afStack136.x;
-  fStack72.y = afStack136.z;
-  Vec2Normalize(&fStack72);
-  Actor::SetFacing(p,fStack72.x,fStack72.y);
+  Vec3Sub(&dist,&(p->collision).pos,v);
+  v2.x = dist.x;
+  v2.y = dist.z;
+  Vec2Normalize(&v2);
+  Actor::SetFacing(p,v2.x,v2.y);
   Actor::SetFlag(p,ACTOR_40);
 }
 

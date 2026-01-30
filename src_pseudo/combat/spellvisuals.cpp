@@ -367,7 +367,7 @@ LAB_800950ec:
     spellVisB->field7_0x2c = param_1;
     if (type - 5 < 2) spellVisB->b7 = NULL;
     else {
-      pAVar6 = func_loading_borg7(BVar6,&gGlobals.gameVars.particleHead);
+      pAVar6 = loadBorg7(BVar6,&gGlobals.gameVars.particleHead);
       pAVar1 = pAVar6->sceneDat;
       Scene::SetFlag40(pAVar1);
       Scene::SetFlag4(pAVar1);
