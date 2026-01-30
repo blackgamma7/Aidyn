@@ -3,7 +3,7 @@
 
 #include "globals.h"
 
-#ifdef DEBUGVER
+#if DEBUGVER
 u32 unused_bitfeild=0xFFFFFFAE;
 WidgetDebugDummyToggle* PTR_800e61e4=NULL;
 char* sDummyToggleStrings[2]={"On","Off"};

@@ -91,7 +91,7 @@ u8 Actor::CheckCollision(playerData *pDat,float posY,s16 param_3,u16 attempt){
       bVar2 = CheckCollision(pDat,0.0,0,attempt + 1);
     }
     else {
-      #ifdef DEBUGVER
+      #if DEBUGVER
       N64PRINT(gGlobals.text);
       #endif
       bVar2 = false;
@@ -450,11 +450,11 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
     }
   }
   else if (gGlobals.gameVars.gamemodeType == GameMode_Combat) {
-    #ifdef DEBUGVER
+    #if DEBUGVER
     strcpy(gGlobals.text,"ProcessCombatCamera");
     #endif
     processCombatCamera(handler);
-    #ifdef DEBUGVER
+    #if DEBUGVER
     strcpy(gGlobals.text,"Crash was not in ProcessCombatCamera");
     #endif
   }
@@ -711,7 +711,7 @@ LAB_80016ed8:
                   pDat->collision.pos.z = player_coords_b.z;
                   gGlobals.gameVars.mapShort1 = map_shorts_b[0];
                   gGlobals.gameVars.mapShort2 = map_shorts_b[1];
-                  #ifdef DEBUGVER
+                  #if DEBUGVER
                   N64PRINT("Saved your life!\nIf this was NOT a pop though\nIT IS A BUG.  Show Bailey!\n");
                   #endif
 LAB_80017010:
@@ -835,7 +835,7 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
   light_count = 0;
   SetSceneColors(param_2,alpha,0,0x0);
   Scene::SetModelTint(param_2,0xff,0xff,0xff,alpha);
-  #ifdef DEBUGVER
+  #if DEBUGVER
   if (gGlobals.DebugStatDisplay != 0) {
     if (gGlobals.delta <= 3.0){}
     else if (gGlobals.delta == 4.0) Scene::SetModelTint(param_2,0xff,0xff,0,alpha);
@@ -926,7 +926,7 @@ Gfx * renderPlayers(PlayerHandler *handler,Gfx *g,s16 delta,s16 water,s16 trans)
         }
         else if (pDat->combatAlly) {
 render_player:
-#ifdef DEBUGVER
+#if DEBUGVER
           sprintf(gGlobals.text,"RENDERING PLAYER (%ld)",pDat->borg7);
 #endif
           Actor::GetPosOnLoadedMap(pDat,&mapPos);
@@ -974,7 +974,7 @@ LAB_80017c98:
                         g = BorgAnimDrawScene(g,node->sceneDat);
                       }
                     }
-                    #ifdef DEBUGVER
+                    #if DEBUGVER
                     else {
                       Gsprintf("Actor: %d\nLocator: %d Missing!THIS IS A BUG\n",pDat->borg7,node->index);
                       N64PRINT(gGlobals.text);
@@ -1166,7 +1166,7 @@ void Actor::EmptyHands(playerData *p){
 }
 
 void AttachItemToPlayer(playerData *p,u16 pos,u32 b5){
-  #ifdef DEBUGVER
+  #if DEBUGVER
   if (2 < pos) CRASH("AttachItemToPlayer","Invalid Attachment Position");
   #endif
   attachmentNode *paVar2 = p->attachmentNodes + pos;
@@ -1177,7 +1177,7 @@ void AttachItemToPlayer(playerData *p,u16 pos,u32 b5){
 }
 
 void FreeAttachmentFromPlayer(playerData *param_1,u16 pos){
-#ifdef DEBUGVER
+#if DEBUGVER
     if (2 < pos) CRASH("FreeAttachmentFromPlayer","Invalid Attachment Position");
 #endif
   FUN_800187f4(param_1->attachmentNodes + pos);
@@ -1186,7 +1186,7 @@ void FreeAttachmentFromPlayer(playerData *param_1,u16 pos){
 
 
 void ChangeAttachmentNode(playerData *pDat,u16 pos,u16 node,char *file,u16 line){
-  #ifdef DEBUGVER
+  #if DEBUGVER
     if (2 < pos) CRASH("ChangeAttachmentNode","Invalid Attachment Position");
   #endif
   if (node>7) {

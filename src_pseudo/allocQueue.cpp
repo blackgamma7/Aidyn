@@ -11,7 +11,7 @@ void AllocAllocQueueItem(QueueStructB *Q,void**p,void* param_3,int index,u16 typ
   QueueStructBItem *entry = Q->array + Q->items++;
   if (ALLOCQUEUE_QUEUESIZE <= Q->items) CRASH("AllocAllocQueueItem","Too Many Items!\nIncrease ALLOCQUEUE_QUEUESIZE\n");
   if(type>=9){
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char errBuff [128];
     sprintf(errBuff,"Unknown Type: %d\n",type);
     #endif
@@ -26,7 +26,7 @@ void AllocAllocQueueItem(QueueStructB *Q,void**p,void* param_3,int index,u16 typ
     entry->BorgIndex = index;
     for(u16 i = 0;i<(Q->items - 1);i++){
       if (entry->pBorg == Q->array[i].pBorg){
-        #ifdef DEBUGVER
+        #if DEBUGVER
         char errBuff [160];
         sprintf(errBuff,"Alloc Item to same memory pointer.\n    Type: %d\nborgName: %d\n Pointer: %08x\n",
                 entry->BorgSwitch,entry->BorgIndex,*entry->pBorg);
@@ -60,7 +60,7 @@ void processAllocQueue(QueueStructBItem *param_1){
       p = get_borg13(param_1->BorgIndex);
       break;
     default:
-    #ifdef DEBUGVER
+    #if DEBUGVER
       char errBuff [136];
       sprintf(errBuff,"Unknown Item Type: %d",param_1->BorgSwitch);
       #endif

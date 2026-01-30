@@ -47,7 +47,7 @@ typedef enum GameState_Cheat { /* Set in big Debug Menu */
     STATECHEAT_referenceObject
 } GameState_Cheat;
 
-#ifdef DEBUGVER
+#if DEBUGVER
 #define checkCheat(cheat) if(gamestate_cheat_check1(STATECHEAT_##cheat)) return gamestate_cheat_check2(STATECHEAT_##cheat)
 #else
 #define checkCheat(cheat) ;

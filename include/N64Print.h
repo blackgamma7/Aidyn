@@ -17,7 +17,7 @@ namespace N64Print{
     void Free(void);
     char* CleanText(char *,char ,s16 );
     void PrintCheck(char *x);
-    #ifdef DEBUGVER
+    #if DEBUGVER
     void Print(char *);
     #else
     void Print();
@@ -26,7 +26,7 @@ namespace N64Print{
 };
 
 //discern between debug and retail print funcs
-#ifdef DEBUGVER
+#if DEBUGVER
 #define N64PRINT(txt) N64Print::Print(txt)
 #else
 #define N64PRINT(txt) N64Print::Print()

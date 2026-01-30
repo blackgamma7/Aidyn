@@ -27,7 +27,7 @@ void InitEventMesg(void){
   gCrashManager.sub.IsManualCrash = false;
 }
 
-#ifdef DEBUGVER
+#if DEBUGVER
 void ManualCrash(char *pos,char *cause){
   gCrashManager.sub.IsManualCrash = true;
   STRCPYSafe(gCrashManager.sub.position,pos);

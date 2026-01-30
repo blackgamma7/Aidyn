@@ -19,7 +19,7 @@ struct MemMon_struct {
 
 struct HeapBlock{
     u32 size;
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char filename[24]; //ommited in retail version
     #endif
 };
@@ -44,7 +44,7 @@ void* operator new(size_t size);
 void operator delete(void* x);
 
 //discern from debug keeping filename and line of script, and retail ommiting both
-#ifdef DEBUGVER
+#if DEBUGVER
 #define HALLOC(x,line) HeapAlloc(x,FILENAME,line)
 #define HFREE(x,line) HeapFree(x,FILENAME,line)
 #else

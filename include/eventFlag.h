@@ -97,7 +97,7 @@ u8 clear_gamestatefunnel();
 void setEventFlag(u16 flag,u8 state);
 u8 getEventFlag(u16 flag);
 
-#ifdef DEBUGVER
+#if DEBUGVER
 u8 Get_eventFlagCheck(u16 flag);
 #endif
 

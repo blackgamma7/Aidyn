@@ -13,7 +13,7 @@ void AllocFreeQueueItem(QueueStructA *q,void **p,u16 type,u16 pri){
   QueueStructAItem *entry = q->array + q->items++;
   if (FREEQUEUE_QUEUESIZE <= q->items) CRASH("AllocFreeQueueItem","Too Many Items!\nIncrease FREEQUEUE_QUEUESIZE\n");
   if(type>QueueType_Borg12){
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char errBuff [152];
     sprintf(errBuff,"Unknown Type: %d\n",type);
     #endif
@@ -68,7 +68,7 @@ void ProcessFreeQueue(QueueStructA *param_1){
             free_borg_12((Borg12Header *)entry->BorgPointer);
             break;
           default:
-          #ifdef DEBUGVER
+          #if DEBUGVER
            char errBuff[144];
             sprintf(errBuff,"Unknown Item Type: %d",entry->BorgSwitch);
             #endif

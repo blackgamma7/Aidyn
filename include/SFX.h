@@ -29,7 +29,7 @@ struct SoundStructA {
 
 
 //retail has 2 more sound obj entries.
-#ifdef DEBUGVER
+#if DEBUGVER
 #define SoundObjCount 80
 #else
 #define SoundObjCount 82

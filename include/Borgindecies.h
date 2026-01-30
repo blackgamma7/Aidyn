@@ -1454,7 +1454,7 @@
 #define BORG5_WeaponIronWoodStaff   0x3500
 #define BORG5_WeaponLightreaver     0x350D
 
-#ifndef EUVER
+#if !EUVER
 #define BORG5_ShieldNONE        0x38f9//max index+1- no sheild model available
 #else //European version has extra borg9 that changes max index
 #define BORG5_ShieldNONE        0x38fa//max index+1- no sheild model available

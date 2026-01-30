@@ -253,7 +253,7 @@ void player_control_func(controller_aidyn *cont) {
   
   if (gGlobals.playerCharStruct.gameStateB != GameStateB_3) return;
   if (gGlobals.screenFadeMode != ScreenFade_None) return;
-#ifdef DEBUGVER
+#if DEBUGVER
   if ((((cont->held & R_BUTTON)) && ((cont->pressed & A_BUTTON))) &&
      (gGlobals.minimap.active != 0)) {
     gGlobals.minimap.ToggleShowAll();
@@ -262,7 +262,7 @@ void player_control_func(controller_aidyn *cont) {
 #endif
   Actor::Move(gPlayer,cont);
   N64Print::Toggle(&gGlobals.DebugQueue,cont);
-#ifdef DEBUGVER
+#if DEBUGVER
   if(gDebugFlag) {
     if((cont->pressed & START_BUTTON)&&(cont->held & L_BUTTON)){
       init_big_debug_menu();
@@ -278,7 +278,7 @@ void player_control_func(controller_aidyn *cont) {
       if ((cont->held & Z_BUTTON) == 0) {
         if (some_ticker < 2) return;
       }
-#ifdef DEBUGVER
+#if DEBUGVER
       else if (gDebugFlag) {
         smaller_debug_menu();
         return;
@@ -302,7 +302,7 @@ void small_debug_menu_check(controller_aidyn *param_1) {
           (gPlayer)->ani_type = 0;
         }
       }
-      #ifdef DEBUGVER
+      #if DEBUGVER
       else if (gGlobals.playerCharStruct.smallerDebugWindow)
         debug_combat_options(w);
       else if (gGlobals.playerCharStruct.debugMenuTP)
@@ -418,7 +418,7 @@ Gfx * draw_hud_elements(Gfx *gfx) {
   return gfx;
 }
 
-#ifdef DEBUGVER
+#if DEBUGVER
 Gfx * zoneEngine_debug(Gfx *g,u8 delta) {
   Gfx *gTemp = g;
   if (gDebugFlag == 0) {
@@ -451,7 +451,7 @@ Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
   if (((gGlobals.playerCharStruct.gameStateB != GameStateB_5) && (gGlobals.playerCharStruct.gameStateB != GameStateB_7)) &&
      (gGlobals.playerCharStruct.gameStateB != GameStateB_2)) {
     Gfx *gTemp = Graphics::StartDisplay(param_1,FULL_SCREENSPACE);
-    #ifdef DEBUGVER
+    #if DEBUGVER
     gTemp = zoneEngine_debug(gTemp,delta);
     #else
     handleZoneEngineFrame(&gTemp,delta,gPlayer);
@@ -475,7 +475,7 @@ void SetNewJounalEntry(s16 param_1) {newestJournal = param_1;}
 void NewJournalEntryPopup(void) {
   if ((((gGlobals.screenFadeMode == ScreenFade_None) && (some_toggle == -1))
       && (!isPaused())) &&((gGlobals.playerCharStruct.gameStateB == GameStateB_3 &&
-      #ifdef DEBUGVER //yeah, no clue why this discrepancy...
+      #if DEBUGVER //yeah, no clue why this discrepancy...
       (Get_eventFlagCheck(FLAG_NewJournalEntry)))))
       #else
       (getEventFlag(FLAG_NewJournalEntry)))))

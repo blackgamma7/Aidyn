@@ -59,7 +59,7 @@ u8 RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line){
     if (((u32)source & 1) == 0) {
       if ((len & 1) == 0) {
         if (1 < type) {
-        #ifdef DEBUGVER
+        #if DEBUGVER
           sprintf(acStack160,"type from %s line %lu unrecognized!",cpp,line);
           #endif
           CRASH("u32 RomCopy( u32 pDest,u32 pSrc,u32 len,u32 type)",acStack160);
@@ -83,22 +83,22 @@ u8 RomCopy(void *dest,void *source,u32 len,u32 type,char *cpp,u32 line){
         }
         return bVar1;
       }
-      #ifdef DEBUGVER
+      #if DEBUGVER
       pcVar3 = "len from %s line %lu needs to be aligned to 2 bytes!";
       #endif
     }
     else {
-    #ifdef DEBUGVER
+    #if DEBUGVER
       pcVar3 = "pSrc from %s line %lu needs to be aligned to 2 bytes!";
     #endif
     }
   }
   else {
-    #ifdef DEBUGVER
+    #if DEBUGVER
     pcVar3 = "pDest from %s line %lu needs to be aligned to 8 bytes!";
     #endif
   }
-  #ifdef DEBUGVER
+  #if DEBUGVER
   sprintf(acStack160,pcVar3,cpp,line);
   CRASH("u32 RomCopy( u32 pDest,u32 pSrc,u32 len,u32 type)",acStack160);
   #endif

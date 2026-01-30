@@ -1,7 +1,7 @@
 #include "globals.h"
 #include "debug.h"
 
-#ifdef DEBUGVER
+#if DEBUGVER
 void debug_add_party_member(void) {new WidgetDebugParty;}
 
 void FUN_8005eae4(BaseWidget *w) {

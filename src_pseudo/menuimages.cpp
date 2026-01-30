@@ -368,7 +368,7 @@ u8 GetItemImage(ItemID id,u32 *index){
   case DB_POTION:
    indexOut = BORG8_IconItemPotion;
    break;
-  #ifdef DEBUGVER
+  #if DEBUGVER
   default:
   char err[144];
     sprintf(err,"GetItemImage() - unknown ID: %d, type = %d, index = %d",id,ITEMIDTYPE(id),id&0xFF);

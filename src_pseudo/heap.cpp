@@ -5,7 +5,7 @@
 #include "crash.h"
 
 #define Msprintf(fmt,...) sprintf(gMemMonitor.text,fmt,__VA_ARGS__)
-#ifdef DEBUGVER
+#if DEBUGVER
 #define HeapCrash(l,fmt,...) Msprintf(fmt,__VA_ARGS__); CRASH("heap.cpp",gMemMonitor.text)
 #else
 #define HeapCrash(l,fmt,...) Msprintf("%d",l); CRASH("heap.cpp",gMemMonitor.text)
@@ -88,7 +88,7 @@ void * HeapAlloc(size_t size,char *file,u32 line){
         file,line,uVar5,gMemMonitor.memFree,gMemMonitor.obj_free,gMemMonitor.memUsed,gMemMonitor.obj_count_2);
     }
     malloc_update_mem_mon(pHVar6,uVar5);
-    #ifdef DEBUGVER
+    #if DEBUGVER
     Msprintf("%s %i",remove_dir_slashes(file),line);
     STRCPYSafe(pHVar6->filename,gMemMonitor.text);
     #endif
@@ -150,7 +150,7 @@ u32 get_memFree_2(void){
   }
   return gMemMonitor.memFree_2;
 }
-#ifdef DEBUGVER
+#if DEBUGVER
 char D_800f5490[16];
 char D_800f54a0[16];
 void print_mem_allocated(memPrint *printFunc,u16 *buff){

@@ -390,7 +390,7 @@ void Camera::ProcessGameCamera(Camera_struct *cam,vec3f *param_2,vec3f* param_3,
     break;
   case 3: return;
   default:
-  #ifdef DEBUGVER
+  #if DEBUGVER
     sprintf(buff,"Unknown Mode: %d",(u32)cam->camera_mode);
     CRASH("ProcessGameCamera",buff);
     #else

@@ -89,7 +89,7 @@ Inventory_item * GenericInventory::GetItemEntry(s32 index){
     return this->inv_slots + index;
   return NULL;
 }
-#ifdef DEBUGVER
+#if DEBUGVER
 char* sFilenameGI="../gameclasses/genericinventory.cpp";
 #endif
 s32 GenericInventory::IncItemQuantity(s32 slot,s32 q){
@@ -109,7 +109,7 @@ s32 GenericInventory::IncItemQuantity(s32 slot,s32 q){
         this->quantity--;
         return entry->Quantity;
       }
-      #ifdef DEBUGVER
+      #if DEBUGVER
       CRASH("Invalid Inventory",sFilenameGI);
       #endif
     }

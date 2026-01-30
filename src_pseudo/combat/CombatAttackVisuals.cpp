@@ -119,7 +119,7 @@ u32 GetAttackActor(u32 param_1){
     case 0: return 0x1cfd;
     case 1: return 0x1be3;
     default:
-    #ifdef DEBUGVER
+    #if DEBUGVER
       Gsprintf("GetAttackActor(), Attack type %i is not defined!",param_1);
       CRASH(FILENAME,gGlobals.text);
     #else

@@ -111,7 +111,7 @@ u8 Cheats::_tweety(){return fatboy_crawdaddy_tweety(BORG7_Gryphon);}
 // +750000 EXP to party
 u8 Cheats::_Cheater(){ 
 
-  #ifndef DEBUGVER
+  #if !DEBUGVER
   if(getEventFlag(FLAG_Cheater))return false; //no double-dipping in retail
   #endif
   setEventFlag(FLAG_Cheater,true);
@@ -130,7 +130,7 @@ u8 Cheats::_Cheater(){
 }
  //+100000 gold
 u8 Cheats::_bingo(void){
-  #ifndef DEBUGVER
+  #if !DEBUGVER
   if(getEventFlag(FLAG_Bingo))return false; //no double-dipping in retail
   #endif
   setEventFlag(FLAG_Bingo,true);
@@ -151,7 +151,7 @@ u8 Cheats::keepbusy(void){
   return true;}
 
 u8 Cheats::_version(void){
-  #ifdef DEBUGVER
+  #if DEBUGVER
   #define VERSIONNAME 02.01d-PRERELEASE
   #define COMPILEDATE "Feb  1 2001" //there's a few minutes difference
   #define COMPILETIME "23:55:49" //between debug splashscreen's and this one's
@@ -163,7 +163,7 @@ u8 Cheats::_version(void){
   #define VERSIONNAME 02.16a-LOT-CHECK
   #define COMPILEDATE "Feb 16 2001" 
   #define COMPILETIME "16:35:25" 
-  #endif
+  #endif//TODO: add EU versions
   //dirty hack to show version name
   #define STR(x) #x
   #define STR2(x) STR(x)
@@ -172,7 +172,7 @@ u8 Cheats::_version(void){
   #define FMT "Aidyn Chronicles\nVersion: " STR2(VERSIONNAME) "\nCompile: %s-%s\nCode: %lu"
   Gsprintf(FMT,COMPILEDATE,COMPILETIME,CODESIZE);
   TextPopup_New(gGlobals.text,200,0x32,COLOR_WHITE,0x96,true);
-  #ifndef DEBUGVER
+  #if !DEBUGVER
   version_flag=1; //activates coord print in retail during AppProc()
   #endif
   #undef STR

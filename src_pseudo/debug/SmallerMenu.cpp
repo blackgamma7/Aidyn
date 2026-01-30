@@ -1,6 +1,6 @@
 #include "globals.h"
 #include "combat/CombatStruct.h"
-#ifdef DEBUGVER
+#if DEBUGVER
 DebugMapLabel debugMapLabels[]={
     {0,0,0,"Starting Point (I08)"},{0,19,0,"Old Starting Point (E14)"},
     {6,0,0,"Oriana the Hutt"},{0,1,0,"Goblin Stronghold (A04)"},

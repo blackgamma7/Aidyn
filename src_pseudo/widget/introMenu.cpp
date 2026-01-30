@@ -422,7 +422,7 @@ WidgetScrollMenu * IntroMenu::StartGameMenu() {
   scroll->Append(WText(gGlobals.CommonStrings[0x9f]));
   scroll->Append(WText(gGlobals.CommonStrings[0xa0]));
   scroll->Append(WText(gGlobals.CommonStrings[0xa1]));
-  #ifdef DEBUGVER
+  #if DEBUGVER
   if (gDebugFlag) {
     scroll->Append(WText("Start Game"));
     scroll->Append(WText("Intermediate Game"));
@@ -438,7 +438,7 @@ void IntroMenu::ProcessIntroMenu(BaseWidget *txt) {
   widgetTextSubstruct *txtSub = (widgetTextSubstruct *)txt->substruct;
   IntroMenuSub *sub = IntroSub;
   if(strcmp(txtSub->str,gGlobals.CommonStrings[0x9f]) == 0) NamePlayer();
-  #ifdef DEBUGVER
+  #if DEBUGVER
   else if(strcmp(txtSub->str,"Start Game")==0)sub->menuState = IntroM_StartGame;
   else if(strcmp(txtSub->str,"Intermediate Game")==0)sub->menuState = IntroM_IntermediateGame;
   else if(strcmp(txtSub->str,"Advanced Game")==0)sub->menuState = IntroM_AdvancedGame;

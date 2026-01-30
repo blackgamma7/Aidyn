@@ -5,7 +5,7 @@
 #include "combat/CombatStruct.h"
 #define FILENAME "./src/zoneengine.cpp"
 
-#ifdef DEBUGVER //some sprintf calls not found in retail version
+#if DEBUGVER //some sprintf calls not found in retail version
 #define DEBUGSprintf(fmt,...) Gsprintf(fmt,__VA_ARGS__)
 #else
 #define DEBUGSprintf(fmt,...) ;
@@ -189,7 +189,7 @@ void attachPhysicsProperties(Borg9Data *param_1){
     for(i=0;i<param_1->borghpys_count;i++) {
       pbVar2 = param_1->phys_pointer;
       uVar1 = pbVar2[i].physProp;
-      #ifdef DEBUGVER
+      #if DEBUGVER
       if (25 < uVar1) {
         Gsprintf("Invalid Physics Property: %d\n",uVar1);
         CRASH("AttachPhysicsProperties",gGlobals.text);
@@ -532,7 +532,7 @@ void loading_map_data(ZoneDat *param_1){
     VoxelObjects_Activate(&param_1->mapPointer->dat,param_1->index);
     look_for_monsterparties(&gGlobals.wander,&param_1->mapPointer->dat,param_1->MapTally,param_1->index);
     audio_ref_objs(&gGlobals.SFXStruct,&param_1->mapPointer->dat,param_1->MapTally,param_1->index);
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (gSceneBoulder) SceneBoulders(&param_1->mapPointer->dat);
     #endif
   }
@@ -593,7 +593,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
           z->sceneDat0x4 = BorgAnimLoadScene(z->borg5_ID);
         }
         else {
-          #ifdef DEBUGVER
+          #if DEBUGVER
           if ((!gLoadOneZone) && (NoExpPak_memCheck(3)))
           #else
           if (NoExpPak_memCheck(3))
@@ -606,7 +606,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
           z->SceneDat0x14 = BorgAnimLoadScene(z->borg5_ID2);
         }
         else 
-        #ifdef DEBUGVER
+        #if DEBUGVER
         if ((!gLoadOneZone) && (NoExpPak_memCheck(4))) 
         #else
         if(NoExpPak_memCheck(4))
@@ -985,7 +985,7 @@ u8 get_scene_obj_proximity(vec2f *obj,vec2f *cam,vec2f *aim,float *outx,float *o
   }
   return normA <= normB;
 }
-#ifdef DEBUGVER
+#if DEBUGVER
 //replace scene object models with boulders
 void SceneBoulders(Borg9Data *param_1){
   for(u16 i=0;i < param_1->voxelObjCount;i++) {
@@ -1814,7 +1814,7 @@ void FreeZoneEngine(s16 playMusic){
   FreeEnvProps();
   Sky::SetBackgroundType(2,0,0.0);
 }
-#ifdef DEBUGVER
+#if DEBUGVER
 void ClearVoxelFlags(Borg9Data *param_1){
   if (param_1->voxelObjCount) {
     for(u16 i=0;i < param_1->voxelObjCount;i++) {
@@ -1898,7 +1898,7 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   G = *GG;
   iDelta = (int)delta;
   Gsprintf("Handle Zone Engine Frame");
-  #ifdef DEBUGVER
+  #if DEBUGVER
   VoxelIndexPosition(delta,player);
   #endif
   if (player) {
@@ -1912,14 +1912,14 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   if (player) ConfirmPlayerWithinZone(player,gGlobals.gameVars.borg9DatPointer);
   if (gGlobals.screenFadeMode == ScreenFade_None) update_BGM_();
   if ((gGlobals.gameVars.teleVox != NULL) && (gGlobals.screenFadeMode == ScreenFade_None)) {
-    #ifndef DEBUGVER
+    #if !DEBUGVER
     bVar1=false;
     #endif
     if (gGlobals.gameVars.tpVec3 == NULL) {
       gGlobals.screenFadeMode = ScreenFade_In;
       gGlobals.screenFadeSpeed = (1.0f/15);
     }
-    #ifndef DEBUGVER
+    #if !DEBUGVER
     if (gGlobals.gameVars.mapDatA == 0) bVar1 = (gGlobals.gameVars.teleVox->teleport.MapDatA == 0);
     Gsprintf("pZ->map: %d\npT->map: %d\ndoReset: %d - %d\n",gGlobals.gameVars.mapDatA,
                 gGlobals.gameVars.teleVox->teleport.MapDatA,bVar1,0);
@@ -1928,7 +1928,7 @@ void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
     TeleportPlayer(player,gGlobals.gameVars.teleVox,gGlobals.gameVars.tpVec3);
     gGlobals.gameVars.teleVox = NULL;
     gGlobals.gameVars.tpVec3 = NULL;
-    #ifndef DEBUGVER
+    #if !DEBUGVER
     if (((!gExpPakFlag) && (bVar1)) && (retailTpFlag)) {
       no_ExpPak_memcheck_flag = 1;
       gFreeZoneEngineTimer = 3;

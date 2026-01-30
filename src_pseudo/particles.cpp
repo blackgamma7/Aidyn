@@ -386,7 +386,7 @@ Particle::AllocParticleEmitter(ParticleHeadStruct *head,s16 lifespan,s16 texture
     emmi->texture = texture;
     emmi->link = link;
     if ((texture < 0) || (head->TextureCount <= texture)) {
-      #ifdef DEBUGVER
+      #if DEBUGVER
       char errBuff [160];
       sprintf(errBuff,"Invalid Texture: %d\nRange: 0 - %d\n",texture,head->TextureCount - 1);
       #endif
@@ -425,7 +425,7 @@ void Particle::FreeParticleEmitter(ParticleHeadStruct *head,ParticleEmmiter *emm
   head->emmitterIndecies[--head->count2] =emmi->ID;
   emmi->lifespan = 0;
   emmi->flags = 0;
-  #ifdef DEBUGVER
+  #if DEBUGVER
   if (head->count2<0) CRASH("FreeParticleEmitter","free'd below 0!!");
   #endif
 }
@@ -600,14 +600,14 @@ SceneData * GetLocatorScene(SceneData *pRet,u16 param_2){
     pRet = pRet->locatorScene2;
     break;
     default:
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char acStack_110 [128];
     sprintf(acStack_110,"GetLocatorScene:\nInvalid locatorScene: %d",param_2);
     #endif
     CRASH(FILENAME,acStack_110);
   }
   if(!pRet){
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char acStack_90 [144];
     sprintf(acStack_90,"GetLocatorScene:\npRet == NULL locatorScene: %d",param_2);
     #endif

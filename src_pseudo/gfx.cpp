@@ -86,7 +86,7 @@ void Graphics::initGfx(OSSched *sched){
 
 void Graphics::initGfx_2(void){
   osSpTaskYield();
-  #ifndef EUVER
+  #if !EUVER
   SetGfxMode(SCREEN_WIDTH,SCREEN_HEIGHT,0x10);
   video_settings();
   #else
@@ -247,7 +247,7 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
 
 //draws overscan "letterbox" and ends dlist
 Gfx * Graphics::EndList(Gfx *gfx){
-  #ifndef EUVER
+  #if !EUVER
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);
   gDPSetRenderMode(gfx++,0,0);

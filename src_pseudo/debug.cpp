@@ -8,7 +8,7 @@
 #include "gamestateCheats.h"
 #include "widgets/credits.h"
 
-#ifdef DEBUGVER
+#if DEBUGVER
 u32 gZoneEngineHide=0;
 WidgetDebugBig* WidgetDebugBigPointer=NULL;
  void(*debug_menu_funcs[])(void)={

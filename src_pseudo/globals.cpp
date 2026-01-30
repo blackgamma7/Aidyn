@@ -9,7 +9,7 @@ u16 SkillCheckSteps[]={0,26,46,62,81,96,111,122,
 char* sGlobalsFmt="%s - %d";
 char* sGlobalsFilename="./src/globals.cpp";
 
-#ifdef DEBUGVER
+#if DEBUGVER
 u32 memUsedMirror=0;
 u64 DAT_800e8d90=0;//unused, but 64-bit space from vars
 u64 ofunc_dat=0;
@@ -410,7 +410,7 @@ u32 AppendText(char *str1,char *str2,u8 len){
   return uVar1;
 }
 
-#ifdef DEBUGVER
+#if DEBUGVER
 // a few time-measuring funcs left out of retail.
 
 void FUN_8000c6e8(void){

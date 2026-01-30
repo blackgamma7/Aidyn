@@ -526,7 +526,7 @@ byte cutScene_control_func(){
       delta = bVar3;
     } while (gGlobals.screenFadeMode != ScreenFade_None);
     if ((acStack32->pressed & B_BUTTON) != 0) unusedDialougToggle ^= 1;
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (((gDebugFlag != 0) && (dialougemode_pointer->controlLock == 0)) &&
        ((acStack32->pressed & START_BUTTON) != 0))
       build_camera_debug(dialougemode_pointer->RefPointID);

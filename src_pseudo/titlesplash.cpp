@@ -3,7 +3,7 @@
 #include "romstring.h"
 
 
-#ifdef DEBUGVER
+#if DEBUGVER
 #define BUILDVER "02.01d-PRERELEASE"
 #define COMPILEDATE "Feb  2 2001"
 #define COMPILETIME "00:02:40"
@@ -96,7 +96,7 @@ void TitleSplash::Load(void){
   gGlobals.titleSplashVars.UnkD = 0;
   copyrightText = RomString::Load(copyrightStrings,0x180);
   Controller::GetDelay(0);
-  #ifdef DEBUGVER
+  #if DEBUGVER
   if(CODESIZE>0x100000)sCodeSizeError=true;
   #endif
 }
@@ -158,7 +158,7 @@ void TitleSplash::Borg8(Gfx **GG,u8 alpha,Borg8Header *borg8){
 }
 
 u8 TitleSplash::ExpansionPak(Gfx** GG){
-  #ifdef DEBUGVER
+  #if DEBUGVER
   #define ShowTime 2
   #else
   #define ShowTime 30
@@ -185,7 +185,7 @@ u8 TitleSplash::Copyright(Gfx **GG){
   controller_aidyn *cont;
   Gfx *g;
   
-  #ifdef DEBUGVER
+  #if DEBUGVER
   #define ShowTime 2
   #else
   #define ShowTime 120
@@ -195,7 +195,7 @@ u8 TitleSplash::Copyright(Gfx **GG){
   state = gGlobals.titleSplashVars.state;
   textY = (Graphics::GetVRes()/2) + -7 + (gGlobals.font)->charH * -6;
   while (Controller::GetInput(&cont,0)) {
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if ((cont->held & (R_BUTTON|L_BUTTON)) == (R_BUTTON|L_BUTTON)) {
       sSplashVersionFlag = 1;
     }
@@ -209,7 +209,7 @@ u8 TitleSplash::Copyright(Gfx **GG){
   ((gGlobals.font)->col).G = sSplashCopyrightGray;
   ((gGlobals.font)->col).B = sSplashCopyrightGray;
   ((gGlobals.font)->col).A = sSplashCopyrightGray;
-  #ifdef DEBUGVER
+  #if DEBUGVER
   if (!sCodeSizeError){
   #endif
     for(u16 i = 0;i < 0xc;i++) {
@@ -217,7 +217,7 @@ u8 TitleSplash::Copyright(Gfx **GG){
       //a few hard-coded margins
       if (((i == 1) || (i == 3)) || (i == 7)) textY += 5;
     }
-  #ifdef DEBUGVER
+  #if DEBUGVER
   }
   else{
     Gsprintf("Code Segment Too Big!\n");
@@ -243,7 +243,7 @@ u8 TitleSplash::N64Logo(Gfx**GG){
   u8 auStack64;
   controller_aidyn* tempCont;
   
-  #ifdef DEBUGVER
+  #if DEBUGVER
   #define ShowTime 2
   #else
   #define ShowTime 120
@@ -283,7 +283,7 @@ u8 TitleSplash::THQLogo(Gfx** GG){
   controller_aidyn *pcStack_24;
   Gfx *g;
 
-  #ifdef DEBUGVER
+  #if DEBUGVER
   #define ShowTime 2
   #else
   #define ShowTime 120
@@ -306,7 +306,7 @@ u8 TitleSplash::THQLogo(Gfx** GG){
 
 u8 TitleSplash::H2OLogo(Gfx**GG){
   
-  #ifdef DEBUGVER
+  #if DEBUGVER
   #define ShowTime 2
   #else
   #define ShowTime 120

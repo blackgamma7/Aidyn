@@ -26,7 +26,7 @@ struct gfxManager {
     u8 (*textfont)[8][4]; /* for debug text */
     u8 (*unkBlock)[8][8]; /* white 8x8 8-bit block */
     OSViMode osvimodeCustom;
-    #ifdef VER_NA11
+    #if VER_NA11
     OSViMode osvimodeBuffer;
     #endif
     int unk0x7c; /* unused? */

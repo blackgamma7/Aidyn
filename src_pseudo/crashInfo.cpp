@@ -46,7 +46,7 @@ crash_DatString CauseStrings[]={
 };
 
 //likely derived from preprocess macro on compile
-#ifdef DEBUGVER
+#if DEBUGVER
 #define CRASHVER "CRASH - 02.01d-PRERELEASE"
 #elif VERNA10
 #define CRASHVER "CRASH - 02.02a-LOT-CHECK RELEASE"
@@ -68,7 +68,7 @@ void crash_text(CrashSub *param_1,CrashBuff *param_2){
   if (param_1->IsManualCrash) {
     sprintf(charBuff,"Manual Crash");
     crash_print(param_2,charBuff,crash_strlen(charBuff),0x1d,0xff,0xff,0);
-    #ifdef DEBUGVER
+    #if DEBUGVER
     crash_print(param_2,"Position:",0x14,0x2f,0xff,0xff,0);
     crash_print(param_2,param_1->position,0x1e,0x38,0,0xff,0);
     crash_print(param_2,"Cause:",0x14,0x5c,0xff,0xff,0);
@@ -102,7 +102,7 @@ void crash_text(CrashSub *param_1,CrashBuff *param_2){
   crash_print(param_2,gGlobals.text,30,y+9,0,0xff,0);
   return;
 }
-#ifdef DEBUGVER
+#if DEBUGVER
 //y tho?
 const u16 DAT_800d7ad4=0x100;
 //print last 23 virtual addresses in stack?
@@ -128,7 +128,7 @@ void Ofunc_80006a4c(CrashBuff *param_1,OSThread *param_2){
 #endif
 int strlenX8(char *txt){return (strlen(txt) & 0x1fff) << 3;}
 //dunno why this gets stranded in retail ver's.
-#ifdef DEBUGVER
+#if DEBUGVER
 void crash_print_2(CrashBuff *buff,char *txt,u32 val,u16 x,u16 y){
   char txtBuff [96];
   
@@ -430,7 +430,7 @@ void crash_handler(CrashSub *arg){
   crash_text_2(arg,&crash_framebuffer);
   osWritebackDCacheAll();
   osViSwapBuffer(crash_framebuffer);
-  #ifndef DEBUGVER
+  #if !DEBUGVER
   while(1){;}
   #else
   u8 uVar6 = 0;
@@ -485,7 +485,7 @@ void crash_handler(CrashSub *arg){
   }
 #endif  
 }
-#ifdef DEBUGVER
+#if DEBUGVER
 void heap_error(CrashBuff* param_1,char* param_2,s32 param_3,int param_4,int param_5,int ramUsed,int param_7,
                s32 param_8,int ramMax)
 

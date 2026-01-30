@@ -70,7 +70,7 @@ void World::GetCalendarDate(TerrainStruct *ter,Calendar *cal){
   cal->second = GetSecond(ter);
 }
 
-#ifdef DEBUGVER
+#if DEBUGVER
 u8 timeofday_hours[]={6,9,12,18,21};
 void World::ShiftTimeOfDay(TerrainStruct *ter,s8 param_2){
   u32 uVar1;
@@ -216,7 +216,7 @@ void World::SeveralTimeFuncs(TerrainStruct *ter){
   GetCalendarDate(ter,&CalTemp);
   set_moonPhase(ter,&CalTemp);
   u8 change=UpdateTimeOfDay(ter,&CalTemp);
-  #ifdef DEBUGVER
+  #if DEBUGVER
   if(!gDebugGameTime) return;
   #endif
   if (change) SetWeather(ter,&CalTemp);

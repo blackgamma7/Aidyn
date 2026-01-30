@@ -153,7 +153,7 @@ LAB_800570e0:
     DialougCreateScriptCamera(uVar2,0,ppVar8,CamOBJ_TrackOn,camHeight);
     break;
   default:
-  #ifndef DEBUGVER
+  #if !DEBUGVER
   case B13Com_15:
   case 16:
   CRASH("","");
@@ -167,7 +167,7 @@ LAB_800570e0:
     Actor::SetFacing(ppVar8,fStack120.x,fStack120.y);
     break;
   case B13Com_CreateActor:
-  #ifdef DEBUGVER
+  #if DEBUGVER
     if (pAI == NULL) CRASH("No pAI","./src/dialogue.cpp");
     if (pVOR == NULL) CRASH("No pVOR","./src/dialogue.cpp");
     if (pAI->pPlayer) CRASH("DialoguePreCallback","Actor Already Allocated!(ActorAndID::pPlayer != NULL)");
@@ -286,7 +286,7 @@ void DialogCallbackC(dialougeInstance *param_1,Borg13Data *param_2,s16 command,u
     PARTY->Inventory->AddItem(val,1);
     break;
   case B13Com_TakeItem:
-  #ifdef DEBUGVER
+  #if DEBUGVER
     if (!PARTY->TakeItem(val)) {
       ItemInstance iInst;
       char errBuff [0x100];
@@ -330,7 +330,7 @@ play_sound:
     uVar10 = GameStateA_5;
     goto LAB_80057628;
   case B13Com_AddMember:
-  #ifdef DEBUGVER
+  #if DEBUGVER
     if (!DialougeAddPartyMember(val)) {
       char errBuff [0x100];
       cause = errBuff;
@@ -348,7 +348,7 @@ print_error_2:
     PARTY->removeAliveMemberByID(val);
     break;
   case B13Com_Unimplemented49:
-  #ifdef DEBUGVER
+  #if DEBUGVER
     pcVar11 = "Dialogue Command executed!\nThis command has not been implemented yet!";
   #endif
 print_error:
@@ -378,7 +378,7 @@ print_error:
       apBStack_30 = pBVar5;
       FREEQB13(apBStack_30);
     }
-    #ifdef DEBUGVER
+    #if DEBUGVER
     else {
       char acStack_130 [0x100];
       cause = acStack_130;
@@ -417,7 +417,7 @@ LAB_80057628:
       PlayAudioSound(&gGlobals.SFXStruct,BORG12_ChimeScale,0,gGlobals.VolSFX,300,0);
       Entity::AddExp(pCVar4,val);
     }
-    #ifdef DEBUGVER
+    #if DEBUGVER
     else {
       char errBuff [0x100];
       sprintf(errBuff,"Trying to get a party member that isn't in the party (id = %d)\nLine = %d",

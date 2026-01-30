@@ -32,7 +32,7 @@ u16 Z_hold[MAXCONTROLLERS]={0};
 u16 L_hold[MAXCONTROLLERS]={0};
 u16 R_hold[MAXCONTROLLERS]={0};
 ContManageStruct gContManager={0};
-#ifdef EUVER
+#if EUVER
 u8 gContPalVar=false;
 #endif
 
@@ -48,7 +48,7 @@ void Controller::Init(OSSched *sc,u8 ports,u8 pri,u8 id){
 void Controller::proc(void* x){
   s16 *msg;
   
-  #ifdef EUVER
+  #if EUVER
   u8 gContPalVar=false;
   ALLOCS(gContManager.osmesgPointer,8*sizeof(OSMesg),0);
   osScAddClient(gContManager.ossched,&gContManager.client,&gContManager.mesgClient);
@@ -56,7 +56,7 @@ void Controller::proc(void* x){
   
   InitBuffer();
   while(1) {
-    #ifndef EUVER
+    #if !EUVER
     do {
       osRecvMesg(&gContManager.mesgClient,(OSMesg*)&msg,1);
     } while (*msg != 1);
@@ -77,7 +77,7 @@ void Controller::proc(void* x){
     }
     else gContManager.Timer = (gContManager.Timer + 1) % 6;
   }
-  #ifdef EUVER
+  #if EUVER
 }
 #endif
 }
@@ -88,7 +88,7 @@ void Controller::InitBuffer(void){
   controllerBuffer *pcVar3;
   OSContStatus contStat [4];
   u8 auStack40 [4];
-  #ifndef EUVER
+  #if !EUVER
   ALLOCS(gContManager.osmesgPointer,8*sizeof(OSMesg),258);
   #endif
   osCreateMesgQueue(&gContManager.mesgClient,gContManager.osmesgPointer,8);
@@ -110,7 +110,7 @@ void Controller::InitBuffer(void){
   osContSetCh(gContManager.ports);
   osContInit(&gContManager.SIMesgQ,auStack40,contStat);
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
-  #ifndef EUVER
+  #if !EUVER
   osScAddClient(gContManager.ossched,&gContManager.client,&gContManager.mesgClient);
   #endif
   gContManager.Timer = 0;

@@ -29,14 +29,14 @@ void CommonStrings::Init(void){
   precip_labels = &Cstring(PrecipClear);
   ground_labels = &Cstring(Collide00);
   price_strings = &Cstring(PriceAppraise0);
-  #ifdef DEBUGVER
+  #if DEBUGVER
   debug_switch_labels = &Cstring(VoxelType0);
   boolean_labels = &Cstring(BoolFalse);
   cheatStatus_labels = &Cstring(CheatOption0);
   #endif
   task_failure_labels = gGlobals.CommonStrings + 0x58;
   equip_error_labels = gGlobals.CommonStrings + 0x5f;
-  #ifdef DEBUGVER
+  #if DEBUGVER
   on_off_labels = &Cstring(Off);
   debug_state_labels = &Cstring(DebugStates0);
   bool_labels = &Cstring(BoolFalse);
@@ -47,18 +47,18 @@ void CommonStrings::Free(void){
   if (gGlobals.CommonStrings) {
     RomString::Free(gGlobals.CommonStrings);
     commonstrings = NULL;
-	#ifdef DEBUGVER
+	#if DEBUGVER
     debug_switch_labels = NULL;
     boolean_labels = NULL;
     cheatStatus_labels = NULL;
 	#endif
     task_failure_labels = NULL;
     equip_error_labels = NULL;
-	#ifdef DEBUGVER
+	#if DEBUGVER
     debug_state_labels = NULL;
 	#endif
     gGlobals.CommonStrings = NULL;
-	#ifdef DEBUGVER
+	#if DEBUGVER
     on_off_labels = NULL;
     bool_labels = NULL;
 	#endif

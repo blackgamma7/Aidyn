@@ -114,7 +114,7 @@ u8 clear_gamestatefunnel(void){
   return true;}
 
 u8 getEventFlag(u16 flag){
-#ifdef DEBUGVER //Seems to get broken into 2 funcs with debug(?)
+#if DEBUGVER //Seems to get broken into 2 funcs with debug(?)
   checkCheat(All);
   return Get_eventFlagCheck(flag);
   }

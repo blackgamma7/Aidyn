@@ -144,7 +144,7 @@ bool DialougeClass::StartDialoug(Borg13Data *b13,dialougeInstance *param_3,u8 pa
     this->unk1C = 0;
     this->unk20 = 0;
     this->inst = param_3;
-    #ifdef DEBUGVER
+    #if DEBUGVER
     Gsprintf("StartDialog\n");
     N64Print::Print(gGlobals.text);
     #endif
@@ -322,7 +322,7 @@ LAB_8004f0bc:
   this->menu->RightButtonFunc = Dialoug_RightButton;
   this->menu->LeftButtonFunc = Dialoug_LeftButton;
   this->menu->AButtonFunc = Dialoug_AButton;
-  #ifdef DEBUGVER
+  #if DEBUGVER
   if (gDebugFlag) this->menu->BButtonFunc = Dialoug_DebugEnd;
   #endif
   if (this->type == 4) this->menu->BButtonFunc = Dialoug_BButton;
@@ -523,14 +523,14 @@ void DialougeClass::m8004f810(){
   else {
     strcpy(Utilities::GetWidgetText(pvVar2->text),this->inst->diags[0].txt);
   }
-  #ifdef DEBUGVER //can toggle if "V####" is shown at start of text
+  #if DEBUGVER //can toggle if "V####" is shown at start of text
   if (gGlobals.DebugStatDisplay == 0) {
     #endif
     if (pvVar2->text == NULL)
       look_for_dialouge_v_Num(Utilities::GetWidgetText(pvVar2->shadText));
     else
       look_for_dialouge_v_Num(Utilities::GetWidgetText(pvVar2->text));
-  #ifdef DEBUGVER
+  #if DEBUGVER
     }
     #endif
   if (pvVar2->text == NULL) {

@@ -180,7 +180,7 @@ void TitleScreenInput(void){
             gGlobals.gameStartOption = 1;
             gGlobals.screenFadeSpeed = 0.05f;
             break;
-          #ifdef DEBUGVER //two debug cases skipped. also causes compiler to not generate jumptable
+          #if DEBUGVER //two debug cases skipped. also causes compiler to not generate jumptable
           case IntroM_IntermediateGame:
           case IntroM_AdvancedGame:
           #endif
@@ -219,7 +219,7 @@ void start_intermediate_game(void){
   }
   FlyCamClear();
   if (cVar1 == IntroM_IntermediateGame) { //Intermediate game - skip intro, start in erromon
-    #ifdef DEBUGVER
+    #if DEBUGVER
     gGlobals.gameVars.mapDatA = debugMapLabels[5].a;
     gGlobals.gameVars.mapDatB = debugMapLabels[5].b;
     gGlobals.gameVars.mapDatC = debugMapLabels[5].c;
@@ -229,7 +229,7 @@ void start_intermediate_game(void){
   }
   else { //Start game - skip intro cinematic.
     gGlobals.gameVars.MapFloatDatEntry.mapDatB = 0xffff;
-    #ifdef DEBUGVER
+    #if DEBUGVER
     gGlobals.gameVars.mapDatA = debugMapLabels[0].a;
     gGlobals.gameVars.mapDatB = debugMapLabels[0].b;
     gGlobals.gameVars.mapDatC = debugMapLabels[0].c;
@@ -237,7 +237,7 @@ void start_intermediate_game(void){
     gGlobals.gameVars.mapDatB =0;
     #endif
   }
-  #ifdef DEBUGVER
+  #if DEBUGVER
   gGlobals.playerCharStruct.player_form = debugCharacters[0].borg7;
   gGlobals.playerCharStruct.collisionRadius = debugCharacters[0].f;
   #else

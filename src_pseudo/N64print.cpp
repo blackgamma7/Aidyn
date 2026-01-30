@@ -11,7 +11,7 @@ void N64Print::UnkA(s32 param_1,u16 param_2){
 void N64Print::UnkB(void){show_debug_queue = ofunc_value;}
 
 void N64Print::Toggle(N64PrintStruct *param_1,controller_aidyn *param_2){
-#ifdef DEBUGVER
+#if DEBUGVER
   if ((param_2->pressed & L_BUTTON)){
     if (param_1->color.a <= 0.0) {param_1->color.a = 60.0f;}
     else {param_1->color.a = 1.0f;}
@@ -25,7 +25,7 @@ void N64Print::Toggle(N64PrintStruct *param_1,controller_aidyn *param_2){
 
 
 void N64Print::Clear(void){
-#ifdef DEBUGVER
+#if DEBUGVER
   s16 iVar1;
   char *ppcVar2;
   
@@ -38,7 +38,7 @@ void N64Print::Clear(void){
 }
 
 void N64Print::Init(N64PrintStruct *param_1){
-  #ifdef DEBUGVER
+  #if DEBUGVER
   gN64PrintP = param_1;
   ALLOCS(gN64PrintP->text,370,141);
   gN64PrintP->color.r = 1.0f;
@@ -53,7 +53,7 @@ void N64Print::Init(N64PrintStruct *param_1){
 }
 
 void N64Print::Free(void){
-#ifdef DEBUGVER
+#if DEBUGVER
   if (gN64PrintP) {
     HFREE(gN64PrintP->text,160);
     N64PrintStruct *pDVar1 = gN64PrintP;
@@ -64,7 +64,7 @@ void N64Print::Free(void){
 }
 
 char * N64Print::CleanText(char *param_1,char param_2,s16 param_3){
-  #ifdef DEBUGVER
+  #if DEBUGVER
   char cVar1;
   s16 iVar2;
   s32 iVar3;
@@ -87,11 +87,11 @@ char * N64Print::CleanText(char *param_1,char param_2,s16 param_3){
 }
 
 void N64Print::PrintCheck(char *x){
-#ifdef DEBUGVER
+#if DEBUGVER
   if (*x) Print(x);
   #endif
 }
-#ifdef DEBUGVER
+#if DEBUGVER
 void N64Print::Print(char *param_1){
   
   char cVar1;
@@ -147,7 +147,7 @@ void N64Print::Print(){}
 #endif
 
 Gfx* N64Print::Draw(Gfx*gfx,s16 delta){
-#ifdef DEBUGVER
+#if DEBUGVER
   if (((gDebugFlag) && (show_debug_queue)) && (gN64PrintP)) {
     gN64PrintP->color.a -= (delta * (1.0/60));
     if (0.0 < gN64PrintP->color.a) {

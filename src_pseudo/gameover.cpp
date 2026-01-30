@@ -21,7 +21,7 @@ void Gameover_func(void){
     if ((pBVar5->dat).voxelObjCount <= i) {
 LAB_8002411c:
       pCVar3 = PARTY->Members[0];
-      #ifdef DEBUGVER
+      #if DEBUGVER
       if (!pCVar3) CRASH("NO ALARON! EVIL!!!!","./src/gameover.cpp");
       #endif
       Entity::addHP(pCVar3,Entity::getHPMax(pCVar3) - Entity::getHPCurrent(pCVar3));
@@ -34,7 +34,7 @@ LAB_8002411c:
         remove_borg_9(pBVar5);
         return;
       }
-      #ifdef DEBUGVER
+      #if DEBUGVER
       CRASH("./src/gameover.cpp","No matching death dailogue!");
       #endif
     }

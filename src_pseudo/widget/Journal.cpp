@@ -180,7 +180,7 @@ LAB_8005b5a8:
           pvVar3->itemHighlight = pvVar3->itemCount - 1;
           newestJournal = -1;
         }
-        #ifdef DEBUGVER
+        #if DEBUGVER
         Gsprintf("Entry found = %d\n",uVar10);
         N64PRINT(gGlobals.text);
         #endif

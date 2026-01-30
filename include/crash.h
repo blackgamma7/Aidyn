@@ -22,7 +22,7 @@ namespace Crash{
     void InitProc(void (*handle)(CrashSub*),void* arg1,u8 Pri,u16 ID);
     void CrashProc(void* x);
     void InitEventMesg(void);
-    #ifdef DEBUGVER
+    #if DEBUGVER
     void ManualCrash(char *pos,char *cause);
     #else
     void ManualCrash(void);
@@ -51,7 +51,7 @@ void crash_print(CrashBuff *,char *,u16,u16,u8,u8,u8);
 extern u8 gCrashFont[][8];
 
 //differentiate between debug and retail crash versions.
-#ifdef DEBUGVER
+#if DEBUGVER
 #define CRASH(pos, cause) Crash::ManualCrash(pos, cause);
 #else
 #define CRASH(pos, cause) Crash::ManualCrash();

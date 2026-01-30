@@ -2,7 +2,7 @@
 #include "globals.h"
 #include "romstring.h"
 
-#ifdef DEBUGVER
+#if DEBUGVER
 #define CreditsSpeed 5
 #else
 #define CreditsSpeed 2
@@ -15,7 +15,7 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
   u16 yOff;
   u8 uVar14;
 
-  #ifdef DEBUGVER
+  #if DEBUGVER
   this->scrollSpeed = 5;
   #else
   this->scrollSpeed = 1;
@@ -124,7 +124,7 @@ void WidgetCredits::State1(){
     Utilities::MoveWidget(this->currChild,0,((this->currChild->varU16 + SCREEN_HEIGHT) >> 1));
     this->col.A = 0;
     this->unk89 = 1;
-    #ifdef DEBUGVER
+    #if DEBUGVER
     this->timer = 10.0f / gGlobals.delta;
     #else
     this->timer = 120.0f / gGlobals.delta;

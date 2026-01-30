@@ -488,7 +488,7 @@ void combat_control_case_6(controller_aidyn *cont,u8 x){
 }
 
 bool RZBA_end_combat(controller_aidyn *cont){
-  #ifdef DEBUGVER
+  #if DEBUGVER
   u32 BVar1 = cont->held;
   if (((BVar1 & R_BUTTON)) && (BVar1 != 0)) {
     if ((BVar1 & (A_BUTTON|Z_BUTTON)) != (A_BUTTON|Z_BUTTON)) {

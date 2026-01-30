@@ -62,7 +62,7 @@ struct controllerBuffer { /* buffer of controller inputs */
 };
 
 #define THQCompCode 0x3738 //"78"
-#ifdef EUVER 
+#if EUVER 
 #define AidynGameCode 0x4e415950 //"NAYP"
 #else
 #define AidynGameCode 0x4e415945 //"NAYE"

@@ -9,7 +9,7 @@
 
 void * appStack_mirror=NULL;
 u16 doubleGlobalTickerFlag=0;
-#ifndef DEBUGVER
+#if !DEBUGVER
 u16 version_flag=0;
 #endif
 Borg8Header* sRegionWarningImage=NULL;
@@ -26,7 +26,7 @@ OSScClient client;};
 App_manager appManager;
 
 
-#ifdef DEBUGVER
+#if DEBUGVER
 Gfx * display_debug_stats(Gfx *gfx){
   playerData *ppVar1;
   u32 uVar2;
@@ -131,7 +131,7 @@ void AppProc(void *x){
           gGlobals.ticker++;
           if (doubleGlobalTickerFlag == 1) gGlobals.ticker++;
           gfx1 = appProc_caseSwitch(gfx0);
-          #ifdef DEBUGVER //print detailed debug stats in Debug version
+          #if DEBUGVER //print detailed debug stats in Debug version
           gfx1 = display_debug_stats(gfx1);
           #else //print just player coords if Retail Version and !version cheat used
           if ((version_flag) && (gPlayer)) {
@@ -256,7 +256,7 @@ void clear_audio_video(void){
 
 int appState_RegionControllerCheck(Gfx **gg){
   int ret;
-  #ifdef EUVER
+  #if EUVER
   if (osTvType != OS_TV_PAL) 
   #else
   if (osTvType == OS_TV_PAL) 

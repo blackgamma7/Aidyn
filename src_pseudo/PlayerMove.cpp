@@ -20,7 +20,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
   u16 Ofunc_GetCombatCameraMode(){return gCombatFreeCamera;}
   
   void setCombatCameraMode(u16 param_1){
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (1 < param_1) Crash::ManualCrash("SetCombatCameraMode","Not TRUE or FALSE");
     #endif
     gCombatFreeCamera = param_1;
@@ -58,7 +58,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
       (p->collision).vel.y += 0.084;
       (p->collision).vel.z += fleaVec.y;
     }
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (gDebugFlag) {
       if ((controller->held & L_BUTTON)&&(controller->pressed & D_LEFT)){
           gLoadOneZone ^= 1; //load data only for center map chunk.
@@ -103,7 +103,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
         return;
       }
     }
-    #ifdef DEBUGVER
+    #if DEBUGVER
     else {
       if (gCombatFreeCamera)
         CRASH("./src/playerMove.cpp","gCombatFreeCamera Set\nWe are _NOT_ in COMBAT mode!");

@@ -2251,7 +2251,7 @@ switchD_800a1cc4_caseD_8:
          (((unkAnimStructB.unk14 = pBVar5->unk0x40 + val, unkAnimStructB.unk14 != NULL &&
            (pBVar5->alpha < 1.0f)) && (((unkAnimStructB.unk14)->tint).a < 1.0f)))) {
         if (pBVar5->dsplistcount <= (int)val) {
-          #ifdef DEBUGVER
+          #if DEBUGVER
           char errBuff [128];
           sprintf(errBuff,"INVALID BORG SCENE\nop >= n op: %i n: %i",pBVar5->dsplistcount,val);
           #endif

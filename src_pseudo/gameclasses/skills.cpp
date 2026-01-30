@@ -2,7 +2,7 @@
 char** skill_strings=NULL;
 char** weapon_strings=NULL;
 
-#ifdef DEBUGVER
+#if DEBUGVER
 char* sSkillsFilename="../gameclasses/skills.cpp";
 #endif
 //all skills in an array should be at or above 0.
@@ -106,7 +106,7 @@ void CharSkills::Copy(CharSkills *B){
 u32 CharSkills::GetSkillXpMod(u8 arg1){
   s32 i = this->SkillBase[arg1] + 1;
   s32 skill_xp_multis[]={1500,500,1000,750,500,7500,750,500,1000,1000,1000,1500};
-  #ifdef DEBUGVER
+  #if DEBUGVER
   if (SKILL_Total < arg1) CRASH("Skill overwrite",sSkillsFilename);
   #endif
   return SQ(i) * skill_xp_multis[arg1];
@@ -116,7 +116,7 @@ u32 CharSkills::GetWeaponXpMod(u8 arg1){
   u32 i = this->WeaponBase[arg1] + 1;
   //0 value = enemy weapon classes
   u32 weapon_xp_multis[]={0,0,0,400,600,400,0,0,600,400,0};
-#ifdef DEBUGVER
+#if DEBUGVER
   if (WEAPON_Total < arg1) CRASH("Weapon_XP_overflow",sSkillsFilename);
 #endif
   return SQ(i) * weapon_xp_multis[arg1];
@@ -162,7 +162,7 @@ void AddToSkill(s8 *base,s8 *modded,u8 index,s8 arg3){
     if (10 < *pbVar4 + iVar3) iVar3 = (10 - *pbVar4);
     iVar3 += *pbVar4;
     *pbVar4 = iVar3;
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (iVar3< 0) CRASH("Wonky Skill Happening",sSkillsFilename);
     #endif
     bVar2 = *pbVar4;

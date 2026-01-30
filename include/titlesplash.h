@@ -17,7 +17,7 @@ namespace TitleSplash{
     u8 THQLogo(Gfx** GG);
     u8 H2OLogo(Gfx**GG);
 };
-#ifdef DEBUGVER
+#if DEBUGVER
 #define SplashNoop(cont) Noop(cont->held,cont->pressed) //not present in retail, would control something?
 #else
 #define SplashNoop(cont) ;
@@ -31,13 +31,13 @@ s32 appState_0(Gfx **GG);
 void noop_intromusic();
 
 char** copyrightText=NULL;
-#ifdef DEBUGVER
+#if DEBUGVER
 u16 sCodeSizeError=0;
 #endif
 SceneData* SplashLogoModel=NULL;
 WidgetBorg8* SplashLicence=NULL;
 Borg8Header* sSplashExpPak=NULL;
-#ifdef DEBUGVER
+#if DEBUGVER
 u16 sSplashVersionFlag=true;
 #endif
 u16 splashscreen_fadeTimer=0;

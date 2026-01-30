@@ -2,7 +2,7 @@
 #include "crash.h"
 
 void GameStateCrash(char *param_1){
-  #ifdef DEBUGVER
+  #if DEBUGVER
   CRASH("gamestatelib.cpp::\nProcessGameStates",param_1);
   #endif
 }

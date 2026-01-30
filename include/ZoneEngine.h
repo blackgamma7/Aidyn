@@ -23,7 +23,7 @@ s16 gPlayerRenderTimer=0;
 s32 FreeZoneEngineTimestamp=-1;
 s32 handeZoneEngineTimestamp=-2;
 u16 engineZone_flag=1;
-#ifdef DEBUGVER
+#if DEBUGVER
 u16 gLoadOneZone=0; //Will force only the center map chunk to load.
 u16 gSceneBoulder=0; // will replace "Scene" voxels with a boulder if set.
 u16 voxel_index=0;
@@ -39,7 +39,7 @@ u16 DAT_800e8dc6=0;
 char** ground_labels=NULL;
 u8 EnvPropBools[][2]={{0,0},{1,0},{1,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},
    {0,0},{0,0},{0,0},{0,0},{0,1},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
-#ifdef DEBUGVER
+#if DEBUGVER
 u16 voxel_index_number=0;
 s16 voxel_index_timer=0;
 voxelObject* voxel_index_pointer=NULL;
@@ -112,7 +112,7 @@ void clear_music_values(u16 ClearAll);
 void clear_music_no_expPak();
 void update_BGM_();
 void FreeZoneEngine(s16 playMusic);
-#ifdef DEBUGVER
+#if DEBUGVER
 void ClearVoxelFlags(Borg9Data *param_1);
 void VoxelIndexPosition(s16 delta,playerData *param_2);
 #endif

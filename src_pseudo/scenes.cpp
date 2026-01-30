@@ -510,7 +510,7 @@ bool Scene::SceneGetLocatorMtx(SceneData *scene,MtxF *mf,s32 i){
   
   if (MAX_LOCATORS >= i){
   if (scene->locators[i] == -1){
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char errBuff [152];
     sprintf(errBuff,"Locator: %d is undefined for %s!\n",i,scene->borg5_char);
     #endif
@@ -558,7 +558,7 @@ bool Scene::SceneGetLocatorPos(SceneData *pScene,vec3f *pos,s32 param_3){
   if (!pScene) CRASH("scene.cpp, SceneGetLocatorPos()","!pScene");
   if (MAX_LOCATORS < param_3) CRASH("scene.cpp, SceneGetLocatorPos()","Locator is greater than MAX_LOCATORS");
   if (pScene->locators[param_3] == -1) { //if you force roog into a fight, it will crash here.
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char acStack_90 [144];
     sprintf(acStack_90,"Locator: %d is undefined for %s!\n",param_3,pScene->borg5_char);
     #endif
@@ -582,7 +582,7 @@ bool Scene::SceneGetLocatorNorm(SceneData *scene,vec3f *out,s32 param_3){
   
   if (MAX_LOCATORS < param_3) CRASH("scene.cpp, SceneGetLocatorNorm()","Locator is greater than MAX_LOCATORS");
   if (scene->locators[param_3] == -1) {
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char errBuff [144];
     sprintf(errBuff,"Locator: %d is undefined for %s!\n",param_3,scene->borg5_char);
     #endif
@@ -625,7 +625,7 @@ bool Scene::SceneGetLocatorAlign(SceneData *scene,vec3f *out,u32 param_3){
   if (MAX_LOCATORS < (int)param_3)// oops, copy-paste oversight
          CRASH("scene.cpp, SceneGetLocatorNorm()","Locator is greater than MAX_LOCATORS");
   if (scene->locators[param_3] == -1) {
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char errrBuff [144];
     sprintf(errrBuff,"Locator: %d is undefined for %s!\n",param_3,scene->borg5_char);
     #endif

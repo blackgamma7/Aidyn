@@ -7,7 +7,7 @@
 #include "armordb.h"
 #include "widgets/textPopup.h"
 
-#ifdef DEBUGVER
+#if DEBUGVER
 char* sFilename= FILENAME;
 #endif
 
@@ -1224,13 +1224,13 @@ SpellInstance * Entity::GetSpell(CharSheet *param_1){
   
   switch(param_1->spellSwitch) {
   case 1:
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (param_1->spellbook == NULL) {CRASH("No spell list (Entity::GetSpell())",sFilename);}
     if (param_1->spellbook->spells == NULL) {CRASH("No pSpellList->pSpell[] (Entity::GetSpell())",sFilename);}
     #endif
     return param_1->spellbook->spells[param_1->currSpell];
   case 2:
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (param_1->armor == NULL) {CRASH("No armor (Entity::GetSpell())",sFilename);}
     if (param_1->armor[0] == NULL) {CRASH("No pArmor[0] (Entity::GetSpell())",sFilename);}
     if (param_1->armor[0]->base.spellCharge == NULL) {CRASH("No pArmor[0]->pSpell (Entity::GetSpell())",sFilename);}
@@ -1238,7 +1238,7 @@ SpellInstance * Entity::GetSpell(CharSheet *param_1){
     temp = &param_1->armor[0]->base;
     break;
   case 3:
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (param_1->armor == NULL) {CRASH("No armor (Entity::GetSpell())",sFilename);}
     if (param_1->armor[1] == NULL) {CRASH("No pArmor[1] (Entity::GetSpell())",sFilename);}
     if (param_1->armor[1]->base.spellCharge == NULL) {CRASH("No pArmor[1]->pSpell (Entity::GetSpell())",sFilename);}
@@ -1246,14 +1246,14 @@ SpellInstance * Entity::GetSpell(CharSheet *param_1){
     temp = &param_1->armor[1]->base;
     break;
   case 4:
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (param_1->weapons == NULL) {CRASH("No weapon (Entity::GetSpell())",sFilename);}
     if (param_1->weapons->base.spellCharge == NULL) {CRASH("No pWeapon->pSpell (Entity::GetSpell())",sFilename);}
     #endif
     temp = &param_1->weapons->base;
     break;
   case 5:
-    #ifdef DEBUGVER
+    #if DEBUGVER
     if (param_1->pItemList == NULL) {CRASH("No pItemList (Entity::GetSpell())",sFilename);}
     if (param_1->pItemList->pItem == NULL) {CRASH("No pItemList->pItem[] (Entity::GetSpell())",sFilename);}
     if (param_1->pItemList->pItem[param_1->currSpell]->base.spellCharge == NULL) {CRASH("No pItemList->pItem[currSpell]->pSpell (Entity::GetSpell())",sFilename);}

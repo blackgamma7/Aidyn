@@ -97,7 +97,7 @@ borgHeader * getBorgItem(s32 index){
   
   memOld = get_memUsed();
   if ((index >= (s32)borgTotal) || (0 > index)){
-    #ifdef DEBUGVER
+    #if DEBUGVER
     char errmsg [96];
     sprintf(errmsg,"item_index_is_out_of_Range(%i/%i)",index,borgTotal - 1);
     #endif

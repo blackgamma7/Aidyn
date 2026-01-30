@@ -39,7 +39,7 @@ void VoxelObjects_Activate(Borg9Data *dat,u8 index){
   set_ranger_float();
   for(u16 i=0;i<dat->voxelObjCount;i++){
       voxelObject *a = dat->voxelObjs + i;
-      #ifdef DEBUGVER
+      #if DEBUGVER
       if (gamestate_cheat_check1(STATECHEAT_appear)) {
         visBool = gamestate_cheat_check2(STATECHEAT_appear);
         if (gExpPakFlag == 0)

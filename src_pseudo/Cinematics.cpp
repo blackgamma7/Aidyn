@@ -202,7 +202,7 @@ u16 Cinematic::Control(void){
     if ((cont->pressed & (START_BUTTON|B_BUTTON))) {
       gGlobals.cinematic.Bstart = 0;
     }
-    #ifdef DEBUGVER //may not be for loop, increment above here.
+    #if DEBUGVER //may not be for loop, increment above here.
     if ((cont->held & A_BUTTON)) delta = 12; //Fast Forward
     if ((cont->held & B_BUTTON)) delta = 1;
     #endif

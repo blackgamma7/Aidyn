@@ -384,7 +384,7 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
          }
       }
   }
-  #ifdef DEBUGVER
+  #if DEBUGVER
   Gsprintf("Finished ProcessAudioBubbles");
   #endif
 }
