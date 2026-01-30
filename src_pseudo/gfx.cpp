@@ -247,8 +247,6 @@ Gfx * Graphics::StartDisplay(Gfx *g,u16 x,u16 y,u16 h,u16 V){
 
 //draws overscan "letterbox" and ends dlist
 Gfx * Graphics::EndList(Gfx *gfx){
-  u16 uVar1;
-  u32 uVar2;
   #ifndef EUVER
   gDPPipeSync(gfx++);
   gDPSetCycleType(gfx++,G_CYC_FILL);

@@ -1,7 +1,8 @@
 #include "typedefs.h"
 
+//struct sent to scheduler. used in appProc
 struct GtaskMsg {
-    u16 unkShort;
+    u16 unkShort; //always 2
     OSScTask *task;
 };
 
@@ -10,6 +11,7 @@ struct GtaskMsg {
 #define SCREEN_CENTERW (SCREEN_WIDTH/2) //half of standard screen width
 #define SCREEN_WIDTH_HI  512 //"Hi-Resolution" screen width
 #define SCREEN_HEIGHT 240 //Height resolution is never changed.
+#define SCREEN_CENTERH (SCREEN_HEIGHT/2) //half of screen height
 #define FBCOUNT 2 //for data with one for each framebuffer
 //for render params that are the entire screenspace
 #define FULL_SCREENSPACE 0,0,SCREEN_WIDTH,SCREEN_HEIGHT
