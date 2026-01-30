@@ -107,7 +107,7 @@ Gfx * FUN_80027bf0(Gfx *g,u16 delta,CharSheet *param_3){
 
 Gfx * Combat_Render(Gfx *gfx,s16 delta){  
   CharSheet *pCVar1 = gCombatP->current_Ent->charSheetP;
-  playerData *player = gGlobals.playerDataArray[gCombatP->current_Ent->index];
+  playerData *player = gGlobals.combatActors[gCombatP->current_Ent->index];
   Gfx *g = gfx;
   g = Graphics::StartDisplay(gfx,FULL_SCREENSPACE);
   if (gGlobals.combatBytes[0] - CombatState_10 < 2) CombatTargetVisuals::Render(true,delta);
@@ -142,8 +142,8 @@ bool FUN_80027eb0(Gfx **GG,u16 param_2){
   ppCVar1 = &gCombatP->current_Ent;
   uVar3 = gCombatP->AniTimer + (u32)param_2;
   gCombatP->AniTimer = uVar3;
-  if (((*ppCVar1 != NULL) && (gGlobals.playerDataArray[(*ppCVar1)->index] != NULL)) &&
-     (gGlobals.playerDataArray[(*ppCVar1)->index]->unk18 == 0)) {
+  if (((*ppCVar1 != NULL) && (gGlobals.combatActors[(*ppCVar1)->index] != NULL)) &&
+     (gGlobals.combatActors[(*ppCVar1)->index]->unk18 == 0)) {
     if (30 <= uVar3) {
       pCVar2->AniTimer = 0;
       return true;
@@ -164,7 +164,7 @@ u8 CombatStateFunc_2(Gfx **GG,u16 delta){
   pCVar2 = gCombatP->current_Ent;
   pCVar3 = (&gCombatP->combatEnts)[bVar1];
   if (FUN_80027eb0(GG,delta)) {
-    PDAT = gGlobals.playerDataArray[bVar1];
+    PDAT = gGlobals.combatActors[bVar1];
     if (PDAT == NULL) return 2;
     if ((pCVar2->throwingFlag) && (gCombatP->substruct2[0].arrayBCount)){
       bVar1 = pCVar2->AtkType;
@@ -208,7 +208,7 @@ void func_keel_over_after_ambush(CombatEntity *param_1,playerData *param_2){
 void FUN_80028180(void){
   CombatEntity *user = gCombatP->current_Ent;
   CombatEntity *target = (&gCombatP->combatEnts)[gCombatP->some_index];
-  playerData *PDAT = gGlobals.playerDataArray[gCombatP->some_index];
+  playerData *PDAT = gGlobals.combatActors[gCombatP->some_index];
   if (user->AtkType == ATKT_Potion) user->FlaskAttack(target,(u16)user->damage);
   if (target->damage == 0) {
     if (user->Flag4() == target->Flag4()) {
@@ -257,7 +257,7 @@ void Combat_ActorDeath(playerData *param_1,u8 param_2,CombatEntity *param_3){
     FUN_80094228(param_1);
     Actor::DeathFlag(param_1);
     pass_to_draw_crossbones(param_1->ent_ID,param_2);
-    gGlobals.playerDataArray[param_2] = NULL;
+    gGlobals.combatActors[param_2] = NULL;
     u8 index = GETINDEX(param_1->ent_ID);
     if (index == EntInd_Shadow) clear_shadow_index();
     if (index == EntInd_Alaron) clear_alaron_index();
@@ -278,16 +278,16 @@ void FUN_800284d4(void){
   bVar1 = gCombatP->some_index;
   pCVar2 = gCombatP->current_Ent;
   cVar5 = gCombatP->substruct2[0].arrayBCount + gCombatP->substruct2[1].arrayBCount;
-  ppVar3 = gGlobals.playerDataArray[bVar1];
+  ppVar3 = gGlobals.combatActors[bVar1];
   pCVar4 = (&gCombatP->combatEnts)[bVar1];
   if ((((cVar5 != '\0') && (ppVar3 != NULL)) && (ppVar3->unk18 == 0)) &&
      (0x3b < (u32)gCombatP->AniTimer)) {
     gCombatP->AniTimer = 0;
     Actor::UnsetFlag(ppVar3,ACTOR_800);
     if (Entity::isDead(pCVar4->charSheetP)) Combat_ActorDeath(ppVar3,bVar1,pCVar4);
-    ppVar3 = gGlobals.playerDataArray[pCVar2->index];
+    ppVar3 = gGlobals.combatActors[pCVar2->index];
     if (ppVar3 == NULL) {
-      ppVar3 = gGlobals.playerDataArray[bVar1];
+      ppVar3 = gGlobals.combatActors[bVar1];
       if (ppVar3) GiveCameraToPlayer(ppVar3);
     }
     else {
@@ -330,7 +330,7 @@ u8 CombatStateFunc_4(Gfx** GG,u16 delta){
 
 u8 CombatStateFunc_5(Gfx **GG,u16 delta){
   CombatEntity *pCVar2 = gCombatP->current_Ent;
-  playerData *ppVar3 = gGlobals.playerDataArray[pCVar2->index];
+  playerData *ppVar3 = gGlobals.combatActors[pCVar2->index];
   Vec3Copy(&(ppVar3->collision).pos,&combatVec3B);
   if ((((u8)(Vec3Dist(&combatVec3B,&combatVec3A)*100.0f)) < 3) || ((ppVar3->borg7P->unk2c).z < NORMALIZE_MIN)) {
     gCombatP->waitTimer-= delta;
@@ -363,9 +363,9 @@ u8 CombatStateFunc_6(Gfx **GG,u16 delta){
   if (user != NULL) {
     uVar1 = (u32)gCombatP->some_index;
     target = (&gCombatP->combatEnts)[uVar1];
-    if (gGlobals.playerDataArray[user->index] == NULL) user->EndTurn();
+    if (gGlobals.combatActors[user->index] == NULL) user->EndTurn();
     else {
-      if ((gGlobals.playerDataArray[user->index]->flags & ACTOR_CANROTATE) == 0) {
+      if ((gGlobals.combatActors[user->index]->flags & ACTOR_CANROTATE) == 0) {
         user->SetPlayerRotate();
         gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
         if (gGlobals.combatBytes[1] == CombatState_8) FUN_800645b4(user->aiP);
@@ -388,7 +388,7 @@ u8 CombatStateFunc_6(Gfx **GG,u16 delta){
 }
 
 u8 CombatStateFunc_7(Gfx **GG,u16 delta){
-  if ((gGlobals.playerDataArray[gCombatP->current_Ent->index]->flags & ACTOR_CANROTATE) == 0) {
+  if ((gGlobals.combatActors[gCombatP->current_Ent->index]->flags & ACTOR_CANROTATE) == 0) {
     gCombatP->current_Ent->SetPlayerRotate();
     gCombatP->current_Ent->m80068dd8();
     gGlobals.combatBytes[0] = CombatState_5;
@@ -650,7 +650,7 @@ void init_combat_struct(void){
     Vec3Set(&combatVec3A,0.0,0.0,0.0);
     Vec3Set(&combatVec3B,0.0,0.0,0.0);
     clear_alaron_shadow_indices();
-    CLEAR(&gGlobals.playerDataArray);
+    CLEAR(&gGlobals.combatActors);
     ALLOC(gCombatP,1745);
     memset_combat_struct(gCombatP);
     //ganerate random encounter if something went wrong.
@@ -663,7 +663,7 @@ void init_combat_struct(void){
       gGlobals.EncounterDat.aniByte = rand_range(0,EncountAni_Run);
       gGlobals.EncounterDat.canFlee = true;
     }
-    for(u8 i=0;i<14;i++) {gGlobals.playerDataArray[i] = 0;}
+    for(u8 i=0;i<14;i++) {gGlobals.combatActors[i] = 0;}
     gGlobals.gameVars.mapDatA = MAPA_Battle;
     gGlobals.gameVars.mapDatC = 0;
     gGlobals.gameVars.mapDatB = (u16)gGlobals.EncounterDat.battlefield;
@@ -675,7 +675,7 @@ void init_combat_struct(void){
     FUN_80067740(gCombatP);
     CSprintf(XsTurn,gCombatP->current_Ent->charSheetP->name);
     copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
-    playerData* ppVar1 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
+    playerData* ppVar1 = gGlobals.combatActors[gCombatP->current_Ent->index];
     if (ppVar1) {
       Camera::SetPos(PHANDLE.camera,&(ppVar1->collision).pos);
       GiveCameraToPlayer(ppVar1);
@@ -758,7 +758,7 @@ void clear_combat_func(){
     CombatMarkers::Free();
     combatgui_free();
     for(i=0;i<14;i++) {
-      ppVar2 = gGlobals.playerDataArray[i];
+      ppVar2 = gGlobals.combatActors[i];
       if (ppVar2) {
         Actor::FreePlayer(ppVar2);
         ppVar2=NULL;;
@@ -781,7 +781,7 @@ void refersh_terrain_check_anidat_alaronMerge(){
   u16 i = 0;
   if (gCombatP->EntCount != 0) {
     do {
-      playerData *pDat = gGlobals.playerDataArray[i];
+      playerData *pDat = gGlobals.combatActors[i];
       if (pDat) {
         switch(pDat->ani_type) {
         case AniType_0:
@@ -822,7 +822,7 @@ void gamecombat_weapon_func(){
   vec3f local_38;
   
   pCVar2 = gCombatP->current_Ent;
-  ppVar3 = gGlobals.playerDataArray[pCVar2->index];
+  ppVar3 = gGlobals.combatActors[pCVar2->index];
   if (ppVar3->borg7P != NULL) {
     if (!Scene::HasLocator(ppVar3->borg7P->sceneDat,(u32)pCVar2->wepLocator)) {
       char txtBuff [0x100];
@@ -839,7 +839,7 @@ void gamecombat_weapon_func(){
     FreeAttachmentFromPlayer(ppVar3,0);
     Scene::SceneGetLocatorPos(ppVar3->borg7P->sceneDat,&vec3f_800f5400,pCVar2->wepLocator);
     bVar1 = gCombatP->some_index;
-    ppVar3 = gGlobals.playerDataArray[bVar1];
+    ppVar3 = gGlobals.combatActors[bVar1];
     if (ppVar3) {
       Vec3Copy(&(ppVar3->collision).pos,&fStack120);
       if (pCVar2->AtkType != ATKT_Potion) {
@@ -906,9 +906,9 @@ void alaron_shadow_merge_attempt(){
       (gGlobals.combatBytes[0] != CombatState_29)) &&
       (gGlobals.combatBytes[0] != CombatState_30)) &&
      ((gGlobals.ShadowIndex != -1 && (gGlobals.AlaronIndex != -1)))) {
-    playerData *shadow = gGlobals.playerDataArray[(&gCombatP->combatEnts)[gGlobals.ShadowIndex]->index];
+    playerData *shadow = gGlobals.combatActors[(&gCombatP->combatEnts)[gGlobals.ShadowIndex]->index];
     if (shadow) {
-      playerData *alaron = gGlobals.playerDataArray[(&gCombatP->combatEnts)[gGlobals.AlaronIndex]->index];
+      playerData *alaron = gGlobals.combatActors[(&gCombatP->combatEnts)[gGlobals.AlaronIndex]->index];
       if ((alaron) &&
          ((shadow->scaleRad + alaron->scaleRad + 0.5f)>
          Vec3Dist(&(shadow->collision).pos,&(alaron->collision).pos))){
@@ -930,8 +930,8 @@ void merge_no_horn(){
     gGlobals.combatBytes[0] = CombatState_29;
     copy_string_to_combat_textbox(gCombatP,ComString(ShadowVanish),0);
     for(u32 i=0;i<gCombatP->EntCount;i++){
-        if((&gCombatP->combatEnts[i])&&(gGlobals.playerDataArray[gCombatP->combatEnts[i].index])){
-            gGlobals.playerDataArray[gCombatP->combatEnts[i].index]->ani_type=AniType_0;
+        if((&gCombatP->combatEnts[i])&&(gGlobals.combatActors[gCombatP->combatEnts[i].index])){
+            gGlobals.combatActors[gCombatP->combatEnts[i].index]->ani_type=AniType_0;
         }
     }
   }
@@ -970,8 +970,8 @@ LAB_8002a304:
             if (!HasHornOfKynon()) prox = SQ(prox);
             if (Entity::getHPCurrent(cEnt->charSheetP) <= prox) goto LAB_8002a304;
             Entity::DamageToLevel(cEnt->charSheetP,(s16)prox,cEnt);
-            if (gGlobals.playerDataArray[cEnt->index])
-                Print_damage_healing(gGlobals.playerDataArray[cEnt->index],prox,0,false,cEnt->charSheetP);
+            if (gGlobals.combatActors[cEnt->index])
+                Print_damage_healing(gGlobals.combatActors[cEnt->index],prox,0,false,cEnt->charSheetP);
           }
         }
       }

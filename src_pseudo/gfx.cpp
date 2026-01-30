@@ -50,8 +50,8 @@ void Graphics::initGfx(OSSched *sched){
   gGfxManager.osvimodeCustom.comRegs.width = 0x200;
   gGfxManager.osvimodeCustom.fldRegs[0].origin = 0x400;
   gGfxManager.osvimodeCustom.comRegs.xScale = 0x333;
-  gGfxManager.taskMsgs[0].unkShort = 2;
-  gGfxManager.taskMsgs[1].unkShort = 2;
+  gGfxManager.taskMsgs[0].state = 2;
+  gGfxManager.taskMsgs[1].state = 2;
   gGfxManager.ram_size = gMemCheckStruct.RamSize;
   gGfxManager.FramebufferSize[0] = gMemCheckStruct.frameBufferSize1;
   gGfxManager.FramebufferSize[1] = gMemCheckStruct.frameBufferSize0;

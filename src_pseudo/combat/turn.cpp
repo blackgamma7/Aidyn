@@ -126,8 +126,8 @@ void CombatTurn::Init(CombatTurn_s *param_1) {
 
 void CombatTurn::FUN_800737b4(CombatEntity *cEnt) {
   if (((!Entity::isDead(cEnt->charSheetP)) && (!cEnt->Flag6())) &&
-     (gGlobals.playerDataArray[cEnt->index]))
-    Actor::UnsetFlag4(gGlobals.playerDataArray[cEnt->index]);
+     (gGlobals.combatActors[cEnt->index]))
+    Actor::UnsetFlag4(gGlobals.combatActors[cEnt->index]);
 }
 
 bool CombatTurn::FUN_8007381c(CombatTurn_s *param_1) {
@@ -217,7 +217,7 @@ bool CombatTurn::IsBattleOver(CombatTurn_s *param_1) {
 
 void CombatTurn::StartTurn(CombatTurn_s *param_1,CombatEntity *param_2,u8 param_3) {
 
-  playerData *pDat = gGlobals.playerDataArray[param_2->index];
+  playerData *pDat = gGlobals.combatActors[param_2->index];
   if (pDat) {
     GiveCameraToPlayer(pDat);
     Camera::SetFeild70(&gGlobals.gameVars.camera,&(pDat->collision).pos);
@@ -315,8 +315,8 @@ void CombatTurn::FUN_80074054(CombatTurn_s *param_1) {
       cEnt->UpdatePosition();
       cEnt->damage = 0;
       cEnt->Healing = 0;
-      if (gGlobals.playerDataArray[i])
-        Actor::UnsetFlag(gGlobals.playerDataArray[i],ACTOR_800|ACTOR_400);
+      if (gGlobals.combatActors[i])
+        Actor::UnsetFlag(gGlobals.combatActors[i],ACTOR_800|ACTOR_400);
       }
   }
 }

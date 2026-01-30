@@ -180,9 +180,9 @@ void processCombatCamera(PlayerHandler *param_1) {
   cam = param_1->camera;
   Camera::SetMode(cam,4);
   if (gCameraCombatStartFlag) {
-    ppVar5 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
+    ppVar5 = gGlobals.combatActors[gCombatP->current_Ent->index];
     if (ppVar5->combatAlly == 0) {
-      ppVar5 = gGlobals.playerDataArray[gCombatP->combatEnts->index];
+      ppVar5 = gGlobals.combatActors[gCombatP->combatEnts->index];
     }
     if (FUN_80096e58(param_1,ppVar5,avStack_238)) FUN_80096f4c(param_1,ppVar5,avStack_238,cam,1);
     gCameraCombatStartFlag = false;
@@ -191,7 +191,7 @@ void processCombatCamera(PlayerHandler *param_1) {
   if (camera_PlayerData_flag == 0) {
     if (param_1->cameraFocus != -1) {
       bVar3 = false;
-      ppVar5 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
+      ppVar5 = gGlobals.combatActors[gCombatP->current_Ent->index];
       if ((ppVar5 != NULL) && (bVar3 = ppVar5->combatAlly == 0, ppVar5->combatAlly != 0)) {
         if ((SHORT_800f1de4 == -1) ||
            (SHORT_800f1de4 != ppVar5->ID)) {

@@ -121,10 +121,10 @@ void AppProc(void *x){
   sVar9 = 0;
   while(1) {
     osRecvMesg(&appManager.MesgQ2,(OSMesg*)ppsStack_3c,1);
-    switch(psStack_40->unkShort){
+    switch(psStack_40->state){
       case 1:{
         if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
-        if (Graphics::ResolutionCheck()) {
+         if (Graphics::ResolutionCheck()) {
           Gsprintf("StartGfxList()");
           gfx0 = Graphics::StartGfxList();
           Gsprintf("HandleAppFrame()");
@@ -158,8 +158,8 @@ void AppProc(void *x){
             osSendMesg(appManager.MesgQ,Graphics::CreateTask(gfx1,&appManager.MesgQ2),1);
             sVar9++;
           }
+         }
         }
-      }
       break;
       }
       case 2:{

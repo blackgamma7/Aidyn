@@ -734,38 +734,46 @@ struct Borg6Struct3{
 struct Borg6Struct2{
     s16 unk0;
     s16 unk2;
-    Borg6Struct3*unk4;
+    Borg6Struct3*struct3;
     s32 unk8;
     u32 unkc;
 };
+
+struct Borg6Struct5 {
+    Borg6Struct2 *struct2;
+    Borg6Struct3 *struct3;
+    float * unk8;
+    u16 unkc;
+};
+
 struct Borg6Struct1{
     u32 borgInd;
     u32 type;//1= Borg5, 2=?,3=?
-    void* unk8;
+    void* unk8; //pointer used sometimes by Borg6Struct4->unk10
     u32 unkc;
-    u32 subCount;
-    Borg6Struct2* sub;
+    u32 struct2Count;
+    Borg6Struct2* struct2;
 };
 struct Borg6Data{
     u32 borg5;
-    s32 subCount;
-    Borg6Struct1* sub;
+    s32 struct1Count;
+    Borg6Struct1* struct1;
     s32 aniLength;
 };
 struct Borg6Struct4{
-    Borg6Struct1* sub;
-    u32 unk4;
-    u32 unk8;
-    void* unkc;
-    void* unk10;
-    u32 unk14;
+    Borg6Struct1* struct1;
+    u32 unk4; //set to 0, unread
+    u32 unk8; //set to 0, unread
+    Borg6Struct5* struct5;
+    void* unk10; //varies
+    u32 unk14; //unused?
 };
 struct Borg6Header {
     borgHeader head;
-    SceneData* unk8;
+    SceneData* sceneDat;
     Borg6Header *link;
     Borg6Header * link2;
-    Borg6Struct4 *structDat;
+    Borg6Struct4 *struct4;
     u32 flag;
     float unk1c; //always 1.0(?)
     Borg6Data *dat;
@@ -824,6 +832,7 @@ struct Borg7Header {
     Borg7AnimChache aniChache;
     Borg7Data dat;
 };
+
 enum Borg9GroundFlags{
     B9Ground_0001=1,
     B9Ground_0002=2,
@@ -877,7 +886,7 @@ struct borg9_phys {
 };
 
 enum B13_Commands{
-    B13Com_SetEnt=3, //set dislougmode_substruct->EntId to (val)
+    B13Com_SetEnt=3, //set dialougmode_substruct->EntId to (val)
     B13Com_CameraCutTo, //instantly move camera to reference point
     B13Com_CutToPOV,//instantly move camera to actor
     B13Com_CameraOn, //point camera to reference point
@@ -1137,7 +1146,7 @@ bool Borg7_TickAnimation(Borg7Header *param_1,int delta);
 u16 Borg7_GetAniTime(Borg7Header *param_1);
 void Borg7_StartParticles(Borg7Header *param_1);
 Gfx * Borg7_Render(Gfx *g,Borg7Header *param_2);
-void FUN_800a0714(struct SceneDatSubstruct *param_1);
+void FUN_800a0714(struct Borg6Struct5 *param_1);
 void FUN_800a0764(Borg6Struct4 *param_1,float param_2);
 void FUN_800a07b0(Borg6Struct4 *param_1,float param_2);
 void FUN_800a0800(Borg6Struct4 *param_1,float param_2);

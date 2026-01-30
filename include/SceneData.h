@@ -1,12 +1,7 @@
 
 #include "n64Borg.h"
 
-struct SceneDatSubstruct {
-    Borg6Struct2 *unk0;
-    Borg6Struct3 *unk4;
-    void * unk8;
-    u16 unkc;
-};
+
 
 #define MAX_LOCATORS 7
 struct SceneData {

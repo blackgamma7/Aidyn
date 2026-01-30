@@ -402,9 +402,9 @@ void borg5_func_a(Borg5Header *b5){
     }
   }
   (b5->dat).instructions = (u16 *)((int)((b5->dat).instructions + 8) + (int)b5);
-  (b5->dat).ParticleDat = (Borg5_particle *)((int)(b5->dat).ParticleDat->unk10 + (int)(b5->dat).ParticleDat);
+  (b5->dat).ParticleDat = (Borg5_particle **)((uintptr_t)&b5->dat.ParticleDat->emmiSpeed + (int)(b5->dat).ParticleDat);
 }
-//These need re-decompiled once the header format is understood.
+
 u8 InitBorgScene(Borg5Header *param_1,void* x){
   Color32 *pCVar1;
   Borg2Data *pBVar2;
@@ -489,7 +489,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
         paVar10++;
       }
       if (bVar4) {
-        size += (sizeof(LookAt)*3);
+        size += (sizeof(LookAt)*3);//3? only 2 used
         pBVar7->lookat[0] = (LookAt *)-1;
         pBVar7->lookat[1] = (LookAt *)-1;
       }
@@ -512,29 +512,25 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
   pbVar21 = (param_1->dat).transforms;
   i = (param_1->dat).transformCount;
   param_1->allocedDat = p;
-  if (i != 0) {
+  while (i != 0) {
     pbVar21->unkStruct = (Borg5Struct2 *)p;
-    while( true ) {
-      pbVar21->unkStruct->unk140.x = 0;
-      pbVar21->unkStruct->unk140.y = 0;
-      pbVar21->unkStruct->unk140.z = 0;
-      pbVar21->unkStruct->unk14c.x = 0;
-      pbVar21->unkStruct->unk14c.y = 0;
-      pbVar21->unkStruct->unk14c.z = 0;
-      pbVar21->unkStruct->unk158.x = 0;
-      pbVar21->unkStruct->unk158.y = 0;
-      pbVar21->unkStruct->unk158.z = 0;
-      pbVar21->unkStruct->unk164.x = 0;
-      pbVar21->unkStruct->unk164.y = 0;
-      pbVar21->unkStruct->unk164.z = 0;
-      p = (void *)((uintptr_t)p + sizeof(Borg5Struct2));
-      i--;
-      guMtxIdent(pbVar21->unkStruct->mtxs);
-      guMtxIdent(pbVar21->unkStruct->mtxs + 1);
-      if (i == 0) break;
-      pbVar21[1].unkStruct = (Borg5Struct2 *)p;
-      pbVar21++;
-    }
+    pbVar21->unkStruct->unk140.x = 0;
+    pbVar21->unkStruct->unk140.y = 0;
+    pbVar21->unkStruct->unk140.z = 0;
+    pbVar21->unkStruct->unk14c.x = 0;
+    pbVar21->unkStruct->unk14c.y = 0;
+    pbVar21->unkStruct->unk14c.z = 0;
+    pbVar21->unkStruct->unk158.x = 0;
+    pbVar21->unkStruct->unk158.y = 0;
+    pbVar21->unkStruct->unk158.z = 0;
+    pbVar21->unkStruct->unk164.x = 0;
+    pbVar21->unkStruct->unk164.y = 0;
+    pbVar21->unkStruct->unk164.z = 0;
+    p = (void *)((uintptr_t)p + sizeof(Borg5Struct2));
+    i--;
+    guMtxIdent(&pbVar21->unkStruct->mtxs[0]);
+    guMtxIdent(&pbVar21->unkStruct->mtxs[1]);
+    pbVar21++;
   }
   if (param_1->dat.borg3P){
     param_1->dat.borg3P->dat.mtx_ = (Mtx *)p;
@@ -572,7 +568,7 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
       pBVar7 = *ppBVar11;
       if (pBVar7->lookat[0]){
         pBVar7->lookat[0] = (LookAt *)p;
-        p = (void *)((uintptr_t)p + sizeof(LookAt)*2);
+        p = (void *)((uintptr_t)p + sizeof(LookAt)*2);//second of third skipped?
         pBVar7 = *ppBVar11;
       }
       pLVar9 = pBVar7->lookat[1];
@@ -587,49 +583,38 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
 }
 
 void borg5_free(Borg5Header *param_1){
-  int memOld;
-  int iVar7;
-  u32 uVar8;
+  int i,j;
   
-  memOld = get_memUsed();
+  s32 memOld = get_memUsed();
   if ((param_1->dat).borg3P) borg3_free((param_1->dat).borg3P);
-  Borg4Header **ppBVar9 = (param_1->dat).borg4p;
-  if ((ppBVar9) && (iVar7 = (param_1->dat).borg4Count, iVar7 != 0)) {
-    Borg4Header *pBVar2 = *ppBVar9;
-    while( true ) {
-      iVar7--;
-      ppBVar9++;
-      Borg4_free(&pBVar2->head);
-      if (iVar7 == 0) break;
-      pBVar2 = *ppBVar9;
+  Borg4Header **b4P = (param_1->dat).borg4p;
+  if (b4P) {
+    i = (param_1->dat).borg4Count;
+    while(i!=0){
+      Borg4Header *b4 = *b4P;
+      i--;
+      b4P++;
+      Borg4_free(&b4->head);
     }
   }
-  Borg2Header **ppBVar10 = (param_1->dat).borg2p;
-  if (ppBVar10){
-    iVar7 = (param_1->dat).borg2Count;
-    if (iVar7 != 0) {
-      Borg2Header *pBVar5 = *ppBVar10;
-      while( true ) {
-        iVar7 += -1;
-        ppBVar10 = ppBVar10 + 1;
-        borg_2_free(pBVar5);
-        if (iVar7 == 0) break;
-        pBVar5 = *ppBVar10;
-      }
+  Borg2Header **b2P = (param_1->dat).borg2p;
+  if (b2P){
+    i = (param_1->dat).borg2Count;
+    while (i != 0) {
+      Borg2Header *b2 = *b2P;
+      i--;
+      b2P++;
+      borg_2_free(b2);
     }
   }
-  Borg1Header **ppBVar11 = (param_1->dat).borg1p;
-  if (ppBVar11){
-    uVar8 = (param_1->dat).borg1Count;
-    if (uVar8 != 0) {
-      Borg1Header *pBVar6 = *ppBVar11;
-      while( true ) {
-        uVar8--;
-        ppBVar11 = ppBVar11 + 1;
-        borg1_free(pBVar6);
-        if (uVar8 == 0) break;
-        pBVar6 = *ppBVar11;
-      }
+  Borg1Header **b1P = (param_1->dat).borg1p;
+  if (b1P){
+    j = (param_1->dat).borg1Count;
+    while (j != 0) {
+      Borg1Header *b1 = *b1P;
+      j--;
+      b1P++;
+      borg1_free(b1);
     }
   }
   if ((param_1->head).index == -1) {
@@ -645,43 +630,42 @@ void borg5_free(Borg5Header *param_1){
   borg_count[5]--;
 }
 
-
 //"borg6": animation/cinematic data
-void borg6_func_a(Borg6Data *param_1){
-  s16 sVar1;
-  s16 sVar2;
+void borg6_func_a(Borg6Data *param_1) {
+  u16 uVar1;
+  u16 uVar2;
   u32 uVar3;
   u32 uVar4;
-  float *pfVar5;
+  Borg6Struct3 *pBVar5;
   Borg6Struct1 *pBVar6;
   Borg6Struct2 *pBVar7;
   int j;
   int i;
   
   i = 0;
-  uVar3 = param_1->subCount;
-  pBVar6 = (Borg6Struct1 *)((int)&param_1->borg5 + (int)&param_1->sub->borgInd);
-  param_1->sub = pBVar6;
+  uVar3 = param_1->struct1Count;
+  pBVar6 = (Borg6Struct1 *)((uintptr_t)&param_1->borg5 + (uintptr_t)&param_1->struct1->borgInd);
+  param_1->struct1 = pBVar6;
   if (0 < (int)uVar3) {
     do {
       j = 0;
       i++;
-      uVar4 = pBVar6->subCount;
-      pBVar7 = (Borg6Struct2 *)((int)&param_1->borg5 + (int)&pBVar6->sub->unk0);
-      pBVar6->sub = pBVar7;
+      uVar4 = pBVar6->struct2Count;
+      pBVar7 = (Borg6Struct2 *)((uintptr_t)&param_1->borg5 + (uintptr_t)&pBVar6->struct2->unk0);
+      pBVar6->struct2 = pBVar7;
       if (0 < (int)uVar4) {
         do {
           j++;
-          pfVar5 = (float *)((int)pBVar7->unk4 + (int)param_1);
-          pBVar7->unk4 = pfVar5;
-          sVar1 = *(s16 *)pfVar5;
-          pfVar5[1] = (float)((int)&param_1->borg5 + (int)pfVar5[1]);
-          sVar2 = pBVar7->unk0;
-          pBVar7 = pBVar7 + 1;
-          while (sVar1 != sVar2) {
-            sVar1 = *(s16 *)(pfVar5 + 2);
-            pfVar5[3] = (float)((int)&param_1->borg5 + (int)pfVar5[3]);
-            pfVar5 = pfVar5 + 2;
+          pBVar5 = (Borg6Struct3 *)((uintptr_t)&param_1->borg5 + (uintptr_t)&pBVar7->struct3->unk0);
+          pBVar7->struct3 = pBVar5;
+          uVar1 = pBVar5->unk0;
+          pBVar5->unk4 = (float *)((uintptr_t)pBVar5->unk4 + (uintptr_t)param_1);
+          uVar2 = pBVar7->unk0;
+          pBVar7++;
+          while (uVar1 != uVar2) {
+            uVar1 = pBVar5[1].unk0;
+            pBVar5[1].unk4 = (float *)((uintptr_t)pBVar5[1].unk4 + (uintptr_t)param_1);
+            pBVar5++;
           }
         } while (j < (int)uVar4);
       }
@@ -690,120 +674,115 @@ void borg6_func_a(Borg6Data *param_1){
   }
 }
 
-u8 borg6_func_b(Borg6Header *param_1,Borg6Data *param_2){
+u8 borg6_func_b(Borg6Header *head,Borg6Data *dat) {
   u32 uVar1;
-  float *pfVar2;
+  Borg6Struct3 *pBVar2;
   Borg6Struct1 *pBVar3;
-  void *pvVar4;
-  Borg6Struct4 *pBVar6;
-  int *piVar7;
-  u32 *puVar8;
-  u32 *puVar9;
-  u32 uVar10;
-  u32 *puVar11;
-  u16 uVar12;
-  Borg6Struct2 *pBVar13;
-  int iVar14;
-  int iVar15;
-  int iVar16;
-  u32 size;
-  u32 uVar17;
+  Borg6Struct5 *pSVar4;
+  Borg6Struct4 *pBVar5;
+  Borg6Struct5 *piVar7;
+  float *pfVar5;
+  float *paVar6;
+  u32 uVar7;
+  float *pfVar8;
+  u16 uVar9;
+  Borg6Struct2 *pBVar10;
+  int iVar11;
+  int j;
+  int i;
+  uint size;
+  float fVar14;
   
   size = 0;
-  iVar16 = 0;
-  uVar1 = param_2->subCount;
-  param_1->dat = param_2;
-  param_1->flag = 0;
-  param_1->unk1c = 1.0;
-  pBVar6 = (Borg6Struct4 *)HALLOC(param_2->subCount * sizeof(Borg6Struct4),2064);
-  param_1->structDat = pBVar6;
-  uVar1 = param_1->dat->subCount;
-  pBVar3 = param_1->dat->sub;
-  if (0 < (int)uVar1) {
+  i = 0;
+  head->dat = dat;
+  head->flag = 0;
+  head->unk1c = 1.0f;
+  pBVar5 = (Borg6Struct4 *)HALLOC(dat->struct1Count * sizeof(Borg6Struct4),2064);
+  head->struct4 = pBVar5;
+  pBVar3 = head->dat->struct1;
+  if (0 < (int)head->dat->struct1Count) {
     do {
-      uVar10 = pBVar3->subCount;
-      pBVar6->sub = pBVar3;
-      pBVar6->unk4 = 0;
-      pBVar6->unk8 = 0;
-      piVar7 = (int *)HALLOC(uVar10 << 4,2081);
-      iVar16 += 1;
-      pBVar13 = pBVar3->sub;
-      pBVar6->unk10 = (void *)pBVar3->unk8;
-      uVar10 = pBVar3->subCount;
-      pBVar6->unkc = piVar7;
-      if (0 < (int)uVar10) {
+      uVar7 = pBVar3->struct2Count;
+      pBVar5->struct1 = pBVar3;
+      pBVar5->unk4 = 0;
+      pBVar5->unk8 = 0;
+      piVar7 = (Borg6Struct5 *)HALLOC(uVar7 *sizeof(Borg6Struct5),2081);
+      i++;
+      pBVar10 = pBVar3->struct2;
+      pBVar5->unk10 = (void *)pBVar3->unk8;
+      uVar7 = pBVar3->struct2Count;
+      pBVar5->struct5 = piVar7;
+      if (0 < (int)uVar7) {
         do {
-          size += 0x10;
-          pfVar2 = pBVar13->unk4;
-          uVar10 -= 1;
-          *piVar7 = (int)pBVar13;
-          pBVar13 = pBVar13 + 1;
-          *(u16 *)(piVar7 + 3) = 1;
-          piVar7[1] = (int)pfVar2;
-          piVar7 = piVar7 + 4;
-        } while (uVar10 != 0);
+          size+= sizeof(float)*4;
+          pBVar2 = pBVar10->struct3;
+          uVar7--;
+          piVar7->struct2 = pBVar10;
+          pBVar10++;
+          piVar7->unkc = 1;
+          piVar7->struct3 = pBVar2;
+          piVar7++;
+        } while (uVar7 != 0);
       }
-      pBVar6 = pBVar6 + 1;
-      pBVar3 = pBVar3 + 1;
-    } while (iVar16 < (int)uVar1);
+      pBVar5++;
+      pBVar3++;
+    } while (i < (int)head->dat->struct1Count);
   }
-  puVar8 = (u32 *)HALLOC(size,0x87d);
-  iVar16 = 0;
-  uVar1 = param_1->dat->subCount;
-  pBVar3 = param_1->dat->sub;
-  pBVar6 = param_1->structDat;
-  if (0 < (int)uVar1) {
+  pfVar5 = (float *)HALLOC(size,2173);
+  i = 0;
+  pBVar3 = head->dat->struct1;
+  pBVar5 = head->struct4;
+  if (0 < (int)head->dat->struct1Count) {
     do {
-      iVar15 = 0;
-      iVar16 += 1;
-      uVar10 = pBVar3->subCount;
-      puVar9 = puVar8;
-      pvVar4 = pBVar6->unkc;
-      pBVar13 = pBVar3->sub;
-      if (0 < (int)uVar10) {
+      j = 0;
+      i++;
+      uVar7 = pBVar3->struct2Count;
+      paVar6 = pfVar5;
+      pSVar4 = pBVar5->struct5;
+      pBVar10 = pBVar3->struct2;
+      if (0 < (int)uVar7) {
         do {
-          iVar14 = 4;
-          iVar15 += 1;
-          pfVar2 = pBVar13->unk4;
-          puVar8 = puVar9 + 4;
-          *(u32 **)((int)pvVar4 + 8) = puVar9;
-          uVar12 = *(u16 *)((int)pfVar2 + 2);
-          puVar11 = (u32 *)pfVar2[1];
+          iVar11 = 4;
+          j++;
+          pBVar2 = pBVar10->struct3;
+          pfVar5 = paVar6 + 1;
+          pSVar4->unk8 = paVar6;
+          uVar9 = pBVar2->unk2;
+          pfVar8 = pBVar2->unk4;
           do {
-            if ((uVar12 & 1) == 0) {
-              *puVar9 = 0;
-            }
+            if ((uVar9 & 1) == 0) *paVar6 = 0.0;
             else {
-              uVar17 = *puVar11;
-              puVar11 = puVar11 + 1;
-              *puVar9 = uVar17;
+              *paVar6 = *pfVar8;
+              pfVar8++;
             }
-            uVar12 = (s16)uVar12 >> 1;
-            iVar14 += -1;
-            puVar9 = puVar9 + 1;
-          } while (iVar14 != 0);
-          puVar9 = puVar8;
-          pvVar4 = (void *)((int)pvVar4 + 0x10);
-          pBVar13 = pBVar13 + 1;
-        } while (iVar15 < (int)uVar10);
+            uVar9>>=1;
+            iVar11--;
+            paVar6++;
+          } while (iVar11 != 0);
+          paVar6 = pfVar5;
+          pSVar4++;
+          pBVar10++;
+        } while (j < (int)uVar7);
       }
-      pBVar3 = pBVar3 + 1;
-      pBVar6 = pBVar6 + 1;
-    } while (iVar16 < (int)uVar1);
+      pBVar3++;
+      pBVar5++;
+    } while (i < (int)head->dat->struct1Count);
   }
-  param_1->link = NULL;
-  param_1->link2 = NULL;
+  head->link = NULL;
+  head->link2 = NULL;
   return false;
 }
 
 void borg_6_free(Borg6Header *param_1){
   int iVar1 = get_memUsed();
-  if (param_1->structDat) {
-    HFREE(param_1->structDat->sub->unk8,2263);
-    for(u32 i=0;i<param_1->dat->subCount;i++){
-      HFREE(param_1->structDat->unkc[i],2269);
+  if (param_1->struct4) {
+    HFREE(param_1->struct4->struct1->unk8,2263);
+    for(u32 i=0;i<param_1->dat->struct1Count;i++){
+      //???
+      HFREE((void*)((uintptr_t)&param_1->struct4->struct5+(i*sizeof(Borg6Struct4))),2269);
     }
-    HFREE(param_1->structDat,2272);
+    HFREE(param_1->struct4,2272);
   }
   if (param_1->head.index == -1) HFREE(param_1->dat,2277);
   else dec_borg_count(param_1->head.index);

@@ -3,6 +3,7 @@
 #include "voxelChart.h"
 #include "vobjects.h"
 #include "combat/CombatStruct.h"
+#include "combat/Visuals.h"
 #define FILENAME "./src/zoneengine.cpp"
 
 #if DEBUGVER //some sprintf calls not found in retail version
@@ -569,7 +570,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
      (uVar21 = 1, MAPCENTER.borg9_id == 0)) {
     playerData* ppVar9 = gPlayer;
     if (gGlobals.gameStateA == GameStateA_Combat) {
-      ppVar9 = gGlobals.playerDataArray[gCombatP->current_Ent->index];
+      ppVar9 = gGlobals.combatActors[gCombatP->current_Ent->index];
     }
     Gsprintf("Center scene not in Borg.\nPlayer Pos: (%3.4f, %3.4f)\nNew Grid: %d-%c%02d",
       (ppVar9->collision).pos.x,(ppVar9->collision).pos.z,gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1 - 1 + 'A',gGlobals.gameVars.mapShort2);
@@ -872,9 +873,9 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
     }
   }
   if (MINIMAP.active) {
-    MINIMAP.savedPlayerPos.x = ((gPlayer)->collision).pos.x;
-    MINIMAP.savedPlayerPos.y = ((gPlayer)->collision).pos.y;
-    MINIMAP.savedPlayerPos.z = ((gPlayer)->collision).pos.z;
+    MINIMAP.savedPlayerPos.x = gPlayer->collision.pos.x;
+    MINIMAP.savedPlayerPos.y = gPlayer->collision.pos.y;
+    MINIMAP.savedPlayerPos.z = gPlayer->collision.pos.z;
     MINIMAP.UpdateSection(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
   }
 }

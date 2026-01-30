@@ -2,7 +2,7 @@
 
 //struct sent to scheduler. used in appProc
 struct GtaskMsg {
-    u16 unkShort; //always 2
+    u16 state;
     OSScTask *task;
 };
 

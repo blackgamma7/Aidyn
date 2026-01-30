@@ -86,8 +86,8 @@ void Combat_menu_C_Up(){
     gCombatCVertMenu->Tick();
   }
   else gCombatCVertMenu =combat_text_No_use("No potions or item spells available");
-  if (gGlobals.playerDataArray[gCombatP->current_Ent->index])
-    gGlobals.playerDataArray[gCombatP->current_Ent->index]->ani_type = 0;
+  if (gGlobals.combatActors[gCombatP->current_Ent->index])
+    gGlobals.combatActors[gCombatP->current_Ent->index]->ani_type = 0;
 }
 
 void combat_menu_C_down(){
@@ -110,8 +110,8 @@ void combat_menu_C_down(){
     gCombatCVertMenu->Tick();
   }
   else gCombatCVertMenu = combat_text_No_use("No spells or skills available");
-  if (gGlobals.playerDataArray[gCombatP->current_Ent->index]) {
-    gGlobals.playerDataArray[gCombatP->current_Ent->index]->ani_type = 0;
+  if (gGlobals.combatActors[gCombatP->current_Ent->index]) {
+    gGlobals.combatActors[gCombatP->current_Ent->index]->ani_type = 0;
   }
 }
 

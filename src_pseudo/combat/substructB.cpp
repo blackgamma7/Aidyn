@@ -2,8 +2,8 @@
 #include "globals.h"
 
 void giveCameratoThisPlayer(u8 X){
-  if (gGlobals.playerDataArray[X]) 
-    GiveCameraToPlayer(gGlobals.playerDataArray[X]);
+  if (gGlobals.combatActors[X]) 
+    GiveCameraToPlayer(gGlobals.combatActors[X]);
 }
 
 void init_combat_substruct2(CombatSubstructB *X,s8 N) {
@@ -194,7 +194,7 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
     giveCameratoThisPlayer(param_1->entindex);
   }
   else {
-    ppVar2 = gGlobals.playerDataArray[param_2->index];
+    ppVar2 = gGlobals.combatActors[param_2->index];
     Vec2Set(avStack_270,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
     Vec2Set(avStack_230,avStack_270[0].x + (ppVar2->facing).x,avStack_270[0].y + (ppVar2->facing).y);
     memset(abStack_b0,0,4);
@@ -207,7 +207,7 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
     if (gCombatP->EntCount != 0) {
       for(uVar8 = 0;uVar8 < gCombatP->EntCount;uVar8++) {
         if ((param_1->arrayA[uVar8]) && (uVar8 != param_2->index)) {
-          ppVar2 = gGlobals.playerDataArray[uVar8];
+          ppVar2 = gGlobals.combatActors[uVar8];
           Vec2Set(&afStack496,ppVar2->collision.pos.x,ppVar2->collision.pos.z);
           fVar9 = big_vec2_math_func(avStack_270,avStack_230,&afStack496);
           fVar10 = three_vec2_proximities(avStack_270,avStack_230,&afStack496);
@@ -325,7 +325,7 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
 
 
 void FUN_80072eb4(CombatSubstructB *param_1,u8 param_2){
-  playerData* p= gGlobals.playerDataArray[param_2];
+  playerData* p= gGlobals.combatActors[param_2];
   if (p) {
     (gCombatP->SpellMarkerPos).x = p->collision.pos.x;
     (gCombatP->SpellMarkerPos).y = p->collision.pos.z;
@@ -373,7 +373,7 @@ void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2){
   float afStack_a8 [16];
   vec2f avStack_68 [13];
   
-  ppVar2 = gGlobals.playerDataArray[param_2->index];
+  ppVar2 = gGlobals.combatActors[param_2->index];
   if (ppVar2) {
     Vec2Set(avStack_128,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
     uVar8 = 0;
@@ -382,7 +382,7 @@ void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2){
       iVar4 = 0;
       for(i=0;i < gCombatP->EntCount;i++) {
         if (param_1->arrayA[i]){
-          playerData* p= gGlobals.playerDataArray[i];
+          playerData* p= gGlobals.combatActors[i];
           if(p){
           Vec2Set(avStack_68,p->collision.pos.x,p->collision.pos.z);
           afStack_a8[uVar8] = Vec2Dist(avStack_68,avStack_128);

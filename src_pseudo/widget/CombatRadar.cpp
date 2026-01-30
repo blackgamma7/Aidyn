@@ -35,7 +35,7 @@ u8 WidgetCombatRadar::Tick(){
 
 int FUN_80097674(playerData *p){
   for(u32 i=0;i<gCombatP->EntCount;i++){
-    if (gGlobals.playerDataArray[i]==p) return gCombatP->substruct2[1].arrayB[i];
+    if (gGlobals.combatActors[i]==p) return gCombatP->substruct2[1].arrayB[i];
   }
   return 0;
 }

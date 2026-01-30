@@ -94,7 +94,7 @@ void Combat_GetSpawnPoint(CombatStruct *param_1,u8 *posx,u8 *posz,u8 *rand,u8 pa
 void combatEnt_setup(CombatStruct *param_1,u8 index){
   CombatEntity *C_Ent = (&param_1->combatEnts)[index];
   C_Ent->SetMovementRange();
-  playerData *pDat = gGlobals.playerDataArray[index];
+  playerData *pDat = gGlobals.combatActors[index];
   if (pDat) {
     FUN_80094228(pDat);
     FUN_80096048(pDat);
@@ -452,7 +452,7 @@ bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y
     for(u32 i=0;i<param_1->EntCount;i++) {
       CombatEntity *cEnt = &param_1->combatEnts[i];
       if (cEnt){
-        playerData *pDat = gGlobals.playerDataArray[(cEnt)->index];
+        playerData *pDat = gGlobals.combatActors[(cEnt)->index];
         if (pDat){
           Vec2Set(&tempB,(pDat->collision).pos.x,(pDat->collision).pos.z);
           if (Vec2Dist(&tempA,&tempB) <= pDat->scaleRad + radius * scale) {

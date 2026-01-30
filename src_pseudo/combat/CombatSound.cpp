@@ -4,7 +4,7 @@
 s8 FUN_80090cd0(playerData *param_1) {
   if (gGlobals.gameStateA != GameStateA_Combat) return -1;
   for(u16 i=0;i<gCombatP->EntCount;i++){
-    if(param_1==gGlobals.playerDataArray[i]) return i;
+    if(param_1==gGlobals.combatActors[i]) return i;
   }
   return -1;
 }

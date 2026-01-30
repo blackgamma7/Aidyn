@@ -3,11 +3,6 @@
 #define FILENAME "./src/n64BorgDCMModule.cpp"
 
 void borg12_func_a(Borg12Data *param_1) {
-  Borg11Data *pBVar1;
-  u32 uVar3;
-  Borg11Header *pBVar4;
-  u32 i;
-  u32 uVar6;
   SetPointer(param_1,instrumentsI);
   SetPointer(param_1,sub.ptr0x18);
   SetPointer(param_1,sub.channelDat);

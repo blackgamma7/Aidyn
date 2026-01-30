@@ -44,6 +44,7 @@ enum GameModeType{
     GameMode_Combat, //in-battle
     GameMode_Title //attract mode/flycam
 };
+
 struct GlobalsSub { /* 0x800e6988 in Debug version*/
     ZoneDat ZoneDatMtx[3][3];
     Borg9Data *borg9DatPointer;
@@ -145,7 +146,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     SFX_Struct SFXStruct;
     u8 combatBytes[4];
     EncounterDat EncounterDat;
-    playerData *playerDataArray[14]; //combat actors 
+    playerData *combatActors[14];
     vec3f combatCursorPos;
     s8 ShadowIndex;
     s8 AlaronIndex;
@@ -158,7 +159,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     vec3f MoonPos;
     u8 unk14b8[8];
     Borg8Header *portraitBorder;
-    u8 pauseMenuState;
+    u8 pauseMenuState; //uses "PauseMenuState" enum
     BaseWidget *barterMenu;
     PauseWidget *BigAssMenu; /* Hey, that's what the devs called it */
     u8 cinematicReplay;

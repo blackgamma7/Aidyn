@@ -1451,7 +1451,7 @@ void Entity::CheckDeathFromDoT(CharSheet *param_1,s16 param_2,s16 param_3,Combat
   u8 bVar2;
   
   if ((param_4) &&
-     (ppVar1 = gGlobals.playerDataArray[param_4->index], ppVar1)) {
+     (ppVar1 = gGlobals.combatActors[param_4->index], ppVar1)) {
     Print_damage_healing(ppVar1,param_2,param_3,isDead(param_1),param_1);
     if (isDead(param_1)) {
       param_4->Death();

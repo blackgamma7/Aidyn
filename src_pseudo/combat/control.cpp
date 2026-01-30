@@ -65,8 +65,8 @@ void cancel_combat_action(){
     (gCombatP->SpellMarkerPos).y = gCombatP->current_Ent->GetCoordY();
     FUN_80072454(gCombatP->substruct2,gCombatP->current_Ent);
     FUN_80072454(gCombatP->substruct2 + 1,gCombatP->current_Ent);
-    if (gGlobals.playerDataArray[gCombatP->current_Ent->index] != NULL) {
-      GiveCameraToPlayer(gGlobals.playerDataArray[gCombatP->current_Ent->index]);
+    if (gGlobals.combatActors[gCombatP->current_Ent->index] != NULL) {
+      GiveCameraToPlayer(gGlobals.combatActors[gCombatP->current_Ent->index]);
     }
   }
 }
@@ -149,8 +149,8 @@ void FUN_8008d5f8(void){
   }
   if (bVar3) {
     CombatEntity *pCVar1 = gCombatP->current_Ent;
-    if (gGlobals.playerDataArray[pCVar1->index]){
-      GiveCameraToPlayer(gGlobals.playerDataArray[pCVar1->index]);
+    if (gGlobals.combatActors[pCVar1->index]){
+      GiveCameraToPlayer(gGlobals.combatActors[pCVar1->index]);
     }
     pCVar1->charSheetP->spellVal = 0;
     if (gCombatP->some_index == pCVar1->index)
@@ -174,8 +174,8 @@ void FUN_8008d718(void){
     clear_combat_substruc2(gCombatP->substruct2 + 1);
     clear_ArrayA(gCombatP->substruct2);
     CombatEntity *pCVar1 = gCombatP->current_Ent;
-    if (gGlobals.playerDataArray[pCVar1->index] != NULL) {
-      GiveCameraToPlayer(gGlobals.playerDataArray[pCVar1->index]);
+    if (gGlobals.combatActors[pCVar1->index] != NULL) {
+      GiveCameraToPlayer(gGlobals.combatActors[pCVar1->index]);
     }
     if (gCombatP->some_index == pCVar1->index)
       gGlobals.combatBytes[0] = CombatState_6;
@@ -224,9 +224,9 @@ void FUN_8008d9d4(CombatSubstructB *param_1,CombatEntity *param_2){
     fStack88.x = param_2->GetCoordX() - pCVar1->GetCoordX();
     fStack88.y = param_2->GetCoordY() - pCVar1->GetCoordY();
     Vec2Normalize(&fStack88);
-    Actor::SetFacing(gGlobals.playerDataArray[param_2->index],fStack88.x,fStack88.y);
-    if (gGlobals.playerDataArray[pCVar1->index])
-      GiveCameraToPlayer(gGlobals.playerDataArray[pCVar1->index]);
+    Actor::SetFacing(gGlobals.combatActors[param_2->index],fStack88.x,fStack88.y);
+    if (gGlobals.combatActors[pCVar1->index])
+      GiveCameraToPlayer(gGlobals.combatActors[pCVar1->index]);
   }
 }
 
@@ -318,7 +318,7 @@ bool FUN_8008dcfc(controller_aidyn *cont,u16 param_2){
     if ((x == (gCombatP->SpellMarkerPos).x) && (y == (gCombatP->SpellMarkerPos).y)) {
       return false;
     }
-    ppVar2 = gGlobals.playerDataArray[pCVar1->index];
+    ppVar2 = gGlobals.combatActors[pCVar1->index];
     if (ppVar2 != NULL) {
       Vec2Set(&fStack88,(ppVar2->collision).pos.x,(ppVar2->collision).pos.z);
       Vec2Set(&fStack152,x - fStack88.x,y - fStack88.y);
@@ -362,10 +362,10 @@ void FUN_8008e0c4(CombatSubstructB *param_1){
   for(u16 i=0;i<gCombatP->EntCount;i++){
     if(param_1->arrayA[i]){
       CombatEntity* cEnt=&gCombatP->combatEnts[i];
-      if((cEnt)&&(gGlobals.playerDataArray[cEnt->index])){
+      if((cEnt)&&(gGlobals.combatActors[cEnt->index])){
         Vec2Set(&playerPos,
-          (gGlobals.playerDataArray[cEnt->index]->collision).pos.x,
-          (gGlobals.playerDataArray[cEnt->index]->collision).pos.z);
+          (gGlobals.combatActors[cEnt->index]->collision).pos.x,
+          (gGlobals.combatActors[cEnt->index]->collision).pos.z);
           float fVar6=Vec2Dist(&playerPos,&markerPos);
           if ((fVar6 <= 1.0f) && (fVar6 <= proxMin)) {
           clear_substruct2_arrayB(param_1);
@@ -400,7 +400,7 @@ void combat_control_case_0x12(controller_aidyn *cont,u8 param_2){
       }
       else {
         FUN_8008d9d4(gCombatP->substruct2,pCVar3);
-        ppVar4 = gGlobals.playerDataArray
+        ppVar4 = gGlobals.combatActors
                  [(&gCombatP->combatEnts)[gCombatP->substruct2[0].entindex]->index];
         if (ppVar4) {
           (gCombatP->SpellMarkerPos).x = (ppVar4->collision).pos.x;
@@ -438,7 +438,7 @@ bool combat_control_case_1(controller_aidyn *cont){
   }
   Ent = gCombatP->current_Ent;
   if (Ent->aiP == NULL) {
-    p = gGlobals.playerDataArray[Ent->index];
+    p = gGlobals.combatActors[Ent->index];
     if (((cont->pressed & C_UP) == 0) && (p != NULL)) Actor::Move(p,cont);
     Ent->m80068924();
     if ((cont->held & R_BUTTON)) return false;
@@ -455,10 +455,10 @@ bool combat_control_case_1(controller_aidyn *cont){
         return false;
       }
       FUN_80072698(gCombatP->substruct2,Ent);
-      if (gGlobals.playerDataArray[(u8)gCombatP->substruct2[0].entindex] == NULL) {
+      if (gGlobals.combatActors[(u8)gCombatP->substruct2[0].entindex] == NULL) {
         return false;
       }
-      GiveCameraToPlayer(gGlobals.playerDataArray[(u8)gCombatP->substruct2[0].entindex]);
+      GiveCameraToPlayer(gGlobals.combatActors[(u8)gCombatP->substruct2[0].entindex]);
       return false;
     }
     if ((cont->pressed & (Z_BUTTON|L_BUTTON)) == 0) {
@@ -473,7 +473,7 @@ bool combat_control_case_1(controller_aidyn *cont){
 void combat_control_case_5(controller_aidyn *cont){
   playerData *ppVar1;
   if ((((!combat_control_press_start(cont)) && ((cont->pressed & A_BUTTON))) && (gCombatP->current_Ent)) &&
-     ((ppVar1 = gGlobals.playerDataArray[gCombatP->current_Ent->index], ppVar1 != NULL &&
+     ((ppVar1 = gGlobals.combatActors[gCombatP->current_Ent->index], ppVar1 != NULL &&
       ((ppVar1->flags & ACTOR_CANMOVE) != 0)))) {
     FUN_80019b08(ppVar1);
   }
@@ -482,7 +482,7 @@ void combat_control_case_5(controller_aidyn *cont){
 void combat_control_case_6(controller_aidyn *cont,u8 x){
   if (!combat_control_press_start(cont)){
     CombatEntity *pCVar1=gCombatP->current_Ent;
-    if((pCVar1)&&(gGlobals.playerDataArray[pCVar1->index])&&(gGlobals.playerDataArray[pCVar1->index]->flags & ACTOR_CANROTATE))
+    if((pCVar1)&&(gGlobals.combatActors[pCVar1->index])&&(gGlobals.combatActors[pCVar1->index]->flags & ACTOR_CANROTATE))
     pCVar1->SetPlayerRotate();
   }
 }

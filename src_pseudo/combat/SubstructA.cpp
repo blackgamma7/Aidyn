@@ -238,7 +238,7 @@ bool FUN_800716b4(CombatSubstructA *param_1,vec3f *param_2,vec3f *param_3,u8 par
         if ((((i != param_4) && (i != param_5)) &&
             (cEnt = (&gCombatP->combatEnts)[i], cEnt != NULL)) &&
            ((!Entity::isDead(cEnt->charSheetP) &&(!cEnt->Flag6())))) {
-          playerData *pDat = gGlobals.playerDataArray[i];
+          playerData *pDat = gGlobals.combatActors[i];
           Vec3Copy(&(pDat->collision).pos,&afStack128);
           Vec3Sub(&fStack192,&afStack128,param_2);
           float dot = Vec3Dot(&afStack320,&fStack192);

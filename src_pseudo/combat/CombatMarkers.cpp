@@ -52,7 +52,7 @@ void CombatMarkers::Create(CombatEntity *param_1){
   float fVar16;
   vec3f pos;
   
-  playerData *pDat = gGlobals.playerDataArray[param_1->index];
+  playerData *pDat = gGlobals.combatActors[param_1->index];
   param_1->SetMovementRange();
   float fVar16 = (float)param_1->moveRange + pDat->scaleRad;
   if (param_1->aiP != NULL) fVar16 += pDat->scaleRad;

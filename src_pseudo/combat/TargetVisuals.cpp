@@ -39,7 +39,7 @@ void CombatTargetVisuals::Render(bool param_1,s16 delta) {
           CombatEntity *cEnt = &gCombatP->combatEnts[i];
           if (((cEnt) && (!cEnt->Flag6())) &&
              (!Entity::isDead(cEnt->charSheetP))) {
-            entry->playerdat_ = gGlobals.playerDataArray[gCombatP->combatEnts[i].index];
+            entry->playerdat_ = gGlobals.combatActors[gCombatP->combatEnts[i].index];
             if (entry->playerdat_) FUN_80017388(entry->playerdat_,0.0);
           }
         }
@@ -52,7 +52,7 @@ void CombatTargetVisuals::Render(bool param_1,s16 delta) {
         if (__sinf((float)entry->time * ThreeDegToRad) < 0.0)
           gray = -__sinf((float)entry->time * ThreeDegToRad);
         else gray = __sinf((float)entry->time * ThreeDegToRad);
-        entry->playerdat_ = gGlobals.playerDataArray[gCombatP->combatEnts[i].index];;
+        entry->playerdat_ = gGlobals.combatActors[gCombatP->combatEnts[i].index];;
         if (entry->playerdat_) FUN_80017330(entry->playerdat_,1.0,gray,gray,gray);
         entry->time+= delta;
       }

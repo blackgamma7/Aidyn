@@ -302,7 +302,7 @@ void CombatEntity::Coord2IsCoord(){
   this->coord2.y = this->coord.y;}
 
 void CombatEntity::m80068924(){
-  playerData *pDat = gGlobals.playerDataArray[this->index];
+  playerData *pDat = gGlobals.combatActors[this->index];
   if (pDat) {
     vec2f pos,face;
     Vec2Set(&pos,this->coord.x,this->coord.y);
@@ -391,7 +391,7 @@ u8 CombatEntity::CheckBackstab(CombatEntity *param_2){
 
 
 void CombatEntity::m80068dd8(){
-  playerData *ppVar1 = gGlobals.playerDataArray[this->index];
+  playerData *ppVar1 = gGlobals.combatActors[this->index];
   if (ppVar1) {
     Actor::SetAiDest(ppVar1,this->coord.x + ppVar1->scaleRad,
       this->coord.y + ppVar1->scaleRad,ppVar1->scaleRad,0);
@@ -399,9 +399,9 @@ void CombatEntity::m80068dd8(){
 }
 
 void CombatEntity::m80068e38(){
-  if (gGlobals.playerDataArray[this->index]) {
+  if (gGlobals.combatActors[this->index]) {
     if ((this->facing.x != 0.0) || (this->facing.y != 0.0)) {
-      Actor::SetFacing(gGlobals.playerDataArray[this->index],-this->facing.x,-this->facing.y);
+      Actor::SetFacing(gGlobals.combatActors[this->index],-this->facing.x,-this->facing.y);
     }
     gGlobals.combatBytes[1] = gGlobals.combatBytes[0];
     gGlobals.combatBytes[0] = CombatState_6;
@@ -417,8 +417,8 @@ void CombatEntity::FaceTarget(CombatEntity *param_2){
   gGlobals.combatBytes[0] = CombatState_6;
   gGlobals.combatBytes[1] = CombatState_6;
   if (param_2 != this) {
-    ppVar1 = gGlobals.playerDataArray[this->index];
-    ppVar2 = gGlobals.playerDataArray[param_2->index];
+    ppVar1 = gGlobals.combatActors[this->index];
+    ppVar2 = gGlobals.combatActors[param_2->index];
     if ((ppVar1) && (ppVar2)) {
       this->facing.x = (ppVar2->collision).pos.x- (ppVar1->collision).pos.x;
       this->facing.y = (ppVar2->collision).pos.z - (ppVar1->collision).pos.z;
@@ -431,7 +431,7 @@ void CombatEntity::FaceTarget(CombatEntity *param_2){
 }
 
 void CombatEntity::TeleportMovePlayer(){
-  playerData *pDat = gGlobals.playerDataArray[this->index];
+  playerData *pDat = gGlobals.combatActors[this->index];
   if (pDat) {
     (pDat->collision).pos.x = this->coord.x + pDat->scaleRad;
     (pDat->collision).pos.z = this->coord.y + pDat->scaleRad;
@@ -443,7 +443,7 @@ void CombatEntity::SetPlayerRotate(){
   playerData *ppVar1;
   
   if (((this->facing.x != 0.0) || (this->facing.y != 0.0)) &&
-     (ppVar1 = gGlobals.playerDataArray[this->index], ppVar1)) {
+     (ppVar1 = gGlobals.combatActors[this->index], ppVar1)) {
     ppVar1->facing.x = -this->facing.x;
     ppVar1->facing.y = -this->facing.y;
     Vec2Normalize(&ppVar1->facing);
@@ -545,10 +545,10 @@ u8 CombatEntity::IsInMeleeRange(CombatEntity *target){
   float fVar5;
   float fVar6;
   
-  ppVar1 = gGlobals.playerDataArray[this->index];
+  ppVar1 = gGlobals.combatActors[this->index];
   bVar3 = false;
   if (ppVar1) {
-    ppVar2 = gGlobals.playerDataArray[target->index];
+    ppVar2 = gGlobals.combatActors[target->index];
     bVar3 = false;
     if (ppVar2) {
       fVar4 = m80069554(target);
@@ -653,8 +653,8 @@ u8 CombatEntity::CanBeTargeted(CombatEntity *target,s32 param_3){
     target->GetCoordU8(targetPos,targetPos + 1);
     if (!IsTargetInRange(target,targetPos[0],targetPos[1],param_3)) {return false;}
     if (FUN_8007105c(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),(u32)targetPos[0],targetPos[1])) {return true;}
-    playerData *p1 = gGlobals.playerDataArray[this->index];
-    playerData *p2 = gGlobals.playerDataArray[target->index];
+    playerData *p1 = gGlobals.combatActors[this->index];
+    playerData *p2 = gGlobals.combatActors[target->index];
     if ((p1) && (p2)) {
       vec3f posA,posB;
       Vec3Copy(&(p1->collision).pos,&posA);
@@ -751,7 +751,7 @@ u8 CombatEntity::m80069d00(CombatEntity *param_2,float param_3,float param_4){
   vec2f fStack160;
   vec2f fStack96;
   
-  ppVar1 = gGlobals.playerDataArray[param_2->index];
+  ppVar1 = gGlobals.combatActors[param_2->index];
   if (!ppVar1) bVar2 = false;
   else {
     CLEAR(&afStack224);
@@ -832,7 +832,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
       }
       if (FUN_8007105c(&gCombatP->substruct,(byte)uVar4,(byte)uVar5,uStack_100[0],uStack_100[1])) return true;
       if ((uVar4 == uStack_100[0]) && (uVar5 == uStack_100[1])) return true;
-      ppVar2 = gGlobals.playerDataArray[param_2->index];
+      ppVar2 = gGlobals.combatActors[param_2->index];
       if (ppVar2) {
         fVar14 = (float)(int)uVar4;
         fVar11 = (float)(int)uVar5;
@@ -965,7 +965,7 @@ void CombatEntity::EndTurn(){
   }
   gGlobals.combatBytes[0] = CombatState_1;
   Combat_SetHideMarkers(0);
-  if ((!Entity::isDead(this->charSheetP)) && (!Flag6())) {gGlobals.playerDataArray[this->index]->ani_type = 0;}
+  if ((!Entity::isDead(this->charSheetP)) && (!Flag6())) {gGlobals.combatActors[this->index]->ani_type = 0;}
   ShowWeaponFlask();
   if (((this->AtkType == ATKT_Potion) && (this->item < POTION_HEALING)) &&
      (this->charSheetP->weapons)) PARTY->RemoveWeaponsFrom(this->index);
@@ -983,10 +983,10 @@ void CombatEntity::Escaped(){
     else gCombatP->partyAlive--;
     ClearSpellEffects();
     Entity::ClearAllPotionEffects(this->charSheetP);
-    FUN_80096048(gGlobals.playerDataArray[this->index]);
-    FUN_80094228(gGlobals.playerDataArray[this->index]);
-    Actor::DeathFlag(gGlobals.playerDataArray[this->index]);
-    gGlobals.playerDataArray[this->index] = NULL;
+    FUN_80096048(gGlobals.combatActors[this->index]);
+    FUN_80094228(gGlobals.combatActors[this->index]);
+    Actor::DeathFlag(gGlobals.combatActors[this->index]);
+    gGlobals.combatActors[this->index] = NULL;
     flee_draw_crossbones(this->charSheetP->ID,this->index);
   }
 }
@@ -2190,7 +2190,7 @@ void AddPotionVisualEffect(u8 playerDatIndex,u8 potion,CharSheet *ent){
   u32 uVar3;
   PotionEffect *pPVar2;
   
-  ppVar1 = gGlobals.playerDataArray[playerDatIndex];
+  ppVar1 = gGlobals.combatActors[playerDatIndex];
   if (ppVar1) {
     ppVar1->ani_type = AniType_GetBuff;
     uVar2 = InitPotionEffect(ppVar1,potion);
@@ -2295,11 +2295,11 @@ s16 CombatEntity::PotionAccuracy(CombatEntity *target,u8 prox){
 }
 
 void CombatEntity::PrintFlaskMiss(CombatEntity *param_2,u8 param_3){ 
-  playerData *ppVar1 = gGlobals.playerDataArray[param_2->index];
+  playerData *ppVar1 = gGlobals.combatActors[param_2->index];
   Vec3Copy(&(ppVar1->collision).pos,&gGlobals.combatCursorPos);
   gGlobals.combatCursorPos.y += gEntityDB->GetHeight(param_2->charSheetP->ID) * 0.5f - (ppVar1->collision).radius;
   WeaponSkillUpChance(param_3 >> 1,WEAPON_Thrown);
-  gGlobals.playerDataArray[this->index]->ani_type = AniType_Atk4;
+  gGlobals.combatActors[this->index]->ani_type = AniType_Atk4;
   SubtractPotion();
   CSprintf(XAttacksY,this->charSheetP->name,param_2->charSheetP->name);
   copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
@@ -2366,7 +2366,7 @@ void CombatEntity::FlaskAttack(CombatEntity *target,s16 dmgBase){
             pCVar1->damage = (u8)splash;
           }
           if (pCVar1 == target) {pCVar1->TryCheatDeath((s16)splash);}
-          playerData *pDat = gGlobals.playerDataArray[pCVar1->index];
+          playerData *pDat = gGlobals.combatActors[pCVar1->index];
           if ((pDat) && (pDat->ani_type = AniType_Hit, pCVar1 != target)) {
             Print_damage_healing(pDat,(u16)pCVar1->damage,0,false,pCVar1->charSheetP);
             pCVar1->damage = 0;
@@ -2416,7 +2416,7 @@ u8 CombatEntity::PotionAttack(CombatEntity *target){
     gCombatP->potionPos[1] = coord8[1];
     this->damage = bVar5;
     WeaponSkillUpChance(uVar6,WEAPON_Thrown);
-    gGlobals.playerDataArray[this->index]->ani_type = 0xf;
+    gGlobals.combatActors[this->index]->ani_type = 0xf;
   }
   SubtractPotion();
   return 0;
@@ -2581,8 +2581,8 @@ u8 CombatEntity::CalculateAttack(CombatEntity *target,u8 param_3){
   u16 uVar5;
   s16 sVar6;
   
-  ppVar2 = gGlobals.playerDataArray[this->index];
-  ppVar3 = gGlobals.playerDataArray[target->index];
+  ppVar2 = gGlobals.combatActors[this->index];
+  ppVar3 = gGlobals.combatActors[target->index];
   TroubadourStop;
   this->TargetIndex = (u32)target->index;
   if (param_3)  {
@@ -2611,8 +2611,8 @@ u8 CombatEntity::CalculateAttack(CombatEntity *target,u8 param_3){
 void CombatEntity::TroubadourEnd(){
   UnsetFlag(COMBATENT_BARD);
   gCombatP->TroubadorLV = 0;
-  if (gGlobals.playerDataArray[this->index])
-    {FreeAttachmentFromPlayer(gGlobals.playerDataArray[this->index],2);}
+  if (gGlobals.combatActors[this->index])
+    {FreeAttachmentFromPlayer(gGlobals.combatActors[this->index],2);}
 }
 
 void CombatEntity::UpdateMoveFlag(){
@@ -2635,7 +2635,7 @@ void CombatEntity::TroubadourUpChance(u8 param_2){
 void CombatEntity::m8006f448(){
   vec3f afStack80;
   
-  playerData *ppVar1 = gGlobals.playerDataArray[this->index];
+  playerData *ppVar1 = gGlobals.combatActors[this->index];
   if (ppVar1) {
     Vec3Set(&afStack80,this->coord.x,(ppVar1->collision).pos.y,this->coord.y);
     Actor::SetCombatMove(ppVar1,&afStack80,(float)this->moveRange);
@@ -2675,7 +2675,7 @@ void CombatEntity::Troubadour(){
       bVar6 = this->charSheetP->Skills->getModdedSkill(SKILL_Troubador);
       if (bVar6 < 6) uVar9 = SQ(8 - bVar6);
       else uVar9 = 8;
-      ppVar2 = gGlobals.playerDataArray[this->index];
+      ppVar2 = gGlobals.combatActors[this->index];
       if (iVar3 < uVar8) { //(troub*5+INT*2)<rand(1,100)
         CSprintf(TroubFail,this->charSheetP->name);
         copy_string_to_combat_textbox(gCombatP,gGlobals.text,0);
@@ -2816,7 +2816,7 @@ u8 CombatEntity::BowEquipped(){
 void CombatEntity::AttachWeaponShieldModel(u16 param_2,s32 param_3,s32 borg5){
   
   if (borg5 != -1) {
-    playerData *ppVar1 = gGlobals.playerDataArray[this->index];
+    playerData *ppVar1 = gGlobals.combatActors[this->index];
     if (ppVar1->borg7P) {
       Scene::HasLocator(ppVar1->borg7P->sceneDat,param_3);
     }
@@ -2864,7 +2864,7 @@ void CombatEntity::ShowWeaponSheild(){
   u32 borg5;
   u32 borg5_00;
   
-  ppVar1 = gGlobals.playerDataArray[this->index];
+  ppVar1 = gGlobals.combatActors[this->index];
   borg5_00 = -1;
   FreeAttachmentFromPlayer(ppVar1,1);
   FreeAttachmentFromPlayer(ppVar1,0);
@@ -3047,7 +3047,7 @@ void CombatEntity::ClearSpellEffects(){
 }
 
 void CombatEntity::UpdatePosition(){
-  playerData *pDat = gGlobals.playerDataArray[this->index];
+  playerData *pDat = gGlobals.combatActors[this->index];
   if (pDat) {
     FUN_800714d0(&gCombatP->substruct,GetCoordXU8(),GetCoordYU8(),this->unk23);
     this->coord = {(pDat->collision).pos.x,(pDat->collision).pos.z};

@@ -14,8 +14,8 @@ namespace CombatSpellMarker{
   void Init(void){
     gCombatSpellMarker = NULL;
     CombatCurrentEnt_Y = 0.0;
-    if (((gCombatP) && (gCombatP->current_Ent)) && (gGlobals.playerDataArray[gCombatP->current_Ent->index])) 
-      CombatCurrentEnt_Y = (gGlobals.playerDataArray[gCombatP->current_Ent->index]->collision).pos.y;
+    if (((gCombatP) && (gCombatP->current_Ent)) && (gGlobals.combatActors[gCombatP->current_Ent->index])) 
+      CombatCurrentEnt_Y = (gGlobals.combatActors[gCombatP->current_Ent->index]->collision).pos.y;
   }
   void Free(void){
     if (gCombatSpellMarker) FREEQSCENE(gCombatSpellMarker);

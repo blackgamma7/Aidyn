@@ -1480,7 +1480,7 @@ bool FUN_80063258(CombatAIInfo *param_1) {
   vec2f afStack200;
   vec2f fStack136;
   
-  ppVar1 = gGlobals.playerDataArray[param_1->combatEnt->index];
+  ppVar1 = gGlobals.combatActors[param_1->combatEnt->index];
   bVar2 = false;
   if (ppVar1 != NULL) {
     bVar3 = false;
@@ -1647,7 +1647,7 @@ u8 FUN_80063bbc(CombatAIInfo *param_1){
   float afStack_20;
   
   afStack_20 = 0.0;
-  ppVar1 = gGlobals.playerDataArray[param_1->combatEnt->index];
+  ppVar1 = gGlobals.combatActors[param_1->combatEnt->index];
   if ((ppVar1 == NULL) ||
      (prVar2 = CombatAI::FindFleeingRefpoint(param_1,&afStack_20), prVar2 == NULL)) {
     bVar3 = false;
@@ -1684,9 +1684,9 @@ u8 FUN_80063c94(CombatAIInfo *param_1){
   
   if ((param_1->entIndex != -1) &&
      (pCVar1 = (&gCombatP->combatEnts)[param_1->entIndex], pCVar1 != NULL)) {
-    ppVar2 = gGlobals.playerDataArray[param_1->combatEnt->index];
+    ppVar2 = gGlobals.combatActors[param_1->combatEnt->index];
     if (!ppVar2) return false;
-    ppVar3 = gGlobals.playerDataArray[pCVar1->index];
+    ppVar3 = gGlobals.combatActors[pCVar1->index];
     if (!ppVar3) return false;
     fVar4 = pCVar1->Get2DProximity(param_1->combatEnt);
     fVar5 = ppVar2->scaleRad + ppVar3->scaleRad;
