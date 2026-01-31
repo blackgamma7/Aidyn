@@ -8,7 +8,7 @@ extern struct SceneData;
 //TODO: Break into headers by borg type
 
 /*"Borg" files are the art/level/cutscene assets of the game, in 15 different categories:
-0-Unused, therefore, unknown. init/free code still ingame. earliest known name an abreviation of "GEN"
+0-Unused, therefore, unknown. init/free code still ingame. earliest known name is an abreviation of "GEN"
 1-Textures. Raw data has bitmap "interleaved" every even row.
 2-Geometry data. contains verts and ucode (primariliy G_TRI1)
 3-Scene perspective data (fov,clipping planes, ect.)
@@ -19,8 +19,8 @@ extern struct SceneData;
 8-Images. used for UI, primarily. Easily viewable in Texture64 when extracted.
 9-Map data. contains collision and object data
 10-unused. refered internally in Debug as "CollisionMaterial"
-11-DCM instrument for SFX and BGM. 44.1KHz mono PCM
-12-Sound/music.
+11-DCM instrument for SFX and BGM. 44.1KHz mono PCM of 8 or 16BE bits
+12-Sound/music sequence using Borg11 samples
 13-Dialogue/cutscenes.
 14-unused. refered internally in Debug as "GameState"*/
 
@@ -45,11 +45,14 @@ struct borgHeader {
 
 typedef enum Borg8Format {
     BORG8_RBGA32=1,
-    BORG8_RGBA16=2,
-    BORG8_CI8=4,
-    BORG8_IA8=5,
-    BORG8_CI4=7,
-    BORG8_IA4=9,
+    BORG8_RGBA16,
+    BORG8_IA16,
+    BORG8_CI8,
+    BORG8_IA8,
+    BORG8_I8,
+    BORG8_CI4,
+    BORG8_IA4,
+    BORG8_I4,
 } Borg8Format;
 
 struct Borg8Data {
@@ -75,7 +78,7 @@ typedef enum VoxelFllags {
     VOXEL_Flag400=0x400,
     VOXEL_Flag800=0x800,
     VOXEL_Flag1000=0x1000,
-    VOXEL_tangible=0x2000, //touching voxel activates it
+    VOXEL_Tangible=0x2000, //touching voxel activates it
     VOXEL_Flag4000=0x4000, //unknown
     VOXEL_Active=0x8000 //map object is active/visible
 } VoxelFllags;

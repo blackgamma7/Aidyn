@@ -116,7 +116,7 @@ LAB_8000613c:
         uVar8 = pbVar5->voxelIndecies[uVar13];
         pvVar11 = &pBVar4->voxelObjs[uVar8];
         VVar1 = (pvVar11->header).Bitfeild;
-        if ((VVar1 & VOXEL_tangible) == 0) {
+        if ((VVar1 & VOXEL_Tangible) == 0) {
           if ((VVar1 & VOXEL_Active)){
             if ((pvVar11->header).timestamp <= gGlobals.ticker) {
               if (Voxel_CheckProc(pvVar11,ppVar3)) {

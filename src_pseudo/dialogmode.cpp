@@ -640,7 +640,7 @@ void load_one_of_two_cinematics(){
       for(s16 i=0;i<(pBVar2->dat).voxelObjCount;i++) {
         voxelObject* obj = &pBVar2->dat.voxelObjs[i];
         if ((((obj->header).type == VOXEL_Dialouge) &&
-            (((obj->header).Bitfeild & VOXEL_tangible))) &&
+            (((obj->header).Bitfeild & VOXEL_Tangible))) &&
            (dialouge_trigger_check(obj,&gGlobals.gameVars.MapFloatDatEntry.playerVec3,true))) {
           DAT_800ee96c = 1;
           dialoug_func((u32)(obj->dialoug).borg_13,(obj->dialoug).RefPointID,

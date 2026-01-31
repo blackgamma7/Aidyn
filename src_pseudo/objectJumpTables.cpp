@@ -83,7 +83,7 @@ u8 teleport_trap(voxelObject* v){
 
 void teleporter_func(voxelObject* v,u16 A,u16 B){  
   if (vobject_pause_check()) {
-    if (((v->header).Bitfeild & VOXEL_tangible) == 0) {
+    if (((v->header).Bitfeild & VOXEL_Tangible) == 0) {
       if ((!(v->teleport).secrect_door_flag) || (getEventFlag((v->teleport).secrect_door_flag))) {
         if (!teleport_trap(v)) {
           if (((v->teleport).lock_lv) &&

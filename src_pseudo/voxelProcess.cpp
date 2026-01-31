@@ -42,17 +42,17 @@ void ProcessVoxelObjects(playerData *playerchar) {
             break;
         }
         case VOXEL_Dialouge:{
-            if (((!isDialougeMode()) && (((vox->header).Bitfeild & VOXEL_tangible))) && (Voxel_CheckProc(vox,playerchar)))
+            if (((!isDialougeMode()) && (((vox->header).Bitfeild & VOXEL_Tangible))) && (Voxel_CheckProc(vox,playerchar)))
                dialouge_vobject_func(vox,0,i);
             break;
         }
         case VOXEL_Trigger:{
-            if (((!isDialougeMode()) && (((vox->header).Bitfeild & VOXEL_tangible))) && (Voxel_CheckProc(vox,playerchar))) 
+            if (((!isDialougeMode()) && (((vox->header).Bitfeild & VOXEL_Tangible))) && (Voxel_CheckProc(vox,playerchar))) 
                 trigger_vobject_func(vox,0,i);
             break;
         }
         case VOXEL_Teleporter:{
-            if (((!isDialougeMode()) && (((vox->header).Bitfeild & VOXEL_tangible))) && (teleporter_obj_check(vox,playerchar)))
+            if (((!isDialougeMode()) && (((vox->header).Bitfeild & VOXEL_Tangible))) && (teleporter_obj_check(vox,playerchar)))
                 teleporter_func(vox,0,i);
             break;
         }
