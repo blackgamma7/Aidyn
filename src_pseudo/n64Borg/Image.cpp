@@ -80,13 +80,13 @@ Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
   return gfx;
 }
 
-//{gDPLoadTextureBlock();gSPScisTextureRectangle();} seems very common. Combine into own macro?
+// "loadTextureBlock" macro used here seems altered and added\followed with "gSPScisTextureRectangle"
 
 Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yOff,u16 h,u16 v,
                       float xScale,float yScale,u8 red,u8 green,u8 blue,u8 alpha) {
   u16 uVar1;
-  void *pvVar3;
-  s16 sVar10;
+  void *BMP;
+  s16 dsdx16;
   u32 uVar4;
   int iVar5;
   int iVar6;
@@ -94,20 +94,20 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
   u32 uVar8;
   int iVar9;
   u32 uVar12;
-  u32 uVar13;
+  u32 iters;
   int iVar14;
   u32 uVar15;
   u32 uVar16;
-  u32 uVar17;
+  u32 vVis;
   u32 uVar18;
   u32 uVar19;
   u32 uVar20;
-  u32 uVar21;
+  u32 xOff32;
   u32 uVar22;
   u32 uVar23;
   Gfx *pGVar24;
   Gfx *pGVar25;
-  u32 uVar26;
+  u32 hVis;
   u32 uVar27;
   s16 sVar28;
   int iVar29;
@@ -122,94 +122,79 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
   float imgXScale;
   float imgYScale;
   u32 dtdy;
-  short sVar11;
+  short dtdy16;
   
-  fVar37 = sImageVScale;
   fVar30 = 4.0f;
   imgXScale = xScale * sImageHScale;
-  pvVar3 = (borg8->dat).offset;
+  BMP = (borg8->dat).offset;
   imgYScale = yScale * sImageVScale;
-  uVar26 = (u32)h - (u32)xOff;
+  hVis = (u32)h - (u32)xOff;
   fVar36 = x * sImageHScale;
   uVar1 = (borg8->dat).Width;
   gDPPipeSync(g++);
   gDPSetPrimColor(g++,0,0,red,green,blue,alpha);
   uVar16 = (u32)yOff;
   fVar33 = 4.0f;
-  uVar17 = (u32)v - (u32)yOff;
-  fVar37 = y * fVar37 * 4.0f;
-  iVar29 = (int)((float)(int)uVar26 * imgXScale * 4.0f);
+  vVis = (u32)v - (u32)yOff;
+  fVar37 = y * sImageVScale * 4.0f;
+  iVar29 = (int)((float)(int)hVis * imgXScale * 4.0f);
   iVar31 = (int)(fVar36 * 4.0f);
   dsdx = (int)(1024.0f / imgXScale);
   dtdy = (u32)(1024.0f / imgYScale);
   pGVar24 = g + 2;
   if (8 < ((borg8->dat).format - BORG8_RBGA32))
     CRASH("N64BorgImage.cpp N64BorgImageDraw","Image type was  not recognized.");
-  uVar15 = (u32)uVar1;
-  uVar21 = (u32)xOff;
+  xOff32 = (u32)xOff;
   uVar20 = (u32)xOff;
-  sVar10 = (short)dsdx;
-  sVar11 = (short)dtdy;
-  sVar28 = (short)iVar31;
+  dsdx16 = (s16)dsdx;
+  dtdy16 = (s16)dtdy;
+  sVar28 = (s16)iVar31;
   switch((borg8->dat).format) {
   case BORG8_RBGA32:
-    if ((int)uVar26 < 2) {
-      iVar5 = 2 - uVar26;
+    if ((int)hVis < 2) {
+      iVar5 = 2 - hVis;
     }
     else {
-      iVar5 = 2 - (uVar26 & 1);
-      if ((uVar26 & 1) == 0) {
+      iVar5 = 2 - (hVis & 1);
+      if ((hVis & 1) == 0) {
         iVar5 = 0;
       }
     }
-    uVar13 = (uVar26 + iVar5) * 4;
-    uVar22 = 0x1000 / uVar13 - 1;
-    uVar13 = uVar17 / uVar22;
-    uVar17 = uVar17 - uVar13 * uVar22;
-    if (uVar17 == 0) {
-      uVar13 = uVar13 - 1;
-      uVar17 = uVar22;
+    iters = (hVis + iVar5) * 4;
+    uVar22 = 0x1000 / iters - 1;
+    iters = vVis / uVar22;
+    vVis = vVis - iters * uVar22;
+    if (vVis == 0) {
+      iters--;
+      vVis = uVar22;
     }
     dVar35 = (double)(int)uVar22;
     pGVar25 = g + 3;
     uVar23 = 0;
-    dVar34 = (double)(int)uVar17;
-    gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
+    dVar34 = (double)(int)vVis;
+    gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     fVar33 = (float)dVar35 * imgYScale * fVar33;
     uVar4 = (u32)sVar28;
-    if (uVar13 != 0) {
-      uVar8 = (uVar21 - 1) + uVar26;
-      uVar12 = ((int)((uVar8 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
-      uVar19 = (uVar8 & 0x3ff) << 0xe;
-      uVar27 = (uVar21 << 2 & 0xfff) << 0xc;
-      uVar18 = (iVar31 + iVar29) * 0x10000 >> 0x10;
+    if (iters != 0) {
       uVar8 = uVar16;
       pGVar24 = pGVar25;
       do {
         uVar16 = uVar8 + uVar22;
-        (pGVar24->words).w0 = uVar15 - 1 & 0xfff | 0xfd180000;
-        (pGVar24->words).w1 = (u32)pvVar3;
-        uVar7 = uVar16 * 4 & 0xfff;
-        *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
-        pGVar24[1].words.w0 = uVar12;
-        uVar8 = (uVar8 & 0x3ff) << 2;
-        pGVar24[2].words.w0 = 0xe6000000;
-        *(undefined4 *)((int)pGVar24 + 0x14) = 0;
-        pGVar24[3].words.w0 = uVar27 | uVar8 | 0xf4000000;
-        *(u32 *)((int)pGVar24 + 0x1c) = uVar19 | uVar7 | 0x7000000;
-        pGVar24[4].words.w0 = 0xe7000000;
-        *(undefined4 *)((int)pGVar24 + 0x24) = 0;
-        *(undefined4 *)((int)pGVar24 + 0x2c) = 0x80200;
-        pGVar24[5].words.w0 = uVar12;
-        pGVar24[6].words.w0 = uVar27 | uVar8 | 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x34) = uVar19 | uVar7;
-        pGVar24[7].words.w0 = 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
-        if ((int)uVar18 < 1) {
-          uVar8 = 0xe4000000;
-        }
+        gDPSetTextureImage(&pGVar24[0],G_IM_FMT_RGBA,G_IM_SIZ_32b,borg8->dat.Width,BMP);
+        gDPSetTile(&pGVar24[1],G_IM_FMT_RGBA,G_IM_SIZ_32b_LOAD_BLOCK,(((((xOff32 - 1) + hVis) - xOff) * 2 + 9) >> 3),
+           0,G_TX_LOADTILE,0,2,0,0,2,0,0);
+        gDPLoadSync(&pGVar24[2]);
+        gDPLoadTile(&pGVar24[3],0,(xOff32 << 2),(yOff << 2),((xOff32 - 1) + hVis)<<2,uVar16);
+        gDPPipeSync(&pGVar24[4]);
+        gDPSetTile(&pGVar24[5],G_IM_FMT_RGBA,G_IM_SIZ_32b,((((xOff32 - 1) + hVis) - xOff) * 2 + 9) >> 3,0,
+          G_TX_RENDERTILE,0,2,0,0,2,0,0);
+        gDPSetTileSize(&pGVar24[6],G_TX_RENDERTILE,(xOff32 << 2),(yOff<<2),
+            ((xOff32 - 1) + hVis)<<2,((yOff & 0x3ff) << 2));
+        gDPSetTileSize(&pGVar24[7],G_TX_RENDERTILE,0,0,
+          (hVis - 1)<<G_TEXTURE_IMAGE_FRAC,uVar22<<G_TEXTURE_IMAGE_FRAC);
+        if ((s16)(iVar31 + iVar29) < 1) uVar8 = 0xe4000000;
         else {
-          uVar8 = (uVar18 & 0xfff) << 0xc | 0xe4000000;
+          uVar8 = ((s16)(iVar31 + iVar29) & 0xfff) << 0xc | 0xe4000000;
         }
         uVar7 = (u32)(short)(int)(fVar37 + fVar33);
         if (0 < (int)uVar7) {
@@ -228,22 +213,18 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
         *(u32 *)((int)pGVar24 + 0x44) = uVar8;
         pGVar24[9].words.w0 = 0xe1000000;
         if ((int)uVar4 < 0) {
-          iVar5 = (int)(uVar4 * (int)sVar10) >> 7;
-          if (sVar10 < 0) {
+          iVar5 = (int)(uVar4 * (int)dsdx16) >> 7;
+          if (dsdx16 < 0) {
             if (iVar5 < 0) {
               iVar5 = 0;
             }
           }
-          else if (0 < iVar5) {
-            iVar5 = 0;
-          }
+          else if (0 < iVar5) iVar5 = 0;
           uVar8 = iVar5 * -0x10000;
         }
-        else {
-          uVar8 = 0;
-        }
+        else uVar8 = 0;
         if ((int)fVar37 < 0) {
-          iVar6 = (int)sVar11;
+          iVar6 = (int)dtdy16;
           iVar5 = (int)(short)(int)fVar37;
           if (iVar6 < 0) {
             iVar5 = iVar5 * iVar6 >> 7;
@@ -253,9 +234,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
           }
           else {
             iVar5 = iVar5 * iVar6 >> 7;
-            if (0 < iVar5) {
-              iVar5 = 0;
-            }
+            if (0 < iVar5) iVar5 = 0;
           }
           uVar8 = uVar8 | -iVar5 & 0xffffU;
         }
@@ -267,59 +246,55 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
         fVar37 = fVar37 + fVar33;
         uVar8 = uVar16;
         pGVar24 = pGVar25;
-      } while (uVar23 < uVar13);
+      } while (uVar23 < iters);
     }
     fVar30 = 4.0f;
-    (pGVar25->words).w0 = uVar15 - 1 & 0xfff | 0xfd180000;
-    (pGVar25->words).w1 = (u32)pvVar3;
+    (pGVar25->words).w0 = borg8->dat.Width - 1 & 0xfff | 0xfd180000;
+    (pGVar25->words).w1 = (u32)BMP;
     *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
-    uVar13 = (uVar21 - 1) + uVar26;
-    uVar15 = ((int)((uVar13 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
+    iters = (xOff32 - 1) + hVis;
+    uVar15 = ((int)((iters - xOff) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
     pGVar25[1].words.w0 = uVar15;
     pGVar25[2].words.w0 = 0xe6000000;
     *(undefined4 *)((int)pGVar25 + 0x14) = 0;
-    uVar22 = (uVar16 & 0x3ff) << 2;
-    uVar20 = (uVar13 & 0x3ff) << 0xe;
-    uVar21 = (uVar21 << 2 & 0xfff) << 0xc;
-    uVar16 = ((uVar16 - 1) + uVar17) * 4 & 0xfff;
-    pGVar25[3].words.w0 = uVar21 | uVar22 | 0xf4000000;
-    *(u32 *)((int)pGVar25 + 0x1c) = uVar20 | uVar16 | 0x7000000;
+    pGVar25[3].words.w0 = (xOff32 << 2 & 0xfff) << 0xc | (uVar16 & 0x3ff) << 2 | 0xf4000000;
+    *(u32 *)((int)pGVar25 + 0x1c) = (iters & 0x3ff) << 0xe | ((uVar16 - 1) + vVis) * 4 & 0xfff | 0x7000000;
     pGVar25[4].words.w0 = 0xe7000000;
     *(undefined4 *)((int)pGVar25 + 0x24) = 0;
     pGVar25[5].words.w0 = uVar15;
     *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
-    pGVar25[6].words.w0 = uVar21 | uVar22 | 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x34) = uVar20 | uVar16;
+    pGVar25[6].words.w0 = (xOff32 << 2 & 0xfff) << 0xc | (uVar16 & 0x3ff) << 2 | 0xf2000000;
+    *(u32 *)((int)pGVar25 + 0x34) = (iters & 0x3ff) << 0xe | ((uVar16 - 1) + vVis) * 4 & 0xfff;
     pGVar25[7].words.w0 = 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (u32)(short)(iVar31 + iVar29);
+    *(u32 *)((int)pGVar25 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | (vVis - 1 & 0x3ff) << 2;
+    vVis = (u32)(short)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
-    if ((int)uVar17 < 1) {
-      uVar17 = 0xe4000000;
+    if ((int)vVis < 1) {
+      vVis = 0xe4000000;
     }
     else {
-      uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
+      vVis = (vVis & 0xfff) << 0xc | 0xe4000000;
     }
     uVar16 = (u32)(short)(int)(fVar37 + (float)dVar34 * imgYScale * 4.0f);
     if (0 < (int)uVar16) {
-      uVar17 = uVar17 | uVar16 & 0xfff;
+      vVis = vVis | uVar16 & 0xfff;
     }
-    pGVar25[8].words.w0 = uVar17;
+    pGVar25[8].words.w0 = vVis;
     if ((int)uVar4 < 1) {
-      uVar17 = 0;
+      vVis = 0;
     }
     else {
-      uVar17 = (uVar4 & 0xfff) << 0xc;
+      vVis = (uVar4 & 0xfff) << 0xc;
     }
     if (0 < (short)(int)fVar37) {
-      uVar17 = uVar17 | (int)(short)(int)fVar37 & 0xfffU;
+      vVis = vVis | (int)(short)(int)fVar37 & 0xfffU;
     }
-    *(u32 *)((int)pGVar25 + 0x44) = uVar17;
+    *(u32 *)((int)pGVar25 + 0x44) = vVis;
     (pGVar24->words).w0 = 0xe1000000;
     pGVar25 = pGVar25 + 10;
     if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)sVar10) >> 7;
-      if (sVar10 < 0) {
+      iVar29 = (int)(uVar4 * (int)dsdx16) >> 7;
+      if (dsdx16 < 0) {
         if (iVar29 < 0) {
           iVar29 = 0;
         }
@@ -327,15 +302,15 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
       else if (0 < iVar29) {
         iVar29 = 0;
       }
-      uVar17 = iVar29 * -0x10000;
+      vVis = iVar29 * -0x10000;
     }
     else {
-      uVar17 = 0;
+      vVis = 0;
     }
     if (-1 < (int)fVar37) goto LAB_800a662c;
     iVar29 = (int)fVar37 << 0x10;
-    if (sVar11 < 0) {
-      iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+    if (dtdy16 < 0) {
+      iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
       if (-1 < iVar29) {
         uVar16 = -iVar29;
         break;
@@ -344,7 +319,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
     }
     else {
 LAB_800a6608:
-      iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+      iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
       if (0 < iVar29) {
         iVar29 = 0;
       }
@@ -353,48 +328,48 @@ LAB_800a6620:
     uVar16 = -iVar29;
     break;
   case BORG8_RGBA16:
-  case 3:
-    if ((int)uVar26 < 4) {
-      iVar5 = 4 - uVar26;
+  case BORG8_IA16:
+    if ((int)hVis < 4) {
+      iVar5 = 4 - hVis;
     }
     else {
-      iVar5 = 4 - (uVar26 & 3);
-      if ((uVar26 & 3) == 0) {
+      iVar5 = 4 - (hVis & 3);
+      if ((hVis & 3) == 0) {
         iVar5 = 0;
       }
     }
-    uVar13 = (uVar26 + iVar5) * 2;
-    uVar22 = 0x1000 / uVar13 - 1;
-    uVar13 = uVar17 / uVar22;
-    uVar17 = uVar17 - uVar13 * uVar22;
-    if (uVar17 == 0) {
-      uVar13 = uVar13 - 1;
-      uVar17 = uVar22;
+    iters = (hVis + iVar5) * 2;
+    uVar22 = 0x1000 / iters - 1;
+    iters = vVis / uVar22;
+    vVis = vVis - iters * uVar22;
+    if (vVis == 0) {
+      iters = iters - 1;
+      vVis = uVar22;
     }
     fVar30 = (float)(int)uVar22;
     fVar30 = fVar30 * imgYScale * 4.0f;
-    iVar5 = 3;
+    iVar5 = G_IM_FMT_IA;
     if ((borg8->dat).format == BORG8_RGBA16) {
-      iVar5 = 0;
+      iVar5 = G_IM_FMT_RGBA;
     }
     pGVar25 = g + 3;
     uVar23 = 0;
-    dVar35 = (double)(int)uVar17;
+    dVar35 = (double)(int)vVis;
     gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     *(undefined4 *)((int)g + 0x14) = 0;
     uVar4 = (u32)sVar28;
-    if (uVar13 != 0) {
-      uVar8 = (uVar21 - 1) + uVar26;
-      uVar18 = iVar5 << 0x15 | ((int)((uVar8 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
-      uVar27 = (uVar21 << 2 & 0xfff) << 0xc;
+    if (iters != 0) {
+      uVar8 = (xOff32 - 1) + hVis;
+      uVar18 = iVar5 << 0x15 | ((int)((uVar8 - xOff) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
+      uVar27 = (xOff32 << 2 & 0xfff) << 0xc;
       uVar19 = (uVar8 & 0x3ff) << 0xe;
       uVar12 = (iVar31 + iVar29) * 0x10000 >> 0x10;
       uVar8 = uVar16;
       pGVar24 = pGVar25;
       do {
         uVar16 = uVar8 + uVar22;
-        (pGVar24->words).w0 = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd100000;
-        (pGVar24->words).w1 = (u32)pvVar3;
+        (pGVar24->words).w0 = iVar5 << 0x15 | borg8->dat.Width - 1 & 0xfff | 0xfd100000;
+        (pGVar24->words).w1 = (u32)BMP;
         uVar7 = uVar16 * 4 & 0xfff;
         *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
         pGVar24[1].words.w0 = uVar18;
@@ -410,7 +385,7 @@ LAB_800a6620:
         pGVar24[6].words.w0 = uVar27 | uVar8 | 0xf2000000;
         *(u32 *)((int)pGVar24 + 0x34) = uVar19 | uVar7;
         pGVar24[7].words.w0 = 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
+        *(u32 *)((int)pGVar24 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
         if ((int)uVar12 < 1) {
           uVar8 = 0xe4000000;
         }
@@ -434,8 +409,8 @@ LAB_800a6620:
         *(u32 *)((int)pGVar24 + 0x44) = uVar8;
         pGVar24[9].words.w0 = 0xe1000000;
         if ((int)uVar4 < 0) {
-          iVar6 = (int)(uVar4 * (int)sVar10) >> 7;
-          if (sVar10 < 0) {
+          iVar6 = (int)(uVar4 * (int)dsdx16) >> 7;
+          if (dsdx16 < 0) {
             if (iVar6 < 0) {
               iVar6 = 0;
             }
@@ -449,7 +424,7 @@ LAB_800a6620:
           uVar8 = 0;
         }
         if ((int)fVar37 < 0) {
-          iVar9 = (int)sVar11;
+          iVar9 = (int)dtdy16;
           iVar6 = (int)(short)(int)fVar37;
           if (iVar9 < 0) {
             iVar6 = iVar6 * iVar9 >> 7;
@@ -473,59 +448,59 @@ LAB_800a6620:
         fVar37 = fVar37 + fVar30;
         uVar8 = uVar16;
         pGVar24 = pGVar25;
-      } while (uVar23 < uVar13);
+      } while (uVar23 < iters);
     }
     fVar30 = 4.0f;
-    (pGVar25->words).w0 = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd100000;
-    (pGVar25->words).w1 = (u32)pvVar3;
-    uVar13 = (uVar16 & 0x3ff) << 2;
+    (pGVar25->words).w0 = iVar5 << 0x15 | borg8->dat.Width - 1 & 0xfff | 0xfd100000;
+    (pGVar25->words).w1 = (u32)BMP;
+    iters = (uVar16 & 0x3ff) << 2;
     *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
-    uVar16 = ((uVar16 - 1) + uVar17) * 4 & 0xfff;
-    uVar15 = (uVar21 - 1) + uVar26;
-    uVar22 = iVar5 << 0x15 | ((int)((uVar15 - uVar20) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
+    uVar16 = ((uVar16 - 1) + vVis) * 4 & 0xfff;
+    uVar15 = (xOff32 - 1) + hVis;
+    uVar22 = iVar5 << 0x15 | ((int)((uVar15 - xOff) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
     pGVar25[1].words.w0 = uVar22;
     pGVar25[2].words.w0 = 0xe6000000;
     *(undefined4 *)((int)pGVar25 + 0x14) = 0;
     uVar15 = (uVar15 & 0x3ff) << 0xe;
-    uVar20 = (uVar21 << 2 & 0xfff) << 0xc;
-    pGVar25[3].words.w0 = uVar20 | uVar13 | 0xf4000000;
+    uVar20 = (xOff32 << 2 & 0xfff) << 0xc;
+    pGVar25[3].words.w0 = uVar20 | iters | 0xf4000000;
     *(u32 *)((int)pGVar25 + 0x1c) = uVar15 | uVar16 | 0x7000000;
     pGVar25[4].words.w0 = 0xe7000000;
     *(undefined4 *)((int)pGVar25 + 0x24) = 0;
     pGVar25[5].words.w0 = uVar22;
     *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
-    pGVar25[6].words.w0 = uVar20 | uVar13 | 0xf2000000;
+    pGVar25[6].words.w0 = uVar20 | iters | 0xf2000000;
     *(u32 *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
     pGVar25[7].words.w0 = 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (u32)(short)(iVar31 + iVar29);
+    *(u32 *)((int)pGVar25 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | (vVis - 1 & 0x3ff) << 2;
+    vVis = (u32)(short)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
-    if ((int)uVar17 < 1) {
-      uVar17 = 0xe4000000;
+    if ((int)vVis < 1) {
+      vVis = 0xe4000000;
     }
     else {
-      uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
+      vVis = (vVis & 0xfff) << 0xc | 0xe4000000;
     }
     uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * imgYScale * fVar30);
     if (0 < (int)uVar16) {
-      uVar17 = uVar17 | uVar16 & 0xfff;
+      vVis = vVis | uVar16 & 0xfff;
     }
-    pGVar25[8].words.w0 = uVar17;
+    pGVar25[8].words.w0 = vVis;
     if ((int)uVar4 < 1) {
-      uVar17 = 0;
+      vVis = 0;
     }
     else {
-      uVar17 = (uVar4 & 0xfff) << 0xc;
+      vVis = (uVar4 & 0xfff) << 0xc;
     }
     if (0 < (short)(int)fVar37) {
-      uVar17 = uVar17 | (int)(short)(int)fVar37 & 0xfffU;
+      vVis = vVis | (int)(short)(int)fVar37 & 0xfffU;
     }
-    *(u32 *)((int)pGVar25 + 0x44) = uVar17;
+    *(u32 *)((int)pGVar25 + 0x44) = vVis;
     (pGVar24->words).w0 = 0xe1000000;
     pGVar25 = pGVar25 + 10;
     if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)sVar10) >> 7;
-      if (sVar10 < 0) {
+      iVar29 = (int)(uVar4 * (int)dsdx16) >> 7;
+      if (dsdx16 < 0) {
         if (iVar29 < 0) {
           iVar29 = 0;
         }
@@ -533,15 +508,15 @@ LAB_800a6620:
       else if (0 < iVar29) {
         iVar29 = 0;
       }
-      uVar17 = iVar29 * -0x10000;
+      vVis = iVar29 * -0x10000;
     }
     else {
-      uVar17 = 0;
+      vVis = 0;
     }
     if (-1 < (int)fVar37) goto LAB_800a662c;
     iVar29 = (int)fVar37 << 0x10;
-    if (-1 < sVar11) goto LAB_800a6608;
-    iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+    if (-1 < dtdy16) goto LAB_800a6608;
+    iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
     if (iVar29 < 0) {
       iVar29 = 0;
       goto LAB_800a6620;
@@ -549,68 +524,56 @@ LAB_800a6620:
     uVar16 = -iVar29;
     break;
   default:
-    if ((int)uVar26 < 8) {
-      iVar5 = 8 - uVar26;
+    if ((int)hVis < 8) {
+      iVar5 = 8 - hVis;
     }
     else {
-      iVar5 = 8 - (uVar26 & 7);
-      if ((uVar26 & 7) == 0) {
+      iVar5 = 8 - (hVis & 7);
+      if ((hVis & 7) == 0) {
         iVar5 = 0;
       }
     }
-    if ((borg8->dat).format == BORG8_CI8) uVar13 = 0x800;
-    else uVar13 = 0x1000;
-    uVar22 = uVar13 / (uVar26 + iVar5) - 1;
-    uVar13 = uVar17 / uVar22;
-    uVar17 = uVar17 - uVar13 * uVar22;
-    if (uVar17 == 0) {
-      uVar13 = uVar13 - 1;
-      uVar17 = uVar22;
+    if ((borg8->dat).format == BORG8_CI8) iters = 0x800;
+    else iters = 0x1000;
+    uVar22 = iters / (hVis + iVar5) - 1;
+    iters = vVis / uVar22;
+    vVis = vVis - iters * uVar22;
+    if (vVis == 0) {
+      iters = iters - 1;
+      vVis = uVar22;
     }
     fVar30 = (float)(int)uVar22;
     fVar30 = fVar30 * imgYScale * 4.0f;
     if ((borg8->dat).format == BORG8_CI8) {
-      iVar5 = 2;
+      iVar5 = G_IM_FMT_CI;
       gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
       pGVar25 = g + 10;
-      g[3].words.w0 = 0xfd100000;
-      *(void **)((int)g + 0x1c) = (borg8->dat).palette;
-      g[4].words.w0 = 0xe8000000;
-      *(undefined4 *)((int)g + 0x24) = 0;
-      *(undefined4 *)((int)g + 0x2c) = 0x7000000;
-      g[5].words.w0 = 0xf5000100;
-      g[6].words.w0 = 0xe6000000;
-      *(undefined4 *)((int)g + 0x34) = 0;
-      g[7].words.w0 = 0xf0000000;
-      *(undefined4 *)((int)g + 0x3c) = 0x73fc000;
-      g[8].words.w0 = 0xe7000000;
-      *(undefined4 *)((int)g + 0x44) = 0;
-      g[9].words.w0 = 0xe6000000;
-      *(undefined4 *)((int)g + 0x4c) = 0;
+      gDPLoadTLUT_pal256(g++,(borg8->dat).palette);
+      gDPLoadSync(g++);
     }
     else {
-      iVar5 = 4;
+      iVar5 = G_IM_FMT_I;
       if ((borg8->dat).format == BORG8_IA8) {
-        iVar5 = 3;
+        iVar5 = G_IM_FMT_IA;
       }
       pGVar25 = g + 3;
       gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     }
     uVar23 = 0;
-    dVar35 = (double)(int)uVar17;
+    dVar35 = (double)(int)vVis;
     uVar4 = (u32)sVar28;
-    if (uVar13 != 0) {
-      uVar8 = (uVar21 - 1) + uVar26;
-      uVar18 = iVar5 << 0x15 | ((int)((uVar8 - uVar20) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
+    if (iters != 0) {
+      uVar8 = (xOff32 - 1) + hVis;
+      uVar18 = iVar5 << 0x15 | ((int)((uVar8 - xOff) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
       uVar19 = (uVar8 & 0x3ff) << 0xe;
-      uVar27 = (uVar21 << 2 & 0xfff) << 0xc;
+      uVar27 = (xOff32 << 2 & 0xfff) << 0xc;
       uVar12 = (iVar31 + iVar29) * 0x10000 >> 0x10;
       uVar8 = uVar16;
       pGVar24 = pGVar25;
       do {
         uVar16 = uVar8 + uVar22;
-        (pGVar24->words).w0 = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd080000;
-        (pGVar24->words).w1 = (u32)pvVar3;
+        (pGVar24->words).w0 = iVar5 << 0x15 | (borg8->dat).Width - 1 & 0xfff | 0xfd080000;
+        (pGVar24->words).w1 = (u32)BMP;
         uVar7 = uVar16 * 4 & 0xfff;
         *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
         pGVar24[1].words.w0 = uVar18;
@@ -626,7 +589,7 @@ LAB_800a6620:
         pGVar24[6].words.w0 = uVar27 | uVar8 | 0xf2000000;
         *(u32 *)((int)pGVar24 + 0x34) = uVar19 | uVar7;
         pGVar24[7].words.w0 = 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
+        *(u32 *)((int)pGVar24 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
         if ((int)uVar12 < 1) {
           uVar8 = 0xe4000000;
         }
@@ -650,8 +613,8 @@ LAB_800a6620:
         *(u32 *)((int)pGVar24 + 0x44) = uVar8;
         pGVar24[9].words.w0 = 0xe1000000;
         if ((int)uVar4 < 0) {
-          iVar6 = (int)(uVar4 * (int)sVar10) >> 7;
-          if (sVar10 < 0) {
+          iVar6 = (int)(uVar4 * (int)dsdx16) >> 7;
+          if (dsdx16 < 0) {
             if (iVar6 < 0) {
               iVar6 = 0;
             }
@@ -665,7 +628,7 @@ LAB_800a6620:
           uVar8 = 0;
         }
         if ((int)fVar37 < 0) {
-          iVar9 = (int)sVar11;
+          iVar9 = (int)dtdy16;
           iVar6 = (int)(short)(int)fVar37;
           if (iVar9 < 0) {
             iVar6 = iVar6 * iVar9 >> 7;
@@ -689,59 +652,59 @@ LAB_800a6620:
         fVar37 = fVar37 + fVar30;
         uVar8 = uVar16;
         pGVar24 = pGVar25;
-      } while (uVar23 < uVar13);
+      } while (uVar23 < iters);
     }
     fVar30 = 4.0f;
     (pGVar25->words).w0 = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd080000;
-    (pGVar25->words).w1 = (u32)pvVar3;
-    uVar13 = (uVar16 & 0x3ff) << 2;
+    (pGVar25->words).w1 = (u32)BMP;
+    iters = (uVar16 & 0x3ff) << 2;
     *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
-    uVar16 = ((uVar16 - 1) + uVar17) * 4 & 0xfff;
-    uVar15 = (uVar21 - 1) + uVar26;
-    uVar22 = iVar5 << 0x15 | ((int)((uVar15 - uVar20) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
+    uVar16 = ((uVar16 - 1) + vVis) * 4 & 0xfff;
+    uVar15 = (xOff32 - 1) + hVis;
+    uVar22 = iVar5 << 0x15 | ((int)((uVar15 - xOff) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
     pGVar25[1].words.w0 = uVar22;
     pGVar25[2].words.w0 = 0xe6000000;
     *(undefined4 *)((int)pGVar25 + 0x14) = 0;
     uVar15 = (uVar15 & 0x3ff) << 0xe;
-    uVar20 = (uVar21 << 2 & 0xfff) << 0xc;
-    pGVar25[3].words.w0 = uVar20 | uVar13 | 0xf4000000;
+    uVar20 = (xOff32 << 2 & 0xfff) << 0xc;
+    pGVar25[3].words.w0 = uVar20 | iters | 0xf4000000;
     *(u32 *)((int)pGVar25 + 0x1c) = uVar15 | uVar16 | 0x7000000;
     pGVar25[4].words.w0 = 0xe7000000;
     *(undefined4 *)((int)pGVar25 + 0x24) = 0;
     pGVar25[5].words.w0 = uVar22;
     *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
-    pGVar25[6].words.w0 = uVar20 | uVar13 | 0xf2000000;
+    pGVar25[6].words.w0 = uVar20 | iters | 0xf2000000;
     *(u32 *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
     pGVar25[7].words.w0 = 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (u32)(short)(iVar31 + iVar29);
+    *(u32 *)((int)pGVar25 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | (vVis - 1 & 0x3ff) << 2;
+    vVis = (u32)(short)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
-    if ((int)uVar17 < 1) {
-      uVar17 = 0xe4000000;
+    if ((int)vVis < 1) {
+      vVis = 0xe4000000;
     }
     else {
-      uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
+      vVis = (vVis & 0xfff) << 0xc | 0xe4000000;
     }
     uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * imgYScale * fVar30);
     if (0 < (int)uVar16) {
-      uVar17 = uVar17 | uVar16 & 0xfff;
+      vVis = vVis | uVar16 & 0xfff;
     }
-    pGVar25[8].words.w0 = uVar17;
+    pGVar25[8].words.w0 = vVis;
     if ((int)uVar4 < 1) {
-      uVar17 = 0;
+      vVis = 0;
     }
     else {
-      uVar17 = (uVar4 & 0xfff) << 0xc;
+      vVis = (uVar4 & 0xfff) << 0xc;
     }
     if (0 < (short)(int)fVar37) {
-      uVar17 = uVar17 | (int)(short)(int)fVar37 & 0xfffU;
+      vVis = vVis | (int)(short)(int)fVar37 & 0xfffU;
     }
-    *(u32 *)((int)pGVar25 + 0x44) = uVar17;
+    *(u32 *)((int)pGVar25 + 0x44) = vVis;
     (pGVar24->words).w0 = 0xe1000000;
     pGVar25 = pGVar25 + 10;
     if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)sVar10) >> 7;
-      if (sVar10 < 0) {
+      iVar29 = (int)(uVar4 * (int)dsdx16) >> 7;
+      if (dsdx16 < 0) {
         if (iVar29 < 0) {
           iVar29 = 0;
         }
@@ -749,15 +712,15 @@ LAB_800a6620:
       else if (0 < iVar29) {
         iVar29 = 0;
       }
-      uVar17 = iVar29 * -0x10000;
+      vVis = iVar29 * -0x10000;
     }
     else {
-      uVar17 = 0;
+      vVis = 0;
     }
     if (-1 < (int)fVar37) goto LAB_800a662c;
     iVar29 = (int)fVar37 << 0x10;
-    if (-1 < sVar11) goto LAB_800a6608;
-    iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+    if (-1 < dtdy16) goto LAB_800a6608;
+    iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
     if (iVar29 < 0) {
       iVar29 = 0;
       goto LAB_800a6620;
@@ -765,91 +728,79 @@ LAB_800a6620:
     uVar16 = -iVar29;
     break;
   case BORG8_CI4:
-  case 8:
-  case 9:
-    if ((int)uVar26 < 0x10) {
-      iVar5 = 0x10 - uVar26;
+  case BORG8_IA4:
+  case BORG8_I4:
+    if ((int)hVis < 0x10) {
+      iVar5 = 0x10 - hVis;
     }
     else {
-      iVar5 = 0x10 - (uVar26 & 0xf);
-      if ((uVar26 & 0xf) == 0) {
+      iVar5 = 0x10 - (hVis & 0xf);
+      if ((hVis & 0xf) == 0) {
         iVar5 = 0;
       }
     }
-    uVar13 = uVar26 + iVar5 >> 1;
+    iters = hVis + iVar5 >> 1;
     if ((borg8->dat).format == BORG8_CI4) {
       uVar22 = 0x800;
     }
     else {
       uVar22 = 0x1000;
     }
-    uVar22 = uVar22 / uVar13 - 1;
-    uVar13 = uVar17 / uVar22;
-    uVar17 = uVar17 - uVar13 * uVar22;
-    if (uVar17 == 0) {
-      uVar13 = uVar13 - 1;
-      uVar17 = uVar22;
+    uVar22 = uVar22 / iters - 1;
+    iters = vVis / uVar22;
+    vVis = vVis - iters * uVar22;
+    if (vVis == 0) {
+      iters = iters - 1;
+      vVis = uVar22;
     }
     fVar30 = (float)(int)uVar22;
     fVar30 = fVar30 * imgYScale * 4.0f;
     if ((borg8->dat).format == BORG8_CI4) {
-      iVar5 = 2;
-      gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
+      iVar5 = G_IM_FMT_CI;
+      gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
       pGVar25 = g + 10;
-      g[3].words.w0 = 0xfd100000;
-      *(void **)((int)g + 0x1c) = (borg8->dat).palette;
-      g[4].words.w0 = 0xe8000000;
-      *(undefined4 *)((int)g + 0x24) = 0;
-      *(undefined4 *)((int)g + 0x2c) = 0x7000000;
-      g[5].words.w0 = 0xf5000100;
-      g[6].words.w0 = 0xe6000000;
-      *(undefined4 *)((int)g + 0x34) = 0;
-      g[7].words.w0 = 0xf0000000;
-      *(undefined4 *)((int)g + 0x3c) = 0x703c000;
-      g[8].words.w0 = 0xe7000000;
-      *(undefined4 *)((int)g + 0x44) = 0;
-      g[9].words.w0 = 0xe6000000;
-      *(undefined4 *)((int)g + 0x4c) = 0;
+      gDPLoadTLUT_pal256(g++,(borg8->dat).palette);//not pal16?
+      gDPLoadSync(g++);
     }
     else {
-      iVar5 = 4;
-      if ((borg8->dat).format == 8) {
-        iVar5 = 3;
+      iVar5 = G_IM_FMT_I;
+      if ((borg8->dat).format == BORG8_IA4) {
+        iVar5 = G_IM_FMT_IA;
       }
       pGVar25 = g + 3;
-      gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
+      gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     }
     uVar23 = 0;
     iVar6 = xOff - 1;
-    dVar35 = (double)(int)uVar17;
+    dVar35 = (double)(int)vVis;
     uVar4 = (u32)sVar28;
-    if (uVar13 != 0) {
+    if (iters != 0) {
       uVar19 = iVar5 << 0x15;
-      uVar18 = iVar6 + uVar26;
-      uVar12 = (((int)((uVar18 - uVar20) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
+      uVar18 = iVar6 + hVis;
+      uVar12 = (((int)((uVar18 - xOff) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
       uVar27 = (iVar31 + iVar29) * 0x10000 >> 0x10;
       uVar8 = uVar16;
       pGVar24 = pGVar25;
       do {
         uVar16 = uVar8 + uVar22;
-        (pGVar24->words).w0 = uVar19 | ((int)uVar15 >> 1) - 1U & 0xfff | 0xfd080000;
-        (pGVar24->words).w1 = (u32)pvVar3;
+        (pGVar24->words).w0 = uVar19 | ((int)borg8->dat.Width >> 1) - 1U & 0xfff | 0xfd080000;
+        (pGVar24->words).w1 = (u32)BMP;
         uVar7 = uVar16 * 4 & 0xfff;
         *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
         pGVar24[1].words.w0 = uVar19 | uVar12 | 0xf5080000;
         uVar8 = (uVar8 & 0x3ff) << 2;
         pGVar24[2].words.w0 = 0xe6000000;
         *(undefined4 *)((int)pGVar24 + 0x14) = 0;
-        pGVar24[3].words.w0 = (uVar21 << 1 & 0xfff) << 0xc | uVar8 | 0xf4000000;
+        pGVar24[3].words.w0 = (xOff32 << 1 & 0xfff) << 0xc | uVar8 | 0xf4000000;
         *(u32 *)((int)pGVar24 + 0x1c) = (uVar18 & 0x7ff) << 0xd | uVar7 | 0x7000000;
         pGVar24[4].words.w0 = 0xe7000000;
         *(undefined4 *)((int)pGVar24 + 0x24) = 0;
         *(undefined4 *)((int)pGVar24 + 0x2c) = 0x80200;
         pGVar24[5].words.w0 = uVar19 | uVar12 | 0xf5000000;
-        pGVar24[6].words.w0 = (uVar21 << 2 & 0xfff) << 0xc | uVar8 | 0xf2000000;
+        pGVar24[6].words.w0 = (xOff32 << 2 & 0xfff) << 0xc | uVar8 | 0xf2000000;
         *(u32 *)((int)pGVar24 + 0x34) = (uVar18 & 0x3ff) << 0xe | uVar7;
         pGVar24[7].words.w0 = 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
+        *(u32 *)((int)pGVar24 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
         if ((int)uVar27 < 1) {
           uVar8 = 0xe4000000;
         }
@@ -873,8 +824,8 @@ LAB_800a6620:
         *(u32 *)((int)pGVar24 + 0x44) = uVar8;
         pGVar24[9].words.w0 = 0xe1000000;
         if ((int)uVar4 < 0) {
-          iVar9 = (int)(uVar4 * (int)sVar10) >> 7;
-          if (sVar10 < 0) {
+          iVar9 = (int)(uVar4 * (int)dsdx16) >> 7;
+          if (dsdx16 < 0) {
             if (iVar9 < 0) {
               iVar9 = 0;
             }
@@ -888,7 +839,7 @@ LAB_800a6620:
           uVar8 = 0;
         }
         if ((int)fVar37 < 0) {
-          iVar14 = (int)sVar11;
+          iVar14 = (int)dtdy16;
           iVar9 = (int)(short)(int)fVar37;
           if (iVar14 < 0) {
             iVar9 = iVar9 * iVar14 >> 7;
@@ -912,58 +863,58 @@ LAB_800a6620:
         fVar37 = fVar37 + fVar30;
         uVar8 = uVar16;
         pGVar24 = pGVar25;
-      } while (uVar23 < uVar13);
+      } while (uVar23 < iters);
     }
     fVar30 = 4.0f;
     uVar22 = iVar5 << 0x15;
-    (pGVar25->words).w0 = uVar22 | ((int)uVar15 >> 1) - 1U & 0xfff | 0xfd080000;
-    (pGVar25->words).w1 = (u32)pvVar3;
+    (pGVar25->words).w0 = uVar22 | ((int)borg8->dat.Width >> 1) - 1U & 0xfff | 0xfd080000;
+    (pGVar25->words).w1 = (u32)BMP;
     *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
-    uVar13 = iVar6 + uVar26;
-    uVar15 = (((int)((uVar13 - uVar20) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
+    iters = iVar6 + hVis;
+    uVar15 = (((int)((iters - xOff) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
     pGVar25[1].words.w0 = uVar22 | uVar15 | 0xf5080000;
     pGVar25[2].words.w0 = 0xe6000000;
     *(undefined4 *)((int)pGVar25 + 0x14) = 0;
     uVar20 = (uVar16 & 0x3ff) << 2;
-    pGVar25[3].words.w0 = (uVar21 << 1 & 0xfff) << 0xc | uVar20 | 0xf4000000;
-    uVar16 = ((uVar16 - 1) + uVar17) * 4 & 0xfff;
-    *(u32 *)((int)pGVar25 + 0x1c) = (uVar13 & 0x7ff) << 0xd | uVar16 | 0x7000000;
+    pGVar25[3].words.w0 = (xOff32 << 1 & 0xfff) << 0xc | uVar20 | 0xf4000000;
+    uVar16 = ((uVar16 - 1) + vVis) * 4 & 0xfff;
+    *(u32 *)((int)pGVar25 + 0x1c) = (iters & 0x7ff) << 0xd | uVar16 | 0x7000000;
     pGVar25[4].words.w0 = 0xe7000000;
     *(undefined4 *)((int)pGVar25 + 0x24) = 0;
     pGVar25[5].words.w0 = uVar22 | uVar15 | 0xf5000000;
     *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
-    *(u32 *)((int)pGVar25 + 0x34) = (uVar13 & 0x3ff) << 0xe | uVar16;
-    pGVar25[6].words.w0 = (uVar21 << 2 & 0xfff) << 0xc | uVar20 | 0xf2000000;
+    *(u32 *)((int)pGVar25 + 0x34) = (iters & 0x3ff) << 0xe | uVar16;
+    pGVar25[6].words.w0 = (xOff32 << 2 & 0xfff) << 0xc | uVar20 | 0xf2000000;
     pGVar25[7].words.w0 = 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x3c) = (uVar26 - 1 & 0x3ff) << 0xe | (uVar17 - 1 & 0x3ff) << 2;
-    uVar17 = (u32)(short)(iVar31 + iVar29);
+    *(u32 *)((int)pGVar25 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | (vVis - 1 & 0x3ff) << 2;
+    vVis = (u32)(short)(iVar31 + iVar29);
     pGVar24 = pGVar25 + 9;
-    if ((int)uVar17 < 1) {
-      uVar17 = 0xe4000000;
+    if ((int)vVis < 1) {
+      vVis = 0xe4000000;
     }
     else {
-      uVar17 = (uVar17 & 0xfff) << 0xc | 0xe4000000;
+      vVis = (vVis & 0xfff) << 0xc | 0xe4000000;
     }
     uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * imgYScale * fVar30);
     if (0 < (int)uVar16) {
-      uVar17 = uVar17 | uVar16 & 0xfff;
+      vVis = vVis | uVar16 & 0xfff;
     }
-    pGVar25[8].words.w0 = uVar17;
+    pGVar25[8].words.w0 = vVis;
     if ((int)uVar4 < 1) {
-      uVar17 = 0;
+      vVis = 0;
     }
     else {
-      uVar17 = (uVar4 & 0xfff) << 0xc;
+      vVis = (uVar4 & 0xfff) << 0xc;
     }
     if (0 < (short)(int)fVar37) {
-      uVar17 = uVar17 | (int)(short)(int)fVar37 & 0xfffU;
+      vVis = vVis | (int)(short)(int)fVar37 & 0xfffU;
     }
-    *(u32 *)((int)pGVar25 + 0x44) = uVar17;
+    *(u32 *)((int)pGVar25 + 0x44) = vVis;
     (pGVar24->words).w0 = 0xe1000000;
     pGVar25 = pGVar25 + 10;
     if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)sVar10) >> 7;
-      if (sVar10 < 0) {
+      iVar29 = (int)(uVar4 * (int)dsdx16) >> 7;
+      if (dsdx16 < 0) {
         if (iVar29 < 0) {
           iVar29 = 0;
         }
@@ -971,25 +922,25 @@ LAB_800a6620:
       else if (0 < iVar29) {
         iVar29 = 0;
       }
-      uVar17 = iVar29 * -0x10000;
+      vVis = iVar29 * -0x10000;
     }
     else {
-      uVar17 = 0;
+      vVis = 0;
     }
     if (-1 < (int)fVar37) goto LAB_800a662c;
     iVar29 = (int)fVar37 << 0x10;
-    if (-1 < sVar11) goto LAB_800a6608;
-    iVar29 = (iVar29 >> 0x10) * (int)sVar11 >> 7;
+    if (-1 < dtdy16) goto LAB_800a6608;
+    iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
     if (iVar29 < 0) {
       iVar29 = 0;
       goto LAB_800a6620;
     }
     uVar16 = -iVar29;
   }
-  uVar17 = uVar17 | uVar16 & 0xffff;
+  vVis = vVis | uVar16 & 0xffff;
 LAB_800a662c:
   dtdy = dtdy & 0xffff;
-  (pGVar24->words).w1 = uVar17;
+  (pGVar24->words).w1 = vVis;
   (pGVar25->words).w0 = 0xf1000000;
   (pGVar25->words).w1 = dsdx << 0x10 | dtdy;
   return pGVar25 + 1;

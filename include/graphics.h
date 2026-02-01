@@ -6,6 +6,25 @@ struct GtaskMsg {
     OSScTask *task;
 };
 
+#define Borg8LoadTextureBlock(pkt, timg, tmem, fmt, siz, width,b8w, height, pal, \
+        cms, cmt, masks, maskt, shifts, shiftt,x1,y1,xh,yh,tile,s,t,dsdx,dtdy)   \
+_DW({                                                                       \
+    gDPSetTextureImage(pkt, fmt, siz##_LOAD_BLOCK, b8w, timg);                \
+    gDPSetTile(pkt, fmt, siz##_LOAD_BLOCK, 0, tmem, G_TX_LOADTILE,          \
+        0, cmt, maskt, shiftt, cms, masks, shifts);                         \
+    gDPLoadSync(pkt);                                                       \
+    gDPLoadBlock(pkt, G_TX_LOADTILE, 0, 0,                                  \
+        (((width) * (height) + siz##_INCR) >> siz##_SHIFT) - 1,             \
+        CALC_DXT(width, siz##_BYTES));                                      \
+    gDPPipeSync(pkt);                                                       \
+    gDPSetTile(pkt, fmt, siz,                                               \
+        (((width) * siz##_LINE_BYTES) + 9) >> 3, tmem,                      \
+        G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks, shifts);      \
+    gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0,                              \
+        ((width)  - 1) << G_TEXTURE_IMAGE_FRAC,                             \
+        ((height) - 1) << G_TEXTURE_IMAGE_FRAC);                            \
+    gsSPTextureRectangle(pkt,xl, yl, xh, yh, tile, s, t, dsdx, dtdy);       \
+})
 
 #define SCREEN_WIDTH  320 //standard screen width
 #define SCREEN_CENTERW (SCREEN_WIDTH/2) //half of standard screen width
