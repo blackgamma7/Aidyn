@@ -118,7 +118,7 @@ void Graphics::video_settings(void){
       if (osTvType == OS_TV_NTSC) osViSetMode(osViModeTable + OS_VI_NTSC_LAN1);
       else if (osTvType == OS_TV_MPAL) osViSetMode(osViModeTable + OS_VI_MPAL_LAN1);
       else if (osTvType == OS_TV_PAL)
-      #ifdef VER_NA11
+      #if VER_NA11
         osViSetMode(&gGfxManager.osvimodeBuffer);
       #else
         osViSetMode(osViModeTable + OS_VI_PAL_LAN1);
@@ -376,9 +376,6 @@ void Graphics::getGfxLastFrame
   byte bVar17;
   uint k;
   byte bVar19;
-  uint *dest32;
-  u16 *dest16;
-  u8 *dest8;
   uint uVar23;
   uint j;
   float fVar25;
@@ -416,15 +413,15 @@ void Graphics::getGfxLastFrame
           j = uVar16 + 1;
           if (H != 0) {
             iVar4 = uVar16 * H;
-            dest8 = (u8 *)(iVar4 + (int)pDest);
+            u8* dest8 = (u8 *)(iVar4 + (int)pDest);
             iVar5 = uVar16 * (H >> 1);
-            dest16 = (u16 *)(iVar4 * 2 + (int)pDest);
-            dest32 = (uint *)(iVar4 * 4 + (int)pDest);
+            u16* dest16 = (u16 *)(iVar4 * 2 + (int)pDest);
+            u32* dest32 = (u32 *)(iVar4 * 4 + (int)pDest);
             uVar16 = uVar12;
             do {
               uVar12 = uVar16;
               if (bVar11 == 0x20) {
-                uVar3 = *(uint *)(((int)fVar28 * (uint)uVar10 + (int)fVar27) * 4 + (int)pvVar2);
+                uVar3 = *(u32 *)(((int)fVar28 * (u32)uVar10 + (int)fVar27) * 4 + (int)pvVar2);
                 if (depth == 0x20) {
                   *dest32 = uVar3 | 0xff;
                 }
@@ -482,10 +479,10 @@ LAB_80009c94:
                   uVar12 = uVar16;
                 }
               }
-              dest8 = dest8 + 1;
-              dest16 = dest16 + 1;
-              dest32 = dest32 + 1;
-              k = k + 1;
+              dest8++;
+              dest16++;
+              dest32++;
+              k++;
               fVar27 = fVar27 + fVar26 / (float)H;
               uVar16 = uVar12;
             } while (k < H);

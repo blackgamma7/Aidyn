@@ -36,7 +36,7 @@ bool Font::Init(FontStruct *fontP,u8 param_2){
         puVar3 = (FontSubstruct *)(&fontP->substruct0->borgIndex + iVar4);
         puVar3->rows = 0;
         pFVar2 = fontP->substruct0;
-        uVar5 -= 1;
+        uVar5--;
         puVar3->borgIndex = 0;
         puVar3->borgP = NULL;
         puVar3->charH = 0;
@@ -44,14 +44,12 @@ bool Font::Init(FontStruct *fontP,u8 param_2){
         puVar3->borgH = 0;
         puVar3->borgW = 0;
         (&pFVar2->cols)[iVar4] = 0;
-        iVar4 = iVar4 + 0x18;
+        iVar4+=sizeof(FontSubstruct);
       } while (uVar5 != 0);
     }
     bVar3 = true;
-    (fontP->col).R = 0xe1;
-    (fontP->col).G = 0xe1;
-    (fontP->col).B = 0xe1;
-    (fontP->col).A = 0xff;
+
+    fontP->col={COLOR_OFFWHITE};
     fontP->fontsLoaded = 0;
     fontP->fontTotal = param_2;
     fontP->fontIndex = 0;
@@ -60,7 +58,6 @@ bool Font::Init(FontStruct *fontP,u8 param_2){
   }
   return bVar3;
 }
-
 
 void Font::Free(FontStruct *fontP){
   if (fontP->fontsLoaded != 0) {
@@ -76,7 +73,6 @@ void Font::Free(FontStruct *fontP){
   }
   HFREE(fontP->substruct0,0x75);
 }
-
 
 u8 Font::LoadFace(FontStruct *fontP,u32 b8,u8 rows,u8 cols){
   u16 uVar1;
@@ -393,9 +389,7 @@ void Font::PrintCharaWapper
 }
 
 void Font::PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_5,s16 param_6,
-                     s16 param_7,s16 param_8,s16 param_9,float param_10,float param_11)
-
-{
+                     s16 param_7,s16 param_8,s16 param_9,float param_10,float param_11){
   byte bVar1;
   byte bVar2;
   s16 sVar3;

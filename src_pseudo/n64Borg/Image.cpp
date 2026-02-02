@@ -80,15 +80,28 @@ Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
   return gfx;
 }
 
-// "loadTextureBlock" macro used here seems altered and added\followed with "gSPScisTextureRectangle"
-
+//Build dlist for rendering Borg8
+//@param g display list
+//@param borg8 image
+//@param x x position
+//@param y y position
+//@param xOff x position offset
+//@param yOff y position offset
+//@param h horizontal
+//@param v vertical
+//@param xScale horizontal scale
+//@param yScale vertical scale
+//@param red red
+//@param green green
+//@param blue blue
+//@param alpha alpha
+//@returns display list change
 Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yOff,u16 h,u16 v,
                       float xScale,float yScale,u8 red,u8 green,u8 blue,u8 alpha) {
   u16 uVar1;
-  void *BMP;
   s16 dsdx16;
   u32 uVar4;
-  int iVar5;
+  int fmt;
   int iVar6;
   u32 uVar7;
   u32 uVar8;
@@ -104,9 +117,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
   u32 uVar20;
   u32 xOff32;
   u32 uVar22;
-  u32 uVar23;
-  Gfx *pGVar24;
-  Gfx *pGVar25;
+  u32 i;
   u32 hVis;
   u32 uVar27;
   s16 sVar28;
@@ -124,9 +135,8 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
   u32 dtdy;
   short dtdy16;
   
-  fVar30 = 4.0f;
   imgXScale = xScale * sImageHScale;
-  BMP = (borg8->dat).offset;
+  void*BMP = (borg8->dat).offset;
   imgYScale = yScale * sImageVScale;
   hVis = (u32)h - (u32)xOff;
   fVar36 = x * sImageHScale;
@@ -141,7 +151,6 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
   iVar31 = (int)(fVar36 * 4.0f);
   dsdx = (int)(1024.0f / imgXScale);
   dtdy = (u32)(1024.0f / imgYScale);
-  pGVar24 = g + 2;
   if (8 < ((borg8->dat).format - BORG8_RBGA32))
     CRASH("N64BorgImage.cpp N64BorgImageDraw","Image type was  not recognized.");
   xOff32 = (u32)xOff;
@@ -151,16 +160,12 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
   sVar28 = (s16)iVar31;
   switch((borg8->dat).format) {
   case BORG8_RBGA32:
-    if ((int)hVis < 2) {
-      iVar5 = 2 - hVis;
-    }
+    if ((int)hVis < 2) fmt = 2 - hVis;
     else {
-      iVar5 = 2 - (hVis & 1);
-      if ((hVis & 1) == 0) {
-        iVar5 = 0;
-      }
+      fmt = 2 - (hVis & 1);
+      if ((hVis & 1) == 0) fmt = 0;
     }
-    iters = (hVis + iVar5) * 4;
+    iters = (hVis + fmt) * 4;
     uVar22 = 0x1000 / iters - 1;
     iters = vVis / uVar22;
     vVis = vVis - iters * uVar22;
@@ -169,176 +174,30 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
       vVis = uVar22;
     }
     dVar35 = (double)(int)uVar22;
-    pGVar25 = g + 3;
-    uVar23 = 0;
+    i = 0;
     dVar34 = (double)(int)vVis;
     gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
-    fVar33 = (float)dVar35 * imgYScale * fVar33;
+    fVar33 = (float)dVar35 * imgYScale * 4.0f;
     uVar4 = (u32)sVar28;
-    if (iters != 0) {
-      uVar8 = uVar16;
-      pGVar24 = pGVar25;
-      do {
-        uVar16 = uVar8 + uVar22;
-        gDPSetTextureImage(&pGVar24[0],G_IM_FMT_RGBA,G_IM_SIZ_32b,borg8->dat.Width,BMP);
-        gDPSetTile(&pGVar24[1],G_IM_FMT_RGBA,G_IM_SIZ_32b_LOAD_BLOCK,(((((xOff32 - 1) + hVis) - xOff) * 2 + 9) >> 3),
-           0,G_TX_LOADTILE,0,2,0,0,2,0,0);
-        gDPLoadSync(&pGVar24[2]);
-        gDPLoadTile(&pGVar24[3],0,(xOff32 << 2),(yOff << 2),((xOff32 - 1) + hVis)<<2,uVar16);
-        gDPPipeSync(&pGVar24[4]);
-        gDPSetTile(&pGVar24[5],G_IM_FMT_RGBA,G_IM_SIZ_32b,((((xOff32 - 1) + hVis) - xOff) * 2 + 9) >> 3,0,
-          G_TX_RENDERTILE,0,2,0,0,2,0,0);
-        gDPSetTileSize(&pGVar24[6],G_TX_RENDERTILE,(xOff32 << 2),(yOff<<2),
-            ((xOff32 - 1) + hVis)<<2,((yOff & 0x3ff) << 2));
-        gDPSetTileSize(&pGVar24[7],G_TX_RENDERTILE,0,0,
-          (hVis - 1)<<G_TEXTURE_IMAGE_FRAC,uVar22<<G_TEXTURE_IMAGE_FRAC);
-        if ((s16)(iVar31 + iVar29) < 1) uVar8 = 0xe4000000;
-        else {
-          uVar8 = ((s16)(iVar31 + iVar29) & 0xfff) << 0xc | 0xe4000000;
-        }
-        uVar7 = (u32)(short)(int)(fVar37 + fVar33);
-        if (0 < (int)uVar7) {
-          uVar8 = uVar8 | uVar7 & 0xfff;
-        }
-        pGVar24[8].words.w0 = uVar8;
-        if ((int)uVar4 < 1) {
-          uVar8 = 0;
-        }
-        else {
-          uVar8 = (uVar4 & 0xfff) << 0xc;
-        }
-        if (0 < (short)(int)fVar37) {
-          uVar8 = uVar8 | (int)(short)(int)fVar37 & 0xfffU;
-        }
-        *(u32 *)((int)pGVar24 + 0x44) = uVar8;
-        pGVar24[9].words.w0 = 0xe1000000;
-        if ((int)uVar4 < 0) {
-          iVar5 = (int)(uVar4 * (int)dsdx16) >> 7;
-          if (dsdx16 < 0) {
-            if (iVar5 < 0) {
-              iVar5 = 0;
-            }
-          }
-          else if (0 < iVar5) iVar5 = 0;
-          uVar8 = iVar5 * -0x10000;
-        }
-        else uVar8 = 0;
-        if ((int)fVar37 < 0) {
-          iVar6 = (int)dtdy16;
-          iVar5 = (int)(short)(int)fVar37;
-          if (iVar6 < 0) {
-            iVar5 = iVar5 * iVar6 >> 7;
-            if (iVar5 < 0) {
-              iVar5 = 0;
-            }
-          }
-          else {
-            iVar5 = iVar5 * iVar6 >> 7;
-            if (0 < iVar5) iVar5 = 0;
-          }
-          uVar8 = uVar8 | -iVar5 & 0xffffU;
-        }
-        pGVar25 = pGVar24 + 0xb;
-        uVar23 = uVar23 + 1;
-        *(u32 *)((int)pGVar24 + 0x4c) = uVar8;
-        pGVar24[10].words.w0 = 0xf1000000;
-        *(u32 *)((int)pGVar24 + 0x54) = dsdx << 0x10 | dtdy & 0xffff;
-        fVar37 = fVar37 + fVar33;
-        uVar8 = uVar16;
-        pGVar24 = pGVar25;
-      } while (uVar23 < iters);
+    u16 currYoff=yOff;
+    for(i=0;i<iters;i++){
+      currYoff+=uVar22;
+      Borg8LoadTextureBlock(g++,BMP,G_IM_FMT_RGBA,G_IM_SIZ_32b,borg8->dat.Width,hVis,xOff,yOff,currYoff,uVar22);
+      gSPScisTextureRectangle(g++, sVar28, fVar37, (iVar31 + iVar29), (fVar37 + fVar33), 0, 0, 0, dsdx16, dtdy16);
+      fVar37+= fVar33;
     }
-    fVar30 = 4.0f;
-    (pGVar25->words).w0 = borg8->dat.Width - 1 & 0xfff | 0xfd180000;
-    (pGVar25->words).w1 = (u32)BMP;
-    *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
-    iters = (xOff32 - 1) + hVis;
-    uVar15 = ((int)((iters - xOff) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5180000;
-    pGVar25[1].words.w0 = uVar15;
-    pGVar25[2].words.w0 = 0xe6000000;
-    *(undefined4 *)((int)pGVar25 + 0x14) = 0;
-    pGVar25[3].words.w0 = (xOff32 << 2 & 0xfff) << 0xc | (uVar16 & 0x3ff) << 2 | 0xf4000000;
-    *(u32 *)((int)pGVar25 + 0x1c) = (iters & 0x3ff) << 0xe | ((uVar16 - 1) + vVis) * 4 & 0xfff | 0x7000000;
-    pGVar25[4].words.w0 = 0xe7000000;
-    *(undefined4 *)((int)pGVar25 + 0x24) = 0;
-    pGVar25[5].words.w0 = uVar15;
-    *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
-    pGVar25[6].words.w0 = (xOff32 << 2 & 0xfff) << 0xc | (uVar16 & 0x3ff) << 2 | 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x34) = (iters & 0x3ff) << 0xe | ((uVar16 - 1) + vVis) * 4 & 0xfff;
-    pGVar25[7].words.w0 = 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | (vVis - 1 & 0x3ff) << 2;
-    vVis = (u32)(short)(iVar31 + iVar29);
-    pGVar24 = pGVar25 + 9;
-    if ((int)vVis < 1) {
-      vVis = 0xe4000000;
-    }
-    else {
-      vVis = (vVis & 0xfff) << 0xc | 0xe4000000;
-    }
-    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar34 * imgYScale * 4.0f);
-    if (0 < (int)uVar16) {
-      vVis = vVis | uVar16 & 0xfff;
-    }
-    pGVar25[8].words.w0 = vVis;
-    if ((int)uVar4 < 1) {
-      vVis = 0;
-    }
-    else {
-      vVis = (uVar4 & 0xfff) << 0xc;
-    }
-    if (0 < (short)(int)fVar37) {
-      vVis = vVis | (int)(short)(int)fVar37 & 0xfffU;
-    }
-    *(u32 *)((int)pGVar25 + 0x44) = vVis;
-    (pGVar24->words).w0 = 0xe1000000;
-    pGVar25 = pGVar25 + 10;
-    if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)dsdx16) >> 7;
-      if (dsdx16 < 0) {
-        if (iVar29 < 0) {
-          iVar29 = 0;
-        }
-      }
-      else if (0 < iVar29) {
-        iVar29 = 0;
-      }
-      vVis = iVar29 * -0x10000;
-    }
-    else {
-      vVis = 0;
-    }
-    if (-1 < (int)fVar37) goto LAB_800a662c;
-    iVar29 = (int)fVar37 << 0x10;
-    if (dtdy16 < 0) {
-      iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
-      if (-1 < iVar29) {
-        uVar16 = -iVar29;
-        break;
-      }
-      iVar29 = 0;
-    }
-    else {
-LAB_800a6608:
-      iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
-      if (0 < iVar29) {
-        iVar29 = 0;
-      }
-    }
-LAB_800a6620:
-    uVar16 = -iVar29;
+    Borg8LoadTextureBlock(g++,BMP,G_IM_FMT_RGBA,G_IM_SIZ_32b,borg8->dat.Width,hVis,xOff,yOff,yOff,vVis - 1);
+    gSPScisTextureRectangle(g++, sVar28, fVar37, (iVar31 + iVar29), (fVar37 + (float)dVar34 * imgYScale * 4.0f),
+     0, 0, 0, dsdx16, dtdy16);
     break;
   case BORG8_RGBA16:
   case BORG8_IA16:
-    if ((int)hVis < 4) {
-      iVar5 = 4 - hVis;
-    }
+    if ((int)hVis < 4) fmt = 4 - hVis;
     else {
-      iVar5 = 4 - (hVis & 3);
-      if ((hVis & 3) == 0) {
-        iVar5 = 0;
-      }
+      fmt = 4 - (hVis & 3);
+      if ((hVis & 3) == 0) fmt = 0;
     }
-    iters = (hVis + iVar5) * 2;
+    iters = (hVis + fmt) * 2;
     uVar22 = 0x1000 / iters - 1;
     iters = vVis / uVar22;
     vVis = vVis - iters * uVar22;
@@ -346,196 +205,38 @@ LAB_800a6620:
       iters = iters - 1;
       vVis = uVar22;
     }
-    fVar30 = (float)(int)uVar22;
-    fVar30 = fVar30 * imgYScale * 4.0f;
-    iVar5 = G_IM_FMT_IA;
+    fVar30 = (float)(int)uVar22 * imgYScale * 4.0f;
+    fmt = G_IM_FMT_IA;
     if ((borg8->dat).format == BORG8_RGBA16) {
-      iVar5 = G_IM_FMT_RGBA;
+      fmt = G_IM_FMT_RGBA;
     }
-    pGVar25 = g + 3;
-    uVar23 = 0;
     dVar35 = (double)(int)vVis;
-    gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
-    *(undefined4 *)((int)g + 0x14) = 0;
+    gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     uVar4 = (u32)sVar28;
-    if (iters != 0) {
-      uVar8 = (xOff32 - 1) + hVis;
-      uVar18 = iVar5 << 0x15 | ((int)((uVar8 - xOff) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
-      uVar27 = (xOff32 << 2 & 0xfff) << 0xc;
-      uVar19 = (uVar8 & 0x3ff) << 0xe;
-      uVar12 = (iVar31 + iVar29) * 0x10000 >> 0x10;
-      uVar8 = uVar16;
-      pGVar24 = pGVar25;
-      do {
-        uVar16 = uVar8 + uVar22;
-        (pGVar24->words).w0 = iVar5 << 0x15 | borg8->dat.Width - 1 & 0xfff | 0xfd100000;
-        (pGVar24->words).w1 = (u32)BMP;
-        uVar7 = uVar16 * 4 & 0xfff;
-        *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
-        pGVar24[1].words.w0 = uVar18;
-        uVar8 = (uVar8 & 0x3ff) << 2;
-        pGVar24[2].words.w0 = 0xe6000000;
-        *(undefined4 *)((int)pGVar24 + 0x14) = 0;
-        pGVar24[3].words.w0 = uVar27 | uVar8 | 0xf4000000;
-        *(u32 *)((int)pGVar24 + 0x1c) = uVar19 | uVar7 | 0x7000000;
-        pGVar24[4].words.w0 = 0xe7000000;
-        *(undefined4 *)((int)pGVar24 + 0x24) = 0;
-        *(undefined4 *)((int)pGVar24 + 0x2c) = 0x80200;
-        pGVar24[5].words.w0 = uVar18;
-        pGVar24[6].words.w0 = uVar27 | uVar8 | 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x34) = uVar19 | uVar7;
-        pGVar24[7].words.w0 = 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
-        if ((int)uVar12 < 1) {
-          uVar8 = 0xe4000000;
-        }
-        else {
-          uVar8 = (uVar12 & 0xfff) << 0xc | 0xe4000000;
-        }
-        uVar7 = (u32)(short)(int)(fVar37 + fVar30);
-        if (0 < (int)uVar7) {
-          uVar8 = uVar8 | uVar7 & 0xfff;
-        }
-        pGVar24[8].words.w0 = uVar8;
-        if ((int)uVar4 < 1) {
-          uVar8 = 0;
-        }
-        else {
-          uVar8 = (uVar4 & 0xfff) << 0xc;
-        }
-        if (0 < (short)(int)fVar37) {
-          uVar8 = uVar8 | (int)(short)(int)fVar37 & 0xfffU;
-        }
-        *(u32 *)((int)pGVar24 + 0x44) = uVar8;
-        pGVar24[9].words.w0 = 0xe1000000;
-        if ((int)uVar4 < 0) {
-          iVar6 = (int)(uVar4 * (int)dsdx16) >> 7;
-          if (dsdx16 < 0) {
-            if (iVar6 < 0) {
-              iVar6 = 0;
-            }
-          }
-          else if (0 < iVar6) {
-            iVar6 = 0;
-          }
-          uVar8 = iVar6 * -0x10000;
-        }
-        else {
-          uVar8 = 0;
-        }
-        if ((int)fVar37 < 0) {
-          iVar9 = (int)dtdy16;
-          iVar6 = (int)(short)(int)fVar37;
-          if (iVar9 < 0) {
-            iVar6 = iVar6 * iVar9 >> 7;
-            if (iVar6 < 0) {
-              iVar6 = 0;
-            }
-          }
-          else {
-            iVar6 = iVar6 * iVar9 >> 7;
-            if (0 < iVar6) {
-              iVar6 = 0;
-            }
-          }
-          uVar8 = uVar8 | -iVar6 & 0xffffU;
-        }
-        pGVar25 = pGVar24 + 0xb;
-        uVar23 = uVar23 + 1;
-        *(u32 *)((int)pGVar24 + 0x4c) = uVar8;
-        pGVar24[10].words.w0 = 0xf1000000;
-        *(u32 *)((int)pGVar24 + 0x54) = dsdx << 0x10 | dtdy & 0xffff;
-        fVar37 = fVar37 + fVar30;
-        uVar8 = uVar16;
-        pGVar24 = pGVar25;
-      } while (uVar23 < iters);
+    u16 currYoff=yOff;
+    for(i=0;i<iters;i++){
+      currYoff+=uVar22;
+      Borg8LoadTextureBlock(g++,BMP,fmt,G_IM_SIZ_16b,borg8->dat.Width,hVis,xOff,yOff,currYoff,uVar22);
+      gSPScisTextureRectangle(g++, sVar28, fVar37, (iVar31 + iVar29), (fVar37 + fVar30), 0, 0, 0, dsdx16, dtdy16);
+      fVar37+= fVar30;
     }
-    fVar30 = 4.0f;
-    (pGVar25->words).w0 = iVar5 << 0x15 | borg8->dat.Width - 1 & 0xfff | 0xfd100000;
-    (pGVar25->words).w1 = (u32)BMP;
-    iters = (uVar16 & 0x3ff) << 2;
-    *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
-    uVar16 = ((uVar16 - 1) + vVis) * 4 & 0xfff;
-    uVar15 = (xOff32 - 1) + hVis;
-    uVar22 = iVar5 << 0x15 | ((int)((uVar15 - xOff) * 2 + 9) >> 3 & 0x1ffU) << 9 | 0xf5100000;
-    pGVar25[1].words.w0 = uVar22;
-    pGVar25[2].words.w0 = 0xe6000000;
-    *(undefined4 *)((int)pGVar25 + 0x14) = 0;
-    uVar15 = (uVar15 & 0x3ff) << 0xe;
-    uVar20 = (xOff32 << 2 & 0xfff) << 0xc;
-    pGVar25[3].words.w0 = uVar20 | iters | 0xf4000000;
-    *(u32 *)((int)pGVar25 + 0x1c) = uVar15 | uVar16 | 0x7000000;
-    pGVar25[4].words.w0 = 0xe7000000;
-    *(undefined4 *)((int)pGVar25 + 0x24) = 0;
-    pGVar25[5].words.w0 = uVar22;
-    *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
-    pGVar25[6].words.w0 = uVar20 | iters | 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
-    pGVar25[7].words.w0 = 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | (vVis - 1 & 0x3ff) << 2;
-    vVis = (u32)(short)(iVar31 + iVar29);
-    pGVar24 = pGVar25 + 9;
-    if ((int)vVis < 1) {
-      vVis = 0xe4000000;
-    }
-    else {
-      vVis = (vVis & 0xfff) << 0xc | 0xe4000000;
-    }
-    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * imgYScale * fVar30);
-    if (0 < (int)uVar16) {
-      vVis = vVis | uVar16 & 0xfff;
-    }
-    pGVar25[8].words.w0 = vVis;
-    if ((int)uVar4 < 1) {
-      vVis = 0;
-    }
-    else {
-      vVis = (uVar4 & 0xfff) << 0xc;
-    }
-    if (0 < (short)(int)fVar37) {
-      vVis = vVis | (int)(short)(int)fVar37 & 0xfffU;
-    }
-    *(u32 *)((int)pGVar25 + 0x44) = vVis;
-    (pGVar24->words).w0 = 0xe1000000;
-    pGVar25 = pGVar25 + 10;
-    if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)dsdx16) >> 7;
-      if (dsdx16 < 0) {
-        if (iVar29 < 0) {
-          iVar29 = 0;
-        }
-      }
-      else if (0 < iVar29) {
-        iVar29 = 0;
-      }
-      vVis = iVar29 * -0x10000;
-    }
-    else {
-      vVis = 0;
-    }
-    if (-1 < (int)fVar37) goto LAB_800a662c;
-    iVar29 = (int)fVar37 << 0x10;
-    if (-1 < dtdy16) goto LAB_800a6608;
-    iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
-    if (iVar29 < 0) {
-      iVar29 = 0;
-      goto LAB_800a6620;
-    }
-    uVar16 = -iVar29;
+    Borg8LoadTextureBlock(g++,BMP,fmt,G_IM_SIZ_16b,borg8->dat.Width,hVis,xOff,yOff,yOff,vVis - 1);
+    gSPScisTextureRectangle(g++, sVar28, fVar37, (iVar31 + iVar29), (fVar37 + (float)dVar35 * imgYScale * 4.0f),
+     0, 0, 0, dsdx16, dtdy16);
     break;
   default:
     if ((int)hVis < 8) {
-      iVar5 = 8 - hVis;
+      fmt = 8 - hVis;
     }
     else {
-      iVar5 = 8 - (hVis & 7);
+      fmt = 8 - (hVis & 7);
       if ((hVis & 7) == 0) {
-        iVar5 = 0;
+        fmt = 0;
       }
     }
     if ((borg8->dat).format == BORG8_CI8) iters = 0x800;
     else iters = 0x1000;
-    uVar22 = iters / (hVis + iVar5) - 1;
+    uVar22 = iters / (hVis + fmt) - 1;
     iters = vVis / uVar22;
     vVis = vVis - iters * uVar22;
     if (vVis == 0) {
@@ -545,405 +246,84 @@ LAB_800a6620:
     fVar30 = (float)(int)uVar22;
     fVar30 = fVar30 * imgYScale * 4.0f;
     if ((borg8->dat).format == BORG8_CI8) {
-      iVar5 = G_IM_FMT_CI;
-      gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
-      pGVar25 = g + 10;
+      fmt = G_IM_FMT_CI;
+      gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
       gDPLoadTLUT_pal256(g++,(borg8->dat).palette);
       gDPLoadSync(g++);
     }
     else {
-      iVar5 = G_IM_FMT_I;
+      fmt = G_IM_FMT_I;
       if ((borg8->dat).format == BORG8_IA8) {
-        iVar5 = G_IM_FMT_IA;
+        fmt = G_IM_FMT_IA;
       }
-      pGVar25 = g + 3;
-      gSPSetOtherMode(pGVar24,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
+      gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     }
-    uVar23 = 0;
     dVar35 = (double)(int)vVis;
     uVar4 = (u32)sVar28;
-    if (iters != 0) {
-      uVar8 = (xOff32 - 1) + hVis;
-      uVar18 = iVar5 << 0x15 | ((int)((uVar8 - xOff) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
-      uVar19 = (uVar8 & 0x3ff) << 0xe;
-      uVar27 = (xOff32 << 2 & 0xfff) << 0xc;
-      uVar12 = (iVar31 + iVar29) * 0x10000 >> 0x10;
-      uVar8 = uVar16;
-      pGVar24 = pGVar25;
-      do {
-        uVar16 = uVar8 + uVar22;
-        (pGVar24->words).w0 = iVar5 << 0x15 | (borg8->dat).Width - 1 & 0xfff | 0xfd080000;
-        (pGVar24->words).w1 = (u32)BMP;
-        uVar7 = uVar16 * 4 & 0xfff;
-        *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
-        pGVar24[1].words.w0 = uVar18;
-        uVar8 = (uVar8 & 0x3ff) << 2;
-        pGVar24[2].words.w0 = 0xe6000000;
-        *(undefined4 *)((int)pGVar24 + 0x14) = 0;
-        pGVar24[3].words.w0 = uVar27 | uVar8 | 0xf4000000;
-        *(u32 *)((int)pGVar24 + 0x1c) = uVar19 | uVar7 | 0x7000000;
-        pGVar24[4].words.w0 = 0xe7000000;
-        *(undefined4 *)((int)pGVar24 + 0x24) = 0;
-        *(undefined4 *)((int)pGVar24 + 0x2c) = 0x80200;
-        pGVar24[5].words.w0 = uVar18;
-        pGVar24[6].words.w0 = uVar27 | uVar8 | 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x34) = uVar19 | uVar7;
-        pGVar24[7].words.w0 = 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
-        if ((int)uVar12 < 1) {
-          uVar8 = 0xe4000000;
-        }
-        else {
-          uVar8 = (uVar12 & 0xfff) << 0xc | 0xe4000000;
-        }
-        uVar7 = (u32)(short)(int)(fVar37 + fVar30);
-        if (0 < (int)uVar7) {
-          uVar8 = uVar8 | uVar7 & 0xfff;
-        }
-        pGVar24[8].words.w0 = uVar8;
-        if ((int)uVar4 < 1) {
-          uVar8 = 0;
-        }
-        else {
-          uVar8 = (uVar4 & 0xfff) << 0xc;
-        }
-        if (0 < (short)(int)fVar37) {
-          uVar8 = uVar8 | (int)(short)(int)fVar37 & 0xfffU;
-        }
-        *(u32 *)((int)pGVar24 + 0x44) = uVar8;
-        pGVar24[9].words.w0 = 0xe1000000;
-        if ((int)uVar4 < 0) {
-          iVar6 = (int)(uVar4 * (int)dsdx16) >> 7;
-          if (dsdx16 < 0) {
-            if (iVar6 < 0) {
-              iVar6 = 0;
-            }
-          }
-          else if (0 < iVar6) {
-            iVar6 = 0;
-          }
-          uVar8 = iVar6 * -0x10000;
-        }
-        else {
-          uVar8 = 0;
-        }
-        if ((int)fVar37 < 0) {
-          iVar9 = (int)dtdy16;
-          iVar6 = (int)(short)(int)fVar37;
-          if (iVar9 < 0) {
-            iVar6 = iVar6 * iVar9 >> 7;
-            if (iVar6 < 0) {
-              iVar6 = 0;
-            }
-          }
-          else {
-            iVar6 = iVar6 * iVar9 >> 7;
-            if (0 < iVar6) {
-              iVar6 = 0;
-            }
-          }
-          uVar8 = uVar8 | -iVar6 & 0xffffU;
-        }
-        pGVar25 = pGVar24 + 0xb;
-        uVar23 = uVar23 + 1;
-        *(u32 *)((int)pGVar24 + 0x4c) = uVar8;
-        pGVar24[10].words.w0 = 0xf1000000;
-        *(u32 *)((int)pGVar24 + 0x54) = dsdx << 0x10 | dtdy & 0xffff;
-        fVar37 = fVar37 + fVar30;
-        uVar8 = uVar16;
-        pGVar24 = pGVar25;
-      } while (uVar23 < iters);
+    u16 currYoff=yOff;
+    for(i=0;i<iters;i++){
+      currYoff+=uVar22;
+      Borg8LoadTextureBlock(g++,BMP,fmt,G_IM_SIZ_8b,borg8->dat.Width,hVis,xOff,yOff,currYoff,uVar22);
+      gSPScisTextureRectangle(g++, sVar28, fVar37, (iVar31 + iVar29), (fVar37 + fVar30), 0, 0, 0, dsdx16, dtdy16);
+      fVar37+= fVar30;
     }
-    fVar30 = 4.0f;
-    (pGVar25->words).w0 = iVar5 << 0x15 | uVar15 - 1 & 0xfff | 0xfd080000;
-    (pGVar25->words).w1 = (u32)BMP;
-    iters = (uVar16 & 0x3ff) << 2;
-    *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
-    uVar16 = ((uVar16 - 1) + vVis) * 4 & 0xfff;
-    uVar15 = (xOff32 - 1) + hVis;
-    uVar22 = iVar5 << 0x15 | ((int)((uVar15 - xOff) + 8) >> 3 & 0x1ffU) << 9 | 0xf5080000;
-    pGVar25[1].words.w0 = uVar22;
-    pGVar25[2].words.w0 = 0xe6000000;
-    *(undefined4 *)((int)pGVar25 + 0x14) = 0;
-    uVar15 = (uVar15 & 0x3ff) << 0xe;
-    uVar20 = (xOff32 << 2 & 0xfff) << 0xc;
-    pGVar25[3].words.w0 = uVar20 | iters | 0xf4000000;
-    *(u32 *)((int)pGVar25 + 0x1c) = uVar15 | uVar16 | 0x7000000;
-    pGVar25[4].words.w0 = 0xe7000000;
-    *(undefined4 *)((int)pGVar25 + 0x24) = 0;
-    pGVar25[5].words.w0 = uVar22;
-    *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
-    pGVar25[6].words.w0 = uVar20 | iters | 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x34) = uVar15 | uVar16;
-    pGVar25[7].words.w0 = 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | (vVis - 1 & 0x3ff) << 2;
-    vVis = (u32)(short)(iVar31 + iVar29);
-    pGVar24 = pGVar25 + 9;
-    if ((int)vVis < 1) {
-      vVis = 0xe4000000;
-    }
-    else {
-      vVis = (vVis & 0xfff) << 0xc | 0xe4000000;
-    }
-    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * imgYScale * fVar30);
-    if (0 < (int)uVar16) {
-      vVis = vVis | uVar16 & 0xfff;
-    }
-    pGVar25[8].words.w0 = vVis;
-    if ((int)uVar4 < 1) {
-      vVis = 0;
-    }
-    else {
-      vVis = (uVar4 & 0xfff) << 0xc;
-    }
-    if (0 < (short)(int)fVar37) {
-      vVis = vVis | (int)(short)(int)fVar37 & 0xfffU;
-    }
-    *(u32 *)((int)pGVar25 + 0x44) = vVis;
-    (pGVar24->words).w0 = 0xe1000000;
-    pGVar25 = pGVar25 + 10;
-    if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)dsdx16) >> 7;
-      if (dsdx16 < 0) {
-        if (iVar29 < 0) {
-          iVar29 = 0;
-        }
-      }
-      else if (0 < iVar29) {
-        iVar29 = 0;
-      }
-      vVis = iVar29 * -0x10000;
-    }
-    else {
-      vVis = 0;
-    }
-    if (-1 < (int)fVar37) goto LAB_800a662c;
-    iVar29 = (int)fVar37 << 0x10;
-    if (-1 < dtdy16) goto LAB_800a6608;
-    iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
-    if (iVar29 < 0) {
-      iVar29 = 0;
-      goto LAB_800a6620;
-    }
-    uVar16 = -iVar29;
+    Borg8LoadTextureBlock(g++,BMP,fmt,G_IM_SIZ_8b,borg8->dat.Width,hVis,xOff,yOff,yOff,vVis - 1);
+    gSPScisTextureRectangle(g++, sVar28, fVar37, (iVar31 + iVar29), (fVar37 + (float)dVar35 * imgYScale * 4.0f),
+     0, 0, 0, dsdx16, dtdy16);
     break;
   case BORG8_CI4:
   case BORG8_IA4:
   case BORG8_I4:
     if ((int)hVis < 0x10) {
-      iVar5 = 0x10 - hVis;
+      fmt = 0x10 - hVis;
     }
     else {
-      iVar5 = 0x10 - (hVis & 0xf);
+      fmt = 0x10 - (hVis & 0xf);
       if ((hVis & 0xf) == 0) {
-        iVar5 = 0;
+        fmt = 0;
       }
     }
-    iters = hVis + iVar5 >> 1;
-    if ((borg8->dat).format == BORG8_CI4) {
-      uVar22 = 0x800;
-    }
-    else {
-      uVar22 = 0x1000;
-    }
+    iters = hVis + fmt >> 1;
+    if ((borg8->dat).format == BORG8_CI4) uVar22 = 0x800;
+    else uVar22 = 0x1000;
     uVar22 = uVar22 / iters - 1;
     iters = vVis / uVar22;
     vVis = vVis - iters * uVar22;
     if (vVis == 0) {
-      iters = iters - 1;
+      iters--;
       vVis = uVar22;
     }
     fVar30 = (float)(int)uVar22;
     fVar30 = fVar30 * imgYScale * 4.0f;
     if ((borg8->dat).format == BORG8_CI4) {
-      iVar5 = G_IM_FMT_CI;
+      fmt = G_IM_FMT_CI;
       gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_RGBA16);
-      pGVar25 = g + 10;
       gDPLoadTLUT_pal256(g++,(borg8->dat).palette);//not pal16?
       gDPLoadSync(g++);
     }
     else {
-      iVar5 = G_IM_FMT_I;
+      fmt = G_IM_FMT_I;
       if ((borg8->dat).format == BORG8_IA4) {
-        iVar5 = G_IM_FMT_IA;
+        fmt = G_IM_FMT_IA;
       }
-      pGVar25 = g + 3;
       gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     }
-    uVar23 = 0;
     iVar6 = xOff - 1;
     dVar35 = (double)(int)vVis;
     uVar4 = (u32)sVar28;
-    if (iters != 0) {
-      uVar19 = iVar5 << 0x15;
-      uVar18 = iVar6 + hVis;
-      uVar12 = (((int)((uVar18 - xOff) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
-      uVar27 = (iVar31 + iVar29) * 0x10000 >> 0x10;
-      uVar8 = uVar16;
-      pGVar24 = pGVar25;
-      do {
-        uVar16 = uVar8 + uVar22;
-        (pGVar24->words).w0 = uVar19 | ((int)borg8->dat.Width >> 1) - 1U & 0xfff | 0xfd080000;
-        (pGVar24->words).w1 = (u32)BMP;
-        uVar7 = uVar16 * 4 & 0xfff;
-        *(undefined4 *)((int)pGVar24 + 0xc) = 0x7080200;
-        pGVar24[1].words.w0 = uVar19 | uVar12 | 0xf5080000;
-        uVar8 = (uVar8 & 0x3ff) << 2;
-        pGVar24[2].words.w0 = 0xe6000000;
-        *(undefined4 *)((int)pGVar24 + 0x14) = 0;
-        pGVar24[3].words.w0 = (xOff32 << 1 & 0xfff) << 0xc | uVar8 | 0xf4000000;
-        *(u32 *)((int)pGVar24 + 0x1c) = (uVar18 & 0x7ff) << 0xd | uVar7 | 0x7000000;
-        pGVar24[4].words.w0 = 0xe7000000;
-        *(undefined4 *)((int)pGVar24 + 0x24) = 0;
-        *(undefined4 *)((int)pGVar24 + 0x2c) = 0x80200;
-        pGVar24[5].words.w0 = uVar19 | uVar12 | 0xf5000000;
-        pGVar24[6].words.w0 = (xOff32 << 2 & 0xfff) << 0xc | uVar8 | 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x34) = (uVar18 & 0x3ff) << 0xe | uVar7;
-        pGVar24[7].words.w0 = 0xf2000000;
-        *(u32 *)((int)pGVar24 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | uVar22 * 4 & 0xfff;
-        if ((int)uVar27 < 1) {
-          uVar8 = 0xe4000000;
-        }
-        else {
-          uVar8 = (uVar27 & 0xfff) << 0xc | 0xe4000000;
-        }
-        uVar7 = (u32)(short)(int)(fVar37 + fVar30);
-        if (0 < (int)uVar7) {
-          uVar8 = uVar8 | uVar7 & 0xfff;
-        }
-        pGVar24[8].words.w0 = uVar8;
-        if ((int)uVar4 < 1) {
-          uVar8 = 0;
-        }
-        else {
-          uVar8 = (uVar4 & 0xfff) << 0xc;
-        }
-        if (0 < (short)(int)fVar37) {
-          uVar8 = uVar8 | (int)(short)(int)fVar37 & 0xfffU;
-        }
-        *(u32 *)((int)pGVar24 + 0x44) = uVar8;
-        pGVar24[9].words.w0 = 0xe1000000;
-        if ((int)uVar4 < 0) {
-          iVar9 = (int)(uVar4 * (int)dsdx16) >> 7;
-          if (dsdx16 < 0) {
-            if (iVar9 < 0) {
-              iVar9 = 0;
-            }
-          }
-          else if (0 < iVar9) {
-            iVar9 = 0;
-          }
-          uVar8 = iVar9 * -0x10000;
-        }
-        else {
-          uVar8 = 0;
-        }
-        if ((int)fVar37 < 0) {
-          iVar14 = (int)dtdy16;
-          iVar9 = (int)(short)(int)fVar37;
-          if (iVar14 < 0) {
-            iVar9 = iVar9 * iVar14 >> 7;
-            if (iVar9 < 0) {
-              iVar9 = 0;
-            }
-          }
-          else {
-            iVar9 = iVar9 * iVar14 >> 7;
-            if (0 < iVar9) {
-              iVar9 = 0;
-            }
-          }
-          uVar8 = uVar8 | -iVar9 & 0xffffU;
-        }
-        pGVar25 = pGVar24 + 0xb;
-        uVar23 = uVar23 + 1;
-        *(u32 *)((int)pGVar24 + 0x4c) = uVar8;
-        pGVar24[10].words.w0 = 0xf1000000;
-        *(u32 *)((int)pGVar24 + 0x54) = dsdx << 0x10 | dtdy & 0xffff;
-        fVar37 = fVar37 + fVar30;
-        uVar8 = uVar16;
-        pGVar24 = pGVar25;
-      } while (uVar23 < iters);
+    u16 currYoff=yOff;
+    for(i=0;i<iters;i++){
+      currYoff+=uVar22;
+      Borg8LoadTextureBlock(g++,BMP,fmt,G_IM_SIZ_4b,borg8->dat.Width>>1,hVis,xOff,yOff,currYoff,uVar22);
+      gSPScisTextureRectangle(g++, sVar28, fVar37, (iVar31 + iVar29), (fVar37 + fVar30), 0, 0, 0, dsdx16, dtdy16);
+      fVar37+= fVar30;
     }
-    fVar30 = 4.0f;
-    uVar22 = iVar5 << 0x15;
-    (pGVar25->words).w0 = uVar22 | ((int)borg8->dat.Width >> 1) - 1U & 0xfff | 0xfd080000;
-    (pGVar25->words).w1 = (u32)BMP;
-    *(undefined4 *)((int)pGVar25 + 0xc) = 0x7080200;
-    iters = iVar6 + hVis;
-    uVar15 = (((int)((iters - xOff) + 1) >> 1) + 7 >> 3 & 0x1ffU) << 9;
-    pGVar25[1].words.w0 = uVar22 | uVar15 | 0xf5080000;
-    pGVar25[2].words.w0 = 0xe6000000;
-    *(undefined4 *)((int)pGVar25 + 0x14) = 0;
-    uVar20 = (uVar16 & 0x3ff) << 2;
-    pGVar25[3].words.w0 = (xOff32 << 1 & 0xfff) << 0xc | uVar20 | 0xf4000000;
-    uVar16 = ((uVar16 - 1) + vVis) * 4 & 0xfff;
-    *(u32 *)((int)pGVar25 + 0x1c) = (iters & 0x7ff) << 0xd | uVar16 | 0x7000000;
-    pGVar25[4].words.w0 = 0xe7000000;
-    *(undefined4 *)((int)pGVar25 + 0x24) = 0;
-    pGVar25[5].words.w0 = uVar22 | uVar15 | 0xf5000000;
-    *(undefined4 *)((int)pGVar25 + 0x2c) = 0x80200;
-    *(u32 *)((int)pGVar25 + 0x34) = (iters & 0x3ff) << 0xe | uVar16;
-    pGVar25[6].words.w0 = (xOff32 << 2 & 0xfff) << 0xc | uVar20 | 0xf2000000;
-    pGVar25[7].words.w0 = 0xf2000000;
-    *(u32 *)((int)pGVar25 + 0x3c) = (hVis - 1 & 0x3ff) << 0xe | (vVis - 1 & 0x3ff) << 2;
-    vVis = (u32)(short)(iVar31 + iVar29);
-    pGVar24 = pGVar25 + 9;
-    if ((int)vVis < 1) {
-      vVis = 0xe4000000;
-    }
-    else {
-      vVis = (vVis & 0xfff) << 0xc | 0xe4000000;
-    }
-    uVar16 = (u32)(short)(int)(fVar37 + (float)dVar35 * imgYScale * fVar30);
-    if (0 < (int)uVar16) {
-      vVis = vVis | uVar16 & 0xfff;
-    }
-    pGVar25[8].words.w0 = vVis;
-    if ((int)uVar4 < 1) {
-      vVis = 0;
-    }
-    else {
-      vVis = (uVar4 & 0xfff) << 0xc;
-    }
-    if (0 < (short)(int)fVar37) {
-      vVis = vVis | (int)(short)(int)fVar37 & 0xfffU;
-    }
-    *(u32 *)((int)pGVar25 + 0x44) = vVis;
-    (pGVar24->words).w0 = 0xe1000000;
-    pGVar25 = pGVar25 + 10;
-    if ((int)uVar4 < 0) {
-      iVar29 = (int)(uVar4 * (int)dsdx16) >> 7;
-      if (dsdx16 < 0) {
-        if (iVar29 < 0) {
-          iVar29 = 0;
-        }
-      }
-      else if (0 < iVar29) {
-        iVar29 = 0;
-      }
-      vVis = iVar29 * -0x10000;
-    }
-    else {
-      vVis = 0;
-    }
-    if (-1 < (int)fVar37) goto LAB_800a662c;
-    iVar29 = (int)fVar37 << 0x10;
-    if (-1 < dtdy16) goto LAB_800a6608;
-    iVar29 = (iVar29 >> 0x10) * (int)dtdy16 >> 7;
-    if (iVar29 < 0) {
-      iVar29 = 0;
-      goto LAB_800a6620;
-    }
-    uVar16 = -iVar29;
+    Borg8LoadTextureBlock(g++,BMP,fmt,G_IM_SIZ_4b,borg8->dat.Width>>1,hVis,xOff,yOff,yOff,vVis - 1);
+    gSPScisTextureRectangle(g++, sVar28, fVar37, (iVar31 + iVar29), (fVar37 + (float)dVar35 * imgYScale * 4.0f),
+     0, 0, 0, dsdx16, dtdy16);
+     break;
   }
-  vVis = vVis | uVar16 & 0xffff;
-LAB_800a662c:
-  dtdy = dtdy & 0xffff;
-  (pGVar24->words).w1 = vVis;
-  (pGVar25->words).w0 = 0xf1000000;
-  (pGVar25->words).w1 = dsdx << 0x10 | dtdy;
-  return pGVar25 + 1;
+  return g;
 }
 
 
@@ -963,7 +343,7 @@ Gfx* Borg8_DrawSimple(Gfx*g,Borg8Header *borg8,float x,float y,float Hscale,
                    float Vscale,u8 R,u8 G,u8 B,u8 A){
   return 
     N64BorgImageDraw(g,borg8,x,y,0,0,(borg8->dat).Width,(borg8->dat).Height,Hscale,Vscale,R,G,B,A);
-    }
+}
 
 void borg8_free(Borg8Header *param_1){
   s32 iVar1 = get_memUsed();

@@ -22,9 +22,9 @@ _DW({\
         gDPSetTile(pkt,fmt,siz,((((xOff - 1) + hVis) - xOff) siz##_MUL + (7+siz##_LINE_BYTES)) >> 3,0,\
           G_TX_RENDERTILE,0,2,0,0,2,0,0);\
         gDPSetTileSize(pkt,G_TX_RENDERTILE,(xOff << 2),(yOff<<2),\
-            ((xOff - 1) + hVis)<<2,((yOff & 0x3ff) << 2));\
+            ((xOff - 1) + hVis)<<2,((yOff) << 2));\
         gDPSetTileSize(pkt,G_TX_RENDERTILE,0,0,\
-          (hVis - 1)<<G_TEXTURE_IMAGE_FRAC,width1<<G_TEXTURE_IMAGE_FRAC);\
+          (hVis - 1)<<G_TEXTURE_IMAGE_FRAC,(width1)<<G_TEXTURE_IMAGE_FRAC);\
 })
 
 #define SCREEN_WIDTH  320 //standard screen width
@@ -46,7 +46,7 @@ struct gfxManager {
     u8 (*textfont)[8][4]; /* for debug text */
     u8 (*unkBlock)[8][8]; /* white 8x8 8-bit block */
     OSViMode osvimodeCustom;
-    #if VER_NA11
+    #if VER_NA11||EUVER
     OSViMode osvimodeBuffer;
     #endif
     int unk0x7c; /* unused? */

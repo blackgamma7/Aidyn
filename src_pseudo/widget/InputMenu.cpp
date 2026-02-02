@@ -124,9 +124,9 @@ Gfx * InputMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
     fVar9 = (float)this->col.R;
     fVar14 = (float)this->col.G;
     fVar15 = (float)this->col.B;
-    if(i!=piVar1->entryIndex){
+    if(i!=piVar1->entryIndex){//make red in pause menu.
       fVar9 = 130.0f, fVar14 = 80.0f, fVar15 = 80.0f;
-      if(!gGlobals.BigAssMenu){
+      if(!gGlobals.BigAssMenu){//make white in title menu.
         fVar9 = 225.0f, fVar14 = 225.0f, fVar15 = 225.0f;
         }
     }
