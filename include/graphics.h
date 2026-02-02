@@ -6,26 +6,6 @@ struct GtaskMsg {
     OSScTask *task;
 };
 
-#define G_IM_SIZ_4b_MUL >>1
-#define G_IM_SIZ_8b_MUL *1
-#define G_IM_SIZ_16b_MUL *2
-#define G_IM_SIZ_32b_MUL *2
-
-#define Borg8LoadTextureBlock(pkt,timg,fmt,siz,b8Width,hVis,xOff,yOff,width0,width1)\
-_DW({\
-        gDPSetTextureImage(pkt,fmt,siz##_LOAD_BLOCK,b8Width,timg);\
-        gDPSetTile(pkt,fmt,siz##_LOAD_BLOCK,(((((xOff - 1) + hVis) - xOff) siz##_MUL + (7+siz##_LINE_BYTES)) >> 3),\
-           0,G_TX_LOADTILE,0,2,0,0,2,0,0);\
-        gDPLoadSync(pkt);\
-        gDPLoadTile(pkt,0,(xOff << 2),(yOff << 2),((xOff - 1) + hVis)<<2,width0);\
-        gDPPipeSync(pkt);\
-        gDPSetTile(pkt,fmt,siz,((((xOff - 1) + hVis) - xOff) siz##_MUL + (7+siz##_LINE_BYTES)) >> 3,0,\
-          G_TX_RENDERTILE,0,2,0,0,2,0,0);\
-        gDPSetTileSize(pkt,G_TX_RENDERTILE,(xOff << 2),(yOff<<2),\
-            ((xOff - 1) + hVis)<<2,((yOff) << 2));\
-        gDPSetTileSize(pkt,G_TX_RENDERTILE,0,0,\
-          (hVis - 1)<<G_TEXTURE_IMAGE_FRAC,(width1)<<G_TEXTURE_IMAGE_FRAC);\
-})
 
 #define SCREEN_WIDTH  320 //standard screen width
 #define SCREEN_CENTERW (SCREEN_WIDTH/2) //half of standard screen width
@@ -68,10 +48,7 @@ struct gfxManager {
     u8 unk0x19c; /* set to 0 after drawing letterbox */
 };
 
-//may need to move this to header for Borg8 properties.
-#define RSPFUNC(g,flag) g=borg8DlistInit(g,flag,Graphics::GetHRes(),Graphics::GetVRes())
-#define RSPFUNC6(g) RSPFUNC(g,6)
-#define RSPFUNC5(g) RSPFUNC(g,5)
+
 
 namespace Graphics{
 void initGfx(OSSched *);
