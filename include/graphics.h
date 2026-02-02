@@ -6,24 +6,25 @@ struct GtaskMsg {
     OSScTask *task;
 };
 
-#define Borg8LoadTextureBlock(pkt, timg, tmem, fmt, siz, width,b8w, height, pal, \
-        cms, cmt, masks, maskt, shifts, shiftt,x1,y1,xh,yh,tile,s,t,dsdx,dtdy)   \
-_DW({                                                                       \
-    gDPSetTextureImage(pkt, fmt, siz##_LOAD_BLOCK, b8w, timg);                \
-    gDPSetTile(pkt, fmt, siz##_LOAD_BLOCK, 0, tmem, G_TX_LOADTILE,          \
-        0, cmt, maskt, shiftt, cms, masks, shifts);                         \
-    gDPLoadSync(pkt);                                                       \
-    gDPLoadBlock(pkt, G_TX_LOADTILE, 0, 0,                                  \
-        (((width) * (height) + siz##_INCR) >> siz##_SHIFT) - 1,             \
-        CALC_DXT(width, siz##_BYTES));                                      \
-    gDPPipeSync(pkt);                                                       \
-    gDPSetTile(pkt, fmt, siz,                                               \
-        (((width) * siz##_LINE_BYTES) + 9) >> 3, tmem,                      \
-        G_TX_RENDERTILE, pal, cmt, maskt, shiftt, cms, masks, shifts);      \
-    gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0,                              \
-        ((width)  - 1) << G_TEXTURE_IMAGE_FRAC,                             \
-        ((height) - 1) << G_TEXTURE_IMAGE_FRAC);                            \
-    gsSPTextureRectangle(pkt,xl, yl, xh, yh, tile, s, t, dsdx, dtdy);       \
+#define G_IM_SIZ_4b_MUL >>1
+#define G_IM_SIZ_8b_MUL *1
+#define G_IM_SIZ_16b_MUL *2
+#define G_IM_SIZ_32b_MUL *2
+
+#define Borg8LoadTextureBlock(pkt,timg,fmt,siz,b8Width,hVis,xOff,yOff,width0,width1)\
+_DW({\
+        gDPSetTextureImage(pkt,fmt,siz##_LOAD_BLOCK,b8Width,timg);\
+        gDPSetTile(pkt,fmt,siz##_LOAD_BLOCK,(((((xOff - 1) + hVis) - xOff) siz##_MUL + (7+siz##_LINE_BYTES)) >> 3),\
+           0,G_TX_LOADTILE,0,2,0,0,2,0,0);\
+        gDPLoadSync(pkt);\
+        gDPLoadTile(pkt,0,(xOff << 2),(yOff << 2),((xOff - 1) + hVis)<<2,width0);\
+        gDPPipeSync(pkt);\
+        gDPSetTile(pkt,fmt,siz,((((xOff - 1) + hVis) - xOff) siz##_MUL + (7+siz##_LINE_BYTES)) >> 3,0,\
+          G_TX_RENDERTILE,0,2,0,0,2,0,0);\
+        gDPSetTileSize(pkt,G_TX_RENDERTILE,(xOff << 2),(yOff<<2),\
+            ((xOff - 1) + hVis)<<2,((yOff & 0x3ff) << 2));\
+        gDPSetTileSize(pkt,G_TX_RENDERTILE,0,0,\
+          (hVis - 1)<<G_TEXTURE_IMAGE_FRAC,width1<<G_TEXTURE_IMAGE_FRAC);\
 })
 
 #define SCREEN_WIDTH  320 //standard screen width
