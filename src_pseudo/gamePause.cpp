@@ -85,7 +85,7 @@ Gfx * draw_screenshot_background(Gfx *g,u8 state) {
 u8 Pause_GameState(Gfx **GG) {
   s16 delta;
   Gfx *g;
-  byte bVar6;
+  u8 bVar6;
   u16 uVar3;
   u16 uVar4;
   vec3f *pos;
@@ -126,7 +126,7 @@ u8 Pause_GameState(Gfx **GG) {
       gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
       if (gGlobals.unk14fc) {
         if (gGlobals.combatBytes[1] != CombatState_20) {
-          gGlobals.combatBytes[0] = (byte)gGlobals.combatByteMirror;
+          gGlobals.combatBytes[0] = (u8)gGlobals.combatByteMirror;
         }
         goto LAB_800504ac;
       }

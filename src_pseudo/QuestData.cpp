@@ -82,10 +82,10 @@ void Load(u8 *data){
   LoadedGameSaveFlag = 1;
   gGlobals.VolSFX = (float)SaveParty::LoadBits(&sav,SaveBits_Float) * (1.0f/1000);
   gGlobals.VolBGM = (float)SaveParty::LoadBits(&sav,SaveBits_Float) * (1.0f/1000);
-  selectResMode((byte)SaveParty::LoadBits(&sav,SaveBits_Bool));
+  selectResMode((u8)SaveParty::LoadBits(&sav,SaveBits_Bool));
 }
 
-void SaveVoxelChart(byte *param_1){
+void SaveVoxelChart(u8 *param_1){
   *param_1=voxelChartIndex;
   param_1++;
   for(u16 i=0;i<sizeof(voxelChartIndecies);i++,param_1++){
@@ -96,7 +96,7 @@ void SaveVoxelChart(byte *param_1){
   }
 }
 
-void LoadVoxelChart(byte *param_1){
+void LoadVoxelChart(u8 *param_1){
   voxelChartIndex = *param_1;
   param_1++;
   for(u16 i=0;i<sizeof(voxelChartIndecies);i++,param_1++){

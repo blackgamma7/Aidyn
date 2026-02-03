@@ -112,7 +112,7 @@ void AppProc(void *x){
   GtaskMsg *psStack_40;
   GtaskMsg **ppsStack_3c;
   
-  ALLOCS(appManager.Mesg,sizeof(OSMesg)*8,0x117);
+  ALLOCS(appManager.Mesg,sizeof(OSMesg)*OS_SC_MAX_MESGS,0x117);
   osCreateMesgQueue(&appManager.MesgQ2,appManager.Mesg,8);
   appManager.MesgQ = osScGetCmdQ(appManager.sched);
   appProc_init();
@@ -122,7 +122,7 @@ void AppProc(void *x){
   while(1) {
     osRecvMesg(&appManager.MesgQ2,(OSMesg*)ppsStack_3c,1);
     switch(psStack_40->state){
-      case 1:{
+      case OS_SC_RETRACE_MSG:{
         if ((doubleGlobalTickerFlag == 0) || (sVar9 == 0)) {
          if (Graphics::ResolutionCheck()) {
           Gsprintf("StartGfxList()");
@@ -162,7 +162,7 @@ void AppProc(void *x){
         }
       break;
       }
-      case 2:{
+      case OS_SC_DONE_MSG:{
         Graphics::getTaskTime(psStack_40);
         gGlobals.ticker++;
         sVar9--;
@@ -179,7 +179,7 @@ void AppProc(void *x){
         gGlobals.lensFlareBool = false;
         break;
       }
-      case 4:{
+      case OS_SC_PRE_NMI_MSG:{
         clear_audio_video();
         break;
       }

@@ -221,7 +221,7 @@ void DialougeClass::LoadMenuSubstruct(u8 param_2){
 }
 
 bool DialougeClass::Setup(){
-  byte bVar1;
+  u8 bVar1;
   dialougeInstance *pdVar2;
   bool bVar5;
   s16 sVar6;
@@ -483,7 +483,7 @@ LAB_8004f784:
 }
 
 void DialougeClass::m8004f810(){
-  byte bVar1;
+  u8 bVar1;
   BaseWidget *pBVar2;
   BaseWidget *pBVar3;
   int iVar8;
@@ -497,7 +497,7 @@ void DialougeClass::m8004f810(){
     for(iVar8=1;(this->inst->diags[iVar8+2].next != 0xff) && (8 >= iVar8);iVar8++){
       if (pvVar2->text == NULL) {
         pBVar3 = new WidgetShadowText(this->inst->diags[iVar8].txt,400);
-        pBVar3->varU8 = (byte)iVar8;
+        pBVar3->varU8 = (u8)iVar8;
         pBVar3->varU16 = this->inst->diags[iVar8+1].next;
         pvVar2->scrollMenu->Append(pBVar3);
         pvVar3 = (WSTSub *)pvVar2->shadText->substruct;
@@ -556,7 +556,7 @@ void look_for_dialouge_v_Num(char *param_1){
   bool bVar2;
   u32 len;
   char *pcVar3;
-  byte *pbVar4;
+  u8 *pbVar4;
   int iVar5;
   int iVar6;
   char *pcVar7;
@@ -583,13 +583,13 @@ void look_for_dialouge_v_Num(char *param_1){
   }
   if ((*param_1 == 'v') || (*param_1 == 'V')) {
     iVar5 = 1;
-    pbVar4 = (byte *)(param_1 + 1);
+    pbVar4 = (u8 *)(param_1 + 1);
     do {
       if (9 < *pbVar4 - '0') {
         return;
       }
       iVar5 += 1;
-      pbVar4 = (byte *)(param_1 + iVar5);
+      pbVar4 = (u8 *)(param_1 + iVar5);
     } while (iVar5 < 5);
     bVar2 = true;
   }

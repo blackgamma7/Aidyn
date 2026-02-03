@@ -21,7 +21,7 @@ void combat_gui_init(void){
   BaseWidget *pBVar6;
   WidgetCombatRadar *pWVar7;
   int iVar8;
-  byte bVar9;
+  u8 bVar9;
   u8 i;
   u8 uVar11;
   
@@ -97,7 +97,7 @@ Gfx * FUN_8008f6e4(Gfx *param_1,u8 delta){
 
 void init_combatgui_struct(ItemID param_1,u8 param_2,u8 param_3){
   u8 i;
-  byte bVar5;
+  u8 bVar5;
   int iVar4;
   u8 uVar6;
   u32 uVar7;
@@ -165,7 +165,7 @@ void flee_draw_crossbones(ItemID param_1,char param_2){
 
 
 void draw_crossbones_2(ItemID param_1,char param_2,u32 borgId,int param_4){
-  byte bVar1;
+  u8 bVar1;
   int iVar2;
   u8 i;
   CombatPortrait *ppWVar4;
@@ -204,7 +204,7 @@ void draw_dead_crossbones(ItemID param_1){
 
 void FUN_8008fb3c(u8 delta){combat_gui_substruct->Tick(delta);}
 
-Gfx * FUN_8008fb64(Gfx *g,byte delta){
+Gfx * FUN_8008fb64(Gfx *g,u8 delta){
   RSPFUNC6(g);
   three_combat_gui_funcs();
   g = CombatTextboxWidget_Tick(g,delta);
@@ -229,7 +229,7 @@ void make_combat_portrait(CombatPortrait *portrait,ItemID id,u8 count,u32 param_
 
 void combat_gui_init_2(BaseWidget *param_1,u8 param_2,u8 param_3){
   u16 uVar1;
-  byte bVar4;
+  u8 bVar4;
   u16 uVar2;
   u8 uVar3;
   s16 sVar5;
@@ -373,10 +373,10 @@ void FUN_80090568(void){
 void FUN_80090634(void){
   WidgetBorg8Combat *pWVar1;
   int iVar5;
-  byte bVar6;
+  u8 bVar6;
   for(u8 i=0;i<gCombatPortraitCount;i++){
       CombatPortrait *pCVar4 = &gCombatPortraits[i];
-      byte bVar6 = pCVar4->unkb;
+      u8 bVar6 = pCVar4->unkb;
       if ((((bVar6 != 0) && (bVar6 != 1)) && (bVar6 != 4)) &&
          ((bVar6 != 5 && (pCVar4->blipIndex != 0xff)))) {
         WidgetBorg8Combat *pWVar1 = gCombatRadarBlips[pCVar4->blipIndex].widget;

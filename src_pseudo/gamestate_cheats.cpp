@@ -46,7 +46,7 @@ WidgetGameStateCheats::~WidgetGameStateCheats(){
 }
 
 BaseWidget* WidgetGameStateCheats::AFunc(){
-  byte bVar1;
+  u8 bVar1;
   char *pcVar2;
   char **ppcVar3;
   WSMSub *pvVar1;
@@ -64,7 +64,7 @@ BaseWidget* WidgetGameStateCheats::AFunc(){
 }
 
 BaseWidget* WidgetGameStateCheats::ZFunc(){
-  byte bVar1;
+  u8 bVar1;
   char *pcVar2;
   char **ppcVar3;
   WSMSub *pvVar1;

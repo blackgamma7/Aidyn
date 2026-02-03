@@ -9,7 +9,7 @@ void CombatTurn::FreeArray(CombatTurn_s *param_1) {FREEPTR(param_1->arr,0x29);}
 
 
 void CombatTurn::Init(CombatTurn_s *param_1) {
-  byte bVar7;
+  u8 bVar7;
   u8 uVar4;
   u8 dexType3s;
   int *piVar8;
@@ -118,7 +118,7 @@ void CombatTurn::Init(CombatTurn_s *param_1) {
         i++;
       }
     }
-    param_1->unk0 = (byte)uVar9;
+    param_1->unk0 = (u8)uVar9;
     param_1->unk1 = 0;
     gCombatP->current_Ent = (&gCombatP->combatEnts)[*param_1->arr];
   }

@@ -271,7 +271,7 @@ namespace Entity{
     s16 AddEquipStamina(CharSheet *param_1,ItemInstance *param_2,s16 param_3,u8 param_4);
     void CampHeal(CharSheet *param_1,float healing,u32 time);
     u8 CheckSpellTimeOfDay(CharSheet *param_1,SpellInstance *param_2);
-    byte CheckSpellSpecial(CharSheet *param_1,SpellInstance *param_2);
+    u8 CheckSpellSpecial(CharSheet *param_1,SpellInstance *param_2);
     void CheckDeathFromDoT(CharSheet *param_1,s16 param_2,s16 param_3,CombatEntity *param_4);
     void IncEffects(CharSheet *Ent,CombatEntity *CEnt,u32 Delta);
     void AddExp(CharSheet *param_1,s32 param_2);

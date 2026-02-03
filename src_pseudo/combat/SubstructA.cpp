@@ -26,7 +26,7 @@ char get_combatSubstruct_byte_B_min1(CombatSubstructA *param_1){return param_1->
 char get_byte_E(CombatSubstructA *param_1){return param_1->byteE;}
 
 
-int FUN_80070cc4(CombatSubstructA *param_1,u8 TargX,u8 TargY,u8 AtkX,byte AtkY){
+int FUN_80070cc4(CombatSubstructA *param_1,u8 TargX,u8 TargY,u8 AtkX,u8 AtkY){
   int iVar1 = 0x7f;
   if (!FUN_80070ee4(param_1,TargX,TargY,1)) {
     iVar1 = 0x7f;
@@ -44,7 +44,7 @@ bool FUN_80070dac(CombatSubstructA *param_1,u8 targX,u8 targY,u8 AtkX,u8 AtkY){
   return  FUN_80070cc4(param_1,targX,targY,AtkX,AtkY) < 2;
 }
 
-bool combat_substruct_lookup(CombatSubstructA *param_1,byte x,byte y,byte index){
+bool combat_substruct_lookup(CombatSubstructA *param_1,u8 x,u8 y,u8 index){
   for(u8 i=y<y+index;i++) {
     for (u8 j = x; j < x + index; j++) {
       if ((!FUN_80070ee4(param_1,j,i,1)) && ((param_1->array1[j][i] & 0x80))) {
@@ -80,17 +80,17 @@ bool FUN_8007102c(CombatSubstructA *param_1,u8 param_2,u8 param_3,u8 param_4,u8 
 }
 
 
-bool FUN_8007105c(CombatSubstructA *param_1,byte X,byte Y,u8 param_4,u8 param_5)
+bool FUN_8007105c(CombatSubstructA *param_1,u8 X,u8 Y,u8 param_4,u8 param_5)
 
 {
   int iVar1;
-  byte bVar2;
+  u8 bVar2;
   bool bVar3;
   int iVar4;
   int iVar5;
   u32 uVar6;
   u32 uVar7;
-  byte y;
+  u8 y;
   int iVar8;
   u32 uVar9;
   u32 uVar10;
@@ -125,12 +125,12 @@ bool FUN_8007105c(CombatSubstructA *param_1,byte X,byte Y,u8 param_4,u8 param_5)
         uVar13 = uVar6;
         iVar1 = (uVar10 + iVar4) * 0x1000000;
         while( true ) {
-          bVar2 = (byte)(int)((float)iVar5 / (float)iVar8) * (float)(int)uVar10 +
+          bVar2 = (u8)(int)((float)iVar5 / (float)iVar8) * (float)(int)uVar10 +
                    ((float)Y - ((float)iVar5 / (float)iVar8) * (float)uVar6);
-          if (FUN_80070ee4(param_1,(byte)uVar10,bVar2,1)) return false;
+          if (FUN_80070ee4(param_1,(u8)uVar10,bVar2,1)) return false;
           uVar11 = uVar10 & 0xff;
           uVar9 = (int)fVar15 & 0xff;
-          if ((combat_substruct_lookup(param_1,(byte)uVar10,bVar2,1)) && (FUN_80070dac(param_1,uVar11,uVar9,uVar14,param_5))) {
+          if ((combat_substruct_lookup(param_1,(u8)uVar10,bVar2,1)) && (FUN_80070dac(param_1,uVar11,uVar9,uVar14,param_5))) {
             return false;
           }
           if ((!FUN_80070dac(param_1,uVar13,uVar7,uVar11,bVar2)) && (FUN_80070dac(param_1,uVar13,uVar7,uVar14,param_5))) break;
@@ -154,9 +154,9 @@ bool FUN_8007105c(CombatSubstructA *param_1,byte X,byte Y,u8 param_4,u8 param_5)
         uVar9 = uVar7;
         iVar1 = (uVar10 + iVar4) * 0x1000000;
         do {
-          bVar2 = (byte)(int)((float)iVar8 / (float)iVar5) * (float)(int)uVar10 +
+          bVar2 = (u8)(int)((float)iVar8 / (float)iVar5) * (float)(int)uVar10 +
                    ((float)uVar6 - ((float)iVar8 / (float)iVar5) * (float)uVar7);
-          y = (byte)uVar10;
+          y = (u8)uVar10;
           bVar3 = FUN_80070ee4(param_1,bVar2,y,1);
           if (FUN_80070ee4(param_1,bVar2,y,1)) return false;
           uVar12 = (int)fVar16 & 0xff;

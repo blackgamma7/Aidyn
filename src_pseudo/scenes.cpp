@@ -417,13 +417,13 @@ void Scene::SetLightData(SceneData *scene){
   scene->flags = scene->flags & ~SCENE_0080 | SCENE_8000;
 }
 
-void Scene::SceneSetMaxDynamicDirLights(SceneData *scene,byte max){
+void Scene::SceneSetMaxDynamicDirLights(SceneData *scene,u8 max){
   if (max > 7)
     CRASH("scenes.cpp, SceneSetMaxDynamicDirLights()","Max is larger than hardware limit of 7!"); 
   scene->maxLights = (u32)max;
 }
 
-int Scene::LengthSquared(byte A,byte B,byte C){
+int Scene::LengthSquared(u8 A,u8 B,u8 C){
   return SQ((u32)A)+SQ((u32)B)+SQ((u32)C);
 }
 

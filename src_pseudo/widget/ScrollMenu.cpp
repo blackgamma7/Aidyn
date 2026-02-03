@@ -83,8 +83,8 @@ Gfx * WidgetScrollMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 }
 
 u8 WidgetScrollMenu::Tick(){
-  byte bVar1;
-  byte bVar4;
+  u8 bVar1;
+  u8 bVar4;
   s16 sVar9;
   BaseWidget *entry;
   char cVar15;
@@ -96,7 +96,7 @@ u8 WidgetScrollMenu::Tick(){
   u16 uVar19;
   u32 i;
   int iVar21;
-  byte bVar23;
+  u8 bVar23;
   WSMSub *sub = (WSMSub *)this->substruct;
   iVar21 = 0;
   sVar18 = 0;
@@ -139,7 +139,7 @@ LAB_800b9fb0:
           Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
         }
         uVar13= entry->GetHeight();
-        iVar21 += uVar13 + (byte)sub->vSpace;
+        iVar21 += uVar13 + (u8)sub->vSpace;
         sVar18 = (s16)iVar21;
         if (i == sub->highlight) {
           sVar9 = entry->posY;
@@ -168,7 +168,7 @@ LAB_800b9fb0:
       }
     }
   }
-  SetHeight(sVar18 - (u16)(byte)sub->vSpace);
+  SetHeight(sVar18 - (u16)(u8)sub->vSpace);
   return TickChildren();
 }
 

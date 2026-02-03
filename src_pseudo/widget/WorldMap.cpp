@@ -84,14 +84,14 @@ bool WidgetMenuWorldMap::FreePieces() {
 Gfx* WidgetMenuWorldMap::Render(Gfx*g, u16 x0, u16 y0, u16 x1, u16 y1){RENDERCHILDREN();}
 
 u8 WidgetMenuWorldMap::Tick() {
-  byte bVar2;
-  byte bVar3;
-  byte bVar4;
+  u8 bVar2;
+  u8 bVar3;
+  u8 bVar4;
   u16 uVar5;
   pause_Substruct *ppVar6;
   BaseWidget *pBVar7;
-  byte bVar8;
-  byte bVar9;
+  u8 bVar8;
+  u8 bVar9;
   u32 uVar12;
   
   if (gGlobals.BigAssMenu) { //? should parented to begin with.

@@ -117,7 +117,7 @@ void GameStateCrash(char *txt);
 void ProcessGameStates(GameStateFunnel *param_1);
 void set_gamestateFunnel_f(GameStateFunnel *param_1);
 void set_journalentry_flag(GameStateFunnel *param_1,EventFlag flag,u16 bit);
-byte get_eventFlag_(GameStateFunnel *param_1,EventFlag param_2);
+u8 get_eventFlag_(GameStateFunnel *param_1,EventFlag param_2);
 u8 get_EventFlag(GameStateFunnel *param_1,EventFlag param_2);
 Struct_State * get_struct_state(GameStateFunnel *param_1,EventFlag param_2);
 

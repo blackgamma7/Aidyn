@@ -109,9 +109,9 @@ void WidgetOptionsConfig::InitMenu(u8 fromPause) {
 }
 
 Gfx * WidgetOptionsConfig::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
-  byte bVar1;
-  byte bVar2;
-  byte bVar3;
+  u8 bVar1;
+  u8 bVar2;
+  u8 bVar3;
   s16 sVar4;
   s16 tempBX1;
   OptionsConfigSubstruct *sub;
@@ -162,8 +162,8 @@ Gfx * WidgetOptionsConfig::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
  u8 WidgetOptionsConfig::Tick() {
   u8 uVar1;
   BaseWidget *pBVar2;
-  byte bVar3;
-  byte bVar5;
+  u8 bVar3;
+  u8 bVar5;
   OptionsConfigSubstruct *sub;
   
   sub = (OptionsConfigSubstruct *)this->substruct;

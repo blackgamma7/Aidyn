@@ -172,11 +172,11 @@ void FUN_800728c4(CombatSubstructB *param_1,s8 param_2){
 void Ofunc_80072944(){}
 
 void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
-  byte bVar1;
+  u8 bVar1;
   playerData *ppVar2;
   int iVar3;
   u8 uVar4;
-  byte *pbVar5;
+  u8 *pbVar5;
   float *pfVar6;
   u8 i;
   u8 uVar8;
@@ -186,8 +186,8 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
   vec2f avStack_230 [8];
   vec2f afStack496;
   float afStack_1b0 [4] [14];
-  byte abStack_b0 [64];
-  byte abStack_70 [4] [14];
+  u8 abStack_b0 [64];
+  u8 abStack_70 [4] [14];
   
   if (param_1->spellTargetMax == 1) {
     FUN_800723b8(param_1);
@@ -218,7 +218,7 @@ void FUN_8007294c(CombatSubstructB *param_1,CombatEntity *param_2){
           if (fVar9 <= 0.0) {
             afStack_1b0[uVar4][bVar1] = -fVar9;
           }
-          abStack_70[uVar4][*pbVar5++] = (byte)uVar8;
+          abStack_70[uVar4][*pbVar5++] = (u8)uVar8;
         }
       }
     }
@@ -351,25 +351,25 @@ bool FUN_80072ef0(CombatSubstructB *param_1,char param_2){
     uVar1 = param_1->arrayC[iVar3];
     param_1->entindex = uVar1;
     bVar2 = FUN_8007231c(param_1,uVar1);
-    param_1->field8_0xa7 = (byte)iVar3;
+    param_1->field8_0xa7 = (u8)iVar3;
   }
   return bVar2;
 }
 
 
 void FUN_80072f80(CombatSubstructB *param_1,CombatEntity *param_2){
-  byte bVar1;
+  u8 bVar1;
   playerData *ppVar2;
   u32 uVar3;
   int iVar4;
-  byte *pbVar5;
+  u8 *pbVar5;
   u8 uVar6;
   u8 i;
   u8 uVar8;
   float fVar9;
   float fVar10;
   vec2f avStack_128 [8];
-  byte abStack_e8 [64];
+  u8 abStack_e8 [64];
   float afStack_a8 [16];
   vec2f avStack_68 [13];
   
@@ -441,7 +441,7 @@ bool FUN_8007319c(CombatSubstructB *param_1,s32 index){
         for (i = 1; (i < param_1->spellTargetMax && ((u32)param_1->arrayC[i] != index)); i++) {
         }
       }
-      param_1->field8_0xa7 = (byte)i;
+      param_1->field8_0xa7 = (u8)i;
       param_1->entindex = (char)index;
       FUN_8007231c(param_1,param_1->entindex);
       bVar1 = true;

@@ -2,7 +2,7 @@
 
 
 u8 bigAssOpenCallback_1(BaseWidget *w) {
-  byte bVar1;
+  u8 bVar1;
   u16 uVar2;
   u32 uVar3;
   int iVar4;
@@ -82,8 +82,8 @@ u8 PauseMenuClose1(BaseWidget *w) {
 }
 
 
-byte bigAssOpenCallback(BaseWidget *w) {
-  byte bVar1;
+u8 bigAssOpenCallback(BaseWidget *w) {
+  u8 bVar1;
   u16 uVar2;
   pause_Substruct *sub;
   bool bVar4;
@@ -154,7 +154,7 @@ LAB_80036d24:
 }
 
 u8 PauseMenuClose2(BaseWidget *param_1) {
-  byte bVar3;
+  u8 bVar3;
   pause_Substruct *sub = (pause_Substruct *)param_1->substruct;
   if (!sub->isScrolling) {
     bVar3 = sub->dollmenu->lists->col.A;

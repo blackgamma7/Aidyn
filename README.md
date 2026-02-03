@@ -8,13 +8,12 @@ Aidyn Chronicles is one of a handful of RPG's on the system and a relatively obs
 - Splat yaml's for Debug and another one for NTSC 1.0.
 - symbol tables for both.
 - src_pseudo/ : pseudocode of the source files based lagely on the debug build interpreted by ghidra and cleaned up by hand (apart from OS files - they're largely unchanged, AFAIK)
-- include/ : header files, with one of a dump of Ghidra definitions (ghidradump.h)
-
+- include/ : header files
 
 ## why no usable code?
 - While the compiler used has been identified, it has not yet been configured for cross-platform use, with the current compiler only being a close aproximation
 - Ghidra... "does its best" to interpret code. As such there are quirks with branching and incrementation and whatnot that may lead to further inaccuracies.
-- The game uses c++, Ghidra (and mips_to_c) use C intrepetation. While it does give better insight into how the former language translates into the latter, it is also another degree of reinterpretaion.
+- The game uses c++, Ghidra (and decomp.me) use C intrepetation. While it does give better insight into how the former language translates into the latter, it is also another degree of reinterpretaion.
   - There has also yet to be another successful decomp of an N64 title written in C++, and I have not yet the required knowledge to set up
 
 ## Porting?
@@ -49,3 +48,4 @@ Port the game to an existing engine such as Unity or Godot and take advantage of
 - @TiberGuy for further hacking tools and knowledge with [AidynEditor](https://github.com/TiberGuy/AidynEditor)
 - Zoinkity for in-depth analysis of the game's art assets and compression methods.
 - Wiseguy for setup and analysis on a possible compiler match,and setup for data used in a later recomp project.
+- @example6 for ID'ing many of the image files

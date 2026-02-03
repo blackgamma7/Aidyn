@@ -804,7 +804,7 @@ void WidgetContPakDataSave::NewSaveFile(){
   fileState_aidyn filestate [2];
   char acStack_b0 [64];
   char acStack_70 [64];
-  byte freespace;
+  u8 freespace;
   u8 auStack_2f [47];
   
   uVar5 = 0;
@@ -1002,7 +1002,7 @@ u32 ContPak_GameState(Gfx **param_1){
   return DAT_800f1c78;
 }
 
-byte ContPakState_Control(void){
+u8 ContPakState_Control(void){
   BaseWidget *pBVar1;;
   u8 delta;
   ControllerFull *apCStack_18 [6];
@@ -1394,7 +1394,7 @@ void ContPakWidget::LoadWindow(){
 }
 
 void ContPakWidget::PrintFreeSpace(){
-  byte abStack_10 [16];
+  u8 abStack_10 [16];
   this->menuState = 4;
   this->fileNum = 0;
   abStack_10[0] = 0;

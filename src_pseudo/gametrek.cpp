@@ -241,7 +241,7 @@ bool isPaused(void) {
   return true;
 }
 
-void func_calling_orphaned_dat(byte param_1) {
+void func_calling_orphaned_dat(u8 param_1) {
   if ((orphanedByte) && (--orphanedByte == 0)) {
     (*orphanedfuncPointer)(OrphanedFuncArg);
     orphanedfuncPointer = NULL;
@@ -433,7 +433,7 @@ Gfx * zoneEngine_debug(Gfx *g,u8 delta) {
 }
 #endif
 
-void TickGameTime(byte delta) {  
+void TickGameTime(u8 delta) {  
   if (!isPaused()) {
     World::IncGameTime(TerrainPointer,(u32)delta);
     for(u16 i=0;i<MAXPARTY;i++) {

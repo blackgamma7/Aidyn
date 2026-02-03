@@ -80,7 +80,7 @@ int Sky::GenerateGradient(Color32 *c0,Color32 *c1,float vert,float param_4,float
   float fVar19;
   float green2;
   float fVar20;
-  byte bVar21;
+  u8 bVar21;
   float red2;
   float fVar22;
   float fVar23;
@@ -248,7 +248,7 @@ void Sky::SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32
                    float param_10){
   float fVar3;
   float fVar4;
-  byte bVar5;
+  u8 bVar5;
   float fVar6;
   double dVar7,dVar2;
   float fVar8;

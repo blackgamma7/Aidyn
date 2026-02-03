@@ -37,7 +37,7 @@ namespace Utilities{
     void MoveWidget(BaseWidget *,s16,s16);
     void MoveWidget2(BaseWidget *,s16,s16);
     WidgetDebugBG* DebugBackground(BaseWidget *,s16,s16,u16,u16,u8,u8,u8,u8);
-    WidgetText* AddTextWidget(BaseWidget*,char*,s16 ,s16 ,byte ,byte ,byte ,byte);
+    WidgetText* AddTextWidget(BaseWidget*,char*,s16 ,s16 ,u8 ,u8 ,u8 ,u8);
     WidgetText* AddTextWidget2(BaseWidget*,char*,u16,u16,u16,u16);
     WidgetText* AddTextWidget3(BaseWidget*,char*,u16,u16,u16,u16,u8,u8,u8,u8);
     WidgetClipText* AddClipTextWidget(BaseWidget*,char*,u16,u16,u16,u16,u16);

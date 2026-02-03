@@ -79,7 +79,7 @@ void CombatAIScore::MoveEntry(void) {
         }
         uVar1 = uVar3 + 1;
       } while (combat_AiScores_pointer[uVar3].spell_pri == combat_AiScores_pointer->spell_pri);
-      combat_AiScore_tally = (ushort)uVar2;
+      combat_AiScore_tally = (u16)uVar2;
     }
     else combat_AiScore_tally = 1;
   }

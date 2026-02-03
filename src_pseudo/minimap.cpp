@@ -538,8 +538,8 @@ bool MiniMap::CaseBarrows(float param_2){
 }
 
 void MiniMap::Update(float posx,float posy,float posz){
-  byte bVar1;
-  byte bVar2;
+  u8 bVar1;
+  u8 bVar2;
   bool bVar4;
   s16 sVar3;
   u8 uVar6;

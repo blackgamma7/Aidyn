@@ -27,7 +27,7 @@ int getIDIndex_sub(u8 *list,u8 total,u8 id){
 u16 GetIDIndex(ItemID x,char* file, u32 line){
   s32 uVar1;
   u8 *totalP;
-  byte *entriesP;
+  u8 *entriesP;
   u8 total;
   u32 uVar3;
   
@@ -75,7 +75,7 @@ u16 GetIDIndex(ItemID x,char* file, u32 line){
 LAB_80075eb0:
   uVar1 = getIDIndex_sub(entriesP,total,IDInd(x));
 switchD_80075e2c_caseD_4:
-  if (uVar1 != -1) return (byte)uVar1;
+  if (uVar1 != -1) return (u8)uVar1;
   char txtBuff [144];
   sprintf(txtBuff,"Invalid id %d (%d)\nMay need to re-compile\nType = %d\n",
            x,uVar3,ITEMIDTYPE(x));

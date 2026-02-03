@@ -313,10 +313,10 @@ Gfx * renderPlayerShadows(PlayerHandler *param_1,Gfx *gfx);
 
 audiokey_struct * load_audiokey();
 void Audiokey_free(audiokey_struct *p);
-void FUN_8005bf10(playerData *pDat,audioKeyEntryB *UAS,u16 id1,u16 id2,u16 amp,byte vol,s8 pan
-                 ,u8 *arr,byte arrsize,u16 type);
+void FUN_8005bf10(playerData *pDat,audioKeyEntryB *UAS,u16 id1,u16 id2,u16 amp,u8 vol,s8 pan
+                 ,u8 *arr,u8 arrsize,u16 type);
 bool FUN_8005c0f0(playerData *param_1,audiokey_struct *param_2,audiokeyEntryA *entryA,u16 param_4
-                 ,u16 param_5,u16 param_6,byte vol,u8 param_8);
+                 ,u16 param_5,u16 param_6,u8 vol,u8 param_8);
 bool FUN_8005c2f0(playerData *param_1,u16 param_2,u8 param_3,u8 param_4);
 void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp);
 audioKeyEntryB audioKeyEntryB_ARRAY_800ee9d0[];

@@ -8,9 +8,9 @@
 extern void*weapondb;
 
 void WeaponDB::Orphaned() {
-  byte *pbVar2;
-  byte *pbVar3;
-  byte bVar5;
+  u8 *pbVar2;
+  u8 *pbVar3;
+  u8 bVar5;
   u32 aiStack_30 = 0;
   load_db_array_size(&weapondb,&this->Total,&aiStack_30);
   bVar5 = 0;
@@ -45,7 +45,7 @@ void WeaponDB::Load(u8 index,int *pos) {
   entry->Range = fromROM.Range;
   uVar4 = ((u32)fromROM.Range * 5) / 3;
   if (0xff < uVar4) uVar4 = 0xff;
-  entry->Range = (byte)uVar4;
+  entry->Range = (u8)uVar4;
   entry->Animation = fromROM.Animation;
   entry->EXPMod = fromROM.EXPMod;
   entry->element = fromROM.Element;
@@ -66,7 +66,7 @@ void WeaponDB::Load(u8 index,int *pos) {
 
 void WeaponDB::Init() {
   WeaponRam *pwVar1;
-  byte bVar2;
+  u8 bVar2;
   u32 uVar3;
   u8 index;
   u32 auStack_30 = 0;
@@ -76,7 +76,7 @@ void WeaponDB::Init() {
   ALLOCS(this->weapons,this->Total*sizeof(WeaponRam),378);
   for(u8 i=0;i<11;i++) {
     load_db_array_size(&weapondb,this->Types + i,&auStack_30);
-    this->Types2[i] = (byte)index;
+    this->Types2[i] = (u8)index;
     for(u8 j=0;j<this->Types2[i];j++){
         Load(index++,(int*)&auStack_30);
       }

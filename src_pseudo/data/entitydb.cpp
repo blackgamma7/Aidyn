@@ -8,10 +8,10 @@
 //unused inialization method.
 void EntityDB::OldInit(){
   EntityRAM *pEVar1;
-  byte *pbVar2;
-  byte *pbVar3;
+  u8 *pbVar2;
+  u8 *pbVar3;
   u32 uVar4;
-  byte bVar5;
+  u8 bVar5;
   int aiStack_30 [12];
   
   aiStack_30[0] = 0;
@@ -98,7 +98,7 @@ void EntityDB::Load(u8 id,s32 *param_3){
     uVar8 = uVar9+1;
     EntRam->Resist[uVar6] = *pcVar5;
     uVar7 = uVar6+1;
-    EntRam->resistAmmount[uVar6] = (float)(byte)EntROM.name[uVar9] * .25;
+    EntRam->resistAmmount[uVar6] = (float)(u8)EntROM.name[uVar9] * .25;
     uVar6 = uVar7;
   } while (uVar7 < 2);
   for(uVar6 = 0;uVar6 < 5;uVar6++,uVar8+=2){
@@ -106,15 +106,15 @@ void EntityDB::Load(u8 id,s32 *param_3){
   }
   memcpy(EntRam->RiualLvs,EntROM.name + uVar8,4);
   uVar6 = uVar8+4;
-  EntRam->EXP = ((u16)(byte)EntROM.name[uVar6] * 0x18 + (u16)(byte)EntROM.name[uVar6]) * 2;
+  EntRam->EXP = ((u16)(u8)EntROM.name[uVar6] * 0x18 + (u16)(u8)EntROM.name[uVar6]) * 2;
   EntRam->loot_Category = EntROM.name[uVar6+1];
   *param_3 = iVar1 + 0x88;
 }
 
 //initalize Entity data (well, part of it.)
 void EntityDB::Init(){
-  byte bVar2;
-  byte bVar4;
+  u8 bVar2;
+  u8 bVar4;
   s32 asStack_30 = 0;
   load_db_array_size(&entitydb,this,&asStack_30);
   bVar4 = 0;
@@ -135,7 +135,7 @@ void EntityDB::Free(){HFREE(entities,1258);}
 
 //get Borg8 Index of entity's portrait
 u32 EntityDB::GetPortrait(ItemID id){
-  byte bVar3;
+  u8 bVar3;
   u16 uVar1;
   u16 uVar2;
   int iVar4;
@@ -187,7 +187,7 @@ LAB_8007558c:
 
 //get Borg7 Index of entity's model
 u32 EntityDB::GetBorg7(ItemID id){
-  byte bVar3;
+  u8 bVar3;
   u16 uVar1;
   u16 uVar2;
   int iVar4;
@@ -239,7 +239,7 @@ LAB_80075674:
 
 //unused, names refernced elsewhere
 char * EntityDB::GetEntityName(ItemID id){
-  byte bVar2;
+  u8 bVar2;
   EntityRAM *pEVar1;
   int iVar3;
   
@@ -275,7 +275,7 @@ float EntityDB::GetVal_21h(ItemID id){
 
 //unknown if this is really "height."
 float EntityDB::GetHeight(ItemID id){
-  byte bVar3;
+  u8 bVar3;
   u16 uVar1;
   u16 uVar2;
   dialougeEntity_Info *pdVar6;
@@ -314,7 +314,7 @@ float EntityDB::GetHeightplusPoint35(ItemID id){return GetHeight(id)+.35;}
 //checks for battle capability of entity by ID.
 u8 EntityDB::BattleCheck(ItemID id){
   u8 uVar3;
-  byte bVar2;
+  u8 bVar2;
   
   if (ITEMIDTYPE(id) == DB_DIALOUGEENTITY) uVar3 = 0xff;
   else {
@@ -329,7 +329,7 @@ u8 EntityDB::BattleCheck(ItemID id){
 
 //not sure what this is for, used in "processPlayers" (aniimation speed?)
 float EntityDB::GetFloatA(ItemID id){
-  byte bVar2;
+  u8 bVar2;
   u16 uVar1;
   int iVar3;
   EntityExtra *peVar4;
@@ -378,7 +378,7 @@ u8 EntityDB::IsRightHanded(ItemID id){
 }
 
 float EntityDB::GetCollideRadius(ItemID id){
-  byte bVar2;
+  u8 bVar2;
   u16 uVar1;
   int iVar3;
   EntityExtra *peVar4;
@@ -406,7 +406,7 @@ float EntityDB::GetCollideRadius(ItemID id){
 }
 //get scale modifier for model
 float EntityDB::GetScale(ItemID id){
-  byte ind;
+  u8 ind;
   u16 uVar1;
   u16 uVar2;
   int iVar4;

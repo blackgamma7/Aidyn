@@ -3,7 +3,7 @@
 DollBarterConfirm::~DollBarterConfirm(){WidgetMenu::~WidgetMenu();}
 
 DollBarterConfirm::DollBarterConfirm(WidgetInvShop *shop,u32 sellPrice):WidgetMenu() {
-    ushort uVar1;
+  u16 uVar1;
   PartyInventory *pPVar3;
   bool bVar5;
   short y;
@@ -14,8 +14,8 @@ DollBarterConfirm::DollBarterConfirm(WidgetInvShop *shop,u32 sellPrice):WidgetMe
   WidgetClipText *pBVar10;
   int iVar11;
   ulong uVar12;
-  byte *pbVar13;
-  byte bVar14;
+  u8 *pbVar13;
+  u8 bVar14;
   char buff [256];
   
   this->currShop = shop;

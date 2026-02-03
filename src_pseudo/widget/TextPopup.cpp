@@ -13,7 +13,7 @@ u8 TextPopup_FadeIn(BaseWidget *w){
 }
 
 u8 TextPopup_FadeOut(BaseWidget *w){
-  byte bVar1 = (w->col).A;
+  u8 bVar1 = (w->col).A;
   if (bVar1 <= 90) (w->col).A = 0;
   else (w->col).A += 166;
   Utilities::SetAlpha(w,(w->col).A);

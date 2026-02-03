@@ -96,7 +96,7 @@ Gfx * FUN_80057e78(Gfx *gfx,u16 delta){
 }
 
 int Dialog_GameState(Gfx **GG){
-  byte bVar1;
+  u8 bVar1;
   int iVar2;
   bool bVar4;
   Gfx *pGVar3;
@@ -292,7 +292,7 @@ ItemID set_shopkeep(){
 void init_skill_trainer(){
   EntityRAM *pEVar1;
   ItemID IVar5;
-  byte index;
+  u8 index;
   CharSkills *sk;
   int iVar2;
   SpellBook *pSVar3;
@@ -510,11 +510,11 @@ void dialougmode_free(){
   return;
 }
 
-byte cutScene_control_func(){
+u8 cutScene_control_func(){
   BaseWidget *pBVar1;
   bool bVar2;
-  byte bVar3;
-  byte delta;
+  u8 bVar3;
+  u8 delta;
   controller_aidyn *acStack32;
   
   acStack32 = NULL;
@@ -557,7 +557,7 @@ Gfx * FUN_800591a8(Gfx *g,u8 delta,bool param_3){
 
 playerData * FUN_800591e4(){
   ItemID x;
-  byte bVar2;
+  u8 bVar2;
   playerData *ppVar1;
   
   x = (dialougemode_pointer->inst).diags[0].ent_ID;

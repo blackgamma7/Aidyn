@@ -33,7 +33,7 @@ u8 borg8_func_b(void *,void *);
 void borg8_func_a(Borg8Header *);
 void borg8_free_ofunc(Borg8Header *);
 Borg8Header* loadBorg8(u32);
-Gfx * borg8DlistInit(Gfx *,byte ,u16,u16);
+Gfx * borg8DlistInit(Gfx *,u8 ,u16,u16);
 Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yOff,u16 h,u16 v,
                       float xScale,float yScale,u8 red,u8 green,u8 blue,u8 alpha);
 Gfx* Borg8_DrawSimple(Gfx*g,Borg8Header *borg8,float x,float y,float Hscale,float Vscale,u8 R,u8 G,u8 B,u8 A);

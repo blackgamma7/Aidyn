@@ -146,7 +146,7 @@ void GSMClass::vMethB(u16 i,char *str){
 void GSMClass::vMethC(u16 i,char *str){
   s32 sVar1;
   int iVar2;
-  byte bVar3;
+  u8 bVar3;
   u16 i;
   Struct_State *pSVar5;
   char *pcVar6;

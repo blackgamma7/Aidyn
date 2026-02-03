@@ -380,7 +380,7 @@ u32 Entity::EquipGear(CharSheet *chara,ItemID param_2,StatMod *mod){
 
 void Entity::ApplyEquipment(CharSheet *param_1,WeaponInstance *param_2,StatMod *param_3,int param_4){
   StatMod *pSVar1;
-  byte bVar2;
+  u8 bVar2;
   s8 mod;
   
   pSVar1 = param_2->SkillMod;
@@ -755,7 +755,7 @@ s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,
   bool bVar11;
   int iVar7;
   bool bVar12;
-  longlong lVar5;
+  u8 lVar5;
   s16 sVar9;
   Temp_enchant *pTVar8;
   CharStats_s* stats;
@@ -765,7 +765,7 @@ s16 Entity::ApplySpellEffect(CharSheet *param_1,u8 id,u8 Level,u32 timer,u8 pow,
   u32 Lv;
   u32 uVar16;
   u32 UNK4;
-  byte bVar10;
+  u8 bVar10;
   u32 uVar17;
   
   Lv = Level;
@@ -909,7 +909,7 @@ LAB_800798b0:
     uVar16 = 1;
     bVar10 = pCVar1->morale;
     if (bVar10 < Lv) Level = bVar10;
-    pCVar1->morale = bVar10 - (byte)Level;
+    pCVar1->morale = bVar10 - (u8)Level;
     combatTarget->aiP->flags|= AIFlag_02;
     uVar17 = 1;
     bVar11 = bVar3;
@@ -925,8 +925,8 @@ LAB_800798b0:
     if (uVar16 == 0) goto LAB_80079984;
     bVar11 = bVar3;
     if (combatTarget != NULL) {
-      lVar5 = 0xb6;
-      if (bVar10 != 0xbe) goto LAB_800798b0;
+      lVar5 = EntInd_PlagueZombie;
+      if (bVar10 != EntInd_Zombie) goto LAB_800798b0;
       goto control_magic;
     }
     break;
@@ -1031,7 +1031,7 @@ LAB_80079984:
     if (uVar16 == 0) sVar9 = -1;
     else {
       ALLOCL(param_1->effects[uVar6],2057);
-      TempEnchant::Init(param_1->effects[uVar6],id,(byte)Level,timer,pow,UNK4);
+      TempEnchant::Init(param_1->effects[uVar6],id,(u8)Level,timer,pow,UNK4);
     }
   }
   else sVar9 = -1;
@@ -1043,7 +1043,7 @@ void Entity::ReverseSpellEffect(CharSheet *target,u8 index,CombatEntity *combatE
   bool bVar2;
   u8 SVar3;
   char cVar4;
-  byte bVar5;
+  u8 bVar5;
   CombatAIInfo *iVar2;
   
   pTVar1 = target->effects[index];
@@ -1151,9 +1151,9 @@ s32 Entity::IncEnchantments(CharSheet *chara,CombatEntity *cEnt,s32 delta){
   u16 uVar6;
   u32 uVar4;
   u32 uVar5;
-  byte dice;
+  u8 dice;
   u16 daySpeed;
-  longlong lVar10;
+  u16 lVar10;
   u32 i;
   int iVar11;
   int iVar12;
@@ -1425,8 +1425,8 @@ u8 Entity::CheckSpellTimeOfDay(CharSheet *param_1,SpellInstance *param_2){
   return uVar1;
 }
 
-byte Entity::CheckSpellSpecial(CharSheet *param_1,SpellInstance *param_2){
-  byte bVar2;
+u8 Entity::CheckSpellSpecial(CharSheet *param_1,SpellInstance *param_2){
+  u8 bVar2;
   
   bVar2 = 0;
   if (param_2->special == Magic_TrueName) {
@@ -1466,7 +1466,7 @@ void Entity::IncEffects(CharSheet *Ent,CombatEntity *CEnt,u32 Delta){
 
 ///IDK what this was... Unused.
 u8 Ofunc_8007a8cc(ItemID param_1,u8 param_2){
-  byte bVar1 = GETINDEX(param_1);
+  u8 bVar1 = GETINDEX(param_1);
   return gWeaponsDB->Types2[param_2] <= bVar1 &&
          bVar1 <= gWeaponsDB->Types2[param_2] + (u32)gWeaponsDB->Types[param_2] + -1;
 }
@@ -1895,7 +1895,7 @@ u8 Entity::GetShieldDefence(CharSheet *param_1,ItemID param_2){
 }
 
 int Entity::GetArmorProtect(CharSheet *param_1,ItemID param_2){
-  byte bVar1;
+  u8 bVar1;
   u32 uVar4;
   int total;
   int iVar6;

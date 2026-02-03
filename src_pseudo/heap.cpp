@@ -124,8 +124,9 @@ void HeapFree(void *X,char *cpp,u32 line){
 u32 FUN_80098200(void *param_1){return get_heap_size((HeapBlock *)((s32)param_1 + -4)) &-1;}
 u32 Ofunc_get_MemFreeMax(void){return gMemMonitor.memFreeMax;}
 u32 get_memUsed(void){return gMemMonitor.memUsed;}
-u32 get_memFree(void){return gMemMonitor.memFree;}
+u32 get_MemFree(void){return gMemMonitor.memFree;}
 u32 Ofunc_get_objCount(void){return gMemMonitor.obj_count;}
+u32 Ofunc_get_obj_count_2(void){return gMemMonitor.obj_count_2;}
 u32 get_obj_free(void){return gMemMonitor.obj_free;}
 
 u32 get_memFree_2(void){
@@ -298,8 +299,8 @@ void FUN_800987a8(HeapBlock* param_1){
 
 void FUN_80098824(s32 *param_1,s32 param_2){*param_1 = param_2;}
 
-void FUN_8009882c(s32 param_1,u32 param_2){
-  *(u32 *)((param_2 & ~1) + param_1 + -4) = param_2;}
+void FUN_8009882c(void* param_1,u32 param_2){
+  *(u32 *)((param_2 & ~1) + (uintptr_t)param_1 + -4) = param_2;}
 
 u32 get_heap_size(HeapBlock *param_1){return param_1->size;}
 

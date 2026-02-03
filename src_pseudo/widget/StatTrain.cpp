@@ -40,7 +40,7 @@ void WidgetStatTrain::InitMenu() {
   u16 uVar3;
   CharSheet *pCVar4;
   CharStats_s *pStats;
-  byte bVar6;
+  u8 bVar6;
   BaseWidget *pBVar7;
   u32 uVar12;
   int i;

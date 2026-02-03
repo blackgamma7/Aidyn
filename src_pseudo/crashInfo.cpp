@@ -173,7 +173,7 @@ void FUN_80006c6c(void *p,u8 *r,u8 *g,u8 *b){
 void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
   OSThread *pOVar3;
   u16 uVar5;
-  byte bVar8;
+  u8 bVar8;
   int iVar4;
   int *piVar9;
   u32 uVar10;
@@ -539,7 +539,7 @@ void heap_walk(CrashSub *param_1,CrashBuff *param_2){
 
 void crash_print(CrashBuff *buff,char *txt,u16 x,u16 y,u8 r,u8 g,u8 b){
   char cVar1;
-  byte bVar2;
+  u8 bVar2;
   bool bVar3;
   char *pcVar4;
   int iVar5;

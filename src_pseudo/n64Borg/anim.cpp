@@ -102,7 +102,7 @@ int getPow2(u32 x){
 s32 FUN_8009d3b0(s32 x,s32 y){return getPow2(x / y);}
 
 Gfx * FUN_8009d3dc(Gfx *g,Borg1Header *b1,u8 bufferchoice){
-  byte bVar1;
+  u8 bVar1;
   u32 uVar3;
   u32 uVar5;
   
@@ -134,7 +134,7 @@ LAB_8009d4c0:
 }
 
 void moveBitmap32(Borg1Header *param_1,int param_2){
-  byte w;
+  u8 w;
   int iVar2;
   u16 uVar3;
   u32 uVar4;
@@ -192,7 +192,7 @@ void moveBitmap32(Borg1Header *param_1,int param_2){
 }
 
 void moveBitmap16(Borg1Header *param_1,int param_2){
-  byte bVar1;
+  u8 bVar1;
   int iVar2;
   u16 uVar3;
   u32 uVar4;
@@ -1713,7 +1713,7 @@ LAB_800a0b68:
 }
 
 void Scene::Tick(SceneData *param_1){
-  byte bVar1;
+  u8 bVar1;
   Borg6Data *pBVar2;
   Borg6Struct4 *pBVar3;
   u32 i;

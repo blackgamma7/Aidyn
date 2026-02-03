@@ -41,7 +41,7 @@ Wanderer * findWandererFromPlayerName(s16 arg0);
 void Ofunc_800124b4(playerData **param_1,vec3f *param_2);
 void WanderHead(WanderManager *wander,s16 size);
 void FreeWanderHead(WanderManager *param_1);
-void look_for_monsterparties(WanderManager *param_1,Borg9Data *param_2,s32 param_3,byte param_4);
+void look_for_monsterparties(WanderManager *param_1,Borg9Data *param_2,s32 param_3,u8 param_4);
 void AllocWanderer(WanderManager *param_1,s16 param_2,s32 param_3,u8 param_4);
 void  FreeWanderer(WanderManager *param_1,Wanderer *param_2);
 void FreeWandererFromZone(WanderManager *param_1,int param_2);

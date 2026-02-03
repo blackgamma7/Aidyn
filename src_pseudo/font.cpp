@@ -78,7 +78,7 @@ u8 Font::LoadFace(FontStruct *fontP,u32 b8,u8 rows,u8 cols){
   u16 uVar1;
   u16 uVar2;
   u16 uVar3;
-  byte bVar6;
+  u8 bVar6;
   Borg8Header *pBVar4;
   u16 *puVar5;
   FontSubstruct *pFVar7;
@@ -145,9 +145,9 @@ void Font::print800b44dc(FontStruct *fontP,Gfx **gg,char *txt,s32 x,s32 y){
 int Font::printSimple(FontStruct *fontP,Gfx **gg,char *txt,int x,int y,float scalex,float scaley)
 
 {
-  byte bVar1;
-  byte bVar2;
-  byte bVar3;
+  u8 bVar1;
+  u8 bVar2;
+  u8 bVar3;
   s16 sVar4;
   s16 sVar5;
   s16 sVar6;
@@ -166,8 +166,8 @@ int Font::printSimple(FontStruct *fontP,Gfx **gg,char *txt,int x,int y,float sca
         y += (fontP->charH * scaley);
         xCurr = x;
       }
-      else if (struct_unk_.textIndexies[(byte)*txt - ' '] != 0x2b) {
-        bVar2 = struct_unk_.textIndexies[(byte)*txt - ' '];
+      else if (struct_unk_.textIndexies[(u8)*txt - ' '] != 0x2b) {
+        bVar2 = struct_unk_.textIndexies[(u8)*txt - ' '];
         bVar3 = fontP->substruct0[fontP->fontIndex].rows;
         col.R = (fontP->col).R;
         col.G = (fontP->col).G;
@@ -213,7 +213,7 @@ int Font::PrintMain(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,s16 pa
                    float scaleY)
 
 {
-  byte bVar1;
+  u8 bVar1;
   u16 uVar2;
   u16 uVar3;
   bool bVar4;
@@ -222,17 +222,17 @@ int Font::PrintMain(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,s16 pa
   Gfx *pGVar7;
   int iVar8;
   u16 *puVar9;
-  byte bVar10;
+  u8 bVar10;
   char *iVar16;
   int iVar11;
-  byte *pbVar12;
-  byte *pbVar13;
+  u8 *pbVar12;
+  u8 *pbVar13;
   int iVar14;
   int iVar15;
   int iVar17;
   u8 red;
   u8 green;
-  byte blue;
+  u8 blue;
   int iStack_64;
   int iStack_60;
   int iStack_5c;
@@ -258,7 +258,7 @@ int Font::PrintMain(FontStruct *font,Gfx **gg,char *txt,int posX,int posY,s16 pa
     iStack_50 = (uStack_54 * scaleY + 2.0f);
     if (*txt != '\0') {
       bVar10 = *txt;
-      pbVar13 = (byte *)txt;
+      pbVar13 = (u8 *)txt;
       iStack_60 = posX;
       do {
         iStack_3c = iVar11;
@@ -337,7 +337,7 @@ LAB_800b4bc4:
               iVar15 = posX;
               if (((bVar10 != 0) && (bVar10 != ' ')) && (bVar10 != 10)) {
                 iVar16 = (char *)struct_unk_.textIndexies;
-                pbVar12 = (byte *)(txt + iVar11);
+                pbVar12 = (u8 *)(txt + iVar11);
                 bVar10 = *pbVar12;
                 while( true ) {
                   if (iVar16[bVar10 - ' '] != '+') {
@@ -390,8 +390,8 @@ void Font::PrintCharaWapper
 
 void Font::PrintChara(FontStruct *fontP,Gfx **gg,u8 chara,s32 param_4,int param_5,s16 param_6,
                      s16 param_7,s16 param_8,s16 param_9,float param_10,float param_11){
-  byte bVar1;
-  byte bVar2;
+  u8 bVar1;
+  u8 bVar2;
   s16 sVar3;
   u16 uVar4;
   u16 uVar5;
@@ -487,8 +487,8 @@ u16 Font::GetCharWidth(FontStruct *param_1,u8 chara){
 
 int Font::GetCharWidthScaled(FontStruct *param_1,char chara,float scale){
   if (param_1->currFont == NULL) return 0;
-  if ((struct_unk_.textIndexies[(byte)chara - ' '] != 43) && (chara != '\n')) {
-    return (param_1->kerning[struct_unk_.textIndexies[(byte)chara - ' ']] * scale);
+  if ((struct_unk_.textIndexies[(u8)chara - ' '] != 43) && (chara != '\n')) {
+    return (param_1->kerning[struct_unk_.textIndexies[(u8)chara - ' ']] * scale);
   }
   return 0;
 }
@@ -503,10 +503,10 @@ int Font::GetHeight(FontStruct *f,char *str,int h,int w){
 int Font::GetHeightScaled(FontStruct *font,char *str,int h,int w,float scaleX,float scaleY){
   int iVar1;
   int iVar2;
-  byte bVar3;
+  u8 bVar3;
   int iVar4;
-  byte *pbVar5;
-  byte *pbVar6;
+  u8 *pbVar5;
+  u8 *pbVar6;
   int iVar7;
   int iVar8;
   int iVar9;
@@ -519,7 +519,7 @@ int Font::GetHeightScaled(FontStruct *font,char *str,int h,int w,float scaleX,fl
       iVar9 = ((u16)font->charH * scaleY + 2.0f);
       bVar3 = *str;
       iVar7 = h;
-      pbVar6 = (byte *)str;
+      pbVar6 = (u8 *)str;
       do {
         iVar1 = GetCharWidthScaled(font,bVar3,scaleX);
         if (*pbVar6 == '\n') {
@@ -545,7 +545,7 @@ LAB_800b5474:
           bVar3 = pbVar6[1];
           iVar1 = iVar7;
           if (((bVar3 != 0) && (bVar3 != ' ')) && (bVar3 != '\n')) {
-            pbVar5 = (byte *)(str + iVar8 + 1);
+            pbVar5 = (u8 *)(str + iVar8 + 1);
             bVar3 = *pbVar5;
             while( true ) {
               if (struct_unk_.textIndexies[bVar3 - ' '] != 43) {
@@ -579,7 +579,7 @@ u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u1
   u16 uVar3;
   u32 charW;
   u32 charH;
-  byte bVar7;
+  u8 bVar7;
   u32 rows32_;
   u16 uVar8;
   int iVar9;
@@ -589,7 +589,7 @@ u8 Font::SetupBorg8(FontStruct *font,Borg8Header *param_2,u16 *sizes,u16 rows,u1
   int iVar13;
   u16 uVar14;
   int i;
-  byte bVar16;
+  u8 bVar16;
   int iVar17;
   u16 uVar18;
   u32 uVar19;

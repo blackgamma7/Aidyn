@@ -105,7 +105,7 @@ BaseWidget* WidgetSpellTrain::AFunc(){
 
 BaseWidget* WidgetSpellTrain::CDownFunc() {
   SpellBook *pSVar4;
-  byte abStack_20 [32];
+  u8 abStack_20 [32];
   
   CharSheet *pCVar3 = PARTY->Members[this->partyPicker];
   BaseWidget *uVar6 = this->scrollMenu->AFunc();
@@ -128,7 +128,7 @@ BaseWidget* WidgetSpellTrain::CDownFunc() {
 u32 WidgetSpellTrain::GetGoldPrice(u16 id) {
   CharSheet *pCVar1;
   u32 uVar2;
-  byte abStack_10 [16];
+  u8 abStack_10 [16];
   
   pCVar1 = PARTY->Members[this->partyPicker];
   if (pCVar1->spellbook->HaveSpell(id,abStack_10)) {
@@ -141,7 +141,7 @@ u32 WidgetSpellTrain::GetGoldPrice(u16 id) {
 s32 WidgetSpellTrain::GetExpPrice(u16 id) {
   SpellInstance *pSVar3;
   s32 price;
-  byte abStack_20 [24];
+  u8 abStack_20 [24];
   
   CharSheet *pCVar2 = PARTY->Members[this->partyPicker];
   float fVar7 = 0.8f;
@@ -220,7 +220,7 @@ void WidgetSpellTrain::Confirm(u16 id,u16 lv) {
   float fVar9;
   float discount;
   double dVar11;
-  byte abStack_3c0 [8];
+  u8 abStack_3c0 [8];
   int notOriana;
   
   gold_magic_price = 0;

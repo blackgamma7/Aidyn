@@ -239,7 +239,7 @@ namespace CombatAI{
     void DebateFleeing(CombatEntity *param_1,u8 param_2);
     u8 IsNotDeadNorAlly(CombatAIInfo *info,CombatEntity *param_2);
     u8 CanMoveToTarget(CombatAIInfo *info);
-    byte GetSpellPriority(CombatAIInfo *info,u8 param_2);
+    u8 GetSpellPriority(CombatAIInfo *info,u8 param_2);
     void FUN_800609bc(CombatAIInfo *info);
     void FUN_80060a88(CombatAIInfo *info);
     void FUN_80060db0(CombatAIInfo *info);
@@ -283,7 +283,7 @@ void FUN_8006268c(CombatAIInfo *info);
 void combatAI_run_cmd(CombatAIInfo *info,u8 *param_2,u8 *param_3);
 void FUN_800628cc(CombatAIInfo *info);
 bool FUN_80062c04(vec2f *param_1,float param_2,vec2f *param_3,vec2f *param_4,vec2f *param_5);
-u8 FUN_80062e14(u8 param_1,u8 param_2,byte *param_3,byte *param_4,u8 param_5);
+u8 FUN_80062e14(u8 param_1,u8 param_2,u8 *param_3,u8 *param_4,u8 param_5);
 void FUN_800631c8(CombatAIInfo *info);
 bool FUN_80063258(CombatAIInfo *info);
 void combat_ai_shadow(CombatAIInfo*info);

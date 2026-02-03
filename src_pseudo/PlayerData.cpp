@@ -201,7 +201,7 @@ Gfx * Actor::CalculateShadow(playerData *pDat,Gfx *g,float param_3,u8 param_4){
   vec3f *outRot;
   float fVar4;
   float fVar5;
-  byte bVar6;
+  u8 bVar6;
   vec2f *outScale;
   vec3f collidePos;
   vec3f fStack376;
@@ -889,7 +889,7 @@ Gfx * renderPlayers(PlayerHandler *handler,Gfx *g,s16 delta,s16 water,s16 trans)
   s16 j;
   playerData *pDat;
   vec3f *to;
-  longlong i;
+  u32 i;
   float fVar8;
   float fVar9;
   float fVar10;

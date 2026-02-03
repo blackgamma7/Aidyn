@@ -16,8 +16,8 @@ void Audiokey_free(audiokey_struct *key){
   if (key) HFREE(key,0x5c);
 }
 
-void FUN_8005bf10(playerData *pDat,audioKeyEntryB *UAS,u16 id1,u16 id2,u16 amp,byte vol,s8 pan
-                 ,u8 *arr,byte arrsize,u16 type){
+void FUN_8005bf10(playerData *pDat,audioKeyEntryB *UAS,u16 id1,u16 id2,u16 amp,u8 vol,s8 pan
+                 ,u8 *arr,u8 arrsize,u16 type){
   u8 volf = (float)vol * gGlobals.VolSFX;
   if (volf) {
     for(u8 i=0;i<arrsize;i++) {

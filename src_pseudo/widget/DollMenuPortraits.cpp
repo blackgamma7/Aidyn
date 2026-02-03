@@ -70,7 +70,7 @@ u32 DollMenuPortraits::AnimationCount(){return aniManage.present;}
 
 
 void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
-  byte bVar1;
+  u8 bVar1;
   CharSheet *pCVar4;
   int iVar6;
   BaseWidget *pBVar10;
@@ -80,14 +80,14 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
   u32 uVar17;
   u16 uStack_50;
   u16 uStack_4e;
-  byte abStack_4c [4];
+  u8 abStack_4c [4];
   u32 BStack_48;
-  byte abStack_44 [4];
+  u8 abStack_44 [4];
   u16 *puStack_40;
   int iStack_3c;
   BaseWidget **ppBStack_38;
-  byte *pbStack_34;
-  byte *pbStack_30;
+  u8 *pbStack_34;
+  u8 *pbStack_30;
   
   if ((!AnimationCount()) && (1 < this->partySize)) {
     if (param_2 == 0) {
@@ -124,8 +124,8 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
         }
       }
     }
-    this->selectedMember = (byte)uStack_4e;
-    pCVar4 = PARTY->Members[(byte)uStack_4e];
+    this->selectedMember = (u8)uStack_4e;
+    pCVar4 = PARTY->Members[(u8)uStack_4e];
     u8 AVar15 = pCVar4->EXP->GetAspect();
     pBVar12 = this->aspectIcon;
     if (pBVar12->varU16 != AVar15){

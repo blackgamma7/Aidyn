@@ -175,7 +175,7 @@ void DollMenuLists::LRToggle(u8 param_2){
       this->unkb0.AddItem(new GuiAnimatorS16(&this->menus[this->menuIndex]->posX,asStack_28,0x14,&double_array_0));
       this->Link(w);
       pWVar3 = this->menus[this->menuIndex];
-      this->menuIndex = (byte)newIndex;
+      this->menuIndex = (u8)newIndex;
       this->unk8c = pWVar3;
     }
     ShowEXPCosts();

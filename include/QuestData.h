@@ -16,8 +16,8 @@ WeatherTemp gWeatherTemp;
 namespace QuestData{
     void Save(u8 *data);
     void Load(u8 *data);
-    void SaveVoxelChart(byte *param_1);
-    void LoadVoxelChart(byte *param_1);
+    void SaveVoxelChart(u8 *param_1);
+    void LoadVoxelChart(u8 *param_1);
     u8 VerifyChecksum(SaveDatStruct *p);
     void CopySnapshot(void *param_1);
     void SaveItemID(ItemID *param_1,ItemID *param_2);

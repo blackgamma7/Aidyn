@@ -69,7 +69,7 @@ void SoundStructA_remove(SFX_Struct *param_1,SoundStructA *param_2){
   }
 }
 
-SoundStructA * soundStructA_set(SFX_Struct *param_1,voxelObject *param_2,int tally,byte zonedat){
+SoundStructA * soundStructA_set(SFX_Struct *param_1,voxelObject *param_2,int tally,u8 zonedat){
   SoundStructA *obj = param_1->pointerA + param_1->shortArrayA[param_1->pointerAIndex++];
   BZERO(obj);
   obj->voxel = param_2;
@@ -178,7 +178,7 @@ void Ofunc_80055fc0(SFX_Struct *param_1){
   }
 }
 
-void audio_ref_objs(SFX_Struct *param_1,Borg9Data *param_2,u32 tally,byte ZoneDat){
+void audio_ref_objs(SFX_Struct *param_1,Borg9Data *param_2,u32 tally,u8 ZoneDat){
   audio_obj_dat *paVar2;
   SoundStructA *pSVar3;
   audio_obj_dat *paVar4;
@@ -256,7 +256,7 @@ void clear_sfx_on_map(SFX_Struct *param_1,int tally){
 }
 
 void renderAudioVoxel(SoundStructA *param_1){
-  byte vol;
+  u8 vol;
   u8 uVar2;
   bool bVar3;
   u16 uVar5;

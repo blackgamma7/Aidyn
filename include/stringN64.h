@@ -12,7 +12,7 @@ char* Ofunc_80098a80(char *c1,char *c2,size_t l);
 s32 strcmp(char *A,char *B);
 s32 strncmp(char *c1,char *c2,size_t i);
 s32 Ofunc_80098c4c(u8 *c1,u8 *c2);
-s32 Ofunc_80098d18(byte *c1,byte *c2,size_t i);
+s32 Ofunc_80098d18(u8 *c1,u8 *c2,size_t i);
 void * memset(void *x,u8 m,size_t i);
 #endif
 u8 * Ofunc_80098e84(u8 *c1,u8 *c2,size_t i);

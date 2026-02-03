@@ -50,12 +50,12 @@ void DialougFreeActors(dialougeInstance *param_1,Borg13Data *param_2){
 
 
 void DialoguePreCallback(dialougeInstance *param_1,Borg13Data *param_2,u16 cmd,s16 refpointID){
-  byte bVar1;
+  u8 bVar1;
   u16 uVar2;
   bool bVar3;
   bool bVar4;
   u32 uVar5;
-  byte *pbVar6;
+  u8 *pbVar6;
   ActorAndID *pAI;
   u16 BVar7;
   playerData *ppVar8;
@@ -63,7 +63,7 @@ void DialoguePreCallback(dialougeInstance *param_1,Borg13Data *param_2,u16 cmd,s
   float camHeight;
   float fVar11;
 
-  byte uStack376 [6];
+  u8 uStack376 [6];
   vec2f fStack312;
   vec2f afStack248;
   vec2f avStack_b8;
@@ -476,8 +476,8 @@ void DialougInsertPlayerName(char *str){
 }
 
 void some_string_func(char *str){
-  byte bVar1;
-  byte bVar2;
+  u8 bVar1;
+  u8 bVar2;
   char cVar4;
   char cVar5;
   

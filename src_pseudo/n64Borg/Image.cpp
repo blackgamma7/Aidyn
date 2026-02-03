@@ -42,7 +42,7 @@ Borg8Header* loadBorg8(u32 index){
 //@param h: screen height
 //@param w: screen width
 //@returns display list changes
-Gfx * borg8DlistInit(Gfx *gfx,byte flag,u16 h,u16 v){
+Gfx * borg8DlistInit(Gfx *gfx,u8 flag,u16 h,u16 v){
   u32 word1;
   u32 word0;
   

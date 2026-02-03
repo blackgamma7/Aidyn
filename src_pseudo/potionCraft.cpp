@@ -60,7 +60,7 @@ BaseWidget* WidgetPotionCraft::AFunc(){
     this->SetState(WidgetS_Closing);
     return NULL;
   }
-  potionRecipie *recipie = potionRecipies + (byte)Utilities::GetHighlightedEntry(this->scrollMenu)->varU16;
+  potionRecipie *recipie = potionRecipies + (u8)Utilities::GetHighlightedEntry(this->scrollMenu)->varU16;
   bool success = false;
   if (!check_potion_ingredients(recipie)) {
     this->TextPopup(NotEnoughString(recipie->ID));

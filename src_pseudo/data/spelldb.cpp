@@ -7,9 +7,9 @@
 
 void SpellDB::Orphaned(){
   SpellRAM *pSVar1;
-  byte *pbVar2;
-  byte *pbVar3;
-  byte bVar5;
+  u8 *pbVar2;
+  u8 *pbVar3;
+  u8 bVar5;
   int aiStack_30 [12];
   
   aiStack_30[0] = 0;
@@ -70,7 +70,7 @@ void SpellDB::Init(){
 void SpellDB::Free(){HFREE(this->spells,285);}
 
 
-byte SpellDB::GetIcon(ItemID id){
+u8 SpellDB::GetIcon(ItemID id){
 
   u8 index = GETINDEX(id);
   u8 SpellIconIDs[]={

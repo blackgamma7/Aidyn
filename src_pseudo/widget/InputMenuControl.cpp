@@ -52,8 +52,8 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
   BaseWidget *uVar10;
   u32 uVar7;
   u8 uVar8;
-  byte bVar16;
-  byte *pbVar17;
+  u8 bVar16;
+  u8 *pbVar17;
   InputWidgetSubStruct *piVar2;
   WAMSub *piVar7;
   
@@ -77,7 +77,7 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
           piVar2->entry[piVar2->entryIndex] = '\0';
         }
       }
-      pbVar17 = (byte *)(piVar2->entry + 1);
+      pbVar17 = (u8 *)(piVar2->entry + 1);
       if (piVar2->entry[1] != '\0') {
         bVar16 = *pbVar17;
         while( true ) {
@@ -131,12 +131,12 @@ BaseWidget * InputMenu_AButton(BaseWidget* param_1,BaseWidget *w1){
 }
 
 BaseWidget * InputMenu_StartButton(BaseWidget *w0,BaseWidget *w1){
-  byte bVar1;
+  u8 bVar1;
   s16 sVar2;
   WidgetDollMenu *pWVar4;
   BaseWidget *pBVar6;
   u8 uVar12;
-  byte *pbVar13;
+  u8 *pbVar13;
   WAMSub *piVar4;
   InputWidgetSubStruct *piVar3;
   
@@ -146,7 +146,7 @@ BaseWidget * InputMenu_StartButton(BaseWidget *w0,BaseWidget *w1){
     piVar4 = (WAMSub *)piVar3->arrayMenu->substruct;
     uVar12 = piVar4->entryCount - 1;
     if (piVar4->entryPos == uVar12) {
-      pbVar13 = (byte *)(piVar3->entry + 1);
+      pbVar13 = (u8 *)(piVar3->entry + 1);
       if (piVar3->entry[1] != '\0') {
         bVar1 = *pbVar13;
         while( true ) {

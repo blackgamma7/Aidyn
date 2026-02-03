@@ -139,7 +139,7 @@ LAB_80035e34:
 
 
 void PauseWidget::bigAssOpenCallback_2(){
-  byte bVar1;
+  u8 bVar1;
   bool bVar2;
   Borg7Header *pBVar3;
   u32 borg12;
@@ -191,7 +191,7 @@ void PauseWidget::InitOptionsMenu(){
     sub->optionsMenu->InitMenu(2);
     gGlobals.cinematicReplay = 0;
   }
-  Utilities::MoveWidget(sub->optionsMenu,(u16)(byte)sub->PauseMenuSection * -SCREEN_WIDTH,0);
+  Utilities::MoveWidget(sub->optionsMenu,(u16)(u8)sub->PauseMenuSection * -SCREEN_WIDTH,0);
   sub->optionsMenu->Tick();
   this->Link(sub->optionsMenu);
 }

@@ -8,13 +8,13 @@ gfxManager gGfxManager={0};
 
 //inialize graphic settings, alloc memory, load debug font.
 void Graphics::initGfx(OSSched *sched){
-  byte bVar1;
+  u8 bVar1;
   u8 uVar2;
   int iVar3;
   OSViMode *src;
   int iVar4;
   int iVar5;
-  byte bVar7;
+  u8 bVar7;
   
   u32 k = 0x3200*sizeof(Gfx); //"k" doubles as for loop iterator
   //double dlist alloc if expansion pak detected
@@ -50,8 +50,8 @@ void Graphics::initGfx(OSSched *sched){
   gGfxManager.osvimodeCustom.comRegs.width = 0x200;
   gGfxManager.osvimodeCustom.fldRegs[0].origin = 0x400;
   gGfxManager.osvimodeCustom.comRegs.xScale = 0x333;
-  gGfxManager.taskMsgs[0].state = 2;
-  gGfxManager.taskMsgs[1].state = 2;
+  gGfxManager.taskMsgs[0].state = OS_SC_DONE_MSG;
+  gGfxManager.taskMsgs[1].state = OS_SC_DONE_MSG;
   gGfxManager.ram_size = gMemCheckStruct.RamSize;
   gGfxManager.FramebufferSize[0] = gMemCheckStruct.frameBufferSize1;
   gGfxManager.FramebufferSize[1] = gMemCheckStruct.frameBufferSize0;
@@ -72,7 +72,7 @@ void Graphics::initGfx(OSSched *sched){
           uVar2 = (u8)(iVar5 << 4);
         }
         else {
-          uVar2 = (byte)iVar5 | gGfxManager.textfont[i][j][k/2];
+          uVar2 = (u8)iVar5 | gGfxManager.textfont[i][j][k/2];
         }
         gGfxManager.textfont[i][j][k/2] = uVar2;
       }
@@ -284,7 +284,7 @@ u8 Graphics::ResolutionCheck(void){
   
   if (((gGfxManager.Hres[0] == gGfxManager.Hres[1]) && (gGfxManager.Vres[0] == gGfxManager.Vres[1]))
      && (gGfxManager.colordepth[0] == gGfxManager.colordepth[1])) {
-    bVar1 = (byte)gGfxManager.taskTicks < 2;
+    bVar1 = (u8)gGfxManager.taskTicks < 2;
   }
   else {
     bVar1 = false;
@@ -363,19 +363,19 @@ void Graphics::getGfxLastFrame
   int iVar4;
   int iVar5;
   float fVar6;
-  byte bVar7;
+  u8 bVar7;
   float fVar8;
   float fVar9;
   u16 uVar10;
-  byte bVar11;
+  u8 bVar11;
   uint uVar12;
   u8 uVar13;
-  byte i;
-  byte *pbVar14;
+  u8 i;
+  u8 *pbVar14;
   uint uVar16;
-  byte bVar17;
+  u8 bVar17;
   uint k;
-  byte bVar19;
+  u8 bVar19;
   uint uVar23;
   uint j;
   float fVar25;
@@ -445,7 +445,7 @@ LAB_80009c10:
                   uVar12 = (u8)((uVar3 >> 0x18) + (uVar3 >> 0x10) + (uVar3 >> 8)) / 3;
                   if (bVar19 == 0) goto LAB_80009c10;
                   uVar12 = (u8)((uVar12 - uVar16) / (uVar23 - uVar16) * fVar8) >> 4;
-                  bVar17 = (byte)uVar12;
+                  bVar17 = (u8)uVar12;
                   if ((k & 1) != 0) goto LAB_80009c94;
 LAB_80009cb4:
                   *(char *)((int)pDest + iVar5 + (k >> 1)) = (char)(uVar12 << 4);
@@ -471,10 +471,10 @@ LAB_80009cb4:
                   uVar12 = ((uint)(uVar1 >> 0xb) + (uVar1 >> 6 & 0x1f) + (uVar1 >> 1 & 0x1f)) / 3;
                   if (bVar19 == 0) goto LAB_80009c10;
                   uVar12 = (u8)(((uVar12 - uVar16) / (uVar23 - uVar16)) * fVar9) >> 1;
-                  bVar17 = (byte)uVar12;
+                  bVar17 = (u8)uVar12;
                   if ((k & 1) == 0) goto LAB_80009cb4;
 LAB_80009c94:
-                  pbVar14 = (byte *)((int)pDest + iVar5 + (k >> 1));
+                  pbVar14 = (u8 *)((int)pDest + iVar5 + (k >> 1));
                   *pbVar14 = bVar17 | *pbVar14;
                   uVar12 = uVar16;
                 }

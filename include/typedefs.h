@@ -5,20 +5,12 @@
 
 extern s32 osAfterPreNMI(void); //not in libreultra
 
-
-typedef unsigned char   undefined;
 typedef unsigned char    byte;
-typedef unsigned int    dword;
 typedef long long    longlong;
-typedef char    sbyte;
-typedef unsigned char    uchar;
 typedef unsigned int    uint;
 typedef unsigned long    ulong;
 typedef unsigned long long    ulonglong;
-typedef unsigned char    undefined1;
-typedef unsigned long undefined4;
 typedef unsigned long long    undefined8;
-typedef unsigned short    ushort;
 
 #ifndef uintptr_t
 typedef unsigned long uintptr_t;

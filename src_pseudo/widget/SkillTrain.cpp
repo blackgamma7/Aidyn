@@ -25,7 +25,7 @@ void WidgetSkillTrain::InitMenu() {
   u16 uVar2;
   u32 uVar3;
   CharSkills *skills;
-  byte bVar9;
+  u8 bVar9;
   WidgetSkillInfo *pWVar7;
   u16 uVar8;
   int i;
@@ -173,8 +173,8 @@ void WidgetSkillTrain::Purchase(u16 param_2,u8 v) {
 
   bool Shop;
   u16 type;
-  byte bVar14;
-  byte bVar15;
+  u8 bVar14;
+  u8 bVar15;
   s16 lvOld;
   s16 lvNew;
   char *pcVar10;

@@ -133,7 +133,7 @@ u16 count_enemies(EncounterDat *param_1){
   return c;
 }
 
-byte find_sholeh(EncounterDat *param_1){
+u8 find_sholeh(EncounterDat *param_1){
     for(u16 i=0;i<4;i++) {
     if (param_1->enemy_entities[i]==IDEntInd(Sholeh))return i;
   }
@@ -200,7 +200,7 @@ u16 Combat_CreatePartyMembers(u8 param_1){
         if (charsheet->spellbook->HaveSpell(IDSpell(SpellList[SpellInd_Fireball]),&spellInd)) {
           iVar4 = Entity::CheckSpellWizard(charsheet,charsheet->spellbook->spells[spellInd]);
           if (gCombatP->flask_byte < (iVar4 << 1)) {
-            gCombatP->flask_byte = (byte)(iVar4 << 1);
+            gCombatP->flask_byte = (u8)(iVar4 << 1);
           }
         }
       }
@@ -366,7 +366,7 @@ void Combat_InitEncounter(CombatStruct *cStruct,EncounterDat *param_2){
   cStruct->partyCount = PARTY->PartySize;
   uVar8 = count_enemies(param_2);
   uVar6= 0;
-  cStruct->enemyCount = (byte)uVar8;
+  cStruct->enemyCount = (u8)uVar8;
   u8 bVar9 = find_sholeh(cStruct->encounter_dat);
   if (bVar9) {
     pIVar11 = cStruct->encounter_dat->enemy_entities + (bVar9 - 1);
@@ -405,7 +405,7 @@ void Combat_InitEncounter(CombatStruct *cStruct,EncounterDat *param_2){
 }
 
 bool Ofunc_800664ac(CombatStruct *param_1){
-  byte bVar1;
+  u8 bVar1;
   ItemID IVar2;
   bool bVar4;
   
@@ -466,19 +466,19 @@ bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y
 }
 
 
-bool FUN_8006674c(CombatStruct *param_1,u32 param_2,u16 param_3,byte param_4,
+bool FUN_8006674c(CombatStruct *param_1,u32 param_2,u16 param_3,u8 param_4,
                  float *coordA,float *CoordB,u32 param_7){
   float fVar6;
   double dVar5;
-  byte x;
-  byte y;
+  u8 x;
+  u8 y;
   
   for(u32 i=0;i<1;i++){
     for(u32 j=0;j<4;j++){
       voxelObject* refObj = get_refpoint_by_name(param_2,(u8)j,i != param_7);
       fVar6 = (refObj->header).pos.x;
       dVar5 = (double)fVar6;
-      if (0.0 < fVar6) x = (byte)(int)(dVar5 + 0.5);
+      if (0.0 < fVar6) x = (u8)(int)(dVar5 + 0.5);
       else x = -(char)(int)(0.5 - dVar5);
       fVar6 = (refObj->header).pos.z;
       dVar5 = (double)fVar6;
@@ -521,7 +521,7 @@ void FUN_800668e4(CombatStruct *param_1,u8 *outX,u8 *outY,u8 *param_4,u8 param_5
 }
 
 void func_settting_leader_dead_flag(CombatStruct *param_1){
-  byte bVar1;
+  u8 bVar1;
   ItemID IVar2;
   u8 uVar7;
   CharSheet *pCVar5;
@@ -647,7 +647,7 @@ void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,u32 param_3){
   }
 }
 
-void calc_loot(CombatStruct *param_1,byte param_2,EntityRAM *param_3){
+void calc_loot(CombatStruct *param_1,u8 param_2,EntityRAM *param_3){
   Loot_RAM *pLVar5 = &gChestDBp->lootCat[param_2];
   param_1->gold_pool+=rand_range(pLVar5->GoldLo,pLVar5->GoldHi);
   get_gear_drop(param_1,param_3,pLVar5);

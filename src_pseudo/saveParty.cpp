@@ -51,7 +51,7 @@ Temp_enchant * SaveParty::LoadSpellEffect(SaveFile *sav){
 }
 
 void SaveParty::SaveStatMod(SaveFile *sav,StatMod *Mod){
-  SKIPCHECK(Mod,SaveBits_StatMod) SaveBits(sav,(int)Mod->mod + 0x32U & 0x7f | (u32)(byte)Mod->stat << 7,SaveBits_StatMod);
+  SKIPCHECK(Mod,SaveBits_StatMod) SaveBits(sav,(int)Mod->mod + 0x32U & 0x7f | (u32)(u8)Mod->stat << 7,SaveBits_StatMod);
 }
 
 StatMod * SaveParty::LoadStatMod(SaveFile *sav){
@@ -231,7 +231,7 @@ void SaveParty::SaveCharSheet(SaveFile *sav,CharSheet *chara){
 CharSheet * SaveParty::LoadCharSheet(SaveFile *sav){
   u16 uVar1;
   CharSheet *chara;
-  byte i;
+  u8 i;
   
   uVar1 = LoadBits(sav,SaveBits_Byte);
   if (!uVar1) {
@@ -324,7 +324,7 @@ void SaveParty::LoadArmor(SaveFile *sav,CharSheet *chara){
   SKIPCHECK(uVar2,SaveBits_ItemInstance-SaveBits_ItemID) {
     uVar3 = LoadBits(sav,SaveBits_SpellCharge);
     Entity::EquipArmor(chara,uVar2,LoadStatMod(sav));
-    if (((*chara->armor)->base).spellCharge) ((*chara->armor)->base).spellCharge->Charges = (byte)uVar3;
+    if (((*chara->armor)->base).spellCharge) ((*chara->armor)->base).spellCharge->Charges = (u8)uVar3;
   }
 }
 

@@ -7,9 +7,9 @@
 extern void*itemDB; //ROM address of item data
 
 void ItemDB::Orphaned(){
-  byte bVar1;
+  u8 bVar1;
   Gear_RAM *pGVar2;
-  byte bVar6;
+  u8 bVar6;
   int aiStack_30;
   
   aiStack_30[0] = 0;

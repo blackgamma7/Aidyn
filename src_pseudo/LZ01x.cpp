@@ -26,8 +26,8 @@ char * Ofunc_get_1point06_3(){return "1.06";}
 
 char * ofunc_get_Nov_29_1999_1(){return "Nov 29 1999";}
 
-u32 Ofunc_800a908c(u32 param_1,byte *param_2,u32 param_3) {
-  byte bVar16;
+u32 Ofunc_800a908c(u32 param_1,u8 *param_2,u32 param_3) {
+  u8 bVar16;
   u32 uVar17;
   int iVar18;
   int iVar19;
@@ -101,7 +101,7 @@ u32 Ofunc_800a908c(u32 param_1,byte *param_2,u32 param_3) {
 }
 
 //strncmp?
-int ofunc_800a9250(byte *param_1,byte *param_2,int param_3) {
+int ofunc_800a9250(u8 *param_1,u8 *param_2,int param_3) {
 
   while (param_3 != 0) {
     u8 bVar1 = *param_1;
@@ -372,20 +372,20 @@ s32 Ofunc_800a971c(s32 param_1,s32 param_2,s32 param_3,s32 param_4,int param_5,i
 }
 
 
-byte * ofunc_sub_800a981c(u8 *param_1,int param_2,u8 *param_3,u8 **param_4,int param_5) {
+u8 * ofunc_sub_800a981c(u8 *param_1,int param_2,u8 *param_3,u8 **param_4,int param_5) {
   bool bVar1;
   char cVar2;
-  byte bVar4;
+  u8 bVar4;
   int iVar3;
   u32 uVar5;
-  byte *pbVar6;
+  u8 *pbVar6;
   u8 *puVar7;
-  byte *pbVar8;
-  byte *pbVar9;
+  u8 *pbVar8;
+  u8 *pbVar9;
   u32 uVar10;
   u32 uVar11;
   u8 *puVar12;
-  byte *pbVar13;
+  u8 *pbVar13;
   
   pbVar9 = param_1 + 4;
   pbVar13 = param_1 + param_2;
@@ -398,7 +398,7 @@ LAB_800a9a88:
     uVar11 = ((((u32)bVar4 << 6 ^ (u32)pbVar8[2]) << 5 ^ (u32)pbVar8[1]) << 5 ^ (u32)*pbVar8) *
              0x21 >> 5;
     uVar5 = uVar11 & 0x3fff;
-    pbVar6 = *(byte **)(uVar5 * 4 + param_5);
+    pbVar6 = *(u8 **)(uVar5 * 4 + param_5);
     iVar3 = uVar5 << 2;
     if (((pbVar6 < param_1) || (uVar10 = (int)pbVar8 - (int)pbVar6, uVar10 == 0)) ||
        (iVar3 = uVar5 << 2, 0xbfff < uVar10)) goto LAB_800a9b84;
@@ -420,7 +420,7 @@ LAB_800a9b50:
         goto LAB_800a9b54;
       }
       uVar5 = uVar11 & 0x7ff ^ 0x201f;
-      pbVar6 = *(byte **)(uVar5 * 4 + param_5);
+      pbVar6 = *(u8 **)(uVar5 * 4 + param_5);
       iVar3 = uVar5 << 2;
       if (param_1 <= pbVar6) {
         uVar10 = (int)pbVar8 - (int)pbVar6;
@@ -435,21 +435,21 @@ LAB_800a9b50:
       }
     }
 LAB_800a9b84:
-    *(byte **)(iVar3 + param_5) = pbVar8;
+    *(u8 **)(iVar3 + param_5) = pbVar8;
     pbVar9 = puVar12;
     if (pbVar13 + -0xd <= pbVar8 + 1) goto LAB_800a9b9c;
     bVar4 = pbVar8[4];
     pbVar8 = pbVar8 + 1;
   } while( true );
-  *(byte **)(uVar5 * 4 + param_5) = pbVar8;
+  *(u8 **)(uVar5 * 4 + param_5) = pbVar8;
   uVar5 = (int)pbVar8 - (int)puVar12;
   if (0 < (int)uVar5) {
     if (uVar5 < 4) {
-      puVar7[-2] = puVar7[-2] | (byte)uVar5;
+      puVar7[-2] = puVar7[-2] | (u8)uVar5;
     }
     else {
       if (uVar5 < 0x13) {
-        *puVar7 = (byte)uVar5 - 3;
+        *puVar7 = (u8)uVar5 - 3;
       }
       else {
         uVar11 = uVar5 - 0x12;
@@ -459,7 +459,7 @@ LAB_800a9b84:
           if (uVar11 < 0x100) break;
           uVar11 = uVar11 - 0xff;
         }
-        *puVar7 = (byte)uVar11;
+        *puVar7 = (u8)uVar11;
       }
       puVar7 = puVar7 + 1;
     }
@@ -499,26 +499,26 @@ LAB_800a9a40:
         for (; puVar7 = puVar7 + 1, 0xff < uVar5; uVar5 = uVar5 - 0xff) {
           *puVar7 = 0;
         }
-        *puVar7 = (byte)uVar5;
+        *puVar7 = (u8)uVar5;
       }
     }
     else {
       uVar10 = uVar10 - 0x4000;
       if (9 < uVar5) {
         uVar5 = uVar5 - 9;
-        bVar4 = (byte)((uVar10 & 0x4000) >> 0xb) | 0x10;
+        bVar4 = (u8)((uVar10 & 0x4000) >> 0xb) | 0x10;
         goto LAB_800a9a40;
       }
-      *puVar7 = (byte)((uVar10 & 0x4000) >> 0xb) | (char)uVar5 - 2U | 0x10;
+      *puVar7 = (u8)((uVar10 & 0x4000) >> 0xb) | (char)uVar5 - 2U | 0x10;
     }
   }
   else {
     pbVar9 = pbVar9 + -1;
     cVar2 = (char)pbVar9 - (char)puVar12;
     if (bVar1) {
-      *puVar7 = (cVar2 + -1) * ' ' | (byte)((uVar10 - 1 & 7) << 2);
+      *puVar7 = (cVar2 + -1) * ' ' | (u8)((uVar10 - 1 & 7) << 2);
       pbVar8 = puVar7 + 1;
-      bVar4 = (byte)(uVar10 - 1 >> 3);
+      bVar4 = (u8)(uVar10 - 1 >> 3);
       goto LAB_800a9a74;
     }
     bVar4 = cVar2 - 2;
@@ -528,12 +528,12 @@ LAB_800a9a40:
     }
     else {
       uVar10 = uVar10 - 0x4000;
-      *puVar7 = (byte)((uVar10 & 0x4000) >> 0xb) | bVar4 | 0x10;
+      *puVar7 = (u8)((uVar10 & 0x4000) >> 0xb) | bVar4 | 0x10;
     }
   }
-  puVar7[1] = (byte)(uVar10 << 2);
+  puVar7[1] = (u8)(uVar10 << 2);
   pbVar8 = puVar7 + 2;
-  bVar4 = (byte)(uVar10 >> 6);
+  bVar4 = (u8)(uVar10 >> 6);
 LAB_800a9a74:
   *pbVar8 = bVar4;
   puVar7 = pbVar8 + 1;
@@ -546,30 +546,30 @@ LAB_800a9b9c:
   goto LAB_800a9a88;
 }
 
-u32 Ofunc_800a9bb8(byte *param_1,byte *param_2,byte *param_3,byte **param_4,u32 param_5) {
-  byte bVar1;
-  byte *pbVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  byte *pbVar5;
+u32 Ofunc_800a9bb8(u8 *param_1,u8 *param_2,u8 *param_3,u8 **param_4,u32 param_5) {
+  u8 bVar1;
+  u8 *pbVar2;
+  u8 *pbVar3;
+  u8 *pbVar4;
+  u8 *pbVar5;
   
   pbVar5 = param_2;
   pbVar2 = param_3;
-  if ((byte *)0xd < param_2) {
+  if ((u8 *)0xd < param_2) {
     pbVar5 = ofunc_sub_800a981c(param_1,(int)param_2,param_3,param_4,param_5);
     pbVar2 = param_3 + (int)*param_4;
   }
   if (pbVar5 == NULL) goto LAB_800a9ca8;
   pbVar3 = param_1 + (int)param_2 + -(int)pbVar5;
-  bVar1 = (byte)pbVar5;
-  if ((pbVar2 == param_3) && (pbVar5 < (byte *)0xef)) {
+  bVar1 = (u8)pbVar5;
+  if ((pbVar2 == param_3) && (pbVar5 < (u8 *)0xef)) {
     *pbVar2 = bVar1 + 0x11;
 LAB_800a9c8c:
     pbVar2 = pbVar2 + 1;
   }
   else {
-    if ((byte *)0x3 < pbVar5) {
-      if (pbVar5 < (byte *)0x13) {
+    if ((u8 *)0x3 < pbVar5) {
+      if (pbVar5 < (u8 *)0x13) {
         *pbVar2 = bVar1 - 3;
       }
       else {
@@ -577,10 +577,10 @@ LAB_800a9c8c:
         while( true ) {
           *pbVar2 = 0;
           pbVar2 = pbVar2 + 1;
-          if (pbVar4 < (byte *)0x100) break;
+          if (pbVar4 < (u8 *)0x100) break;
           pbVar4 = pbVar4 + -0xff;
         }
-        *pbVar2 = (byte)pbVar4;
+        *pbVar2 = (u8)pbVar4;
       }
       goto LAB_800a9c8c;
     }
@@ -604,15 +604,15 @@ LAB_800a9ca8:
 //the above could be cut out for ports and recomps.
 
 s32 decompress_LZ01(u8 *compDat,u32 compSize,u8 *OutDat,u32 *OutSize){
-  byte bVar1;
+  u8 bVar1;
   s32 sVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  byte *pbVar5;
+  u8 *pbVar3;
+  u8 *pbVar4;
+  u8 *pbVar5;
   u32 uVar6;
   int iVar7;
   u32 uVar8;
-  byte *pbVar9;
+  u8 *pbVar9;
   
   *OutSize = 0;
   pbVar3 = compDat + compSize;
@@ -786,17 +786,17 @@ code_r0x800a9d4c:
 }
 
 
-s32 LZ01_func_2(byte *param_1,int param_2,byte *param_3,byte **param_4){
-  byte *pbVar1;
-  byte bVar2;
+s32 LZ01_func_2(u8 *param_1,int param_2,u8 *param_3,u8 **param_4){
+  u8 *pbVar1;
+  u8 bVar2;
   s32 sVar3;
-  byte *pbVar4;
-  byte *pbVar5;
-  byte *pbVar6;
+  u8 *pbVar4;
+  u8 *pbVar5;
+  u8 *pbVar6;
   u32 uVar7;
   int iVar8;
   u32 uVar9;
-  byte *pbVar10;
+  u8 *pbVar10;
   
   pbVar1 = *param_4;
   pbVar4 = param_1 + param_2;

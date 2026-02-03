@@ -24,7 +24,7 @@ u8 Options_RenameMenu(BaseWidget *w) {
 }
 
 BaseWidget * options_func_Left(BaseWidget *w0,BaseWidget *w1) {
-  byte bVar3;
+  u8 bVar3;
   OptionsConfigSubstruct *sub = (OptionsConfigSubstruct *)w1->substruct;
   if ((sub->renameOpen)) return sub->nameEntry->LeftFunc();
   switch(sub->selected){
@@ -52,7 +52,7 @@ BaseWidget * options_func_Left(BaseWidget *w0,BaseWidget *w1) {
 }
 
 BaseWidget * options_func_Right(BaseWidget *w0,BaseWidget *w1) {
-  byte bVar3;
+  u8 bVar3;
   OptionsConfigSubstruct *sub = (OptionsConfigSubstruct *)w1->substruct;
   if ((sub->renameOpen)) return sub->nameEntry->RightFunc();
   switch(sub->selected){

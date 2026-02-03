@@ -91,7 +91,7 @@ void Ofunc_800ad420(vec3f *A,vec3f *B,vec3f *C,vec3f *D);
 void Ofunc_800ad49c(vec3f *A,vec3f *B);
 void Ofunc_800ad50c(MtxF *A,float *B,float *C,float *D,float *E);
 void Ofunc_800ad81c(MtxF *A,vec3f *B);
-byte Ofunc_800ad8d8(float X);
+u8 Ofunc_800ad8d8(float X);
 void FUN_800ad974(MtxF *X,float A);
 void FUN_800ad9dc(vec4f *X,MtxF *Y,vec4f *Z);
 

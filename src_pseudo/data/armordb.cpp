@@ -56,7 +56,7 @@ void ArmorDB::Load(u8 index,u32 *pos){
   *pos+=sizeof(ArmorRom);
 }
 
-void ArmorDB::Orphaned2(byte param_2){
+void ArmorDB::Orphaned2(u8 param_2){
   u32 aiStack_10 [4];
   
   for(u8 i=0;i<this->total;i++){

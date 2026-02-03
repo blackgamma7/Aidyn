@@ -403,7 +403,6 @@ void Particle::FreeParticleEmitter(ParticleHeadStruct *head,ParticleEmmiter *emm
   s16 sVar1;
   int iVar2;
   u16 uVar4;
-  longlong lVar5;
   
   if ((emmi->flags & PARTEMMI_0004)) {
     sVar1 = emmi->particles[0].unk6;

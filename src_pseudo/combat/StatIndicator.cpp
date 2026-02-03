@@ -33,7 +33,7 @@ u32 AddItem(playerData *param_1,int type,s16 num){
   vec3f *pvVar8;
   u8 *dst;
   PlaneObj *pcVar7;
-  byte bVar10;
+  u8 bVar10;
   float fVar11;
   u8* aiStack_70 [MAXSTATDIGITS];
   u32 index;
@@ -157,7 +157,7 @@ Gfx * Tick(Gfx *g,int delta){
   u32 uVar1;
   Borg1Data *pBVar2;
   Gfx *pGVar3;
-  byte bVar4;
+  u8 bVar4;
   PlaneObj *x;
   u32 i;
   int iVar6;

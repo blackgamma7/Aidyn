@@ -30,8 +30,8 @@ void WidgetHandler::Free(u32 flag){
 u8 WidgetHandler::Tick(u8 delta){
   BaseWidget *pBVar1;
   u8 uVar3;
-  byte bVar4;
-  byte bVar5;
+  u8 bVar4;
+  u8 bVar5;
   BaseWidget *pBStack_20;
   
   bVar5 = 0;

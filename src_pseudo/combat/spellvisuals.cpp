@@ -434,7 +434,7 @@ void FUN_800953a8(s16 param_1){
   }
 }
 void processSpellVisuals(u32 param_1){
-  byte bVar1;
+  u8 bVar1;
   Borg7Header *pBVar2;
   struct_1 *psVar3;
   float fVar4;

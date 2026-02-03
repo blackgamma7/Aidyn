@@ -59,16 +59,16 @@ void Controller::proc(void* x){
     #if !EUVER
     do {
       osRecvMesg(&gContManager.mesgClient,(OSMesg*)&msg,1);
-    } while (*msg != 1);
+    } while (*msg != OS_SC_RETRACE_MSG);
     #else
     while( true ) {
       while (osRecvMesg(&gContManager.mesgClient,(OSMesg*)&msg,1), __osShutdown != 0) {
         gContPalVar = true;
       }
-      if (*msg != 4) break;
+      if (*msg != OS_SC_PRE_NMI_MSG) break;
       gContPalVar = true;
     }
-    if ((!gContPalVar) && (*msg == 1)) {
+    if ((!gContPalVar) && (*msg == OS_SC_RETRACE_MSG)) {
     #endif
     ReadInput();
     if (osTvType == OS_TV_PAL) {

@@ -43,7 +43,7 @@ void event_flag_skill_(u8 param_1){
   EventFlag EVar2;
   CharSheet *pCVar3;
   int iVar4;
-  byte bVar8;
+  u8 bVar8;
   u16 uVar10;
   
   if (gameStates) {

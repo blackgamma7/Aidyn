@@ -232,12 +232,12 @@ void Skyobjects::Free(void){
 }
 
 Gfx * Skyobjects::Render(Gfx *g){
-  byte bVar1;
+  u8 bVar1;
   float fVar3;
   float fVar4;
   float fVar5;
   float fVar6;
-  byte bVar7;
+  u8 bVar7;
   u8 SVar8;
   u32 uVar9;
   u8 blue;
@@ -261,7 +261,7 @@ Gfx * Skyobjects::Render(Gfx *g){
   float x;
   vec3f fStack240;
   int iStack_5c;
-  byte bVar2;
+  u8 bVar2;
   
   if ((true)/*?*/ && (gGlobals.sky.Type == SkyTypeOutdoor)) {
     i = 0;

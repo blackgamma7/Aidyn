@@ -111,7 +111,7 @@ WidgetInvShop::~WidgetInvShop(){WidgetMenu::~WidgetMenu();}
 void WidgetInvShop::InitMenu() {
   bool bVar5;
   u16 *tempList;
-  byte bVar11;
+  u8 bVar11;
   int iVar12;
   u16 count;
   u16 i;
@@ -127,7 +127,7 @@ void WidgetInvShop::InitMenu() {
     if (this->inventory != gGlobals.shopInv){ //add party's equip to list
         for(u8 i=0;i< PARTY->PartySize;i++){
           count = (this->partyPicker + i) % (u32)PARTY->PartySize;
-          bVar11 = (byte)count;
+          bVar11 = (u8)count;
           if (PARTY->Members[count]->weapons)
             this->scrollMenu->Append(new SMIItem(&PARTY->Members[count]->weapons->base,1,bVar11));
           if (PARTY->Members[count]->armor[0])

@@ -27,7 +27,7 @@ struct PlaneObj { /* used for damage numbers and shadows */
     u32 unk28c; /* unused */
 };
 
-Gfx * PlaneObj_SetupGfx(Gfx *g,byte flags);
+Gfx * PlaneObj_SetupGfx(Gfx *g,u8 flags);
 Gfx * PlaneObj_GetTexture(Gfx *g,PlaneObj *plane);
 Gfx * PlaneObj_Render(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale);
-Gfx * PlaneObj_FastRender(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale,byte flag);
+Gfx * PlaneObj_FastRender(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale,u8 flag);

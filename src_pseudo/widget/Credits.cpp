@@ -52,7 +52,7 @@ WidgetCredits::WidgetCredits():WidgetMenu(){
         w->SetBounds(w->posY,0,SCREEN_WIDTH,yOff);
       } while (count != credits_linebreaks[uVar14]);
     }
-    pBVar7->varU8 = (byte)count;
+    pBVar7->varU8 = (u8)count;
     pBVar7->varU16 = yOff - pBVar7->posY;
 }
  this->THEEND = WClipTXT(creditStrings[0x81]);
@@ -145,7 +145,7 @@ void WidgetCredits::State1(){
 
 void WidgetCredits::State2(){
   BaseWidget *pBVar1;
-  byte bVar2;
+  u8 bVar2;
   BaseWidget *pBVar3;
   
   bVar2 = this->timer - 1;
@@ -187,7 +187,7 @@ LAB_800340fc:
 
 
 void WidgetCredits::State3(){
-  byte bVar1;
+  u8 bVar1;
   u8 uVar2;
   BaseWidget *pBVar4;
   float fVar5;

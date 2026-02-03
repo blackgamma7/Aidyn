@@ -28,7 +28,7 @@ EventFlag StringToFlag(char *param_1) {
   
   u16 len = strlen(param_1);
   for(u16 i=0,ret=0;i<len;i++){
-      ret+=((byte)param_1[(len - 1) - i] - '0') * some_char_to_int_parsing(10,i);
+      ret+=((u8)param_1[(len - 1) - i] - '0') * some_char_to_int_parsing(10,i);
     }
   return (EventFlag)ret;
 }

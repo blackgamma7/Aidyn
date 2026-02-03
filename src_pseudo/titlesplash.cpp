@@ -180,7 +180,7 @@ void TitleSplash::Println(Gfx**GG,s16 *HSpace,char *TXT){
   *HSpace+= (gGlobals.font)->charH;
 }
 u8 TitleSplash::Copyright(Gfx **GG){
-  byte state;
+  u8 state;
   s16 textY;
   controller_aidyn *cont;
   Gfx *g;
@@ -279,7 +279,7 @@ u8 TitleSplash::N64Logo(Gfx**GG){
 
 u8 TitleSplash::THQLogo(Gfx** GG){
   bool bVar1;
-  byte abStack_28 [4];
+  u8 abStack_28 [4];
   controller_aidyn *pcStack_24;
   Gfx *g;
 
@@ -312,7 +312,7 @@ u8 TitleSplash::H2OLogo(Gfx**GG){
   #define ShowTime 120
   #endif
 
-  byte state;
+  u8 state;
   controller_aidyn *cont;
   Gfx *g [8];
   

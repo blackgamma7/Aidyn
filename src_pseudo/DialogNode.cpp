@@ -10,7 +10,7 @@ void set_dialoug_func_b(DialogCallback2 f){d_func_B_pointer=f;}
 
 void set_dialoug_func_c(DialogCallback f){d_func_C_pointer=f;}
 
-byte check_command_bitmask(Borg13Data *param_1,u8 param_2){
+u8 check_command_bitmask(Borg13Data *param_1,u8 param_2){
   if ((param_1->commands_pointer[param_2].bitmask & 1)) return 0;
   if ((param_1->commands_pointer[param_2].bitmask & 2)) return 1;
   if ((param_1->commands_pointer[param_2].bitmask & 4)) return 2;
@@ -21,12 +21,12 @@ char * get_borg_13_text(Borg13Data *param_1,u8 param_2){
   return param_1->text + param_1->commands_pointer[param_2].text_marker;
 }
 
-byte command_bitmask_6(Borg13Data *param_1,u8 param_2){
+u8 command_bitmask_6(Borg13Data *param_1,u8 param_2){
   param_1->commands_pointer[param_2].bitmask |= 0x80;
   return param_1->commands_pointer[param_2].bitmask;
 }
 
-byte command_bitmask_7(Borg13Data *param_1,u8 param_2){return param_1->commands_pointer[param_2].bitmask >> 7;}
+u8 command_bitmask_7(Borg13Data *param_1,u8 param_2){return param_1->commands_pointer[param_2].bitmask >> 7;}
 
 bool FUN_800b59b8(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
   if (param_1->unk110 == -1) {
@@ -43,10 +43,10 @@ void FUN_800b5a1c(Borg13Data *param_1){
   }
 }
 
-byte dialogNode_func_2(dialougeInstance *param_1,Borg13Data *param_2,byte param_3){
+u8 dialogNode_func_2(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
   borg13command *pbVar1;
   bool bVar6;
-  byte bVar7;
+  u8 bVar7;
   char *pcVar3;
   u32 uVar4;
   int iVar5;
@@ -91,7 +91,7 @@ byte dialogNode_func_2(dialougeInstance *param_1,Borg13Data *param_2,byte param_
       if (bVar7 != 0) {
         return 0;
       }
-      uVar11 = (u32)*(byte *)((int)param_2->commands_pointer +
+      uVar11 = (u32)*(u8 *)((int)param_2->commands_pointer +
                               ((u32)param_3 * 8 - uVar8) * 8 + 0x28);
       if ((uVar11 == 0xff) && (param_1->unk116 != 0xff)) {
         uVar11 = (u32)param_1->unk116;
@@ -213,7 +213,7 @@ LAB_800b60d4:
   }
 LAB_800b60a4:
   FUN_800b6b54(param_1,uVar9,pcVar3);
-  return (byte)uVar11;
+  return (u8)uVar11;
 }
 
 u8 DialogNode_func(dialougeInstance *param_1,Borg13Data *param_2){
@@ -508,7 +508,7 @@ switchD_800b6a84_caseD_1:
   return;
 }
 
-int FUN_800b6b54(dialougeInstance *param_1,byte param_2,char *txt){
+int FUN_800b6b54(dialougeInstance *param_1,u8 param_2,char *txt){
   for(s32 i=0;i<9;i++){
     if (param_1->diags[i+1].next == 0xff) {
       param_1->diags[i+1].next = param_2;
@@ -584,8 +584,8 @@ void FUN_800b6c38(dialougeInstance *param_1,u16 param_2){
 }
 
 
-byte FUN_800b6cb8(dialougeInstance *param_1,Borg13Data *param_2,byte param_3){
-  byte bVar1;
+u8 FUN_800b6cb8(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
+  u8 bVar1;
   
   FUN_800b6b9c(param_1);
   if (!param_1->actorsLoaded) {

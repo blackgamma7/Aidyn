@@ -103,8 +103,8 @@ LAB_8002eee0:
 }
 
 void FUN_8002ef0c(u8 param_1,u8 param_2,Color32 *param_3,float param_4) {
-  byte local_res0;
-  byte local_res4;
+  u8 local_res0;
+  u8 local_res4;
   
   local_res4 = (char)param_2 >> 7;
   local_res0 = (char)param_1 >> 7;
@@ -118,7 +118,7 @@ Gfx * WidgetCombatScrollMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
   Color32 *pCVar1;
   u8 bVar2,uVar5,uVar6,uVar7;
   Color32 CVar8;
-  byte bStack_1e8,bStack_1e7,bStack_1e6;
+  u8 bStack_1e8,bStack_1e7,bStack_1e6;
   Color32 aCStack_1a8,CStack_168,uStack_128,aCStack_e8,CStack_a8,CStack_68;
   WSMSub *sub;
   

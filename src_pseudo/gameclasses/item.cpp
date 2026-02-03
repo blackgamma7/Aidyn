@@ -7,7 +7,7 @@
 void make_temp_item(GearInstance *item,ItemID id) {
   CLEAR(item); //sizeof fits gear instance
   (item->base).id = id;
-  u16 type = (ushort)ITEMIDTYPE(id);
+  u16 type = (u16)ITEMIDTYPE(id);
 
   //case-switch?
   if (type == 7) {

@@ -91,7 +91,7 @@ void InputMenu::SetCurrentName(char *txt){
 }
 
 Gfx * InputMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
-  byte bVar1;
+  u8 bVar1;
 
   s16 iVar3;
   u8 uVar4;

@@ -83,16 +83,16 @@ void TheatreMenu::AddAvailableCinematics(char *str) {
 
 extern void*cinematic_titles;
 void TheatreMenu::LoadOptionStrings() {
-  byte bVar1;
-  byte *dest;
-  byte *pbVar2;
-  byte *pbVar3;
+  u8 bVar1;
+  u8 *dest;
+  u8 *pbVar2;
+  u8 *pbVar3;
   u32 uVar4;
   u32 uVar5;
   u32 uVar6;
   char abStack288 [256];
   
-  dest = (byte *)HALLOC(0x60,183);
+  dest = (u8 *)HALLOC(0x60,183);
   ROMCOPYS(dest,cinematic_titles,0x60,192);
   uVar6 = 0;
   while( true ) {
@@ -121,7 +121,7 @@ void TheatreMenu::LoadOptionStrings() {
       bVar1 = *pbVar2;
       memset(abStack288,0,0x100);
       for(u8 i=0;i<bVar1;i++){
-          pbVar3 = (byte *)&abStack288[i];
+          pbVar3 = (u8 *)&abStack288[i];
           pbVar2 = dest + uVar5;
           uVar5++;
           *pbVar3 = *pbVar2;

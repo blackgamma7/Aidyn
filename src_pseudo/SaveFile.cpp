@@ -31,7 +31,7 @@ u32 GetBit(u8 *arr,u32 x){
     return (int)(u32)arr[x >> 3] >> (x & 7) & 1;
     }
 void WriteData(u8 *dat,u32 filesize,u32 size){
-    dat[filesize >> 3] = ~(byte)(1 << (filesize & 7)) & dat[filesize >> 3] | (byte)(size << (filesize & 7));
+    dat[filesize >> 3] = ~(u8)(1 << (filesize & 7)) & dat[filesize >> 3] | (u8)(size << (filesize & 7));
     }
 void GetData(u32 *dat,u32 shift,int bits){
     *dat = *dat & ~(1 << (shift & 0x1f)) | bits << (shift & 0x1f);

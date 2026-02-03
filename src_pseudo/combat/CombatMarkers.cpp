@@ -47,7 +47,7 @@ u8 CombatMarkers::Init(void){
 }
 
 void CombatMarkers::Create(CombatEntity *param_1){
-  byte flag;
+  u8 flag;
   u8 i;
   float fVar16;
   vec3f pos;

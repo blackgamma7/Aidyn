@@ -24,7 +24,7 @@ void DCM::Init(void){
 
 
 bool DCM::Add(u8 *param_1,s32 *param_2,Borg12Sub *param_3,u8 vol,u8 pan,u8 param_6,s32 param_7,u8 param_8){
-byte bVar1;
+u8 bVar1;
 u32 uVar2;
 bool bVar3;
 u32 uVar4;
@@ -72,7 +72,7 @@ DCM_struct *pDVar7;
 
 
 
-bool DCM::Start(u8 index,u32 id,byte vol){
+bool DCM::Start(u8 index,u32 id,u8 vol){
   u32 uVar1;
   bool bVar2;
   DCM_sub *pDVar3;
@@ -146,7 +146,7 @@ u8 DCM::search(u8 param_1,u32 id){
   return ret;
 }
 
-bool DCM::Remove(byte index,u32 id){
+bool DCM::Remove(u8 index,u32 id){
   bool bVar2;
   DCM_struct *pDVar5;
   
@@ -276,7 +276,7 @@ LAB_8009a7f0:
           if (pDVar10->byteIndex < pBVar2->dataSize) pDVar10->unk20 = 0;
           else {
             if (pDVar10->unk1d == 0) {
-              Remove((byte)i,pDVar10->id);
+              Remove((u8)i,pDVar10->id);
             }
             else {
               pDVar10->byteIndex = pBVar2->byteIndex;

@@ -136,7 +136,7 @@ void get_battle_terrain(EncounterDat *param_1){
 
 u32 get_enemy_avg_lv(u16 param_1,monsterparty_dat *param_2){
   u16 uVar1;
-  byte bVar3;
+  u8 bVar3;
   int iVar2;
   u16 uVar4;
   ItemID *pIVar5;

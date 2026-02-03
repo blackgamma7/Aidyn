@@ -117,18 +117,18 @@ Gfx * WidgetCalendar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
 }
 
 u8 WidgetCalendar::Tick() {
-  byte bVar1;
-  byte bVar2;
-  byte bVar3;
-  byte bVar4;
-  byte bVar5;
-  byte bVar6;
-  byte bVar7;
-  byte bVar8;
-  byte bVar9;
-  byte bVar10;
+  u8 bVar1;
+  u8 bVar2;
+  u8 bVar3;
+  u8 bVar4;
+  u8 bVar5;
+  u8 bVar6;
+  u8 bVar7;
+  u8 bVar8;
+  u8 bVar9;
+  u8 bVar10;
   u8 uVar11;
-  byte bVar12;
+  u8 bVar12;
   WCSub *puVar11;
   
   if (gOptionsMenuContPak == 0) {

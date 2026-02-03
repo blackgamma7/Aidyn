@@ -154,7 +154,7 @@ bool FUN_80027eb0(Gfx **GG,u16 param_2){
 }
 
 u8 CombatStateFunc_2(Gfx **GG,u16 delta){
-  byte bVar1;
+  u8 bVar1;
   CombatEntity *pCVar2;
   CombatEntity *pCVar3;
   playerData *PDAT;
@@ -266,7 +266,7 @@ void Combat_ActorDeath(playerData *param_1,u8 param_2,CombatEntity *param_3){
 
 
 void FUN_800284d4(void){
-  byte bVar1;
+  u8 bVar1;
   CombatEntity *pCVar2;
   playerData *ppVar3;
   CombatEntity *pCVar4;
@@ -321,7 +321,7 @@ LAB_8002864c:
 u8 CombatStateFunc_4(Gfx** GG,u16 delta){
   gCombatP->AniTimer+=delta;
   FUN_800284d4();
-  if ((byte)(gCombatP->substruct2[0].arrayBCount + gCombatP->substruct2[1].arrayBCount) == 0) {
+  if ((u8)(gCombatP->substruct2[0].arrayBCount + gCombatP->substruct2[1].arrayBCount) == 0) {
     if (!gCombatP->SenseAuraWidget) gCombatP->current_Ent->EndTurn();
   }
   *GG=Combat_Render(*GG,delta);
@@ -523,7 +523,7 @@ u8 CombatStateFunc_1(Gfx **GG,u16 delta){
   return GameStateA_Combat;
 }
 
-byte CombatStateFunc_24(Gfx **param_1,u16 delta){
+u8 CombatStateFunc_24(Gfx **param_1,u16 delta){
   gCombatEndWaitTimer-=delta;
   if ((s16)gCombatEndWaitTimer < 1) gCombatP->current_Ent->EndTurn();
   return CombatStateFunc_1(param_1,delta);
@@ -811,7 +811,7 @@ void FUN_80029ba8(void){
 }
 
 void gamecombat_weapon_func(){
-  byte bVar1;
+  u8 bVar1;
   CombatEntity *pCVar2;
   playerData *ppVar3;
   bool bVar4;
@@ -1013,10 +1013,10 @@ bool IsShadowNearAnyone(CombatEntity *shadow){
 
 bool IsNearShadow(CombatEntity *param_1){
   if (gGlobals.ShadowIndex != -1) {
-    if ((&gCombatP->combatEnts)[(byte)gGlobals.ShadowIndex] == param_1) {
+    if ((&gCombatP->combatEnts)[(u8)gGlobals.ShadowIndex] == param_1) {
       return IsShadowNearAnyone(param_1);
     }
-    else return IsCEntInRange(param_1,(&gCombatP->combatEnts)[(byte)gGlobals.ShadowIndex],10.0);
+    else return IsCEntInRange(param_1,(&gCombatP->combatEnts)[(u8)gGlobals.ShadowIndex],10.0);
   }
   return false;
 }

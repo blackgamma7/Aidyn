@@ -7,7 +7,7 @@
 
 namespace  RomString{
 char ** Load(void *romAddr,size_t size){
-  byte bVar1;
+  u8 bVar1;
   u16 *OutDat;
   u8 *dest;
   char **ret;
@@ -27,7 +27,7 @@ char ** Load(void *romAddr,size_t size){
   ALLOCS(ret,auStack_28*sizeof(char*),85);
   if (auStack_28 != 0) {
     for(u16 i=0;i<auStack_28;i++) {
-      bVar1 = *(byte *)puVar3;
+      bVar1 = *(u8 *)puVar3;
       ret[i] = (char *)((int)puVar3 + 1);
       decrypt_string((char *)((int)puVar3 + 1),0x10,0x103,(u16)bVar1);
       some_string_func(ret[i]);

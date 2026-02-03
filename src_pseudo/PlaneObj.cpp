@@ -24,7 +24,7 @@ Gfx gPlaneObjDlist[]={
     gsDPNoOp() //this may just be align bytes.
 };
 
-Gfx * PlaneObj_SetupGfx(Gfx *g,byte flags){
+Gfx * PlaneObj_SetupGfx(Gfx *g,u8 flags){
   u32 uVar1;
   
   gSPDisplayList(g++,gPlaneObjDlist);
@@ -53,7 +53,7 @@ Gfx * PlaneObj_GetTexture(Gfx *g,PlaneObj *plane){
 }
 
 Gfx * PlaneObj_Render(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale){
-  byte fb;
+  u8 fb;
   s16 V;
   s16 U;
   float Vy;
@@ -101,7 +101,7 @@ Gfx * PlaneObj_Render(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale)
 }
 
 
-Gfx * PlaneObj_FastRender(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale,byte flag){
+Gfx * PlaneObj_FastRender(Gfx *g,PlaneObj *plane,vec3f *pos,vec3f *rot,vec2f *scale,u8 flag){
   return PlaneObj_Render(PlaneObj_GetTexture(PlaneObj_SetupGfx(g,flag),plane),plane,pos,rot,scale);
 }
 

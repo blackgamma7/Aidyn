@@ -1,8 +1,8 @@
 #include "widgets/WidgetMenu.h"
 
 class WidgetOptionsMenu : public WidgetMenu{
-    byte alpha0;
-    byte alpha1;
+    u8 alpha0;
+    u8 alpha1;
     u16 unk7e; // may be align
 };
 

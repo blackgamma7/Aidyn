@@ -6,7 +6,7 @@ u8 NOOP_flag=false;
 
 void load_intro_music(){
   u32 BVar1;
-  byte abStack_18;
+  u8 abStack_18;
   s32 aiStack_14;
   
   gGlobals.titleSplashVars.flag = 1;

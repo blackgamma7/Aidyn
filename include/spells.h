@@ -152,7 +152,7 @@ namespace TempSpell{
     u8 IsMaxRank(SpellInstance *);  
 };
 namespace TempEnchant{
-    void Init(Temp_enchant*,u8,byte,u32,u8,u32);
+    void Init(Temp_enchant*,u8,u8,u32,u8,u32);
     void StopSpellVisual(Temp_enchant *);
     u8 IncTimer(Temp_enchant *,u16 ,int );
 };

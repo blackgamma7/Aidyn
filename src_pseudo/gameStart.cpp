@@ -246,6 +246,6 @@ void start_intermediate_game(void){
   gGlobals.playerCharStruct.player_form=BORG7_Alaron;
   gGlobals.playerCharStruct.collisionRadius = 0.5f
   #endif
-  DCM::Remove((byte)gGlobals.titleSplashVars.introMusicDatA,gGlobals.titleSplashVars.introMusicDatB);
+  DCM::Remove((u8)gGlobals.titleSplashVars.introMusicDatA,gGlobals.titleSplashVars.introMusicDatB);
   FREEQB12(gGlobals.titleSplashVars.introMusic);
 }

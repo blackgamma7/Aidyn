@@ -217,8 +217,8 @@ namespace DCM{
     void AddPlayer(ALPlayer *x);
     u32 AddVoice(u8 *oIndex,u32 *oID,Borg11Data *istDat,u32 param_4,u32 len,u32 loopEnd,u8 loops,u16 pitch,u8 vol,u8 pan,u8 param_11);
     u32 SetVoicePitch(u8 voice,u32 id,u16 p);
-    u32 SetVoiceVol(u8 voice,u32 id,byte vol);
-    u32 SetVoicePan(u8 voice,u32 id,byte pan);
+    u32 SetVoiceVol(u8 voice,u32 id,u8 vol);
+    u32 SetVoicePan(u8 voice,u32 id,u8 pan);
     u32 StopVoice(u8 voice,u32 id);
     u8 IsVoiceActive(u8 voice);
     u32 GetVoiceID(u8 voice);

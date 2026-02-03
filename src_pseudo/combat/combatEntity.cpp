@@ -18,7 +18,7 @@ void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
   SpellBook *pSVar2;
   SpellInstance *pSVar3;
   EntityRAM *pEVar4;
-  byte bVar8;
+  u8 bVar8;
   u8 bVar9;
   u8 X;
   u8 Y;
@@ -259,7 +259,7 @@ u8 CombatEntity::DEXCheck(){
 }
 
 u8 CombatEntity::GetProtection(){
-  byte bVar5;
+  u8 bVar5;
   u32 uVar4;
   u32 uVar6;
   
@@ -676,7 +676,7 @@ u32 CombatEntity::GetSpellTargetCount(){
 }
 
 u8 CombatEntity::canControl(SpellInstance *param_2){
-  byte bVar2;
+  u8 bVar2;
   u8 bVar3 = GETINDEX((param_2->base).id);
   ItemID x = this->charSheetP->ID;
   if (true) {
@@ -769,11 +769,11 @@ u8 CombatEntity::m80069d00(CombatEntity *param_2,float param_3,float param_4){
 
 
 u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
-  byte bVar1;
+  u8 bVar1;
   playerData *ppVar2;
   SpellInstance *spell;
   bool bVar7;
-  byte bVar8;
+  u8 bVar8;
   s32 lVar3;
   int iVar6;
   u8 uVar9;
@@ -830,7 +830,7 @@ u8 CombatEntity::AIShouldCastMagic(CombatEntity *param_2){
       if (bVar8 != SpellInd_SenseAura) {
         if (!m80069d00(param_2,(float)iVar12,fVar11)) return false;
       }
-      if (FUN_8007105c(&gCombatP->substruct,(byte)uVar4,(byte)uVar5,uStack_100[0],uStack_100[1])) return true;
+      if (FUN_8007105c(&gCombatP->substruct,(u8)uVar4,(u8)uVar5,uStack_100[0],uStack_100[1])) return true;
       if ((uVar4 == uStack_100[0]) && (uVar5 == uStack_100[1])) return true;
       ppVar2 = gGlobals.combatActors[param_2->index];
       if (ppVar2) {
@@ -1372,7 +1372,7 @@ u32 CombatEntity::GetSTRSteps(){
 
 
 void CombatEntity::Death(){
-  byte *pbVar1;
+  u8 *pbVar1;
   CharSheet *pCVar2;
   CombatEntity *pCVar3;
   bool bVar7;
@@ -1533,7 +1533,7 @@ s16 CombatEntity::CalculateWeaponAttack(CombatEntity *target){
   s16 sVar3;
   u16 rand;
   s16 sVar4;
-  byte bVar5;
+  u8 bVar5;
   u8 uVar6;
   
   pWVar1 = this->charSheetP->weapons;
@@ -1702,7 +1702,7 @@ u16 CombatEntity::WeaponAttack(CombatEntity *target){
   s16 sVar3;
   u16 rand;
   s16 sVar4;
-  byte bVar8;
+  u8 bVar8;
   u16 dmg;
   u8 uVar9;
   
@@ -2104,7 +2104,7 @@ s32 CombatEntity::EnchantAlly(CombatEntity *param_2,SpellInstance *param_3,u8 pa
   return param_3->damage;
 }
 
-s16 CombatEntity::CalcSpellDamage(SpellInstance *param_2,CombatEntity *param_3,u32 Level,u8 param_5){
+s16 CombatEntity::CalcSpellDamage(SpellInstance *param_2,CombatEntity *param_3,u8 Level,u8 param_5){
   u8 spellInd = GETINDEX(param_2->base.id);
   if (spellInd == SpellInd_Banishing) return Banish(param_3,param_2);
   if (isDispelMagic(spellInd))return DispelMagic(param_3,param_2,spellInd,param_5);
@@ -2382,7 +2382,7 @@ u8 CombatEntity::PotionAttack(CombatEntity *target){
   s16 sVar2;
   u16 rand;
   s16 sVar3;
-  byte bVar5;
+  u8 bVar5;
   Borg9Data *borgDat;
   u8 uVar6;
   float fVar7;

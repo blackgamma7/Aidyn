@@ -2,7 +2,7 @@
 #include "widgets/widgetGroup.h"
 #include "globals.h"
 
-bool MakeHealerMenu(byte param_1) {
+bool MakeHealerMenu(u8 param_1) {
   if (gHealerWidget) CRASH("Healer Task Menu already initialized","MakeHealerMenu");
   gHealerWidget = new WidgetMenuHealer(param_1);
   return WHANDLE->AddWidget(gHealerWidget);

@@ -92,7 +92,7 @@ u32 DCM::SetVoicePitch(u8 voice,u32 id,u16 p){
 }
 
 
-u32 DCM::SetVoiceVol(u8 voice,u32 id,byte vol){
+u32 DCM::SetVoiceVol(u8 voice,u32 id,u8 vol){
   u32 ret;
   if (gAudioManager.voicesAidyn[voice].isActive == 1) {
     ret = 0;
@@ -106,7 +106,7 @@ u32 DCM::SetVoiceVol(u8 voice,u32 id,byte vol){
   return ret;
 }
 
-u32 DCM::SetVoicePan(u8 voice,u32 id,byte pan){
+u32 DCM::SetVoicePan(u8 voice,u32 id,u8 pan){
   u32 ret;
   if (gAudioManager.voicesAidyn[voice].isActive == 1) {
     ret = 0;
@@ -155,7 +155,7 @@ void audioProc(void* p){
   while(1) {
     do {
       osRecvMesg(&gAudioManager.mesgQ,(OSMesg*)&msg,1);
-    } while (*msg != 1);
+    } while (*msg != OS_SC_RETRACE_MSG);
     pAVar1 = NULL;
     if (gAudioManager.AudioListBool == 0) pAVar1 = CreateAudioList();
     if ((pAVar1) && (gAudioManager.ACMDList < pAVar1)) {
@@ -228,8 +228,8 @@ void AudioProcInit(void){
 void * _amDmaNew(void){return dmaProc;}
 
 u8 * dmaProc(u8 *param_1,s32 param_2,s32 param_3){
-  byte bVar1;
-  byte *pbVar2;
+  u8 bVar1;
+  u8 *pbVar2;
   int iVar3;
   
   if (param_3 == 2) {
@@ -247,7 +247,7 @@ u8 * dmaProc(u8 *param_1,s32 param_2,s32 param_3){
       } while (iVar3 != -1);
     }
     param_1 = gAudioManager.scaleBufferB;
-    gAudioManager.scaleBufferB = (byte *)(((u32)pbVar2 & ~7) + 8);
+    gAudioManager.scaleBufferB = (u8 *)(((u32)pbVar2 & ~7) + 8);
   }
   return param_1;
 }
@@ -258,7 +258,7 @@ ALMicroTime soundVoiceHandler(void* p){
   u32 uVar12;
   u8 *puVar5;
   int iVar7;
-  byte bVar8;
+  u8 bVar8;
   u16 vol;
   u32 uVar9;
   ALPan AVar13;
@@ -275,7 +275,7 @@ ALMicroTime soundVoiceHandler(void* p){
       PVoice_s* pPVar2 = (v->voice).pvoice;
       uVar9 = *(u32 *)(pPVar2->decoder.state + 0xe);
       v->sampleCount = uVar9;
-      bVar8 = *(byte *)((uintptr_t)pPVar2->decoder.state + 0xb);
+      bVar8 = *(u8 *)((uintptr_t)pPVar2->decoder.state + 0xb);
       v->loopCount = bVar8;
       if (bVar8 == 0) {
         if (uVar9 >= v->instrumentData->samples) {
@@ -352,7 +352,7 @@ ALMicroTime soundVoiceHandler(void* p){
 }
 
 Acmd * CreateAudioList(void){
-  byte bVar1;
+  u8 bVar1;
   u8 uVar2;
   Acmd *pAVar3;
   

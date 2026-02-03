@@ -91,7 +91,7 @@ u8 Party::AddMember(ItemID param_2){
 
 u8 Party::isMemberUnequipped(u8 slot){
   EntityRAM *pEVar1;
-  byte bVar3;
+  u8 bVar3;
   WeaponInstance *pWVar2;
   u8 ret;
   CharSheet *chara;
@@ -203,7 +203,7 @@ void Party::BringOutYourDead(){
   for(u32 i=0;i<MAXPARTY;i++) {
     if ((this->Members[i]) && (Entity::isDead(this->Members[i]))) {
       SaveEntity::EraseEntityOfID(this->Members[i]->ID);
-      RemoveMember((byte)i,1);
+      RemoveMember((u8)i,1);
     }
   }
   ScoochMembers();
@@ -305,7 +305,7 @@ StatMod * CreateStatMod(StatMod *st){
   return pSVar1;
 }
 
-void Party::MoveEquipToInventory(ItemID param_2,StatMod *param_3,byte param_4){
+void Party::MoveEquipToInventory(ItemID param_2,StatMod *param_3,u8 param_4){
   StatMod *X;
   SpellCharges *pSVar2;
   Inventory_item *uVar2;
@@ -423,7 +423,7 @@ u8 itemtype_sheild(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
   bool bVar5;
   StatMod *X;
   ulong uVar4;
-  byte bVar6;
+  u8 bVar6;
   
   IVar1 = param_3->id;
   bVar5 = Entity::NoSheildSkill(param_4);
@@ -453,11 +453,11 @@ u8 itemtype_sheild(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
   return bVar5;
 }
 
-byte itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5){
+u8 itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5){
   ItemID IVar1;
   SpellCharges *pSVar2;
-  byte bVar5;
-  byte bVar6;
+  u8 bVar5;
+  u8 bVar6;
   StatMod *X;
   ulong uVar4;
   
@@ -508,14 +508,14 @@ u8 itemtype_ring(Party* p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,It
   return p->GetEquipError3(param_2,param_3,param_4,2);}
 
 
-byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5){
-  byte bVar1;
+u8 itemtype_gear(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5){
+  u8 bVar1;
   ItemID IVar2;
   ItemID IVar3;
   SpellCharges *pSVar4;
   CharGear *pCVar6;
   int iVar7;
-  byte bVar9;
+  u8 bVar9;
   StatMod *X;
   ulong uVar8;
   bool bVar10;
@@ -546,7 +546,7 @@ byte itemtype_gear(Party *p,byte param_2,ItemInstance *param_3,CharSheet *param_
             IVar3 = (ppGVar11[uVar12]->base).id;
             if (ITEMIDTYPE(IVar3) == ITEMIDTYPE(IVar2)) {
               if (param_5) *param_5 = IVar3;
-              bVar10 = p->RemoveGearFrom(param_2,(byte)uVar12);
+              bVar10 = p->RemoveGearFrom(param_2,(u8)uVar12);
               if (bVar10) {
                 p->MoveEquipToInventory(IVar2,X,bVar9);
                 return bVar10;
@@ -573,14 +573,14 @@ void FUN_8007f10c(Party* p,CharSheet *param_2,ItemID param_3,StatMod* param_4,u8
 }
 
 bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
-  byte bVar1;
-  byte bVar2;
+  u8 bVar1;
+  u8 bVar2;
   u8 MVar3;
   u8 MVar4;
   ItemID IVar5;
   Gear_RAM *pGVar6;
   SpellRAM *pSVar7;
-  byte wizLV;
+  u8 wizLV;
   u16 uVar10;
   bool bVar12;
   int iVar9;
@@ -696,7 +696,7 @@ bool Party::UseScroll(u8 param_2,GearInstance *param_3,CharSheet *param_4){
   return true;
 }
 
-void UpdateItemStatCharges(ItemInstance *I,StatMod *param_2,byte param_3){
+void UpdateItemStatCharges(ItemInstance *I,StatMod *param_2,u8 param_3){
   if (I->statMod) HFREE(I->statMod,1362);
   I->statMod = param_2;
   if (param_3 != -1) I->spellCharge->Charges = param_3;
@@ -710,7 +710,7 @@ u8 Party::RemoveArmorFrom(u8 index){
   ulong uVar5;
   ItemInstance *pIVar6;
   int line;
-  byte bVar7;
+  u8 bVar7;
   
   if (gGlobals.combatBytes[0] == CombatState_14) return true;
   pCVar1 = this->Members[index];
@@ -747,7 +747,7 @@ u8 Party::RemoveShieldFrom(u8 slot){
   SpellCharges *pSVar3;
   StatMod *X;
   ItemInstance *pIVar6;
-  byte bVar7;
+  u8 bVar7;
   
   pCVar1 = this->Members[slot];
   if (!pCVar1) return true;
@@ -821,7 +821,7 @@ u8 Party::RemoveGearFrom(u8 param_2,u8 param_3){
   StatMod *X;
   ulong uVar4;
   ItemInstance *pIVar5;
-  byte bVar6;
+  u8 bVar6;
   GearInstance *puVar2;
   
   pCVar1 = this->Members[param_2];
@@ -1503,7 +1503,7 @@ char * Party::HealingFunc2(u8 user,u8 target,u8 stat){
 }
 
 u32 Party::CraftPotion(u8 user,u8 item){
-  byte bVar1;
+  u8 bVar1;
   WidgetInvShop *pWVar2 = PauseSub->dollmenu->lists->invMenu;
   potionRecipie *recepie = get_potion_recipie(item);
   if (recepie) {
@@ -1545,7 +1545,7 @@ u32 Party::CraftPotion(u8 user,u8 item){
 
 
 
-bool Party::Lockpicking(byte lock,char *text)
+bool Party::Lockpicking(u8 lock,char *text)
 
 {
   char *pcVar2;
@@ -2237,11 +2237,11 @@ u8 Party::hasItem(ItemID id){
 }
 
 
-u8 Party::GetEquipError3(byte param_2,ItemInstance *param_3,CharSheet *param_4,byte param_5){
+u8 Party::GetEquipError3(u8 param_2,ItemInstance *param_3,CharSheet *param_4,u8 param_5){
   ItemID IVar1;
   SpellCharges *pSVar2;
   int iVar4;
-  byte bVar6;
+  u8 bVar6;
   u32 uVar7;
   GearInstance **ppGVar8;
   u32 uVar9;

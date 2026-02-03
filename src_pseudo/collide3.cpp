@@ -57,8 +57,6 @@ CollideSection * getCollideSection(Borg9Data *param_1,s16 param_2,s16 param_3){
   s16 iVar1 = (int)param_3;
   FLOOR(iVar2,0);
   FLOOR(iVar1,0);
-  if (iVar2 < 0) iVar2 = 0;
-  if (iVar1 < 0) iVar1 = 0;
   if (param_1->shortA <= iVar2) iVar2 = (param_1->shortA - 1);
   if (param_1->shortB <= iVar1) iVar1 = (param_1->shortB - 1);
   return param_1->collideSections + iVar1 * param_1->shortA + iVar2;

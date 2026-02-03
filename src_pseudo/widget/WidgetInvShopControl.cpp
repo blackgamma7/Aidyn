@@ -9,7 +9,7 @@
 
 BaseWidget * WidgetInvShop::AFunc() {
   ItemID IVar1;
-  byte bVar13;
+  u8 bVar13;
   u16 line;
   u16 uVar15;
   ItemID aIStack_a8 [4];
@@ -21,7 +21,7 @@ BaseWidget * WidgetInvShop::AFunc() {
   BaseWidget* uVar9 = uVar8->AFunc();
   CharSheet *pCVar3 = (gGlobals.party)->Members[this->partyPicker];
   if (CombatPauseState) {
-    uVar15 = (ushort)gCombatP->current_Ent->index;
+    uVar15 = (u16)gCombatP->current_Ent->index;
     if (uVar9 == 0) {
       if (gPartyPicker != uVar15) {
         ErrPopup(Cstring(CombatEquipPrompt));

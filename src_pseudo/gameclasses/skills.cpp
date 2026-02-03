@@ -149,8 +149,8 @@ void AddToModdedSkill(s8* skills,s8 *modded,u8 arg2,s8 mod){
 }
 //modify a skill level(modded[arg2]) by(mod) if applicable(skills[arg2]>-1,modded[arg2]=mod<=10)
 void AddToSkill(s8 *base,s8 *modded,u8 index,s8 arg3){
-  byte bVar1;
-  byte bVar2;
+  u8 bVar1;
+  u8 bVar2;
   int iVar3;
   s8 *pbVar4;
   

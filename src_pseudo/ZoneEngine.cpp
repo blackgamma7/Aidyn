@@ -949,9 +949,9 @@ void SetSceneColors(SceneData *param_1,u8 alpha,u8 param_3,u32 col){
              (u32)gFogColor.A);
   if (param_3) {
     if (col) { //if porting, will need case for LE word
-      bStack216.R = (byte)((int)((u32)gMainColor.R + (col >> 0x18)) >> 1);
-      bStack216.G = (byte)((int)((u32)gMainColor.G + (col >> 0x10 & 0xff)) >> 1);
-      bStack216.B = (byte)((int)((u32)gMainColor.B + (col >> 8 & 0xff)) >> 1);
+      bStack216.R = (u8)((int)((u32)gMainColor.R + (col >> 0x18)) >> 1);
+      bStack216.G = (u8)((int)((u32)gMainColor.G + (col >> 0x10 & 0xff)) >> 1);
+      bStack216.B = (u8)((int)((u32)gMainColor.B + (col >> 8 & 0xff)) >> 1);
       tint_color_with_screenfade(&bStack216,gGlobals.brightness);
       Scene::SetModelTint(param_1,bStack216.R,bStack216.G,bStack216.B,alpha);
       return;
@@ -1392,7 +1392,7 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   u16 uVar6;
   u16 uVar7;
   u32 uVar4;
-  byte bVar9;
+  u8 bVar9;
   u16 uVar10;
   u16 uVar11;
   ZoneDat *pZVar12;
@@ -1480,7 +1480,7 @@ LAB_80010bfc:
       if (pZVar12->alpha != 0xff) {
         uVar5 = (u16)pZVar12->alpha + delta * 2;
         if (0xff < uVar5) uVar5 = 0xff;
-        pZVar12->alpha = (byte)uVar5;
+        pZVar12->alpha = (u8)uVar5;
       }
       if (pZVar12->sceneDat0x4) gOut = FUN_80010354(gOut,pZVar12);
       if (pZVar12->mapPointer) {
@@ -1889,7 +1889,7 @@ void VoxelIndexPosition(s16 delta,playerData *param_2){
 void handleZoneEngineFrame(Gfx **GG,s16 delta,playerData *player){
   u8 bVar1;
   mapFloatDat *A;
-  byte bVar2;
+  u8 bVar2;
   u32 uVar3;
   vec3f *position;
   int iDelta;

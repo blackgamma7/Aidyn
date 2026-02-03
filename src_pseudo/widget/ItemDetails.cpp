@@ -54,7 +54,7 @@ WidgetClipText * WidgetItemDetail::AddRightText(char *txt) {
 
 
 WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
-  byte bVar1;
+  u8 bVar1;
   char **ppcVar12;
   BaseWidget *pBVar13;
   ulong uVar14;
@@ -327,7 +327,7 @@ void WidgetItemDetail::PrintAspect(u8 param_2) {
   }
 }
 
-void WidgetItemDetail::PrintStrReq(byte param_2) {
+void WidgetItemDetail::PrintStrReq(u8 param_2) {
   char buff [272];  
   if (param_2) {
     AddLeftText(gGlobals.CommonStrings[0x219]);
@@ -336,14 +336,14 @@ void WidgetItemDetail::PrintStrReq(byte param_2) {
   }
 }
 
-void WidgetItemDetail::PrintBaseHit(byte param_2) {
+void WidgetItemDetail::PrintBaseHit(u8 param_2) {
   char buff [272];  
     AddLeftText(gGlobals.CommonStrings[0x21a]);
     sprintf(buff,"%u",param_2);
     this->bottom+= AddRightText(buff)->GetHeight();
 }
 
-void WidgetItemDetail::PrintDamage(byte param_2) {
+void WidgetItemDetail::PrintDamage(u8 param_2) {
   char buff [272];  
     AddLeftText(gGlobals.CommonStrings[0x21b]);
     sprintf(buff,"%u",param_2);
@@ -421,8 +421,8 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   Borg8Enum BVar7;
   BaseWidget *pBVar10;
   ulong uVar11;
-  byte bVar12;
-  byte bVar13;
+  u8 bVar12;
+  u8 bVar13;
   u8 uVar14;
   u8 uVar15;
   char buff [296];

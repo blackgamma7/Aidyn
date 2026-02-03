@@ -40,7 +40,7 @@ BaseWidget * WidgetOptions_BButton(BaseWidget *w0,BaseWidget *w1) {
 }
 
 BaseWidget * PauseMenuSelectCallback(BaseWidget *w0,BaseWidget *w1) {
-  byte bVar1;
+  u8 bVar1;
   pause_Substruct *ppVar4;
   BaseWidget *pBVar5;
   WidgetOptionsSubstruct *iVar3;
