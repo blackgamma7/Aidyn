@@ -9,16 +9,16 @@ bool CombatAI::IsBoss(u8 param_1) {
     case EntInd_NightBoss3:
     case EntInd_NightBoss2:
     case EntInd_NightBoss1:
-    case 0x5e:
-    case 0x5f:
-    case 0x7a:
-    case 0xa7:
-    case 0xa8:
-    case 0xa9:
-    case 0xab:
-    case 0xad:
-    case 0xba:
-    case 0xbc:
+    case EntInd_BanditBoss3:
+    case EntInd_BanditBoss2:
+    case EntInd_BanditBoss:
+    case EntInd_ChaosMjr:
+    case EntInd_Kitarak:
+    case EntInd_LizardManBoss:
+    case EntInd_Pochanargat:
+    case EntInd_Ehud:
+    case EntInd_Lugash:
+    case EntInd_Wight:
       return true;
     }
   }
