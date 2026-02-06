@@ -1002,14 +1002,11 @@ switchD_8009f784_caseD_7:
   }
 }
 
-
 void Scene_SetBorg6(SceneData *scene,Borg6Header *b6){
-  Borg6Header *pBVar1;
-  
   if ((b6->flag & 1) == 0) {
     FUN_8009f6b4(scene,b6);
   }
-  pBVar1 = scene->borg6;
+  Borg6Header *pBVar1 = scene->borg6;
   if (pBVar1 == NULL) {
     scene->borg6 = b6;
   }

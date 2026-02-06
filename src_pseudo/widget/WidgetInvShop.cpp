@@ -157,7 +157,7 @@ void WidgetInvShop::InitMenu() {
         ItemInstance *item = &this->inventory->GetItemEntry(tempList[i])->base;
         if (item) {
           bVar11 =this->inventory->GetItemQuantity(tempList[i]);
-          if ((bVar5) && (gGlobals.Shopkeep != (ItemID)0xffff)) {
+          if ((bVar5) && (gGlobals.Shopkeep != Item_NONE)) {
             bVar11 = 0;
           }
           SMIItem *pSVar9 = new SMIItem(item,bVar11,0xff);

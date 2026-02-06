@@ -38,8 +38,8 @@ void CombatAI::Init(CombatAIInfo *info,ItemID id,CombatEntity *cEnt) {
   u8 eInd = GETINDEX(id);
   info->unk18 = 0;
   info->weapon = NULL;
-  if ((gEntityDB->entities[eInd].weapon[2] != (ItemID)0xffff) &&
-     (gEntityDB->entities[eInd].weapon[0] != (ItemID)0xffff)) {
+  if ((gEntityDB->entities[eInd].weapon[2] != Item_NONE) &&
+     (gEntityDB->entities[eInd].weapon[0] != Item_NONE)) {
     ALLOC(pWVar5,99);
     IVar1 = gEntityDB->entities[eInd].weapon[0];
     info->weapon = pWVar5;
