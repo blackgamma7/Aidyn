@@ -869,7 +869,7 @@ control_magic:
   case SpellInd_ControlMarquis:
     bVar11 = true;
     if (uVar16 == 0) goto LAB_80079984;
-    lVar5 = 0xaa;
+    lVar5 = EntInd_Marquis;
     bVar11 = bVar3;
     if (combatTarget != NULL) {
 LAB_800798b0:
