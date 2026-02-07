@@ -42,7 +42,8 @@ void Ofunc_800a7674(SceneData *scene,float param_2,float param_3,float param_4){
   MtxF tempA;
   
   guRotateRPYF(&tempA,param_3,param_2,param_4);
-  MtxF tempB = scene->matrixA;
+  MtxF tempB;
+  MTXCPY(tempB,scene->matrixA);
   some_other_matrix_math(&scene->matrixA,&tempA,&tempB);
 }
 
@@ -53,7 +54,7 @@ void Ofunc_800a76f0(SceneData *scene,vec3f *param_2,float param_3){
 void Ofunc_800a770c(SceneData *scene,vec3f *param_2,u32 param_3){
   MtxF tempA,tempB;
   ofunc_sub_800acc40(&tempA,param_2,param_3);
-  tempB = scene->matrixA;
+  MTXCPY(tempB,scene->matrixA);
   FUN_800ac2e8(&scene->matrixA,&tempA,&tempB);
 }
 
@@ -126,26 +127,7 @@ void Scene::MatrixBRotate(SceneData *scene,float pitch,float roll,float yaw){
 }
 
 void Scene::MatrixBCopyTo(SceneData *scene,MtxF *param_2){
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float (*pafVar4) [4];
-  float (*pafVar5) [4];
-  
-  pafVar5 = scene->matrixB;
-  
-  pafVar4 = param_2[1];
-  do {
-    fVar1 = (*(float (*) [4])(*param_2)[0])[1];
-    fVar2 = (*(float (*) [4])(*param_2)[0])[2];
-    fVar3 = (*(float (*) [4])(*param_2)[0])[3];
-    (*pafVar5)[0] = (*(float (*) [4])(*param_2)[0])[0];
-    (*pafVar5)[1] = fVar1;
-    (*pafVar5)[2] = fVar2;
-    (*pafVar5)[3] = fVar3;
-    param_2 = (MtxF *)((int)param_2 + 0x10);
-    pafVar5 = pafVar5 + 1;
-  } while (param_2 != (MtxF *)pafVar4);
+  MTXCPY(scene->matrixB,param_2);
 }
 
 //unused, redundant
@@ -244,7 +226,6 @@ float Scene::GetNearplane(SceneData *scene){
     if (b3) ret = b3->dat.nearplane;
     return ret;
 }
-
 
 void Ofunc_800a7e4c(SceneData *scene,float param_2){
     Borg3Header *b3 = scene->borg5->dat.borg3P;
