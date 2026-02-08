@@ -1,5 +1,25 @@
 #include "PlayerData.h"
 
+
+enum SpellVisFlags{
+    SPELLVISUAL_ALLOCED=1,
+    SPELLVISUAL_0002=2,
+    SPELLVISUAL_0004=4,
+    SPELLVISUAL_0008=8,
+    SPELLVISUAL_0010=0x10,
+    SPELLVISUAL_0020=0x20,
+    SPELLVISUAL_0040=0x40,
+    SPELLVISUAL_0080=0x80,
+    SPELLVISUAL_0100=0x100,
+    SPELLVISUAL_0200=0x200,
+    SPELLVISUAL_0400=0x400,
+    SPELLVISUAL_0800=0x800,
+    SPELLVISUAL_1000=0x1000,
+    SPELLVISUAL_2000=0x2000,
+    SPELLVISUAL_4000=0x4000,
+    SPELLVISUAL_8000=0x8000,
+};
+
 struct SpellVisualTypeA {
     u32 SpellID;
     u32 flags;
@@ -25,6 +45,8 @@ struct SpellVisualTypeB {
     u16 field7_0x2c;
     u8 spellID;
 };
+
+
 struct SpellVisualTypeC {
     playerData *playerDat;
     u32 flags;

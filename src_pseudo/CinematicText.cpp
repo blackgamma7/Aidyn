@@ -82,7 +82,6 @@ bool StringEquals(char *param_1,char *alaron){
   return false;
 }
 
-
 void InsertPlayerName(char *param_1,char *param_2,char *newname,char *alaron){  
   u8 uVar2 = strlen(alaron);
   u8 uVar3 = strlen(newname);

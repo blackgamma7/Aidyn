@@ -207,42 +207,20 @@ u32 FUN_80094cd0(s16 param_1){
   s16 lVar5;
   
   iVar3 = (int)param_1;
-  iVar6 = (iVar3 + 1);
-  iVar2 = iVar6;
-  if (iVar6 < 0) {
-    iVar2 = iVar6 + 0xf;
-  }
-  iVar2 = (iVar6 + (iVar2 >> 4) * -0x10);
+  iVar2 = (iVar3 + 1)% SpellVisCountC;
   lVar5 = iVar2;
   bVar1 = false;
-  if (lVar5 != iVar3) {
-    while( true ) {
-      iVar2 = iVar2 * 4 + (int)lVar5;
-      if ((((&(SpellVisuals.ptr2)->flags)[iVar2] & 1) == 0) ||
-         ((&(SpellVisuals.ptr2)->field5_0xe)[iVar2 * 2] == 0)) {
-        iVar6 = (int)(s16)((s16)lVar5 + 1);
-        iVar2 = iVar6;
-        if (iVar6 < 0) {
-          iVar2 = iVar6 + 0xf;
-        }
-        lVar5 = ((iVar6 + (iVar2 >> 4) * -0x10));
+  while((!bVar1) &&(lVar5 != iVar3)) {
+    if (((SpellVisuals.ptr2[lVar5].flags & 1) == 0) ||
+        (SpellVisuals.ptr2[lVar5].field5_0xe == 0)) {
+        lVar5 =(lVar5 + 1)% SpellVisCountC;
       }
-      else {
-        bVar1 = true;
-      }
-      if ((bVar1) || (lVar5 == iVar3)) break;
-      iVar2 = (int)lVar5;
-    }
+      else bVar1 = true;
   }
   iVar6 = (int)lVar5;
-  iVar3 = (int)(((u16)SpellVisuals.ptr2[iVar6].unk10 + 1) * 0x10000) >> 0x10;
-  iVar2 = iVar3;
-  if (iVar3 < 0) {
-    iVar2 = iVar3 + 0x7f;
-  }
-  s16 uVar4 = (iVar3 + (iVar2 >> 7) * -0x80);
+  s16 uVar4 = SpellVisuals.ptr2[iVar6].unk10+1 % SpellVisCountB;
   bVar1 = false;
-  do {
+  while (!bVar1) {
     if (uVar4 == (u16)SpellVisuals.ptr2[iVar6].unk10) {
       SpellVisuals.ptr2[iVar6].unk10 = (s16)uVar4;
       return uVar4;
@@ -250,17 +228,10 @@ u32 FUN_80094cd0(s16 param_1){
     if ((((SpellVisuals.ptr1[uVar4].flags & 1) == 0) ||
         ((s16)SpellVisuals.ptr1[uVar4].field7_0x2c != lVar5)) ||
        (1 < SpellVisuals.ptr1[uVar4].spellID - 5)) {
-      iVar3 = (int)(s16)((s16)uVar4 + 1);
-      iVar2 = iVar3;
-      if (iVar3 < 0) {
-        iVar2 = iVar3 + 0x7f;
-      }
-      uVar4 = (iVar3 + (iVar2 >> 7) * -0x80);
+      uVar4 = iVar3+1%SpellVisCountB;
     }
-    else {
-      bVar1 = true;
-    }
-  } while (!bVar1);
+    else bVar1 = true;
+  }
   SpellVisuals.ptr2[iVar6].unk10 = uVar4;
   return uVar4;
 }
@@ -289,7 +260,6 @@ void FUN_80094f40(s16 param_1){
     SpellVisuals.indecies2[SpellVisuals.prt2count] = param_1;
   }
 }
-
 
 s16 FUN_80094fdc(u16 param_1,u8 param_2,u8 type){
   SceneData *pAVar1;
@@ -456,8 +426,8 @@ void processSpellVisuals(u32 param_1){
     ppBVar12 = &SpellVisuals.ptr1[i];
     if ((ppBVar12->flags & 1) != 0) {
       pSVar9 = SpellVisuals.ptr2 + (s16)ppBVar12->field7_0x2c;
-      if (((pSVar9->flags ^ 1) & 1) != 0) CRASH("ProcessSpellVisuals","!(pPlayer->flags & SPELLVISUAL_ALLOCED)");
-      if ((pSVar9->flags & 8) == 0) {
+      if (((pSVar9->flags ^ 1) & SPELLVISUAL_ALLOCED)) CRASH("ProcessSpellVisuals","!(pPlayer->flags & SPELLVISUAL_ALLOCED)");
+      if ((pSVar9->flags & SPELLVISUAL_0008) == 0) {
         Vec3Copy(&(pSVar9->playerDat->collision).pos,&ppBVar12->pos);
         (ppBVar12->pos).y =
              ((ppBVar12->pos).y - (pSVar9->playerDat->collision).radius) + ppBVar12->height;
@@ -491,7 +461,6 @@ void processSpellVisuals(u32 param_1){
           }
           else {
             if (!Particle::SceneHasEmmiter(pAVar7->particleHead,pAVar7)) {
-              uVar10 = ppBVar12->flags;
               goto LAB_800959d4;
             }
           }
@@ -499,7 +468,7 @@ void processSpellVisuals(u32 param_1){
         else {
           if (6 < bVar1) continue;
           if ((ppBVar12->flags & 0x20)) {
-            if (DAT_800f1d94 == '\0') {
+            if (!DAT_800f1d94) {
               if ((int)ppBVar12->memNeeded < (int)get_memFree_2()) {
                 pAVar7 = BorgAnimLoadScene(ppBVar12->borgIndex);
                 Scene::SetFlag40(pAVar7);
@@ -1282,19 +1251,12 @@ switchD_800968e4_caseD_0:
   return sVar1;
 }
 
-
 bool Ofunc_80096928(int param_1){
-  int aiStack_3c []={0xcf,0xd2,0xca,0xd6,0x76,0x5a,0x5b,0x00};
-  int* piVar2 = aiStack_3c;
-  int iVar1=aiStack_3c[0];
-  if (aiStack_3c[0]) {
-    do {
-      if (iVar1 == param_1) {
-        return true;
-      }
-      iVar1 = *piVar2;
-      piVar2++;
-    } while (iVar1 != 0);
+  int aiStack_3c []={
+    EntInd_Darkenbat,EntInd_GiantBat,EntInd_Wyvern,EntInd_Gryphon,
+    EntInd_Harpy,EntInd_DryadMale,EntInd_DryadFemale,0x00};
+  for(int* piVar2 = aiStack_3c;*piVar2!=0;piVar2++){
+    if(*piVar2==param_1) return true;
   }
   return false;
 }

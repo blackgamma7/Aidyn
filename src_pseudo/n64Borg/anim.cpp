@@ -170,7 +170,7 @@ void moveBitmap32(Borg1Header *param_1,int param_2){
           iVar5 = (u32)w + -param_2;
           for(s16 k=0;k<w_;k++,pCVar9++) {
             uVar3 = (u16)iVar5;
-            iVar5 += 1;
+            iVar5++;
             *pCVar9 = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)w)];
           }
         }
@@ -180,8 +180,7 @@ void moveBitmap32(Borg1Header *param_1,int param_2){
         for(s16 j=0;j<w_;j++){
           uVar3 = (u16)iVar5;
           iVar5++;
-          uVar4 = j ^ 2;
-          puVar14[iVar2 + uVar4] = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)w ^ 2)];
+          puVar14[iVar2 + (j ^ 2)] = pCVar11[iVar2 + (s16)(uVar3 & ~(u16)w ^ 2)];
         }
       }
       i++;
@@ -195,7 +194,6 @@ void moveBitmap16(Borg1Header *param_1,int param_2){
   u8 bVar1;
   int iVar2;
   u16 uVar3;
-  u32 uVar4;
   int iVar5;
   u32 j;
   int iVar6;
@@ -229,8 +227,7 @@ void moveBitmap16(Borg1Header *param_1,int param_2){
         iVar5 = (u32)bVar1 + -param_2;
         for(s16 j=0;j<uVar9;j++) {
           uVar3 = (u16)iVar5++;
-          uVar4 = j ^ 2;
-          puVar11[iVar2 + uVar4] = puVar12[iVar2 + (s16)(uVar3 & ~(u16)bVar1 ^ 2)];
+          puVar11[iVar2 + (j ^ 2)] = puVar12[iVar2 + (s16)(uVar3 & ~(u16)bVar1 ^ 2)];
         }
       }
       iVar2 = i * bVar1;
@@ -1328,7 +1325,7 @@ LAB_800a0220:
   }
   param_1->prevAni = param_1->currentAni;
   param_1->currentAni = param_1->nextAni;
-  FUN_800a80ac(param_1->sceneDat,&scenePos,(param_1->dat).unk0);
+  Scene::GetTansformPos(param_1->sceneDat,&scenePos,(param_1->dat).transformIndex);
   if ((param_1->unk12 == 0)&&(!bVar3)) {
     (param_1->unk2c).x = scenePos.x - (param_1->unk20).x;
     (param_1->unk2c).y = scenePos.y - (param_1->unk20).y;
@@ -1352,7 +1349,6 @@ LAB_800a0220:
 //Advance Borg7's animation by (delta) ticks
 bool Borg7_TickAnimation(Borg7Header *param_1,int delta){
   Borg7Struct1 *pBVar1;
-  u32 i_00;
   bool bVar2;
   bool bVar4;
   int rand;
@@ -1415,10 +1411,9 @@ LAB_800a046c:
         }
       }
       i++;
-      i_00 = (param_1->dat).unk0;
       param_1->prevAni = param_1->currentAni;
       param_1->currentAni = param_1->nextAni;
-      FUN_800a80ac(param_1->sceneDat,&local_60,i_00);
+      Scene::GetTansformPos(param_1->sceneDat,&local_60,(param_1->dat).transformIndex);
       if ((param_1->unk12 == 0)&&(!bVar2)) {
         (param_1->unk2c).x = local_60.x - (param_1->unk20).x;
         (param_1->unk2c).y = local_60.y - (param_1->unk20).y;
@@ -1455,19 +1450,19 @@ void Borg7_StartParticles(Borg7Header *param_1){
   }
 }
 
-vec3f vec3f_800f5580;
+vec3f sZeroVec;
 Gfx * Borg7_Render(Gfx *g,Borg7Header *param_2){
-  vec3f avStack_50;
-  vec3f_800f5580={0,0,0};
+  vec3f temp;
+  sZeroVec={0,0,0};
   if (param_2->sceneDat) {
-    FUN_800a80ac(param_2->sceneDat,&avStack_50,(param_2->dat).unk0);
-    FUN_800a80d8(param_2->sceneDat,&vec3f_800f5580,(param_2->dat).unk0);
+    Scene::GetTansformPos(param_2->sceneDat,&temp,(param_2->dat).transformIndex);
+    Scene::SetTansformPos(param_2->sceneDat,&sZeroVec,(param_2->dat).transformIndex);
     FUN_8009ef34(param_2->sceneDat);
     if (((param_2->sceneDat->flags & SCENE_0040) == 0) && (param_2->sceneDat->borg5->dat.borg3P)) {
       g = gsAnimationDataMtx(g,param_2->sceneDat);
     }
     g = BorgAnimDrawSceneRaw(g,param_2->sceneDat);
-    FUN_800a80d8(param_2->sceneDat,&avStack_50,(param_2->dat).unk0);
+    Scene::SetTansformPos(param_2->sceneDat,&temp,(param_2->dat).transformIndex);
   }
   return g;
 }
@@ -1718,9 +1713,8 @@ void Scene::Tick(SceneData *param_1){
   u32 uVar6;
   
   if ((param_1->aniSpeed != 0) && (pBVar5 = param_1->borg6, pBVar5 != NULL)) {
-    pBVar2 = pBVar5->dat;
-    while( true ) {
-      uVar6 = pBVar2->struct1Count;
+    while( pBVar5 ) {
+      uVar6 = pBVar5->dat->struct1Count;
       pBVar3 = pBVar5->struct4;
       while (uVar6 != 0) {
         uVar6--;
@@ -1731,22 +1725,17 @@ void Scene::Tick(SceneData *param_1){
         pBVar3++;
       }
       pBVar5 = pBVar5->link2;
-      if (pBVar5 == NULL) break;
-      pBVar2 = pBVar5->dat;
     }
     pBVar5 = param_1->borg6;
-    if (pBVar5){
-      while( true ) {
-        if (pBVar5->unk1c != 0.0){
-          Borg6Struct4 *pSVar4 = pBVar5->struct4;
-          for (uVar6 = pBVar5->dat->struct1Count; uVar6 != 0; uVar6--) {
-            FUN_800a0764(pSVar4,pBVar5->unk1c);
-            pSVar4++;
-          }
+    while( pBVar5 ) {
+      if (pBVar5->unk1c != 0.0){
+        Borg6Struct4 *pSVar4 = pBVar5->struct4;
+        for (uVar6 = pBVar5->dat->struct1Count; uVar6 != 0; uVar6--) {
+          FUN_800a0764(pSVar4,pBVar5->unk1c);
+          pSVar4++;
         }
-        pBVar5 = pBVar5->link2;
-        if (pBVar5 == NULL) break;
       }
+      pBVar5 = pBVar5->link2;
     }
     param_1->aniTime+= param_1->aniSpeed;
   }

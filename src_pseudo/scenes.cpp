@@ -1,6 +1,5 @@
 #include "globals.h"
 
-
 void Scene::MatrixASetPos(SceneData *scene,float x,float y,float z){
   scene->matrixA[3][0] = x;
   scene->matrixA[3][1] = y;
@@ -299,24 +298,22 @@ void Ofunc_800a8060(SceneData *scene,u8 b){scene->perspNormIndex=b&1;}
 
 void Scene::SetSpeed(SceneData *scene,u8 spd){scene->aniSpeed = spd;}
 
-Borg5Transform * Scene::Ofunc_800a8098(SceneData *scene,s32 param_2){
+Borg5Transform * Scene::GetTransform(SceneData *scene,s32 param_2){
   return scene->borg5->dat.transforms + param_2;
 }
 
-
-void FUN_800a80ac(SceneData *scene,vec3f *out,int i){
+void Scene::GetTansformPos(SceneData *scene,vec3f *out,s32 i){
   Borg5Transform *pbVar1 = scene->borg5->dat.transforms;
   out->x = pbVar1[i].pos.x;
   out->y = pbVar1[i].pos.y;
   out->z = pbVar1[i].pos.z;
 }
 
-
-void FUN_800a80d8(SceneData *scene,vec3f *param_2,s32 param_3){
+void Scene::SetTansformPos(SceneData *scene,vec3f *outPos,s32 i){
   Borg5Transform *pbVar1 = scene->borg5->dat.transforms;
-  pbVar1[param_3].pos.x = param_2->x;
-  pbVar1[param_3].pos.y = param_2->y;
-  pbVar1[param_3].pos.z = param_2->z;
+  pbVar1[i].pos.x = outPos->x;
+  pbVar1[i].pos.y = outPos->y;
+  pbVar1[i].pos.z = outPos->z;
 }
 
 void Ofunc_800a8104(SceneData *scene,int param_2,float param_3){

@@ -22,7 +22,7 @@ struct Borg7Struct1{
 };
 
 struct Borg7Data {
-    u32 unk0;
+    u32 transformIndex;
     int subCount;
     int unk8;
     Borg7Struct1 sub[1]; //acually Borg7Struct1[subCount]

@@ -105,7 +105,9 @@ void SetFlag200(SceneData*);
 void UnsetFlag200(SceneData*);
 void Ofunc_800a806c(SceneData*);
 void SetSpeed(SceneData*,u8);
-Borg5Transform * Ofunc_800a8098(SceneData*,s32 );
+Borg5Transform * GetTransform(SceneData*,s32 );
+void GetTansformPos(SceneData*,vec3f *,s32);
+void SetTansformPos(SceneData*,vec3f *,s32);
 void SetFogFlag(SceneData*);
 void UnsetFogFlag(SceneData*);
 void SetFogColor(SceneData *,s32,s32,s32,s32);
@@ -132,8 +134,7 @@ bool GetRotate(SceneData *scene,vec3f *posOut,vec3f *aimOut,vec3f *param_4);
 void Tick(SceneData*);
 };
 void SceneSetCameraLookAt(SceneData*,float,float,float,float,float,float);
-void FUN_800a80ac(SceneData*,vec3f *,s32);
-void FUN_800a80d8(SceneData*,vec3f *,s32);
+
 void Ofunc_800a8104(SceneData*,s32 ,float);
 
 vec3f gAnimationLookatVec={1,0,0};
