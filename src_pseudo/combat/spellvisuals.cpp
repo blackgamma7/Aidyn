@@ -466,7 +466,7 @@ void processSpellVisuals(u32 param_1){
           }
         }
         else {
-          if (6 < bVar1) continue;
+          if (6 < ppBVar12->spellID) continue;
           if ((ppBVar12->flags & 0x20)) {
             if (!DAT_800f1d94) {
               if ((int)ppBVar12->memNeeded < (int)get_memFree_2()) {
@@ -517,8 +517,8 @@ LAB_800959e0:
 Gfx * FUN_80095a24(Gfx *param_1){
   for(u32 i=0;i<SpellVisCountB;i++) {
     SpellVisualTypeB *entry = &SpellVisuals.ptr1[i];
-    if ((entry->flags & 1) != 0) {
-      if (true) {
+    if (entry->flags & 1) {
+      if (true) {//?
         if (entry->spellID < 5) {
           param_1 = Borg7_Render(param_1,entry->b7);
         }
@@ -534,7 +534,7 @@ Gfx * FUN_80095a24(Gfx *param_1){
 void FUN_80095ad8(s16 param_1){
   Borg7Header *pBVar1;
   SpellVisualTypeB *x = SpellVisuals.ptr1 + param_1;
-  if ((x->flags & 1) != 0) {
+  if (x->flags & 1) {
     if (true) {
       if (x->spellID < 5) {
         FUN_800953a8(param_1);
