@@ -486,9 +486,9 @@ LAB_8001729c:
           fVar29 = pDat->scale + fVar31 * (float)delta_;
           ProcessPlayersTally++;
           pDat->scale = fVar29;
-          if ((fVar31 <= 0.0) || (fVar28 = (float)pDat->unk54, fVar29 < fVar28)) {
+          if ((fVar31 <= 0.0) || (fVar28 = pDat->unk54, fVar29 < fVar28)) {
             if (fVar31 < 0.0) {
-              fVar28 = (float)pDat->unk54;
+              fVar28 = pDat->unk54;
               if (fVar29 <= fVar28) {
                 pDat->scaleChange = 0.0;
                 goto LAB_8001666c;

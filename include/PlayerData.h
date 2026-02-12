@@ -107,7 +107,7 @@ struct playerData {
     float combatRadius;
     vec3f vec3_0x3c;
     vec3f vec3_0x48;
-    u32 unk54;
+    float unk54;
     float targetScale;
     float scaleChange;
     u16 canScale;

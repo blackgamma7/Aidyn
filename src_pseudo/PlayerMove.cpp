@@ -294,9 +294,10 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
   }
   
   
-  void Ofunc_8001986c(playerData *param_1,BUTTON_aidyn param_2){
+  void Ofunc_8001986c(playerData *param_1,u32 param_2){
     Actor::ClearInput(param_1);
-    (param_1->controller).contAidyn.held = (param_1->controller).contAidyn.held | param_2;}
+    (param_1->controller).contAidyn.held|= param_2;}
+
   void Actor::MoveTo(playerData *param_1){
       u32 BVar2;
       int iVar3;

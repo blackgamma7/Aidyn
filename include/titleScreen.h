@@ -51,11 +51,6 @@ class IntroMenu: public WidgetMenu{
     void CloseConfig(BaseWidget*);
     BaseWidget* Control(controller_aidyn*);
     u32 GetNumber();
-    BaseWidget* LeftFunc();
-    BaseWidget* RightFunc();
-    BaseWidget* UpFunc();
-    BaseWidget* DownFunc();
-    BaseWidget* BFunc();
 };
 
 BaseWidget * IntroMenu_ShadowBG(s16 x0,s16 y0,s16 x1,s16 y1);
