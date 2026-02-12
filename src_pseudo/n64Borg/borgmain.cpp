@@ -72,7 +72,7 @@ s16 GetBorgItemInfo(BorgListing *itemInfo,s32 param_2){ //orphaned, low priority
   s32 aiStack88 [2];
   
   if (((u32)itemInfo & 7)) {
-    CRASH("n64Borg.cpp,_GetBorgItemInfo()","itemInfo_is_not_8_bytes_aligned!");
+    CRASH("n64Borg.cpp, GetBorgItemInfo()","itemInfo is not 8 bytes aligned!");
   }
   ROMCOPYS(aiStack88,BorgListingPointer,8,476);
   if ((param_2 < 0) || (aiStack88[0] <= param_2)) {
@@ -99,9 +99,9 @@ borgHeader * getBorgItem(s32 index){
   if ((index >= (s32)borgTotal) || (0 > index)){
     #if DEBUGVER
     char errmsg [96];
-    sprintf(errmsg,"item_index_is_out_of_Range(%i/%i)",index,borgTotal - 1);
+    sprintf(errmsg,"item index is out of range (%i/%i)",index,borgTotal - 1);
     #endif
-    CRASH("n64Borg.cpp,_GetBorgItem()",errmsg);
+    CRASH("n64Borg.cpp, GetBorgItem()",errmsg);
   }
   else{
     ROMCOPYS(&listing,(void *)((s32)BorgListingPointer + index * sizeof(BorgListing) + 8),sizeof(BorgListing),541);
@@ -239,7 +239,7 @@ u8 InitBorgTexture(Borg1Header *header,Borg1Data *dat){
     bitDepth = 2;
     if (B1_RGBA16 <= dat->type) {
       if (dat->type == B1_RGBA32) bitDepth=4;
-      else CRASH("n64Borg.cpp,_InitBorgTexture()",
+      else CRASH("n64Borg.cpp, InitBorgTexture()",
           "Procedural flag on a texture type other than 32B_RGBA,16B_RGBA/IA!");
     }
     pBVar2 = header->dat;
