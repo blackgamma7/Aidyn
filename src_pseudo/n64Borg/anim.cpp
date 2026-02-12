@@ -1193,7 +1193,7 @@ void takeBranch(Borg7Header *param_1,Borg7Struct2 *param_2){
   u32 uVar10;
   Borg7AnimChache *psVar11;
   
-  if (3 < animChache) CRASH("TakeBranch","AnimCache out of range");
+  if (3 < AnimCache) CRASH("TakeBranch","AnimCache out of range");
   FUN_8009fd98(param_1);
   bVar9 = false;
   uVar10 = 0;
@@ -1202,7 +1202,7 @@ void takeBranch(Borg7Header *param_1,Borg7Struct2 *param_2){
   psVar11 = &param_1->aniChache;
   param_1->unk1c = param_1->unk18 + param_2->unk3;
   index = pBVar1->borg6;
-  if (animChache != 0) {
+  if (AnimCache != 0) {
     puVar7 = (param_1->aniChache).indecies;
     bVar3 = *puVar7;
     while( true ) {
@@ -1212,7 +1212,7 @@ void takeBranch(Borg7Header *param_1,Borg7Struct2 *param_2){
         uVar10++;
       }
       if (bVar9) goto LAB_8009ffd4;
-      if (animChache <= uVar10) break;
+      if (AnimCache <= uVar10) break;
       bVar3 = *puVar7;
     }
   }
@@ -1221,17 +1221,17 @@ LAB_8009ffd4:
     param_1->unk1c->b6 = psVar11->anis[uVar10];
   }
   else {
-    if (psVar11->anis[animChache - 1] != NULL) {
+    if (psVar11->anis[AnimCache - 1] != NULL) {
       iVar4 = get_memUsed();
-      borg_6_free(psVar11->anis[animChache - 1]);
+      borg_6_free(psVar11->anis[AnimCache - 1]);
       iVar5 = get_memUsed();
-      psVar11->anis[animChache - 1] = NULL;
+      psVar11->anis[AnimCache - 1] = NULL;
       borg_mem[7] -= iVar5 - iVar4;
-      psVar11->anis[animChache + 2] = NULL;
+      psVar11->anis[AnimCache + 2] = NULL;
     }
-    iVar4 = animChache - 1;
+    iVar4 = AnimCache - 1;
     if (iVar4 != 0) {
-      ppBVar8 = psVar11->anis + (animChache - 1);
+      ppBVar8 = psVar11->anis + (AnimCache - 1);
       do {
         iVar4--;
         *ppBVar8 = ppBVar8[-1];

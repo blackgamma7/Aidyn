@@ -173,7 +173,7 @@ s32 gBorgHeaderSizes[15]= {
     sizeof(borgHeader),BorgHSize2(5),BorgHSize(6),BorgHSize2(7),
     BorgHSize(8),BorgHSize2(9),sizeof(borgHeader),BorgHSize(11),
     BorgHSize(12),BorgHSize(13),sizeof(borgHeader)};
-u8 animChache=3;
+u8 AnimCache=3;
 u32 borg_mem[15]={0};
 u32 borg_count[15]={0};
 borgHeader** gBorgpointers=NULL;

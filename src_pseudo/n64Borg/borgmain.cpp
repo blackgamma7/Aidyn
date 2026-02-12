@@ -861,4 +861,4 @@ void borg7_free(Borg7Header *param_1){
   borg_count[7]--;
 }
 
-void set_AnimCache(u8 x){animChache = x;}
+void set_AnimCache(u8 x){AnimCache = x;}
