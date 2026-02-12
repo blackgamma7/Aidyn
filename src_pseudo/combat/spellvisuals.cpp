@@ -27,8 +27,7 @@ void FUN_8009468c(void){
   SpellVisuals.field9_0x24 = 300;
 }
 
-
-void FUN_800946dc(int param_1){
+void FUN_800946dc(int delta){
   s16 sVar1;
   bool bVar2;
   bool bVar3;
@@ -45,17 +44,17 @@ void FUN_800946dc(int param_1){
       SpellVisuals.field15_0x30 = 0;
     }
     else {
-      SpellVisuals.field10_0x26 -= param_1;
+      SpellVisuals.field10_0x26 -= delta;
     }
   }
   if (SpellVisuals.field9_0x24 == 0) {
-    s32_800f1d90 -= param_1;
+    s32_800f1d90 -= delta;
     FLOOR(s32_800f1d90,0);
   }
   else {
-    s32_800f1d90 += param_1;
+    s32_800f1d90 += delta;
     CIEL(s32_800f1d90,30);
-    SpellVisuals.field9_0x24 = MIN((SpellVisuals.field9_0x24 - param_1),0);
+    SpellVisuals.field9_0x24 = MIN((SpellVisuals.field9_0x24 - delta),0);
   }
   SpellVisuals.field6_0x18 =__cosf(((float)s32_800f1d90 / 30.0f) * (float)(TAU/4));
   for(uVar7=0;uVar7<SpellVisCountA;uVar7++){
