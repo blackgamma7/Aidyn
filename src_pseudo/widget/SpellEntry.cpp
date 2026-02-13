@@ -24,7 +24,7 @@ WidgetSpellEntry::WidgetSpellEntry(SpellInstance *param_2):BaseWidget(){
   }
   if (icon) {
     this->SpellIcon = WidgetB8(icon);
-    BaseWidget::Link(this->SchoolIcon);
+    BaseWidget::Link(this->SpellIcon);
   }
   this->SpellName = WClipTXTSafe((this->spell->base).name);
   this->SpellName->SetColor(COLOR_RED1);
