@@ -4,7 +4,6 @@
 #include "romcopy.h"
 #include "decompress.h"
 
-u32 borgFlag;
 
 //borg_funcs_a: first step in initalization
 //borg_funcs_b: second step, sometimes appends the header
@@ -16,16 +15,16 @@ void clearBorgFlag(){borgFlag = false;}
 u32 Ofunc_getBorgTotal(){return borgTotal;}
 
 void SetBorgListing(void *listing,void *files){
-  u32 fileCount ;
+  u32 fileCount[2] ;
   
   BorgListingPointer = listing;
   borgFilesPointer = files;
   ROMCOPYS(&fileCount,listing,8,252);
-  borgTotal = fileCount;
-  ALLOCS(gBorgpointers,fileCount *sizeof(void*),266);
-  memset(gBorgpointers,0,fileCount * sizeof(void*));
-  ALLOCS(gBorgBytes,fileCount,269);
-  memset(gBorgBytes,0,fileCount);
+  borgTotal = fileCount[0];
+  ALLOCS(gBorgpointers,fileCount[0] *sizeof(void*),266);
+  memset(gBorgpointers,0,fileCount[0] * sizeof(void*));
+  ALLOCS(gBorgBytes,fileCount[0],269);
+  memset(gBorgBytes,0,fileCount[0]);
   CLEAR(borg_mem);
   CLEAR(borg_count);
 }
