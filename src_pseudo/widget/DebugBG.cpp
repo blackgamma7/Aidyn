@@ -45,4 +45,4 @@ Gfx * WidgetDebugBG::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
 
 u8 WidgetDebugBG::Tick(){TickChildren();}
 
-u32 WidgetDebugBG::GetNumber(){return 5;}
+u32 WidgetDebugBG::GetNumber(){return WidgetN_DebugBG;}

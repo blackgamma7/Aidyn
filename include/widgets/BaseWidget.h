@@ -116,6 +116,7 @@ enum WidgetNumber{
     WidgetN_ShadText,
     WidgetN_Menu,
     WidgetN_Borg8,
+    WidgetN_DebugBG,
     WidgetN_ScrollArrows=7,
     WidgetN_ScrollMenu,
     WidgetN_ArrayMenu,
