@@ -1,7 +1,9 @@
 #include "gameStateMod.h"
 #include "quicksort.h"
-#include "romcopy.h"
+#include "globals.h"
 #include "widgets/Utilities.h"
+
+#if DEBUGVER
 
 #define FILENAME "./src/gamestatemod.cpp"
 
@@ -11,44 +13,48 @@ u8 debug_gamestatefunnel_sub(void){
 }
 
 u8 GSM_GameState(Gfx **GG){
-  char cVar2;
   Gfx *pGVar5;
-  s16 uStack416 [2];
-  s16 asStack_160 [2];
-  s16 uStack348 [2];
-  Color32 uStack288;
-  Color32 uStack224;
-  Color32 uStack160;
-  Color32 uStack96;
+
   controller_aidyn *cont;
-  
-  if (gamestatemod_byte == 2) {
-    cVar2 = DAT_800e61cc + -1;
-    if (!DAT_800e61cc) {
-      gamestatemod_byte = 1;
-      cVar2 = DAT_800e61cc;
-    }
-  }
-  else {
-    if (gamestatemod_byte < 3) {
-      if (gamestatemod_byte != 1) {
-        return 10;
-      }
+  switch(gamestatemod_byte){ //states seem to run backwards
+    case 1:{
       gamestatemod_free();
       if (gBufferedMenuP) {
         gBufferedMenuP->~WBMGSM();
         gBufferedMenuP = NULL;
       }
-      if (gGSMClassP == NULL) return 1;
+      if (gGSMClassP == NULL) return GameStateA_1;
       delete(gGSMClassP);
       gGSMClassP = NULL;
-      return 1;
+      return GameStateA_1;
     }
-    if (gamestatemod_byte != 3) {
-      if (gamestatemod_byte != 4) {
-        return 10;
+    case 2:{
+     if (DAT_800e61cc--==0) {
+      gamestatemod_byte = 1;
+     }
+     break;
+    }
+    case 3:{
+      pGVar5 = *GG;
+     while ( Controller::GetInput(&cont,0)) {
+      if ((cont->held & L_BUTTON) != 0) cont->pressed|= L_BUTTON;
+      if (gBufferedMenuP->Control(cont)) {
+        gamestatemod_byte = 2;
+        DAT_800e61cc = 6;
       }
+     }
+     pGVar5 = Graphics::SomeOtherInit(pGVar5,FULL_SCREENSPACE,0,0,0,0);
+     RSPFUNC6(pGVar5);
+     gBufferedMenuP->Tick();
+     *GG = gBufferedMenuP->Render(pGVar5,FULL_SCREENSPACE);
+     break;
+    }
+    case 4:{
       FUN_80005610();
+      s16 uStack416 [2];
+      s16 asStack_160 [2];
+      s16 uStack348 [2];
+      Color32 uStack288,uStack224,uStack160,uStack96;
       gGSMClassP =new GSMClass();
       uStack416[0] = 0x28;
       uStack416[1] = 0x28;
@@ -75,24 +81,10 @@ u8 GSM_GameState(Gfx **GG){
       gBufferedMenuP= new WBMGSM(gGSMClassP,0xe,gameStates->flagTotal,(u16 *)uStack416,
                           asStack_160,&uStack288,&uStack224,&uStack160,&uStack96);
       WidgetBorg8At(gBufferedMenuP,BORG8_DebugBG,0x14,0x14,300,200);
-      return 10;
+      return GameStateA_GSM;
     }
-    pGVar5 = *GG;
-    while ( Controller::GetInput(&cont,0)) {
-      if ((cont->held & L_BUTTON) != 0) cont->pressed|= L_BUTTON;
-      if (gBufferedMenuP->Control(cont)) {
-        gamestatemod_byte = 2;
-        DAT_800e61cc = 6;
-      }
-    }
-    pGVar5 = Graphics::SomeOtherInit(pGVar5,FULL_SCREENSPACE,0,0,0,0);
-    RSPFUNC6(pGVar5);
-    gBufferedMenuP->Tick();
-    *GG = gBufferedMenuP->Render(pGVar5,FULL_SCREENSPACE);
-    cVar2 = DAT_800e61cc;
   }
-  DAT_800e61cc = cVar2;
-  return 10;
+  return GameStateA_GSM;
 }
 
 s32 FUN_80005500(EventFlag *param_1,EventFlag *param_2){
@@ -182,3 +174,4 @@ u32 Ofunc_ret0(void){return 0;}
 
 WBMGSM::~WBMGSM(){WidgetBufferedMenu::~WidgetBufferedMenu();}
 
+#endif

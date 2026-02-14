@@ -31,8 +31,9 @@ class WidgetBufferedMenu:public BaseWidget{
     WidgetText* textWidgetsP[20];
     u16 listBottom;
     u16 unka9a;
-    s16 unka9c;
-    s16 unka9e;
+    u16 unka9c;
+    u8 unka9e;
+    u8 unka9f;
     WidgetText titleWidget;
     char* txtIn;
     WidgetBufferedMenu(GSMClass *obj,u16 param_3,u16 param_4,u16 *bounds,s16 *titleBounds,
@@ -49,8 +50,8 @@ class WidgetBufferedMenu:public BaseWidget{
     BaseWidget* CDownFunc();
     BaseWidget* AFunc();
     BaseWidget* BFunc();
-    virtual u8 LCUp();
-    virtual u8 LCDown();
+    virtual BaseWidget* LCUp();
+    virtual BaseWidget* LCDown();
     void UpdateTexts();
     u32 GetNumber();
 };

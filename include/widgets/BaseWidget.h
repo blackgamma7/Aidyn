@@ -121,5 +121,6 @@ enum WidgetNumber{
     WidgetN_ScrollMenu,
     WidgetN_ArrayMenu,
     WidgetN_ScrollList=11,
-    WidgetN_Other
+    WidgetN_Other,
+    WidgetN_BufferedMenu
 };
