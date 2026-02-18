@@ -52,10 +52,7 @@ void init_DBs(void) {
   World::SetTimeFromCalendar(TerrainPointer,&cal);
   MINIMAP.Init();
   gGlobals.screenshot = NULL;
-  gGlobals.screenshotTint.R = 0xff;
-  gGlobals.screenshotTint.G = 0xff;
-  gGlobals.screenshotTint.B = 0xff;
-  gGlobals.screenshotTint.A = 0xff;
+  gGlobals.screenshotTint ={COLOR_WHITE};
   gGlobals.cinematicReplay = 0;
   gGlobals.unk14fc = false;
   gGlobals.pauseMenuSection = 0;

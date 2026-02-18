@@ -1,7 +1,8 @@
 #include "typedefs.h"
 #include "globals.h"
 
-struct MemoryMakerStruct { /* same as SaveDatStruct, but no Screenshot */
+/* same as SaveDatStruct, but no Screenshot */
+struct MemoryMakerStruct { 
     struct SavePartyHeader header;
     u8 field1_0x20[32];
     struct mapFloatDat mapData;

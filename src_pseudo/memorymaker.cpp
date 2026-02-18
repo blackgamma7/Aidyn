@@ -2,7 +2,7 @@
 
 #include "SaveEntity.h"
 #include "QuestData.h"
-#include "globals.h"
+#include "game.h"
 
 MemoryMakerStruct* gMemoryMaker=NULL;
 //Memory management triggered with no Expansion Pak

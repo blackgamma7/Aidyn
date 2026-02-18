@@ -1620,14 +1620,14 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   mapFloatDat *pmVar8;
   s16 maxActors;
   s16 partCount;
-  u16 dat;
+  u16 camMode;
   vec3f afStack104;
   
   s32 partTextInds[] = {BORG1_PlayerShadow,Borg1_Particle0,Borg1_Particle1,-1,Borg1_Particle2,
     -1,Borg1_Particle4,Borg1_Particle5,Borg1_Particle6,Borg1_Particle7,Borg1_Particle8,
     Borg1_Particle9,Borg1_Particle10,Borg1_Particle11,-1,-1,Borg1_Particle12};
   maxActors = 0;
-  dat = 0;
+  camMode = 0;
   partCount = ParticleMAX;
   DAT_800e9c14 = 0;
   engineZone_flag = 1;
@@ -1654,7 +1654,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
     }
     case GameMode_Title:{
       maxActors = 0;
-      dat = 3;
+      camMode = 3;
       if (!gExpPakFlag) partCount = ParticleJ2;
       break;
     }
@@ -1696,7 +1696,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   loadGameBorgScenes(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
   if (param_2 == 0) {
     CLEAR(&afStack104);
-    passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&afStack104,dat);
+    passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&afStack104,camMode);
     if ((gPlayer) && ((gPlayer)->state == 0)) {
       Camera::SetAim(&gCamera,&gPlayer->collision.pos);
       Camera::FUN_800b050c(&gCamera,&afStack104);
@@ -1704,7 +1704,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
     }
   }
   else {
-    passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&pmVar8->cameraVec3,dat);
+    passto_camera_init(&gCamera,gGlobals.gameVars.borg9DatPointer,&pmVar8->cameraVec3,camMode);
     if (gPlayer) {
       gPlayer->facing.x = (pmVar8->playerVec2).x;
       gPlayer->facing.y = (pmVar8->playerVec2).y;

@@ -41,7 +41,7 @@ struct SaveDatStruct {
     u8 field1_0x20[0x20];
     mapFloatDat mapDat;
     u8 field34_0x6c[20];
-    u8 flags[0x1400/8]; 
+    u8 flags[640]; 
     u8 screenshot[4096];
     u8 minimap[64];
     u8 gameState[1984];

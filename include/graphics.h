@@ -48,8 +48,6 @@ struct gfxManager {
     u8 unk0x19c; /* set to 0 after drawing letterbox */
 };
 
-
-
 namespace Graphics{
 void initGfx(OSSched *);
 void initGfx_2();

@@ -168,10 +168,8 @@ void audioProc(void* p){
 
 void AudioProcInit(void){
   u8 *base;
-
   u16 uVar3;
   u8 i;
-  u32 uVar5;
   ALSynConfig synConf;
   ALVoiceConfig voiceConf;
   

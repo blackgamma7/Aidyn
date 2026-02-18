@@ -5,14 +5,12 @@ u8 intro_music_flag=true;
 u8 NOOP_flag=false;
 
 void load_intro_music(){
-  u32 BVar1;
   u8 abStack_18;
   s32 aiStack_14;
   
   gGlobals.titleSplashVars.flag = 1;
-  BVar1 = BORG12_Intro_NoExp;
-  if (gExpPakFlag) BVar1 = BORG12_Intro_Exp;
-  gGlobals.titleSplashVars.introMusic = loadBorg12(BVar1);
+  u32 BGM = gExpPakFlag?BORG12_Intro_Exp:BORG12_Intro_NoExp;
+  gGlobals.titleSplashVars.introMusic = loadBorg12(BGM);
   DCM::Add(&abStack_18,&aiStack_14,&(gGlobals.titleSplashVars.introMusic)->dat->sub,0xa5,0x80,1,-1,0);
   gGlobals.titleSplashVars.introMusicDatA = abStack_18;
   gGlobals.titleSplashVars.introMusicDatB = aiStack_14;
@@ -28,7 +26,7 @@ s32 appState_0(Gfx **param_1){
   }
   if (gGlobals.titleSplashVars.flag == 1) {
     bVar2 = TitleSplash::Show(param_1);
-    gGlobals.titleSplashVars.flag = (int)bVar2;
+    gGlobals.titleSplashVars.flag = bVar2;
   }
   bVar2 = gGlobals.titleSplashVars.flag == 0;
   if (bVar2) NOOP_flag = true;
