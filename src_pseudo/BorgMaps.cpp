@@ -150,21 +150,15 @@ u16 BorgMaps::GetMapList(s16 map,s16 a,s16 b) {
   return GetMapData(m,a,b,4,map);
 }
 
-
-void BorgMaps::SetBGM(u16 *param_1,u16 param_2,u16 ExpPak,u16 NoExpPak) {
-  u16 uVar1;
-  u16 *puVar2;
-  
+//set BGM based if borg9 is in arr and expansion pak is installed.
+void BorgMaps::SetBGM(u16 *arr,u16 borg9,u16 ExpPak,u16 NoExpPak) {
   if (gGlobals.gameVars.gamemodeType != GameMode_Title) {
-    uVar1 = *param_1;
-    puVar2 = param_1 + 1;
-    while (uVar1 != 0) {
-      if (uVar1 == param_2) {
+    while(*arr){
+      if(*arr==borg9){
         gGlobals.gameVars.Borg12Next = ExpPak;
         if (!gExpPakFlag) gGlobals.gameVars.Borg12Next = NoExpPak;
       }
-      uVar1 = *puVar2;
-      puVar2++;
+      arr++;
     }
   }
 }
@@ -380,12 +374,13 @@ LAB_8002ce68:
       spawnz = 52.0f;
     }
     u16 BgmArr[]={0x10b5,0x10d1,0x10d4,0x10d7,0x10ee,0x10f1,0x10f4,0x10f8,0x1118,0x111b,
-        0x111e,0x1122,0x114d,0,0x10dc,0x10e0,0x10e3,0x10fc,0x10fe,0x1102,0x1125,0x1128,
-        0x112f,0x1150,0x1153,0x1156,0x1172,0x117b,0x117e,0x1181,0x1189,0x1192,0x1195,
-        0x119b,0x11a4,0x11a8,0};
+        0x111e,0x1122,0x114d,0};
+    u16 BgmArr2[]={0x10dc,0x10e0,0x10e3,0x10fc,0x10fe,0x1102,0x1125,0x1128,0x112f,
+        0x1150,0x1153,0x1156,0x1172,0x117b,0x117e,0x1181,0x1189,0x1192,0x1195,0x119b,
+        0x11a4,0x11a8,0};
     SetBGM(BgmArr,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
       0x62c,0x62d);
-    SetBGM(BgmArr,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
+    SetBGM(BgmArr2,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
            0x5ea,0x5eb);
     break;
   case MAPA_GoblinCamp:
