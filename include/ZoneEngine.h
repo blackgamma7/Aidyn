@@ -15,6 +15,14 @@ struct ZoneDat {
     u8 unk1f;
 };
 
+enum MemCheckType{
+    MEMCHECK_Borg7,
+    MEMCHECK_SceneObj,
+    MEMCHECK_Sound,
+    MEMCHECK_MapSceneA,
+    MEMCHECK_MapSceneB,
+};
+
 #define ZoneCenter 0x11 //BCD index of MapZoneData[1][1]
 
 #define MAPCENTER gGlobals.gameVars.ZoneDatMtx[1][1]

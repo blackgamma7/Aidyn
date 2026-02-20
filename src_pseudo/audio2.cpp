@@ -340,7 +340,7 @@ void ProcessAudioBubbles(SFX_Struct *sfx,vec3f *pos,s16 delta){
           pSVar5->voxelDat->pan = FUN_800565a8(&pSVar5->worldPos,fVar13,&gCamera);
         }
         if (pSVar5->borg12 == NULL) {//add sound if none
-          if (!NoExpPak_memCheck(2)) continue;//unless there's not room
+          if (!NoExpPak_memCheck(MEMCHECK_Sound)) continue;//unless there's not room
           SoundStructA_get_borg12(pSVar5);
         }
         pSVar5->timer -= delta;

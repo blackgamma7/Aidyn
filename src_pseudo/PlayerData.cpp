@@ -1091,7 +1091,7 @@ void Actor::ChangeAppearance(playerData *param_1,u32 param_2){
   Borg7Header *pBVar2;
   
   if (((param_2 != param_1->borg7) || (param_1->borg7P == NULL)) &&
-     (NoExpPak_memCheck(0))) {
+     (NoExpPak_memCheck(MEMCHECK_Borg7))) {
     if (param_2 == BORG7_Alaron) param_1->isAlaron = true;
     else param_1->isAlaron = false;
     if ((param_1->borg7 != -1)&&(param_1->borg7P))

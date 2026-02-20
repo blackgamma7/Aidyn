@@ -608,9 +608,9 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
         }
         else 
         #if DEBUGVER
-        if ((!gLoadOneZone) && (NoExpPak_memCheck(4))) 
+        if ((!gLoadOneZone) && (NoExpPak_memCheck(MEMCHECK_MapSceneB))) 
         #else
-        if(NoExpPak_memCheck(4))
+        if(NoExpPak_memCheck(MEMCHECK_MapSceneB))
         #endif
         {
           AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->SceneDat0x14,0,z->borg5_ID2,1,(char)uStack_30);
@@ -1209,7 +1209,7 @@ LAB_80010084:
                 goto LAB_800102b4;
               }
               if (((SObj->scene).sceneflags & SceneObj_B7) == 0) {
-                if (NoExpPak_memCheck(1)) {
+                if (NoExpPak_memCheck(MEMCHECK_SceneObj)) {
                   pAVar4 = BorgAnimLoadScene(pSVar10->borgArray[uVar12].borgIndex);
                   *ppBVar11 = (Borg7Header *)pAVar4;
                   goto LAB_8000ffcc;
@@ -1217,7 +1217,7 @@ LAB_80010084:
                 goto LAB_800102b4;
               }
               sVar8 = (s16)local_60;
-              if (NoExpPak_memCheck(0)) {
+              if (NoExpPak_memCheck(MEMCHECK_Borg7)) {
                 pBVar3 = loadBorg7((SObj->scene).borgArray[0].borgIndex,&gGlobals.gameVars.particleHead);
                 (SObj->scene).borgArray[0].b7 = pBVar3;
                 pAVar4 = pBVar3->sceneDat;
@@ -1457,14 +1457,14 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
             if (pZVar12->borg5_ID == 0) {
             }
             else if (pZVar12->sceneDat0x4 == NULL) {
-              if (NoExpPak_memCheck(3)) {
+              if (NoExpPak_memCheck(MEMCHECK_MapSceneA)) {
                 pZVar12->flag |= 1;
                 AllocAllocQueueItem(&gGlobals.QueueB,(void**)&pZVar12->sceneDat0x4,0,pZVar12->borg5_ID,QueueType_Scene,0);
               }
             }
             if (pZVar12->borg5_ID2){
               if (pZVar12->SceneDat0x14 == NULL) {
-                if (NoExpPak_memCheck(4)) {
+                if (NoExpPak_memCheck(MEMCHECK_MapSceneB)) {
                   pZVar12->flag |= 2;
                   AllocAllocQueueItem(&gGlobals.QueueB,(void**)&pZVar12->SceneDat0x14,0,pZVar12->borg5_ID,QueueType_Scene,0);
                 }
