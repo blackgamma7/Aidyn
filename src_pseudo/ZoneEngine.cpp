@@ -595,11 +595,11 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
         }
         else {
           #if DEBUGVER
-          if ((!gLoadOneZone) && (NoExpPak_memCheck(3)))
+          if ((!gLoadOneZone) && (NoExpPak_memCheck(MEMCHECK_MapSceneA)))
           #else
-          if (NoExpPak_memCheck(3))
+          if (NoExpPak_memCheck(MEMCHECK_MapSceneA))
           #endif
-            AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->sceneDat0x4,0,z->borg5_ID,1,(char)uStack_30);
+            AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->sceneDat0x4,0,z->borg5_ID,1,uStack_30);
         }
       }
       if ((z->borg5_ID2) && (z->SceneDat0x14 == NULL)) {
@@ -613,7 +613,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
         if(NoExpPak_memCheck(MEMCHECK_MapSceneB))
         #endif
         {
-          AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->SceneDat0x14,0,z->borg5_ID2,1,(char)uStack_30);
+          AllocAllocQueueItem(&gGlobals.QueueB,(void**)&z->SceneDat0x14,0,z->borg5_ID2,1,uStack_30);
         }
       }
       loading_map_data(z);
@@ -1030,7 +1030,6 @@ struct_A struct_a_ARRAY_800f5290[0x20];
 
 //Render the "scene" voxel objects
 Gfx * RenderVoxelScenes(Gfx *gfx,Borg9Data *borg9,vec3f *posLocal,s16 param_4,s16 param_5,float cellX,float cellZ){
-  EventFlag EVar1;
   void *pvVar2;
   u8 bVar6;
   Borg7Header *pBVar3;
@@ -1222,8 +1221,7 @@ LAB_80010084:
                 (SObj->scene).borgArray[0].b7 = pBVar3;
                 pAVar4 = pBVar3->sceneDat;
                 Borg7_SetAnimation(pBVar3,0);
-                EVar1 = (SObj->header).flagB;
-                if ((SObj->header).flagB != 0) {
+                if ((SObj->header).flagB) {
                   if ((getEventFlag((SObj->header).flagB)) && (((SObj->header).Bitfeild & VOXEL_Used) == 0)) {
                   }
                   else {
@@ -1396,7 +1394,6 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   u16 uVar10;
   u16 uVar11;
   ZoneDat *pZVar12;
-  ZoneDat *iVar1;
   s16 *psVar13;
   s16 *psVar14;
   float posz;
@@ -1444,7 +1441,7 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
     uStack_40 = (uStack_40 & 0x7f) << 1;
     if ((FUN_80010598(*psVar13,*psVar14)) && ((uStack_44 & uVar3) == 0)) {
       if ((!gExpPakFlag) && (get_MemFree()< 0x18000)) {
-        iVar1 = &gGlobals.gameVars.ZoneDatMtx[*psVar13][*psVar14];
+        ZoneDat *iVar1 = &gGlobals.gameVars.ZoneDatMtx[*psVar13][*psVar14];
         if (iVar1->sceneDat0x4) FREEQSCENE(iVar1->sceneDat0x4);
         if (iVar1->SceneDat0x14)FREEQSCENE(iVar1->SceneDat0x14);
       }
@@ -1776,7 +1773,7 @@ void clear_music_values(u16 ClearAll){
     gGlobals.gameVars.BGMIndex = 0;
   }
 }
-//clear the BGM values id there's no expansion pak
+//clear the BGM values if there's no expansion pak
 void clear_music_no_expPak(){
   if (((!gExpPakFlag) && (gGlobals.gameVars.Borg12Next)) &&
       (gGlobals.gameVars.Borg12Next != gGlobals.gameVars.Borg12Next2)) {
