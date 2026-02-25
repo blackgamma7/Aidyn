@@ -1918,17 +1918,10 @@ u16 CombatEntity::AspectMulti_check(u8 param_2){
 }
 
 u8 CombatEntity::SpellIngredientCheck(SpellInstance *param_2,s16 param_3,s16 param_4){
-  CharSheet *pCVar1;
-  float fVar3;
-  s32 iVar4;
   u8 bVar7;
-  u8 bVar8;
-  ItemID IVar6;
   u32 uVar5;
-  u8 bVar9;
-  float fVar10;
   
-  bVar9 = false;
+  u8 bVar9 = false;
   if (param_2->level < 4) {
     uVar5 = SQ((5 - param_2->level));
   }
@@ -1946,7 +1939,6 @@ u8 CombatEntity::SpellIngredientCheck(SpellInstance *param_2,s16 param_3,s16 par
     bVar7 = 0xff;
   }
   this->charSheetP->spellVal = bVar7;
-  if (bVar8) {fVar10 -= fVar3;}
   if (RollD(1,100) <= ((u8)uVar5 * 0.1f)) {
     uVar5 = param_2->level + 1;
     CIEL(uVar5,10);
@@ -1954,7 +1946,6 @@ u8 CombatEntity::SpellIngredientCheck(SpellInstance *param_2,s16 param_3,s16 par
   }
   return bVar9;
 }
-
 
 u8 CombatEntity::CheckSpellWizard(CombatEntity *x,SpellInstance *param_2,u8 param_3){
   u32 LV;

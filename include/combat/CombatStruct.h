@@ -103,7 +103,7 @@ bool some_combat_proximity_check(CombatStruct *param_1,ItemID id,float x,float y
 bool FUN_8006674c(CombatStruct *param_1,u32 param_2,u16 param_3,u8 param_4,float *coordA,float *CoordB,u32 param_7);
 void FUN_800668e4(CombatStruct *param_1,u8 *outX,u8 *outY,u8 *param_4,u8 param_5,u8 param_6,
                  u32 param_7,u32 param_8,u8 param_9,ItemID id);
-void func_settting_leader_dead_flag(CombatStruct *param_1);
+void UpdateEnemyParty(CombatStruct *param_1);
 void get_gear_drop(CombatStruct *param_1,EntityRAM *param_2,Loot_RAM *param_3);
 void get_exp_mod(CombatStruct *param_1,Loot_RAM *param_2,u32 param_3);
 void calc_loot(CombatStruct *param_1,u8 param_2,EntityRAM *param_3);

@@ -111,7 +111,7 @@ int Dialog_GameState(Gfx **GG){
       DAT_800ee974 = true;
       dialougemode_pointer->unkab = 1;
       run_dialougemode_funcs4();
-      return 0xc;
+      return GameStateA_Dialog;
     }
     case 1:{
     run_dialougemode_funcs1();

@@ -157,7 +157,7 @@ bool CombatTurn::FUN_8007381c(CombatTurn_s *param_1) {
         }
     }
     PARTY->DecRitualTimers(0,1);
-    func_settting_leader_dead_flag(gCombatP);
+    UpdateEnemyParty(gCombatP);
     FreeArray(param_1);
     param_1->unk4^=1;
     Init(param_1);

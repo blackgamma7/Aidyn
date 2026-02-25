@@ -317,11 +317,7 @@ void playerdata_remove_both_dcm(playerData *param_1){
 }
 
 DCMSub2 * AllocPlayerAudio(playerData *param_1,audioKeyEntryB *param_2,u16 type,u16 index){
-  u16 uVar1;
-  Borg12Header *pBVar3;
-  u16 uVar6;
   u32 *pBVar4;
-  
   u16 uVar2 = 0;
   if ((index == 0) && (param_2)) {
     uVar2 = RAND.randAudio(param_2->arrLen);
@@ -339,14 +335,11 @@ DCMSub2 * AllocPlayerAudio(playerData *param_1,audioKeyEntryB *param_2,u16 type,
     default:
     CRASH("AllocPlayerAudio","Invalid Audio Type");
   }
-  pBVar3 = loadBorg12(*pBVar4);
-  uVar2 = (u16)param_1->dcmDatIndex + 1;
-  uVar6 = (s16)uVar2 + (s16)(uVar2 >> 1) * -2;
-  param_1->dcmDatIndex = uVar6;
-  playerdata_remove_dcm(param_1,uVar6);
-  uVar1 = param_1->dcmDatIndex;
-  param_1->dcmDat[uVar1].borg12 = pBVar3;
-  return param_1->dcmDat + uVar1;
+  Borg12Header *pBVar3 = loadBorg12(*pBVar4);
+  param_1->dcmDatIndex = (param_1->dcmDatIndex+1)%2;
+  playerdata_remove_dcm(param_1,param_1->dcmDatIndex);
+  param_1->dcmDat[param_1->dcmDatIndex].borg12 = pBVar3;
+  return param_1->dcmDat + param_1->dcmDatIndex;
 }
 
 u8 FUN_8001620c(playerData *param_1){

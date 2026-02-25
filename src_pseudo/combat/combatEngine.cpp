@@ -141,23 +141,14 @@ u8 find_sholeh(EncounterDat *param_1){
 
 void NOOP_800658a0(u8 players,u8 enemies){}
 
-u8 recount_enemy_party(EncounterDat *param_1,u16 param_2){
-  u32 uVar1;
-  u32 uVar2;
-  u32 uVar3;
-  
-  uVar3 = param_2 + 1;
+u8 recount_enemy_party(EncounterDat *param_1,u16 param_2) {
+  u16 i = param_2;
   do {
-    uVar2 = uVar3;
-    uVar1 = uVar2 & 0xffff;
-    if (0xb < uVar1) {
-      return 0xc;
-    }
-    uVar3 = uVar1 + 1;
-  } while (param_1->enemy_entities[uVar1] == (ItemID)0x0);
-  return uVar2;
+    i++;
+    if (12 <= i) return 12;
+  } while (param_1->enemy_entities[i] == (ItemID)0x0);
+  return i;
 }
-
 
 int look_for_flasks(void){
   int iVar2 = 7;
@@ -520,7 +511,7 @@ void FUN_800668e4(CombatStruct *param_1,u8 *outX,u8 *outY,u8 *param_4,u8 param_5
   }
 }
 
-void func_settting_leader_dead_flag(CombatStruct *param_1){
+void UpdateEnemyParty(CombatStruct *param_1){
   u8 bVar1;
   ItemID IVar2;
   u8 uVar7;
