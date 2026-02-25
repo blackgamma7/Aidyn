@@ -179,7 +179,7 @@ void renderAudioVoxel(SoundStructA *);
 
 float Sound_Volume_proximity(vec3f *,float ,Camera_struct *);
 float FUN_800565a8(vec3f *,float ,Camera_struct *);
-void FUN_8005661c(vec3f *,float ,Camera_struct *,s8 *,s8 *);
+void FUN_8005661c(vec3f *,float ,Camera_struct *,u8 *,u8 *);
 void ProcessAudioBubbles(SFX_Struct *,vec3f *,s16);
 
 #define DCMMax 0x20

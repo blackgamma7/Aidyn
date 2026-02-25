@@ -295,7 +295,7 @@ float FUN_800565a8(vec3f *param_1,float param_2,Camera_struct *cam){
   return -big_vec2_math_func(&tempv2A,&tempv2B,&tempv2C) * (1.0f - param_2);
 }
 
-void FUN_8005661c(vec3f *pos,float vol,Camera_struct *cam,s8 *proxOut,s8 *out){
+void FUN_8005661c(vec3f *pos,float vol,Camera_struct *cam,u8 *proxOut,u8 *out){
   float prox=Sound_Volume_proximity(pos,vol,cam);
   float x=((FUN_800565a8(pos,prox,cam) + 1.0f) * 0.5f) * 255.0;
   *proxOut = (prox * 255.0);

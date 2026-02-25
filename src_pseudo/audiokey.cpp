@@ -103,8 +103,7 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp){
   u32 uVar8;
   double dVar9;
   vec3f pos;
-  s8 bStack_28;
-  u8 auStack_27 [1];
+  u8 bStack_28,auStack_27;
   
   paVar3 = (PHANDLE.audiokey)->a;
   if ((2 < pDat->Ground_type) || (false)/*??*/) {
@@ -129,19 +128,19 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp){
    switch(paVar3[pDat->Ent_index].unk0) {
    case 1:
    case 2:
-    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27[0],
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,&auStack_27,
                  audiokey_unk1[pDat->Ground_Type_New],3,0);
     break;
    case 3:
-    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27[0],
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,&auStack_27,
                  audiokey_unk2[pDat->Ground_Type_New],3,0);
     break;
    case 4:
-    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27[0],
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,&auStack_27,
                  audiokey_unk3[pDat->Ground_Type_New],3,0);
     break;
    case 5:
-    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27[0],
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,&auStack_27,
                  audiokey_unk4[pDat->Ground_Type_New],3,0);
    default:
    }
