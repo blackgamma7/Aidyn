@@ -51,18 +51,25 @@ struct event_flag_array {
     s16 val;
     u8 skill_stat;
 };
+
+GameStateFunnel* gameStates=NULL;
+
 event_flag_array eventflagArrayStats[]={
-    {0x915,0x919,0,STAT_INT},{0x91A,0x91E,0,STAT_WIL},{0x91F,0x923,0,STAT_END},
-    {0x924,0x928,0,STAT_DEX},{0x929,0x92d,0,STAT_STR}
+    {FLAG_StatIntA,FLAG_StatIntE,0,STAT_INT},{FLAG_StatWilA,FLAG_StatWilE,0,STAT_WIL},
+    {FLAG_StatEndA,FLAG_StatEndE,0,STAT_END},
+    {FLAG_StatDexA,FLAG_StatDexE,0,STAT_DEX},{FLAG_StatStrA,FLAG_StatStrE,0,STAT_STR}
 };
+
 event_flag_array eventflagArraySkills[]={
-    {0x92e,0x9323,0,SKILL_Mechanic},{0x938,0x93C,0,SKILL_Loremaster},{0x93d,0x941,0,SKILL_Wizard},
+    {FLAG_SkillMechA,FLAG_SkillMechE,0,SKILL_Mechanic},//Diplomat skipped?
+    {FLAG_SkillLoreA,FLAG_SkillLoreA,0,SKILL_Loremaster},
+    {FLAG_SkillWizA,FLAG_SkillWizE,0,SKILL_Wizard},
     //Large blank space below, may be from proceeding script instead.
     {0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},
     {0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},
 };
 
-GameStateFunnel* gameStates=NULL;
+#if DEBUGVER
 
 char eventflag_types1[][4]={
     "LOG","VAL","CNT","BIT","INV"
@@ -79,6 +86,7 @@ u16 gamestateShortANDfeild[]={
     ((1<<6)-1),((1<<7)-1),((1<<8)-1),((1<<9)-1),((1<<10)-1),((1<<11)-1),
     ((1<<12)-1),((1<<13)-1),((1<<14)-1),((1<<15)-1),((1<<16)-1),0
 };
+#endif
 
 typedef u16 EventFlag;
 

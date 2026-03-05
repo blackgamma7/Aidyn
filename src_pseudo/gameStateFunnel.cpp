@@ -12,27 +12,25 @@ void Event_flag_stat(u8 param_1){
   EventFlag EVar2;
   CharSheet *pCVar3;
   int iVar4;
-  u8 uVar5;
-  u32 uVar8;
-  s16 lVar9;
+  s16 best;
   
   if (gameStates) {
     iVar4 = find_event_flag_array_index(param_1,eventflagArrayStats,0);
     if (iVar4 != 0) {
-      lVar9 = 0;
+      best = 0;
       for(u8 i =3;i!=0;i--) {
         pCVar3 = (PARTY)->Members[i];
         if (((pCVar3) && (!Entity::isDead(pCVar3))) &&
-           (lVar9 < CharStats::getModded(pCVar3->Stats,param_1))) {
-          lVar9 = CharStats::getModded(pCVar3->Stats,param_1);
+           (best < CharStats::getModded(pCVar3->Stats,param_1))) {
+          best = CharStats::getModded(pCVar3->Stats,param_1);
         }
       }
-      if (lVar9 != eventflagArrayStats[iVar4].val) {
-        if (lVar9 < 0) lVar9 = 0;
+      if (best != eventflagArrayStats[iVar4].val) {
+        if (best < 0) best = 0;
         EVar1 = eventflagArrayStats[iVar4].to;
         EVar2 = eventflagArrayStats[iVar4].from;
-        eventflagArrayStats[iVar4].val = lVar9;
-        set_flag_array(EVar1,EVar2,lVar9);
+        eventflagArrayStats[iVar4].val = best;
+        set_flag_array(EVar1,EVar2,best);
       }
     }
   }

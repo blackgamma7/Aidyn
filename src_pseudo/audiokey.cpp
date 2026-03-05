@@ -96,55 +96,51 @@ bool FUN_8005c2f0(playerData *param_1,u16 param_2,u8 param_3,u8 param_4){
 }
 
 void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp){
-  u16 uVar1;
-  u16 uVar2;
-  audiokeyEntryA *paVar3;
   u8 uVar7;
   u32 uVar8;
-  double dVar9;
   vec3f pos;
-  u8 bStack_28,auStack_27;
+  u8 prox,auStack_27;
   
-  paVar3 = (PHANDLE.audiokey)->a;
+  audiokeyEntryA *paVar3 = (PHANDLE.audiokey)->a;
   if ((2 < pDat->Ground_type) || (false)/*??*/) {
     pDat->Ground_Type_New = pDat->Ground_type;
   }
   Actor::GetPosOnLoadedMap(pDat,&pos);
-  FUN_8005661c(&pos,15.0,&gCamera,&bStack_28,(s8 *)auStack_27);
-  if (bStack_28 == 0) return;
+  FUN_8005661c(&pos,15.0,&gCamera,&prox,&auStack_27);
+  if (prox == 0) return;
   switch(paVar3[pDat->Ent_index].unk0){
     case 0:
     return;
     case 1:
-    uVar7=bStack_28 * 0.5;
+    uVar7=prox * 0.5;
     break;
     case 2:
-    uVar7=bStack_28 * 0.75;
+    uVar7=prox * 0.75;
     break;
     default:
-    uVar7=bStack_28;
+    uVar7=prox;
   }
   if (uVar7){
    switch(paVar3[pDat->Ent_index].unk0) {
    case 1:
    case 2:
-    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,&auStack_27,
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27,
                  audiokey_unk1[pDat->Ground_Type_New],3,0);
     break;
    case 3:
-    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,&auStack_27,
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27,
                  audiokey_unk2[pDat->Ground_Type_New],3,0);
     break;
    case 4:
-    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,&auStack_27,
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27,
                  audiokey_unk3[pDat->Ground_Type_New],3,0);
     break;
    case 5:
-    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,&auStack_27,
+    FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27,
                  audiokey_unk4[pDat->Ground_Type_New],3,0);
    default:
    }
   }
-  FUN_8005c0f0(pDat,PHANDLE.audiokey,paVar3 + pDat->Ent_index,id1,id2,amp,bStack_28,auStack_27[0]);
-  FUN_8005c2f0(pDat,id1,bStack_28,auStack_27[0]);
+  FUN_8005c0f0(pDat,PHANDLE.audiokey,paVar3 + pDat->Ent_index,id1,id2,amp,prox,auStack_27[0]);
+  FUN_8005c2f0(pDat,id1,prox,auStack_27);
 }

@@ -12,6 +12,7 @@
 #define DEBUGSprintf(fmt,...) ;
 #endif
 
+//if using jumper pak, timer expended, and memory free low, free all actors.
 u8 FUN_8000c9e0(){
   u16 uVar3;
   u8 ret;

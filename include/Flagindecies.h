@@ -32,6 +32,7 @@
 #define FLAG_NewJournalEntry 3617
 #define FLAG_JournalFlag 5556 //added to journal flags to trigger "new entry" flag
 #define FLAG_CampCheck 4240 //set then unset during camping check.
+
 //Calendar flags
 
 #define FLAG_CalendarMoonA 2299
@@ -64,6 +65,53 @@
 #define FLAG_TerrainB 2322
 #define FLAG_TerrainC 2323
 #define FLAG_TerrainD 2324
+
+//Stat/Skill flags
+
+#define FLAG_StatIntA 2325
+#define FLAG_StatIntB 2326
+#define FLAG_StatIntC 2327
+#define FLAG_StatIntD 2328
+#define FLAG_StatIntE 2329
+#define FLAG_StatWilA 2330
+#define FLAG_StatWilB 2331
+#define FLAG_StatWilC 2332
+#define FLAG_StatWilD 2333
+#define FLAG_StatWilE 2334
+#define FLAG_StatEndA 2335
+#define FLAG_StatEndB 2336
+#define FLAG_StatEndC 2337
+#define FLAG_StatEndD 2338
+#define FLAG_StatEndE 2339
+#define FLAG_StatDexA 2340
+#define FLAG_StatDexB 2341
+#define FLAG_StatDexC 2342
+#define FLAG_StatDexD 2343
+#define FLAG_StatDexE 2344
+#define FLAG_StatStrA 2345
+#define FLAG_StatStrB 2346
+#define FLAG_StatStrC 2347
+#define FLAG_StatStrD 2348
+#define FLAG_StatStrE 2349
+
+#define FLAG_SkillMechA 2350
+#define FLAG_SkillMechB 2351
+#define FLAG_SkillMechC 2352
+#define FLAG_SkillMechD 2353
+#define FLAG_SkillMechE 2354
+
+//possible array for Diplomat.
+
+#define FLAG_SkillLoreA 2360
+#define FLAG_SkillLoreB 2361
+#define FLAG_SkillLoreC 2362
+#define FLAG_SkillLoreD 2363
+#define FLAG_SkillLoreE 2364
+#define FLAG_SkillWizA 2365
+#define FLAG_SkillWizB 2366
+#define FLAG_SkillWizC 2367
+#define FLAG_SkillWizD 2368
+#define FLAG_SkillWizE 2369
 
 //checked many times throughout objectJumpTables.cpp. return never used
 #define FLAG_VoxelCheckUNK 5626

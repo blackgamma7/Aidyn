@@ -846,34 +846,22 @@ u8 Party::RemoveGearFrom(u8 param_2,u8 param_3){
 }
 
 s32 Party::DiplomatCheck(){
-  CharSheet *pCVar1;
-  u8 bVar6;
-  u8 uVar2;
-  char cVar7;
-  u32 uVar3;
   u32 uVar4;
-  int iVar5;
-  u32 uVar9;
-  u8 uVar8;
-  
-  uVar3 = 0;
-  uVar9 = 0;
+  u32 uVar3 = 0;
+  u32 skTotal = 0;
   for(uVar4=0;uVar4<MAXPARTY;uVar4++){
-    pCVar1 = this->Members[uVar4];
+    CharSheet *pCVar1 = this->Members[uVar4];
     if ((pCVar1) && (!Entity::isDead(pCVar1))) {
-      uVar2 = CharStats::getModded(pCVar1->Stats,STAT_INT);
-      if (uVar3 < uVar2) uVar3 = uVar2;
-      uVar9 += pCVar1->Skills->getModdedSkill(SKILL_Diplomat);
+      u8 intCurr = CharStats::getModded(pCVar1->Stats,STAT_INT);
+      if (uVar3 < intCurr) uVar3 = intCurr;
+      skTotal += pCVar1->Skills->getModdedSkill(SKILL_Diplomat);
     }
   }
-  uVar3 = uVar3 * 3 + uVar9 * 10 + 50;
+  uVar3 = uVar3 * 3 + skTotal * 10 + 50;
   uVar4 = RollD(1,100);
-  if (uVar4 < uVar3) {
-    uVar8 = SkillCheck(uVar3 - uVar4);
-    iVar5 = (int)(char)uVar8;
-  }
-  else iVar5 = 0;
-  return iVar5;
+  if (uVar4 < uVar3)
+    return SkillCheck(uVar3 - uVar4);
+  else return 0;
 }
 
 //

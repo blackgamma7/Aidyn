@@ -144,11 +144,7 @@ void Actor::Init(playerData *pDat,u16 id){
 }
 
 void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
-  int iVar2;
-  s16 *psVar3;
-  int iVar4;
-  
-  iVar2 = (int)maxPlayers;
+  int iVar2 = (int)maxPlayers;
   if (PHANDLE.initFlag)
     CRASH("InitPlayerHandler","Player Handler is already Initialized.");
   if (PLAYER_ABS_MAXPLAYERS < iVar2)
@@ -196,11 +192,8 @@ void FreePlayerHandler(){
 
 Gfx * Actor::CalculateShadow(playerData *pDat,Gfx *g,float param_3,u8 param_4){
   Borg9Data *borgDat;
-  Gfx *pGVar2;
   vec3f *pos;
   vec3f *outRot;
-  float fVar4;
-  float fVar5;
   u8 bVar6;
   vec2f *outScale;
   vec3f collidePos;
@@ -223,9 +216,9 @@ Gfx * Actor::CalculateShadow(playerData *pDat,Gfx *g,float param_3,u8 param_4){
     collidePos.x = mapPos.x + fStack376.x * param_3;
     collidePos.y = collidePos.y + fStack376.y * param_3;
     collidePos.z = mapPos.z + fStack376.z * param_3;
-    fVar5 = (3.0f - (Vec3Dist(&mapPos,&collidePos) - pDat->scaleRad)) / 3.0f;
+    float fVar5 = (3.0f - (Vec3Dist(&mapPos,&collidePos) - pDat->scaleRad)) / 3.0f;
     if (1.0f < fVar5) fVar5 = 1.0f;
-    fVar4 = fVar5 * 160.0f;
+    float fVar4 = fVar5 * 160.0f;
     scale.x = (pDat->scaleRad*2) * fVar5;
     pDat->shadowObj.vertCols[3].R = 0;
     pDat->shadowObj.vertCols[2].R = 0;
