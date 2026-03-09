@@ -176,6 +176,16 @@
 #define FLAG_SkillWizC 2367
 #define FLAG_SkillWizD 2368
 #define FLAG_SkillWizE 2369
+#define FLAG_SkillWiz1 5337
+#define FLAG_SkillWiz2 5338
+#define FLAG_SkillWiz3 5339
+#define FLAG_SkillWiz4 5340
+#define FLAG_SkillWiz5 5341
+#define FLAG_SkillWiz6 5342
+#define FLAG_SkillWiz7 5343
+#define FLAG_SkillWiz8 5344
+#define FLAG_SkillWiz9 5345
+#define FLAG_SkillWiz10 5346
 
 //checked many times throughout objectJumpTables.cpp. return never used
 #define FLAG_VoxelCheckUNK 5626
