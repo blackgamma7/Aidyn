@@ -7,6 +7,7 @@
 #define FLAG_False 0 //return false if flag is 0
 #define FLAG_True 1  //return true if flag is 1
 #define FLAG_2 2 //only(?) entry in gamestatefunnel_rom->states that's not BIT/INV
+
 #define FLAG_Cinematic0 3
 #define FLAG_Cinematic1 569
 #define FLAG_Cinematic2 590 //checked during Character Init for Alaron, gives "True Name" flag
@@ -28,6 +29,26 @@
 #define FLAG_JournalGwerniaCamp 58
 #define FLAG_JournalOrianaNecro 101
 #define FLAG_JournalEnteredErromon 122
+#define FLAG_JournalTxominLied 166
+#define FLAG_JournalArdraGetAmaranth 218
+#define FLAG_JournalFoundAmaranth 222
+#define FLAG_JournalMetDryad 223
+#define FLAG_JournalArdraVision 239
+#define FLAG_JournalNoTrueName 240
+#define FLAG_JournalCalledRehtorb 249
+#define FLAG_JournalLighthouseKey 285
+#define FLAG_JournalCradawghDead 320
+#define FLAG_JournalArdraTalk 343
+#define FLAG_JournalJoinAsk 362
+#define FLAG_JournalLearnedZombies 391
+#define FLAG_JournalFoundZombies 392
+#define FLAG_JournalKilledTrolls 399
+#define FLAG_JournalEnteredBog 414
+#define FLAG_JournalEnterTower 438
+#define FLAG_JournalSolvedRiddle 480
+#define FLAG_JournalSpokeToZaratas 518
+#define FLAG_JournalFoundHorn 551
+#define FLAG_JournalLodinSword 548
 
 #define FLAG_NewJournalEntry 3617
 #define FLAG_JournalFlag 5556 //added to journal flags to trigger "new entry" flag
@@ -211,7 +232,7 @@
 #define FLAG_PartyAbrecanLeave 685
 
 #define FLAG_PartyArturoJoin 247
-#define FLAG_PartyArturoDeath 615
+#define FLAG_PartyArturoDeath 614
 #define FLAG_PartyArturoLeave 689
 
 #define FLAG_PartyBairdJoin 380
@@ -258,7 +279,7 @@
 #define FLAG_PartyDougalDeath 582
 #define FLAG_PartyDougalLeave 695
 
-#define FLAG_Gwetnia2MembersNoBrenna 5004 //2 out of Godic, Rheda and Abrecan chosen 
+#define FLAG_Gwernia2MembersNoBrenna 5004 //2 out of Godic, Rheda and Abrecan chosen 
 
 #define FLAG_ShadowMerge 566
 
@@ -268,6 +289,8 @@
 
 #define FLAG_GoblinAmbush 978 //ID of goblin poisoner group at start of game.
 #define FLAG_LugashFight 5250
+
+#define FLAG_ErromonKitarakDead 5435
 
 //event flags for entering areas or collecting their map.
 #define FLAG_Map1 788 //Gwernia, set at start
@@ -323,8 +346,75 @@
 #define FLAG_HasDragonKey 3432
 #define FLAG_HasRabisatAsp 405
 
+#define FLAG_ChasIsleSwitch0 3269
+#define FLAG_ChasIsleSwitch1 3270
 
+#define FLAG_5011 5011 //Camping, flag 158 set, flag 156 unset (got Banner?)
+#define FLAG_GotLighthouseKey 5016
+#define FLAG_LighthouseLit2 286
 #define FLAG_LighthouseLit 5017
+#define FLAG_5019 5019 //Rheda in Party, spoke to Ardra
+#define FLAG_5020 5020 //Keelin in Party, spoke to Ardra
+#define FLAG_5021 5021 //Becan in Party, spoke to Ardra
+
+#define FLAG_5024 5024 //Rheda in Party, not dead or left
+#define FLAG_5025 5025 //Godric in Party, not dead or left
+
+#define FLAG_5028 5028 //Found Amaranth efore another flag set (#238)
+#define FLAG_5034 5034 //first Cinematic flag not set
+
+#define FLAG_5039 5039 //Not yet met Oriana
+#define FLAG_5040 5040 //Not yet met Oriana
+#define FLAG_5041 5041 //met Oriana
+#define FLAG_NotPoisonedYet 5043 //not yet poisoned
+#define FLAG_5056 5056 //Camping between being told to kill KItarak and doing it
+#define FLAG_5071 5071 //doesn't know no True Name, had Crystal Vision.
+
+#define FLAG_5079 5079 //Brenna and Keelin in Party, spoke to Amann, not on Chaos Isle
+#define FLAG_NotYetJoinAsk 5112 //not yet asked to join
+#define FLAG_5122 5122 //Baird and Donovan in party
+#define FLAG_5128 5128 //Entered Bog with Rheda and Godric
+#define FLAG_5129 5129 //Entered Bog with Becan and Abrecan
+#define FLAG_5130 5130 //Entered Bog with Brenna
+#define FLAG_5132 5132 //Entered Bog with Keelin, not reached tower
+#define FLAG_5150 5150 //Godric & Becan in party, camping, killed shamsuk
+#define FLAG_5151 5151 //Abrecan in party, camping, killed shamsuk
+#define FLAG_5153 5153 //Brenna in party, killed shamsuk
+#define FLAG_5154 5154 //Arturo in party, camping, killed shamsuk
+#define FLAG_5155 5155 //Baird in party, camping, killed shamsuk
+#define FLAG_5156 5156 //Becan in party, killed shamsuk
+#define FLAG_5163 5163 //Baird in party, camping, flag 487 set
+#define FLAG_5166 5166 //Not met Zaratas
+#define FLAG_5168 5168 //met Zaratas, no horn
+#define FLAG_5191 5191 //Dougal in party, camping, flag 575 unset
+#define FLAG_5237 5237 //Spoke to Zaratas, Diplomat >=6 (via unused flag)
+#define FLAG_5242 5242 //Cradawgh Dead. Yes, that's it.
+#define FLAG_5267 5267 //Flag 71 unset
+#define FLAG_5440 5440 //knows no True Name, Shadow called him "rehtorb", not merged
+#define FLAG_5498 5498 //Both switches for skull gate in Chaos Isle Tower set
+
+
+//LOG/MSK flags with no value or list - always true
+
+#define FLAG_5038 5038 //always true(?) no other associated flags
+#define FLAG_5072 5072 //always true(?) no other associated flags
+#define FLAG_5075 5075 //always true(?) no other associated flags
+#define FLAG_5076 5076 //always true(?) no other associated flags
+#define FLAG_5081 5081 //always true(?) no other associated flags
+#define FLAG_5089 5089 //always true(?) no other associated flags
+#define FLAG_5097 5097 //always true(?) no other associated flags
+#define FLAG_5098 5098 //always true(?) no other associated flags
+#define FLAG_5105 5105 //always true(?) no other associated flags
+#define FLAG_5115 5115 //always true(?) no other associated flags
+#define FLAG_5116 5116 //always true(?) no other associated flags
+#define FLAG_5117 5117 //always true(?) no other associated flags
+#define FLAG_5118 5118 //always true(?) no other associated flags
+#define FLAG_5119 5119 //always true(?) no other associated flags
+#define FLAG_5120 5120 //always true(?) no other associated flags
+#define FLAG_5167 5167 //always true(?) no other associated flags
+#define FLAG_5173 5173 //always true(?) no other associated flags
+
+#define FLAG_5254 5254 //always true(?) LOG/AND val 0
 
 
 //cheat code flags

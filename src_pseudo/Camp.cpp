@@ -33,7 +33,7 @@ void SetWidgetBounds(BaseWidget *w,u16 x0,u16 y0,u16 x1,u16 y1){
   w->boundY1 = y1;
 }
 
-s32 campfireScenes[10]={0x3cc,0x49c,0x49d,0x4a0,0x4a1,0x4aa,0x4eb,0x3d2,
+s32 campfireScenes[10]={0x03cc,0x049c,0x049d,0x04a0,0x04a1,0x04aa,0x04eb,0x03d2,
   BORG13_CampSafe,-1};
 
 u8 isCampfireScene(u32 b13ID){
@@ -44,7 +44,8 @@ u8 isCampfireScene(u32 b13ID){
   }
   return false;
 }
-u16 dialoug_voxel_flagAs[9]={0x13c0,0x141e,0x141f,0x1422,0x1423,0x142b,0x1447,0x1393,-1};
+u16 dialoug_voxel_flagAs[9]={
+  FLAG_5056,FLAG_5150,FLAG_5151,FLAG_5154,FLAG_5155,FLAG_5163,FLAG_5191,FLAG_5011,-1};
 
 u8 Camp_CheckDialougFlags(u16 flag){
   u16* x= dialoug_voxel_flagAs;

@@ -1772,7 +1772,7 @@ u8 Party::CampCheck(){
   s32 iVar5;
   u32 uVar6;
   
-  if (!getEventFlag(5004))return false;
+  if (!getEventFlag(FLAG_Gwernia2MembersNoBrenna))return false;
     cVar4 = GetMostSkilledMember(SKILL_Ranger);
     uVar6 = 0;
     if (cVar4 != -1) {

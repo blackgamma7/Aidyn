@@ -71,4 +71,4 @@ string JournalEntries[]={
     "566 At last I have joined with my darker self. I feel so much more powerful... All that remains is to be named.",
     "574 A troubadour named Dougal joined the party today.",
     "582 Dougal died trying to steal the Horn.",
-}
+};
