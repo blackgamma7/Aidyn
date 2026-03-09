@@ -195,15 +195,11 @@ LAB_8002483c:
   }
 }
 
-
-
 void state_typeA_VAL(Struct_State *param_1,u16 param_2){
-  u8 cmd;
   u32 uVar3;
   u16 uVar4;
   
   uVar4 = (s32)param_2;
-  cmd = param_1->command;
   switch(param_1->command){
     case FLAG_GRT:
      if (param_2 == 0) uVar4 = param_1->shortA;
