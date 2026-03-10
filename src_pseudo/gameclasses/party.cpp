@@ -1630,7 +1630,7 @@ u8 Party::UnusedMechanic4(u8 param_2){
   return uVar7;
 }
 
- //used for calulating the reagent multiplier
+//used for calulating the reagent multiplier
 float Party::HarvestSkill(){
   CharSheet *pCVar1;
   char cVar4;
@@ -1660,7 +1660,7 @@ u8 Party::DisarmSkill(u8 level){
   sVar2 = DisarmCheck(SKILL_Mechanic,10);
   bVar3 = false;
   if (sVar2 != 0xff) {
-    uVar1 = DisarmDamage((u8)sVar2);
+    uVar1 = DisarmDamage(sVar2);
     if (level == 0) bVar3 = true;
     else {
       bVar3 = level <= uVar1;

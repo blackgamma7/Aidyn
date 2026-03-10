@@ -254,7 +254,7 @@ void InitScriptCameras(ScriptCamera_struct *param_1){
   }
 }
 
-void freeScriptCameras(ScriptCamera_struct *param_1){
+void FreeScriptCameras(ScriptCamera_struct *param_1){
   if (!param_1->dataActive) CRASH("FreeScriptCameras","Data is not Active!\n");
   for(s16 i=0;i<8;i++){
     freeScriptCamera(param_1,&param_1->cameras[i]);
