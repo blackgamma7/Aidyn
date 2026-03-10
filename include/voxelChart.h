@@ -8,7 +8,10 @@ struct VoxelChartEntry {
     u8 MapShortA;
     u8 MapShortB;
     u8 type; /* VOBJECT */
-    f32 unk0x8;
+    union{
+        f32 unk0x8f;
+        u32 unk0x8i;
+    };
 };
 #define VCHARTCOUNT 19
 u8 voxelChartIndex=0;

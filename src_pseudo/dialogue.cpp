@@ -367,10 +367,10 @@ print_error:
                             (u8)dialougemode_pointer->mapDatA,
                             (u8)dialougemode_pointer->mapShort1,
                             (u8)dialougemode_pointer->mapShort2,0x11,VOXEL_Dialouge,10);
-          v0->unk0x8 = fVar14;
+          v0->unk0x8f = fVar14;
        }
         else {
-          fVar14 = v0->unk0x8;
+          fVar14 = v0->unk0x8f;
           v0->arg7 = 10;
         }
       }

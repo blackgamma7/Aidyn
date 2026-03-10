@@ -173,10 +173,10 @@ u8 dialougSkillCheck(u8 param_1){
                            (u8)dialougemode_pointer->mapDatA,
                            (u8)dialougemode_pointer->mapShort1,
                             (u8)dialougemode_pointer->mapShort2,0x11,param_1 + 0x49,10);
-        pVVar2->unk0x8 = (float)(u32)dialougemode_pointer->partySkillLvls[param_1];
+        pVVar2->unk0x8i = (u32)dialougemode_pointer->partySkillLvls[param_1];
       }
       else {
-        dialougemode_pointer->partySkillLvls[param_1] = *(u8 *)((int)&pVVar2->unk0x8 + 3);
+        dialougemode_pointer->partySkillLvls[param_1] = pVVar2->unk0x8i;
         pVVar2->arg7 = 10;
       }
     }
@@ -212,19 +212,11 @@ void Dialog_NextGameState(u32 param_1){
 }
 
 void encounterDat_func(){
-  dialougemode_struct *pdVar1;
-  u32 uVar2;
-  u32 uVar3;
-  
-  pdVar1 = dialougemode_pointer;
+  dialougemode_struct *pdVar1 = dialougemode_pointer;
   memset(&gGlobals.EncounterDat,0,0x18);
-  uVar2 = 0;
-  do {
-    uVar3 = uVar2 + 1 & 0xff;
-    gGlobals.EncounterDat.enemy_entities[uVar2] =
-         *(ItemID *)((pdVar1->inst).encounterEnemies + uVar2);
-    uVar2 = uVar3;
-  } while (uVar3 < 0xc);
+  for(u8 i=0;i<12;i++) {
+    gGlobals.EncounterDat.enemy_entities[i] =(pdVar1->inst).encounterEnemies[i];
+  }
   gGlobals.EncounterDat.battlefield = (pdVar1->inst).battlefeild;
   gGlobals.EncounterDat.collisionByte = (pdVar1->inst).collisionByte;
   gGlobals.EncounterDat.aniByte = (pdVar1->inst).aniByte;

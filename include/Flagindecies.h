@@ -65,12 +65,12 @@
 #define FLAG_CalendarToDA 2301
 #define FLAG_CalendarToDB 2302
 #define FLAG_CalendarToDC 2303
-#define FLAG_CalendarToD0 5279
-#define FLAG_CalendarToD1 5280
-#define FLAG_CalendarToD2 5281
-#define FLAG_CalendarToD3 5282
-#define FLAG_CalendarToD4 5283
-#define FLAG_CalendarToDN4 5284
+#define FLAG_CalendarToDMorn 5279 
+#define FLAG_CalendarToDMid 5280
+#define FLAG_CalendarToDPM 5281
+#define FLAG_CalendarToDEve 5282
+#define FLAG_CalendarToDNight 5283
+#define FLAG_CalendarToDNotNight 5284
 #define FLAG_CalendarWeekdayA 2304
 #define FLAG_CalendarWeekdayB 2305
 #define FLAG_CalendarWeekdayC 2306
@@ -360,7 +360,7 @@
 #define FLAG_5024 5024 //Rheda in Party, not dead or left
 #define FLAG_5025 5025 //Godric in Party, not dead or left
 
-#define FLAG_5028 5028 //Found Amaranth efore another flag set (#238)
+#define FLAG_5028 5028 //Found Amaranth before another flag set (#238)
 #define FLAG_5034 5034 //first Cinematic flag not set
 
 #define FLAG_5039 5039 //Not yet met Oriana
@@ -391,6 +391,7 @@
 #define FLAG_5242 5242 //Cradawgh Dead. Yes, that's it.
 #define FLAG_5267 5267 //Flag 71 unset
 #define FLAG_5440 5440 //knows no True Name, Shadow called him "rehtorb", not merged
+#define FLAG_5363 5363 //Oriana not visited by Necromancer
 #define FLAG_5498 5498 //Both switches for skull gate in Chaos Isle Tower set
 
 
@@ -413,6 +414,9 @@
 #define FLAG_5120 5120 //always true(?) no other associated flags
 #define FLAG_5167 5167 //always true(?) no other associated flags
 #define FLAG_5173 5173 //always true(?) no other associated flags
+#define FLAG_5348 5348 //always true(?) no other associated flags
+#define FLAG_5350 5350 //always true(?) no other associated flags
+
 
 #define FLAG_5254 5254 //always true(?) LOG/AND val 0
 
