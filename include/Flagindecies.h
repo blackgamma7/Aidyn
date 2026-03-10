@@ -279,7 +279,7 @@
 #define FLAG_PartyDougalDeath 582
 #define FLAG_PartyDougalLeave 695
 
-#define FLAG_Gwernia2MembersNoBrenna 5004 //2 out of Godic, Rheda and Abrecan chosen 
+#define FLAG_Gwernia2MembersNoBrenna 5004  //2 out of Godic, Rheda and Abrecan chosen. Triggers ambushes.
 
 #define FLAG_ShadowMerge 566
 

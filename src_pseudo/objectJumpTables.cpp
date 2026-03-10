@@ -28,7 +28,7 @@ void replace_container_voxel(voxelObject *param_1,u16 param_2,Borg9Data *param_3
 //play a sound based on loot collected
 void play_countainer_sound(voxelObject* param_1,Borg9Data *param_2){
                            //chest,bag, box, barrel, herb, spice, gem, misc
-  u32 containerSounds [8]={0x729,0x72A,0x72B,0x72C,0x729,0x729,0x729,0x729};
+  u32 containerSounds [8]={0x0729,0x072A,0x072B,0x072C,0x0729,0x0729,0x0729,0x0729};
   PLAYSFX(containerSounds[(param_1->container).LootType],0,gGlobals.VolSFX,180,0);
   replace_container_voxel(param_1,1,param_2);
 }
@@ -36,7 +36,7 @@ void play_countainer_sound(voxelObject* param_1,Borg9Data *param_2){
 //explosion effect if trap is triggered. replace model with destroyed one.
 void open_explosive_chest(voxelObject* param_1,Borg9Data *param_2){
 
-  u32 chestExplodeSFX[]={0x724,0x725,0x727,0x728};
+  u32 chestExplodeSFX[]={0x0724,0x0725,0x0727,0x0728};
   alloc_explosion_light(param_1->header.pos,1.0,600,false);
   for(s16 i=0;i<3;i++) {
     alloc_explosion_light(param_1->header.pos,0.35,60,true);
