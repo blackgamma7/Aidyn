@@ -13,7 +13,7 @@ class WidgetCrafting : public WidgetMenu{
     BaseWidget *BFunc();
     BaseWidget *UpFunc();
     BaseWidget *DownFunc();
-    BaseWidget* TextPopup(char* txt);
+    void TextPopup(char* txt);
 };
 
 //class for potion crafting menu
