@@ -21,7 +21,7 @@ void camera_control_update_(float x,float y,vec2f *vecIn,vec2f *VecOut){
   
   void setCombatCameraMode(u16 param_1){
     #if DEBUGVER
-    if (1 < param_1) Crash::ManualCrash("SetCombatCameraMode","Not TRUE or FALSE");
+    if (1 < param_1) CRASH("SetCombatCameraMode","Not TRUE or FALSE");
     #endif
     gCombatFreeCamera = param_1;
   }

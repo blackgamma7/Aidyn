@@ -315,7 +315,7 @@ void small_debug_menu_check(controller_aidyn *param_1) {
         set_debug_combat_battlefeild(w);
       #endif
       else if(freeWidgetFunc) freeWidgetFunc(w);
-      else if (gGlobals.diaClass->menu) run_dialougemode_funcs2();
+      else if (gGlobals.diaClass->menu) run_dialougemode_funcs2(w);
     }
     else player_control_func(param_1);
   }

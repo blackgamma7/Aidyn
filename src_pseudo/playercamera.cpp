@@ -112,7 +112,7 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
       Camera::SetMode(cam,2);
       if (((vox->camera).CameraFlags & CamObj_M001f) == 0) {
         sprintf(gGlobals.text,"No Movement Type!!\nFlags: %02x\n",(vox->camera).CameraFlags);
-        Crash::ManualCrash("ProcessVoxelCamera",gGlobals.text);
+        CRASH("ProcessVoxelCamera",gGlobals.text);
       }
       v3a = &(vox->camera).vec3_b;
       v3b = &(vox->camera).vec3_C;

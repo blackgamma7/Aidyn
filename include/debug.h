@@ -98,21 +98,24 @@ struct WidgetCameraDebugSub{
 
 class WidgetCameraDebug: public WidgetMenu {
     public:
-    BaseWidget *scrollMenu;
+    WidgetScrollMenu *scrollMenu;
     u16 currRefpoint;
     WidgetCameraDebugSub Arr[14];
     u8 field75_0xd6;
     u8 field76_0xd7;
-    WidgetCameraDebug();
+    WidgetCameraDebug(u16);
     ~WidgetCameraDebug();
     BaseWidget* AFunc();
+    BaseWidget* BFunc();
     BaseWidget* UpFunc();
     BaseWidget* DownFunc();
     BaseWidget* CUpFunc();
     BaseWidget* CDownFunc();
-
+    void AddEntry(u8 ind,u16 strInd,u8 param_4,u8 param_5,u8 param_6);
 };
+
 class WidgetCDMenuB: public WidgetMenu{
+    public:
     WidgetText* txt;
     u16 val;
     u8 cmd;
@@ -127,6 +130,7 @@ class WidgetCDMenuB: public WidgetMenu{
     BaseWidget* CDownFunc();
 };
 class WidgetCDMenuActor: public WidgetMenu{
+    public:
     WidgetScrollMenu* scrollMenu;
     u8 val;
     u8 cmd;

@@ -252,11 +252,11 @@ void IntroMenu::InitTitleCard() {
     sub->unk1c = NULL;
   }
   if (sub->titleShadow == NULL) {
-    sub->titleShadow = WidgetB8(Borg8_TitleCardShadow);
+    sub->titleShadow = WidgetB8(BORG8_TitleCardShadow);
     sub->titleShadow->SetCoords((SCREEN_CENTERW-14) - (sub->titleShadow->GetWidth() >> 1),
         110 - (sub->titleShadow->GetHeight() >> 1));
     (sub->titleShadow->col).A = 0;
-    pBVar2 = WidgetB8(Borg8_TitleCard);
+    pBVar2 = WidgetB8(BORG8_TitleCard);
     pBVar2->SetCoords(SCREEN_CENTERW - (short)(sub->titleShadow->GetWidth() >> 1),
        110 - (sub->titleShadow->GetHeight() >> 1));
     (pBVar2->col).A = 0;

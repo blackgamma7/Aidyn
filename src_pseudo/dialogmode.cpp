@@ -153,6 +153,13 @@ void run_dialougemode_funcs1(){
   }
 }
 
+void run_dialougemode_funcs2(BaseWidget* w){
+  if ((dialougemode_pointer)) {
+    (*dialougemode_pointer->funcs2[dialougemode_pointer->func_index])(w);
+    dialougemode_pointer->unkac = 0;
+  }
+}
+
 u8 dialougSkillCheck(u8 param_1){
   u32 uVar1;
   VoxelChartEntry *pVVar2;

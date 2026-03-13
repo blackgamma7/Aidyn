@@ -211,7 +211,7 @@ void CreateNewDialouge_(u32);
 Gfx * FUN_80057e78(Gfx *,u16);
 int Dialog_GameState(Gfx **);
 void run_dialougemode_funcs1();
-void run_dialougemode_funcs2();
+void run_dialougemode_funcs2(BaseWidget* w);
 u8 dialougSkillCheck(u8);
 void FUN_8005831c();
 void FUN_80058370();

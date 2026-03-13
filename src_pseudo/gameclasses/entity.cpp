@@ -388,7 +388,7 @@ void Entity::ApplyEquipment(CharSheet *param_1,WeaponInstance *param_2,StatMod *
     param_1->Skills->ModdedSkillAdd(pSVar1->stat,pSVar1->mod);
   }
   if (param_3) {
-    if ((param_2->base).statMod) HeapFree((param_2->base).statMod,FILENAME,950);
+    if ((param_2->base).statMod) FREE((param_2->base).statMod,950);
     (param_2->base).statMod = param_3;
   }
   if (param_3) {
@@ -429,8 +429,7 @@ void Entity::UnequipWeapons(CharSheet *param_1){
   if (param_1->weapons) {
     FUN_80078874(param_1,param_1->weapons,false);
     passto_clear_weapon_effects(param_1->weapons);
-    HeapFree(param_1->weapons,FILENAME);
-    param_1->weapons = NULL;
+    FREE(param_1->weapons,0x42e);
   }
 }
 
