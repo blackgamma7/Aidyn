@@ -38,7 +38,8 @@ struct GameStateFunnel { /* used for event flags and whatnot */
     u16 flag;
     Struct_State *States_pointer; //first 5001 are BIT types - could be optimized as u8*?
     u16 *other_pointer; //set to &unklist.
-    u8 field6_0x10[12]; //blank, unused
+    u16* unk10; //blank, unused, save one orphaned func
+    u32 unk14[2];
     int g;// inital non-zero value. unused.
     Struct_State states[5001]; //mostly BIT types - could be optimized as u8[]?
     Struct_State otherStates[626]; //flags that are not simply BIT types

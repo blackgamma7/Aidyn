@@ -11,6 +11,88 @@ u16 gamestateShortANDfeild[]={
     ((1<<12)-1),((1<<13)-1),((1<<14)-1),((1<<15)-1),((1<<16)-1),0
 };
 
+void Ofunc_NOOP(){}
+
+u16 Ofunc_800d4d78(GameStateFunnel *param_1,u16 param_2) {
+  u16 uVar1;
+  u16 *puVar2;
+  u16 uVar3;
+  u16 uVar4;
+  u16 uVar5;
+  
+  if (param_1->unk10 != NULL) {
+    uVar5 = 0;
+    uVar3 = param_1->flagTotal - 1;
+    uVar4 = uVar3;
+    if (param_2 != 0xffff) {
+      do {
+        uVar4 = uVar4 >> 1;
+        puVar2 = param_1->unk10 + uVar4 * 2;
+        uVar1 = puVar2[1];
+        if (param_2 < uVar1) {
+          uVar3 = uVar4 - 1;
+        }
+        else {
+          if (param_2 <= uVar1) {
+            return *puVar2;
+          }
+          uVar5 = uVar4 + 1;
+        }
+        uVar4 = uVar5 + uVar3;
+      } while (uVar5 <= uVar3);
+      return 0xffff;
+    }
+  }
+  return 0xffff;
+}
+
+void setGSF_pointers(GameStateFunnel *param_1) {
+  param_1->other_pointer = (u16 *)((uintptr_t)param_1->other_pointer + (uintptr_t)param_1);
+  param_1->States_pointer =(Struct_State *)((uintptr_t)param_1->States_pointer+(uintptr_t)param_1);
+  set_gamestateFunnel_f(param_1);
+}
+
+u16 gameStateBitmask(GameStateFunnel *param_1,Struct_State *param_2) {
+  u16 uVar2;
+  
+  if (param_2->type < FLAG_BIT) {
+    u16 i = 0;
+    u16 uVar2 = 0;
+    EventFlag *pEVar4 = param_1->other_pointer + param_2->shortB;
+    if (param_2->length != 0) {
+      EventFlag EVar1 = *pEVar4;
+      while( true ) {
+        pEVar4++;
+        if ((EVar1 != 0xffff) && (get_EventFlag(param_1,EVar1))) {
+          if (param_2->type == FLAG_CNT) uVar2++;
+          else uVar2 = gamestateShortBitfeild[i] | uVar2;
+        }
+        i++;
+        if (param_2->length <= i) break;
+        EVar1 = *pEVar4;
+      }
+    }
+  }
+  else return 0;
+  return uVar2;
+}
+
+short gamestate_func_with_ANDgate(u16 param_1) {
+  u16 i;
+  uint uVar2;
+  short sVar3;
+  
+  uVar2 = (uint)param_1;
+  sVar3 = 0;
+  i = 0;
+  do {
+    if ((uVar2 & 1) != 0) sVar3++;
+    i++;
+    uVar2>>= 1;
+  } while (i < 0x10);
+  return sVar3;
+}
+
 
 void GameStateCrash(char *param_1){
   #if DEBUGVER

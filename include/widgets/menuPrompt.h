@@ -7,6 +7,6 @@ class WidgetMenuPrompt:public WidgetMenu{
     BaseWidget* AFunc();
     BaseWidget* BFunc();
     BaseWidget* StartFunc();
-    void Close();
+    BaseWidget* Close();
     ~WidgetMenuPrompt();
 };

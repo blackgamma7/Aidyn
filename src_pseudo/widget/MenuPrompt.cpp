@@ -11,12 +11,12 @@ WidgetMenuPrompt::WidgetMenuPrompt(char *str,s16 x,s16 y,u8 r,u8 g,u8 b,u8 a):Wi
   BaseWidget::Link(txt);
 }
 
-BaseWidget* WidgetMenuPrompt::AFunc(){Close();}//? No return?
+BaseWidget* WidgetMenuPrompt::AFunc(){return Close();}
 
-BaseWidget* WidgetMenuPrompt::BFunc(){Close();}//? No return?
+BaseWidget* WidgetMenuPrompt::BFunc(){return Close();}
 
-BaseWidget* WidgetMenuPrompt::StartFunc(){Close();}//? No return?
+BaseWidget* WidgetMenuPrompt::StartFunc(){return Close();}
 
-void WidgetMenuPrompt::Close(){this->SetState(WidgetS_Closing);}
+BaseWidget* WidgetMenuPrompt::Close(){this->SetState(WidgetS_Closing);return NULL;}
 
 WidgetMenuPrompt::~WidgetMenuPrompt(){WidgetMenu::~WidgetMenu();}
