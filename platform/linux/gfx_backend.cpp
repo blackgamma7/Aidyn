@@ -21,6 +21,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <cmath>
 
 /* SDL2 */
 #include <SDL2/SDL.h>
@@ -53,55 +54,96 @@ bool Init(int width, int height) {
     sWidth  = width;
     sHeight = height;
 
+    /* ---- SDL_Init ---- */
+    fprintf(stderr, "[gfx] SDL_Init(VIDEO | GAMECONTROLLER | AUDIO)...\n");
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER | SDL_INIT_AUDIO) != 0) {
-        fprintf(stderr, "[gfx] SDL_Init failed: %s\n", SDL_GetError());
+        fprintf(stderr, "[gfx] FATAL: SDL_Init failed: %s\n", SDL_GetError());
         return false;
     }
+    fprintf(stderr, "[gfx]   SDL initialised OK\n");
+    fprintf(stderr, "[gfx]   Video driver: %s\n", SDL_GetCurrentVideoDriver());
 
+    /* ---- GL attributes ---- */
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+    fprintf(stderr, "[gfx]   Requested: OpenGL 3.3 Core, double-buffered, depth=16\n");
 
+    /* ---- Window ---- */
+    fprintf(stderr, "[gfx] SDL_CreateWindow(%dx%d)...\n", width, height);
     sWindow = SDL_CreateWindow(
         "Aidyn Chronicles: The First Mage",
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         width, height,
         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (!sWindow) {
-        fprintf(stderr, "[gfx] SDL_CreateWindow failed: %s\n", SDL_GetError());
+        fprintf(stderr, "[gfx] FATAL: SDL_CreateWindow failed: %s\n", SDL_GetError());
         SDL_Quit();
         return false;
     }
+    fprintf(stderr, "[gfx]   Window created OK\n");
 
+    /* ---- GL context ---- */
+    fprintf(stderr, "[gfx] SDL_GL_CreateContext...\n");
     sGLCtx = SDL_GL_CreateContext(sWindow);
     if (!sGLCtx) {
-        fprintf(stderr, "[gfx] SDL_GL_CreateContext failed: %s\n", SDL_GetError());
+        fprintf(stderr, "[gfx] FATAL: SDL_GL_CreateContext failed: %s\n", SDL_GetError());
+        fprintf(stderr, "[gfx]   Hint: try SDL_VIDEODRIVER=x11 or =wayland\n");
+        fprintf(stderr, "[gfx]   Hint: check that your GPU supports OpenGL 3.3\n");
+        SDL_DestroyWindow(sWindow);
+        SDL_Quit();
+        return false;
+    }
+    fprintf(stderr, "[gfx]   GL context created OK\n");
+
+    /* ---- Make current ---- */
+    if (SDL_GL_MakeCurrent(sWindow, sGLCtx) != 0) {
+        fprintf(stderr, "[gfx] FATAL: SDL_GL_MakeCurrent failed: %s\n", SDL_GetError());
+        SDL_GL_DeleteContext(sGLCtx);
         SDL_DestroyWindow(sWindow);
         SDL_Quit();
         return false;
     }
 
-    SDL_GL_SetSwapInterval(1); /* vsync */
+    /* ---- VSync ---- */
+    if (SDL_GL_SetSwapInterval(1) != 0) {
+        fprintf(stderr, "[gfx]   VSync request failed: %s (continuing without vsync)\n",
+                SDL_GetError());
+    } else {
+        fprintf(stderr, "[gfx]   VSync enabled\n");
+    }
 
+    /* ---- GL state ---- */
     glViewport(0, 0, width, height);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glEnable(GL_DEPTH_TEST);
 
+    /* ---- Verify with a test clear+swap ---- */
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SDL_GL_SwapWindow(sWindow);
+
     sRunning = true;
-    fprintf(stderr, "[gfx] OpenGL %s ready (%dx%d)\n",
-            (const char *)glGetString(GL_VERSION), width, height);
+    fprintf(stderr, "[gfx] OpenGL %s | GLSL %s | %s\n",
+            (const char *)glGetString(GL_VERSION),
+            (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION),
+            (const char *)glGetString(GL_RENDERER));
+    fprintf(stderr, "[gfx] Ready (%dx%d)\n", width, height);
     return true;
 }
 
 void Shutdown() {
+    fprintf(stderr, "[gfx] Shutdown: deleting GL context...\n");
     if (sGLCtx)  SDL_GL_DeleteContext(sGLCtx);
+    fprintf(stderr, "[gfx] Shutdown: destroying window...\n");
     if (sWindow) SDL_DestroyWindow(sWindow);
+    fprintf(stderr, "[gfx] Shutdown: SDL_Quit...\n");
     SDL_Quit();
     sGLCtx  = nullptr;
     sWindow = nullptr;
     sRunning = false;
+    fprintf(stderr, "[gfx] Shutdown complete\n");
 }
 
 bool IsRunning() { return sRunning; }
@@ -319,6 +361,23 @@ static void process_display_list(const Gfx *dl, int depth = 0) {
 
         dl++;
     }
+}
+
+/* =========================================================================
+ * StubFrame – minimal render for testing the window+GL pipeline.
+ *
+ * Clears to a slowly cycling dark colour and swaps.  If you see the colour
+ * change, the GL context, vsync, and swap chain are all working.
+ * ========================================================================= */
+void StubFrame(unsigned long frameCount) {
+    /* Cycle through dark blue → dark teal → dark purple very slowly */
+    float t = (float)(frameCount % 600) / 600.0f;
+    float r = 0.02f + 0.03f * sinf(t * 6.2832f);
+    float g = 0.02f + 0.03f * sinf(t * 6.2832f + 2.094f);
+    float b = 0.08f + 0.06f * sinf(t * 6.2832f + 4.189f);
+    glClearColor(r, g, b, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SDL_GL_SwapWindow(sWindow);
 }
 
 void SubmitFrame(OSScTask *task) {

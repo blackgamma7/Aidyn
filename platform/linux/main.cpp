@@ -31,7 +31,7 @@
 /* =========================================================================
  * Forward declarations for backend namespaces
  * ========================================================================= */
-namespace GfxBackend   { bool Init(int w, int h); void Shutdown(); bool PollEvents(); }
+namespace GfxBackend   { bool Init(int w, int h); void Shutdown(); bool PollEvents(); void StubFrame(unsigned long frameCount); }
 namespace AudioBackend { bool Init(int freq);      void Shutdown(); }
 namespace InputBackend { void Init(); void Shutdown(); bool ProcessEvent(const SDL_Event *ev); }
 namespace AssetLoader  { bool Init(const char *rom); void Shutdown(); }
@@ -52,6 +52,8 @@ struct Config {
     int         audioFreq;
     bool        fullscreen;
     bool        pal;
+    bool        noAudio;
+    bool        noRom;
 };
 
 static Config gConfig = {
@@ -61,6 +63,8 @@ static Config gConfig = {
     .audioFreq = 44100,
     .fullscreen= false,
     .pal       = false,
+    .noAudio   = false,
+    .noRom     = false,
 };
 
 static void print_usage(const char *argv0) {
@@ -71,6 +75,8 @@ static void print_usage(const char *argv0) {
         "  --fullscreen    Fullscreen mode\n"
         "  --pal           Run at 50 Hz (PAL timing)\n"
         "  --freq   N      Audio sample rate (default 44100)\n"
+        "  --no-audio      Skip audio initialisation\n"
+        "  --no-rom        Skip ROM loading (window-only test)\n"
         "  -h / --help     Show this message\n",
         argv0);
 }
@@ -90,6 +96,10 @@ static bool parse_args(int argc, char **argv) {
             gConfig.fullscreen = true;
         } else if (strcmp(argv[i], "--pal") == 0) {
             gConfig.pal = true;
+        } else if (strcmp(argv[i], "--no-audio") == 0) {
+            gConfig.noAudio = true;
+        } else if (strcmp(argv[i], "--no-rom") == 0) {
+            gConfig.noRom = true;
         } else if (argv[i][0] != '-') {
             gConfig.romPath = argv[i];
         } else {
@@ -140,60 +150,143 @@ void *clear_end = nullptr; /* end of BSS */
  * main()
  * ========================================================================= */
 int main(int argc, char **argv) {
+    fprintf(stderr, "========================================\n");
+    fprintf(stderr, "[boot] Aidyn Chronicles – Linux native\n");
+    fprintf(stderr, "========================================\n");
+
+    fprintf(stderr, "[boot] [1/8] Parsing command-line args...\n");
     if (!parse_args(argc, argv)) return 1;
+    fprintf(stderr, "[boot]        %dx%d %s | audio=%s | rom=%s\n",
+            gConfig.width, gConfig.height,
+            gConfig.pal ? "PAL" : "NTSC",
+            gConfig.noAudio ? "DISABLED" : "enabled",
+            gConfig.noRom   ? "DISABLED" : gConfig.romPath);
 
     /* Set TV type based on --pal flag */
     osTvType = gConfig.pal ? OS_TV_PAL : OS_TV_NTSC;
 
     /* 1. Graphics window */
+    fprintf(stderr, "[boot] [2/8] Initialising SDL2 + OpenGL window...\n");
     if (!GfxBackend::Init(gConfig.width, gConfig.height)) {
-        fprintf(stderr, "[main] Failed to initialise graphics.\n");
+        fprintf(stderr, "[boot] FATAL: Failed to initialise graphics.\n");
         return 1;
     }
+    fprintf(stderr, "[boot]        Window + GL context created OK\n");
 
     /* 2. ROM asset loader */
-    if (!AssetLoader::Init(gConfig.romPath)) {
-        fprintf(stderr, "[main] Failed to load ROM '%s'.\n"
-                        "       Provide the baserom as the first argument.\n",
-                gConfig.romPath);
-        /* Allow running without ROM for testing the boot sequence */
+    bool romLoaded = false;
+    if (gConfig.noRom) {
+        fprintf(stderr, "[boot] [3/8] ROM loading SKIPPED (--no-rom)\n");
+    } else {
+        fprintf(stderr, "[boot] [3/8] Loading ROM '%s'...\n", gConfig.romPath);
+        romLoaded = AssetLoader::Init(gConfig.romPath);
+        if (!romLoaded) {
+            fprintf(stderr, "[boot]        ROM load failed – continuing without ROM\n");
+            fprintf(stderr, "[boot]        (provide baserom as first argument, or use --no-rom)\n");
+        }
     }
 
     /* 3. Save files */
+    fprintf(stderr, "[boot] [4/8] Initialising save file redirection...\n");
     SaveFile::Init();
 
     /* 4. Audio */
-    AudioBackend::Init(gConfig.audioFreq);
+    if (gConfig.noAudio) {
+        fprintf(stderr, "[boot] [5/8] Audio SKIPPED (--no-audio)\n");
+    } else {
+        fprintf(stderr, "[boot] [5/8] Initialising audio (%d Hz)...\n", gConfig.audioFreq);
+        if (!AudioBackend::Init(gConfig.audioFreq)) {
+            fprintf(stderr, "[boot]        Audio init failed – continuing without audio\n");
+        }
+    }
 
     /* 5. Input */
+    fprintf(stderr, "[boot] [6/8] Initialising input...\n");
     InputBackend::Init();
+    fprintf(stderr, "[boot]        Input ready\n");
 
-    /* 6. Launch game thread */
-    pthread_create(&gGameThread, nullptr, game_thread, nullptr);
+    /* Decide whether to launch game thread or run in stub mode.
+     * Stub mode: stable window at ~60 FPS with no game logic.
+     * Useful for verifying the SDL+GL pipeline works on a new system. */
+    const bool stubMode = gConfig.noRom && !romLoaded;
 
-    /* 7. SDL event loop (main thread only) */
-    while (GfxBackend::PollEvents() && gGameRunning) {
-        SDL_Event ev;
-        /* PollEvents() already drained the queue; check residual events */
-        while (SDL_PollEvent(&ev)) {
-            if (!InputBackend::ProcessEvent(&ev)) {
+    if (stubMode) {
+        /* ---- Stub mode: stable window at ~60 FPS, no game logic ---- */
+        fprintf(stderr, "[boot] [7/8] Stub mode – no game thread (ROM not loaded)\n");
+        fprintf(stderr, "[boot] [8/8] Entering stub render loop\n");
+        fprintf(stderr, "[boot]        Press ESC or close window to exit\n");
+        fprintf(stderr, "========================================\n");
+        fprintf(stderr, "[stub] Running – black window + vsync\n");
+
+        unsigned long frameCount = 0;
+        Uint32 lastTick = SDL_GetTicks();
+        Uint32 fpsTimer = lastTick;
+
+        while (GfxBackend::PollEvents()) {
+            /* Check for ESC key or quit events */
+            SDL_Event ev;
+            while (SDL_PollEvent(&ev)) {
                 if (ev.type == SDL_QUIT) goto done;
+                if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE) goto done;
+                InputBackend::ProcessEvent(&ev);
+            }
+
+            /* Minimal render: clear to dark blue so you know GL is alive */
+            GfxBackend::StubFrame(frameCount);
+            frameCount++;
+
+            /* Print FPS every 5 seconds */
+            Uint32 now = SDL_GetTicks();
+            if (now - fpsTimer >= 5000) {
+                float fps = (float)(frameCount * 1000) / (float)(now - lastTick);
+                fprintf(stderr, "[stub] Frame %lu | %.1f FPS\n", frameCount, fps);
+                fpsTimer = now;
             }
         }
-        /* Small sleep to avoid spinning at 100% CPU between vsync wakeups */
-        SDL_Delay(1);
+    } else {
+        /* ---- Normal mode: launch game thread ---- */
+        fprintf(stderr, "[boot] [7/8] Launching game thread (InitProc)...\n");
+        pthread_create(&gGameThread, nullptr, game_thread, nullptr);
+        fprintf(stderr, "[boot] [8/8] Entering SDL event loop\n");
+        fprintf(stderr, "========================================\n");
+
+        while (GfxBackend::PollEvents() && gGameRunning) {
+            SDL_Event ev;
+            while (SDL_PollEvent(&ev)) {
+                if (!InputBackend::ProcessEvent(&ev)) {
+                    if (ev.type == SDL_QUIT) goto done;
+                }
+            }
+            SDL_Delay(1);
+        }
     }
 
 done:
-    /* Signal game to stop and wait for thread */
-    gGameRunning = false;
-    pthread_cancel(gGameThread);
-    pthread_join(gGameThread, nullptr);
+    fprintf(stderr, "========================================\n");
+    fprintf(stderr, "[shutdown] Cleaning up...\n");
 
+    /* Signal game to stop and wait for thread */
+    if (!stubMode) {
+        gGameRunning = false;
+        pthread_cancel(gGameThread);
+        pthread_join(gGameThread, nullptr);
+        fprintf(stderr, "[shutdown] Game thread joined\n");
+    }
+
+    fprintf(stderr, "[shutdown] Input...\n");
     InputBackend::Shutdown();
-    AudioBackend::Shutdown();
-    AssetLoader::Shutdown();
+    if (!gConfig.noAudio) {
+        fprintf(stderr, "[shutdown] Audio...\n");
+        AudioBackend::Shutdown();
+    }
+    if (!gConfig.noRom) {
+        fprintf(stderr, "[shutdown] Assets...\n");
+        AssetLoader::Shutdown();
+    }
+    fprintf(stderr, "[shutdown] Graphics...\n");
     GfxBackend::Shutdown();
+    fprintf(stderr, "[shutdown] Done. Goodbye.\n");
+    fprintf(stderr, "========================================\n");
 
     return 0;
 }
