@@ -1,4 +1,5 @@
 #include "GuiAnimation.h"
+#include <cmath>
 
 GuiAnimatorS16::GuiAnimatorS16(s16 *obj,s16 *target,s32 param_4,GuiAnimatorStruct *param_5){
   this->unk0 = 0;
@@ -34,10 +35,6 @@ GuiAnimatorU16::~GuiAnimatorU16(){
     *this->val=this->f64Array[1];
     GuiAnimator::~GuiAnimator(); 
 }
-
-u32 GuiAnimatorU16::vMethB(f32 x){
-  *this->val=this->vMethC(x);
- return *this->val;}
 
 u16 GuiAnimatorU16::vMethC(f32 param_2){
   float sinX = sinf(((this->unk).unk8 *

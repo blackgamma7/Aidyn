@@ -1,3 +1,4 @@
+#pragma once
 #include "combat/CombatEntity.h"
 
 struct CombatSubstructB {
@@ -43,7 +44,7 @@ void FUN_80072eb4(CombatSubstructB *,u8);
 bool FUN_80072ef0(CombatSubstructB *,s8);
 void FUN_80072f80(CombatSubstructB *,CombatEntity*);
 bool FUN_8007319c(CombatSubstructB *,s32);
-void FUN_8007324c(CombatSubstructB *,CombatEntity*,s32);
+bool FUN_8007324c(CombatSubstructB *,CombatEntity*,s32);
 bool FUN_800732a0(CombatSubstructB *,s32);
 
 

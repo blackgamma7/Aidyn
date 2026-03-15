@@ -38,4 +38,4 @@ DialougeEntity_ROM ents[37]=
 {"Cedric",{5,20}},
 {"Cadme",{4,20}},
 {"Balfin",{1,20}},
-{"Amann",{0,20}}}
+{"Amann",{0,20}}};

@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/Utilities.h"
 #include "widgets/WidgetScrollArrows.h"
 

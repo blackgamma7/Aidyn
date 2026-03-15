@@ -1,3 +1,4 @@
+#pragma once
 //definitions of event flags
 
 #define FLAG_Total 5627 //total of (valid) entries in gameStateFunnel

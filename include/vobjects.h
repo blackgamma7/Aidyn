@@ -1,5 +1,9 @@
-#include "playerData.h"
+#pragma once
+#include "PlayerData.h"
 #include "n64Borg.h"
+struct Wanderer;
+struct ParticleEmmiter;
+struct ParticleHeadStruct;
 
 // header for funcs used by Voxel Objects
 

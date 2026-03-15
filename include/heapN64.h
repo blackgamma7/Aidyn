@@ -1,3 +1,4 @@
+#pragma once
 #include "typedefs.h"
 #include "stringN64.h"
 
@@ -25,7 +26,7 @@ struct HeapBlock{
 };
 
 typedef void (*memPrint)(u16 * , char *, s32 , int, int, int, int, s32, int);
-MemMon_struct gMemMonitor={0};
+extern MemMon_struct gMemMonitor;
 
 void HeapInit(void *start,size_t size);
 void * HeapAlloc(size_t size,char *file,u32 line);

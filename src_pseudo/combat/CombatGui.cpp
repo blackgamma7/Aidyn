@@ -214,8 +214,7 @@ Gfx * FUN_8008fb64(Gfx *g,u8 delta){
 
 void make_combat_portrait(CombatPortrait *portrait,ItemID id,u8 count,u32 param_4){
   Borg8Header *img;
-  WidgetBorg8Combat *pWVar2;
-  
+
   img = NULL;
   if (id) img = loadBorg8(gEntityDB->GetPortrait(id));
   WidgetBorg8Combat *pWVar2 = ConstructWidgetBorg8Combat(PTR_800ed504,img,0xa0,120,1);

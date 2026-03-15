@@ -1,3 +1,4 @@
+#pragma once
 #include "typedefs.h"
 
 s32 decompress_LZ01(u8 *compDat,u32 compSize,u8 *OutDat,u32 *OutSize);

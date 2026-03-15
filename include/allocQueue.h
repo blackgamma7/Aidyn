@@ -1,3 +1,4 @@
+#pragma once
 #include "freeQueue.h" //reruse enums for datatype
 
 #define ALLOCQUEUE_QUEUESIZE 0x20

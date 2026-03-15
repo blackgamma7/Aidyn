@@ -7,7 +7,7 @@
 #define FILENAME "./src/zoneengine.cpp"
 
 #if DEBUGVER //some sprintf calls not found in retail version
-#define DEBUGSprintf(fmt,...) Gsprintf(fmt,__VA_ARGS__)
+#define DEBUGSprintf(fmt,...) Gsprintf(fmt,##__VA_ARGS__)
 #else
 #define DEBUGSprintf(fmt,...) ;
 #endif
@@ -386,12 +386,12 @@ void ofunc_zoneengine_free(){
   HFREE(&gGlobals.gameVars,1036);
 }
 
-void move_zonedat(ZoneDat *param_1[3][3],ZoneDat *param_2){
-  
+void move_zonedat(ZoneDat param_1[3][3],ZoneDat *param_2){
+
   if (param_2->borg5_ID) {
     for(s16 i=0;i<3;i++){
       for(s16 j=0;j<3;j++){
-        ZoneDat *x=param_1[i][j];
+        ZoneDat *x=&param_1[i][j];
         if ((x->borg5_ID == param_2->borg5_ID) && (x->borg9_id == param_2->borg9_id)) {
           param_2->sceneDat0x4 = x->sceneDat0x4;
           param_2->mapPointer = x->mapPointer;
@@ -452,8 +452,8 @@ void ZoneMoveSceneDat(SceneData *scene,u8 index){
   
   if (!scene) return;
   scene->flags = 0;
-  guMtxIdentF(&scene->matrixA);
-  guMtxIdentF(&scene->matrixB);
+  guMtxIdentF(scene->matrixA);
+  guMtxIdentF(scene->matrixB);
   Scene::SetFlag10(scene);
   Scene::SetFogFlag(scene);
   Scene::SetFlag8(scene);
@@ -526,6 +526,9 @@ void FreeZoneEngineMemory(){
   FreeAllActors();
 }
 
+#if DEBUGVER
+void SceneBoulders(Borg9Data *param_1); //forward declaration
+#endif
 void loading_map_data(ZoneDat *param_1){
     if ((param_1->mapPointer == NULL) && (param_1->borg9_id)) {
     param_1->MapTally = gGlobals.maptally++;
@@ -558,7 +561,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   MakeGameZoneNames(ShortA,ShortB);
   for(s16 i=0;i<3;i++){
     for(s16 j=0;j<3;j++) {
-      move_zonedat(&aZStack432,&gGlobals.gameVars.ZoneDatMtx[i][j]);
+      move_zonedat(aZStack432,&gGlobals.gameVars.ZoneDatMtx[i][j]);
     }
   }
   for(s16 i=0;i<3;i++){
@@ -1232,8 +1235,8 @@ LAB_80010084:
                   Borg7_TickAnimation((SObj->scene).borgArray[0].b7,2);
                 }
 LAB_8000ffcc:
-                guMtxIdentF(&pAVar4->matrixA);
-                guMtxIdentF(&pAVar4->matrixB);
+                guMtxIdentF(pAVar4->matrixA);
+                guMtxIdentF(pAVar4->matrixB);
                 Scene::SetFlag10(pAVar4);
                 Scene::SetFlag4(pAVar4);
                 Scene::SetFlag40(pAVar4);

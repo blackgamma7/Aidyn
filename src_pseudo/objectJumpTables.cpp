@@ -1,13 +1,16 @@
 #include "gamestateCheats.h"
 #include "eventFlag.h"
 #include "game.h"
-#include "inventory\GenericInventory.h"
+#include "inventory/GenericInventory.h"
 #include "vobjects.h"
 #include "voxelChart.h"
 #include "trapMenu.h"
 #include "widgets/textPopup.h"
+#include "chestdb.h"
 //keeps coming up, return value unused. could be removed?
 #define UnkVoxelFlagCheck getEventFlag(FLAG_VoxelCheckUNK)
+/* loot_pointer is gChestDBp – referenced by name in decompiled code */
+#define loot_pointer gChestDBp
 
 #define VoxelIndex(v) (u16)(((uintptr_t)v - (uintptr_t)(gGlobals.gameVars.borg9DatPointer)->voxelObjs) /sizeof(voxelObject))
 
@@ -37,9 +40,9 @@ void play_countainer_sound(voxelObject* param_1,Borg9Data *param_2){
 void open_explosive_chest(voxelObject* param_1,Borg9Data *param_2){
 
   u32 chestExplodeSFX[]={0x0724,0x0725,0x0727,0x0728};
-  alloc_explosion_light(param_1->header.pos,1.0,600,false);
+  alloc_explosion_light(&param_1->header.pos,1.0,600,false);
   for(s16 i=0;i<3;i++) {
-    alloc_explosion_light(param_1->header.pos,0.35,60,true);
+    alloc_explosion_light(&param_1->header.pos,0.35,60,true);
   }
   vec4f particleCol={0.35,0.3,0.25,1.0};
   chest_explode_particles(param_1,(param_1->header).pos.y,&particleCol,420,2,75,0.04f,0.06f,(float)(-0.006/7),true);
@@ -112,13 +115,14 @@ void teleporter_func(voxelObject* v,u16 A,u16 B){
 
 // special case for reagent sources, give (container.Gold* Ranger modifer) items instead
 void get_loot_reagent(voxelObject* v,container_Dat * cont){
+  voxelObject *a;
   u8 quant = cont->Gold * RangerIngredientFloat;
   if (!quant) quant = 1; //always guarunteed 1 reagent.
   //array of reagents by container type
   u16 LootReagentIDs[]={0,0,0,0,ItemInd_Spice,ItemInd_Herb,ItemInd_Gemstone,0};
   ref_obj_bitmask_flag((v->header).flagB,(v->header).Bitfeild,VOXEL_Used);
   SetVoxelActive(v,false);
-  voxelObject *a = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene);
+  a = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene);
   if (a) SetVoxelActive(a,false);
   if (exploding_container_check(v,gGlobals.gameVars.borg9DatPointer)) {
     passto_WriteTo_VoxelChart(VoxelIndex(v),gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
@@ -148,7 +152,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
   s16 aIStack96 [6] [2];
   
   contP = &v->container;
-  psVar4 = some_ref_obj_lookup_func(VoxelIndex(v),(char)gGlobals.gameVars.mapDatA,
+  psVar4 = (s16*)some_ref_obj_lookup_func(VoxelIndex(v),(char)gGlobals.gameVars.mapDatA,
                       (u8)gGlobals.gameVars.mapShort1,(u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)v->header.type);
 
   if (((container_open_check((v->container).openFlag)) || (psVar4)) ||
@@ -270,12 +274,13 @@ void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
     UnkVoxelFlagCheck;
     set_refObj_flag(v);
     break;
-  case VTrigger_ChangeAni:
+  case VTrigger_ChangeAni: {
     Borg7Header *b7 = GetVoxelFromObjectLink(gGlobals.gameVars.borg9DatPointer,v,VOXEL_Scene)->scene.borgArray[0].b7;
     if (b7) Borg7_SetAnimation(b7,(v->trigger).flagA);
     break;
+  }
   case VTrigger_3: break;
-  case VTrigger_BorgPhys:
+  case VTrigger_BorgPhys: {
     if ((gGlobals.gameVars.borg9DatPointer)->borghpys_count != 0) {
       borg9_phys *pbVar2 = (gGlobals.gameVars.borg9DatPointer)->phys_pointer;
       for(u16 i=0;i<(gGlobals.gameVars.borg9DatPointer)->borghpys_count;i++){
@@ -284,6 +289,8 @@ void trigger_vobject_func(voxelObject *v,u16 A,u16 B){
           pbVar2[i].flags=pbVar2[i].flags&(v->trigger).flagB|(v->trigger).flagC;
       }
     }
+    break;
+  }
   case VTrigger_5:break;
   }
   ref_obj_bitmask_flag((v->header).flagB,(v->header).Bitfeild,VOXEL_Used);
@@ -347,14 +354,14 @@ u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
   u8 bVar3;
   s16 *psVar2;
   
-  voxelObject *a = GetVoxelFromObjectLink(param_2,param_1,VOXEL_Scene);
+  a = GetVoxelFromObjectLink(param_2,param_1,VOXEL_Scene);
   checkCheat(appear);
   else {
     uVar1 = (param_1->container).LootType;
     if ((Treasure_Misc < uVar1) || (uVar1 < Treasure_Herb)) {
       SetVoxelActive(a,true);
       SetVoxelActive(param_1,true);
-      psVar2 = some_ref_obj_lookup_func((u16)(((uintptr_t)param_1 - (uintptr_t)param_2->voxelObjs) /sizeof(voxelObject)),
+      psVar2 = (s16*)some_ref_obj_lookup_func((u16)(((uintptr_t)param_1 - (uintptr_t)param_2->voxelObjs) /sizeof(voxelObject)),
                           (char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
                           (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(param_1->header).type);
       if ((container_open_check((param_1->container).openFlag)) || (psVar2 != NULL)) {

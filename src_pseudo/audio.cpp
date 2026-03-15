@@ -3,6 +3,7 @@
 #define FILENAME "./src/audio.cpp"
 
 struct Audio_manager gAudioManager;
+void audioProc(void *p); //forward declaration
 
 void DCM::StartThread(OSSched *sched,u16 freq,u8 pri,u8 id){
   gAudioManager.sched = sched;

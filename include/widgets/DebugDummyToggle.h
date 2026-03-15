@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/WidgetMenu.h"
 #include "widgets/WidgetScrollMenu.h"
 

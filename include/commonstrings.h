@@ -1,3 +1,4 @@
+#pragma once
 //list of indedcies  for strings referenced by gGlobals.commonStrings
 enum CommonString{
 COMMONSTRING_LootType0,    // Chest
@@ -396,10 +397,10 @@ COMMONSTRING_ContPakName,    // Name
 COMMONSTRING_ContPakFull01,    // Not enough pages on the Controller Pak to save. Aidyn Chronicles: The First Mage requires 28 pages and 1 note to save.\nInsert a new Controller Pak or:
 COMMONSTRING_ContPakFull02,    // There are still not enough pages to save.
 COMMONSTRING_ContPakFull03,    // Controller Pak is still full.
-COMMONSTRING_ContPakNew,    // New Controller Pak detected.
+COMMONSTRING_ContPakNew_v2,    // New Controller Pak detected.
 COMMONSTRING_ContPakContinue01,    // Continue
 COMMONSTRING_ContPakCorrupt,    // Controller Pak is corrupt.\nInsert a new Controller Pak or:
-COMMONSTRING_ContPakDamaged,    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
+COMMONSTRING_ContPakDamaged_v2,    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
 COMMONSTRING_ContPakRepair,    // Repair (Data may be lost)
 COMMONSTRING_ContPakNewRetry,    // Insert new Controller Pak (Retry)
 COMMONSTRING_ContPakError02,    // Error while reading from the Controller Pak. Please ensure that the Controller and the Controller Pak are inserted correctly.
@@ -412,7 +413,7 @@ COMMONSTRING_ContPakRepairOK01,    // Repair Successful
 COMMONSTRING_ContPakRepairFail01,    // Repair Failed\n#Insert a new Controller Pak or:
 COMMONSTRING_ContPakEmpty,    // Empty
 COMMONSTRING_ContPakOverwriteOK,    // Are you sure you would like to save over that game?
-COMMONSTRING_ContPakOverwrite,    // Overwrite
+COMMONSTRING_ContPakOverwrite_v2,    // Overwrite
 COMMONSTRING_ContPakCorrupt02,    // Controller Pak is corrupt.\nInsert a new Controller Pak or:
 COMMONSTRING_ContPakDamaged02,    // Controller Pak is physically damaged.\nInsert a new Controller Pak or:
 COMMONSTRING_ContPakRepair02,    // Repair (data may be lost)
@@ -454,7 +455,7 @@ COMMONSTRING_LockpickFailLV1,    // a little
 COMMONSTRING_LockpickFailLV2,    // definitely
 COMMONSTRING_LockpickFailLV,    // The lock is %s beyond the ability of %s to pick.
 COMMONSTRING_LockpickFailStam,    // %s is too weak to pick the lock.
-COMMONSTRING_LockpickSuccess,    // %s successfully picks the lock.
+COMMONSTRING_LockpickSuccess_v2,    // %s successfully picks the lock.
 COMMONSTRING_AlchemyMain,    // Perform Alchemy
 COMMONSTRING_AlchemyPotionFail,    // You failed to create the Potion.
 COMMONSTRING_AlchemyPotionSuccess,    // Potion successfully created.

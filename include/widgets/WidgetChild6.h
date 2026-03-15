@@ -1,4 +1,7 @@
+#pragma once
 #include "widgets/WidgetMenu.h"
+#include "widgets/WidgetBorg8.h"
+#include "widgets/WidgetClipText.h"
 #include "savefiles.h"
 #include "GuiAnimation.h"
 

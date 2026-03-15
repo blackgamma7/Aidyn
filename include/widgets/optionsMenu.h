@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/Utilities.h"
 
 
@@ -78,7 +79,7 @@ class WidgetOptionsConfig : public WidgetMenu{
 
 void selectResMode(u8);
 void FUN_800499b8(BaseWidget*);
-void Options_RenameMenu(BaseWidget*);
+u8 Options_RenameMenu(BaseWidget*);
 BaseWidget* options_func_Left(BaseWidget* w0,BaseWidget* w1);
 BaseWidget* options_func_Right(BaseWidget* w0,BaseWidget* w1);
 BaseWidget* options_func_Up(BaseWidget* w0,BaseWidget* w1);

@@ -1,3 +1,4 @@
+#pragma once
 #include "typedefs.h"
 
 struct MemCheck_struct {
@@ -13,5 +14,5 @@ struct MemCheck_struct {
 };
 void MemoryCheck(uintptr_t ramstart,uintptr_t arg1);
 
-MemCheck_struct gMemCheckStruct={0};
-u16 gExpPakFlag=0;
+extern MemCheck_struct gMemCheckStruct;
+extern u16 gExpPakFlag;

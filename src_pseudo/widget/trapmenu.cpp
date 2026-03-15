@@ -145,7 +145,7 @@ BaseWidget * TrapMenu::TakeDamage(s16 param_1,char *txtStart){
       txtLines++;
     }
   }
-  BaseWidget *pBVar5 = TextPopup_New(abStack1080,(s16)txtWidth + 0x10,((s16)txtHeight + 2) * (s16)txtLines,
+  pBVar5 = TextPopup_New(abStack1080,(s16)txtWidth + 0x10,((s16)txtHeight + 2) * (s16)txtLines,
                          COLOR_WHITE,0x96,true);
   gGlobals.playerCharStruct.text_window = pBVar5;
   pBVar5->CDownButtonFunc = NULL;

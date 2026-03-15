@@ -34,9 +34,9 @@ struct Borg11Header;  /* forward – defined in game headers */
 namespace AudioBackend {
 
 static constexpr int  SAMPLE_RATE   = 44100;
-static constexpr int  CHANNELS      = 2;    /* stereo output */
+static constexpr int  AUDIO_CHANNELS = 2;   /* stereo output */
 static constexpr int  CHUNK_SIZE    = 1024;
-static constexpr int  MIX_CHANNELS  = 32;   /* simultaneous voices */
+static constexpr int  AUDIO_MIX_CHANNELS  = 32;   /* simultaneous voices */
 
 static bool sInitialised = false;
 
@@ -49,14 +49,14 @@ bool Init(int freq) {
         return false;
     }
 
-    if (Mix_OpenAudio(freq ? freq : SAMPLE_RATE, AUDIO_S16SYS, CHANNELS, CHUNK_SIZE) < 0) {
+    if (Mix_OpenAudio(freq ? freq : SAMPLE_RATE, AUDIO_S16SYS, AUDIO_CHANNELS, CHUNK_SIZE) < 0) {
         fprintf(stderr, "[audio] Mix_OpenAudio failed: %s\n", Mix_GetError());
         return false;
     }
 
-    Mix_AllocateChannels(MIX_CHANNELS);
+    Mix_AllocateChannels(AUDIO_MIX_CHANNELS);
     sInitialised = true;
-    fprintf(stderr, "[audio] SDL_mixer ready (%d Hz, %d channels)\n", freq, MIX_CHANNELS);
+    fprintf(stderr, "[audio] SDL_mixer ready (%d Hz, %d channels)\n", freq, AUDIO_MIX_CHANNELS);
     return true;
 }
 

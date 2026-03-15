@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/WidgetBorg8.h"
 
 namespace TitleSplash{
@@ -30,6 +31,8 @@ void load_intro_music();
 s32 appState_0(Gfx **GG);
 void noop_intromusic();
 
+#define BORG8_LicencedByNintendo 0x0102  /* Licensed by Nintendo splash image */
+extern u32 copyrightStrings;
 char** copyrightText=NULL;
 #if DEBUGVER
 u16 sCodeSizeError=0;

@@ -1,5 +1,7 @@
+#pragma once
 #include "itemID.h"
 //for use in the "generic/" scripts
+struct SpellCharges;
 
 struct Temp_enchant {
     u8 index;

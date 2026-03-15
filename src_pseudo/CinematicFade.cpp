@@ -1,12 +1,5 @@
 #include "globals.h"
-
-struct CinematicFade {
-    u8 index;
-    u8 fadeType; /* none,black,white,red */
-    u16 runtime; /* div 2 */
-    u16 fadeTime; /* div 2 */
-    s16 exitTime;
-};
+#include "cinematics.h"
 CinematicFade sCfadeCine0[]={
   {1,CFade_White,0x2da,0x28,0},
   {2,CFade_None,0,0x14,0},{2,CFade_White,0x104,0xa,0},

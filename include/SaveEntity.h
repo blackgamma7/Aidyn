@@ -1,3 +1,4 @@
+#pragma once
 #include "party.h"
 #include "heapN64.h"
 

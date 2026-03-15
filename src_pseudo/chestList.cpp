@@ -1,6 +1,6 @@
 #include "chestdb.h"
 
-#define ChestIndex(n) IDInd(Loot_##n##)
+#define ChestIndex(n) IDInd(Loot_##n)
 
 u8 lootList[]={
     ChestIndex(L08_1),

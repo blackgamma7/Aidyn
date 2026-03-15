@@ -139,8 +139,9 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp){
     FUN_8005bf10(pDat,audioKeyEntryB_ARRAY_800ee9d0,id1,id2,amp,uVar7,auStack_27,
                  audiokey_unk4[pDat->Ground_Type_New],3,0);
    default:
+   break;
    }
   }
-  FUN_8005c0f0(pDat,PHANDLE.audiokey,paVar3 + pDat->Ent_index,id1,id2,amp,prox,auStack_27[0]);
+  FUN_8005c0f0(pDat,PHANDLE.audiokey,paVar3 + pDat->Ent_index,id1,id2,amp,prox,auStack_27);
   FUN_8005c2f0(pDat,id1,prox,auStack_27);
 }

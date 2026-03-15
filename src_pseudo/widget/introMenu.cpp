@@ -292,7 +292,7 @@ void IntroMenu::ShowStartGameMenu() {
   BaseWidget *pBVar5;
   IntroMenuSub *piVar3;
   
-  IntroMenuSub *piVar3 = IntroSub;
+  piVar3 = IntroSub;
   pBVar4 = piVar3->unk1c;
   piVar3->unk20 = pBVar4;
   if (piVar3->unk1c) {
@@ -398,7 +398,7 @@ void IntroMenu::ShowContPakMenu() {
     Color32 col1={100,100,100,100};
     Color32 col2={COLOR_WHITE};
     sub->pakDat = WContPakData_Load(51,24,FUN_8004b1f8,IntroMenu_ExitContPakMenu,&col0,
-                               &col1,&col2);
+                               &col1,col2);
   }
   sub->unk1c = sub->pakDat;
   this->Link(sub->pakDat);

@@ -53,7 +53,7 @@ void WidgetStatTrain::InitMenu() {
   this->partyPicker = gPartyPicker;
   pCVar4 = PARTY->Members[gPartyPicker];
   pBVar7 = this->scrollMenu;
-  CharStats_s *pStats = pCVar4->Stats;
+  pStats = pCVar4->Stats;
   if (this->scrollMenu == NULL) {
     this->scrollMenu = new WidgetFastScrollMenu(STAT_TOTAL);
     sub=(WSMSub *)this->scrollMenu->substruct;
@@ -192,7 +192,7 @@ void WidgetStatTrain::Confirm(u16 x, u16 y) {
       Color32 col1={COLOR_WHITE};
       Color32 col2={200,180,100,0xff};
       Gsprintf(gGlobals.CommonStrings[0x200],stat_EXP_price);
-      pWVar6 = new WidgetChoiceDia(2,gGlobals.text,0x96,col1,col2,0,0,0);
+      pWVar6 = new WidgetChoiceDia(2,gGlobals.text,0x96,&col1,&col2,0,0,0);
       pBVar7 = WClipTXT(gGlobals.CommonStrings[0x1f]);
       pBVar7->AButtonFunc = WST_AButtonFunc;
       pBVar7->varU8 = w->varU8;

@@ -1,3 +1,4 @@
+#pragma once
 #include "PlaneObj.h"
 #include "PlayerData.h"
 
@@ -9,7 +10,7 @@ struct CombatStatIndicatorHandler {
     u8 pad[3];
 };
 
-CombatStatIndicatorHandler combatStatIndicatorDat;
+extern CombatStatIndicatorHandler combatStatIndicatorDat;
 
 #define MAXSTATDIGITS 16
 namespace CombatStatIndicator{

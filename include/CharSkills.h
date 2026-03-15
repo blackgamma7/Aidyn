@@ -1,3 +1,4 @@
+#pragma once
 #include "itemID.h"
 #include "savefiles.h"
 
@@ -65,5 +66,5 @@ class CharSkills { /* Skill and weapon levels. Also sheild. */
     u8 isShieldCapped();
 };
 
-char** skill_strings;
-char** weapon_strings;
+extern char** skill_strings;
+extern char** weapon_strings;

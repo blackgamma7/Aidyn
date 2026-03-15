@@ -1,3 +1,4 @@
+#pragma once
 #include "itemID.h"
 
 struct DialougeEntity_ROM { /* Dialouge entity in ROM */
@@ -26,5 +27,5 @@ struct dialougeEntity_Info { /* extended data of Dialouge entities in RAM */
     float a;
     float b;
 };
-DialogEntityDB* gDialogEntityDBp;
+extern DialogEntityDB* gDialogEntityDBp;
 extern u8 DialougEntList[];

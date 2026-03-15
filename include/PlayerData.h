@@ -1,9 +1,13 @@
+#pragma once
 #include "itemID.h"
 #include "n64Borg.h"
 #include "PlaneObj.h"
 #include "collide.h"
 #include "Controller.h"
 #include "SceneData.h"
+#include "Camera.h"
+class WidgetMenu;
+class BaseWidget;
 
 #define PLAYER_ABS_MAXPLAYERS 40
 
@@ -319,14 +323,14 @@ bool FUN_8005c0f0(playerData *param_1,audiokey_struct *param_2,audiokeyEntryA *e
                  ,u16 param_5,u16 param_6,u8 vol,u8 param_8);
 bool FUN_8005c2f0(playerData *param_1,u16 param_2,u8 param_3,u8 param_4);
 void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp);
-audioKeyEntryB audioKeyEntryB_ARRAY_800ee9d0[];
-u8 audiokey_unk1[][3];
-u8 audiokey_unk2[][3];
-u8 audiokey_unk3[][3];
-u8 audiokey_unk4[][3];
-u32 u32_ARRAY_800eec98[];
-u32 u32_ARRAY_800eee18[];
-u32 u32_ARRAY_800ef010[];
+extern audioKeyEntryB audioKeyEntryB_ARRAY_800ee9d0[];
+extern u8 audiokey_unk1[][3];
+extern u8 audiokey_unk2[][3];
+extern u8 audiokey_unk3[][3];
+extern u8 audiokey_unk4[][3];
+extern u32 u32_ARRAY_800eec98[];
+extern u32 u32_ARRAY_800eee18[];
+extern u32 u32_ARRAY_800ef010[];
 
 u32 _bigw_flag=0; //used for "!bigw" cheat
 u32 _balloon_flag=0; //used for "!balloon" cheat

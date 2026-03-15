@@ -238,7 +238,7 @@ void WidgetOptionsMenu::ContPakLoad(){
     Color32 col0={COLOR_RED1};
     Color32 col1={0x44,0x22,0x2a,0xff};
     Color32 col2= {0x97,0xbf,0x8d,0xff};
-    sub->contPakWidget = WContPakData_Load(0x43,0x18,FUN_80050868,FUN_800477a0,&col0,&col1,&col2);
+    sub->contPakWidget = WContPakData_Load(0x43,0x18,FUN_80050868,FUN_800477a0,&col0,&col1,col2);
   }
   sub->selected = 3;
   sub->unk10 = sub->contPakWidget;

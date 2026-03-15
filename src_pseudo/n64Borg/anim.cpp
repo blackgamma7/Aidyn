@@ -641,7 +641,7 @@ void Borg5Transform_op3(Borg5Transform *t,MtxF *param_2){
   inV.x = 0.0;
   inV.y = 0.0;
   inV.z = 1.0f;
-  guRotateRPYF(&rotMtx,(t->rot).y,(t->rot).x,0.0);
+  guRotateRPYF(rotMtx,(t->rot).y,(t->rot).x,0.0);
   MtxXFMF(&outV,&rotMtx,&inV);
   (*param_2)[0][3] = 1.0f;
   (*param_2)[1][3] = 1.0f;
@@ -673,7 +673,7 @@ void Borg5Transform_op4(Borg5Transform *t,MtxF *param_2){
   fStack232.x = 0.0;
   fStack232.y = 0.0;
   fStack232.z = 1.0f;
-  guRotateRPYF(&afStack104,(t->rot).y,(t->rot).x,0.0);
+  guRotateRPYF(afStack104,(t->rot).y,(t->rot).x,0.0);
   MtxXFMF(&fStack168,&afStack104,&fStack232);
   fStack232.x = 0.0;
   fVar3 = (t->pos).x - fStack168.x;
@@ -681,7 +681,7 @@ void Borg5Transform_op4(Borg5Transform *t,MtxF *param_2){
   fStack232.z = 0.0;
   fVar2 = (t->pos).y - fStack168.y;
   fVar1 = (t->pos).z - fStack168.z;
-  guRotateRPYF(&afStack104,0.0,0.0,(t->rot).z);
+  guRotateRPYF(afStack104,0.0,0.0,(t->rot).z);
   MtxXFMF(&fStack168,&afStack104,&fStack232);
   some_matrix_func(param_2,(t->pos).x,(t->pos).y,(t->pos).z,
     fVar3,fVar2,fVar1,fStack168.x,fStack168.y,fStack168.z);
@@ -754,7 +754,7 @@ void FUN_8009ee98(Borg5Transform *t,MtxF *param_2){
 }
 
 void FUN_8009ef34(SceneData *param_1){
-  if (!(param_1->flags & SCENE_0004)) {guMtxIdentF(&some_mtx);}
+  if (!(param_1->flags & SCENE_0004)) {guMtxIdentF(some_mtx);}
   else {MTXCPY(some_mtx,param_1->matrixA);}
   FUN_8009f060(param_1,&some_mtx);
   param_1->sceneTicked = true;
@@ -825,12 +825,12 @@ void FUN_8009f060(SceneData *param_1,MtxF *param_2){
       FUN_800ab880(pBVar3->mfs,&param_1->matrixD);
       Borg3Header *b3 = pBStack_40->borg3P;
       pbVar12->flag |= 2;
-      guPerspectiveF(&mf6,b3->perspnorm + param_1->perspNormIndex,b3->dat.fovy,
+      guPerspectiveF(mf6,b3->perspnorm + param_1->perspNormIndex,b3->dat.fovy,
                       b3->dat.aspect,b3->dat.nearplane * 16.0f,b3->dat.farplane * 16.0f,2.0);
       MTXCPY(param_1->matrixE,mf6);
       some_other_matrix_math(&mf3,&mf6,&param_1->matrixD);
-      if ((param_1->flags & SCENE_4000) == 0) guMtxF2L(&mf3,(b3->dat).mtx_[param_1->perspNormIndex]);
-      else guMtxF2L(&mf6,&(b3->dat).mtx_[param_1->perspNormIndex]);
+      if ((param_1->flags & SCENE_4000) == 0) guMtxF2L(mf3,&(b3->dat).mtx_[param_1->perspNormIndex]);
+      else guMtxF2L(mf6,&(b3->dat).mtx_[param_1->perspNormIndex]);
     }
     pbVar12++;
     iVar11--;
@@ -870,7 +870,7 @@ void Ofunc_8009f4e0(SceneData *param_1){
   if (0 < i) {
     do {
       if ((pbVar3->flag & 2)) {
-        guMtxF2L(pbVar3->unkStruct->mfs,&pbVar3->unkStruct->mtxs[param_1->perspNormIndex]);
+        guMtxF2L(*pbVar3->unkStruct->mfs,&pbVar3->unkStruct->mtxs[param_1->perspNormIndex]);
       }
       i--;
       pbVar3++;
@@ -1050,14 +1050,14 @@ void Ofunc_8009f938(Borg5Header *param_1,s32 param_2,int param_3,s32 param_4,int
   
   Borg3Header *b3 = param_1->dat.borg3P;
   if (b3) {
-    (b3->dat).viewportP->vp.vtrans[0] = ((param_2 + param_4) / 2);
-    (b3->dat).viewportP->vp.vtrans[1] = ((param_3 + param_5) / 2);
+    (b3->dat).viewportP->vtrans[0] = ((param_2 + param_4) / 2);
+    (b3->dat).viewportP->vtrans[1] = ((param_3 + param_5) / 2);
     if (param_2 < param_4) iVar2 = param_4 - param_2;
     else iVar2 = param_2 - param_4;
-    (b3->dat).viewportP->vp.vscale[0] = (iVar2 / 2);
+    (b3->dat).viewportP->vscale[0] = (iVar2 / 2);
     if (param_3 < param_5) iVar2 = param_5 - param_3;
     else iVar2 = param_3 - param_5;
-    (b3->dat).viewportP->vp.vscale[1] = (iVar2 / 2);
+    (b3->dat).viewportP->vscale[1] = (iVar2 / 2);
   }
 }
 
@@ -1091,8 +1091,8 @@ SceneData * BorgAnimLoadScene(u32 borg_5){
   ret->aniTime = 1;
   ret->aniSpeed = 0;
   ret->borg6 = NULL;
-  guMtxIdentF(&ret->matrixA);
-  guMtxIdentF(&ret->matrixB);
+  guMtxIdentF(ret->matrixA);
+  guMtxIdentF(ret->matrixB);
   (ret->colorFloats).x = 1.0f;
   (ret->colorFloats).y = 1.0f;
   (ret->colorFloats).z = 1.0f;
@@ -2164,7 +2164,7 @@ switchD_800a1cc4_caseD_8:
           fStack384.y = pBVar2->mfs[1][3][1] - vec3f_800f3378.y;
           fStack384.z = pBVar2->mfs[1][3][2] - vec3f_800f3378.z;
           Vec3Normalize(&fStack384);
-          guAlignF(&afStack320,(pbVar23->rot).z,fStack384.x,fStack384.y,fStack384.z);
+          guAlignF(afStack320,(pbVar23->rot).z,fStack384.x,fStack384.y,fStack384.z);
           CLEAR(&mf);
           pSVar7 = unkAnimStructB.scene;
           pBVar2->mfs[0][0][0] = (pbVar23->scale).x * unkAnimStructB.scene->scalar.x;
@@ -2174,7 +2174,7 @@ switchD_800a1cc4_caseD_8:
           pBVar2->mfs[0][3][1] = pBVar2->mfs[1][3][1];
           pBVar2->mfs[0][3][3] = 1.0f;
           pBVar2->mfs[0][3][2] = pBVar2->mfs[1][3][2];
-          guMtxCatF(&afStack320,mf,mf);
+          guMtxCatF(afStack320,*mf,*mf);
         }
         pBVar8 = unkAnimStructB.b2;
         pBVar2->mfs[0][3][2] *= 16.0f;
@@ -2190,7 +2190,7 @@ switchD_800a1cc4_caseD_8:
         pBVar2->mfs[0][1][2] *= (unkAnimStructB.b2)->dat->scale;
         pBVar2->mfs[0][2][2] *= (unkAnimStructB.b2)->dat->scale;
         COPY(pBVar8->someMtx,mf);
-        guMtxF2L(mf,&unkAnimStructB.b5Trans->unkStruct->mtxs[normInd]);
+        guMtxF2L(*mf,&unkAnimStructB.b5Trans->unkStruct->mtxs[normInd]);
         (unkAnimStructB.b5Trans)->flag |= 2;
       }
       gSPMatrix(pGVar10,unkAnimStructB.b5Trans->unkStruct->mtxs + normInd,G_MTX_LOAD);

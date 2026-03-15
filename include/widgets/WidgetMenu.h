@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/BaseWidget.h"
 
 // Menu Widget base class

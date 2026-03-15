@@ -1,3 +1,4 @@
+#pragma once
 #include "eventFlag.h"
 #include "widgets/WidgetText.h"
 
@@ -6,7 +7,7 @@
 //class for getting strings for flags. Not sure why it needed to be a class...
 class GSMClass{
     public:
-    class GSMClass(){};
+    GSMClass(){};
     virtual void vMethA(u16 i, char* str);
     virtual void vMethB(u16 i, char* str);
     virtual void vMethC(u16 i, char* str);

@@ -6,6 +6,8 @@
 #include "weapondb.h"
 #include "armordb.h"
 #include "widgets/textPopup.h"
+s32 FUN_8007b6bc(CharSheet *param_1,u8 param_2,char param_3); //forward declaration
+s32 FUN_8007b760(CharSheet *param_1,u8 param_2,char param_3); //forward declaration
 
 #if DEBUGVER
 char* sFilename= FILENAME;
@@ -140,7 +142,7 @@ void Entity::Free(CharSheet *param_1){
     FREE(param_1->weapons,349);
   }
   if(param_1->pItemList) {
-    CharGear_Free(param_1->pItemList);
+    param_1->pItemList->Free();
     FREE(param_1->pItemList,356);
   }
   if(param_1->spellbook) {
@@ -349,7 +351,7 @@ u8 Entity::EquipSheild(CharSheet *param_1,u16 param_2,StatMod* param_3){
 }
 
 u8 Entity::EquipWeapon(CharSheet *param_1,u16 param_2,StatMod* param_3){
-  u8 bVar2;StatMod *param_3;
+  u8 bVar2;
   
   bVar2 = canEquipWeapon(param_1,param_2);
   if (bVar2 == 0) {
@@ -1570,7 +1572,7 @@ void Entity::Teleport(CharSheet* ch,CombatEntity *cEnt){
     u8 y = (gCombatP->SpellMarkerPos).y;
     if (!combat_substruct_lookup(&gCombatP->substruct,x,y,cEnt->unk23)) {
       cEnt->SetCoords((gCombatP->SpellMarkerPos).x,(gCombatP->SpellMarkerPos).y);
-      FUN_800737b4(cEnt);
+      CombatTurn::FUN_800737b4(cEnt);
       cEnt->TeleportMovePlayer();
     }
   }

@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/WidgetMenu.h"
 #include "widgets/WidgetClipText.h"
 #include "widgets/WidgetBorg8.h"
@@ -5,6 +6,7 @@
 #include "party.h"
 #include "GuiAnimation.h"
 #include "menuImages.h"
+class WidgetBarter;
 
 class DollMenuPortraits: public WidgetMenu{
     public:

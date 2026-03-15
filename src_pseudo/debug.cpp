@@ -4,7 +4,7 @@
 #include "armordb.h"
 #include "chestdb.h"
 #include "weapondb.h"
-#include "gamestatemod.h"
+#include "gameStateMod.h"
 #include "gamestateCheats.h"
 #include "widgets/credits.h"
 
@@ -70,7 +70,7 @@ BaseWidget * WidgetDebugBig::UpFunc(){
     return NULL;
 }
 
-BaseWidget * WidgetDebugBig::UpFunc(){
+BaseWidget * WidgetDebugBig::DownFunc(){
     this->scrollMenu->DownFunc();
     return NULL;
 }

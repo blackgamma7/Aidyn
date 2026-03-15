@@ -25,10 +25,9 @@
 /* SDL2 */
 #include <SDL2/SDL.h>
 
-/* OpenGL – use GLEW or define GL_GLEXT_PROTOTYPES before including gl.h */
+/* OpenGL */
 #define GL_GLEXT_PROTOTYPES 1
 #include <GL/gl.h>
-#include <GL/glu.h>
 
 #include "../../ultra/include/2.0I/ultra64.h"
 #include "../../ultra/include/2.0I/PR/sched.h"
@@ -138,46 +137,46 @@ bool PollEvents() {
  * GBI command opcodes (upper byte of Gfx.w.hi).  Only the opcodes actually
  * used by F3DEX2 are listed.  The full set is ~50 commands.
  * ========================================================================= */
+/* GBI opcode enum – use GBI_ prefix to avoid collisions with ultra64.h macros */
 enum GbiCmd : u8 {
-    G_SPNOOP        = 0x00,
-    G_MTX           = 0x01,
-    G_MOVEMEM       = 0x03,
-    G_VTX           = 0x04,
-    G_DL            = 0x06,
-    G_ENDDL         = 0xB8,
-    G_CULLDL        = 0xBE,
-    G_MOVEWORD      = 0xBC,
-    G_TEXTURE       = 0xBB,
-    G_POPMTX        = 0xBA,
-    G_GEOMETRYMODE  = 0xB9,
-    G_TRI1          = 0xBF,
-    G_TRI2          = 0xB1,
-    G_QUAD          = 0xB5,
-    G_LINE3D        = 0xB9,
-    G_RDPPIPESYNC   = 0xE7,
-    G_RDPFULLSYNC   = 0xE9,
-    G_SETSCISSOR    = 0xED,
-    G_SETOTHERMODE_L= 0xE2,
-    G_SETOTHERMODE_H= 0xE3,
-    G_TEXRECT       = 0xE4,
-    G_TEXRECTFLIP   = 0xE5,
-    G_RDPLOADSYNC   = 0xE6,
-    G_RDPTILESYNC   = 0xE8,
-    G_LOADBLOCK     = 0xF3,
-    G_LOADTLUT      = 0xF0,
-    G_SETTILESIZE   = 0xF2,
-    G_LOADTILE      = 0xF4,
-    G_SETTILE       = 0xF5,
-    G_FILLRECT      = 0xF6,
-    G_SETFILLCOLOR  = 0xF7,
-    G_SETFOGCOLOR   = 0xF8,
-    G_SETBLENDCOLOR = 0xF9,
-    G_SETPRIMCOLOR  = 0xFA,
-    G_SETENVCOLOR   = 0xFB,
-    G_SETCOMBINE    = 0xFC,
-    G_SETTIMG       = 0xFD,
-    G_SETZIMG       = 0xFE,
-    G_SETCIMG       = 0xFF,
+    GBI_SPNOOP        = 0x00,
+    GBI_MTX           = 0x01,
+    GBI_MOVEMEM       = 0x03,
+    GBI_VTX           = 0x04,
+    GBI_DL            = 0x06,
+    GBI_ENDDL         = 0xB8,
+    GBI_CULLDL        = 0xBE,
+    GBI_MOVEWORD      = 0xBC,
+    GBI_TEXTURE       = 0xBB,
+    GBI_POPMTX        = 0xBA,
+    GBI_GEOMETRYMODE  = 0xB9,
+    GBI_TRI1          = 0xBF,
+    GBI_TRI2          = 0xB1,
+    GBI_QUAD          = 0xB5,
+    GBI_RDPPIPESYNC   = 0xE7,
+    GBI_RDPFULLSYNC   = 0xE9,
+    GBI_SETSCISSOR    = 0xED,
+    GBI_SETOTHERMODE_L= 0xE2,
+    GBI_SETOTHERMODE_H= 0xE3,
+    GBI_TEXRECT       = 0xE4,
+    GBI_TEXRECTFLIP   = 0xE5,
+    GBI_RDPLOADSYNC   = 0xE6,
+    GBI_RDPTILESYNC   = 0xE8,
+    GBI_LOADBLOCK     = 0xF3,
+    GBI_LOADTLUT      = 0xF0,
+    GBI_SETTILESIZE   = 0xF2,
+    GBI_LOADTILE      = 0xF4,
+    GBI_SETTILE       = 0xF5,
+    GBI_FILLRECT      = 0xF6,
+    GBI_SETFILLCOLOR  = 0xF7,
+    GBI_SETFOGCOLOR   = 0xF8,
+    GBI_SETBLENDCOLOR = 0xF9,
+    GBI_SETPRIMCOLOR  = 0xFA,
+    GBI_SETENVCOLOR   = 0xFB,
+    GBI_SETCOMBINE    = 0xFC,
+    GBI_SETTIMG       = 0xFD,
+    GBI_SETZIMG       = 0xFE,
+    GBI_SETCIMG       = 0xFF,
 };
 
 /*
@@ -194,18 +193,18 @@ static void process_display_list(const Gfx *dl, int depth = 0) {
         u8 cmd = (u8)(dl->w.hi >> 24);
 
         switch ((GbiCmd)cmd) {
-        case G_SPNOOP:
-        case G_RDPPIPESYNC:
-        case G_RDPFULLSYNC:
-        case G_RDPLOADSYNC:
-        case G_RDPTILESYNC:
+        case GBI_SPNOOP:
+        case GBI_RDPPIPESYNC:
+        case GBI_RDPFULLSYNC:
+        case GBI_RDPLOADSYNC:
+        case GBI_RDPTILESYNC:
             /* sync / noop – nothing to do */
             break;
 
-        case G_ENDDL:
+        case GBI_ENDDL:
             return; /* end of display list */
 
-        case G_DL: {
+        case GBI_DL: {
             /* Call sub-display list */
             uintptr_t addr = (uintptr_t)dl->w.lo;
             const Gfx *subdl = reinterpret_cast<const Gfx *>(addr);
@@ -215,67 +214,67 @@ static void process_display_list(const Gfx *dl, int depth = 0) {
             break;
         }
 
-        case G_MTX:
+        case GBI_MTX:
             /* TODO: push/load/multiply matrix onto GL matrix stack */
             break;
 
-        case G_POPMTX:
+        case GBI_POPMTX:
             /* TODO: pop matrix stack */
             break;
 
-        case G_GEOMETRYMODE:
+        case GBI_GEOMETRYMODE:
             /* TODO: map N64 geometry mode flags to glEnable/glDisable */
             break;
 
-        case G_VTX:
+        case GBI_VTX:
             /* TODO: upload vertex data to a vertex buffer */
             break;
 
-        case G_TRI1:
-        case G_TRI2:
-        case G_QUAD:
+        case GBI_TRI1:
+        case GBI_TRI2:
+        case GBI_QUAD:
             /* TODO: draw triangles from the loaded vertex buffer */
             break;
 
-        case G_TEXTURE:
+        case GBI_TEXTURE:
             /* TODO: set texture scale / enable */
             break;
 
-        case G_SETTIMG:
+        case GBI_SETTIMG:
             /* TODO: set the source texture image pointer */
             break;
 
-        case G_SETTILE:
+        case GBI_SETTILE:
             /* TODO: configure tile descriptor */
             break;
 
-        case G_LOADBLOCK:
-        case G_LOADTILE:
+        case GBI_LOADBLOCK:
+        case GBI_LOADTILE:
             /* TODO: upload texture data to GL */
             break;
 
-        case G_SETTILESIZE:
+        case GBI_SETTILESIZE:
             /* TODO: set tile UV extents */
             break;
 
-        case G_LOADTLUT:
+        case GBI_LOADTLUT:
             /* TODO: load colour palette */
             break;
 
-        case G_SETCOMBINE:
+        case GBI_SETCOMBINE:
             /* TODO: translate N64 combiner to GLSL shader */
             break;
 
-        case G_SETOTHERMODE_L:
-        case G_SETOTHERMODE_H:
+        case GBI_SETOTHERMODE_L:
+        case GBI_SETOTHERMODE_H:
             /* TODO: map render / blend modes */
             break;
 
-        case G_SETSCISSOR:
+        case GBI_SETSCISSOR:
             /* TODO: glScissor */
             break;
 
-        case G_FILLRECT: {
+        case GBI_FILLRECT: {
             /* Draw a filled rectangle – used for clears / UI boxes.
              * Extract coords from the command word:
              *   hi[23:12] = XH, hi[11:0] = YH  (right/bottom, 2-frac bits)
@@ -285,31 +284,31 @@ static void process_display_list(const Gfx *dl, int depth = 0) {
             break;
         }
 
-        case G_SETFILLCOLOR:
+        case GBI_SETFILLCOLOR:
             /* TODO: store fill colour for subsequent G_FILLRECT */
             break;
 
-        case G_SETFOGCOLOR:
+        case GBI_SETFOGCOLOR:
             /* TODO: glFog equivalent */
             break;
 
-        case G_SETBLENDCOLOR:
-        case G_SETENVCOLOR:
-        case G_SETPRIMCOLOR:
+        case GBI_SETBLENDCOLOR:
+        case GBI_SETENVCOLOR:
+        case GBI_SETPRIMCOLOR:
             /* TODO: pass colour to shader uniforms */
             break;
 
-        case G_TEXRECT:
-        case G_TEXRECTFLIP:
+        case GBI_TEXRECT:
+        case GBI_TEXRECTFLIP:
             /* TODO: textured rectangle (2D sprite blit) */
             break;
 
-        case G_CULLDL:
+        case GBI_CULLDL:
             /* TODO: frustum cull check */
             break;
 
-        case G_MOVEMEM:
-        case G_MOVEWORD:
+        case GBI_MOVEMEM:
+        case GBI_MOVEWORD:
             /* TODO: move data into RSP DMEM – map to appropriate state */
             break;
 
@@ -328,8 +327,8 @@ void SubmitFrame(OSScTask *task) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     /* Walk the display list attached to the task */
-    if (task->list.data_ptr) {
-        process_display_list(task->list.data_ptr);
+    if (task->list.t.data_ptr) {
+        process_display_list((Gfx*)task->list.t.data_ptr);
     }
 
     SDL_GL_SwapWindow(sWindow);

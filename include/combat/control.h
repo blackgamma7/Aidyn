@@ -1,6 +1,8 @@
+#pragma once
 #include "widgets/WidgetChoiceDia.h"
 #include "combat/substructB.h"
 #include "PlayerData.h"
+class WidgetHandler;
 
 //Combat/control.cpp
 

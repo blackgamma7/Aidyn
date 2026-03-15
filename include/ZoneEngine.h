@@ -1,5 +1,9 @@
+#pragma once
 #include "SceneData.h"
 #include "borgMaps.h"
+#include "savefiles.h"
+#include "collide.h"
+#include "PlayerData.h"
 
 struct ZoneDat {
     int borg5_ID;
@@ -87,7 +91,7 @@ void SetZoneDatIndex(ZoneDat *dat,s16 i,char j);
 void FUN_8000d744();
 void Zonedat_clear(ZoneDat *param_1,s16 param_2,s16 param_3);
 void ofunc_zoneengine_free();
-void move_zonedat(ZoneDat *param_1[3][3],ZoneDat *param_2);
+void move_zonedat(ZoneDat param_1[3][3],ZoneDat *param_2);
 void checkToggleZoneScene(ZoneDat *param_1);
 void MakeGameZoneNames(u16 param_1,u16 param_2);
 void ZoneMoveSceneDat(SceneData *param_1,u8 index);

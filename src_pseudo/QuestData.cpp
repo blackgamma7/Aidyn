@@ -2,7 +2,7 @@
 
 #include "QuestData.h"
 #include "SaveEntity.h"
-#include "SaveParty.h"
+#include "saveParty.h"
 #include "voxelChart.h"
 #include "CRC.h"
 
@@ -181,6 +181,7 @@ void SetPointers(MemoryMakerStruct *mm,SaveDatPointers *p){
 }
 
 
+void Teleport(mapFloatDat *param_1,u8 param_2); //forward declaration
 void LoadFile(SaveDatPointers *param_1,u8 param_2){
   memset_voxelChart();
   LoadGameState(gameStates,param_1->EventFlags);
@@ -226,7 +227,7 @@ void Teleport(mapFloatDat *param_1,u8 param_2){
   if (param_2) {
     COPY(&gGlobals.gameVars.MapFloatDatEntry,param_1);
     gGlobals.playerCharStruct.mapLoadBool = 1;
-    if (gPlayer) set_teleport_obj_loadgame(param_1->mapDatA,param_1->MapShort1,param_1->MapShort2,param_1);
+    if (gPlayer) set_teleport_obj_loadgame(param_1->mapDatA,param_1->MapShort1,param_1->MapShort2,(vec3f*)param_1);
   }
 }
 

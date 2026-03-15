@@ -1,10 +1,11 @@
+#pragma once
 #include "typedefs.h"
 #include "itemIDList.h"
 
 typedef u16 ItemID;
 extern ItemID itemID_array[];
 //ItemID endian swapped
-typedef struct{
+struct ItemID_ROM {
     union {
         u16 s; //often loaded as s16
         struct{
@@ -12,14 +13,17 @@ typedef struct{
             u8 type; // from DB_TYPE
         };
     };
-}ItemID_ROM; //LE version
+    ItemID_ROM() = default;
+    ItemID_ROM(u8 _id, u8 _type) { id = _id; type = _type; }
+    ItemID_ROM(u16 _s) { s = _s; }
+}; //LE version
 
 struct ArrayHeader { /* ROM Db array Header */
     u8 Size; /* number of items in array */
     u8 unk[3]; //junk bytes
 };
 
-u8 load_db_array_size(ArrayHeader *header,u8 *size,u32 *offset);
+u8 load_db_array_size(void *header,void *size,u32 *offset);
 
 typedef enum ElementEnum {
 	ELEMENT_NONE, ELEMENT_EARTH, ELEMENT_SOLAR, ELEMENT_PHYSICAL, ELEMENT_NECROMANCY,

@@ -1,7 +1,7 @@
 #include "widgets/CombatScrollMenu.h"
 #include "globals.h"
 
-extern void(*PTR_800ed504)(BaseWidget*);
+extern BaseWidget* PTR_800ed504;
 extern void(*PTR_800edb70)(BaseWidget*);
 
 void FUN_8004cfd0(BaseWidget *w){

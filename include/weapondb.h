@@ -1,3 +1,4 @@
+#pragma once
 #include "itemID.h"
 
 #pragma pack (push, 1) //struct is 1-byte aligned.

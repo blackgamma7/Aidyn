@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/WidgetCrafting.h"
 
 WidgetMenuHealer* gHealerWidget=NULL;

@@ -1,9 +1,11 @@
+#pragma once
 #include "inventory/IInventory.h"
 
 #define PARTY_CAPACITY 252
 //Inventory class used by the party.
 class PartyInventory : virtual public IInventory{
     public:
+        PartyInventory();
         virtual ~PartyInventory();
         virtual void Reset();
         virtual void Clear();

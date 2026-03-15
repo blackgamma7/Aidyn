@@ -92,7 +92,7 @@ Gfx * Render(Gfx *g,u32 delta){
 
 void FreePlayer(playerData *param_1){
   if (attackVisualVars.p) {
-    for(u32 i=0;i<ATTACKVISUAL_MAXVISUALS<i++) {
+    for(u32 i=0;i<ATTACKVISUAL_MAXVISUALS;i++) {
         AttackVisualStruct3 *p = &attackVisualVars.p[i];
       if (((p->flag & 1)) && (p->player == param_1)) {
         p->player = NULL;

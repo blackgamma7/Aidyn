@@ -1,5 +1,6 @@
 #include "globals.h"
 #include "memaker.h"
+void noop_8005cfac(void);
 
 
 u32 sCinematic0Borg6[]{

@@ -1,3 +1,4 @@
+#pragma once
 #include "typedefs.h"
 
 enum BUTTON_aidyn{ //same as standard enum, but with 4 extra bits for analog joystick
@@ -11,14 +12,17 @@ enum BUTTON_aidyn{ //same as standard enum, but with 4 extra bits for analog joy
 	D_LEFT=CONT_LEFT,
 	D_DOWN=CONT_DOWN,
 	D_UP=CONT_UP,
-	//START_BUTTON=0X1000,
+	START_BUTTON=0x1000,
 	Z_BUTTON=CONT_G,
-	//B_BUTTON=0X4000,
-	//A_BUTTON=0X8000,
+	B_BUTTON=0x4000,
+	A_BUTTON=0x8000,
 	ANA_LEFT=0X10000, //analog stick left
 	ANA_RIGHT=0X20000,//analog stick right
 	ANA_DOWN=0X40000,//analog stick up
 	ANA_UP=0X80000, //analog stick down
+	Z_TRIG=CONT_G,   /* alias */
+	L_TRIG=CONT_L,   /* alias */
+	R_TRIG=CONT_R,   /* alias */
 };
 
 struct controller_aidyn { /* Controller input used by game */

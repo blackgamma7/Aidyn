@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/BaseWidget.h"
 
 // widget type used for displaying icons and images.

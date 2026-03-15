@@ -1,3 +1,4 @@
+#pragma once
 #include "inventory/IInventory.h"
 
 
@@ -5,6 +6,7 @@
 //Inventory class used by most item sources
 class GenericInventory : public IInventory{
     public:
+    GenericInventory();
     Inventory_item inv_slots[GEN_CAPACITY];
     int quantity;
     void Reset();

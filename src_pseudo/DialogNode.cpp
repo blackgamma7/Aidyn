@@ -497,8 +497,10 @@ void dialoug_func_c_check(dialougeInstance *param_1,Borg13Data *param_2,u8 param
       case B13Com_58:
         param_1->unk110 = param_3;
 LAB_800b6af4:
+        {
         Borg13Op *puVar2 = &param_2->commands_pointer[param_3].ops[i];
         (*d_func_C_pointer)(param_1,param_2,puVar2->com,puVar2->val);
+        }
 switchD_800b6a84_caseD_0:
         bVar1 = true;
       }

@@ -1,3 +1,4 @@
+#pragma once
 #include "n64Borg.h"
 
 //combine headers for lensflare, cloud and skyobjects scripts
@@ -9,11 +10,11 @@ struct lensflare_data {
     Color32 col;
 };
 
-lensflare_data gLensFlareData[];
-vec2f gLensFlarePos;
-Borg8Header** gLensflare;
+extern lensflare_data gLensFlareData[];
+extern vec2f gLensFlarePos;
+extern Borg8Header** gLensflare;
 
-u8 lensflare_bss;
+extern u8 lensflare_bss;
 
 namespace Lensflare{
     void Init();
@@ -34,11 +35,11 @@ struct cloudStruct {
 };
 
 
-u16 gCloudCount;
-Borg8Header** gCloudBorg8;
-cloudStruct gCloudData[];
+extern u16 gCloudCount;
+extern Borg8Header** gCloudBorg8;
+extern cloudStruct gCloudData[];
 
-Borg8Header* gCloudBorg8Base[3];
+extern Borg8Header* gCloudBorg8Base[3];
 
 namespace Clouds{
     void Init();
@@ -58,16 +59,16 @@ enum SkyObjType{
     SkyObj_Sun,SkyObj_Moon,SkyObj_Star,SkyObjEND
 };
 
-u16 gSkyObjectMoonIndex;
-u16 gSkyobjectsCount;
-u8 moon_phase;
-Borg8Header* sjyobjects_borg8;
-Borg8Header* gMoonBorg8;
-SkyobjectStruct* gSunObjP;
-SkyobjectStruct* gMoonObjP;
-SkyobjectStruct skyobjectStruts[94];
+extern u16 gSkyObjectMoonIndex;
+extern u16 gSkyobjectsCount;
+extern u8 moon_phase;
+extern Borg8Header* sjyobjects_borg8;
+extern Borg8Header* gMoonBorg8;
+extern SkyobjectStruct* gSunObjP;
+extern SkyobjectStruct* gMoonObjP;
+extern SkyobjectStruct skyobjectStruts[94];
 
-Borg8Header* sSkyObjBss[3];
+extern Borg8Header* sSkyObjBss[3];
 
 namespace Skyobjects{
     void Init();

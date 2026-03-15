@@ -1,3 +1,4 @@
+#pragma once
 #include "cinematics.h"
 #include "itemID.h"
 

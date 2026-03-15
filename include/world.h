@@ -1,3 +1,4 @@
+#pragma once
 #include "mathN64.h"
 
 enum TIME_OF_DAY{TIME_MORNING, TIME_MIDDAY, TIME_AFTERNOON, TIME_EVENING, TIME_NIGHT};

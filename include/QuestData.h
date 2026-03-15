@@ -1,3 +1,4 @@
+#pragma once
 #include "savefiles.h"
 #include "globals.h"
 #include "world.h"

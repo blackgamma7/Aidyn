@@ -1,5 +1,6 @@
+#pragma once
 #include "borg/borgHead.h"
-extern struct SceneData;
+struct SceneData;
 
 struct Borg6Struct3{
     u16 unk0,unk2;

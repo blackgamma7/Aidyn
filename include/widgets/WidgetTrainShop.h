@@ -1,8 +1,11 @@
+#pragma once
 #include "widgets/WidgetMenu.h"
 #include "widgets/WidgetScrollArrows.h"
 #include "widgets/WidgetClipText.h"
 #include "widgets/WidgetScrollMenu.h"
 #include "entity.h"
+#include "inventory/IInventory.h"
+#include "widgets/WidgetBorg8.h"
 
 
 class WidgetTrainShop : public WidgetMenu{

@@ -3,6 +3,8 @@
 #include "voxelChart.h"
 #include "shopdb.h"
 #define FILENAME "./src/dialogmode.cpp"
+bool dialougmode_struct_init(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapShortB,u16 param_6); //forward declaration
+void build_camera_debug(u16 param_1); //forward declaration
 
 void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapShortB,u16 param_6){
   bool bVar2;
@@ -540,7 +542,7 @@ u8 cutScene_control_func(){
   } while (((dialougemode_pointer->controlLock) || (dialougemode_pointer->timerFlag)) ||
           ((gGlobals.scriptcamera.counter1 ||
            (((!WHANDLE->Control((ControllerFull *)acStack32)|| (freeWidgetFunc == NULL)) ||
-            ((*freeWidgetFunc)(), dialougemode_pointer->unkab != 2))))));
+            ((*freeWidgetFunc)(NULL), dialougemode_pointer->unkab != 2))))));
 LAB_80059174:
   DeltaCap(delta);
   return delta;
@@ -750,20 +752,7 @@ void FUN_80059970(BaseWidget *param_1){
 }
 
 
-void FUN_80059970(BaseWidget *param_1)
-
-{
-  playerData *ppVar1 = gPlayer;
-  if (dialougemode_pointer->Wanderers)
-    dialougemode_pointer->Wanderers->playerDat->ani_type = 0;
-  ppVar1->ani_type = 0;
-  gGlobals.diaClass->m8004ea94(param_1);
-  if (((dialougemode_pointer) && (dialougemode_pointer->unkac == 0)) &&
-     (ppVar1 = FUN_800591e4(), ppVar1 != NULL)) {
-    ppVar1->ani_type = AniType_4;
-  }
-  return;
-}
+/* duplicate of FUN_80059970 above removed */
 
 void FUN_800599f0(){
   Wanderer *pwVar1;

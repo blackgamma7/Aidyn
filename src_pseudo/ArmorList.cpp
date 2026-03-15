@@ -1,7 +1,7 @@
 #include "armordb.h"
 
-#define ArmorIndex(n) IDInd(Armor_##n##)
-#define ShieldIndex(n) IDInd(Shield_##n##)
+#define ArmorIndex(n) IDInd(Armor_##n)
+#define ShieldIndex(n) IDInd(Shield_##n)
 
 u8 ArmorList[]={
     ArmorIndex(ChaosRobes),

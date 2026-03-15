@@ -1,6 +1,10 @@
 #include "globals.h"
 #include "stringDecrypt.h"
+#include "decompress.h"
 #define FILENAME "./src/cinematictext.cpp"
+extern u8 cinematic_text[];
+extern u8 cinematic_text_dat[];
+void NOOP_8005d704(s16 x);
 
 cinematictext_struct *gCinematicTextP=NULL;
 u32 cinematic_runtime=0;

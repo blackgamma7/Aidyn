@@ -1,3 +1,4 @@
+#pragma once
 #include "randClass.h"
 #include "stringN64.h"
 #include "heapN64.h"

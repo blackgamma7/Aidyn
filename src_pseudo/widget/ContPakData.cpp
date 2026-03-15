@@ -1,5 +1,6 @@
 #include "globals.h"
 #include "widgets/ContPakData.h"
+#include "ContPakInit.h"
 #include "widgets/widgetGroup.h"
 #include "CRC.h"
 #include "QuestData.h"
@@ -456,6 +457,7 @@ void WidgetContPakData::ReadSaveFile(){
     this->pfsErr = Controller::GetPakSaveState(&filestate,(u32)index,0);
     if (this->pfsErr == PFS_ERR_BAD_DATA) goto LAB_80087164;
   }
+  {
   if (this->pfsErr) return;
   if (filestate.comp_code != THQCompCode) return;
   if (filestate.game_code != AidynGameCode) return;
@@ -480,6 +482,7 @@ void WidgetContPakData::ReadSaveFile(){
     LoadSliders(this->saveDatsP + index,index);
     this->AidynSaveSlots++;
     return;
+  }
   }
 LAB_80087164:
   this->OtherState = 4;
@@ -831,7 +834,7 @@ void WidgetContPakDataSave::NewSaveFile(){
       LowSpaceWarn();
       return;
     }
-    for(i=0;<SaveFileMax;i++){
+    for(i=0;i<SaveFileMax;i++){
       sprintf(acStack_70,"%c",i + 'A');
       for (j = 0; j < uVar5; j++) {
         if (!strcmp(acStack_b0 + j * 4,acStack_70)) break;
@@ -974,7 +977,7 @@ WidgetChoiceDia *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u
   
   uVar2 = 200;
   if (gGlobals.BigAssMenu) uVar2 = 150;
-  WidgetChoiceDia *pWVar1 = new WidgetChoiceDia(choices,title,uVar2,&colA,&colB,0,10,0);
+  pWVar1 = new WidgetChoiceDia(choices,title,uVar2,&colA,&colB,0,10,0);
   if (gGlobals.BigAssMenu) Utilities::MoveWidget(pWVar1,25,0);
   handler->AddWidget(pWVar1);
   freeWidgetFunc = func;
@@ -1077,8 +1080,6 @@ BaseWidget * ContPakWidget::AFunc(){
   if (this->windowLoaded) w = Utilities::GetHighlightedEntry(this->w80);
   return w;
 }
-
-BaseWidget * ContPakWidget::AFunc(){return this;}
 
 BaseWidget * ContPakWidget::UpFunc(){
   if (this->windowLoaded) this->w80->UpFunc();
@@ -1262,7 +1263,7 @@ void ContPakWidget::PfsOK(){this->menuState = 2;}
 
 void ContPakWidget::PfsNoPak(){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x195],this->pfserr);
-  pWVar1->AppendScrollMenu(pWVar1,ContPakTextWidget(Cstring(ContPakNoSave01),ContPak_8008a738,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave01),ContPak_8008a738,0x80));
   pWVar1->Update();
   pWVar1->SetHighlight(1);
 }

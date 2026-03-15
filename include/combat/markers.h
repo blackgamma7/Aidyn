@@ -1,3 +1,4 @@
+#pragma once
 #include "combat/CombatEntity.h"
 #include "n64Borg.h"
 

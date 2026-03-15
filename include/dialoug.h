@@ -1,10 +1,13 @@
+#pragma once
 #include "n64Borg.h"
+#include "wander.h"
 #include "widgets/ShadowText.h"
 #include "widgets/WidgetText.h"
 #include "widgets/WidgetScrollMenu.h"
 #include "widgets/WidgetBorg8.h"
 #include "widgets/handler.h"
 #include "PlayerData.h"
+#include "entity.h"
 
 struct SuperMenuClass{
   Borg8Header* img;
@@ -179,7 +182,7 @@ bool FUN_800b59b8(dialougeInstance *,Borg13Data *,u8);
 void FUN_800b5a1c(Borg13Data *);
 u8 dialogNode_func_2(dialougeInstance *,Borg13Data *,u8);
 u8 DialogNode_func(dialougeInstance *,Borg13Data *);
-u8 dialoug_func_b_check(dialougeInstance *,Borg13Data *,u8);
+u32 dialoug_func_b_check(dialougeInstance *,Borg13Data *,u8);
 void Dialoug_commands(dialougeInstance *,Borg13Data *,u8);
 void dialoug_func_c_check(dialougeInstance *,Borg13Data *,u8);
 int FUN_800b6b54(dialougeInstance *,u8 ,char *);

@@ -1,3 +1,4 @@
+#pragma once
 #include "typedefs.h"
 //used in 2d math
 typedef union vec2f{
@@ -25,9 +26,7 @@ typedef float MtxF[4][4];
 #define RadInDeg_f 57.29578f
 #define SQ(x) (x*x)
 
-extern float _sqrtf(float x);
-extern float __sinf(float x);
-extern float __cosf(float x);
+/* _sqrtf, __sinf, __cosf already declared in ultra64.h */
 
 float Vec2Length(vec2f *X);
 float Vec3Length(vec3f *X);

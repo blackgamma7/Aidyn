@@ -1,3 +1,4 @@
+#pragma once
 //a list of id'd indicies used internally for the "n64Borg" art assets
 
 //Borg1: textures

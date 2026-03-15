@@ -1,4 +1,4 @@
-#include "inventory\PartyInventory.h"
+#include "inventory/PartyInventory.h"
 #include "eventFlag.h"
 
 PartyInventory::PartyInventory(){Reset();}

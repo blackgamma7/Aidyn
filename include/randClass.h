@@ -1,3 +1,4 @@
+#pragma once
 #include "mathN64.h"
 
 //RNG functions, with a seed field.

@@ -588,6 +588,7 @@ bool combat_controls_caseSwitch(controller_aidyn *cont,u8 param_2){
   case CombatState_25:
     combat_control_case_0x19(cont);
   default:
+  break;
   }
   return false;
 }

@@ -132,7 +132,7 @@ void Controller::ReadInput(void){
       if (-1 < buffer->ContGet) {
         buffer->next = buffer->next + 1 & 0x7f;
         ControllerFull *contEntry = &buffer->inputlog[buffer->next];
-        if (!(contPad[port].errno & CONT_NO_RESPONSE_ERROR)) {
+        if (!(contPad[port].errno_ & CONT_NO_RESPONSE_ERROR)) {
           buttons = contPad[port].button;
           buffer->ContRead = true;
           stickX = (float)(s32)contPad[port].stick_x / 80.0;
@@ -245,7 +245,7 @@ u8 Controller::GetQuerey(u8 port){
   osRecvMesg(&gContManager.SIMesgQ,NULL,OS_MESG_BLOCK);
   osContGetQuery(stats);
   osRecvMesg(&gContManager.contMesgQ,NULL,OS_MESG_BLOCK);
-  return (stats[port].errno & CONT_NO_RESPONSE_ERROR) == 0;
+  return (stats[port].errno_ & CONT_NO_RESPONSE_ERROR) == 0;
 }
 
 
@@ -256,7 +256,7 @@ u8 Controller::CheckStatus(u8 port){
   osContStartQuery(&gContManager.SIMesgQ);
   osRecvMesg(&gContManager.SIMesgQ,NULL,OS_MESG_BLOCK);
   osContGetQuery(stats);
-  u8 CErr = stats[port].errno;
+  u8 CErr = stats[port].errno_;
   u16 CType = stats[port].type;
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
   return (CType & CONT_TYPE_MASK) == CONT_TYPE_NORMAL &&
@@ -458,7 +458,7 @@ u8 Controller::GetStatus(u8 port,u8 *statOut){
   osContStartQuery(&gContManager.SIMesgQ);
   osRecvMesg(&gContManager.SIMesgQ,NULL,1);
   osContGetQuery(Cstats);
-  Cerr = Cstats[port].errno;
+  Cerr = Cstats[port].errno_;
   CType = Cstats[port].type;
   osRecvMesg(&gContManager.contMesgQ,NULL,1);
   if (statOut) *statOut = Cstats[port].status;
@@ -476,7 +476,7 @@ u8 Controller::GetStatus2(u8 port){
   osContStartQuery(&gContManager.SIMesgQ);
   osRecvMesg(&gContManager.SIMesgQ,NULL,1);
   osContGetQuery(Cstatus);
-  Cerr = Cstatus[port].errno;
+  Cerr = Cstatus[port].errno_;
   CType = Cstatus[port].type;
   uVar1 = gContManager.BufferPointer[port].pfs.status;
   osRecvMesg(&gContManager.contMesgQ,NULL,1);

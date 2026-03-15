@@ -112,11 +112,11 @@ borgHeader * getBorgItem(s32 index){
           decompressBorg((void *)((s32)borgFilesPointer + listing.Offset),listing.compressed,
                          borgfile,listing.uncompressed,(s32)listing.Compression);
           (*borg_funcs_a[listing.Type])(borgfile);
-          gBorgpointers[index] = borgfile;
+          gBorgpointers[index] = (borgHeader*)borgfile;
           gBorgBytes[index] = 1;
         }
         else {
-          borgfile = gBorgpointers[index];
+          borgfile = (u8*)gBorgpointers[index];
           gBorgBytes[index]++;
         }
         ret->index = index;
@@ -321,7 +321,7 @@ u8 borg2_func_b(Borg2Header *param_1,Borg2Data *param_2){
       }
     }
   }
-  guMtxIdentF(&param_1->someMtx);
+  guMtxIdentF(param_1->someMtx);
   return false;
 }
 
@@ -401,7 +401,7 @@ void borg5_func_a(Borg5Header *b5){
     }
   }
   (b5->dat).instructions = (u16 *)((int)((b5->dat).instructions + 8) + (int)b5);
-  (b5->dat).ParticleDat = (Borg5_particle **)((uintptr_t)&b5->dat.ParticleDat->emmiSpeed + (int)(b5->dat).ParticleDat);
+  (b5->dat).ParticleDat = (Borg5_particle **)((uintptr_t)&((Borg5_particle*)b5->dat.ParticleDat)->emmiSpeed + (int)(b5->dat).ParticleDat);
 }
 
 u8 InitBorgScene(Borg5Header *param_1,void* x){
@@ -409,7 +409,6 @@ u8 InitBorgScene(Borg5Header *param_1,void* x){
   Borg2Data *pBVar2;
   int *piVar3;
   bool bVar4;
-  void *x;
   Borg4Header *pBVar6;
   Borg2Header *pBVar7;
   Borg1Header *pBVar8;
@@ -822,7 +821,7 @@ u8 borg7_func_b(Borg7Header *param_1,Borg7Data *param_2){
   }
   CLEAR(&param_1->aniChache);
   clearBorgFlag();
-  Borg6Header *pBVar3 = (Borg6Header *)getBorgItem((param_1->dat).sub[0].borg6);
+  pBVar3 = (Borg6Header *)getBorgItem((param_1->dat).sub[0].borg6);
   bVar1 = (param_1->dat).sub[0].borg6;
   psVar2 = param_1->unk18;
   (param_1->aniChache).anis[0] = pBVar3;

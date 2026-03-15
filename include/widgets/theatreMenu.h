@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/Utilities.h"
 
 class TheatreMenu:public WidgetMenu{

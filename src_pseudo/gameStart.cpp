@@ -1,5 +1,6 @@
 #include "game.h"
 #include "graphics.h"
+void start_intermediate_game(void); //forward declaration
 
 u8 flycam_flag=false;
 Borg6Header*  gFlycamBorg6P=NULL;

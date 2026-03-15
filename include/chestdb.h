@@ -1,3 +1,4 @@
+#pragma once
 #include "itemID.h"
 #include "n64Borg.h"
 

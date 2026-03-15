@@ -23,7 +23,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <pthread.h>
 #include <SDL2/SDL.h>
 
 #include "../../ultra/include/2.0I/ultra64.h"

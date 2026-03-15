@@ -1,3 +1,4 @@
+#pragma once
 #include "n64Borg.h"
 namespace Portraits{
     u16 screen_bottom=SCREEN_HEIGHT;

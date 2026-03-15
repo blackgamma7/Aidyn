@@ -9,7 +9,7 @@ BaseWidget* WCSM_UpFunc(BaseWidget* param_1,BaseWidget *param_2) {
   return 0;
 }
 
-BaseWidget* WCSM_UpFunc(BaseWidget* param_1,BaseWidget *param_2) {
+BaseWidget* WCSM_DownFunc(BaseWidget* param_1,BaseWidget *param_2) {
   WSMSub *sub = (WSMSub *)param_2->substruct;
   if (sub->numChoices != 0) {
     if ((uint)sub->highlight == sub->numChoices - 1) {
@@ -122,7 +122,7 @@ Gfx * WidgetCombatScrollMenu::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1) {
   Color32 aCStack_1a8,CStack_168,uStack_128,aCStack_e8,CStack_a8,CStack_68;
   WSMSub *sub;
   
-  WSMSub *sub = (WSMSub *)this->substruct;
+  sub = (WSMSub *)this->substruct;
   for(u32 i=0;i<sub->numChoices;i++){
       BaseWidget *entry = sub->items[i];
       if (entry){

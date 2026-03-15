@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/Utilities.h"
 #include "savefiles.h"
 #include "widgets/handler.h"
@@ -163,6 +164,7 @@ class ContPakWidget:public WidgetMenu{
     u8 contStat;
     u8 unk95[3]; //align bytes?
     ContPakWidget(u32);
+    ~ContPakWidget();
     u8 m80088f0c(BaseWidget *);
     void m80088f44();
     BaseWidget* AFunc();
@@ -236,7 +238,7 @@ BaseWidget * repeated_space_warning(BaseWidget *w0,BaseWidget *w1);
 
 void FUN_80086290(BaseWidget *);
 u32 FUN_800862c8(void);
-BaseWidget * FUN_800862f4(u8 param_1,u16 param_2,char *txt,BaseWidget::buttonFunc param_4);
+WidgetClipText * FUN_800862f4(u8 param_1,u16 param_2,char *txt,BaseWidget::buttonFunc param_4);
 
 
 WidgetContPakData* contPakDat=NULL;

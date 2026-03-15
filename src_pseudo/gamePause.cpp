@@ -97,7 +97,7 @@ u8 Pause_GameState(Gfx **GG) {
     InitPauseMenu();
     some_screenfade_flag = false;
   }
-  s16 delta = FUN_800505f4();
+  delta = FUN_800505f4();
   g = Graphics::StartDisplay(g,FULL_SCREENSPACE);
   bVar6 = WHANDLE->Tick(delta);
   if (true) {
@@ -136,7 +136,7 @@ u8 Pause_GameState(Gfx **GG) {
       u8_800edb99 = 1;
       gGlobals.combatBytes[0] = CombatState_1;
       break;
-    case PauseMenuState_12:
+    case PauseMenuState_12: {
       BaseWidget* pPVar2= WHANDLE->GetTail();
       if ((pPVar2 == gGlobals.BigAssMenu) && (pPVar2)) {
         g = draw_screenshot_background(g,bVar6);
@@ -158,6 +158,7 @@ u8 Pause_GameState(Gfx **GG) {
         }
       }
       break;
+    }
     case PauseMenuState_13:
       u8_800edb99 = 1;
       ret = GameStateA_Cinematic;

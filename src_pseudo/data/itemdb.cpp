@@ -10,10 +10,10 @@ void ItemDB::Orphaned(){
   u8 bVar1;
   Gear_RAM *pGVar2;
   u8 bVar6;
-  int aiStack_30;
-  
-  aiStack_30[0] = 0;
-  load_db_array_size(&itemDB,this,aiStack_30);
+  u32 aiStack_30;
+
+  aiStack_30 = 0;
+  load_db_array_size(&itemDB,this,&aiStack_30);
   bVar6 = 0;
   ALLOCS(this->Gear,this->total*sizeof(Gear_RAM),52);
   for(u8 i=0;i<11;i++) {

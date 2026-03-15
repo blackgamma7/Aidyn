@@ -1,3 +1,4 @@
+#pragma once
 #include "inventory/GenericInventory.h"
 #include "widgets/WidgetMenu.h"
 #include "combat/substructA.h"
@@ -6,6 +7,7 @@
 #include "combat/CombatGui.h"
 #include "combat/turn.h"
 #include "chestdb.h"
+#include "eventFlag.h"
 
 
 struct CombatStruct { /* combat structure. needs more study */
@@ -65,7 +67,7 @@ extern u16 DAT_800e9c14;
 #define ComString(x) gCombatP->textArray[COMBATSTRING_##x]
 
 //use gGlobals.text as sprintf buffer for combat string
-#define CSprintf(x,...) Gsprintf(ComString(x),__VA_ARGS__)
+#define CSprintf(x,...) Gsprintf(ComString(x),##__VA_ARGS__)
 
 // a very odd macro, repeated a few times
 // might be part of a casting macro. float is calculated THRICE.
@@ -158,6 +160,8 @@ u8 CombatStateFunc_26(Gfx **GG,u16 delta);
 void FUN_800290a4();
 u8 CombatStateFunc_27(Gfx **GG,u16 delta);
 u8 CombatStateFunc_28(Gfx **GG,u16 delta);
+u8 CombatStateFunc_29(Gfx **GG,u16 delta);
+u8 CombatStateFunc_30(Gfx **GG,u16 delta);
 u8 CombatStateFunc_31(Gfx **GG,u16 delta);
 bool fleeing_reinforcements_func();
 u8 Combat_GameState(Gfx **GG);

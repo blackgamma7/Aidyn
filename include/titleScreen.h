@@ -1,5 +1,7 @@
+#pragma once
 #include "widgets/ContPakData.h"
 #include "widgets/InputMenu.h"
+class WidgetOptionsConfig;
 //struct and protos relevant to title screen.
 
 struct Flycam_entry { /* data entry for titlescreen flycam */

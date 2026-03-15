@@ -132,14 +132,14 @@ void Graphics::video_settings(void){
   }
   else osViSetMode(&gGfxManager.osvimodeCustom);
   osViSetSpecialFeatures(OS_VI_GAMMA_OFF|OS_VI_DIVOT_OFF|OS_VI_DITHER_FILTER_ON);
-  gGfxManager.viewport.vp.vscale[0] = gGfxManager.Hres[0] << 1;
-  gGfxManager.viewport.vp.vscale[1] = gGfxManager.Vres[0] << 1;
-  gGfxManager.viewport.vp.vscale[2] = 0x1ff;
-  gGfxManager.viewport.vp.vscale[3] = 0;
-  gGfxManager.viewport.vp.vtrans[0] = gGfxManager.Hres[0] << 1;
-  gGfxManager.viewport.vp.vtrans[1] = gGfxManager.Vres[0] << 1;
-  gGfxManager.viewport.vp.vtrans[2] = 0x1ff;
-  gGfxManager.viewport.vp.vtrans[3] = 0;
+  gGfxManager.viewport.vscale[0] = gGfxManager.Hres[0] << 1;
+  gGfxManager.viewport.vscale[1] = gGfxManager.Vres[0] << 1;
+  gGfxManager.viewport.vscale[2] = 0x1ff;
+  gGfxManager.viewport.vscale[3] = 0;
+  gGfxManager.viewport.vtrans[0] = gGfxManager.Hres[0] << 1;
+  gGfxManager.viewport.vtrans[1] = gGfxManager.Vres[0] << 1;
+  gGfxManager.viewport.vtrans[2] = 0x1ff;
+  gGfxManager.viewport.vtrans[3] = 0;
   gGfxManager.Hres[1] = gGfxManager.Hres[0];
   gGfxManager.Vres[1] = gGfxManager.Vres[0];
   gGfxManager.colordepth[1] = gGfxManager.colordepth[0];}

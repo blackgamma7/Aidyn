@@ -63,7 +63,6 @@ void DialoguePreCallback(dialougeInstance *param_1,Borg13Data *param_2,u16 cmd,s
   float camHeight;
   float fVar11;
 
-  u8 uStack376 [6];
   vec2f fStack312;
   vec2f afStack248;
   vec2f avStack_b8;

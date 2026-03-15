@@ -185,6 +185,7 @@ u16 BorgMaps::LoadMap(s16 Map,s16 Portal,s16 param_3,bool param_4) {
   }
   Gsprintf("map = %d, portal = %d",Map,Portal);
   mapDataList *pmVar11 = NULL;
+  mapDataList *pmVar6 = NULL;
   switch(Map) {
   case MAPA_Overworld:
     pmVar11 = mapDataList_Overworld;
@@ -373,15 +374,17 @@ LAB_8002ce68:
       ShortA = 6;
       spawnz = 52.0f;
     }
-    u16 BgmArr[]={0x10b5,0x10d1,0x10d4,0x10d7,0x10ee,0x10f1,0x10f4,0x10f8,0x1118,0x111b,
-        0x111e,0x1122,0x114d,0};
-    u16 BgmArr2[]={0x10dc,0x10e0,0x10e3,0x10fc,0x10fe,0x1102,0x1125,0x1128,0x112f,
-        0x1150,0x1153,0x1156,0x1172,0x117b,0x117e,0x1181,0x1189,0x1192,0x1195,0x119b,
-        0x11a4,0x11a8,0};
-    SetBGM(BgmArr,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
-      0x62c,0x62d);
-    SetBGM(BgmArr2,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
-           0x5ea,0x5eb);
+    {
+      u16 BgmArr[]={0x10b5,0x10d1,0x10d4,0x10d7,0x10ee,0x10f1,0x10f4,0x10f8,0x1118,0x111b,
+          0x111e,0x1122,0x114d,0};
+      u16 BgmArr2[]={0x10dc,0x10e0,0x10e3,0x10fc,0x10fe,0x1102,0x1125,0x1128,0x112f,
+          0x1150,0x1153,0x1156,0x1172,0x117b,0x117e,0x1181,0x1189,0x1192,0x1195,0x119b,
+          0x11a4,0x11a8,0};
+      SetBGM(BgmArr,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
+        0x62c,0x62d);
+      SetBGM(BgmArr2,gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
+             0x5ea,0x5eb);
+    }
     break;
   case MAPA_GoblinCamp:
     pmVar11 = mapDataList_GoblinCamp;
@@ -442,7 +445,7 @@ LAB_8002ce68:
       MINIMAP.LoadData(MinimapSec_erromon);
     }
     debugTP = true;
-    mapDataList *pmVar6 = pmVar11;
+    pmVar6 = pmVar11;
     if (Portal == -1) {
 LAB_8002d464:
       pmVar11 = pmVar6;
@@ -503,10 +506,12 @@ LAB_8002d464:
       spawnz = 15.0f;
       spawnx = 16.0f;
     }
-    u16 BgmArr[]={0x188f,0x149d,0x14b3,0x14b6,0x1523,0x1537,0x153e,0};
-    SetBGM(BgmArr,
-           gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
-           0x61c,0x61c);
+    {
+      u16 BgmArr[]={0x188f,0x149d,0x14b3,0x14b6,0x1523,0x1537,0x153e,0};
+      SetBGM(BgmArr,
+             gLoadedMapIndecies[gGlobals.gameVars.mapShort1][(s16)gGlobals.gameVars.mapShort2][0],
+             0x61c,0x61c);
+    }
     break;
   case MAPA_EhudUnder:
     pmVar11 = mapDataList_EhudTower;

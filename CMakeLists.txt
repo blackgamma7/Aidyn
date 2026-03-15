@@ -49,9 +49,11 @@ endif()
 # Include paths
 # ---------------------------------------------------------------------------
 include_directories(
-  ${PROJECT_SOURCE_DIR}/include          # game headers (typedefs.h etc.)
+  ${PROJECT_SOURCE_DIR}/include               # game headers (typedefs.h etc.)
   ${PROJECT_SOURCE_DIR}/ultra/include/2.0I    # ultra64.h shim
-  ${PROJECT_SOURCE_DIR}/ultra/include/2.0I/PR # sched.h shim
+  # Note: ultra/include/2.0I/PR is NOT added here – adding it would shadow the
+  # system <sched.h> that pthread.h depends on.  Game code reaches sched.h via
+  # the relative path in typedefs.h: "../ultra/include/2.0I/PR/sched.h".
   ${SDL2_INCLUDE_DIRS}
   ${OPENGL_INCLUDE_DIR}
 )
@@ -77,6 +79,17 @@ add_compile_options(
   -funsigned-char
   # Allow the game's use of GNU statement expressions (__builtin_*)
   -fno-strict-aliasing
+  # Ghidra decompilation uses member names identical to their types (e.g.
+  # "EncounterDat EncounterDat") — GCC 13 makes this an error by default.
+  -Wno-changes-meaning
+  # Some initializers use (u32)-1 which is technically narrowing; allow it.
+  -Wno-narrowing
+  # Allow implicit conversions common in N64 C code.
+  -fpermissive
+  # Silence pedantic ISO warnings irrelevant to a decompilation project.
+  -Wno-pedantic
+  -Wno-write-strings
+  -Wno-address
 )
 
 # ---------------------------------------------------------------------------

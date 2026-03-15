@@ -2,10 +2,11 @@
 #include "heapN64.h"
 #include "romcopy.h"
 #include "spells.h"
-#include "BorgIndecies.h"
+#include "Borgindecies.h"
 #define FILENAME "../data/armordb.cpp"
 
 extern u8 armorDB[];
+ArmorDB* gArmorDBp = NULL;
 
 void ArmorDB::Orphaned(){
   int pos = 0;

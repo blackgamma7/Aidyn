@@ -1,3 +1,4 @@
+#pragma once
 #include "Controller.h"
 #include "font.h"
 

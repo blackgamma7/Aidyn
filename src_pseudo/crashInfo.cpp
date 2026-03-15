@@ -441,7 +441,7 @@ void crash_handler(CrashSub *arg){
       while (osRecvMesg(aOStack_b8,NULL,0)){;}
       osContGetReadData(aOStack_70);
       BVar3 = aOStack_70[0].button;
-    } while ((aOStack_70[0].errno & CONT_NO_RESPONSE_ERROR));
+    } while ((aOStack_70[0].errno_ & CONT_NO_RESPONSE_ERROR));
     if (((aOStack_70[0].button & BVar7 ^ aOStack_70[0].button) & A_BUTTON)) {
       uVar6 = (uVar6 + 1) % (3 - arg->IsManualCrash);
       switch(uVar6){

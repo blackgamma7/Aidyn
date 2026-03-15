@@ -1,6 +1,6 @@
 #include "entity.h"
 
-#define DiaEntIndex(n) IDInd(DEnt_##n##)
+#define DiaEntIndex(n) IDInd(DEnt_##n)
 
 u8  DialougEntList[]={
     DiaEntIndex(Pochanargat),//unlisted in appearance getters

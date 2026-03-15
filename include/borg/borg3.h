@@ -1,3 +1,4 @@
+#pragma once
 #include "borg/borgHead.h"
 
 //contains perspective data. Only 5 items, with the only 3 distinct changes being the clipping planes.

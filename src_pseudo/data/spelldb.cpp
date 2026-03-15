@@ -3,6 +3,7 @@
 #include "romcopy.h"
 
 #define FILENAME "../data/spelldb.cpp"
+extern u8 spelldb[];
 
 
 void SpellDB::Orphaned(){

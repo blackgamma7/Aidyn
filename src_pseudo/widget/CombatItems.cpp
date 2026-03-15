@@ -3,6 +3,8 @@
 #include "combat/CombatStruct.h"
 #include "quicksort.h"
 
+void FUN_8006f8d8(CombatEntity *param_1, u16 param_2, u8 param_3);
+
 s8 gCombatItemSelections[]={-1,-1,-1,-1};
 
 WidgetCombatItems * LoadCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions){
@@ -54,7 +56,7 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   aCStack_68.B = 0;
   aCStack_68.A = 0xe1;
   pBVar5 = loadBorg8(BORG8_IconItemPotion);//loads the potion icon
-  u16 iconSize = (pBVar5->dat).Width;      //just to measure it
+  iconSize = (pBVar5->dat).Width;      //just to measure it
   borg8_free(pBVar5);                      //and throws it away
   for(i=0;i<MAXPOTIONS;i++){
     if (potions[i] != -1) {
@@ -79,10 +81,10 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   Update();
   iVar6 = find_char_in_party(pCVar2);
   WidgetBorg8* pBVar6 = WidgetB8(BORG8_ScrollBarArrowUp);
-  WidgetBorg8* pBVar7 = WidgetB8(BORG8_ScrollBarArrowDown);
+  WidgetBorg8* pBVar7_b8 = WidgetB8(BORG8_ScrollBarArrowDown);
   pBVar6->SetCoords(this->scrollMenu->posX + -8,(this->scrollMenu->posY - (s16)pBVar6->GetHeight()) -2);
-  pBVar7->SetCoords(this->scrollMenu->posX + -8,this->scrollMenu->boundY1 + 2);
-  this->arrows =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7,0);
+  pBVar7_b8->SetCoords(this->scrollMenu->posX + -8,this->scrollMenu->boundY1 + 2);
+  this->arrows =new WidgetScrollArrows(this->scrollMenu,pBVar6,pBVar7_b8,0);
   this->arrows->SetColor(COLOR_WHITE);
   this->scrollMenu->Link(this->arrows);
   s8 lVar11 = gCombatItemSelections[iVar6];

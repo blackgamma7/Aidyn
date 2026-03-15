@@ -1,3 +1,4 @@
+#pragma once
 #include "typedefs.h"
 
 // abandoned code. towards start of decompression funcs. Related?

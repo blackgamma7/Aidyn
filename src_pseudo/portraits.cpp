@@ -76,6 +76,6 @@ Gfx * Portraits::DrawParty(Gfx *g,u8 raise,Color32 *col){
 }
 
 void Portraits::FreeBorder(void){
-  FREEQB8(&gGlobals.portraitBorder);
+  FREEQB8(gGlobals.portraitBorder);
   gGlobals.portraitBorder = NULL;
 }

@@ -5,7 +5,7 @@
 #define CloudGray {150,150,150,255}
 
 u16 gCloudCount=0;
-Borg8Header* gCloudBorg8=NULL;
+Borg8Header** gCloudBorg8=NULL;
 cloudStruct gCloudData[]={
     {CloudTypeA,{-530,10,-530},0,CloudGray,0.2},  //0
     {CloudTypeB,{-318,10,-530},0,CloudGray,0.4},  //1

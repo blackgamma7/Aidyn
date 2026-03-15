@@ -4,7 +4,7 @@
 
 #define FILENAME "../data/chestdb.cpp"
 
-extern u8 itemID_array[];
+extern ItemID itemID_array[];
 extern ArrayHeader chestdb;
 
 void ChestDB::Orphaned(){

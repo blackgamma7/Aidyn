@@ -1,3 +1,4 @@
+#pragma once
 #include "n64Borg.h"
 
 
@@ -6,6 +7,10 @@ struct SpeedProperty {
     vec3f Accel;
     float velScale;
 };
+
+/* Forward declarations needed for the callback typedef */
+struct collisionSphere;
+struct borg9_phys;
 
 typedef void (*collideCallback)(collisionSphere*,borg9_phys*);
 

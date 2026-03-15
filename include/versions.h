@@ -1,3 +1,4 @@
+#pragma once
 //list of versions of game
 
 /* early builds (listed for posterity)

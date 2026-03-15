@@ -1,5 +1,8 @@
 #include "memcheck.h"
 
+MemCheck_struct gMemCheckStruct={0};
+u16 gExpPakFlag=0;
+
 void MemoryCheck(uintptr_t ramstart,uintptr_t arg1){
   u32 mem = osGetMemSize();
   gMemCheckStruct.RamSize = mem;

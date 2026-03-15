@@ -1,4 +1,9 @@
+#pragma once
 #include "collide.h"
+
+struct ParticleHeadStruct;
+struct ParticleEmmiter;
+struct Particle_s;
 
 typedef void(*ParticleFuncA)(ParticleHeadStruct*,ParticleEmmiter*);
 typedef void(*ParticleFuncB)(ParticleHeadStruct*,ParticleEmmiter*);

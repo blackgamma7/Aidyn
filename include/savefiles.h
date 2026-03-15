@@ -1,5 +1,8 @@
+#pragma once
 #include "typedefs.h"
+#include "mathN64.h"
 #include "stringN64.h"
+#include "itemID.h"
 
 struct SaveFile {
     u8* dat;

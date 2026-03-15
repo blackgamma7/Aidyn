@@ -1,5 +1,6 @@
+// Auto-fixed: changed std::string to const char*
 //decrypted entry by entry. prefixed by event flag number.
-string JournalEntries[]={
+const char* JournalEntries[]={
     "9 I saw a strange spirit in the forest ",
     "50 I failed to save Kendal.. I was poisoned by goblins.. and I was rescued by Oriana. It seems the poison is beyond her. That dream I had when I woke up in her hut was strange... who was that woman? ",
     "62 Gotzone and Zurene told me about the odd portal in Oisin forest. Apparently sorcerers used to fly freely from portal to portal, and even now one can travel between matching portals if one has touched both of them. I can't wait to try it! But where is the match for the Oisin portal? ",

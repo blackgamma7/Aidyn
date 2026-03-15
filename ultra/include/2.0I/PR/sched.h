@@ -12,6 +12,7 @@
 /* =========================================================================
  * Scheduler message types (sent to registered clients each V-sync)
  * ========================================================================= */
+#define OS_SC_MAX_MESGS       8   /* maximum messages in scheduler queue */
 #define OS_SC_RETRACE_MSG     1   /* vertical retrace (frame boundary) */
 #define OS_SC_DONE_MSG        2   /* RSP/RDP task complete */
 #define OS_SC_PRE_NMI_MSG     3   /* impending power-off */
@@ -40,35 +41,43 @@
 #define OS_SC_YIELD         0x0010
 #define OS_SC_YIELDED       0x0020
 
+/* OSTask – RSP task descriptor, accessed via OSScTask.list.t */
+typedef struct {
+    u32   type;
+    u32   flags;
+    u64  *ucode_boot;
+    u32   ucode_boot_size;
+    u64  *ucode;
+    u32   ucode_size;
+    u64  *ucode_data;
+    u32   ucode_data_size;
+    u64  *dram_stack;
+    u32   dram_stack_size;
+    u64  *output_buff;
+    u64  *output_buff_size;
+    u64  *data_ptr;
+    u32   data_size;
+    u64  *yield_data_ptr;
+    u32   yield_data_size;
+} OSTask;
+
 typedef struct OSScTask_s {
     struct OSScTask_s *next;
     u32                state;
     u32                flags;
     void              *framebuffer;
 
-    /* RSP task descriptor (fields used to locate display list, ucode, etc.) */
-    struct {
-        u32   type;
-        u32   flags;
-        u64  *ucode_boot;
-        u32   ucode_boot_size;
-        u64  *ucode;
-        u32   ucode_size;
-        u64  *ucode_data;
-        u32   ucode_data_size;
-        u64  *dram_stack;
-        u32   dram_stack_size;
-        u64  *output_buff;
-        u64  *output_buff_size;
-        Gfx  *data_ptr;       /* pointer to display list (GFX tasks)  */
-        u32   data_size;
-        u64  *yield_data_ptr;
-        u32   yield_data_size;
+    /* RSP task descriptor – game code accesses as .list.t.field */
+    union {
+        OSTask t;
     } list;
 
     OSMesgQueue *msgQ;
     OSMesg       msg;
     OSPri        pri;
+    /* extra fields used by gfx.cpp */
+    u32  startTime;
+    u32  totalTime;
 } OSScTask;
 
 /* =========================================================================
@@ -112,9 +121,10 @@ extern "C" {
 #endif
 
 void      osCreateScheduler(OSSched *sc, void *stack, OSPri pri, u8 mode, u8 numFields);
-void      osScAddClient(OSSched *sc, OSScClient *c, OSMesgQueue *mq, OSMesg msg);
+void      osScAddClient(OSSched *sc, OSScClient *c, OSMesgQueue *mq);
 void      osScRemoveClient(OSSched *sc, OSScClient *c);
 OSScTask *osScGetTask(OSSched *sc);
+OSMesgQueue *osScGetCmdQ(OSSched *sc);
 void      osScScheduleTask(OSSched *sc, OSScTask *t);
 void      osSpTaskYield(void);
 void      osSpTaskYieldedQ(OSMesgQueue *mq);

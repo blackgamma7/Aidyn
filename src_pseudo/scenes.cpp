@@ -24,7 +24,7 @@ void Ofunc_800a7554(SceneData *scene,float x,float y,float z){
 void Scene::MatrixARotate(SceneData *scene,float pitch,float roll,float yaw){
   MtxF temp;
   
-  guRotateRPYF(&temp,roll,pitch,yaw);
+  guRotateRPYF(temp,roll,pitch,yaw);
   scene->matrixA[0][0] = temp[0][0];
   scene->matrixA[1][0] = temp[1][0];
   scene->matrixA[2][0] = temp[2][0];
@@ -40,7 +40,7 @@ void Scene::MatrixARotate(SceneData *scene,float pitch,float roll,float yaw){
 void Ofunc_800a7674(SceneData *scene,float param_2,float param_3,float param_4){
   MtxF tempA;
   
-  guRotateRPYF(&tempA,param_3,param_2,param_4);
+  guRotateRPYF(tempA,param_3,param_2,param_4);
   MtxF tempB;
   MTXCPY(tempB,scene->matrixA);
   some_other_matrix_math(&scene->matrixA,&tempA,&tempB);
@@ -77,7 +77,7 @@ void Scene::ScaleBodyPart(SceneData *scene,float x,float y,float z){
 void Scene::MatrixAAlign(SceneData *scene,float x,float y,float z,float angle){
   MtxF temp;
   
-  guAlignF(&temp,angle,x,y,z);
+  guAlignF(temp,angle,x,y,z);
   scene->matrixA[0][0] = temp[0][0];
   scene->matrixA[1][0] = temp[1][0];
   scene->matrixA[2][0] = temp[2][0];
@@ -113,7 +113,7 @@ void Ofunc_800a7920(SceneData *scene,float x,float y,float z){
 void Scene::MatrixBRotate(SceneData *scene,float pitch,float roll,float yaw){
     MtxF temp;
     
-    guRotateRPYF(&temp,roll,pitch,yaw);
+    guRotateRPYF(temp,roll,pitch,yaw);
     scene->matrixB[0][0] = temp[0][0];
     scene->matrixB[1][0] = temp[1][0];
     scene->matrixB[2][0] = temp[2][0];
@@ -253,7 +253,7 @@ float Scene::GetAspectRatio(SceneData *scene){
 void Ofunc_800a7ec0(SceneData *scene,float param_2,float param_3,float param_4,float param_5){
   Borg3Header *b3 = scene->borg5->dat.borg3P;
   if (b3) {
-    Vp_t* viewport = &b3->dat.viewportP->vp;
+    Vp* viewport = b3->dat.viewportP;
     viewport->vtrans[0] = (s16)(int)(param_2 + param_4 + param_2 + param_4);
     viewport->vtrans[1] = (s16)(int)(param_3 + param_5 + param_3 + param_5);
     viewport->vscale[0] = (s16)(int)((param_4 - param_2) + (param_4 - param_2));
@@ -496,17 +496,17 @@ bool Scene::SceneGetLocatorMtx(SceneData *scene,MtxF *mf,s32 i){
   }
   else {
     Borg2Header *pbVar1 = ((scene->borg5)->dat).borg2p[scene->locators[i]];
-    guMtxIdentF(&afStack344);
+    guMtxIdentF(afStack344);
     Borg2Data *pbVar2 = pbVar1->dat;
-    guRotateRPYF(&afStack344,(pbVar2->rot).x * RadInDeg_f,
+    guRotateRPYF(afStack344,(pbVar2->rot).x * RadInDeg_f,
                      (pbVar2->rot).y * RadInDeg_f,
                      (pbVar2->rot).z * RadInDeg_f);
-    guMtxIdentF(&afStack280);
+    guMtxIdentF(afStack280);
     pbVar2 = pbVar1->dat;
     afStack280[3][0] = (pbVar2->pos).x;
     afStack280[3][1] = (pbVar2->pos).y;
     afStack280[3][2] = (pbVar2->pos).z;
-    guMtxIdentF(mf);
+    guMtxIdentF(*mf);
     some_other_matrix_math(&afStack216,&afStack280,&afStack344);
     some_other_matrix_math(mf,&pbVar1->someMtx,&afStack216);
     (*mf)[0][0] /= pbVar1->dat->scale;
@@ -545,7 +545,7 @@ bool Scene::SceneGetLocatorPos(SceneData *pScene,vec3f *pos,s32 param_3){
   Borg2Header *pModel = ((pScene->borg5)->dat).borg2p[pScene->locators[param_3]];
   if (!pModel) CRASH("scene.cpp, SceneGetLocatorPos()","!pModel");
   pbVar2 = pModel->dat;
-  guMtxXFMF(&pModel->someMtx,(pbVar2->pos).x,(pbVar2->pos).y,(pbVar2->pos).z,&pos->x,&pos->y,&pos->z);
+  guMtxXFMF(pModel->someMtx,(pbVar2->pos).x,(pbVar2->pos).y,(pbVar2->pos).z,&pos->x,&pos->y,&pos->z);
   pos->x *= (float)(1.0/16);
   pos->y *= (float)(1.0/16);
   pos->z *= (float)(1.0/16);
@@ -566,13 +566,13 @@ bool Scene::SceneGetLocatorNorm(SceneData *scene,vec3f *out,s32 param_3){
     #endif
     CRASH("scene.cpp, SceneGetLocatorNorm()",errBuff);
   }
-  Borg2Header *pBVar1 = scene->borg5->dat.borg2p[scene->locators[param_3]];
-  guMtxIdentF(&tempA);
+  pBVar1 = scene->borg5->dat.borg2p[scene->locators[param_3]];
+  guMtxIdentF(tempA);
   pbVar2 = pBVar1->dat;
-  guRotateRPYF(&tempA,(pbVar2->rot).x * RadInDeg_f,
+  guRotateRPYF(tempA,(pbVar2->rot).x * RadInDeg_f,
                    (pbVar2->rot).y * RadInDeg_f,
                    (pbVar2->rot).z * RadInDeg_f);
-  guMtxIdentF(&tempB);
+  guMtxIdentF(tempB);
   some_other_matrix_math(&tempB,&pBVar1->someMtx,&tempA);
   tempB[3][0] = 0.0;
   tempB[3][1] = 0.0;
@@ -586,7 +586,7 @@ bool Scene::SceneGetLocatorNorm(SceneData *scene,vec3f *out,s32 param_3){
   tempB[0][2] /=pBVar1->dat->scale;
   tempB[1][2] /=pBVar1->dat->scale;
   tempB[2][2] /=pBVar1->dat->scale;
-  guMtxXFMF(&tempB,0.0,1.0f,0.0,&out->x,&out->y,&out->z);
+  guMtxXFMF(tempB,0.0,1.0f,0.0,&out->x,&out->y,&out->z);
   if (out->x == 0.0)out->x=1.0E-4f;
   if (out->y == 0.0)out->y=1.0E-4f;
   if (out->z == 0.0)out->z=1.0E-4f;
@@ -610,10 +610,10 @@ bool Scene::SceneGetLocatorAlign(SceneData *scene,vec3f *out,u32 param_3){
     CRASH("scene.cpp, SceneGetLocatorAlign()",errrBuff);
   }
   pBVar1 = scene->borg5->dat.borg2p[scene->locators[param_3]];
-  guMtxIdentF(&mtxA);
+  guMtxIdentF(mtxA);
   pbVar2 = pBVar1->dat;
-  guRotateRPYF(&mtxA,(pbVar2->rot).x * RadInDeg_f,(pbVar2->rot).y * RadInDeg_f,(pbVar2->rot).z * RadInDeg_f);
-  guMtxIdentF(&mtxB);
+  guRotateRPYF(mtxA,(pbVar2->rot).x * RadInDeg_f,(pbVar2->rot).y * RadInDeg_f,(pbVar2->rot).z * RadInDeg_f);
+  guMtxIdentF(mtxB);
   some_other_matrix_math(&mtxB,&pBVar1->someMtx,&mtxA);
   mtxB[3][0] = 0.0;
   mtxB[3][1] = 0.0;
@@ -627,7 +627,7 @@ bool Scene::SceneGetLocatorAlign(SceneData *scene,vec3f *out,u32 param_3){
   mtxB[0][2] /=pBVar1->dat->scale;
   mtxB[1][2] /=pBVar1->dat->scale;
   mtxB[2][2] /=pBVar1->dat->scale;
-  guMtxXFMF(&mtxB,0.0,0.0,-1.0f,&out->x,&out->y,&out->z);
+  guMtxXFMF(mtxB,0.0,0.0,-1.0f,&out->x,&out->y,&out->z);
   if (out->x == 0.0)out->x=1.0E-4f;
   if (out->y == 0.0)out->y=1.0E-4f;
   if (out->z == 0.0)out->z=1.0E-4f;
@@ -655,7 +655,7 @@ bool Scene::GetRotate(SceneData *scene,vec3f *posOut,vec3f *aimOut,vec3f *param_
     v3A.x = 0.0;
     v3A.y = 0.0;
     v3A.z = 1.0;
-    guRotateRPYF(&mf,(pbVar1->rot).y,(pbVar1->rot).x,0.0);
+    guRotateRPYF(mf,(pbVar1->rot).y,(pbVar1->rot).x,0.0);
     MtxXFMF(&v3b,&mf,&v3A);
     aimOut->x = posOut->x - v3b.x;
     aimOut->y = posOut->y - v3b.y;
@@ -663,7 +663,7 @@ bool Scene::GetRotate(SceneData *scene,vec3f *posOut,vec3f *aimOut,vec3f *param_
     v3A.y = 1.0;
     v3A.z = 0.0;
     aimOut->z = posOut->z - v3b.z;
-    guRotateRPYF(&mf,0.0,0.0,(pbVar1->rot).z);
+    guRotateRPYF(mf,0.0,0.0,(pbVar1->rot).z);
     MtxXFMF(&v3b,&mf,&v3A);
     param_4->x = v3b.x;
     param_4->y = v3b.y;

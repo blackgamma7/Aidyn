@@ -1,3 +1,4 @@
+#pragma once
 #include "titleScreen.h"
 #include "wander.h"
 #include "Camera.h"
@@ -249,6 +250,7 @@ enum CombatStates{
 };
 
 extern void(*freeWidgetFunc)(BaseWidget*);
+extern void(*PTR_800edb70)(BaseWidget*);
 extern BaseWidget* PTR_800ed504;
 
 
@@ -258,8 +260,8 @@ extern u16 gDebugFlag;
 extern u16 gExpPakFlag; //set when OsMemSize>4MB.
 GlobalsAidyn gGlobals;
 
-extern OSMesg* PTR_800e8f30=NULL;
-extern void* osSched_stack=NULL;
+extern OSMesg* PTR_800e8f30;
+extern void* osSched_stack;
 extern u64 gInitThreadStack[];
 extern OSThread gInitThread;
 extern OSSched gSched;
@@ -273,7 +275,7 @@ extern u16 doubleGlobalTickerFlag;
 //shorthand for RNG funcs.
 #define RAND gGlobals.rngSeed
 //many sprintfs use "gGlobals.text" as the buffer.
-#define Gsprintf(fmt,...)  sprintf(gGlobals.text,fmt,__VA_ARGS__)
+#define Gsprintf(fmt,...)  sprintf(gGlobals.text,fmt,##__VA_ARGS__)
 //many strings are called from the CommonStrings field, likely for localization purposes.
 #define Cstring(name) gGlobals.CommonStrings[COMMONSTRING_##name]
 

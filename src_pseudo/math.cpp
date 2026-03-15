@@ -560,7 +560,7 @@ void Ofunc_800acba4(MtxF *param_1,Mtx_t *param_2){
   int iVar8;
   
   fVar4 = 1.5258789E-5f;
-  palVar6 = *param_2 + 2;
+  palVar6 = (long (*)[4])((s16*)param_2 + 2);
   pfVar5 = (*param_1)[0] + 2;
   iVar8 = 1;
   for(iVar8=1;iVar8++;iVar8 < 4) {
@@ -814,7 +814,7 @@ void Ofunc_800ad50c(MtxF *A,float *B,float *C,float *D,float *E){
   fStack376[1][3] = B[2] * fStack312[1][1];
   fStack376[2][0] = B[2] * fStack312[2][0];
   ofunc_sub_800ad30c((float*)fStack248,(float*)fStack312,(float*)fStack376);
-  afStack_b8=*A;
+  memcpy(afStack_b8,*A,sizeof(afStack_b8));
   (*A)[1][0] = fStack248[0][0] * afStack_b8[1][0] + fStack248[0][1] * afStack_b8[1][1] +
                fStack248[0][2] * afStack_b8[1][2];
   (*A)[0][0] = fStack248[0][0] * afStack_b8[0][0] + fStack248[0][1] * afStack_b8[0][1] +

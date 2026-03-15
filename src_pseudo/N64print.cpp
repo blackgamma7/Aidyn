@@ -2,6 +2,8 @@
 
 #include "N64Print.h"
 #include "heapN64.h"
+#include "globals.h"
+#include "graphics.h"
 
 void N64Print::UnkA(s32 param_1,u16 param_2){
   ofunc_value = show_debug_queue;

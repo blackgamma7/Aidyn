@@ -1,4 +1,4 @@
-#include "gamestatemod.h"
+#include "gameStateMod.h"
 #include "globals.h"
 
 WidgetBufferedMenu::WidgetBufferedMenu

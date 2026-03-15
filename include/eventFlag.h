@@ -1,3 +1,4 @@
+#pragma once
 #include "typedefs.h"
 #include "Flagindecies.h"
 
@@ -53,31 +54,13 @@ struct event_flag_array {
     u8 skill_stat;
 };
 
-GameStateFunnel* gameStates=NULL;
-
-event_flag_array eventflagArrayStats[]={
-    {FLAG_StatIntA,FLAG_StatIntE,0,STAT_INT},{FLAG_StatWilA,FLAG_StatWilE,0,STAT_WIL},
-    {FLAG_StatEndA,FLAG_StatEndE,0,STAT_END},
-    {FLAG_StatDexA,FLAG_StatDexE,0,STAT_DEX},{FLAG_StatStrA,FLAG_StatStrE,0,STAT_STR}
-};
-
-event_flag_array eventflagArraySkills[]={
-    {FLAG_SkillMechA,FLAG_SkillMechE,0,SKILL_Mechanic},//Diplomat skipped?
-    {FLAG_SkillLoreA,FLAG_SkillLoreA,0,SKILL_Loremaster},
-    {FLAG_SkillWizA,FLAG_SkillWizE,0,SKILL_Wizard},
-    //Large blank space below, may be from proceeding script instead.
-    {0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},
-    {0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},{0},
-};
+extern GameStateFunnel* gameStates;
+extern event_flag_array eventflagArrayStats[];
+extern event_flag_array eventflagArraySkills[];
 
 #if DEBUGVER
-
-char eventflag_types1[][4]={
-    "LOG","VAL","CNT","BIT","INV"
-};
-char eventflag_types2[][4]={
-    "AND","IOR","EOR","NOT","MSK","EQU","GRT","LST","NEG","INV"
-};
+extern char eventflag_types1[][4];
+extern char eventflag_types2[][4];
 #endif
 
 typedef u16 EventFlag;

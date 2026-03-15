@@ -7,6 +7,12 @@
 #include "titlesplash.h"
 #include "ContPakInit.h"
 
+void AppProc(void *x);
+void appProc_init(void);
+Gfx* appProc_caseSwitch(Gfx* gg);
+void clear_audio_video(void);
+int appState_RegionControllerCheck(Gfx **gg);
+
 void * appStack_mirror=NULL;
 u16 doubleGlobalTickerFlag=0;
 #if !DEBUGVER

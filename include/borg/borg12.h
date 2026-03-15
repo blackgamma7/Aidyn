@@ -1,3 +1,4 @@
+#pragma once
 #include "borg/borg11.h"
 
 struct Borg12Sub {

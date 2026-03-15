@@ -1,4 +1,6 @@
+#pragma once
 #include "collide.h"
+struct playerData;
 
 // Camera Data struct
 struct Camera_struct {

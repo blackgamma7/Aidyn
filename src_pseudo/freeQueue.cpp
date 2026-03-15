@@ -57,10 +57,11 @@ void ProcessFreeQueue(QueueStructA *param_1){
           case QueueType_Borg13:
             passto_borg13_free((Borg13Header *)entry->BorgPointer);
             break;
-          case QueueType_Widget:
+          case QueueType_Widget: {
             BaseWidget *w = (BaseWidget *)entry->BorgPointer;
             if (w) w->~BaseWidget();
             break;
+          }
           case QueueType_Other:
             HFREE(entry->BorgPointer,170);
             break;

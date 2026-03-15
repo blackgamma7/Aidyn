@@ -186,28 +186,28 @@ void smaller_debug_menu(void){
 void debug_combat_options(BaseWidget *param_1){
   if (param_1->GetNumber() == WidgetN_Text) {
     char** txt = (char **)param_1->substruct;
-    if(strcmp(*txt,"Combat")==0){
+    if(strcmp((const char*)*txt,"Combat")==0){
         FreeSmallDebug;
         gGlobals.playerCharStruct.gameStateB = GameStateB_2;
         return;
     }
-    if (strcmp(*txt,"Combat Arena Random Test") == 0) {
+    if (strcmp((const char*)*txt,"Combat Arena Random Test") == 0) {
         FreeSmallDebug;
         random_enemy_generator();
         DebugCombatSelectArena();
         return;
       }
-    if (strcmp(*txt,"Combat Arena Enemy Test") == 0) {
+    if (strcmp((const char*)*txt,"Combat Arena Enemy Test") == 0) {
         FreeSmallDebug;
         create_enemy_list();
         return;
       }
-    if (strcmp(*txt,"Teleporter") == 0) {
+    if (strcmp((const char*)*txt,"Teleporter") == 0) {
         FreeSmallDebug;
         DebugTeleportMenu();
         return;
       }
-    if (strcmp(*txt,"Actor") == 0){
+    if (strcmp((const char*)*txt,"Actor") == 0){
         FreeSmallDebug;
         change_actor_menu();
         return;

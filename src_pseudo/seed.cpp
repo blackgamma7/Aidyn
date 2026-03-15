@@ -7,8 +7,10 @@ OSMesg* PTR_800e8f30=NULL;
 void* osSched_stack=NULL;
 u64 gInitThreadStack[105]={0};
 OSThread gInitThread={0};
-OSSched gSched={0};
-OSMesgQueue gPIManagerQueue={0};
+OSSched gSched;
+OSMesgQueue gPIManagerQueue;
+
+void InitProc(void* p);
 
 void bootproc(void){
   osInitialize();

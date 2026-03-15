@@ -1,3 +1,4 @@
+#pragma once
 #include "n64Borg.h"
 
 struct PlaneObj { /* used for damage numbers and shadows */

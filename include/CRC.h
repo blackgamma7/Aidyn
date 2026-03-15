@@ -1,3 +1,4 @@
+#pragma once
 #include "typedefs.h"
 
 u32* gCRCTableP;

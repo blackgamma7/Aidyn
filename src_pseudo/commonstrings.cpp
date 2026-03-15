@@ -1,7 +1,7 @@
 #include "globals.h"
 #include "romstring.h"
 #include "gameStateMod.h"
-#include "gameStateCheats.h"
+#include "gamestateCheats.h"
 #include "combat/CombatStruct.h"
 
 

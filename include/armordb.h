@@ -1,3 +1,4 @@
+#pragma once
 #include "itemID.h"
 
 #pragma pack (push, 1) //struct is 1-byte aligned.
@@ -66,7 +67,7 @@ class ArmorDB {
     void Free();
     u32 GetBorg5(ItemID id);
 };
-ArmorDB* gArmorDBp=NULL;
+extern ArmorDB* gArmorDBp;
 
 extern u8 ArmorList[];
 

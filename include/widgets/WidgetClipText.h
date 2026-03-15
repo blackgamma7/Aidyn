@@ -1,9 +1,11 @@
+#pragma once
 #include "widgets/BaseWidget.h"
 
 //Text widget
 class WidgetClipText : public BaseWidget {
 public:
   WidgetClipText(char* str, u16 len);
+  ~WidgetClipText();
   Gfx * Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
   u16 GetWidth();
   u16 GetHeight();

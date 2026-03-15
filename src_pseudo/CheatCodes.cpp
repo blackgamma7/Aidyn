@@ -2,6 +2,7 @@
 #include "cheats.h"
 #include "romstring.h"
 #include "widgets/textPopup.h"
+extern u8 CheatStrings[];
 
 struct StringCheat{
     char* code;

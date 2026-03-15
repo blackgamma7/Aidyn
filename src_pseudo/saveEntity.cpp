@@ -30,7 +30,7 @@ void SaveEntity::BenchParty(Party *param_1){
     }
     else {
       CharSheet *pCVar2 = gSaveEntity[iVar4];
-      if (pCVar2 == NULL) {gSaveEntity[iVar4] = InitEntity((pCVar1->ID);}
+      if (pCVar2 == NULL) {gSaveEntity[iVar4] = InitEntity(pCVar1->ID);}
       else {
         if (pCVar2->ID != pCVar1->ID) {
           Entity::Free(pCVar2);
@@ -127,7 +127,7 @@ void SaveEntity::TransferWeapons(CharSheet *param_1,CharSheet *param_2){
   if (pWVar2) {
     ALLOC(pWVar5,360);
     param_2->weapons = pWVar5;
-    createTempWeapon(pWVar5,pWVar2->base).id);
+    createTempWeapon(pWVar5,pWVar2->base.id);
     if ((pWVar5->base).statMod)
       pWVar5->base.statMod->mod = ((pWVar2->base).statMod)->mod;
     if ((pWVar5->base).spellCharge)

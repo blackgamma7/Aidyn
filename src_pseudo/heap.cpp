@@ -4,6 +4,23 @@
 #include "heapN64.h"
 #include "crash.h"
 
+MemMon_struct gMemMonitor={0};
+
+/* Forward declarations for internal heap helpers defined later in this file */
+void FUN_80098824(s32 *param_1, s32 param_2);
+void FUN_8009882c(void* param_1, u32 param_2);
+u32  get_heap_size(HeapBlock *param_1);
+s32  FUN_80098848(void **param_1);
+void FUN_80098864(void *param_1, s32 param_2);
+void FUN_8009886c(void *param_1, s32 param_2);
+s32  FUN_80098874(void *param_1);
+s32  FUN_8009887c(HeapBlock *param_1);
+void FUN_800986f0(void *param_1, s32 param_2);
+void FUN_8009872c(void *param_1);
+void FUN_800987a8(HeapBlock *param_1);
+char *remove_dir_slashes(char *str);
+void free_update_mem_mon(HeapBlock *param_1);
+
 #define Msprintf(fmt,...) sprintf(gMemMonitor.text,fmt,__VA_ARGS__)
 #if DEBUGVER
 #define HeapCrash(l,fmt,...) Msprintf(fmt,__VA_ARGS__); CRASH("heap.cpp",gMemMonitor.text)

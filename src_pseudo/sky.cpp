@@ -254,7 +254,7 @@ void Sky::SetColors(Color32 *col0,Color32 *col1,float param_3,float gray,Color32
   float fVar8;
   float fVar9;
   vec3f mainColVec,skyColRes,fogColVec,cloudColVec,
-     sunColVec,mainColRes,skyColRes;
+     sunColVec,mainColRes;
   
   GenerateSky(col0,col1,param_3,gray,0x20,&mainColVec);
   GenerateSky(col0,col1,param_3,gray,0x21,&skyColRes);
@@ -320,7 +320,6 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
   short sVar1;
   u16 uVar4;
   u16 v;
-  Gfx *gfx;
   u32 uVar2;
   int iVar3;
   float fVar5;
@@ -390,7 +389,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
       Vec3Normalize(&fStack128);
       SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
               gGlobals.sky.colors,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
-              -gGlobals.sky.lensFlareVal * 0.5));
+              -gGlobals.sky.lensFlareVal * 0.5);
       iVar3 = GenerateGradient(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,
                              (float)(__sinf(fStack128.y) * Graphics::GetVRes()),fVar6,gGlobals.sky.gray,
                              gGlobals.sky.gradient,gGlobals.sky.lensFlareVal);

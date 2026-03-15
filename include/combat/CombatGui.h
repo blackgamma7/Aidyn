@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/WidgetBorg8Combat.h"
 
 struct CombatPortrait {

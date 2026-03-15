@@ -1,3 +1,4 @@
+#pragma once
 #include "../ultra/include/2.0I/ultra64.h"
 #include "../ultra/include/2.0I/PR/sched.h"
 
@@ -19,6 +20,16 @@ typedef union Color32 {
     struct {u8 R, G, B, A;};
     u32 W;
 };
+
+#ifndef TRUE
+#define TRUE 1
+#define FALSE 0
+#endif
+
+#ifndef MIN
+#define MIN(a,b) ((a)<(b)?(a):(b))
+#define MAX(a,b) ((a)>(b)?(a):(b))
+#endif
 
 #define ASCIIRange 94 //('~'-' ')
 

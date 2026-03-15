@@ -1,5 +1,7 @@
 #include "globals.h"
 
+void FreeDynamicLight(DynamicLightHead *param_1, s16 param_2);
+
 void InitLight_(voxelObject* vox,vec3f *pos,float size,u16 type,float f1,u32 colB,u32 colC){
   CLEAR(vox);
   vox->header.type = VOXEL_Light;

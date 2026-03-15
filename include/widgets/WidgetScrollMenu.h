@@ -1,9 +1,11 @@
+#pragma once
 #include "widgets/WidgetMenu.h"
 
 
 class WidgetScrollMenu : public BaseWidget{
 public:
 WidgetScrollMenu(u16 length);
+~WidgetScrollMenu();
 Gfx * Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
 u8 Tick();
 u32 GetNumber();

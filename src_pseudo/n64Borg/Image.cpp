@@ -158,6 +158,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
   dsdx16 = (s16)dsdx;
   dtdy16 = (s16)dtdy;
   sVar28 = (s16)iVar31;
+  u16 currYoff = yOff; /* hoisted from case blocks to avoid jump-over-declaration errors */
   switch((borg8->dat).format) {
   case BORG8_RBGA32:
     if ((int)hVis < 2) fmt = 2 - hVis;
@@ -179,7 +180,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
     gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     fVar33 = (float)dVar35 * imgYScale * 4.0f;
     uVar4 = (u32)sVar28;
-    u16 currYoff=yOff;
+    currYoff=yOff;
     for(i=0;i<iters;i++){
       currYoff+=uVar22;
       Borg8LoadTextureBlock(g++,BMP,G_IM_FMT_RGBA,G_IM_SIZ_32b,borg8->dat.Width,hVis,xOff,yOff,currYoff,uVar22);
@@ -213,7 +214,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
     dVar35 = (double)(int)vVis;
     gSPSetOtherMode(g++,G_SETOTHERMODE_H,29/*?*/,2,G_TT_NONE);
     uVar4 = (u32)sVar28;
-    u16 currYoff=yOff;
+    currYoff=yOff;
     for(i=0;i<iters;i++){
       currYoff+=uVar22;
       Borg8LoadTextureBlock(g++,BMP,fmt,G_IM_SIZ_16b,borg8->dat.Width,hVis,xOff,yOff,currYoff,uVar22);
@@ -260,7 +261,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
     }
     dVar35 = (double)(int)vVis;
     uVar4 = (u32)sVar28;
-    u16 currYoff=yOff;
+    currYoff=yOff;
     for(i=0;i<iters;i++){
       currYoff+=uVar22;
       Borg8LoadTextureBlock(g++,BMP,fmt,G_IM_SIZ_8b,borg8->dat.Width,hVis,xOff,yOff,currYoff,uVar22);
@@ -311,7 +312,7 @@ Gfx * N64BorgImageDraw(Gfx *g,Borg8Header *borg8,float x,float y,u16 xOff,u16 yO
     iVar6 = xOff - 1;
     dVar35 = (double)(int)vVis;
     uVar4 = (u32)sVar28;
-    u16 currYoff=yOff;
+    currYoff=yOff;
     for(i=0;i<iters;i++){
       currYoff+=uVar22;
       Borg8LoadTextureBlock(g++,BMP,fmt,G_IM_SIZ_4b,borg8->dat.Width>>1,hVis,xOff,yOff,currYoff,uVar22);

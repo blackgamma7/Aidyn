@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/BaseWidget.h"
 u8 textbox_alpha[]={0xff,0xff};
 

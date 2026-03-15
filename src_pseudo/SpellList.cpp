@@ -1,6 +1,6 @@
 #include "spells.h"
 
-#define SpellIndex(n) IDInd(Spell_##n##)
+#define SpellIndex(n) IDInd(Spell_##n)
 
 u8 SpellList[]={
     SpellIndex(Immolation),

@@ -233,7 +233,7 @@ void WidgetSpellTrain::Confirm(u16 id,u16 lv) {
     return;
   }
   bool afterBattle=BattleResultsState;
-  float discount = 0.8f;
+  discount = 0.8f;
   if (afterBattle) discount = 1.0f;
   if (pCVar2->spellbook->HaveSpell(id,abStack_3c0)) {
     SpellInstance *sp1 = pCVar2->spellbook->spells[abStack_3c0[0]];

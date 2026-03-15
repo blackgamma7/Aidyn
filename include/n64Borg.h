@@ -1,3 +1,4 @@
+#pragma once
 #include "Borgindecies.h"
 #include "borg/borg5.h"
 #include "borg/borg7.h"

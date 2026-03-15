@@ -66,7 +66,7 @@ Gfx * FUN_80027aa8(Gfx *param_1){
   if (SceneDataP) {
     MtxF afStack88;
     Scene::MatrixARotate(SceneDataP,0.0,FLOAT_800e9b84,0.0);
-    guAlignF(&afStack88,0.0,vec3f_800f53f0.x,vec3f_800f53f0.y,vec3f_800f53f0.z);
+    guAlignF(afStack88,0.0,vec3f_800f53f0.x,vec3f_800f53f0.y,vec3f_800f53f0.z);
     guMtxCatF(SceneDataP->matrixA,afStack88,SceneDataP->matrixA);
     float fVar1 = __sinf((FLOAT_800e9b80 / FLOAT_800e9b70) * 3.14159f);
     Scene::MatrixASetPos
@@ -849,7 +849,7 @@ void gamecombat_weapon_func(){
       local_38.z = 0.0;
       local_38.x = 4.0f;
       local_38.y = 8.0f;
-      CombatEntity::GetWeaponRanges(pCVar2,&local_38.x,&local_38.y,&local_38.z);
+      pCVar2->GetWeaponRanges(&local_38.x,&local_38.y,&local_38.z);
       Vec3Sub(&vec3f_800f53f0,&fStack120,&vec3f_800f5400);
       FLOAT_800e9b70 = Vec3Normalize(&vec3f_800f53f0);
       fVar6 = 2.0f;

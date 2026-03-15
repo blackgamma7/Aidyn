@@ -12,6 +12,9 @@
 void Ofunc_NOOP_80067c70(void){}
 void Ofunc_NOOP_(void){}
 
+u8 cannotSheild(ItemID x);
+u8 CannotShowWeapon(ItemID x);
+
 void CombatEntity::Init(CharSheet *charsheet,int param_3,u8 startx,
                        u8 starty,s8 param_6,u8 param_7,int isAI,u8 index){
   ItemID IVar1;
@@ -261,8 +264,6 @@ u8 CombatEntity::DEXCheck(){
 u8 CombatEntity::GetProtection(){
   u8 bVar5;
   u32 uVar4;
-  u32 uVar6;
-  
   u8 acid = 0;
   u8 def = 0;
   u8 uVar6 = 0;
@@ -1676,7 +1677,7 @@ s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *target,s8 param_3,s8 par
   if (5 <= prox) uVar15 -= prox - 5;
   uVar16 = (s16)(uVar15 - CharStats::getBase(DefStats,STAT_LV));
   if (!target->HasPetrifyEffect()) {
-    uVar16 = (s16)(uVar15 - CharStats::getBase(DefStats,STAT_LV)) + CharStats::getModded(DefStats,STAT_DEX) * -2) - target->GetBlock());
+    uVar16 = (s16)(uVar15 - CharStats::getBase(DefStats,STAT_LV) + CharStats::getModded(DefStats,STAT_DEX) * -2 - target->GetBlock());
   }
   iVar7 = TheifBackstabMod(uVar16,backstab,0,0x14);
   if (target->numMoves == 0) iVar7 *= 1.2f;
@@ -2690,7 +2691,7 @@ void CombatEntity::Troubadour(){
         AttachItemToPlayer(ppVar2,2,0x1abb);
       }
       ppVar2->ani_type = AniType_GetBuff;
-      combat_byte_0x1a(ppVar2);
+      combat_byte_0x1a();
     }
   }
 }

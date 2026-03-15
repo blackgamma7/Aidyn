@@ -1,6 +1,8 @@
+#pragma once
 #include "widgets/WidgetChoiceDia.h"
 #include "widgets/widgetGroup.h"
 #include "entity.h"
+class WidgetScrollArrows;
 
 //lists spells, heal methods and troubadour party member can do.
 class WidgetCombatSkills: public WidgetChoiceDia{

@@ -39,7 +39,7 @@ void DollMenuLists::InitMenu(DollEquipmentMenu *menu,u8 sel){
     this->menus[this->menuCount++] = this->invMenu;
     if (BarterPauseState) goto LAB_80038434;
   }
-  this->spellMenu = new WidgetSpellTrain();
+  this->spellMenu = new WidgetSpellTrain(false);
   this->menus[this->menuCount++] = this->spellMenu;
   this->skillMenu = new WidgetSkillTrain(false);
   this->menus[this->menuCount++] = this->skillMenu;

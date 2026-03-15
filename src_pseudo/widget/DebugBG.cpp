@@ -1,4 +1,4 @@
-#include "widgets/DebugBG.h"
+#include "widgets/debugBG.h"
 
 WidgetDebugBG::WidgetDebugBG():BaseWidget(){
     //makes then destroys a copy?!?

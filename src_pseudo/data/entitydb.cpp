@@ -4,6 +4,7 @@
 #include "dialougEnt.h"
 #include "Borgindecies.h"
 #define FILENAME "../data/entitydb.cpp"
+extern u8 entitydb[];
 
 //unused inialization method.
 void EntityDB::OldInit(){

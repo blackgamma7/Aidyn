@@ -1,4 +1,4 @@
-#include "combat/combatStruct.h"
+#include "combat/CombatStruct.h"
 #include "globals.h"
 
 void giveCameratoThisPlayer(u8 X){

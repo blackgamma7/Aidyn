@@ -1,8 +1,10 @@
+#pragma once
 #include "CharStats.h"
 #include "CharSkills.h"
 #include "itemInstances.h"
 #include "spells.h"
 #include "potion.h"
+#include "dialougEnt.h"
 
 enum ENTITY_CATEGORY{
     ENTITY_GENERIC,
@@ -208,11 +210,11 @@ class EntityDB {
 };
 
 extern EntityExtra gEntityExtras[222]; //organized alphabetically for some reason.
-extern dialougeEntity_Info dailougEnt_info_array[32]; //same with this.
+extern dialougeEntity_Info dailougEnt_info_array[]; //same with this.
 extern EntityDB* gEntityDB;
 extern u8 entityList[221];
 
-extern class CombatEntity;
+class CombatEntity;
 
 namespace Entity{
     u8 IsElemental(ItemID param_1);

@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/WidgetText.h"
 #include "widgets/WidgetClipText.h"
 #include "widgets/WidgetBorg8.h"

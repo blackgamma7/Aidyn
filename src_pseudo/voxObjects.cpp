@@ -1,6 +1,6 @@
 #include "gamestateCheats.h"
 #include "globals.h"
-#include "inventory\GenericInventory.h"
+#include "inventory/GenericInventory.h"
 #include "vobjects.h"
 #include "voxelChart.h"
 

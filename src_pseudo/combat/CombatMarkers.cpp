@@ -49,9 +49,8 @@ u8 CombatMarkers::Init(void){
 void CombatMarkers::Create(CombatEntity *param_1){
   u8 flag;
   u8 i;
-  float fVar16;
   vec3f pos;
-  
+
   playerData *pDat = gGlobals.combatActors[param_1->index];
   param_1->SetMovementRange();
   float fVar16 = (float)param_1->moveRange + pDat->scaleRad;

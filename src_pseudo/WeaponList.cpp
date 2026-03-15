@@ -1,6 +1,6 @@
 #include "weapondb.h"
 
-#define WeaponIndex(n) IDInd(Weapon_##n##)
+#define WeaponIndex(n) IDInd(Weapon_##n)
 
 u8 weaponList[]={
     WeaponIndex(BiteSpirit),

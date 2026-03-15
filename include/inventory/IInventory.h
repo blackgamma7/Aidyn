@@ -1,3 +1,4 @@
+#pragma once
 #include "saveParty.h"
 #include "itemInstances.h"
 

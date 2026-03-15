@@ -1,9 +1,12 @@
+#pragma once
 #include "n64Borg.h"
 #include "Camera.h"
 
 #ifndef AL_RAW8_WAVE
 #define AL_RAW8_WAVE 2 //not in libreultra, 8-bit PCM sample type
 #endif
+
+struct SoundStructA; /* forward declaration – defined below */
 
 struct SoundStructB {
     u16 index;

@@ -1,3 +1,4 @@
+#pragma once
 #include "borg/borg7.h"
 #include "itemID.h"
 
@@ -159,14 +160,6 @@ struct dynaLightEntry{
     s16 lifespan;
     s16 timer;
 };
-struct DynamicLightHead {
-    voxelObject lights[16];
-    dynaLightEntry shortsA[16];
-    s16 shortsB[16];
-    s16 dynamicLightCount;
-    s16 initFlag;
-};
-
 enum VoxAudioFlags{
     VoxAudio_0001=1, //repeat sound?
     VoxAudio_0002=2, //if set, repeat sound for between (randA) and (randB) seconds
@@ -303,4 +296,12 @@ struct voxelObject {
         Trigger_dat trigger;
         u8 dat[68]; //"CODE" is usually blank, "SAVEPOINT" is never used (you can save anywhere.)
     };
+};
+
+struct DynamicLightHead {
+    voxelObject lights[16];
+    dynaLightEntry shortsA[16];
+    s16 shortsB[16];
+    s16 dynamicLightCount;
+    s16 initFlag;
 };

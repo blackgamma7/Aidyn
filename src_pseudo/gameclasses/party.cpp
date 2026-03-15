@@ -1,13 +1,21 @@
 #define FILENAME "../gameclasses/party.cpp"
 
 #include "globals.h"
+#include "armordb.h"
 #include "SaveEntity.h"
 #include "weapondb.h"
 #include "combat/CombatStruct.h"
 #include "widgets/textPopup.h"
 #include "crafting/potion.h"
 
-extern u8 itemID_array[];
+extern ItemID itemID_array[];
+u8 itemtype_armor(Party* p, u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5);
+u8 itemtype_sheild(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5);
+u8 itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5);
+u8 itemtype_gear(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5);
+u8 itemtype_scroll(Party* p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID* oID);
+u8 itemtype_ring(Party* p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID* oID);
+void FUN_8007f10c(Party* p,CharSheet *param_2,ItemID param_3,StatMod* param_4,u8 param_5); //forward declaration
 
 void Party::Init(){
   CLEAR(this);
@@ -1750,7 +1758,7 @@ s8 Party::GetMostSkilledMember(u8 skill){
   uVar4 = 0;
   iVar2 = 0;
   for(u8 i=0;i<MAXPARTY;i++) {
-    iVar1 = this->Members[i]);
+    iVar1 = this->Members[i];
     if ((iVar1) &&
        (bVar3 = iVar1->Skills->getModdedSkill(skill), bVar5 <= bVar3)) {
       uVar6 = i;
@@ -1807,10 +1815,11 @@ u8 get_equip_stamMod(ItemID id){
   case DB_BOOTS:
   case DB_SCROLL:
   case DB_KEYITEM:
-  case DB_AMULET:
+  case DB_AMULET: {
     u16 iVar2 = search_item_array(IVar4);
     if (gItemDBp->Gear[iVar2].stat != STAT_STAM) {return 0;}
     return gItemDBp->Gear[iVar2].StatMod;
+  }
   default:
     goto LAB_80081f64;
   case DB_ARMOR:
@@ -2107,7 +2116,7 @@ u8 Party::SetWandererVal(u8 param_2){
     if (this->Members[0] == NULL) goto LAB_80082bf0;
     cVar2 = 0;
   }
-  u8 uVar5 = GetMemberRangerIntStam(cVar2);
+  uVar5 = GetMemberRangerIntStam(cVar2);
 LAB_80082bf0:
   float fVar6 = (rand_range(0,10)&1) ? 1.0 : -1.0f;
   float afStack88[] = {1.0,0.5,.25,0.0};

@@ -1,3 +1,4 @@
+#pragma once
 #include "combat/CombatEntity.h"
 
 struct CombatTurn_s {

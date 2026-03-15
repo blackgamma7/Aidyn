@@ -1,6 +1,6 @@
 #include "entity.h"
 
-#define EntityIndex(n) IDInd(Ent_##n##)
+#define EntityIndex(n) IDInd(Ent_##n)
 
 u8 entityList[]={
     EntityIndex(STER1505),

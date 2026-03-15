@@ -15,7 +15,6 @@
 #include <cstring>
 #include <cmath>
 #include <cassert>
-#include <pthread.h>
 #include <time.h>
 #include <unistd.h>
 #include <signal.h>
@@ -231,11 +230,18 @@ extern "C" OSTime osGetTime(void) {
 }
 
 /* =========================================================================
+ * osGetMemSize – returns total RAM size; on Linux report 8 MB (expansion pak)
+ * ========================================================================= */
+extern "C" u32 osGetMemSize(void) {
+    return 0x800000; /* 8 MB */
+}
+
+/* =========================================================================
  * udivdi3 – 64-bit unsigned division helper used by TIME_USEC macro
  * ========================================================================= */
-extern "C" u64 udivdi3(u64 a, u64 b) {
+extern "C" u32 udivdi3(u64 a, u64 b) {
     if (b == 0) return 0;
-    return a / b;
+    return (u32)(a / b);
 }
 
 /* =========================================================================
@@ -250,6 +256,8 @@ extern "C" __attribute__((weak)) void osViSwapBuffer(void *buffer)  { (void)buff
 extern "C" __attribute__((weak)) void osViSetEvent(OSMesgQueue *mq, OSMesg msg, u32 rc) {
     (void)mq; (void)msg; (void)rc;
 }
+extern "C" __attribute__((weak)) void osCreateViManager(OSPri pri) { (void)pri; }
+extern "C" __attribute__((weak)) void osViSetSpecialFeatures(u32 features) { (void)features; }
 
 /* =========================================================================
  * OSSched – 60/50 Hz retrace scheduler
@@ -320,10 +328,10 @@ extern "C" void osCreateScheduler(OSSched *sc, void *stack, OSPri pri, u8 mode, 
     sc->thread.started = 1;
 }
 
-extern "C" void osScAddClient(OSSched *sc, OSScClient *c, OSMesgQueue *mq, OSMesg msg) {
+extern "C" void osScAddClient(OSSched *sc, OSScClient *c, OSMesgQueue *mq) {
     pthread_mutex_lock(&sc->mutex);
     c->msgQ  = mq;
-    c->msg   = msg;
+    c->msg   = (OSMesg)0;
     c->next  = sc->clientList;
     sc->clientList = c;
     pthread_mutex_unlock(&sc->mutex);
@@ -338,6 +346,10 @@ extern "C" void osScRemoveClient(OSSched *sc, OSScClient *c) {
     }
     c->next = nullptr;
     pthread_mutex_unlock(&sc->mutex);
+}
+
+extern "C" OSMesgQueue *osScGetCmdQ(OSSched *sc) {
+    return &sc->mq;
 }
 
 extern "C" OSScTask *osScGetTask(OSSched *sc) {
@@ -382,6 +394,10 @@ extern "C" void osContGetReadData(OSContPad *data) {
 }
 
 extern "C" s32 osContSetCh(u8 ch) { (void)ch; return 0; }
+extern "C" s32 osContStartQuery(OSMesgQueue *mq) { (void)mq; return 0; }
+extern "C" void osContGetQuery(OSContStatus *data) {
+    if (data) memset(data, 0, sizeof(OSContStatus) * MAXCONTROLLERS);
+}
 
 /* Controller Pak / rumble stubs */
 extern "C" s32 osMotorInit(OSMesgQueue *mq, OSPfs *pfs, s32 channel) {
@@ -424,6 +440,20 @@ extern "C" s32 osPfsDeleteFile(OSPfs *pfs, u8 company, u8 game, u8 *gn, u8 *en) 
     return PFS_ERR_NOPACK;
 }
 
+extern "C" s32 osPfsFileState(OSPfs *pfs, s32 file, OSPfsState *state) {
+    (void)pfs; (void)file;
+    if (state) memset(state, 0, sizeof(OSPfsState));
+    return PFS_ERR_NOPACK;
+}
+
+extern "C" s32 osPfsRepairId(OSPfs *pfs) { (void)pfs; return 0; }
+
+extern "C" s32 osPfsFreeBlocks(OSPfs *pfs, s32 *freeBlocks) {
+    (void)pfs;
+    if (freeBlocks) *freeBlocks = 0;
+    return 0;
+}
+
 extern "C" s32 osPfsIsPlug(OSMesgQueue *mq, u8 *pattern) {
     (void)mq;
     if (pattern) *pattern = 0;
@@ -462,27 +492,44 @@ extern "C" void alSynNew(ALSynth *s, ALHeap *hp, ALSynConfig *config) {
 extern "C" void alSynDelete(ALSynth *s)                             { (void)s; }
 extern "C" void alSynAddPlayer(ALSynth *s, ALPlayer *p)             { (void)s; (void)p; }
 extern "C" void alSynRemovePlayer(ALSynth *s, ALPlayer *p)          { (void)s; (void)p; }
-extern "C" s32  alSynAllocVoice(ALSynth *s, ALVoice *v, ALWaveTable *t) {
-    (void)s; (void)t;
+extern "C" void alInit(ALGlobals *g, ALSynConfig *c)                { (void)g; (void)c; }
+extern "C" s32  alSynAllocVoice(ALSynth *s, ALVoice *v, ALVoiceConfig *c) {
+    (void)s; (void)c;
     memset(v, 0, sizeof(*v));
     return 0;
 }
 extern "C" void alSynFreeVoice(ALSynth *s, ALVoice *v)              { (void)s; (void)v; }
 extern "C" void alSynStartVoice(ALSynth *s, ALVoice *v)             { (void)s; (void)v; }
+extern "C" void alSynStartVoiceParams(ALSynth *s, ALVoice *v, ALWaveTable *t,
+    f32 pitch, s16 vol, ALPan pan, u8 flag, ALMicroTime time)
+    { (void)s;(void)v;(void)t;(void)pitch;(void)vol;(void)pan;(void)flag;(void)time; }
 extern "C" void alSynStopVoice(ALSynth *s, ALVoice *v)              { (void)s; (void)v; }
-extern "C" void alSynSetVol(ALSynth *s, ALVoice *v, s16 vol)        { (void)s; (void)v; (void)vol; }
+extern "C" void alSynSetVol(ALSynth *s, ALVoice *v, s16 vol, ALMicroTime time)
+    { (void)s; (void)v; (void)vol; (void)time; }
 extern "C" void alSynSetPitch(ALSynth *s, ALVoice *v, f32 pitch)    { (void)s; (void)v; (void)pitch; }
 extern "C" void alSynSetPan(ALSynth *s, ALVoice *v, u8 pan)         { (void)s; (void)v; (void)pan; }
-extern "C" void alClose(ALSynth *s)                                  { (void)s; }
+extern "C" void alClose(ALGlobals *s)                                { (void)s; }
+extern "C" Acmd *alAudioFrame(Acmd *list, s32 *cnt, s16 *buf, u32 len)
+    { (void)list;(void)buf;(void)len; if(cnt)*cnt=0; return list; }
+extern "C" u32  osAiSetFrequency(u32 freq)                           { return freq; }
+extern "C" void osAiSetNextBuffer(s16 *buf, u32 len)                 { (void)buf; (void)len; }
+extern "C" u32  osAiGetLength(void)                                  { return 0; }
+
+/* RSP microcode binary stubs (N64-specific; unused on Linux) */
+u8 rspbootTextStart[4]       = {0};
+u8 aspMainTextStart[4]       = {0};
+u8 aspMainDataStart[4]       = {0};
+u8 gspF3DEX2_fifoTextStart[4]= {0};
+u8 gspF3DEX2_fifoDataStart[4]= {0};
 
 /* =========================================================================
  * Math functions (used by mathN64.h and GBI code)
  * ========================================================================= */
 #include <cmath>
 
-extern "C" float _sqrtf(float x)  { return sqrtf(x); }
-extern "C" float __sinf(float x)  { return sinf(x); }
-extern "C" float __cosf(float x)  { return cosf(x); }
+extern "C" float _sqrtf(float x)         { return sqrtf(x); }
+extern "C" float __sinf(float x) noexcept { return sinf(x); }
+extern "C" float __cosf(float x) noexcept { return cosf(x); }
 
 /* ---- guMtx* implementations ---- */
 
@@ -649,6 +696,19 @@ extern "C" void guLookAt(Mtx *m, float xE, float yE, float zE,
     guMtxF2L(mf, m);
 }
 
+extern "C" void guAlignF(float mf[4][4], float heading, float pitch, float roll, float bank) {
+    (void)heading; (void)pitch; (void)roll; (void)bank;
+    identity4(mf); /* stub: real guAlignF builds rotation matrix */
+}
+extern "C" void guAlign(Mtx *m, float heading, float pitch, float roll, float bank) {
+    float mf[4][4]; guAlignF(mf, heading, pitch, roll, bank); guMtxF2L(mf, m);
+}
+extern "C" void guMtxXFMF(float mf[4][4], float x, float y, float z, float *ox, float *oy, float *oz) {
+    *ox = mf[0][0]*x + mf[1][0]*y + mf[2][0]*z + mf[3][0];
+    *oy = mf[0][1]*x + mf[1][1]*y + mf[2][1]*z + mf[3][1];
+    *oz = mf[0][2]*x + mf[1][2]*y + mf[2][2]*z + mf[3][2];
+}
+
 extern "C" void guVec3f(float x, float y, float z, void *v) {
     float *f = (float *)v;
     f[0]=x; f[1]=y; f[2]=z;
@@ -657,6 +717,10 @@ extern "C" void guVec3f(float x, float y, float z, void *v) {
 extern "C" void guVec3fNormalize(float *v) {
     float l = sqrtf(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
     if (l>1e-6f){v[0]/=l;v[1]/=l;v[2]/=l;}
+}
+extern "C" void guNormalize(float *x, float *y, float *z) {
+    float l = sqrtf((*x)*(*x)+(*y)*(*y)+(*z)*(*z));
+    if (l>1e-6f){*x/=l;*y/=l;*z/=l;}
 }
 
 extern "C" void guVec3fTransform(void *dst_, Mtx *m, void *src_) {

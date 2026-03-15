@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/WidgetChoiceDia.h"
 #include "vobjects.h"
 

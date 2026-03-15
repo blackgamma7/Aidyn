@@ -1,3 +1,4 @@
+#pragma once
 #include "borg/borgHead.h"
 
 #define BORG11_Set 0x10 //always set

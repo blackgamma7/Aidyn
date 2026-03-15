@@ -1,5 +1,8 @@
+#pragma once
 #include "entity.h"
 #include "mathN64.h"
+struct playerData;
+struct SceneData;
 
 u8 NotAspectBonus(u8);
 
@@ -228,7 +231,7 @@ struct CombatAIInfo {
     CombatEntity *combatEnt;
     int unk18;
 };
-extern struct voxelObject;
+struct voxelObject;
 namespace CombatAI{
     bool IsBoss(u8);
     void Init(CombatAIInfo *info,ItemID id,CombatEntity *cEnt);

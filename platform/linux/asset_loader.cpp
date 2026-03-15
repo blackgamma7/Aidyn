@@ -43,9 +43,6 @@ static const u8 *sRomBase = nullptr;   /* mmap base of ROM image        */
 static size_t    sRomSize = 0;         /* ROM file size in bytes         */
 static int       sRomFd   = -1;
 
-/* Direction constants matching the N64 SDK */
-static constexpr int OS_READ  = 0;
-static constexpr int OS_WRITE = 1;
 
 bool Init(const char *romPath) {
     sRomFd = open(romPath, O_RDONLY);

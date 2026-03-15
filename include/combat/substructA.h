@@ -1,3 +1,4 @@
+#pragma once
 #include "mathN64.h"
 
 #define CStructALen 100

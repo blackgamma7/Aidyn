@@ -1,3 +1,4 @@
+#pragma once
 
 //item types stored in high byte of item ID
 enum DB_TYPE{
@@ -50,7 +51,7 @@ enum DB_TYPE{
 #define ITEMIDTYPE(x) (x >> 8) //get upper byte of the Item ID
 #define IDInd(x) (x&0xFF) //get the lower byte of the Item ID
 
-#define IDEntInd(n) IDEnt(entityList[EntInd_##n##]) //common macro for getting entity ID
+#define IDEntInd(n) IDEnt(entityList[EntInd_##n]) //common macro for getting entity ID
 
 enum ItemIDS{
     //misc items

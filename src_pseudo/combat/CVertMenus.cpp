@@ -1,7 +1,7 @@
 #include "combat/CombatStruct.h"
 #include "widgets/CombatScrollMenu.h"
 #include "globals.h"
-#include "textPopup.h"
+#include "widgets/textPopup.h"
 
 BaseWidget* gCombatCVertMenu=NULL;
 
@@ -142,7 +142,6 @@ bool hasUsablePotions(s32 *list){
 }
 
 bool gear_has_spell(s32 *wep,s32 *armor,s32 *shield,u8 *gear){
-  CharSheet *pCVar2;
   *wep = 0;
   *armor = 0;
   *shield = 0;

@@ -1,3 +1,4 @@
+#pragma once
 #include "borg/borg1.h"
 #include "borg/borg2.h"
 #include "borg/borg3.h"
