@@ -17,8 +17,8 @@ WContPakData_Save(u16 param_1,u16 param_2,void *param_3,Color32 *param_4,Color32
 
 WidgetContPakData *
 WContPakData_Load(u16 param_1,u16 param_2,void *param_3,void *param_4,Color32 * param_5,
-                 Color32 *param_6,Color32* param_7){
-  contPakDat = new WidgetContPakDataLoad(param_1,param_2,param_3,param_4,param_5,param_6,param_7);
+                 Color32 *param_6,Color32 param_7){
+  contPakDat = new WidgetContPakDataLoad(param_1,param_2,param_3,param_4,param_5,param_6,&param_7);
   Controller::GetDelay(0);
   return contPakDat;
 }
@@ -607,8 +607,13 @@ void WidgetContPakData::m8008759c(){
 }
 
 u32 WidgetContPakData::WriteSaveFile(u8 slot){}
-
 void WidgetContPakData::vm100(){}
+void WidgetContPakData::unk(){}
+u32 WidgetContPakData::ShowSaveFiles(){return 0;}
+void WidgetContPakData::LoadSaveFile(u8){}
+u32 WidgetContPakData::vmE0(BaseWidget*){return 0;}
+u32 WidgetContPakData::vmF0(){return 0;}
+u32 WidgetContPakDataSave::vmE8(){return 0;}
 
 void WidgetContPakData::PfsErrOK(){this->OtherState=2;}
 
@@ -1075,6 +1080,8 @@ u8 ContPakWidget::m80088f0c(BaseWidget *w){
 
 void ContPakWidget::m80088f44(){this->menuState = 0;}
 
+BaseWidget * ContPakWidget::BFunc(){return this;}
+
 BaseWidget * ContPakWidget::AFunc(){
   BaseWidget *w = NULL;
   if (this->windowLoaded) w = Utilities::GetHighlightedEntry(this->w80);
@@ -1505,7 +1512,7 @@ BaseWidget * ContPak_8008a738(BaseWidget *param_1,BaseWidget *param_2){
   return NULL;
 }
 
-BaseWidget * ContPak_8008a768(void){
+BaseWidget * ContPak_8008a768(BaseWidget *param_1,BaseWidget *param_2){
   contpak_widget->m8008937c();
   return NULL;
 }

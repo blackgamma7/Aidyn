@@ -470,7 +470,7 @@ Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
   return param_1;
 }
 
-void SetNewJounalEntry(s16 param_1) {newestJournal = param_1;}
+void SetNewJounalEntry(u16 param_1) {newestJournal = param_1;}
 
 void NewJournalEntryPopup(void) {
   if ((((gGlobals.screenFadeMode == ScreenFade_None) && (some_toggle == -1))

@@ -25,7 +25,7 @@ class WidgetMenuWorldMap : public WidgetMenu{
     bool FreePieces();
     Gfx* Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
     u8 Tick();
-    inline WidgetMenuWorldMap();
+    WidgetMenuWorldMap();
     ~WidgetMenuWorldMap();
     u32 GetNumber();
 

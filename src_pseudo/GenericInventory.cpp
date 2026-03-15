@@ -124,3 +124,15 @@ s32 GenericInventory::GetItemQuantity(s32 index){
 }
 
 IInventory::~IInventory(){delete this;}
+void IInventory::Reset(){}
+void IInventory::Clear(){}
+void IInventory::Load(SaveFile*){}
+void IInventory::Save(SaveFile*){}
+s32 IInventory::AddItem(ItemID,s32){return 0;}
+s32 IInventory::TakeItem(ItemID,s32){return 0;}
+s32 IInventory::GetQuantity(){return 0;}
+s32 IInventory::GetMaxQuantity(){return 0;}
+s32 IInventory::GetItemIndex(ItemID){return -1;}
+Inventory_item* IInventory::GetItemEntry(s32){return nullptr;}
+s32 IInventory::IncItemQuantity(s32,s32){return 0;}
+s32 IInventory::GetItemQuantity(s32){return 0;}

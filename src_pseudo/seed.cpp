@@ -10,7 +10,7 @@ OSThread gInitThread={0};
 OSSched gSched;
 OSMesgQueue gPIManagerQueue;
 
-void InitProc(void* p);
+extern "C" void InitProc(void* p);
 
 void bootproc(void){
   osInitialize();
@@ -22,7 +22,7 @@ void bootproc(void){
 extern void*borg_listings;
 extern void*borg_files;
 
-void InitProc(void* p){
+extern "C" void InitProc(void* p){
   CLEAR(&gGlobals);
   Crash::InitProc(crash_handler,NULL,50,6);
   MemoryCheck((uintptr_t)romMain,(uintptr_t)(&clear_end - &romMain));

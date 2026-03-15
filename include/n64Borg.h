@@ -42,7 +42,7 @@ u8 borg3_func_b(void*, void* );
 void borg5_func_a(Borg5Header*);
 u8 InitBorgScene(Borg5Header *,void*);
 void borg5_free(Borg5Header *);
-void borg6_func_a(Borg6Header*);
+void borg6_func_a(Borg6Data*);
 u8 borg6_func_b(Borg6Header *,Borg6Data *);
 void borg_6_free(Borg6Header *);
 void borg7_func_a(Borg7Header *);

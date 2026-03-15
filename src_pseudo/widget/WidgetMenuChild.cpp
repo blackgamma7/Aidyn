@@ -1,6 +1,9 @@
 #include "widgets/WidgetChild6.h"
 #include "widgets/Utilities.h"
 
+void WidgetSaveFile::unk(){}
+void WidgetSaveFile::unk2(){}
+
 void WidgetSaveFile::unk3() {
   
   s16 newX = this->posX - this->boundX0;

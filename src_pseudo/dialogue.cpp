@@ -231,7 +231,7 @@ void Dialog_NextGameStateFunc3(u32 param_1){
   run_dialougemode_funcs3();
 }
 
-void DialogCallbackC(dialougeInstance *param_1,Borg13Data *param_2,s16 command,u16 val){
+void DialogCallbackC(dialougeInstance *param_1,Borg13Data *param_2,u16 command,s16 val){
   ActorAndID *pAVar2;
   voxelObject *prVar3;
   s16 sVar8;

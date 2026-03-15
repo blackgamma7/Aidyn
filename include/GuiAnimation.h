@@ -7,7 +7,7 @@ class GuiAnimator{
     public:
     f32 unk0;
     f32 spd;
-    inline virtual ~GuiAnimator();
+    virtual ~GuiAnimator();
     virtual void vMethA(s32);
     virtual u32 vMethB(f32);
     

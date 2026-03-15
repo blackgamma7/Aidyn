@@ -671,7 +671,7 @@ void FUN_80059674(){
   clear_borg13_pointer();
 }
 
-void DialogueModeInitPrescripted_set_map(EnumMapDatA mapdatA,u16 short1,u16 short2){
+void DialogueModeInitPrescripted_set_map(u16 mapdatA,u16 short1,u16 short2){
   set_playerdata_zoneDatByte(short1,short2);
   set_SFX_ZoneDatByte(&gGlobals.SFXStruct,short1,short2);
   gGlobals.gameVars.mapDatB = 0xffff;

@@ -2,7 +2,7 @@
 #include "widgets/ItemDetails.h"
 #include "globals.h"
 
-void makePotionMenu(u32 partyInd){
+void makePotionMenu(u8 partyInd){
     WHANDLE->AddWidget(new WidgetPotionCraft(partyInd));
 }
 

@@ -102,6 +102,7 @@ set(PLATFORM_SRCS
   platform/linux/input_backend.cpp
   platform/linux/heap_shim.cpp
   platform/linux/asset_loader.cpp
+  platform/linux/stubs.cpp
 )
 
 if(HAVE_SDL2_MIXER)
@@ -139,6 +140,11 @@ add_executable(aidyn
   ${PLATFORM_SRCS}
   ${GAME_SRCS_ALL}
 )
+
+# N64 decompilation headers intentionally define globals (matching ROM layout).
+# Multiple .cpp files include the same headers, causing duplicate definitions.
+# --allow-multiple-definitions tells the linker to accept the first definition.
+target_link_options(aidyn PRIVATE "LINKER:--allow-multiple-definition")
 
 target_link_libraries(aidyn
   ${SDL2_LIBRARIES}

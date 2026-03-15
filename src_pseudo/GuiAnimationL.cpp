@@ -37,8 +37,11 @@ void GuiAnimatorL::vMethA(s32 x){
   else FreeLinked();
 }
 
-GuiAnimatorF::~GuiAnimatorF(){delete this;}
+GuiAnimator::~GuiAnimator(){delete this;}
+u32 GuiAnimator::vMethB(f32 x){return 0;}
 
+GuiAnimatorF::~GuiAnimatorF(){delete this;}
+u32 GuiAnimatorF::vMethB(f32 x){return 0;}
 
 void GuiAnimatorF::vMethA(s32 x){
   if (this->unk0 < this->spd) {

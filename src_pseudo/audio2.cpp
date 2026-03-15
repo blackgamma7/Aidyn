@@ -88,7 +88,7 @@ SoundStructA * soundStructA_set(SFX_Struct *param_1,voxelObject *param_2,int tal
   return obj;
 }
 
-SoundStructB* PlayAudioSound(SFX_Struct *param_1,u32 borg12,s32 pan,float vol,s16 param_5,u16 time){
+SoundStructB* PlayAudioSound(SFX_Struct *param_1,u32 borg12,u32 pan,float vol,s16 param_5,u16 time){
 
   SoundStructB *obj;
   if (param_1->pointerBIndex < 16) {

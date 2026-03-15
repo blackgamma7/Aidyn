@@ -1066,12 +1066,14 @@ void Actor::FreePlayer(playerData *param_1){
 }
 
 
+namespace Actor{
 void remove_flagged_playerdata(){
   for(s16 i=0; i < PHANDLE.max_player;i++) {
     playerData *ppVar2 = &PHANDLE.playerDats[i];
-    if (ppVar2->state) Actor::FreePlayer(ppVar2);
+    if (ppVar2->state) FreePlayer(ppVar2);
    }
 }
+}//namespace Actor
 
 void Actor::ChangeAppearance(playerData *pDat,u32 newBorg7){  
   if (((newBorg7 != pDat->borg7) || (pDat->borg7P == NULL)) &&

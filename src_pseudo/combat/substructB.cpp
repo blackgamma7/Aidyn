@@ -333,7 +333,7 @@ void FUN_80072eb4(CombatSubstructB *param_1,u8 param_2){
 }
 
 
-bool FUN_80072ef0(CombatSubstructB *param_1,char param_2){
+bool FUN_80072ef0(CombatSubstructB *param_1,s8 param_2){
   u8 uVar1;
   bool bVar2;
   int iVar3;

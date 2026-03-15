@@ -399,7 +399,8 @@ LAB_800aba8c:
   return fVar2 * (*param_1)[1][0] - (*param_1)[0][1] * (*param_1)[0][3];
 }
 //please identify purpose of function.
-float ofunc_sub_800abbbc(float *Arg0){
+float ofunc_sub_800abbbc(MtxF *Arg0_m){
+  float *Arg0 = (float*)Arg0_m;
   return ((((*Arg0 * Arg0[4] * Arg0[8] - *Arg0 * Arg0[5] * Arg0[7]) +
            Arg0[1] * Arg0[5] * Arg0[6]) - Arg0[1] * Arg0[3] * Arg0[8]) +
          Arg0[2] * Arg0[3] * Arg0[7]) - Arg0[2] * Arg0[4] * Arg0[6];

@@ -580,3 +580,5 @@ BaseWidget* WidgetItemDetail::Control(controller_aidyn*cont){
 WidgetItemDetail::~WidgetItemDetail(){WidgetMenu::~WidgetMenu();}
 
 u32 WidgetItemDetail::GetNumber(){return WidgetN_Other;}
+/* Stub — real impl would display magic stat info from ROM strings */
+void WidgetItemDetail::PrintMagicInfo(u8*){}

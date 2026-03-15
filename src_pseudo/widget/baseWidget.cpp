@@ -53,6 +53,9 @@ void BaseWidget::SetWidth(u16 w){this->width=w;}
 u16 BaseWidget::GetWidth(){return this->width;}
 void BaseWidget::SetHeight(u16 h){this->height=h;}
 u16 BaseWidget::GetHeight(){return this->height;}
+u32 BaseWidget::GetNumber(){return WidgetN_Other;}
+u8 BaseWidget::Tick(){return TickChildren();}
+Gfx* BaseWidget::Render(Gfx* g, u16 x0, u16 y0, u16 x1, u16 y1){return RenderChildren(g,x0,y0,x1,y1);}
 void BaseWidget::SetColor(u8 r, u8 g, u8 b, u8 a){
   this->col.R = r;
   this->col.G = g;
