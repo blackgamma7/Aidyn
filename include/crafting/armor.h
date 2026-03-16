@@ -13,7 +13,7 @@ ArmorCraftRecipie ArmorRecipies[5]={
     {ItemInd_HideHellhound,ArmorInd_Hellhound,     7,5,0},
     {ItemInd_HideDarkenbat,ArmorInd_Darkenbat,     3,2,0},
     {ItemInd_HideBeast,    ArmorInd_BeastHide,     1,1,0},
-    {ItemInd_HideChitlin,  ArmorInd_Scorpion,      4,0},
+    {ItemInd_HideChitlin,  ArmorInd_Scorpion,      5,4,0},
     {ItemInd_HideChitlin,  ArmorInd_ShieldScorpion,4,3,0}
 };
 
