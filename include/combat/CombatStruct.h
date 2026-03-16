@@ -158,6 +158,7 @@ u8 CombatStateFunc_26(Gfx **GG,u16 delta);
 void FUN_800290a4();
 u8 CombatStateFunc_27(Gfx **GG,u16 delta);
 u8 CombatStateFunc_28(Gfx **GG,u16 delta);
+u8 CombatStateFunc_29(Gfx **GG,u16 delta);
 u8 CombatStateFunc_31(Gfx **GG,u16 delta);
 bool fleeing_reinforcements_func();
 u8 Combat_GameState(Gfx **GG);

@@ -15,12 +15,12 @@ void EntityDB::OldInit(){
   int aiStack_30 [12];
   
   aiStack_30[0] = 0;
-  load_db_array_size(&entitydb,this,aiStack_30);
+  load_db_array_size(&entityDBROM,this,aiStack_30);
   bVar5 = 0;
   uVar4 = 0;
   ALLOCS(this->entities,(u32)this->total*sizeof(EntityRAM),669);
   for(u8 i=0;i<7;i++) {
-    load_db_array_size(&entitydb,this->catSizes + i,aiStack_30);
+    load_db_array_size(&entityDBROM,this->catSizes + i,aiStack_30);
     pbVar2 = this->unk + i;
     pbVar3 = this->catSizes + i;
     *pbVar2 = bVar5;
@@ -50,7 +50,7 @@ void EntityDB::Load(u8 id,s32 *param_3){
   
   EntRam = this->entities + id;
   iVar1 = *param_3;
-  ROMCOPYS(&EntROM,entitydb+iVar1,sizeof(EntROM),704);
+  ROMCOPYS(&EntROM,entityDBROM+iVar1,sizeof(EntROM),704);
   memcpy(EntRam->Name,&EntROM,20);
   EntRam->Name[20] = '\0';
   EntRam->Category = EntROM.category;
@@ -116,11 +116,11 @@ void EntityDB::Init(){
   u8 bVar2;
   u8 bVar4;
   s32 asStack_30 = 0;
-  load_db_array_size(&entitydb,this,&asStack_30);
+  load_db_array_size(&entityDBROM,this,&asStack_30);
   bVar4 = 0;
   ALLOCS(this->entities,this->total*sizeof(EntityRAM),1233);
   for(u8 uVar3=0;uVar3<7;uVar3++) {
-    load_db_array_size(&entitydb,this->catSizes + uVar3,asStack_30);
+    load_db_array_size(&entityDBROM,this->catSizes + uVar3,asStack_30);
     bVar2 = 0;
     this->unk[uVar3] = bVar4;
     if (this->catSizes[uVar3]) {

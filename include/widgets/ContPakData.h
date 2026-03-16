@@ -86,7 +86,7 @@ class WidgetContPakData : public WidgetMenu{
     virtual u32 ShowSaveFiles();
     virtual void LoadSaveFile(u8);
     virtual u32 vmE0(BaseWidget*);
-    virtual u32 vmE8();
+    virtual void NewSaveFile();
     virtual u32 vmF0();
     virtual u32 WriteSaveFile(u8);
     virtual void vm100();
@@ -119,7 +119,6 @@ class WidgetContPakDataSave:public WidgetContPakData{
     void LoadSaveFile(u8);
     u32 vmE0(BaseWidget*);
     void NewSaveFile();
-    u32 vmE8();
     u32 vmF0();
     u32 WriteSaveFile(u8);
     void vm100();

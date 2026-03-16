@@ -101,7 +101,7 @@ u8 Journal::ShowTriggeredEntry(char *txt) {
   return ret;
 }
 
-extern void* journal_ROM;
+extern void* journalROM;
 #define JOURNALSIZE 0x2090
 void Journal::Load(s32 newest) {
   u16 uVar2;
@@ -113,7 +113,7 @@ void Journal::Load(s32 newest) {
   
   char *pBuffer = (char *)HALLOC(JOURNALSIZE,224);
   if (pBuffer == NULL) CRASH("Journal::Load()","Not enough memory for pBuffer");
-  ROMCOPYS(pBuffer,journal_ROM,JOURNALSIZE,233);
+  ROMCOPYS(pBuffer,journalROM,JOURNALSIZE,233);
   this->scrollList = new WidgetScrollList(100);
   this->scrollList->SetCoords(64,30);
   uVar11 = 0;

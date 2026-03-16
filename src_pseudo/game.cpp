@@ -178,9 +178,11 @@ code_r0x80023c48:
   case GameStateA_8:
     gGlobals.gameStateA = Pause_GameState(GG);
     break;
+#if DEBUGVER
   case GameStateA_GSM:
     gGlobals.gameStateA = GSM_GameState(GG);
     break;
+#endif
   case GameStateA_Dialog:
     gGlobals.gameStateA = Dialog_GameState(GG);
     break;

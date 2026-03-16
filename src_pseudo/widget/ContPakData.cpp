@@ -1,5 +1,5 @@
 #include "globals.h"
-#include "widgets/ContPakData.h"
+#include "ContPakInit.h"
 #include "widgets/widgetGroup.h"
 #include "CRC.h"
 #include "QuestData.h"
@@ -106,7 +106,7 @@ BaseWidget *  FUN_80086118(BaseWidget * w0,BaseWidget * w1){
 
 BaseWidget *  FUN_80086144(BaseWidget * w0,BaseWidget * w1){
   Controller::GetDelay(0);
-  contPakDat->vmE8();
+  contPakDat->NewSaveFile();
   return NULL;
 }
 
@@ -831,7 +831,7 @@ void WidgetContPakDataSave::NewSaveFile(){
       LowSpaceWarn();
       return;
     }
-    for(i=0;<SaveFileMax;i++){
+    for(i=0;i<SaveFileMax;i++){
       sprintf(acStack_70,"%c",i + 'A');
       for (j = 0; j < uVar5; j++) {
         if (!strcmp(acStack_b0 + j * 4,acStack_70)) break;
@@ -946,7 +946,7 @@ u32 WidgetContPakDataLoad::vmF0(){
   return this->scroll->Append(FUN_800862f4(0,0,gGlobals.CommonStrings[0x1aa],FUN_80086054));
 }
 
-u32 WidgetContPakData::vmE8(){}
+void WidgetContPakData::NewSaveFile(){}
 
 WidgetContPakDataLoad::~WidgetContPakDataLoad(){WidgetContPakData::~WidgetContPakData();}
 
@@ -1078,7 +1078,7 @@ BaseWidget * ContPakWidget::AFunc(){
   return w;
 }
 
-BaseWidget * ContPakWidget::AFunc(){return this;}
+BaseWidget * ContPakWidget::BFunc(){return this;}
 
 BaseWidget * ContPakWidget::UpFunc(){
   if (this->windowLoaded) this->w80->UpFunc();
@@ -1262,7 +1262,7 @@ void ContPakWidget::PfsOK(){this->menuState = 2;}
 
 void ContPakWidget::PfsNoPak(){
   WidgetChoiceDia *pWVar1 = FUN_80088aac(FUN_8008a848,&this->handler,1,gGlobals.CommonStrings[0x195],this->pfserr);
-  pWVar1->AppendScrollMenu(pWVar1,ContPakTextWidget(Cstring(ContPakNoSave01),ContPak_8008a738,0x80));
+  pWVar1->AppendScrollMenu(ContPakTextWidget(Cstring(ContPakNoSave01),ContPak_8008a738,0x80));
   pWVar1->Update();
   pWVar1->SetHighlight(1);
 }

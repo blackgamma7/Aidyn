@@ -47,3 +47,12 @@ class WidgetMenuHealer: public WidgetCrafting{
     void PrintStat(u8,u8);
     ~WidgetMenuHealer();
 };
+
+class WidgetArmorCraft: public WidgetCrafting{
+    public:
+    WidgetArmorCraft(u32 partyind);
+    BaseWidget *AFunc();
+    BaseWidget *CDownFunc();
+    ~WidgetArmorCraft();
+
+};

@@ -157,6 +157,7 @@ u8 InitSaveFile(SaveDatStruct *s){
   SaveToFile(&p,true);
   CopySnapshot(p.screenshot);
   CRC::SetChecksum(s,sizeof(*s));
+  return true;
 }
 
 void SetPointers(SaveDatStruct *s,SaveDatPointers *p){

@@ -669,7 +669,7 @@ void FUN_80059674(){
   clear_borg13_pointer();
 }
 
-void DialogueModeInitPrescripted_set_map(EnumMapDatA mapdatA,u16 short1,u16 short2){
+void DialogueModeInitPrescripted_set_map(s16 mapdatA,s16 short1,s16 short2){
   set_playerdata_zoneDatByte(short1,short2);
   set_SFX_ZoneDatByte(&gGlobals.SFXStruct,short1,short2);
   gGlobals.gameVars.mapDatB = 0xffff;
@@ -746,23 +746,6 @@ void FUN_80059970(BaseWidget *param_1){
      (ppVar1 = FUN_800591e4(), ppVar1)) {
     ppVar1->ani_type = AniType_4;
   }
-  return;
-}
-
-
-void FUN_80059970(BaseWidget *param_1)
-
-{
-  playerData *ppVar1 = gPlayer;
-  if (dialougemode_pointer->Wanderers)
-    dialougemode_pointer->Wanderers->playerDat->ani_type = 0;
-  ppVar1->ani_type = 0;
-  gGlobals.diaClass->m8004ea94(param_1);
-  if (((dialougemode_pointer) && (dialougemode_pointer->unkac == 0)) &&
-     (ppVar1 = FUN_800591e4(), ppVar1 != NULL)) {
-    ppVar1->ani_type = AniType_4;
-  }
-  return;
 }
 
 void FUN_800599f0(){

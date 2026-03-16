@@ -2,10 +2,10 @@
 
 #define FILENAME "./src/audiokey.cpp"
 
-extern void* audiokey_rom;
+extern void* audiokeyROM;
 audiokey_struct * load_audiokey(){
   audiokey_struct *key = (audiokey_struct *)HALLOC(sizeof(audiokey_struct),0x46);
-  ROMCOPYS(key,&audiokey_rom,sizeof(audiokey_struct),0x48);
+  ROMCOPYS(key,&audiokeyROM,sizeof(audiokey_struct),0x48);
   key->a = (audiokeyEntryA *)set_pointer_offset(key,key->a);
   key->b = (audioKeyEntryB *)set_pointer_offset(key,key->b);
   key->c = (u16 *)set_pointer_offset(key,key->c);

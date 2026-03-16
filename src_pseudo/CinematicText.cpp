@@ -145,7 +145,7 @@ void LoadNextLine(void){
     pcVar4->shortsPointer = pauVar3 + 1;
     auStack_18[0] = 0;
     len = uVar2 + 1 & 0xfffe;
-    ROMCOPYS(auStack_418,cinematic_text + uVar1,len,0x107);
+    ROMCOPYS(auStack_418,cinematicTextROM + uVar1,len,0x107);
     decompress_LZ01(auStack_418,len,(u8 *)&sStack_218,auStack_18);
     len_00 = (auStack_18[0] & 0xffff) - 4;
     memcpy(gCinematicTextP->nextCaption,auStack_214,len_00);
@@ -166,7 +166,7 @@ void AllocPointer8(void){
   pcVar2 = gCinematicTextP;
   gCinematicTextP->field2_0x8 = pauVar3;
   pcVar2->shortsPointer = pauVar3;
-  ROMCOPYS(pcVar2->shortsPointer,cinematic_text_dat,0x210,287);
+  ROMCOPYS(pcVar2->shortsPointer,cinematicTextROM_dat,0x210,287);
   pcVar2 = gCinematicTextP;
   uVar1 = (*gCinematicTextP->shortsPointer)[0];
   gCinematicTextP->shortsPointer = (u16 (*) [3])(*gCinematicTextP->shortsPointer + 1);

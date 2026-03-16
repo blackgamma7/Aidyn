@@ -1,5 +1,8 @@
 #include "widgets/WidgetTrainShop.h"
 #include "globals.h"
+#include "crafting/armor.h"
+#include "crafting/potion.h"
+#include "crafting/healer.h"
 
 
 WidgetSkillInfo::WidgetSkillInfo(CharSkills *sk,u16 subType,u8 type):BaseWidget() {
@@ -126,9 +129,6 @@ void get_crafting_menu(BaseWidget *w,u16 sk,u8 type) {
   }
 }
 
-extern bool makePotionMenu(u8);
-extern bool MakeHealerMenu(u8);
-extern bool makeArmorMenu(u8);
 
 BaseWidget* passto_makePotionMenu(BaseWidget *w0,BaseWidget *w1){
     makePotionMenu(gPartyPicker);

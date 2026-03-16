@@ -13,11 +13,11 @@ void SpellDB::Orphaned(){
   int aiStack_30 [12];
   
   aiStack_30[0] = 0;
-  load_db_array_size(&spelldb,this,aiStack_30);
+  load_db_array_size(&spellDBROM,this,aiStack_30);
   bVar5 = 0;
   ALLOCS(this->spells,this->Total*sizeof(SpellRAM),52);
   for(u8 i=0;i<6;i++) {
-    load_db_array_size(&spelldb,this->Schools + i,aiStack_30);
+    load_db_array_size(&spellDBROM,this->Schools + i,aiStack_30);
     pbVar2 = this->schools2 + i;
     pbVar3 = this->Schools + i;
     *pbVar2 = bVar5;
@@ -31,7 +31,7 @@ void SpellDB::Load(u8 index,u32 *pos){
   Spell_ROM ROM;
   
   SpellRAM *Ram = this->spells + index;
-  ROMCOPYS(&ROM,spelldb + *pos,sizeof(Spell_ROM),78);
+  ROMCOPYS(&ROM,spellDBROM + *pos,sizeof(Spell_ROM),78);
   memcpy(Ram->name,&ROM,0x17);
   Ram->name[0x17] = '\0';
   Ram->Id = (ItemID)((u16)ROM.ID.id + (u16)ROM.ID.type * 0x100);
@@ -52,11 +52,11 @@ void SpellDB::Load(u8 index,u32 *pos){
 
 void SpellDB::Init(){
   u32 auStack_30 = 0;
-  load_db_array_size(&spelldb,&this->Total,&auStack_30);
+  load_db_array_size(&spellDBROM,&this->Total,&auStack_30);
   u8 index = 0;
   ALLOCS(this->spells,this->Total*sizeof(SpellRAM),260);
   for(u8 i=0;i<6;i++){
-    load_db_array_size(&spelldb,this->Schools + i,&auStack_30);
+    load_db_array_size(&spellDBROM,this->Schools + i,&auStack_30);
     this->schools2[i] = index;
     if (this->Schools[i] != 0) {
       for(u8 j=0;j<this->Schools[i];j++) {

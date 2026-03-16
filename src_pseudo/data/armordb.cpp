@@ -5,15 +5,15 @@
 #include "BorgIndecies.h"
 #define FILENAME "../data/armordb.cpp"
 
-extern u8 armorDB[];
+extern u8 armorDBROM[];
 
 void ArmorDB::Orphaned(){
   int pos = 0;
-  load_db_array_size(&armorDB,&this->total,&pos);
+  load_db_array_size(&armorDBROM,&this->total,&pos);
   ALLOCS(this->Armor,this->total*sizeof(ArmorRam),52);
-  load_db_array_size(&armorDB,this,&pos);
+  load_db_array_size(&armorDBROM,this,&pos);
   pos += (u32)this->armors * sizeof(ArmorRom);
-  load_db_array_size(&armorDB,&this->sheilds,&pos);
+  load_db_array_size(&armorDBROM,&this->sheilds,&pos);
 }
 
 u8 getRomEquipSpell(ItemID id){
@@ -29,7 +29,7 @@ void ArmorDB::Load(u8 index,u32 *pos){
   ArmorRom aRom;
   
   aRAM = this->Armor + index;
-  ROMCOPYS(&aRom,armorDB + *pos,sizeof(ArmorRom),102);
+  ROMCOPYS(&aRom,armorDBROM + *pos,sizeof(ArmorRom),102);
   memcpy(&aRAM->name,&aRom,23);
   aRAM->name[23] = 0;
   aRAM->ID = (ItemID)(aRom.id.type<<8|aRom.id.id);
@@ -75,12 +75,12 @@ void ArmorDB::Init(){
   u8 j;
   u8 i;
   u32 pos= 0;
-  load_db_array_size(&armorDB,&this->total,pos);
+  load_db_array_size(&armorDBROM,&this->total,pos);
   i = 0;
   ALLOCS(this->Armor,this->total*sizeof(ArmorRam),410);
-  load_db_array_size(&armorDB,this,pos);
+  load_db_array_size(&armorDBROM,this,pos);
   for(j = 0;j<this->armors;j++,i++){Load(i,&pos);}
-  load_db_array_size(&armorDB,&this->sheilds,pos);
+  load_db_array_size(&armorDBROM,&this->sheilds,pos);
   for(j = 0;j<this->sheilds;j++,i++){Load(i,&pos);}
 }
 

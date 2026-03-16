@@ -71,7 +71,7 @@ void TitleSplash::Init(void){
   gGlobals.titleSplashVars.UnkC = 0;
   gGlobals.titleSplashVars.timer = 0;
   fadeFloatMirror = 1.0f;
-  SplashLicence = WidgetB8(BORG8_LicencedByNintendo);
+  SplashLicence = WidgetB8(BORG8_TitleLicence);
   SplashLicence->SetColor(0,0,0,0);
   SplashLicence->SetCoords(SCREEN_CENTERW -(SplashLicence->GetWidth()/2),(SCREEN_HEIGHT-50));
 }

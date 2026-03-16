@@ -4,7 +4,7 @@
 #include "armordb.h"
 #define FILENAME "../data/itemdb.cpp"
 
-extern void*itemDB; //ROM address of item data
+extern void*itemDBRom; //ROM address of item data
 
 void ItemDB::Orphaned(){
   u8 bVar1;
@@ -13,11 +13,11 @@ void ItemDB::Orphaned(){
   int aiStack_30;
   
   aiStack_30[0] = 0;
-  load_db_array_size(&itemDB,this,aiStack_30);
+  load_db_array_size(&itemDBRom,this,aiStack_30);
   bVar6 = 0;
   ALLOCS(this->Gear,this->total*sizeof(Gear_RAM),52);
   for(u8 i=0;i<11;i++) {
-    load_db_array_size(&itemDB,this->totalPerGear + i,&aiStack_30);
+    load_db_array_size(&itemDBRom,this->totalPerGear + i,&aiStack_30);
     this->unk1[i] = bVar6;
     bVar1 = this->totalPerGear[i];
     bVar6 += this->totalPerGear[i];
@@ -28,7 +28,7 @@ void ItemDB::LoadItem(u8 index,int *pos){
   Gear_Rom gRom;
   
   Gear_RAM *gRam = this->Gear + index;
-  ROMCOPYS(&gRom,itemDB + *pos,sizeof(Gear_Rom),79);
+  ROMCOPYS(&gRom,itemDBRom + *pos,sizeof(Gear_Rom),79);
   memcpy(gRam->name,&gRom,20);
   gRam->name[20] = '\0';
   //TODO: macro endian swapping instead to making them u8[2]'s
@@ -56,11 +56,11 @@ void ItemDB::LoadItem(u8 index,int *pos){
 
 void ItemDB::Init(){
   int pos = 0;
-  load_db_array_size(&itemDB,this,&pos);
+  load_db_array_size(&itemDBRom,this,&pos);
   u8 k = 0;
   ALLOCS(this->Gear,this->total*sizeof(Gear_RAM),356);
   for(u8 i=0;i<11;i++){
-    load_db_array_size(&itemDB,this->totalPerGear + i,&pos);
+    load_db_array_size(&itemDBRom,this->totalPerGear + i,&pos);
     this->unk1[i] = k;
     if (this->totalPerGear[i] != 0) {
       for(u8 j=0;j<this->totalPerGear[i];j++) {

@@ -3,11 +3,11 @@
 #include "romcopy.h"
 #define FILENAME "../data/shopdb.cpp"
 
-extern ArrayHeader shopdb;
+extern ArrayHeader shopDBROM;
 
 void ShopDB::Orphaned() {
   u32 auStack_10 = 0;
-  load_db_array_size(&shopdb,&this->total,&auStack_10);
+  load_db_array_size(&shopDBROM,&this->total,&auStack_10);
   ALLOCS(this->shops,this->total*sizeof(shop_ram),54);
 }
 
@@ -15,7 +15,7 @@ void ShopDB::Load(u8 index,u32 *pos) {
   shop_ROM fromROM;
   
   shop_ram *toRam = this->shops + index;
-  ROMCOPYS(&fromROM,(void*)((u32)&shopdb+*pos),sizeof(shop_ROM),71);
+  ROMCOPYS(&fromROM,(void*)((u32)&shopDBROM+*pos),sizeof(shop_ROM),71);
   toRam->shopkeep =(fromROM.shopkeep.id|fromROM.shopkeep.type<<8);
   u8 romPos = 2; //dirty hack, not sure mine or theirs
   for(u8 i=0;i<23;i++) {
@@ -31,7 +31,7 @@ void ShopDB::Load(u8 index,u32 *pos) {
 
 void ShopDB::Init() {
   u32 auStack_18= 0;
-  load_db_array_size(&shopdb,&this->total,&auStack_18);
+  load_db_array_size(&shopDBROM,&this->total,&auStack_18);
   ALLOCS(this->shops,this->total*sizeof(shop_ram),116);
   for(u8 i=0;i<this->total;i++){Load(i,&auStack_18);}
 }

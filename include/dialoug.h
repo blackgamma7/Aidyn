@@ -242,7 +242,7 @@ void DialogueModeInitPrescripted();
 void load_one_of_two_cinematics();
 bool FUN_80059628();
 void FUN_80059674();
-void DialogueModeInitPrescripted_set_map(u16 mapdatA,u16 short1,u16 short2);
+void DialogueModeInitPrescripted_set_map(s16 mapdatA,s16 short1,s16 short2);
 void FUN_80059770();
 void FUN_800597f8();
 void FUN_80059888();
