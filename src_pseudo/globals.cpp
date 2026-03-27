@@ -40,7 +40,7 @@ u16 RollD(u8 dice,u8 sides){
 }
 
 
-u32 SkillCheck(s16 param_1){
+u32 gSkillCheck(s16 param_1){
   u32 i = 21;
   do {
     if (i == 0) break;

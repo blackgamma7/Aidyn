@@ -168,7 +168,7 @@ void FUN_80006c6c(void *p,u8 *r,u8 *g,u8 *b){
   *b = uVar1;
   return;
 }
-
+#endif
 
 void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
   OSThread *pOVar3;
@@ -212,11 +212,16 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
         pcVar11++;
     }
     crash_print(param_2,acStack_128,0x1e,0x73,0,0xff,0);
+    #if DEBUGVER
     uVar5 = 0x8e;
     crash_print_2(param_2,"  Last Frame:",gGlobals.ticker,0x14,0x85);
     crash_print_2(param_2,"Unused Stack:",iVar14 << 2,0x14,0x8e);
+    #else
+    uVar5 = 0x92;
+    #endif
   }
   else {
+    #if DEBUGVER
     crash_print(param_2,"Position:",0x14,0x19,0xff,0xff,0);
     crash_print(param_2,param_1->position,0x1e,0x22,0,0xff,0);
     crash_print(param_2,"Cause:",0x14,0x46,0xff,0xff,0);
@@ -224,9 +229,15 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
     uVar5 = 0x85;
     crash_print_2(param_2,"  Last Frame:",gGlobals.ticker,0x14,0x7c);
     crash_print_2(param_2,"Unused Stack:",iVar14 << 2,0x14,0x85);
+    #else
+    sprintf(acStack_128,"Manual Crash");
+    crash_print(param_2,acStack_128,strlenX8(acStack_128),0x1d,0xff,0xff,0);
+    uVar5 = 0x2f;
+    #endif
   }
   crash_print(param_2,"Last gGlobals.text:",200,uVar5,0xff,0xff,0);
   crash_print(param_2,gGlobals.text,200,uVar5 + 9,0,0xff,0);
+  #if DEBUGVER
   if (gGlobals.ticker != 0) {
     u16 uVar6 = Graphics::GetHRes();
     u16 uVar7 = Graphics::GetVRes();
@@ -264,9 +275,8 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
       } while (uVar12 < uVar7);
     }
   }
-  return;
+  #endif
 }
-
 
 void Ofunc_8000729c(CrashBuff *param_1,u16 x_,u16 y,void *p1,void *p2,void *p3,void *p4,void *p5,
                    void *p6,void *p7,void *p8){

@@ -19,7 +19,7 @@ struct Wanderer {
     float percepMax;
     u16 flags;
     s16 perceptionsSet;
-    u16 NoBorg13;
+    u16 moveType;
     u16 field19_0x3e;
     vec2f position;
     float size;

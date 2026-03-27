@@ -1,5 +1,17 @@
 #include "globals.h"
 
+BaseWidget* Dialoug_LeftButton(BaseWidget*A,BaseWidget*B){
+  WidgetScrollMenu * scroll= ((DiaMenuSub *)B->substruct)->scrollMenu;
+    if((!scroll)||(!((WSMSub*)scroll->substruct)->numChoices))return NULL;
+    return scroll->LeftFunc();
+}
+
+BaseWidget* Dialoug_RightButton(BaseWidget*A,BaseWidget*B){
+  WidgetScrollMenu * scroll= ((DiaMenuSub *)B->substruct)->scrollMenu;
+    if((!scroll)||(!((WSMSub*)scroll->substruct)->numChoices))return NULL;
+    return scroll->RightFunc();
+}
+
 BaseWidget* Dialoug_UpButton(BaseWidget*A,BaseWidget*B){
     WidgetScrollMenu * scroll= ((DiaMenuSub *)B->substruct)->scrollMenu;
     if((!scroll)||(!((WSMSub*)scroll->substruct)->numChoices))return NULL;
@@ -12,8 +24,7 @@ BaseWidget* Dialoug_DownButton(BaseWidget*A,BaseWidget*B){
     return scroll->DownFunc();
 }
 
-
-BaseWidget * Dialog_AButton(BaseWidget*A,BaseWidget *param_2){
+BaseWidget * Dialoug_AButton(BaseWidget*A,BaseWidget *param_2){
   DiaMenuSub *sub = (DiaMenuSub *)param_2->substruct;
   BaseWidget *pBVar2 = sub->text;
   if (!pBVar2)  pBVar2 = sub->shadText;
@@ -31,7 +42,7 @@ BaseWidget * Dialoug_DebugEnd(BaseWidget*A,BaseWidget*B){
 }
 #endif
 
-BaseWidget * Dialog_BButton(BaseWidget *param_1,BaseWidget *param_2){
+BaseWidget * Dialoug_BButton(BaseWidget *param_1,BaseWidget *param_2){
   BaseWidget *wRet;
   
   DiaMenuSub *sub = (DiaMenuSub *)param_2->substruct;

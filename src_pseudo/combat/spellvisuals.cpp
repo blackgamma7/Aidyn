@@ -607,7 +607,7 @@ LAB_80095e00:
   entry->flags|= 1;
   return uVar1;
 }
-u16 SpellVisuals_InitEffect(playerData *param_1,u8 param_2){
+u16 SpellVisuals_InitEffect(playerData *param_1,u32 param_2){
   u16 uVar1 = SpellVisuals.indecies0[SpellVisuals.ptr0Count];
   SpellVisuals.ptr0Count++;
   SpellVisualTypeA *entry = SpellVisuals.ptr0 + uVar1;

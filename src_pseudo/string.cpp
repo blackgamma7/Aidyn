@@ -360,7 +360,7 @@ LAB_80098ddc:
   return a;
 }
 
-void * memset(void *x,u8 m,u32 i){
+void * memset(void *x,u8 m,size_t i){
   u8 *z;
   s32 k;
   s32 j;

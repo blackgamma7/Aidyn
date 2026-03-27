@@ -4,7 +4,14 @@
 u8 flycam_flag=false;
 Borg6Header*  gFlycamBorg6P=NULL;
 SceneData* gFlycamSceneP=NULL;
-extern Flycam_entry gFlycamSequences[];
+Flycam_entry gFlycamSequences[]={
+  {BORG6_Flycam1,0,11,0,6,0,11,0,9},
+  {BORG6_Flycam2,0,1,0,4,0,1,0,4},
+  {BORG6_Flycam3,0,9,0,8,0,11,0,8},
+  {BORG6_Flycam4,0,13,0,20,0,14,0,41},
+  {BORG6_Flycam5,0,14,0,25,0,15,0,25},
+  {BORG6_Flycam6,0,13,0,6,0,13,0,7},
+};
 u16 flycam_counter=0;
 u8 titleSceen_load_flag=TRUE;
 u8 some_gamestart_flag=false;

@@ -144,7 +144,7 @@ void SaveToFile(SaveDatPointers *p,u8 copy){
   SavePartyPlaytime(p->savePartyHead);
   CopyEngineZone(p->mapdata,copy);
   SaveGameState(gameStates,p->EventFlags);
-  Minimap_Save((u8 *)p->minimap);
+  MiniMap_Save((u8 *)p->minimap);
   Save(p->gamestate);
   SaveVoxelChart(p->voxelChart);
 }
@@ -187,7 +187,7 @@ void LoadFile(SaveDatPointers *param_1,u8 param_2){
   LoadGameState(gameStates,param_1->EventFlags);
   setEventFlag(FLAG_NewJournalEntry,false);
   Teleport(param_1->mapdata,param_2);
-  Minimap_Load(param_1->minimap);
+  MiniMap_Load(param_1->minimap);
   Load(param_1->gamestate);
   LoadVoxelChart(param_1->voxelChart);
   TerrainPointer->PlayTime = param_1->savePartyHead->time;

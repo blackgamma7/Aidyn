@@ -1199,7 +1199,7 @@ LAB_80079da4:
         else if (SVar1 == SpellInd_WebOfStarlight) {
           iVar3 = CharStats::getModded(chara->Stats,STAT_STR);
           uVar6 = RollD(1,100);
-          if (((iVar3 * 2) <= uVar6) ||(!SkillCheck((iVar3 * 2 - uVar6)))) {
+          if (((iVar3 * 2) <= uVar6) ||(!gSkillCheck((iVar3 * 2 - uVar6)))) {
             dice = 2;
             goto LAB_80079da4;
           }

@@ -6,7 +6,7 @@ BaseWidget * IntroMenu_LeftFunc(BaseWidget * w0,BaseWidget *w1) {
   return IntroWSub->unk1c->LeftFunc();
 }
 
-BaseWidget * IntroMenu_Rightunc(BaseWidget * w0,BaseWidget *w1) {
+BaseWidget * IntroMenu_RightFunc(BaseWidget * w0,BaseWidget *w1) {
   return IntroWSub->unk1c->RightFunc();
 }
 

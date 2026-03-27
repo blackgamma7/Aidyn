@@ -99,7 +99,7 @@ class MiniMap {
     bool BarrowsFlags(u16);
 };
 
-void Minimap_Save(u8*);
-void Minimap_Load(u8*);
+void MiniMap_Save(u8*);
+void MiniMap_Load(u8*);
 
 #define MINIMAP gGlobals.minimap //shorthand for minimapobject

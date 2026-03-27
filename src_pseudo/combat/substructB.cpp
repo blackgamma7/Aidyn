@@ -11,8 +11,15 @@ void init_combat_substruct2(CombatSubstructB *X,s8 N) {
   clear_combat_substruc2(X);
 }
 
+void NOOP_80072228(CombatSubstructB *X){}
+
 void clear_ArrayA(CombatSubstructB *param_1){
   memset(param_1->arrayA,0,gCombatP->EntCount*sizeof(u32));
+}
+
+void clear_substruct2_arrayB(CombatSubstructB *param_1) {
+  memset(param_1->arrayB,0,gCombatP->EntCount*sizeof(u32));
+  param_1->arrayBCount = 0;
 }
 
 void clear_combat_substruc2(CombatSubstructB *param_1){
@@ -46,7 +53,6 @@ bool clear_arrayB_entry(CombatSubstructB *param_1,u8 param_2){
   }
   return false;
 }
-
 
 void FUN_800723b8(CombatSubstructB *param_1){
   if ((param_1->spellTargetMax)&&(gCombatP->EntCount)){

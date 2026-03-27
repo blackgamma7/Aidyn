@@ -200,7 +200,7 @@ enum GameStateB{
     GameStateB_1, //unknown/unused?
     GameStateB_2, //set to combat state
     GameStateB_3,
-    GameStateB_4, //set when changine appearance or TP'ing
+    GameStateB_4, //set when changing appearance or TP'ing
     GameStateB_5, //trainer state?
     GameStateB_6, //check but not set(?). Ritual state?
     GameStateB_7, //shop/loot state?

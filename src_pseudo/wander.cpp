@@ -88,8 +88,8 @@ void AllocWanderer(WanderManager *param_1,s16 param_2,s32 param_3,u8 param_4){
   (vox->monster).wandererIndex = wEntry->index;
   wEntry->isActive = 1;
   wEntry->VoxelIndex = param_2;
-  wEntry->NoBorg13 = 1;
-  if ((vox->monster).borg_13) wEntry->NoBorg13 = 0;
+  wEntry->moveType = 1;
+  if ((vox->monster).borg_13) wEntry->moveType = 0;
   wEntry->MapTally = param_3;
   wEntry->playerDat = Actor::AllocPlayer(gEntityDB->GetCollideRadius((vox->monster).entityID),
     wEntry->start_position.x,0.0,wEntry->start_position.y,
@@ -288,7 +288,7 @@ LAB_800131e8:
             wanderer->field19_0x3e = false;
           }
         }
-        if (wanderer->NoBorg13 == 0) {
+        if (wanderer->moveType == 0) {
 LAB_80013318:
           if (playerProx < 3.0f) {
             ppVar2 = wanderer->playerDat;
@@ -328,7 +328,7 @@ LAB_80013318:
               }
             }
           }
-          if (wanderer->NoBorg13 == 0) goto LAB_80013318;
+          if (wanderer->moveType == 0) goto LAB_80013318;
         }
         if (!bVar3){
           if (!wanderer->field19_0x3e) {
@@ -347,7 +347,7 @@ LAB_80013318:
           }
         }
         wanderer->field19_0x3e = true;
-        if (wanderer->NoBorg13 == 1) {
+        if (wanderer->moveType == 1) {
           Actor::SetAiDest(wanderer->playerDat,playerPos.x,playerPos.z,2.0,0);
           if (((playerProx < 7.0f) && (enemyHostileFlag)) &&
              ((pmVar8->monster).borg_13 == 0)) {
@@ -362,13 +362,13 @@ LAB_80013318:
               if (!CheckCollision(borgDat,&fStack232,&fStack168,0.5,NULL,NULL,0)) {
                 gGlobals.EncounterDat.collisionByte = 2;
                 battle_setup_func(pmVar8,(pmVar8->header).flagB,wanderer->VoxelIndex);
-                wanderer->NoBorg13 = 0;
+                wanderer->moveType = 0;
                 FUN_80024c54(GameStateB_2);
               }
             }
           }
         }
-        else if (wanderer->NoBorg13 == 2) {
+        else if (wanderer->moveType == 2) {
           fStack488.x = playerPos.x - (wanderer->playerDat->collision).pos.x;
           fStack488.y = playerPos.z - (wanderer->playerDat->collision).pos.z;
           Vec2Normalize(&fStack488);

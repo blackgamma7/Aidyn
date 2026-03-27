@@ -56,7 +56,7 @@ bool combat_substruct_lookup(CombatSubstructA *param_1,u8 x,u8 y,u8 index){
 }
 
 
-bool FUN_80070ee4(CombatSubstructA *param_1,char X,char Y,u8 param_4){
+bool FUN_80070ee4(CombatSubstructA *param_1,u8 X,u8 Y,u8 param_4){
   for(s32 i=Y;i<Y+param_4;i++){
     for(s32 j=X;j<X+param_4;j++){
         if((j<0)||(i<0)||(param_1->byteA<=j)||(param_1->byteB<=i))

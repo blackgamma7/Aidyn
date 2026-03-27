@@ -372,6 +372,15 @@ void WidgetItemDetail::PrintSkillInfo(StatMod *mod) {
   }
 }
 
+void WidgetItemDetail::PrintMagicInfo(u8 *param_2) {
+  if (param_2) {
+    this->bottom+= AddLeftText(gGlobals.CommonStrings[0x21d])->GetHeight();
+    BaseWidget *w = AddLeftText(gSpellDBp->spells[*param_2].name);
+    w->SetCoords(this->posX + 0x10,this->bottom);
+    this->bottom+=w->GetHeight();
+  }
+}
+
 void WidgetItemDetail::PrintEnchantment(SpellCharges *charges) {
   if (charges) {
     WidgetClipText *pBVar2 = AddLeftText(gGlobals.CommonStrings[0x21e]);

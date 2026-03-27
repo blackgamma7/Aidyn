@@ -1,17 +1,16 @@
 #include "collide.h"
 
-bool FUN_800ae760(vec3f *param_1,borg9_phys *param_2){
+bool FUN_800ae760(vec3f *v,borg9_phys *param_2){
   vec3f *pvVar1;
   float *pfVar2;
   float *pfVar3;
   float *pfVar4;
   float *pfVar5;
-  int iVar6;
+  int i;
   float *pfVar7;
   float fVar8;
   float fVar9;
-  float local_80 [5];
-  float local_6c;
+  float local_80 [6];
   float local_40;
   float local_3c;
   
@@ -32,27 +31,27 @@ LAB_800ae7c0:
     if (fVar8 <= 0.0) fVar8 = -fVar8;
     if (fVar8 < fVar9) {
       pfVar7 = local_80 + 1;
-      for(iVar6 = 2;-1 < iVar6;iVar6--) {
+      for(i = 2;-1 < i;i--) {
         pvVar1 = param_2->verts[0];
         param_2 = (borg9_phys *)(param_2->verts + 1);
         *pfVar5 = pvVar1->z;
-        pfVar5 = pfVar5 + 2;
+        pfVar5+= 2;
         *pfVar7 = pvVar1->y;
-        pfVar7 = pfVar7 + 2;
+        pfVar7+= 2;
       }
-      local_40 = param_1->z;
+      local_40 = v->z;
     }
     else {
       pfVar5 = local_80 + 1;
-      for(iVar6 = 2;-1 < iVar6;iVar6--) {
+      for(i = 2;-1 < i;i--) {
         pvVar1 = param_2->verts[0];
         param_2 = (borg9_phys *)(param_2->verts + 1);
         *pfVar7 = pvVar1->x;
-        pfVar7 = pfVar7 + 2;
+        pfVar7+=2;
         *pfVar5 = pvVar1->y;
-        pfVar5 = pfVar5 + 2;
+        pfVar5+=2;
       }
-      local_40 = param_1->x;
+      local_40 = v->x;
     }
   }
   else {
@@ -70,47 +69,46 @@ LAB_800ae888:
     }
     if (fVar9 < fVar8) {
       pfVar5 = local_80 + 1;
-      for(iVar6 = 2;-1 < iVar6;iVar6--) {
+      for(i = 2;-1 < i;i--) {
         pvVar1 = param_2->verts[0];
         param_2 = (borg9_phys *)(param_2->verts + 1);
         *pfVar3 = pvVar1->x;
-        pfVar3 = pfVar3 + 2;
+        pfVar3+= 2;
         *pfVar5 = pvVar1->z;
-        pfVar5 = pfVar5 + 2;
+        pfVar5+= 2;
       }
-      local_40 = param_1->x;
-      local_3c = param_1->z;
+      local_40 = v->x;
+      local_3c = v->z;
       goto LAB_800ae958;
     }
     pfVar5 = local_80 + 1;
-    for(iVar6 = 2;-1 < iVar6;iVar6--) {
+    for(i = 2;-1 < i;i--) {
       pvVar1 = param_2->verts[0];
       param_2 = (borg9_phys *)(param_2->verts + 1);
       *pfVar4 = pvVar1->x;
-      pfVar4 = pfVar4 + 2;
+      pfVar4+= 2;
       *pfVar5 = pvVar1->y;
-      pfVar5 = pfVar5 + 2;
+      pfVar5+= 2;
     }
-    local_40 = param_1->x;
+    local_40 = v->x;
   }
-  local_3c = param_1->y;
+  local_3c = v->y;
 LAB_800ae958:
   pfVar5 = local_80 + 1;
-  iVar6 = 2;
-  for(iVar6 = 2;-1 < iVar6;iVar6--) {
-    *pfVar2 = *pfVar2 - local_40;
-    pfVar2 = pfVar2 + 2;
-    *pfVar5 = *pfVar5 - local_3c;
-    pfVar5 = pfVar5 + 2;
+  for(i = 2;-1 < i;i--) {
+    *pfVar2 -= local_40;
+    pfVar2+= 2;
+    *pfVar5 -= local_3c;
+    pfVar5+= 2;
   }
-  if (local_80[0] * local_80[3] - local_80[2] * local_80[1] < 0.0) iVar6 = -1;
-  else iVar6 = 1;
-  if (local_80[2] * local_6c - local_80[4] * local_80[3] < 0.0) iVar6--;
-  else iVar6++;
-  if (local_80[4] * local_80[1] - local_80[0] * local_6c < 0.0) iVar6--;
-  else iVar6++;
-  if (iVar6 < 0) iVar6 = -iVar6;
-  return iVar6 == 3;
+  if (local_80[0] * local_80[3] - local_80[2] * local_80[1] < 0.0) i = -1;
+  else i = 1;
+  if (local_80[2] * local_80[5] - local_80[4] * local_80[3] < 0.0) i--;
+  else i++;
+  if (local_80[4] * local_80[1] - local_80[0] * local_80[5] < 0.0) i--;
+  else i++;
+  IABS(i);
+  return i == 3;
 }
 
 bool FUN_800aea44(vec3f *pos,vec3f *vel,float spd,borg9_phys *param_4,float *param_5,vec3f *param_6){
