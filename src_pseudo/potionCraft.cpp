@@ -40,7 +40,7 @@ WidgetPotionCraft::WidgetPotionCraft(u32 partyind):WidgetCrafting(partyind){
   Wtxt->SetCoords(93-(Wtxt->GetWidth()>>1),Wtxt->posY);
   s16 by0 = Wtxt->GetHeight()+70;
   this->scrollMenu=Utilities::AddScrollMenu(this,0xf,0x17,by0,0x17,by0,0xa3,by0 + 0x7a,COLOR_RED1,0);
-  Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_BROWN2,COLOR_PURPLE1,0x14);
   s8 alch= PARTY->Members[this->partyIndex]->Skills->getModdedSkill(SKILL_Alchemist);
   for(u32 i=0;i<ARRAY_COUNT(potionRecipies);i++) {
     if (potionRecipies[i].alchemist <= alch) {

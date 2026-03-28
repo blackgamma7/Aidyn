@@ -61,7 +61,7 @@ void WidgetSpellTrain::InitMenu() {
     pvVar13->XOff = uVar1;
     pvVar13->yOff = uVar2;
   }
-  this->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  this->scrollMenu->SetColors(COLOR_BROWN2,COLOR_PURPLE1,0x14);
   this->Link(this->scrollMenu);
   WidgetTrainShop::SetArrows();
   for(u32 i=0;i<count;i++){

@@ -17,8 +17,8 @@ BaseWidget * WidgetBarter::DownFunc() {
 BaseWidget * WidgetBarter::LeftFunc() {
   if(this->itemWidget->scrollMenu->AFunc()){
     this->description=this->itemWidget;
-    this->itemWidget->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
-    this->unk84->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+    this->itemWidget->scrollMenu->SetColors(COLOR_BROWN2,COLOR_PURPLE1,0x14);
+    this->unk84->scrollMenu->SetColors(COLOR_RED1,COLOR_RED1,1);
     UpdateGoldText();
   }
   return NULL;
@@ -26,8 +26,8 @@ BaseWidget * WidgetBarter::LeftFunc() {
 
 BaseWidget * WidgetBarter::RightFunc() {
   this->description=this->itemWidget;
-  this->description->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
-  this->unk84->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+  this->description->scrollMenu->SetColors(COLOR_RED1,COLOR_RED1,1);
+  this->unk84->scrollMenu->SetColors(COLOR_RED1,COLOR_RED1,1);
   UpdateGoldText();
   return NULL;
 }

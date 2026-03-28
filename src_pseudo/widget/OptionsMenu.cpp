@@ -163,7 +163,7 @@ void WidgetOptionsMenu::MakeScrollList(){
     Utilities::SetArrayVSpace(sub->ScrollMenu,5);
     sub->ScrollMenu->SetFlags(4);
     sub->ScrollMenu->SetColor(COLOR_RED1);
-    Utilities::SetScrollMenuColors(sub->ScrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+    Utilities::SetScrollMenuColors(sub->ScrollMenu,COLOR_BROWN2,COLOR_PURPLE1,0x14);
     sub->ScrollMenu->Tick();
     pBVar2->posY = (s16)((int)(SCREEN_HEIGHT - (u16)(pBVar2->GetHeight() + sub->ScrollMenu->GetHeight() + 0x10)) / 2);
     sub->ScrollMenu->posY = pBVar2->posY + (s16)pBVar2->GetHeight() + 0x10;

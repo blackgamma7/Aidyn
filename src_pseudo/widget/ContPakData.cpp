@@ -1383,7 +1383,7 @@ void ContPakWidget::LoadWindow(){
   x = sVar9 + 5;
   this->w80 = Utilities::AddScrollMenu(this,SaveFileMax,x,y + (s16)uVar6 + 2,x,y + sVar7 + 2,sVar9 + 199,
                       this->field1_0x7c->posY + -7,COLOR_BROWN1,0);
-  Utilities::SetScrollMenuColors(this->w80,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  Utilities::SetScrollMenuColors(this->w80,COLOR_BROWN2,COLOR_PURPLE1,0x14);
   sVar8 -=27;
   sVar9 = this->posX + 10;
   pBVar5 = Utilities::AddTextWidget(this,"{ ",sVar9,sVar8,0,0,0xa4,0xff);

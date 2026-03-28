@@ -41,7 +41,7 @@ WidgetBarter::WidgetBarter(WidgetTrainShop *shop,ItemID merchantID):WidgetMenu()
   this->itemWidget->SetCoords(20,88);
   BaseWidget::Link(this->itemWidget);
   this->goldText = new WidgetClipText(NULL,10);
-  this->goldText->SetColor(0x82,0x50,0x50,0xff);
+  this->goldText->SetColor(COLOR_RED1);
   this->goldText->SetCoords(0x1e,0xa9);
   BaseWidget::Link(this->goldText);
   this->itemWidget->boundX0 = 0x14;
@@ -50,13 +50,13 @@ WidgetBarter::WidgetBarter(WidgetTrainShop *shop,ItemID merchantID):WidgetMenu()
   this->itemWidget->boundY1 = 0xa6;
   if (this->itemWidget->scrollMenu->AFunc() == 0) {
     this->description = this->unk84;
-    this->itemWidget->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
-    this->unk84->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,20);
+    this->itemWidget->scrollMenu->SetColors(COLOR_RED1,COLOR_RED1,1);
+    this->unk84->scrollMenu->SetColors(COLOR_BROWN2,COLOR_PURPLE1,20);
   }
   else {
     this->description = this->itemWidget;
-    this->itemWidget->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,20);
-    this->unk84->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+    this->itemWidget->scrollMenu->SetColors(COLOR_BROWN2,COLOR_PURPLE1,20);
+    this->unk84->scrollMenu->SetColors(COLOR_RED1,COLOR_RED1,1);
   }
   if ((this->invType == 1) && (gGlobals.moneypile))
     PlayAudioSound(&gGlobals.SFXStruct,BORG12_CoinJingle,0,gGlobals.VolSFX,300,0x3c);
@@ -108,12 +108,12 @@ void WidgetBarter::m80044a94() {
   }
   this->unk84->InitMenu();
   if (this->description == this->itemWidget) {
-    this->itemWidget->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,20);
-    this->unk84->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
+    this->itemWidget->scrollMenu->SetColors(COLOR_BROWN2,COLOR_PURPLE1,20);
+    this->unk84->scrollMenu->SetColors(COLOR_RED1,COLOR_RED1,1);
   }
   else {
-    this->itemWidget->scrollMenu->SetColors(0x82,0x50,0x50,0xff,0x82,0x50,0x50,0xff,1);
-    this->unk84->scrollMenu->SetColors(0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,20);
+    this->itemWidget->scrollMenu->SetColors(COLOR_RED1,COLOR_RED1,1);
+    this->unk84->scrollMenu->SetColors(COLOR_BROWN2,COLOR_PURPLE1,20);
   }
 }
 

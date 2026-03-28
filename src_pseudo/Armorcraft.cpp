@@ -31,7 +31,7 @@ WidgetArmorCraft::WidgetArmorCraft(u32 partyind):WidgetCrafting(partyind) {
   pBVar3->SetCoords(93 - (pBVar3->GetWidth() >> 1),pBVar3->posY);
   s16 by0 = (pBVar3->GetHeight() + 70);
   this->scrollMenu = Utilities::AddScrollMenu(this,5,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);
-  Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_BROWN2,COLOR_PURPLE1,0x14);
   CharSheet *chara = PARTY->Members[partyind];
   for(u32 i=0;i<ARRAY_COUNT(ArmorRecipies);i++){
     ArmorCraftRecipie * r=&ArmorRecipies[i];

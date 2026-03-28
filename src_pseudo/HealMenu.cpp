@@ -49,7 +49,7 @@ WidgetMenuHealer::WidgetMenuHealer(u32 partyInd):WidgetCrafting(partyInd){
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,3,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);
-  Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_BROWN2,COLOR_PURPLE1,0x14);
   WidgetText* pBVar2 = WTextSafe(Cstring(HealTaskHands));
   this->scrollMenu->Append(pBVar2);
   pBVar2->AButtonFunc = WidgetMenuHealer_LayOnHands;
@@ -81,7 +81,7 @@ void WidgetMenuHealer::LayOnHands() {
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);;
-  Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_BROWN2,COLOR_PURPLE1,0x14);
   for(u32 i=0;i<MAXPARTY;i++) {
     CharSheet *chara = PARTY->Members[i];
     if (((chara) && (!Entity::isDead(chara))) && (i != this->partyIndex)) {
@@ -96,7 +96,7 @@ void WidgetMenuHealer::HealWithHerbs() {
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);;
-  Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_BROWN2,COLOR_PURPLE1,0x14);
   for(u32 i=0;i<MAXPARTY;i++) {
     CharSheet *chara = PARTY->Members[i];
     if ((chara) && (!Entity::isDead(chara))) {
@@ -111,7 +111,7 @@ void WidgetMenuHealer::Restore() {
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,4,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);;
-  Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_BROWN2,COLOR_PURPLE1,0x14);
   for(u32 i=0;i<MAXPARTY;i++) {
     CharSheet *chara = PARTY->Members[i];
     if ((chara) && (!Entity::isDead(chara))) {
@@ -154,7 +154,7 @@ void WidgetMenuHealer::PrintRestore(u8 val) {
   this->textBox->SetCoords(0x5d-(this->textBox->GetWidth()>>1),this->textBox->posY);
   s16 by0 = this->textBox->GetHeight()+0x46;
   this->scrollMenu = Utilities::AddScrollMenu(this,7,0x17,by0,0x17,by0,0xa3,by0 + 0x75,COLOR_RED1,0);
-  Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+  Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_BROWN2,COLOR_PURPLE1,0x14);
   PrintStat(STAT_INT,val);
   PrintStat(STAT_WIL,val);
   PrintStat(STAT_DEX,val);

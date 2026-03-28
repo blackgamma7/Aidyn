@@ -9,7 +9,6 @@ typedef long long    longlong;
 typedef unsigned int    uint;
 typedef unsigned long    ulong;
 typedef unsigned long long    ulonglong;
-typedef unsigned long long    undefined8;
 
 #ifndef uintptr_t
 typedef unsigned long uintptr_t;
@@ -34,6 +33,8 @@ typedef union Color32 {
 #define COLOR_GREEN0 0,0xff,0,0xff
 #define COLOR_GREENDARK 0x36,0x40,0,0xff
 #define COLOR_BROWN1 0x67,0x46,0x3c,0xff
+#define COLOR_BROWN2 0x44,0x2a,0x22,0xff
+#define COLOR_PURPLE1 0x97,0x8d,0xbf,0xff
 #define COLOR_BLACK 0,0,0,0xff
 #define COLOR_BLACK2 0x1e,0x1a,0,0xff
 

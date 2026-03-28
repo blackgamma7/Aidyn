@@ -32,7 +32,7 @@ LAB_80037dd4:
   if (!ret)
     Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_RED1,COLOR_RED1,1);
   else
-    Utilities::SetScrollMenuColors(this->scrollMenu,0x44,0x2a,0x22,0xff,0x97,0x8d,0xbf,0xff,0x14);
+    Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_BROWN2,COLOR_PURPLE1,0x14);
   return ret;
 }
 
