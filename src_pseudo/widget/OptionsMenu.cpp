@@ -110,10 +110,7 @@ void WidgetOptionsMenu::MakeScrollList(){
   BaseWidget *pBVar2;
   BaseWidget *pBVar5;
   WidgetClipText *txt;
-  ulong uVar7;
-  WidgetOptionsSubstruct *sub;
-  
-  sub = (WidgetOptionsSubstruct *)this->substruct;
+  WidgetOptionsSubstruct *sub = (WidgetOptionsSubstruct *)this->substruct;
   pBVar2 = sub->unk10;
   sub->unk14 = pBVar2;
   if (pBVar2) {

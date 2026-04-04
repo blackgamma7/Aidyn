@@ -75,7 +75,6 @@ void DollMenuPortraits::SchoolAspectIcons(u8 param_2){
   int iVar6;
   BaseWidget *pBVar10;
   BaseWidget *pBVar12;
-  ulong uVar14;
   u32 uVar16;
   u32 uVar17;
   u16 uStack_50;

@@ -1887,11 +1887,7 @@ u8 CombatEntity::CheckForPetrify(CombatEntity *param_2,SpellInstance *param_3,u8
 }
 
 u8 CombatEntity::CheckSpellIngredient(SpellInstance *param_2){
-  u8 bVar4;
-  u8 bVar5;
-  ulong uVar2;
-  
-  bVar5 = true;
+  u8 bVar5 = true;
   if (((!Flag5()) && (bVar5 = true, this->aiP == NULL)) &&
      (bVar5 = true, param_2->cost)) {
     if (!PARTY->Inventory->TakeItem(TempSpell::GetIngredient(param_2),1)) {

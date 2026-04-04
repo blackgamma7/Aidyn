@@ -145,7 +145,7 @@ void PauseWidget::bigAssOpenCallback_2(){
   u32 borg12;
   pause_Substruct *sub = (pause_Substruct *)this->substruct;
   bVar2 = BattleResultsState;
-  sprintf(gGlobals.text,"isCombatLevelup = %d\n",bVar2);
+  Gsprintf("isCombatLevelup = %d\n",bVar2);
   N64PRINT(gGlobals.text);
   switch(sub->PauseMenuSection){
     case 0:

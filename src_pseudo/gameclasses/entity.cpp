@@ -40,12 +40,6 @@ u8 Entity::IsElemental(ItemID id){
 typedef void (*CharINIT)(CharSheet*,EntityRAM*);
 
 void Entity::EquipFunc0(CharSheet *ent,EntityRAM *param_2){
-  u32 uVar1;
-  Borg8Header *pBVar4;
-  s32 iVar5;
-  ulong uVar6;
-  ItemID IVar7;
-  
   ent->portrait = loadBorg8(gEntityDB->GetPortrait(ent->ID));
   ALLOCS(ent->potionEffects,sizeof(PotionEffect*)*POTION_FXMAX,193);
   memset(ent->potionEffects,0,sizeof(PotionEffect*)*POTION_FXMAX);
@@ -1356,7 +1350,7 @@ int Entity::EquipStamina(CharSheet *param_1,s16 stam,u8 param_3){
   if (lVar1 < 1) iVar6 = 0;
   else {
     iVar2 = CharStats::getModded(param_1->Stats,STAT_STAM);
-    iVar6 = ((int)lVar1 - (int)(s16)iVar2) * 0x10000 >> 0x10;
+    iVar6 = (s16)((int)lVar1 - (int)(s16)iVar2);
     if (iVar6 < 0) {
       if (param_3) {
         CharStats::addModdedHealth(param_1->Stats,STAT_STAM,-(char)lVar1);

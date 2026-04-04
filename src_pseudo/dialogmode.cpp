@@ -28,7 +28,7 @@ void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapSho
         some_string_func(get_borg_13_text(borg_13_pointer->dat,(u8)uVar4));
       }
       (*dialougemode_pointer->funcs0[dialougemode_pointer->func_index])();
-      sprintf(gGlobals.text,"Dialog #%d\n",dialougemode_pointer->borg13_dat->ID);
+      Gsprintf("Dialog #%d\n",dialougemode_pointer->borg13_dat->ID);
       N64Print::Print(gGlobals.text);
       whoDied_short = 0;
       if ((borg_short_list[0].borg_13 != -1) &&
@@ -67,7 +67,7 @@ void CreateNewDialouge_(u32 param_1){
   borg_13_pointer = loadBorg13(param_1);
   dialougemode_pointer->borg13_dat = borg_13_pointer->dat;
   ofunc_sub_dialouge(gGlobals.diaClass,borg_13_pointer->dat);
-  sprintf(gGlobals.text,"CreateNewDialogue\n");
+  Gsprintf("CreateNewDialogue\n");
   N64Print::Print(gGlobals.text);
   FUN_800b6cb8(&dialougemode_pointer->inst,dialougemode_pointer->borg13_dat,0);
   return;
@@ -413,7 +413,7 @@ void FUN_80058b88(Gfx **param_1,u16 delta){
 
 void ApplyStimulus(playerData *param_1,u16 param_2){
   if (param_1) {
-    sprintf(gGlobals.text,"ApplyStimulus(%d)\n",param_2);
+    Gsprintf("ApplyStimulus(%d)\n",param_2);
     N64Print::Print(gGlobals.text);
     param_1->ani_type = param_2;
     dialougemode_pointer->unkac = 1;

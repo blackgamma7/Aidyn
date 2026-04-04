@@ -913,7 +913,7 @@ Gfx * renderPlayers(PlayerHandler *handler,Gfx *g,s16 delta,s16 water,s16 trans)
         else if (pDat->combatAlly) {
 render_player:
 #if DEBUGVER
-          sprintf(gGlobals.text,"RENDERING PLAYER (%ld)",pDat->borg7);
+          Gsprintf("RENDERING PLAYER (%ld)",pDat->borg7);
 #endif
           Actor::GetPosOnLoadedMap(pDat,&mapPos);
           mapPos.y -= pDat->collision.radius;

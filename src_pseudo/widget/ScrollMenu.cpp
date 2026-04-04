@@ -88,7 +88,6 @@ u8 WidgetScrollMenu::Tick(){
   s16 sVar9;
   BaseWidget *entry;
   char cVar15;
-  ulong uVar13;
   int iVar14;
   bool bVar16;
   BaseWidget **ppBVar17;
@@ -138,7 +137,7 @@ LAB_800b9fb0:
         if ((entry->GetNumber() == WidgetN_ClipText)||(entry->GetNumber() == WidgetN_ShadText)) {
           Utilities::SetTextWidgetBoundsX(entry,this->boundX0,this->boundX1);
         }
-        uVar13= entry->GetHeight();
+        u16 uVar13= entry->GetHeight();
         iVar21 += uVar13 + (u8)sub->vSpace;
         sVar18 = (s16)iVar21;
         if (i == sub->highlight) {

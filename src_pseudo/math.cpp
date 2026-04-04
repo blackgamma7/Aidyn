@@ -723,13 +723,13 @@ void Ofunc_800ad174(MtxF *X,vec3f *A,vec3f *B,vec3f *C){
 //please identify purpose of function.
 void ofunc_sub_800ad30c(float *param_1,float *param_2,float *param_3){
   s32 iVar1;
-  s32 iVar2;
+  s16 iVar2;
   float *pfVar3;
   float *pfVar4;
   float *pfVar5;
   float *pfVar6;
   s32 iVar7;
-  s32 iVar8;
+  s16 iVar8;
   float fVar9;
   
   iVar8 = 3;
@@ -752,11 +752,11 @@ void ofunc_sub_800ad30c(float *param_1,float *param_2,float *param_3){
       } while (iVar1 != 0);
       *pfVar5 = fVar9;
       param_2 = pfVar6 + -2;
-      iVar2 = (iVar2 + -1) * 0x10000 >> 0x10;
+      iVar2--;
       pfVar3 = pfVar4 + -5;
       pfVar5 = param_1;
     } while (iVar2 != 0);
-    iVar8 = (iVar8 + -1) * 0x10000 >> 0x10;
+    iVar8--;
     param_2 = pfVar6 + 1;
   } while (iVar8 != 0);
   return;

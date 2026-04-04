@@ -89,7 +89,6 @@ u8 WidgetBufferedMenu::Tick(){
   u16 uVar13;
   u8 uVar19;
   int iVar16;
-  ulong uVar18;
   bool bVar20;
   uint uVar22;
   u16 uVar24;

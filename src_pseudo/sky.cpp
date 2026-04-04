@@ -117,18 +117,17 @@ int Sky::GenerateGradient(Color32 *c0,Color32 *c1,float vert,float param_4,float
         fVar19 = 1.0f;
         fVar22 = ((float)(iVar15 + iStack_ac) / 200.0f) * 31.0f;
         iVar6 = (int)(short)(int)fVar22;
-        iVar13 = (iVar4 + ((iVar4 / 6 + iVar1 >> 1) - iVar1) * -0xc) * 0x10000 >> 0x10;
+        iVar13 = (s16)(iVar4 + ((iVar4 / 6 + iVar1 >> 1) - iVar1) * -0xc);
         iVar11 = iVar13 + 1;
         fVar22 = fVar22 - (float)iVar6;
         iVar2 = iVar6 * 0xc + iVar13;
         pbVar4 = c0 + iVar2;
-        iVar12 = (iVar11 + ((iVar11 / 6 + (iVar11 >> 0x1f) >> 1) - (iVar11 >> 0x1f)) * -0xc) *
-                 0x10000 >> 0x10;
+        iVar12 = (s16)(iVar11 + ((iVar11 / 6 + (iVar11 >> 0x1f) >> 1) - (iVar11 >> 0x1f)) * -0xc);
         iVar8 = iVar6 * 0xc + iVar12;
         pCVar9 = c0 + iVar8;
         fVar26 = pbVar4->R / 255.0f;
         fVar25 = pbVar4->G / 255.0f;
-        iVar11 = ((iVar6 + 1) * 0x10000 >> 0x10) * 0xc;
+        iVar11 = ((s16)(iVar6 + 1)) * 0xc;
         fVar27 = pbVar4->B / 255.0f;
         iVar6 = iVar11 + iVar13;
         pCVar7 = c0 + iVar6;
@@ -209,7 +208,7 @@ void Sky::GenerateSky(Color32 *col,Color32 *transSky,float param_3,float gray,sh
   iVar3 = (int)(param_3 * 12.0f) << 0x10;
   iVar4 = iVar3 >> 0x10;
   iVar3 >>= 0x1f;
-  iVar5 = (iVar4 + ((iVar4 / 6 + iVar3 >> 1) - iVar3) * -0xc) * 0x10000 >> 0x10;
+  iVar5 = (s16)(iVar4 + ((iVar4 / 6 + iVar3 >> 1) - iVar3) * -0xc);
   iVar3 = param_5 * 0xc + iVar5;
   pCVar1 = col + iVar3;
   iVar4 = iVar5 + 1;
@@ -218,8 +217,7 @@ void Sky::GenerateSky(Color32 *col,Color32 *transSky,float param_3,float gray,sh
   fVar9 = param_3 * 12.0f - (float)iVar5;
   fVar7 = pCVar1->B / 255.0f;
   iVar4 = param_5 * 0xc +
-          ((iVar4 + ((iVar4 / 6 + (iVar4 >> 0x1f) >> 1) - (iVar4 >> 0x1f)) * -0xc) * 0x10000 >> 0x10
-          );
+          (s16)((iVar4 + ((iVar4 / 6 + (iVar4 >> 0x1f) >> 1) - (iVar4 >> 0x1f)) * -0xc));
   pCVar1 = col + iVar4;
   tempV.x = fVar6 - (fVar6 - pCVar1->R / 255.0f) * fVar9;
   tempV.y = fVar8 - (fVar8 - pCVar1->G / 255.0f) * fVar9;

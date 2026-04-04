@@ -152,7 +152,7 @@ WidgetItemDB::~WidgetItemDB(){
       pBVar4 = new WidgetItemDBItem(gArmorDBp->armors);
       for(i=0;i<gArmorDBp->armors;i++){
                   IVar1 = gArmorDBp->Armor[i].ID;
-          sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(ulonglong)(u16)IVar1,
+          Gsprintf("%u %s %u (%u %u)   %u",(u16)IVar1,
                       &gArmorDBp->Armor[i].name,i,(u32)((u16)ITEMIDTYPE(IVar1)),
                       (u16)IDInd(IVar1),IDArmor(ArmorList[i]));
           pBVar4->Append(gGlobals.text,IVar1);
@@ -162,7 +162,7 @@ WidgetItemDB::~WidgetItemDB(){
       pBVar4 = new WidgetItemDBItem(gArmorDBp->sheilds);
       for(i=gArmorDBp->armors;i<gArmorDBp->total;i++){
           IVar1 = gArmorDBp->Armor[i].ID;
-          sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",(u16)IVar1,
+          Gsprintf("%u %s %u (%u %u)   %u",(u16)IVar1,
                       &gArmorDBp->Armor[i].name,i,(u32)((u16)ITEMIDTYPE(IVar1)),
                       (u16)IDInd(IVar1),IDShield(ArmorList[i]));
           pBVar4->Append(gGlobals.text,IVar1);
@@ -172,7 +172,7 @@ WidgetItemDB::~WidgetItemDB(){
       pBVar4 = new WidgetItemDBItem(gItemDBp->total);
       for(i=0;i<gItemDBp->total;i++){
                   IVar1 = gItemDBp->Gear[i].ID;
-          sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",IVar1,
+          Gsprintf("%u %s %u (%u %u)   %u",IVar1,
                       gItemDBp->Gear[i].name,i,ITEMIDTYPE(IVar1),
                       IDInd(IVar1),itemID_array[i]);
           pBVar4->Append(gGlobals.text,IVar1);
@@ -182,7 +182,7 @@ WidgetItemDB::~WidgetItemDB(){
       pBVar4 = new WidgetItemDBItem((u16)gWeaponsDB->Total);
       for(i=0;i<gWeaponsDB->Total;i++){
         IVar1 = gWeaponsDB->weapons[i].ID;
-        sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",IVar1,
+        Gsprintf("%u %s %u (%u %u)   %u",IVar1,
                       gWeaponsDB->weapons[i].name,pcVar7,
                       ((u16)ITEMIDTYPE(IVar1)),(u16)IDInd(IVar1),
                       IDWeapon(weaponList[i]));
@@ -193,7 +193,7 @@ WidgetItemDB::~WidgetItemDB(){
       pBVar4 = new WidgetItemDBItem(17);
       for(i=0;i<17;i++) {
         ItemID uVar5 = IDPotion(i);
-        sprintf(gGlobals.text,"%u %s %u (%u %u)   %u",uVar5,potion_names[i],
+        Gsprintf("%u %s %u (%u %u)   %u",uVar5,potion_names[i],
                     i,ITEMIDTYPE((u16)uVar5),IDInd(uVar5),uVar5);
         pBVar4->Append(gGlobals.text,uVar5);
       }

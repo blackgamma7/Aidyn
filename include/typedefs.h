@@ -7,8 +7,6 @@ extern s32 osAfterPreNMI(void); //not in libreultra
 
 typedef long long    longlong;
 typedef unsigned int    uint;
-typedef unsigned long    ulong;
-typedef unsigned long long    ulonglong;
 
 #ifndef uintptr_t
 typedef unsigned long uintptr_t;
@@ -66,5 +64,3 @@ typedef union Color32 {
 #define OS_CYCLES_TO_NSEC(c) udivdi3(c>>6,3)
 #define TIME_NSEC OS_CYCLES_TO_NSEC(osGetTime()) //clock time in nanoseconds
 
-//Ghidra concatonating 2 32-bit values into 2 "lo" registers as a 64-bit value
-#define CONCAT44(x,y) (u64)((x)<<32|y)

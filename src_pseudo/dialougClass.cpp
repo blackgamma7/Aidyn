@@ -33,7 +33,6 @@ DiaMenuSub::DiaMenuSub(WidgetHandler *handle,u8 a2,u8 a3){
 void DiaMenuSub::InitDefault(u8 param_2){
   BaseWidget *pBVar1;
   BaseWidget *pBVar2;
-  ulong uVar4;
   u16 uVar5;
   u16 uVar6;
   
@@ -50,7 +49,7 @@ void DiaMenuSub::InitDefault(u8 param_2){
   pBVar2->boundX1 = SCREEN_WIDTH;
   pBVar2->boundY0 = 0xb4;
   pBVar2->boundX0 = 0;
-  uVar4 = this->PortraitBorder->GetHeight();
+  u16 uVar4 = this->PortraitBorder->GetHeight();
   pBVar1 = this->Background;
   pBVar1->boundY1 = (s16)uVar4 + 0xb4;
   pBVar1->SetCoords(pBVar1->boundX0,pBVar1->boundY0);
@@ -228,7 +227,6 @@ bool DialougeClass::Setup(){
   u32 ind;
   char *c1;
   Borg8Header *image;
-  ulong uVar7;
   BaseWidget *pBVar8;
   BaseWidget *entry;
   int iVar9;
@@ -269,7 +267,7 @@ LAB_8004edd4:
     strcpy(Utilities::GetWidgetText(sub->text)," ");
   }
   Utilities::SetBorg8Dims(sub->Portrait,SuperMenuClasses::Add(ind),false);
-  uVar7 = sub->PortraitBorder->GetHeight();
+  s16 uVar7 = sub->PortraitBorder->GetHeight();
   uVar12 = (s16)uVar7 + 0xb4;
   if (((this->inst->diags[2].next == 0xff) || (bVar5)) && (this->unk1C == 0)) {
 LAB_8004ef58:

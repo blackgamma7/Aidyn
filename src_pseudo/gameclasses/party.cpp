@@ -386,7 +386,6 @@ u8 Party::GetEquipError(u8 param_2,char param_3,ItemID*oId){
 u8 itemtype_armor(Party* p, u8 param_2,ItemInstance *param_3,CharSheet *param_4,ItemID *param_5){
   ItemID IVar1;
   u8 bVar4;
-  ulong uVar3;
   u8 bVar5;
   
   IVar1 = param_3->id;
@@ -395,8 +394,7 @@ u8 itemtype_armor(Party* p, u8 param_2,ItemInstance *param_3,CharSheet *param_4,
     StatMod* X = CreateStatMod(param_3->statMod);
     bVar5 = 0xff;
     if (param_3->spellCharge) bVar5 = param_3->spellCharge->Charges;
-    uVar3 = p->Inventory->TakeItem(IVar1,1);
-    if (uVar3 == 0) {
+    if (p->Inventory->TakeItem(IVar1,1) == 0) {
       if (X) HFREE(X,887);
       bVar4 = 1;
     }
@@ -422,7 +420,6 @@ u8 itemtype_sheild(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
   SpellCharges *pSVar2;
   bool bVar5;
   StatMod *X;
-  ulong uVar4;
   u8 bVar6;
   
   IVar1 = param_3->id;
@@ -432,8 +429,7 @@ u8 itemtype_sheild(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
     pSVar2 = param_3->spellCharge;
     bVar6 = 0xff;
     if (pSVar2) bVar6 = pSVar2->Charges;
-    uVar4 = p->Inventory->TakeItem(IVar1,1);
-    if (uVar4 == 0) {
+    if (!p->Inventory->TakeItem(IVar1,1)) {
       if (X != NULL) HFREE(X,946);
       bVar5 = true;
     }
@@ -459,7 +455,6 @@ u8 itemtype_weapon(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,
   u8 bVar5;
   u8 bVar6;
   StatMod *X;
-  ulong uVar4;
   
   IVar1 = param_3->id;
   bVar5 = Entity::canEquipWeapon(param_4,IVar1);
@@ -517,7 +512,6 @@ u8 itemtype_gear(Party *p,u8 param_2,ItemInstance *param_3,CharSheet *param_4,It
   int iVar7;
   u8 bVar9;
   StatMod *X;
-  ulong uVar8;
   bool bVar10;
   GearInstance **ppGVar11;
   u32 uVar12;
@@ -707,7 +701,6 @@ u8 Party::RemoveArmorFrom(u8 index){
   ArmorInstance *pAVar2;
   SpellCharges *pSVar3;
   StatMod *X;
-  ulong uVar5;
   ItemInstance *pIVar6;
   int line;
   u8 bVar7;
@@ -721,14 +714,13 @@ u8 Party::RemoveArmorFrom(u8 index){
   pSVar3 = (pAVar2->base).spellCharge;
   bVar7 = 0xff;
   if (pSVar3) bVar7 = pSVar3->Charges;
-  uVar5 = this->Inventory->AddItem((pAVar2->base).id,1);
-  if (uVar5 == 0) {
+  if (!this->Inventory->AddItem((pAVar2->base).id,1)) {
     if (X == NULL) return true;
     line = 1394;
   }
   else {
-    uVar5= this->Inventory->GetItemIndex((pAVar2->base).id);
-    pIVar6 = &this->Inventory->GetItemEntry(uVar5)->base;
+    pIVar6 = &this->Inventory->GetItemEntry(
+       this->Inventory->GetItemIndex((pAVar2->base).id))->base;
     if (pIVar6) {
       UpdateItemStatCharges(pIVar6,X,bVar7);
       Entity::RemoveArmor(pCVar1);
@@ -819,7 +811,6 @@ u8 Party::RemoveGearFrom(u8 param_2,u8 param_3){
   CharSheet *pCVar1;
   SpellCharges *pSVar2;
   StatMod *X;
-  ulong uVar4;
   ItemInstance *pIVar5;
   u8 bVar6;
   GearInstance *puVar2;
@@ -1396,11 +1387,10 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
   CharSheet *ent;
   CharSheet *pCVar1;
   char *pcVar2;
-  s8 sVar9;
+  s8 healLV;
   int skillMod;
   u32 uVar4;
   u16 uVar8;
-  ulong uVar5;
   int iVar6;
   u8 uVar10;
   u32 uVar7;
@@ -1411,24 +1401,22 @@ char * Party::HerbHeal(u8 param_2,u8 param_3){
   if ((ent == NULL) || (pCVar1 = this->Members[param_3], pCVar1 == NULL)) {
     return gGlobals.CommonStrings[0x1b4];
   }
-  sVar9 = ent->Skills->getModdedSkill(SKILL_Healer);
-  skillMod = 5 - sVar9;
+  healLV = ent->Skills->getModdedSkill(SKILL_Healer);
+  skillMod = 5 - healLV;
   FLOOR(skillMod,1);
   if (Entity::getHPCurrent(pCVar1) == Entity::getHPMax(pCVar1)) {
     pcVar2 = pCVar1->name;
     pcVar12 = gGlobals.CommonStrings[0x1b7];
   }
   else {
-    uVar5 = this->Inventory->TakeItem(itemID_array[ItemInd_Herb],1);
-    if (uVar5 != 0) {
+    if (this->Inventory->TakeItem(itemID_array[ItemInd_Herb],1)) {
       if (gCombatP == NULL) herb_func();
       if ((s16)skillMod <= CharStats::getModded(ent->Stats,STAT_STAM)) {
         if ((gGlobals.gameStateA == GameStateA_Combat) && (gGlobals.ShadowIndex != -1)) {
           return gGlobals.CommonStrings[0x1b5];
         }
         Entity::DecreaseHP(ent,(s16)skillMod);
-        skillMod = CharStats::getModded(ent->Stats,STAT_INT);
-        skillMod = (skillMod * 4 + ((sVar9 * 2 + (int)sVar9) * 4 - (int)sVar9));
+        skillMod = (CharStats::getModded(ent->Stats,STAT_INT) * 4 + (healLV*11));
         uVar8 = RollD(1,100);
         Gsprintf(gGlobals.CommonStrings[0x1b6],ent->name);
         if ((s16)uVar8 < skillMod) {
@@ -1841,7 +1829,6 @@ void ItemCampStamina(ItemInstance *I,float param_2){
 void Party::CampHeal(u8 halfHeal){
   CharSheet *pCVar1;
   u8 bVar6;
-  ulong uVar4;
   ItemInstance *pTVar5;
   Party *pPVar7;
   u32 uVar8;
@@ -1857,7 +1844,7 @@ void Party::CampHeal(u8 halfHeal){
     pCVar1 = this->Members[uVar8];
     if ((pCVar1) && (!Entity::isDead(pCVar1))) Entity::CampHeal(pCVar1,uVar10,uVar9);
   }
-  uVar4 = this->Inventory->GetMaxQuantity();
+  s32 uVar4 = this->Inventory->GetMaxQuantity();
   if (uVar4) {
     for(uVar8=0;uVar8 + 1<uVar4;uVar8++){
       ItemCampStamina(&this->Inventory->GetItemEntry(uVar8)->base,uVar10);
@@ -1984,7 +1971,7 @@ u32 Party::AlchemistCheck(){
     pCVar1 = this->Members[cVar4];
     iVar2 = CharStats::getModded(pCVar1->Stats,STAT_INT);
     cVar4 = pCVar1->Skills->getModdedSkill(SKILL_Alchemist);
-    return ::gSkillCheck((s32)((RollD(1,100) - (iVar2 * 3 + cVar4 * 6)) * 0x10000) >> 0x10);
+    return ::gSkillCheck((RollD(1,100) - (iVar2 * 3 + cVar4 * 6)));
   }
 }
 

@@ -9,11 +9,9 @@ DollBarterConfirm::DollBarterConfirm(WidgetInvShop *shop,u32 sellPrice):WidgetMe
   short y;
   u32 uVar6;
   BaseWidget *uVar8;
-  ulong uVar7;
   WidgetClipText *pBVar9;
   WidgetClipText *pBVar10;
   int iVar11;
-  ulong uVar12;
   u8 *pbVar13;
   u8 bVar14;
   char buff [256];

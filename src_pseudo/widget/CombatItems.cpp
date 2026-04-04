@@ -32,7 +32,6 @@ BaseWidget * FUN_800928f8(BaseWidget *param_1,BaseWidget *param_2){
 
 WidgetCombatItems::WidgetCombatItems(s32 showWeapon,s32 showShield,s32 ShowArmor,u8 *gear,s32 *potions):
 WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
-  u16 iconSize;
   CombatEntity *pCVar1;
   CharSheet *pCVar2;
   Borg8Header *pBVar5;
@@ -41,7 +40,6 @@ WidgetChoiceDia(32,120,gExpPakFlag?95:55,0,0){
   int iVar6;
   BaseWidget *pBVar7;
   BaseWidget *pBVar8;
-  ulong uVar9;
   u32 i;
   Color32 aCStack_68;
   

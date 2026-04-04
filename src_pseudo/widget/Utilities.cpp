@@ -221,7 +221,6 @@ void Utilities::SetScrollMenuColors(BaseWidget *w,u8 r0,u8 g0,u8 b0,u8 a0,u8 r1,
 
 void Utilities::RemoveScrollMenuEntry(BaseWidget *w,u16 param_2){
   BaseWidget **ppBVar2;
-  ulong uVar3;
   int iVar4;
   BaseWidget **ppBVar5;
   u16 uVar7;

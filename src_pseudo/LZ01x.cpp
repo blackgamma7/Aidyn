@@ -79,7 +79,7 @@ u32 Ofunc_800a908c(u32 param_1,u8 *param_2,u32 param_3) {
           param_1+= iVar18 + iVar19 + iVar20 + iVar21 + iVar22 + iVar23 + iVar24 + iVar25
                     + iVar26 + iVar27 + iVar28 + iVar29 + iVar30 + iVar31 + iVar32 + uVar33;
         }
-        uVar34 = (u32)((ulonglong)uVar33 * 0x80078071 >> 0x20);
+        uVar34 = (u32)((u32)uVar33 * 0x80078071 >> 0x20);
         if (uVar17 != 0) {
           do {
             bVar16 = *param_2;
@@ -88,7 +88,7 @@ u32 Ofunc_800a908c(u32 param_1,u8 *param_2,u32 param_3) {
             uVar33+= bVar16;
             param_1+= uVar33;
           } while (0 < (int)uVar17);
-          uVar34 = (u32)((ulonglong)uVar33 * 0x80078071 >> 0x20);
+          uVar34 = (u32)((u64)uVar33 * 0x80078071 >> 0x20);
         }
         uVar33 = uVar33 + (uVar34 >> 0xf) * -0xfff1;
         param_1 = param_1 % 0xfff1;
@@ -292,7 +292,7 @@ s32 ofunc_sub_800a95b0(void) {
   int iVar8;
   u32 uVar9;
   u32 **ppuVar10;
-  ulonglong uVar11;
+  u64 uVar11;
   u8 auStack_41 [65];
   
   uVar3 = ret1();

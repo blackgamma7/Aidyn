@@ -41,7 +41,7 @@ void InputMenu::InitMenu(char *txt){
   ((WAMSub*)sub->arrayMenu->substruct)->rowSize=13;
   u8* keyP=(u8*)&keys;
   while (*keyP) {
-    sprintf(gGlobals.text,"%c",*keyP);
+    Gsprintf("%c",*keyP);
     WidgetClipText* entry = WClipTXT(gGlobals.text);
     u8 bVar1 = *keyP;
     keyP++;

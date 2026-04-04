@@ -261,9 +261,6 @@ bool create_enemy_list(){
 }
 
 void DebugSingleEnemyFight(BaseWidget *param_1){
-  ulong uVar1;
-  int iVar2;
-  
   if (param_1 == gGlobals.playerCharStruct.debugMenuEnemy) {
     WHANDLE->FreeWidget(param_1);
     if (gGlobals.playerCharStruct.debugMenuEnemy)
@@ -301,7 +298,7 @@ bool DebugCombatSelectArena(){
         scrollMenu->Append(txt);
     }
   }
-  scrollMenu->boundY0 = 0x4b;
+  scrollMenu->boundY0 = 75;
   scrollMenu->boundY1 = 200;
   scrollMenu->SetColor(0x96,0x96,0x96,0x96);
   ((WSMSub*)scrollMenu->substruct)->scrollSpeed = 20;

@@ -54,12 +54,10 @@ WidgetClipText * WidgetItemDetail::AddRightText(char *txt) {
 
 
 WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
-  u8 bVar1;
   char **ppcVar12;
   BaseWidget *pBVar13;
-  ulong uVar14;
-  u16 uVar16;
   u32 i;
+
   SlimFont;
   this->varU16 = param_2->id;
   SidePopup();
@@ -128,7 +126,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
     RomString::Free(ppcVar12);
     if ((u16)ITEMIDTYPE(param_2->id) == DB_SCROLL) {
       this->bottom = 0xbb;
-      bVar1 = gItemDBp->Gear[search_item_array(param_2->id)].spell;
+      u8 bVar1 = gItemDBp->Gear[search_item_array(param_2->id)].spell;
       Gsprintf(gGlobals.CommonStrings[0x215],gSpellDBp->spells[bVar1].name);
       AddLeftText(gGlobals.text);
     }
@@ -427,9 +425,7 @@ WidgetItemDetail::WidgetItemDetail(ArmorInstance *armor)
   CharSheet *pCVar3;
   s16 sVar5;
   FontStruct *pFVar6;
-  Borg8Enum BVar7;
   BaseWidget *pBVar10;
-  ulong uVar11;
   u8 bVar12;
   u8 bVar13;
   u8 uVar14;

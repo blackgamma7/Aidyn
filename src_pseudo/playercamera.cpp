@@ -111,7 +111,7 @@ void processVoxelCamera(vec3f *arg0,voxelObject *vox,Camera_struct *cam,float de
     if (((vox->camera).CameraFlags & (CamOBJ_CopyPos|CamOBJ_CopyAim))) {
       Camera::SetMode(cam,2);
       if (((vox->camera).CameraFlags & CamObj_M001f) == 0) {
-        sprintf(gGlobals.text,"No Movement Type!!\nFlags: %02x\n",(vox->camera).CameraFlags);
+        Gsprintf("No Movement Type!!\nFlags: %02x\n",(vox->camera).CameraFlags);
         CRASH("ProcessVoxelCamera",gGlobals.text);
       }
       v3a = &(vox->camera).vec3_b;
@@ -299,7 +299,7 @@ void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
   sVar1 = param_1->counter0;
   param_1->counter0 = 0;
   param_1->counter1 = sVar1;
-  sprintf(gGlobals.text,"ProcessScriptCameras");
+  Gsprintf("ProcessScriptCameras");
   if (param_1->dataActive != 0) {
     for(s16 i=0;i<8;i++){
       ScriptCam *sCam = &param_1->cameras[i];
@@ -321,6 +321,6 @@ void ProcessScriptCamera(ScriptCamera_struct *param_1,float delta){
       if (cameraVoxelPointer)
         processVoxelCamera(cameraVec3Ptr,cameraVoxelPointer,&gCamera,delta);
     }
-    sprintf(gGlobals.text,"FINISHED ProcessScriptCameras");
+    Gsprintf("FINISHED ProcessScriptCameras");
   }
 }

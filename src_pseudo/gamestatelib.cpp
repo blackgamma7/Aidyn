@@ -78,21 +78,13 @@ u16 gameStateBitmask(GameStateFunnel *param_1,Struct_State *param_2) {
 }
 
 short gamestate_func_with_ANDgate(u16 param_1) {
-  u16 i;
-  uint uVar2;
-  short sVar3;
-  
-  uVar2 = (uint)param_1;
-  sVar3 = 0;
-  i = 0;
-  do {
+  u32 uVar2 = param_1;
+  u16 sVar3 = 0;
+  for(u16 i=0;i<16;i++,uVar2>>=1){
     if ((uVar2 & 1) != 0) sVar3++;
-    i++;
-    uVar2>>= 1;
-  } while (i < 0x10);
+  }
   return sVar3;
 }
-
 
 void GameStateCrash(char *param_1){
   #if DEBUGVER

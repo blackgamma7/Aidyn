@@ -36,9 +36,8 @@ void decrypt_ofunc_2(u8 *arg0,u8 *arg1,s32 arg2){
   s32 iVar6;
   u8 *pbVar7;
   s32 iVar8;
-  s32 iVar9;
   
-  iVar9 = 0;
+  s16 iVar9 = 0;
   iVar6 = arg2 * 0x10000 + -0x10000 >> 0x10;
   if (iVar6 != -1) {
     iVar6 = iVar6 * 0x10000;
@@ -48,7 +47,7 @@ void decrypt_ofunc_2(u8 *arg0,u8 *arg1,s32 arg2){
       if (iVar9 < 0) {iVar2 = iVar9 + 0xf;}
       iVar8 = iVar9 + 1;
       bVar3 = *arg0;
-      bVar1 = arg1[(iVar9 + (iVar2 >> 4) * -0x10) * 0x10000 >> 0x10];
+      bVar1 = arg1[(s16)(iVar9 + (iVar2 >> 4) * -0x10)];
       *arg0 = bVar3 + bVar1;
       iVar2 = iVar8;
       if (iVar8 < 0) {iVar2 = iVar9 + 0x10;}
@@ -64,7 +63,7 @@ void decrypt_ofunc_2(u8 *arg0,u8 *arg1,s32 arg2){
       arg0++;
       *pbVar7 = *pbVar7 ^ bVar3;
       bVar3 = (u8)iVar9;
-      iVar9 = iVar8 * 0x10000 >> 0x10;
+      iVar9 = iVar8;
       *pbVar4 = *pbVar4 ^ bVar3;
     } while (iVar6 >> 0x10 != -1);
   }

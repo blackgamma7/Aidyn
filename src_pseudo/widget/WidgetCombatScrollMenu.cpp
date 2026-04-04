@@ -31,8 +31,6 @@ u8 WidgetCombatScrollMenu::Tick() {
   u16 uVar2;
   BaseWidget *pBVar3;
   u8 uVar6;
-  ulong uVar4;
-  ulong uVar5;
   bool bVar7;
   BaseWidget **ppBVar9;
   u16 lVar8;
@@ -55,7 +53,7 @@ u8 WidgetCombatScrollMenu::Tick() {
         pBVar3->boundY0 = this->boundY0;
         pBVar3->boundY1 = this->boundY1;
         pBVar3->SetCoords(this->posX,this->posY + (short)iVar12 + sub->yOff);
-        uVar4 = pBVar3->GetHeight();
+        u16 uVar4 = pBVar3->GetHeight();
         iVar12+= pBVar3->GetHeight() + sub->vSpace;
         uVar13 = iVar12;
         if (i == sub->highlight) {

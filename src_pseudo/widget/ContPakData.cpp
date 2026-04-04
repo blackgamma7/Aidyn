@@ -758,19 +758,17 @@ WidgetContPakDataSave::~WidgetContPakDataSave(){
 void WidgetContPakDataSave::unk(){}
 
 u32 WidgetContPakDataSave::ShowSaveFiles(){
-  WidgetBlankFile *pWVar3;
-  ulong uVar4;
   u16 uStack136 [4];
-  Color32 aCStack_48 [18];
+  Color32 aCStack_48;
   uStack136[0] = this->unk292;
   uStack136[1] = this->unk294;
   uStack136[2] = uStack136[0] + 200;
   uStack136[3] = uStack136[1] + 120;
-  aCStack_48[0].R = 0x67;
-  aCStack_48[0].G = 0x46;
-  aCStack_48[0].B = 0x3c;
-  aCStack_48[0].A = 0xff;
-  pWVar3 = new WidgetBlankFile("Create New Save",&uStack136,aCStack_48,0,0x1c);
+  aCStack_48.R = 0x67;
+  aCStack_48.G = 0x46;
+  aCStack_48.B = 0x3c;
+  aCStack_48.A = 0xff;
+  WidgetBlankFile *pWVar3 = new WidgetBlankFile("Create New Save",&uStack136,&aCStack_48,0,0x1c);
   pWVar3->varU8 = 2;
   pWVar3->AButtonFunc = FUN_80086144;
   this->sliders->AddFileWidget(pWVar3);
@@ -1340,7 +1338,6 @@ void ContPakWidget::LoadWindow(){
   u16 uVar3;
   Borg8Header *pBVar4;
   BaseWidget *pBVar5;
-  ulong uVar6;
   s16 sVar7;
   s16 x;
   s16 sVar8;
@@ -1377,7 +1374,7 @@ void ContPakWidget::LoadWindow(){
   this->field1_0x7c = Utilities::AddTextWidget
                      (this,sContPakBlank,pBVar5->posX + (s16)pBVar5->GetWidth() + -5,sVar9,0x67,0x46,0x3c,
                       0xff);
-  uVar6 = pBVar5->GetHeight();
+  u16 uVar6 = pBVar5->GetHeight();
   sVar7 = this->field1_0x7c->GetHeight();
   sVar9 = this->posX;
   x = sVar9 + 5;

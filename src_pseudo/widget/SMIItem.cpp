@@ -15,7 +15,7 @@ SMIItem::SMIItem(ItemInstance *pObject,u8 q,u8 user):BaseWidget(){
   this->unkX = 0;
   if (pObject == NULL) CRASH("SMIItem.cpp","pObject is NULL");
   GetItemImage(pObject->id,&borgInd);
-  sprintf(gGlobals.text,"Trying to load %s (%u), borg id = (%ld)",this->item->name,this->item->id,borgInd);
+  Gsprintf("Trying to load %s (%u), borg id = (%ld)",this->item->name,this->item->id,borgInd);
   this->ItemIcon = WidgetB8(borgInd);
   this->ItemIcon->SetWidth(12);
   this->ItemIcon->SetHeight(12);

@@ -502,7 +502,7 @@ void heap_error(CrashBuff* param_1,char* param_2,s32 param_3,int param_4,int par
 {
   double dVar1;
   double dVar2;
-  undefined8 uVar3;
+  u64 uVar3;
   char acStack_90 [144];
   
   if ((heapMax < heapScroll) || (0x16 < heapMax - heapScroll)) goto LAB_80007e80;
@@ -523,7 +523,7 @@ void heap_error(CrashBuff* param_1,char* param_2,s32 param_3,int param_4,int par
     uVar3 = 0xff00000000;
 LAB_80007dd4:
     crash_print(param_1,acStack_90,0x14,(u16)heapPrinted,
-                (u8)((ulonglong)uVar3 >> 0x20),(u8)uVar3,0);
+                (u8)((u64)uVar3 >> 0x20),(u8)uVar3,0);
   }
   heapPrinted += 10;
 LAB_80007e80:
