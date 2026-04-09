@@ -545,7 +545,7 @@ u8 CombatStateFunc_27(Gfx **GG,u16 delta){
     if (!gExpPakFlag) FreeZoneEngineMemory();
     GetSnapshot_();
     uVar1 = GameStateA_Pause;
-    gGlobals.unk14fc = true;
+    gGlobals.isCombatPause = true;
     gGlobals.BackgroundTypeCopy = gGlobals.sky.Type;
   }
   return uVar1;

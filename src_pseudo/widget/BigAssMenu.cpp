@@ -34,7 +34,7 @@ u32 PauseWidget::BigAssMenu(WidgetHandler *handle,u8 menu_section){
   u32 borg12;
   
   this->Handler = handle;
-  uVar6 = gGlobals.unk14fc;
+  uVar6 = gGlobals.isCombatPause;
   bVar3 = gGlobals.gameStateA == 6;
   notCombat = gGlobals.combatBytes[0] != CombatState_15;
   sub = new pause_Substruct;

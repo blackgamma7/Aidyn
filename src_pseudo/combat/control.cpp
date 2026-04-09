@@ -88,7 +88,7 @@ bool LZBStart_to_cancel_Turn(controller_aidyn *cont){
     bVar1 = true;
     gGlobals.combatBytes[0] = CombatState_15;
     gGlobals.combatBytes[1] = CombatState_1;
-    gGlobals.unk14fc = false;
+    gGlobals.isCombatPause = false;
   }
   return bVar1;
 }

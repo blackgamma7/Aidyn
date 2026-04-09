@@ -86,7 +86,7 @@ struct GlobalsSub { /* 0x800e6988 in Debug version*/
     u8 unk1212[6];
 };
 
-struct SpashVars{
+struct SplashVars{
     u32 flag;
     Borg12Header *introMusic;
     u32 introMusicDatA;
@@ -137,7 +137,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     int appstate;
     u32 ticker;
     float delta; //defined as (x/60) second, 1>=x<=6
-    SpashVars titleSplashVars;
+    SplashVars titleSplashVars;
     u8 gameStateA;
     u8 align41[15];
     WanderManager wander;
@@ -176,7 +176,7 @@ struct GlobalsAidyn { /* Globals structure of Aidyn Chronicles*/
     u16 unk14f2;
     u32 moneypile;
     u8 creditsByte; //1= from menu, 2=from end of game.
-    u32 unk14fc;
+    u32 isCombatPause;
     u8 gameStartOption;
     IntroMenu *titleScreen;
     u32 unk1508; /* unused? */

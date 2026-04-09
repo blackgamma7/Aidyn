@@ -37,7 +37,7 @@ switchD_8004fe44_caseD_4:
       gGlobals.pauseMenuState = PauseMenuState_Barter;
     }
   }
-  if (gGlobals.unk14fc) bVar2 = 0;
+  if (gGlobals.isCombatPause) bVar2 = 0;
   gGlobals.BigAssMenu = new PauseWidget(WHANDLE,bVar2);
 }
 
@@ -124,7 +124,7 @@ u8 Pause_GameState(Gfx **GG) {
       ret = GameStateA_Combat;
       u8_800edb99 = 1;
       gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
-      if (gGlobals.unk14fc) {
+      if (gGlobals.isCombatPause) {
         if (gGlobals.combatBytes[1] != CombatState_20) {
           gGlobals.combatBytes[0] = (u8)gGlobals.combatByteMirror;
         }
@@ -261,7 +261,7 @@ void func_clearing_shopkeep(void) {
     no_TP_vec3 = 1;
     loadGameBorgScenes(gGlobals.gameVars.mapShort1,gGlobals.gameVars.mapShort2);
   }
-  gGlobals.unk14fc = false;
+  gGlobals.isCombatPause = false;
   freeWidgetFunc = NULL;
 }
 

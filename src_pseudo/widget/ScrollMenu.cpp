@@ -4,30 +4,30 @@
 
 
 WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
-    WSMSub *puVar1 = new WSMSub;
+    WSMSub *sub = new WSMSub;
     this->posX = 0;
     this->posY = 0;
     this->width = 0;
     this->height = 0;
-    puVar1->scrollSpeed = 10;
-    puVar1->flag = 1;
-    puVar1->blendSign = 1;
-    puVar1->reds[0] = 100;
-    puVar1->greens[0] = 100;
-    puVar1->blues[0] = 100;
-    puVar1->alphas[0] = 100;
-    puVar1->blendA = 0x14;
-    (puVar1->col).R = 0xe1;
-    (puVar1->col).G = 0xe1;
-    (puVar1->col).B = 0xe1;
-    (puVar1->col).A = 0xe1;
-    puVar1->reds[1] = 0xff;
-    puVar1->greens[1] = 0xff;
-    puVar1->blues[1] = 0xff;
-    puVar1->alphas[1] = 0xff;
-    puVar1->yOff = 0;
-    puVar1->unk16 = 0;
-    puVar1->blendB = 0;
+    sub->scrollSpeed = 10;
+    sub->flag = 1;
+    sub->blendSign = 1;
+    sub->reds[0] = 100;
+    sub->greens[0] = 100;
+    sub->blues[0] = 100;
+    sub->alphas[0] = 100;
+    sub->blendA = 0x14;
+    (sub->col).R = 0xe1;
+    (sub->col).G = 0xe1;
+    (sub->col).B = 0xe1;
+    (sub->col).A = 0xe1;
+    sub->reds[1] = 0xff;
+    sub->greens[1] = 0xff;
+    sub->blues[1] = 0xff;
+    sub->alphas[1] = 0xff;
+    sub->yOff = 0;
+    sub->unk16 = 0;
+    sub->blendB = 0;
     this->boundY1 = SCREEN_HEIGHT;
     this->boundX1 = SCREEN_WIDTH;
     this->UpButtonFunc = WSM_UpFunc;
@@ -39,20 +39,20 @@ WidgetScrollMenu::WidgetScrollMenu(u16 length):BaseWidget(){
     this->RightButtonFunc = WSM_RightFunc;
     this->fadeIn = NULL;
     this->fadeOut = NULL;
-    puVar1->highlight = 0;
-    puVar1->maxCount = length;
-    puVar1->numChoices = 0;
-    puVar1->vSpace = 0;
-    if (length == 0) puVar1->items = NULL;
+    sub->highlight = 0;
+    sub->maxCount = length;
+    sub->numChoices = 0;
+    sub->vSpace = 0;
+    if (length == 0) sub->items = NULL;
     else {
       BaseWidget** ppBVar1= (BaseWidget**)HALLOC(length*sizeof(BaseWidget*),89);
-      puVar1->items = ppBVar1;
+      sub->items = ppBVar1;
       for (u32 i= length; i != 0; i--) {
         *ppBVar1 = NULL;
         ppBVar1++;
       }
     }
-    this->substruct = puVar1;
+    this->substruct = sub;
     SetState(WidgetS_Init);
 }
 WidgetScrollMenu::~WidgetScrollMenu(){

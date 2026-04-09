@@ -54,7 +54,7 @@ void init_DBs(void) {
   gGlobals.screenshot = NULL;
   gGlobals.screenshotTint ={COLOR_WHITE};
   gGlobals.cinematicReplay = 0;
-  gGlobals.unk14fc = false;
+  gGlobals.isCombatPause = false;
   gGlobals.pauseMenuSection = 0;
   gGlobals.shopInv = NULL;
   gGlobals.shopUnused = NULL;

@@ -210,7 +210,7 @@ BaseWidget* bigAssMenu_RFunc(BaseWidget* w0,BaseWidget *w1) {
   bool bVar7;
   Borg8Header *b8;
   
-  if ((DefaultPauseState || CombatPauseState) && (gGlobals.unk14fc == 0)) {
+  if ((DefaultPauseState || CombatPauseState) && (gGlobals.isCombatPause == 0)) {
     sub = (pause_Substruct *)w1->substruct;
     if (sub->PauseMenuSection != 2) {
       if (CombatPauseState) {
