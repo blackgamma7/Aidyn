@@ -42,7 +42,7 @@ BaseWidget * WidgetBarter::BFunc() {
     if (gGlobals.shopInv->GetQuantity()) {
       if (gGlobals.shopInv->HasNoKeyItem()) {
         Color32 colA={COLOR_WHITE};
-        Color32 colB={200,180,100,0xff};
+        Color32 colB={COLOR_TAN};
         strcpy(gGlobals.text,Cstring(LeaveItemsConfirm));
         WidgetChoiceDia *pWVar2 =  new WidgetChoiceDia(2,gGlobals.text,150,&colA,&colB,0,0,0);
         WidgetClipText* pBVar3 = WClipTXT(Cstring(LeaveItemsYes));

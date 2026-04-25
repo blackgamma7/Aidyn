@@ -127,7 +127,7 @@ WidgetItemDetail::WidgetItemDetail(ItemInstance *param_2):WidgetMenu() {
     if ((u16)ITEMIDTYPE(param_2->id) == DB_SCROLL) {
       this->bottom = 0xbb;
       u8 bVar1 = gItemDBp->Gear[search_item_array(param_2->id)].spell;
-      Gsprintf(gGlobals.CommonStrings[0x215],gSpellDBp->spells[bVar1].name);
+      Gsprintf(Cstring(WinWizard),gSpellDBp->spells[bVar1].wizard);
       AddLeftText(gGlobals.text);
     }
   }
@@ -191,7 +191,7 @@ WidgetItemDetail::WidgetItemDetail(SpellInstance *param_2):WidgetMenu() {
   RomString::Free(ppcVar15);
   if (param_2->wizard != 0) {
     this->bottom = 0xbb;
-    sprintf(acStack_b8,gGlobals.CommonStrings[0x215],param_2->wizard);
+    sprintf(acStack_b8,Cstring(WinWizard),param_2->wizard);
     AddLeftText(acStack_b8);
   }
   u8 MVar1 = param_2->cost;

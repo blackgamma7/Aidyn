@@ -193,6 +193,12 @@ struct audio_obj_dat {
     u8 dcmIndex;
 };
 
+enum WanderNodeFlags{
+    WANDER_MOVE=1,
+    WANDER_ROTATE=2,
+    WANDER_4=4,
+};
+
 struct wandernode_dat{
     vec2f startCoords;
     float wanderRadius;

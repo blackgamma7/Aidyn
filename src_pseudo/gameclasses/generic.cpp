@@ -55,25 +55,19 @@ void ItemInstance::InitWeapon(ItemID param_2){
 u16 potion_prices[17]=
 {250,1000,200,500,50,300,200,200,2500,500,500,500,0,300,300,500,500};
 
-void ItemInstance::InitPotion(ItemID id){
-  char **ppcVar2;
-  u8 bVar3;
-  
+void ItemInstance::InitPotion(ItemID ID){
   CLEAR(this);
-  u8 index = GETINDEX(id);
-  this->id = id;
-  this->price = potion_prices[bVar3];
-  this->name = potion_names[bVar3];
+  u8 index = GETINDEX(ID);
+  this->id = ID;
+  this->price = potion_prices[index];
+  this->name = potion_names[index];
 }
 
-void ItemInstance::InitGear(ItemID param_2){
-  s32 iVar1;
-  Gear_RAM *pGVar4;
-  
+void ItemInstance::InitGear(ItemID ID){
   CLEAR(this);
-  iVar1 = search_item_array(param_2);
-  pGVar4 = gItemDBp->Gear;
-  this->id = param_2;
+  s32 iVar1 = search_item_array(ID);
+  Gear_RAM *pGVar4 = gItemDBp->Gear;
+  this->id = ID;
   pGVar4+= iVar1;
   this->name = pGVar4->name;
   this->aspect = pGVar4->aspect;

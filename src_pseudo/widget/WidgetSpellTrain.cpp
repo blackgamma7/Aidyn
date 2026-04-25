@@ -280,15 +280,15 @@ void WidgetSpellTrain::Confirm(u16 id,u16 lv) {
 confirmPurchase:
       if (gold_magic_price == 0) Gsprintf(gGlobals.CommonStrings[0x1f9],exp_magic_price);
       else Gsprintf(gGlobals.CommonStrings[0x1f8],exp_magic_price,gold_magic_price);
-      Color32 aCStack_78={200,180,100,0xff};
+      Color32 aCStack_78={COLOR_TAN};
       Color32 aCStack_b8={COLOR_WHITE};
       WidgetChoiceDia *pWVar4 = new WidgetChoiceDia(2,gGlobals.text,150,&aCStack_b8,&aCStack_78,0,0,0);
-      WidgetClipText* pBVar5 = WClipTXT(gGlobals.CommonStrings[31]);
+      WidgetClipText* pBVar5 = WClipTXT(Cstring(Yes00));
       pBVar5->AButtonFunc = WST_AButtonFunc;
       pBVar5->varU16 = (u16)id;
       pBVar5->varU8 = abStack_3c0[0];
       pWVar4->AppendScrollMenu(pBVar5);
-      pWVar4->AppendScrollMenu(WClipTXT(gGlobals.CommonStrings[32]));
+      pWVar4->AppendScrollMenu(WClipTXT(Cstring(No00)));
       pWVar4->Update();
       WHANDLE->AddWidget(pWVar4);
       return;

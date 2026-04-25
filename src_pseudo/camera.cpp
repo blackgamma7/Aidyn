@@ -262,7 +262,7 @@ LAB_800b0be4:
       (param_1->pos).x = (param_1->aim).x + fStack176.x * param_1->unk64;
       (param_1->pos).z = (param_1->aim).z + fStack176.z * param_1->unk64;
     }
-    if (false) {//?
+    if (0.0f<0.0f) {//?
       Vec3Sub(&param_1->pos,&param_1->pos,aim0);
       Vec3Sub(A,A,aim0);
       FUN_800ab23c(&param_1->pos,A,(float)(int)param_4 * 0.0);//?

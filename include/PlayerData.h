@@ -93,7 +93,7 @@ struct playerData {
     Borg7Header *borg7P;
     SceneData *SceneDat;
     u32 borg7;
-    u32 nextBorg7;
+    u32 nextBorg7; //unused(?) in final game if !=-1, changes Borg7 of object next tick
     s16 ani_type;
     u16 unk16;
     s16 unk18;
@@ -110,8 +110,8 @@ struct playerData {
     float unk54;
     float targetScale;
     float scaleChange;
-    u16 canScale;
-    u8 unk62[2];
+    u16 canScale; //unused in finel game - determines if scale should animate
+    u8 unk62[2];//align bytes(?)
     collisionSphere collision;
     vec3f positionMirror;
     EnvProp envprop;
@@ -119,8 +119,8 @@ struct playerData {
     SpeedProperty colTypeB;
     u16 Ground_type;
     u16 Ground_Type_New;
-    s16 index; //index in gGlobals.gameVars.PlayerHandler.playerDats[]
-    u8 unk106[2];
+    s16 index; //index in gGlobals.gameVars.PlayerHandler.combatActors[]
+    u8 unk106[2];//align bytes(?)
     float unk108;
     float voxelReach; /* 100f default */
     vec3f voxelCoords;
@@ -131,7 +131,7 @@ struct playerData {
     u16 moveQueueIndex2;
     float aiDestDist;
     s16 aiTravelTime;
-    u8 unk25e[2];
+    u8 unk25e[2]; //align bytes(?)
     vec2f aiDest;
     float wanderRadius;
     vec2f unk26c;
@@ -151,17 +151,17 @@ struct playerData {
     s16 dcmDatIndex;
     u16 movement_;
     u16 spellUsed;
-    u8 field69_0x72e[2];
+    u8 unk72e[2];//align bytes(?)
     attachmentNode attachmentNodes[3];
-    u16 rangerWarrior;
+    u16 rangerWarrior; //set during AllocWanderer() based on enemy max size and party's ranger/warrior skill, but otherwise unused.
     ItemID ent_ID;
     u16 Ent_index;
     float tintScale;
     float tintScaleMod;
     vec3f CombatTint; /* tint by combat effect */
     vec3f skyTint; /* tint from environmental light */
-    u8 unk77c;
-    u8 unk77d[3];
+    u8 isDying; //if dying animation is queued.
+    u8 unk77d[3];//align bytes(?)
 };
 
 struct audiokey_struct {
@@ -181,7 +181,7 @@ struct PlayerHandler {
     u16 initFlag;
     Camera_struct *camera; //set to &gGlobals.gameVars.camera
     s16 cameraFocus;
-    playerData *playerDats;
+    playerData *combatActors;
     s16 unk10[PLAYER_ABS_MAXPLAYERS];
     s16 playerCount;
     u16 counter;

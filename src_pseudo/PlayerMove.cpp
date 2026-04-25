@@ -235,12 +235,9 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
     MoveQueueEntry *pMVar4;
     
     uVar1 = param_1->moveQueueIndex;
-    pMVar4 = param_1->moveQueue + uVar1;
+    pMVar4 = param_1->moveQueue + param_1->moveQueueIndex;
     if (pMVar4->active == 0) {
-      iVar3 = uVar1 + 1;
-      iVar2 = iVar3;
-      if (false) iVar2 = uVar1 + 0x10;
-      param_1->moveQueueIndex = (s16)iVar3 + (s16)(iVar2 >> 4) * -0x10;
+      param_1->moveQueueIndex=(param_1->moveQueueIndex+1)%16;
       pMVar4->active = 1;
       (pMVar4->pos2d).x = x;
       (pMVar4->pos2d).y = y;
@@ -266,12 +263,7 @@ void Actor::SetAiDest(playerData *p,float x,float y,float rad,u16 flag){
     pabVar2 = param_1->moveQueue + param_1->moveQueueIndex2;
     if ((pabVar2->active != 0) && ((param_1->flags & ACTOR_CANMOVE) == 0)) {
       pabVar2->active = 0;
-      iVar2 = param_1->moveQueueIndex2 + 1;
-      iVar1 = iVar2;
-      if (false) {
-        iVar1 = param_1->moveQueueIndex2 + 0x10;
-      }
-      param_1->moveQueueIndex2 = (s16)iVar2 + (s16)(iVar1 >> 4) * -0x10;
+      param_1->moveQueueIndex2 = (param_1->moveQueueIndex2+1)%16;
       Actor::SetAiDest(param_1,(pabVar2->pos2d).x,(pabVar2->pos2d).y,pabVar2->rad,pabVar2->flag);
     }
   }
@@ -377,15 +369,11 @@ void Actor::UnsetFlag4(playerData *param_1){
 void FUN_80019b08(playerData *param_1){
     int iVar2;
     MoveQueueEntry *pfVar2;
-    int iVar3;
     
     if ((param_1->flags & ACTOR_2)) {
       if ((param_1->flags & ACTOR_CANMOVE)){
-        iVar3 = (u16)param_1->moveQueueIndex + 0xf;
-        iVar2 = iVar3;
-        if (false) {
-          iVar2 = (u16)param_1->moveQueueIndex + 0x1e;
-        }
+        iVar2 = param_1->moveQueueIndex%16;
+        if (false) iVar2 = param_1->moveQueueIndex%32;//?
         pfVar2 = &param_1->moveQueue[iVar2];
         if (pfVar2->active == 0) {
           (param_1->collision).pos.z = (param_1->aiDest).y;
@@ -406,7 +394,7 @@ void FUN_80019b08(playerData *param_1){
 void debug_sub_3(){
     if (0 < PHANDLE.max_player) {
       for(u16 i=0;i<PHANDLE.max_player;i++) {
-        playerData* p= &PHANDLE.playerDats[i];
+        playerData* p= &PHANDLE.combatActors[i];
         if (p->state != 0) FUN_80019b08(p);
       }
     }

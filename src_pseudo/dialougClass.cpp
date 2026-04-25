@@ -76,8 +76,8 @@ void DiaMenuSub::InitDefault(u8 param_2){
   pBVar2->boundY1 = pBVar1->boundY1;
   pBVar2->SetCoords(pBVar1->boundX0,pBVar1->boundY0);
   this->scrollMenu->SetWidth(this->scrollMenu->boundX1 - this->scrollMenu->boundX0);
-  this->scrollMenu->SetColor(200,0xb4,100,0xff);
-  Utilities::SetScrollMenuColors(this->scrollMenu,200,0xb4,100,0xff,0x32,0x2d,0x19,0x3f,0x18);
+  this->scrollMenu->SetColor(COLOR_TAN);
+  Utilities::SetScrollMenuColors(this->scrollMenu,COLOR_TAN,0x32,0x2d,0x19,0x3f,0x18);
   ((WSMSub*)this->scrollMenu->substruct)->vSpace = 4;
 }
 

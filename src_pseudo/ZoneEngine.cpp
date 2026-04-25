@@ -713,7 +713,7 @@ void set_playerdata_zoneDatByte(u16 param_1,u16 param_2){
   
   if (0 < PHANDLE.max_player) {
     for(s16 i=0; i < PHANDLE.max_player; i++) {
-      playerData *p = &PHANDLE.playerDats[i];
+      playerData *p = &PHANDLE.combatActors[i];
       if ((p->state) && (!p->combatAlly)) {
         p->zoneDatByte = get_zoneDatByte(param_1,param_2,p->zoneDatByte);
       }

@@ -140,7 +140,7 @@ void Actor::Init(playerData *pDat,u16 id){
   Vec3Set(&pDat->CombatTint,1.0,1.0,1.0);
   pDat->tintScale = 0.0;
   pDat->tintScaleMod = 0.0;
-  pDat->unk77c = false;
+  pDat->isDying = false;
 }
 
 void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
@@ -153,10 +153,10 @@ void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
   PHANDLE.initFlag = true;
   PHANDLE.max_player = maxPlayers;
   if (maxPlayers == 0)
-    PHANDLE.playerDats = NULL;
+    PHANDLE.combatActors = NULL;
   else {
     ALLOCS(PHANDLE.playerDats,iVar2 * sizeof(playerData),351);
-    memset(PHANDLE.playerDats,0,PHANDLE.max_player * sizeof(playerData));
+    memset(PHANDLE.combatActors,0,PHANDLE.max_player * sizeof(playerData));
   }
   PHANDLE.cameraFocus = -1;
   PHANDLE.playerCount = 0;
@@ -165,7 +165,7 @@ void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
   PHANDLE.camera = cam;
   for(s16 i=0;i<PHANDLE.max_player;i++) {
     PHANDLE.unk10[i] = i;
-    Actor::Init(&PHANDLE.playerDats[i],i);
+    Actor::Init(&PHANDLE.combatActors[i],i);
   }
   if (shadIndex)
     PHANDLE.shadowTexture = (Borg1Header *)getBorgItem(shadIndex);
@@ -186,7 +186,7 @@ void FreePlayerHandler(){
     FREEQB1(PHANDLE.unk70);
   Audiokey_free(PHANDLE.audiokey);
   PHANDLE.audiokey = NULL;
-  if (PHANDLE.playerDats)
+  if (PHANDLE.combatActors)
     HFREE(PHANDLE.playerDats,415);
 }
 
@@ -273,7 +273,7 @@ Gfx * renderPlayerShadows(PlayerHandler *param_1,Gfx *gfx){
     gfx = loadTextureImage(pGVar3,param_1->shadowTexture,NULL);
     if (0 < param_1->max_player) {
       for(s16 i=0;i<param_1->max_player;i++) {
-        playerData* p = &param_1->playerDats[i];
+        playerData* p = &param_1->combatActors[i];
         if (p->state) {
           Actor::GetPosOnLoadedMap(p,&afStack120);
           float prox = Vec3Dist(&param_1->camera->aim,&afStack120);
@@ -402,8 +402,8 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
   camAimV2p = &camAimV2;
   if (0 < handler->max_player) {
     for(s16 i=0;i<handler->max_player;i++) {
-      if ((handler->playerDats[i].state) && (handler->playerDats[i].flags&ACTOR_800))
-        Camera::AddPosToList(&handler->playerDats[i].collision.pos);
+      if ((handler->combatActors[i].state) && (handler->combatActors[i].flags&ACTOR_800))
+        Camera::AddPosToList(&handler->combatActors[i].collision.pos);
     }
   }
   if (gGlobals.gameVars.gamemodeType == GameMode_Trek) {
@@ -423,15 +423,15 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
       }
     }
     else {
-      facingV3.x = handler->playerDats[sVar15].facing.x;
+      facingV3.x = handler->combatActors[sVar15].facing.x;
       facingV3.y = 0.0;
-      facingV3.z = handler->playerDats[sVar15].facing.y;
+      facingV3.z = handler->combatActors[sVar15].facing.y;
       fVar33 = SQ(facingV3.x)+ SQ(facingV3.z);
       if (0.0 < fVar33) {
         if ((fVar33 < NORMALIZE_MIN)||(-fVar33 < NORMALIZE_MIN))
         CRASH("Player.cpp","SETTING FACING FOR CAMERA\n");
       }
-      Camera::ProcessGameCamera(handler->camera,&handler->playerDats[handler->cameraFocus].collision.pos,
+      Camera::ProcessGameCamera(handler->camera,&handler->combatActors[handler->cameraFocus].collision.pos,
                         &facingV3,delta,1);
     }
   }
@@ -452,7 +452,7 @@ void ProcessPlayers(PlayerHandler *handler,s16 delta){
   iVar12 = 0;
   do {
       iVar21 = (int)count;
-      pDat = &handler->playerDats[count];
+      pDat = &handler->combatActors[count];
       fVar27 = pDat->collision.pos.x;
       fVar5 = pDat->collision.pos.y;
       fVar6 = pDat->collision.pos.z;
@@ -656,7 +656,7 @@ LAB_80016cec:
                 }
                 if (uVar3 == AniType_Dying) {
                   if (pDat->ani_type != AniType_Dying) {
-                    pDat->unk77c = 1;
+                    pDat->isDying = true;
                     goto LAB_80016e74;
                   }
 LAB_80016e88:
@@ -664,7 +664,7 @@ LAB_80016e88:
                 }
                 else {
 LAB_80016e74:
-                  if ((pDat->ani_type == AniType_Dying) || (pDat->unk77c != 0)) goto LAB_80016e88;
+                  if ((pDat->ani_type == AniType_Dying) || (pDat->isDying != 0)) goto LAB_80016e88;
 LAB_80016e90:
                   count = FUN_800a00d0(pDat->borg7P);
                   bVar18 = count != 0;
@@ -742,7 +742,7 @@ not_flying_borg7:
           do {
             sVar15 = (s16)uVar24;
             iVar12 = (int)uVar23;
-            ppVar8 = handler->playerDats;
+            ppVar8 = handler->combatActors;
             ppVar20 = ppVar8 + iVar12;
             if (ppVar20->state == 0) {
 LAB_8001727c:
@@ -773,7 +773,7 @@ LAB_8001727c:
                         sVar15 = 0;
                       }
                     }
-                    ppVar8 = handler->playerDats;
+                    ppVar8 = handler->combatActors;
                     pDat->collision.radius = fVar29;
                     ppVar8[iVar12].collision.radius = fVar28;
                     sVar17 = sVar15 + 1;
@@ -905,7 +905,7 @@ Gfx * renderPlayers(PlayerHandler *handler,Gfx *g,s16 delta,s16 water,s16 trans)
 
   if (0 < handler->max_player) {
     for(i=0;i< handler->max_player;i++) {
-      pDat = &handler->playerDats[i];
+      pDat = &handler->combatActors[i];
       if ((pDat->state) && (pDat->borg7P)) {
         if (water32 == 0) {
           if (!pDat->combatAlly) goto render_player;
@@ -1028,7 +1028,7 @@ playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
   
   if (PHANDLE.max_player <= PHANDLE.playerCount)
     CRASH("AllocPlayer","Too Many Players");
-  playerData *pDat = &PHANDLE.playerDats[PHANDLE.unk10[PHANDLE.playerCount++]];
+  playerData *pDat = &PHANDLE.combatActors[PHANDLE.unk10[PHANDLE.playerCount++]];
 
   Init(pDat,pDat->ID);
   pDat->state = 1;
@@ -1067,7 +1067,7 @@ void Actor::FreePlayer(playerData *param_1){
 
 void remove_flagged_playerdata(){
   for(s16 i=0; i < PHANDLE.max_player;i++) {
-    playerData *ppVar2 = &PHANDLE.playerDats[i];
+    playerData *ppVar2 = &PHANDLE.combatActors[i];
     if (ppVar2->state) Actor::FreePlayer(ppVar2);
    }
 }
@@ -1216,7 +1216,7 @@ void Ofunc_80018b34(playerData *param_1,float param_2){
 void FUN_80018b84(){
   if (0 < PHANDLE.max_player) {
     for(u16 i=0;i<PHANDLE.max_player;i++) {
-      Actor::UnsetFlag(&PHANDLE.playerDats[i],ACTOR_2000);
+      Actor::UnsetFlag(&PHANDLE.combatActors[i],ACTOR_2000);
     }
   }
 }
@@ -1232,6 +1232,6 @@ void FUN_80018bf0(playerData *param_1){
 
 void FreeAllActors(){
   for(u16 i=0;i<PHANDLE.max_player;i++){
-    FUN_80018bf0(&PHANDLE.playerDats[i]);
+    FUN_80018bf0(&PHANDLE.combatActors[i]);
   }
 }

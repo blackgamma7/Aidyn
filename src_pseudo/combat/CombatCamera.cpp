@@ -121,7 +121,7 @@ u32 FUN_80096e58(PlayerHandler *param_1,playerData *param_2,vec3f *pos) {
   u32 ret = false;
   float min=10000.0f;
   for(u16 i=0;i<param_1->max_player;i++){
-    playerData* pDat=&param_1->playerDats[i];
+    playerData* pDat=&param_1->combatActors[i];
     if((pDat->state)&&(!pDat->combatAlly)){
         float dist=Vec3Dist(&param_2->collision.pos,&pDat->collision.pos);
         if(dist<min){
@@ -141,7 +141,7 @@ void FUN_80096f4c(PlayerHandler *param_1,playerData *param_2,vec3f *pos,Camera_s
   vec2f dist2d;
   vec3f camPos;
   
-  if (now) Camera::SetAim(cam,&param_1->playerDats[param_1->cameraFocus].collision.pos);
+  if (now) Camera::SetAim(cam,&param_1->combatActors[param_1->cameraFocus].collision.pos);
   Vec3Sub(&dist3d,&(param_2->collision).pos,pos);
   Vec2Set(&dist2d,dist3d.x,dist3d.z);
   Vec2Normalize(&dist2d);
@@ -202,7 +202,7 @@ void processCombatCamera(PlayerHandler *param_1) {
         }
       }
       sVar1 = param_1->cameraFocus;
-      ppVar2 = param_1->playerDats;
+      ppVar2 = param_1->combatActors;
       fStack440.x = ppVar2[sVar1].collision.pos.x;
       fStack440.y = ppVar2[sVar1].collision.pos.y;
       fStack440.z = ppVar2[sVar1].collision.pos.z;
@@ -227,9 +227,9 @@ void processCombatCamera(PlayerHandler *param_1) {
         (cam->posTarget).z = (ppVar5->collision).pos.z;
         camera_collision_far(&cam->posTarget,&fStack440);
       }
-      avStack_138[0].x = param_1->playerDats[param_1->cameraFocus].facing.x;
+      avStack_138[0].x = param_1->combatActors[param_1->cameraFocus].facing.x;
       avStack_138[0].y = 0.0;
-      avStack_138[0].z = param_1->playerDats[param_1->cameraFocus].facing.y;
+      avStack_138[0].z = param_1->combatActors[param_1->cameraFocus].facing.y;
       Camera::Mode1(cam,&fStack440,avStack_138,gGlobals.delta,fVar7,fVar9,
                     0.5f,8.0f,2.0f,8.0f,16.0f,32.0f,1.0f,0.5f,0,uVar6);
       combat_camera_func(cam,gGlobals.gameVars.borg9DatPointer);
@@ -250,7 +250,7 @@ void processCombatCamera(PlayerHandler *param_1) {
   }
   else {
     sVar1 = param_1->cameraFocus;
-    ppVar5 = param_1->playerDats;
+    ppVar5 = param_1->combatActors;
     calc_camera_playerdata_focus(cam,gEntityDB->GetHeightMinPoint2(ppVar5[sVar1].ent_ID) - ppVar5[sVar1].scaleRad);
   }
 }

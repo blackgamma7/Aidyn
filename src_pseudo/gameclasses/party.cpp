@@ -1528,37 +1528,35 @@ bool Party::Lockpicking(u8 lock,char *text){
   int iVar4;
   int iVar5;
   char *pcVar9;
-  s32 lok;
-  
-  lok = (s32)lock;
+  s32 lock32 = lock;
   sVar6 = GetMostSkilledMember(SKILL_Theif);
   if (sVar6 == 0xff) {
-    strcpy(text,gGlobals.CommonStrings[0x1bf]);
+    strcpy(text,Cstring(LockpickFailParty));
     return false;
   }
   else {
     CharSheet *pCVar1 = Members[sVar6];
-    if ((u32)lok < 10) {
+    if (lock32 < 10) {
       iVar4 = 10;
       if (pCVar1->Skills->getModdedSkill(SKILL_Theif) < 10) {
         iVar4 = pCVar1->Skills->getModdedSkill(SKILL_Theif);
       }
-      if (iVar4 + -1 < lok) {
-        iVar4 = (lok - iVar4) * 0x1000000 >> 0x18;
+      if (iVar4 + -1 < lock32) {
+        iVar4 = (lock32 - iVar4);
         if (iVar4 < 3) {
           pcVar2 = pCVar1->name;
-          pcVar9 = gGlobals.CommonStrings[0x1c3];
-          pcVar3 = gGlobals.CommonStrings[0x1c1];
+          pcVar9 = Cstring(LockpickFailLV);
+          pcVar3 = Cstring(LockpickFailLV1);
         }
         else {
           if (5 < iVar4) {
-            sprintf(text,gGlobals.CommonStrings[0x1c3],gGlobals.CommonStrings[0x1c0],
+            sprintf(text,Cstring(LockpickFailLV),Cstring(LockpickFailLV0),
                         pCVar1->name);
             return false;
           }
           pcVar2 = pCVar1->name;
-          pcVar9 = gGlobals.CommonStrings[0x1c3];
-          pcVar3 = gGlobals.CommonStrings[0x1c2];
+          pcVar9 = Cstring(LockpickFailLV);
+          pcVar3 = Cstring(LockpickFailLV2);
         }
         sprintf(text,pcVar9,pcVar3,pcVar2);
         bVar7 = false;
@@ -1567,18 +1565,18 @@ bool Party::Lockpicking(u8 lock,char *text){
         iVar4 = 10 - iVar4;
         if (iVar4 < 1) iVar4 = 1;
         if (CharStats::getModded(pCVar1->Stats,STAT_STAM) < iVar4) {
-          sprintf(text,gGlobals.CommonStrings[0x1c4],pCVar1->name);
+          sprintf(text,Cstring(LockpickFailStam),pCVar1->name);
           bVar7 = false;
         }
         else {
-          CharStats::addModdedHealth(pCVar1->Stats,STAT_STAM,-(char)iVar4);
-          sprintf(text,gGlobals.CommonStrings[0x1c5],pCVar1->name);
+          CharStats::addModdedHealth(pCVar1->Stats,STAT_STAM,-iVar4);
+          sprintf(text,Cstring(LockpickFailStam),pCVar1->name);
           bVar7 = true;
         }
       }
     }
     else {
-      sprintf(text,gGlobals.CommonStrings[0x1c3],gGlobals.CommonStrings[0x1c0],pCVar1->name);
+      sprintf(text,Cstring(LockpickFailLV),Cstring(LockpickFailLV0),pCVar1->name);
       bVar7 = false;
     }
   }

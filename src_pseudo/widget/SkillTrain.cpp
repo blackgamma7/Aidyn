@@ -296,39 +296,39 @@ void WidgetSkillTrain::Confirm(u16 param_2,u16 param_3) {
     return;}
   }
   if (skLv == -1) {
-    ErrPopup(gGlobals.CommonStrings[0x201]);
+    ErrPopup(Cstring(SkillTrainCant));
     return;
   }
   if ((int)teacherLV <= skLv) {
-    ErrPopup(gGlobals.CommonStrings[0x202]);
+    ErrPopup(Cstring(SkillTrainCantTeach));
     return;
   }
   if (SKILLMAXBASE <= skLv) {
-    ErrPopup(gGlobals.CommonStrings[0x203]);
+    ErrPopup(Cstring(SkillTrainMax));
     return;
   }
   if (!notOriana) gold_train_price = 0;
   if (!afterBattle) {
     if ((exp_train_price <= pCVar1->EXP->spending) && (gold_train_price <= PARTY->Gold)) {
 LAB_8003fd14:
-      if (gold_train_price == 0) Gsprintf(gGlobals.CommonStrings[0x207],exp_train_price);
-      else Gsprintf(gGlobals.CommonStrings[0x206],exp_train_price,gold_train_price);
+      if (gold_train_price == 0) Gsprintf(Cstring(SkillTrainExpCostConfirm),exp_train_price);
+      else Gsprintf(Cstring(SkillTrainExpGCostConfirm),exp_train_price,gold_train_price);
       Color32 col1={COLOR_WHITE};
-      Color32 col2={200,180,100,0xff};
+      Color32 col2={COLOR_TAN};
       pWVar7 = new WidgetChoiceDia(2,gGlobals.text,0x96,&col1,&col2,0,0,0);
-      pBVar8 = WClipTXT(gGlobals.CommonStrings[0x1f]);
+      pBVar8 = WClipTXT(Cstring(Yes00));
       pBVar8->AButtonFunc = WST_AButtonFunc;
       pBVar8->varU16 = param_2;
       pBVar8->varU8 = this->partyPicker;
       pWVar7->AppendScrollMenu(pBVar8);
-      pWVar7->AppendScrollMenu(WClipTXT(gGlobals.CommonStrings[0x20]));
+      pWVar7->AppendScrollMenu(WClipTXT(Cstring(No00)));
       pWVar7->Update();
       WHANDLE->AddWidget(pWVar7);
     }
     if (gold_train_price == 0) {
-      Gsprintf(gGlobals.CommonStrings[0x205]);
+      Gsprintf(Cstring(SkillTrainExpCost),exp_train_price);
     }
-    else Gsprintf(gGlobals.CommonStrings[0x204]);
+    else Gsprintf(Cstring(SkillTrainExpGCost),exp_train_price,gold_train_price);
     Color32 aCStack_1c0,aCStack_180;
     txtCol = &aCStack_1c0;
     bgCol = &aCStack_180;
@@ -340,7 +340,7 @@ LAB_8003fd14:
       gold_train_price = 0;
       goto LAB_8003fd14;
     }
-    Gsprintf(gGlobals.CommonStrings[0x205]);
+    Gsprintf(Cstring(SkillTrainExpCost),exp_train_price);
     Color32 aCStack_140,aCStack_100;
     txtCol = &aCStack_140;
     bgCol = &aCStack_100;

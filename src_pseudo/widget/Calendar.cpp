@@ -42,7 +42,7 @@ u32 WidgetCalendar::Init() {
   this->monthTitle->GetHeight();//?
   this->DayMarker->SetWidth(this->DayMarker->GetWidth() + 1);
   this->DayMarker->SetHeight(this->DayMarker->GetHeight() + 1);
-  s16 xOff;//seems bo be a pixel miasalignment on certain days in calendar?
+  s16 xOff;//seems to be a pixel miasalignment on certain days in calendar?
   switch((u32)this->weekofMonth * 7 + (u32)this->dayofMonth) {
     case 4:
     case 8:

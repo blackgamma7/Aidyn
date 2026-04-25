@@ -44,7 +44,7 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
   Gfx* gfx = RenderChildren(g,x0,y0,x1,y1);
   if (0 < PHANDLE.max_player) {
     for(u16 i=0;i<PHANDLE.max_player;i++) {
-      playerData *pDat = &PHANDLE.playerDats[i];
+      playerData *pDat = &PHANDLE.combatActors[i];
       if ((pDat) && (pDat->state)) {
         if (i == PHANDLE.cameraFocus) {
           this->col.R = 150;
@@ -72,8 +72,8 @@ Gfx * WidgetCombatRadar::Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1){
             if(this->col.B)this->col.B+=this->glow;
           }
         }
-        float posXF = (pDat->collision).pos.x - PHANDLE.playerDats[PHANDLE.cameraFocus].collision.pos.x;
-        float posYF = (pDat->collision).pos.z - PHANDLE.playerDats[PHANDLE.cameraFocus].collision.pos.z;
+        float posXF = (pDat->collision).pos.x - PHANDLE.combatActors[PHANDLE.cameraFocus].collision.pos.x;
+        float posYF = (pDat->collision).pos.z - PHANDLE.combatActors[PHANDLE.cameraFocus].collision.pos.z;
         vec2f avStack_70={
           (posXF * -gCamera.rotationXZ.y + posYF * gCamera.rotationXZ.x) * 0.5f,
           (posXF * gCamera.rotationXZ.x - posYF * -gCamera.rotationXZ.y) * 0.5f

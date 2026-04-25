@@ -38,7 +38,7 @@ void FUN_80019ccc(playerData *param_1){
 void GiveCameraToPlayer(playerData *param_1){
   if (param_1 == NULL) CRASH("GiveCameraToPlayer","Player Pointer is NULL!")
   if (PHANDLE.cameraFocus != -1) {
-    FUN_80019ccc(PHANDLE.playerDats + PHANDLE.cameraFocus);
+    FUN_80019ccc(PHANDLE.combatActors + PHANDLE.cameraFocus);
   }
   gCamera.borg_9 = GetCollisionZone(param_1->zoneDatByte);
   gCamera.unk58 = 0.0;

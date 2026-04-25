@@ -9,22 +9,19 @@ void make_temp_item(GearInstance *item,ItemID id) {
   (item->base).id = id;
   u16 type = (u16)ITEMIDTYPE(id);
 
-  //case-switch?
-  if (type == 7) {
-    make_temp_weapon_2((WeaponInstance*)item);
-  }
-  else {
-    if (type < 8) {
-      if (4 < type) {
-        make_temp_armor_2((ArmorInstance*)item);
-        return;
-      }
-    }
-    else if (type == 0x10) {
-      pass_to_make_temp_potion((ItemInstance*)item);
-      return;
-    }
-    make_GearInstance_2(item);
+  switch(type){
+    case DB_WEAPON:
+     make_temp_weapon_2((WeaponInstance*)item);
+     break;
+    case DB_ARMOR:
+    case DB_SHIELD:
+     make_temp_armor_2((ArmorInstance*)item);
+     break;
+    case DB_POTION:
+     pass_to_make_temp_potion((ItemInstance*)item);
+     break;
+    default:
+     make_GearInstance_2(item);
   }
 }
 

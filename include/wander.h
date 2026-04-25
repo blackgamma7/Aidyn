@@ -7,7 +7,7 @@ struct Wanderer {
     float randVal;
     float nodeswapChance;
     u16 timer;
-    u16 homenode;
+    u16 voxFlag;
     u16 noderelA;
     u16 noderelB;
     s16 isActive;

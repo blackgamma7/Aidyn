@@ -12,7 +12,6 @@ DollBarterConfirm::DollBarterConfirm(WidgetInvShop *shop,u32 sellPrice):WidgetMe
   WidgetClipText *pBVar9;
   WidgetClipText *pBVar10;
   int iVar11;
-  u8 *pbVar13;
   u8 bVar14;
   char buff [256];
   
@@ -31,7 +30,7 @@ DollBarterConfirm::DollBarterConfirm(WidgetInvShop *shop,u32 sellPrice):WidgetMe
   pBVar9 = WClipTXT(buff);
   Utilities::SetTextWidgetBoundsX(pBVar9,0x50,0xf0);
   this->scroll = new WidgetScrollMenu(6);
-  this->scroll->SetColor(200,0xb4,100,0xff);
+  this->scroll->SetColor(COLOR_TAN);
   if (!this->salePrice) sprintf(buff,gGlobals.CommonStrings[0x1da]);
   else sprintf(buff,gGlobals.CommonStrings[0x1d9]);
   pBVar10 = WClipTXT(buff);

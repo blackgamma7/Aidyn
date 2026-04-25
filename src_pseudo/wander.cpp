@@ -110,7 +110,8 @@ void AllocWanderer(WanderManager *param_1,s16 param_2,s32 param_3,u8 param_4){
   (wEntry->playerDat->collision).pos.x = (vox->header).pos.x;
   (wEntry->playerDat->collision).pos.z = (wEntry->position).y;
   Actor::CheckCollision(wEntry->playerDat,(vox->header).pos.y,1,0);
-  if (((wEntry->homenode ^ 1) & 1) != 0) CRASH("AllocWanderer","Home Node not WANDER_MOVE\n");
+  if (((wEntry->voxFlag ^ WANDER_MOVE) & WANDER_MOVE) != 0)
+    CRASH("AllocWanderer","Home Node not WANDER_MOVE\n");
   FUN_80012d44(wEntry);
 }
 
@@ -143,10 +144,10 @@ void FreeAllWanderers(WanderManager *param_1){
 }
 
 playerData * FUN_80012b44(WanderManager *param_1,Wanderer *param_2){
-  playerData *ppVar1 = param_2->playerDat;
+  playerData *pDat = param_2->playerDat;
   param_2->playerDat = NULL;
   FreeWanderer(param_1,param_2);
-  return ppVar1;
+  return pDat;
 }
 
 void WanderGetNextNode(WanderManager *param_1,Wanderer *param_2,s16 param_3){
@@ -157,10 +158,11 @@ void WanderGetNextNode(WanderManager *param_1,Wanderer *param_2,s16 param_3){
   param_2->randVal = map->voxelObjs[param_3].wander.randVal;
   param_2->nodeswapChance = map->voxelObjs[param_3].wander.NodeChangeChance;
   param_2->timer = map->voxelObjs[param_3].wander.Timer;
+  param_2->voxFlag = map->voxelObjs[param_3].wander.nodeflags;
   *(u32 *)&param_2->noderelA = *(u32 *)map->voxelObjs[param_3].wander.NodeSiblings;
   (param_2->start_position).x = map->voxelObjs[param_3].header.pos.x;
   (param_2->start_position).y = map->voxelObjs[param_3].header.pos.z;
-  if ((param_2->homenode & 2)) {
+  if ((param_2->voxFlag & WANDER_ROTATE)) {
     vec2f pos2d={(param_2->playerDat->collision).pos.x,(param_2->playerDat->collision).pos.z};
     Vec2Sub(&param_2->start_position,&pos2d,&param_2->start_position);
     Vec2Normalize(&param_2->start_position);
@@ -171,7 +173,7 @@ void FUN_80012c58(WanderManager *param_1,Wanderer *param_2){
   u16 uVar1 = param_2->noderelA;
   if (RAND.GetFloat0ToX(1.0) < param_2->nodeswapChance) uVar1 = param_2->noderelB;
   WanderGetNextNode(param_1,param_2,uVar1);
-  if ((param_2->homenode & 1)) {
+  if ((param_2->voxFlag & WANDER_MOVE)) {
     float rot = RAND.GetFloat0ToX(6.283186);
     float len = RAND.GetFloat0ToX(param_2->randVal);
     (param_2->start_position).x += __sinf(rot) * len;
@@ -182,13 +184,13 @@ void FUN_80012c58(WanderManager *param_1,Wanderer *param_2){
 void FUN_80012d44(Wanderer *param_1){
   Borg9Data *pBVar2 = GetCollisionZone(param_1->playerDat->zoneDatByte);
   param_1->flags &=~1;
-  if ((param_1->homenode & 1)) {
+  if ((param_1->voxFlag & WANDER_MOVE)) {
     vec2f fStack80={(param_1->playerDat->collision).pos.x,(param_1->playerDat->collision).pos.z};
     if (Vec2Dist(&fStack80,&param_1->start_position) > param_1->wanderRadius)
       Actor::SetAiDest(param_1->playerDat,(param_1->start_position).x,(param_1->start_position).y,
                param_1->wanderRadius,(pBVar2->voxelObjs[param_1->VoxelIndex].wander.nodeflags & 2));
   }
-  if ((param_1->homenode & 2)) 
+  if ((param_1->voxFlag & WANDER_ROTATE)) 
     Actor::SetFacing(param_1->playerDat,(param_1->start_position).x,(param_1->start_position).y);
 }
 
@@ -273,7 +275,7 @@ LAB_800131a8:
           if ((wanderer->size <= fVar13)&&(wanderer->size<=fVar14)) {
             Actor::ResetMoveQueue(wanderer->playerDat);
             wanderer->timer = 300;
-            wanderer->homenode|= 4;
+            wanderer->voxFlag|= WANDER_4;
 LAB_800131f8:
           }
           else {
@@ -334,12 +336,12 @@ LAB_80013318:
           if (!wanderer->field19_0x3e) {
             if (((wanderer->playerDat->flags & (ACTOR_CANMOVE|ACTOR_CANROTATE|ACTOR_40)) == 0) &&
                ((s16)wanderer->timer < 1)) {
-              if (!(wanderer->homenode & 4)) {
+              if (!(wanderer->voxFlag & WANDER_4)) {
                 FUN_80012c58(param_1,wanderer);
                 FUN_80012d44(wanderer);
               }
               else {
-                wanderer->homenode&=~4;
+                wanderer->voxFlag&=~WANDER_4;
                 FUN_80012d44(wanderer);
               }
             }

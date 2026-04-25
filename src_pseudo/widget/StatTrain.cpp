@@ -6,25 +6,23 @@
 s32 stat_EXP_price=0;
 
 WidgetStatTrain::WidgetStatTrain():WidgetTrainShop() {
-  BaseWidget *pBVar1;
-
   this->partyPicker = gPartyPicker;
   this->TitleWidget = WidgetB8(BORG8_TitleStats);
-  this->TitleWidget->SetCoords(0x9e,0x51);
+  this->TitleWidget->SetCoords(158,81);
   this->Link(this->TitleWidget);
   this->SetColor(COLOR_RED1);
   this->scrollMenu = NULL;
-  this->expToSpendT = WClipTXT(gGlobals.CommonStrings[0x1fa]);
+  this->expToSpendT = WClipTXT(Cstring(ExpToSpend));
   this->Link(this->expToSpendT);
   Utilities::SetTextWidgetBoundsX(this->expToSpendT,0,640);
   this->expSpending = WClipTXT("000000000000");
   this->Link(this->expSpending);
-  this->expRemaining = WClipTXT(gGlobals.CommonStrings[0x1fa]);
+  this->expRemaining = WClipTXT(Cstring(ExpTotal));
   this->Link(this->expRemaining);
   Utilities::SetTextWidgetBoundsX(this->expRemaining,0,640);
   this->expTotal = WClipTXT("000000000000");
   this->Link(this->expTotal);
-  this->expTNL = WClipTXT(gGlobals.CommonStrings[0x1fc]);
+  this->expTNL = WClipTXT(Cstring(ExpTNL));
   this->Link(this->expTNL);
   Utilities::SetTextWidgetBoundsX(this->expTNL,0,640);
   this->expPrice = WClipTXT("0000000000000");
@@ -161,7 +159,7 @@ void WidgetStatTrain::Purchase(u16 unk,u8 statInd){
       ErrPopup(gGlobals.CommonStrings[0x1fe]);
     }
     else {
-      pause_Substruct *pSub = (pause_Substruct *)gGlobals.BigAssMenu->substruct;
+      pause_Substruct *pSub = PauseSub;
       chara->EXP->spending-= stat_EXP_price;
       pSub->dollmenu->lists->UpdateMenus(this->partyPicker);
       pSub->dollmenu->lists->ShowEXPCosts();
@@ -182,23 +180,23 @@ void WidgetStatTrain::Confirm(u16 x, u16 y) {
     pCVar4 = pCVar3->Stats;
     stat_EXP_price = CharStats::GetTraningPrice(pCVar4,w->varU8);
     if (CharStats::isStatCapped(pCVar4,w->varU8)) {
-      ErrPopup(gGlobals.CommonStrings[0x1fe]);
+      ErrPopup(Cstring(StatTrainMax));
     }
     else if (pCVar3->EXP->spending < stat_EXP_price) {
-      Gsprintf(gGlobals.CommonStrings[0x1ff],stat_EXP_price);
+      Gsprintf(Cstring(StatTrainCost),stat_EXP_price);
       ErrPopup(gGlobals.text);
     }
     else {
       Color32 col1={COLOR_WHITE};
-      Color32 col2={200,180,100,0xff};
-      Gsprintf(gGlobals.CommonStrings[0x200],stat_EXP_price);
+      Color32 col2={COLOR_TAN};
+      Gsprintf(Cstring(StatTrainConfirm),stat_EXP_price);
       pWVar6 = new WidgetChoiceDia(2,gGlobals.text,0x96,col1,col2,0,0,0);
-      pBVar7 = WClipTXT(gGlobals.CommonStrings[0x1f]);
+      pBVar7 = WClipTXT(Cstring(Yes00));
       pBVar7->AButtonFunc = WST_AButtonFunc;
       pBVar7->varU8 = w->varU8;
       pBVar7->varU16 = this->partyPicker;
       pWVar6->AppendScrollMenu(pBVar7);
-      pBVar7 = WClipTXT(gGlobals.CommonStrings[0x20]);
+      pBVar7 = WClipTXT(Cstring(No00));
       pWVar6->AppendScrollMenu(pBVar7);
       pWVar6->Update();
       WHANDLE->AddWidget(pWVar6);

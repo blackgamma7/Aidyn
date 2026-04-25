@@ -169,11 +169,12 @@ bool CombatTurn::FUN_8007381c(CombatTurn_s *param_1) {
 void CombatTurn::PartyDead(CombatTurn_s *param_1) {
   gGlobals.combatBytes[0] = CombatState_13;
   Combat_AlaronDown();
-  if ((gCombatP->current_Ent) &&
-     (copy_string_to_combat_textbox(gCombatP,ComString(PartyKO),0),
-     gGlobals.goblinAmbush)) {
-    CombatTextboxWidget_SetText(ComString(PlotPoison));
-    CombatTextboxWidget_Lock(IDEntInd(Alaron));
+  if(gCombatP->current_Ent){
+    copy_string_to_combat_textbox(gCombatP,ComString(PartyKO),0);
+    if(gGlobals.goblinAmbush){
+      CombatTextboxWidget_SetText(ComString(PlotPoison));
+      CombatTextboxWidget_Lock(IDEntInd(Alaron));
+    }
   }
 }
 
