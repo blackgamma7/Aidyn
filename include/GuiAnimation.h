@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/BaseWidget.h"
 
 //these seem to be used for animating parts of the menus.

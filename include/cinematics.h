@@ -1,3 +1,5 @@
+#pragma once
+
 #include "n64Borg.h"
 #include "widgets/Utilities.h"
 
@@ -65,7 +67,7 @@ struct CinematicStruct {
     u16 scene_switch;
     u16 Bstart;
     u16 CSwitch;
-    u32 BGId;
+    s32 BGId;
     u32 nextGameState;
     u8 BGIndex;
 };

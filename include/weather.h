@@ -1,3 +1,5 @@
+#pragma once
+
 #include "particle.h"
 
 struct WeatherStruct {

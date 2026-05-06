@@ -1,7 +1,9 @@
+#pragma once
+
 #include "party.h"
 #include "heapN64.h"
 
-CharSheet** gSaveEntity=0;
+CharSheet** gSaveEntity=NULL;
 #define SAVEENTSIZE 9
 
 namespace SaveEntity{

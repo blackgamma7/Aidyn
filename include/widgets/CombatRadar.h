@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetBorg8.h"
 
 //radar show friends/foes on battlefield.

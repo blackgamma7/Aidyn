@@ -1,5 +1,6 @@
-#include "PlayerData.h"
+#pragma once
 
+#include "PlayerData.h"
 
 enum SpellVisFlags{
     SPELLVISUAL_ALLOCED=1,

@@ -1676,7 +1676,7 @@ s16 CombatEntity::CalculateAttackAccuracy(CombatEntity *target,s8 param_3,s8 par
   if (5 <= prox) uVar15 -= prox - 5;
   uVar16 = (s16)(uVar15 - CharStats::getBase(DefStats,STAT_LV));
   if (!target->HasPetrifyEffect()) {
-    uVar16 = (s16)(uVar15 - CharStats::getBase(DefStats,STAT_LV)) + CharStats::getModded(DefStats,STAT_DEX) * -2) - target->GetBlock());
+    uVar16 = (s16)(uVar15 - CharStats::getBase(DefStats,STAT_LV)) + (CharStats::getModded(DefStats,STAT_DEX) * -2) - target->GetBlock();
   }
   iVar7 = TheifBackstabMod(uVar16,backstab,0,0x14);
   if (target->numMoves == 0) iVar7 *= 1.2f;
@@ -2134,7 +2134,7 @@ s16 CombatEntity::MagicDamageResistCalc(CombatEntity *param_2,SpellInstance *par
     if (!UseSpellCharge(param_2,param_3,param_4)) sVar3 = -2;
     else {
       abStack32[0] = this->charSheetP->spellVal;
-      bVar4 = VSMagic(param_3,param_2,(char *)abStack32);
+      bVar4 = VSMagic(param_3,param_2,(s8 *)abStack32);
       if (bVar4 == false) {sVar3 = -1;}
       else {
         iVar2 = CalcSpellDamage(param_3,param_2,uVar1,abStack32[0]);

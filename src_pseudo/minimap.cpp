@@ -906,7 +906,7 @@ LAB_80052da0:
   }
   if (pBVar9->varU8 == i) {
     if ((this->widget20)&&(this->widget20 == pBVar9)) return;
-    this->widget20 = pBVar9;
+    this->widget20 = (WidgetBorg8*)pBVar9;
     if (this->showAllVar) this->mapdat[i].checked = 1;
 LAB_80052b2c:
     goto LAB_80052b30;

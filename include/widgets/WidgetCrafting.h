@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/Utilities.h"
 #include "entity.h"
 

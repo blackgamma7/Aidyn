@@ -1,3 +1,5 @@
+#pragma once
+
 #include "itemInstances.h"
 
 char** aspect_labels=NULL;

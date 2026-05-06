@@ -102,7 +102,7 @@ void AllocWanderer(WanderManager *param_1,s16 param_2,s32 param_3,u8 param_4){
   wEntry->playerDat->scaleRad = scale * (wEntry->playerDat->collision).radius;
   wEntry->playerDat->Ent_index = GETINDEX((vox->monster).entityID);
   if ((vox->monster).borg_13 == 0) 
-    wEntry->playerDat->rangerWarrior = PARTY->SetWandererVal(*(u8 *)((int)&(vox->monster).maxsize + 1));
+    wEntry->playerDat->rangerWarrior = PARTY->SetWandererVal((u8)vox->monster.maxsize);
   WanderGetNextNode(param_1,wEntry,(vox->monster).wanderNode);
   (wEntry->position).x = (vox->header).pos.x;
   (wEntry->position).y = (vox->header).pos.z;

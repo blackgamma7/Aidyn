@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetCrafting.h"
 #include "armordb.h"
 
@@ -16,8 +18,6 @@ ArmorCraftRecipie ArmorRecipies[5]={
     {ItemInd_HideChitlin,  ArmorInd_Scorpion,      5,4,0},
     {ItemInd_HideChitlin,  ArmorInd_ShieldScorpion,4,3,0}
 };
-
-
 
 void makeArmorMenu(u32 param_1);
 bool CanMakeArmor(u32 param_1);

@@ -388,7 +388,7 @@ Gfx * Sky::RenderSky(Gfx *gfx,u16 delta){
       Vec3Normalize(&fStack128);
       SetColors(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,fVar6,gGlobals.sky.gray,
               gGlobals.sky.colors,&gSkyColor,&gFogColor,&gCloudColor,&gSunColor,
-              -gGlobals.sky.lensFlareVal * 0.5));
+              -gGlobals.sky.lensFlareVal * 0.5);
       iVar3 = GenerateGradient(gGlobals.sky.obj4.Bitmap,gGlobals.sky.obj10.Bitmap,
                              (float)(__sinf(fStack128.y) * Graphics::GetVRes()),fVar6,gGlobals.sky.gray,
                              gGlobals.sky.gradient,gGlobals.sky.lensFlareVal);

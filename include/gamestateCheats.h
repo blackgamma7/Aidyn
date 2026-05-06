@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetMenu.h"
 #include "widgets/WidgetText.h"
 #include "widgets/WidgetScrollMenu.h"
@@ -30,7 +32,7 @@ u32 bitfeild_array[]={
 void gamestste_cheats(void);
 u8 gamestate_cheat_check1(u8 param_1);
 u8 gamestate_cheat_check2(GameState_Cheat param_1);
-void FUN_8003316c(WidgetGameStateCheats *param_1);
+void FUN_8003316c(BaseWidget *param_1);
 
 typedef enum GameState_Cheat { /* Set in big Debug Menu */
     STATECHEAT_All,

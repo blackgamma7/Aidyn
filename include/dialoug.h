@@ -1,3 +1,5 @@
+#pragma once
+
 #include "n64Borg.h"
 #include "widgets/ShadowText.h"
 #include "widgets/WidgetText.h"

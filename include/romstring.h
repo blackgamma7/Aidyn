@@ -1,3 +1,5 @@
+#pragma once
+
 #include "romcopy.h"
 #include "stringDecrypt.h"
 

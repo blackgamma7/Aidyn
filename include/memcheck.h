@@ -1,3 +1,5 @@
+#pragma once
+
 #include "typedefs.h"
 
 struct MemCheck_struct {

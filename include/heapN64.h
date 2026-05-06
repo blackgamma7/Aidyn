@@ -1,3 +1,5 @@
+#pragma once
+
 #include "typedefs.h"
 #include "stringN64.h"
 

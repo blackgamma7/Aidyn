@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/Utilities.h"
 #include "n64Borg.h"
 class WidgetCredits: public WidgetMenu {

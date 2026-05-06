@@ -54,14 +54,9 @@ u32 AddItem(playerData *param_1,int type,s16 num){
     }
   }
   else {
-    iVar5 = (int)num + ((int)num / 100) * -100;
-    iVar6 = iVar5 / 10;
     aiStack_70[0] = combatStatIndicatorDat.borg1Digits[(int)num / 100]->dat->bmp;
-    aiStack_70[1] = combatStatIndicatorDat.borg1Digits[iVar6]->dat->bmp;
-    aiStack_70[2] =
-         *(u32 *)
-          (*(int *)(*(int *)((int)&combatStatIndicatorDat + iVar5 * 4 + iVar6 * -0x28) + 0x10) + 0xc
-          );
+    aiStack_70[1] = combatStatIndicatorDat.borg1Digits[((int)(num % 100)/10)]->dat->bmp;
+    aiStack_70[2] = combatStatIndicatorDat.borg1Digits[((int)num % 10)]->dat->bmp;
     uVar4 = 3;
   }
   pBStack_2c = &pcVar7->Statborg1Head;

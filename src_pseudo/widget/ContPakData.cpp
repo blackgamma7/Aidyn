@@ -7,7 +7,7 @@
 #define FILENAME "./src/controllerpakdata.cpp"
 
 WidgetContPakData *
-WContPakData_Save(u16 param_1,u16 param_2,void *param_3,Color32 *param_4,Color32 *param_5,
+WContPakData_Save(u16 param_1,u16 param_2,void (*param_3)(),Color32 *param_4,Color32 *param_5,
                  Color32 *param_6){
   contPakDat = new WidgetContPakDataSave(param_1,param_2,param_3,param_3,param_4,param_5,param_6);
   Controller::GetDelay(0);
@@ -15,7 +15,7 @@ WContPakData_Save(u16 param_1,u16 param_2,void *param_3,Color32 *param_4,Color32
 }
 
 WidgetContPakData *
-WContPakData_Load(u16 param_1,u16 param_2,void *param_3,void *param_4,Color32 * param_5,
+WContPakData_Load(u16 param_1,u16 param_2,void (*param_3)(),void (*param_4)(),Color32 * param_5,
                  Color32 *param_6,Color32* param_7){
   contPakDat = new WidgetContPakDataLoad(param_1,param_2,param_3,param_4,param_5,param_6,param_7);
   Controller::GetDelay(0);
@@ -137,7 +137,7 @@ BaseWidget * FUN_800862c8(BaseWidget * w0,BaseWidget * w1){
   return NULL;
 }
 
-WidgetClipText * FUN_800862f4(u8 param_1,u16 param_2,char *txt,BaseWidget * (*param_4)(BaseWidget *,BaseWidget *)){
+WidgetClipText * FUN_800862f4(u8 param_1,u16 param_2,char *txt,BaseWidget::buttonFunc param_4){
   WidgetClipText* w = WClipTXTSafe(txt);
   w->varU8 = param_1;
   w->varU16 = param_2;
@@ -742,8 +742,8 @@ void WidgetContPakData::m80087ec0(){
   }
 }
 
-WidgetContPakDataSave::WidgetContPakDataSave(u16 param_2,u16 param_3,void* param_4,
-      void* param_5,Color32 *param_6,Color32 *param_7,Color32 *param_8):
+WidgetContPakDataSave::WidgetContPakDataSave(u16 param_2,u16 param_3,void(* param_4)(),
+      void(* param_5)(),Color32 *param_6,Color32 *param_7,Color32 *param_8):
       WidgetContPakData(param_2,param_3,param_4,param_5,BORG8_SaveGameTitle,param_6,param_7,param_8){
   ALLOC(this->dataBuffer,1536);
   QuestData::InitSaveFile(this->dataBuffer);
@@ -892,7 +892,7 @@ void WidgetContPakDataSave::NewContPak(){
   WidgetContPakData::NewContPak();
 }
 
-WidgetContPakDataLoad::WidgetContPakDataLoad(u16 param_2,u16 param_3,void *param_4,void *param_5,
+WidgetContPakDataLoad::WidgetContPakDataLoad(u16 param_2,u16 param_3,void (*param_4)(),void (*param_5)(),
           Color32 *param_6,Color32 *param_7,Color32 *param_8):
           WidgetContPakData(param_2,param_3,param_4,param_5,BORG8_LoadGameTitle,param_6,param_7,param_8){}
 

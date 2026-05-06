@@ -1,3 +1,5 @@
+#pragma once
+
 #include "itemID.h"
 
 struct EncounterDat { /* enemy encounter data */

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "CharStats.h"
 #include "CharSkills.h"
 #include "itemInstances.h"
@@ -208,7 +210,6 @@ class EntityDB {
 };
 
 extern EntityExtra gEntityExtras[222]; //organized alphabetically for some reason.
-extern dialougeEntity_Info dailougEnt_info_array[32]; //same with this.
 extern EntityDB* gEntityDB;
 extern u8 entityList[221];
 

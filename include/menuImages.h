@@ -1,3 +1,5 @@
+#pragma once
+
 #include "itemID.h"
 
 u8 GetItemImage(ItemID id,u32 *index);

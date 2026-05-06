@@ -1,3 +1,5 @@
+#pragma once
+
 #include "PlaneObj.h"
 #include "PlayerData.h"
 

@@ -1,3 +1,4 @@
+#pragma once
 #include "n64Borg.h"
 
 /*Note on font: some ASCII characters are replaced with icons:

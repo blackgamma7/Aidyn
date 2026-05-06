@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "combat/CombatCamera.h"
 #include "combat/Visuals.h"
+#include "vobjects.h"
 
 #define FILENAME "./src/player.cpp"
 
@@ -143,7 +144,7 @@ void Actor::Init(playerData *pDat,u16 id){
   pDat->isDying = false;
 }
 
-void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
+void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,s32 shadIndex){
   int iVar2 = (int)maxPlayers;
   if (PHANDLE.initFlag)
     CRASH("InitPlayerHandler","Player Handler is already Initialized.");
@@ -155,7 +156,7 @@ void InitPlayerHandler(Camera_struct *cam,s16 maxPlayers,int shadIndex){
   if (maxPlayers == 0)
     PHANDLE.combatActors = NULL;
   else {
-    ALLOCS(PHANDLE.playerDats,iVar2 * sizeof(playerData),351);
+    ALLOCS(PHANDLE.combatActors,iVar2 * sizeof(playerData),351);
     memset(PHANDLE.combatActors,0,PHANDLE.max_player * sizeof(playerData));
   }
   PHANDLE.cameraFocus = -1;
@@ -187,7 +188,7 @@ void FreePlayerHandler(){
   Audiokey_free(PHANDLE.audiokey);
   PHANDLE.audiokey = NULL;
   if (PHANDLE.combatActors)
-    HFREE(PHANDLE.playerDats,415);
+    HFREE(PHANDLE.combatActors,415);
 }
 
 Gfx * Actor::CalculateShadow(playerData *pDat,Gfx *g,float param_3,u8 param_4){

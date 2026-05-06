@@ -1,3 +1,5 @@
+#pragma once
+
 #include "itemID.h"
 
 typedef enum Price_multi {

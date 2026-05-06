@@ -655,7 +655,7 @@ u32 CombatAI::FireballFunc2(CombatAIInfo *param_1){
         pCVar5->spellSwitch = D_800ef6e8[uStack_60];
         pSVar10 = Entity::GetSpell(pCVar5);
         bVar14 = Entity::CheckSpellWizard(pCVar5,pSVar10);
-        if (uStack_74 == 0) uStack_74 = CharStats::getModded(pCVar5->Stats,STAT_STAM) < Entity::SpellStaminaSubtract(pSVar10,bVar14) ^ 1;
+        if (uStack_74 == 0) uStack_74 = CharStats::getModded(pCVar5->Stats,STAT_STAM) < Entity::SpellStaminaSubtract(pCVar5,pSVar10,bVar14) ^ 1;
         uVar19 = (u32)bVar1;
         iVar11 = (int)(char)Y - uVar19;
         iVar12 = (int)(char)Y + uVar19;
@@ -733,7 +733,7 @@ u8 CombatAI::SpellStamina(CombatAIInfo *param_1){
       pSVar7 = Entity::GetSpell(pCVar3);
       bVar9 = Entity::CheckSpellWizard(pCVar3,pSVar7);
       if (!bVar4) {
-        bVar4= CharStats::getModded(pCVar3->Stats,STAT_STAM)>Entity::SpellStaminaSubtract(pSVar7,bVar9);
+        bVar4= CharStats::getModded(pCVar3->Stats,STAT_STAM)>Entity::SpellStaminaSubtract(pCVar3,pSVar7,bVar9);
       }
       if (param_1->spells[i] == SpellInd_Fireball) cVar11 = CombatAI::FireballCalc(param_1);
       else cVar11 = some_prioirty_getter(param_1);

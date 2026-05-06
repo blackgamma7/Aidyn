@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/ContPakData.h"
 
 //Runs during boot if there are issues with Controller Pak

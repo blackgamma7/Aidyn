@@ -24,7 +24,7 @@ void ShadowMergeBoost(int shadInd){
   for(i=0;i<WEAPONCOUNT;i++){
     if (shadow->Skills->getModdedWeapon(i)) {
       mod = (shadow->Skills->capWeaponBaseMax(i) - alaron->Skills->capWeaponBaseMax(i));
-      if (mod < 1) mod = 2;
+      if (mod < 1) mod = 2; //bug? may include monster weapons
       alaron->Skills->AddToBaseWeapon(i,mod);
     }
   }

@@ -1,3 +1,5 @@
+#pragma once
+
 #include"widgets/WorldMap.h"
 
 class WidgetCalendar: public WidgetMenu {

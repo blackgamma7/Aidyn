@@ -6,6 +6,7 @@
 #include "voxelChart.h"
 #include "trapMenu.h"
 #include "widgets/textPopup.h"
+#include "chestdb.h"
 //keeps coming up, return value unused. could be removed?
 #define UnkVoxelFlagCheck getEventFlag(FLAG_VoxelCheckUNK)
 
@@ -37,9 +38,9 @@ void play_countainer_sound(voxelObject* param_1,Borg9Data *param_2){
 void open_explosive_chest(voxelObject* param_1,Borg9Data *param_2){
 
   u32 chestExplodeSFX[]={0x0724,0x0725,0x0727,0x0728};
-  alloc_explosion_light(param_1->header.pos,1.0,600,false);
+  alloc_explosion_light(&param_1->header.pos,1.0,600,false);
   for(s16 i=0;i<3;i++) {
-    alloc_explosion_light(param_1->header.pos,0.35,60,true);
+    alloc_explosion_light(&param_1->header.pos,0.35,60,true);
   }
   vec4f particleCol={0.35,0.3,0.25,1.0};
   chest_explode_particles(param_1,(param_1->header).pos.y,&particleCol,420,2,75,0.04f,0.06f,(float)(-0.006/7),true);
@@ -148,7 +149,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
   s16 aIStack96 [6] [2];
   
   contP = &v->container;
-  psVar4 = some_ref_obj_lookup_func(VoxelIndex(v),(char)gGlobals.gameVars.mapDatA,
+  psVar4 = (s16*)some_ref_obj_lookup_func(VoxelIndex(v),(char)gGlobals.gameVars.mapDatA,
                       (u8)gGlobals.gameVars.mapShort1,(u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)v->header.type);
 
   if (((container_open_check((v->container).openFlag)) || (psVar4)) ||
@@ -188,7 +189,7 @@ void loot_func(voxelObject *v,u16 A, u16 B){
       }
       uVar10 = 0;
       if ((v->container).LootCat) {
-        get_chest_loot(loot_pointer,contP);
+        get_chest_loot(gChestDBp,contP);
         for(uVar8 = 0;uVar8 < 7;uVar8++) {
           s16* psVar4 = (s16 *)&contP->lootCatDrop[uVar8];
           if ((*psVar4) && (psVar4[1])) {
@@ -354,7 +355,7 @@ u8 exploding_container_check(voxelObject *param_1,Borg9Data *param_2){
     if ((Treasure_Misc < uVar1) || (uVar1 < Treasure_Herb)) {
       SetVoxelActive(a,true);
       SetVoxelActive(param_1,true);
-      psVar2 = some_ref_obj_lookup_func((u16)(((uintptr_t)param_1 - (uintptr_t)param_2->voxelObjs) /sizeof(voxelObject)),
+      psVar2 = (s16*)some_ref_obj_lookup_func((u16)(((uintptr_t)param_1 - (uintptr_t)param_2->voxelObjs) /sizeof(voxelObject)),
                           (char)gGlobals.gameVars.mapDatA,(u8)gGlobals.gameVars.mapShort1,
                           (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(param_1->header).type);
       if ((container_open_check((param_1->container).openFlag)) || (psVar2 != NULL)) {

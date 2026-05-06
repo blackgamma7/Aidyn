@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/WidgetMenu.h"
 
 class WidgetOptionsMenu : public WidgetMenu{

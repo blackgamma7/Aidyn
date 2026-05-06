@@ -45,7 +45,7 @@ bool FUN_80070dac(CombatSubstructA *param_1,u8 targX,u8 targY,u8 AtkX,u8 AtkY){
 }
 
 bool combat_substruct_lookup(CombatSubstructA *param_1,u8 x,u8 y,u8 index){
-  for(u8 i=y<y+index;i++) {
+  for(u8 i=y;i<y+index;i++) {
     for (u8 j = x; j < x + index; j++) {
       if ((!FUN_80070ee4(param_1,j,i,1)) && ((param_1->array1[j][i] & 0x80))) {
         return true;

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetMenu.h"
 #include "widgets/WidgetClipText.h"
 #include "widgets/WidgetBorg8.h"
@@ -12,8 +14,8 @@ class DollMenuPortraits: public WidgetMenu{
     u8 selectedMember;
     WidgetBorg8* portraits[4];
     WidgetClipText* names[4];
-    u16 Hs[4];
-    u16 Ws[4];
+    s16 Hs[4];
+    s16 Ws[4];
     WidgetBorg8* aspectIcon;
     WidgetBorg8* schoolIcon;
     GuiAnimationManager aniManage=GuiAnimationManager(22);

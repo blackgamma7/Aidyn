@@ -1,3 +1,5 @@
+#pragma once
+
 #include "typedefs.h"
 //used in 2d math
 typedef union vec2f{

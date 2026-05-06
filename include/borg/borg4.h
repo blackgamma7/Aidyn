@@ -1,3 +1,5 @@
+#pragma once
+
 #include "borg/borgHead.h"
 
 //lighting data
@@ -7,8 +9,7 @@ struct Borg4Data{
     float green;
     float blue;
     Light* l;
-    s16 unk14;
-    s16 unk16;
+    u8 unk14[4]; // garbage bytes?
 };
 
 struct Borg4Header {

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetMenu.h"
 
 //used for "first potion/spell" prompts

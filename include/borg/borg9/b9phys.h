@@ -1,3 +1,4 @@
+#pragma once
 #include "mathN64.h"
 
 //a section of map collsion indecies - saves on calulating for entire map.

@@ -339,7 +339,7 @@ LAB_800b65a8:
   return uVar8;
 }
 
-u32 dialoug_func_b_check(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
+u8 dialoug_func_b_check(dialougeInstance *param_1,Borg13Data *param_2,u8 param_3){
   u8 bVar1;
   bool bVar2;
   u32 uVar4;

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../ultra/include/2.0I/ultra64.h"
 #include "../ultra/include/2.0I/PR/sched.h"
 

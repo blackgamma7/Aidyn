@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetMenu.h"
 #include "widgets/WidgetScrollArrows.h"
 #include "widgets/WidgetClipText.h"

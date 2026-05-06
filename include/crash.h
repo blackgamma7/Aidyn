@@ -1,6 +1,6 @@
-#include "typedefs.h"
+#pragma once
 
-typedef struct CrashManager CrashManager, *PCrashManager;
+#include "typedefs.h"
 
 struct CrashSub{
     u32 var0;

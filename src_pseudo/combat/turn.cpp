@@ -7,7 +7,6 @@
 
 void CombatTurn::FreeArray(CombatTurn_s *param_1) {FREEPTR(param_1->arr,0x29);}
 
-
 void CombatTurn::Init(CombatTurn_s *param_1) {
   u8 bVar7;
   u8 uVar4;

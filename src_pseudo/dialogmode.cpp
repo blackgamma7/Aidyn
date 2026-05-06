@@ -539,8 +539,8 @@ u8 cutScene_control_func(){
     N64Print::Toggle(&gGlobals.DebugQueue,acStack32);
   } while (((dialougemode_pointer->controlLock) || (dialougemode_pointer->timerFlag)) ||
           ((gGlobals.scriptcamera.counter1 ||
-           (((!WHANDLE->Control((ControllerFull *)acStack32)|| (freeWidgetFunc == NULL)) ||
-            ((*freeWidgetFunc)(), dialougemode_pointer->unkab != 2))))));
+           (((pBVar1=WHANDLE->Control((ControllerFull *)acStack32),pBVar1==NULL|| (freeWidgetFunc == NULL)) ||
+            ((*freeWidgetFunc)(pBVar1), dialougemode_pointer->unkab != 2))))));
 LAB_80059174:
   DeltaCap(delta);
   return delta;

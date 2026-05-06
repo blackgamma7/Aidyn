@@ -1,3 +1,5 @@
+#pragma once
+
 #include "borg/borgHead.h"
 
 typedef enum BORG1type {

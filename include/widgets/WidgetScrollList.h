@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/BaseWidget.h"
 
 // Widget used to list journal entries.

@@ -101,7 +101,7 @@ void Ofunc_80054dc0(voxelObject* param_1,u16 param_2);
 void InitLight(SceneData *scene,Borg9Data *borg9,vec3f *pos,voxelObject *lightObj,s16 count,s16 delta);
 void light_init_func(playerData *param_1,SceneData *param_2,s16 param_3);
 void passto_initLight(SceneData *param_1,Borg9Data *param_2,voxelObject *param_3,s16 param_4);
-void passto_InitLight_2(DynamicLightHead *param_1,SceneData *param_2,voxelObject *param_3,s16 param_4);
+void passto_InitLight_2(DynamicLightHead *param_1,SceneData *param_2,vec3f *param_3,s16 param_4);
 void init_dynamic_light(DynamicLightHead *param_1);
 void dynamic_lights_free_all(DynamicLightHead *param_1);
 voxelObject*  AllocDynamicLight(DynamicLightHead *param_1,u16 param_2,vec3f *pos,float size,u16 type,

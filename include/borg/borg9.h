@@ -1,3 +1,5 @@
+#pragma once
+
 #include "borg/borg9/b9phys.h"
 #include "borg/borg9/b9voxel.h"
 

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "borg/borgHead.h"
 #include "mathN64.h"
 

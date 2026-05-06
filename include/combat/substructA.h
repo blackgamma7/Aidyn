@@ -1,3 +1,5 @@
+#pragma once
+
 #include "mathN64.h"
 
 #define CStructALen 100
@@ -36,7 +38,7 @@ void FUN_800715a4(CombatSubstructA*);
 void FUN_800715d8(CombatSubstructA*);
 bool FUN_800716b4(CombatSubstructA*,vec3f*,vec3f*,u8,u8);
 void FUN_800718f0(CombatSubstructA *,u8,s8*,s8*);
-int FUN_80071974(CombatSubstructA *,s8,s8,s16,u8*);
+s32 FUN_80071974(CombatSubstructA *param_1,s8 param_2,s8 param_3,s16 param_4,u8 *param_5);
 bool FUN_80071d2c(CombatSubstructA *,u8,u8,u8,u8,s16*,u8);
 u32 FUN_80071e84(CombatSubstructA *,u16*);
 u32 FUN_80071ec4(CombatSubstructA *,u8,u8,u8,u8,u8,u8(*) [2]);

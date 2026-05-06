@@ -278,6 +278,8 @@ void crash_text_2(CrashSub *param_1,CrashBuff *param_2){
   #endif
 }
 
+#if DEBUGVER
+
 void Ofunc_8000729c(CrashBuff *param_1,u16 x_,u16 y,void *p1,void *p2,void *p3,void *p4,void *p5,
                    void *p6,void *p7,void *p8){
   u32 i;

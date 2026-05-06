@@ -1,3 +1,5 @@
+#pragma once
+
 #include "inventory/IInventory.h"
 
 

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "entity.h"
 #include "mathN64.h"
 

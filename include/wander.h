@@ -1,3 +1,5 @@
+#pragma once
+
 #include "PlayerData.h"
 
 struct Wanderer {

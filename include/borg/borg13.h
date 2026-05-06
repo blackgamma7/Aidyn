@@ -1,5 +1,6 @@
-#include "borg/borgHead.h"
+#pragma once
 
+#include "borg/borgHead.h"
 
 enum B13_Commands{
     B13Com_SetEnt=3, //set dialougmode_substruct->EntId to (val)

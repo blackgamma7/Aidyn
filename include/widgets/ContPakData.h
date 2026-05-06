@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/Utilities.h"
 #include "savefiles.h"
 #include "widgets/handler.h"
@@ -112,7 +114,7 @@ class WidgetContPakData : public WidgetMenu{
 
 class WidgetContPakDataSave:public WidgetContPakData{
     public:
-    WidgetContPakDataSave(u16,u16,void*,void*,Color32 *,Color32 *,Color32 *);
+    WidgetContPakDataSave(u16,u16,void(*)(),void(*)(),Color32 *,Color32 *,Color32 *);
     ~WidgetContPakDataSave();
     void unk();
     u32 ShowSaveFiles();
@@ -128,7 +130,7 @@ class WidgetContPakDataSave:public WidgetContPakData{
 };
 class WidgetContPakDataLoad: public WidgetContPakData{
     public:
-    WidgetContPakDataLoad(u16,u16,void*,void*,Color32 *,Color32 *,Color32 *);
+    WidgetContPakDataLoad(u16,u16,void(*)(),void(*)(),Color32 *,Color32 *,Color32 *);
     ~WidgetContPakDataLoad();
     void unk();
     u32 ShowSaveFiles();
@@ -213,10 +215,10 @@ void FUN_8008a848(BaseWidget *);
 BaseWidget * FUN_8008a87c(BaseWidget *,BaseWidget *);
 BaseWidget * FUN_8008a8a4(BaseWidget *,BaseWidget *);
 
-WidgetContPakData * WContPakData_Save(u16 param_1,u16 param_2,void *param_3,
+WidgetContPakData * WContPakData_Save(u16 param_1,u16 param_2,void (*param_3)(),
       Color32 *param_4,Color32 *param_5,Color32 *param_6);
-WidgetContPakData * WContPakData_Load(u16 param_1,u16 param_2,void *param_3,
-      void *param_4,Color32* param_5, Color32 *param_6,Color32 param_7);
+WidgetContPakData * WContPakData_Load(u16 param_1,u16 param_2,void (*param_3)(),
+      void (*param_4)(),Color32* param_5, Color32 *param_6,Color32 *param_7);
 BaseWidget * FUN_80085d64(BaseWidget *wo,BaseWidget *w1);
 BaseWidget * FUN_80085da0(BaseWidget *wo,BaseWidget *w1);
 BaseWidget * FUN_80085dcc(BaseWidget *wo,BaseWidget *w1);
@@ -235,7 +237,7 @@ BaseWidget * repeated_space_warning(BaseWidget *w0,BaseWidget *w1);
 
 void FUN_80086290(BaseWidget *);
 u32 FUN_800862c8(void);
-BaseWidget * FUN_800862f4(u8 param_1,u16 param_2,char *txt,BaseWidget::buttonFunc param_4);
+WidgetClipText * FUN_800862f4(u8 param_1,u16 param_2,char *txt,BaseWidget::buttonFunc param_4);
 
 
 WidgetContPakData* contPakDat=NULL;

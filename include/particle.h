@@ -1,3 +1,5 @@
+#pragma once
+
 #include "collide.h"
 
 typedef void(*ParticleFuncA)(ParticleHeadStruct*,ParticleEmmiter*);

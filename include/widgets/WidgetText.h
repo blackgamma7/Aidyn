@@ -1,9 +1,12 @@
+#pragma once
+
 #include "widgets/BaseWidget.h"
 #include "stringN64.h"
 
 class WidgetText : public BaseWidget{
     public:
     WidgetText(char* str, u16 len);
+    WidgetText(){WidgetText(NULL,400);}
     Gfx * Render(Gfx *g,u16 x0,u16 y0,u16 x1,u16 y1);
     u16 GetWidth();
     u16 GetHeight();

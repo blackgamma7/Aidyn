@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetMenu.h"
 #include "savefiles.h"
 #include "GuiAnimation.h"

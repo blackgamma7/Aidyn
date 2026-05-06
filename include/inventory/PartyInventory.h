@@ -1,3 +1,5 @@
+#pragma once
+
 #include "inventory/IInventory.h"
 
 #define PARTY_CAPACITY 252

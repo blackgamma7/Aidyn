@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetBorg8.h"
 
 //used for combat portraits and radar blips

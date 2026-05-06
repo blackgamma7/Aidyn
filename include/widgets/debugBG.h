@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/BaseWidget.h"
 
 class WidgetDebugBG: public BaseWidget{

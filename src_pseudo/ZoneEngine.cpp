@@ -1196,7 +1196,7 @@ LAB_80010084:
                   uVar12 = local_6c;
                   if (uVar15 < local_6c) uVar12 = uVar15;
                   set_sun_light(pAVar4,(SObj->scene).sceneflags,SObj,uVar12);
-                  passto_InitLight_2(&gGlobals.gameVars.DynamicLights,pAVar4,SObj,gGlobals.delta);
+                  passto_InitLight_2(&gGlobals.gameVars.DynamicLights,pAVar4,&SObj->header.pos,gGlobals.delta);
                   passto_initLight(pAVar4,borg9,SObj,gGlobals.delta);
                   if (psVar14 == NULL) {
                     local_res0 = Borg7_Render(local_res0,(SObj->scene).borgArray[0].b7);

@@ -295,7 +295,7 @@ void WidgetItemDetail::PrintNameIcon(char *txt) {
   u32 index;
   
   GetItemImage((ItemID)this->varU16,&index);
-  WidgetBorg8* wicon = WidgetB8(&index);
+  WidgetBorg8* wicon = WidgetB8(index);
   wicon->SetCoords(this->posX,this->bottom);
   this->Link(wicon);
   this->bottom+= this->GetHeight()+2;

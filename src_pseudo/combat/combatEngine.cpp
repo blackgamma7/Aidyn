@@ -561,7 +561,7 @@ LAB_80066c04:
       *ppCVar10 = pCVar4;
       ALLOC(pCVar4->charSheetP,1284);
       Entity::Init(pCVar4->charSheetP,IVar2,1);
-      pCVar4->Init(pCVar4->charSheetP,-1,&uStack_40[0],&uStack_40[1],&uStack_40[2],uVar7,1,uVar8);
+      pCVar4->Init(pCVar4->charSheetP,-1,uStack_40[0],uStack_40[1],uStack_40[2],uVar7,1,uVar8);
       combatEnt_setup(param_1,uVar8);
       param_1->enemy_index = recount_enemy_party(param_1->encounter_dat,(u16)param_1->enemy_index);
       pCVar4->flags |= COMBATENT_BENCH;

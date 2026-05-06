@@ -1,5 +1,6 @@
-#include "typedefs.h"
+#pragma once
 
+#include "typedefs.h"
 
 typedef enum PotionEnum{
 	POTION_FIRE, //Fire Flask. 4d6 damage

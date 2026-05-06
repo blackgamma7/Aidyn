@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetChoiceDia.h"
 #include "widgets/widgetGroup.h"
 #include "entity.h"

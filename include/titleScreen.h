@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/ContPakData.h"
 #include "widgets/InputMenu.h"
 //struct and protos relevant to title screen.

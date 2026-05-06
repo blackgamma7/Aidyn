@@ -1,3 +1,5 @@
+#pragma once
+
 #include "eventFlag.h"
 #include "widgets/WidgetText.h"
 

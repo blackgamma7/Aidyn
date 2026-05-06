@@ -12,20 +12,20 @@ void EntityDB::OldInit(){
   u8 *pbVar3;
   u32 uVar4;
   u8 bVar5;
-  int aiStack_30 [12];
+  u32 aiStack_30;
   
-  aiStack_30[0] = 0;
-  load_db_array_size(&entityDBROM,this,aiStack_30);
+  aiStack_30 = 0;
+  load_db_array_size(&entityDBROM,&this->total,&aiStack_30);
   bVar5 = 0;
   uVar4 = 0;
   ALLOCS(this->entities,(u32)this->total*sizeof(EntityRAM),669);
   for(u8 i=0;i<7;i++) {
-    load_db_array_size(&entityDBROM,this->catSizes + i,aiStack_30);
+    load_db_array_size(&entityDBROM,this->catSizes + i,&aiStack_30);
     pbVar2 = this->unk + i;
     pbVar3 = this->catSizes + i;
     *pbVar2 = bVar5;
     bVar5 += *pbVar3;
-    aiStack_30[0] += (u32)*pbVar3 * 0x88;
+    aiStack_30 += (u32)*pbVar3 * 0x88;
   }
 }
 //change Litte-endian s16 value to Big-Endian

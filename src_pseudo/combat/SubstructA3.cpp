@@ -1,4 +1,5 @@
 #include "combat/substructA.h"
+#include "stringN64.h"
 
 void FUN_800718f0(CombatSubstructA *param_1,u8 param_2,u8 *param_3,u8 *param_4) {
   s8 s8_ARRAY_800dfd60[]={0,1,1,1,0,-1,-1,-1};

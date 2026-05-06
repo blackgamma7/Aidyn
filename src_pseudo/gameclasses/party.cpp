@@ -1278,7 +1278,7 @@ u8 Party::TroubadourCheck(){
   }
   return uVar4;
 }
-
+//used for GetWandererVal().
 u8 Party::GetMemberWarriorIntStam(u8 param_2){
   CharSheet *pCVar1;
   s32 iVar2;
@@ -2074,8 +2074,9 @@ u32 Party::WizardCheck(){
   return ::gSkillCheck((RollD(1,100) + 
   (pCVar1->Skills->getModdedSkill(SKILL_Wizard) * 5 + CharStats::getModded(pCVar1->Stats,STAT_INT) & 0x7fffU) * -2));
 }
-
-u8 Party::SetWandererVal(u8 param_2){
+//sets an unknown value for a wanderer based on monster party size, either Warrior
+//or Ranger skill, and luck.
+u8 Party::SetWandererVal(u8 mons){
   
   u8 uVar5 = 0;
   s8 cVar2 = GetMostSkilledMember(SKILL_Ranger);
@@ -2093,10 +2094,10 @@ LAB_80082bf0:
   float fVar6 = (rand_range(0,10)&1) ? 1.0 : -1.0f;
   float afStack88[] = {1.0,0.5,.25,0.0};
   if (3 < uVar5) uVar5 = 3;
-  fVar6 *= afStack88[uVar5] * (float)(param_2);
-  u8 uVar1 = param_2 + fVar6;
+  fVar6 *= afStack88[uVar5] * (float)(mons);
+  u8 uVar1 = mons + fVar6;
   if (uVar1 == 0) uVar1 = 1;
-  if (12 < uVar1) uVar1 = 12;
+  CIEL(uVar1,12);
   return uVar1;
 }
 

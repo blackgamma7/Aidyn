@@ -1,3 +1,5 @@
+#pragma once
+
 #include "inventory/GenericInventory.h"
 #include "widgets/WidgetMenu.h"
 #include "combat/substructA.h"
@@ -184,7 +186,7 @@ bool IsShadowNearAnyone(CombatEntity *shadow);
 bool IsNearShadow(CombatEntity *param_1);
 void Combat_AlaronDown();
 void Combat_InitGameOver();
-void combat_byte_0x1a();
+void combat_byte_0x1a(playerData*);
 void Combat_GoblinAmbushKO();
 
 void ShadowMergeBoost(int shadInd);

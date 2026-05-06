@@ -8,10 +8,10 @@
 extern u8 armorDBROM[];
 
 void ArmorDB::Orphaned(){
-  int pos = 0;
+  u32 pos = 0;
   load_db_array_size(&armorDBROM,&this->total,&pos);
   ALLOCS(this->Armor,this->total*sizeof(ArmorRam),52);
-  load_db_array_size(&armorDBROM,this,&pos);
+  load_db_array_size(&armorDBROM,&this->armors,&pos);
   pos += (u32)this->armors * sizeof(ArmorRom);
   load_db_array_size(&armorDBROM,&this->sheilds,&pos);
 }

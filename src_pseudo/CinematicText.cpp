@@ -1,5 +1,7 @@
 #include "globals.h"
 #include "stringDecrypt.h"
+#include "decompress.h"
+
 #define FILENAME "./src/cinematictext.cpp"
 
 cinematictext_struct *gCinematicTextP=NULL;

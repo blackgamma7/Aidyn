@@ -1,3 +1,5 @@
+#pragma once
+
 #include "globals.h"
 
 //game.cpp

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "typedefs.h"
 
 enum BUTTON_aidyn{ //same as standard enum, but with 4 extra bits for analog joystick

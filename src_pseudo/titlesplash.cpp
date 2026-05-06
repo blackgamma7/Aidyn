@@ -82,7 +82,7 @@ void TitleSplash::N64Free(void){
   SplashLogoModel = NULL;
   SplashLicence = NULL;
 }
-
+extern void* copyrightStrings;
 void TitleSplash::Load(void){
   gGlobals.titleSplashVars.state = 5;
   gGlobals.titleSplashVars.thqBorg8 = loadBorg8(BORG8_LogoTHQ);

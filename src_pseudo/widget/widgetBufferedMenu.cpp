@@ -4,14 +4,6 @@
 WidgetBufferedMenu::WidgetBufferedMenu
           (GSMClass *obj,u16 visItems,u16 totalItems,u16 *bounds,s16 *titleBounds,
             Color32 *colA,Color32 *ColB,Color32 *colC,Color32 *colD):BaseWidget() {
-  WidgetText *pBVar7 = this->textWidgets;
-  s32 iVar8 = 19;
-  do {
-    *pBVar7=WidgetText(NULL,400);
-    iVar8--;
-    pBVar7++;
-  } while (iVar8 != -1);
-  this->titleWidget=WidgetText(NULL,400);
   if((!visItems)||(!totalItems)){
     CRASH("Can't create a buffered menu with nothing visible or nothing in it!",
                      "./menus/widgetbufferedmenu.cpp");

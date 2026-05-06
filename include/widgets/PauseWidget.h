@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/WidgetMenu.h"
 #include "widgets/DollMenu.h"
 #include "widgets/handler.h"

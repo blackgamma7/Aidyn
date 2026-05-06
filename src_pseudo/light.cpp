@@ -175,8 +175,8 @@ void light_init_func(playerData *param_1,SceneData *param_2,s16 param_3){
 void passto_initLight(SceneData *param_1,Borg9Data *param_2,voxelObject *param_3,s16 param_4)
   {InitLight(param_1,param_2,&param_3->header.pos,param_2->voxelObjs,param_2->voxelObjCount,param_4);}
 
-void passto_InitLight_2(DynamicLightHead *param_1,SceneData *param_2,voxelObject *param_3,s16 param_4)
-  {InitLight(param_2,gGlobals.gameVars.borg9DatPointer,&param_3->header.pos,param_1->lights,16,param_4);}
+void passto_InitLight_2(DynamicLightHead *param_1,SceneData *param_2,vec3f *param_3,s16 param_4)
+  {InitLight(param_2,gGlobals.gameVars.borg9DatPointer,param_3,param_1->lights,16,param_4);}
 
 void init_dynamic_light(DynamicLightHead *param_1){
   CLEAR(param_1);

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "widgets/Utilities.h"
 #include "itemInstances.h"
 
@@ -144,6 +146,7 @@ class WidgetCDMenuActor: public WidgetMenu{
     BaseWidget* CDownFunc();
 };
 
+void build_camera_debug(u16 param_1);
 
 //debug Small menu options
 

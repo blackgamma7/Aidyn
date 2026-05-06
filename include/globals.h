@@ -1,3 +1,5 @@
+#pragma once
+
 #include "titleScreen.h"
 #include "wander.h"
 #include "Camera.h"

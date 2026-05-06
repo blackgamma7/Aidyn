@@ -1,3 +1,5 @@
+#pragma once
+
 #ifdef PORTING
 //for future porting - use available string libraries where applicable. 
 #include <string.h>

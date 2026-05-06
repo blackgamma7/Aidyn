@@ -134,7 +134,7 @@ void Entity::Free(CharSheet *param_1){
     FREE(param_1->weapons,349);
   }
   if(param_1->pItemList) {
-    CharGear_Free(param_1->pItemList);
+    param_1->pItemList->Free();
     FREE(param_1->pItemList,356);
   }
   if(param_1->spellbook) {
@@ -609,7 +609,7 @@ u8 Entity::CanUsePotion(CharSheet *param_1,u8 potInd,char *errTxt){
       return false;
     case POTION_RESTORE:
       for(i=0;i<MAGIC_FXMAX;i++){
-        if(IsDebuffSpell(param_1,param_1->effects[i]->index)) return true;
+        if(IsDebuffSpell(param_1,param_1->effects[i])) return true;
       }
       if (errTxt) strcpy(errTxt,"That potion cannot be used right now.");
       return false;
@@ -978,7 +978,7 @@ LAB_800798b0:
   case SpellInd_DispelNaming:
   case SpellInd_DispelNecro:
   case SpellInd_DispelStar:
-    DispelMagic(param_1,(char)combatTarget,id,pow);
+    DispelMagic(param_1,combatTarget,id,pow);
     bVar11 = false;
     goto LAB_80079984;
   case SpellInd_DetectMoonPhase:
@@ -1564,7 +1564,7 @@ void Entity::Teleport(CharSheet* ch,CombatEntity *cEnt){
     u8 y = (gCombatP->SpellMarkerPos).y;
     if (!combat_substruct_lookup(&gCombatP->substruct,x,y,cEnt->unk23)) {
       cEnt->SetCoords((gCombatP->SpellMarkerPos).x,(gCombatP->SpellMarkerPos).y);
-      FUN_800737b4(cEnt);
+      CombatTurn::FUN_800737b4(cEnt);
       cEnt->TeleportMovePlayer();
     }
   }

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "SceneData.h"
 #include "borgMaps.h"
 

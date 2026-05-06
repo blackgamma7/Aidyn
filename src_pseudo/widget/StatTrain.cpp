@@ -190,7 +190,7 @@ void WidgetStatTrain::Confirm(u16 x, u16 y) {
       Color32 col1={COLOR_WHITE};
       Color32 col2={COLOR_TAN};
       Gsprintf(Cstring(StatTrainConfirm),stat_EXP_price);
-      pWVar6 = new WidgetChoiceDia(2,gGlobals.text,0x96,col1,col2,0,0,0);
+      pWVar6 = new WidgetChoiceDia(2,gGlobals.text,0x96,&col1,&col2,0,0,0);
       pBVar7 = WClipTXT(Cstring(Yes00));
       pBVar7->AButtonFunc = WST_AButtonFunc;
       pBVar7->varU8 = w->varU8;

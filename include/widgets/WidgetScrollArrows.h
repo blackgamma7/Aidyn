@@ -1,3 +1,4 @@
+#pragma once
 #include "widgets/BaseWidget.h"
 
 //Arrows on the side of lists (inventory, journal, etc.)

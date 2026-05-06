@@ -20,10 +20,10 @@ BaseWidget * ofunc_icon_or_portrait(BaseWidget *parent,ItemID ID,u16 H,u16 W,u8 
   return ret;
 }
 
-BaseWidget * WidgetBorg8At(BaseWidget *parent,u16 Index,s16 X,s16 Y,s16 H,s16 W) {
+WidgetBorg8 * WidgetBorg8At(BaseWidget *parent,u16 Index,s16 X,s16 Y,s16 H,s16 W) {
   Borg8Header *b8 = NULL;
   if (Index) b8 = loadBorg8(Index);
-  BaseWidget *ret = new WidgetBorg8(b8);
+  WidgetBorg8 *ret = new WidgetBorg8(b8);
   if (ret == NULL) ret = NULL;
   else {
     ret->SetCoords(X,Y);

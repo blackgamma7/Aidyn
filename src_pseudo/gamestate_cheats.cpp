@@ -17,8 +17,8 @@ u8 gamestate_cheat_check2(GameState_Cheat param_1){
   return (gamestate_cheats2 & bitfeild_array[param_1]) != 0;
 }
 
-void FUN_8003316c(WidgetGameStateCheats *param_1){
-  if (param_1) param_1->~WidgetGameStateCheats();
+void FUN_8003316c(BaseWidget *param_1){
+  if (param_1) param_1->~BaseWidget();
   freeWidgetFunc = NULL;
 }
 

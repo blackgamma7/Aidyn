@@ -1,3 +1,5 @@
+#pragma once
+
 #include "randClass.h"
 #include "collide.h"
 //a weird struct used for trigger map objects, particles, and font.

@@ -1,7 +1,6 @@
+#pragma once
 
 #include "n64Borg.h"
-
-
 
 #define MAX_LOCATORS 7
 struct SceneData {

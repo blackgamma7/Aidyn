@@ -1,3 +1,5 @@
+#pragma once
+
 #include "itemID.h"
 //for use in the "generic/" scripts
 
