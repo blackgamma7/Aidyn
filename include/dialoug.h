@@ -78,7 +78,7 @@ struct dialougemode_struct {
     void (*funcs4[5])(void);
     void (*unk0x64[5])(void);
     Wanderer *Wanderers;
-    u16 Unk0x7C;
+    u16 voxIndex;
     u16 unk7e;
     u8 *partySkillLvls; /* one for each skill */
     Borg13Data *borg13_dat;
@@ -242,7 +242,7 @@ void run_dialougemode_funcs4();
 void run_dialougemode_funcs5();
 void DialogueModeInitPrescripted();
 void load_one_of_two_cinematics();
-bool FUN_80059628();
+void FUN_80059628();
 void FUN_80059674();
 void DialogueModeInitPrescripted_set_map(s16 mapdatA,s16 short1,s16 short2);
 void FUN_80059770();

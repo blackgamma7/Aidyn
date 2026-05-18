@@ -1,7 +1,8 @@
 #include "globals.h"
+#include "combat/CombatStruct.h"
 #include "eventFlag.h"
 //sets the event flag of a killed boss. 
-void set_boss_flag(){
+void set_boss_flag(CombatStruct* x){
   for(u8 i=0;i<4;i++) {
     ItemID id = gGlobals.EncounterDat.enemy_entities[i];
     if (!id) continue;

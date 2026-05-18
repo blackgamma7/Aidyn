@@ -42,7 +42,7 @@ void Ofunc_800124b4(playerData **param_1,vec3f *param_2){
 
 void WanderHead(WanderManager *wander,s16 size){
 
-  wander->initalized = 1;
+  wander->initalized = true;
   wander->wanderersmax = size;
   ALLOCS(wander->wanderSubstructs,size*sizeof(Wanderer),170);
   memset(wander->wanderSubstructs,0,wander->wanderersmax*sizeof(Wanderer));
@@ -62,7 +62,6 @@ void FreeWanderHead(WanderManager *param_1){
   HFREE(param_1->wanderSubstructs,212);
 }
 
-
 void look_for_monsterparties(WanderManager *param_1,Borg9Data *param_2,s32 param_3,u8 param_4){
   if (((gGlobals.gameStateA != GameStateA_Dialog) && (gGlobals.gameVars.gamemodeType != GameMode_Title))) {
     for (s16 i=0;i < param_2->voxelObjCount;i++) {
@@ -74,7 +73,6 @@ void look_for_monsterparties(WanderManager *param_1,Borg9Data *param_2,s32 param
       }
     }
   }
-
 }
 
 void AllocWanderer(WanderManager *param_1,s16 param_2,s32 param_3,u8 param_4){

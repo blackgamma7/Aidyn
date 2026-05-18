@@ -134,6 +134,9 @@ LAB_8000613c:
   }
   if (uVar14) {
     if (uVar14 == 1) {//only one in range, use it.
+      #if !DEBUGVER
+      if(pBVar4->voxelObjs[voxInds[0]].header.type==VOXEL_Teleporter)retailTpFlag=1;
+      #endif
       run_voxelFuncs0(&pBVar4->voxelObjs[voxInds[0]],voxInds[0],0);
     }
     else {
@@ -166,6 +169,9 @@ LAB_8000613c:
           }
       }
       if (pvVar11) {
+      #if !DEBUGVER
+        if(pvVar11->header.type==VOXEL_Teleporter)retailTpFlag=1;
+      #endif
         run_voxelFuncs0(pvVar11,(u16)uStack_58,(u16)0);
         if ((pvVar11->header).type == VOXEL_Container) 
           ppVar3->ani_type = AniType_11;

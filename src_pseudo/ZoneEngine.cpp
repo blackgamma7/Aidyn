@@ -289,7 +289,7 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
     ppVar5 = ppVar2;
     if (uVar3 < 0x1a) {
       if (uVar3 >= 0xe) {
-      if (ppVar2->isAlaron) gPlayerRenderTimer = 0x14;
+      if (ppVar2->isAlaron) gPlayerRenderTimer = 20;
       }
     }
   }
@@ -310,13 +310,15 @@ void check_trigger(collisionSphere *param_1,borg9_phys *param_2){
       }
       case VOXEL_Dialouge:{
         if (!dialoug_obj_func(ptVar6,ppVar5)) return;
-        dialouge_vobject_func(ptVar6,0,0xff);
+        dialouge_vobject_func(ptVar6,0,0x7fff);
         return;
       }
+      #if DEBUGVER
       default:{
       Gsprintf("Invalid Trigger Type: %d\n",(ptVar6->header).type);
       N64PRINT(gGlobals.text);
       }
+      #endif
     }
   }
 }
@@ -386,12 +388,12 @@ void ofunc_zoneengine_free(){
   HFREE(&gGlobals.gameVars,1036);
 }
 
-void move_zonedat(ZoneDat *param_1[3][3],ZoneDat *param_2){
+void move_zonedat(ZoneDat param_1[3][3],ZoneDat *param_2){
   
   if (param_2->borg5_ID) {
     for(s16 i=0;i<3;i++){
       for(s16 j=0;j<3;j++){
-        ZoneDat *x=param_1[i][j];
+        ZoneDat *x=&param_1[i][j];
         if ((x->borg5_ID == param_2->borg5_ID) && (x->borg9_id == param_2->borg9_id)) {
           param_2->sceneDat0x4 = x->sceneDat0x4;
           param_2->mapPointer = x->mapPointer;
@@ -442,8 +444,10 @@ void MakeGameZoneNames(u16 param_1,u16 param_2){
     }
     return;
   }
+  #if DEBUGVER
   Gsprintf("Zone out of Range\nZone: (%d, %d)\nRange: (%d, %d)",param_1,param_2,22,30);
   CRASH("MakeGameZoneNames",gGlobals.text);
+  #endif
 }
 //Move map model relative to BCD'd index
 void ZoneMoveSceneDat(SceneData *scene,u8 index){
@@ -452,14 +456,14 @@ void ZoneMoveSceneDat(SceneData *scene,u8 index){
   
   if (!scene) return;
   scene->flags = 0;
-  guMtxIdentF(&scene->matrixA);
-  guMtxIdentF(&scene->matrixB);
+  guMtxIdentF(scene->matrixA);
+  guMtxIdentF(scene->matrixB);
   Scene::SetFlag10(scene);
   Scene::SetFogFlag(scene);
   Scene::SetFlag8(scene);
   if (index == ZoneCenter) Scene::UnsetFlag4(scene);
   else Scene::SetFlag4(scene);
-  if (false) return;
+  if (false) return; //?
   y = gGlobals.gameVars.mapCellSize.y;
   switch(index) {
   case 0:
@@ -558,7 +562,7 @@ void loadGameBorgScenes(u16 ShortA,u16 ShortB){
   MakeGameZoneNames(ShortA,ShortB);
   for(s16 i=0;i<3;i++){
     for(s16 j=0;j<3;j++) {
-      move_zonedat(&aZStack432,&gGlobals.gameVars.ZoneDatMtx[i][j]);
+      move_zonedat(aZStack432,&gGlobals.gameVars.ZoneDatMtx[i][j]);
     }
   }
   for(s16 i=0;i<3;i++){
@@ -789,8 +793,10 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
     }
     else {
       pfVar8 = FindReferncePoint(&(MAPCENTER.mapPointer)->dat,uVar1);
+      #if DEBUGVER
       Gsprintf("FindReferencePoint\nPoint Not Found: %d\n",(u32)uVar1);
       if (pfVar8 == NULL) CRASH("TeleportPlayer",gGlobals.text);
+      #endif
       fStack312.x = (pfVar8->header).pos.x;
       fStack312.y = (pfVar8->header).pos.y;
       fStack312.z = (pfVar8->header).pos.z;
@@ -824,7 +830,7 @@ void TeleportPlayer(playerData *player,voxelObject *tp,vec3f *param_3){
         Actor::CheckCollision(player,0.0,0,0);
       }
       gGlobals.gameVars.weather.rainParticles = NULL;
-      Particle::FUN_800b2bc4(&gGlobals.gameVars.particleHead);
+      Particle::ResetEmmiters(&gGlobals.gameVars.particleHead);
     }
     Camera::SetFeild70(&gCamera, &(player->collision).pos);
   }
@@ -945,9 +951,7 @@ void SetSceneColors(SceneData *param_1,u8 alpha,u8 param_3,u32 col){
   fVar1 = gGlobals.gameVars.weather.fogTime;
   if (DAT_800ee974) fVar1 = 0.0;
   Scene::SetFogPlane(param_1,996 - (s16)(int)(fVar1 * 40.0f),1000);
-  Scene::SetFogColor
-            (param_1,gFogColor.R,gFogColor.G,gFogColor.B,
-             (u32)gFogColor.A);
+  Scene::SetFogColor(param_1,gFogColor.R,gFogColor.G,gFogColor.B,gFogColor.A);
   if (param_3) {
     if (col) { //if porting, will need case for LE word
       bStack216.R = (u8)((int)((u32)gMainColor.R + (col >> 0x18)) >> 1);
@@ -1232,8 +1236,8 @@ LAB_80010084:
                   Borg7_TickAnimation((SObj->scene).borgArray[0].b7,2);
                 }
 LAB_8000ffcc:
-                guMtxIdentF(&pAVar4->matrixA);
-                guMtxIdentF(&pAVar4->matrixB);
+                guMtxIdentF(pAVar4->matrixA);
+                guMtxIdentF(pAVar4->matrixB);
                 Scene::SetFlag10(pAVar4);
                 Scene::SetFlag4(pAVar4);
                 Scene::SetFlag40(pAVar4);
@@ -1399,7 +1403,7 @@ void RenderZones(Gfx **GG,vec3f *pos,s16 delta){
   s16 *psVar14;
   float posz;
   float posx;
-  u16 uStack80 [2];
+  s16 uStack80 [2];
   Gfx *gOut;
   int iStack_48;
   u32 uStack_44;
@@ -1631,7 +1635,7 @@ void InitZoneEngine(u16 param_1,s16 param_2){
   engineZone_flag = 1;
   initZoneTimestamp = gGlobals.ticker;
   if (gGlobals.gameVars.zoneEngineInit) CRASH("InitZoneEngine","Zone Engine already Initialized");
-  gGlobals.gameVars.zoneEngineInit = 1;
+  gGlobals.gameVars.zoneEngineInit = true;
   gGlobals.gameVars.gamemodeType = param_1;
   InitEnvProps();
   set_checktrigger_pointer(check_trigger);

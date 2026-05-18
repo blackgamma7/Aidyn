@@ -101,9 +101,9 @@ void some_init_func(void) {
   gGlobals.screenFadeSpeed = 0.0;
   gGlobals.brightness = 0.0;
   gGlobals.brightness2 = 0.0;
-  set_dialougprecallback((DialogCallback)DialoguePreCallback);
-  set_dialoug_func_b((DialogCallback2)DialogEvalCallback);
-  set_dialoug_func_c((DialogCallback)DialogCallbackC);
+  set_dialougprecallback(DialoguePreCallback);
+  set_dialoug_func_b(DialogEvalCallback);
+  set_dialoug_func_c(DialogCallbackC);
 }
 
 void passto_clear_dbs(){clear_DBs();}

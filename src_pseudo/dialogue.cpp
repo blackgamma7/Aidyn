@@ -357,13 +357,13 @@ print_error:
     pBVar5 = loadBorg13(val);
     if(pBVar5){
       fVar14 = rand_range(0,100) / 100.0f;
-      if (dialougemode_pointer->Unk0x7C != 0x7fff) {
-        VoxelChartEntry*v0 = some_ref_obj_lookup_func(dialougemode_pointer->Unk0x7C,
+      if (dialougemode_pointer->voxIndex != 0x7fff) {
+        VoxelChartEntry*v0 = some_ref_obj_lookup_func(dialougemode_pointer->voxIndex,
                             (u8)dialougemode_pointer->mapDatA,
                             (u8)dialougemode_pointer->mapShort1,
                             (u8)dialougemode_pointer->mapShort2,0x11,VOXEL_Dialouge);
         if (v0 == NULL) {
-          v0 = passto_WriteTo_VoxelChart(dialougemode_pointer->Unk0x7C,
+          v0 = passto_WriteTo_VoxelChart(dialougemode_pointer->voxIndex,
                             (u8)dialougemode_pointer->mapDatA,
                             (u8)dialougemode_pointer->mapShort1,
                             (u8)dialougemode_pointer->mapShort2,0x11,VOXEL_Dialouge,10);

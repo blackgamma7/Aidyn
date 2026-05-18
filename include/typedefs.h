@@ -3,6 +3,7 @@
 #include "../ultra/include/2.0I/ultra64.h"
 #include "../ultra/include/2.0I/PR/sched.h"
 
+
 #include "versions.h"
 
 extern s32 osAfterPreNMI(void); //not in libreultra

@@ -142,7 +142,7 @@ namespace Particle{
             ParticleFuncA func__,ParticleFuncB initFunc,ParticleFuncC tickFunc,void *object,ParticleEmmiter *link);
     void FreeParticleEmitter(ParticleHeadStruct *,ParticleEmmiter *);
     void ResetEmmiter(ParticleHeadStruct *,ParticleEmmiter *);
-    void FUN_800b2bc4(ParticleHeadStruct *);
+    void ResetEmmiters(ParticleHeadStruct *);
     float OneOverLifespan(Particle_s *);
     void SetColorA(Particle_s *,float ,float ,float ,float);
     void SetPos(Particle_s *,float,float,float);

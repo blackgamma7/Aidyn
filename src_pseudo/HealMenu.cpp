@@ -3,7 +3,9 @@
 #include "globals.h"
 
 bool MakeHealerMenu(u8 param_1) {
+  #if DEBUGVER
   if (gHealerWidget) CRASH("Healer Task Menu already initialized","MakeHealerMenu");
+  #endif
   gHealerWidget = new WidgetMenuHealer(param_1);
   return WHANDLE->AddWidget(gHealerWidget);
 }

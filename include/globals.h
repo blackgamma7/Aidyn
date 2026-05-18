@@ -75,7 +75,7 @@ struct GlobalsSub { /* 0x800e6988 in Debug version*/
     vec3f *tpVec3;
     mapFloatDat MapFloatDatEntry;
     Borg12Header *BGM;
-    u32 BGMID;
+    s32 BGMID;
     u8 BGMIndex;
     u16 Borg12Next;
     u16 Borg12Next2;

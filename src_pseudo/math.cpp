@@ -97,8 +97,7 @@ float Vec4Normalize(vec4f *X){
 }
 //use points B C D to create a normal stored in A
 float NormalizeTri(vec3f *A,vec3f *B,vec3f *C,vec3f *D){
-	vec3f TempA;
-	vec3f TempB;
+	vec3f TempA,TempB;
 
 	Vec3Sub(&TempA,B,C);
 	Vec3Sub(&TempB,B,D);
@@ -146,10 +145,7 @@ int some_trig_func_2(vec2f *A,vec2f *B,float C){
 }
 //please identify purpose of function.
 void FUN_800ab23c(vec3f *A,vec3f *B,float rad){
-  vec2f V2D;
-  vec2f v2A;
-  vec2f v2C;
-  vec2f v2B;
+  vec2f V2D,v2A,v2C,v2B;
   
   CLEAR(&v2A);
   V2D.x = A->x;
@@ -244,8 +240,7 @@ void Vec4Set(vec4f *v,float x,float y,float z,float w){
   v->w = w;}
 //please identify purpose of function.
 float three_vec2_proximities(vec2f *X,vec2f *Y,vec2f *Z){
-  vec2f TempA;
-  vec2f TempB;
+  vec2f TempA,TempB;
   
   Vec2Sub(&TempA,Y,X);
   Vec2Normalize(&TempA);

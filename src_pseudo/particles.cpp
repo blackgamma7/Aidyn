@@ -434,7 +434,7 @@ void Particle::ResetEmmiter(ParticleHeadStruct *head,ParticleEmmiter *param_2){
   FreeParticleEmitter(head,param_2);
 }
 
-void Particle::FUN_800b2bc4(ParticleHeadStruct *param_1){
+void Particle::ResetEmmiters(ParticleHeadStruct *param_1){
   for(u16 i=0;i<ParticleEmmiMAX;i++) {
     ParticleEmmiter *pPVar2 = &param_1->Emmiter[i];
     if (0 < pPVar2->lifespan)

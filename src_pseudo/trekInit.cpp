@@ -7,7 +7,7 @@
 u32 gametrek_flag0=false;
 u32 gametrek_flag1=true;
 
-void initGameTrek(void) {
+void initGameTrek() {
   gametrek_flag0 = true;
   if (gExpPakFlag) set_AnimCache(3);
   else set_AnimCache(1);

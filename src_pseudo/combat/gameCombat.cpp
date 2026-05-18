@@ -369,17 +369,16 @@ u8 CombatStateFunc_6(Gfx **GG,u16 delta){
         user->SetPlayerRotate();
         gGlobals.combatBytes[0] = gGlobals.combatBytes[1];
         if (gGlobals.combatBytes[1] == CombatState_8) FUN_800645b4(user->aiP);
-        else if (!gCombatP->substruct2[0].arrayB[uVar1]) {
-          if (user->charSheetP->spellVal < 0) {
-            if ((user->aiP == NULL) ||
-               (!gCombatP->substruct2[1].arrayB[uVar1])) {
+        if (gCombatP->substruct2[0].arrayB[uVar1]) user->CalculateAttack(target,true,1018,FILENAME);
+        else {
+          if (user->charSheetP->spellVal >= 0) user->CalculateAttack(target,false,1023,FILENAME);
+          else {
+            if ((user->aiP == NULL) || (!gCombatP->substruct2[1].arrayB[uVar1])) {
               user->EndTurn();
             }
-            else user->CalculateAttack(target,false);
+            else user->CalculateAttack(target,false,1027,FILENAME);
           }
-          else user->CalculateAttack(target,false);
         }
-        else user->CalculateAttack(target,true);
       }
       *GG = Combat_Render(*GG,delta);
     }
@@ -414,7 +413,7 @@ u8 CombatStateFunc_12(Gfx **GG,u16 delta){
                            (u8)gGlobals.EncounterDat.MapSAhortA,(u8)gGlobals.EncounterDat.MapShortB,ZoneCenter,5,3);
       }
     }
-    set_boss_flag();
+    set_boss_flag(gCombatP);
     gGlobals.screenFadeMode = ScreenFade_In;
     gGlobals.combatBytes[1] = CombatState_15; //overwritten several lines later
     CombatStateTimer = 0;
@@ -435,7 +434,8 @@ u8 CombatStateFunc_12(Gfx **GG,u16 delta){
 // Start Game Over sequence or wake up in Oriana's hut if Goblin Ambush.
 u8 CombatStateFunc_13(Gfx **GG,u16 delta){
   u8 ret;
-  if (gGlobals.screenFadeMode == ScreenFade_None) {
+  if (gGlobals.screenFadeMode != ScreenFade_None) return CombatStateFunc_1(GG,delta);
+  else {
     if (gGlobals.goblinAmbush){
       setEventFlag(gGlobals.EncounterDat.EncounterID,true);
       if (gGlobals.EncounterDat.field3_0x1c) {
@@ -459,12 +459,11 @@ u8 CombatStateFunc_13(Gfx **GG,u16 delta){
       ret = GameStateA_Combat;
     }
   }
-  else return CombatStateFunc_1(GG,delta);
   return ret;
 }
 
 u8 CombatStateFunc_14(Gfx **GG,u16 delta){
-  if (CombatStateTimer < 2) return 2;
+  if (CombatStateTimer < 2) return GameStateA_Combat;
   else {
     FreeZoneEngineMemory();
     gGlobals.combatBytes[1] = CombatState_1;
@@ -552,13 +551,11 @@ u8 CombatStateFunc_27(Gfx **GG,u16 delta){
 }
 
 u8 CombatStateFunc_28(Gfx **GG,u16 delta){
-  u8 bVar1;
-  if (CombatStateTimer < 120) bVar1 = CombatStateFunc_1(GG,delta);
-  else {
+  if (CombatStateTimer >= 120) {
     Combat_InitGameOver();
-    bVar1 = GameStateA_Combat;
+    return GameStateA_Combat;
   }
-  return bVar1;
+  return CombatStateFunc_1(GG,delta);
 }
 
 u8 CombatStateFunc_29(Gfx **GG,u16 delta){

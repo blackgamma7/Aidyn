@@ -848,7 +848,7 @@ void some_player_render_sub(playerData *param_1,SceneData *param_2,vec3f *param_
 
 void set_sun_light(SceneData *param_1,u16 flag,voxelObject *param_3,u8 alpha){
   light_count = 0;
-  SetSceneColors(param_1,alpha,0,0x0);
+  SetSceneColors(param_1,alpha,0,0);
   if ((flag & SceneObj_Fullbright)){
     Scene::SetModelTint(param_1,
          gMainColor.R * gGlobals.brightness,

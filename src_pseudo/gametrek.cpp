@@ -241,13 +241,6 @@ bool isPaused(void) {
   return true;
 }
 
-void func_calling_orphaned_dat(u8 param_1) {
-  if ((orphanedByte) && (--orphanedByte == 0)) {
-    (*orphanedfuncPointer)(OrphanedFuncArg);
-    orphanedfuncPointer = NULL;
-  }
-}
-
 void player_control_func(controller_aidyn *cont) {
   u32 BVar1;
   
@@ -445,12 +438,18 @@ void TickGameTime(u8 delta) {
   }
 }
 
-Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
-  ;
+void func_calling_orphaned_dat(u8 param_1) {
+  if ((orphanedByte) && (--orphanedByte == 0)) {
+    (*orphanedfuncPointer)(OrphanedFuncArg);
+    orphanedfuncPointer = NULL;
+  }
+}
 
+Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
+  Gfx* gTemp=param_1;
   if (((gGlobals.playerCharStruct.gameStateB != GameStateB_5) && (gGlobals.playerCharStruct.gameStateB != GameStateB_7)) &&
      (gGlobals.playerCharStruct.gameStateB != GameStateB_2)) {
-    Gfx *gTemp = Graphics::StartDisplay(param_1,FULL_SCREENSPACE);
+    gTemp = Graphics::StartDisplay(param_1,FULL_SCREENSPACE);
     #if DEBUGVER
     gTemp = zoneEngine_debug(gTemp,delta);
     #else
@@ -460,14 +459,14 @@ Gfx * tick_trek_features(Gfx *param_1,u8 delta) {
     gTemp = Lensflare::Render(gTemp);
     gTemp = draw_hud_elements(gTemp);
     gTemp = N64Print::Draw(gTemp,(u16)delta);
-    param_1 = tick_and_render_widgets(gTemp);
+    gTemp = tick_and_render_widgets(gTemp);
     if (!isPaused()) WanderTick(&gGlobals.wander,(u16)delta);
     run_dialougemode_funcs1();
     TickGameTime(delta);
     func_calling_orphaned_dat(delta);
     NewJournalEntryPopup();
   }
-  return param_1;
+  return gTemp;
 }
 
 void SetNewJounalEntry(s16 param_1) {newestJournal = param_1;}

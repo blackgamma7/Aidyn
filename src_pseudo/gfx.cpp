@@ -344,7 +344,7 @@ void * Graphics::pickOtherBuffer(void *A,void *B){
   if (gGfxManager.bufferChoice == 0) A = B;
   return A;}
 
-void * Graphics::GetFrameBuffer(u8 param_1){return gGfxManager.FrameBuffers[param_1];}
+void * Graphics::GetFrameBuffer(u8 x){return gGfxManager.FrameBuffers[x];}
 u16 * Graphics::GetDepthBuffer(void){return gGfxManager.DepthBuffer;}
 
 u32 Graphics::FramebufferSize0(void){return gGfxManager.FramebufferSize[0];}
@@ -354,7 +354,6 @@ u32 Graphics::GetVRes(void){return gGfxManager.Vres[1];}
 u32 Graphics::GetColorDepth(void){return gGfxManager.colordepth[1];}
 
 //copies the FB for pause BG and savegame screenshot
-
 void Graphics::getGfxLastFrame
                (void *pDest,u16 H,u16 V,u8 depth,u16 param_5,u16 param_6,u16 Hres,u16 Vres) {
   u16 uVar1;

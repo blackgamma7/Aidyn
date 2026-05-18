@@ -167,7 +167,7 @@ class CombatEntity {
     s16 m8006edd0(CombatEntity *,playerData *,playerData *);
     s16 GoblinAmbushAttack(CombatEntity *,s16);
     void TryCheatDeath(s16);
-    u8 CalculateAttack(CombatEntity *,u8);
+    u8 CalculateAttack(CombatEntity *target,u8 param_3,u32 line,const char* filename);
     void TroubadourEnd();
     void UpdateMoveFlag();
     void TroubadourUpChance(u8);

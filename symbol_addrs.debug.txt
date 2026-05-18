@@ -1958,6 +1958,7 @@ Particle::ProcessAndRenderParticleHead = 0x800b216c; // type:func rom:0xb2d6c
 Particle::AllocParticleEmitter = 0x800b28e0; // type:func rom:0xb34e0
 Particle::FreeParticleEmitter = 0x800b2a38; // type:func rom:0xb3638
 Particle::ResetEmmiter = 0x800b2b80; // type:func rom:0xb3780
+Particle::ResetEmmiters = 0x800b2bc4; // type:func rom:0xb37c4
 Particle::OneOverLifespan = 0x800b2c2c; // type:func rom:0xb382c
 Particle::SetColorA = 0x800b2c4c; // type:func rom:0xb384c
 Particle::SetPos = 0x800b2c64; // type:func rom:0xb3864

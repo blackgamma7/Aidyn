@@ -6,6 +6,7 @@
 #include "collide.h"
 #include "Controller.h"
 #include "SceneData.h"
+#include "Camera.h"
 
 #define PLAYER_ABS_MAXPLAYERS 40
 

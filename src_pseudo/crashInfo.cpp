@@ -1,6 +1,7 @@
 #include "crash.h"
 #include "memcheck.h"
 #include "globals.h"
+#include "../ultra/include/2.0I/PR/os_internal.h"
 
 void Crash_SetFrame(CrashBuff *buff ,u16 col){
     for(u16 i=0;i<300;i++){
@@ -48,15 +49,14 @@ crash_DatString CauseStrings[]={
 //likely derived from preprocess macro on compile
 #if DEBUGVER
 #define CRASHVER "CRASH - 02.01d-PRERELEASE"
-#elif VERNA10
+#elif VER_NA10
 #define CRASHVER "CRASH - 02.02a-LOT-CHECK RELEASE"
-#elif VERNA11
+#elif VER_NA11
 #define CRASHVER "CRASH - 02.16a-LOT-CHECK RELEASE"
 #elif EUVER 
 #define CRASHVER "CRASH - 04.27a-LC-PAL RELEASE"
 #endif
 
-extern OSThread* __osGetCurrFaultedThread();//should already be defined?
 void crash_text(CrashSub *param_1,CrashBuff *param_2){
   char charBuff [160];
   
@@ -439,7 +439,11 @@ void crash_handler(CrashSub *arg){
   osSetEventMesg(OS_EVENT_SI,aOStack_b8,(OSMesg)0x1);
   osContSetCh(1);
   osContInit(aOStack_b8,auStack_78,aOStack_f8);
+  #if DEBUGVER
   crash_text_2(arg,&crash_framebuffer);
+  #else
+  crash_text(arg,&crash_framebuffer);
+  #endif
   osWritebackDCacheAll();
   osViSwapBuffer(crash_framebuffer);
   #if !DEBUGVER
@@ -499,9 +503,7 @@ void crash_handler(CrashSub *arg){
 }
 #if DEBUGVER
 void heap_error(CrashBuff* param_1,char* param_2,s32 param_3,int param_4,int param_5,int ramUsed,int param_7,
-               s32 param_8,int ramMax)
-
-{
+               s32 param_8,int ramMax){
   double dVar1;
   double dVar2;
   u64 uVar3;

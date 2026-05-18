@@ -155,11 +155,11 @@ u8 Cheats::_version(void){
   #define VERSIONNAME 02.01d-PRERELEASE
   #define COMPILEDATE "Feb  1 2001" //there's a few minutes difference
   #define COMPILETIME "23:55:49" //between debug splashscreen's and this one's
-  #elif VERNA10
+  #elif VER_NA10
   #define VERSIONNAME 02.02a-LOT-CHECK
   #define COMPILEDATE "Feb  2 2001" 
   #define COMPILETIME "06:04:39" 
-  #elif VERNA11
+  #elif VER_NA11
   #define VERSIONNAME 02.16a-LOT-CHECK
   #define COMPILEDATE "Feb 16 2001" 
   #define COMPILETIME "16:35:25" 

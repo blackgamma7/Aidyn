@@ -28,8 +28,10 @@ void dialoug_func(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA,u16 MapSho
         some_string_func(get_borg_13_text(borg_13_pointer->dat,(u8)uVar4));
       }
       (*dialougemode_pointer->funcs0[dialougemode_pointer->func_index])();
+      #if DEBUGVER
       Gsprintf("Dialog #%d\n",dialougemode_pointer->borg13_dat->ID);
       N64Print::Print(gGlobals.text);
+      #endif
       whoDied_short = 0;
       if ((borg_short_list[0].borg_13 != -1) &&
          (uVar3 = 2, whoDied_short = borg_short_list[0].some_num,
@@ -168,15 +170,15 @@ u8 dialougSkillCheck(u8 param_1){
     uVar1 = PARTY->SkillCheck(param_1);
     dialougemode_pointer->partySkillLvls[param_1] = (u8)uVar1;
     if (param_1 == SKILL_Troubador) return dialougemode_pointer->partySkillLvls[9];
-    if (dialougemode_pointer->Unk0x7C != 0x7fff) {
+    if (dialougemode_pointer->voxIndex != 0x7fff) {
       pVVar2 = some_ref_obj_lookup_func
-                         (dialougemode_pointer->Unk0x7C,
+                         (dialougemode_pointer->voxIndex,
                           (u8)dialougemode_pointer->mapDatA,
                           (u8)dialougemode_pointer->mapShort1,
                           (u8)dialougemode_pointer->mapShort2,0x11,param_1 + 0x49);
       if (pVVar2 == NULL) {
         pVVar2 = passto_WriteTo_VoxelChart
-                           (dialougemode_pointer->Unk0x7C,
+                           (dialougemode_pointer->voxIndex,
                            (u8)dialougemode_pointer->mapDatA,
                            (u8)dialougemode_pointer->mapShort1,
                             (u8)dialougemode_pointer->mapShort2,0x11,param_1 + 0x49,10);
@@ -481,7 +483,7 @@ bool dialougmode_struct_init(u32 BorgID,u16 RefPointID,u16 MapDatA,u16 MapShortA
   dialougemode_pointer->RefPointID = RefPointID;
   dialougemode_pointer->nextGameState = GameStateA_1;
   dialougemode_pointer->borg13_dat = borg_13_pointer->dat;
-  dialougemode_pointer->Unk0x7C = param_6;
+  dialougemode_pointer->voxIndex = param_6;
   ALLOCS(dialougemode_pointer->partySkillLvls,12,946);
   memset(dialougemode_pointer->partySkillLvls,0xff,0xc);
   FUN_800b6c38(&dialougemode_pointer->inst,dialougemode_pointer->RefPointID);
@@ -656,10 +658,10 @@ void load_one_of_two_cinematics(){
   return;
 }
 
-bool FUN_80059628(){
+void FUN_80059628(){
   freeWidgetFunc = run_dialougemode_funcs2;
   Borg13Data *pBVar1 = dialougemode_pointer->borg13_dat;
-  return gGlobals.diaClass->StartDialoug(pBVar1,&dialougemode_pointer->inst,
+  gGlobals.diaClass->StartDialoug(pBVar1,&dialougemode_pointer->inst,
                      pBVar1->start_func,pBVar1->libraryType);
 }
 

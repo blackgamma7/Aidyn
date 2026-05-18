@@ -2562,7 +2562,7 @@ void CombatEntity::TryCheatDeath(s16 param_2){
 }
 
 
-u8 CombatEntity::CalculateAttack(CombatEntity *target,u8 param_3){
+u8 CombatEntity::CalculateAttack(CombatEntity *target,u8 param_3,u32 line,const char* filename){
   playerData *ppVar2;
   playerData *ppVar3;
   u16 uVar5;

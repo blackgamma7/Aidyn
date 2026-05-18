@@ -140,6 +140,8 @@ void SetFlagArray_on_Time(u8 ToD,u8 Day,u8 week,u8 season){
 void set_weather_flags(u8 x){set_flag_array(FLAG_WeatherRainA,FLAG_WeatherRainB,x);}
 void set_terrain_flags(u8 x){set_flag_array(FLAG_TerrainA,FLAG_TerrainD,x);}
 
+#if DEBUGVER
+
 void Passto_State_typeA_branch(EventFlag param_1){
   StateTypeA_branch(param_1,gameStates->States_pointer[param_1].Flag == false);
 }
@@ -300,3 +302,4 @@ void StateTypeA_branch(EventFlag flag,u32 state){
   }
 }
 
+#endif

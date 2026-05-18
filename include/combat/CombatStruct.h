@@ -78,7 +78,7 @@ extern u16 DAT_800e9c14;
         B = (u8)A;\
         if (!A) B = 1;
 
-void set_boss_flag();
+void set_boss_flag(CombatStruct*);
 
 //combatengine/combat.cpp
 

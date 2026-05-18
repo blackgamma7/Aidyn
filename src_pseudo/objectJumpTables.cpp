@@ -335,7 +335,7 @@ u8 scene_object_check(voxelObject *v,Borg9Data* map){
 u8 exploding_container_sub(voxelObject* v,Borg9Data *arg1){
   
   if (!(trigger_event_flag_check((v->header).flagC,(v->header).Bitfeild,VOXEL_CheckFlagC)) ||
-     (some_ref_obj_lookup_func((u16)(((int)v - (int)arg1->voxelObjs)/ sizeof(voxelObject)),
+     (some_ref_obj_lookup_func((u16)(((uintptr_t)v - (uintptr_t)arg1->voxelObjs)/ sizeof(voxelObject)),
                           gGlobals.gameVars.mapDatA,gGlobals.gameVars.mapShort1,
                           (u8)gGlobals.gameVars.mapShort2,ZoneCenter,(u8)(v->header).type)))
     return false;
@@ -518,13 +518,13 @@ void set_container_obj_visible(voxelObject* param_1,Borg9Data *param_2){
 BaseWidget* textbox_func_AB(BaseWidget* param_1,BaseWidget *param_2){
   param_2->SetState(WidgetS_Closing);
   gGlobals.playerCharStruct.text_window = NULL;
-  return 0;}
+  return NULL;}
 
 BaseWidget* secretdoor_widget_AB(BaseWidget* param_1,BaseWidget *param_2){
   teleporter_func((voxelObject* )param_2->substruct,0,0x7fff);
   param_2->SetState(WidgetS_Closing);
   gGlobals.playerCharStruct.text_window = NULL;
-  return 0;
+  return NULL;
 }
 
 BaseWidget * TrekTextPopup(char *txt){
