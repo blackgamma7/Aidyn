@@ -213,7 +213,7 @@ void moveBitmap16(Borg1Header *param_1,int param_2){
   uVar10 = (u32)param_1->dat->Height;
   bVar1 = param_1->dat->Width;
   uVar9 = (u32)bVar1;
-  for(s16 i=0,iVar2 = 0;i<i < uVar10;i++){
+  for(s16 i=0,iVar2 = 0;i < uVar10;i++){
       if ((i & 1) == 0) {
         puVar8 = puVar11 + iVar2;
         iVar5 = (u32)bVar1 + -param_2;
