@@ -21,7 +21,7 @@ struct crash_DatString {
     char *String;
 };
 
-// Cuse strings are usually just numbers in retail versions.
+//Cause strings are usually just numbers in retail versions.
 #if DEBUGVER
 #define CAUSESTR(str,n) str
 #else 
@@ -31,26 +31,26 @@ struct crash_DatString {
 
 crash_DatString CauseStrings[]={
     {CAUSE_BD,CAUSE_BD,CAUSESTR("BD","0")},{CAUSE_IP8,CAUSE_IP8,CAUSESTR("IP8","1")},{CAUSE_IP7,CAUSE_IP7,CAUSESTR("IP7","2")},
-    {CAUSE_IP6,CAUSE_IP6,"IP6"},{CAUSE_IP5,CAUSE_IP5,"IP5"},{CAUSE_IP4,CAUSE_IP4,"IP4"},
-    {CAUSE_IP3,CAUSE_IP3,"IP3"},{CAUSE_SW2,CAUSE_SW2,"IP2"},{CAUSE_SW1,CAUSE_SW1,"IP1"},
-    {CAUSE_EXCMASK,EXC_INT,"Interrupt"},
-    {CAUSE_EXCMASK,EXC_MOD,"TLB modification exception"},
-    {CAUSE_EXCMASK,EXC_RMISS,"TLB load or instruction fetch"},
-    {CAUSE_EXCMASK,EXC_WMISS,"TLB exception on store"},
-    {CAUSE_EXCMASK,EXC_RADE,"Address load or instruction fetch"},
-    {CAUSE_EXCMASK,EXC_WADE,"Address error on store"},
-    {CAUSE_EXCMASK,EXC_IBE,"Bus error instruction fetch"},
-    {CAUSE_EXCMASK,EXC_DBE,"Bus error data reference"},
-    {CAUSE_EXCMASK,EXC_SYSCALL,"System call exception"},
-    {CAUSE_EXCMASK,EXC_BREAK,"Breakpoint exception"},
-    {CAUSE_EXCMASK,EXC_II,"Reserved instruction exception"},
-    {CAUSE_EXCMASK,EXC_CPU,"Coprocessor unusable exception"},
-    {CAUSE_EXCMASK,EXC_OV,"Arithmetic overflow exception"},
-    {CAUSE_EXCMASK,EXC_TRAP,"Trap exception"},
-    {CAUSE_EXCMASK,EXC_VCEI,"Virtual coherency intruction fetch"},
-    {CAUSE_EXCMASK,EXC_FPE,"Floating point"},
-    {CAUSE_EXCMASK,EXC_WATCH,"Watchpoint exception"},
-    {CAUSE_EXCMASK,EXC_VCED,"Virtual coherency data reference"},
+    {CAUSE_IP6,CAUSE_IP6,CAUSESTR("IP6","3")},{CAUSE_IP5,CAUSE_IP5,CAUSESTR("IP5","4")},{CAUSE_IP4,CAUSE_IP4,CAUSESTR("IP4","5")},
+    {CAUSE_IP3,CAUSE_IP3,CAUSESTR("IP3","6")},{CAUSE_SW2,CAUSE_SW2,CAUSESTR("IP2","7")},{CAUSE_SW1,CAUSE_SW1,CAUSESTR("IP1","8")},
+    {CAUSE_EXCMASK,EXC_INT,CAUSESTR("Interrupt","9")},
+    {CAUSE_EXCMASK,EXC_MOD,CAUSESTR("TLB modification exception","10-TLB-MOD")},
+    {CAUSE_EXCMASK,EXC_RMISS,CAUSESTR("TLB load or instruction fetch","11-TLB-FETCH")},
+    {CAUSE_EXCMASK,EXC_WMISS,CAUSESTR("TLB exception on store","12")},
+    {CAUSE_EXCMASK,EXC_RADE,CAUSESTR("Address load or instruction fetch","13")},
+    {CAUSE_EXCMASK,EXC_WADE,CAUSESTR("Address error on store","14")},
+    {CAUSE_EXCMASK,EXC_IBE,CAUSESTR("Bus error instruction fetch","15")},
+    {CAUSE_EXCMASK,EXC_DBE,CAUSESTR("Bus error data reference","16")},
+    {CAUSE_EXCMASK,EXC_SYSCALL,CAUSESTR("System call exception","17")},
+    {CAUSE_EXCMASK,EXC_BREAK,CAUSESTR("Breakpoint exception","18")},
+    {CAUSE_EXCMASK,EXC_II,CAUSESTR("Reserved instruction exception","19")},
+    {CAUSE_EXCMASK,EXC_CPU,CAUSESTR("Coprocessor unusable exception","20")},
+    {CAUSE_EXCMASK,EXC_OV,CAUSESTR("Arithmetic overflow exception","21")},
+    {CAUSE_EXCMASK,EXC_TRAP,CAUSESTR("Trap exception","22")},
+    {CAUSE_EXCMASK,EXC_VCEI,CAUSESTR("Virtual coherency intruction fetch","23")},
+    {CAUSE_EXCMASK,EXC_FPE,CAUSESTR("Floating point","24-FP")},
+    {CAUSE_EXCMASK,EXC_WATCH,CAUSESTR("Watchpoint exception","25")},
+    {CAUSE_EXCMASK,EXC_VCED,CAUSESTR("Virtual coherency data reference","26")},
     {0,0,"Unknown"}
 };
 
