@@ -141,6 +141,6 @@ void player_audiokey(playerData *pDat,u16 id1,u16 id2,u16 amp){
    default:
    }
   }
-  FUN_8005c0f0(pDat,PHANDLE.audiokey,paVar3 + pDat->Ent_index,id1,id2,amp,prox,auStack_27[0]);
+  FUN_8005c0f0(pDat,PHANDLE.audiokey,paVar3 + pDat->Ent_index,id1,id2,amp,prox,auStack_27);
   FUN_8005c2f0(pDat,id1,prox,auStack_27);
 }

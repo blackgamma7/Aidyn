@@ -21,8 +21,16 @@ struct crash_DatString {
     char *String;
 };
 
+// Cuse strings are usually just numbers in retail versions.
+#if DEBUGVER
+#define CAUSESTR(str,n) str
+#else 
+#define CAUSESTR(str,n) n
+#endif
+
+
 crash_DatString CauseStrings[]={
-    {CAUSE_BD,CAUSE_BD,"BD"},{CAUSE_IP8,CAUSE_IP8,"IP8"},{CAUSE_IP7,CAUSE_IP7,"IP7"},
+    {CAUSE_BD,CAUSE_BD,CAUSESTR("BD","0")},{CAUSE_IP8,CAUSE_IP8,CAUSESTR("IP8","1")},{CAUSE_IP7,CAUSE_IP7,CAUSESTR("IP7","2")},
     {CAUSE_IP6,CAUSE_IP6,"IP6"},{CAUSE_IP5,CAUSE_IP5,"IP5"},{CAUSE_IP4,CAUSE_IP4,"IP4"},
     {CAUSE_IP3,CAUSE_IP3,"IP3"},{CAUSE_SW2,CAUSE_SW2,"IP2"},{CAUSE_SW1,CAUSE_SW1,"IP1"},
     {CAUSE_EXCMASK,EXC_INT,"Interrupt"},
