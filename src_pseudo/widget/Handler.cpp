@@ -13,7 +13,7 @@ u8 WidgetHandler::Init(FontStruct *font){
   return true;
 }
 
-void WidgetHandler::Free(u32 flag){
+WidgetHandler::~WidgetHandler(){
 
   BaseWidget *w = this->head;
   while (w) {
@@ -23,7 +23,6 @@ void WidgetHandler::Free(u32 flag){
     AllocFreeQueueItem(queue_struct_pointer,(void**)&w,QueueType_Widget,0);
     w = this->head;
   }
-  if ((flag & 1)) delete this;
 }
 
 

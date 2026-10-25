@@ -196,10 +196,7 @@ void WidgetOptionsMenu::InitConfigMenu(){
 }
 
 void WidgetOptionsMenu::InitTheatreMenu(){
-  BaseWidget *pBVar2;
-  WidgetOptionsSubstruct *sub;
-  
-  sub = (WidgetOptionsSubstruct *)this->substruct;
+  WidgetOptionsSubstruct *sub = (WidgetOptionsSubstruct *)this->substruct;
   sub->unk14 = sub->unk10;
   if (sub->theatreMenu == NULL) {
     sub->theatreMenu = new TheatreMenu();
@@ -248,29 +245,23 @@ void WidgetOptionsMenu::ContPakLoad(){
 }
 
 void WidgetOptionsMenu::ContPakSave(){
-  WidgetContPakData *pWVar2;
-  BaseWidget *pBVar3;
-  Color32 aCStack_d0;
-  Color32 acStack144;
-  Color32 acStack80;
-  WidgetOptionsSubstruct *pvVar1;
-  
-  pvVar1 = (WidgetOptionsSubstruct *)this->substruct;
-  pvVar1->unk14 = pvVar1->unk10;
-  this->Unlink(pvVar1->unk10);
-  if (!pvVar1->contPakWidget) {
+
+  WidgetOptionsSubstruct *sub = (WidgetOptionsSubstruct *)this->substruct;
+  sub->unk14 = sub->unk10;
+  this->Unlink(sub->unk10);
+  if (!sub->contPakWidget) {
     Color32 col0={COLOR_RED1};
     Color32 col1={0x44,0x22,0x2a,0xff};
     Color32 col2= {0x97,0xbf,0x8d,0xff};
-    pvVar1->contPakWidget = WContPakData_Save(0x43,0x18,FUN_800477a0,&col0,&col1,&col2);
+    sub->contPakWidget = WContPakData_Save(0x43,0x18,FUN_800477a0,&col0,&col1,&col2);
   }
-  pvVar1->selected = 3;
-  pvVar1->unk10 = pvVar1->contPakWidget;
-  this->Link(pvVar1->contPakWidget);
+  sub->selected = 3;
+  sub->unk10 = sub->contPakWidget;
+  this->Link(sub->contPakWidget);
   this->alpha0 = 0;
-  Utilities::SetAlpha(pvVar1->unk10,0);
+  Utilities::SetAlpha(sub->unk10,0);
   this->alpha1 = 0xff;
-  if (pvVar1->unk14) Utilities::SetAlpha(pvVar1->unk14,0xff);
+  if (sub->unk14) Utilities::SetAlpha(sub->unk14,0xff);
   gOptionsMenuContPak = 1;
 }
 

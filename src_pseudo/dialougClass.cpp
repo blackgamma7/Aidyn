@@ -332,7 +332,6 @@ DialougeClass::~DialougeClass(){
     ClearScrollMenu();
     FreeWidgets();
   }
-  delete this;
 }
 
 void DialougeClass::ClearScrollMenu(){

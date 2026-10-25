@@ -24,7 +24,7 @@ WContPakData_Load(u16 param_1,u16 param_2,void (*param_3)(),void (*param_4)(),Co
 
 BaseWidget * FUN_80085d64(BaseWidget *wo,BaseWidget *w1){
   Controller::GetDelay(0);
-  contPakDat->GetPFSErr();
+  contPakDat->GetPFSErr(w1->varU8);
   return 0;
 }
 
@@ -348,7 +348,7 @@ void WidgetContPakData::m80086bd0(){
   this->OtherState = 4;
 }
 
-void WidgetContPakData::GetPFSErr(){
+void WidgetContPakData::GetPFSErr(u8 unk){
   Pfs2xCheck(this->pfsErr,Controller::GetPFSERR(0));
   this->OtherState = 0;
 }
@@ -965,7 +965,6 @@ WidgetChoiceDia * FUN_80088a78(u16 param_1,char *param_2){
 }
 
 WidgetChoiceDia *FUN_80088aac(void (*func)(BaseWidget*),WidgetHandler *handler,u16 choices,char *title,u16 var){
-  WidgetChoiceDia *pWVar1;
   u16 uVar2;
   Color32 colA={COLOR_OFFWHITE};
   Color32 colB={COLOR_OFFWHITE};

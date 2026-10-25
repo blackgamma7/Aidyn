@@ -339,6 +339,7 @@ u32 FUN_80098884(void){
   return uVar3;
 }
 
+#if DEBUGVER
 char * remove_dir_slashes(char *str){
   char *pcVar2 = str;
   while (*str) {
@@ -349,6 +350,7 @@ char * remove_dir_slashes(char *str){
   }
   return pcVar2;
 }
+#endif
 
 void ofunc_LISBN_called_free(void){CRASH("heap.cpp","LIBSN called free?");}
 void* operator new(size_t size){return HALLOC(size,1139);}

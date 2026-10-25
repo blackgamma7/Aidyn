@@ -21,13 +21,11 @@ Wanderer * findWandererFromPlayerName(s16 arg0){
   Wanderer *pwVar2;
   char acStack72 [72];
   
-  if (0 < gGlobals.wander.wanderersmax) {
-    for(u16 uVar3=0;uVar3 < gGlobals.wander.wanderersmax;uVar3++){
-      pwVar2 = &gGlobals.wander.wanderSubstructs[uVar3];
-      if ((pwVar2->isActive) && (pwVar2->playerDat)&& (pwVar2->playerDat->ID == arg0))
-            return pwVar2;
+  for(u16 uVar3=0;uVar3 < gGlobals.wander.wanderersmax;uVar3++){
+    pwVar2 = &gGlobals.wander.wanderSubstructs[uVar3];
+    if ((pwVar2->isActive) && (pwVar2->playerDat)&& (pwVar2->playerDat->ID == arg0))
+          return pwVar2;
       }
-    }
   sprintf(acStack72,"Wanderer Not Found\nPlayerName: %d\n",arg0);
   CRASH("FindWandererFromPlayerName",acStack72);
 }
@@ -47,11 +45,9 @@ void WanderHead(WanderManager *wander,s16 size){
   ALLOCS(wander->wanderSubstructs,size*sizeof(Wanderer),170);
   memset(wander->wanderSubstructs,0,wander->wanderersmax*sizeof(Wanderer));
 
-  if (0 < wander->wanderersmax) {
-    for(s16 i=0;i<wander->wanderersmax;i++) {
-      wander->wandererIndicies[i]=i;
-      wander->wanderSubstructs[i].index=i;
-    }
+  for(s16 i=0;i<wander->wanderersmax;i++) {
+    wander->wandererIndicies[i]=i;
+    wander->wanderSubstructs[i].index=i;
   }
   wander->wanderers = 0;
 }

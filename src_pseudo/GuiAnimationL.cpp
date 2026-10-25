@@ -37,7 +37,7 @@ void GuiAnimatorL::vMethA(s32 x){
   else FreeLinked();
 }
 
-GuiAnimatorF::~GuiAnimatorF(){delete this;}
+GuiAnimatorF::~GuiAnimatorF(){}
 
 
 void GuiAnimatorF::vMethA(s32 x){

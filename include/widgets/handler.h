@@ -8,7 +8,7 @@ class WidgetHandler{
     BaseWidget* head;
     BaseWidget* tail;
     u8 Init(FontStruct*);
-    void Free(u32); //may just be destructor
+    ~WidgetHandler(); //may just be destructor
     u8 Tick(u8);
     u8 StopWidget(BaseWidget*);
     BaseWidget * Control(ControllerFull *);

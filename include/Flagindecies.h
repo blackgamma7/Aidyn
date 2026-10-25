@@ -273,7 +273,7 @@
 
 #define FLAG_PartySholehJoin 523
 #define FLAG_PartySholehDeath 622
-#define FLAG_PartySholehLeave 700
+#define FLAG_PartySholehLeave 694
 
 #define FLAG_PartyDougalJoin 574
 #define FLAG_PartyDougalDeath 582

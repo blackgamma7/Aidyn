@@ -62,7 +62,7 @@ class WidgetContPakData : public WidgetMenu{
     BaseWidget* RightFunc();
     BaseWidget* Control(controller_aidyn*);
     void m80086bd0();
-    void GetPFSErr();
+    void GetPFSErr(u8);
     void TryRepair(u8);
     void EraseFile(u8);
     void m80086d30();

@@ -1025,8 +1025,7 @@ void edit_playerdat_combat_pos(playerData *param_1,vec3f *param_2){
 }
 
 playerData * Actor::AllocPlayer(float radius,float x,float y,float z,u32 borg7){
-  float fVar2;
-  
+
   if (PHANDLE.max_player <= PHANDLE.playerCount)
     CRASH("AllocPlayer","Too Many Players");
   playerData *pDat = &PHANDLE.combatActors[PHANDLE.unk10[PHANDLE.playerCount++]];

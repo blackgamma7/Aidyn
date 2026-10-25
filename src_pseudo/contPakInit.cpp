@@ -199,9 +199,10 @@ Gfx * appState3_TickWidgets(Gfx *g) {
 
 void run_cont_err_func(u8 err) {
   contCheckSwitch = 2;
-  ContPakErrFunc cont_err_funcs[]={NULL,pfs_err_Nopak,pfs_err_new_pak,psf_err_inconsistent,
-    psf_err_contrfail,psf_err_contrfail,psf_err_contrfail,pfs_err_data_full,pfs_err_data_full,
-    psf_err_contrfail,pfs_err_id_fatal,pfs_err_err_device,pfs_err_err_device,psf_err_contrfail,
+  ContPakErrFunc cont_err_funcs[]={
+    NULL,pfs_err_Nopak,pfs_err_new_pak,psf_err_inconsistent,psf_err_contrfail,
+    psf_err_contrfail,psf_err_contrfail,pfs_err_data_full,pfs_err_data_full,
+    psf_err_contrfail,pfs_err_id_fatal,pfs_err_err_device,psf_err_contrfail,
     psf_err_contrfail,NULL,NULL
   };
   if (err) {

@@ -123,4 +123,4 @@ s32 GenericInventory::GetItemQuantity(s32 index){
   return 0;
 }
 
-IInventory::~IInventory(){delete this;}
+IInventory::~IInventory(){}

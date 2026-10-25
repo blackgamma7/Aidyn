@@ -8,7 +8,12 @@
 
 u8 ItemIsMap(ItemID id){
     if(ITEMIDTYPE(id)==DB_MISC){
-        u16 MapItemIds[]={5,6,7,8,9,10,11,12,13,14,15,20,21,23,32,0};
+        u16 MapItemIds[]={
+          (Item_Map1&0xFF), (Item_Map2&0xFF), (Item_Map4&0xFF), (Item_Map5&0xFF),
+          (Item_Map6&0xFF), (Item_Map7&0xFF), (Item_Map8&0xFF), (Item_Map9&0xFF),
+          (Item_Map10&0xFF),(Item_Map11&0xFF),(Item_Map12&0xFF),(Item_Map13&0xFF),
+          (Item_Map14&0xFF),(Item_Map15&0xFF),(Item_Map16&0xFF),(Item_Map17&0xFF),
+          (Item_Map18&0xFF),0};
         for(u8 i=0;MapItemIds[i]!=0;i++){
             if((id&0xFF)==MapItemIds[i]) return true;
         }
@@ -76,29 +81,29 @@ LAB_80075eb0:
   uVar1 = getIDIndex_sub(entriesP,total,IDInd(x));
 switchD_80075e2c_caseD_4:
   if (uVar1 != -1) return (u8)uVar1;
+#if DEBUGVER
   char txtBuff [144];
   sprintf(txtBuff,"Invalid id %d (%d)\nMay need to re-compile\nType = %d\n",
            x,uVar3,ITEMIDTYPE(x));
   CRASH("GetIdIndex (ids.cpp)",txtBuff);
+#endif
 }
 
 u16 search_item_array(ItemID param_1){ 
-  if (true) {
-    switch(ITEMIDTYPE(param_1)) {
-    case DB_MISC:
-    case DB_HELMET:
-    case DB_CLOAK:
-    case DB_GLOVE:
-    case DB_RING:
-    case DB_WAND:
-    case DB_BELT:
-    case DB_BOOTS:
-    case DB_SCROLL:
-    case DB_KEYITEM:
-    case DB_AMULET:
-      for(u16 i=0;i<gItemDBp->total;i++){
+  switch(ITEMIDTYPE(param_1)) {
+  case DB_MISC:
+  case DB_HELMET:
+  case DB_CLOAK:
+  case DB_GLOVE:
+  case DB_RING:
+  case DB_WAND:
+  case DB_BELT:
+  case DB_BOOTS:
+  case DB_SCROLL:
+  case DB_KEYITEM:
+  case DB_AMULET:
+    for(u16 i=0;i<gItemDBp->total;i++){
         if(itemID_array[i]==param_1)return i;
-      }
     }
   }
   return 0;

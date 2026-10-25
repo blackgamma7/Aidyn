@@ -67,7 +67,7 @@ u8 GuiAnimatorU8::vMethC(f32 x){
   return (this->f64Array[0] +(this->f64Array[1] - this->f64Array[0]) *((this->unk).unk0 * (double)sinX + (this->unk).unk18));
 }
 
-inline GuiAnimator::~GuiAnimator(){delete this;}
+inline GuiAnimator::~GuiAnimator(){}
 
 
 void GuiAnimator::vMethA(s32 param_2){

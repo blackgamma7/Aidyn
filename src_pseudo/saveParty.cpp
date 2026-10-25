@@ -211,7 +211,6 @@ void SaveParty::LoadAlaron(SaveFile *sav,CharSheet *param_2){
   LoadSpell(sav,param_2->spellbook,SCHOOL_Necromancy);
 }
 
-u32 x=(SaveBits_PotionEffects);
 void SaveParty::SaveCharSheet(SaveFile *sav,CharSheet *chara){
   u8 i;
 

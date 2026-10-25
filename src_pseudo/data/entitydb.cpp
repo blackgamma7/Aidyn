@@ -368,7 +368,7 @@ u8 EntityDB::IsRightHanded(ItemID id){
     case EntInd_Woodsman2:
     case EntInd_BanditBoss3:
     case EntInd_BanditBoss2:
-    case EntInd_OgreGuard:
+    case EntInd_HumanWoodsman:
     case EntInd_BanditBoss:
     case EntInd_Becan:
     case EntInd_Keelin:

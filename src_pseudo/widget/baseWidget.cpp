@@ -40,7 +40,6 @@ BaseWidget::BaseWidget(){
 
 BaseWidget::~BaseWidget(){
   FreeChildren();
-  delete this;
 }
 
 //set screenspace coords for widget

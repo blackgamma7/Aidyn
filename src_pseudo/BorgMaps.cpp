@@ -89,7 +89,6 @@ u16 BorgMaps::GetMapData(mapDataList *m,u16 shortA,u16 shortB,u16 offset,u16 map
 
 
 u16 BorgMaps::GetMapList(s16 map,s16 a,s16 b) {
-  u16 uVar1;
   mapDataList *m;
   
   switch(map) {
@@ -204,6 +203,7 @@ u16 BorgMaps::LoadMap(s16 Map,s16 Portal,s16 param_3,bool param_4) {
       spawnz = 62.0f;
       spawnx = 16.0f;
       break;
+    #if DEBUGVER
     case 2:
       ShortA = 1;
       ShortB = 4;
@@ -372,6 +372,7 @@ LAB_8002cdf4:
 LAB_8002ce68:
       ShortA = 6;
       spawnz = 52.0f;
+    #endif
     }
     u16 BgmArr[]={0x10b5,0x10d1,0x10d4,0x10d7,0x10ee,0x10f1,0x10f4,0x10f8,0x1118,0x111b,
         0x111e,0x1122,0x114d,0};
