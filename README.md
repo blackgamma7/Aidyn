@@ -49,3 +49,7 @@ Port the game to an existing engine such as Unity or Godot and take advantage of
 - Zoinkity for in-depth analysis of the game's art assets and compression methods.
 - Wiseguy for setup and analysis on a possible compiler match,and setup for data used in a later recomp project.
 - @example6 for ID'ing many of the image files
+
+## LLM/AI Disclosure
+No LLM's or Generative AI were used in the making of this project. This was done as a personal learning exercise.
+All mistakes found here are human.
